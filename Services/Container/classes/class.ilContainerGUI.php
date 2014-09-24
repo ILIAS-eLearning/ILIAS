@@ -918,7 +918,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	function renderItemList($a_type = "all")
 	{
 		global $objDefinition, $ilBench, $ilSetting;
-		
 		include_once("Services/Object/classes/class.ilObjectListGUIFactory.php");
 
 		$output_html = "";
@@ -3590,7 +3589,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	function getAsynchItemListObject()
 	{
 		global $ilCtrl;
-		
 		$ref_id = $_GET["cmdrefid"];
 		$obj_id = ilObject::_lookupObjId($ref_id);
 		$type = ilObject::_lookupType($obj_id);

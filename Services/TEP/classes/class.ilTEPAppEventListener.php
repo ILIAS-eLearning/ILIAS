@@ -26,8 +26,19 @@ class ilTEPAppEventListener
 					return;
 				
 				case "update":
-					// params: object, obj_id, appointments					
-					self::syncCourse($a_parameter["object"]);
+					// params: object, obj_id, appointments	
+
+					//check, if entry is a template ("Kursvorlage")
+					require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+					$cutils = gevCourseUtils::getInstanceByObj($a_parameter["object"]);
+					if($cutils->isTemplate()){
+						//if so, delete entry form TEP
+						$course_entries = ilTEPCourseEntries::getInstance($a_parameter["object"]);
+						$course_entries->deleteEntry();	
+					} else {
+						self::syncCourse($a_parameter["object"]);
+					}
+
 					break;
 				
 				case "delete":

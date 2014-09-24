@@ -5303,6 +5303,40 @@ class ilObjCourseGUI extends ilContainerGUI
 				false,
 				true);
 		}	
+
+		// gev-patch start
+		if(! $is_tutor){
+			$a_item_list_gui->enableCommands(true,true);
+		} 
+		
+/*
+		//$a_item_list_gui->enableCommands(true,true);
+		$a_item_list_gui->enableDelete(false);
+		$a_item_list_gui->enableCut(false);
+/*
+		$a_item_list_gui->enableCommands(true,true);
+
+
+		$defcmd = $a_item_list_gui->default_command;
+		$defcmd["link"] = $a_item_list_gui->modifySAHSlaunch(
+					$defcmd["link"],
+					$defcmd["frame"]
+				);
+
+		$defcmd["link"] = 
+			$a_item_list_gui->appendRepositoryFrameParameter($defcmd["link"]);
+		$cmd = $defcmd["link"];
+		
+		$fn = "javascript:window.open('$cmd');";
+
+		$a_item_list_gui->addCustomCommand(
+			$cmd,
+			'LAUNCH',		
+			$defcmd["frame"]
+		);
+*/
+		// gev-patch end
+
 	}
 	
 	/**
