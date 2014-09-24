@@ -37,6 +37,7 @@ body {
     margin: 0 10px;
     border: 1px solid #BCCAE5;
     height: 100%;
+	min-height: 300px;
 }
 
 #private_rooms {
@@ -71,10 +72,15 @@ body {
 
 #submit_message_text {
     width: 80%;
+	display: inline;
 }
 
 .online_user {
     line-height: 2em;
+}
+
+.listentry {
+	position: relative;
 }
 
 .listentry.self {
@@ -209,7 +215,7 @@ h2.current_room_title {
 
 #iosChatEmoticonsPanel {
 	position: absolute;
-	left: 1px;
+	left: 16px;
 	top: 1px;
 	display: block;
 	height: 19px;

@@ -1,7 +1,7 @@
 (function($) {
 
 	$(document).click(function() {
-	    $('.il_adv_sel.menu').hide();
+	    $('.dropdown-menu.menu').hide();
 	    $('.menu_attached').removeClass('menu_attached');
 	});
 	
@@ -99,7 +99,7 @@
 						if (this.id && inArray(properties.disabled_buttons, this.id)) {
 							return;
 						}
-						$('<input type="button" class="submit">')
+						$('<input type="button" class="btn btn-default btn-sm">')
 							.click(this.callback)
 							.val(this.label)
 							.appendTo(dialogButtons);
@@ -143,8 +143,8 @@
 	}
 
 	function getMenuLine(label, callback, icon) {
-		var line = $('<tr class="il_adv_sel"></tr>');
-		var content = $('<td class="il_adv_sel"><a class="" href="#">'+(icon ? ('<img style="margin-right: 8px" src="'+icon+'"/>'): '')+'<span class="xsmall">'+label+'</span></a></td>');
+		var line = $('<li></li>');
+		var content = $('<a class="" href="#">'+(icon ? ('<img style="margin-right: 8px" src="'+icon+'"/>'): '')+'<span class="xsmall">'+label+'</span></a>');
 		line.append(content);
 		if (callback) {
 			line.bind('click', function(ev) {
@@ -154,12 +154,6 @@
 				ev.preventDefault();
 				ev.stopPropagation();
 				return false;
-			})
-			.mouseout(function() {
-				il.AdvancedSelectionList.itemOff(this);
-			})
-			.mouseover(function() {
-				il.AdvancedSelectionList.itemOn(this);
 			});
 		}
 		return line;
@@ -176,9 +170,8 @@
 			show: function(menuitems, alignToRight) {
 
 				if (!menuContainer) {
-					menuContainer = $('<div class="il_adv_sel menu" style="position: absolute; z-index: 5000"></div>')
-						.append($('<table class="il_adv_sel chat"></table>'))
-						.appendTo($('body'));
+					menuContainer = $('<ul class="dropdown-menu menu pull-right" role="menu"></ul>')
+						.appendTo($(this));
 				}
 
 				if ($(this).hasClass('menu_attached')) {
@@ -190,11 +183,11 @@
 					menuContainer.hide();
 				}
 
-				menuContainer.find('tr').remove();
+				menuContainer.find('li').remove();
 
 				$(this).addClass('menu_attached');
 
-				var table = menuContainer.find('table');
+				var table = menuContainer;
 
 				$.each(menuitems, function() {
 					var line = getMenuLine(this.separator ? '<hr/>' : this.label, this.callback, this.icon).appendTo(table);
@@ -202,15 +195,6 @@
 						line.find('span').addClass(this.addClass);
 					}
 				});
-
-				if (alignToRight) {
-					menuContainer.css('right', 0)
-						.css('top', $(this).offset().top + $(this).height());
-				}
-				else {
-					menuContainer.css('left', $(this).offset().left)
-						.css('top', $(this).offset().top + $(this).height());					
-				}
 
 				menuContainer.data('ilChatMenu', {
 					_attatched: this
@@ -232,28 +216,21 @@
 	$.fn.ilChatList = function( method ) {
 
 		function getMenuLine(label, callback) {
-			var line = $('<tr class="il_adv_sel"></tr>')
+			var line = $('<li></li>')
 			.append(
-				$('<td class="il_adv_sel"><a href="#"><span class="small">'+label+'</span></a></td>')
+				$('<a href="#"><span class="small">'+label+'</span></a>')
 				.click(function(e) {
 					$(this).parents('.menu').hide();
 					e.stopPropagation();
 					e.preventDefault();
 					callback.call($(this).parents('.menu').data('ilChat').context);
 				})
-				)
-			.mouseout(function() {
-				il.AdvancedSelectionList.itemOff(this);
-			})
-			.mouseover(function() {
-				il.AdvancedSelectionList.itemOn(this);
-			});
+				);
 
 			return line;
 		}
 
-		var menuContainer = $('<div class="il_adv_sel menu" style="display: none; position: absolute; z-index: 5000"></div>')
-			.append($('<table class="il_adv_sel chat"></table>'))
+		var menuContainer = $('<ul class="dropdown-menu menu pull-right" role="menu"></ul>')
 			.appendTo($('body'));
 
 		var methods = {
@@ -268,8 +245,14 @@
 					return $(this);
 				}
                     
-				var line = $('<p class="listentry '+options.type+'_'+options.id+' online_user"><img src="'+iconsByType[options.type]+'" />&nbsp;<a class="label" href="javascript:void(0);">' + options.label + '</a></p>')
-                    
+				var line = $(
+					'<p class="listentry '+options.type+'_'+options.id+' online_user"><img src="'+iconsByType[options.type]+'" />&nbsp;' +
+					'<button onclick="this.blur(); return false;" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" data-container="body">' +
+					'<span>' + options.label + '</span> ' +
+					'<span class="caret" alt=""></span>' +
+					'</button>' +
+					'</p>');
+
 				if (typeof options.hide != 'undefined' && options.hide == true) {
 					line.addClass('hidden_entry');
 				} 
@@ -293,7 +276,7 @@
 						menuContainer.hide();
 					}
 
-					menuContainer.find('tr').remove();
+					menuContainer.find('li').remove();
 					var data = $(this).data('ilChatList');
 					if (data.type == 'user' && data.id == personalUserInfo.userid) {
 						return;
@@ -304,7 +287,7 @@
 					$.each($this.data('ilChatList')._menuitems, function() {
 
 						if (this.permission == undefined) {
-							menuContainer.find('table').append(getMenuLine(this.label, this.callback));
+							menuContainer.append(getMenuLine(this.label, this.callback));
 						}
 						else if (
 							//(personalUserInfo.moderator && this.permission.indexOf('moderator') >= 0)
@@ -312,13 +295,12 @@
 							(personalUserInfo.moderator && inArray(this.permission, 'moderator') >= 0)
 							|| (personalUserInfo.userid == data.owner && inArray(this.permission, 'owner') >= 0)
 							) {
-							menuContainer.find('table').append(getMenuLine(this.label, this.callback));
+							menuContainer.append(getMenuLine(this.label, this.callback));
 						}
 					});
-                        
-					menuContainer.css('left', $(this).offset().left)
-					.css('top', $(this).offset().top + $(this).height());
-                        
+					
+					menuContainer.appendTo(line);
+
 					menuContainer.data('ilChat', {
 						context: $(this).data('ilChatList')
 					});

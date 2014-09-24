@@ -158,6 +158,9 @@ il.Util.addOnLoad(function() {
 			}
 
 			if (typeof smileys == "object") {
+				if (smileys.length == 0) {
+					return;
+				}
 				// Emoticons
 				var $emoticons_flyout_trigger = $('<a></a>');
 				var $emoticons_flyout = $('<div id="iosChatEmoticonsPanelFlyout"></div>');
@@ -223,7 +226,7 @@ il.Util.addOnLoad(function() {
 				else {
 					$(this).text(translate('hide_settings'));
 				}
-				$(this).next().toggle();
+				$(this).siblings().toggle();
 			});
 
 
@@ -854,352 +857,348 @@ if (typeof DEBUG != 'undefined' && DEBUG) {
 					);
 			}
 
-			$('#chat_actions').click(function(e) {
+			$('#chat_actions').click(function (e) {
 				$(this).removeClass('chat_new_events');
 				e.preventDefault();
 				e.stopPropagation();
 				var menuEntries = [];
-var room;
+				var room;
 
-if (subRoomId) {
-menuEntries.push(
-	                   {
-                                label: translate('leave'),
-                                callback: function() {
-					$.get(
-						posturl.replace(/postMessage/, 'privateRoom-leave') + '&sub=' + room.id,
-						function(response)
+				if (subRoomId) {
+					menuEntries.push(
 						{
-							if (typeof response != 'object') {
-								response = $.getAsObject(response);
-							}
-
-							if (!response.success) {
-								alert(response.reason);
-							}
-
-                                                        $('#chat_messages').ilChatMessageArea('show', 0);
-
-						},
-						'json'
-					)
-                                }
-                            }
-);
-}
-
-if (subRoomId && ((room = $('#private_rooms').ilChatList('getDataById', subRoomId)).owner == personalUserInfo.userid) || personalUserInfo.moderate == true) {
-
-menuEntries.push(
-                            {
-                                label: translate('delete_private_room'),
-                                callback: function() {
-                                    $.get(
-                                            posturl.replace(/postMessage/, 'privateRoom-delete') + '&sub=' + room.id,
-                                            function(response)
-                                            {
-                                                    if (typeof response != 'object') {
-                                                            response = $.getAsObject(response);
-                                                    }
-
-                                                    if (!response.success) {
-                                                            alert(response.reason);
-                                                    }
-                                            },
-                                            'json'
-                                    )
-                                },
-                                permission: ['moderator', 'owner']
-                            }
-			    )
-}
-if (initial.private_rooms_enabled) {
-	menuEntries.push(
-		{
-			label: translate('create_private_room'),
-			callback: function() {
-				$('#create_private_room_dialog').ilChatDialog({
-						title: translate('create_private_room'),
-						positiveAction: function() {
-							if ($('#new_room_name').val().replace(/^\s*/, '').replace(/\s*$/) == '') {
-								alert(translate('empty_name'));
-								return false;
-							}
-							else {
+							label:    translate('leave'),
+							callback: function () {
 								$.get(
-									posturl.replace(/postMessage/, 'privateRoom-create') + '&title=' + encodeURIComponent($('#new_room_name').val()),
-									function(response)
-									{
-										response = typeof response == 'object' ? response : $.getAsObject(response);
+									posturl.replace(/postMessage/, 'privateRoom-leave') + '&sub=' + room.id,
+									function (response) {
+										if (typeof response != 'object') {
+											response = $.getAsObject(response);
+										}
+
+										if (!response.success) {
+											alert(response.reason);
+										}
+
+										$('#chat_messages').ilChatMessageArea('show', 0);
+
+									},
+									'json'
+								)
+							}
+						}
+					);
+				}
+
+				if (subRoomId && ((room = $('#private_rooms').ilChatList('getDataById', subRoomId)).owner == personalUserInfo.userid) || personalUserInfo.moderate == true) {
+
+					menuEntries.push(
+						{
+							label:      translate('delete_private_room'),
+							callback:   function () {
+								$.get(
+									posturl.replace(/postMessage/, 'privateRoom-delete') + '&sub=' + room.id,
+									function (response) {
+										if (typeof response != 'object') {
+											response = $.getAsObject(response);
+										}
+
 										if (!response.success) {
 											alert(response.reason);
 										}
 									},
 									'json'
-								);
-							}
-						}
-					});
-			}
-		}
-	);
-}
-		if (!subRoomId || (subRoomId && ((room = $('#private_rooms').ilChatList('getDataById', subRoomId)).owner == personalUserInfo.userid) || personalUserInfo.moderate == true)) {
-			menuEntries.push(
-			{
-                                label: translate('invite_users'),
-                                callback: function() {
-
-					var invitationChangeTimeout;
-                                    $('#invite_users_container')
-					.ilChatDialog({
-						title: translate('invite_users'),
-						close: function() {
-							if (invitationChangeTimeout) {
-								window.clearInterval(invitationChangeTimeout);
-								invitationChangeTimeout = undefined;
-							}
-						},
-						positiveAction: function() {
-							
-						},
-						disabled_buttons: ['ok']
-					});
-
-					var sendInvitation = function(user, type, username) {
-						$.get(
-							posturl.replace(/postMessage/, 'inviteUsersToPrivateRoom-' + type) + (subRoomId ? ('&sub=' + subRoomId) : '') + '&users=' + user,
-							function(response) {
-								response = $.getAsObject(response);
-								if(response.success == true) {
-								    $('#chat_messages').ilChatMessageArea('addMessage', -1, {
-									type: 'notice',
-									message: translate('user_invited', {user: username})
-								    });
-								    $('#invite_users_container').ilChatDialog('close');
-								}
-								else {
-								    $('#chat_messages').ilChatMessageArea('addMessage', -1, {
-									type: 'notice',
-									message: 'Not allowed! Not owner of private room (Beta status)!'
-								    });
-								    $('#invite_users_container').ilChatDialog('close');
-								}
-							}
-						);
-					}
-
-					$('#invite_users_global').click(function() {
-                                            $('#invite_user_text_wrapper').show();
-                                            $('#invite_users_available').children().remove();
-                                        });
-
-                                        $('#invite_users_in_room').click(function() {
-					    $('#invite_user_text_wrapper').hide();
-
-					    $('#invite_users_available').children().remove();
-					    var show = false;
-					    $.each($('#chat_users').ilChatList('getAll'), function() {
-						var id = this.id;
-
-						    if( !isIdInArray(id, usermanager.usersinroom(subRoomId))) {
-							$('#invite_users_available').append(
-							    $('<li class="invite_user_line_id invite_user_line"></li>')
-								.append($('<a href="#"></a>')
-									.text(this.label)
-									.click(function(e) {
-										e.preventDefault();
-										e.stopPropagation();
-										sendInvitation(id, 'byId', $(this).text());
-									})
 								)
-							);
-							show = true;
-						    }
-					    });
-					    if( show == false ) {
-						$('#invite_users_in_room').hide();
-						$('#radioText').hide();
-						$('input[name=invite_users_type]').removeAttr('checked');
-						setTimeout(function() {
-							$('#invite_users_global').click();
-						}, 300);
-						
-					    }
-					    else{
-						$('#invite_users_in_room').show();
-						$('#radioText').show();
-					    }
-					    
-                                        });
-
-					$('#invite_users_in_room').click();
-
-					var cb;
-					if (invitationChangeTimeout) {
-						window.clearTimeout(invitationChangeTimeout);
-					}
-
-					var oldValue = $('#invite_user_text').val();
-					invitationChangeTimeout = window.setTimeout(cb = function() {
-						if ($('#invite_user_text').val() != oldValue && $('#invite_user_text').val().length) {
-							oldValue = $('#invite_user_text').val();
-							$.get(
-								posturl.replace(/postMessage/, 'inviteUsersToPrivateRoom-getUserList') + '&q=' + $('#invite_user_text').val(),
-								function(response)
-								{
-									response = $.getAsObject(response);
-									$('#invite_users_available').html('');
-
-									if ($(response).size()) {
-										$(response).each(function() {
-											var login = this.value;
-											var publicName = this.label;
-											$('<li class="invite_user_line_login invite_user_line"></li>')
-											.append($('<a href="#"></a>')
-												.text(publicName)
-												.click(function(e) {
-													e.preventDefault();
-													e.stopPropagation();
-													sendInvitation(login, 'byLogin', login);
-												})
-											).appendTo($('#invite_users_available'));
-										});
-									}
-									invitationChangeTimeout = window.setTimeout(cb, 500);
-								},
-								'json');
+							},
+							permission: ['moderator', 'owner']
 						}
-						else {
-							if(!$('#invite_user_text').val().length) {
-								$('#invite_users_available').html('');
+					)
+				}
+				if (initial.private_rooms_enabled) {
+					menuEntries.push(
+						{
+							label:    translate('create_private_room'),
+							callback: function () {
+								$('#create_private_room_dialog').ilChatDialog({
+									title:          translate('create_private_room'),
+									positiveAction: function () {
+										if ($('#new_room_name').val().replace(/^\s*/, '').replace(/\s*$/) == '') {
+											alert(translate('empty_name'));
+											return false;
+										}
+										else {
+											$.get(
+												posturl.replace(/postMessage/, 'privateRoom-create') + '&title=' + encodeURIComponent($('#new_room_name').val()),
+												function (response) {
+													response = typeof response == 'object' ? response : $.getAsObject(response);
+													if (!response.success) {
+														alert(response.reason);
+													}
+												},
+												'json'
+											);
+										}
+									}
+								});
 							}
-							invitationChangeTimeout = window.setTimeout(cb, 300);
 						}
-					}, 500);
+					);
+				}
+				if (!subRoomId || (subRoomId && ((room = $('#private_rooms').ilChatList('getDataById', subRoomId)).owner == personalUserInfo.userid) || personalUserInfo.moderate == true)) {
+					menuEntries.push(
+						{
+							label:    translate('invite_users'),
+							callback: function () {
 
-                                }
-                            }
-			);
-		}
-			if (personalUserInfo.moderator) {
-			    menuEntries.push(
-				    {
-					    label: translate('clear_room_history'),
-					    callback: function() {
-						    if (window.confirm(translate('clear_room_history_question'))) {
+								var invitationChangeTimeout;
+								$('#invite_users_container')
+									.ilChatDialog({
+										title:            translate('invite_users'),
+										close:            function () {
+											if (invitationChangeTimeout) {
+												window.clearInterval(invitationChangeTimeout);
+												invitationChangeTimeout = undefined;
+											}
+										},
+										positiveAction:   function () {
 
-							    $.get(
-								    posturl.replace(/postMessage/, 'clear') + (subRoomId ? ('&sub=' + subRoomId) : ''),
-								    function(response)
-								    {
-									    response = typeof response == 'object' ? response : $.getAsObject(response);
-									    if (!response.success) {
-										    alert(response.reason);
-									    }
-								    },
-								    'json'
-							    );
-						    }
-					    }
-				    }
-			    );
-			}
-			if (initial.private_rooms_enabled) {
-				menuEntries.push({separator: true});
-				var rooms = [{
-					label: translate('main'),
-					id: 0,
-					owner: 0,
-					addClass: 'room_0' + (!subRoomId ? ' in_room' : '')
-				}].concat($('#private_rooms').ilChatList('getAll'));
+										},
+										disabled_buttons: ['ok']
+									});
 
-				rooms.sort(function(a,b) {
-
-					if (a.id == 0) {
-						return -1;
-					}
-					else if (b.id == 0) {
-						return 1;
-					}
-
-					return a.label < b.label ? -1 : 1;
-				});
-	
-
-				$.each(rooms, function() {
-					var room = this;
-					var classes = ['room_' + room.id];
-
-					if (subRoomId == room.id) {
-						classes.push('in_room');
-					}
-					if (room.new_events) {
-						classes.push('chat_new_events');
-					}
-
-					menuEntries.push({
-						label: this.label,
-						icon: 'templates/default/images/' + (!room.id ? 'icon_chtr_s.png' : 'icon_chtr_private_s.png'),
-						addClass: classes.join(' '),
-						callback: function() {
-							if (!room.id) {
-								$('#chat_messages').ilChatMessageArea('show', 0);
-								return;
-							}
-							else if (subRoomId == room.id) {
-								return;
-							}
-							room.new_events = false;
-							$.get(
-								posturl.replace(/postMessage/, 'privateRoom-enter') + '&sub=' + room.id,
-								function(response)
-								{
-									if (typeof response != 'object') {
-										response = $.getAsObject(response);
-									}
-
-									if (!response.success) {
-										alert(response.reason);
-									}
-
-									subRoomId = room.id;
-
-									$('#chat_messages').ilChatMessageArea('show', room.id, posturl);
-
-									if (subRoomId) {/*
-										$('#chat_users').find('.online_user').hide();
-										usermanager.clear(room.id); 
-										$.get(
-											posturl.replace(/postMessage/, 'privateRoom-listUsers') + '&sub=' + room.id,
-
-											function(response)
-											{
-												response = typeof response == 'object' ? response : $.getAsObject(response);
-
-												$.each(response, function() {
-													$('#chat_users').find('.user_' + this).not('.hidden_entry').show();
-													userdata = $('#chat_users').ilChatList('getDataById', this);
-													usermanager.add(userdata, room.id);
+								var sendInvitation = function (user, type, username) {
+									$.get(
+										posturl.replace(/postMessage/, 'inviteUsersToPrivateRoom-' + type) + (subRoomId ? ('&sub=' + subRoomId) : '') + '&users=' + user,
+										function (response) {
+											response = $.getAsObject(response);
+											if (response.success == true) {
+												$('#chat_messages').ilChatMessageArea('addMessage', -1, {
+													type:    'notice',
+													message: translate('user_invited', {user: username})
 												});
+												$('#invite_users_container').ilChatDialog('close');
+											}
+											else {
+												$('#chat_messages').ilChatMessageArea('addMessage', -1, {
+													type:    'notice',
+													message: 'Not allowed! Not owner of private room (Beta status)!'
+												});
+												$('#invite_users_container').ilChatDialog('close');
+											}
+										}
+									);
+								}
 
-												if (!$('#chat_messages').ilChatMessageArea('hasContent', room.id)) {
-												    $('#chat_messages').ilChatMessageArea('addMessage', room.id, {
-														type: 'notice',
-														message: translate('private_room_entered', {title: room.label})
-												    });
-												}
-											},
-											'json'
-											);*/
+								$('#invite_users_global').click(function () {
+									$('#invite_user_text_wrapper').show();
+									$('#invite_users_available').children().remove();
+								});
+
+								$('#invite_users_in_room').click(function () {
+									$('#invite_user_text_wrapper').hide();
+
+									$('#invite_users_available').children().remove();
+									var show = false;
+									$.each($('#chat_users').ilChatList('getAll'), function () {
+										var id = this.id;
+
+										if (!isIdInArray(id, usermanager.usersinroom(subRoomId))) {
+											$('#invite_users_available').append(
+												$('<li class="invite_user_line_id invite_user_line"></li>')
+													.append($('<a href="#"></a>')
+														.text(this.label)
+														.click(function (e) {
+															e.preventDefault();
+															e.stopPropagation();
+															sendInvitation(id, 'byId', $(this).text());
+														})
+												)
+											);
+											show = true;
+										}
+									});
+									if (show == false) {
+										$('#invite_users_in_room').hide();
+										$('#radioText').hide();
+										$('input[name=invite_users_type]').removeAttr('checked');
+										setTimeout(function () {
+											$('#invite_users_global').click();
+										}, 300);
 
 									}
 									else {
-										$('#chat_users').find('.online_user').not('.hidden_entry').show();
+										$('#invite_users_in_room').show();
+										$('#radioText').show();
 									}
-								},
-								'json'
-							    )
+
+								});
+
+								$('#invite_users_in_room').click();
+
+								var cb;
+								if (invitationChangeTimeout) {
+									window.clearTimeout(invitationChangeTimeout);
+								}
+
+								var oldValue = $('#invite_user_text').val();
+								invitationChangeTimeout = window.setTimeout(cb = function () {
+									if ($('#invite_user_text').val() != oldValue && $('#invite_user_text').val().length) {
+										oldValue = $('#invite_user_text').val();
+										$.get(
+											posturl.replace(/postMessage/, 'inviteUsersToPrivateRoom-getUserList') + '&q=' + $('#invite_user_text').val(),
+											function (response) {
+												response = $.getAsObject(response);
+												$('#invite_users_available').html('');
+
+												if ($(response).size()) {
+													$(response).each(function () {
+														var login = this.value;
+														var publicName = this.label;
+														$('<li class="invite_user_line_login invite_user_line"></li>')
+															.append($('<a href="#"></a>')
+																.text(publicName)
+																.click(function (e) {
+																	e.preventDefault();
+																	e.stopPropagation();
+																	sendInvitation(login, 'byLogin', login);
+																})
+														).appendTo($('#invite_users_available'));
+													});
+												}
+												invitationChangeTimeout = window.setTimeout(cb, 500);
+											},
+											'json');
+									}
+									else {
+										if (!$('#invite_user_text').val().length) {
+											$('#invite_users_available').html('');
+										}
+										invitationChangeTimeout = window.setTimeout(cb, 300);
+									}
+								}, 500);
+
+							}
+						}
+					);
+				}
+				if (personalUserInfo.moderator) {
+					menuEntries.push(
+						{
+							label:    translate('clear_room_history'),
+							callback: function () {
+								if (window.confirm(translate('clear_room_history_question'))) {
+
+									$.get(
+										posturl.replace(/postMessage/, 'clear') + (subRoomId ? ('&sub=' + subRoomId) : ''),
+										function (response) {
+											response = typeof response == 'object' ? response : $.getAsObject(response);
+											if (!response.success) {
+												alert(response.reason);
+											}
+										},
+										'json'
+									);
+								}
+							}
+						}
+					);
+				}
+				if (initial.private_rooms_enabled) {
+					menuEntries.push({separator: true});
+					var rooms = [
+						{
+							label: translate('main'),
+							id:    0,
+							owner: 0,
+							addClass: 'room_0' + (!subRoomId ? ' in_room' : '')
+						}
+					].concat($('#private_rooms').ilChatList('getAll'));
+
+					rooms.sort(function (a, b) {
+
+						if (a.id == 0) {
+							return -1;
+						}
+						else if (b.id == 0) {
+							return 1;
+						}
+
+						return a.label < b.label ? -1 : 1;
+					});
+
+
+					$.each(rooms, function () {
+						var room = this;
+						var classes = ['room_' + room.id];
+
+						if (subRoomId == room.id) {
+							classes.push('in_room');
+						}
+						if (room.new_events) {
+							classes.push('chat_new_events');
+						}
+
+						menuEntries.push({
+							label:    this.label,
+							icon: 'templates/default/images/' + (!room.id ? 'icon_chtr_s.png' : 'icon_chtr_private_s.png'),
+							addClass: classes.join(' '),
+							callback: function () {
+								if (!room.id) {
+									$('#chat_messages').ilChatMessageArea('show', 0);
+									return;
+								}
+								else if (subRoomId == room.id) {
+									return;
+								}
+								room.new_events = false;
+								$.get(
+									posturl.replace(/postMessage/, 'privateRoom-enter') + '&sub=' + room.id,
+									function (response) {
+										if (typeof response != 'object') {
+											response = $.getAsObject(response);
+										}
+
+										if (!response.success) {
+											alert(response.reason);
+										}
+
+										subRoomId = room.id;
+
+										$('#chat_messages').ilChatMessageArea('show', room.id, posturl);
+
+										if (subRoomId) {/*
+										 $('#chat_users').find('.online_user').hide();
+										 usermanager.clear(room.id); 
+										 $.get(
+										 posturl.replace(/postMessage/, 'privateRoom-listUsers') + '&sub=' + room.id,
+
+										 function(response)
+										 {
+										 response = typeof response == 'object' ? response : $.getAsObject(response);
+
+										 $.each(response, function() {
+										 $('#chat_users').find('.user_' + this).not('.hidden_entry').show();
+										 userdata = $('#chat_users').ilChatList('getDataById', this);
+										 usermanager.add(userdata, room.id);
+										 });
+
+										 if (!$('#chat_messages').ilChatMessageArea('hasContent', room.id)) {
+										 $('#chat_messages').ilChatMessageArea('addMessage', room.id, {
+										 type: 'notice',
+										 message: translate('private_room_entered', {title: room.label})
+										 });
+										 }
+										 },
+										 'json'
+										 );*/
+
+										}
+										else {
+											$('#chat_users').find('.online_user').not('.hidden_entry').show();
+										}
+									},
+									'json'
+								)
 							}
 						});
 					});

@@ -47,12 +47,12 @@ var myId = {MY_ID};
 </script>
 
 <div id="invite_users_container" class="ilNoDisplay">
-	<div>
+	<div style="display: none;">
 	    <input type="radio" name="invite_users_type" id="invite_users_in_room"/><span id="radioText">{LBL_USER_IN_ROOM}&nbsp;&nbsp;</span>
 		<input type="radio" name="invite_users_type" id="invite_users_global"/>{LBL_USER_IN_ILIAS}
 	</div>
 	<div>
-		<p id="invite_user_text_wrapper" class="ilNoDisplay"><label for="invite_user_text">{LBL_USER_TEXT}:</label> <input type="text" id="invite_user_text" /></p>
+		<p id="invite_user_text_wrapper" class="ilNoDisplay"><label for="invite_user_text">{LBL_USER_TEXT}:</label> <input type="text" class="form-control" id="invite_user_text" /></p>
 		<ul id="invite_users_available">
 			<li></li>
 		</ul>
@@ -64,12 +64,11 @@ var myId = {MY_ID};
         <td class="ilValignBottom" colspan="2">
 		<h2 class="current_room_title"></h2>
 		<div class="ilHeadAction" id="chat_actions_wrapper">
-			<span id="chat_actions">
-				<a class="small" target="_top" href="#" onclick="this.blur(); return false;">
-					<span id="chat_actions_title">{ACTIONS}</span>
-					<img alt="" src="./templates/default/images/mm_down_arrow_dark.png" />
-				</a>
-			</span>
+			<div class="btn-group" id="chat_actions">
+				<button onclick="this.blur(); return false;" type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" data-container="body">
+					<span id="chat_actions_title">{ACTIONS}</span> <span class="caret" alt=""></span>
+				</button>
+			</div>
 		</div>
 
 	</td>
@@ -89,95 +88,74 @@ var myId = {MY_ID};
         </td>
     </tr>
     <tr>
-	    <td class="ilRight"><label for="chat_auto_scroll">{LBL_AUTO_SCROLL}</label><input type="checkbox" id="chat_auto_scroll" checked="checked" /></td>
+	    <td class="ilRight">
+			<div class="form-group">
+			<label for="chat_auto_scroll" class="control-label">{LBL_AUTO_SCROLL}</label>
+			<input type="checkbox" id="chat_auto_scroll" checked="checked" />
+			</div>
+		</td>
     </tr>
     <tr>
         <td>
-			<div class="ilForm fullwidth" id="chat_toolbox">
-				
-				<div class="ilFormRow">
-					<div class="ilFormHeader">
-						<h3 class="ilFormHeader"><a name="il_form_top"></a>{LBL_MESSAGE}</h3><div class="ilFormInfo"></div>
-					</div>
-					<div class="ilFormHeader ilFormCommands">
-					</div>
+		<form role="form" class="form-horizontal">
+			<div class="ilFormHeader">
+				<h3><a name="il_form_top"></a>{LBL_MESSAGE}</h3>
+				<div class="ilFormCmds">
 				</div>
-			
-				<div class="ilFormRow">
-					<div class="ilFormOption">
-						<label for="submit_message_text"><span id="message_recipient_info_all">{LBL_TOALL}</span><span id="message_recipient_info"></span></label>
-					</div>
-					<div class="ilFormValue">
-						<div id="iosChatInputContainer">
-							<input type="text" name="message" id="submit_message_text"/>
-							<input type="button" class="submit" value="{LBL_SEND}" id="submit_message"/>
-						</div>
-					</div>
+				<div class="help-block"></div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="submit_message_text"><span id="message_recipient_info_all">{LBL_TOALL}</span><span id="message_recipient_info"></span></label>
+				<div id="iosChatInputContainer" class="col-sm-9">
+					<input class="form-control" type="text" name="message" id="submit_message_text" style="margin:0"/>
+					<input type="button" class="btn btn-default btn-sm" value="{LBL_SEND}" id="submit_message"/>
 				</div>
-				
-				<div class="ilFormRow">
-					<div class="ilFormOption">
-						<label onclick="$('#show_options').click()">{LBL_LAYOUT}</label>
-					</div>
-					<div class="ilFormValue">
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label" onclick="$('#show_options').click()">{LBL_LAYOUT}</label>
+				<div class="col-sm-9">
+					<div class="ilSubForm">
 						<a id="show_options" href="javascript:;">{LBL_SHOW_SETTINGS}</a>
-
-						<div class="chat optionlist ilSubForm">
-							<div class="ilForm">
-
-								<div class="ilFormRow">
-									<div class="ilFormSubOption">
-										<label for="colorpicker">{LBL_FONTCOLOR}:</label>
-									</div>
-									<div class="ilFormSubValue">
-										<input type="text" id="colorpicker" value="{VAL_FONTCOLOR}" />
-									</div>
-								</div>
-
-								<div class="ilFormRow">
-									<div class="ilFormSubOption">
-										<label for="fontfamily">{LBL_FONTFAMILY}:</label>
-									</div>
-									<div class="ilFormSubValue">
-										<select id="fontfamily">
-											<!-- BEGIN chat_fontfamily -->
-											<option value="{VAL_FONTFAMILY}" {SELECTED_FONTFAMILY}>{LBL_FONTFAMILY}</option>
-											<!-- END chat_fontfamily -->
-										</select>
-									</div>
-								</div>
-
-								<div class="ilFormRow">
-									<div class="ilFormSubOption">
-										<label for="fontstyle">{LBL_FONTSTYLE}:</label>
-									</div>
-									<div class="ilFormSubValue">
-										<select id="fontstyle">
-											<!-- BEGIN chat_fontstyle -->
-											<option value="{VAL_FONTSTYLE}" {SELECTED_FONTSTYLE}>{LBL_FONTSTYLE}</option>
-											<!-- END chat_fontstyle -->
-										</select>
-									</div>
-								</div>
-
-								<div class="ilFormRow">
-									<div class="ilFormSubOption">
-										<label for="fontsize">{LBL_FONTSIZE}:</label>
-									</div>
-									<div class="ilFormSubValue">
-										<select id="fontsize">
-											<!-- BEGIN chat_fontsize -->
-											<option value="{VAL_FONTSIZE}" {SELECTED_FONTSIZE}>{LBL_FONTSIZE}</option>
-											<!-- END chat_fontsize -->
-										</select>
-									</div>
-								</div>
-								
+						<div class="chat optionlist form-group">
+							<label class="col-sm-3 control-label" for="colorpicker">{LBL_FONTCOLOR}:</label>
+							<div class="col-sm-9">
+								<input class="form-control" type="text" id="colorpicker" value="{VAL_FONTCOLOR}" />
+							</div>
+						</div>
+						<div class="chat optionlist form-group">
+							<label class="col-sm-3 control-label" for="fontfamily">{LBL_FONTFAMILY}:</label>
+							<div class="col-sm-9">
+								<select class="form-control" id="fontfamily">
+									<!-- BEGIN chat_fontfamily -->
+									<option value="{VAL_FONTFAMILY}" {SELECTED_FONTFAMILY}>{LBL_FONTFAMILY}</option>
+									<!-- END chat_fontfamily -->
+								</select>
+							</div>
+						</div>
+						<div class="chat optionlist form-group">
+							<label class="col-sm-3 control-label" for="fontstyle">{LBL_FONTSTYLE}:</label>
+							<div class="col-sm-9">
+								<select class="form-control" id="fontstyle">
+									<!-- BEGIN chat_fontstyle -->
+									<option value="{VAL_FONTSTYLE}" {SELECTED_FONTSTYLE}>{LBL_FONTSTYLE}</option>
+									<!-- END chat_fontstyle -->
+								</select>
+							</div>
+						</div>
+						<div class="chat optionlist form-group">
+							<label class="col-sm-3 control-label" for="fontsize">{LBL_FONTSIZE}:</label>
+							<div class="col-sm-9">
+								<select class="form-control" id="fontsize">
+									<!-- BEGIN chat_fontsize -->
+									<option value="{VAL_FONTSIZE}" {SELECTED_FONTSIZE}>{LBL_FONTSIZE}</option>
+									<!-- END chat_fontsize -->
+								</select>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+		</form>
         </td>
     </tr>
 </table>
@@ -185,5 +163,5 @@ var myId = {MY_ID};
 <input class="ilHidden" type="text" name="moreOptions" id="moreOptions" />
 
 <div class="ilNoDisplay" id="create_private_room_dialog">
-    <label for="new_room_name">{LBL_CREATE_PRIVATE_ROOM_TEXT}:</label> <input type="text" id="new_room_name" />
+    <label for="new_room_name">{LBL_CREATE_PRIVATE_ROOM_TEXT}:</label> <input class="form-control" type="text" id="new_room_name" />
 </div>
