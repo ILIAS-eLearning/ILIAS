@@ -272,7 +272,7 @@ abstract class ilGlobalCacheService {
 	protected function checkMemory() {
 		$matches = array();
 		$memory_limit = $this->getMemoryLimit();
-		if (preg_match('/^(\d+)(.)$/', $memory_limit, $matches)) {
+		if (preg_match('/([0-9]*)([M|K])/uism', $memory_limit, $matches)) {
 			switch ($matches[2]) {
 				case 'M':
 					$memory_limit = $matches[1] * 1024 * 1024; // nnnM -> nnn MB
@@ -281,6 +281,8 @@ abstract class ilGlobalCacheService {
 					$memory_limit = $matches[1] * 1024; // nnnK -> nnn KB
 					break;
 			}
+		} else {
+			$memory_limit = $memory_limit * 1024 * 1024; // nnnM -> nnn MB
 		}
 
 		return ($memory_limit >= $this->getMinMemory() * 1024 * 1024);
