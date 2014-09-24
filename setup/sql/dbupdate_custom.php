@@ -1968,7 +1968,7 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 ?>
 
 
-<#54>
+<#53>
 <?php
 // update on #40, missing fields for wbd
 $txt_fields_hist_user = array(
