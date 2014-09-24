@@ -157,59 +157,65 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			for ($j=0; $j < count($defs); $j++)
+			if(sizeof($defs))
 			{
-				$def = $defs[$j];
-				if (count($defs) > 1)
+				for ($j=0; $j < count($defs); $j++)
 				{
+					$def = $defs[$j];
+					if (count($defs) > 1)
+					{
+						$this->tpl->setCurrentBlock("definition");
+						$this->tpl->setVariable("DEF_TEXT", $lng->txt("cont_definition")." ".($j + 1));
+						$this->tpl->parseCurrentBlock();
+					}
+
+					// check dirty short texts
 					$this->tpl->setCurrentBlock("definition");
-					$this->tpl->setVariable("DEF_TEXT", $lng->txt("cont_definition")." ".($j + 1));
+					if ($def["short_text_dirty"])
+					{
+						$def = new ilGlossaryDefinition($def["id"]);
+						$def->updateShortText();
+						$short_str = $def->getShortText();
+					}
+					else
+					{
+						$short_str = $def["short_text"];
+					}
+					// replace tex
+					// if a tex end tag is missing a tex end tag
+					$ltexs = strrpos($short_str, "[tex]");
+					$ltexe = strrpos($short_str, "[/tex]");
+					if ($ltexs > $ltexe)
+					{
+						$page = new ilGlossaryDefPage($def["id"]);
+						$page->buildDom();
+						$short_str = $page->getFirstParagraphText();
+						$short_str = strip_tags($short_str, "<br>");
+						$ltexe = strpos($short_str, "[/tex]", $ltexs);
+						$short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
+					}
+					if (!$this->offline)
+					{
+						$short_str = ilUtil::insertLatexImages($short_str);
+					}
+					else
+					{
+						$short_str = ilUtil::buildLatexImages($short_str,
+							$this->parent_obj->getOfflineDirectory());
+					}
+					$short_str = ilPCParagraph::xml2output($short_str);
+
+					$this->tpl->setVariable("DEF_SHORT", $short_str);
+					$this->tpl->parseCurrentBlock();
+
+					$this->tpl->setCurrentBlock("definition_row");
 					$this->tpl->parseCurrentBlock();
 				}
-
-				// check dirty short texts
-				$this->tpl->setCurrentBlock("definition");
-				if ($def["short_text_dirty"])
-				{
-					$def = new ilGlossaryDefinition($def["id"]);
-					$def->updateShortText();
-					$short_str = $def->getShortText();
-				}
-				else
-				{
-					$short_str = $def["short_text"];
-				}
-				// replace tex
-				// if a tex end tag is missing a tex end tag
-				$ltexs = strrpos($short_str, "[tex]");
-				$ltexe = strrpos($short_str, "[/tex]");
-				if ($ltexs > $ltexe)
-				{
-					$page = new ilGlossaryDefPage($def["id"]);
-					$page->buildDom();
-					$short_str = $page->getFirstParagraphText();
-					$short_str = strip_tags($short_str, "<br>");
-					$ltexe = strpos($short_str, "[/tex]", $ltexs);
-					$short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
-				}
-				if (!$this->offline)
-				{
-					$short_str = ilUtil::insertLatexImages($short_str);
-				}
-				else
-				{
-					$short_str = ilUtil::buildLatexImages($short_str,
-						$this->parent_obj->getOfflineDirectory());
-				}
-				$short_str = ilPCParagraph::xml2output($short_str);
-
-				$this->tpl->setVariable("DEF_SHORT", $short_str);
-				$this->tpl->parseCurrentBlock();
-
-				$this->tpl->setCurrentBlock("definition_row");
-				$this->tpl->parseCurrentBlock();
 			}
-//			$this->tpl->touchBlock("def_td");
+			else
+			{
+				$this->tpl->touchBlock("def_td");
+			}
 
 			// display additional column 'glossary' for meta glossaries
 			if ($this->glossary->isVirtual())
