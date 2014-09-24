@@ -261,3 +261,7 @@ h2.current_room_title {
 #iosChatEmoticonsPanelFlyout a:hover {
 	border: 1px solid silver;
 }
+
+#ilChatBlockRoomSelect {
+	width: 100% !important;
+}
