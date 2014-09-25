@@ -698,9 +698,9 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 
 	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
 	{
-		if( strlen($_POST['multiple_choice_result']) )
+		if( strlen($_POST['multiple_choice_result'.$this->getId().'ID']) )
 		{
-			$previewSession->setParticipantsSolution($_POST['multiple_choice_result']);
+			$previewSession->setParticipantsSolution($_POST['multiple_choice_result'.$this->getId().'ID']);
 		}
 		else
 		{

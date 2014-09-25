@@ -379,6 +379,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 				$this->populateInlineFeedback($template, $answer_id, $this->getPreviewSession()->getParticipantsSolution());
 			}
 			$template->setCurrentBlock("answer_row");
+			$template->setVariable("QID", $this->object->getId().'ID');
 			$template->setVariable("ANSWER_ID", $answer_id);
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 			
