@@ -448,6 +448,41 @@ il.UICore = {
 				}
 			}
 		}
+
+		il.UICore.collapseTabs(false);
+	},
+
+	collapseTabs: function (recheck) {
+		var tabs = $('#ilTab.ilCollapsable'), tabsHeight, count, children, collapsed;
+		if (tabs) {
+			tabsHeight = tabs.innerHeight();
+			if (tabsHeight >= 50) {
+				$('#ilLastTab a').removeClass("ilNoDisplay");
+				// as long as we have two lines...
+				while (tabsHeight > 50) {
+					children = tabs.children('li:not(:last-child)');
+					count = children.size();
+
+					// ...put last child into collapsed drop down
+					$(children[count-1]).prependTo('#ilTabDropDown');
+					tabsHeight = tabs.innerHeight();
+				}
+			} else {
+				// as long as we have one line...
+				while (tabsHeight < 50 && ($('#ilTabDropDown').children('li').size()>0)) {
+					collapsed = $('#ilTabDropDown').children('li');
+					count = collapsed.size();
+					$(collapsed[0]).insertBefore(tabs.children('li:last-child'));
+					tabsHeight = tabs.innerHeight();
+				}
+				if ($('#ilTabDropDown').children('li').size() == 0) {
+					$('#ilLastTab a').addClass("ilNoDisplay");
+				}
+				if (tabsHeight>50 && !recheck) { // double chk height again
+					il.UICore.collapseTabs(true);
+				}
+			}
+		}
 	},
 	
 	initLayoutDrag: function() {

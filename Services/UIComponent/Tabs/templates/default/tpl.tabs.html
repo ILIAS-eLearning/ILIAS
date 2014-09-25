@@ -1,5 +1,5 @@
 <h2 class="ilAccHeadingHidden">{TXT_TABS}</h2>
-<ul id="ilTab" class="nav nav-tabs" role="tablist">
+<ul id="ilTab" class="nav nav-tabs ilCollapsable" role="tablist">
 	<!-- BEGIN back_2_tab -->
 	<li><a href="{BACK_2_TAB_LINK}" target="{BACK_2_TAB_TARGET}">{BACK_2_TAB_TEXT}</a></li>
 	<!-- END back_2_tab -->
@@ -9,5 +9,12 @@
 	<!-- BEGIN tab -->
 	<li id="{ID}" class="{TAB_TYPE}"><a href="{TAB_LINK}" target="{TAB_TARGET}">{TAB_TEXT}</a><!-- BEGIN sel_text --> <span class="ilAccHidden">({TXT_SELECTED})</span><!-- END sel_text --></li>
 	<!-- END tab -->
+	<li id="ilLastTab">
+		<a class="btn dropdown-toggle ilNoDisplay" data-toggle="dropdown" href="#">
+			... <span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu" id="ilTabDropDown">
+		</ul>
+	</li>
 </ul>
 <!-- BEGIN after_tabs --><span class="ilAccHidden"><a id="after_tabs" name="after_tabs">{TXT_SUBTABS}</a></span><!-- END after_tabs -->

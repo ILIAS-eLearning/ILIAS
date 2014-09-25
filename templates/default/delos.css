@@ -6444,7 +6444,7 @@ body#tinymce {
   visibility: hidden;
 }
 .ilNoDisplay {
-  display: none;
+  display: none !important;
 }
 .ilDisplayBlock {
   display: block;
