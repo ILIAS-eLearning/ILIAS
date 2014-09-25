@@ -40,23 +40,18 @@
 <!-- END notes -->
 <!-- BEGIN hidden_js -->
 <script language="JavaScript" type="text/javascript">
-function toggleSections()
-{
-	obj=document.getElementsByTagName('div');
-	for (var i=0;i<obj.length;i++)
-	{
-		if(/infoscreen_section_hidable_/.test(obj[i].id))
-		{
-			if(obj[i].style.display == 'none')
-			{
-				obj[i].style.display = '';
-			}
-			else
-			{
-				obj[i].style.display = 'none';
-			}
+	function toggleSections(elm, show_sections_txt, hide_sections_txt) {
+		var $elms = $('div[id*="infoscreen_section_hidable_"]');
+
+		$elms.toggle();
+
+		if (typeof elm.nodeName != "undefined" && elm.nodeName.toLowerCase() == 'a') {
+			elm.innerHTML = $elms.is(":visible") ?  hide_sections_txt : show_sections_txt;
+		} else {
+			$("a.submit").filter(function() {
+				return $(this).attr("href").toLowerCase().indexOf("javascript:togglesections") != -1
+			}).text($elms.is(":visible") ?  hide_sections_txt : show_sections_txt);
 		}
 	}
-}
 </script>
 <!-- END hidden_js -->
