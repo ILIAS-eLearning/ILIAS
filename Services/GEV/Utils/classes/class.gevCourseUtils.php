@@ -941,6 +941,11 @@ class gevCourseUtils {
 		return $this->getMembership()->getTutors();
 	}
 	
+	public function hasTrainer($trainer_id) {
+		return in_array($trainer_id, $this->getTrainers());
+	}
+	
+	
 	public function getAdmins() {
 		return $this->getMembership()->getAdmins();
 	}
