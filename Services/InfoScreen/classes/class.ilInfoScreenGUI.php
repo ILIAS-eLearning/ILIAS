@@ -731,13 +731,16 @@ class ilInfoScreenGUI
 		{
 			$this->setFormAction($ilCtrl->getFormAction($this));
 		}
+		
+		require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+		iljQueryUtil::initjQuery();
 
 		if($this->hidden)
 		{
 			$tpl->touchBlock("hidden_js");
 			if($this->show_hidden_toggle)
 			{
-				$this->addButton($lng->txt("toggle_hidden_sections"), "JavaScript:toggleSections();");
+				$this->addButton($lng->txt("show_hidden_sections"), "JavaScript:toggleSections(this, '".$lng->txt("show_hidden_sections") ."', '".$lng->txt("hide_visible_sections") ."');");
 			}
 		}
 		// add top buttons
@@ -1165,8 +1168,7 @@ class ilInfoScreenGUI
 	function getHiddenToggleButton()
 	{
 		global $lng;
-		
-		return "<a class=\"submit\" onClick=\"toggleSections();\" href=\"#\">".$lng->txt("toggle_hidden_sections")."</a>";
+		return "<a class=\"submit\" onClick=\"toggleSections(this, '".$lng->txt("show_hidden_sections") ."', '".$lng->txt("hide_visible_sections") ."');\" href=\"#\">".$lng->txt("show_hidden_sections")."</a>";
 	}
 }
 
