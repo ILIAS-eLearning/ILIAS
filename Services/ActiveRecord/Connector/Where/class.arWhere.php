@@ -5,7 +5,7 @@ require_once(dirname(__FILE__) . '/../Statement/class.arStatement.php');
  * Class arWhere
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 2.0.5
+ * @version 2.0.6
  */
 class arWhere extends arStatement {
 

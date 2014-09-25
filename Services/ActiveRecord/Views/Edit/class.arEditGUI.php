@@ -5,7 +5,7 @@ require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
  * GUI-Class arEditGUI
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           2.0.5
+ * @version 2.0.6
  *
  */
 class arEditGUI extends ilPropertyFormGUI {
@@ -32,12 +32,11 @@ class arEditGUI extends ilPropertyFormGUI {
 	protected $fields_to_hide = array();
 
 
-	/**
-	 * @param              $parent_gui
-	 * @param ActiveRecord $ar
-	 * @param ilPlugin     $plugin_object
-	 */
-	public function __construct(arGUI $parent_gui, ActiveRecord $ar) {
+    /**
+     * @param arGUI $parent_gui
+     * @param ActiveRecord $ar
+     */
+    public function __construct(arGUI $parent_gui, ActiveRecord $ar) {
 		global $ilCtrl;
 
 		$this->ar = $ar;
@@ -94,7 +93,10 @@ class arEditGUI extends ilPropertyFormGUI {
 	}
 
 
-	protected function addField(arField $field) {
+    /**
+     * @param arField $field
+     */
+    protected function addField(arField $field) {
 		$field_element = NULL;
 		switch ($field->getFieldType()) {
 			case 'integer':
@@ -123,17 +125,29 @@ class arEditGUI extends ilPropertyFormGUI {
 	}
 
 
-	protected function addTextInputField(arField $field) {
+    /**
+     * @param arField $field
+     * @return ilTextInputGUI
+     */
+    protected function addTextInputField(arField $field) {
 		return new ilTextInputGUI($this->txt($field->getName()), $field->getName());;
 	}
 
 
-	protected function addNumbericInputField(arField $field) {
+    /**
+     * @param arField $field
+     * @return ilNumberInputGUI
+     */
+    protected function addNumbericInputField(arField $field) {
 		return new ilNumberInputGUI($this->txt($field->getName()), $field->getName());
 	}
 
 
-	protected function addDateTimeInputField(arField $field) {
+    /**
+     * @param arField $field
+     * @return ilDateTimeInputGUI
+     */
+    protected function addDateTimeInputField(arField $field) {
 		$date_input = new ilDateTimeInputGUI($this->txt($field->getName()), $field->getName());
 		$date_input->setDate(new ilDate(date('Y-m-d H:i:s'), IL_CAL_DATE));
 		$date_input->setShowTime(true);
@@ -142,12 +156,20 @@ class arEditGUI extends ilPropertyFormGUI {
 	}
 
 
-	protected function addClobInputField(arField $field) {
+    /**
+     * @param arField $field
+     * @return ilTextAreaInputGUI
+     */
+    protected function addClobInputField(arField $field) {
 		return new ilTextAreaInputGUI($this->txt($field->getName()), $field->getName());
 	}
 
 
-	protected function adaptAnyInput(&$any_input, arField $field) {
+    /**
+     * @param $any_input
+     * @param arField $field
+     */
+    protected function adaptAnyInput(&$any_input, arField $field) {
 	}
 
 
@@ -243,21 +265,38 @@ class arEditGUI extends ilPropertyFormGUI {
 	}
 
 
-	protected function setNumbericRecordField(arField $field, $set_function, $value) {
+    /**
+     * @param arField $field
+     * @param $set_function
+     * @param $value
+     * @return bool
+     */
+    protected function setNumbericRecordField(arField $field, $set_function, $value) {
+		$this->ar->$set_function($value);
+
+		return true;
+	}
+
+    /**
+     * @param arField $field
+     * @param $set_function
+     * @param $value
+     * @return bool
+     */
+    protected function setTextRecordField(arField $field, $set_function, $value) {
 		$this->ar->$set_function($value);
 
 		return true;
 	}
 
 
-	protected function setTextRecordField(arField $field, $set_function, $value) {
-		$this->ar->$set_function($value);
-
-		return true;
-	}
-
-
-	protected function setDateTimeRecordField(arField $field, $set_function, $value) {
+    /**
+     * @param arField $field
+     * @param $set_function
+     * @param $value
+     * @return bool
+     */
+    protected function setDateTimeRecordField(arField $field, $set_function, $value) {
 		if ($value['time']) {
 			$datetime = new ilDateTime($value['date'] . " " . $value['time'], IL_CAL_DATETIME);
 			$timestamp = $datetime->get(IL_CAL_DATETIME);
@@ -271,14 +310,24 @@ class arEditGUI extends ilPropertyFormGUI {
 	}
 
 
-	protected function setClobRecordField(arField $field, $set_function, $value) {
+    /**
+     * @param arField $field
+     * @param $set_function
+     * @param $value
+     * @return bool
+     */
+    protected function setClobRecordField(arField $field, $set_function, $value) {
 		$this->ar->$set_function($value);
 
 		return true;
 	}
 
 
-	protected function handleEmptyPostValue(arField $field) {
+    /**
+     * @param arField $field
+     * @return bool
+     */
+    protected function handleEmptyPostValue(arField $field) {
 		return true;
 	}
 
@@ -310,7 +359,12 @@ class arEditGUI extends ilPropertyFormGUI {
 	}
 
 
-	protected function txt($txt, $plugin_txt = true) {
+    /**
+     * @param $txt
+     * @param bool $plugin_txt
+     * @return string
+     */
+    protected function txt($txt, $plugin_txt = true) {
 		return $this->parent_gui->txt($txt, $plugin_txt);
 	}
 }

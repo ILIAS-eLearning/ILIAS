@@ -17,12 +17,12 @@ require_once('Cache/class.arCalledClassCache.php');
  * @experimental
  * @description
  *
- * @version 2.0.5
+ * @version 2.0.6
  *
  */
 abstract class ActiveRecord implements arStorageInterface {
 
-	const ACTIVE_RECORD_VERSION = '2.0.5';
+	const ACTIVE_RECORD_VERSION = '2.0.6';
 	/**
 	 * @var arConnectorDB
 	 */
@@ -618,8 +618,8 @@ abstract class ActiveRecord implements arStorageInterface {
 	 *
 	 * @return $this
 	 */
-	public static function innerjoinAR(ActiveRecord $ar, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
-		return self::innerjoin($ar->getConnectorContainerName(), $on_this, $on_external, $fields, $operator);
+	public static function innerjoinAR(ActiveRecord $ar, $on_this, $on_external, $fields = array( '*' ), $operator = '=', $both_external = false) {
+		return self::innerjoin($ar->getConnectorContainerName(), $on_this, $on_external, $fields, $operator, $both_external);
 	}
 
 
@@ -632,10 +632,10 @@ abstract class ActiveRecord implements arStorageInterface {
 	 *
 	 * @return $this
 	 */
-	public static function innerjoin($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
+	public static function innerjoin($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=', $both_external = false) {
 		$srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
-		return $srModelObjectList->innerjoin($tablename, $on_this, $on_external, $fields, $operator);
+		return $srModelObjectList->innerjoin($tablename, $on_this, $on_external, $fields, $operator, $both_external);
 	}
 
 
@@ -648,10 +648,10 @@ abstract class ActiveRecord implements arStorageInterface {
 	 *
 	 * @return $this
 	 */
-	public static function leftjoin($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
+	public static function leftjoin($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=', $both_external = false) {
 		$srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
-		return $srModelObjectList->leftjoin($tablename, $on_this, $on_external, $fields, $operator);
+		return $srModelObjectList->leftjoin($tablename, $on_this, $on_external, $fields, $operator, $both_external);
 	}
 
 

@@ -1,10 +1,10 @@
 <?php
 include_once("./Services/Component/classes/class.ilPluginConfigGUI.php");
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecordList.php');
+include_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecordList.php');
 
 /**
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version 2.0.5
+ * @version 2.0.6
  *
  */
 class arGUI {
@@ -34,8 +34,16 @@ class arGUI {
 	 */
 	protected $record_type;
 
+    /**
+     * @var ActiveRecord
+     */
+    protected $ar;
 
-	public function __construct($record_type, ilPlugin $plugin_object = NULL) {
+    /**
+     * @param $record_type
+     * @param ilPlugin $plugin_object
+     */
+    public function __construct($record_type, ilPlugin $plugin_object = NULL) {
 		global $tpl, $ilCtrl, $ilAccess, $lng;
 
 		$this->lng = $lng;
@@ -59,16 +67,45 @@ class arGUI {
 		$this->$cmd();
 	}
 
-
-	/**
-	 * Configure screen
-	 */
 	function index() {
 		$index_table_gui_class = $this->record_type . "IndexTableGUI";
 		$table_gui = new $index_table_gui_class($this, "index", new ActiveRecordList($this->ar));
 		$this->tpl->setContent($table_gui->getHTML());
 	}
 
+    function applyFilter()
+    {
+        $index_table_gui_class = $this->record_type . "IndexTableGUI";
+        $table_gui             = new $index_table_gui_class($this, "index", new ActiveRecordList($this->ar));
+        $table_gui->applyFilter();
+        $this->index();
+    }
+
+    function resetFilter()
+    {
+        $index_table_gui_class = $this->record_type . "IndexTableGUI";
+        $table_gui             = new $index_table_gui_class($this, "index", new ActiveRecordList($this->ar));
+        $table_gui->resetFilter();
+        $this->index();
+    }
+
+    function applyAssignmentFilter()
+    {
+        include_once("class.ilDigisemadminChangeAssignmentTableGUI.php");
+        $table_gui = new ilDigisemadminChangeAssignmentTableGUI($this, "showAssignment");
+        $table_gui->writeFilterToSession();
+        $table_gui->resetOffset();
+        $this->showContent();
+    }
+
+    function resetAssignmentFilter()
+    {
+        include_once("class.ilDigisemadminChangeAssignmentTableGUI.php");
+        $table_gui = new ilDigisemadminChangeAssignmentTableGUI($this, "showAssignment");
+        $table_gui->resetOffset();
+        $table_gui->resetFilter();
+        $this->showContent();
+    }
 
 	/**
 	 * Configure screen
@@ -103,17 +140,13 @@ class arGUI {
 
 	public function save(arEditGUI $form) {
 		if ($form->saveObject()) {
-			ilUtil::sendSuccess($this->plugin_object->txt('record_created'), true);
+			ilUtil::sendSuccess($this->txt('record_created'), true);
 			$this->ctrl->redirect($this, "index");
 		} else {
 			$this->tpl->setContent($form->getHTML());
 		}
 	}
 
-
-	/**
-	 * Configure screen
-	 */
 	function view() {
 		$display_gui_class = $this->record_type . "DisplayGUI";
 		$display_gui = new $display_gui_class($this, $this->ar->find($_GET['ar_id']));
@@ -121,9 +154,6 @@ class arGUI {
 	}
 
 
-	/**
-	 * Configure screen
-	 */
 	function delete() {
 		$delete_gui_class = $this->record_type . "DeleteGUI";
 		$form = new $delete_gui_class($this, $this->ar->find($_GET['ar_id']));
@@ -154,8 +184,12 @@ class arGUI {
 		return $this->lng_prefix;
 	}
 
-
-	public function txt($txt, $plugin_txt = true) {
+    /**
+     * @param $txt
+     * @param bool $plugin_txt
+     * @return string
+     */
+    public function txt($txt, $plugin_txt = true) {
 		if ($this->getLngPrefix() != "" && $plugin_txt) {
 			return $this->lng->txt($this->getLngPrefix() . "_" . $txt, $this->getLngPrefix());
 		} else {

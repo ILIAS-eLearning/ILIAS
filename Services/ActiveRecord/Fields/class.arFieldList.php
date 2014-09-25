@@ -6,7 +6,7 @@ require_once('class.arField.php');
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  *
- * @version 2.0.5
+ * @version 2.0.6
  */
 class arFieldList {
 
@@ -47,7 +47,7 @@ class arFieldList {
 		self::LENGTH,
 	);
 	/**
-	 * @var arField
+	 * @var arField|array
 	 */
 	protected $primary_field;
 	/**

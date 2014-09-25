@@ -12,7 +12,7 @@ require_once(dirname(__FILE__) . '/Connector/Order/class.arOrderCollection.php')
  *
  * @description
  *
- * @version 2.0.5
+ * @version 2.0.6
  */
 class ActiveRecordList {
 
@@ -160,8 +160,8 @@ class ActiveRecordList {
 	 * @throws arException
 	 */
 	public function orderBy($order_by, $order_direction = 'ASC') {
-		if (! $this->getAR()->getArFieldList()->isField($order_by)) {
-			throw new arException(arException::LIST_ORDER_BY_WRONG_FIELD, $order_by);
+		if (! $this->getAR()->getArFieldList()->isField($order_by) ) {
+//			throw new arException(arException::LIST_ORDER_BY_WRONG_FIELD, $order_by); // Due to Bugfix with Joins
 		}
 		$arOrder = new arOrder();
 		$arOrder->setFieldname($order_by);
@@ -180,9 +180,6 @@ class ActiveRecordList {
 	 * @throws arException
 	 */
 	public function limit($start, $end) {
-		if ($start > $end) {
-			throw new arException(arException::LIST_WRONG_LIMIT);
-		}
 		$arLimit = new arLimit();
 		$arLimit->setStart($start);
 		$arLimit->setEnd($end);
@@ -202,8 +199,8 @@ class ActiveRecordList {
 	 *
 	 * @return $this
 	 */
-	public function innerjoinAR(ActiveRecord $ar, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
-		return $this->innerjoin($ar::returnDbTableName(), $on_this, $on_external, $fields, $operator);
+	public function innerjoinAR(ActiveRecord $ar, $on_this, $on_external, $fields = array( '*' ), $operator = '=', $both_external = false) {
+		return $this->innerjoin($ar::returnDbTableName(), $on_this, $on_external, $fields, $operator, $both_external);
 	}
 
 
@@ -218,10 +215,8 @@ class ActiveRecordList {
 	 * @return $this
 	 * @throws arException
 	 */
-	protected function join($type = arJoin::TYPE_INNER, $tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
-		if (! $this->getAR()->getArFieldList()->isField($on_this)) {
-			throw new arException(arException::LIST_JOIN_ON_WRONG_FIELD, $on_this);
-		}
+	protected function join($type = arJoin::TYPE_INNER, $tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=', $both_external) {
+
 		$arJoin = new arJoin();
 		$arJoin->setType($type);
 		$arJoin->setTableName($tablename);
@@ -229,6 +224,7 @@ class ActiveRecordList {
 		$arJoin->setOnSecondField($on_external);
 		$arJoin->setOperator($operator);
 		$arJoin->setFields($fields);
+        $arJoin->setBothExternal($both_external);
 
 		$this->getArJoinCollection()->add($arJoin);
 
@@ -245,8 +241,8 @@ class ActiveRecordList {
 	 *
 	 * @return $this
 	 */
-	public function leftjoin($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
-		return $this->join(arJoin::TYPE_LEFT, $tablename, $on_this, $on_external, $fields, $operator);
+	public function leftjoin($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=', $both_external = false) {
+		return $this->join(arJoin::TYPE_LEFT, $tablename, $on_this, $on_external, $fields, $operator, $both_external);
 	}
 
 
@@ -259,8 +255,8 @@ class ActiveRecordList {
 	 *
 	 * @return $this
 	 */
-	public function innerjoin($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
-		return $this->join(arJoin::TYPE_INNER, $tablename, $on_this, $on_external, $fields, $operator);
+	public function innerjoin($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=', $both_external = false) {
+		return $this->join(arJoin::TYPE_INNER, $tablename, $on_this, $on_external, $fields, $operator, $both_external);
 	}
 
 	//

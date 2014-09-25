@@ -5,7 +5,7 @@ require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
  * GUI-Class arDisplayGUI
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           2.0.5
+ * @version 2.0.6
  *
  */
 class arDisplayGUI {
@@ -48,12 +48,11 @@ class arDisplayGUI {
 	protected $back_button_target = "";
 
 
-	/**
-	 * @param              $parent_gui
-	 * @param ActiveRecord $record
-	 * @param ilPlugin     $plugin_object
-	 */
-	public function __construct(arGUI $parent_gui, ActiveRecord $ar) {
+    /**
+     * @param arGUI $parent_gui
+     * @param ActiveRecord $ar
+     */
+    public function __construct(arGUI $parent_gui, ActiveRecord $ar) {
 		global $ilCtrl, $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
@@ -120,7 +119,10 @@ class arDisplayGUI {
 	}
 
 
-	protected function setField(arField $field) {
+    /**
+     * @param arField $field
+     */
+    protected function setField(arField $field) {
 		$field_element = NULL;
 		$get_function = "get" . $this->ar->_toCamelCase($field->getName(), true);
 		$value = $this->ar->$get_function();
@@ -144,28 +146,47 @@ class arDisplayGUI {
 	}
 
 
-	protected function setNumericData(arField $field, $value) {
+    /**
+     * @param arField $field
+     * @param $value
+     */
+    protected function setNumericData(arField $field, $value) {
 		$this->data[$field->getName()] = $value;
 	}
 
 
-	protected function setTextData(arField $field, $value) {
+    /**
+     * @param arField $field
+     * @param $value
+     */
+    protected function setTextData(arField $field, $value) {
 		$this->data[$field->getName()] = $value;
 	}
 
 
-	protected function setDateTimeData(arField $field, $value) {
+    /**
+     * @param arField $field
+     * @param $value
+     */
+    protected function setDateTimeData(arField $field, $value) {
 		$datetime = new ilDateTime($value, IL_CAL_DATETIME);
 		$this->data[$field->getName()] = ilDatePresentation::formatDate($datetime, IL_CAL_DATETIME);
 	}
 
 
-	protected function setClobData(arField $field, $value) {
+    /**
+     * @param arField $field
+     * @param $value
+     */
+    protected function setClobData(arField $field, $value) {
 		$this->data[$field->getName()] = $value;
 	}
 
 
-	public function getHtml() {
+    /**
+     * @return string
+     */
+    public function getHtml() {
 		$tpl_display = new ilTemplate("tpl.display.html", true, true, "Customizing/global/plugins/Libraries/ActiveRecord");
 
 		$tpl_display->setVariable("TITLE", $this->title);
@@ -215,7 +236,12 @@ class arDisplayGUI {
 	}
 
 
-	protected function txt($txt, $plugin_txt = true) {
+    /**
+     * @param $txt
+     * @param bool $plugin_txt
+     * @return string
+     */
+    protected function txt($txt, $plugin_txt = true) {
 		return $this->parent_gui->txt($txt, $plugin_txt);
 	}
 }

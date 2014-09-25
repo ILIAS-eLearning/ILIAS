@@ -6,7 +6,7 @@ require_once(dirname(__FILE__) . '/../Statement/class.arStatement.php');
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  *
- * @version 2.0.5
+ * @version 2.0.6
  */
 class arLimit extends arStatement {
 

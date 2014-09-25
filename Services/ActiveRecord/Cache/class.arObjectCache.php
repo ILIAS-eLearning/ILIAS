@@ -4,7 +4,7 @@ require_once(dirname(__FILE__) . '/../Exception/class.arException.php');
 /**
  * Class arObjectCache
  *
- * @version 2.0.5
+ * @version 2.0.6
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */

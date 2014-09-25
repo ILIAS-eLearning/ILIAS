@@ -6,7 +6,7 @@ require_once('class.arJoin.php');
  * Class arJoinCollection
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 2.0.5
+ * @version 2.0.6
  */
 class arJoinCollection extends arStatementCollection {
 
@@ -22,7 +22,10 @@ class arJoinCollection extends arStatementCollection {
 			$return = 'SELECT ';
 			foreach ($this->getJoins() as $join) {
 				foreach ($join->getFields() as $field) {
-					$selected_fields[] = $join->getTableName() . '.' . $field;
+                    if(!in_array($join->getTableName() . '.' . $field,$selected_fields))
+                    {
+                        $selected_fields[] = $join->getTableName() . '.' . $field;
+                    }
 				}
 			}
 			$return .= implode(', ', $selected_fields);

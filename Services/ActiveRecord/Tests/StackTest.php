@@ -8,7 +8,7 @@ require_once("./Connector/class.arConnectorPdoDB.php");
  * @description PHP Unit-Test for ILIAS ActiveRecord
  *
  * @author      Oskar truffer <ot@studer-raimann.ch>
- * @version     2.0.5
+ * @version 2.0.6
  */
 class StackTest extends PHPUnit_Framework_TestCase {
 

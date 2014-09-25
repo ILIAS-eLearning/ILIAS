@@ -6,7 +6,7 @@ require_once(dirname(__FILE__) . '/../Statement/class.arStatement.php');
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  *
- * @version 2.0.5
+ * @version 2.0.6
  */
 class arJoin extends arStatement {
 
@@ -39,6 +39,10 @@ class arJoin extends arStatement {
 	 */
 	protected $on_second_field = '';
 
+    /**
+     * @var bool
+     */
+    protected $both_external = false;
 
 	/**
 	 * @param ActiveRecord $ar
@@ -49,9 +53,13 @@ class arJoin extends arStatement {
 		$join_table_name = $this->getTableName();
 		$return = ' ' . $this->getType() . ' ';
 		$return .= ' JOIN ' . $join_table_name;
-		$return .= ' ON ' . $ar->getConnectorContainerName() . '.' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
+        if($this->getBothExternal()){
+            $return .= ' ON ' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
+        }
+        else{
+            $return .= ' ON '. $ar->getConnectorContainerName() . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
+        }
 		$return .= $join_table_name . '.' . $this->getOnSecondField();
-
 		return $return;
 	}
 
@@ -165,6 +173,22 @@ class arJoin extends arStatement {
 	public function getType() {
 		return $this->type;
 	}
+
+    /**
+     * @param boolean $both_external
+     */
+    public function setBothExternal($both_external)
+    {
+        $this->both_external = $both_external;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getBothExternal()
+    {
+        return $this->both_external;
+    }
 }
 
 ?>

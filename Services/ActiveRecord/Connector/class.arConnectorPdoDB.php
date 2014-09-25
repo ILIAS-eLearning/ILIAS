@@ -8,7 +8,7 @@ require_once(dirname(__FILE__) . '/DataBase/class.pdoDB.php');
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version 2.0.5
+ * @version 2.0.6
  */
 class arConnectorPdoDB extends arConnectorDB {
 

@@ -7,7 +7,7 @@
  *
  * @description
  *
- * @version 2.0.5
+ * @version 2.0.6
  */
 abstract class arConnector {
 

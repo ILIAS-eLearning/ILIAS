@@ -6,7 +6,7 @@ require_once('class.arLimit.php');
  * Class arLimitCollection
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 2.0.5
+ * @version 2.0.6
  */
 class arLimitCollection extends arStatementCollection {
 

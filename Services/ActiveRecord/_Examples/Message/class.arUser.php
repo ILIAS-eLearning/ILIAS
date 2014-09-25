@@ -5,7 +5,7 @@ require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRe
  * Class arUser
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 2.0.5
+ * @version 2.0.6
  */
 class arUser extends ActiveRecord {
 
@@ -196,6 +196,14 @@ class arUser extends ActiveRecord {
 	 * @con_length    40
 	 */
 	protected $fax;
+	/**
+	 * @var int
+	 *
+	 * @con_has_field true
+	 * @con_fieldtype text
+	 * @con_length    32
+	 */
+	protected $i2passwd;
 	/**
 	 * @var int
 	 *
@@ -785,6 +793,23 @@ class arUser extends ActiveRecord {
 	public function getHobby() {
 		return $this->hobby;
 	}
+
+
+	/**
+	 * @param int $i2passwd
+	 */
+	public function setI2passwd($i2passwd) {
+		$this->i2passwd = $i2passwd;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getI2passwd() {
+		return $this->i2passwd;
+	}
+
 
 	/**
 	 * @param int $ilinc_id
