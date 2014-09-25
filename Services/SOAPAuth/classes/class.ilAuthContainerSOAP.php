@@ -148,10 +148,7 @@ class ilAuthContainerSOAP extends Auth_Container
 	 */
 	public function loginObserver($a_username,$a_auth)
 	{
-		/**
-		 * @var $ilUserPasswordManager ilUserPasswordManager
-		 */
-		global $ilias, $rbacadmin, $lng, $ilSetting, $ilUserPasswordManager;
+		global $ilias, $rbacadmin, $lng, $ilSetting;
 		
 		$GLOBALS['ilLog']->write(__METHOD__.': SOAP login observer called');
 		
@@ -205,7 +202,8 @@ class ilAuthContainerSOAP extends Auth_Container
 				if (count($email_user) > 0)
 				{
 					$user = ilObjectFactory::getInstanceByObjId($_POST["usr_id"]);
-					if($ilUserPasswordManager->verifyPassword($user, ilUtil::stripSlashes($_POST["password"])))
+					require_once 'Services/User/classes/class.ilUserPasswordManager.php';
+					if(ilUserPasswordManager::getInstance()->verifyPassword($user, ilUtil::stripSlashes($_POST["password"])))
 					{
 						// password is correct -> map user
 						//$this->setAuth($local_user); (use login not id)

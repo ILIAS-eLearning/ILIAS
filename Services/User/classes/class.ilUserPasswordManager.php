@@ -16,6 +16,11 @@ class ilUserPasswordManager
 	const MIN_SALT_SIZE = 16;
 
 	/**
+	 * @var self
+	 */
+	private static $instance;
+
+	/**
 	 * @var ilUserPasswordEncoderFactory
 	 */
 	protected $encoder_factory;
@@ -31,6 +36,8 @@ class ilUserPasswordManager
 	protected $config = array();
 
 	/**
+	 * Please use the singleton method for instance creation
+	 * The constructor is still public because of the unit tests
 	 * @param array $config
 	 * @throws ilUserException
 	 */
@@ -61,6 +68,42 @@ class ilUserPasswordManager
 		{
 			throw new ilUserException(sprintf('"encoder_factory" must be instance of ilUserPasswordEncoderFactory and set in %s.', json_encode($config)));
 		}
+	}
+
+	/**
+	 * Single method to reduce footprint (included files, created instances)
+	 * @return self
+	 */
+	public static function getInstance()
+	{
+		if(self::$instance instanceof self)
+		{
+			return self::$instance;
+		}
+
+		/**
+		 * @var $ilClientIniFile ilIniFile
+		 */
+		global $ilClientIniFile;
+
+		require_once 'Services/User/classes/class.ilUserPasswordEncoderFactory.php';
+		$password_manager = new ilUserPasswordManager(
+			array(
+				'encoder_factory' => new ilUserPasswordEncoderFactory(
+					array(
+						'default_password_encoder' => 'md5',
+						'ignore_security_flaw'     => true
+					)
+				),
+				'password_encoder' =>
+					$ilClientIniFile->readVariable('auth', 'password_encoder') ?
+					$ilClientIniFile->readVariable('auth', 'password_encoder') :
+					'md5',
+			)
+		);
+
+		self::$instance = $password_manager;
+		return self::$instance;
 	}
 
 	/**

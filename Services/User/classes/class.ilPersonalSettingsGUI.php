@@ -643,12 +643,8 @@ class ilPersonalSettingsGUI
 			#if ($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
 			if($ilUser->getAuthMode(true) == AUTH_LOCAL)
 			{
-				/**
-				 * @var $ilUserPasswordManager ilUserPasswordManager
-				 */
-				global $ilUserPasswordManager;
-				// check current password
-				if(!$ilUserPasswordManager->verifyPassword($ilUser, ilUtil::stripSlashes($_POST['current_password'])))
+				require_once 'Services/User/classes/class.ilUserPasswordManager.php';
+				if(!ilUserPasswordManager::getInstance()->verifyPassword($ilUser, ilUtil::stripSlashes($_POST['current_password'])))
 				{
 					$error = true;
 					$cp->setAlert($this->lng->txt('passwd_wrong'));

@@ -40,21 +40,13 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 	 */
 	public function __construct()
 	{
-		/**
-		 * @var $ilUserPasswordManager ilUserPasswordManager
-		 */
-		global $ilClientIniFile, $ilDB, $ilIliasIniFile, $ilUserPasswordManager;
-		
+		global $ilClientIniFile, $ilDB, $ilIliasIniFile;
+
 		$options['dsn']			= $ilDB->getDSN();
 		$options['table']		= $ilClientIniFile->readVariable('auth', 'table');
 		$options['usernamecol']	= $ilClientIniFile->readVariable('auth', 'usercol');
 		$options['passwordcol']	= $ilClientIniFile->readVariable('auth', 'passcol');
 
-		if(strlen($ilUserPasswordManager->getEncoderName()) > 0)
-		{
-			$options['cryptType'] = $ilUserPasswordManager->getEncoderName();
-		}
-		
 		// studip mode: check against submitted md5 password for ilSoapUserAdministration::login()
 		// todo: check whether we should put this to another place
 		if (isset($_POST['password']) && preg_match('/^[a-f0-9]{32,32}$/i', $_POST['password']))
@@ -139,14 +131,17 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 	 */
 	public function verifyPassword($raw, $encoded, $crypt_type = 'md5')
 	{
-		/**
-		 * @var $ilUserPasswordManager ilUserPasswordManager
-		 */
-		global $ilUserPasswordManager;
-
 		$this->log(__METHOD__ . ' called.', AUTH_LOG_DEBUG);
 
-		if($ilUserPasswordManager->isEncodingTypeSupported($crypt_type))
+		if(in_array($crypt_type, array('none', '')))
+		{
+			return parent::verifyPassword($raw, $encoded, $crypt_type);
+		}
+
+		require_once 'Services/User/classes/class.ilUserPasswordManager.php';
+		$crypt_type = ilUserPasswordManager::getInstance()->getEncoderName();
+
+		if(ilUserPasswordManager::getInstance()->isEncodingTypeSupported($crypt_type))
 		{
 			/**
 			 * @var $user ilObjUser
@@ -154,7 +149,7 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 			$user = ilObjectFactory::getInstanceByObjId(ilObjUser::_loginExists($this->_auth_obj->username));
 			$user->setPasswd($encoded, IL_PASSWD_CRYPTED);
 
-			return $ilUserPasswordManager->verifyPassword($user, $raw);
+			return ilUserPasswordManager::getInstance()->verifyPassword($user, $raw);
 		}
 
 		// Fall through: Let pear verify the password

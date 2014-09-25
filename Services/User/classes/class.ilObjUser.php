@@ -436,17 +436,17 @@ class ilObjUser extends ilObject
 	{ 
 		/**
 		 * @var $ilErr ilErrorHandling
-		 * @var $ilUserPasswordManager ilUserPasswordManager
 		 * @var $ilDB ilDB
 		 */
-		global $ilErr, $ilUserPasswordManager, $ilDB;
+		global $ilErr, $ilDB;
 
 		switch ($this->passwd_type)
 		{
 			case IL_PASSWD_PLAIN:
 				if(strlen($this->passwd))
 				{
-					$ilUserPasswordManager->encodePassword($this, $this->passwd);
+					require_once 'Services/User/classes/class.ilUserPasswordManager.php';
+					ilUserPasswordManager::getInstance()->encodePassword($this, $this->passwd);
 					$pw_value = $this->getPasswd();
 				}
 				else
@@ -556,11 +556,10 @@ class ilObjUser extends ilObject
 	{
 		/**
 		 * @var $ilErr ilErrorHandling
-		 * @var $ilUserPasswordManager ilUserPasswordManager
 		 * @var $ilDB ilDB
 		 * @var $ilAppEventHandler ilAppEventHandler
 		 */
-		global $ilErr, $ilDB, $ilAppEventHandler, $ilUserPasswordManager;
+		global $ilErr, $ilDB, $ilAppEventHandler;
 
         $this->syncActive();
 
@@ -626,7 +625,8 @@ class ilObjUser extends ilObject
 			case IL_PASSWD_PLAIN:
 				if(strlen($this->passwd))
 				{
-					$ilUserPasswordManager->encodePassword($this, $this->passwd);
+					require_once 'Services/User/classes/class.ilUserPasswordManager.php';
+					ilUserPasswordManager::getInstance()->encodePassword($this, $this->passwd);
 					$update_array['passwd'] = array('text', $this->getPasswd());
 				}
 				else
@@ -881,10 +881,9 @@ class ilObjUser extends ilObject
 	public function resetPassword($raw, $raw_retype)
 	{
 		/**
-		 * @var $ilUserPasswordManager ilUserPasswordManager
 		 * @var $ilDB ilDB
 		 */
-		global $ilUserPasswordManager, $ilDB;
+		global $ilDB;
 
 		if(func_num_args() != 2)
 		{
@@ -901,7 +900,8 @@ class ilObjUser extends ilObject
 			return false;
 		}
 
-		$ilUserPasswordManager->encodePassword($this, $raw);
+		require_once 'Services/User/classes/class.ilUserPasswordManager.php';
+		ilUserPasswordManager::getInstance()->encodePassword($this, $raw);
 
 		$ilDB->manipulateF(
 			'UPDATE usr_data

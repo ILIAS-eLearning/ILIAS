@@ -914,8 +914,6 @@ class ilInitialisation
 		if(ilContext::initClient())
 		{
 			self::initClient();
-			
-			self::initUserPasswordManager();
 
 			if (ilContext::hasUser())
 			{						
@@ -1140,35 +1138,6 @@ class ilInitialisation
 		
 	}
 
-	/**
-	 * Inits a password manager to handle password updates and verifications
-	 */
-	protected static function initUserPasswordManager()
-	{
-		/**
-		 * @var $ilClientIniFile ilIniFile
-		 */
-		global $ilClientIniFile;
-
-		require_once 'Services/User/classes/class.ilUserPasswordManager.php';
-		require_once 'Services/User/classes/class.ilUserPasswordEncoderFactory.php';
-		$password_manager = new ilUserPasswordManager(
-			array(
-				'encoder_factory' => new ilUserPasswordEncoderFactory(
-					array(
-						'default_password_encoder' => 'md5',
-						'ignore_security_flaw'     => true
-					)
-				),
-				'password_encoder' =>
-					$ilClientIniFile->readVariable('auth', 'password_encoder') ?
-					$ilClientIniFile->readVariable('auth', 'password_encoder') :
-					'md5',
-			)
-		);
-		self::initGlobal('ilUserPasswordManager', $password_manager);
-	}
-	
 	/**
 	 * Try authentication
 	 * 
