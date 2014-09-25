@@ -425,15 +425,9 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
 	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback); 
-		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		$this->tpl->setVariable("FORMACTION", $formaction);
-
 		// TODO - BEGIN: what exactly is done here? cant we use the parent method? 
-		
-		#$this->ctrl->setParameterByClass($this->getTargetGuiClass(), "formtimestamp", time());
-		#$formaction = $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), "selectImagemapRegion");
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
+
+		require_once './Modules/Test/classes/class.ilObjTest.php';
 		if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
 		{
 			$pass = ilObjTest::_getPass($active_id);
@@ -443,6 +437,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		{
 			$info =& $this->object->getSolutionValues($active_id, NULL);
 		}
+
 		if (count($info))
 		{
 			if (strcmp($info[0]["value1"], "") != 0)
@@ -450,6 +445,10 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$formaction .= "&selImage=" . $info[0]["value1"];
 			}
 		}
+
+		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback);
+		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
+		$this->tpl->setVariable("FORMACTION", $formaction);
 
 		// TODO - END: what exactly is done here? cant we use the parent method? 
 	}
