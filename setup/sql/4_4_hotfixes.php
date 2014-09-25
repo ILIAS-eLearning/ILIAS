@@ -915,3 +915,7 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 ilDBUpdateNewObjectType::varchar2text('rbac_log', 'data');
 
 ?>
+<#37>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
