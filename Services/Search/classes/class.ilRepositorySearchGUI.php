@@ -169,14 +169,14 @@ class ilRepositorySearchGUI
 		$button = ilSubmitButton::getInstance();
 		$button->setCaption($a_options['submit_name'], false);
 		$button->setCommand('addUserFromAutoComplete');
-		$ilToolbar->addButtonInstance($button);
+		$toolbar->addButtonInstance($button);
 
 		if((bool)$a_options['add_search'] || 
 			is_numeric($a_options['add_from_container']))
 		{		
 			$lng->loadLanguageModule("search");
 			
-			$ilToolbar->addSeparator();
+			$toolbar->addSeparator();
 					
 			if((bool)$a_options['add_search'])
 			{											
@@ -184,7 +184,7 @@ class ilRepositorySearchGUI
 				$button = ilLinkButton::getInstance();
 				$button->setCaption("search_users");
 				$button->setUrl($ilCtrl->getLinkTargetByClass('ilRepositorySearchGUI',''));
-				$ilToolbar->addButtonInstance($button);				
+				$toolbar->addButtonInstance($button);				
 			}
 
 			if(is_numeric($a_options['add_from_container']))
@@ -201,7 +201,7 @@ class ilRepositorySearchGUI
 				{
 					if((bool)$a_options['add_search'])
 					{	
-						$ilToolbar->addSpacer();
+						$toolbar->addSpacer();
 					}
 					
 					$ilCtrl->setParameterByClass('ilRepositorySearchGUI', "list_obj", ilObject::_lookupObjId($parent_container_ref_id));
@@ -210,7 +210,7 @@ class ilRepositorySearchGUI
 					$button = ilLinkButton::getInstance();
 					$button->setCaption("search_add_members_from_container_".$parent_container_type);
 					$button->setUrl($ilCtrl->getLinkTargetByClass(array(get_class($parent_object),'ilRepositorySearchGUI'), 'listUsers'));
-					$ilToolbar->addButtonInstance($button);		
+					$toolbar->addButtonInstance($button);		
 				}
 			}
 		}
