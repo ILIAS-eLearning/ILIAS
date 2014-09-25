@@ -2,10 +2,10 @@
 /**
 * ILIAS language file (All entries)
 *
-* @module			language file Japanese
-* @modulegroup		language
-* @author			Shiro Tamoto <tech@oberon.nagaokaut.ac.jp>
-* @version			$Id: ilias_ja.lang 24240 2010-09-15 14:29:34Z jluetzen $
+* @modulelanguage file Japanese
+* @modulegrouplanguage
+* @authorShiro Tamoto <tech@oberon.nagaokaut.ac.jp>
+* @version$Id: ilias_ja.lang 24240 2010-09-15 14:29:34Z jluetzen $
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -659,7 +659,7 @@ assessment#:#feedback_checked#:#全選択または選択された解答の特定
 assessment#:#feedback_complete_solution#:#正解
 assessment#:#feedback_correct#:#全正解に対する特定フィードバックの回答を表示(正解は選択または選択済みの際に正の採点表示であること)
 assessment#:#feedback_generic#:#共通解答フィードバック
-assessment#:#feedback_incomplete_solution#:#答案のどれかに一つに間違いがある
+assessment#:#feedback_incomplete_solution#:#答案のどれかに間違いがある
 assessment#:#feedback_setting#:#特定のフィードバック解答モード
 assessment#:#file_uploads#:#ファイルのアップロード
 assessment#:#fileDownload#:#ファイルのダウンロード
@@ -847,9 +847,9 @@ assessment#:#part_received_a_of_b_points#:#参加者は%s中の%s得点しまし
 assessment#:#participants#:#参加者
 assessment#:#participants_data#:#参加者のデータ
 assessment#:#participants_evaluation#:#参加者全員の評価
-assessment#:#participants_invitation#:#固定の受験者を招待
+assessment#:#participants_invitation#:#確定の受験者を招待
 assessment#:#participants_invitation_description#:#ILIAS確定ユーザグループに対してのみこのテストへアクセスさせる事ができます。この機能を有効にするには以下のチェックボックスをマークして保存ボタンを押してください。
-assessment#:#participants_invitation_search_introduction#:#このテストに固定の受験者を追加するには、以下の検索フォームのユーザを選択してテストへ招待してください。受験者全員が、受験者データのサブタブへ表示されます。
+assessment#:#participants_invitation_search_introduction#:#このテストに確定の受験者を追加するには、以下の検索フォームのユーザを選択してテストへ招待してください。受験者全員が、受験者データのサブタブへ表示されます。
 assessment#:#pass#:#合格
 assessment#:#pass_finished#:#%s合格
 assessment#:#passed_official#:#合格です
@@ -948,8 +948,8 @@ assessment#:#questions_from#:#質問者
 assessment#:#questions_per_page_view#:#ページ表示
 assessment#:#radio_set#:#セット
 assessment#:#radio_unset#:#未セット
-assessment#:#random_accept_sample#:#サンプルの承諾
-assessment#:#random_another_sample#:#他のサンプルの入手
+assessment#:#random_accept_sample#:#サンプルを承諾
+assessment#:#random_another_sample#:#他のサンプルを入手
 assessment#:#random_selection#:#ランダム選択
 assessment#:#range#:#範囲
 assessment#:#range_lower_limit#:#下限
@@ -1137,7 +1137,7 @@ assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ページオブジェク
 assessment#:#tst_all_user_data_deleted#:#このテストの全ユーザデータは削除されました!
 assessment#:#tst_allow_fixed_participants#:#このテストの固定受験者を許可
 assessment#:#tst_allow_instant_verification#:#解答の即時確認を許可
-assessment#:#tst_allowed_users#:#同時テスト受講者の最大ユーザ数
+assessment#:#tst_allowed_users#:#同時テスト受験者の最大ユーザ数
 assessment#:#tst_allowed_users_time_gap#:#アクティブユーザのアイドル時間
 assessment#:#tst_already_submitted#:#テストはすでに終了して提出済です。
 assessment#:#tst_already_taken#:#既にテスト済
@@ -1195,7 +1195,7 @@ assessment#:#tst_eval_no_anonymous_aggregation#:#このテストにはだれも�
 assessment#:#tst_eval_question_points#:#合格者%sの答案結果
 assessment#:#tst_eval_results_by_pass#:#合格者%sの答案一覧
 assessment#:#tst_eval_show_answer#:#答案を表示
-assessment#:#tst_eval_total_finished#:#合計終了済テスト数 (全問正解可能性のユーザ)
+assessment#:#tst_eval_total_finished#:#テスト終了数合計 (全問放棄した可能性のある者)
 assessment#:#tst_eval_total_finished_average_time#:#平均テスト処理時間
 assessment#:#tst_eval_total_passed#:#合計テスト受験者数
 assessment#:#tst_eval_total_passed_average_points#:#テスト受験者平均点
@@ -5786,7 +5786,7 @@ content#:#cont_copy_to_media_pool#:#メディア集へコピーする
 content#:#cont_correct_after_first#:#初回トライ成功
 content#:#cont_correct_answer_also#:#同じく正解 :
 content#:#cont_correct_answers_also#:#同じく正解 :
-content#:#cont_correct_answers_shown#:#正解は前述の通りです。
+content#:#cont_correct_answers_shown#:#正解は次の通りです。
 content#:#cont_could_not_determine_resource_size#:#ILIASはリソースサイズを自動的に決定できませんでした。
 content#:#cont_cp_question_diff_formats_info#:#フォーマットによってはコンテンツモジュールでサポートしていないものがある事に注意願います。
 content#:#cont_create_dir#:#ディレクトリを作成
@@ -6050,6 +6050,10 @@ content#:#cont_html_export_ids#:#HTMLエクスポートID
 content#:#cont_html_export_ids_info#:#HTMLエクスポート完了時のHTML命名に使用されるILIASラーニングモジュール用の拡張ID管理を許可します。
 content#:#cont_html_table#:#HTML表
 content#:#cont_id_ref#:#参照識別子
+content#:#cont_ie_compatibility#:#Internet Explorer 7互換モード
+content#:#cont_ie_compatibility_info#:#特に古い学習モジュール用として互換モードを実行するには有効です。互換モードはIEの新バージョンでは無効にする事ができます。
+content#:#cont_ie_force_render#:#Internet Explorerの再読み込みを強行
+content#:#cont_ie_force_render_info#:#学習モジュールのコンテンツがフレームやiフレームの量によりIEで正しく表示されない場合のみこのオプションをオンにします。さらにオプションの'表示 'の'別窓で開く'を設定する必要があります。
 content#:#cont_imagemap#:#イメージマップ
 content#:#cont_import_id#:#識別子
 content#:#cont_import_tracking#:#追跡データをインポート
@@ -6158,6 +6162,7 @@ content#:#cont_lm_comments_desc#:#ユーザへ学習モジュールの全ペー�
 content#:#cont_lm_default_layout#:#ラーニングモジュールのレイアウト初期設定
 content#:#cont_lm_menu#:#メニュー
 content#:#cont_lm_properties#:#ラーニングモジュールプロパティ
+content#:#cont_localfile#:#ローカルファイル
 content#:#cont_LocalFile#:#ローカルファイル
 content#:#cont_localization#:#言語対応
 content#:#cont_localization_info#:#言語は事前定義のテキスト(例："前へ"や"次へ")に使用されます。
@@ -6238,7 +6243,7 @@ content#:#cont_nr_col_footer#:#フッター欄
 content#:#cont_nr_col_header#:#ヘッダー欄
 content#:#cont_nr_cols#:#欄の数
 content#:#cont_nr_items#:#アイテム数
-content#:#cont_nr_of_tries_exceeded#:#制限回数を超えました。
+content#:#cont_nr_of_tries_exceeded#:#解答回数上限を超えました。
 content#:#cont_nr_row_footer#:#フッター行
 content#:#cont_nr_row_header#:#ヘッダー行
 content#:#cont_nr_rows#:#行数
@@ -6355,7 +6360,7 @@ content#:#cont_pword#:#Wordから貼り付け
 content#:#cont_qover_list_wrong_q#:#問題解答間違いの一覧
 content#:#cont_qover_list_wrong_q_info#:#間違いまたは未解答リストが表示されます。
 content#:#cont_qover_short_message#:#ステータスメッセージ
-content#:#cont_qover_short_message_info#:#"この単位のY中のC問が正解です"のメッセージが表示されます。
+content#:#cont_qover_short_message_info#:#この単位のY中のC問が正解ですのメッセージが表示されます。
 content#:#cont_qtries#:#問題の試行回数
 content#:#cont_question_placeh#:#クリックして問題を挿入
 content#:#cont_question_placehl#:#問題のプレースフォルダ
@@ -6771,6 +6776,7 @@ cron#:#cron_changed_by_crontab#:#システム
 cron#:#cron_component#:#コンポーネント
 cron#:#cron_job_id#:#ID
 cron#:#cron_last_run#:#最終試行
+cron#:#cron_no_executable_job_selected#:#実行可能なクローンジョブを一つは選択してjください。
 cron#:#cron_result#:#結果
 cron#:#cron_result_info#:#結果情報
 cron#:#cron_result_status_crashed#:#クラッシュしました。
@@ -7610,6 +7616,9 @@ dateplaner#:#cal_enable_group_milestones_desc#:#カレンダー上でマイル�
 dateplaner#:#cal_end#:#終了
 dateplaner#:#cal_err_invalid_notification_rcps#:#通知受信者リストが無効です。ILIASユーザアカウント名もしくは有効なメールアドレスのどちらかを選択してください。
 dateplaner#:#cal_every#:#間隔:
+dateplaner#:#cal_export_timezone#:#カレンダーエクスポート用のタイムゾーン
+dateplaner#:#cal_export_timezone_tz#:#LIASタイムゾーンを使用
+dateplaner#:#cal_export_timezone_utc#:#UTC タイムゾーン(MS Outlook互換)を使用
 dateplaner#:#cal_fifth#:#第5
 dateplaner#:#cal_first#:#第1
 dateplaner#:#cal_fourth#:#第2
@@ -8453,8 +8462,9 @@ exc#:#exc_pass_all_info#:#演習に合格するにはすべての必須問題に
 exc#:#exc_pass_minimum_nr#:#割り当て最低数
 exc#:#exc_pass_minimum_nr_info#:#演習に合格するには最低必須割当数を達成する必要があります。この値は必須の割当問題数よりも多くする必要があります。
 exc#:#exc_pass_mode#:#合格モード
-exc#:#exc_passed_status_determination#:#"合格"ステータスの確定
+exc#:#exc_passed_status_determination#:#合格ステータスの確定
 exc#:#exc_passing_exc#:#演習問題に合格
+exc#:#exc_peer_deadline_mismatch#:#締切り後にフィードバックをする場合は、割当てる設定の締切りよりフィードバック締切りを早くしてはいけません。
 exc#:#exc_peer_review#:#ピアフィードバック
 exc#:#exc_peer_review_ass_setting_info#:#有効にすると締切り後でユーザはピアを評価できます。
 exc#:#exc_peer_review_comment#:#マイフィードバック
@@ -8595,7 +8605,7 @@ feed#:#feed_settings#:#外部Webフィード設定
 file#:#enable_personal_workspace_disk_quota#:#パーソナルワークスペースのハードディスククォータをアクティブにする
 file#:#enable_personal_workspace_disk_quota_info#:#各ユーザアカウントと各グローバル役割のハードディスククォータ定義を許可します。このクォータはパーソナルワークスペースとポートフォリオ内のファイルにのみ影響します。ユーザが規定のクォータを超えるとすぐにILIASは使用済みディスクスペースが再度ディスククォータを下回るまでユーザのファイルuploadを禁止します。
 file#:#file_copy#:#ファイルをコピー
-file#:#file_download#:#ダウンロードファイル
+file#:#file_download#:#ファイルをダウンロード
 file#:#file_new_version#:#新バージョンを作成
 file#:#file_new_version_info#:#新ファイルバージョンを作成します。旧バージョンは修正されません。
 file#:#file_uploaded_by#:#アップロード者
@@ -9179,12 +9189,14 @@ mail#:#activate_serial_letter_placeholders#:#定型文のプレースフォル�
 mail#:#advice_mail_body_secured#:#セキュリティ上の理由のため ILIASはメッセージ要素の一部を削除する事があります。 セキュリティで保護されたメッセージを確認してメールを再送信してください。
 mail#:#also_as_email#:#emailも同様
 mail#:#auto_update#:#更新
+mail#:#back_to_folder#:#フォルダへ戻る
 mail#:#bc#:#BCC
 mail#:#chat_users_have_been_invited#:#ユーザは招待されています。
 mail#:#chat_users_without_login#:#次のユーザはILIAS アカウントがなく、チャットルームへ招待することはできません。
 mail#:#chat_users_without_permission#:#次のユーザは選択したチャットルームへアクセスできません。
 mail#:#cron_update_addressbook#:#自動的にアドレス帳エントリを同期
 mail#:#cron_update_addressbook_desc#:#この選択肢を有効にするとユーザはクローンjobで同期されるユーザアカウントに関係するアドレス帳エントリかどうかを指定できます。ユーザによりリリースされた日付のみが更新されます。
+mail#:#current_folder#:#現在のフォルダ: %s
 mail#:#forward#:#転送
 mail#:#goto_invitation_chat#:#チャットルームを開く
 mail#:#info_mail_external_sender_noreply#:#外部システムメッセージと通知用の送信者のアドレスとして使用されるemailを入力してください。
@@ -9270,6 +9282,8 @@ mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#すべての連絡�
 mail#:#mail_mailing_lists_no_addressbook_entries#:#連絡先の中にリストへ追加するエントリーがありません。
 mail#:#mail_mark_read#:#既読メールのマーク
 mail#:#mail_mark_unread#:#未読メールのマーク
+mail#:#mail_max_size_attachments_total#:#メール1通に添付可能な最大ファイルサイズを入力してください。この設定はmax_upload_,filesizeなどの様な他のリソースの制限には無関係です。(複数ファイルを添付可能)
+mail#:#mail_max_size_attachments_total_error#:#添付できるサイズ:
 mail#:#mail_maxsize_attachment_error#:#アップロード制限:
 mail#:#mail_member_notification#:#受講者通知
 mail#:#mail_members_added_addressbook#:#連絡先へ追加するメンバー
@@ -12133,11 +12147,11 @@ scormdebug#:#nr_session#:#セッション数
 scormdebug#:#only_important_API-Calls_shown#:#現在重要なAPI-Callsのみを表示しています。
 scormdebug#:#return_value#:#戻り値
 scormdebug#:#SCO-name#:#SCO名
-scormdebug#:#SCO-title#:#SCOタイトル
 scormdebug#:#scormdebug_disable_cache#:#SCORM 2004ブラウザキャッシュを無効にする
 scormdebug#:#scormdebug_disable_cache_info#:#ブラウザキャッシュのSCORM 2004 javascriptファイルのストレージを防止します。新規リリース前にこの機能を使ってください。
 scormdebug#:#scormdebug_global_activate#:#SCORM 2004 テストツールを有効にする
 scormdebug#:#scormdebug_global_activate_info#:#有効にするとSCORM 2004テストツールは目的のラーニングモンジュールを起動します。無効にするとテストツールは全てのラーニングモジュールをオフにします。
+scormdebug#:#SCO-title#:#SCOタイトル
 scormdebug#:#sent_values_not_checked#:#選択のプロパティ:SCOからの値を完全にチェックしない
 scormdebug#:#SetValue#:#データ送信
 scormdebug#:#show_all_API-calls#:#全てのAPI-callを表示!
@@ -14012,6 +14026,7 @@ tstv#:#tstv_create_info#:#完了したテストを選択して証明書を作成
 user#:#enable_local_user_administration#:#ローカルユーザ管理を使用
 user#:#enable_local_user_administration_info#:#有効にするとローカルユーザアカウントはカテゴリ内で管理できます。
 user#:#inform_user_mail_info#:#有効にするとユーザへメール送信されます。その内容は管理>ユーザ管理> 設定 > 新規アカウントメールの中で定義できます。
+user#:#passwd_generation_pre#:#事前設定のパスワード
 user#:#restrict_user_access#:#ユーザアカウントへの限定アクセス
 user#:#restrict_user_access_info#:#有効にするとユーザアカウントへのアクセスが制限されます。アクセス権は"ユーザアカウント"と"カテゴリ"の"ローカルユーザアカウントの読み込み”に依存します。
 user#:#tos_accepted_content#:#コンテンツを承諾しました
@@ -14280,24 +14295,9 @@ wsp#:#wsp_tab_personal#:#マイリソース
 wsp#:#wsp_tab_shared#:#他のユーザと共有
 wsp#:#wsp_type_blog#:#ブログ
 wsp#:#wsp_type_crsv#:#証明書: コース
-wsp#:#wsp_type_excv#:#検証: 演習問題
+wsp#:#wsp_type_excv#:#証明書: 演習問題
 wsp#:#wsp_type_file#:#ファイル
 wsp#:#wsp_type_scov#:#証明書: SCORM
-wsp#:#wsp_type_tstv#:#検証: テスト
+wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-content#:#cont_localfile#:#Local File###08 09 2014 new variable
-dateplaner#:#cal_export_timezone#:#Timezone for Calendar Export###08 09 2014 new variable
-dateplaner#:#cal_export_timezone_tz#:#Use ILIAS-Timezone###08 09 2014 new variable
-dateplaner#:#cal_export_timezone_utc#:#Use Timezone UTC (compatible with MS Outlook)###08 09 2014 new variable
-mail#:#back_to_folder#:#Back to Folder###08 09 2014 new variable
-mail#:#current_folder#:#Current Folder: %s###08 09 2014 new variable
-cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.###08 09 2014 new variable
-mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files). ###08 09 2014 new variable
-mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:###08 09 2014 new variable
-user#:#passwd_generation_pre#:#Pre-defined Passwords###08 09 2014 new variable
-content#:#cont_ie_compatibility#:#Internet Explorer 7 compatibility mode###08 09 2014 new variable
-content#:#cont_ie_compatibility_info#:#Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer.###08 09 2014 new variable
-content#:#cont_ie_force_render#:#Force Internet Explorer to render again###08 09 2014 new variable
-content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iframes. Additionally you have to set the option 'Display' to 'in new window'.###08 09 2014 new variable
-exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.###08 09 2014 new variable
