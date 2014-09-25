@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 chdir("../../../");
 ini_set('display_errors', 1);
-ini_set('max_execution_time', 300);
+ini_set('max_execution_time', 0);
 error_reporting(E_ALL ^ E_STRICT);
 require_once("./include/inc.header.php");
 require_once("./Services/IVImport/classes/class.gevUserImport.php");
