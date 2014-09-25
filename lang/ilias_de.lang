@@ -4992,6 +4992,8 @@ common#:#to_desktop#:#Auf Schreibtisch legen
 common#:#to_filter#:#Filtern
 common#:#today#:#Heute
 common#:#toggle_hidden_sections#:#Weitere Informationen anzeigen
+common#:#show_hidden_sections#:#Weitere Informationen anzeigen &raquo;
+common#:#hide_visible_sections#:#Weitere Informationen verbergen &raquo;
 common#:#toggleGlobalDefault#:#Standard-Stylesheet umschalten
 common#:#toggleGlobalFixed#:#Einheits-Stylesheet umschalten
 common#:#tomorrow#:#Morgen
