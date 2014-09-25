@@ -4051,3 +4051,7 @@ $ilCtrlStructureReader->getStructure();
 		array('forcejs' => array('integer', 0))
 	);
 ?>
+<#4388>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
