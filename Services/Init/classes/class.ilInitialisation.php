@@ -902,11 +902,20 @@ class ilInitialisation
 		include_once "include/inc.debug.php";
 	}
 	
+	protected static $already_initialized;
+	
 	/**
 	 * ilias initialisation
 	 */
 	public static function initILIAS()
 	{
+		if (self::$already_initialized) 
+		{
+			return;
+		}
+
+		self::$already_initialized = true;
+
 		global $tree;
 		
 		self::initCore();
