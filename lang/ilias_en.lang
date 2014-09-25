@@ -10781,6 +10781,8 @@ survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants
 survey#:#survey_using_template#:#This survey uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
 survey#:#survey_using_template_link#:#Do not use template anymore
 common#:#toggle_hidden_sections#:#Show More Information
+common#:#show_hidden_sections#:#Show More Information
+common#:#hide_visible_sections#:#Hide More Information
 assessment#:#test_enable_views#:#Enabled views
 assessment#:#test_enable_view_both#:#Table- and Page View
 assessment#:#test_enable_view_express#:#Page View
