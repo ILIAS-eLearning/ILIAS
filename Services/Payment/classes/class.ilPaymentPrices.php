@@ -10,7 +10,6 @@
 */
 class ilPaymentPrices
 {
-//	private $ilDB;
 	
 	const TYPE_DURATION_MONTH = 1;
 	const TYPE_DURATION_DATE = 2;
@@ -28,10 +27,6 @@ class ilPaymentPrices
 	private $duration_until;
 	private $description;
 	public $price_type = self::TYPE_DURATION_MONTH;
-
-	
-	// TODO later -> this is for using different currencies 
-//	private $currency_conversion_rate = 1;
 
 	private $prices = array();
 	
@@ -156,16 +151,7 @@ class ilPaymentPrices
 		$gui_price = self::_getGUIPrice($a_price);
 
 		return $gui_price . ' ' . $currency_unit;
-		
-/* TODO: after currency implementation is finished	-> replace whole function
- * 		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 
-		$separator= ilPaymentCurrency::_getDecimalSeparator();
-		$currency_symbol = ilPaymentCurrency::_getSymbol($a_currency_id);
-		$price_string = number_format($a_price,'2',$separator,'');
-		
-		return $price_string . ' ' . $currency_symbol;
- */	
 	}
 	
 
@@ -179,9 +165,6 @@ class ilPaymentPrices
 
 		$pr_str = '';		
 		$pr_str .= number_format($a_price , 2, ",", ".");
-/* TODO: CURRENCY 	$pr_str = number_format($a_price * $this->getCurrencyConversionRate() , 2, ",", ".");
- * 		remove genset
- * */
  		
 		return $pr_str . " " . $currency_unit;		
 	}

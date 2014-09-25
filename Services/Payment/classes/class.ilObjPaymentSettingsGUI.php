@@ -9,7 +9,7 @@
 * @author Jens Conze <jc@databay.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjPaymentSettingsGUI: ilPermissionGUI, ilShopTopicsGUI, ilShopPageGUI, ilRepositorySearchGUI
+* @ilCtrl_Calls ilObjPaymentSettingsGUI: ilPermissionGUI, ilShopTopicsGUI, ilShopPageGUI, ilRepositorySearchGUI, ilPaymentObjectSelector
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -30,6 +30,7 @@ include_once './Services/Payment/classes/class.ilShopTableGUI.php';
 include_once './Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
 include_once './Services/Payment/classes/class.ilUserDefinedInvoiceNumber.php';
 include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+include_once './Services/Payment/classes/class.ilPaymentObjectSelector.php';
 
 class ilObjPaymentSettingsGUI extends ilObjectGUI
 {
@@ -168,18 +169,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 					}
 					break;
 				case 'epay':
-//					$check = unserialize($this->genSetData->get('epay'));
-//					if ($check['server_host'] == '' ||
-//						$check['server_path'] == '' ||
-//						$check['merchant_number'] == '' ||
-//						$check['auth_token'] == '' ||
-//						$check['auth_email'] == '')
-//					{
-//						ilUtil::sendInfo($this->lng->txt('please_enter_epay_data'));
-//						$this->paypalSettingsObject();
-//						return true;
-//					}
-					break;
 				case 'erp':
 					break;	
 			}
@@ -297,18 +286,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 					case 'paypalSettings' :
 												$this->tabs_gui->setTabActive('pay_methods');
 												$this->getSubTabs('payMethods', 'paypalSettings');
-												break;
-					case 'saveEPaySettings' :
-					case 'epaySettings' :
-//												$this->tabs_gui->setTabActive('pay_methods');
-//												$this->getSubTabs('payMethods', 'epaySettings');
-												break;
-					case 'saveERPsettings' :
-					case 'delERPpreview':
-					case 'testERPsettings' :
-					case 'erpSettings' :
-//												$this->tabs_gui->setTabActive('payMethods');
-//												$this->getSubTabs('payMethods', 'erpSettings');
 												break;
 					case 'deleteVat' :
 					case 'newVat':
@@ -3373,66 +3350,27 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	public function showObjectSelectorObject()
 	{
-		global $rbacsystem, $tree, $ilToolbar;
+		global $rbacsystem, $ilToolbar;
 
 		// MINIMUM ACCESS LEVEL = 'read'
 		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
 			$this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilErr->MESSAGE);
 		}
-
-		include_once './Services/Payment/classes/class.ilPaymentObjectSelector.php';
-
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.paya_object_selector.html','Services/Payment');
 		
 		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'statistic'));
 
 		ilUtil::sendInfo($this->lng->txt('paya_select_object_to_sell'));
 
-		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'), (string)strtolower(get_class($this)));
-		$exp->setExpand($_GET['paya_link_expand'] ? $_GET['paya_link_expand'] : $tree->readRootId());
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'showObjectSelector'));
-		
-		$exp->setOutput(0);
-
-		$this->tpl->setVariable('EXPLORER',$exp->getOutput());
-
-		return true;
-	}
-
-	public function searchUserObject()
-	{
-/*		global $rbacsystem, $ilToolbar;
-
-		// MINIMUM ACCESS LEVEL = 'read'
-		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
+		include_once("./Services/Payment/classes/class.ilPaymentObjectSelector.php");
+		$exp = new ilPaymentObjectSelector($this, "showObjectSelector");
+		if (!$exp->handleCommand())
 		{
-			$this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilErr->MESSAGE);
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paya_object_selector.html",'Services/Payment');
+			$this->tpl->setVariable("EXPLORER",$exp->getHTML());
 		}
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
-		
-		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'vendors'));
-
-		$this->lng->loadLanguageModule('search');
-
-		$form_gui = new ilPropertyFormGUI();
-		$form_gui->setFormAction($this->ctrl->getFormAction($this));
-		$form_gui->setTitle($this->lng->txt('crs_search_members'));
-		$form_gui->setId('search_form');
-	
-		$oTitle = new ilTextInputGUI($this->lng->txt('search_search_term'), 'search_str');
-		$oTitle->setMaxLength(255);
-		$oTitle->setSize(40);
-		$oTitle->setValue($_POST['search_str']); // $_SESSION['pays_search_str']
-		$form_gui->addItem($oTitle);		
-		
-		// buttons
-		$form_gui->addCommandButton('search', $this->lng->txt('search'));
-		$form_gui->addCommandButton('vendors', $this->lng->txt('cancel'));	//??vendors	
-		
-		$this->tpl->setVariable('FORM',$form_gui->getHTML());	
-		return true;*/
+		return true;
 	}
 
 	public function searchObject()

@@ -474,7 +474,8 @@ class ilShopPurchaseGUI extends ilObjectGUI
 					$placeholderDescription = "ROW_DESCRIPTION";
 				}
 				$this->tpl->setCurrentBlock("price_row");
-				if ($buyedObject["price_id"] == $price['price_id'])
+
+				if (is_array($buyedObject) && $buyedObject["price_id"] == $price['price_id'])
 				{
 					$this->tpl->setVariable($placeholderCheckbox,ilUtil::formRadioButton(1,'price_id',$price['price_id']));
 				}
@@ -592,26 +593,5 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		return true;
 	}
 
-/*  depricated?!
- * function __buildHeader()
-	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.payb_content.html",
-		'Services/Payment');
-		$this->tpl->setVariable("HEADER",$this->object->getTitle());
-		$this->tpl->setVariable("DESCRIPTION",$this->object->getDescription());
-		$this->tpl->parseCurrentBlock();
-	}
-*/
-//	function  __buildStatusline()
-//	{
-//		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-//		$this->__buildLocator();
-//	}	
-
-//
-//	function __buildStylesheet()
-//	{
-//		$this->tpl->setVariable("LOCATION_STYLESHEET",ilUtil::getStyleSheetLocation());
-//	}
 }
 ?>

@@ -228,10 +228,10 @@ class ilShopGUI extends ilShopBaseGUI
 
 	public function showShopExplorer()
 	{
-		global $ilCtrl, $tree, $lng;
+		global $ilCtrl, $tree, $lng, $tpl;
 
 		$ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
-		$shop_explorer_tpl = new ilTemplate('tpl.shop_explorer.html', true, true, 'Services/Payment');
+		$tpl->addCss('Services/Payment/css/shop_explorer.css');
 
 		include_once ("./Services/Payment/classes/class.ilShopRepositoryExplorer.php");
 
@@ -310,11 +310,9 @@ class ilShopGUI extends ilShopBaseGUI
 			echo $output;
 			exit;
 		}
-		$shop_explorer_tpl->setVariable("EXPLORER", $output);
-		$ilCtrl->setParameter($this, "repexpand", $_GET["repexpand"]);
 		
-		global $tpl;
-		$tpl->setLeftContent($shop_explorer_tpl->get());
+		$ilCtrl->setParameter($this, "repexpand", $_GET["repexpand"]);
+		$tpl->setLeftContent($output);
 	}
 
 	public function performSearch($oResult = null)
@@ -515,6 +513,8 @@ class ilShopGUI extends ilShopBaseGUI
 
 	public function showShopContent($oResult)
 	{
+		
+//@todo : check topics rendering
 		global $ilUser, $rbacreview, $ilToolbar;
 
 		if($rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID))
@@ -619,10 +619,15 @@ class ilShopGUI extends ilShopBaseGUI
 		$search_result_presentation->setSortField(strtolower(trim($this->getSortField())));
 		$search_result_presentation->setSortDirection(trim($this->getSortDirection()));
 
-		$html = $search_result_presentation->showSpecials();
-
-		$this->tpl->setVariable('RESULTS', $html);
-
+		if(!$presentation_results)
+		{
+			$this->tpl->setVariable('RESULTS', $this->lng->txt('payment_shop_not_objects_found'));
+		}
+		else
+		{	
+			$html = $search_result_presentation->showSpecials();
+			$this->tpl->setVariable('RESULTS', $html);
+		}
 		$show_general_filter = $this->oGeneralSettings->get('show_general_filter');
 		$show_topics_filter  = $this->oGeneralSettings->get('show_topics_filter');
 		$show_shop_explorer  = $this->oGeneralSettings->get('show_shop_explorer');

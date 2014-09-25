@@ -68,9 +68,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$this->initBookingsObject();
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
 
-		$bookings = $this->bookings_obj->getDistinctTransactions($this->user_obj->getId());
-		
-		if(!count($bookings))
+		if(!count($bookings = ilPaymentBookings::getBookingsOfCustomer($this->user_obj->getId())))
 		{
 			ilUtil::sendInfo($this->lng->txt('pay_not_buyed_any_object'));
 			return true;
@@ -232,20 +230,6 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			$tpl->setVariable('LOOP_PRICE',number_format($bookings[$i]['price'], 2, ',', '.').' '.$currency);
 			$tpl->parseCurrentBlock('loop');
 			
-			// TODO: CURRENCY not finished yet
-			/*****
-					$currency_symbol = $bookings[$i]['currency_unit'];
-
-					$tpl->setVariable('LOOP_VAT_RATE', $bookings[$i]['vat_rate'].' %');
-			#		$tpl->setVariable('LOOP_VAT_UNIT', number_format( $bookings[$i]['vat_unit'], 2, ',', '.').' '.$currency);
-			#		$tpl->setVariable('LOOP_PRICE',number_format( $bookings[$i]['price'], 2, ',', '.').' '.$currency);
-
-					$tpl->setVariable('LOOP_VAT_UNIT',utf8_decode( ilPaymentCurrency::_formatPriceToString($bookings[$i]['vat_unit'], $currency_symbol)));
-					$tpl->setVariable('LOOP_PRICE', utf8_decode(ilPaymentCurrency::_formatPriceToString($bookings[$i]['price'], $currency_symbol)));
-					$tpl->parseCurrentBlock('loop');
-
-			/*****	*/
-
 			$bookings['total'] += (float)$bookings[$i]['price'];
 			$bookings['total_vat']+= (float)$bookings[$i]['vat_unit'];
 			$bookings['total_discount'] +=(float) $bookings[$i]['discount'];

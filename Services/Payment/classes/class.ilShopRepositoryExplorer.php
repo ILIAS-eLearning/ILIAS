@@ -253,7 +253,7 @@ class ilShopRepositoryExplorer extends ilExplorer
 		}
 	}
 
-	function showChilds($a_ref_id,$a_obj_id = 0)
+	function showChilds($a_ref_id, $a_obj_id = 0)
 	{
 		global $rbacsystem;
 

@@ -52,8 +52,6 @@ class ilShopTopics
 	{
 		global $ilUser;
 		
-//		$oSettings = ilPaymentSettings::_getInstance();
-		
 		$this->topics = array();
 		
 		if(!in_array($this->getSortingType(), array(self::TOPICS_SORT_BY_TITLE, self::TOPICS_SORT_BY_CREATEDATE, self::TOPICS_SORT_MANUALLY)))
@@ -210,6 +208,21 @@ class ilShopTopics
 	public function isCustomSortingEnabled()
 	{
 		return (bool)$this->enable_custom_sorting;
+	}
+	
+	public function getCountAssignedTopics()
+	{
+		global $ilDB;
+		
+		$res = $ilDB->query('SELECT pt_topic_fk, count(pt_topic_fk) cnt FROM payment_objects GROUP BY pt_topic_fk');
+		
+		$topics_count = array();
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$topics_count[$row['pt_topic_fk']] = (int)$row['cnt'];
+		}
+
+		return $topics_count;
 	}
 }
 ?>

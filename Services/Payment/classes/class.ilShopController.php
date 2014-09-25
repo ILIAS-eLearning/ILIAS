@@ -36,7 +36,7 @@ include_once './Services/Payment/classes/class.ilShopLinkBuilder.php';
 * @ilCtrl_Calls ilShopController: ilShopBoughtObjectsGUI, ilPurchaseBMFGUI, ilShopPersonalSettingsGUI
 * @ilCtrl_Calls ilShopController: ilPaymentGUI, ilPaymentAdminGUI, ilShopInfoGUI
 * @ilCtrl_Calls ilShopController: ilPurchaseBillGUI, ilShopNewsGUI, ilTermsConditionsGUI, ilShopPurchaseGUI
-* @ilCtrl_Calls ilShopController: ilShopLinkBuilder
+* @ilCtrl_Calls ilShopController: ilShopLinkBuilder, ilPaymentObjectSelector
 */
 class ilShopController
 {	

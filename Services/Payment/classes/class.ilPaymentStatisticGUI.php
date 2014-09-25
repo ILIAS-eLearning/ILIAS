@@ -6,6 +6,7 @@
 *
 * @author Stefan Meyer
 * @version $Id: class.ilPaymentStatisticGUI.php 22253 2009-10-30 07:58:39Z nkrzywon $
+* @ilCtrl_Calls ilPaymentStatisticGUI: ilPaymentObjectSelector
 *
 * @package core
 *
@@ -16,6 +17,7 @@ include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 include_once './Services/Payment/classes/class.ilShopTableGUI.php';
 include_once './Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
+include_once("./Services/Payment/classes/class.ilPaymentObjectSelector.php");
 
 class ilPaymentStatisticGUI extends ilShopBaseGUI
 {
@@ -763,22 +765,19 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 
 	public function showObjectSelector()
 	{
-		global $tree, $ilToolbar;
-
-		include_once './Services/Payment/classes/class.ilPaymentObjectSelector.php';
-
+		global $ilToolbar;
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paya_object_selector.html",'Services/Payment');
 		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'showStatistics'));
 
 		ilUtil::sendInfo($this->lng->txt("paya_select_object_to_sell"));
 
-		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'), (string)strtolower(get_class($this)));
-		$exp->setExpand($_GET["paya_link_expand"] ? $_GET["paya_link_expand"] : $tree->readRootId());
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'showObjectSelector'));
+		$exp = new ilPaymentObjectSelector($this, "showObjectSelector");
+		if (!$exp->handleCommand())
+		{
+			$this->tpl->setVariable("EXPLORER",$exp->getHTML());
+		}
 		
-		$exp->setOutput(0);
-
-		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
 
 		return true;
 	}

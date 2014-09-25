@@ -243,7 +243,6 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 			$this->tpl->setVariable('BILL_CONFIRM_FORMACTION',$this->ctrl->getFormAction($this));
 	
 			// set table header
-			$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_pays_b.png'));
 			$this->tpl->setVariable('ALT_IMG',$this->lng->txt('obj_usr'));
 	
 			// set plain text variables
@@ -285,6 +284,9 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 		global $ilUser,	$ilObjDataCache;
 
 		$sc = $this->psc_obj->getShoppingCart($this->pm_id);
+		$total = 0;
+		$total_vat = 0;
+		$total_discount = 0;
 
 #		$this->psc_obj->clearCouponItemsSession();
 
@@ -1032,7 +1034,7 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 				$tbl->setTotalData('VAL_SUB_TOTAL', number_format($totalAmount[$this->pm_id], 2, ',', '.') . " " . $genSet->get('currency_unit'));
 				#$tbl->setTotalData('VAL_SUB_TOTAL',ilPaymentPrices::_formatPriceToString($totalAmount[$a_pay_method['pm_id']], (int)$this->default_currency['currency_id'] ));
 
-				$totalAmount[$current_coupon_bonus] = 0;
+				$totalAmount['current_coupon_bonus'] = 0;
 				foreach ($_SESSION['coupons'][$this->session_var] as $coupon)
 				{
 					$this->coupon_obj->setId($coupon['pc_pk']);
@@ -1055,10 +1057,10 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 						unset($tmp_pobject);
 					}
 					$current_coupon_bonus = $this->coupon_obj->getCouponBonus($total_object_price);
-					$totalAmount[$current_coupon_bonus] += $current_coupon_bonus * (-1);
+					$totalAmount['current_coupon_bonus'] += $current_coupon_bonus * (-1);
 				}
-					$tbl->setTotalData('TXT_COUPON_BONUS', $this->lng->txt('paya_coupons_coupon') . ": ");# . $coupon['pcc_code'] . ": ");
-					$tbl->setTotalData('VAL_COUPON_BONUS', number_format($totalAmount[$current_coupon_bonus], 2, ',', '.') . " " . $genSet->get('currency_unit'));
+				$tbl->setTotalData('TXT_COUPON_BONUS', $this->lng->txt('paya_coupons_coupon') . ": ");# . $coupon['pcc_code'] . ": ");
+				$tbl->setTotalData('VAL_COUPON_BONUS', number_format($totalAmount['current_coupon_bonus'], 2, ',', '.') . " " . $genSet->get('currency_unit'));
 
 
 				if ($totalAmount[$this->pm_id] < 0)
@@ -1069,7 +1071,7 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 			}
 		}
 
-		$this->totalAmount[$this->pm_id] = $totalAmount[$this->pm_id]-($totalAmount[$current_coupon_bonus] * (-1));
+		$this->totalAmount[$this->pm_id] = $totalAmount[$this->pm_id]-($totalAmount['current_coupon_bonus'] * (-1));
 
 		$tbl->setTotalData('TXT_TOTAL_AMOUNT', $this->lng->txt('pay_bmf_total_amount').": ");
 		$tbl->setTotalData('VAL_TOTAL_AMOUNT',  number_format($this->totalAmount[$this->pm_id] , 2, ',', '.') . " " . $genSet->get('currency_unit')); #.$item['currency']);

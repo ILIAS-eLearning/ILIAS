@@ -1,95 +1,58 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /*
-* Repository Explorer
+* ilPaymentObjectSelector
 *
-* @author Stefan Meyer <meyer@leifos.com>
+* @author Nadia Ahmad <nahmad@databay.de>
 * @version $Id: class.ilPaymentObjectSelector.php 20462 2009-07-07 15:33:41Z mjansen $
-*
+* @ilCtrl_isCalledBy ilPaymentObjectSelector: ilPaymentStatisticGUI, ilObjPaymentSettingsGUI
 * @package core
 */
 
-require_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
+include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
 require_once './Services/Payment/classes/class.ilPaymentObject.php';
 
 
-class ilPaymentObjectSelector extends ilExplorer
+class ilPaymentObjectSelector extends ilTreeExplorerGUI
 {
-
 	/**
-	 * id of root folder
-	 * @var int root folder id
-	 * @access private
+	 * @var $ctrl ilCtrl
 	 */
-	public $root_id;
-	public $output;
 	public $ctrl;
 
-	public $selectable_type;
-	public $ref_id;
-
-	public $classname;
+	private $classname;
 
 	/**
-	 * @access	public
-	 * @param $a_target (i.e. ilias.php?cmd=showObjectSelector&cmdClass=ilpaymentobjectgui&cmdNode=8n:8z:90&baseClass=ilShopController)
-	 * @param string $a_classname i.e. ilpaymentobjectgui
+	 * @param $parent_obj
+	 * @param $parent_cmd
 	 */
-
-	public function __construct($a_target, $a_classname)
+	public function __construct($parent_obj, $parent_cmd)
 	{
-		global $tree,$ilCtrl;
-
+		/**
+		 *  @var $tree ilTree
+		 *  @var $ctrl ilCtrl
+		 */
+		global $tree, $ilCtrl;
+	
 		$this->ctrl = $ilCtrl;
-		
-		parent::ilExplorer($a_target);
-		$this->tree = $tree;
-		$this->root_id = $this->tree->readRootId();
-		$this->order_column = "title";
 
-		$this->setSessionExpandVariable("paya_link_expand");
+		parent::__construct("pobject_exp", $this, 'showObjectSelector', $tree);
 
-		$this->addFilter("adm");
-		$this->addFilter("rolf");
-		$this->addFilter("chat");
-		#$this->addFilter('fold');
-
-		$this->setFilterMode(IL_FM_NEGATIVE);
-		$this->setFiltered(true);
-
-		$this->classname = $a_classname;
+		$this->setTypeBlackList(array('adm', 'rolf', 'chat', 'frm'));
+		$this->classname = $this->ctrl->getCmdClass();
 	}
 
-	function buildLinkTarget($a_node_id, $a_type)
-	{
-		$this->ctrl->setParameterByClass($this->classname,'sell_id',$a_node_id);
-		
-		if ($this->classname == 'ilpaymentstatisticgui')
-		{
-			return $this->ctrl->getLinkTargetByClass($this->classname,'searchUser');
-		}
-		if ($this->classname == 'ilobjpaymentsettingsgui')
-		{
-			return $this->ctrl->getLinkTargetByClass($this->classname,'searchUserSP');
-		}
-		else
-		{
-			return $this->ctrl->getLinkTargetByClass($this->classname,'showSelectedObject');
-		}
-
-	}
-
-	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
-	{
-		return '';
-	}
-
-	function isClickable($a_type, $a_ref_id)
+	/**
+	 * overwritten method from baseclass
+	 * @param mixed $node
+	 * @return bool
+	 */
+	function isNodeClickable($node)
 	{
 		global $ilUser;
 
-		switch($a_type)
+		switch($node['type'])
 		{
 			case 'lm':
 			case 'crs':
@@ -104,19 +67,16 @@ class ilPaymentObjectSelector extends ilExplorer
 				return false;
 		}
 
-
 		if ($this->classname == 'ilpaymentstatisticgui')
 		{
-			if (ilPaymentObject::_isPurchasable($a_ref_id, $ilUser->getId(), true))
-			#if (!ilPaymentObject::_isPurchasable($a_ref_id, $ilUser->getId(), true))
+			if (ilPaymentObject::_isPurchasable($node['ref_id'], $ilUser->getId(), true))
 			{
 				return true;
 			}
 		}
 		else if ($this->classname == 'ilobjpaymentsettingsgui')
 		{
-			if (ilPaymentObject::_isPurchasable($a_ref_id))
-			#if (!ilPaymentObject::_isPurchasable($a_ref_id))
+			if (ilPaymentObject::_isPurchasable($node['ref_id']))
 			{
 				return true;
 			}
@@ -124,94 +84,64 @@ class ilPaymentObjectSelector extends ilExplorer
 		else if($this->classname == 'ilpaymentobjectgui')
 		{
 			// object doesn't exist in payment_object
-			if(ilPaymentObject::_isNewObject($a_ref_id))
+			if(ilPaymentObject::_isNewObject($node['ref_id']))
 			{
 				return true;
 			}
-			
 		}
 		else
 		{
-			if (ilPaymentObject::_isPurchasable($a_ref_id))
+			if (ilPaymentObject::_isPurchasable($node['ref_id']))
 			{
 				return true;
 			}
 		}
 		return false;
-		
 	}
-
-	function setAlwaysClickable($a_value)
-	{
-		$this->always_clickable = $a_value;
-	}
-
-	function showChilds($a_ref_id)
-	{
-
-		// depricated?!
-		return true;
-//	global $rbacsystem;
-//		if ($a_ref_id == 0)
-//		{
-//			return true;
-//		}
-//
-//		if ($this->classname == 'ilpaymentstatisticgui')
-//		{
-//			if (!ilPaymentObject::_isPurchasable($a_ref_id, $ilUser->getId(), true))
-//			{
-//				return false;
-//			}
-//		}
-//		else if ($this->classname == 'ilobjpaymentsettingsgui')
-//		{
-//			if (!ilPaymentObject::_isPurchasable($a_ref_id))
-//			{
-//				return false;
-//			}
-//		}
-//		else
-//		{
-//			if (!ilPaymentObject::_isPurchasable($a_ref_id))
-//			{
-//				return false;
-//			}
-//		}
-//
-//		if($rbacsystem->checkAccess("visible", $a_ref_id))
-//		{
-//			return true;
-//		}
-//		else
-//		{
-//			return false;
-//		}
-	}
-
 
 	/**
-	* overwritten method from base class
-	* @access	public
-	* @param	integer a_obj_id
-	* @param	integer array options
-	* @return	string
-	*/
-	function formatHeader($a_obj_id,$a_option)
+	 *  overwritten method from baseclass
+	 * Get node content
+	 *
+	 * @param array
+	 * @return
+	 */
+	function getNodeContent($a_node)
 	{
 		global $lng;
 
-		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
-
-		$tpl->setCurrentBlock("text");
-		$tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("row");
-		$tpl->parseCurrentBlock();
-
-		$this->output[] = $tpl->get();
+		$title = $a_node["title"];
+		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
+		{
+			if ($title == "ILIAS")
+			{
+				$title = $lng->txt("repository");
+			}
+		}
+		return $title;
 	}
 
+	/**
+	 *  overwritten method from baseclass
+	 * @param mixed $node
+	 * @return string
+	 */
+	function getNodeHref($node)
+	{
+		$this->ctrl->setParameterByClass($this->classname,'sell_id',$node['ref_id']);
+
+		if ($this->classname == 'ilpaymentstatisticgui')
+		{
+			return $this->ctrl->getLinkTargetByClass($this->classname,'searchUser');
+		}
+		if ($this->classname == 'ilobjpaymentsettingsgui')
+		{
+			return $this->ctrl->getLinkTargetByClass($this->classname,'searchUserSP');
+		}
+		else
+		{
+			return $this->ctrl->getLinkTargetByClass($this->classname,'showSelectedObject');
+		}
+	}
+	
 } // END class ilObjectSelector
-?>

@@ -6,7 +6,7 @@
 * @author Stefan Meyer
 * @version $Id: class.ilPaymentAdminGUI.php 17010 2008-07-23 08:37:46Z mjansen $
 *
-* @ilCtrl_Calls ilPaymentAdminGUI: ilPaymentTrusteeGUI, ilPaymentStatisticGUI, ilPaymentObjectGUI, ilPaymentCouponGUI
+* @ilCtrl_Calls ilPaymentAdminGUI: ilPaymentTrusteeGUI, ilPaymentStatisticGUI, ilPaymentObjectGUI, ilPaymentCouponGUI, ilPaymentObjectSelector
 *
 * @package ServicesPayment
 */
@@ -14,6 +14,7 @@
 include_once './Services/Payment/classes/class.ilPaymentVendors.php';
 include_once './Services/Payment/classes/class.ilShopBaseGUI.php';
 include_once './Services/Payment/classes/class.ilPaymentTrustees.php';
+include_once './Services/Payment/classes/class.ilPaymentObjectSelector.php';
 
 class ilPaymentAdminGUI
 {

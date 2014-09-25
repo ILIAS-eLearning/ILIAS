@@ -222,7 +222,7 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 		global $ilUser;
 		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.shop_advanced_search.html', 'Services/Payment');
-
+		
 		$this->tpl->setVariable('TBL_TITLE',$this->lng->txt('advanced_search'));		
 		$this->tpl->setVariable('SEARCH_ACTION',$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable('TXT_SEARCHTERM',$this->lng->txt('search_search_term'));
@@ -364,6 +364,10 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 			
 			$this->tpl->setCurrentBlock('sorting');
 			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setVariable('RESULTS', $this->lng->txt('payment_shop_not_objects_found'));
 		}
 		
 		$this->addPager($result, 'shop_advanced_search_maxpage');

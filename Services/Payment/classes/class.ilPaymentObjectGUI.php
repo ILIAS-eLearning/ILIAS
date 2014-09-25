@@ -366,8 +366,9 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$oForm->setFormAction($this->ctrl->getFormAction($this, 'updateDetails'));
 		$oForm->setTitle($tmp_object['title']);
 		if($tmp_object['type'])
-			$oForm->setTitleIcon(ilUtil::getImagePath('icon_' . $tmp_object['type'] . '_b.png'));
-
+		{
+			$oForm->setTitleIcon(ilObject::_getIcon($tmp_obj->getId()));
+		}
 		// repository path
 		$oPathGUI = new ilNonEditableValueGUI($this->lng->txt('path'));
 		$oPathGUI->setValue($this->__getHTMLPath($this->pobject->getRefId()));
@@ -1219,25 +1220,20 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 	public function showObjectSelector()
 	{
 		/** 
-		 * @var $tree ilTree
 		 * @var $ilToolbar ilToolbarGUI */
-		global $tree, $ilToolbar;
-
-		include_once './Services/Payment/classes/class.ilPaymentObjectSelector.php';
+		global $ilToolbar;
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.paya_object_selector.html', 'Services/Payment');
 		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'showObjects'));
 
-
 		ilUtil::sendInfo($this->lng->txt('paya_select_object_to_sell'));
 
-		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this, 'showObjectSelector'), (string)strtolower(get_class($this)));
-		$exp->setExpand($_GET['paya_link_expand'] ? $_GET['paya_link_expand'] : $tree->readRootId());
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'showObjectSelector'));
-
-		$exp->setOutput(0);
-
-		$this->tpl->setVariable("EXPLORER", $exp->getOutput());
+		include_once("./Services/Payment/classes/class.ilPaymentObjectSelector.php");
+		$exp = new ilPaymentObjectSelector($this, "showObjectSelector");
+		if (!$exp->handleCommand())
+		{
+			$this->tpl->setLeftNavContent($exp->getHTML());
+		}
 
 		return true;
 	}
@@ -1261,9 +1257,9 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$oForm = new ilPropertyFormGUI();
 		$oForm->setFormAction($this->ctrl->getFormAction($this, 'updateDetails'));
 		$oForm->setTitle($this->lng->txt('details'));
-		$oForm->setTitleIcon(ilUtil::getImagePath('icon_pays.png', false));
-
 		$tmp_obj = ilObjectFactory::getInstanceByRefId($_GET['sell_id'], false);
+		$oForm->setTitleIcon(ilObject::_getIcon($tmp_obj->getId()));
+	
 		if(is_object($tmp_obj))
 		{
 			$tmp_object['title']       = $tmp_obj->getTitle();
