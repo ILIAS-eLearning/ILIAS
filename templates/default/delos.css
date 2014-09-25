@@ -6535,9 +6535,9 @@ table.nobackground {
 }
 .subitem {
   clear: both;
-  margin: 5px 0px;
+  margin: 0px -10px 0px 0px;
   padding-top: 5px;
-  border-top: 1px dotted #C0C0C0;
+  /* border-top: 1px dotted #C0C0C0; */
 }
 td.nobackground {
   color: #000;
@@ -10065,6 +10065,10 @@ div.editLink {
   }
   div.ilGoogleMap {
     max-width: 100%;
+  }
+  /* at last temporary, since it overlaps content */
+  a.ilTreeView {
+    display: none;
   }
   /* no idea why needed, but this one fixes the drop downs in the small media view (e.g. main menu) */
   .navbar-nav {
