@@ -158,7 +158,7 @@ class ilTestExport
 		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
 		$excelfile = ilUtil::ilTempnam();
 		$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
-		$testname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->test_obj->getTitle())) . ".xls";
+		$testname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->test_obj->getTitle() . '_aggregated')) . ".xls";
 		$workbook = $adapter->getWorkbook();
 		$workbook->setVersion(8); // Use Excel97/2000 Format
 		// Creating a worksheet
@@ -261,7 +261,7 @@ class ilTestExport
 		}
 		if ($deliver)
 		{
-			ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->test_obj->getTitle() . ".csv"));
+			ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->test_obj->getTitle() . "_results.csv"));
 			exit;
 		}
 		else
@@ -287,7 +287,14 @@ class ilTestExport
 		require_once './Services/Excel/classes/class.ilExcelWriterAdapter.php';
 		$excelfile = ilUtil::ilTempnam();
 		$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
-		$testname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->test_obj->getTitle())) . ".xls";
+		$testname = $this->test_obj->getTitle();
+		switch($this->mode)
+		{
+				case 'results':
+				$testname .= '_results';
+				break;
+		}
+		$testname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $testname)) . ".xls";
 		$workbook = $adapter->getWorkbook();
 		$workbook->setVersion(8); // Use Excel97/2000 Format
 		// Creating a worksheet
@@ -973,7 +980,7 @@ class ilTestExport
 		}
 		if ($deliver)
 		{
-			ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->test_obj->getTitle() . ".csv"));
+			ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->test_obj->getTitle() . "_aggregated.csv"));
 			exit;
 		}
 		else
