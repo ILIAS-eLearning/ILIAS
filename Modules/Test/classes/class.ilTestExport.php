@@ -261,7 +261,7 @@ class ilTestExport
 		}
 		if ($deliver)
 		{
-			ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->test_obj->getTitle() . "_results.csv"));
+			ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->test_obj->getTitle() . "_aggregated.csv"));
 			exit;
 		}
 		else
@@ -980,7 +980,7 @@ class ilTestExport
 		}
 		if ($deliver)
 		{
-			ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->test_obj->getTitle() . "_aggregated.csv"));
+			ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->test_obj->getTitle() . "_results.csv"));
 			exit;
 		}
 		else
