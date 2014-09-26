@@ -337,7 +337,7 @@ class gevUserUtils {
 
 				//second parameter: from_foreign class
 				$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($entry['crs_ref_id'], true);
-				$ptstatus_admingui_pstatus = $ptstatus_admingui->getParticipationstatus();
+				$ptstatus_admingui_pstatus = $ptstatus_admingui->getParticipationStatus();
 
 				//Q: how can Participationstatus be empty?!
 				//A: user has no permissions for ParticipationStatus at Course
