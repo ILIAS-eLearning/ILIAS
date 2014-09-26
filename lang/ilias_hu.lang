@@ -14873,7 +14873,6 @@ content#:#cont_ie_force_render_info#:#Kapcsolja be azt a funkciót, ha a sok ker
 ecs#:#ecs_token_mechanism#:#Token hitelesítés
 ecs#:#ecs_token_mechanism_info#:#Ha be van kapcsolva, az ECS-Token-Eljárás végzi a hitelesítést a távoli objektumok szerverplatformján.
 ecs#:#ecs_part_settings#:#Résztvevők beállításai:
-help#:#help_topics#:#Témasúgó
 ecs#:#ecs_export_types#:#Exportálható objektumtípusok
 ecs#:#ecs_import_types#:#Importálható objektumtípusok
 sysc#:#sysc_tab_trash#:#Törölt objektumok
@@ -14948,3 +14947,12 @@ scormtrac#:#report#:#Riport
 scormtrac#:#display_not_allowed#:#A megjelenítés nincs engedélyezve
 common#:#ps_export_scorm#:#SCORM nyomkövetési adatai
 common#:#enable_export_scorm_desc#:#SCORM-tananyag felhasználói adatainak exportálásának engedélyezése
+assessment#:#thumb_size_unit_pixel#:#Pixel###26 09 2014 new variable
+common#:#show_hidden_sections#:#Show More Information &raquo;###26 09 2014 new variable
+common#:#hide_visible_sections#:#Hide More Information &raquo;###26 09 2014 new variable
+dcl#:#dcl_manage#:#Manage###26 09 2014 new variable
+dcl#:#dcl_delete_records#:#Delete records###26 09 2014 new variable
+dcl#:#dcl_confirm_delete_records#:#Are you sure you want to delete the following records?###26 09 2014 new variable
+dcl#:#dcl_deleted_records#:#Successfully deleted %s records###26 09 2014 new variable
+dcl#:#dcl_skipped_delete_records#:#%s records were not deleted due to permission settings###26 09 2014 new variable
+help#:#help_topcis#:#Topics###26 09 2014 new variable

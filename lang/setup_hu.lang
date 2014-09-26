@@ -604,4 +604,8 @@ global_cache_supported_services#:#Néhány szolgáltatás nincs telepítve és n
 global_cache_install_info_0#:#Beépített
 global_cache_install_info_1#:#http://xcache.lighttpd.net
 global_cache_install_info_2#:#http://php.net/manual/en/memcached.installation.php
-global_cache_install_info_3#:#http://php.net/manual/en/apc.installation.php
+global_cache_install_info_3#:#http://php.net/manual/en/apc.installation.phpps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.###26 09 2014 new variable
+ps_auto_https_header_name#:#Header Name###26 09 2014 new variable
+ps_auto_https_header_value#:#Header Value###26 09 2014 new variable
+ps_auto_https#:#Autodetect HTTPS###26 09 2014 new variable
+https_settings#:#HTTPS Setting###26 09 2014 new variable

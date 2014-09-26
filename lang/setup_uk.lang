@@ -589,3 +589,35 @@ tree_implementation_mp#:#Materialized-Path Model###06 11 2013 new variable
 tree_implementation_switch_btn#:#Switch Tree Implementation###06 11 2013 new variable
 tree_implementation_switched#:#The tree implementation type has been switched.###06 11 2013 new variable
 feedback_recipient_info#:#This address is used in the footer link "Contact Administration"###14 05 2014 new variable
+passwd#:#Password Encoding###26 09 2014 new variable
+step_passwd#:#Password Encoding###26 09 2014 new variable
+setup_process_step_passwd#:#Passwords###26 09 2014 new variable
+info_text_passwd#:#Password Settings###26 09 2014 new variable
+passwd_encoder_md5#:#md5###26 09 2014 new variable
+passwd_encoder_bcrypt#:#bcrypt###26 09 2014 new variable
+passwd_default_encoder#:#Encoder###26 09 2014 new variable
+passwd_default_encoder_info#:#Please choose the default encoder used for password storage for your ILIAS client.###26 09 2014 new variable
+passwd_encoder_bcrypt_client_salt#:#Client Salt###26 09 2014 new variable
+passwd_encoder_client_bcrypt_salt_info#:#ILIAS generates a random salt for the key derivation function bcrypt <span style="font-weight:bold">when it is selected for the first time</span>. You can find this salt in the file mentioned above. You are advised to copy this salt to a secure location for backup purposes. If a user's password gets stored, ILIAS will generate an additional salt for the individual password. <span style="color:red">Attention: Never change the client wide salt or any salt stored in the database if they are generated once. Otherwise users will not be able to login anymore!</span>###26 09 2014 new variable
+passwd_encoder_client_bcrypt_salt_info_php537#:#<span style="color:red;font-weight:bold">The bcrypt implementation used by PHP %s can contain a security flaw using passwords with 8-bit characters. Please see the following link for details on the matter: <a href="http://php.net/security/crypt_blowfish.php" target="_blank">http://php.net/security/crypt_blowfish.php</a>. We suggest to upgrade to PHP 5.3.7+.</span>###26 09 2014 new variable
+passwd_encoder_bcrypt_client_salt_invalid#:#ILIAS could not determine the client salt or the client salt does not match the required criteria. Please check the content and the permissions of the related file.###26 09 2014 new variable
+passwd_encoding_configured#:#configured###26 09 2014 new variable
+passwd_encoding_not_configured#:#not configured###26 09 2014 new variable
+global_cache#:#Global Cache###26 09 2014 new variable
+global_cache_configuration#:#Global-Cache Configuration###26 09 2014 new variable
+activate_global_cache#:#Activate###26 09 2014 new variable
+global_cache_service_type#:#Caching-Service###26 09 2014 new variable
+global_cache_service_type_0#:#PHP-Static-Cache###26 09 2014 new variable
+global_cache_service_type_1#:#xCache###26 09 2014 new variable
+global_cache_service_type_2#:#Memcached###26 09 2014 new variable
+global_cache_service_type_3#:#APC###26 09 2014 new variable
+global_cache_supported_services#:#Some Services are not installed and can not be activated###26 09 2014 new variable
+global_cache_install_info_0#:#Built in###26 09 2014 new variable
+global_cache_install_info_1#:#http://xcache.lighttpd.net###26 09 2014 new variable
+global_cache_install_info_2#:#http://php.net/manual/de/memcached.installation.php###26 09 2014 new variable
+global_cache_install_info_3#:#http://php.net/manual/de/apc.installation.php###26 09 2014 new variable
+ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.###26 09 2014 new variable
+ps_auto_https_header_name#:#Header Name###26 09 2014 new variable
+ps_auto_https_header_value#:#Header Value###26 09 2014 new variable
+ps_auto_https#:#Autodetect HTTPS###26 09 2014 new variable
+https_settings#:#HTTPS Setting###26 09 2014 new variable

@@ -514,8 +514,6 @@ assessment#:#manscoring_results_pass#:#Manuálně hodnocené otázky pro průcho
 assessment#:#manscoring_select_user#:#Vyberte prosím účastníka k nastavení hodnocení manuálně
 assessment#:#mark_schema#:#Schéma známkování
 assessment#:#mark_tst_ects#:#Vaše hodnocení ECTS je &quot;[markects]&quot;
-assessment#:#mark_tst_failed#:#Lituji, v testu jste neuspěl(a).<br />Vaše výsledná známka je: &quot;[mark]&quot;
-assessment#:#mark_tst_passed#:#Gratuluji, testem jste prošel/prošla úspěšně.<br />Vaše výsledná známka je: &quot;[mark]&quot;
 assessment#:#match_terms_and_definitions#:#Přiřazení pojmů a definic
 assessment#:#match_terms_and_pictures#:#Přiřazení pojmů a obrázků
 assessment#:#matches#:#patří k
@@ -6672,19 +6670,6 @@ forum#:#thread#:#Téma
 forum#:#threads_moved_successfully#:#Vybrané téma bylo přesunuto do jiného fóra úspěšně.
 forum#:#topic_close#:#Zavřeno
 forum#:#topics_please_select_one_action#:#Vyberte prosím akci.
-gmaps#:#gmaps_api_key#:#Klíč API
-gmaps#:#gmaps_api_key_desc#:#K použití rozšíření Google Map, musíte označit pro Google Mapy klíč API v:
-gmaps#:#gmaps_enable_gmaps#:#Zapnout Google Maps
-gmaps#:#gmaps_enable_gmaps_info#:#Google Mapy aktivovány v uživatelských profilech, skupinách a kurzech.
-gmaps#:#gmaps_extt_gmaps#:#Google Mapy
-gmaps#:#gmaps_latitude#:#Zeměpisná šířka
-gmaps#:#gmaps_longitude#:#Zeměpisná délka
-gmaps#:#gmaps_lookup_address#:#Vyhledat adresu
-gmaps#:#gmaps_public_profile_info#:#Zobrazit polohu ve Vašem veřejném profilu.
-gmaps#:#gmaps_settings#:#Nastavení Google Map
-gmaps#:#gmaps_std_location#:#Výchozí umístění
-gmaps#:#gmaps_std_location_desc#:#Zeměpisná šířka/délka. Klepněte na mapu k nastavení polohy.
-gmaps#:#gmaps_zoom_level#:#Úroveň lupy
 grp#:#crs_add_grouping#:#Přidat omezení členství
 grp#:#crs_grouping_delete_sure#:#Skutečně chcete smazat toto omezení členství?
 grp#:#crs_grouping_deleted#:#Smazat omezení členství.
@@ -8691,7 +8676,6 @@ rbac#:#role_confirm_block_role_header#:#Skutečně chcete blokovat vybrané role
 rbac#:#role_confirm_block_role_info#:#Budou vykonány následující operace:<br /><br />- oprávnění role tohoto a všech podřízených objektů bude zablokováno.<br />- toto nové nastavení oprávnění bude bude chráněno.
 rbac#:#rbac_create_book#:#Vytvořit zásobník objednávek
 rbac#:#rbac_create_catr#:#Vytvořit odkaz kategorie
-rbac#:#rbac_create_chat#:#Vytvořit diskuzi
 rbac#:#rbac_create_crs#:#Vytvořit kurz
 rbac#:#rbac_create_crsr#:#Create Course Referenc
 rbac#:#rbac_create_exc#:#Vytvořit cvičení
@@ -11775,9 +11759,6 @@ assessment#:#for#:#for###28 08 2012 new variable
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurence of the following keywords:###28 08 2012 new variable
 assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.###28 08 2012 new variable
 assessment#:#answer_characters#:# characters allowed, entered number of characters: ###28 08 2012 new variable
-assessment#:#mark_tst_failed_obligations_answered#:#Sorry, you failed the test.<br />You filled out all obligatory questions.<br />Your resulting mark is: &quot;[mark]&quot;###28 08 2012 new variable
-assessment#:#mark_tst_failed_obligations_missing#:#Sorry, you failed the test.<br />You didn't fill out all obligatory questions.<br />Your resulting mark is: &quot;[mark]&quot;###28 08 2012 new variable
-assessment#:#mark_tst_passed_obligations_answered#:#Congratulations, you passed the test.<br />You filled out all obligatory questions.<br />Your resulting mark is: &quot;[mark]&quot;###28 08 2012 new variable
 assessment#:#no_selection_for_move#:#No question selected for moving###28 08 2012 new variable
 assessment#:#obligations_summary#:#List of Obligatory Questions###28 08 2012 new variable
 assessment#:#tst_instant_feedback_answer_generic#:#Show Generic ("Correct/Wrong") Feedback###28 08 2012 new variable
@@ -14301,3 +14282,677 @@ content#:#cont_ie_compatibility_info#:#Especially for older learning modules it 
 content#:#cont_ie_force_render#:#Force Internet Explorer to render again###08 09 2014 new variable
 content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iframes. Additionally you have to set the option 'Display' to 'in new window'.###08 09 2014 new variable
 exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.###08 09 2014 new variable
+assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pass for test "%s" does not contain any questions.###26 09 2014 new variable
+assessment#:#qpl_reset_preview#:#Reset Preview###26 09 2014 new variable
+assessment#:#qst_preview_reset_msg#:#The preview has been reset.###26 09 2014 new variable
+assessment#:#gap_combination#:#Gap Combination###26 09 2014 new variable
+assessment#:#assKprimChoice#:#Multiple Choice Question (Kprim Answers)###26 09 2014 new variable
+assessment#:#score_partsol_enabled#:#Score Partial Solutions###26 09 2014 new variable
+assessment#:#score_partsol_enabled_info#:#Usually the participant has to answer the question fully correct to get the configured points. With this option the participant gets the half of the configured points with at least three correct decisions.###26 09 2014 new variable
+assessment#:#option_label#:#Option Labels###26 09 2014 new variable
+assessment#:#option_label_info#:#The configured phrases will be used as label for the options selectable by the participant.###26 09 2014 new variable
+assessment#:#option_label_right_wrong#:#right / wrong###26 09 2014 new variable
+assessment#:#option_label_right#:#right###26 09 2014 new variable
+assessment#:#option_label_wrong#:#wrong###26 09 2014 new variable
+assessment#:#option_label_plus_minus#:#+ / -###26 09 2014 new variable
+assessment#:#option_label_plus#:#+###26 09 2014 new variable
+assessment#:#option_label_minus#:#-###26 09 2014 new variable
+assessment#:#option_label_applicable_or_not#:#applicable / not applicable###26 09 2014 new variable
+assessment#:#option_label_applicable#:#applicable###26 09 2014 new variable
+assessment#:#option_label_not_applicable#:#not applicable###26 09 2014 new variable
+assessment#:#option_label_adequate_or_not#:#adequate / not adequate###26 09 2014 new variable
+assessment#:#option_label_adequate#:#adequate###26 09 2014 new variable
+assessment#:#option_label_not_adequate#:#not adequate###26 09 2014 new variable
+assessment#:#option_label_custom#:#Userdefined Labels###26 09 2014 new variable
+assessment#:#option_label_custom_true#:#Label for "TRUE"###26 09 2014 new variable
+assessment#:#option_label_custom_false#:#Label for "FALSE"###26 09 2014 new variable
+assessment#:#kprim_answers_info#:#The multiple choice question type "four times decision right/wrong" (Type K', also known as Kprim) gives four answers or additions to a question or an incomplete statement. A decision about the correctness is to be done on all four answers/additions. The maximum points are granted only, if all decisions are correct.###26 09 2014 new variable
+assessment#:#tst_res_jump_to_participant_hint_opt#:#--Jump to Participant--###26 09 2014 new variable
+assessment#:#tst_res_jump_to_participant_btn#:#Jump###26 09 2014 new variable
+assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s###26 09 2014 new variable
+assessment#:#grading_status_passed_msg#:#Congratulations, you <b>passed</b> the test.###26 09 2014 new variable
+assessment#:#grading_status_failed_msg#:#Sorry, you <b>failed</b> the test.###26 09 2014 new variable
+assessment#:#grading_obligations_answered_msg#:#You filled out all obligatory questions.###26 09 2014 new variable
+assessment#:#grading_obligations_missing_msg#:#You didn't fill out all obligatory questions.###26 09 2014 new variable
+assessment#:#grading_mark_msg#:#Your resulting mark is: &quot;[mark]&quot;###26 09 2014 new variable
+assessment#:#remove_gap#:#Remove Gap###26 09 2014 new variable
+assessment#:#qpl_qst_inp_matching_mode#:#Matching Mode###26 09 2014 new variable
+assessment#:#qpl_qst_inp_matching_mode_one_on_one#:#One Term Matches One Definition (1:1)###26 09 2014 new variable
+assessment#:#qpl_qst_inp_matching_mode_all_on_all#:#One or More Terms match One or More Definitions (n:n)###26 09 2014 new variable
+assessment#:#save_back_to_objective_container#:#Go to Course###26 09 2014 new variable
+assessment#:#thumb_size_unit_pixel#:#Pixel###26 09 2014 new variable
+assessment#:#tst_instant_feedback_answer_specific_desc#:#If answer-specific feedback is selected, the predefined feedback will be shown, depending on the answers of the participant (if supported by the question type).###26 09 2014 new variable
+assessment#:#tst_instant_feedback_answer_generic_desc#:#The generic feedback prints a simple "right" or "wrong" feedback according to configuration of the question.###26 09 2014 new variable
+assessment#:#tst_instant_feedback_fix_usr_answer#:#Fix Participant's Answer###26 09 2014 new variable
+assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#This option causes a fixation of the participant's answer on requesting the instant feedback.###26 09 2014 new variable
+assessment#:#tst_instant_feedback_results_desc#:#If results (in points) are selected, the reached points will be shown.###26 09 2014 new variable
+assessment#:#tst_instant_feedback_solution_desc#:#If solutions are selected, the correct solution will be shown too.###26 09 2014 new variable
+assessment#:#tst_password_form#:#Enter Test Password###26 09 2014 new variable
+assessment#:#tst_results_grading#:#Grading in Test Results###26 09 2014 new variable
+assessment#:#tst_results_grading_opt_show_both#:#Show Passed/Failed Status and Resulting Mark###26 09 2014 new variable
+assessment#:#tst_results_grading_opt_show_none#:#Do NOT show Passed/Failed Status or Resulting Mark###26 09 2014 new variable
+assessment#:#tst_results_grading_opt_show_status#:#Show Passed/Failed Status only###26 09 2014 new variable
+assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark only###26 09 2014 new variable
+assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#The random question set configuration cannot be modified due to existing participant data.###26 09 2014 new variable
+assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Testanswers###26 09 2014 new variable
+assessment#:#tst_activate_skill_service#:#Activate Competence Service###26 09 2014 new variable
+assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Competence service has been deactivated due to test mode with non fixed set of questions.###26 09 2014 new variable
+assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#Competence Service activation is not possible due to test mode with non fixed set of questions.###26 09 2014 new variable
+assessment#:#tst_tab_competences#:#Competences###26 09 2014 new variable
+assessment#:#tst_skl_sub_tab_quest_assign#:#Question/Competence Assignment###26 09 2014 new variable
+assessment#:#tst_skl_sub_tab_thresholds#:#Competence Thresholds###26 09 2014 new variable
+assessment#:#tst_msg_skl_lvl_thresholds_saved#:#The competence thresholds has been saved.###26 09 2014 new variable
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.###26 09 2014 new variable
+assessment#:#tst_competence#:#Competence###26 09 2014 new variable
+assessment#:#tst_assign_competence#:#Assign Competence###26 09 2014 new variable
+assessment#:#tst_remove_competence#:#Remove Competence###26 09 2014 new variable
+assessment#:#tst_comp_points#:#Competence Points###26 09 2014 new variable
+assessment#:#tst_save_comp_points#:#Save Competence Points###26 09 2014 new variable
+assessment#:#tst_num_questions#:#Number of Questions###26 09 2014 new variable
+assessment#:#tst_max_comp_points#:#Max. Competence Points###26 09 2014 new variable
+assessment#:#tst_level#:#Competence Level###26 09 2014 new variable
+assessment#:#tst_threshold#:#Thresholds###26 09 2014 new variable
+assessment#:#tst_save_thresholds#:#Save Thresholds###26 09 2014 new variable
+assessment#:#tst_show_comp_results#:#Show Competence Results###26 09 2014 new variable
+assessment#:#tst_analysis#:#Analysis###26 09 2014 new variable
+assessment#:#tst_all_test_competences#:#All Test Competence###26 09 2014 new variable
+assessment#:#tst_gap_analysis#:#Gap Analysis###26 09 2014 new variable
+assessment#:#tst_test_result#:#Test Result###26 09 2014 new variable
+assessment#:#tst_back_to_top#:#Back to Top###26 09 2014 new variable
+assessment#:#tst_back_to_question_list#:#Back to Question List###26 09 2014 new variable
+assessment#:#tst_results_tax_filters#:#Result Filter###26 09 2014 new variable
+assessment#:#tst_back_to_pass_details#:#Back to Pass Details###26 09 2014 new variable
+assessment#:#tst_answer_details#:#Answer Details###26 09 2014 new variable
+assessment#:#tst_list_answer_details#:#Show in List Below###26 09 2014 new variable
+assessment#:#tst_single_answer_details#:#Show Single Answer###26 09 2014 new variable
+assessment#:#tst_pass_details_overview_table_title#:#Detailed Overview for Pass %s###26 09 2014 new variable
+assessment#:#tst_btn_show_best_solutions#:#Show Best Solutions###26 09 2014 new variable
+assessment#:#tst_btn_hide_best_solutions#:#Hide Best Solutions###26 09 2014 new variable
+common#:#usrimport_xml_pw_bcrypt_missing_salt#:#Missing salt, cannot import password.###26 09 2014 new variable
+maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.###26 09 2014 new variable
+maps#:#maps_enable_maps#:#Enable Maps###26 09 2014 new variable
+maps#:#maps_extt_maps#:#Maps###26 09 2014 new variable
+maps#:#maps_latitude#:#Latitude###26 09 2014 new variable
+maps#:#maps_longitude#:#Longitude###26 09 2014 new variable
+maps#:#maps_lookup_address#:#Lookup Address###26 09 2014 new variable
+maps#:#maps_public_profile_info#:#Show location in your profile.###26 09 2014 new variable
+maps#:#maps_settings#:#Maps Settings###26 09 2014 new variable
+maps#:#maps_std_location_desc#:#Click map to set location.###26 09 2014 new variable
+maps#:#maps_std_location#:#Default Location###26 09 2014 new variable
+maps#:#maps_zoom_level#:#Zoom Level###26 09 2014 new variable
+maps#:#maps_google_maps#:#Google Maps###26 09 2014 new variable
+maps#:#maps_open_layers_maps#:#Open Layers Maps###26 09 2014 new variable
+maps#:#maps_map_type#:#Typ###26 09 2014 new variable
+common#:#show_hidden_sections#:#Show More Information &raquo;###26 09 2014 new variable
+common#:#hide_visible_sections#:#Hide More Information &raquo;###26 09 2014 new variable
+dcl#:#dcl_import#:#Import Data Collection###26 09 2014 new variable
+forum#:#frm_rating#:#Rating###26 09 2014 new variable
+forum#:#enable_thread_ratings#:#Thread Rating###26 09 2014 new variable
+forum#:#enable_thread_ratings_info#:#If activated users are allowed to rate threads.###26 09 2014 new variable
+dcl#:#dcl_formula#:#Formula###26 09 2014 new variable
+dcl#:#dcl_prop_expression#:#Expression###26 09 2014 new variable
+dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>"(", ")"</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>"The result is " & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Available fields (click on title to copy field inside expression):<br>%s###26 09 2014 new variable
+dcl#:#dcl_error_parsing_expression#:#Error parsing expression###26 09 2014 new variable
+dcl#:#dcl_display_action_menu#:#Enable possibility to copy or link the referenced module###26 09 2014 new variable
+dcl#:#dcl_asc#:#Ascending Order (ASC)###26 09 2014 new variable
+dcl#:#dcl_desc#:#Descending Order (DESC)###26 09 2014 new variable
+dcl#:#dcl_comments#:#Comments###26 09 2014 new variable
+dcl#:#dcl_comments_description#:#Displays the number of comments for a record.###26 09 2014 new variable
+dcl#:#dcl_confirm_delete_fields#:#Do you really want to delete these fields?###26 09 2014 new variable
+dcl#:#dcl_msg_fields_deleted#:#Deleted fields###26 09 2014 new variable
+dcl#:#dcl_public_comments#:#Enable public comments for records###26 09 2014 new variable
+dcl#:#dcl_default_sort_field#:#Default sort field###26 09 2014 new variable
+dcl#:#dcl_default_sort_field_order#:#Default sort field order###26 09 2014 new variable
+dcl#:#dcl_prev_record#:#Previous record###26 09 2014 new variable
+dcl#:#dcl_next_record#:#Next record###26 09 2014 new variable
+dcl#:#dcl_record_from_total#:#%d of %d###26 09 2014 new variable
+dcl#:#dcl_view_own_records_perm#:#View only own entries###26 09 2014 new variable
+dcl#:#dcl_msg_no_perm_view#:#No permission given to view this record###26 09 2014 new variable
+dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this record###26 09 2014 new variable
+dcl#:#dcl_delete_fields#:#Delete fields###26 09 2014 new variable
+dcl#:#dcl_link_detail_page#:#Link entries to detail page###26 09 2014 new variable
+dcl#:#dcl_manage#:#Manage###26 09 2014 new variable
+dcl#:#dcl_delete_records#:#Delete records###26 09 2014 new variable
+dcl#:#dcl_confirm_delete_records#:#Are you sure you want to delete the following records?###26 09 2014 new variable
+dcl#:#dcl_deleted_records#:#Successfully deleted %s records###26 09 2014 new variable
+dcl#:#dcl_skipped_delete_records#:#%s records were not deleted due to permission settings###26 09 2014 new variable
+common#:#obj_bibs#:#Bibliography###26 09 2014 new variable
+common#:#obj_bibs_desc#:#Bibliography Administration###26 09 2014 new variable
+bibl#:#bibl_import#:#Import Bibliography###26 09 2014 new variable
+bibl#:#bibl_admin_settings#:#Settings###26 09 2014 new variable
+bibl#:#bibl_settings_libraries#:#Libraries###26 09 2014 new variable
+bibl#:#bibl_library_name#:#Name###26 09 2014 new variable
+bibl#:#bibl_library_url#:#Base-URL###26 09 2014 new variable
+bibl#:#bibl_library_img#:#Image-URL###26 09 2014 new variable
+bibl#:#bibl_settings_new#:#Add Library###26 09 2014 new variable
+bibl#:#bibl_settings_edit#:#Edit Library###26 09 2014 new variable
+bibl#:#libraries#:#Libraries###26 09 2014 new variable
+bibl#:#attr_order#:#Attribute-Order###26 09 2014 new variable
+bibl#:#attr_order_bibtex#:#Attribute Order (Bibtex)###26 09 2014 new variable
+bibl#:#attr_order_bibtex_info#:#default: isbn,issn,title###26 09 2014 new variable
+bibl#:#attr_order_ris#:#Attribute Order (ris)###26 09 2014 new variable
+bibl#:#attr_order_ris_info#:#default: sn,ti, t1###26 09 2014 new variable
+rbac#:#bibs_visible#:#Bibliography-Administration is visible###26 09 2014 new variable
+rbac#:#bibs_read#:#User can read bibliography content###26 09 2014 new variable
+rbac#:#bibs_write#:#User can edit bibliography settings###26 09 2014 new variable
+rbac#:#bibs_delete#:#User can delete library entries###26 09 2014 new variable
+rbac#:#bibs_copy#:#User can copy bibliography###26 09 2014 new variable
+rbac#:#bibs_edit_permission#:#User can change permission settings###26 09 2014 new variable
+dcl#:#add_value#:#Add new value###26 09 2014 new variable
+orgu#:#orgu_type_deleted#:#Organisational Unit Type deleted###26 09 2014 new variable
+orgu#:#orgu_type_add#:#Add Organisational Unit Type###26 09 2014 new variable
+orgu#:#orgu_type_edit#:#Edit Organisational Unit Type###26 09 2014 new variable
+orgu#:#orgu_types#:#Types###26 09 2014 new variable
+orgu#:#orgu_type_msg_deleted#:#Deleted Organisational Unit Type###26 09 2014 new variable
+orgu#:#orgu_type_msg_missing_title#:#There must be set a title for the default language###26 09 2014 new variable
+orgu#:#orgu_type_msg_unable_delete#:#Unable to delete type because it is still assigned to the following Organisational Units: %s###26 09 2014 new variable
+orgu#:#orgu_type_msg_deletion_prevented#:#Deletion of object prevented by plugins: %s###26 09 2014 new variable
+orgu#:#orgu_type_msg_setting_member_prevented#:#Setting '%s' prevented by plugins: %s###26 09 2014 new variable
+orgu#:#orgu_type_msg_updating_prevented#:#Updating of object prevented by plugins: %s###26 09 2014 new variable
+orgu#:#orgu_type_msg_assign_amd_prevented#:#Assigning AMDRecord prevented by plugins: %s###26 09 2014 new variable
+orgu#:#orgu_type_msg_deassign_amd_prevented#:#Deassigning AMDRecord prevented by plugins: %s###26 09 2014 new variable
+orgu#:#orgu_type_msg_setting_default_lang_prevented#:#Setting '%s' as default language prevented by plugins: %s###26 09 2014 new variable
+orgu#:#orgu_type_msg_missing_title_default_language#:#There must be set a default language and a title for the default language###26 09 2014 new variable
+orgu#:#orgu_type_custom_icon_info#:#All Organisational Units having this type assigned will use the icon in the tree and header.###26 09 2014 new variable
+orgu#:#orgu_settings#:#Organisational Unit Settings###26 09 2014 new variable
+orgu#:#orgu_type#:#Organisational Unit Type###26 09 2014 new variable
+orgu#:#orgu_orgu_type#:#Organisational Unit Type###26 09 2014 new variable
+orgu#:#orgu_type_custom_icon#:#Custom Icon for this Organisational Unit Type###26 09 2014 new variable
+orgu#:#orgu_adv_settings#:#Advanced Settings###26 09 2014 new variable
+orgu#:#orgu_type_msg_error_custom_icon#:#Could not save the custom icon###26 09 2014 new variable
+orgu#:#orgu_type_available_amd_sets#:#Available Advanced Metadata sets###26 09 2014 new variable
+orgu#:#orgu_type_assign_amd_sets#:#Assign Advanced Metadata sets###26 09 2014 new variable
+crs#:#crs_loc_subtab_creation#:#Create###26 09 2014 new variable
+poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per Participant###26 09 2014 new variable
+poll#:#poll_vote_error_single#:#Please select 1 answer.###26 09 2014 new variable
+poll#:#poll_vote_error_multi#:#Please select no more than %s answers.###26 09 2014 new variable
+poll#:#poll_result_sorting#:#Sorting###26 09 2014 new variable
+poll#:#poll_result_sorting_answers#:#In the order of the answers###26 09 2014 new variable
+poll#:#poll_result_sorting_votes#:#By number of votes (descending)###26 09 2014 new variable
+poll#:#poll_mode#:#Mode###26 09 2014 new variable
+poll#:#poll_mode_anonymous#:#Anonymous###26 09 2014 new variable
+poll#:#poll_mode_anonymous_info#:#Votes cannot be traced back to participants.###26 09 2014 new variable
+poll#:#poll_mode_personal#:#Personal###26 09 2014 new variable
+poll#:#poll_mode_personal_info#:#A list of participants with their respective votes is available when having sufficient permission.###26 09 2014 new variable
+poll#:#poll_non_anonymous_warning#:#Your name and vote are visible for administrators in the results.###26 09 2014 new variable
+poll#:#poll_result_answers#:#Votes###26 09 2014 new variable
+poll#:#poll_result_users#:#Participants###26 09 2014 new variable
+user#:#usr_id#:#System ID###26 09 2014 new variable
+poll#:#poll_notification_subscribe#:#Activate Notification###26 09 2014 new variable
+poll#:#poll_notification_unsubscribe#:#Deactivate Notification###26 09 2014 new variable
+poll#:#poll_vote_notification_subject#:#Poll "%s": new vote###26 09 2014 new variable
+poll#:#poll_vote_notification_body#:#the following poll has received a vote.###26 09 2014 new variable
+poll#:#poll_vote_notification_link#:#Link to Poll###26 09 2014 new variable
+poll#:#poll_vote_notification_reason#:#You are receiving this email because you activated notifications for the poll mentioned above.###26 09 2014 new variable
+book#:#book_post_booking_text_info#:#Use [PERIOD] and [OBJECT] to add booking details to the text.###26 09 2014 new variable
+blog#:#blog_abstract_shorten#:#Shorten Abstract###26 09 2014 new variable
+blog#:#blog_abstract_shorten_length#:#Maximum Length###26 09 2014 new variable
+blog#:#blog_abstract_shorten_characters#:#Characters###26 09 2014 new variable
+blog#:#blog_abstract_image#:#Add Image To Abstract###26 09 2014 new variable
+blog#:#blog_abstract_image_info#:#Images which are smaller will not be used.###26 09 2014 new variable
+blog#:#blog_abstract_image_width#:#Width###26 09 2014 new variable
+blog#:#blog_abstract_image_height#:#Height###26 09 2014 new variable
+blog#:#blog_abstract_image_pixels#:#Px###26 09 2014 new variable
+content#:#cont_ed_insert_my_courses#:#Insert My Courses###26 09 2014 new variable
+content#:#cont_insert_my_courses#:#Insert My Courses###26 09 2014 new variable
+content#:#cont_update_my_courses#:#Edit My Courses###26 09 2014 new variable
+content#:#cont_my_courses_no_settings#:#There are no settings yet.###26 09 2014 new variable
+prtf#:#prtf_page_element_teaser_my_courses#:#The portfolio will display a list of your current courses here.###26 09 2014 new variable
+prtf#:#prtf_page_element_my_courses_title#:#Current Courses###26 09 2014 new variable
+user#:#interests#:#Interests###26 09 2014 new variable
+user#:#interests_general#:#General Interests###26 09 2014 new variable
+user#:#interests_help_offered#:#Offering Help###26 09 2014 new variable
+user#:#interests_help_looking#:#Looking For Help###26 09 2014 new variable
+ecs#:#ecs_no_adv_md#:#No Advanced Meta Data available.###26 09 2014 new variable
+poll#:#poll_comments#:#Comments###26 09 2014 new variable
+poll#:#poll_show_results_as#:#Show Results as###26 09 2014 new variable
+poll#:#poll_barchart#:#Bar Chart###26 09 2014 new variable
+poll#:#poll_piechart#:#Pie Chart###26 09 2014 new variable
+poll#:#poll_comments_info#:#Deactivating Comments doesn't delete any Comments.###26 09 2014 new variable
+assessment#:#cloze_gap_size_info#:#If you enter a value greater than 0, this gap text field will be created with the fixed length of this value. If you do not enter a value the gap text fiel will be created with the value of the global fixed length.###26 09 2014 new variable
+content#:#cont_help_no_valid_tooltip_id#:#The tooltip ID you have entered was not valid.###26 09 2014 new variable
+book#:#book_confirm_cancel_aggregation#:#Number of Cancellations###26 09 2014 new variable
+survey#:#survey_not_available#:#n/a###26 09 2014 new variable
+blog#:#blog_change_notification_body_approve#:#the following blog posting needs approval.###26 09 2014 new variable
+meta#:#md_adv_presentation#:#Presentation###26 09 2014 new variable
+meta#:#udf_type_integer#:#Integer###26 09 2014 new variable
+meta#:#md_adv_number_max#:#Maximum Value###26 09 2014 new variable
+meta#:#md_adv_number_min#:#Minimum Value###26 09 2014 new variable
+meta#:#udf_type_float#:#Float###26 09 2014 new variable
+meta#:#udf_type_location#:#Location###26 09 2014 new variable
+meta#:#md_adv_number_decimals#:#Decimals###26 09 2014 new variable
+meta#:#md_adv_confirm_definition#:#Please confirm the new definition settings.###26 09 2014 new variable
+meta#:#md_adv_confirm_definition_select_option#:#Deleted Option###26 09 2014 new variable
+meta#:#md_adv_confirm_definition_select_option_remove#:#Remove value###26 09 2014 new variable
+meta#:#md_adv_confirm_definition_select_option_overwrite#:#Set value to###26 09 2014 new variable
+meta#:#md_adv_confirm_definition_select_section#:#Migration of the deleted options###26 09 2014 new variable
+meta#:#md_adv_text_max_length#:#Maximum Length###26 09 2014 new variable
+meta#:#md_adv_text_multi#:#Multiline###26 09 2014 new variable
+meta#:#md_adv_number_suffix#:#Suffix###26 09 2014 new variable
+survey#:#survey_results_finished#:#Survey finished###26 09 2014 new variable
+blog#:#blog_settings_navigation#:#Navigation Column###26 09 2014 new variable
+blog#:#blog_presentation_frame#:#Blog Presentation###26 09 2014 new variable
+blog#:#blog_presentation_overview#:#Initial Overview###26 09 2014 new variable
+blog#:#blog_nav_mode#:#Postings###26 09 2014 new variable
+blog#:#blog_nav_mode_month_list#:#Show List of Months###26 09 2014 new variable
+blog#:#blog_nav_mode_month_list_info#:#All months with postings are listed in the 'Postings' block.###26 09 2014 new variable
+blog#:#blog_nav_mode_month_list_num_detail#:#Total number of postings###26 09 2014 new variable
+blog#:#blog_nav_mode_month_list_num_detail_info#:#Latest postings are listed by date in reverse chronological order. Older postings are available via their month.###26 09 2014 new variable
+blog#:#blog_nav_mode_month_list_num_month#:#Number of listed months###26 09 2014 new variable
+blog#:#blog_nav_mode_month_list_num_month_info#:#Months above the limit will not be listed and related postings are not accessible.###26 09 2014 new variable
+blog#:#blog_nav_mode_month_single#:#Show Selected Month###26 09 2014 new variable
+blog#:#blog_nav_mode_month_single_info#:#Only postings of the selected month are listed in the 'Postings' block. Month can be changed by dropdown. ###26 09 2014 new variable
+blog#:#blog_list_num_postings#:#Number of postings###26 09 2014 new variable
+blog#:#blog_list_num_postings_info#:#This setting is only used if no specific month is selected.###26 09 2014 new variable
+blog#:#blog_enable_keywords#:#Keywords###26 09 2014 new variable
+blog#:#blog_enable_keywords_info#:#Keywords can be set for postings. Clicking a keyword shows all postings tagged with this keyword.###26 09 2014 new variable
+blog#:#blog_enable_nav_authors#:#Authors###26 09 2014 new variable
+blog#:#blog_enable_nav_authors_info#:#List of blog authors is displayed. Clicking a username shows all postings of this author.###26 09 2014 new variable
+blog#:#blog_nav_sortorder#:#Order of Blocks###26 09 2014 new variable
+survey#:#svy_view_own_results#:#View given answers###26 09 2014 new variable
+survey#:#svy_mail_own_results#:#Mail given answers###26 09 2014 new variable
+survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers###26 09 2014 new variable
+survey#:#svy_mail_own_results_body#:#the following is a complete summary of your survey participation.###26 09 2014 new variable
+survey#:#svy_results_view_own#:#Participant can view own answers###26 09 2014 new variable
+survey#:#svy_results_mail_own#:#Participant can mail own answers###26 09 2014 new variable
+exercise#:#exc_to_desktop_info#:#Add exercise to desktop of participant after hand-in###26 09 2014 new variable
+wiki#:#wiki_wpg#:#Wiki Page###26 09 2014 new variable
+wiki#:#wiki_add_page_properties#:#Activate Additional Wiki Page Properties###26 09 2014 new variable
+wiki#:#wiki_advmd_block_title#:#Advanced Metadata of Page###26 09 2014 new variable
+content#:#cont_ed_insert_amd_page_list#:#Insert Page List###26 09 2014 new variable
+content#:#cont_insert_amd_page_list#:#Insert Page List###26 09 2014 new variable
+content#:#cont_update_amd_page_list#:#Edit Page List###26 09 2014 new variable
+wiki#:#wiki_amd_page_list_no_hits#:#No items###26 09 2014 new variable
+obj#:#obj_tool_setting_taxonomies#:#Taxonomies###26 09 2014 new variable
+administration#:#obj_excs#:#Exercise###26 09 2014 new variable
+administration#:#obj_excs_desc#:#Global Exercise Settings###26 09 2014 new variable
+exercise#:#exc_admin_settings#:#Exercise Administration###26 09 2014 new variable
+administration#:#obj_taxs#:#Taxonomy###26 09 2014 new variable
+administration#:#obj_taxs_desc#:#Global Taxonomy Settings###26 09 2014 new variable
+tax#:#tax_admin_settings_repository#:#Repository Taxonomies###26 09 2014 new variable
+crs#:#crs_cdf_edit_member#:#Edit Course Relevant User Data###26 09 2014 new variable
+grp#:#grp_cdf_edit_member#:#Edit Group Relevant User Data###26 09 2014 new variable
+book#:#book_overall_limit#:#Limit number of bookings###26 09 2014 new variable
+book#:#book_overall_limit_info#:#Maximum number of bookings for each user in this booking pool###26 09 2014 new variable
+book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings.###26 09 2014 new variable
+cntr#:#cntr_tax_none_available#:#There are no taxonomies available.###26 09 2014 new variable
+cntr#:#cntr_taxonomy_sideblock_settings#:#Taxonomy Block Settings###26 09 2014 new variable
+cntr#:#cntr_taxonomy_show_sideblock#:#Show taxonomy in side block###26 09 2014 new variable
+survey#:#svy_import_codes#:#Import Codes###26 09 2014 new variable
+survey#:#svy_import_codes_info#:#This import requires a "%s" export file.###26 09 2014 new variable
+wiki#:#wiki_stat_num_pages#:#Number of Pages###26 09 2014 new variable
+wiki#:#wiki_stat_new_pages#:#Number of New Pages###26 09 2014 new variable
+wiki#:#wiki_stat_new_pages_avg#:#Average Number of New Pages per User###26 09 2014 new variable
+wiki#:#wiki_stat_edit_pages#:#Number of Edited Pages###26 09 2014 new variable
+wiki#:#wiki_stat_edit_pages_avg#:#Average Number of Edited Pages per User###26 09 2014 new variable
+wiki#:#wiki_page_templates#:#Page Templates###26 09 2014 new variable
+wiki#:#wiki_template_status_removed#:#Template status removed.###26 09 2014 new variable
+wiki#:#wiki_remove_template_status#:#Remove Template Status###26 09 2014 new variable
+wiki#:#wiki_template_added#:#Template page added.###26 09 2014 new variable
+wiki#:#wiki_templ_new_pages#:#Available on Page Creation###26 09 2014 new variable
+wiki#:#wiki_templ_add_to_page#:#Available for Being Added to Existing Pages###26 09 2014 new variable
+wiki#:#wiki_add_template#:#Set Template Status###26 09 2014 new variable
+wiki#:#wiki_empty_page_template#:#Empty Page Template on Page Creation###26 09 2014 new variable
+wiki#:#wiki_page_not_exist_select_templ#:#This page does not exist yet. Please select a template for the new page.###26 09 2014 new variable
+wiki#:#wiki_new_page#:#New Page###26 09 2014 new variable
+wiki#:#wiki_page_template#:#Page Template###26 09 2014 new variable
+wiki#:#wiki_empty_page#:#Empty Page###26 09 2014 new variable
+wiki#:#wiki_create_page#:#Create Page###26 09 2014 new variable
+content#:#cont_ed_insert_templ#:#Insert Content Template###26 09 2014 new variable
+content#:#cont_template#:#Template###26 09 2014 new variable
+wiki#:#wiki_stat_scope#:#Timeframe###26 09 2014 new variable
+wiki#:#wiki_stat_figure#:#Figure###26 09 2014 new variable
+wiki#:#wiki_stat_deleted_pages#:#Number of Deleted Pages###26 09 2014 new variable
+wiki#:#wiki_stat_read_pages#:#Number of Read Accesses###26 09 2014 new variable
+wiki#:#wiki_stat_user_edit_pages#:#Number of Users Who Edited Pages ###26 09 2014 new variable
+wiki#:#wiki_stat_user_edit_pages_avg#:#Average Number of Users Who Edited Pages ###26 09 2014 new variable
+wiki#:#wiki_stat_num_rating#:#Number of Ratings###26 09 2014 new variable
+wiki#:#wiki_stat_num_rating_avg#:#Average Number of Ratings per Page###26 09 2014 new variable
+wiki#:#wiki_stat_rating_avg#:#Average Rating###26 09 2014 new variable
+wiki#:#wiki_stat_internal_links#:#Number of Internal Links###26 09 2014 new variable
+wiki#:#wiki_stat_internal_links_avg#:#Average Number of Internal Links per Page###26 09 2014 new variable
+wiki#:#wiki_stat_external_links#:#Number of External Links###26 09 2014 new variable
+wiki#:#wiki_stat_external_links_avg#:#Average Number of External Links per Page###26 09 2014 new variable
+wiki#:#wiki_stat_words#:#Number of Words###26 09 2014 new variable
+wiki#:#wiki_stat_words_avg#:# Average Number of Words per Page###26 09 2014 new variable
+wiki#:#wiki_stat_chars#:#Number of Characters###26 09 2014 new variable
+wiki#:#wiki_stat_chars_avg#:#Average Number of Characters per Page###26 09 2014 new variable
+wiki#:#wiki_stat_footnotes#:#Number of Footnotes###26 09 2014 new variable
+wiki#:#wiki_stat_footnotes_avg#:#Average Number of Footnotes per Page###26 09 2014 new variable
+wiki#:#wiki_stat_page_changes#:#Number of Changes###26 09 2014 new variable
+wiki#:#wiki_stat_page_changes_avg#:#Average Number of Changes###26 09 2014 new variable
+wiki#:#wiki_stat_page_user_edit#:#Number of Users Who Edited Page###26 09 2014 new variable
+wiki#:#wiki_stat_page_read#:#Number of Read Accesses###26 09 2014 new variable
+wiki#:#wiki_stat_page_internal_links#:#Number of Internal Links###26 09 2014 new variable
+wiki#:#wiki_stat_page_external_links#:#Number of External Links###26 09 2014 new variable
+wiki#:#wiki_stat_page_words#:#Number of Words###26 09 2014 new variable
+wiki#:#wiki_stat_page_characters#:#Number of Characters###26 09 2014 new variable
+wiki#:#wiki_stat_page_footnotes#:#Number of Footnotes###26 09 2014 new variable
+wiki#:#wiki_stat_page_ratings#:#Number of Ratings###26 09 2014 new variable
+rbac#:#statistics_read#:#View Statistics###26 09 2014 new variable
+rbac#:#wiki_statistics_read#:#View Statistics###26 09 2014 new variable
+pd#:#pd_enable_comments_del_user#:#Comments may be deleted by their authors###26 09 2014 new variable
+pd#:#pd_enable_comments_del_tutor#:#Any Comment may be deleted by tutors###26 09 2014 new variable
+notes#:#notes_sort_asc#:#Sort Ascending###26 09 2014 new variable
+notes#:#notes_sort_desc#:#Sort Descending###26 09 2014 new variable
+obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud###26 09 2014 new variable
+obj#:#obj_tool_setting_tag_cloud_info#:#The "tag cloud" block will be displayed inside the "Content" tab.###26 09 2014 new variable
+administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number###26 09 2014 new variable
+tagging#:#tagging_other_users#:#Other Users###26 09 2014 new variable
+common#:#autocomplete_more#:#more###26 09 2014 new variable
+grp#:#grp_cdf_tbl_last_edit#:#Last Update (Group-specific Data)###26 09 2014 new variable
+crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)###26 09 2014 new variable
+ps#:#cdf_edited_by_self#:#by the User###26 09 2014 new variable
+rbac#:#excs_visible#:#Exercise administration is visible###26 09 2014 new variable
+rbac#:#excs_read#:#User has read access to Exercise administration###26 09 2014 new variable
+rbac#:#excs_write#:#Edit settings in Exercise administration###26 09 2014 new variable
+rbac#:#excs_edit_permission#:#User can change permission settings in Exercise administration###26 09 2014 new variable
+rbac#:#taxs_visible#:#Taxonomy administration is visible###26 09 2014 new variable
+rbac#:#taxs_read#:#User has read access to Taxonomy administration###26 09 2014 new variable
+rbac#:#taxs_write#:#Edit settings in Taxonomy administration###26 09 2014 new variable
+rbac#:#taxs_edit_permission#:#User can change permission settings in Taxonomy administration###26 09 2014 new variable
+exc#:#exc_peer_review_file#:#File Upload###26 09 2014 new variable
+exc#:#exc_peer_review_file_info#:#Enable peers to upload 1 file per review###26 09 2014 new variable
+exc#:#exc_peer_review_personal#:#Personalized Peer-Feedback###26 09 2014 new variable
+exc#:#exc_peer_review_personal_info#:#Peers are shown with full name###26 09 2014 new variable
+exc#:#exc_peer_review_recipient#:#Feedback Recipient###26 09 2014 new variable
+exc#:#exc_peer_review_giver#:#Feedback Giver###26 09 2014 new variable
+exc#:#exc_global_feedback_file_date#:#Availability ###26 09 2014 new variable
+exc#:#exc_global_feedback_file_date_deadline#:#After deadline###26 09 2014 new variable
+exc#:#exc_global_feedback_file_date_upload#:#After submission###26 09 2014 new variable
+exc#:#exc_note_for_tutor#:#Note for Tutors###26 09 2014 new variable
+exc#:#exc_comment_for_learner_edit#:#Edit Comment for Learner###26 09 2014 new variable
+exc#:#exc_comment_for_learner_info#:#A notification is sent to the user and the feedback will be listed in the user's assignment view.###26 09 2014 new variable
+common#:#sorting_creation_header#:#By Creation Date###26 09 2014 new variable
+common#:#sorting_creation_info#:#Content items are arranged automatically by their creation date.###26 09 2014 new variable
+common#:#sorting_direction#:#Sorting Direction###26 09 2014 new variable
+common#:#sorting_desc#:#Descendent###26 09 2014 new variable
+common#:#sorting_asc#:#Ascending###26 09 2014 new variable
+poll#:#poll_anonymous_warning#:#Your name is not visible in the poll results.###26 09 2014 new variable
+dateplaner#:#cal_exc_deadline#:#Deadline###26 09 2014 new variable
+dateplaner#:#cal_exc_peer_review_deadline#:#Feedback Deadline###26 09 2014 new variable
+rbac#:#read_learning_progress#:#View learning progress of other users###26 09 2014 new variable
+rbac#:#crs_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
+rbac#:#grp_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
+rbac#:#fold_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
+rbac#:#lm_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
+rbac#:#htlm_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
+rbac#:#sahs_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
+rbac#:#tst_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
+rbac#:#exc_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
+rbac#:#sess_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
+content#:#cont_progress_icons#:#Progress Icons###26 09 2014 new variable
+content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 4.5 and higher.###26 09 2014 new variable
+content#:#cont_self_assessment#:#Self Assessment###26 09 2014 new variable
+content#:#cont_tries#:#Question Behaviour###26 09 2014 new variable
+content#:#cont_tries_reset_on_visit#:#Reset on Page Visit###26 09 2014 new variable
+content#:#cont_tries_reset_on_visit_info#:#Questions start with 0 number of tries each time a learner visits a page. Learner has to answer questions on every page visit.###26 09 2014 new variable
+content#:#cont_tries_store#:#Store Answer Status###26 09 2014 new variable
+content#:#cont_tries_store_info#:#Number of tries are accumulated and stored. Correctly answered questions must not be answered again. Learners may run out of tries for questions.###26 09 2014 new variable
+content#:#cont_restrict_forw_nav#:#Restrict Forward Navigation###26 09 2014 new variable
+content#:#cont_restrict_forw_nav_info#:#Learners cannot navigate to subsequent pages unless they answered all previous questions correctly.###26 09 2014 new variable
+content#:#cont_no_page_access_unansw_q#:#You need to answer all questions of previous pages correctly to gain access to this page.###26 09 2014 new variable
+classification#:#clsfct_block_title#:#Selection by Topics###26 09 2014 new variable
+classification#:#clsfct_block_info#:#Your Selection filters the objects.###26 09 2014 new variable
+classification#:#clsfct_content_title#:#Objects matching your selection###26 09 2014 new variable
+classification#:#clsfct_content_no_match#:#No hits###26 09 2014 new variable
+cntr#:#sorting_new_items_position#:#Position For New Objects###26 09 2014 new variable
+cntr#:#sorting_new_items_at_top#:#Top###26 09 2014 new variable
+cntr#:#sorting_new_items_at_bottom#:#Bottom###26 09 2014 new variable
+cntr#:#sorting_new_items_order#:#Order For New Objects###26 09 2014 new variable
+form#:#form_location_radius#:#Radius###26 09 2014 new variable
+form#:#form_location_radius_km#:#km###26 09 2014 new variable
+content#:#cont_question_stats#:#Statistic###26 09 2014 new variable
+content#:#cont_blocked_users#:#Blocked Users###26 09 2014 new variable
+content#:#cont_last_try#:#Last Try###26 09 2014 new variable
+content#:#cont_unlocked#:#Unlocked###26 09 2014 new variable
+content#:#cont_reset_nr_of_tries#:#Reset Number of Tries###26 09 2014 new variable
+content#:#cont_unlock_allow_continue#:#Unlock / Allow to Continue###26 09 2014 new variable
+crs#:#crs_subscription_failed_limit#:#The maximum number of participants has been exceeded.###26 09 2014 new variable
+user#:#send_mail_to_inactive_users#:#Earliest date in days for sending a reminder mail###26 09 2014 new variable
+user#:#send_mail_to_inactive_users_desc#:#A reminder mail will be send to user's e-mail address to warn about an upcoming account deletion.###26 09 2014 new variable
+user#:#send_mail_to_inactive_users_numbers_only#:#Only positive non decimal numbers are accepted.###26 09 2014 new variable
+user#:#send_mail_to_inactive_users_must_be_smaller_than#:#This value must be smaller than the value 'Days passed since last login'.###26 09 2014 new variable
+user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted###26 09 2014 new variable
+user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account.###26 09 2014 new variable
+user#:#delete_inactive_user_accounts_frequency#:#Frequency###26 09 2014 new variable
+user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distibution will be tested.###26 09 2014 new variable
+user#:#send_mail_reminder_window_too_small#:#Your Frequency setting is too large for this reminder value.###26 09 2014 new variable
+exc#:#exc_msg_new_feedback_text_uploaded#:#A new comment has been added to exercise "%s".###26 09 2014 new variable
+exc#:#exc_msg_new_feedback_text_uploaded2#:#a tutor has added a new comment for you.###26 09 2014 new variable
+content#:#cont_start_file_set_to#:#%s has been set as start file.###26 09 2014 new variable
+exc#:#exc_peer_upload_file#:#Add file(s)###26 09 2014 new variable
+exc#:#exc_peer_edit_file#:#Edit file(s)###26 09 2014 new variable
+exc#:#exc_no_team_yet_info#:#You can create a team yourself or be added to an existing team by its team members.###26 09 2014 new variable
+exc#:#exc_team_assignment_adopt#:#Adopt teams from existing assignment###26 09 2014 new variable
+exc#:#exc_team_assignment_adopt_none#:#Do not adopt any teams###26 09 2014 new variable
+exc#:#exc_team_assignment_adopt_teams#:#Teams###26 09 2014 new variable
+exc#:#exc_team_assignment_adopt_user#:#Adopt team from assignment###26 09 2014 new variable
+exc#:#exc_team_assignment_adopt_none_user#:#Create new team###26 09 2014 new variable
+exc#:#exc_team_assignment_adopt_already_assigned#:#already assigned###26 09 2014 new variable
+content#:#cont_blocked_users_mail_link#:#Click on the following link to open the learning module:###26 09 2014 new variable
+wiki#:#wiki_show_print_view#:#Print View###26 09 2014 new variable
+wiki#:#wiki_show_pdf_export#:#PDF Export###26 09 2014 new variable
+wiki#:#wiki_set_as_start_page#:#Set as Start Page###26 09 2014 new variable
+wiki#:#wiki_purpose#:#Purpose###26 09 2014 new variable
+wiki#:#wiki_select_one_item#:#Please select one item.###26 09 2014 new variable
+trac#:#trac_mode_questions#:#Questions###26 09 2014 new variable
+trac#:#trac_mode_questions_info#:#Users who answered all questions correctly will gain the status 'Completed'.###26 09 2014 new variable
+wiki#:#wiki_link#:#Wiki Link###26 09 2014 new variable
+wiki#:#wiki_add_link#:#Add Link###26 09 2014 new variable
+wiki#:#wiki_link_text#:#Link Text###26 09 2014 new variable
+wiki#:#wiki_target_page#:#Target Page###26 09 2014 new variable
+mmbr#:#mmbr_selected_users#:#Selected Participants###26 09 2014 new variable
+mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail###26 09 2014 new variable
+sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:###26 09 2014 new variable
+sess#:#sess_reg_type#:# Registration Procedure###26 09 2014 new variable
+sess#:#sess_reg_direct#:#Direct Registration###26 09 2014 new variable
+sess#:#sess_reg_request#:#Request Membership###26 09 2014 new variable
+sess#:#sess_reg_disabled#:#No Self-enrolment###26 09 2014 new variable
+sess#:#sess_reg_request_info#:#Interested users can send a request/message to administrators.###26 09 2014 new variable
+sess#:#sess_reg_disabled_info#:#A registration is not required for this session appointment###26 09 2014 new variable
+sess#:#sess_reg_max_members_short#:#Number of Members###26 09 2014 new variable
+sess#:#sess_reg_max_members#:#Limited Number of Members###26 09 2014 new variable
+sess#:#sess_reg_max_members_info#:#Define the maximum number of users that can participate to this session.###26 09 2014 new variable
+sess#:#sess_reg_waiting_list#:#Waiting List###26 09 2014 new variable
+sess#:#sess_reg_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###26 09 2014 new variable
+wiki#:#wiki_page_exists#:#Existing Page###26 09 2014 new variable
+sess#:#sess_section_reg#:#Registration Settings###26 09 2014 new variable
+assessment#:#save_and_next#:#Save and Continue###26 09 2014 new variable
+sess#:#sess_users_added#:#Registered selected users for the session.###26 09 2014 new variable
+sess#:#sess_users_already_assigned#:#The user is already registered for this session.###26 09 2014 new variable
+sess#:#sess_users_removed_from_list#:#The selected users have been removed from the waiting list.###26 09 2014 new variable
+sess#:#sess_msg_applicants_assigned#:#Applicant(s) registered for session.###26 09 2014 new variable
+sess#:#sess_msg_applicants_removed#:#Applicant(s) removed from list.###26 09 2014 new variable
+sess#:#sess_registered_confirm#:#The registration requires a confirmation of an administrator. You will be notified after the registration process is completed.###26 09 2014 new variable
+style#:#sty_switch#:#Switch###26 09 2014 new variable
+style#:#sty_default#:#Default###26 09 2014 new variable
+style#:#sty_media_queries#:#Media Queries###26 09 2014 new variable
+style#:#sty_add_media_query#:#Add Media Query###26 09 2014 new variable
+style#:#sty_edit_media_query#:#Edit Media Query###26 09 2014 new variable
+style#:#sty_media_query_info#:#A separete CSS block is added for each media query after the default (no special media query) block.###26 09 2014 new variable
+style#:#sty_order#:#Order###26 09 2014 new variable
+style#:#sty_query#:#Query###26 09 2014 new variable
+style#:#sty_save_order#:#Save Order###26 09 2014 new variable
+style#:#sty_sure_del_mqueries#:#Do you really want to delete this media query and all related CSS rules?###26 09 2014 new variable
+style#:#sty_custom#:#Custom###26 09 2014 new variable
+style#:#sty_custom_par#:#Custom Parameters###26 09 2014 new variable
+style#:#sty_custom_par_info#:#Add custom CSS parameters using format "parameter: value".###26 09 2014 new variable
+sess#:#sess_reg_max_users_exceeded#:#A registration is not possible, since the maximum number of users id exceeded.###26 09 2014 new variable
+sess#:#sess_reg_max_users_exceeded_wl#:#The maximum number of users for this session appointment is exceeded.###26 09 2014 new variable
+sess#:#sess_reg_added_to_wl#:#You have been added to the waiting list.###26 09 2014 new variable
+style#:#sty_transform#:#Transform###26 09 2014 new variable
+style#:#sty_transform_origin#:#Transform-Origin###26 09 2014 new variable
+rbac#:#condition_failed#:#Failed###26 09 2014 new variable
+rbac#:#condition_learning_progress#:#Derive from Learning Progress###26 09 2014 new variable
+rbac#:#rbac_precondition_hide#:#Hide Object###26 09 2014 new variable
+rbac#:#rbac_precondition_hide_info#:# This option allows to hide the object for users who currently have not fulfilled the preconditions. Therefore, all not accessible content is invisible.###26 09 2014 new variable
+wsp#:#wsp_shared_table_title#:#Shares###26 09 2014 new variable
+content#:#cont_out_of_focus_message#:#This page is not related to your current learning objective anymore.###26 09 2014 new variable
+content#:#cont_show_content_after_focus#:#Continue with the Learning Module###26 09 2014 new variable
+content#:#cont_to_focus_beginning#:#Back to Content related to the Learning Objective###26 09 2014 new variable
+content#:#cont_to_focus_return_crs#:#Back to Course###26 09 2014 new variable
+crs#:#crs_loc_learning_objective#:#Learning Objective###26 09 2014 new variable
+crs#:#crs_loc_suggested#:#Please work through the following learning materials.###26 09 2014 new variable
+crs#:#crs_loc_itest_info#:#Initial Test###26 09 2014 new variable
+crs#:#crs_loc_qtest_info#:#Qualified Test###26 09 2014 new variable
+crs#:#crs_loc_tt_info#:#You have reached %1$d%%. The test is passed with %2$d%%.###26 09 2014 new variable
+crs#:#crs_objective_status_configure#:#Configure Learning Objective Oriented Course###26 09 2014 new variable
+crs#:#crs_objective_status_settings#:#Course Settings###26 09 2014 new variable
+crs#:#crs_objective_status_materials#:#Create New Course Materials###26 09 2014 new variable
+crs#:#crs_objective_status_itest#:#Configure Initial Test###26 09 2014 new variable
+crs#:#crs_objective_status_qtest#:#Configure Qualifying Test###26 09 2014 new variable
+crs#:#crs_objective_status_objectives#:#Configure Learning Objectives###26 09 2014 new variable
+crs#:#crs_objective_status_start#:#Define Start Objects###26 09 2014 new variable
+crs#:#crs_objective_status_fullfilled#:#OK###26 09 2014 new variable
+crs#:#crs_objective_action_materials#:#Material Assignment###26 09 2014 new variable
+crs#:#crs_objective_action_qtest#:#Question Assignment Qualifying###26 09 2014 new variable
+crs#:#crs_objective_action_itest#:#Question Assignemnt Initial Test###26 09 2014 new variable
+crs#:#crs_loc_qt_visibility#:#Visibility of Qualifying Test###26 09 2014 new variable
+crs#:#crs_loc_qt_visibility_all#:#Show Qualifying Test about all Objectives###26 09 2014 new variable
+crs#:#crs_loc_qt_visibility_lo#:#Show Qualifying Test for each Objective###26 09 2014 new variable
+crs#:#crs_loc_limited_passes#:#Limited Test Passes###26 09 2014 new variable
+crs#:#crs_loc_passes#:#Number of Passes###26 09 2014 new variable
+crs#:#crs_loc_passes_info#:#Maximum Number of test passes###26 09 2014 new variable
+crs#:#crs_loc_err_stat_no_materials#:#No Course Materials available###26 09 2014 new variable
+crs#:#crs_loc_err_stat_no_qt#:#No Qualifying Test available###26 09 2014 new variable
+crs#:#crs_loc_err_stat_no_it#:#No Initial Test available###26 09 2014 new variable
+crs#:#crs_objective_status_objective_creation#:#Create Learning Objective###26 09 2014 new variable
+crs#:#crs_loc_form_create_objectives#:#Create Learning Objectives###26 09 2014 new variable
+crs#:#crs_loc_err_no_active_mat#:#Learning Objectives without Materials###26 09 2014 new variable
+crs#:#crs_loc_err_no_active_it#:#Learning Objectives without Initial Test###26 09 2014 new variable
+crs#:#crs_loc_err_no_active_qt#:#Learning Objectives without Qualifying Test###26 09 2014 new variable
+crs#:#crs_loc_err_no_active_lo#:#No active Learning Objective###26 09 2014 new variable
+crs#:#crs_loc_settings_tbl#:#Settings for the Learning Objective Oriented Course###26 09 2014 new variable
+crs#:#crs_loc_settings_type#:#Course Type###26 09 2014 new variable
+crs#:#crs_loc_type_initial_all#:#Kurs startet mit Einstiegstest zu allen Lernzielen###26 09 2014 new variable
+crs#:#crs_loc_type_initial_sel#:#Kurs startet mit Einstiegstest zu ausgewähltem Lernziel###26 09 2014 new variable
+crs#:#crs_loc_type_qualified#:#Kurs startet mit qualifizierendem Test###26 09 2014 new variable
+crs#:#crs_loc_type_practise#:#Kurs startet mit Lern- und Übungsteil###26 09 2014 new variable
+crs#:#crs_loc_tab_materials#:#Materials###26 09 2014 new variable
+crs#:#crs_loc_tab_itest#:#Initial Test###26 09 2014 new variable
+crs#:#crs_loc_tab_qtest#:#Qualifying Test###26 09 2014 new variable
+crs#:#crs_loc_settings_itest_tbl#:#Settings for the Initial Test###26 09 2014 new variable
+crs#:#crs_loc_tab_objectives#:#Learning objectives###26 09 2014 new variable
+crs#:#crs_loc_settings_qtest_tbl#:#Settings for the Qualifying Test###26 09 2014 new variable
+crs#:#crs_loc_tab_start#:#Start Objects###26 09 2014 new variable
+common#:#il_astpl_loc_initial#:#Initial Test###26 09 2014 new variable
+common#:#il_astpl_loc_qualified#:#Qualifying Test###26 09 2014 new variable
+common#:#il_astpl_loc_initial_desc#:#Settings template for initial tests of learning objective oriented courses###26 09 2014 new variable
+common#:#il_astpl_loc_qualified_desc#:#Settings template for qualifying tests of learning objective oriented courses###26 09 2014 new variable
+crs#:#crs_loc_confirm_delete_tst#:#Do you really want to deassign the test of this learning objective oriented course?###26 09 2014 new variable
+crs#:#crs_loc_tbl_tst_type#:#Test Mode###26 09 2014 new variable
+crs#:#crs_loc_form_assign_it#:#Test Assignment###26 09 2014 new variable
+crs#:#crs_loc_form_tst_new#:#Create new Test###26 09 2014 new variable
+crs#:#crs_loc_form_assign#:#Use Existing Test###26 09 2014 new variable
+crs#:#crs_loc_form_available_tsts#:#Available Tests###26 09 2014 new variable
+crs#:#crs_loc_tbl_tst_qst_qpl#:#Questions/Questionpools###26 09 2014 new variable
+crs#:#crs_loc_tst_num_qst#:#Number of Questions:###26 09 2014 new variable
+crs#:#crs_loc_tst_qpls#:#Available Question Pools:###26 09 2014 new variable
+crs#:#crs_loc_form_random_limits_it#:#Define Questions of Initial Test###26 09 2014 new variable
+crs#:#crs_loc_form_random_limits_qt#:#Define Questions of Qualifying Test###26 09 2014 new variable
+crs#:#crs_loc_rand_assign_qpl#:#Assignment form Question Pool###26 09 2014 new variable
+crs#:#crs_loc_rand_qpl#:#Available Question Pools###26 09 2014 new variable
+crs#:#crs_loc_num_qst#:#Number of Questions###26 09 2014 new variable
+crs#:#crs_loc_perc#:#Required Percentage of Points###26 09 2014 new variable
+crs#:#crs_loc_delete_assignment#:#Delete Assignment###26 09 2014 new variable
+crs#:#crs_loc_err_no_active_qst#:#Objectives without Questions###26 09 2014 new variable
+crs#:#crs_loc_qtst_for_objective#:#Qualifying Test "%1$s"###26 09 2014 new variable
+crs#:#crs_loc_itst_for_objective#:#Initial Test "%1$s"###26 09 2014 new variable
+crs#:#crs_loc_progress_result_itest#:#Result of Initial Test###26 09 2014 new variable
+crs#:#crs_loc_progress_result_qtest#:#Result###26 09 2014 new variable
+crs#:#crs_loc_progress_no_result_do_initial#:#Please take the initial test.###26 09 2014 new variable
+crs#:#crs_loc_progress_objective_complete#:#You completed the learning objective.###26 09 2014 new variable
+crs#:#crs_loc_progress_do_qualifying#:#Please take the qualifying test.###26 09 2014 new variable
+crs#:#crs_loc_progress_do_qualifying_again#:#Please work through the learning objective materials again.###26 09 2014 new variable
+content#:#cont_out_of_focus_message_last_page#:#This is the last page of the content related to your current learning objective.###26 09 2014 new variable
+crs#:#crs_loc_err_nr_tries_exceeded#:#The number of passes per objective exceeds the possible number of passes of the Qualifying Test.###26 09 2014 new variable
+crs#:#crs_loc_passes_left#:#Remaining number of test passes###26 09 2014 new variable
+crs#:#crs_loc_passes_reached#:#No further test pases possible###26 09 2014 new variable
+crs#:#crs_loc_tst_new_run#:#Neuen Testdurchlauf starten###26 09 2014 new variable
+crs#:#crs_loc_tst_resume#:#Testdurchlauf fortsetzen###26 09 2014 new variable
+crs#:#crs_loc_settings_reset#:#Testergebnisse###26 09 2014 new variable
+crs#:#crs_loc_settings_reset_enable#:#"Testergebnis zurücksetzen" erlauben###26 09 2014 new variable
+crs#:#crs_loc_settings_reset_enable_info#:#Wenn aktiviert, haben alle Benutzer die Möglichkeit, ihre individuellen Testergebnisse zurückzusetzen.###26 09 2014 new variable
+crs#:#crs_loc_progress_no_result_no_initial#:#Please work through the following learning materials and then take the qualifying test.###26 09 2014 new variable
+crs#:#crs_loc_qst_resume_tst_itest#:#Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.###26 09 2014 new variable
+crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen qualifizierenden Test zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.###26 09 2014 new variable
+bibl#:#bibl_library_show_in_list#:#Show link als in the list###26 09 2014 new variable
+ecs#:#ecs_token_mechanism#:#Authentication Token###26 09 2014 new variable
+ecs#:#ecs_token_mechanism_info#:#If enabled, the authentication on the hosting platform for remote objects, is done by the ECS-Token-Mechanism.###26 09 2014 new variable
+ecs#:#ecs_part_settings#:#Settings for Participant:###26 09 2014 new variable
+help#:#help_topcis#:#Topics###26 09 2014 new variable
+ecs#:#ecs_export_types#:#Exportable Object Types###26 09 2014 new variable
+ecs#:#ecs_import_types#:#Importable Object Types###26 09 2014 new variable
+sysc#:#sysc_tab_trash#:#Deleted Objects###26 09 2014 new variable
+sysc#:#sysc_administrate_deleted#:#Administrate Deleted Objects###26 09 2014 new variable
+sysc#:#sysc_trash_restore#:#Restore Deleted Objects###26 09 2014 new variable
+sysc#:#sysc_trash_restore_info#:#Restore deleted objects from trash bin and move the to the "Recovery Folder"###26 09 2014 new variable
+sysc#:#sysc_trash_action#:#Action###26 09 2014 new variable
+sysc#:#sysc_trash_remove#:#Remove deleted objects from system###26 09 2014 new variable
+sysc#:#sysc_trash_remove_info#:#Remove deleted objects (trash bin) from the system###26 09 2014 new variable
+sysc#:#sysc_trash_limit_num#:#Limit Number###26 09 2014 new variable
+sysc#:#sysc_trash_limit_age#:#Limit Age###26 09 2014 new variable
+sysc#:#sysc_trash_limit_type#:#Limit by Type###26 09 2014 new variable
+registration#:#registration_codes_type#:#Code Type###26 09 2014 new variable
+registration#:#registration_codes_type_reg#:#Registration Code###26 09 2014 new variable
+registration#:#registration_codes_type_reg_info#:#Code can be used for the registration if a new user account###26 09 2014 new variable
+registration#:#registration_codes_type_ext#:#Extension of limited user accounts###26 09 2014 new variable
+registration#:#registration_codes_type_ext_info#:#Code can be used for the extension of limited accounts.###26 09 2014 new variable
+scormtrac#:#audio_captioning#:#cmi.learner_preference.audio_captioning###26 09 2014 new variable
+scormtrac#:#audio_level#:#cmi.learner_preference.audio_level###26 09 2014 new variable
+scormtrac#:#c_entry#:#cmi.entry###26 09 2014 new variable
+scormtrac#:#c_exit#:#cmi.exit###26 09 2014 new variable
+scormtrac#:#c_language#:#cmi.learner_preference.language###26 09 2014 new variable
+scormtrac#:#c_location#:#cmi.location###26 09 2014 new variable
+scormtrac#:#c_max#:#cmi.score.max###26 09 2014 new variable
+scormtrac#:#c_min#:#cmi.score.min###26 09 2014 new variable
+scormtrac#:#c_mode#:#cmi.mode###26 09 2014 new variable
+scormtrac#:#c_raw#:#cmi.score.raw: achieved score###26 09 2014 new variable
+scormtrac#:#c_timestamp#:#Last access###26 09 2014 new variable
+scormtrac#:#c_type#:#cmi.interactions.n.type###26 09 2014 new variable
+scormtrac#:#completion_status#:#cmi.completion_status###26 09 2014 new variable
+scormtrac#:#completion_threshold#:#cmi.completion_threshold###26 09 2014 new variable
+scormtrac#:#counter_all#:#all users###26 09 2014 new variable
+scormtrac#:#counter_correct#:#users with correct result###26 09 2014 new variable
+scormtrac#:#counter_correct_percent#:#Percentage of users with correct result###26 09 2014 new variable
+scormtrac#:#counter_incorrect#:#users with incorrect result###26 09 2014 new variable
+scormtrac#:#counter_incorrect_percent#:#Percentage of users with incorrect result###26 09 2014 new variable
+scormtrac#:#counter_other#:#users with other result###26 09 2014 new variable
+scormtrac#:#counter_other_percent#:#Percentage of users with other result###26 09 2014 new variable
+scormtrac#:#cp_node_id#:#Id of the chapter (SCO)###26 09 2014 new variable
+scormtrac#:#credit#:#cmi.credit###26 09 2014 new variable
+scormtrac#:#delivery_speed#:#cmi.learner_preference.delivery_speed###26 09 2014 new variable
+scormtrac#:#exportselectedcore#:#Basic report for chapters (SCO)###26 09 2014 new variable
+scormtrac#:#exportselectedinteractions#:#Basic report forinteractions###26 09 2014 new variable
+scormtrac#:#id#:#Id###26 09 2014 new variable
+scormtrac#:#interaction_description#:#Decription of the interaction###26 09 2014 new variable
+scormtrac#:#interaction_id#:#Id of the interaction###26 09 2014 new variable
+scormtrac#:#interaction_value#:#result of the interaction###26 09 2014 new variable
+scormtrac#:#latency#:#cmi.interactions.n.latency: time###26 09 2014 new variable
+scormtrac#:#latency_seconds#:#cmi.interactions.n.latency: time in seconds###26 09 2014 new variable
+scormtrac#:#launch_data#:#cmi.launch_data: data at start of the SCO###26 09 2014 new variable
+scormtrac#:#learner_response#:#cmi.interactions.n.learner_response: Response###26 09 2014 new variable
+scormtrac#:#lm_id#:#Id of the learning module###26 09 2014 new variable
+scormtrac#:#lm_title#:#Title of the learning module###26 09 2014 new variable
+scormtrac#:#progress_measure#:#cmi.progress_measure###26 09 2014 new variable
+scormtrac#:#result#:#cmi.interactions.n.result###26 09 2014 new variable
+scormtrac#:#scaled#:#cmi.score.scaled: score achieved as a decimal fraction###26 09 2014 new variable
+scormtrac#:#scaled_passing_score#:#cmi.scaled_passing_score: score required to pass as a decimal fraction###26 09 2014 new variable
+scormtrac#:#sco_marked_for_learning_progress#:#relevant for learning progress###26 09 2014 new variable
+scormtrac#:#sco_title#:#title of the chapter (SCO)###26 09 2014 new variable
+scormtrac#:#session_time#:#cmi.session_time: time in the last session###26 09 2014 new variable
+scormtrac#:#session_time_seconds#:#cmi.session_time: time in the last session in seconds###26 09 2014 new variable
+scormtrac#:#success_status#:#cmi.success_status: success###26 09 2014 new variable
+scormtrac#:#suspend_data#:#cmi.suspend_data: variable buffer of the SCO###26 09 2014 new variable
+scormtrac#:#total_time#:#cmi.total_time: total time###26 09 2014 new variable
+scormtrac#:#total_time_seconds#:#cmi.total_time: total time in seconds###26 09 2014 new variable
+scormtrac#:#tracinteractionitem#:#Evaluation per interaction###26 09 2014 new variable
+scormtrac#:#tracinteractionuser#:#Evaluation per user###26 09 2014 new variable
+scormtrac#:#tracinteractionuseranswers#:#Responses of users###26 09 2014 new variable
+scormtrac#:#user_id#:#User-Id###26 09 2014 new variable
+scormtrac#:#weighting#:#cmi.interactions.n.weighting###26 09 2014 new variable
+scormtrac#:#report#:#Report###26 09 2014 new variable
+scormtrac#:#display_not_allowed#:#display not allowed###26 09 2014 new variable
+common#:#ps_export_scorm#:#SCORM Tracking Data###26 09 2014 new variable
+common#:#enable_export_scorm_desc#:#allow Export of User Data of SCORM-Learning Modules###26 09 2014 new variable
