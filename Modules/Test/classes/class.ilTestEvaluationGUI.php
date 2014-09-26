@@ -144,7 +144,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outEvaluation()
 	{
-		global $ilAccess;
+		/**
+		 * @var $ilAcccess ilAccessHandler
+		 * @var $ilToolbar ilToolbarGUI
+		 */
+		global $ilAccess, $ilToolbar;
 		
 		if ((!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) && (!$ilAccess->checkAccess("write", "", $this->ref_id)))
 		{
@@ -277,30 +281,36 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 		
 		$table_gui->setData($data);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_evaluation.html", "Modules/Test");
-		$this->tpl->setVariable('EVALUATION_DATA', $table_gui->getHTML());	
-		if (count($foundParticipants) > 0)
+		if(count($foundParticipants) > 0)
 		{
-			$template = new ilTemplate("tpl.il_as_tst_evaluation_export.html", TRUE, TRUE, "Modules/Test");
-			$template->setVariable("EXPORT_DATA", $this->lng->txt("exp_eval_data"));
-			if (!$this->object->getAnonymity())
+			$ilToolbar->setFormName('form_output_eval');
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'exportEvaluation'));
+			require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
+			$export_type = new ilSelectInputGUI($this->lng->txt('exp_eval_data'), 'export_type');
+			$options = array(
+				'excel' => $this->lng->txt('exp_type_excel'),
+				'csv'   => $this->lng->txt('exp_type_spss')
+			);
+			
+			if(!$this->object->getAnonymity())
 			{
-				include_once "./Services/Certificate/classes/class.ilCertificate.php";
-				include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
-				if (ilCertificate::_isComplete(new ilTestCertificateAdapter($this->object)))
+				include_once 'Services/Certificate/classes/class.ilCertificate.php';
+				include_once 'Modules/Test/classes/class.ilTestCertificateAdapter.php';
+				if(ilCertificate::_isComplete(new ilTestCertificateAdapter($this->object)))
 				{
-					$template->setVariable("TEXT_CERTIFICATE", $this->lng->txt("exp_type_certificate"));
+					$options['certificate'] = $this->lng->txt('exp_type_certificate');
 				}
 			}
-			$template->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
-			$template->setVariable("TEXT_CSV", $this->lng->txt("exp_type_spss"));
-			$template->setVariable("CMD_EXPORT", "exportEvaluation");
-			$template->setVariable("BTN_EXPORT", $this->lng->txt("export"));
-			$template->setVariable("BTN_PRINT", $this->lng->txt("print"));
-			$template->setVariable("BTN_COMMAND", $this->ctrl->getCmd());
-			$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "exportEvaluation"));
-			$exportoutput = $template->get();
-			$this->tpl->setVariable("EVALUATION_EXPORT", $exportoutput);
+
+			$export_type->setOptions($options);
+			
+			$ilToolbar->addInputItem($export_type, true);
+			require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
+			$button = ilSubmitButton::getInstance();
+			$button->setCommand('exportEvaluation');
+			$button->setCaption('export');
+			$button->getOmitPreventDoubleSubmission();
+			$ilToolbar->addButtonInstance($button);
 		}
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
@@ -308,6 +318,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 		}
+
+		$this->tpl->setContent($table_gui->getHTML());
 	}
 	
 	/**
@@ -510,7 +522,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 */
 	function eval_a()
 	{
-		global $ilAccess;
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 * @var $ilToolbar ilToolbarGUI
+		 */
+		global $ilAccess, $ilToolbar;
 
 		if ((!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) && (!$ilAccess->checkAccess("write", "", $this->ref_id)))
 		{
@@ -525,17 +541,21 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$foundParticipants =& $eval->getParticipants();
 		if (count($foundParticipants)) 
 		{
-			$template = new ilTemplate("tpl.il_as_tst_evaluation_export.html", TRUE, TRUE, "Modules/Test");
-			$template->setVariable("EXPORT_DATA", $this->lng->txt("exp_eval_data"));
-			$template->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
-			$template->setVariable("TEXT_CSV", $this->lng->txt("exp_type_spss"));
-			$template->setVariable("CMD_EXPORT", "exportAggregatedResults");
-			$template->setVariable("BTN_EXPORT", $this->lng->txt("export"));
-			$template->setVariable("BTN_PRINT", $this->lng->txt("print"));
-			$template->setVariable("BTN_COMMAND", $this->ctrl->getCmd());
-			$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "exportAggregatedResults"));
-			$exportoutput = $template->get();
-			$this->tpl->setVariable("EVALUATION_EXPORT", $exportoutput);
+			$ilToolbar->setFormName('form_output_eval');
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'exportAggregatedResults'));
+			require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
+			$export_type = new ilSelectInputGUI($this->lng->txt('exp_eval_data'), 'export_type');
+			$export_type->setOptions(array(
+				'excel' => $this->lng->txt('exp_type_excel'),
+				'csv'   => $this->lng->txt('exp_type_spss')
+			));
+			$ilToolbar->addInputItem($export_type, true);
+			require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
+			$button = ilSubmitButton::getInstance();
+			$button->setCommand('exportAggregatedResults');
+			$button->setCaption('export');
+			$button->getOmitPreventDoubleSubmission();
+			$ilToolbar->addButtonInstance($button);
 
 			array_push($data, array(
 				'result' => $this->lng->txt("tst_eval_total_persons"),
