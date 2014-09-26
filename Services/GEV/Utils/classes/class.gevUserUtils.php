@@ -531,9 +531,8 @@ class gevUserUtils {
 				 "			 )".
 				 "		 )".
 				 $additional_where.
-				 "";	
-		
-
+				 "";
+				 
 
 		$res = $this->db->query($query);
 		
@@ -541,7 +540,7 @@ class gevUserUtils {
 		while($val = $this->db->fetchAssoc($res)) {
 			$crs_utils = gevCourseUtils::getInstance($val["obj_id"]);
 			
-			if (!$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)) {
+			if (!$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id) && !gevUserUtils::getInstanceByObj($ilUser)->isAdmin()) {
 				continue;
 			}
 			
@@ -610,7 +609,7 @@ class gevUserUtils {
 			$crs_booking_perms = ilCourseBookingPermissions::getInstance($crs);*/
 			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			
-			if (!$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)) {
+			if (!$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id) && !gevUserUtils::getInstanceByObj($ilUser)->isAdmin()) {
 				unset($info[$key]);
 				continue;
 			}
