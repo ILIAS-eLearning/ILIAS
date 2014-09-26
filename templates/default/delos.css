@@ -8147,6 +8147,7 @@ input.ilOpenIDBox {
   padding: 0;
   height: 40px;
   top: 0;
+  z-index: 1040;
 }
 .ilTopFixed {
   z-index: 1030;
