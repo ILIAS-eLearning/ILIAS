@@ -133,6 +133,11 @@ class gevUserImport {
 
 		foreach($shadow_users as $ilias_id => $shadow_user) {
 			try {
+				if (ilObjUser::_lookupFullname($ilias_id) === null) {
+					$ilLog->write("Shadow User Update: Couldn't find user ".$ilias_id." in ILIAS database.")
+					continue;
+				}
+
 				$user = new ilObjUser($ilias_id);
 				$this->set_ilias_user_attributes($user, $shadow_user);
 				$user->update();
@@ -141,7 +146,7 @@ class gevUserImport {
 				$this->update_global_role($user, $shadow_user);
 				$this->update_orgunit_role($user, $shadow_user);
 			} catch (Exception $e) {
-				$ilLog->write($ilias_id);
+				$ilLog->write("Shadow User Update: Error while processing ".$ilias_id.":");
 				$ilLog->write($e);
 				$ilLog->write(var_export($e->getTraceAsString(), true));
 			}
