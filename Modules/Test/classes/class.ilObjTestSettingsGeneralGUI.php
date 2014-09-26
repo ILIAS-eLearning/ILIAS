@@ -419,6 +419,12 @@ class ilObjTestSettingsGeneralGUI
 				$this->testOBJ->setShowKioskModeParticipant( in_array('kiosk_participant', $kioskOptions) );
 				$this->testOBJ->setExamidInKiosk( in_array('examid_in_kiosk', $_POST["kiosk_options"]) );
 			}
+			else
+			{
+				$this->testOBJ->setShowKioskModeTitle( false );
+				$this->testOBJ->setShowKioskModeParticipant( false );
+				$this->testOBJ->setExamidInKiosk( false );
+			}
 		}
 	
 		// redirect after test
