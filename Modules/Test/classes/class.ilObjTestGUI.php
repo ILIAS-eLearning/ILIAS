@@ -1789,7 +1789,7 @@ class ilObjTestGUI extends ilObjectGUI
 		} 
 		elseif (count($checked_questions) == 0) 
 		{
-			ilUtil::sendInfo($this->lng->txt("tst_no_question_selected_for_removal"), true);
+			ilUtil::sendFailure($this->lng->txt("tst_no_question_selected_for_removal"), true);
 			$this->ctrl->redirect($this, "questions");
 		}
 	}
@@ -4837,6 +4837,16 @@ class ilObjTestGUI extends ilObjectGUI
 		global $lng;
 
 		require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+		
+		// #13761; All methods use for this request should be revised, thx japo ;-) 
+		if(
+			'copyAndLinkToQuestionpool' == $this->ctrl->getCmd() &&
+			(!isset($_REQUEST['q_id']) || !is_array($_REQUEST['q_id']))
+		)
+		{
+			ilUtil::sendFailure($this->lng->txt('tst_no_question_selected_for_moving_to_qpl'), true);
+			$this->ctrl->redirect($this, 'questions');
+		}
 
 		if(isset($_REQUEST['q_id']) && is_array($_REQUEST['q_id']))
 		{
