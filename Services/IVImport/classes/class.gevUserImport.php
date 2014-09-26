@@ -134,7 +134,7 @@ class gevUserImport {
 		foreach($shadow_users as $ilias_id => $shadow_user) {
 			try {
 				if (ilObjUser::_lookupFullname($ilias_id) === null) {
-					$ilLog->write("Shadow User Update: Couldn't find user ".$ilias_id." in ILIAS database.")
+					$ilLog->write("Shadow User Update: Couldn't find user ".$ilias_id." in ILIAS database.");
 					continue;
 				}
 
