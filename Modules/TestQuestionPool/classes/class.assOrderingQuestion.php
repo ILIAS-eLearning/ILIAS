@@ -1358,32 +1358,38 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		if($with_random_id == true)
 		{
 			//for test output
-			foreach($new_hierarchy as $id)
+			if(is_array($new_hierarchy))
 			{
-				$ordering_depth = 0;
-				$this->leveled_ordering[$id->id] = $ordering_depth;
-				
-				if(is_array($id->children))
+				foreach($new_hierarchy as $id)
 				{
-					foreach($id->children as $child)
+					$ordering_depth                  = 0;
+					$this->leveled_ordering[$id->id] = $ordering_depth;
+
+					if(is_array($id->children))
 					{
-						$this->getDepthRecursive($child, $ordering_depth, true);
-}
+						foreach($id->children as $child)
+						{
+							$this->getDepthRecursive($child, $ordering_depth, true);
+						}
+					}
 				}
-			}			
+			}
 		}	
 		else
 		{
-			foreach($new_hierarchy as $id)
+			if(is_array($new_hierarchy))
 			{
-				$ordering_depth = 0;
-				$this->leveled_ordering[] = $ordering_depth;
-
-				if(is_array($id->children))
+				foreach($new_hierarchy as $id)
 				{
-					foreach($id->children as $child)
+					$ordering_depth           = 0;
+					$this->leveled_ordering[] = $ordering_depth;
+
+					if(is_array($id->children))
 					{
-						$this->getDepthRecursive($child, $ordering_depth, $with_random_id);
+						foreach($id->children as $child)
+						{
+							$this->getDepthRecursive($child, $ordering_depth, $with_random_id);
+						}
 					}
 				}
 			}
