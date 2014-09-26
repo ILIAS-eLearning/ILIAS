@@ -49,6 +49,15 @@ class gevCrsMailData extends ilMailData {
 		return array();
 	}
 	
+	function maybeFormatEmptyField($val) {
+		if ($val === null) {
+			return "-";
+		}
+		else {
+			return $val;
+		}
+	}
+	
 	function getPlaceholderLocalized($a_placeholder_code, $a_lng, $a_markup = false) {
 		if (  $this->crs_utils === null) {
 			throw new Exception("gevCrsMailData::getPlaceholderLocalized: course utilities not initialized.");
@@ -259,11 +268,11 @@ class gevCrsMailData extends ilMailData {
 				}
 				$val = implode("<br />", $names);
 				break;
+			default:
+				return $a_placeholder_code;
 		}
 		
-		if ($val === null) {
-			$val = $a_placeholder_code;
-		}
+		$val = $this->maybeFormatEmptyField($val);
 		
 		$this->cache[$a_placeholder_code] = $val;
 		return $val;

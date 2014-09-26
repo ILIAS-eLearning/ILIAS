@@ -17,7 +17,7 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 		switch ($a_component) {
 			case "Services/CourseBooking":
 				return $this->bookingEvent($a_event, $a_parameter);
-			case "Services/ParticipationsStatus":
+			case "Services/ParticipationStatus":
 				return $this->participationStatusEvent($a_event, $a_parameter);
 			case "Modules/Course":
 				return $this->courseEvent($a_event, $a_parameter);
@@ -153,8 +153,14 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 		
 		$usr_id = intval($a_parameter["user_id"]);
 		$crs_id = intval($a_parameter["crs_obj_id"]);
-		$status = gevCourseUtils::getInstance($crs_id)->getParticipationStatusOf($usr_id);
+		$crs_utils = gevCourseUtils::getInstance($crs_id);
+		$status = $crs_utils->getParticipationStatusOf($usr_id);
+		$type = $crs_utils->getType();
 		$mails = new gevCrsAutoMails($crs_id);
+		
+		if ($type == "Webinar" || $type == "Spezialistenschulung Webinar") {
+			return;
+		}
 		
 		if ($status == ilParticipationStatus::STATUS_SUCCESSFUL) {
 			$mails->sendDeferred("participant_successfull", array($usr_id));
@@ -196,7 +202,7 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 			$mails->sendDeferred("trainer_added", array($usr_id));
 		}
 		else if ($a_event == "deleteParticipant") {
-			$mails->sendDeferred("trainer_removed", array($usr_id));
+			$mails->send("trainer_removed", array($usr_id));
 		}
 	}
 }

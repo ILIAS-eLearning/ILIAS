@@ -97,7 +97,6 @@ class gevUserProfileGUI {
 				$this->user->setCountry($form->getInput("b_country"));
 				$this->user->setPhoneOffice($form->getInput("b_phone"));
 				//$this->user->setFax($form->getInput("b_fax"));
-				$this->user->update();
 
 				$this->user_utils->setBirthplace($form->getInput("birthplace"));
 				$this->user_utils->setBirthname($form->getInput("birthname"));
@@ -109,6 +108,9 @@ class gevUserProfileGUI {
 				$this->user_utils->setPrivateState($form->getInput("p_country"));
 				$this->user_utils->setPrivatePhone($form->getInput("p_phone"));
 				//$this->user_utils->setPrivateFax($form->getInput("p_fax"));
+				
+				$this->user->readUserDefinedFields();
+				$this->user->update();
 				
 				$bwv_id = $form->getInput("bwv_id");
 				if ($bwv_id) {
