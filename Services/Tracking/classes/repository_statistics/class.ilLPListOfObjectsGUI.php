@@ -138,7 +138,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$cancel = "details";
 		}
 		
-		if(!$rbacsystem->checkAccess('edit_learning_progress', $sub_id))
+		if(!$rbacsystem->checkAccess('edit_learning_progress', $this->details_id))
 		{
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->returnToParent($this);
