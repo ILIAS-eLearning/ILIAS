@@ -22,7 +22,8 @@ class gevReminderTrainer extends gevCrsAutoMail {
 	}
 	
 	public function getTemplateCategory() {
-		return "R03";
+		//return "R03";
+		return "B07";
 	}
 	
 	public function getRecipientUserIDs() {
