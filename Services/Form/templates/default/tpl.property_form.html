@@ -81,7 +81,7 @@
 		<div class="help-block">{PROPERTY_DESCRIPTION}</div>
 <!-- END description -->
 <!-- BEGIN alert -->
-		<div class="help-block"><img border="0" src="{IMG_ALERT}" alt="{ALT_ALERT}" /> {TXT_ALERT}</div>
+		<div class="help-block alert alert-danger" role="alert"><img border="0" src="{IMG_ALERT}" alt="{ALT_ALERT}" /> {TXT_ALERT}</div>
 <!-- END alert -->
 <!-- BEGIN sub_form -->
 		<div class="ilSubForm" id="subform_{SFID}">{PROP_SUB_FORM}</div>
@@ -100,7 +100,7 @@
 <!-- END item -->
 <!-- BEGIN commands -->
 	<div class="ilFormFooter clearfix">
-		<div class="col-sm-3 ilFormRequired">
+		<div class="col-sm-6 ilFormRequired">
 <!-- BEGIN hidden -->
 		<input type="{PROP_INPUT_TYPE}" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}"/>
 <!-- END hidden -->
@@ -108,7 +108,7 @@
 			<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED}</span>
 <!-- END required_text -->
 		&nbsp;</div>
-		<div class="col-sm-9 ilFormCmds">
+		<div class="col-sm-6 ilFormCmds">
 <!-- BEGIN cmd -->
 		<input class="btn btn-default btn-sm" type="submit" name="cmd[{CMD}]" value="{CMD_TXT}" />
 <!-- END cmd -->

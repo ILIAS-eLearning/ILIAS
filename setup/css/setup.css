@@ -1,5 +1,4 @@
 body.ilSetup{
-	background-color: #f0f0f0;
 }
 
 div.ilSetupFrame{
@@ -54,6 +53,14 @@ div.ilSetupLogin{
 	font-size: 90%;
 }
 
+div.ilSetupLanguage{
+	float:right;
+	color: black;
+	line-height: 40px;
+    vertical-align: middle;
+	padding: 0 15px 0 0;
+}
+
 div.ilSetupTitle{
 	padding:0px 0px 10px 0px;
 }
@@ -65,22 +72,21 @@ span.ilSetupTitle{
 
 span.ilSetupAccessMode{
 	font-size: 75%;
-	color: #3040A0;	
+	color: white;
+	display: inline;
 }
 
 ul.ilSetupMenu
 {
 	list-style: none;
 	margin: 0px;
-	padding: 0px;
+	padding: 15px 0 0;
 }
 
 li.ilSMInactive
 {
-	margin: 0px;
-	margin-bottom: 5px;
-	padding: 6px 10px;
-	background-color: #A0C0F0;
+	margin: 0 0 5px;
+	padding: 6px 0 6px 15px;
 }
 
 li.ilSMInactive:hover
@@ -90,25 +96,24 @@ li.ilSMInactive:hover
 
 a.ilSMInactive
 {
-	font-size: 90%;
+	
 }
 
 li.ilSMActive
 {
 	margin: 0px;
 	margin-bottom: 5px;
-	padding: 6px 10px;
+	padding: 6px 0 6px 15px;
 	background-color: #FFFFFF;
 }
 
 a.ilSMActive
 {
-	font-size: 90%;
+	
 }
 
 div.ilSetupContent
 {
-	background-color:white;
 	padding: 10px 20px;
 }
 
@@ -159,4 +164,31 @@ table.ilSetupPreliminaries {
 td.ilSetupPreliminaries {
 	padding:5px;
 	font-size: 90%;
+}
+#form_client_login,
+#form_master_login {
+    text-align: left;
+    width: 40em;
+}
+
+div.ilSetupContent table.fullwidth_invisible {
+	background-color: transparent;
+}
+
+#left-panel {
+	padding: 0;
+}
+
+body.setup footer.ilFooter {
+	padding: 20px 15px 0;
+}
+
+body.ilSetupLogin #left-panel {
+	/*width: 0;*/
+}
+
+body.ilSetupLogin form.form-horizontal input.form-control,
+body.ilSetupLogin form.form-horizontal textarea.form-control,
+body.ilSetupLogin form.form-horizontal select.form-control {
+    max-width: 100%;
 }

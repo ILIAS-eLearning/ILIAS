@@ -1336,7 +1336,7 @@ echo "<br>+".$client_id;
 	function displayLogin($a_omit_minit = false, $a_omit_cinit = false)
 	{
 		global $lng;
-
+		$this->tpl->setVariable("SETUP_LOGIN_CLASS", " ilSetupLogin");
 		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html", "setup");
 
 		if ($a_omit_minit)
@@ -1453,7 +1453,7 @@ echo "<br>+".$client_id;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
-
+		$this->form->setId("master_login");		
 		// password
 		$pi = new ilPasswordInputGUI($lng->txt("password"), "mpassword");
 		$pi->setSize(20);
