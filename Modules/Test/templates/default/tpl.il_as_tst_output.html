@@ -3,7 +3,7 @@
 {KIOSK_HEAD}
 <!-- END kiosk_options -->
 <div id="tst_output">
-<form id="taForm" class="preventDoubleSubmission" name="test_output" method="post" style="clear: both;" {ENCTYPE} action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
+<form role="form" id="taForm" class="form-horizontal preventDoubleSubmission" name="test_output" method="post" style="clear: both;" {ENCTYPE} action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
 <div id="tst_left">{LIST_OF_QUESTIONS}</div>
 <div id="tst_right">
 <!-- BEGIN enableprocessingtime -->
@@ -43,21 +43,21 @@
 	<tr>
 	<td align="left" width="33%" class="submit">
 <!-- BEGIN prev -->
-		<input type="submit" class="submit" name="cmd[{CMD_PREV}]" value="{BTN_PREV}" id="prevbutton" />
+		<input type="submit" class="btn btn-default" name="cmd[{CMD_PREV}]" value="{BTN_PREV}" id="prevbutton" />
 <!-- END prev -->
 	</td>
 	<td align="center" width="1" class="submit">
 <!-- BEGIN summary -->
-		<input type="submit" class="submit" name="cmd[{CMD_SUMMARY}]" value="{BTN_SUMMARY}" id="summarybutton" />
+		<input type="submit" class="btn btn-default" name="cmd[{CMD_SUMMARY}]" value="{BTN_SUMMARY}" id="summarybutton" />
 <!-- END summary -->
 	</td>
 	<td align="right" width="33%" class="submit">
 <!-- BEGIN postpone -->
-	<input type="submit" class="submit" name="cmd[{CMD_POSTPONE}]" value="{BTN_POSTPONE}" id="postponebutton" />
+	<input type="submit" class="btn btn-default" name="cmd[{CMD_POSTPONE}]" value="{BTN_POSTPONE}" id="postponebutton" />
 	&nbsp;&nbsp;
 <!-- END postpone -->
 <!-- BEGIN next -->
-	<input type="submit" class="submit" name="cmd[{CMD_NEXT}]" value="{BTN_NEXT}" id="nextbutton" />
+	<input type="submit" class="btn btn-default" name="cmd[{CMD_NEXT}]" value="{BTN_NEXT}" id="nextbutton" />
 <!-- END next -->
 	</td>
 	</tr>
@@ -76,13 +76,13 @@
 			<!-- BEGIN question_related_navigation -->
 			<div class="ilAssQuestionRelatedNavigationContainer">
 				<!-- BEGIN direct_feedback -->
-					<input type="submit" class="submit" name="cmd[{CMD_SHOW_INSTANT_RESPONSE}]" id="directfeedback" value="{TEXT_SHOW_INSTANT_RESPONSE}" />
+					<input type="submit" class="btn btn-default" name="cmd[{CMD_SHOW_INSTANT_RESPONSE}]" id="directfeedback" value="{TEXT_SHOW_INSTANT_RESPONSE}" />
 				<!-- END direct_feedback -->
 				<!-- BEGIN button_request_next_question_hint -->
-					<input type="submit" class="submit" name="cmd[{CMD_REQUEST_NEXT_QUESTION_HINT}]" id="requestNextQuestionHint" value="{TEXT_REQUEST_NEXT_QUESTION_HINT}" />
+					<input type="submit" class="btn btn-default" name="cmd[{CMD_REQUEST_NEXT_QUESTION_HINT}]" id="requestNextQuestionHint" value="{TEXT_REQUEST_NEXT_QUESTION_HINT}" />
 				<!-- END button_request_next_question_hint -->
 				<!-- BEGIN button_show_requested_question_hints -->
-					<input type="submit" class="submit" name="cmd[{CMD_SHOW_REQUESTED_QUESTION_HINTS}]" id="showRequestedQuestionHints" value="{TEXT_SHOW_REQUESTED_QUESTION_HINTS}" />
+					<input type="submit" class="btn btn-default" name="cmd[{CMD_SHOW_REQUESTED_QUESTION_HINTS}]" id="showRequestedQuestionHints" value="{TEXT_SHOW_REQUESTED_QUESTION_HINTS}" />
 				<!-- END button_show_requested_question_hints -->
 			</div>
 			<!-- END question_related_navigation -->
@@ -106,27 +106,27 @@
 		</td>
 	</tr>
 </table>
-<!-- BEGIN reopenform --><form name="test_output_bottom" method="post" action="{FORMACTION_REOPENFORM}"><!-- END reopenform -->
+<!-- BEGIN reopenform --><form role="form" class="form-horizontal preventDoubleSubmission" name="test_output_bottom" method="post" action="{FORMACTION_REOPENFORM}"><!-- END reopenform -->
 <!-- BEGIN navigation_bottom -->
 <table class="fullwidth">
 	<tr>
 		<td align="left" width="33%" class="submit">
 <!-- BEGIN prev_bottom -->
-			<input type="submit" class="submit" name="cmd[{CMD_PREV}]" value="{BTN_PREV}" id="bottomprevbutton" />
+			<input type="submit" class="btn btn-default" name="cmd[{CMD_PREV}]" value="{BTN_PREV}" id="bottomprevbutton" />
 <!-- END prev_bottom -->
 		</td>
 		<td align="center" width="1" class="submit">
 <!-- BEGIN summary_bottom  -->
-			<input type="submit" class="submit" name="cmd[{CMD_SUMMARY}]" value="{BTN_SUMMARY}" id="bottomsummarybutton" />
+			<input type="submit" class="btn btn-default" name="cmd[{CMD_SUMMARY}]" value="{BTN_SUMMARY}" id="bottomsummarybutton" />
 <!-- END summary_bottom -->
 		</td>
 		<td align="right" width="33%" class="submit">
 <!-- BEGIN postpone_bottom -->
-			<input type="submit" class="submit" name="cmd[{CMD_POSTPONE}]" value="{BTN_POSTPONE}" id="bottompostponebutton" />
+			<input type="submit" class="btn btn-default" name="cmd[{CMD_POSTPONE}]" value="{BTN_POSTPONE}" id="bottompostponebutton" />
 			&nbsp;&nbsp;
 <!-- END postpone_bottom -->
 <!-- BEGIN next_bottom -->
-			<input type="submit" class="submit" name="cmd[{CMD_NEXT}]" value="{BTN_NEXT}" id="bottomnextbutton" />
+			<input type="submit" class="btn btn-default" name="cmd[{CMD_NEXT}]" value="{BTN_NEXT}" id="bottomnextbutton" />
 <!-- END next_bottom -->
 		</td>
 	</tr>
