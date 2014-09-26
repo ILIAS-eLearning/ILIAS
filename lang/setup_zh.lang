@@ -1,4 +1,4 @@
-﻿//* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2014 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -7,22 +7,6 @@
 * @author       范柏泉 (Fan Baiquan) <baiquan.fan@helsinki.fi>
 * @version		$Id$
 */
-	+-----------------------------------------------------------------------------+
-    | ILIAS open source （开放代码软件）                                           |
-    +-----------------------------------------------------------------------------+
-    | 版权 (c) 1998-2010 ILIAS 开放代码软件，University of Cologne （科隆大学）   |
-    |                                                                             |
-    | 本程序为自由软件；在遵循由自由软件基金会公布的GNU公共版权许可证（GPL）条款下|
-    | （许可证版本2或根据你的需要选择而后的版本），你可以重新分发及修改本软件。   |
-    |                                                                             |
-    | 分发本程序的目的是希望本程序有一定用途，但本程序没有任何担保；甚至没有为达到|
-    | 某种目的的商品性或适切性的暗示间接的担保。详细见GNU公共版权许可证（GPL）。  |
-    |                                                                             |
-    | 同本程序一起你应该已经收到一份GNU公共版权许可证（GPL）的拷贝；如果没有，请写|
-    | 信给自由软件基金会#:#                                                       |
-    | Free Software Foundation, Inc.                                              |
-    | 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.                   |
-    +-----------------------------------------------------------------------------+
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
@@ -601,3 +585,4 @@ tree_implementation_ns#:#Nested-Set Model###06 11 2013 new variable
 tree_implementation_mp#:#Materialized-Path Model###06 11 2013 new variable
 tree_implementation_switch_btn#:#Switch Tree Implementation###06 11 2013 new variable
 tree_implementation_switched#:#The tree implementation type has been switched.###06 11 2013 new variable
+feedback_recipient_info#:#This address is used in the footer link "Contact Administration"###14 05 2014 new variable

@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2013 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2014 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file 
 *
@@ -714,7 +714,6 @@ common#:#enable_registration#:#Aktiver en ny registrering
 common#:#enable_trash#:#Aktiver skrald
 common#:#enable_trash_info#:#If enabled, deleted Objects are moved into Trash and may be recovered later. When deactivating this option deleted Objects are removed irreversibly from the System!
 common#:#enabled#:#Aktiveret
-common#:#enter_filename_deliver#:#Lav øvelse før aflevering
 common#:#enumerate#:#Optæl
 common#:#err_1_param#:#Kun 1 parameter!
 common#:#err_2_param#:#Kun 2 parametre!
@@ -8924,7 +8923,6 @@ sahs#:#sahs_organization#:#Organisation
 sahs#:#sahs_sequencing#:#Sequencing###26 06 2009 new variable
 sahs#:#sahs_objective_alignment#:#Objectives Alignment###26 06 2009 new variable
 content#:#cont_LocalFile#:#Lokal fil
-content#:#cont_Ressources#:#Resurser
 content#:#cont_Reading#:#Reading###26 06 2009 new variable
 content#:#cont_Hint#:#Tip
 content#:#cont_ed_paste#:#Indsæt
@@ -12856,7 +12854,6 @@ assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Start Test with Current Que
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Resume Test with Current Question Selection###16 09 2013 new variable
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Back to Test with Current Question Selection###16 09 2013 new variable
 assessment#:#tst_tracked_question_list#:#Previously Answered Questions###16 09 2013 new variable
-assessment#:#tst_filtered_question_list#:#Test Question Selection###16 09 2013 new variable
 assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Selection###16 09 2013 new variable
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the source questin pool successfully. When there are new or edited questions in the question pool you can proceed the test.###16 09 2013 new variable
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.###16 09 2013 new variable
@@ -14183,3 +14180,124 @@ cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders
 cntr#:#objects_duplicated#:#Objects copied###22 01 2014 new variable
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount###23 01 2014 new variable
 assessment#:#tst_question_amount#:#Question Amount###23 01 2014 new variable
+tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any of the installed languages.###10 02 2014 new variable
+content#:#cont_edit_definitions#:#Edit Definitions###10 02 2014 new variable
+content#:#cont_edit_definition#:#Edit Definition###10 02 2014 new variable
+payment#:#pay_unpayed_bill#:#Please wire the open balance to the given bank account.###14 02 2014 new variable
+meta#:#meta_c_XK#:#Kosovo###11 03 2014 new variable
+certificate#:#certificate_var_matriculation#:#12345###11 03 2014 new variable
+certificate#:#certificate_ph_matriculation#:#Matriculation number of the user###11 03 2014 new variable
+survey#:#mailparticipantdata_placeholder#:#The following placeholders will be replaced with real user data in personalized surveys:###11 03 2014 new variable
+exc#:#exc_create_portfolio_no_template#:#Do not use template###11 03 2014 new variable
+rbac#:#orgu_view_learning_progress#:#View Learning Progress###11 03 2014 new variable
+rbac#:#orgu_visible#:#Organisational Unit is visible###11 03 2014 new variable
+rbac#:#orgu_read#:#User has read access to Organisational Unit###11 03 2014 new variable
+rbac#:#orgu_write#:#User can edit settings of Organisational Unit###11 03 2014 new variable
+rbac#:#orgu_read_users#:#User can read local user accounts created in this Organisational Unit###11 03 2014 new variable
+rbac#:#orgu_cat_administrate_users#:#User can create and administrate local user accounts in this Organisational Unit###11 03 2014 new variable
+rbac#:#orgu_delete#:#User can move or delete Organisational Unit###11 03 2014 new variable
+rbac#:#orgu_edit_permission#:#User can change permission settings###11 03 2014 new variable
+rbac#:#rbac_create_orgu#:#Create Organisational Units###11 03 2014 new variable
+prtf#:#prtf_page_element_teaser_skills#:#The portfolio will display your competence level here.###11 03 2014 new variable
+prtf#:#prtf_page_element_teaser_blog_template#:#The portfolio will display a blog of your personal workspace here.###11 03 2014 new variable
+prtf#:#prtf_page_element_teaser_consultation_hours#:#The portfolio will display a consultation hours calendar here.###11 03 2014 new variable
+prtf#:#prtf_page_element_teaser_blog#:#The portfolio will display selected blog postings here.###11 03 2014 new variable
+prtf#:#prtf_page_element_teaser_settings#:#Settings###11 03 2014 new variable
+pd#:#pd_remove_multi_confirm#:#The objects were removed.###11 03 2014 new variable
+content#:#glo_online_info#:#Only if the glossary is online, users are able to use the glossary.###11 03 2014 new variable
+content#:#glo_mode_level_info#:#All terms of glossaries on the same level in the repository will be included.###11 03 2014 new variable
+content#:#glo_mode_normal_info#:#Only terms created within this glossar will be included.###11 03 2014 new variable
+content#:#glo_mode_subtree_info#:#All terms of glossaries on the same level and subsequent levels in the repository will be included.###11 03 2014 new variable
+content#:#glo_content_settings#:#Content###11 03 2014 new variable
+content#:#glo_show_taxonomy_info#:#The taxonomy will be visible in the presentation view of the glossary and can be used to select referenced terms.###11 03 2014 new variable
+exc#:#exc_notification#:#Personal Notification###11 03 2014 new variable
+exc#:#exc_passing_exc#:#Passing the Exercise###11 03 2014 new variable
+exc#:#exc_publishing#:#Publishing###11 03 2014 new variable
+exc#:#exc_min_nr_info#:#This value must be equal or higher than the number of obligatory assignments.###11 03 2014 new variable
+exc#:#exc_passed_status_determination#:#Determination of Staus "Passed"###11 03 2014 new variable
+exc#:#exc_completion_by_tutor#:#Only manual by tutor###11 03 2014 new variable
+exc#:#exc_your_text#:#Your Text###11 03 2014 new variable
+exc#:#exc_peer_review_min_number_info#:#This number of other users work must be evaluated by a participant before the evaluation of his/her own work will be visible.###11 03 2014 new variable
+content#:#cont_def_feedb_activated#:#Default feedback texts are currently activated in the learning module settings.###12 03 2014 new variable
+content#:#cont_def_feedb_deactivated#:#Default feedback texts are currently deactivated in the learning module settings.###12 03 2014 new variable
+adve#:#advanced_editing_tst_editing#:#Page Editor for additional question content###12 03 2014 new variable
+adve#:#advanced_editing_tst_editing_desc#:#Aktivates ILIAS Page Eidotr for feedback and hint text editing.###12 03 2014 new variable
+assessment#:#tst_save_and_create_new_rule#:#Save and Add New Rule###26 03 2014 new variable
+assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for the random set of questions has been modified successfully. You can add a new rule now.###26 03 2014 new variable
+ecs#:#ecs_server_title#:#Name of ECS Configuration###26 03 2014 new variable
+assessment#:#fq_precision_info#:#Enter the number of desired decimal places.###26 03 2014 new variable
+assessment#:#result_units_info#:#The selected units are offered to the learner as part of an answer. The learner has to choose one unit.###26 03 2014 new variable
+assessment#:#fq_no_restriction_info#:#Both decimals and fractions are accepted as input.###26 03 2014 new variable
+assessment#:#additional_rating_info#:#Please note that the values given here are expressed as percentages and these must add up to 100.###26 03 2014 new variable
+assessment#:#intprecision_info#:#"Divisible by" affects only the creation of variables, if the value for the precision is 0. In this case, you define for "Divisible by" an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, "Divisible by" is a mandatory field and must contain a positive integer. The default value is 1 for any integers.###26 03 2014 new variable
+assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.###26 03 2014 new variable
+assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."###26 03 2014 new variable
+assessment#:#tst_question_not_from_pool_info#:#No Pool###14 05 2014 new variable
+assessment#:#ass_quest_process_lock#:#Use Locking on Participant Solution Submits###14 05 2014 new variable
+assessment#:#ass_quest_process_lock_desc#:#Without the use of any locking mechanism, race conditions during the submit of solution data are possible. This can lead to inconsistent test results.###14 05 2014 new variable
+assessment#:#ass_quest_process_lock_mode#:#Lock Mode during Submit of Participant Solutions###14 05 2014 new variable
+assessment#:#ass_quest_process_lock_mode_file#:#Use Filesystem Locks###14 05 2014 new variable
+assessment#:#ass_quest_process_lock_mode_file_desc#:#This locking mechanism requests locks on empty files in the filesystem. Concurrent processes for the same user and the same question are waiting until the other process releases his lock.###14 05 2014 new variable
+assessment#:#ass_quest_process_lock_mode_db#:#Use Database Table Locks###14 05 2014 new variable
+assessment#:#ass_quest_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent Processes for the same or other users in the same or in another test are waiting until the other process releases his locks.###14 05 2014 new variable
+assessment#:#qpl_paste_error#:#At least one question could not pe pasted into the question pool. Possible reason: You tried to move the question into the same question pool.###14 05 2014 new variable
+assessment#:#tst_extratime_info#:#If you want to add the working time multiple times for the same participant, please insert the total amount of time you want to add.###14 05 2014 new variable
+bibl#:#bib_default_urldate#:#Date of URL visit###14 05 2014 new variable
+bibl#:#bib_default_language#:#Language###14 05 2014 new variable
+bibl#:#bib_default_series#:#Series###14 05 2014 new variable
+bibl#:#ris_default_dp#:#Database Provider###14 05 2014 new variable
+bibl#:#ris_default_st#:#Short Title###14 05 2014 new variable
+forum#:#merge_posts_into_thread#:#Merge Postings into other Thread###14 05 2014 new variable
+forum#:#move_thread_to_forum#:#Move Thread to other Forum###14 05 2014 new variable
+survey#:#spl_save_obligatory_state#:#Save Obligatory States###14 05 2014 new variable
+forum#:#post_reply_count#:#Re(%s):###14 05 2014 new variable
+dateplaner#:#cal_ical_url#:#iCal-URL###14 05 2014 new variable
+assessment#:#tst_msg_random_question_set_synced#:#The questions for the current configuration has been synchronized successfully.###20 07 2014 new variable
+assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Quesitons from Pool###20 07 2014 new variable
+assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Currently you cannot add new rules for the question selection, because there are no question pools available.###20 07 2014 new variable
+assessment#:#tst_msg_rand_quest_set_change_quest_amount_here#:#You can change the question amount here: %s###20 07 2014 new variable
+assessment#:#postpone_status#:#Postponed###20 07 2014 new variable
+assessment#:#tst_delete_dyn_test_results_btn#:#Delete Test Results###20 07 2014 new variable
+assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Delete Previous Answers###20 07 2014 new variable
+assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Provide Answer Status Filter###20 07 2014 new variable
+assessment#:#tst_question_answer_status#:#Answer Status###20 07 2014 new variable
+assessment#:#tst_question_answer_status_all_non_correct#:#All Questions (Except Correct Answered Ones)###20 07 2014 new variable
+assessment#:#tst_question_answer_status_non_answered#:#Non Answered Questions###20 07 2014 new variable
+assessment#:#tst_question_answer_status_wrong_answered#:#Wrong Answered Questions###20 07 2014 new variable
+assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection###20 07 2014 new variable
+assessment#:#tst_num_open_questions#:#Open Questions###20 07 2014 new variable
+assessment#:#tst_num_non_answered_questions#:#Non Answered Questions###20 07 2014 new variable
+assessment#:#tst_num_wrong_answered_questions#:#Wrong Answered Questions###20 07 2014 new variable
+assessment#:#tst_num_postponed_questions#:#Postponed Questions###20 07 2014 new variable
+assessment#:#tst_num_marked_questions#:#Marked Questions###20 07 2014 new variable
+tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service for any of the installed languages. Please add at least one document for any of the installed languages.###20 07 2014 new variable
+dcl#:#dcl_id#:#ID###20 07 2014 new variable
+dcl#:#dcl_id_description#:#The internal ID.###20 07 2014 new variable
+dcl#:#dcl_creation_date#:#Creation Date###20 07 2014 new variable
+dcl#:#dcl_creation_date_description#:#The date on which the entry was created.###20 07 2014 new variable
+dcl#:#dcl_last_update#:#Last Edited###20 07 2014 new variable
+dcl#:#dcl_last_update_description#:#The date the entry was last edited.###20 07 2014 new variable
+dcl#:#dcl_owner#:#Owner###20 07 2014 new variable
+dcl#:#dcl_owner_description#:#The owner of the entry.###20 07 2014 new variable
+dcl#:#dcl_last_edited_by#:#Last edited by###20 07 2014 new variable
+dcl#:#dcl_last_edited_by_description#:#The user that edited this entry last.###20 07 2014 new variable
+survey#:#svy_eval_skipped_value#:#Results: "skipped"###20 07 2014 new variable
+survey#:#svy_eval_skipped_value_lng#:#Use language file entry###20 07 2014 new variable
+survey#:#svy_eval_skipped_value_lng_info#:#Current value: "%s"###20 07 2014 new variable
+survey#:#svy_eval_skipped_value_custom#:#Use custom value###20 07 2014 new variable
+survey#:#svy_eval_skipped_value_custom_info#:#Define any (or empty) value to use for skipped answers###20 07 2014 new variable
+survey#:#svy_eval_skipped_value_custom_value#:#Value###20 07 2014 new variable
+dateplaner#:#cal_export_timezone#:#Timezone for Calendar Export###08 09 2014 new variable
+dateplaner#:#cal_export_timezone_tz#:#Use ILIAS-Timezone###08 09 2014 new variable
+dateplaner#:#cal_export_timezone_utc#:#Use Timezone UTC (compatible with MS Outlook)###08 09 2014 new variable
+mail#:#back_to_folder#:#Back to Folder###08 09 2014 new variable
+mail#:#current_folder#:#Current Folder: %s###08 09 2014 new variable
+cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.###08 09 2014 new variable
+mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files). ###08 09 2014 new variable
+mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:###08 09 2014 new variable
+user#:#passwd_generation_pre#:#Pre-defined Passwords###08 09 2014 new variable
+content#:#cont_ie_compatibility#:#Internet Explorer 7 compatibility mode###08 09 2014 new variable
+content#:#cont_ie_compatibility_info#:#Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer.###08 09 2014 new variable
+content#:#cont_ie_force_render#:#Force Internet Explorer to render again###08 09 2014 new variable
+content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iframes. Additionally you have to set the option 'Display' to 'in new window'.###08 09 2014 new variable
+exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.###08 09 2014 new variable

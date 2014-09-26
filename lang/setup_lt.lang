@@ -1,8 +1,8 @@
-﻿/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2014 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
-* @module       setup language file lithuanian
+* @module       setup language file Lithuanian
 * @modulegroup	language
 * @author 		Arturas Kavaliauskas <rgb@soften.ktu.lt>
 * @author 		Marius Gricius <marius.gricius@lka.lt>
@@ -588,3 +588,4 @@ tree_implementation_ns#:#Nested-Set Model###06 11 2013 new variable
 tree_implementation_mp#:#Materialized-Path Model###06 11 2013 new variable
 tree_implementation_switch_btn#:#Switch Tree Implementation###06 11 2013 new variable
 tree_implementation_switched#:#The tree implementation type has been switched.###06 11 2013 new variable
+feedback_recipient_info#:#This address is used in the footer link "Contact Administration"###14 05 2014 new variable

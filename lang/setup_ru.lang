@@ -1,10 +1,10 @@
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2014 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
-* @module       setup language file russian
+* @module       setup language file Russian
 * @modulegroup  language
-* @author       Diana Kononova <diana@nwpi.ru>    
+* @author       Stanislav Ivanov <f0ma@smtp.ru>, Diana Kononova <diana@nwpi.ru>    
 * @version      $Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
@@ -13,576 +13,577 @@
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software#:#3 часть программы
+3rd_party_software_opt#:#Опциональные сторонние компоненты
+3rd_party_software_req#:#Необходимые сторонние компоненты
+3rd_party_software#:#Сторонние компоненты
+3rdparty#:#Сторонние дополнения
 absolute_path#:#Абсолютный путь
-access#:#Доступ
 access_status#:#Статус доступа
-admin_login#:#Войти в систему как Администратор
-antivir#:#Антивирус
-available_clients#:#Доступны Клиенты
-available_languages#:#доступны Языки
-back#:#назад
-cannot_create_datadir_no_write_access#:#Доступ для записи запрещен. Не могу создать Каталог данных
-change#:#изменен
-change_basic_settings#:#Изменить Основные установки
-change_password#:#Изменить Пароль
-change_sort_direction#:#Изменить Каталог сортировки
-check_failed_convert#:#Ошибка тестирования Конвертирования
-check_failed_htmldoc#:#Ошибка тестирования FOP
-check_failed_htmldoc#:#Ошибка тестирования HTMLdoc
-check_failed_java#:#Ошибка тестирования Java
-check_failed_unzip#:#Ошибка тестирования Unzip
-check_failed_zip#:#Ошибка тестирования Zip
-choose_language#:#выберите ваш язык
+access#:#Доступность
+admin_login#:#Воити в систему используя мастер-пароль
+antivir#:#AntiVir
+applied_hotfixes#:#Примененные исправления
+apply_hotfixes#:#Применить исправления
+available_clients#:#Доступные клиенты
+available_hotfixes#:#Доступные исправления
+available_languages#:#Доступные языки
+back#:#Назад
+basic_settings#:#Основные настройки
+cannot_create_datadir_no_write_access#:#Доступ для записи запрещен. Не могу создать каталог данных.
+change_basic_settings#:#Изменить основные настройки
+change_password#:#Изменить пароль
+change_sort_direction#:#Изменить направление сортировки
+change#:#Изменить
+check_db_versions#:#Пожалуйста убедитесь, что режим работы с базой данных определенный ILIAS соответствует вашей версии MySQL. Как правило это так. Если нет, то ваша версия СУБД не поддерживается.<br> Пример 1: Если указан режим 'MySQL 4.1.x или выше', а версия вашей СУБД '4.0.12', то она не поддерживается. Пожалуйста свяжитесь с командой ILIAS.<br />Пример 2: Если указан режим 'MySQL 4.1.x или выше', а версия вашей СУБД '4.1.14', то все хорошо.
+check_failed_convert#:#Утилита сonvert не найдена.
+check_failed_htmldoc#:#Утилита HTMLdoc не найдена.
+check_failed_java#:#Java не найдена.
+check_failed_latex#:#Скрипт проверки LaTeX CGI завершился с ошибкой.
+check_failed_unzip#:#Команда unzip не найдена.
+check_failed_zip#:#Команда zip не найдена.
+choose_language#:#Выберите ваш язык
 choose_languages#:#Пожалуйста, выберите дополнительные языки и/или удалите выбранные языки.
-choose_password#:#Пожалуйста, выберите пароль
+choose_password#:#Пожалуйста, задайте пароль.
 city#:#Город
-clean_command#:#Очистить команду
-client#:#Клиент
-client_access_mode_changed#:#Модель доступа Клиента была изменена
-client_data#:#Информация Клиента
-client_id#:#ID Клиента
+clamav#:#ClamAV
+clean_command#:#Команда clean
+client_access_mode_changed#:#Доступность клиента была изменена
+client_data#:#Информация о клиенте
+client_deleted#:#Клиент удален.
+client_id#:#ID клиента
 client_info#:#Описание
-client_institution#:#Установление
-client_login#:#Войти в систему с ID Клиента
+client_institution#:#Организация
+client_login#:#Войти в систему, как администратор клиента
 client_name#:#Имя
-client_setup_not_finished#:#Установка Клиента пока еще не закончена
+client_setup_not_finished#:#Установка клиента пока еще не закончена.
+client#:#Клиент
+clients#:#Клиенты
+client_cloned#:#Все файлы и настроки источника будут скопированы в клиент.
+clone_clientnotdisabled#:#Клиент on-line. Пожалуйста выключите клиент перед клонированием.
+clone_clientismaster#:#Имя клиента содержит слово "master" и поэтому он не может быть переписан.
+clone_clientisnotmysql#:#У клиента отсутствует база данных MySQL.
+clone_clientnodatabase#:#Только базы данных MySQL поддерживаются на данный момент.
+clone_disabledmessage#:#Клонирование невозможно по следующим причинам:
+clone_youmustcheckiamsure#:#Вы должны выбрать "Я уверен" для перезаписи клиента.
+clone_source#:#Выберите источник для клонирования
+clone_selectsource#:#Источник
+clone_areyousure#:#Вы уверены?
+cloneit#:#Начать
 collation#:#Сравнение
-contact#:#Контактная информация
 contact_data#:#Контактные данные
-convert_path#:#Путь конвертирования
-convert_path_comment#:#предназначенные для показа виды изображений
-could_not_create_logfile#:#Не могу создать лог-файл
+contact#:#Контактные данные
+convert_path_comment_win#:#Необходима для отображения уменьшенных копий изображения, например 'C:/tools/ImageMagick/convert.exe'.
+convert_path_comment#:#Необходима для оторбажения уменьшенных копий изображения, например '/your_path/convert'.
+convert_path#:#Путь к команде convert пакета ImageMagick
+could_not_create_logfile#:#Не могу создать лог-файл.
 country#:#Страна
-create#:#создать
-create_datadir_failed#:#Ошибка создания Каталога данных
-create_new_client#:#Создать нового Клиента
-create_webdir_failed#:#Ошибка создания Веб-каталога
-data_path#:#Путь данных
-database#:#База данных
-database_create#:#Создать Базу данных
+create_datadir_failed#:#Ошибка создания каталога данных.
+create_directory#:#Создать каталог
+create_new_client#:#Создать новый клиент
+create_webdir_failed#:#Ошибка создания web-каталога.
+create#:#Создать
+ctrl_missing_desc#:#Управляющая структура отсутствует. Пожалуйста нажмите 'Обновить'.
+ctrl_structure_desc#:#Пожалуйста не используйте эту функцию если это прямо не указано в описании обновления или патча.
+ctrl_structure_reload#:#Перезагрузить управляющую структуру
+ctrl_structure_reloaded#:#Управляющая структура перезагружена.
+ctrl_structure#:#Управляющая структура
+data_directories#:#Каталоги данных
+data_directory_in_ws_info#:#Эта папка не может быть изменена.
+data_directory_in_ws#:#Каталог данных доступный из web
+data_directory_info#:#Пожалуйста введите путь к каталогу, который не доступен из web, но доступный серверу на запись.
+data_directory_outside_ws#:#Каталог данных недоступный из web
+data_path#:#Путь
+database_create#:#Создать базу данных
 database_exists#:#База данных существует
-database_install#:#Установить Базу данных
-database_installed#:#База данных установлена
-database_is_uptodate#:#Ваша База данных обновлена
-database_needs_update#:#Вашей Базе данных требуется обновление
-database_not_exists_create_first#:#База данных не существует. Пожалуйста, сначала создайте Базу данных.
+database_install#:#Установить базу данных
+database_installed#:#База данных установлена.
+database_is_uptodate#:#Ваша база данных актуальна.
+database_needs_update#:#Вашей базе данных требуется обновление.
+database_not_exists_create_first#:#База данных не существует. Пожалуйста, сначала создайте базу данных.
 database_ready#:#База данных готова.
-database_update#:#обновить Базу данных
-database_version#:#текущая версия Базы данных
-datadir_path#:#Путь к Каталогу данных
+database_update#:#Обновить базу данных
+database_version#:#Текущая версия базы данных
+database#:#База данных
 datadir_path_comment1#:#Обязательный
-datadir_path_comment2#:#не могу произвести изменения в этой версии установки
-datadir_webspacedir_match#:#Путь к каталогу данных такой же, как и к веб-каталогу. Пожалуйста, выберите другой каталог.
-date#:#данные
-db_conn#:#Соединение с Базой данных
-db_host#:#хост Базы данных
-db_name#:#имя Базы данных
-db_needs_update#:#Требуется обновить Базу данных
-db_not_installed#:#База данных не установлена
-db_pass#:#пароль Базы данных
-db_type#:#тип Базы данных
-db_user#:#пользователь Базы данных
-db_version#:#версия Базы данных
-default#:#другой
-default_client_changed#:#Изменен Другой Клиент
-default_language#:#Другой язык
-delete#:#удалить
-delete_confirm#:#Подтвердите удаление Клиента
+datadir_path_comment2#:#Невозможно изменить в этой версии установщика.
+datadir_path#:#Путь к каталогу данных
+datadir_webspacedir_match#:#Путь к каталогу данных такой же, как и к web-каталогу. Пожалуйста, выберите другой каталог.
+date#:#Дата
+db_conn#:#Соединение с базой данных
+db_control_structure_missing#:#Управляющая структура отсутствует (см. 'Подробнее' -> 'Обслуживание')
+db_error_please_check#:#Пожалуйста проверьте адрес сервера, имя пользователя и пароль.
+db_host#:#Сервер базы данных
+db_mysql#:#MySQL (MyISAM)
+db_name#:#Имя базы данных
+db_needs_update#:#Требуется обновить базу данных.
+db_not_installed#:#База данных не установлена.
+db_oracle#:#Oracle
+db_pass#:#Пароль к базе данных
+db_port#:#Порт сервера базы данных
+db_selection#:#Выбор базы данных
+db_service_name#:#Имя службы
+db_type#:#Тип базы данных
+db_update_interrupted_avoid#:#Чтобы избежать это проблемы, пожалуйста проверьте значения max_execution_time и memory_limit в файле php.ini. Также выполняйте меньше шагов при каждом запуске, чтобы снизить потребление ресурсов.
+db_update_interrupted#:#Скрипт обновления бал прерван во время предыдущего запуска. Это может привести к <b>некорректному</b> состаянию системы. Мы настоятельно рекомендуем откатиться к последней резервной копии и запустить обновление снова.
+db_user#:#Пользователь базы данных
+db_version#:#Версия базы данных
+default_client_changed#:#Изменен клиент по умолчанию.
+default_language#:#Язык по умолчанию
+default#:#По умолчанию
+delete_confirm#:#Подтвердите удаление клиента
 delete_info#:#Вы уверены?
-details#:#Детали
-dir_exists_create#:#Каталог уже существует. Отмените  'создать' при выборе этого каталога в качестве вашего Каталога данных
-disable#:#отключить
-disable_check#:#отключить проверку
-disable_logging#:#отключить логи
-disabled#:#отключен
-display_clientlist#:#Показать выбор Клиента
+delete#:#Удалить
+details#:#Подробности
+determine_tools_paths#:#Попытаться определить пути к утилитам
+dir_exists_create#:#Каталог уже существует. Снимите флажок 'создать' при выборе этого каталога в качестве вашего каталога данных.
+disable_check#:#Отключить проверку
+disable_logging#:#Отключить ведение логов
+disable#:#Выключить
+disabled#:#Выключен
+display_clientlist#:#Выбор клиента доступен пользователям.
+duplicate_ctrl#:#Ошибка: Дублирующийся вызов объявления структуры (Класс %s) найден в файлах:<br /><br />- %s<br />- %s<br /><br />Пожалуйста удалите файл, он не принадлежит к официальному дистрибьютиву ILIAS.<br />После этого запустите 'Обслуживание' -> 'Перезагрузить управляющую структуру' в установщике ILIAS.
+email_not_valid#:#Ошибка в адресе электронной почты
 email#:#Email
-email_not_valid#:#Ошибка в email-адресе
 en_by_default#:#(Английский язык установлен по умолчанию и не может быть удален).
-enable#:#включить
-enabled#:#включен
+enable#:#Включить
+enabled#:#Включен
 enter_dir_and_filename#:#Пожалуйста, задайте полный (абсолютный) путь и имя файла!
 enter_password#:#Введите пароль
-env_ok#:#Ok. Звучит хорошо.
+env_ok#:#Ok. Звучит неплохо.
 env_using#:#ILIAS уже запущен
-env_warning#:#ILIAS тестировался только для Linux и Windows под Apache web-сервером!<br />Но, конечно, ILIAS сможет работать с вашим окружением тоже.
+env_warning#:#ILIAS тестировался только для Linux и Windows под web сервером Apache!<br />Но, вероятно, ILIAS сможет работать с вашим окружением тоже.
 environment#:#Окружение
-err_create_database_failed#:#ошибка создания Базы данных
+err_create_database_failed#:#Ошибка создания базы данных.
 err_wrong_login#:#Неправильный логин
-error_recipient#:#Ошибка получателя
+error_recipient#:#Адрес уведомлений об ошибках
 example#:#Например
-feedback_recipient#:#Получатель по обратной связи
+feedback_recipient#:#Адрес обратной связи
 file_does_not_exist#:#Файл не существует.
-file_version#:#версия файла
+file_version#:#Версия файла
 fill_both_fields#:#Пожалуйста, заполните оба поля!
 fill_out_required_fields#:#Пожалуйста, заполните все поля, помеченные как обязательные.
-filled_out#:#заполнено правильно
-finish#:#Установка завершена
-finish_initial_setup_first#:#Пожалуйста, закончите сначала инициализацию установки
+filled_out#:#заполнено верно.
+finish_initial_setup_first#:#Пожалуйста, закончите сначала инициализацию установки.
 finish_setup#:#Завершение установки
+finish#:#Установка завершена
 firstname#:#Имя
+fop_path_comment#:#Требуется для создания PDF документов.
 fop_path#:#Путь к FOP
-fop_path_comment#:#выбранные для генерации PDF документы
-hide_clientlist#:#Скрыть выбор Клиента
+form_input_not_valid#:#Некоторые данные не полны или не верны. Пожалуйста исправьте их.
+form_retype_password#:#Повторите пароль
+hide_clientlist#:#Выбор клиента скрыт для пользователей.
 host#:#Хост
+hotfix_applied#:#Исправление применено
+hotfix_available#:#Исправление доступно
+htmldoc_path_comment_win#:#Опционально, для создания PDF документов, например 'C:/tools/htmldoc/htmldoc.exe'.
+htmldoc_path_comment#:#Опционально, для создания PDF документов, например '/your_path/htmldoc'.
 htmldoc_path#:#Путь к HTMLdoc
-htmldoc_path_comment#:#выбранные для генерации в HTMLdoc
-http_path#:#путь HTTP
+http_path#:#HTTP путь
 id#:#ID
+ilias_db_mode#:#Режим базы данных ILIAS
 ilias_homepage#:#Домашняя страница ILIAS
-ilias_nic#:#NIC Регистрация
 ilias_nic_id#:#NIC ID
+ilias_nic#:#Регистрация NIC
 ilias_setup#:#Установка ILIAS
 ilias_version#:#Версия ILIAS
-info_text_contact#:#Здесь вы определите дополнительную информацию клиента и контактные данные администратора этого клиента. Поля, отмеченные звездочкой, обязательны для заполнения. Вся информация будет сохранена в вашей базе данных. На следующем этапе вы сможете зарегистрировать инсталляцию на ILIAS-NIC Сервере; программа регистрации передаст эти данные на ILIAS-NIC Сервер.
-info_text_db#:#База данных не существует или пустая. Щелкните на кнопке ниже для инсталляции Базы данных. Если Базы данных с выбранным именем не существует, пожалуйста, выберите опцию 'создать Базу данных'. Программа установки попытается создать Базу данных автоматически. В случае неудачного окончания (н.р. ограничены права доступа), пожалуйста, свяжитесь с системным администратором сервера базы данных и спросите его, как создать базу с выбранным именем для установки ILIAS.
-info_text_db_collation1#:#Если вы решите выбрать сопоставление, не поддерживаемое в UTF-8, вы должны создать базу данных вручную. В любом случае, пожалуйста, проверьте, что символ базы данных есть в utf8.
-info_text_db_collation2#:#Более полную информацию о проверке MySQL можно найти на сайте  MySQL.
-info_text_delete#:#Вы можете удалить этого Клиента щелчком на клавише удаления находящейся ниже. Однако, будет удален только client.ini файл, содержащий все файлы хранящиеся в каталоге Клиента и базе данных. Файлы и База данных удаляются вручную системным администратором.
-info_text_finish1#:#Поздравляем! Ваша клиентская установка прошла успешно. Щелкните на кнопке 'Вход в систему' для авторизации в программе ILIAS.
-info_text_finish2#:#Некоторые установки были пропущены или некорректны. Пожалуйста, просмотрите список процесса, который только что закончился!
-info_text_first_client#:#Ваши базовые параметры сохранены. Теперь мы установим вашего первого Клиента. Программа установки будут руководить процессом инсталляции. На правой панели вы всегда сможете увидеть текущий статус процесса инсталляции.
-info_text_first_install#:#Похоже, вы только что установили ILIAS, потому что не найден файл ilias.ini. В файле ilias.ini храниться мастер-пароль защиты ILIAS от несанкционированного доступа.
-info_text_ini#:#Пожалуйста, выберите ID Клиента. Любые буквы или цифры разрешены. ID Клиент должен быть уникальным.<br />Затем введите информацию для соединения с вашей базой данных. Программа установки проверит ваш выбор и протестирует базу данных на существование. Если база данных не существует, вы сможете на следующем шаге программы установки создать свою базу данных.
-info_text_lang#:#Пожалуйста, выберите дополнительные языки и/или удалите выбранные языки. Другой язык используется в качестве языка для нового аккаунта или для пoльзователей которые не указали язык самостоятельно.
-info_text_list#:#В этом окне быстрого просмотра вы видите всех доступных клиентов, их установки и статус доступа. Вверху справа вы можете переключить окно выбора клиента в вкл/выкл. Если переключатель клиента включен, все доступные клиенты, которые находятся в on-line, будут показаны в списке на первой странице ILIAS. Если переключатель клиента выключен и пользователь просматривает первую страницу, то экран логина показывает  <i>другого</i> клиента. Вы можете разделить другого клиента кнопкой ниже.
-info_text_login#:#Пожалуйста, введите ID Клиента вашей установки и данные аккаунта. Ваш аккаунт должен иметь статус 'администратора'.
-info_text_nic1#:#Получить id установки (nic-id) с ILIAS Сервера. Уникальный nic-id требуется в случае, если вы хотите разделить содержимое с другими ILIAS установками. Регистрация добровольна. Если вы не желаете регистрироваться, выберите 'пропустить регистрацию' (вы можете зарегистрироваться в любое время).<br /> Мы рекомендуем on-line регистрацию. Если у вас проблемы с соединением (н.р. вы используете firewall), вы можете получить nic-id через email. Пожалуйста, отошлите на 
-info_text_nic2#:#с вашей информацией установки на ilias-info@uni-koeln.de. Введите nic-id, который хотите послать, в соответствующее email- поле для ответа, и выберите 'регистрация через Email'.
-info_text_nic3#:#Вы зарегистрировали установку. Ваш nic-id -
-info_text_password#:#Здесь можете изменить мастер-пароль установки программы.
-info_text_pathes#:#ILIAS поддерживает много клиентов различных баз данных. Ниже вы зададите каталог базы данных, расположение лог-файла и путь 3-ей части программы. Эти установки действительны для всех клиентов, которых вы создадите позже.
+include_local#:#Include Local
+info_text_3rdparty#:#На этом этапе производится установка сторонних дополнений, необходимых ILIAS. Следуйте инструкциям для каждого дополнения, чтобы завершить этот этап.
+info_text_clone#:#Эта функция перепишет выбранный клиент копией другого.<p><i>Заметьте, что вы можете клонировать только выключенные клиенты. Также, клиент не может иметь строку 'master' в своем имени.<br>На данный момент поддерживается только MySQL.</i><p><b>Внимание! Это действие не может быть отменено! Клиент будет перезаписан контентом из другого, который вы можете выбрать здесь!</b>
+info_text_contact#:#На этом этапе вы можете указать дополнительную информацию о клиенте и контактные данные администратора этого клиента. Вся информация будет сохранена в вашей базе данных. На следующем этапе вы сможете зарегистрировать инсталляцию сервера ILIAS.
+info_text_db_collation1#:#Если вы решите выбрать режим сравнения, не поддерживающий UTF-8, вы должны будете создать базу данных вручную. В любом случае, пожалуйста, проверьте, что кодировка базы данных utf8.
+info_text_db_collation2#:#Более полную информацию о сравнении в MySQL можно найти на сайте  MySQL.
+info_text_db#:#База данных не существует или пустая. Если Базы данных с выбранным именем не существует, пожалуйста, выберите опцию 'Создать базу данных'. Программа установки попытается создать базу данных автоматически. В случае неудачного окончания (н.р. выбранный тип сравнения не доступен), пожалуйста, создайте базу вручную следующей командой:
+info_text_db2#:#Пожалуйста убедитесь, что база данных создана с опцией "CHARACTER SET utf8".
+info_text_delete#:#Вы можете удалить этого клиента щелчком на кнопке находящейся ниже. Однако, будет удален только client.ini файл, все файлы хранящиеся в каталоге клиента и база данных будут сохранены. Файлы и база данных могут быть удалены вручную системным администратором.
+info_text_finish1#:#Поздравляем! Ваша установка клиента прошла успешно. Щелкните на кнопке 'Вход в систему' для авторизации в ILIAS.
+info_text_finish2#:#Некоторые настройки пропущены или неверны. Пожалуйста посмотрите на графике процесса, что должно быть сделано!
+info_text_first_client#:#Основные настройки сохранены. Теперь мы установим вашего первого клиента. Программа будут руководить процессом установки. На панели справа вы всегда сможете увидеть текущий этап установки.
+info_text_first_install#:#Похоже, вы только что установили ILIAS, потому что не найден файл ilias.ini.php. В в нем храниться мастер-пароль для защиты ILIAS от несанкционированного доступа.
+info_text_ini#:#Пожалуйста, выберите ID клиента. Любые буквы (кроме умляутов) или цифры разрешены. ID клиента должен быть уникальным.<br />Затем введите информацию для соединения с вашей базой данных. Программа установки проверит ваш выбор и протестирует базу данных на существование. Если база данных не существует, вы сможете на следующем шаге установки создать свою базу данных.
+info_text_lang#:#Пожалуйста, выберите дополнительные языки и/или удалите выбранные языки. Язык по умолчанию используется в качестве языка для нового аккаунта или для пoльзователей которые не указали язык самостоятельно.
+info_text_list#:#В этом окне быстрого просмотра вы видите всех доступных клиентов, их установки и статус доступа. Вверху справа вы можете включить/выключить окно выбора клиента. Если выбор клиента включен, все доступные клиенты, которые находятся в on-line, будут показаны в списке на первой странице ILIAS. Если выбор клиента выключен, то пользователь увидит на  стартовой странице, экран входа в систему клиента  <i>по умолчанию</i>. Вы можете указать клиента по умолчанию кнопкой расположенной ниже.
+info_text_login#:#Пожалуйста, введите ID клиента вашей установки и ваши данные. Ваш аккаунт получит статус 'администратор'.
+info_text_nic#:#Опционально зарегистрируйтесь и получите NIC-ID от сервера сообщества ILIAS. Получение NIC-ID рекомендуется, если вы хотите делиться вашим контентом с другими установками ILIAS.
+info_text_nic3#:#Вы зарегистрировали вашу установку. Ваш nic-id
+info_text_password#:#Здесь вы можете изменить мастер-пароль программы установки.
+info_text_pathes#:#ILIAS поддерживает много клиентов для различных баз данных. Укажите каталог для хранения данных, расположение лога и пути к сторонним утилитам. Эти установки будут действительны для всех клиентов, которых вы создадите позже.
 ini_client_id_exists#:#Клиент с таким ID уже существует! Пожалуйста, задайте другой ID.
-ini_client_id_invalid#:#ID Клиента включает неверные символы
-ini_client_id_no_change#:#ID Клиента не может быть изменен в этой версии, после того как были успешно созданы каталоги Клиента.
-ini_client_id_too_long#:#ID Клиента слишком длинный
-ini_client_id_too_short#:#ID Клиента слишком короткий
-ini_db_name_exists#:#уже существует! Пожалуйста, выберите другое имя Базы данных
-ini_no_client_id#:#Не выбран ID Клиент.
-ini_no_db_host#:#Нет имени хоста
-ini_no_db_name#:#нет имени Базы данных
-ini_no_db_user#:#Нет базы данных пользователя
-inifile#:#ini-файл
-inifile_can_write#:#Данные установки ILIAS можно записать в ini-файл.
-inifile_cannot_write#:#Установка ILIAS не может быть записана в ini-файл. Пожалуйста, проверьте сначала права на запись.
-inifile_content#:#Ваш ini-файл содержит следующее:
-inifile_exists#:#Ini-файл уже существует. Заметьте, что данная установка удалить все предыдущие значения.
+ini_client_id_invalid#:#ID клиента включает недопустимые символы
+ini_client_id_no_change#:#ID клиента не может быть изменен в этой версии, после того, как были успешно созданы каталоги клиента.
+ini_client_id_too_long#:#ID клиента слишком длинный.
+ini_client_id_too_short#:#ID клиента слишком короткий.
+ini_db_name_exists#:#уже существует! Пожалуйста, выберите другое имя базы данных.
+ini_no_client_id#:#ID клиента не указан.
+ini_no_db_host#:#Не задано имя сервера базы данных.
+ini_no_db_name#:#Не задано имя базы данных.
+ini_no_db_user#:#Не задано имя пользователя базы данных.
+inifile_can_write#:#Инсталлятор ILIAS может сохранить ваш ini-файл.
+inifile_cannot_write#:#Инсталлятор ILIAS не может сохранить ваш ini-файл. Пожалуйста, проверьте права на запись.
+inifile_content#:#Содержание ini-файла:
+inifile_exists#:#Ini-файл уже существует. Заметьте, что при установке будут удалены все предыдущие значения.
 inifile_fill_all#:#Пожалуйста, заполните все поля.
-inifile_firsttime#:#Нет ini-файла! Похоже на первый запуск ILIAS.
-inifile_written#:#Ini-файл был успешно сохранен на вашем хосте.
+inifile_firsttime#:#Нет ini-файла! Похоже, что это на первый запуск ILIAS.
+inifile_written#:#Ini-файл был успешно сохранен.
+inifile#:#ini-файл
 input_error#:#Ошибка ввода
 inst_identification#:#Идентификация установки
-inst_name#:#имя установки
-install#:#установить
+inst_name#:#Имя установки
+install#:#Установить
 installation#:#Установка
-installed#:#установлено
+installed_local#:#Установлено локально
+installed#:#Установлено
 institution#:#Организация
-intro_install#:#Это главная страница установки ILIAS. Отсюда вы можете начать этап установки.
+intro_install#:#Это главная страница установки ILIAS. Отсюда вы можете начать установку.
 ip_address#:#IP адрес
+java_path_comment_win#:#Опционально, для проверки модулей SCORM, например 'C:/Program Files/Java/bin/java.exe'.
+java_path_comment#:#Опционально, для проверки модулей SCORM, например '/your_path/java'.
 java_path#:#Путь к Java
-java_path_comment#:#требуется для обучающего модуля SCORM
+lang_ar#:#Арабский
+lang_bg#:#Болгарский
 lang_cs#:#Чешский
 lang_da#:#Датский
 lang_de#:#Немецкий
+lang_el#:#Греческий
 lang_en#:#Английский
 lang_error_occurred#:#Ошибка. Действие прервано.
 lang_es#:#Испанский
+lang_et#:#Эстонский
 lang_fr#:#Французский
 lang_hu#:#Венгерский
 lang_id#:#Индонезийский
 lang_it#:#Итальянский
+lang_ja#:#Японский
+lang_ka#:#Грузинский
 lang_lt#:#Литовский
 lang_min_one_language#:#Вы должны установить хотя бы один язык!
 lang_nl#:#Голландский
 lang_no#:#Норвежский
-lang_none_installed#:#Язык не установлен
+lang_none_installed#:#Язык не установлен.
 lang_not_installed_default#:#Язык, выбранный вами по умолчанию, не установлен!
 lang_pl#:#Польский
 lang_pt#:#Португальский
 lang_ro#:#Румынский
+lang_ru#:#Русский
 lang_se#:#Шведский
+lang_sk#:#Словацкий
+lang_sq#:#Албанский
+lang_sr#:#Сербский
+lang_tr#:#Турецкий
 lang_uk#:#Украинский
+lang_vi#:#Виетнамский
 lang_xx#:#Пользовательский
 lang_zh#:#Китайский
 langs_not_valid_not_installed#:#Следующие языки не были правильно установлены, возможно, повреждены lang-файлы
-language#:#язык
-languages#:#языки
+language#:#Язык
 languages_installed#:#Язык(и) установлен(ы)
+languages#:#Языки
 lastname#:#Фамилия
+latex_url_comment#:#Опционально для поддержки LaTeX в ILIAS.
+list_clients#:#Список клиентов
+list_disabled#:#Секция клиента отключена
+list_enabled#:#Секция клиента включена
 list#:#список
-list_disabled#:#Секция Клиента отключена
-list_enabled#:#Секция Клиента включена
-log_path#:#Путь к log-файлу
-log_path_comment#:#введите имя файла. Файл будет создан.
+log_path_comment_win#:#Например 'C:/iliasdata/iliaslog.txt' (Файл будет создан)
+log_path_comment#:#Например '/path_to_log_dir/ilias.log' (Файл будет создан)
+log_path#:#Путь к логу
 logged_out#:#Вы вышли из системы.
 logging#:#Запись логов
-login#:#логин
-login_invalid#:#Неправильный логин
-login_to_ilias#:#войти в ILIAS
-logout#:#выйти из системы
-main_datadir_outside_webspace#:#Основной каталог данных не принадлежит веб-пространству
+login_invalid#:#Неправильный логин.
+login_to_ilias#:#Войти в ILIAS
+login#:#Логин
+logout#:#Выйти из системы
+main_datadir_outside_webspace#:#Основной каталог данных не доступный из web
+master_password#:#Мастер-пароль
 missing_data#:#Отсутствуют данные
+ffmpeg_path_comment#:#Опционально для конвертирования аудио/видео, например '/your_path/ffmpeg'
+ffmpeg_path#:#Путь к ffmpeg
+msg_input_is_required#:#Это поле обязательно. Пожалуйста введите значение.
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x или ниже
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x или выше
 name#:#Имя
-new#:#новый
-next#:#Следующий
-nic_not_disabled#:#Нет NIC-ID & не отключать
-nic_reg_disable#:#пропустить NIC регистрацию
-nic_reg_disable_comment#:#(регистрировать позже)
-nic_reg_disabled#:#NIC регистрация отключена
-nic_reg_email#:#регистрировать через Email
-nic_reg_enabled#:#NIC регистрация включена!
-nic_reg_enter_checksum#:#Введите посылаемую сумму проверки
-nic_reg_enter_correct_id#:#Пожалуйста, введите корректный nic_id
-nic_reg_enter_id#:#Введите отсылаемый NIC ID
-nic_reg_failed#:#Ошибка NIC регистрации
-nic_reg_online#:#регистрирование on-line
-nic_registration#:#NIC Регистрация
+need_mysql_4_1_or_higher#:#Ваша версия MySQL не поддерживается. Пожалуйста установить MySQL 4.1.x или выше для запуска ILIAS.
+new_client#:#Создать клиент
+new#:#Новый
+next_update_break_info#:#В зависимости от объема вашей базы, обычно не рекомендуется выполнять крупные обновления за один раз.
+next_update_break#:#Следующая остановка при обновлении
+next#:#Далее
+nic_not_disabled#:#Нет NIC-ID & не выключен
+nic_reg_disable_comment#:#(Зарегистрироваться позже)
+nic_reg_disable_info#:#Вы можете зарегистрироваться в любое время.
+nic_reg_disable#:#Пропустить регистрацию
+nic_reg_disabled#:#Выключено
+nic_reg_email#:#Регистрация через Email
+nic_reg_enabled#:#Включена
+nic_reg_enter_checksum#:#Введите полученную контрольную сумму
+nic_reg_enter_correct_id#:#Пожалуйста, введите корректный nic_id.
+nic_reg_enter_id#:#Введите полученный NIC ID
+nic_reg_failed#:#Ошибка регистрации.
+nic_reg_online#:#Регистрация on-line
+nic_registration#:#Регистрация
 no_changes#:#Без изменений.
-no_client_id#:#Не задан ID Клиент
-no_client_name#:#У Клиента нет имени
-no_clients_available#:#Нет доступных Клиентов
-no_database#:#Нет Базы данных
-no_db_connect_consult_admin#:#Не могу соединиться с Базой данных. Пожалуйста, обратитесь к системному администратору
+no_client_id#:#ID клиента не указан
+no_client_name#:#У клиента нет имени
+no_clients_available#:#Нет доступных клиентов
+no_database#:#Нет базы данных
+no_db_connect_consult_admin#:#Не могу соединиться с базой данных. Пожалуйста, обратитесь к системному администратору
 no_db_update_file#:#dbupdate.php не найден!
-no_password#:#Не задан пароль
-no_path_convert#:#Не задан путь конвертирования
-no_path_datadir#:#Не задан Каталог данных
-no_path_fop#:#Не задан путь к FOP
-no_path_given#:#Не задан путь
-no_path_htmldoc#:#Не задан путь к HTMLdoc
-no_path_java#:#Не задан путь к Java
-no_path_log#:#Не задан путь к логам
-no_path_unzip#:#Не задан путь к Unzip
-no_path_zip#:#Не задан путь к Zip
-no_setup_pass_given#:#Не задан пароль установки
-no_username#:#Не задано имя пользователя
-no_valid_client_id#:#Не действительный ID Клиент
+no_items#:#Список пуст
+no_latex_url#:#URL скрипта LaTeX CGI не указан.
+no_password#:#Не задан пароль.
+no_path_convert#:#Не задан путь к convert.
+no_path_datadir#:#Не задан каталог данных.
+no_path_fop#:#Не задан путь к FOP.
+no_path_given#:#Не задан путь.
+no_path_htmldoc#:#Не задан путь к HTMLdoc.
+no_path_java#:#Не задан путь к Java.
+no_path_log#:#Не задан путь к логам.
+no_path_mkisofs#:#Не задан путь к mkisofs.
+no_path_unzip#:#Не задан путь к unzip.
+no_path_zip#:#Не задан путь к zip.
+no_setup_pass_given#:#Не задан пароль.
+no_username#:#Не задано имя пользователя.
+no_valid_client_id#:#Недействительный ID клиента.
 none#:#Нет
-not_connected_to_db#:#Вы не соединились с Базой данных
-online#:#on-line
+not_configured#:#Не настроен
+not_connected_to_db#:#Вы не соединены с базой данных.
+online#:#On-line
 or#:#или
-out_of_webspace#:#(выход из веб-пространства)
+out_of_webspace#:#(не доступен из web)
 overall_status#:#Общий статус
-overview#:#Быстрый просмотр
-pass_does_not_match#:#Введенный пароль не подходит
-password#:#пароль
+overview#:#Обзор
+pass_does_not_match#:#Введенные пароли отличаются.
+passwd_not_match#:#Введенные вами пароли различны! Пожалуйста укажите ваш новый пароль еще раз.
 password_changed#:#Пароль изменен.
-password_empty#:#Не задан пароль!
+password_empty#:#Пароль не задан!
 password_enter_old#:#Вы должны сначала ввести старый пароль!
-password_info#:#Для защиты ваших данных конфигурации от неавторизированного доступа, задайте пароль и измените установки снова.
+password_info#:#Для защиты ваших данных конфигурации от неавторизированного доступа, задайте пароль и измените эти установки.
 password_new_master#:#Установить новый мастер-пароль
-password_not_match#:#Новый зарегистрированный пароль не подходит!
-password_old_wrong#:#Старый зарегистрированный пароль ошибочен!
+password_not_match#:#Новый введенный пароль не совпадает!
+password_old_wrong#:#Старый пароль не верен!
 password_retype#:#Повторите новый пароль
 password_same#:#Старый и новый пароль должны различаться!
-password_set#:#Пароль сохранен
-path_not_set#:#Путь не установлен
-path_to_convert#:#Путь конвертирования
+password_set#:#Пароль сохранен.
+password#:#Пароль
+path_not_set#:#Путь не установлен.
+path_to_convert#:#Путь к convert
 path_to_fop#:#Путь к FOP
 path_to_htmldoc#:#Путь к HTMLdoc
 path_to_java#:#Путь к Java
-path_to_unzip#:#Путь к Unzip
-path_to_zip#:#Путь к Zip
+path_to_mkisofs#:#Путь к mkisofs
+path_to_unzip#:#Путь к unzip
+path_to_zip#:#Путь к zip
 pathes#:#Пути
 phone#:#Телефон
-port#:#порт
-position#:#Позиция
+please_select#:#Пожалуйста выберите
+populate#:#Клонирование
+port#:#Порт
+position#:#Должность
 pre_cookies_disabled#:#Cookies выключены. Cookies необходимы для работы ILIAS.
 pre_cookies_enabled#:#Cookies включены
-pre_error#:#Один или более объект неправильный. Для правильной установки ILIAS устраните проблемы.
-pre_folder_create#:#Новые каталоги созданы в каталоге ILIAS
-pre_folder_create_error#:#Не могу создать подкаталоги! Пожалуйста, проверьте ваши права в файловой системе!
-pre_folder_write#:#Перезаписываемый каталог ILIAS
-pre_folder_write_error#:#Не могу записать в каталог ILIAS! Пожалуйста, проверьте ваши права в файловой системе!
-pre_intro#:#Давайте посмотрим, отвечает ли ваше программное обеспечение требованиям программы установки и запуска ILIAS.
-pre_javascript_comment#:#Вы можете запустить ILIAS без JavaScript, но не будут использоваться некоторые части интерфейса.
+pre_dom_missing#:#Пожалуйста включите поддержку DOM в PHP.
+pre_dom#:#Поддержка DOM
+pre_error#:#Некоторые базовые требования необходимые для установки не выполнены. Вы можете получить подробную информацию на <a href="%s" target="_blank">сайте ILIAS</a>.
+pre_folder_create_error#:#Не могу создать подкаталоги! Пожалуйста, проверьте ваши права на доступ к файлам!
+pre_folder_create#:#Возможно создание каталогов в основной web папке
+pre_folder_write_error#:#Не могу записать в каталог ILIAS! Пожалуйста, проверьте ваши права на доступ к файлам!
+pre_gd_missing#:#Пожалуйста включите поддержку GD в PHP, подробнее в <a target="_blank" href="%s">документации PHP</a>.
+pre_gd#:#Поддержка GD
+pre_intro#:#Давайте посмотрим, отвечает ли ваше окружения необходимым требованиям для установки и запуска ILIAS.
+pre_javascript_comment#:#Вы можете запустить ILIAS без JavaScript, но некоторые возможности интерфейса будут отсутствовать.
 pre_javascript_enabled#:#JavaScript включен
+pre_memory_limit_recommend#:#Мы рекомендуем значение 80М или больше.
+pre_memory_limit_too_low#:#Пожалуйста задайте значение memory_limit в файле php.ini не менее 40M. Мы рекомендуем 80M или больше.
+pre_memory#:#Ограничение памяти PHP (php.ini)
+pre_mysql_4_1_or_higher#:#Вам необходима MySQL 4.1 или выше для запуска ILIAS.
+pre_mysql_missing#:#Пожалуйста включите поддержку MySQL (версии 4.1 или выше) в PHP.
+pre_mysql#:#Поддержка MySQL
+pre_php_version_too_low#:#Ваша версия PHP не поддерживается. Мы рекомендуем использовать PHP 5.2.1 или выше. Поддержка PHP 6 пока не тестировалась.
+pre_php#:#Версия PHP
+pre_root#:#Папка доступная из web с возможностью записи
+pre_xsl_missing#:#Пожалуйста включите поддержку XSL в PHP, подробнее в <a target="_blank" href="%s">документации PHP</a>.
+pre_xsl#:#Поддержка XSL
+preliminaries#:#Предварительные требования
+prev#:#Предыдущий
+reload#:#Перезагрузить
+required_field#:#Обязательные поля
+reset#:#Восстановить
+root_access#:#Доступ root
+safe_mode_enabled#:#Включен Safe mode!
+save_error#:#Ошибка сохранения!
+save#:#Сохранить
+saved_successfully#:#Сохранение успешно
+scan_command#:#Команда scan
+select_client#:#Выбор клиента
+server_info#:#Информация о сервере
+server_settings#:#Настройки сервера
+server_software#:#Программное обеспечение сервера
+sess_allow_client_maintenance_info#:#Определяет возможно ли управление параметрами сессии администратором клинта или нет.
+sess_allow_client_maintenance#:#Разрешить обслуживание клиенту
+sess_max_session_count_info#:#Определить максимальное число сессий, которые могут быть созданы одновременно. Установка в "0" выключает ограничение.
+sess_max_session_count#:#Максимальное число сессий
+sess_max_session_idle_after_first_request_info#:#Все сессии которые являются неактивными не менее чем указанный период после первого запроса будут закрыты, если новая сессия должна быть открыта и достигнуто максимально допустимое количество сессий.
+sess_max_session_idle_after_first_request#:#Максимальное время неактивности сессии после первого запроса (в минутах)
+sess_max_session_idle_info#:#Максимально время неактивности, после которого сессия будет считаться истекшей.
+sess_max_session_idle#:#Максимальное время сессии (в минутах)
+sess_min_session_idle_info#:#Когда пользователь не активен не менее этого времени, его сессия будет закрыта, если новая сессия должна быть открыта и достигнуто максимально допустимое количество сессий.
+sess_min_session_idle#:#Минимальное время сессии (в минутах)
+sess_sessions#:#Настойки
+session_management_configured#:#задано
+session_management_not_configured#:#не задано
+session_management#:#Управление сессиями
+set_default_client#:#Задать клиента по умолчанию
+set_newpasswd#:#Пожалуйста, введите новый пароль
+set_oldpasswd#:#Пожалуйста, введите старый пароль
+settings_change_clob#:#Change to CLOB
+settings_change_text#:#Change to TEXT
+settings_changed#:#Настройки изменены.
+settings_info_clob#:#The type CLOB allows storing of values with more than 4000 characters. Changing this type to TEXT will increase the performance of ILIAS with an ORACLE database. Before you do this please check if you have settings with more than 4000 characters.
+settings_info_text#:#The type TEXT allows storing of values up to 4000 characters. Changing this type to CLOB will allow longer entries but slow down the performance of ILIAS with an ORACLE database.
+settings_key_info#:#Модуль:<br />%s<br />Ключевое слово:<br />%s
+settings_longer_values#:#Longer Values
+settings_no_longer_values#:#No values with more than 4000 characters found. You may change the data type to TEXT.
+settings_saved#:#Настройки сохранены.
+settings_show_longer#:#Show longer values
+settings_too_long#:#Some settings are too long to be converted. Please change them before you change the settings data type
+settings_type_changed#:#Настройки типа изменены.
+settings_type_current#:#Текущий тип
+settings_type#:#Настройки типа данных
+setup_3rdparty_data#:#Установка сторонних дополнений
+setup_basic_settings#:#Задать основные настройки
+setup_contact_data#:#Контактная информация
+setup_database_desc#:#Установка базы данных
+setup_database#:#База данных
+setup_db_first#:#Пожалуйста, сначала установите базу данных!
+setup_finished#:#Установка завершена
+setup_first_client#:#Установка вашего первого клиента
+setup_ini_first#:#Пожалуйста, сначала создайте ini-файл!
+setup_inifile_desc#:#Создать ini-файл вашей установки.
+setup_inifile#:#Создать ini-файл
+setup_languages_desc#:#Установить дополнительные языки
+setup_languages#:#Установить языки
+setup_login#:#Вход в программу установки
+setup_mainmenu#:#Главное меню установки
+setup_menu#:#Меню установки
+setup_nic_desc#:#Регистрация копии программы на сервере ILIAS-NIC
+setup_not_finished#:#Установка не завершена
+setup_pass_title#:#Установить мастер-пароль
+setup_pass#:#Пароль
+setup_pass2#:#Подтвердить пароль
+setup_password_desc#:#Задать пароль доступа к программе установки (н.р. для последующего обновления баз данных)
+setup_password#:#Задать пароль
+setup_process_status#:#Статус установки
+setup_process_step_3rdparty#:#Сторонние дополнения
+setup_process_step_contact#:#Контактная информация
+setup_process_step_db#:#База данных
+setup_process_step_finish#:#Установка завершена
+setup_process_step_ini#:#Основные данные
+setup_process_step_lang#:#Языки
+setup_process_step_nic#:#Регистрация
+setup_process_step_sess#:#Управление сессиями
+setup_ready#:#Установка выполнена. Вы сейчас можете зайти в систему и проверить дополнительные параметры.
+setup_sessions#:#Управление сессиями
+setup_welcome#:#Программа установки ILIAS приветствует Вас! Эта пошаговая инструкция поможет Вам
+setup#:#Установщик
+sophos#:#Sophos
+sort_by_this_column#:#Сортировать по столбцу
+status_3rdparty_false#:#Сторонние дополнения отсутствуют
+status_3rdparty_ok#:#Сторонние дополнения установлены
+status_3rdparty_problems#:#Проблемы в работе сторонних дополнений
+status#:#Статус
+step_access#:#Доступ
+step_contact#:#Контакты
+step_db#:#База данных
+step_finish#:#Готово
+step_ini#:#ini-файл
+step_lang#:#Языки
+step_nic#:#Регистрация
+step_sess#:#Управление сессиями
+step#:#Шаг
+street#:#Улица
+submit#:#Подтвердить
+time_zone#:#Временная зона
+tiny_dir_does_not_exist#:#Папка содержащая редактор не существует. Вы должны извлечь содержимое ZIP файла содержащего редактор по верному адресу
+tiny_nothing_to_do#:#Редактор уже установлен.
+tiny_zip_changed#:#
+ZIP файл содержащий редактор изменился с момента предыдущей установки. Пожалуйста извлеките ZIP файл поверх существующей инсталляции редактора.
+tiny_zip_does_not_exist#:#ZIP файл содержащий редактор TinyMCE не существует в соответствующем месте в папке Services/RTE
+tinymce_wysiwyg_editor#:#Редактор TinyMCE
+title#:#Заголовок
+tools#:#Обслуживание
+unknown_client_id#:#Неизвестный клиент
+unknown_command#:#Неизвестная команда
+unknown_display_mode#:#Неизвестный режим отображения
+unzip_path_comment_win#:#Необходим для извлечения файлов при импорте, например 'C:/tools/unzip/unzip.exe'.
+unzip_path_comment#:#Необходим для извлечения файлов при импорте, например '/your_path/unzip'.
+unzip_path#:#Путь к unzip
+unzip#:#Извлечь
+update_applied#:#Обновление применено
+update_error#:#Ошибка при обновлении
+update_not_found#:#Обновление не найдено!
+url_to_latex#:#URL адрес скрипт LaTeX CGI
+user#:#Пользователь
+username#:#Имя пользователя
+version#:#Версия
+virus_scanner#:#Антивирусный сканер
+webspace_dir#:#Путь к данным доступным из web
+with#:#с
+wrong_password#:#Ошибочный пароль!
+zip_path_comment_win#:#Требуется для извлечение файлов при импорте, например 'C:/tools/zip/zip.exe'.
+zip_path_comment#:#Требуется для извлечение файлов при импорте, например '/your_path/zip'.
+zip_path#:#Путь к zip
+zipcode#:#Почтовый код
+sess_mode#:#Режим сессий
+sess_fixed_duration#:#Фиксированное время сессии
+sess_load_dependent_session_handling#:#Управление временем в зависимости от нагрузки
+db_postgres#:#PostgreSQL
+custom_updates_available#:#Пользовательское обновление доступно
+applied_custom_updates#:#Примененные пользовательские обновления
+available_custom_updates#:#Доступные пользовательские обновления
+custom_update_applied#:#Пользовательское обновление применено
+apply_custom_updates#:#Применить пользовательские обновления
+proxy_connectable#:#Соединение установлено.
+proxy_host_info#:#Пожалуйста укажите адрес прокси-сервера.
+proxy_host#:#Адрес прокси-сервера
+proxy_not_connectable#:#ILIAS не может установить соединение через указанный прокси.
+proxy_pear_net_socket_error#:#PEAR Net_Socket error
+proxy_port_info#:#Пожалуйста укажите порт между 0 и 65535, например 8080.
+proxy_port_numeric#:#Номер порта должен быть числом между 0 и 65535.
+proxy_port#:#Порт прокси-сервера
+proxy_status_info#:#Использовать прокси в ILIAS (например для лент новостей или проверки ссылок).
+proxy_status#:#Прокси
+proxy#:#Прокси
+proxy_disabled#:#Прокси выключен
+proxy_activated_configurated#:#Прокси включен
+info_text_proxy#:#Настройки прокси
+setup_process_step_proxy#:#Прокси
+step_proxy#:#Прокси
+db_innodb#:#MySQL (InnoDB)
+show_update_steps#:#Показать этапы обновления
+lang_fa#:#Персидский (фарси)
+ghostscript_path_comment_win#:#Опционально, для создания превью PDF, например 'C:/tools/Ghostscript/gswin32c.exe'.
+ghostscript_path_comment#:#Опционально, для создания превью PDF, например '/your_path/gs'.
+ghostscript_path#:#Путь к Ghostscript
+db_master#:#Master
+db_slave#:#Slave
+mysql_replication_info_alpha#:#Репликация MySQL средствами ILIAS является экспериментальной возможность. Код не стабилен. Данные могут быть повреждены.
+db_slave_settings#:#Настройки Slave
+db_active#:#Active
+db_set_password#:#Задать пароль
+tree_implementation#:#Реализация деревьев
+tree_implementation_ns#:#Nested-Set Model
+tree_implementation_mp#:#Materialized-Path Model
+tree_implementation_switch_btn#:#Изменить реализацию деревьев
+tree_implementation_switched#:#Способ реализации деревьев будет изменен.
+feedback_recipient_info#:#Этот адрес используется в ссылке "Связаться с администрацией" внизу страницы.
+info_text_nic1#:#Получить id установки (nic-id) с ILIAS Сервера. Уникальный nic-id требуется в случае, если вы хотите делиться материалами с другими серверами ILIAS. Регистрация добровольна. Если вы не желаете регистрироваться, выберите 'пропустить регистрацию' (вы можете зарегистрироваться в любое время).<br /> Мы рекомендуем on-line регистрацию. Если у вас проблемы с соединением (н.р. вы используете firewall), вы можете получить nic-id через email. Пожалуйста, отошлите на
+info_text_nic2#:#с вашей информацией установки на ilias-info@uni-koeln.de. Введите nic-id, который хотите послать, в соответствующее поле для ответа, и выберите 'регистрация через Email'.
+pre_folder_write#:#Перезаписываемый каталог ILIAS
 pre_php_version#:#Версия PHP
 pre_php_version_3#:#Установленная у Вас версия PHP слишком стара, и не может использоваться в ILIAS! Пожалуйста, обновите PHP.
 pre_php_version_4.1#:#Классы PEAR не работают с этой версией! Пожалуйста, обновите PHP.
 pre_php_version_4.2#:#Поддержка DOMXML и XSLT не может корректно работать с этой версией!
 pre_php_version_5#:#ILIAS не тестировался на PHP 5. Используйте на свой страх и риск!
 pre_php_version_unknown#:#Установщику ILIAS не известна эта версия. Используйте на свой страх и риск!
-preliminaries#:#Вступление
-prev#:#Предыдущий
-required_field#:#обязательные поля
-reset#:#Восстановить
-root_access#:#доступ root
-safe_mode_enabled#:#Safe mode включена!
-save#:#Сохранить
-save_error#:#Ошибка сохранения!
-saved_successfully#:#Сохранение успешно
-scan_command#:#Сканирование команды
-select_client#:#Выбор Клиента
-server_info#:#Информация Сервера
-server_software#:#Программное обеспечение Сервера
-set_default_client#:#Установить Клиента по умолчанию
-set_newpasswd#:#Пожалуйста, введите новый пароль
-set_oldpasswd#:#Пожалуйста, введите старый пароль
-settings_changed#:#Установки изменены
-settings_saved#:#Установки сохранены
-setup#:#установка
-setup_basic_settings#:#Задать основные установки
-setup_contact_data#:#Задать Контактную информацию
-setup_database#:#Задать Базу данных
-setup_database_desc#:#Задать дополнительную Базу данных
-setup_db_first#:#Пожалуйста, сначала задайте первую Базу данных!
-setup_finished#:#Установка завершена
-setup_first_client#:#Установить вашего первого Клиента
-setup_ini_first#:#Пожалуйста, сначала создайте ini-файл!
-setup_inifile#:#создать ini-file
-setup_inifile_desc#:#создать ini-фай вашей установки
-setup_languages#:#Установить языки
-setup_languages_desc#:#установить дополнительные языки
-setup_login#:#Зайти в программу установки
-setup_mainmenu#:#Главное меню установки
-setup_menu#:#меню установки
-setup_nic_desc#:#регистрация копии программы на ILIAS-NIC-Сервере
-setup_not_finished#:#Установка не завершена
-setup_pass#:#Пароль
-setup_pass2#:#Подтвердить пароль
-setup_pass_title#:#Установить мастер-пароль
-setup_password#:#задать пароль
-setup_password_desc#:#задать пароль доступа к программе установки (н.р. для последующего обновления Баз данных)
-setup_process_status#:#Статус процесса установки
-setup_process_step_contact#:#Введите контактную информацию
-setup_process_step_db#:#Установить/Обновить Базу данных
-setup_process_step_finish#:#Установка завершена
-setup_process_step_ini#:#Установить базовые данные (создать ini-файл)
-setup_process_step_lang#:#Установка системных языков
-setup_process_step_nic#:#Регистрация ILIAS-NIC
-setup_ready#:#Программа установки готова. Вы сейчас можете зайти и проверить дополнительные параметры системы.
-setup_welcome#:#Программа установки ILIAS приветствует Вас! Эта пошаговая инструкция поможет Вам
-sophos#:#Sophos
-sort_by_this_column#:#Сортировать по столбцу
-status#:#Статус
-step#:#Шаг
-street#:#Улица
-submit#:#Подтвердить
-title#:#Заголовок
-unknown_client_id#:#Неизвестный Клиент
-unknown_command#:#Неизвестная команда
-unknown_display_mode#:#Неизвестная модель дисплея
-unzip_path#:#Путь к Unzip
-unzip_path_comment#:#требуется для импорта модулей обучения
-update_applied#:#Обновление добавлено
-update_error#:#Ошибка в обновлении
-update_not_found#:#Обновление не найдено!
-username#:#имя пользователя
-version#:#Версия
-virus_scanner#:#Вирус сканер
-webspace_dir#:#путь к веб-данным
-with#:#с
-wrong_password#:#Ошибочный пароль!
-zip_path#:#Путь к Zip
-zip_path_comment#:#требуется для экспорта модулей обучения
-zipcode#:#Zip код
-3rdparty#:#3rd Party add-ons###07 09 2006 new variable
-check_failed_latex#:#Testing LaTeX CGI script failed###07 09 2006 new variable
-ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.###07 09 2006 new variable
-db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###07 09 2006 new variable
-duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###07 09 2006 new variable
-info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###07 09 2006 new variable
-lang_el#:#Greek###07 09 2006 new variable
-lang_ru#:#Russian###07 09 2006 new variable
-lang_vi#:#Vietnamese###07 09 2006 new variable
-latex_url_comment#:#required for LaTeX support in ILIAS###07 09 2006 new variable
-mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower###07 09 2006 new variable
-no_latex_url#:#No LaTeX CGI script URL given###07 09 2006 new variable
-setup_3rdparty_data#:#Setup third party add-ons###07 09 2006 new variable
-setup_process_step_3rdparty#:#Third party add-ons###07 09 2006 new variable
-status_3rdparty_false#:#3rd party add-ons missing###07 09 2006 new variable
-status_3rdparty_ok#:#3rd party add-ons installed###07 09 2006 new variable
-status_3rdparty_problems#:#3rd party add-ons problems###07 09 2006 new variable
-tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location###07 09 2006 new variable
-tiny_nothing_to_do#:#The editor is installed, there is nothing to do###07 09 2006 new variable
-tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.###07 09 2006 new variable
-tiny_zip_does_not_exist#:#The ZIP file containing the TinyMCE editor does not exist at the appropriate location in Services/RTE###07 09 2006 new variable
-tinymce_wysiwyg_editor#:#TinyMCE WYSIWYG editor###07 09 2006 new variable
-unzip#:#Extract###07 09 2006 new variable
-url_to_latex#:#URL to LaTeX CGI script###07 09 2006 new variable
-check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###20 06 2007 new variable
-clamav#:#ClamAV###20 06 2007 new variable
-ctrl_structure#:#Control Structure###20 06 2007 new variable
-ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###20 06 2007 new variable
-ctrl_structure_reloaded#:#Control Structure Reloaded.###20 06 2007 new variable
-ilias_db_mode#:#ILIAS database mode###20 06 2007 new variable
-include_local#:#include local###20 06 2007 new variable
-installed_local#:#Installed With Local###20 06 2007 new variable
-lang_bg#:#Bulgarian###20 06 2007 new variable
-lang_sq#:#Albanian###20 06 2007 new variable
-lang_sr#:#Serbian###20 06 2007 new variable
-lang_et#:#Estonian###20 06 2007 new variable
-mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher###20 06 2007 new variable
-reload#:#Reload###20 06 2007 new variable
-tools#:#Tools###20 06 2007 new variable
-new_client#:#New Client###14 02 2008 new variable
-list_clients#:#List Clients###14 02 2008 new variable
-basic_settings#:#Basic Settings###14 02 2008 new variable
-step_ini#:#ini-File###14 02 2008 new variable
-step_db#:#Database###14 02 2008 new variable
-step_lang#:#Languages###14 02 2008 new variable
-step_contact#:#Contact###14 02 2008 new variable
-step_nic#:#NIC###14 02 2008 new variable
-step_finish#:#Finish###14 02 2008 new variable
-step_access#:#Access###14 02 2008 new variable
-determine_tools_paths#:#Try to Determine Tools Paths###14 02 2008 new variable
-client_deleted#:#Client deleted.###14 02 2008 new variable
-create_directory#:#Create Directory###14 02 2008 new variable
-3rd_party_software_req#:#Required 3rd Party Tools###30 05 2008 new variable
-3rd_party_software_opt#:#Optional 3rd Party Tools###30 05 2008 new variable
-user#:#User###30 05 2008 new variable
-db_error_please_check#:#Please check database hostname, username and password.###30 05 2008 new variable
-need_mysql_4_1_or_higher#:#Your MySQL version is not supported. Please install MysQL 4.1.x or higher to run ILIAS.###30 05 2008 new variable
-info_text_db2#:#Please ensure that your database is created with the "CHARACTER SET utf8" option.###30 05 2008 new variable
-data_directories#:#Data Directories###30 05 2008 new variable
-data_directory_outside_ws#:#Data Directory outside Webspace###30 05 2008 new variable
-data_directory_in_ws#:#Data Directory in Webspace###30 05 2008 new variable
-data_directory_in_ws_info#:#This directory is cannot be changed.###30 05 2008 new variable
-data_directory_info#:#Please enter a directory outside of the webspace that is writable for the web server.###30 05 2008 new variable
-pre_dom#:#DOM Support###30 05 2008 new variable
-pre_dom_missing#:#Please enable DOM support in your PHP installation.###30 05 2008 new variable
-pre_xsl#:#XSL Support###30 05 2008 new variable
-pre_xsl_missing#:#Please enable XSL support in your PHP installation, see <a target="_blank" href="%s">PHP Documentation</a>.###30 05 2008 new variable
-pre_gd#:#GD Support###30 05 2008 new variable
-pre_gd_missing#:#Please enable GD support in your PHP installation, see <a target="_blank" href="%s">PHP Documentation</a>.###30 05 2008 new variable
-pre_memory#:#PHP Memory Limit Setting###30 05 2008 new variable
-pre_memory_limit_too_low#:#Please set the value for "memory_limit" at least to 40M in your php.ini. We recommend 80M or more.###30 05 2008 new variable
-pre_memory_limit_recommend#:#We recommend a value of 80M or more.###30 05 2008 new variable
-pre_root#:#Writable Webspace Main Folder###30 05 2008 new variable
-pre_php#:#PHP Version###30 05 2008 new variable
-pre_php_version_4#:#Your PHP version is not supported. Please update to PHP 5.2.1 or higher.###30 05 2008 new variable
-pre_mysql#:#MySQL Support###30 05 2008 new variable
-pre_mysql_missing#:#Please enable MySQL support (version 4.1 or higher) in your PHP installation.###30 05 2008 new variable
-pre_mysql_4_1_or_higher#:#You need MySQL 4.1 or higher to run ILIAS.###30 05 2008 new variable
-mkisofs_path#:#Path to mkisofs###26 06 2009 new variable
-mkisofs_path_comment#:#Optional to create iso images.###26 06 2009 new variable
-no_path_mkisofs#:#No mkisofs path given.###26 06 2009 new variable
-path_to_mkisofs#:#Path to mkisofs###26 06 2009 new variable
-db_selection#:#Database Selection###26 06 2009 new variable
-db_service_name#:#Service Name###26 06 2009 new variable
-db_mysql#:#MySQL###26 06 2009 new variable
-db_oracle#:#Oracle###26 06 2009 new variable
-info_text_nic#:#Optionally register and obtain an installation ID (NIC-ID) from the ILIAS open source community server. Getting a NIC-ID is advisable if you want to share content with other ILIAS installations.###24 07 2009 new variable
-nic_reg_disable_info#:#You may register later anytime.###24 07 2009 new variable
-not_configured#:#Not Configured###24 07 2009 new variable
-pre_php_version_too_low#:#Your PHP version is not supported. We recommend to use PHP 5.2.1 or higher. PHP 6 has not been tested yet.###24 07 2009 new variable
-msg_input_is_required#:#This input is required. Please enter a value.###24 07 2009 new variable
-form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.###24 07 2009 new variable
-form_retype_password#:#Retype Password###24 07 2009 new variable
-master_password#:#Master Password###24 07 2009 new variable
-passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.###24 07 2009 new variable
-next_update_break#:#Next Update Break###24 07 2009 new variable
-next_update_break_info#:#Depending on the size of your insallation, it is usually advisable not to perform large updates in one run.###24 07 2009 new variable
-clients#:#Clients###24 07 2009 new variable
-no_items#:#No Entrie###24 07 2009 new variable
-convert_path_comment_win#:#Required for displaying thumbnails of images, e.g. 'C:/tools/ImageMagick/convert.exe'.###18 08 2009 new variable
-htmldoc_path_comment_win#:#Optional to generate PDF documents, e.g. 'C:/tools/htmldoc/htmldoc.exe'.###18 08 2009 new variable
-java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.exe'.###18 08 2009 new variable
-log_path_comment_win#:#E.g. 'C:/iliasdata/iliaslog.txt' (File will be created)###18 08 2009 new variable
-unzip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/unzip/unzip.exe'.###18 08 2009 new variable
-zip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/zip/zip.exe'.###18 08 2009 new variable
-server_settings#:#Server Settings###21 09 2009 new variable
-time_zone#:#Time Zone###21 09 2009 new variable
-please_select#:#Please Selec###21 09 2009 new variable
-db_port#:#Database Port###07 10 2009 new variable
-db_update_interrupted#:#The database update script has been interrupted unexpectedly in a previous run. This can cause an <b>inconsistent</b> state of your system. We highly recommend to re-install your latest backup and to run the migration again.###22 02 2010 new variable
-db_update_interrupted_avoid#:#To avoid this problem, please check your max_execution_time and memory_limit settings in your php.ini. Also take fewer steps in each run, to reduce the resources needed by the system###22 02 2010 new variable
-applied_hotfixes#:#Applied Hotfixes###26 03 2010 new variable
-available_hotfixes#:#Available Hotfixes###26 03 2010 new variable
-apply_hotfixes#:#Apply Hotfixes###26 03 2010 new variable
-hotfix_available#:#Hotfix Available###26 03 2010 new variable
-hotfix_applied#:#Hotfix Applie###26 03 2010 new variable
-session_management#:#Session Management###16 07 2010 new variable
-step_sess#:#Session Management###16 07 2010 new variable
-session_management_not_configured#:#not configured###16 07 2010 new variable
-session_management_configured#:#configured###16 07 2010 new variable
-setup_sessions#:#Session Management###16 07 2010 new variable
-setup_process_step_sess#:#Session Management###16 07 2010 new variable
-sess_sessions#:#Settings###16 07 2010 new variable
-sess_max_session_count#:#Max session count###16 07 2010 new variable
-sess_max_session_count_info#:#Defines the maximum number of sessions that can be created simultaniously. Setting this to "0" disables the feature.###16 07 2010 new variable
-sess_min_session_idle#:#Min session idle (in minutes)###16 07 2010 new variable
-sess_min_session_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###16 07 2010 new variable
-sess_max_session_idle#:#Max session idle (in minutes)###16 07 2010 new variable
-sess_max_session_idle_info#:#Defines the maximum period of idle time a user can idle before his session expires.###16 07 2010 new variable
-sess_max_session_idle_after_first_request#:#Max session idle after first request (in minutes)###16 07 2010 new variable
-sess_max_session_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###16 07 2010 new variable
-sess_allow_client_maintenance#:#Allow maintenance by client###16 07 2010 new variable
-sess_allow_client_maintenance_info#:#Defines wether the configuration of session parameters can be done in client administration or not###16 07 2010 new variable
-lang_ar#:#Arabic###10 09 2010 new variable
-lang_tr#:#Turkis###10 09 2010 new variable
-ctrl_structure_reload#:#Reload Control Structure###06 08 2011 new variable
-settings_type#:#Settings Data Type###06 08 2011 new variable
-settings_type_current#:#Current Type###06 08 2011 new variable
-settings_info_text#:#The type TEXT allows storing of values up to 4000 characters. Changing this type to CLOB will allow longer entries but slow down the performance of ILIAS with an ORACLE database.###06 08 2011 new variable
-settings_info_clob#:#The type CLOB allows storing of values with more than 4000 characters. Changing this type to TEXT will increase the performance of ILIAS with an ORACLE database. Before you do this please check if you have settings with more than 4000 characters.###06 08 2011 new variable
-settings_change_clob#:#Change to CLOB###06 08 2011 new variable
-settings_change_text#:#Change to TEXT###06 08 2011 new variable
-settings_type_changed#:#Settings type changed.###06 08 2011 new variable
-settings_show_longer#:#Show longer values###06 08 2011 new variable
-settings_longer_values#:#Longer Values###06 08 2011 new variable
-settings_no_longer_values#:#No values with more than 4000 characters found. You may change the data type to TEXT.###06 08 2011 new variable
-settings_key_info#:#Module:<br />%s<br />Keyword:<br />%s###06 08 2011 new variable
-settings_too_long#:#Some settings are too long to be converted. Please change them before you change the settings data type###06 08 2011 new variable
-lang_ja#:#Japanisch###04 10 2011 new variable
-lang_ka#:#Georgian###04 10 2011 new variable
-lang_sk#:#Slovakian###04 10 2011 new variable
-sess_mode#:#Session Mode###10 11 2011 new variable
-sess_fixed_duration#:#Fixed Session Duration###10 11 2011 new variable
-sess_load_dependent_session_handling#:#Load Dependent Session Handlin###10 11 2011 new variable
-db_postgres#:#PostgreSQ###18 01 2012 new variable
-client_cloned#:#All files and settings of the source are copied into the client.###02 09 2012 new variable
-clone_clientnotdisabled#:#The client is still active. Please disable the client before populating it.###02 09 2012 new variable
-clone_clientismaster#:#The client has "master" in the name so it cannot be overwritten.###02 09 2012 new variable
-clone_clientisnotmysql#:#The client does not have MySQL database.###02 09 2012 new variable
-clone_clientnodatabase#:#Only MySQL databases are supported at the moment.###02 09 2012 new variable
-clone_disabledmessage#:#Cloning is disabled for the following reason(s):###02 09 2012 new variable
-clone_youmustcheckiamsure#:#You must check "I am sure" to overwrite the target client.###02 09 2012 new variable
-clone_source#:#Select source for cloning###02 09 2012 new variable
-clone_selectsource#:#Source###02 09 2012 new variable
-clone_areyousure#:#Are you sure?###02 09 2012 new variable
-cloneit#:#Start###02 09 2012 new variable
-info_text_clone#:#This function will overwrite the currently selected client with a copy of another.<p><i>Note that you can only populate clients that are disabled. Also, they cannot have 'master' in the name.<br>Currently, only MySQL is supported.</i><p><b>Warning! This cannot be undone! The client will be overwritten with the contents of the source you will select here!</b>###02 09 2012 new variable
-ffmpeg_path_comment#:#Optional to convert audio/videos, e.g. '/your_path/ffmpeg'###02 09 2012 new variable
-ffmpeg_path#:#Path to ffmpeg###02 09 2012 new variable
-populate#:#Populate###02 09 2012 new variable
-custom_updates_available#:#Custom Update Available###02 09 2012 new variable
-applied_custom_updates#:#Applied Custom Updates###02 09 2012 new variable
-available_custom_updates#:#Available Custom Updates###02 09 2012 new variable
-custom_update_applied#:#Custom Update Applied###02 09 2012 new variable
-apply_custom_updates#:#Apply Custom Updates###02 09 2012 new variable
-proxy_connectable#:#Connection established.###02 09 2012 new variable
-proxy_host_info#:#Please enter a host.###02 09 2012 new variable
-proxy_host#:#Host###02 09 2012 new variable
-proxy_not_connectable#:#ILIAS could not build a connection to the defined proxy.###02 09 2012 new variable
-proxy_pear_net_socket_error#:#PEAR Net_Socket error###02 09 2012 new variable
-proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.###02 09 2012 new variable
-proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535###02 09 2012 new variable
-proxy_port#:#Port###02 09 2012 new variable
-proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.###02 09 2012 new variable
-proxy_status#:#Proxy###02 09 2012 new variable
-proxy#:#Proxy###02 09 2012 new variable
-proxy_disabled#:#Proxy disabled ###02 09 2012 new variable
-proxy_activated_configurated#:#Proxy enabled ###02 09 2012 new variable
-info_text_proxy#:#Proxy Settings###02 09 2012 new variable
-setup_process_step_proxy#:#Proxy###02 09 2012 new variable
-step_proxy#:#Proxy###02 09 2012 new variable
-db_innodb#:#MySQL (InnoDB)###02 09 2012 new variable
-show_update_steps#:#Show Update Step###02 09 2012 new variable
-lang_fa#:#Persian (farsi)###11 10 2013 new variable
-ghostscript_path_comment_win#:#Optional for creating previews of PDFs, e.g. 'C:/tools/Ghostscript/gswin32c.exe'.###11 10 2013 new variable
-ghostscript_path_comment#:#Optional for creating previews of PDFs, e.g. '/your_path/gs'.###11 10 2013 new variable
-ghostscript_path#:#Ghostscript Path###11 10 2013 new variable
-db_master#:#Master###11 10 2013 new variable
-db_slave#:#Slave###11 10 2013 new variable
-mysql_replication_info_alpha#:#ILIAS MySQL Replication support has currently an experimental status. The code is non-stable. Data may be corrupted.###11 10 2013 new variable
-db_slave_settings#:#Slave Settings###11 10 2013 new variable
-db_active#:#Active###11 10 2013 new variable
-db_set_password#:#Set Password###11 10 2013 new variable
-tree_implementation#:#Tree Implementation###06 11 2013 new variable
-tree_implementation_ns#:#Nested-Set Model###06 11 2013 new variable
-tree_implementation_mp#:#Materialized-Path Model###06 11 2013 new variable
-tree_implementation_switch_btn#:#Switch Tree Implementation###06 11 2013 new variable
-tree_implementation_switched#:#The tree implementation type has been switched.###06 11 2013 new variable
+pre_php_version_4#:#Ваша версия PHP не поддерживается. Пожалуйста обновитесь до PHP 5.2.1 или выше.
+mkisofs_path#:#Путь к mkisofs
+mkisofs_path_comment#:#Опционально, для создания iso образов.
