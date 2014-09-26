@@ -935,36 +935,34 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	}
 
 	/**
-	* Creates a print view for a question pool
-	*
-	* @access	public
-	*/
-	function printObject()
+	 * Creates a print view for a question pool
+	 */
+	public function printObject()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_printview.html", "Modules/TestQuestionPool");
-		switch ($_POST["output"])
-		{
-			case 'detailed':
-				$this->tpl->setVariable("SELECTED_DETAILED", " selected=\"selected\"");
-				break;
-			case 'detailed_printview':
-				$this->tpl->setVariable("SELECTED_DETAILED_PRINTVIEW", " selected=\"selected\"");
-				break;
-			default:
-				break;
-		}
-		$this->tpl->setVariable("TEXT_DETAILED", $this->lng->txt("detailed_output_solutions"));
-		$this->tpl->setVariable("TEXT_DETAILED_PRINTVIEW", $this->lng->txt("detailed_output_printview"));
-		$this->tpl->setVariable("TEXT_OVERVIEW", $this->lng->txt("overview"));
-		$this->tpl->setVariable("TEXT_SUBMIT", $this->lng->txt("submit"));
-		$this->tpl->setVariable("OUTPUT_MODE", $this->lng->txt("output_mode"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, 'print'));
+		/**
+		 * @var $ilToolbar ilToolbarGUI
+		 */
+		global $ilToolbar;
+
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'print'));
+		require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
+		$mode = new ilSelectInputGUI($this->lng->txt('output_mode'), 'output');
+		$mode->setOptions(array(
+			'overview'           => $this->lng->txt('overview'),
+			'detailed'           => $this->lng->txt('detailed_output_solutions'),
+			'detailed_printview' => $this->lng->txt('detailed_output_printview')
+		));
+		$mode->setValue(ilUtil::stripSlashes($_POST['output']));
+		
+		$ilToolbar->setFormName('printviewOptions');
+		$ilToolbar->addInputItem($mode, true);
+		$ilToolbar->addFormButton($this->lng->txt('submit'), 'print');
 
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolPrintViewTableGUI.php";
 		$table_gui = new ilQuestionPoolPrintViewTableGUI($this, 'print', $_POST['output']);
 		$data = $this->object->getPrintviewQuestions();
 		$table_gui->setData($data);
-		$this->tpl->setVariable('TABLE', $table_gui->getHTML());
+		$this->tpl->setContent($table_gui->getHTML());
 	}
 
 	function updateObject()
