@@ -137,8 +137,8 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 					." RIGHT JOIN billitem item ON bill.bill_pk = item.bill_fk"
 					." WHERE bill.bill_final = 1"
 					. $this->queryWhen($this->start_date, $this->end_date)
-					. $sql_order_str
 					." GROUP BY bill.bill_number"
+					. $sql_order_str
 					;
 
 		$bill_link_icon = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-get_bill.png").'" />';
