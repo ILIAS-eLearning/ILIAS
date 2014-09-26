@@ -28,7 +28,7 @@ class gevUserImport {
 
 	public function getInstance($mysql, $ilDB) {
 		if (self::$instance !== null) {
-			return self::$instance; 
+			return self::$instance;
 		}
 
 		self::$instance = new self($mysql, $ilDB);
@@ -104,11 +104,11 @@ class gevUserImport {
 		}
 		// make root be the owner of the new user.
 		$ilias_user->setOwner(6);
-		
+
 		// user already agreed at registration
 		$now = new ilDateTime(time(),IL_CAL_UNIX);
 		$ilias_user->setAgreeDate($now->get(IL_CAL_DATETIME));
-		
+
 		$ilias_user->update();
 		$this->set_gev_attributes($ilias_user, $shadow_user);
 		$this->update_global_role($ilias_user, $shadow_user);
@@ -124,20 +124,27 @@ class gevUserImport {
 
 
 	public function update_imported_shadow_users() {
+		global $ilLog;
+
 		$shadow_users = $this->get_imported_shadow_users();
 		if (!$shadow_users) {
 			return;
 		}
 
 		foreach($shadow_users as $ilias_id => $shadow_user) {
-			$user = new ilObjUser($ilias_id);
-			$this->set_ilias_user_attributes($user, $shadow_user);
-			$user->update();
-			$this->set_gev_attributes($user, $shadow_user);
-			$user->update();
-			$this->update_global_role($user, $shadow_user);
-			$this->update_orgunit_role($user, $shadow_user);
-			//print_r($shadow_user);
+			try {
+				$user = new ilObjUser($ilias_id);
+				$this->set_ilias_user_attributes($user, $shadow_user);
+				$user->update();
+				$this->set_gev_attributes($user, $shadow_user);
+				$user->update();
+				$this->update_global_role($user, $shadow_user);
+				$this->update_orgunit_role($user, $shadow_user);
+			} catch (Exception $e) {
+				$ilLog->write($ilias_id);
+				$ilLog->write($e);
+				$ilLog->write(var_export($e->getTraceAsString(), true));
+			}
 		}
 	}
 
@@ -171,16 +178,16 @@ class gevUserImport {
 
 
 	private function get_shadow_user($stellennummer, $email) {
-		// For some user there should be a tolerance against 
+		// For some user there should be a tolerance against
 		// the domain used for their email address (see ticket #608).
 		// We therefore need to check the username used in the email
 		// and check the domain afterwards.
 		$email_spl = split("@", $email);
 		$email_pre = $email_spl[0]."@";
-		
+
 		$sql = "
 			SELECT
-				* 
+				*
 			FROM
 				`ivimport_adp`
 			INNER JOIN
@@ -192,14 +199,14 @@ class gevUserImport {
 			AND
 				`ivimport_adp`.`email` LIKE " . $this->ilDB->quote($email_pre."%", "text") . "
 			";
-			
+
 		$result = mysql_query($sql, $this->mysql);
 		if ((!$result) || (mysql_num_rows($result) !== 1)) {
 			return false;
 		}
 
 		$row = mysql_fetch_assoc($result);
-		
+
 		// checking of the email tolerance (#608)
 		$vermittlerstatus = $row['vermittlerstatus'];
 		$email_db = $row['email'];
@@ -215,33 +222,33 @@ class gevUserImport {
 								  , "generali.com"
 								  , "generali.de"
 								  );
-			
+
 			if (!in_array($email_spl[1], $valid_domains) ||
 				!in_array($email_db_spl[1], $valid_domains)) {
 				return false;
 			}
 			$row["email"] = $email_db_spl[0]."@generali.com";
 		}
-		
+
 		return $row;
 	}
 
 	private function get_additional_user_data($stellennummer) {
 		$sql = "
-			SELECT 
+			SELECT
 				`nachname` lastname,
 				`vorname` firstname,
 				IF (`geschlecht`='M','m','f') gender
 			FROM `ivimport_adp`
 			INNER JOIN
 				`ivimport_stelle`
-			ON 
+			ON
 				( `ivimport_stelle`.`sql_adp_id` = `ivimport_adp`.`id` )
 			WHERE
 				`ivimport_stelle`.`stellennummer`=" . $this->ilDB->quote($stellennummer, "text") . "
 		";
 		$result = mysql_query($sql, $this->mysql);
-		
+
 		if ((!$result) || (mysql_num_rows($result) !== 1)) {
 			return array();
 		}
@@ -258,7 +265,7 @@ class gevUserImport {
 				`stellennummer` = " . $this->ilDB->quote($stellennummer, "text") . "
 		";
 		$result = mysql_query($sql, $this->mysql);
-		
+
 		if ((!$result) || (mysql_num_rows($result) !== 1)) {
 			return false;
 		}
@@ -501,7 +508,7 @@ class gevUserImport {
 
 	private function set_email_sent_field($token) {
 		$sql = "
-			UPDATE 
+			UPDATE
 				`gev_user_reg_tokens`
 			SET
 				`email_sent`=NOW()
@@ -515,7 +522,7 @@ class gevUserImport {
 
 	public function set_token_used_field($token) {
 		$sql = "
-			UPDATE 
+			UPDATE
 				`gev_user_reg_tokens`
 			SET
 				`token_used`=NOW()
@@ -532,11 +539,11 @@ class gevUserImport {
 		$sql = "
 			SELECT
 				`username`
-			FROM 
+			FROM
 				`gev_user_reg_tokens`
 			WHERE
 				`username` LIKE " . $this->ilDB->quote($wildcard, "text") . "
-			
+
 			UNION SELECT `login` username
 			FROM
 				`usr_data`
@@ -565,7 +572,7 @@ class gevUserImport {
 
 	private function set_ilias_user_id($shadow_user_id, $ilias_user_id) {
 		$sql = "
-			UPDATE 
+			UPDATE
 				`ivimport_adp`
 			SET
 				`ilias_id`=" . $this->ilDB->quote($ilias_user_id, "integer") . "
@@ -602,9 +609,9 @@ class gevUserImport {
 	private function token_is_usable($token) {
 		$sql = "
 			SELECT
-				* 
+				*
 			FROM
-				`gev_user_reg_tokens` 
+				`gev_user_reg_tokens`
 			WHERE
 				`token`=" . $this->ilDB->quote($token, "text") . ";
 		";
@@ -618,7 +625,7 @@ class gevUserImport {
 			SELECT
 				`token_used`
 			FROM
-				`gev_user_reg_tokens` 
+				`gev_user_reg_tokens`
 			WHERE
 				`token`=" . $this->ilDB->quote($token, "text") . "
 			AND
@@ -632,9 +639,9 @@ class gevUserImport {
 	private function token_exists_for_email($email) {
 		$sql = "
 			SELECT
-				* 
+				*
 			FROM
-				`gev_user_reg_tokens` 
+				`gev_user_reg_tokens`
 			WHERE
 				`email`=" . $this->ilDB->quote($email, "text") . ";
 		";
@@ -646,9 +653,9 @@ class gevUserImport {
 	private function token_exists_for_stelle($stelle) {
 		$sql = "
 			SELECT
-				* 
+				*
 			FROM
-				`gev_user_reg_tokens` 
+				`gev_user_reg_tokens`
 			WHERE
 				`stelle`=" . $this->ilDB->quote($stelle, "text") . ";
 		";
@@ -662,7 +669,7 @@ class gevUserImport {
 			SELECT
 				token
 			FROM
-				`gev_user_reg_tokens` 
+				`gev_user_reg_tokens`
 			WHERE
 				`stelle`=" . $this->ilDB->quote($stelle, "text") . ";
 		";
@@ -706,7 +713,7 @@ class gevUserImport {
 				`email` ,
 				`firstname` ,
 				`lastname` ,
-				`gender` 
+				`gender`
 			)
 			VALUES (
 				" . $this->ilDB->quote($token, "text") . ",
