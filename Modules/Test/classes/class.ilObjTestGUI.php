@@ -3692,13 +3692,13 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			if( $defaultSettings['isRandomTest'] )
 			{
-				$newQuestionSetType = self::QUESTION_SET_TYPE_RANDOM;
-				$this->setQuestionSetType(self::QUESTION_SET_TYPE_RANDOM);
+				$newQuestionSetType = ilObjTest::QUESTION_SET_TYPE_RANDOM;
+				$this->object->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_RANDOM);
 			}
 			else
 			{
-				$newQuestionSetType = self::QUESTION_SET_TYPE_FIXED;
-				$this->setQuestionSetType(self::QUESTION_SET_TYPE_FIXED);
+				$newQuestionSetType = ilObjTest::QUESTION_SET_TYPE_FIXED;
+				$this->object->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_FIXED);
 			}
 		}
 		elseif( isset($defaultSettings['questionSetType']) )
