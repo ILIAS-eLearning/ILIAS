@@ -510,12 +510,12 @@ assessment#:#internal_links_update#:#Update
 assessment#:#internal_links#:#Internal Links
 assessment#:#javaapplet#:#Java Applet
 assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or newlines to add an automatic scoring option for the essay question. If any of the keywords will be found in the answertext of the learner, the default score will be set to the maximum available points instead of 0 points.
-assessment#:#kiosk_description#:#Run the test in Kiosk Mode. All content elements which are not part of the test will be hidden to prevent users from leaving the test.
-assessment#:#kiosk_options_desc#:#Select whether the test title and/or the name of the active participant should be shown at the top of the test during the kiosk mode.
-assessment#:#kiosk_options#:#Kiosk Mode Options
+assessment#:#kiosk_description#:#Exam view runs test in kiosk mode. This hides the browser bar and navigation and all other screen elements that are not part of the test. Participants are prevented from leaving the test or opening an other website. 
+assessment#:#kiosk_options_desc#:#Select if test title and/or name of the active participant are shown at the top of the test during the exam view.
+assessment#:#kiosk_options#:#Exam View Options
 assessment#:#kiosk_show_participant#:#Show Name of Participant
 assessment#:#kiosk_show_title#:#Show Test Title
-assessment#:#kiosk#:#Kiosk Mode
+assessment#:#kiosk#:#Exam View
 assessment#:#last_update#:#Last Update
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
@@ -804,8 +804,8 @@ assessment#:#shape#:#Shape
 assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_user_answers#:#Show User's Marked Answers
-assessment#:#showinfo_desc#:#If checked, the complete test information page will be shown (including the test properties). If unchecked, only the introductory message (if available) and the required properties will be shown on the test information page.
-assessment#:#showinfo#:#Show the complete information page
+assessment#:#showinfo_desc#:#Complete list of test properties is displayed on Info tab along with introductory message. 
+assessment#:#showinfo#:#Show all Test Properties on Info Tab
 assessment#:#showSuggestedSolution#:#Type
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#solution_hint#:#Assign Suggested Solution
@@ -848,7 +848,7 @@ assessment#:#tst_all_user_data_deleted#:#All user data of this test has been del
 assessment#:#tst_allow_fixed_participants#:#Allow fixed participants in this test
 assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers
 assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
-assessment#:#tst_allowed_users#:#Maximum Number of Users Running the Test Simultaneously
+assessment#:#tst_allowed_users#:#Maximum Number of Concurrent Participants
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_already_taken#:#Tests Already Taken
 assessment#:#tst_anonymity#:#Test Record
@@ -992,8 +992,8 @@ assessment#:#tst_postpone_description#:#The participants may postpone questions 
 assessment#:#tst_postpone#:#Postpone Questions
 assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_print#:#Test and Assessment - Print View
-assessment#:#tst_processing_time_desc#:#The maximum processing time begins to countdown the moment a user starts a test for the first time and ends when the given time period expires. If this option is used, the option of suspending a test should be deactivated (see 'Sequence Settings') because suspending the test does prevent the maximum processing time from counting down.
-assessment#:#tst_processing_time#:#Max. Processing Time
+assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified time. Time is clocking away from the moment a user starts a test for the first time. 
+assessment#:#tst_processing_time#:#Duration of Test
 assessment#:#tst_properties#:#Test Properties
 assessment#:#tst_qst_order#:#Order
 assessment#:#tst_qst_resetsolved#:#Set Unsolved
@@ -1156,7 +1156,7 @@ assessment#:#tst_type_comment#:#Warning: Changing the test type of a running tes
 assessment#:#tst_type#:#Test Type
 assessment#:#tst_types#:#Test Types
 assessment#:#exam_id#:#Exam Id: 
-assessment#:#examid_in_kiosk#:#Display Exam Id in Kiosk mode 
+assessment#:#examid_in_kiosk#:#Display Exam ID in exam view 
 assessment#:#show_exam_id#:#Display Exam Id 
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use previous answers as default values in future test passes, otherwise previous answers are not shown in future test passes. An option is shown on the information screen, which is deactivated by default.
@@ -1231,12 +1231,12 @@ assessment#:#tst_highscore_top_num_unit#:#entries
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Configuration
 assessment#:#tst_rnd_quest_cfg_tab_pool#:#Selected Question Pools
 assessment#:#tst_question_set_type#:#Test Mode
-assessment#:#tst_question_set_type_fixed#:#Testing with Fixed Set of Questions
-assessment#:#tst_question_set_type_fixed_desc#:#With this mode a fixed set of questions is to be selected and is used for all participants. Depending on the detailed test configuration the participants can take one or more test passes.
-assessment#:#tst_question_set_type_random#:#Testing with Random Set of Questions
-assessment#:#tst_question_set_type_random_desc#:#With this mode one or more question pools are to be selected from which an individual random set of questions is selected for each participant. Depending on the detailed test configuration the participants can take one or more test passes.
+assessment#:#tst_question_set_type_fixed#:#Fixed Set of Questions
+assessment#:#tst_question_set_type_fixed_desc#:#All participants get the same set of questions. 
+assessment#:#tst_question_set_type_random#:#Random Set of Questions
+assessment#:#tst_question_set_type_random_desc#:#Each participant gets a different set of questions. Questions are randomly selected from one or more question pools. 
 assessment#:#tst_question_set_type_dynamic#:#Continuous Testing
-assessment#:#tst_question_set_type_dynamic_desc#:#With this mode exactly one question pool is to be selected. The test is taken in a never ending pass by the participants and the questions are selected individually and on demand for each participant.
+assessment#:#tst_question_set_type_dynamic_desc#:#Participants work through questions from one question pool. Questions answered incorrectly will be presented again. 
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#You are about to change the test mode from <b>%s</b> to <b>%s</b>, although a questions/questionpool configuration dependent on the current test mode already exists.<br />This already existing configuration will be lost.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Continues question selection configuration has been modified.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Continues question selection configuration cannot be modified due to existing participant data.
@@ -12433,8 +12433,8 @@ rep#:#rep_visibility_limitless#:#Unlimited
 rep#:#rep_visibility_until#:#Limited Availability Period
 assessment#:#tst_availability_limitless_info#:#Choose this mode for making the test available and accessible to users (depending on participant restriction settings below).
 assessment#:#tst_availability_until_info#:#Choose this mode for making the test available and accessible to users for a fixed period of time (depending on participant restriction settings below).
-assessment#:#tst_activation_online_info#:#If offline, only administrators can see and edit the test.
-assessment#:#tst_activation_limited_visibility_info#:#If chosen, the test is visible even outside of the given availability.
+assessment#:#tst_activation_online_info#:#If online, participants can take the test. 
+assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test. 
 book#:#booking_nr_of_items#:#Nr of Items
 book#:#book_schedule_type_fixed#:#Fixed Schedule
 book#:#book_schedule_type_fixed_info#:#This type can be used for rooms, beamers and such
@@ -13491,7 +13491,7 @@ assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#tst_test_execution#:#Test Execution
 assessment#:#redirect_after_finishing_tst#:#Redirect after finishing the test
-assessment#:#redirect_in_kiosk_mode#:#Redirect only in kiosk mode
+assessment#:#redirect_in_kiosk_mode#:#Redirect only in in exam view
 assessment#:#redirection_url#:#Redirection target
 assessment#:#exp_file_created#:#Export file created.
 tax#:#tax_added#:#Taxonomy has been created.
