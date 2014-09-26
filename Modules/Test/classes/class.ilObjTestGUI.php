@@ -2248,6 +2248,9 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->getQuestionsSubTabs();
 
+		// #11631, #12994
+		$this->ctrl->setParameter($this, 'q_id', '');
+
 		if ($_GET["eqid"] && $_GET["eqpl"])
 		{
 			ilUtil::redirect("ilias.php?baseClass=ilObjQuestionPoolGUI&ref_id=" . $_GET["eqpl"] . "&cmd=editQuestionForTest&calling_test=".$_GET["ref_id"]."&q_id=" . $_GET["eqid"]);
@@ -5048,11 +5051,14 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$form->addCommandButton('createQuestionPoolAndCopy', $lng->txt('create'));
 
-		foreach($_REQUEST['q_id'] as $id)
+		if(isset($_REQUEST['q_id']) && is_array($_REQUEST['q_id']))
 		{
-			$hidden = new ilHiddenInputGUI('q_id[]');
-			$hidden->setValue($id);
-			$form->addItem($hidden);
+			foreach($_REQUEST['q_id'] as $id)
+			{
+				$hidden = new ilHiddenInputGUI('q_id[]');
+				$hidden->setValue($id);
+				$form->addItem($hidden);
+			}
 		}
 
 		return $form;
@@ -5069,20 +5075,23 @@ class ilObjTestGUI extends ilObjectGUI
 
 		require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
 
-		foreach($_REQUEST['q_id'] as $q_id)
+		if(isset($_REQUEST['q_id']) && is_array($_REQUEST['q_id']))
 		{
-			if( !assQuestion::originalQuestionExists($q_id) )
+			foreach($_REQUEST['q_id'] as $q_id)
 			{
-				continue;
-			}
+				if(!assQuestion::originalQuestionExists($q_id))
+				{
+					continue;
+				}
 
-			$type = ilObject::_lookupType( assQuestion::lookupParentObjId(assQuestion::_getOriginalId($q_id)) );
+				$type = ilObject::_lookupType(assQuestion::lookupParentObjId(assQuestion::_getOriginalId($q_id)));
 
-			if ($type !== 'tst')
-			{
-				ilUtil::sendFailure($lng->txt('tst_link_only_unassigned'), true);
-				$this->backObject();
-				return;
+				if($type !== 'tst')
+				{
+					ilUtil::sendFailure($lng->txt('tst_link_only_unassigned'), true);
+					$this->backObject();
+					return;
+				}
 			}
 		}
 
@@ -5132,10 +5141,10 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilUser, $ilTabs;
 		$this->getQuestionsSubTabs();
 		$ilTabs->activateSubTab('edit_test_questions');
-                
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select_copy.html", "Modules/Test");
 		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE, FALSE, "write");
-		if (count($questionpools) == 0)
+		if(count($questionpools) == 0)
 		{
 			$this->tpl->setCurrentBlock("option");
 			$this->tpl->setVariable("VALUE_QPL", "");
@@ -5143,7 +5152,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		else
 		{
-			foreach ($questionpools as $key => $value)
+			foreach($questionpools as $key => $value)
 			{
 				$this->tpl->setCurrentBlock("option");
 				$this->tpl->setVariable("VALUE_OPTION", $key);
@@ -5151,16 +5160,21 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-                foreach($_REQUEST['q_id'] as $id) {
-                    $this->tpl->setCurrentBlock("hidden");
-                    $this->tpl->setVariable("HIDDEN_NAME", "q_id[]");
-                    $this->tpl->setVariable("HIDDEN_VALUE", $id);
-                    $this->tpl->parseCurrentBlock();
-                    $this->tpl->setCurrentBlock("adm_content");
-                }
+
+		if(isset($_REQUEST['q_id']) && is_array($_REQUEST['q_id']))
+		{
+			foreach($_REQUEST['q_id'] as $id)
+			{
+				$this->tpl->setCurrentBlock("hidden");
+				$this->tpl->setVariable("HIDDEN_NAME", "q_id[]");
+				$this->tpl->setVariable("HIDDEN_VALUE", $id);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("adm_content");
+			}
+		}
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 
-		if (count($questionpools) == 0)
+		if(count($questionpools) == 0)
 		{
 			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_enter_questionpool"));
 			$cmd = 'createQuestionPoolAndCopy';
@@ -5170,22 +5184,22 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_select_questionpool"));
 		}
 
-                $this->tpl->setVariable("CMD_SUBMIT", $cmd);
+		$this->tpl->setVariable("CMD_SUBMIT", $cmd);
 		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
 
-                $createForm = $this->getQuestionpoolCreationForm();
-                switch($cmd) {
-                    case 'copyAndLinkQuestionsToPool':
-                        $hidden = new ilHiddenInputGUI('link');
-                        $hidden->setValue(1);
-                        $createForm->addItem($hidden);
-                        break;
-                    case 'copyQuestionsToPool':
-                        break;
-                }
+		$createForm = $this->getQuestionpoolCreationForm();
+		switch($cmd)
+		{
+			case 'copyAndLinkQuestionsToPool':
+				$hidden = new ilHiddenInputGUI('link');
+				$hidden->setValue(1);
+				$createForm->addItem($hidden);
+				break;
+			case 'copyQuestionsToPool':
+				break;
+		}
 		$createForm->setFormAction($this->ctrl->getFormAction($this));
-                #$this->tpl->setVariable('CREATE_QPOOL_FORM', $createForm->getHTML());
 
 		$this->tpl->parseCurrentBlock();
 	}
