@@ -201,6 +201,11 @@ class ilTestExportGUI extends ilExportGUI
 		 */
 		global $lng, $ilCtrl;
 
+		if(isset($_GET['file']) && $_GET['file'])
+		{
+			$_POST['file'] = array($_GET['file']);
+		}
+
 		if(!isset($_POST['file']))
 		{
 			ilUtil::sendInfo($lng->txt('no_checkbox'), true);

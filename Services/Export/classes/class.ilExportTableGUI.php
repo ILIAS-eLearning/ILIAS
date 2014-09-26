@@ -40,8 +40,7 @@ class ilExportTableGUI extends ilTable2GUI
 		//$this->disable('footer');
 		//$this->setEnableTitle(true);
 
-		$this->addMultiCommand('download', $lng->txt('download'));
-		$this->addMultiCommand('confirmDeletion', $lng->txt('delete'));
+		$this->initMultiCommands();
 	}
 
 	/**
@@ -54,6 +53,15 @@ class ilExportTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('file'), 'file');
 		$this->addColumn($this->lng->txt('size'), 'size');
 		$this->addColumn($this->lng->txt('date'), 'timestamp');
+	}
+
+	/**
+	 * 
+	 */
+	protected function initMultiCommands()
+	{
+		$this->addMultiCommand('download', $this->lng->txt('download'));
+		$this->addMultiCommand('confirmDeletion', $this->lng->txt('delete'));
 	}
 
 	/**
