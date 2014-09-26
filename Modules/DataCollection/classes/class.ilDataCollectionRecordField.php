@@ -51,6 +51,7 @@ class ilDataCollectionRecordField
 		{
 			$this->doCreate();
 		}
+        $this->loadValue();
 	}
 	
 	/*
