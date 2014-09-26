@@ -352,8 +352,8 @@ class ilDataCollectionRecordEditGUI
      */
     public function cancelUpdate()
 	{
-		$this->ctrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
-	}
+        $this->checkAndPerformRedirect(true);
+    }
 
     /**
      * Cancel Save
@@ -449,21 +449,8 @@ class ilDataCollectionRecordEditGUI
                 ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
             }
 
-            // Check if there is set a place where to redirect after saving/editing record
-            if (isset($_GET['redirect']) && !$this->ctrl->isAsynch()) {
-                switch ((int) $_GET['redirect']) {
-                    case self::REDIRECT_DETAIL:
-                        $this->ctrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $this->record_id);
-                        $this->ctrl->setParameterByClass('ildatacollectionrecordviewgui', 'table_id', $this->table_id);
-                        $this->ctrl->redirectByClass("ildatacollectionrecordviewgui", "renderRecord");
-                        break;
-                    case self::REDIRECT_RECORD_LIST:
-                        $this->ctrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
-                        break;
-                    default:
-                        $this->ctrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
-                }
-            } elseif ($this->ctrl->isAsynch()) {
+            $this->checkAndPerformRedirect();
+            if ($this->ctrl->isAsynch()) {
                 // If ajax request, return the form in edit mode again
                 $this->record_id = $record_obj->getId();
                 $this->initForm();
@@ -485,6 +472,29 @@ class ilDataCollectionRecordEditGUI
 		}
 
 	}
+
+    /**
+     * Checkes to what view (table or detail) should be redirected and performs redirect
+     *
+     */
+    protected function checkAndPerformRedirect($force_redirect=false)
+    {
+        if ($force_redirect || (isset($_GET['redirect']) && !$this->ctrl->isAsynch())) {
+            switch ((int) $_GET['redirect']) {
+                case self::REDIRECT_DETAIL:
+                    $this->ctrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $this->record_id);
+                    $this->ctrl->setParameterByClass('ildatacollectionrecordviewgui', 'table_id', $this->table_id);
+                    $this->ctrl->redirectByClass("ildatacollectionrecordviewgui", "renderRecord");
+                    break;
+                case self::REDIRECT_RECORD_LIST:
+                    $this->ctrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+                    break;
+                default:
+                    $this->ctrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+            }
+        }
+    }
+
 
     /**
      * Access denied
