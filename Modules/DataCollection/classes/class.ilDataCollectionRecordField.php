@@ -86,6 +86,7 @@ class ilDataCollectionRecordField
         if ($this->id == NULL) {
             $this->doCreate();
         }
+        $this->loadValue();
     }
 
     /**
