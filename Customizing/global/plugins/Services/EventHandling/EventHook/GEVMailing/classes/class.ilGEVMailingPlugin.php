@@ -153,8 +153,14 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 		
 		$usr_id = intval($a_parameter["user_id"]);
 		$crs_id = intval($a_parameter["crs_obj_id"]);
-		$status = gevCourseUtils::getInstance($crs_id)->getParticipationStatusOf($usr_id);
+		$crs_utils = gevCourseUtils::getInstance($crs_id);
+		$status = $crs_utils->getParticipationStatusOf($usr_id);
+		$type = $crs_utils->getType();
 		$mails = new gevCrsAutoMails($crs_id);
+		
+		if ($type == "Webinar" || $type == "Spezialistenschulung Webinar") {
+			return;
+		}
 		
 		if ($status == ilParticipationStatus::STATUS_SUCCESSFUL) {
 			$mails->sendDeferred("participant_successfull", array($usr_id));
