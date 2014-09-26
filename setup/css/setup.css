@@ -1,51 +1,7 @@
 body.ilSetup{
 }
 
-div.ilSetupFrame{
-	padding:15px;
-	background-image: url(../../templates/default/images/frame_back.png);
-	background-repeat: repeat-x;
-	background-color: #f0f0f0;
-}
-
-div.ilSetupFrameH{
-	background-image: url(../../templates/default/images/head_back.png);
-	background-repeat: repeat-x;
-	background-color: #a7d3ff;
-	min-width:850px;
-	margin-left:auto;
-	margin-right:auto;
-}
-
-div.ilSetupFrameTL{
-	background-image: url(../../templates/default/images/tl.png);
-	background-repeat: no-repeat;
-}
-
-div.ilSetupFrameTR{
-	background-image: url(../../templates/default/images/tr.png);
-	background-repeat: no-repeat;
-	background-position: top right;
-}
-
-div.ilSetupFrameBL{
-	background-image: url(../../templates/default/images/bl.png);
-	background-repeat: no-repeat;
-	background-position: bottom left;
-}
-
-div.ilSetupFrameBR{
-	background-image: url(../../templates/default/images/br.png);
-	background-repeat: no-repeat;
-	background-position: bottom right;
-	padding: 10px 20px;
-	min-height: 600px;
-}
-
 div.ilSetupContent div.ilTabContentOuter {
-	float: none;
-	width: inherit;
-	padding: 0 10px;
 }
 
 div.ilSetupLogin{
