@@ -118,10 +118,34 @@ input.ilOpenIDBox {
 	padding-left: 20px;
 }
 
+
+
 #ilTopBar.ilTopBar {
 	padding: 0;
 	height: 40px;
+	top: 0;
 }
+
+.ilTopFixed {
+	z-index: 1030;
+	position: fixed;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+}
+
+.ilMainHeader.ilTopFixed {
+	top: 40px;
+}
+
+.ilMainMenu.ilTopFixed {
+	top: 110px;
+	border-bottom: solid 2px @body-bg;
+}
+
+@il-fixed-menu-height: 117px;
+
 
 #ilTopBarNav {
 	float: right;

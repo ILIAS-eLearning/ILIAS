@@ -250,16 +250,20 @@ div.ilFrame {
 .ilLeftNav {
 	top: 0;
 	bottom:	0;
-	left: 0;
 	width: 247px;
 	float: left;
 	position: absolute;
 	padding: 5px;
-	padding-left: 15px;
+	margin-left: 15px;
 	overflow: auto;
 	background-color: @body-bg;
 	border-right: 3px solid lighten(@mid-gray, 33%);
 	z-index: 100;
+
+
+	position: fixed;
+	top: @il-fixed-menu-height;
+
 	@media only screen and (max-width: 640px) {width: 100%;}
 }
 
@@ -457,6 +461,10 @@ div.ilFrame {
 .registration {
   margin: 5px auto 0;
   width: 700px;
+}
+
+.ilFixedTopSpacer {
+	margin-top: @il-fixed-menu-height;
 }
 
 div#mainspacekeeper {
@@ -1059,7 +1067,7 @@ div#bot_center_area_drag:hover {
 
 .ilLeftNavSpace {
 	/* padding: 0 20px 0 310px; */
-	margin-left: 250px !important;
+	margin-left: 260px !important;
 	@media (max-width: @grid-float-breakpoint-max) {margin-left: 0 !important;}
 }
 
@@ -1425,7 +1433,7 @@ div.editLink {
 	}
 
 	/* at last temporary, since it overlaps content */
-	a.ilTreeView {
+	a.ilTreeView, .ilLeftNav {
 		display: none;
 	}
 

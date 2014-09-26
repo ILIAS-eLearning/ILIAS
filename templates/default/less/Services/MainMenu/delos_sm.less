@@ -9,12 +9,22 @@
 		height: 0px;
 		padding: 0;
 		> img {
-			position: absolute;
+			position: fixed;
 			top: 0px;
 			height: 40px;
 			width: 40px;
 		}
 	}
+}
+
+.ilMainMenu.ilTopFixed {
+	position: fixed;
+	top: 40px;
+	border-bottom: 0px;
+}
+
+.ilFixedTopSpacer {
+	margin-top: 40px;
 }
 
 nav#ilTopNav {
@@ -33,8 +43,8 @@ nav#ilTopNav {
 }
 
 #ilTopNav button.navbar-toggle {
-	position: absolute;
-	top: -40px;
+	position: fixed;
+	top: 0px;
 	left: 40px;
 	height: 40px;
 	border-radius: 0px;

@@ -6300,16 +6300,17 @@ div.ilFrame {
 .ilLeftNav {
   top: 0;
   bottom: 0;
-  left: 0;
   width: 247px;
   float: left;
   position: absolute;
   padding: 5px;
-  padding-left: 15px;
+  margin-left: 15px;
   overflow: auto;
   background-color: #f0f0f0;
   border-right: 3px solid #979797;
   z-index: 100;
+  position: fixed;
+  top: 117px;
 }
 @media only screen and (max-width: 640px) {
   .ilLeftNav {
@@ -6479,6 +6480,9 @@ body#tinymce {
 .registration {
   margin: 5px auto 0;
   width: 700px;
+}
+.ilFixedTopSpacer {
+  margin-top: 117px;
 }
 .fullwidth {
   width: 100%;
@@ -6937,7 +6941,7 @@ div#bot_center_area_drag:hover {
 }
 .ilLeftNavSpace {
   /* padding: 0 20px 0 310px; */
-  margin-left: 250px !important;
+  margin-left: 260px !important;
 }
 @media (max-width: 767px) {
   .ilLeftNavSpace {
@@ -7314,8 +7318,8 @@ div.il_ExplorerItemDescription {
   margin-left: 40px;
 }
 a.ilTreeView {
-  position: absolute;
-  top: 133px;
+  position: fixed;
+  top: 117px;
   z-index: 1020;
   bottom: 160px;
   background-color: #fff;
@@ -8142,6 +8146,22 @@ input.ilOpenIDBox {
 #ilTopBar.ilTopBar {
   padding: 0;
   height: 40px;
+  top: 0;
+}
+.ilTopFixed {
+  z-index: 1030;
+  position: fixed;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+}
+.ilMainHeader.ilTopFixed {
+  top: 40px;
+}
+.ilMainMenu.ilTopFixed {
+  top: 110px;
+  border-bottom: solid 2px #f0f0f0;
 }
 #ilTopBarNav {
   float: right;
@@ -9460,7 +9480,6 @@ h3.ilBlockHeader {
 div.ilBlockInfo {
   font-size: 75%;
   color: #909090;
-  border-bottom: 1px solid #E9E9E9;
   padding: 1px 3px;
   background-color: #f9f9f9;
   text-align: right;
@@ -9997,10 +10016,18 @@ div.editLink {
     padding: 0;
   }
   .ilMainHeader > header > .row > a.navbar-brand > img {
-    position: absolute;
+    position: fixed;
     top: 0px;
     height: 40px;
     width: 40px;
+  }
+  .ilMainMenu.ilTopFixed {
+    position: fixed;
+    top: 40px;
+    border-bottom: 0px;
+  }
+  .ilFixedTopSpacer {
+    margin-top: 40px;
   }
   nav#ilTopNav {
     min-height: 0px;
@@ -10015,8 +10042,8 @@ div.editLink {
     background-color: #f9f9f9;
   }
   #ilTopNav button.navbar-toggle {
-    position: absolute;
-    top: -40px;
+    position: fixed;
+    top: 0px;
     left: 40px;
     height: 40px;
     border-radius: 0px;
@@ -10068,7 +10095,8 @@ div.editLink {
     max-width: 100%;
   }
   /* at last temporary, since it overlaps content */
-  a.ilTreeView {
+  a.ilTreeView,
+  .ilLeftNav {
     display: none;
   }
   /* no idea why needed, but this one fixes the drop downs in the small media view (e.g. main menu) */

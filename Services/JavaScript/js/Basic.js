@@ -399,7 +399,8 @@ il.UICore = {
 			sm = document.getElementById("mainspacekeeper"),
 			bc = document.getElementById("bot_center_area"),
 			fc = document.getElementById("fixed_content"),
-			nb_reg, vp_reg;
+			ft = document.getElementById("ilFooter"),
+			nb_reg, vp_reg, ft_reg;
 
 		vp_reg = il.Util.getViewportRegion();
 
@@ -446,6 +447,16 @@ il.UICore = {
 				} else {
 					$(fc).css("bottom", "0px");
 				}
+			}
+		}
+
+		// footer vs. left nav
+		if (ft && el) {
+			ft_reg = il.Util.getRegion(ft);
+			if (ft_reg.top < vp_reg.bottom) {
+				$(el).css("bottom", (vp_reg.bottom - ft_reg.top) + "px");
+			} else {
+				$(el).css("bottom", "0px");
 			}
 		}
 
