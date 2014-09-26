@@ -17,7 +17,7 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 		switch ($a_component) {
 			case "Services/CourseBooking":
 				return $this->bookingEvent($a_event, $a_parameter);
-			case "Services/ParticipationsStatus":
+			case "Services/ParticipationStatus":
 				return $this->participationStatusEvent($a_event, $a_parameter);
 			case "Modules/Course":
 				return $this->courseEvent($a_event, $a_parameter);
