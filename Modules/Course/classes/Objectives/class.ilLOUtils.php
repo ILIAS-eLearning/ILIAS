@@ -44,6 +44,44 @@ class ilLOUtils
 			return $reached >= $required;
 		}
 	}
+
+	/**
+	 * 
+	 * @param type $a_container_id
+	 * @param type $a_objective_id
+	 * @param type $a_test_type
+	 */
+	public static function lookupObjectiveRequiredPercentage($a_container_id, $a_objective_id, $a_test_type, $a_max_points)
+	{
+		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		$settings = ilLOSettings::getInstanceByObjId($a_container_id);
+		
+		if($a_test_type == ilLOSettings::TYPE_TEST_QUALIFIED)
+		{
+			$tst_ref_id = $settings->getQualifiedTest();
+		}
+		else
+		{
+			$tst_ref_id = $settings->getInitialTest();
+		}
+		if(self::lookupRandomTest(ilObject::_lookupObjId($tst_ref_id)))
+		{
+			include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
+			return (int) ilLORandomTestQuestionPools::lookupLimit($a_container_id, $a_objective_id, $a_test_type);
+		}
+		else
+		{
+			include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
+			$limit = ilCourseObjectiveQuestion::loookupTestLimit(ilObject::_lookupObjId($tst_ref_id), $a_objective_id);
+
+			if($a_max_points)
+			{
+				return (int) $limit / $a_max_points * 100;
+			}
+			return 0;
+			
+		}
+	}
 	
 	/**
 	 * 
