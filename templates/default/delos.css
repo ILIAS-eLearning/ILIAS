@@ -10022,6 +10022,9 @@ div.editLink {
     height: 40px;
     width: 40px;
   }
+  #ilTopBar.ilTopBar {
+    z-index: 1030;
+  }
   .ilMainMenu.ilTopFixed {
     position: fixed;
     top: 40px;
