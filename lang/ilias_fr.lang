@@ -12404,7 +12404,7 @@ sop#:#sop_already_exported#:#The Learning Module is already exported. Please rec
 sop#:#sop_check_system_requirements#:#Vérification de la configuration système
 sop#:#sop_desc_export#:#Offline learning modules are only available for offline usage. After trackingdata import the learning module will be online again.
 sop#:#sop_export#:#SCORM-Learning Module Export
-sop#:#sop_firefox_required#:#The Offline-Mode requires an up-to-date Mozilla-Firefox Browser (> 20)<br /><a href="http://www.mozilla.org/de/firefox/new" target="_new">Download Firefox</a>
+sop#:#sop_firefox_required#:#The Offline-Mode requires an up-to-date Mozilla-Firefox Browser (> 20)<br /><a href='http://www.mozilla.org/de/firefox/new' target='_new'>Download Firefox</a>
 sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player. 
 sop#:#sop_msg_export_content#:#Transfering content to SCORM Offline Manager. This needs sometimes several minutes. Please wait some seconds
 sop#:#sop_msg_export_failure#:#Problème lors du transfert des données du Gestionnaire SCORM Hors-Ligne.
