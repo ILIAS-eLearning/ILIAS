@@ -403,9 +403,10 @@ class ilLPStatus
 		// insert
 		else
 		{
+			// smeyer added temp bugfix null status
 			$ilDB->manipulate("INSERT INTO ut_lp_marks ".
 				"(status, status_changed, usr_id, obj_id, status_dirty) VALUES (".
-				$ilDB->quote($a_status, "integer").",".
+				$ilDB->quote((int) $a_status, "integer").",".
 				$ilDB->now().",".
 				$ilDB->quote($a_user_id, "integer").",".
 				$ilDB->quote($a_obj_id, "integer").",".
