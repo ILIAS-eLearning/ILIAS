@@ -303,7 +303,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		// view/accordion
 		else
 		{
-			$this->output_html .= $acc->getHTML();
+			$this->output_html .= "<div class='ilCrsObjAcc'>".$acc->getHTML()."</div>";
 		}		
 	}
 	

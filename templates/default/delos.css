@@ -7125,22 +7125,24 @@ div.ilSideBarContent {
 /* Services/Accordion */
 .il_VAccordionHead,
 .il_HAccordionHead {
-  padding: 3px 3px 3px 30px;
+  padding: 5px 5px 5px 30px;
   text-align: left;
-  border: 1px solid #EAEAEA;
   cursor: pointer;
   color: #3444AA;
   font-size: 110%;
-  background: url(images/tree_col.png) no-repeat 7px 7px #f3f3f3;
+  background: url(images/tree_col.png) no-repeat 9px 9px #ffffff;
+}
+.il_VAccordionInnerContainer {
+  margin-bottom: 10px;
 }
 .il_HAccordionHead:hover,
 .il_VAccordionHead:hover {
-  background-color: #FF9;
+  background-color: #feede0;
 }
 .il_HAccordionHeadActive,
 .il_VAccordionHeadActive {
   background-image: url(images/tree_exp.png);
-  background-color: #FFFFC9;
+  background-color: #feede0;
 }
 /* Modules/ScormAicc */
 table.il_ScormTable {
@@ -9078,6 +9080,9 @@ li.smallPad {
 }
 .listIndent {
   padding: 0 0 20px;
+}
+.ilCrsObjAcc {
+  margin-bottom: 10px;
 }
 /* Modules/Chatroom */
 .ilValignBottom {
