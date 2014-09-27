@@ -50,13 +50,13 @@ class ilLOTestQuestionAdapter
 		$adapter->updateQuestions($a_test_session, $a_test_sequence);
 		$adapter->hideQuestions($a_test_sequence);
 		$adapter->storeTestRun();
+		$adapter->initUserResult($a_test_session);
 		
 		// Save test sequence
 		$a_test_sequence->saveToDb();
 		
 		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($a_test_sequence,true));
 		return true;
-		return $a_questions;
 	}
 	
 	/**
@@ -94,7 +94,6 @@ class ilLOTestQuestionAdapter
 
 			// make some noise (with question id and responsible source pool definition)
 		}
-		return true;
 		 */
 	}
 	
@@ -249,6 +248,15 @@ class ilLOTestQuestionAdapter
 				include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
 				include_once './Modules/Course/classes/Objectives/class.ilLOUtils.php';
 				
+				$old_result = ilLOUserResults::lookupResult(
+						$this->container_id, 
+						$this->user_id, 
+						$run->getObjectiveId(),
+						($this->getSettings()->getQualifiedTest() == $session->getRefId()) ? 
+							ilLOUserResults::TYPE_QUALIFIED :
+							ilLOUserResults::TYPE_INITIAL
+				);
+				
 				$ur = new ilLOUserResults($this->container_id,$this->user_id);
 				$ur->saveObjectiveResult(
 						$run->getObjectiveId(), 
@@ -263,9 +271,9 @@ class ilLOTestQuestionAdapter
 								ilLOUserResults::STATUS_COMPLETED :
 								ilLOUserResults::STATUS_FAILED,
 						(int) $res['percentage'], 
-						50, // @todo
-						1, 
-						0
+						$old_result['limit_perc'],
+						$old_result['tries'], 
+						$old_result['is_final']
 				);
 				$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($run->getResult(),true));
 				
@@ -408,3 +416,4 @@ class ilLOTestQuestionAdapter
 		return $questionList->getQuestionDataArray();
 	}
 }
+?>
