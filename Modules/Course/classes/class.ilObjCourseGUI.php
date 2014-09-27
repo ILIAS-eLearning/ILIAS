@@ -5089,7 +5089,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
 		$confirm->setFormAction($this->ctrl->getFormAction($this));
-		$confirm->setConfirm($this->lng->txt('reset'), 'view');
+		$confirm->setConfirm($this->lng->txt('reset'), 'reset');
 		$confirm->setCancel($this->lng->txt('cancel'), 'cancel');
 		
 		$GLOBALS['tpl']->setContent($confirm->getHTML());
