@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN"
-	"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>{WINDOW_TITLE} {PAGETITLE}</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
 	<!-- BEGIN ContentStyle -->
 	<link rel="stylesheet" type="text/css" href="{LOCATION_CONTENT_STYLESHEET}" />
@@ -20,28 +20,35 @@
 	<!-- END css_file -->
 </head>
 <body <!-- BEGIN body_class -->class="{BODY_CLASS}"<!-- END body_class -->>
-<div class="ilFrame">
 	{MAINMENU}
 	<!-- BEGIN sr_focus -->
 	<script type="text/javascript">il.Util.addOnLoad(il.Util.setStdScreenReaderFocus);</script>
 	<!-- END sr_focus -->
 
 	<!-- BEGIN pg_intro -->
-	<div id="mainspacekeeper">
-		<div id="mainscrolldiv">
+<div id="mainspacekeeper" class="container ilFixedTopSpacer">
+	<div class="row" style="position: relative;">
 	<!-- END pg_intro -->
 	
 	{NAVIGATION_HISTORY}
 	<!-- BEGIN ilLocator -->
 	{STATUSLINE}
 	<!-- END ilLocator -->
-	
-	<div id="il_head_action" class="ilHeadAction" style="margin-right:20px;">{HEAD_ACTION}</div>
-	
-	<!-- BEGIN lm_head -->
-	<h1 class="il_LMHead"><!-- BEGIN header_image --><img id="headerimage" src="{IMG_HEADER}" alt="{IMAGE_DESC}" />&nbsp;<!-- END header_image -->
-		{HEADER}</h1>
-	<!-- END lm_head -->
+
+			<div class="media il_HeaderInner">
+				<!-- BEGIN head_action -->
+				<div class="ilHeadAction" id="il_head_action">
+					<!-- BEGIN head_action_inner -->{HEAD_ACTION}<!-- END head_action_inner -->
+				</div>
+				<!-- END head_action -->
+
+				<!-- BEGIN lm_head -->
+				<!-- BEGIN header_image --><img id="headerimage" class="media-object" src="{IMG_HEADER}" alt="{IMAGE_DESC}" /><!-- END header_image -->
+				<h1 class="media-heading ilHeader">
+					<a id="il_mhead_t_focus" class="ilAccAnchor" name="il_mhead_t_focus">{HEADER}</a>
+				</h1>
+				<!-- END lm_head -->
+			</div>
 	
 	<div class="ilLMMenu">
 		{MENU}
@@ -110,7 +117,6 @@
 	</div>
 	<!-- END pg_outro -->
 	
-</div>
 
 <!-- BEGIN on_load_code -->
 <script type="text/javascript">
