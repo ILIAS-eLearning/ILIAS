@@ -132,7 +132,11 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 			$rec['action'] = '<a href="' . $lnk 
 				.'"><img src="./Customizing/global/skin/genv/images/GEV_img/ico-table-eye.png"></a>';
 
-			$rec['date'] = $rec['begin_date'] .' - ' .$rec['end_date'];
+			$start = new ilDate($rec["begin_date"], IL_CAL_DATE);
+			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
+			$date = '<nobr>' .ilDatePresentation::formatPeriod($start,$end) .'</nobr>';
+			$rec['date'] = $date;
+
 			$data[] = $rec;
 
 		}
@@ -163,6 +167,12 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 		$cutils = gevCourseUtils::getInstance($crs_id);
 		$cutils->deliverMemberList(gevCourseUtils::MEMBERLIST_HOTEL);
 		return;
+	}
+
+	protected function _process_xls_date($val) {
+		$val = str_replace('<nobr>', '', $val);
+		$val = str_replace('</nobr>', '', $val);
+		return $val;
 	}
 
 }
