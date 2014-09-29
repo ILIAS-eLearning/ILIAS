@@ -36,6 +36,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
 		$data = $user_util->getBookedAndWaitingCourseInformation();
+
 		$cnt = count($data);
 		$this->setMaxCount($cnt);
 		$this->setLimit($cnt);

@@ -203,6 +203,19 @@ class gevUserUtils {
 
 		return $ret;
 	}
+
+
+
+	public function filter_for_online_courses($ar){
+		$ret = array();
+		foreach ($ar as $crsid) {
+			$crs_utils = gevCourseUtils::getInstance($crsid);
+			if ($crs_utils->getCourse()->isActivated()){
+				$ret[] = $crsid;
+			} 
+		}
+		return $ret;
+	}
 	
 	public function getBookedAndWaitingCourseInformation() {
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
@@ -226,6 +239,8 @@ class gevUserUtils {
 		
 		
 		$booked = $this->getBookedCourses();
+		$booked = $this->filter_for_online_courses($booked);
+
 		$booked_amd = gevAMDUtils::getInstance()->getTable($booked, $crs_amd);
 		foreach ($booked_amd as $key => $value) {
 			$booked_amd[$key]["status"] = ilCourseBooking::STATUS_BOOKED;
@@ -243,7 +258,17 @@ class gevUserUtils {
 			}
 			$booked_amd[$key]["target_group"] = "<ul>".$list."</ul>".$booked_amd[$key]["target_group"];
 		}
+
+
 		$waiting = $this->getWaitingCourses();
+		$waiting = $this->filter_for_online_courses($waiting);
+
+
+		foreach ($waiting as $crsid) {
+			$crs_utils = gevCourseUtils::getInstance($crsid);
+			print $crs_utils->getCourse()->isActivated() ? 'ja':'neine';
+		}
+
 		$waiting_amd = gevAMDUtils::getInstance()->getTable($waiting, $crs_amd);
 		foreach ($waiting_amd as $key => $value) {
 			$waiting_amd[$key]["status"] = ilCourseBooking::STATUS_WAITING;
