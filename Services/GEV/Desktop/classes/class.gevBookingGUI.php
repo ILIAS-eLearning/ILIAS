@@ -471,6 +471,8 @@ class gevBookingGUI {
 	}
 	
 	private function getAccomodationsForm() {
+		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
+		require_once("Services/Accomodations/classes/class.ilSetAccomodationsGUI.php");
 		$_form = new catPropertyFormGUI();
 		ilSetAccomodationsGUI::addAccomodationsToForm($_form, $this->crs_id, $this->user_id);
 		return $_form;
