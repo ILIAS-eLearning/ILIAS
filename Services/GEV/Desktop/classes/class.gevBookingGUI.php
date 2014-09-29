@@ -40,8 +40,8 @@ class gevBookingGUI {
 		$this->checkIfCourseIsFull();
 		$this->checkIfUserIsAllowedToBookCourseForOtherUser();
 		$this->checkIfUserIsAllowedToBookCourse();
-		
 		$this->maybeShowOtherBookingsInPeriodWarning();
+
 		
 		$this->cmd = $this->ctrl->getCmd();
 		
@@ -471,6 +471,8 @@ class gevBookingGUI {
 	}
 	
 	private function getAccomodationsForm() {
+		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
+		require_once("Services/Accomodations/classes/class.ilSetAccomodationsGUI.php");
 		$_form = new catPropertyFormGUI();
 		ilSetAccomodationsGUI::addAccomodationsToForm($_form, $this->crs_id, $this->user_id);
 		return $_form;
@@ -697,7 +699,8 @@ class gevBookingGUI {
 			ilUtil::sendFailure($this->lng->txt("gev_need_agb_accept"));
 			return $this->book(true);
 		}
-		
+
+/*		
 		if ($this->isWithPayment()) {
 			$_form = $this->getAccomodationsForm();
 			if (!$_form->checkInput()) {
@@ -707,9 +710,21 @@ class gevBookingGUI {
 			}
 			$accomodations = $_form->getInput("acco");
 		}
-		else {
 			$accomodations = null;
 		}
+
+
+*/
+		//accomodations are not dependent on payment.
+		$_form = $this->getAccomodationsForm();
+		if (!$_form->checkInput()) {
+			$this->log->write("gevBookingGUI::finalizeBookingWithoutPayment: This should not happen, the form input did not check correctly.");
+			$this->toCourseSearch();
+			return;
+		}
+		$accomodations = $_form->getInput("acco");
+
+
 		$status = $this->finalizeBooking($accomodations);
 		$this->finalizedBookingRedirect($status);
 	}
@@ -729,7 +744,7 @@ class gevBookingGUI {
 		}
 		
 		$status = $this->crs_utils->getBookingStatusOf($this->user_id);
-		
+		die($status);
 		if ($status != ilCourseBooking::STATUS_BOOKED && $status != ilCourseBooking::STATUS_WAITING) {
 			$this->failAtFinalize("Status was neither booked nor waiting.");
 		}

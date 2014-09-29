@@ -144,6 +144,7 @@ class ilUserHistorizingHelper
 	{
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$uutils = gevUserUtils::getInstanceByObjOrId($user);
+		//$uutils = gevUserUtils::getInstance($user->user_id);
 		$ret = array(
 			'street'			=> $uutils->getPrivateStreet(),
 			'zipcode'			=> $uutils->getPrivateZipcode(),

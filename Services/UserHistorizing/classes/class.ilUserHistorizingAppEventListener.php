@@ -150,8 +150,6 @@ class ilUserHistorizingAppEventListener
 		$address_data = self::$ilUserHistorizingHelper->getAddressDataOf($parameter['user_obj']);
 		$data_payload = array_merge($data_payload, $address_data);
 
-		//$ilLog->write(print_r($data_payload, true));
-
 		return $data_payload;
 	}
 
