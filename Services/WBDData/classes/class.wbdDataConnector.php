@@ -26,7 +26,7 @@ abstract class wbdDataConnector {
 	public function __construct() {
 		global $ilDB;
 		$this->ilDB = &$ilDB;
-		
+
 		require_once("./Services/WBDData/wbdBlueprints.php");
 		$this->WBD_USER_RECORD = $WBD_USER_RECORD;
 		$this->WBD_EDU_RECORD = $WBD_EDU_RECORD;
@@ -42,16 +42,16 @@ abstract class wbdDataConnector {
 		foreach ($data as $key => $value) {
 			$user_record[$key] = $value;
 		}
-		
+
 		return $user_record;
 	}
-		
+
 	protected function new_edu_record($data=array()){
 		$edu_record = $this->WBD_EDU_RECORD;
 		foreach ($data as $key => $value) {
 			$edu_record[$key] = $value;
 		}
-		
+
 		return $edu_record;
 	}
 
@@ -59,7 +59,7 @@ abstract class wbdDataConnector {
 	/**
 	* EXPORT FUNCTIONS, CSV and HTML
 	**/
-		
+
 	private function csv_dump($data, $header=False, $as_file=False){
 		if($header) {
 			//data must have at least one entry!
@@ -76,15 +76,15 @@ abstract class wbdDataConnector {
 		}
 
 		foreach ($data as $row){
-			$r = $this->csv_text_delimiter 
-				.join(   $this->csv_text_delimiter 
+			$r = $this->csv_text_delimiter
+				.join(   $this->csv_text_delimiter
 						.$this->csv_field_delimiter
 						.' '
 						.$this->csv_text_delimiter,
 						 $row)
 				.$this->csv_text_delimiter
 				."\n";
-	
+
 			print $r;
 		}
 
@@ -107,7 +107,7 @@ abstract class wbdDataConnector {
 	private function html_dump($data){
 		$headerrow = $this->csv_labels(array_keys($data[0]));
 		array_unshift($data, $headerrow);
-		
+
 		header("Content-Type: text/html, charset=utf-8");
 
 		print '<table border=1>';
@@ -130,7 +130,7 @@ abstract class wbdDataConnector {
 		foreach ($keys as $key) {
 			$ret[] = $this->CSV_LABELS[$key];
 		}
-		return $ret;		
+		return $ret;
 	}
 
 
@@ -180,8 +180,8 @@ abstract class wbdDataConnector {
 
 	/**
 	 * get users that do not have a BWV-ID yet
-	 * 
-	 * @param 
+	 *
+	 * @param
 	 * @return array of user-records
 	 */
 
@@ -192,7 +192,7 @@ abstract class wbdDataConnector {
 	 * get users with outdated records in BWV-DB:
 	 * userdata changed after last reporting
 	 *
-	 * @param 
+	 * @param
 	 * @return array of user-records
 	 */
 
@@ -200,12 +200,12 @@ abstract class wbdDataConnector {
 
 
 	/**
-	 * get edu-records for courses that 
+	 * get edu-records for courses that
 	 * started 3 months ago (or more)
 	 * and have not been submitted to the WBD
 	 *
 	 *
-	 * @param 
+	 * @param
 	 * @return array of edu-records
 	 */
 
@@ -213,12 +213,12 @@ abstract class wbdDataConnector {
 
 
 	/**
-	 * get edu-records for courses that 
+	 * get edu-records for courses that
 	 * started 3 months ago (or more)
 	 * if the current record differs from a record
 	 * that was allready sent to the WBD
-	 *  
-	 * @param 
+	 *
+	 * @param
 	 * @return array of edu-records
 	 */
 
@@ -231,7 +231,7 @@ abstract class wbdDataConnector {
 
 	/**
 	 * set BWV-ID for user
-	 *  
+	 *
 	 * @param string $user_id
 	 * @param string $bwv_id
 	 * @param date $certification_begin
@@ -240,15 +240,15 @@ abstract class wbdDataConnector {
 
 	public function set_bwv_id($user_id, $bwv_id, $certification_begin) {}
 
-	
+
 	/**
-	 * set edu-record for user
-	 *  
+	 * save external edu-record for user
+	 *
 	 * @param array $edu_record
 	 * @return boolean
 	 */
 
-	public function set_edu_record($edu_record) {}
+	public function save_external_edu_record($edu_record) {}
 
 
 }
