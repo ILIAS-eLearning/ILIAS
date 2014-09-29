@@ -242,6 +242,17 @@ abstract class wbdDataConnector {
 
 
 	/**
+	 * set booking ID for edu record
+	 *
+	 * @param string $row_id
+	 * @param string $booking_id
+	 * @return boolean
+	 */
+
+	public function set_booking_id($row_id, $booking_id) {}
+
+
+	/**
 	 * save external edu-record for user
 	 *
 	 * @param array $edu_record
