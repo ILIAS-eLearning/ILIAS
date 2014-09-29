@@ -226,14 +226,30 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				}
 
 				$counter = 0;
-				foreach ($answers as $index => $answer)
+				
+				if(is_array($answers['imagename']))
 				{
-					if ($clear_answers)
+					foreach($answers['imagename'] as $index => $answer)
 					{
-						$answer = "";
+						if($clear_answers)
+						{
+							$answer = "";
+						}
+						$this->object->addAnswer($answer, -1, $this->leveled_ordering[$counter]);
+						$counter++;
 					}
-					$this->object->addAnswer( $answer, -1, $this->leveled_ordering[$counter] );
-					$counter++;
+				}
+				else
+				{
+					foreach($answers as $index => $answer)
+					{
+						if($clear_answers)
+						{
+							$answer = "";
+						}
+						$this->object->addAnswer($answer, -1, $this->leveled_ordering[$counter]);
+						$counter++;
+					}
 				}
 			}
 		}
@@ -273,10 +289,17 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					$this->object->addAnswer( $picturefile );
 				}
 			}
+			else if(is_array($_POST['answers']))
+			{
+				foreach($_POST['answers'] as $random_id => $text_value)
+				{
+					$this->object->addAnswer( $text_value );
+				}	
+			}	
 		}
 	}
 
-	public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
+	public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
 	{
 		$orderingtype = $this->object->getOrderingType();
 
