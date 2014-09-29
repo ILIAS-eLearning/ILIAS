@@ -698,7 +698,7 @@ class gevBookingGUI {
 			return $this->book(true);
 		}
 		
-		if ($this->isWithPayment()) {
+		if ($this->isWithAccomodations()) {
 			$_form = $this->getAccomodationsForm();
 			if (!$_form->checkInput()) {
 				$this->log->write("gevBookingGUI::finalizeBookingWithoutPayment: This should not happen, the form input did not check correctly.");
