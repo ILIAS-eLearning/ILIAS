@@ -217,7 +217,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			
 			$toolbarGUI->addButton(
 				$this->lng->txt('tst_dyn_test_pass_deletion_button'),
-				$this->getPassDeletionTarget(ilTestPassDeletionConfirmationGUI::CONTEXT_DYN_TEST_PLAYER_QUEST_SELECT)
+				$this->getPassDeletionTarget(ilTestPassDeletionConfirmationGUI::CONTEXT_DYN_TEST_PLAYER)
 			);
 		}
 		
