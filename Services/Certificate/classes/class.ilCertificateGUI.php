@@ -283,37 +283,36 @@ class ilCertificateGUI
 			}
 		}
 		$form->addItem($import);
-		
-		$pageformat = new ilSelectInputGUI($this->lng->txt("certificate_page_format"), "pageformat");
+
+		$pageformat  = new ilRadioGroupInputGUI($this->lng->txt("certificate_page_format"), "pageformat");
 		$pageformats = $this->object->getPageFormats();
 		$pageformat->setValue($form_fields["pageformat"]);
-		$options = array();
-		foreach ($pageformats as $format)
+		foreach($pageformats as $format)
 		{
-			$options[$format["value"]] = $format["name"];
+			$option = new ilRadioOption($format["name"], $format["value"]);
+			if(strcmp($format["value"], "custom") == 0)
+			{
+				$pageheight = new ilTextInputGUI($this->lng->txt("certificate_pageheight"), "pageheight");
+				$pageheight->setValue($form_fields["pageheight"]);
+				$pageheight->setSize(6);
+				$pageheight->setValidationRegexp("/[0123456789\\.](cm|mm|in|pt|pc|px|em)/is");
+				$pageheight->setInfo($this->lng->txt("certificate_unit_description"));
+				$pageheight->setRequired(true);
+				$option->addSubitem($pageheight);
+
+				$pagewidth = new ilTextInputGUI($this->lng->txt("certificate_pagewidth"), "pagewidth");
+				$pagewidth->setValue($form_fields["pagewidth"]);
+				$pagewidth->setSize(6);
+				$pagewidth->setValidationRegexp("/[0123456789\\.](cm|mm|in|pt|pc|px|em)/is");
+				$pagewidth->setInfo($this->lng->txt("certificate_unit_description"));
+				$pagewidth->setRequired(true);
+				$option->addSubitem($pagewidth);
+			}
+			$pageformat->addOption($option);
 		}
-		$pageformat->setRequired(TRUE);
-		$pageformat->setOptions($options);
+		$pageformat->setRequired(true);
 		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0) $pageformat->checkInput();
 		
-		if (strcmp($form_fields["pageformat"], "custom") == 0)
-		{
-			$pageheight = new ilTextInputGUI($this->lng->txt("certificate_pageheight"), "pageheight");
-			$pageheight->setValue($form_fields["pageheight"]);
-			$pageheight->setSize(6);
-			$pageheight->setValidationRegexp("/[0123456789\\.](cm|mm|in|pt|pc|px|em)/is");
-			$pageheight->setInfo($this->lng->txt("certificate_unit_description"));
-			if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0) $pageheight->checkInput();
-			$pageformat->addSubitem($pageheight);
-
-			$pagewidth = new ilTextInputGUI($this->lng->txt("certificate_pagewidth"), "pagewidth");
-			$pagewidth->setValue($form_fields["pagewidth"]);
-			$pagewidth->setSize(6);
-			$pagewidth->setValidationRegexp("/[0123456789\\.](cm|mm|in|pt|pc|px|em)/is");
-			$pagewidth->setInfo($this->lng->txt("certificate_unit_description"));
-			if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0) $pagewidth->checkInput();
-			$pageformat->addSubitem($pagewidth);
-		}
 		$form->addItem($pageformat);
 
 		$bgimage = new ilImageFileInputGUI($this->lng->txt("certificate_background_image"), "background");
