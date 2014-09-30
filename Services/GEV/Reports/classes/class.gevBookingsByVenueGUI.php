@@ -135,18 +135,34 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 			$date = '<nobr>' .ilDatePresentation::formatPeriod($start,$end) .'</nobr>';
 			$rec['date'] = $date;
 
+			// get this from hist_usercoursestatus.overnights?
 			$query_temp = "SELECT
-								COUNT(DISTINCT acco.user_id) no_members,
 						 		COUNT(acco.night) no_accomodations
 						 	FROM
 						 		crs_acco acco
 						 	WHERE 
 							 	crs_id =" .$rec['crs_id'];
 
-				$res_temp = $this->db->query($query_temp);
-				$rec_temp = $this->db->fetchAssoc($res_temp);
-				$rec['no_members'] = $rec_temp['no_members'];
-				$rec['no_accomodations'] = $rec_temp['no_accomodations'];
+			$res_temp = $this->db->query($query_temp);
+			$rec_temp = $this->db->fetchAssoc($res_temp);
+			$rec['no_accomodations'] = $rec_temp['no_accomodations'];
+
+			$query_temp = "SELECT
+						 		COUNT(DISTINCT usr_id) no_members
+						 	FROM
+						 		hist_usercoursestatus
+						 	WHERE 
+							 	crs_id =" .$rec['crs_id']
+						."	AND
+								hist_historic = 0
+							AND 
+								booking_status = 'gebucht'
+						";
+
+			$res_temp = $this->db->query($query_temp);
+			$rec_temp = $this->db->fetchAssoc($res_temp);
+
+			$rec['no_members'] = $rec_temp['no_members'];
 
 			$data[] = $rec;
 
