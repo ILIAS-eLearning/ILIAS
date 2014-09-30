@@ -163,7 +163,7 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 									)
 									OR
 									(
-										function = 'Trainer' 
+										function IN ('Trainer', 'Trainingsbetreuer')
 									)
 							)
 						";
