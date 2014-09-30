@@ -252,6 +252,7 @@ class ilCertificateGUI
 		}
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
+		$form->setPreventDoubleSubmission(false);
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt("certificate_edit"));
 		$form->setMultipart(TRUE);
