@@ -6226,7 +6226,7 @@ button.close {
 		Green: #6ea03c;
 		Light Brown: #dcb496;
 		Dark Brown: #523228;
-		Orange: #fa8228;	
+		Orange: #fa8228;
 		External Blue: #21c5d8;
 		ILIAS 4 MainMenu Color: #c8e6ff;
 */
@@ -8286,7 +8286,7 @@ input.ilOpenIDBox {
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
-  background-color: #708bae;
+  background-color: #607ea5;
   color: white;
   border: 0;
 }
@@ -8294,7 +8294,7 @@ input.ilOpenIDBox {
   padding: 0 0px;
   margin: 10px 15px 20px 15px;
   border: none;
-  border-bottom: 2px solid #708bae;
+  border-bottom: 2px solid #607ea5;
 }
 .ilTabsContentOuter {
   /* background-color: #FFFFFF; */
@@ -9729,8 +9729,8 @@ ol.breadcrumb {
 */
 .btn-default {
   color: #ffffff;
-  background-color: #708bae;
-  border-color: #708bae;
+  background-color: #a1b3ca;
+  border-color: #a1b3ca;
 }
 .btn-default:hover,
 .btn-default:focus,
@@ -9738,8 +9738,8 @@ ol.breadcrumb {
 .btn-default.active,
 .open > .dropdown-toggle.btn-default {
   color: #ffffff;
-  background-color: #557196;
-  border-color: #526c90;
+  background-color: #8198b7;
+  border-color: #7a93b4;
 }
 .btn-default:active,
 .btn-default.active,
@@ -9761,11 +9761,11 @@ fieldset[disabled] .btn-default:active,
 .btn-default.disabled.active,
 .btn-default[disabled].active,
 fieldset[disabled] .btn-default.active {
-  background-color: #708bae;
-  border-color: #708bae;
+  background-color: #a1b3ca;
+  border-color: #a1b3ca;
 }
 .btn-default .badge {
-  color: #708bae;
+  color: #a1b3ca;
   background-color: #ffffff;
 }
 .btn-primary {
