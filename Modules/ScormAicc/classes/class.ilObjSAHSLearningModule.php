@@ -819,7 +819,16 @@ class ilObjSAHSLearningModule extends ilObject
 
 		$this->updateMetaData();
 		parent::update();
-
+		//Workaround for fields where Null is not allowed!
+		$uStyleSheetId = $this->getStyleSheetId();
+		if ($uStyleSheetId == null) $uStyleSheetId=0;
+		$uOpenMode = $this->getOpenMode();
+		if ($uOpenMode == null) $uOpenMode=0;
+		$uWidth = $this->getWidth();
+		if ($uWidth == null) $uWidth=950;
+		$uHeight = $this->getHeight();
+		if ($uHeight == null) $uHeight=650;
+		
 		$statement = $ilDB->manipulateF('
 			UPDATE sahs_lm  
 			SET c_online = %s, 
@@ -903,7 +912,7 @@ class ilObjSAHSLearningModule extends ilObject
 				$this->getAutoReviewChar(),
 				$this->getDefaultLessonMode(),
 				$this->getSubType(),
-				$this->getStyleSheetId(),
+				$uStyleSheetId,
 				$this->getEditable(),
 				$this->getMaxAttempt(),
 				$this->getModuleVersion(),
@@ -923,9 +932,9 @@ class ilObjSAHSLearningModule extends ilObject
 				$this->getLocalization(),
 				$this->getSequencingExpertMode(),
 				$this->getDebugPw(),
-				$this->getOpenMode(),
-				$this->getWidth(),
-				$this->getHeight(),
+				$uOpenMode,
+				$uWidth,
+				$uHeight,
 				ilUtil::tf2yn($this->getAutoContinue()),
 				ilUtil::tf2yn($this->getAuto_last_visited()),
 				ilUtil::tf2yn($this->getCheck_values()),
