@@ -105,9 +105,7 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 
 		$query = "SELECT DISTINCT
 						 crs.crs_id, title, custom_id, tutor, 
-						 begin_date, end_date, venue,
-  					     COUNT(DISTINCT acco.user_id) no_members,
-						 COUNT(acco.night) no_accomodations
+						 begin_date, end_date, venue
 					FROM 
 						hist_course crs
 					JOIN 
@@ -136,6 +134,19 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
 			$date = '<nobr>' .ilDatePresentation::formatPeriod($start,$end) .'</nobr>';
 			$rec['date'] = $date;
+
+			$query_temp = "SELECT
+								COUNT(DISTINCT acco.user_id) no_members,
+						 		COUNT(acco.night) no_accomodations
+						 	FROM
+						 		crs_acco acco
+						 	WHERE 
+							 	crs_id =" .$rec['crs_id'];
+
+				$res_temp = $this->db->query($query_temp);
+				$rec_temp = $this->db->fetchAssoc($res_temp);
+				$rec['no_members'] = $rec_temp['no_members'];
+				$rec['no_accomodations'] = $rec_temp['no_accomodations'];
 
 			$data[] = $rec;
 
