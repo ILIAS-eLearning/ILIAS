@@ -136,7 +136,7 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 			$rec['date'] = $date;
 
 			// get this from hist_usercoursestatus.overnights instead?
-			//here, trainers are involved.
+			// here, trainers are involved.
 			$query_temp = "SELECT
 						 		COUNT(acco.night) no_accomodations
 						 	FROM
@@ -148,6 +148,11 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 			$rec_temp = $this->db->fetchAssoc($res_temp);
 			$rec['no_accomodations'] = $rec_temp['no_accomodations'];
 
+
+			//this is how the xls-list is generated:
+			//$user_ids = $this->getCourse()->getMembersObject()->getMembers();
+			//$tutor_ids = $this->getCourse()->getMembersObject()->getTutors();
+
 			$query_temp = "SELECT
 						 		COUNT(DISTINCT usr_id) no_members
 						 	FROM
@@ -157,15 +162,15 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 						."	AND
 								hist_historic = 0
 							AND (
-									(function = 'Mitglied' 
-										AND 
+									(	
+									function = 'Mitglied' 
+									AND 
 									booking_status = 'gebucht'
 									)
-									OR
-									(
-										function IN ('Trainer', 'Trainingsbetreuer')
-									)
+								OR
+									function = 'Trainer'
 							)
+					
 						";
 
 			$res_temp = $this->db->query($query_temp);
