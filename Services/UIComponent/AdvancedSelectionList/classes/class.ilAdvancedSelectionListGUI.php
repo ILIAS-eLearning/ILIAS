@@ -32,6 +32,7 @@ class ilAdvancedSelectionListGUI
 	const STYLE_DEFAULT = 0;
 	const STYLE_LINK = 1;
 	const STYLE_EMPH = 2;
+	const STYLE_LINK_BUTTON = 3;
 	
 	protected $css_row = "";
 	protected $access_key = false;
@@ -790,15 +791,23 @@ class ilAdvancedSelectionListGUI
 		switch ($this->getStyle())
 		{
 			case self::STYLE_DEFAULT:
-				$tpl->setVariable("BTN_CLASS", "btn-default");
+				$tpl->setVariable("BTN_CLASS", "btn btn-sm btn-default");
+				$tpl->setVariable("TAG", "button");
 				break;
 
 			case self::STYLE_EMPH:
-				$tpl->setVariable("BTN_CLASS", "btn-primary");
+				$tpl->setVariable("BTN_CLASS", "btn btn-sm btn-primary");
+				$tpl->setVariable("TAG", "button");
+				break;
+
+			case self::STYLE_LINK_BUTTON:
+				$tpl->setVariable("BTN_CLASS", "btn btn-sm btn-link");
+				$tpl->setVariable("TAG", "button");
 				break;
 
 			case self::STYLE_LINK:
-				$tpl->setVariable("BTN_CLASS", "btn-link");
+				$tpl->setVariable("BTN_CLASS", "");
+				$tpl->setVariable("TAG", "a");
 				break;
 		}
 

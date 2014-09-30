@@ -182,6 +182,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$list = new ilAdvancedSelectionListGUI();
 		$list->setListTitle($lng->txt("wiki_page_lists"));
+		$list->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK);
 		$list->setId("wiki_pglists");
 
 		foreach ($actions as $a)
@@ -197,6 +198,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 		
 		// page actions
 		$list = new ilAdvancedSelectionListGUI();
+		$list->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK);
 		$list->setListTitle($lng->txt("wiki_page_actions"));
 		$list->setId("wiki_pgactions");
 
