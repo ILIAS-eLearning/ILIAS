@@ -744,7 +744,7 @@ class gevBookingGUI {
 		}
 		
 		$status = $this->crs_utils->getBookingStatusOf($this->user_id);
-		die($status);
+		
 		if ($status != ilCourseBooking::STATUS_BOOKED && $status != ilCourseBooking::STATUS_WAITING) {
 			$this->failAtFinalize("Status was neither booked nor waiting.");
 		}
