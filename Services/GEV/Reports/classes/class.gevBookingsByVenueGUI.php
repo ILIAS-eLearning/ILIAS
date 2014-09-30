@@ -46,6 +46,23 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 			"filename" => "tpl.gev_bookings_by_venue_row.html", 
 			"path" => "Services/GEV/Reports"
 		);
+
+
+		//filters:
+		$this->show_past_events = false;
+
+		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+		require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
+		$chkPastEvents = new ilCheckboxInputGUI('show_past_events', 'show_past_events');
+		$chkPastEvents->setOptionTitle($this->lng->txt('gev_rep_filter_show_past_events'));
+
+		$this->show_past_events = ($_POST["show_past_events"] == "1") ? true : false;
+		$chkPastEvents->setChecked($this->show_past_events);
+
+		$this->filters = array(
+			'show_past_events' => $chkPastEvents
+		);
+
 	}
 	
 
@@ -119,8 +136,9 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 						crs.venue != '-empty-'
 		";
 
-		$query .= $this->queryWhen($this->start_date, $this->end_date);
+		$query .= $this->queryWhen($this->start_date, $this->end_date, $this->show_past_events);
 		$query .= $sql_order_str;
+
 
 		$res = $this->db->query($query);
 		while($rec = $this->db->fetchAssoc($res)) {
@@ -188,15 +206,21 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 
 
 
-	protected function queryWhen(ilDate $start, ilDate $end) {
+	protected function queryWhen(ilDate $start, ilDate $end, $show_past=false) {
 		if ($this->query_when === null) {
 			$this->query_when =
 					"   AND (crs.end_date >= ".$this->db->quote($start->get(IL_CAL_DATE), "date")
 					."        OR crs.end_date = '-empty-' OR crs.end_date = '0000-00-00')"
 					."   AND crs.begin_date <= ".$this->db->quote($end->get(IL_CAL_DATE), "date")
 					;
-		}
+
+			if(!$show_past) {
+				//do not show trainings that _ended_ before today
+				$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+				$this->query_when .= " AND crs.end_date >" .$this->db->quote($now);
+			}
 		
+		}
 		return $this->query_when;
 	}
 	

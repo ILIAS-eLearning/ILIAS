@@ -30,6 +30,8 @@ abstract class gevBasicReportGUI {
 			'desc' => '',
 			'img' => ''
 		);
+
+		$this->filters = array();
 		
 		$this->table_cols = array();//add arrays like this: array(translation-constant, key_in_data)
 		$this->table_row_template = array(
@@ -146,6 +148,8 @@ abstract class gevBasicReportGUI {
 												, $this->ctrl->getLinkTarget($this, "view")
 												);
 		
+
+
 		$spacer = new catHSpacerGUI();
 		
 		//export-button
@@ -156,14 +160,23 @@ abstract class gevBasicReportGUI {
 					.$this->lng->txt("gev_report_exportxls")
 					.'</a>';
 
-
 		return    $title->render()
-				. $period_input->render()
+				. $period_input->render($this->getAdditionalFilters())
 				. $spacer->render()
 				. $export_btn
 				. $this->renderTable()
 				. $export_btn
 				;
+	}
+
+
+
+	protected function getAdditionalFilters(){
+		$ret = '';
+		foreach ($this->filters as $filter_id =>$filter) {
+			$ret .= '<div id="filter_' .$filter_id .'">' .$filter->render() .'</div>';
+		}
+		return $ret;
 	}
 
 

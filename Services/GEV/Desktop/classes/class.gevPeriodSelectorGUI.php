@@ -61,7 +61,7 @@ class gevPeriodSelectorGUI extends ilDateDurationInputGUI {
 		$this->action = $a_action;
 	}
 	
-	public function render()
+	public function render($additional_filters=false)
 	{
 		global $lng,$ilUser,$tpl;
 		$tpl->addJavaScript('./Services/Form/js/date_duration.js');
@@ -69,6 +69,11 @@ class gevPeriodSelectorGUI extends ilDateDurationInputGUI {
 		$_tpl = new ilTemplate("tpl.gev_period_selector.html", true, true, "Services/GEV/Desktop");
 
 		
+		if($additional_filters){
+			$_tpl->setVariable("ADDITIONAL_FILTERS", $additional_filters);
+		}
+		
+
 		$_tpl->setVariable("ACTION", $this->action);
 		
 		// Init start		
