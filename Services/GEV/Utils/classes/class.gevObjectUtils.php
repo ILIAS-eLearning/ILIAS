@@ -50,6 +50,20 @@ class gevObjectUtils {
 		}
 		return null;
 	}
+
+	static public function checkObjExistence($a_obj_id) {
+		global $ilDB;
+		$res = $ilDB->query("SELECT obj_id FROM object_data WHERE obj_id = ".$ilDB->quote($a_obj_id));
+		if ($ret = $ilDB->fetchAssoc($res)) {
+			return true;
+		}
+		return false;
+	}
+
+
+
+
+
 }
 
 ?>

@@ -207,12 +207,19 @@ class gevUserUtils {
 
 
 	public function filter_for_online_courses($ar){
+		/*
+		check, if course exists and is online;
+		*/
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		
 		$ret = array();
 		foreach ($ar as $crsid) {
-			$crs_utils = gevCourseUtils::getInstance($crsid);
-			if ($crs_utils->getCourse()->isActivated()){
-				$ret[] = $crsid;
-			} 
+			if(gevObjectUtils::checkObjExistence($crsid)){
+				$crs_utils = gevCourseUtils::getInstance($crsid);
+				if ($crs_utils->getCourse()->isActivated()){
+					$ret[] = $crsid;
+				} 
+			}
 		}
 		return $ret;
 	}
@@ -262,12 +269,6 @@ class gevUserUtils {
 
 		$waiting = $this->getWaitingCourses();
 		$waiting = $this->filter_for_online_courses($waiting);
-
-
-		foreach ($waiting as $crsid) {
-			$crs_utils = gevCourseUtils::getInstance($crsid);
-			print $crs_utils->getCourse()->isActivated() ? 'ja':'neine';
-		}
 
 		$waiting_amd = gevAMDUtils::getInstance()->getTable($waiting, $crs_amd);
 		foreach ($waiting_amd as $key => $value) {
