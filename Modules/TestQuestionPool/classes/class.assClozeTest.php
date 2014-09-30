@@ -437,7 +437,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 								$next_id,
 								$this->getId(),
 								$key,
-								strlen( $item->getAnswertext() ) ? $item->getAnswertext() : "",
+								// Bugfix for mantis: 14034 
+								// It is a numeric gap, so cast to integer!
+								strlen( $item->getAnswertext() ) ? (int)$item->getAnswertext() : 0,
 								$item->getPoints(),
 								$item->getOrder(),
 								$gap->getType(),
@@ -1502,6 +1504,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		if (array_key_exists($gap_index, $this->gaps))
 		{
 			$gap =& $this->gaps[$gap_index];
+			
+			$gap_max_points = 0;
 			foreach ($gap->getItems() as $answer) 
 			{
 				if ($answer->getPoints() > $gap_max_points)

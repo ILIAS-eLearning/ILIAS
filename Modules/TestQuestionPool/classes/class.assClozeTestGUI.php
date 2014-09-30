@@ -62,6 +62,25 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 */
 	function writePostData($always = false)
 	{
+		// Bugfix for mantis: 14034 
+		$save_return = true;
+		if (is_array( $_POST['gap'] ))
+		{
+			foreach ($_POST['gap'] as $idx => $hidden)
+			{
+				$clozetype = $_POST['clozetype_' . $idx];
+
+				$db_gap = $this->object->getGap($idx);
+				if($db_gap->getGapType != $clozetype )
+				{
+					// if gap-type has been changed: set always = true and ignore "required inputs" and save new gap-type
+					$always = true;
+					// do not accept "save & return" action
+					$save_return = false;
+				}
+			}
+		}
+
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
@@ -76,6 +95,14 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			//$this->object->flushGaps();
 			$this->writeAnswerSpecificPostData();
 			$this->saveTaxonomyAssignments();
+			if($save_return == false && $always == true)
+			{
+				$question_text = $_POST['question'];
+				$question_text = $this->applyIndizesToGapText($question_text);
+				$_POST['question'] = $question_text;
+
+				return $this->editQuestion(true);
+			}
 			return 0;
 		}
 
@@ -202,8 +229,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 						
 						break;
 				}
-
-				
 			}
 			if ($this->ctrl->getCmd() != 'createGaps')
 			{
@@ -478,19 +503,27 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		if ($gap->getType() == CLOZE_TEXT)
 		{
 			if (count( $gap->getItemsRaw() ) == 0)
+			{
 				$gap->addItem( new assAnswerCloze("", 0, 0) );
+			}
+				
 			$this->populateTextGapFormPart( $form, $gap, $gapCounter );
 		}
 		else if ($gap->getType() == CLOZE_SELECT)
 		{
 			if (count( $gap->getItemsRaw() ) == 0)
+			{
 				$gap->addItem( new assAnswerCloze("", 0, 0) );
+			}	
 			$this->populateSelectGapFormPart( $form, $gap, $gapCounter );
 		}
 		else if ($gap->getType() == CLOZE_NUMERIC)
 		{
 			if (count( $gap->getItemsRaw() ) == 0)
+			{
 				$gap->addItem( new assAnswerCloze("", 0, 0) );
+			}
+				
 			foreach ($gap->getItemsRaw() as $item)
 			{
 				$this->populateNumericGapFormPart( $form, $item, $gapCounter );
@@ -1121,7 +1154,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			$ilTabs->addTarget("edit_question",
 				$url,
 				array("editQuestion", "originalSyncForm", "save", "createGaps", "saveEdit"),
-				$classname, "", $force_active);
+				$classname, "", true);
 		}
 
 		// add tab for question feedback within common class assQuestionGUI
