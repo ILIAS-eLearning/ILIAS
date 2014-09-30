@@ -920,7 +920,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 						   array(
 							   'answer_id'      => array( 'integer', $next_id ),
 							   'question_fi'    => array( 'integer', $this->getId() ),
-							   'answertext'     => array( 'text', ilRTE::_replaceMediaObjectImageSrc( $answer_obj->getAnswertext(), 0 ) ),
+//							   'answertext'     => array( 'text', ilRTE::_replaceMediaObjectImageSrc( $answer_obj->getAnswertext(), 0 ) ),
+							   'answertext'     => array( 'text', $answer_obj->getAnswertext()),
 							   'solution_order' => array( 'integer', $key ),
 							   'random_id'      => array( 'integer', $answer_obj->getRandomID() ),
 							   'tstamp'         => array( 'integer', time() ),

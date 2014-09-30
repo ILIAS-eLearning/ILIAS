@@ -18,7 +18,7 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 	public $ordering_type = NULL;
 	public $image_path = null;
 	public $image_path_web = null;
-	public $thumb_prefix = null;
+	public $thumb_prefix = 'thumb.';
 	
 	private $perform_js = 1;
 	
@@ -86,7 +86,7 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 	}
 	public function getThumbPrefix()
 	{
-		return $this->thumb_prefix;
+		return 'thumb.';
 	}
 
 	/**
@@ -119,7 +119,7 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 		foreach($a_answers_array as $obj_answer)
 		{
 			$this->answers[$i]['random_id']        = $obj_answer->getRandomId();
-			$this->answers[$i]['answertext']       = $obj_answer->getAnswertext();
+			$this->answers[$i]['answertext']       = (string)$obj_answer->getAnswertext();
 			$this->answers[$i]['answer_id']        = $obj_answer->getAnswerId();
 			$this->answers[$i]['ordering_depth']   = $obj_answer->getOrderingDepth();
 
@@ -201,6 +201,11 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 		return $js_include_tpl->get();
 	}
 
+	/**
+	 * @param string $text_value
+	 * @param integer $i
+	 * @return string
+	 */
 	public function renderAnswerOutput($text_value, $i)	
 	{
 		global $lng;
@@ -221,20 +226,15 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 			else if($this->getOrderingType() == OQ_NESTED_PICTURES)
 			{
 				$input_tpl->setCurrentBlock('nested_pictures');
-				$input_tpl->setVariable("PICTURE_HREF", $this->getImagePathWeb() . $text_value);
 				
 				$thumbweb = $this->getImagePathWeb() . $this->getThumbPrefix() .$text_value;
-
-				$thumb = $this->getImagePath() . $this->getThumbPrefix() . $text_value;
-//				if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
 				
-				$input_tpl->setVariable("THUMB_HREF",$thumbweb);
+				$input_tpl->setVariable("PICTURE_HREF",$thumbweb);
 				$input_tpl->setVariable("THUMB_ALT", $lng->txt("thumbnail"));
 				$input_tpl->setVariable("THUMB_TITLE", $lng->txt("thumbnail"));
 				$input_tpl->setVariable("NON_EDITABLE_ID", $this->getPostVar() . "[$i]");
 				$input_tpl->setVariable("HVALUE", $text_value);
 				$input_tpl->setVariable("ID", $this->getFieldId() . "[$i]");
-//				$input_tpl->setVariable("VALUE", $text_value);
 			}
 		}
 
