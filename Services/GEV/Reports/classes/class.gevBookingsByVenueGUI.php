@@ -165,7 +165,7 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 									(
 										function = 'Trainer' 
 									)
-
+							)
 						";
 
 			$res_temp = $this->db->query($query_temp);
