@@ -163,6 +163,7 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 						 		crs_acco
 						 	WHERE 
 							 	crs_id =" .$rec['crs_id']
+							 	
 							." GROUP BY 
 							 	night
 							   ORDER BY
