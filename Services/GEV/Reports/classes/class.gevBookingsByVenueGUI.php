@@ -156,15 +156,36 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 			// get this from hist_usercoursestatus.overnights instead?
 			// here, trainers are involved.
 			$query_temp = "SELECT
-						 		COUNT(acco.night) no_accomodations
+						 		night,
+						 		COUNT(night) no_accomodations
+
 						 	FROM
-						 		crs_acco acco
+						 		crs_acco
 						 	WHERE 
-							 	crs_id =" .$rec['crs_id'];
+							 	crs_id =" .$rec['crs_id']
+							." GROUP BY 
+							 	night
+							   ORDER BY
+							   	night
+
+							 ";
+
 
 			$res_temp = $this->db->query($query_temp);
-			$rec_temp = $this->db->fetchAssoc($res_temp);
-			$rec['no_accomodations'] = $rec_temp['no_accomodations'];
+
+			$rec['no_accomodations'] = '';
+			while($rec_temp = $this->db->fetchAssoc($res_temp)) {
+				$night = new ilDate($rec_temp['night'], IL_CAL_DATE);
+				$night = ilDatePresentation::formatDate($night);
+				$rec['no_accomodations'] .= '<nobr>'
+					.$night
+					.' &nbsp; <b>' 
+					.$rec_temp['no_accomodations']
+					.'</b>' 
+					.'</nobr><br>';
+			}
+
+
 
 
 			//this is how the xls-list is generated:
@@ -237,6 +258,18 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 		$val = str_replace('<nobr>', '', $val);
 		$val = str_replace('</nobr>', '', $val);
 		return $val;
+	}	
+	protected function _process_xls_no_accomodations($val) {
+		$val = str_replace('<nobr>', '', $val);
+		$val = str_replace('</nobr>', '', $val);
+		$val = str_replace('<b>', '', $val);
+		$val = str_replace('</b>', '', $val);
+		$val = str_replace('<br>', "\n", $val);
+		$val = str_replace(' &nbsp; ', " - ", $val);
+		return $val;
+	}
+	protected function _process_xls_action($val) {
+		return '';
 	}
 
 }

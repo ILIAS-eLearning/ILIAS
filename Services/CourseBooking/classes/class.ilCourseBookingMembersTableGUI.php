@@ -15,6 +15,9 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 	protected $cancel_deadline_expired; // [bool]
 	protected $perm_cancel_others; // [bool]
 	protected $perm_book_others; // [bool]	
+	// gev-patch start
+	private $course;
+	// gev-patch end
 	
 	/**
 	 * Constructor
@@ -30,6 +33,10 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);			
 		
+		// gev-patch start
+		$this->course = $a_course;
+		// gev-patch end
+
 		$bookings = ilCourseBookings::getInstance($a_course);
 		$this->has_waiting = $bookings->isWaitingListActivated();
 		
@@ -164,11 +171,19 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 						$this->getLink($a_set["id"], ilCourseBooking::STATUS_BOOKED));
 				}
 			}
+
+
+
+
 			if($this->perm_cancel_others)
 			{
+				
+				// gev-patch start (2014-10-01)
+				/*
 				$list->addItem($this->lng->txt("crsbook_admin_action_cancel_without_costs"),
 						"",
 						$this->getLink($a_set["id"], ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS));
+				
 				// gev-patch start
 				if($a_set["status"] == ilCourseBooking::STATUS_BOOKED &&
 					$this->cancel_deadline_expired)
@@ -177,6 +192,50 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 						"",
 						$this->getLink($a_set["id"], ilCourseBooking::STATUS_CANCELLED_WITH_COSTS));
 				}
+				*/
+				
+				// #0000641
+				require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+				require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+				
+				$crs_utils = gevCourseUtils::getInstanceByObj($this->course);
+				$usr_utils = gevUserUtils::getInstance($a_set["id"]);
+
+				$crs_reached_deadline = $this->cancel_deadline_expired;
+				$crs_hasfee = $crs_utils->getFee();
+				$usr_paysfee = $usr_utils->paysFees();
+				$usr_isbooked = ($a_set["status"] == ilCourseBooking::STATUS_BOOKED);
+
+/*
+				print '<hr>';
+				print '<br>COURSE: ' .$this->course->getId();
+				print '<br>deadline: ' .$crs_reached_deadline;
+				print '<br>crs fee: ' .$crs_hasfee;
+				print '<br>usr fee: ' .$usr_paysfee;
+				print '<br>booked: ' .$usr_isbooked;
+*/
+
+				if($crs_reached_deadline && $crs_hasfee && $usr_paysfee && $usr_isbooked){
+					//when deadline expired 
+					//and user pays fees 
+					//and seminar has fees
+					//and, of course, user is booked
+					$list->addItem($this->lng->txt("crsbook_admin_action_cancel_with_costs"),
+						"",
+						$this->getLink($a_set["id"], ilCourseBooking::STATUS_CANCELLED_WITH_COSTS));
+				} else {
+					//when deadline is not reached 
+					//or user pays no fees
+					//or seminar is w/o fees
+					//or user is not booked (i.e. waiting)
+					$list->addItem($this->lng->txt("crsbook_admin_action_cancel_without_costs"),
+						"",
+						$this->getLink($a_set["id"], ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS));
+				}
+				// gev-patch end (2014-10-01)
+
+
+
 			}
 			
 			$this->tpl->setVariable("ACTIONS", $list->getHTML());
