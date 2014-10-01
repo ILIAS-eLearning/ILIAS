@@ -206,13 +206,14 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 				$usr_paysfee = $usr_utils->paysFees();
 				$usr_isbooked = ($a_set["status"] == ilCourseBooking::STATUS_BOOKED);
 
-				/*
+/*
 				print '<hr>';
+				print '<br>COURSE: ' .$this->course->getId();
 				print '<br>deadline: ' .$crs_reached_deadline;
 				print '<br>crs fee: ' .$crs_hasfee;
 				print '<br>usr fee: ' .$usr_paysfee;
 				print '<br>booked: ' .$usr_isbooked;
-				*/
+*/
 
 				if($crs_reached_deadline && $crs_hasfee && $usr_paysfee && $usr_isbooked){
 					//when deadline expired 

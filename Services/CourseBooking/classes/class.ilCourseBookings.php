@@ -581,6 +581,9 @@ class ilCourseBookings
 			case ilCourseBooking::STATUS_BOOKED:
 				$now = new ilDate(time(), IL_CAL_UNIX);
 				$deadline = $this->getCancellationDeadline();
+				
+				// gev-patch start (2014-10-01)
+				/*
 				global $ilLog;
 				$ilLog->write(print_r($deadline, true));
 				if($deadline !== null && ilDate::_after($now, $deadline))
@@ -591,7 +594,37 @@ class ilCourseBookings
 				{
 					return $this->cancelWithoutCosts($a_user_id);
 				}
+				*/
+				require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+				require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 				
+				$crs_utils = gevCourseUtils::getInstanceByObj($this->course);
+				$usr_utils = gevUserUtils::getInstance($a_user_id);
+
+				$crs_reached_deadline = ($deadline !== null && ilDate::_after($now, $deadline));
+				$crs_hasfee = $crs_utils->getFee();
+				$usr_paysfee = $usr_utils->paysFees();
+												
+				/*
+				print '<hr>';
+				print '<br>COURSE: ' .$this->course->getId();
+				print '<br>deadline: ' .$crs_reached_deadline;
+				print '<br>crs fee: ' .$crs_hasfee;
+				print '<br>usr fee: ' .$usr_paysfee;
+				print '<br>booked: ' .$usr_isbooked;
+
+				die();
+				*/
+
+				if($crs_reached_deadline && $crs_hasfee && $usr_paysfee){
+					return $this->cancelWithCosts($a_user_id);
+				} else {
+					return $this->cancelWithoutCosts($a_user_id);
+				}
+				// gev-patch end (2014-10-01)
+
+
+
 			default:
 				throw new ilException("CourseBooking: cannot cancel non-member");							
 		}
