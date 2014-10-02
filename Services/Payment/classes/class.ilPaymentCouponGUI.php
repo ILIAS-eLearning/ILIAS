@@ -28,8 +28,6 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 	{
 		global $ilTabs;
 		
-		$this->setSection(6);
-		
 		parent::prepareOutput();
 
 		$ilTabs->setTabActive('paya_header');

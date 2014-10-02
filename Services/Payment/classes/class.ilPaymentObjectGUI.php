@@ -43,9 +43,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		 * @var $ilTabs ilTabsGUI 
 		 */
 		global $ilTabs;
-
-		$this->setSection(6);
-
+		
 		parent::prepareOutput();
 
 		$ilTabs->setTabActive('paya_header');

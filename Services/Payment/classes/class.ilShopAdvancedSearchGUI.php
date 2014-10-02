@@ -370,7 +370,7 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 			$this->tpl->setVariable('RESULTS', $this->lng->txt('payment_shop_not_objects_found'));
 		}
 		
-		$this->addPager($result, 'shop_advanced_search_maxpage');
+		$this->addPager($result);
 	
 		return true;
 	}

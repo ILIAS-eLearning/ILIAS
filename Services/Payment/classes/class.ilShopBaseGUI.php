@@ -1,9 +1,10 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilShopBaseGUI
 *
+* @author Nadia Ahmad <nahmad@databay.de>
 * @author Michael Jansen <mjansen@databay.de>
 * @version $Id$
 * 
@@ -14,10 +15,7 @@ class ilShopBaseGUI
 	protected $ctrl = null;
 	protected $lng = null;
 	protected $tpl = null;
-	protected $oGeneralSettings = null;	
-	protected $section = 0;
-	protected $sub_section = 0;
-	
+
 	public function __construct()
 	{
 		global $ilCtrl, $lng, $tpl, $ilMainMenu;
@@ -28,7 +26,6 @@ class ilShopBaseGUI
 		
 		$this->lng->loadLanguageModule('search');
 		$this->lng->loadLanguageModule('payment');		
-		$this->oGeneralSettings = ilPaymentSettings::_getInstance();
 		$ilMainMenu->setActive('shop');
 	}
 	
@@ -39,11 +36,12 @@ class ilShopBaseGUI
 		$this->tpl->setTitle($this->lng->txt("shop"));
 
 		ilUtil::infoPanel();
-	
-		$this->buildSubTabs();
 	}
-	
-	protected function addPager($result, $a_session_key)
+
+	/**
+	 * @param $result
+	 */
+	protected function addPager($result)
 	{
 	 	if(count($result->getResults()) < $result->getMaxHits())
 	 	{
@@ -90,88 +88,4 @@ class ilShopBaseGUI
 	 	
 	 	$this->ctrl->clearParameters($this);
 	}
-	
-	protected function buildSubTabs()
-	{
-		global $ilUser, $ilTabs;		
-		
-		switch($this->getSection())
-		{
-			case 6:
-				if(ilPaymentVendors::_isVendor($ilUser->getId()) || 
-				   ilPaymentTrustees::_hasStatisticPermission($ilUser->getId()))
-				{
-					$ilTabs->addSubTabTarget('bookings', $this->ctrl->getLinkTargetByClass('ilpaymentstatisticgui'), '', '', '');
-				}		
-				if(ilPaymentVendors::_isVendor($ilUser->getId()) || 
-				   ilPaymentTrustees::_hasObjectPermission($ilUser->getId()))
-				{
-					$ilTabs->addSubTabTarget('paya_object', $this->ctrl->getLinkTargetByClass('ilpaymentobjectgui'), '', '', '');
-		
-				}
-				if(ilPaymentVendors::_isVendor($ilUser->getId()))
-				{
-					$ilTabs->addSubTabTarget('paya_trustees', $this->ctrl->getLinkTargetByClass('ilpaymenttrusteegui'), '', '', '');			
-				}	
-				if(!(bool) $this->oGeneralSettings->get('hide_coupons'))
-				{		
-					if(ilPaymentVendors::_isVendor($ilUser->getId()) || 
-					   ilPaymentTrustees::_hasCouponsPermission($ilUser->getId()))
-					{
-						$ilTabs->addSubTabTarget('paya_coupons_coupons', $this->ctrl->getLinkTargetByClass('ilpaymentcoupongui'), '', '', '');			
-					}
-				}
-				break;
-				
-			default:
-				break;
-		}
-	}
-	
-	protected function setSection($a_section)
-	{
-		$this->section = $a_section;
-	}
-	protected function getSection()
-	{
-		return $this->section;
-	}
-	protected function setSubSection($a_sub_section)
-	{
-		$this->sub_section = $a_sub_section;
-	}
-	protected function getSubSection()
-	{
-		return $this->sub_section;
-	}
-	
-	protected function showButton($a_cmd, $a_text, $a_target = '')
-	{
-		global $ilToolbar;
-
-		$ilToolbar->addButton($a_text, $this->ctrl->getLinkTarget($this, $a_cmd), $a_target);
-	}
-	
-	protected function initTableGUI()
-	{
-		include_once './Services/Table/classes/class.ilTableGUI.php';
-
-		return new ilTableGUI(0, false);
-	}
-	
-	protected function setTableGUIBasicData($tbl, $result_set, $a_default_order_column = '')
-	{
-		$offset = (int)$_GET['offset'];
-		$order = $_GET['sort_by'];
-		$direction = $_GET['sort_order'];
-
-		$tbl->setOrderColumn($order,$a_default_order_column);
-		$tbl->setOrderDirection($direction);
-		$tbl->setOffset($offset);
-		$tbl->setLimit((int)$_GET['limit']);
-		$tbl->setMaxCount(count($result_set));
-		$tbl->setFooter('tblfooter', $this->lng->txt('previous'), $this->lng->txt('next'));
-		$tbl->setData($result_set);
-	}
 }
-?>
