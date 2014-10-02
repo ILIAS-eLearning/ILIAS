@@ -1,4 +1,4 @@
-<tr class="{CSS_ROW}">
+<tr class="{CSS_ROW} small">
   <td class="std" valign="top">
   <input type="checkbox" name="sel_user_id[]" value="{USER_ID}" />
   <input type="hidden" name="user_id[]" value="{USER_ID}" />
@@ -10,20 +10,27 @@
   {TXT_NAME}<br />{TXT_LOGIN}
   </td>
   <td class="std" valign="top">
-  <div class="small">
+  <div>
   <!-- BEGIN page --><div>{PAGE} ({CNT})</div><!-- END page -->
   </div>
   </td>
-  <td class="std" valign="top"><span class="small" style="white-space: nowrap;">
-  	<img border="0" src="{IMG_STATUS}" alt="{ALT_STATUS}" style="vertical-align:middle;"/>
-  	<select name="status[{USER_ID}]" >
-		<option value="{VAL_NOTGRADED}" {SEL_0}>{TXT_NOTGRADED}</option>
-		<option value="{VAL_PASSED}" {SEL_1}>{TXT_PASSED}</option>
-		<option value="{VAL_FAILED}" {SEL_2}>{TXT_FAILED}</option>
-	</select><br /><br />
-  {TXT_MARK}: <input type="text" name="{NAME_MARK}" value="{VAL_MARK}" size="5" maxlength="32" />
-  <!-- BEGIN status_date -->
-  <br /><br />{TXT_LAST_CHANGE}:<br />{VAL_STATUS_DATE}
-  <!-- END status_date -->
+  <td class="std form-inline">
+		<div class="form-group">
+			<label class="control-label"><img src="{IMG_STATUS}" alt="{ALT_STATUS}" /></label>
+			<select class="form-control" name="status[{USER_ID}]" >
+				<option value="{VAL_NOTGRADED}" {SEL_0}>{TXT_NOTGRADED}</option>
+				<option value="{VAL_PASSED}" {SEL_1}>{TXT_PASSED}</option>
+				<option value="{VAL_FAILED}" {SEL_2}>{TXT_FAILED}</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label class="control-label">{TXT_MARK}</label>
+			<input class="form-control" type="text" name="{NAME_MARK}" value="{VAL_MARK}" size="5" maxlength="32" />
+		</div>
+		<!-- BEGIN status_date -->
+		<div class="form-group">
+			{TXT_LAST_CHANGE}:<br />{VAL_STATUS_DATE}
+		</div>
+		<!-- END status_date -->
   </td>
 </tr>
