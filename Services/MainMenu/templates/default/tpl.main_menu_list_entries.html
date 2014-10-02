@@ -34,6 +34,10 @@
 								if (il.Help) {
 									il.Help.updateTooltips();
 								}
+								var el = $(".ilMainMenu.ilTopFixed");
+								if (el) {
+									il.UICore.shrinkFixedElementToViewport(el);
+								}
 							}
 
 						});

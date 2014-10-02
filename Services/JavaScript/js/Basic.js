@@ -495,7 +495,35 @@ il.UICore = {
 			}
 		}
 	},
-	
+
+	initFixedDropDowns: function () {
+		$('.ilMainMenu.ilTopFixed .dropdown').on('shown.bs.dropdown', function () {
+			var el = $(".ilMainMenu.ilTopFixed");
+			if (el) {
+				il.UICore.shrinkFixedElementToViewport(el);
+			}
+		}).on('hidden.bs.dropdown', function () {
+			var el = $(".ilMainMenu.ilTopFixed");
+			if (el) {
+				if (el.css("overflow") == "auto") {
+					el.css("bottom", "");
+				}
+			}
+			//il.UICore.alignFixedElementToViewport(this);
+		});
+	},
+
+	shrinkFixedElementToViewport: function (el) {
+		var vp_reg = il.Util.getViewportRegion(),
+			el_reg = il.Util.getRegion(el);
+
+		if (el.css("overflow") == "auto") {
+			if (el_reg.bottom > vp_reg.bottom - vp_reg.top) {
+				el.css("bottom", "0px");
+			}
+		}
+	},
+
 	initLayoutDrag: function() {
 		$('#bot_center_area_drag').mousedown(function(e){
 			e.preventDefault();
@@ -632,7 +660,9 @@ il.Util.addOnLoad(function () {
 		$(this).children(".dropdown-menu").each(function() {
 			il.Util.fixPosition(this);
 		});
-	})
+	});
+
+	il.UICore.initFixedDropDowns();
 });
 
 /* Rating */

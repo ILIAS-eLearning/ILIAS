@@ -10107,6 +10107,9 @@ div.editLink {
     left: auto;
     right: auto;
   }
+  .ilMainMenu.ilTopFixed {
+    overflow: auto;
+  }
   div.ilGoogleMap {
     max-width: 100%;
   }
