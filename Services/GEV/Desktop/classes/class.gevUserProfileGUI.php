@@ -76,8 +76,11 @@ class gevUserProfileGUI {
 				$err = true;
 			}
 			
-			if ($this->user_utils->hasWBDRelevantRole() && $this->user_utils->hasDoneWBDRegistration()
-				&& !gevUserUtils::isValidBWVId($form->getInput("bwv_id"))) {
+			if ($this->user_utils->hasWBDRelevantRole() 
+				&& $this->user_utils->hasDoneWBDRegistration()
+				&& !gevUserUtils::isValidBWVId($form->getInput("bwv_id"))
+				&& ! $form->getInput("bwv_id") == ''
+				) {
 				$form->getItemByPostVar("bwv_id")->setAlert("gev_bwv_id_invalid");
 				$err = true;
 			}
@@ -113,7 +116,7 @@ class gevUserProfileGUI {
 				$this->user->update();
 				
 				$bwv_id = $form->getInput("bwv_id");
-				if ($bwv_id) {
+				if ($bwv_id && !$bwv_id=='') {
 					$this->user_utils->setWBDBWVId($bwv_id);
 					$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
 				}
