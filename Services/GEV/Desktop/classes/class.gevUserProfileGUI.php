@@ -251,14 +251,17 @@ class gevUserProfileGUI {
 		
 		$b_street = new ilTextInputGUI($this->lng->txt("street"), "b_street");
 		$b_street->setValue($this->user->getStreet());
+		$b_street->setRequired(true);
 		$form->addItem($b_street);
 		
 		$b_city = new ilTextInputGUI($this->lng->txt("city"), "b_city");
 		$b_city->setValue($this->user->getCity());
+		$b_city->setRequired(true);
 		$form->addItem($b_city);
 		
 		$b_zipcode = new ilTextInputGUI($this->lng->txt("zipcode"), "b_zipcode");
 		$b_zipcode->setValue($this->user->getZipcode());
+		$b_zipcode->setRequired(true);
 		$form->addItem($b_zipcode);
 		
 		$b_country = new ilTextInputGUI($this->lng->txt("federal_state"), "b_country");

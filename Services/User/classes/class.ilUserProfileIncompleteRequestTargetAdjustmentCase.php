@@ -50,6 +50,9 @@ class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTa
 	 */
 	public function adjust()
 	{
+		
+		//gev patch start
+		/*
 		if(isset($_GET['baseClass']) && strtolower($_GET['baseClass']) == 'ilpersonaldesktopgui')
 		{
 			$this->ctrl->setTargetScript('ilias.php');
@@ -59,5 +62,14 @@ class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTa
 		{
 			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 		}
+		*/
+		if(isset($_GET['baseClass']) && strtolower($_GET['baseClass']) == 'gevdesktopgui'){
+			$this->ctrl->setTargetScript('ilias.php');
+			//ilUtil::redirect($this->ctrl->getLinkTargetByClass(array('gevuserprofilegui', 'gevuserprofilegui'), 'showPersonalData', '', false, false));
+		} else {
+
+			ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI&cmd=toMyProfile');
+		}
+		//gev patch end
 	}
 }
