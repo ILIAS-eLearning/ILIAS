@@ -49,14 +49,13 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 
 
 		//filters:
-		$this->show_past_events = false;
+		//$this->show_past_events = false;
+		$this->show_past_events = ($_POST["show_past_events"] == "1") ? true : false;
 
 		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
 		require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
 		$chkPastEvents = new ilCheckboxInputGUI('show_past_events', 'show_past_events');
 		$chkPastEvents->setOptionTitle($this->lng->txt('gev_rep_filter_show_past_events'));
-
-		$this->show_past_events = ($_POST["show_past_events"] == "1") ? true : false;
 		$chkPastEvents->setChecked($this->show_past_events);
 
 		$this->filters = array(
@@ -93,6 +92,7 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 			}
 
 			switch ($table_nav_cmd[0]) { //field
+				case 'no_accomodations':
 				case 'date':
 					$direction = strtoupper($table_nav_cmd[1]);
 					$sql_order_str = " ORDER BY crs.begin_date ";
@@ -107,6 +107,9 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 					//$sql_order_str = "";
 					break;
 			}
+		} else {
+			$this->external_sorting = true;
+			$sql_order_str = " ORDER BY crs.begin_date ASC";
 		}
 
 
