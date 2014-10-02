@@ -279,7 +279,7 @@ class gevUserUtils {
 			
 			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
-			$booked_amd[$key]["overnights"] = $this->getFormattedOvernightDetailsForCourse($crs_utils->getCourse());
+			$waiting_amd[$key]["overnights"] = $this->getFormattedOvernightDetailsForCourse($crs_utils->getCourse());
 			$waiting_amd[$key]["location"] = $orgu_utils->getLongTitle();
 			$list = "";
 			foreach ($waiting_amd[$key]["target_group_list"] as $val) {
