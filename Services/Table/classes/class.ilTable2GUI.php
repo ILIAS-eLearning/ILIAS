@@ -2215,6 +2215,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				}
 			}
 			$alist->setListTitle($lng->txt("tbl_templates"));
+			$alist->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK_BUTTON);
 			$this->tpl->setVariable("TEMPLATE_SELECTOR", "&nbsp;".$alist->getHTML());
 		}
 
@@ -2306,6 +2307,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				{				
 					include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 					$alist = new ilAdvancedSelectionListGUI();
+					$alist->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK_BUTTON);
 					$alist->setId("sellst_xpt");
 					foreach($this->export_formats as $format => $caption_lng_id)
 					{

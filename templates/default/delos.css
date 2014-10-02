@@ -5020,7 +5020,7 @@ a.list-group-item-danger.active:focus {
 }
 .panel {
   margin-bottom: 20px;
-  background-color: #ffffff;
+  background-color: #f9f9f9;
   border: 1px solid transparent;
   border-radius: 0px;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
@@ -5219,40 +5219,40 @@ a.list-group-item-danger.active:focus {
   border-bottom: 1px solid #dddddd;
 }
 .panel-default {
-  border-color: #dddddd;
+  border-color: none;
 }
 .panel-default > .panel-heading {
   color: #333333;
-  background-color: #f5f5f5;
-  border-color: #dddddd;
+  background-color: #f9f9f9;
+  border-color: none;
 }
 .panel-default > .panel-heading + .panel-collapse > .panel-body {
-  border-top-color: #dddddd;
+  border-top-color: none;
 }
 .panel-default > .panel-heading .badge {
-  color: #f5f5f5;
+  color: #f9f9f9;
   background-color: #333333;
 }
 .panel-default > .panel-footer + .panel-collapse > .panel-body {
-  border-bottom-color: #dddddd;
+  border-bottom-color: none;
 }
 .panel-primary {
-  border-color: #4c6586;
+  border-color: none;
 }
 .panel-primary > .panel-heading {
-  color: #ffffff;
-  background-color: #4c6586;
-  border-color: #4c6586;
+  color: #333333;
+  background-color: #ffffff;
+  border-color: none;
 }
 .panel-primary > .panel-heading + .panel-collapse > .panel-body {
-  border-top-color: #4c6586;
+  border-top-color: none;
 }
 .panel-primary > .panel-heading .badge {
-  color: #4c6586;
-  background-color: #ffffff;
+  color: #ffffff;
+  background-color: #333333;
 }
 .panel-primary > .panel-footer + .panel-collapse > .panel-body {
-  border-bottom-color: #4c6586;
+  border-bottom-color: none;
 }
 .panel-success {
   border-color: #d6e9c6;
@@ -6706,6 +6706,15 @@ a#il_mhead_t_focus {
 }
 h1.ilHeader {
   padding: 10px 0 0;
+}
+h3.ilHeader {
+  font-weight: normal;
+  padding: 0;
+  margin: 0;
+  display: inline;
+  font-size: 19px;
+  color: #909090;
+  text-transform: uppercase;
 }
 #headerimage {
   width: 45px;
@@ -8382,9 +8391,6 @@ div.ilTableHeaderTitleBlock {
 div.ilTableHeaderTitle {
   margin: 0 0 5px 0;
   padding: 0 0 2px 0;
-  font-size: 120%;
-  color: #404040;
-  border-bottom: 1px solid #E9E9E9;
 }
 h3.ilTableHeaderTitleBlock {
   font-weight: bold;
@@ -8394,11 +8400,7 @@ h3.ilTableHeaderTitleBlock {
   margin: 0;
 }
 h3.ilTableHeaderTitle {
-  font-weight: normal;
-  font-size: 100%;
   display: inline;
-  padding: 0;
-  margin: 0;
 }
 div.ilTableOuter {
   padding: 0;
@@ -8437,7 +8439,7 @@ legend.ilTableFilter {
 fieldset.ilTableFilter {
   background-color: #f9f9f9;
   padding: 10px 15px;
-  margin: 5px 0;
+  margin: 5px 0 15px 0;
 }
 div.ilTableFilterLabel {
   font-style: italic;
@@ -9168,20 +9170,9 @@ div.il_ContainerListItem {
 th.ilContainerBlockHeader {
   /* font-family: 'Open Sans Semibold'; */
   font-weight: normal;
-  font-size: 130%;
   padding: 2px;
   text-align: left;
   vertical-align: middle;
-}
-h3.ilContainerBlockHeader {
-  /* font-family: 'Open Sans Semibold'; */
-  font-weight: normal;
-  padding: 0;
-  margin: 0;
-  display: inline;
-  font-size: 100%;
-  color: #909090;
-  text-transform: uppercase;
 }
 table.ilContainerBlock {
   width: 100%;
@@ -9909,6 +9900,18 @@ a.ilSubmitInactive:active {
 img.ilRatingIcon {
   width: 16px;
   height: 16px;
+}
+.panel {
+  box-shadow: none;
+  border: none;
+}
+.panel.panel-primary {
+  background: #ffffff;
+}
+.panel-heading.ilHeader {
+  background: #f0f0f0;
+  padding-left: 0px;
+  padding-bottom: 5px;
 }
 .noMargin {
   margin: 0;

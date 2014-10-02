@@ -35,7 +35,7 @@ class ilClipboardTableGUI extends ilTable2GUI
 		$this->getItems();
 		
 		// title
-		$this->setTitle($lng->txt("clipboard"), "icon_clip.png", $lng->txt("clipboard"));
+		$this->setTitle($lng->txt("clipboard"));
 
 		$this->setDefaultOrderField("title");
 		

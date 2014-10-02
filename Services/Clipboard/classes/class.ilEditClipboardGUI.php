@@ -137,15 +137,21 @@ class ilEditClipboardGUI
 	*/
 	function view()
 	{
-		global $tree, $ilUser, $ilCtrl, $lng, $tpl;
+		global $tree, $ilUser, $ilCtrl, $lng, $tpl, $ilToolbar;
 
-		$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		include_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
+		$but = ilLinkButton::getInstance();
+		$but->setUrl($ilCtrl->getLinkTargetByClass("ilobjmediaobjectgui", "create"));
+		$but->setCaption("cont_create_mob");
+		$ilToolbar->addButtonInstance($but);
+
+		/*$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		$tpl->setCurrentBlock("btn_cell");
 		$tpl->setVariable("BTN_LINK",
 			$ilCtrl->getLinkTargetByClass("ilobjmediaobjectgui", "create"));
 		$tpl->setVariable("BTN_TXT", $lng->txt("cont_create_mob"));
-		$tpl->parseCurrentBlock();
+		$tpl->parseCurrentBlock();*/
 
 		include_once("./Services/Clipboard/classes/class.ilClipboardTableGUI.php");
 		$table_gui = new ilClipboardTableGUI($this, "view");
@@ -231,7 +237,7 @@ class ilEditClipboardGUI
 	{
 		global $ilTabs, $lng, $tpl;
 
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_clip_b.png"));
+		//$tpl->setTitleIcon(ilUtil::getImagePath("icon_clip_b.png"));
 		$tpl->setTitle($lng->txt("clipboard"));
 		$this->getTabs($ilTabs);
 	}

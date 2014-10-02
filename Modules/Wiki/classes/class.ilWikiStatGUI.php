@@ -205,7 +205,10 @@ class ilWikiStatGUI
 			// render 
 			
 			$vtpl = new ilTemplate("tpl.wiki_stat_list.html", true, true, "Modules/Wiki");
-			
+
+			include_once("./Services/UIComponent/Panel/classes/class.ilPanelGUI.php");
+			$chart_panel = ilPanelGUI::getInstance();
+
 			$vtpl->setVariable("CHART", $this->renderGraph($params["figure"], $chart_data));
 						
 			$vtpl->setCurrentBlock("row_bl");
@@ -220,12 +223,15 @@ class ilWikiStatGUI
 				$vtpl->parseCurrentBlock();
 			}
 									
-			$vtpl->setVariable("BLOCK_TITLE", $lng->txt("statistics"));
 			$vtpl->setVariable("FIGURE_HEAD", $lng->txt("wiki_stat_figure"));
 			$vtpl->setVariable("YESTERDAY_HEAD", $lng->txt("yesterday"));					
-			$vtpl->setVariable("TODAY_HEAD", $lng->txt("today"));					
-			
-			$tpl->setContent($vtpl->get());						
+			$vtpl->setVariable("TODAY_HEAD", $lng->txt("today"));
+
+			$chart_panel->setHeading($lng->txt("statistics"));
+			$chart_panel->setBody($vtpl->get());
+			$chart_panel->setHeadingStyle(ilPanelGUI::HEADING_STYLE_SUBHEADING);
+
+			$tpl->setContent($chart_panel->getHTML());
 		}
 	}
 	
@@ -285,7 +291,7 @@ class ilWikiStatGUI
 		
 		include_once "Services/Chart/classes/class.ilChartGrid.php";
 		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "wikistat");
-		$chart->setSize(600, 400);
+		$chart->setSize("100%", 400);
 		$chart->setColors(array("#C0E0FF"));
 
 		$legend = new ilChartLegend();
