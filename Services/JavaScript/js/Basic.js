@@ -224,6 +224,7 @@ il.Util = {
 		if (vp.right - 20 < r.right) {
 			il.Util.setX(el, r.x - (r.right - vp.right + 20));
 		}
+
 		r = il.Util.getRegion(el);
 		if (r.left < 0) {
 			$(el).removeClass("pull-right");
@@ -235,7 +236,7 @@ il.Util = {
 	 * Set x
 	 */
 	setX: function (el, x) {
-		$(el).offset({top: $(el).offset().top, left: x});
+		$(el).offset({left: x});
 	},
 
 	/**
@@ -509,7 +510,6 @@ il.UICore = {
 					el.css("bottom", "");
 				}
 			}
-			//il.UICore.alignFixedElementToViewport(this);
 		});
 	},
 
