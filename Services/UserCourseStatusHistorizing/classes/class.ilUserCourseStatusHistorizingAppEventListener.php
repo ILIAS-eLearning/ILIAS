@@ -39,19 +39,35 @@ class ilUserCourseStatusHistorizingAppEventListener
 	{
 		self::initEventHandler();
 		if ($a_component == 'Modules/Course' && $a_event == 'create') return;
+		if ($a_component == 'Modules/Course' && $a_event == 'delete') return;
 		if ($a_component == 'Modules/Course' && $a_event == 'update') return;
 
 		global $ilLog;
 		//$ilLog->write(print_r(array($a_component, $a_event, $a_parameter), true));
 		
+
+		//gev patch start
+		/*
+		updateMembers might include a role-change (Betreuer->Trainer)
+		which then is vital for reports !
+		*/
+		/*
 		if ($a_component == "Modules/Course" && (  $a_event == "update"
 												|| $a_event == "delete"
 												|| $a_event == "create"
 												|| $a_event == "updateMembers") 
 			) {
 			return;
-		}
+		}*/
 		
+		if ($a_component == "Modules/Course" && $a_event == "updateMembers") {
+			$a_parameter["crs_id"] = $a_parameter["obj_id"];
+			$a_parameter["usr_id"] =$_POST['participants'][0];
+		}
+		//gev patch end
+		
+
+
 		if ($a_component == "Services/User") {
 			return;
 		}

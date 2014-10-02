@@ -113,9 +113,26 @@ class ilUserCourseStatusHistorizingHelper
 	 */
 	public static function getFunctionOf($user, $course)
 	{
-		return gevUserUtils::getInstanceByObjOrId($user)
+
+		$function = gevUserUtils::getInstanceByObjOrId($user)
 						   ->getFunctionAtCourse(self::getId($course));
 
+		//function asks for roles, actually;
+		//this should be historized otherwise, though.
+		if($function === null){
+			$status = gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getBookingStatusOf(self::getId($user));
+
+			if(	   $status == ilCourseBooking::STATUS_BOOKED
+				|| $status == ilCourseBooking::STATUS_CANCELLED_WITH_COSTS
+				|| $status == ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS
+			){
+				$function = "canceled";
+			}
+
+		}
+		
+		return $function;
 	}
 
 	/**
