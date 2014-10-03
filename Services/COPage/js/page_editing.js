@@ -1027,6 +1027,10 @@ var ilCOPage =
 			back_el = document.getElementById(this.edit_ghost);
 		}
 
+		if (!back_el) {
+			return;
+		}
+
 		back_el.style.minHeight = ilCOPage.minheight + "px";
 //		back_el.style.minWidth = ilCOPage.minwidth + "px";
 
@@ -1107,8 +1111,8 @@ var ilCOPage =
 	},
 
 	autoResize: function(ed) {
-		this.copyInputToGhost(true);
-		this.synchInputRegion();
+		ilCOPage.copyInputToGhost(true);
+		ilCOPage.synchInputRegion();
 	},
 
 	// scrolls position of editor under editor menu
@@ -1633,6 +1637,10 @@ var ilCOPage =
 	}
 
 }
+
+il.Util.addOnLoad(function () {
+	$(window).resize(ilCOPage.autoResize);
+});
 
 var stopHigh = false;
 var Mposx = 0;
