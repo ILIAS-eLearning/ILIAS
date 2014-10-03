@@ -1213,8 +1213,7 @@ return;
 					ilYuiUtil::initConnection();
 					ilYuiUtil::initPanel(false);
 					$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
-					//$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
-					$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing_4_0_12.js");
+					$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
 
 					include_once './Services/Style/classes/class.ilObjStyleSheet.php';
 					$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
@@ -1226,7 +1225,7 @@ return;
 						"')");
 
 					//$GLOBALS["tpl"]->addJavascript("Services/RTE/tiny_mce_3_3_9_2/il_tiny_mce_src.js");
-					$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_0_12/tinymce.js");
+					$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_1_5/tinymce.js");
 					$tpl->touchBlock("init_dragging");
 
 					$cfg = $this->getPageConfig();
@@ -2171,48 +2170,26 @@ return;
 			$btpl->touchBlock("debug_ghost");
 		}
 
-		// paste from word
-		$btpl->setCurrentBlock("pword_button");
-		$btpl->setVariable("IMG_PWORD", ilUtil::img(ilUtil::getImagePath("tn_pword.png"),
-			"", 20, 20));
-		$btpl->parseCurrentBlock();
-		ilTooltipGUI::addTooltip("il_edm_pword",
-			$lng->txt("cont_pword"),
-			"iltinymenu_bd");
-		
 		// bullet list
-		$btpl->setCurrentBlock("blist_button");
-		$btpl->setVariable("IMG_BLIST", ilUtil::img(ilUtil::getImagePath("tn_blist.png"),
-			"", 20, 20));
-		$btpl->parseCurrentBlock();
+		$btpl->touchBlock("blist_button");
 		ilTooltipGUI::addTooltip("il_edm_blist",
 			$lng->txt("cont_blist"),
 			"iltinymenu_bd");
 
 		// numbered list
-		$btpl->setCurrentBlock("nlist_button");
-		$btpl->setVariable("IMG_NLIST", ilUtil::img(ilUtil::getImagePath("tn_nlist.png"),
-			"", 20, 20));
-		$btpl->parseCurrentBlock();
+		$btpl->touchBlock("nlist_button");
 		ilTooltipGUI::addTooltip("il_edm_nlist",
 			$lng->txt("cont_nlist"),
 			"iltinymenu_bd");
 
 		// list indent
-		$btpl->setCurrentBlock("list_indent");
-		$btpl->setVariable("IMG_LIST_INDENT", ilUtil::img(ilUtil::getImagePath("tn_indent.png"),
-			"", 20, 20));
-		$btpl->parseCurrentBlock();
+		$btpl->touchBlock("list_indent");
 		ilTooltipGUI::addTooltip("ilIndentBut",
 			$lng->txt("cont_list_indent"),
 			"iltinymenu_bd");
 
-
 		// list outdent
-		$btpl->setCurrentBlock("list_outdent");
-		$btpl->setVariable("IMG_LIST_OUTDENT", ilUtil::img(ilUtil::getImagePath("tn_outdent.png"),
-			"", 20, 20));
-		$btpl->parseCurrentBlock();
+		$btpl->touchBlock("list_outdent");
 		ilTooltipGUI::addTooltip("ilOutdentBut",
 			$lng->txt("cont_list_outdent"),
 			"iltinymenu_bd");
@@ -2227,10 +2204,7 @@ return;
 			"iltinymenu_bd");
 
 		// remove format
-		$btpl->setCurrentBlock("rformat_button");
-		$btpl->setVariable("IMG_RFORMAT", ilUtil::img(ilUtil::getImagePath("tn_rformat.png"),
-			"", 20, 20));
-		$btpl->parseCurrentBlock();
+		$btpl->touchBlock("rformat_button");
 		ilTooltipGUI::addTooltip("il_edm_rformat", $lng->txt("cont_remove_format"),
 			"iltinymenu_bd");
 
@@ -2320,11 +2294,17 @@ return;
 		ilTooltipGUI::addTooltip("il_edm_fn", $lng->txt("cont_fn"),
 			"iltinymenu_bd");
 
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$sdd = new ilAdvancedSelectionListGUI();
+		$sdd->setPullRight(false);
+		$sdd->setListTitle($lng->txt("save")."...");
+
 		if ($a_save_return)
 		{
 			$btpl->setCurrentBlock("save_return");
 			$btpl->setVariable("TXT_SAVE_RETURN", $lng->txt("save_return"));
 			$btpl->parseCurrentBlock();
+			$sdd->addItem($lng->txt("save_return"), "", "#", "", "", "", "", "", "ilCOPage.cmdSaveReturn(false); return false;");
 		}
 
 		if ($a_save_new)
@@ -2332,7 +2312,11 @@ return;
 			$btpl->setCurrentBlock("save_new");
 			$btpl->setVariable("TXT_SAVE_NEW", $lng->txt("save_new"));
 			$btpl->parseCurrentBlock();
+			$sdd->addItem($lng->txt("save_new"), "", "#", "", "", "", "", "", "ilCOPage.cmdSaveReturn(true); return false;");
 		}
+
+		$sdd->addItem($lng->txt("save"), "", "#", "", "", "", "", "", "ilCOPage.cmdSave(null); return false;");
+		$sdd->addItem($lng->txt("cancel"), "", "#", "", "", "", "", "", "ilCOPage.cmdCancel(); return false;");
 
 		if ($a_anchors)
 		{
@@ -2342,6 +2326,8 @@ return;
 			ilTooltipGUI::addTooltip("il_edm_anc", $lng->txt("cont_anchor"),
 				"iltinymenu_bd");
 		}
+
+		$btpl->setVariable("SAVE_DROPDOWN", $sdd->getHTML());
 
 /*		// footnote
 		$btpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));

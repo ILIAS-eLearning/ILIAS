@@ -78,9 +78,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		$dtpl->setVariable("BB_MENU", $this->getBBMenu("cell_0_0"));
 		
 		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_5/editor.js");
-		//$this->tpl->addJavascript("./Services/COPage/js/page_editing.js");
+		$this->tpl->addJavascript("./Services/COPage/js/page_editing.js");
 		$this->tpl->addJavascript("./Services/COPage/js/paragraph_editing.js");
-		$this->tpl->addJavascript("./Services/COPage/js/page_editing_4_0_12.js");
 
 		// get all rows
 		$xpc = xpath_new_context($this->dom);
@@ -685,11 +684,9 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		ilYuiUtil::initDragDrop();
 		ilYuiUtil::initConnection();
 		ilYuiUtil::initPanel(false);
-		//$GLOBALS["tpl"]->addJavascript("Services/RTE/tiny_mce_3_3_9_2/il_tiny_mce_src.js");
-		$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_0_12/tinymce.js");
+		$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_1_5/tinymce.js");
 		$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
-		//$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
-		$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing_4_0_12.js");
+		$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
 
 		$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
 			preloader.src = './templates/default/images/v1/loader_v1.svg';

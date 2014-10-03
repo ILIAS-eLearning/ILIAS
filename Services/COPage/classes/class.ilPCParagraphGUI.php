@@ -481,6 +481,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	{
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$selection = new ilAdvancedSelectionListGUI();
+		$selection->setPullRight(false);
 		$selection->setFormSelectMode("par_characteristic", "", false,
 			"", "", "",
 			"", "", "", "");
@@ -533,6 +534,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$selection = new ilAdvancedSelectionListGUI();
+		$selection->setPullRight(false);
 		$selection->setFormSelectMode("char_characteristic", "", false,
 			"", "", "",
 			"", "", "", "");

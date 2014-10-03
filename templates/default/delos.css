@@ -7771,8 +7771,17 @@ div.ilTinyMenuSection {
   border-right: 0;
   margin: 0;
 }
-#iltinymenu_c {
+#iltinymenu {
   z-index: 1040 !important;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  background-color: #f9f9f9;
+  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.176);
+}
+#iltinymenu_bd {
+  padding: 10px;
 }
 #iltinymenu .bd div .small {
   color: #909090;
@@ -7936,6 +7945,12 @@ a.nostyle:hover {
 }
 #ilEditorPanel_c {
   z-index: 3000 !important;
+}
+.mce-ico {
+  color: white !important;
+}
+#iltinymenu a.btn {
+  min-width: 30px;
 }
 /* Services/Calendar */
 td.even {
@@ -10109,6 +10124,18 @@ div.editLink {
   }
   .ilMainMenu.ilTopFixed {
     overflow: auto;
+  }
+  /* --- Services/COPage ---*/
+  .ilTinyInfo {
+    display: none;
+  }
+  div.ilTinyMenuSection,
+  #ilTinyMenuButtons {
+    border-right: 0px;
+    margin: 3px 10px 3px 0px;
+    float: left;
+    height: 28px;
+    padding: 0 10px 0 0;
   }
   div.ilGoogleMap {
     max-width: 100%;

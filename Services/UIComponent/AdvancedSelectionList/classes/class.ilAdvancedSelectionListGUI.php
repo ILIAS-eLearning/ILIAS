@@ -43,6 +43,7 @@ class ilAdvancedSelectionListGUI
 	protected $auto_hide = false;
 	protected $grouped_list = null;
 	protected $style = 0;
+	private $dd_pullright = true;
 	
 	/*
 	
@@ -532,6 +533,26 @@ class ilAdvancedSelectionListGUI
 	}
 
 	/**
+	 * Set pull right
+	 *
+	 * @param bool $a_val pull right
+	 */
+	function setPullRight($a_val)
+	{
+		$this->dd_pullright = $a_val;
+	}
+
+	/**
+	 * Get pull right
+	 *
+	 * @return bool pull right
+	 */
+	function getPullRight()
+	{
+		return $this->dd_pullright;
+	}
+
+	/**
 	* Get selection list HTML
 	*/
 	public function getHTML($a_only_cmd_list_asynch = false)
@@ -724,6 +745,14 @@ class ilAdvancedSelectionListGUI
 				}
 
 				$tpl->setCurrentBlock("dd_content");
+				if ($this->getPullRight())
+				{
+					$tpl->setVariable("UL_CLASS", "dropdown-menu pull-right");
+				}
+				else
+				{
+					$tpl->setVariable("UL_CLASS", "dropdown-menu");
+				}
 				$tpl->parseCurrentBlock();
 			}
 		}

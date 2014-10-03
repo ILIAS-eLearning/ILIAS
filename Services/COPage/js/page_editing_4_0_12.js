@@ -2681,7 +2681,7 @@ function showToolbar(ed_id)
 		// move parent node to end of body to ensure layer being on top
 		if (!ilCOPage.menu_panel) {
 			obj = document.getElementById('iltinymenu');
-			$(obj.parentNode).appendTo("body");
+			$(obj).appendTo("body");
 			obj = document.getElementById('ilEditorPanel');
 			// if statement added since this may miss if internal links not supported?
 			// e.g. table editing
@@ -2693,24 +2693,9 @@ function showToolbar(ed_id)
 		$('#ilsaving').addClass("ilNoDisplay");
 
 		// make tinymenu a panel
-		if (!ilCOPage.menu_panel) {
-			obj = document.getElementById('iltinymenu');
-			obj.style.display = "";
-			// Create a panel Instance, from the 'resizablepanel' DIV standard module markup
-			var menu_panel = new YAHOO.widget.Panel("iltinymenu", {
-				draggable: false,
-				close: false,
-				autofillheight: "body",
-				constraintoviewport:false
-			});
-			menu_panel.render();
-			ilCOPage.menu_panel = menu_panel;
-		} else {
-			ilCOPage.menu_panel.show();
-		}
-		
-
-		ilCOPage.menu_panel_opened = true;
+		obj = document.getElementById('iltinymenu');
+		obj.style.display = "";
+		ilCOPage.menu_panel = true;
 
 // todo tinynew
 //		DOM.setStyle(e, 'left', -6000);
@@ -2720,11 +2705,6 @@ function showToolbar(ed_id)
 		var m_reg = YAHOO.util.Region.getRegion(m_el);
 		var debug = 0;
 
-		obj = document.getElementById('iltinymenu_c');
-		obj.style.position = 'fixed';
-		obj.style.left = '0px';
-		obj.style.right = '0px';
-		obj.style.top = '0px';
 	}
 
 // todo tinynew
@@ -2738,18 +2718,16 @@ function showToolbar(ed_id)
 };
 
 function hideToolbar () {
-	if (ilCOPage.menu_panel) {
-		ilCOPage.menu_panel.hide();
-	}
+	obj = document.getElementById('iltinymenu');
+	obj.style.display = "none";
 }
 
 function removeToolbar () {
 //console.log("removing toolbar");
 	if (ilCOPage.menu_panel) {
-		var obj = document.getElementById('iltinymenu_c');
-		$(obj.parentNode).remove();
+		var obj = document.getElementById('iltinymenu');
+		$(obj).remove();
 
-		ilCOPage.menu_panel.destroy();
 		ilCOPage.menu_panel = null;
 		
 		// this element exists, if internal link panel has been clicked

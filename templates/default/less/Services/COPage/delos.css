@@ -142,8 +142,12 @@ div.ilTinyMenuSection {
   border-right: 0;
   margin: 0;
 }
-#iltinymenu_c {
+#iltinymenu {
   z-index: 1040 !important;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
 }
 #iltinymenu .bd div .small {
   color: #909090;

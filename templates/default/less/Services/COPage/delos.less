@@ -169,9 +169,20 @@ div.ilTinyMenuSection {
 	margin: 0;
 }
 
-#iltinymenu_c {
+#iltinymenu {
 	z-index: 1040 !important;
+	position: fixed;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	background-color: @il-secondary-container-bg;
+	box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.176);
 }
+
+#iltinymenu_bd {
+	padding: 10px;
+}
+
 #iltinymenu .bd div .small {
 	color: #909090;
 	font-style: italic;
@@ -364,4 +375,12 @@ a.nostyle:hover {
 
 #ilEditorPanel_c {
 	z-index: 3000 !important;
+}
+
+.mce-ico {
+	color: white !important;
+}
+
+#iltinymenu a.btn {
+	min-width: 30px;
 }
