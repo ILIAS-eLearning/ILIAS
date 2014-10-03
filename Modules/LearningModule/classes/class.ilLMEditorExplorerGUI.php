@@ -24,7 +24,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 	{
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
-			$icon = ilUtil::getImagePath("icon_lm_s.png");
+			$icon = ilUtil::getImagePath("icon_lm.png");
 		}
 		else
 		{
@@ -76,7 +76,12 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 		global $lng;
 		
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-		
+
+		if ($a_node["type"] == "du")
+		{
+			$a_node["type"] = "lm";
+		}
+
 		if ($a_node["type"] == "pg")
 		{
 			include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
