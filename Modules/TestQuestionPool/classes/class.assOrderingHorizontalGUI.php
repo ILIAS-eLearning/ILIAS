@@ -310,6 +310,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		{
 			$template->setCurrentBlock("element");
 			$template->setVariable("ELEMENT_ID", "e_" . $this->object->getId() . "_$id");
+			$template->setVariable("ORDERING_VALUE", ilUtil::prepareFormOutput($element));
 			$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
 			$this->ctrl->setParameterByClass('iltestoutputgui', 'qst_selection', $idx);
 			$idx++;
