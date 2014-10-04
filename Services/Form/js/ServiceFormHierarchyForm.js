@@ -164,7 +164,7 @@ function doMouseOver (id, mclass)
 	setTimeout("stopHigh=false",10);
 	obj = document.getElementById(id);
 //	oldclass[id] = obj.className;
-	obj.className = mclass;
+	//obj.className = mclass;
 	current_mouse_over_id = id;
 }
 
@@ -183,7 +183,7 @@ function doMouseOut(id, mclass)
 //	}
 //	else
 //	{
-		obj.className = mclass;
+	//	obj.className = mclass;
 //	}
 }
 
@@ -479,7 +479,7 @@ YAHOO.extend(ilDragContent, YAHOO.util.DDProxy,
 				{
 					this.originalStyles[targetEl.id] = targetEl.className;
 				}
-				targetEl.className = "il_droparea_valid_target";
+				$(targetEl).addClass("ilCOPGDropActice");
 			}
 		}
 	},
@@ -507,7 +507,7 @@ YAHOO.extend(ilDragContent, YAHOO.util.DDProxy,
 				var oldStyle = this.originalStyles[targetEl.id]; 
 				if (oldStyle)
 				{
-					targetEl.className = oldStyle; 
+					$(targetEl).removeClass("ilCOPGDropActice");
 				}
 			}
 		}
@@ -602,7 +602,7 @@ ilDragContent.prototype.onDragEnter = function(e, id)
 	{
 		d_target = document.getElementById(id);
 		oldclass[id] = d_target.className;
-		d_target.className = "il_droparea_active";
+		$(d_target).addClass("ilCOPGDropActice");
 	}
 	dragdropongoing = true;
 };
@@ -611,7 +611,7 @@ ilDragContent.prototype.onDragEnter = function(e, id)
 ilDragContent.prototype.onDragOut = function(e, id)
 {
 	d_target = document.getElementById(id);
-	d_target.className = "il_droparea_valid_target";
+	$(d_target).addClass("ilCOPGDropActice");
 	dragdropongoing = false;
 };
 

@@ -7667,28 +7667,23 @@ select.ilEditSelect {
   font-size: 12px;
 }
 div.il_droparea {
-  border: 1px solid #D0D0D0;
-  font-size: 1px;
-  background: url(images/drop_back.png);
-  padding: 0;
+  padding: 1px 5px 1px 5px;
+  border: 1px #D0D0D0 dashed;
+  color: #D0D0D0;
   text-align: center;
-  height: 12px;
+  font-size: 12px;
+  background-color: #FCFCFC;
 }
-div.il_droparea_active {
-  padding: 0px;
-  border: 1px solid #000;
-  font-size: 1px;
-  background: url(images/drop_back_active.png);
-  text-align: center;
-  height: 12px;
+div.il_droparea:hover,
+div.ilCOPGDropActice,
+.il_droparea_valid_target {
+  border-color: #88be51;
+  color: #88be51;
+  background-color: #f3f8ed;
 }
-div.il_droparea_valid_target {
-  padding: 0px;
-  border: 1px solid #000;
-  font-size: 1px;
-  background: url(images/drop_back.png);
-  text-align: center;
-  height: 12px;
+div.ilCOPGNoPageContent {
+  padding: 20px 5px 20px 5px;
+  color: #A0A0A0;
 }
 div.il_editarea_nojs {
   border-width: 1px dotted #999;

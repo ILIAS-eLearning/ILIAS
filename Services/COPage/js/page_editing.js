@@ -1692,7 +1692,9 @@ function doMouseOver (id, mclass, type, char)
 		}
 		else
 		{
-			obj.className = mclass;
+			if (mclass) {
+				obj.className = mclass;
+			}
 		}
 	}
 
@@ -2562,22 +2564,17 @@ ilDragContent.prototype.endDrag = function(e)
 };
 
 // overwriting onDragDrop function
-ilDragContent.prototype.onDragEnter = function(e, id)
-{
+ilDragContent.prototype.onDragEnter = function(e, id) {
 	target_id = id.substr(6);
 	source_id = this.id.substr(7);
-	if (source_id != target_id)
-	{
-		d_target = document.getElementById(id);
-		d_target.className = "il_droparea_active";
+	if (source_id != target_id) {
+		$(document.getElementById(id)).addClass("ilCOPGDropActice");
 	}
 };
 
 // overwriting onDragDrop function
-ilDragContent.prototype.onDragOut = function(e, id)
-{
-	d_target = document.getElementById(id);
-	d_target.className = "il_droparea";
+ilDragContent.prototype.onDragOut = function(e, id) {
+	$(document.getElementById(id)).removeClass("ilCOPGDropActice");
 };
 
 ///

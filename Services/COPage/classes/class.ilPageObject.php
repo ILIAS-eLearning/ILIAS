@@ -1289,7 +1289,8 @@ abstract class ilPageObject
 			"ed_align_right_float", "ed_delete_item", "ed_new_item_before",
 			"ed_new_item_after", "ed_copy_clip", "please_select", "ed_split_page",
 			"ed_item_up", "ed_item_down", "ed_split_page_next","ed_enable",
-			"de_activate", "ed_paste", "ed_edit_multiple", "ed_cut", "ed_copy", "ed_insert_templ");
+			"de_activate", "ed_paste", "ed_edit_multiple", "ed_cut", "ed_copy", "ed_insert_templ",
+			"ed_click_to_add_pg");
 		
 		// collect lang vars from pc elements
 		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
