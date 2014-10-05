@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilInternalLink.php");
+require_once("./Services/Link/classes/class.ilInternalLink.php");
 
 define("IL_AREA_RECT", "Rect");
 define("IL_AREA_CIRCLE", "Circle");

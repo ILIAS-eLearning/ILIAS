@@ -888,7 +888,7 @@ class SurveyQuestion
 	{
 		global $ilDB;
 		
-		include_once "./Services/COPage/classes/class.ilInternalLink.php";
+		include_once "./Services/Link/classes/class.ilInternalLink.php";
 		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_material WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
@@ -1155,7 +1155,7 @@ class SurveyQuestion
 			array('integer'),
 			array($question_id)
 		);
-		include_once "./Services/COPage/classes/class.ilInternalLink.php";
+		include_once "./Services/Link/classes/class.ilInternalLink.php";
 		ilInternalLink::_deleteAllLinksOfSource("sqst", $question_id);
 
 		$directory = CLIENT_WEB_DIR . "/survey/" . $obj_id . "/$question_id";
@@ -1291,7 +1291,7 @@ class SurveyQuestion
 			$this->setId($id);
 			$this->setOriginalId($original);
 
-			include_once "./Services/COPage/classes/class.ilInternalLink.php";
+			include_once "./Services/Link/classes/class.ilInternalLink.php";
 			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_material WHERE question_fi = %s",
 				array('integer'),
 				array($this->getOriginalId())
@@ -1550,7 +1550,7 @@ class SurveyQuestion
 	{
 		if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches))
 		{
-			include_once "./Services/COPage/classes/class.ilInternalLink.php";
+			include_once "./Services/Link/classes/class.ilInternalLink.php";
 			include_once "./Modules/LearningModule/classes/class.ilLMObject.php";
 			include_once "./Modules/Glossary/classes/class.ilGlossaryTerm.php";
 			switch ($matches[2])
@@ -1614,7 +1614,7 @@ class SurveyQuestion
 			// there are resolved links -> reenter theses links to the database
 
 			// delete all internal links from the database
-			include_once "./Services/COPage/classes/class.ilInternalLink.php";
+			include_once "./Services/Link/classes/class.ilInternalLink.php";
 			ilInternalLink::_deleteAllLinksOfSource("sqst", $question_id);
 
 			$result = $ilDB->queryF("SELECT * FROM svy_material WHERE question_fi = %s",

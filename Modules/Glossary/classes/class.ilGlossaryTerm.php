@@ -106,7 +106,7 @@ class ilGlossaryTerm
 	{
 		global $ilDB;
 		
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		if (is_int(strpos($a_id, "_")))
 		{
 			$a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
@@ -522,7 +522,7 @@ class ilGlossaryTerm
 	 */
 	static function getUsages($a_term_id)
 	{
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		return (ilInternalLink::_getSourcesOfTarget("git", $a_term_id, 0));
 	}	
 	

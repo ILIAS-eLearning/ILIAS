@@ -5,15 +5,15 @@ require_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 
 /**
-* Class ilInternalLinkGUI
-*
-* Some gui methods to handle internal links
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesIliasLearningModule
-*/
+ * Class ilInternalLinkGUI
+ *
+ * Some gui methods to handle internal links
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ServicesLink
+ */
 class ilInternalLinkGUI
 {
 	var $default_type;
@@ -304,11 +304,11 @@ class ilInternalLinkGUI
 		}
 		if ($ilCtrl->isAsynch())
 		{
-			$tpl = new ilTemplate("tpl.link_help_asynch.html", true, true, "Modules/LearningModule");
+			$tpl = new ilTemplate("tpl.link_help_asynch.html", true, true, "Services/Link");
 		}
 		else
 		{
-			$tpl =& new ilTemplate("tpl.link_help.html", true, true, "Modules/LearningModule");
+			$tpl =& new ilTemplate("tpl.link_help.html", true, true, "Services/Link");
 			$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		}
 
@@ -717,7 +717,7 @@ class ilInternalLinkGUI
 
 		if (!is_object($this->uploaded_file))
 		{
-			$tpl = new ilTemplate("tpl.link_file.html", true, true, "Modules/LearningModule");
+			$tpl = new ilTemplate("tpl.link_file.html", true, true, "Services/Link");
 			$tpl->setCurrentBlock("form");
 			$tpl->setVariable("FORM_ACTION",
 				$ilCtrl->getFormAction($this, "saveFileLink", "", true));
@@ -733,7 +733,7 @@ class ilInternalLinkGUI
 		}
 		else
 		{
-			$tpl = new ilTemplate("tpl.link_file.html", true, true, "Modules/LearningModule");
+			$tpl = new ilTemplate("tpl.link_file.html", true, true, "Services/Link");
 			$tpl->setCurrentBlock("link_js");
 //			$tpl->setVariable("LINK_FILE",
 //				$this->prepareJavascriptOutput("[iln dfile=\"".$this->uploaded_file->getId()."\"] [/iln]")
@@ -754,7 +754,7 @@ class ilInternalLinkGUI
 	 */
 	function saveFileLink()
 	{
-		$mtpl =& new ilTemplate("tpl.link_help.html", true, true, "Modules/LearningModule");
+		$mtpl =& new ilTemplate("tpl.link_help.html", true, true, "Services/Link");
 		$mtpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
 		if ($_FILES["link_file"]["name"] != "")
@@ -972,7 +972,7 @@ class ilInternalLinkGUI
 			}
 		}
 
-		$tpl =& new ilTemplate("tpl.link_help_explorer.html", true, true, "Modules/LearningModule");
+		$tpl =& new ilTemplate("tpl.link_help_explorer.html", true, true, "Services/Link");
 
 		$output = $this->getTargetExplorer($a_type);
 

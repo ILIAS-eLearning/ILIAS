@@ -1068,7 +1068,7 @@ abstract class ilPageObject
 		$res = & xpath_eval($xpc, $path);
 
 		$q_ids = array();
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		for ($i = 0; $i < count ($res->nodeset); $i++)
 		{
 			$or_id = $res->nodeset[$i]->get_attribute("OriginId");
@@ -1104,7 +1104,7 @@ abstract class ilPageObject
 		$res = & xpath_eval($xpc, $path);
 
 		$q_ids = array();
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		for ($i = 0; $i < count ($res->nodeset); $i++)
 		{
 			$or_id = $res->nodeset[$i]->get_attribute("OriginId");
@@ -1141,7 +1141,7 @@ abstract class ilPageObject
 		$res = & xpath_eval($xpc, $path);
 
 		$q_ids = array();
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		for ($i = 0; $i < count ($res->nodeset); $i++)
 		{
 			$qref = $res->nodeset[$i]->get_attribute("QRef");
@@ -2217,7 +2217,7 @@ abstract class ilPageObject
 	// @todo: generalize, internal links usage info
 	static function _handleImportRepositoryLinks($a_rep_import_id, $a_rep_type, $a_rep_ref_id)
 	{
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		
 //echo "-".$a_rep_import_id."-".$a_rep_ref_id."-";
 		$sources = ilInternalLink::_getSourcesOfTarget("obj",
@@ -2833,7 +2833,7 @@ abstract class ilPageObject
 	 */
 	function deleteInternalLinks()
 	{
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		ilInternalLink::_deleteAllLinksOfSource($this->getParentType().":pg", $this->getId(),
 			$this->getLanguage());	
 	}
@@ -3819,7 +3819,7 @@ abstract class ilPageObject
 		$res = & xpath_eval($xpc, $path);
 
 		$q_ids = array();
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		for ($i = 0; $i < count ($res->nodeset); $i++)
 		{
 			$qref = $res->nodeset[$i]->get_attribute("QRef");
@@ -4653,7 +4653,7 @@ abstract class ilPageObject
 					$type = "term";
 					break;
 			}
-			include_once("./Services/COPage/classes/class.ilInternalLink.php");
+			include_once("./Services/Link/classes/class.ilInternalLink.php");
 			$id = ilInternalLink::_extractObjIdOfTarget($id);
 			return array("id" => $id, "type" => $type, "target" => $target);
 		}

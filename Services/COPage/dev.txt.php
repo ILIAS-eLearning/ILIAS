@@ -86,7 +86,7 @@ Multi lang
     
 
 Dependencies
-  - int_link: new field source_lang, Services/COPage/classes/class.ilInternalLink.php
+  - int_link: new field source_lang, Services/Link/classes/class.ilInternalLink.php
   	-> make this a page service!
   	- db table extended (lang): done
   	- ilInternalLink adopted: done

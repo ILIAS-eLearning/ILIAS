@@ -34,7 +34,7 @@ class ilImageMapEditorGUI
 		switch($next_class)
 		{
 			case "ilinternallinkgui":
-				require_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
+				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 				$link_gui = new ilInternalLinkGUI("Media_Media", 0);
 				$link_gui->setMode("link");
 				$link_gui->setSetLinkTargetScript(
@@ -440,7 +440,7 @@ class ilImageMapEditorGUI
 			{
 				// prepare link gui
 				$ilCtrl->setParameter($this, "linkmode", "map");
-				include_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
+				include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 				$this->tpl->setCurrentBlock("int_link_prep");
 				$this->tpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
 					$ilCtrl->getLinkTargetByClass("ilinternallinkgui",

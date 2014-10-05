@@ -232,7 +232,7 @@ class ilPortfolioPage extends ilPageObject
 		if($id)
 		{
 			// delete internal links information to this page
-			include_once("./Services/COPage/classes/class.ilInternalLink.php");
+			include_once("./Services/Link/classes/class.ilInternalLink.php");
 			ilInternalLink::_deleteAllLinksToTarget("user", $this->getId());
 
 			// delete record of table usr_portfolio_page

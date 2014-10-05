@@ -1002,7 +1002,7 @@ return;
 				
 			case "ilinternallinkgui":
 				$this->lng->loadLanguageModule("content");
-				require_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
+				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 				$link_gui = new ilInternalLinkGUI("Media_Media", 0);
 				//$link_gui->filterLinkType("RepositoryItem");
 				
@@ -1240,7 +1240,7 @@ return;
 						));
 					
 					// add int link parts
-					include_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
+					include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 					$tpl->setCurrentBlock("int_link_prep");
 					$tpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
 						$ilCtrl->getLinkTargetByClass(array("ilpageeditorgui", "ilinternallinkgui"),

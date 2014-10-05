@@ -308,7 +308,7 @@ class ilWikiPage extends ilPageObject
 			$this->getId());
 
 		// delete internal links information to this page
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		ilInternalLink::_deleteAllLinksToTarget("wpg", $this->getId());
 		
 		include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
@@ -504,7 +504,7 @@ class ilWikiPage extends ilPageObject
 	{
 		global $ilDB;
 		
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		$sources = ilInternalLink::_getSourcesOfTarget("wpg", $a_page_id, 0);
 		
 		$ids = array();
@@ -544,7 +544,7 @@ class ilWikiPage extends ilPageObject
 		
 		$pages = ilWikiPage::getAllPages($a_wiki_id);
 		
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		
 		$orphaned = array();
 		foreach ($pages as $k => $page)
@@ -852,7 +852,7 @@ class ilWikiPage extends ilPageObject
 
 		if ($pg_id == 0 || $pg_id == $this->getId())
 		{
-			include_once("./Services/COPage/classes/class.ilInternalLink.php");
+			include_once("./Services/Link/classes/class.ilInternalLink.php");
 			$sources = ilInternalLink::_getSourcesOfTarget("wpg", $this->getId(), 0);
 
 			foreach ($sources as $s)

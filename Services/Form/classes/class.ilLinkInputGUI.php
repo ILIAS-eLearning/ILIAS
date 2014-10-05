@@ -90,7 +90,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		{
 			case "ilinternallinkgui":
 				$lng->loadLanguageModule("content");
-				require_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
+				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 				$link_gui = new ilInternalLinkGUI($this->int_link_default_type,
 					$this->int_link_default_obj);
 				foreach ($this->int_link_filter_types as $t)
@@ -373,7 +373,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		// js for internal link
 		if($has_int)		
 		{						
-			include_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
+			include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 			$html.= $hidden_type->getToolbarHTML().
 				$hidden_id->getToolbarHTML().
 				$hidden_target->getToolbarHTML();

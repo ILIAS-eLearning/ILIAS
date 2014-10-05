@@ -60,7 +60,7 @@ class ilMediaPoolPage extends ilPageObject
 		
 
 		// delete internal links information to this page
-//		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+//		include_once("./Services/Link/classes/class.ilInternalLink.php");
 //		ilInternalLink::_deleteAllLinksToTarget("mep", $this->getId());
 				
 		

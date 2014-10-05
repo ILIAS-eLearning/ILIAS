@@ -111,7 +111,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			
 			case "ilinternallinkgui":
 				$this->lng->loadLanguageModule("content");
-				require_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
+				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 				$link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
 				$link_gui->filterLinkType("PageObject");
 				$link_gui->filterLinkType("GlossaryItem");
@@ -922,7 +922,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		$table = new ilWebResourceEditableLinkTableGUI($this,'view');
 		$table->parse();
 		
-		include_once './Modules/LearningModule/classes/class.ilInternalLinkGUI.php';
+		include_once './Services/Link/classes/class.ilInternalLinkGUI.php';
 		$js = ilInternalLinkGUI::getInitHTML("");
 		
 		$this->tpl->addJavaScript("Modules/WebResource/js/intLink.js");

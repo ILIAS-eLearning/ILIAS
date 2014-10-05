@@ -258,7 +258,7 @@ class ilPageContentGUI
 			$btpl->parseCurrentBlock();
 			
 			// add int link parts
-			include_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
+			include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 			$btpl->setCurrentBlock("int_link_prep");
 			$btpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
 				$ilCtrl->getLinkTargetByClass(array("ilpageeditorgui", "ilinternallinkgui"),

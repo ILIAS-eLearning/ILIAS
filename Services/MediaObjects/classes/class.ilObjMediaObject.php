@@ -85,7 +85,7 @@ class ilObjMediaObject extends ilObject
 	{
 		global $ilDB;
 		
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		if (is_int(strpos($a_id, "_")))
 		{
 			$a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
@@ -1720,7 +1720,7 @@ class ilObjMediaObject extends ilObject
 			{
 				if ($int_link["Type"] == "MediaObject")
 				{
-					include_once("./Services/COPage/classes/class.ilInternalLink.php");
+					include_once("./Services/Link/classes/class.ilInternalLink.php");
 					$l_id = ilInternalLink::_extractObjIdOfTarget($int_link["Target"]);
 					if (ilObject::_exists($l_id))
 					{

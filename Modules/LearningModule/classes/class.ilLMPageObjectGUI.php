@@ -4,7 +4,7 @@
 require_once("./Modules/LearningModule/classes/class.ilLMObjectGUI.php");
 require_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 require_once("./Modules/LearningModule/classes/class.ilLMPageGUI.php");
-require_once ("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
+require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 
 /**
 * Class ilLMPageObjectGUI

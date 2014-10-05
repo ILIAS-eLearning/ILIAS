@@ -736,7 +736,7 @@ class ilWebAccessChecker
 		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 		$term_id = ilGlossaryDefinition::_lookupTermId($page_id);
 
-		include_once('./Services/COPage/classes/class.ilInternalLink.php');
+		include_once('./Services/Link/classes/class.ilInternalLink.php');
 		$sources = ilInternalLink::_getSourcesOfTarget('git',$term_id, 0);
 
 		if ($sources)

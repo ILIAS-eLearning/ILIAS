@@ -2422,7 +2422,7 @@ abstract class assQuestion
 			array($this->getId())
 		);
 		// delete the links in the int_link table
-		include_once "./Services/COPage/classes/class.ilInternalLink.php";
+		include_once "./Services/Link/classes/class.ilInternalLink.php";
 		ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
 		$this->suggested_solutions = array();
 		ilUtil::delDir($this->getSuggestedSolutionPath());
@@ -2595,7 +2595,7 @@ abstract class assQuestion
 		global $ilDB;
 
 		$id = (strlen($original_id) && is_numeric($original_id)) ? $original_id : $this->getId();
-		include_once "./Services/COPage/classes/class.ilInternalLink.php";
+		include_once "./Services/Link/classes/class.ilInternalLink.php";
 		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_sol_sug WHERE question_fi = %s",
 			array('integer'),
 			array($id)
@@ -2677,7 +2677,7 @@ abstract class assQuestion
 	{
 		if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches))
 		{
-			include_once "./Services/COPage/classes/class.ilInternalLink.php";
+			include_once "./Services/Link/classes/class.ilInternalLink.php";
 			include_once "./Modules/LearningModule/classes/class.ilLMObject.php";
 			include_once "./Modules/Glossary/classes/class.ilGlossaryTerm.php";
 			switch ($matches[2])
@@ -2741,7 +2741,7 @@ abstract class assQuestion
 			// there are resolved links -> reenter theses links to the database
 
 			// delete all internal links from the database
-			include_once "./Services/COPage/classes/class.ilInternalLink.php";
+			include_once "./Services/Link/classes/class.ilInternalLink.php";
 			ilInternalLink::_deleteAllLinksOfSource("qst", $question_id);
 
 			$result = $ilDB->queryF("SELECT * FROM qpl_sol_sug WHERE question_fi = %s",

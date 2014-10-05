@@ -159,7 +159,7 @@ class ilPCQuestion extends ilPageContent
 	{
 		global $ilDB;
 		
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		
 		$ilDB->manipulateF("DELETE FROM page_question WHERE page_parent_type = %s ".
 			" AND page_id = %s AND page_lang = %s", array("text", "integer", "text"),

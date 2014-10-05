@@ -395,7 +395,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 
 			// collect glossary items
 			$int_links = $page_obj->getPageObject()->getInternalLinks(true);
-			include_once("./Services/COPage/classes/class.ilInternalLink.php");
+			include_once("./Services/Link/classes/class.ilInternalLink.php");
 			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 			if (is_array($int_links))
 			{
