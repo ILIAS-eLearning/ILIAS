@@ -14958,3 +14958,8 @@ scormtrac#:#display_not_allowed#:#display not allowed
 common#:#ps_export_scorm#:#SCORM Tracking Data
 common#:#enable_export_scorm_desc#:#allow Export of User Data of SCORM-Learning Modules
 content#:#cont_ed_click_to_add_pg#:#Click here to add content.
+link#:#link_edit_int_link#:#Edit Internal Link
+link#:#link_chapters#:#Chapters
+link#:#link_wpages#:#Wiki Pages
+link#:#link_terms#:#Terms
+link#:#link_mobs#:#Media Objects

@@ -14,7 +14,7 @@ il.Wiki.Edit = {
 		il.Wiki.Edit.url = url;
 
 		il.IntLink.showPanel();
-		il.Util.sendAjaxGetRequestToUrl(url + "&cmd=insertWikiLink", {}, {el_id: "ilIntLinkPanel"}, function(o) {
+		il.Util.sendAjaxGetRequestToUrl(url + "&cmd=insertWikiLink", {}, {el_id: "ilIntLinkModalContent"}, function(o) {
 			var val_sel;
 
 			// output html
@@ -24,7 +24,7 @@ il.Wiki.Edit = {
 
 			il.Wiki.Edit.setTargetInfoText("&nbsp;");
 
-			$("#ilIntLinkPanel .ilFormHeader input.submit").css("display", "none");
+			$("#ililIntLinkModalContent .ilFormHeader input.submit").css("display", "none");
 
 			il.Wiki.Edit.initTextInputAutoComplete();
 
@@ -66,7 +66,7 @@ il.Wiki.Edit = {
 			$("input[name*='searchWikiLink']").on("click", function(e) {
 				e.stopPropagation();
 				e.preventDefault();
-				il.Util.sendAjaxGetRequestToUrl(url + "&cmd=searchWikiLinkAC&term=" + encodeURIComponent($("input#target_page").val()), {}, {el_id: "ilIntLinkPanel"}, function(o) {
+				il.Util.sendAjaxGetRequestToUrl(url + "&cmd=searchWikiLinkAC&term=" + encodeURIComponent($("input#target_page").val()), {}, {el_id: "ilIntLinkModalContent"}, function(o) {
 					// output html
 					if(o.responseText !== undefined) {
 						$('#' + o.argument.el_id).html(o.responseText);
@@ -101,7 +101,7 @@ il.Wiki.Edit = {
 				that.options.requestUrl = that.options.requestUrl.replace(/&fetchall=1/g, '');
 
 				// set position to be absolute, note relative (standar behaviour)
-				$("#ilIntLinkPanel ul.ui-autocomplete").css("position", "absolute");
+				$("#ilIntLinkModalContent ul.ui-autocomplete").css("position", "absolute");
 				if (items[0] && ($("input#target_page").val().toLowerCase() == items[0].value.toLowerCase())) {
 					il.Wiki.Edit.setTargetInfoText(il.Wiki.Edit.txt.page_exists);
 				}
@@ -110,7 +110,7 @@ il.Wiki.Edit = {
 
 		$('input#target_page').iladvancedautocomplete({
 			requestUrl: il.Wiki.Edit.url + "&cmd=insertWikiLinkAC",
-			appendTo: "#ilIntLinkPanel",
+			appendTo: "#ilIntLinkModalContent",
 			response: function(e, u) {
 				il.Wiki.Edit.setTargetInfoText(il.Wiki.Edit.txt.new_page);
 			},

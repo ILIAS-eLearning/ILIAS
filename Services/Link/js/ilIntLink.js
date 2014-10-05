@@ -84,32 +84,7 @@ il.IntLink =
 	 * panel is used by other features, too (e.g. wiki link handling)
 	 */
 	showPanel: function() {
-		var obj = document.getElementById('ilEditorPanel_c');
-		if (!obj)
-		{
-			obj = document.getElementById('ilEditorPanel');
-			obj.style.display = "";
-			// Create a panel Instance, from the 'resizablepanel' DIV standard module markup
-			var panel = new YAHOO.widget.Panel("ilEditorPanel", {
-				draggable: true,
-				width: "300px",
-				height: "300px",
-				autofillheight: "body", // default value, specified here to highlight its use in the example
-				constraintoviewport:true
-			});
-			panel.render();
-			this.panel = panel;
-		}
-		else
-		{
-			this.panel.show();
-		}
-
-		var obj = document.getElementById('ilEditorPanel_c');
-		obj.style.position = 'fixed';
-		obj.style.top = '0px';
-		obj = document.getElementById('ilEditorPanel');
-		obj.style.top = '0px';
+		$('#ilIntLinkModal').modal('show');
 	},
 
 	// cfg pars: url (if not provided and post, take form.action?), post/get, parameters (added to get/post)
@@ -221,9 +196,7 @@ il.IntLink =
 
 	insertPanelHTML: function(html)
 	{
-		//var il_div = document.getElementById('ilIntLinkPanel');
-		//il_div.innerHTML = html;
-		$('div#ilIntLinkPanel').html(html);
+		$('#ilIntLinkModalContent').html(html);
 		var el = document.getElementById("ilIntLinkTypeSelector");
 		if (el)
 		{
@@ -306,7 +279,7 @@ il.IntLink =
 	},
 
 	hidePanel: function () {
-		il.IntLink.panel.hide();
+		$('#ilIntLinkModal').modal('hide');
 	},
 	
 	setMepPoolFolder: function(mep_fold_id)

@@ -5313,9 +5313,9 @@ content#:#cont_characteristic#:#Absatzformat
 content#:#cont_choose_characteristic#:#Absatzformat auswählen
 content#:#cont_choose_characteristic_section#:#Blöcke
 content#:#cont_choose_characteristic_text#:#Absatzformate
-content#:#cont_choose_cont_obj#:#Wählen Sie das 'Content Object'
-content#:#cont_choose_glossary#:#Wählen Sie das Glossar
-content#:#cont_choose_media_source#:#Wählen Sie die Medienquelle
+content#:#cont_choose_cont_obj#:#Bitte wählen Sie ein Lermodul aus.
+content#:#cont_choose_glossary#:#Bitte wählen Sie ein Glossar aus.
+content#:#cont_choose_media_source#:#Bitte wählen Sie eine Medienquelle aus.
 content#:#cont_choose_pages_or_chapters_only#:#Bitte wählen Sie entweder Seiten oder Kapitel aus.
 content#:#cont_Circle#:#Kreis
 content#:#cont_Citation#:#Zitat
@@ -14958,3 +14958,8 @@ scormtrac#:#display_not_allowed#:#display not allowed###26 09 2014 new variable
 common#:#ps_export_scorm#:#SCORM Tracking Data###26 09 2014 new variable
 common#:#enable_export_scorm_desc#:#allow Export of User Data of SCORM-Learning Modules###26 09 2014 new variable
 content#:#cont_ed_click_to_add_pg#:#Klicken Sie hier, um Inhalte hinzuzufügen.
+link#:#link_edit_int_link#:#Internen Link bearbeiten
+link#:#link_chapters#:#Kapitel
+link#:#link_wpages#:#Wikiseiten
+link#:#link_terms#:#Begriffe
+link#:#link_mobs#:#Medienobjekte

@@ -31,6 +31,8 @@ class ilInternalLinkGUI
 	{
 		global $lng, $ilias, $ilCtrl, $tree;
 
+		$lng->loadLanguageModule("link");
+
 		$this->initLinkTypes();
 		if (($_SESSION["il_link_cont_obj"] != "" && !$tree->isInTree($_SESSION["il_link_cont_obj"])) ||
 			($_SESSION["il_link_glossary"] != "" && !$tree->isInTree($_SESSION["il_link_glossary"])) ||
@@ -40,10 +42,9 @@ class ilInternalLinkGUI
 			$this->resetSessionVars();
 		}
 
-		$this->lng =& $lng;
-		$this->tree =& $tree;
-		$this->ilias =& $ilias;
-		$this->ctrl =& $ilCtrl;
+		$this->lng = $lng;
+		$this->tree = $tree;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("linkmode", "target_type"));
 		$this->default_type = $a_default_type;
 		$this->default_obj = $a_default_obj;
@@ -388,8 +389,11 @@ class ilInternalLinkGUI
 				$ctree = $cont_obj->getLMTree();
 				$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
 				$tpl->setCurrentBlock("chapter_list");
-				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("cont_content_obj"));
+				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("obj_lm"));
 				$tpl->setVariable("TXT_CONT_TITLE", $cont_obj->getTitle());
+				$tpl->setVariable("THEAD", $this->lng->txt("pages"));
+
+
 				$tpl->setCurrentBlock("change_cont_obj");
 				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
 				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
@@ -474,8 +478,9 @@ class ilInternalLinkGUI
 				$ctree =& $cont_obj->getLMTree();
 				$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
 				$tpl->setCurrentBlock("chapter_list");
-				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("cont_content_obj"));
+				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("obj_lm"));
 				$tpl->setVariable("TXT_CONT_TITLE", $cont_obj->getTitle());
+				$tpl->setVariable("THEAD", $this->lng->txt("link_chapters"));
 				$tpl->setCurrentBlock("change_cont_obj");
 				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
 				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
@@ -503,6 +508,7 @@ class ilInternalLinkGUI
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("glossary"));
 				$tpl->setVariable("TXT_CONT_TITLE", $glossary->getTitle());
+				$tpl->setVariable("THEAD", $this->lng->txt("link_terms"));
 				$tpl->setCurrentBlock("change_cont_obj");
 				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
 				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
@@ -529,7 +535,7 @@ class ilInternalLinkGUI
 					$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
 					$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
 					$tpl->parseCurrentBlock();
-					$mobjs = $this->ilias->account->getClipboardObjects("mob");
+					$mobjs = $ilUser->getClipboardObjects("mob");
 					// sort by name
 					$objs = array();
 					foreach ($mobjs as $obj)
@@ -540,6 +546,7 @@ class ilInternalLinkGUI
 					$tpl->setCurrentBlock("chapter_list");
 					$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("cont_media_source"));
 					$tpl->setVariable("TXT_CONT_TITLE", $this->lng->txt("cont_personal_clipboard"));
+					$tpl->setVariable("THEAD", $this->lng->txt("link_mobs"));
 					$tpl->setVariable("COLSPAN", "2");
 
 					foreach($objs as $obj)
@@ -577,6 +584,7 @@ class ilInternalLinkGUI
 					$tpl->setCurrentBlock("chapter_list");
 					$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("mep"));
 					$tpl->setVariable("TXT_CONT_TITLE", $med_pool->getTitle());
+					$tpl->setVariable("THEAD", $this->lng->txt("link_mobs"));
 					$tpl->setCurrentBlock("change_cont_obj");
 					$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
 					$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
@@ -663,6 +671,7 @@ class ilInternalLinkGUI
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("obj_wiki"));
 				$tpl->setVariable("TXT_CONT_TITLE", ilObject::_lookupTitle($wiki_id));
+				$tpl->setVariable("THEAD", $this->lng->txt("link_wpages"));
 				$tpl->setCurrentBlock("change_cont_obj");
 				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
 				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
@@ -1145,20 +1154,22 @@ class ilInternalLinkGUI
 	 */
 	function getInitHTML($a_url, $a_move_to_body = false)
 	{
-		global $tpl;
+		global $tpl, $lng;
 
-		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		ilYuiUtil::initPanel(false);
-		ilYuiUtil::initConnection();
-		ilYuiUtil::initDragDrop();
+		$lng->loadLanguageModule("link");
+
 		$tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
 		$tpl->addJavascript("./Services/Link/js/ilIntLink.js");
 
+		include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
+		$modal = ilModalGUI::getInstance();
+		$modal->setHeading($lng->txt("link_edit_int_link"));
+		$modal->setId("ilIntLinkModal");
+		$modal->setBody("<div id='ilIntLinkModalContent'></div>");
+
 		$ltpl = new ilTemplate("tpl.int_link_panel.html", true, true, "Services/Link");
-		if ($a_move_to_body)
-		{
-			$ltpl->touchBlock("move_to_body");
-		}
+		$ltpl->setVariable("MODAL", $modal->getHTML());
+
 		$ltpl->setVariable("IL_INT_LINK_URL", $a_url);
 
 		return $ltpl->get();

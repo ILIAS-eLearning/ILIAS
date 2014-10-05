@@ -1,39 +1,42 @@
-{TXT_HELP_HEADER}
-
 <!--<div class="il_Explorer">-->
-<form action="{FORMACTION}" name="intlink_post" method="post" id="ilIntLinkTypeForm">
-{TXT_TYPE}:
-{SELECT_TYPE}
+<form class="form-horizontal" style="margin-bottom:0px;" action="{FORMACTION}" name="intlink_post" method="post" id="ilIntLinkTypeForm">
+<div class="form-group">
+	<label class="col-sm-3 control-label" for="ilIntLinkTypeSelector">{TXT_TYPE}</label>
+	<div class="col-sm-9">
+		{SELECT_TYPE}
+	</div>
+</div>
 <!-- BEGIN buttonclose -->
 <!-- END buttonclose -->
 <!-- BEGIN buttonclosejs -->
 <!-- END buttonclosejs -->
 </form>
 {LINK_HELP_CONTENT}
-<form action="{FORMACTION2}" name="intlink_post2" method="post" {TARGET2}>
+<form class="form-horizontal" action="{FORMACTION2}" name="intlink_post2" method="post" {TARGET2}>
 <!-- BEGIN chapter_list -->
-<table class="fullwidth">
-<tr class="tblheader">
-	<td class="std" colspan="{COLSPAN}">{TXT_CONTENT_OBJECT}</td>
-</tr>
-<tr class="std">
-	<td class="option_value" colspan="{COLSPAN}">{TXT_CONT_TITLE}</td>
-</tr>
-<tr>
-	<td class="submit" colspan="{COLSPAN}">
-	<!-- BEGIN change_cont_obj -->
-	<input id="ilChangeTargetObject" type="submit" class="submit" name="cmd[{CMD_CHANGE_CONT_OBJ}]" value="{BTN_CHANGE_CONT_OBJ}">
-	<!-- END change_cont_obj -->
-	</td>
-</tr>
+<div class="form-group">
+	<label class="col-sm-3 control-label">{TXT_CONTENT_OBJECT}</label>
+	<div class="col-sm-9"><span style="padding: 3px 0px; display:block;">{TXT_CONT_TITLE}
+		<!-- BEGIN change_cont_obj -->
+		&nbsp;<input id="ilChangeTargetObject" type="submit" class="btn btn-default" name="cmd[{CMD_CHANGE_CONT_OBJ}]" value="{BTN_CHANGE_CONT_OBJ}">
+		<!-- END change_cont_obj -->
+		</span>
+	</div>
+</div>
+
+<table class="table">
+	<thead>
+		<tr><th colspan="{COLSPAN}">{THEAD}</th></tr>
+	</thead>
+	<tbody>
 <!-- BEGIN row -->
 
 	<!-- BEGIN chapter_row -->
-		<tr class="{ROWCLASS}">
+		<tr>
 			<!-- BEGIN thumbnail -->
 			<td>{NO_THUMB}<!-- BEGIN thumb --><img src="{SRC_THUMB}" alt="" /><!-- END thumb --></td>
 			<!-- END thumbnail -->
-			<td class="std"><b>{TXT_CHAPTER}</b><br />{LINK_CHAPTER}
+			<td><b>{TXT_CHAPTER}</b><br />{LINK_CHAPTER}
 			<!-- BEGIN anchor_link -->
 				<div style="padding-left:20px;" class="small">{HREF_LINK} <!-- {TXT_LINK} --></div>
 			<!-- END anchor_link -->
@@ -42,11 +45,11 @@
 	<!-- END chapter_row -->
 
 	<!-- BEGIN chapter_row_js -->
-		<tr class="{ROWCLASS}">
+		<tr>
 			<!-- BEGIN thumbnail_js -->
 			<td>{NO_THUMB}<!-- BEGIN thumb_js --><img src="{SRC_THUMB}" /><!-- END thumb_js --></td>
 			<!-- END thumbnail_js -->
-			<td class="std">
+			<td>
 				<a href="#" onClick="return il.IntLink.addInternalLink('{LINK_BEGIN}','{LINK_END}', event);">{TXT_CHAPTER}</a>
 				<!-- BEGIN anchor_link_js -->
 				<div style="padding-left:20px;" class="small"><a href="#" onClick="return il.IntLink.addInternalLink('{ALINK_BEGIN}','{ALINK_END}', event);">{TXT_LINK}</a></div>
@@ -56,9 +59,9 @@
 	<!-- END chapter_row_js -->
 	
 	<!-- BEGIN link_row -->
-		<tr class="{ROWCLASS}">
+		<tr>
 			<!-- BEGIN thumbnail_link -->
-			<td width="1">{NO_THUMB}<!-- BEGIN thumb_link --><img src="{SRC_THUMB}" /><!-- END thumb_link --></td>
+			<td>{NO_THUMB}<!-- BEGIN thumb_link --><img src="{SRC_THUMB}" /><!-- END thumb_link --></td>
 			<!-- END thumbnail_link -->
 
 			<!-- BEGIN icon -->
@@ -66,12 +69,13 @@
 				<img alt="" src="{ICON_SRC}" />
 				</td>
 			<!-- END icon -->
-			<td class="std ilWhiteSpaceNowrap">
+			<td class="ilWhiteSpaceNowrap">
 			<a href="{LINK}" {LR_ONCLICK} target="{LINK_TARGET}">{TXT_CHAPTER}</a></td>
 		</tr>
 	<!-- END link_row -->
 	
 <!-- END row -->
+	</tbody>
 </table>
 <!-- END chapter_list -->
 </form>
