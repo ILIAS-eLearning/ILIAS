@@ -10046,6 +10046,7 @@ div.editLink {
   }
   #ilTopBar.ilTopBar {
     z-index: 1030;
+    background-color: transparent;
   }
   .ilMainMenu.ilTopFixed {
     position: fixed;
