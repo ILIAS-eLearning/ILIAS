@@ -204,6 +204,7 @@ class ilDataCollectionRecordViewGUI
         if ($this->isEnabledPaging) {
             $prevNextLinks = $this->renderPrevNextLinks();
             $rctpl->setVariable('PREV_NEXT_RECORD_LINKS', $prevNextLinks);
+            $ilCtrl->clearParameters($this); // #14083
             $rctpl->setVariable('FORM_ACTION', $ilCtrl->getFormAction($this));
             $rctpl->setVariable('RECORD', $lng->txt('dcl_record'));
             $rctpl->setVariable('RECORD_FROM_TOTAL', sprintf($lng->txt('dcl_record_from_total'), $this->currentRecordPosition, count($this->recordIds)));
