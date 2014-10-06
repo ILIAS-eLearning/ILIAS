@@ -53,8 +53,11 @@
 										"min-height":$center_column.height()
 									});
 									$elm.html($('<div class="iosPdBlockColumnPlaceholder">&nbsp;</div>'));
+									$elm.addClass("col-sm-3");
 									$center_column.removeClass("one_side_col");
+									$center_column.removeClass("col-sm-9");
 									$center_column.addClass("two_side_col");
+									$center_column.addClass("col-sm-6");
 								}
 							}
 
@@ -73,8 +76,11 @@
 										"height":    "",
 										"min-height":""
 									});
+									$elm.removeClass("col-sm-3");
 									$center_column.removeClass("two_side_col");
+									$center_column.removeClass("col-sm-6");
 									$center_column.addClass("one_side_col");
+									$center_column.addClass("col-sm-9");
 								}
 							}
 							
