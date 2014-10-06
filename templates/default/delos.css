@@ -10070,7 +10070,7 @@ div.editLink {
   }
   #ilTopNav button.navbar-toggle {
     position: fixed;
-    top: 0px;
+    top: 20px;
     left: 40px;
     height: 40px;
     border-radius: 0px;
