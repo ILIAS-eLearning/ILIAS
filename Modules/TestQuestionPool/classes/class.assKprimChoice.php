@@ -733,7 +733,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		{
 			$points = $this->getPoints();
 		}
-		elseif( $numCorrect >= self::PARTIAL_SCORING_NUM_CORRECT_ANSWERS )
+		elseif( $this->isScorePartialSolutionEnabled() && $numCorrect >= self::PARTIAL_SCORING_NUM_CORRECT_ANSWERS )
 		{
 			$points = $this->getPoints() / 2;
 		}
