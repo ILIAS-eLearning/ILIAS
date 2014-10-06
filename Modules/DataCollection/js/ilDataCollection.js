@@ -29,7 +29,7 @@ var ilDataCollection = (function() {
             },
             failure : handleAjaxFailure
         };
-        il.Overlay.hideAllOverlays(event, true);
+        il.Overlay.hideAllOverlays(window.event, true);
         YAHOO.util.Connect.asyncRequest('GET', this.edit_url + '&record_id=' + record_id, callback);
         if (typeof after_save != 'undefined') this.after_save = after_save;
     };
@@ -47,7 +47,7 @@ var ilDataCollection = (function() {
             },
             failure : handleAjaxFailure
         };
-        il.Overlay.hideAllOverlays(event, true);
+        il.Overlay.hideAllOverlays(window.event, true);
         YAHOO.util.Connect.asyncRequest('GET', this.create_url + '&table_id=' + table_id, callback);
         if (typeof after_save != 'undefined') this.after_save = after_save;
     };
