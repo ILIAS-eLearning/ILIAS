@@ -13,13 +13,13 @@
 							.css({
 								'width': '0px'
 							})
-							.insertBefore("#il_center_col");
+							.insertAfter("#il_center_col");
 					} else if (index == 1) {
 						$("<div id=\"" + value + "\"></div>")
 							.css({
 								'width': '0px'
 							})
-							.insertAfter("#il_center_col");
+							.appendTo($("#il_center_col").parent());
 					}
 				}
 			});

@@ -43,8 +43,14 @@
 					$this.sortable({
 						onElementDragStart: function (event, ui) {
 
+							$center_column.removeClass("col-sm-9");
+							$center_column.addClass("col-sm-6");
+
 							for (i in internals.sortableContainer) {
+
 								var $elm = $(internals.sortableContainer[i]);
+								$elm.addClass("col-sm-3");
+
 								if ($(">div", $elm).size() == 0) {
 									$elm.css({
 										"width":     "",
@@ -52,23 +58,27 @@
 										"height":    $center_column.height(),
 										"min-height":$center_column.height()
 									});
+
 									$elm.html($('<div class="iosPdBlockColumnPlaceholder">&nbsp;</div>'));
-									$elm.addClass("col-sm-3");
-									$center_column.removeClass("one_side_col");
-									$center_column.removeClass("col-sm-9");
-									$center_column.addClass("two_side_col");
-									$center_column.addClass("col-sm-6");
+								}
+
+								if (i == 0) {
+									// there are two columns on drag event, so set the right "pull" class
+									$center_column.addClass("col-sm-push-3");
+									$elm.removeClass("col-sm-pull-9");
+									$elm.addClass("col-sm-pull-6");
 								}
 							}
-
 						},
 						stop: function (event, ui) {
 
-							var postData = [];
+							var postData      = [];
 
 							for (i in internals.sortableContainer) {
+
 								var $elm = $(internals.sortableContainer[i]);
 								var size = $(">div", $elm).size();
+
 								if (size == 0 || (size == 1 && $(">div.iosPdBlockColumnPlaceholder", $elm).size() == 1)) {
 									$elm.css({
 										"width":     "",
@@ -76,14 +86,28 @@
 										"height":    "",
 										"min-height":""
 									});
+
+									// Remove class on empty drop areas
 									$elm.removeClass("col-sm-3");
-									$center_column.removeClass("two_side_col");
+
+									// One drop area is empty, set the right css class for the center column
 									$center_column.removeClass("col-sm-6");
-									$center_column.addClass("one_side_col");
 									$center_column.addClass("col-sm-9");
+
+									if (i == 0) {
+										// left column is empty on drop event, all blocks are on the right side
+										$elm.removeClass("col-sm-pull-6");
+										$elm.removeClass("col-sm-pull-9");
+										$center_column.removeClass("col-sm-push-3");
+									} else if (i == 1) {
+										// right column is empty on drop event, all blocks are on the left site
+										$(internals.sortableContainer[0]).removeClass("col-sm-pull-6");
+										$(internals.sortableContainer[0]).addClass("col-sm-pull-9");
+										$center_column.addClass("col-sm-push-3");
+									}
 								}
 							}
-							
+
 							$('.iosPdBlockColumnPlaceholder').remove();
 
 							for(i in internals.sortableContainer) {
