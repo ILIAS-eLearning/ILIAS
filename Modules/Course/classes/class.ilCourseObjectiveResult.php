@@ -140,24 +140,25 @@ class ilCourseObjectiveResult
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 
+		include_once './Services/Object/classes/class.ilObjectFactory.php';
+		$factory = new ilObjectFactory();
 
-		// begin-patch lok
-		foreach($objectives = ilCourseObjective::_getObjectiveIds($a_course_id,false) as $objective_id)
-		// end-patch lok
+		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		$initial = ilLOSettings::getInstanceByObjId($a_course_id)->getInitialTest();
+		$initial_tst = $factory->getInstanceByRefId($initial, FALSE);
+		if($initial_tst instanceof ilObjTest)
 		{
-			$tmp_obj_question =& new ilCourseObjectiveQuestion($objective_id);
-		
-			foreach($tmp_obj_question->getTests() as $test_data)
-			{
-				#$this->__deleteEntries($tmp_obj_question->getQuestionsByTest($test_data['ref_id']));
-				
-				if($tmp_test =& ilObjectFactory::getInstanceByRefId($test_data['ref_id']))
-				{
-					$tmp_test->removeTestResultsForUser($this->getUserId());
-					unset($tmp_test);
-				}
-			}
+			$initial_tst->removeTestResultsForUser($this->getUserId());
 		}
+		
+		$qualified = ilLOSettings::getInstanceByObjId($a_course_id)->getQualifiedTest();
+		$qualified_tst = $factory->getInstanceByRefId($qualified, FALSE);
+		if($qualified_tst instanceof ilObjTest)
+		{
+			$qualified_tst->removeTestResultsForUser($this->getUserId());
+		}
+		
+		$objectives = ilCourseObjective::_getObjectiveIds($a_course_id,FALSE);
 
 		if(count($objectives))
 		{
@@ -171,11 +172,9 @@ class ilCourseObjectiveResult
 				"AND user_id = ".$ilDB->quote($this->getUserId())."";
 			$res = $ilDB->manipulate($query);
 			
-			// start-patch lok
 			$query = "DELETE FROM ilLOUserResults ".
 				"WHERE ".$ilDB->in('objective_id',$objectives,false,'integer').' '.
 				"AND user_id = ".$ilDB->quote($this->getUserId())."";
-			// end-patch lok
 		}
 
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
