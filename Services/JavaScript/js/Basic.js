@@ -506,9 +506,8 @@ il.UICore = {
 		}).on('hidden.bs.dropdown', function () {
 			var el = $(".ilMainMenu.ilTopFixed");
 			if (el) {
-				if (el.css("overflow") == "auto") {
-					el.css("bottom", "");
-				}
+				el.css("bottom", "");
+				el.css("overflow", "visible");
 			}
 		});
 	},
@@ -517,10 +516,9 @@ il.UICore = {
 		var vp_reg = il.Util.getViewportRegion(),
 			el_reg = il.Util.getRegion(el);
 
-		if (el.css("overflow") == "auto") {
-			if (el_reg.bottom > vp_reg.bottom - vp_reg.top) {
-				el.css("bottom", "0px");
-			}
+		if (el_reg.bottom > vp_reg.bottom - vp_reg.top) {
+			el.css("bottom", "0px");
+			el.css("overflow", "auto");
 		}
 	},
 
