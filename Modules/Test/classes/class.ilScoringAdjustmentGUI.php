@@ -11,8 +11,6 @@
  * @ingroup		ModulesTest
  *
  * @ilCtrl_IsCalledBy ilScoringAdjustmentGUI: ilObjTestGUI
- * 
- * @ilCtrl_Calls ilScoringAdjustmentGUI: ilQuestionBrowserTableGUI
  */
 class ilScoringAdjustmentGUI 
 {
