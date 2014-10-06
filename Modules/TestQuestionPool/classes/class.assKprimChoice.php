@@ -1003,4 +1003,16 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
 		return json_encode($result);
 	}
+	
+	public static function isObligationPossible($questionId)
+	{
+		return true;
+	}
+	
+	public function isAnswered($active_id, $pass = null)
+	{
+		$numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
+
+		return $numExistingSolutionRecords >= 4;
+	}
 }

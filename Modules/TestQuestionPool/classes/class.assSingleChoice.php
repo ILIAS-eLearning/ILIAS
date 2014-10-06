@@ -1193,9 +1193,9 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	 */
 	public function isAnswered($active_id, $pass)
 	{
-		$answered = assQuestion::doesSolutionRecordsExist($active_id, $pass, $this->getId());
-		
-		return $answered;
+		$numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
+
+		return $numExistingSolutionRecords > 0;
 	}
 	
 	/**

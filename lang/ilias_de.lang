@@ -704,7 +704,6 @@ assessment#:#no_selection#:#--- Keine Auswahl ---
 assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
 assessment#:#no_terms_message#:#Legen Sie mindestens einen Term an.
 assessment#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (Benutzer und/oder Gruppen)!
-assessment#:#not_worked_through#:#Unbeantwortet
 assessment#:#not_yet_accessed#:#Noch kein Zugriff erfolgt
 assessment#:#nr_of_correct_answers#:#Anzahl der erwünschten Antworten
 assessment#:#number_of_answers#:#Anzahl der Antworten
@@ -1314,7 +1313,8 @@ assessment#:#warning_test_not_complete#:#Der Test ist unvollständig!
 assessment#:#when#:#wenn
 assessment#:#width#:#Breite
 assessment#:#with_order#:#mit der Reihenfolge
-assessment#:#worked_through#:#Beantwortet
+assessment#:#worked_through#:#Bearbeitet
+assessment#:#answered#:#Beantwortet
 assessment#:#working_time#:#Bearbeitungsdauer
 assessment#:#working_time_avg#:#Durchschnittliche Bearbeitungdauer
 assessment#:#you_received_a_of_b_points#:#Sie haben %s von %s möglichen Punkten erreicht.

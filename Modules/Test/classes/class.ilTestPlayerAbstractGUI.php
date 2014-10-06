@@ -1483,7 +1483,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				'points' => $points,
 				'marked' => $marked,
 				'sequence' => $value["sequence"],
-				'obligatory' => $value['obligatory']
+				'obligatory' => $value['obligatory'],
+				'isAnswered' => $value['isAnswered']
 			));
 		}
 		
@@ -1492,11 +1493,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if( $fullpage )
 		{
 			include_once "./Modules/Test/classes/tables/class.ilListOfQuestionsTableGUI.php";
-			$table_gui = new ilListOfQuestionsTableGUI(
-					$this, 'backFromSummary', !$this->object->getTitleOutput(), $this->object->getShowMarker(),
-					$obligationsNotAnswered, $obligationsFilter
-			);
+			$table_gui = new ilListOfQuestionsTableGUI($this, 'backFromSummary');
 			
+			$table_gui->setShowPointsEnabled( !$this->object->getTitleOutput() );
+			$table_gui->setShowMarkerEnabled( $this->object->getShowMarker() );
+			$table_gui->setObligationsNotAnswered( $obligationsNotAnswered );
+			$table_gui->setShowObligationsEnabled( $this->object->areObligationsEnabled() );
+			$table_gui->setObligationsFilterEnabled( $obligationsFilter );
+
+			$table_gui->init();
+				
 			$table_gui->setData($data);
 
 			$this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $table_gui->getHTML());	

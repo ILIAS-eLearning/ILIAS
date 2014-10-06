@@ -4150,7 +4150,7 @@ abstract class assQuestion
 	}
 	
 	/**
-	 * checks wether there are existing solution records
+	 * returns the number of existing solution records
 	 * for the given test active / pass and given question id
 	 *
 	 * @access protected
@@ -4159,12 +4159,10 @@ abstract class assQuestion
 	 * @param integer $activeId
 	 * @param integer $pass
 	 * @param integer $questionId
-	 * @return boolean $solutionRecordsExist 
+	 * @return integer $numberOfExistingSolutionRecords 
 	 */
-	protected static function doesSolutionRecordsExist($activeId, $pass, $questionId)
+	protected static function getNumExistingSolutionRecords($activeId, $pass, $questionId)
 	{
-		// check if a solution was stored in tst_solution
-
 		global $ilDB;
 		
 		$query = "
@@ -4184,11 +4182,7 @@ abstract class assQuestion
 		
 		$row = $ilDB->fetchAssoc($res);
 		
-		$solutionRecordsExist = (
-			0 < (int)$row['cnt'] ? true : false
-		);
-
-		return $solutionRecordsExist;
+		return (int)$row['cnt'];
 	}
 	
 	/**

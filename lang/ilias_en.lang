@@ -623,7 +623,6 @@ assessment#:#no_selection#:#--- No Selection ---
 assessment#:#no_target_selected_for_move#:#You must select a target position!
 assessment#:#no_terms_message#:#Please add at least one term.
 assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users, groups, roles)!
-assessment#:#not_worked_through#:#Not Answered
 assessment#:#not_yet_accessed#:#Not yet accessed
 assessment#:#nr_of_correct_answers#:#Number of Requested Answers
 assessment#:#number_of_answers#:#Number of Answers
@@ -1188,7 +1187,8 @@ assessment#:#warning_test_not_complete#:#The test is not complete!
 assessment#:#when#:#when
 assessment#:#width#:#Width
 assessment#:#with_order#:#with order
-assessment#:#worked_through#:#Answered
+assessment#:#worked_through#:#Worked Through
+assessment#:#answered#:#Answered
 assessment#:#working_time_avg#:#Avg. Working Time
 assessment#:#working_time#:#Working Time
 assessment#:#you_received_a_of_b_points#:#You received %s of %s possible points
