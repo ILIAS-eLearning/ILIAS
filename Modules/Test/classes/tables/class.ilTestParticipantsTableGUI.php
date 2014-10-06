@@ -28,6 +28,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $testQuestionSetDepenciesBroken, $anonymity, $nrOfDatasets)
 	{
+		$this->setId('tst_participants_' . $a_parent_obj->object->getRefId());
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		global $lng, $ilCtrl;
@@ -92,7 +93,6 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 			$this->setDefaultOrderField("access");
 		}
 		$this->setDefaultOrderDirection("asc");
-		$this->setPrefix('chbUser');
 		$this->setSelectAllCheckbox('chbUser');
 		
 		$this->enable('header');
