@@ -19,7 +19,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, rilContainerStartObjectsPageGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI
 *
 * @extends ilContainerGUI
@@ -4692,49 +4692,6 @@ class ilObjCourseGUI extends ilContainerGUI
 	function _forwards()
 	{
 		return array("ilCourseRegisterGUI",'ilConditionHandlerGUI');
-	}
-
-
-	function cciObjectivesObject()
-	{
-		$this->initCourseContentInterface();
-		$this->cci_obj->cci_setContainer($this);
-		$this->cci_obj->cci_objectives();
-
-		return true;;
-	}
-	function cciObjectivesEditObject()
-	{
-		$this->tabs_gui->setTabActive('edit_content');
-
-		$this->initCourseContentInterface();
-		$this->cci_obj->cci_setContainer($this);
-		$this->cci_obj->cci_view();
-
-		return true;
-	}
-	function cciObjectivesAskResetObject()
-	{
-		$this->initCourseContentInterface();
-		$this->cci_obj->cci_setContainer($this);
-		$this->cci_obj->cci_objectives_ask_reset();
-
-		return true;;
-	}
-	function cciResetObject()
-	{
-		global $ilUser;
-
-		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
-
-		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
-		$tmp_obj_res->reset($this->object->getId());
-
-		ilUtil::sendSuccess($this->lng->txt('crs_objectives_reseted'));
-
-		$this->initCourseContentInterface();
-		$this->cci_obj->cci_setContainer($this);
-		$this->cci_obj->cci_objectives();
 	}
 
 	function addLocatorItems()

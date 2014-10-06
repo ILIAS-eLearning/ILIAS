@@ -9,7 +9,7 @@
 *
 * @extends ilObjectGUI
 *
-* @ilCtrl_Calls ilCourseContentGUI: ilCourseArchivesGUI, ilCourseObjectivePresentationGUI
+* @ilCtrl_Calls ilCourseContentGUI: ilCourseArchivesGUI
 * @ilCtrl_Calls ilCourseContentGUI: ilColumnGUI, ilObjectCopyGUI
 *
 */
@@ -64,10 +64,6 @@ class ilCourseContentGUI
 		{
 			case 'ilcoursearchivesgui':
 				$this->__forwardToArchivesGUI();
-				break;
-
-			case 'ilcourseobjectivepresentationgui':
-				$this->view();				// forwarding moved to getCenterColumnHTML()
 				break;
 
 			case "ilcolumngui":
@@ -132,21 +128,6 @@ class ilCourseContentGUI
 			return 'editUserTimings';
 		}
 		return 'view';
-	}
-
-	function __forwardToObjectivePresentation()
-	{
-		include_once 'Modules/Course/classes/class.ilCourseObjectivePresentationGUI.php';
-
-		$this->ctrl->setReturn($this,'');
-		$objectives_gui = new ilCourseObjectivePresentationGUI($this->container_gui);
-		
-		if(!$this->ctrl->getNextClass())
-		{
-			$this->ctrl->setCmdClass(get_class($objectives_gui));
-		}
-		$this->ctrl->forwardCommand($objectives_gui);
-		return true;
 	}
 
 	function __forwardToArchivesGUI()
@@ -332,10 +313,6 @@ class ilCourseContentGUI
 	{
 		global $ilUser, $lng, $ilCtrl, $ilAccess;
 
-		if ($ilCtrl->getNextClass() == "ilcourseobjectivepresentationgui")
-		{
-			$ilCtrl->setParameterByClass("ilcolumngui", "col_return", "objectives");
-		}
 		$ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
 
 		$obj_id = ilObject::_lookupObjId($this->container_obj->getRefId());
@@ -448,15 +425,6 @@ class ilCourseContentGUI
 			}
 			else
 			{
-				if ($_GET["col_return"] == "objectives")
-				{
-					//return $this->__forwardToObjectivePresentation();
-					include_once 'Modules/Course/classes/class.ilCourseObjectivePresentationGUI.php';
-					$this->ctrl->setReturn($this,'');
-					$objectives_gui = new ilCourseObjectivePresentationGUI($this->container_gui);
-					$this->ctrl->getHTML($objectives_gui);
-				}
-				else
 				{
 					$this->getDefaultView();
 				}
