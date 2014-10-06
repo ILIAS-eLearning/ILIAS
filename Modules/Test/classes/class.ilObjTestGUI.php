@@ -447,7 +447,9 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 
 			case 'ilassquestionpreviewgui':
-				
+
+				$this->prepareOutput();
+
 				$this->ctrl->saveParameter($this, "q_id");
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';

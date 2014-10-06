@@ -46,6 +46,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
 	{
 		global $rbacsystem, $ilTabs;
 
+		$ilTabs->clearTargets();
+
 		$this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$q_type = $this->object->getQuestionType();
