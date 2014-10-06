@@ -185,7 +185,7 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 		{
 			return 'completed';
 		}
-		else if($status == ilLPStatus::LP_STATUS_FAILED)
+		else if($status == ilLPStatus::LP_STATUS_FAILED_NUM)
 		{
 			return 'failed';
 		}
