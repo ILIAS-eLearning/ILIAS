@@ -216,6 +216,12 @@ class ilDataCollectionDataSet extends ilDataSet
                     $field->setLocked($a_rec['is_locked']);
                     $field->doCreate();
                     $a_mapping->addMapping('Modules/DataCollection', 'il_dcl_field', $a_rec['id'], $field->getId());
+                    // Check if this field was used as default order by, if so, update to new id
+                    $table = ilDataCollectionCache::getTableCache($new_table_id);
+                    if ($table && $table->getDefaultSortField() == $a_rec['id']) {
+                        $table->setDefaultSortField($field->getId());
+                        $table->doUpdate();
+                    }
                 }
                 break;
             case 'il_dcl_record':
