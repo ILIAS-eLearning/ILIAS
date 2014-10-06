@@ -424,10 +424,13 @@ abstract class ilRegistrationGUI
 					
 					// Split value id from post
 					list($field_id,$option_id) = explode('_', $_POST['cdf_'.$field_obj->getId()]);
+					
+					#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($field_id,TRUE).' '.print_r($option_id,TRUE).' '.print_r($_POST,TRUE));
+					
 					$open_answer_indexes = (array) $field_obj->getValueOptions();
 					if(in_array($option_id, $open_answer_indexes))
 					{
-						$value = $_POST['cdf_oa_'.$field_obj->getId()];
+						$value = $_POST['cdf_oa_'.$field_obj->getId().'_'.$option_id];
 					}
 					else
 					{
