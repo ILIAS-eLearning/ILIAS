@@ -287,8 +287,8 @@ crsbook#:#crsbook_admin_status_waiting#:#auf Warteliste
 crsbook#:#crsbook_admin_tab_list_bookings#:#Buchungen
 crsbook#:#crsbook_admin_tab_list_cancellations#:#Stornierungen
 crsbook#:#crsbook_admin_user_action_confirm_Book#:#Wollen Sie die Teilnahme wirklich buchen?
-crsbook#:#crsbook_admin_user_action_confirm_CancelWithCosts#:#Wollen Sie den Teilnahme wirklich mit Kosten stornieren
-crsbook#:#crsbook_admin_user_action_confirm_CancelWithoutCosts#:#Wollen Sie den Teilnahme wirklich ohne Kosten stornieren?
+crsbook#:#crsbook_admin_user_action_confirm_CancelWithCosts#:#Wollen Sie die Teilnahme wirklich mit Kosten stornieren
+crsbook#:#crsbook_admin_user_action_confirm_CancelWithoutCosts#:#Wollen Sie die Teilnahme wirklich ohne Kosten stornieren?
 crsbook#:#crsbook_admin_user_action_confirm_ToWaitingList#:#Wollen Sie den Teilnehmer wirklich auf die Warteliste verschieben?
 crsbook#:#crsbook_admin_user_action_done#:#Der Status des Benutzer wurde erfolgreich geändert.
 crsbook#:#crsbook_crs_user_added#:#Benutzer zum Training hinzugefügt.

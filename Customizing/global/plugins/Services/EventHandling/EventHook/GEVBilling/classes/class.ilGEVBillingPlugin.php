@@ -46,7 +46,7 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 		require_once("Services/Billing/classes/class.ilBill.php");
 		
 		$status = $crs_utils->getBookingStatusOf($a_user_id);
-		//$ilLog->write("status = ".$status);
+		$ilLog->write("ilGEVBillingPlugin::bookingStatusChanged to ".$status);
 		
 		require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
 		
@@ -105,6 +105,7 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 		
 		if ($context_id) {
 			require_once("Services/GEV/Mailing/classes/CrsMails/class.gevCrsBillMail.php");
+			$ilLog->write("ilGEVBillingPlugin::billFinalized: send bill ".$a_bill->getId());
 			$automail = new gevCrsBillMail($context_id);
 			$automail->sendBill($a_bill);
 		}
