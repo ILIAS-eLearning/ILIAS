@@ -331,7 +331,7 @@ class ilObjTestSettingsGeneralGUI
 		// pool usage setting
 		if( $form->getItemByPostVar('use_pool') instanceof ilFormPropertyGUI )
 		{
-			$this->testOBJ->setPoolUsage($form->getItemByPostVar('use_pool')->getChecked());
+			$this->testOBJ->setPoolUsage((int)$form->getItemByPostVar('use_pool')->getValue());
 		}
 
 		// Examview
@@ -723,10 +723,17 @@ class ilObjTestSettingsGeneralGUI
 		$form->addItem($act_type);
 
 		// pool usage
-		$pool_usage = new ilCheckboxInputGUI($this->lng->txt("test_question_pool_usage"), "use_pool");
-		$pool_usage->setInfo($this->lng->txt("test_question_pool_usage_desc"));
-		$pool_usage->setValue(1);
-		$pool_usage->setChecked($this->testOBJ->getPoolUsage());
+		$pool_usage = new ilRadioGroupInputGUI($this->lng->txt('test_question_pool_usage'), 'use_pool');
+
+		$optional_qpl = new ilRadioOption($this->lng->txt('test_question_pool_usage_optional'), 1);
+		$optional_qpl->setInfo($this->lng->txt('test_question_pool_usage_optional_info'));
+		$pool_usage->addOption($optional_qpl);
+
+		$tst_directly = new ilRadioOption($this->lng->txt('test_question_pool_usage_tst_directly'), 0);
+		$tst_directly->setInfo($this->lng->txt('test_question_pool_usage_tst_directly_info'));
+		$pool_usage->addOption($tst_directly);
+
+		$pool_usage->setValue($this->testOBJ->getPoolUsage() ? 1 : 0);
 		$form->addItem($pool_usage);
 
 		// section introduction

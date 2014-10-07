@@ -924,6 +924,10 @@ assessment#:#test_move_page#:#Frage verschieben
 assessment#:#test_next_question#:#Nächste Frage
 assessment#:#test_prev_question#:#Vorherige Frage
 assessment#:#test_question_pool_usage#:#Auswahl des Fragenpools beim Anlegen von Fragen
+assessment#:#test_question_pool_usage_optional#:#Fragen können optional einem Fragenpool hinzugefügt werden
+assessment#:#test_question_pool_usage_optional_info#:#Die Fragen können in anderen Tests wiederverwendet werden.
+assessment#:#test_question_pool_usage_tst_directly#:#Fragen werden direkt im Test erstellt
+assessment#:#test_question_pool_usage_tst_directly_info#:#Die Fragen können nicht in anderen Tests wiederverwendet werden.
 assessment#:#test_reference#:#Test-Verknüpfung
 assessment#:#test_template_reset#:#Die Vorlage wurde entfernt.
 assessment#:#test_using_template#:#Dieser Test verwendet die Vorlage %s. Wenn Sie keine Vorlage und alle Einstellungen verwenden wollen, klicken Sie bitte hier: %s.
