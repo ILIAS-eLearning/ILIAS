@@ -2954,8 +2954,14 @@ abstract class assQuestion
 	 *
 	 * @param integer $question_id The question id
 	 * @return assQuestion The question instance
+	 * @deprecated use assQuestion::_instantiateQuestion() instead.
 	 */
-	public function &_instanciateQuestion($question_id) 
+	public static function _instanciateQuestion($question_id)
+	{
+		return self::_instantiateQuestion($question_id);
+	}
+	
+	public static function _instantiateQuestion($question_id)
 	{
 		global $ilCtrl, $ilDB, $lng;
 		
