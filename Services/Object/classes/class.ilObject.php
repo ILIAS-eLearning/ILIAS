@@ -1883,6 +1883,19 @@ class ilObject
 				$newCondition->storeCondition();
 			}
 		}
+
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		$tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId($this->getRefId());
+		if($tpl_id)
+		{
+			include_once './Services/Object/classes/class.ilObjectFactory.php';
+			$factory = new ilObjectFactory();
+			$obj = $factory->getInstanceByRefId($a_target_id, FALSE);
+			if($obj instanceof ilObject)
+			{
+				$obj->applyDidacticTemplate($tpl_id);
+			}
+		}
 		return true;
 	}
 	
