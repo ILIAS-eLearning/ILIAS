@@ -1934,15 +1934,15 @@ class ilTemplate extends ilTemplateX
 	/**
 	* Accessibility focus for screen readers
 	*/
-	function fillScreenReaderFocus()
-	{
-		global $ilUser;
+function fillScreenReaderFocus()
+{
+	global $ilUser;
 
-		if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
-		{
-			$this->touchBlock("sr_focus");
-		}
+	if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization") && $this->blockExists('sr_focus'))
+	{
+		$this->touchBlock("sr_focus");
 	}
+}
 	
 	/**
 	* Fill side icons (upper icon, tree icon, webfolder icon)
