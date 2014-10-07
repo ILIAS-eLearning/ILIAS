@@ -141,13 +141,23 @@ class ilTestSubmissionReviewGUI
 			ilTestPDFGenerator::generatePDF($results_output, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
 			$template->setVariable("PDF_FILE_LOCATION", $filename);
 		}
-		
-		if ($this->test->getShowExamviewHtml())
-		{			
-			$template->setCurrentBlock('html_review');
+
+		if($this->test->getShowExamviewHtml())
+		{
+			if($this->test->getListOfQuestionsEnd())
+			{
+				$template->setVariable("CANCEL_CMD_BOTTOM", 'outQuestionSummary');
+			}
+			else
+			{
+				$template->setVariable("CANCEL_CMD_BOTTOM", 'backFromSummary');
+			}
+			$template->setVariable("BUTTON_CONTINUE_BOTTOM", $this->lng->txt("btn_next"));
+			$template->setVariable("BUTTON_BACK_BOTTOM", $this->lng->txt("btn_previous"));
+
 			$template->setVariable('HTML_REVIEW', $results_output);
 		}
-		
+
 		$this->tpl->setVariable($this->getContentBlockName(), $template->get() );
 	}
 }
