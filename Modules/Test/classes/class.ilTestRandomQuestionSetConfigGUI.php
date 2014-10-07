@@ -729,7 +729,10 @@ class ilTestRandomQuestionSetConfigGUI
 				$this->lng->txt('tst_msg_rand_quest_set_stage_pool_last_sync'), ilDatePresentation::formatDate($syncDate)
 			);
 
-			$infoMessage .= "<br />{$this->buildQuestionStageRebuildLink($currentRequestCmd)}";
+			if( !$this->testOBJ->participantDataExist() )
+			{
+				$infoMessage .= "<br />{$this->buildQuestionStageRebuildLink($currentRequestCmd)}";
+			}
 		}
 		
 		if( $this->isNoAvailableQuestionPoolsHintRequired($currentRequestCmd) )
