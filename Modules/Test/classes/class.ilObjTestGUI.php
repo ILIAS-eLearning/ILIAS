@@ -3763,7 +3763,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (strlen($this->object->getIntroduction()))
 		{
 			$info->addSection($this->lng->txt("tst_introduction"));
-			$info->addProperty("", $this->object->prepareTextareaOutput($this->object->getIntroduction()).
+			$info->addProperty("", $this->object->prepareTextareaOutput($this->object->getIntroduction(), true).
 					$info->getHiddenToggleButton());
 		}
 		else
