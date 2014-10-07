@@ -188,5 +188,62 @@ class ilFeedWriter
 		header("Content-Type: text/xml; charset=UTF-8;");
 		echo $this->getFeed();
 	}
+
+	function getContextPath($a_ref_id)
+	{
+		global $tree, $lng;
+
+		$items = array();
+
+		if ($a_ref_id > 0)
+		{
+			$path = $tree->getPathFull($a_ref_id);
+
+			// we want to show the full path, from the major container to the item
+			// (folders are not! treated as containers here), at least one parent item
+			$r_path = array_reverse($path);
+			$first = "";
+			$omit = array();
+			$do_omit = false;
+			foreach ($r_path as $key => $row)
+			{
+				if ($first == "")
+				{
+					if (in_array($row["type"], array("root", "cat", "grp", "crs")) )
+					{
+						$first = $row["child"];
+					}
+				}
+				$omit[$row["child"]] = $do_omit;
+			}
+
+			$add_it = false;
+			foreach ($path as $key => $row)
+			{
+				if ($first == $row["child"])
+				{
+					$add_it = true;
+				}
+
+				if ($add_it && !$omit[$row["child"]] &&
+					(($row["child"] != $a_ref_id)))
+				{
+					if ($row["title"] == "ILIAS" && $row["type"] == "root")
+					{
+						$row["title"] = $lng->txt("repository");
+					}
+					$items[] = $row["title"];
+				}
+			}
+		}
+
+		if (count($items) > 0)
+		{
+			return "[".implode(" > ", $items)."]";
+		}
+		return "";
+	}
+
+
 }
 ?>

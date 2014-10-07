@@ -92,7 +92,7 @@ class ilUserFeedWriter extends ilFeedWriter
 					$item["agg_ref_id"], $item["aggregation"]);
 
 				// path
-				$loc = "";
+				$loc = $this->getContextPath($item["ref_id"]);
 				
 				// title
 				if ($news_set->get("rss_title_format") == "news_obj")
