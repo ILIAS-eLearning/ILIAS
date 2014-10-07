@@ -76,8 +76,11 @@ class gevUserProfileGUI {
 				$err = true;
 			}
 			
-			if ($this->user_utils->hasWBDRelevantRole() && $this->user_utils->hasDoneWBDRegistration()
-				&& !gevUserUtils::isValidBWVId($form->getInput("bwv_id"))) {
+			if ($this->user_utils->hasWBDRelevantRole() 
+				&& $this->user_utils->hasDoneWBDRegistration()
+				&& !gevUserUtils::isValidBWVId($form->getInput("bwv_id"))
+				&& ! $form->getInput("bwv_id") == ''
+				) {
 				$form->getItemByPostVar("bwv_id")->setAlert("gev_bwv_id_invalid");
 				$err = true;
 			}
@@ -113,7 +116,7 @@ class gevUserProfileGUI {
 				$this->user->update();
 				
 				$bwv_id = $form->getInput("bwv_id");
-				if ($bwv_id) {
+				if ($bwv_id && !$bwv_id=='') {
 					$this->user_utils->setWBDBWVId($bwv_id);
 					$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
 				}
@@ -248,14 +251,17 @@ class gevUserProfileGUI {
 		
 		$b_street = new ilTextInputGUI($this->lng->txt("street"), "b_street");
 		$b_street->setValue($this->user->getStreet());
+		$b_street->setRequired(true);
 		$form->addItem($b_street);
 		
 		$b_city = new ilTextInputGUI($this->lng->txt("city"), "b_city");
 		$b_city->setValue($this->user->getCity());
+		$b_city->setRequired(true);
 		$form->addItem($b_city);
 		
 		$b_zipcode = new ilTextInputGUI($this->lng->txt("zipcode"), "b_zipcode");
 		$b_zipcode->setValue($this->user->getZipcode());
+		$b_zipcode->setRequired(true);
 		$form->addItem($b_zipcode);
 		
 		$b_country = new ilTextInputGUI($this->lng->txt("federal_state"), "b_country");

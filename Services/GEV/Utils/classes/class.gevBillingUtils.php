@@ -354,8 +354,11 @@ class gevBillingUtils {
 	}
 	
 	public function createCancellationBillAndCoupon($a_crs_id, $a_user_id) {
+		global $ilLog;
+
 		$bill = $this->getNonFinalizedBillForCourseAndUser($a_crs_id, $a_user_id);
 		if ($bill === null) {
+			$ilLog->write("gevBillingUtils::createCancellationBillAndCoupon no bill for user/course crs=" .$a_crs_id . " user=" .$a_user_id);
 			return;
 		}
 		

@@ -121,6 +121,7 @@ abstract class ilAutoMails {
 	 * @return ilAutoMail The created automail object.
 	 */
 	public function getAutoMail($a_id) {
+
 		if (!in_array($a_id, $this->ids)) {
 			throw new Exception("Unknown auto mail id: ".$a_id);
 		}

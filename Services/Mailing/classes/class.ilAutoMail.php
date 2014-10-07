@@ -165,6 +165,8 @@ abstract class ilAutoMail {
 
 		global $ilUser, $ilLog;
 
+
+
 		if ($a_recipients === null) {
 			$a_recipients = $this->getUsersOnly()
 							? $this->getRecipientUserIDs()
@@ -174,7 +176,7 @@ abstract class ilAutoMail {
 		if ($a_occasion === null) {
 			$a_occasion = $this->getTitle();
 		}
-		
+
 		$no_mails = false;
 
 		foreach ($a_recipients as $recipient) {
@@ -239,6 +241,10 @@ abstract class ilAutoMail {
 			foreach ($mail_data["attachments"] as $attachment) {
 				$mail->AddAttachment($attachment["path"], $attachment["name"]);
 			}
+					
+			$ilLog->write (
+				'ilAutoMail::send ->sending: ' .$occasion .' to ' .$a_recipients[0] 
+			);
 
 			if (!$mail->Send()) {
 				$ilLog->write("ilMail::send: PHPMailer-error when sending ".$this->getId().": ".$mail->ErrorInfo);

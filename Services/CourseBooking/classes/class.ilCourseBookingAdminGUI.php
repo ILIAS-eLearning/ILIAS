@@ -966,7 +966,7 @@ class ilCourseBookingAdminGUI
 	 */
 	protected function userActionCancelWithoutCosts()
 	{		
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilLog;
 		
 		$user_id = $this->isUserActionPossible(ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS);
 		if($user_id)
@@ -981,9 +981,22 @@ class ilCourseBookingAdminGUI
 				require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 				$automails = new gevCrsAutoMails($this->getCourse()->getId());
 				if ($old_status == ilCourseBooking::STATUS_BOOKED) {
+					
+					$ilLog->write("ilCourseBookingAdminGUI::userActionCancelWithoutCosts:"
+						." send cancellation (admin_cancel_booked_to_cancelled_without_costs)"
+						." course=" . $this->getCourse()->getId()
+						." user=" . $user_id
+					);
+
 					$automails->send("admin_cancel_booked_to_cancelled_without_costs", array($user_id));
 				}
 				else if ($old_status == ilCourseBooking::STATUS_WAITING) {
+					$ilLog->write("ilCourseBookingAdminGUI::userActionCancelWithoutCosts:"
+						." send cancellation (admin_cancel_waiting_to_cancelled_without_costs)"
+						." course=" . $this->getCourse()->getId()
+						." user=" . $user_id
+					);
+
 					$automails->send("admin_cancel_waiting_to_cancelled_without_costs", array($user_id));
 				}
 				// gev-patch end
@@ -999,7 +1012,7 @@ class ilCourseBookingAdminGUI
 	 */
 	protected function userActionCancelWithCosts()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilLog;
 		
 		$user_id = $this->isUserActionPossible(ilCourseBooking::STATUS_CANCELLED_WITH_COSTS);
 		if($user_id)
@@ -1008,6 +1021,12 @@ class ilCourseBookingAdminGUI
 			if($bookings->cancelWithCosts($user_id))
 			{
 				// gev-patch start
+				$ilLog->write("ilCourseBookingAdminGUI::userActionCancelWithCosts:"
+					." send cancellation (admin_cancel_booked_to_cancelled_with_costs)"
+					." course=" . $this->getCourse()->getId()
+					." user=" . $user_id
+				);
+
 				require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 				$automails = new gevCrsAutoMails($this->getCourse()->getId());
 				$automails->send("admin_cancel_booked_to_cancelled_with_costs", array($user_id));

@@ -114,6 +114,8 @@ class gevInvitation extends gevCrsAutoMail {
 
 		// Just stop sending if theres no mail defined.
 		if ($template_id == -1) {
+			global $ilLog;
+			$ilLog->write('! sending stopped; there is no template (recipient:' .$a_recipient .')');
 			return null;
 		}
 		

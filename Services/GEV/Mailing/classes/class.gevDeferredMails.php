@@ -145,7 +145,11 @@ class gevDeferredMails {
 			}
 
 			try {
-				$automails->send($mail["mail_id"], array($mail["recipient"]), $mail["occasion"]);
+				$automails->send(
+					$mail["mail_id"], 
+					array($mail["recipient"]), 
+					$mail["occasion"]
+				);
 				$ilLog->write("gevDeferredMails::sendDeferredMails: send mail crs_id = ".$mail["crs_id"].", mail_id = ".$mail["mail_id"].", recipient = ".$mail["recipient"]);
 			}
 			catch (Exception $e) {
