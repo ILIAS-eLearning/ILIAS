@@ -159,7 +159,7 @@ class ilScoringAdjustmentGUI
 		$table_gui->setSelectAllCheckbox(null);
 
 		$this->tpl->setVariable('QUESTIONBROWSER', $table_gui->getHTML());
-		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this, 'showquestionlist'));
 		$this->tpl->parseCurrentBlock();
 	}
 
