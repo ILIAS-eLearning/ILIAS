@@ -125,7 +125,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 			if (strcmp($c, 'points') == 0)
 			{
 				$this->tpl->setCurrentBlock('points');
-				$this->tpl->setVariable("TYPE", ilUtil::prepareFormOutput($data['points']));
+				$this->tpl->setVariable("POINTS", ilUtil::prepareFormOutput($data['points']));
 				$this->tpl->parseCurrentBlock();
 			}
 			if(strcmp($c, 'created') == 0)
