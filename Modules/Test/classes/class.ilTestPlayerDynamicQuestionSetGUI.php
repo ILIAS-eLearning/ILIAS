@@ -168,7 +168,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		$this->ctrl->setParameter($this, 'active_id', $this->testSession->getActiveId());
 
-		assQuestion::_updateTestPassResults($this->testSession->getActiveId(), $this->testSession->getPass());
+		assQuestion::_updateTestPassResults($this->testSession->getActiveId(), $this->testSession->getPass(), false, null, $this->object->id);
 
 		$_SESSION['active_time_id'] = $this->object->startWorkingTime(
 				$this->testSession->getActiveId(), $this->testSession->getPass()

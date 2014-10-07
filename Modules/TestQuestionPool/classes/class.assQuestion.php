@@ -1192,7 +1192,7 @@ abstract class assQuestion
 	}
 
 	/** @TODO Move this to a proper place. */
-	function _updateTestPassResults($active_id, $pass, $obligationsEnabled = false, ilAssQuestionProcessLocker $processLocker = null)
+	function _updateTestPassResults($active_id, $pass, $obligationsEnabled = false, ilAssQuestionProcessLocker $processLocker = null, $test_obj_id = null)
 	{
 		global $ilDB;
 
@@ -1267,7 +1267,7 @@ abstract class assQuestion
 			if( $row['hint_count'] === null ) $row['hint_count'] = 0;
 			if( $row['hint_points'] === null ) $row['hint_points'] = 0;
 
-			$exam_identifier = self::getExamId( $active_id, $pass );
+			$exam_identifier = self::getExamId( $active_id, $pass, $test_obj_id);
 			
 			if( is_object($processLocker) )
 			{
@@ -1348,11 +1348,12 @@ abstract class assQuestion
 
 	/**
 	 * @deprecated Use method in ilObjTest.
-	 * @param $active_id
-	 * @param $pass
+	 * @param  $active_id
+	 * @param  $pass
+	 * @param  $test_obj_id
 	 * @return array
 	 */
-	public function getExamId($active_id, $pass)
+	public function getExamId($active_id, $pass, $test_obj_id = null)
 	{
 		/** @TODO Move this to a proper place. */
 		global $ilDB, $ilSetting;
@@ -1370,7 +1371,14 @@ abstract class assQuestion
 		}
 
 		$inst_id = $ilSetting->get( 'inst_id', null );
-		$obj_id  = $this->obj_id;
+		if($test_obj_id === null)
+		{
+			$obj_id  = $this->obj_id;
+		}
+		else
+		{
+			$obj_id  = $test_obj_id;			
+		}
 		return 'I' . $inst_id . '_T' . $obj_id . '_A' . $active_id . '_P' . $pass;
 	}
 

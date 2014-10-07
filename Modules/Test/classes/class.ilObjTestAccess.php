@@ -130,7 +130,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	public static function _isPassed($user_id, $a_obj_id)
 	{
 		global $ilDB;
-
 		$result = $ilDB->queryF("SELECT tst_result_cache.* FROM tst_result_cache, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_result_cache.active_fi = tst_active.active_id",
 			array('integer','integer'),
 			array($user_id, $a_obj_id)
@@ -180,7 +179,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 					if (strlen($active_id) && strlen($pass))
 					{
 						include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-						$res = assQuestion::_updateTestPassResults($active_id, $pass);
+						$res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
 						$max = $res['maxpoints'];
 						$reached = $res['points'];
 					}
@@ -201,7 +200,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 							if (strlen($active_id) && strlen($pass))
 							{
 								include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-								$res = assQuestion::_updateTestPassResults($active_id, $pass);
+								$res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
 								$max = $res['maxpoints'];
 								$reached = $res['points'];
 							}

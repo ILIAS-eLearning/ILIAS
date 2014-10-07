@@ -1310,8 +1310,7 @@ class ilObjQuestionPool extends ilObject
 */
 	function &_getAvailableQuestionpools($use_object_id = FALSE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE, $permission = "read", $usr_id = "")
 	{
-		global $ilUser;
-		global $ilDB;
+		global $ilUser, $ilDB, $lng;
 
 		$result_array = array();
 		$permission = (strlen($permission) == 0) ? "read" : $permission;
@@ -1356,7 +1355,7 @@ class ilObjQuestionPool extends ilObject
 					$title = (($showPath) ? $titles[$ref_id] : $row["title"]);
 					if ($with_questioncount)
 					{
-						$title .= " [" . $row["questioncount"] . " " . ($row["questioncount"] == 1 ? $this->lng->txt("ass_question") : $this->lng->txt("assQuestions")) . "]";
+						$title .= " [" . $row["questioncount"] . " " . ($row["questioncount"] == 1 ? $lng->txt("ass_question") : $lng->txt("assQuestions")) . "]";
 					}
 
 					if ($use_object_id)

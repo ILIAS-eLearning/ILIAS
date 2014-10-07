@@ -295,7 +295,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				}
 
 				assQuestion::_updateTestPassResults(
-					$active_id, $this->testSession->getPass(), $this->object->areObligationsEnabled()
+					$active_id, $this->testSession->getPass(), $this->object->areObligationsEnabled(), null, $this->object->id
 				);
 
 				// ensure existing test sequence
@@ -350,7 +350,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				}
 
 				assQuestion::_updateTestPassResults(
-					$active_id, $this->testSession->getPass(), $this->object->areObligationsEnabled()
+					$active_id, $this->testSession->getPass(), $this->object->areObligationsEnabled(), null, $this->object->id
 				);
 
 				// ensure existing test sequence
