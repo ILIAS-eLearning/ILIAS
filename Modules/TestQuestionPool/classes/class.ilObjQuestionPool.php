@@ -1596,15 +1596,11 @@ class ilObjQuestionPool extends ilObject
 	public function purgeQuestions()
 	{
 		global $ilDB, $ilUser;
-		
-		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE owner = %s AND tstamp = %s", 
-			array("integer", "integer"),
-			array($ilUser->getId(), 0)
-		);
-		while ($data = $ilDB->fetchAssoc($result))
-		{
-			$this->deleteQuestion($data["question_id"]);
-		}
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssIncompleteQuestionPurger.php';
+		$incompleteQuestionPurger = new ilAssIncompleteQuestionPurger($ilDB);
+		$incompleteQuestionPurger->setOwnerId($ilUser->getId());
+		$incompleteQuestionPurger->purge();
 	}
 } // END class.ilObjQuestionPool
 ?>

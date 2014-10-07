@@ -2633,14 +2633,19 @@ abstract class assQuestion
 		}
 	}
 
-/**
-* Creates an instance of a question with a given question id
-*
-* @param integer $question_id The question id
-* @return object The question instance
-* @access public
-*/
-	function &_instanciateQuestion($question_id) 
+	/**
+	 * Creates an instance of a question with a given question id
+	 *
+	 * @param integer $question_id The question id
+	 * @return assQuestion The question instance
+	 * @deprecated use assQuestion::_instantiateQuestion() instead.
+	 */
+	public static function _instanciateQuestion($question_id)
+	{
+		return self::_instantiateQuestion($question_id);
+	}
+
+	public static function _instantiateQuestion($question_id)
 	{
 		if (strcmp($question_id, "") != 0)
 		{

@@ -235,6 +235,12 @@ class ilObjTestGUI extends ilObjectGUI
 
                         case 'ilpageeditorgui':
                         case 'iltestexpresspageobjectgui':
+
+					require_once 'Modules/TestQuestionPool/classes/class.ilAssIncompleteQuestionPurger.php';
+					$incompleteQuestionPurger = new ilAssIncompleteQuestionPurger($ilDB);
+					$incompleteQuestionPurger->setOwnerId($ilUser->getId());
+					$incompleteQuestionPurger->purge();
+
                             $qid = $_REQUEST['q_id'];
 
 							// :FIXME: does not work
