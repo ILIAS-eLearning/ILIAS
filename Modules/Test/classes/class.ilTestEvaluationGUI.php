@@ -1606,8 +1606,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$isActivePass = true;
 				$must_renumber = false;
 			}
+			else
+			{
+				throw new ilTestException ('This should not happen, please contact Bjoern Heyser to clean up this pass salad!');
+			}
 		
-			if( $pass == 0 )
+			if( $pass == 0 && (
+					($lastFinishedPass == 0 && $tries == 1 && $tries != $row['pass'])
+					|| ($isActivePass == true) // should be equal to || ($lastFinishedPass == -1 && $tries == 0)
+				))
 			{
 				$last_pass = true;
 			}
