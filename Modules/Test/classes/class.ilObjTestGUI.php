@@ -4448,9 +4448,9 @@ class ilObjTestGUI extends ilObjectGUI
 				$tabs_gui->addTarget(
 					"scoringadjust", $this->ctrl->getLinkTargetByClass('ilScoringAdjustmentGUI', 'showquestionlist'),
 					array(
-						'showquestionlist', 
-						'applyManScoringParticipantsFilter', 
-						'saveManScoringByQuestion'
+						'showquestionlist',
+						'savescoringfortest',
+						'adjustscoringfortest'
 					), ''
 				);
 			}

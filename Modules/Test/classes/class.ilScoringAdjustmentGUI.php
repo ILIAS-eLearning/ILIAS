@@ -78,7 +78,7 @@ class ilScoringAdjustmentGUI
 	{
 		switch (strtolower($cmd))
 		{
-			case 'save':
+			case 'savescoringfortest':
 				$this->saveQuestion();
 				break;
 				
@@ -128,7 +128,7 @@ class ilScoringAdjustmentGUI
 
 		$table_gui = new ilTestQuestionsTableGUI(
 			$this, 
-			'questions', 
+			'showquestionlist', 
 			(($ilAccess->checkAccess("write", "", $this->ref_id) ? true : false)), 
 			$checked_move, 0);
 
@@ -260,7 +260,7 @@ class ilScoringAdjustmentGUI
 		$manscoring_preservation->setInfo($this->lng->txt('preserve_manscoring_info'));
 		$form->addItem($manscoring_preservation);
 
-		$form->addCommandButton("save", $this->lng->txt("save"));
+		$form->addCommandButton("savescoringfortest", $this->lng->txt("save"));
 
 		$participants = $this->object->getParticipants();
 		$active_ids = array_keys($participants);
