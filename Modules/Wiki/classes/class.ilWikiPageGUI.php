@@ -646,7 +646,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	{
 		global $ilAccess, $tpl, $ilCtrl, $lng;
 
-		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		if ($ilAccess->checkAccess("edit_content", "", $_GET["ref_id"]))
 		{
 			$this->initRenameForm();
 			$tpl->setContent($this->form->getHTML());
@@ -690,7 +690,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$this->initRenameForm();
 		if ($this->form->checkInput())
 		{
-			if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+			if ($ilAccess->checkAccess("edit_content", "", $_GET["ref_id"]))
 			{
 				$new_name = $this->form->getInput("new_page_name");
 				
