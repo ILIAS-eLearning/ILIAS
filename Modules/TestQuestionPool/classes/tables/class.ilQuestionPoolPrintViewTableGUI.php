@@ -15,6 +15,8 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 {	
 	protected $outputmode;
 	
+	protected $totalPoints;
+	
 	/**
 	 * Constructor
 	 *
@@ -35,16 +37,6 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 	
 		$this->setFormName('printviewform');
 		$this->setStyle('table', 'fullwidth');
-		$this->addColumn($this->lng->txt("title"),'title', '');
-		foreach ($this->getSelectedColumns() as $c)
-		{
-			if (strcmp($c, 'description') == 0) $this->addColumn($this->lng->txt("description"),'description', '');
-			if (strcmp($c, 'author') == 0) $this->addColumn($this->lng->txt("author"),'author', '');
-			if (strcmp($c, 'ttype') == 0) $this->addColumn($this->lng->txt("question_type"),'ttype', '');
-			if (strcmp($c, 'points') == 0) $this->addColumn($this->lng->txt("points"),'points', '');
-			if (strcmp($c, 'created') == 0) $this->addColumn($this->lng->txt("create_date"),'created', '');
-			if (strcmp($c, 'updated') == 0) $this->addColumn($this->lng->txt("last_update"),'updated', '');
-		}
 
 		$this->addCommandButton('print', $this->lng->txt('print'), "javascript:window.print();return false;");
 
@@ -59,6 +51,26 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 		$this->enable('header');
 //		$this->disable('numinfo');
 		$this->disable('select_all');
+	}
+	
+	public function initColumns()
+	{
+		$this->addColumn($this->lng->txt("title"),'title', '');
+		
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			if (strcmp($c, 'description') == 0) $this->addColumn($this->lng->txt("description"),'description', '');
+			if (strcmp($c, 'author') == 0) $this->addColumn($this->lng->txt("author"),'author', '');
+			if (strcmp($c, 'ttype') == 0) $this->addColumn($this->lng->txt("question_type"),'ttype', '');
+			if (strcmp($c, 'points') == 0) $this->addColumn($this->getPointsColumnHeader(),'points', '');
+			if (strcmp($c, 'created') == 0) $this->addColumn($this->lng->txt("create_date"),'created', '');
+			if (strcmp($c, 'updated') == 0) $this->addColumn($this->lng->txt("last_update"),'updated', '');
+		}
+	}
+	
+	private function getPointsColumnHeader()
+	{
+		return $this->lng->txt("points") . ' ('.$this->getTotalPoints().')';
 	}
 
 	function getSelectableColumns()
@@ -173,5 +185,15 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 		}
 
 		return false;
+	}
+
+	public function getTotalPoints()
+	{
+		return $this->totalPoints;
+	}
+
+	public function setTotalPoints($totalPoints)
+	{
+		$this->totalPoints = $totalPoints;
 	}
 }
