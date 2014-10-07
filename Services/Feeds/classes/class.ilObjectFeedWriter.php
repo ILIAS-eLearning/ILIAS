@@ -44,15 +44,18 @@ class ilObjectFeedWriter extends ilFeedWriter
 			return;
 		}
 
+		// path
+		$loc = $this->getContextPath($a_ref_id);
+
 		if ($ilSetting->get('short_inst_name') != "")
 		{
 			$this->setChannelTitle($ilSetting->get('short_inst_name')." - ".
-				$this->prepareStr($loc.$obj_title));
+				$this->prepareStr($loc." ".$obj_title));
 		}
 		else
 		{
 			$this->setChannelTitle("ILIAS"." - ".
-				$this->prepareStr($loc.$obj_title.($a_purpose ? " - ".$a_purpose : "")));
+				$this->prepareStr($loc." ".$obj_title.($a_purpose ? " - ".$a_purpose : "")));
 		}
 		$this->setChannelAbout(ILIAS_HTTP_PATH);
 		$this->setChannelLink(ILIAS_HTTP_PATH);
