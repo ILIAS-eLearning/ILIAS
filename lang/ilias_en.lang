@@ -659,6 +659,7 @@ assessment#:#question_saved_for_upload#:#The question was saved automatically in
 assessment#:#question_short#:#Q
 assessment#:#question_summary#:#List of Questions
 assessment#:#obligations_summary#:#List of Obligatory Questions
+assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.
 assessment#:#question_title#:#Question Title
 assessment#:#question_type#:#Question Type
 assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!

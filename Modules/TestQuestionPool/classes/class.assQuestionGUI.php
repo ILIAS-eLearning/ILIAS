@@ -333,7 +333,7 @@ abstract class assQuestionGUI
 		
 		if( $this->object->areObligationsToBeConsidered() && ilObjTest::isQuestionObligatory($this->object->getId()) )
 		{
-			$obligatoryString = ' *';
+			$obligatoryString = '([-_-])';
 		}
 		else
 		{
@@ -364,6 +364,12 @@ abstract class assQuestionGUI
 		}
 		$presentation = $page_gui->presentation();
 		if (strlen($maxpoints)) $presentation = str_replace($maxpoints, "<em>$maxpoints</em>", $presentation);
+		if (strlen($obligatoryString))
+		{
+			$replacement	='<br><span class="obligatory" style="font-size:small">'.
+				$this->lng->txt("tst_you_have_to_answer_this_question").'</span>';
+			$presentation 	= str_replace($obligatoryString, $replacement, $presentation);
+		}
 		// bugfix for non XHTML conform img tags in ILIAS Learning Module Editor
 		$presentation = preg_replace("/src=\".\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
 		return $presentation;
