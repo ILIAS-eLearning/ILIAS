@@ -306,8 +306,8 @@ assessment#:#cloze_textgap_rating#:#Text Gap Rating
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
-assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
-assessment#:#confirm_delete_single_user_data#:#Are you sure you want to delete the test data of the selected users?
+assessment#:#confirm_delete_all_user_data#:#Are you sure you want to remove all user data of the test?
+assessment#:#confirm_delete_single_user_data#:#Are you sure you want to remove the test data of the selected users?
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
 assessment#:#coordinates#:#Coordinates
 assessment#:#correct_solution_is#:#The correct solution is
@@ -322,13 +322,13 @@ assessment#:#definition_image#:#Definition Image
 assessment#:#definition_text#:#Definition Text
 assessment#:#definition#:#Definition
 assessment#:#definitions#:#Definitions
-assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?
-assessment#:#delete_all_user_data#:#Delete Test Data of all Users
+assessment#:#delete_all_user_data_confirmation#:#Do you really want to remove the test data of all users in this test?
+assessment#:#delete_all_user_data#:#Remove Test Data of all Users
 assessment#:#delete_area#:#Delete Area
-assessment#:#delete_image_header#:#Delete image
-assessment#:#delete_image_question#:#Do you really want to delete the image?
-assessment#:#delete_image#:#Delete Image
-assessment#:#delete_user_data#:#Delete Test Data of the Selected Users
+assessment#:#delete_image_header#:#Remove image
+assessment#:#delete_image_question#:#Do you really want to remove the image?
+assessment#:#delete_image#:#Remove Image
+assessment#:#delete_user_data#:#Remove Test Data of the Selected Users
 assessment#:#deleteSuggestedSolution#:#Remove this suggested solution
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 assessment#:#detail_ending_time_reached#:#You have reached the finish time of the test. The test isn't available since %s
@@ -600,8 +600,8 @@ assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomy Filter
 assessment#:#tst_inp_source_pool_no_tax_filter#:#Use No Taxonomy Based Filter
 assessment#:#tst_inp_source_pool_filter_tax_x#:#Use Taxonomy "%s" as Filter
 assessment#:#tst_inp_no_available_tax_hint#:#No Available Taxonomies for Selected Question Pool
-assessment#:#tst_msg_source_pool_definitions_deleted#:#The rule has been deleted successfully.
-assessment#:#msg_deleted_export_files#:#Export file(s) deleted
+assessment#:#tst_msg_source_pool_definitions_deleted#:#The rule has been removed successfully.
+assessment#:#msg_deleted_export_files#:#Export file(s) removed
 assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.
 assessment#:#msg_poly_added#:#Polygon added
 assessment#:#msg_question_count_too_low#:#Please enter a question count greater than 0
@@ -680,13 +680,13 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment 
 assessment#:#qpl_assessment_of_questions#:#Assessment of Questions
 assessment#:#qpl_assessment_total_of_answers#:#Total of Answers
 assessment#:#qpl_assessment_total_of_right_answers#:#Total Percentage of Correct Answers (percentage of maximum points)
-assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following questions?
+assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to remove the following questions?
 assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
 assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard
-assessment#:#qpl_delete_describe_undeleteable_questions#:#The following questions are in use in random tests. You cannot delete these questions:
-assessment#:#qpl_delete_no_deleteable_questions#:#All questions you tried to delete are in use in a random test
-assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!
-assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it
+assessment#:#qpl_delete_describe_undeleteable_questions#:#The following questions are in use in random tests. You cannot remove these questions:
+assessment#:#qpl_delete_no_deleteable_questions#:#All questions you tried to remove are in use in a random test
+assessment#:#qpl_delete_rbac_error#:#You have no rights to remove this question!
+assessment#:#qpl_delete_select_none#:#Please check at least one question to remove it
 assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!
 assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing
@@ -719,7 +719,7 @@ assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Ple
 assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool
 assessment#:#qpl_paste_error#:#At least one question could not pe pasted into the question pool. Possible reason: You tried to move the question into the same question pool.
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!
-assessment#:#qpl_questions_deleted#:#Question(s) deleted.
+assessment#:#qpl_questions_deleted#:#Question(s) removed.
 assessment#:#qpl_select_file_for_import#:#You must select a file for import!
 assessment#:#qpl_qst_inp_matching_mode#:#Matching Mode
 assessment#:#qpl_qst_inp_matching_mode_one_on_one#:#One Term Matches One Definition (1:1)
@@ -843,7 +843,7 @@ assessment#:#too_many_empty_parameters#:#Please fill out your empty applet param
 assessment#:#too_many_targets_selected_for_move#:#You must select exactly one target position!
 assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.
-assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!
+assessment#:#tst_all_user_data_deleted#:#All user data of this test has been removed!
 assessment#:#tst_allow_fixed_participants#:#Allow fixed participants in this test
 assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers
 assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
@@ -857,8 +857,8 @@ assessment#:#tst_answered_questions#:#Answered Questions
 assessment#:#tst_best_solution_is#:#The best solution is
 assessment#:#tst_browse_for_questions#:#Add from Pool
 assessment#:#tst_change_points_for_question#:#Points for the Answer
-assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!
-assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of passes, you already needed for this test. Do you really want to reset all your previous entered results?
+assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were removed. You have successfully reset the test!
+assessment#:#tst_confirm_delete_results#:#You are about to remove all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of passes, you already needed for this test. Do you really want to reset all your previous entered results?
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button.
 assessment#:#tst_count_correct_solutions#:#Count Only Complete Solutions
@@ -872,8 +872,8 @@ assessment#:#tst_defaults_defaults_of_test#:#the settings of this test as
 assessment#:#tst_defaults_dont_use#:#--- Use the ILIAS test defaults ---
 assessment#:#tst_defaults_enter_name#:#Please enter a name for your test default settings!
 assessment#:#tst_defaults_not_defined#:#You don't have any test default settings defined yet.
-assessment#:#tst_delete_all_user_data#:#Delete all User Data
-assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
+assessment#:#tst_delete_all_user_data#:#Remove all User Data
+assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to remove it
 assessment#:#tst_delete_results#:#Reset Test
 assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
 assessment#:#tst_ending_time#:#Finish Time
@@ -1079,7 +1079,7 @@ assessment#:#tst_select_questionpool#:#Please select a question pool to store th
 assessment#:#tst_select_questionpools#:#Please select a question pool to store the imported questions
 assessment#:#tst_select_random_questions#:#Select the question pool(s) and the amount of questions for the random test
 assessment#:#tst_select_tsts#:#Please select a test for duplication
-assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully
+assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was removed successfully
 assessment#:#tst_sequence_fixed#:#The Sequence of Questions is Fixed
 assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test pass
 assessment#:#tst_sequence_properties#:#Sequence Settings
@@ -1151,8 +1151,8 @@ assessment#:#tst_title_output#:#Question Title Output
 assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the question pools are ignored. If you don't set this value, you need to enter an amount with every selected question pool!
 assessment#:#tst_total_questions#:#Total Amount of Questions
 assessment#:#tst_tst_date#:#Date of Test
-assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted!
-assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!
+assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been removed!
+assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will remove all previous processed tests!
 assessment#:#tst_type#:#Test Type
 assessment#:#tst_types#:#Test Types
 assessment#:#exam_id#:#Exam Id: 
@@ -1242,14 +1242,14 @@ assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#You are a
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Continues question selection configuration has been modified.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Continues question selection configuration cannot be modified due to existing participant data.
 assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#The random question set configuration cannot be modified due to existing participant data.
-assessment#:#tst_delete_dyn_test_results_btn#:#Delete Test Results
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Delete Previous Answers
+assessment#:#tst_delete_dyn_test_results_btn#:#Remove Test Results
+assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Remove Previous Answers
 assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Testanswers
 assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Source Question Pool
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Deleted) [%s Questions]
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Deleted Permanently)
+assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Removed) [%s Questions]
+assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Removed Permanently)
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Provide Taxonomy Filter
 assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Provide Answer Status Filter
 assessment#:#tst_question_answer_status#:#Answer Status
@@ -1342,7 +1342,7 @@ auth#:#auth_account_migration#:#New ILIAS Account
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.
 auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username and password to migrate your personal data (mail, test results...).
 auth#:#auth_openid_configure#:#Configure OpenId-Authentication
-auth#:#auth_openid_deleted_provider#:#Deleted selected OpenID provider
+auth#:#auth_openid_deleted_provider#:#Removed selected OpenID provider
 auth#:#auth_openid_enable#:#Enable OpenId Support
 auth#:#auth_openid_login_info_a#:#Please enter your OpenID username and choose a provider
 auth#:#auth_openid_login#:#Your OpenID

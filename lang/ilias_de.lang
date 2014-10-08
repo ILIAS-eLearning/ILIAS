@@ -406,8 +406,8 @@ assessment#:#cloze_textgap_rating#:#Textlückenbewertung
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Verknüpfung
-assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie die Testdaten aller Benutzer des Tests löschen wollen?
-assessment#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten Benutzer löschen wollen?
+assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie die Testdaten aller Benutzer des Tests entfernen wollen?
+assessment#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten Benutzer entfernen wollen?
 assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 assessment#:#coordinates#:#Koordinaten
 assessment#:#copy_and_link_to_questionpool#:#Zu Fragenpool hinzufügen
@@ -425,13 +425,13 @@ assessment#:#definition#:#Definition
 assessment#:#definition_image#:#Bild
 assessment#:#definition_text#:#Text
 assessment#:#definitions#:#Definitionen
-assessment#:#delete_all_user_data#:#Testdaten aller Teilnehmer löschen
-assessment#:#delete_all_user_data_confirmation#:#Wollen Sie wirklich die Testdaten aller Teilnehmer löschen?
-assessment#:#delete_area#:#Region löschen
-assessment#:#delete_image#:#Bild löschen
-assessment#:#delete_image_header#:#Bild löschen
-assessment#:#delete_image_question#:#Möchten Sie das Bild wirklich löschen?
-assessment#:#delete_user_data#:#Testdaten löschen
+assessment#:#delete_all_user_data#:#Testdaten aller Teilnehmer entfernen
+assessment#:#delete_all_user_data_confirmation#:#Wollen Sie wirklich die Testdaten aller Teilnehmer v?
+assessment#:#delete_area#:#Region entfernen
+assessment#:#delete_image#:#Bild entfernen
+assessment#:#delete_image_header#:#Bild entfernen
+assessment#:#delete_image_question#:#Möchten Sie das Bild wirklich entfernen?
+assessment#:#delete_user_data#:#Testdaten entfernen
 assessment#:#deleteSuggestedSolution#:#Musterlösung entfernen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
 assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungsdauer des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
@@ -761,12 +761,12 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte F
 assessment#:#qpl_assessment_of_questions#:#Statistische Auswertung der Frage
 assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
-assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen löschen wollen?
+assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen entfernen wollen?
 assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden in die Zwischenablage kopiert
 assessment#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um diese in die Zwischenablage zu kopieren
 assessment#:#qpl_delete_describe_undeleteable_questions#:#Die folgenden Fragen werden von Zufallstests verwendet und können deshalb nicht gelöscht werden:
-assessment#:#qpl_delete_no_deleteable_questions#:#Alle Fragen, die Sie löschen wollen, werden in mindestens einem Zufallstest verwendet.
-assessment#:#qpl_delete_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu löschen!
+assessment#:#qpl_delete_no_deleteable_questions#:#Alle Fragen, die Sie entfernen wollen, werden in mindestens einem Zufallstest verwendet.
+assessment#:#qpl_delete_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu entfernen!
 assessment#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang auszuführen!
 assessment#:#qpl_display_fullsize_image#:#Klicken Sie hier, um die Originalgrafik anzuzeigen!
 assessment#:#qpl_edit_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu bearbeiten!
@@ -910,7 +910,7 @@ assessment#:#terms#:#Terme
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
 assessment#:#test_confirm_template_reset#:#Sind Sie sicher, dass Sie die Vorlage nicht mehr verwenden wollen?
 assessment#:#ass_create_question#:#Frage erstellen
-assessment#:#test_delete_page#:#Frage löschen
+assessment#:#test_delete_page#:#Frage entfernen
 assessment#:#test_edit_settings#:#Einstellungen bearbeiten
 assessment#:#test_enable_view_both#:#Listen- und Seitenansicht
 assessment#:#test_enable_view_express#:#Seitenansicht
@@ -968,7 +968,7 @@ assessment#:#tst_beginning_ending_information#:#Informationen zu Beginn und Ende
 assessment#:#tst_best_solution_is#:#Die bestmögliche Lösung lautet
 assessment#:#tst_browse_for_questions#:#Aus Pool hinzufügen
 assessment#:#tst_change_points_for_question#:#Punkte für die Antwort
-assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Testdurchläufe zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
+assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse entfernen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Testdurchläufe zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!
 assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
 assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit mehr, Anworten einzugeben oder zu korrigieren.
@@ -984,8 +984,8 @@ assessment#:#tst_defaults_defaults_of_test#:#der Einstellungen dieses Tests als 
 assessment#:#tst_defaults_dont_use#:#--- Die ILIAS-Standardeinstellungen für Tests verwenden ---
 assessment#:#tst_defaults_enter_name#:#Bitte geben Sie einen Namen für die neuen Standardeinstellungen an!
 assessment#:#tst_defaults_not_defined#:#Sie haben noch keine Standardeinstellungen definiert.
-assessment#:#tst_delete_all_user_data#:#Alle Benutzerdaten löschen
-assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!
+assessment#:#tst_delete_all_user_data#:#Alle Benutzerdaten entfernen
+assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum entfernen aus!
 assessment#:#tst_delete_results#:#Test zurücksetzen
 assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
 assessment#:#tst_edit_scoring#:#Ändere Bewertung
@@ -1076,7 +1076,7 @@ assessment#:#tst_no_evaluation_data#:#Es liegen (noch) keine Benutzerdaten vor.
 assessment#:#tst_no_export_randomtest#:#Leider können Tests mit einer zufälligen Auswahl von Fragen nicht exportiert werden, da alle beteiligten Fragenpools komplett exportiert werden müssten, was zu einer zu hohen Komplexität der Exportdateien führt.
 assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeugen Sie wenigstens ein einfaches Notenschema!
 assessment#:#tst_no_more_available_questionpools#:#Es stehen keine weiteren Fragenpools zur Verfügung!
-assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum löschen aus!
+assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum entfernen aus!
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Bitte wählen Sie wenigstens eine Frage aus, die Sie in einen Fragenpool überführen möchten!
 assessment#:#tst_no_questionpools_for_random_test#:#Sie haben noch keinen Fragenpool zu diesem Zufallstest hinzugefügt. Bitte wählen Sie wenigstens einen Fragenpool aus!
 assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
@@ -1372,8 +1372,8 @@ assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Sie sind 
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenauswahl wurde geändert.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
 assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#Die Konfiguration für die zufällige Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
-assessment#:#tst_delete_dyn_test_results_btn#:#Testergebnisse löschen
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Bisherige Antworten löschen
+assessment#:#tst_delete_dyn_test_results_btn#:#Testergebnisse entfernen
+assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Bisherige Antworten entfernen
 assessment#:#tst_dyn_test_pass_deletion_button#:#Zurücksetzen sämtlicher Testantworten
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenauswahl
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Fragenpool
