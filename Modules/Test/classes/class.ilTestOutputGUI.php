@@ -1463,7 +1463,15 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			$confirmation->setCancel($this->lng->txt("tst_finish_confirm_cancel_button"), 'backConfirmFinish');
 		}
-		$this->tpl->setVariable($this->getContentBlockName(), $confirmation->getHtml());
+		if($this->object->getKioskMode())
+		{
+			$this->tpl->addBlockfile($this->getContentBlockName(), 'content', "tpl.il_as_tst_kiosk_mode_content.html", "Modules/Test");
+			$this->tpl->setContent($confirmation->getHtml());
+		}
+		else
+		{
+			$this->tpl->setVariable($this->getContentBlockName(), $confirmation->getHtml());
+		}
 	}
 	
 /**
