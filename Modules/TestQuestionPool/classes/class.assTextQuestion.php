@@ -52,7 +52,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 	/* method for automatic string matching */
 	private $matchcondition;
 
-	public $keyword_relation;
+	public $keyword_relation = 'any';
 
 	/**
 	 * assTextQuestion constructor
