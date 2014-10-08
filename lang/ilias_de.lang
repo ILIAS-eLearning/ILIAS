@@ -283,6 +283,7 @@ assessment#:#autosave_info#:#Wenn ausgewählt, werden Antworten im Hintergrund g
 assessment#:#autosave_ival#:#Intervall
 assessment#:#autosave_ival_info#:#Intervall, in dem Antworten im Hintergrund gespeichert werden (in Sekunden)
 assessment#:#for#:#für
+assessment#:#tst_objective_oriented_test_pass_without_questions#:#Der gestartete Durchlauf im Test "%s" enthält keine Fragen.
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
 assessment#:#essay_scoring_mode#:#Bewertungs Modus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
@@ -298,6 +299,8 @@ assessment#:#assessment_scoring_adjust#:#Aktiviere Nachkorrekturmodus
 assessment#:#assessment_scoring_adjust_desc#:#Aktiviert den Nachkorrekturmodus, um nachträglich die Bewertung von Fragen in Tests anzupassen.
 assessment#:#assessment_log_scoring_adjustment_activate#:#Verfügbare Fragetypen für den Nachkorrekturmodus
 assessment#:#assessment_log_scoring_adjustment_desc#:#Gewählte Fragetypen stehen im Nachkorrekturmodus zur Verfügung. Diese Einstellung berücksichtigt nicht, ob die Frage im Nachkorrekturmodus bearbeitet werden kann.
+assessment#:#qpl_reset_preview#:#Vorschau zurücksetzen
+assessment#:#qst_preview_reset_msg#:#Die Vorschau wurde zurückgesetzt.
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#tst_question_not_from_pool_info#:#Kein Pool
 assessment#:#action#:#Aktion
@@ -322,6 +325,7 @@ assessment#:#allow_images#:#Grafikunterstützung für Antworten
 assessment#:#allowedextensions#:#Erlaubte Dateierweiterungen
 assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc,pdf,odt).
 assessment#:#analyze_errortext#:#Text analysieren
+assessment#:#gap_combination#:#Lückentext-Kombination
 assessment#:#answer#:#Antwort
 assessment#:#answer_image#:#Antwort-Grafik
 assessment#:#answer_is_not_correct_but_positive#:#Sie haben Punkte für Ihre Lösung erhalten, allerdings handelt es sich dabei nicht um die beste Lösung
@@ -360,6 +364,7 @@ assessment#:#assImagemapQuestion#:#Hotspot/Imagemap
 assessment#:#assJavaApplet#:#Eingebettete Frage : Java Applet
 assessment#:#assMatchingQuestion#:#Zuordnungsfrage
 assessment#:#assMultipleChoice#:#Multiple Choice
+assessment#:#assKprimChoice#:#Kprim Choice
 assessment#:#assNumeric#:#Numerische Antwort
 assessment#:#assOrderingHorizontal#:#Anordnungsfrage : horizontal
 assessment#:#assOrderingQuestion#:#Anordnungsfrage : vertikal
@@ -394,10 +399,10 @@ assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von [gap][/gap] an der gewünschten Position im Text bzw. durch Betätigen des Buttons. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.
+assessment#:#close_text_hint#:#Um eine Lücke in den Text einzufügen setzen Sie den Cursor an die entsprechende Position und betätigen Sie den Button "Lücke erzeugen". Anschließend stehen weiter unten entsprechende Bearbeitungsbereiche zur Verfügung. Ebenso können Sie die Lücken zur Berarbeitung im Lückentext direkt anclicken.
 assessment#:#insert_gap#:#Lücke einfügen
 assessment#:#cloze_fixed_textlength#:#Länge des Textfeldes
-assessment#:#cloze_fixed_textlength_description#:#Wenn Sie einen Wert größer als 0 eintragen, werden alle Textlücken und numerischen Lücken mit der angegebenen Länge erzeugt
+assessment#:#cloze_fixed_textlength_description#:#Wenn Sie einen Wert größer als 0 eintragen, werden alle Textlücken und numerischen Lücken mit der angegebenen Länge erzeugt, wenn für die einzelnen Lücken keine optionale Länge angegeben wurde. 
 assessment#:#cloze_text#:#Lückentextfrage
 assessment#:#cloze_textgap_case_insensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
 assessment#:#cloze_textgap_case_sensitive#:#Groß- und Kleinschreibung beachten
@@ -504,6 +509,26 @@ assessment#:#errors#:#Fehler
 assessment#:#errors_section#:#Fehlerdaten
 assessment#:#errortext#:#Fehler/Worte markieren
 assessment#:#errortext_info#:#Bitte geben Sie einen Text ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Um eine Gruppe von Fehlerwörtern zu definieren, umklammern Sie die Wörter mit doppelten Klammern (z.B.: Dies ist ((ein Beispiel)) für mehrere Wörter). Wenn Sie auf die Schaltfläche &quot;Text analysieren&quot; klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert.
+assessment#:#score_partsol_enabled#:#Bewertete Teillösungen
+assessment#:#score_partsol_enabled_info#:#Es hat sich als sinnvoll erwiesen, drei korrekte Antworten bereits mit der Hälfte der maximal erreichbaren Punktezahl zu honorieren. Bei weniger als drei korrekten Antworten werden keine Punkte vergeben.
+assessment#:#option_label#:#Optionsbezeichnungen
+assessment#:#option_label_info#:#Die hier konfigurierten Bezeichnungen werden als Beschriftung für die Entscheidungsoptionen verwendet.
+assessment#:#option_label_right_wrong#:#richtig / falsch
+assessment#:#option_label_right#:#richtig
+assessment#:#option_label_wrong#:#falsch
+assessment#:#option_label_plus_minus#:#+ / -
+assessment#:#option_label_plus#:#+
+assessment#:#option_label_minus#:#-
+assessment#:#option_label_applicable_or_not#:#zutreffend / nicht zutreffend
+assessment#:#option_label_applicable#:#zutreffend
+assessment#:#option_label_not_applicable#:#nicht zutreffend
+assessment#:#option_label_adequate_or_not#:#adäquat / nicht adäquat
+assessment#:#option_label_adequate#:#adäquat
+assessment#:#option_label_not_adequate#:#nicht adäquat
+assessment#:#option_label_custom#:#Benutzerdefinierte Bezeichnungen
+assessment#:#option_label_custom_true#:#Bezeichnung für "WAHR"
+assessment#:#option_label_custom_false#:#Bezeichnung für "FALSCH"
+assessment#:#kprim_answers_info#:#Der Multiple Choice Fragetyp "Vierfache Entscheidung richtig/falsch" (Typ K', genannt Kprim) zeichnet sich dadurch aus, dass auf eine Frage oder unvollständige Aussage vier Antworten oder Ergänzungen folgen. Für jede dieser vier Möglichkeiten muss jeweils entschieden werden, ob sie zutrifft (richtig/+) oder nicht zutrifft (falsch/-). Um die maximal erreichbare Punktezahl zu erhalten, müssen alle vier Antworten korrekt sein.
 assessment#:#ass_quest_process_lock#:#Verwende Lock Mechanismus während der Einreichung von Teilnehmer-Lösungen
 assessment#:#ass_quest_process_lock_desc#:#Ohne die Verwendung eines Locking Mechanismus sind Race Conditions während der Einreichung von Lösungsdaten möglich. Diese können zu inkosistenten Test Ergebnissen führen.
 assessment#:#ass_quest_process_lock_mode#:#Lock Modus während der Einreichung von Teilnehmer-Lösungen
@@ -565,6 +590,9 @@ assessment#:#final_statement#:#Abschließende Bemerkung
 assessment#:#final_statement_show#:#Abschließende Bemerkung anzeigen
 assessment#:#final_statement_show_desc#:#Wenn diese Option ausgewählt ist, wird die Abschließende Bemerkung direkt nach dem finalen Beenden eines Tests anzeigt.
 assessment#:#fixed_participants_hint#:#Dieser Test ist nur für diese feste Gruppe von Teilnehmern verfügbar. Wenn Sie den Test für beliebige Teilnehmer verfügbar machen wollen, müssen Sie die Auswahl im Kontrollkästchen für feste Teilnehmer in den Testeinstellungen ändern.
+assessment#:#tst_res_jump_to_participant_hint_opt#:#--Zu Teilnehmer springen--
+assessment#:#tst_res_jump_to_participant_btn#:#Springe
+assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#flashfile#:#Flash-Datei
 assessment#:#forcejs#:#JavaScript für die Ausgabe von Testfragen erzwingen
 assessment#:#forcejs_desc#:#Wenn diese Option ausgewählt ist, wird bei allen Testfragen die JavaScript-basierte Ausgabe herkömmlichen Ausgabe vorgezogen.
@@ -592,15 +620,14 @@ assessment#:#insert_after#:#Einfügen hinter
 assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
 assessment#:#internal_links_update#:#Aktualisierung
-assessment#:#intro_desc#:#Dieser Text erscheint zu Beginn des Test.
 assessment#:#javaapplet#:#Java-Applet
 assessment#:#keywords_hint#:#Um eine automatische Punktevergabe bei einer Frage vom Typ Freitext eingeben zu erreichen, geben Sie hier bitte eine Liste von Schlagwörtern an. Die Schlagwörter müssen durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sein. Ist eines der Schlagwörter im Antworttext vorhanden, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
-assessment#:#kiosk#:#Kiosk-Modus
-assessment#:#kiosk_description#:#Führt den Test im sogenannten Kiosk-Modus aus. Alle Bildschirmelemente, die nicht zum Test gehören, werden ausgeblendet. Die Teilnehmer haben damit keine Möglichkeit, den Test zu verlassen.
-assessment#:#kiosk_options#:#Kiosk-Modus-Einstellungen
-assessment#:#kiosk_options_desc#:#Wählen Sie aus, ob während des Kiosk-Modus der Titel des Tests und/oder der Name des aktuellen Teilnehmers im Kopf der Seite angezeigt wird.
-assessment#:#kiosk_show_participant#:#Name des Teilnehmers anzeigen
-assessment#:#kiosk_show_title#:#Titel des Tests anzeigen
+assessment#:#kiosk#:#Prüfungsansicht
+assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet.
+assessment#:#kiosk_options#:#Angezeigte Informationen
+assessment#:#kiosk_options_desc#:#Die ausgewählten Informationen werden im Kopfbereich der Seite angezeigt.
+assessment#:#kiosk_show_participant#:#Name des Teilnehmers
+assessment#:#kiosk_show_title#:#Titel des Tests
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
@@ -635,6 +662,11 @@ assessment#:#manscoring_questions_not_found#:#Dieser Testdurchlauf beinhaltet ke
 assessment#:#manscoring_results_pass#:#Manuell bewertbare Fragen für Testdurchlauf %s
 assessment#:#manscoring_select_user#:#Bitte wählen Sie einen Teilnehmer aus, den Sie bewerten wollen
 assessment#:#mark_schema#:#Notenschema
+assessment#:#grading_status_passed_msg#:#Herzlichen Glückwunsch! Sie haben den Test <b>bestanden</b>.
+assessment#:#grading_status_failed_msg#:#Schade, leider haben Sie den Test <b>nicht bestanden</b>.
+assessment#:#grading_obligations_answered_msg#:#Alle obligatorischen Fragen wurden beantwortet.
+assessment#:#grading_obligations_missing_msg#:#Nicht alle obligatorischen Fragen wurden beantwortet.
+assessment#:#grading_mark_msg#:#Sie haben die Note &quot;[mark]&quot; erzielt.
 assessment#:#mark_tst_ects#:#Ihre ECTS-Note lautet &quot;[markects]&quot;
 assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
 assessment#:#match_terms_and_pictures#:#Zuordnung von Termen und Bildern
@@ -680,13 +712,21 @@ assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Um einen Test mit zufäll
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Ohne die Angabe einer Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Aktuell können Sie keine neuen Regeln für die Fragenauswahl hinzufügen, da keine Fragenpools zur Verfügung stehen.
 assessment#:#tst_msg_rand_quest_set_change_quest_amount_here#:#Sie können die Fragenanzahl hier einstellen: %s
-assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Regel für Fragenauswahl
+assessment#:#tst_rnd_quest_set_cfilobjtestseg_pool_form#:#Regel für Fragenauswahl
 assessment#:#tst_inp_source_pool_label#:#Fragenpool
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomiefilter
 assessment#:#tst_inp_source_pool_no_tax_filter#:#Verwende keine Taxonomie als Filter
 assessment#:#tst_inp_source_pool_filter_tax_x#:#Verwende Taxonomie "%s" als Filter
 assessment#:#tst_inp_no_available_tax_hint#:#Für den ausgewählten Fragenpool stehen keine Taxonomien zur Verfügung
 assessment#:#tst_msg_source_pool_definitions_deleted#:#Die Regel für die Fragenauswahl wurde erfolgreich gelöscht.
+assessment#:#tst_limit_nr_of_tries#:#Maximale Anzahl von Testdurchläufen
+assessment#:#tst_settings_header_test_run#:#Durchführung: Steuerung Testdurchlauf
+assessment#:#tst_settings_header_intro#:#Informationen zum Einstieg
+assessment#:#tst_settings_header_execution#:#Durchführung: Zugang
+assessment#:#tst_password_enter#:#Testpasswort
+assessment#:#tst_allowed_users_max#:#Maximale Anzahl gleichzeitiger Teilnehmer
+assessment#:#tst_processing_time_duration#:#Maximale Bearbeitungsdauer
+assessment#:#tst_introduction_text#:#Einleitender Text
 assessment#:#msg_rect_added#:#Rechteck hinzugefügt
 assessment#:#msg_selected_for_move#:#Frage(n) zum Verschieben ausgewählt
 assessment#:#no_selection_for_move#:#Keine Frage zum Verschieben ausgewählt
@@ -749,10 +789,11 @@ assessment#:#polygon_click_next_or_save#:#Bitte klicken Sie auf den nächsten Pu
 assessment#:#polygon_click_next_point#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug.
 assessment#:#polygon_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygonzugs.
 assessment#:#postpone#:#Frage zurückstellen
+assessment#:#remove_gap#:#Lücke entfernen
 assessment#:#postponed#:#zurückgestellt
 assessment#:#postpone_status#:#Postponed
 assessment#:#preview#:#Vorschau
-assessment#:#previous_question_rows#:#« Fragen %d - %d von %d
+assessment#:#previous_question_rows#:#<< Fragen %d - %d von %d
 assessment#:#print_answers#:#Antworten drucken
 assessment#:#qpl_qst_edit_form_taxonomy_section#:#Zuordnung zu Taxonomieknoten
 assessment#:#qpl_qst_edit_form_taxonomy#:#Taxonomie "%s"
@@ -802,6 +843,9 @@ assessment#:#qpl_paste_error#:#Mindestens eine Frage konnto nicht in den Fragenp
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Tests eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
 assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum Importieren auswählen!
+assessment#:#qpl_qst_inp_matching_mode#:#Zuordnungsmodus
+assessment#:#qpl_qst_inp_matching_mode_one_on_one#:#Ein Term kann einer Definition zugeordnet werden (1:1)
+assessment#:#qpl_qst_inp_matching_mode_all_on_all#:#Ein oder mehrere Terme können einer oder mehreren Definitionen zugeordnet werden (n:n)
 assessment#:#qst_hint_self#:#Selbstlernkontrolle aktiv! Geben Sie 0 Punkte für falsche und mindestens einen Punkt für richtige Antworten.
 assessment#:#qst_nr_of_tries#:#Anzahl der Versuche
 assessment#:#qt_multiple_choice#:#Multiple Choice
@@ -851,6 +895,7 @@ assessment#:#save_before_upload_javaapplet#:#Sie müssen Ihre Änderungen speich
 assessment#:#save_edit#:#Speichern und Inhalt bearbeiten
 assessment#:#save_finish#:#Test beenden
 assessment#:#save_introduction#:#Zur Startseite
+assessment#:#save_back_to_objective_container#:#Zurück zum Kurs
 assessment#:#save_next#:#Weiter
 assessment#:#save_previous#:#Zurück
 assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern
@@ -889,8 +934,8 @@ assessment#:#shape#:#Form
 assessment#:#show_detailed_results#:#Detaillierte Testergebnisse (bewerteter Testdurchlauf)
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
-assessment#:#showinfo#:#Komplette Info-Seite anzeigen
-assessment#:#showinfo_desc#:#Wenn diese Option ausgewählt ist, wird die komplette Info-Seite (inklusive aller Test-Eigenschaften) für die Test-Teilnehmer angezeigt. Wenn diese Option nicht ausgewählt ist, werden lediglich der einleitende Text (falls vorhanden) und die wirklich benötigten Test-Eigenschaften auf der Info-Seite angezeigt.
+assessment#:#showinfo#:#Testeigenschaften anzeigen
+assessment#:#showinfo_desc#:#Den Benutzern werden alle Testeigenschaften angezeigt, z.B. Reihenfolge, Bewertung oder Ergebnisausgabe.
 assessment#:#showSuggestedSolution#:#Art
 assessment#:#shuffle_answers#:#Antworten mischen
 assessment#:#solution_hint#:#Musterlösung zuordnen
@@ -924,7 +969,7 @@ assessment#:#test_jump_to#:#Zu Frage springen
 assessment#:#test_move_page#:#Frage verschieben
 assessment#:#test_next_question#:#Nächste Frage
 assessment#:#test_prev_question#:#Vorherige Frage
-assessment#:#test_question_pool_usage#:#Auswahl des Fragenpools beim Anlegen von Fragen
+assessment#:#test_question_pool_usage#:#Fragenpools verwenden
 assessment#:#test_question_pool_usage_optional#:#Fragen können optional einem Fragenpool hinzugefügt werden
 assessment#:#test_question_pool_usage_optional_info#:#Die Fragen können in anderen Tests wiederverwendet werden.
 assessment#:#test_question_pool_usage_tst_directly#:#Fragen werden direkt im Test erstellt
@@ -955,7 +1000,7 @@ assessment#:#tst_access_code_created#:#Um Ihnen einen dauerhaften Zugang zu Ihre
 assessment#:#tst_all_user_data_deleted#:#Die Daten aller Testteilnehmer wurden gelöscht!
 assessment#:#tst_allow_fixed_participants#:#Diesen Test nur für feste Teilnehmer verfügbar machen
 assessment#:#tst_allow_instant_verification#:#Direkte Überprüfung der Antworten anbieten
-assessment#:#tst_allowed_users#:#Maximale Anzahl gleichzeitiger Teilnehmer
+assessment#:#tst_allowed_users#:#Begrenzte Anzahl gleichzeitiger Teilnehmer
 assessment#:#tst_allowed_users_time_gap#:#Inaktivitätszeit der Teilnehmer
 assessment#:#tst_already_submitted#:#Der Test wurde bereits beendet und die Antworten abgeschickt.
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
@@ -965,7 +1010,6 @@ assessment#:#tst_anonymity_no_anonymization#:#Keine Anonymisierung
 assessment#:#tst_answer_sheet#:#Test und Assessment - Antwortenübersicht
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
-assessment#:#tst_beginning_ending_information#:#Informationen zu Beginn und Ende des Tests
 assessment#:#tst_best_solution_is#:#Die bestmögliche Lösung lautet
 assessment#:#tst_browse_for_questions#:#Aus Pool hinzufügen
 assessment#:#tst_change_points_for_question#:#Punkte für die Antwort
@@ -990,7 +1034,6 @@ assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenst
 assessment#:#tst_delete_results#:#Test zurücksetzen
 assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
 assessment#:#tst_edit_scoring#:#Ändere Bewertung
-assessment#:#tst_ending_time#:#Endzeit
 assessment#:#tst_enter_questionpool#:#Bitte geben Sie den Namen eines Fragenpools an, in dem die neue Frage abgelegt werden soll
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
 assessment#:#tst_eval_question_points#:#Fragenergebnisse für Testdurchlauf %s
@@ -1021,7 +1064,7 @@ assessment#:#tst_fixed_participants_data_exists#:#Es gibt bereits Teilnehmer, di
 assessment#:#tst_fixed_participants_disable#:#Statuswechsel bestätigen
 assessment#:#tst_fixed_participants_disable_description#:#Sie sind dabei, die Unterstützung für feste Teilnehmer zu deaktivieren. Allerdings befinden sich bereits feste Teilnehmer in diesem Test. Wenn Sie diese Teilnehmer entfernen, werden die Testergebnisse der Teilnehmer nicht gelöscht. Sind Sie sicher, dass Sie weitermachen wollen?
 assessment#:#tst_fixed_participating_users#:#Feste Teilnehmer in diesem Test
-assessment#:#tst_general_properties#:#Allgemeine Einstellungen
+assessment#:#tst_general_properties#:#Einstellungen des Tests
 assessment#:#tst_generate_xls#:#Excel-Datei erzeugen
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
@@ -1037,12 +1080,18 @@ assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Fr
 assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Benutzern durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) hinzufügen wollen?
 assessment#:#tst_instant_feedback#:#Sofortige Rückmeldung - Diese Informationen werden nach der Beantwortung einer Frage angezeigt
 assessment#:#tst_instant_feedback_answer_specific#:#Antwortspezifische Rückmeldungen anzeigen
+assessment#:#tst_instant_feedback_answer_specific_desc#:#Wenn antwortspezifische Rückmeldung ausgewählt wurde, wird eine Rückmeldung abhängig von der Beantwortung der Frage angezeigt, sofern der Fragetyp dies unterstützt.
 assessment#:#tst_instant_feedback_answer_generic#:#Generische Rückmeldung ("Richtig/Falsch") anzeigen
-assessment#:#tst_instant_feedback_description#:#Wenn eine dieser Optionen ausgewählt ist, wird eine direkte Rückmeldung im Anschluss an die Beantwortung einer Frage angezeigt. Wenn antwortspezifische Rückmeldung ausgewählt wurde, wird eine Rückmeldung abhängig von der Beantwortung der Frage angezeigt, sofern der Fragetyp dies unterstützt. Das generische Feedback gibt eine einfache Rückmeldung "richtig" oder "falsch" aus. Wenn das Ergebnis ausgewählt ist, werden die erzielten Punkte angezeigt. Wenn Lösungen ausgewählt ist, wird die korrekte Lösung einer Frage angezeigt.
+assessment#:#tst_instant_feedback_answer_generic_desc#:#Das generische Feedback gibt eine einfache Rückmeldung "richtig" oder "falsch" aus.
+assessment#:#tst_instant_feedback_description#:#Wenn eine dieser Optionen ausgewählt ist, wird eine direkte Rückmeldung im Anschluss an die Beantwortung einer Frage angezeigt.
+assessment#:#tst_instant_feedback_fix_usr_answer#:#Lösung des Teilnehmers fixieren
+assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#Diese Option verursacht eine Fixierung der Lösung des Teilnehmers, wenn das direkte Feedback angefordert wird.
 assessment#:#tst_instant_feedback_results#:#Ergebnisse anzeigen (nur Angabe der erreichten Punkte)
+assessment#:#tst_instant_feedback_results_desc#:#Wenn das Ergebnis ausgewählt ist, werden die erzielten Punkte angezeigt.
 assessment#:#tst_instant_feedback_solution#:#Lösungen anzeigen
+assessment#:#tst_instant_feedback_solution_desc#:#Wenn Lösungen ausgewählt ist, wird die korrekte Lösung einer Frage angezeigt.
 assessment#:#tst_instant_verification#:#Direkte Überprüfung
-assessment#:#tst_introduction#:#Einleitender Text
+assessment#:#tst_introduction#:#Einleitung
 assessment#:#tst_invited_nobody#:#Es wurden keine Benutzer, Gruppen oder Rollen als feste Teilnehmer hinzugefügt
 assessment#:#tst_invited_selected_groups#:#Die ausgewählten Gruppen wurden als feste Teilnehmer hinzugefügt
 assessment#:#tst_invited_selected_roles#:#Die ausgewählten Rollen wurden als feste Teilnehmer hinzugefügt
@@ -1104,19 +1153,20 @@ assessment#:#tst_pass_overview_for_participant#:#Testdurchläufe für Teilnehmer
 assessment#:#tst_pass_scoring#:#Bewertung bei mehreren Testdurchläufen
 assessment#:#tst_pass_scoring_description#:#Normalerweise wird immer der letzte Testdurchlauf eines Teilnehmers bewertet. Falls der beste Testdurchlauf bewertet wird, wird der Testdurchlauf verwendet, bei dem der Teilnehmer die höchste Punktezahl erreicht hat. Diese Einstellungen machen natürlich nur dann Sinn, wenn bei einem Test mehr als ein Testdurchlauf zugelassen wird.
 assessment#:#tst_passes#:#Testdurchläufe
+assessment#:#tst_password_form#:#Eingabe Testpasswort
 assessment#:#tst_password#:#Testpasswort
-assessment#:#tst_password_details#:#Wenn Sie ein Testpasswort definieren, müssen alle berechtigten Teilnehmer dieses Kennwort eingeben, um den Test zu starten.
+assessment#:#tst_password_details#:#Wird ein Testpasswort definiert , müssen Teilnehmer dieses eingeben, um den Test starten zu können.
 assessment#:#tst_password_entered_wrong_password#:#Sie können den Test nicht starten, da Sie ein falsches Testpasswort eingegeben haben!
-assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet werden. Bitte tragen Sie das Kennwort hier ein.
+assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet werden. Bitte tragen Sie das Passwort hier ein.
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_position#:#Frage %s von %s
 assessment#:#tst_postpone#:#Fragen zurückstellen
 assessment#:#tst_postpone_description#:#Wenn diese Option ausgewählt ist, können Teilnehmer einzelne Fragen für die Bearbeitung an das Ende des Tests zurückstellen.
-assessment#:#tst_presentation_properties#:#Darstellungseigenschaften
+assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_print_date#:#Datum des Ausdrucks
 assessment#:#tst_processing_time#:#Maximale Bearbeitungsdauer
-assessment#:#tst_processing_time_desc#:#Die maximale Bearbeitungsdauer beginnt mit dem Zeitpunkt, an dem der jeweilige Teilnehmer zum ersten Mal diesen Test startet, und endet nach Ablauf der hier ausgewählten Zeitspanne. Wird diese Option genutzt, sollte die Möglichkeit, den Test zu unterbrechen (siehe Einstellungen Reihenfolge), nicht aktiviert sein. Durch das Unterbrechen des Tests wird das Herunterzählen der Bearbeitungsdauer nicht angehalten.
+assessment#:#tst_processing_time_desc#:#Die Bearbeitungsdauer für den Test wird zeitlich eingegrenzt.
 assessment#:#tst_properties#:#Test-Eigenschaften
 assessment#:#tst_qst_order#:#Reihenfolge
 assessment#:#tst_qst_resetsolved#:#markiere als ungelöst
@@ -1163,7 +1213,7 @@ assessment#:#tst_report_after_question#:#Ergebnis nach jeder beantworteten Frage
 assessment#:#tst_report_after_test#:#Testergebnisse erst nach Abschluss eines Testdurchlaufs anbieten
 assessment#:#tst_report_never#:#Die Testergebnisse sind nicht einsehbar
 assessment#:#tst_reset_processing_time#:#Maximale Bearbeitungsdauer für jeden Testlauf zurücksetzen
-assessment#:#tst_reset_processing_time_desc#:#Ist diese Option ausgewählt, wird die maximale Bearbeitungsdauer nach jedem abgeschlossenen Testdurchlauf wieder zurückgesetzt. Damit steht die maximale Bearbeitungsdauer für jeden Testdurchlauf zur Verfügung. Die Einstellung funktioniert nur, wenn eine maximale Bearbeitungsdauer festgelegt ist und mehrere Testdurchläufe erlaubt sind.
+assessment#:#tst_reset_processing_time_desc#:#Die maximale Bearbeitungsdauer steht für jeden Testdurchlauf zur Verfügung.
 assessment#:#tst_result#:#Testergebnis
 assessment#:#tst_result_user_name#:#Testergebnisse für %s
 assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
@@ -1174,6 +1224,11 @@ assessment#:#tst_results_access_date#:#Datum
 assessment#:#tst_results_access_description#:#Diese Option regelt den Zugang der Teilnehmer zu ihren Testergebnissen. Wenn auf die Testergebnisse nach Beendigung des Tests zugegriffen werden kann, wird nach dem erstmaligen Abschließen eines Testdurchlaufs eine Schaltfläche zu den Testergebnissen angeboten. Wenn ein Datum und eine Uhrzeit angegeben werden, können die Teilnehmer erst auf die Testergebnisse zugreifen, wenn das Datum und die Uhrzeit erreicht sind. Wenn auf die Testergebnisse immer zugegriffen werden kann, dürfen die Teilnehmer die Ergebnisse jederzeit einsehen, selbst wenn sie den Test noch nicht vollständig durchlaufen haben. Ist 'Nie' ausgewählt, haben die Teilnehmer keinen Zugriff auf die Testergebnisse.
 assessment#:#tst_results_access_finished#:#Nach Beendigung eines Testdurchlaufs
 assessment#:#tst_results_access_never#:#Nie
+assessment#:#tst_results_grading#:#Bewertung in Testergebnissen
+assessment#:#tst_results_grading_opt_show_both#:#Zeige den Status Bestanden/Nicht bestanden und die resultierende Note
+assessment#:#tst_results_grading_opt_show_none#:#Zeige weder den Status Bestanden/Nicht bestanden  noch die resultierende Note
+assessment#:#tst_results_grading_opt_show_status#:#Zeige nur den Bestanden/Nicht bestanden Status
+assessment#:#tst_results_grading_opt_show_mark#:#Zeige nur die resultierende Note
 assessment#:#tst_results_aggregated#:#Aggregierte Testergebnisse
 assessment#:#tst_results_back_evaluation#:#Zurück zur Auswertungsübersicht
 assessment#:#tst_results_back_introduction#:#Zurück zur Startseite
@@ -1185,7 +1240,7 @@ assessment#:#tst_results_presentation_description#:#Wird die Ergebnisübersicht 
 assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung in Testergebnissen
 assessment#:#tst_results_print_best_solution_info#:#Falls aktiviert, und die Teilnehmer Zugang zu ihren Testergebnissen haben, wird den Lernenden die bestmögliche Lösung präsentiert.
 assessment#:#tst_resume_test#:#Test fortsetzen
-assessment#:#tst_saved_manscoring_successfully#:#Die manuelle Bewertung für Testdurchlauf %s wurde erfolgreich gespeichert.
+assessment#:#tst_saved_manscoring_successfully#:#Die manuelle Bewertung für Testdurchlauf %s von %s wurde erfolgreich gespeichert.
 assessment#:#tst_save_manscoring_failed#:#Die manuelle Bewertung für Testdurchlauf %s konnte nicht gespeichert werden.
 assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#Die maximale Anzahl von %s Punkt(en) ist überschritten!
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximale Punktezahl für die Frage
@@ -1213,8 +1268,9 @@ assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählten Be
 assessment#:#tst_sequence#:#Reihenfolge
 assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten werden
 assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchlaufs zurückgestellt werden
-assessment#:#tst_sequence_properties#:#Einstellungen Reihenfolge
-assessment#:#tst_session_settings#:#Einstellungen Arbeitssitzung
+assessment#:#tst_sequence_properties#:#Durchführung: Funktionen für Teilnehmer
+assessment#:#tst_final_information#:#Abschliessen: Informationen zu Abschluss
+assessment#:#tst_session_settings#:#Durchführung
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde auf Offline gesetzt, da der Testmodus gewechselt wurde. Sie müssen eine neue Testmodus-bezogene Fragenkonfiguration erstellen, bevor Sie den Test wieder online setzen können.
 assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#Der Test konnte nicht auf online gesetzt werden, da der Testmodus gewechselt wurde. Sie müssen eine neue Testmodus-bezogene Fragenkonfiguration erstellen, bevor Sie den Test wieder online setzen können.
 assessment#:#tst_settings_template#:#Vorlage
@@ -1239,7 +1295,8 @@ assessment#:#tst_single_results#:#Ergebnisse zu Einzelfragen
 assessment#:#tst_start_new_test_pass#:#Neuen Testdurchlauf starten
 assessment#:#tst_start_test#:#Test starten
 assessment#:#tst_started#:#Test gestartet
-assessment#:#tst_starting_time#:#Startzeit
+assessment#:#tst_starting_time#:#Frühester Start
+assessment#:#tst_ending_time#:#Spätester Abschluß
 assessment#:#tst_stat_all_users#:#Alle  Benutzer
 assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr Benutzer aus der Liste aus)
 assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungsdauer
@@ -1287,7 +1344,7 @@ assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werd
 assessment#:#tst_tst_date#:#Datum des Tests
 assessment#:#tst_type#:#Test-Typ
 assessment#:#exam_id#:#Klausurnummer: 
-assessment#:#examid_in_kiosk#:#Klausurnummer im Kiosk-Modus anzeigen 
+assessment#:#examid_in_kiosk#:#ILIAS-Prüfungsnummer
 assessment#:#show_exam_id#:#Klausurnummer anzeigen 
 assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits durchgeführten Tests wurden gelöscht!
 assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem laufenden Test löscht alle bereits durchgeführten Tests!
@@ -1364,11 +1421,11 @@ assessment#:#tst_rnd_quest_cfg_tab_general#:#Konfiguration Fragenauswahl
 assessment#:#tst_rnd_quest_cfg_tab_pool#:#Ausgewählte Fragenpools
 assessment#:#tst_question_set_type#:#Testmodus
 assessment#:#tst_question_set_type_fixed#:#Test mit fest definierter Fragenauswahl
-assessment#:#tst_question_set_type_fixed_desc#:#In diesem Modus kann eine feste Auswahl von Fragen definiert werden, welche für alle Teilnehmer gilt. Abhängig von der weiteren Konfiguration des Tests haben die Teilnehmer einen oder mehrere Versuche für den Test.
+assessment#:#tst_question_set_type_fixed_desc#:#Allen Teilnehmern werden die gleichen Fragen gestellt.
 assessment#:#tst_question_set_type_random#:#Test mit zufälliger Fragenauswahl
-assessment#:#tst_question_set_type_random_desc#:#In diesem Modus werden ein oder mehrere Fragenpool(s) ausgewählt, aus welchem für jeden Teilnehmer eine eigene zufällige Fragenauswahl verwendet wird. Abhängig von der weiteren Konfiguration des Tests haben die Teilnehmer einen oder mehrere Versuche für den Test.
+assessment#:#tst_question_set_type_random_desc#:#Jedem Teilnehmer werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
 assessment#:#tst_question_set_type_dynamic#:#Fortlaufender Test über Fragenpool
-assessment#:#tst_question_set_type_dynamic_desc#:#In diesem Modus wird genau ein Fragenpool ausgewählt. Die Testdurchführung erfolgt in einem niemals endenden Durchlauf, in welchem die Fragenauswahl für jeden Teilnehmer individuell und zur Laufzeit erfolgt.
+assessment#:#tst_question_set_type_dynamic_desc#:#Allen Teilnehmern werden Fragen aus einem Fragenpool gestellt. Falsch beantwortete Fragen werden erneut vorgelegt.
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Sie sind im Begriff den Test-Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test-Modus-abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen, wenn Sie den Test-Modus ändern.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenauswahl wurde geändert.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
@@ -1407,6 +1464,29 @@ assessment#:#tst_num_marked_questions#:#Markierte Fragen
 assessment#:#tst_change_dyn_test_question_selection#:#Aktuelle Fragenauswahl ändern
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
+assessment#:#tst_activate_skill_service#:#Kompetenzservice aktivieren
+assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Der Kompetenzservice wurde aufgrund des Testmodus ohne feste Fragenauswahl deaktiviert.
+assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#Die Aktivierung des Kompetenzservice ist aufgrund des Testmodus ohne feste Fragenauswahl nicht möglich.
+assessment#:#tst_tab_competences#:#Kompetenzen
+assessment#:#tst_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
+assessment#:#tst_skl_sub_tab_thresholds#:#Kompetenz-Schwellenwerte
+assessment#:#tst_msg_skl_lvl_thresholds_saved#:#Die Kompetenz-Schwellenwerte wurden gespeichert.
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenz-Punkte wurden gespeichert.
+assessment#:#tst_competence#:#Kompetenz
+assessment#:#tst_assign_competence#:#Kompetenz zuordnen
+assessment#:#tst_remove_competence#:#Kompetenz entfernen
+assessment#:#tst_comp_points#:#Kompetenz-Punkte
+assessment#:#tst_save_comp_points#:#Speichere Kompetenz-Punkte
+assessment#:#tst_num_questions#:#Anzahl Fragen
+assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
+assessment#:#tst_level#:#Kompetenz Level
+assessment#:#tst_threshold#:#Schwellenwert
+assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
+assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse anzeigen
+assessment#:#tst_analysis#:#Analyse
+assessment#:#tst_all_test_competences#:#Alle Test-Kompetenzen
+assessment#:#tst_gap_analysis#:#Gap-Analyse
+assessment#:#tst_test_result#:#Test Ergebnis
 assessment#:#feedback_setting#:#Modus des antwortspezifischen Feedback.
 assessment#:#feedback_all#:#Zeige Feedback bei allen Antwortmöglichkeiten.
 assessment#:#feedback_checked#:#Zeige Feedback bei ausgewählten Antworten des Prüflings.
@@ -1431,6 +1511,16 @@ assessment#:#test_scoring#:#Bewertungsoptionen
 assessment#:#test_presentation#:#Ausgabeoptionen
 assessment#:#test_results#:#Ergebnisausgabeoptionen
 assessment#:#misc#:#Verschiedene Optionen
+assessment#:#tst_back_to_top#:#Zurück nach oben
+assessment#:#tst_back_to_question_list#:#Zurück zur Fragenliste
+assessment#:#tst_results_tax_filters#:#Ergebnisfilter
+assessment#:#tst_back_to_pass_details#:#Zurück zur Übersicht des Durchlaufs
+assessment#:#tst_answer_details#:#Antwortdetails
+assessment#:#tst_list_answer_details#:#Zeige in Liste unterhalb
+assessment#:#tst_single_answer_details#:#Zeige einzelne Antwort
+assessment#:#tst_pass_details_overview_table_title#:#Detaillierte Testergebnisse für Testdurchlauf %s
+assessment#:#tst_btn_show_best_solutions#:#Zeige bestmögliche Lösungen
+assessment#:#tst_btn_hide_best_solutions#:#Verstecke bestmögliche Lösungen
 assessment#:#saved_adjustment#:#Veränderung gespeichert.
 assessment#:#sign_submission#:#Digitale Signatur von Testabgaben
 assessment#:#sign_submission_info#:#Wenn diese Option aktiviert wurde und ein Signatur-Plugin installiert und aktiviert ist, werden Teilnehmer aufgefordert ihre Testabgabe zu signieren.
@@ -2643,7 +2733,7 @@ common#:#crs_copy_threads_info#:#Bitte wählen Sie aus, welche Kursmaterialien k
 rbac#:#rbac_create_fold#:#Ordner anlegen
 rbac#:#crs_delete#:#Kurs löschen oder verschieben
 common#:#crs_edit#:#Einstellungen des Kurses
-rbac#:#crs_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#crs_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#crs_edit_permission#:#Rechteeinstellungen ändern
 common#:#crs_info#:#Info
 rbac#:#crs_join#:#Kurs beitreten
@@ -2891,8 +2981,8 @@ common#:#exc_download_all#:#Alle herunterladen
 common#:#exc_download_files#:#Download-Dateien
 common#:#exc_download_new#:#Neue herunterladen
 common#:#exc_edit#:#Eine neue Übung wurde angelegt
-common#:#exc_edit_exercise#:#Einstellungen der Übung
-rbac#:#exc_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+common#:#exc_edit_exercise#:#Übung bearbeiten
+rbac#:#exc_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#exc_edit_permission#:#Rechteeinstellungen ändern
 common#:#exc_edit_until#:#Zu bearbeiten bis
 common#:#exc_exercise_sent#:#Übung versandt
@@ -3036,7 +3126,7 @@ rbac#:#fold_copy#:#Ordner kopieren
 common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 rbac#:#fold_delete#:#Ordner löschen oder verschieben
 common#:#fold_edit#:#Ordner bearbeiten
-rbac#:#fold_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#fold_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#fold_edit_permission#:#Rechteeinstellungen ändern
 common#:#fold_new#:#Neuen Ordner anlegen
 rbac#:#fold_read#:#Lesezugriff auf Ordner
@@ -3205,7 +3295,7 @@ common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
 common#:#grp_dismiss_myself#:#Möchten Sie sich aus der Gruppe austragen?
 common#:#grp_edit#:#Einstellungen der Gruppe
-rbac#:#grp_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#grp_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#grp_edit_permission#:#Rechteeinstellungen ändern
 common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein Gruppenadministrator benötigt
@@ -3304,7 +3394,7 @@ common#:#htlm_add#:#HTML-Lernmodul anlegen
 rbac#:#htlm_copy#:#HTML-Lernmodul kopieren
 rbac#:#htlm_delete#:#HTML-Lernmodul löschen
 common#:#htlm_edit#:#Eigenschaften des HTML-Lernmoduls bearbeiten
-rbac#:#htlm_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#htlm_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#htlm_edit_permission#:#Rechteeinstellungen ändern
 common#:#htlm_new#:#Neues HTML-Lernmodul anlegen
 rbac#:#htlm_read#:#HTML-Lernmodul lesen
@@ -3561,7 +3651,7 @@ common#:#lm_added#:#ILIAS-Lernmodul angelegt
 rbac#:#lm_copy#:#ILIAS-Lernmodul kopieren
 common#:#lm_create#:#Neues ILIAS-Lernmodul anlegen
 rbac#:#lm_delete#:#ILIAS-Lernmodul löschen
-rbac#:#lm_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#lm_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#lm_edit_permission#:#Rechteeinstellungen ändern
 common#:#lm_join#:#ILIAS-Lernmodul abonnieren
 common#:#lm_leave#:#ILIAS-Lernmodulabonnement aufheben
@@ -4537,7 +4627,7 @@ common#:#rolt_add#:#Rollenvorlage anlegen
 common#:#rolt_added#:#Rollenvorlage angelegt
 common#:#rolt_edit#:#Rollenvorlage bearbeiten
 common#:#rolt_new#:#Neue Rollenvorlage
-rbac#:#rbac_create_cat#:#Kategorien anlegen
+rbac#:#rbac_create_cat#:#Benutzer kann Kategorien anlegen
 common#:#root_edit#:#Systemknoten bearbeiten
 rbac#:#root_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#root_read#:#Lesezugriff auf ILIAS-System
@@ -4551,7 +4641,7 @@ common#:#sahs#:#Lernmodul SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC-Lernmodul angelegt
 common#:#sahs_create#:#Neues SCORM/AICC-Lernmodul anlegen
 rbac#:#sahs_delete#:#SCORM/AICC-Lernmodul löschen oder verschieben
-rbac#:#sahs_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#sahs_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#sahs_edit_permission#:#Rechteeinstellungen ändern
 common#:#sahs_insert_chap_from_clip#:#Füge Kapitel aus Zwischenablage ein
 common#:#sahs_insert_page_from_clip#:#Füge Seiten aus Zwischenablage ein
@@ -4908,6 +4998,8 @@ common#:#to_desktop#:#Auf Schreibtisch legen
 common#:#to_filter#:#Filtern
 common#:#today#:#Heute
 common#:#toggle_hidden_sections#:#Weitere Informationen anzeigen
+common#:#show_hidden_sections#:#Weitere Informationen anzeigen &raquo;
+common#:#hide_visible_sections#:#Weitere Informationen verbergen &raquo;
 common#:#toggleGlobalDefault#:#Standard-Stylesheet umschalten
 common#:#toggleGlobalFixed#:#Einheits-Stylesheet umschalten
 common#:#tomorrow#:#Morgen
@@ -4936,7 +5028,7 @@ common#:#tst_add#:#Test anlegen
 common#:#tst_anon_eval#:#Resultate
 rbac#:#tst_copy#:#Test kopieren
 rbac#:#tst_delete#:#Test löschen oder verschieben
-rbac#:#tst_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#tst_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_edit_questions#:#Fragen bearbeiten
 common#:#tst_new#:#Neuen Test anlegen
@@ -5132,6 +5224,7 @@ common#:#usrimport_xml_attribute_value_inapplicable#:#Wert "%3$s" des Attributs 
 common#:#usrimport_xml_element_content_illegal#:#Inhalt "%2$s" des Elements "%1$s" ist ungültig.
 common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" muss für "%2$s" Aktion angegeben werden.
 common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" ist für "%2$s" Aktion nicht anwendbar.
+common#:#usrimport_xml_pw_bcrypt_missing_salt#:#Kann Passwort nicht importieren, da für die gewählte Kodierung kein Salt vorhanden ist.
 common#:#valid#:#Gültig
 common#:#validate#:#Validieren
 common#:#value#:#Wert
@@ -5691,7 +5784,7 @@ content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
 content#:#cont_lm_comments_desc#:#Erlaubt es Benutzern öffentliche Kommentare auf allen Lernmodulseiten hinzuzufügen.
 content#:#cont_lm_default_layout#:#Standardlayout des Lernmoduls
 content#:#cont_lm_menu#:#Menü
-content#:#cont_lm_properties#:#Eigenschaften des Lernmoduls
+content#:#cont_lm_properties#:#Einstellungen des Lernmoduls
 content#:#cont_localfile#:#Lokale Datei
 content#:#cont_localization#:#Sprache
 content#:#cont_localization_info#:#Die Einstellung wird für vordefinierte Texte im Modul (z.B. "Vor" / "Zurück") benötigt.
@@ -5811,7 +5904,7 @@ content#:#cont_page_compare#:#Vergleiche ausgewählte Änderungen
 content#:#cont_page_currently_deactivated#:#Diese Seite ist momentan deaktiviert.
 content#:#cont_page_deactivated#:#Die Seite ist deaktiviert
 content#:#cont_page_deactivated_elements#:#Die Seite enthält deaktivierte Elemente
-content#:#cont_page_header#:#Als Seitenüberschrift angezeigt wird:
+content#:#cont_page_header#:#Seitenüberschrift
 content#:#cont_page_layout#:#Seitenlayout
 content#:#cont_page_link#:#Link zur Seite
 content#:#cont_page_select_target_now#:#Wählen Sie jetzt das Ziel, wohin die Seite verschoben werden soll.
@@ -6081,7 +6174,7 @@ content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_title#:#Titel
 content#:#cont_title_footnotes#:#Fußnoten
 content#:#cont_toc#:#Inhaltsverzeichnis
-content#:#cont_toc_mode#:#Inhaltsverzeichnis enthält:
+content#:#cont_toc_mode#:#Inhaltsverzeichnis
 content#:#cont_top#:#Oben
 content#:#cont_total_time#:#Gesamtzeit
 content#:#cont_tracking_bysco#:#Nach Kapiteln
@@ -6221,7 +6314,7 @@ content#:#text_repr_info#:#Wird verwendet, wenn die Grafik nicht angezeigt werde
 crs#:#activation_times_not_valid#:#Die Zeidauer für 'Verfügbarkeit' ist nicht gültig.
 crs#:#add_event#:#Sitzung hinzufügen
 crs#:#assigned#:#Zugeordnet
-crs#:#contact_email_not_valid#:#Die E-Mail-Adresse ist nicht gültig.
+crs#:#contact_email_not_valid#:#Die E-Mail Adresse ist nicht gültig.
 crs#:#crs_accept_subscriber#:#Aufnahme in Kurs "%s"
 crs#:#crs_accept_subscriber_body#:#Sie sind in den Kurs "%s" aufgenommen worden.
 crs#:#crs_access#:#Zugang
@@ -7487,7 +7580,7 @@ exc#:#exc_msg_all_mandatory_ass#:#Sie müssen alle obligatorischen Übungseinhei
 exc#:#exc_msg_failed_mandatory#:#Sie haben mindestens eine obgligatorische Übungseinheit nicht bestanden.
 exc#:#exc_msg_min_number_ass#:#Sie müssen mindestens %s Übungseinheiten bestehen um die Übung zu bestehen.
 exc#:#exc_msg_missed_minimum_number#:#Sie haben die Mindestanzahl an Übungseinheiten nicht bestanden.
-exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde eine neue Feedback-Datei zur Übungen "%s" hinzugefügt.
+exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde eine neue Feedback-Datei zur Übung "%s" hinzugefügt.
 exc#:#exc_msg_new_feedback_file_uploaded2#:#Eine neue Feedback-Datei wurde für Sie hochgeladen.
 exc#:#exc_msg_participants_removed#:#Die Teilnehmer wurden aus der Übung entfernt.
 exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
@@ -8335,7 +8428,7 @@ meta#:#md_adv_import_record#:#Datensatz importieren
 meta#:#md_adv_no_fields#:#Keine Felder definiert
 meta#:#md_adv_placeholder_for#:#Platzhalter für:
 meta#:#md_adv_placeholders#:#Platzhalter
-meta#:#md_adv_record_list#:#Datensätze und Darstellung
+meta#:#md_adv_record_list#:#Datensätze
 meta#:#md_adv_records#:#Enthaltene Datensätze
 meta#:#md_adv_records_exported#:#Eine neue Exportdatei wurde angelegt.
 meta#:#md_adv_searchable#:#Durchsuchbar
@@ -9793,7 +9886,7 @@ rbac#:#crsr_read#:#Lesezugriff auf Kurs-Referenzen
 rbac#:#crsr_visible#:#Kurs-Referenzen sind sichtbar und können genutzt werden
 rbac#:#crsr_write#:#Einstellungen der Kurs-Referenzen bearbeiten
 rbac#:#edit_event#:#Kalender bearbeiten
-rbac#:#edit_learning_progress#:#Lernfortschritt bearbeiten
+rbac#:#edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 rbac#:#edit_permission#:#Rechteeinstellungen ändern
 rbac#:#export_member_data#:#Zugriff Benutzerdaten
 rbac#:#facs_edit_permission#:#Rechteeinstellung für die Administration ändern
@@ -9965,7 +10058,7 @@ rbac#:#rbac_create_tst#:#Test anlegen
 rbac#:#rbac_create_webr#:#Weblink anlegen
 rbac#:#rbac_create_wiki#:#Wiki anlegen
 rbac#:#rbac_create_bibl#:#Literaturliste anlegen
-rbac#:#rbac_create_cld#:#Cloud-Objekt anlegen
+rbac#:#rbac_create_cld#:#Cloud-Objekt erstellen
 rbac#:#sess_delete#:#Sitzung löschen
 rbac#:#sess_edit_event#:#Kalendertermine bearbeiten
 rbac#:#sess_edit_permission#:#Rechteeinstellungen ändern
@@ -11084,8 +11177,8 @@ survey#:#import_error_opening_file#:#Fehler beim Öffnen der Importdatei!
 survey#:#import_error_survey_no_proper_values#:#Die Umfrage-Eigenschaften beinhalten keine korrekten Werte!
 survey#:#import_error_survey_no_properties#:#Keine Umfrage-Eigenschaften gefunden.
 survey#:#import_from_dataset#:#Import aus einem Datensatz
-survey#:#import_from_file#:#Import aus einer Datei
-survey#:#import_from_text#:#Import aus einem Text
+survey#:#import_from_file#:#Import von Benutzerdaten aus einer Datei
+survey#:#import_from_text#:#Import von Benutzerdaten aus einem Text
 survey#:#import_no_file_selected#:#Keine Datei ausgewählt!
 survey#:#import_question#:#Frage(n) importieren
 survey#:#import_wrong_file_type#:#Falscher Dateityp!
@@ -11123,7 +11216,7 @@ survey#:#mailaddresses#:#Empfängeradressen
 survey#:#mailaddresses_info#:#Tragen Sie hier eine kommagetrennte Liste der Empfänger ein, an die eine Benachrichtigung über abgeschlossene Umfragen versendet werden soll.
 survey#:#mailnotification#:#E-Mail-Benachrichtigung
 survey#:#mailparticipantdata#:#Zusätzliche Teilnehmerdaten
-survey#:#mailparticipantdata_info#:#Fügen Sie einen einleitenden Text hinzu, der vor den Ergebnisdaten eines Teilnehmers in die E-Mail eingetragen wird. 
+survey#:#mailparticipantdata_info#:#Fügen Sie einen einleitenden Text hinzu, der vor den Ergebnisdaten eines Teilnehmers in die E-Mail eingetragen wird.
 survey#:#maintenance#:#Teilnehmer
 survey#:#manage_phrases#:#Meine Phrasen
 survey#:#material#:#Material
@@ -12235,6 +12328,7 @@ dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_add#:#Datensammlung anlegen
 dcl#:#dcl_copy#:#Datensammlung kopieren
 dcl#:#dcl_edit#:#Datensammlung bearbeiten
+dcl#:#dcl_import#:#Datensammlung importieren
 dcl#:#dcl_in_export#:#Im Export
 rbac#:#dcl_visible#:#Datensammlung ist sichtbar
 rbac#:#dcl_read#:#Datensammlung lesen
@@ -12293,6 +12387,15 @@ dcl#:#dcl_unique_exception#:#Der eingegebene Wert wird schon von einem anderen E
 dcl#:#dcl_unknown_exception#:#Der eingegebene Wert ist nicht gültig.
 dcl#:#dcl_notimage_exception#:#Die Datei muss ein Bild sein.
 dcl#:#dcl_please_select#:#--- Bitte wählen ---
+dcl#:#dcl_asc#:#Aufsteigende Reihenfolge (ASC)
+dcl#:#dcl_desc#:#Absteigende Reihenfolge (DESC)
+dcl#:#dcl_comments#:#Kommentare
+dcl#:#dcl_comments_description#:#Zeigt die Anzahl Kommentare eines Datensatzes.
+dcl#:#dcl_manage#:#Verwalten
+dcl#:#dcl_delete_records#:#Datensätze löschen
+dcl#:#dcl_confirm_delete_records#:#Sind Sie sicher, dass die folgenden Datensätze gelöscht werden sollen?
+dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht
+dcl#:#dcl_skipped_delete_records#:#%s Datensätze wurden aufgrund der Rechteeinstellungen nicht gelöscht
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.
@@ -12336,8 +12439,8 @@ rep#:#rep_visibility_limitless#:#Unbegrenzt
 rep#:#rep_visibility_until#:#Zeitlich begrenzte Verfügbarkeit
 assessment#:#tst_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Einstellung für Teilnehmer.
 assessment#:#tst_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Einstellung für Teilnehmer, nur während eines definierten Zeitraums freizuschalten.
-assessment#:#tst_activation_online_info#:#Falls nicht online, haben nur Administratoren Zugriff auf den Test
-assessment#:#tst_activation_limited_visibility_info#:#Falls aktiv, ist der Test auch außerhalb der Zugriffszeiten sichtbar.
+assessment#:#tst_activation_online_info#:#Nur wenn der Test online geschaltet ist, können Benutzer am Test teilnehmen.
+assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden.
 book#:#booking_nr_of_items#:#Anzahl
 book#:#book_schedule_type_fixed#:#Fester Zeitplan
 book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beamer, etc.
@@ -12347,6 +12450,9 @@ book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, daß Sie das folgende
 forum#:#sort_by_posts#:#Nach Beiträgen sortieren
 forum#:#forums_forum_notification_disabled#:#Sie werden nicht mehr über neue Beiträge in diesem Forum benachrichtigt.
 forum#:#number_of_threads#:#Anzahl dargestellter Themen pro Seite
+forum#:#frm_rating#:#Bewertung
+forum#:#enable_thread_ratings#:#Themen bewerten
+forum#:#enable_thread_ratings_info#:#Falls aktiviert, können Themen dieses Forums von Benutzern bewertet werden.
 common#:#obj_poll#:#Abstimmung
 common#:#objs_poll#:#Abstimmungen
 common#:#obj_poll_dupliate:#:#Abstimmung kopieren
@@ -12594,6 +12700,11 @@ dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_export_enabled#:#Tabellen export für alle Benutzer erlauben
 dcl#:#dcl_inconsistent_at#:#Die Datenbank ist inkonsisten. Eine Referenz existiert nicht mehr.
+dcl#:#dcl_formula#:#Formel
+dcl#:#dcl_prop_expression#:#Ausdruck
+dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Verwenden Sie Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken.<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s
+dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
+dcl#:#dcl_display_action_menu#:#Das referenzierte Modul kann kopiert oder verlinkt werden
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool-Einstellungen
 common#:#obj_tool_setting_calendar#:#Kalender
@@ -12686,7 +12797,7 @@ dcl#:#dcl_record_edit_viewdefinition#:#Bearbeite Seitenvorlage
 dcl#:#dcl_record_list_viewdefinition#:#Liste der Seitenvorlagen
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
-dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http://) oder eine E-Mail Adresse ein.
+dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http://) oder eine Email Adresse ein.
 dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert, dadurch funktionieren unter Umständen die Platzhalter in der Seitenvorlage nicht mehr, diese müssen gegebenenfalls manuell angepasst werden.
 dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_table_title_unique#:#Es existiert bereits eine Tabelle mit diesem Titel. Titel muss eindeutig sein.
@@ -12746,7 +12857,7 @@ dcl#:#dcl_record_deleted#:#Eintrag gelöscht
 dcl#:#dcl_ILIAS_reference#:#Link zu einem ILIAS-Modul
 dcl#:#dcl_learning_progress#:#Zeige den Lernfortschritt des verlinkten Moduls bezüglich des Betrachters
 dcl#:#dcl_status#:#Dein Status
-dcl#:#dcl_mob#:#Bild
+dcl#:#dcl_mob#:#Medienobjekt
 dcl#:#dcl_width#:#Breite
 dcl#:#dcl_height#:#Höhe
 dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer mit dem Recht "Eintragen" in dieser Datensammlung tun dürfen. 
@@ -12810,6 +12921,7 @@ dcl#:#dcl_permissions_form#:#Berechtigungen
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt, daher können noch keine Einträge eingefügt werden.
 dcl#:#dcl_create_fields#:#Bitte erstellen Sie neue Felder unter dem "Felder" Tab.
 dcl#:#fieldtitle_allow_chars#:#Erlaubte Zeichen: %s
+dcl#:#add_value#:#Neuen Wert hinzufügen
 rating#:#rating_number_votes#:#%s Bewertungen
 administration#:#system_check_no_owner#:#Objekte ohne Besitzer
 blog#:#blog_import#:#Blog importieren
@@ -12899,7 +13011,7 @@ help#:#help_tooltips_and_help#:#Tooltips und Handlungsanweisungen
 help#:#help_help_only#:#Nur Handlungsanweisungen
 help#:#help_tooltips_only#:#Nur Tooltips
 help#:#help_set_mode#:#Hilfemodus setzen
-poll#:#poll_result#:#Abstimmungsergebnis
+poll#:#poll_result#:#Ergebnisse
 fold#:#fold_copy#:#Ordner kopieren
 rbac#:#rfil_delete#:#ECS-Kategorie löschen
 rbac#:#rfil_edit_permission#:#Rechteeinstellungen ändern
@@ -13019,7 +13131,7 @@ forum#:#error_same_thread_ids#:#Es müssen zwei verschiedene Themen ausgewählt 
 forum#:#frm_merge_src#:#Ausgewähltes Thema: %s
 forum#:#frm_merge_target#:#Ziel: %s
 forum#:#merged_threads_successfully#:#Die selektierten Themen wurden erfolgreich zusammengeführt
-forum#:#switch_threads_for_merge#:#Das ausgewählte Thema ist älter als das Zielthema. Um eine sinnvolle Zusammenführung zu schaffen, werden Quell- und Zielthema getauscht.
+forum#:#switch_threads_for_merge#:#Das augewählte Thema ist älter als das Ziel-Thema. Um eine erfolgreiche Zusammenführung zu gewährleisten werden Quell- und Ziel-Thema getauscht.
 assessment#:#oq_btn_nest_terms#:#Zur Ansicht: Terme gliedern
 assessment#:#oq_btn_nest_pictures#:#Zur Ansicht: Bilder gliedern
 assessment#:#oq_btn_define_terms#:#Zur Ansicht: Terme anlegen
@@ -13090,23 +13202,53 @@ dcl#:#dcl_owner#:#Besitzer
 dcl#:#dcl_owner_description#:#Der Besitzer dieses Eintrages.
 dcl#:#dcl_last_edited_by#:#Zuletzt geändert von
 dcl#:#dcl_last_edited_by_description#:#Der Benutzer der diesen Eintrag zuletzt geändert hat.
+dcl#:#dcl_public_comments#:#Öffentliche Kommentare für Datensätze aktivieren
+dcl#:#dcl_default_sort_field#:#Standardmässige Sortierung
+dcl#:#dcl_default_sort_field_order#:#Standardmässige Sortierungs-Richtung
+dcl#:#dcl_prev_record#:#Vorheriger Datensatz
+dcl#:#dcl_next_record#:#Nächster Datensatz
+dcl#:#dcl_record_from_total#:#%d von %d
+dcl#:#dcl_delete_fields#:#Felder löschen
+dcl#:#dcl_view_own_records_perm#:#Nur eigene Datensätze anzeigen
+dcl#:#dcl_link_detail_page#:#Einträge als Link zur Detail-Seite anzeigen
 crs#:#crs_notification_list_title#:#Benachrichtigung über neue Mitglieder
 common#:#objs_bibl#:#Literaturlisten
 common#:#obj_bibl#:#Literaturliste
+common#:#obj_bibs#:#Literaturliste
+common#:#obj_bibs_desc#:#Literaturlisten-Administration
 bibl#:#bibl_new#:#Neue Literaturliste
 bibl#:#bibl_add#:#Literaturliste hinzufügen
+bibl#:#bibl_import#:#Literaturliste importieren
 bibl#:#Download Original File#:#Original-Datei herunterladen
 bibl#:#Type#:#Typ
 bibl#:#bibl_edit#:#Edit Literaturliste bearbeiten
 bibl#:#bibliography file#:#Literaturlisten-Datei
 bibl#:#obj_bibl_duplicate#:#Literaturliste duplizieren
 bibl#:#detail_view#:#Detailansicht
+bibl#:#bibl_admin_settings#:#Einstellungen
+bibl#:#bibl_settings_libraries#:#Bibliotheken
+bibl#:#bibl_library_name#:#Name
+bibl#:#bibl_library_url#:#Basis-URL
+bibl#:#bibl_library_img#:#Bild-URL
+bibl#:#bibl_settings_new#:#Bibliothek hinzufügen
+bibl#:#bibl_settings_edit#:#Bibliothek bearbeiten
+bibl#:#libraries#:#Bibliotheken
+bibl#:#attr_order#:#Attribut-Reihenfolge
+bibl#:#attr_order_bibtex#:#Attribut-Reihenfolge (Bibtex)
+bibl#:#attr_order_bibtex_info#:#default: isbn,issn,title
+bibl#:#attr_order_ris#:#Attribut-Reihenfolge (ris)
+bibl#:#attr_order_ris_info#:#default: sn,ti, t1
 rbac#:#bibl_visible#:#Literaturliste ist sichtbar
 rbac#:#bibl_read#:#Literaturliste lesen
 rbac#:#bibl_copy#:#Literaturliste kopieren
 rbac#:#bibl_write#:#Literaturliste bearbeiten
 rbac#:#bibl_delete#:#Literaturliste löschen
 rbac#:#bibl_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#bibs_visible#:#Literaturlisten-Administration ist sichtbar
+rbac#:#bibs_read#:#Literaturlisten-Administration lesen
+rbac#:#bibs_write#:#Einstellungen und Bibliotheken bearbeiten
+rbac#:#bibs_delete#:#Bibliothek-Eintrag löschen
+rbac#:#bibs_edit_permission#:#Rechteeinstellungen ändern
 ldap#:#ldap_edit_role_assignment#:#Zuordnung bearbeiten
 trac#:#trac_mode_collection_tlt#:#Typische Lerndauer (je Kapitel)
 trac#:#trac_mode_collection_tlt_info#:#Die Bearbeitungszeit der NutzerInnen aller relevanten Kapitel muss die 'Typische Lernzeit' überschreiten, um den Status 'Bearbeitet' zu erreichen.
@@ -13348,9 +13490,9 @@ assessment#:#tst_change_workingtime#:#Zeitverlängerung für einen Teilnehmer er
 assessment#:#tst_imap_qst_mode#:#Antwortmodus
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
-assessment#:#tst_test_execution#:#Testdurchführung
-assessment#:#redirect_after_finishing_tst#:#Weiterleitung nach Abgabe der Klausur
-assessment#:#redirect_in_kiosk_mode#:#Weiterleitung nur im Kiosk-Modus
+assessment#:#tst_test_execution#:#Abschließen
+assessment#:#redirect_after_finishing_tst#:#Weiterleitung nach Beendigung eines Testdurchlaufs
+assessment#:#redirect_in_kiosk_mode#:#Weiterleitung nur in Prüfungsansicht
 assessment#:#redirection_url#:#Ziel der Weiterleitung
 ecs#:#ecs_cmap_att_courseType#:#Veranstaltungsart
 ecs#:#ecs_cmap_att_degreeProgramme#:#Studiengang
@@ -13507,9 +13649,9 @@ exc#:#exc_peer_review_show_not_rated_yet#:#Sie müssen Feedback geben, um das er
 exc#:#exc_peer_review_show#:#Erhaltenes Feedback zeigen
 exc#:#exc_needs_deadline#:#Diese Option benötigt einen Abgabetermin.
 exc#:#exc_team_upload_not_supported#:#Diese Option ist für Team-Upload-Übungseinheiten nicht verfügbar.
-exc#:#exc_global_feedback_file#:#Feedback-Datei für alle Lerner
+exc#:#exc_global_feedback_file#:#Musterlösung
 exc#:#exc_global_feedback_file_cron#:#Benachrichtigung bei Verfügbarkeit
-exc#:#exc_global_feedback_file_cron_info#:#Über einen Cron-Job werden die Lerner über die Verfügbarkeit der Feedback-Datei informiert.
+exc#:#exc_global_feedback_file_cron_info#:#Über einen Cron-Job werden die Lerner über die Verfügbarkeit der Musterlösung informiert.
 exc#:#exc_feedback_notification_subject#:#Feedback für Übungseinheit der Übung "%s" freigeschaltet
 exc#:#exc_feedback_notification_salutation#:#Hallo %s,
 exc#:#exc_feedback_notification_body#:#Das Feedback zur folgenden Übungseinheit wurde freigeschaltet.
@@ -13518,9 +13660,9 @@ mail#:#system_notification_installation_signature#:#Diese E-Mail wurde automatis
 mail#:#system_notification_installation_changed_by#:#Geändert durch
 exc#:#exc_feedback_notification_reason#:#Sie erhalten diese Nachricht, da sie ein Teilnehmer der oben genannten Übung sind.
 exc#:#exc_team_notification_reason#:#Sie erhalten diese Nachricht, da sie ein Teilnehmer der oben genannten Übung sind.
-blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigungsfunktion für das oben genannte Blog aktiviert haben.
+blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für das oben genannte Blog aktiviert haben.
 survey#:#survey_notification_finished_introduction#:#der folgende Teilnehmer hat die Umfrage beendet.
-survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
+survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
 content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
 content#:#cont_offline_mode_allow_info#:#Wenn der Offline-Modus erlaubt ist, erscheint unter 'Aktionen' beim Lernmodul zusätzlich die Option 'Offline-Modus' und für Nutzer mit dem Recht zur Bearbeitung des Lernfortschritts unter 'Einstellungen' zusätzlich der Reiter 'Offline-Nutzung'. Im Offline-Modus können Lernmodule nur im SCORM-Offline-Player von ILIAS (Firefox Add-on) dargestelllt werden. Zum Beenden des Offline-Modus können Nutzer über die Option 'Offline-Modus' Lernstandsdaten importieren. Daten im SCORM-Offline-Player werden somit für dieses Lernmodul gelöscht. Bevor Sie den Offline-Modus erlauben, sollten Sie die erforderlichen Einstellungen zum Lernfortschritt abgeschlossen haben.
 wiki#:#wiki_start_page_info#:#Gibt es noch keine Wikiseite mit diesem Titel, wird eine neue, leere Seite erstellt.
@@ -13615,7 +13757,7 @@ orgu#:#il_orgu_employee#:#Mitarbeiter
 orgu#:#il_orgu_superior#:#Vorgesetzte
 orgu#:#orgu_staff#:#Personen
 orgu#:#orgu_view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
-orgu#:#Staff#:#Personen
+orgu#:#Staff#:#Staff
 orgu#:#orgu_edit#:#Bearbeiten
 orgu#:#employee#:#Mitarbeiter
 orgu#:#superior#:#Vorgesetzter
@@ -13670,8 +13812,8 @@ glo#:#glo_term#:#Glossarbegriff
 content#:#glo_add_term_properties#:#Zusätzliche Eigenschaften von Glossarbegriffen
 exc#:#exc_multi_feedback#:#Multi-Feedback
 exc#:#exc_download_zip_structure#:#ZIP-Verzeichnisstruktur herunterladen
-exc#:#exc_multi_feedback_file#:#Multi-Feedback-Datei
-exc#:#exc_multi_feedback_files#:#Multi-Feedback-Dateien
+exc#:#exc_multi_feedback_file#:#Multi-Feedback Datei
+exc#:#exc_multi_feedback_files#:#Multi-Feedback Dateien
 assessment#:#assFormulaQuestion#:#Formelfrage
 assessment#:#parseQuestion#:#Frage analysieren
 assessment#:#variables#:#Variablen
@@ -13870,7 +14012,7 @@ bibl#:#bib_default_language#:#Sprache
 bibl#:#bib_default_series#:#Staffel
 bibl#:#bib_default_cite#:#Bib Cite
 bibl#:#ris_default_ty#:#Typ
-bibl#:#ris_default_id#:#Referenz-ID
+bibl#:#ris_default_id#:#Reference ID
 bibl#:#ris_default_t1#:#Titel
 bibl#:#ris_default_ti#:#Buchtitel
 bibl#:#ris_default_ct#:#Titel der unveröffentlichten Referenz
@@ -14082,8 +14224,8 @@ mail#:#mail_nacc_timelimit#:#Zugangszeitraum des Benutzers
 common#:#msg_obj_already_deleted#:#Das Objekt wurde bereits gelöscht.
 rbac#:#rbac_create_prtt#:#Portfoliovorlage anlegen
 rbac#:#glo_edit_content#:#Benutzer kann Inhalt bearbeiten
-rbac#:#rbac_create_rolt#:#Rollenvorlage anlegen
-rbac#:#rbac_create_role#:#Rolle anlegen
+rbac#:#rbac_create_rolt#:#Neue Rollenvorlage anlegen
+rbac#:#rbac_create_role#:#Neue Rolle anlegen
 obj#:#obj_activation_list_gui#:#Verfügbarkeit
 content#:#lm_activate_rating#:#Bewertung der Seiten erlauben
 wiki#:#wiki_rate_overall#:#Wiki bewerten
@@ -14138,7 +14280,7 @@ blog#:#blog_posting_not_found#:#Der Blog-Eintrag ist nicht verfügbar.
 ldap#:#ldap_choose_role#:#Rolle auswählen
 rep#:#rep_time_period#:#Zeitraum
 cntr#:#exc_next_deadline_single#:#Abgabefrist
-file#:#repository_disk_quota_info#:#Wenn aktiviert, wird für alle Benutzer die Disk-Quota im Magazin geprüft und optional E-Mails an Administratoren und Benutzer versendet.
+file#:#repository_disk_quota_info#:#Wenn aktiviert, wird für alle Benutzer die Disk-Quota im Magazin geprüft und optional Emails an Administratoren und Benutzer versendet.
 trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.
 ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Benutzerkonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert.
 exc#:#exc_peer_review_cron_info#:#Wenn aktiviert, werden Übungsteilnehmer an ausstehendes Peer-Feedback erinnert.
@@ -14163,7 +14305,7 @@ skmg#:#skmg_number#:#Nummmer
 skmg#:#skmg_usage_type_info_gen#:#Allgemeiner Gebrauch in Magazinobjekten
 skmg#:#skmg_usage_type_info_mat#:#Benutzer haben Material zugeordnet
 skmg#:#skmg_usage_type_info_user#:#Zuordnung zu Benutzern
-skmg#:#skmg_usage_type_info_pers#:#Von Benutzern als persönliche Kompetenz ausgewählt
+skmg#:#skmg_usage_type_info_pers#:#Selected by Users as Personal Skill###30 12 2013 new variable
 skmg#:#skmg_usage_type_info_seval#:#Selbsteinschätzungen
 skmg#:#skmg_usage_type_info_prof#:#Nutzung in Kompetenzprofilen
 skmg#:#skmg_usage_type_info_res#:#Zuordnung zu Magazinobjekten
@@ -14224,12 +14366,33 @@ obj#:#obj_deactivate_multilang_conf#:#Wollen Sie die Unterstützung für mehrspr
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
 cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen und Ordner können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
 cntr#:#objects_duplicated#:#Die Objekte wurden kopiert.
+poll#:#poll_max_number_of_answers#:#Maximale Anzahl Antworten je Teilnehmer
+poll#:#poll_vote_error_single#:#Wählen Sie eine Antwort aus.
+poll#:#poll_vote_error_multi#:#Wählen Sie maximal %s Antworten aus.
+poll#:#poll_result_sorting#:#Sortierung
+poll#:#poll_result_sorting_answers#:#In der Reihenfolge der Antworten
+poll#:#poll_result_sorting_votes#:#Nach Anzahl der Stimmen (absteigend)
 content#:#cont_edit_definitions#:#Definitionen bearbeiten
 content#:#cont_edit_definition#:#Definition bearbeiten
+poll#:#poll_mode#:#Modus
+poll#:#poll_mode_anonymous#:#Anonym
+poll#:#poll_mode_anonymous_info#:#Abgegebene Stimmen können den Teilnehmenden nicht zugeordnet werden.
+poll#:#poll_mode_personal#:#Personalisiert
+poll#:#poll_mode_personal_info#:#Eine Liste der Teilnehmenden mit den abgegebenen Stimmen ist mit ausreichenden Rechten verfügbar.
+poll#:#poll_non_anonymous_warning#:#Ihr Name und Votum ist in den Abstimmungsergebnissen für Administratoren sichtbar.
+poll#:#poll_result_answers#:#Stimmen
+poll#:#poll_result_users#:#Teilnehmer
+user#:#usr_id#:#Systeminterne ID
 meta#:#meta_c_XK#:#Kosovo
 certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Matrikelnummer des Benutzers
 survey#:#mailparticipantdata_placeholder#:# Bei personalisierten Umfragen werden folgende Platzhalter durch die entsprechenden Benutzerdaten ersetzt:
+poll#:#poll_notification_subscribe#:#Benachrichtigung aktivieren
+poll#:#poll_notification_unsubscribe#:#Benachrichtigung deaktivieren
+poll#:#poll_vote_notification_subject#:#Abstimmung "%s": neue Stimme
+poll#:#poll_vote_notification_body#:#die folgende Abstimmung hat eine Stimme erhalten
+poll#:#poll_vote_notification_link#:#Link zur Abstimmung
+poll#:#poll_vote_notification_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Abstimmung aktiviert haben.
 exc#:#exc_create_portfolio_no_template#:#Keine Vorlage verwenden
 rbac#:#orgu_view_learning_progress#:#Lernfortschritt einsehen
 rbac#:#orgu_visible#:#Organisationseinheit ist sichtbar.
@@ -14239,12 +14402,31 @@ rbac#:#orgu_read_users#:#Lokale Benutzerkonten dieser Organisationseinheit könn
 rbac#:#orgu_cat_administrate_users#:#Lokale Benutzerkonten können angelegt und verwaltet werden
 rbac#:#orgu_delete#:#Organisationseinheit löschen oder verschieben
 rbac#:#orgu_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#rbac_create_orgu#:#Organisationseinheiten anlegen
+rbac#:#rbac_create_orgu#:#Benutzer kann Organisationseinheiten anlegen
+book#:#book_post_booking_text_info#:#Verwenden Sie [PERIOD] und [OBJECT], um Buchungsdetails zum Infotext hinzuzufügen.
+blog#:#blog_abstract_shorten#:#Auszug kürzen
+blog#:#blog_abstract_shorten_length#:#Maximale Länge
+blog#:#blog_abstract_shorten_characters#:#Zeichen
+blog#:#blog_abstract_image#:#Bild zum Auszug hinzufügen
+blog#:#blog_abstract_image_info#:#Bilder, die kleiner sind, werden nicht benutzt.
+blog#:#blog_abstract_image_width#:#Breite
+blog#:#blog_abstract_image_height#:#Höhe
+blog#:#blog_abstract_image_pixels#:#Px
+content#:#cont_ed_insert_my_courses#:#Meine Kurse einfügen
+content#:#cont_insert_my_courses#:#Meine Kurse einfügen
+content#:#cont_update_my_courses#:#Meine Kurse bearbeiten
+content#:#cont_my_courses_no_settings#:#Es gibt momentan keine Einstellungen.
+prtf#:#prtf_page_element_teaser_my_courses#:#Innerhalb des Portfolios erscheint an dieser Stelle eine Liste Ihrer Kurse.
+prtf#:#prtf_page_element_my_courses_title#:#Aktuelle Kurse
 prtf#:#prtf_page_element_teaser_skills#:#Innerhalb des Portfolios erscheint an dieser Stelle Ihre Kompetenzausprägung.
 prtf#:#prtf_page_element_teaser_blog_template#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Blog Ihres Arbeitsraums.
 prtf#:#prtf_page_element_teaser_consultation_hours#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Kalender Ihrer Sprechstunden.
 prtf#:#prtf_page_element_teaser_blog#:#Innerhalb des Portfolios erscheint an dieser Stelle eine Auswahl von Blog-Einträgen.
 prtf#:#prtf_page_element_teaser_settings#:#Einstellungen
+user#:#interests#:#Interessen
+user#:#interests_general#:#Allgemeine Interessen
+user#:#interests_help_offered#:#Biete Hilfe
+user#:#interests_help_looking#:#Suche Hilfe
 pd#:#pd_remove_multi_confirm#:#Die Objekte wurden entfernt.
 content#:#glo_online_info#:#Nur wenn das Glossar online geschaltet ist, können Benutzer das Glossar sehen und benutzen.
 content#:#glo_mode_level_info#:#Das Glossar beinhaltet zusätzlich alle Begriffe aus Glossaren, die sich im Magazin auf gleicher Ebene befinden.
@@ -14272,505 +14454,430 @@ assessment#:#additional_rating_info#:#Bitte beachten Sie, dass die hier angegebe
 assessment#:#intprecision_info#:#"Teilbar durch" hat nur Auswirkungen auf die Variablenerzeugung, wenn der Wert für die Präzision 0 beträgt. In diesem Fall legt "Teilbar durch" fest, durch welche ganze Zahl die erzeugte Variable teilbar sein muss. Ein Wert von 10 erzeugt also nur ganze Zahlen, die durch 10 teilbar sind, ein Wert von 5 erzeugt ganze Zahlen, die durch 5 teilbar sind usw. Bei einer Präzision von 0 ist "Teilbar durch" ein Pflichtfeld und muss eine positive, ganze Zahl enthalten. Voreingestellt ist der Werte 1 für beliebige ganze Zahlen.
 assessment#:#tolerance_info#:#Die Toleranz legt eine erlaubte prozentuale Abweichung vom Ergebniswert fest. Bei einer Toleranz von 0 wird nur der exakte Ergebniswert als korrekt bewertet.
 assessment#:#result_unit_info#:#Bitte beachten Sie, dass die hier festgelegte Einheit auch innerhalb der "Auswählbaren Einheiten" selektiert werden muss.
+ecs#:#ecs_no_adv_md#:#Es sind keine Erweiterten Metadaten verfügbar. Daher kann keine Zuordnung vorgenommen werden.
+poll#:#poll_comments#:#Kommentare
+poll#:#poll_show_results_as#:#Ergebnisse anzeigen als
+poll#:#poll_barchart#:#Balkendiagramm
+poll#:#poll_piechart#:#Kuchendiagramm
+poll#:#poll_comments_info#:#Durch deaktivieren der Kommentare werden keine Kommentare gelöscht.
 forum#:#merge_posts_into_thread#:#Verschmelze Posts mit anderem Thema
 forum#:#move_thread_to_forum#:#Verschiebe Thema in anderes Forum
-survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
+assessment#:#cloze_gap_size_info#:#Ist ein Wert größer 0 eingetragen, wird diese Lücke mit der hier angegebenen Länge erzeugt. Ist kein Wert angegeben, wird diese Lücke mit der global angegebenen Textfeldlänge erzeugt.
 forum#:#post_reply_count#:#Re(%s):
+survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
 dateplaner#:#cal_ical_url#:#iCal-URL
+book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
+survey#:#survey_not_available#:#n.a.
+blog#:#blog_change_notification_body_approve#:#der folgende Blog-Eintrag erwartet die Freischaltung.
+meta#:#md_adv_presentation#:#Darstellung
+meta#:#udf_type_integer#:#Ganzzahl
+meta#:#md_adv_number_max#:#Maximaler Wert
+meta#:#md_adv_number_min#:#Minimaler Wert
+meta#:#udf_type_float#:#Gleitkommazahl
+meta#:#udf_type_location#:#Standort
+meta#:#md_adv_number_decimals#:#Nachkommastellen
+meta#:#md_adv_confirm_definition#:#Bitte bestätigen Sie die neuen Einstellungen.
+meta#:#md_adv_confirm_definition_select_option#:#Gelöschte Option
+meta#:#md_adv_confirm_definition_select_option_remove#:#Wert entfernen
+meta#:#md_adv_confirm_definition_select_option_overwrite#:#Wert überschreiben
+meta#:#md_adv_confirm_definition_select_section#:#Migration der gelöschten Optionen
+meta#:#md_adv_text_max_length#:#Maximale Länge
+meta#:#md_adv_text_multi#:#Mehrzeilig
+meta#:#md_adv_number_suffix#:#Suffix
+survey#:#survey_results_finished#:#Umfrage beendet
+blog#:#blog_settings_navigation#:#Navigation
+blog#:#blog_presentation_frame#:#Präsentation
+blog#:#blog_presentation_overview#:#Übersicht
+blog#:#blog_nav_mode#:#Modus
+blog#:#blog_nav_mode_month_list#:#Monatsliste
+blog#:#blog_nav_mode_month_list_info#:#Liste aller Monate, optional mit Einträgen
+blog#:#blog_nav_mode_month_list_num_detail#:#Anzahl Einträge (nach absteigendem Datum sortiert)
+blog#:#blog_nav_mode_month_list_num_detail_info#:#Ältere Einträge werden in der Monatsansicht gelistet.
+blog#:#blog_nav_mode_month_list_num_month#:#Anzahl Monate
+blog#:#blog_nav_mode_month_list_num_month_info#:#Weitere Monate werden nicht gelistet und sind nicht erreichbar. 
+blog#:#blog_nav_mode_month_single#:#Kompletter Monat
+blog#:#blog_nav_mode_month_single_info#:#Listet alle Beiträge eines Monats. Der gewünschte Monat kann mit einem Dropdown gewählt werden.
+blog#:#blog_list_num_postings#:#Anzahl Einträge in der initialen Übersicht
+blog#:#blog_list_num_postings_info#:#Diese Einstellung wird nur verwendet, wenn kein konkreter Monat ausgewählt ist.
+blog#:#blog_enable_keywords#:#Schlagwörter
+blog#:#blog_enable_keywords_info#:#Einträge können mit Schlagwörtern versehen werden, die zur Navigation benutzt werden können.
+blog#:#blog_enable_nav_authors#:#Autoren
+blog#:#blog_enable_nav_authors_info#:#Autoren können zur Navigation verwendet werden.
+blog#:#blog_nav_sortorder#:#Sortierung
+survey#:#svy_view_own_results#:#Eigene Antworten einsehen
+survey#:#svy_mail_own_results#:#Eigene Antworten per eMail versenden
+survey#:#svy_mail_own_results_subject#:#Umfrage "%s" - Ihre Antworten
+survey#:#svy_mail_own_results_body#:#nachfolgend ist Ihre Teilnahme gelistet.
+survey#:#svy_results_view_own#:#Teilnehmer kann eigene Antworten einsehen
+survey#:#svy_results_mail_own#:#Teilnehmer kann eigene Antworten per Email versenden
+exercise#:#exc_to_desktop_info#:#Nach Abgabe die Übung auf den Schreibtisch legen
+wiki#:#wiki_wpg#:#Wiki-Seite
+wiki#:#wiki_add_page_properties#:#Zusätzliche Eigenschaften von Wikiseiten
+wiki#:#wiki_advmd_block_title#:#Erweiterte Metadaten der Seite
+content#:#cont_ed_insert_amd_page_list#:#Seitenliste einfügen
+content#:#cont_insert_amd_page_list#:#Seitenliste einfügen
+content#:#cont_update_amd_page_list#:#Seitenliste bearbeiten
+wiki#:#wiki_amd_page_list_no_hits#:#Keine Einträge
+obj#:#obj_tool_setting_taxonomies#:#Taxonomien
+administration#:#obj_excs#:#Übung
+administration#:#obj_excs_desc#:#Globale Übungseinstellungen
+exercise#:#exc_admin_settings#:#Übungs-Administration
+administration#:#obj_taxs#:#Taxonomie
+administration#:#obj_taxs_desc#:#Globale Taxonomieeinstellungen
+tax#:#tax_admin_settings_repository#:#Magazin-Taxonomien
+crs#:#crs_cdf_edit_member#:#Kursspezifische Benutzerdaten bearbeiten
+grp#:#grp_cdf_edit_member#:#Gruppenspezifische Benutzerdaten bearbeiten
+book#:#book_overall_limit#:#Begrenzung der Buchungsanzahl
+book#:#book_overall_limit_info#:#Maximale Anzahl Buchungen je Benutzer in diesem Buchungspool
+book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
+cntr#:#cntr_tax_none_available#:#Es gibt keine verfügbaren Taxonomien.
+cntr#:#cntr_taxonomy_sideblock_settings#:#Taxonomieblock-Einstellungen
+cntr#:#cntr_taxonomy_show_sideblock#:#Taxonomie im Seitenblock darstellen
 survey#:#svy_eval_skipped_value#:#Ergebnisse: "übersprungen"
 survey#:#svy_eval_skipped_value_lng#:#Wert aus Sprachdatei übernehmen
 survey#:#svy_eval_skipped_value_lng_info#:#Aktueller Wert: "%s"
 survey#:#svy_eval_skipped_value_custom#:#Angepassten Wert verwenden
 survey#:#svy_eval_skipped_value_custom_info#:#Geben sie einen (oder leeren) Wert für übersprungene Antworten an
 survey#:#svy_eval_skipped_value_custom_value#:#Wert
+survey#:#svy_import_codes#:#Schlüssel importieren
+survey#:#svy_import_codes_info#:#Dieser Import benötigt eine "%s"-Export-Datei.
+wiki#:#wiki_stat_num_pages#:#Anzahl Seiten
+wiki#:#wiki_stat_new_pages#:#Anzahl neue Seiten 
+wiki#:#wiki_stat_new_pages_avg#:#Durchschnitt der Anzahl neuer Seiten je Benutzer
+wiki#:#wiki_stat_edit_pages#:#Anzahl geänderte Seiten
+wiki#:#wiki_stat_edit_pages_avg#:#Durchschnitt der Anzahl geänderter Seiten je Benutzer
+wiki#:#wiki_stat_scope#:#Zeitraum
+wiki#:#wiki_stat_figure#:#Kennzahl
+wiki#:#wiki_stat_deleted_pages#:#Anzahl gelöschter Seiten
+wiki#:#wiki_stat_read_pages#:#Anzahl Lesezugriffe 
+wiki#:#wiki_stat_user_edit_pages#:#Anzahl Benutzer welche Seiten geändert haben 
+wiki#:#wiki_stat_user_edit_pages_avg#:#Durchschnitt Anzahl Benutzer welche Seiten geändert haben 
+wiki#:#wiki_stat_num_rating#:#Anzahl der Bewertungen 
+wiki#:#wiki_stat_num_rating_avg#:#Durchschnitt der Anzahl der Bewertungen je Seite
+wiki#:#wiki_stat_rating_avg#:#Durchschnittliche Bewertung
+wiki#:#wiki_stat_internal_links#:#Anzahl interne Links
+wiki#:#wiki_stat_internal_links_avg#:#Durchschnitt der Anzahl interner Links je Seite
+wiki#:#wiki_stat_external_links#:#Anzahl externer Links
+wiki#:#wiki_stat_external_links_avg#:#Durchschnitt der Anzahl externer Links je Seite
+wiki#:#wiki_stat_words#:#Anzahl Wörter
+wiki#:#wiki_stat_words_avg#:#Durchschnittliche Anzahl Wörter je Seite
+wiki#:#wiki_stat_chars#:#Anzahl Zeichen
+wiki#:#wiki_stat_chars_avg#:#Durchschnittliche Anzahl Zeichen je Seite
+wiki#:#wiki_stat_footnotes#:#Anzahl Fußnoten
+wiki#:#wiki_stat_footnotes_avg#:#Durchschnittliche Anzahl Fußnoten je Seite
+wiki#:#wiki_stat_page_changes#:#Anzahl Änderungen
+wiki#:#wiki_stat_page_changes_avg#:#Durchschnitt der Anzahl Änderungen je Benutzer
+wiki#:#wiki_stat_page_user_edit#:#Anzahl Benutzer, die Seite geändert haben
+wiki#:#wiki_stat_page_read#:#Anzahl Lesezugriffe
+wiki#:#wiki_stat_page_internal_links#:#Anzahl interne Links
+wiki#:#wiki_stat_page_external_links#:#Anzahl externe Links
+wiki#:#wiki_stat_page_words#:#Anzahl Wörter
+wiki#:#wiki_stat_page_characters#:#Anzahl Zeichen
+wiki#:#wiki_stat_page_footnotes#:#Anzahl Fußnoten
+wiki#:#wiki_stat_page_ratings#:#Anzahl Bewertungen
+rbac#:#statistics_read#:#Statistiken einsehen
+rbac#:#wiki_statistics_read#:#Statistiken einsehen
+pd#:#pd_enable_comments_del_user#:#Kommentare können von ihren Autoren gelöscht werden
+pd#:#pd_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden
+notes#:#notes_sort_asc#:#Aufsteigend sortieren
+notes#:#notes_sort_desc#:#Absteigend sortieren
+obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud
+obj#:#obj_tool_setting_tag_cloud_info#:#Der "Tag Cloud"-Block wird innerhalb des Inhaltstabs angezeigt.
+administration#:#adm_show_comments_tagging_in_lists_tags#:#Einzelne Tags anstatt Anzahl auflisten
+tagging#:#tagging_other_users#:#Andere Benutzer
+common#:#autocomplete_more#:#mehr
+user#:#passwd_generation_pre#:#Vordefinierte Passwörter
 mail#:#mail_max_size_attachments_total#:#Bitte geben Sie hier die erlaubte Dateigröße für Mailanhänge an. Diese Einstellung hat keinen Einfluss auf das Hochladen von Dateien (hier gelten die Serverlimitierungen, z.B. upload_max_filesize), sondern lediglich auf die Datenmenge der als Anhang einer Mail ausgewählten Dateien. 
 mail#:#mail_max_size_attachments_total_error#:#Die maximal erlaubte Dateigröße für Anhänge beträgt:
-user#:#passwd_generation_pre#:#Vordefinierte Passwörter
+grp#:#grp_cdf_tbl_last_edit#:#Letzte Änderung (Gruppenspezifische Daten)
+crs#:#crs_cdf_tbl_last_edit#:#Letzte Änderung (Kursspezifische Daten)
+ps#:#cdf_edited_by_self#:#durch den Benutzer
+rbac#:#excs_visible#:#Übungs-Administration ist sichtbar
+rbac#:#excs_read#:#Lesezugriff auf Übungs-Administration
+rbac#:#excs_write#:#Einstellungen in Übungs-Administration bearbeiten
+rbac#:#excs_edit_permission#:#Rechteeinstellungen für die Übungs-Administration ändern
+rbac#:#taxs_visible#:#Taxonomie-Administration ist sichtbar
+rbac#:#taxs_read#:#Lesezugriff auf Taxonomie-Administration
+rbac#:#taxs_write#:#Einstellungen in Taxonomie-Administration bearbeiten
+rbac#:#taxs_edit_permission#:#Rechteeinstellungen für die Taxonomie-Administration ändern
+exc#:#exc_peer_review_file#:#Datei-Upload
+exc#:#exc_peer_review_file_info#:#Ermöglicht Peers 1 Datei je Review hochzuladen
+exc#:#exc_peer_review_personal#:#Personalisiertes Peer-Feedback
+exc#:#exc_peer_review_personal_info#:#Peers werden mit vollem Namen gezeigt
+exc#:#exc_peer_review_recipient#:#Feedback-Nehmer
+exc#:#exc_peer_review_giver#:#Feedback-Geber
+exc#:#exc_global_feedback_file_date#:#Verfügbarkeit
+exc#:#exc_global_feedback_file_date_deadline#:#Nach dem Abgabetermin
+exc#:#exc_global_feedback_file_date_upload#:#Nach der Abgabe
+exc#:#exc_note_for_tutor#:#Notiz für Tutoren
+exc#:#exc_comment_for_learner_edit#:#Kommentar für Lerner bearbeiten
+common#:#sorting_creation_header#:#Nach Erstellungsdatum
+common#:#sorting_creation_info#:#Die enthaltenen Objekte werden automatisch nach ihrem Erstellungsdatum sortiert.
+exc#:#exc_comment_for_learner_info#:#Es wird eine Benachrichtigung an den Benutzer gesendet und das Feedback wird in dessen Übungseinheiten-Übersicht gelistet.
+common#:#sorting_direction#:#Sortierungsrichtung
+common#:#sorting_desc#:#Absteigend
+common#:#sorting_asc#:#Aufsteigend
+poll#:#poll_anonymous_warning#:#Ihr Name wird in den Abstimmungsergebnissen nicht angezeigt.
+dateplaner#:#cal_exc_deadline#:#Abgabetermin
+dateplaner#:#cal_exc_peer_review_deadline#:#Ende des Bewertungszeitraums
+rbac#:#read_learning_progress#:#Lernfortschritt anderer Benutzer einsehen
+rbac#:#crs_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#grp_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#fold_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#lm_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#htlm_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#sahs_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#tst_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#exc_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+content#:#cont_progress_icons#:#Fortschritts-Icons
+content#:#cont_progress_icons_info#:#Zeigt Fortschritts-Icons anstatt der Kapitel- und Seiten-Icons im Inhaltsverzeichnis an. Fortschrittsinformationen werden von ILIAS ab Version 4.5 gespeichert.
+content#:#cont_self_assessment#:#Self Assessment
+content#:#cont_tries#:#Question Behaviour
+content#:#cont_tries_reset_on_visit#:#Reset on Page Visit
+content#:#cont_tries_reset_on_visit_info#:#Questions start with 0 number of tries each time a learner visits a page. Learner has to answer questions on every page visit.
+content#:#cont_tries_store#:#Store Answer Status
+content#:#cont_tries_store_info#:#Number of tries are accumulated and stored. Correctly answered questions must not be answered again. Learners may run out of tries for questions.
+content#:#cont_restrict_forw_nav#:#Restrict Forward Navigation
+content#:#cont_restrict_forw_nav_info#:#Learners cannot navigate to subsequent pages unless they answered all previous questions correctly.
+content#:#cont_no_page_access_unansw_q#:#You need to answer all questions of previous pages correctly to gain access to this page.
+classification#:#clsfct_block_title#:#Auswahl nach Themen
+classification#:#clsfct_block_info#:#Ihre Auswahl filtert die Objekte.
+classification#:#clsfct_content_title#:#Zu Ihrer Auswahl passende Objekte.
+classification#:#clsfct_content_no_match#:#Keine Treffer
+cntr#:#sorting_new_items_position#:#Position neuer Objekte
+cntr#:#sorting_new_items_at_top#:#Oben
+cntr#:#sorting_new_items_at_bottom#:#Unten
+cntr#:#sorting_new_items_order#:#Reihenfolge neuer Objekte
+form#:#form_location_radius#:#Umkreis
+form#:#form_location_radius_km#:#km
+content#:#cont_question_stats#:#Statistic
+content#:#cont_blocked_users#:#Blocked Users
+content#:#cont_last_try#:#Last Try
+content#:#cont_reset_nr_of_tries#:#Reset Number of Tries
+crs#:#crs_subscription_failed_limit#:#Die maximale Teilnehmeranzahl wurde überschritten.
+user#:#delete_inactive_user_accounts_frequency#:#Intervall
+user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf Email Versand getestet wird.
+user#:#send_mail_to_inactive_users#:#Frühester Email-Versand vor Account-Löschung in Tagen
+user#:#send_mail_to_inactive_users_desc#:#Bevor Accounts gelöscht werden, wird eine E-Mail an die in den Stammdaten hinterlegte Adresse gesendet. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang ermöglicht ist.
+user#:#del_mail_subject#:#(ILIAS) – Ihr Benutzerkonto wird bald gelöscht
+user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr Benutzerkonto wird daher in %4$s Tagen gelöscht. Bitte melden Sie sich erneut an, damit Ihr Benutzerkonto erhalten bleibt.
+user#:#send_mail_to_inactive_users_numbers_only#:#Bitte nur ganzzahlige, positive Werte eingeben, ihre Eingabe wurde gerundet.
+user#:#send_mail_to_inactive_users_must_be_smaller_than#:#Dieser Wert muss kleiner sein, als der Wert "Vergangene Tage seit letzter Anmeldung".
+user#:#send_mail_reminder_window_too_small#:#Ihr Intervall ist zu groß um einen Emailversand vor der Account Löschung zu gewährleisten.
+exc#:#exc_msg_new_feedback_text_uploaded#:#Es wurde ein neuer Kommentar zur Übung "%s" hinzugefügt.
+exc#:#exc_msg_new_feedback_text_uploaded2#:#Ein Tutor hat einen neuen Kommentar für Sie eingestellt.
+content#:#cont_start_file_set_to#:#%s wurde als Startdatei festgelegt.
+exc#:#exc_peer_upload_file#:#Datei(en) hinzufügen
+exc#:#exc_peer_edit_file#:#Datei(en) bearbeiten
+exc#:#exc_no_team_yet_info#:#Sie können selbst ein Team erstellen oder in ein anderes Team von dessen Teammitgliedern hinzugefügt werden.
+exc#:#exc_team_assignment_adopt#:#Teams von bestehender Übungseinheit übernehmen
+exc#:#exc_team_assignment_adopt_none#:#Keine Teams übernehmen
+exc#:#exc_team_assignment_adopt_teams#:#Teams
+exc#:#exc_team_assignment_adopt_user#:#Team aus Übungseinheit übernehmen
+exc#:#exc_team_assignment_adopt_none_user#:#Ein neues Team erstellen
+exc#:#exc_team_assignment_adopt_already_assigned#:#bereits zugewiesen
+wiki#:#wiki_show_print_view#:#Druckansicht
+wiki#:#wiki_show_pdf_export#:#PDF-Export
+exc#:#exc_peer_deadline_mismatch#:#Da das Feedback erst nach dem Abgabetermin der Übungseinheit gegeben werden kann, darf die Deadline für das Feedback nicht vor dem Abgabedatum liegen.
+assessment#:#intro_desc#:#Dieser Hinweis erscheint am Anfang des Tests.
+assessment#:#tst_beginning_ending_information#:#Hinweis am Anfang und Ende des Tests
+dcl#:#dcl_confirm_delete_fields#:#Möchten Sie diese Felder wirklich löschen?
+dcl#:#dcl_msg_fields_deleted#:#Deleted fields###08 09 2014 new variable
+dcl#:#dcl_msg_no_perm_view#:#Keine Berechtigung um diesen Datensatz anzusehen
+dcl#:#dcl_msg_no_perm_edit#:#Keine Berechtigung um diesen Datensatz zu bearbeiten
+orgu#:#orgu_type_deleted#:#Organisationseinheitentyp wurde gelöscht
+orgu#:#orgu_type_add#:#Organisationseinheitentyp hinzufügen
+orgu#:#orgu_type_edit#:#Organisationseinheitentyp bearbeiten
+orgu#:#orgu_types#:#Typen
+orgu#:#orgu_type_msg_deleted#:#Organisationseinheitentyp wurde gelöscht
+orgu#:#orgu_type_msg_missing_title#:#Es muss ein Titel für die Standardsprache angegeben werden
+orgu#:#orgu_type_msg_unable_delete#:#Der Typ kann nicht gelöscht werden, da er noch folgenden Organisationseinheiten zugewiesen ist: %s
+orgu#:#orgu_type_msg_deletion_prevented#:#Löschen verhindert durch folgende Plugins: %s
+orgu#:#orgu_type_msg_setting_member_prevented#:#Zuweisen von '%s' verhindert durch folgende Plugins: %s
+orgu#:#orgu_type_msg_updating_prevented#:#Aktualisieren des Objekts verhindert durch folgende Plugins: %s
+orgu#:#orgu_type_msg_assign_amd_prevented#:#Hinzufügen von Erweiterten Metadaten verhindert durch folgende Plugins: %s
+orgu#:#orgu_type_msg_deassign_amd_prevented#:#Entfernen Erweiterter Metadaten verhindert durch folgende Plugins: %s
+orgu#:#orgu_type_msg_setting_default_lang_prevented#:#'%' als Standardsprache nicht möglich, verhindert durch folgende Plugins: %s
+orgu#:#orgu_type_msg_missing_title_default_language#:#Standardsprache und der Titel für die Standardsprache müssen ausgefüllt werden
+orgu#:#orgu_type_custom_icon_info#:#Alle Organisationseinheiten mit diesem Typ werden mit diesem Icon dargestellt
+orgu#:#orgu_settings#:#Organisationseinheiten Einstellungen
+orgu#:#orgu_type#:#Organisationseinheitentyp
+orgu#:#orgu_orgu_type#:#Organisationseinheitentyp
+orgu#:#orgu_type_custom_icon#:#Benutzerdefiniertes Icon für diesen Organisationseinheitentyp
+orgu#:#orgu_adv_settings#:#Erweiterte Einstellungen
+orgu#:#orgu_type_msg_error_custom_icon#:#Icon konnte nicht gespeichert werden
+orgu#:#orgu_type_available_amd_sets#:#Verfügbare Erweiterte Metadaten
+orgu#:#orgu_type_assign_amd_sets#:#Erweiterte Metadaten zuweisen
+content#:#cont_help_no_valid_tooltip_id#:#Die eingegebene Tooltip-ID ist nicht gültig.
+wiki#:#wiki_page_templates#:#Seitentemplates
+wiki#:#wiki_template_status_removed#:#Nutzung als Seitenvorlage aufgehoben.
+wiki#:#wiki_remove_template_status#:#Nicht mehr als Seitenvorlage nutzen
+wiki#:#wiki_template_added#:#Seitenvorlage hinzugefügt
+wiki#:#wiki_templ_new_pages#:#Verfügbar für neue Seite
+wiki#:#wiki_templ_add_to_page#:#Verfügbar für bestehende Seite
+wiki#:#wiki_add_template#:#Als Seitenvorlage nutzen
+wiki#:#wiki_empty_page_template#:#Keine Seitenvorlage beim Erstellen einer neuen Seite anwenden
+wiki#:#wiki_page_not_exist_select_templ#:#Diese Seite existiert noch nicht. Bitte wählen Sie eine Vorlage für die neue Seite.
+wiki#:#wiki_new_page#:#Neue Seite
+wiki#:#wiki_page_template#:#Seitenvorlage
+wiki#:#wiki_empty_page#:#Leere Seite
+wiki#:#wiki_create_page#:#Seite erstellen
+content#:#cont_ed_insert_templ#:#Insert Content Template###08 09 2014 new variable
+content#:#cont_template#:#Template###08 09 2014 new variable
+content#:#cont_unlocked#:#Unlocked###08 09 2014 new variable
+content#:#cont_unlock_allow_continue#:#Unlock / Allow to Continue###08 09 2014 new variable
+content#:#cont_blocked_users_mail_link#:#Click on the following link to open the learning module:###08 09 2014 new variable
+wiki#:#wiki_set_as_start_page#:#Als Startseite setzen
+wiki#:#wiki_purpose#:#Purpose###08 09 2014 new variable
+wiki#:#wiki_select_one_item#:#Please select one item.###08 09 2014 new variable
+trac#:#trac_mode_questions#:#Fragen
+trac#:#trac_mode_questions_info#:#Nutzer, die alle Fragen richtig beantwortet haben, erhalten den Status 'Bearbeitet'.
+mmbr#:#mmbr_selected_users#:#Ausgewählte Teilnehmer
+mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
+sess#:#sess_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
+sess#:#sess_reg_type#:#Anmeldungsverfahren
+sess#:#sess_reg_direct#:#Direkte Anmeldung
+sess#:#sess_reg_request#:#Anmeldung mit Bestätigung
+sess#:#sess_reg_disabled#:#Keine selbständige Anmeldung
+sess#:#sess_reg_request_info#:#Eine Aufnahme erfolgt nur, wenn sie durch einen Administrator bestätigt wurde.
+sess#:#sess_reg_disabled_info#:#Für diesen Sitzungstermin ist keine explizite Anmeldung notwendig.
+sess#:#sess_reg_max_members_short#:#Begrenzte Teilnehmeranzahl
+sess#:#sess_reg_max_members#:#Maximale Anzahl
+sess#:#sess_reg_max_members_info#:#Ist die maximale Teilnehmeranzahl erreicht, ist eine Anmeldung nicht mehr möglich.
+sess#:#sess_reg_waiting_list#:#Warteliste
+sess#:#sess_reg_waiting_list_info#:#Ist die maximale Teilnehmeranzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
+sess#:#sess_section_reg#:#Anmeldung durch Benutzer
+assessment#:#save_and_next#:#Speichern und weiter
+sess#:#sess_users_added#:#Die Benutzer wurden für die Sitzung angemeldet.
+sess#:#sess_users_already_assigned#:#Die Benutzer sind bereits für die Sitzung angemeldet.
+sess#:#sess_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
+sess#:#sess_msg_applicants_assigned#:#Der Benutzer wurde für den Sitzungstermin angemeldet.
+sess#:#sess_msg_applicants_removed#:#Antrag abgelehnt und aus der Liste entfernt.
+sess#:#sess_registered_confirm#:#Sie wurden für den Sitzungstermin angemeldet. Allerdings muss ihr Antrag noch von einem Administrator bestätigt werden. Sie werden benachrichtigt sobald dies erfolgt ist.
+sess#:#sess_reg_max_users_exceeded#:#Eine Anmeldung ist nicht möglich, da die maximale Teilnehmeranzahl für diesen Termin überschritten wurde.
+sess#:#sess_reg_max_users_exceeded_wl#:#Die maximale Teilnehmeranzahl für diesen Sitzungstermin ist überschritten. Sie können sich jedoch in die Warteliste eintragen.
+sess#:#sess_reg_added_to_wl#:#Sie sind in die Warteliste aufgenommen worden.
+rbac#:#condition_failed#:#Nicht bestanden
+rbac#:#condition_learning_progress#:#Status aus Lernfortschritt ableiten
+rbac#:#rbac_precondition_hide#:#Objekt verbergen
+rbac#:#rbac_precondition_hide_info#:#Das Objekt ist für Benutzer, die die Vorbedingungen nicht erfüllt haben, nicht sichtbar.
+wsp#:#wsp_shared_table_title#:#Freigaben
+crs#:#crs_objective_status_configure#:#Lernziel-orientierten Kurs konfigurieren
+crs#:#crs_objective_status_settings#:#Kurseinstellungen vornehmen
+crs#:#crs_objective_status_materials#:#Materialien einstellen
+crs#:#crs_objective_status_itest#:#Einstiegstest konfigurieren
+crs#:#crs_objective_status_qtest#:#Qualifizierenden Test konfigurieren
+crs#:#crs_objective_status_objectives#:#Lernziele konfigurieren
+crs#:#crs_objective_status_start#:#Startobjekte definieren
+crs#:#crs_objective_status_fullfilled#:#OK
+crs#:#crs_objective_action_materials#:#Materialien bearbeiten
+crs#:#crs_objective_action_qtest#:#Fragenzuordnung qualifizierender Test
+crs#:#crs_objective_action_itest#:#Fragenzuordnung Einstiegstest
+crs#:#crs_loc_qt_visibility#:#Anzeige des qualifizierenden Tests
+crs#:#crs_loc_qt_visibility_all#:#Qualifizierenden Test über alle Lernziele anzeigen
+crs#:#crs_loc_qt_visibility_lo#:#Qualifizierenden Tests pro Lernziel anzeigen
+crs#:#crs_loc_limited_passes#:#Begrenzte Anzahl von Testdurchläufen
+crs#:#crs_loc_passes#:#Maximale Anzahl von Testdurchläufen
+crs#:#crs_loc_passes_info#:#Maximalanzahl Testdurchläufe:
+crs#:#crs_loc_err_stat_no_materials#:#Keine Materialien verfügbar
+crs#:#crs_loc_err_stat_no_qt#:#Kein qualifizierender Test angelegt
+crs#:#crs_loc_err_stat_no_it#:#Kein Einstiegstest angelegt
+crs#:#crs_objective_status_objective_creation#:#Lernziele anlegen
+content#:#cont_out_of_focus_message#:#Diese Seite ist nicht mehr Teil der Inhalte des aktuellen Lernziels.
+content#:#cont_show_content_after_focus#:#Mit anderen Inhalten des Lernmoduls fortfahren
+content#:#cont_to_focus_beginning#:#Zurück zu den Inhalten des Lernziels
+crs#:#crs_loc_form_create_objectives#:#Lernziele anlegen
+crs#:#crs_loc_err_no_active_mat#:#Lernziele ohne Materialien vorhanden
+crs#:#crs_loc_err_no_active_it#:#Lernziele ohne Einstiegstest vorhanden
+crs#:#crs_loc_err_no_active_qt#:#Lernziele ohne qualifizierenden Test vorhanden
+crs#:#crs_loc_err_no_active_lo#:#Kein aktives Lernziel
+content#:#cont_to_focus_return_crs#:#Zurück zum Kurs
+crs#:#crs_loc_learning_objective#:#Lernziel
+crs#:#crs_loc_suggested#:#Bearbeiten Sie die folgenden Materialien.
+crs#:#crs_loc_itest_info#:#Einstiegstest
+crs#:#crs_loc_qtest_info#:#Qualifizierender Test
+crs#:#crs_loc_tt_info#:#Sie haben %1$d%% erreicht. Der Test gilt mit %2$d%% als bestanden.
+crs#:#crs_loc_subtab_creation#:#Erstellen
+crs#:#crs_loc_settings_tbl#:#Einstellungen zum Lernziel-orientierten Kurs
+crs#:#crs_loc_settings_type#:#Kurstyp
+crs#:#crs_loc_type_initial_all#:#Kurs startet mit Einstiegstest zu allen Lernzielen
+crs#:#crs_loc_type_initial_sel#:#Kurs startet mit Einstiegstest zu ausgewähltem Lernziel
+crs#:#crs_loc_type_qualified#:#Kurs startet mit qualifizierendem Test
+crs#:#crs_loc_type_practise#:#Kurs startet mit Lern- und Übungsteil
+crs#:#crs_loc_tab_materials#:#Materialien
+crs#:#crs_loc_tab_itest#:#Einstiegstest
+crs#:#crs_loc_tab_qtest#:#Qualifizierender Test
+crs#:#crs_loc_settings_itest_tbl#:#Einstellungen für den Einstiegstest
+crs#:#crs_loc_tab_objectives#:#Lernziele
+crs#:#crs_loc_settings_qtest_tbl#:#Einstellungen für den qualifizierenden Test
+crs#:#crs_loc_tab_start#:#Startobjekte
+common#:#il_astpl_loc_initial#:#Einstiegstest
+common#:#il_astpl_loc_qualified#:#Qualifizierender Test
+common#:#il_astpl_loc_initial_desc#:#Einstellungsvorlage für Einstiegstests lernzielorientierter Kurse
+common#:#il_astpl_loc_qualified_desc#:#Einstellungsvorlage für qualifizierende Tests lernzielorientierter Kurse
+crs#:#crs_loc_confirm_delete_tst#:#Sind sie sicher, dass die Zuordnung der Tests zum Lernzielorientierten Kurs gelöscht werden soll?
+crs#:#crs_loc_tbl_tst_type#:#Testmodus
+crs#:#crs_loc_form_assign_it#:#Testzuordnung
+crs#:#crs_loc_form_tst_new#:#Neuen Test erstellen
+crs#:#crs_loc_form_assign#:#Vorhandenen Test verwenden
+crs#:#crs_loc_form_available_tsts#:#Verfügbare Tests:
+crs#:#crs_loc_tbl_tst_qst_qpl#:#Fragen/Fragenpools
+crs#:#crs_loc_tst_num_qst#:#Anzahl Fragen:
+crs#:#crs_loc_tst_qpls#:#Verfügbare Fragenpools:
+crs#:#crs_loc_form_random_limits_it#:#Fragen des Einstiegstests festlegen
+crs#:#crs_loc_form_random_limits_qt#:#Fragen des qualifizierenden Tests festlegen
+crs#:#crs_loc_rand_assign_qpl#:#Zuordnung aus Fragenpool
+crs#:#crs_loc_rand_qpl#:#Verfügbare Fragenpools
+crs#:#crs_loc_num_qst#:#Anzahl der Fragen
+crs#:#crs_loc_perc#:#Benötigte Prozentzahl der Punkte
+crs#:#crs_loc_delete_assignment#:#Zuordnung löschen
+crs#:#crs_loc_err_no_active_qst#:#Lernziele ohne Fragen vorhanden
+crs#:#crs_loc_qtst_for_objective#:#Qualifizierender Test "%1$s"
+crs#:#crs_loc_itst_for_objective#:#Einstiegstest "%1$s"
+crs#:#crs_loc_progress_result_itest#:#Ergebnis Einstiegstest
+crs#:#crs_loc_progress_result_qtest#:#Ergebnis
+crs#:#crs_loc_progress_no_result_do_initial#:#Bearbeiten Sie den Einstiegstest
+crs#:#crs_loc_progress_objective_complete#:#Sie haben das Lernziel erreicht.
+crs#:#crs_loc_progress_do_qualifying#:#Bearbeiten Sie nur noch den qualifizierenden Test
+crs#:#crs_loc_progress_do_qualifying_again#:#Bitte bearbeiten Sie das Lernziel erneut.
+content#:#cont_out_of_focus_message_last_page#:#Sie befinden sich auf der letzten Seite der Inhalte zum aktuellen Lernziel.
+crs#:#crs_loc_err_nr_tries_exceeded#:#Die Anzahl der Testdurchläufe pro Lernziel übersteigt die Anzahl möglicher Testdurchläufe des qualifizierenden Tests.
+crs#:#crs_loc_passes_left#:#Verbleibende Anzahl von Testdurchläufen
+crs#:#crs_loc_qst_resume_tst_itest#:#Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.
+crs#:#crs_loc_passes_reached#:#Keine weiteren Testdurchläufe möglich
+crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen qualifizierenden Test zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.
+crs#:#crs_loc_tst_new_run#:#Neuen Test starten
+crs#:#crs_loc_tst_resume#:#Alten Test fortsetzen
+crs#:#crs_loc_settings_reset#:#Testergebnisse
+crs#:#crs^_loc_settings_reset_enable#:#"Testergebnis-Zurücksetzen" erlauben
+crs#:#crs_loc_settings_reset_enable_info#:#Wenn aktiviert, haben alle Benutzer die Möglichkeit, ihre individuellen Testergebnisse zurückzusetzen.
+crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und danach den qualifizierenden Test.
+ecs#:#ecs_part_settings#:#Einstellungen für Teilnehmer:
+bibl#:#bibl_library_show_in_list#:#Link auch in der Liste anzeigen
 content#:#cont_ie_compatibility#:#Internet Explorer 7 Kompatibilitätsmodus
 content#:#cont_ie_compatibility_info#:#Insbesondere für ältere Lernmodule kann das Aktivieren des Kompatibilitätsmodus hilfreich sein. Bitte beachten Sie, dass bei neueren Versionen des Internet Explorer der Kompatibilitätsmodus deaktiviert werden kann.
 content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
 content#:#cont_ie_force_render_info#:#Aktivieren Sie diese Option nur wenn Inhalte des Lernmoduls im Internet Explorer auf Grund vieler Frames oder iFrames nicht korrekt angezeigt werden. Die Anzeige des Lernmoduls muss in einem neuen Fenster erfolgen.
-exc#:#exc_peer_deadline_mismatch#:#Da das Feedback nach der Deadline gegeben wird, darf die Feedback-Deadline nicht vor der Übungs-Deadline liegen.
-assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pass for test "%s" does not contain any questions.###26 09 2014 new variable
-assessment#:#qpl_reset_preview#:#Reset Preview###26 09 2014 new variable
-assessment#:#qst_preview_reset_msg#:#The preview has been reset.###26 09 2014 new variable
-assessment#:#gap_combination#:#Gap Combination###26 09 2014 new variable
-assessment#:#assKprimChoice#:#Multiple Choice Question (Kprim Answers)###26 09 2014 new variable
-assessment#:#score_partsol_enabled#:#Score Partial Solutions###26 09 2014 new variable
-assessment#:#score_partsol_enabled_info#:#Usually the participant has to answer the question fully correct to get the configured points. With this option the participant gets the half of the configured points with at least three correct decisions.###26 09 2014 new variable
-assessment#:#option_label#:#Option Labels###26 09 2014 new variable
-assessment#:#option_label_info#:#The configured phrases will be used as label for the options selectable by the participant.###26 09 2014 new variable
-assessment#:#option_label_right_wrong#:#right / wrong###26 09 2014 new variable
-assessment#:#option_label_right#:#right###26 09 2014 new variable
-assessment#:#option_label_wrong#:#wrong###26 09 2014 new variable
-assessment#:#option_label_plus_minus#:#+ / -###26 09 2014 new variable
-assessment#:#option_label_plus#:#+###26 09 2014 new variable
-assessment#:#option_label_minus#:#-###26 09 2014 new variable
-assessment#:#option_label_applicable_or_not#:#applicable / not applicable###26 09 2014 new variable
-assessment#:#option_label_applicable#:#applicable###26 09 2014 new variable
-assessment#:#option_label_not_applicable#:#not applicable###26 09 2014 new variable
-assessment#:#option_label_adequate_or_not#:#adequate / not adequate###26 09 2014 new variable
-assessment#:#option_label_adequate#:#adequate###26 09 2014 new variable
-assessment#:#option_label_not_adequate#:#not adequate###26 09 2014 new variable
-assessment#:#option_label_custom#:#Userdefined Labels###26 09 2014 new variable
-assessment#:#option_label_custom_true#:#Label for "TRUE"###26 09 2014 new variable
-assessment#:#option_label_custom_false#:#Label for "FALSE"###26 09 2014 new variable
-assessment#:#kprim_answers_info#:#The multiple choice question type "four times decision right/wrong" (Type K', also known as Kprim) gives four answers or additions to a question or an incomplete statement. A decision about the correctness is to be done on all four answers/additions. The maximum points are granted only, if all decisions are correct.###26 09 2014 new variable
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Jump to Participant--###26 09 2014 new variable
-assessment#:#tst_res_jump_to_participant_btn#:#Jump###26 09 2014 new variable
-assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s###26 09 2014 new variable
-assessment#:#grading_status_passed_msg#:#Congratulations, you <b>passed</b> the test.###26 09 2014 new variable
-assessment#:#grading_status_failed_msg#:#Sorry, you <b>failed</b> the test.###26 09 2014 new variable
-assessment#:#grading_obligations_answered_msg#:#You filled out all obligatory questions.###26 09 2014 new variable
-assessment#:#grading_obligations_missing_msg#:#You didn't fill out all obligatory questions.###26 09 2014 new variable
-assessment#:#grading_mark_msg#:#Your resulting mark is: &quot;[mark]&quot;###26 09 2014 new variable
-assessment#:#remove_gap#:#Remove Gap###26 09 2014 new variable
-assessment#:#qpl_qst_inp_matching_mode#:#Matching Mode###26 09 2014 new variable
-assessment#:#qpl_qst_inp_matching_mode_one_on_one#:#One Term Matches One Definition (1:1)###26 09 2014 new variable
-assessment#:#qpl_qst_inp_matching_mode_all_on_all#:#One or More Terms match One or More Definitions (n:n)###26 09 2014 new variable
-assessment#:#save_back_to_objective_container#:#Go to Course###26 09 2014 new variable
-assessment#:#tst_instant_feedback_answer_specific_desc#:#If answer-specific feedback is selected, the predefined feedback will be shown, depending on the answers of the participant (if supported by the question type).###26 09 2014 new variable
-assessment#:#tst_instant_feedback_answer_generic_desc#:#The generic feedback prints a simple "right" or "wrong" feedback according to configuration of the question.###26 09 2014 new variable
-assessment#:#tst_instant_feedback_fix_usr_answer#:#Fix Participant's Answer###26 09 2014 new variable
-assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#This option causes a fixation of the participant's answer on requesting the instant feedback.###26 09 2014 new variable
-assessment#:#tst_instant_feedback_results_desc#:#If results (in points) are selected, the reached points will be shown.###26 09 2014 new variable
-assessment#:#tst_instant_feedback_solution_desc#:#If solutions are selected, the correct solution will be shown too.###26 09 2014 new variable
-assessment#:#tst_password_form#:#Enter Test Password###26 09 2014 new variable
-assessment#:#tst_results_grading#:#Grading in Test Results###26 09 2014 new variable
-assessment#:#tst_results_grading_opt_show_both#:#Show Passed/Failed Status and Resulting Mark###26 09 2014 new variable
-assessment#:#tst_results_grading_opt_show_none#:#Do NOT show Passed/Failed Status or Resulting Mark###26 09 2014 new variable
-assessment#:#tst_results_grading_opt_show_status#:#Show Passed/Failed Status only###26 09 2014 new variable
-assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark only###26 09 2014 new variable
-assessment#:#tst_activate_skill_service#:#Activate Competence Service###26 09 2014 new variable
-assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Competence service has been deactivated due to test mode with non fixed set of questions.###26 09 2014 new variable
-assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#Competence Service activation is not possible due to test mode with non fixed set of questions.###26 09 2014 new variable
-assessment#:#tst_tab_competences#:#Competences###26 09 2014 new variable
-assessment#:#tst_skl_sub_tab_quest_assign#:#Question/Competence Assignment###26 09 2014 new variable
-assessment#:#tst_skl_sub_tab_thresholds#:#Competence Thresholds###26 09 2014 new variable
-assessment#:#tst_msg_skl_lvl_thresholds_saved#:#The competence thresholds has been saved.###26 09 2014 new variable
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#The competence points has been saved.###26 09 2014 new variable
-assessment#:#tst_competence#:#Competence###26 09 2014 new variable
-assessment#:#tst_assign_competence#:#Assign Competence###26 09 2014 new variable
-assessment#:#tst_remove_competence#:#Remove Competence###26 09 2014 new variable
-assessment#:#tst_comp_points#:#Competence Points###26 09 2014 new variable
-assessment#:#tst_save_comp_points#:#Save Competence Points###26 09 2014 new variable
-assessment#:#tst_num_questions#:#Number of Questions###26 09 2014 new variable
-assessment#:#tst_max_comp_points#:#Max. Competence Points###26 09 2014 new variable
-assessment#:#tst_level#:#Competence Level###26 09 2014 new variable
-assessment#:#tst_threshold#:#Thresholds###26 09 2014 new variable
-assessment#:#tst_save_thresholds#:#Save Thresholds###26 09 2014 new variable
-assessment#:#tst_show_comp_results#:#Show Competence Results###26 09 2014 new variable
-assessment#:#tst_analysis#:#Analysis###26 09 2014 new variable
-assessment#:#tst_all_test_competences#:#All Test Competence###26 09 2014 new variable
-assessment#:#tst_gap_analysis#:#Gap Analysis###26 09 2014 new variable
-assessment#:#tst_test_result#:#Test Result###26 09 2014 new variable
-assessment#:#tst_back_to_top#:#Back to Top###26 09 2014 new variable
-assessment#:#tst_back_to_question_list#:#Back to Question List###26 09 2014 new variable
-assessment#:#tst_results_tax_filters#:#Result Filter###26 09 2014 new variable
-assessment#:#tst_back_to_pass_details#:#Back to Pass Details###26 09 2014 new variable
-assessment#:#tst_answer_details#:#Answer Details###26 09 2014 new variable
-assessment#:#tst_list_answer_details#:#Show in List Below###26 09 2014 new variable
-assessment#:#tst_single_answer_details#:#Show Single Answer###26 09 2014 new variable
-assessment#:#tst_pass_details_overview_table_title#:#Detailed Overview for Pass %s###26 09 2014 new variable
-assessment#:#tst_btn_show_best_solutions#:#Show Best Solutions###26 09 2014 new variable
-assessment#:#tst_btn_hide_best_solutions#:#Hide Best Solutions###26 09 2014 new variable
-common#:#usrimport_xml_pw_bcrypt_missing_salt#:#Missing salt, cannot import password.###26 09 2014 new variable
-maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.###26 09 2014 new variable
-maps#:#maps_enable_maps#:#Enable Maps###26 09 2014 new variable
-maps#:#maps_extt_maps#:#Maps###26 09 2014 new variable
-maps#:#maps_latitude#:#Latitude###26 09 2014 new variable
-maps#:#maps_longitude#:#Longitude###26 09 2014 new variable
-maps#:#maps_lookup_address#:#Lookup Address###26 09 2014 new variable
-maps#:#maps_public_profile_info#:#Show location in your profile.###26 09 2014 new variable
-maps#:#maps_settings#:#Maps Settings###26 09 2014 new variable
-maps#:#maps_std_location_desc#:#Click map to set location.###26 09 2014 new variable
-maps#:#maps_std_location#:#Default Location###26 09 2014 new variable
-maps#:#maps_zoom_level#:#Zoom Level###26 09 2014 new variable
-maps#:#maps_google_maps#:#Google Maps###26 09 2014 new variable
-maps#:#maps_open_layers_maps#:#Open Layers Maps###26 09 2014 new variable
-maps#:#maps_map_type#:#Typ###26 09 2014 new variable
-common#:#show_hidden_sections#:#Show More Information &raquo;###26 09 2014 new variable
-common#:#hide_visible_sections#:#Hide More Information &raquo;###26 09 2014 new variable
-dcl#:#dcl_import#:#Import Data Collection###26 09 2014 new variable
-forum#:#frm_rating#:#Rating###26 09 2014 new variable
-forum#:#enable_thread_ratings#:#Thread Rating###26 09 2014 new variable
-forum#:#enable_thread_ratings_info#:#If activated users are allowed to rate threads.###26 09 2014 new variable
-dcl#:#dcl_formula#:#Formula###26 09 2014 new variable
-dcl#:#dcl_prop_expression#:#Expression###26 09 2014 new variable
-dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>"(", ")"</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>"The result is " & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Available fields (click on title to copy field inside expression):<br>%s###26 09 2014 new variable
-dcl#:#dcl_error_parsing_expression#:#Error parsing expression###26 09 2014 new variable
-dcl#:#dcl_display_action_menu#:#Enable possibility to copy or link the referenced module###26 09 2014 new variable
-dcl#:#dcl_asc#:#Ascending Order (ASC)###26 09 2014 new variable
-dcl#:#dcl_desc#:#Descending Order (DESC)###26 09 2014 new variable
-dcl#:#dcl_comments#:#Comments###26 09 2014 new variable
-dcl#:#dcl_comments_description#:#Displays the number of comments for a record.###26 09 2014 new variable
-dcl#:#dcl_confirm_delete_fields#:#Do you really want to delete these fields?###26 09 2014 new variable
-dcl#:#dcl_msg_fields_deleted#:#Deleted fields###26 09 2014 new variable
-dcl#:#dcl_public_comments#:#Enable public comments for records###26 09 2014 new variable
-dcl#:#dcl_default_sort_field#:#Default sort field###26 09 2014 new variable
-dcl#:#dcl_default_sort_field_order#:#Default sort field order###26 09 2014 new variable
-dcl#:#dcl_prev_record#:#Previous record###26 09 2014 new variable
-dcl#:#dcl_next_record#:#Next record###26 09 2014 new variable
-dcl#:#dcl_record_from_total#:#%d of %d###26 09 2014 new variable
-dcl#:#dcl_view_own_records_perm#:#View only own entries###26 09 2014 new variable
-dcl#:#dcl_msg_no_perm_view#:#No permission given to view this record###26 09 2014 new variable
-dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this record###26 09 2014 new variable
-dcl#:#dcl_delete_fields#:#Delete fields###26 09 2014 new variable
-dcl#:#dcl_link_detail_page#:#Link entries to detail page###26 09 2014 new variable
-dcl#:#dcl_manage#:#Manage###26 09 2014 new variable
-dcl#:#dcl_delete_records#:#Delete records###26 09 2014 new variable
-dcl#:#dcl_confirm_delete_records#:#Are you sure you want to delete the following records?###26 09 2014 new variable
-dcl#:#dcl_deleted_records#:#Successfully deleted %s records###26 09 2014 new variable
-dcl#:#dcl_skipped_delete_records#:#%s records were not deleted due to permission settings###26 09 2014 new variable
-common#:#obj_bibs#:#Bibliography###26 09 2014 new variable
-common#:#obj_bibs_desc#:#Bibliography Administration###26 09 2014 new variable
-bibl#:#bibl_import#:#Import Bibliography###26 09 2014 new variable
-bibl#:#bibl_admin_settings#:#Settings###26 09 2014 new variable
-bibl#:#bibl_settings_libraries#:#Libraries###26 09 2014 new variable
-bibl#:#bibl_library_name#:#Name###26 09 2014 new variable
-bibl#:#bibl_library_url#:#Base-URL###26 09 2014 new variable
-bibl#:#bibl_library_img#:#Image-URL###26 09 2014 new variable
-bibl#:#bibl_settings_new#:#Add Library###26 09 2014 new variable
-bibl#:#bibl_settings_edit#:#Edit Library###26 09 2014 new variable
-bibl#:#libraries#:#Libraries###26 09 2014 new variable
-bibl#:#attr_order#:#Attribute-Order###26 09 2014 new variable
-bibl#:#attr_order_bibtex#:#Attribute Order (Bibtex)###26 09 2014 new variable
-bibl#:#attr_order_bibtex_info#:#default: isbn,issn,title###26 09 2014 new variable
-bibl#:#attr_order_ris#:#Attribute Order (ris)###26 09 2014 new variable
-bibl#:#attr_order_ris_info#:#default: sn,ti, t1###26 09 2014 new variable
-rbac#:#bibs_visible#:#Bibliography-Administration is visible###26 09 2014 new variable
-rbac#:#bibs_read#:#User can read bibliography content###26 09 2014 new variable
-rbac#:#bibs_write#:#User can edit bibliography settings###26 09 2014 new variable
-rbac#:#bibs_delete#:#User can delete library entries###26 09 2014 new variable
-rbac#:#bibs_copy#:#User can copy bibliography###26 09 2014 new variable
-rbac#:#bibs_edit_permission#:#User can change permission settings###26 09 2014 new variable
-dcl#:#add_value#:#Add new value###26 09 2014 new variable
-orgu#:#orgu_type_deleted#:#Organisational Unit Type deleted###26 09 2014 new variable
-orgu#:#orgu_type_add#:#Add Organisational Unit Type###26 09 2014 new variable
-orgu#:#orgu_type_edit#:#Edit Organisational Unit Type###26 09 2014 new variable
-orgu#:#orgu_types#:#Types###26 09 2014 new variable
-orgu#:#orgu_type_msg_deleted#:#Deleted Organisational Unit Type###26 09 2014 new variable
-orgu#:#orgu_type_msg_missing_title#:#There must be set a title for the default language###26 09 2014 new variable
-orgu#:#orgu_type_msg_unable_delete#:#Unable to delete type because it is still assigned to the following Organisational Units: %s###26 09 2014 new variable
-orgu#:#orgu_type_msg_deletion_prevented#:#Deletion of object prevented by plugins: %s###26 09 2014 new variable
-orgu#:#orgu_type_msg_setting_member_prevented#:#Setting '%s' prevented by plugins: %s###26 09 2014 new variable
-orgu#:#orgu_type_msg_updating_prevented#:#Updating of object prevented by plugins: %s###26 09 2014 new variable
-orgu#:#orgu_type_msg_assign_amd_prevented#:#Assigning AMDRecord prevented by plugins: %s###26 09 2014 new variable
-orgu#:#orgu_type_msg_deassign_amd_prevented#:#Deassigning AMDRecord prevented by plugins: %s###26 09 2014 new variable
-orgu#:#orgu_type_msg_setting_default_lang_prevented#:#Setting '%s' as default language prevented by plugins: %s###26 09 2014 new variable
-orgu#:#orgu_type_msg_missing_title_default_language#:#There must be set a default language and a title for the default language###26 09 2014 new variable
-orgu#:#orgu_type_custom_icon_info#:#All Organisational Units having this type assigned will use the icon in the tree and header.###26 09 2014 new variable
-orgu#:#orgu_settings#:#Organisational Unit Settings###26 09 2014 new variable
-orgu#:#orgu_type#:#Organisational Unit Type###26 09 2014 new variable
-orgu#:#orgu_orgu_type#:#Organisational Unit Type###26 09 2014 new variable
-orgu#:#orgu_type_custom_icon#:#Custom Icon for this Organisational Unit Type###26 09 2014 new variable
-orgu#:#orgu_adv_settings#:#Advanced Settings###26 09 2014 new variable
-orgu#:#orgu_type_msg_error_custom_icon#:#Could not save the custom icon###26 09 2014 new variable
-orgu#:#orgu_type_available_amd_sets#:#Available Advanced Metadata sets###26 09 2014 new variable
-orgu#:#orgu_type_assign_amd_sets#:#Assign Advanced Metadata sets###26 09 2014 new variable
-crs#:#crs_loc_subtab_creation#:#Create###26 09 2014 new variable
-poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per Participant###26 09 2014 new variable
-poll#:#poll_vote_error_single#:#Please select 1 answer.###26 09 2014 new variable
-poll#:#poll_vote_error_multi#:#Please select no more than %s answers.###26 09 2014 new variable
-poll#:#poll_result_sorting#:#Sorting###26 09 2014 new variable
-poll#:#poll_result_sorting_answers#:#In the order of the answers###26 09 2014 new variable
-poll#:#poll_result_sorting_votes#:#By number of votes (descending)###26 09 2014 new variable
-poll#:#poll_mode#:#Mode###26 09 2014 new variable
-poll#:#poll_mode_anonymous#:#Anonymous###26 09 2014 new variable
-poll#:#poll_mode_anonymous_info#:#Votes cannot be traced back to participants.###26 09 2014 new variable
-poll#:#poll_mode_personal#:#Personal###26 09 2014 new variable
-poll#:#poll_mode_personal_info#:#A list of participants with their respective votes is available when having sufficient permission.###26 09 2014 new variable
-poll#:#poll_non_anonymous_warning#:#Your name and vote are visible for administrators in the results.###26 09 2014 new variable
-poll#:#poll_result_answers#:#Votes###26 09 2014 new variable
-poll#:#poll_result_users#:#Participants###26 09 2014 new variable
-user#:#usr_id#:#System ID###26 09 2014 new variable
-poll#:#poll_notification_subscribe#:#Activate Notification###26 09 2014 new variable
-poll#:#poll_notification_unsubscribe#:#Deactivate Notification###26 09 2014 new variable
-poll#:#poll_vote_notification_subject#:#Poll "%s": new vote###26 09 2014 new variable
-poll#:#poll_vote_notification_body#:#the following poll has received a vote.###26 09 2014 new variable
-poll#:#poll_vote_notification_link#:#Link to Poll###26 09 2014 new variable
-poll#:#poll_vote_notification_reason#:#You are receiving this email because you activated notifications for the poll mentioned above.###26 09 2014 new variable
-book#:#book_post_booking_text_info#:#Use [PERIOD] and [OBJECT] to add booking details to the text.###26 09 2014 new variable
-blog#:#blog_abstract_shorten#:#Shorten Abstract###26 09 2014 new variable
-blog#:#blog_abstract_shorten_length#:#Maximum Length###26 09 2014 new variable
-blog#:#blog_abstract_shorten_characters#:#Characters###26 09 2014 new variable
-blog#:#blog_abstract_image#:#Add Image To Abstract###26 09 2014 new variable
-blog#:#blog_abstract_image_info#:#Images which are smaller will not be used.###26 09 2014 new variable
-blog#:#blog_abstract_image_width#:#Width###26 09 2014 new variable
-blog#:#blog_abstract_image_height#:#Height###26 09 2014 new variable
-blog#:#blog_abstract_image_pixels#:#Px###26 09 2014 new variable
-content#:#cont_ed_insert_my_courses#:#Insert My Courses###26 09 2014 new variable
-content#:#cont_insert_my_courses#:#Insert My Courses###26 09 2014 new variable
-content#:#cont_update_my_courses#:#Edit My Courses###26 09 2014 new variable
-content#:#cont_my_courses_no_settings#:#There are no settings yet.###26 09 2014 new variable
-prtf#:#prtf_page_element_teaser_my_courses#:#The portfolio will display a list of your current courses here.###26 09 2014 new variable
-prtf#:#prtf_page_element_my_courses_title#:#Current Courses###26 09 2014 new variable
-user#:#interests#:#Interests###26 09 2014 new variable
-user#:#interests_general#:#General Interests###26 09 2014 new variable
-user#:#interests_help_offered#:#Offering Help###26 09 2014 new variable
-user#:#interests_help_looking#:#Looking For Help###26 09 2014 new variable
-ecs#:#ecs_no_adv_md#:#No Advanced Meta Data available.###26 09 2014 new variable
-poll#:#poll_comments#:#Comments###26 09 2014 new variable
-poll#:#poll_show_results_as#:#Show Results as###26 09 2014 new variable
-poll#:#poll_barchart#:#Bar Chart###26 09 2014 new variable
-poll#:#poll_piechart#:#Pie Chart###26 09 2014 new variable
-poll#:#poll_comments_info#:#Deactivating Comments doesn't delete any Comments.###26 09 2014 new variable
-assessment#:#cloze_gap_size_info#:#If you enter a value greater than 0, this gap text field will be created with the fixed length of this value. If you do not enter a value the gap text fiel will be created with the value of the global fixed length.###26 09 2014 new variable
-content#:#cont_help_no_valid_tooltip_id#:#The tooltip ID you have entered was not valid.###26 09 2014 new variable
-book#:#book_confirm_cancel_aggregation#:#Number of Cancellations###26 09 2014 new variable
-survey#:#survey_not_available#:#n/a###26 09 2014 new variable
-blog#:#blog_change_notification_body_approve#:#the following blog posting needs approval.###26 09 2014 new variable
-meta#:#md_adv_presentation#:#Presentation###26 09 2014 new variable
-meta#:#udf_type_integer#:#Integer###26 09 2014 new variable
-meta#:#md_adv_number_max#:#Maximum Value###26 09 2014 new variable
-meta#:#md_adv_number_min#:#Minimum Value###26 09 2014 new variable
-meta#:#udf_type_float#:#Float###26 09 2014 new variable
-meta#:#udf_type_location#:#Location###26 09 2014 new variable
-meta#:#md_adv_number_decimals#:#Decimals###26 09 2014 new variable
-meta#:#md_adv_confirm_definition#:#Please confirm the new definition settings.###26 09 2014 new variable
-meta#:#md_adv_confirm_definition_select_option#:#Deleted Option###26 09 2014 new variable
-meta#:#md_adv_confirm_definition_select_option_remove#:#Remove value###26 09 2014 new variable
-meta#:#md_adv_confirm_definition_select_option_overwrite#:#Set value to###26 09 2014 new variable
-meta#:#md_adv_confirm_definition_select_section#:#Migration of the deleted options###26 09 2014 new variable
-meta#:#md_adv_text_max_length#:#Maximum Length###26 09 2014 new variable
-meta#:#md_adv_text_multi#:#Multiline###26 09 2014 new variable
-meta#:#md_adv_number_suffix#:#Suffix###26 09 2014 new variable
-survey#:#survey_results_finished#:#Survey finished###26 09 2014 new variable
-blog#:#blog_settings_navigation#:#Navigation Column###26 09 2014 new variable
-blog#:#blog_presentation_frame#:#Blog Presentation###26 09 2014 new variable
-blog#:#blog_presentation_overview#:#Initial Overview###26 09 2014 new variable
-blog#:#blog_nav_mode#:#Postings###26 09 2014 new variable
-blog#:#blog_nav_mode_month_list#:#Show List of Months###26 09 2014 new variable
-blog#:#blog_nav_mode_month_list_info#:#All months with postings are listed in the 'Postings' block.###26 09 2014 new variable
-blog#:#blog_nav_mode_month_list_num_detail#:#Total number of postings###26 09 2014 new variable
-blog#:#blog_nav_mode_month_list_num_detail_info#:#Latest postings are listed by date in reverse chronological order. Older postings are available via their month.###26 09 2014 new variable
-blog#:#blog_nav_mode_month_list_num_month#:#Number of listed months###26 09 2014 new variable
-blog#:#blog_nav_mode_month_list_num_month_info#:#Months above the limit will not be listed and related postings are not accessible.###26 09 2014 new variable
-blog#:#blog_nav_mode_month_single#:#Show Selected Month###26 09 2014 new variable
-blog#:#blog_nav_mode_month_single_info#:#Only postings of the selected month are listed in the 'Postings' block. Month can be changed by dropdown. ###26 09 2014 new variable
-blog#:#blog_list_num_postings#:#Number of postings###26 09 2014 new variable
-blog#:#blog_list_num_postings_info#:#This setting is only used if no specific month is selected.###26 09 2014 new variable
-blog#:#blog_enable_keywords#:#Keywords###26 09 2014 new variable
-blog#:#blog_enable_keywords_info#:#Keywords can be set for postings. Clicking a keyword shows all postings tagged with this keyword.###26 09 2014 new variable
-blog#:#blog_enable_nav_authors#:#Authors###26 09 2014 new variable
-blog#:#blog_enable_nav_authors_info#:#List of blog authors is displayed. Clicking a username shows all postings of this author.###26 09 2014 new variable
-blog#:#blog_nav_sortorder#:#Order of Blocks###26 09 2014 new variable
-survey#:#svy_view_own_results#:#View given answers###26 09 2014 new variable
-survey#:#svy_mail_own_results#:#Mail given answers###26 09 2014 new variable
-survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers###26 09 2014 new variable
-survey#:#svy_mail_own_results_body#:#the following is a complete summary of your survey participation.###26 09 2014 new variable
-survey#:#svy_results_view_own#:#Participant can view own answers###26 09 2014 new variable
-survey#:#svy_results_mail_own#:#Participant can mail own answers###26 09 2014 new variable
-exercise#:#exc_to_desktop_info#:#Add exercise to desktop of participant after hand-in###26 09 2014 new variable
-wiki#:#wiki_wpg#:#Wiki Page###26 09 2014 new variable
-wiki#:#wiki_add_page_properties#:#Activate Additional Wiki Page Properties###26 09 2014 new variable
-wiki#:#wiki_advmd_block_title#:#Advanced Metadata of Page###26 09 2014 new variable
-content#:#cont_ed_insert_amd_page_list#:#Insert Page List###26 09 2014 new variable
-content#:#cont_insert_amd_page_list#:#Insert Page List###26 09 2014 new variable
-content#:#cont_update_amd_page_list#:#Edit Page List###26 09 2014 new variable
-wiki#:#wiki_amd_page_list_no_hits#:#No items###26 09 2014 new variable
-obj#:#obj_tool_setting_taxonomies#:#Taxonomies###26 09 2014 new variable
-administration#:#obj_excs#:#Exercise###26 09 2014 new variable
-administration#:#obj_excs_desc#:#Global Exercise Settings###26 09 2014 new variable
-exercise#:#exc_admin_settings#:#Exercise Administration###26 09 2014 new variable
-administration#:#obj_taxs#:#Taxonomy###26 09 2014 new variable
-administration#:#obj_taxs_desc#:#Global Taxonomy Settings###26 09 2014 new variable
-tax#:#tax_admin_settings_repository#:#Repository Taxonomies###26 09 2014 new variable
-crs#:#crs_cdf_edit_member#:#Edit Course Relevant User Data###26 09 2014 new variable
-grp#:#grp_cdf_edit_member#:#Edit Group Relevant User Data###26 09 2014 new variable
-book#:#book_overall_limit#:#Limit number of bookings###26 09 2014 new variable
-book#:#book_overall_limit_info#:#Maximum number of bookings for each user in this booking pool###26 09 2014 new variable
-book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings.###26 09 2014 new variable
-cntr#:#cntr_tax_none_available#:#There are no taxonomies available.###26 09 2014 new variable
-cntr#:#cntr_taxonomy_sideblock_settings#:#Taxonomy Block Settings###26 09 2014 new variable
-cntr#:#cntr_taxonomy_show_sideblock#:#Show taxonomy in side block###26 09 2014 new variable
-survey#:#svy_import_codes#:#Import Codes###26 09 2014 new variable
-survey#:#svy_import_codes_info#:#This import requires a "%s" export file.###26 09 2014 new variable
-wiki#:#wiki_stat_num_pages#:#Number of Pages###26 09 2014 new variable
-wiki#:#wiki_stat_new_pages#:#Number of New Pages###26 09 2014 new variable
-wiki#:#wiki_stat_new_pages_avg#:#Average Number of New Pages per User###26 09 2014 new variable
-wiki#:#wiki_stat_edit_pages#:#Number of Edited Pages###26 09 2014 new variable
-wiki#:#wiki_stat_edit_pages_avg#:#Average Number of Edited Pages per User###26 09 2014 new variable
-wiki#:#wiki_page_templates#:#Page Templates###26 09 2014 new variable
-wiki#:#wiki_template_status_removed#:#Template status removed.###26 09 2014 new variable
-wiki#:#wiki_remove_template_status#:#Remove Template Status###26 09 2014 new variable
-wiki#:#wiki_template_added#:#Template page added.###26 09 2014 new variable
-wiki#:#wiki_templ_new_pages#:#Available on Page Creation###26 09 2014 new variable
-wiki#:#wiki_templ_add_to_page#:#Available for Being Added to Existing Pages###26 09 2014 new variable
-wiki#:#wiki_add_template#:#Set Template Status###26 09 2014 new variable
-wiki#:#wiki_empty_page_template#:#Empty Page Template on Page Creation###26 09 2014 new variable
-wiki#:#wiki_page_not_exist_select_templ#:#This page does not exist yet. Please select a template for the new page.###26 09 2014 new variable
-wiki#:#wiki_new_page#:#New Page###26 09 2014 new variable
-wiki#:#wiki_page_template#:#Page Template###26 09 2014 new variable
-wiki#:#wiki_empty_page#:#Empty Page###26 09 2014 new variable
-wiki#:#wiki_create_page#:#Create Page###26 09 2014 new variable
-content#:#cont_ed_insert_templ#:#Insert Content Template###26 09 2014 new variable
-content#:#cont_template#:#Template###26 09 2014 new variable
-wiki#:#wiki_stat_scope#:#Timeframe###26 09 2014 new variable
-wiki#:#wiki_stat_figure#:#Figure###26 09 2014 new variable
-wiki#:#wiki_stat_deleted_pages#:#Number of Deleted Pages###26 09 2014 new variable
-wiki#:#wiki_stat_read_pages#:#Number of Read Accesses###26 09 2014 new variable
-wiki#:#wiki_stat_user_edit_pages#:#Number of Users Who Edited Pages ###26 09 2014 new variable
-wiki#:#wiki_stat_user_edit_pages_avg#:#Average Number of Users Who Edited Pages ###26 09 2014 new variable
-wiki#:#wiki_stat_num_rating#:#Number of Ratings###26 09 2014 new variable
-wiki#:#wiki_stat_num_rating_avg#:#Average Number of Ratings per Page###26 09 2014 new variable
-wiki#:#wiki_stat_rating_avg#:#Average Rating###26 09 2014 new variable
-wiki#:#wiki_stat_internal_links#:#Number of Internal Links###26 09 2014 new variable
-wiki#:#wiki_stat_internal_links_avg#:#Average Number of Internal Links per Page###26 09 2014 new variable
-wiki#:#wiki_stat_external_links#:#Number of External Links###26 09 2014 new variable
-wiki#:#wiki_stat_external_links_avg#:#Average Number of External Links per Page###26 09 2014 new variable
-wiki#:#wiki_stat_words#:#Number of Words###26 09 2014 new variable
-wiki#:#wiki_stat_words_avg#:# Average Number of Words per Page###26 09 2014 new variable
-wiki#:#wiki_stat_chars#:#Number of Characters###26 09 2014 new variable
-wiki#:#wiki_stat_chars_avg#:#Average Number of Characters per Page###26 09 2014 new variable
-wiki#:#wiki_stat_footnotes#:#Number of Footnotes###26 09 2014 new variable
-wiki#:#wiki_stat_footnotes_avg#:#Average Number of Footnotes per Page###26 09 2014 new variable
-wiki#:#wiki_stat_page_changes#:#Number of Changes###26 09 2014 new variable
-wiki#:#wiki_stat_page_changes_avg#:#Average Number of Changes###26 09 2014 new variable
-wiki#:#wiki_stat_page_user_edit#:#Number of Users Who Edited Page###26 09 2014 new variable
-wiki#:#wiki_stat_page_read#:#Number of Read Accesses###26 09 2014 new variable
-wiki#:#wiki_stat_page_internal_links#:#Number of Internal Links###26 09 2014 new variable
-wiki#:#wiki_stat_page_external_links#:#Number of External Links###26 09 2014 new variable
-wiki#:#wiki_stat_page_words#:#Number of Words###26 09 2014 new variable
-wiki#:#wiki_stat_page_characters#:#Number of Characters###26 09 2014 new variable
-wiki#:#wiki_stat_page_footnotes#:#Number of Footnotes###26 09 2014 new variable
-wiki#:#wiki_stat_page_ratings#:#Number of Ratings###26 09 2014 new variable
-rbac#:#statistics_read#:#View Statistics###26 09 2014 new variable
-rbac#:#wiki_statistics_read#:#View Statistics###26 09 2014 new variable
-pd#:#pd_enable_comments_del_user#:#Comments may be deleted by their authors###26 09 2014 new variable
-pd#:#pd_enable_comments_del_tutor#:#Any Comment may be deleted by tutors###26 09 2014 new variable
-notes#:#notes_sort_asc#:#Sort Ascending###26 09 2014 new variable
-notes#:#notes_sort_desc#:#Sort Descending###26 09 2014 new variable
-obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud###26 09 2014 new variable
-obj#:#obj_tool_setting_tag_cloud_info#:#The "tag cloud" block will be displayed inside the "Content" tab.###26 09 2014 new variable
-administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number###26 09 2014 new variable
-tagging#:#tagging_other_users#:#Other Users###26 09 2014 new variable
-common#:#autocomplete_more#:#more###26 09 2014 new variable
-grp#:#grp_cdf_tbl_last_edit#:#Last Update (Group-specific Data)###26 09 2014 new variable
-crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)###26 09 2014 new variable
-ps#:#cdf_edited_by_self#:#by the User###26 09 2014 new variable
-rbac#:#excs_visible#:#Exercise administration is visible###26 09 2014 new variable
-rbac#:#excs_read#:#User has read access to Exercise administration###26 09 2014 new variable
-rbac#:#excs_write#:#Edit settings in Exercise administration###26 09 2014 new variable
-rbac#:#excs_edit_permission#:#User can change permission settings in Exercise administration###26 09 2014 new variable
-rbac#:#taxs_visible#:#Taxonomy administration is visible###26 09 2014 new variable
-rbac#:#taxs_read#:#User has read access to Taxonomy administration###26 09 2014 new variable
-rbac#:#taxs_write#:#Edit settings in Taxonomy administration###26 09 2014 new variable
-rbac#:#taxs_edit_permission#:#User can change permission settings in Taxonomy administration###26 09 2014 new variable
-exc#:#exc_peer_review_file#:#File Upload###26 09 2014 new variable
-exc#:#exc_peer_review_file_info#:#Enable peers to upload 1 file per review###26 09 2014 new variable
-exc#:#exc_peer_review_personal#:#Personalized Peer-Feedback###26 09 2014 new variable
-exc#:#exc_peer_review_personal_info#:#Peers are shown with full name###26 09 2014 new variable
-exc#:#exc_peer_review_recipient#:#Feedback Recipient###26 09 2014 new variable
-exc#:#exc_peer_review_giver#:#Feedback Giver###26 09 2014 new variable
-exc#:#exc_global_feedback_file_date#:#Availability ###26 09 2014 new variable
-exc#:#exc_global_feedback_file_date_deadline#:#After deadline###26 09 2014 new variable
-exc#:#exc_global_feedback_file_date_upload#:#After submission###26 09 2014 new variable
-exc#:#exc_note_for_tutor#:#Note for Tutors###26 09 2014 new variable
-exc#:#exc_comment_for_learner_edit#:#Edit Comment for Learner###26 09 2014 new variable
-exc#:#exc_comment_for_learner_info#:#A notification is sent to the user and the feedback will be listed in the user's assignment view.###26 09 2014 new variable
-common#:#sorting_creation_header#:#By Creation Date###26 09 2014 new variable
-common#:#sorting_creation_info#:#Content items are arranged automatically by their creation date.###26 09 2014 new variable
-common#:#sorting_direction#:#Sorting Direction###26 09 2014 new variable
-common#:#sorting_desc#:#Descendent###26 09 2014 new variable
-common#:#sorting_asc#:#Ascending###26 09 2014 new variable
-poll#:#poll_anonymous_warning#:#Your name is not visible in the poll results.###26 09 2014 new variable
-dateplaner#:#cal_exc_deadline#:#Deadline###26 09 2014 new variable
-dateplaner#:#cal_exc_peer_review_deadline#:#Feedback Deadline###26 09 2014 new variable
-rbac#:#read_learning_progress#:#View learning progress of other users###26 09 2014 new variable
-rbac#:#crs_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
-rbac#:#grp_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
-rbac#:#fold_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
-rbac#:#lm_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
-rbac#:#htlm_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
-rbac#:#sahs_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
-rbac#:#tst_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
-rbac#:#exc_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
-rbac#:#sess_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
-content#:#cont_progress_icons#:#Progress Icons###26 09 2014 new variable
-content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 4.5 and higher.###26 09 2014 new variable
-content#:#cont_self_assessment#:#Self Assessment###26 09 2014 new variable
-content#:#cont_tries#:#Question Behaviour###26 09 2014 new variable
-content#:#cont_tries_reset_on_visit#:#Reset on Page Visit###26 09 2014 new variable
-content#:#cont_tries_reset_on_visit_info#:#Questions start with 0 number of tries each time a learner visits a page. Learner has to answer questions on every page visit.###26 09 2014 new variable
-content#:#cont_tries_store#:#Store Answer Status###26 09 2014 new variable
-content#:#cont_tries_store_info#:#Number of tries are accumulated and stored. Correctly answered questions must not be answered again. Learners may run out of tries for questions.###26 09 2014 new variable
-content#:#cont_restrict_forw_nav#:#Restrict Forward Navigation###26 09 2014 new variable
-content#:#cont_restrict_forw_nav_info#:#Learners cannot navigate to subsequent pages unless they answered all previous questions correctly.###26 09 2014 new variable
-content#:#cont_no_page_access_unansw_q#:#You need to answer all questions of previous pages correctly to gain access to this page.###26 09 2014 new variable
-classification#:#clsfct_block_title#:#Selection by Topics###26 09 2014 new variable
-classification#:#clsfct_block_info#:#Your Selection filters the objects.###26 09 2014 new variable
-classification#:#clsfct_content_title#:#Objects matching your selection###26 09 2014 new variable
-classification#:#clsfct_content_no_match#:#No hits###26 09 2014 new variable
-cntr#:#sorting_new_items_position#:#Position For New Objects###26 09 2014 new variable
-cntr#:#sorting_new_items_at_top#:#Top###26 09 2014 new variable
-cntr#:#sorting_new_items_at_bottom#:#Bottom###26 09 2014 new variable
-cntr#:#sorting_new_items_order#:#Order For New Objects###26 09 2014 new variable
-form#:#form_location_radius#:#Radius###26 09 2014 new variable
-form#:#form_location_radius_km#:#km###26 09 2014 new variable
-content#:#cont_question_stats#:#Statistic###26 09 2014 new variable
-content#:#cont_blocked_users#:#Blocked Users###26 09 2014 new variable
-content#:#cont_last_try#:#Last Try###26 09 2014 new variable
-content#:#cont_unlocked#:#Unlocked###26 09 2014 new variable
-content#:#cont_reset_nr_of_tries#:#Reset Number of Tries###26 09 2014 new variable
-content#:#cont_unlock_allow_continue#:#Unlock / Allow to Continue###26 09 2014 new variable
-crs#:#crs_subscription_failed_limit#:#The maximum number of participants has been exceeded.###26 09 2014 new variable
-user#:#send_mail_to_inactive_users#:#Earliest date in days for sending a reminder mail###26 09 2014 new variable
-user#:#send_mail_to_inactive_users_desc#:#A reminder mail will be send to user's e-mail address to warn about an upcoming account deletion.###26 09 2014 new variable
-user#:#send_mail_to_inactive_users_numbers_only#:#Only positive non decimal numbers are accepted.###26 09 2014 new variable
-user#:#send_mail_to_inactive_users_must_be_smaller_than#:#This value must be smaller than the value 'Days passed since last login'.###26 09 2014 new variable
-user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted###26 09 2014 new variable
-user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account.###26 09 2014 new variable
-user#:#delete_inactive_user_accounts_frequency#:#Frequency###26 09 2014 new variable
-user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distibution will be tested.###26 09 2014 new variable
-user#:#send_mail_reminder_window_too_small#:#Your Frequency setting is too large for this reminder value.###26 09 2014 new variable
-exc#:#exc_msg_new_feedback_text_uploaded#:#A new comment has been added to exercise "%s".###26 09 2014 new variable
-exc#:#exc_msg_new_feedback_text_uploaded2#:#a tutor has added a new comment for you.###26 09 2014 new variable
-content#:#cont_start_file_set_to#:#%s has been set as start file.###26 09 2014 new variable
-exc#:#exc_peer_upload_file#:#Add file(s)###26 09 2014 new variable
-exc#:#exc_peer_edit_file#:#Edit file(s)###26 09 2014 new variable
-exc#:#exc_no_team_yet_info#:#You can create a team yourself or be added to an existing team by its team members.###26 09 2014 new variable
-exc#:#exc_team_assignment_adopt#:#Adopt teams from existing assignment###26 09 2014 new variable
-exc#:#exc_team_assignment_adopt_none#:#Do not adopt any teams###26 09 2014 new variable
-exc#:#exc_team_assignment_adopt_teams#:#Teams###26 09 2014 new variable
-exc#:#exc_team_assignment_adopt_user#:#Adopt team from assignment###26 09 2014 new variable
-exc#:#exc_team_assignment_adopt_none_user#:#Create new team###26 09 2014 new variable
-exc#:#exc_team_assignment_adopt_already_assigned#:#already assigned###26 09 2014 new variable
-content#:#cont_blocked_users_mail_link#:#Click on the following link to open the learning module:###26 09 2014 new variable
-wiki#:#wiki_show_print_view#:#Print View###26 09 2014 new variable
-wiki#:#wiki_show_pdf_export#:#PDF Export###26 09 2014 new variable
-wiki#:#wiki_set_as_start_page#:#Set as Start Page###26 09 2014 new variable
-wiki#:#wiki_purpose#:#Purpose###26 09 2014 new variable
-wiki#:#wiki_select_one_item#:#Please select one item.###26 09 2014 new variable
-trac#:#trac_mode_questions#:#Questions###26 09 2014 new variable
-trac#:#trac_mode_questions_info#:#Users who answered all questions correctly will gain the status 'Completed'.###26 09 2014 new variable
-wiki#:#wiki_link#:#Wiki Link###26 09 2014 new variable
-wiki#:#wiki_add_link#:#Add Link###26 09 2014 new variable
-wiki#:#wiki_link_text#:#Link Text###26 09 2014 new variable
-wiki#:#wiki_target_page#:#Target Page###26 09 2014 new variable
-mmbr#:#mmbr_selected_users#:#Selected Participants###26 09 2014 new variable
-mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail###26 09 2014 new variable
-sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:###26 09 2014 new variable
-sess#:#sess_reg_type#:# Registration Procedure###26 09 2014 new variable
-sess#:#sess_reg_direct#:#Direct Registration###26 09 2014 new variable
-sess#:#sess_reg_request#:#Request Membership###26 09 2014 new variable
-sess#:#sess_reg_disabled#:#No Self-enrolment###26 09 2014 new variable
-sess#:#sess_reg_request_info#:#Interested users can send a request/message to administrators.###26 09 2014 new variable
-sess#:#sess_reg_disabled_info#:#A registration is not required for this session appointment###26 09 2014 new variable
-sess#:#sess_reg_max_members_short#:#Number of Members###26 09 2014 new variable
-sess#:#sess_reg_max_members#:#Limited Number of Members###26 09 2014 new variable
-sess#:#sess_reg_max_members_info#:#Define the maximum number of users that can participate to this session.###26 09 2014 new variable
-sess#:#sess_reg_waiting_list#:#Waiting List###26 09 2014 new variable
-sess#:#sess_reg_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###26 09 2014 new variable
-wiki#:#wiki_page_exists#:#Existing Page###26 09 2014 new variable
-sess#:#sess_section_reg#:#Registration Settings###26 09 2014 new variable
-assessment#:#save_and_next#:#Save and Continue###26 09 2014 new variable
-sess#:#sess_users_added#:#Registered selected users for the session.###26 09 2014 new variable
-sess#:#sess_users_already_assigned#:#The user is already registered for this session.###26 09 2014 new variable
-sess#:#sess_users_removed_from_list#:#The selected users have been removed from the waiting list.###26 09 2014 new variable
-sess#:#sess_msg_applicants_assigned#:#Applicant(s) registered for session.###26 09 2014 new variable
-sess#:#sess_msg_applicants_removed#:#Applicant(s) removed from list.###26 09 2014 new variable
-sess#:#sess_registered_confirm#:#The registration requires a confirmation of an administrator. You will be notified after the registration process is completed.###26 09 2014 new variable
+maps#:#maps_enable_maps_info#:#Activiert Karten in Benutzerprofil, Gruppen und Kursen
+maps#:#maps_enable_maps#:#Aktiviere Karten
+maps#:#maps_extt_maps#:#Karten
+maps#:#maps_latitude#:#Breitengrad
+maps#:#maps_longitude#:#Längengrad
+maps#:#maps_lookup_address#:#Adresse suchen
+maps#:#maps_public_profile_info#:#Zeige Position im eigenen Profil
+maps#:#maps_settings#:#Einstellungen Karten
+maps#:#maps_std_location_desc#:#Klicken Sie auf die Karte, um die eigene Position anzugeben.
+maps#:#maps_std_location#:#Standardposition
+maps#:#maps_zoom_level#:#Vergrösserungsstufe
+maps#:#maps_google_maps#:#Google Maps
+maps#:#maps_open_layers_maps#:#Open Layers Maps
+maps#:#maps_map_type#:#Typ
+wiki#:#wiki_link#:#Wiki-Link
+wiki#:#wiki_add_link#:#Link hinzufügen
+wiki#:#wiki_link_text#:#Linktext
+wiki#:#wiki_target_page#:#Zielseite
+wiki#:#wiki_page_exists#:#Bestehende Seite
 style#:#sty_switch#:#Switch###26 09 2014 new variable
 style#:#sty_default#:#Default###26 09 2014 new variable
 style#:#sty_media_queries#:#Media Queries###26 09 2014 new variable
@@ -14784,187 +14891,97 @@ style#:#sty_sure_del_mqueries#:#Do you really want to delete this media query an
 style#:#sty_custom#:#Custom###26 09 2014 new variable
 style#:#sty_custom_par#:#Custom Parameters###26 09 2014 new variable
 style#:#sty_custom_par_info#:#Add custom CSS parameters using format "parameter: value".###26 09 2014 new variable
-sess#:#sess_reg_max_users_exceeded#:#A registration is not possible, since the maximum number of users id exceeded.###26 09 2014 new variable
-sess#:#sess_reg_max_users_exceeded_wl#:#The maximum number of users for this session appointment is exceeded.###26 09 2014 new variable
-sess#:#sess_reg_added_to_wl#:#You have been added to the waiting list.###26 09 2014 new variable
 style#:#sty_transform#:#Transform###26 09 2014 new variable
 style#:#sty_transform_origin#:#Transform-Origin###26 09 2014 new variable
-rbac#:#condition_failed#:#Failed###26 09 2014 new variable
-rbac#:#condition_learning_progress#:#Derive from Learning Progress###26 09 2014 new variable
-rbac#:#rbac_precondition_hide#:#Hide Object###26 09 2014 new variable
-rbac#:#rbac_precondition_hide_info#:# This option allows to hide the object for users who currently have not fulfilled the preconditions. Therefore, all not accessible content is invisible.###26 09 2014 new variable
-wsp#:#wsp_shared_table_title#:#Shares###26 09 2014 new variable
-content#:#cont_out_of_focus_message#:#This page is not related to your current learning objective anymore.###26 09 2014 new variable
-content#:#cont_show_content_after_focus#:#Continue with the Learning Module###26 09 2014 new variable
-content#:#cont_to_focus_beginning#:#Back to Content related to the Learning Objective###26 09 2014 new variable
-content#:#cont_to_focus_return_crs#:#Back to Course###26 09 2014 new variable
-crs#:#crs_loc_learning_objective#:#Learning Objective###26 09 2014 new variable
-crs#:#crs_loc_suggested#:#Please work through the following learning materials.###26 09 2014 new variable
-crs#:#crs_loc_itest_info#:#Initial Test###26 09 2014 new variable
-crs#:#crs_loc_qtest_info#:#Qualified Test###26 09 2014 new variable
-crs#:#crs_loc_tt_info#:#You have reached %1$d%%. The test is passed with %2$d%%.###26 09 2014 new variable
-crs#:#crs_objective_status_configure#:#Configure Learning Objective Oriented Course###26 09 2014 new variable
-crs#:#crs_objective_status_settings#:#Course Settings###26 09 2014 new variable
-crs#:#crs_objective_status_materials#:#Create New Course Materials###26 09 2014 new variable
-crs#:#crs_objective_status_itest#:#Configure Initial Test###26 09 2014 new variable
-crs#:#crs_objective_status_qtest#:#Configure Qualifying Test###26 09 2014 new variable
-crs#:#crs_objective_status_objectives#:#Configure Learning Objectives###26 09 2014 new variable
-crs#:#crs_objective_status_start#:#Define Start Objects###26 09 2014 new variable
-crs#:#crs_objective_status_fullfilled#:#OK###26 09 2014 new variable
-crs#:#crs_objective_action_materials#:#Material Assignment###26 09 2014 new variable
-crs#:#crs_objective_action_qtest#:#Question Assignment Qualifying###26 09 2014 new variable
-crs#:#crs_objective_action_itest#:#Question Assignemnt Initial Test###26 09 2014 new variable
-crs#:#crs_loc_qt_visibility#:#Visibility of Qualifying Test###26 09 2014 new variable
-crs#:#crs_loc_qt_visibility_all#:#Show Qualifying Test about all Objectives###26 09 2014 new variable
-crs#:#crs_loc_qt_visibility_lo#:#Show Qualifying Test for each Objective###26 09 2014 new variable
-crs#:#crs_loc_limited_passes#:#Limited Test Passes###26 09 2014 new variable
-crs#:#crs_loc_passes#:#Number of Passes###26 09 2014 new variable
-crs#:#crs_loc_passes_info#:#Maximum Number of test passes###26 09 2014 new variable
-crs#:#crs_loc_err_stat_no_materials#:#No Course Materials available###26 09 2014 new variable
-crs#:#crs_loc_err_stat_no_qt#:#No Qualifying Test available###26 09 2014 new variable
-crs#:#crs_loc_err_stat_no_it#:#No Initial Test available###26 09 2014 new variable
-crs#:#crs_objective_status_objective_creation#:#Create Learning Objective###26 09 2014 new variable
-crs#:#crs_loc_form_create_objectives#:#Create Learning Objectives###26 09 2014 new variable
-crs#:#crs_loc_err_no_active_mat#:#Learning Objectives without Materials###26 09 2014 new variable
-crs#:#crs_loc_err_no_active_it#:#Learning Objectives without Initial Test###26 09 2014 new variable
-crs#:#crs_loc_err_no_active_qt#:#Learning Objectives without Qualifying Test###26 09 2014 new variable
-crs#:#crs_loc_err_no_active_lo#:#No active Learning Objective###26 09 2014 new variable
-crs#:#crs_loc_settings_tbl#:#Settings for the Learning Objective Oriented Course###26 09 2014 new variable
-crs#:#crs_loc_settings_type#:#Course Type###26 09 2014 new variable
-crs#:#crs_loc_type_initial_all#:#Kurs startet mit Einstiegstest zu allen Lernzielen###26 09 2014 new variable
-crs#:#crs_loc_type_initial_sel#:#Kurs startet mit Einstiegstest zu ausgewähltem Lernziel###26 09 2014 new variable
-crs#:#crs_loc_type_qualified#:#Kurs startet mit qualifizierendem Test###26 09 2014 new variable
-crs#:#crs_loc_type_practise#:#Kurs startet mit Lern- und Übungsteil###26 09 2014 new variable
-crs#:#crs_loc_tab_materials#:#Materials###26 09 2014 new variable
-crs#:#crs_loc_tab_itest#:#Initial Test###26 09 2014 new variable
-crs#:#crs_loc_tab_qtest#:#Qualifying Test###26 09 2014 new variable
-crs#:#crs_loc_settings_itest_tbl#:#Settings for the Initial Test###26 09 2014 new variable
-crs#:#crs_loc_tab_objectives#:#Learning objectives###26 09 2014 new variable
-crs#:#crs_loc_settings_qtest_tbl#:#Settings for the Qualifying Test###26 09 2014 new variable
-crs#:#crs_loc_tab_start#:#Start Objects###26 09 2014 new variable
-common#:#il_astpl_loc_initial#:#Initial Test###26 09 2014 new variable
-common#:#il_astpl_loc_qualified#:#Qualifying Test###26 09 2014 new variable
-common#:#il_astpl_loc_initial_desc#:#Settings template for initial tests of learning objective oriented courses###26 09 2014 new variable
-common#:#il_astpl_loc_qualified_desc#:#Settings template for qualifying tests of learning objective oriented courses###26 09 2014 new variable
-crs#:#crs_loc_confirm_delete_tst#:#Do you really want to deassign the test of this learning objective oriented course?###26 09 2014 new variable
-crs#:#crs_loc_tbl_tst_type#:#Test Mode###26 09 2014 new variable
-crs#:#crs_loc_form_assign_it#:#Test Assignment###26 09 2014 new variable
-crs#:#crs_loc_form_tst_new#:#Create new Test###26 09 2014 new variable
-crs#:#crs_loc_form_assign#:#Use Existing Test###26 09 2014 new variable
-crs#:#crs_loc_form_available_tsts#:#Available Tests###26 09 2014 new variable
-crs#:#crs_loc_tbl_tst_qst_qpl#:#Questions/Questionpools###26 09 2014 new variable
-crs#:#crs_loc_tst_num_qst#:#Number of Questions:###26 09 2014 new variable
-crs#:#crs_loc_tst_qpls#:#Available Question Pools:###26 09 2014 new variable
-crs#:#crs_loc_form_random_limits_it#:#Define Questions of Initial Test###26 09 2014 new variable
-crs#:#crs_loc_form_random_limits_qt#:#Define Questions of Qualifying Test###26 09 2014 new variable
-crs#:#crs_loc_rand_assign_qpl#:#Assignment form Question Pool###26 09 2014 new variable
-crs#:#crs_loc_rand_qpl#:#Available Question Pools###26 09 2014 new variable
-crs#:#crs_loc_num_qst#:#Number of Questions###26 09 2014 new variable
-crs#:#crs_loc_perc#:#Required Percentage of Points###26 09 2014 new variable
-crs#:#crs_loc_delete_assignment#:#Delete Assignment###26 09 2014 new variable
-crs#:#crs_loc_err_no_active_qst#:#Objectives without Questions###26 09 2014 new variable
-crs#:#crs_loc_qtst_for_objective#:#Qualifying Test "%1$s"###26 09 2014 new variable
-crs#:#crs_loc_itst_for_objective#:#Initial Test "%1$s"###26 09 2014 new variable
-crs#:#crs_loc_progress_result_itest#:#Result of Initial Test###26 09 2014 new variable
-crs#:#crs_loc_progress_result_qtest#:#Result###26 09 2014 new variable
-crs#:#crs_loc_progress_no_result_do_initial#:#Please take the initial test.###26 09 2014 new variable
-crs#:#crs_loc_progress_objective_complete#:#You completed the learning objective.###26 09 2014 new variable
-crs#:#crs_loc_progress_do_qualifying#:#Please take the qualifying test.###26 09 2014 new variable
-crs#:#crs_loc_progress_do_qualifying_again#:#Please work through the learning objective materials again.###26 09 2014 new variable
-content#:#cont_out_of_focus_message_last_page#:#This is the last page of the content related to your current learning objective.###26 09 2014 new variable
-crs#:#crs_loc_err_nr_tries_exceeded#:#The number of passes per objective exceeds the possible number of passes of the Qualifying Test.###26 09 2014 new variable
-crs#:#crs_loc_passes_left#:#Remaining number of test passes###26 09 2014 new variable
-crs#:#crs_loc_passes_reached#:#No further test pases possible###26 09 2014 new variable
-crs#:#crs_loc_tst_new_run#:#Neuen Testdurchlauf starten###26 09 2014 new variable
-crs#:#crs_loc_tst_resume#:#Testdurchlauf fortsetzen###26 09 2014 new variable
-crs#:#crs_loc_settings_reset#:#Testergebnisse###26 09 2014 new variable
-crs#:#crs_loc_settings_reset_enable#:#"Testergebnis zurücksetzen" erlauben###26 09 2014 new variable
-crs#:#crs_loc_settings_reset_enable_info#:#Wenn aktiviert, haben alle Benutzer die Möglichkeit, ihre individuellen Testergebnisse zurückzusetzen.###26 09 2014 new variable
-crs#:#crs_loc_progress_no_result_no_initial#:#Please work through the following learning materials and then take the qualifying test.###26 09 2014 new variable
-crs#:#crs_loc_qst_resume_tst_itest#:#Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.###26 09 2014 new variable
-crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen qualifizierenden Test zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.###26 09 2014 new variable
-bibl#:#bibl_library_show_in_list#:#Show link als in the list###26 09 2014 new variable
-ecs#:#ecs_token_mechanism#:#Authentication Token###26 09 2014 new variable
-ecs#:#ecs_token_mechanism_info#:#If enabled, the authentication on the hosting platform for remote objects, is done by the ECS-Token-Mechanism.###26 09 2014 new variable
-ecs#:#ecs_part_settings#:#Settings for Participant:###26 09 2014 new variable
-help#:#help_topcis#:#Topics###26 09 2014 new variable
-ecs#:#ecs_export_types#:#Exportable Object Types###26 09 2014 new variable
-ecs#:#ecs_import_types#:#Importable Object Types###26 09 2014 new variable
-sysc#:#sysc_tab_trash#:#Deleted Objects###26 09 2014 new variable
-sysc#:#sysc_administrate_deleted#:#Administrate Deleted Objects###26 09 2014 new variable
-sysc#:#sysc_trash_restore#:#Restore Deleted Objects###26 09 2014 new variable
-sysc#:#sysc_trash_restore_info#:#Restore deleted objects from trash bin and move the to the "Recovery Folder"###26 09 2014 new variable
-sysc#:#sysc_trash_action#:#Action###26 09 2014 new variable
-sysc#:#sysc_trash_remove#:#Remove deleted objects from system###26 09 2014 new variable
-sysc#:#sysc_trash_remove_info#:#Remove deleted objects (trash bin) from the system###26 09 2014 new variable
-sysc#:#sysc_trash_limit_num#:#Limit Number###26 09 2014 new variable
-sysc#:#sysc_trash_limit_age#:#Limit Age###26 09 2014 new variable
-sysc#:#sysc_trash_limit_type#:#Limit by Type###26 09 2014 new variable
-registration#:#registration_codes_type#:#Code Type###26 09 2014 new variable
-registration#:#registration_codes_type_reg#:#Registration Code###26 09 2014 new variable
-registration#:#registration_codes_type_reg_info#:#Code can be used for the registration if a new user account###26 09 2014 new variable
-registration#:#registration_codes_type_ext#:#Extension of limited user accounts###26 09 2014 new variable
-registration#:#registration_codes_type_ext_info#:#Code can be used for the extension of limited accounts.###26 09 2014 new variable
-scormtrac#:#audio_captioning#:#cmi.learner_preference.audio_captioning###26 09 2014 new variable
-scormtrac#:#audio_level#:#cmi.learner_preference.audio_level###26 09 2014 new variable
-scormtrac#:#c_entry#:#cmi.entry###26 09 2014 new variable
-scormtrac#:#c_exit#:#cmi.exit###26 09 2014 new variable
-scormtrac#:#c_language#:#cmi.learner_preference.language###26 09 2014 new variable
-scormtrac#:#c_location#:#cmi.location###26 09 2014 new variable
-scormtrac#:#c_max#:#cmi.score.max###26 09 2014 new variable
-scormtrac#:#c_min#:#cmi.score.min###26 09 2014 new variable
-scormtrac#:#c_mode#:#cmi.mode###26 09 2014 new variable
-scormtrac#:#c_raw#:#cmi.score.raw: achieved score###26 09 2014 new variable
-scormtrac#:#c_timestamp#:#Last access###26 09 2014 new variable
-scormtrac#:#c_type#:#cmi.interactions.n.type###26 09 2014 new variable
-scormtrac#:#completion_status#:#cmi.completion_status###26 09 2014 new variable
-scormtrac#:#completion_threshold#:#cmi.completion_threshold###26 09 2014 new variable
-scormtrac#:#counter_all#:#all users###26 09 2014 new variable
-scormtrac#:#counter_correct#:#users with correct result###26 09 2014 new variable
-scormtrac#:#counter_correct_percent#:#Percentage of users with correct result###26 09 2014 new variable
-scormtrac#:#counter_incorrect#:#users with incorrect result###26 09 2014 new variable
-scormtrac#:#counter_incorrect_percent#:#Percentage of users with incorrect result###26 09 2014 new variable
-scormtrac#:#counter_other#:#users with other result###26 09 2014 new variable
-scormtrac#:#counter_other_percent#:#Percentage of users with other result###26 09 2014 new variable
-scormtrac#:#cp_node_id#:#Id of the chapter (SCO)###26 09 2014 new variable
-scormtrac#:#credit#:#cmi.credit###26 09 2014 new variable
-scormtrac#:#delivery_speed#:#cmi.learner_preference.delivery_speed###26 09 2014 new variable
-scormtrac#:#exportselectedcore#:#Basic report for chapters (SCO)###26 09 2014 new variable
-scormtrac#:#exportselectedinteractions#:#Basic report forinteractions###26 09 2014 new variable
-scormtrac#:#id#:#Id###26 09 2014 new variable
-scormtrac#:#interaction_description#:#Decription of the interaction###26 09 2014 new variable
-scormtrac#:#interaction_id#:#Id of the interaction###26 09 2014 new variable
-scormtrac#:#interaction_value#:#result of the interaction###26 09 2014 new variable
-scormtrac#:#latency#:#cmi.interactions.n.latency: time###26 09 2014 new variable
-scormtrac#:#latency_seconds#:#cmi.interactions.n.latency: time in seconds###26 09 2014 new variable
-scormtrac#:#launch_data#:#cmi.launch_data: data at start of the SCO###26 09 2014 new variable
-scormtrac#:#learner_response#:#cmi.interactions.n.learner_response: Response###26 09 2014 new variable
-scormtrac#:#lm_id#:#Id of the learning module###26 09 2014 new variable
-scormtrac#:#lm_title#:#Title of the learning module###26 09 2014 new variable
-scormtrac#:#progress_measure#:#cmi.progress_measure###26 09 2014 new variable
-scormtrac#:#result#:#cmi.interactions.n.result###26 09 2014 new variable
-scormtrac#:#scaled#:#cmi.score.scaled: score achieved as a decimal fraction###26 09 2014 new variable
-scormtrac#:#scaled_passing_score#:#cmi.scaled_passing_score: score required to pass as a decimal fraction###26 09 2014 new variable
-scormtrac#:#sco_marked_for_learning_progress#:#relevant for learning progress###26 09 2014 new variable
-scormtrac#:#sco_title#:#title of the chapter (SCO)###26 09 2014 new variable
-scormtrac#:#session_time#:#cmi.session_time: time in the last session###26 09 2014 new variable
-scormtrac#:#session_time_seconds#:#cmi.session_time: time in the last session in seconds###26 09 2014 new variable
-scormtrac#:#success_status#:#cmi.success_status: success###26 09 2014 new variable
-scormtrac#:#suspend_data#:#cmi.suspend_data: variable buffer of the SCO###26 09 2014 new variable
-scormtrac#:#total_time#:#cmi.total_time: total time###26 09 2014 new variable
-scormtrac#:#total_time_seconds#:#cmi.total_time: total time in seconds###26 09 2014 new variable
-scormtrac#:#tracinteractionitem#:#Evaluation per interaction###26 09 2014 new variable
-scormtrac#:#tracinteractionuser#:#Evaluation per user###26 09 2014 new variable
-scormtrac#:#tracinteractionuseranswers#:#Responses of users###26 09 2014 new variable
-scormtrac#:#user_id#:#User-Id###26 09 2014 new variable
-scormtrac#:#weighting#:#cmi.interactions.n.weighting###26 09 2014 new variable
-scormtrac#:#report#:#Report###26 09 2014 new variable
-scormtrac#:#display_not_allowed#:#display not allowed###26 09 2014 new variable
-common#:#ps_export_scorm#:#SCORM Tracking Data###26 09 2014 new variable
-common#:#enable_export_scorm_desc#:#allow Export of User Data of SCORM-Learning Modules###26 09 2014 new variable
+help#:#help_topcis#:#Themen
 content#:#cont_ed_click_to_add_pg#:#Klicken Sie hier, um Inhalte hinzuzufügen.
 link#:#link_edit_int_link#:#Internen Link bearbeiten
 link#:#link_chapters#:#Kapitel
 link#:#link_wpages#:#Wikiseiten
 link#:#link_terms#:#Begriffe
 link#:#link_mobs#:#Medienobjekte
+ecs#:#ecs_token_mechanism#:#Authentifizierungstoken
+ecs#:#ecs_token_mechanism_info#:#Wenn aktiviert, erfolgt die Anmeldung für die Installation freigegebener Objekte per ECS-Token-Mechnismus
+help#:#help_topics#:#Hilfethemen
+ecs#:#ecs_export_types#:#Exportierbare Objekttypen
+ecs#:#ecs_import_types#:#Importierbare Objekttypen
+sysc#:#sysc_tab_trash#:#Gelöschte Objekte
+sysc#:#sysc_administrate_deleted#:#Gelöschte Objekte verwalten
+sysc#:#sysc_trash_restore#:#Gelöschte Objekte wiederherstellen
+sysc#:#sysc_trash_restore_info#:#Stelle alle Objekte im Papierkorb wieder her und verschiebe sie in den Rettungsordner.
+sysc#:#sysc_trash_action#:#Aktion
+sysc#:#sysc_trash_remove#:#Entferne gelöschte Objekte
+sysc#:#sysc_trash_remove_info#:#Entferne Objekte im Papierkorb aus dem System
+sysc#:#sysc_trash_limit_num#:#Begrenze Anzahl
+sysc#:#sysc_trash_limit_age#:#Begrenze Alter
+sysc#:#sysc_trash_limit_type#:#Begrenze Typ
+registration#:#registration_codes_section_valid#:#Gültigkeit der Codes
+registration#:#registration_codes_type#:#Codetyp
+registration#:#registration_codes_type_reg#:#Registrierungscode
+registration#:#registration_codes_type_reg_info#:#Der Code kann für die Registrierung neuer Benutzerkonten verwendet werden.
+registration#:#registration_codes_type_ext#:#Verlängerung zeitlich begrenzter Benutzerkonten 
+registration#:#registration_codes_type_ext_info#:#Der Code kann für die Verlängerung zeitlich befristeter Benutzerkonten verwendet werden.
+scormtrac#:#audio_captioning#:#cmi.learner_preference.audio_captioning
+scormtrac#:#audio_level#:#cmi.learner_preference.audio_level
+scormtrac#:#c_entry#:#cmi.entry
+scormtrac#:#c_exit#:#cmi.exit
+scormtrac#:#c_language#:#cmi.learner_preference.language
+scormtrac#:#c_location#:#cmi.location
+scormtrac#:#c_max#:#cmi.score.max: maximale Punktzahl
+scormtrac#:#c_min#:#cmi.score.min: minimale Punktzahl
+scormtrac#:#c_mode#:#cmi.mode
+scormtrac#:#c_raw#:#cmi.score.raw: erreichte Punktzahl
+scormtrac#:#c_timestamp#:#Letzter Zugriff
+scormtrac#:#c_type#:#cmi.interactions.n.type: Typ der Aufgabe
+scormtrac#:#completion_status#:#cmi.completion_status: Umfang der Bearbeitung
+scormtrac#:#completion_threshold#:#cmi.completion_threshold
+scormtrac#:#counter_all#:#alle Benutzer
+scormtrac#:#counter_correct#:#Aufgabe richtig beantwortet (Anzahl TN)
+scormtrac#:#counter_correct_percent#:#Prozentsatz richtig Antwortender
+scormtrac#:#counter_incorrect#:#Aufgabe falsch beantwortet (Anzahl TN)
+scormtrac#:#counter_incorrect_percent#:#Prozentsatz falsch Antwortender
+scormtrac#:#counter_other#:#weder richtig noch falsch Antwortende
+scormtrac#:#counter_other_percent#:#Prozentsatz weder richtig noch falsch Antwortender
+scormtrac#:#counter_i_correct#:#richtig beantwortete Aufgaben
+scormtrac#:#counter_i_correct_percent#:#Prozentsatz richtig beantworteter Aufgaben
+scormtrac#:#counter_i_incorrect#:#falsch beantwortete Aufgaben
+scormtrac#:#counter_i_incorrect_percent#:#Prozentsatz falsch beantworteter Aufgaben
+scormtrac#:#counter_i_other#:#weder richtig noch falsch beantwortete Aufgaben
+scormtrac#:#counter_i_other_percent#:#Prozentsatz weder richtig noch falsch beantworteter Aufgaben
+scormtrac#:#cp_node_id#:#Id des Kapitels
+scormtrac#:#credit#:#cmi.credit
+scormtrac#:#delivery_speed#:#cmi.learner_preference.delivery_speed
+scormtrac#:#description#:#Aufgabe
+scormtrac#:#exportselectedcore#:#Basis-Report zum Kapitel (SCO)
+scormtrac#:#exportselectedinteractions#:#Basis-Report zu Kapitel-Aufgaben (interactions)
+scormtrac#:#id#:#Id
+scormtrac#:#interaction_description#:#Beschreibung der Aufgabe
+scormtrac#:#interaction_id#:#Id der Aufgabe
+scormtrac#:#interaction_value#:#Ergebnis der Aufgabe %s:
+scormtrac#:#latency#:#cmi.interactions.n.latency: Zeitdauer
+scormtrac#:#latency_seconds#:#cmi.interactions.n.latency: Zeitdauer in Sekunden
+scormtrac#:#launch_data#:#cmi.launch_data: Daten beim Start des SCO
+scormtrac#:#learner_response#:#cmi.interactions.n.learner_response: Antwort
+scormtrac#:#lm_id#:#Id des Lernmoduls
+scormtrac#:#lm_title#:#Titel des Lernmoduls
+scormtrac#:#progress_measure#:#cmi.progress_measure: Fortschritt des Bearbeitungsumfangs
+scormtrac#:#result#:#cmi.interactions.n.result: Ergebnis
+scormtrac#:#scaled#:#cmi.score.scaled: erreichte Punktzahl als Dezimalbruch
+scormtrac#:#scaled_passing_score#:#cmi.scaled_passing_score: zum Bestehen erforderliche Punktzahl als Dezimalbruch
+scormtrac#:#sco_marked_for_learning_progress#:#relevant für den Lernstand
+scormtrac#:#sco_title#:#Titel des Kapitels
+scormtrac#:#session_time#:#cmi.session_time: Zeit in der letzten Sitzung
+scormtrac#:#session_time_seconds#:#cmi.session_time: Zeit in der letzten Sitzung in Sekunden
+scormtrac#:#success_status#:#cmi.success_status: Erfolg der Bearbeitung
+scormtrac#:#suspend_data#:#cmi.suspend_data: variabler Zwischenspeicher des SCO
+scormtrac#:#total_time#:#cmi.total_time: Gesamtzeit
+scormtrac#:#total_time_seconds#:#cmi.total_time: Gesamtzeit in Sekunden
+scormtrac#:#tracinteractionitem#:#Auswertung pro Aufgabe
+scormtrac#:#tracinteractionuser#:#Auswertung pro Teilnehmer
+scormtrac#:#tracinteractionuseranswers#:#Teilnehmerantworten
+scormtrac#:#user_id#:#Benutzer-Id
+scormtrac#:#weighting#:#cmi.interactions.n.weighting: Gewichtung
+scormtrac#:#report#:#Report
+scormtrac#:#display_not_allowed#:#Anzeige hier nicht erlaubt
+common#:#ps_export_scorm#:#SCORM-Protokolldaten
+common#:#enable_export_scorm_desc#:#Erlaube den Export von Persönlichen Daten aus SCORM-Lernmodulen
