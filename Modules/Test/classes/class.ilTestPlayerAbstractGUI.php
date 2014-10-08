@@ -736,7 +736,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		if($this->object->getKioskMode())
 		{
-			$this->tpl->addBlockfile('CONTENT', 'content', "tpl.il_as_tst_kiosk_mode_content.html", "Modules/Test");
+			$this->tpl->addBlockfile($this->getContentBlockName(), 'content', "tpl.il_as_tst_kiosk_mode_content.html", "Modules/Test");
 			$this->tpl->setContent($confirmation->getHtml());
 		}
 		else
