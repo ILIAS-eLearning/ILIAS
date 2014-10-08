@@ -53,17 +53,17 @@
 			var $panel = $("#adjustment_stats_container_{FORM_ELEMENT_NAME}");
 
 			if ($panel.size() == 0) {
-				var $panel = $("<div class=\"ilOverlay\" style=\"overflow: auto; display: none;\" id=\"adjustment_stats_container_{FORM_ELEMENT_NAME}\"></div>")
+				var $panel = $("<div class=\"ilOverlay ilRightPanel yui-module yui-overlay yui-overlay-hidden\" style=\"overflow: auto; display: none;\" id=\"adjustment_stats_container_{FORM_ELEMENT_NAME}\"></div>")
 						.css({
 							position: "fixed",
 							top: "0px",
 							bottom: "0px",
 							left: "",
 							right: "0px",
-							width: "40%",
+							width: "500px",
 							padding: "5px"
 						});
-				$panel.insertAfter("#mainscrolldiv");
+				$panel.insertAfter($("body"));
 
 				$content.appendTo($panel);
 

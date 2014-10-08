@@ -1441,8 +1441,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			{
 				$html .= '<p>Gap '.$i . ' - TEXT</p>';
 				$html .= '<ul>';
-				$aggregate = $aggregation[$i];
-				foreach ($aggregate as $answer => $count)
+				$aggregate = (array)$aggregation[$i];
+				foreach($aggregate as $answer => $count)
 				{
 					$html .= '<li>' . $answer . ' - ' . $count . '</li>';
 				}
@@ -1456,8 +1456,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 				$j = 0;
 				foreach($gap->getItems() as $gap_item)
 				{
-					$aggregate = $aggregation[$i];
-					foreach ($aggregate as $answer => $count)
+					$aggregate = (array)$aggregation[$i];
+					foreach($aggregate as $answer => $count)
 					{
 						$html .= '<li>' . $answer . ' - ' . $count . '</li>';
 					}
