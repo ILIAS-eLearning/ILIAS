@@ -266,6 +266,8 @@ class ilScoringAdjustmentGUI
 
 		$participants = $this->object->getParticipants();
 		$active_ids = array_keys($participants);
+		$results = array();
+		
 		foreach ($active_ids as $active_id)
 		{
 			$passes[] = $this->object->_getPass($active_id);
