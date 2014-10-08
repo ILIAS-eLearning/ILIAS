@@ -820,6 +820,7 @@ assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert
 assessment#:#question_short#:#F
 assessment#:#question_summary#:#Fragenübersicht
 assessment#:#obligations_summary#:#Übersicht obligatorischer Fragen
+assessment#:#tst_you_have_to_answer_this_question#:#Diese Frage muss beantwortet werden, um den Test beenden zu können.
 assessment#:#question_title#:#Fragentitel
 assessment#:#question_type#:#Fragetyp
 assessment#:#questionpool_not_entered#:#Bitte geben Sie einen Namen für den Fragenpool an!
