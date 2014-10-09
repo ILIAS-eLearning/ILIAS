@@ -137,6 +137,10 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 			{
 				$_POST['clozetype_' . $key]= $ilUtilObj->stripSlashes($_POST['clozetype_' . $key]);
 				$getType=$_POST['clozetype_' . $key];
+				
+				$gapsize = $_POST['gap_'.$key.'_gapsize'];
+				$json[0][$key]->text_field_length = $gapsize;
+				
 				if( $getType== CLOZE_TEXT || $getType == CLOZE_SELECT )
 				{
 					$_POST['gap_' . $key] = $ilUtilObj->stripSlashesRecursive($_POST['gap_' . $key]);
