@@ -320,7 +320,16 @@ class ilObjTestSettingsScoringResultsGUI
 		if( !$this->isHiddenFormItem('enable_archiving') )
 		{
 			// Archiving
-			$this->testOBJ->setEnableArchiving($form->getItemByPostVar('enable_archiving')->getChecked());
+			if($this->testOBJ->getAnonymity() == true && 
+				$form->getItemByPostVar('enable_archiving')->getChecked() == true)
+			{
+				$this->testOBJ->setEnableArchiving(false);
+				ilUtil::sendInfo($this->lng->txt('no_archive_on_anonymous'), true);
+			} 
+			else 
+			{
+				$this->testOBJ->setEnableArchiving($form->getItemByPostVar('enable_archiving')->getChecked());
+			}
 		}
 
 		// store settings to db
