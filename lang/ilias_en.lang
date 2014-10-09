@@ -678,6 +678,7 @@ assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary
 assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.
+assessment#:#tst_import_non_ilias_zip#:#Error: The filename of the uploaded import file does not match the expected format.
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.
 assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving
 assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving
