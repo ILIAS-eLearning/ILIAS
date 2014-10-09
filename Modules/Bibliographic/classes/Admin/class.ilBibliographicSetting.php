@@ -115,61 +115,97 @@ class ilBibliographicSetting {
 	 * @return string
 	 */
 	public function generateLibraryLink($entry, $type) {
-		// get the link/logic from Settings
-		$bibl_settings = new ilSetting("bibl");
-		// get entry's and settings' attributes
-		$attr_order = explode(",", $bibl_settings->get($type . "_ord"));
+
 		$attributes = $entry->getAttributes();
 		switch ($type) {
 			case 'bib':
 				$prefix = "bib_default_";
-				// set default
-				if ($attr_order[0] == "" && sizeof($attr_order) == 1) {
-					$attr_order = array( "isbn", "issn", "title" );
-				}
-				break;
+				if(!empty($attributes[$prefix."isbn"])){
+                    $attr = Array("isbn");
+                }elseif(!empty($attributes[$prefix."issn"])){
+                    $attr = Array("issn");
+                }else{
+                    $attr = Array("title", "author", "year", "number", "volume");
+                }
+                break;
 			case 'ris':
 				$prefix = "ris_" . strtolower($entry->getType()) . "_";
-				// set default
-				if ($attr_order[0] == "" && sizeof($attr_order) == 1) {
-					$attr_order = array( "sn", "ti", "t1" );
-				}
+				if(!empty($attributes[$prefix."sn"])){
+                    $attr = Array("sn");
+                }else{
+                    $attr = Array("ti", "t1", "au", "py", "is", "vl");
+                }
 				break;
-			default:
-				$attr_order = array( "isbn" );
 		}
-		// get first existing attribute (in order of the settings or default if nothing set)
-		$i = 0;
-		while (empty($attributes[$prefix . trim(strtolower($attr_order[$i]))]) && ($i < 10)) {
-			$i ++;
-		}
-		//if($i==10){echo "no attr"; exit();}
-		$attr = trim(strtolower($attr_order[$i]));
-		$value = $attributes[$prefix . $attr];
-		switch ($attr) {
-			case 'ti':
-				$attr = "title";
-				break;
-			case 't1':
-				$attr = "title";
-				break;
-			case 'sn':
-				if (strlen($value) <= 9) {
-					$attr = "issn";
-				} else {
-					$attr = "isbn";
-				}
-				break;
-			case 'pb':
-				$attr = "publisher";
-				break;
-			default:
-		}
-		// generate and return full link
-		$full_link = $this->getBaseUrl() . "?" . $attr . "=" . urlencode($value);
+
+        $url_params = "?";
+		if(sizeof($attr) == 1){
+            $url_params .= $this->formatAttribute($attr[0], $type, $attributes, $prefix) . "=" . urlencode($attributes[$prefix . $attr[0]]);
+        }else{
+            foreach($attr as $a){
+                if(array_key_exists($prefix.$a, $attributes)){
+                    if(strlen($url_params) > 1){
+                        $url_params .= "&";
+                    }
+                    $url_params .= $this->formatAttribute($a, $type, $attributes, $prefix) . "=" . urlencode($attributes[$prefix . $a]);
+                }
+            }
+        }
+
+		// return full link
+		$full_link = $this->getBaseUrl() . $url_params;
 
 		return $full_link;
 	}
+
+    /**
+     * @param String $a
+     * @param String $type
+     * @param Array $attributes
+     * @param String $prefix
+     * @return String
+     */
+    private function formatAttribute($a, $type, $attributes, $prefix){
+        if($type = 'ris'){
+            switch($a){
+                case 'ti':
+                    $a = "title";
+                    break;
+                case 't1':
+                    $a = "title";
+                    break;
+                case 'au':
+                    $a = "author";
+                    break;
+                case 'sn':
+                    if (strlen($attributes[$prefix."sn"]) <= 9) {
+                        $a = "issn";
+                    }else{
+                        $a = "isbn";
+                    }
+                    break;
+                case 'py':
+                    $a = "date";
+                    break;
+                case 'is':
+                    $a = "issue";
+                    break;
+                case 'vl':
+                    $a = "volume";
+                    break;
+            }
+        }elseif($type = 'bib'){
+            switch($a){
+                case "number":
+                    $a = "issue";
+                    break;
+                case "year":
+                    $a = "date";
+                    break;
+            }
+        }
+        return $a;
+    }
 
 
 	/**
