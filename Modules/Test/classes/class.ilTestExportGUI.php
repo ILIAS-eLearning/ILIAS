@@ -25,7 +25,14 @@ class ilTestExportGUI extends ilExportGUI
 
 		$this->addFormat('xml', $a_parent_gui->lng->txt('ass_create_export_file'), $this, 'createTestExport');
 		$this->addFormat('csv', $a_parent_gui->lng->txt('ass_create_export_test_results'), $this, 'createTestResultsExport');
-		$this->addFormat('arc', $a_parent_gui->lng->txt('ass_create_export_test_archive'), $this, 'createTestArchiveExport');
+		if($a_parent_gui->object->getEnableArchiving() == true)
+		{
+			$this->addFormat( 'arc',
+							  $a_parent_gui->lng->txt( 'ass_create_export_test_archive' ),
+							  $this,
+							  'createTestArchiveExport'
+			);
+		}
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'texp');
 		foreach($pl_names as $pl)
 		{
@@ -244,6 +251,10 @@ class ilTestExportGUI extends ilExportGUI
 		 */
 		global $lng, $ilCtrl;
 
+		require_once 'class.ilTestArchiver.php';
+		$archiver = new ilTestArchiver($this->getParentGUI()->object->getId());
+		$archiveDir = $archiver->getZipExportDirectory();
+		
 		$export_dir = $this->obj->getExportDirectory();
 		foreach($_POST['file'] as $file)
 		{
@@ -256,10 +267,15 @@ class ilTestExportGUI extends ilExportGUI
 			}
 			
 			$exp_file = $export_dir.'/'.$file;
+			$arc_file = $archiveDir.'/'.$file;
 			$exp_dir = $export_dir.'/'.$dir;
 			if(@is_file($exp_file))
 			{
 				unlink($exp_file);
+			}
+			if(@is_file($arc_file))
+			{
+				unlink($arc_file);
 			}
 			if(@is_dir($exp_dir))
 			{
