@@ -5,7 +5,6 @@ include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdmi
 include_once('./Modules/Bibliographic/classes/Admin/class.ilBibliographicSetting.php');
 include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminLibrariesGUI.php');
 include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminLibrariesFormGUI.php');
-include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminAttributeOrderGUI.php');
 /**
  * Bibliographic Administration Settings.
  *
@@ -46,15 +45,8 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
-			case "ilobjbibliographicadminattributeordergui":
-				$this->prepareOutput();
-				$this->getSubTabs('attribute_order');
-				$ilObjBibliographicAdminAttributeOrderGUI = new ilObjBibliographicAdminAttributeOrderGUI($this);
-				$this->ctrl->forwardCommand($ilObjBibliographicAdminAttributeOrderGUI);
-				break;
 			default:
 				$this->prepareOutput();
-				$this->getSubTabs('libraries');
 				$ilObjBibliographicAdminLibrariesGUI = new ilObjBibliographicAdminLibrariesGUI($this);
 				$this->ctrl->forwardCommand($ilObjBibliographicAdminLibrariesGUI);
 				break;
@@ -84,22 +76,4 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 		}
 	}
 
-
-	/**
-	 * @param string $active_subtab
-	 */
-	public function getSubTabs($active_subtab) {
-		global $rbacsystem;
-		if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-			$this->tabs_gui->addSubTab('libraries', $this->lng->txt("libraries"), $this->ctrl->getLinkTargetByClass(array(
-				"ilObjBibliographicAdminGUI",
-				"ilObjBibliographicAdminLibrariesGUI"
-			), "view"));
-			$this->tabs_gui->addSubTab('attribute_order', $this->lng->txt("attr_order"), $this->ctrl->getLinkTargetByClass(array(
-				"ilObjBibliographicAdminGUI",
-				"ilObjBibliographicAdminAttributeOrderGUI"
-			), "view"));
-			$this->tabs_gui->setSubTabActive($active_subtab);
-		}
-	}
 }
