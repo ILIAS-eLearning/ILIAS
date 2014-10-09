@@ -235,7 +235,7 @@ class ilObjTestGUI extends ilObjectGUI
 
                         case 'ilpageeditorgui':
                         case 'iltestexpresspageobjectgui':
-
+global $ilDB, $ilUser;
 					require_once 'Modules/TestQuestionPool/classes/class.ilAssIncompleteQuestionPurger.php';
 					$incompleteQuestionPurger = new ilAssIncompleteQuestionPurger($ilDB);
 					$incompleteQuestionPurger->setOwnerId($ilUser->getId());
