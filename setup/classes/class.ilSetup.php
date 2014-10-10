@@ -774,7 +774,7 @@ class ilSetup extends PEAR
 		}
 		else
 		{
-			$password_valid =  md5($data['passwd']) == $a_auth_data['password'];
+			$password_valid =  $data['passwd'] == md5($a_auth_data['password']);
 		}
 
 		if($password_valid)
