@@ -434,7 +434,8 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
 		// maximum available points
 		$points = new ilNumberInputGUI($this->lng->txt( "maximum_points" ), "points");
-		$points->setMinValue( 0.25 );
+		$points->setMinValue(0.0);
+		$points->setMinvalueShouldBeGreater(true);
 		$points->setSize( 6 );
 		$points->setDisabled( true );
 		$points->setValue( $this->object->getMaximumPoints() );
