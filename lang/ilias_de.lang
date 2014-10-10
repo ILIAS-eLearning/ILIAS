@@ -1087,7 +1087,7 @@ assessment#:#tst_instant_feedback_answer_generic#:#Generische Rückmeldung ("Ric
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Das generische Feedback gibt eine einfache Rückmeldung "richtig" oder "falsch" aus.
 assessment#:#tst_instant_feedback_description#:#Wenn eine dieser Optionen ausgewählt ist, wird eine direkte Rückmeldung im Anschluss an die Beantwortung einer Frage angezeigt.
 assessment#:#tst_instant_feedback_fix_usr_answer#:#Lösung des Teilnehmers fixieren
-assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#Diese Option verursacht eine Fixierung der Lösung des Teilnehmers, wenn das direkte Feedback angefordert wird.
+assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#Die vom Teilnehmer eingetragene Antwort kann nach dem Anfordern des Feedbacks nicht mehr verändert werden.
 assessment#:#tst_instant_feedback_results#:#Ergebnisse anzeigen (nur Angabe der erreichten Punkte)
 assessment#:#tst_instant_feedback_results_desc#:#Wenn das Ergebnis ausgewählt ist, werden die erzielten Punkte angezeigt.
 assessment#:#tst_instant_feedback_solution#:#Lösungen anzeigen
