@@ -1785,7 +1785,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 			$baselink = "ilias.php?baseClass=ilObjQuestionPoolGUI&ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&calling_test=".$_GET["ref_id"]."&sel_question_types=" . $_REQUEST["sel_question_types"];
 
-			if ($_REQUEST['prev_qid']) {
+			if (isset($_REQUEST['prev_qid'])) {
 			    $baselink .= '&prev_qid=' . $_REQUEST['prev_qid'];
 			}
 			if ($_REQUEST['test_express_mode']) {
