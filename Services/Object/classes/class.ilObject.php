@@ -1132,7 +1132,7 @@ class ilObject
 
 		$ilDB->manipulate($q);
 
-		if($objDefinition->isRBACObject($this->getType()))
+		if($objDefinition->isRBACObject(ilObject::_lookupType($a_obj_id)))
 		{
 			// Update long description
 			$res = $ilDB->query("SELECT * FROM object_description WHERE obj_id = ".
@@ -1141,15 +1141,15 @@ class ilObject
 			if($res->numRows())
 			{
 				$values = array(
-					'description'	=> array('clob',$this->getLongDescription())
+					'description'	=> array('clob',$a_desc)
 					);
-				$ilDB->update('object_description',$values,array('obj_id' => array('integer',$this->getId())));
+				$ilDB->update('object_description',$values,array('obj_id' => array('integer',$a_obj_id)));
 			}
 			else
 			{
 				$values = array(
-					'description'	=> array('clob',$this->getLongDescription()),
-					'obj_id'		=> array('integer',$this->getId()));
+					'description'	=> array('clob',$a_desc),
+					'obj_id'		=> array('integer',$a_obj_id));
 				$ilDB->insert('object_description',$values);
 			}
 		}

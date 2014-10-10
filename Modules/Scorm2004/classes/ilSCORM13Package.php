@@ -149,7 +149,8 @@ class ilSCORM13Package
 	public function il_import($packageFolder,$packageId,$ilias,$validate,$reimport=false){
 		global $ilDB, $ilLog, $ilErr;
 		
-		
+		$title = "";
+
 		if ($reimport === true) {
 			$this->packageId = $packageId;
 			$this->dbRemoveAll();
@@ -166,8 +167,8 @@ class ilSCORM13Package
 	  		$this->diagnostic[] = 'XML not wellformed';
 	  		return false;
 	  	}
-    
-	  	//step 2 tranform
+
+		//step 2 tranform
 	  	$this->manifest = $this->transform($this->imsmanifest, self::DB_ENCODE_XSL);
   
 	  	if (!$this->manifest)
@@ -212,8 +213,19 @@ class ilSCORM13Package
 				$mdxml->getMDObject()->update();
 			}
 		}
+		else
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM13MDImporter.php");
+			$importer = new ilSCORM13MDImporter($this->imsmanifest, $packageId);
+			$importer->import();
+			$title = $importer->getTitle();
+			$description = $importer->getDescription();
+			if ($description != "") {
+				ilObject::_writeDescription($packageId, $description);
+			}
+		}
 
-	  	//step 5
+		//step 5
 	  	$x = simplexml_load_string($this->manifest->saveXML());
 	  	$x['persistPreviousAttempts'] = $this->packageData['persistprevattempts'];  	
 	  	$x['online'] = $this->packageData['c_online'];
@@ -271,7 +283,12 @@ class ilSCORM13Package
 				'obj_id'			=> array('integer', (int)$this->packageId)
 			)
 		);
-	
+
+		// title retrieved by importer
+		if ($title != "") {
+			return $title;
+		}
+
 	  	return $j['item']['title'];
 	  }
 	
