@@ -36,7 +36,7 @@ class ilUIHookProcessor
 			$gui_class = $ui_plugin->getUIClassInstance();
 			$resp = $gui_class->getHTML($a_comp, $a_part, $a_pars);
 
-			if ($resp["mode"] != ilUIHookPluginGUI::KEEP && !$this->replaced)
+			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
 			{
 				switch($resp["mode"])
 				{
@@ -49,8 +49,11 @@ class ilUIHookProcessor
 						break;
 						
 					case ilUIHookPluginGUI::REPLACE:
-						$this->replace = $resp["html"];
-						$this->replaced = true;
+						if (!$this->replaced)
+						{
+							$this->replace = $resp["html"];
+							$this->replaced = true;
+						}
 						break;
 				}
 			}
@@ -77,7 +80,7 @@ class ilUIHookProcessor
 	{
 		if ($this->replaced)
 		{
-			return $this->replace;
+			$html = $this->replace;
 		}
 		foreach ($this->append as $a)
 		{
