@@ -94,8 +94,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if (!$this->getCreationMode() &&
 			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$ilNavigationHistory->addItem($_GET["ref_id"],
-				"ilias.php?baseClass=ilObjQuestionPoolGUI&cmd=questions&ref_id=".$_GET["ref_id"], "qpl");
+			if('qpl' == $this->object->getType())
+			{
+				$ilNavigationHistory->addItem($_GET["ref_id"],
+					"ilias.php?baseClass=ilObjQuestionPoolGUI&cmd=questions&ref_id=" . $_GET["ref_id"], "qpl");
+			}
 		}
 		
 		$cmd = $this->ctrl->getCmd("questions");
