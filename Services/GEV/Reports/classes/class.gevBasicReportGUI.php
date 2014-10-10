@@ -44,7 +44,7 @@ abstract class gevBasicReportGUI {
 	
 		
 		//watch out for sorting of special fields, i.e. dates shown as a period of time.
-		//to avoid the ilTable-sorting, the this too true.
+		//to avoid the ilTable-sorting, set this too true.
 		//i.e. applies to: _table_nav=date:asc:
 		$this->external_sorting = false;
 
@@ -77,9 +77,7 @@ abstract class gevBasicReportGUI {
 		$this->checkPermission();
 
 		$cmd = $this->ctrl->getCmd();
-		
 		$res = $this->executeCustomCommand($cmd);
-		
 		if ($res !== null) {
 			return $res;
 		}
@@ -89,6 +87,26 @@ abstract class gevBasicReportGUI {
 				$this->exportXLS();
 				//no "break;" !
 			default:
+				// click on table nav should lead to search again.
+				/*$this->ctrl->setParameter($this, "cmd", "doSearchAgain");
+				
+				// this is needed to pass the search parameter via the sorting
+				// links of the table.
+				$search_opts = array();
+
+				foreach( $search_opts as $key => $value) {
+					// special treatment for period is needed since it is an array.
+					// when i try to serialize that array, ilias seems to remove '"'
+					// which makes deserialisation fail
+					if ($key == "period") {
+						$this->ctrl->setParameter($this, "start", urlencode($value["start"]));
+						$this->ctrl->setParameter($this, "end", urlencode($value["end"]));
+					}
+					else {
+						$this->ctrl->setParameter($this, $key, urlencode($value));
+					}
+				}
+				*/
 				return $this->render();
 		}
 	}
