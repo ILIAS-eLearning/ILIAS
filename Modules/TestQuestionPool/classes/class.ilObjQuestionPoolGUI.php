@@ -892,8 +892,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 			}
 		}
-
-		$this->object->purgeQuestions();
+		if($this->object instanceof ilObQuestionPool)
+		{
+			$this->object->purgeQuestions();
+		}
 		// reset test_id SESSION variable
 		$_SESSION["test_id"] = "";
 
