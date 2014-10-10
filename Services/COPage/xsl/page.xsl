@@ -3470,7 +3470,7 @@
 	<xsl:param name="cwidth"/>
 	<xsl:param name="cheight"/>
 	<xsl:param name="ttemp"/>
-	<xsl:variable name="cstyle">overflow:auto; <xsl:if test="$cheight != 'null' and $mode != 'edit'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:variable>
+	<xsl:variable name="cstyle"><xsl:if test="$cheight != 'null' and $mode != 'edit'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:variable>
 	
 	<!-- TabContainer -->
 	<div>
@@ -3522,7 +3522,7 @@
 			</xsl:if>
 		</xsl:when>
 		</xsl:choose>
-		<xsl:attribute name="style">overflow:auto; <xsl:if test="$cheight != 'null' and $mode != 'edit' and ../@Type = 'HorizontalAccordion'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:attribute>
+		<xsl:attribute name="style"><xsl:if test="$cheight != 'null' and $mode != 'edit' and ../@Type = 'HorizontalAccordion'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:attribute>
 		<xsl:if test="$javascript='disable'">
 			<!-- checkbox -->
 			<!--

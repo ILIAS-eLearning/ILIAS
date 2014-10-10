@@ -103,7 +103,6 @@ accordion.prototype =
 		}
 		
 		this.effects = [];
-	
 		this.currentAccordion = ilGetNextSibling(accordion);
 
 		if (this.currentAccordion == this.showAccordion)
@@ -121,7 +120,7 @@ accordion.prototype =
 	// Deactivate an active accordion
 	//
 	deactivate : function() {
-
+		var acc = this;
 		this.currentAccordion.style.display = 'block';
 		if (this.options.direction == 'vertical')
 		{
@@ -136,11 +135,15 @@ accordion.prototype =
 				}, 1, YAHOO.util.Easing.easeOut);
 		}
 		myAnim.duration = 0.5;
+		myAnim.onStart.subscribe(function() {
+			var t = acc;
+			if (t.options.classNames.activeHead && t.showAccordion && t.options.classNames.activeHead != "") {
+				$(t.showAccordion.parentNode).children("div:first").children("div:first").
+					removeClass(t.options.classNames.activeHead);
+			}
+		});
 		myAnim.onComplete.subscribe(function(a, b, t) {
-				if (t.options.classNames.activeHead && t.showAccordion && t.options.classNames.activeHead != "") {
-					$(t.showAccordion.parentNode).children("div:first").children("div:first").
-						removeClass(t.options.classNames.activeHead);
-				}
+			console.log(t);
 				t.showAccordion.style.height = 'auto';
 				t.showAccordion.style.display = 'none';
 				t.showAccordion = null;
@@ -157,6 +160,7 @@ accordion.prototype =
 	// Handle the open/close actions of the accordion
 	//
 	_handleAccordion : function() {
+		var acc = this;
 
 		// fade in the new accordion (currentAccordion)
 		if (this.options.direction == 'vertical')
@@ -185,23 +189,27 @@ accordion.prototype =
 		}
 		myAnim.duration = 0.5;
 		this.animating = true;
+		myAnim.onStart.subscribe(function(a, b, t) {
+			var t = acc;
+
+			// add active class to opened accordion
+			if (t.options.classNames.activeHead && t.options.classNames.activeHead != '')
+			{
+				if (t.showAccordion) {
+					$(t.showAccordion.parentNode).children("div:first").children("div:first").
+						removeClass(t.options.classNames.activeHead);
+				}
+				$(t.currentAccordion.parentNode).children("div:first").children("div:first").
+					addClass(t.options.classNames.activeHead);
+			}
+		});
 		myAnim.onComplete.subscribe(function(a, b, t) {
 				if (t.showAccordion) {
 					t.showAccordion.style.display = 'none';
 				}
 				t.currentAccordion.style.height = 'auto';
 				
-				// add active class to opened accordion
-				if (t.options.classNames.activeHead && t.options.classNames.activeHead != '')
-				{
-					if (t.showAccordion) {
-						$(t.showAccordion.parentNode).children("div:first").children("div:first").
-							removeClass(t.options.classNames.activeHead);
-					}
-					$(t.currentAccordion.parentNode).children("div:first").children("div:first").
-						addClass(t.options.classNames.activeHead);
-				}
-				
+
 				// set the currently shown accordion
 				t.showAccordion = t.currentAccordion;
 				if (typeof t.options.save_url != "undefined" && t.options.save_url != "")

@@ -1628,6 +1628,22 @@ class ilObjStyleSheet extends ilObject
 						fwrite ($css_file, "\t".'-moz-opacity: '.$cur_val.";\n");
 					}
 
+					// transform fix
+					if ($cur_par == "transform")
+					{
+						fwrite ($css_file, "\t".'-webkit-transform: '.$cur_val.";\n");
+						fwrite ($css_file, "\t".'-moz-transform: '.$cur_val.";\n");
+						fwrite ($css_file, "\t".'-ms-transform: '.$cur_val.";\n");
+					}
+
+					// transform-origin fix
+					if ($cur_par == "transform-origin")
+					{
+						fwrite ($css_file, "\t".'-webkit-transform-origin: '.$cur_val.";\n");
+						fwrite ($css_file, "\t".'-moz-transform-origin: '.$cur_val.";\n");
+						fwrite ($css_file, "\t".'-ms-transform-origin: '.$cur_val.";\n");
+					}
+
 					// save page background
 					if ($tag[0]["tag"] == "div" && $tag[0]["class"] == "Page"
 						&& $cur_par == "background-color")

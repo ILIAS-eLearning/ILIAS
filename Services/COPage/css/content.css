@@ -759,6 +759,9 @@ div.ilc_ha_ihcap_HAccordIHeadCap
 	-moz-transform:rotate(90deg);
 	-ms-transform: rotate(90deg);
 	transform: rotate(90deg);
+	-webkit-transform-origin: 0px 0px;
+	-moz-transform-origin: 0px 0px;
+	-ms-transform-origin: 0px 0px;
 	transform-origin: 0px 0px;
 	width:1px;
 	white-space: nowrap;

@@ -22,6 +22,7 @@ div.il_HAccordionToggleDef
 {
 	float: left;	/* This make sure it stays horizontal */
 	display: block;
+	overflow: hidden;
 }
 
 div.il_HAccordionToggleActiveDef
