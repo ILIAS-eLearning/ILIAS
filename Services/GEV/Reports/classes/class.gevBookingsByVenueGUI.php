@@ -92,6 +92,7 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 			}
 
 			switch ($table_nav_cmd[0]) { //field
+				//append more fields, simply for performance...
 				case 'no_accomodations':
 				case 'date':
 					$direction = strtoupper($table_nav_cmd[1]);
@@ -99,7 +100,13 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 					$sql_order_str .= $direction;
 					break;
 				
-				//append more fields, simply for performance...
+
+				//no sorting for these
+				case 'no_members':
+				case 'action':
+					$this->external_sorting = false;
+					$sql_order_str = '';
+					break;
 
 				default:
 					$this->external_sorting = true;

@@ -63,6 +63,7 @@ class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTa
 			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 		}
 		*/
+		return;
 		if(isset($_GET['baseClass']) && strtolower($_GET['baseClass']) == 'gevdesktopgui'){
 			$this->ctrl->setTargetScript('ilias.php');
 			//ilUtil::redirect($this->ctrl->getLinkTargetByClass(array('gevuserprofilegui', 'gevuserprofilegui'), 'showPersonalData', '', false, false));
