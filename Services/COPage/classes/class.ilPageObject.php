@@ -2469,9 +2469,9 @@ abstract class ilPageObject
 			if ($old_rec = $ilDB->fetchAssoc($old_set))
 			{
 				// only save, if something has changed
-				if (($content != $old_rec["content"]) && !$a_no_history &&
-					!$this->history_saved &&
-					$lm_set->get("page_history", 1))
+				// added user id to the check for ilias 5.0, 7.10.2014
+				if (($content != $old_rec["content"] || $ilUser->getId() != $old_rec["last_change_user"]) &&
+					!$a_no_history && !$this->history_saved && $lm_set->get("page_history", 1))
 				{
 					if ($old_rec["content"] != "<PageObject></PageObject>")
 					{
