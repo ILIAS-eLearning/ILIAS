@@ -753,9 +753,6 @@ class ilSetup extends PEAR
 		
 		$data = $this->client->db->fetchAssoc($r);
 
-		/**
-		 * 
-		 */
 		global $ilClientIniFile;
 
 		$ilClientIniFile = $this->client->ini;
