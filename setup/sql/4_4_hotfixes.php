@@ -919,3 +919,27 @@ ilDBUpdateNewObjectType::varchar2text('rbac_log', 'data');
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#38>
+<?php
+$ilDB->addTableColumn("tst_test_defaults", "marks_tmp", array(
+	"type" => "clob",
+	"notnull" => false,
+	"default" => null)
+);
+
+$ilDB->manipulate('UPDATE tst_test_defaults SET marks_tmp = marks');
+$ilDB->dropTableColumn('tst_test_defaults', 'marks');
+$ilDB->renameTableColumn("tst_test_defaults", "marks_tmp", "marks");
+?>
+<#39>
+<?php
+$ilDB->addTableColumn("tst_test_defaults", "defaults_tmp", array(
+	"type" => "clob",
+	"notnull" => false,
+	"default" => null)
+);
+
+$ilDB->manipulate('UPDATE tst_test_defaults SET defaults_tmp = defaults');
+$ilDB->dropTableColumn('tst_test_defaults', 'defaults');
+$ilDB->renameTableColumn("tst_test_defaults", "defaults_tmp", "defaults");
+?>
