@@ -58,8 +58,26 @@ class assKprimChoiceExport extends assQuestionExport
 		$this->addGeneralMetadata($xml);
 
 		$xml->xmlStartTag("qtimetadatafield");
+		$xml->xmlElement("fieldlabel", NULL, "answer_type");
+		$xml->xmlElement("fieldentry", NULL, $this->object->getAnswerType());
+		$xml->xmlEndTag("qtimetadatafield");
+
+		$xml->xmlStartTag("qtimetadatafield");
 		$xml->xmlElement("fieldlabel", NULL, "thumb_size");
 		$xml->xmlElement("fieldentry", NULL, $this->object->getThumbSize());
+		$xml->xmlEndTag("qtimetadatafield");
+
+		$xml->xmlStartTag("qtimetadatafield");
+		$xml->xmlElement("fieldlabel", NULL, "option_label_setting");
+		$xml->xmlElement("fieldentry", NULL, $this->object->getOptionLabel());
+		$xml->xmlEndTag("qtimetadatafield");
+		$xml->xmlStartTag("qtimetadatafield");
+		$xml->xmlElement("fieldlabel", NULL, "custom_true_option_label");
+		$xml->xmlElement("fieldentry", NULL, $this->object->getCustomTrueOptionLabel());
+		$xml->xmlEndTag("qtimetadatafield");
+		$xml->xmlStartTag("qtimetadatafield");
+		$xml->xmlElement("fieldlabel", NULL, "custom_false_option_label");
+		$xml->xmlElement("fieldentry", NULL, $this->object->getCustomFalseOptionLabel());
 		$xml->xmlEndTag("qtimetadatafield");
 
 		$xml->xmlStartTag("qtimetadatafield");
@@ -105,7 +123,7 @@ class assKprimChoiceExport extends assQuestionExport
 		}
 		// shuffle output
 		$attrs = array();
-		if ($this->object->getShuffle())
+		if ($this->object->isShuffleAnswersEnabled())
 		{
 			$attrs = array(
 				"shuffle" => "Yes"
@@ -118,13 +136,10 @@ class assKprimChoiceExport extends assQuestionExport
 			);
 		}
 		$xml->xmlStartTag("render_choice", $attrs);
+
+		// add answers
 		$answers =& $this->object->getAnswers();
 		$akeys = array_keys($answers);
-		if ($this->object->getShuffle() && $a_shuffle)
-		{
-			$akeys = $this->object->pcArrayShuffle($akeys);
-		}
-		// add answers
 		foreach ($akeys as $index)
 		{
 			$answer = $this->object->getAnswer($index);

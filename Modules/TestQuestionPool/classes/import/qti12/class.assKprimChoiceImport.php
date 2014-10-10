@@ -241,20 +241,17 @@ class assKprimChoiceImport extends assQuestionImport
 		$this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
 		$this->object->setObjId($questionpool_id);
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
-		$this->object->setShuffle($shuffle);
+		$this->object->setShuffleAnswersEnabled($shuffle);
+		$this->object->setAnswerType($item->getMetadataEntry("answer_type"));
+		$this->object->setOptionLabel($item->getMetadataEntry("option_label_setting"));
+		$this->object->setCustomTrueOptionLabel($item->getMetadataEntry("custom_true_option_label"));
+		$this->object->setCustomFalseOptionLabel($item->getMetadataEntry("custom_false_option_label"));
 		$this->object->setThumbSize($item->getMetadataEntry("thumb_size"));
-
-		$this->object->setAnswerType(assKprimChoice::ANSWER_TYPE_MULTI_LINE);
 
 		$this->object->saveToDb();
 		
 		foreach ($answers as $answerData)
 		{
-			if (is_array($answerData["imagefile"]) && (count($answerData["imagefile"]) > 0))
-			{
-				$this->object->setAnswerType(assKprimChoice::ANSWER_TYPE_SINGLE_LINE);
-			}
-			
 			$answer = new ilAssKprimChoiceAnswer();
 			$answer->setImageFsDir($this->object->getImagePath());
 			$answer->setImageWebDir($this->object->getImagePathWeb());
