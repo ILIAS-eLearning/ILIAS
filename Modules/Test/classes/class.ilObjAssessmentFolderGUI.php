@@ -136,6 +136,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	
 	private function buildSettingsForm()
 	{
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 */
 		global $ilAccess;
 		
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
@@ -144,6 +147,33 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTableWidth("100%");
 		$form->setId("settings");
+
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt('settings'));
+		$form->addItem($header);
+
+		$assessmentSetting = new ilSetting('assessment');
+		$imap_line_color   = array_key_exists('imap_line_color', $_GET) ? $_GET['imap_line_color'] : $assessmentSetting->get('imap_line_color');
+		if(strlen($imap_line_color) == 0) $imap_line_color = 'FF0000';
+
+		$linepicker = new ilColorPickerInputGUI($this->lng->txt('assessment_imap_line_color'), 'imap_line_color');
+		$linepicker->setValue($imap_line_color);
+		$form->addItem($linepicker);
+
+		$user_criteria = array_key_exists('user_criteria', $_GET) ? $_GET['user_criteria'] : $assessmentSetting->get('user_criteria');
+		$userCriteria  = new ilSelectInputGUI($this->lng->txt('user_criteria'), 'user_criteria');
+		$userCriteria->setInfo($this->lng->txt('user_criteria_desc'));
+		$userCriteria->setRequired(true);
+
+		$fields     = array('usr_id', 'login', 'email', 'matriculation', 'ext_account');
+		$usr_fields = array();
+		foreach($fields as $field)
+		{
+			$usr_fields[$field] = $field;
+		}
+		$userCriteria->setOptions($usr_fields);
+		$userCriteria->setValue($user_criteria);
+		$form->addItem($userCriteria);
 
 		// question settings
 		$header = new ilFormSectionHeaderGUI();
@@ -270,7 +300,15 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		{
 			$this->object->setQuestionProcessLockMode($_POST['quest_process_lock_mode']);
 		}
-		
+
+		$assessmentSetting = new ilSetting('assessment');
+		$assessmentSetting->set('use_javascript', '1');
+		if(strlen($_POST['imap_line_color']) == 6)
+		{
+			$assessmentSetting->set('imap_line_color', ilUtil::stripSlashes($_POST['imap_line_color']));
+		}
+		$assessmentSetting->set('user_criteria', ilUtil::stripSlashes($_POST['user_criteria']));
+
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 
 		$this->ctrl->redirect($this,'settings');
@@ -498,85 +536,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	}
 
 	/**
-	* Default settings tab for Test & Assessment
-	*/
-	public function defaultsObject()
-	{
-
-		global $ilAccess, $rbacreview, $lng, $ilCtrl, $tpl, $ilTabs;
-
-                $ilTabs->activateTab('defaults');
-
-		$assessmentSetting = new ilSetting("assessment");
-		$imap_line_color = array_key_exists("imap_line_color", $_GET) ? $_GET["imap_line_color"] : $assessmentSetting->get("imap_line_color");
-		if (strlen($imap_line_color) == 0) $imap_line_color = "FF0000";
-		
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($ilCtrl->getFormAction($this));
-		$form->setTitle($lng->txt("assessment_defaults"));
-		
-		$linepicker = new ilColorPickerInputGUI($lng->txt("assessment_imap_line_color"), "imap_line_color");
-		$linepicker->setValue($imap_line_color);
-		$form->addItem($linepicker);
-
-		if (@file_exists("./Modules/Test/classes/class.ilTestResultsToXML.php"))
-		{
-			global $ilDB;
-			$user_criteria = array_key_exists("user_criteria", $_GET) ? $_GET["user_criteria"] : $assessmentSetting->get("user_criteria");
-			$userCriteria = new ilSelectInputGUI($this->lng->txt("user_criteria"), "user_criteria");
-			$userCriteria->setInfo($this->lng->txt("user_criteria_desc"));
-			$userCriteria->setRequired(true);
-			
-			//@Todo bheyser: $isSingleline is not defined...
-			$userCriteria->setValue(($isSingleline) ? 0 : 1);
-
-			$manager = $ilDB->db->loadModule('Manager');
-			//$fields = $manager->listTableFields('usr_data'); 
-			$fields = array('usr_id', 'login', 'email', 'matriculation', 'ext_account');
-			$usr_fields = array();
-			foreach ($fields as $field)
-			{
-				$usr_fields[$field] = $field;
-			}
-			$userCriteria->setOptions($usr_fields);
-			$userCriteria->setValue($user_criteria);
-			$form->addItem($userCriteria);
-		}
-
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$form->addCommandButton("saveDefaults", $lng->txt("save"));
-		}
-		
-		
-		$tpl->setVariable("ADM_CONTENT", $form->getHTML());
-	}
-	
-	/**
-	* Save default settings for test & assessment
-	*/
-	public function saveDefaultsObject()
-	{
-		global $ilCtrl;
-
-		$assessmentSetting = new ilSetting("assessment");
-		$assessmentSetting->set("use_javascript", "1");
-	
-		if (strlen($_POST["imap_line_color"]) == 6)
-		{
-			$assessmentSetting->set("imap_line_color", $_POST["imap_line_color"]);
-		}
-		if (@file_exists("./Modules/Test/classes/class.ilTestResultsToXML.php"))
-		{
-			$assessmentSetting->set("user_criteria", $_POST["user_criteria"]);
-		}
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-		$ilCtrl->redirect($this, "defaults");
-	}
-
-
-	/**
 	* get tabs
 	*
 	* @param	object	tabs gui object
@@ -607,9 +566,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "showLogSettings"), 
 					array('saveLogSettings', 'showLogSettings', "logs","showLog", "exportLog", "logAdmin", "deleteLog"), 
 					"", "");
-
-				$tabs_gui->addTarget("defaults",
-					$this->ctrl->getLinkTarget($this, "defaults"), array("defaults","saveDefaults"), "", "");
 
 			$tabs_gui->addTab("templates",
 				$lng->txt("adm_settings_templates"),
