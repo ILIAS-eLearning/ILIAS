@@ -622,7 +622,7 @@ class ilSAHSPresentationGUI
 				
 		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->slm_gui->object->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_slm_b.png"));				
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_slm.png"));
 		$ilLocator->addRepositoryItems();
 		$ilLocator->addItem($this->slm_gui->object->getTitle(),
 			$this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
