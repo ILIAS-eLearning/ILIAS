@@ -892,7 +892,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 			}
 		}
-		if($this->object instanceof ilObQuestionPool)
+		if($this->object instanceof ilObjQuestionPool)
 		{
 			$this->object->purgeQuestions();
 		}
