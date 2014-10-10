@@ -9512,9 +9512,16 @@ function getAnswerFeedbackPoints()
 			'show_grading_mark' => (int)$this->isShowGradingMarkEnabled()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_defaults (test_defaults_id, name, user_fi, defaults, marks, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-			array('integer', 'text', 'integer', 'text', 'text', 'integer'),
-			array($next_id, $a_name, $ilUser->getId(), serialize($testsettings), serialize($this->mark_schema), time())
+		$ilDB->insert(
+			'tst_test_defaults',
+			array(
+				'test_defaults_id' => array('integer', $next_id),
+				'name'             => array('text', $a_name),
+				'user_fi'          => array('integer', $ilUser->getId()),
+				'defaults'         => array('clob', serialize($testsettings)),
+				'marks'            => array('clob', serialize($this->mark_schema)),
+				'tstamp'           => array('integer', time())
+			)
 		);
 	}
 
