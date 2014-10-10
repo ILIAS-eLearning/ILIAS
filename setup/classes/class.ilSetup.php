@@ -738,26 +738,59 @@ class ilSetup extends PEAR
 			$this->client->db->quote('system_role_id','text'));
 		$r1 = $this->client->db->fetchAssoc($s1);
 		$system_role_id = $r1["value"];
-		$q = "SELECT usr_data.usr_id FROM usr_data ".
+		$q = "SELECT usr_data.usr_id, usr_data.passwd, usr_data.passwd_enc_type, usr_data.passwd_salt " . 
+			 "FROM usr_data ".
 			 "LEFT JOIN rbac_ua ON rbac_ua.usr_id=usr_data.usr_id ".
 			 "WHERE rbac_ua.rol_id = ".$this->client->db->quote((int) $system_role_id,'integer')." ".
-			 "AND usr_data.login=".$this->client->db->quote($a_auth_data["username"],'text')." ".
-			 "AND usr_data.passwd=".$this->client->db->quote(md5($a_auth_data["password"]),'text');
+			 "AND usr_data.login=".$this->client->db->quote($a_auth_data["username"],'text');
 
 		$r = $this->client->db->query($q);
-		
-		if (!$r->numRows())
+		if(!$this->client->db->numRows($r))
 		{
-			$this->error = "login_invalid";
+			$this->error = 'login_invalid';
 			return false;
 		}
+		
+		$data = $this->client->db->fetchAssoc($r);
 
-		// all checks passed -> user valid
-		$_SESSION["auth"] = true;
-		$_SESSION["auth_path"] = ILIAS_HTTP_PATH;
-		$_SESSION["access_mode"] = "client";
-		$_SESSION["ClientId"] = $this->client->getId();		
-		return true;
+		/**
+		 * 
+		 */
+		global $ilClientIniFile;
+
+		$ilClientIniFile = $this->client->ini;
+
+		require_once 'Services/User/classes/class.ilUserPasswordManager.php';
+		$crypt_type = ilUserPasswordManager::getInstance()->getEncoderName();
+		if(ilUserPasswordManager::getInstance()->isEncodingTypeSupported($crypt_type))
+		{
+			require_once 'setup/classes/class.ilObjSetupUser.php';
+			$user = new ilObjSetupUser();
+			$user->setPasswd($data['passwd'], IL_PASSWD_CRYPTED);
+			$user->setPasswordEncodingType($data['passwd_enc_type']);
+			$user->setPasswordSalt($data['passwd_salt']);
+
+			$password_valid = ilUserPasswordManager::getInstance()->verifyPassword($user, $a_auth_data['password']);
+		}
+		else
+		{
+			$password_valid =  md5($data['passwd']) == $a_auth_data['password'];
+		}
+
+		if($password_valid)
+		{
+			// all checks passed -> user valid
+			$_SESSION['auth']        = true;
+			$_SESSION['auth_path']   = ILIAS_HTTP_PATH;
+			$_SESSION['access_mode'] = 'client';
+			$_SESSION['ClientId']    = $this->client->getId();
+			return true;
+		}
+		else
+		{
+			$this->error = 'login_invalid';
+			return false;
+		}
 	}
 
 	/**
