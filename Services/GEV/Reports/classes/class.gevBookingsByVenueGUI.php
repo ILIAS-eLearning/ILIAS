@@ -49,8 +49,12 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 
 
 		//filters:
-		//$this->show_past_events = false;
-		$this->show_past_events = ($_POST["show_past_events"] == "1") ? true : false;
+		if(isset($_POST['period'])){ //form submitted; 
+			$_GET['show_past_events'] = "0";
+		}
+
+		$this->digestSearchParameter('show_past_events', '0');
+		$this->show_past_events = ($this->filter_params['show_past_events'] == "1") ? true : false;
 
 		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
 		require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
@@ -61,6 +65,7 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 		$this->filters = array(
 			'show_past_events' => $chkPastEvents
 		);
+		
 
 	}
 	
@@ -101,7 +106,7 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 					break;
 				
 
-				//no sorting for these
+				//no external sorting for these
 				case 'no_members':
 				case 'action':
 					$this->external_sorting = false;

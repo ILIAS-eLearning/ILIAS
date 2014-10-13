@@ -32,7 +32,9 @@ abstract class gevBasicReportGUI {
 		);
 
 		$this->filters = array();
+		$this->filter_params = array();
 		
+
 		$this->table_cols = array();//add arrays like this: array(translation-constant, key_in_data)
 		$this->table_row_template = array(
 			'filnename' => '',
@@ -50,26 +52,33 @@ abstract class gevBasicReportGUI {
 
 		$this->permissions = gevReportingPermissions::getInstance($this->user->getId());
 
+
 		//date is a mandatory filter.
-		$this->start_date = $_POST["period"]["start"]["date"]
-						  ? new ilDate(    $_POST["period"]["start"]["date"]["y"]
-						  				  ."-".$_POST["period"]["start"]["date"]["m"]
-						  				  ."-".$_POST["period"]["start"]["date"]["d"]
-						  				  , IL_CAL_DATE)
-						  : new ilDate(date("Y")."-01-01", IL_CAL_DATE);
-		$this->end_date = $_POST["period"]["end"]["date"]
-						  ? new ilDate(    $_POST["period"]["end"]["date"]["y"]
-						  				  ."-".$_POST["period"]["end"]["date"]["m"]
-						  				  ."-".$_POST["period"]["end"]["date"]["d"]
-						  				  , IL_CAL_DATE)
-						  : new ilDate(date("Y")."-12-31", IL_CAL_DATE);
-						  
-		if (ilDate::_after($this->start_date, $this->end_date)) {
-			$this->end_date = new ilDate($this->start_date->get(IL_CAL_DATE), IL_CAL_DATE);
-			$this->end_date->increment(ilDateTime::YEAR);
+		$sdate = date("Y")."-01-01";
+		$edate = date("Y")."-12-31";
+		if(isset($_POST["period"])){
+			$sdate = $_POST["period"]["start"]["date"]["y"]
+		  			 ."-".$_POST["period"]["start"]["date"]["m"]
+		  			 ."-".$_POST["period"]["start"]["date"]["d"];
+
+			$edate = $_POST["period"]["end"]["date"]["y"]
+					  ."-".$_POST["period"]["end"]["date"]["m"]
+					  ."-".$_POST["period"]["end"]["date"]["d"];
+					
+			$_POST['sdate'] = urlencode($sdate);
+			$_POST['edate'] = urlencode($edate);
 		}
 
+		// click on table nav should lead to search again.
+		$this->ctrl->setParameter($this, "cmd", "view");
 		
+		$this->digestSearchParameter('sdate', urlencode($sdate));
+		$this->digestSearchParameter('edate', urlencode($edate));
+		
+
+		$this->start_date = new ilDate($this->filter_params['sdate'], IL_CAL_DATE);
+		$this->end_date = new ilDate($this->filter_params['edate'], IL_CAL_DATE);
+
 	}
 	
 
@@ -87,30 +96,25 @@ abstract class gevBasicReportGUI {
 				$this->exportXLS();
 				//no "break;" !
 			default:
-				// click on table nav should lead to search again.
-				/*$this->ctrl->setParameter($this, "cmd", "doSearchAgain");
-				
-				// this is needed to pass the search parameter via the sorting
-				// links of the table.
-				$search_opts = array();
-
-				foreach( $search_opts as $key => $value) {
-					// special treatment for period is needed since it is an array.
-					// when i try to serialize that array, ilias seems to remove '"'
-					// which makes deserialisation fail
-					if ($key == "period") {
-						$this->ctrl->setParameter($this, "start", urlencode($value["start"]));
-						$this->ctrl->setParameter($this, "end", urlencode($value["end"]));
-					}
-					else {
-						$this->ctrl->setParameter($this, $key, urlencode($value));
-					}
-				}
-				*/
 				return $this->render();
 		}
 	}
 	
+	protected function digestSearchParameter($param, $default){
+		/*parameters should also be passed on table-sorting*/
+		$this->filter_params[$param] = $default;
+		if(isset($_GET[$param])){
+			$this->filter_params[$param] = $_GET[$param];
+		}
+		//post always wins
+		if(isset($_POST[$param])){
+			$this->filter_params[$param] = $_POST[$param];
+		}
+		//store for later
+		$this->ctrl->setParameter($this, $param, $this->filter_params[$param]);
+	}
+
+
 	protected function executeCustomCommand($a_cmd) {
 		return null;
 	}
