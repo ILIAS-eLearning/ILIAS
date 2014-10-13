@@ -183,6 +183,41 @@ class gevDebug {
 	}
 
 
+
+
+	public function createBill($payment_data){
+		/*	
+		  $payment_data["user_id"]
+		, $payment_data["crs_id"]
+		, $payment_data["recipient"]
+		, $payment_data["agency"]
+		, $payment_data["street"]
+		, $payment_data["housenumber"]
+		, $payment_data["zipcode"]
+		, $payment_data["city"]
+		, $payment_data["costcenter"]
+		, $payment_data["coupons"]
+		, $payment_data["email"]
+		*/
+		require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
+		$billing_utils = gevBillingUtils::getInstance();
+		$billing_utils->createCourseBill( 
+				  $payment_data["user_id"]
+				, $payment_data["crs_id"]
+				, $payment_data["recipient"]
+				, $payment_data["agency"]
+				, $payment_data["street"]
+				, $payment_data["housenumber"]
+				, $payment_data["zipcode"]
+				, $payment_data["city"]
+				, $payment_data["costcenter"]
+				, $payment_data["coupons"]
+				, $payment_data["email"]
+			);
+	}
+
+
+
 }
 
 
@@ -193,13 +228,30 @@ class gevDebug {
 //crs_items.parent_id (crs_items.obj_id)
 
 $debug = new gevDebug();
-printToTable($debug->getDeletedCourses());
+/*printToTable($debug->getDeletedCourses());
 printToTable($debug->getDeletedCoursesBookings());
 $fragments = $debug->getDeletedCoursesOtherFragments();
 foreach ($fragments as $table => $res) {
 	print "<h1>$table</h1>";
 	printToTable($res);
 }
+*/
 
+$payment_data = array(
+		'user_id'=>'',
+		'crs_id'=>'',
+		'recipient'=>'',
+		'agency'=>'',
+		'street'=>'',
+		'housenumber'=>'',
+		'zipcode'=>'',
+		'city'=>'',
+		'costcenter'=>'',
+		'coupons'=>'',
+		'email'=>''
+);
+
+$debug->createBill($payment_data);
+print 'done.';
 
 ?>
