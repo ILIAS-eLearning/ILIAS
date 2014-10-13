@@ -98,6 +98,7 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 	}
 	
 	protected function billFinalized(ilBill $a_bill) {
+		global $ilLog;
 		require_once("Services/GEV/Utils/classes/class.gevBillStorage.php");
 		gevBillStorage::getInstance()->storeBill($a_bill);
 		

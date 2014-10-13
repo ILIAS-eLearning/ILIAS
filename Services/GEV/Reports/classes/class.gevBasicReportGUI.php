@@ -30,7 +30,11 @@ abstract class gevBasicReportGUI {
 			'desc' => '',
 			'img' => ''
 		);
+
+		$this->filters = array();
+		$this->filter_params = array();
 		
+
 		$this->table_cols = array();//add arrays like this: array(translation-constant, key_in_data)
 		$this->table_row_template = array(
 			'filnename' => '',
@@ -42,32 +46,39 @@ abstract class gevBasicReportGUI {
 	
 		
 		//watch out for sorting of special fields, i.e. dates shown as a period of time.
-		//to avoid the ilTable-sorting, the this too true.
+		//to avoid the ilTable-sorting, set this too true.
 		//i.e. applies to: _table_nav=date:asc:
 		$this->external_sorting = false;
 
 		$this->permissions = gevReportingPermissions::getInstance($this->user->getId());
 
+
 		//date is a mandatory filter.
-		$this->start_date = $_POST["period"]["start"]["date"]
-						  ? new ilDate(    $_POST["period"]["start"]["date"]["y"]
-						  				  ."-".$_POST["period"]["start"]["date"]["m"]
-						  				  ."-".$_POST["period"]["start"]["date"]["d"]
-						  				  , IL_CAL_DATE)
-						  : new ilDate(date("Y")."-01-01", IL_CAL_DATE);
-		$this->end_date = $_POST["period"]["end"]["date"]
-						  ? new ilDate(    $_POST["period"]["end"]["date"]["y"]
-						  				  ."-".$_POST["period"]["end"]["date"]["m"]
-						  				  ."-".$_POST["period"]["end"]["date"]["d"]
-						  				  , IL_CAL_DATE)
-						  : new ilDate(date("Y")."-12-31", IL_CAL_DATE);
-						  
-		if (ilDate::_after($this->start_date, $this->end_date)) {
-			$this->end_date = new ilDate($this->start_date->get(IL_CAL_DATE), IL_CAL_DATE);
-			$this->end_date->increment(ilDateTime::YEAR);
+		$sdate = date("Y")."-01-01";
+		$edate = date("Y")."-12-31";
+		if(isset($_POST["period"])){
+			$sdate = $_POST["period"]["start"]["date"]["y"]
+		  			 ."-".$_POST["period"]["start"]["date"]["m"]
+		  			 ."-".$_POST["period"]["start"]["date"]["d"];
+
+			$edate = $_POST["period"]["end"]["date"]["y"]
+					  ."-".$_POST["period"]["end"]["date"]["m"]
+					  ."-".$_POST["period"]["end"]["date"]["d"];
+					
+			$_POST['sdate'] = urlencode($sdate);
+			$_POST['edate'] = urlencode($edate);
 		}
 
+		// click on table nav should lead to search again.
+		$this->ctrl->setParameter($this, "cmd", "view");
 		
+		$this->digestSearchParameter('sdate', urlencode($sdate));
+		$this->digestSearchParameter('edate', urlencode($edate));
+		
+
+		$this->start_date = new ilDate($this->filter_params['sdate'], IL_CAL_DATE);
+		$this->end_date = new ilDate($this->filter_params['edate'], IL_CAL_DATE);
+
 	}
 	
 
@@ -75,9 +86,7 @@ abstract class gevBasicReportGUI {
 		$this->checkPermission();
 
 		$cmd = $this->ctrl->getCmd();
-		
 		$res = $this->executeCustomCommand($cmd);
-		
 		if ($res !== null) {
 			return $res;
 		}
@@ -91,6 +100,21 @@ abstract class gevBasicReportGUI {
 		}
 	}
 	
+	protected function digestSearchParameter($param, $default){
+		/*parameters should also be passed on table-sorting*/
+		$this->filter_params[$param] = $default;
+		if(isset($_GET[$param])){
+			$this->filter_params[$param] = $_GET[$param];
+		}
+		//post always wins
+		if(isset($_POST[$param])){
+			$this->filter_params[$param] = $_POST[$param];
+		}
+		//store for later
+		$this->ctrl->setParameter($this, $param, $this->filter_params[$param]);
+	}
+
+
 	protected function executeCustomCommand($a_cmd) {
 		return null;
 	}
@@ -146,6 +170,8 @@ abstract class gevBasicReportGUI {
 												, $this->ctrl->getLinkTarget($this, "view")
 												);
 		
+
+
 		$spacer = new catHSpacerGUI();
 		
 		//export-button
@@ -156,14 +182,23 @@ abstract class gevBasicReportGUI {
 					.$this->lng->txt("gev_report_exportxls")
 					.'</a>';
 
-
 		return    $title->render()
-				. $period_input->render()
+				. $period_input->render($this->getAdditionalFilters())
 				. $spacer->render()
 				. $export_btn
 				. $this->renderTable()
 				. $export_btn
 				;
+	}
+
+
+
+	protected function getAdditionalFilters(){
+		$ret = '';
+		foreach ($this->filters as $filter_id =>$filter) {
+			$ret .= '<div id="filter_' .$filter_id .'">' .$filter->render() .'</div>';
+		}
+		return $ret;
 	}
 
 
@@ -279,10 +314,6 @@ abstract class gevBasicReportGUI {
 		return $this->data;
 	}
 
-	protected function fetchData(){ 
-		//fetch retrieves the data 
-		die('gevBasicReportGUI::fetchData: WRONG SCOPE !');
-	}
-
+	abstract protected function fetchData();
 }
 ?>

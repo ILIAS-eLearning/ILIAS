@@ -444,22 +444,31 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	}
 
 	public function sendDeferred($a_recipients = null, $a_occasion = null) {
+		global $ilLog;
+		$ilLog->write("gevCrsAutoMail::sendDeferred");
 		if ($this->getCourse()->getOfflineStatus() && $this->getId() != "bill_mail") {
+			$ilLog->write("....courseOffline and not a bill");
 			return;
 		}
 		
 		require_once("Services/GEV/Mailing/classes/class.gevDeferredMails.php");
 		
+
 		if ($a_recipients === null) {
+			$ilLog->write("....no recipients");
 			$a_recipients = $this->getUsersOnly()
 							? $this->getRecipientUserIDs()
 							: $this->getRecipientAddresses();
 		}
 		
 		if ($a_occasion === null) {
+			$ilLog->write("....no occasion");
 			$a_occasion = $this->getTitle();//$this->lng->txt("send_by").": ".$this->user->getLogin();
 		}
 		
+
+		$ilLog->write("....>send this: crs=" .$this->crs_id .', mail=' .$this->getId() .' occasion=' .$a_occasion);
+
 		gevDeferredMails::getInstance()->deferredSendMail($this->crs_id, $this->getId(), $a_recipients, $a_occasion);
 	}
 

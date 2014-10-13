@@ -212,6 +212,7 @@ class ilTEPEntries
 			" OR (ce.starta <= ".$ilDB->quote($end." 23:59:59", "timestamp").
 		    " AND ce.enda >= ".$ilDB->quote($end." 23:59:59", "timestamp")."))"; 
 
+		
 		// filters
 		$filter_type = $this->getFilterItem("etype");
 		if($filter_type)

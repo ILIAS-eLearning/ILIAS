@@ -26,7 +26,7 @@ class ilTEPAppEventListener
 					return;
 				
 				case "update":
-					// params: object, obj_id, appointments			
+					// params: object, obj_id, appointments	
 
 					//check, if entry is a template ("Kursvorlage")
 					require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");

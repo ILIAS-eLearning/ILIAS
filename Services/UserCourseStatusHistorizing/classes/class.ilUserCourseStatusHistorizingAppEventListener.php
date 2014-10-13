@@ -53,13 +53,12 @@ class ilUserCourseStatusHistorizingAppEventListener
 		*/
 		/*
 		if ($a_component == "Modules/Course" && (  $a_event == "update"
-												|| $a_event == "delete"
-												|| $a_event == "create"
-												|| $a_event == "updateMembers") 
+					|| $a_event == "delete"
+					|| $a_event == "create"
+					|| $a_event == "updateMembers") 
 			) {
 			return;
 		}*/
-		
 		if ($a_component == "Modules/Course" && $a_event == "updateMembers") {
 			$a_parameter["crs_id"] = $a_parameter["obj_id"];
 			$a_parameter["usr_id"] =$_POST['participants'][0];

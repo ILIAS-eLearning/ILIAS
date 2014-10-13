@@ -141,6 +141,7 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 					. $sql_order_str
 					;
 
+
 		$bill_link_icon = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-get_bill.png").'" />';
 
 		$res = $this->db->query($query);

@@ -18,6 +18,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevWBDTPBasicRegistrationGUI
 * @ilCtrl_Calls gevDesktopGUI: gevAttendanceByEmployeeGUI
 * @ilCtrl_Calls gevDesktopGUI: gevBillingReportGUI
+* @ilCtrl_Calls gevDesktopGUI: gevBookingsByVenueGUI
 * @ilCtrl_Calls gevDesktopGUI: gevMyTrainingsApGUI
 *
 */
@@ -112,6 +113,12 @@ class gevDesktopGUI {
 				$gui = new gevBillingReportGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
+			case "gevbookingsbyvenuegui":
+				$ilMainMenu->setActive("gev_reporting_menu");
+				require_once("Services/GEV/Reports/classes/class.gevBookingsByVenueGUI.php");
+				$gui = new gevBookingsByVenueGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
 
 			default:	
 				$this->dispatchCmd($cmd);
@@ -134,6 +141,7 @@ class gevDesktopGUI {
 			case "toMyTrainingsAp":
 			case "toReportAttendanceByEmployee":
 			case "toBillingReport":
+			case "toReportBookingsByVenue":
 			case "toBooking":
 				$this->$a_cmd();
 			default:
@@ -167,6 +175,9 @@ class gevDesktopGUI {
 	
 	protected function toBillingReport() {
 		$this->ctrl->redirectByClass("gevBillingReportGUI");
+	}
+	protected function toReportBookingsByVenue() {
+		$this->ctrl->redirectByClass("gevBookingsByVenueGUI");
 	}
 
 	protected function toBooking() {

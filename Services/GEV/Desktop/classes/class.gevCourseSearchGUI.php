@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */#
 
 /**
-* Course seraching GUI for Generali
+* Course searching GUI for Generali
 *
 * @author	Richard Klees <richard.klees@concepts-and-training.de>
 * @version	$Id$

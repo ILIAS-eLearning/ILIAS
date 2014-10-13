@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" id="scormplayer">
 	<head>
 		<title>{DOC_TITLE}</title>
+		{IE_COMPATIBILITY}
 		<script type="text/javascript">//<![CDATA[
 		Date.remoteOffset = (new Date()).getTime() - {TIMESTAMP};
 		//]]></script>
@@ -16,8 +17,9 @@
 		<!-- BEGIN rte_css -->
 		<link type="text/css" href="{RTE_CSS}" rel="stylesheet"/>
 		<!-- END rte_css -->
-
 		<base target="frmResource" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 				
 	</head>
 	<body class="loadingState">
