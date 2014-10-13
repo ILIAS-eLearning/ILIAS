@@ -41,6 +41,7 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 		
 		$this->setSortField($_SESSION['shop_advanced_search']['shop_order_field']);
 		$this->setSortDirection($_SESSION['shop_advanced_search']['shop_order_direction']);
+
 	}
 	
 	public function setSorting()
@@ -86,7 +87,7 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 		{
 			if(method_exists($this, $this->ctrl->getCmd()))
 				ilUtil::sendInfo($this->lng->txt('search_choose_object_type'));
-			$this->showForm(new ilShopSearchResult(SHOP_ADVANCED_SEARCH));
+			$this->showForm(ilShopSearchResult::_getInstance(SHOP_ADVANCED_SEARCH));
 
 			return false;
 		}
@@ -95,7 +96,7 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 		if(!is_object($query_parser = $this->parseQueryString()))
 		{
 			ilUtil::sendInfo($query_parser);
-			$this->showForm(new ilShopSearchResult(SHOP_ADVANCED_SEARCH));
+			$this->showForm(ilShopSearchResult::_getInstance(SHOP_ADVANCED_SEARCH));
 			
 			return false;
 		}
@@ -136,8 +137,8 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 	private function searchObjects($query_parser)
 	{
 		// create new search result object and assign the sorted topics
-		$oSearchResult = new ilShopSearchResult(SHOP_ADVANCED_SEARCH);
-		if((bool)$this->oGeneralSettings->get('topics_allow_custom_sorting'))
+		$oSearchResult = ilShopSearchResult::_getInstance(SHOP_ADVANCED_SEARCH);
+		if((bool)$this->settings->get('topics_allow_custom_sorting'))
 		{		
 			ilShopTopics::_getInstance()->setIdFilter((int)$this->getTopicId());
 			ilShopTopics::_getInstance()->enableCustomSorting(true);
@@ -270,11 +271,11 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 			include_once 'Services/Payment/classes/class.ilShopResultPresentationGUI.php';
 			$search_result_presentation = new ilShopResultPresentationGUI($result);			
 		 		
-			$this->tpl->setVariable('RESULTS', $search_result_presentation->showResults());
+			$this->tpl->setVariable('RESULTS', $search_result_presentation->showAdvancedSearchResults());
 			
 	
-			$objects = (bool)$this->oGeneralSettings->get('objects_allow_custom_sorting');
-			$topics = (bool)$this->oGeneralSettings->get('topics_allow_custom_sorting');
+			$objects = (bool)$this->settings->get('objects_allow_custom_sorting');
+			$topics = (bool)$this->settings->get('topics_allow_custom_sorting');
 			if($objects)
 			{		
 				$this->tpl->setCurrentBlock('objects_sort_block');
@@ -353,12 +354,12 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 			
 			if($objects || $topics)
 			{
-				$this->tpl->setCurrentBlock('sort_button');
+//				$this->tpl->setCurrentBlock('sort_button');
 				
 				$this->tpl->setVariable('SORTING_FORM_ACTION', $this->ctrl->getFormAction($this, 'setSorting'));			
 				$this->tpl->setVariable('CMD_SORT', 'setSorting');
 				$this->tpl->setVariable('SORT_TEXT', $this->lng->txt('sort'));	
-				$this->tpl->parseCurrentBlock();
+//				$this->tpl->parseCurrentBlock();
 			}			
 			
 			

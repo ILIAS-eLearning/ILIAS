@@ -23,7 +23,7 @@ class ilShopPersonalSettingsGUI extends ilShopBaseGUI
 		global $ilUser, $ilCtrl, $ilErr;
 		
 		// check access
-		if(!(bool)$this->oGeneralSettings->get('topics_allow_custom_sorting'))
+		if(!(bool)$this->settings->get('topics_allow_custom_sorting'))
 		{
 			$ilCtrl->redirectByClass('ilshopgui','','',false, false);
 		}

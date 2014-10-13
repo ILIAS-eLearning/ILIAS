@@ -399,7 +399,6 @@ class ilPaymentBookings
  */
 	private function __calculateAccessEnddate()
 	{
-
 		include_once('Services/Calendar/classes/class.ilDateTime.php');
 
 		$tmp_ts = new ilDateTime($this->getAccessStartdate(),IL_CAL_DATETIME);
@@ -450,7 +449,7 @@ class ilPaymentBookings
 		$next_id = $this->db->nextId('payment_statistic');
 		if(ilPayMethods::_EnabledSaveUserAddress((int)$this->getPayMethod()) == 1)
 		{
-			$statement = $this->db->insert('payment_statistic',
+			$this->db->insert('payment_statistic',
 			array(
 				'booking_id'	=> array('integer', $next_id),
 				'transaction'	=> array('text',	$this->getTransaction()),
@@ -485,7 +484,7 @@ class ilPaymentBookings
 		}
 		else
 		{
-			$statement = $this->db->insert('payment_statistic',
+			$this->db->insert('payment_statistic',
 			array(
 				'booking_id'	=> array('integer', $next_id),
 				'transaction'	=> array('text',	$this->getTransaction()),
@@ -526,7 +525,7 @@ class ilPaymentBookings
 	{
 		if($this->getBookingId())
 		{
-			$statement = $this->db->manipulateF('
+			$this->db->manipulateF('
 				UPDATE payment_statistic 
 				SET payed = %s, 
 					access_granted = %s
@@ -543,7 +542,7 @@ class ilPaymentBookings
 	{
 		if($this->getBookingId())
 		{
-			$statement = $this->db->manipulateF('
+			$this->db->manipulateF('
 				DELETE FROM payment_statistic WHERE booking_id = %s', 
 				array('integer'),
 				array((int)$this->getBookingId())
@@ -1055,4 +1054,3 @@ class ilPaymentBookings
 		return $booking;
 	}
 }
-?>

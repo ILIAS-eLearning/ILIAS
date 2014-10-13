@@ -188,7 +188,7 @@ class ilShopResultPresentationGUI
 					$results[$topic['id']][$act_type][$key]['price'] = $lowest_price['price'];
 
 					$paymethod_icon = ilShopUtils::_getPaymethodSymbol($oPaymentObject->getPayMethod());
-					$shoppingcart_icon = ilShopUtils::_addToShoppingCartSymbol($act_type, $item['ref_id']);
+					$shoppingcart_icon = ilShopUtils::_addToShoppingCartSymbol($item['ref_id']);
 
 					$results[$topic['id']][$act_type][$key]['price_string'] =										 
 						($oPrice->getNumberOfPrices() > 1 ? $this->lng->txt('price_from').' ' : '').
@@ -479,8 +479,8 @@ class ilShopResultPresentationGUI
 			$item_list_gui->enableInfoScreen(true);
 			$item_list_gui->enableCommands(true);
 		}
-		else
-		{
+//		else
+//		{
 			switch($item['type'])
 			{
 				case 'sahs':
@@ -501,7 +501,7 @@ class ilShopResultPresentationGUI
 			}
 
 			$item['title'] = '<a href="' . $demo_link . '">' . $item["title"] . '</a>';
-		}
+//		}
 
 		$tpl_pinfo = new ilTemplate ('tpl.shop_item_info.html', true, true, 'Services/Payment');
 		if($item['price_string'] != '')
@@ -531,5 +531,13 @@ class ilShopResultPresentationGUI
 
 		$html = $item_list_gui->getListItemHTML($item['ref_id'], $item['obj_id'], $item['title'], $item['description'], false, false, "", ilObjectListGUI::CONTEXT_SHOP);
 		return array($item, $html);
+	}
+	
+	public function showAdvancedSearchResults()
+	{
+		// Get results
+		$results = $this->result->getResultsForPresentation();
+		$html = $this->renderItemList($results);
+		return $html;
 	}
 }

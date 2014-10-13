@@ -14,18 +14,46 @@ include_once 'Services/Search/classes/class.ilSearchResult.php';
 * @ingroup ServicesPayment
 */
 class ilShopSearchResult extends ilSearchResult
-{	
+{
+	const SHOW_SPECIAL_CONTENT = 1;
+	const SHOW_CONTAINER_CONTENT = 2;
+	const SHOW_TOPICS_CONTENT = 3;
+	
+	private static $_instance;
+	
 	protected $result_page_number = 0;
 	protected $topics = array();
 	protected $presentation_results = array();
-	protected $search_type = '';
+
+	/**
+	 * @var int  SHOP_CONTENT | SHOP_ADVANCED_SEARCH
+	 */
+	protected $search_type = SHOP_CONTENT;
 	
-	public function ilShopSearchResult($a_search_type)
+	public $filter_mode = null;
+
+	/**
+	 * @param $a_search_type
+	 * @return ilShopSearchResult
+	 */
+	public function _getInstance($a_search_type)
+	{
+		if(!isset(self::$_instance))
+		{
+			self::$_instance = new ilShopSearchResult($a_search_type);
+		}
+
+		return self::$_instance;
+	}
+
+	/**
+	 * @param int $a_search_type  SHOP_CONTENT | SHOP_ADVANCED_SEARCH
+	 */
+	private function __construct($a_search_type)
 	{
 		global $ilUser;
 		
 		$this->search_type = $a_search_type;
-		
 		parent::__construct($ilUser->getId());	
 	}
 	
@@ -39,6 +67,22 @@ class ilShopSearchResult extends ilSearchResult
 	public function getSearchType()
 	{
 		return $this->search_type;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getFilterMode()
+	{
+		return $this->filter_mode;
+	}
+
+	/**
+	 * @param int $filter_mode 
+	 */
+	public function setFilterMode($filter_mode)
+	{
+		$this->filter_mode = $filter_mode;
 	}
 	
 	protected function assignEntries($a_entries)
@@ -76,7 +120,6 @@ class ilShopSearchResult extends ilSearchResult
 	 * 
 	 * Allows paging of results for referenced objects
 	 *
-	 * @access public
 	 * @param int a_root_node node id
 	 * @param bool check_and and boolean search
 	 * @return bool success status
@@ -150,7 +193,7 @@ class ilShopSearchResult extends ilSearchResult
 	
 	public function getResultsForPresentation()
 	{
-		global $lng, $tree;
+		global $lng;
 		$results = array();
 		
 		$offset_counter = 0;
@@ -158,7 +201,6 @@ class ilShopSearchResult extends ilSearchResult
 
 		$objects_with_topics = array();
 		$objects_with_no_topcis = array();
-		$objects_of_subtree = array();
 
 		foreach($this->getResults() as $result)
 		{
@@ -176,57 +218,12 @@ class ilShopSearchResult extends ilSearchResult
 				break;
 			}
 		}
-		if($_GET['tree_ref_id'])
-		{
-			foreach($results as $result)
-			{
-				$tree_ref_id = $_GET['tree_ref_id'];
-		
-				$parent_id = $tree->getParentId($result['ref_id']);
 
-				if($tree_ref_id == $parent_id)
-				{
-					$objects_of_subtree[$result['ref_id']] = $result;
-				}
-
-				foreach($objects_of_subtree as $result)
-				{
-					switch($result['type'])
-					{
-						// learning material
-						case "sahs":
-						case "lm":
-						case "dbk":
-						case "htlm":
-							$type = "lres";
-							break;
-
-						default:
-							$type = $result['type'];
-							break;
-					}
-					$title = ilObject::_lookupTitle($result['obj_id']);
-					$description = ilObject::_lookupDescription($result['obj_id']);
-
-					$presentation_results[0][$type][] = array('ref_id' => $result['ref_id'],
-														  'title' => $title,
-														  'description' => $description,
-														  'type' => $result['type'],
-														  'obj_id' => $result['obj_id'],
-														  'child' => $result['child']);
-
-					$this->addPresentationResult($presentation_results[0][$type][count($presentation_results[0][$type]) - 1]);
-				}
-			}
-		}
-		else
-		{
 		foreach($this->getTopics() as $oTopic)
 		{		
 			foreach($results as $result)
 			{
 				$topic_id = ilPaymentObject::_lookupTopicId($result['ref_id']);
-//					$parent_id = $tree->getParentId($result['ref_id']);
 				
 				if(!(int)$topic_id && !array_key_exists($result['ref_id'], $objects_with_no_topcis))
 				{					
@@ -312,9 +309,8 @@ class ilShopSearchResult extends ilSearchResult
 												  'obj_id' => $result['obj_id'],
 												  'child' => $result['child']);
 			$this->addPresentationResult($presentation_results[0][$type][count($presentation_results[0][$type]) - 1]);
-			
 		}
-		}
+		
 		return $presentation_results ? $presentation_results : array();
 	}
 	

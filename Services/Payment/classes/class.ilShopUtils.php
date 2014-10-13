@@ -252,38 +252,21 @@
 		}
 	}
 	
-	public static function _addToShoppingCartSymbol($a_type, $a_ref_id)
+	public static function _addToShoppingCartSymbol($a_ref_id)
 	{
 		global $ilCtrl;
 
-		switch($a_type)
-		{
-			case 'sahs':
-				$detail_link = 'ilias.php?baseClass=ilSAHSPresentationGUI&ref_id='.$a_ref_id;
-				break;
-
-			case 'lm':
-				$detail_link = 'ilias.php?baseClass=ilLMPresentationGUI&ref_id='.$a_ref_id;
-				break;
-			case 'exc':
-				$detail_link = $ilCtrl->getLinkTargetByClass("ilShopPurchaseGUI", "showDetails").'&ref_id='.$a_ref_id;
-				break;
-
-			default:
-				$detail_link = $ilCtrl->getLinkTargetByClass("ilShopPurchaseGUI", "showDetails").'&ref_id='.$a_ref_id;
-				break;
- }
+		$detail_link = $ilCtrl->getLinkTargetByClass("ilShopPurchaseGUI", "showDetails").'&ref_id='.$a_ref_id;
 		$img = ilUtil::img('./templates/default/images/payment/shopcart_add_32.png');
+		
 		$link = '<a href="'.$detail_link.'">'.$img.'</a>';
 
 		return $link;
 	}
+	 
 	public static function _getSpecialObjectSymbol()
 	{
-		$img = ilUtil::img('./templates/default/images/payment/star_32.png');
-		#$link = '<a href="'.$detail_link.'">'.$img.'</a>';
-
-		return $img;
+		return ilUtil::img('./templates/default/images/payment/star_32.png');
 	}
 
 	public static function _getPaymethodSymbol($a_paymethod)
@@ -319,9 +302,6 @@
 
 				break;
 		}
-
-
-
 	}
 	public static function _deassignPurchasedCourseMemberRole($a_ref_id, $a_user_id)
 	{
@@ -332,4 +312,3 @@
 		$res = $participants->delete($a_user_id, IL_CRS_MEMBER);
 	}	
 }
-?>

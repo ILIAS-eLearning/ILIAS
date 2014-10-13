@@ -161,14 +161,4 @@ class ilPaymentSettings
 		return self::$_instance->setting['use_shop_specials'];
 
 	}
-
-	public function clearAll()
-	{
-		// NO !
-	}
-	public function setAll($a_array)
-	{
-		// NO !
-	}
 }
-?>

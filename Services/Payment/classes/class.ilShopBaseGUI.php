@@ -15,6 +15,7 @@ class ilShopBaseGUI
 	protected $ctrl = null;
 	protected $lng = null;
 	protected $tpl = null;
+	protected $settings = null;
 
 	public function __construct()
 	{
@@ -23,6 +24,8 @@ class ilShopBaseGUI
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
+		
+		$this->settings = ilPaymentSettings::_getInstance();
 		
 		$this->lng->loadLanguageModule('search');
 		$this->lng->loadLanguageModule('payment');		

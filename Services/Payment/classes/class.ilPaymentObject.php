@@ -459,6 +459,8 @@ class ilPaymentObject
 				include_once './Services/Payment/classes/class.ilPaymentVendors.php';
  
 				$vendors = ilPaymentTrustees::_getVendorsForObjects($a_vendor_id);
+				
+				// @todo $a_user_id not defined?!?!
 				if(ilPaymentVendors::_isVendor($a_user_id))
 				{
 					$vendors[] = $a_user_id;
@@ -736,6 +738,36 @@ class ilPaymentObject
 		return $obj;
 	}
 
+	/**
+	 * @param null|integer $topic_id
+	 * @return array
+	 */
+	public static function _getTopicsObjects($topic_id = NULL)
+	{
+		global $ilDB;
+
+		if($topic_id === NULL)
+		{
+			$res = $ilDB->queryF('
+				SELECT * FROM payment_objects
+				WHERE status = %s
+				ORDER BY pt_topic_fk', array('integer'), array(1));
+		}
+		else
+		{
+			$res = $ilDB->queryF('
+				SELECT * FROM payment_objects
+				WHERE pt_topic_fk = %s AND status = %s', 
+				array('integer', 'integer'), array((int)$topic_id, 1));
+		}	
+		$obj = array();
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$obj[] = $row;
+		}
+		return $obj;
+	}
+	
 	public static function _getContainerObjects($a_ref_id)
 	{
 		global $ilDB, $tree;
