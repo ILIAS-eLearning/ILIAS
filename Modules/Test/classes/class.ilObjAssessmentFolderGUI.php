@@ -292,10 +292,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		}
 		$this->object->setScoringAdjustableQuestions($scoring_types);
 		
-		if( !isset($_POST['quest_process_lock']) )
+		if( !$_POST['quest_process_lock'] )
 		{
 			$this->object->setQuestionProcessLockMode(ilAssQuestionProcessLocker::LOCK_MODE_NONE);
-		}		
+		}
 		elseif( in_array($_POST['quest_process_lock_mode'], ilAssQuestionProcessLocker::getValidLockModes()) )
 		{
 			$this->object->setQuestionProcessLockMode($_POST['quest_process_lock_mode']);
