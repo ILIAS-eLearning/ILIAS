@@ -1867,7 +1867,10 @@ abstract class ilDB extends PEAR
 	{
 		if (count($a_values) == 0)
 		{
-			return " 1=2 ";		// return a false statement on empty array
+			// BEGIN fixed mantis #0014191:
+			//return " 1=2 ";		// return a false statement on empty array
+			return $negate ? ' 1=1 ' : ' 1=2 ';
+			// END fixed mantis #0014191:
 		}
 		if ($a_type == "")		// untyped: used ? for prepare/execute
 		{
