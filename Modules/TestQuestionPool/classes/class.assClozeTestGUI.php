@@ -451,11 +451,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			// text field length
 			$fixedTextLength = new ilNumberInputGUI($this->lng->txt( "cloze_fixed_textlength" ), "fixedTextLength");
 			$ftl = $this->object->getFixedTextLength();
-			if ($ftl == null)
-			{
-				$ftl = 0;
-			}
-			$fixedTextLength->setValue( ilUtil::prepareFormOutput( $ftl ) );
+			
+			$fixedTextLength->setValue( $ftl > 0 ? $ftl : '' );
 			$fixedTextLength->setMinValue( 0 );
 			$fixedTextLength->setSize( 3 );
 			$fixedTextLength->setMaxLength( 6 );
@@ -549,7 +546,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			'type' => $translate_type[$content->getType()] ,
 			'values' => $items ,
 			'shuffle' => $shuffle,
-			'text_field_length' => $content->getGapSize(),
+			'text_field_length' => $content->getGapSize() > 0 ? $content->getGapSize() :  '',
 			'used_in_gap_combination' => true);
 			$i++;
 		}
