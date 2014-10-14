@@ -34,6 +34,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		parent::ilBlockGUI();
 
 		$lng->loadLanguageModule('pd');
+		$lng->loadLanguageModule('cntr'); // #14158
 		
 		//$this->setImage(ilUtil::getImagePath("icon_bm_s.png"));		
 		$this->setEnableNumInfo(false);
