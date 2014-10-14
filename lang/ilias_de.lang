@@ -14310,3 +14310,7 @@ content#:#cont_ie_compatibility_info#:#Insbesondere für ältere Lernmodule kann
 content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
 content#:#cont_ie_force_render_info#:#Aktivieren Sie diese Option nur wenn Inhalte des Lernmoduls im Internet Explorer auf Grund vieler Frames oder iFrames nicht korrekt angezeigt werden. Die Anzeige des Lernmoduls muss in einem neuen Fenster erfolgen.
 exc#:#exc_peer_deadline_mismatch#:#Da das Feedback nach der Deadline gegeben wird, darf die Feedback-Deadline nicht vor der Übungs-Deadline liegen.
+mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
+mail#:#link_check_reason#:#Sie erhalten diese Benachrichtigung, da Sie die Benachrichtigung über ungültige Externe Links aktiviert haben.
+mail#:#link_check_affected_links#:#Betroffene Links
+mail#:#link_check_perma_link#:#Permanent Link

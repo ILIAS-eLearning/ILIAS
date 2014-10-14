@@ -14310,3 +14310,7 @@ content#:#cont_ie_compatibility_info#:#Especially for older learning modules it 
 content#:#cont_ie_force_render#:#Force Internet Explorer to render again
 content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iframes. Additionally you have to set the option 'Display' to 'in new window'.
 exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.
+mail#:#link_check_introduction#:#the following weblinks are invalid:
+mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.
+mail#:#link_check_affected_links#:#Affected Links
+mail#:#link_check_perma_link#:#Permanent Link
