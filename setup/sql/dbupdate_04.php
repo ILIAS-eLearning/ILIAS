@@ -4079,3 +4079,290 @@ $ilDB->manipulate('UPDATE tst_test_defaults SET defaults_tmp = defaults');
 $ilDB->dropTableColumn('tst_test_defaults', 'defaults');
 $ilDB->renameTableColumn("tst_test_defaults", "defaults_tmp", "defaults");
 ?>
+
+<#4391>
+<?php
+
+if( !$ilDB->tableExists('tst_seq_qst_tracking') )
+{
+	$ilDB->createTable('tst_seq_qst_tracking', array(
+		'active_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pass' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'status' => array(
+			'type' => 'text',
+			'length' => 16,
+			'notnull' => false
+		),
+		'orderindex' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+	
+	$ilDB->addPrimaryKey('tst_seq_qst_tracking', array('active_fi', 'pass', 'question_fi'));
+	$ilDB->addIndex('tst_seq_qst_tracking', array('active_fi', 'pass'), 'i1');
+	$ilDB->addIndex('tst_seq_qst_tracking', array('active_fi', 'question_fi'), 'i2');
+}
+
+?>
+
+<#4392>
+<?php
+
+$query = "
+	SELECT active_fi, pass, sequence
+	FROM tst_tests
+	INNER JOIN tst_active
+	ON test_fi = test_id
+	INNER JOIN tst_sequence
+	ON active_fi = active_id
+	AND sequence IS NOT NULL
+	WHERE question_set_type = %s
+";
+
+$res = $ilDB->queryF($query, array('text'), array('DYNAMIC_QUEST_SET'));
+
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$tracking = unserialize($row['sequence']);
+	
+	if( is_array($tracking) )
+	{
+		foreach($tracking as $index => $question)
+		{
+			$ilDB->replace('tst_seq_qst_tracking',
+				array(
+					'active_fi' => array('integer', $row['active_fi']),
+					'pass' => array('integer', $row['pass']),
+					'question_fi' => array('integer', $question['qid'])
+				),
+				array(
+					'status' => array('text', $question['status']),
+					'orderindex' => array('integer', $index + 1)
+				)
+			);
+		}
+		
+		$ilDB->update('tst_sequence',
+			array(
+				'sequence' => array('text', null)
+			),
+			array(
+				'active_fi' => array('integer', $row['active_fi']),
+				'pass' => array('integer', $row['pass'])
+			)
+		);
+	}
+}
+
+?>
+
+<#4393>
+<?php
+
+if( !$ilDB->tableExists('tst_seq_qst_postponed') )
+{
+	$ilDB->createTable('tst_seq_qst_postponed', array(
+		'active_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pass' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'cnt' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+	
+	$ilDB->addPrimaryKey('tst_seq_qst_postponed', array('active_fi', 'pass', 'question_fi'));
+	$ilDB->addIndex('tst_seq_qst_postponed', array('active_fi', 'pass'), 'i1');
+	$ilDB->addIndex('tst_seq_qst_postponed', array('active_fi', 'question_fi'), 'i2');
+}
+
+?>
+
+<#4394>
+<?php
+
+$query = "
+	SELECT active_fi, pass, postponed
+	FROM tst_tests
+	INNER JOIN tst_active
+	ON test_fi = test_id
+	INNER JOIN tst_sequence
+	ON active_fi = active_id
+	AND postponed IS NOT NULL
+	WHERE question_set_type = %s
+";
+
+$res = $ilDB->queryF($query, array('text'), array('DYNAMIC_QUEST_SET'));
+
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$postponed = unserialize($row['postponed']);
+	
+	if( is_array($postponed) )
+	{
+		foreach($postponed as $questionId => $postponeCount)
+		{
+			$ilDB->replace('tst_seq_qst_postponed',
+				array(
+					'active_fi' => array('integer', $row['active_fi']),
+					'pass' => array('integer', $row['pass']),
+					'question_fi' => array('integer', $questionId)
+				),
+				array(
+					'cnt' => array('integer', $postponeCount)
+				)
+			);
+		}
+		
+		$ilDB->update('tst_sequence',
+			array(
+				'postponed' => array('text', null)
+			),
+			array(
+				'active_fi' => array('integer', $row['active_fi']),
+				'pass' => array('integer', $row['pass'])
+			)
+		);
+	}
+}
+
+?>
+
+<#4395>
+<?php
+
+if( !$ilDB->tableExists('tst_seq_qst_answstatus') )
+{
+	$ilDB->createTable('tst_seq_qst_answstatus', array(
+		'active_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pass' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'correctness' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+	
+	$ilDB->addPrimaryKey('tst_seq_qst_answstatus', array('active_fi', 'pass', 'question_fi'));
+	$ilDB->addIndex('tst_seq_qst_answstatus', array('active_fi', 'pass'), 'i1');
+	$ilDB->addIndex('tst_seq_qst_answstatus', array('active_fi', 'question_fi'), 'i2');
+}
+
+?>
+
+<#4396>
+<?php
+
+$query = "
+	SELECT active_fi, pass, hidden
+	FROM tst_tests
+	INNER JOIN tst_active
+	ON test_fi = test_id
+	INNER JOIN tst_sequence
+	ON active_fi = active_id
+	AND hidden IS NOT NULL
+	WHERE question_set_type = %s
+";
+
+$res = $ilDB->queryF($query, array('text'), array('DYNAMIC_QUEST_SET'));
+
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$answerStatus = unserialize($row['hidden']);
+	
+	if( is_array($answerStatus) )
+	{
+		foreach($answerStatus['correct'] as $questionId)
+		{
+			$ilDB->replace('tst_seq_qst_answstatus',
+				array(
+					'active_fi' => array('integer', $row['active_fi']),
+					'pass' => array('integer', $row['pass']),
+					'question_fi' => array('integer', $questionId)
+				),
+				array(
+					'correctness' => array('integer', 1)
+				)
+			);
+		}
+		
+		foreach($answerStatus['wrong'] as $questionId)
+		{
+			$ilDB->replace('tst_seq_qst_answstatus',
+				array(
+					'active_fi' => array('integer', $row['active_fi']),
+					'pass' => array('integer', $row['pass']),
+					'question_fi' => array('integer', $questionId)
+				),
+				array(
+					'correctness' => array('integer', 0)
+				)
+			);
+		}
+		
+		$ilDB->update('tst_sequence',
+			array(
+				'hidden' => array('text', null)
+			),
+			array(
+				'active_fi' => array('integer', $row['active_fi']),
+				'pass' => array('integer', $row['pass'])
+			)
+		);
+	}
+}
+
+?>

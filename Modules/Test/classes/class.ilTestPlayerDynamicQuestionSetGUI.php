@@ -195,6 +195,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->updateWorkingTime();
 			$this->saveQuestionSolution();
 			$this->persistQuestionAnswerStatus();
+
+			$this->testSequence->unsetQuestionPostponed($questionId);
 		}
 		
 		$this->testSequence->loadQuestions(
@@ -203,6 +205,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		$this->testSequence->cleanupQuestions($this->testSession);
 
+		$this->testSequence->saveToDb();
+			
 		require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 		$toolbarGUI = new ilToolbarGUI();
 		
@@ -298,6 +302,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->updateWorkingTime();
 			$this->saveQuestionSolution();
 			$this->persistQuestionAnswerStatus();
+
+			$this->testSequence->unsetQuestionPostponed($questionId);
 		}
 
 		$this->testSequence->loadQuestions(
@@ -305,7 +311,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		);
 		
 		$this->testSequence->cleanupQuestions($this->testSession);
-
+		
+		$this->testSequence->saveToDb();
+		
 		$data = $this->buildQuestionsTableDataArray(
 			$this->testSequence->getTrackedQuestionList( $this->testSession->getCurrentQuestionId() ),
 			$this->getMarkedQuestions()
@@ -346,6 +354,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->updateWorkingTime();
 			$this->saveQuestionSolution();
 			$this->persistQuestionAnswerStatus();
+
+			$this->testSequence->unsetQuestionPostponed($questionId);
+			$this->testSequence->saveToDb();
 		}
 
 		$this->resetCurrentQuestion();
@@ -362,11 +373,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->updateWorkingTime();
 			$this->saveQuestionSolution();
 			$this->persistQuestionAnswerStatus();
-		}
 
-		$this->testSequence->setQuestionPostponed(
-				$this->testSession->getCurrentQuestionId()
-		);
+			$this->testSequence->setQuestionPostponed($questionId);
+		}
 		
 		$this->testSession->setCurrentQuestionId(null);
 		
@@ -385,6 +394,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->updateWorkingTime();
 			$this->saveQuestionSolution();
 			$this->persistQuestionAnswerStatus();
+
+			$this->testSequence->unsetQuestionPostponed($questionId);
+			$this->testSequence->saveToDb();
 		}
 
 		global $ilUser;
@@ -402,6 +414,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->updateWorkingTime();
 			$this->saveQuestionSolution();
 			$this->persistQuestionAnswerStatus();
+
+			$this->testSequence->unsetQuestionPostponed($questionId);
+			$this->testSequence->saveToDb();
 		}
 
 		global $ilUser;
@@ -475,8 +490,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->saveQuestionSolution();
 			$this->persistQuestionAnswerStatus();
 
+			$this->testSequence->unsetQuestionPostponed($questionId);
 			$this->testSequence->setQuestionChecked($questionId);
-			$this->testSequence->saveToDb();
 		}
 
 		$this->handleJavascriptActivationStatus();
@@ -508,6 +523,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->updateWorkingTime();
 			$this->saveQuestionSolution();
 			$this->persistQuestionAnswerStatus();
+
+			$this->testSequence->unsetQuestionPostponed($questionId);
+			$this->testSequence->saveToDb();
 		}
 
 		$this->ctrl->setParameter(
