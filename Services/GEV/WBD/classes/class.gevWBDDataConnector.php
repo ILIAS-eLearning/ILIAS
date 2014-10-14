@@ -298,13 +298,11 @@ ONE STEP IS NOT ENOUGH !
 			";
 
 
-/*
 		// new accounts for TP_Service, TP_Basic only:
 		$sql .= " AND wbd_type IN ('"
 			.self::WBD_TP_BASIS."', '".self::WBD_TP_SERVICE
 			."')";
 
-*/		
 		//dev-safety:
 		$sql .= ' AND user_id IN (SELECT usr_id FROM usr_data)';
 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
