@@ -161,8 +161,9 @@ class ilLPStatusObjectives extends ilLPStatus
 					$objectives = ilCourseObjective::_getObjectiveIds($a_obj_id, true);					
 					if ($objectives)
 					{												
+						// #14051 - getSummarizedObjectiveStatusForLP() might return null
 						include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";						
-						$status = ilLOUserResults::getSummarizedObjectiveStatusForLP($objectives, $a_user_id);													
+						$status = (int)ilLOUserResults::getSummarizedObjectiveStatusForLP($objectives, $a_user_id);													
 					}					
 				}
 				break;			

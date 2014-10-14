@@ -432,6 +432,7 @@ class ilLOUserResults
 		
 		if($a_user_id)
 		{
+			// might return null!
 			return $res[$a_user_id];
 		}
 		else
