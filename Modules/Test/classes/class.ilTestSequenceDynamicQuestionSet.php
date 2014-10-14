@@ -306,10 +306,6 @@ class ilTestSequenceDynamicQuestionSet
 	{
 		$INquestions = $this->db->in('question_fi', array_keys($this->postponedQuestions), true, 'integer');
 
-		// BEGIN fix symptom of mantis #0014191
-		if( $INquestions == ' 1=2 ' ) $INquestions = ' 1=1 ';
-		// END fix symptom of mantis #0014191
-		
 		$query = "
 			DELETE FROM tst_seq_qst_postponed
 			WHERE active_fi = %s
