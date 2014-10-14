@@ -94,7 +94,9 @@ class ilGlobalCache {
 			 * @var $ilClientIniFile ilIniFile
 			 */
 			global $ilClientIniFile;
-			self::$type_per_component[$component] = $ilClientIniFile->readVariable('cache', 'global_cache_service_type');
+			if ($ilClientIniFile instanceof ilIniFile) {
+				self::$type_per_component[$component] = $ilClientIniFile->readVariable('cache', 'global_cache_service_type');
+			}
 		}
 
 		if (self::$type_per_component[$component]) {
