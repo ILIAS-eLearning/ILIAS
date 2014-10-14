@@ -565,10 +565,13 @@ class ilAdvancedSelectionListGUI
 			return "";
 		}
 
+		/* bootstrap made this obsolete ?!
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initOverlay();
-		$GLOBALS["tpl"]->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");
-		$GLOBALS["tpl"]->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
+		$GLOBALS["tpl"]->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");					
+		*/
+		$GLOBALS["tpl"]->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");		 
+		
 		$tpl = new ilTemplate("tpl.adv_selection_list.html", true, true,
 			"Services/UIComponent/AdvancedSelectionList", "DEFAULT", false, true);
 			
@@ -718,7 +721,7 @@ class ilAdvancedSelectionListGUI
 					$tpl->setVariable("IT_HID_NAME", $this->form_mode["select_name"]);
 					$tpl->setVariable("IT_HID_VAL", $item["value"]);
 					$tpl->setVariable("IT_TITLE", str_replace("'", "\\'", $item["title"]));
-					$tpl->parseCurrentBlock();
+					$tpl->parseCurrentBlock();					 					
 				}
 
 				// output hidden input, if click mode is form submission
@@ -743,24 +746,26 @@ class ilAdvancedSelectionListGUI
 					$tpl->setVariable("HID_VALUE", $this->getSelectedValue());
 					$tpl->parseCurrentBlock();
 				}
-
-				$tpl->setCurrentBlock("dd_content");
-				if ($this->getPullRight())
-				{
-					$tpl->setVariable("UL_CLASS", "dropdown-menu pull-right");
-				}
-				else
-				{
-					$tpl->setVariable("UL_CLASS", "dropdown-menu");
-				}
-				$tpl->parseCurrentBlock();
-			}
+			}						
 		}
-
+		
 		if ($a_only_cmd_list_asynch)
 		{
+			$tpl->touchBlock("cmd_table");
 			return $tpl->get("cmd_table");
 		}
+				
+		$tpl->setCurrentBlock("dd_content");
+		if ($this->getPullRight())
+		{
+			$tpl->setVariable("UL_CLASS", "dropdown-menu pull-right");
+		}
+		else
+		{
+			$tpl->setVariable("UL_CLASS", "dropdown-menu");
+		}
+		$tpl->setVariable("TABLE_ID", $this->getId());
+		$tpl->parseCurrentBlock();
 
 		if ($this->getHeaderIcon() != ilAdvancedSelectionListGUI::NO_ICON)
 		{
@@ -781,7 +786,16 @@ class ilAdvancedSelectionListGUI
 			$tpl->parseCurrentBlock();
 		}
 		
-
+		
+		if($this->getAsynch())
+		{
+			$tpl->setCurrentBlock("asynch_bl");
+			$tpl->setVariable("ASYNCH_URL", $this->getAsynchUrl());
+			$tpl->setVariable("ASYNCH_ID", $this->getId());
+			$tpl->setVariable("ASYNCH_TRIGGER_ID", $this->getId());
+			$tpl->parseCurrentBlock();
+		}
+	
 		// js section
 		$tpl->setCurrentBlock("js_section");
 		if ($this->getAccessKey() > 0)
@@ -809,13 +823,14 @@ class ilAdvancedSelectionListGUI
 			$cfg["toggle_class_on"] = $toggle["class_on"];
 		}
 //echo "<br>".htmlentities($this->getAsynchUrl());
-		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
+		include_once("./Services/JSON/classes/class.ilJsonUtil.php");		  
+		$tpl->setVariable("CFG", ilJsonUtil::encode($cfg));		 
+		 
+		//echo htmlentities(ilJsonUtil::encode($cfg));	
+		
 		$tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
 		$tpl->setVariable("ID", $this->getId());
-		$tpl->setVariable("CFG", ilJsonUtil::encode($cfg));
-//echo htmlentities(ilJsonUtil::encode($cfg));
-
-
+		
 		//$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());
 		switch ($this->getStyle())
 		{
@@ -849,7 +864,7 @@ class ilAdvancedSelectionListGUI
 
 		// set the async url to an extra template variable
 		// (needed for a mobile skin)
-		$tpl->setVariable("ASYNC_URL", $this->getAsynchUrl());
+		// $tpl->setVariable("ASYNC_URL", $this->getAsynchUrl());
 
 		$tpl->parseCurrentBlock();
 

@@ -12,13 +12,15 @@ il.AdvancedSelectionList =
 	{
 		this.lists[id] = cfg;
 		this.items[id] = {};
-		this.showAnchor(cfg.anchor_id);
+		// this.showAnchor(cfg.anchor_id);
 
+		/* trying to get rid of overlay - obsolete because of bootstrap
 		il.Overlay.add('ilAdvSelListTable_' + id,
 			{yuicfg: {visible: false, context: [cfg.anchor_id, 'tl', 'bl', ["beforeShow", "windowResize"]]},
 			trigger: cfg.anchor_id, trigger_event: cfg.trigger_event, anchor_id: cfg.anchor_id,
 			toggle_el: cfg.toggle_el, toggle_class_on: cfg.toggle_class_on,
 			asynch: cfg.asynch, asynch_url: cfg.asynch_url, auto_hide: cfg.auto_hide});
+		*/
 	},
 			
 	itemOn: function (obj)
@@ -53,7 +55,7 @@ il.AdvancedSelectionList =
 		this.setHiddenInput(id, hid_name, hid_val);
 		anchor_text = document.getElementById("ilAdvSelListAnchorText_" + id);
 		anchor_text.innerHTML = title;
-		il.Overlay.hide(null, 'ilAdvSelListTable_' + id);
+		// il.Overlay.hide(null, 'ilAdvSelListTable_' + id);
 		if (this.lists[id]['select_callback'] != null)
 		{
 			eval(this.lists[id]['select_callback'] + '(this.items[id][hid_val]);');
@@ -64,7 +66,7 @@ il.AdvancedSelectionList =
 
 	clickNop: function (id, hid_name, hid_val, title)
 	{
-		il.Overlay.hide(null, 'ilAdvSelListTable_' + id);
+		// il.Overlay.hide(null, 'ilAdvSelListTable_' + id);
 		if (this.lists[id]['select_callback'] != null)
 		{
 			eval(this.lists[id]['select_callback'] + '(this.items[id][hid_val]);');
