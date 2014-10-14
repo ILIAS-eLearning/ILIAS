@@ -102,7 +102,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 				,'agent_registration_nr' => '' 				//optional
 				,'agency_work' => $record['okz'] 			//OKZ
-				,'agent_state' => ($this->VALUE_MAPPINGS['agent_status'][$record['agent_status']]) ? $this->VALUE_MAPPINGS['agent_status'][$record['agent_status']] : 'XXX '.$record['agent_status']	//Status
+				,'agent_state' => ($this->VALUE_MAPPINGS['agent_status'][$record['agent_status']])	//Status
 				,'email_confirmation' => ''					//Benachrichtigung?
 
 
@@ -267,10 +267,20 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)) {
 			$udata = $this->_map_userdata($record);
-			$ret[] = wbdDataConnector::new_user_record($udata);
 
-			//set last_wbd_report!
-			$this->_set_last_wbd_report('hist_user', $record['row_id']);
+
+			if($this->validateUserRecord($udata)){
+
+				$ret[] = wbdDataConnector::new_user_record($udata);
+				//set last_wbd_report!
+				$this->_set_last_wbd_report('hist_user', $record['row_id']);
+			} else {
+				//this could be nicer...
+				print_r($udata);
+				print '<hr>';
+			}
+
+
 
 		}
 		return $ret;
