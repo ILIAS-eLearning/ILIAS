@@ -1760,6 +1760,16 @@ class ilObjTestGUI extends ilObjectGUI
 		$qpl_ref_id = $_REQUEST["sel_qpl"];
 
 		$qpl_mode = $_REQUEST['usage'];
+		
+		if(isset($_REQUEST['qtype']))
+		{
+			include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
+			$sel_question_types = ilObjQuestionPool::getQuestionTypeByTypeId($_REQUEST["qtype"]); 
+		}
+		else if(isset($_REQUEST['sel_question_types']))
+		{
+			$sel_question_types = $_REQUEST["sel_question_types"];
+		}
 
 		if (!$qpl_mode || ($qpl_mode == 2 && strcmp($_REQUEST["txt_qpl"], "") == 0) || ($qpl_mode == 3 && strcmp($qpl_ref_id, "") == 0))
 		//if ((strcmp($_REQUEST["txt_qpl"], "") == 0) && (strcmp($qpl_ref_id, "") == 0))
@@ -1782,12 +1792,17 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 
 			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPoolGUI.php";
+			$baselink = "ilias.php?baseClass=ilObjQuestionPoolGUI&ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&calling_test=".$_GET["ref_id"]."&sel_question_types=" . $sel_question_types;
 
-			$baselink = "ilias.php?baseClass=ilObjQuestionPoolGUI&ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&calling_test=".$_GET["ref_id"]."&sel_question_types=" . $_REQUEST["sel_question_types"];
-
-			if (isset($_REQUEST['prev_qid'])) {
+			if (isset($_REQUEST['prev_qid'])) 
+			{
 			    $baselink .= '&prev_qid=' . $_REQUEST['prev_qid'];
 			}
+			else if(isset($_REQUEST['position']))
+			{
+				$baselink .= '&prev_qid=' . $_REQUEST['position'];
+			}
+			
 			if ($_REQUEST['test_express_mode']) {
 			    $baselink .= '&test_express_mode=1';
 			}
@@ -2239,6 +2254,113 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
 
+	public function addQuestionObject()
+	{
+		global $lng, $ilCtrl, $tpl;
+
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+
+		$ilCtrl->setParameter($this, 'qtype', $_REQUEST['qtype']);
+
+		$form = new ilPropertyFormGUI();
+
+		$form->setFormAction($ilCtrl->getFormAction($this, "executeCreateQuestion"));
+		$form->setTitle($lng->txt("ass_create_question"));
+		include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
+
+		$pool = new ilObjQuestionPool();
+		$questionTypes = $pool->getQuestionTypes(false, true);
+		$options = array();
+
+		// question type
+		foreach($questionTypes as $label => $data)
+		{
+			$options[$data['question_type_id']] = $label; 
+		}
+
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$si = new ilSelectInputGUI($lng->txt("question_type"), "qtype");
+		$si->setOptions($options);
+		$form->addItem($si, true);
+
+		// position
+		$questions = $this->object->getQuestionTitlesAndIndexes();
+		if($questions)
+		{
+			$si = new ilSelectInputGUI($lng->txt("position"), "position");
+			$options = array('0' => $lng->txt('first'));
+			foreach($questions as $key => $title)
+			{
+				$options[$key] = $lng->txt('behind') . ' '. $title . ' ['.$this->lng->txt('question_id_short') . ': '. $key .']';
+			}
+			$si->setOptions($options);
+			$si->setValue($_REQUEST['q_id']);
+			$form->addItem($si, true);
+		}
+
+		// content editing mode
+		if( ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled() )
+		{
+			$ri = new ilRadioGroupInputGUI($lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
+
+			$ri->addOption(new ilRadioOption(
+				$lng->txt('tst_add_quest_cont_edit_mode_default'),
+				assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT
+			));
+
+			$ri->addOption(new ilRadioOption(
+				$lng->txt('tst_add_quest_cont_edit_mode_page_object'),
+				assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
+			));
+
+			$ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
+
+			$form->addItem($ri, true);
+		}
+		else
+		{
+			$hi = new ilHiddenInputGUI("question_content_editing_type");
+			$hi->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
+			$form->addItem($hi, true);
+		}
+
+		if($this->object->getPoolUsage())
+		{
+			// use pool
+			$usage = new ilRadioGroupInputGUI($this->lng->txt("assessment_pool_selection"), "usage");
+			$usage->setRequired(true);
+			$no_pool = new ilRadioOption($this->lng->txt("assessment_no_pool"), 1);
+			$usage->addOption($no_pool);
+			$existing_pool = new ilRadioOption($this->lng->txt("assessment_existing_pool"), 3);
+			$usage->addOption($existing_pool);
+			$new_pool = new ilRadioOption($this->lng->txt("assessment_new_pool"), 2);
+			$usage->addOption($new_pool);
+			$form->addItem($usage);
+
+			$usage->setValue(1);
+
+			$questionpools = ilObjQuestionPool::_getAvailableQuestionpools(FALSE, FALSE, TRUE, FALSE, FALSE, "write");
+			$pools_data = array();
+			foreach($questionpools as $key => $p)
+			{
+				$pools_data[$key] = $p['title'];
+			}
+			$pools = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "sel_qpl");
+			$pools->setOptions($pools_data);
+			$existing_pool->addSubItem($pools);
+
+			$name = new ilTextInputGUI($this->lng->txt("name"), "txt_qpl");
+			$name->setSize(50);
+			$name->setMaxLength(50);
+			$new_pool->addSubItem($name);
+		}
+
+		$form->addCommandButton("executeCreateQuestion", $lng->txt("submit"));
+		$form->addCommandButton("questions", $lng->txt("cancel"));
+
+		return $tpl->setContent($form->getHTML());
+	}
+	
 	function questionsObject()
 	{
 		global $ilAccess, $ilTabs;
@@ -2311,20 +2433,8 @@ class ilObjTestGUI extends ilObjectGUI
 			else {
 				global $ilToolbar;
 
-				$qtypes = array();
-				include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-				foreach (ilObjQuestionPool::_getQuestionTypes(false, true) as $trans => $data)
-				{
-					$qtypes[$data['type_tag']] = $trans;
-				}
-				$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-				include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-				$types = new ilSelectInputGUI($this->lng->txt("create_new"), "sel_question_types");
-				$types->setOptions($qtypes);
-
-				$ilToolbar->addInputItem($types);
-				$ilToolbar->addFormButton($this->lng->txt("ass_create_question"), "createQuestion");
-
+				$ilToolbar->addButton($this->lng->txt("ass_create_question"), $this->ctrl->getLinkTarget($this, "addQuestion"));
+				
 				if ($this->object->getPoolUsage()) {
 					$ilToolbar->addSeparator();
 					$ilToolbar->addButton($this->lng->txt("tst_browse_for_questions"), $this->ctrl->getLinkTarget($this, 'browseForQuestions'));
