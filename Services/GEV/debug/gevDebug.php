@@ -236,6 +236,22 @@ class gevDebug {
 	}
 
 
+	public function getAllUsers(){
+		require_once("Services/User/classes/class.ilObjUser.php");
+		
+		$ret = array();
+		$sql = 'SELECT usr_id FROM usr_data';
+		$result = $this->db->query($sql);
+		while($record = $this->db->fetchAssoc($result)) {
+			$ret[$record['usr_id']] = new ilObjUser($record['usr_id']);
+		}
+		return $ret;
+	}
+
+	public function updateHistoryForUser($usr){
+		global $ilAppEventHandler;
+		$ilAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $usr));
+	}
 }
 
 
@@ -272,8 +288,17 @@ $payment_data = array(
 //$debug->createBill($payment_data);
 
 print '<pre>';
-print_r($debug->getCurrentUserData());
+//print_r($debug->getCurrentUserData());
 
-print 'done.';
+
+foreach ($debug->getAllUsers() as $id=>$usr) {
+	$debug->updateHistoryForUser($usr);
+
+	print "<h2>$id</h2>";
+	print_r($usr->getLogin());
+	print '<hr>';
+}
+
+print '<br><br><i>done.</i>';
 
 ?>

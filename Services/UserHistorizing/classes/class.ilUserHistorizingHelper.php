@@ -150,6 +150,22 @@ class ilUserHistorizingHelper
 	}
 
 
+	/**
+	 * Returns the Type: TPService/TBBasic of the given user.
+	 *
+	 * @param integer|ilObjUser $user
+	 *
+	 * @return string
+	 */
+	public static function getWBDTypeOf($user)
+	{
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		//return gevUserUtils::getInstanceByObjOrId($user)->getAgentStatus();
+		return gevUserUtils::getInstanceByObjOrId($user)->getWBDTPType();
+		//USR_WBD_STATUS
+	}
+
+
 
 
 	/**

@@ -26,11 +26,6 @@ echo('<pre>');
 
 
 
-
-
-
-
-
 //reset ilias for calls from somewhere else
 $basedir = __DIR__; 
 $basedir = str_replace('/Services/GEV/WBD/classes', '', $basedir);
@@ -49,6 +44,12 @@ require_once("./Services/WBDData/classes/class.wbdDataConnector.php");
 
 
 class gevWBDDataConnector extends wbdDataConnector {
+
+	const WBD_NO_SERVICE 		= "0 - kein Service";
+	const WBD_EDU_PROVIDER		= "1 - Bildungsdienstleister";
+	const WBD_TP_BASIS			= "2 - TP-Basis";
+	const WBD_TP_SERVICE		= "3 - TP-Service";
+
 
 	public function __construct() {
 		
@@ -106,6 +107,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 
 				,"row_id" => $record["row_id"]
+				
+				,'wbd_type' => $record['wbd_type'] //debug
 			);
 
 		return $udata;
@@ -292,13 +295,20 @@ ONE STEP IS NOT ENOUGH !
 				AND NOT 
 					last_wbd_report IS NULL
 			)
-
 			";
 
 
+/*
+		// new accounts for TP_Service, TP_Basic only:
+		$sql .= " AND wbd_type IN ('"
+			.self::WBD_TP_BASIS."', '".self::WBD_TP_SERVICE
+			."')";
 
+*/		
 		//dev-safety:
-		$sql .= ' AND user_id in (SELECT usr_id FROM usr_data)';
+		$sql .= ' AND user_id IN (SELECT usr_id FROM usr_data)';
+		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
+		
 		$ret = array();
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)) {
@@ -344,8 +354,14 @@ ONE STEP IS NOT ENOUGH !
 				last_wbd_report IS NULL
 			";
 
+
+		// manage accounts for TP_Service only:
+		$sql .= " AND wbd_type = '" .self::WBD_TP_SERVICE ."'";
+
+
 		//dev-safety:
 		$sql .= ' AND user_id in (SELECT usr_id FROM usr_data)';
+		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
 
 		//$sql .= " GROUP BY user_id";
 
@@ -412,9 +428,17 @@ ONE STEP IS NOT ENOUGH !
 				hist_usercoursestatus.last_wbd_report IS NULL
 
 			";
+
+
+		// report edupoints for TP_Service, Edu_Provider only:
+		$sql .= " AND wbd_type IN ('"
+			.self::WBD_TP_SERVICE."', '".self::WBD_EDU_PROVIDER
+			."')";
+
+
 		//dev-safety:
 		$sql .= ' AND usr_id in (SELECT usr_id FROM usr_data)';
-
+		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
 
 
 		$ret = array();

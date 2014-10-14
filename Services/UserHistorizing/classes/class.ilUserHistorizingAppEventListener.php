@@ -127,7 +127,8 @@ class ilUserHistorizingAppEventListener
 		/** @var ilObjUser $parameter */
 
 		/*
-		also update Services/UserHistorizing/classes/class.ilUserHistorizing.php!!!
+			!!! also update 
+			Services/UserHistorizing/classes/class.ilUserHistorizing.php
 		*/
 		$data_payload = array(
 			'firstname'						=> $parameter['user_obj']->getFirstname(),
@@ -145,6 +146,7 @@ class ilUserHistorizingAppEventListener
 			'email'							=> self::$ilUserHistorizingHelper->getEMailOf($parameter['user_obj']),
 			//new 2014-10-14:
 			'agent_status'					=> self::$ilUserHistorizingHelper->getAgentStatusOf($parameter['user_obj']), //USR_WBD_STATUS
+			'wbd_type'						=> self::$ilUserHistorizingHelper->getWBDTypeOf($parameter['user_obj']), //USR_WBD_STATUS
 		);
 		/*
 		'street'	 	
