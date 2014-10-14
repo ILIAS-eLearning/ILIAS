@@ -45,7 +45,7 @@ class ilLucenePathFilter implements ilLuceneResultFilter
 	public function __construct($a_root)
 	{
 		$this->root = $a_root;
-		$this->init();
+		//$this->init();
 	}
 	
 	/**
