@@ -1166,6 +1166,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$rgui = new ilRatingGUI();
 				$rgui->setObject($wiki_id, "wiki", $a_wpg_id, "wpg");
 				$rgui->enableCategories(ilObjWiki::_lookupRatingCategories($wiki_id));
+				$rgui->setYourRatingText("#");
 				$rcontent .= $rgui->getBlockHTML($lng->txt("wiki_rate_page"));
 			}
 		}

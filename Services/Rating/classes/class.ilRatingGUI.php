@@ -147,17 +147,22 @@ class ilRatingGUI
 	 * @param bool $a_may_rate
 	 * @param array $a_categories 
 	 * @param bool $a_onclick 
+	 * @param bool $a_average 
 	 * @return string
 	 */
-	protected function renderDetails($a_js_id, $a_may_rate, array $a_categories = null, $a_onclick = null)
+	protected function renderDetails($a_js_id, $a_may_rate, array $a_categories = null, $a_onclick = null, $a_average = false)
 	{
 		global $lng, $ilCtrl;
 		
 		$ttpl = new ilTemplate("tpl.rating_details.html", true, true, "Services/Rating");		
 		
-		$rate_text = ($this->getYourRatingText() != "")
-			? $this->getYourRatingText()
-			: $lng->txt("rating_your_rating");
+		$rate_text = null;
+		if($this->getYourRatingText() != "#")
+		{
+			$rate_text = ($this->getYourRatingText() != "")
+				? $this->getYourRatingText()
+				: $lng->txt("rating_your_rating");
+		}
 						
 		// no categories: 1 simple rating (link)
 		if(!$a_categories)
@@ -166,10 +171,25 @@ class ilRatingGUI
 			{									
 				$rating = ilRating::getRatingForUserAndObject($this->obj_id, $this->obj_type,
 					$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(), 0);
+				
+				if((bool)$a_average)
+				{					
+					$overall_rating = ilRating::getOverallRatingForObject($this->obj_id, $this->obj_type,
+						$this->sub_obj_id, $this->sub_obj_type);						
+				}
 
 				// user rating links
 				for($i = 1; $i <= 5; $i++)
 				{
+					if ((bool)$a_average &&
+						$i == $rating)
+					{							
+						$ttpl->setCurrentBlock("rating_mark_simple");
+						$ttpl->setVariable("SRC_MARK_SIMPLE",
+							ilUtil::getImagePath("icon_rate_marker.png"));
+						$ttpl->parseCurrentBlock();
+					}
+					
 					$ttpl->setCurrentBlock("rating_link_simple");						
 					if(stristr($a_onclick, "%rating%"))
 					{
@@ -195,7 +215,16 @@ class ilRatingGUI
 						$ttpl->setVariable("ONCLICK_RATING", ' onclick="'.$onclick.'"');
 					}
 					
-					if ($rating >= $i)
+					if((bool)$a_average)
+					{
+						$ref_rating = $overall_rating["avg"];						
+					}
+					else
+					{
+						$ref_rating = $rating;
+					}
+					
+					if ($ref_rating >= $i)				
 					{
 						$ttpl->setVariable("SRC_ICON",
 							ilUtil::getImagePath("icon_rate_on.png"));
@@ -241,11 +270,24 @@ class ilRatingGUI
 					
 					$ttpl->parseCurrentBlock();
 				}
-
+				
+				if($rate_text)
+				{
+					$ttpl->setCurrentBlock("rating_simple_title");
+					$ttpl->setVariable("TXT_RATING_SIMPLE", $rate_text);
+					$ttpl->parseCurrentBlock();
+				}
+				
 				// user rating text
 				$ttpl->setCurrentBlock("user_rating_simple");
-				$ttpl->setVariable("TXT_RATING_SIMPLE", $rate_text);
-				$ttpl->parseCurrentBlock();
+								
+				if((bool)$a_average &&
+					$overall_rating["cnt"])
+				{
+					$ttpl->setVariable("NUMBER_VOTES_SIMPLE", $overall_rating["cnt"]);
+				}
+
+				$ttpl->parseCurrentBlock();		
 			}
 		}
 		// categories: overall & user (form)
@@ -362,9 +404,11 @@ class ilRatingGUI
 				$ttpl->touchBlock("user_rating_categories_form_out");				
 				
 				// overall / user title
+				/*
 				$ttpl->setCurrentBlock("user_rating_categories");
 				$ttpl->setVariable("TXT_RATING_OVERALL", $lng->txt("rating_overlay_title_overall"));				
-				$ttpl->parseCurrentBlock();				
+				$ttpl->parseCurrentBlock();								 
+				*/
 			}		
 		}
 		
@@ -540,7 +584,7 @@ class ilRatingGUI
 		$ttpl->setVariable("TITLE", $a_title);
 		
 		$ttpl->setVariable("RATING_DETAILS", 
-				$this->renderDetails("rtsb_", $may_rate, $categories));
+				$this->renderDetails("rtsb_", $may_rate, $categories, null, true));
 		
 		return $ttpl->get();
 	}
