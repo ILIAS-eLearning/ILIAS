@@ -1422,6 +1422,8 @@ class gevUserUtils {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_BWV_ID, $a_id);
 	}
 	
+
+
 	public function getRawWBDOKZ() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_OKZ);
 	}
@@ -1457,6 +1459,17 @@ class gevUserUtils {
 		return;
 	}
 	
+
+
+	public function getWBDAgentStatus() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_STATUS);
+	}
+	
+
+
+
+
+
 	static public function isValidBWVId($a_id) {
 		return 1 == preg_match("/\d{8}-.{6}-../", $a_id);
 	}

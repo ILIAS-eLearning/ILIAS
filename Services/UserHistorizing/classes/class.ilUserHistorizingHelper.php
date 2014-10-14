@@ -133,6 +133,25 @@ class ilUserHistorizingHelper
 		return gevUserUtils::getInstanceByObjOrId($user)->getWBDOKZ();
 	}
 
+
+	/**
+	 * Returns the Vermittlerstatus of the given user.
+	 *
+	 * @param integer|ilObjUser $user
+	 *
+	 * @return string
+	 */
+	public static function getAgentStatusOf($user)
+	{
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		//return gevUserUtils::getInstanceByObjOrId($user)->getAgentStatus();
+		return gevUserUtils::getInstanceByObjOrId($user)->getWBDAgentStatus();
+		//USR_WBD_STATUS
+	}
+
+
+
+
 	/**
 	 * Returns the Adress-data of the given user.
 	 *
@@ -146,11 +165,17 @@ class ilUserHistorizingHelper
 		$uutils = gevUserUtils::getInstanceByObjOrId($user);
 		//$uutils = gevUserUtils::getInstance($user->user_id);
 		$ret = array(
-			'street'			=> $uutils->getPrivateStreet(),
-			'zipcode'			=> $uutils->getPrivateZipcode(),
-			'city'				=> $uutils->getPrivateCity(),
-			'phone_nr'			=> $uutils->getUser()->getPhoneOffice(),
-			'mobile_phone_nr'	=> $uutils->getPrivatePhone()
+			//'street'			=> $uutils->getPrivateStreet(),
+			//'zipcode'			=> $uutils->getPrivateZipcode(),
+			//'city'				=> $uutils->getPrivateCity(),
+			//'phone_nr'			=> $uutils->getUser()->getPhoneOffice(),
+			'mobile_phone_nr'	=> $uutils->getPrivatePhone(),
+
+			//2014-10-14:
+			'street' 	=> $user->getStreet(),
+			'zipcode' 	=> $user->getZipcode(),
+			'city'		=> $user->getCity(),
+			'phone_nr' 	=> $user->getPhoneOffice()
 		);
 		return $ret;
 	}

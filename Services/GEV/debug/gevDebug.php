@@ -217,6 +217,24 @@ class gevDebug {
 	}
 
 
+	public function getCurrentUserData(){
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$uutils = gevUserUtils::getInstanceByObjOrId($this->user);
+
+		print_r(
+		 array(
+			'biz_street' => $this->user->getStreet(),
+			'biz_zipcode' => $this->user->getZipcode(),
+			'biz_city' => $this->user->getCity(),
+			'biz_phone' => $this->user->getPhoneOffice(),
+			//'biz_mobile' => $this->user->getPrivatePhone(),
+			'mobile' => $uutils->getPrivatePhone(),
+			'Status' => $uutils->getStatus(),
+			'AgentStatus' => $uutils->getWBDAgentStatus(),
+		));
+		return $this->user;
+	}
+
 
 }
 
@@ -251,7 +269,11 @@ $payment_data = array(
 		'email'=>''
 );
 
-$debug->createBill($payment_data);
+//$debug->createBill($payment_data);
+
+print '<pre>';
+print_r($debug->getCurrentUserData());
+
 print 'done.';
 
 ?>
