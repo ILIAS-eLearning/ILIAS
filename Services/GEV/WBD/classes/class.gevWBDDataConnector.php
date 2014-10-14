@@ -102,7 +102,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 				,'agent_registration_nr' => '' 				//optional
 				,'agency_work' => $record['okz'] 			//OKZ
-				,'agent_state' => $this->VALUE_MAPPINGS['agent_status'][$record['agent_status']]	//Status
+				,'agent_state' => ($this->VALUE_MAPPINGS['agent_status'][$record['agent_status']]) ? $this->VALUE_MAPPINGS['agent_status'][$record['agent_status']] : 'XXX '.$record['agent_status']	//Status
 				,'email_confirmation' => ''					//Benachrichtigung?
 
 
@@ -142,50 +142,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 
 	//HISTORY TABLES:
-	/**
-	 * go back one step in history
-	 */
-
-
-	/*
-ONE STEP IS NOT ENOUGH !
-	private function _get_previous_historic_record($table, $row_id) {
-		switch ($table) {
-			case 'hist_user':
-				$search  = "
-					user_id=(SELECT user_id FROM $table WHERE row_id=$row_id)
-				";
-				break;
-			case 'hist_course':
-				$search  = "
-					crs_id=(SELECT crs_id FROM $table WHERE row_id=$row_id)
-				";
-				break;
-			case 'hist_usercoursestatus':
-				$search  = "
-					usr_id=(SELECT usr_id FROM $table WHERE row_id=$row_id)
-					AND 
-					crs_id=(SELECT crs_id FROM $table WHERE row_id=$row_id)
-				";
-				break;
-		}
-
-		$search .="AND hist_version=(
-			SELECT hist_version - 1 as prev_version 
-			FROM $table WHERE row_id=$row_id
-			)";
-
-		$sql = "
-			SELECT * FROM $table 
-			WHERE $search;
-		";
-
-		$result = $this->ilDB->query($sql);
-		$record = $this->ilDB->fetchAssoc($result);
-		return $record;
-	}
-*/
-
 	/**
 	 * get current (is_historic=0) record from any historic version
 	 */
