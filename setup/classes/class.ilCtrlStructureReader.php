@@ -63,6 +63,8 @@ class ilCtrlStructureReader
 			return;
 		}
 
+		require_once('./Services/UICore/classes/class.ilCachedCtrl.php');
+		ilCachedCtrl::flush();
 		require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
 		ilGlobalCache::flushAll();
 	

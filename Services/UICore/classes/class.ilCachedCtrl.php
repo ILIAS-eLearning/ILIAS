@@ -46,7 +46,7 @@ class ilCachedCtrl {
 	 * @return ilCachedComponentData
 	 */
 	public static function getInstance() {
-		if (! isset(self::$instance)) {
+		if (!isset(self::$instance)) {
 			$global_cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_ILCTRL);
 			$cached_obj = $global_cache->get('ilCachedCtrl');
 			if ($cached_obj instanceof ilCachedCtrl) {
@@ -58,6 +58,12 @@ class ilCachedCtrl {
 		}
 
 		return self::$instance;
+	}
+
+
+	public static function flush() {
+		ilGlobalCache::getInstance(ilGlobalCache::COMP_ILCTRL)->flush();
+		self::$instance = NULL;
 	}
 
 

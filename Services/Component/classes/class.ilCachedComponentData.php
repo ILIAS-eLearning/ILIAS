@@ -397,7 +397,7 @@ class ilCachedComponentData {
 	 * @return ilCachedComponentData
 	 */
 	public static function getInstance() {
-		if (! isset(self::$instance)) {
+		if (!isset(self::$instance)) {
 			$global_cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_COMPONENT);
 			$cached_obj = $global_cache->get('ilCachedComponentData');
 			if ($cached_obj instanceof ilCachedComponentData) {
@@ -409,6 +409,12 @@ class ilCachedComponentData {
 		}
 
 		return self::$instance;
+	}
+
+
+	public static function flush() {
+		ilGlobalCache::getInstance(ilGlobalCache::COMP_COMPONENT)->flush();
+		self::$instance = NULL;
 	}
 
 
@@ -485,7 +491,7 @@ class ilCachedComponentData {
 	 * @return mixed
 	 */
 	public function lookupCompInfo($type, $name) {
-		if (! $type) {
+		if (!$type) {
 			if (isset($this->obj_def_name_and_type_raw['Modules'][$name])) {
 				$type = 'Modules';
 			} else {
@@ -521,7 +527,7 @@ class ilCachedComponentData {
 			foreach ($parent as $p) {
 				$s = $this->grouped_rep_obj_types[$p];
 				foreach ($s as $child) {
-					if (! in_array($child['sid'], $sids)) {
+					if (!in_array($child['sid'], $sids)) {
 						$sids[] = $child['sid'];
 						$return[] = $child;
 					}

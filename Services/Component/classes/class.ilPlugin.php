@@ -440,7 +440,7 @@ abstract class ilPlugin
 	{
 		global $ilDB, $lng;
 
-		ilGlobalCache::getInstance(ilGlobalCache::COMP_COMPONENT)->flush();
+		ilCachedComponentData::flush();
 
 		include_once("./Services/Component/classes/class.ilPluginDBUpdate.php");
 		$dbupdate = new ilPluginDBUpdate($this->getComponentType(),
@@ -581,7 +581,7 @@ abstract class ilPlugin
 	{
 		global $ilDB;
 
-		ilGlobalCache::getInstance(ilGlobalCache::COMP_COMPONENT)->flush();
+		ilCachedComponentData::flush();
 
 		// check record existence record
 		$q = "SELECT * FROM il_plugin".
@@ -753,7 +753,7 @@ abstract class ilPlugin
 	{
 		global $lng, $ilDB;
 
-		ilGlobalCache::getInstance(ilGlobalCache::COMP_COMPONENT)->flush();
+		ilCachedComponentData::flush();
 
 		$result = true;
 
@@ -785,6 +785,7 @@ abstract class ilPlugin
 				$this->afterActivation();
 			}
 		}
+		ilCachedComponentData::flush();
 		return $result;
 	}
 
@@ -813,7 +814,7 @@ abstract class ilPlugin
 	{
 		global $ilDB;
 
-		ilGlobalCache::getInstance(ilGlobalCache::COMP_COMPONENT)->flush();
+		ilCachedComponentData::flush();
 
 		$result = true;
 
@@ -843,7 +844,7 @@ abstract class ilPlugin
 	{
 		global $ilDB, $ilCtrl;
 
-		ilGlobalCache::getInstance(ilGlobalCache::COMP_COMPONENT)->flush();
+		ilCachedComponentData::flush();
 
 		$result = $this->beforeUpdate();
 		if ($result === false) {
