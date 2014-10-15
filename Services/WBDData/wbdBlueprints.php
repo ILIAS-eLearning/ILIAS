@@ -109,7 +109,7 @@ $WBD_USER_RECORD_VALIDATION = array(
 	//,'auth_email' 		=> array('form' => 'REGEX HERE')
 	,'auth_phone_nr' 	=> array('mandatory'=>1, 
 								 'form' => gevUserProfileGUI::$telno_regexp)
-	,'phone_nr'	 		=> array('form' => gevUserProfileGUI::$telno_regexp)
+	//,'phone_nr'	 		=> array('form' => gevUserProfileGUI::$telno_regexp)
 	,'zipcode' 			=> array('mandatory'=>1, 'maxlen' => 30)
 	,'city' 			=> array('mandatory'=>1, 'maxlen' => 50)
 	,'street' 			=> array('mandatory'=>1, 'maxlen' => 50)
