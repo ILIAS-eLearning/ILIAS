@@ -1542,6 +1542,8 @@ class gevCourseUtils {
 	}
 	
 	public function getFunctionOfUser($a_user_id) {
+		//this is a check for ROLES, not for function.
+		//i.e. member has canceled, but is still member of course...
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 		$utils = gevRoleUtils::getInstance();
 		$roles = $this->getLocalRoles();

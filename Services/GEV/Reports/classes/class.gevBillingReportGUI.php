@@ -127,7 +127,7 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 					."		, usr.org_unit as org_unit"
 					."		, crs.title as title"
 					."		, crs.custom_id as custom_id"
-					."		, crs.begin_date as start_date"
+					."		, crs.begin_date as begin_date"
 					."		, crs.end_date as end_date"
 					."		, crs.venue as venue"
 					." FROM  bill "

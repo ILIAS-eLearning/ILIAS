@@ -410,7 +410,7 @@ class gevEduBiographyGUI {
 		if ($this->query_where === null) {
 			$this->query_where =
 					 " WHERE usr.user_id = ".$this->db->quote($this->target_user_id, "integer")
-					."   AND ".$this->db->in("usrcrs.function", array("Mitglied", "Teilnehmer", "Member"), false, "text")
+					."   AND ".$this->db->in("usrcrs.function", array("Mitglied", "Teilnehmer", "Member", 'canceled'), false, "text")
 					."   AND ".$this->db->in("usrcrs.booking_status", array("gebucht", "kostenpflichtig storniert", "kostenfrei storniert"), false, "text")
 					."   AND usrcrs.hist_historic = 0 "
 					."   AND ( usrcrs.end_date >= ".$this->db->quote($start->get(IL_CAL_DATE), "date")
