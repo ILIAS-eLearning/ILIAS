@@ -11,6 +11,21 @@
 */
 
 
+$SET_LASTWBDRECORD = false;
+$SET_BWVID = false;
+
+$GET_NEW_USERS = true;
+$GET_UPDATED_USERS = false;
+$GET_NEW_EDURECORDS = false;
+$GET_CHANGED_EDURECORDS = false;
+$IMPORT_FOREIGN_EDURECORDS = false;
+
+
+$DEBUG_HTML_OUT = isset($_GET['debug']);
+echo('<pre>');
+
+
+
 //reset ilias for calls from somewhere else
 $basedir = __DIR__; 
 $basedir = str_replace('/Services/GEV/WBD/classes', '', $basedir);
@@ -30,6 +45,16 @@ require_once("./Services/WBDData/classes/class.wbdDataConnector.php");
 
 class gevWBDDataConnector extends wbdDataConnector {
 
+	const WBD_NO_SERVICE 		= "0 - kein Service";
+	const WBD_EDU_PROVIDER		= "1 - Bildungsdienstleister";
+	const WBD_TP_BASIS			= "2 - TP-Basis";
+	const WBD_TP_SERVICE		= "3 - TP-Service";
+
+
+	public $valid_newusers = array();
+	public $broken_newusers = array();
+
+
 	public function __construct() {
 		
 		parent::__construct();
@@ -46,14 +71,15 @@ class gevWBDDataConnector extends wbdDataConnector {
 	    $pos = False;
 	    for($i = 0; $i < $len; $i++) {
 	        if(is_numeric($streetnr[$i])) {
-	        	$pos = $i-1;
+	        	$pos = $i;
+	        	break;
 	        }
 	    }		
 	    $street = trim(substr($streetnr, 0, $pos));
 	    $nr = trim(substr($streetnr, $pos));
 		return array(
-			'street' => $street, 
-			'nr' =>$nr
+			'street' => trim($street), 
+			'nr' =>trim($nr)
 		);
 	}
 
@@ -76,8 +102,18 @@ class gevWBDDataConnector extends wbdDataConnector {
 				,'email'			=> $record['email']
 
 				//....
+				,'auth_email' => $record['email']
+				,'auth_phone_nr' => $record['mobile_phone_nr']
+
+				,'agent_registration_nr' => '' 				//optional
+				,'agency_work' => $record['okz'] 			//OKZ
+				,'agent_state' => ($this->VALUE_MAPPINGS['agent_status'][$record['agent_status']])	//Status
+				,'email_confirmation' => ''					//Benachrichtigung?
+
 
 				,"row_id" => $record["row_id"]
+				
+				,'wbd_type' => $record['wbd_type'] //debug
 			);
 
 		return $udata;
@@ -111,50 +147,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 
 	//HISTORY TABLES:
-	/**
-	 * go back one step in history
-	 */
-
-
-	/*
-ONE STEP IS NOT ENOUGH !
-	private function _get_previous_historic_record($table, $row_id) {
-		switch ($table) {
-			case 'hist_user':
-				$search  = "
-					user_id=(SELECT user_id FROM $table WHERE row_id=$row_id)
-				";
-				break;
-			case 'hist_course':
-				$search  = "
-					crs_id=(SELECT crs_id FROM $table WHERE row_id=$row_id)
-				";
-				break;
-			case 'hist_usercoursestatus':
-				$search  = "
-					usr_id=(SELECT usr_id FROM $table WHERE row_id=$row_id)
-					AND 
-					crs_id=(SELECT crs_id FROM $table WHERE row_id=$row_id)
-				";
-				break;
-		}
-
-		$search .="AND hist_version=(
-			SELECT hist_version - 1 as prev_version 
-			FROM $table WHERE row_id=$row_id
-			)";
-
-		$sql = "
-			SELECT * FROM $table 
-			WHERE $search;
-		";
-
-		$result = $this->ilDB->query($sql);
-		$record = $this->ilDB->fetchAssoc($result);
-		return $record;
-	}
-*/
-
 	/**
 	 * get current (is_historic=0) record from any historic version
 	 */
@@ -200,6 +192,12 @@ ONE STEP IS NOT ENOUGH !
 	 */
 	//private function _set_last_wbd_report($table, $row_id) {
 	public function _set_last_wbd_report($table, $row_id) {
+		global $SET_LASTWBDRECORD;
+		if(! $SET_LASTWBDRECORD){
+			return;
+		}
+
+
 		$sql = "
 			UPDATE $table 
 			SET last_wbd_report = NOW()
@@ -223,6 +221,15 @@ ONE STEP IS NOT ENOUGH !
 	 * @return array of user-records
 	 */
 	public function get_new_users() {
+		global $GET_NEW_USERS;
+		if(! $GET_NEW_USERS){
+			return array();
+		}
+
+
+		//userUtils::hasWBDRelevantRole
+
+
 		$sql = "
 			SELECT
 				*
@@ -249,24 +256,40 @@ ONE STEP IS NOT ENOUGH !
 				AND NOT 
 					last_wbd_report IS NULL
 			)
-
 			";
 
 
+		// new accounts for TP_Service, TP_Basic only:
+		$sql .= " AND wbd_type IN ('"
+			.self::WBD_TP_BASIS."', '".self::WBD_TP_SERVICE
+			."')";
 
 		//dev-safety:
-		$sql .= ' AND user_id in (SELECT usr_id FROM usr_data)';
-
+		$sql .= ' AND user_id IN (SELECT usr_id FROM usr_data)';
+		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
+		
 		$ret = array();
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)) {
 			$udata = $this->_map_userdata($record);
-			$ret[] = wbdDataConnector::new_user_record($udata);
 
-			//set last_wbd_report!
-			$this->_set_last_wbd_report('hist_user', $record['row_id']);
+			$valid = $this->validateUserRecord($udata);
+			if($valid === true){
+
+				$ret[] = wbdDataConnector::new_user_record($udata);
+				//set last_wbd_report!
+				$this->_set_last_wbd_report('hist_user', $record['row_id']);
+			} else {
+				$this->broken_newusers[] = array(
+					$valid,
+					$udata
+				);
+			}
+
+
 
 		}
+		$this->valid_newusers = $ret;
 		return $ret;
 	}
 
@@ -283,6 +306,12 @@ ONE STEP IS NOT ENOUGH !
 	 */
 	public function get_updated_users() {
 
+		global $GET_UPDATED_USERS;
+		if(! $GET_UPDATED_USERS){
+			return array();
+		}
+
+
 		$sql = "
 			SELECT
 				*
@@ -296,8 +325,14 @@ ONE STEP IS NOT ENOUGH !
 				last_wbd_report IS NULL
 			";
 
+
+		// manage accounts for TP_Service only:
+		$sql .= " AND wbd_type = '" .self::WBD_TP_SERVICE ."'";
+
+
 		//dev-safety:
 		$sql .= ' AND user_id in (SELECT usr_id FROM usr_data)';
+		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
 
 		//$sql .= " GROUP BY user_id";
 
@@ -327,6 +362,12 @@ ONE STEP IS NOT ENOUGH !
 	 * @return array of edu-records
 	 */
 	public function get_new_edu_records() {
+		
+		global $GET_NEW_EDURECORDS;
+		if(! $GET_NEW_EDURECORDS){
+			return array();
+		}
+
 		$sql = "
 			SELECT
 				*,hist_usercoursestatus.row_id as row_id
@@ -358,9 +399,17 @@ ONE STEP IS NOT ENOUGH !
 				hist_usercoursestatus.last_wbd_report IS NULL
 
 			";
+
+
+		// report edupoints for TP_Service, Edu_Provider only:
+		$sql .= " AND wbd_type IN ('"
+			.self::WBD_TP_SERVICE."', '".self::WBD_EDU_PROVIDER
+			."')";
+
+
 		//dev-safety:
 		$sql .= ' AND usr_id in (SELECT usr_id FROM usr_data)';
-
+		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
 
 
 		$ret = array();
@@ -404,6 +453,12 @@ ONE STEP IS NOT ENOUGH !
 	 * @return array of edu-records
 	 */
 	public function get_changed_edu_records() {
+
+		global $GET_CHANGED_EDURECORDS;
+		if(! $GET_CHANGED_EDURECORDS){
+			return array();
+		}
+
 		$sql = "
 			SELECT
 				row_id, last_wbd_report
@@ -476,6 +531,11 @@ ONE STEP IS NOT ENOUGH !
 	 */
 
 	public function set_bwv_id($user_id, $bwv_id, $certification_begin) {
+		global $SET_BWVID;
+		if(! $SET_BWVID){
+			return true;
+		}
+
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$uutils = gevUserUtils::getInstanceByObjOrId($user_id);
 		$uutils->setWBDBWVId($bwv_id);
@@ -503,43 +563,55 @@ ONE STEP IS NOT ENOUGH !
 	 */
 
 	public function set_edu_record($edu_record) {
+		global $IMPORT_FOREIGN_EDURECORDS;
+		if(! $IMPORT_FOREIGN_EDURECORDS){
+			return true;
+		}
 		print '<pre>';
 		print_r($edu_record);
 		die();
 	}
-
-
-
-
 }
+
+
+//normalize classname for wdb-connector-script
+class WBDDataAdapter extends gevWBDDataConnector {}
+
+
 
 
 /*
 * ------------- DEBUG ------------
 */
+if($DEBUG_HTML_OUT){
 
-/*
-$cls = new gevWBDDataConnector();
+	$cls = new gevWBDDataConnector();
 
 
 
-print '<h3>new users:</h3>';
-$cls->export_get_new_users('html');
-print '<hr>';
+	print '<h3>new users:</h3>';
+	$cls->export_get_new_users('html');
 
-print '<h3>updated users:</h3>';
-$cls->export_get_updated_users('html');
-print '<hr>';
+	print '<h2> total new users: ' .count($cls->valid_newusers) .'</h2>';
+	print '<h2> invalid records: ' .count($cls->broken_newusers) .'</h2>';
+	print_r($cls->broken_newusers);
+	print '<hr>';
 
-print '<h3>new edu-records:</h3>';
-$cls->export_get_new_edu_records('html');
-print '<hr>';
 
-print '<h3>changed edu-records:</h3>';
-$cls->export_get_changed_edu_records('html');
+	print '<h3>updated users:</h3>';
+	$cls->export_get_updated_users('html');
+	print '<hr>';
 
+	print '<h3>new edu-records:</h3>';
+	$cls->export_get_new_edu_records('html');
+	print '<hr>';
+
+	print '<h3>changed edu-records:</h3>';
+	$cls->export_get_changed_edu_records('html');
+
+}
 
 //$cls->set_bwv_id(255, 'XXXXXXXX');
 
-*/
+
 ?>

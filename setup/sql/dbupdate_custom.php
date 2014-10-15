@@ -2004,3 +2004,24 @@ if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'last_wbd_report')){
 	
 
 ?>
+
+
+<#55>
+<?php
+// update on #40,#53; missing fields for wbd
+$txt_fields_hist_user = array(
+	'agent_status', //USR_UDF_STATUS
+	'wbd_type', //USR_TP_TYPE
+
+);
+foreach ($txt_fields_hist_user as $field) {
+	if(!$ilDB->tableColumnExists('hist_user', $field)){
+		$ilDB->addTableColumn('hist_user', $field, array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+			)
+		);	
+	}
+}
+?>

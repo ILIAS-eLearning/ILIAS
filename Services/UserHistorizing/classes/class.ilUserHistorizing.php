@@ -128,7 +128,9 @@ class ilUserHistorizing extends ilHistorizingStorage
 			'phone_nr'						=> 'text',
 			'mobile_phone_nr'				=> 'text',
 			
-			'email'							=> 'text'
+			'email'							=> 'text',
+			'agent_status'					=> 'text',
+			'wbd_type'						=> 'text'
 		);
 
 		return $definition;

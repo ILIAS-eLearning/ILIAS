@@ -125,6 +125,11 @@ class ilUserHistorizingAppEventListener
 
 
 		/** @var ilObjUser $parameter */
+
+		/*
+			!!! also update 
+			Services/UserHistorizing/classes/class.ilUserHistorizing.php
+		*/
 		$data_payload = array(
 			'firstname'						=> $parameter['user_obj']->getFirstname(),
 			'lastname'						=> $parameter['user_obj']->getLastname(),
@@ -139,6 +144,9 @@ class ilUserHistorizingAppEventListener
 			'begin_of_certification'		=> $certification_begins,
 			'deleted'						=> 0,
 			'email'							=> self::$ilUserHistorizingHelper->getEMailOf($parameter['user_obj']),
+			//new 2014-10-14:
+			'agent_status'					=> self::$ilUserHistorizingHelper->getAgentStatusOf($parameter['user_obj']), //USR_WBD_STATUS
+			'wbd_type'						=> self::$ilUserHistorizingHelper->getWBDTypeOf($parameter['user_obj']), 
 		);
 		/*
 		'street'	 	
@@ -149,7 +157,6 @@ class ilUserHistorizingAppEventListener
 		*/
 		$address_data = self::$ilUserHistorizingHelper->getAddressDataOf($parameter['user_obj']);
 		$data_payload = array_merge($data_payload, $address_data);
-
 		return $data_payload;
 	}
 

@@ -19,6 +19,7 @@ abstract class wbdDataConnector {
 	public $WBD_EDU_RECORD;
 	public $CSV_LABELS;
 	public $VALUE_MAPPINGS;
+	public $USER_RECORD_VALIDATION;
 
 	public $csv_text_delimiter = '"';
 	public $csv_field_delimiter = ';';
@@ -32,6 +33,7 @@ abstract class wbdDataConnector {
 		$this->WBD_EDU_RECORD = $WBD_EDU_RECORD;
 		$this->CSV_LABELS = $CSV_LABELS;
 		$this->VALUE_MAPPINGS = $VALUE_MAPPINGS;
+		$this->USER_RECORD_VALIDATION = $WBD_USER_RECORD_VALIDATION;
 	}
 
 	/**
@@ -54,6 +56,47 @@ abstract class wbdDataConnector {
 
 		return $edu_record;
 	}
+
+
+	/**
+	* VALIDATION
+	**/
+
+	protected function validateUserRecord($user_record){
+		foreach($this->USER_RECORD_VALIDATION  as $field => $validation){
+			$value = $user_record[$field];
+			foreach ($validation as $rule => $setting) {
+				switch ($rule) {
+					
+					case 'mandatory':
+						if($setting==1 && trim($value) == ''){
+							return 'mandatory: ' .$field .'<br>';
+							//return false;
+						}
+						break;
+					
+					case 'maxlen':
+						if(strlen($value) > $setting){
+							return 'maxlen: ' .$field .'<br>';
+							//return false;
+						}
+						break;
+					
+					case 'list':
+						if(! in_array($value, $setting)){
+							return 'not in list: ' .$field .'<br>';
+							//return false;
+						}
+						break;
+
+					case 'form':
+						break;
+				}
+			}
+		}
+		return true;
+	}
+
 
 
 	/**

@@ -27,17 +27,18 @@ $WBD_USER_RECORD = array(
 	'agent_registration_nr' => '',
 	'agency_work' => '',
 	'agent_state' => '',
-	'email_confirmation' => '',
 	'internal_agent_id' => '',
 
 	//constant, don't bother:
+	'email_confirmation' => 'Ja',
 	'tp_service'  => 'Ja',
 	'country_code' => 'D',
-	'address_code' => 'privat',
+	'address_code' => 'geschäftlich',
 	'data_transfer_code'  => 'Ja',
 	'data_protection_code'  => 'Ja',
 	'training_pass' => 'Nein'
 );
+
 
 
 $WBD_EDU_RECORD = array(
@@ -76,8 +77,53 @@ $VALUE_MAPPINGS = array(
 		"m" => "Herr",
 		"f" => "Frau",
 		"w" => "Frau"
+	),
+	"agent_status" => array(
+		"0 - aus Stellung" => "Sonstiges"
+	  , "1 - Angestellter Außendienst" => "Angestellter Außendienst"
+	  , "2 - Ausschließlichkeitsvermittler" => "Ausschließlichkeitsvermittler"
+	  , "3 - Makler" => "Makler"
+	  , "4 - Mehrfachagent" => "Mehrfachagent"
+	  , "5 - Mitarbeiter eines Vermittlers" => "Mitarbeiter eines Vermittlers"
+	  , "6 - Sonstiges" => "Sonstiges"
+	  , "7 - keine Zuordnung"  => "Sonstiges"
+
 	)
 
+
+);
+
+
+
+
+
+$WBD_USER_RECORD_VALIDATION = array(
+	'title' 			=> array('mandatory'=>1,
+								 'list'=> array('Herr', 'Frau'))
+	,'degree' 			=> array('maxlen' => 20)
+	,'first_name' 		=> array('mandatory'=>1, 'maxlen' => 30)
+	,'last_name' 		=> array('mandatory'=>1, 'maxlen' => 50)
+	,'name_affix' 		=> array('maxlen' => 50)
+	,'birthday' 		=> array('form' => 'REGEX HERE')
+	,'auth_email' 		=> array('form' => 'REGEX HERE')
+	,'auth_phone_nr' 	=> array('form' => 'REGEX HERE')
+	,'zipcode' 			=> array('mandatory'=>1, 'maxlen' => 30)
+	,'city' 			=> array('mandatory'=>1, 'maxlen' => 50)
+	,'street' 			=> array('mandatory'=>1, 'maxlen' => 50)
+	,'house_number' 		=> array('mandatory'=>1, 'maxlen' => 10)
+	,'pob' 				=> array('maxlen' => 30)
+	,'free_text'			=> array('maxlen' => 50)
+	,'email' 			=> array('form' => 'REGEX HERE')
+	
+	,'agency_work' 		=> array('mandatory'=>1, 
+								 'list' => array(
+								 	'OKZ1',
+								 	'OKZ2',
+								 	'OKZ3'
+								 ))
+	,'agent_state' 		=> array('mandatory'=>1, 
+								 'list' => array_values($VALUE_MAPPINGS['agent_status'])
+								)
 );
 
 

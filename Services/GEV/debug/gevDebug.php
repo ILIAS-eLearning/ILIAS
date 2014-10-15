@@ -183,23 +183,164 @@ class gevDebug {
 	}
 
 
+
+
+	public function createBill($payment_data){
+		/*	
+		  $payment_data["user_id"]
+		, $payment_data["crs_id"]
+		, $payment_data["recipient"]
+		, $payment_data["agency"]
+		, $payment_data["street"]
+		, $payment_data["housenumber"]
+		, $payment_data["zipcode"]
+		, $payment_data["city"]
+		, $payment_data["costcenter"]
+		, $payment_data["coupons"]
+		, $payment_data["email"]
+		*/
+		require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
+		$billing_utils = gevBillingUtils::getInstance();
+		$billing_utils->createCourseBill( 
+				  $payment_data["user_id"]
+				, $payment_data["crs_id"]
+				, $payment_data["recipient"]
+				, $payment_data["agency"]
+				, $payment_data["street"]
+				, $payment_data["housenumber"]
+				, $payment_data["zipcode"]
+				, $payment_data["city"]
+				, $payment_data["costcenter"]
+				, $payment_data["coupons"]
+				, $payment_data["email"]
+			);
+	}
+
+
+	public function getCurrentUserData(){
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$uutils = gevUserUtils::getInstanceByObjOrId($this->user);
+
+		print_r(
+		 array(
+			'biz_street' => $this->user->getStreet(),
+			'biz_zipcode' => $this->user->getZipcode(),
+			'biz_city' => $this->user->getCity(),
+			'biz_phone' => $this->user->getPhoneOffice(),
+			//'biz_mobile' => $this->user->getPrivatePhone(),
+			'mobile' => $uutils->getPrivatePhone(),
+			'Status' => $uutils->getStatus(),
+			'AgentStatus' => $uutils->getWBDAgentStatus(),
+		));
+		return $this->user;
+	}
+
+
+	public function getAllUsers(){
+		require_once("Services/User/classes/class.ilObjUser.php");
+		
+		$ret = array();
+		$sql = 'SELECT usr_id FROM usr_data';
+		$result = $this->db->query($sql);
+		while($record = $this->db->fetchAssoc($result)) {
+			$ret[$record['usr_id']] = new ilObjUser($record['usr_id']);
+		}
+		return $ret;
+	}
+
+	public function updateHistoryForUser($usr){
+		global $ilAppEventHandler;
+		$ilAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $usr));
+	}
+
+
+	public function setAgentStateForUser($user_id){
+		//global $rbacreview;
+		//$user_roles = $rbacreview->assignedRoles($user_id);
+		
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		$uutils = gevUserUtils::getInstanceByObjOrId($user_id);
+		$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($user_id);
+
+		foreach($roles as $key => $value) {
+			$roles[$key] = ilObject::_lookupTitle($value);
+		}
+		print_r($roles);
+		print '<br>-----<br>';
+		print_r($uutils->getWBDAgentStatus());
+
+		if(
+			in_array("OD/LD/BD/VD/VTWL", $roles) ||
+			in_array("DBV/VL-EVG", $roles) ||
+			in_array("DBV-UVG", $roles) 
+		){
+			print '<br>new state: 1 - Angestellter Außendienst' ;
+			$uutils->setWBDAgentStatus('1 - Angestellter Außendienst');
+		}
+		if(
+			in_array("AVL", $roles) ||
+			in_array("HA", $roles) ||
+			in_array("BA", $roles) ||
+			in_array("NA", $roles) 
+		){
+			print '<br>new state: 2 - Ausschließlichkeitsvermittler' ;
+			$uutils->setWBDAgentStatus('2 - Ausschließlichkeitsvermittler');
+		}
+		if(
+			in_array("VP", $roles) 
+		){
+			print '<br>new state: 3 - Makler' ;
+			$uutils->setWBDAgentStatus('3 - Makler');
+		}
+
+		/*
+		$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
+
+		foreach($roles as $key => $value) {
+			$roles[$key] = ilObject::_lookupTitle($value);
+		}
+		*/
+
+	}
+
+
+
 }
 
-
-//crs_book.crs_id, crs_book.user_id
-//crs_settings.obj_id
-//crs_acco.crs_id, crs_acco.user_id,
-//crs_waiting_list.obj_id, crs_waiting_list.usr_id, 
-//crs_items.parent_id (crs_items.obj_id)
-
 $debug = new gevDebug();
-//printToTable($debug->getDeletedCourses());
-//printToTable($debug->getDeletedCoursesBookings());
+print '<pre>';
+
+/*printToTable($debug->getDeletedCourses());
+printToTable($debug->getDeletedCoursesBookings());
 $fragments = $debug->getDeletedCoursesOtherFragments();
 foreach ($fragments as $table => $res) {
 	print "<h1>$table</h1>";
 	printToTable($res);
 }
 
+//$debug->createBill($payment_data);
+//print_r($debug->getCurrentUserData());
+/*
+foreach ($debug->getAllUsers() as $id=>$usr) {
+	$debug->updateHistoryForUser($usr);
+
+	print "<h2>$id</h2>";
+	print_r($usr->getLogin());
+	print '<hr>';
+}
+*/
+
+foreach ($debug->getAllUsers() as $id=>$usr) {
+	print_r($usr->getLogin());
+	print '<br>';
+	$debug->setAgentStateForUser($id);
+	$debug->updateHistoryForUser($usr);
+	print '<hr>';
+}
+
+
+
+print '<br><br><i>done.</i>';
 
 ?>
