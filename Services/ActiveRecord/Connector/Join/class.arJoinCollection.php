@@ -22,12 +22,16 @@ class arJoinCollection extends arStatementCollection {
 			$return = 'SELECT ';
 			foreach ($this->getJoins() as $join) {
 				foreach ($join->getFields() as $field) {
-                    if(!in_array($join->getTableName() . '.' . $field,$selected_fields))
-                    {
-                        $selected_fields[] = $join->getTableName() . '.' . $field;
-                    }
+					//if (! in_array($join->getTableName() . '.' . $field, $selected_fields)) {
+						if ($join->getFullNames()) {
+							$selected_fields[] = $join->getTableName() . '.' . $field . ' AS ' . $join->getTableName() . '_' . $field;
+						} else {
+							$selected_fields[] = $join->getTableName() . '.' . $field;
+						}
+					//}
 				}
 			}
+
 			$return .= implode(', ', $selected_fields);
 			$return .= ' FROM ' . $table_name;
 

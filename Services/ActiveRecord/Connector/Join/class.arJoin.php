@@ -38,11 +38,15 @@ class arJoin extends arStatement {
 	 * @var string
 	 */
 	protected $on_second_field = '';
+	/**
+	 * @var bool
+	 */
+	protected $full_names = false;
+	/**
+	 * @var bool
+	 */
+	protected $both_external = false;
 
-    /**
-     * @var bool
-     */
-    protected $both_external = false;
 
 	/**
 	 * @param ActiveRecord $ar
@@ -53,13 +57,13 @@ class arJoin extends arStatement {
 		$join_table_name = $this->getTableName();
 		$return = ' ' . $this->getType() . ' ';
 		$return .= ' JOIN ' . $join_table_name;
-        if($this->getBothExternal()){
-            $return .= ' ON ' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
-        }
-        else{
-            $return .= ' ON '. $ar->getConnectorContainerName() . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
-        }
+		if ($this->getBothExternal()) {
+			$return .= ' ON ' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
+		} else {
+			$return .= ' ON ' . $ar->getConnectorContainerName() . '.' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
+		}
 		$return .= $join_table_name . '.' . $this->getOnSecondField();
+
 		return $return;
 	}
 
@@ -174,21 +178,37 @@ class arJoin extends arStatement {
 		return $this->type;
 	}
 
-    /**
-     * @param boolean $both_external
-     */
-    public function setBothExternal($both_external)
-    {
-        $this->both_external = $both_external;
-    }
 
-    /**
-     * @return boolean
-     */
-    public function getBothExternal()
-    {
-        return $this->both_external;
-    }
+	/**
+	 * @param boolean $both_external
+	 */
+	public function setBothExternal($both_external) {
+		$this->both_external = $both_external;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getBothExternal() {
+		return $this->both_external;
+	}
+
+
+	/**
+	 * @param boolean $full_names
+	 */
+	public function setFullNames($full_names) {
+		$this->full_names = $full_names;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getFullNames() {
+		return $this->full_names;
+	}
 }
 
 ?>
