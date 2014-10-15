@@ -192,6 +192,16 @@ class ilMailSearchGUI
 		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setTitle($this->lng->txt("mail"));
 		$this->tpl->setVariable('SEARCHFORM', $form->getHtml());
+		
+		// #14109
+		if(strlen($_SESSION['mail_search_search']) < 3)
+		{
+			if($_GET["ref"] != "wsp")
+			{
+				$this->tpl->show();
+			}
+			return;
+		}
 
 		$abook   = new ilAddressbook($ilUser->getId());
 		$entries = $abook->searchUsers(addslashes(urldecode($_SESSION['mail_search_search'])));
