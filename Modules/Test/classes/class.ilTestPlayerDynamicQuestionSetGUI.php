@@ -477,7 +477,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->persistQuestionAnswerStatus();
 
 			$this->testSequence->unsetQuestionPostponed($questionId);
-			$this->testSequence->setQuestionChecked($questionId);
 		}
 
 		$this->handleJavascriptActivationStatus();

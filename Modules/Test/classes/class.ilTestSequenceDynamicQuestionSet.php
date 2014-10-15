@@ -61,16 +61,6 @@ class ilTestSequenceDynamicQuestionSet
 	/**
 	 * @var array
 	 */
-	private $alreadyCheckedQuestions;
-
-	/**
-	 * @var integer
-	 */
-	private $newlyCheckedQuestion;
-	
-	/**
-	 * @var array
-	 */
 	private $correctAnsweredQuestions = array();
 	
 	/**
@@ -107,11 +97,6 @@ class ilTestSequenceDynamicQuestionSet
 		
 		$this->newlyAnsweredQuestion = null;
 		$this->newlyAnsweredQuestionsAnswerStatus = null;
-		
-		$this->alreadyCheckedQuestions = array();
-		$this->newlyCheckedQuestion = null;
-
-		$this->preventCheckedQuestionsFromComingUpEnabled = false;
 	}
 	
 	public function getActiveId()
@@ -124,7 +109,6 @@ class ilTestSequenceDynamicQuestionSet
 		$this->loadQuestionTracking();
 		$this->loadAnswerStatus();
 		$this->loadPostponedQuestions();
-		$this->loadCheckedQuestions();
 	}
 	
 	private function loadQuestionTracking()
@@ -195,18 +179,6 @@ class ilTestSequenceDynamicQuestionSet
 			$this->postponedQuestions[ $row['question_fi'] ] = $row['cnt'];
 		}
 	}
-
-	private function loadCheckedQuestions()
-	{
-		$res = $this->db->queryF("SELECT question_fi FROM tst_seq_qst_checked WHERE active_fi = %s AND pass = %s",
-			array('integer','integer'), array($this->getActiveId(), 0)
-		);
-
-		while( $row = $this->db->fetchAssoc($res) )
-		{
-			$this->alreadyCheckedQuestions[ $row['question_fi'] ] = $row['question_fi'];
-		}
-	}
 	
 	public function saveToDb()
 	{
@@ -228,7 +200,6 @@ class ilTestSequenceDynamicQuestionSet
 		$this->saveNewlyAnsweredQuestionsAnswerStatus();
 		$this->saveNewlyPostponedQuestion();
 		$this->removeQuestionsNotPostponedAnymore();
-		$this->saveNewlyCheckedQuestion();
 	}
 	
 	private function saveNewlyTrackedQuestion()
@@ -322,18 +293,6 @@ class ilTestSequenceDynamicQuestionSet
 		";
 		
 		$this->db->manipulateF($query, array('integer','integer'), array($this->getActiveId(), 0));
-	}
-	
-	private function saveNewlyCheckedQuestion()
-	{
-		if( (int)$this->newlyCheckedQuestion )
-		{
-			$this->db->replace('tst_seq_qst_checked', array(
-				'active_fi' => array('integer', (int)$this->getActiveId()),
-				'pass' => array('integer', 0),
-				'question_fi' => array('integer', (int)$this->newlyCheckedQuestion)
-			), array());
-		}
 	}
 	
 	public function loadQuestions(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilTestDynamicQuestionSetFilterSelection $filterSelection)
