@@ -68,6 +68,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 	    for($i = 0; $i < $len; $i++) {
 	        if(is_numeric($streetnr[$i])) {
 	        	$pos = $i-1;
+	        	break;
 	        }
 	    }		
 	    $street = trim(substr($streetnr, 0, $pos));
