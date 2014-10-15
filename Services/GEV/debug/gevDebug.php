@@ -252,6 +252,26 @@ class gevDebug {
 		global $ilAppEventHandler;
 		$ilAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $usr));
 	}
+
+
+	public function setAgentStateForUser($user_id){
+		global $rbacreview;
+		$user_roles = $rbacreview->assignedRoles($user_id);
+		print_r($user_roles);
+
+		/*
+		$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
+
+		foreach($roles as $key => $value) {
+			$roles[$key] = ilObject::_lookupTitle($value);
+		}
+		*/
+
+	}
+
+
+
+
 }
 
 
@@ -290,7 +310,14 @@ $payment_data = array(
 print '<pre>';
 //print_r($debug->getCurrentUserData());
 
+foreach ($debug->getAllUsers() as $id=>$usr) {
+	print_r($usr->getLogin());
+	print '<br>';
+	$debug->setAgentStateForUser($id);
+	print '<hr>';
+}
 
+/*
 foreach ($debug->getAllUsers() as $id=>$usr) {
 	$debug->updateHistoryForUser($usr);
 
@@ -298,6 +325,8 @@ foreach ($debug->getAllUsers() as $id=>$usr) {
 	print_r($usr->getLogin());
 	print '<hr>';
 }
+*/
+
 
 print '<br><br><i>done.</i>';
 
