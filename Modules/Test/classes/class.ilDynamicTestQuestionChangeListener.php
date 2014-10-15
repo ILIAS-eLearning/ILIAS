@@ -62,19 +62,19 @@ class ilDynamicTestQuestionChangeListener implements ilQuestionChangeListener
 	public function notifyQuestionEdited(assQuestion $question)
 	{
 		//mail('bheyser@databay.de', __METHOD__, __METHOD__);
-		$this->deleteTestsParticipantsResultsForQuestion($question);
+		$this->deleteTestsParticipantsQuestionData($question);
 	}
 	
 	public function notifyQuestionDeleted(assQuestion $question)
 	{
 		//mail('bheyser@databay.de', __METHOD__, __METHOD__);
-		$this->deleteTestsParticipantsResultsForQuestion($question);
+		$this->deleteTestsParticipantsQuestionData($question);
 	}
 	
 	/**
 	 * @param assQuestion $question
 	 */
-	public function deleteTestsParticipantsResultsForQuestion(assQuestion $question)
+	private function deleteTestsParticipantsQuestionData(assQuestion $question)
 	{
 		$activeIds = $this->getActiveIds();
 		
@@ -83,26 +83,50 @@ class ilDynamicTestQuestionChangeListener implements ilQuestionChangeListener
 			return null;
 		}
 		
+		$this->deleteTestsParticipantsResultsForQuestion($activeIds, $question->getId());
+		$this->deleteTestsParticipantsTrackingsForQuestion($activeIds, $question->getId());
+		
+	}
+
+	private function deleteTestsParticipantsResultsForQuestion($activeIds, $questionId)
+	{
 		$inActiveIds = $this->db->in('active_fi', $activeIds, false, 'integer');
-		
+
 		$this->db->manipulateF(
-				"DELETE FROM tst_solutions WHERE question_fi = %s AND $inActiveIds",
-				array('integer'), array($question->getId())
+			"DELETE FROM tst_solutions WHERE question_fi = %s AND $inActiveIds",
+			array('integer'), array($questionId)
 		);
-		
+
 		$this->db->manipulateF(
-				"DELETE FROM tst_qst_solved WHERE question_fi = %s AND $inActiveIds",
-				array('integer'), array($question->getId())
+			"DELETE FROM tst_qst_solved WHERE question_fi = %s AND $inActiveIds",
+			array('integer'), array($questionId)
 		);
-		
+
 		$this->db->manipulateF(
-				"DELETE FROM tst_test_result WHERE question_fi = %s AND $inActiveIds",
-				array('integer'), array($question->getId())
+			"DELETE FROM tst_test_result WHERE question_fi = %s AND $inActiveIds",
+			array('integer'), array($questionId)
 		);
-		
+
 		$this->db->manipulate("DELETE FROM tst_pass_result WHERE $inActiveIds");
-		
+
 		$this->db->manipulate("DELETE FROM tst_result_cache WHERE $inActiveIds");
+	}
+	
+	private function deleteTestsParticipantsTrackingsForQuestion($activeIds, $questionId)
+	{
+		$inActiveIds = $this->db->in('active_fi', $activeIds, false, 'integer');
+
+		$tables = array(
+			'tst_seq_qst_tracking', 'tst_seq_qst_answstatus', 'tst_seq_qst_postponed', 'tst_seq_qst_checked'
+		);
+		
+		foreach($tables as $table)
+		{
+			$this->db->manipulateF(
+				"DELETE FROM $table WHERE question_fi = %s AND $inActiveIds",
+				array('integer'), array($questionId)
+			);
+		}
 	}
 	
 	private function getActiveIds()
