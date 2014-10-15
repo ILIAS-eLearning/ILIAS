@@ -34,6 +34,7 @@ class ilTestLP extends ilObjectLP
 
 	protected function resetCustomLPDataForUserIds(array $a_user_ids, $a_recursive = true)
 	{
+		/* @var ilObjTest $testOBJ */
 		require_once 'Services/Object/classes/class.ilObjectFactory.php';
 		$testOBJ = ilObjectFactory::getInstanceByObjId($this->obj_id);
 		$testOBJ->removeTestResults($a_user_ids);
