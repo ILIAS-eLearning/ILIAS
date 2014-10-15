@@ -70,22 +70,22 @@ abstract class wbdDataConnector {
 					
 					case 'mandatory':
 						if($setting==1 && trim($value) == ''){
-							print '- mandatory: ' .$field .'<br>';
-							return false;
+							return 'mandatory: ' .$field .'<br>';
+							//return false;
 						}
 						break;
 					
 					case 'maxlen':
 						if(strlen($value) > $setting){
-							print '- maxlen: ' .$field .'<br>';
-							return false;
+							return 'maxlen: ' .$field .'<br>';
+							//return false;
 						}
 						break;
 					
 					case 'list':
 						if(! in_array($value, $setting)){
-							print '- not in list: ' .$field .'<br>';
-							return false;
+							return 'not in list: ' .$field .'<br>';
+							//return false;
 						}
 						break;
 

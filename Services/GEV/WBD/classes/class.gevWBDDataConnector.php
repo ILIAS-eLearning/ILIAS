@@ -51,6 +51,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 	const WBD_TP_SERVICE		= "3 - TP-Service";
 
 
+	public $valid_newusers = array();
+	public $broken_newusers = array();
+
+
 	public function __construct() {
 		
 		parent::__construct();
@@ -269,21 +273,23 @@ class gevWBDDataConnector extends wbdDataConnector {
 		while($record = $this->ilDB->fetchAssoc($result)) {
 			$udata = $this->_map_userdata($record);
 
-
-			if($this->validateUserRecord($udata)){
+			$valid = $this->validateUserRecord($udata);
+			if($valid === true){
 
 				$ret[] = wbdDataConnector::new_user_record($udata);
 				//set last_wbd_report!
 				$this->_set_last_wbd_report('hist_user', $record['row_id']);
 			} else {
-				//this could be nicer...
-				print_r($udata);
-				print '<hr>';
+				$this->broken_newusers[] = array(
+					$valid,
+					$udata
+				);
 			}
 
 
 
 		}
+		$this->valid_newusers = $ret;
 		return $ret;
 	}
 
@@ -585,6 +591,10 @@ if($DEBUG_HTML_OUT){
 
 	print '<h3>new users:</h3>';
 	$cls->export_get_new_users('html');
+
+	print '<h2> total users: ' .count($cls->valid_newusers) .'</h2>';
+	print '<h2> invalid records: ' .count($cls->broke_newusers) .'</h2>';
+	print_r($cls->broke_newusers);
 	print '<hr>';
 
 
