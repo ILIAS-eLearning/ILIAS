@@ -104,30 +104,41 @@
         right:0;
         bottom:0;
     }
-    #lightbox_title_bottom
-    {
-        position:absolute;
-        left:0;
-        bottom:0;
+    .solution_table td{
+        padding-right: 1em;
+    }
+    #solution_placeholder{
+        margin-top: 1em;
+    }
+    .form_error{
+        background-color: rgba(255,0,0,0.4);
+    }
+    .form_warning{
+        background-color: rgba(255,255,0,0.4);
     }
     /* end lightbox */
 </style>
 <script type="text/javascript">
-    var gaps_php            = {GAP_JSON};
-    var gaps_combination    = {GAP_COMBINATION_JSON};
-    var outofbound_text     = "{OUT_OF_BOUND}";
-    var combination_error   = "{PLEASE_SELECT}";
-    var combination_text    = "{GAP_COMBINATION}";
-    var copy_of_combination = "{COPY} {GAP_COMBINATION}";
+    var ClozeSettings =
+    {
+        gaps_php            : {GAP_JSON},
+        gaps_combination    : {GAP_COMBINATION_JSON},
+        outofbound_text     : "{OUT_OF_BOUND}",
+        combination_error   : "{PLEASE_SELECT}",
+        combination_text    : "{GAP_COMBINATION}",
+        copy_of_combination : "{COPY} {GAP_COMBINATION}",
+        gap_in_more_than_one: "{GAP_IS_USED_MORE_THAN_ONE_COMB}"
+    };
 </script>
 <script type='text/javascript' src='./Modules/TestQuestionPool/templates/default/cloze_gap_builder.js'></script>
+{MY_MODAL}
 <div id="moveAway">
 <div class="prototype" id="gap_title">
     <div>
         <h3></h3>
+        <div class="help-block"></div>
     </div>
-    <div>
-    </div>
+
 </div>
 
 <div class="prototype" id="select_field">
@@ -135,7 +146,7 @@
         <label for="clozetype_0">{TYPE}</label>
     </div>
     <div>
-        <select id="clozetype_0" class="select_type" name="clozetype_0">
+        <select id="clozetype_0" class="form-control" name="clozetype_0">
             <option value="0">{TEXT_GAP}</option>
             <option value="1">{SELECT_GAP}</option>
             <option value="2">{NUMERIC_GAP}</option>
@@ -173,7 +184,7 @@
                 </tbody>
             </table>
             <input type="hidden" class="gap_counter">
-            <div class="remove_gap"><input class="submit remove_gap_button" type="button" value="{REMOVE_GAP}"></div>
+            <div class="remove_gap"><input class="btn btn-default  remove_gap_button" type="button" value="{REMOVE_GAP}"></div>
         </div>
     </div>
 </div>
@@ -218,10 +229,10 @@
     <input type="hidden" class="gap_counter">
 </div>
 <div  class="prototype" id="numeric_prototype_remove_button">
-    <div>
+    <div class="col-sm-3">
     </div>
-    <div>
-        <div class="remove_gap"><input class="submit remove_gap_button" type="button" value="{REMOVE_GAP}"></div>
+    <div class="col-sm-9">
+        <div class="remove_gap"><input class="btn btn-default remove_gap_button" type="button" value="{REMOVE_GAP}"></div>
     </div>
 </div>
 
@@ -299,8 +310,8 @@
         <label for="">{VALUES}</label>
     </div>
     <div class="form-group">
-        <select id="gap_id_select" class="select_type gap_combination" label="select">
-        </select><select id="gap_id_value" class="select_type gap_combination" label="value"></select>
+        <select id="gap_id_select" class="form-control gap_combination" label="select">
+        </select><select id="gap_id_value" class="form-control gap_combination" label="value"></select>
     </div>
 </div>
 <div class="prototype add_remove_buttons">
@@ -312,6 +323,7 @@
 <div class="prototype" id="best_resultion_header">
     <div class="">
         <h3 class="">{BEST_POSSIBLE_SOLUTION_HEADER}</h3>
+        <div class="help-block"></div>
     </div>
     <div class="">
     </div>

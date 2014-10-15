@@ -48,7 +48,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 			$json = json_decode(ilUtil::stripSlashes($_POST['gap_json_combination_post']));
 			return $json;
 		}
-		return $this->value_combination;
+		return (array) $this->value_combination;
 	}
 
 	public function setValueCombinationFromDb($value)
@@ -132,11 +132,10 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 		{
 			foreach($_POST['gap'] as $key => $item)
 			{
-				$_POST['clozetype_' . $key] = ilUtil::stripSlashes($_POST['clozetype_' . $key]);
-				$getType                    = $_POST['clozetype_' . $key];
-
-				$gapsize                          = $_POST['gap_' . $key . '_gapsize'];
-				$json[0][$key]->text_field_length = $gapsize > 0 ? $gapsize : '';
+				$_POST['clozetype_' . $key] 		= ilUtil::stripSlashes($_POST['clozetype_' . $key]);
+				$getType                    		= $_POST['clozetype_' . $key];
+				$gapsize                          	= $_POST['gap_' . $key . '_gapsize'];
+				$json[0][$key]->text_field_length 	= $gapsize > 0 ? $gapsize : '';
 				if($getType == CLOZE_TEXT || $getType == CLOZE_SELECT)
 				{
 					$_POST['gap_' . $key] = ilUtil::stripSlashesRecursive($_POST['gap_' . $key]);
@@ -251,37 +250,44 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 	public function insert(ilTemplate $template)
 	{
 		global $lng;
+		include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
+		$modal = ilModalGUI::getInstance();
+		$modal->setHeading($lng->txt(''));
+		$modal->setId("ilGapModal");
+		$modal->setBody('');
+
 		$custom_template = new ilTemplate('tpl.il_as_cloze_gap_builder.html', true, true, 'Modules/TestQuestionPool');
-		$custom_template->setVariable('GAP_JSON', json_encode(array($this->getValue())));
-		$custom_template->setVariable('GAP_COMBINATION_JSON', json_encode($this->getValueCombination()));
-		$custom_template->setVariable('TEXT_GAP', $lng->txt('text_gap'));
-		$custom_template->setVariable('SELECT_GAP', $lng->txt('select_gap'));
-		$custom_template->setVariable('NUMERIC_GAP', $lng->txt('numeric_gap'));
-		$custom_template->setVariable('GAP_SIZE', $lng->txt('cloze_fixed_textlength'));
-		$custom_template->setVariable('GAP_SIZE_INFO', $lng->txt('cloze_gap_size_info'));
-		$custom_template->setVariable('ANSWER_TEXT', $lng->txt('answer_text'));
-		$custom_template->setVariable('POINTS', $lng->txt('points'));
-		$custom_template->setVariable('VALUE', $lng->txt('value'));
-		$custom_template->setVariable('UPPER_BOUND', $lng->txt('range_upper_limit'));
-		$custom_template->setVariable('LOWER_BOUND', $lng->txt('range_lower_limit'));
-		$custom_template->setVariable('ACTIONS', $lng->txt('actions'));
-		$custom_template->setVariable('REMOVE_GAP', $lng->txt('remove_gap'));
-		$custom_template->setVariable('SHUFFLE_ANSWERS', $lng->txt('shuffle_answers'));
-		$custom_template->setVariable('POINTS_ERROR', $lng->txt('enter_enough_positive_points'));
-		$custom_template->setVariable('MISSING_VALUE', $lng->txt('msg_input_is_required'));
-		$custom_template->setVariable('NOT_A_FORMULA', $lng->txt('err_no_formula'));
-		$custom_template->setVariable('NOT_A_NUMBER', $lng->txt('err_no_numeric_value'));
-		$custom_template->setVariable('CLOSE', $lng->txt('close'));
-		$custom_template->setVariable('DELETE_GAP', $lng->txt('are_you_sure'));
-		$custom_template->setVariable('PLEASE_SELECT', $lng->txt('please_select'));
-		$custom_template->setVariable('BEST_POSSIBLE_SOLUTION_HEADER', $lng->txt('tst_best_solution_is'));
-		$custom_template->setVariable('BEST_POSSIBLE_SOLUTION', $lng->txt('value'));
-		$custom_template->setVariable('MAX_POINTS', $lng->txt('max_points'));
-		$custom_template->setVariable('OUT_OF_BOUND', $lng->txt('out_of_range'));
-		$custom_template->setVariable('TYPE', $lng->txt('type'));
-		$custom_template->setVariable('VALUES', $lng->txt('values'));
-		$custom_template->setVariable('GAP_COMBINATION', $lng->txt('gap_combination'));
-		$custom_template->setVariable('COPY', $lng->txt('copy_of'));
+		$custom_template->setVariable("MY_MODAL", 						$modal->getHTML());
+		$custom_template->setVariable('GAP_JSON', 						json_encode(array($this->getValue())));
+		$custom_template->setVariable('GAP_COMBINATION_JSON', 			json_encode(json_decode(json_encode($this->getValueCombination()), true)));
+		$custom_template->setVariable('TEXT_GAP', 						$lng->txt('text_gap'));
+		$custom_template->setVariable('SELECT_GAP', 					$lng->txt('select_gap'));
+		$custom_template->setVariable('NUMERIC_GAP', 					$lng->txt('numeric_gap'));
+		$custom_template->setVariable('GAP_SIZE', 						$lng->txt('cloze_fixed_textlength'));
+		$custom_template->setVariable('GAP_SIZE_INFO', 					$lng->txt('cloze_gap_size_info'));
+		$custom_template->setVariable('ANSWER_TEXT', 					$lng->txt('answer_text'));
+		$custom_template->setVariable('POINTS', 						$lng->txt('points'));
+		$custom_template->setVariable('VALUE', 							$lng->txt('value'));
+		$custom_template->setVariable('UPPER_BOUND', 					$lng->txt('range_upper_limit'));
+		$custom_template->setVariable('LOWER_BOUND', 					$lng->txt('range_lower_limit'));
+		$custom_template->setVariable('ACTIONS', 						$lng->txt('actions'));
+		$custom_template->setVariable('REMOVE_GAP', 					$lng->txt('remove_gap'));
+		$custom_template->setVariable('SHUFFLE_ANSWERS', 				$lng->txt('shuffle_answers'));
+		$custom_template->setVariable('POINTS_ERROR', 					$lng->txt('enter_enough_positive_points'));
+		$custom_template->setVariable('MISSING_VALUE', 					$lng->txt('msg_input_is_required'));
+		$custom_template->setVariable('NOT_A_FORMULA', 					$lng->txt('err_no_formula'));
+		$custom_template->setVariable('NOT_A_NUMBER', 					$lng->txt('err_no_numeric_value'));
+		$custom_template->setVariable('CLOSE', 							$lng->txt('close'));
+		$custom_template->setVariable('DELETE_GAP', 					$lng->txt('are_you_sure'));
+		$custom_template->setVariable('PLEASE_SELECT', 					$lng->txt('please_select'));
+		$custom_template->setVariable('BEST_POSSIBLE_SOLUTION_HEADER', 	$lng->txt('tst_best_solution_is'));
+		$custom_template->setVariable('BEST_POSSIBLE_SOLUTION', 		$lng->txt('value'));
+		$custom_template->setVariable('MAX_POINTS', 					$lng->txt('max_points'));
+		$custom_template->setVariable('OUT_OF_BOUND', 					$lng->txt('out_of_range'));
+		$custom_template->setVariable('TYPE',							$lng->txt('type'));
+		$custom_template->setVariable('VALUES', 						$lng->txt('values'));
+		$custom_template->setVariable('GAP_COMBINATION', 				$lng->txt('gap_combination'));
+		$custom_template->setVariable('COPY', 							$lng->txt('copy_of'));
 		$template->setCurrentBlock('prop_generic');
 		$template->setVariable('PROP_GENERIC', $custom_template->get());
 		$template->parseCurrentBlock();
