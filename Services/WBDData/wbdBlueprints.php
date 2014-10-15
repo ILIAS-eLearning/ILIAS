@@ -107,13 +107,15 @@ $WBD_USER_RECORD_VALIDATION = array(
 	,'name_affix' 		=> array('maxlen' => 50)
 	//,'birthday' 		=> array('form' => 'REGEX HERE')
 	//,'auth_email' 		=> array('form' => 'REGEX HERE')
-	,'auth_phone_nr' 	=> array('form' => gevUserProfileGUI::$telno_regexp)
+	,'auth_phone_nr' 	=> array('mandatory'=>1, 
+								 'form' => gevUserProfileGUI::$telno_regexp)
+	,'phone_nr'	 		=> array('form' => gevUserProfileGUI::$telno_regexp)
 	,'zipcode' 			=> array('mandatory'=>1, 'maxlen' => 30)
 	,'city' 			=> array('mandatory'=>1, 'maxlen' => 50)
 	,'street' 			=> array('mandatory'=>1, 'maxlen' => 50)
 	,'house_number' 	=> array('mandatory'=>1, 'maxlen' => 10)
 	,'pob' 				=> array('maxlen' => 30)
-	,'free_text'			=> array('maxlen' => 50)
+	,'free_text'		=> array('maxlen' => 50)
 	//,'email' 			=> array('form' => 'REGEX HERE')
 	
 	,'agency_work' 		=> array('mandatory'=>1, 

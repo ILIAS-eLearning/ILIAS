@@ -90,7 +90,7 @@ abstract class wbdDataConnector {
 						break;
 
 					case 'form':
-						if(!preg_match($setting, $value)){
+						if(!preg_match($setting, $value) && $value != ''){
 							return 'not well formed: ' .$field .'<br>';
 						}
 						break;

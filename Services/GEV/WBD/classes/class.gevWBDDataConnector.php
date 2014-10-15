@@ -99,7 +99,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				,'house_number'		=> $street_and_nr['nr']
 				,'zipcode'			=> $record['zipcode']
 				,'city'				=> $record['city']
-				,'phone_nr'			=> $record['phone_nr']
+				,'phone_nr'			=> ($record['phone_nr'] == '-empty-') ? '' : $record['phone_nr']
 				,'mobile_phone_nr'	=> $record['mobile_phone_nr']
 				
 				,'auth_email' 		=> $record['email']
