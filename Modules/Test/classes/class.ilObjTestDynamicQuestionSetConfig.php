@@ -210,8 +210,10 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 		{
 			$this->updateDbRecord($this->testOBJ->getTestId());
 		}
-		
-		$this->insertDbRecord($this->testOBJ->getTestId());
+		else
+		{
+			$this->insertDbRecord($this->testOBJ->getTestId());
+		}
 	}
 
 	/**
