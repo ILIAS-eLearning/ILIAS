@@ -1224,3 +1224,71 @@ while( $row = $ilDB->fetchAssoc($res) )
 }
 
 ?>
+<#46>
+<?php
+
+$indexName = $ilDB->constraintName('tst_dyn_quest_set_cfg', $ilDB->getPrimaryKeyIdentifier());
+
+if( ($ilDB->db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) && $ilDB->db->options['field_case'] == CASE_LOWER )
+{
+	$indexName = strtolower($indexName);
+}
+else
+{
+	$indexName = strtoupper($indexName);
+}
+
+$indexDefinition = $ilDB->db->loadModule('Reverse')->getTableConstraintDefinition('tst_dyn_quest_set_cfg', $indexName);
+
+if( $indexDefinition instanceof MDB2_Error )
+{
+	$res = $ilDB->query("
+		SELECT test_fi, source_qpl_fi, source_qpl_title, answer_filter_enabled, tax_filter_enabled, order_tax
+		FROM tst_dyn_quest_set_cfg
+		GROUP BY test_fi, source_qpl_fi, source_qpl_title, answer_filter_enabled, tax_filter_enabled, order_tax
+		HAVING COUNT(*) > 1
+	");
+	
+	$insertStmt = $ilDB->prepareManip("
+		INSERT INTO tst_dyn_quest_set_cfg (
+		test_fi, source_qpl_fi, source_qpl_title, answer_filter_enabled, tax_filter_enabled, order_tax
+		) VALUES (?, ?, ?, ?, ?, ?)
+		", array('integer', 'integer', 'text', 'integer', 'integer', 'integer')
+	);
+	
+	while($row = $ilDB->fetchAssoc($res) )
+	{
+		$expressions = array();
+		
+		foreach($row as $field => $value)
+		{
+			if($value === null)
+			{
+				$expressions[] = "$field IS NULL";
+			}
+			else
+			{
+				if( $field == 'source_qpl_title' )
+				{
+					$value = $ilDB->quote($value, 'text');
+				}
+				else
+				{
+					$value = $ilDB->quote($value, 'integer');
+				}
+				
+				$expressions[] = "$field = $value";
+			}
+		}
+		
+		$expressions = implode(' AND ', $expressions);
+		
+		$ilDB->manipulate("DELETE FROM tst_dyn_quest_set_cfg WHERE $expressions");
+		
+		$ilDB->execute($insertStmt, array_values($row));
+	}
+	
+	$ilDB->addPrimaryKey('tst_dyn_quest_set_cfg', array('test_fi'));
+}
+
+?>
