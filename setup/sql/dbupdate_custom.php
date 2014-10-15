@@ -2025,3 +2025,21 @@ foreach ($txt_fields_hist_user as $field) {
 	}
 }
 ?>
+
+<#56>
+<?php
+// update on #40,#53, #55; missing fields for wbd
+$txt_fields_hist_user = array(
+	'wbd_email', //USR_UDF_PRIV_EMAIL
+);
+foreach ($txt_fields_hist_user as $field) {
+	if(!$ilDB->tableColumnExists('hist_user', $field)){
+		$ilDB->addTableColumn('hist_user', $field, array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+			)
+		);	
+	}
+}
+?>

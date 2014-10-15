@@ -20,6 +20,8 @@ $GET_NEW_EDURECORDS = false;
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
 
+$LIMIT_RECORDS = 0;
+
 
 $DEBUG_HTML_OUT = isset($_GET['debug']);
 echo('<pre>');
@@ -100,15 +102,11 @@ class gevWBDDataConnector extends wbdDataConnector {
 				,'phone_nr'			=> $record['phone_nr']
 				,'mobile_phone_nr'	=> $record['mobile_phone_nr']
 				
-				,'email'			=> $record['email']
-				//....
 				,'auth_email' 		=> $record['email']
-
-
-
+				,'email'			=> ($record['wbd_email']) ? $record['wbd_email'] : $record['email']
 				,'auth_phone_nr' => $record['mobile_phone_nr']
 
-				//,'agent_registration_nr' => '' 				//optional
+				//,'agent_registration_nr' => '' 			//optional
 				,'agency_work' => $record['okz'] 			//OKZ
 				,'agent_state' => ($this->VALUE_MAPPINGS['agent_status'][$record['agent_status']])	//Status
 				//,'email_confirmation' => 'Nein'					//Benachrichtigung?
@@ -223,7 +221,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 	 * @return array of user-records
 	 */
 	public function get_new_users() {
-		global $GET_NEW_USERS;
+		global $GET_NEW_USERS, $LIMIT_RECORDS;
+
 		if(! $GET_NEW_USERS){
 			return array();
 		}
@@ -270,6 +269,11 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql .= ' AND user_id IN (SELECT usr_id FROM usr_data)';
 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
 		
+
+		if($LIMIT_RECORDS){
+			$sql .= 'LIMIT ' .$LIMIT_RECORDS;
+		}
+
 		$ret = array();
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)) {

@@ -334,7 +334,7 @@ foreach ($debug->getAllUsers() as $id=>$usr) {
 foreach ($debug->getAllUsers() as $id=>$usr) {
 	print_r($usr->getLogin());
 	print '<br>';
-	$debug->setAgentStateForUser($id);
+	//$debug->setAgentStateForUser($id);
 	$debug->updateHistoryForUser($usr);
 	print '<hr>';
 }

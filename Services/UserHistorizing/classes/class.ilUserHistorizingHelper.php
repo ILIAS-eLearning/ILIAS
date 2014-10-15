@@ -208,4 +208,14 @@ class ilUserHistorizingHelper
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		return gevUserUtils::getInstanceByObjOrId($user)->getEMail();
 	}
+
+
+	public static function getWBDEMailOf($user)
+	{
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		return gevUserUtils::getInstanceByObjOrId($user)->getWBDCommunicationEmail();
+	}
+
+
+
 }

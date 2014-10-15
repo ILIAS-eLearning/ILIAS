@@ -130,7 +130,8 @@ class ilUserHistorizing extends ilHistorizingStorage
 			
 			'email'							=> 'text',
 			'agent_status'					=> 'text',
-			'wbd_type'						=> 'text'
+			'wbd_type'						=> 'text',
+			'wbd_email'						=> 'text',
 		);
 
 		return $definition;
