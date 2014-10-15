@@ -1701,7 +1701,33 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer'). '
 				AND pass > ' . $ilDB->quote($pass, 'integer')
 				); 
-			}		
+			}
+		
+		if( $this->object->isDynamicTest() )
+		{
+			$tables = array(
+				'tst_seq_qst_tracking', 'tst_seq_qst_answstatus', 'tst_seq_qst_postponed', 'tst_seq_qst_checked'
+			);
+			
+			foreach($tables as $table)
+			{
+				$ilDB->manipulate("
+						DELETE FROM $table
+						WHERE active_fi = {$ilDB->quote($active_fi, 'integer')}
+						AND pass = {$ilDB->quote($pass, 'integer')}
+				");
+				
+				if( $must_renumber )
+				{
+					$ilDB->manipulate("
+						UPDATE $table
+						SET pass = pass - 1
+						WHERE active_fi = {$ilDB->quote($active_fi, 'integer')}
+						AND pass > {$ilDB->quote($pass, 'integer')}
+					");
+				}
+			}
+		}
 						
 			// tst_solutions
 			$ilDB->manipulate(

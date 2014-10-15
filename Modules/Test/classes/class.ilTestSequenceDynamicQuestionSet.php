@@ -264,8 +264,13 @@ class ilTestSequenceDynamicQuestionSet
 		$res = $this->db->queryF($query, array('integer','integer'), array($this->getActiveId(), 0));
 		
 		$row = $this->db->fetchAssoc($res);
+
+		if( $row['new_order_index'] )
+		{
+			return $row['new_order_index'];
+		}
 		
-		return $row['new_order_index'];
+		return 1;
 	}
 
 	private function saveNewlyAnsweredQuestionsAnswerStatus()
