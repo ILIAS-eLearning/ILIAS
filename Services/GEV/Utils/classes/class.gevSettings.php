@@ -198,7 +198,15 @@ class gevSettings {
 	const USR_BWV_ID				= "usr_udf_bwv_id";
 	// how is the okz of the user determined
 	const USR_WBD_OKZ				= "usr_udf_wbd_okz";
+	
 	// how is the "Vermittlungstätigkeit" determined
+	/*
+	global roles -> USR_WBD_STATUS
+	"OD/LD/BD/VD/VTWL", "DBV/VL-EVG", "DBV-UVG" -> 1 - Angestellter Außendienst
+	"AVL", "HA", "BA", "NA" -> 2 - Ausschließlichkeitsvermittler
+	"VP" -> 3 - Makler
+	*/
+
 	const USR_WBD_STATUS			= "usr_udf_wbd_status";
 	const USR_WBD_CERT_PERIOD_BEGIN = "usr_udf_wbd_cert_period_begin";
 	const USR_WBD_DID_REGISTRATION	= "usr_udf_wbd_did_registration";

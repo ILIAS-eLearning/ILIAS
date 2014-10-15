@@ -1378,6 +1378,21 @@ class gevUserUtils {
 	const WBD_OKZ3				= "3 - OKZ3";
 	const WBD_NO_OKZ			= "4 - keine Zuordnung";
 	
+	const WBD_AGENTSTATUS0	= "0 - aus Stellung";
+	const WBD_AGENTSTATUS1	= "1 - Angestellter Außendienst";
+	const WBD_AGENTSTATUS2	= "2 - Ausschließlichkeitsvermittler";
+	const WBD_AGENTSTATUS3	= "3 - Makler";
+	const WBD_AGENTSTATUS4	= "4 - Mehrfachagent";
+	const WBD_AGENTSTATUS5	= "5 - Mitarbeiter eines Vermittlers";
+	const WBD_AGENTSTATUS6	= "6 - Sonstiges";
+	const WBD_AGENTSTATUS7	= "7 - keine Zuordnung";
+	
+
+
+
+
+
+
 	static $wbd_relevant_roles	= array( //"OD/LD/BD/VD/VTWL"
 									     "DBV/VL-EVG"
 									   , "DBV-UVG"
@@ -1463,6 +1478,25 @@ class gevUserUtils {
 
 	public function getWBDAgentStatus() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_STATUS);
+	}
+	
+	public function setWBDAgentStatus($a_state) {
+	
+		if (!in_array($a_state, array( self::WBD_AGENTSTATUS0,
+									   self::WBD_AGENTSTATUS1,
+									   self::WBD_AGENTSTATUS2,
+									   self::WBD_AGENTSTATUS3,
+									   self::WBD_AGENTSTATUS4,
+									   self::WBD_AGENTSTATUS5,
+									   self::WBD_AGENTSTATUS6,
+									   self::WBD_AGENTSTATUS7,
+									   )
+				)
+			) {
+			throw new Exception("gevUserUtils::setWBDAgentStatus: ".$a_state." is no valid agent status.");
+		}
+		
+		return $this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_STATUS, $a_state);
 	}
 	
 
