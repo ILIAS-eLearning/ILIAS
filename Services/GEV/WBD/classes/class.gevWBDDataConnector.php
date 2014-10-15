@@ -593,8 +593,8 @@ if($DEBUG_HTML_OUT){
 	$cls->export_get_new_users('html');
 
 	print '<h2> total users: ' .count($cls->valid_newusers) .'</h2>';
-	print '<h2> invalid records: ' .count($cls->broke_newusers) .'</h2>';
-	print_r($cls->broke_newusers);
+	print '<h2> invalid records: ' .count($cls->broken_newusers) .'</h2>';
+	print_r($cls->broken_newusers);
 	print '<hr>';
 
 
