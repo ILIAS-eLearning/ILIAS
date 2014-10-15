@@ -1442,6 +1442,7 @@ assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Aktuell im P
 assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Endgültig gelöscht)
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomiefilter
 assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Zeige Filter für Beantwortungsstatus
+assessment#:#tst_input_dyn_quest_set_prev_quest_list_enabled#:#Zeige Liste bereits beantworteter Fragen
 assessment#:#tst_question_answer_status#:#Beantwortungsstatus
 assessment#:#tst_question_answer_status_all_non_correct#:#Alle, außer richtig beantwortete Fragen
 assessment#:#tst_question_answer_status_non_answered#:#Noch nicht beantwortete Fragen

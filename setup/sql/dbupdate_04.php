@@ -4443,3 +4443,19 @@ if( $indexDefinition instanceof MDB2_Error )
 
 ?>
 
+<#4399>
+<?php
+if(!$ilDB->tableColumnExists('tst_dyn_quest_set_cfg', 'prev_quest_list_enabled'))
+{
+    $ilDB->addTableColumn(
+        'tst_dyn_quest_set_cfg',
+        'prev_quest_list_enabled',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => TRUE,
+			'default' => 0
+        ));
+}
+?>
+

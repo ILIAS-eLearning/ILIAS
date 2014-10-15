@@ -1255,6 +1255,7 @@ assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Removed) [%s
 assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Removed Permanently)
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Provide Taxonomy Filter
 assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Provide Answer Status Filter
+assessment#:#tst_input_dyn_quest_set_prev_quest_list_enabled#:#Provide List of Previously Answered Questions
 assessment#:#tst_question_answer_status#:#Answer Status
 assessment#:#tst_question_answer_status_all_non_correct#:#All Questions (Except Correct Answered Ones)
 assessment#:#tst_question_answer_status_non_answered#:#Non Answered Questions

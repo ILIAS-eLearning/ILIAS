@@ -293,6 +293,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 	protected function showTrackedQuestionListCmd()
 	{
+		if( !$this->dynamicQuestionSetConfig->isPreviousQuestionsListEnabled() )
+		{
+			$this->ctrl->redirect($this, self::CMD_SHOW_QUESTION);
+		}
+		
 		$this->prepareSummaryPage();
 
 		$questionId = $this->testSession->getCurrentQuestionId();
@@ -951,15 +956,22 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 	protected function populatePreviousButtons($sequence)
 	{
-		if( !$this->isFirstPageInSequence($sequence) )
+		if( !$this->dynamicQuestionSetConfig->isPreviousQuestionsListEnabled() )
 		{
-			$this->populateUpperPreviousButtonBlock(
-					'showTrackedQuestionList', "&lt;&lt; " . $this->lng->txt( "save_previous" )
-			);
-			$this->populateLowerPreviousButtonBlock(
-					'showTrackedQuestionList', "&lt;&lt; " . $this->lng->txt( "save_previous" )
-			);
+			return;
 		}
+		
+		if( $this->isFirstPageInSequence($sequence) )
+		{
+			return;
+		}
+		
+		$this->populateUpperPreviousButtonBlock(
+				'showTrackedQuestionList', "&lt;&lt; " . $this->lng->txt( "save_previous" )
+		);
+		$this->populateLowerPreviousButtonBlock(
+				'showTrackedQuestionList', "&lt;&lt; " . $this->lng->txt( "save_previous" )
+		);
 	}
 	
 	protected function buildQuestionsTableDataArray($questions, $marked_questions)
