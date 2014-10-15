@@ -110,8 +110,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 				,'agency_work' => $record['okz'] 			//OKZ
 				,'agent_state' => ($this->VALUE_MAPPINGS['agent_status'][$record['agent_status']])	//Status
 				//,'email_confirmation' => 'Nein'					//Benachrichtigung?
-
-
 				,"row_id" => $record["row_id"]
 				,'wbd_type' => $record['wbd_type'] //debug
 			);

@@ -70,14 +70,14 @@ abstract class wbdDataConnector {
 					
 					case 'mandatory':
 						if($setting==1 && trim($value) == ''){
-							return 'mandatory: ' .$field .'<br>';
+							return 'mandatory field missing: ' .$field .'<br>';
 							//return false;
 						}
 						break;
 					
 					case 'maxlen':
 						if(strlen($value) > $setting){
-							return 'maxlen: ' .$field .'<br>';
+							return 'too long: ' .$field .'<br>';
 							//return false;
 						}
 						break;
@@ -90,6 +90,9 @@ abstract class wbdDataConnector {
 						break;
 
 					case 'form':
+						if(!preg_match($setting, $value)){
+							return 'not well formed: ' .$field .'<br>';
+						}
 						break;
 				}
 			}

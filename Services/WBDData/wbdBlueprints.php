@@ -95,7 +95,8 @@ $VALUE_MAPPINGS = array(
 
 
 
-
+//static $telno_regexp = "/^((00|[+])49((\s|[-\/])?)|0)1[5-7][0-9]([0-9]?)((\s|[-\/])?)([0-9 ]{7,12})$/";
+require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
 
 $WBD_USER_RECORD_VALIDATION = array(
 	'title' 			=> array('mandatory'=>1,
@@ -104,16 +105,16 @@ $WBD_USER_RECORD_VALIDATION = array(
 	,'first_name' 		=> array('mandatory'=>1, 'maxlen' => 30)
 	,'last_name' 		=> array('mandatory'=>1, 'maxlen' => 50)
 	,'name_affix' 		=> array('maxlen' => 50)
-	,'birthday' 		=> array('form' => 'REGEX HERE')
-	,'auth_email' 		=> array('form' => 'REGEX HERE')
-	,'auth_phone_nr' 	=> array('form' => 'REGEX HERE')
+	//,'birthday' 		=> array('form' => 'REGEX HERE')
+	//,'auth_email' 		=> array('form' => 'REGEX HERE')
+	,'auth_phone_nr' 	=> array('form' => gevUserProfileGUI::$telno_regexp)
 	,'zipcode' 			=> array('mandatory'=>1, 'maxlen' => 30)
 	,'city' 			=> array('mandatory'=>1, 'maxlen' => 50)
 	,'street' 			=> array('mandatory'=>1, 'maxlen' => 50)
-	,'house_number' 		=> array('mandatory'=>1, 'maxlen' => 10)
+	,'house_number' 	=> array('mandatory'=>1, 'maxlen' => 10)
 	,'pob' 				=> array('maxlen' => 30)
 	,'free_text'			=> array('maxlen' => 50)
-	,'email' 			=> array('form' => 'REGEX HERE')
+	//,'email' 			=> array('form' => 'REGEX HERE')
 	
 	,'agency_work' 		=> array('mandatory'=>1, 
 								 'list' => array(
