@@ -99,20 +99,25 @@ class gevWBDDataConnector extends wbdDataConnector {
 				,'city'				=> $record['city']
 				,'phone_nr'			=> $record['phone_nr']
 				,'mobile_phone_nr'	=> $record['mobile_phone_nr']
-				,'email'			=> $record['email']
-
+				
+//				,'email'			=> $record['email']
 				//....
-				,'auth_email' => $record['email']
+//				,'auth_email' => $record['email']
+
+
+
 				,'auth_phone_nr' => $record['mobile_phone_nr']
 
-				,'agent_registration_nr' => '' 				//optional
+				//,'agent_registration_nr' => '' 				//optional
 				,'agency_work' => $record['okz'] 			//OKZ
 				,'agent_state' => ($this->VALUE_MAPPINGS['agent_status'][$record['agent_status']])	//Status
-				,'email_confirmation' => ''					//Benachrichtigung?
+				//,'email_confirmation' => 'Nein'					//Benachrichtigung?
 
 
 				,"row_id" => $record["row_id"]
 				
+				,'email'			=> 'nhaagen@cat06.de'
+				,'auth_email' => 'nhaagen@cat06.de'
 				,'wbd_type' => $record['wbd_type'] //debug
 			);
 

@@ -30,7 +30,7 @@ $WBD_USER_RECORD = array(
 	'internal_agent_id' => '',
 
 	//constant, don't bother:
-	'email_confirmation' => 'Ja',
+	'email_confirmation' => 'Nein',
 	'tp_service'  => 'Ja',
 	'country_code' => 'D',
 	'address_code' => 'geschäftlich',
