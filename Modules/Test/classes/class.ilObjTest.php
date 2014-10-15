@@ -3404,10 +3404,17 @@ function getAnswerFeedbackPoints()
 		$ilDB->manipulate("DELETE FROM tst_pass_result WHERE $IN_activeIds");
 		$ilDB->manipulate("DELETE FROM tst_result_cache WHERE $IN_activeIds");
 		$ilDB->manipulate("DELETE FROM tst_sequence WHERE $IN_activeIds");
-
-		if ($this->isRandomTest())
+		
+		if( $this->isRandomTest() )
 		{
 			$ilDB->manipulate("DELETE FROM tst_test_rnd_qst WHERE $IN_activeIds");
+		}
+		elseif( $this->isDynamicTest() )
+		{
+			$ilDB->manipulate("DELETE FROM tst_seq_qst_tracking WHERE $IN_activeIds");
+			$ilDB->manipulate("DELETE FROM tst_seq_qst_answstatus WHERE $IN_activeIds");
+			$ilDB->manipulate("DELETE FROM tst_seq_qst_postponed WHERE $IN_activeIds");
+			$ilDB->manipulate("DELETE FROM tst_seq_qst_checked WHERE $IN_activeIds");
 		}
 
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
