@@ -206,6 +206,16 @@ class ilMailSearchGUI
 		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
 		
 		$this->tpl->setVariable('SEARCHFORM', $form->getHtml());
+		
+		// #14109
+		if(strlen($_SESSION['mail_search_search']) < 3)
+		{
+			if($_GET["ref"] != "wsp")
+			{
+				$this->tpl->show();
+			}
+			return;
+		}
 
 		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
 		{
