@@ -104,8 +104,9 @@ class ilAddressbook
 		{
 			$res = $ilDB->queryf("
 				SELECT * FROM ".$this->table_addr." WHERE user_id = %s",
-				array('text', 'integer'),
-				array($this->table_addr, $this->user_id));
+				array('integer'),
+				array($this->user_id)
+			);
 		}
 	
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
