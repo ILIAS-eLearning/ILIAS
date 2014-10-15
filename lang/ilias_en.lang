@@ -14061,6 +14061,11 @@ bibl#:#bib_default_urldate#:#Date of URL visit
 bibl#:#bib_default_language#:#Language
 bibl#:#bib_default_series#:#Series
 bibl#:#bib_default_cite#:#Bib Cite
+bibl#:#bib_default_note#:#Note
+bibl#:#bib_default_howpublished#:#Published as
+bibl#:#bib_default_key#:#Key
+bibl#:#bib_default_month#:#Month
+bibl#:#bib_default_abstract#:#Abstract
 bibl#:#ris_default_ty#:#Type
 bibl#:#ris_default_id#:#Reference ID
 bibl#:#ris_default_t1#:#Title

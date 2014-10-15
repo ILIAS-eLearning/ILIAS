@@ -14013,6 +14013,11 @@ bibl#:#bib_default_urldate#:#Datum des URL Besuches
 bibl#:#bib_default_language#:#Sprache
 bibl#:#bib_default_series#:#Staffel
 bibl#:#bib_default_cite#:#Bib Cite
+bibl#:#bib_default_note#:#Notiz
+bibl#:#bib_default_howpublished#:#Publiziert als
+bibl#:#bib_default_key#:#Schlüssel
+bibl#:#bib_default_month#:#Monat
+bibl#:#bib_default_abstract#:#Abstract
 bibl#:#ris_default_ty#:#Typ
 bibl#:#ris_default_id#:#Referenz-ID
 bibl#:#ris_default_t1#:#Titel
