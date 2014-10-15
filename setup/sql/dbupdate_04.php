@@ -4398,13 +4398,7 @@ if( $indexDefinition instanceof MDB2_Error )
 		GROUP BY test_fi, source_qpl_fi, source_qpl_title, answer_filter_enabled, tax_filter_enabled, order_tax
 		HAVING COUNT(*) > 1
 	");
-	
-	$deleteStmt = $ilDB->prepareManip("
-		DELETE FROM tst_dyn_quest_set_cfg
-		WHERE test_fi = ? AND source_qpl_fi = ? AND source_qpl_title = ?
-		AND answer_filter_enabled = ? AND tax_filter_enabled = ? AND order_tax = ?
-		", array('integer', 'integer', 'text', 'integer', 'integer', 'integer')
-	);
+
 	$insertStmt = $ilDB->prepareManip("
 		INSERT INTO tst_dyn_quest_set_cfg (
 			test_fi, source_qpl_fi, source_qpl_title, answer_filter_enabled, tax_filter_enabled, order_tax
@@ -4446,5 +4440,6 @@ if( $indexDefinition instanceof MDB2_Error )
 	
 	$ilDB->addPrimaryKey('tst_dyn_quest_set_cfg', array('test_fi'));
 }
+
 ?>
 
