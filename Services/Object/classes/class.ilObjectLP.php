@@ -31,6 +31,9 @@ class ilObjectLP
 		if(!isset($instances[$a_obj_id]))
 		{		
 			$type = ilObject::_lookupType($a_obj_id);
+			
+			// see self::isSupportedObjectType()
+			
 			switch($type)
 			{
 				// container
@@ -103,6 +106,19 @@ class ilObjectLP
 	
 		return $instances[$a_obj_id];
 	}
+		
+	public static function isSupportedObjectType($a_type)
+	{
+		global $objDefinition;
+		
+		$valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc", "sess");		
+		if(in_array($a_type, $valid))
+		{
+			return true;			
+		}
+		
+		return $objDefinition->isPluginTypeName($a_type);		
+	}	
 		
 	public function resetCaches()
 	{

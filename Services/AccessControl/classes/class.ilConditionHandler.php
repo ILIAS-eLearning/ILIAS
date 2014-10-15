@@ -470,11 +470,16 @@ class ilConditionHandler
 				$a_type
 		);
 		
-		// Add operator lp
+		// Add operator lp 
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 		if(ilObjUserTracking::_enabledLearningProgress())
 		{
-			array_unshift($operators,self::OPERATOR_LP);
+			// only if object type has lp
+			include_once("Services/Object/classes/class.ilObjectLP.php");
+			if(ilObjectLP::isSupportedObjectType($a_type))
+			{			
+				array_unshift($operators,self::OPERATOR_LP);
+			}
 		}
 		return $operators;
 	}

@@ -976,10 +976,10 @@ class ilObjectDefinition// extends ilSaxParser
 //		}
 
 		$recs = $global_cache->lookupGroupedRepObj($a_parent_obj_type);
-
+		
 		$grouped_obj = array();
 //		while($rec = $ilDB->fetchAssoc($set))
-		foreach($recs as $rec)
+		foreach((array)$recs as $rec)
 		{
 			if ($rec["grp"] != "")
 			{
