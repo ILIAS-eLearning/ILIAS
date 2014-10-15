@@ -240,6 +240,10 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		$this->questionSetConfig->setAnswerStatusFilterEnabled(
 			$form->getItemByPostVar('answer_status_filter_enabled')->getChecked()
 		);
+
+		$this->questionSetConfig->setPreviousQuestionsListEnabled(
+			$form->getItemByPostVar('prev_quest_list_enabled')->getChecked()
+		);
 		
 		$this->questionSetConfig->saveToDb( $this->testOBJ->getTestId() );
 	}
@@ -329,6 +333,14 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		$answStatusFilterInput->setChecked( $this->questionSetConfig->isAnswerStatusFilterEnabled() );
 		$answStatusFilterInput->setRequired(true);
 		$form->addItem($answStatusFilterInput);
+		
+		$previousQuestionsListInput = new ilCheckboxInputGUI(
+			$this->lng->txt('tst_input_dyn_quest_set_prev_quest_list_enabled'), 'prev_quest_list_enabled'
+		);
+		$previousQuestionsListInput->setValue(1);
+		$previousQuestionsListInput->setChecked( $this->questionSetConfig->isPreviousQuestionsListEnabled() );
+		$previousQuestionsListInput->setRequired(true);
+		$form->addItem($previousQuestionsListInput);
 
 		if( $this->testOBJ->participantDataExist() )
 		{
