@@ -201,6 +201,8 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
 		
 		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
 		$foundvalues = $_POST[$this->getPostVar()];
+		$max_points = 0;
+		
 		if (is_array($foundvalues))
 		{
 			// check answers
@@ -234,6 +236,11 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
 						$this->setAlert($lng->txt("form_msg_numeric_value_required"));
 						return FALSE;
 					}
+					if((int)$val <= 0)
+					{
+						$this->setAlert($lng->txt("positive_numbers_required"));
+						return FALSE;
+					}
 				}
 			}
 			else
@@ -253,6 +260,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
 				return FALSE;
 			}
 		}
+		
 		return $this->checkSubItemsInput();
 	}
 

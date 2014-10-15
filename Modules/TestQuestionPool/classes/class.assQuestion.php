@@ -2330,6 +2330,7 @@ abstract class assQuestion
 				"nr_of_tries" => array("integer", (strlen($this->getNrOfTries())) ? $this->getNrOfTries() : 1),
 				"working_time" => array("text", $estw_time),
 				"tstamp" => array("integer", time()),
+				'complete' => array('integer', $this->isComplete()),
 				"external_id" => array("text", $this->getExternalId())
 			), array(
 			"question_id" => array("integer", $this->getId())
