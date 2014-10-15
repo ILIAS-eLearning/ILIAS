@@ -1,3 +1,4 @@
+<!-- BEGIN class -->
 <?php
 require_once('./Services/ActiveRecord/class.ActiveRecord.php');
 
@@ -24,15 +25,17 @@ class {CLASS_NAME} extends ActiveRecord {
 		return '{TABLE_NAME}';
 	}
 
-	<! --BEGIN member -->
+	<!--BEGIN class_member -->
 	/**
 	 * @var {DECLARATION}
 	 *
-	 * <!-- BEGIN attribute -->* @con_{NAME} {VALUE}
-	 * <!-- END attribute -->
+	 * <!-- BEGIN attribute --> @con_{NAME} {VALUE}
+	 <!-- END attribute -->
 	 */
 	protected ${FIELD_NAME};
-	<! --END member -->
+	<!--END class_member  -->
+
 }
 
 ?>
+<!-- END class -->

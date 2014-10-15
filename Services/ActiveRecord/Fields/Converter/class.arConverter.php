@@ -55,6 +55,10 @@ class arConverter {
 	 * @var array
 	 */
 	protected $structure = array();
+	/**
+	 * @var array
+	 */
+	protected $ids = array();
 
 
 	/**
@@ -78,27 +82,66 @@ class arConverter {
 
 
 	public function downloadClassFile() {
-		$tpl = new ilTemplate(dirname(__FILE__) . '/templates/class.arTemplate.txt', true, true);
-		$tpl->setVariable('TABLE_NAME', $this->getTableName());
-		$tpl->setVariable('CLASS_NAME', $this->getClassName());
 
+
+		$header = "<?php
+require_once('./Services/ActiveRecord/class.ActiveRecord.php');
+
+/**
+ * Class {CLASS_NAME}
+ *
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @version 2.0.6
+ */
+class {CLASS_NAME} extends ActiveRecord {
+
+	/**
+	 * @return string
+	 * @deprecated
+	 */
+	static function returnDbTableName() {
+		return '{TABLE_NAME}';
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getConnectorContainerName() {
+		return '{TABLE_NAME}';
+	}
+";
+		$txt = str_replace('{CLASS_NAME}', $this->getClassName(), $header);
+		$txt = str_replace('{TABLE_NAME}', $this->getTableName(), $txt);
+		$all_members = '';
 		foreach ($this->getStructure() as $str) {
-			$tpl->touchBlock('member');
-			$tpl->setVariable('FIELD_NAME', $str->field);
-			$tpl->setVariable('DECLARATION', 'int');
-			foreach ($this->returnAttributesForField($str) as $name => $value) {
-				$tpl->setCurrentBlock('attribute');
-				$tpl->setVariable('NAME', $name);
-				$tpl->setVariable('VALUE', $value);
-				$tpl->parseCurrentBlock();
-			}
-		}
 
-		//		echo '<pre>' . print_r($tpl->get(), 1) . '</pre>';
+			$member = "/**
+	 * @var {DECLARATION}
+	 *\n";
+			foreach ($this->returnAttributesForField($str) as $name => $value) {
+				$member .= '	 * @con_' . $name . ' ' . $value . "\n";
+			}
+
+			$member .= "*/
+	protected \${FIELD_NAME};
+
+	";
+
+			$member = str_replace('{FIELD_NAME}', $str->field, $member);
+			$member = str_replace('{DECLARATION}', ' ', $member);
+
+			$all_members .= $member;
+		}
+		$txt = $txt . $all_members . '
+}
+
+?>';
+
+		//		echo '<pre>' . print_r(, 1) . '</pre>';
 
 		header('Content-type: application/x-httpd-php');
 		header("Content-Disposition: attachment; filename=\"class." . $this->getClassName() . ".php\"");
-		echo $tpl->get();
+		echo $txt;
 		exit;
 	}
 
@@ -207,7 +250,10 @@ class arConverter {
 	 * @param stdClass $structure
 	 */
 	public function addStructure(stdClass $structure) {
-		$this->structure[] = $structure;
+		if(!in_array($structure->field, $this->ids)) {
+			$this->structure[] = $structure;
+			$this->ids[] = $structure->field;
+		}
 	}
 
 
