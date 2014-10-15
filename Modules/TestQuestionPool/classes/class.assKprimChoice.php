@@ -953,6 +953,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 	 */
 	public function toJSON()
 	{
+		$this->lng->loadLanguageModule('assessment');
+
 		require_once './Services/RTE/classes/class.ilRTE.php';
 		$result = array();
 		$result['id'] = (int) $this->getId();
