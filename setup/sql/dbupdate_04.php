@@ -4370,7 +4370,7 @@ while( $row = $ilDB->fetchAssoc($res) )
 <#4397>
 <?php
 
-$ilDB->addPrimaryKey('tst_dyn_quest_set_cfg', array('test_fi'));
+//$ilDB->addPrimaryKey('tst_dyn_quest_set_cfg', array('test_fi'));
 
 ?>
 
