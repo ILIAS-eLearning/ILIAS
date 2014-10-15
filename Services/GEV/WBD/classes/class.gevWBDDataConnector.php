@@ -100,9 +100,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 				,'phone_nr'			=> $record['phone_nr']
 				,'mobile_phone_nr'	=> $record['mobile_phone_nr']
 				
-//				,'email'			=> $record['email']
+				,'email'			=> $record['email']
 				//....
-//				,'auth_email' => $record['email']
+				,'auth_email' 		=> $record['email']
 
 
 
@@ -115,9 +115,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 
 				,"row_id" => $record["row_id"]
-				
-				,'email'			=> 'nhaagen@cat06.de'
-				,'auth_email' => 'nhaagen@cat06.de'
 				,'wbd_type' => $record['wbd_type'] //debug
 			);
 
