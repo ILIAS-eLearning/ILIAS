@@ -960,7 +960,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		$result['title'] = (string) $this->getTitle();
 		$result['question'] =  $this->formatSAQuestion($this->getQuestion());
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
-		$result['shuffle'] = (bool) $this->getShuffle();
+		$result['shuffle'] = (bool) $this->isShuffleAnswersEnabled();
 		$result['feedback'] = array(
 			'onenotcorrect' => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false),
 			'allcorrect' => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
