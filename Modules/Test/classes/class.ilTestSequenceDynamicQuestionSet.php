@@ -210,6 +210,20 @@ class ilTestSequenceDynamicQuestionSet
 	
 	public function saveToDb()
 	{
+		$this->db->manipulateF(
+			"DELETE FROM tst_sequence WHERE active_fi = %s AND pass = %s",
+			array('integer','integer'), array($this->getActiveId(), 0)
+		);
+
+		$this->db->insert('tst_sequence', array(
+			'active_fi' => array('integer', $this->getActiveId()),
+			'pass' => array('integer', 0),
+			'sequence' => array('clob', null),
+			'postponed' => array('text', null),
+			'hidden' => array('text', null),
+			'tstamp' => array('integer', time())
+		));
+		
 		$this->saveNewlyTrackedQuestion();
 		$this->saveNewlyAnsweredQuestionsAnswerStatus();
 		$this->saveNewlyPostponedQuestion();
