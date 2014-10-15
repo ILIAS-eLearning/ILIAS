@@ -103,8 +103,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 				,'mobile_phone_nr'	=> $record['mobile_phone_nr']
 				
 				,'auth_email' 		=> $record['email']
-				,'email'			=> ($record['wbd_email']) ? $record['wbd_email'] : $record['email']
-				,'auth_phone_nr' => $record['mobile_phone_nr']
+				,'email'			=> ($record['wbd_email'] && $record['wbd_email'] != '-empty-') ? $record['wbd_email'] : $record['email']
+				,'auth_phone_nr' 	=> $record['mobile_phone_nr']
 
 				//,'agent_registration_nr' => '' 			//optional
 				,'agency_work' => $record['okz'] 			//OKZ
