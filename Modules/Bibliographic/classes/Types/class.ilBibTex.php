@@ -81,9 +81,3 @@ class ilBibTex {
 }
 
 ?>
-
-
-
-
-
-

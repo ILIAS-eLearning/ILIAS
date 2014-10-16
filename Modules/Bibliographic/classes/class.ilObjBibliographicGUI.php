@@ -114,7 +114,6 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 			case "ilexportgui":
 				$this->prepareOutput();
 				$ilTabs->setTabActive("export");
-				$this->setLocator();
 				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml");
 				$this->ctrl->forwardCommand($exp_gui);
