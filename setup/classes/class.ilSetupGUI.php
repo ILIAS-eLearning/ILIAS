@@ -53,6 +53,9 @@ class ilSetupGUI
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initDomEvent();
 
+		include_once("./Services/UICore/classes/class.ilUIFramework.php");
+		ilUIFramework::init($this->tpl);
+
 		// CVS - REVISION - DO NOT MODIFY
 		$this->revision = '$Revision$';
 		$this->version = "2 ".substr(substr($this->revision,1),0,-2);

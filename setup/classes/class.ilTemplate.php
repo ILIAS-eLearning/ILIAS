@@ -15,6 +15,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	var $vars;
 	var $js_files = array(0 => "./Services/JavaScript/js/Basic.js");		// list of JS files that should be included
+	var $css_files = array();		// list of css files that should be included
 	
 	/**
 	* Aktueller Block
@@ -157,6 +158,7 @@ class ilTemplate extends ilTemplateX
 		header('Content-type: text/html; charset=UTF-8');
 
 		$this->fillJavaScriptFiles();
+		$this->fillCssFiles();
 		
 		// ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
 		$ms = array("info", "success", "failure", "question");
@@ -456,7 +458,44 @@ class ilTemplate extends ilTemplateX
 			}
 		}
 	}
-	
+
+	/**
+	 * Add a css file that should be included in the header.
+	 */
+	function addCss($a_css_file, $media = "screen")
+	{
+		if (!array_key_exists($a_css_file . $media, $this->css_files))
+		{
+			$this->css_files[$a_css_file . $media] = array("file" => $a_css_file, "media" => $media);
+		}
+	}
+
+	/**
+	 * Fill in the css file tags
+	 *
+	 * @param boolean $a_force
+	 */
+	function fillCssFiles($a_force = false)
+	{
+		if (!$this->blockExists("css_file"))
+		{
+			return;
+		}
+		foreach($this->css_files as $css)
+		{
+			$filename = $css["file"];
+			if (strpos($filename, "?") > 0) $filename = substr($filename, 0, strpos($filename, "?"));
+			if (is_file($filename) || $a_force)
+			{
+				$this->setCurrentBlock("css_file");
+				$this->setVariable("CSS_FILE", $css["file"]);
+				$this->setVariable("CSS_MEDIA", $css["media"]);
+				$this->parseCurrentBlock();
+			}
+		}
+	}
+
+
 	function get($part = "DEFAULT")
 	{
 		if ($part == "DEFAULT")
