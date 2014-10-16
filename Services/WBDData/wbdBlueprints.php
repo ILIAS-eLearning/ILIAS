@@ -95,8 +95,12 @@ $VALUE_MAPPINGS = array(
 
 
 
+//this is mobile, only
 //static $telno_regexp = "/^((00|[+])49((\s|[-\/])?)|0)1[5-7][0-9]([0-9]?)((\s|[-\/])?)([0-9 ]{7,12})$/";
 require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
+$TELNO_MOBILE_REGEXP = gevUserProfileGUI::$telno_regexp;
+$TELNO_REGEXP = "/^(00|[+])49[\s-\/][0-9]+[\s-\/][0-9]*/"; //city-code must be separated
+$TELNO_REGEXP = "/^(00|[+])49[\s-\/][0-9]*/";
 
 $WBD_USER_RECORD_VALIDATION = array(
 	'title' 			=> array('mandatory'=>1,
@@ -107,9 +111,10 @@ $WBD_USER_RECORD_VALIDATION = array(
 	,'name_affix' 		=> array('maxlen' => 50)
 	//,'birthday' 		=> array('form' => 'REGEX HERE')
 	//,'auth_email' 		=> array('form' => 'REGEX HERE')
-	,'auth_phone_nr' 	=> array('mandatory'=>1, 
-								 'form' => gevUserProfileGUI::$telno_regexp)
-	//,'phone_nr'	 		=> array('form' => gevUserProfileGUI::$telno_regexp)
+	,'auth_phone_nr' 	=> array( 
+								 'form' => $TELNO_MOBILE_REGEXP)
+	,'phone_nr'	 		=> array('form' => $TELNO_REGEXP)
+	//,'mobile_phone_nr'	=> array('form' => $TELNO_REGEXP)
 	,'zipcode' 			=> array('mandatory'=>1, 'maxlen' => 30)
 	,'city' 			=> array('mandatory'=>1, 'maxlen' => 50)
 	,'street' 			=> array('mandatory'=>1, 'maxlen' => 50)
@@ -200,5 +205,36 @@ $CSV_LABELS = array(
 	"url" => "URL",
 	"zipcode" => "Postleitzahl"
 );
+
+
+
+$FAKEDATA = array(
+	'special_chars' => array('ü','ö','ä','ß','é', 'è','á','à','û','â','ê','\'')
+	,'chars' => 'abcdefghijklmnopqrstuvwxyzaeiouaeiou '
+	,'fon_formats' => array(
+			'++49 XXX XXXXXXX',
+			'++49-XXX XXXXXXX',
+			'++49 XXX/XXXXXXX',
+			'0049 XXX XXXXXXX',
+			'049 XXX XXXXXXX',
+			'0XXX XXXXXXX',
+			'0XXXXXXXXXX',
+			'0XXX XXXX-XXXX',
+			'XXXX XXXXXXX',
+			'0172XXXXXXXX',
+			'01516XXXXXXX',
+		)
+	,'housenr_formats' => array(
+			'X',
+			'XX',
+			'XXX',
+			'XX-XX',
+			'XXa',
+			'Xa-XXc',
+		)
+	,'agent_status' => array_values($VALUE_MAPPINGS[agent_status])
+)
+
+
 
 ?>

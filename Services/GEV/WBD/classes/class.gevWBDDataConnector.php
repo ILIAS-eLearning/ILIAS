@@ -21,6 +21,7 @@ $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
 
 $LIMIT_RECORDS = 0;
+$ANON_DATA = true;
 
 
 $DEBUG_HTML_OUT = isset($_GET['debug']);
@@ -85,9 +86,77 @@ class gevWBDDataConnector extends wbdDataConnector {
 		);
 	}
 
+	public function _polish_phone_nr($phone_nr){
+		if($phone_nr == '' || preg_match($this->TELNO_REGEXP, $phone_nr)){
+			//all well, return
+			
+			//return $phone_nr;
+		}
+		$nr_raw = $phone_nr;
+
+		//strip country-code
+		if(in_array(substr($nr_raw, 0, 4), array('++49', '0049'))){
+			$nr_raw = substr($nr_raw, 4);
+		}
+		if(in_array(substr($nr_raw, 0, 3), array('+49', '049'))){
+			$nr_raw = substr($nr_raw, 3);
+		}
+		$nr_raw = trim($nr_raw);
+
+		//nr is in "raw" - w/o country code
+		//it hopefully still starts with 0...
+		if(substr($nr_raw, 0, 1) == '0'){
+			$nr_raw = substr($nr_raw, 1);
+		} else {
+			//no city-code, nothing we ca don
+			$phone_nr = '+49 ' .$nr_raw;
+			return $phone_nr;
+		}
+
+		//is there a separation for city-code/nr?
+		if( strpos($nr_raw, ' ') === false &&
+			strpos($nr_raw, '\/') === false &&
+			strpos($nr_raw, '-') === false 
+		){
+			//guess city-code for mobile numbers:
+			if( in_array(
+					substr($nr_raw, 0, 4), 
+					array(
+						'1511','1512','1513','1514','1515','1516','1517','1518','1519','1510',
+						'1521','1522','1523','1524','1525','1526','1527','1528','1529','1520',
+						'1571','1572','1573','1574','1575','1576','1577','1578','1579','1570',
+						'1591','1592','1593','1594','1595','1596','1597','1598','1599','1590'
+					)
+				)
+			){
+				$nr_raw = substr($nr_raw, 0, 4) . ' ' .substr($nr_raw, 4);
+			}			
+			if( in_array(
+					substr($nr_raw, 0, 3), 
+					array(
+						'160','170','171','175',
+						'162','172','173','174',
+						'163','177','178',
+						'176','179'
+					)
+				)
+			){
+				$nr_raw = substr($nr_raw, 0, 3) . ' ' .substr($nr_raw, 3);
+			}
+		}
+
+		$phone_nr = '+49 ' .$nr_raw;
+		return $phone_nr;
+	}
+
+
+
 	private function _map_userdata($record) {
-		//print '<pre>';
-		//print_r($record);
+		global $ANON_DATA;
+		if($ANON_DATA){
+			$record = $this->_anon_userdata($record);
+		}
+
 		$street_and_nr = $this->_extract_house_nr( $record['street']);
 		$udata = array(
 				'internal_agent_id' => $record['user_id']
@@ -109,10 +178,14 @@ class gevWBDDataConnector extends wbdDataConnector {
 				//,'agent_registration_nr' => '' 			//optional
 				,'agency_work' => $record['okz'] 			//OKZ
 				,'agent_state' => ($this->VALUE_MAPPINGS['agent_status'][$record['agent_status']])	//Status
-				//,'email_confirmation' => 'Nein'					//Benachrichtigung?
+				//,'email_confirmation' => 'Nein'			//Benachrichtigung?
 				,"row_id" => $record["row_id"]
 				,'wbd_type' => $record['wbd_type'] //debug
 			);
+
+		$udata['phone_nr'] = $this->_polish_phone_nr($udata['phone_nr']);
+		$udata['mobile_phone_nr'] = $this->_polish_phone_nr($udata['mobile_phone_nr']);
+		$udata['auth_phone_nr'] = $this->_polish_phone_nr($udata['auth_phone_nr']);
 
 		return $udata;
 	}
@@ -140,6 +213,22 @@ class gevWBDDataConnector extends wbdDataConnector {
 			,"row_id" => $record["row_id"]
 		);
 		return $edudata;	
+	}
+
+	private function _anon_userdata($record){
+		//$record['firstname'] = $this->fake_string(5,20);
+		$record['lastname'] = $this->fake_string(strlen($record['lastname']), strlen($record['lastname']));
+		
+		$record['phone_nr'] = $this->fake_fon();
+		$record['mobile_phone_nr'] = $this->fake_fon();
+
+		$record['email'] = 'il-dev@cat06.de';
+		$record['wbd_email'] = 'il-dev@cat06.de';
+		$record['street'] = $this->fake_streetnr();
+		$record['city'] = $this->fake_string(strlen($record['city']));
+		$record['zipcode'] = $this->fill_format_nr('XXXXX');
+
+		return $record;
 	}
 
 
@@ -278,6 +367,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 			$udata = $this->_map_userdata($record);
 
 			$valid = $this->validateUserRecord($udata);
+
 			if($valid === true){
 
 				$ret[] = wbdDataConnector::new_user_record($udata);
@@ -591,7 +681,8 @@ if($DEBUG_HTML_OUT){
 
 	$cls = new gevWBDDataConnector();
 
-
+	//print $cls->_polish_phone_nr('0049 183 5196177');
+	//die();
 
 	print '<h3>new users:</h3>';
 	$cls->export_get_new_users('html');

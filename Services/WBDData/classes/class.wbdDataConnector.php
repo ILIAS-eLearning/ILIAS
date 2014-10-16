@@ -34,6 +34,8 @@ abstract class wbdDataConnector {
 		$this->CSV_LABELS = $CSV_LABELS;
 		$this->VALUE_MAPPINGS = $VALUE_MAPPINGS;
 		$this->USER_RECORD_VALIDATION = $WBD_USER_RECORD_VALIDATION;
+		$this->TELNO_REGEXP = $TELNO_REGEXP;
+		$this->FAKEDATA = $FAKEDATA;
 	}
 
 	/**
@@ -56,6 +58,55 @@ abstract class wbdDataConnector {
 
 		return $edu_record;
 	}
+
+	/**
+	* TESTDATA
+	**/
+
+	public function fill_format_nr($format){
+		$str_out = '';
+		$len = strlen($format);
+	    for($i = 0; $i < $len; $i++) {
+	        if(substr($format,$i, 1) == 'X'){
+	        	$str_out .= rand(0,9);
+	        }else{
+	        	$str_out .= substr($format,$i, 1);
+	        }
+	    }
+	   	return $str_out;		
+	}
+	public function fake_string($min, $max){
+		$len = rand($min, $max);
+		$str_out = '';
+		for($i = 0; $i < $len; $i++) {
+			$use_normal_char = rand(0,12);
+			
+			if(!$use_normal_char){
+				$base = $this->FAKEDATA['special_chars'];
+				$str_out .= $base[rand(0, count($base)-1)];
+			}else{
+				$base = $this->FAKEDATA['chars'];
+				$str_out .= substr($base, rand(0, strlen($base) - 1), 1);
+			}
+		}
+		return ucfirst($str_out);
+	}
+	public function fake_fon(){
+		$format = $this->FAKEDATA['fon_formats'][rand(0, count($this->FAKEDATA['fon_formats'])-1)];
+	   	return $this->fill_format_nr($format);
+	}
+	public function fake_streetnr($list){
+		$street = $this->fake_string(5, 22);
+		
+		$format = $this->FAKEDATA['housenr_formats'][rand(0, count($this->FAKEDATA['housenr_formats'])-1)];
+		$nr = $this->fill_format_nr($format);
+
+		return $street .' ' .$nr;
+	}
+	public function fake_listentry($list){
+		return $list[rand(0, count($list)-1)];
+	}
+
 
 
 	/**
