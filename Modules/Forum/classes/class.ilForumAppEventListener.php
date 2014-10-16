@@ -10,6 +10,8 @@
 */
 class ilForumAppEventListener
 {
+	protected static $ref_ids = array();
+	
 	/**
 	* Handle an event in a listener.
 	*
@@ -47,7 +49,7 @@ class ilForumAppEventListener
 					case "addParticipant":
 						include_once './Modules/Forum/classes/class.ilForumNotification.php';
 						
-						$ref_ids = ilObject::_getAllReferences($a_parameter['obj_id']);
+						$ref_ids = self::getCachedReferences($a_parameter['obj_id']);
 
 						foreach($ref_ids as $ref_id)
 						{
@@ -59,7 +61,7 @@ class ilForumAppEventListener
 					case 'deleteParticipant':
 						include_once './Modules/Forum/classes/class.ilForumNotification.php';
 
-						$ref_ids = ilObject::_getAllReferences($a_parameter['obj_id']);
+						$ref_ids = self::getCachedReferences($a_parameter['obj_id']);
 
 						foreach($ref_ids as $ref_id)
 						{
@@ -75,7 +77,7 @@ class ilForumAppEventListener
 					case "addParticipant":
 						include_once './Modules/Forum/classes/class.ilForumNotification.php';
 
-						$ref_ids = ilObject::_getAllReferences($a_parameter['obj_id']);
+						$ref_ids = self::getCachedReferences($a_parameter['obj_id']);
 
 						foreach($ref_ids as $ref_id)
 						{
@@ -87,7 +89,7 @@ class ilForumAppEventListener
 					case 'deleteParticipant':
 						include_once './Modules/Forum/classes/class.ilForumNotification.php';
 
-						$ref_ids = ilObject::_getAllReferences($a_parameter['obj_id']);
+						$ref_ids = self::getCachedReferences($a_parameter['obj_id']);
 
 						foreach($ref_ids as $ref_id)
 						{
@@ -98,6 +100,18 @@ class ilForumAppEventListener
 				}
 				break;
 		}
+	}
+
+	/**
+	 * @param int $obj_id
+	 */
+	private function getCachedReferences($obj_id)
+	{
+		if(!array_key_exists($obj_id, self::$ref_ids))
+		{
+			self::$ref_ids[$obj_id] = ilObject::_getAllReferences($obj_id);	
+		}
+		return self::$ref_ids[$obj_id];
 	}
 }
 ?>
