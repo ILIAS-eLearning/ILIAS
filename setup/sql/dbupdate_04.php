@@ -4458,4 +4458,25 @@ if(!$ilDB->tableColumnExists('tst_dyn_quest_set_cfg', 'prev_quest_list_enabled')
         ));
 }
 ?>
+<#4400>
+<?php
+$set = $ilDB->query('SELECT * FROM il_dcl_datatype_prop WHERE id = 14');
+if (!$ilDB->numRows($set)) {
+    $ilDB->insert('il_dcl_datatype_prop', array(
+        'id' => array('integer', 14),
+        'datatype_id' => array('integer', 2),
+        'title' => array('text', 'link_detail_page'),
+        'inputformat' => array('integer', 4),
+    ));
+}
+$set = $ilDB->query('SELECT * FROM il_dcl_datatype_prop WHERE id = 15');
+if (!$ilDB->numRows($set)) {
+    $ilDB->insert('il_dcl_datatype_prop', array(
+        'id' => array('integer', 15),
+        'datatype_id' => array('integer', 9),
+        'title' => array('text', 'link_detail_page'),
+        'inputformat' => array('integer', 4),
+    ));
+}
+?>
 
