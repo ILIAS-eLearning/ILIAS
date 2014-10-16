@@ -260,13 +260,13 @@ class ilDataCollectionRecordEditGUI {
 				}
 				asort($options);
 				$item->setOptions($options);
-//				if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) { // FSX use this when added patch to MultiSelectInputGUI
-					if (!$field->isNRef()) { // addCustomAttribute only defined for single selects
+				if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) { // FSX use this to apply to MultiSelectInputGUI
+//					if (!$field->isNRef()) { // addCustomAttribute only defined for single selects
 						$item->addCustomAttribute('data-ref="1"');
 						$item->addCustomAttribute('data-ref-table-id="' . $reftable->getId() . '"');
 						$item->addCustomAttribute('data-ref-field-id="' . $reffield->getId() . '"');
-					}
-//				}
+//					}
+				}
 			}
 
 			if ($this->record_id) {
