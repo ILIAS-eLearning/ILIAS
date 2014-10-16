@@ -57,7 +57,7 @@ class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
 		$ilObjEntry = new ilBibliographicEntry($this->parent_obj->object->getFiletype(), $a_set['entry_id']);
 		$this->tpl->setVariable("SINGLE_ENTRY", $ilObjEntry->getOverwiew());
 		//Detail-Link
-		$ilCtrl->setParameterByClass("ilObjBibliographicGUI", "entryId", $a_set['entry_id']);
+		$ilCtrl->setParameterByClass("ilObjBibliographicGUI", ilObjBibliographicGUI::P_ENTRY_ID, $a_set['entry_id']);
 		$this->tpl->setVariable("DETAIL_LINK", $ilCtrl->getLinkTargetByClass("ilObjBibliographicGUI", "showDetails"));
 		// generate/render links to libraries
 		$settings = ilBibliographicSetting::getAll();

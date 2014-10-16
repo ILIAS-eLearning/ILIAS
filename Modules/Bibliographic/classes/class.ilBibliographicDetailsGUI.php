@@ -2,6 +2,10 @@
 
 require_once "./Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
 require_once "./Modules/Bibliographic/classes/Admin/class.ilBibliographicSetting.php";
+require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+require_once('./Modules/Bibliographic/classes/Types/class.ilBibTex.php');
+require_once('./Modules/Bibliographic/classes/Types/class.ilRis.php');
+
 /**
  * Class ilBibliographicDetailsGUI
  * The detailled view on each entry
@@ -11,25 +15,40 @@ require_once "./Modules/Bibliographic/classes/Admin/class.ilBibliographicSetting
 class ilBibliographicDetailsGUI {
 
 	/**
-	 * @var ilObjBibliographicObject
+	 * @var ilObjBibliographic
 	 */
-	var $bibl_obj;
+	public $bibl_obj;
 	/**
-	 * @var ilObjBibliographicEntry
+	 * @var ilBibliographicEntry
 	 */
-	var $entry;
+	public $entry;
 
 
 	/**
 	 * @param ilObjBibliographic $bibl_obj
+	 * @param                    $entry_id
 	 *
-	 * @return void
-	 *
+	 * @return ilBibliographicDetailsGUI
 	 */
-	public function showDetails(ilObjBibliographic $bibl_obj) {
-		global $tpl, $ilTabs, $ilCtrl, $lng, $ilDB;
-		$this->bibl_obj = $bibl_obj;
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+	public static function getInstance(ilObjBibliographic $bibl_obj, $entry_id) {
+		$obj = new self();
+		$obj->bibl_obj = $bibl_obj;
+		$obj->entry = new ilBibliographicEntry($obj->bibl_obj->getFiletype(), $entry_id);
+
+		return $obj;
+	}
+
+
+	public function getHTML() {
+	}
+
+
+	/**
+	 * @deprecated
+	 */
+	public function showDetails() {
+		global $tpl, $ilTabs, $ilCtrl, $lng;
+
 		$form = new ilPropertyFormGUI();
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"), $ilCtrl->getLinkTarget($this, 'showContent'));
@@ -37,10 +56,10 @@ class ilBibliographicDetailsGUI {
 		// add link button if a link is defined in the settings
 		$set = new ilSetting("bibl");
 		$link = $set->get(strtolower($this->bibl_obj->getFiletype()));
-		if (! empty($link)) {
+		if (!empty($link)) {
 			$form->addCommandButton('autoLink', 'Link');
 		}
-		$this->entry = new ilBibliographicEntry($this->bibl_obj->getFiletype(), $_GET['entryId']);
+
 		$attributes = $this->entry->getAttributes();
 		//translate array key in order to sort by those keys
 		foreach ($attributes as $key => $attribute) {
@@ -50,7 +69,20 @@ class ilBibliographicDetailsGUI {
 			} //If not: get the default language entry
 			else {
 				$arrKey = explode("_", $key);
-				$strDescTranslated = $lng->txt($arrKey[0] . "_default_" . $arrKey[2]);
+				$is_standard_field = false;
+				switch ($arrKey[0]) {
+					case 'bib':
+						$is_standard_field = ilBibTex::isStandardField($arrKey[2]);
+						break;
+					case 'ris':
+						$is_standard_field = ilRis::isStandardField($arrKey[2]);
+						break;
+				}
+				if ($is_standard_field) {
+					$strDescTranslated = $lng->txt($arrKey[0] . "_default_" . $arrKey[2]);
+				} else {
+					$strDescTranslated = $arrKey[2];
+				}
 			}
 			unset($attributes[$key]);
 			$attributes[$strDescTranslated] = $attribute;
@@ -71,19 +103,14 @@ class ilBibliographicDetailsGUI {
 				$set->setImageUrl(ilUtil::getImagePath('lib_link_def.gif'));
 			}
 			$ci = new ilCustomInputGUI($set->getName());
-			$ci->setHtml('<a target="_blank" href="'
-				. $set->generateLibraryLink($this->entry, $this->bibl_obj->getFiletype()) . '"><img src="'
+			$ci->setHtml('<a target="_blank" href="' . $set->generateLibraryLink($this->entry, $this->bibl_obj->getFiletype()) . '"><img src="'
 				. $set->getImageUrl() . '"></a>');
 			$form->addItem($ci);
 		}
 		// set content and title
 		$tpl->setContent($form->getHTML());
 		//Permanent Link
-		$tpl->setPermanentLink("bibl", $bibl_obj->getRefId(), "_" . $_GET['entryId']);
-		/*$entry_attributes = $this->entry->getAttributes();
-		foreach($entry_attributes as $key => $value){
-			echo "<script type='text/javascript'>alert($key);</script>";
-		}*/
+		$tpl->setPermanentLink("bibl", $this->bibl_obj->getRefId(), "_" . $_GET[ilObjBibliographicGUI::P_ENTRY_ID]);
 	}
 	/**
 	 * generate URL to library

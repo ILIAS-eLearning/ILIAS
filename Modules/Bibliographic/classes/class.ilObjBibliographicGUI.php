@@ -10,9 +10,9 @@ require_once("./Services/Export/classes/class.ilExportGUI.php");
 /**
  * Class ilObjBibliographicGUI
  *
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Gabriel Comte <gc@studer-raimann.ch>
- * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author            Oskar Truffer <ot@studer-raimann.ch>
+ * @author            Gabriel Comte <gc@studer-raimann.ch>
+ * @author            Martin Studer <ms@studer-raimann.ch>
  *
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
@@ -23,6 +23,7 @@ require_once("./Services/Export/classes/class.ilExportGUI.php");
  */
 class ilObjBibliographicGUI extends ilObject2GUI {
 
+	const P_ENTRY_ID = 'entry_id';
 	/**
 	 * @var ilObjBibliographic
 	 */
@@ -30,20 +31,16 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 
 
 	/**
-	 * __construct
-	 *
 	 * @param int $a_id
 	 * @param int $a_id_type
 	 * @param int $a_parent_node_id
-	 *
-	 * @return void
 	 */
 	public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0) {
 		global $lng, $ilias;
 		$this->lng = $lng;
 		$this->ilias = $ilias;
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
-		$lng->loadLanguageModule("bibl");
+		$lng->loadLanguageModule('bibl');
 		if ($a_id > 0) {
 			$this->bibl_obj = $this->object;
 		}
@@ -147,7 +144,7 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 	 */
 	public function infoScreenForward() {
 		global $ilTabs, $ilErr, $lng;
-		if (! $this->checkPermissionBool("visible")) {
+		if (!$this->checkPermissionBool("visible")) {
 			ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
 			$this->ctrl->redirectByClass('ilPersonalDesktopGUI', '');
 		}
@@ -185,7 +182,7 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 		$ilCtrl->setParameterByClass("ilobjbibliographicgui", "ref_id", $id[0]);
 		//Detail-View
 		if ($id[1]) {
-			$ilCtrl->setParameterByClass("ilobjbibliographicgui", "entryId", $id[1]);
+			$ilCtrl->setParameterByClass("ilobjbibliographicgui", ilObjBibliographicGUI::P_ENTRY_ID, $id[1]);
 			$ilCtrl->redirectByClass(array( "ilRepositoryGUI", "ilobjbibliographicgui" ), "showDetails");
 		} else {
 			$ilCtrl->redirectByClass(array( "ilRepositoryGUI", "ilobjbibliographicgui" ), "view");
@@ -228,7 +225,7 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 
 
 	/**
-	 * afterSave
+	 * @param ilObject $a_new_object
 	 */
 	protected function afterSave(ilObject $a_new_object) {
 		$a_new_object->doUpdate();
@@ -244,35 +241,30 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 	 */
 	public function setTabs() {
 		global $ilAccess, $ilTabs, $lng;
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 * @var $ilTabs   ilTabsGUI
+		 * @var $lng      ilLanguage
+		 */
 		// info screen
 		if ($ilAccess->checkAccess('read', "", $this->object->getRefId())) {
-			$ilTabs->addTab("content",
-				$lng->txt("content"),
-				$this->ctrl->getLinkTarget($this, "showContent"));
+			$ilTabs->addTab("content", $lng->txt("content"), $this->ctrl->getLinkTarget($this, "showContent"));
 		}
 		// info screen
 		if ($ilAccess->checkAccess('visible', "", $this->object->getRefId())) {
-			$ilTabs->addTab("id_info",
-				$lng->txt("info_short"),
-				$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
+			$ilTabs->addTab("id_info", $lng->txt("info_short"), $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
 		}
 		// settings
 		if ($ilAccess->checkAccess('write', "", $this->object->getRefId())) {
-			$ilTabs->addTab("settings",
-				$lng->txt("settings"),
-				$this->ctrl->getLinkTarget($this, "editObject"));
+			$ilTabs->addTab("settings", $lng->txt("settings"), $this->ctrl->getLinkTarget($this, "editObject"));
 		}
 		// edit permissions
 		if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId())) {
-			$ilTabs->addTab("id_permissions",
-				$lng->txt("perm_settings"),
-				$this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
+			$ilTabs->addTab("id_permissions", $lng->txt("perm_settings"), $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
 		}
 		// export
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-			$ilTabs->addTab("export",
-				$lng->txt("export"),
-				$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+			$ilTabs->addTab("export", $lng->txt("export"), $this->ctrl->getLinkTargetByClass("ilexportgui", ""));
 		}
 	}
 
@@ -294,7 +286,7 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 
 
 	/**
-	 * initEditCustomForm
+	 * @param ilPropertyFormGUI $a_form
 	 */
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form) {
 		global $ilTabs;
@@ -306,7 +298,9 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 
 
 	/**
-	 * getSettingsValues
+	 * @param array $a_values
+	 *
+	 * @return array|void
 	 */
 	public function getEditFormCustomValues(array &$a_values) {
 		$a_values["is_online"] = $this->object->getOnline();
@@ -315,8 +309,10 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 	}
 
 
-	/*
-	 * getBibliographicObject
+	/**
+	 * @return ilObjBibliographic
+	 *
+	 * @deprecated
 	 */
 	public function getBibliographicObject() {
 		$obj = new ilObjBibliographic($this->ref_id, true);
@@ -386,8 +382,8 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 	public function showDetails() {
 		global $ilAccess, $tpl, $lng;
 		if ($ilAccess->checkAccess('read', "", $this->object->getRefId())) {
-			$bibGUI = new ilBibliographicDetailsGUI();
-			$bibGUI->showDetails($this->bibl_obj, $_GET['entryId']);
+			$bibGUI = ilBibliographicDetailsGUI::getInstance($this->bibl_obj, $_GET[self::P_ENTRY_ID]);
+			$bibGUI->showDetails();
 		} else {
 			ilUtil::sendFailure($this->lng->txt("no_permission"), true);
 			ilObjectGUI::_gotoRepositoryRoot();
@@ -440,12 +436,12 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 	public function addHeaderAction($a_redraw = false) {
 		global $ilUser, $ilAccess, $tpl, $lng, $ilCtrl;
 		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
-		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
-			$ilAccess, "dcl", $this->ref_id, $this->obj_id);
+		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, $ilAccess, "dcl", $this->ref_id, $this->obj_id);
 		include_once "Services/Object/classes/class.ilObjectListGUI.php";
-		ilObjectListGUI::prepareJSLinks($this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
-			$ilCtrl->getLinkTargetByClass(array( "ilcommonactiondispatchergui", "ilnotegui" ), "", "", true, false),
-			$ilCtrl->getLinkTargetByClass(array( "ilcommonactiondispatchergui", "iltagginggui" ), "", "", true, false));
+		ilObjectListGUI::prepareJSLinks($this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true), $ilCtrl->getLinkTargetByClass(array(
+			"ilcommonactiondispatchergui",
+			"ilnotegui"
+		), "", "", true, false), $ilCtrl->getLinkTargetByClass(array( "ilcommonactiondispatchergui", "iltagginggui" ), "", "", true, false));
 		$lg = $dispatcher->initHeaderAction();
 		// notification
 		if ($ilUser->getId() != ANONYMOUS_USER_ID && $this->object->getNotification() == 1) {
@@ -454,20 +450,16 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 				//Command Activate Notification
 				$ilCtrl->setParameter($this, "ntf", 1);
 				$lg->addCustomCommand($ilCtrl->getLinkTarget($this, "toggleNotification"), "dcl_notification_deactivate_dcl");
-				$lg->addHeaderIcon("not_icon",
-					ilUtil::getImagePath("notification_on.png"),
-					$lng->txt("dcl_notification_activated"));
+				$lg->addHeaderIcon("not_icon", ilUtil::getImagePath("notification_on.png"), $lng->txt("dcl_notification_activated"));
 			} else {
 				//Command Deactivate Notification
 				$ilCtrl->setParameter($this, "ntf", 2);
 				$lg->addCustomCommand($ilCtrl->getLinkTarget($this, "toggleNotification"), "dcl_notification_activate_dcl");
-				$lg->addHeaderIcon("not_icon",
-					ilUtil::getImagePath("notification_off.png"),
-					$lng->txt("dcl_notification_deactivated"));
+				$lg->addHeaderIcon("not_icon", ilUtil::getImagePath("notification_off.png"), $lng->txt("dcl_notification_deactivated"));
 			}
 			$ilCtrl->setParameter($this, "ntf", "");
 		}
-		if (! $a_redraw) {
+		if (!$a_redraw) {
 			$tpl->setHeaderActionMenu($lg->getHeaderAction());
 		} else {
 			return $lg->getHeaderAction();
