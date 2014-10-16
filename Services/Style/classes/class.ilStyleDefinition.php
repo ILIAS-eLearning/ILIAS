@@ -336,7 +336,7 @@ class ilStyleDefinition extends ilSaxParser
 		
 		if(isset(self::$current_skin))
 		{
-			return isset(self::$current_skin);
+			return self::$current_skin;
 		}
 
 		if(is_object($ilias))
