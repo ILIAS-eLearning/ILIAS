@@ -702,15 +702,21 @@ abstract class ilAssQuestionFeedback
 	 */
 	final protected function getPageObjectContent($pageObjectType, $pageObjectId)
 	{
+		global $ilCtrl;
+
 		$cl = $this->getClassNameByType($pageObjectType, true);
 		require_once 'Modules/TestQuestionPool/classes/feedback/class.'.$cl.'.php';
 
 		$this->ensurePageObjectExists($pageObjectType, $pageObjectId);
-		
+
+		$mode = ($ilCtrl->isAsynch())
+			? "presentation"
+			: $this->getPageObjectOutputMode();
+
 		$pageObjectGUI = new $cl($pageObjectId);
-		$pageObjectGUI->setOutputMode($this->getPageObjectOutputMode());
-		return $pageObjectGUI->presentation($this->getPageObjectOutputMode());
-	}
+		$pageObjectGUI->setOutputMode($mode);
+
+		return $pageObjectGUI->presentation($mode);	}
 	
 	/**
 	 * returns the xml of page object with given type and id
