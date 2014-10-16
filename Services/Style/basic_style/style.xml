@@ -194,7 +194,6 @@
 	<StyleParameter Name="height" Value="16px"/>
 </Style>
 <Style Tag="div" Type="page_fn" Class="Footnote">
-	<StyleParameter Name="font-style" Value="italic"/>
 	<StyleParameter Name="margin-bottom" Value="5px"/>
 	<StyleParameter Name="margin-top" Value="5px"/>
 </Style>
