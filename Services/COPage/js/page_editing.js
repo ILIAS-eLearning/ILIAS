@@ -2228,13 +2228,14 @@ function editParagraph(div_id, mode, switched)
 				ed.on('KeyDown', function(ev)
 				{
 					var ed = tinyMCE.get('tinytarget');
-console.log(ev);
-console.log(ev.keyCode);
 
 					if(ev.keyCode == 35 || ev.keyCode == 36)
 					{
-//						YAHOO.util.Event.preventDefault(ev);
-//						YAHOO.util.Event.stopPropagation(ev);
+						var isMac = navigator.platform.toUpperCase().indexOf('MAC')>=0;
+						if (!ev.shiftKey && isMac) {
+							YAHOO.util.Event.preventDefault(ev);
+							YAHOO.util.Event.stopPropagation(ev);
+						}
 					}
 
 					if(ev.keyCode == 9 && !ev.shiftKey)
