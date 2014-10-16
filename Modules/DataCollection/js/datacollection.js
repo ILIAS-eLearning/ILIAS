@@ -87,9 +87,18 @@ $(document).ready(function(){
             .text('[+] ' + ilDataCollection.strings.add_value)
     );
 
+
+	//$('form[id^="form_dcl"] div[class="input"]').parent('div').append(
+	//	$('<a></a>')
+	//		.attr('href', '#')
+	//		.addClass('ilDclReferenceAddValue xsmall')
+	//		.text('[+] ' + ilDataCollection.strings.add_value)
+	//);
+
+
     $('.ilDclReferenceAddValue').on('click', function() {
         var $elem = $(this);
-        var $select = $elem.prev('select');
+        var $select = $elem.prev('*');
         var table_id = $select.attr('data-ref-table-id');
         var field_id = $select.attr('data-ref-field-id');
         var after_save = function(o) {
