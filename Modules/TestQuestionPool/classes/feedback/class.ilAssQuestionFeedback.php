@@ -716,7 +716,8 @@ abstract class ilAssQuestionFeedback
 		$pageObjectGUI = new $cl($pageObjectId);
 		$pageObjectGUI->setOutputMode($mode);
 
-		return $pageObjectGUI->presentation($mode);	}
+		return $pageObjectGUI->presentation($mode);
+	}
 	
 	/**
 	 * returns the xml of page object with given type and id
