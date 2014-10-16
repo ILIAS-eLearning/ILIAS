@@ -53,6 +53,10 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 	 * @var integer height
 	 */
 	private $height = 100;
+	/**
+	 * @var array
+	 */
+	protected $custom_attributes = array();
 	
 	/**
 	* Constructor
@@ -276,6 +280,7 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 		}
 		
 		$tpl->setVariable("ID", $this->getFieldId());
+		$tpl->setVariable("CUSTOM_ATTRIBUTES", implode(' ', $this->getCustomAttributes()));
 
 		if($this->getWidth())
 		{
@@ -308,6 +313,30 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 	{
 		$html = $this->render();
 		return $html;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getCustomAttributes() {
+		return $this->custom_attributes;
+	}
+
+
+	/**
+	 * @param array $custom_attributes
+	 */
+	public function setCustomAttributes($custom_attributes) {
+		$this->custom_attributes = $custom_attributes;
+	}
+
+
+	/**
+	 * @param array $custom_attribute
+	 */
+	public function addCustomAttribute($custom_attribute) {
+		$this->custom_attributes[] = $custom_attribute;
 	}
 
 }
