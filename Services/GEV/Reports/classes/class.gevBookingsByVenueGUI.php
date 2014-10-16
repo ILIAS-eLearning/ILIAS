@@ -80,7 +80,7 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 	}
 	
 	protected function userIsPermitted () {
-		return $this->user_utils->isAdmin() || $this->userUtils->hasRoleIn(array("Veranstalter"));
+		return $this->user_utils->isAdmin() || $this->user_utils->hasRoleIn(array("Veranstalter"));
 	}
 
 
