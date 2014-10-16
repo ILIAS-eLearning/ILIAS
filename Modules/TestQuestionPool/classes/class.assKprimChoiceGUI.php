@@ -788,8 +788,65 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		return 'BÄÄM';
+		return  $this->renderAggregateView(
+			$this->aggregateAnswers( $relevant_answers, $this->object->getAnswers() ) )->get();
+		
+		return '<pre>'.print_r($relevant_answers, 1).'</pre>';
 	}
+	
+	public function renderAggregateView($aggregate)
+	{
+		$trueOptionLabel = $this->object->getTrueOptionLabelTranslation($this->lng, $this->object->getOptionLabel());
+		$falseOptionLabel = $this->object->getFalseOptionLabelTranslation($this->lng, $this->object->getOptionLabel());
+		
+		$tpl = new ilTemplate('tpl.il_as_aggregated_kprim_answers_table.html', true, true, "Modules/TestQuestionPool");
 
+		foreach( $aggregate as $lineData )
+		{
+			$tpl->setCurrentBlock('aggregaterow');
+			$tpl->setVariable('OPTION', $lineData['answertext']);
+			$tpl->setVariable('COUNT_TRUE', $lineData['count_true']);
+			$tpl->setVariable('COUNT_FALSE', $lineData['count_false']);
+			$tpl->parseCurrentBlock();
+		}
+		
+		$tpl->setVariable('OPTION_HEAD', $this->lng->txt('answers'));
+		$tpl->setVariable('COUNT_TRUE_HEAD', $trueOptionLabel);
+		$tpl->setVariable('COUNT_FALSE_HEAD', $falseOptionLabel);
+
+		return $tpl;
+	}
+	
+	public function aggregateAnswers($rawSolutionData, $answers)
+	{
+		$aggregate = array();
+		
+		foreach( $answers as $answer )
+		{
+			$answerAgg = array(
+				'answertext' => $answer->getAnswerText(), 'count_true' => 0, 'count_false' => 0
+			);
+
+			foreach( $rawSolutionData as $solutionRecord )
+			{
+				if( $solutionRecord['value1'] == $answer->getPosition() )
+				{
+					if( $solutionRecord['value2'] )
+					{
+						$answerAgg['count_true']++;
+					}
+					else
+					{
+						$answerAgg['count_false']++;
+					}
+				}
+				
+			}
+
+			$aggregate[] = $answerAgg;
+		}
+		
+		return $aggregate;
+	}
 
 }
