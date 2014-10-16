@@ -76,11 +76,11 @@ class ilDataCollectionDatatype
 	 */
 	public function __construct($a_id = 0)
 	{
-		if ($a_id != 0) 
+		if ($a_id != 0)
 		{
 			$this->id = $a_id;
 			$this->doRead();
-		}	
+		}
 	}
 
 	/**
@@ -132,7 +132,7 @@ class ilDataCollectionDatatype
 	{
 		return $this->storageLocation;
 	}
-	
+
 	/*
 	 * getDbType
 	 */
@@ -166,15 +166,15 @@ class ilDataCollectionDatatype
 	static function getAllDatatypes()
 	{
 		global $ilDB;
-		
+
 		$query = "SELECT * FROM il_dcl_datatype ORDER BY sort";
 		$set = $ilDB->query($query);
-		
+
 		$all = array();
 		while($rec = $ilDB->fetchAssoc($set))
 		{
-			$all[$rec[id]] = $rec; 
-		}	
+			$all[$rec[id]] = $rec;
+		}
 
 		return $all;
 	}
@@ -187,7 +187,7 @@ class ilDataCollectionDatatype
 	 * @return array
 	 */
 	public static function getProperties($a_id)
-	{  
+	{
 		global $ilDB;
 
 		$query = "SELECT * FROM il_dcl_datatype_prop
@@ -216,7 +216,7 @@ class ilDataCollectionDatatype
 		{
 			return true;
 		}
-			
+
 		switch($type_id)
 		{
 			case self::INPUTFORMAT_NUMBER:
@@ -305,10 +305,10 @@ class ilDataCollectionDatatype
 	static function addFilterInputFieldToTable(ilDataCollectionField $field, ilTable2GUI &$table)
 	{
 		global $lng;
-		
+
 		$type_id = $field->getDatatypeId();
 		$input = NULL;
-		
+
 		switch($type_id)
 		{
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
@@ -377,12 +377,12 @@ class ilDataCollectionDatatype
                 $input->setOptions($options);
                 break;
 		}
-		
+
 		if($input != NULL)
 		{
 			$input->setTitle($field->getTitle());
 		}
-			
+
 		return $input;
 	}
 
@@ -398,7 +398,7 @@ class ilDataCollectionDatatype
 		$pass = false;
 		$type_id = $field->getDatatypeId();
 		$value = $record->getRecordFieldValue($field->getId());
-		
+
 		switch($type_id)
 		{
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
@@ -478,7 +478,7 @@ class ilDataCollectionDatatype
 	public function parseValue($value,ilDataCollectionRecordField $record_field)
 	{
 		$return = false;
-		
+
 		if($this->id == ilDataCollectionDatatype::INPUTFORMAT_FILE)
 		{
 			$file = $value;
@@ -549,10 +549,21 @@ class ilDataCollectionDatatype
                         }
                     }
                 }
+
                 ilObjMediaObject::_saveUsage($mob->getId(), "dcl:html", $record_field->getRecord()->getTable()->getCollectionObject()->getId());
                 $media_item->setFormat($format);
                 $media_item->setLocation($location);
                 $media_item->setLocationType("LocalFile");
+
+	            // FSX MediaPreview
+	            include_once("./Services/MediaObjects/classes/class.ilFFmpeg.php");
+	            if (ilFFmpeg::supportsImageExtraction($format)) {
+		            $med = $mob->getMediaItem("Standard");
+		            $mob_file = ilObjMediaObject::_getDirectory($mob->getId()) . "/" . $med->getLocation();
+		            $a_target_dir = ilObjMediaObject::_getDirectory($mob->getId());
+		            $new_file = ilFFmpeg::extractImage($mob_file, "mob_vpreview.png", $a_target_dir, 1);
+	            }
+
                 $mob->update();
                 $return = $mob->getId();
             } else {
@@ -581,8 +592,8 @@ class ilDataCollectionDatatype
 		}
 		return $return;
 	}
-	
-	
+
+
 	/**
 	 * Function to parse incoming data from form input value $value. returns the strin/number/etc. to store in the database.
 	 * @param $value
@@ -605,7 +616,7 @@ class ilDataCollectionDatatype
 			{
 				$file_obj = new ilObjFile($file, false);
 				$file_name = $file_obj->getFileName();
-				
+
 				$return = $file_name;
 			}
 			else
@@ -658,7 +669,7 @@ class ilDataCollectionDatatype
 			case self::INPUTFORMAT_DATETIME:
 				$html = ilDatePresentation::formatDate(new ilDate($value,IL_CAL_DATETIME));
                 break;
-				
+
 			case self::INPUTFORMAT_FILE:
 
                  if(!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
@@ -690,35 +701,42 @@ class ilDataCollectionDatatype
                 }
 				break;
 
-            case self::INPUTFORMAT_MOB:
+	        case self::INPUTFORMAT_MOB:
 
-                $mob = new ilObjMediaObject($value, false);
-                $med = $mob->getMediaItem('Standard');
-                if(!$med->location) {
-                    $html = "";
-                    break;
-                }
-                if (in_array($med->getSuffix(), array('jpg', 'jpeg', 'png', 'gif'))) {
-                    // Image
-                    $dir  = ilObjMediaObject::_getDirectory($mob->getId());
-                    $html = '<img src="'.$dir."/".$med->location.'" />';
-                    $arr_properties = $record_field->getField()->getProperties();
-                    if ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_MOB] && ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId())) {
-                        $ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $record_field->getRecord()->getId());
-                        $html = '<a href="' . $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord') . '">' . $html . '</a>';
-                    }
-                } else {
-                    // Video/Audio
-                    $arr_properties = $record_field->getField()->getProperties();
-                    $mpl = new ilMediaPlayerGUI($med->getId(), '');
-                    $mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
-                    $mpl->setMimeType($med->getFormat());
-                    $mpl->setDisplayWidth((int) $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH]);
-                    $mpl->setDisplayHeight((int) $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]);
-                    $html = $mpl->getPreviewHtml();
-                }
-                break;
-				
+		        $mob = new ilObjMediaObject($value, false);
+		        $med = $mob->getMediaItem('Standard');
+		        if (!$med->location) {
+			        $html = "";
+			        break;
+		        }
+		        if (in_array($med->getSuffix(), array( 'jpg', 'jpeg', 'png', 'gif' ))) {
+			        // Image
+			        $dir = ilObjMediaObject::_getDirectory($mob->getId());
+//			        $html = '<img src="' . $dir . "/" . $med->location . '" />';
+			        $arr_properties = $record_field->getField()->getProperties();
+			        $width = (int)$arr_properties[ilDataCollectionField::PROPERTYID_WIDTH];
+			        $height = (int)$arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT];
+			        $html = ilUtil::img( $dir . "/" . $med->location, '', $width, $height);
+
+			        if ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_MOB]
+				        && ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId())
+			        ) {
+				        $ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $record_field->getRecord()->getId());
+				        $html = '<a href="' . $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord') . '">' . $html . '</a>';
+			        }
+		        } else {
+			        // Video/Audio
+			        $arr_properties = $record_field->getField()->getProperties();
+			        $mpl = new ilMediaPlayerGUI($med->getId(), '');
+			        $mpl->setFile(ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation());
+			        $mpl->setMimeType($med->getFormat());
+			        $mpl->setDisplayWidth((int)$arr_properties[ilDataCollectionField::PROPERTYID_WIDTH].'px');
+			        $mpl->setDisplayHeight((int)$arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT].'px');
+			        $mpl->setVideoPreviewPic($mob->getVideoPreviewPic());
+			        $html = $mpl->getPreviewHtml();
+		        }
+		        break;
+
 			case self::INPUTFORMAT_BOOLEAN:
 				switch($value)
 				{
@@ -732,7 +750,7 @@ class ilDataCollectionDatatype
 				$html = "<img src='".$im."'>";
 				break;
 
-				
+
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
 				//Property URL
 
@@ -755,7 +773,7 @@ class ilDataCollectionDatatype
 					$html = $value;
 				}
 				break;
-				
+
 			default:
 				$html = $value;
 				break;
