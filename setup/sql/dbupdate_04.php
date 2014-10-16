@@ -4479,4 +4479,7 @@ if (!$ilDB->numRows($set)) {
     ));
 }
 ?>
-
+<#4401>
+<?php
+$ilDB->dropIndex("page_object", $a_name = "i2");
+?>
