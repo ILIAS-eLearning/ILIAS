@@ -764,8 +764,8 @@ class ilDataCollectionTable
     public function hasPermissionToViewRecord($ref_id, $record) {
         global $ilUser, $rbacreview;
         /** @var ilRbacReview $rbacreview */
-        // ILIAS Administrators can view each record by default
-        if ($rbacreview->isAssigned($ilUser->getId(), 2)) {
+        // Owner of the DataCollection object and ILIAS Administrators can view each record by default
+        if ($this->getCollectionObject()->getOwner() == $ilUser->getId() || $rbacreview->isAssigned($ilUser->getId(), 2)) {
             return true;
         }
         if (ilObjDataCollection::_hasReadAccess($ref_id)) {
@@ -1417,10 +1417,10 @@ class ilDataCollectionTable
         $total_record_ids = array();
         // Save record-ids in session to enable prev/next links in detail view
         $_SESSION['dcl_record_ids'] = array();
-        $is_admin = ($rbacreview->isAssigned($ilUser->getId(), 2));
+        $is_allowed_to_view = ($this->getCollectionObject()->getOwner() == $ilUser->getId() || ($rbacreview->isAssigned($ilUser->getId(), 2)));
         while ($rec = $ilDB->fetchAssoc($set)) {
             // Quick check if the current user is allowed to view the record
-            if (!$is_admin && ($this->getViewOwnRecordsPerm() && $ilUser->getId() != $rec['owner'])) {
+            if (!$is_allowed_to_view && ($this->getViewOwnRecordsPerm() && $ilUser->getId() != $rec['owner'])) {
                 continue;
             }
             $total_record_ids[] = $rec['id'];
