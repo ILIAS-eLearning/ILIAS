@@ -347,7 +347,15 @@ table.ilAssKprimChoiceTable,
 table.kprimchoicewizard
 {
     border-collapse: separate;
-    border-spacing: 3px !important;
+    border-spacing: 5px 0;
+}
+table.kprimchoicewizard
+{
+    margin-bottom: 15px;
+}
+table.kprimchoicewizard td
+{
+    padding-top: 15px;
 }
 table.ilAssKprimChoiceTable th,
 table.ilAssKprimChoiceTable td
