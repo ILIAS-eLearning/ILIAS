@@ -256,12 +256,12 @@ function skipJS(event)
 
 function singlechoiceWizardEvents(e)
 {
-	addbuttons = YAHOO.util.Dom.getElementsByClassName('singlechoicewizard_add');
-	tbody = addbuttons[0].parentNode.parentNode.parentNode;
-	tas = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'textarea', tbody);
+	var wizardTableBody = YAHOO.util.Dom.getElementsByClassName('wizardTableBody');
+	var tas = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'textarea', wizardTableBody[0]);
 
 	if (typeof tinyMCE == 'undefined' || tas.length == 0)
 	{
+		addbuttons = YAHOO.util.Dom.getElementsByClassName('singlechoicewizard_add');
 		for (i = 0; i < addbuttons.length; i++)
 		{
 			button = addbuttons[i];
