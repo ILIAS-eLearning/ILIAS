@@ -11,8 +11,8 @@
 */
 
 
-$SET_LASTWBDRECORD = false;
-$SET_BWVID = false;
+$SET_LASTWBDRECORD = true;
+$SET_BWVID = true;
 
 $GET_NEW_USERS = true;
 $GET_UPDATED_USERS = false;
@@ -20,12 +20,14 @@ $GET_NEW_EDURECORDS = false;
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
 
-$LIMIT_RECORDS = 0;
+$LIMIT_RECORDS = 5;
 $ANON_DATA = true;
 
 
 $DEBUG_HTML_OUT = isset($_GET['debug']);
-echo('<pre>');
+if($DEBUG_HTML_OUT){
+	echo('<pre>');	
+}
 
 
 
