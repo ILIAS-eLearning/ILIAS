@@ -811,3 +811,11 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 ilDBUpdateNewObjectType::varchar2text('rbac_log', 'data');
 
 ?>
+<#42>
+<?php
+
+$ilDB->manipulate("DELETE FROM settings".
+	" WHERE module = ".$ilDB->quote("common", "text").
+	" AND keyword = ".$ilDB->quote("obj_dis_creation_rcrs", "text"));
+
+?>
