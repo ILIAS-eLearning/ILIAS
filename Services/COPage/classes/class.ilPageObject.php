@@ -2279,9 +2279,11 @@ abstract class ilPageObject
 
 //echo "<br>PageObject::createFromXML[".$this->getId()."]";
 
+		$empty = false;
 		if($this->getXMLContent() == "")
 		{
 			$this->setXMLContent("<PageObject></PageObject>");
+			$empty = true;
 		}
 		
 		$content = $this->getXMLContent();
@@ -2308,7 +2310,7 @@ abstract class ilPageObject
 			));
 		
 		// after update event
-		$this->__afterUpdate($dom_doc, $content, true);
+		$this->__afterUpdate($dom_doc, $content, true, $empty);
 
 	}
 
@@ -2364,24 +2366,28 @@ abstract class ilPageObject
 	 * 
 	 * @param
 	 */
-	protected final function __afterUpdate($a_domdoc, $a_xml, $a_creation = false)
+	protected final function __afterUpdate($a_domdoc, $a_xml, $a_creation = false, $a_empty = false)
 	{
-		// save internal link information
-		// the page object is responsible to do this, since it "offers" the
-		// internal link feature pc and page classes
-		$this->saveInternalLinks($a_domdoc);
-
-		// save style usage
-		$this->saveStyleUsage($a_domdoc);
-		
-		// pc classes hook
-		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
-		$defs = ilCOPagePCDef::getPCDefinitions();
-		foreach ($defs as $def)
+		// we do not need this if we are creating an empty page
+		if (!$a_creation || !$a_empty)
 		{
-			ilCOPagePCDef::requirePCClassByName($def["name"]);
-			$cl = $def["pc_class"];
-			call_user_func($def["pc_class"].'::afterPageUpdate', $this, $a_domdoc, $a_xml, $a_creation);
+			// save internal link information
+			// the page object is responsible to do this, since it "offers" the
+			// internal link feature pc and page classes
+			$this->saveInternalLinks($a_domdoc);
+
+			// save style usage
+			$this->saveStyleUsage($a_domdoc);
+
+			// pc classes hook
+			include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
+			$defs = ilCOPagePCDef::getPCDefinitions();
+			foreach ($defs as $def)
+			{
+				ilCOPagePCDef::requirePCClassByName($def["name"]);
+				$cl = $def["pc_class"];
+				call_user_func($def["pc_class"].'::afterPageUpdate', $this, $a_domdoc, $a_xml, $a_creation);
+			}
 		}
 				
 		// call page hook

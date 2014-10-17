@@ -494,7 +494,19 @@ class ilObjMediaObject extends ilObject
 	}
 	
 	protected static function handleQuotaUpdate(ilObjMediaObject $a_mob)
-	{				
+	{
+		global $ilSetting;
+
+		// if neither workspace nor portfolios are activated, we skip
+		// the quota update here. this due to performance reasons on installations
+		// that do not use workspace/portfolios, but heavily copy content.
+		// in extreme cases (media object in pool and personal blog, deactivate workspace, change media object,
+		// this may lead to incorrect data in the quota calculation)
+		if ($ilSetting->get("disable_personal_workspace") && !$ilSetting->get('user_portfolios'))
+		{
+			return;
+		}
+
 		$parent_obj_ids = array();
 		foreach($a_mob->getUsages() as $item)
 		{										
