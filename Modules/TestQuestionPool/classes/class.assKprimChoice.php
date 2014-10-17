@@ -54,7 +54,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		$this->shuffleAnswersEnabled = true;
 		$this->answerType = self::ANSWER_TYPE_SINGLE_LINE;
 		$this->thumbSize = self::DEFAULT_THUMB_SIZE;
-		$this->scorePartialSolutionEnabled = false;
+		$this->scorePartialSolutionEnabled = true;
 		$this->optionLabel = self::OPTION_LABEL_RIGHT_WRONG;
 		$this->customTrueOptionLabel = '';
 		$this->customFalseOptionLabel = '';
@@ -232,7 +232,11 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 			
 			$this->setCustomTrueOptionLabel($data['custom_true']);
 			$this->setCustomFalseOptionLabel($data['custom_false']);
-			$this->setScorePartialSolutionEnabled((bool)$data['score_partsol']);
+			
+			if( $data['score_partsol'] !== null )
+			{
+				$this->setScorePartialSolutionEnabled((bool)$data['score_partsol']);
+			}
 
 			if( isset($data['feedback_setting']) )
 			{
