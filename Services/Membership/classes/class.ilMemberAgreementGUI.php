@@ -262,7 +262,7 @@ class ilMemberAgreementGUI
 				
 				case IL_CDF_TYPE_TEXT:
 					$value = ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]);
-					if($value)
+					if(trim($value) != "") // #14220
 					{
 						$required_given = true;
 					}
