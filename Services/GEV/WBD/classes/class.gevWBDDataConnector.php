@@ -177,7 +177,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 				,'email'			=> ($record['wbd_email'] && $record['wbd_email'] != '-empty-') ? $record['wbd_email'] : $record['email']
 				,'auth_phone_nr' 	=> $record['mobile_phone_nr']
 
-				,'agent_registration_nr' => ($record['bwv_id'] == '-empty-') ? '' : $record['bwv_id'];
+				,'agent_registration_nr' => '' // optional
+				,'agent_id' => ($record['bwv_id'] == '-empty-') ? '' : $record['bwv_id']
+				
 				,'agency_work' => $record['okz'] 			//OKZ
 				,'agent_state' => ($this->VALUE_MAPPINGS['agent_status'][$record['agent_status']])	//Status
 				//,'email_confirmation' => 'Nein'			//Benachrichtigung?
