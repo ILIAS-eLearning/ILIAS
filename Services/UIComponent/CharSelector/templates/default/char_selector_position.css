@@ -11,6 +11,7 @@
 	right:0;
 	background: #ffffff;
 	display:none;	/* will be shown when panel is openend */
+	z-index: 1;
 }
 
 /*****************************
