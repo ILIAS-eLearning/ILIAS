@@ -4483,3 +4483,11 @@ if (!$ilDB->numRows($set)) {
 <?php
 $ilDB->dropIndex("page_object", $a_name = "i2");
 ?>
+<#4402>
+<?php
+
+$ilDB->manipulate("DELETE FROM settings".
+	" WHERE module = ".$ilDB->quote("common", "text").
+	" AND keyword = ".$ilDB->quote("obj_dis_creation_rcrs", "text"));
+
+?>
