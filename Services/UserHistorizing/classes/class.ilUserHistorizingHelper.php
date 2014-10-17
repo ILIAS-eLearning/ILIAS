@@ -104,7 +104,7 @@ class ilUserHistorizingHelper
 	public static function getBWVIdOf($user)
 	{
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		//return gevUserUtils::getInstanceByObjOrId($user)->getWBDBWVId();
+		return gevUserUtils::getInstanceByObjOrId($user)->getWBDBWVId();
 	}
 
 	/**
