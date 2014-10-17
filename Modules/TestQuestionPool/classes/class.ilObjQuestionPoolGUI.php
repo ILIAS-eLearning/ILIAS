@@ -1052,7 +1052,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		require_once("Services/Form/classes/class.ilSelectInputGUI.php");
         $si = new ilSelectInputGUI($this->lng->txt('question_type'), 'sel_question_types');
         $si->setOptions($options);
-		$si->setValue($ilUser->getPref("tst_lastquestiontype"));
+		//$si->setValue($ilUser->getPref("tst_lastquestiontype"));
 		
 		$form->addItem($si);
 		
