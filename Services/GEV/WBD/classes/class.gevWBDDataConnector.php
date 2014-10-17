@@ -633,10 +633,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 		}
 
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		global $ilAppEventHandler;
 		$uutils = gevUserUtils::getInstanceByObjOrId($user_id);
 		$uutils->setWBDBWVId($bwv_id);
 		//$uutils->setWBDFirstCertificationPeriodBegin($certification_begin);
-
+		//ensure a history-case for setting of bwv-id
+		$ilAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $uutils->getUser()));
 
 		//write last_wbd_report....
 		$sql = "
