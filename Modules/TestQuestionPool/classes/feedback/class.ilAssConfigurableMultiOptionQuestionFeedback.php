@@ -51,6 +51,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 			$feedback->addOption(
 				new ilRadioOption($this->lng->txt('feedback_correct'), self::FEEDBACK_SETTING_CORRECT)
 			);
+			$feedback->setRequired(true);
 			$form->addItem($feedback);
 
 			foreach( $this->getAnswerOptionsByAnswerIndex() as $index => $answer )
