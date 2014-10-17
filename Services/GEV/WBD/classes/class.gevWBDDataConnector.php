@@ -640,7 +640,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		//write last_wbd_report....
 		$sql = "
-			SELECT $row_id FROM hist_user 
+			SELECT row_id FROM hist_user 
 			WHERE user_id = $user_id
 			AND hist_historic = 0
 		";
