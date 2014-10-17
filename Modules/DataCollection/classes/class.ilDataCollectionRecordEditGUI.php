@@ -213,7 +213,6 @@ class ilDataCollectionRecordEditGUI {
 	 * init Form
 	 */
 	public function initForm() {
-		ilOverlayGUI::initJavascript();
 		$this->form = new ilPropertyFormGUI();
 		$prefix = ($this->ctrl->isAsynch()) ? 'dclajax' : 'dcl'; // Used by datacolleciton.js to select input elements
 		$this->form->setId($prefix . $this->table_id . $this->record_id);
