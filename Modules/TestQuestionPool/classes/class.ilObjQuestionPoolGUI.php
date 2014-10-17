@@ -922,13 +922,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("QTypes");
 			$types =& $this->object->getQuestionTypes(false, true);
-			$lastquestiontype = $ilUser->getPref("tst_lastquestiontype");
+			//$lastquestiontype = $ilUser->getPref("tst_lastquestiontype");
 			foreach ($types as $translation => $data)
 			{
-				if ($data["type_tag"] == $lastquestiontype)
+				/*if ($data["type_tag"] == $lastquestiontype)
 				{
 					$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
-				}
+				}*/
 				$this->tpl->setVariable("QUESTION_TYPE_ID", $data["type_tag"]);
 				$this->tpl->setVariable("QUESTION_TYPE", $translation);
 				$this->tpl->parseCurrentBlock();
