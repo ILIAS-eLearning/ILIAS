@@ -318,10 +318,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 			return array();
 		}
 
-
-		//userUtils::hasWBDRelevantRole
-
-
 		$sql = "
 			SELECT
 				*
@@ -376,19 +372,21 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 				$ret[] = wbdDataConnector::new_user_record($udata);
 				//set last_wbd_report!
-				$this->_set_last_wbd_report('hist_user', $record['row_id']);
+				//better wait for success, here?!
+				//$this->_set_last_wbd_report('hist_user', $record['row_id']);
 			} else {
 				$this->broken_newusers[] = array(
 					$valid,
 					$udata
 				);
 			}
-
-
-
 		}
 		$this->valid_newusers = $ret;
 		return $ret;
+	}
+
+	public function success_new_user($row_id){
+		$this->_set_last_wbd_report('hist_user', $row_id);
 	}
 
 
@@ -434,7 +432,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		//$sql .= " GROUP BY user_id";
 
-
 		$ret = array();
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)) {
@@ -442,10 +439,14 @@ class gevWBDDataConnector extends wbdDataConnector {
 			$ret[] = wbdDataConnector::new_user_record($udata);
 
 			//set last_wbd_report!
-			$this->_set_last_wbd_report('hist_user', $record['row_id']);
-
+			//better wait for success, here?!
+			//$this->_set_last_wbd_report('hist_user', $record['row_id']);
 		}
 		return $ret;
+	}
+
+	public function success_update_user($row_id){
+		$this->_set_last_wbd_report('hist_user', $row_id);
 	}
 
 

@@ -283,7 +283,8 @@ abstract class wbdDataConnector {
 	 */
 
 	public function get_new_users() {}
-
+	//on success:
+	public function success_new_user($row_id){}
 
 	/**
 	 * get users with outdated records in BWV-DB:
@@ -294,6 +295,8 @@ abstract class wbdDataConnector {
 	 */
 
 	public function get_updated_users() {}
+	//on success.
+	public function success_update_user($row_id){}
 
 
 	/**
