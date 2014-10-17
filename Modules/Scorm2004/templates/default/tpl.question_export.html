@@ -39,7 +39,10 @@
 <!-- END multiplechoice -->
 <!-- BEGIN kprimchoice -->
 <div id="container{VAL_ID}" class="ilc_question_MultipleChoice">
-	<div class="ilc_qtitle_Title question id@id">qtitle</div>
+	<div class="question_head">
+		<div class="ilc_qtitle_Title question id@id">qtitle</div>
+		<p class="ilAssKprimInstruction instruction">qinstruction</p>
+	</div>
 	<table class="nobackground ilAssKprimChoiceTable">
 		<tr>
 			<th class="optionLabel">{OPTION_LABEL_TRUE}</th>
@@ -66,7 +69,7 @@
 
 	ilias.questions.shuffle(questionData);
 
-	$('div#container'+questionData.id+' div.question').autoRender(questionData);
+	$('div#container'+questionData.id+' div.question_head').autoRender(questionData);
 
 	$('div#container'+questionData.id).render(questionData, {
 		'tr.answers':

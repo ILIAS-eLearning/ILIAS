@@ -409,6 +409,10 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 
+		$template->setVariable("INSTRUCTIONTEXT", $this->object->getInstructionTextTranslation(
+			$this->lng, $this->object->getOptionLabel()
+		));
+		
 		$template->setVariable("OPTION_LABEL_TRUE", $this->object->getTrueOptionLabelTranslation(
 			$this->lng, $this->object->getOptionLabel()
 		));
@@ -498,6 +502,10 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		}
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		
+		$template->setVariable("INSTRUCTIONTEXT", $this->object->getInstructionTextTranslation(
+			$this->lng, $this->object->getOptionLabel()
+		));
 		
 		$template->setVariable("OPTION_LABEL_TRUE", $this->object->getTrueOptionLabelTranslation(
 			$this->lng, $this->object->getOptionLabel()
@@ -642,10 +650,15 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 			
 			$template->parseCurrentBlock();
 		}
-		$questiontext = $this->object->getQuestion();
+		
 		if ($show_question_text==true)
 		{
+			$questiontext = $this->object->getQuestion();
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+
+			$template->setVariable("INSTRUCTIONTEXT", $this->object->getInstructionTextTranslation(
+				$this->lng, $this->object->getOptionLabel()
+			));
 		}
 
 		$template->setVariable("OPTION_LABEL_TRUE", $this->object->getTrueOptionLabelTranslation(

@@ -529,6 +529,7 @@ assessment#:#option_label_not_adequate#:#nicht adäquat
 assessment#:#option_label_custom#:#Benutzerdefinierte Bezeichnungen
 assessment#:#option_label_custom_true#:#Bezeichnung für "WAHR"
 assessment#:#option_label_custom_false#:#Bezeichnung für "FALSCH"
+assessment#:#kprim_instruction_text#:#Für jede Aussage muss entschieden werden: [%s] oder [%s]
 assessment#:#kprim_answers_info#:#Der Multiple Choice Fragetyp "Vierfache Entscheidung richtig/falsch" (Typ K', genannt Kprim) zeichnet sich dadurch aus, dass auf eine Frage oder unvollständige Aussage vier Antworten oder Ergänzungen folgen. Für jede dieser vier Möglichkeiten muss jeweils entschieden werden, ob sie zutrifft (richtig/+) oder nicht zutrifft (falsch/-). Um die maximal erreichbare Punktezahl zu erhalten, müssen alle vier Antworten korrekt sein.
 assessment#:#ass_quest_process_lock#:#Verwende Lock Mechanismus während der Einreichung von Teilnehmer-Lösungen
 assessment#:#ass_quest_process_lock_desc#:#Ohne die Verwendung eines Locking Mechanismus sind Race Conditions während der Einreichung von Lösungsdaten möglich. Diese können zu inkosistenten Test Ergebnissen führen.

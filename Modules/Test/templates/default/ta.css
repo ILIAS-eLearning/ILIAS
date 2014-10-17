@@ -538,3 +538,10 @@ a.il_question_answer_list_back_anchor
 .test_specific_feedback td{
     padding-right: 0.5em;
 }
+
+p.ilAssKprimInstruction
+{
+    font-style: italic;
+    font-size: 0.9em;
+    margin:5px 0 15px 0;
+}

@@ -592,6 +592,15 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		}
 	}
 	
+	public function getInstructionTextTranslation(ilLanguage $lng, $optionLabel)
+	{
+		return sprintf(
+			$lng->txt('kprim_instruction_text'),
+			$this->getTrueOptionLabelTranslation($lng, $optionLabel),
+			$this->getFalseOptionLabelTranslation($lng, $optionLabel)
+		);
+	}
+	
 	public function isCustomOptionLabel($labelValue)
 	{
 		return $labelValue == self::OPTION_LABEL_CUSTOM;
@@ -961,6 +970,9 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		$result['type'] = (string) $this->getQuestionType();
 		$result['title'] = (string) $this->getTitle();
 		$result['question'] =  $this->formatSAQuestion($this->getQuestion());
+		$result['instruction'] =  $this->getInstructionTextTranslation(
+			$this->lng, $this->getOptionLabel()
+		);
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->isShuffleAnswersEnabled();
 		$result['feedback'] = array(
