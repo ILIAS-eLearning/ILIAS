@@ -543,5 +543,5 @@ p.ilAssKprimInstruction
 {
     font-style: italic;
     font-size: 0.9em;
-    margin:5px 0 15px 0;
+    margin:5px 0 15px 0 !important;
 }

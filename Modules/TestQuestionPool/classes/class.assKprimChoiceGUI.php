@@ -188,19 +188,19 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		}
 		$form->addItem($optionLabel);
 		
-		// points
-		$points = new ilNumberInputGUI($this->lng->txt('points'), 'points');
-		$points->setRequired(true);
-		$points->setSize(3);
-		$points->allowDecimals(true);
-		$points->setMinValue(0);
-		$points->setMinvalueShouldBeGreater(true);
-		$points->setValue($this->object->getPoints());
-		$form->addItem($points);
-		
-		// score partial solution
 		if( !$this->object->getSelfAssessmentEditingMode() )
 		{
+			// points
+			$points = new ilNumberInputGUI($this->lng->txt('points'), 'points');
+			$points->setRequired(true);
+			$points->setSize(3);
+			$points->allowDecimals(true);
+			$points->setMinValue(0);
+			$points->setMinvalueShouldBeGreater(true);
+			$points->setValue($this->object->getPoints());
+			$form->addItem($points);
+
+			// score partial solution
 			$scorePartialSolution = new ilCheckboxInputGUI($this->lng->txt('score_partsol_enabled'), 'score_partsol_enabled');
 			$scorePartialSolution->setInfo($this->lng->txt('score_partsol_enabled_info'));
 			$scorePartialSolution->setChecked( $this->object->isScorePartialSolutionEnabled() );
