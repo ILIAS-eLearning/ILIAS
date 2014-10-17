@@ -1307,3 +1307,11 @@ if(!$ilDB->tableColumnExists('tst_dyn_quest_set_cfg', 'prev_quest_list_enabled')
 		));
 }
 ?>
+<#48>
+<?php
+
+$ilDB->manipulate("DELETE FROM settings".
+	" WHERE module = ".$ilDB->quote("common", "text").
+	" AND keyword = ".$ilDB->quote("obj_dis_creation_rcrs", "text"));
+
+?>
