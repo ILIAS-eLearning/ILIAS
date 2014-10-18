@@ -4491,3 +4491,17 @@ $ilDB->manipulate("DELETE FROM settings".
 	" AND keyword = ".$ilDB->quote("obj_dis_creation_rcrs", "text"));
 
 ?>
+<#4403>
+<?php
+
+$settings = new ilSetting();
+if( !$settings->get('ommit_legacy_ou_dbtable_deletion', 0) )
+{
+	$ilDB->dropSequence('org_unit_data');
+	$ilDB->dropTable('org_unit_data');
+	$ilDB->dropTable('org_unit_tree');
+	$ilDB->dropTable('org_unit_assignments');
+}
+
+?>
+
