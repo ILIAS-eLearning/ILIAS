@@ -154,7 +154,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
 	public function setSpecificFeedbackSetting($specificFeedbackSetting)
 	{
-		$this->specificFeedbackSetting = $specificFeedbackSettingg;
+		$this->specificFeedbackSetting = $specificFeedbackSetting;
 	}
 
 	public function getSpecificFeedbackSetting()

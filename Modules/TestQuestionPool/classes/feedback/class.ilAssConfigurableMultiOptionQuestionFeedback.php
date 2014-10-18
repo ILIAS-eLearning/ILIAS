@@ -163,7 +163,6 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 			array('feedback_setting' => array('integer', $specificFeedbackSetting)),
 			array('question_fi' => array('integer', $questionId))
 		);
-		exit;
 	}
 
 	/**
