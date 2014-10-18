@@ -22,6 +22,13 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 	const FEEDBACK_SETTING_CORRECT = 3;
 
 	/**
+	 * returns the name of question specific table
+	 *
+	 * @return string
+	 */
+	abstract protected function getSpecificQuestionTableName();
+
+	/**
 	 * completes a given form object with the specific form properties
 	 * required by this question type
 	 *
@@ -156,6 +163,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 			array('feedback_setting' => array('integer', $specificFeedbackSetting)),
 			array('question_fi' => array('integer', $questionId))
 		);
+		exit;
 	}
 
 	/**
