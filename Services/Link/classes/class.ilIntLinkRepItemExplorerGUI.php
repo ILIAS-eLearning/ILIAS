@@ -8,7 +8,7 @@ include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGU
 * Internal Link: Repository Item Selector Explorer
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id: class.ilIntLinkRepItemExplorer.php 53700 2014-09-23 09:59:54Z akill $
+* @version $Id$
 *
 * @ingroup ModulesIliasLearningModule
 */

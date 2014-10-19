@@ -1042,59 +1042,6 @@ class ilInternalLinkGUI
 		{
 			return $exp->getHTML().$script;
 		}
-
-		return;
-
-		include_once "./Modules/LearningModule/classes/class.ilIntLinkRepItemExplorer.php";
-		$exp = new ilIntLinkRepItemExplorer(ilUtil::appendUrlParameterString(
-			$this->ctrl->getTargetScript(), "do=set"));
-		if ($_GET["expand"] == "")
-		{
-			if((int)$_GET["ref_id"])
-			{
-				// #12504
-				$expanded = (int)$_GET["ref_id"];
-			}
-			else
-			{
-				$expanded = $this->tree->readRootId();
-			}
-		}
-		else
-		{
-			$expanded = $_GET["expand"];
-		}
-		$exp->setMode($this->mode);
-		$exp->setSetLinkTargetScript($this->getSetLinkTargetScript());
-		$exp->setExpand($expanded);
-
-		$exp->setTargetGet("sel_id");
-		$this->ctrl->setParameter($this, "target_type", $a_type);
-		$exp->setParamsGet($this->ctrl->getParameterArray($this, "refreshRepositorySelector"));
-		
-		// filter
-		$exp->setFiltered(true);
-		$exp->setFilterMode(IL_FM_POSITIVE);
-		
-		global $objDefinition;
-
-		$rtypes = $objDefinition->getAllRepositoryTypes();
-
-		$exp->addFilter("root");
-		foreach ($rtypes as $t)
-		{
-			$exp->addFilter($t);
-		}
-
-		$sel_types = $rtypes;
-		$exp->setSelectableTypes($sel_types);
-
-
-		$exp->setFrameTarget("");
-		$exp->setOutput(0);
-		$output = $exp->getOutput();
-
-		return $output;
 	}
 
 	/**
