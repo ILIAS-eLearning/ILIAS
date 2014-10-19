@@ -487,22 +487,19 @@ abstract class ilExplorerBaseGUI
 
 	}
 
-	
 	/**
-	 * Get HTML
+	 * Get on load code
+	 *
+	 * @param
+	 * @return
 	 */
-	function getHTML()
+	function getOnLoadCode()
 	{
-		global $tpl, $ilCtrl;
+		global $ilCtrl;
 
-		$this->beforeRendering();
-
-		$tpl->addJavascript(self::getLocalExplorerJsPath());
-		$tpl->addJavascript(self::getLocalJsTreeJsPath());
-		
 		$container_id = $this->getContainerId();
 		$container_outer_id = "il_expl2_jstree_cont_out_".$this->getId();
-		
+
 		// collect open nodes
 		$open_nodes = array($this->getDomNodeIdForNodeId($this->getNodeId($this->getRootNode())));
 		foreach ($this->open_nodes as $nid)
@@ -536,23 +533,52 @@ abstract class ilExplorerBaseGUI
 			"container_outer_id" => $container_outer_id,
 			"url" => $url,
 			"ajax" => $this->getAjax(),
-			);
-		
-		
+		);
+
+
 		// jstree config options
 		$js_tree_config = array(
 			"core" => array(
 				"animation" => 300,
 				"initially_open" => $open_nodes,
 				"open_parents" => false,
-				"strings" => array("loading" => "Loading ...", new_node => "New node")
-				),
+				"strings" => array("loading" => "Loading ...", "new_node" => "New node")
+			),
 			"plugins" => array("html_data", "themes"),
 			"themes" => array("dots" => false, "icons" => false, "theme" => ""),
 			"html_data" => array()
-			);
+		);
 
-		$tpl->addOnLoadCode('il.Explorer2.init('.json_encode($config).', '.json_encode($js_tree_config).');');
+		return 'il.Explorer2.init('.json_encode($config).', '.json_encode($js_tree_config).');';
+	}
+
+
+	/**
+	 * Init JS
+	 */
+	static function init()
+	{
+		global $tpl;
+		$tpl->addJavascript(self::getLocalExplorerJsPath());
+		$tpl->addJavascript(self::getLocalJsTreeJsPath());
+	}
+	
+	
+	/**
+	 * Get HTML
+	 */
+	function getHTML()
+	{
+		global $tpl, $ilCtrl;
+
+		$this->beforeRendering();
+
+		self::init();
+		$container_id = $this->getContainerId();
+		$container_outer_id = "il_expl2_jstree_cont_out_".$this->getId();
+
+		$tpl->addOnLoadCode($this->getOnLoadCode());
+
 		$etpl = new ilTemplate("tpl.explorer2.html", true, true, "Services/UIComponent/Explorer2");
 
 		// render childs

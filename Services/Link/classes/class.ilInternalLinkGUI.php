@@ -864,65 +864,56 @@ class ilInternalLinkGUI
 	/**
 	 * Cange target object
 	 */
-	function getTargetExplorer($a_type)
+	function getTargetExplorer($a_type = "")
 	{
 		global $ilCtrl;
 
-		include_once("./Services/Link/classes/class.ilLinkTargetObjectExplorer.php");
-		$exp = new ilLinkTargetObjectExplorer(ilUtil::appendUrlParameterString(
-			$ilCtrl->getTargetScript(), "do=set"));
-		if ($_GET["expand"] == "")
+		$ilCtrl->setParameter($this, "target_type", $a_type);
+		include_once("./Services/Link/classes/class.ilLinkTargetObjectExplorerGUI.php");
+		$exp = new ilLinkTargetObjectExplorerGUI($this, "getTargetExplorer");
+
+		$script = "";
+		if ($a_type == "")
 		{
-			$expanded = $this->tree->readRootId();
+			$a_type = $_GET["target_type"];
 		}
 		else
 		{
-			$expanded = $_GET["expand"];
+			$script = "<script>".$exp->getOnLoadCode()."</script>";
 		}
-		$exp->setExpand($expanded);
-		$exp ->setAsynchExpanding(true);
 
-		$exp->setTargetGet("sel_id");
-		$ilCtrl->setParameter($this, "target_type", $a_type);
-		$exp->setParamsGet($this->ctrl->getParameterArray($this, "refreshTargetExplorer"));
-
-		$exp->addFilter("root");
-		$exp->addFilter("cat");
-		$exp->addFilter("grp");
-		$exp->addFilter("fold");
-		$exp->addFilter("crs");
+		$white = array("root", "cat", "crs", "fold", "grp");
 
 		switch ($a_type)
 		{
 			case "glo":
-				$exp->addFilter("glo");
+				$white[] = "glo";
+				$exp->setClickableType("glo");
 				break;
 
 			case "wiki":
-				$exp->addFilter("wiki");
+				$white[] = "wiki";
+				$exp->setClickableType("wiki");
 				break;
 
 			case "mep":
-				$exp->addFilter("mep");
+				$white[] = "mep";
+				$exp->setClickableType("mep");
 				break;
 
 			default:
-				$exp->addFilter("lm");
-				$exp->addFilter("dbk");
+				$white[] = "lm";
+				$exp->setClickableType("lm");
 				break;
 		}
-		$exp->setFiltered(true);
-		$exp->setFilterMode(IL_FM_POSITIVE);
 
-		$exp->setClickable("cat", false);
-		$exp->setClickable("grp", false);
-		$exp->setClickable("fold", false);
-		$exp->setClickable("crs", false);
+		$exp->setTypeWhiteList($white);
 
-		$exp->setFrameTarget("");
-		$exp->setOutput(0);
 
-		return $exp->getOutput();
+		if (!$exp->handleCommand())
+		{
+			return $exp->getHTML().$script;
+		}
 	}
 
 	/**
@@ -966,6 +957,7 @@ class ilInternalLinkGUI
 			else
 			{
 				$this->determineLinkType();
+				$a_type = "lm";
 				if ($this->link_type == "GlossaryItem")
 				{
 					$a_type = "glo";
@@ -1031,16 +1023,6 @@ class ilInternalLinkGUI
 		exit;
 	}
 
-	/**
-	 * Refresh target explorer
-	 */
-	function refreshTargetExplorer()
-	{
-		$output = $this->getTargetExplorer($_GET["target_type"]);
-		echo $output;
-		exit;
-	}
-
 	
 	/**
 	* select repository item explorer
@@ -1051,10 +1033,17 @@ class ilInternalLinkGUI
 
 		$_SESSION["il_link_mep_obj"] = "";
 
-		if(empty($a_type))
+		$ilCtrl->setParameter($this, "target_type", $a_type);
+		include_once("./Services/Link/classes/class.ilIntLinkRepItemExplorerGUI.php");
+		$exp = new ilIntLinkRepItemExplorerGUI($this, "selectRepositoryItem");
+		$script = "<script>".$exp->getOnLoadCode()."</script>";
+
+		if (!$exp->handleCommand())
 		{
-			$a_type = $_GET["target_type"];
+			return $exp->getHTML().$script;
 		}
+
+		return;
 
 		include_once "./Modules/LearningModule/classes/class.ilIntLinkRepItemExplorer.php";
 		$exp = new ilIntLinkRepItemExplorer(ilUtil::appendUrlParameterString(
@@ -1159,6 +1148,9 @@ class ilInternalLinkGUI
 		$lng->loadLanguageModule("link");
 
 		$tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
+		include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php");
+		ilExplorerBaseGUI::init();
+
 		$tpl->addJavascript("./Services/Link/js/ilIntLink.js");
 
 		include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
