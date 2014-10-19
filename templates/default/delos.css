@@ -8880,9 +8880,8 @@ a#ilHelpClose {
   padding: 5px 10px 5px 20px;
 }
 div#il_screen_id {
-  position: absolute;
+  position: fixed;
   right: 0;
-  top: 0;
 }
 #mm_help li a span:first-child {
   width: 20px;
@@ -9468,7 +9467,7 @@ td.ilBlockHeaderBig {
   text-align: left;
   color: #696969;
   border-bottom: 1px solid #dcdcdc;
-  box-shadow: 0 -2px 1px -1px #ffffff inset;
+  /* box-shadow: 0 -2px 1px -1px white inset; no white lines */
 }
 div.ilBlockHeaderBig,
 td.ilBlockHeaderBig {

@@ -36,9 +36,8 @@ a#ilHelpClose {
   padding: 5px 10px 5px 20px;
 }
 div#il_screen_id {
-  position: absolute;
+  position: fixed;
   right: 0;
-  top: 0;
 }
 #mm_help li a span:first-child {
   width: 20px;
