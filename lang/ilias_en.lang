@@ -14982,3 +14982,5 @@ mail#:#link_check_reason#:#You recife this mail because you enabled the notifica
 mail#:#link_check_affected_links#:#Affected Links
 mail#:#link_check_perma_link#:#Permanent Link
 assessment#:#positive_numbers_required#:#Please enter only positive numbers.
+content#:#cont_table_border_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).
+content#:#cont_table_cellpadding_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).

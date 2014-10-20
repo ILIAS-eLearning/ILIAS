@@ -6133,7 +6133,7 @@ content#:#cont_syntax_help#:#Syntax-Hilfe
 content#:#cont_tab_cont_height#:#Höhe Inhalt
 content#:#cont_tab_cont_width#:#Breite Inhalt
 content#:#cont_table#:#Tabelle
-content#:#cont_table_border#:#Tabellenrand
+content#:#cont_table_border#:#Breite Tabellenrand
 content#:#cont_table_cell_properties#:#Eigenschaften der Tabellenzellen
 content#:#cont_table_cellpadding#:#Innenabstand Tabellenzellen
 content#:#cont_table_cellspacing#:#Abstand Tabellenzellen
@@ -14998,4 +14998,6 @@ mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
 mail#:#link_check_reason#:#Sie erhalten diese Benachrichtigung, da Sie die Benachrichtigung über ungültige Externe Links aktiviert haben.
 mail#:#link_check_affected_links#:#Betroffene Links
 mail#:#link_check_perma_link#:#Permanent Link
-assessment#:#positive_numbers_required#:#Bitte tragen Sie hier nur positive Zahlen ein. 
+assessment#:#positive_numbers_required#:#Bitte tragen Sie hier nur positive Zahlen ein.
+content#:#cont_table_border_info#:#Werte sind inkl. Einheit anzugeben (z.B. px). Bei keiner Angabe werden die Werte aus dem Stylesheet wirksam.
+content#:#cont_table_cellpadding_info#:#Werte sind inkl. Einheit anzugeben (z.B. px). Bei keiner Angabe werden die Werte aus dem Stylesheet wirksam.

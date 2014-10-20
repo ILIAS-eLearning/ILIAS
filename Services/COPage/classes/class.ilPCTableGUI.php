@@ -179,6 +179,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		
 		// border
 		$border = new ilTextInputGUI($this->lng->txt("cont_table_border"), "border");
+		$border->setInfo($this->lng->txt("cont_table_border_info"));
 		$border->setValue("1px");
 		$border->setSize(6);
 		$border->setMaxLength(6);
@@ -186,6 +187,7 @@ class ilPCTableGUI extends ilPageContentGUI
 
 		// padding
 		$padding = new ilTextInputGUI($this->lng->txt("cont_table_cellpadding"), "padding");
+		$padding->setInfo($this->lng->txt("cont_table_cellpadding_info"));
 		$padding->setValue("2px");
 		$padding->setSize(6);
 		$padding->setMaxLength(6);
