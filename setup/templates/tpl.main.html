@@ -22,9 +22,9 @@
 						{TXT_SETUP} {TXT_ACCESS_MODE}
 					</div>
 					<div class="ilSetupLanguage">
-						<form name="languageselection" method="get">
+						<form class="form-inline" name="languageselection" method="get">
 							<input type="hidden" name="cmd" value="{VAL_CMD}" />
-							<select name="lang" onChange="this.form.submit()">
+							<select name="lang" class="form-control" onChange="this.form.submit()">
 								<option value="">{TXT_CHOOSE_LANGUAGE}</option>
 								<!-- BEGIN languages -->
 								<option value="{LANG_KEY}" {SELECTED_LANG}>{LANG_NAME}</option>
