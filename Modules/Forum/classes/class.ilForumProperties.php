@@ -226,8 +226,8 @@ class ilForumProperties
 	{
 		if ($a_new_obj_id)
 		{		
-			$this->db->insert('frm_settings', 
-			array(	'obj_id'			=> array('integer',	$a_new_obj_id),
+			$this->db->update('frm_settings', 
+				array(
 					'default_view'		=> array('integer', $this->default_view),
 					'anonymized'		=> array('integer', $this->anonymized),
 					'statistics_enabled'=> array('integer', $this->statistics_enabled),
@@ -240,6 +240,9 @@ class ilForumProperties
 					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts),
 					'thread_sorting'	=> array('integer', $this->thread_sorting),
 					'thread_rating'		=> array('integer', $this->isIsThreadRatingEnabled())
+				),
+				array(
+					'obj_id'			=> array('integer',	$a_new_obj_id)
 				)
 			);
 			return true;

@@ -77,6 +77,60 @@ class ilObjForum extends ilObject
 	}
 
 	/**
+	 * @return int
+	 */
+	public function create()
+	{
+		$id = parent::create();
+
+		require_once 'Modules/Forum/classes/class.ilForumProperties.php';
+		$properties = ilForumProperties::getInstance($this->getId());
+		$properties->setDefaultView(1);
+		$properties->setAnonymisation(0);
+		$properties->setStatisticsStatus(0);
+		$properties->setPostActivation(0);
+		$properties->setThreadSorting(0);
+		$properties->insert();
+
+		$this->createSettings();
+
+		$this->saveData();
+
+		return $id;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function setPermissions($a_ref_id)
+	{
+		/**
+		 * @var $rbacadmin ilRbacAdmin
+		 */
+		global $rbacadmin;
+
+		parent::setPermissions($a_ref_id);
+
+		// ...finally assign moderator role to creator of forum object
+		$roles  = array(ilObjForum::_lookupModeratorRole($this->getRefId()));
+		$rbacadmin->assignUser($roles[0], $this->getOwner(), 'n');
+		$this->updateModeratorRole($roles[0]);
+	}
+
+	/**
+	 * @param int $role_id
+	 */
+	public function updateModeratorRole($role_id)
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+
+		$ilDB->manipulate('UPDATE frm_data SET top_mods = ' . $ilDB->quote($role_id, 'integer') . ' WHERE top_frm_fk = ' . $ilDB->quote($this->getId(), 'integer'));
+	}
+
+	/**
 	 * Gets the disk usage of the object in bytes.
 	 * @access    public
 	 * @return    integer        the disk usage in bytes
@@ -484,25 +538,21 @@ class ilObjForum extends ilObject
 
 		ilForumProperties::getInstance($this->getId())->copy($new_obj->getId());
 		$this->Forum->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($this->getId()));
-
 		$topData = $this->Forum->getOneTopic();
 
-		$nextId = $ilDB->nextId('frm_data');
-
-		$statement = $ilDB->insert('frm_data', array(
-			'top_pk'          => array('integer', $nextId),
-			'top_frm_fk'      => array('integer', $new_obj->getId()),
+		$ilDB->update('frm_data', array(
 			'top_name'        => array('text', $topData['top_name']),
 			'top_description' => array('text', $topData['top_description']),
 			'top_num_posts'   => array('integer', $topData['top_num_posts']),
 			'top_num_threads' => array('integer', $topData['top_num_threads']),
 			'top_last_post'   => array('text', $topData['top_last_post']),
-			'top_mods'        => array('integer', !is_numeric($topData['top_mods']) ? 0 : $topData['top_mods']),
 			'top_date'        => array('timestamp', $topData['top_date']),
 			'visits'          => array('integer', $topData['visits']),
 			'top_update'      => array('timestamp', $topData['top_update']),
 			'update_user'     => array('integer', $topData['update_user']),
 			'top_usr_id'      => array('integer', $topData['top_usr_id'])
+		), array(
+			'top_frm_fk'      => array('integer', $new_obj->getId())
 		));
 
 		// read options
@@ -562,9 +612,9 @@ class ilObjForum extends ilObject
 	{
 		/**
 		 * @var $rbacadmin  ilRbacAdmin
-		 * @var $rbacreview ilRbacReview
+		 * @var $ilLog      ilLog
 		 */
-		global $ilLog, $rbacadmin, $rbacreview;
+		global $ilLog, $rbacadmin;
 
 		$moderator     = ilObjForum::_lookupModeratorRole($this->getRefId());
 		$new_moderator = ilObjForum::_lookupModeratorRole($new_obj->getRefId());
@@ -579,12 +629,15 @@ class ilObjForum extends ilObject
 		include_once './Modules/Forum/classes/class.ilForumModerators.php';
 		$obj_mods = new ilForumModerators($this->getRefId());
 
-		$old_mods = array();
 		$old_mods = $obj_mods->getCurrentModerators();
-
 		foreach($old_mods as $user_id)
 		{
-			$rbacadmin->assignUser($new_moderator, $user_id);
+			// The object owner is already member of the moderator role when this method is called
+			// Since the new static caches are introduced with ILIAS 5.0, a database error occurs if we try to assign the user here.
+			if($this->getOwner() != $user_id)
+			{
+				$rbacadmin->assignUser($new_moderator, $user_id);
+			}
 		}
 	}
 
@@ -746,7 +799,7 @@ class ilObjForum extends ilObject
 			'top_date'             => ilUtil::now()
 		);
 
-		$statement = $ilDB->manipulateF('
+		$ilDB->manipulateF('
         	INSERT INTO frm_data 
         	( 
         	 	top_pk,

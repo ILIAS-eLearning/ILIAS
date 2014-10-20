@@ -149,10 +149,11 @@ class ilForumXMLParser extends ilSaxParser
 					"UPDATE frm_data 
 						SET top_last_post = %s,
 							top_num_posts = %s,
-							top_num_threads = %s
+							top_num_threads = %s,
+							top_usr_id = %s
 					WHERE top_frm_fk = %s",
-					array('text', 'integer', 'integer', 'integer'),
-					array($update_str, $num_posts, $num_threads, $this->forum_obj_id)
+					array('text', 'integer', 'integer', 'integer', 'integer'),
+					array($update_str, $num_posts, $num_threads, $this->frm_last_mapped_top_usr_id, $this->forum_obj_id)
 				);
 				break;
 
@@ -251,14 +252,8 @@ class ilForumXMLParser extends ilSaxParser
 					$forum_array = $this->getUserIdAndAlias(
 						$this->forumArray['UserId'], ''
 					);
-					// Store old user id
-					$oldUsrId = $ilUser->getId();
-					// Manipulate user object
-					$ilUser->setId($forum_array['usr_id']);
-					// create frm_data
-					$this->forum->saveData( array() );
-					// Restore old user id
-					$ilUser->setId($oldUsrId);
+
+					$this->frm_last_mapped_top_usr_id = $forum_array['usr_id'];
 
 					$update_forum_array = $this->getUserIdAndAlias(
 						$this->forumArray['UpdateUserId'], ''
@@ -274,30 +269,18 @@ class ilForumXMLParser extends ilSaxParser
 					$_SESSION["AccountId"] = $oldUsrId;
 
 					// create frm_settings
-					$newObjProp = ilForumProperties::getInstance(
-							$this->forum->getId() );
-					$newObjProp->setDefaultView(
-							(int) $this->forumArray['DefaultView'] );
-					$newObjProp->setAnonymisation(
-							(int) $this->forumArray['Pseudonyms'] );
-					$newObjProp->setStatisticsStatus(
-							(int) $this->forumArray['Statistics'] );
-					$newObjProp->setIsThreadRatingEnabled(
-							(int) $this->forumArray['ThreadRatings'] );
-					$newObjProp->setPostActivation(
-							(int) $this->forumArray['PostingActivation'] );
-					$newObjProp->setPresetSubject(
-							(int) $this->forumArray['PresetSubject'] );
-					$newObjProp->setAddReSubject(
-							(int) $this->forumArray['PresetRe'] );
-					$newObjProp->setNotificationType(
-							$this->forumArray['NotificationType'] ?
-							$this->forumArray['NotificationType'] : 'all_users');
-					$newObjProp->setAdminForceNoti(
-							(int) $this->forumArray['ForceNotification'] );
-					$newObjProp->setUserToggleNoti(
-							(int) $this->forumArray['ToggleNotification'] );
-					$newObjProp->insert();
+					$newObjProp = ilForumProperties::getInstance($this->forum->getId());
+					$newObjProp->setDefaultView((int)$this->forumArray['DefaultView']);
+					$newObjProp->setAnonymisation((int)$this->forumArray['Pseudonyms']);
+					$newObjProp->setStatisticsStatus((int)$this->forumArray['Statistics']);
+					$newObjProp->setIsThreadRatingEnabled((int)$this->forumArray['ThreadRatings']);
+					$newObjProp->setPostActivation((int)$this->forumArray['PostingActivation']);
+					$newObjProp->setPresetSubject((int)$this->forumArray['PresetSubject']);
+					$newObjProp->setAddReSubject((int)$this->forumArray['PresetRe']);
+					$newObjProp->setNotificationType($this->forumArray['NotificationType'] ? $this->forumArray['NotificationType'] : 'all_users');
+					$newObjProp->setAdminForceNoti((int)$this->forumArray['ForceNotification']);
+					$newObjProp->setUserToggleNoti((int)$this->forumArray['ToggleNotification']);
+					$newObjProp->update();
 
 					$id = $this->getNewForumPk();
 					$this->forum_obj_id = $newObjProp->getObjId();

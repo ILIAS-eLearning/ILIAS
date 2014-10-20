@@ -679,36 +679,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		ilUtil::redirect('ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&ref_id='.$_GET['ref_id']);
 	}
 
+	/**
+	 * @param ilObjForum $forumObj
+	 */
 	protected function afterSave(ilObjForum $forumObj)
 	{
-		/**
-		 * @var $rbacadmin ilRbacAdmin
-		 */
-		global $rbacadmin;
-		
-		// save settings
-		$this->objProperties->setObjId($forumObj->getId());
-		$this->objProperties->setDefaultView(1);
-		$this->objProperties->setAnonymisation(0);
-		$this->objProperties->setStatisticsStatus(0);
-		$this->objProperties->setPostActivation(0);
-		$this->objProperties->setThreadSorting(0);
-		$this->objProperties->insert();
-
-		$forumObj->createSettings();
-
-		// ...finally assign moderator role to creator of forum object
-		$roles = array();
-		$roles[0] = ilObjForum::_lookupModeratorRole($forumObj->getRefId());
-
-		$rbacadmin->assignUser($roles[0], $forumObj->getOwner(), 'n');
-
-		// insert new forum as new topic into frm_data
-		$forumObj->saveData($roles);
-
-		// always send a message
 		ilUtil::sendSuccess($this->lng->txt('frm_added'), true);
-
 		$this->ctrl->setParameter($this, 'ref_id', $forumObj->getRefId());
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'createThread', '', false, false));
 	}
