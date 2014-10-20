@@ -97,7 +97,7 @@ class gevUserProfileGUI {
 				$this->user->setStreet($form->getInput("b_street"));
 				$this->user->setCity($form->getInput("b_city"));
 				$this->user->setZipcode($form->getInput("b_zipcode"));
-				$this->user->setCountry($form->getInput("b_country"));
+				//$this->user->setCountry($form->getInput("b_country"));
 				$this->user->setPhoneOffice($form->getInput("b_phone"));
 				//$this->user->setFax($form->getInput("b_fax"));
 
@@ -108,7 +108,7 @@ class gevUserProfileGUI {
 				$this->user_utils->setPrivateStreet($form->getInput("p_street"));
 				$this->user_utils->setPrivateCity($form->getInput("p_city"));
 				$this->user_utils->setPrivateZipcode($form->getInput("p_zipcode"));
-				$this->user_utils->setPrivateState($form->getInput("p_country"));
+				//$this->user_utils->setPrivateState($form->getInput("p_country"));
 				$this->user_utils->setPrivatePhone($form->getInput("p_phone"));
 				//$this->user_utils->setPrivateFax($form->getInput("p_fax"));
 				
@@ -264,9 +264,9 @@ class gevUserProfileGUI {
 		$b_zipcode->setRequired(true);
 		$form->addItem($b_zipcode);
 		
-		$b_country = new ilTextInputGUI($this->lng->txt("federal_state"), "b_country");
+		/*$b_country = new ilTextInputGUI($this->lng->txt("federal_state"), "b_country");
 		$b_country->setValue($this->user->getCountry());
-		$form->addItem($b_country);
+		$form->addItem($b_country);*/
 		
 		$info = new ilNonEditableValueGUI("");
 		$info->setValue($this->lng->txt("gev_private_contact_info"));
@@ -308,9 +308,9 @@ class gevUserProfileGUI {
 		$p_zipcode->setValue($this->user_utils->getPrivateZipcode());
 		$form->addItem($p_zipcode);
 		
-		$p_country = new ilTextInputGUI($this->lng->txt("federal_state"), "p_country");
+		/*$p_country = new ilTextInputGUI($this->lng->txt("federal_state"), "p_country");
 		$p_country->setValue($this->user_utils->getPrivateState());
-		$form->addItem($p_country);
+		$form->addItem($p_country);*/
 		
 		
 		/*$p_fax = new ilTextInputGUI($this->lng->txt("fax"), "p_fax");
