@@ -6230,6 +6230,8 @@ button.close {
 		External Blue: #21c5d8;
 		ILIAS 4 MainMenu Color: #c8e6ff;
 */
+/* @il-highlight-bg: lighten(@brand-warning, 37%); */
+/* @il-highlight-bg: lighten(@brand-secondary, 53%); */
 /* @nav-tabs-link-hover-border-color: @brand-primary; */
 /* ILIAS variables candidates */
 span.ilAlert {
@@ -7137,7 +7139,7 @@ div.ilSideBarContent {
   padding: 5px 5px 5px 30px;
   text-align: left;
   cursor: pointer;
-  color: #3444AA;
+  color: #557196;
   font-size: 110%;
   background: url(images/tree_col.png) no-repeat 9px 9px #ffffff;
 }
@@ -7146,12 +7148,12 @@ div.ilSideBarContent {
 }
 .il_HAccordionHead:hover,
 .il_VAccordionHead:hover {
-  background-color: #feede0;
+  background-color: #ffffd0;
 }
 .il_HAccordionHeadActive,
 .il_VAccordionHeadActive {
   background-image: url(images/tree_exp.png);
-  background-color: #feede0;
+  background-color: #ffffd0;
 }
 /* Modules/ScormAicc */
 table.il_ScormTable {
@@ -9929,6 +9931,24 @@ img.ilRatingIcon {
   background: #f0f0f0;
   padding-left: 0px;
   padding-bottom: 5px;
+}
+/* Modules/Excercise */
+.ilExcAssignmentBody {
+  padding: 20px;
+  /* background-color: lighten(@body-bg, 2%); */
+}
+.ilExcAssignmentHead img {
+  display: block;
+  float: left;
+}
+.ilExcAssignmentHead h3 {
+  padding: 0;
+  margin: 4px 0 0 25px;
+  font-size: 16px;
+}
+.ilExcAssignmentHead > div {
+  margin: 4px 0 0 25px;
+  font-size: 12px;
 }
 .noMargin {
   margin: 0;
