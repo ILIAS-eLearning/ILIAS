@@ -152,6 +152,14 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 
+	public function _polish_birthday($bday){
+		//is: YYYY-MM-DD
+		//should: DD.MM.YYYY
+		$bd = explode('-', $bday);
+		$bday = $bd[2] .'.' .$bd[1] .'.' .$bd[0];
+		return $bday;
+	}
+
 
 	private function _map_userdata($record) {
 		global $ANON_DATA;
@@ -165,7 +173,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 				,'title' 			=> $this->VALUE_MAPPINGS['salutation'][$record['gender']]
 				,'first_name' 		=> $record['firstname']
 				,'last_name' 		=> $record['lastname']
+				
 				,'birthday' 		=> $record['birthday']
+
 				,'street'			=> $street_and_nr['street']
 				,'house_number'		=> $street_and_nr['nr']
 				,'zipcode'			=> $record['zipcode']
@@ -187,6 +197,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 				,'wbd_type' => $record['wbd_type'] //debug
 			);
 
+	
+
+		$udata['birthday'] = $this->_polish_birthday($udata['birthday']);
+		
 		$udata['phone_nr'] = $this->_polish_phone_nr($udata['phone_nr']);
 		$udata['mobile_phone_nr'] = $this->_polish_phone_nr($udata['mobile_phone_nr']);
 		$udata['auth_phone_nr'] = $this->_polish_phone_nr($udata['auth_phone_nr']);
