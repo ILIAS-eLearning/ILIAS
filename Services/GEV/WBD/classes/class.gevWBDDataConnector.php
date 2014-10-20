@@ -14,14 +14,14 @@
 $SET_LASTWBDRECORD = true;
 $SET_BWVID = true;
 
-$GET_NEW_USERS = false;
+$GET_NEW_USERS = true;
 $GET_UPDATED_USERS = true;
 $GET_NEW_EDURECORDS = false;
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
 
-$LIMIT_RECORDS = 5;
-$ANON_DATA = true;
+$LIMIT_RECORDS = 50;
+$ANON_DATA = false;
 
 
 $DEBUG_HTML_OUT = isset($_GET['debug']);
