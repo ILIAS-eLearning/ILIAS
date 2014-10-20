@@ -92,7 +92,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		if($phone_nr == '' || preg_match($this->TELNO_REGEXP, $phone_nr)){
 			//all well, return
 			
-			//return $phone_nr;
+			return $phone_nr;
 		}
 		$nr_raw = $phone_nr;
 
