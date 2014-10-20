@@ -350,10 +350,14 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
+			// gev-patch start (#520)
+			/*
 			$this->tpl->setCurrentBlock("item_command");
 			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", "edituser"));
 			$this->tpl->setVariable("TXT_COMMAND", $lng->txt('edit'));
 			$this->tpl->parseCurrentBlock();
+			*/
+			// gev-patch end
 		}
 
 		$ilCtrl->setParameterByClass("illplistofobjectsgui", 'user_id', '');
