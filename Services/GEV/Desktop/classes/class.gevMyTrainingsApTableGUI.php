@@ -111,25 +111,18 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$mbrs = $a_set['mbr_booked'] .' (' .$a_set['mbr_waiting'] .')'
 				.' / ' .$a_set['mbr_min'] .'-' .$a_set['mbr_max'];
 
-
-		$memberlist_link = $this->ctrl->getLinkTarget($this->parent_obj, 'memberList')
-							.'&crsid=' .$a_set['obj_id'];
-
-		$memberlist_link = "ilias.php?ref_id="
-			.$a_set['crs_ref_id']
-			."&cmd=trainer&baseClass=gevMemberListDeliveryGUI";
 		
-
-
-		$setstatus_link = $this->ctrl->getLinkTarget($this->parent_obj, 'listStatus')
-							.'&crsrefid=' .$a_set['crs_ref_id'];
+		$this->ctrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $a_set["crs_ref_id"]);
+		$memberlist_link = $this->ctrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer");
+		$this->ctrl->clearParametersByClass("gevMemberListDeliveryGUI");
 		
-		$show_set_stat_link = $a_set['may_finalize'];
+		$this->ctrl->setParameter($this->parent_obj, "crsrefid", $a_set['crs_ref_id']);
+		$setstatus_link = $this->ctrl->getLinkTarget($this->parent_obj, "listStatus");
+		$this->ctrl->clearParameters($this->parent_obj);
 
-
-		$actions = $this->memberlist_img;
-		if($show_set_stat_link) {
-			$actions .='&nbsp;' .$this->setstatus_img;
+		$actions = "<a href=\"".$memberlist_link."\">".$this->memberlist_img."</a>";
+		if($a_set['may_finalize']) {
+			$actions .='&nbsp;' ."<a href=\"".$setstatus_link."\">".$this->setstatus_img."</a>";
 		}
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
@@ -151,7 +144,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("CONTENTS", $a_set["content"]);
 		$this->tpl->setVariable("MBMRLST_LINK", $memberlist_link);
 		$this->tpl->setVariable("MBMRLST_LINK_TXT", $this->lng->txt('gev_mytrainingsap_btn_memberlist'));
-		if ($show_set_stat_link) {
+		if ($a_set['may_finalize']) {
 			$this->tpl->setCurrentBlock("set_stat");
 			$this->tpl->setVariable("SETSTAT_LINK", $setstatus_link);
 			$this->tpl->setVariable("SETSTAT_LINK_TXT", $this->lng->txt('gev_mytrainingsap_btn_setstatus'));
