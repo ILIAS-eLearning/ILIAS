@@ -3682,8 +3682,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		
 		$standard_prices = array();
 		$extension_prices = array();
-		$standard_prices .= $price_obj->getPrices();
-		$extension_prices .= $price_obj->getExtensionPrices();
+		$standard_prices = $price_obj->getPrices();
+		$extension_prices = $price_obj->getExtensionPrices();
 
 		$prices = array_merge($standard_prices, $extension_prices );
 

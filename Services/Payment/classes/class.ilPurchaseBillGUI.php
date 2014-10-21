@@ -24,6 +24,8 @@ class ilPurchaseBillGUI extends ilPurchaseBaseGUI
 		$this->pay_method =	ilPayMethods::_getIdByTitle('bill');
 		
 		parent::__construct($user_obj,$this->pay_method);
+		$this->setAccess(0);
+		$this->setPayed(0);
 	}		
 }
 ?>
