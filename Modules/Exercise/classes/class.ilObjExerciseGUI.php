@@ -3528,14 +3528,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 			if(!in_array($user_id, $all_members))
 			{
 				$this->ass->addTeamMember($team_id, $user_id, $this->ref_id);
+				
+				// #14277
+				if (!$this->object->members_obj->isAssigned($user_id))
+				{
+					$this->object->members_obj->assignMember($user_id);
+				}
 
 				// see ilObjExercise::deliverFile()
 				if($has_files)
-				{
-					if (!$this->object->members_obj->isAssigned($user_id))
-					{
-						$this->object->members_obj->assignMember($user_id);
-					}
+				{					
 					ilExAssignment::updateStatusReturnedForUser($this->ass->getId(), $user_id, 1);
 					ilExerciseMembers::_writeReturned($this->object->getId(), $user_id, 1);
 				}
