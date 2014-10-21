@@ -1046,23 +1046,18 @@ class ilObjMediaObject extends ilObject
 	function _saveUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
 		global $ilDB;
-		
-		$q = "DELETE FROM mob_usage WHERE ".
-			" id = ".$ilDB->quote((int) $a_mob_id, "integer")." AND ".
-			" usage_type = ".$ilDB->quote($a_type, "text")." AND ".
-			" usage_id = ".$ilDB->quote((int) $a_id, "integer")." AND ".
-			" usage_lang = ".$ilDB->quote($a_lang, "text")." AND ".
-			" usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer");
-		$ilDB->manipulate($q);
-		$q = "INSERT INTO mob_usage (id, usage_type, usage_id, usage_hist_nr, usage_lang) VALUES".
-			" (".$ilDB->quote((int) $a_mob_id, "integer").",".
-			$ilDB->quote($a_type, "text").",".
-			$ilDB->quote((int) $a_id, "integer").",".
-			$ilDB->quote((int) $a_usage_hist_nr, "integer").",".
-			$ilDB->quote($a_lang, "text").
-			")";
-		$ilDB->manipulate($q);
-		
+
+		$ilDB->replace("mob_usage",
+			array(
+				"id" => array("integer", (int) $a_mob_id),
+				"usage_type" => array("text", $a_type),
+				"usage_id" => array("integer", $a_id),
+				"usage_lang" => array("text", $a_lang),
+				"usage_hist_nr" => array("integer", (int) $a_usage_hist_nr)
+				),
+			array()
+			);
+
 		self::handleQuotaUpdate(new self($a_mob_id));		
 	}
 
