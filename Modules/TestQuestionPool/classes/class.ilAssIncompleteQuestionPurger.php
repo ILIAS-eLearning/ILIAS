@@ -40,7 +40,7 @@ class ilAssIncompleteQuestionPurger
 	
 	private function getPurgableQuestionIds()
 	{
-		$INtypes = $this->db->in('object_data.type', array('qpl', 'tst'), false, 'text');
+		$INtypes = $this->db->in('object_data.type', $this->getIgnoredContainerObjectTypes(), true, 'text');
 		
 		$query = "
 			SELECT qpl_questions.question_id
@@ -73,5 +73,10 @@ class ilAssIncompleteQuestionPurger
 			$question = assQuestion::_instantiateQuestion($questionId);
 			$question->delete($questionId);
 		}
+	}
+	
+	protected function getIgnoredContainerObjectTypes()
+	{
+		return array('lm');
 	}
 }
