@@ -310,6 +310,7 @@ class gevUserUtils {
 			." WHERE oref.ref_id = tr.parent"
 			."   AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
 			."   AND od2.type = 'crs'"
+			."   AND oref.deleted IS NULL"
 			);
 
 		$crs_ids = array();
@@ -414,7 +415,6 @@ class gevUserUtils {
 			}
 
 			//sort?
-
 			usort($ret, '__sortByCourseDate');
 			return $ret;
 	}
