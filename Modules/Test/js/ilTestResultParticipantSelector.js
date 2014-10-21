@@ -16,13 +16,13 @@
 			}
 		);
 
-		$('#tst_results_toolbar select[name=active_id]').next().click(
+		$('#tst_results_toolbar #ilTestResultParticipantJumper').click(
 			function(event)
 			{
 				event.stopPropagation();
 				event.preventDefault();
 
-				var activeId = $(this).prev().val();
+				var activeId = $('#tst_results_toolbar select[name=active_id]').val();
 				
 				jumpToActive(activeId);
 			}

@@ -93,11 +93,15 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 
 			require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
 			$sel = new ilSelectInputGUI('', 'active_id');
-			$sel->addCustomAttribute('id="ilTestResultParticipantSelector"');
 			$sel->setOptions($this->getParticipantSelectorOptionsWithHintOption());
 			$this->addInputItem($sel);
 			
-			$this->addLink($this->lng->txt('tst_res_jump_to_participant_btn'), '');
+			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+			$link = ilLinkButton::getInstance(); // always returns a new instance
+			$link->setUrl('#');
+			$link->setId('ilTestResultParticipantJumper');
+			$link->setCaption($this->lng->txt('tst_res_jump_to_participant_btn'));
+			$this->addButtonInstance($link);
 			
 			$this->tpl->addJavaScript('Modules/Test/js/ilTestResultParticipantSelector.js');
 		}
