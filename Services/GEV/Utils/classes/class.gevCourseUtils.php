@@ -45,7 +45,7 @@ class gevCourseUtils {
 	
 	static public function getInstance($a_crs_id) {
 		if (!is_int($a_crs_id) && !is_numeric($a_crs_id)) {
-			throw new Exception("gevCourseUtils::getInstance: no integer crs_id given.");
+			throw new Exception("gevCourseUtils::getInstance: no integer crs_id given: '".$a_crs_id."'");
 		}
 		
 		if (array_key_exists($a_crs_id, self::$instances)) {
