@@ -17,9 +17,13 @@ class ilAssIncompleteQuestionPurger
 	
 	protected $ownerId;
 	
+	private $ignoredContainerObjectTypes;
+	
 	public function __construct(ilDB $db)
 	{
 		$this->db = $db;
+		
+		$this->ignoredContainerObjectTypes = array('lm');
 	}
 
 	public function getOwnerId()
@@ -75,8 +79,13 @@ class ilAssIncompleteQuestionPurger
 		}
 	}
 	
+	protected function setIgnoredContainerObjectTypes($ignoredContainerObjectTypes)
+	{
+		$this->ignoredContainerObjectTypes = $ignoredContainerObjectTypes;
+	}
+	
 	protected function getIgnoredContainerObjectTypes()
 	{
-		return array('lm');
+		return $this->ignoredContainerObjectTypes;
 	}
 }
