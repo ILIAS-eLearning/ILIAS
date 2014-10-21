@@ -34,6 +34,9 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 	private $pm_id = 0;
 	private $totalVat = 0;
 	private $session_var = null;
+	
+	private $payed = 1;
+	private $access = 1;
 
 	public function __construct($user_obj, $pay_method)
 	{
@@ -348,8 +351,8 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 				$book_obj->setPrice($sc[$i]['price_string']);					
 				//$book_obj->setDiscount($bonus > 0 ? ilPaymentPrices::_getPriceStringFromAmount($bonus * (-1)) : '');
 				$book_obj->setDiscount($discount);
-				$book_obj->setPayed(1);
-				$book_obj->setAccess(1);
+				$book_obj->setPayed($this->getPayed());
+				$book_obj->setAccess($this->getAccess());
 				
 				$book_obj->setVoucher(''); // bmf
 				$book_obj->setTransactionExtern(''); // bmf , paypal	
@@ -1085,5 +1088,38 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 
 		return true;
 	}
+
+	/**
+	 * @return int
+	 */
+	public function getAccess()
+	{
+		return $this->access;
+	}
+
+	/**
+	 * @param int $access
+	 */
+	public function setAccess($access)
+	{
+		$this->access = $access;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPayed()
+	{
+		return $this->payed;
+	}
+
+	/**
+	 * @param int $payed
+	 */
+	public function setPayed($payed)
+	{
+		$this->payed = $payed;
+	}
+	
 }
 ?>
