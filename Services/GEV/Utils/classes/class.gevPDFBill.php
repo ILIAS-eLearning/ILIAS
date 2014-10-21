@@ -7,8 +7,6 @@
 require_once("Services/Billing/classes/class.ilPDFBill.php");
 
 class gevPDFBill extends ilPDFBill {
-	static $instance = null;
-	
 	public function __construct() {
 		parent::__construct();
 		
@@ -35,11 +33,7 @@ class gevPDFBill extends ilPDFBill {
 	}
 	
 	public static function getInstance() {
-		if (self::$instance === null) {
-			self::$instance = new gevPDFBill();
-		}
-		
-		return self::$instance;
+		return new gevPDFBill();
 	}
 	
 	public function setBill(ilBill $a_bill) {
