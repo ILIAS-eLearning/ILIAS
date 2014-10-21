@@ -548,10 +548,9 @@ class ilObjTestSettingsGeneralGUI
 		$this->testOBJ->setHighscorePercentage((bool) $form->getItemByPostVar('highscore_percentage')->getChecked());
 		$this->testOBJ->setHighscoreHints((bool) $form->getItemByPostVar('highscore_hints')->getChecked());
 		$this->testOBJ->setHighscoreWTime((bool) $form->getItemByPostVar('highscore_wtime')->getChecked());
-		$this->testOBJ->setHighscoreOwnTable((bool) $form->getItemByPostVar('highscore_own_table')->getChecked());
-		$this->testOBJ->setHighscoreTopTable((bool) $form->getItemByPostVar('highscore_top_table')->getChecked());
+		$this->testOBJ->setHighscoreMode((int) $form->getItemByPostVar('highscore_mode')->getValue());
 		$this->testOBJ->setHighscoreTopNum((int) $form->getItemByPostVar('highscore_top_num')->getValue());
-		
+
 		if( !$this->testOBJ->participantDataExist() )
 		{
 			// question set type
@@ -1117,13 +1116,39 @@ class ilObjTestSettingsGeneralGUI
 		/* This options always active (?) */
 		$highscore_head = new ilFormSectionHeaderGUI();
 		$highscore_head->setTitle($this->lng->txt("tst_highscore_options"));
-		$form->addItem($highscore_head);		
+		$form->addItem($highscore_head);
 
 		$highscore = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_enabled"), "highscore_enabled");
 		$highscore->setValue(1);
 		$highscore->setChecked($this->testOBJ->getHighscoreEnabled());
 		$highscore->setInfo($this->lng->txt("tst_highscore_description"));
 		$form->addItem($highscore);
+
+		$highscore_tables = new ilRadioGroupInputGUI($this->lng->txt('tst_highscore_mode'), 'highscore_mode');
+		$highscore_tables->setRequired(true);
+		$highscore_tables->setValue($this->testOBJ->getHighscoreMode());
+
+		$highscore_table_own = new ilRadioOption($this->lng->txt('tst_highscore_own_table'), ilObjTest::HIGHSCORE_SHOW_OWN_TABLE);
+		$highscore_table_own->setInfo($this->lng->txt('tst_highscore_own_table_description'));
+		$highscore_tables->addOption($highscore_table_own);
+
+		$highscore_table_other = new ilRadioOption($this->lng->txt('tst_highscore_top_table'), ilObjTest::HIGHSCORE_SHOW_TOP_TABLE);
+		$highscore_table_other->setInfo($this->lng->txt('tst_highscore_top_table_description'));
+		$highscore_tables->addOption($highscore_table_other);
+
+		$highscore_table_other = new ilRadioOption($this->lng->txt('tst_highscore_all_tables'), ilObjTest::HIGHSCORE_SHOW_ALL_TABLES);
+		$highscore_table_other->setInfo($this->lng->txt('tst_highscore_all_tables_description'));
+		$highscore_tables->addOption($highscore_table_other);
+		$highscore->addSubItem($highscore_tables);
+
+		$highscore_top_num = new ilNumberInputGUI($this->lng->txt("tst_highscore_top_num"), "highscore_top_num");
+		$highscore_top_num->setSize(4);
+		$highscore_top_num->setRequired(true);
+		$highscore_top_num->setMinValue(1);
+		$highscore_top_num->setSuffix($this->lng->txt("tst_highscore_top_num_unit"));
+		$highscore_top_num->setValue($this->testOBJ->getHighscoreTopNum(null));
+		$highscore_top_num->setInfo($this->lng->txt("tst_highscore_top_num_description"));
+		$highscore->addSubItem($highscore_top_num);
 		
 		$highscore_anon = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_anon"), "highscore_anon");
 		$highscore_anon->setValue(1);
@@ -1160,26 +1185,7 @@ class ilObjTestSettingsGeneralGUI
 		$highscore_wtime->setChecked($this->testOBJ->getHighscoreWTime());
 		$highscore_wtime->setInfo($this->lng->txt("tst_highscore_wtime_description"));
 		$highscore->addSubItem($highscore_wtime);
-		
-		$highscore_own_table = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_own_table"), "highscore_own_table");
-		$highscore_own_table->setValue(1);
-		$highscore_own_table->setChecked($this->testOBJ->getHighscoreOwnTable());
-		$highscore_own_table->setInfo($this->lng->txt("tst_highscore_own_table_description"));
-		$highscore->addSubItem($highscore_own_table);
 
-		$highscore_top_table = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_top_table"), "highscore_top_table");
-		$highscore_top_table->setValue(1);
-		$highscore_top_table->setChecked($this->testOBJ->getHighscoreTopTable());
-		$highscore_top_table->setInfo($this->lng->txt("tst_highscore_top_table_description"));
-		$highscore->addSubItem($highscore_top_table);
-		
-		$highscore_top_num = new ilTextInputGUI($this->lng->txt("tst_highscore_top_num"), "highscore_top_num");
-		$highscore_top_num->setSize(4);
-		$highscore_top_num->setSuffix($this->lng->txt("tst_highscore_top_num_unit"));
-		$highscore_top_num->setValue($this->testOBJ->getHighscoreTopNum());
-		$highscore_top_num->setInfo($this->lng->txt("tst_highscore_top_num_description"));
-		$highscore->addSubItem($highscore_top_num);
-		
 		if( !$this->settingsTemplate || $this->formShowTestExecutionSection($this->settingsTemplate->getSettings()) )
 		{
 			$testExecution = new ilFormSectionHeaderGUI();

@@ -34,6 +34,21 @@ class ilObjTest extends ilObject
 	 * type setting value for dynamic question set (continues testing mode)
 	 */
 	const QUESTION_SET_TYPE_DYNAMIC = 'DYNAMIC_QUEST_SET';
+
+	/**
+	 *
+	 */
+	const HIGHSCORE_SHOW_OWN_TABLE = 1;
+
+	/**
+	 *
+	 */
+	const HIGHSCORE_SHOW_TOP_TABLE = 2;
+
+	/**
+	 * 
+	 */
+	const HIGHSCORE_SHOW_ALL_TABLES = 3;
 	
 	/**
 	 * question set type setting
@@ -10963,6 +10978,53 @@ function getAnswerFeedbackPoints()
 		}
 		
 		return $retval;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getHighscoreMode()
+	{
+		switch(true)
+		{
+			case $this->getHighscoreOwnTable() && $this->getHighscoreTopTable():
+				return self::HIGHSCORE_SHOW_ALL_TABLES;
+				break;
+
+			case $this->getHighscoreTopTable():
+				return self::HIGHSCORE_SHOW_TOP_TABLE;
+				break;
+
+			case $this->getHighscoreOwnTable():
+			default:
+				return self::HIGHSCORE_SHOW_OWN_TABLE;
+				break;
+		}
+	}
+
+	/**
+	 * @param $mode int
+	 */
+	public function setHighscoreMode($mode)
+	{
+		switch($mode)
+		{
+			case self::HIGHSCORE_SHOW_ALL_TABLES:
+				$this->setHighscoreTopTable(1);
+				$this->setHighscoreOwnTable(1);
+				break;
+
+			case self::HIGHSCORE_SHOW_TOP_TABLE:
+				$this->setHighscoreTopTable(1);
+				$this->setHighscoreOwnTable(0);
+				break;
+
+			case self::HIGHSCORE_SHOW_OWN_TABLE:
+			default:
+				$this->setHighscoreTopTable(0);
+				$this->setHighscoreOwnTable(1);
+				break;
+		}
 	}
 	/* End GET/SET for highscore feature*/
 
