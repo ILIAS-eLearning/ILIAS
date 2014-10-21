@@ -482,7 +482,7 @@ class gevBookingGUI {
 			return $this->book(true);
 		}
 		
-		if ($this->crs_utils->isWithAccomodations() && $this->crs_utils->getStartDate() !== null && $this->crs_utils->getEndDate() !== null) {
+		if ($this->crs_utils->isWithAccomodations()) {
 			$_form = $this->getAccomodationsForm();
 			if (!$_form->checkInput()) {
 				$this->log->write("gevBookingGUI::paymentInfo: This should not happen, the form input did not check correctly.");
