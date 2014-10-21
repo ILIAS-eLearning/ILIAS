@@ -216,6 +216,13 @@ class ilAccountRegistrationGUI
 				$role->setInfo($lng->txt("registration_code_role_info"));
 			}
 		}
+		
+		// #14272
+		if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
+		{
+			$mail_obj = $this->form->getItemByPostVar('usr_email');
+			$mail_obj->setRequired(true);
+		}
 
 		
 		// user agreement
