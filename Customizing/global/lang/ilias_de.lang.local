@@ -871,6 +871,7 @@ wsp#:#wsp_shared_member_filter#:#Trainings-/Gruppenmitglieder
 wsp#:#wsp_type_crsv#:#Zertifikat: Training
 gev#:#gev_mytrainingsap_legend_memberlist#:#Teilnehmerliste
 gev#:#gev_mytrainingsap_legend_setstatus#:#Status setzen
+gev#:#gev_mytrainingsap_legend_overnights#:#Übernachtungen bearbeiten
 gev#:#gev_mytrainingsap_title#:#Meine Trainingseinsätze
 gev#:#gev_mytrainingsap_title_desc#:#Hier sehen Sie Ihre Trainingseinsätze auf einen Blick
 gev#:#gev_mytrainingsap_btn_memberlist#:#Teilnehmerliste

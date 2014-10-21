@@ -41,10 +41,12 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 	
 		$this->memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
 		$this->setstatus_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-state-neutral.png").'" />';
+		$this->overnight_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-edit.png").'" />';
 		
 		$legend = new catLegendGUI();
 		$legend->addItem($this->memberlist_img, "gev_mytrainingsap_legend_memberlist")
-			   ->addItem($this->setstatus_img, "gev_mytrainingsap_legend_setstatus");
+			   ->addItem($this->setstatus_img, "gev_mytrainingsap_legend_setstatus")
+			   ->addItem($this->overnight_img, "gev_mytrainingsap_legend_overnights");
 		$this->setLegend($legend);
 
 		
@@ -74,6 +76,8 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 	}
 
 	protected function fillRow($a_set) {
+		$crs_utils = gevCourseUtils::getInstance($a_set["obj_id"]);
+		
 		$this->tpl->setVariable("ACCORDION_BUTTON_CLASS", $this->getAccordionButtonExpanderClass());
 		$this->tpl->setVariable("ACCORDION_ROW", $this->getAccordionRowClass());
 		$this->tpl->setVariable("COLSPAN", $this->getColspan());
@@ -118,11 +122,16 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		
 		$this->ctrl->setParameter($this->parent_obj, "crsrefid", $a_set['crs_ref_id']);
 		$setstatus_link = $this->ctrl->getLinkTarget($this->parent_obj, "listStatus");
+		$overnights_link = $this->ctrl->getLinkTarget($this->parent_obj, "showOvernights");
 		$this->ctrl->clearParameters($this->parent_obj);
 
 		$actions = "<a href=\"".$memberlist_link."\">".$this->memberlist_img."</a>";
 		if($a_set['may_finalize']) {
-			$actions .='&nbsp;' ."<a href=\"".$setstatus_link."\">".$this->setstatus_img."</a>";
+			$actions .="&nbsp;<a href=\"".$setstatus_link."\">".$this->setstatus_img."</a>";
+		}
+												// is true after training start
+		if ($crs_utils->isWithAccomodations() && !$a_set["may_finalize"]) {
+			$actions .= "&nbsp;<a href=\"".$overnights_link."\">".$this->overnight_img."</a>";
 		}
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);

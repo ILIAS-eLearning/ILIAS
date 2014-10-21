@@ -44,6 +44,7 @@ class gevMyTrainingsApGUI {
 		switch ($cmd) {
 			case "view":
 			case "memberList":
+			case "showOvernights":
 				$cont = $this->$cmd();
 				break;
 
@@ -159,7 +160,9 @@ class gevMyTrainingsApGUI {
 			   );
 	}
 
-
+	protected function showOvernights() {
+		die("gevMyTrainingsApGUI::showOvernights: NYI!");
+	}
 }
 
 ?>
