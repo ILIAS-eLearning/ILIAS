@@ -1525,6 +1525,11 @@ assessment#:#tst_single_answer_details#:#Zeige einzelne Antwort
 assessment#:#tst_pass_details_overview_table_title#:#Detaillierte Testergebnisse für Testdurchlauf %s
 assessment#:#tst_btn_show_best_solutions#:#Zeige bestmögliche Lösungen
 assessment#:#tst_btn_hide_best_solutions#:#Verstecke bestmögliche Lösungen
+assessment#:#tst_starting_time_desc#:#Zeitpunkt ab dem der Test begonnen werden kann: Das Klicken der Schaltfläche ‚Start‘ ist möglich, Teilnehmer können Fragen beantworten.
+assessment#:#tst_ending_time_desc#:#Zeitpunkt zu dem der Test abgeschlossen wird: Teilnehmer können keine Fragen mehr beantworten, ILIAS schließt den Test ab.
+assessment#:#tst_allowed_users_desc#:#ILIAS prüft die Anzahl der gleichzeitigen Teilnehmer des Tests. Wenn über die maximal erlaubte Anzahl hinaus weitere Benutzer versuchen den Test zu starten, werden sie am Zugriff gehindert.
+assessment#:#tst_allowed_users_time_gap_desc#:#eilnehmer die im Ablauf der angegeben Sekunden keinen Klick im Test ausführen, werden als ‚inaktiv‘ eingestuft und aus dem Test entfernt.
+assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
 assessment#:#saved_adjustment#:#Veränderung gespeichert.
 assessment#:#sign_submission#:#Digitale Signatur von Testabgaben
 assessment#:#sign_submission_info#:#Wenn diese Option aktiviert wurde und ein Signatur-Plugin installiert und aktiviert ist, werden Teilnehmer aufgefordert ihre Testabgabe zu signieren.
