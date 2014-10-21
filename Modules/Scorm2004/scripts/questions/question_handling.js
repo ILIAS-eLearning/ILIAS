@@ -133,23 +133,30 @@ ilias.questions.assSingleChoice = function(a_id) {
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
 	answers[a_id].choice = [];
+	
+	var checked_right = false;
 			
 	for (var i=0;i<a_node.length;i++) {
 		if ((!a_node.get(i).checked && questions[a_id].answers[i][tocheck] > 0) 
 			|| (a_node.get(i).checked && questions[a_id].answers[i][tocheck] <= 0))
-		{
-			answers[a_id].passed = false;
+		{			
 			answers[a_id].wrong++;
 			answers[a_id].answer[i]=false;
 			
 		} else {
+			if (a_node.get(i).checked)
+			{
+				checked_right = true;
+			}
 			answers[a_id].answer[i]=true;
 		}
 		if (a_node.get(i).checked)
 		{
 			answers[a_id].choice.push(a_node.get(i).value);
 		}
-	}		
+	}	
+	
+	answers[a_id].passed = checked_right; // #10772
 	
 	ilias.questions.showFeedback(a_id);
 };
@@ -756,13 +763,18 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 	
 	switch (questions[a_id].type) {
 		
-		case 'assSingleChoice':				
+		case 'assSingleChoice':		
+			var max = 0; // #10772
 			for (var i=0;i<questions[a_id].answers.length;i++) {
+				if (questions[a_id].answers[i].points > max)
+				{
+					max = questions[a_id].answers[i].points;
+				}	
 				jQuery('input[name="answers'+a_id+'"]').eq(i).prop("disabled",true);
 				jQuery('input[name="answers'+a_id+'"]').eq(i).prop("checked",false);
 			}
 			for (var i=0;i<questions[a_id].answers.length;i++) {
-				if (questions[a_id].answers[i].points > 0) {
+				if (questions[a_id].answers[i].points == max) {
 					jQuery('input[name="answers'+a_id+'"]').eq(i).prop("checked",true);
 				}
 			}
