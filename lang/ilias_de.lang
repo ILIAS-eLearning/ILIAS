@@ -1413,10 +1413,13 @@ assessment#:#tst_highscore_hints#:#Anzeige der angeforderten Lösungshinweise
 assessment#:#tst_highscore_hints_description#:#Bestimmt, ob eine Spalte mit der Anzahl der in Anspruch genommenen Hinweise des Tests eingeblendet wird.
 assessment#:#tst_highscore_wtime#:#Anzeige der Bearbeitungsdauer
 assessment#:#tst_highscore_wtime_description#:#Bestimmt, ob eine Spalte mit der Bearbeitungsdauer des Tests eingeblendet wird.
-assessment#:#tst_highscore_own_table#:#Anzeige der Tabelle "Eigene Platzierung"
-assessment#:#tst_highscore_own_table_description#:#Bestimmt, ob eine Tabelle mit der eigenen Platzierung eingeblendet wird.
-assessment#:#tst_highscore_top_table#:#Anzeige der Tabelle "Top-Platzierung"
-assessment#:#tst_highscore_top_table_description#:#Bestimmt, ob eine Tabelle mit den besten Platzierungen eingeblendet wird.
+assessment#:#tst_highscore_mode#:#Modus
+assessment#:#tst_highscore_own_table#:#Eigene Platzierung
+assessment#:#tst_highscore_own_table_description#:#Zeigt eine Tabelle mit der eigenen Platzierung.
+assessment#:#tst_highscore_top_table#:#Top-Platzierung
+assessment#:#tst_highscore_top_table_description#:#Zeigt eine Tabelle mit den besten Platzierungen.
+assessment#:#tst_highscore_all_tables#:#Alle Platzierungen
+assessment#:#tst_highscore_all_tables_description#:#Zeigt sowohl eine Tabelle mit der eigenen Platzierung als auch eine Tabelle mit den besten Platzierungen.
 assessment#:#tst_highscore_top_num#:#Anzahl der angezeigten Top-Platzierungen
 assessment#:#tst_highscore_top_num_description#:#Bestimmt, wie viele Einträge in der Tabelle "Top-Platzierungen" angezeigt werden.
 assessment#:#tst_highscore_top_num_unit#:#Platzierungen

@@ -1226,10 +1226,13 @@ assessment#:#tst_highscore_hints#:#Show hints
 assessment#:#tst_highscore_hints_description#:#Controls, if a column with the tests requested hints should be shown.
 assessment#:#tst_highscore_wtime#:#Show working time
 assessment#:#tst_highscore_wtime_description#:#Controls, if a column with the tests working time should be shown.
-assessment#:#tst_highscore_own_table#:#Show table 'own ranking'
-assessment#:#tst_highscore_own_table_description#:#Controls, if the table 'own ranking' should be shown.
-assessment#:#tst_highscore_top_table#:#Show table 'top ranking'
-assessment#:#tst_highscore_top_table_description#:#Controls, if the table 'top ranking' should be shown.
+assessment#:#tst_highscore_mode#:#Mode
+assessment#:#tst_highscore_own_table#:#Own Ranking
+assessment#:#tst_highscore_own_table_description#:#If selected, the test provides a table with the own ranking.
+assessment#:#tst_highscore_top_table#:#Top Ranking
+assessment#:#tst_highscore_top_table_description#:#If selected, the test provides a table with the top rankings.
+assessment#:#tst_highscore_all_tables#:#All Rankings
+assessment#:#tst_highscore_all_tables_description#:#If selected, the test provides both ranking tables.
 assessment#:#tst_highscore_top_num#:#Number of ranks
 assessment#:#tst_highscore_top_num_description#:#Controls, how many ranks should be included in the top ranking table.
 assessment#:#tst_highscore_top_num_unit#:#entries
