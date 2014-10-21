@@ -15,6 +15,7 @@ require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 require_once("Services/Utilities/classes/class.ilUtil.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevGeneralUtils.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusAdminGUI.php");
 require_once "./Services/ParticipationStatus/classes/class.ilParticipationStatusHelper.php";
@@ -104,13 +105,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 
 		//$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
 		//trainer days:
-		
-		$apdays = array();
-		foreach ($a_set['apdays'] as $tday) {
-			$apdays[] =  ilDatePresentation::formatDate($tday);
-		}
-		$apdays_str = join('<br>', $apdays);
-
+		$apdays_str = gevGeneralUtils::foldConsecutiveDays($a_set['apdays'], "<br />");
 		
 		$mbrs = $a_set['mbr_booked'] .' (' .$a_set['mbr_waiting'] .')'
 				.' / ' .$a_set['mbr_min'] .'-' .$a_set['mbr_max'];

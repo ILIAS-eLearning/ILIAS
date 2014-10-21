@@ -18,7 +18,7 @@ class gevGeneralUtils {
 	 *  input is 21.03, 22.03, 23.03, 25.03, 27.03
 	 *  output then is: 21. - 23.03, 25.03, 27.03.
 	 */
-	static public function foldConsecutiveDays($a_dates) {
+	static public function foldConsecutiveDays($a_dates, $delim = ", ") {
 		require_once("Services/Calendar/classes/class.ilDateTime.php");
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 
@@ -68,7 +68,7 @@ class gevGeneralUtils {
 		}
 		
 		
-		return implode(", ", $ov_cons);
+		return implode($delim, $ov_cons);
 	}
 }
 
