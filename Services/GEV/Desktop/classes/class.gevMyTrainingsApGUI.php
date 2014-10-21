@@ -15,8 +15,7 @@
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
 require_once("Services/GEV/Desktop/classes/class.gevMyTrainingsApTableGUI.php");
-//require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
-//require_once("Services/GEV/Desktop/classes/class.gevPeriodSelectorGUI.php");
+require_once("Services/Utilities/classes/class.ilUtil.php");
 
 class gevMyTrainingsApGUI {
 
@@ -45,6 +44,7 @@ class gevMyTrainingsApGUI {
 			case "view":
 			case "memberList":
 			case "showOvernights":
+			case "saveOvernights":
 				$cont = $this->$cmd();
 				break;
 
@@ -159,9 +159,78 @@ class gevMyTrainingsApGUI {
 			   .$ptstatusgui->getHTML()
 			   );
 	}
+	
+	protected function checkAccomodation($crs_utils) {
+		if (!$crs_utils->isWithAccomodations()) {
+			ilUtil::sendFailure($this->lng->txt("gev_mytrainingsap_no_accomodations"), true);
+			$this->ctrl->redirect($this, "view");
+		}
+	}
+	
+	protected function checkIsTrainer($crs_utils) {
+		if (!in_array($this->user->getId(), $crs_utils->getTrainers())) {
+			ilUtil::redirect("index.php");
+		}
+	}
 
-	protected function showOvernights() {
-		die("gevMyTrainingsApGUI::showOvernights: NYI!");
+	protected function showOvernights($a_form = null) {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_id = $_GET["crs_id"];
+		$crs_utils = gevCourseUtils::getInstance($crs_id);
+		
+		$this->checkAccomodation($crs_utils);
+		$this->checkIsTrainer($crs_utils);
+		
+		global $ilTabs, $ilCtrl, $lng;
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "view"));
+
+		$title = new catTitleGUI("gev_edit_overnights", "gev_edit_overnights_desc", "GEV_img/ico-head-edit.png");
+
+		if ($a_form === null) {
+			$a_form = $this->buildOvernightsForm($crs_id, $crs_utils);
+		}
+		
+		return    $title->render()
+				. $a_form->getHTML();
+	}
+	
+	protected function saveOvernights() {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_id = $_GET["crs_id"];
+		$crs_utils = gevCourseUtils::getInstance($crs_id);
+		
+		$this->checkAccomodation($crs_utils);
+		$this->checkIsTrainer($crs_utils);
+
+		$form = $this->buildOvernightsForm($crs_id, $crs_utils);
+		if ($form->checkInput()) {
+			ilSetAccomodationsGUI::importAccomodationsFromForm($form, $crs_id, $this->user->getId());
+		}
+		return $this->showOvernights($form);	
+	}
+	
+	protected function buildOvernightsForm($crs_id, $crs_utils) {
+		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
+		require_once("Services/Accomodations/classes/class.ilSetAccomodationsGUI.php");
+		
+		$form = new catPropertyFormGUI();
+		$form->setTemplate("tpl.gev_overnights_form.html", "Services/GEV/Desktop");
+		$form->setTitle($crs_utils->getTitle());
+		$form->addCommandButton("saveOvernights", $this->lng->txt("save"));
+		
+		$this->lng->loadLanguageModule("acco");
+		ilSetAccomodationsGUI::addAccomodationsToForm($form, $crs_id, $this->user->getId());
+		if ($_POST["acco"]) {
+			$form->getItemByPostVar("acco")->setValue($_POST["acco"]);
+		}
+		
+		$this->ctrl->setParameter($this, "crs_id", $crs_id);
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$this->ctrl->clearParameters($this);
+
+		return $form;
 	}
 }
 

@@ -116,6 +116,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->ctrl->clearParametersByClass("gevMemberListDeliveryGUI");
 		
 		$this->ctrl->setParameter($this->parent_obj, "crsrefid", $a_set['crs_ref_id']);
+		$this->ctrl->setParameter($this->parent_obj, "crs_id", $a_set['obj_id']);
 		$setstatus_link = $this->ctrl->getLinkTarget($this->parent_obj, "listStatus");
 		$overnights_link = $this->ctrl->getLinkTarget($this->parent_obj, "showOvernights");
 		$this->ctrl->clearParameters($this->parent_obj);
