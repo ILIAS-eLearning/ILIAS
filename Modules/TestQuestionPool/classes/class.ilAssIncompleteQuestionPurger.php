@@ -43,13 +43,13 @@ class ilAssIncompleteQuestionPurger
 		$INtypes = $this->db->in('object_data.type', array('qpl', 'tst'), false, 'text');
 		
 		$query = "
-			SELECT question_id
+			SELECT qpl_questions.question_id
 			FROM qpl_questions
 			INNER JOIN object_data
-			ON obj_id = obj_fi
+			ON object_data.obj_id = qpl_questions.obj_fi
 			AND $INtypes
-			WHERE owner = %s
-			AND tstamp = %s
+			WHERE qpl_questions.owner = %s
+			AND qpl_questions.tstamp = %s
 		";
 		
 		$res = $this->db->queryF($query, array('integer', 'integer'), array($this->getOwnerId(), 0));
