@@ -20,7 +20,7 @@ $GET_NEW_EDURECORDS = false;
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
 
-$LIMIT_RECORDS = 50;
+$LIMIT_RECORDS = 200;
 $ANON_DATA = false;
 
 
@@ -117,7 +117,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		//is there a separation for city-code/nr?
 		if( strpos($nr_raw, ' ') === false &&
-			strpos($nr_raw, '\/') === false &&
+			strpos($nr_raw, '/') === false &&
 			strpos($nr_raw, '-') === false 
 		){
 			//guess city-code for mobile numbers:
@@ -183,7 +183,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				,'phone_nr'			=> ($record['phone_nr'] == '-empty-') ? '' : $record['phone_nr']
 				,'mobile_phone_nr'	=> $record['mobile_phone_nr']
 				
-				,'auth_email' 		=> $record['email']
+				,'auth_email' 		=> ($record['email'] == '-empty-') ? '' : $record['email']
 				,'email'			=> ($record['wbd_email'] && $record['wbd_email'] != '-empty-') ? $record['wbd_email'] : $record['email']
 				,'auth_phone_nr' 	=> $record['mobile_phone_nr']
 
@@ -199,7 +199,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 	
 
-		$udata['birthday'] = $this->_polish_birthday($udata['birthday']);
+		//$udata['birthday'] = $this->_polish_birthday($udata['birthday']);
 		
 		$udata['phone_nr'] = $this->_polish_phone_nr($udata['phone_nr']);
 		$udata['mobile_phone_nr'] = $this->_polish_phone_nr($udata['mobile_phone_nr']);
@@ -370,7 +370,19 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql .= ' AND user_id IN (SELECT usr_id FROM usr_data)';
 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
 		
-
+		//FAIL: Der Benutzer wurde von einem anderen TP angelegt: 7649617873
+		$sql .= ' AND user_id NOT IN (20185)'; //Uwe Stange
+		//FAIL: Der Benutzer wurde bereits angelegt: 3766780778
+		$sql .= ' AND user_id NOT IN (20396)'; //Gerd Hollinger
+		//FAIL: Der Benutzer wurde bereits angelegt: 8799360049
+		$sql .= ' AND user_id NOT IN (21199)'; //Reinhardt Diek
+		//FAIL: Der Benutzer wurde bereits angelegt: 2796038831
+		$sql .= ' AND user_id NOT IN (19720)'; //Reinhold Schlick
+		
+		//FAIL: Der Benutzer wurde bereits angelegt: 6454943045
+		$sql .= ' AND user_id NOT IN (20976)'; //Eva Ortolf
+		
+		
 		if($LIMIT_RECORDS){
 			$sql .= 'LIMIT ' .$LIMIT_RECORDS;
 		}
@@ -711,6 +723,25 @@ if($DEBUG_HTML_OUT){
 	print '<h2> total new users: ' .count($cls->valid_newusers) .'</h2>';
 	print '<h2> invalid records: ' .count($cls->broken_newusers) .'</h2>';
 	print_r($cls->broken_newusers);
+	
+	
+	
+	print '<br>';
+	print 'error';
+	foreach($cls->broken_newusers[0][1] as $hl=>$v){
+		print ', ' .$hl;
+	}
+	
+	foreach($cls->broken_newusers as $entry){
+		print '<br>';
+		print str_replace('<br>', '', $entry[0]);
+		
+		foreach( $entry[1] as $k=>$v){
+			print ', ' .$v;
+		}
+	
+	}
+	
 	print '<hr>';
 
 

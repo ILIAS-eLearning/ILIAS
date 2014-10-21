@@ -112,6 +112,15 @@ abstract class wbdDataConnector {
 	/**
 	* VALIDATION
 	**/
+	
+	protected function datebefore2000($d){
+		$dat = explode('-',$d);
+		if(	(int)$dat[0] < 2000 && 
+			(int)$dat[0] > 1900) {
+			return true;
+		}
+		return false;
+	}
 
 	protected function validateUserRecord($user_record){
 		foreach($this->USER_RECORD_VALIDATION  as $field => $validation){
@@ -134,6 +143,9 @@ abstract class wbdDataConnector {
 						break;
 					
 					case 'list':
+						if($value == ''){
+							return 'empty value not in list';
+						}
 						if(! in_array($value, $setting)){
 							return 'not in list: ' .$field .'<br>';
 							//return false;
@@ -143,6 +155,11 @@ abstract class wbdDataConnector {
 					case 'form':
 						if(!preg_match($setting, $value) && $value != ''){
 							return 'not well formed: ' .$field .'<br>';
+						}
+						break;
+					case 'custom':
+						if(! $this->$setting($value)){
+							return 'wrong birthday';
 						}
 						break;
 				}
