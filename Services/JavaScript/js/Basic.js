@@ -26,7 +26,8 @@ il.Util = {
 	
 	addOnLoad: function(func)
 	{
-		if (!document.getElementById | !document.getElementsByTagName) return;
+		$().ready(func);
+/*		if (!document.getElementById | !document.getElementsByTagName) return;
 	
 		var oldonload=window.onload;
 		if (typeof window.onload != 'function')
@@ -40,7 +41,7 @@ il.Util = {
 				oldonload();
 				func();
 			}
-		}
+		}*/
 	},
 
 	addOnUnload: function (func)
@@ -386,6 +387,8 @@ il.MainMenu = {
 	}
 }
 
+
+
 /* UICore */
 il.UICore = {
 
@@ -394,7 +397,33 @@ il.UICore = {
 	//
 
 	right_panel_wrapper: "",
-	
+
+
+	scrollToHash: function () {
+		var h = self.location.hash;
+		if (h != "") {
+			h = h.substr(1);
+			il.UICore.scrollToElement("a[name='" + h + "'],#" + h);
+		}
+	},
+
+	// take care of initial layout
+	scrollToElement: function (el) {
+
+		// if we have an anchor, fix scrolling "behind" fixed top header
+		var fixed_top_height = parseInt($("#mainspacekeeper").css("margin-top")),
+			vp_reg = il.Util.getViewportRegion(),
+			el_reg = il.Util.getRegion(el);
+
+		if (fixed_top_height > 0) {
+			$('html, body').scrollTop(el_reg.top - fixed_top_height);
+		}
+	},
+
+	handleScrolling: function() {
+		il.UICore.refreshLayout();
+	},
+
 	refreshLayout: function () {
 		var el = document.getElementById("left_nav"),
 			sm = document.getElementById("mainspacekeeper"),
@@ -404,7 +433,6 @@ il.UICore = {
 			nb_reg, vp_reg, ft_reg;
 
 		vp_reg = il.Util.getViewportRegion();
-
 		$(".ilFrame").each(function() {
 			var t = $(this);
 //			console.log(t);
@@ -590,10 +618,23 @@ il.UICore = {
 
 };
 
+// fixing anchor links presentation, unfortunately there
+// is no event after browsers have scrolled to an anchor hash
+// and at least firefox seems to do this multiple times when rendering a page
+$(window).bind("load", function() {
+	window.setTimeout(function() {
+		il.UICore.scrollToHash();
+	}, 500);
+});
+
+$(window).bind("hashchange", function () {
+	il.UICore.scrollToHash();
+});
 
 il.Util.addOnLoad(function () {
 	$(window).resize(il.UICore.refreshLayout);
-	$(window).scroll(il.UICore.refreshLayout);
+	$(window).scroll(il.UICore.handleScrolling);
+
 	il.UICore.refreshLayout();
 	il.Util.omitPreventDoubleSubmission = false;
 

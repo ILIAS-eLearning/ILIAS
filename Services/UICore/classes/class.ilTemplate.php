@@ -682,7 +682,7 @@ class ilTemplate extends ilTemplateX
 		if ($this->blockExists("js_file"))
 		{
 			// three batches
-			for ($i=1; $i<=3; $i++)
+			for ($i=0; $i<=3; $i++)
 			{
 				reset($this->js_files);
 				foreach($this->js_files as $file)
@@ -2148,6 +2148,13 @@ class ilTemplate extends ilTemplateX
 		{
 			$a_batch = 2;
 		}
+
+		// ensure jquery files being loaded first
+		if (is_int(strpos($a_js_file, "jquery")))
+		{
+			$a_batch = 0;
+		}
+
 		if (!in_array($a_js_file, $this->js_files))
 		{
 			$this->js_files[] = $a_js_file;
