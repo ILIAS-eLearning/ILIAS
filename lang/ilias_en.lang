@@ -1335,15 +1335,6 @@ assessment#:#tst_single_answer_details#:#Show Single Answer
 assessment#:#tst_pass_details_overview_table_title#:#Detailed Overview for Pass %s
 assessment#:#tst_btn_show_best_solutions#:#Show Best Solutions
 assessment#:#tst_btn_hide_best_solutions#:#Hide Best Solutions
-assessment#:#tst_settings_header_test_run#:#Information Before Start of Test
-assessment#:#tst_settings_header_execution#:#Administering the Test: Access
-assessment#:#tst_starting_time_desc#:#Point in time after which the test can be started by clicking the button ‚Start‘, participants can provide answers to questions.
-assessment#:#tst_ending_time_desc#:#Point in time at which the test will be finished: Participants an no longer answer questions, the test is finished by ILIAS.
-assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
-assessment#:#tst_settings_header_test_run#:#Administering the Test: Testrun
-assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.
-assessment#:#tst_final_information#:#Finishing the Test: Information Before Submission
 assessment#:#saved_adjustment#:#Changes saved.
 assessment#:#sign_submission#:#Digitally sign test submissions
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.
