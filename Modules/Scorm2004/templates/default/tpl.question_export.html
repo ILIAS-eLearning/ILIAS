@@ -302,10 +302,11 @@
 </div>
 <script>
 	function renderILQuestion{VAL_ID}()
-	{
+	{		
 		ilias.questions.shuffle(questions[{VAL_ID}]);
 		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
 		jQuery("#order{VAL_ID}").sortable({axis: 'x', containment: '#container{VAL_ID}'});
+		jQuery("#order{VAL_ID}").css('font-size', questions[{VAL_ID}].textsize+'%');		
 	}
 	renderILQuestion{VAL_ID}();
 </script>

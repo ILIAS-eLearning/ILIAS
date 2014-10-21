@@ -757,6 +757,9 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) true;
 		$result['points'] = (bool) $this->getPoints();
+		$result['textsize'] = ((int)$this->getTextSize()) // #10923
+			? (int)$this->getTextSize()
+			: 100;
 		$result['feedback'] = array(
 			"onenotcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false),
 			"allcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
