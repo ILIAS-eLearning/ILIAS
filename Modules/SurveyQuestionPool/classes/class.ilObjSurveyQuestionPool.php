@@ -942,6 +942,46 @@ class ilObjSurveyQuestionPool extends ilObject
 			}
 		}
 		ksort($types);
+		
+		
+		// #14263 - default sorting		
+		
+		$default_sorting = array_flip(array(
+			"SurveySingleChoiceQuestion", 
+			"SurveyMultipleChoiceQuestion", 
+			"SurveyMatrixQuestion", 
+			"SurveyMetricQuestion",
+			"SurveyTextQuestion"
+		));
+   
+		$sorted = array();
+		$idx = sizeof($default_sorting);
+		foreach($types as $caption => $item)
+		{
+			$type = $item["type_tag"];
+			$item["caption"] = $caption;
+			
+			// default
+			if(array_key_exists($type, $default_sorting))
+			{				
+				$sorted[$default_sorting[$type]] = $item;
+			}
+			// plugin (append alphabetically sorted)
+			else
+			{
+				$sorted[$idx] = $item;
+				$idx++;
+			}
+		}
+		ksort($sorted);
+		
+		// redo captions as index
+		$types = array();
+		foreach($sorted as $item)
+		{
+			$types[$item["caption"]] = $item;
+		}
+		
 		return $types;
 	}
 	
