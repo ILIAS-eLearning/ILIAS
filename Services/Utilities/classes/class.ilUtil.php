@@ -4566,7 +4566,7 @@ class ilUtil
 	* @access public
 	* 
 	*/
-	public static function prepareTextareaOutput($txt_output, $prepare_for_latex_output = FALSE)
+	public static function prepareTextareaOutput($txt_output, $prepare_for_latex_output = FALSE, $omitNl2BrWhenTextArea = false)
 	{
 		$result = $txt_output;
 		$is_html = self::isHTML($result);
@@ -4578,10 +4578,13 @@ class ilUtil
 		}
 
 		// removed: did not work with magic_quotes_gpc = On
-		if (!$is_html)
+		if (!$is_html )
 		{
-			// if the string does not contain HTML code, replace the newlines with HTML line breaks
-			$result = preg_replace("/[\n]/", "<br />", $result);
+			if(!$omitNl2BrWhenTextArea)
+			{
+				// if the string does not contain HTML code, replace the newlines with HTML line breaks
+				$result = preg_replace("/[\n]/", "<br />", $result);
+			}
 		}
 		else
 		{

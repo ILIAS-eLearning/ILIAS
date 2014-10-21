@@ -747,7 +747,7 @@ class ilObjTestSettingsGeneralGUI
 		$form->addItem($introEnabled);
 		$intro = new ilTextAreaInputGUI($this->lng->txt("tst_introduction_text"), "introduction");
 		$intro->setRequired(true);
-		$intro->setValue($this->testOBJ->prepareTextareaOutput($this->testOBJ->getIntroduction()));
+		$intro->setValue($this->testOBJ->prepareTextareaOutput($this->testOBJ->getIntroduction(), false, true));
 		$intro->setRows(10);
 		$intro->setCols(80);
 		$intro->setUseRte(TRUE);
@@ -949,7 +949,7 @@ class ilObjTestSettingsGeneralGUI
 		// final statement
 		$finalstatement = new ilTextAreaInputGUI($this->lng->txt("final_statement"), "finalstatement");
 		$finalstatement->setRequired(true);
-		$finalstatement->setValue($this->testOBJ->prepareTextareaOutput($this->testOBJ->getFinalStatement()));
+		$finalstatement->setValue($this->testOBJ->prepareTextareaOutput($this->testOBJ->getFinalStatement(), false, true));
 		$finalstatement->setRows(10);
 		$finalstatement->setCols(80);
 		$finalstatement->setUseRte(TRUE);
