@@ -66,23 +66,19 @@ class ilInternalLink
 	function _saveLink($a_source_type, $a_source_id, $a_target_type, $a_target_id, $a_target_inst = 0,
 		$a_source_lang = "-")
 	{
-		global $ilias, $ilDB;
+		global $ilDB;
 
-		$ilDB->manipulate("DELETE FROM int_link WHERE ".
-			"source_type = ".$ilDB->quote($a_source_type, "text")." AND ".
-			"source_id = ".$ilDB->quote((int) $a_source_id, "integer")." AND ".
-			"target_type = ".$ilDB->quote($a_target_type, "text")." AND ".
-			"target_id = ".$ilDB->quote((int) $a_target_id, "integer")." AND ".
-			"target_inst = ".$ilDB->quote((int) $a_target_inst, "integer")." AND ".
-			"source_lang = ".$ilDB->quote($a_source_lang, "text"));
-		$ilDB->manipulate("INSERT INTO int_link ".
-			"(source_type, source_id, target_type, target_id, target_inst, source_lang) VALUES (".
-			$ilDB->quote($a_source_type, "text").",".
-			$ilDB->quote((int) $a_source_id, "integer").",".
-			$ilDB->quote($a_target_type, "text").",".
-			$ilDB->quote((int) $a_target_id, "integer").",".
-			$ilDB->quote((int) $a_target_inst, "integer").",".
-			$ilDB->quote($a_source_lang, "text").")");
+		$ilDB->replace("int_link",
+			array(
+				"source_type" => array("text", $a_source_type),
+				"source_id" => array("integer", (int) $a_source_id),
+				"source_lang" => array("text", $a_source_lang),
+				"target_type" => array("text", $a_target_type),
+				"target_id" => array("integer", (int) $a_target_id),
+				"target_inst" => array("integer", (int) $a_target_inst)
+			),
+			array()
+		);
 	}
 
 	/**
