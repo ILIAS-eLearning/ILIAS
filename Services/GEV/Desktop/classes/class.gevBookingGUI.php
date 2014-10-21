@@ -181,12 +181,6 @@ class gevBookingGUI {
 		return $this->user_utils->paysFees() && ($this->crs_utils->getFee()?true:false);
 	}
 	
-	protected function isWithAccomodations() {
-		return $this->crs_utils->getAccomodation() 
-			&& ($this->crs_utils->getStartDate() !== null) 
-			&& ($this->crs_utils->getEndDate() !== null);
-	}
-	
 	protected function isSelfLearningCourse() {
 		if ($this->is_self_learning === null) {
 			$this->is_self_learning = $this->crs_utils->getType() == "Selbstlernkurs";
@@ -361,7 +355,7 @@ class gevBookingGUI {
 			$form->addItem($field);
 		}
 		
-		if ($this->isWithAccomodations() && $this->crs_utils->getStartDate() !== null && $this->crs_utils->getEndDate() !== null) {
+		if ($this->crs_utils->isWithAccomodations()) {
 			$this->lng->loadLanguageModule("acco");
 			ilSetAccomodationsGUI::addAccomodationsToForm($form, $this->crs_id, $this->user_id, "acco", true);
 			if ($_POST["acco"]) {
@@ -446,7 +440,7 @@ class gevBookingGUI {
 			$a_accomodations = serialize($a_accomodations);
 		}
 		
-		if($this->isWithAccomodations()) {
+		if($this->crs_utils->isWithAccomodations()) {
 			$accomodations = new ilHiddenInputGUI("accomodations");
 			if ($a_accomodations) {
 				$accomodations->setValue($a_accomodations);
@@ -488,7 +482,7 @@ class gevBookingGUI {
 			return $this->book(true);
 		}
 		
-		if ($this->isWithAccomodations() && $this->crs_utils->getStartDate() !== null && $this->crs_utils->getEndDate() !== null) {
+		if ($this->crs_utils->isWithAccomodations() && $this->crs_utils->getStartDate() !== null && $this->crs_utils->getEndDate() !== null) {
 			$_form = $this->getAccomodationsForm();
 			if (!$_form->checkInput()) {
 				$this->log->write("gevBookingGUI::paymentInfo: This should not happen, the form input did not check correctly.");
@@ -671,7 +665,7 @@ class gevBookingGUI {
 		
 		$payment_data = unserialize($payment_data);
 
-		if ($this->isWithAccomodations()) {
+		if ($this->crs_utils->isWithAccomodations()) {
 			$accomodations = unserialize($payment_data["accomodations"]);
 		}
 		else {

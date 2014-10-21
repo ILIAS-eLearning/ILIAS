@@ -795,6 +795,12 @@ class gevCourseUtils {
 		return $ven->getContactEmail();
 	}
 	
+	public function isWithAccomodations() {
+		return $this->getAccomodation() 
+			&& ($this->getStartDate() !== null) 
+			&& ($this->getEndDate() !== null);
+	}
+	
 	public function getWebExLink() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LINK);
 	}
