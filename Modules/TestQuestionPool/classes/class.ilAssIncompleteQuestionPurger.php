@@ -40,7 +40,17 @@ class ilAssIncompleteQuestionPurger
 	
 	private function getPurgableQuestionIds()
 	{
-		$query = "SELECT question_id FROM qpl_questions WHERE owner = %s AND tstamp = %s";
+		$INtypes = $this->db->in('object_data.type', array('qpl', 'tst'), false, 'text');
+		
+		$query = "
+			SELECT question_id
+			FROM qpl_questions
+			INNER JOIN object_data
+			ON obj_id = obj_fi
+			AND $INtypes
+			WHERE owner = %s
+			AND tstamp = %s
+		";
 		
 		$res = $this->db->queryF($query, array('integer', 'integer'), array($this->getOwnerId(), 0));
 		
