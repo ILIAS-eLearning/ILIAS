@@ -1017,10 +1017,10 @@ return;
 				break;
 
 			case "ilquestioneditgui":
+				$this->setQEditTabs("question");
 				include_once("./Modules/TestQuestionPool/classes/class.ilQuestionEditGUI.php");
 				$edit_gui = new ilQuestionEditGUI();
-				$edit_gui->setPageConfig($this->getPageConfig());
-				$this->setQEditTabs("question");
+				$edit_gui->setPageConfig($this->getPageConfig());				
 //			    $edit_gui->addNewIdListener($this, "setNewQuestionId");
 				$edit_gui->setSelfAssessmentEditingMode(true);
 				$ret = $ilCtrl->forwardCommand($edit_gui);
@@ -1043,7 +1043,6 @@ return;
 				$questionGUI = assQuestionGUI::_getQuestionGUI(assQuestion::_getQuestionType((int) $_GET['q_id']), (int) $_GET['q_id']);
 				$questionGUI->object->setObjId(0);
 				$questionGUI->object->setSelfAssessmentEditingMode(true);
-				$questionGUI->object->setDefaultNrOfTries(null);
 				$questionGUI->object->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
 
 				// forward to ilAssQuestionFeedbackGUI

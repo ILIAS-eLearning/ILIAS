@@ -216,9 +216,9 @@ abstract class assQuestion
 	/**
 	 * $defaultnroftries
 	 * 
-	 * @var boolean
+	 * @var int
 	 */
-	var $defaultnroftries = false;
+	var $defaultnroftries = 0;
 	
 	/**
 	 * @var array[ilQuestionChangeListener]
@@ -288,7 +288,7 @@ abstract class assQuestion
 		$this->test_id = -1;
 		$this->suggested_solutions = array();
 		$this->shuffle = 1;
-		$this->nr_of_tries = "";
+		$this->nr_of_tries = 0;
 		$this->setEstimatedWorkingTime(0,1,0);
 		$this->outputType = OUTPUT_JAVASCRIPT;
 		$this->arrData = array();
@@ -2259,7 +2259,7 @@ abstract class assQuestion
 				"owner" => array("integer", $ilUser->getId()),
 				"question_text" => array("clob", NULL),
 				"points" => array("float", 0),
-				"nr_of_tries" => array("integer", 1),
+				"nr_of_tries" => array("integer", $this->getDefaultNrOfTries()), // #10771
 				"working_time" => array("text", $estw_time),
 				"complete" => array("text", $complete),
 				"created" => array("integer", time()),
@@ -2306,7 +2306,7 @@ abstract class assQuestion
 				"question_text" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0)),
 				"points" => array("float", $this->getMaximumPoints()),
 				"working_time" => array("text", $estw_time),
-				"nr_of_tries" => array("integer", (strlen($this->getNrOfTries())) ? $this->getNrOfTries() : 1),
+				"nr_of_tries" => array("integer", $this->getNrOfTries()),
 				"created" => array("integer", time()),
 				"original_id" => array("integer", ($original_id) ? $original_id : NULL),
 				"tstamp" => array("integer", time()),
@@ -2327,7 +2327,7 @@ abstract class assQuestion
 				"author" => array("text", $this->getAuthor()),
 				"question_text" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0)),
 				"points" => array("float", $this->getMaximumPoints()),
-				"nr_of_tries" => array("integer", (strlen($this->getNrOfTries())) ? $this->getNrOfTries() : 1),
+				"nr_of_tries" => array("integer", $this->getNrOfTries()),
 				"working_time" => array("text", $estw_time),
 				"tstamp" => array("integer", time()),
 				'complete' => array('integer', $this->isComplete()),
@@ -3931,8 +3931,8 @@ abstract class assQuestion
 	}
 	
 	public function getNrOfTries()
-	{
-		return $this->nr_of_tries;
+	{			
+		return (int)$this->nr_of_tries;
 	}
 	
 	public function setNrOfTries($a_nr_of_tries)
@@ -4045,7 +4045,7 @@ abstract class assQuestion
 	 */
 	function getDefaultNrOfTries()
 	{
-		return $this->defaultnroftries;
+		return (int)$this->defaultnroftries;
 	}
 	
 	// scorm2004-end ???
