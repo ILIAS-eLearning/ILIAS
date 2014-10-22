@@ -378,7 +378,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql .= ' AND user_id NOT IN (21199)'; //Reinhardt Diek
 		//FAIL: Der Benutzer wurde bereits angelegt: 2796038831
 		$sql .= ' AND user_id NOT IN (19720)'; //Reinhold Schlick
-		
 		//FAIL: Der Benutzer wurde bereits angelegt: 6454943045
 		$sql .= ' AND user_id NOT IN (20976)'; //Eva Ortolf
 		
