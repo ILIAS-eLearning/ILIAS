@@ -243,7 +243,7 @@ class gevDebug {
 		$sql = 'SELECT usr_id FROM usr_data';
 		
 		if(count($ids) > 0){
-			$sql .=	"WHERE usr_id in (" .implode(',', $ids) .")";
+			$sql .=	" WHERE usr_id in (" .implode(',', $ids) .")";
 		}
 
 		$result = $this->db->query($sql);
