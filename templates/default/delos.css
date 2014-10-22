@@ -7187,7 +7187,7 @@ select {
 .form-control {
   font-size: 12px;
 }
-form.form-horizontal {
+.form-horizontal {
   margin-bottom: 20px;
   background-color: #fdfdfd;
 }
@@ -7198,22 +7198,22 @@ form.form-horizontal {
 .form-control:focus {
   box-shadow: 0 0 0;
 }
-form.form-horizontal input.form-control,
-form.form-horizontal textarea.form-control,
-form.form-horizontal select.form-control {
+.form-horizontal input.form-control,
+.form-horizontal textarea.form-control,
+.form-horizontal select.form-control {
   max-width: 80%;
 }
 select.form-control {
   width: auto;
 }
-form.form-horizontal label {
+.form-horizontal label {
   color: #4d4d4d;
   font-size: 100%;
 }
 label {
   font-weight: normal;
 }
-form.form-horizontal .help-block {
+.form-horizontal .help-block {
   color: #9a9a9a;
   margin: 2px 0 4px;
   padding: 0;
