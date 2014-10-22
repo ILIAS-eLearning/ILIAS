@@ -20,12 +20,14 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 	 *
 	 * @param 			$a_parent_obj
 	 * @param string 	$a_parent_cmd
+	 * @param int 		$a_ref_id
 	 * @param bool   	$a_write_access
 	 *
 	 * @return \ilTestQuestionBrowserTableGUI
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false)
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_write_access = false)
 	{
+		$this->setId('qst_browser_' . $a_ref_id);
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		global $lng, $ilCtrl;
@@ -51,9 +53,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 			$this->addMultiCommand('insertQuestions', $this->lng->txt('insert'));
 		}
 	
-		$this->setPrefix('q_id');
 		$this->setSelectAllCheckbox('q_id');
-		
 		$this->setRowTemplate("tpl.il_as_tst_question_browser_row.html", "Modules/Test");
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -80,7 +80,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$ti = new ilTextInputGUI($lng->txt("title"), "title");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
-		$ti->setValidationRegexp('/^[^%]+$/is');
+		$ti->setValidationRegexp('/(^[^%]+$)|(^$)/is');
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
 		$this->filter["title"] = $ti->getValue();

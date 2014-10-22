@@ -502,7 +502,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 		$ilCtrl->setParameterByClass(get_class($this), "browse", "1");
 
 		include_once "./Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php";
-		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions', (($ilAccess->checkAccess("write", "", $_REQUEST['ref_id']) ? true : false)));
+		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions', $_REQUEST['ref_id'], (($ilAccess->checkAccess("write", "", $_REQUEST['ref_id']) ? true : false)));
 		$arrFilter = array();
 		foreach ($table_gui->getFilterItems() as $item)
 		{
@@ -564,7 +564,8 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 	public function filterAvailableQuestions()
 	{
 		include_once "./Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php";
-		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions');
+		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions', $_REQUEST['ref_id']);
+		$table_gui->resetOffset();
 		$table_gui->writeFilterToSession();
 		$this->ctrl->redirect($this, "browseForQuestions");
 	}
@@ -572,7 +573,8 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 	public function resetfilterAvailableQuestions()
 	{
 		include_once "./Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php";
-		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions');
+		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions', $_REQUEST['ref_id']);
+		$table_gui->resetOffset();
 		$table_gui->resetFilter();
 		$this->ctrl->redirect($this, "browseForQuestions");
 	}
