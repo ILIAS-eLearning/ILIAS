@@ -87,36 +87,6 @@ class ilAccountRegistrationGUI
 		ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registration.html', 'Services/Registration'), true);
 		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
-		$lang_opts = array();
-		foreach($lng->getInstalledLanguages() as $lang_key)
-		{
-			$lang_opts[$lang_key] = ilLanguage::_lookupEntry($lang_key, 'meta', 'meta_l_' . $lang_key);
-		}
-
-		// #11237
-		if(sizeof($lang_opts) > 1)
-		{
-			asort($lang_opts);
-			foreach($lang_opts as $lang_key => $lang_caption)
-			{
-				$this->tpl->setCurrentBlock('lang_headline_languages');
-				$this->tpl->setVariable('LANG_HEADLINE_LANGUAGES_LANG_NAME', $lang_caption);
-				$this->tpl->setVariable('LANG_HEADLINE_LANGUAGES_LANG_KEY', $lang_key);
-				if($lang_key == $lng->getLangKey())
-				{
-					$this->tpl->setVariable('LANG_HEADLINE_LANGUAGES_SELECTED_LANG', ' selected="selected"');
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock('lang_headline');
-			$this->tpl->setVariable('LANG_CHANGE_CMD', 'displayForm');
-			$this->tpl->setVariable('LANG_CHANGE_FORMACTION', $this->ctrl->getFormAction($this, 'displayForm'));
-			$this->tpl->setVariable('LANG_CHANGE_TXT_OK', $lng->txt('ok'));
-			$this->tpl->setVariable('LANG_CHANGE_TXT_CHOOSE_LANGUAGE', $lng->txt('choose_language'));
-			$this->tpl->setCurrentBlock('lang_headline');
-		}
-
 		if(!$this->form)
 		{
 			$this->__initForm();

@@ -35,20 +35,6 @@
 			<div id="mainscrolldiv" class="ilStartupFrame container">
 				<!-- BEGIN page_headline -->
 				<div class="il_Header">
-					<!-- BEGIN lang_headline -->
-					<form action="{LANG_CHANGE_FORMACTION}" method="post">
-					<input type="hidden" name="cmd[{LANG_CHANGE_CMD}]" value="1" />
-					<div class="ilFloatRight">
-						<select name="change_lang_to" onchange="this.form.submit();">
-							<option value="">{LANG_CHANGE_TXT_CHOOSE_LANGUAGE}</option>
-							<!-- BEGIN lang_headline_languages -->
-							<option value="{LANG_HEADLINE_LANGUAGES_LANG_KEY}"{LANG_HEADLINE_LANGUAGES_SELECTED_LANG}>{LANG_HEADLINE_LANGUAGES_LANG_NAME}</option>
-							<!-- END lang_headline_languages -->
-						</select>
-						<input class="submit" type="submit" value="{LANG_CHANGE_TXT_OK}" />
-					</div>
-					</form>
-					<!-- END lang_headline -->
 					<h1><!-- BEGIN img_headline --><img src="{IMG_PAGEHEADLINE}" /> <!-- END img_headline -->{TXT_PAGEHEADLINE}</h1>
 				</div>
 				<!-- END page_headline -->

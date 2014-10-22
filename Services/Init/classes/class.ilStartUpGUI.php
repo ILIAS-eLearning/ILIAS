@@ -1370,36 +1370,6 @@ class ilStartUpGUI
 		self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
 		$tpl->setVariable('TXT_PAGEHEADLINE', $lng->txt('usr_agreement'));
 
-		// #9728
-		$lang_opts = array();
-		foreach($lng->getInstalledLanguages() as $lang_key)
-		{
-			$lang_opts[$lang_key] = ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_" . $lang_key);
-		}
-
-		if(sizeof($lang_opts) > 1) // #11237
-		{
-			asort($lang_opts);
-			foreach($lang_opts as $lang_key => $lang_caption)
-			{
-				$tpl->setCurrentBlock('lang_headline_languages');
-				$tpl->setVariable('LANG_HEADLINE_LANGUAGES_LANG_NAME', $lang_caption);
-				$tpl->setVariable('LANG_HEADLINE_LANGUAGES_LANG_KEY', $lang_key);
-				if($lang_key == $lng->getLangKey())
-				{
-					$tpl->setVariable('LANG_HEADLINE_LANGUAGES_SELECTED_LANG', ' selected="selected"');
-				}
-				$tpl->parseCurrentBlock();
-			}
-
-			$tpl->setCurrentBlock('lang_headline');
-			$tpl->setVariable('LANG_CHANGE_CMD', $this->ctrl->getCmd());
-			$tpl->setVariable('LANG_CHANGE_FORMACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
-			$tpl->setVariable('LANG_CHANGE_TXT_OK', $lng->txt('ok'));
-			$tpl->setVariable('LANG_CHANGE_TXT_CHOOSE_LANGUAGE', $lng->txt('choose_language'));
-			$tpl->setCurrentBlock('lang_headline');
-		}
-
 		try
 		{
 			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceSignableDocumentFactory.php';
