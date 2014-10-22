@@ -3,8 +3,6 @@
 require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMail.php");
 
 class gevAdminBookingToWaiting extends gevCrsAutoMail {
-		const DAYS_BEFORE_COURSE_START = 14;
-	
 	public function getTitle() {
 		return "Info Teilnehmer";
 	}
