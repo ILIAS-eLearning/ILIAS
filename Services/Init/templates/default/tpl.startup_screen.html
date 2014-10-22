@@ -2,7 +2,16 @@
 <div id="ilTopBar" class="ilTopBar">
 	<div class="container">
 		<div class="row">
-			<div class="ilTopTitle">Open Source eLearning</div>
+            <!-- BEGIN header_top_title -->
+            <div class="ilTopTitle">{TXT_HEADER_TITLE}</div>
+            <!-- END header_top_title -->
+            <ul id="ilTopBarNav" class="">
+                <!-- BEGIN lang_select -->
+                <li class="dropdown"><a id="mm_lang_sel" href="#" class="dropdown-toggle" data-toggle="dropdown">{TXT_LANGSELECT} <span class="caret"></span></a>
+                    {LANG_SELECT}
+                </li>
+                <!-- END lang_select -->
+            </ul>
 		</div>
 	</div>
 </div>

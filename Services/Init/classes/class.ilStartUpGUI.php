@@ -331,7 +331,6 @@ class ilStartUpGUI
 		$page_editor_html = $this->showCASLoginForm($page_editor_html);
 		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
 		$page_editor_html = $this->showOpenIdLoginForm($page_editor_html);
-		$page_editor_html = $this->showLanguageSelection($page_editor_html);
 		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
 		$page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
 
@@ -772,48 +771,6 @@ class ilStartUpGUI
 		$ret = $page_gui->showPage();
 
 		return $ret;
-	}
-
-	/**
-	 * Show language selection
-	 * @global ilTemplate $tpl
-	 */
-	protected function showLanguageSelection($page_editor_html)
-	{
-		global $lng;
-
-		$languages = $lng->getInstalledLanguages();
-		if(count($languages) <= 1)
-		{
-			return $page_editor_html;
-		}
-
-		$ltpl = new ilTemplate('tpl.login_form_lang_selection.html',true,true,'Services/Init');
-		foreach ($languages as $lang_key)
-		{
-			$ltpl->setCurrentBlock("languages");
-			$ltpl->setVariable("LANG_KEY", $lang_key);
-			$ltpl->setVariable("LANG_NAME",
-				ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
-			$ltpl->setVariable("BORDER", 0);
-			$ltpl->setVariable("VSPACE", 0);
-			$ltpl->parseCurrentBlock();
-		}
-		$ltpl->setCurrentBlock('lang_selection');
-		$ltpl->setVariable("TXT_OK", $lng->txt("ok"));
-		$ltpl->setVariable("LANG_FORM_ACTION",$this->ctrl->getFormAction($this));
-		$ltpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
-		$ltpl->setVariable("LANG_ID", $lng->getLangKey());
-		$ltpl->parseCurrentBlock();
-
-		return $this->substituteLoginPageElements(
-			$GLOBALS['tpl'],
-			$page_editor_html,
-			$ltpl->get(),
-			'[list-language-selection]',
-			'LANG_SELECTION'
-		);
-
 	}
 
 	/**
@@ -1949,6 +1906,10 @@ class ilStartUpGUI
 		// #13574 - basic.js is included with ilTemplate, so jQuery is needed, too
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery();
+
+		// framework is needed for language selection
+		include_once("./Services/UICore/classes/class.ilUIFramework.php");
+		ilUIFramework::init();
 		
 		$tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
 		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.png'));
@@ -1989,6 +1950,38 @@ class ilStartUpGUI
 			$template_file = $a_tmpl;
 			$template_dir  = 'Services/Init';
 		}
+
+		//Header Title
+
+		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
+		$header_top_title = ilObjSystemFolder::_getHeaderTitle();
+		if (trim($header_top_title) != "" && $tpl->blockExists("header_top_title"))
+		{
+			$tpl->setCurrentBlock("header_top_title");
+			$tpl->setVariable("TXT_HEADER_TITLE", $header_top_title);
+			$tpl->parseCurrentBlock();
+		}
+
+		// language selection
+		$selection = self::getLanguageSelection();
+		if($selection)
+		{
+			$tpl->setCurrentBlock("lang_select");
+			$tpl->setVariable("TXT_LANGSELECT", $lng->txt("language"));
+			$tpl->setVariable("LANG_SELECT", $selection);
+			$tpl->parseCurrentBlock();
+		}
+
 		$tpl->addBlockFile('STARTUP_CONTENT', 'startup_content', $template_file, $template_dir);
+	}
+
+	/**
+	 * language selection list
+	 * @return string ilGroupedList
+	 */
+	protected static function getLanguageSelection()
+	{
+		include_once("./Services/MainMenu/classes/class.ilMainMenuGUI.php");
+		return ilMainMenuGUI::getLanguageSelection(true);
 	}
 }
