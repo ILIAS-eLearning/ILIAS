@@ -167,19 +167,18 @@ abstract class ilParticipants
 			$a2 = "AND obd2.title LIKE 'il_".$a_type."_mem%' ";
 		}
 
+		// #14290 - no role folder anymore
 		$query = "SELECT DISTINCT obd.obj_id,obr.ref_id FROM rbac_ua ua ".
-			"JOIN rbac_fa fa ON ua.rol_id = fa.rol_id ".
-			"JOIN tree t1 ON t1.child = fa.parent ".
-			"JOIN object_reference obr ON t1.parent = obr.ref_id ".
+			"JOIN rbac_fa fa ON ua.rol_id = fa.rol_id ".			
+			"JOIN object_reference obr ON fa.parent = obr.ref_id ".
 			"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
 			$j2.
 			"WHERE obd.type = ".$ilDB->quote($a_type,'text')." ".
 			"AND fa.assign = 'y' ".
 			"AND ua.usr_id = ".$ilDB->quote($a_usr_id,'integer')." ".
 			$a2;
-		
-		$res = $ilDB->query($query);
-		
+				
+		$res = $ilDB->query($query);		
 		while($row = $ilDB->fetchObject($res))
 		{
 			$ref_ids[] = $row->obj_id;
