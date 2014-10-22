@@ -488,14 +488,20 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				NULL, 												#pass
 				FALSE, 												#graphical_output
 				false,				#result_output
-				FALSE, 												#show_question_only
+				true, 												#show_question_only
 				FALSE,												#show_feedback
 				false, 												#show_correct_solution
 				FALSE, 												#show_manual_scoring
 				true												#show_question_text
 			);
 
-			$this->tpl->setVariable("QUESTION_OUTPUT", $solutionoutput);
+			$pageoutput = $question_gui->outQuestionPage(
+				"", $this->testSequence->isPostponedQuestion($questionId),
+				$this->testSession->getActiveId(),
+				$solutionoutput
+			);
+			
+			$this->tpl->setVariable("QUESTION_OUTPUT", $pageoutput);
 			$this->tpl->setVariable("FORMACTION", $formaction);
 
 			$directfeedback = true;
