@@ -467,9 +467,14 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		if( !$this->testSession->getCurrentQuestionId() )
 		{
-			$this->testSession->setCurrentQuestionId(
-				$this->testSequence->getUpcomingQuestionId()
-			);
+			$upComingQuestionId = $this->testSequence->getUpcomingQuestionId();
+			
+			$this->testSession->setCurrentQuestionId($upComingQuestionId);
+			
+			if( $this->testSequence->isQuestionChecked($upComingQuestionId) )
+			{
+				$this->testSequence->setQuestionUnchecked($upComingQuestionId);
+			}
 		}
 		
 		if( $this->testSession->getCurrentQuestionId() )

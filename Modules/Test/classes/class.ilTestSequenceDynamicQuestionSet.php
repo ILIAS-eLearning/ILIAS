@@ -244,6 +244,7 @@ class ilTestSequenceDynamicQuestionSet
 		$this->saveNewlyPostponedQuestion();
 		$this->removeQuestionsNotPostponedAnymore();
 		$this->saveNewlyCheckedQuestion();
+		$this->removeQuestionsNotCheckedAnymore();
 	}
 	
 	private function saveNewlyTrackedQuestion()
@@ -345,6 +346,24 @@ class ilTestSequenceDynamicQuestionSet
 				'question_fi' => array('integer', (int)$this->newlyCheckedQuestion)
 			), array());
 		}
+	}
+	
+	private function removeQuestionsNotCheckedAnymore()
+	{
+		$NOT_IN_checkedQuestions = $this->db->in('question_fi', $this->alreadyCheckedQuestions, true, 'integer');
+
+		// BEGIN: FIX IN QUERY
+		if($NOT_IN_checkedQuestions == ' 1=2 ') $NOT_IN_checkedQuestions = ' 1=1 ';
+		// END: FIX IN QUERY
+		
+		$query = "
+			DELETE FROM tst_seq_qst_checked
+			WHERE active_fi = %s
+			AND pass = %s
+			AND $NOT_IN_checkedQuestions
+		";
+		
+		$this->db->manipulateF($query, array('integer', 'integer'), array((int)$this->getActiveId(), 0));
 	}
 	
 	public function loadQuestions(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilTestDynamicQuestionSetFilterSelection $filterSelection)
@@ -570,6 +589,11 @@ class ilTestSequenceDynamicQuestionSet
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
+
+	public function setQuestionUnchecked($questionId)
+	{
+		unset($this->alreadyCheckedQuestions[$questionId]);
+	}
 
 	public function setQuestionChecked($questionId)
 	{

@@ -112,9 +112,9 @@ class ilTestSequenceFactory
 							$this->db, $questionSet, $testSession->getActiveId()
 					);
 					
-					$this->testSequence->setPreventCheckedQuestionsFromComingUpEnabled(
-						$this->testOBJ->isInstantFeedbackAnswerFixationEnabled()
-					);
+					#$this->testSequence->setPreventCheckedQuestionsFromComingUpEnabled(
+					#	$this->testOBJ->isInstantFeedbackAnswerFixationEnabled()
+					#); // checked questions now has to come up any time, so they can be set to unchecked right at this moment
 					
 					break;
 			}
