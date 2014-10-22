@@ -1275,10 +1275,13 @@ assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Start Test with Current Que
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Resume Test with Current Question Selection
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Back to Test with Current Question Selection
 assessment#:#tst_tracked_question_list#:#Previously Answered Questions
-assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection
-assessment#:#tst_num_open_questions#:#Open Questions
+assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection and Selection-Statistic
+assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic
+assessment#:#tst_num_all_questions#:#Number of All Questions
+assessment#:#tst_num_selected_questions#:#Number of Selected Questions
 assessment#:#tst_num_non_answered_questions#:#Non Answered Questions
 assessment#:#tst_num_wrong_answered_questions#:#Wrong Answered Questions
+assessment#:#tst_num_correct_answered_questions#:#Correct Answered Questions
 assessment#:#tst_num_postponed_questions#:#Postponed Questions
 assessment#:#tst_num_marked_questions#:#Marked Questions
 assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Selection

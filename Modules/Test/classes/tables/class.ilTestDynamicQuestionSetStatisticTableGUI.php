@@ -11,12 +11,16 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  *
  * @package	Modules/Test
  * 
- * @ilCtrl_Calls ilTestDynamicQuestionSetFilterStatisticTableGUI: ilFormPropertyDispatchGUI
+ * @ilCtrl_Calls ilTestDynamicQuestionSetStatisticTableGUI: ilFormPropertyDispatchGUI
  */
-class ilTestDynamicQuestionSetFilterStatisticTableGUI extends ilTable2GUI
+class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 {
-	const TABLE_ID = 'tstDynQuestSel';
-	
+	const COMPLETE_TABLE_ID = 'tstDynQuestCompleteStat';
+	const FILTERED_TABLE_ID = 'tstDynQuestFilteredStat';
+
+	/**
+	 * @var array
+	 */
 	protected $taxIds = array();
 
 	/**
@@ -34,24 +38,21 @@ class ilTestDynamicQuestionSetFilterStatisticTableGUI extends ilTable2GUI
 	 *
 	 * @global ilObjUser $ilUser
 	 */
-	public function __construct(ilCtrl $ctrl, ilLanguage $lng, $a_parent_obj, $a_parent_cmd, $taxIds)
+	public function __construct(ilCtrl $ctrl, ilLanguage $lng, $a_parent_obj, $a_parent_cmd, $tableId)
 	{
-		$this->setId(self::TABLE_ID);
-		$this->setPrefix(self::TABLE_ID);
-		
-		parent::__construct($a_parent_obj, $a_parent_cmd);
+		$this->setId($tableId);
+		$this->setPrefix($tableId);
 
+		parent::__construct($a_parent_obj, $a_parent_cmd);
+		
 		global $lng, $ilCtrl;
 
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
-		$this->taxIds = $taxIds;
 		
 		$this->setFormName('filteredquestions');
 		$this->setStyle('table', 'fullwidth');
 
-		$this->setTitle($this->lng->txt('tst_dynamic_question_set_selection'));
-	
 		$this->setRowTemplate("tpl.il_as_tst_dynamic_question_set_selection_row.html", "Modules/Test");
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -64,12 +65,18 @@ class ilTestDynamicQuestionSetFilterStatisticTableGUI extends ilTable2GUI
 		$this->setDisableFilterHiding(true);
 	}
 	
-	public function initColumns()
+	public function initTitle($titleLangVar)
 	{
-
-		$this->addColumn($this->lng->txt("tst_num_open_questions"),'num_open_questions', '');
-		$this->addColumn($this->lng->txt("tst_num_non_answered_questions"),'num_non_answered_questions', '');
+		$this->setTitle($this->lng->txt($titleLangVar));
+	}
+	
+	public function initColumns($totalQuestionsColumnHeaderLangVar)
+	{
+		$this->addColumn($this->lng->txt($totalQuestionsColumnHeaderLangVar), 'num_total_questions', '250');
+		
+		$this->addColumn($this->lng->txt("tst_num_correct_answered_questions"),'num_correct_answered_questions', '');
 		$this->addColumn($this->lng->txt("tst_num_wrong_answered_questions"),'num_wrong_answered_questions', '');
+		$this->addColumn($this->lng->txt("tst_num_non_answered_questions"),'num_non_answered_questions', '');
 
 		if( $this->isShowNumPostponedQuestionsEnabled() )
 		{
@@ -121,9 +128,10 @@ class ilTestDynamicQuestionSetFilterStatisticTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
-		$this->tpl->setVariable('NUM_OPEN_QUESTIONS', $data['total_open']);
-		$this->tpl->setVariable('NUM_NON_ANSWERED_QUESTIONS', $data['non_answered']);
+		$this->tpl->setVariable('NUM_ALL_QUESTIONS', $data['total_all']);
+		$this->tpl->setVariable('NUM_CORRECT_ANSWERED_QUESTIONS', $data['correct_answered']);
 		$this->tpl->setVariable('NUM_WRONG_ANSWERED_QUESTIONS', $data['wrong_answered']);
+		$this->tpl->setVariable('NUM_NON_ANSWERED_QUESTIONS', $data['non_answered']);
 		
 		if( $this->isShowNumPostponedQuestionsEnabled() )
 		{
@@ -140,6 +148,22 @@ class ilTestDynamicQuestionSetFilterStatisticTableGUI extends ilTable2GUI
 		}
 	}
 
+	/**
+	 * @param array $taxIds
+	 */
+	public function setTaxIds($taxIds)
+	{
+		$this->taxIds = $taxIds;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getTaxIds()
+	{
+		return $this->taxIds;
+	}
+	
 	/**
 	 * @param boolean $showNumMarkedQuestionsEnabled
 	 */

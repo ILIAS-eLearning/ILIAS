@@ -647,6 +647,11 @@ class ilTestSequenceDynamicQuestionSet
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
+
+	public function getCompleteQuestionsData()
+	{
+		return $this->questionSet->getCompleteQuestionList()->getQuestionDataArray();
+	}
 	
 	public function getFilteredQuestionsData()
 	{
