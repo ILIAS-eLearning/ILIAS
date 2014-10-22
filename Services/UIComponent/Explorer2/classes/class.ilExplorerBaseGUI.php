@@ -559,6 +559,10 @@ abstract class ilExplorerBaseGUI
 	static function init()
 	{
 		global $tpl;
+
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		iljQueryUtil::initjQuery();
+
 		$tpl->addJavascript(self::getLocalExplorerJsPath());
 		$tpl->addJavascript(self::getLocalJsTreeJsPath());
 	}
