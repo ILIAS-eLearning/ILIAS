@@ -232,7 +232,7 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 		$write_permission_ok = false;
 		foreach($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id)
 		{
-			if($rbacsystem->checkAccess('edit',$ref_id))
+			if($rbacsystem->checkAccess('write',$ref_id))  // #14299
 			{
 				$write_permission_ok = true;
 				break;
