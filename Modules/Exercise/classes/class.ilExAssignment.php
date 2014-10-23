@@ -3049,25 +3049,41 @@ class ilExAssignment
 	{
 		global $ilUser;
 		
+		if ($a_user_id == 0)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+		
+		// #14294
+		if($this->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{
+			$team_id = $this->getTeamId($a_user_id);
+			$feedback_id = "t".$team_id;	
+						
+			$noti_rec_ids = array();
+			foreach($this->getTeamMembers($team_id) as $team_user_id)
+			{				
+				$noti_rec_ids[] = $team_user_id;
+			}						
+		}
+		else
+		{
+			$feedback_id = $a_user_id;
+			$noti_rec_ids = array($a_user_id);
+		}
+		
 		$exc = new ilObjExercise($this->getExerciseId(), false);
 		
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$fstorage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
 		$fstorage->create();
 		
-		$mfu = $fstorage->getMultiFeedbackUploadPath($ilUser->getId());
-
-		if ($a_user_id == 0)
-		{
-			$a_user_id = $ilUser->getId();
-		}
-		
 		$mf_files = $this->getMultiFeedbackFiles();
 		foreach ($mf_files as $f)
 		{
 			if ($a_files[$f["user_id"]][$f["file"]] != "")
 			{
-				$fb_path = $fstorage->getFeedbackPath((int) $f["user_id"]);
+				$fb_path = $fstorage->getFeedbackPath($feedback_id);
 				$target = $fb_path."/".$f["file"];
 				if (is_file($target))
 				{
@@ -3075,7 +3091,7 @@ class ilExAssignment
 				}
 				// rename file
 				rename($f["full_path"], $target);
-				$exc->sendFeedbackFileNotification($f["file"], (int) $f["user_id"],
+				$exc->sendFeedbackFileNotification($f["file"], $noti_rec_ids,
 					(int) $this->getId());
 			}
 		}
