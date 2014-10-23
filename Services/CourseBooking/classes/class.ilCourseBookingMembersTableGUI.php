@@ -139,7 +139,7 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 	 * @param array $a_set
 	 */
 	protected function fillRow($a_set)
-	{					
+	{
 		$this->tpl->setVariable("TXT_NAME", $a_set["name"]);		
 		$this->tpl->setVariable("TXT_LOGIN", $a_set["login"]);		
 		$this->tpl->setVariable("TXT_ORG", $a_set["org_txt"]);	
@@ -155,16 +155,13 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 			
 			if($this->perm_book_others)
 			{
-				// gev-patch start
-				/*if($this->has_waiting && $a_set["status"] == ilCourseBooking::STATUS_BOOKED)
+				if($this->has_waiting && $a_set["status"] == ilCourseBooking::STATUS_BOOKED)
 				{
 					$list->addItem($this->lng->txt("crsbook_admin_action_to_waiting_list"),
 						"",
 						$this->getLink($a_set["id"], ilCourseBooking::STATUS_WAITING));
 				}
-				else */
-				// gev-patch end
-				if($a_set["status"] == ilCourseBooking::STATUS_WAITING)
+				else if($a_set["status"] == ilCourseBooking::STATUS_WAITING)
 				{
 					$list->addItem($this->lng->txt("crsbook_admin_action_book"),
 						"",
