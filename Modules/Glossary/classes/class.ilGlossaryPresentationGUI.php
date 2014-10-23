@@ -179,7 +179,7 @@ class ilGlossaryPresentationGUI
 		$title = $this->glossary->getTitle();
 
 		$this->tpl->setTitle($title);
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo_b.png"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.png"));
 
 		$this->setLocator();
 	}
@@ -708,7 +708,7 @@ class ilGlossaryPresentationGUI
 		// set title header
 		$this->tpl->setTitle($this->glossary->getTitle());
 		//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_glo_b.png"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo_b.png"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.png"));
 
 		// create table
 		require_once("./Services/Table/classes/class.ilTableGUI.php");

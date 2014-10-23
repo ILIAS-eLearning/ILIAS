@@ -1725,13 +1725,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
 		if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject")
 		{
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.png"));
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob.png"));
 			$this->tpl->setTitle($this->object->getTitle());
 		}
 		else
 		{
 			//$title = $this->object->getTitle();
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.png"));
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob.png"));
 			$this->tpl->setTitle($this->lng->txt("cont_create_mob"));
 		}
 	}

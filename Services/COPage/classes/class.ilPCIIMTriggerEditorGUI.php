@@ -304,7 +304,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 				$a_output = str_replace($pg_gui->pl_start."Question;il__qst_$k".$pg_gui->pl_end, " ".$h, $a_output);
 			}
 		}
-		$a_output = $pg_gui->selfAssessmentRendering($a_output);
+//		$a_output = $pg_gui->selfAssessmentRendering($a_output);
 
 		return $a_output;
 	}
