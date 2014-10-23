@@ -350,8 +350,7 @@ abstract class assQuestionGUI
 		$page_gui->setQuestionHTML(array($this->object->getId() => $html));
 		$page_gui->setOutputMode("presentation");
 		$presentation = $page_gui->presentation();
-		// bugfix for non XHTML conform img tags in ILIAS Learning Module Editor
-		$presentation = preg_replace("/src=\".\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
+		$presentation = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
 		return $presentation;
 	}
 
@@ -427,8 +426,7 @@ abstract class assQuestionGUI
 				$this->lng->txt("tst_you_have_to_answer_this_question").'</span>';
 			$presentation 	= str_replace($obligatoryString, $replacement, $presentation);
 		}
-		// bugfix for non XHTML conform img tags in ILIAS Learning Module Editor
-		$presentation = preg_replace("/src=\".\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
+		$presentation = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
 		return $presentation;
 	}
 	
