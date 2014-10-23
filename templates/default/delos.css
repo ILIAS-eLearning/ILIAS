@@ -7949,6 +7949,9 @@ a.nostyle:hover {
 #iltinymenu a.btn {
   min-width: 30px;
 }
+#error_panel_c {
+  z-index: 2000 !important;
+}
 /* Services/Calendar */
 td.even {
   color: #222;
