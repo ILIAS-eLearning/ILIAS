@@ -1315,3 +1315,7 @@ $ilDB->manipulate("DELETE FROM settings".
 	" AND keyword = ".$ilDB->quote("obj_dis_creation_rcrs", "text"));
 
 ?>
+<#49>
+<?php
+	$ilDB->manipulate("UPDATE frm_posts SET pos_update = pos_date WHERE pos_update IS NULL");
+?>
