@@ -4474,7 +4474,7 @@ abstract class assQuestion
 	 * @param $time2
 	 * @return string
 	 */
-	public function sumTimesInISO8601FormatH_i_s_Extended($time1, $time2)
+	public static function sumTimesInISO8601FormatH_i_s_Extended($time1, $time2)
 	{
 		$time = assQuestion::convertISO8601FormatH_i_s_ExtendedToSeconds($time1) +
 				assQuestion::convertISO8601FormatH_i_s_ExtendedToSeconds($time2);
@@ -4485,7 +4485,7 @@ abstract class assQuestion
 	 * @param $time
 	 * @return int
 	 */
-	public function convertISO8601FormatH_i_s_ExtendedToSeconds($time)
+	public static function convertISO8601FormatH_i_s_ExtendedToSeconds($time)
 	{
 		$sec = 0;
 		$time_array = explode(':',$time);
