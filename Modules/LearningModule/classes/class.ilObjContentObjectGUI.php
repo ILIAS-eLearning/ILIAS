@@ -2328,8 +2328,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		}
 		
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if(ilLearningProgressAccess::checkAccess($_GET["ref_id"]))
-		{			
+		if(!$a_offline &&
+			$ilAccess->checkAccess("read", "", $_GET["ref_id"]) && // #14075
+			ilLearningProgressAccess::checkAccess($_GET["ref_id"])) 
+		{								
 			include_once './Services/Object/classes/class.ilObjectLP.php';
 			$olp = ilObjectLP::getInstance($this->object->getId());			
 			if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL)
