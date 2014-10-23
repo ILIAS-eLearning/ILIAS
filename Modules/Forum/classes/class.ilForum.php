@@ -1017,8 +1017,11 @@ class ilForum
 		/**
 		 * @var $ilDB   ilDB
 		 * @var $ilUser ilObjUser
+		 * @var $ilSetting ilSetting
 		 */
-		global $ilDB, $ilUser;
+		global $ilDB, $ilUser, $ilSetting;
+		
+		$frm_overview_setting = (int)$ilSetting::_lookupValue('frma','forum_overview');
 		
 		$excluded_ids_condition = '';
 		if(isset($params['excluded_ids']) && is_array($params['excluded_ids']) && $params['excluded_ids'])
@@ -1092,28 +1095,30 @@ class ilForum
 			$query = "SELECT
 					  (CASE WHEN COUNT(DISTINCT(notification_id)) > 0 THEN 1 ELSE 0 END) usr_notification_is_enabled,
 					  MAX(pos_date) post_date,
-					  COUNT(DISTINCT(pos_pk)) num_posts,
-					  
-					  COUNT(DISTINCT(pos_pk)) - COUNT(DISTINCT(postread.post_id)) num_unread_posts,
-					  
-					  (
-						SELECT COUNT(DISTINCT(ipos.pos_pk))
+					  COUNT(DISTINCT(pos_pk)) num_posts, 
+					  COUNT(DISTINCT(pos_pk)) - COUNT(DISTINCT(postread.post_id)) num_unread_posts, ";
+
+			// new posts query  
+			if($frm_overview_setting == ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS)
+			{
+				$query .= "
+					  (SELECT COUNT(DISTINCT(ipos.pos_pk))
 						FROM frm_posts ipos
 						LEFT JOIN frm_user_read iread ON iread.post_id = ipos.pos_pk AND iread.usr_id = %s
 						LEFT JOIN frm_thread_access iacc ON (iacc.thread_id = ipos.pos_thr_fk AND iacc.usr_id = %s)
 						WHERE ipos.pos_thr_fk = thr_pk
 						 
-						AND (
-							(ipos.pos_date > iacc.access_old_ts OR ipos.pos_update > iacc.access_old_ts)
+						AND (ipos.pos_update > iacc.access_old_ts
 							OR
-							(iacc.access_old IS NULL AND (ipos.pos_date > ".$ilDB->quote(date('Y-m-d H:i:s', NEW_DEADLINE), 'timestamp')." OR ipos.pos_update > ".$ilDB->quote(date('Y-m-d H:i:s', NEW_DEADLINE), 'timestamp')."))
+							(iacc.access_old IS NULL AND (ipos.pos_update > " . $ilDB->quote(date('Y-m-d H:i:s', NEW_DEADLINE), 'timestamp') . "))
 							)
 						 
 						AND ipos.pos_author_id != %s
 						AND iread.usr_id IS NULL $active_inner_query
-					  ) num_new_posts,
-					  
-					  thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
+					  ) num_new_posts, ";
+			}
+			
+				$query .= " thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
 					  {$optional_fields}
 					  FROM frm_threads
 					  
@@ -1134,12 +1139,18 @@ class ilForum
 						{$optional_fields}
 						ORDER BY is_sticky DESC {$additional_sort}, thr_date DESC";
 			
-			$data_types[] = 'integer';
-			$data_types[] = 'integer';
-			$data_types[] = 'integer';
-			if(!$params['is_moderator'])
+			
+			// data_types for new posts query and $active_inner_query
+			if($frm_overview_setting == ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS)
 			{
-				array_push($data_types, 'integer', 'integer');
+				$data_types[] = 'integer';
+				$data_types[] = 'integer';
+				$data_types[] = 'integer';
+
+				if(!$params['is_moderator'])
+				{
+					array_push($data_types, 'integer', 'integer');
+				}
 			}
 			$data_types[] = 'integer';
 			if(!$params['is_moderator'])
@@ -1148,13 +1159,18 @@ class ilForum
 			}
 			$data_types[] = 'integer';
 			$data_types[] = 'integer';
-	
-			$data[] = $ilUser->getId();
-			$data[] = $ilUser->getId();
-			$data[] = $ilUser->getId();
-			if(!$params['is_moderator'])
+
+			// data_values for new posts query and $active_inner_query
+			if($frm_overview_setting == ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS)
 			{
-				array_push($data, '1', $ilUser->getId());
+				$data[] = $ilUser->getId();
+				$data[] = $ilUser->getId();
+				$data[] = $ilUser->getId();
+
+				if(!$params['is_moderator'])
+				{
+					array_push($data, '1', $ilUser->getId());
+				}
 			}
 			$data[] = $ilUser->getId();
 			if(!$params['is_moderator'])
@@ -1257,7 +1273,9 @@ class ilForum
 
 		array_push($data_types,'integer');
 		array_push($data, $this->getForumId());
-			
+	
+
+		
 		$res = $ilDB->queryf($query, $data_types, $data);
 		
 		$counter = 0;

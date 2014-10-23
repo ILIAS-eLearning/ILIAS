@@ -1009,7 +1009,18 @@ class ilObjForum extends ilObject
 				INNER JOIN frm_posts ON frm_user_read.post_id = frm_posts.pos_pk
 				INNER JOIN frm_threads ON frm_threads.thr_pk = frm_posts.pos_thr_fk 
 				WHERE frm_user_read.usr_id = %s AND frm_posts.pos_top_fk = %s $act_clause)
-				
+			";
+
+			$types  = array('integer', 'integer', 'integer'); 
+			$values = array($forumId, $ilUser->getId(), $forumId);
+
+			$forum_overview_setting = (int)$ilSetting::_lookupValue('frma', 'forum_overview');
+			if($forum_overview_setting == ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS)
+			{
+				$news_types = array('integer', 'integer', 'integer', 'timestamp', 'integer');
+				$news_values = array($ilUser->getId(), $ilUser->getId(), $forumId,  $new_deadline, $ilUser->getId());
+
+				$query .= " 
 				UNION ALL
 				
 				(SELECT COUNT(frm_posts.pos_pk) cnt
@@ -1017,13 +1028,16 @@ class ilObjForum extends ilObject
 				LEFT JOIN frm_user_read ON (post_id = frm_posts.pos_pk AND frm_user_read.usr_id = %s)
 				LEFT JOIN frm_thread_access ON (frm_thread_access.thread_id = frm_posts.pos_thr_fk AND frm_thread_access.usr_id = %s)
 				WHERE frm_posts.pos_top_fk = %s
-				AND ((frm_posts.pos_date > frm_thread_access.access_old_ts OR frm_posts.pos_update > frm_thread_access.access_old_ts)
-					OR (frm_thread_access.access_old IS NULL AND (frm_posts.pos_date > %s OR frm_posts.pos_update > %s)))
+				AND ( (frm_posts.pos_update > frm_thread_access.access_old_ts)
+						OR (frm_thread_access.access_old IS NULL AND frm_posts.pos_update > %s)
+					)
 				AND frm_posts.pos_author_id != %s 
-				AND frm_user_read.usr_id IS NULL $act_clause)
-			";
-			$types  = array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'timestamp', 'integer');
-			$values = array($forumId, $ilUser->getId(), $forumId, $ilUser->getId(), $ilUser->getId(), $forumId, $new_deadline, $new_deadline, $ilUser->getId());
+				AND frm_user_read.usr_id IS NULL $act_clause)";
+				
+				$types  = array_merge($types, $news_types);
+				$values = array_merge($values, $news_values);  
+			}	
+			
 			$mapping = array_keys($statistics);
 			$res     = $ilDB->queryF(
 				$query,

@@ -4504,4 +4504,7 @@ if( !$settings->get('ommit_legacy_ou_dbtable_deletion', 0) )
 }
 
 ?>
-
+<#4404>
+<?php
+	$ilDB->manipulate("UPDATE frm_posts SET pos_update = pos_date WHERE pos_update IS NULL");
+?>

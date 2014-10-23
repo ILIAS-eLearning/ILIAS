@@ -14,6 +14,9 @@ class ilForumProperties
 	const VIEW_DATE_ASC = 2;
 	const VIEW_DATE_DESC = 3;
 	
+	const FORUM_OVERVIEW_WITH_NEW_POSTS = 0;
+	const FORUM_OVERVIEW_NO_NEW_POSTS = 1;
+	
 	/**
 	 * Object id of current forum
 	 * @access	private
