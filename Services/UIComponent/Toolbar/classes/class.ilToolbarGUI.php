@@ -428,7 +428,7 @@ class ilToolbarGUI
 			// hidden style
 			if ($this->getHidden())
 			{
-				$tpl->setVariable("STYLE", ' style="display:none;" ');
+				$tpl->setVariable("HIDDEN_CLASS", 'ilNoDisplay');
 			}
 			
 			return $tpl->get();

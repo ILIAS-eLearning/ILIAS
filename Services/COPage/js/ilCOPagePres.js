@@ -571,9 +571,9 @@ il.COPagePres =
 	 */
 	initDragToolbar: function() {
 		// show the toolbar
-		$("div#drag_toolbar").css("display", "");
+		$("#drag_toolbar").removeClass("ilNoDisplay");
 		this.fixMarkerPositions();
-		$("a#save_pos_button").click(function () {
+		$("#save_pos_button").click(function () {
 			$("input#update_tr_button").trigger("click");
 			});
 	},
