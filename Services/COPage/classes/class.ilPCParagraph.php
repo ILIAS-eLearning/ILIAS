@@ -1712,6 +1712,9 @@ if (!$a_wysiwyg)
 			$parnodes = $xpath->query('//Paragraph', $a_par_node);
 		}
 
+
+		include_once("./Services/Utilities/classes/class.ilStr.php");
+
 		foreach ($parnodes as $parnode)
 		{
 			$textnodes = $xpath->query('//text()', $parnode);
@@ -1728,34 +1731,36 @@ if (!$a_wysiwyg)
 					// all terms
 					foreach ($a_terms as $t)
 					{
-						$pos = stripos($node_val, $t["term"]);
+						$pos = ilStr::strIPos($node_val, $t["term"]);
 						
 						// if term found 
 						while (is_int($pos))
 						{
 							// check if the string is not included in another word
 							// note that []
-							$valid_limiters = array("", " ", ".", ",", ":", ";", "!", "?", "\"", "'", "(", ")");
-							$b = substr($node_val, $pos - 1, 1);
-							$a = substr($node_val, $pos + strlen($t["term"]), 1);
-							if (in_array($b, $valid_limiters) && in_array($a, $valid_limiters))
+							$valid_limiters = array("", " ","&nbsp;", ".", ",", ":", ";", "!", "?", "\"", "'", "(", ")");
+							$b = ($pos > 0)
+								? ilStr::subStr($node_val, $pos - 1, 1)
+								: "";
+							$a = ilStr::subStr($node_val, $pos + ilStr::strLen($t["term"]), 1);
+							if ((in_array($b, $valid_limiters) || htmlentities($b, null, 'utf-8') == "&nbsp;")&& in_array($a, $valid_limiters))
 							{
 								$mid = '[iln term="'.$t["id"].'"]'.
-									substr($node_val, $pos, strlen($t["term"])).
+									ilStr::subStr($node_val, $pos, ilStr::strLen($t["term"])).
 									"[/iln]";
 	
-								$node_val = substr($node_val, 0, $pos).
+								$node_val = ilStr::subStr($node_val, 0, $pos).
 									$mid.
-									substr($node_val, $pos + strlen($t["term"]))
+									ilStr::subStr($node_val, $pos + ilStr::strLen($t["term"]))
 									;
 									
-								$pos+= strlen($mid);
+								$pos+= ilStr::strLen($mid);
 							}
 							else
 							{
-								$pos+= strlen($t["term"]) + 1;
+								$pos+= ilStr::strLen($t["term"]);
 							}
-							$pos = stripos($node_val, $t["term"], $pos);
+							$pos = ilStr::strIPos($node_val, $t["term"], $pos);
 						}
 						
 						// insert [iln] tags

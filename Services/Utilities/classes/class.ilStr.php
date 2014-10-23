@@ -1,25 +1,6 @@
 <?php
-/*
-+-----------------------------------------------------------------------------+
-| ILIAS open source                                                           |
-+-----------------------------------------------------------------------------+
-| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
-|                                                                             |
-| This program is free software; you can redistribute it and/or               |
-| modify it under the terms of the GNU General Public License                 |
-| as published by the Free Software Foundation; either version 2              |
-| of the License, or (at your option) any later version.                      |
-|                                                                             |
-| This program is distributed in the hope that it will be useful,             |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-| GNU General Public License for more details.                                |
-|                                                                             |
-| You should have received a copy of the GNU General Public License           |
-| along with this program; if not, write to the Free Software                 |
-| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 /**
@@ -31,7 +12,7 @@
 */
 class ilStr
 {
-	public static function subStr($a_str, $a_start, $a_length = NULL)
+	static public function subStr($a_str, $a_start, $a_length = NULL)
 	{
 		if (function_exists("mb_substr"))
 		{
@@ -42,8 +23,8 @@ class ilStr
 			return substr($a_str, $a_start, $a_length);
 		}
 	}
-	
-	function strPos($a_haystack, $a_needle, $a_offset = NULL)
+
+	static function strPos($a_haystack, $a_needle, $a_offset = NULL)
 	{
 		if (function_exists("mb_strpos"))
 		{
@@ -52,7 +33,19 @@ class ilStr
 		else
 		{
 			return strpos($a_haystack, $a_needle, $a_offset);
-		}		
+		}
+	}
+
+	static function strIPos($a_haystack, $a_needle, $a_offset = NULL)
+	{
+		if (function_exists("mb_stripos"))
+		{
+			return mb_stripos($a_haystack, $a_needle, $a_offset, "UTF-8");
+		}
+		else
+		{
+			return stripos($a_haystack, $a_needle, $a_offset);
+		}
 	}
 
 	/*function strrPos($a_haystack, $a_needle, $a_offset = NULL)
@@ -75,8 +68,8 @@ class ilStr
 			return strrpos($a_haystack, $a_needle, $a_offset);
 		}		
 	}*/
-	
-	public static function strLen($a_string)
+
+	static public function strLen($a_string)
 	{
 		if (function_exists("mb_strlen"))
 		{
@@ -88,7 +81,7 @@ class ilStr
 		}		
 	}
 
-	public static function strToLower($a_string)
+	static public function strToLower($a_string)
 	{
 		if (function_exists("mb_strtolower"))
 		{
@@ -100,7 +93,7 @@ class ilStr
 		}		
 	}
 
-	function strToUpper($a_string)
+	static function strToUpper($a_string)
 	{
 		$a_string = (string) $a_string;
 		if (function_exists("mb_strtoupper"))
@@ -116,7 +109,7 @@ class ilStr
 	/**
 	* Compare two strings
 	*/
-	function strCmp($a, $b)
+	static function strCmp($a, $b)
 	{
 		global $ilCollator;
 
@@ -143,7 +136,7 @@ class ilStr
 	 * @param string $a_encoding [optional]
 	 * @return string
 	 */
-	public static function shortenText($a_string,$a_start_pos,$a_num_bytes,$a_encoding = 'UTF-8')
+	static public function shortenText($a_string,$a_start_pos,$a_num_bytes,$a_encoding = 'UTF-8')
 	{
 		return mb_strcut($a_string, $a_start_pos, $a_num_bytes, $a_encoding);		
 	}
@@ -151,7 +144,7 @@ class ilStr
 	/**
 	* Check whether string is utf-8
 	*/
-	function isUtf8($a_str)
+	static function isUtf8($a_str)
 	{
 		if (function_exists("mb_detect_encoding"))
 		{
@@ -198,7 +191,7 @@ class ilStr
 	 * @param string the string to search for
 	 * @return array all occurences of needle in haystack
 	 */
-	public static function strPosAll($a_haystack, $a_needle)
+	static public function strPosAll($a_haystack, $a_needle)
 	{
 		$positions = array();
 		$cpos = 0;
@@ -213,7 +206,7 @@ class ilStr
 	/**
 	 * Replaces the first occurence of $a_old in $a_str with $a_new
 	 */
-	function replaceFirsOccurence($a_old, $a_new, $a_str)
+	static function replaceFirsOccurence($a_old, $a_new, $a_str)
 	{
 		if (is_int(strpos($a_str, $a_old)))
 		{
