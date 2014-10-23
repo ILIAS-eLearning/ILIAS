@@ -4468,4 +4468,33 @@ abstract class assQuestion
 	{
 		return $this->step;
 	}
+
+	/**
+	 * @param $time1
+	 * @param $time2
+	 * @return string
+	 */
+	public function sumTimesInISO8601FormatH_i_s_Extended($time1, $time2)
+	{
+		$time = assQuestion::convertISO8601FormatH_i_s_ExtendedToSeconds($time1) +
+				assQuestion::convertISO8601FormatH_i_s_ExtendedToSeconds($time2);
+		return gmdate('H:i:s', $time);
+	}
+
+	/**
+	 * @param $time
+	 * @return int
+	 */
+	public function convertISO8601FormatH_i_s_ExtendedToSeconds($time)
+	{
+		$sec = 0;
+		$time_array = explode(':',$time);
+		if(	sizeof($time_array) == 3)
+		{
+			$sec += $time_array[0] * 3600;
+			$sec += $time_array[1] * 60;
+			$sec += $time_array[2];
+		}
+		return $sec;
+	}
 }

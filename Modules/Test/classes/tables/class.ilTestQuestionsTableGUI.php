@@ -14,12 +14,12 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilTestQuestionsTableGUI extends ilTable2GUI
 {
-	protected $writeAccess = false;
-	protected $totalPoints = 0;
-	protected $checked_move = false;
-	protected $total = 0;
-
-	protected $position = 0;
+	protected $writeAccess 		= false;
+	protected $totalPoints 		= 0;
+	protected $totalWorkingTime = '00:00:00';
+	protected $checked_move 	= false;
+	protected $total 			= 0;
+	protected $position			= 0;
 
 	/**
 	 * @var array
@@ -132,7 +132,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 			'qid'         => array('txt' => $this->lng->txt('question_id'), 'default' => true),
 			'description' => array('txt' => $this->lng->txt('description'), 'default' => false),
 			'author'      => array('txt' => $this->lng->txt('author'), 'default' => false),
-			'working_time'      => array('txt' => $this->lng->txt('working_time'), 'default' => false)
+			'working_time'=> array('txt' => $this->lng->txt('working_time'), 'default' => false)
 		);
 
 		return $cols;
@@ -145,6 +145,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 			if (strcmp($column['text'], $this->lng->txt("points")) == 0)
 			{
 				$this->column[$key]['text'] = $this->lng->txt("points") . "&nbsp;(" . $this->totalPoints . ")";
+			}
+			elseif (strcmp($column['text'], $this->lng->txt("working_time")) == 0)
+			{
+				$this->column[$key]['text'] = $this->lng->txt("working_time") . "&nbsp;(" . $this->totalWorkingTime . ")";
 			}
 		}
 		parent::fillHeader();
@@ -240,8 +244,8 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
 		$this->tpl->setVariable("QUESTION_POINTS", $data["points"]);
-		$this->totalPoints += $data["points"];
-
+		$this->totalPoints 		+= $data["points"];
+		$this->totalWorkingTime = assQuestion::sumTimesInISO8601FormatH_i_s_Extended($this->totalWorkingTime,$data['working_time']);
 		if(isset($this->visibleOptionalColumns['author']))
 		{
 			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);

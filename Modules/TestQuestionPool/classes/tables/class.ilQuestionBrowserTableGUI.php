@@ -16,9 +16,10 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php
 
 class ilQuestionBrowserTableGUI extends ilTable2GUI
 {
-	protected $editable = true;
-	protected $writeAccess = false;
-	protected $totalPoints = 0;
+	protected $editable 		= true;
+	protected $writeAccess 		= false;
+	protected $totalPoints 		= 0;
+	protected $totalWorkingTime = '00:00:00';
 	protected $confirmdelete;
 	
 	protected $taxIds = array();
@@ -251,6 +252,10 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			{
 				$this->column[$key]['text'] = $this->lng->txt("points") . "&nbsp;(" . $this->totalPoints . ")";
 			}
+			elseif (strcmp($column['text'], $this->lng->txt("working_time")) == 0)
+			{
+				$this->column[$key]['text'] = $this->lng->txt("working_time") . "&nbsp;(" . $this->totalWorkingTime . ")";
+			}
 		}
 		parent::fillHeader();
 	}
@@ -297,6 +302,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			else
 			{
 				$points = $data["points"];
+				$this->totalWorkingTime = assQuestion::sumTimesInISO8601FormatH_i_s_Extended($this->totalWorkingTime,$data['working_time']);
 			}
 			$this->totalPoints += $points;
 
