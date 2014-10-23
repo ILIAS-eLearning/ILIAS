@@ -262,8 +262,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		$form = new ilPropertyFormGUI();
 		
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->addCommandButton(self::CMD_SAVE_FORM, $this->lng->txt("save"));
-		
+
 		$form->setId("tst_form_dynamic_question_set_config");
 		$form->setTitle($this->lng->txt('tst_form_dynamic_question_set_config'));
 		$form->setTableWidth("100%");
@@ -347,6 +346,11 @@ class ilObjTestDynamicQuestionSetConfigGUI
 			$questionOderingInput->setDisabled(true);
 			$taxFilterInput->setDisabled(true);
 			$answStatusFilterInput->setDisabled(true);
+			$previousQuestionsListInput->setDisabled(true);
+		}
+		else
+		{
+			$form->addCommandButton(self::CMD_SAVE_FORM, $this->lng->txt('save'));
 		}
 		
 		return $form;
