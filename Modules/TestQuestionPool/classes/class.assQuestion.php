@@ -802,7 +802,12 @@ abstract class assQuestion
 					array_push($output, '<a href="' . assQuestion::_getInternalLinkHref($solution["internal_link"]) . '">' . $this->lng->txt("solution_hint") . '</a>');
 					break;
 				case "file":
-					array_push($output, '<a href="' . $this->getSuggestedSolutionPathWeb() . $solution["value"]["name"] . '">' . ((strlen($solution["value"]["filenme"])) ? ilUtil::prepareFormOutput($solution["value"]["filenme"]) : $this->lng->txt("solution_hint")) . '</a>');
+					$possible_texts = array_values(array_filter(array(
+						ilUtil::prepareFormOutput($solution['value']['filename']),
+						ilUtil::prepareFormOutput($solution['value']['name']),
+						$this->lng->txt('tst_show_solution_suggested')
+					)));
+					array_push($output, '<a href="' . $this->getSuggestedSolutionPathWeb() . $solution["value"]["name"] . '">' . $possible_texts[0] . '</a>');
 					break;
 				case "text":
 					array_push($output, $this->prepareTextareaOutput($solution["value"]));
