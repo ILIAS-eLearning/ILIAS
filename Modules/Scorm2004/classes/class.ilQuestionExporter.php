@@ -69,8 +69,13 @@ class ilQuestionExporter
 			}
 		} 
 
-		$this->q_gui =& assQuestionGUI::_getQuestionGUI("", $q_id);
-		
+		$this->q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
+
+		if (!is_object($this->q_gui->object))
+		{
+			return "Error: Question not found.";
+		}
+
 		$type = $this->q_gui->object->getQuestionType();
 		if (method_exists($this,$type))
 		{
