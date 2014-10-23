@@ -2915,7 +2915,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 	function editPublicSection()
 	{
-		global $ilTabs, $ilToobar, $ilAccess;
+		global $ilTabs, $ilToolbar, $ilAccess;
 
 		
 		if (!$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", $this->object->getRefId()))
@@ -2927,64 +2927,33 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->setSubTabs("public_section");
 		$ilTabs->setTabActive("settings");
 
-		switch ($this->object->getType())
-		{
-			case "lm":
-				$gui_class = "ilobjlearningmodulegui";
-				break;
-
-			case "dlb":
-				$gui_class = "ilobjdlbookgui";
-				break;
-		}
-
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_public_selector.html",
 			"Modules/LearningModule");
 
 		// get learning module object
 		$this->lm_obj = new ilObjLearningModule($this->ref_id, true);
 
+
 		// public mode
-		$my_toolbar = new ilToolbarGUI();
 		$modes = array("complete" => $this->lng->txt("all_pages"), "selected" => $this->lng->txt("selected_pages_only"));
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$si = new ilSelectInputGUI($this->lng->txt("choose_public_mode"), "lm_public_mode");
 		$si->setOptions($modes);
 		$si->setValue($this->object->getPublicAccessMode());
-		$my_toolbar->addInputItem($si, true);
-		$my_toolbar->setOpenFormTag(false);
-		$my_toolbar->setCloseFormTag(false);
-		$my_toolbar->addFormButton($this->lng->txt("save"), "savePublicSection");
-		$this->tpl->setVariable("TOOLBAR", $my_toolbar->getHTML());
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSection"));
+		$ilToolbar->addInputItem($si, true);
+		$ilToolbar->addFormButton($this->lng->txt("save"), "savePublicSectionAccess");
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this,"savePublicSectionAccess"));
 
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSectionPages"));
 		if ($this->object->getPublicAccessMode() == "selected")
 		{
 			$this->tpl->setCurrentBlock("select_pages");
-			require_once ("./Modules/LearningModule/classes/class.ilPublicSectionSelector.php");
-			$exp = new ilPublicSectionSelector($this->ctrl->getLinkTarget($this, "view"),
-				$this->object, $gui_class);
-	
-			$exp->setTargetGet("obj_id");
-	
-			// build html-output
-			$exp->setOutput(0);
-			$output = $exp->getOutput();
-	
-			// get page ids
-			foreach ($exp->format_options as $node)
-			{
-				if (!$node["container"])
-				{
-					$pages[] = $node["child"];
-				}
-			}
-			
-			$js_pages = ilUtil::array_php2js($pages);
-			$this->tpl->setVariable("EXPLORER",$output);
-			$this->tpl->setVariable("ONCLICK",$js_pages);
-			$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-			$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+
+			include_once ("./Modules/LearningModule/classes/class.ilPublicSectionExplorerGUI.php");
+			$tree = new ilPublicSectionExplorerGUI($this,"editPublicSection", $this->lm_obj);
+			$tree->setSelectMode("pages", true);
+			$tree->setSkipRootNode(true);
+			$this->tpl->setVariable("EXPLORER",$tree->getHTML());
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			
 			$this->tpl->parseCurrentBlock();
@@ -2996,6 +2965,27 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		//var_dump($_POST["lm_public_mode"]);exit;
 		$this->object->setPublicAccessMode($_POST["lm_public_mode"]);
 		$this->object->updateProperties();
+		ilLMObject::_writePublicAccessStatus($_POST["pages"],$this->object->getId());
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "editPublicSection");
+	}
+
+	/**
+	 * Saves lm access mode
+	 */
+	function savePublicSectionAccess()
+	{
+		$this->object->setPublicAccessMode($_POST["lm_public_mode"]);
+		$this->object->updateProperties();
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "editPublicSection");
+	}
+
+	/**
+	 * Saves public lm pages
+	 */
+	function savePublicSectionPages()
+	{
 		ilLMObject::_writePublicAccessStatus($_POST["pages"],$this->object->getId());
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "editPublicSection");
