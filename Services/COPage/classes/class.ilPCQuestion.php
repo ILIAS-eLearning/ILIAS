@@ -257,8 +257,27 @@ class ilPCQuestion extends ilPageContent
 	 */
 	function modifyPageContentPostXsl($a_output, $a_mode)
 	{
+		global $lng;
+		
 		if ($this->getPage()->getPageConfig()->getEnableSelfAssessment())
 		{
+			// #14154
+			$q_ids = $this->getPage()->getQuestionIds();
+			if($q_ids)
+			{
+				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
+				foreach($q_ids as $q_id)
+				{
+					$q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
+					if(!$q_gui->object->isComplete())
+					{
+						$a_output = str_replace("{{{{{Question;il__qst_".$q_id."}}}}}", 
+							"<i>".$lng->txt("cont_empty_question")."</i>", 
+							$a_output);
+					}
+				}
+			}
+			
 			$qhtml = $this->getQuestionJsOfPage(($a_mode == "edit") ? true : false, $a_mode);
 			require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
 			$a_output = "<script>var ScormApi=null;".ilQuestionExporter::questionsJS()."</script>".$a_output;
