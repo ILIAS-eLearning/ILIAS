@@ -15012,3 +15012,15 @@ mail#:#link_check_perma_link#:#Permanent Link
 assessment#:#positive_numbers_required#:#Bitte tragen Sie hier nur positive Zahlen ein.
 content#:#cont_table_border_info#:#Werte sind inkl. Einheit anzugeben (z.B. px). Bei keiner Angabe werden die Werte aus dem Stylesheet wirksam.
 content#:#cont_table_cellpadding_info#:#Werte sind inkl. Einheit anzugeben (z.B. px). Bei keiner Angabe werden die Werte aus dem Stylesheet wirksam.
+survey#:#svy_evaluation_access_off_info#:#todo1
+survey#:#svy_evaluation_access_all_info#:#todo2
+survey#:#svy_evaluation_access_participants_info#:#todo3
+survey#:#svy_results_view_own_info#:#todo4
+survey#:#svy_results_mail_own_info#:#todo5
+survey#:#survey_360_self_evaluation_info#:#todo6
+survey#:#survey_360_self_raters_info#:#todo7
+survey#:#survey_360_self_appraisee_info#:#todo8
+survey#:#survey_360_results_none_info#:#todo9
+survey#:#survey_360_results_own_info#:#todo10
+survey#:#survey_360_results_all_info#:#todo11
+survey#:#survey_activate_skill_service_info#:#todo12

@@ -738,14 +738,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 		else
 		{						
 			$self_eval = new ilCheckboxInputGUI($this->lng->txt("survey_360_self_evaluation"), "self_eval");
+			$self_eval->setInfo($this->lng->txt("survey_360_self_evaluation_info"));
 			$self_eval->setChecked($this->object->get360SelfEvaluation());
 			$form->addItem($self_eval);
 
 			$self_rate = new ilCheckboxInputGUI($this->lng->txt("survey_360_self_raters"), "self_rate");
+			$self_rate->setInfo($this->lng->txt("survey_360_self_raters_info"));
 			$self_rate->setChecked($this->object->get360SelfRaters());
 			$form->addItem($self_rate);
 
 			$self_appr = new ilCheckboxInputGUI($this->lng->txt("survey_360_self_appraisee"), "self_appr");
+			$self_appr->setInfo($this->lng->txt("survey_360_self_appraisee_info"));
 			$self_appr->setChecked($this->object->get360SelfAppraisee());
 			$form->addItem($self_appr);
 		}
@@ -893,9 +896,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$evaluation_access = new ilRadioGroupInputGUI($this->lng->txt('evaluation_access'), "evaluation_access");
 			$evaluation_access->setInfo($this->lng->txt('evaluation_access_description'));
-			$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_off"), ilObjSurvey::EVALUATION_ACCESS_OFF, ''));
-			$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_all"), ilObjSurvey::EVALUATION_ACCESS_ALL, ''));
-			$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_participants"), ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS, ''));
+			
+			$option = new ilCheckboxOption($this->lng->txt("evaluation_access_off"), ilObjSurvey::EVALUATION_ACCESS_OFF, '');
+			$option->setInfo($this->lng->txt("svy_evaluation_access_off_info"));
+			$evaluation_access->addOption($option);
+			
+			$option = new ilCheckboxOption($this->lng->txt("evaluation_access_all"), ilObjSurvey::EVALUATION_ACCESS_ALL, '');
+			$option->setInfo($this->lng->txt("svy_evaluation_access_all_info"));
+			$evaluation_access->addOption($option);
+			
+			$option = new ilCheckboxOption($this->lng->txt("evaluation_access_participants"), ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS, '');
+			$option->setInfo($this->lng->txt("svy_evaluation_access_participants_info"));
+			$evaluation_access->addOption($option);
+			
 			$evaluation_access->setValue($this->object->getEvaluationAccess());
 			$form->addItem($evaluation_access);
 		}
@@ -904,9 +917,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{			
 			$ts_results = new ilRadioGroupInputGUI($this->lng->txt("survey_360_results"), "ts_res");
 			$ts_results->setValue($this->object->get360Results());
-			$ts_results->addOption(new ilRadioOption($this->lng->txt("survey_360_results_none"), ilObjSurvey::RESULTS_360_NONE));
-			$ts_results->addOption(new ilRadioOption($this->lng->txt("survey_360_results_own"), ilObjSurvey::RESULTS_360_OWN));
-			$ts_results->addOption(new ilRadioOption($this->lng->txt("survey_360_results_all"), ilObjSurvey::RESULTS_360_ALL));
+			
+			$option = new ilRadioOption($this->lng->txt("survey_360_results_none"), ilObjSurvey::RESULTS_360_NONE);
+			$option->setInfo($this->lng->txt("survey_360_results_none_info"));
+			$ts_results->addOption($option);
+			
+			$option = new ilRadioOption($this->lng->txt("survey_360_results_own"), ilObjSurvey::RESULTS_360_OWN);
+			$option->setInfo($this->lng->txt("survey_360_results_own_info"));
+			$ts_results->addOption($option);
+			
+			$option = new ilRadioOption($this->lng->txt("survey_360_results_all"), ilObjSurvey::RESULTS_360_ALL);
+			$option->setInfo($this->lng->txt("survey_360_results_all_info"));
+			$ts_results->addOption($option);
 			$form->addItem($ts_results);		
 		}
 
@@ -953,10 +975,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$form->addItem($mailnotification);
 				
 		$view_own = new ilCheckboxInputGUI($this->lng->txt("svy_results_view_own"), "view_own");
+		$view_own->setInfo($this->lng->txt("svy_results_view_own_info"));
 		$view_own->setChecked($this->object->hasViewOwnResults());
 		$form->addItem($view_own);
 		
 		$mail_own = new ilCheckboxInputGUI($this->lng->txt("svy_results_mail_own"), "mail_own");
+		$mail_own->setInfo($this->lng->txt("svy_results_mail_own_info"));
 		$mail_own->setChecked($this->object->hasMailOwnResults());
 		$form->addItem($mail_own);		
 		
@@ -1081,6 +1105,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$form->addItem($other);
 			
 			$skill_service = new ilCheckboxInputGUI($this->lng->txt("survey_activate_skill_service"), "skill_service");
+			$skill_service->setInfo($this->lng->txt("survey_activate_skill_service_info"));
 			$skill_service->setChecked($this->object->get360SkillService());
 			$form->addItem($skill_service);
 		}
