@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once 'Services/QTI/interfaces/interface.ilQTIPresentationMaterialAware.php';
+
 /**
 * QTI assessment class
 *
@@ -29,7 +31,7 @@
 *
 * @package assessment
 */
-class ilQTIAssessment
+class ilQTIAssessment implements ilQTIPresentationMaterialAware
 {
 	var $ident;
 	var $title;
@@ -40,7 +42,10 @@ class ilQTIAssessment
 	var $objectives;
 	var $assessmentcontrol;
 	var $rubric;
-	var $presentation_material;
+	/**
+	 * @var ilQTIPresentationMaterial
+	 */
+	protected $presentation_material;
 	var $outcomes_processing;
 	var $assessproc_extension;
 	var $assessfeedback;
@@ -137,13 +142,19 @@ class ilQTIAssessment
 	{
 		array_push($this->rubric, $a_rubric);
 	}
-	
-	function setPresentationMaterial($a_material)
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setPresentationMaterial(ilQTIPresentationMaterial $a_material)
 	{
 		$this->presentation_material = $a_material;
 	}
-	
-	function getPresentationMaterial()
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPresentationMaterial()
 	{
 		return $this->presentation_material;
 	}
