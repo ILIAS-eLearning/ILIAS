@@ -1713,7 +1713,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		
 		if( $this->object->isDynamicTest() )
 		{
-			require_once 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.phpunset($_SESSION['form_'.ilTestDynamicQuestionSetStatisticTableGUI::TABLE_ID]);
+			require_once 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php';
+			unset($_SESSION['form_'.ilTestDynamicQuestionSetStatisticTableGUI::FILTERED_TABLE_ID]);
 		}
 
 		$this->redirectToPassDeletionContext($_POST['context']);
