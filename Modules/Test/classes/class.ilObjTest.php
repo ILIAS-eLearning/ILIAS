@@ -6008,12 +6008,10 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Receives parameters from a QTI parser and creates a valid ILIAS test object
-	*
-	* @param object $assessment The QTI assessment object
-	* @access public
-	*/
-	function fromXML(&$assessment)
+	 * Receives parameters from a QTI parser and creates a valid ILIAS test object
+	 * @param ilQTIAssessment $assessment
+	 */
+	public function fromXML(ilQTIAssessment $assessment)
 	{
 		unset($_SESSION["import_mob_xhtml"]);
 
@@ -6027,11 +6025,16 @@ function getAnswerFeedbackPoints()
 				$this->setIntroduction($this->QTIMaterialToString($material));
 			}
 		}
-		if ($assessment->getPresentationMaterial())
+
+		if(
+			$assessment->getPresentationMaterial() &&
+			$assessment->getPresentationMaterial()->getFlowMat(0) &&
+			$assessment->getPresentationMaterial()->getFlowMat(0)->getMaterial(0)
+		)
 		{
-			$this->setFinalStatement($this->QTIMaterialToString($assessment->getPresentationMaterial()->getMaterial(0)));
+			$this->setFinalStatement($this->QTIMaterialToString($assessment->getPresentationMaterial()->getFlowMat(0)->getMaterial(0)));
 		}
-		
+
 		foreach ($assessment->assessmentcontrol as $assessmentcontrol)
 		{
 			switch ($assessmentcontrol->getSolutionswitch())

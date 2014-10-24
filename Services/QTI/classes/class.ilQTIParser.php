@@ -91,6 +91,15 @@ class ilQTIParser extends ilSaxParser
 	var $verifyfieldlabeltext = "";
 	var $verifyfieldentry = 0;
 	var $verifyfieldentrytext = "";
+
+	/**
+	 * @var ilQTIPresentationMaterial
+	 */
+	protected $prensentation_material;
+	/**
+	 * @var bool
+	 */
+	protected $in_prensentation_material = false;
 	
 	/**
 	* Constructor
@@ -288,6 +297,11 @@ class ilQTIParser extends ilSaxParser
 				include_once ("./Services/QTI/classes/class.ilQTIObjectives.php");
 				$this->objectives = new ilQTIObjectives();
 				$this->in_objectives = TRUE;
+				break;
+			case 'presentation_material':
+				require_once 'Services/QTI/classes/class.ilQTIPresentationMaterial.php';
+				$this->prensentation_material    = new ilQTIPresentationMaterial();
+				$this->in_prensentation_material = TRUE;
 				break;
 			case "section":
 				include_once ("./Services/QTI/classes/class.ilQTISection.php");
@@ -1027,6 +1041,10 @@ class ilQTIParser extends ilSaxParser
 				}
 				$this->in_objectives = FALSE;
 				break;
+			case 'presentation_material':
+				$this->assessment->setPresentationMaterial($this->prensentation_material);
+				$this->in_prensentation_material = FALSE;
+				break;
 			case "itemmetadata":
 				$this->in_itemmetadata = FALSE;
 				break;
@@ -1070,6 +1088,10 @@ class ilQTIParser extends ilSaxParser
 					if (count($this->flow_mat))
 					{
 						$this->flow_mat[count($this->flow_mat)-1]->addFlow_mat($flow_mat);
+					}
+					else if($this->in_prensentation_material)
+					{
+						$this->prensentation_material->addFlowMat($flow_mat);
 					}
 					else if ($this->itemfeedback != NULL)
 					{
