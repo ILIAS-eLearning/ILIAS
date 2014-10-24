@@ -726,10 +726,14 @@ class ilSurveyPageGUI
 	 */
     protected function deleteQuestion($a_id)
 	{
+		global $ilCtrl;
+		
 		if(!is_array($a_id))
 		{
 			$a_id = array($a_id);
 		}
+		
+		$ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
 		$this->editor_gui->removeQuestionsForm(array(), $a_id, array());
 		return true;
 	}
@@ -1753,30 +1757,6 @@ class ilSurveyPageGUI
 
 		$a_tpl->setCurrentBlock("element");
 		$a_tpl->parseCurrentBlock();
-	}
-
-	/**
-	 * Deletes all user data of the survey after confirmation
-	 */
-	public function confirmDeleteAllUserData()
-	{
-		global $lng, $ilCtrl;
-		
-		$this->object->deleteAllUserData();
-		ilUtil::sendSuccess($lng->txt("svy_all_user_data_deleted"), true);
-		
-		$this->renderPage();
-	}
-	
-	/**
-	 * Deletes heading after confirmation
-	 */
-	public function confirmRemoveHeading()
-	{
-		global $ilCtrl;
-
-		$this->object->saveHeading("", $_POST["removeheading"]);
-		$this->renderPage();
 	}
 
 	/**
