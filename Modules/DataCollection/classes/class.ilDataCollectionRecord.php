@@ -378,7 +378,7 @@ class ilDataCollectionRecord
 		else
 		{
 			if (is_object($this->recordfields[$field_id])) {
-                $html = $this->recordfields[$field_id]->getHTML($options);
+                $html = $this->recordfields[$field_id]->getHTML();
             } else {
                 $html = '';
             }
@@ -392,27 +392,30 @@ class ilDataCollectionRecord
 		return $html;
 	}
 
-    /**
-     * @param $field_id
-     * @param array $options
-     * @return array|string
-     */
-    public function getRecordFieldSingleHTML($field_id,array $options = array())
-    {
-        $this->loadRecordFields();
 
-        if(ilDataCollectionStandardField::_isStandardField($field_id))
-        {
-            $html = $this->getStandardFieldHTML($field_id);
-        }
-        else
-        {
-            $html = $this->recordfields[$field_id]->getSingleHTML($options);
-        }
+	/**
+	 * @param       $field_id
+	 * @param array $options
+	 *
+	 * @return array|string
+	 */
+	public function getRecordFieldSingleHTML($field_id, array $options = array()) {
+		$this->loadRecordFields();
+
+		if (ilDataCollectionStandardField::_isStandardField($field_id)) {
+			$html = $this->getStandardFieldHTML($field_id);
+		} else {
+			$field = $this->recordfields[$field_id];
+			/**
+			 * @var $field ilDataCollectionRecordField
+			 */
+			$html = $field->getSingleHTML($options, false);
+		}
 		$html = str_ireplace("{", "&#123;", $html);
 		$html = str_ireplace("}", "&#125;", $html);
-        return $html;
-    }
+
+		return $html;
+	}
 
 
     /**
@@ -469,32 +472,35 @@ class ilDataCollectionRecord
 		return $this->$field_id;
 	}
 
-    /**
-     * @param string $field_id
-     * @param array $options
-     * @return array|string
-     */
-    private function getStandardFieldHTML($field_id, array $options=array())
-	{
-		switch($field_id)
-		{
-            case 'id':
-                return $this->getId();
-            case 'owner':
+
+	/**
+	 * @param string $field_id
+	 * @param array  $options
+	 *
+	 * @return array|string
+	 */
+	private function getStandardFieldHTML($field_id, array $options = array()) {
+		switch ($field_id) {
+			case 'id':
+				return $this->getId();
+			case 'owner':
 				return ilUserUtil::getNamePresentation($this->getOwner());
 			case 'last_edit_by':
-                return ilUserUtil::getNamePresentation($this->getLastEditBy());
-            case 'last_update':
-                return ilDatePresentation::formatDate(new ilDateTime($this->getLastUpdate(),IL_CAL_DATETIME));
-            case 'create_date':
-                return ilDatePresentation::formatDate(new ilDateTime($this->getCreateDate(),IL_CAL_DATETIME));
-            case 'comments':
-                $nComments = count($this->getComments());
-                $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $_GET['ref_id'], 'dcl', $this->table->getCollectionObject()->getId(), 'dcl', $this->getId());
-                $ajax_link = ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
-                return "<a class='dcl_comment' href='#' onclick=\"return ".$ajax_link."\">
-                        <img src='".ilUtil::getImagePath("comment_unlabeled.png") . "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
-        }
+				return ilUserUtil::getNamePresentation($this->getLastEditBy());
+			case 'last_update':
+				return ilDatePresentation::formatDate(new ilDateTime($this->getLastUpdate(), IL_CAL_DATETIME));
+			case 'create_date':
+				return ilDatePresentation::formatDate(new ilDateTime($this->getCreateDate(), IL_CAL_DATETIME));
+			case 'comments':
+				$nComments = count($this->getComments());
+				$ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $_GET['ref_id'], 'dcl', $this->table->getCollectionObject()
+						->getId(), 'dcl', $this->getId());
+				$ajax_link = ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
+
+				return "<a class='dcl_comment' href='#' onclick=\"return " . $ajax_link . "\">
+                        <img src='" . ilUtil::getImagePath("comment_unlabeled.png")
+				. "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
+		}
 	}
 
 

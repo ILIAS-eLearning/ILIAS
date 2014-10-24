@@ -198,25 +198,24 @@ class ilDataCollectionRecordField
         return $this->getExportValue();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getHTML()
-    {
-        $datatype = $this->field->getDatatype();
-        return $datatype->parseHTML($this->getValue(), $this);
-    }
 
-    /**
-     * This method is used in the view definition of a single record (detail view)
-     *
-     * @param null $link
-     * @return mixed
-     */
-    public function getSingleHTML($link = null)
-    {
-        return $this->getHTML($link);
-    }
+	/**
+	 * @return string
+	 */
+	public function getHTML($link = true) {
+		$datatype = $this->field->getDatatype();
+
+		return $datatype->parseHTML($this->getValue(), $this, $link);
+	}
+
+
+	/**
+	 * @return string
+	 * @description This method is used in the view definition of a single record (detail view)
+	 */
+	public function getSingleHTML() {
+		return $this->getHTML(false);
+	}
 
     /**
      * Load the value

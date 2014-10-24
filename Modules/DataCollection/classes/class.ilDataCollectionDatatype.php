@@ -646,7 +646,7 @@ class ilDataCollectionDatatype {
 	 *
 	 * @return mixed
 	 */
-	public function parseHTML($value, ilDataCollectionRecordField $record_field) {
+	public function parseHTML($value, ilDataCollectionRecordField $record_field, $link = true) {
 		global $ilAccess, $ilCtrl, $lng;;
 
 		switch ($this->id) {
@@ -706,7 +706,7 @@ class ilDataCollectionDatatype {
 					$height = (int)$arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT];
 					$html = ilUtil::img($dir . "/" . $med->location, '', $width, $height);
 
-					if ($is_linked_field AND $has_view) {
+					if ($is_linked_field AND $has_view AND $link) {
 						$ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $record_field->getRecord()->getId());
 						$html = '<a href="' . $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord') . '">' . $html . '</a>';
 					}
@@ -754,8 +754,8 @@ class ilDataCollectionDatatype {
 
 					$link = $this->shortenLink($link);
 					$html = "<a target='_blank' href='" . $value . "'>" . $link . "</a>";
-				} elseif ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_TEXT]
-					&& ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId())
+				} elseif ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_TEXT] AND $link
+					AND ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId())
 				) {
 					$ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $record_field->getRecord()->getId());
 					$html = '<a href="' . $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord') . '">' . $value . '</a>';

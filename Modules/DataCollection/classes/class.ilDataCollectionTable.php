@@ -203,8 +203,7 @@ class ilDataCollectionTable {
 
 
 	/**
-	 * Create new table
-	 *
+	 * @param bool $create_views
 	 */
 	public function doCreate($create_views = true) {
 		global $ilDB;
@@ -223,6 +222,7 @@ class ilDataCollectionTable {
 			. $ilDB->quote($this->getDefaultSortField(), "text") . "," . $ilDB->quote($this->getDefaultSortFieldOrder(), "text") . ","
 			. $ilDB->quote($this->getDescription(), "text") . "," . $ilDB->quote($this->getPublicCommentsEnabled(), "integer") . ","
 			. $ilDB->quote($this->getViewOwnRecordsPerm(), "integer") . ")";
+
 		$ilDB->manipulate($query);
 
 		if ($create_views) {
@@ -429,18 +429,15 @@ class ilDataCollectionTable {
 
 	//TODO: replace this method with DataCollection->getTables()
 	/**
-	 * get all tables of a Data Collection Object
+	 * @param $a_id
 	 *
-	 * @param int $a_id obj_id
-	 *
+	 * @return array
 	 */
 	public function getAll($a_id) {
 		global $ilDB;
 
-		//build query
-		$query = "SELECT	 *
-							FROM il_dcl_table
-							WHERE obj_id = " . $ilDB->quote($a_id, "integer");
+		// build query
+		$query = "SELECT * FROM il_dcl_table WHERE obj_id = " . $ilDB->quote($a_id, "integer");
 		$set = $ilDB->query($query);
 
 		$all = array();
@@ -452,8 +449,8 @@ class ilDataCollectionTable {
 	}
 
 
-	/*
-	 * deleteField
+	/**
+	 * @param $field_id
 	 */
 	public function deleteField($field_id) {
 		$field = ilDataCollectionCache::getFieldCache($field_id);
@@ -467,8 +464,10 @@ class ilDataCollectionTable {
 	}
 
 
-	/*
-	 * getField
+	/**
+	 * @param $field_id
+	 *
+	 * @return ilDataCollectionField|null
 	 */
 	public function getField($field_id) {
 		$fields = $this->getFields();
@@ -483,17 +482,14 @@ class ilDataCollectionTable {
 	}
 
 
-	/*
-	 * getFieldIds
+	/**
+	 * @return array
 	 */
 	public function getFieldIds() {
 		return array_keys($this->getFields());
 	}
 
 
-	/*
-	 * loadFields
-	 */
 	private function loadFields() {
 		if ($this->fields == NULL) {
 			global $ilDB;
@@ -605,8 +601,8 @@ class ilDataCollectionTable {
 	}
 
 
-	/*
-	 * getEditableFields
+	/**
+	 * @return array
 	 */
 	public function getEditableFields() {
 		$fields = $this->getRecordFields();
