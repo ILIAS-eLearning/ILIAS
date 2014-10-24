@@ -207,6 +207,7 @@ class gevMyTrainingsApGUI {
 		$form = $this->buildOvernightsForm($crs_id, $crs_utils);
 		if ($form->checkInput()) {
 			ilSetAccomodationsGUI::importAccomodationsFromForm($form, $crs_id, $this->user->getId());
+			ilUtil::sendSuccess($this->lng->txt("gev_mytrainingsap_saved_overnights"));
 		}
 		return $this->showOvernights($form);	
 	}
