@@ -47,6 +47,7 @@ class ilSurveyEditorGUI
 			}
 			else if($cmd == "confirmRemoveQuestions")
 			{
+				// #14324
 				$this->ctrl->setCmdClass("ilsurveypagegui");
 				$this->ctrl->setCmd("confirmRemoveQuestions");
 			}
