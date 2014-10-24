@@ -135,7 +135,7 @@ class ilUserHistorizingHelper
 
 
 	/**
-	 * Returns the Vermittlerstatus of the given user.
+	 * Returns the Vermittlerstatus of the given user, calculated
 	 *
 	 * @param integer|ilObjUser $user
 	 *
@@ -148,6 +148,9 @@ class ilUserHistorizingHelper
 		return gevUserUtils::getInstanceByObjOrId($user)->getWBDAgentStatus();
 		//USR_WBD_STATUS
 	}
+
+
+
 
 
 	/**

@@ -1428,8 +1428,44 @@ class gevUserUtils {
 	
 
 
-	public function getWBDAgentStatus() {
+	public function getRawWBDAgentStatus() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_STATUS);
+	}
+
+	public function getWBDAgentStatus() {
+		$agent_status_user =  $this->getRawWBDAgentStatus();
+		if($agent_status_user == self::WBD_AGENTSTATUS0){
+			//0 - aus Stellung
+			require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+			$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
+			foreach($roles as $key => $value) {
+				$roles[$key] = ilObject::_lookupTitle($value);
+			}
+
+			if(
+				in_array("OD/LD/BD/VD/VTWL", $roles) ||
+				in_array("DBV/VL-EVG", $roles) ||
+				in_array("DBV-UVG", $roles) 
+			){
+				return self::WBD_AGENTSTATUS1; //1 - Angestellter Außendienst
+			}
+			if(
+				in_array("AVL", $roles) ||
+				in_array("HA", $roles) ||
+				in_array("BA", $roles) ||
+				in_array("NA", $roles) 
+			){
+				return self::WBD_AGENTSTATUS2; //2 - Ausschließlichkeitsvermittler
+			}
+			if(
+				in_array("VP", $roles) 
+			){
+				return self::WBD_AGENTSTATUS3; //3 - Makler
+			}
+
+			return $agent_status_user; //raw
+		}
+
 	}
 	
 	public function setWBDAgentStatus($a_state) {

@@ -336,59 +336,12 @@ foreach ($debug->getAllUsers() as $id=>$usr) {
 }
 */
 
-$usrIds = array(
-	21284
-	,19767
-	,19853
-	,20641
-	,20218
-	,21343
-	,21363
-	,21141
-	,19872
-	,19263
-	,21313
-	,19330
-	,21370
-	,19460
-	,21360
-	,21309
-	,21319
-	,21349
-	,21288
-	,21337
-	,19237
-	,21290
-	,21338
-	,19412
-	,21340
-	,21381
-	,21316
-	,19362
-	,21368
-	,21306
-	,19669
-	,21331
-	,21286
-	,21296
-	,21293
-	,21374
-	,21311
-	,21305
-	,21283
-	,21348
-	,21359
-	,21366
-	,21361
-	,21336
-	,21354
-
-);
+$usrIds = array();
 
 foreach ($debug->getAllUsers($usrIds) as $id=>$usr) {
 	print_r($usr->getLogin());
 	print '<br>';
-	$debug->setAgentStateForUser($id);
+	//$debug->setAgentStateForUser($id);
 	$debug->updateHistoryForUser($usr);
 	print '<hr>';
 }
