@@ -635,7 +635,7 @@ abstract class ilExplorerBaseGUI
 		$this->listItemStart($tpl, $a_node);
 		
 		// select mode?
-		if ($this->select_postvar != "")
+		if ($this->select_postvar != "" && $this->isNodeClickable($a_node))
 		{
 			if ($this->select_multi)
 			{

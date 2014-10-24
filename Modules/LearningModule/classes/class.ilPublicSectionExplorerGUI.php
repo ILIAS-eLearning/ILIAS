@@ -147,4 +147,20 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
 		}
 		return $nodes;
 	}
+
+	/**
+	 * Is not clickable?
+	 *
+	 * @param array $a_node node array
+	 * @return bool
+	 */
+	function isNodeClickable($a_node)
+	{
+		if ($a_node["type"] == "pg")
+		{
+			return true;
+		}
+		return false;
+	}
+
 }
