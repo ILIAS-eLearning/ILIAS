@@ -4062,35 +4062,47 @@ function getAnswerFeedbackPoints()
 		return $row;
 	}
 
-/**
-* Get the id's of the questions which are already part of the test
-*
-* @return array An array containing the already existing questions
-* @access	public
-*/
-	function &getExistingQuestions($pass = NULL)
+	/**
+	 * Get the originals question ids of the questions which are already part of the test
+	 * @return array An array containing the already existing questions
+	 */
+	public function &getExistingQuestions($pass = NULL)
 	{
-		global $ilUser;
-		global $ilDB;
+		/**
+		 * @var $ilUser ilObjUser
+		 * @var $ilDB   ilDB
+		 */
+		global $ilUser, $ilDB;
 
 		$existing_questions = array();
-		$active_id = $this->getActiveIdOfUser($ilUser->getId());
-		if ($this->isRandomTest())
+		$active_id          = $this->getActiveIdOfUser($ilUser->getId());
+		if($this->isRandomTest())
 		{
-			if (is_null($pass)) $pass = 0;
-			$result = $ilDB->queryF("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_rnd_qst WHERE tst_test_rnd_qst.active_fi = %s AND tst_test_rnd_qst.question_fi = qpl_questions.question_id AND tst_test_rnd_qst.pass = %s",
-				array('integer','integer'),
+			if(is_null($pass)) $pass = 0;
+			$result = $ilDB->queryF(
+				"SELECT qpl_questions.original_id
+				FROM qpl_questions, tst_test_rnd_qst
+				WHERE tst_test_rnd_qst.active_fi = %s
+				AND tst_test_rnd_qst.question_fi = qpl_questions.question_id
+				AND tst_test_rnd_qst.pass = %s
+				AND qpl_questions.original_id IS NOT NULL",
+				array('integer', 'integer'),
 				array($active_id, $pass)
 			);
 		}
 		else
 		{
-			$result = $ilDB->queryF("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id",
+			$result = $ilDB->queryF(
+				"SELECT qpl_questions.original_id
+				FROM qpl_questions, tst_test_question
+				WHERE tst_test_question.test_fi = %s
+				AND tst_test_question.question_fi = qpl_questions.question_id
+				AND qpl_questions.original_id IS NOT NULL",
 				array('integer'),
 				array($this->getTestId())
 			);
 		}
-		while ($data = $ilDB->fetchObject($result)) 
+		while($data = $ilDB->fetchObject($result))
 		{
 			array_push($existing_questions, $data->original_id);
 		}
