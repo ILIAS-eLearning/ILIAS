@@ -20,7 +20,7 @@ require_once 'Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
  * 
  * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilAssQuestionHintRequestGUI
  * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilAssQuestionPageGUI
- * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilTestDynamicQuestionSetFilterStatisticTableGUI
+ * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilTestDynamicQuestionSetStatisticTableGUI
  * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilToolbarGUI
  */
 class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
@@ -104,9 +104,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				
 				break;
 				
-			case 'ildynamicquestionsetfilterstatistictablegui':
+			case 'ildynamicquestionsetstatistictablegui':
 				
-				$this->ctrl->forwardCommand( $this->buildQuestionSetFilterStatisticTableGUI() );
+				$this->ctrl->forwardCommand( $this->buildQuestionSetFilteredStatisticTableGUI() );
 				
 				break;
 			
@@ -211,17 +211,21 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			);
 		}
 		
-		$data = array($this->buildQuestionSetAnswerStatisticRowArray(
+		$filteredData = array($this->buildQuestionSetAnswerStatisticRowArray(
 			$this->testSequence->getFilteredQuestionsData(), $this->getMarkedQuestions()
-		));
-		
-		//vd($data);
-		
-		$tableGUI = $this->buildQuestionSetFilterStatisticTableGUI();
-		$tableGUI->setData($data);
-		
+		)); #vd($filteredData);
+		$filteredTableGUI = $this->buildQuestionSetFilteredStatisticTableGUI();
+		$filteredTableGUI->setData($filteredData);
+
+		$completeData = array($this->buildQuestionSetAnswerStatisticRowArray(
+			$this->testSequence->getCompleteQuestionsData(), $this->getMarkedQuestions()
+		)); #vd($completeData);
+		$completeTableGUI = $this->buildQuestionSetCompleteStatisticTableGUI();
+		$completeTableGUI->setData($completeData);
+
 		$content = $this->ctrl->getHTML($toolbarGUI);
-		$content .= $this->ctrl->getHTML($tableGUI);
+		$content .= $this->ctrl->getHTML($filteredTableGUI);
+		$content .= $this->ctrl->getHTML($completeTableGUI);
 
 		$this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $content);	
 
@@ -233,7 +237,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	
 	protected function filterQuestionSelectionCmd()
 	{
-		$tableGUI = $this->buildQuestionSetFilterStatisticTableGUI();
+		$tableGUI = $this->buildQuestionSetFilteredStatisticTableGUI();
 		$tableGUI->writeFilterToSession();
 
 		$taxFilterSelection = array();
@@ -264,7 +268,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	
 	protected function resetQuestionSelectionCmd()
 	{
-		$tableGUI = $this->buildQuestionSetFilterStatisticTableGUI();
+		$tableGUI = $this->buildQuestionSetFilteredStatisticTableGUI();
 		$tableGUI->resetFilter();
 		
 		$this->testSession->getQuestionSetFilterSelection()->setTaxonomySelection( array() );
@@ -981,9 +985,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	protected function buildQuestionSetAnswerStatisticRowArray($questions, $marked_questions)
 	{
 		$questionAnswerStats = array(
+			'total_all' => count($questions),
 			'total_open' => 0,
 			'non_answered' => 0,
 			'wrong_answered' => 0,
+			'correct_answered' => 0,
 			'postponed' => 0,
 			'marked' => 0
 		);
@@ -999,6 +1005,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				case ilAssQuestionList::QUESTION_ANSWER_STATUS_WRONG_ANSWERED:
 					$questionAnswerStats['wrong_answered']++;
 					$questionAnswerStats['total_open']++;
+					break;
+				case ilAssQuestionList::QUESTION_ANSWER_STATUS_CORRECT_ANSWERED:
+					$questionAnswerStats['correct_answered']++;
 					break;
 			}
 
@@ -1018,28 +1027,52 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		return $questionAnswerStats;
 	}
-	
-	private function buildQuestionSetFilterStatisticTableGUI()
+
+	private function buildQuestionSetCompleteStatisticTableGUI()
 	{
-		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-		$taxIds = ilObjTaxonomy::getUsageOfObject(
-				$this->dynamicQuestionSetConfig->getSourceQuestionPoolId()
+		require_once 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php';
+		$gui = $this->buildQuestionSetStatisticTableGUI(
+			ilTestDynamicQuestionSetStatisticTableGUI::COMPLETE_TABLE_ID
 		);
 
-		include_once "./Modules/Test/classes/tables/class.ilTestDynamicQuestionSetFilterStatisticTableGUI.php";
-		$gui = new ilTestDynamicQuestionSetFilterStatisticTableGUI(
-				$this->ctrl, $this->lng, $this, 'showQuestionSelection', $taxIds
+		$gui->initTitle('tst_dynamic_question_set_complete');
+		$gui->initColumns('tst_num_all_questions');
+
+		return $gui;
+	}
+	
+	private function buildQuestionSetFilteredStatisticTableGUI()
+	{
+		require_once 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php';
+		$gui = $this->buildQuestionSetStatisticTableGUI(
+			ilTestDynamicQuestionSetStatisticTableGUI::FILTERED_TABLE_ID
+		);
+
+		$gui->initTitle('tst_dynamic_question_set_selection');
+		$gui->initColumns('tst_num_selected_questions');
+
+		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+		$gui->setTaxIds(ilObjTaxonomy::getUsageOfObject(
+			$this->dynamicQuestionSetConfig->getSourceQuestionPoolId()
+		));
+
+		$gui->initFilter();
+		$gui->setFilterCommand('filterQuestionSelection');
+		$gui->setResetCommand('resetQuestionSelection');
+		
+		return $gui;
+	}
+		
+	private function buildQuestionSetStatisticTableGUI($tableId)
+	{
+		require_once 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php';
+		$gui = new ilTestDynamicQuestionSetStatisticTableGUI(
+				$this->ctrl, $this->lng, $this, 'showQuestionSelection', $tableId
 		);
 		
 		$gui->setShowNumMarkedQuestionsEnabled($this->object->getShowMarker());
 		$gui->setShowNumPostponedQuestionsEnabled($this->object->getSequenceSettings());
 
-		$gui->initColumns();
-		$gui->initFilter();
-		
-		$gui->setFilterCommand('filterQuestionSelection');
-		$gui->setResetCommand('resetQuestionSelection');
-		
 		return $gui;
 	}
 	
