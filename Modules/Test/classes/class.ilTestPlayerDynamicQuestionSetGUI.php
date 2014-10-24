@@ -614,7 +614,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				FALSE, 												#graphical_output
 				false,				#result_output
 				true, 												#show_question_only
-				FALSE,												#show_feedback
+				$answer_feedback,									#show_feedback
 				false, 												#show_correct_solution
 				FALSE, 												#show_manual_scoring
 				true												#show_question_text
