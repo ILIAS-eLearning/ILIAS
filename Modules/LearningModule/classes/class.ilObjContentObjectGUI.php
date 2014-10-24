@@ -2944,15 +2944,16 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$ilToolbar->addFormButton($this->lng->txt("save"), "savePublicSectionAccess");
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this,"savePublicSectionAccess"));
 
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSectionPages"));
 		if ($this->object->getPublicAccessMode() == "selected")
 		{
 			$this->tpl->setCurrentBlock("select_pages");
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSectionPages"));
 
 			include_once ("./Modules/LearningModule/classes/class.ilPublicSectionExplorerGUI.php");
 			$tree = new ilPublicSectionExplorerGUI($this,"editPublicSection", $this->lm_obj);
 			$tree->setSelectMode("pages", true);
 			$tree->setSkipRootNode(true);
+
 			$this->tpl->setVariable("EXPLORER",$tree->getHTML());
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			

@@ -107,7 +107,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
 	 */
 	public function beforeRendering()
 	{
-		//select public pages and open public chapter
+		//select public pages and open public chapters
 		foreach($this->getAllNodes() as $node)
 		{
 			if($node["public_access"] == "y" && $node["type"] == "pg")
@@ -133,7 +133,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
 
 		if($from_id === null)
 		{
-			$from = $this->getNodeId($this->getRootNode());
+			$from_id = $this->getNodeId($this->getRootNode());
 		}
 
 		foreach($this->getChildsOfNode($from_id) as $node)
