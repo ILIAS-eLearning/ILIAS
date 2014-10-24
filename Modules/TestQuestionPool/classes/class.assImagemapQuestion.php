@@ -735,6 +735,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 		if (strlen($_GET["selImage"]))
 		{
+			$imageWasSelected = true;
+			
 			$types = array('integer', 'integer', 'integer', 'integer');
 			$values = array($active_id, $this->getId(), $pass,  (int)$_GET['selImage']);
 			$query = 'DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s';
@@ -751,23 +753,26 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				"pass" => array("integer", $pass),
 				"tstamp" => array("integer", time())
 			));
-
-			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
-			{
-				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
-			}
 		}
 		else
 		{
-			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			$imageWasSelected = false;
+		}
+
+		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+
+		require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
+		if( ilObjAssessmentFolder::_enabledAssessmentLogging() )
+		{
+			if( $imageWasSelected )
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+			}
+			else
 			{
 				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
-
-		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
 
 		return true;
 	}
