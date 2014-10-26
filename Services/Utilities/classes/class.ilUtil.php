@@ -146,7 +146,10 @@ class ilUtil
 
 		// temp svg patch
 		$pi = pathinfo($img);
-		$svg_img = ".".$module_path."/templates/default/images/".$pi["filename"].".svg";
+		if ($pi["dirname"] != "") {
+			$pi["dirname"] = $pi["dirname"]."/";
+		}
+		$svg_img = ".".$module_path."/templates/default/images/".$pi["dirname"].$pi["filename"].".svg";
 		if (file_exists($svg_img))
 		{
 			return $svg_img;

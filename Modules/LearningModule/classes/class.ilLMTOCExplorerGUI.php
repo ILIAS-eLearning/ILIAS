@@ -29,7 +29,10 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 	{
 		$this->lm_pres = $a_lm_pres;
 		$this->lm = $this->lm_pres->lm;
-		parent::__construct($a_parent_obj, $a_parent_cmd, $this->lm);
+		$exp_id = (!$this->getOfflineMode() && $this->lm->getProgressIcons())
+			? "ilLMProgressTree"
+			: "";
+		parent::__construct($a_parent_obj, $a_parent_cmd, $this->lm, $exp_id);
 		$this->lm_set = new ilSetting("lm");
 		$this->lang = $a_lang;
 		if ($this->lm->getTOCMode() != "pages")

@@ -328,7 +328,7 @@ class ilSCORM2004NodeGUI
 						$ilLocator->addItem($path[$i]["title"],
 							$ilCtrl->getLinkTargetByClass("ilscorm2004chaptergui",
 							"showOrganization"), "", 0, $path[$i]["type"],
-							ilUtil::getImagePath("icon_chap_s.png"));
+							ilUtil::getImagePath("icon_chap.png"));
 						break;
 						
 					case "seqc":
@@ -337,7 +337,7 @@ class ilSCORM2004NodeGUI
 						$ilLocator->addItem($path[$i]["title"],
 							$ilCtrl->getLinkTargetByClass("ilscorm2004seqchaptergui",
 							"showOrganization"), "", 0, $path[$i]["type"],
-							ilUtil::getImagePath("icon_chap_s.png"));
+							ilUtil::getImagePath("icon_chap.png"));
 						break;	
 						
 					case "sco":
@@ -346,7 +346,7 @@ class ilSCORM2004NodeGUI
 						$ilLocator->addItem($path[$i]["title"],
 							$ilCtrl->getLinkTargetByClass("ilscorm2004scogui",
 							"showOrganization"), "", 0, $path[$i]["type"],
-							ilUtil::getImagePath("icon_sco_s.png"));
+							ilUtil::getImagePath("icon_sco.png"));
 						break;
 
 					case "ass":
@@ -355,7 +355,7 @@ class ilSCORM2004NodeGUI
 						$ilLocator->addItem($path[$i]["title"],
 							$ilCtrl->getLinkTargetByClass("ilscorm2004assetgui",
 							"showOrganization"), "", 0, $path[$i]["type"],
-							ilUtil::getImagePath("icon_sca_s.png"));
+							ilUtil::getImagePath("icon_sca.png"));
 						break;
 						
 					case "page":
@@ -364,7 +364,7 @@ class ilSCORM2004NodeGUI
 						$ilLocator->addItem($path[$i]["title"],
 							$ilCtrl->getLinkTargetByClass("ilscorm2004pagegui",
 							"edit"), "", 0, $path[$i]["type"],
-							ilUtil::getImagePath("icon_pg_s.png"));
+							ilUtil::getImagePath("icon_pg.png"));
 						break;
 				}
 			}

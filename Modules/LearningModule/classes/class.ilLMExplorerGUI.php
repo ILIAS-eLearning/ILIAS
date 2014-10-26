@@ -25,7 +25,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 	 * @param string $a_parent_cmd parent cmd
 	 * @param ilObjContentObject $a_lm learning module
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, ilObjContentObject $a_lm)
+	public function __construct($a_parent_obj, $a_parent_cmd, ilObjContentObject $a_lm, $a_id = "")
 	{
 		$this->lm = $a_lm;
 
@@ -44,15 +44,18 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		ilPageObject::preloadActivationDataByParentId($this->lm->getId());
 
-		$id = "lm_exp";
-
-		// this does not work, since it is not set yet
-		if ($this->getOfflineMode())
+		if ($a_id == "")
 		{
-			$id = "lm_exp_off";
+			$a_id = "lm_exp";
+
+			// this does not work, since it is not set yet
+			if ($this->getOfflineMode())
+			{
+				$a_id = "lm_exp_off";
+			}
 		}
 
-		parent::__construct($id, $a_parent_obj, $a_parent_cmd, $tree);
+		parent::__construct($a_id, $a_parent_obj, $a_parent_cmd, $tree);
 		
 		$this->setSkipRootNode(false);
 		$this->setAjax(false);

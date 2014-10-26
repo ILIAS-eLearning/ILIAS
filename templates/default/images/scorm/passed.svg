@@ -11,11 +11,15 @@
 		<use xlink:href="#SVGID_1_"  overflow="visible"/>
 	</clipPath>
 	
-		<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-120.4643" y1="163.0714" x2="-119.4643" y2="163.0714" gradientTransform="matrix(28 0 0 -28 3375 4582)">
-		<stop  offset="0" style="stop-color:#002555"/>
-		<stop  offset="1.983430e-02" style="stop-color:#002555"/>
-		<stop  offset="1" style="stop-color:#0F4187"/>
+		<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="1.0357" y1="33.6071" x2="2.0357" y2="33.6071" gradientTransform="matrix(28 0 0 -28 -27 957)">
+		<stop  offset="0" style="stop-color:#2F5A28"/>
+		<stop  offset="1.983430e-02" style="stop-color:#2F5A28"/>
+		<stop  offset="0.2094" style="stop-color:#416E2E"/>
+		<stop  offset="0.5166" style="stop-color:#5A8936"/>
+		<stop  offset="0.79" style="stop-color:#69993A"/>
+		<stop  offset="1" style="stop-color:#6E9F3C"/>
 	</linearGradient>
 	<rect x="2" y="2" clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="28" height="28"/>
 </g>
+<polygon fill="#FFFFFF" points="25.5,11.2 22.3,8.8 15.3,18.1 11.2,14.3 8.5,17.3 15.9,24 15.9,24 16,24 "/>
 </svg>
