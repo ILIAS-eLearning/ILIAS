@@ -1958,9 +1958,9 @@ class ilObject
 			}
 			
 			// svg path
-			if (is_file("./templates/default/images/v1/icon_".$a_type."_v1.svg"))
+			if (is_file("./templates/default/images/icon_".$a_type.".svg"))
 			{
-				return "./templates/default/images/v1/icon_".$a_type."_v1.svg";
+				return "./templates/default/images/icon_".$a_type.".svg";
 			}
 			
 			return ilUtil::getImagePath("icon_".$a_type.$suff.".png");

@@ -1216,7 +1216,7 @@ return;
 
 					include_once './Services/Style/classes/class.ilObjStyleSheet.php';
 					$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
-						preloader.src = './templates/default/images/v1/loader_v1.svg';
+						preloader.src = './templates/default/images/loader.svg';
 						ilCOPage.setContentCss('".
 						ilObjStyleSheet::getContentStylePath((int) $this->getStyleId()).
 						", ".ilUtil::getStyleSheetLocation().

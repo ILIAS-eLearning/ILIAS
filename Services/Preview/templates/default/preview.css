@@ -25,7 +25,7 @@
 .ilPreviewTextLoading {
     width: 14px;
     height: 14px;
-	background: transparent url(../../../../templates/default/images/v1/loader_v1.svg) no-repeat 0 0;
+	background: transparent url(../../../../templates/default/images/loader.svg) no-repeat 0 0;
     display: none;
 }
 .ilPreviewActions a.submit,

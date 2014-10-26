@@ -689,7 +689,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
 
 		$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
-			preloader.src = './templates/default/images/v1/loader_v1.svg';
+			preloader.src = './templates/default/images/loader.svg';
 			ilCOPage.setContentCss('".
 			ilObjStyleSheet::getContentStylePath((int) $this->getStyleId()).
 			", ".ilUtil::getStyleSheetLocation().", ./Services/COPage/css/tiny_extra.css');
