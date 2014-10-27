@@ -695,6 +695,13 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$values->setAllowMove( false );
 		$values->setValues( $gap->getItemsRaw() );
 		$form->addItem( $values );
+
+		if( $this->object->getFixedTextLength() > 0 )
+		{
+			$values->setSize( $this->object->getFixedTextLength() );
+			$values->setMaxLength( $this->object->getFixedTextLength() );
+		}
+
 		return $form;
 	}
 
@@ -739,18 +746,26 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$value->setValue( ilUtil::prepareFormOutput( $gap->getAnswertext() ) );
 		$value->setRequired( true );
 		$form->addItem( $value );
-		
 
 		$lowerbound->setSize( 10 );
 		$lowerbound->setRequired( true );
 		$lowerbound->setValue( ilUtil::prepareFormOutput( $gap->getLowerBound() ) );
 		$form->addItem( $lowerbound );
-		
 
 		$upperbound->setSize( 10 );
 		$upperbound->setRequired( true );
 		$upperbound->setValue( ilUtil::prepareFormOutput( $gap->getUpperBound() ) );
 		$form->addItem( $upperbound );
+
+		if( $this->object->getFixedTextLength() > 0 )
+		{
+			$value->setSize( $this->object->getFixedTextLength() );
+			$value->setMaxLength( $this->object->getFixedTextLength() );
+			$lowerbound->setSize( $this->object->getFixedTextLength() );
+			$lowerbound->setMaxLength( $this->object->getFixedTextLength() );
+			$upperbound->setSize( $this->object->getFixedTextLength() );
+			$upperbound->setMaxLength( $this->object->getFixedTextLength() );
+		}
 
 		$points = new ilNumberInputGUI($this->lng->txt( 'points' ), "gap_" . $gapCounter . "_numeric_points");
 		$points->allowDecimals(true);
