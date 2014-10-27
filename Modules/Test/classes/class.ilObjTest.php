@@ -608,7 +608,7 @@ class ilObjTest extends ilObject
 		$this->_customStyle = "";
 		$this->allowedUsersTimeGap = "";
 		$this->anonymity = 0;
-		$this->show_cancel = 1;
+		$this->show_cancel = 0;
 		$this->show_marker = 0;
 		$this->fixed_participants = 0;
 		$this->setShowPassDetails(TRUE);
