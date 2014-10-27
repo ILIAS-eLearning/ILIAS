@@ -562,7 +562,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 * @param $gapCounter	integer				Ordinal number of the gap in the sequence of gaps
 	 *
 	 * @return ilPropertyFormGUI
-	 *
+	 */
 	protected function populateGapFormPart($form, $gapCounter)
 	{
 		$gap    = $this->object->getGap( $gapCounter );
