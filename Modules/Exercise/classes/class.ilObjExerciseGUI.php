@@ -3886,6 +3886,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 		if($form->checkInput())
 		{			
 			$text = trim($form->getInput("atxt"));	
+						
+			$existing = (bool)ilExAssignment::getDeliveredFiles($this->ass->getExerciseId(), 
+				$this->ass->getId(), $ilUser->getId());			
 									
 			$returned_id = $this->object->updateTextSubmission(
 				$this->ass->getExerciseId(), 
@@ -3894,9 +3897,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 				// mob src to mob id
 				ilRTE::_replaceMediaObjectImageSrc($text, 0));	
 			
-			// mob usage
+			// no empty text
 			if($returned_id)
 			{
+				if(!$existing)
+				{
+					// #14332 - new text
+					$this->sendNotifications($this->ass->getId());
+					$this->object->handleSubmission($this->ass->getId());						
+				}
+				
+				// mob usage
 				include_once "Services/MediaObjects/classes/class.ilObjMediaObject.php";
 				$mobs = ilRTE::_getMediaObjects($text, 0);
 				foreach($mobs as $mob)
