@@ -442,12 +442,15 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 	{
 		// maxchars
 		$maxchars = new ilNumberInputGUI($this->lng->txt( "maxchars" ), "maxchars");
+		$maxchars->setInfo($this->lng->txt('qpl_maxchars_info_numeric_question'));
 		$maxchars->setSize( 10 );
 		$maxchars->setDecimals( 0 );
 		$maxchars->setMinValue( 1 );
 		$maxchars->setRequired( true );
 		if ($this->object->getMaxChars() > 0)
-			$maxchars->setValue( $this->object->getMaxChars() );
+		{
+			$maxchars->setValue($this->object->getMaxChars());
+		}
 		$form->addItem( $maxchars );
 	}
 
@@ -482,6 +485,15 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 		$upper_limit->setRequired( true );
 		$upper_limit->setValue( $this->object->getUpperLimit() );
 		$form->addItem( $upper_limit );
+
+		// reset input length, if max chars are set
+		if( $this->object->getMaxChars() > 0 )
+		{
+			$lower_limit->setSize( $this->object->getMaxChars() );
+			$lower_limit->setMaxLength( $this->object->getMaxChars() );
+			$upper_limit->setSize( $this->object->getMaxChars() );
+			$upper_limit->setMaxLength( $this->object->getMaxChars() );
+		}
 	}
 
 	/**
