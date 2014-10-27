@@ -8391,15 +8391,6 @@ function getAnswerFeedbackPoints()
 			$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
 			return $result;
 		}
-		
-		if ($this->getTestSession($active_id)->isSubmitted())
-		{
-			$result["executable"] = FALSE;
-			$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
-			return $result;
-		}
-
-		// TODO: max. processing time
 
 		return $result;
 	}
@@ -10122,7 +10113,7 @@ function getAnswerFeedbackPoints()
 	/**
 	* Returns the test session data for the active user
 	*
-	* @return object The ilTestSession object or FALSE if the creation of the object fails
+	* @return ilTestSession object The ilTestSession object or FALSE if the creation of the object fails
 	* @access public
 	*/
 	function &getTestSession($active_id = "")
