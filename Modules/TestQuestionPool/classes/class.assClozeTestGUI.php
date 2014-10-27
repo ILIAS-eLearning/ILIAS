@@ -622,7 +622,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 * @param $form			ilPropertyFormGUI	Reference to the form, that receives the point.
 	 * @param $gap			mixed				Raw text gap item.
 	 * @param $gapCounter	integer				Ordinal number of the gap in the sequence of gaps
-	 *
+	 */
 	protected function populateGapSizeFormPart($form, $gap, $gapCounter)
 	{
 		$gapSizeFormItem = new ilNumberInputGUI($this->lng->txt('cloze_fixed_textlength'), "gap_".$gapCounter.'_gapsize');
@@ -649,7 +649,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 * @param $gapCounter	integer				Ordinal number of the gap in the sequence of gaps
 	 *
 	 * @return ilPropertyFormGUI
-	 *
+	 */
 	protected function populateSelectGapFormPart($form, $gap, $gapCounter)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php";
@@ -682,7 +682,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 * @param $gapCounter	integer				Ordinal number of the gap in the sequence of gaps
 	 *
 	 * @return ilPropertyFormGUI
-	 *
+	 */
 	protected function populateTextGapFormPart($form, $gap, $gapCounter)
 	{
 		// Choices
@@ -708,7 +708,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 * @param $gapCounter	integer				Ordinal number of the gap in the sequence of gaps.
 	 * 
 	 * @return ilPropertyFormGUI
-	 *
+	 */
 	protected function populateNumericGapFormPart($form, $gap, $gapCounter)
 	{
 		// #8944: the js-based ouput in self-assessment cannot support formulas
@@ -763,7 +763,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 	/**
 	* Create gaps from cloze text
-	*
+	*/
 	public function createGaps()
 	{
 		$this->writePostData(true);
@@ -773,7 +773,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 	/**
 	* Remove a gap answer
-	*
+	*/
 	function removegap()
 	{
 		$this->writePostData(true);
@@ -783,7 +783,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 	/**
 	* Add a gap answer
-	*
+	*/
 	function addgap()
 	{
 		$this->writePostData(true);
