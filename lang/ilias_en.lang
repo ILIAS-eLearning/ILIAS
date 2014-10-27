@@ -927,7 +927,7 @@ assessment#:#tst_instant_feedback_answer_specific_desc#:#If answer-specific feed
 assessment#:#tst_instant_feedback_answer_generic#:#Show Generic ("Correct/Wrong") Feedback
 assessment#:#tst_instant_feedback_answer_generic_desc#:#The generic feedback prints a simple "right" or "wrong" feedback according to configuration of the question.
 assessment#:#tst_instant_feedback_description#:#If one of the options is selected, the instant feedback information will be shown directly after a participant answered a question.
-assessment#:#tst_instant_feedback_fix_usr_answer#:#Fix Participant's Answer
+assessment#:#tst_instant_feedback_fix_usr_answer#:#Fixation of Given Answers
 assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#This option causes a fixation of the participant's answer on requesting the instant feedback.
 assessment#:#tst_instant_feedback_results#:#Show Results (Only Points)
 assessment#:#tst_instant_feedback_results_desc#:#If results (in points) are selected, the reached points will be shown.
