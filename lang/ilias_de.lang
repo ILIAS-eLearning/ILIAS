@@ -10009,7 +10009,7 @@ rbac#:#rbac_log_operation_rmv#:#Recht entfernt für "%s"
 rbac#:#rbac_log_source_object#:#Quell-Objekt
 rbac#:#rbac_msg_user_already_assigned#:#Die ausgewählten Benutzer sind dieser Rolle bereits zugeordnet.
 rbac#:#rbac_not_change_existing_objects#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_precondition_minimum_optional#:#Es müssen mindestens 2 Vorbedingungen optional verbleiben.
+rbac#:#rbac_precondition_minimum_optional#:#Es müssen mindestens zwei Vorbedingungen optional verbleiben.
 rbac#:#rbac_precondition_mode#:#Modus
 rbac#:#rbac_precondition_mode_all#:#Alle Vorbedingungen
 rbac#:#rbac_precondition_mode_all_info#:#Alle Vorbedingungen müssen für einen Zugriff erfüllt werden.
@@ -11034,17 +11034,17 @@ survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Benutzerd
 survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie die Umfragedaten für die ausgewählten Teilnehmer löschen wollen?
 survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie die Überschrift entfernen wollen?
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
-survey#:#conjunction_and#:#wenn jede Vorbedingung erfüllt wird
-survey#:#conjunction_and_title#:#Jede der folgenden Vorbedingungen erfüllen
-survey#:#conjunction_or#:#wenn eine Vorbedingung erfüllt wird
-survey#:#conjunction_or_title#:#Eine der folgenden Vorbedingungen erfüllen
-survey#:#constraint_add#:#Vorbedingung hinzufügen
+survey#:#conjunction_and#:#wenn jede Bedingung erfüllt wird
+survey#:#conjunction_and_title#:#Jede der folgenden Bedingungen erfüllen
+survey#:#conjunction_or#:#wenn eine Bedingung erfüllt wird
+survey#:#conjunction_or_title#:#Eine der folgenden Bedingungen erfüllen
+survey#:#constraint_add#:#Verzweigungsregel hinzufügen
 survey#:#constraint_fulfilled#:#Seite anzeigen
-survey#:#constraints#:#Vorbedingungen
-survey#:#constraints_first_question_description#:#Der erste Eintrag kann keine Vorbedingungen haben, da es keine vorherigen Einträge gibt.
-survey#:#constraints_introduction#:#Für jeden Eintrag (eine einzelne Frage oder ein Fragenblock mit mehreren Fragen) können eine oder mehrere Vorbedingungen definiert werden. Die Vorbedingungen werden zur Laufzeit aus den Antworten der Teilnehmer, die in früheren Fragen gegeben wurden, berechnet und ausgewertet. Hat eine Frage mehrere Vorbedingungen, so müssen immer alle Vorbedingungen erfüllt sein!
-survey#:#constraints_list_of_entities#:#Verfügbare Umfrage-Elemente für Vorbedingungen
-survey#:#constraints_no_nonessay_available#:#Es gibt keine vorangegangenen Fragen, die zur Erstellung von Vorbedingungen verwendet werden können. Folgende Typen werden unterstützt: Metrische, Single Choice und Multiple Choice Frage.
+survey#:#constraints#:#Verzweigungsregel
+survey#:#constraints_first_question_description#:#Der erste Eintrag kann keine Verzweigungsregel haben, da es keine vorherigen Einträge gibt.
+survey#:#constraints_introduction#:#Verzweigungsregeln können sowohl für eine einzelne Frage als auch für einen Fragenblock mit mehreren Fragen hinzugefügt werden. Abhängig von der ausgewählten Antwort in einer vorangegangenen Frage wird als nächstes eine ganz bestimmte Frage präsentiert. Durch Verzweigungsregeln stellt die Umfrage spezifisch zum Antwortverhalten passende Fragen und vermeidet unzutreffende Fragen. Für die erste Frage bzw. den ersten Fragenblöck kann keine Verzweigungsregel gesetzt werden.
+survey#:#constraints_list_of_entities#:#Mögliche Aufhänger für Verzweigungsregeln
+survey#:#constraints_no_nonessay_available#:#Es gibt keine vorangegangenen Fragen, die zur Erstellung von Verzweigungsregeln verwendet werden können. Folgende Typen werden unterstützt: Metrische, Single Choice und Multiple Choice Frage.
 survey#:#constraints_no_questions_or_questionblocks_selected#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus!
 survey#:#contains#:#Beinhaltet
 survey#:#continue#:#Weiter >>
@@ -11120,7 +11120,7 @@ survey#:#dp_standard_numbers#:#Standard-Zahlen
 survey#:#duplicate#:#Kopieren
 survey#:#duplicate_svy#:#Umfrage kopieren
 survey#:#edit_ask_continue#:#Wollen Sie die Bearbeitung dieser Frage wirklich fortführen?
-survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Vorbedingungen zu bearbeiten
+survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Verzweigungsregeln zu bearbeiten
 survey#:#edit_heading#:#Überschrift bearbeiten
 survey#:#edit_phrase#:#Phrase bearbeiten
 survey#:#end_date#:#Enddatum
@@ -11150,7 +11150,7 @@ survey#:#evaluation_access_description#:#Normalerweise ist der Zugang zur Umfrag
 survey#:#evaluation_access_info#:#Sie haben Zugriff auf die Auswertung der Umfrage
 survey#:#evaluation_access_off#:#Nicht verfügbar
 survey#:#evaluation_access_participants#:#Evaluationszugriff für Teilnehmer der Umfrage
-survey#:#existing_constraints#:#Bestehende Vorbedingungen
+survey#:#existing_constraints#:#Bestehende Verzweigungsregeln
 survey#:#exit#:#Beenden
 survey#:#exp_type_csv#:#Durch Komma getrennte Werte (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel
@@ -11208,12 +11208,12 @@ survey#:#insert_saved_message#:#Nachrichtentext einfügen
 survey#:#internal_link#:#Interner Verweis
 survey#:#introduction#:#Einleitung
 survey#:#introduction_manage_phrases#:#Verwalten Sie Ihre eigenen Phrasen. Diese stehen Ihnen in allen ordinalen Fragen zur Verfügung, die Sie erstellen/bearbeiten.
-survey#:#invitation#:#Einladung
-survey#:#invitation_mode#:#Einladungsmodus
+survey#:#invitation#:#Umfrage auf Persönlichen Schreibtisch legen
+survey#:#invitation_mode#:#Auf den Persönlichen Schreibtisch legen
 survey#:#invitation_mode_desc#:#Wenn ein Benutzer zu einer Umfrage eingeladen wurde, wird eine Verknüpfung zu dieser Umfrage auf den persönlichen Schreibtisch des Benutzers gelegt.
-survey#:#invitation_off#:#Niemanden einladen
+survey#:#invitation_off#:#Niemandem auf den Schreibtisch legen
 survey#:#invited_groups#:#Eingeladene Gruppen
-survey#:#invited_users#:#Eingeladene Benutzer
+survey#:#invited_users#:#Ausgewählte Benutzer
 survey#:#label#:#Label
 survey#:#label_info#:#Alternative Bezeichnung für die weitere Verarbeitung (z.B. in SPSS) der Fragendaten
 survey#:#label_resume_survey#:#Bitte geben Sie den aus 5 Zeichen bestehenden Zugangsschlüssel ein
@@ -11291,7 +11291,7 @@ survey#:#mode_nr_of_selections#:#Anzahl der Auswahlen
 survey#:#mode_text#:#Häufigste Auswahl (Text)
 survey#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
 survey#:#msg_duplicate_scale#:#Bitte tragen Sie eindeutige Skalenwerte ein.
-survey#:#msg_enter_value_for_valid_constraint#:#Bitte geben Sie einen Wert ein, um eine gültige Vorbedingung zu erstellen.
+survey#:#msg_enter_value_for_valid_constraint#:#Bitte geben Sie einen Wert ein, um eine gültige Verzweigungsregel zu erstellen.
 survey#:#msg_max_nr_answers#:#Bitte wählen Sie höchstens %s Antworten.
 survey#:#msg_message_deleted#:#Nachrichtentext gelöscht
 survey#:#msg_message_inserted#:#Nachrichtentext eingefügt
@@ -11306,10 +11306,10 @@ survey#:#multiple_choice_single_response#:#Single Choice Frage
 survey#:#multiple_choice_subtype_description#:#Wählen Sie Einfachauswahl, wenn Sie wünschen, dass die Teilnehmer nur genau eine Antwort auswählen und Mehrfachauswahl, wenn die Teilnehmer mehr als eine Antwort auswählen dürfen.
 survey#:#new_survey_codes#:#neue Zugangsschlüssel für die Umfrage
 survey#:#next_question_rows#:#Fragen %d - %d von %d >>
-survey#:#no_available_constraints#:#Es sind keine Vorbedingungen definiert!
+survey#:#no_available_constraints#:#Es sind keine Verzweigungsregeln definiert!
 survey#:#no_category_selected_for_deleting#:#Bitte wählen Sie mindestens eine Antwort aus, um den Löschvorgang durchzuführen!
 survey#:#no_category_selected_for_move#:#Bitte wählen Sie mindestens eine Antwort zum Verschieben aus!
-survey#:#no_constraints_checked#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus, um die Vorbedingungen zu bearbeiten!
+survey#:#no_constraints_checked#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus, um die Verzweigungsregeln zu bearbeiten!
 survey#:#no_phrase_selected#:#Sie haben keine Phrase ausgewählt.
 survey#:#no_question_selected_for_copy_to_pool#:#Bitte wählen Sie mindestens eine Frage aus, die nicht einem Fragenpool zugeordnet ist.
 survey#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus!
@@ -11349,7 +11349,7 @@ survey#:#please_enter_mail_code#:#Bitte verwenden Sie den Platzhalter für den Z
 survey#:#please_enter_mail_message#:#Bitte geben Sie einen Nachrichteninhalt ein.
 survey#:#please_enter_mail_subject#:#Bitte geben Sie einen Betreff ein.
 survey#:#please_select#:#-- bitte auswählen --
-survey#:#predefined_users#:#Vordefinierte Benutzergruppe
+survey#:#predefined_users#:#Ausgewählten Benutzern auf den Schreibtisch legen
 survey#:#preview#:#Vorschau
 survey#:#previous_question_rows#:#<< Fragen %d - %d von %d
 survey#:#qpl_confirm_delete_phrases#:#Sind Sie sicher, dass Sie die folgende(n) Phrase(n) löschen wollen?
@@ -11369,7 +11369,7 @@ survey#:#qpl_savephrase_exists#:#Der Titel der Phrase existiert bereits! Bitte g
 survey#:#qpl_unfold_select_none#:#Bitte wählen Sie mindestens einen Fragenblock aus, um einen Fragenblock aufzulösen!
 survey#:#question_changed_in_survey_only#:#Die Frage wurde nur in der Umfrage verändert
 survey#:#question_contains_no_categories#:#Für diese Frage wurden noch keine Antworten definiert
-survey#:#question_has_constraints#:#Vorbedingungen
+survey#:#question_has_constraints#:#Verzweigungsregeln
 survey#:#question_icon#:#Fragensymbol
 survey#:#question_mr_no_other_answer#:#Bitte geben Sie einen Text für die freie Antwort ein
 survey#:#question_mr_no_other_answer_checked#:#Sie müssen das Kontrollkästchen auswählen, wenn Sie einen Antworttext eintragen
@@ -11380,7 +11380,7 @@ survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um
 survey#:#question_sr_no_other_answer_checked#:#Sie müssen das Optionsfeld auswählen, wenn Sie einen Antworttext eintragen
 survey#:#question_type#:#Fragetyp
 survey#:#questionblock#:#Fragenblock
-survey#:#questionblock_has_constraints#:#Vorbedingungen
+survey#:#questionblock_has_constraints#:#Verzweigungsregeln
 survey#:#questionblock_icon#:#Fragenblock-Symbol
 survey#:#questionblock_inserted#:#Fragenblock eingefügt
 survey#:#questionblocks#:#Fragenblöcke
@@ -11589,7 +11589,7 @@ survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfülle
 survey#:#text_resume_survey#:#Sie versuchen, eine anonymisierte Umfrage fortzusetzen. Bitte geben Sie hierfür den aus 5 Zeichen bestehenden Zugangsschlüssel ein, der Ihnen beim ersten Beantworten der Umfrage in Ihren Posteingang zugeschickt wurde. Sie können den Zugangsschlüssel auch in die Zwischenablage kopieren und in das zugehörige Feld einfügen.
 survey#:#title_resume_survey#:#Fortsetzen der Umfrage - Bitte den Zugangsschlüssel eingeben
 survey#:#unfold#:#Fragenblock auflösen
-survey#:#unlimited_users#:#Unbegrenzt
+survey#:#unlimited_users#:#Allen registrierten Benutzern auf den Schreibtisch legen
 survey#:#uploaded_material#:#Hochgeladene Materialien
 survey#:#upper_limit#:#Obere Schranke
 survey#:#upper_limit_must_be_greater#:#Die obere Schranke muss größer als die untere Schranke sein!
@@ -11608,7 +11608,7 @@ survey#:#users_skipped#:#Übersprungen
 survey#:#value_nr_entered#:#Anzahl der Benutzer, die diesen Wert angegeben haben
 survey#:#values#:#Werte
 survey#:#vertical#:#vertikal
-survey#:#view_constraints_introduction#:#Sie betrachten Vorbedingungen der folgenden Frage/des folgenden Fragenblocks:
+survey#:#view_constraints_introduction#:#Sie betrachten Verzweigungsregeln der folgenden Frage / des folgenden Fragenblocks:
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch kopieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
