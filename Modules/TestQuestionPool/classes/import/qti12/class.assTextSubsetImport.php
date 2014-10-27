@@ -184,7 +184,7 @@ class assTextSubsetImport extends assQuestionImport
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$textrating = $item->getMetadataEntry("textrating");
 		if (strlen($textrating) == 0) $textrating = "ci";
-		$this->object->setTextRating($textgap_rating);
+		$this->object->setTextRating($textrating);
 		$this->object->setCorrectAnswers($item->getMetadataEntry("correctanswers"));
 		$response = current($responses);
 		$counter = 0;
