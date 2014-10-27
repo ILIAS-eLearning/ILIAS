@@ -1463,8 +1463,8 @@ class gevUserUtils {
 				return self::WBD_AGENTSTATUS3; //3 - Makler
 			}
 
-			return $agent_status_user; //raw
 		}
+		return $agent_status_user; //raw
 
 	}
 	
