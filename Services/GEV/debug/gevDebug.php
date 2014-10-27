@@ -259,13 +259,24 @@ class gevDebug {
 	}
 
 
+	public function updateHistoryForUserIfStellung($usr){
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$uutils = gevUserUtils::getInstanceByObjOrId($usr->getId());
+		if($uutils->getRawWBDAgentStatus() == '0 - aus Stellung'){
+			print '<br>new hist case'.
+			self::updateHistoryForUser($usr);
+		}
+	}
+
+
+
+	
 	public function setAgentStateForUser($user_id){
 		//global $rbacreview;
 		//$user_roles = $rbacreview->assignedRoles($user_id);
 		
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
-		$uutils = gevUserUtils::getInstanceByObjOrId($user_id);
 		$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($user_id);
 
 		foreach($roles as $key => $value) {
@@ -306,7 +317,39 @@ class gevDebug {
 			$roles[$key] = ilObject::_lookupTitle($value);
 		}
 		*/
+	}
 
+	public function revertSetAgentStateForUser($user_id){
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		$uutils = gevUserUtils::getInstanceByObjOrId($user_id);
+		$possibleNewRoles = array(
+			'1 - Angestellter Außendienst',
+			'2 - Ausschließlichkeitsvermittler',
+			'3 - Makler'
+		);
+		if(in_array($uutils->getRawWBDAgentStatus(), $possibleNewRoles)){
+			//if roles also match:
+			$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($user_id);
+			foreach($roles as $key => $value) {
+				$roles[$key] = ilObject::_lookupTitle($value);
+			}
+			if(
+				in_array("OD/LD/BD/VD/VTWL", $roles) ||
+				in_array("DBV/VL-EVG", $roles) ||
+				in_array("DBV-UVG", $roles) ||
+				in_array("AVL", $roles) ||
+				in_array("HA", $roles) ||
+				in_array("BA", $roles) ||
+				in_array("NA", $roles) || 
+				in_array("VP", $roles) 
+			){
+				//revert
+				print '<br>reverting.';
+				$uutils->setWBDAgentStatus('0 - aus Stellung');
+			}
+
+		}
 	}
 
 
@@ -341,8 +384,9 @@ $usrIds = array();
 foreach ($debug->getAllUsers($usrIds) as $id=>$usr) {
 	print_r($usr->getLogin());
 	print '<br>';
+	$debug->revertSetAgentStateForUser($id);
+	$debug->updateHistoryForUserIfStellung($usr);
 	//$debug->setAgentStateForUser($id);
-	$debug->updateHistoryForUser($usr);
 	print '<hr>';
 }
 
