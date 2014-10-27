@@ -838,10 +838,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		// Last try in limited tries & confirmed?
 		if(($actualpass == $this->object->getNrOfTries() - 1) && (!$requires_confirmation))
 		{
-			$this->testSession->setSubmitted(1);
-			$this->testSession->setSubmittedTimestamp(date('Y-m-d H:i:s'));
-			$this->testSession->saveToDb();
-			
 			$ilAuth->setIdle(ilSession::getIdleValue(), false);
 			$ilAuth->setExpire(0);
 			switch($this->object->getMailNotification())
@@ -872,7 +868,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				}
 			}
 		}
-
+		
+		// no redirect request loops after test pass finished tasks has been performed
+		
 		$this->performTestPassFinishedTasks($actualpass);
 
 		$this->testSession->setLastFinishedPass($this->testSession->getPass());
@@ -883,6 +881,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	protected function performTestPassFinishedTasks($finishedPass)
 	{
+		if( !$this->testSession->isSubmitted() )
+		{
+			$this->testSession->setSubmitted(1);
+			$this->testSession->setSubmittedTimestamp(date('Y-m-d H:i:s'));
+			$this->testSession->saveToDb();
+		}
+
 		if( $this->object->getEnableArchiving() )
 		{
 			$this->archiveParticipantSubmission($this->testSession->getActiveId(), $finishedPass);

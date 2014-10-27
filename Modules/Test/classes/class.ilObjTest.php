@@ -8047,15 +8047,6 @@ function getAnswerFeedbackPoints()
 			$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
 			return $result;
 		}
-		
-		if ($testSession->isSubmitted())
-		{
-			$result["executable"] = FALSE;
-			$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
-			return $result;
-		}
-
-		// TODO: max. processing time
 
 		return $result;
 	}

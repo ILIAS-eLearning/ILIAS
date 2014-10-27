@@ -21,6 +21,13 @@ class ilTestPlayerFixedQuestionSetGUI extends ilTestOutputGUI
 {
 	protected function performTestPassFinishedTasks($finishedPass)
 	{
+		if( !$this->testSession->isSubmitted() )
+		{
+			$this->testSession->setSubmitted(1);
+			$this->testSession->setSubmittedTimestamp(date('Y-m-d H:i:s'));
+			$this->testSession->saveToDb();
+		}
+
 		if( $this->object->isSkillServiceToBeConsidered() )
 		{
 			$this->performSkillTriggering(
