@@ -169,32 +169,32 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		$street_and_nr = $this->_extract_house_nr( $record['street']);
 		$udata = array(
-				'internal_agent_id' => $record['user_id']
-				,'title' 			=> $this->VALUE_MAPPINGS['salutation'][$record['gender']]
+				'internal_agent_id' 	=> $record['user_id']
+				,'title' 		=> $this->VALUE_MAPPINGS['salutation'][$record['gender']]
 				,'first_name' 		=> $record['firstname']
 				,'last_name' 		=> $record['lastname']
 				
 				,'birthday' 		=> $record['birthday']
 
-				,'street'			=> $street_and_nr['street']
+				,'street'		=> $street_and_nr['street']
 				,'house_number'		=> $street_and_nr['nr']
-				,'zipcode'			=> $record['zipcode']
-				,'city'				=> $record['city']
-				,'phone_nr'			=> ($record['phone_nr'] == '-empty-') ? '' : $record['phone_nr']
+				,'zipcode'		=> $record['zipcode']
+				,'city'			=> $record['city']
+				,'phone_nr'		=> ($record['phone_nr'] == '-empty-') ? '' : $record['phone_nr']
 				,'mobile_phone_nr'	=> $record['mobile_phone_nr']
 				
 				,'auth_email' 		=> ($record['email'] == '-empty-') ? '' : $record['email']
-				,'email'			=> ($record['wbd_email'] && $record['wbd_email'] != '-empty-') ? $record['wbd_email'] : $record['email']
+				,'email'		=> ($record['wbd_email'] && $record['wbd_email'] != '-empty-') ? $record['wbd_email'] : $record['email']
 				,'auth_phone_nr' 	=> $record['mobile_phone_nr']
 
 				,'agent_registration_nr' => '' // optional
-				,'agent_id' => ($record['bwv_id'] == '-empty-') ? '' : $record['bwv_id']
+				,'agent_id'		 => ($record['bwv_id'] == '-empty-') ? '' : $record['bwv_id']
 				
-				,'agency_work' => $record['okz'] 			//OKZ
-				,'agent_state' => ($this->VALUE_MAPPINGS['agent_status'][$record['agent_status']])	//Status
+				,'agency_work' 		=> $record['okz'] 			//OKZ
+				,'agent_state' 		=> ($this->VALUE_MAPPINGS['agent_status'][$record['agent_status']])	//Status
 				//,'email_confirmation' => 'Nein'			//Benachrichtigung?
-				,"row_id" => $record["row_id"]
-				,'wbd_type' => $record['wbd_type'] //debug
+				,"row_id" 		=> $record["row_id"]
+				,'wbd_type' 		=> $record['wbd_type'] //debug
 			);
 
 	
@@ -209,26 +209,34 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 	private function _map_edudata($record) {
-		//print '<pre>';
-		//print_r($record);
-		$edudata = array(
-			"name" 			=> $record["lastname"]
-			,"first_name" 	=> $record["firstname"]
-			,"birthday_or_internal_agent_id" => $record['user_id']
-			,"agent_id" 	=> $record['bwv_id']
-			,"from" 		=> date('d.m.Y', $record['begin_date'])
-			,"till" 		=> date('d.m.Y', $record['end_date'])
-			,"score"		=> $record['credit_points']
 
-			,"training"	 			=> $record['title'] //or template?
+		$edudata = array(
+			"name" 					=> $record["lastname"]
+			,"first_name" 			=> $record["firstname"]
+			,"birthday_or_internal_agent_id" => $record['user_id']
+			,"agent_id" 			=> $record['bwv_id']
+			,"from" 				=> date('d.m.Y', $record['begin_date'])
+			,"till" 				=> date('d.m.Y', $record['end_date'])
+			,"score"				=> $record['credit_points']
 			,"study_type_selection" => $this->VALUE_MAPPINGS['course_type'][$record['type']] // "Präsenzveranstaltung" | "Selbstgesteuertes E-Learning" | "Gesteuertes E-Learning";
-	
-			//....
+			,"study_content"		=> $record['wbd_topic'] 
+			
+			,"training"	 			=> $record['title'] //or template?
+			
 			/*
 			"internal_booking_id" => "", //$record['crs_ref_id'],
-			"study_content" => "", //Spartenübergreifend",
+			
+
+			"score_code" => "" // KennzeichenPunkte ??
+
+			"contact_degree" => "",
+			"contact_first_name" => "",
+			"contact_last_name" => "",
+			"contact_phone" => "",
+			"contact_email" => "",
+
 			*/
-			,"row_id" => $record["row_id"]
+			,"row_id" 				=> $record["row_id"]
 		);
 		return $edudata;	
 	}
