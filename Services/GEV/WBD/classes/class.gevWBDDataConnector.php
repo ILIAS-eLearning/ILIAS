@@ -71,10 +71,21 @@ class gevWBDDataConnector extends wbdDataConnector {
 	 */
 
 	private function _extract_house_nr($streetnr){
+
+		//special cases:
+		//Mannheim, Q5
+		$i = 0 ;
+		if(strtoupper(substr(trim($streetnr), 0, 2)) == 'Q5') {
+		    $i = 2;
+		}
+		if(strtoupper(substr(trim($streetnr), 0, 3)) == 'Q 5') {
+		    $i = 3;
+		}
+
 		//find first number in string
 	    $len = strlen($streetnr);
 	    $pos = False;
-	    for($i = 0; $i < $len; $i++) {
+	    for($i; $i < $len; $i++) {
 	        if(is_numeric($streetnr[$i])) {
 	        	$pos = $i;
 	        	break;
