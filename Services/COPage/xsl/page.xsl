@@ -45,7 +45,6 @@
 <xsl:param name="pg_frame"/>
 <xsl:param name="webspace_path"/>
 <xsl:param name="enlarge_path"/>
-<xsl:param name="img_add"/>
 <xsl:param name="img_col"/>
 <xsl:param name="img_row"/>
 <xsl:param name="img_item"/>

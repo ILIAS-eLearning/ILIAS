@@ -1584,7 +1584,6 @@ return;
 		// get title
 		$pg_title = $this->getPresentationTitle();
 
-		$add_path = ilUtil::getImagePath("add.png");
 		$col_path = ilUtil::getImagePath("col.png");
 		$row_path = ilUtil::getImagePath("row.png");
 		$item_path = ilUtil::getImagePath("item.png");
@@ -1665,7 +1664,6 @@ return;
 						 'enable_placeholder' => $cfg->getEnablePCType("PlaceHolder") ? "y" : "n",
 						 'pg_id' => $this->obj->getId(), 'pg_title_class' => $pg_title_class,
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path,
-						 'img_add' => $add_path,
 						 'img_col' => $col_path,
 						 'img_row' => $row_path,
 						 'img_item' => $item_path,

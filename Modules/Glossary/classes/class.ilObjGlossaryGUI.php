@@ -97,6 +97,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				break;
 
 			case "ilglossarytermgui":
+				$this->getTemplate();
 //				$this->quickList();
 				$this->ctrl->setReturn($this, "listTerms");
 				$term_gui =& new ilGlossaryTermGUI($this->term_id);
@@ -792,120 +793,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		global $ilUser, $tpl;
 
-return;
-		include_once("./Modules/Glossary/classes/class.ilTermQuickListTableGUI.php");
-		$tab = new ilTermQuickListTableGUI($this, "listTerms");
-		$tpl->setLeftContent($tab->getHTML());
-		
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.glossary_short_list.html",
-			"Modules/Glossary");
-		
-//		$this->tpl->addBlockFile("EXPLORER_TOP", "exp_top", "tpl.explorer_top.html");
-//		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
-		
-		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("CMD_REFR", "quickList");
-		$this->tpl->setVariable("TXT_REFR", $this->lng->txt("refresh"));
-		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_terms"));
-		
-		include_once "./Services/Table/classes/class.ilTableGUI.php";
-
-		// glossary term list template
-
-		// load template for table
-		$this->tpl->addBlockfile("SHORT_LIST", "list", "tpl.table.html");
-
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.term_short_tbl_row.html", true);
-
-		$num = 0;
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		// create table
-		$tbl = new ilTableGUI();
-
-		// title & header columns
-		//$tbl->setTitle($this->lng->txt("cont_terms"));
-		//$tbl->setHelp("tbl_help.php","icon_help.png",$this->lng->txt("help"));
-
-		$tbl->setHeaderNames(array($this->lng->txt("cont_term")));
-
-		$cols = array("term");
-		$header_params = $this->ctrl->getParameterArrayByClass("ilobjglossarygui", "listTerms");
-		$header_params["cmd"] = "quickList";
-		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("100%"));
-		$tbl->disable("title");
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->disable("header");
-		
-		$term_list = $this->object->getTermList();
-		$tbl->setMaxCount(count($term_list));
-
-		$this->tpl->setVariable("COLUMN_COUNT", 1);
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		
-
-		// sorting array
-		$term_list = array_slice($term_list, $_GET["offset"], $_GET["limit"]);
-
-		// render table
-		$tbl->render();
-
-		if (count($term_list) > 0)
-		{
-			$i=1;
-			foreach($term_list as $key => $term)
-			{
-				$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
-				
-				$sep = ": ";
-				for($j=0; $j<count($defs); $j++)
-				{
-					$def = $defs[$j];
-
-					// edit
-					$this->tpl->setCurrentBlock("definition");
-					$this->tpl->setVariable("SEP", $sep);
-					$this->ctrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term["id"]);
-					$this->ctrl->setParameterByClass("ilglossarydefpagegui", "def", $def["id"]);
-					$this->tpl->setVariable("LINK_EDIT_DEF",
-						$this->ctrl->getLinkTargetByClass(array("ilglossarytermgui",
-						"iltermdefinitioneditorgui",
-						"ilglossarydefpagegui"), "edit"));
-					$this->tpl->setVariable("TEXT_DEF", $this->lng->txt("glo_definition_abbr").($j+1));
-					$this->tpl->parseCurrentBlock();
-					$sep = ", ";
-				}
-
-				$this->tpl->setCurrentBlock("tbl_content");
-				$css_row = ilUtil::switchColor(++$i,"tblrow1","tblrow2");
-
-				// edit term link
-				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
-				$this->ctrl->setParameter($this, "term_id", $term["id"]);
-				$this->tpl->setVariable("LINK_EDIT_TERM",
-					$this->ctrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
-					
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->parseCurrentBlock();
-			}
-		} //if is_array
-		else
-		{
-			//$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", $num);
-			//$this->tpl->parseCurrentBlock();
-		}
 	}
 	
 

@@ -1280,16 +1280,6 @@ class ilSurveyEditorGUI
 			$pdf_url = $this->ctrl->getLinkTarget($this, "printView");
 			$this->ctrl->setParameter($this, "pdf", "");
 			
-			/*
-			include_once "Services/UIComponent/Button/classes/class.ilImageLinkButton.php";
-			$button = ilImageLinkButton::getInstance();
-			$button->setCaption("pdf_export");								
-			$button->setUrl($pdf_url);		
-			$button->forceTitle(true);			
-			$button->setImage("application-pdf.png");				
-			$ilToolbar->addButtonInstance($button);				  
-			*/		
-						
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("pdf_export");								
 			$button->setUrl($pdf_url);				
