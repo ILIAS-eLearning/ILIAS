@@ -121,9 +121,22 @@ class gevImportOldData {
 
 	public function __construct() {
 		global $ilUser, $ilDB;
+		global $ilClientIniFile;
 
-		$this->db = &$ilDB;;
+		$this->db = &$ilDB;
 		$this->user = &$ilUser;
+
+
+		$host = $ilClientIniFile->readVariable('shadowdb', 'host');
+		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
+		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
+		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
+
+		$mysql = mysql_connect($host, $user, $pass) or die(mysql_error());
+		mysql_select_db($name, $mysql);
+		mysql_set_charset('utf8', $mysql);
+
+		$this->importDB = $mysql;
 
 		$this->importdata = array();
 
@@ -131,8 +144,8 @@ class gevImportOldData {
 
 	public function getOldData(){
 		$sql = 'SELECT * FROM wbd_altdaten ORDER BY name';
-		$result = $this->db->query($sql);
-		while($record = $this->db->fetchAssoc($result)) {
+		$result = mysql_query($sql, $this->importDB);
+		while($record = mysql_fetch_assoc(($result)) {
 			$this->importdata[] = $record;
 		}
 	}
