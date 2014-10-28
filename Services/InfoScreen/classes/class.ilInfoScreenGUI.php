@@ -774,7 +774,7 @@ class ilInfoScreenGUI
 				$tpl->setVariable("BTN_TXT", $button["title"]);
 				if($button["primary"])
 				{
-					$tpl->setVariable("BTN_CLASS", " emphsubmit");
+					$tpl->setVariable("BTN_CLASS", " btn-primary");
 				}
 				$tpl->parseCurrentBlock();
 			}
