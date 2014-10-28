@@ -203,6 +203,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 		);
 		$sub_period->setInfo($lng->txt("send_mail_to_inactive_users_desc"));
 		$sub_period->setValue($ilSetting->get("cron_inactive_user_reminder_period", $default_setting));
+		$sub_period->setSuffix($lng->txt("send_mail_to_inactive_users_suffix"));
 		$sub_period->setSize(4);
 		$sub_period->setMaxLength(4);
 		$sub_period->setRequired(false);

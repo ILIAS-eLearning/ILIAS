@@ -14679,7 +14679,8 @@ content#:#cont_reset_nr_of_tries#:#Reset Number of Tries
 crs#:#crs_subscription_failed_limit#:#Die maximale Teilnehmeranzahl wurde überschritten.
 user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf E-Mail-Versand getestet wird.
-user#:#send_mail_to_inactive_users#:#Frühester E-Mail-Versand vor Account-Löschung in Tagen
+user#:#send_mail_to_inactive_users#:#Benachrichtigungs Mail
+user#:#send_mail_to_inactive_users_suffix#:#Tage vor Löschung.
 user#:#send_mail_to_inactive_users_desc#:#Bevor Accounts gelöscht werden, wird eine E-Mail an die in den Stammdaten hinterlegte Adresse gesendet. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang ermöglicht ist.
 user#:#del_mail_subject#:#(ILIAS) – Ihr Benutzerkonto wird bald gelöscht
 user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr Benutzerkonto wird daher in %4$s Tagen gelöscht. Bitte melden Sie sich erneut an, damit Ihr Benutzerkonto erhalten bleibt.

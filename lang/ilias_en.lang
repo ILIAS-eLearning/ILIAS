@@ -14735,8 +14735,9 @@ content#:#cont_unlocked#:#Unlocked
 content#:#cont_reset_nr_of_tries#:#Reset Number of Tries
 content#:#cont_unlock_allow_continue#:#Unlock / Allow to Continue
 crs#:#crs_subscription_failed_limit#:#The maximum number of participants has been exceeded.
-user#:#send_mail_to_inactive_users#:#Earliest date in days for sending a reminder mail
-user#:#send_mail_to_inactive_users_desc#:#A reminder mail will be send to user's e-mail address to warn about an upcoming account deletion.
+user#:#send_mail_to_inactive_users#:#Warning Mail
+user#:#send_mail_to_inactive_users_desc#:#If set, a warning mail will be sent to the user before his/her account is deleted due to inactivity.
+user#:#send_mail_to_inactive_users_suffix#:#Days before Deletion.
 user#:#send_mail_to_inactive_users_numbers_only#:#Only positive non decimal numbers are accepted.
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#This value must be smaller than the value 'Days passed since last login'.
 user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted
