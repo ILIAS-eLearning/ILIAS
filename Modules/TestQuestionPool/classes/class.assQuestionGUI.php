@@ -1304,12 +1304,15 @@ abstract class assQuestionGUI
 				$file->setRequired(TRUE);
 				$file->enableFileNameSelection("filename");
 				//$file->setSuffixes(array("doc","xls","png","jpg","gif","pdf"));
-				if ($_FILES["file"]["tmp_name"])
+				if( $_FILES["file"]["tmp_name"] && $file->checkInput() )
 				{
 					if (!file_exists($this->object->getSuggestedSolutionPath())) ilUtil::makeDirParents($this->object->getSuggestedSolutionPath());
+					
 					$res = ilUtil::moveUploadedFile($_FILES["file"]["tmp_name"], $_FILES["file"]["name"], $this->object->getSuggestedSolutionPath() . $_FILES["file"]["name"]);
 					if ($res)
 					{
+						ilUtil::renameExecutables($this->object->getSuggestedSolutionPath());
+						
 						// remove an old file download
 						if (is_array($solution_array["value"])) @unlink($this->object->getSuggestedSolutionPath() . $solution_array["value"]["name"]);
 						$file->setValue($_FILES["file"]["name"]);
@@ -1327,6 +1330,7 @@ abstract class assQuestionGUI
 					}
 					else
 					{
+						// BH: $res as info string? wtf? it holds a bool or something else!!?
 						ilUtil::sendInfo($res);
 					}
 				}
