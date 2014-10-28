@@ -145,14 +145,6 @@ class ilEditClipboardGUI
 		$but->setCaption("cont_create_mob");
 		$ilToolbar->addButtonInstance($but);
 
-		/*$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK",
-			$ilCtrl->getLinkTargetByClass("ilobjmediaobjectgui", "create"));
-		$tpl->setVariable("BTN_TXT", $lng->txt("cont_create_mob"));
-		$tpl->parseCurrentBlock();*/
-
 		include_once("./Services/Clipboard/classes/class.ilClipboardTableGUI.php");
 		$table_gui = new ilClipboardTableGUI($this, "view");
 		$tpl->setContent($table_gui->getHTML());

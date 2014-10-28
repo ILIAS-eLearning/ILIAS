@@ -318,24 +318,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	}
 	function setilCitationMenu()
 	{
-		include_once("./Services/UICore/classes/class.ilTemplate.php");
-
-		$tpl_menu =& new ilTemplate("tpl.buttons.html",true,true);
-
-		$tpl_menu->setCurrentBlock("btn_cell");
-
-		#$tpl_menu->setVariable("BTN_LINK","./ilias.php?frame=maincontent&ref_id=".$_GET["ref_id"].
-		#"&obj_id=".$_GET["obj_id"]);
-		$this->ctrl->setParameterByClass('illmpresentationgui','frame','maincontent');
-		$this->ctrl->setParameterByClass('illmpresentationgui','obj_id',(int) $_GET['obj_id']);
-		$tpl_menu->setVariable('BTN_LINK',$this->ctrl->getLinkTargetByClass('illmpresentationgui','layout'));
-		$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("back"));
-		$tpl_menu->parseCurrentBlock();
-
-		$tpl_menu->setCurrentBlock("btn_row");
-		$tpl_menu->parseCurrentBlock();
-
-		return $tpl_menu->get();
+		//
 	}
 
 	/**

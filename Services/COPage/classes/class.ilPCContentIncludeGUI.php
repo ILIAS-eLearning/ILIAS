@@ -80,18 +80,17 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 			$ilAccess->checkAccess("write", "", $_SESSION["cont_media_pool"])
 			&& ilObject::_lookupType(ilObject::_lookupObjId($_SESSION["cont_media_pool"])) == "mep")
 		{
-			$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-			$tpl->setCurrentBlock("btn_cell");
-			$ilCtrl->setParameter($this, "subCmd", "poolSelection");
-			$tpl->setVariable("BTN_LINK",
-				$ilCtrl->getLinkTarget($this, "insert"));
-			$ilCtrl->setParameter($this, "subCmd", "");
-			$tpl->setVariable("BTN_TXT", $lng->txt("cont_select_media_pool"));
-			$tpl->parseCurrentBlock();
+			$html = "";
+			$tb = new ilToolbarGUI();
 
-//			$this->getTabs($ilTabs, true);
-//			$ilTabs->setSubTabActive("cont_mob_from_media_pool");
-			
+			$ilCtrl->setParameter($this, "subCmd", "poolSelection");
+
+			$tb->addButton($lng->txt("cont_select_media_pool"),
+				$ilCtrl->getLinkTarget($this, "insert"));
+			$html = $tb->getHTML();
+
+			$ilCtrl->setParameter($this, "subCmd", "");
+
 			include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
 			include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
 			$pool = new ilObjMediaPool($_SESSION["cont_media_pool"]);
@@ -99,8 +98,10 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 			$mpool_table = new ilMediaPoolTableGUI($this, "insert", $pool, "mep_folder",
 				ilMediaPoolTableGUI::IL_MEP_SELECT_CONTENT);
 			$mpool_table->setInsertCommand("create_incl");
-			
-			$tpl->setContent($mpool_table->getHTML());
+
+			$html.= $mpool_table->getHTML();
+
+			$tpl->setContent($html);
 		}
 		else
 		{

@@ -256,28 +256,29 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	function insertFromPool($a_change_obj_ref = false)
 	{
 		global $ilCtrl, $ilAccess, $ilTabs, $tpl, $lng, $ilToolbar;
-		
 
 		if ($_SESSION["cont_media_pool"] != "" &&
 			$ilAccess->checkAccess("write", "", $_SESSION["cont_media_pool"])
 			&& ilObject::_lookupType(ilObject::_lookupObjId($_SESSION["cont_media_pool"])) == "mep")
 		{
-			$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-			$tpl->setCurrentBlock("btn_cell");
+			$html = "";
+			$tb = new ilToolbarGUI();
+
 			$ilCtrl->setParameter($this, "subCmd", "poolSelection");
 			if ($a_change_obj_ref)
 			{
-				$tpl->setVariable("BTN_LINK",
+				$tb->addButton($lng->txt("cont_switch_to_media_pool"),
 					$ilCtrl->getLinkTarget($this, "changeObjectReference"));
 			}
 			else
 			{
-				$tpl->setVariable("BTN_LINK",
+				$tb->addButton($lng->txt("cont_switch_to_media_pool"),
 					$ilCtrl->getLinkTarget($this, "insert"));
+
 			}
 			$ilCtrl->setParameter($this, "subCmd", "");
-			$tpl->setVariable("BTN_TXT", $lng->txt("cont_switch_to_media_pool"));
-			$tpl->parseCurrentBlock();
+
+			$html = $tb->getHTML();
 
 			$this->getTabs($ilTabs, true, $a_change_obj_ref);
 			$ilTabs->setSubTabActive("cont_mob_from_media_pool");
@@ -294,8 +295,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				: ilMediaPoolTableGUI::IL_MEP_SELECT;
 			$mpool_table = new ilMediaPoolTableGUI($this, $tcmd, $pool, "mep_folder",
 				$tmode);
-			
-			$tpl->setContent($mpool_table->getHTML());
+
+			$html.= $mpool_table->getHTML();
+
+			$tpl->setContent($html);
 		}
 		else
 		{

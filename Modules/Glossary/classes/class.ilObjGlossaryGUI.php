@@ -540,18 +540,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		// edit button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",
-			"ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$this->object->getRefID());
-		$this->tpl->setVariable("BTN_TARGET"," target=\"".
-			ilFrameTargetInfo::_getFrame("MainContent")."\" ");
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
-		$this->tpl->parseCurrentBlock();
-
-		//parent::viewObject();
 	}
 
 	/**
@@ -1258,24 +1246,6 @@ return;
 	*/
 	function viewExportLog()
 	{
-		global $tree;
-/*
-		$this->setTabs();
-
-		//add template for view button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// create export file button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportList"));
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_export_files"));
-		$this->tpl->parseCurrentBlock();
-
-		// load files templates
-		$this->tpl->setVariable("ADM_CONTENT",
-			nl2br(file_get_contents($this->object->getExportDirectory()."/export.log")));
-
-		$this->tpl->parseCurrentBlock();*/
 	}
 
 	/**

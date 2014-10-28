@@ -69,10 +69,9 @@ class ilHTLMEditorGUI
 		$this->ctrl->saveParameter($this, array("ref_id"));
 
 		// initiate variables
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->objDefinition =& $objDefinition;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->objDefinition = $objDefinition;
 		$this->ref_id = $_GET["ref_id"];
 
 	}

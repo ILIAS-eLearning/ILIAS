@@ -34,7 +34,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	{
 		global $lng, $ilCtrl;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id"));
 
 		$this->type = "htlm";
@@ -380,9 +380,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		// edit button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
 	}
 
 	/**
@@ -638,10 +635,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	{
 		global $lng;
 
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		//$this->tpl->setVariable("HEADER", $a_header_title);
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		//$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
+		$this->tpl->getStandardTemplate();
 	}
 
 	function showLearningModule()
@@ -742,7 +736,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function setTabs()
 	{
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.png"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.png"));
 		
 		$this->getTabs();
 		$this->tpl->setTitle($this->object->getTitle());
