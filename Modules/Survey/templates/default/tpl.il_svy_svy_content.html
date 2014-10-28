@@ -1,7 +1,9 @@
-<!-- BEGIN suspend_survey -->
-<div align="center"><a href="{HREF_SUSPEND}" class="btn btn-default">{TEXT_SUSPEND}&nbsp;<img align="middle" alt="{ALT_IMG_SUSPEND}" title="{TITLE_IMG_SUSPEND}" src="{IMG_SUSPEND}" border="0" /></a></div>
+<!-- BEGIN percentage -->
+<div align="center">	
+	<div style="width:50%">{NEW_PBAR}</div>
+</div>
 <br />
-<!-- END suspend_survey -->
+<!-- END percentage -->
 <form name="surveyOutput" method="post" action="{FORM_ACTION}">
 <table class="fullwidth">
 	<tr>
@@ -11,27 +13,11 @@
 <!-- END top_prev -->
 	</td>
 	<td class="submit">
-<!-- BEGIN percentage -->
-		<div align="middle">
-		<table border="0" cellpadding="0" cellspacing="0">
-			<tr>
-				<td>
-					<img src="{PERCENT_BAR_START}" alt="{PERCENTAGE_ALT}" title="{PERCENTAGE_VALUE}%" width="2" height="16">
-				</td>
-				<td>
-					<img src="{PERCENT_BAR_FILLED}" alt="{PERCENTAGE_ALT}" title="{PERCENTAGE_VALUE}%" width="{PERCENTAGE_VALUE}" height="16">
-				</td>
-				<td>
-					<img src="{PERCENT_BAR_EMPTY}" alt="{PERCENTAGE_ALT}" title="{PERCENTAGE_VALUE}%" width="{PERCENTAGE_UNFINISHED}" height="16">
-				</td>
-				<td>
-					<img src="{PERCENT_BAR_END}" alt="{PERCENTAGE_ALT}" title="{PERCENTAGE_VALUE}%" width="2" height="16">
-				</td>
-				<td style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; color: #00208C">&nbsp;{PERCENTAGE_VALUE}%</td>
-			</tr>
-		</table>
+<!-- BEGIN suspend_survey -->
+		<div align="center">
+			<a href="{HREF_SUSPEND}" class="btn btn-default">{TEXT_SUSPEND}&nbsp;<img align="middle" alt="{ALT_IMG_SUSPEND}" title="{TITLE_IMG_SUSPEND}" src="{IMG_SUSPEND}" border="0" /></a>
 		</div>
-<!-- END percentage -->
+<!-- END suspend_survey -->
 	</td>
 	<td align="right" width="33%" class="submit">
 <!-- BEGIN top_next -->

@@ -472,16 +472,20 @@ class ilSurveyExecutionGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->outNavigationButtons("top", $page);
+			
+			
 			$this->tpl->setCurrentBlock("percentage");
+			
 			$percentage = (int)(($page[0]["position"])*100);
-			$this->tpl->setVariable("PERCENT_BAR_START", ilUtil::getImagePath("bar_start.png"));
-			$this->tpl->setVariable("PERCENT_BAR_FILLED", ilUtil::getImagePath("bar_filled.png"));
-			$this->tpl->setVariable("PERCENT_BAR_EMPTY", ilUtil::getImagePath("bar_empty.png"));
-			$this->tpl->setVariable("PERCENT_BAR_END", ilUtil::getImagePath("bar_end.png"));
-			$this->tpl->setVariable("PERCENTAGE_ALT", $this->lng->txt("percentage"));
-			$this->tpl->setVariable("PERCENTAGE_VALUE", $percentage);
-			$this->tpl->setVariable("PERCENTAGE_UNFINISHED", 100-$percentage);
+			
+			include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
+			$pbar = ilProgressBar::getInstance();
+			$pbar->setCurrent($percentage);			
+			$this->tpl->setVariable("NEW_PBAR", $pbar->render());
+			
 			$this->tpl->parseCurrentBlock();
+			
+			
 			if (count($page) > 1 && $page[0]["questionblock_show_blocktitle"])
 			{
 				$this->tpl->setCurrentBlock("questionblock_title");
