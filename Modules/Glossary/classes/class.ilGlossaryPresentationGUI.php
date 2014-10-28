@@ -383,7 +383,7 @@ class ilGlossaryPresentationGUI
 			}
 			$tpl->parseCurrentBlock();
 
-			$tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.png"));
+			$tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.png"));
 			$tpl->setTitle($this->lng->txt("cont_term").": ".$term->getTerm());
 
 			// load template for table
@@ -1104,7 +1104,7 @@ class ilGlossaryPresentationGUI
 		}
 		else
 		{
-			$tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.png"));
+			$tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.png"));
 			$term = new ilGlossaryTerm((int) $this->term_id);
 			$tpl->setTitle($this->lng->txt("cont_term").": ".$term->getTerm());
 			$this->showDefinitionTabs("print_view");

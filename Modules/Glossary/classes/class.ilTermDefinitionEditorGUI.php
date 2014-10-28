@@ -77,7 +77,7 @@ class ilTermDefinitionEditorGUI
 			$this->definition->getNr());
 		if ($this->ctrl->getNextClass() == "ilglossarydefpagegui")
 		{
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_def_b.png"));
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.png"));
 		}
 
 		switch ($next_class)

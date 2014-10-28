@@ -1443,7 +1443,7 @@ return;
 		}
 		else
 		{
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo_b.png"));
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.png"));
 			$this->tpl->setTitle($this->lng->txt("glo").": ".$title);
 		}
 	}
