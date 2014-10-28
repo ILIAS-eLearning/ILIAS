@@ -417,22 +417,15 @@ class ilSurveyExecutionGUI
 		}
 		else if ($page === 1)
 		{
-			$this->object->finishSurvey($_SESSION["finished_id"][$this->object->getId()]);
-											
-			if ($this->object->getMailNotification())
+			$state = $this->object->getUserSurveyExecutionStatus();
+			if(!$state["runs"][$_SESSION["finished_id"][$this->object->getId()]]["finished"])
 			{
-				$this->object->sendNotificationMail($ilUser->getId(), 
-					$_SESSION["anonymous_id"][$this->object->getId()],
-					$_SESSION["appr_id"][$this->object->getId()]);
-			}		
-			
-			/*
-			unset($_SESSION["anonymous_id"][$this->object->getId()]);
-			unset($_SESSION["appr_id"][$this->object->getId()]);
-			unset($_SESSION["finished_id"][$this->object->getId()]);
-			*/ 
-			
-			$this->runShowFinishedPage();
+				$this->showFinishConfirmation();
+			}
+			else
+			{
+				$this->runShowFinishedPage();
+			}
 			return;
 		}
 		else
@@ -756,7 +749,7 @@ class ilSurveyExecutionGUI
 			}
 			
 			$button = ilLinkButton::getInstance();
-			$button->setCaption("exit");								
+			$button->setCaption("survey_execution_exit");								
 			$button->setUrl($this->ctrl->getLinkTarget($this, "exitSurvey"));										
 			$ilToolbar->addButtonInstance($button);		
 		
@@ -887,6 +880,43 @@ class ilSurveyExecutionGUI
 		);		
 		
 		ilUtil::sendSuccess($this->lng->txt("mail_sent"), true);
+		$this->ctrl->redirect($this, "runShowFinishedPage");
+	}
+	
+	function showFinishConfirmation()
+	{
+		global $tpl;
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText($this->lng->txt("survey_execution_sure_finish"));
+
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "confirmedFinish"));
+		$cgui->setCancel($this->lng->txt("cancel"), "previous");
+		$cgui->setConfirm($this->lng->txt("confirm"), "confirmedFinish");
+		
+		$tpl->setContent($cgui->getHTML());
+	}
+	
+	function confirmedFinish()
+	{
+		global $ilUser;
+		
+		$this->object->finishSurvey($_SESSION["finished_id"][$this->object->getId()]);
+											
+		if ($this->object->getMailNotification())
+		{
+			$this->object->sendNotificationMail($ilUser->getId(), 
+				$_SESSION["anonymous_id"][$this->object->getId()],
+				$_SESSION["appr_id"][$this->object->getId()]);
+		}		
+
+		/*
+		unset($_SESSION["anonymous_id"][$this->object->getId()]);
+		unset($_SESSION["appr_id"][$this->object->getId()]);
+		unset($_SESSION["finished_id"][$this->object->getId()]);
+		*/ 
+			
 		$this->ctrl->redirect($this, "runShowFinishedPage");
 	}
 }
