@@ -82,7 +82,7 @@ class ilCronManagerGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();	
 		$form->setFormAction($ilCtrl->getFormAction($this, "update"));
-		$form->setTitle($lng->txt("cron_action_edit"));
+		$form->setTitle($lng->txt("cron_action_edit").': "'.$job->getTitle().'"');		
 		
 		if($job->hasFlexibleSchedule())
 		{
