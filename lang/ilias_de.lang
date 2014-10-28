@@ -393,7 +393,8 @@ assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umk
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von [gap][/gap] an der gewünschten Position im Text. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.
 assessment#:#cloze_fixed_textlength#:#Länge des Textfeldes
-assessment#:#cloze_fixed_textlength_description#:#Wenn Sie einen Wert größer als 0 eintragen, werden alle Textlücken und numerischen Lücken mit der angegebenen Länge erzeugt
+assessment#:#cloze_fixed_textlength_description#:#Wenn Sie hier einen Wert eintragen, werden Textlücken sowie numerische Lücken mit dieser Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Für numerische Lücken ist darüberhinaus zu beachten, dass das Dezimaltrennzeichen dabei mit gezählt wird.
+assessment#:#qpl_maxchars_info_numeric_question#:#Wenn Sie hier einen Wert eintragen, wird das Feld für die numerische Antwort mit der angegebenen Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Zu beachten ist dabei, dass das Dezimaltrennzeichen dabei mit gezählt wird.
 assessment#:#cloze_text#:#Lückentextfrage
 assessment#:#cloze_textgap_case_insensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
 assessment#:#cloze_textgap_case_sensitive#:#Groß- und Kleinschreibung beachten

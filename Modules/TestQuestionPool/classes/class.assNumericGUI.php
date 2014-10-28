@@ -159,6 +159,14 @@ class assNumericGUI extends assQuestionGUI
 		$upper_limit->setValue($this->object->getUpperLimit());
 		$form->addItem($upper_limit);
 
+		if( $this->object->getMaxChars() > 0 )
+		{
+			$lower_limit->setSize($this->object->getMaxChars());
+			$lower_limit->setMaxLength($this->object->getMaxChars());
+			$upper_limit->setSize($this->object->getMaxChars());
+			$upper_limit->setMaxLength($this->object->getMaxChars());
+		}
+
 		$this->addQuestionFormCommandButtons($form);
 
 		$errors = false;
