@@ -134,7 +134,7 @@ accordion.prototype =
 				width: { to: 0 }  
 				}, 1, YAHOO.util.Easing.easeOut);
 		}
-		myAnim.duration = 0.5;
+		myAnim.duration = 0.35;
 		myAnim.onStart.subscribe(function() {
 			var t = acc;
 			if (t.options.classNames.activeHead && t.showAccordion && t.options.classNames.activeHead != "") {
@@ -187,7 +187,7 @@ accordion.prototype =
 					to: this.options.defaultSize.width ? this.options.defaultSize.width : this.currentAccordion.scrollWidth }  
 				}, 1, YAHOO.util.Easing.easeOut);
 		}
-		myAnim.duration = 0.5;
+		myAnim.duration = 0.35;
 		this.animating = true;
 		myAnim.onStart.subscribe(function(a, b, t) {
 			var t = acc;
@@ -247,7 +247,7 @@ accordion.prototype =
 					width: { to: 0 }  
 					}, 1, YAHOO.util.Easing.easeOut);
 			}
-			myAnim2.duration = 0.5;
+			myAnim2.duration = 0.35;
 			
 			myAnim2.animate();
 
