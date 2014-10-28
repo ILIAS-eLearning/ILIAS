@@ -4508,3 +4508,7 @@ if( !$settings->get('ommit_legacy_ou_dbtable_deletion', 0) )
 <?php
 	$ilDB->manipulate("UPDATE frm_posts SET pos_update = pos_date WHERE pos_update IS NULL");
 ?>
+<#4405>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
