@@ -245,10 +245,9 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 			));
 		}
 		
-		$this->object->setPoints($form->getItemByPostVar('points')->getValue());
-
 		if( !$this->object->getSelfAssessmentEditingMode() )
 		{
+			$this->object->setPoints($form->getItemByPostVar('points')->getValue());
 			$this->object->setScorePartialSolutionEnabled($form->getItemByPostVar('score_partsol_enabled')->getChecked());
 		}
 		else
