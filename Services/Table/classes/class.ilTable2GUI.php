@@ -34,7 +34,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $selectable_columns = array();
 	protected $selected_column = array();
 	protected $show_templates = false;
-	protected $show_rows_selector = false;
+	protected $show_rows_selector = true; // JF, 2014-10-27
 
 	protected $nav_determined= false;
 	protected $limit_determined = false;
@@ -2279,7 +2279,8 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				$this->tpl->setVariable("COLUMN_SELECTOR", $column_selector);
 				
 				// row selector
-				if ($this->getShowRowsSelector() && is_object($ilUser))
+				if ($this->getShowRowsSelector() && is_object($ilUser) &&
+					$this->getLimit() < 9999) // JF, 2014-10-27
 				{
 					include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 					$alist = new ilAdvancedSelectionListGUI();
