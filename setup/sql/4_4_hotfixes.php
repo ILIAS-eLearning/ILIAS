@@ -1319,3 +1319,7 @@ $ilDB->manipulate("DELETE FROM settings".
 <?php
 	$ilDB->manipulate("UPDATE frm_posts SET pos_update = pos_date WHERE pos_update IS NULL");
 ?>
+<#50>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
