@@ -418,7 +418,8 @@ class ilSurveyExecutionGUI
 		else if ($page === 1)
 		{
 			$state = $this->object->getUserSurveyExecutionStatus();
-			if(!$state["runs"][$_SESSION["finished_id"][$this->object->getId()]]["finished"])
+			if($this->preview || 
+				!$state["runs"][$_SESSION["finished_id"][$this->object->getId()]]["finished"])
 			{
 				$this->showFinishConfirmation();
 			}
@@ -902,14 +903,17 @@ class ilSurveyExecutionGUI
 	{
 		global $ilUser;
 		
-		$this->object->finishSurvey($_SESSION["finished_id"][$this->object->getId()]);
-											
-		if ($this->object->getMailNotification())
+		if(!$this->preview)
 		{
-			$this->object->sendNotificationMail($ilUser->getId(), 
-				$_SESSION["anonymous_id"][$this->object->getId()],
-				$_SESSION["appr_id"][$this->object->getId()]);
-		}		
+			$this->object->finishSurvey($_SESSION["finished_id"][$this->object->getId()]);
+									
+			if ($this->object->getMailNotification())
+			{
+				$this->object->sendNotificationMail($ilUser->getId(), 
+					$_SESSION["anonymous_id"][$this->object->getId()],
+					$_SESSION["appr_id"][$this->object->getId()]);
+			}		
+		}
 
 		/*
 		unset($_SESSION["anonymous_id"][$this->object->getId()]);
