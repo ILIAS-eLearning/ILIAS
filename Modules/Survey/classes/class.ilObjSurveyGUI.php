@@ -1541,9 +1541,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 				if(!$appr_data["closed"])
 				{
-					$close_button_360 = '<div>'.
-						'<a class="submit" href="'.$this->ctrl->getLinkTargetByClass("ilsurveyparticipantsgui", "confirmappraiseeclose").'">'.
-						$this->lng->txt("survey_360_appraisee_close_action").'</a></div>';
+					include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+					$button = ilLinkButton::getInstance();
+					$button->setCaption("survey_360_appraisee_close_action");
+					$button->setUrl($this->ctrl->getLinkTargetByClass("ilsurveyparticipantsgui", "confirmappraiseeclose"));
+					$close_button_360 = '<div>'.$button->render().'</div>';
 
 					$txt = "survey_360_appraisee_close_action_info";
 					if($this->object->get360SkillService())
@@ -1767,9 +1769,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 								$this->ctrl->setParameter($output_gui, "appr_id", $appr_id);
 								$href = $this->ctrl->getLinkTarget($output_gui, $item[0]);
 								$this->ctrl->setParameter($output_gui, "appr_id", "");
-
-								$big_button_360 = '<div>'.
-									'<a class="submit" href="'.$href.'">'.$item[1].'</a></div>';
+								
+								include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+								$button = ilLinkButton::getInstance();
+								$button->setCaption($item[1], false);
+								$button->setUrl($href);								
+								$big_button_360 = '<div>'.$button->render().'</div>';
 
 								$info->addProperty($appr_name, $big_button_360);							
 							}						

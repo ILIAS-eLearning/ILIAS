@@ -263,9 +263,9 @@ class ilInfoScreenGUI
 			$css = "";
 			if($direct_button_primary)
 			{
-				$css = " emphsubmit";
+				$css = " btn-primary";
 			}
-			$input .= " <input type=\"submit\" class=\"submit".$css."\" name=\"cmd[$direct_button_command]\" value=\"$direct_button_label\" />";
+			$input .= " <input type=\"submit\" class=\"btn btn-default".$css."\" name=\"cmd[$direct_button_command]\" value=\"$direct_button_label\" />";
 		}
 		$this->section[$this->sec_nr]["properties"][] =
 			array("name" => "<label for=\"$a_input_name\">$a_name</label>", "value" => $input);
