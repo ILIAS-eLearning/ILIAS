@@ -15,7 +15,7 @@ class ilHistory
 	* have to be separated by comma. The information text has to be stored
 	* in a langage variable "hist_<object_type>_<action>". This text can contain
 	* placeholders %1, %2, ... for each parameter. The placehoders are replaced
-	* by the parameters in ilHistoryGUI->getHistoryTable().
+	* by the parameters in ilHistoryTableGUI.
 	*
 	* Please note that the object type must be specified, if the object is not
 	* derived from ilObject.

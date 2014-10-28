@@ -24,7 +24,7 @@ class ilECSFileSettings extends ilECSObjectSettings
 		$json = $this->getJsonCore('application/ecs-file');			
 		$json->version = $this->content_obj->getVersion();
 		
-		require_once("./Services/History/classes/class.ilHistoryGUI.php");
+		require_once("./Services/History/classes/class.ilHistory.php");
 		$entries = ilHistory::_getEntriesForObject($this->content_obj->getId(), 
 			$this->content_obj->getType());
 		if(count($entries))

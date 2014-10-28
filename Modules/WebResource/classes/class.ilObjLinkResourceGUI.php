@@ -1141,16 +1141,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		$this->checkPermission('write');
 		$ilTabs->activateTab('id_history');
 
-		include_once("./Services/History/classes/class.ilHistoryGUI.php");
-		
-		$hist_gui =& new ilHistoryGUI($this->object->getId());
-		
-		$hist_html = $hist_gui->getHistoryTable(array("ref_id" => $_GET["ref_id"], 
-													  "cmd" => "history",
-													  "cmdClass" =>$_GET["cmdClass"],
-													  "cmdNode" =>$_GET["cmdNode"]));
-		
-		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
+		include_once("./Services/History/classes/class.ilHistoryTableGUI.php");
+		$hist_gui = new ilHistoryTableGUI($this, "history", $this->object->getId(), $this->object->getType);
+		$hist_gui->initTable();
+		$this->tpl->setContent($hist_gui->getHTML());
 	}
 	
 	/**

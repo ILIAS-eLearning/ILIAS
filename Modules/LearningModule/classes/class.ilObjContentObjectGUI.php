@@ -3002,15 +3002,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->setTabs("content");
 		$this->setContentSubTabs("history");
 
-		require_once("./Services/History/classes/class.ilHistoryGUI.php");
-		$hist_gui =& new ilHistoryGUI($this->object->getId() ,
-			$this->object->getType());
-		$hist_html = $hist_gui->getHistoryTable(
-			$this->ctrl->getParameterArray($this, "history"),
-			$this->object->isActiveHistoryUserComments()
-			);
+		require_once("./Services/History/classes/class.ilHistoryTableGUI.php");
+		$hist_gui =& new ilHistoryTableGUI($this,"history",
+			$this->object->getId() ,$this->object->getType());
+		$hist_gui->initTable();
+		$hist_gui->setCommentVisibility($this->object->isActiveHistoryUserComments());
 
-		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
+		$this->tpl->setContent($hist_gui->getHTML());
 	}
 	
 	/**
