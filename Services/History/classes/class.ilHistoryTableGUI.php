@@ -65,7 +65,7 @@ class ilHistoryTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		$this->tpl->setVariable("TXT_USER",ilUserUtil::getNamePresentation($a_set["user_id"], true,true));
+		$this->tpl->setVariable("TXT_USER",ilUserUtil::getNamePresentation($a_set["user_id"], false,false));
 		$this->tpl->setVariable('TXT_DATE',
 			ilDatePresentation::formatDate(new ilDateTime($a_set["date"],IL_CAL_DATETIME)));
 		$this->tpl->setVariable("TXT_ACTION", $this->createInfoText($a_set));
