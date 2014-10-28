@@ -14319,3 +14319,4 @@ mail#:#link_check_introduction#:#the following weblinks are invalid:
 mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.
 mail#:#link_check_affected_links#:#Affected Links
 mail#:#link_check_perma_link#:#Permanent Link
+news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.
