@@ -1235,7 +1235,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setShowSolutionAnswersOnly((is_array($_POST['results_presentation']) && in_array('solution_answers_only', $_POST['results_presentation'])) ? 1 : 0);
 			$this->object->setShowSolutionSignature((is_array($_POST['results_presentation']) && in_array('solution_signature', $_POST['results_presentation'])) ? 1 : 0);
 			$this->object->setShowSolutionSuggested((is_array($_POST['results_presentation']) && in_array('solution_suggested', $_POST['results_presentation'])) ? 1 : 0);
-			$this->object->setShowSolutionListComparison((is_array($_POST['results_presentation']) && in_array('solution_compare', $_POST['results_presentation'])) ? 1 : 0);
+			$this->object->setShowSolutionListComparison(isset($_POST['solution_compare']) && $_POST['solution_compare']);
 			$this->object->setExportSettingsSingleChoiceShort((is_array($_POST['export_settings']) && in_array('exp_sc_short', $_POST['export_settings'])) ? 1 : 0);
 
 			$this->object->setPrintBestSolutionWithResult((int) $_POST['print_bs_with_res'] ? true : false);
@@ -1432,15 +1432,17 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// results presentation
 		$results_presentation = new ilCheckboxGroupInputGUI($this->lng->txt("tst_results_presentation"), "results_presentation");
-		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_pass_details"), 'pass_details', ''));
-		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_details"), 'solution_details', ''));
-		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_printview"), 'solution_printview', ''));
-		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_compare"), 'solution_compare', ''));
-		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_feedback"), 'solution_feedback', ''));
-		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_answers_only"), 'solution_answers_only', ''));
-		$signatureOption = new ilCheckboxOption($this->lng->txt("tst_show_solution_signature"), 'solution_signature', '');
+		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_pass_details"), 'pass_details', $this->lng->txt("tst_show_pass_details_desc")));
+		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_details"), 'solution_details', $this->lng->txt("tst_show_solution_details_desc")));
+		$results_presentation->addOption($showSolutionPrintViewOption = new ilCheckboxOption($this->lng->txt("tst_show_solution_printview"), 'solution_printview', $this->lng->txt("tst_show_solution_printview_desc")));
+		$solutionCompareInput = new ilCheckboxInputGUI($this->lng->txt('tst_show_solution_compare'), 'solution_compare');
+		$solutionCompareInput->setChecked($this->object->getShowSolutionListComparison());
+		$showSolutionPrintViewOption->addSubItem($solutionCompareInput);
+		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_feedback"), 'solution_feedback', $this->lng->txt("tst_show_solution_feedback_desc")));
+		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_answers_only"), 'solution_answers_only', $this->lng->txt("tst_show_solution_answers_only_desc")));
+		$signatureOption = new ilCheckboxOption($this->lng->txt("tst_show_solution_signature"), 'solution_signature', $this->lng->txt("tst_show_solution_signature_desc"));
 		$results_presentation->addOption($signatureOption);
-		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_suggested"), 'solution_suggested', ''));
+		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_suggested"), 'solution_suggested', $this->lng->txt("tst_show_solution_suggested_desc")));
 		$values = array();
 		if ($this->object->getShowPassDetails()) array_push($values, 'pass_details');
 		if ($this->object->getShowSolutionDetails()) array_push($values, 'solution_details');
@@ -1451,7 +1453,6 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($this->object->getShowSolutionSuggested()) array_push($values, 'solution_suggested');
 		if ($this->object->getShowSolutionListComparison()) array_push($values, 'solution_compare');
 		$results_presentation->setValue($values);
-		$results_presentation->setInfo($this->lng->txt("tst_results_presentation_description"));
 		if ($this->object->getAnonymity())
 		{
 			$signatureOption->setDisabled(true);
