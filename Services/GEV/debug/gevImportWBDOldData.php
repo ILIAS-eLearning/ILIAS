@@ -145,24 +145,24 @@ class gevImportOldData {
 	public function getOldData(){
 		$sql = 'SELECT * FROM wbd_altdaten ORDER BY name';
 		$result = mysql_query($sql, $this->importDB);
-		while($record = mysql_fetch_assoc(($result)) {
+		while($record = mysql_fetch_assoc($result)) {
 			$this->importdata[] = $record;
 		}
 	}
 
 
-	public function matchUser($nr, $rec){
+	public function matchUser($rec){
 
 		$found_static = False;
 		foreach ($this->static as $entry) {
-			if(	   $entry['vorname'] == trim($rec['vorname'])
-				&& $entry['name'] == trim($rec['name'])
+			if(	   $entry['vorname'] == trim($rec['Vorname'])
+				&& $entry['name'] == trim($rec['Name'])
 			){
 		
 				if(
-					($entry['geb'] && $entry['geb'] == $rec['geburtsdatum'])
+					($entry['geb'] && $entry['geb'] == $rec['Geburtsdatum'])
 					|| 
-					($entry['agenturnummer'] && $entry['agenturnummer'] == $rec['agenturnummer'])
+					($entry['agenturnummer'] && $entry['agenturnummer'] == $rec['Agenturnummer'])
 				) {
 					$found_static = $entry['id'];
 				}
@@ -174,9 +174,9 @@ class gevImportOldData {
 			$sql = "SELECT * FROM usr_data` WHERE usr_id = " .$found_static;
 		} else {
 			$sql = "SELECT * FROM `usr_data` WHERE"; //user_table
-			$sql .= " firstname = '" .trim($rec['vorname']) ."'";
+			$sql .= " firstname = '" .trim($rec['Vorname']) ."'";
 			$sql .= " AND";
-			$sql .= " lastname = '" .trim($rec['name']) ."'";
+			$sql .= " lastname = '" .trim($rec['Name']) ."'";
 		}
 
 
@@ -192,14 +192,17 @@ class gevImportOldData {
 
 		$ret = array();
 		
-		if(trim($rec['geburtsdatum'])!=''){
+		if(trim($rec['Geburtsdatum'])!=''){
 			$sql = "SELECT * FROM `usr_data` WHERE";
-			$sql .= " firstname = '" .trim($rec['vorname']) ."'";
+			$sql .= " firstname = '" .trim($rec['Vorname']) ."'";
 			$sql .= " AND";
-			$sql .= " lastname = '" .trim($rec['name']) ."'";
-			$geb = explode('.', $rec['geburtsdatum']);
+			$sql .= " lastname = '" .trim($rec['Name']) ."'";
+			
+			$geb = explode('.', $rec['Geburtsdatum']);
 			$dat = $geb[2] .'-' .$geb[1] .'-' .$geb[0];
-			$sql .= "AND birthday = '$dat'";
+			$sql .= " AND birthday = '$dat'";
+			
+			print $sql;
 			
 			$result = $this->db->query($sql);
 			while($record = $this->db->fetchAssoc($result)) {
@@ -207,10 +210,50 @@ class gevImportOldData {
 			}
 		} 
 
-		print 'recheck on birthday: ' .count($ret);
+		print '<br>recheck on birthday: ' .count($ret);
 
-		if(count($ret) != 1 && $rec['agenturnummer']) {
+		if(count($ret) != 1 && $rec['Agenturnummer']) {
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+				
 			//check agency
+			$ids = array();
+			if(count($ret)<1){
+				$sql = "SELECT usr_id FROM `usr_data` WHERE";
+				$sql .= " firstname = '" .trim($rec['Vorname']) ."'";
+				$sql .= " AND";
+				$sql .= " lastname = '" .trim($rec['Name']) ."'";
+			
+				$result = $this->db->query($sql);
+				while($record = $this->db->fetchAssoc($result)) {
+					$ids[]=$record['usr_id'];
+				}
+			}else{ //count > 1
+				foreach ($ret as $entry){
+					$ids[]=$entry['usr_id'];
+				}
+			}
+
+			$ret_temp = array();
+			foreach($ids as $usr_id){
+				$uutils = gevUserUtils::getInstanceByObjOrId($usr_id);
+				//stellennummer
+				//print '<li>' .$uutils->getJobNumber();
+				if((string)$uutils->getJobNumber() == $rec['Agenturnummer']){
+					$ret_temp[]=$usr_id;
+				}
+			}
+			
+			
+			
+			if(count($ret_temp)>0){
+				print '<br>recheck on agency-nr: ' .count($ret_temp);
+				return $ret_temp;
+			}else{
+				print '<br>recheck on agency-nr(2): ' .count($ret);
+				return $ret;
+			}
+
+	
 		}
 
 		return $ret;
@@ -226,17 +269,20 @@ $import->getOldData();
 print '<pre>';
 
 
+
 $sem_too_many_user_matches = array();
 $sem_no_user_matches = array();
 $sem_ok = array();
 
 
-foreach ($import->importdata as $nr => $rec) {
 
-	print '<hr><b>' .$rec['vorname'] .' ' .$rec['name'] .'</b>';
+foreach ($import->importdata as $rec) {
+
+	print '<hr><b>' .$rec['Vorname'] .' ' .$rec['Name'] .'</b>';
 
 	$recheck = False;
-	$matches = $import->matchUser($nr, $rec);
+	$matches = $import->matchUser($rec);
+
 	if(count($matches) > 1){
 		print '<br>too many matches.';
 		$recheck = True;
