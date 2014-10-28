@@ -1063,7 +1063,13 @@ assessment#:#tst_results_back_introduction#:#Back to Introductory Message
 assessment#:#tst_results_back_overview#:#Back to Results Overview
 assessment#:#tst_results_overview_pass#:#Results Overview for Pass %s
 assessment#:#tst_results_overview#:#Pass Overview of the Test Results
-assessment#:#tst_results_presentation_description#:#If "Show Pass Details for running tests" is selected, the question titles and the reached points for every question in the test pass are available if the test is not finished. If "Show Solutions in Test Results" is selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission. If "Show Answer-Specific Feedback in Test Results" is selected, the answer specific feedback will be shown in the test results next to the questions. If "Results print view (answers only)" is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option. If "Show Signature Placeholder" is selected, a signature placeholder will be shown for printout. If "Show Suggested Solution" is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.
+assessment#:#tst_show_pass_details_desc#:#If selected, the question titles and the reached points for every question in the test pass are available if the test is not finished.
+assessment#:#tst_show_solution_details_desc#:#If selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown.
+assessment#:#tst_show_solution_printview_desc#:#If selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission.
+assessment#:#tst_show_solution_feedback_desc#:#If is selected, the answer specific feedback will be shown in the test results next to the questions.
+assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option.
+assessment#:#tst_show_solution_signature_desc#:#If is selected, a signature placeholder will be shown for printout.
+assessment#:#tst_show_solution_suggested_desc#:#If is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.
 assessment#:#tst_results_presentation#:#Test Results Presentation
 assessment#:#tst_results#:#Test Results
 assessment#:#tst_resume_test#:#Resume the Test
@@ -13602,9 +13608,9 @@ cld#:#cld_upload_files#:#Upload Files
 cld#:#service_specific_settings#:#Specific Settings
 common#:#obj_cld#:#Cloud Object
 common#:#objs_cld#:#Cloud Objects
-assessment#:#tst_show_solution_compare#:#Compare Answer with Solution in List of Answers
-assessment#:#tst_header_participant#:#Result:
-assessment#:#tst_header_solution#:#Correct solution:
+assessment#:#tst_show_solution_compare#:#Show Best Solution in List of Answers
+assessment#:#tst_header_participant#:#Your Answer:
+assessment#:#tst_header_solution#:#Best Solution:
 rbac#:#delete_files#:#Delete Files
 rbac#:#cld_delete_files#:#Users can delete Files in the cloud object
 rbac#:#delete_folders#:#Delete Folders
