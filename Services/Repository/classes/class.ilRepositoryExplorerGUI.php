@@ -105,6 +105,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 		global $lng;
 		
 		$title = $a_node["title"];
+						
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
 			if ($title == "ILIAS")
@@ -112,7 +113,15 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 				$title = $lng->txt("repository");
 			}
 		}
-
+		else if($a_node["type"] == "sess" && 
+			!trim($title))
+		{
+			// #14367 - see ilObjSessionListGUI
+			include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+			$app_info = ilSessionAppointment::_lookupAppointment($a_node["obj_id"]); 	
+			$title = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'],$app_info['fullday']);
+		}		
+		
 		return $title;
 	}
 	
