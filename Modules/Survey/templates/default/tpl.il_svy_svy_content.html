@@ -21,13 +21,13 @@
 	</td>
 	<td align="right" width="33%" class="submit">
 <!-- BEGIN top_next -->
-		<input type="submit" id="nextButton" class="btn btn-default" name="cmd[next]" value="{BTN_NEXT}" />
+		<input type="submit" id="nextButton" class="btn btn-default btn-primary" name="cmd[next]" value="{BTN_NEXT}" />
 <!-- END top_next -->
 	</td>
-	</tr>
+	</tr>	
 	<tr class="std">
 		<td colspan="3" class="ilc_Page">
-			<div class="ilc_Page" id="ilc_Page">
+			<div class="ilc_Page" id="ilc_Page" style="padding:10px;">
 <!-- BEGIN questionblock_title -->
 <div class="questionblockTitle">{TEXT_QUESTIONBLOCK_TITLE}</div>
 <br />
@@ -38,16 +38,18 @@
 <!-- END heading -->
 {QUESTION_OUTPUT}
 <br />
-<br />
 <!-- END survey_content -->
 {SYSTEMSETTINGS}
 			</div>
 		</td>
 	</tr>
+	<!-- BEGIN required -->
+	<tr>
+		<td colspan="3">
+			<div class="required" style="padding: 10px;"><span class="obligatory">*</span><span class="small">{TEXT_REQUIRED}</span></div>
+		</td>
+	<!-- END required -->				
 </table>
-<!-- BEGIN required -->
-<div class="required"><span class="obligatory">*</span><span class="small">{TEXT_REQUIRED}</span></div>
-<!-- END required -->
 <!-- BEGIN bottom_navigation -->
 <table class="fullwidth">
 	<tr>
@@ -60,7 +62,7 @@
 		</td>
 		<td align="right" width="33%" class="submit">
 <!-- BEGIN bottom_next -->
-			<input type="submit" id="nextButtonBottom" class="btn btn-default" name="cmd[next]" value="{BTN_NEXT}" />
+			<input type="submit" id="nextButtonBottom" class="btn btn-default btn-primary" name="cmd[next]" value="{BTN_NEXT}" />
 <!-- END bottom_next -->
 		</td>
 	</tr>
