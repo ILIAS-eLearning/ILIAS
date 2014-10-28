@@ -434,11 +434,14 @@ class ilTabsGUI
 				$tpl->touchBlock("after_tabs");
 			}
 			$pre = $pre2 = "";
-			
+
+			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+
 			// back 2 tab
 			if ($this->back_2_title != "")
 			{
 				$tpl->setCurrentBlock("back_2_tab");
+				$tpl->setVariable("BACK_2_ICON", ilGlyphGUI::get(ilGlyphGUI::PREVIOUS, ilGlyphGUI::NO_TEXT));
 				$tpl->setVariable("BACK_2_TAB_LINK", $this->back_2_target);
 				$tpl->setVariable("BACK_2_TAB_TEXT", $this->back_2_title);
 				$tpl->setVariable("BACK_2_TAB_TARGET", $this->back_2_frame);
@@ -449,6 +452,7 @@ class ilTabsGUI
 			if ($this->back_title != "")
 			{
 				$tpl->setCurrentBlock("back_tab");
+				$tpl->setVariable("BACK_ICON", ilGlyphGUI::get(ilGlyphGUI::PREVIOUS, ilGlyphGUI::NO_TEXT));
 				$tpl->setVariable("BACK_TAB_LINK", $this->back_target);
 				$tpl->setVariable("BACK_TAB_TEXT", $this->back_title);
 				$tpl->setVariable("BACK_TAB_TARGET", $this->back_frame);
@@ -559,10 +563,12 @@ class ilTabsGUI
 				$tpl->setVariable("TXT_TABS", $lng->txt("tabs"));
 
 				// non tabbed links
+				include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 				foreach ($this->non_tabbed_link as $link)
 				{
 					$tpl->setCurrentBlock("tab");
 					$tpl->setVariable("TAB_TYPE", "nontabbed");
+					$tpl->setVariable("TAB_ICON", " ".ilGlyphGUI::get(ilGlyphGUI::NEXT, ilGlyphGUI::NO_TEXT));
 					$tpl->setVariable("TAB_TEXT", $link["text"]);
 					$tpl->setVariable("TAB_LINK", $link["link"]);
 					$tpl->setVariable("TAB_TARGET", $link["frame"]);
