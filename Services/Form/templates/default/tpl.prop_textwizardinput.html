@@ -1,14 +1,14 @@
-<div id="{ELEMENT_ID}">
+<div id="{ELEMENT_ID}" class="form-inline">
 	<!-- BEGIN row -->
 	<div class="{ROW_CLASS}">
-		<input type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/>
+		<input type="text" class="form-control" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/>
 		<!-- BEGIN edit_bl -->
-		<input type="image" name="{CMD_ADD}" class="textwizard_add" id="add_{ID}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />		
-		<input type="image" name="{CMD_REMOVE}" class="textwizard_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
+		<button name="{CMD_ADD}" class="textwizard_add  btn btn-link" id="add_{ID}" onclick="javascript: void(0); return false;" >{ADD_BUTTON}</button>
+		<button name="{CMD_REMOVE}" class="textwizard_remove  btn btn-link" id="remove_{ID}" onclick="javascript: void(0); return false;">{REMOVE_BUTTON}</button>
 		<!-- END edit_bl -->		
 		<!-- BEGIN move -->
-		<input type="image" name="{CMD_UP}" class="textwizard_up" id="up_{ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
-		<input type="image" name="{CMD_DOWN}" class="textwizard_down" id="down_{ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
+		<button name="{CMD_UP}" class="textwizard_up btn btn-link" id="up_{ID}" onclick="javascript: void(0); return false;">{UP_BUTTON}</button>
+		<button name="{CMD_DOWN}" class="textwizard_down btn btn-link" id="down_{ID}" onclick="javascript: void(0); return false;">{DOWN_BUTTON}</button>
 		<!-- END move -->
 	</div>
 	<!-- END row -->

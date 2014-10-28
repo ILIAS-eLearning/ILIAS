@@ -9379,9 +9379,6 @@ td.il_adv_sel_ic {
   text-align: left;
   cursor: pointer;
 }
-div.il_adv_cont {
-  background: url(images/25black.png);
-}
 td.ilAsyncImgLoader {
   padding: 0 40px;
 }
@@ -9627,6 +9624,9 @@ div.ilInfoScreenSec h3.ilHeader {
 .ilInfoScreenSec.form-horizontal .form-group:nth-child(2) .il_InfoScreenPropertyValue {
   /* border-top: 1px solid lighten(@mid-gray, 60%);
 		box-shadow: inset 0px 2px 1px -1px white; */
+}
+.ilInfoScreenSec.form-horizontal {
+  background-color: transparent;
 }
 .ilInfoScreenSec.form-horizontal .control-label {
   padding: 15px;
