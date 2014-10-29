@@ -22,6 +22,10 @@ ilInitialisation::initILIAS();
 
 require_once("./include/inc.header.php");
 
+
+$LIVE = False;
+
+
 $UMLAUT_REPLACEMENT = array(
 	'ä' => 'ae',
 	'ü' => 'ue',
@@ -59,6 +63,7 @@ class gevImportOldData {
 	public function __construct() {
 		global $ilUser, $ilDB;
 		global $ilClientIniFile;
+		global $LIVE;
 
 		$this->db = &$ilDB;
 		$this->user = &$ilUser;
@@ -78,19 +83,20 @@ class gevImportOldData {
 		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
 		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
 
-		$host = "localhost";
-		$user = "root";
-		$pass = "s09e10";
-		$name = "gev_ivimport";
+		if(! $LIVE){
+			$host = "localhost";
+			$user = "root";
+			$pass = "s09e10";
+			$name = "gev_ivimport";
+		}
 
 		$mysql = mysql_connect($host, $user, $pass) or die(mysql_error());
 		mysql_select_db($name, $mysql);
 		mysql_set_charset('utf8', $mysql);
 
 		$this->importDB = $mysql;
-
-
 	}
+
 
 	public function fuzzyName($name){
 		$name = strtolower($name);
@@ -116,6 +122,9 @@ class gevImportOldData {
 
 		//users that match the name
 		$sql = "SELECT * FROM usr_data_import WHERE"; //user_table
+		if($LIVE){
+			$sql = "SELECT * FROM usr_data WHERE"; //user_table
+		}
 		$sql .= " (LOWER(firstname) = '" .strtolower(trim($rec['Vorname'])) ."'";
 		$sql .= " OR LOWER(firstname) = '" .$this->fuzzyName(trim($rec['Vorname'])) ."')";
 		$sql .= " AND";
@@ -175,10 +184,7 @@ class gevImportOldData {
 			
 		}
 
-
-
 		return $ret;
-
 	}
 
 	
