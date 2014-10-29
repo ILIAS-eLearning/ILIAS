@@ -970,7 +970,7 @@ assessment#:#tst_no_question_selected_for_removal#:#Please check at least one qu
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Please choose at least one question to be added to a question pool!
 assessment#:#tst_no_questionpools_for_random_test#:#You have not added a question pool for this random test! Please select at least one question pool.
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
-assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added question pool.
+assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionpools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.
 assessment#:#tst_no_solution_available#:#Short answer questions don't have a specified solution.
 assessment#:#tst_no_taken_tests#:#There are no taken tests!
 assessment#:#tst_no_tries#:#none
@@ -1807,7 +1807,7 @@ common#:#archive_broken#:#Archive seems to be broken or empty.
 common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
 common#:#arrow_downright#:#Arrow from top to down right
-common#:#articels_unread#:#Unread articels
+common#:#articels_unread#:#Unread articles
 common#:#as_of#:#as of
 forum#:#ascending_order#:#Latest postings at the bottom
 common#:#ass_log_admin#:#Log Data Administration
@@ -13523,7 +13523,7 @@ assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#tst_test_execution#:#Test Execution
 assessment#:#redirect_after_finishing_tst#:#Redirect after finishing the test
-assessment#:#redirect_in_kiosk_mode#:#Redirect only in in exam view
+assessment#:#redirect_in_kiosk_mode#:#Redirect only in exam view
 assessment#:#redirection_url#:#Redirection target
 assessment#:#exp_file_created#:#Export file created.
 tax#:#tax_added#:#Taxonomy has been created.
@@ -13567,7 +13567,7 @@ cld#:#cld_authentication_failed#:#:#Authentication Failed
 cld#:#cld_config_entry_does_not_exist#:#Config entry does not exist
 cld#:#cld_config_no_valid_get_or_set_function#:#No valid get or set function for config value
 cld#:#cld_config_table_does_not_exist#:#Config table does not exist
-cld#:#cld_config_unknown_exception#:#Unkown Exception
+cld#:#cld_config_unknown_exception#:#Unknown Exception
 cld#:#cld_confirm_delete_file#:#Are you sure, that the following file is to be deleted:
 cld#:#cld_confirm_delete_folder#:#Are you sure, that the following folder is to be deleted:
 cld#:#cld_create_folder#:#Create Folder
@@ -14841,7 +14841,7 @@ crs#:#crs_objective_status_start#:#Define Start Objects
 crs#:#crs_objective_status_fullfilled#:#OK
 crs#:#crs_objective_action_materials#:#Material Assignment
 crs#:#crs_objective_action_qtest#:#Question Assignment Qualifying
-crs#:#crs_objective_action_itest#:#Question Assignemnt Initial Test
+crs#:#crs_objective_action_itest#:#Question Assignment Initial Test
 crs#:#crs_loc_qt_visibility#:#Visibility of Qualifying Test
 crs#:#crs_loc_qt_visibility_all#:#Show Qualifying Test about all Objectives
 crs#:#crs_loc_qt_visibility_lo#:#Show Qualifying Test for each Objective
@@ -14859,11 +14859,11 @@ crs#:#crs_loc_err_no_active_qt#:#Learning Objectives without Qualifying Test
 crs#:#crs_loc_err_no_active_lo#:#No active Learning Objective
 crs#:#crs_loc_settings_tbl#:#Settings for the Learning Objective Oriented Course
 crs#:#crs_loc_settings_type#:#Course Type
-crs#:#crs_loc_type_initial_all#:#Kurs startet mit Einstiegstest zu allen Lernzielen
-crs#:#crs_loc_type_initial_sel#:#Kurs startet mit Einstiegstest zu ausgewähltem Lernziel
-crs#:#crs_loc_type_qualified#:#Kurs startet mit qualifizierendem Test
-crs#:#crs_loc_type_practise#:#Kurs startet mit Lern- und Übungsteil
-crs#:#crs_loc_tab_materials#:#Materials
+crs#:#crs_loc_type_initial_all#:#Course starts with initial test for all learning objectives
+crs#:#crs_loc_type_initial_sel#:#Course starts with initial test for selected learning objective
+crs#:#crs_loc_type_qualified#:#Course starts with qualifying test
+crs#:#crs_loc_type_practise#:#Course starts with learning and training
+crs#:#crs_loc_tab_materials#:#Material
 crs#:#crs_loc_tab_itest#:#Initial Test
 crs#:#crs_loc_tab_qtest#:#Qualifying Test
 crs#:#crs_loc_settings_itest_tbl#:#Settings for the Initial Test
@@ -14903,14 +14903,14 @@ content#:#cont_out_of_focus_message_last_page#:#This is the last page of the con
 crs#:#crs_loc_err_nr_tries_exceeded#:#The number of passes per objective exceeds the possible number of passes of the Qualifying Test.
 crs#:#crs_loc_passes_left#:#Remaining number of test passes
 crs#:#crs_loc_passes_reached#:#No further test pases possible
-crs#:#crs_loc_tst_new_run#:#Neuen Testdurchlauf starten
-crs#:#crs_loc_tst_resume#:#Testdurchlauf fortsetzen
-crs#:#crs_loc_settings_reset#:#Testergebnisse
-crs#:#crs_loc_settings_reset_enable#:#"Testergebnis zurücksetzen" erlauben
-crs#:#crs_loc_settings_reset_enable_info#:#Wenn aktiviert, haben alle Benutzer die Möglichkeit, ihre individuellen Testergebnisse zurückzusetzen.
+crs#:#crs_loc_tst_new_run#:#Start New Test Pass
+crs#:#crs_loc_tst_resume#:#Continue Test Pass
+crs#:#crs_loc_settings_reset#:#Test Results
+crs#:#crs_loc_settings_reset_enable#:#Allow "Reset Test Results"
+crs#:#crs_loc_settings_reset_enable_info#:#If activated, all users are able to reset their individual test results and start the course again.
 crs#:#crs_loc_progress_no_result_no_initial#:#Please work through the following learning materials and then take the qualifying test.
-crs#:#crs_loc_qst_resume_tst_itest#:#Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.
-crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen qualifizierenden Test zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.
+crs#:#crs_loc_qst_resume_tst_itest#:#You have already started an initial test to another learning objective. Either you finish the started test or you stop it and start this one. But running two initial tests at the same time is not supported.
+crs#:#crs_loc_qst_resume_tst_qtest#:#You have already started a qualifying test to another learning objective. Either you finish the started test or you stop it and start this one. But running two qualifying tests at the same time is not supported.
 bibl#:#bibl_library_show_in_list#:#Show link als in the list
 content#:#cont_ie_compatibility#:#Internet Explorer 7 compatibility mode
 content#:#cont_ie_compatibility_info#:#Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer.
@@ -14964,7 +14964,7 @@ scormtrac#:#delivery_speed#:#cmi.learner_preference.delivery_speed
 scormtrac#:#exportselectedcore#:#Basic report for chapters (SCO)
 scormtrac#:#exportselectedinteractions#:#Basic report forinteractions
 scormtrac#:#id#:#Id
-scormtrac#:#interaction_description#:#Decription of the interaction
+scormtrac#:#interaction_description#:#Description of the interaction
 scormtrac#:#interaction_id#:#Id of the interaction
 scormtrac#:#interaction_value#:#result of the interaction
 scormtrac#:#latency#:#cmi.interactions.n.latency: time
