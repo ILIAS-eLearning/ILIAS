@@ -533,24 +533,6 @@ class ilLearningProgressBaseGUI
 		}
 	}
 
-
-	function __showButton($a_link,$a_text,$a_target = '')
-	{
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// display button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$a_link);
-		$this->tpl->setVariable("BTN_TXT",$a_text);
-		if($a_target)
-		{
-			$this->tpl->setVariable("BTN_TARGET",$a_target);
-		}
-
-		$this->tpl->parseCurrentBlock();
-	}
-
-
 	/**
 	* Function that sorts ids by a given table field using WHERE IN
 	* E.g: __sort(array(6,7),'usr_data','lastname','usr_id') => sorts by lastname

@@ -86,20 +86,23 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function details()
 	{
-		global $ilObjDataCache,$ilCtrl,$rbacsystem;
+		global $ilToolbar,$ilCtrl,$rbacsystem;
 
 		// Show back button to crs if called from crs. Otherwise if called from personal desktop or administration
 		// show back to list
 		if((int)$_GET['crs_id'])
 		{
 			$this->ctrl->setParameter($this,'details_id',(int) $_GET['crs_id']);
-			$this->__showButton($this->ctrl->getLinkTarget($this,'details'),$this->lng->txt('trac_view_crs'));
+			
+			$ilToolbar->addButton($this->lng->txt('trac_view_crs'),
+				$this->ctrl->getLinkTarget($this,'details'));			
 		}
 		elseif($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP or
 			   $this->getMode() == self::LP_CONTEXT_ADMINISTRATION or
 			   $this->getMode() == self::LP_CONTEXT_USER_FOLDER)
 		{
-			$this->__showButton($this->ctrl->getLinkTarget($this,'show'),$this->lng->txt('trac_view_list'));
+			$ilToolbar->addButton($this->lng->txt('trac_view_list'),
+				$this->ctrl->getLinkTarget($this,'show'));				
 		}
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_progress_container.html','Services/Tracking');

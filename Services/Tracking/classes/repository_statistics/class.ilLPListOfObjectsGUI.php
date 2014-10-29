@@ -165,7 +165,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		   $this->getMode() == self::LP_CONTEXT_ADMINISTRATION)
 		{
 			$print_view = false;
-			$this->__showButton($this->ctrl->getLinkTarget($this,'show'),$this->lng->txt('trac_view_list'));
+			
+			$ilToolbar->addButton($this->lng->txt('trac_view_list'),
+				$this->ctrl->getLinkTarget($this,'show'));
 		}		
 		else
 		{

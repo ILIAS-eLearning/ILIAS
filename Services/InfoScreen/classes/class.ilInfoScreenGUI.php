@@ -760,6 +760,10 @@ class ilInfoScreenGUI
 				$this->addButton($lng->txt("show_hidden_sections"), "JavaScript:toggleSections(this, '".$lng->txt("show_hidden_sections") ."', '".$lng->txt("hide_visible_sections") ."');");
 			}
 		}
+		
+		
+		// DEPRECATED - use ilToolbarGUI
+		
 		// add top buttons
 		if (count($this->top_buttons) > 0)
 		{
@@ -822,6 +826,7 @@ class ilInfoScreenGUI
 			}
 		}
 
+		
 		// learning progress
 		if($this->learning_progress_enabled and $html = $this->showLearningProgress($tpl))
 		{

@@ -771,23 +771,6 @@ class ilConditionHandlerGUI
 		return $cond ? $cond : array();
 	}
 
-	function __showButtons()
-	{
-		if(!$this->getBackButtons())
-		{
-			return false;
-		}
-
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		foreach($this->getBackButtons() as $name => $link)
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$link);
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt($name));
-			$this->tpl->parseCurrentBlock();
-		}
-	}
-	
 	/**
 	 * Init form for condition table
 	 *
