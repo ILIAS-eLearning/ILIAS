@@ -421,6 +421,23 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		include_once "./Services/Math/classes/class.EvalMath.php";
 		$eval = new EvalMath();
 		$eval->suppress_errors = TRUE;
+
+		// Bugfix for mantis: 14034 
+		// It is a numeric gap, so cast to integer! // BH we should cast to float ;)
+		$answerText = strlen($item->getAnswertext()) ? (float)$item->getAnswertext() : 0;
+		
+		$lowerBound = (
+			$eval->e( $item->getLowerBound() !== FALSE ) && strlen( $item->getLowerBound() ) ?
+				$item->getLowerBound() : $item->getAnswertext()
+		);
+		
+		$upperBound = (
+			$eval->e( $item->getUpperBound() !== FALSE ) && strlen( $item->getUpperBound() ) ?
+				$item->getUpperBound() : $item->getAnswertext()
+		);
+		
+		//vd($answerText, $lowerBound, $upperBound);
+		
 		$ilDB->manipulateF( "INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
 							array(
 								"integer",
@@ -437,16 +454,12 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 								$next_id,
 								$this->getId(),
 								$key,
-								// Bugfix for mantis: 14034 
-								// It is a numeric gap, so cast to integer!
-								strlen( $item->getAnswertext() ) ? (int)$item->getAnswertext() : 0,
+								$answerText,
 								$item->getPoints(),
 								$item->getOrder(),
 								$gap->getType(),
-								($eval->e( $item->getLowerBound() !== FALSE ) && strlen( $item->getLowerBound()
-								) > 0) ? $item->getLowerBound() : $item->getAnswertext(),
-								($eval->e( $item->getUpperBound() !== FALSE ) && strlen( $item->getUpperBound()
-								) > 0) ? $item->getUpperBound() : $item->getAnswertext()
+								$lowerBound,
+								$upperBound
 							)
 		);
 	}
