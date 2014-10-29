@@ -12,16 +12,24 @@ $basedir = str_replace('/Services/GEV/debug', '', $basedir);
 chdir($basedir);
 
 
+
 //context w/o user
-//require_once "./Services/Context/classes/class.ilContext.php";
-//ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
-//require_once("./Services/Init/classes/class.ilInitialisation.php");
-//ilInitialisation::initILIAS();
+require_once "./Services/Context/classes/class.ilContext.php";
+ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
+require_once("./Services/Init/classes/class.ilInitialisation.php");
+ilInitialisation::initILIAS();
+
+
 require_once("./include/inc.header.php");
 
-//require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-//require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-//require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+$UMLAUT_REPLACEMENT = array(
+	'ä' => 'ae',
+	'ü' => 'ue',
+	'ö' => 'oe',
+	'ß' => 'ss',
+	'é' => 'e'
+);
+
 
 
 function printToTable($ar){
@@ -48,77 +56,6 @@ function printToTable($ar){
 
 class gevImportOldData {
 
-	public $static = array(
-
-	/*
-		array(
-			'name' => 'Adamzig',
-			'vorname' => 'Nicole',
-			'agenturnummer' => '103158',
-			'id' => 7
-		),
-		array(
-			'name' => 'Pack',
-			'vorname' => 'Jörg',
-			'geb' => '17.02.1964',
-	    	'agenturnummer' => '111285',
-			'id' => 1181 
-		),
-
-		array(
-			'name' => 'Reinhardt',
-			'vorname' => 'Dierk',
-			'geb' => '03.03.1963',
-			'id' => 1296 
-		),
-
-		array(
-			'name' => 'Rohn',
-			'vorname' => 'André',
-			'geb' => '11.01.1969',
-			'id' =>  1339
-		),
-		array(
-			'name' => 'Rohn',
-			'vorname' => 'Andre',
-			'geb' => '11.01.1969',
-			'id' =>  1339
-		),
-
-		array(
-			'name' => 'Spar',
-			'vorname' => 'Anton',
-			'geb' => '25.08.1959',
-			'id' =>  1577
-		),
-
-		array(
-			'name' => 'Hoffmann',
-			'vorname' => 'Berthold',
-			'agenturnummer' => '391603',
-			'id' =>  671
-
-		),
-	[name] => Krämer
-    [vorname] => Martin
-    [agenturnummer] => 861171
-
-    [name] => Maier 
-    [vorname] => Sascha
-    [agenturnummer] => 504520
-    
-    [name] => Maier
-    [vorname] => Thomas
-    [agenturnummer] => 112986
-    
-	[name] => Maier 
-    [vorname] => Sascha
-    [agenturnummer] => 504520
-    */
-
-
-	);
-
 	public function __construct() {
 		global $ilUser, $ilDB;
 		global $ilClientIniFile;
@@ -126,11 +63,25 @@ class gevImportOldData {
 		$this->db = &$ilDB;
 		$this->user = &$ilUser;
 
+		$this->importdata = array();
+
+
+		$this->sem_no_user_matches = array();
+		$this->sem_name_matches = array();
+		$this->sem_bday_matches = array();
+		$this->sem_nr_matches = array();
+		$this->sem_both_matches = array();
+
 
 		$host = $ilClientIniFile->readVariable('shadowdb', 'host');
 		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
 		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
 		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
+
+		$host = "localhost";
+		$user = "root";
+		$pass = "s09e10";
+		$name = "gev_ivimport";
 
 		$mysql = mysql_connect($host, $user, $pass) or die(mysql_error());
 		mysql_select_db($name, $mysql);
@@ -138,8 +89,18 @@ class gevImportOldData {
 
 		$this->importDB = $mysql;
 
-		$this->importdata = array();
 
+	}
+
+	public function fuzzyName($name){
+		$name = strtolower($name);
+		global $UMLAUT_REPLACEMENT;
+		foreach ($UMLAUT_REPLACEMENT as $char=>$rep) {
+			if (strpos($name, $char) !== False){
+				$name = str_replace($char, $rep, $name);
+			}
+		}
+		return $name;
 	}
 
 	public function getOldData(){
@@ -153,169 +114,118 @@ class gevImportOldData {
 
 	public function matchUser($rec){
 
-		$found_static = False;
-		foreach ($this->static as $entry) {
-			if(	   $entry['vorname'] == trim($rec['Vorname'])
-				&& $entry['name'] == trim($rec['Name'])
-			){
-		
-				if(
-					($entry['geb'] && $entry['geb'] == $rec['Geburtsdatum'])
-					|| 
-					($entry['agenturnummer'] && $entry['agenturnummer'] == $rec['Agenturnummer'])
-				) {
-					$found_static = $entry['id'];
-				}
+		//users that match the name
+		$sql = "SELECT * FROM usr_data_import WHERE"; //user_table
+		$sql .= " (LOWER(firstname) = '" .strtolower(trim($rec['Vorname'])) ."'";
+		$sql .= " OR LOWER(firstname) = '" .$this->fuzzyName(trim($rec['Vorname'])) ."')";
+		$sql .= " AND";
+		$sql .= " (LOWER(lastname) = '" .strtolower(trim($rec['Name'])) ."'";
+		$sql .= " OR LOWER(lastname) = '" .$this->fuzzyName(trim($rec['Name'])) ."')";
 
-			}
-		}
-
-		if($found_static){
-			$sql = "SELECT * FROM usr_data` WHERE usr_id = " .$found_static;
-		} else {
-			$sql = "SELECT * FROM `usr_data` WHERE"; //user_table
-			$sql .= " firstname = '" .trim($rec['Vorname']) ."'";
-			$sql .= " AND";
-			$sql .= " lastname = '" .trim($rec['Name']) ."'";
-		}
-
-
+		//print $sql .'<br>';
 		$ret = array();
 		$result = $this->db->query($sql);
-		while($record = $this->db->fetchAssoc($result)) {
-			$ret[] = $record;
+
+		if($this->db->numRows($result) == 0){
+			$this->sem_no_user_matches[] = $rec;
+		}else{
+			$this->sem_name_matches[] = $rec;
 		}
-		return $ret;
-	}
 
-	public function matchUserAgain($rec){
+		while($record = $this->db->fetchAssoc($result)) {
+			$match_bday = False;
+			$match_nr = False;
 
-		$ret = array();
-		
-		if(trim($rec['Geburtsdatum'])!=''){
-			$sql = "SELECT * FROM `usr_data` WHERE";
-			$sql .= " firstname = '" .trim($rec['Vorname']) ."'";
-			$sql .= " AND";
-			$sql .= " lastname = '" .trim($rec['Name']) ."'";
+
+			if($rec['Geburtsdatum']){
+				$geb = explode('.', $rec['Geburtsdatum']);
+				$dat = $geb[2] .'-' .$geb[1] .'-' .$geb[0];
+				if ($record['birthday'] == $dat) {
+					$match_bday = True;
+					$record['match_bday'] = 1;
+				}
+			} 
+
+			if($rec['Agenturnummer']){
+				// has user job_nr that matches?
+				require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+				$uutils = gevUserUtils::getInstanceByObjOrId($record['usr_id']);
+				if((string)$uutils->getJobNumber() == $rec['Agenturnummer']){
+					$match_nr = True;
+					$record['match_nr'] = 1;
+				}
+			}
+
+
+			if($match_bday){
+				$this->sem_bday_matches[] = $rec;
+			}
+			if($match_nr){
+				$this->sem_nr_matches[] = $rec;
+			}
+
+			if($match_bday && $match_nr){
+				$this->sem_both_matches[] = $rec;
+			}
+
 			
-			$geb = explode('.', $rec['Geburtsdatum']);
-			$dat = $geb[2] .'-' .$geb[1] .'-' .$geb[0];
-			$sql .= " AND birthday = '$dat'";
-			
-			print $sql;
-			
-			$result = $this->db->query($sql);
-			while($record = $this->db->fetchAssoc($result)) {
+			if($match_bday || $match_nr){
 				$ret[] = $record;
 			}
-		} 
-
-		print '<br>recheck on birthday: ' .count($ret);
-
-		if(count($ret) != 1 && $rec['Agenturnummer']) {
-			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-				
-			//check agency
-			$ids = array();
-			if(count($ret)<1){
-				$sql = "SELECT usr_id FROM `usr_data` WHERE";
-				$sql .= " firstname = '" .trim($rec['Vorname']) ."'";
-				$sql .= " AND";
-				$sql .= " lastname = '" .trim($rec['Name']) ."'";
 			
-				$result = $this->db->query($sql);
-				while($record = $this->db->fetchAssoc($result)) {
-					$ids[]=$record['usr_id'];
-				}
-			}else{ //count > 1
-				foreach ($ret as $entry){
-					$ids[]=$entry['usr_id'];
-				}
-			}
-
-			$ret_temp = array();
-			foreach($ids as $usr_id){
-				$uutils = gevUserUtils::getInstanceByObjOrId($usr_id);
-				//stellennummer
-				//print '<li>' .$uutils->getJobNumber();
-				if((string)$uutils->getJobNumber() == $rec['Agenturnummer']){
-					$ret_temp[]=$usr_id;
-				}
-			}
-			
-			
-			
-			if(count($ret_temp)>0){
-				print '<br>recheck on agency-nr: ' .count($ret_temp);
-				return $ret_temp;
-			}else{
-				print '<br>recheck on agency-nr(2): ' .count($ret);
-				return $ret;
-			}
-
-	
 		}
 
+
+
 		return $ret;
+
 	}
 
-
-
-
+	
 }
 
-$import = new gevImportOldData();
-$import->getOldData();
+
+
+
 print '<pre>';
 
 
-
-$sem_too_many_user_matches = array();
-$sem_no_user_matches = array();
 $sem_ok = array();
+$sem_many_matches = array();
 
-
+$import = new gevImportOldData();
+$import->getOldData();
 
 foreach ($import->importdata as $rec) {
-
+/*
 	print '<hr><b>' .$rec['Vorname'] .' ' .$rec['Name'] .'</b>';
-
-	$recheck = False;
+	print '<br>' .$rec['Geburtsdatum'] .' - ' .$rec['Agenturnummer'];
+*/
 	$matches = $import->matchUser($rec);
 
 	if(count($matches) > 1){
-		print '<br>too many matches.';
-		$recheck = True;
-		$matches = $import->matchUserAgain($rec);
-	}
-	//still?
-	if(count($matches) > 1){
-		print '<br>still too many hits';
-		print_r($rec);
-		print '<br>';
-		print_r($matches); 
-	
-		$sem_too_many_user_matches[] = $rec;
-	} 
-
-	if(count($matches) < 1){
-		print '<br>no (more) matches';
-		$sem_no_user_matches[] = $rec;
-		if($recheck){
-			print_r($rec);
-		}
+		$sem_many_matches[] = $rec;
+		//print_r($matches);
 	}
 	if(count($matches) == 1){
-		print '<br>ok/resolved.';
 		$sem_ok[] = $rec;
 	}
-	
-	
+
 }
 
-print '<br>broken (too many): ' .count($sem_too_many_user_matches);
-print '<br>broken (no user): ' .count($sem_no_user_matches);
-print '<br>ok: ' .count($sem_ok);
+print '<hr><hr>';
+
+print '<br>sem_no_user_matches: ' .count($import->sem_no_user_matches);
+print '<br>sem_name_matches: ' .count($import->sem_name_matches);
+print '<br>sem_bday_matches: ' .count($import->sem_bday_matches);
+print '<br>sem_nr_matches: ' .count($import->sem_nr_matches);
+print '<br>sem_both_matches: ' .count($import->sem_both_matches);
+
+print '<br>';
+print '<br>sem_many_matches: ' .count($sem_many_matches);
+print '<br>sem_ok: ' .count($sem_ok);
+
+
 
 die();
 
@@ -324,84 +234,5 @@ die();
 
 
 
-
-
-
-
-
-
-
-
-
-
-$manyhits = array();
-$nohits = array();
-
-$unique_users = array();
-$done_users = array();
-$done_entries = array();
-
-
-foreach ($import->importdata as $nr => $rec) {
-
-	$usr = trim($rec['vorname']).'_'.trim($rec['name']);
-
-	if(! in_array($usr, $unique_users)){
-
-		print '<b>' .$rec['vorname'] .' ' .$rec['name'] .'</b><br>';
-
-
-		$matches = $import->matchUser($rec);
-
-		if(count($matches) == 0){
-			$nohits[] = $rec;
-			print 'NO HIT<br>';
-			//print_r($matches);
-		}
-		if(count($matches) > 1){
-			$manyhits[] = $rec;
-			print 'TOO MANY HITS<br>';
-
-			print_r($rec);
-			print '<br> ------------------------------- <br>';
-			print_r($matches);
-		}
-		
-		if(count($matches) == 1){
-			print 'ok.';
-			//print_r($matches);
-			$done_entries[] = $rec;
-			$done_users[] = $usr;
-		}
-			
-		print '<hr>';
-
-		$unique_users[] = $usr; 
-	} else {
-		$done_entries[] = $rec;
-	}
-
-	/*if($nr > 100){
-		die();
-	}
-	*/
-
-}
-
-
-
-print 'total seminars: ' .count($import->importdata);
-print '<br>unique users: ' .count($unique_users);
-
-
-print '<br>no hits: ' .count($nohits);
-print '<br>many hits: ' .count($manyhits);
-
-print '<br><br>done users: ' .count($done_users);
-print '<br>done seminars: ' .count($done_entries);
-
-
-
-print '<br><br><i>done.</i>';
 
 ?>
