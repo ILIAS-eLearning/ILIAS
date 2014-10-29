@@ -500,6 +500,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		// multi icons
 		if($this->getMulti() && !$a_mode && !$this->getDisabled())
 		{
+			$tpl->touchBlock("inline_in_bl");
 			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());
 		}
 		

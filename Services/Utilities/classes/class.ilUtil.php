@@ -391,8 +391,9 @@ class ilUtil
 
 		$class = " class=\" form-control ".$style_class."\"";
 
+		// use form-inline!
 		// this is workaround the whole function should be set deprecated
-		$attributes = " style='display:inline-block;' ";
+		// $attributes = " style='display:inline-block;' ";
 
 		if (is_array($attribs))
 		{
@@ -1094,7 +1095,7 @@ class ilUtil
 				$sel_hour .= $name.'='.$value.' ';
 			}
 		}
-		$sel_hour .= " ".$disabled."name=\"".$prefix."[h]\" id=\"".$prefix."_h\">\n";
+		$sel_hour .= " ".$disabled."name=\"".$prefix."[h]\" id=\"".$prefix."_h\" class=\"form-control\">\n";
 
 		$format = $ilUser->getTimeFormat();
 		for ($i = 0; $i <= 23; $i++)
@@ -1112,7 +1113,7 @@ class ilUtil
 		$sel_hour = preg_replace("/(value\=\"$hour\")/", "$1 selected=\"selected\"", $sel_hour);
 
 		// build minutes select
-		$sel_minute .= "<select ".$disabled."name=\"".$prefix."[m]\" id=\"".$prefix."_m\">\n";
+		$sel_minute .= "<select ".$disabled."name=\"".$prefix."[m]\" id=\"".$prefix."_m\" class=\"form-control\">\n";
 
 		for ($i = 0; $i <= 59; $i = $i + $minute_steps)
 		{
@@ -1123,7 +1124,7 @@ class ilUtil
 
 		if (!$short) {
 			// build seconds select
-			$sel_second .= "<select ".$disabled."name=\"".$prefix."[s]\" id=\"".$prefix."_s\">\n";
+			$sel_second .= "<select ".$disabled."name=\"".$prefix."[s]\" id=\"".$prefix."_s\" class=\"form-control\">\n";
 
 			for ($i = 0; $i <= 59; $i++)
 			{

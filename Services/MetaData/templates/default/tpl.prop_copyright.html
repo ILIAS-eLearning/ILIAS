@@ -1,11 +1,12 @@
 <!-- BEGIN copyright_selection -->
-<input type="radio" name="{SPOST_VAR}[sel]" id="{SPOST_VAR}_cp_{COPYRIGHT_ID}" value="{COPYRIGHT_ID}" {COPYRIGHT_CHECKED} />
-<label for="{SPOST_VAR}_cp_{COPYRIGHT_ID}">
-{COPYRIGHT_TITLE}
-<div class="il_Description">{COPYRIGHT_DESCRIPTION}</div>
-</label>
+<div class="radio">
+	<label><input type="radio" name="{SPOST_VAR}[sel]" value="{COPYRIGHT_ID}" {COPYRIGHT_CHECKED} />
+		{COPYRIGHT_TITLE}
+		<div class="help-block">{COPYRIGHT_DESCRIPTION}</div>
+	</label>
+</div>
 <!-- END copyright_selection -->
 <!-- BEGIN prop_copyright -->
-<textarea name="{POST_VAR}[ta]" id="{ID}" wrap="virtual" <!-- BEGIN prop_ta_c -->cols="{COLS}"<!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w -->style="width:90%;"<!-- END prop_ta_w --> {DISABLED}>{PROPERTY_VALUE}</textarea>
+<textarea class="form-control" name="{POST_VAR}[ta]" id="{ID}" wrap="virtual" <!-- BEGIN prop_ta_c -->cols="{COLS}"<!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w -->style="width:90%;"<!-- END prop_ta_w --> {DISABLED}>{PROPERTY_VALUE}</textarea>
 <!-- END prop_copyright -->
 {HIDDEN_INPUT}
