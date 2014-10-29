@@ -1,4 +1,4 @@
-<div id="{ELEMENT_ID}">
+<div id="{ELEMENT_ID}" class="form-inline">
 	<table class="kprimchoicewizard" border="0">
 		<thead>
 		<tr>
@@ -44,8 +44,8 @@
 			</td>
 			<!-- BEGIN move -->
 			<td style="vertical-align: top;">
-				<input type="image" name="{CMD_UP}" class="singlechoicewizard_up" id="{UP_ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
-				<input type="image" name="{CMD_DOWN}" class="singlechoicewizard_down" id="{DOWN_ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
+				<button name="{CMD_UP}" class="singlechoicewizard_up btn btn-link" id="{UP_ID}" onclick="javascript: void(0); return false;">{UP_BUTTON}</button>
+				<button name="{CMD_DOWN}" class="singlechoicewizard_down btn btn-link" id="{DOWN_ID}" onclick="javascript: void(0); return false;">{DOWN_BUTTON}</button>
 			</td>
 			<!-- END move -->
 		</tr>
