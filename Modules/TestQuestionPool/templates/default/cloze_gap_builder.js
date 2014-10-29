@@ -4,6 +4,7 @@ var ClozeGlobals = {
     cursor_pos                   : '',
     gap_count                    : 0,
     form_class                   : '#form_assclozetest',
+    form_class_adjustment        : '#form_adjustment',
     form_footer_class            : '.ilFormFooter',
     form_footer_buttons          : '.col-sm-6.ilFormCmds',
     form_value                   : 'col-sm-9',
@@ -31,6 +32,11 @@ $(document).ready(function ()
     ClozeSettings.gaps_php = $.map(ClozeSettings.gaps_php, function(value, index) {
         return [value];
     });
+    
+    if($(ClozeGlobals.form_class).length === 0 && $(ClozeGlobals.form_class_adjustment).length === 1)
+    {
+        ClozeGlobals.form_class = ClozeGlobals.form_class_adjustment;
+    }
 
     checkJSONArraysOnEntry();
     bindTextareaHandler();
