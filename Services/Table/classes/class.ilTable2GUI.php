@@ -2279,7 +2279,9 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				$this->tpl->setVariable("COLUMN_SELECTOR", $column_selector);
 				
 				// row selector
-				if ($this->getShowRowsSelector() && is_object($ilUser) &&
+				if ($this->getShowRowsSelector() && 
+					is_object($ilUser) &&
+					$this->getId() &&
 					$this->getLimit() < 9999) // JF, 2014-10-27
 				{
 					include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");

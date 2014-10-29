@@ -2,7 +2,7 @@ il.Util.addOnLoad(ilFormMultiInit)
 
 function ilFormMultiInit()
 {
-	var obj = document.getElementsByTagName('input');
+	var obj = document.getElementsByTagName('button');
 	for(var i=0;i<obj.length;i++)
 	{
 		if(/ilMultiAdd~/.test(obj[i].id))

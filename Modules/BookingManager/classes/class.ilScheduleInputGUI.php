@@ -213,8 +213,9 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 			$tpl->setVariable("POST_VAR", $this->getPostVar());
 			$tpl->setVariable("TXT_FROM", $lng->txt("cal_from"));
 			$tpl->setVariable("TXT_TO", $lng->txt("cal_until"));
-			$tpl->setVariable("IMG_MULTI_ADD", ilUtil::getImagePath('edit_add.png'));
-			$tpl->setVariable("IMG_MULTI_REMOVE", ilUtil::getImagePath('edit_remove.png'));
+			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+			$tpl->setVariable("IMG_MULTI_ADD", ilGlyphGUI::get(ilGlyphGUI::ADD));
+			$tpl->setVariable("IMG_MULTI_REMOVE", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
 			$tpl->setVariable("TXT_MULTI_ADD", $lng->txt("add"));
 			$tpl->setVariable("TXT_MULTI_REMOVE", $lng->txt("remove"));
 			
@@ -233,11 +234,15 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 			// manage hidden buttons
 			if($row > 0)
 			{
-				$tpl->setVariable("ADD_CLASS", "ilNoDisplay");				
+				// inline needed because of JS
+				 $tpl->setVariable("ADD_STYLE", " style=\"display:none\""); 
+				// $tpl->setVariable("ADD_CLASS", "ilNoDisplay");				
 			}
 			else
 			{
-				$tpl->setVariable("RMV_CLASS", "ilNoDisplay");		
+				// inline needed because of JS
+				$tpl->setVariable("RMV_STYLE", " style=\"display:none\""); 
+				// $tpl->setVariable("RMV_CLASS", "ilNoDisplay");		
 			}
 			
 			$tpl->parseCurrentBlock();
