@@ -328,7 +328,7 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
     	}
 	
 
-	$form->addCommandButton("handleToolbarCommand", $lng->txt("submit"));
+	$form->addCommandButton("handleToolbarCommand", $lng->txt("create"));
 	$form->addCommandButton("questions", $lng->txt("cancel"));
 
 	return $tpl->setContent($form->getHTML());
