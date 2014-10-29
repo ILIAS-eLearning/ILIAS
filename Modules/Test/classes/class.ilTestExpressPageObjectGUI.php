@@ -447,7 +447,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 			$new_pool->addSubItem($name);
 		}
 
-		$form->addCommandButton("handleToolbarCommand", $lng->txt("submit"));
+		$form->addCommandButton("handleToolbarCommand", $lng->txt("create"));
 		$form->addCommandButton("questions", $lng->txt("cancel"));
 
 		return $tpl->setContent($form->getHTML());
