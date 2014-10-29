@@ -6,22 +6,22 @@ function cleanElements(rootel)
 
 function removeAllListeners(rootel)
 {
-	var addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_add') ? true : false; }, 'input', rootel);
+	var addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('categorywizard_add'); }, 'button', rootel);
 	for (i = 0; i < addbuttons.length; i++)
 	{
 		YAHOO.util.Event.purgeElement(addbuttons[i]);
 	}
-	var removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_remove') ? true : false; }, 'input', rootel);
+	var removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('categorywizard_remove'); }, 'button', rootel);
 	for (i = 0; i < removebuttons.length; i++)
 	{
 		YAHOO.util.Event.purgeElement(removebuttons[i]);
 	}
-	var upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_up') ? true : false; }, 'input', rootel);
+	var upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('categorywizard_up'); }, 'button', rootel);
 	for (i = 0; i < upbuttons.length; i++)
 	{
 		YAHOO.util.Event.purgeElement(upbuttons[i]);
 	}
-	var downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_down') ? true : false; }, 'input', rootel);
+	var downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('categorywizard_down'); }, 'button', rootel);
 	for (i = 0; i < downbuttons.length; i++)
 	{
 		YAHOO.util.Event.purgeElement(downbuttons[i]);
@@ -94,21 +94,21 @@ function reindexRows(rootel, postvar)
 			} 
 		}
 
-		var addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_add') ? true : false; }, 'input', rows[i]);
+		var addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('categorywizard_add'); }, 'button', rows[i]);
 		for (j = 0; j < addbuttons.length; j++)
 		{
 			addbuttons[j].id = 'add_' + postvar + '[' + i + ']';
 			addbuttons[j].name = 'cmd[add' + postvar + '][' + i + ']';
 			YAHOO.util.Event.addListener(addbuttons[j], 'click', addRow);
 		}
-		var removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_remove') ? true : false; }, 'input', rows[i]);
+		var removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('categorywizard_remove'); }, 'button', rows[i]);
 		for (j = 0; j < removebuttons.length; j++)
 		{
 			removebuttons[j].id = 'remove_' + postvar + '[' + i + ']';
 			removebuttons[j].name = 'cmd[remove' + postvar + '][' + i + ']';
 			YAHOO.util.Event.addListener(removebuttons[j], 'click', removeRow);
 		}
-		var upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_up') ? true : false; }, 'input', rows[i]);
+		var upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('categorywizard_up'); }, 'button', rows[i]);
 		if (upbuttons.length > 0)
 		{
 			for (j = 0; j < upbuttons.length; j++)
@@ -118,7 +118,7 @@ function reindexRows(rootel, postvar)
 				YAHOO.util.Event.addListener(upbuttons[j], 'click', moveRowUp);
 			}
 		}
-		var downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_down') ? true : false; }, 'input', rows[i]);
+		var downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('categorywizard_down'); }, 'button', rows[i]);
 		if (downbuttons.length > 0)
 		{
 			for (j = 0; j < downbuttons.length; j++)

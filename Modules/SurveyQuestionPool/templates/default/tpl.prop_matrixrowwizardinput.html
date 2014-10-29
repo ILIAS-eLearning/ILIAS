@@ -29,12 +29,12 @@
 			</div>
 
 			<div class="col-sm-{ROW_COLS}">
-				<input type="image" name="{CMD_ADD}" class="matrixrowwizard_add" id="add_{ID}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />
-				<input type="image" name="{CMD_REMOVE}" class="matrixrowwizard_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
+				<button name="{CMD_ADD}" class="matrixrowwizard_add btn btn-link" id="add_{ID}" onclick="javascript: void(0); return false;" >{ADD_BUTTON}</button>
+				<button name="{CMD_REMOVE}" class="matrixrowwizard_remove btn btn-link" id="remove_{ID}" onclick="javascript: void(0); return false;">{REMOVE_BUTTON}</button>
 				<!-- BEGIN move -->
-				<input type="image" name="{CMD_UP}" class="matrixrowwizard_up" id="up_{ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
-				<input type="image" name="{CMD_DOWN}" class="matrixrowwizard_down" id="down_{ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
-				<!-- END move -->
+				<button name="{CMD_UP}" class="matrixrowwizard_up btn btn-link" id="up_{ID}" onclick="javascript: void(0); return false;">{UP_BUTTON}</button>
+				<button name="{CMD_DOWN}" class="matrixrowwizard_down btn btn-link" id="down_{ID}" onclick="javascript: void(0); return false;">{DOWN_BUTTON}</button>
+				<!-- END move -->				
 			</div>
 
 		</div>
