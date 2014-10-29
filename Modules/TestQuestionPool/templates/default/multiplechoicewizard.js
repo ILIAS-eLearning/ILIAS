@@ -82,21 +82,21 @@ function reindexRows(rootel, postvar)
 			textareas[j].name = postvar + '[answer][' + i + ']';
 		}
 
-		addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('singlechoicewizard_add'); }, 'button', rows[i]);
+		addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'singlechoicewizard_add') ? true : false; }, 'input', rows[i]);
 		for (j = 0; j < addbuttons.length; j++)
 		{
 			addbuttons[j].id = 'add_' + postvar + '[' + i + ']';
 			addbuttons[j].name = 'cmd[add' + postvar + '][' + i + ']';
 			YAHOO.util.Event.addListener(addbuttons[j], 'click', addRow);
 		}
-		removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('singlechoicewizard_remove'); }, 'button', rows[i]);
+		removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'singlechoicewizard_remove') ? true : false; }, 'input', rows[i]);
 		for (j = 0; j < removebuttons.length; j++)
 		{
 			removebuttons[j].id = 'remove_' + postvar + '[' + i + ']';
 			removebuttons[j].name = 'cmd[remove' + postvar + '][' + i + ']';
 			YAHOO.util.Event.addListener(removebuttons[j], 'click', removeRow);
 		}
-		upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('singlechoicewizard_up'); }, 'button', rows[i]);
+		upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'singlechoicewizard_up') ? true : false; }, 'input', rows[i]);
 		if (upbuttons.length > 0)
 		{
 			for (j = 0; j < upbuttons.length; j++)
@@ -106,7 +106,7 @@ function reindexRows(rootel, postvar)
 				YAHOO.util.Event.addListener(upbuttons[j], 'click', moveRowUp);
 			}
 		}
-		downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('singlechoicewizard_down'); }, 'button', rows[i]);
+		downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'singlechoicewizard_down') ? true : false; }, 'input', rows[i]);
 		if (downbuttons.length > 0)
 		{
 			for (j = 0; j < downbuttons.length; j++)
@@ -121,22 +121,22 @@ function reindexRows(rootel, postvar)
 
 function removeListeners_NO_SINGLETON_IN_USE(rootel)
 {
-	var addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('singlechoicewizard_add'); }, 'button', rootel);
+	var addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'singlechoicewizard_add') ? true : false; }, 'input', rootel);
 	for (i = 0; i < addbuttons.length; i++)
 	{
 		YAHOO.util.Event.purgeElement(addbuttons[i]);
 	}
-	var removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('singlechoicewizard_remove'); }, 'button', rootel);
+	var removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'singlechoicewizard_remove') ? true : false; }, 'input', rootel);
 	for (i = 0; i < removebuttons.length; i++)
 	{
 		YAHOO.util.Event.purgeElement(removebuttons[i]);
 	}
-	var upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('singlechoicewizard_up'); }, 'button', rootel);
+	var upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'singlechoicewizard_up') ? true : false; }, 'input', rootel);
 	for (i = 0; i < upbuttons.length; i++)
 	{
 		YAHOO.util.Event.purgeElement(upbuttons[i]);
 	}
-	var downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return $(el).hasClass('singlechoicewizard_down'); }, 'button', rootel);
+	var downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'singlechoicewizard_down') ? true : false; }, 'input', rootel);
 	for (i = 0; i < downbuttons.length; i++)
 	{
 		YAHOO.util.Event.purgeElement(downbuttons[i]);
