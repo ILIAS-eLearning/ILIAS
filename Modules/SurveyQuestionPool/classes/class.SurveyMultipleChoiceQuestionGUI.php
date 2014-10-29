@@ -160,7 +160,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 		$this->object->nr_max_answers = ($a_form->getInput('nr_max_answers') > 0) ? $a_form->getInput('nr_max_answers') : null;
 		$this->object->label = $a_form->getInput('label');
 
-		 $this->object->categories->flushCategories();
+		$this->object->categories->flushCategories();
 
 		foreach ($_POST['answers']['answer'] as $key => $value) 
 		{

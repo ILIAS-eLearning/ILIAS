@@ -159,7 +159,7 @@ function addRow(e, obj)
 	{
 		tbody.insertBefore(rowclone, trs[parentindex]);
 	}
-	reindexRows(tbody, tbody.parentNode.parentNode.id);
+	reindexRows(tbody, tbody.parentNode.id);
 	var textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', rowclone);
 	textinputs[0].focus();
 	return false;
@@ -178,7 +178,7 @@ function removeRow(e, obj)
 	{
 		tbody.removeChild(row);
 		removeAllListeners(tbody);
-		reindexRows(tbody, tbody.parentNode.parentNode.id);
+		reindexRows(tbody, tbody.parentNode.id);
 	}
 }
 
@@ -208,7 +208,7 @@ function moveRowUp(e, obj)
 		{
 			tbody.appendChild(rows[j]);
 		}
-		reindexRows(tbody, tbody.parentNode.parentNode.id);
+		reindexRows(tbody, tbody.parentNode.id);
 	}
 }
 
@@ -238,7 +238,7 @@ function moveRowDown(e, obj)
 		{
 			tbody.appendChild(rows[j]);
 		}
-		reindexRows(tbody, tbody.parentNode.parentNode.id);
+		reindexRows(tbody, tbody.parentNode.id);
 	}
 }
 
