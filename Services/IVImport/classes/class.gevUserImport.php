@@ -139,18 +139,36 @@ class gevUserImport {
 				}
 
 				$user = new ilObjUser($ilias_id);
+				$utils = gevUserUtils::getInstance($user->getId());
+				$stelle = $this->get_stelle($utils->getJobNumber());
+				$shadow_user = array_merge($shadow_user, $stelle);
+
 				$this->set_ilias_user_attributes($user, $shadow_user);
 				$user->update();
 				$this->set_gev_attributes($user, $shadow_user);
 				$user->update();
-				$this->update_global_role($user, $shadow_user);
-				$this->update_orgunit_role($user, $shadow_user);
+				$this->update_user_roles($user, $shadow_user);
+
+				$austritt = $shadow_user['austritt'];
+				if ($austritt) {
+					$austritt_dt = new DateTime($austritt);
+					$today_dt = new DateTime("now");
+
+					if ($austritt_dt <= $today_dt) {
+						$user->setActive(false, 6);
+					}
+				} else {
+					$user->setActive(true, 6);
+				}
 			} catch (Exception $e) {
 				$ilLog->write("Shadow User Update: Error while processing ".$ilias_id.":");
 				$ilLog->write($e);
 				$ilLog->write(var_export($e->getTraceAsString(), true));
 			}
+			$user->update();
 		}
+
+		echo "done.";
 	}
 
 	private function get_imported_shadow_users() {
@@ -204,7 +222,6 @@ class gevUserImport {
 			AND
 				`ivimport_adp`.`email` LIKE " . $this->ilDB->quote($email_pre."%", "text") . "
 			";
-
 		$result = mysql_query($sql, $this->mysql);
 		if ((!$result) || (mysql_num_rows($result) !== 1)) {
 			return false;
@@ -290,7 +307,6 @@ class gevUserImport {
 
 		$user->create();
 		$user->saveAsNew();
-		$user->setOwner(6);
 		$user->update();
 		return $user;
 
@@ -307,7 +323,7 @@ class gevUserImport {
 			$user->setGender('m');
 		}
 
-		$user->setActive(true);
+		$user->setActive(true, 6);
 		$user->setTimeLimitUnlimited(true);
 
 		$user->setBirthday($shadow_user['geburtsdatum']);
@@ -390,10 +406,16 @@ class gevUserImport {
 		return $user;
 	}
 
+	private function update_user_roles(&$user, $shadow_user) {
+		$this->update_global_role($user, $shadow_user);
+		$this->update_orgunit_role($user, $shadow_user);
+	}
+
 	private function update_global_role(&$user, $shadow_user) {
 		$user_id = $user->getId();
 		$vermittlerstatus = $shadow_user['vermittlerstatus'];
 		$role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][0];
+
 		$utils = gevRoleUtils::getInstance();
 		$utils->assignUserToGlobalRole($user_id, $role_title);
 

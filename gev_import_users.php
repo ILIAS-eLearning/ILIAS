@@ -18,10 +18,13 @@ function import_ilias() {
     $_SERVER['PHP_SELF'] = $php_self;
 }
 
+if (date_default_timezone_get() != ini_get('date.timezone')) {
+    die("Set date.timezone in php.ini!\n");
+}
+
 import_ilias();
 $import = get_gev_import();
 $import->update_imported_shadow_users();
-
 
 
 ?>

@@ -17,11 +17,11 @@ require_once("Services/Administration/classes/class.ilSetting.php");
 class gevSettings {
 	static $instance = null;
 	static $amd_fields = null;
-	
+
 	const MODULE_NAME = "gev";
-	
+
 	// vgl. Konzept, Abschnitt Trainingsvorlagen
-	
+
 	// Block "Trainingsverwaltung"
 	// Nummer der Maßnahme
 	const CRS_AMD_CUSTOM_ID 		= "crs_amd_custom_id";
@@ -35,7 +35,7 @@ class gevSettings {
 	const CRS_AMD_TYPE 				= "crs_amd_type";
 	// Vorlage
 	const CRS_AMD_IS_TEMPLATE		= "crs_amd_is_template";
-	
+
 	// Trainingsbetreuer -> ILIAS Standard
 	//const CRS_AMD_MAINTAINER		= "crs_amd_maintainer";
 
@@ -48,7 +48,7 @@ class gevSettings {
 	const CRS_AMD_SCHEDULED_FOR		= "crs_amd_scheduled_for";
 	// Organisatorisches
 	const CRS_AMD_ORGA				= "crs_amd_orga";
-	
+
 	// Block Trainingsinhalte
 	// Trainingsthema
 	const CRS_AMD_TOPIC 			= "crs_amd_topic";
@@ -73,10 +73,10 @@ class gevSettings {
 	const CRS_AMD_CREDIT_POINTS		= "crs_amd_credit_points";
 	// GEV Lerninhalt
 	const CRS_AMD_GDV_TOPIC			= "crs_amd_gdv_topic";
-	
+
 	// Teilnahmegebühr
 	const CRS_AMD_FEE				= "crs_amd_fee";
-	
+
 	// Mindestteilnehmerzahl
 	const CRS_AMD_MIN_PARTICIPANTS	= "crs_amd_min_participants";
 	// Warteliste
@@ -89,7 +89,7 @@ class gevSettings {
 	const CRS_AMD_BOOKING_DEADLINE	= "crs_amd_booking_deadline";
 	// Absage Wartliste
 	const CRS_AMD_CANCEL_WAITING	= "crs_amd_cancel_waiting";
-	
+
 	// Anbieter
 	const CRS_AMD_PROVIDER			= "crs_amd_provider";
 	// Veranstaltungsort
@@ -101,17 +101,17 @@ class gevSettings {
 	const CRS_AMD_WEBEX_LINK		= "crs_amd_webex_link";			// these are general webinar links now
 	const CRS_AMD_WEBEX_PASSWORD	= "crs_amd_webex_password";		// these are general webinar passwords now
 	const CRS_AMD_CSN_LINK			= "crs_amd_csn_link";	// this is not used anymore
-	
+
 	// Typen von Organisationseinheiten
 	const ORG_TYPE_VENUE			= "org_unit_type_venue";
 	const ORG_TYPE_PROVIDER			= "org_unit_type_provider";
 	const ORG_TYPE_DEFAULT			= "org_unit_type_default";
-	
+
 	static $all_org_types = array( gevSettings::ORG_TYPE_VENUE
 								 , gevSettings::ORG_TYPE_PROVIDER
 								 , gevSettings::ORG_TYPE_DEFAULT
 								 );
-	
+
 	// AMD für alle Org-Units (vgl. Konzept, Abschnitte Veranstaltungsorte, Anbieter)
 	// Straße
 	const ORG_AMD_STREET			= "org_amd_street";
@@ -147,12 +147,12 @@ class gevSettings {
 	const VENUE_AMD_COSTS_DINNER	= "venue_amd_costs_dinner";
 	// Pauschale Tagesverpflegung
 	const VENUE_AMD_COSTS_FOOD		= "venue_amd_costs_food";
-	
-	
+
+
 	// Standardorte und -veranstalter
 	const VENUE_BERNRIED			= "venue_bernried";
 	const PROVIDER_GENERALI			= "provider_generali";
-	
+
 	// zusätzliche Benutzerdaten
 	// adp-nummer
 	const USR_UDF_ADP_NUMBER		= "usr_udf_adp_number";
@@ -170,7 +170,7 @@ class gevSettings {
 	const USR_UDF_AGENT_KEY			= "usr_udf_agent_key";
 	// Gesellschaftstitel
 	const USR_UDF_COMPANY_TITLE		= "usr_udf_company_title";
-	
+
 	// private Kontaktdaten, für geschäftliche Kontaktdaten werden
 	// die Standard-ILIAS-Felder verwendet
 	const USR_UDF_PRIV_EMAIL		= "usr_udf_priv_email";
@@ -180,17 +180,17 @@ class gevSettings {
 	const USR_UDF_PRIV_STATE		= "usr_udf_priv_state";
 	const USR_UDF_PRIV_PHONE		= "usr_udf_priv_phone";
 	const USR_UDF_PRIV_FAX			= "usr_udf_priv_fax";
-	
+
 	// Eintritts- und Austrittsdatum
 	const USR_UDF_ENTRY_DATE		= "usr_udf_entry_date";
 	const USR_UDF_EXIT_DATE			= "usr_udf_exit_date";
-	
+
 	// Status (????)
 	const USR_UDF_STATUS			= "usr_udf_status";
-	
+
 	// HPE
 	const USR_UDF_HPE				= "usr_udf_hpe";
-	
+
 	// WBD-Stuff
 	// type of service for user
 	const USR_TP_TYPE				= "usr_udf_tp_type";
@@ -198,7 +198,7 @@ class gevSettings {
 	const USR_BWV_ID				= "usr_udf_bwv_id";
 	// how is the okz of the user determined
 	const USR_WBD_OKZ				= "usr_udf_wbd_okz";
-	
+
 	// how is the "Vermittlungstätigkeit" determined
 	/*
 	global roles -> USR_WBD_STATUS
@@ -252,7 +252,7 @@ class gevSettings {
 		693 => array("NA",               "Mitarbeiter"),
 		694 => array("BA",               "Mitarbeiter")
 	);
-	
+
 	// Names of roles where we should be tolerant in the email at the
 	// registration (#608)
 	static $EMAIL_TOLERANCE_ROLES = array(
@@ -276,14 +276,14 @@ class gevSettings {
 		, "int. Referent"
 		, "ext. Referent"
 		);
-	
+
 	// Names of roles that count as admins
 	static $ADMIN_ROLES = array(
 		  "Administrator"
 		, "Administrator-eingeschränkt"
 		, "Administrator-Voll"
 		);
-	
+
 	// Names of roles that count as superiors
 	static $SUPERIOR_ROLES = array(
 		  "il_orgu_superior_%"
@@ -297,36 +297,36 @@ class gevSettings {
 
 
 
-	
+
 	private function __construct() {
 		$this->settings = new ilSetting(self::MODULE_NAME);
 	}
-	
+
 	public function getInstance() {
 		if (self::$instance === null) {
 			self::$instance = new gevSettings();
 		}
-		
+
 		return self::$instance;
 	}
-	
+
 	public function get($a_field) {
 		return $this->settings->get($a_field);
 	}
-	
+
 	public function set($a_field, $a_value) {
 		$this->settings->set($a_field, $a_value);
 	}
-	
+
 	public function getAMDFieldId($a_field) {
 		$field_id = explode(" ", $this->get($a_field));
 		return $field_id[1];
 	}
-	
+
 	public function getUDFFieldId($a_field) {
 		return $this->get($a_field);
 	}
-	
+
 	/*public function isAMDRecordUsed($a_record_id) {
 			global $ilDB;
 			$res = $ilDB->query("SELECT COUNT(*) AS cnt FROM settings ".

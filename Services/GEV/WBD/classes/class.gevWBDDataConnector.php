@@ -27,7 +27,7 @@ echo('<pre>');
 
 
 //reset ilias for calls from somewhere else
-$basedir = __DIR__; 
+$basedir = __DIR__;
 $basedir = str_replace('/Services/GEV/WBD/classes', '', $basedir);
 chdir($basedir);
 
@@ -56,7 +56,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 
 	public function __construct() {
-		
+
 		parent::__construct();
 	}
 
@@ -74,7 +74,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 	        	$pos = $i;
 	        	break;
 	        }
-	    }		
+	    }
 	    $street = trim(substr($streetnr, 0, $pos));
 	    $nr = trim(substr($streetnr, $pos));
 		return array(
@@ -133,7 +133,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 			,"training"	 			=> $record['title'] //or template?
 			,"study_type_selection" => $this->VALUE_MAPPINGS['course_type'][$record['type']] // "Präsenzveranstaltung" | "Selbstgesteuertes E-Learning" | "Gesteuertes E-Learning";
-	
+
 			//....
 			/*
 			"internal_booking_id" => "", //$record['crs_ref_id'],
@@ -141,7 +141,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 			*/
 			,"row_id" => $record["row_id"]
 		);
-		return $edudata;	
+		return $edudata;
 	}
 
 
@@ -167,7 +167,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 			case 'hist_usercoursestatus':
 				$search  = "
 					usr_id=(SELECT usr_id FROM $table WHERE row_id=$row_id)
-					AND 
+					AND
 					crs_id=(SELECT crs_id FROM $table WHERE row_id=$row_id)
 				";
 				break;
@@ -176,7 +176,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$search .="AND hist_historic=0";
 
 		$sql = "
-			SELECT * FROM $table 
+			SELECT * FROM $table
 			WHERE $search;
 		";
 
@@ -199,7 +199,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 
 		$sql = "
-			UPDATE $table 
+			UPDATE $table
 			SET last_wbd_report = NOW()
 			WHERE row_id=$row_id
 		";
@@ -216,8 +216,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 	/**
 	 * get users that do not have a BWV-ID yet
-	 * 
-	 * @param 
+	 *
+	 * @param
 	 * @return array of user-records
 	 */
 	public function get_new_users() {
@@ -233,27 +233,27 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql = "
 			SELECT
 				*
-			FROM 
+			FROM
 				hist_user
 			WHERE
 				hist_historic = 0
-			AND 
+			AND
 				deleted = 0
-			AND 
+			AND
 				bwv_id = '-empty-'
-			AND 
+			AND
 				last_wbd_report IS NULL
 			"
 			//exclude pending users;
-			//pending users were reported, changed, 
+			//pending users were reported, changed,
 			//but still do not have an bwv_id
 			."
 			AND user_id NOT IN (
 				SELECT DISTINCT user_id
 				FROM hist_user
-				WHERE 
+				WHERE
 					hist_historic = 1
-				AND NOT 
+				AND NOT
 					last_wbd_report IS NULL
 			)
 			";
@@ -298,10 +298,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 	 * get users with outdated records in BWV-DB:
 	 * userdata changed after last reporting
 	 *
-	 * only users with bwv-id, though - it must be set to 
+	 * only users with bwv-id, though - it must be set to
 	 * update a user!
 	 *
-	 * @param 
+	 * @param
 	 * @return array of user-records
 	 */
 	public function get_updated_users() {
@@ -315,13 +315,13 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql = "
 			SELECT
 				*
-			FROM 
+			FROM
 				hist_user
 			WHERE
 				hist_historic = 0
 			AND NOT
 				bwv_id = '-empty-'
-			AND 
+			AND
 				last_wbd_report IS NULL
 			";
 
@@ -353,12 +353,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 
 	/**
-	 * get edu-records for courses that 
+	 * get edu-records for courses that
 	 * started 3 months ago (or more)
 	 * and have not been submitted to the WBD
 	 *
 	 *
-	 * @param 
+	 * @param
 	 * @return array of edu-records
 	 */
 	public function get_new_edu_records() {
@@ -371,9 +371,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql = "
 			SELECT
 				*,hist_usercoursestatus.row_id as row_id
-			FROM 
+			FROM
 				hist_usercoursestatus
-			
+
 			INNER JOIN
 				hist_course
 			ON
@@ -385,17 +385,17 @@ class gevWBDDataConnector extends wbdDataConnector {
 				hist_usercoursestatus.usr_id = hist_user.user_id
 
 			WHERE
-				hist_usercoursestatus.hist_historic = 0 
-				AND 
-				hist_course.hist_historic = 0 
-				AND 
-				hist_user.hist_historic = 0 
+				hist_usercoursestatus.hist_historic = 0
+				AND
+				hist_course.hist_historic = 0
+				AND
+				hist_user.hist_historic = 0
 
-			AND 
+			AND
 				hist_usercoursestatus.function = 'Mitglied'
-			AND 
+			AND
 				hist_usercoursestatus.participation_status = 'teilgenommen'
-			AND 
+			AND
 				hist_usercoursestatus.last_wbd_report IS NULL
 
 			";
@@ -419,16 +419,16 @@ class gevWBDDataConnector extends wbdDataConnector {
 			//there must not be a last_wbd_report for the pair of usr_id, crs_id!
 			$sql ="
 				SELECT row_id FROM hist_usercoursestatus
-				WHERE usr_id = " .$record['usr_id'] 
+				WHERE usr_id = " .$record['usr_id']
 			 ."	AND crs_id = ".$record['crs_id']
 			 ." AND NOT last_wbd_report IS NULL" ;
-			
+
 			$temp_result = $this->ilDB->query($sql);
 			$num_rows = $temp_result->result->num_rows;
-			
+
 			if($num_rows == 0){
 
-				$edudata = $this->_map_edudata($record);	
+				$edudata = $this->_map_edudata($record);
 				//these are _new_ edu-records:
 				$edudata['score_code'] = 'Meldung';
 				$ret[] = wbdDataConnector::new_edu_record($edudata);
@@ -436,7 +436,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				//set last_wbd_report!
 				$this->_set_last_wbd_report('hist_usercoursestatus', $record['row_id']);
 			}
-			
+
 
 		}
 		return $ret;
@@ -444,12 +444,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 
 	/**
-	 * get edu-records for courses that 
+	 * get edu-records for courses that
 	 * started 3 months ago (or more)
 	 * if the current record differs from a record
 	 * that was allready sent to the WBD
-	 *  
-	 * @param 
+	 *
+	 * @param
 	 * @return array of edu-records
 	 */
 	public function get_changed_edu_records() {
@@ -462,14 +462,14 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql = "
 			SELECT
 				row_id, last_wbd_report
-			FROM 
+			FROM
 				hist_usercoursestatus
 			WHERE
 				NOT last_wbd_report IS NULL
-			AND 
+			AND
 				hist_historic = 1
-			GROUP BY 
-				usr_id, 
+			GROUP BY
+				usr_id,
 				crs_id
 			";
 
@@ -479,16 +479,16 @@ class gevWBDDataConnector extends wbdDataConnector {
 			$row_id = $record['row_id'];
 			$current_record = $this->_get_current_record('hist_usercoursestatus', $record['row_id']);
 			//if there is a newer record, use this.
-			if (($current_record['row_id'] != $record['row_id']) 
+			if (($current_record['row_id'] != $record['row_id'])
 				&& !$current_record['last_wbd_report']
 				){
 				//get all info on that row:
 				$sql = "
 					SELECT
 						*, hist_usercoursestatus.row_id as row_id
-					FROM 
+					FROM
 						hist_usercoursestatus
-			
+
 					INNER JOIN
 						hist_course
 					ON
@@ -509,8 +509,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 				//set last_wbd_report on the current record
 				$row_id = $current_record['row_id'];
-			} 
-			
+			}
+
 			//set last_wbd_report!
 			$this->_set_last_wbd_report('hist_usercoursestatus', $row_id);
 		}
@@ -523,7 +523,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 	/**
 	 * set BWV-ID for user
-	 *  
+	 *
 	 * @param string $user_id
 	 * @param string $bwv_id
 	 * @param date $certification_begin
@@ -544,7 +544,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		//write last_wbd_report....
 		$sql = "
-			SELECT $row_id FROM hist_user 
+			SELECT $row_id FROM hist_user
 			WHERE user_id = $user_id
 			AND hist_historic = 0
 		";
@@ -554,10 +554,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 		return true;
 	}
 
-	
+
 	/**
 	 * set edu-record for user
-	 *  
+	 *
 	 * @param array $edu_record
 	 * @return boolean
 	 */
