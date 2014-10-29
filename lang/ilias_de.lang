@@ -2013,7 +2013,7 @@ chatroom#:#fontsize#:#Schriftgröße
 chatroom#:#fontstyle#:#Schriftbild
 chatroom#:#hide_settings#:#Einstellungen verbergen
 chatroom#:#hint_display_past_msgs#:#Anzahl der vergangenen Nachrichten, die beim Betreten des Chatraums angezeigt werden sollen. "0" deaktiviert die Anzeige vergangener Nachrichten.
-chatroom#:#hint_enable_smilies#:#Wenn aktiviert, werden konfigurierte Textbausteine durch ein Bild ersetzt. Die Konfiguration kamm im Smilies-Tab vorgenommen werden.
+chatroom#:#hint_enable_smilies#:#Wenn aktiviert, werden konfigurierte Textbausteine durch ein Bild ersetzt. Die Konfiguration kann im Reiter Smilies vorgenommen werden.
 chatroom#:#hint_osd#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Einladungen informiert.
 chatroom#:#hint_osd_interval#:#Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
 chatroom#:#hint_unique_name#:#Ein eindeutiger Name der diesen ILIAS-Mandanten beim Chat-Server identifiziert. Diese Einstellung ist vorallem bei der Nutzung von mehreren ILIAS-Mandanten auf einem Chat-Server zu beachten.
@@ -5370,9 +5370,9 @@ content#:#cont_add_images#:#Bild hinzufügen
 content#:#cont_add_polygon#:#Polygon hinzufügen
 content#:#cont_add_popup#:#Popup hinzufügen
 content#:#cont_add_rectangle#:#Rechteck hinzufügen
-content#:#cont_add_tab#:#Register hinzufügen
+content#:#cont_add_tab#:#Fach hinzufügen
 content#:#cont_added_comment#:#Kommentar wurde im Verlauf aufgenommen
-content#:#cont_added_tab#:#Register wurde hinzugefügt.
+content#:#cont_added_tab#:#Fach wurde hinzugefügt.
 content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_Additional#:#Zusatz
 content#:#cont_adjust_size#:#Größe anpassen
@@ -5668,7 +5668,7 @@ content#:#cont_final_lm_page#:#Abschlusseite für Lernmodul
 content#:#cont_final_lm_page_info#:#Eine Statusseite wird angezeigt, wenn all Fragen des Lernmoduls erfolgreich beantwortet wurden.
 content#:#cont_final_sco_page#:#Abschlussseite für SCO
 content#:#cont_final_sco_page_info#:#Eine Abschlusseite wird am Ende eines SCOs angezeigt, wenn alle Fragen erfolgreich beantwortet wurden.
-content#:#cont_first_open#:#Erstes Register geöffnet
+content#:#cont_first_open#:#Erstes Fach geöffnet
 content#:#cont_first_row_style#:#Stil der ersten Zeile
 content#:#cont_fix_tree#:#Struktur reparieren
 content#:#cont_fix_tree_confirm#:#Bitte führen sie diese Funktion nur aus, wenn die Struktur des Lernmoduls beschädigt ist, z.B. leere Einträge in der Kapitelstruktur auftauchen.
@@ -5860,7 +5860,7 @@ content#:#cont_new_module_added#:#Neue Modulversion erfolgreich hochgeladen
 content#:#cont_new_page#:#Neue Seite
 content#:#cont_new_popup#:#Neues Popup
 content#:#cont_new_question#:#Neue Frage
-content#:#cont_new_tab#:#Neues Register
+content#:#cont_new_tab#:#Neues Fach
 content#:#cont_new_term#:#Neuer Begriff
 content#:#cont_new_trigger_area#:#Neuer Auslösebereich
 content#:#cont_next_rev#:#Nachfolgende Änderung
@@ -5890,7 +5890,7 @@ content#:#cont_nr_row_footer#:#Fuß (Zeilen)
 content#:#cont_nr_row_header#:#Kopf (Zeilen)
 content#:#cont_nr_rows#:#Zahl der Zeilen
 content#:#cont_Number#:#Nummer
-content#:#cont_number_of_tabs#:#Anzahl der Register
+content#:#cont_number_of_tabs#:#Anzahl der Fächer
 content#:#cont_number_std#:#Standard
 content#:#cont_number_type#:#Nummerntyp
 content#:#cont_numbered_list#:#Nummerierte Liste
@@ -5904,8 +5904,8 @@ content#:#cont_online_help_ids#:#Screen-IDs
 content#:#cont_open#:#Anzeige des Lernmoduls
 content#:#cont_open_heigth#:#Höhe
 content#:#cont_open_iframe_defined#:#in iframe mit festgelegter Breite und Höhe
-content#:#cont_open_iframe_max#:#in iframe mit voller Größe
-content#:#cont_open_normal#:#in Tab / neuem Fenster
+content#:#cont_open_iframe_max#:#in iFrame mit voller Größe
+content#:#cont_open_normal#:#in neuem Tab / neuem Fenster
 content#:#cont_open_width#:#Breite
 content#:#cont_open_window_defined#:#in neuem Fenster mit festgelegter Breite und Höhe
 content#:#cont_open_window_undefined#:#in neuem Fenster ohne festgelegte Breite und Höhe
@@ -6162,11 +6162,11 @@ content#:#cont_table_spreadsheet_import#:#Tabellenimport
 content#:#cont_table_spreadsheet_import_info#:#Fügen Sie eine Tabelle aus dem Tabellenkalkulationsprogramm über die Zwischenablage ein.
 content#:#cont_table_width#:#Tabellenbreite
 content#:#cont_TableContent#:#Tabelleninhalt
-content#:#cont_tabs#:#Register
+content#:#cont_tabs#:#Fächer
 content#:#cont_tabs_acc_hor#:#Horizontales Akkordeon
 content#:#cont_tabs_acc_ver#:#Vertikales Akkordeon
 content#:#cont_tabs_accordion#:#Akkordeon
-content#:#cont_tabs_confirm_deletion#:#Sind Sie sicher, dass diese Register mit ihren Inhalten gelöscht werden sollen?
+content#:#cont_tabs_confirm_deletion#:#Sind Sie sicher, dass diese Fächer mit ihren Inhalten gelöscht werden sollen?
 content#:#cont_tabs_hor_align_info#:#Horizontale Akkordeons sind immer linksbündig angeordnet.
 content#:#cont_tabs_hor_tabs#:#Horizontale Akkordeons
 content#:#cont_target_missing#:#Zielpunkt fehlt
@@ -6221,7 +6221,7 @@ content#:#cont_update_qover#:#Fragenübersicht speichern
 content#:#cont_update_resources#:#Materialienliste aktualisieren
 content#:#cont_update_section#:#Block aktualisieren
 content#:#cont_update_skills#:#Kompetenz bearbeiten
-content#:#cont_update_tabs#:#Register aktualisieren
+content#:#cont_update_tabs#:#Fächer aktualisieren
 content#:#cont_update_titles_and_actions#:#Titel und Aktionen aktualisieren
 content#:#cont_update_verification#:#Zertifikat bearbeiten
 content#:#cont_upload_dir#:#Upload-Verzeichnis
@@ -10860,7 +10860,7 @@ style#:#sty_table_template_bw_zebra#:#Grauer Zebrastreifen
 style#:#sty_table_template_colored_zebra#:#Farbige Zebrastreifen
 style#:#sty_table_template_no_zebra#:#Keine Zebrastreifen
 style#:#sty_table_templates#:#Tabellen-Templates
-style#:#sty_tabs_char#:#Register und Akkordeons
+style#:#sty_tabs_char#:#Akkordeons und Fächer
 style#:#sty_tag_hover#:#:hover
 style#:#sty_tag_normal#:#Normal
 style#:#sty_template_layout#:#Template-Layout

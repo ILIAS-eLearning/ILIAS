@@ -4677,7 +4677,7 @@ content#:#cont_add_file#:#Add File
 content#:#cont_add_fullscreen#:#Add Full Screen
 content#:#cont_add_polygon#:#Add Polygon
 content#:#cont_add_rectangle#:#Add Rectangle
-content#:#cont_add_tab#:#Add Tab
+content#:#cont_add_tab#:#Add Panel
 content#:#cont_added_comment#:#Comment has been added to history.
 content#:#cont_added_term#:#Term added
 content#:#cont_Additional#:#Additional Information
@@ -4840,7 +4840,7 @@ content#:#cont_ed_insert_pcqst#:#Insert Question
 content#:#cont_ed_insert_plach#:#Insert Placeholder
 content#:#cont_ed_insert_repobj#:#Insert Resource List
 content#:#cont_ed_insert_section#:#Insert Section
-content#:#cont_ed_insert_tabs#:#Insert Tabs
+content#:#cont_ed_insert_tabs#:#Insert Akkordion
 content#:#cont_ed_item_down#:#Move Item Down
 content#:#cont_ed_item_up#:#Move Item Up
 content#:#cont_ed_list#:# Advanced List
@@ -4909,7 +4909,7 @@ content#:#cont_file_unzipped#:#File has been unzipped.
 content#:#cont_file#:#File
 content#:#cont_FileListItem#:#File List Item (Standard)
 content#:#cont_files#:#Files
-content#:#cont_first_open#:#First Opened
+content#:#cont_first_open#:#First Panel Opened
 content#:#cont_first_row_style#:#First Row Style Class
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.
 content#:#cont_fix_tree#:#Fix structure
@@ -5062,7 +5062,7 @@ content#:#cont_new_file#:#New File
 content#:#cont_new_media_obj#:#New Media Object
 content#:#cont_new_mob#:#New Media Object
 content#:#cont_new_module_added#:#New version of module uploaded successfully
-content#:#cont_new_tab#:#New Tab
+content#:#cont_new_tab#:#New Panel
 content#:#cont_new_term#:#New Term
 content#:#cont_next_rev#:#Next Revision
 content#:#cont_no_access#:#No Access
@@ -5087,7 +5087,7 @@ content#:#cont_nr_items#:#Number of Items
 content#:#cont_nr_row_footer#:#Footer Rows
 content#:#cont_nr_row_header#:#Header Rows
 content#:#cont_nr_rows#:#Number of Rows
-content#:#cont_number_of_tabs#:#Number of Tabs
+content#:#cont_number_of_tabs#:#Number of Panels
 content#:#cont_number_std#:#Standard
 content#:#cont_number_type#:#Number Type
 content#:#cont_Number#:#Number
@@ -5298,10 +5298,10 @@ content#:#cont_TableContent#:#Table Content
 content#:#cont_tabs_acc_hor#:#Horizontal Accordion
 content#:#cont_tabs_acc_ver#:#Vertical Accordion
 content#:#cont_tabs_accordion#:#Accordion
-content#:#cont_tabs_confirm_deletion#:#Are you sure that all of the tabs and their contents should be deleted?
+content#:#cont_tabs_confirm_deletion#:#Are you sure that all panels and their content should be deleted?
 content#:#cont_tabs_hor_align_info#:#Horizontal accordions will always be aligned left.
 content#:#cont_tabs_hor_tabs#:#Horizontal Tabs
-content#:#cont_tabs#:#Tabs
+content#:#cont_tabs#:#Panels
 content#:#cont_target_missing#:#Target Missing
 content#:#cont_target_within_source#:#Target must not be within source object.
 content#:#cont_term#:#Term
@@ -5342,7 +5342,7 @@ content#:#cont_update_map#:#Edit Map
 content#:#cont_update_names#:#Update Names
 content#:#cont_update_resources#:#Update Resource List
 content#:#cont_update_section#:#Update Section
-content#:#cont_update_tabs#:#Update Tabs
+content#:#cont_update_tabs#:#Update Panels
 content#:#cont_update#:#Update
 content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.
 content#:#cont_upload_dir#:#Upload directory
@@ -7172,7 +7172,7 @@ mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the s
 mail#:#mail_subject_prefix#:#Mail Subject
 mail#:#mail_sure_delete_entry#:#Are you sure you want to delete the following entries?
 mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected files?
-mail#:#mail_sure_delete_folder#:#The folder and its contents will be removed permanently
+mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
 mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
 mail#:#mail_to#:#To
 mail#:#mail_user_addr_n_valid#:#Following users have no valid e-mail address
@@ -8869,7 +8869,7 @@ search#:#search_content#:#Page Content
 search#:#search_crs_title#:#Course Name
 search#:#search_dbk_content#:#Digital Library (content)
 search#:#search_dbk_meta#:#Digital Library (metadata)
-search#:#search_delete_sure#:#The object and its contents will be deleted permanently
+search#:#search_delete_sure#:#The object and its content will be deleted permanently
 search#:#search_details_info#:#Detailed search. Please select one or more resource types.
 search#:#search_direct#:#Direct search
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types
@@ -9122,7 +9122,7 @@ style#:#sty_table_template_colored_zebra#:#Colored Zebra
 style#:#sty_table_template_no_zebra#:#No Zebra
 style#:#sty_table_templates#:#Table Templates
 style#:#sty_table#:#Table
-style#:#sty_tabs_char#:#Tabs and Accordions
+style#:#sty_tabs_char#:#Accordions and Panels
 style#:#sty_tag_hover#:#:hover
 style#:#sty_tag_normal#:#Normal
 style#:#sty_template_layout#:#Template Layout
@@ -10706,7 +10706,7 @@ trac#:#trac_first_and_last_access#:#First and Last Access
 user#:#user_save_ordering_and_titles#:#Save ordering and titles
 content#:#cont_wrong_answers_single#:#Incorrect Choice.
 survey#:#question_changed_in_survey_only#:#Question was changed only in survey
-content#:#cont_added_tab#:#Tab created.
+content#:#cont_added_tab#:#Panel added.
 trac#:#trac_read_count_spent_seconds#:#Time Spent / Access
 trac#:#trac_object_stat_access#:#Usage Intensity
 trac#:#trac_show_graph#:#Show Graph
