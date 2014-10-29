@@ -7548,6 +7548,7 @@ div.ilForumQuoteHead {
   list-style: none;
   margin: 0;
   padding: 0;
+  background-color: #ffffff;
 }
 .ilFrmPostImage {
   float: left;
@@ -7583,6 +7584,10 @@ div.ilFrmPostHeader span.small {
 .ilFrmPostRow div.ilForm {
   width: 100%;
   max-width: 1000px;
+}
+.ilFrmPostRow {
+  padding: 3px;
+  border-top: 1px solid #f0f0f0;
 }
 .ilFrmPostRow div.ilForm div.ilFormValue {
   width: auto;
