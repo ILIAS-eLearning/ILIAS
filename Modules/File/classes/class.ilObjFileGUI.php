@@ -741,7 +741,7 @@ class ilObjFileGUI extends ilObject2GUI
 	*/
 	function infoScreenForward()
 	{
-		global $ilTabs, $ilErr;
+		global $ilTabs, $ilErr, $ilToolbar;
 		
 		$ilTabs->activateTab("id_info");
 
@@ -755,15 +755,27 @@ class ilObjFileGUI extends ilObject2GUI
 
 		if ($this->checkPermissionBool("read", "sendfile"))
 		{
-			// 9876
+			// #9876
 			$this->lng->loadLanguageModule("file");
+			
+			// #14378
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("file_download");
+			$button->setPrimary(true);
 			
 			// get permanent download link for repository
 			if ($this->id_type == self::REPOSITORY_NODE_ID)
-				$info->addButton($this->lng->txt("file_download"), ilObjFileAccess::_getPermanentDownloadLink($this->node_id), "", "top", true);
-			else
-				$info->addButton($this->lng->txt("file_download"), $this->ctrl->getLinkTarget($this, "sendfile"), "", "top", true);
+			{
+				$button->setUrl(ilObjFileAccess::_getPermanentDownloadLink($this->node_id));				
 			}
+			else
+			{
+				$button->setUrl($this->ctrl->getLinkTarget($this, "sendfile"));		
+			}
+			
+			$ilToolbar->addButtonInstance($button);
+		}
 		
 		$info->enablePrivateNotes();
 		
