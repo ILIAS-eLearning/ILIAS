@@ -666,6 +666,7 @@ class ilForumTopic
 
 		$query = '
 			SELECT			fpt.depth,
+							fpt.rgt,
 							fpt.parent_pos,
 							fp.pos_pk,
 							fp.pos_subject,
@@ -736,7 +737,8 @@ class ilForumTopic
 							fp.pos_usr_id,
 							fp.pos_usr_alias,
 							fp.import_name,
-							fur.post_id
+							fur.post_id,
+							fpt.rgt 
 					ORDER BY fpt.rgt DESC
 		';		
 		
