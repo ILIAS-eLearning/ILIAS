@@ -6,7 +6,7 @@ function rowWizardCleanElements(rootel)
 
 function rowWizardReindexRows(rootel, postvar)
 {
-	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'row mtxwzd') ? true : false; }, 'div', rootel);
+	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'mtxwzd') ? true : false; }, 'tr', rootel);
 	console.log(rows, rootel);
 	for (i = 0; i < rows.length; i++)
 	{
@@ -118,7 +118,7 @@ function rowWizardAddRow(e, obj)
 	var rowclone = row.cloneNode(true);
 	rowWizardCleanElements(rowclone);
 	
-	var trs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'row mtxwzd') ? true : false; }, 'div', tbody);
+	var trs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'mtxwzd') ? true : false; }, 'tr', tbody);
 	var parentindex = 0;
 	for (i = 0; i < trs.length; i++)
 	{
@@ -142,7 +142,7 @@ function rowWizardRemoveRow(e, obj)
 {
 	var row = this.parentNode.parentNode;
 	var tbody = row.parentNode;
-	var trs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'row mtxwzd') ? true : false; }, 'div', tbody);
+	var trs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'mtxwzd') ? true : false; }, 'tr', tbody);
 	if (trs.length == 1)
 	{
 		rowWizardCleanElements(trs[0]);
@@ -159,7 +159,7 @@ function rowWizardMoveRowUp(e, obj)
 {
 	var row = this.parentNode.parentNode;
 	var tbody = row.parentNode;
-	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'row mtxwzd') ? true : false; }, 'div', tbody);
+	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'mtxwzd') ? true : false; }, 'tr', tbody);
 	var foundindex = 0;
 	for (i = 0; i < rows.length; i++)
 	{
@@ -189,7 +189,7 @@ function rowWizardMoveRowDown(e, obj)
 {
 	var row = this.parentNode.parentNode;
 	var tbody = row.parentNode;
-	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'row mtxwzd') ? true : false; }, 'div', tbody);
+	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'mtxwzd') ? true : false; }, 'tr', tbody);
 	var foundindex = 0;
 	for (i = 0; i < rows.length; i++)
 	{

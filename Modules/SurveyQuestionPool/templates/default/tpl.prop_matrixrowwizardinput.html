@@ -1,45 +1,51 @@
 <div id="{ELEMENT_ID}">
 	
-	<div class="row">
-		<div class="col-sm-{TITLE_COLS}">{ANSWER_TEXT}</div>
-		<!-- BEGIN other_answer_title -->
-		<div class="col-sm-3">{OTHER_TEXT}</div>
-		<!-- END other_answer_title -->
-		<div class="col-sm-{TITLE_COLS}">{LABEL_TEXT}</div>
-		<div class="col-sm-{TITLE_COLS}">{ACTIONS_TEXT}</div>
-	</div>
+	<table class="table table-condensed table-striped">
 		
-	<div>
+	<thead>
+        <tr>
+			<th>{ANSWER_TEXT}</th>
+			<!-- BEGIN other_answer_title -->
+			<th>{OTHER_TEXT}</th>
+			<!-- END other_answer_title -->
+			<th>{LABEL_TEXT}</th>
+			<th>{ACTIONS_TEXT}</th>
+		</tr>
+    </thead>
+	
+	<tbody>
 	
 		<!-- BEGIN row -->
-		<div class="row mtxwzd">
+		<tr class="mtxwzd">
 
-			<div class="col-sm-{ROW_COLS}">
+			<td>
 				<input type="text" size="{SIZE}" class="form-control" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}[answer][{ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED} />
-			</div>
+			</td>
 
 			<!-- BEGIN other_answer_checkbox -->
-			<div class="col-sm-3">
+			<td>
 				<input type="checkbox" name="{POST_VAR}[other][{ROW_NUMBER}]" value="1" id="{OTHER_ID}" {CHECKED_OTHER} />
-			</div>
+			</td>
 			<!-- END other_answer_checkbox -->
 
-			<div class="col-sm-{ROW_COLS}">
+			<td>
 				<input type="text" class="form-control" size="{SIZE_LABEL}" id="{ID_LABEL}" maxlength="{MAXLENGTH}" name="{POST_VAR}[label][{ROW_NUMBER}]" <!-- BEGIN prop_label_propval -->value="{PROPERTY_VALUE}" <!-- END prop_label_propval -->{DISABLED_LABEL} />
-			</div>
+			</td>
 
-			<div class="col-sm-{ROW_COLS}">
+			<td>
 				<button name="{CMD_ADD}" class="matrixrowwizard_add btn btn-link" id="add_{ID}" onclick="javascript: void(0); return false;" >{ADD_BUTTON}</button>
 				<button name="{CMD_REMOVE}" class="matrixrowwizard_remove btn btn-link" id="remove_{ID}" onclick="javascript: void(0); return false;">{REMOVE_BUTTON}</button>
 				<!-- BEGIN move -->
 				<button name="{CMD_UP}" class="matrixrowwizard_up btn btn-link" id="up_{ID}" onclick="javascript: void(0); return false;">{UP_BUTTON}</button>
 				<button name="{CMD_DOWN}" class="matrixrowwizard_down btn btn-link" id="down_{ID}" onclick="javascript: void(0); return false;">{DOWN_BUTTON}</button>
 				<!-- END move -->				
-			</div>
+			</td>
 
-		</div>
+		</tr>
 		<!-- END row -->
 		
-	</div>
+	</tbody>
+	
+	</table>
 	
 </div>

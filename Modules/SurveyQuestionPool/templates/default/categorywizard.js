@@ -30,7 +30,7 @@ function removeAllListeners(rootel)
 
 function reindexRows(rootel, postvar)
 {
-	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'row catwzd') ? true : false; }, 'div', rootel);
+	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'catwzd') ? true : false; }, 'tr', rootel);
 	var max = 0;
 	var scales = new Array();
 
@@ -145,7 +145,7 @@ function addRow(e, obj)
 	var rowclone = row.cloneNode(true);
 	cleanElements(rowclone);
 	
-	var trs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'row catwzd') ? true : false; }, 'div', tbody);
+	var trs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'catwzd') ? true : false; }, 'tr', tbody);
 	parentindex = 0;
 	for (i = 0; i < trs.length; i++)
 	{
@@ -169,7 +169,7 @@ function removeRow(e, obj)
 {
 	var row = this.parentNode.parentNode;
 	var tbody = row.parentNode;
-	var trs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'row catwzd') ? true : false; }, 'div', tbody);
+	var trs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'catwzd') ? true : false; }, 'tr', tbody);
 	if (trs.length == 1)
 	{
 		cleanElements(trs[0]);
@@ -186,7 +186,7 @@ function moveRowUp(e, obj)
 {
 	var row = this.parentNode.parentNode;
 	var tbody = row.parentNode;
-	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'row catwzd') ? true : false; }, 'div', tbody);
+	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'catwzd') ? true : false; }, 'tr', tbody);
 	foundindex = 0;
 	for (i = 0; i < rows.length; i++)
 	{
@@ -216,7 +216,7 @@ function moveRowDown(e, obj)
 {
 	var row = this.parentNode.parentNode;
 	var tbody = row.parentNode;
-	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'row catwzd') ? true : false; }, 'div', tbody);
+	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'catwzd') ? true : false; }, 'tr', tbody);
 	foundindex = 0;
 	for (i = 0; i < rows.length; i++)
 	{
