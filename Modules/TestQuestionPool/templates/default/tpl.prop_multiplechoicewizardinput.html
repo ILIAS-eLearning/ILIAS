@@ -1,4 +1,4 @@
-<div class="form-inline" id="{ELEMENT_ID}">
+<div id="{ELEMENT_ID}">
 	<table class="multiplechoicewizard">
 		<thead>
 			<tr>
@@ -51,11 +51,11 @@
 					<input type="text" style="text-align: right;" size="5" id="{POINTS_UNCHECKED_ID}" name="{POST_VAR}[points_unchecked][{ROW_NUMBER}]" <!-- BEGIN prop_points_unchecked_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_unchecked_propval -->{DISABLED_POINTS_UNCHECKED}/>
 				</td>
 				<td style="vertical-align: top;">
-					<button name="{CMD_ADD}" class="singlechoicewizard_add btn btn-link" id="add_{ID}" onclick="javascript: void(0); return false;">{ADD_BUTTON}</button>
-					<button name="{CMD_REMOVE}" class="singlechoicewizard_remove btn btn-link" id="remove_{ID}" onclick="javascript: void(0); return false;">{REMOVE_BUTTON}</button>
+					<button type="image" name="{CMD_ADD}" class="singlechoicewizard_add" id="add_{ID}" onclick="javascript: void(0); return false;">{ADD_BUTTON}</button>
+					<button type="image" name="{CMD_REMOVE}" class="singlechoicewizard_remove" id="remove_{ID}" onclick="javascript: void(0); return false;">{REMOVE_BUTTON}</button>
 <!-- BEGIN move -->
-					<button name="{CMD_UP}" class="singlechoicewizard_up btn btn-link" id="up_{ID}" onclick="javascript: void(0); return false;">{UP_BUTTON}</button>
-					<button name="{CMD_DOWN}" class="singlechoicewizard_down btn btn-link" id="down_{ID}" onclick="javascript: void(0); return false;">{DOWN_BUTTON}</button>
+					<button type="image" name="{CMD_UP}" class="singlechoicewizard_up" id="up_{ID}" onclick="javascript: void(0); return false;">{UP_BUTTON}</button>
+					<button type="image" name="{CMD_DOWN}" class="singlechoicewizard_down" id="down_{ID}" onclick="javascript: void(0); return false;">{DOWN_BUTTON}</button>
 <!-- END move -->
 				</td>
 			</tr>
