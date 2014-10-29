@@ -655,6 +655,7 @@ class ilForumTopic
 
 		$query = '
 			SELECT			fpt.depth,
+							fpt.rgt,
 							fpt.parent_pos,
 							fp.pos_pk,
 							fp.pos_subject,
@@ -715,8 +716,8 @@ class ilForumTopic
 			$query .= ' AND '.$this->db->in('fpt.parent_pos', $expandedNodes, false, 'integer').' ';	
 		}
 			
-
 		$query .= ' GROUP BY fpt.depth,
+							fpt.rgt,
 							fpt.parent_pos,
 							fp.pos_pk,
 							fp.pos_subject,
