@@ -1,10 +1,12 @@
 <?php
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 /**
  * Class ilObjBibliographic
  *
  * @author  Gabriel Comte
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version $Id: class.ilBibliographicEntry.php 2012-11-15 16:11:42Z gcomte $
  */
 class ilBibliographicEntry {
@@ -39,9 +41,36 @@ class ilBibliographicEntry {
 	 * @var string
 	 */
 	protected $file_type;
+	/**
+	 * @var ilBibliographicEntry[]
+	 */
+	protected static $instances = array();
 
 
-	function __construct($file_type, $entry_id = NULL) {
+	/**
+	 * @param      $file_type
+	 * @param null $entry_id
+	 *
+	 * @return ilBibliographicEntry
+	 */
+	public static function getInstance($file_type, $entry_id = NULL) {
+		if (!$entry_id) {
+			return new self($file_type, $entry_id);
+		}
+
+		if (!isset(self::$instances[$entry_id])) {
+			self::$instances[$entry_id] = new self($file_type, $entry_id);
+		}
+
+		return self::$instances[$entry_id];
+	}
+
+
+	/**
+	 * @param      $file_type
+	 * @param null $entry_id
+	 */
+	protected function __construct($file_type, $entry_id = NULL) {
 		$this->file_type = $file_type;
 		if ($entry_id) {
 			$this->setEntryId($entry_id);
@@ -60,8 +89,8 @@ class ilBibliographicEntry {
 		//auto-increment il_bibl_entry
 		$this->setEntryId($ilDB->nextID('il_bibl_entry'));
 		//table il_bibl_entry
-		$ilDB->manipulate("INSERT INTO il_bibl_entry " . "(data_id, id, type) VALUES (" .
-			$ilDB->quote($this->getBibliographicObjId(), "integer") . "," . // data_id
+		$ilDB->manipulate("INSERT INTO il_bibl_entry " . "(data_id, id, type) VALUES (" . $ilDB->quote($this->getBibliographicObjId(), "integer")
+			. "," . // data_id
 			$ilDB->quote($this->getEntryId(), "integer") . "," . // id
 			$ilDB->quote($this->getType(), "text") . // type
 			")");
@@ -69,8 +98,8 @@ class ilBibliographicEntry {
 		foreach ($this->getAttributes() as $attribute) {
 			//auto-increment il_bibl_attribute
 			$id = $ilDB->nextID('il_bibl_attribute');
-			$ilDB->manipulate("INSERT INTO il_bibl_attribute " . "(entry_id, name, value, id) VALUES (" .
-				$ilDB->quote($this->getEntryId(), "integer") . "," . // entry_id
+			$ilDB->manipulate("INSERT INTO il_bibl_attribute " . "(entry_id, name, value, id) VALUES (" . $ilDB->quote($this->getEntryId(), "integer")
+				. "," . // entry_id
 				$ilDB->quote($attribute['name'], "text") . "," . // name
 				$ilDB->quote($attribute['value'], "text") . "," . // value
 				$ilDB->quote($id, "integer") . // id
@@ -85,9 +114,7 @@ class ilBibliographicEntry {
 	function doRead() {
 		global $ilDB;
 		//table il_bibl_entry
-		$set = $ilDB->query("SELECT * FROM il_bibl_entry " .
-			" WHERE id = " . $ilDB->quote($this->getEntryId(), "integer")
-		);
+		$set = $ilDB->query("SELECT * FROM il_bibl_entry " . " WHERE id = " . $ilDB->quote($this->getEntryId(), "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			$this->setType($rec['type']);
 		}
@@ -102,13 +129,11 @@ class ilBibliographicEntry {
 	function doUpdate() {
 		global $ilDB;
 		//table il_bibl_entry
-		$ilDB->manipulate($up = "UPDATE il_bibl_entry SET " . " type = " .
-			$ilDB->quote($this->getType(), "integer") . // type
+		$ilDB->manipulate($up = "UPDATE il_bibl_entry SET " . " type = " . $ilDB->quote($this->getType(), "integer") . // type
 			" WHERE id = " . $ilDB->quote($this->getEntryId(), "integer"));
 		//table il_bibl_attribute
 		foreach ($this->getAttributes() as $attribute) {
-			$ilDB->manipulate($up = "UPDATE il_bibl_attribute SET " .
-				" name = " . $ilDB->quote($attribute['name'], "integer") . "," . // name
+			$ilDB->manipulate($up = "UPDATE il_bibl_attribute SET " . " name = " . $ilDB->quote($attribute['name'], "integer") . "," . // name
 				" value = " . $ilDB->quote($attribute['value'], "integer") . "," . // value
 				" WHERE id = " . $ilDB->quote($attribute['id'], "integer"));
 		}
@@ -123,8 +148,7 @@ class ilBibliographicEntry {
 		$this->emptyCache();
 		$this->deleteOptions();
 		$ilDB->manipulate("DELETE FROM il_bibl_entry WHERE id = " . $ilDB->quote($this->getEntryId(), "integer"));
-		$ilDB->manipulate("DELETE FROM il_bibl_attribute WHERE entry_id = "
-			. $ilDB->quote($this->getEntryId(), "integer"));
+		$ilDB->manipulate("DELETE FROM il_bibl_attribute WHERE entry_id = " . $ilDB->quote($this->getEntryId(), "integer"));
 	}
 
 
@@ -137,9 +161,7 @@ class ilBibliographicEntry {
 		global $ilDB;
 		$all_attributes = array();
 		//table il_bibl_attribute
-		$set = $ilDB->query("SELECT * FROM il_bibl_attribute " .
-			" WHERE entry_id = " . $ilDB->quote($this->getEntryId(), "integer")
-		);
+		$set = $ilDB->query("SELECT * FROM il_bibl_attribute " . " WHERE entry_id = " . $ilDB->quote($this->getEntryId(), "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			$all_attributes[$rec['name']] = $rec['value'];
 		}
@@ -161,11 +183,17 @@ class ilBibliographicEntry {
 	}
 
 
+	/**
+	 * @param $attributes
+	 */
 	public function setAttributes($attributes) {
 		$this->attributes = $attributes;
 	}
 
 
+	/**
+	 * @return string[]
+	 */
 	public function getAttributes() {
 		return $this->attributes;
 	}
@@ -175,11 +203,11 @@ class ilBibliographicEntry {
 		$attributes = $this->getAttributes();
 		//Get the model which declares which attributes to show in the overview table and how to show them
 		//example for overviewModels: $overviewModels['bib']['default'] => "[<strong>|bib_default_author|</strong>: ][|bib_default_title|. ]<Emph>[|bib_default_publisher|][, |bib_default_year|][, |bib_default_address|].</Emph>"
-		$overviewModels = ilObjBibliographic::__getAllOverviewModels();
+		$overviewModels = ilObjBibliographic::getAllOverviewModels();
 		//get design for specific entry type or get filetypes default design if type is not specified
 		$entryType = $this->getType();
 		//if there is no model for the specific entrytype (book, article, ....) the entry overview will be structured by the default entrytype from the given filetype (ris, bib, ...)
-		if (! $overviewModels[$this->file_type][$entryType]) {
+		if (!$overviewModels[$this->file_type][$entryType]) {
 			$entryType = 'default';
 		}
 		$single_entry = $overviewModels[$this->file_type][$entryType];
@@ -190,15 +218,14 @@ class ilBibliographicEntry {
 			//cut a moedel attribute like |bib_default_title|. in three pieces while $cuts[1] is the attribute key for the actual value and $cuts[0] is what comes before respectively $cuts[2] is what comes after the value if it is not empty.
 			$cuts = explode('|', $placeholder);
 			//if attribute key does not exist, because it comes from the default entry (e.g. ris_default_u2), we replace 'default' with the entrys type (e.g. ris_book_u2)
-			if (! $attributes[$cuts[1]]) {
+			if (!$attributes[$cuts[1]]) {
 				$attribute_elements = explode('_', $cuts[1]);
 				$attribute_elements[1] = strtolower($this->getType());
 				$cuts[1] = implode('_', $attribute_elements);
 			}
 			if ($attributes[$cuts[1]]) {
 				//if the attribute for the attribute key exists, replace one attribute in the overview text line of a single entry with its actual value and the text before and after the value given by the model
-				$single_entry = str_replace($placeholders[0][$key],
-					$cuts[0] . $attributes[$cuts[1]] . $cuts[2], $single_entry);
+				$single_entry = str_replace($placeholders[0][$key], $cuts[0] . $attributes[$cuts[1]] . $cuts[2], $single_entry);
 				// replace the <emph> tags with a span, in order to make text italic by css
 				do {
 					$first_sign_after_begin_emph_tag = strpos(strtolower($single_entry), '<emph>') + 6;
@@ -290,12 +317,10 @@ class ilBibliographicEntry {
 	 *
 	 * @return array
 	 */
-	static function __getAllEntries($object_id) {
+	static function getAllEntries($object_id) {
 		global $ilDB;
 		$entries = array();
-		$set = $ilDB->query("SELECT id FROM il_bibl_entry " .
-			" WHERE data_id = " . $ilDB->quote($object_id, "integer")
-		);
+		$set = $ilDB->query("SELECT id FROM il_bibl_entry " . " WHERE data_id = " . $ilDB->quote($object_id, "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			$entries[]['entry_id'] = $rec['id'];
 		}

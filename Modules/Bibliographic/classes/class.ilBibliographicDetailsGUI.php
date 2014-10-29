@@ -33,20 +33,16 @@ class ilBibliographicDetailsGUI {
 	public static function getInstance(ilObjBibliographic $bibl_obj, $entry_id) {
 		$obj = new self();
 		$obj->bibl_obj = $bibl_obj;
-		$obj->entry = new ilBibliographicEntry($obj->bibl_obj->getFiletype(), $entry_id);
+		$obj->entry = ilBibliographicEntry::getInstance($obj->bibl_obj->getFiletype(), $entry_id);
 
 		return $obj;
 	}
 
 
-	public function getHTML() {
-	}
-
-
 	/**
-	 * @deprecated
+	 * @return string
 	 */
-	public function showDetails() {
+	public function getHTML() {
 		global $tpl, $ilTabs, $ilCtrl, $lng;
 
 		$form = new ilPropertyFormGUI();
@@ -78,6 +74,7 @@ class ilBibliographicDetailsGUI {
 						$is_standard_field = ilRis::isStandardField($arrKey[2]);
 						break;
 				}
+//				var_dump($is_standard_field); // FSX
 				if ($is_standard_field) {
 					$strDescTranslated = $lng->txt($arrKey[0] . "_default_" . $arrKey[2]);
 				} else {
@@ -107,10 +104,10 @@ class ilBibliographicDetailsGUI {
 				. $set->getImageUrl() . '"></a>');
 			$form->addItem($ci);
 		}
-		// set content and title
-		$tpl->setContent($form->getHTML());
-		//Permanent Link
 		$tpl->setPermanentLink("bibl", $this->bibl_obj->getRefId(), "_" . $_GET[ilObjBibliographicGUI::P_ENTRY_ID]);
+		// set content and title
+		return $form->getHTML();
+		//Permanent Link
 	}
 	/**
 	 * generate URL to library

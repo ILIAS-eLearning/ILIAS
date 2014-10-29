@@ -382,7 +382,7 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 		global $ilAccess, $tpl, $lng;
 		if ($ilAccess->checkAccess('read', "", $this->object->getRefId())) {
 			$bibGUI = ilBibliographicDetailsGUI::getInstance($this->bibl_obj, $_GET[self::P_ENTRY_ID]);
-			$bibGUI->showDetails();
+			$this->tpl->setContent($bibGUI->getHTML());
 		} else {
 			ilUtil::sendFailure($this->lng->txt("no_permission"), true);
 			ilObjectGUI::_gotoRepositoryRoot();

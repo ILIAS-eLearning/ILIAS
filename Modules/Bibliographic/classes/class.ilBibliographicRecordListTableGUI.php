@@ -2,6 +2,7 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once './Services/Table/classes/class.ilTable2GUI.php';
+
 /**
  * Class ilDataCollectionField
  *
@@ -11,11 +12,15 @@ require_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
 
-	private $table;
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
 
 
-	/*
-	 * __construct
+	/**
+	 * @param ilObjBibliographicGUI $a_parent_obj
+	 * @param string                $a_parent_cmd
 	 */
 	public function  __construct(ilObjBibliographicGUI $a_parent_obj, $a_parent_cmd) {
 		global $lng, $ilCtrl;
@@ -24,41 +29,34 @@ class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
 		$this->setFormName('tbl_bibl_overview');
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->parent_obj = $a_parent_obj;
+		$this->ctrl = $ilCtrl;
 		//Number of records
 		$this->setEnableNumInfo(true);
+		$this->setShowRowsSelector(true);
 		// paging
-		$this->setLimit(15, 15);
+		//		$this->setLimit(15, 15);
 		//No row titles
+
 		$this->setEnableHeader(false);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.bibliographic_record_table_row.html", "Modules/Bibliographic");
 		// enable sorting by alphabet -- therefore an unvisible column 'content' is added to the table, and the array-key 'content' is also delivered in setData
 		$this->addColumn($lng->txt("a"), 'content', "auto");
-		foreach (ilBibliographicEntry::__getAllEntries($this->parent_obj->object->getId()) as $entry) {
-			$ilObjEntry = new ilBibliographicEntry($this->parent_obj->object->getFiletype(), $entry['entry_id']);
-			$entry['content'] = strip_tags($ilObjEntry->getOverwiew());
-			$entries[] = $entry;
-		}
+		$this->initData();
 		$this->setOrderField('content');
 		$this->setDefaultOrderField('content');
-		$this->setData($entries);
 	}
 
 
 	/**
-	 * fill row
-	 *
-	 * @access public
-	 *
-	 * @param $a_set
+	 * @param array $a_set
 	 */
 	public function fillRow($a_set) {
-		global $ilCtrl;
-		$ilObjEntry = new ilBibliographicEntry($this->parent_obj->object->getFiletype(), $a_set['entry_id']);
+		$ilObjEntry = ilBibliographicEntry::getInstance($this->parent_obj->object->getFiletype(), $a_set['entry_id']);
 		$this->tpl->setVariable("SINGLE_ENTRY", $ilObjEntry->getOverwiew());
 		//Detail-Link
-		$ilCtrl->setParameterByClass("ilObjBibliographicGUI", ilObjBibliographicGUI::P_ENTRY_ID, $a_set['entry_id']);
-		$this->tpl->setVariable("DETAIL_LINK", $ilCtrl->getLinkTargetByClass("ilObjBibliographicGUI", "showDetails"));
+		$this->ctrl->setParameter($this->parent_obj, ilObjBibliographicGUI::P_ENTRY_ID, $a_set['entry_id']);
+		$this->tpl->setVariable("DETAIL_LINK", $this->ctrl->getLinkTarget($this->parent_obj, "showDetails"));
 		// generate/render links to libraries
 		$settings = ilBibliographicSetting::getAll();
 		$arr_library_link = array();
@@ -68,14 +66,25 @@ class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
 					// default image
 					$set->setImageUrl(ilUtil::getImagePath('lib_link_def.gif'));
 				}
-				$arr_library_link[] = '<a target="_blank" href="'
-					. $set->generateLibraryLink($ilObjEntry, $this->parent_obj->object->getFiletype()) . '"><img src="'
+				$arr_library_link[] =
+					'<a target="_blank" href="' . $set->generateLibraryLink($ilObjEntry, $this->parent_obj->object->getFiletype()) . '"><img src="'
 					. $set->getImageUrl() . '"></a>';
 			}
 		}
 		if (count($arr_library_link)) {
 			$this->tpl->setVariable("LIBRARY_LINK", implode("<br/>", $arr_library_link));
 		}
+	}
+
+
+	protected function initData() {
+		$entries = array();
+		foreach (ilBibliographicEntry::getAllEntries($this->parent_obj->object->getId()) as $entry) {
+			$ilBibliographicEntry = ilBibliographicEntry::getInstance($this->parent_obj->object->getFiletype(), $entry['entry_id']);
+			$entry['content'] = strip_tags($ilBibliographicEntry->getOverwiew());
+			$entries[] = $entry;
+		}
+		$this->setData($entries);
 	}
 }
 

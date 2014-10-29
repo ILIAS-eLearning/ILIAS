@@ -81,8 +81,7 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	function doCreate() {
 		global $ilDB;
-		$ilDB->manipulate("INSERT INTO il_bibl_data " . "(id, filename, is_online) VALUES ("
-			. $ilDB->quote($this->getId(), "integer") . "," . // id
+		$ilDB->manipulate("INSERT INTO il_bibl_data " . "(id, filename, is_online) VALUES (" . $ilDB->quote($this->getId(), "integer") . "," . // id
 			$ilDB->quote($this->getFilename(), "text") . "," . // filename
 			$ilDB->quote($this->getOnline(), "integer") . // is_online
 			")");
@@ -93,7 +92,7 @@ class ilObjBibliographic extends ilObject2 {
 		global $ilDB;
 		$set = $ilDB->query("SELECT * FROM il_bibl_data " . " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {
-			if (! $this->getFilename()) {
+			if (!$this->getFilename()) {
 				$this->setFilename($rec["filename"]);
 			}
 			$this->setOnline($rec['is_online']);
@@ -106,14 +105,13 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	function doUpdate() {
 		global $ilDB;
-		if (! empty($_FILES['bibliographic_file']['name'])) {
+		if (!empty($_FILES['bibliographic_file']['name'])) {
 			$this->deleteFile();
 			$this->moveFile();
 		}
 		// Delete the object, but leave the db table 'il_bibl_data' for being able to update it using WHERE, and also leave the file
 		$this->doDelete(true, true);
-		$ilDB->manipulate("UPDATE il_bibl_data SET " . "filename = " . $ilDB->quote($this->getFilename(), "text") . ", "
-			. // filename
+		$ilDB->manipulate("UPDATE il_bibl_data SET " . "filename = " . $ilDB->quote($this->getFilename(), "text") . ", " . // filename
 			"is_online = " . $ilDB->quote($this->getOnline(), "integer") . // is_online
 			" WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 		$this->writeSourcefileEntriesToDb($this);
@@ -125,16 +123,15 @@ class ilObjBibliographic extends ilObject2 {
 	*/
 	function doDelete($leave_out_il_bibl_data = false, $leave_out_delete_file = false) {
 		global $ilDB;
-		if (! $leave_out_delete_file) {
+		if (!$leave_out_delete_file) {
 			$this->deleteFile();
 		}
 		//il_bibl_attribute
 		$ilDB->manipulate("DELETE FROM il_bibl_attribute WHERE il_bibl_attribute.entry_id IN "
-			. "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = "
-			. $ilDB->quote($this->getId(), "integer") . ");");
+			. "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = " . $ilDB->quote($this->getId(), "integer") . ");");
 		//il_bibl_entry
 		$ilDB->manipulate("DELETE FROM il_bibl_entry WHERE data_id = " . $ilDB->quote($this->getId(), "integer"));
-		if (! $leave_out_il_bibl_data) {
+		if (!$leave_out_il_bibl_data) {
 			//il_bibl_data
 			$ilDB->manipulate("DELETE FROM il_bibl_data WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 		}
@@ -154,7 +151,7 @@ class ilObjBibliographic extends ilObject2 {
 
 	public function moveFile($file_to_copy = false) {
 		$target_dir = $this->getFileDirectory();
-		if (! is_dir($target_dir)) {
+		if (!is_dir($target_dir)) {
 			ilUtil::makeDirParents($target_dir);
 		}
 		if ($_FILES['bibliographic_file']['name']) {
@@ -169,8 +166,8 @@ class ilObjBibliographic extends ilObject2 {
 		$target_full_filename = $target_dir . DIRECTORY_SEPARATOR . $filename;
 		//If there is no file_to_copy (which is used for clones), copy the file from the temporary upload directory (new creation of object).
 		//Therefore, a warning predicates nothing and can be suppressed.
-		if (@! copy($file_to_copy, $target_full_filename)) {
-			if (! empty($_FILES['bibliographic_file']['tmp_name'])) {
+		if (@!copy($file_to_copy, $target_full_filename)) {
+			if (!empty($_FILES['bibliographic_file']['tmp_name'])) {
 				ilUtil::moveUploadedFile($_FILES['bibliographic_file']['tmp_name'], $_FILES['bibliographic_file']['name'], $target_full_filename);
 			} else {
 				throw new Exception("The file delivered via the method argument file_to_copy could not be copied. The file '{$file_to_copy}' does probably not exist.");
@@ -194,8 +191,7 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	public function getFilePath($without_filename = false) {
 		global $ilDB;
-		$set = $ilDB->query("SELECT filename FROM il_bibl_data " . " WHERE id = "
-			. $ilDB->quote($this->getId(), "integer"));
+		$set = $ilDB->query("SELECT filename FROM il_bibl_data " . " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 		$rec = $ilDB->fetchAssoc($set);
 		{
 			if ($without_filename) {
@@ -236,7 +232,7 @@ class ilObjBibliographic extends ilObject2 {
 	}
 
 
-	static function __getAllOverviewModels() {
+	static function getAllOverviewModels() {
 		global $ilDB;
 		$set = $ilDB->query('SELECT * FROM il_bibl_overview_model');
 		while ($rec = $ilDB->fetchAssoc($set)) {
@@ -259,7 +255,7 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return bool
 	 */
 	protected static function __force_rmdir($path) {
-		if (! file_exists($path)) {
+		if (!file_exists($path)) {
 			return false;
 		}
 		if (is_file($path) || is_link($path)) {
@@ -270,7 +266,7 @@ class ilObjBibliographic extends ilObject2 {
 			$result = true;
 			$dir = new DirectoryIterator($path);
 			foreach ($dir as $file) {
-				if (! $file->isDot()) {
+				if (!$file->isDot()) {
 					$result &= self::__force_rmdir($path . $file->getFilename(), false);
 				}
 			}
@@ -327,7 +323,7 @@ class ilObjBibliographic extends ilObject2 {
 					foreach ($attribute as $author_key => $author) {
 						$lastname = array( $author['von'], $author['last'], $author['jr'] );
 						$attribute_string[$author_key] = implode(' ', array_filter($lastname));
-						if (! empty($author['first'])) {
+						if (!empty($author['first'])) {
 							$attribute_string[$author_key] .= ', ' . $author['first'];
 						}
 					}
@@ -437,7 +433,7 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * Attention only use this for objects who have not yet been created (use like: $x = new ilObjDataCollection; $x->cloneStructure($id))
+	 * @description Attention only use this for objects who have not yet been created (use like: $x = new ilObjDataCollection; $x->cloneStructure($id))
 	 *
 	 * @param $original_id The original ID of the dataselection you want to clone it's structure
 	 *
@@ -454,6 +450,11 @@ class ilObjBibliographic extends ilObject2 {
 	}
 
 
+	/**
+	 * @param $input
+	 * @deprecated
+	 * @return string
+	 */
 	protected static function __removeSpacesAndDashesAtBeginning($input) {
 		for ($i = 0; $i < strlen($input); $i ++) {
 			if ($input[$i] != " " && $input[$i] != "-") {
@@ -490,8 +491,7 @@ class ilObjBibliographic extends ilObject2 {
 				}
 				// reduce the attribute strings to a maximum of 4000 (ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) characters, in order to fit in the database
 				if (mb_strlen($attribute, 'UTF-8') > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) {
-					$attribute = mb_substr($attribute, 0,
-							self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3, 'UTF-8') . '...';
+					$attribute = mb_substr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3, 'UTF-8') . '...';
 				}
 				// ty (RIS) or entryType (BIB) is the type and is treated seperately
 				if (strtolower($key) == 'ty' || strtolower($key) == 'entrytype') {
@@ -504,7 +504,7 @@ class ilObjBibliographic extends ilObject2 {
 				$parsed_entry[$x ++]['value'] = $attribute;
 			}
 			//create the entry and fill data into database by executing doCreate()
-			$entry_model = new ilBibliographicEntry($this->getFiletype());
+			$entry_model = ilBibliographicEntry::getInstance($this->getFiletype());
 			$entry_model->setType($type);
 			$entry_model->setAttributes($parsed_entry);
 			$entry_model->setBibliographicObjId($this->getId());
@@ -514,23 +514,17 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * Set Online.
-	 *
-	 * @param    boolean $a_online Online
-	 *
-	 * @return    void
+	 * @param $a_online
 	 */
-	function setOnline($a_online) {
+	public function setOnline($a_online) {
 		$this->is_online = $a_online;
 	}
 
 
 	/**
-	 * Get Online.
-	 *
-	 * @return    boolean    Online
+	 * @return is_online
 	 */
-	function getOnline() {
+	public function getOnline() {
 		return $this->is_online;
 	}
 }

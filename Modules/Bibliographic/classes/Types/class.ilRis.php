@@ -101,7 +101,7 @@ class ilRis {
 	 * @return bool
 	 */
 	public static function isStandardField($field_name) {
-		return in_array($field_name, self::$standard_fields);
+		return in_array(strtoupper($field_name), self::$standard_fields);
 	}
 
 
@@ -111,7 +111,7 @@ class ilRis {
 	 * @return bool
 	 */
 	public static function isEntryType($entry_ype) {
-		return in_array($entry_ype, self::$entry_types);
+		return in_array(strtoupper($entry_ype), self::$entry_types);
 	}
 }
 
