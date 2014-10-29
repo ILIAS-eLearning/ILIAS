@@ -27,6 +27,9 @@ class ilUserQuery
 	private $additional_fields = array();
 	private $users = array();
 	private $first_letter = '';
+	// gev-patch start
+	private $owner = null;
+	// gev-patch end
 	
 	private $default_fields = array(
 		"usr_id", 
@@ -201,6 +204,13 @@ class ilUserQuery
 		$this->first_letter = $a_fll;
 	}
 	
+	// gev-patch start
+	public function setOwner($a_owner) {
+		$this->owner = $a_owner;
+	}
+	// gev-patch end
+	
+	
 	/**
 	 * Query usr_data
 	 * @return array ('cnt', 'set') 
@@ -230,7 +240,10 @@ class ilUserQuery
 		}		
 		// count query
 		$count_query = "SELECT count(usr_id) cnt".
-			" FROM usr_data";
+			" FROM usr_data".
+			// gev-patch start
+			" JOIN object_data ON obj_id = usr_id ";
+			// gev-patch end
 		
 		$sql_fields = array();
 		foreach($this->default_fields as $idx => $field)
@@ -253,6 +266,9 @@ class ilUserQuery
 		// basic query
 		$query = "SELECT ".implode($sql_fields, ",").
 			" FROM usr_data".
+			// gev-patch start
+			" JOIN object_data ON obj_id = usr_id ".
+			// gev-patch end
 			$ut_join;
 			
 		// filter
@@ -370,6 +386,13 @@ class ilUserQuery
 			$query.= $add;
 			$count_query.= $add;
 			$where = " AND";
+		}
+		
+		if($this->owner !== null) {
+			$add = $where." owner = ".$ilDB->quote($this->owner, "integer");
+			$query .= $add;
+			$count_query .= $add;
+			$where = " AND ";
 		}
 
 		// order by
