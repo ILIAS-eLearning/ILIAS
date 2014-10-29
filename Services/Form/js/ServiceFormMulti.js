@@ -11,23 +11,23 @@ var ilMultiFormValues = {
 	 */
 	init: function() {		
 		// add click event to +-icons
-		$('input:image[id*="ilMultiAdd"]').bind('click', function(e) {
+		$('button[id*="ilMultiAdd"]').bind('click', function(e) {
 			ilMultiFormValues.addEvent(e);
 		});
 		// add click event to --icons
-		$('input:image[id*="ilMultiRmv"]').bind('click', function(e) {
+		$('button[id*="ilMultiRmv"]').bind('click', function(e) {
 			ilMultiFormValues.removeEvent(e);
 		});		
 		// add click event to down-icons
-		$('input:image[id*="ilMultiDwn"]').bind('click', function(e) {
+		$('button[id*="ilMultiDwn"]').bind('click', function(e) {
 			ilMultiFormValues.downEvent(e);
 		});
 		// add click event to up-icons
-		$('input:image[id*="ilMultiUp"]').bind('click', function(e) {
+		$('button[id*="ilMultiUp"]').bind('click', function(e) {
 			ilMultiFormValues.upEvent(e);
 		});				
 		// return triggers add  (BEFORE adding preset items) 
-		$('input:image[id*="ilMultiAdd"]').each(function() {						
+		$('button[id*="ilMultiAdd"]').each(function() {						
 			var id = $(this).attr('id').split('~');	
 			// only text inputs are supported yet
 			$('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]').find('input:text[id*="' + id[1] + '"]').bind('keydown', function(e) {

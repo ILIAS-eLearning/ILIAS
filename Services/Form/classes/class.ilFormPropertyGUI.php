@@ -445,10 +445,11 @@ class ilFormPropertyGUI
 		{
 			$tpl->setCurrentBlock("addremove");
 			$tpl->setVariable("ID", $id);
-			$tpl->setVariable("SRC_ADD", ilUtil::getImagePath('edit_add.png'));
 			$tpl->setVariable("TXT_ADD", $lng->txt("add"));
-			$tpl->setVariable("SRC_REMOVE", ilUtil::getImagePath('edit_remove.png'));
 			$tpl->setVariable("TXT_REMOVE", $lng->txt("remove"));
+			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+			$tpl->setVariable("SRC_ADD", ilGlyphGUI::get(ilGlyphGUI::ADD));
+			$tpl->setVariable("SRC_REMOVE", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
 			$tpl->parseCurrentBlock();
 		}
 		
@@ -456,11 +457,12 @@ class ilFormPropertyGUI
 		{
 			
 			$tpl->setCurrentBlock("sortable");
-			$tpl->setVariable("ID", $id);
-			$tpl->setVariable("SRC_DOWN", ilUtil::getImagePath('icon_down_s.png'));
-			$tpl->setVariable("TXT_DOWN", $lng->txt("down"));
-			$tpl->setVariable("SRC_UP", ilUtil::getImagePath('icon_up_s.png'));
-			$tpl->setVariable("TXT_UP", $lng->txt("up"));
+			$tpl->setVariable("ID", $id);			
+			$tpl->setVariable("TXT_DOWN", $lng->txt("down"));		
+			$tpl->setVariable("TXT_UP", $lng->txt("up"));			
+			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+			$tpl->setVariable("SRC_UP", ilGlyphGUI::get(ilGlyphGUI::UP));
+			$tpl->setVariable("SRC_DOWN", ilGlyphGUI::get(ilGlyphGUI::DOWN));			
 			$tpl->parseCurrentBlock();
 		}
 		
