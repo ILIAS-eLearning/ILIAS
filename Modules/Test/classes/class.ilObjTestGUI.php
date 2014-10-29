@@ -3292,8 +3292,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "print"));
 		$this->ctrl->setParameter($this, "pdf", "");
 		$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-		$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
-		$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
 		$template->parseCurrentBlock();
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
@@ -3374,8 +3372,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "review"));
 		$this->ctrl->setParameter($this, "pdf", "");
 		$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-		$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
-		$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
 		$template->parseCurrentBlock();
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");

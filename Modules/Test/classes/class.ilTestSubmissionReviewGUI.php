@@ -127,8 +127,6 @@ class ilTestSubmissionReviewGUI
 		{
 			$template->setCurrentBlock("pdf_export");
 			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-			$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
-			$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
 			global $ilSetting;
 			$inst_id = $ilSetting->get('inst_id', null);
 			$path =  ilUtil::getWebspaceDir() . '/assessment/'. $this->testOutputGUI->object->getId() . '/exam_pdf';

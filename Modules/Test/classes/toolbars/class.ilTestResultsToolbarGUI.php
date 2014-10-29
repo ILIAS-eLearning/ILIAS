@@ -109,10 +109,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 
 	private function getPdfExportLabel()
 	{
-		$src = ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png"));
-		$img = '<img src="'.$src.'" style="height: 14px; position:relative; top: -1px; margin-right: 3px;" />';
-
-		return $img . $this->lng->txt('pdf_export');
+		return $this->lng->txt('pdf_export');
 	}
 
 	public function setPdfExportLinkTarget($pdfExportLinkTarget)
