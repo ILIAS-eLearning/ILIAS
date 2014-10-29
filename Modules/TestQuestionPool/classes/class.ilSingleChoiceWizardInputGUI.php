@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+
 /**
 * This class represents a single choice wizard property in a property form.
 *
@@ -433,8 +435,8 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 				$tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
 				$tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
 				$tpl->setVariable("ID", $this->getPostVar() . "[$i]");
-				$tpl->setVariable("UP_BUTTON", ilUtil::getImagePath('a_up.png'));
-				$tpl->setVariable("DOWN_BUTTON", ilUtil::getImagePath('a_down.png'));
+				$tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
+				$tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
 				$tpl->parseCurrentBlock();
 			}
 			if ($this->getShowPoints())
@@ -459,8 +461,8 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 			{
 				$tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
 			}
-			$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
-			$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
+			$tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
+			$tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
 			$tpl->parseCurrentBlock();
 			$i++;
 		}

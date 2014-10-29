@@ -228,8 +228,8 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 				$tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][{$value->getPosition()}]");
 				$tpl->setVariable("UP_ID", "up_{$this->getPostVar()}[{$value->getPosition()}]");
 				$tpl->setVariable("DOWN_ID", "down_{$this->getPostVar()}[{$value->getPosition()}]");
-				$tpl->setVariable("UP_BUTTON", ilUtil::getImagePath('a_up.png'));
-				$tpl->setVariable("DOWN_BUTTON", ilUtil::getImagePath('a_down.png'));
+				$tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
+				$tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
 				$tpl->parseCurrentBlock();
 			}
 			
