@@ -667,8 +667,8 @@ assessment#:#manscoring_select_user#:#Bitte wählen Sie einen Teilnehmer aus, de
 assessment#:#mark_schema#:#Notenschema
 assessment#:#grading_status_passed_msg#:#Herzlichen Glückwunsch! Sie haben den Test <b>bestanden</b>.
 assessment#:#grading_status_failed_msg#:#Schade, leider haben Sie den Test <b>nicht bestanden</b>.
-assessment#:#grading_obligations_answered_msg#:#Alle obligatorischen Fragen wurden beantwortet.
-assessment#:#grading_obligations_missing_msg#:#Nicht alle obligatorischen Fragen wurden beantwortet.
+assessment#:#grading_obligations_answered_msg#:#Alle verpflichtenden Fragen wurden beantwortet.
+assessment#:#grading_obligations_missing_msg#:#Nicht alle verpflichtenden Fragen wurden beantwortet.
 assessment#:#grading_mark_msg#:#Sie haben die Note &quot;[mark]&quot; erzielt.
 assessment#:#mark_tst_ects#:#Ihre ECTS-Note lautet &quot;[markects]&quot;
 assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
@@ -861,7 +861,7 @@ assessment#:#question_not_answered#:#Die Frage wurde nicht beantwortet
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
 assessment#:#question_summary#:#Fragenübersicht
-assessment#:#obligations_summary#:#Übersicht obligatorischer Fragen
+assessment#:#obligations_summary#:#Übersicht verpflichtender Fragen
 assessment#:#tst_you_have_to_answer_this_question#:#Diese Frage muss beantwortet werden, um den Test beenden zu können.
 assessment#:#question_title#:#Fragentitel
 assessment#:#question_type#:#Fragetyp
@@ -905,11 +905,11 @@ assessment#:#save_previous#:#Zurück
 assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern
 assessment#:#saveOrder#:#Sortierung abspeichern
 assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
-assessment#:#obligatory#:#Obligatorisch
-assessment#:#not_all_obligations_answered#:#Sie müssen alle obligatorischen Fragen beantworten bevor Sie den Test abschließen können.
-assessment#:#tst_setting_enable_obligations_label#:#Obligatorische Fragen
-assessment#:#tst_setting_enable_obligations_info#:#Wählen Sie diese Option aus, um obligatorische Fragen (*) einzusetzen. Um den Test zu bestehen, ist das Beantworten aller verpflichtenden Fragen notwendig. Obligatorische Fragen werden in der "Listenansicht" definiert. Wir empfehlen beim Einsatz von obligatorischen Fragen die "Fragenübersicht" ebenfalls zu aktivieren.
-assessment#:#tst_test_contains_obligatory_questions#:#Um diesen Test beenden zu können, müssen Sie alle obligatorischen Fragen (*) beantworten.
+assessment#:#obligatory#:#Verpflichtend
+assessment#:#not_all_obligations_answered#:#Sie müssen alle verpflichtenden Fragen beantworten, bevor Sie den Test abschließen können.
+assessment#:#tst_setting_enable_obligations_label#:#Verpflichtende Fragen
+assessment#:#tst_setting_enable_obligations_info#:#Wählen Sie diese Option aus, um verpflichtende Fragen (*) einzusetzen. Um den Test zu bestehen, ist das Beantworten aller verpflichtenden Fragen notwendig. Verpflichtende Fragen werden in der "Listenansicht" definiert. Daher sollte die Option "Fragenübersicht" aktiviert werden.
+assessment#:#tst_test_contains_obligatory_questions#:#Um diesen Test beenden zu können, müssen Sie alle verpflichtenden Fragen (*) beantworten.
 assessment#:#scored_pass#:#Bewerteter Durchlauf
 assessment#:#scoring#:#Auswertung
 assessment#:#search_found_groups#:#Gefundene Gruppen
@@ -7595,12 +7595,12 @@ exc#:#exc_import#:#Übung importieren
 exc#:#exc_list_submission#:#Alle Lösungsabgaben
 exc#:#exc_mail_permanent_link#:#Der folgende Link leitet weiter zur Übung:
 exc#:#exc_manage#:#Editieren
-exc#:#exc_mandatory#:#Obligatorisch
-exc#:#exc_mandatory_info#:#Obligatorische Übungseinheiten müssen bestanden werden, um die ganze Übung zu bestehen.
+exc#:#exc_mandatory#:#Verpflichtend
+exc#:#exc_mandatory_info#:#Verpflichtende Übungseinheiten müssen bestanden werden, um die ganze Übung zu bestehen.
 exc#:#exc_min_nr#:#Anzahl Übungseinheiten
-exc#:#exc_msg_all_mandatory_ass#:#Sie müssen alle obligatorischen Übungseinheiten bestehen um die Übung zu bestehen.
+exc#:#exc_msg_all_mandatory_ass#:#Sie müssen alle verpflichtenden Übungseinheiten bestehen, um die Übung als ganze zu bestehen.
 exc#:#exc_msg_failed_mandatory#:#Sie haben mindestens eine obgligatorische Übungseinheit nicht bestanden.
-exc#:#exc_msg_min_number_ass#:#Sie müssen mindestens %s Übungseinheiten bestehen um die Übung zu bestehen.
+exc#:#exc_msg_min_number_ass#:#Sie müssen mindestens %s Übungseinheiten bestehen, um die Übung zu bestehen.
 exc#:#exc_msg_missed_minimum_number#:#Sie haben die Mindestanzahl an Übungseinheiten nicht bestanden.
 exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde eine neue Feedback-Datei zur Übung "%s" hinzugefügt.
 exc#:#exc_msg_new_feedback_file_uploaded2#:#Eine neue Feedback-Datei wurde für Sie hochgeladen.
@@ -7615,8 +7615,8 @@ exc#:#exc_order_by_deadline#:#Nach Abgabetermin sortieren
 exc#:#exc_overview#:#Übersicht
 exc#:#exc_participant#:#Teilnehmer
 exc#:#exc_participant_view#:#Je Teilnehmer
-exc#:#exc_pass_all#:#Nur obligatorische Übungseinheiten
-exc#:#exc_pass_all_info#:#Teilnehmer müssen alle obligatorischen Übungseinheiten bestehen, um die gesamte Übung zu bestehen.
+exc#:#exc_pass_all#:#Nur verpflichtende Übungseinheiten
+exc#:#exc_pass_all_info#:#Teilnehmer müssen alle verpflichtenden Übungseinheiten bestehen, um die gesamte Übung zu bestehen.
 exc#:#exc_pass_minimum_nr#:#Mindestanzahl an Übungseinheiten
 exc#:#exc_pass_minimum_nr_info#:#Teilnehmer müssen eine Mindestanzahl an Übungseinheiten bestehen, um die gesamte Übung zu bestehen.
 exc#:#exc_pass_mode#:#Anforderung
@@ -9966,9 +9966,9 @@ rbac#:#perm_use_local_policy_desc#:#Wenn die lokale Zugriffsregelung aktiviert i
 rbac#:#precondition_not_obligatory_alt#:#Die Vorbedingung ist optional
 rbac#:#precondition_num_obligatory#:#Anzahl benötigter Materialien
 rbac#:#precondition_num_optional_info#:#Bitte geben Sie die minimale Anzahl der Materialien an, die notwendig ist, um die Vorbedingung zu erfüllen.
-rbac#:#precondition_obligatory#:#Obligatorisch
+rbac#:#precondition_obligatory#:#Verpflichtend
 rbac#:#precondition_obligatory_alt#:#Die Vorbedingung muss erfüllt werden
-rbac#:#precondition_obligatory_info#:#Obligatorische Vorbedingen müssen erfüllt werden, um Zugriff zu erlangen.
+rbac#:#precondition_obligatory_info#:#Verpflichtende Vorbedingungen müssen erfüllt werden, um Zugriff zu erhalten.
 rbac#:#precondition_obligatory_settings#:#Einstellungen für Vorbedingungen
 rbac#:#prfa_edit_permission#:#Rechteeinstellungen in Portfolio-Administration ändern
 rbac#:#prfa_read#:#Lesezugriff auf Portfolio-Administration
@@ -10130,7 +10130,7 @@ registration#:#reg_confirmation_hash_life_time_expired#:#Der Bestätigungslink i
 registration#:#reg_confirmation_hash_life_time_info#:#Geben Sie die Gültigkeitsdauer des Bestätigungslinks (in Sekunden) an. Empfohlener Wert sind 1800 Sekunden.
 registration#:#reg_confirmation_hash_not_found#:#Dieser Bestätigungslink passt zu keinem Benutzerkonto.
 registration#:#reg_confirmation_hash_not_passed#:#Der Bestätigungslink wurde nicht vollständig übergeben.
-registration#:#reg_confirmation_link_successful#:#Sie haben sich erfolgreich bei ILIAS registriert. Sie müssen Ihr Benutzerkonto durch Klicken des Bestätigungslink aktivieren um dieses zu aktivieren.<br />Sie werden in 20 Sekunden zur <a href="%s" title="Loginseite">Loginseite</a> weitergeleitet.
+registration#:#reg_confirmation_link_successful#:#Sie haben sich erfolgreich bei ILIAS registriert. Jetzt müssen Sie noch Ihr Benutzerkonto aktivieren. Dazu wurde Ihnen soeben eine E-Mail mit einem Bestätigungslink geschickt. Bitte klicken Sie innerhalb der nächsten Minuten auf den Bestätigungslink, um Ihr Benutzerkonto zu aktivieren. Danach können Sie sich in ILIAS einloggen.
 registration#:#reg_default#:#Standard
 registration#:#reg_deleted_assignment#:#Die Zuordnungen wurde(n) gelöscht.
 registration#:#reg_direct#:#Direkte Anmeldung
@@ -13995,9 +13995,9 @@ rbac#:#rbac_copy_role_add_perm#:#Rechte hinzufügen
 rbac#:#rbac_copy_role_remove_perm#:#Rechte entfernen
 rbac#:#rbac_copy_role_copy#:#Rechte kopieren
 common#:#ps_password_lowercase_chars_num#:#Kleinbuchstaben
-common#:#ps_password_lowercase_chars_num_info#:#Tragen Sie hier die Anzahl der Kleinbuchstaben ein, die in einem Benutzerpasswort enthalten sein müssen. Der Wert 0 eingetragen wird, sind Kleinbuchstaben im Passwort nicht obligatorisch.
+common#:#ps_password_lowercase_chars_num_info#:#Tragen Sie hier die Anzahl der Kleinbuchstaben ein, die in einem Benutzerpasswort enthalten sein müssen. Ist der Wert 0 eingetragen, sind Kleinbuchstaben im Passwort nicht verpflichtend.
 common#:#ps_password_uppercase_chars_num#:#Großbuchstaben
-common#:#ps_password_uppercase_chars_num_info#:#Tragen Sie hier die Anzahl der Großbuchstaben ein, die in einem Benutzerpasswort enthalten sein müssen. Der Wert 0 eingetragen wird, sind Großbuchstaben im Passwort nicht obligatorisch.
+common#:#ps_password_uppercase_chars_num_info#:#Tragen Sie hier die Anzahl der Großbuchstaben ein, die in einem Benutzerpasswort enthalten sein müssen. Ist der Wert 0 eingetragen, sind Großbuchstaben im Passwort nicht verpflichtend.
 common#:#ps_password_must_not_contain_loginame#:#Benutzernamen im Passwort verhindern
 common#:#ps_password_must_not_contain_loginame_info#:#Falls aktiviert, darf der Benutzername nicht Teil des Passworts sein.
 common#:#password_contains_parts_of_login_err#:#Das von Ihnen gewählte Passwort enthält Teile des Benutzernamens. Bitte tragen Sie ein anderes Passwort ein.
@@ -14464,7 +14464,7 @@ content#:#glo_show_taxonomy_info#:#Die Taxonomie wird in der Präsentationsansic
 exc#:#exc_notification#:#Persönliche Benachrichtigung
 exc#:#exc_passing_exc#:#Bestehen der Übung
 exc#:#exc_publishing#:#Veröffentlichung
-exc#:#exc_min_nr_info#:#Dieser Wert muss mindestens so hoch sein, wie die Anzahl der obligatorischen Übungseinheiten.
+exc#:#exc_min_nr_info#:#Dieser Wert muss mindestens so hoch sein, wie die Anzahl der verpflichtenden Übungseinheiten.
 exc#:#exc_passed_status_determination#:#Bestimmung des Status "Bestanden"
 exc#:#exc_completion_by_tutor#:#Nur manuell durch Tutor
 exc#:#exc_your_text#:#Ihr Text
