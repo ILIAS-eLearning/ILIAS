@@ -240,7 +240,9 @@ class ilUserTableGUI extends ilTable2GUI
 		$query->setUserFolder($user_filter);
 		$query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter']));
 		// gev-patch start
-		$query->setOwner($ilUser->getId());
+		if ($this->getMode() == self::MODE_LOCAL_USER) {
+			$query->setOwner($ilUser->getId());
+		}
 		// gev-patch end
 		
 		$usr_data = $query->query();
