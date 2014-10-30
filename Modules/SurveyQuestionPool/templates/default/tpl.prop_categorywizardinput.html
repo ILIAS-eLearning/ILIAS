@@ -4,7 +4,7 @@
 	
 	<thead>
         <tr>
-			<th>{ANSWER_TEXT}<!-- BEGIN wizard --> <input type="submit" class="btn btn-default" name="{CMD_WIZARD}" value="{WIZARD_TEXT}" /><!-- END wizard --></th>
+			<th>{ANSWER_TEXT}</th>
 			<!-- BEGIN other_answer_title -->
 			<th>{OTHER_TEXT}</th>
 			<!-- END other_answer_title -->
@@ -28,7 +28,7 @@
 			<td class="form-inline">
 				<input type="text" class="form-control" style="text-align: right;" size="3" id="{SCALE_ID}" name="{POST_VAR}[scale][{ROW_NUMBER}]" <!-- BEGIN prop_scale_propval -->value="{PROPERTY_VALUE}" <!-- END prop_scale_propval -->{DISABLED_SCALE} />
 			</td>
-			<td>				
+			<td class="text-nowrap">				
 				<button name="{CMD_ADD}" class="categorywizard_add btn btn-link" id="add_{ID}" onclick="javascript: void(0); return false;" >{ADD_BUTTON}</button>
 				<button name="{CMD_REMOVE}" class="categorywizard_remove btn btn-link" id="remove_{ID}" onclick="javascript: void(0); return false;">{REMOVE_BUTTON}</button>
 				<!-- BEGIN move -->
@@ -69,13 +69,17 @@
 		<!-- END neutral_row -->
 	
 		</tbody>
-   </table>
+    </table>
 	
-	<!-- BEGIN savephrase -->	
-	<div class="row">
-		<div class="col-sm-12">		
-			<input type="submit" class="btn btn-default" name="cmd[savePhrase]" value="{VALUE_SAVE_PHRASE}" />
-		</div>
+	<!-- BEGIN phrases_bl -->
+	<div>		
+		<!-- BEGIN wizard -->	
+		<input type="submit" class="btn btn-default" name="{CMD_WIZARD}" value="{WIZARD_TEXT}" />
+		<!-- END wizard -->	
+		<!-- BEGIN savephrase -->	
+		<input type="submit" class="btn btn-default" name="cmd[savePhrase]" value="{VALUE_SAVE_PHRASE}" />
+		<!-- END savephrase -->	
 	</div>
-	<!-- END savephrase -->
+	<!-- END phrases_bl -->
+	
 </div>

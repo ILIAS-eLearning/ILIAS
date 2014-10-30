@@ -132,7 +132,7 @@ function rowWizardAddRow(e, obj)
 	{
 		tbody.insertBefore(rowclone, trs[parentindex]);
 	}
-	rowWizardReindexRows(tbody, tbody.parentNode.id);
+	rowWizardReindexRows(tbody, tbody.parentNode.parentNode.id);
 	var textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', rowclone);
 	textinputs[0].focus();
 	return false;
@@ -151,7 +151,7 @@ function rowWizardRemoveRow(e, obj)
 	{
 		tbody.removeChild(row);
 		rowWizardRemoveListeners(tbody);
-		rowWizardReindexRows(tbody, tbody.parentNode.id);
+		rowWizardReindexRows(tbody, tbody.parentNode.parentNode.id);
 	}
 }
 
@@ -181,7 +181,7 @@ function rowWizardMoveRowUp(e, obj)
 		{
 			tbody.appendChild(rows[j]);
 		}
-		rowWizardReindexRows(tbody, tbody.parentNode.id);
+		rowWizardReindexRows(tbody, tbody.parentNode.parentNode.id);
 	}
 }
 
@@ -211,7 +211,7 @@ function rowWizardMoveRowDown(e, obj)
 		{
 			tbody.appendChild(rows[j]);
 		}
-		rowWizardReindexRows(tbody, tbody.parentNode.id);
+		rowWizardReindexRows(tbody, tbody.parentNode.parentNode.id);
 	}
 }
 
