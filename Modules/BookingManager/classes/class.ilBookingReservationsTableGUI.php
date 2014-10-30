@@ -221,6 +221,12 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 				}				
 			}
 		}
+		
+		// #14411
+		if(!$this->has_schedule)
+		{
+			$data['data'] = ilUtil::sortArray($data['data'], "title", "asc");
+		}
 				
 		$this->setData($data['data']);
 		$this->setMaxCount($data['counter']);
