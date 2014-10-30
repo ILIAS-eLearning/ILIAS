@@ -89,8 +89,8 @@ var ilMatrixRowWizardInput = {
 			
 			// scale
 			$(this).find('input:text[id*="[label]"]').each(function() {				
-				$(this).attr('id', postvar + '[scale][' + rowindex + ']');
-				$(this).attr('name', postvar + '[scale][' + rowindex + ']');											
+				$(this).attr('id', postvar + '[label][' + rowindex + ']');
+				$(this).attr('name', postvar + '[label][' + rowindex + ']');											
 			});
 			
 			// other
