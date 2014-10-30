@@ -114,44 +114,19 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 	*/
 	function poolSelection()
 	{
-		global $ilCtrl, $tree, $tpl, $ilTabs;
+		global $tpl;
 
 //		$this->getTabs($ilTabs, true);
 //		$ilTabs->setSubTabActive("cont_mob_from_media_pool");
 
 		include_once "./Services/COPage/classes/class.ilPoolSelectorGUI.php";
-		$exp = new ilPoolSelectorGUI($this->ctrl->getLinkTarget($this, "insert"));
-		$exp->setContentGUIClass(get_class($this));
-		if ($_GET["expand"] == "")
-		{
-			$expanded = $tree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET["expand"];
-		}
-		$exp->setExpand($expanded);
+		$exp = new ilPoolSelectorGUI($this, "poolSelection");
 
-		$exp->setTargetGet("sel_id");
-		$this->ctrl->setParameter($this, "target_type", $a_type);
-		$ilCtrl->setParameter($this, "subCmd", "poolSelection");
-		$exp->setParamsGet($this->ctrl->getParameterArray($this, "insert"));
-		
 		// filter
-		$exp->setFiltered(true);
-		$exp->setFilterMode(IL_FM_POSITIVE);
-		$exp->addFilter("root");
-		$exp->addFilter("cat");
-		$exp->addFilter("grp");
-		$exp->addFilter("fold");
-		$exp->addFilter("crs");
-		$exp->addFilter("mep");
+		$exp->setTypeWhiteList(array("root", "cat", "grp", "fold", "crs", "mep"));
+		$exp->setClickableTypes(array('mep'));
 
-		$sel_types = array('mep');
-
-		$exp->setOutput(0);
-
-		$tpl->setContent($exp->getOutput());
+		$tpl->setContent($exp->getHTML());
 	}
 
 	/**

@@ -497,43 +497,17 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	function poolSelection()
 	{
 		global $ilCtrl, $tree, $tpl, $ilTabs;
-		
+
 		$this->setInsertTabs("copy_question");
 
 		include_once "./Services/COPage/classes/class.ilPoolSelectorGUI.php";
+		$exp = new ilPoolSelectorGUI($this, "poolSelection");
 
-		$exp = new ilPoolSelectorGUI($ilCtrl->getLinkTarget($this, "insert"));
-
-		if ($_GET["expand"] == "")
-		{
-			$expanded = $tree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET["expand"];
-		}
-		$exp->setExpand($expanded);
-
-		$exp->setTargetGet("sel_id");
-		$ilCtrl->setParameter($this, "target_type", $a_type);
-		$ilCtrl->setParameter($this, "subCmd", "poolSelection");
-		$exp->setParamsGet($this->ctrl->getParameterArray($this, "insert"));
-		
 		// filter
-		$exp->setFiltered(true);
-		$exp->setFilterMode(IL_FM_POSITIVE);
-		$exp->addFilter("root");
-		$exp->addFilter("cat");
-		$exp->addFilter("grp");
-		$exp->addFilter("fold");
-		$exp->addFilter("crs");
-		$exp->addFilter("qpl");
-		$exp->setContentGUIClass("ilpcquestiongui");
-		$exp->setSelectableTypes(array('qpl'));
+		$exp->setTypeWhiteList(array("root", "cat", "grp", "fold", "crs", "qpl"));
+		$exp->setClickableTypes(array('qpl'));
 
-		$exp->setOutput(0);
-
-		$tpl->setContent($exp->getOutput());
+		$tpl->setContent($exp->getHTML());
 	}
 	
 	/**

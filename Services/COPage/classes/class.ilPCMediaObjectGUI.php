@@ -330,7 +330,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function poolSelection($a_change_obj_ref = false)
 	{
-		global $ilCtrl, $tree, $tpl, $ilTabs;
+		global $tpl, $ilTabs;
 
 		$this->getTabs($ilTabs, true, $a_change_obj_ref);
 		$ilTabs->setSubTabActive("cont_mob_from_media_pool");
@@ -339,49 +339,18 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 		if ($a_change_obj_ref)
 		{
-			$exp = new ilPoolSelectorGUI($this->ctrl->getLinkTarget($this, "changeObjectReference"));
+			$exp = new ilPoolSelectorGUI($this, "changeObjectReference");
 		}
 		else
 		{
-			$exp = new ilPoolSelectorGUI($this->ctrl->getLinkTarget($this, "insert"));
+			$exp = new ilPoolSelectorGUI($this, "poolSelection");
 		}
-		if ($_GET["expand"] == "")
-		{
-			$expanded = $tree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET["expand"];
-		}
-		$exp->setExpand($expanded);
 
-		$exp->setTargetGet("sel_id");
-		$this->ctrl->setParameter($this, "target_type", $a_type);
-		$ilCtrl->setParameter($this, "subCmd", "poolSelection");
-		if ($a_change_obj_ref)
-		{
-			$exp->setParamsGet($this->ctrl->getParameterArray($this, "changeObjectReference"));
-		}
-		else
-		{
-			$exp->setParamsGet($this->ctrl->getParameterArray($this, "insert"));
-		}
-		
 		// filter
-		$exp->setFiltered(true);
-		$exp->setFilterMode(IL_FM_POSITIVE);
-		$exp->addFilter("root");
-		$exp->addFilter("cat");
-		$exp->addFilter("grp");
-		$exp->addFilter("fold");
-		$exp->addFilter("crs");
-		$exp->addFilter("mep");
+		$exp->setTypeWhiteList(array("root", "cat", "grp", "fold", "crs", "mep"));
+		$exp->setClickableTypes(array('mep'));
 
-		$sel_types = array('mep');
-
-		$exp->setOutput(0);
-
-		$tpl->setContent($exp->getOutput());
+		$tpl->setContent($exp->getHTML());
 	}
 
 	

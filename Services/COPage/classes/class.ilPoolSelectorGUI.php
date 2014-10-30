@@ -10,157 +10,112 @@
 * @ingroup ServicesCOPage
 */
 
-include_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
-class ilPoolSelectorGUI extends ilExplorer
+include_once "./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php";
+
+class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
 {
-	var $content_gui = "ilpcmediaobjectgui";
-	
+	protected $clickable_types = array();
+	protected $selection_subcmd = "";
+
+
 	/**
-	* Constructor
-	* @access	public
-	* @param	string	scriptname
-	* @param    int user_id
-	*/
-	function __construct($a_target)
+	 * Constructor
+	 *
+	 * @param object $a_parent_obj
+	 * @param string $a_parent_cmd
+	 * @param object $a_selection_gui
+	 * @param string $a_selection_cmd
+	 * @param string $a_selection_par
+	 */
+	function __construct($a_parent_obj, $a_parent_cmd, $a_selection_gui = null, $a_selection_cmd = "insert",
+						 $a_selection_subcmd = "selectPool", $a_selection_par = "pool_ref_id")
 	{
-		global $tree,$ilCtrl;
-
-		$this->ctrl =& $ilCtrl;
-		parent::ilExplorer($a_target);
-		$this->setFrameTarget("");
-
-		$this->force_open_path = array();
-		if ($_GET["ref_id"] > 0)
+		if($a_selection_gui == null)
 		{
-			$this->force_open_path = $tree->getPathId($_GET["ref_id"]);
+			$a_selection_gui = $a_parent_obj;
 		}
 
-		$this->setSelectableTypes(array('mep'));
+		$this->selection_subcmd = $a_selection_subcmd;
+		parent::__construct($a_parent_obj, $a_parent_cmd, $a_selection_gui, $a_selection_cmd,
+			$a_selection_par);
+
+		$this->setAjax(false);
 	}
 
 	/**
-	 * Set content GUI class
+	 * Get href for node
 	 *
-	 * @param	string	content GUI class
+	 * @param mixed $a_node node object/array
+	 * @return string href attribute
 	 */
-	function setContentGUIClass($a_val)
-	{
-		$this->content_gui = $a_val;
-	}
-	
-	/**
-	 * Get content GUI class
-	 *
-	 * @return	string	content GUI class
-	 */
-	function getContentGUIClass()
-	{
-		return $this->content_gui;
-	}
-
-	function setSelectableTypes($a_types)
-	{
-		$this->selectable_types  = $a_types;
-	}
-	
-	function getSelectableTypes()
-	{
-		return $this->selectable_types;
-	}
-	
-	function setRefId($a_ref_id)
-	{
-		$this->ref_id = $a_ref_id;
-	}
-	
-	function buildLinkTarget($a_node_id, $a_type)
+	function getNodeHref($a_node)
 	{
 		global $ilCtrl;
 		
-		$ilCtrl->setParameterByClass($this->getContentGUIClass(), "subCmd", "selectPool");
-		$ilCtrl->setParameterByClass($this->getContentGUIClass(), "pool_ref_id", $a_node_id);
-		$link = $ilCtrl->getLinkTargetByClass($this->getContentGUIClass(), $_GET["cmd"]);
-
+		$ilCtrl->setParameterByClass($this->selection_gui, "subCmd", $this->selection_subcmd);
+		$link = parent::getNodeHref($a_node);
+		$ilCtrl->setParameterByClass($this->selection_gui, "subCmd", "");
 		return $link;
 	}
-	
 
 	/**
-	* Item clickable?
-	*/
-	function isClickable($a_type, $a_ref_id)
-	{
-		global $ilUser, $ilAccess;
-		
-		if (in_array($a_type, $this->getSelectableTypes()) &&
-			$ilAccess->checkAccess("write", "", $a_ref_id))
-		{
-			return true;
-		}
-		false;
-	}
-
-	/**
-	* Show childs y/n?
-	*/
-	function showChilds($a_ref_id)
-	{
-		global $ilAccess;
-
-		if ($a_ref_id == 0)
-		{
-			return true;
-		}
-
-		if ($ilAccess->checkAccess("read", "", $a_ref_id))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-
-	/**
-	* overwritten method from base class
-	* @access	public
-	* @param	integer obj_id
-	* @param	integer array options
-	* @return	string
-	*/
-	function formatHeader(&$tpl, $a_obj_id,$a_option)
-	{
-		global $lng, $ilias;
-		
-		$tpl->setCurrentBlock("icon");
-		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_root_s.png"));
-		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("repository"));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("text");
-		$tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
-		$tpl->parseCurrentBlock();
-
-		//$tpl->setCurrentBlock("row");
-		//$tpl->parseCurrentBlock();
-		
-		$tpl->touchBlock("element");
-		
-	}
-
-	/**
-	 * force expansion of node
+	 * Is node visible
+	 *
+	 * @param array $a_node node data
+	 * @return bool visible true/false
 	 */
-	function forceExpanded($a_obj_id)
+	function isNodeVisible($a_node)
 	{
-		if (in_array($a_obj_id, $this->force_open_path))
-		{
+		if(!parent::isNodeVisible($a_node))
+			return false;
+
+		//hide empty container
+		if(count($this->getChildsOfNode($a_node["child"]))>0 || $this->isNodeClickable($a_node))
 			return true;
-		}
-		return false;
+		else
+			return false;
 	}
 
-} // END class ilLMMenuObjectSelector
-?>
+	/**
+	 * Is node clickable?
+	 *
+	 * @param array $a_node node data
+	 * @return boolean node clickable true/false
+	 */
+	function isNodeClickable($a_node)
+	{
+		if(!parent::isNodeClickable($a_node))
+			return false;
+
+		if(count($this->getClickableTypes())>0)
+		{
+			return in_array($a_node["type"], $this->getClickableTypes());
+		}
+
+		return true;
+	}
+
+	/**
+	 * set Whitelist for clickable items
+	 *
+	 * @param array/string $a_types array type
+	 */
+	function setClickableTypes($a_types)
+	{
+		if(!is_array($a_types))
+		{
+			$a_types = array($a_types);
+		}
+		$this->clickable_types = $a_types;
+	}
+
+	/**
+	 * get whitelist for clickable items
+	 *
+	 * @return array types
+	 */
+	function getClickableTypes()
+	{
+		return (array)$this->clickable_types;
+	}
+}
