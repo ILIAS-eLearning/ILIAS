@@ -9,6 +9,7 @@
 class ilDclExpressionParser {
 
 	const N_DECIMALS = 1;
+	const SCIENTIFIC_NOTATION_UPPER = 1000000000000;
 	/**
 	 * @var ilDataCollectionRecord
 	 */
@@ -94,7 +95,11 @@ class ilDclExpressionParser {
 			if ($this->isMathToken($token)) {
 				$token = $this->calculateFunctions($token);
 				$math_tokens = ilDclTokenizer::getMathTokens($token);
-				$parsed .= $this->parseMath($this->substituteFieldValues($math_tokens));
+				$value = $this->parseMath($this->substituteFieldValues($math_tokens));
+
+				$value = $this->formatScientific($value);
+
+				$parsed .= $value;
 			} else {
 				// Token is a string, either a field placeholder [[Field name]] or a string starting with "
 				if (strpos($token, '"') === 0) {
@@ -108,6 +113,24 @@ class ilDclExpressionParser {
 		}
 
 		return $parsed;
+	}
+
+
+	/**
+	 * @param $value
+	 *
+	 * @return string
+	 */
+	protected function formatScientific($value) {
+		if ($value >= self::SCIENTIFIC_NOTATION_UPPER) {
+			return sprintf("%e", $value);
+		}
+		if (is_float($value)) {
+			return $value;
+		}
+
+		return number_format($value, 0, '.', '\'');
+//		return $value;
 	}
 
 
@@ -266,8 +289,6 @@ class ilDclExpressionParser {
 	}
 
 
-
-
 	/**
 	 * Parse a math expression
 	 *
@@ -283,10 +304,10 @@ class ilDclExpressionParser {
 		$precedences = new ilDclStack();
 		$in_bracket = false;
 		foreach ($tokens as $token) {
-			if (empty($token) || is_null($token)) {
+			if (empty($token) OR is_null($token)) {
 				$token = 0;
 			}
-			if (is_numeric($token) || $token === '(') {
+			if (is_numeric($token) OR $token === '(') {
 				$stack->push($token);
 				if ($token === '(') {
 					$in_bracket = true;
@@ -326,7 +347,7 @@ class ilDclExpressionParser {
 			} else {
 				throw new ilException("Unrecognized token '$token'");
 			}
-			//            $stack->debug();
+			// $stack->debug();
 		}
 		// If one element is left on stack, we are done. Otherwise calculate
 		if ($stack->count() == 1) {
@@ -334,6 +355,7 @@ class ilDclExpressionParser {
 
 			return (ctype_digit((string)$result)) ? $result : number_format($result, self::N_DECIMALS, '.', "'");
 		} else {
+
 			while ($stack->count() >= 3) {
 				$right = $stack->pop();
 				$operator = $stack->pop();
@@ -342,7 +364,7 @@ class ilDclExpressionParser {
 			}
 			$result = $stack->pop();
 
-			return (ctype_digit((string)$result)) ? $result : number_format($result, self::N_DECIMALS, '.', "'");
+			return $result;
 		}
 	}
 

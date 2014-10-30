@@ -121,7 +121,7 @@ class ilDataCollectionFormulaField extends ilDataCollectionRecordField {
 	 * @return string
 	 */
 	protected function parse() {
-		if (!$this->parsed_value && $this->expression) {
+		if (!$this->parsed_value AND $this->expression) {
 			$parser = new ilDclExpressionParser($this->expression, $this->record, $this->field);
 			try {
 				$this->parsed_value = $parser->parse();
