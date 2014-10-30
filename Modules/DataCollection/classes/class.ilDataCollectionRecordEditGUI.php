@@ -120,7 +120,7 @@ class ilDataCollectionRecordEditGUI
 	{
 		global $ilCtrl;
 		
-		$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
+		$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
 	}
 	
 	/*
