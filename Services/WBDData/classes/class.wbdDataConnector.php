@@ -300,8 +300,9 @@ abstract class wbdDataConnector {
 	 */
 
 	public function get_new_users() {}
-	//on success:
+	//on success/failure:
 	public function success_new_user($row_id){}
+	public function fail_new_user($row_id, $e){}
 
 	/**
 	 * get users with outdated records in BWV-DB:
@@ -312,8 +313,9 @@ abstract class wbdDataConnector {
 	 */
 
 	public function get_updated_users() {}
-	//on success.
+	//on success/failure:
 	public function success_update_user($row_id){}
+	public function fail_update_user($row_id, $e){}
 
 
 	/**
@@ -327,6 +329,11 @@ abstract class wbdDataConnector {
 	 */
 
 	public function get_new_edu_records() {}
+	//on success/failure:
+	public function success_new_edu_record($row_id, $booking_id){}
+	public function fail_new_edu_record($row_id, $e){}
+
+
 
 
 	/**

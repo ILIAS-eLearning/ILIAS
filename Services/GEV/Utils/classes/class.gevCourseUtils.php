@@ -1575,6 +1575,15 @@ class gevCourseUtils {
 		}
 		return 0;
 	}
+
+
+	public function getWBDTopic(){
+		//CRS_AMD_GDV_TOPIC
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_GDV_TOPIC);
+	}
+
+
+
 	
 }
 

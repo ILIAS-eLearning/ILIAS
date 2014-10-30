@@ -242,4 +242,19 @@ class ilCourseHistorizingHelper
 			return "Nein";
 		}
 	}
+
+	/**
+	 * Returns the standardized contents of the course for WBD
+	 *
+	 * @param integer|ilObjCourse $course
+	 *
+	 * @return string
+	 */
+
+	public static function getWBDTopicOf($course) {
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
+		return $utils->getWBDTopic();
+	}
+
+
 }

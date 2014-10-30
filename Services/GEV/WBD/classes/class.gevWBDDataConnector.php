@@ -16,7 +16,8 @@ $SET_BWVID = true;
 
 $GET_NEW_USERS = true;
 $GET_UPDATED_USERS = true;
-$GET_NEW_EDURECORDS = false;
+$GET_NEW_EDURECORDS = true;
+
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
 
@@ -234,10 +235,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 			
 			,"training"	 			=> $record['title'] //or template?
 			
+			,"internal_booking_id" => $record["row_id"]
 			/*
-			"internal_booking_id" => "", //$record['crs_ref_id'],
 			
-
+			//score code is set by get_new_edurecords...
 			"score_code" => "" // KennzeichenPunkte ??
 
 			"contact_degree" => "",
@@ -324,7 +325,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		$sql = "
 			UPDATE $table
-			SET last_wbd_report = NOW()
+			SET last_wbd_report = UNIX_TIMESTAMP()
 			WHERE row_id=$row_id
 		";
 		$result = $this->ilDB->query($sql);
@@ -433,6 +434,14 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$this->_set_last_wbd_report('hist_user', $row_id);
 	}
 
+	public function fail_new_user($row_id, $e){
+		print 'ERROR on newUser: ';
+		print($row_id);
+		print '<br>';
+		print_r($e);
+	}
+
+
 
 	/**
 	 * get users with outdated records in BWV-DB:
@@ -493,12 +502,18 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$this->_set_last_wbd_report('hist_user', $row_id);
 	}
 
+	public function fail_update_user($row_id, $e){
+		print 'ERROR on updateUser: ';
+		print($row_id);
+		print '<br>';
+		print_r($e);
+	}
+
 
 
 	/**
-	 * get edu-records for courses that
-	 * started 3 months ago (or more)
-	 * and have not been submitted to the WBD
+	 * get edu-records for courses 
+	 * that have not been submitted to the WBD
 	 *
 	 *
 	 * @param
@@ -554,7 +569,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql .= ' AND usr_id in (SELECT usr_id FROM usr_data)';
 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
 
-
 		$ret = array();
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)) {
@@ -576,8 +590,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 				$edudata['score_code'] = 'Meldung';
 				$ret[] = wbdDataConnector::new_edu_record($edudata);
 
-				//set last_wbd_report!
-				$this->_set_last_wbd_report('hist_usercoursestatus', $record['row_id']);
 			}
 
 
@@ -586,9 +598,29 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 
+	public function success_new_edu_record($row_id, $booking_id){
+		//set last_wbd_report!
+		$this->_set_last_wbd_report('hist_usercoursestatus', $record['row_id']);
+		//also, set booking id
+		$sql = "
+			UPDATE $table
+			SET wbd_booking_id = '$booking_id'
+			WHERE row_id=$row_id
+		";
+		$result = $this->ilDB->query($sql);
+	}
+
+	
+	public function fail_new_edu_record($row_id, $e){
+		print 'ERROR on newEduRecord: ';
+		print($row_id);
+		print '<br>';
+		print_r($e);
+	}
+
+
 	/**
-	 * get edu-records for courses that
-	 * started 3 months ago (or more)
+	 * get edu-records for courses 
 	 * if the current record differs from a record
 	 * that was allready sent to the WBD
 	 *

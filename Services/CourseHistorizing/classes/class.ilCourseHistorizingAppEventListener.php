@@ -139,7 +139,9 @@ class ilCourseHistorizingAppEventListener
 			'tutor'								=> self::$ilCourseHistorizingHelper->getTutorOf($parameter),
 			'max_credit_points'					=> self::$ilCourseHistorizingHelper->getMaxCreditPointsOf($parameter),
 			'fee'								=> self::$ilCourseHistorizingHelper->getFeeOf($parameter),
-			'is_template'						=> self::$ilCourseHistorizingHelper->getIsTemplate($parameter)
+			'is_template'						=> self::$ilCourseHistorizingHelper->getIsTemplate($parameter),
+			'wbd_topic'							=> self::$ilCourseHistorizingHelper->getWBDTopicOf($parameter)
+		
 		);
 
 		return $data_payload;

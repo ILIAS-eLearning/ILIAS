@@ -2043,3 +2043,38 @@ foreach ($txt_fields_hist_user as $field) {
 	}
 }
 ?>
+
+<#57>
+<?php
+// missing fields for wbd, hist_course
+$txt_fields_hist_course = array(
+	'wbd_topic' //CRS_AMD_GDV_TOPIC, study-contents
+);
+foreach ($txt_fields_hist_course as $field) {
+	if(!$ilDB->tableColumnExists('hist_course', $field)){
+		$ilDB->addTableColumn('hist_course', $field, array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+			)
+		);	
+	}
+}
+?>
+<#58>
+<?php
+// missing fields for wbd, hist_usercoursestatus
+$txt_fields_hist_course = array(
+	'wbd_booking_id' 
+);
+foreach ($txt_fields_hist_course as $field) {
+	if(!$ilDB->tableColumnExists('hist_usercoursestatus', $field)){
+		$ilDB->addTableColumn('hist_usercoursestatus', $field, array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+			)
+		);	
+	}
+}
+?>
