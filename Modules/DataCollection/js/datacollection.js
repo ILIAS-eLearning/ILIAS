@@ -1,9 +1,8 @@
 /**
- * Created with JetBrains PhpStorm.
- * User: oskar
- * Date: 21/02/13
- * Time: 5:07 PM
- * To change this template use File | Settings | File Templates.
+ * ilDataCollection JS
+ *
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 
 $(document).ready(function () {
@@ -16,6 +15,7 @@ $(document).ready(function () {
 			var ref = $(this).attr("rec_id");
 			$(".dcl_reference_hover[rec_id=" + ref + "]").fadeOut(0);
 		});
+
 
 	/**
 	 * Increment comments count after saving comment with ajax
@@ -31,11 +31,36 @@ $(document).ready(function () {
 		}
 	}
 
+
 	var dcl = {};
 
 	dcl.removeHighlightedRows = function () {
 		$('.dcl_comments_active').removeClass('dcl_comments_active');
 	};
+
+	/**
+	 * Formula-Fields can't be unique or required
+	 */
+	dcl.checkFormulaFieldsAttribute = function () {
+		return $('#datatype_11').attr('checked') == 'checked';
+	}
+
+	dcl.changeStateForFormulaFields = function () {
+		var state = dcl.checkFormulaFieldsAttribute();
+		var required = $('#required');
+		required.prop('disabled', state);
+		required.prop('checked', false);
+		var unique = $('#unique');
+		unique.prop('disabled', state);
+		unique.prop('checked', false);
+
+	}
+	dcl.changeStateForFormulaFields();
+
+	$('#datatype').change(function () {
+		dcl.changeStateForFormulaFields();
+	});
+
 
 	/**
 	 * @var $tr tr object to highlight

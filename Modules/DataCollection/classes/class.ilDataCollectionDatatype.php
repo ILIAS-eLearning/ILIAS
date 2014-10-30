@@ -279,8 +279,8 @@ class ilDataCollectionDatatype {
 				$input->setAllowDeletion(true);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_FORMULA:
-				$input = new ilTextInputGUI($title, 'field_' . $field->getId());
-				$input->setDisabled(true);
+				$input = new ilNonEditableValueGUI($title, 'field_' . $field->getId());
+				$input->setValue('-');
 				break;
 		}
 		if ($field->getDescription() && $input !== NULL) {

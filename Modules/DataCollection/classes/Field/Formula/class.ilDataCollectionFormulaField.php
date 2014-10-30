@@ -46,6 +46,7 @@ class ilDataCollectionFormulaField extends ilDataCollectionRecordField {
 	 * Do nothing, value is runtime only and not stored in DB
 	 */
 	protected function loadValue() {
+		return NULL;
 	}
 
 
@@ -53,6 +54,7 @@ class ilDataCollectionFormulaField extends ilDataCollectionRecordField {
 	 * @param $value
 	 */
 	public function setValue($value) {
+		unset($value);
 	}
 
 
@@ -60,6 +62,7 @@ class ilDataCollectionFormulaField extends ilDataCollectionRecordField {
 	 * Do nothing, value is runtime only and not stored in DB
 	 */
 	public function doUpdate() {
+		return NULL;
 	}
 
 
@@ -67,6 +70,7 @@ class ilDataCollectionFormulaField extends ilDataCollectionRecordField {
 	 * Do nothing, value is runtime only and not stored in DB
 	 */
 	public function doRead() {
+		return NULL;
 	}
 
 
@@ -74,6 +78,7 @@ class ilDataCollectionFormulaField extends ilDataCollectionRecordField {
 	 * Do nothing, value is runtime only and not stored in DB
 	 */
 	public function delete() {
+		return NULL;
 	}
 
 
