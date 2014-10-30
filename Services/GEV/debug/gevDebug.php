@@ -11,17 +11,24 @@ $basedir = __DIR__;
 $basedir = str_replace('/Services/GEV/debug', '', $basedir);
 chdir($basedir);
 
-
+/*
 //context w/o user
-//require_once "./Services/Context/classes/class.ilContext.php";
-//ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
-//require_once("./Services/Init/classes/class.ilInitialisation.php");
-//ilInitialisation::initILIAS();
+require_once "./Services/Context/classes/class.ilContext.php";
+ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
+require_once("./Services/Init/classes/class.ilInitialisation.php");
+ilInitialisation::initILIAS();
+*/
 require_once("./include/inc.header.php");
 
 //require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 //require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 //require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+
+
+
+
+
+
 
 
 
@@ -52,7 +59,7 @@ class gevDebug {
 	public function __construct() {
 		global $ilUser, $ilDB;
 
-		$this->db = &$ilDB;;
+		$this->db = &$ilDB;
 		$this->user = &$ilUser;
 
 	}
@@ -353,11 +360,30 @@ class gevDebug {
 	}
 
 
+	public function getUsersWithRole($roles = array()){
+		require_once("Services/GEV/Utils/classes/class.gevGeneralUtils.php");
+		$utils = new gevGeneralUtils();
+
+		return $utils->getUsersWithGlobalRole($roles);
+	}
+
 
 }
 
 $debug = new gevDebug();
 print '<pre>';
+
+$rs = array(
+	'DBV/VL-EVG',
+//	'VP',
+//	'User',
+);
+
+
+
+print_r(implode(',', array_keys($debug->getUsersWithRole($rs))));
+
+die();
 
 /*printToTable($debug->getDeletedCourses());
 printToTable($debug->getDeletedCoursesBookings());
@@ -384,8 +410,8 @@ $usrIds = array();
 foreach ($debug->getAllUsers($usrIds) as $id=>$usr) {
 	print_r($usr->getLogin());
 	print '<br>';
-	$debug->revertSetAgentStateForUser($id);
-	$debug->updateHistoryForUserIfStellung($usr);
+	//$debug->revertSetAgentStateForUser($id);
+	//$debug->updateHistoryForUserIfStellung($usr);
 	//$debug->setAgentStateForUser($id);
 	print '<hr>';
 }
