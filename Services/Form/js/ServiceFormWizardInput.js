@@ -5,7 +5,7 @@ var ilWizardInput = {
 	},
 	
 	initEvents: function(rootel) {		
-		var that = this;
+		var that = this;		
 		$(rootel).find('button.' + this.tag_button + '_add').click(function(e) {
 			that.addRow(e);
 		});	
@@ -20,7 +20,7 @@ var ilWizardInput = {
 		});			
 	},
 	
-	addRow: function(e) {				
+	addRow: function(e) {		
 		// clone row
 		var source = this.getRowFromEvent(e);				
 		var target = $(source).clone();		

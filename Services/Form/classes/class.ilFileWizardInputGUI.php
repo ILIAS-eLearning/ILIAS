@@ -251,11 +251,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 
 			$this->outputSuffixes($tpl, "allowed_image_suffixes");
 			
-			$tpl->setCurrentBlock("row");
-			$class = ($i % 2 == 0) ? "even" : "odd";
-			if ($i == 0) $class .= " first";
-			if ($i == count($this->filenames)-1) $class .= " last";
-			$tpl->setVariable("ROW_CLASS", $class);
+			$tpl->setCurrentBlock("row");			
 			$tpl->setVariable("POST_VAR", $this->getPostVar() . "[$i]");
 			$tpl->setVariable("ID", $this->getFieldId() . "[$i]");
 			$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");

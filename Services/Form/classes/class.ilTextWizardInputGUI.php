@@ -163,11 +163,7 @@ class ilTextWizardInputGUI extends ilTextInputGUI
 				$tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
 				$tpl->parseCurrentBlock();
 			}
-			$tpl->setCurrentBlock("row");
-			$class = ($i % 2 == 0) ? "even" : "odd";
-			if ($i == 0) $class .= " first";
-			if ($i == count($this->values)-1) $class .= " last";
-			$tpl->setVariable("ROW_CLASS", $class);
+			$tpl->setCurrentBlock("row");		
 			$tpl->setVariable("POST_VAR", $this->getPostVar() . "[$i]");
 			$tpl->setVariable("ID", $this->getFieldId() . "[$i]");			
 			$tpl->setVariable("SIZE", $this->getSize());
@@ -199,8 +195,7 @@ class ilTextWizardInputGUI extends ilTextInputGUI
 		if (!$this->getDisabled())
 		{
 			global $tpl;
-			include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-			ilYuiUtil::initDomEvent();
+			$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
 			$tpl->addJavascript("./Services/Form/templates/default/textwizard.js");
 		}
 	}
