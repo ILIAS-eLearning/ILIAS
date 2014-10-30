@@ -546,6 +546,38 @@ class ilDataCollectionTable {
 
 
 	/**
+	 * Returns all fields of this table including the standard fields, wich are supported for formulas
+	 *
+	 * @return ilDataCollectionField[]
+	 */
+	public function getFieldsForFormula() {
+		$unsupported = array(
+			ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF,
+			ilDataCollectionDatatype::INPUTFORMAT_FORMULA,
+			ilDataCollectionDatatype::INPUTFORMAT_MOB,
+			ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN,
+			ilDataCollectionDatatype::INPUTFORMAT_REFERENCELIST,
+			ilDataCollectionDatatype::INPUTFORMAT_REFERENCE,
+			ilDataCollectionDatatype::INPUTFORMAT_FILE,
+			ilDataCollectionDatatype::INPUTFORMAT_RATING,
+		);
+
+		$this->loadFields();
+		$return = $this->getStandardFields();
+		/**
+		 * @var $field ilDataCollectionField
+		 */
+		foreach ($this->fields as $field) {
+			if (!in_array($field->getDatatypeId(), $unsupported)) {
+				$return[] = $field;
+			}
+		}
+
+		return $return;
+	}
+
+
+	/**
 	 * Returns the fields all datacollections have by default.
 	 *
 	 * @return ilDataCollectionStandardField[]
@@ -1219,11 +1251,11 @@ class ilDataCollectionTable {
 	/**
 	 * Return only the needed subset of record objects for the table, according to sorting, paging and filters
 	 *
-	 * @param string $sort Title of a field where the ilTable2GUI is sorted
+	 * @param string $sort      Title of a field where the ilTable2GUI is sorted
 	 * @param string $direction 'desc' or 'asc'
-	 * @param int    $limit Limit of records
-	 * @param int    $offset Offset from records
-	 * @param array  $filter Containing the filter values
+	 * @param int    $limit     Limit of records
+	 * @param int    $offset    Offset from records
+	 * @param array  $filter    Containing the filter values
 	 *
 	 * @return array Array with two keys: 'record' => Contains the record objects, 'total' => Number of total records (without slicing)
 	 */
