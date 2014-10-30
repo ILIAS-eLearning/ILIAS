@@ -710,12 +710,11 @@ class ilDataCollectionTable {
 
 	/**
 	 * @param int $ref_id
-	 *
+	 *y
 	 * @return bool
 	 */
 	public function hasPermissionToAddRecord($ref_id) {
-		return ($this->getAddPerm() && ilObjDataCollection::_hasReadAccess($ref_id) && $this->checkLimit())
-		|| ilObjDataCollection::_hasWriteAccess($ref_id);
+		return ($this->getAddPerm() AND ilObjDataCollection::_hasReadAccess($ref_id) AND $this->checkLimit());
 	}
 
 
@@ -726,7 +725,7 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToEditRecord($ref_id, $record) {
-		return ($this->getEditPerm() && ilObjDataCollection::_hasReadAccess($ref_id) && $this->checkEditByOwner($record) && $this->checkLimit())
+		return ($this->getEditPerm() AND ilObjDataCollection::_hasReadAccess($ref_id) && $this->checkEditByOwner($record) && $this->checkLimit())
 		|| ilObjDataCollection::_hasWriteAccess($ref_id);
 	}
 
@@ -738,7 +737,7 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToDeleteRecord($ref_id, $record) {
-		return ($this->getDeletePerm() && ilObjDataCollection::_hasReadAccess($ref_id) && $this->checkEditByOwner($record) && $this->checkLimit())
+		return ($this->getDeletePerm() AND ilObjDataCollection::_hasReadAccess($ref_id) && $this->checkEditByOwner($record) && $this->checkLimit())
 		|| ilObjDataCollection::_hasWriteAccess($ref_id);
 	}
 
@@ -749,7 +748,7 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToDeleteRecords($ref_id) {
-		return ($this->getDeletePerm() && ilObjDataCollection::_hasReadAccess($ref_id)) || (ilObjDataCollection::_hasWriteAccess($ref_id));
+		return ($this->getDeletePerm() AND ilObjDataCollection::_hasReadAccess($ref_id)) || (ilObjDataCollection::_hasWriteAccess($ref_id));
 	}
 
 
