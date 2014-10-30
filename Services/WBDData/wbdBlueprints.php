@@ -69,8 +69,8 @@ $WBD_EDU_RECORD = array(
 
 $VALUE_MAPPINGS = array(
 	"course_type" => array(
-		"Präsenztraining" => "Präsenzveranstaltung",
 		"Präsenzveranstaltung" => "Präsenzveranstaltung",
+		"Präsenztraining" => "Präsenzveranstaltung",
 		"Präsenz" => "Präsenzveranstaltung",
 		"Selbstlernkurs" => "Selbstgesteuertes E-Learning",
 		"gesteuertes E-Learning" => "Gesteuertes E-Learning",
@@ -78,7 +78,6 @@ $VALUE_MAPPINGS = array(
 		"XX" => "Einzeltraining",
 		"XX" => "Blended Learning"
 /*
-
 "Präsenztraining"
 "Selbstlernkurs"
 
@@ -87,9 +86,20 @@ $VALUE_MAPPINGS = array(
 "Spezialistenschulung Webinar"
 "POT-Termin"
 */
-
-
 	),
+
+
+	"study_content" => array(
+		'Privat-Vorsorge-Lebens-/Rentenversicherung' => 'Privat-Vorsorge-Lebens-/Rentenversicherung',
+		'Privat-Vorsorge-Kranken-/Pflegeversicherung' => 'Privat-Vorsorge-Kranken-/Pflegeversicherung',
+		'Firmenkunden-Sach-/Schadensversicherung' => 'Firmenkunden-Sach-/Schadensversicherung',
+		'Spartenübergreifend' => 'Spartenübergreifend',
+		'Firmenkunden-Vorsorge (bAV/Personenversicherung)' => 'Firmenkunden-Vorsorge (bAV/Personenversicherung)',
+		'Beratungskompetenz' => 'Beratungskompetenz',
+		'Privat-Sach-/Schadenversicherung' => 'Privat-Sach-/Schadenversicherung'
+	),
+
+
 	"salutation" => array(
 		"m" => "Herr",
 		"f" => "Frau",
@@ -149,6 +159,16 @@ $WBD_USER_RECORD_VALIDATION = array(
 	,'agent_state' 		=> array('mandatory'=>1, 
 								 'list' => array_values($VALUE_MAPPINGS['agent_status'])
 								)
+);
+
+$WBD_EDU_RECORD_VALIDATION = array(
+	'study_type_selection' 	=> array('mandatory'=>1,
+								 	 'list'=> array_values($VALUE_MAPPINGS['course_type'])
+
+	,'study_content' 	=> array('mandatory'=>1,
+								 'list'=> array_values($VALUE_MAPPINGS['study_content'])
+
+
 );
 
 

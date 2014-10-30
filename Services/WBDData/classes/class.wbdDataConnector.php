@@ -20,6 +20,7 @@ abstract class wbdDataConnector {
 	public $CSV_LABELS;
 	public $VALUE_MAPPINGS;
 	public $USER_RECORD_VALIDATION;
+	public $EDU_RECORD_VALIDATION;
 
 	public $csv_text_delimiter = '"';
 	public $csv_field_delimiter = ';';
@@ -34,6 +35,7 @@ abstract class wbdDataConnector {
 		$this->CSV_LABELS = $CSV_LABELS;
 		$this->VALUE_MAPPINGS = $VALUE_MAPPINGS;
 		$this->USER_RECORD_VALIDATION = $WBD_USER_RECORD_VALIDATION;
+		$this->EDU_RECORD_VALIDATION = $WBD_EDU_RECORD_VALIDATION;
 		$this->TELNO_REGEXP = $TELNO_REGEXP;
 		$this->FAKEDATA = $FAKEDATA;
 	}
@@ -167,6 +169,50 @@ abstract class wbdDataConnector {
 		}
 		return true;
 	}
+
+
+	protected function validateEduRecord($edu_record){
+		foreach($this->EDU_RECORD_VALIDATION  as $field => $validation){
+			$value = $edu_record[$field];
+			foreach ($validation as $rule => $setting) {
+				switch ($rule) {
+					
+					case 'mandatory':
+						if($setting==1 && trim($value) == ''){
+							return 'mandatory field missing: ' .$field .'<br>';
+							//return false;
+						}
+						break;
+					
+					case 'maxlen':
+						if(strlen($value) > $setting){
+							return 'too long: ' .$field .'<br>';
+							//return false;
+						}
+						break;
+					
+					case 'list':
+						if($value == ''){
+							return 'empty value not in list';
+						}
+						if(! in_array($value, $setting)){
+							return 'not in list: ' .$field .'<br>';
+							//return false;
+						}
+						break;
+
+					case 'form':
+						if(!preg_match($setting, $value) && $value != ''){
+							return 'not well formed: ' .$field .'<br>';
+						}
+						break;
+					
+				}
+			}
+		}
+		return true;
+	}
+
 
 
 

@@ -60,6 +60,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 	public $valid_newusers = array();
 	public $broken_newusers = array();
 
+	public $valid_newedurecords = array();
+	public $broken_newedurecords = array();
+
 
 	public function __construct() {
 
@@ -594,12 +597,24 @@ class gevWBDDataConnector extends wbdDataConnector {
 				$edudata = $this->_map_edudata($record);
 				//these are _new_ edu-records:
 				$edudata['score_code'] = 'Meldung';
-				$ret[] = wbdDataConnector::new_edu_record($edudata);
 
+
+				$valid = $this->validateEduRecord($edudata);
+
+				if($valid === true){
+					$ret[] = wbdDataConnector::new_edu_record($edudata);
+				} else {
+					$this->broken_newedurecords[] = array(
+						$valid,
+						$edudata
+					);
+				}
 			}
 
 
 		}
+
+		$this->valid_newedurecords = $ret;
 		return $ret;
 	}
 
@@ -807,6 +822,12 @@ if($DEBUG_HTML_OUT){
 
 	print '<h3>new edu-records:</h3>';
 	$cls->export_get_new_edu_records('html');
+
+	print '<h2> total new edurecords: ' .count($cls->valid_newedurecords) .'</h2>';
+	print '<h2> invalid edurecords: ' .count($cls->broken_newedurecords) .'</h2>';
+	print_r($cls->broken_newusers);
+	
+	
 	print '<hr>';
 
 	print '<h3>changed edu-records:</h3>';
