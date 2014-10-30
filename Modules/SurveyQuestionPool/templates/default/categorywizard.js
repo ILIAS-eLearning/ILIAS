@@ -1,7 +1,7 @@
 var ilCategoryWizardInput = {
 	
 	init: function() {			
-		ilCategoryWizardInput.initEvents($('tr.catwzd').parent());
+		this.initEvents($('tr.catwzd').parent());
 	},
 	
 	initEvents: function(rootel) {			
@@ -25,7 +25,7 @@ var ilCategoryWizardInput = {
 		var target = $(source).clone();		
 		
 		// add events
-		ilCategoryWizardInput.initEvents(target);
+		this.initEvents(target);
 		
 		// empty inputs
 		this.cleanRow(target);
@@ -76,9 +76,10 @@ var ilCategoryWizardInput = {
 	
 	reindexRows: function(tbody) {		
 		var postvar = $(tbody).parents('div').attr('id');
-		
 		var rowindex = 0;
 		var maxscale = 0;
+		
+		// process all rows
 		$(tbody).find('tr').each(function() {
 			
 			// answer
@@ -92,6 +93,7 @@ var ilCategoryWizardInput = {
 				$(this).attr('id', postvar + '[scale][' + rowindex + ']');
 				$(this).attr('name', postvar + '[scale][' + rowindex + ']');								
 				
+				// find current max scale
 				var value = $(this).attr('value');
 				if (!isNaN(value) && parseInt(value) > maxscale) {
 					maxscale = parseInt(value);
@@ -110,7 +112,7 @@ var ilCategoryWizardInput = {
 		// redo scale values
 		$(tbody).find('input:text[id*="[scale]"]').each(function() {	
 			var value = $(this).attr('value');		
-			if(isNaN(value) || value == '') {
+			if(isNaN(value) || value === '') {
 				maxscale++;				
 				$(this).attr('value', maxscale);
 			}		
@@ -118,7 +120,7 @@ var ilCategoryWizardInput = {
 		
 		// fix neutral
 		var neutral = $('#' + postvar + '_neutral_scale').attr('value');
-		if (neutral != null)
+		if (neutral !== null)
 		{
 			if (parseInt(neutral) <= maxscale) {
 				$('#' + postvar + '_neutral_scale').attr('value', maxscale+1);
