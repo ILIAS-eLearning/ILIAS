@@ -208,10 +208,6 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
 	{
 		global $lng;
 		
-		$columns = $this->getUseOtherAnswer()
-			? 3
-			: 4;
-		
 		$tpl = new ilTemplate("tpl.prop_matrixrowwizardinput.html", true, true, "Modules/SurveyQuestionPool");
 		$i = 0;
 		if (is_object($this->values))
@@ -250,8 +246,8 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
 					$tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));					
 					$tpl->parseCurrentBlock();
 				}
-				$tpl->setCurrentBlock("row");
-				$tpl->setVariable("ROW_COLS", $columns);
+				
+				$tpl->setCurrentBlock("row");				
 				$tpl->setVariable("POST_VAR", $this->getPostVar());
 				$tpl->setVariable("ROW_NUMBER", $i);
 				$tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
@@ -302,8 +298,7 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
 		$tpl->setVariable("ANSWER_TEXT", $this->getCategoryText());
 		$tpl->setVariable("LABEL_TEXT", $this->getLabelText());
 		$tpl->setVariable("ACTIONS_TEXT", $lng->txt('actions'));
-		$tpl->setVariable("TITLE_COLS", $columns);
-
+	
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();
