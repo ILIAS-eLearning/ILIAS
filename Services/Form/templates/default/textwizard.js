@@ -23,18 +23,12 @@ var ilTextWizardInputTemplate = {
 		// process all rows
 		$(rootel).find(this.tag_row).each(function() {
 			
-			// file
+			// text
 			$(this).find('input:text').each(function() {					
 				that.handleId(this, 'id', rowindex);
 				that.handleId(this, 'name', rowindex);							
 			});
-			
-			// hidden
-			$(this).find('input:checkbox').each(function() {		
-				that.handleId(this, 'id', rowindex);													
-				that.handleId(this, 'name', rowindex);													
-			});
-			
+		
 			// button
 			$(this).find('button').each(function() {	
 				that.handleId(this, 'id', rowindex);
