@@ -223,8 +223,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 	private function _map_edudata($record) {
 
 		$edudata = array(
-			"name" 					=> $record["lastname"]
-			,"first_name" 			=> $record["firstname"]
+			//"name" 					=> $record["lastname"]
+			//,"first_name" 			=> $record["firstname"]
 			
 			"name" 					=> '' //will not be imported, anyway.
 			,"first_name" 			=> ''
