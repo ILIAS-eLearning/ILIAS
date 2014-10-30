@@ -400,6 +400,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 			if (strlen($this->getNeutralCategoryTitle()))
 			{
 				$tpl->setCurrentBlock("neutral_category_title");
+				$tpl->setVariable("NEUTRAL_COLS", ($this->getUseOtherAnswer()) ? 4 : 3);
 				$tpl->setVariable("CATEGORY_TITLE", ilUtil::prepareFormOutput($this->getNeutralCategoryTitle()));
 				$tpl->parseCurrentBlock();
 			}

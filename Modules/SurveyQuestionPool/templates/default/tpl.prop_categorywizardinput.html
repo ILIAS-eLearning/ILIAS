@@ -28,7 +28,8 @@
 			<td class="form-inline">
 				<input type="text" class="form-control" style="text-align: right;" size="3" id="{SCALE_ID}" name="{POST_VAR}[scale][{ROW_NUMBER}]" <!-- BEGIN prop_scale_propval -->value="{PROPERTY_VALUE}" <!-- END prop_scale_propval -->{DISABLED_SCALE} />
 			</td>
-			<td class="text-nowrap">				
+			<td class="text-nowrap">		
+				{MULTI_ICONS}
 				<button name="{CMD_ADD}" class="categorywizard_add btn btn-link" id="add_{ID}" onclick="javascript: void(0); return false;" >{ADD_BUTTON}</button>
 				<button name="{CMD_REMOVE}" class="categorywizard_remove btn btn-link" id="remove_{ID}" onclick="javascript: void(0); return false;">{REMOVE_BUTTON}</button>
 				<!-- BEGIN move -->
@@ -38,12 +39,15 @@
 			</td>
 		</tr>
 		<!-- END row -->
+		
+	</tbody>
+	<tfoot>
 
 		<!-- BEGIN neutral_row -->
 
 		<!-- BEGIN neutral_category_title -->
 		<tr>		
-			<td class="neutral" colspan="3"><br />	
+			<td class="neutral" colspan="{NEUTRAL_COLS}"><br />	
 				<span class="neutral_category_title">{CATEGORY_TITLE}</span>
 			</td>
 		</tr>
@@ -68,8 +72,8 @@
 		
 		<!-- END neutral_row -->
 	
-		</tbody>
-    </table>
+	</tfoot>
+	</table>
 	
 	<!-- BEGIN phrases_bl -->
 	<div>		
