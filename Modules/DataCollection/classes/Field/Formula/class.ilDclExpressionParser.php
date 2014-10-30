@@ -10,6 +10,7 @@ class ilDclExpressionParser {
 
 	const N_DECIMALS = 1;
 	const SCIENTIFIC_NOTATION_UPPER = 1000000000000;
+	const SCIENTIFIC_NOTATION_LOWER = 0.000000001;
 	/**
 	 * @var ilDataCollectionRecord
 	 */
@@ -125,12 +126,14 @@ class ilDclExpressionParser {
 		if ($value >= self::SCIENTIFIC_NOTATION_UPPER) {
 			return sprintf("%e", $value);
 		}
+		if ($value <= self::SCIENTIFIC_NOTATION_LOWER) {
+			return sprintf("%e", $value);
+		}
 		if (is_float($value)) {
 			return $value;
 		}
 
-		return number_format($value, 0, '.', '\'');
-//		return $value;
+		return $value;
 	}
 
 
