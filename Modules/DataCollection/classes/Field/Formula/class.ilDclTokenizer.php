@@ -18,9 +18,19 @@ class ilDclTokenizer {
 	public static function getTokens($expression) {
 		$expression = ltrim($expression, '=');
 		$expression = trim($expression);
-		$tokens = preg_split('#[^\\\\]&#', $expression);
+		preg_match_all("/([^\\\\&]|\\\\&)*/ui", $expression, $matches);
 
-		return array_map('trim', $tokens);
+		$results = $matches[0];
+
+		$return = array();
+		foreach ($results as $r) {
+			if (!$r) {
+				continue;
+			}
+			$return[] = str_ireplace('\&', '&', $r);
+		}
+
+		return array_map('trim', $return);
 	}
 
 
