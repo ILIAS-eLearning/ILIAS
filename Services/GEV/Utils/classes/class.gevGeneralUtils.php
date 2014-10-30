@@ -70,6 +70,70 @@ class gevGeneralUtils {
 		
 		return implode($delim, $ov_cons);
 	}
+
+
+	/**
+	 * get a list of user-ids with roles in $a_role_titles
+	 * 
+	 *
+	 * parameter: array $a_role_title 
+	 * returns: array usr_id => usr_infos
+	*/
+	static public function getUsersWithGlobalRole($a_role_titles = array()){
+		global $ilDB;
+		require_once("Services/AccessControl/classes/class.ilRbacReview.php");
+		$rbac_review = new ilRbacReview();
+		$roles = $rbac_review->getGlobalRoles();
+		$global_roles = array();
+
+		include_once("./Services/User/classes/class.ilUserQuery.php");
+
+			
+		$res = $ilDB->query("SELECT obj_id, title FROM object_data "
+							   ." WHERE ".$ilDB->in("obj_id", $roles, false, "integer")
+							   );
+		
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			$global_roles[$rec["obj_id"]] = $rec["title"];
+		}
+
+		$flipped_global_roles = array_flip($global_roles);
+
+		$users = array();
+
+		foreach ($a_role_titles as $role_title){
+			//get role-id of role
+			if(! array_key_exists($role_title, $flipped_global_roles)){
+				throw new Exception("no global role '$role_title'");
+			}
+			$role_id = $flipped_global_roles[$role_title];
+
+
+			$usr_data = ilUserQuery::getUserListData(
+				'login', //			ilUtil::stripSlashes($this->getOrderField()),
+				'asc' , //ilUtil::stripSlashes($this->getOrderDirection()),
+				0, //ilUtil::stripSlashes($this->getOffset()),
+				0, //ilUtil::stripSlashes($this->getLimit()),
+				'',
+				'',
+				null,
+				false,
+				false,
+				0,
+				$role_id
+			);
+
+			foreach ($usr_data['set'] as $usr) {
+				//$users[$usr['login']] = $usr;
+				$users[$usr['usr_id']] = $usr;
+			}
+
+		}
+
+		return $users;
+	}
+
+
 }
 
 ?>
