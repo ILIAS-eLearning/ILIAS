@@ -130,13 +130,15 @@ class gevUserImport {
 		if (!$shadow_users) {
 			return;
 		}
-
+		
 		foreach($shadow_users as $ilias_id => $shadow_user) {
 			try {
 				if (ilObjUser::_lookupFullname($ilias_id) === null) {
 					$ilLog->write("Shadow User Update: Couldn't find user ".$ilias_id." in ILIAS database.");
 					continue;
 				}
+				
+				//if ($ilias_id != 21011) { continue; }
 
 				$user = new ilObjUser($ilias_id);
 				$utils = gevUserUtils::getInstance($user->getId());
@@ -383,7 +385,10 @@ class gevUserImport {
 	}
 
 	private function set_gev_attributes(&$user, $shadow_user) {
+	    echo $user->getId()."\n\n";
 		$utils = gevUserUtils::getInstance($user->getId());
+		
+		//print_r($shadow_user);
 
 		$utils->setJobNumber($shadow_user['stellennummer']);
 		$utils->setADPNumber($shadow_user['adp']);

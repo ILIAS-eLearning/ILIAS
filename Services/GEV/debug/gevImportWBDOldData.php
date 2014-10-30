@@ -93,14 +93,14 @@ class gevImportOldData {
 		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
 		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
 		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
-
+/*
 		if(! $LIVE){
 			$host = "localhost";
 			$user = "root";
 			$pass = "s09e10";
 			$name = "gev_ivimport";
 		}
-
+*/
 		$mysql = mysql_connect($host, $user, $pass) or die(mysql_error());
 		mysql_select_db($name, $mysql);
 		mysql_set_charset('utf8', $mysql);
@@ -144,7 +144,8 @@ class gevImportOldData {
 	public function matchUser($rec){
 
 		//users that match the name
-		$sql = "SELECT * FROM usr_data_import WHERE"; //user_table
+		//$sql = "SELECT * FROM usr_data_import WHERE"; //user_table
+		$sql = "SELECT * FROM usr_data WHERE"; //user_table
 		if($LIVE){
 			$sql = "SELECT * FROM usr_data WHERE"; //user_table
 		}
@@ -479,8 +480,8 @@ print '<hr>';
 //print_r( array_diff_assoc($import->sem_bday_matches, $import->sem_ok));
 
 
-//$import->resetDB();
-die();
+$import->resetDB();
+//die();
 
 foreach($import->sem_ok as $rec){
 	$crs_id = $import->importSeminar($rec);

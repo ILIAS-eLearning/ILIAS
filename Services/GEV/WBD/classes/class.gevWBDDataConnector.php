@@ -14,15 +14,15 @@
 $SET_LASTWBDRECORD = true;
 $SET_BWVID = true;
 
-$GET_NEW_USERS = true;
-$GET_UPDATED_USERS = true;
+$GET_NEW_USERS = false;
+$GET_UPDATED_USERS = false;
 $GET_NEW_EDURECORDS = true;
 
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
 
-$LIMIT_RECORDS = 200;
-$ANON_DATA = false;
+$LIMIT_RECORDS = false;
+$ANON_DATA = true;
 
 
 $DEBUG_HTML_OUT = isset($_GET['debug']);
@@ -231,8 +231,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 			,"birthday_or_internal_agent_id" => $record['user_id']
 			,"agent_id" 			=> $record['bwv_id']
-			,"from" 				=> date('d.m.Y', $record['begin_date'])
-			,"till" 				=> date('d.m.Y', $record['end_date'])
+			,"from" 				=> date('d.m.Y', strtotime($record['begin_date']))
+			,"till" 				=> date('d.m.Y', strtotime($record['end_date']))
 			,"score"				=> $record['credit_points']
 			,"study_type_selection" => $this->VALUE_MAPPINGS['course_type'][$record['type']] // "Präsenzveranstaltung" | "Selbstgesteuertes E-Learning" | "Gesteuertes E-Learning";
 			,"study_content"		=> $record['wbd_topic'] 
