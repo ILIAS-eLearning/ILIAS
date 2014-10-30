@@ -190,6 +190,18 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	/**
 	 * @param $ref int the reference id of the datacollection object to check.
 	 *
+	 * @return bool whether or not the current user has admin/write access to the referenced datacollection
+	 */
+	public static function _hasAddRecordAccess($ref) {
+		global $ilAccess;
+
+		return $ilAccess->checkAccess("add_entry", "", $ref);
+	}
+
+
+	/**
+	 * @param $ref int the reference id of the datacollection object to check.
+	 *
 	 * @return bool whether or not the current user has add/edit_entry access to the referenced datacollection
 	 */
 	public static function _hasReadAccess($ref) {

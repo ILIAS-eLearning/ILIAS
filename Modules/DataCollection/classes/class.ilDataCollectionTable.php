@@ -309,9 +309,7 @@ class ilDataCollectionTable {
 
 
 	/**
-	 * Set object id
-	 *
-	 * @param int $obj_id
+	 * @param $a_id
 	 */
 	public function setObjId($a_id) {
 		$this->objId = $a_id;
@@ -319,8 +317,6 @@ class ilDataCollectionTable {
 
 
 	/**
-	 * Get object id
-	 *
 	 * @return int
 	 */
 	public function getObjId() {
@@ -329,9 +325,7 @@ class ilDataCollectionTable {
 
 
 	/**
-	 * Set title
-	 *
-	 * @param string $a_title
+	 * @param $a_title
 	 */
 	public function setTitle($a_title) {
 		$this->title = $a_title;
@@ -339,8 +333,6 @@ class ilDataCollectionTable {
 
 
 	/**
-	 * Get title
-	 *
 	 * @return string
 	 */
 	public function getTitle() {
@@ -349,8 +341,6 @@ class ilDataCollectionTable {
 
 
 	/**
-	 * getCollectionObject
-	 *
 	 * @return ilObjDataCollection
 	 */
 	public function getCollectionObject() {
@@ -360,12 +350,9 @@ class ilDataCollectionTable {
 	}
 
 
-	/*
-	 * loadObj
-	 */
-	private function loadObj() {
+	protected  function loadObj() {
 		if ($this->obj == NULL) {
-			$this->obj = new ilObjDataCollection($this->objId, false);
+			$this->obj = new ilObjDataCollection($this->objId, false); 
 		}
 	}
 
@@ -408,10 +395,7 @@ class ilDataCollectionTable {
 	}
 
 
-	/*
-	 * loadRecords
-	 */
-	private function loadRecords() {
+	protected function loadRecords() {
 		if ($this->records == NULL) {
 			global $ilDB;
 
@@ -490,7 +474,7 @@ class ilDataCollectionTable {
 	}
 
 
-	private function loadFields() {
+	protected function loadFields() {
 		if ($this->fields == NULL) {
 			global $ilDB;
 
@@ -694,7 +678,7 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToFields($ref_id) {
-		return ilObjDataCollection::_hasWriteAccess($ref_id);
+		return ilObjDataCollectionAccess::_hasWriteAccess($ref_id);
 	}
 
 
@@ -704,17 +688,18 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToAddTable($ref_id) {
-		return ilObjDataCollection::_hasWriteAccess($ref_id);
+		return ilObjDataCollectionAccess::_hasWriteAccess($ref_id);
 	}
 
 
 	/**
 	 * @param int $ref_id
 	 *y
+	 *
 	 * @return bool
 	 */
 	public function hasPermissionToAddRecord($ref_id) {
-		return ($this->getAddPerm() AND ilObjDataCollection::_hasReadAccess($ref_id) AND $this->checkLimit());
+		return ($this->getAddPerm() AND ilObjDataCollectionAccess::_hasReadAccess($ref_id) AND $this->checkLimit());
 	}
 
 
@@ -724,9 +709,9 @@ class ilDataCollectionTable {
 	 *
 	 * @return bool
 	 */
-	public function hasPermissionToEditRecord($ref_id, $record) {
-		return ($this->getEditPerm() AND ilObjDataCollection::_hasReadAccess($ref_id) && $this->checkEditByOwner($record) && $this->checkLimit())
-		|| ilObjDataCollection::_hasWriteAccess($ref_id);
+	public function hasPermissionToEditRecord($ref_id, ilDataCollectionRecord $record) {
+		return ($this->getEditPerm() AND ilObjDataCollectionAccess::_hasReadAccess($ref_id) AND $this->checkLimit())
+		OR $this->checkEditByOwner($record);
 	}
 
 
@@ -736,9 +721,9 @@ class ilDataCollectionTable {
 	 *
 	 * @return bool
 	 */
-	public function hasPermissionToDeleteRecord($ref_id, $record) {
-		return ($this->getDeletePerm() AND ilObjDataCollection::_hasReadAccess($ref_id) && $this->checkEditByOwner($record) && $this->checkLimit())
-		|| ilObjDataCollection::_hasWriteAccess($ref_id);
+	public function hasPermissionToDeleteRecord($ref_id, ilDataCollectionRecord $record) {
+		return ($this->getDeletePerm() AND ilObjDataCollectionAccess::_hasReadAccess($ref_id) AND $this->checkLimit())
+		OR $this->checkEditByOwner($record);
 	}
 
 
@@ -748,7 +733,7 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToDeleteRecords($ref_id) {
-		return ($this->getDeletePerm() AND ilObjDataCollection::_hasReadAccess($ref_id)) || (ilObjDataCollection::_hasWriteAccess($ref_id));
+		return ($this->getDeletePerm() AND ilObjDataCollectionAccess::_hasReadAccess($ref_id));
 	}
 
 
@@ -765,7 +750,7 @@ class ilDataCollectionTable {
 		if ($this->getCollectionObject()->getOwner() == $ilUser->getId() || $rbacreview->isAssigned($ilUser->getId(), 2)) {
 			return true;
 		}
-		if (ilObjDataCollection::_hasReadAccess($ref_id)) {
+		if (ilObjDataCollectionAccess::_hasReadAccess($ref_id)) {
 			// Check for view only own entries setting
 			if ($this->getViewOwnRecordsPerm() && $ilUser->getId() != $record->getOwner()) {
 				return false;
@@ -779,14 +764,14 @@ class ilDataCollectionTable {
 
 
 	/**
-	 * @param $record ilDataCollectionRecord
+	 * @param ilDataCollectionRecord $record
 	 *
 	 * @return bool
 	 */
-	private function checkEditByOwner($record) {
+	protected function checkEditByOwner(ilDataCollectionRecord $record) {
 		global $ilUser;
 
-		if ($this->getEditByOwner() && $ilUser->getId() != $record->getOwner()) {
+		if ($this->getEditByOwner() AND $ilUser->getId() != $record->getOwner()) {
 			return false;
 		}
 
@@ -797,7 +782,7 @@ class ilDataCollectionTable {
 	/**
 	 * @return bool
 	 */
-	private function checkLimit() {
+	protected function checkLimit() {
 		if ($this->getLimited()) {
 			$now = new ilDateTime(time(), IL_CAL_UNIX);
 			$from = new ilDateTime($this->getLimitStart(), IL_CAL_DATE);
@@ -843,7 +828,7 @@ class ilDataCollectionTable {
 	 *
 	 * @param $array ilDataCollectionField[] the array to sort
 	 */
-	private function sortByOrder(&$array) {
+	protected function sortByOrder(&$array) {
 		usort($array, array( $this, "compareOrder" ));
 	}
 
@@ -915,6 +900,7 @@ class ilDataCollectionTable {
 	 * @return boolean
 	 */
 	public function getDeletePerm() {
+
 		return $this->delete_perm;
 	}
 

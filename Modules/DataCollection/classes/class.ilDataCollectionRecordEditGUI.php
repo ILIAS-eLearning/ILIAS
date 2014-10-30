@@ -65,11 +65,14 @@ class ilDataCollectionRecordEditGUI {
 	 * @var ilUser
 	 */
 	protected $user;
+	/**
+	 * @var ilPropertyFormGUI
+	 */
+	protected $form;
 
 
 	/**
-	 * Constructor
-	 *
+	 * @param ilObjDataCollectionGUI $parent_obj
 	 */
 	public function __construct(ilObjDataCollectionGUI $parent_obj) {
 		global $ilCtrl, $tpl, $lng, $ilUser;
@@ -81,25 +84,28 @@ class ilDataCollectionRecordEditGUI {
 		$this->parent_obj = $parent_obj;
 		$this->record_id = $_REQUEST['record_id'];
 		$this->table_id = $_REQUEST['table_id'];
+	}
 
+
+	/**
+	 * @return bool
+	 */
+	public function executeCommand() {
+		$this->ctrl->saveParameter($this, 'redirect');
 		if ($this->record_id) {
 			$this->record = ilDataCollectionCache::getRecordCache($this->record_id);
-			if (!$this->record->hasPermissionToEdit($this->parent_obj->ref_id) || !$this->record->hasPermissionToView($this->parent_obj->ref_id)) {
+			if (!$this->record->hasPermissionToEdit($this->parent_obj->ref_id) OR !$this->record->hasPermissionToView($this->parent_obj->ref_id)) {
 				$this->accessDenied();
 			}
 			$this->table = $this->record->getTable();
 			$this->table_id = $this->table->getId();
 		} else {
 			$this->table = ilDataCollectionCache::getTableCache($this->table_id);
+			if (!ilObjDataCollectionAccess::_hasAddRecordAccess($_GET['ref_id'])) {
+				$this->accessDenied();
+			}
 		}
-		$this->ctrl->saveParameter($this, 'redirect');
-	}
 
-
-	/**
-	 * execute command
-	 */
-	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
 		switch ($cmd) {
 			default:
@@ -111,10 +117,6 @@ class ilDataCollectionRecordEditGUI {
 	}
 
 
-	/**
-	 * create Record
-	 *
-	 */
 	public function create() {
 		$this->initForm();
 		if ($this->ctrl->isAsynch()) {
@@ -127,12 +129,9 @@ class ilDataCollectionRecordEditGUI {
 	}
 
 
-	/**
-	 * edit Record
-	 */
 	public function edit() {
 		$this->initForm();
-		$this->getValues();
+		$this->setFormValues();
 		if ($this->ctrl->isAsynch()) {
 			echo $this->form->getHTML();
 			exit();
@@ -143,9 +142,6 @@ class ilDataCollectionRecordEditGUI {
 	}
 
 
-	/**
-	 * confirmDelete
-	 */
 	public function confirmDelete() {
 		$conf = new ilConfirmationGUI();
 		$conf->setFormAction($this->ctrl->getFormAction($this));
@@ -159,17 +155,11 @@ class ilDataCollectionRecordEditGUI {
 	}
 
 
-	/**
-	 * cancelDelete
-	 */
 	public function cancelDelete() {
 		$this->ctrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
 	}
 
 
-	/**
-	 * Delete record
-	 */
 	public function delete() {
 		$record = ilDataCollectionCache::getRecordCache($this->record_id);
 
@@ -190,6 +180,8 @@ class ilDataCollectionRecordEditGUI {
 	 * data is returned in JSON format
 	 *
 	 * @param int $record_id
+	 *
+	 * @return array
 	 */
 	public function getRecordData($record_id = 0) {
 		$record_id = ($record_id) ? $record_id : $_GET['record_id'];
@@ -259,12 +251,12 @@ class ilDataCollectionRecordEditGUI {
 				}
 				asort($options);
 				$item->setOptions($options);
-				if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) { // FSX use this to apply to MultiSelectInputGUI
-//					if (!$field->isNRef()) { // addCustomAttribute only defined for single selects
-						$item->addCustomAttribute('data-ref="1"');
-						$item->addCustomAttribute('data-ref-table-id="' . $reftable->getId() . '"');
-						$item->addCustomAttribute('data-ref-field-id="' . $reffield->getId() . '"');
-//					}
+				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) { // FSX use this to apply to MultiSelectInputGUI
+					//					if (!$field->isNRef()) { // addCustomAttribute only defined for single selects
+					$item->addCustomAttribute('data-ref="1"');
+					$item->addCustomAttribute('data-ref-table-id="' . $reftable->getId() . '"');
+					$item->addCustomAttribute('data-ref-field-id="' . $reffield->getId() . '"');
+					//					}
 				}
 			}
 
@@ -326,7 +318,7 @@ class ilDataCollectionRecordEditGUI {
 	 *
 	 * @return bool
 	 */
-	public function getValues() {
+	public function setFormValues() {
 		//Get Record-Values
 		$record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
 		//Get Table Field Definitions
@@ -455,7 +447,7 @@ class ilDataCollectionRecordEditGUI {
 				// If ajax request, return the form in edit mode again
 				$this->record_id = $record_obj->getId();
 				$this->initForm();
-				$this->getValues();
+				$this->setFormValues();
 				echo $this->tpl->getMessageHTML($this->lng->txt('msg_obj_modified'), 'success') . $this->form->getHTML();
 				exit();
 			} else {
@@ -496,12 +488,9 @@ class ilDataCollectionRecordEditGUI {
 	}
 
 
-	/**
-	 * Access denied
-	 */
-	private function accessDenied() {
+	protected function accessDenied() {
 		if (!$this->ctrl->isAsynch()) {
-			ilUtil::sendFailure('dcl_msg_no_perm_edit', true);
+			ilUtil::sendFailure($this->lng->txt('dcl_msg_no_perm_edit'), true);
 			$this->ctrl->redirectByClass('ildatacollectionrecordlistgui', 'listRecords');
 		} else {
 			echo $this->lng->txt('dcl_msg_no_perm_edit');
@@ -511,9 +500,9 @@ class ilDataCollectionRecordEditGUI {
 
 
 	/**
-	 * SendFailure
+	 * @param $message
 	 */
-	private function sendFailure($message) {
+	protected function sendFailure($message) {
 		$keep = ($this->ctrl->isAsynch()) ? false : true;
 		$this->form->setValuesByPost();
 		if ($this->ctrl->isAsynch()) {
@@ -580,7 +569,7 @@ class ilDataCollectionRecordEditGUI {
 	 *
 	 * @return array
 	 */
-	private function parseSearchResults($a_res) {
+	protected function parseSearchResults($a_res) {
 		$rows = array();
 		foreach ($a_res as $obj_id => $references) {
 			$r = array();
