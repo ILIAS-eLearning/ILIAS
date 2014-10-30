@@ -304,8 +304,7 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
 		$a_tpl->parseCurrentBlock();
 		
 		global $tpl;
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initDomEvent();
+		$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
 		$tpl->addJavascript("./Modules/SurveyQuestionPool/templates/default/matrixrowwizard.js");
 	}
 }

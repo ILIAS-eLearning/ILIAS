@@ -1,97 +1,40 @@
-var ilCategoryWizardInput = {
+var ilCategoryWizardInputTemplate = {
 	
-	init: function() {			
-		this.initEvents($('tr.catwzd').parent());
+	tag_container: 'tbody.catwzd',
+	tag_row: 'tr.catwzd',
+	tag_button: 'categorywizard',
+	
+	getRowFromEvent: function(e) {
+		return $(e.target).parents(this.tag_row);
 	},
 	
-	initEvents: function(rootel) {			
-		$(rootel).find('button.categorywizard_add').click(function(e) {
-			ilCategoryWizardInput.addRow(e);
-		});	
-		$(rootel).find('button.categorywizard_remove').click(function(e) {
-			ilCategoryWizardInput.removeRow(e);
-		});	
-		$(rootel).find('button.categorywizard_up').click(function(e) {
-			ilCategoryWizardInput.moveRowUp(e);
-		});	
-		$(rootel).find('button.categorywizard_down').click(function(e) {
-			ilCategoryWizardInput.moveRowDown(e);
-		});			
-	},
-	
-	addRow: function(e) {				
-		// clone row
-		var source = $(e.target).parents('tr');				
-		var target = $(source).clone();		
-		
-		// add events
-		this.initEvents(target);
-		
-		// empty inputs
-		this.cleanRow(target);
-		
-		$(source).after(target);	
-					
-		this.reindexRows($(e.target).parents('tbody'));		
-	},
-	
-	removeRow: function(e) {		
-		var source = $(e.target).parents('tr');			
-		var tbody = $(e.target).parents('tbody');
-		
-		// do not remove last row
-		if($(tbody).find('tr').size() > 1) {
-			$(source).remove();
-		}
-		// reset last remaining row
-		else {
-			this.cleanRow(source);
-		}
-			
-		this.reindexRows(tbody);		
-	},
-	
-	moveRowUp: function(e) {		
-		var source = $(e.target).parents('tr');					
-		var prev = $(source).prev();
-		if(prev[0])
-		{
-			$(prev).before(source);
-		}		
-	},
-	
-	moveRowDown: function(e) {		
-		var source = $(e.target).parents('tr');		
-		var next = $(source).next();
-		if(next[0])
-		{
-			$(next).after(source);
-		}
-	},
+	getContainerFromEvent: function(e) {
+		return $(e.target).parents(this.tag_container);
+	},	
 	
 	cleanRow: function(row) {
 		$(row).find('input:text').attr('value', '');
 		$(row).find('input:checkbox').prop('checked', false);
 	},
 	
-	reindexRows: function(tbody) {		
-		var postvar = $(tbody).parents('div').attr('id');
+	reindexRows: function(container) {				
+		var that = this;		
 		var rowindex = 0;
 		var maxscale = 0;
 		
 		// process all rows
-		$(tbody).find('tr').each(function() {
-			
+		$(container).find(this.tag_row).each(function() {
+								
 			// answer
-			$(this).find('input:text[id*="[answer]"]').each(function() {				
-				$(this).attr('id', postvar + '[answer][' + rowindex + ']');
-				$(this).attr('name', postvar + '[answer][' + rowindex + ']');								
+			$(this).find('input:text[id*="[answer]"]').each(function() {					
+				that.handleId(this, 'id', rowindex);
+				that.handleId(this, 'name', rowindex);											
 			});
 			
 			// scale
-			$(this).find('input:text[id*="[scale]"]').each(function() {				
-				$(this).attr('id', postvar + '[scale][' + rowindex + ']');
-				$(this).attr('name', postvar + '[scale][' + rowindex + ']');								
+			$(this).find('input:text[id*="[scale]"]').each(function() {		
+				that.handleId(this, 'id', rowindex);
+				that.handleId(this, 'name', rowindex);			
 				
 				// find current max scale
 				var value = $(this).attr('value');
@@ -102,15 +45,21 @@ var ilCategoryWizardInput = {
 			
 			// other
 			$(this).find('input:checkbox').each(function() {				
-				$(this).attr('id', postvar + '[other][' + rowindex + ']');
-				$(this).attr('name', postvar + '[other][' + rowindex + ']');												
+				that.handleId(this, 'id', rowindex);
+				that.handleId(this, 'name', rowindex);														
+			});
+			
+			// button
+			$(this).find('button').each(function() {	
+				that.handleId(this, 'id', rowindex);
+				that.handleId(this, 'name', rowindex);											
 			});
 								
 			rowindex++;
 		});			
 		
 		// redo scale values
-		$(tbody).find('input:text[id*="[scale]"]').each(function() {	
+		$(container).find('input:text[id*="[scale]"]').each(function() {	
 			var value = $(this).attr('value');		
 			if(isNaN(value) || value === '') {
 				maxscale++;				
@@ -119,6 +68,7 @@ var ilCategoryWizardInput = {
 		});			
 		
 		// fix neutral
+		var postvar = $(container).parents('div').attr('id');
 		var neutral = $('#' + postvar + '_neutral_scale').attr('value');
 		if (neutral !== null)
 		{
@@ -130,5 +80,6 @@ var ilCategoryWizardInput = {
 };
 
 $(document).ready(function() {
+	var ilCategoryWizardInput = $.extend({}, ilCategoryWizardInputTemplate, ilWizardInput);
 	ilCategoryWizardInput.init();
 });
