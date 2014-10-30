@@ -25,18 +25,42 @@ class ilDataCollectionTableEditGUI
 	 * @var ilDataCollectionTable
 	 */
 	private $table;
-	
+
+    /**
+     * @var ilLanguage
+     */
+    protected $lng;
+
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
+
+    /**
+     * @var ilTemplate
+     */
+    protected $tpl;
+
 	/**
 	 * Constructor
 	 *
-	 * @param	object	$a_parent_obj
+	 * @param	ilObjDataCollectionGUI	$a_parent_obj
 	 */
 	public function __construct(ilObjDataCollectionGUI $a_parent_obj)
 	{
-		$this->parent_object = $a_parent_obj;
+		global $ilCtrl, $lng, $tpl;
+
+        $this->ctrl = $ilCtrl;
+        $this->lng = $lng;
+        $this->tpl = $tpl;
+        $this->parent_object = $a_parent_obj;
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->table_id = $_GET['table_id'];
 		$this->table = ilDataCollectionCache::getTableCache($this->table_id);
+        if ( ! $this->checkPermission()) {
+            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass('ildatacollectionrecordlistgui', 'listRecords');
+        }
 	}
 
 	
@@ -45,10 +69,8 @@ class ilDataCollectionTableEditGUI
 	 */
 	public function executeCommand()
 	{
-		global $tpl, $ilCtrl, $ilUser;
-		
-		$cmd = $ilCtrl->getCmd();
-		$tpl->getStandardTemplate();
+		$cmd = $this->ctrl->getCmd();
+		$this->tpl->getStandardTemplate();
 		
 		switch($cmd)
 		{
@@ -68,11 +90,9 @@ class ilDataCollectionTableEditGUI
 	 */
 	public function create()
 	{
-		global $ilTabs, $tpl;
-		
 		$this->initForm();
 		$this->getStandardValues();
-		$tpl->setContent($this->form->getHTML());
+		$this->tpl->setContent($this->form->getHTML());
 	}
 
 	/**
@@ -80,11 +100,9 @@ class ilDataCollectionTableEditGUI
 	 */
 	public function edit()
 	{
-		global $ilCtrl, $tpl;
-
 		if(!$this->table_id)
 		{
-			$ilCtrl->redirectByClass("ildatacollectionfieldeditgui", "listFields");
+			$this->ctrl->redirectByClass("ildatacollectionfieldeditgui", "listFields");
 			return;
 		}
 		else
@@ -93,7 +111,7 @@ class ilDataCollectionTableEditGUI
 		}
 		$this->initForm("edit");
 		$this->getValues();
-		$tpl->setContent($this->form->getHTML());
+		$this->tpl->setContent($this->form->getHTML());
 	}
 
 	/**
@@ -150,9 +168,7 @@ class ilDataCollectionTableEditGUI
 	 */
 	public function cancel()
 	{
-		global $ilCtrl;
-		
-		$ilCtrl->redirectByClass("ilDataCollectionFieldListGUI", "listFields");
+		$this->ctrl->redirectByClass("ilDataCollectionFieldListGUI", "listFields");
 	}
 
 	/**
@@ -162,100 +178,98 @@ class ilDataCollectionTableEditGUI
 	 */
 	public function initForm($a_mode = "create")
 	{
-		global $ilCtrl, $ilErr, $lng;
-		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
-		$item = new ilTextInputGUI($lng->txt('title'),'title');
+		$item = new ilTextInputGUI($this->lng->txt('title'),'title');
 		$item->setRequired(true);
 		$this->form->addItem($item);
-		$item = new ilCheckboxInputGUI($lng->txt('dcl_visible'),'is_visible');
+		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_visible'),'is_visible');
 		$this->form->addItem($item);
 
         // Show default order field and direction only in edit mode, because table id is not yet given and there are no fields to select
         if ($a_mode != 'create') {
-            $item = new ilSelectInputGUI($lng->txt('dcl_default_sort_field'), 'default_sort_field');
+            $item = new ilSelectInputGUI($this->lng->txt('dcl_default_sort_field'), 'default_sort_field');
             $fields = $this->table->getVisibleFields();
-            $options = array(0 => $lng->txt('dcl_please_select'));
+            $options = array(0 => $this->lng->txt('dcl_please_select'));
             foreach ($fields as $field) {
                 $options[$field->getId()] = $field->getTitle();
             }
             $item->setOptions($options);
             $this->form->addItem($item);
 
-            $item = new ilSelectInputGUI($lng->txt('dcl_default_sort_field_order'), 'default_sort_field_order');
-            $options = array('asc' => $lng->txt('dcl_asc'), 'desc' => $lng->txt('dcl_desc'));
+            $item = new ilSelectInputGUI($this->lng->txt('dcl_default_sort_field_order'), 'default_sort_field_order');
+            $options = array('asc' => $this->lng->txt('dcl_asc'), 'desc' => $this->lng->txt('dcl_desc'));
             $item->setOptions($options);
             $this->form->addItem($item);
         }
 
-        $item = new ilTextAreaInputGUI($lng->txt('additional_info'), 'description');
+        $item = new ilTextAreaInputGUI($this->lng->txt('additional_info'), 'description');
         $item->setUseRte(true);
 //        $item->setRTESupport($this->table->getId(), 'dcl', 'table_settings');
         $item->setRteTagSet('mini');
         $this->form->addItem($item);
 
-        $item = new ilCheckboxInputGUI($lng->txt('dcl_public_comments'),'public_comments');
+        $item = new ilCheckboxInputGUI($this->lng->txt('dcl_public_comments'),'public_comments');
         $this->form->addItem($item);
 
         $section = new ilFormSectionHeaderGUI();
-        $section->setTitle($lng->txt('dcl_permissions_form'));
+        $section->setTitle($this->lng->txt('dcl_permissions_form'));
         $this->form->addItem($section);
 
         $item = new ilCustomInputGUI();
-        $item->setHtml($lng->txt('dcl_table_info'));
-        $item->setTitle($lng->txt('dcl_table_info_title'));
+        $item->setHtml($this->lng->txt('dcl_table_info'));
+        $item->setTitle($this->lng->txt('dcl_table_info_title'));
         $this->form->addItem($item);
 
-		$item = new ilCheckboxInputGUI($lng->txt('dcl_add_perm'),'add_perm');
-//		$item->setInfo($lng->txt("dcl_add_perm_info"));
+		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_add_perm'),'add_perm');
+//		$item->setInfo($this->lng->txt("dcl_add_perm_info"));
 		$this->form->addItem($item);
-		$item = new ilCheckboxInputGUI($lng->txt('dcl_edit_perm'),'edit_perm');
-//		$item->setInfo($lng->txt("dcl_edit_perm_info"));
+		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_edit_perm'),'edit_perm');
+//		$item->setInfo($this->lng->txt("dcl_edit_perm_info"));
 		$this->form->addItem($item);
-		$item = new ilCheckboxInputGUI($lng->txt('dcl_delete_perm'),'delete_perm');
-//		$item->setInfo($lng->txt("dcl_delete_perm_info"));
+		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_delete_perm'),'delete_perm');
+//		$item->setInfo($this->lng->txt("dcl_delete_perm_info"));
 		$this->form->addItem($item);
-		$item = new ilCheckboxInputGUI($lng->txt('dcl_edit_by_owner'),'edit_by_owner');
-//		$item->setInfo($lng->txt("dcl_edit_by_owner_info"));
+		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_edit_by_owner'),'edit_by_owner');
+//		$item->setInfo($this->lng->txt("dcl_edit_by_owner_info"));
 		$this->form->addItem($item);
 
-        $item = new ilCheckboxInputGUI($lng->txt('dcl_view_own_records_perm'),'view_own_records_perm');
-//		$item->setInfo($lng->txt("dcl_edit_by_owner_info"));
+        $item = new ilCheckboxInputGUI($this->lng->txt('dcl_view_own_records_perm'),'view_own_records_perm');
+//		$item->setInfo($this->lng->txt("dcl_edit_by_owner_info"));
         $this->form->addItem($item);
 
-        $item = new ilCheckboxInputGUI($lng->txt('dcl_export_enabled'), 'export_enabled');
+        $item = new ilCheckboxInputGUI($this->lng->txt('dcl_export_enabled'), 'export_enabled');
         $this->form->addItem($item);
 
-		$item = new ilCheckboxInputGUI($lng->txt('dcl_limited'),'limited');
-		$sitem1 = new ilDateTimeInputGUI($lng->txt('dcl_limit_start'),'limit_start');
+		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_limited'),'limited');
+		$sitem1 = new ilDateTimeInputGUI($this->lng->txt('dcl_limit_start'),'limit_start');
         $sitem1->setShowTime(true);
-		$sitem2 = new ilDateTimeInputGUI($lng->txt('dcl_limit_end'),'limit_end');
+		$sitem2 = new ilDateTimeInputGUI($this->lng->txt('dcl_limit_end'),'limit_end');
         $sitem2->setShowTime(true);
-//		$item->setInfo($lng->txt("dcl_limited_info"));
+//		$item->setInfo($this->lng->txt("dcl_limited_info"));
 		$item->addSubItem($sitem1);
 		$item->addSubItem($sitem2);
 		$this->form->addItem($item);
 
 		if($a_mode == "edit")
 		{
-			$this->form->addCommandButton('update', 	$lng->txt('dcl_table_'.$a_mode));
+			$this->form->addCommandButton('update', 	$this->lng->txt('dcl_table_'.$a_mode));
 		}
 		else
 		{
-			$this->form->addCommandButton('save', 	$lng->txt('dcl_table_'.$a_mode));
+			$this->form->addCommandButton('save', 	$this->lng->txt('dcl_table_'.$a_mode));
 		}
 			
-		$this->form->addCommandButton('cancel', 	$lng->txt('cancel'));
-		$this->form->setFormAction($ilCtrl->getFormAction($this, $a_mode));
+		$this->form->addCommandButton('cancel', 	$this->lng->txt('cancel'));
+		$this->form->setFormAction($this->ctrl->getFormAction($this, $a_mode));
 		if($a_mode == "edit")
 		{
-			$this->form->setTitle($lng->txt('dcl_edit_table'));
+			$this->form->setTitle($this->lng->txt('dcl_edit_table'));
 		}
 		else
 		{
-			$this->form->setTitle($lng->txt('dcl_new_table'));
+			$this->form->setTitle($this->lng->txt('dcl_new_table'));
 		}
 	}
 
@@ -267,7 +281,7 @@ class ilDataCollectionTableEditGUI
 	 */
 	public function save($a_mode = "create")
 	{
-		global $ilCtrl, $ilTabs, $lng;
+		global $ilTabs;
 		
 		if(!ilObjDataCollection::_checkAccess($this->obj_id))
 		{
@@ -291,7 +305,7 @@ class ilDataCollectionTableEditGUI
             }
 			else
             {
-				$ilCtrl->redirectByClass("ildatacollectionfieldeditgui", "listFields");
+				$this->ctrl->redirectByClass("ildatacollectionfieldeditgui", "listFields");
             }
 
 
@@ -322,22 +336,21 @@ class ilDataCollectionTableEditGUI
 			if($a_mode == "update")
 			{
 				$this->table->doUpdate();
-				ilUtil::sendSuccess($lng->txt("dcl_msg_table_edited"), true);
-				$ilCtrl->redirectByClass("ildatacollectiontableeditgui", "edit");
+				ilUtil::sendSuccess($this->lng->txt("dcl_msg_table_edited"), true);
+				$this->ctrl->redirectByClass("ildatacollectiontableeditgui", "edit");
 			}
 			else
 			{
 				$this->table->doCreate();
-				ilUtil::sendSuccess($lng->txt("dcl_msg_table_created"), true);
-				$ilCtrl->setParameterByClass("ildatacollectionfieldlistgui","table_id", $this->table->getId());
-				$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
+				ilUtil::sendSuccess($this->lng->txt("dcl_msg_table_created"), true);
+				$this->ctrl->setParameterByClass("ildatacollectionfieldlistgui","table_id", $this->table->getId());
+				$this->ctrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 			}
 		}
 		else
 		{
-			global $tpl;
 			$this->form->setValuesByPost();
-			$tpl->setContent($this->form->getHTML());
+			$this->tpl->setContent($this->form->getHTML());
 		}
 	}
 
@@ -347,7 +360,6 @@ class ilDataCollectionTableEditGUI
      * @return bool
      */
     protected function checkInput($a_mode) {
-        global $lng;
         $return = $this->form->checkInput();
 
         // Title of table must be unique in one DC
@@ -355,13 +367,13 @@ class ilDataCollectionTableEditGUI
             if ($title = $this->form->getInput('title')) {
                 if (ilObjDataCollection::_hasTableByTitle($title, $this->obj_id)) {
                     $inputObj = $this->form->getItemByPostVar('title');
-                    $inputObj->setAlert($lng->txt("dcl_table_title_unique"));
+                    $inputObj->setAlert($this->lng->txt("dcl_table_title_unique"));
                     $return = false;
                 }
             }
         }
 
-        if (!$return) ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+        if (!$return) ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
         return $return;
     }
 
@@ -370,9 +382,7 @@ class ilDataCollectionTableEditGUI
 	 */
 	public function accessDenied()
 	{
-		global $tpl;
-		
-		$tpl->setContent("Access denied.");
+		$this->tpl->setContent("Access denied.");
 	}
 
 	/**
@@ -380,19 +390,17 @@ class ilDataCollectionTableEditGUI
 	 */
 	public function confirmDelete()
 	{
-		global $ilCtrl, $lng, $tpl;
-
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI();
-		$conf->setFormAction($ilCtrl->getFormAction($this));
-		$conf->setHeaderText($lng->txt('dcl_confirm_delete_table'));
+		$conf->setFormAction($this->ctrl->getFormAction($this));
+		$conf->setHeaderText($this->lng->txt('dcl_confirm_delete_table'));
 
 		$conf->addItem('table', (int) $this->table->getId(), $this->table->getTitle());
 
-		$conf->setConfirm($lng->txt('delete'), 'delete');
-		$conf->setCancel($lng->txt('cancel'), 'cancelDelete');
+		$conf->setConfirm($this->lng->txt('delete'), 'delete');
+		$conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');
 
-		$tpl->setContent($conf->getHTML());
+		$this->tpl->setContent($conf->getHTML());
 	}
 
 	/**
@@ -400,9 +408,7 @@ class ilDataCollectionTableEditGUI
 	 */
 	public function cancelDelete()
 	{
-		global $ilCtrl;
-
-		$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
+		$this->ctrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 	}
 
 	/*
@@ -410,18 +416,26 @@ class ilDataCollectionTableEditGUI
 	  */
 	public function delete()
 	{
-		global $ilCtrl, $lng;
 		$mainTableId = $this->table->getCollectionObject()->getMainTableId();
 		if($mainTableId == $this->table->getId()){
-			ilUtil::sendFailure($lng->txt("dcl_cant_delete_main_table"), true);
+			ilUtil::sendFailure($this->lng->txt("dcl_cant_delete_main_table"), true);
 		}
 		else{
-			$ilCtrl->setParameterByClass("ildatacollectionfieldlistgui", "table_id", $mainTableId);
+			$this->ctrl->setParameterByClass("ildatacollectionfieldlistgui", "table_id", $mainTableId);
 		}
 
 		$this->table->doDelete();
-		$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
+		$this->ctrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 	}
+
+    /**
+     * @return bool
+     */
+    protected function checkPermission()
+    {
+        $ref_id = $this->parent_object->getDataCollectionObject()->getRefId();
+        return ilObjDataCollection::_hasWriteAccess($ref_id);
+    }
 
 }
 

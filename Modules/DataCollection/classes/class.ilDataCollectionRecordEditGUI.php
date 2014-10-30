@@ -163,7 +163,7 @@ class ilDataCollectionRecordEditGUI {
 	 * cancelDelete
 	 */
 	public function cancelDelete() {
-		$this->ctrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
+		$this->ctrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
 	}
 
 
