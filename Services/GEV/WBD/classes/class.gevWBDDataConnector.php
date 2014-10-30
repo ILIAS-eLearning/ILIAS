@@ -225,6 +225,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$edudata = array(
 			"name" 					=> $record["lastname"]
 			,"first_name" 			=> $record["firstname"]
+			
+			"name" 					=> '' //will not be imported, anyway.
+			,"first_name" 			=> ''
+
 			,"birthday_or_internal_agent_id" => $record['user_id']
 			,"agent_id" 			=> $record['bwv_id']
 			,"from" 				=> date('d.m.Y', $record['begin_date'])
@@ -548,6 +552,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 				hist_course.hist_historic = 0
 				AND
 				hist_user.hist_historic = 0
+				AND
+				hist_user.bwv_id != '-empty-'
 
 			AND
 				hist_usercoursestatus.function = 'Mitglied'
