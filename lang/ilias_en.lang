@@ -13239,6 +13239,7 @@ dcl#:#dcl_delete_records#:#Delete records
 dcl#:#dcl_confirm_delete_records#:#Are you sure you want to delete the following records?
 dcl#:#dcl_deleted_records#:#Successfully deleted %s records
 dcl#:#dcl_skipped_delete_records#:#%s records were not deleted due to permission settings
+dcl#:#dcl_allowed_file_types#:#Allowed file types
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
 common#:#obj_bibs#:#Bibliography

@@ -111,6 +111,7 @@ class ilDataCollectionField
     const PROPERTYID_DISPLAY_COPY_LINK_ACTION_MENU = 13;
     const PROPERTYID_LINK_DETAIL_PAGE_TEXT = 14;
     const PROPERTYID_LINK_DETAIL_PAGE_MOB = 15;
+    const PROPERTYID_SUPPORTED_FILE_TYPES = 16;
 
 	// type of table il_dcl_view
 	const VIEW_VIEW 		= 1;

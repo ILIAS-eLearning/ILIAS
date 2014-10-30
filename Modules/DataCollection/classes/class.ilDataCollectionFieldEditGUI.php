@@ -4,6 +4,7 @@ require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php")
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php");
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
 require_once "class.ilDataCollectionCache.php";
+require_once('./Services/Form/classes/class.ilNonEditableValueGUI.php');
 
 /**
  * Class ilDataCollectionFieldEditGUI
@@ -265,23 +266,25 @@ class ilDataCollectionFieldEditGUI {
 					$functions = implode(', ', ilDclExpressionParser::getFunctions());
 					$subitem->setInfo(sprintf($lng->txt('dcl_prop_expression_info'), $operators, $functions, implode('<br>', $fields)));
 					$opt->addSubItem($subitem);
-				} //All other Types: List properties saved in propertie definition table
-				elseif ($property['datatype_id'] == $datatype['id']) {
-					if ($property['inputformat'] == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN) {
+				} elseif ($property['datatype_id'] == $datatype['id']) {
+                    //All other Types: List properties saved in propertie definition table
+                    if ($property['inputformat'] == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN) {
 						$subitem = new ilCheckboxInputGUI($lng->txt('dcl_' . $property['title']), 'prop_' . $property['id']);
 						$opt->addSubItem($subitem);
-					} else {
-						if ($property['inputformat'] == ilDataCollectionDatatype::INPUTFORMAT_NUMBER) {
+					} elseif ($property['inputformat'] == ilDataCollectionDatatype::INPUTFORMAT_NUMBER) {
 							$subitem = new ilNumberInputGUI($lng->txt('dcl_' . $property['title']), 'prop_' . $property['id']);
 							$subitem->setSize(5);
 							if ($property['title'] == 'length') {
 								$subitem->setMaxValue(4000);
 							}
 							$opt->addSubItem($subitem);
-						} else {
+                    } elseif ($property['inputformat'] == ilDataCollectionDatatype::INPUTFORMAT_NON_EDITABLE_VALUE) {
+                        $subitem = new ilNonEditableValueGUI($property['title']);
+                        $subitem->setValue(implode(', ', ilDataCollectionDatatype::$mob_suffixes));
+                        $opt->addSubItem($subitem);
+					} else {
 							$subitem = new ilTextInputGUI($lng->txt('dcl_' . $property['title']), 'prop_' . $property['id']);
 							$opt->addSubItem($subitem);
-						}
 					}
 				}
 			}

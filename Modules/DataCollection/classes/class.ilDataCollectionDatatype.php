@@ -42,8 +42,12 @@ class ilDataCollectionDatatype {
 	const INPUTFORMAT_MOB = 9;
 	const INPUTFORMAT_REFERENCELIST = 10;
 	const INPUTFORMAT_FORMULA = 11;
+    const INPUTFORMAT_NON_EDITABLE_VALUE = 12;
 	const LINK_MAX_LENGTH = 40;
-	/**
+
+    public static $mob_suffixes = array('jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv');
+
+    /**
 	 * @var int
 	 */
 	protected $id;
@@ -275,7 +279,7 @@ class ilDataCollectionDatatype {
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_MOB:
 				$input = new ilFileInputGUI($title, 'field_' . $field->getId());
-				$input->setSuffixes(array( 'jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv' ));
+				$input->setSuffixes(self::$mob_suffixes);
 				$input->setAllowDeletion(true);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_FORMULA:

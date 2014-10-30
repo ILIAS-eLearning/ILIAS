@@ -4512,3 +4512,12 @@ if( !$settings->get('ommit_legacy_ou_dbtable_deletion', 0) )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4406>
+<?php
+$ilDB->insert('il_dcl_datatype_prop', array(
+    'id' => array('integer', 16),
+    'datatype_id' => array('integer', 9),
+    'title' => array('text', 'allowed_file_types'),
+    'inputformat' => array('integer', 12),
+));
+?>
