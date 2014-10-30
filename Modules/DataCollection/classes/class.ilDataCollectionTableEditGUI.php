@@ -33,10 +33,16 @@ class ilDataCollectionTableEditGUI
 	 */
 	public function __construct(ilObjDataCollectionGUI $a_parent_obj)
 	{
-		$this->parent_object = $a_parent_obj;
+		global $ilCtrl, $lng;
+
+        $this->parent_object = $a_parent_obj;
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->table_id = $_GET['table_id'];
 		$this->table = ilDataCollectionCache::getTableCache($this->table_id);
+        if ( ! $this->checkPermission()) {
+            ilUtil::sendFailure($lng->txt('permission_denied'), true);
+            $ilCtrl->redirectByClass('ildatacollectionrecordlistgui', 'listRecords');
+        }
 	}
 
 	
@@ -382,6 +388,15 @@ class ilDataCollectionTableEditGUI
 		$this->table->doDelete();
 		$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 	}
+
+    /**
+     * @return bool
+     */
+    protected function checkPermission()
+    {
+        $ref_id = $this->parent_object->getDataCollectionObject()->getRefId();
+        return ilObjDataCollection::_hasWriteAccess($ref_id);
+    }
 
 }
 
