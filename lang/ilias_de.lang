@@ -8422,8 +8422,8 @@ mep#:#mep_unknown#:#Unbekannt
 mep#:#mep_up_dir_copy#:#Dateien aus Upload-Verzeichnis kopieren (Erhält Dateien in Upload-Verzeichnis)
 mep#:#mep_up_dir_move#:#Dateien aus Upload-Verzeichnis verschieben (Schneller)
 mep#:#mep_upload_dir_files#:#Dateien aus Upload-Verzeichnis
-mep#:#mobs_activate_pages#:#Aktiviere Nutzung von Inhaltsbausteinen
-mep#:#mobs_activate_pages_info#:#Ermöglicht es, Seiteninhalte als Bausteine zu Medienpools hinzuzufügen. Diese Inhaltsbausteine können in Lernmodulen, Glossaren etc. wiederverwendet aber dort nicht bearbeitet werden.
+mep#:#mobs_activate_pages#:#Inhaltsbausteine nutzen
+mep#:#mobs_activate_pages_info#:#Ermöglicht es, Seiteninhalte als Bausteine in Medienpools anzulegen. Diese Inhaltsbausteine können in ILIAS Lernmodulen wiederverwendet, aber dort nicht bearbeitet werden.
 mep#:#mobs_always_show_file_manager#:#Dateistruktur immer anzeigen
 mep#:#mobs_always_show_file_manager_info#:#Wenn deaktiviert, wird die Dateistruktur für einfache Datentypen, wie z.B. Bilder, nicht angezeigt.
 mep#:#mobs_restrict_file_types#:#Dateitypen einschränken
@@ -12418,7 +12418,6 @@ dcl#:#dcl_delete_records#:#Datensätze löschen
 dcl#:#dcl_confirm_delete_records#:#Sind Sie sicher, dass die folgenden Datensätze gelöscht werden sollen?
 dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht
 dcl#:#dcl_skipped_delete_records#:#%s Datensätze wurden aufgrund der Rechteeinstellungen nicht gelöscht
-dcl#:#dcl_allowed_file_types#:#Erlaubte Dateitypen
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.

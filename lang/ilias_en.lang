@@ -7268,8 +7268,8 @@ mep#:#mep_parent_folder#:#Parent Folder
 mep#:#mep_thumbnail#:#Thumbnail
 mep#:#mep_title_and_description#:#Title and Description
 mep#:#mep_unknown#:#Unknown
-mep#:#mobs_activate_pages_info#:#Allow to add content snippets to media pools. These snippets can be re-used (not edited) in learning modules etc.
-mep#:#mobs_activate_pages#:#Activate Content Snippets Management
+mep#:#mobs_activate_pages_info#:#Allows to create content snippets in media pools. These snippets can be re-used (not edited) in learning modules.
+mep#:#mobs_activate_pages#:#Use Content Snippets
 mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).
 mep#:#mobs_always_show_file_manager#:#Always Show File Manager
 meta#:#md_adv_active#:#Active
@@ -13239,7 +13239,6 @@ dcl#:#dcl_delete_records#:#Delete records
 dcl#:#dcl_confirm_delete_records#:#Are you sure you want to delete the following records?
 dcl#:#dcl_deleted_records#:#Successfully deleted %s records
 dcl#:#dcl_skipped_delete_records#:#%s records were not deleted due to permission settings
-dcl#:#dcl_allowed_file_types#:#Allowed file types
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
 common#:#obj_bibs#:#Bibliography
@@ -14878,7 +14877,7 @@ common#:#il_astpl_loc_qualified_desc#:#Settings template for qualifying tests of
 crs#:#crs_loc_confirm_delete_tst#:#Do you really want to deassign the test of this learning objective oriented course?
 crs#:#crs_loc_tbl_tst_type#:#Test Mode
 crs#:#crs_loc_form_assign_it#:#Test Assignment
-crs#:#crs_loc_form_tst_new#:#Create new Test
+crs#:#crs_loc_form_tst_new#:#Create New Test
 crs#:#crs_loc_form_assign#:#Use Existing Test
 crs#:#crs_loc_form_available_tsts#:#Available Tests
 crs#:#crs_loc_tbl_tst_qst_qpl#:#Questions/Questionpools
@@ -14891,7 +14890,7 @@ crs#:#crs_loc_rand_qpl#:#Available Question Pools
 crs#:#crs_loc_num_qst#:#Number of Questions
 crs#:#crs_loc_perc#:#Required Percentage of Points
 crs#:#crs_loc_delete_assignment#:#Delete Assignment
-crs#:#crs_loc_err_no_active_qst#:#Objectives without Questions
+crs#:#crs_loc_err_no_active_qst#:#Objectives without questions
 crs#:#crs_loc_qtst_for_objective#:#Qualifying Test "%1$s"
 crs#:#crs_loc_itst_for_objective#:#Initial Test "%1$s"
 crs#:#crs_loc_progress_result_itest#:#Result of Initial Test
