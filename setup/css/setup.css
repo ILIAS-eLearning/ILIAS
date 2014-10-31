@@ -140,7 +140,7 @@ body.setup footer.ilFooter {
 }
 
 body.ilSetupLogin #left-panel {
-	/*width: 0;*/
+	width: 0;
 }
 
 body.ilSetupLogin form.form-horizontal input.form-control,
