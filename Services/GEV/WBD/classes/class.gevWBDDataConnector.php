@@ -11,18 +11,24 @@
 */
 
 
-$SET_LASTWBDRECORD = false;
-$SET_BWVID = false;
+$SET_LASTWBDRECORD = true;
+$SET_BWVID = true;
 
-$GET_NEW_USERS = true;
+$GET_NEW_USERS = false;
 $GET_UPDATED_USERS = false;
-$GET_NEW_EDURECORDS = false;
+$GET_NEW_EDURECORDS = true;
+
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
 
+$LIMIT_RECORDS = false;
+$ANON_DATA = true;
+
 
 $DEBUG_HTML_OUT = isset($_GET['debug']);
-echo('<pre>');
+if($DEBUG_HTML_OUT){
+	echo('<pre>');	
+}
 
 
 
@@ -54,6 +60,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 	public $valid_newusers = array();
 	public $broken_newusers = array();
 
+	public $valid_newedurecords = array();
+	public $broken_newedurecords = array();
+
 
 	public function __construct() {
 
@@ -66,10 +75,21 @@ class gevWBDDataConnector extends wbdDataConnector {
 	 */
 
 	private function _extract_house_nr($streetnr){
+
+		//special cases:
+		//Mannheim, Q5
+		$i = 0 ;
+		if(strtoupper(substr(trim($streetnr), 0, 2)) == 'Q5') {
+		    $i = 2;
+		}
+		if(strtoupper(substr(trim($streetnr), 0, 3)) == 'Q 5') {
+		    $i = 3;
+		}
+
 		//find first number in string
 	    $len = strlen($streetnr);
 	    $pos = False;
-	    for($i = 0; $i < $len; $i++) {
+	    for($i; $i < $len; $i++) {
 	        if(is_numeric($streetnr[$i])) {
 	        	$pos = $i;
 	        	break;
@@ -83,65 +103,179 @@ class gevWBDDataConnector extends wbdDataConnector {
 		);
 	}
 
+	public function _polish_phone_nr($phone_nr){
+		if($phone_nr == '' || preg_match($this->TELNO_REGEXP, $phone_nr)){
+			//all well, return
+			
+			return $phone_nr;
+		}
+		$nr_raw = $phone_nr;
+
+		//strip country-code
+		if(in_array(substr($nr_raw, 0, 4), array('++49', '0049'))){
+			$nr_raw = substr($nr_raw, 4);
+		}
+		if(in_array(substr($nr_raw, 0, 3), array('+49', '049'))){
+			$nr_raw = substr($nr_raw, 3);
+		}
+		$nr_raw = trim($nr_raw);
+
+		//nr is in "raw" - w/o country code
+		//it hopefully still starts with 0...
+		if(substr($nr_raw, 0, 1) == '0'){
+			$nr_raw = substr($nr_raw, 1);
+		} else {
+			//no city-code, nothing we ca don
+			$phone_nr = '+49 ' .$nr_raw;
+			return $phone_nr;
+		}
+
+		//is there a separation for city-code/nr?
+		if( strpos($nr_raw, ' ') === false &&
+			strpos($nr_raw, '/') === false &&
+			strpos($nr_raw, '-') === false 
+		){
+			//guess city-code for mobile numbers:
+			if( in_array(
+					substr($nr_raw, 0, 4), 
+					array(
+						'1511','1512','1513','1514','1515','1516','1517','1518','1519','1510',
+						'1521','1522','1523','1524','1525','1526','1527','1528','1529','1520',
+						'1571','1572','1573','1574','1575','1576','1577','1578','1579','1570',
+						'1591','1592','1593','1594','1595','1596','1597','1598','1599','1590'
+					)
+				)
+			){
+				$nr_raw = substr($nr_raw, 0, 4) . ' ' .substr($nr_raw, 4);
+			}			
+			if( in_array(
+					substr($nr_raw, 0, 3), 
+					array(
+						'160','170','171','175',
+						'162','172','173','174',
+						'163','177','178',
+						'176','179'
+					)
+				)
+			){
+				$nr_raw = substr($nr_raw, 0, 3) . ' ' .substr($nr_raw, 3);
+			}
+		}
+
+		$phone_nr = '+49 ' .$nr_raw;
+		return $phone_nr;
+	}
+
+
+	public function _polish_birthday($bday){
+		//is: YYYY-MM-DD
+		//should: DD.MM.YYYY
+		$bd = explode('-', $bday);
+		$bday = $bd[2] .'.' .$bd[1] .'.' .$bd[0];
+		return $bday;
+	}
+
+
 	private function _map_userdata($record) {
-		//print '<pre>';
-		//print_r($record);
+		global $ANON_DATA;
+		if($ANON_DATA){
+			$record = $this->_anon_userdata($record);
+		}
+
 		$street_and_nr = $this->_extract_house_nr( $record['street']);
 		$udata = array(
-				'internal_agent_id' => $record['user_id']
-				,'title' 			=> $this->VALUE_MAPPINGS['salutation'][$record['gender']]
+				'internal_agent_id' 	=> $record['user_id']
+				,'title' 		=> $this->VALUE_MAPPINGS['salutation'][$record['gender']]
 				,'first_name' 		=> $record['firstname']
 				,'last_name' 		=> $record['lastname']
+				
 				,'birthday' 		=> $record['birthday']
-				,'street'			=> $street_and_nr['street']
+
+				,'street'		=> $street_and_nr['street']
 				,'house_number'		=> $street_and_nr['nr']
-				,'zipcode'			=> $record['zipcode']
-				,'city'				=> $record['city']
-				,'phone_nr'			=> $record['phone_nr']
+				,'zipcode'		=> $record['zipcode']
+				,'city'			=> $record['city']
+				,'phone_nr'		=> ($record['phone_nr'] == '-empty-') ? '' : $record['phone_nr']
 				,'mobile_phone_nr'	=> $record['mobile_phone_nr']
-				,'email'			=> $record['email']
+				
+				,'auth_email' 		=> ($record['email'] == '-empty-') ? '' : $record['email']
+				,'email'		=> ($record['wbd_email'] && $record['wbd_email'] != '-empty-') ? $record['wbd_email'] : $record['email']
+				,'auth_phone_nr' 	=> $record['mobile_phone_nr']
 
-				//....
-				,'auth_email' => $record['email']
-				,'auth_phone_nr' => $record['mobile_phone_nr']
-
-				,'agent_registration_nr' => '' 				//optional
-				,'agency_work' => $record['okz'] 			//OKZ
-				,'agent_state' => ($this->VALUE_MAPPINGS['agent_status'][$record['agent_status']])	//Status
-				,'email_confirmation' => ''					//Benachrichtigung?
-
-
-				,"row_id" => $record["row_id"]
+				,'agent_registration_nr' => '' // optional
+				,'agent_id'		 => ($record['bwv_id'] == '-empty-') ? '' : $record['bwv_id']
+				
+				,'agency_work' 		=> $record['okz'] 			//OKZ
+				,'agent_state' 		=> ($this->VALUE_MAPPINGS['agent_status'][$record['agent_status']])	//Status
+				//,'email_confirmation' => 'Nein'			//Benachrichtigung?
+				,"row_id" 		=> $record["row_id"]
+				,'wbd_type' 		=> $record['wbd_type'] //debug
 				
 				,'wbd_type' => $record['wbd_type'] //debug
 			);
+
+	
+
+		//$udata['birthday'] = $this->_polish_birthday($udata['birthday']);
+		
+		$udata['phone_nr'] = $this->_polish_phone_nr($udata['phone_nr']);
+		$udata['mobile_phone_nr'] = $this->_polish_phone_nr($udata['mobile_phone_nr']);
+		$udata['auth_phone_nr'] = $this->_polish_phone_nr($udata['auth_phone_nr']);
 
 		return $udata;
 	}
 
 	private function _map_edudata($record) {
-		//print '<pre>';
-		//print_r($record);
+
 		$edudata = array(
-			"name" 			=> $record["lastname"]
-			,"first_name" 	=> $record["firstname"]
+			//"name" 					=> $record["lastname"]
+			//,"first_name" 			=> $record["firstname"]
+			
+			"name" 					=> '' //will not be imported, anyway.
+			,"first_name" 			=> ''
+
 			,"birthday_or_internal_agent_id" => $record['user_id']
-			,"agent_id" 	=> $record['bwv_id']
-			,"from" 		=> date('d.m.Y', $record['begin_date'])
-			,"till" 		=> date('d.m.Y', $record['end_date'])
-			,"score"		=> $record['credit_points']
-
-			,"training"	 			=> $record['title'] //or template?
+			,"agent_id" 			=> $record['bwv_id']
+			,"from" 				=> date('d.m.Y', strtotime($record['begin_date']))
+			,"till" 				=> date('d.m.Y', strtotime($record['end_date']))
+			,"score"				=> $record['credit_points']
 			,"study_type_selection" => $this->VALUE_MAPPINGS['course_type'][$record['type']] // "Präsenzveranstaltung" | "Selbstgesteuertes E-Learning" | "Gesteuertes E-Learning";
-
-			//....
+			,"study_content"		=> $record['wbd_topic'] 
+			
+			,"training"	 			=> $record['title'] //or template?
+			
+			,"internal_booking_id" => $record["row_id"]
 			/*
-			"internal_booking_id" => "", //$record['crs_ref_id'],
-			"study_content" => "", //Spartenübergreifend",
+			
+			//score code is set by get_new_edurecords...
+			"score_code" => "" // KennzeichenPunkte ??
+
+			"contact_degree" => "",
+			"contact_first_name" => "",
+			"contact_last_name" => "",
+			"contact_phone" => "",
+			"contact_email" => "",
+
 			*/
-			,"row_id" => $record["row_id"]
+			,"row_id" 				=> $record["row_id"]
 		);
 		return $edudata;
+	}
+
+	private function _anon_userdata($record){
+		//$record['firstname'] = $this->fake_string(5,20);
+		$record['lastname'] = $this->fake_string(strlen($record['lastname']), strlen($record['lastname']));
+		
+		$record['phone_nr'] = $this->fake_fon();
+		$record['mobile_phone_nr'] = $this->fake_fon();
+
+		$record['email'] = 'il-dev@cat06.de';
+		$record['wbd_email'] = 'il-dev@cat06.de';
+		$record['street'] = $this->fake_streetnr();
+		$record['city'] = $this->fake_string(strlen($record['city']));
+		$record['zipcode'] = $this->fill_format_nr('XXXXX');
+
+		return $record;
 	}
 
 
@@ -200,7 +334,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		$sql = "
 			UPDATE $table
-			SET last_wbd_report = NOW()
+			SET last_wbd_report = UNIX_TIMESTAMP()
 			WHERE row_id=$row_id
 		";
 		$result = $this->ilDB->query($sql);
@@ -221,14 +355,11 @@ class gevWBDDataConnector extends wbdDataConnector {
 	 * @return array of user-records
 	 */
 	public function get_new_users() {
-		global $GET_NEW_USERS;
+		global $GET_NEW_USERS, $LIMIT_RECORDS;
+
 		if(! $GET_NEW_USERS){
 			return array();
 		}
-
-
-		//userUtils::hasWBDRelevantRole
-
 
 		$sql = "
 			SELECT
@@ -268,30 +399,57 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql .= ' AND user_id IN (SELECT usr_id FROM usr_data)';
 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
 		
+		//FAIL: Der Benutzer wurde von einem anderen TP angelegt: 7649617873
+		$sql .= ' AND user_id NOT IN (20185)'; //Uwe Stange
+		//FAIL: Der Benutzer wurde bereits angelegt: 3766780778
+		$sql .= ' AND user_id NOT IN (20396)'; //Gerd Hollinger
+		//FAIL: Der Benutzer wurde bereits angelegt: 8799360049
+		$sql .= ' AND user_id NOT IN (21199)'; //Reinhardt Diek
+		//FAIL: Der Benutzer wurde bereits angelegt: 2796038831
+		$sql .= ' AND user_id NOT IN (19720)'; //Reinhold Schlick
+		//FAIL: Der Benutzer wurde bereits angelegt: 6454943045
+		$sql .= ' AND user_id NOT IN (20976)'; //Eva Ortolf
+		
+		
+		if($LIMIT_RECORDS){
+			$sql .= 'LIMIT ' .$LIMIT_RECORDS;
+		}
+
 		$ret = array();
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)) {
 			$udata = $this->_map_userdata($record);
 
 			$valid = $this->validateUserRecord($udata);
+
 			if($valid === true){
 
 				$ret[] = wbdDataConnector::new_user_record($udata);
 				//set last_wbd_report!
-				$this->_set_last_wbd_report('hist_user', $record['row_id']);
+				//better wait for success, here?!
+				//$this->_set_last_wbd_report('hist_user', $record['row_id']);
 			} else {
 				$this->broken_newusers[] = array(
 					$valid,
 					$udata
 				);
 			}
-
-
-
 		}
 		$this->valid_newusers = $ret;
 		return $ret;
 	}
+
+	public function success_new_user($row_id){
+		$this->_set_last_wbd_report('hist_user', $row_id);
+	}
+
+	public function fail_new_user($row_id, $e){
+		print 'ERROR on newUser: ';
+		print($row_id);
+		print '<br>';
+		print_r($e);
+	}
+
 
 
 	/**
@@ -336,7 +494,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		//$sql .= " GROUP BY user_id";
 
-
 		$ret = array();
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)) {
@@ -344,18 +501,28 @@ class gevWBDDataConnector extends wbdDataConnector {
 			$ret[] = wbdDataConnector::new_user_record($udata);
 
 			//set last_wbd_report!
-			$this->_set_last_wbd_report('hist_user', $record['row_id']);
-
+			//better wait for success, here?!
+			//$this->_set_last_wbd_report('hist_user', $record['row_id']);
 		}
 		return $ret;
+	}
+
+	public function success_update_user($row_id){
+		$this->_set_last_wbd_report('hist_user', $row_id);
+	}
+
+	public function fail_update_user($row_id, $e){
+		print 'ERROR on updateUser: ';
+		print($row_id);
+		print '<br>';
+		print_r($e);
 	}
 
 
 
 	/**
-	 * get edu-records for courses that
-	 * started 3 months ago (or more)
-	 * and have not been submitted to the WBD
+	 * get edu-records for courses 
+	 * that have not been submitted to the WBD
 	 *
 	 *
 	 * @param
@@ -390,6 +557,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 				hist_course.hist_historic = 0
 				AND
 				hist_user.hist_historic = 0
+				AND
+				hist_user.bwv_id != '-empty-'
 
 			AND
 				hist_usercoursestatus.function = 'Mitglied'
@@ -411,7 +580,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql .= ' AND usr_id in (SELECT usr_id FROM usr_data)';
 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
 
-
 		$ret = array();
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)) {
@@ -431,21 +599,51 @@ class gevWBDDataConnector extends wbdDataConnector {
 				$edudata = $this->_map_edudata($record);
 				//these are _new_ edu-records:
 				$edudata['score_code'] = 'Meldung';
-				$ret[] = wbdDataConnector::new_edu_record($edudata);
 
-				//set last_wbd_report!
-				$this->_set_last_wbd_report('hist_usercoursestatus', $record['row_id']);
+
+				$valid = $this->validateEduRecord($edudata);
+
+				if($valid === true){
+					$ret[] = wbdDataConnector::new_edu_record($edudata);
+				} else {
+					$this->broken_newedurecords[] = array(
+						$valid,
+						$edudata
+					);
+				}
 			}
 
 
 		}
+
+		$this->valid_newedurecords = $ret;
 		return $ret;
 	}
 
 
+	public function success_new_edu_record($row_id, $booking_id){
+		//set last_wbd_report!
+		$this->_set_last_wbd_report('hist_usercoursestatus', $record['row_id']);
+		//also, set booking id
+		$sql = "
+			UPDATE $table
+			SET wbd_booking_id = '$booking_id'
+			WHERE row_id=$row_id
+		";
+		$result = $this->ilDB->query($sql);
+	}
+
+	
+	public function fail_new_edu_record($row_id, $e){
+		print 'ERROR on newEduRecord: ';
+		print($row_id);
+		print '<br>';
+		print_r($e);
+	}
+
+
 	/**
-	 * get edu-records for courses that
-	 * started 3 months ago (or more)
+	 * get edu-records for courses 
 	 * if the current record differs from a record
 	 * that was allready sent to the WBD
 	 *
@@ -537,14 +735,16 @@ class gevWBDDataConnector extends wbdDataConnector {
 		}
 
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		global $ilAppEventHandler;
 		$uutils = gevUserUtils::getInstanceByObjOrId($user_id);
 		$uutils->setWBDBWVId($bwv_id);
 		//$uutils->setWBDFirstCertificationPeriodBegin($certification_begin);
-
+		//ensure a history-case for setting of bwv-id
+		$ilAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $uutils->getUser()));
 
 		//write last_wbd_report....
 		$sql = "
-			SELECT $row_id FROM hist_user
+			SELECT row_id FROM hist_user 
 			WHERE user_id = $user_id
 			AND hist_historic = 0
 		";
@@ -587,7 +787,8 @@ if($DEBUG_HTML_OUT){
 
 	$cls = new gevWBDDataConnector();
 
-
+	//print $cls->_polish_phone_nr('0049 183 5196177');
+	//die();
 
 	print '<h3>new users:</h3>';
 	$cls->export_get_new_users('html');
@@ -595,6 +796,25 @@ if($DEBUG_HTML_OUT){
 	print '<h2> total new users: ' .count($cls->valid_newusers) .'</h2>';
 	print '<h2> invalid records: ' .count($cls->broken_newusers) .'</h2>';
 	print_r($cls->broken_newusers);
+	
+	
+	
+	print '<br>';
+	print 'error';
+	foreach($cls->broken_newusers[0][1] as $hl=>$v){
+		print ', ' .$hl;
+	}
+	
+	foreach($cls->broken_newusers as $entry){
+		print '<br>';
+		print str_replace('<br>', '', $entry[0]);
+		
+		foreach( $entry[1] as $k=>$v){
+			print ', ' .$v;
+		}
+	
+	}
+	
 	print '<hr>';
 
 
@@ -604,6 +824,12 @@ if($DEBUG_HTML_OUT){
 
 	print '<h3>new edu-records:</h3>';
 	$cls->export_get_new_edu_records('html');
+
+	print '<h2> total new edurecords: ' .count($cls->valid_newedurecords) .'</h2>';
+	print '<h2> invalid edurecords: ' .count($cls->broken_newedurecords) .'</h2>';
+	print_r($cls->broken_newusers);
+	
+	
 	print '<hr>';
 
 	print '<h3>changed edu-records:</h3>';

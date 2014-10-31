@@ -924,7 +924,7 @@ class ilBill
 		do
 		{
 			$newBillNumber = $this->generateBillNumber();
-			$query = 'SELECT bill_number FROM bill WHERE bill_number = ' . $newBillNumber;
+			$query = 'SELECT bill_number FROM bill WHERE bill_number = ' . $this->db->quote($newBillNumber, "text");
 		}
 		while(($result = $this->db->query($query)) && $row = $this->db->fetchAssoc($result));
 		return $newBillNumber;

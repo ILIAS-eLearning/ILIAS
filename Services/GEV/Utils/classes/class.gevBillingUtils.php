@@ -294,6 +294,12 @@ class gevBillingUtils {
 			return;
 		}
 		
+		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
+		$date = $crs_utils->getEndDate();
+		
+		$bill->setDate($date ? $date : (new ilDate(time(), IL_CAL_UNIX)));
+		$bill->update();
+		
 		$bill->finalize();
 	}
 	

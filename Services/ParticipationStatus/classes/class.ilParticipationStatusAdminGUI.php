@@ -447,6 +447,13 @@ class ilParticipationStatusAdminGUI
 				$user_points = null;
 			}
 			
+			// gev-patch start (#640)
+			if (   $status == ilParticipationStatus::STATUS_ABSENT_EXCUSED
+				|| $status == ilParticipationStatus::STATUS_ABSENT_NOT_EXCUSED) {
+				$user_points = 0;
+			}
+			// gev-patch end
+			
 			$this->getParticipationStatus()->setStatus($user_id, $status);
 			$this->getParticipationStatus()->setCreditPoints($user_id, $user_points);
 		}	

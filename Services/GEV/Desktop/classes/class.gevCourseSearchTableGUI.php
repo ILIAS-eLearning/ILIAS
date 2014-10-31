@@ -54,8 +54,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->addColumn("&euro;", "fee");
 		//$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "", "20px");
 		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "actions", "20px", false);
-
-
+		
 		$this->book_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-booking.png").'" />';
 		$this->email_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
 		$this->bookable_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-green.png").'" />';
@@ -73,11 +72,13 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->setLegend($legend);
 
 		$order = $this->getOrderField();
+		
 		if ($order == "status") {
 			// TODO: This will not make the user happy.
 			$order = "title";
 		}
-		if ($order == "date") {
+		//                      #671
+		if ($order == "date" || $order == "") {
 			$order = "start_date";
 		}
 

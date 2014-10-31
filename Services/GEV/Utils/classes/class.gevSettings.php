@@ -198,7 +198,7 @@ class gevSettings {
 	const USR_BWV_ID				= "usr_udf_bwv_id";
 	// how is the okz of the user determined
 	const USR_WBD_OKZ				= "usr_udf_wbd_okz";
-
+	
 	// how is the "Vermittlungstätigkeit" determined
 	/*
 	global roles -> USR_WBD_STATUS

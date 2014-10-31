@@ -20,6 +20,7 @@ abstract class wbdDataConnector {
 	public $CSV_LABELS;
 	public $VALUE_MAPPINGS;
 	public $USER_RECORD_VALIDATION;
+	public $EDU_RECORD_VALIDATION;
 
 	public $csv_text_delimiter = '"';
 	public $csv_field_delimiter = ';';
@@ -34,6 +35,9 @@ abstract class wbdDataConnector {
 		$this->CSV_LABELS = $CSV_LABELS;
 		$this->VALUE_MAPPINGS = $VALUE_MAPPINGS;
 		$this->USER_RECORD_VALIDATION = $WBD_USER_RECORD_VALIDATION;
+		$this->EDU_RECORD_VALIDATION = $WBD_EDU_RECORD_VALIDATION;
+		$this->TELNO_REGEXP = $TELNO_REGEXP;
+		$this->FAKEDATA = $FAKEDATA;
 	}
 
 	/**
@@ -57,10 +61,68 @@ abstract class wbdDataConnector {
 		return $edu_record;
 	}
 
+	/**
+	* TESTDATA
+	**/
+
+	public function fill_format_nr($format){
+		$str_out = '';
+		$len = strlen($format);
+	    for($i = 0; $i < $len; $i++) {
+	        if(substr($format,$i, 1) == 'X'){
+	        	$str_out .= rand(0,9);
+	        }else{
+	        	$str_out .= substr($format,$i, 1);
+	        }
+	    }
+	   	return $str_out;		
+	}
+	public function fake_string($min, $max){
+		$len = rand($min, $max);
+		$str_out = '';
+		for($i = 0; $i < $len; $i++) {
+			$use_normal_char = rand(0,12);
+			
+			if(!$use_normal_char){
+				$base = $this->FAKEDATA['special_chars'];
+				$str_out .= $base[rand(0, count($base)-1)];
+			}else{
+				$base = $this->FAKEDATA['chars'];
+				$str_out .= substr($base, rand(0, strlen($base) - 1), 1);
+			}
+		}
+		return ucfirst($str_out);
+	}
+	public function fake_fon(){
+		$format = $this->FAKEDATA['fon_formats'][rand(0, count($this->FAKEDATA['fon_formats'])-1)];
+	   	return $this->fill_format_nr($format);
+	}
+	public function fake_streetnr($list){
+		$street = $this->fake_string(5, 22);
+		
+		$format = $this->FAKEDATA['housenr_formats'][rand(0, count($this->FAKEDATA['housenr_formats'])-1)];
+		$nr = $this->fill_format_nr($format);
+
+		return $street .' ' .$nr;
+	}
+	public function fake_listentry($list){
+		return $list[rand(0, count($list)-1)];
+	}
+
+
 
 	/**
 	* VALIDATION
 	**/
+	
+	protected function datebefore2000($d){
+		$dat = explode('-',$d);
+		if(	(int)$dat[0] < 2000 && 
+			(int)$dat[0] > 1900) {
+			return true;
+		}
+		return false;
+	}
 
 	protected function validateUserRecord($user_record){
 		foreach($this->USER_RECORD_VALIDATION  as $field => $validation){
@@ -70,19 +132,22 @@ abstract class wbdDataConnector {
 					
 					case 'mandatory':
 						if($setting==1 && trim($value) == ''){
-							return 'mandatory: ' .$field .'<br>';
+							return 'mandatory field missing: ' .$field .'<br>';
 							//return false;
 						}
 						break;
 					
 					case 'maxlen':
 						if(strlen($value) > $setting){
-							return 'maxlen: ' .$field .'<br>';
+							return 'too long: ' .$field .'<br>';
 							//return false;
 						}
 						break;
 					
 					case 'list':
+						if($value == ''){
+							return 'empty value not in list';
+						}
 						if(! in_array($value, $setting)){
 							return 'not in list: ' .$field .'<br>';
 							//return false;
@@ -90,12 +155,64 @@ abstract class wbdDataConnector {
 						break;
 
 					case 'form':
+						if(!preg_match($setting, $value) && $value != ''){
+							return 'not well formed: ' .$field .'<br>';
+						}
+						break;
+					case 'custom':
+						if(! $this->$setting($value)){
+							return 'wrong birthday';
+						}
 						break;
 				}
 			}
 		}
 		return true;
 	}
+
+
+	protected function validateEduRecord($edu_record){
+		foreach($this->EDU_RECORD_VALIDATION  as $field => $validation){
+			$value = $edu_record[$field];
+			foreach ($validation as $rule => $setting) {
+				switch ($rule) {
+					
+					case 'mandatory':
+						if($setting==1 && trim($value) == ''){
+							return 'mandatory field missing: ' .$field .'<br>';
+							//return false;
+						}
+						break;
+					
+					case 'maxlen':
+						if(strlen($value) > $setting){
+							return 'too long: ' .$field .'<br>';
+							//return false;
+						}
+						break;
+					
+					case 'list':
+						if($value == ''){
+							return 'empty value not in list';
+						}
+						if(! in_array($value, $setting)){
+							return 'not in list: ' .$field .'<br>';
+							//return false;
+						}
+						break;
+
+					case 'form':
+						if(!preg_match($setting, $value) && $value != ''){
+							return 'not well formed: ' .$field .'<br>';
+						}
+						break;
+					
+				}
+			}
+		}
+		return true;
+	}
+
 
 
 
@@ -229,7 +346,9 @@ abstract class wbdDataConnector {
 	 */
 
 	public function get_new_users() {}
-
+	//on success/failure:
+	public function success_new_user($row_id){}
+	public function fail_new_user($row_id, $e){}
 
 	/**
 	 * get users with outdated records in BWV-DB:
@@ -240,6 +359,9 @@ abstract class wbdDataConnector {
 	 */
 
 	public function get_updated_users() {}
+	//on success/failure:
+	public function success_update_user($row_id){}
+	public function fail_update_user($row_id, $e){}
 
 
 	/**
@@ -253,6 +375,11 @@ abstract class wbdDataConnector {
 	 */
 
 	public function get_new_edu_records() {}
+	//on success/failure:
+	public function success_new_edu_record($row_id, $booking_id){}
+	public function fail_new_edu_record($row_id, $e){}
+
+
 
 
 	/**

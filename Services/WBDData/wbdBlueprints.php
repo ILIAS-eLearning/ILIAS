@@ -30,7 +30,7 @@ $WBD_USER_RECORD = array(
 	'internal_agent_id' => '',
 
 	//constant, don't bother:
-	'email_confirmation' => 'Ja',
+	'email_confirmation' => 'Nein',
 	'tp_service'  => 'Ja',
 	'country_code' => 'D',
 	'address_code' => 'geschäftlich',
@@ -69,10 +69,37 @@ $WBD_EDU_RECORD = array(
 
 $VALUE_MAPPINGS = array(
 	"course_type" => array(
+		"Präsenzveranstaltung" => "Präsenzveranstaltung",
 		"Präsenztraining" => "Präsenzveranstaltung",
-		"XX" => "Selbstgesteuertes E-Learning",
-		"XX" => "Gesteuertes E-Learning",
+		"Präsenz" => "Präsenzveranstaltung",
+		"Selbstlernkurs" => "selbstgesteuertes E-Learning",
+		"gesteuertes E-Learning" => "gesteuertes E-Learning",
+
+		"XX" => "Einzeltraining",
+		"XX" => "Blended Learning"
+/*
+"Präsenztraining"
+"Selbstlernkurs"
+
+"Webinar"
+"Spezialistenschulung Präsenztraining"
+"Spezialistenschulung Webinar"
+"POT-Termin"
+*/
 	),
+
+
+	"study_content" => array(
+		'Privat-Vorsorge-Lebens-/Rentenversicherung' => 'Privat-Vorsorge-Lebens-/Rentenversicherung',
+		'Privat-Vorsorge-Kranken-/Pflegeversicherung' => 'Privat-Vorsorge-Kranken-/Pflegeversicherung',
+		'Firmenkunden-Sach-/Schadensversicherung' => 'Firmenkunden-Sach-/Schadensversicherung',
+		'Spartenübergreifend' => 'Spartenübergreifend',
+		'Firmenkunden-Vorsorge (bAV/Personenversicherung)' => 'Firmenkunden-Vorsorge (bAV/Personenversicherung)',
+		'Beratungskompetenz' => 'Beratungskompetenz',
+		'Privat-Sach-/Schadenversicherung' => 'Privat-Sach-/Schadenversicherung'
+	),
+
+
 	"salutation" => array(
 		"m" => "Herr",
 		"f" => "Frau",
@@ -95,7 +122,12 @@ $VALUE_MAPPINGS = array(
 
 
 
-
+//this is mobile, only
+//static $telno_regexp = "/^((00|[+])49((\s|[-\/])?)|0)1[5-7][0-9]([0-9]?)((\s|[-\/])?)([0-9 ]{7,12})$/";
+require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
+$TELNO_MOBILE_REGEXP = gevUserProfileGUI::$telno_regexp;
+$TELNO_REGEXP = "/^(00|[+])49[\s-\/][0-9]+[\s-\/][0-9]*/"; //city-code must be separated
+$TELNO_REGEXP = "/^(00|[+])49[\s-\/][0-9]*/";
 
 $WBD_USER_RECORD_VALIDATION = array(
 	'title' 			=> array('mandatory'=>1,
@@ -104,16 +136,19 @@ $WBD_USER_RECORD_VALIDATION = array(
 	,'first_name' 		=> array('mandatory'=>1, 'maxlen' => 30)
 	,'last_name' 		=> array('mandatory'=>1, 'maxlen' => 50)
 	,'name_affix' 		=> array('maxlen' => 50)
-	,'birthday' 		=> array('form' => 'REGEX HERE')
-	,'auth_email' 		=> array('form' => 'REGEX HERE')
-	,'auth_phone_nr' 	=> array('form' => 'REGEX HERE')
+	,'birthday' 		=> array('custom' => 'datebefore2000')
+	,'auth_email' 		=> array('mandatory' => 1)
+	,'auth_phone_nr' 	=> array( 
+								 'form' => $TELNO_MOBILE_REGEXP)
+	,'phone_nr'	 		=> array('form' => $TELNO_REGEXP)
+	//,'mobile_phone_nr'	=> array('form' => $TELNO_REGEXP)
 	,'zipcode' 			=> array('mandatory'=>1, 'maxlen' => 30)
 	,'city' 			=> array('mandatory'=>1, 'maxlen' => 50)
 	,'street' 			=> array('mandatory'=>1, 'maxlen' => 50)
-	,'house_number' 		=> array('mandatory'=>1, 'maxlen' => 10)
+	,'house_number' 	=> array('mandatory'=>1, 'maxlen' => 10)
 	,'pob' 				=> array('maxlen' => 30)
-	,'free_text'			=> array('maxlen' => 50)
-	,'email' 			=> array('form' => 'REGEX HERE')
+	,'free_text'		=> array('maxlen' => 50)
+	,'email' 			=> array('mandatory' => 1)
 	
 	,'agency_work' 		=> array('mandatory'=>1, 
 								 'list' => array(
@@ -124,6 +159,15 @@ $WBD_USER_RECORD_VALIDATION = array(
 	,'agent_state' 		=> array('mandatory'=>1, 
 								 'list' => array_values($VALUE_MAPPINGS['agent_status'])
 								)
+);
+
+$WBD_EDU_RECORD_VALIDATION = array(
+	'study_type_selection' 	=> array('mandatory'=>1,
+								 	 'list'=> array_values($VALUE_MAPPINGS['course_type'])
+							  )
+	,'study_content' 	=> array('mandatory'=>1,
+								 'list'=> array_values($VALUE_MAPPINGS['study_content'])
+							)
 );
 
 
@@ -197,5 +241,36 @@ $CSV_LABELS = array(
 	"url" => "URL",
 	"zipcode" => "Postleitzahl"
 );
+
+
+
+$FAKEDATA = array(
+	'special_chars' => array('ü','ö','ä','ß','é', 'è','á','à','û','â','ê','\'')
+	,'chars' => 'abcdefghijklmnopqrstuvwxyzaeiouaeiou '
+	,'fon_formats' => array(
+			'++49 XXX XXXXXXX',
+			'++49-XXX XXXXXXX',
+			'++49 XXX/XXXXXXX',
+			'0049 XXX XXXXXXX',
+			'049 XXX XXXXXXX',
+			'0XXX XXXXXXX',
+			'0XXXXXXXXXX',
+			'0XXX XXXX-XXXX',
+			'XXXX XXXXXXX',
+			'0172XXXXXXXX',
+			'01516XXXXXXX',
+		)
+	,'housenr_formats' => array(
+			'X',
+			'XX',
+			'XXX',
+			'XX-XX',
+			'XXa',
+			'Xa-XXc',
+		)
+	,'agent_status' => array_values($VALUE_MAPPINGS[agent_status])
+)
+
+
 
 ?>

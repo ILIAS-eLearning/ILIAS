@@ -3,14 +3,17 @@
 require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMail.php");
 
 class gevListForAccomodation extends gevCrsAutoMail {
-	const DAYS_BEFORE_COURSE_START = 14;
+	const DAYS_BEFORE_COURSE_START = 15;
 	
 	public function getTitle() {
 		return "Teilnehmerliste Hotel";
 	}
 	
 	public function _getDescription() {
-		return self::DAYS_BEFORE_COURSE_START." Tage vor Trainingsbeginn";
+		// Mail is send after the 15th day before training is over.
+		// Thus we need to subtract, since after the 15th day is on the
+		// 14th day.
+		return (self::DAYS_BEFORE_COURSE_START -1)." Tage vor Trainingsbeginn";
 	}
 	
 	public function getScheduledFor() {

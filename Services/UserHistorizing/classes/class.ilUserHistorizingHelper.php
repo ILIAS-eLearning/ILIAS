@@ -104,7 +104,7 @@ class ilUserHistorizingHelper
 	public static function getBWVIdOf($user)
 	{
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		//return gevUserUtils::getInstanceByObjOrId($user)->getWBDBWVId();
+		return gevUserUtils::getInstanceByObjOrId($user)->getWBDBWVId();
 	}
 
 	/**
@@ -135,7 +135,7 @@ class ilUserHistorizingHelper
 
 
 	/**
-	 * Returns the Vermittlerstatus of the given user.
+	 * Returns the Vermittlerstatus of the given user, calculated
 	 *
 	 * @param integer|ilObjUser $user
 	 *
@@ -148,6 +148,9 @@ class ilUserHistorizingHelper
 		return gevUserUtils::getInstanceByObjOrId($user)->getWBDAgentStatus();
 		//USR_WBD_STATUS
 	}
+
+
+
 
 
 	/**
@@ -208,4 +211,14 @@ class ilUserHistorizingHelper
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		return gevUserUtils::getInstanceByObjOrId($user)->getEMail();
 	}
+
+
+	public static function getWBDEMailOf($user)
+	{
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		return gevUserUtils::getInstanceByObjOrId($user)->getWBDCommunicationEmail();
+	}
+
+
+
 }

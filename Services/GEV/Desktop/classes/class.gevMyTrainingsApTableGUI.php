@@ -15,6 +15,7 @@ require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 require_once("Services/Utilities/classes/class.ilUtil.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevGeneralUtils.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusAdminGUI.php");
 require_once "./Services/ParticipationStatus/classes/class.ilParticipationStatusHelper.php";
@@ -41,10 +42,12 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 	
 		$this->memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
 		$this->setstatus_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-state-neutral.png").'" />';
+		$this->overnight_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-edit.png").'" />';
 		
 		$legend = new catLegendGUI();
 		$legend->addItem($this->memberlist_img, "gev_mytrainingsap_legend_memberlist")
-			   ->addItem($this->setstatus_img, "gev_mytrainingsap_legend_setstatus");
+			   ->addItem($this->setstatus_img, "gev_mytrainingsap_legend_setstatus")
+			   ->addItem($this->overnight_img, "gev_mytrainingsap_legend_overnights");
 		$this->setLegend($legend);
 
 		
@@ -74,6 +77,8 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 	}
 
 	protected function fillRow($a_set) {
+		$crs_utils = gevCourseUtils::getInstance($a_set["obj_id"]);
+		
 		$this->tpl->setVariable("ACCORDION_BUTTON_CLASS", $this->getAccordionButtonExpanderClass());
 		$this->tpl->setVariable("ACCORDION_ROW", $this->getAccordionRowClass());
 		$this->tpl->setVariable("COLSPAN", $this->getColspan());
@@ -100,36 +105,29 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 
 		//$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
 		//trainer days:
-		
-		$apdays = array();
-		foreach ($a_set['apdays'] as $tday) {
-			$apdays[] =  ilDatePresentation::formatDate($tday);
-		}
-		$apdays_str = join('<br>', $apdays);
-
+		$apdays_str = gevGeneralUtils::foldConsecutiveDays($a_set['apdays'], "<br />");
 		
 		$mbrs = $a_set['mbr_booked'] .' (' .$a_set['mbr_waiting'] .')'
 				.' / ' .$a_set['mbr_min'] .'-' .$a_set['mbr_max'];
 
-
-		$memberlist_link = $this->ctrl->getLinkTarget($this->parent_obj, 'memberList')
-							.'&crsid=' .$a_set['obj_id'];
-
-		$memberlist_link = "ilias.php?ref_id="
-			.$a_set['crs_ref_id']
-			."&cmd=trainer&baseClass=gevMemberListDeliveryGUI";
 		
-
-
-		$setstatus_link = $this->ctrl->getLinkTarget($this->parent_obj, 'listStatus')
-							.'&crsrefid=' .$a_set['crs_ref_id'];
+		$this->ctrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $a_set["crs_ref_id"]);
+		$memberlist_link = $this->ctrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer");
+		$this->ctrl->clearParametersByClass("gevMemberListDeliveryGUI");
 		
-		$show_set_stat_link = $a_set['may_finalize'];
+		$this->ctrl->setParameter($this->parent_obj, "crsrefid", $a_set['crs_ref_id']);
+		$this->ctrl->setParameter($this->parent_obj, "crs_id", $a_set['obj_id']);
+		$setstatus_link = $this->ctrl->getLinkTarget($this->parent_obj, "listStatus");
+		$overnights_link = $this->ctrl->getLinkTarget($this->parent_obj, "showOvernights");
+		$this->ctrl->clearParameters($this->parent_obj);
 
-
-		$actions = $this->memberlist_img;
-		if($show_set_stat_link) {
-			$actions .='&nbsp;' .$this->setstatus_img;
+		$actions = "<a href=\"".$memberlist_link."\">".$this->memberlist_img."</a>";
+		if($a_set['may_finalize']) {
+			$actions .="&nbsp;<a href=\"".$setstatus_link."\">".$this->setstatus_img."</a>";
+		}
+												// is true after training start
+		if ($crs_utils->isWithAccomodations() && !$a_set["may_finalize"]) {
+			$actions .= "&nbsp;<a href=\"".$overnights_link."\">".$this->overnight_img."</a>";
 		}
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
@@ -151,7 +149,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("CONTENTS", $a_set["content"]);
 		$this->tpl->setVariable("MBMRLST_LINK", $memberlist_link);
 		$this->tpl->setVariable("MBMRLST_LINK_TXT", $this->lng->txt('gev_mytrainingsap_btn_memberlist'));
-		if ($show_set_stat_link) {
+		if ($a_set['may_finalize']) {
 			$this->tpl->setCurrentBlock("set_stat");
 			$this->tpl->setVariable("SETSTAT_LINK", $setstatus_link);
 			$this->tpl->setVariable("SETSTAT_LINK_TXT", $this->lng->txt('gev_mytrainingsap_btn_setstatus'));

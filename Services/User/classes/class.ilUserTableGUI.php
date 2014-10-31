@@ -179,6 +179,11 @@ class ilUserTableGUI extends ilTable2GUI
 	function getItems()
 	{
 		global $lng;
+		
+		// gev-patch start
+		global $ilUser;
+		// gev-patch end
+		
 //if ($GLOBALS["kk"]++ == 1) nj();
 
 		$this->determineOffsetAndOrder();
@@ -234,6 +239,11 @@ class ilUserTableGUI extends ilTable2GUI
 		$query->setAdditionalFields($additional_fields);
 		$query->setUserFolder($user_filter);
 		$query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter']));
+		// gev-patch start
+		if ($this->getMode() == self::MODE_LOCAL_USER) {
+			$query->setOwner($ilUser->getId());
+		}
+		// gev-patch end
 		
 		$usr_data = $query->query();
 		

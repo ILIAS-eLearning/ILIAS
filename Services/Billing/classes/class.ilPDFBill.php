@@ -10,6 +10,10 @@ require_once 'Services/Calendar/classes/class.ilDatePresentation.php';
  * @author  Maximilian Frings <mfrings@databay.de>
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
+ *
+ * ATTENTION: DO NOT EVER REUSE AN INSTANCE OF THIS CLASS AFTER A BILL PDF
+ *            WAS CREATED.
+ *
  */
 class ilPDFBill
 {

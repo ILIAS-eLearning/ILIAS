@@ -20,7 +20,7 @@ $fields = array( "ADP-Nummer"		=> array( gevSettings::USR_UDF_ADP_NUMBER
 												   )
 											, null
 											)
-			   , "Stellennummer"=>	array( gevSettings::USR_UDF_JOB_NUMMER
+			   , "Vermittlernummer"	=> array( gevSettings::USR_UDF_JOB_NUMMER
 											, UDF_TYPE_TEXT
 											, array( "visible"				=> true
 												   , "changeable"			=> true

@@ -45,7 +45,7 @@ class gevCourseUtils {
 	
 	static public function getInstance($a_crs_id) {
 		if (!is_int($a_crs_id) && !is_numeric($a_crs_id)) {
-			throw new Exception("gevCourseUtils::getInstance: no integer crs_id given.");
+			throw new Exception("gevCourseUtils::getInstance: no integer crs_id given: '".$a_crs_id."'");
 		}
 		
 		if (array_key_exists($a_crs_id, self::$instances)) {
@@ -793,6 +793,12 @@ class gevCourseUtils {
 		}
 		
 		return $ven->getContactEmail();
+	}
+	
+	public function isWithAccomodations() {
+		return $this->getAccomodation() 
+			&& ($this->getStartDate() !== null) 
+			&& ($this->getEndDate() !== null);
 	}
 	
 	public function getWebExLink() {
@@ -1569,6 +1575,15 @@ class gevCourseUtils {
 		}
 		return 0;
 	}
+
+
+	public function getWBDTopic(){
+		//CRS_AMD_GDV_TOPIC
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_GDV_TOPIC);
+	}
+
+
+
 	
 }
 

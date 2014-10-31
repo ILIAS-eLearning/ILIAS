@@ -11,17 +11,24 @@ $basedir = __DIR__;
 $basedir = str_replace('/Services/GEV/debug', '', $basedir);
 chdir($basedir);
 
-
+/*
 //context w/o user
-//require_once "./Services/Context/classes/class.ilContext.php";
-//ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
-//require_once("./Services/Init/classes/class.ilInitialisation.php");
-//ilInitialisation::initILIAS();
+require_once "./Services/Context/classes/class.ilContext.php";
+ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
+require_once("./Services/Init/classes/class.ilInitialisation.php");
+ilInitialisation::initILIAS();
+*/
 require_once("./include/inc.header.php");
 
 //require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 //require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 //require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+
+
+
+
+
+
 
 
 
@@ -52,7 +59,7 @@ class gevDebug {
 	public function __construct() {
 		global $ilUser, $ilDB;
 
-		$this->db = &$ilDB;;
+		$this->db = &$ilDB;
 		$this->user = &$ilUser;
 
 	}
@@ -236,11 +243,16 @@ class gevDebug {
 	}
 
 
-	public function getAllUsers(){
+	public function getAllUsers($ids=array()){
 		require_once("Services/User/classes/class.ilObjUser.php");
 		
 		$ret = array();
 		$sql = 'SELECT usr_id FROM usr_data';
+		
+		if(count($ids) > 0){
+			$sql .=	" WHERE usr_id in (" .implode(',', $ids) .")";
+		}
+
 		$result = $this->db->query($sql);
 		while($record = $this->db->fetchAssoc($result)) {
 			$ret[$record['usr_id']] = new ilObjUser($record['usr_id']);
@@ -254,13 +266,24 @@ class gevDebug {
 	}
 
 
+	public function updateHistoryForUserIfStellung($usr){
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$uutils = gevUserUtils::getInstanceByObjOrId($usr->getId());
+		if($uutils->getRawWBDAgentStatus() == '0 - aus Stellung'){
+			print '<br>new hist case'.
+			self::updateHistoryForUser($usr);
+		}
+	}
+
+
+
+	
 	public function setAgentStateForUser($user_id){
 		//global $rbacreview;
 		//$user_roles = $rbacreview->assignedRoles($user_id);
 		
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
-		$uutils = gevUserUtils::getInstanceByObjOrId($user_id);
 		$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($user_id);
 
 		foreach($roles as $key => $value) {
@@ -301,15 +324,66 @@ class gevDebug {
 			$roles[$key] = ilObject::_lookupTitle($value);
 		}
 		*/
-
 	}
 
+	public function revertSetAgentStateForUser($user_id){
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		$uutils = gevUserUtils::getInstanceByObjOrId($user_id);
+		$possibleNewRoles = array(
+			'1 - Angestellter Außendienst',
+			'2 - Ausschließlichkeitsvermittler',
+			'3 - Makler'
+		);
+		if(in_array($uutils->getRawWBDAgentStatus(), $possibleNewRoles)){
+			//if roles also match:
+			$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($user_id);
+			foreach($roles as $key => $value) {
+				$roles[$key] = ilObject::_lookupTitle($value);
+			}
+			if(
+				in_array("OD/LD/BD/VD/VTWL", $roles) ||
+				in_array("DBV/VL-EVG", $roles) ||
+				in_array("DBV-UVG", $roles) ||
+				in_array("AVL", $roles) ||
+				in_array("HA", $roles) ||
+				in_array("BA", $roles) ||
+				in_array("NA", $roles) || 
+				in_array("VP", $roles) 
+			){
+				//revert
+				print '<br>reverting.';
+				$uutils->setWBDAgentStatus('0 - aus Stellung');
+			}
+
+		}
+	}
+
+
+	public function getUsersWithRole($roles = array()){
+		require_once("Services/GEV/Utils/classes/class.gevGeneralUtils.php");
+		$utils = new gevGeneralUtils();
+
+		return $utils->getUsersWithGlobalRole($roles);
+	}
 
 
 }
 
 $debug = new gevDebug();
 print '<pre>';
+
+$rs = array(
+	'DBV/VL-EVG',
+//	'VP',
+//	'User',
+);
+
+
+
+print_r(implode(',', array_keys($debug->getUsersWithRole($rs))));
+
+die();
 
 /*printToTable($debug->getDeletedCourses());
 printToTable($debug->getDeletedCoursesBookings());
@@ -332,11 +406,14 @@ foreach ($debug->getAllUsers() as $id=>$usr) {
 }
 */
 
-foreach ($debug->getAllUsers() as $id=>$usr) {
+$usrIds = array();
+
+foreach ($debug->getAllUsers($usrIds) as $id=>$usr) {
 	print_r($usr->getLogin());
 	print '<br>';
-	$debug->setAgentStateForUser($id);
-	$debug->updateHistoryForUser($usr);
+	//$debug->revertSetAgentStateForUser($id);
+	//$debug->updateHistoryForUserIfStellung($usr);
+	//$debug->setAgentStateForUser($id);
 	print '<hr>';
 }
 

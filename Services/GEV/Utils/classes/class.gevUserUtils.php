@@ -18,6 +18,7 @@ require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevGeneralUtils.php");
 
 
 function  __sortByCourseDate($a, $b) {
@@ -310,6 +311,7 @@ class gevUserUtils {
 			." WHERE oref.ref_id = tr.parent"
 			."   AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
 			."   AND od2.type = 'crs'"
+			."   AND oref.deleted IS NULL"
 			);
 
 		$crs_ids = array();
@@ -414,7 +416,6 @@ class gevUserUtils {
 			}
 
 			//sort?
-
 			usort($ret, '__sortByCourseDate');
 			return $ret;
 	}
@@ -1016,56 +1017,7 @@ class gevUserUtils {
 	}
 	
 	public function getFormattedOvernightDetailsForCourse(ilObjCourse $a_crs) {
-		require_once("Services/Calendar/classes/class.ilDateTime.php");
-		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
-		$ovs = $this->getOvernightDetailsForCourse($a_crs);
-
-		// will contain arrays with start and end of consecutive sequences
-		// of overnights, where 0 => start and 1 => null|end
-		$ovs_cons = array();
-		// the consecutive sequence we are currently working on
-		$ovs_cur = null;
-		
-		foreach ($ovs as $ov) {
-			// base case after start
-			if ($ovs_cur === null) {
-				$cp = new ilDate($ov->get(IL_CAL_DATE), IL_CAL_DATE);
-				$ovs_cur = array($ov, $cp);
-				continue;
-			}
-
-			// check last overnight
-			$cur_p1 = new ilDate($ovs_cur[1]->get(IL_CAL_DATE), IL_CAL_DATE);
-			$cur_p1->increment(ilDateTime::DAY, 1);
-			
-			if ($ov->get(IL_CAL_DATE) == $cur_p1->get(IL_CAL_DATE)) {
-				// the current night directly follows the last night
-				// and therefore belongs to the the current sequence
-				$ovs_cur[1] = $ov;
-			}
-			else {
-				// the current night does not directly follow the other night
-				// and therefore starts a new sequence
-				$ovs_cons[] = $ovs_cur;
-				$cp = new ilDate($ov->get(IL_CAL_DATE), IL_CAL_DATE);
-				$ovs_cur = array($ov, $cp);
-			}
-		}
-		
-		// the last sequence needs to be inserted as well.
-		if ($ovs_cur !== null) {
-			$ovs_cons[] = $ovs_cur;
-		}
-		
-		// adjust the sequences. since convention in Accomodations package is
-		// to give the starting day for an overnight, the enddates of the
-		// consecutive sequences must be adopted accordingly.
-		foreach ($ovs_cons as $key => $ovs) {
-			$ovs[1]->increment(ilDateTime::DAY, 1);
-			$ov_cons[$key] = ilDatePresentation::formatPeriod($ovs[0], $ovs[1]);
-		}
-		
-		return implode(", ", $ov_cons);
+		return gevGeneralUtils::foldConsecutiveDays($this->getOvernightDetailsForCourse($a_crs));
 	}
 	
 	public function getOvernightAmountForCourse(ilObjCourse $a_crs) {
@@ -1476,8 +1428,44 @@ class gevUserUtils {
 	
 
 
-	public function getWBDAgentStatus() {
+	public function getRawWBDAgentStatus() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_STATUS);
+	}
+
+	public function getWBDAgentStatus() {
+		$agent_status_user =  $this->getRawWBDAgentStatus();
+		if($agent_status_user == self::WBD_AGENTSTATUS0){
+			//0 - aus Stellung
+			require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+			$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
+			foreach($roles as $key => $value) {
+				$roles[$key] = ilObject::_lookupTitle($value);
+			}
+
+			if(
+				in_array("OD/LD/BD/VD/VTWL", $roles) ||
+				in_array("DBV/VL-EVG", $roles) ||
+				in_array("DBV-UVG", $roles) 
+			){
+				return self::WBD_AGENTSTATUS1; //1 - Angestellter Außendienst
+			}
+			if(
+				in_array("AVL", $roles) ||
+				in_array("HA", $roles) ||
+				in_array("BA", $roles) ||
+				in_array("NA", $roles) 
+			){
+				return self::WBD_AGENTSTATUS2; //2 - Ausschließlichkeitsvermittler
+			}
+			if(
+				in_array("VP", $roles) 
+			){
+				return self::WBD_AGENTSTATUS3; //3 - Makler
+			}
+
+		}
+		return $agent_status_user; //raw
+
 	}
 	
 	public function setWBDAgentStatus($a_state) {

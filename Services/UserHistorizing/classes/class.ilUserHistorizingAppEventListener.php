@@ -147,6 +147,7 @@ class ilUserHistorizingAppEventListener
 			//new 2014-10-14:
 			'agent_status'					=> self::$ilUserHistorizingHelper->getAgentStatusOf($parameter['user_obj']), //USR_WBD_STATUS
 			'wbd_type'						=> self::$ilUserHistorizingHelper->getWBDTypeOf($parameter['user_obj']), 
+			'wbd_email'						=> self::$ilUserHistorizingHelper->getWBDEMailOf($parameter['user_obj']),
 		);
 		/*
 		'street'	 	

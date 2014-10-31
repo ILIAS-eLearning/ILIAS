@@ -460,6 +460,8 @@ gev#:#gev_crs_srch_usr_slctr_caption#:#Suche für:
 gev#:#gev_csn_list#:#CSN-Liste
 gev#:#gev_desk_displays#:#Tischaufsteller
 gev#:#gev_edu_bio#:#Bildungsbiographie
+gev#:#gev_edit_overnights#:#Übernachtungen
+gev#:#gev_edit_overnights_desc#:#Hier können sie ihre Übernachtungen beim Training bearbeiten.
 gev#:#gev_email#:#E-Mail-Adresse
 gev#:#gev_com_email#:#Kommunikations E-Mail-Adresse
 gev#:#gev_employee_booking#:#Mitarbeiterbuchungen
@@ -562,7 +564,7 @@ gev#:#gev_private_email#:#private Emailadresse
 gev#:#gev_process_menu#:#Workflows
 gev#:#gev_profile_incomplete#:#Ihr Benutzerprofil ist unvollständig. Bitte ergänzen oder korrigieren Sie die markierten Felder.
 gev#:#gev_profile_organisation#:#Organisation
-gev#:#gev_profile_phone#:#Telefon (relevant für Webinare)
+gev#:#gev_profile_phone#:#Telefon geschäftlich (relevant für Webinare)
 gev#:#gev_provider#:#Anbieter
 gev#:#gev_quicklinks#:#Quicklinks
 gev#:#gev_quicklinks_desc#:#Greifen Sie hier schnell und unkompliziert auf weitere Informationen zu Ihren Trainings und auf Ihre persönliche Bildungsbiografie zu.
@@ -871,10 +873,13 @@ wsp#:#wsp_shared_member_filter#:#Trainings-/Gruppenmitglieder
 wsp#:#wsp_type_crsv#:#Zertifikat: Training
 gev#:#gev_mytrainingsap_legend_memberlist#:#Teilnehmerliste
 gev#:#gev_mytrainingsap_legend_setstatus#:#Status setzen
+gev#:#gev_mytrainingsap_legend_overnights#:#Übernachtungen bearbeiten
 gev#:#gev_mytrainingsap_title#:#Meine Trainingseinsätze
 gev#:#gev_mytrainingsap_title_desc#:#Hier sehen Sie Ihre Trainingseinsätze auf einen Blick
 gev#:#gev_mytrainingsap_btn_memberlist#:#Teilnehmerliste
 gev#:#gev_mytrainingsap_btn_setstatus#:#Teilnehmerstatus setzen
+gev#:#gev_mytrainingsap_no_accomodations#:#Bei diesem Training kann nicht übernachtet werden.
+gev#:#gev_mytrainingsap_saved_overnights#:#Ihre Übernachtungen wurden gespeichert.
 gev#:#gev_set_course_status_title#:#Teilnehmerstatus setzen
 gev#:#gev_set_course_status_title_desc#:#Setzen Sie hier die Teilnehmerstatus.
 gev#:#mbrcount#:#Teilnehmer
