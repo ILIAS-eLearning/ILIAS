@@ -234,11 +234,11 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 			,"birthday_or_internal_agent_id" => $record['user_id']
 			,"agent_id" 			=> $record['bwv_id']
-			,"from" 				=> date('d.m.Y', strtotime($record['begin_date']))
-			,"till" 				=> date('d.m.Y', strtotime($record['end_date']))
+			,"from" 				=> $record['begin_date']
+			,"till" 				=> $record['end_date']
 			,"score"				=> $record['credit_points']
 			,"study_type_selection" => $this->VALUE_MAPPINGS['course_type'][$record['type']] // "Präsenzveranstaltung" | "Selbstgesteuertes E-Learning" | "Gesteuertes E-Learning";
-			,"study_content"		=> $record['wbd_topic'] 
+			,"study_content"		=> $this->VALUE_MAPPINGS['study_content'][$record['wbd_topic']] 
 			
 			,"training"	 			=> $record['title'] //or template?
 			
@@ -246,7 +246,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 			/*
 			
 			//score code is set by get_new_edurecords...
-			"score_code" => "" // KennzeichenPunkte ??
+			"score_code" => "" // KennzeichenPunkte 
 
 			"contact_degree" => "",
 			"contact_first_name" => "",
@@ -344,6 +344,11 @@ class gevWBDDataConnector extends wbdDataConnector {
 	/*
 	* ------------- IMPLEMENTATION ------------
 	*/
+
+	public function about_to_die($e){
+	
+	    print_r($e);
+	}
 
 
 	/**
@@ -619,12 +624,14 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 
-	public function success_new_edu_record($row_id, $booking_id){
+	public function success_new_edu_record($row_id){
 		//set last_wbd_report!
-		$this->_set_last_wbd_report('hist_usercoursestatus', $record['row_id']);
+		$this->_set_last_wbd_report('hist_usercoursestatus', $row_id);
+	}
+	public function set_booking_id($row_id, $booking_id){
 		//also, set booking id
 		$sql = "
-			UPDATE $table
+			UPDATE hist_usercoursestatus
 			SET wbd_booking_id = '$booking_id'
 			WHERE row_id=$row_id
 		";
@@ -632,11 +639,19 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 	
+		
+	
+
+
+	
 	public function fail_new_edu_record($row_id, $e){
 		print 'ERROR on newEduRecord: ';
 		print($row_id);
-		print '<br>';
-		print_r($e);
+		print "\n";
+		print_r($e->getReason());
+		print "\n";
+		
+		//die();
 	}
 
 
