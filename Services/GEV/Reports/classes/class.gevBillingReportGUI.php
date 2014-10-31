@@ -37,13 +37,14 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 			, array("gev_tax", "amount_tax")
 			, array("gev_bill_amount_posttax", "amount_posttax")
 			, array("gev_charged_agency", "cost_center")
+			, array("create_date", "bill_finalized_date")
 			, array("lastname", "lastname")
 			, array("firstname", "firstname")
 			, array("gender", "gender")
 			, array("gev_org_unit_short", "org_unit")
 			, array("gev_event_title", "title")
 			, array("gev_number_of_measure", "custom_id")
-			, array("date", "date")
+			, array("gev_training_date", "date")
 			, array("gev_venue", "venue")
 			, array("", "bill_link")
 			);
@@ -141,6 +142,7 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 					."		, ROUND(SUM(item.billitem_pta) * bill.bill_vat/100, 2) as amount_tax"
 					."		, ROUND(SUM(item.billitem_pta) * (1 + bill.bill_vat/100), 2) as amount_posttax"
 					."		, bill.bill_cost_center as cost_center"
+					."      , DATE_FORMAT(FROM_UNIXTIME(bill.bill_finalized_date), '%d.%m.%Y') as bill_finalized_date"
 					."		, usr.firstname as lastname"
 					."		, usr.lastname as firstname"
 					." 		, usr.gender as gender"
