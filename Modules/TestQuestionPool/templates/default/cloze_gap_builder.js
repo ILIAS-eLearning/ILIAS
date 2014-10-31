@@ -781,7 +781,7 @@ $(document).ready(function ()
     $('.clone_fields_add').live('click', function ()
     {
         var getPosition, pos , insert;
-        if($(this).attr('class') != 'clone_fields_add combination')
+        if($(this).attr('class') != 'clone_fields_add combination btn btn-link')
         {
             getPosition = $(this).attr('name');
             pos = getPosition.split('_');
@@ -808,7 +808,7 @@ $(document).ready(function ()
     $('.clone_fields_remove').live('click', function ()
     {
         var getPosition, pos;
-        if($(this).attr('class') != 'clone_fields_remove combination')
+        if($(this).attr('class') != 'clone_fields_remove combination btn btn-link')
         {
             getPosition = $(this).attr('name');
             pos = getPosition.split('_');
