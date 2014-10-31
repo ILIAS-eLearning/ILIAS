@@ -39,7 +39,7 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_selection_gui, $a_selection_cmd,
 			$a_selection_par);
 
-		$this->setAjax(false);
+		$this->setAjax(true);
 	}
 
 	/**

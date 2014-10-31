@@ -114,19 +114,23 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 	*/
 	function poolSelection()
 	{
-		global $tpl;
+		global $tpl, $ilCtrl;
 
 //		$this->getTabs($ilTabs, true);
 //		$ilTabs->setSubTabActive("cont_mob_from_media_pool");
 
 		include_once "./Services/COPage/classes/class.ilPoolSelectorGUI.php";
-		$exp = new ilPoolSelectorGUI($this, "poolSelection");
+		$ilCtrl->setParameter($this, "subCmd", "poolSelection");
+		$exp = new ilPoolSelectorGUI($this, "insert");
 
 		// filter
 		$exp->setTypeWhiteList(array("root", "cat", "grp", "fold", "crs", "mep"));
 		$exp->setClickableTypes(array('mep'));
 
-		$tpl->setContent($exp->getHTML());
+		if (!$exp->handleCommand())
+		{
+			$tpl->setContent($exp->getHTML());
+		}
 	}
 
 	/**

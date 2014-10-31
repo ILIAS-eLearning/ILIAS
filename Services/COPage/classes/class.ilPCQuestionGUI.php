@@ -501,13 +501,19 @@ class ilPCQuestionGUI extends ilPageContentGUI
 		$this->setInsertTabs("copy_question");
 
 		include_once "./Services/COPage/classes/class.ilPoolSelectorGUI.php";
-		$exp = new ilPoolSelectorGUI($this, "poolSelection");
+
+		$ilCtrl->setParameter($this, "subCmd", "poolSelection");
+		$exp = new ilPoolSelectorGUI($this, "insert");
 
 		// filter
 		$exp->setTypeWhiteList(array("root", "cat", "grp", "fold", "crs", "qpl"));
 		$exp->setClickableTypes(array('qpl'));
 
-		$tpl->setContent($exp->getHTML());
+		if (!$exp->handleCommand())
+		{
+			$tpl->setContent($exp->getHTML());
+		}
+
 	}
 	
 	/**

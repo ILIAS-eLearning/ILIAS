@@ -83,7 +83,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 		if (is_object ($this->content_obj))
 		{
-			$tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.png"));
+			$tpl->setTitleIcon(ilUtil::getImagePath("icon_mob.png"));
 			$this->getTabs($this->tabs_gui);
 
 			$mob = $this->content_obj->getMediaObject();
@@ -105,7 +105,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		{
 			case "ilobjmediaobjectgui":
 				include_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.png"));
+				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob.png"));
 				$this->tpl->setTitle($this->lng->txt("mob").": ".
 					$this->content_obj->getMediaObject()->getTitle());
 				$mob_gui =& new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(),false, false);
@@ -330,7 +330,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function poolSelection($a_change_obj_ref = false)
 	{
-		global $tpl, $ilTabs;
+		global $tpl, $ilTabs, $ilCtrl;
 
 		$this->getTabs($ilTabs, true, $a_change_obj_ref);
 		$ilTabs->setSubTabActive("cont_mob_from_media_pool");
@@ -339,18 +339,23 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 		if ($a_change_obj_ref)
 		{
-			$exp = new ilPoolSelectorGUI($this, "changeObjectReference");
+			$ilCtrl->setParameter($this, "subCmd", "poolSelection");
+			$exp = new ilPoolSelectorGUI($this, "changeObjectReference", $this, "changeObjectReference");
 		}
 		else
 		{
-			$exp = new ilPoolSelectorGUI($this, "poolSelection");
+			$ilCtrl->setParameter($this, "subCmd", "poolSelection");
+			$exp = new ilPoolSelectorGUI($this, "insert");
 		}
 
 		// filter
 		$exp->setTypeWhiteList(array("root", "cat", "grp", "fold", "crs", "mep"));
 		$exp->setClickableTypes(array('mep'));
 
-		$tpl->setContent($exp->getHTML());
+		if (!$exp->handleCommand())
+		{
+			$tpl->setContent($exp->getHTML());
+		}
 	}
 
 	

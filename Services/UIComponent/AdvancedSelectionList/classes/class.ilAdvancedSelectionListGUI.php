@@ -582,7 +582,7 @@ class ilAdvancedSelectionListGUI
 		if ($this->getAsynch())
 		{
 			$tpl->setCurrentBlock("asynch_request");
-			$tpl->setVariable("IMG_LOADER", ilUtil::getImagePath("loader.gif"));
+			$tpl->setVariable("IMG_LOADER", ilUtil::getImagePath("loader.svg"));
 			$tpl->parseCurrentBlock();
 		}
 		else
