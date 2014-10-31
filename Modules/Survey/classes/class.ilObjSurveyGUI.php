@@ -1687,7 +1687,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 		else
 		{
 			ilUtil::sendInfo($this->lng->txt("enter_questionblock_title"));
-			$this->defineQuestionblockObject();
+			
+			// #14433
+			if(!$_POST["questionblock_id"])
+			{
+				$this->defineQuestionblockObject();
+			}
+			else
+			{
+				$this->defineQuestionblock($_POST["questionblock_id"]);
+			}
 			return;
 		}
 	}
