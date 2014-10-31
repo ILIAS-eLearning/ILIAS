@@ -1013,6 +1013,14 @@ class ilObjFileGUI extends ilObject2GUI
 		
 		$files = $_FILES;
 		
+		// #14249 - race conditions because of concurrent uploads
+		$after_creation_callback = (int)$_REQUEST["crtcb"];
+		if($after_creation_callback)
+		{
+			$this->after_creation_callback_objects = array();
+			unset($_REQUEST["crtcb"]);
+		}
+		
 		// load form
 		$dnd_form_gui = $this->initMultiUploadForm();
 		if ($dnd_form_gui->checkInput())
@@ -1040,6 +1048,16 @@ class ilObjFileGUI extends ilObject2GUI
 		{
 			$dnd_input = $dnd_form_gui->getItemByPostVar("upload_files");
 			$response->error = $dnd_input->getAlert();
+		}
+		
+		if($after_creation_callback &&
+			sizeof($this->after_creation_callback_objects))
+		{			
+			foreach($this->after_creation_callback_objects as $new_file_obj)
+			{				
+				ilObject2GUI::handleAfterSaveCallback($new_file_obj, $after_creation_callback);
+			}
+			unset($this->after_creation_callback_objects);
 		}
 
 		// send response object (don't use 'application/json' as IE wants to download it!)
@@ -1189,6 +1207,12 @@ class ilObjFileGUI extends ilObject2GUI
 			$this->object_id = $fileObj->create();
 			
 			$this->putObjectInTree($fileObj, $this->parent_id);
+			
+			// see uploadFiles()
+			if(is_array($this->after_creation_callback_objects))
+			{
+				$this->after_creation_callback_objects[] = $fileObj;
+			}
 			
 			// upload file to filesystem
 			$fileObj->createDirectory();

@@ -679,20 +679,34 @@ abstract class ilObject2GUI extends ilObjectGUI
 		ilChangeEvent::_recordWriteEvent($this->object_id, $ilUser->getId(), 'create');
 		// END ChangeEvent: Record save object.
 			
-		// use forced callback after object creation
-		if($_REQUEST["crtcb"])
+		// use forced callback after object creation		
+		self::handleAfterSaveCallback($a_obj, $_REQUEST["crtcb"]);		
+	}
+	
+	/**
+	 * After creation callback
+	 * 
+	 * @param ilObject $a_obj
+	 * @param int $a_callback_ref_id
+	 */
+	public static function handleAfterSaveCallback(ilObject $a_obj, $a_callback_ref_id)
+	{
+		global $objDefinition;
+		
+		$a_callback_ref_id = (int)$a_callback_ref_id;		
+		if($a_callback_ref_id)
 		{
-			$callback_type = ilObject::_lookupType((int)$_REQUEST["crtcb"], true);
+			$callback_type = ilObject::_lookupType($a_callback_ref_id, true);
 			$class_name = "ilObj".$objDefinition->getClassName($callback_type)."GUI";
 			$location = $objDefinition->getLocation($callback_type);
 			include_once($location."/class.".$class_name.".php");
 			if (in_array(strtolower($class_name), array("ilobjitemgroupgui")))
 			{
-				$callback_obj = new $class_name((int)$_REQUEST["crtcb"]);
+				$callback_obj = new $class_name($a_callback_ref_id);
 			}
 			else
 			{
-				$callback_obj = new $class_name(null, (int)$_REQUEST["crtcb"], true, false);
+				$callback_obj = new $class_name(null, $a_callback_ref_id, true, false);
 			}
 			$callback_obj->afterSaveCallback($a_obj);
 		}
