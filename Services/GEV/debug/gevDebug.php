@@ -380,10 +380,10 @@ $rs = array(
 );
 
 
+die();
 
 print_r(implode(',', array_keys($debug->getUsersWithRole($rs))));
 
-die();
 
 /*printToTable($debug->getDeletedCourses());
 printToTable($debug->getDeletedCoursesBookings());
