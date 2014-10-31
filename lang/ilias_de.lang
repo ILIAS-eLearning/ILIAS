@@ -8395,7 +8395,7 @@ mep#:#mep_content_snippet_in_use#:#Inhaltsbaustein '%s' wird verwendet und kann 
 mep#:#mep_content_snippet_used_in_older_versions#:#Achtung: Der Inhaltsbaustein wurde in älteren Versionen von einigen Seiten genutzt. Wenn so eine Version einer Seite wiederhergestellt wird, wird der Inhaltsbaustein in ihr fehlen.
 mep#:#mep_copy_to_mep#:#In Medienpool kopieren
 mep#:#mep_create#:#Neuen Medienpool anlegen
-mep#:#mep_create_content_snippet#:#Inhaltsbaustein erzeugen
+mep#:#mep_create_content_snippet#:#Inhaltsbaustein anlegen
 mep#:#mep_create_folder#:#Ordner anlegen
 mep#:#mep_create_from_upload_dir#:#Medienobjekte aus Upload-Verzeichnis hinzufügen.
 mep#:#mep_create_media_files#:#Mediaobjekte anlegen
