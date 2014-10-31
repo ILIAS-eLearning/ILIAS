@@ -2078,3 +2078,17 @@ foreach ($txt_fields_hist_course as $field) {
 	}
 }
 ?>
+<#59>
+<?php
+
+if(!$ilDB->tableColumnExists("bill", "bill_finalized_date")) {
+	$ilDB->addTableColumn("bill", "bill_finalized_date", array(
+		  "type" => "integer"
+		, "length" => 4
+		, "notnull" => false
+		));
+}
+
+$ilDB->manipulate("UPDATE bill SET bill_finalized_date = UNIX_TIMESTAMP() WHERE bill_final = 1");
+
+?>

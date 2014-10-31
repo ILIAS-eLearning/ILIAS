@@ -887,7 +887,8 @@ class ilBill
 			UPDATE bill
 			SET
 			bill_final = %s,
-			bill_number = %s
+			bill_number = %s,
+			bill_finalized_date = UNIX_TIMESTAMP()
 			WHERE bill_pk = %s
 		";
 		$this->db->manipulateF(
