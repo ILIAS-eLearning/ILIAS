@@ -26,10 +26,10 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 
 		$this->table_cols = array
 			( array("gev_bill_number", "billnumber")
-			, array("gev_participation_status", "participation_status")
-			, array("gev_training_fee_pretax", "fee_pretax")
+			, array("status", "participation_status")
+			, array("gev_training_fee_pretax_report", "fee_pretax")
 			, array("gev_tax", "fee_tax")
-			, array("gev_training_fee_posttax", "fee_posttax")
+			, array("gev_training_fee_posttax_report", "fee_posttax")
 			, array("gev_coupon_pretax", "coupon_pretax")
 			, array("gev_tax", "coupon_tax")
 			, array("gev_coupon_posttax", "coupon_posttax")
@@ -129,7 +129,8 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 		}
 
 		$query = 	 "SELECT  bill.bill_number as billnumber"
-					."		, usrcrs.participation_status as participation_status"
+					."		, IF(usrcrs.participation_status='fehlt entschuldigt' OR usrcrs.booking_status='kostenpflichtig storniert',
+								 'fehlt entschuldigt/kostenpflichtig storniert', usrcrs.participation_status) as participation_status"
 					."		, ROUND(SUM(IF(item.billitem_context_id = bill.bill_context_id, item.billitem_pta, 0)), 2) as fee_pretax"
 					."		, ROUND(SUM(IF(item.billitem_context_id = bill.bill_context_id, item.billitem_pta, 0)) * bill.bill_vat/100, 2) as fee_tax"
 					."		, ROUND(SUM(IF(item.billitem_context_id = bill.bill_context_id, item.billitem_pta, 0)) * (1 + bill.bill_vat/100), 2) as fee_posttax"
