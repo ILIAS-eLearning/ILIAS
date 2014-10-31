@@ -679,12 +679,17 @@ if (empty(self::$st_data))
 				// file hack, not nice
 				if ($obj_type == "file")
 				{
-					$tpl->setCurrentBlock("download");
-					$tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
 					$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $item["ref_id"]);
-					$tpl->setVariable("HREF_DOWNLOAD",
-						$ilCtrl->getLinkTargetByClass("ilrepositorygui", "sendfile"));
+					$url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "sendfile");				
 					$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+					
+					include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+					$button = ilLinkButton::getInstance();
+					$button->setUrl($url);
+					$button->setCaption("download");
+					
+					$tpl->setCurrentBlock("download");					
+					$tpl->setVariable("BUTTON_DOWNLOAD", $button->render());					
 					$tpl->parseCurrentBlock();
 				}
 				
