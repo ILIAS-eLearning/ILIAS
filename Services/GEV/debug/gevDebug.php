@@ -380,9 +380,9 @@ $rs = array(
 );
 
 
-die();
+//die();
 
-print_r(implode(',', array_keys($debug->getUsersWithRole($rs))));
+//print_r(implode(',', array_keys($debug->getUsersWithRole($rs))));
 
 
 /*printToTable($debug->getDeletedCourses());
@@ -405,15 +405,140 @@ foreach ($debug->getAllUsers() as $id=>$usr) {
 }
 */
 
-$usrIds = array();
+$usrIds = array(
+21450, 
+21496, 
+21489, 
+21465, 
+21509, 
+21576, 
+21500, 
+21471, 
+21537, 
+21593, 
+21550, 
+21464, 
+21563, 
+21458, 
+21421, 
+21564, 
+21409, 
+21602, 
+21332, 
+21604, 
+21554, 
+21454, 
+21414, 
+21519, 
+21552, 
+21445, 
+21452, 
+21441, 
+21569, 
+21420, 
+21461, 
+21392, 
+21430, 
+21488, 
+21571, 
+21599, 
+21603, 
+21511, 
+21514, 
+21578, 
+21506, 
+21547, 
+21468, 
+21480, 
+21482, 
+21470, 
+21524, 
+21478, 
+21453, 
+21532, 
+21592, 
+21598, 
+21417, 
+21491, 
+21447, 
+21473, 
+21497, 
+21408, 
+21556, 
+21401, 
+21510, 
+21457, 
+21400, 
+21443, 
+21535, 
+21557, 
+21534, 
+21483, 
+21536, 
+21442, 
+21431, 
+21481, 
+21411, 
+21512, 
+21402, 
+21485, 
+21438, 
+21415, 
+21472, 
+21410, 
+21444, 
+21469, 
+21439, 
+21540, 
+21539,
+21476,
+21567,
+21479,
+21495,
+21498,
+21449,
+21475,
+21398,
+21416,
+21455,
+21549,
+21426,
+21451,
+21386,
+21466,
+21577,
+21462,
+21558,
+21456,
+21492,
+21542,
+21448,
+21520,
+21487,
+21399,
+21484,
+21446,
+21463,
+21538,
+21572,
+21433,
+21435,
+21434
+);
 
-foreach ($debug->getAllUsers($usrIds) as $id=>$usr) {
-	print_r($usr->getLogin());
-	print '<br>';
+require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+foreach ($usrIds as $id) {
+	//$debug->updateHistoryForUser($usr);
+	$uutils = gevUserUtils::getInstanceByObjOrId($id);
+	$as = $uutils->getWBDAgentStatus();
+	if($as){
+		$sql = "update hist_user set agent_status = '$as' WHERE hist_historic=0 AND user_id=$id;";
+		print($sql);
 	//$debug->revertSetAgentStateForUser($id);
 	//$debug->updateHistoryForUserIfStellung($usr);
 	//$debug->setAgentStateForUser($id);
-	print '<hr>';
+		print '<br>';
+	}
 }
 
 

@@ -251,8 +251,8 @@ class gevImportOldData {
 			'Privat-Vorsorge-Lebens-/Rentenverischerung' => 'Privat-Vorsorge-Lebens-/Rentenversicherung',
 			'Privat-Vorsorge-Kranken-/Pflegeversicherung' => 'Privat-Vorsorge-Kranken-/Pflegeversicherung',
 
-			'Firmenkunden -Sach-/Schadenversicherung' => 'Firmenkunden-Sach-/Schadensversicherung',
-			'Firmenkunden-Sach-/Schadenversicherung' => 'Firmenkunden-Sach-/Schadensversicherung',
+			'Firmenkunden -Sach-/Schadenversicherung' => 'Firmenkunden-Sach-/Schadenversicherung',
+			'Firmenkunden-Sach-/Schadenversicherung' => 'Firmenkunden-Sach-/Schadenversicherung',
 
 			'Spartenübergreifend' => 'Spartenübergreifend',
 
@@ -496,7 +496,7 @@ printToTable($import->sem_ok);
 
 
 
-
+/*
 //update (old) courses for historizign of wbd study_contents
 require_once("Modules/Course/classes/class.ilObjCourse.php");
 
@@ -506,6 +506,7 @@ while ($rec = $ilDB->fetchAssoc($res)) {
 	$crs->update();
 }
 
+*/
 
 
 die();

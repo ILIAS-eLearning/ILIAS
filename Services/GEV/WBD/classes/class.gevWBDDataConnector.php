@@ -808,7 +808,7 @@ if($DEBUG_HTML_OUT){
 
 	print '<h2> total new users: ' .count($cls->valid_newusers) .'</h2>';
 	print '<h2> invalid records: ' .count($cls->broken_newusers) .'</h2>';
-	print_r($cls->broken_newusers);
+//	print_r($cls->broken_newusers);
 	
 	
 	
@@ -840,7 +840,28 @@ if($DEBUG_HTML_OUT){
 
 	print '<h2> total new edurecords: ' .count($cls->valid_newedurecords) .'</h2>';
 	print '<h2> invalid edurecords: ' .count($cls->broken_newedurecords) .'</h2>';
-	print_r($cls->broken_newusers);
+//	print_r($cls->broken_newedurecords);
+	
+	print 'error';
+	foreach($cls->broken_newedurecords[0][1] as $hl=>$v){
+		print ', ' .$hl;
+	}
+	
+	foreach($cls->broken_newedurecords as $entry){
+		print '<br>';
+		print str_replace('<br>', '', $entry[0]);
+		
+		foreach( $entry[1] as $k=>$v){
+			print ', ' .$v;
+		}
+	
+	}
+	
+	print '<hr>';
+
+
+
+	
 	
 	
 	print '<hr>';
