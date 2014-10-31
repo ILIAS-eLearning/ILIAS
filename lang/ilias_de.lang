@@ -410,6 +410,9 @@ assessment#:#cloze_textgap_case_insensitive#:#Zwischen Groß- und Kleinschreibun
 assessment#:#cloze_textgap_case_sensitive#:#Groß- und Kleinschreibung beachten
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein-Abstand von %s
 assessment#:#cloze_textgap_rating#:#Textlückenbewertung
+assessment#:#cloze_textgap_whitespace_before#:#Leerzeichen vor dem Begriff
+assessment#:#cloze_textgap_whitespace_after#:#Leerzeichen nach dem Begriff
+assessment#:#cloze_textgap_multiple_whitespace#:#Mehrere Leerzeichen hinereinander
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Verknüpfung

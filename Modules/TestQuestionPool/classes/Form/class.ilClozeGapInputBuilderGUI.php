@@ -288,6 +288,9 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 		$custom_template->setVariable('VALUES', 						$lng->txt('values'));
 		$custom_template->setVariable('GAP_COMBINATION', 				$lng->txt('gap_combination'));
 		$custom_template->setVariable('COPY', 							$lng->txt('copy_of'));
+		$custom_template->setVariable('WHITESPACE_FRONT', 				$lng->txt('cloze_textgap_whitespace_before'));
+		$custom_template->setVariable('WHITESPACE_BACK', 				$lng->txt('cloze_textgap_whitespace_after'));
+		$custom_template->setVariable('WHITESPACE_MULTIPLE', 			$lng->txt('cloze_textgap_multiple_whitespace'));
 		$template->setCurrentBlock('prop_generic');
 		$template->setVariable('PROP_GENERIC', $custom_template->get());
 		$template->parseCurrentBlock();

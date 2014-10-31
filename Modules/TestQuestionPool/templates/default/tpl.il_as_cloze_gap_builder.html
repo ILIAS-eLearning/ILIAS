@@ -34,76 +34,6 @@
     {
         float:left;
     }
-    /* begin lightbox */
-    #blank_link{
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        cursor: default;
-    }
-    .lightbox-target {
-        position: fixed;
-        width: 100%;
-        opacity: 0;
-        overflow: hidden;
-        z-index:-5;
-        left:0;
-        background: rgba(255,255,255,.4);
-    }
-
-    .lightbox-target:target {
-        opacity:1;
-        top: 85px;
-        bottom: 0;
-        overflow: auto;
-        z-index:5;
-        -webkit-transition: .4s ease-in;
-        -moz-transition: .4s ease-in;
-        -o-transition: .4s ease-in;
-        transition: .4s ease-in;
-    }
-
-    #lightbox_inner
-    {
-        position:absolute;
-        max-width: 100%;
-        min-width: 40em;
-        left:35%;
-        background: rgba(255,255,255,1);
-        border:1px solid grey;
-        box-shadow: 0 0 8px rgba(0,0,0,0.5);
-        box-sizing: border-box;
-    }
-    .lightbox_menu
-    {
-        background-color: #F3F3F3;
-        height:2em;
-    }
-    h3{
-        margin-top:5px;
-        margin-left:2px;
-        margin-bottom:5px;
-        font-weight: bold;
-        font-size: 95%;
-    }
-    #apply_button_top
-    {
-        position:absolute;
-        right:0;
-        top:0;
-    }
-    #lightbox_title_top
-    {
-        position:absolute;
-        left:0;
-        top:0;
-    }
-    #apply_button_bottom
-    {
-        position:absolute;
-        right:0;
-        bottom:0;
-    }
     .solution_table td{
         padding-right: 1em;
     }
@@ -116,7 +46,6 @@
     .form_warning{
         background-color: rgba(255,255,0,0.4);
     }
-    /* end lightbox */
 </style>
 <script type="text/javascript">
     var ClozeSettings =
@@ -253,7 +182,7 @@
     </div>
     <div>
         <div style="">
-            <input style="text-align:right;" type="text" size="3" id="gap_a_gapsize" maxlength="6" name="gap_a_gapsize" value="0">
+            <input style="text-align:right;" type="text" size="3" id="gap_a_gapsize" maxlength="6" name="gap_a_gapsize" value="">
             <div class="help-block">{GAP_SIZE_INFO}</div>
         </div>
     </div>
@@ -265,30 +194,19 @@
     </div>
     <div>
         <div id="error_answer_val">
-            <span class="prototype points">{POINTS_ERROR}</span>
-            <span class="prototype value">{MISSING_VALUE}</span>
-            <span class="prototype formula">{NOT_A_FORMULA}</span>
-            <span class="prototype number">{NOT_A_NUMBER}</span>
+            <span class="prototype points form_error">{POINTS_ERROR}</br></span>
+            <span class="prototype value form_error">{MISSING_VALUE}</br></span>
+            <span class="prototype formula form_error">{NOT_A_FORMULA}</br></span>
+            <span class="prototype number form_error">{NOT_A_NUMBER}</br></span>
+            <span class="prototype wsB form_warning">{WHITESPACE_FRONT}</br></span>
+            <span class="prototype wsA form_warning">{WHITESPACE_BACK}</br></span>
+            <span class="prototype wsM form_warning">{WHITESPACE_MULTIPLE}</br></span>
         </div>
     </div>
 </div>
 <div class="prototype" id="delete_gap_question">{DELETE_GAP}</div>
 <input id="gap_json_post" name="gap_json_post" class="prototype" value="0" />
 <input id="gap_json_combination_post" name="gap_json_combination_post" class="prototype" value="0" />
-<div id="lightbox" class="lightbox-target">
-    <a  href="#"><div id="blank_link"></div></a>
-    <div id="lightbox_inner">
-        <div class="lightbox_menu">
-            <div id="lightbox_title_top"><h3></h3></div>
-            <div  id="apply_button_top"><a href="#"><input class="submit" type="button" value="{CLOSE}"></a></div>
-        </div>
-        <div id="lightbox_content"></div>
-        <div class="lightbox_menu">
-            <div id="lightbox_title_bottom"><h3></h3></div>
-            <div id="apply_button_bottom"><a href="#"><input class="submit" type="button" value="{CLOSE}"></a></div>
-        </div>
-    </div>
-</div>
 <input id="create_gap_combination" class="prototype" type="button" value="{GAP_COMBINATION}"/>
 <div class="prototype" id="gap_combination_header">
     <div>

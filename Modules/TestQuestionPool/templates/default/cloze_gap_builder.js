@@ -205,13 +205,19 @@ $(document).ready(function ()
     }
     function highlightRed(selector)
     {
-        //selector.css('background-color', 'rgba(255,0,0,0.4)');
         selector.addClass(ClozeGlobals.form_error);
     }
     function removeHighlight(selector)
     {
-        //selector.css('background-color', '');
         selector.removeClass(ClozeGlobals.form_error);
+    }
+    function highlightYellow(selector)
+    {
+        selector.addClass(ClozeGlobals.form_warning);
+    }
+    function removeHighlightYellow(selector)
+    {
+        selector.removeClass(ClozeGlobals.form_warning);
     }
     function checkInputElementNotEmpty(selector,value)
     {
@@ -224,6 +230,56 @@ $(document).ready(function ()
             return 0;
         }
     }
+    function checkInputTextForWhitespaces(id, selector, value)
+    {
+        var error       = false;
+        if (/^\s/.test(value))
+        {
+            showHidePrototypes(id, 'wsB',true);
+            error                           = true;
+            ClozeGlobals.whitespace_cleaner = true;
+        }
+        else if(!error && !ClozeGlobals.whitespace_cleaner)
+        {
+            showHidePrototypes(id, 'wsB',false);
+        }
+        if (/\s$/.test(value))
+        {
+            showHidePrototypes(id, 'wsA',true);
+            error                           = true;
+            ClozeGlobals.whitespace_cleaner = true;
+        }
+        else if(!error && !ClozeGlobals.whitespace_cleaner)
+        {
+            showHidePrototypes(id, 'wsA',false);
+        }
+        if (/\s{2,}/.test(value))         {
+            showHidePrototypes(id, 'wsM',true);
+            error                           = true;
+            ClozeGlobals.whitespace_cleaner = true;
+        }
+        else if(!error && !ClozeGlobals.whitespace_cleaner)
+        {
+            showHidePrototypes(id, 'wsM',false);
+        }
+        if( error === true )
+        {
+            highlightYellow(selector);
+        }
+        else if(!error && !ClozeGlobals.whitespace_cleaner)
+        {
+            removeHighlightYellow(selector);
+        }
+        
+    }
+    function clearInputTextWithWhitespaces(value)
+    {
+        value = value.replace(/\s{2,}/g,'');
+        value = value.replace(/^\s/,'');
+        value = value.replace(/\s$/,'');
+        return value;
+    }
+    
     function appendGapCombinationForm()
     {
         var max_points = 0;
@@ -428,6 +484,17 @@ $(document).ready(function ()
             });
         }
     }
+    function checkTextBoxQuick(selector)
+    {
+        var gap_id      = 0;
+        var answer_id   = 0;
+        var temp        = '';
+        temp = selector.attr('id').split('_')[1].split('[');
+        gap_id          = parseInt(temp[0], 10);
+        checkInputElementNotEmpty(selector,selector.val());
+        checkInputTextForWhitespaces(gap_id,selector,selector.val());
+        ClozeGlobals.whitespace_cleaner = false;
+    }
     function checkForm()
     {
         var row = 0;
@@ -501,7 +568,12 @@ $(document).ready(function ()
                     {
                         removeHighlight($('#gap_' + row + '\\[points\\]\\[' + counter + '\\]'));
                     }
-                    input_failed += checkInputElementNotEmpty($('#gap_' + row + '\\[answer\\]\\[' + counter + '\\]'),values.answer);
+                    var failed = checkInputElementNotEmpty($('#gap_' + row + '\\[answer\\]\\[' + counter + '\\]'),values.answer);
+                    input_failed += failed;
+                    if(entry.type == 'text' && failed === 0)
+                    {
+                        checkInputTextForWhitespaces(row, $('#gap_' + row + '\\[answer\\]\\[' + counter + '\\]'), values.answer);
+                    }
                     counter++;
                 });
                 if (input_failed > 0) {
@@ -539,6 +611,7 @@ $(document).ready(function ()
                 }
             }
             row++;
+            ClozeGlobals.whitespace_cleaner = false;
         });
         $('#gap_json_post').attr('value',JSON.stringify(ClozeSettings.gaps_php));
         if(ClozeSettings.gaps_combination.length > 0)
@@ -974,6 +1047,11 @@ $(document).ready(function ()
                 });
             });
             checkForm();
+        });
+        listener = 'keyup';
+        selector.off(listener);
+        selector.bind(listener, function(event){
+            checkTextBoxQuick($(this));
         });
         selector = $('.gapsize');
         selector.off('blur');
