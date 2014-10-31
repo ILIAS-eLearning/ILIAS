@@ -90,22 +90,30 @@ il.CharSelector = new function() {
 	this.initPanel = function() {
 		if ($('#mainspacekeeper').length > 0)
 		{
-			$('#mainspacekeeper').prepend($('#ilCharSelectorTemplate').html());
+            // using a dedicated spacer element keeps us independent from the responsive menu heights
+            // it also helps to respond to a panel resizing
+            $('#mainspacekeeper').before($('#ilCharSelectorTemplate').html());
+            $('#mainspacekeeper').prepend('<div id="ilCharSelectorSpacer"></div>');
 		}
-		else if ($('#tst_output').length > 0)
+		else if ($('body').hasClass('kiosk'))
 		{
-			$('body').prepend($('#ilCharSelectorTemplate').html());
+			$('#ilAll').before($('#ilCharSelectorTemplate').html());
+            $('#ilAll').prepend('<div id="ilCharSelectorSpacer"></div>');
 		}
-		
-		$('#ilCharSelectorScroll').mousedown(function(){return false;});
+
+        // avoid loosing focus in the target text field
+		$('#ilCharSelectorContent').mousedown(function(){return false;});
+
 		$('#ilCharSelectorPrevPage').mousedown(function(){return false;});
 		$('#ilCharSelectorNextPage').mousedown(function(){return false;});
 		$('#ilCharSelectorPrevPage').click(self.previousPage);
 		$('#ilCharSelectorNextPage').click(self.nextPage);
 		$('#ilCharSelectorSelPage').change(self.selectPage);
 		$('#ilCharSelectorSelSubPage').change(self.selectSubPage);
-		
-		self.renderPage();
+        $('#ilCharSelectorClose').click(self.closePanel);
+        $(window).resize(self.resizePanel);
+
+        self.renderPage();
 	};
 	
 	/**
@@ -116,21 +124,10 @@ il.CharSelector = new function() {
 		{
 			self.initPanel();
 		}
-		$('#ilCharSelectorPanel').show();	
-		
-		if ($('#fixed_content').length > 0)
-		{
-			// normal page
-			$('body').addClass('withCharSelector');
-		}
-		else if ($('#tst_output').length > 0)
-		{
-			// test kiosk mode 
-			$('body').removeClass('kiosk');
-			$('body').addClass('kioskWithCharSelector');
-		}
-
-		$('.ilCharSelectorToggle').addClass('ilCharSelectorToggleOpen');
+		$('#ilCharSelectorPanel').show();
+        $('#ilCharSelectorSpacer').show();
+		$('.ilCharSelectorToggle').addClass('active');
+        self.resizePanel();
 		config.open = 1;
 	};
 
@@ -139,20 +136,8 @@ il.CharSelector = new function() {
 	 */
 	this.closePanel = function() {
 		$('#ilCharSelectorPanel').hide();
-		
-		if ($('#fixed_content').length > 0)
-		{
-			// normal page
-			$('body').removeClass('withCharSelector');
-		}
-		else if ($('#tst_output').length > 0)
-		{
-			// test kiosk mode
-			$('body').removeClass('kioskWithCharSelector');
-			$('body').addClass('kiosk');		
-		}
-
-		$('.ilCharSelectorToggle').removeClass('ilCharSelectorToggleOpen');
+        $('#ilCharSelectorSpacer').hide();
+        $('.ilCharSelectorToggle').removeClass('active');
 		config.open = 0;
 	};
 
@@ -169,8 +154,8 @@ il.CharSelector = new function() {
 		self.sendState();
 		return false;
 	};
-	
-	
+
+
 	/**
 	 * Move to page chosen from the selector
 	 */
@@ -179,7 +164,7 @@ il.CharSelector = new function() {
 		self.countSubPages();
 		config.current_subpage = 0;
 		self.renderPage();
-		self.sendState();
+        self.sendState();
 	};
 	
 	
@@ -189,7 +174,7 @@ il.CharSelector = new function() {
 	this.selectSubPage = function() {
 		config.current_subpage = $(this).val();
 		self.renderPage();
-		self.sendState();
+        self.sendState();
 	};
 
 	
@@ -219,7 +204,7 @@ il.CharSelector = new function() {
 		if (config.current_subpage < page_subpages - 1) {
 			config.current_subpage++;
 			self.renderPage();
-			self.sendState();
+ 			self.sendState();
 		}
 		else if (config.current_page < config.pages.length - 1) {
 			config.current_page++;
@@ -337,17 +322,25 @@ il.CharSelector = new function() {
 		// bind the click event to all anchors
 		$('#ilCharSelectorChars a').click(self.insertChar); 
 		$('#ilCharSelectorChars a').mouseover(self.showPreview); 
-		$('#ilCharSelectorChars a').mouseout(self.hidePreview); 
-		
+		$('#ilCharSelectorChars a').mouseout(self.hidePreview);
+
+        self.resizePanel();
 	};
-	
-	this.showPreview = function() {
+
+    /**
+     * Handle a resizing of the panel
+     */
+    this.resizePanel = function() {
+        $('#ilCharSelectorSpacer').height($('#ilCharSelectorPanel').height()+30);
+    }
+
+
+    this.showPreview = function() {
 		$('#ilCharSelectorPreview').html($(this).text());
-		$('#ilCharSelectorPreview').show();
 	}
 	
 	this.hidePreview = function() {
-		$('#ilCharSelectorPreview').hide();
+        $('#ilCharSelectorPreview').html('');
 	}
 
 	

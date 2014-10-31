@@ -408,6 +408,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			{
 				$char_selector->addToPage();
 				$this->tpl->setCurrentBlock('char_selector');
+                $this->tpl->setVariable("CHAR_SELECTOR_IMAGE", ilUtil::getImagePath('icon_omega_test.svg','Services/UIComponent/CharSelector'));
 				$this->tpl->setVariable("CHAR_SELECTOR_TEXT", $this->lng->txt('char_selector'));
 				$this->tpl->setVariable("CHAR_SELECTOR_TEMPLATE", $char_selector->getSelectorHtml());
 				$this->tpl->parseCurrentBlock();

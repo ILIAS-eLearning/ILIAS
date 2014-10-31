@@ -1,69 +1,41 @@
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/*************** 
- * Toggle button
- ***************/
+/********
+ *  Panel
+ ********/
 
-#ilCharSelectorToggleTest 
-{
-	display: inline-block;
-	width: 17px;
-	height: 16px;
-	background-image: url(images/icon_omega_test.png);
-	background-repeat: no-repeat;
+#ilCharSelectorPanel.ilTopFixed {
+    background: #ffffff;
+    padding: 1em;
+    z-index: 1029;      /* one less than the main menu to be behind the dro-downs */
+    display:none;	    /* will be shown when panel is openend */
 }
 
-.ilCharSelectorToggleOpen 
-{
-	box-shadow: inset 2px 2px 4px #C0C0C0;
+body.kiosk #ilCharSelectorPanel.ilTopFixed {
+    top: 0px;
+    background:#FAFAFA;
+    padding: 2em;
 }
+
+#ilCharSelectorSpacer {
+    display:none;	/* will be shown when panel is openend */
+}
+
 
 /****************
  *  Panel content
  ****************/
 
-#ilCharSelectorFixed {
-	float:left;
-	padding: 3px 10px 5px 5px;
-	height: 120px;
-	min-width: 100px;
-}
-
-#ilCharSelectorPageNav {
-	padding-bottom: 5px;
-}
-
-#ilCharSelectorSubPageNav {
-	padding-bottom: 15px;
-}
-
 #ilCharSelectorPreview {
-	display:none;
-	background: url(../../../../../templates/default/images/ButtonsBack.png) repeat-x bottom #FFF;
-	border: 1px solid #BABABA;
-	border-bottom-color: #808080;
-	border-right-color: #808080;
-	border-radius: 6px;
-	text-decoration: none;
-	font-size: 2em;
-	padding: 10px;
-	overflow: hidden;
+   font-size: 4em;
 }
 
-#ilCharSelectorScroll {
-	height: 120px;
-	margin: 0;
-	padding: 0;
-	overflow: auto;
-}
 
 #ilCharSelectorChars {
-	padding: 10 px;
 	line-height: 2em;
 }
 
 #ilCharSelectorChars a {
-	background: url(../../../../../templates/default/images/ButtonsBack.png) repeat-x bottom #FFF;
 	padding: 2px 5px 2px 5px;
 	margin: 2px;
 	border: 1px solid #BABABA;
@@ -73,10 +45,11 @@
 	text-decoration: none;
 	font-size: 100%;
 	cursor: pointer;
+    display: inline-block;
+    min-width: 2em;
 }
 
 #ilCharSelectorChars a:hover {
-	background: #FFF !important;
 	box-shadow: 2px 2px 4px #C0C0C0;
 }
 

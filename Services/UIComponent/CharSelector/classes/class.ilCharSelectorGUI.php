@@ -231,7 +231,6 @@ class ilCharSelectorGUI
 		// addLightbox() is just used to add the panel template outside the body
 		// The panel template is added as <script> to be not included in the DOM by default
 		// It will be included by js below the main header when the selector is switched on
-		$tpl->addCss(ilUtil::getStyleSheetLocation('','char_selector_position.css','Services/UIComponent/CharSelector'));
 		$tpl->addCss(ilUtil::getStyleSheetLocation('','char_selector_style.css','Services/UIComponent/CharSelector'));
 		$tpl->addJavascript('./Services/UIComponent/CharSelector/js/ilCharSelector.js');
 		$tpl->addLightbox($this->getSelectorHTML(),2);
