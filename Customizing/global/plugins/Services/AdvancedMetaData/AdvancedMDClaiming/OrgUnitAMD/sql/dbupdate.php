@@ -51,7 +51,7 @@ array( "Adresse"
 				 ))
 	 , "Kontaktdaten" 
 		=> array( "Ansprechpartner in der Organisationseinheit",
-		   array( "Name" =>
+		   array( "Kontaktperson" =>
 				 		array( gevSettings::ORG_AMD_CONTACT_NAME
 				 			 , null
 				 			 , true
@@ -149,6 +149,24 @@ array("Ort"
 		   					 )
 				, "Pauschale Tagesverpflegung" => 
 		   				array( gevSettings::VENUE_AMD_COSTS_FOOD
+		   					 , null
+		   					 , true
+		   					 , array( "min" => 0
+		   					 		, "decimals" => 2
+		   					 		)
+		   					 , $tfloat
+		   					 )
+		   		, "Vollkostenpauschale Hotel" =>
+		   				array( gevSettings::VENUE_AMD_COSTS_HOTEL
+		   					 , null
+		   					 , true
+		   					 , array( "min" => 0
+		   					 		, "decimals" => 2
+		   					 		)
+		   					 , $tfloat
+		   					 )
+		   		, "Tagespauschale Hotel" =>
+		   				array( gevSettings::VENUE_AMD_ALL_INCLUSIVE_COSTS
 		   					 , null
 		   					 , true
 		   					 , array( "min" => 0

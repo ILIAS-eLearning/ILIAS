@@ -468,6 +468,10 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_MEDIA);
 	}
 	
+	public function getEduProgramm() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_EDU_PROGRAMM);
+	}
+	
 	public function getTargetGroup() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TARGET_GROUP);
 	}
@@ -498,6 +502,10 @@ class gevCourseUtils {
 	static public function formatFee($a_fee) {
 		require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
 		return gevBillingUtils::formatPrize($a_fee);
+	}
+	
+	public function getMiceId() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_MICE_ID);
 	}
 	
 	public function getMinParticipants() {

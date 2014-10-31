@@ -340,6 +340,24 @@ class gevOrgUnitUtils {
 		$this->checkIsVenue("setCostsPerDailyCatering");
 		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_COSTS_FOOD, $a_costs);
 	}
+	
+	public function getCostsOfHotel() {
+		return $this->amd->getField($this->orgu_id, gevSettings::VENUE_AMD_COSTS_HOTEL);
+	}
+	
+	public function setCostsOfHotel($a_costs) {
+		$this->checkIsVenue("setCostsOfHotel");
+		$this->amd->setField($this->orgu_id, gevSettings::VENUE_AMD_COSTS_HOTEL, $a_costs);
+	}
+	
+	public function getCostsAllInclusive() {
+		return $this->amd->getField($this->orgu_id, gevSettings::VENUE_AMD_ALL_INCLUSIVE_COSTS);
+	}
+	
+	public function setCostsAllInclusive($a_costs) {
+		$this->checkIsVenue("setCostsAllInclusive");
+		$this->amd->setField($this->orgu_id, gevSettings::VENUE_AMD_ALL_INCLUSIVE_COSTS, $a_costs);
+	}
 
 	// Helpers and Caching for role related stuff
 	

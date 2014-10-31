@@ -154,6 +154,17 @@ array( "Zeitraum"
 							 , null
 							 , $tlongtext
 							 )
+				, "Bildungsprogramm" =>
+						array( gevSettings::CRS_AMD_EDU_PROGRAMM
+							 , null
+							 , true
+							 , array( "zentrales Training"
+									, "dezentrales Training"
+									, "Grundausbildung"
+									, "Azubi-Ausbildung"
+							 	    )
+							 , $tselect
+							 )
 				, "Ziele und Nutzen" =>
 						array( gevSettings::CRS_AMD_GOALS
 							 , "Beschreibung des Nutzens der Teilnehmer"
@@ -263,6 +274,13 @@ array( "Zeitraum"
 	 	   					 		,"decimals" => 2)
 	 	   					 , $tfloat
 	 	   					 )
+	 			, "Mice-ID" =>
+	 					array( gevSettings::CRS_AMD_MICE_ID
+	 						 , ""
+	 						 , false
+	 						 , null
+	 						 , $ttext
+	 						 )
 	 	   		))
 	, "Verwaltung"
 		=> 	array( "Einstellungen zur Verwaltung der Trainings", 
@@ -284,9 +302,7 @@ array( "Zeitraum"
 				 			 , array( "Präsenztraining"
 				 			 		, "Webinar"
 				 			 		, "Selbstlernkurs"
-				 			 		, "Spezialistenschulung Präsenztraining"
-				 			 		, "Spezialistenschulung Webinar"
-									, "POT-Termin"
+				 			 		, "Virtuelles Training (gesteuertes E-Learning)"
 									)
 				 			 // if this is changed, gevUserUtils::getCourseHighlights
 				 			 // needs to be changed as well!!

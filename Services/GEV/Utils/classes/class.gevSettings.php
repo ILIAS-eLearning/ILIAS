@@ -60,6 +60,8 @@ class gevSettings {
 	const CRS_AMD_METHODS 			= "crs_amd_methods";
 	// Medien
 	const CRS_AMD_MEDIA				= "crs_amd_media";
+	// Bildungsprogramm
+	const CRS_AMD_EDU_PROGRAMM		= "crs_amd_edu_program";
 
 
 	// Zielgruppe für Suche
@@ -76,6 +78,8 @@ class gevSettings {
 	
 	// Teilnahmegebühr
 	const CRS_AMD_FEE				= "crs_amd_fee";
+	// Mice-ID
+	const CRS_AMD_MICE_ID			= "crs_amd_mice_id";
 	
 	// Mindestteilnehmerzahl
 	const CRS_AMD_MIN_PARTICIPANTS	= "crs_amd_min_participants";
@@ -147,6 +151,10 @@ class gevSettings {
 	const VENUE_AMD_COSTS_DINNER	= "venue_amd_costs_dinner";
 	// Pauschale Tagesverpflegung
 	const VENUE_AMD_COSTS_FOOD		= "venue_amd_costs_food";
+	// Vollkostenpauschale Hotel
+	const VENUE_AMD_COSTS_HOTEL		= "venue_amd_costs_hotel";
+	// Tagespauschale Hotel
+	const VENUE_AMD_ALL_INCLUSIVE_COSTS = "venue_amd_all_inclusive_costs";
 	
 	
 	// Standardorte und -veranstalter
