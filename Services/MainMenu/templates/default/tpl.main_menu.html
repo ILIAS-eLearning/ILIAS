@@ -19,22 +19,44 @@
 					<!-- BEGIN search_box -->{SEARCHBOX}<!-- END search_box -->
 					<!-- BEGIN help -->
 					<li id="mm_help" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<span class="visible-xs-inline glyphicon glyphicon-question-sign"></span>
-						<span class="hidden-xs">{TXT_HELP} <span class="caret"></span></span></a>
+						<span class="glyphicon glyphicon-question-sign"></span>
+						<!--span class="hidden-xs">{TXT_HELP} <span class="caret"></span></span--></a>
 						{HELP_SELECT}
 					</li>
 					<!-- END help -->
 					<!-- BEGIN userisloggedin -->
-					<li><!-- {USERNAME} » --><a href="{LINK_LOGOUT2}"><span class="hidden-xs">{TXT_LOGOUT2}</span><span class="visible-xs-inline glyphicon glyphicon-off"></span></a></li>
+					<li id="userlog" class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<span>{USER_IMG}{USERNAME} <span class="caret"></span></span>
+						</a>
+						<ul class="dropdown-menu pull-left" role="menu">
+							<li>
+								<!--a href="{LINK_PROFILE}">{TXT_PROFILE}</a-->
+								<a href="ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile">Persönliche Daten und Profil</a>
+							</li>
+							<li>
+								<!--a href="{LINK_SETTINGS}">{TXT_SETTINGS}</a-->
+								<a href="ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings">Einstellungen</a>
+							</li>
+							<li role="presentation" class="divider"></li>
+							<li>
+								<a href="{LINK_LOGOUT2}">{TXT_LOGOUT2}</a>
+							</li>
+						</ul>
+					</li>
 					<!-- END userisloggedin -->
 					<!-- BEGIN lang_select -->
-					<li class="dropdown"><a id="mm_lang_sel" href="#" class="dropdown-toggle" data-toggle="dropdown">{TXT_LANGSELECT} <span class="caret"></span></a>
+					<li class="dropdown">
+						<a id="mm_lang_sel" href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<span class="glyphicon glyphicon-flag"></span>
+							<!--{TXT_LANGSELECT} <span class="caret"></span>-->
+						</a>
 						{LANG_SELECT}
 					</li>
 					<!-- END lang_select -->
 					<!-- BEGIN userisanonymous -->
 					<li>
-						<a href="{LINK_LOGIN}" target="_top">{TXT_LOGIN}</a>
+						<a href="{LINK_LOGIN}" target="_top"><!--{TXT_LOGIN}--><span class="glyphicon glyphicon-log-in"></span></a>
 						<!-- BEGIN registration_link --><!-- {LINK_REGISTER} --><!-- {TXT_REGISTER} --><!-- END registration_link -->
 					</li>
 					<!-- END userisanonymous -->

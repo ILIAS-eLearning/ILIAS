@@ -55,19 +55,22 @@
 		color: @ilMainMenuColor;
 	}
 	.navbar-nav {
-		> li > a {
-			margin: 0 0px 0 10px;
-			padding: 5px 10px 6px;
-			border-top: 4px solid @body-bg;
-			//background-color: lighten(@ilMainMenuColor, 39%);
-			color: lighten(@mid-gray, 10%);//darken(@ilMainMenuColor, 30%);
-			&:hover,
-			&:active,
-			&:focus {
-				//outline: 0;
-				//border-top: 4px solid @brand-primary;
-				//background-color: white;
-				//box-shadow: 3px 9px 9px 0px rgba(0,0,0,0.176);
+		> li {
+			margin: 0 0 0 10px;
+				> a {
+				margin: 0;
+				padding: 5px 10px 6px;
+				border-top: 4px solid @body-bg;
+				//background-color: lighten(@ilMainMenuColor, 39%);
+				color: lighten(@mid-gray, 10%);//darken(@ilMainMenuColor, 30%);
+				&:hover,
+				&:active,
+				&:focus {
+					//outline: 0;
+					//border-top: 4px solid @brand-primary;
+					//background-color: white;
+					//box-shadow: 3px 9px 9px 0px rgba(0,0,0,0.176);
+				}
 			}
 		}
 		> .active > a,
@@ -154,8 +157,14 @@ input.ilOpenIDBox {
 		background-color: lighten(@mid-gray, 42%);
 		border-radius: 0;
 		margin: 0;
-		&, a {
+		color: lighten(@mid-gray, 70%);
+		a {
 			color: lighten(@mid-gray, 70%);
+			&:hover,
+			&:active,
+			&:focus {
+				color: lighten(@mid-gray, 42%);
+			}
 		}
 	}
 	> li {
@@ -191,6 +200,22 @@ input.ilOpenIDBox {
 			color: white;
 			text-decoration: none;
 			background-color: lighten(@mid-gray, 42%);
+		}
+	}
+	#userlog {
+		> a {
+			padding: 0 10px 0 0;
+			img {
+				height: 40px;
+				width: 40px;
+				margin-right: 10px;
+			}
+		}
+		.dropdown-menu {
+			min-width: 100%;
+			> li > a {
+				padding-left: 50px;
+			}
 		}
 	}
 }
@@ -260,4 +285,5 @@ input.ilOpenIDBox {
 	float: right;
 	left: auto;
 	right: 0;
+	min-width: 100%;
 }

@@ -278,6 +278,9 @@ class ilMainMenuGUI
 				
 				$this->tpl->setCurrentBlock("userisloggedin");
 				$this->tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
+				$user_img_src = $ilias->account->getPersonalPicturePath("small", true);
+				$user_img_alt = $ilias->account->getFullname();
+				$this->tpl->setVariable("USER_IMG", ilUtil::img($user_img_src, $user_img_alt));
 				$this->tpl->setVariable("TXT_LOGOUT2",$lng->txt("logout"));
 				$this->tpl->setVariable("LINK_LOGOUT2", $link_dir."logout.php?lang=".$ilias->account->getCurrentLanguage());
 				$this->tpl->setVariable("USERNAME",$ilias->account->getFullname());
