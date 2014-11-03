@@ -48,11 +48,43 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 			, array("gev_venue", "venue")
 			, array("", "bill_link")
 			);
+		
+		require_once("Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php");
+		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+		require_once("Services/Form/classes/class.ilDateTimeInputGUI.php");
+
+		$created_since = new ilDateTimeInputGUI($this->lng->txt("gev_created_since").": ", "created_since");
+		$created_since->setShowTime(false);
+
+		$this->filters = array(
+			"created_since" => $created_since
+			);
+
+		$date = date("Y")."-01-01";
+		if(isset($_POST["created_since"])) {
+			$date = $_POST["created_since"]["date"]["y"]
+					."-".$_POST["created_since"]["date"]["m"]
+					."-".$_POST["created_since"]["date"]["d"];
+			$_POST["created_since"] = urlencode($date);
+		}
+
+		$this->digestSearchParameter("created_since", urlencode($date));
+		
+		$this->created_since = new ilDate($this->filter_params["created_since"], IL_CAL_DATE);
+		$created_since->setDate($this->created_since);
 
 		$this->table_row_template= array(
 			"filename" => "tpl.gev_billing_row.html", 
 			"path" => "Services/GEV/Reports"
 		);
+	}
+	
+	protected function getAdditionalFilters() {
+		$ret = '';
+		foreach ($this->filters as $filter_id =>$filter) {
+			$ret .= $filter->getTitle().$filter->render()."<br /><br />";
+		}
+		return $ret;
 	}
 	
 	protected function userIsPermitted () {
@@ -159,10 +191,10 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 					." RIGHT JOIN billitem item ON bill.bill_pk = item.bill_fk"
 					." WHERE bill.bill_final = 1"
 					. $this->queryWhen($this->start_date, $this->end_date)
+					. $this->queryCreatedSince()
 					." GROUP BY bill.bill_number"
 					. $sql_order_str
 					;
-
 
 		$bill_link_icon = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-get_bill.png").'" />';
 
@@ -218,6 +250,10 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 		}
 		
 		return $this->query_when;
+	}
+	
+	protected function queryCreatedSince() {
+		return "   AND bill.bill_finalized_date >= ".$this->db->quote($this->created_since->get(IL_CAL_UNIX)); 
 	}
 	
 	protected function deliverBillPDF() {
