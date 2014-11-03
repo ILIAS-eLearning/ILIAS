@@ -457,6 +457,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$qfeed->setInfo($this->lng->txt("cont_restrict_forw_nav_info"));
 		$this->form->addItem($qfeed);
 
+			// notification
+			$not = new ilCheckboxInputGUI($lng->txt("cont_notify_on_blocked_users"), "notification_blocked_users");
+			$not->setInfo($this->lng->txt("cont_notify_on_blocked_users_info"));
+			$qfeed->addSubItem($not);
+
 		// disable default feedback for questions
 		$qfeed = new ilCheckboxInputGUI($lng->txt("cont_disable_def_feedback"), "disable_def_feedback");
 		$qfeed->setInfo($this->lng->txt("cont_disable_def_feedback_info"));
@@ -499,6 +504,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function getPropertiesFormValues()
 	{
+		global $ilUser;
+
 		$values = array();
 
 		$title = $this->object->getTitle();
@@ -543,7 +550,12 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$values["progr_icons"] = $this->object->getProgressIcons();
 		$values["store_tries"] = $this->object->getStoreTries();
 		$values["restrict_forw_nav"] = $this->object->getRestrictForwardNavigation();
-		
+
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		$values["notification_blocked_users"] = ilNotification::hasNotification(
+			ilNotification::TYPE_LM_BLOCKED_USERS, $ilUser->getId(),
+			$this->object->getId());
+
 		$this->form->setValuesByArray($values);
 	}
 	
@@ -552,7 +564,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function saveProperties()
 	{
-		global $lng;
+		global $lng, $ilUser;
 
 		$valid = false;
 		$this->initPropertiesForm();
@@ -589,7 +601,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->object->setRestrictForwardNavigation((int) $_POST["restrict_forw_nav"]);
 			$this->object->updateProperties();
 			$this->object->update();
-			
+
+			include_once "./Services/Notification/classes/class.ilNotification.php";
+			ilNotification::setNotification(ilNotification::TYPE_LM_BLOCKED_USERS,
+				$ilUser->getId(), $this->object->getId(),
+				(bool)$this->form->getInput("notification_blocked_users"));
+
+
 			if($this->object->getType() == 'lm')
 			{
 				// Update ecs export settings

@@ -718,6 +718,37 @@ class ilObjContentObject extends ilObject
 	}
 
 	/**
+	 * Lookup property
+	 *
+	 * @param int $a_obj_id object id
+	 * @param string $a_field property field name
+	 * @return string property value
+	 */
+	static protected function _lookup($a_obj_id, $a_field)
+	{
+		global $ilDB, $ilLog;
+
+		$q = "SELECT ".$a_field." FROM content_object ".
+			" WHERE id = ".$ilDB->quote($a_obj_id, "integer");
+
+		$res = $ilDB->query($q);
+		$rec = $ilDB->fetchAssoc($res);
+
+		return $rec[$a_field];
+	}
+
+	/**
+	 * Lookup forward restriction navigation
+	 *
+	 * @param int $a_obj_id object id
+	 * @return string property value
+	 */
+	static function _lookupRestrictForwardNavigation($a_obj_id)
+	{
+		return self::_lookup($a_obj_id, "restrict_forw_nav");
+	}
+
+	/**
 	* lookup style sheet ID
 	*/
 	function _lookupStyleSheetId($a_cont_obj_id)

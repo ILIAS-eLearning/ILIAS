@@ -15038,3 +15038,5 @@ survey#:#survey_activate_skill_service_info#:#todo12
 survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden? Sie können danach Ihre Antworten nicht mehr korrigieren.
 survey#:#survey_execution_exit#:#Zurück zum Magazin
 news#:#news_inactive_private_feed_info#:#Ihr privater Newsfeed ist deaktiviert. Vergeben Sie ein Passwort in den Einstellungen.
+content#:#cont_notify_on_blocked_users#:#Notifications on Blocked Users
+content#:#cont_notify_on_blocked_users_info#:#You will be notified if users are blocked when the run out of tries.

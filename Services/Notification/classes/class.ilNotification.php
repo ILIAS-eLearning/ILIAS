@@ -20,6 +20,7 @@ class ilNotification
 	const TYPE_BLOG = 4;
     const TYPE_DATA_COLLECTION = 5;
     const TYPE_POLL = 6;
+	const TYPE_LM_BLOCKED_USERS = 7;
 	
 	const THRESHOLD = 180; // time between mails in minutes
 

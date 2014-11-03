@@ -71,12 +71,6 @@ class ilPageQuestionProcessor
 				$ilDB->quote($points, "float").
 				")");
 		}
-
-		//$ilLog->write("tries: ".$tries);
-		//$ilLog->write("passed: ".$passed);
-		//$ilLog->write("points: ".$points);
-
-		exit;
 	}
 
 	/**

@@ -348,6 +348,7 @@ class ilPCQuestion extends ilPageContent
 			if (!$this->getPage()->getPageConfig()->getEnableSelfAssessmentScorm() && $a_mode != IL_PAGE_PREVIEW
 				&& $a_mode != "offline")
 			{
+				$ilCtrl->setParameterByClass(strtolower(get_class($this->getPage()))."gui", "page_id", $this->getPage()->getId());
 				$url = $ilCtrl->getLinkTargetByClass(strtolower(get_class($this->getPage()))."gui", "processAnswer", "", true, false);
 				$code[] = "ilCOPageQuestionHandler.initCallback('".$url."');";
 			}
