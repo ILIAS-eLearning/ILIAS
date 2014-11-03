@@ -130,15 +130,13 @@ class gevUserImport {
 		if (!$shadow_users) {
 			return;
 		}
-		
+
 		foreach($shadow_users as $ilias_id => $shadow_user) {
 			try {
 				if (ilObjUser::_lookupFullname($ilias_id) === null) {
 					$ilLog->write("Shadow User Update: Couldn't find user ".$ilias_id." in ILIAS database.");
 					continue;
 				}
-				
-				//if ($ilias_id != 21011) { continue; }
 
 				$user = new ilObjUser($ilias_id);
 				$utils = gevUserUtils::getInstance($user->getId());
@@ -146,11 +144,6 @@ class gevUserImport {
 				$shadow_user = array_merge($shadow_user, $stelle);
 
 				$this->set_ilias_user_attributes($user, $shadow_user);
-				$user->update();
-				$this->set_gev_attributes($user, $shadow_user);
-				$user->update();
-				$this->update_user_roles($user, $shadow_user);
-
 				$austritt = $shadow_user['austritt'];
 				if ($austritt) {
 					$austritt_dt = new DateTime($austritt);
@@ -162,12 +155,15 @@ class gevUserImport {
 				} else {
 					$user->setActive(true, 6);
 				}
+				$user->update();
+				$this->set_gev_attributes($user, $shadow_user);
+				$this->update_user_roles($user, $shadow_user);
+
 			} catch (Exception $e) {
 				$ilLog->write("Shadow User Update: Error while processing ".$ilias_id.":");
 				$ilLog->write($e);
 				$ilLog->write(var_export($e->getTraceAsString(), true));
 			}
-			$user->update();
 		}
 
 		echo "done.";
@@ -387,7 +383,7 @@ class gevUserImport {
 	private function set_gev_attributes(&$user, $shadow_user) {
 	    echo $user->getId()."\n\n";
 		$utils = gevUserUtils::getInstance($user->getId());
-		
+
 		//print_r($shadow_user);
 
 		$utils->setJobNumber($shadow_user['stellennummer']);

@@ -251,8 +251,8 @@ class gevImportOldData {
 			'Privat-Vorsorge-Lebens-/Rentenverischerung' => 'Privat-Vorsorge-Lebens-/Rentenversicherung',
 			'Privat-Vorsorge-Kranken-/Pflegeversicherung' => 'Privat-Vorsorge-Kranken-/Pflegeversicherung',
 
-			'Firmenkunden -Sach-/Schadenversicherung' => 'Firmenkunden-Sach-/Schadensversicherung',
-			'Firmenkunden-Sach-/Schadenversicherung' => 'Firmenkunden-Sach-/Schadensversicherung',
+			'Firmenkunden -Sach-/Schadenversicherung' => 'Firmenkunden-Sach-/Schadenversicherung',
+			'Firmenkunden-Sach-/Schadenversicherung' => 'Firmenkunden-Sach-/Schadenversicherung',
 
 			'Spartenübergreifend' => 'Spartenübergreifend',
 
@@ -488,22 +488,26 @@ foreach($import->sem_ok as $rec){
 
 	$import->assignUserToSeminar($rec, $crs_id);
 	$import->setReported($rec['id']);
-
-	print 'crs: ' .$crs_id;
-	print '<br>';
-	print 'rec: ' .$rec['id'];
-	//print '<br>';
-	//print_r($rec);
-	print '<hr>';
 }
 
 
 printToTable($import->sem_ok);
 
+
+
+
+/*
+//update (old) courses for historizign of wbd study_contents
+require_once("Modules/Course/classes/class.ilObjCourse.php");
+
+$res = $ilDB->query("SELECT DISTINCT crs_id FROM hist_course");
+while ($rec = $ilDB->fetchAssoc($res)) {
+	$crs = new ilObjCourse($rec["crs_id"], false);
+	$crs->update();
+}
+
+*/
+
+
 die();
-
-
-
-
-
 ?>

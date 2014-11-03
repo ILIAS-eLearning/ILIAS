@@ -14,15 +14,15 @@
 $SET_LASTWBDRECORD = true;
 $SET_BWVID = true;
 
-$GET_NEW_USERS = false;
-$GET_UPDATED_USERS = false;
+$GET_NEW_USERS = true;
+$GET_UPDATED_USERS = true;
 $GET_NEW_EDURECORDS = true;
 
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
 
 $LIMIT_RECORDS = false;
-$ANON_DATA = true;
+$ANON_DATA = false;
 
 
 $DEBUG_HTML_OUT = isset($_GET['debug']);
@@ -236,11 +236,11 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 			,"birthday_or_internal_agent_id" => $record['user_id']
 			,"agent_id" 			=> $record['bwv_id']
-			,"from" 				=> date('d.m.Y', strtotime($record['begin_date']))
-			,"till" 				=> date('d.m.Y', strtotime($record['end_date']))
+			,"from" 				=> $record['begin_date']
+			,"till" 				=> $record['end_date']
 			,"score"				=> $record['credit_points']
 			,"study_type_selection" => $this->VALUE_MAPPINGS['course_type'][$record['type']] // "Präsenzveranstaltung" | "Selbstgesteuertes E-Learning" | "Gesteuertes E-Learning";
-			,"study_content"		=> $record['wbd_topic'] 
+			,"study_content"		=> $this->VALUE_MAPPINGS['study_content'][$record['wbd_topic']] 
 			
 			,"training"	 			=> $record['title'] //or template?
 			
@@ -248,7 +248,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 			/*
 			
 			//score code is set by get_new_edurecords...
-			"score_code" => "" // KennzeichenPunkte ??
+			"score_code" => "" // KennzeichenPunkte 
 
 			"contact_degree" => "",
 			"contact_first_name" => "",
@@ -346,6 +346,11 @@ class gevWBDDataConnector extends wbdDataConnector {
 	/*
 	* ------------- IMPLEMENTATION ------------
 	*/
+
+	public function about_to_die($e){
+	
+	    print_r($e);
+	}
 
 
 	/**
@@ -621,12 +626,14 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 
-	public function success_new_edu_record($row_id, $booking_id){
+	public function success_new_edu_record($row_id){
 		//set last_wbd_report!
-		$this->_set_last_wbd_report('hist_usercoursestatus', $record['row_id']);
+		$this->_set_last_wbd_report('hist_usercoursestatus', $row_id);
+	}
+	public function set_booking_id($row_id, $booking_id){
 		//also, set booking id
 		$sql = "
-			UPDATE $table
+			UPDATE hist_usercoursestatus
 			SET wbd_booking_id = '$booking_id'
 			WHERE row_id=$row_id
 		";
@@ -634,11 +641,19 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 	
+		
+	
+
+
+	
 	public function fail_new_edu_record($row_id, $e){
 		print 'ERROR on newEduRecord: ';
 		print($row_id);
-		print '<br>';
-		print_r($e);
+		print "\n";
+		print_r($e->getReason());
+		print "\n";
+		
+		//die();
 	}
 
 
@@ -795,7 +810,7 @@ if($DEBUG_HTML_OUT){
 
 	print '<h2> total new users: ' .count($cls->valid_newusers) .'</h2>';
 	print '<h2> invalid records: ' .count($cls->broken_newusers) .'</h2>';
-	print_r($cls->broken_newusers);
+//	print_r($cls->broken_newusers);
 	
 	
 	
@@ -827,7 +842,28 @@ if($DEBUG_HTML_OUT){
 
 	print '<h2> total new edurecords: ' .count($cls->valid_newedurecords) .'</h2>';
 	print '<h2> invalid edurecords: ' .count($cls->broken_newedurecords) .'</h2>';
-	print_r($cls->broken_newusers);
+//	print_r($cls->broken_newedurecords);
+	
+	print 'error';
+	foreach($cls->broken_newedurecords[0][1] as $hl=>$v){
+		print ', ' .$hl;
+	}
+	
+	foreach($cls->broken_newedurecords as $entry){
+		print '<br>';
+		print str_replace('<br>', '', $entry[0]);
+		
+		foreach( $entry[1] as $k=>$v){
+			print ', ' .$v;
+		}
+	
+	}
+	
+	print '<hr>';
+
+
+
+	
 	
 	
 	print '<hr>';
