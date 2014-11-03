@@ -15040,3 +15040,7 @@ survey#:#survey_execution_exit#:#Zurück zum Magazin
 news#:#news_inactive_private_feed_info#:#Ihr privater Newsfeed ist deaktiviert. Vergeben Sie ein Passwort in den Einstellungen.
 content#:#cont_notify_on_blocked_users#:#Notifications on Blocked Users
 content#:#cont_notify_on_blocked_users_info#:#You will be notified if users are blocked when the run out of tries.
+content#:#cont_user_blocked#:#User out of tries in learning module "%s".
+content#:#cont_user_blocked2#:#A user has run out of tries for ansering a question in the learning module. The user will not be able to navigate further through the learning module without your intervention.
+content#:#cont_user_blocked3#:#Open the edit mode of the learning module and enter the screen:
+content#:#cont_lm_mail_permanent_link#:#Click on the following link to access the learning module:
