@@ -643,7 +643,7 @@ class ilBill
 		$db = $GLOBALS["ilDB"];
 		$result = $db->query("SELECT * FROM bill "
 							." WHERE bill_usr_id = ".$db->quote($a_user_id, "integer")
-							."   AND bill_context_id = ".$db->quote($a_context_id)
+							."   AND bill_context_id = ".$db->quote($a_context_id, "integer")
 							." ORDER BY bill_pk DESC"
 							);
 		
