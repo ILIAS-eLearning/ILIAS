@@ -19,8 +19,8 @@
 					<!-- BEGIN search_box -->{SEARCHBOX}<!-- END search_box -->
 					<!-- BEGIN help -->
 					<li id="mm_help" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<span class="glyphicon glyphicon-question-sign"></span>
-						<!--span class="hidden-xs">{TXT_HELP} <span class="caret"></span></span--></a>
+						<span class="visible-xs-inline glyphicon glyphicon-question-sign"></span>
+						<span class="hidden-xs">{TXT_HELP} <span class="caret"></span></span></a>
 						{HELP_SELECT}
 					</li>
 					<!-- END help -->
@@ -46,17 +46,13 @@
 					</li>
 					<!-- END userisloggedin -->
 					<!-- BEGIN lang_select -->
-					<li class="dropdown">
-						<a id="mm_lang_sel" href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<span class="glyphicon glyphicon-flag"></span>
-							<!--{TXT_LANGSELECT} <span class="caret"></span>-->
-						</a>
+					<li class="dropdown"><a id="mm_lang_sel" href="#" class="dropdown-toggle" data-toggle="dropdown">{TXT_LANGSELECT} <span class="caret"></span></a>
 						{LANG_SELECT}
 					</li>
 					<!-- END lang_select -->
 					<!-- BEGIN userisanonymous -->
 					<li>
-						<a href="{LINK_LOGIN}" target="_top"><!--{TXT_LOGIN}--><span class="glyphicon glyphicon-log-in"></span></a>
+						<a href="{LINK_LOGIN}" target="_top">{TXT_LOGIN}</a>
 						<!-- BEGIN registration_link --><!-- {LINK_REGISTER} --><!-- {TXT_REGISTER} --><!-- END registration_link -->
 					</li>
 					<!-- END userisanonymous -->
