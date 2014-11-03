@@ -74,21 +74,10 @@ class gevInvitation extends gevCrsAutoMail {
 		
 		if (   gevDeadlineMailingJob::isMailSend($this->getCourse()->getId(), $this->getId()) 
 			&& ilContext::$type !== ilContext::CONTEXT_CRON 
-			&& $_GET["cmdClass"] !== "gevcrsmailinggui") {
-			// if this setting is 0, this means send mail immediately.
-			// if this settings is not 0, delay the sending until the day x days
-			// before course start. After that day send mails immediately.
-			// Cron job should always be allowed to send mails, as well as admins
-			// via mailing gui.
-			$dl = $this->getCourseStart();
-			if ($dl) {
-				$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-				$dl->increment(ilDateTime::DAY, -1 * $this->days_before_course_start);
+			&& $_GET["cmdClass"] !== "gevcrsmailinggui"
+			&& $this->days_before_course_start != 0) {
 			
-				if(ilDateTime::_before($now, $dl)) {
-					return null;
-				}
-			}
+			return null;
 		}
 
 		$function = $this->getUserFunction($a_recipient);

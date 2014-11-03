@@ -50,7 +50,7 @@ class gevDeadlineMailingJob extends ilCronJob {
 	static public function isMailSend($a_crs_id, $a_mail_id) {
 		global $ilDB;
 		$res = $ilDB->query("SELECT COUNT(*) cnt FROM gev_crs_dl_mail_cron ".
-						    " WHERE crs_id = ".$ilDB->quote($crs_id, "integer").
+						    " WHERE crs_id = ".$ilDB->quote($a_crs_id, "integer").
 						    "   AND title = ".$ilDB->quote($a_mail_id, "text").
 						    "   AND NOT send_at IS NULL");
 		$rec = $ilDB->fetchAssoc($res);
