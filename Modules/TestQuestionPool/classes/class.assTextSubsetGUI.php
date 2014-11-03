@@ -170,6 +170,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		$choices->setQuestionObject($this->object);
 		$choices->setSingleline(true);
 		$choices->setAllowMove(false);
+		$choices->setMinValue(0.0);
 		if ($this->object->getAnswerCount() == 0) $this->object->addAnswer("", 0, 0);
 		$choices->setValues($this->object->getAnswers());
 		$form->addItem($choices);
