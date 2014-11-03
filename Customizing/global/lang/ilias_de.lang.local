@@ -601,9 +601,13 @@ gev#:#gev_to_course_search#:#Zurück zum Bildungsangebot
 gev#:#gev_to_course_search2#:#Zur Trainingssuche
 gev#:#gev_trainer_operation_days#:#Trainereinsatztage
 gev#:#gev_training_contact#:#Ansprechpartner
+gev#:#gev_training_date#:#Traingsdatum
 gev#:#gev_training_fee#:#Teilnahmegebühr
 gev#:#gev_training_fee_pretax#:#Teilnahmegebühr netto
 gev#:#gev_training_fee_posttax#:#Teilnahmegebühr brutto
+gev#:#gev_training_fee_report#:#Gebühr
+gev#:#gev_training_fee_pretax_report#:#Gebühr netto
+gev#:#gev_training_fee_posttax_report#:#Gebühr brutto
 gev#:#gev_training_id#:#ID
 gev#:#gev_unlimited#:#unbegrenzt
 gev#:#gev_until#:#bis

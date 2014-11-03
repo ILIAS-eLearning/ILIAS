@@ -430,6 +430,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		global $ilLog;
 
 		if ($this->getCourse()->getOfflineStatus() && $this->getId() != "bill_mail") {
+			$ilLog->write("gevCrsAutoMail::send: course is offline, won't send mail. crs_id=".$this->getCourse()->getId().", mail_id=".$this->getId());
 			return;
 		}
 
@@ -438,7 +439,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 			$this->setLastSend();
 		}
 
-		$ilLog->write("gevCrsAutoMail::send: sending done. crs_id=".$this->getCourse()->getId().", mail_id=".$this->getid());
+		$ilLog->write("gevCrsAutoMail::send: sending done. crs_id=".$this->getCourse()->getId().", mail_id=".$this->getId());
 
 		return $res;
 	}

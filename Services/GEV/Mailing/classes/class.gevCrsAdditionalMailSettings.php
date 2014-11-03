@@ -52,9 +52,11 @@ class gevCrsAdditionalMailSettings {
 	}
 	
 	public function setInvitationMailingDate($a_date) {
+		global $ilLog;
 		if (gettype($a_date) != "integer") {
 			throw new Exception("gevCrsAdditionalMailSettings::setInvitationMailingDate expected integer as first argument, ".gettype($a_date)." given.");
 		}
+		$ilLog->write("gevCrsAdditionalMailSettings::setInvitationMailingDate: changed of crs ".$this->crs_id." to ".$a_date);
 		$this->settings["inv_mailing_date"] = $a_date;
 	}
 

@@ -219,6 +219,13 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$udata['phone_nr'] = $this->_polish_phone_nr($udata['phone_nr']);
 		$udata['mobile_phone_nr'] = $this->_polish_phone_nr($udata['mobile_phone_nr']);
 		$udata['auth_phone_nr'] = $this->_polish_phone_nr($udata['auth_phone_nr']);
+	
+
+		//$udata['birthday'] = $this->_polish_birthday($udata['birthday']);
+		
+		$udata['phone_nr'] = $this->_polish_phone_nr($udata['phone_nr']);
+		$udata['mobile_phone_nr'] = $this->_polish_phone_nr($udata['mobile_phone_nr']);
+		$udata['auth_phone_nr'] = $this->_polish_phone_nr($udata['auth_phone_nr']);
 
 		return $udata;
 	}
