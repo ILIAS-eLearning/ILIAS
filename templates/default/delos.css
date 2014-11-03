@@ -8265,7 +8265,8 @@ input.ilOpenIDBox {
 #ilTopBarNav #userlog > a img {
   height: 40px;
   width: 40px;
-  margin-right: 10px;
+  margin-right: 0px;
+  padding: 5px;
 }
 #ilTopBarNav #userlog .dropdown-menu {
   min-width: 100%;
