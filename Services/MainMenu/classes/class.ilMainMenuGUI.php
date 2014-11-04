@@ -1007,7 +1007,7 @@ class ilMainMenuGUI
 
 		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
 		$helpl = new ilGroupedListGUI();
-		$helpl->setAsDropDown(true);
+		$helpl->setAsDropDown(true, true);
 
 		if ($ilHelp->hasSections())
 		{
