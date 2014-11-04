@@ -8203,7 +8203,7 @@ input.ilOpenIDBox {
   float: right;
   margin: 0;
   padding: 0;
-  margin-right: 15px;
+  margin-right: 14px;
   list-style: none outside none;
 }
 #ilTopBarNav .dropdown-menu {
@@ -8314,6 +8314,7 @@ input.ilOpenIDBox {
 }
 #ilTopNav .navbar-nav {
   float: right;
+  margin-right: 14px;
 }
 #ilTopNav {
   margin-top: -30px;
