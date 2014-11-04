@@ -8203,6 +8203,7 @@ input.ilOpenIDBox {
   float: right;
   margin: 0;
   padding: 0;
+  margin-right: 15px;
   list-style: none outside none;
 }
 #ilTopBarNav .dropdown-menu {
@@ -10125,6 +10126,9 @@ img[src$="icon_checked.svg"] {
     min-height: 0px;
     display: block;
     padding: 0;
+  }
+  #ilTopBarNav {
+    margin-right: 0px;
   }
   #ilTopNav.navbar {
     min-height: 0px;
