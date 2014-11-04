@@ -300,7 +300,6 @@
 			</fo:list-item-label>
 			<fo:list-item-body start-indent="body-start()">
 				<fo:block>
-					<fo:external-graphic src="{$target_dir}/icon_attachment_s.png" width="5mm" height="5mm" />
 					<xsl:value-of select="Location"></xsl:value-of>
 				</fo:block>
 			</fo:list-item-body>
@@ -331,7 +330,6 @@
 	
     <xsl:template match="IntLink">
     	<xsl:if test="@Type='File'">
-    		<fo:external-graphic src="{$target_dir}/icon_attachment_s.png" width="5mm" height="5mm" />
     	</xsl:if>
         <xsl:value-of select="."/>
         <xsl:if test="@Type='GlossaryItem'">

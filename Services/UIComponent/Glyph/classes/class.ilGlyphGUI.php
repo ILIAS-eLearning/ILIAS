@@ -19,6 +19,7 @@ class ilGlyphGUI
 	const NEXT = "next";
 	const CALENDAR = "calendar";
 	const CLOSE = "close";
+	const ATTACHMENT = "attachment";
 	const NO_TEXT = "**notext**";
 
 	static protected $map = array(
@@ -29,7 +30,8 @@ class ilGlyphGUI
 		"previous" => array("class" => "glyphicon glyphicon-chevron-left", "txt" => "previous"),
 		"next" => array("class" => "glyphicon glyphicon-chevron-right", "txt" => "next"),
 		"calendar" => array("class" => "glyphicon glyphicon-calendar", "txt" => "calendar"),
-		"close" => array("class" => "glyphicon glyphicon-remove", "txt" => "close")
+		"close" => array("class" => "glyphicon glyphicon-remove", "txt" => "close"),
+		"attachment" => array("class" => "glyphicon glyphicon-paperclip", "txt" => "attachment")
 	);
 
 	/**

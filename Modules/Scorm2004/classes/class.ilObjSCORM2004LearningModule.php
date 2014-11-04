@@ -1468,7 +1468,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             $glos_export = new ilGlossaryExport($glos,"xml");
             $glos->exportXML($a_xml_writer,$glos_export->getInstId(), $a_target_dir."/glossary", $expLog);
         }
-        copy('./templates/default/images/icon_attachment_s.png',$a_target_dir."/icon_attachment_s.png");
 		$a_xml_writer->xmlEndTag("ContentObject");
 		include_once 'Services/Transformation/classes/class.ilXML2FO.php';
 		$xml2FO = new ilXML2FO();

@@ -2557,8 +2557,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 							}
 							$tpl->setCurrentBlock('attachments');
 							$tpl->setVariable('TXT_ATTACHMENTS_DOWNLOAD',$lng->txt('forums_attachments'));
-							$tpl->setVariable('DOWNLOAD_IMG', ilUtil::getImagePath('icon_attachment.png'));
-							$tpl->setVariable('TXT_DOWNLOAD_ATTACHMENT', $lng->txt('forums_download_attachment'));
+							include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+							$tpl->setVariable('DOWNLOAD_IMG', ilGlyphGUI::get(ilGlyphGUI::ATTACHMENT, $lng->txt('forums_download_attachment')));
 							$tpl->parseCurrentBlock();
 						}
 					}

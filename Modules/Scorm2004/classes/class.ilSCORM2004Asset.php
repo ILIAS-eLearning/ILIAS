@@ -195,7 +195,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
 		$this->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog,$a_xml_writer);
 		$a_xml_writer->xmlEndTag("ContentObject");
-		copy('./templates/default/images/icon_attachment_s.png',$a_target_dir."/icon_attachment_s.png");
 		include_once 'Services/Transformation/classes/class.ilXML2FO.php';
 		$xml2FO = new ilXML2FO();
 		$xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
