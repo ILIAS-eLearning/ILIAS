@@ -4623,6 +4623,10 @@ class ilUtil
 			$result = str_replace("}", "&#125;", $result);
 			$result = str_replace("\\", "&#92;", $result);
 		}
+		
+		// if textarea output is floating anything mantis 14069
+		$result .= '<div style="clear: both;"> </div>';
+		
 		return $result;
 	}
 
