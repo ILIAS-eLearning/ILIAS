@@ -803,7 +803,6 @@ class ilMainMenuGUI
 		
 		$this->tpl->setVariable('TXT_MM_HEADER',$lng->txt('mem_view_long'));
 		$this->tpl->setVariable('TXT_MM_CLOSE_PREVIEW',$lng->txt('mem_view_close'));
-		$this->tpl->setVariable('MM_CLOSE_IMG',ilUtil::getImagePath('cancel.png'));
 
 		include_once './Services/Link/classes/class.ilLink.php';
 		

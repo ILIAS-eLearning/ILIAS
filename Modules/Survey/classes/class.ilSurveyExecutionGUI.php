@@ -462,7 +462,6 @@ class ilSurveyExecutionGUI
 				
 				$this->tpl->setVariable("ALT_IMG_SUSPEND", $this->lng->txt("cancel_survey"));
 				$this->tpl->setVariable("TITLE_IMG_SUSPEND", $this->lng->txt("cancel_survey"));
-				$this->tpl->setVariable("IMG_SUSPEND", ilUtil::getImagePath("cancel.png"));
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->outNavigationButtons("top", $page);
