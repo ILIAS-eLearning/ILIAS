@@ -74,6 +74,7 @@ $VALUE_MAPPINGS = array(
 		"Präsenz" => "Präsenzveranstaltung",
 		"Selbstlernkurs" => "selbstgesteuertes E-Learning",
 		"gesteuertes E-Learning" => "gesteuertes E-Learning",
+		"Webinar" => "gesteuertes E-Learning",
 
 		"XX" => "Einzeltraining",
 		"XX" => "Blended Learning"
