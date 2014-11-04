@@ -180,6 +180,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		if( !$inp->checkInput() )
 		{
 			$this->uploadAlert = $inp->getAlert();
+			ilUtil::sendFailure($inp->getAlert());
 		}
 
 		$this->writePostData(true);
