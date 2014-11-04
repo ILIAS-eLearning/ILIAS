@@ -890,7 +890,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 					break;
 			}
 		}
-		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$template->setVariable("QUESTIONTEXT",$this->object->prepareTextareaOutput( $this->object->getQuestion()));
 		$template->setVariable("CLOZETEXT", $this->object->prepareTextareaOutput($output, TRUE));
 		$questionoutput = $template->get();
 		if (!$show_question_only)

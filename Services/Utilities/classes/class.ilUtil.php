@@ -953,7 +953,7 @@ class ilUtil
 
 		// build day select
 		
-		$sel_day .= '<select class="form-control" ';
+		$sel_day .= '<select ';
 		if(isset($a_further_options['select_attributes']))
 		{
 			foreach($a_further_options['select_attributes'] as $name => $value)
@@ -973,7 +973,7 @@ class ilUtil
 		$sel_day = preg_replace("/(value\=\"$day\")/", "$1 selected=\"selected\"", $sel_day);
 
 		// build month select
-		$sel_month = '<select class="form-control" ';
+		$sel_month = '<select ';
 		if(isset($a_further_options['select_attributes']))
 		{
 			foreach($a_further_options['select_attributes'] as $name => $value)
@@ -999,7 +999,7 @@ class ilUtil
 		$sel_month = preg_replace("/(value\=\"$month\")/", "$1 selected=\"selected\"", $sel_month);
 
 		// build year select
-		$sel_year = '<select class="form-control" ';
+		$sel_year = '<select ';
 		if(isset($a_further_options['select_attributes']))
 		{
 			foreach($a_further_options['select_attributes'] as $name => $value)
@@ -4615,6 +4615,10 @@ class ilUtil
 			$result = str_replace("}", "&#125;", $result);
 			$result = str_replace("\\", "&#92;", $result);
 		}
+		
+		// if textarea output is floating anything mantis 14069
+		$result .= '<div style="clear: both;"> </div>';
+		
 		return $result;
 	}
 
