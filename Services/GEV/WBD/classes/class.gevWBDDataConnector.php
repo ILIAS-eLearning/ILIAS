@@ -339,7 +339,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		$sql = "
 			UPDATE $table
-			SET last_wbd_report = UNIX_TIMESTAMP()
+			SET last_wbd_report = NOW()
 			WHERE row_id=$row_id
 		";
 		$result = $this->ilDB->query($sql);
@@ -457,7 +457,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		print 'ERROR on newUser: ';
 		print($row_id);
 		print '<br>';
-		print_r($e);
+		print_r($e->getReason());
 	}
 
 
@@ -525,7 +525,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		print 'ERROR on updateUser: ';
 		print($row_id);
 		print '<br>';
-		print_r($e);
+		print_r($e->getReason());
 	}
 
 
