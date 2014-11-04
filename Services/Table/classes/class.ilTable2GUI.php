@@ -1218,6 +1218,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	* Add command for closing table.
 	*
 	* @param	string	$a_link		closing link
+	 * @deprecated
 	*/
 	function setCloseCommand($a_link)
 	{
@@ -1776,7 +1777,6 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				$this->tpl->setCurrentBlock("tbl_header_img_link");
 				$this->tpl->setVariable("ALT_IMG_LINK",$lng->txt("close"));
 				$this->tpl->setVariable("HREF_IMG_LINK",$this->close_command);
-				$this->tpl->setVariable("SRC_IMG_LINK",ilUtil::getImagePath("icon_close2.png"));
 				$this->tpl->parseCurrentBlock();
 			}
 

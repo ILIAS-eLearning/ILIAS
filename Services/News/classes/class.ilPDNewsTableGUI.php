@@ -53,7 +53,6 @@ class ilPDNewsTableGUI extends ilTable2GUI
 		$this->setDefaultOrderDirection("desc");
 		$this->setEnableTitle(false);
 		$this->setEnableHeader(false);
-		//$this->setCloseCommand($ilCtrl->getParentReturnByClass("ilpdnewsgui"));
 		$this->setIsDataTable(false);
 		$this->initFilter();
 	}

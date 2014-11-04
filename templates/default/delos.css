@@ -6910,15 +6910,11 @@ div#agreement {
 /* bottom center area (optional bottom area, used e.g. in learning modules) */
 div#bot_center_area {
   bottom: 0;
-  left: 310px;
-  right: 0;
   height: 300px;
   position: fixed;
   padding: 5px;
-  background-color: #F5F5F5;
-  border-right: 3px solid #E9E9E9;
+  background-color: #f0f0f0;
   border-top: 3px solid #E9E9E9;
-  box-shadow: inset 0px 2px 2px #D0D0D0;
   -webkit-overflow-scrolling: touch;
   /* Bug 11209 */
   overflow: auto;
@@ -9245,12 +9241,10 @@ div#ilContRepIntro img {
 .ilLMMenu {
   clear: both;
 }
-img.ilAreaClose {
+button.ilAreaClose {
   width: 20px;
   height: 20px;
-  background: url(images/icon_close2_s.png) no-repeat center;
   position: absolute;
-  left: 0;
   top: 0;
   cursor: pointer;
 }
@@ -9286,9 +9280,9 @@ div#right_cont_area {
   bottom: 0;
   width: 50%;
   right: 0px;
-  top: 85px;
+  top: 117px;
   position: fixed;
-  background-color: #F5F5F5;
+  background-color: transparent;
   border-left: 3px solid #E9E9E9;
   -webkit-overflow-scrolling: touch;
   /* Bug 11209 */
@@ -9299,9 +9293,8 @@ div#right_top_area {
   width: 100%;
   height: 100%;
   position: absolute;
-  background-color: #F5F5F5;
   border-bottom: 3px solid #E9E9E9;
-  box-shadow: inset 0px 2px 2px #D0D0D0;
+  border-right: 3px solid #E9E9E9;
   -webkit-overflow-scrolling: touch;
   /* Bug 11209 */
   overflow: hidden;
@@ -9324,12 +9317,11 @@ div#right_bottom_area {
   width: 100%;
   height: 100%;
   position: absolute;
-  background-color: #F5F5F5;
-  box-shadow: inset 0px 2px 2px #D0D0D0;
   -webkit-overflow-scrolling: touch;
   /* Bug 11209 */
   overflow: hidden;
   display: none;
+  border-right: 3px solid #E9E9E9;
 }
 div.ilRightContAreaSplit div#right_bottom_area {
   top: 50%;
@@ -9555,11 +9547,14 @@ div.ilBlockPropertyCaption {
 a.ilMediaLightboxClose {
   display: block;
   float: right;
-  margin: 0 0 10px 10px;
-  width: 20px;
-  height: 20px;
-  background: url(images/close_dg.png) no-repeat center;
+  margin: 5px 0 10px 10px;
   cursor: pointer;
+  color: #808080;
+  font-size: 140%;
+}
+a.ilMediaLightboxClose:hover {
+  color: #A0A0A0;
+  text-decoration: none;
 }
 .ilLightboxContent {
   margin: 50px auto 0;

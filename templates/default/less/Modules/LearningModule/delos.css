@@ -2,12 +2,11 @@
 .ilLMMenu {
   clear: both;
 }
-img.ilAreaClose {
+button.ilAreaClose {
   width: 20px;
   height: 20px;
-  background: url(images/icon_close2_s.png) no-repeat center;
   position: absolute;
-  left: 0;
+  right: 0;
   top: 0;
   cursor: pointer;
 }

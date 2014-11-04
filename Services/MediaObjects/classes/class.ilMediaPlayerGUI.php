@@ -359,6 +359,8 @@ class ilMediaPlayerGUI
 			$mp_tpl->setVariable("FFILE", $this->getFile());
 			$mp_tpl->setVariable("TITLE", $this->getTitle());
 			$mp_tpl->setVariable("DESCRIPTION", $this->getDescription());
+			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+			$mp_tpl->setVariable("CLOSE", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
 			$mp_tpl->parseCurrentBlock();
 			$r = $mp_tpl->get();
 //echo htmlentities($r);
@@ -439,6 +441,8 @@ class ilMediaPlayerGUI
 			$mp_tpl->setVariable("IPLAYER_NR", $this->id."_".$this->current_nr);
 			$mp_tpl->setVariable("ITITLE", $this->getTitle());
 			$mp_tpl->setVariable("IDESCRIPTION", $this->getDescription());
+			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+			$mp_tpl->setVariable("ICLOSE", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
 			
 			$height = $this->getDisplayHeight();
 			$width = $this->getDisplayWidth();

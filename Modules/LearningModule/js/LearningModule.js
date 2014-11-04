@@ -4,12 +4,17 @@ il.LearningModule = {
 	init_frame: {},
 	last_frame_url: {},
 	all_targets: ["center_bottom", "right", "right_top", "right_bottom"],
-	rating_url: '',	
-	
+	rating_url: '',
+	close_html: '',
+
 	setSaveUrl: function (url) {
 		il.LearningModule.save_url = url;
 	},
-	
+
+	setCloseHTML: function (html) {
+		il.LearningModule.close_html = html;
+	},
+
 	showContentFrame: function (e, target) {
 		return il.LearningModule.loadContentFrame(e.target.href, target);
 	},
@@ -84,7 +89,7 @@ il.LearningModule = {
 		if (t != "right_top" && t != "right_bottom") { 
 			area = $("#" + el_id, doc);
 			if (area.length == 0) {
-				$('body').append('<div id="' + el_id + '"><div id="' + el_id + '_drag"></div><img class="ilAreaClose" src="./templates/default/images/empty.png" /><iframe /></div>');
+				$('body').append('<div id="' + el_id + '"><div id="' + el_id + '_drag"></div><button class="btn btn-link ilAreaClose">' + il.LearningModule.close_html + '</button><iframe /></div>');
 			}
 		} else {
 			//check right area existence
@@ -95,15 +100,15 @@ il.LearningModule = {
 			// append right top and right bottom areas
 			area = $("#right_top_area", doc);
 			if (area.length == 0) {
-				$('#right_cont_area').append('<div id="right_top_area"><div id="right_top_drag"></div><img class="ilAreaClose" src="./templates/default/images/empty.png" /><iframe /></div>');
+				$('#right_cont_area').append('<div id="right_top_area"><div id="right_top_drag"></div><button class="btn btn-link ilAreaClose">' + il.LearningModule.close_html + '</button><iframe /></div>');
 			}
 			area = $("#right_bottom_area", doc);
 			if (area.length == 0) {
-				$('#right_cont_area').append('<div id="right_bottom_area"><div id="right_bottom_drag"></div><img class="ilAreaClose" src="./templates/default/images/empty.png" /><iframe /></div>');
+				$('#right_cont_area').append('<div id="right_bottom_area"><div id="right_bottom_drag"></div><button class="btn btn-link ilAreaClose">' + il.LearningModule.close_html + '</button><iframe /></div>');
 			}
 		}
 		
-		$("#" + el_id + " img.ilAreaClose", doc).click(function () {
+		$("#" + el_id + " button.ilAreaClose", doc).click(function () {
 			il.LearningModule.closeContentFrame(t);
 			});
 		$("#" + el_id + " > iframe", doc).attr("src", href);

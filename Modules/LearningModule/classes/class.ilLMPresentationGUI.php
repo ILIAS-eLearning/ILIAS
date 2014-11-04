@@ -559,6 +559,9 @@ class ilLMPresentationGUI
 
 				
 				$this->tpl->addJavascript("./Modules/LearningModule/js/LearningModule.js");
+				include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+				$close_call = "il.LearningModule.setCloseHTML('".ilGlyphGUI::get(ilGlyphGUI::CLOSE)."');";
+				$this->tpl->addOnLoadCode($close_call);
 				
 				//$store->set("cf_".$this->lm->getId());
 				

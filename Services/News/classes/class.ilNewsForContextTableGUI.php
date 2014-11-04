@@ -33,7 +33,6 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.table_row_news_for_context.html",
 			"Services/News");
-		//$this->setCloseCommand($ilCtrl->getParentReturnByClass("ilnewsitemgui"));
 	}
 	
 	/**

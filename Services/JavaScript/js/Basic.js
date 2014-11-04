@@ -430,7 +430,9 @@ il.UICore = {
 			bc = document.getElementById("bot_center_area"),
 			fc = document.getElementById("fixed_content"),
 			ft = document.getElementById("ilFooter"),
-			nb_reg, vp_reg, ft_reg;
+			rtop = document.getElementById("right_top_area"),
+			rbot = document.getElementById("right_bottom_area"),
+			nb_reg, vp_reg, ft_reg, rtop_reg, rbot_reg, el_reg, bc_reg;
 
 		vp_reg = il.Util.getViewportRegion();
 		$(".ilFrame").each(function() {
@@ -479,6 +481,17 @@ il.UICore = {
 			}
 		}
 
+		if (el && bc) {
+			el_reg = il.Util.getRegion(el);
+			bc_reg = il.Util.getRegion(bc);
+			il.Util.setX(bc, el_reg.right);
+		}
+		if (bc && sm) {
+			sm_reg = il.Util.getRegion(sm);
+			bc_reg = il.Util.getRegion(bc);
+			$(bc).css("width", parseInt(sm_reg.right - bc_reg.left) + "px");
+		}
+
 		// footer vs. left nav
 		if (ft && el) {
 			ft_reg = il.Util.getRegion(ft);
@@ -487,6 +500,18 @@ il.UICore = {
 			} else {
 				$(el).css("bottom", "0px");
 			}
+		}
+
+		// fit width of right top/bottom regions into mainspacekeeper area
+		if (rtop && sm) {
+			sm_reg = il.Util.getRegion(sm);
+			rtop_reg = il.Util.getRegion(rtop);
+			$(rtop).css("width", parseInt(sm_reg.right - rtop_reg.left) + "px");
+		}
+		if (rbot && sm) {
+			sm_reg = il.Util.getRegion(sm);
+			rbot_reg = il.Util.getRegion(rbot);
+			$(rbot).css("width", parseInt(sm_reg.right - rbot_reg.left) + "px");
 		}
 
 		il.UICore.collapseTabs(false);
