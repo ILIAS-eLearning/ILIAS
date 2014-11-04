@@ -54,117 +54,8 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 	*/
 	function edit()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.sourcecode_edit.html", "Services/COPage");
-		//$content = $this->pg_obj->getContent();
-		//$cnt = 1;
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_src"));
+		$form = $this->initPropertyForm($this->lng->txt("cont_edit_src"), "update", "cancelCreate");
 
-		if ($this->pg_obj->getParentType() == "lm" ||
-			$this->pg_obj->getParentType() == "dbk")
-		{
-			$this->tpl->setVariable("LINK_ILINK",
-			$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
-			$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
-		}
-
-		$this->displayValidationError();
-
-		// language and characteristic selection
-		if (key($_POST["cmd"]) == "update")
-		{
-			$s_lang = $_POST["par_language"];
-			$s_char = $_POST["par_characteristic"];
-			$s_subchar = $_POST["par_subcharacteristic"];
-			$s_downloadtitle = str_replace('"', '', ilUtil::stripSlashes($_POST["par_downloadtitle"]));
-			$s_showlinenumbers = ($_POST["par_showlinenumbers"]=="on")?'y':'n';
-			$s_autoindent = ($_POST["par_autoindent"]=="on")?'y':'n';
-		}
-		else
-		{
-			$s_lang = $this->content_obj->getLanguage();
-			$s_char = $this->content_obj->getCharacteristic();
-			$s_subchar = $this->content_obj->getSubCharacteristic();			
-			$s_downloadtitle = $this->content_obj->getDownloadTitle();
-			$s_showlinenumbers = $this->content_obj->getShowLineNumbers();					
-			$s_autoindent = $this->content_obj->getAutoIndent ();
-		}
-				
-		$this->setTemplateText($s_lang, $s_subchar);
-		
-		if (key($_POST["cmd"]) == "update")
-		{
-			$s_text = stripslashes($_POST["par_content"]);
-		}
-		else
-		{
-			$s_text = $this->content_obj->xml2output($this->content_obj->getText());
-		}
-
-		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
-		$this->tpl->setVariable("PAR_TA_CONTENT", ilUtil::prepareFormOutput($s_text));
-//var_dump($this->tpl);
-//		$this->tpl->parseCurrentBlock();
-			
-		if (strcmp($s_showlinenumbers,"y")==0)
-		{
-			$this->tpl->setVariable("SHOWLINENUMBERS", "checked=\"checked\"");
-		}
-		
-		if (strcmp($s_autoindent,"y") == 0)
-		{
-			$this->tpl->setVariable("AUTOINDENT", "checked=\"checked\"");
-		}
-		
-
-		$this->tpl->setVariable("DOWNLOAD_TITLE_VALUE", $s_downloadtitle);
-		
-		// operations
-		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", "update");
-		$this->tpl->setVariable("UPLOAD_BTN_NAME", "upload");
-		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-		$this->tpl->setVariable("BTN_CANCEL", "cancelUpdate");
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
-	}
-
-
-	function setTemplateText ($s_lang, $s_proglang) {
-		$this->tpl->setVariable ("TXT_CREATEFILE", $this->lng->txt("create_download_link"));
-		$this->tpl->setVariable ("TXT_DOWNLOADTITLE", $this->lng->txt("cont_download_title"));
-		$this->tpl->setVariable ("TXT_IMPORTFILE", $this->lng->txt("import_file"));
-		$this->tpl->setVariable ("TXT_UPLOAD_BTN", $this->lng->txt("import"));
-		$this->tpl->setVariable ("TXT_SUBCHARACTERISTIC", $this->lng->txt("cont_src"));
-		$this->tpl->setVariable ("TXT_LANGUAGE", $this->lng->txt("language"));
-		$this->tpl->setVariable ("TXT_SHOWLINENUMBERS", $this->lng->txt("cont_show_line_numbers"));
-		$this->tpl->setVariable ("TXT_AUTOINDENT", $this->lng->txt("cont_autoindent"));
-
-				
-		$this->tpl->setVariable ("FORMACTION", $this->ctrl->getFormAction($this));		
-		
-		require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
-		$lang = ilMDLanguageItem::_getLanguages();
-		$select_lang = ilUtil::formSelect ($s_lang,"par_language",$lang,false,true);
-		$this->tpl->setVariable ("SELECT_LANGUAGE", $select_lang);
-
-		$prog_langs = $this->readProgLangs ();
-				
-		$select_subchar = ilUtil::formSelect ($s_proglang, "par_subcharacteristic",$prog_langs,false,true);
-		$this->tpl->setVariable ("SELECT_SUBCHARACTERISTIC", $select_subchar);	
-		
-	}
-	
-	/**
-	* insert paragraph form
-	*/
-	function insert()
-	{
-		global $ilUser;
-
-		// add paragraph edit template
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.sourcecode_edit.html", "Services/COPage");
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_src"));
-		
 		if ($this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
 		{
@@ -175,69 +66,74 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 
 		$this->displayValidationError();
 
-		// get values from new object (repeated form display on error)
-		
-		//echo key ($_POST["cmd"]);
-		
+		if (key($_POST["cmd"]) == "update")
+		{
+			$form->setValuesByPost();
+
+		}
+		else{
+			$form->getItemByPostVar("par_language")->setValue($this->content_obj->getLanguage());
+			$form->getItemByPostVar("par_subcharacteristic")->setValue($this->content_obj->getSubCharacteristic());
+			$form->getItemByPostVar("par_downloadtitle")->setValue( $this->content_obj->getDownloadTitle());
+			$form->getItemByPostVar("par_showlinenumbers")->setChecked(
+				$this->content_obj->getShowLineNumbers()=="y"?true:false);
+			$form->getItemByPostVar("par_autoindent")->setChecked(
+				$this->content_obj->getAutoIndent()=="y"?true:false);
+
+			$par_content = $this->content_obj->xml2output($this->content_obj->getText());
+
+			//TODO: Find a better way to convert back curly brackets
+			$par_content = str_replace("&#123;","{", $par_content);
+			$par_content = str_replace("&#125;","}", $par_content);
+
+			$form->getItemByPostVar("par_content")->setValue($par_content);
+		}
+
+
+		$this->tpl->setContent($form->getHTML());
+	}
+	
+	/**
+	* insert paragraph form
+	*/
+	function insert()
+	{
+		global $ilUser;
+
+		$form = $this->initPropertyForm($this->lng->txt("cont_insert_src"), "create_src", "cancelCreate");
+
+		if ($this->pg_obj->getParentType() == "lm" ||
+			$this->pg_obj->getParentType() == "dbk")
+		{
+			$this->tpl->setVariable("LINK_ILINK",
+				$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
+			$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
+		}
+
+		$this->displayValidationError();
+
 		if (key($_POST["cmd"]) == "create_src")
 		{
-			$s_lang = $_POST["par_language"];			
-			$s_subchar = $_POST["par_subcharacteristic"];
-			$s_downloadtitle = str_replace('"', '', ilUtil::stripSlashes($_POST["par_downloadtitle"]));
-			$s_showlinenumbers = strcmp($_POST["par_showlinenumbers"],'on')==0?'checked=\"true\"':'';	
-			$s_autoindent = strcmp($_POST["par_autoindent"],'on')==0?'checked=\"true\"':'';	
-			$s_isexample = strcmp($_POST["par_isexample"],"on")==0?'checked=\"true\"':'';			
+			$form->setValuesByPost();
+
 		}
-		else
-		{
+		else{
 			if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
 			{
-				$s_lang = $_SESSION["il_text_lang_".$_GET["ref_id"]];
+				$form->getItemByPostVar("par_language")->setValue($_SESSION["il_text_lang_".$_GET["ref_id"]]);
 			}
 			else
 			{
-				$s_lang = $ilUser->getLanguage();
+				$form->getItemByPostVar("par_language")->setValue($ilUser->getLanguage());
 			}
-			
-			$s_showlinenumbers = 'CHECKED';
-			$s_autoindent = 'CHECKED';
-			$s_isexample = '';			
-			$s_subchar = '';
+
+			$form->getItemByPostVar("par_showlinenumbers")->setChecked(true);
+			$form->getItemByPostVar("par_autoindent")->setChecked(true);
+			$form->getItemByPostVar("par_subcharacteristic")->setValue("");
+			$form->getItemByPostVar("par_content")->setValue("");
 		}
-		
-		$this->setTemplateText($s_lang, $s_subchar);
 
-		$this->tpl->setVariable("SHOWLINENUMBERS", $s_showlinenumbers);
-		$this->tpl->setVariable("AUTOINDENT", $s_autoindent);
-		$this->tpl->setVariable("DOWNLOAD_TITLE_VALUE", $s_downloadtitle);
-		$this->tpl->setVariable("ISEXAMPLE", $s_isexample);
-
-				
-		// content is in utf-8, todo: set globally
-		// header('Content-type: text/html; charset=UTF-8');
-
-		// input text area
-		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
-		
-		if (key($_POST["cmd"]) == "create_src")
-		{
-			$this->tpl->setVariable("PAR_TA_CONTENT", ilUtil::prepareFormOutput(stripslashes($_POST["par_content"])));
-		}
-		else
-		{
-			$this->tpl->setVariable("PAR_TA_CONTENT", "");
-		}
-//		$this->tpl->parseCurrentBlock();
-
-		// operations
-		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", "create_src");	//--		
-		$this->tpl->setVariable("UPLOAD_BTN_NAME", "create_src");
-		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-		$this->tpl->setVariable("BTN_CANCEL", "cancelCreate");
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
-
+		$this->tpl->setContent($form->getHTML());
 	}
 
 
@@ -247,6 +143,8 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 	function update()
 	{
 		global $ilBench;
+
+		$this->upload_source();
 
 		$ilBench->start("Editor","Paragraph_update");
 		// set language and characteristic
@@ -261,8 +159,8 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		$this->content_obj->setLanguage($_POST["par_language"]);
 		$this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
 		$this->content_obj->setDownloadTitle(str_replace('"', '', ilUtil::stripSlashes($_POST["par_downloadtitle"])));
-		$this->content_obj->setShowLineNumbers(($_POST["par_showlinenumbers"]=="on")?"y":"n");
-		$this->content_obj->setAutoIndent(($_POST["par_autoindent"]=="on")?"y":"n");
+		$this->content_obj->setShowLineNumbers($_POST["par_showlinenumbers"]?"y":"n");
+		$this->content_obj->setAutoIndent($_POST["par_autoindent"]?"y":"n");
 		$this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
 			$this->content_obj->setCharacteristic("Code");
 
@@ -315,10 +213,10 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		$this->content_obj->setCharacteristic   ($_POST["par_characteristic"]);
 		$this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
 		$this->content_obj->setDownloadTitle    (str_replace('"', '', ilUtil::stripSlashes($_POST["par_downloadtitle"])));
-		$this->content_obj->setShowLineNumbers  (($_POST["par_showlinenumbers"]=='on')?'y':'n');
+		$this->content_obj->setShowLineNumbers  ($_POST["par_showlinenumbers"]?'y':'n');
 		$this->content_obj->setCharacteristic   ('Code');
-		$this->content_obj->setAutoIndent   	(($_POST["par_indent"]=='on')?'y':'n');
-				
+		$this->content_obj->setAutoIndent   	($_POST["par_autoindent"]?'y':'n');
+
 		if ($uploaded) {
 			$this->insert ();
 			return;
@@ -351,11 +249,6 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 	function cancelCreate()
 	{
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
-	}
-
-	function upload () {
-		$this->upload_source();
-		$this->update ();
 	}
 		
 	function upload_source () {		
@@ -391,6 +284,58 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		}
 		
 		return $prog_langs;
-	}	
+	}
+
+	/**
+	 * initiates property form GUI class
+	 *
+	 * @param string $a_title
+	 * @param string $a_cmd
+	 * @param string $a_cmd_cancel
+	 * @return ilPropertyFormGUI form class
+	 */
+	function initPropertyForm($a_title, $a_cmd, $a_cmd_cancel)
+	{
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($a_title);
+		$form->setFormAction($this->ctrl->getFormAction($this, $a_cmd));
+		$form->addCommandButton($a_cmd_cancel,$this->lng->txt("cancel"));
+		$form->addCommandButton($a_cmd,$this->lng->txt("save"));
+
+		require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
+		$lang_var = ilMDLanguageItem::_getLanguages();
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$lang = new ilSelectInputGUI($this->lng->txt("language"),"par_language");
+		$lang->setOptions($lang_var);
+		$form->addItem($lang);
+
+		$prog_langs = $this->readProgLangs ();
+		$code_style = new ilSelectInputGUI( $this->lng->txt("cont_src"), "par_subcharacteristic");
+		$code_style->setOptions($prog_langs);
+		$form->addItem($code_style);
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$line_number = new ilCheckboxInputGUI($this->lng->txt("cont_show_line_numbers"), "par_showlinenumbers");
+		$form->addItem($line_number);
+		$indent = new ilCheckboxInputGUI($this->lng->txt("cont_autoindent"), "par_autoindent");
+		$form->addItem($indent);
+
+
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$code = new ilTextAreaInputGUI("", "par_content");
+		$code->setRows(12);
+		$form->addItem($code);
+
+		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+		$downlaod_title = new ilTextInputGUI($this->lng->txt("cont_download_title"), "par_downloadtitle");
+		$downlaod_title->setSize(40);
+		$form->addItem($downlaod_title);
+
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$file = new ilFileInputGUI($this->lng->txt("import_file"), "userfile");
+		$form->addItem($file);
+
+		return $form;
+	}
 }
-?>

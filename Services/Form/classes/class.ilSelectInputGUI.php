@@ -86,6 +86,10 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 	function setValueByArray($a_values)
 	{		
 		$this->setValue($a_values[$this->getPostVar()]);
+		foreach($this->getSubItems() as $item)
+		{
+			$item->setValueByArray($a_values);
+		}
 	}
 
 	/**
