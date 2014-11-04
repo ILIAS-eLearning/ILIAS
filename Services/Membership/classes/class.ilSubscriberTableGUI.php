@@ -37,6 +37,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 	protected $subscribers = array();
 
 	protected static $all_columns = null;
+	protected static $has_odf_definitions = FALSE;
 	
 	
 	/**
@@ -98,6 +99,10 @@ class ilSubscriberTableGUI extends ilTable2GUI
 			$this->disable('numinfo');
 			$this->disable('select_all');
 		}	
+		
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+		self::$has_odf_definitions = ilCourseDefinedFieldDefinition::_hasFields($this->getParentObject()->object->getId());
+		
 	}
 	
 	/**
@@ -163,6 +168,11 @@ class ilSubscriberTableGUI extends ilTable2GUI
 					$this->tpl->parseCurrentBlock();
 					break;
 
+				case 'odf_last_update':
+					$this->tpl->setVariable('VAL_CUST',(string) $a_set['odf_info_txt']);
+					break;
+				
+
 				default:
 					$this->tpl->setCurrentBlock('custom_fields');
 					$this->tpl->setVariable('VAL_CUST', isset($a_set[$field]) ? (string) $a_set[$field] : '');
@@ -174,10 +184,9 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		
 		$this->tpl->setVariable('VAL_SUBTIME',ilDatePresentation::formatDate(new ilDateTime($a_set['sub_time'],IL_CAL_UNIX)));
 		
-		$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'member_id',$a_set['usr_id']);
-		$link = $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()),'sendMailToSelectedUsers');
-		$this->tpl->setVariable('MAIL_LINK',$link);
-		$this->tpl->setVariable('MAIL_TITLE',$this->lng->txt('crs_mem_send_mail'));
+		
+		$this->showActionLinks($a_set);
+		
 		
 		
 		if(strlen($a_set['subject']))
@@ -187,6 +196,44 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		}
 	}
 	
+	/**
+	 * Show action links (mail ; edit crs|grp data)
+	 * @param type $a_set
+	 */
+	public function showActionLinks($a_set)
+	{
+		if(!self::$has_odf_definitions)
+		{
+			$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'member_id',$a_set['usr_id']);
+			$link = $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()),'sendMailToSelectedUsers');
+			$this->tpl->setVariable('MAIL_LINK',$link);
+			$this->tpl->setVariable('MAIL_TITLE',$this->lng->txt('crs_mem_send_mail'));
+			return TRUE;
+		}
+		
+		// show action menu
+		include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+		$list = new ilAdvancedSelectionListGUI();
+		$list->setSelectionHeaderClass('small');
+		$list->setItemLinkClass('small');
+		$list->setId('actl_'.$a_set['usr_id'].'_'.$this->getId());
+		$list->setListTitle($this->lng->txt('actions'));
+
+		$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'member_id',$a_set['usr_id']);
+		$this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
+		$trans = $this->lng->txt($this->getParentObject()->object->getType().'_mem_send_mail');
+		$link = $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()),'sendMailToSelectedUsers');
+		$list->addItem($trans, '', $link,'sendMailToSelectedUsers');
+		
+		$this->ctrl->setParameterByClass('ilobjectcustomuserfieldsgui','member_id',$a_set['usr_id']);
+		$trans = $this->lng->txt($this->getParentObject()->object->getType().'_cdf_edit_member');
+		$list->addItem($trans, '', $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui','editMember'));
+		
+		$this->tpl->setVariable('ACTION_USER',$list->getHTML());
+		
+	}
+
+
 	/**
 	 * read data
 	 *
@@ -297,6 +344,36 @@ class ilSubscriberTableGUI extends ilTable2GUI
 				foreach($fields as $field_id => $value)
 				{
 					$a_user_data[$usr_id]['odf_' . $field_id] = $value;
+				}
+			}
+			
+			// add last edit date
+			include_once './Services/Membership/classes/class.ilObjectCustomUserFieldHistory.php';
+			foreach(ilObjectCustomUserFieldHistory::lookupEntriesByObjectId($this->getParentObject()->object->getId()) as $usr_id => $edit_info)
+			{
+				if(!isset($a_user_data[$usr_id]))
+				{
+					continue;
+				}
+				
+				include_once './Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
+				if($usr_id == $edit_info['update_user'])
+				{
+					$a_user_data[$usr_id]['odf_last_update'] = '';
+					$a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['lng']->txt('cdf_edited_by_self');
+					if(ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getParentObject()->object->getType()))
+					{
+						$a_user_data[$usr_id]['odf_last_update'] .= ('_'.$edit_info['editing_time']->get(IL_CAL_UNIX));
+						$a_user_data[$usr_id]['odf_info_txt'] .= (', '.ilDatePresentation::formatDate($edit_info['editing_time']));
+					}
+				}
+				else
+				{
+					$a_user_data[$usr_id]['odf_last_update'] = $edit_info['update_user'];
+					$a_user_data[$usr_id]['odf_last_update'] .= ('_'.$edit_info['editing_time']->get(IL_CAL_UNIX));
+					
+					$name = ilObjUser::_lookupName($edit_info['update_user']);
+					$a_user_data[$usr_id]['odf_info_txt'] = ($name['firstname'].' '.$name['lastname'].', '.ilDatePresentation::formatDate($edit_info['editing_time']));
 				}
 			}
 		}

@@ -546,10 +546,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 				}
 				else
 				{
-					$a_user_data[$usr_id]['odf_last_update'] = $edit_info['edit_user'];
+					$a_user_data[$usr_id]['odf_last_update'] = $edit_info['update_user'];
 					$a_user_data[$usr_id]['odf_last_update'] .= ('_'.$edit_info['editing_time']->get(IL_CAL_UNIX));
 					
-					$name = ilObjUser::_lookupName($usr_id);
+					$name = ilObjUser::_lookupName($edit_info['update_user']);
 					$a_user_data[$usr_id]['odf_info_txt'] = ($name['firstname'].' '.$name['lastname'].', '.ilDatePresentation::formatDate($edit_info['editing_time']));
 				}
 			}
