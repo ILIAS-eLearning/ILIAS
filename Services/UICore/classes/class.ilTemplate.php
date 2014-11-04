@@ -2150,7 +2150,7 @@ class ilTemplate extends ilTemplateX
 		}
 
 		// ensure jquery files being loaded first
-		if (is_int(strpos($a_js_file, "jquery")))
+		if (is_int(strpos($a_js_file, "Services/jQuery")))
 		{
 			$a_batch = 0;
 		}
