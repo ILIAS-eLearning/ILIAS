@@ -547,8 +547,8 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			}
 
 			$tpl->setCurrentBlock("prop_date");
-			$tpl->setVariable("IMG_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
-			$tpl->setVariable("TXT_DATE_CALENDAR", $lng->txt("open_calendar"));
+			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+			$tpl->setVariable("IMG_DATE_CALENDAR", ilGlyphGUI::get(ilGlyphGUI::CALENDAR, $lng->txt("open_calendar")));
 			$tpl->setVariable("DATE_ID", $this->getPostVar());
 
 			include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
@@ -608,7 +608,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 
 		if ($this->getShowTime() && $this->getShowDate() && $this->getMode() == self::MODE_SELECT)
 		{
-			$tpl->setVariable("DELIM", "<br />");
+//			$tpl->setVariable("DELIM", "<br />");
 		}
 
 		return $tpl->get();

@@ -14,7 +14,10 @@
 							{TXT_START}&nbsp;
 						</td>
 						<td>
-							{START_SELECT} <input type="image" alt="{TXT_START_CALENDAR}" title="{TXT_START_CALENDAR}" src="{IMG_START_CALENDAR}" id="btn_cal_start_{START_ID}" />
+							<div class="form-inline">
+							{START_SELECT}
+							<button class="btn btn-link" id="btn_cal_start_{START_ID}">{IMG_START_CALENDAR}</button>
+							</div>
 							<!-- BEGIN show_start_time -->
 							<div class="form-inline">{START_TIME_SELECT} {TXT_START_TIME}</div>
 							<!-- END show_start_time -->
@@ -40,7 +43,10 @@
 							{TXT_END}&nbsp;
 						</td>
 						<td style="padding-top: 1em">
-							{END_SELECT} <input type="image" alt="{TXT_END_CALENDAR}" title="{TXT_END_CALENDAR}" src="{IMG_END_CALENDAR}" id="btn_cal_end_{END_ID}" />
+							<div class="form-inline">
+							{END_SELECT}
+							<button class="btn btn-link" id="btn_cal_end_{END_ID}">{IMG_END_CALENDAR}</button>
+							</div>
 							<!-- BEGIN show_end_time -->
 							<div class="form-inline">{END_TIME_SELECT} {TXT_END_TIME}</div>
 							<!-- END show_end_time -->

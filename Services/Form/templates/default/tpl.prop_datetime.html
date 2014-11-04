@@ -2,12 +2,13 @@
 			<input type="checkbox" name="{CHECK_ENABLED_DATE}" value="1" {CHECKED_ENABLED} {CHECKED_DISABLED}/> {TXT_DATE_ENABLED}<br />
 <!-- END prop_date_activation -->
 <!-- BEGIN prop_date -->
+	<div class="form-inline">
 			<span style="white-space:nowrap;">		
 			{DATE_SELECT}
 			<!-- BEGIN prop_date_input_field -->
 			<input type="text" name="{DATE_ID}[date]" id="field_{DATE_ID}" value="{DATE_VALUE}"{DISABLED} />
 			<!-- END prop_date_input_field -->
-			<input type="image" alt="{TXT_DATE_CALENDAR}" title="{TXT_DATE_CALENDAR}" src="{IMG_DATE_CALENDAR}" id="btn_cal_{DATE_ID}" />
+			<button class="btn btn-link" id="btn_cal_{DATE_ID}">{IMG_DATE_CALENDAR}</button>
 			</span>
 			<script type="text/javascript">
 			//<![CDATA[
@@ -29,11 +30,14 @@
 			<!-- BEGIN prop_date_input_field_info -->
 			<div class="help-block">({TXT_INPUT_FORMAT})</div>
 			<!-- END prop_date_input_field_info -->
+	</div>
 <!-- END prop_date -->{DELIM}
 <!-- BEGIN prop_time -->
+	<div class="form-inline">
 	<!-- BEGIN prop_time_input_field -->
     <input type="text" name="{DATE_ID}[time]" value="{TIME_VALUE}"{DISABLED} />
 	<!-- END prop_time_input_field -->
 			{TIME_SELECT} 
 			<div class="help-block">{TXT_TIME}</div>
+	</div>
 <!-- END prop_time -->

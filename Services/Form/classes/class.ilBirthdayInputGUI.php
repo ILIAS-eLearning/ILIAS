@@ -145,8 +145,8 @@ class ilBirthdayInputGUI extends ilDateTimeInputGUI
 		if ($this->getShowDate())
 		{
 			$tpl->setCurrentBlock("prop_date");
-			$tpl->setVariable("IMG_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
-			$tpl->setVariable("TXT_DATE_CALENDAR", $lng->txt("open_calendar"));
+			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+			$tpl->setVariable("IMG_DATE_CALENDAR", ilGlyphGUI::get(ilGlyphGUI::CALENDAR, $lng->txt("open_calendar")));
 			$tpl->setVariable("DATE_ID", $this->getPostVar());
 			$tpl->setVariable("INPUT_FIELDS_DATE", $this->getPostVar()."[date]");
 			include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';

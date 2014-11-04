@@ -953,7 +953,7 @@ class ilUtil
 
 		// build day select
 		
-		$sel_day .= '<select ';
+		$sel_day .= '<select class="form-control" ';
 		if(isset($a_further_options['select_attributes']))
 		{
 			foreach($a_further_options['select_attributes'] as $name => $value)
@@ -973,7 +973,7 @@ class ilUtil
 		$sel_day = preg_replace("/(value\=\"$day\")/", "$1 selected=\"selected\"", $sel_day);
 
 		// build month select
-		$sel_month = '<select ';
+		$sel_month = '<select class="form-control" ';
 		if(isset($a_further_options['select_attributes']))
 		{
 			foreach($a_further_options['select_attributes'] as $name => $value)
@@ -999,7 +999,7 @@ class ilUtil
 		$sel_month = preg_replace("/(value\=\"$month\")/", "$1 selected=\"selected\"", $sel_month);
 
 		// build year select
-		$sel_year = '<select ';
+		$sel_year = '<select class="form-control" ';
 		if(isset($a_further_options['select_attributes']))
 		{
 			foreach($a_further_options['select_attributes'] as $name => $value)

@@ -556,8 +556,9 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		if ($this->getShowDate() or 1)
 		{
 			$tpl->setVariable('POST_VAR',$this->getPostVar());
-			$tpl->setVariable("IMG_START_CALENDAR", ilUtil::getImagePath("calendar.png"));
-			$tpl->setVariable("TXT_START_CALENDAR", $lng->txt("open_calendar"));
+			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+			$tpl->setVariable("IMG_START_CALENDAR", ilGlyphGUI::get(ilGlyphGUI::CALENDAR, $lng->txt("open_calendar")));
+
 			$tpl->setVariable("START_ID", $this->getPostVar());
 			$tpl->setVariable("DATE_ID_START", $this->getPostVar());
 			
@@ -575,9 +576,10 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 						'select_attributes' => array('onchange' => 'ilUpdateEndDate();')
 						),
 					$this->getShowEmpty()));
-					
-			$tpl->setVariable("IMG_END_CALENDAR", ilUtil::getImagePath("calendar.png"));
-			$tpl->setVariable("TXT_END_CALENDAR", $lng->txt("open_calendar"));
+
+			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+			$tpl->setVariable("IMG_END_CALENDAR", ilGlyphGUI::get(ilGlyphGUI::CALENDAR, $lng->txt("open_calendar")));
+
 			$tpl->setVariable("END_ID", $this->getPostVar());
 			$tpl->setVariable("DATE_ID_END", $this->getPostVar());
 			$tpl->setVariable("INPUT_FIELDS_END", $this->getPostVar()."[end][date]");

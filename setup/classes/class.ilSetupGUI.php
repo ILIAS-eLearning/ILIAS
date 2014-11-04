@@ -1966,7 +1966,6 @@ else
 			if ($this->cmd == $key and isset($this->cmd))
 			{
 				$stpl->setVariable("HIGHLIGHT", " style=\"font-weight:bold;\"");
-				$stpl->setVariable("IMG_ARROW", "arrow_right.png");
 			}
 
 			$status = ($val["status"]) ? $OK : "";
