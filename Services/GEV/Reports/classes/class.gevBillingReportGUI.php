@@ -234,7 +234,7 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 	}
 	
 	protected function queryCreatedSince() {
-		return "   AND bill.bill_finalized_date >= ".$this->db->quote($this->created_since->get(IL_CAL_UNIX)); 
+		return "   AND bill.bill_finalized_date >= ".$this->db->quote($this->created_since->get(IL_CAL_UNIX), "integer"); 
 	}
 	
 	protected function deliverBillPDF() {
