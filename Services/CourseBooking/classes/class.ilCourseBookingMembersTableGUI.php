@@ -29,12 +29,16 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 	 */
 	public function  __construct($a_parent_obj, $a_parent_cmd, ilObjCourse $a_course, ilCourseBookingPermissions $a_perm = null)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilUser;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);			
 		
 		// gev-patch start
 		$this->course = $a_course;
+
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$this->user = &$ilUser;
+		$this->userUtils = gevUserUtils::getInstance($this->user->getId());
 		// gev-patch end
 
 		$bookings = ilCourseBookings::getInstance($a_course);
@@ -220,6 +224,15 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 					$list->addItem($this->lng->txt("crsbook_admin_action_cancel_with_costs"),
 						"",
 						$this->getLink($a_set["id"], ilCourseBooking::STATUS_CANCELLED_WITH_COSTS));
+
+					//current user is admin, may cancel w/o costs anyway
+					if($this->userUtils->isAdmin()){
+						$list->addItem($this->lng->txt("crsbook_admin_action_cancel_without_costs"),
+							"",
+							$this->getLink($a_set["id"], ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS));	
+					}
+
+
 				} else {
 					//when deadline is not reached 
 					//or user pays no fees
