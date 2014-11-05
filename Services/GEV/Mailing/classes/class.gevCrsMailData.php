@@ -63,9 +63,14 @@ class gevCrsMailData extends ilMailData {
 			throw new Exception("gevCrsMailData::getPlaceholderLocalized: course utilities not initialized.");
 		}
 		
+		/*
+		//do not cache here; 
+		//getPlaceholderLocalized is called for plain, html and subject in this order
+
 		if (array_key_exists($a_placeholder_code, $this->cache)) {
 			return $this->cache[$a_placeholder_code];
 		}
+		*/
 		
 		$val = null;
 		
