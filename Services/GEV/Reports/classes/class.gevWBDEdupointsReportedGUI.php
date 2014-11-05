@@ -27,12 +27,12 @@ class gevWBDEdupointsReportedGUI extends gevBasicReportGUI{
 			( array("firstname", "firstname")
 			, array("lastname", "lastname")
 			, array("birthday", "birthday")
-			, array("bwv_id", "bwv_id")
-			, array("gev_learning_type", "wbd_type")
+			, array("gev_bwv_id", "bwv_id")
+			, array("wbd_service_type", "wbd_type")
 			, array("title", "trainingstitle")
 			, array("begin_date", "begin_date")
 			, array("end_date", "end_date")
-			, array("credit_points", "credit_points")
+			, array("gev_credit_points", "credit_points")
 			, array("wbd_booking_id", "wbd_booking_id")
 			);
 
@@ -120,9 +120,8 @@ class gevWBDEdupointsReportedGUI extends gevBasicReportGUI{
 							hist_usercoursestatus.usr_id = hist_user.user_id
 						WHERE 
 							hist_usercoursestatus.wbd_booking_id IS NOT NULL
-							OR hist_usercoursestatus.wbd_booking_id IS NULL
 						AND 
-						hist_user.hist_historic = 0"
+							hist_user.hist_historic = 0"
 
 
 					. $this->queryWhen($this->start_date, $this->end_date)
