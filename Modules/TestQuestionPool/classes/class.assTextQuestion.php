@@ -143,7 +143,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
 			$this->setShuffle($data["shuffle"]);
 			$this->setMaxNumOfChars($data["maxnumofchars"]);
-			$this->setTextRating($data["textgap_rating"]);
+			$this->setTextRating($this->isValidTextRating($data["textgap_rating"]) ? $data["textgap_rating"] : TEXTGAP_RATING_CASEINSENSITIVE);
 			$this->matchcondition = (strlen($data['matchcondition'])) ? $data['matchcondition'] : 0;
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			$this->setKeywordRelation(($data['keyword_relation']));
@@ -415,6 +415,23 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 			return TRUE;
 		}
 	}
+	
+	private function isValidTextRating($textRating)
+	{
+		switch($textRating)
+		{
+			case TEXTGAP_RATING_CASEINSENSITIVE:
+			case TEXTGAP_RATING_CASESENSITIVE:
+			case TEXTGAP_RATING_LEVENSHTEIN1:
+			case TEXTGAP_RATING_LEVENSHTEIN2:
+			case TEXTGAP_RATING_LEVENSHTEIN3:
+			case TEXTGAP_RATING_LEVENSHTEIN4:
+			case TEXTGAP_RATING_LEVENSHTEIN5:
+				return true;
+		}
+		
+		return false;
+	}
 
 	/**
 	* Checks if one of the keywords matches the answertext
@@ -438,6 +455,10 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 				if (ilStr::strPos($answertext, $a_keyword) !== false) return TRUE;
 				break;
 		}
+		
+		// "<p>red</p>" would not match "red" even with distance of 5
+		$answertext = strip_tags($answertext);
+		
 		$answerwords = array();
 		if (preg_match_all("/([^\s.]+)/", $answertext, $matches))
 		{
@@ -497,7 +518,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 					$qst_answer  = $answer->getAnswertext();
 					$user_answer = '  '.$solution;
 
-					if( $this->isKeywordInAnswer( $user_answer, $qst_answer ) )
+					if( $this->isKeywordMatching( $user_answer, $qst_answer ) )
 					{
 						$points += $answer->getPoints();
 					}
@@ -514,7 +535,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 					$qst_answer  = $answer->getAnswertext();
 					$user_answer = '  '.$solution;
 
-					if( !$this->isKeywordInAnswer( $user_answer, $qst_answer ) )
+					if( !$this->isKeywordMatching( $user_answer, $qst_answer ) )
 					{
 						$points = 0;
 						break;
@@ -532,7 +553,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 					$qst_answer  = $answer->getAnswertext();
 					$user_answer = '  '.$solution;
 
-					if( $this->isKeywordInAnswer( $user_answer, $qst_answer ) )
+					if( $this->isKeywordMatching( $user_answer, $qst_answer ) )
 					{
 						$points = $this->getMaximumPoints();
 						break;
@@ -589,12 +610,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 		}
 
 		return $this->calculateReachedPointsForSolution($row['value1']);
-	}
-	
-	public function isKeywordInAnswer($user_answer, $qst_answer)
-	{
-		require_once 'Services/Utilities/classes/class.ilStr.php';
-		return ilStr::strPos( $user_answer, $qst_answer ) != FALSE;
 	}
 
 	/**
