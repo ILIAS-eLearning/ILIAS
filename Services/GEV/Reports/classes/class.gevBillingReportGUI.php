@@ -92,25 +92,6 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 	}
 
 	protected function executeCustomCommand($a_cmd) {
-	    
-	    if($_GET['debug']== 'x1'){
-	    print 'here';
-	    require("Services/GEV/Utils/classes/class.gevBillingUtils.php");
-	    $bu = gevBillingUtils::getInstance();
-	    
-	    // course_id, user_id
-	    
-	    //$bu->createCancellationBillAndCoupon(3077, 20054);
-	    //$bu->createCancellationBillAndCoupon(3168, 20054);
-	    
-	    print '<br>ok.';
-	    die();
-	    
-	    //in gev_bill_coupon war bill_pk bereits vorhanden.
-	    //das script kommt nicht bis "finalize".
-	    //die rechnung wird also nicht angezeigt.
-	    }
-	    
 		switch ($a_cmd) {
 			case "deliverBillPDF":
 				return $this->deliverBillPDF();
