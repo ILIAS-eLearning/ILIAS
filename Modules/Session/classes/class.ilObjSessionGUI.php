@@ -186,7 +186,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if(
 			$this->getCurrentObject()->isRegistrationUserLimitEnabled() and 
 			$this->getCurrentObject()->getRegistrationMaxUsers() and
-			count($event_part->getRegistered() >= $this->getCurrentObject()->getRegistrationMaxUsers())
+			(count($event_part->getRegistered()) >= $this->getCurrentObject()->getRegistrationMaxUsers())
 		)
 		{
 			include_once './Modules/Session/classes/class.ilSessionWaitingList.php';
