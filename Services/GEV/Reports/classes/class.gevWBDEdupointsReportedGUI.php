@@ -193,6 +193,11 @@ class gevWBDEdupointsReportedGUI extends gevBasicReportGUI{
 		$val = str_replace('<nobr>', '', $val);
 		$val = str_replace('</nobr>', '', $val);
 		return $val;
+	}	
+
+	protected function _process_table_wbd_type($val) {
+		$val = substr($val, 4);
+		return $val;
 	}
 }
 
