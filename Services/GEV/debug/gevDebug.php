@@ -7,6 +7,10 @@
 */
 
 //reset ilias for calls from somewhere else
+
+
+die();
+
 $basedir = __DIR__; 
 $basedir = str_replace('/Services/GEV/debug', '', $basedir);
 chdir($basedir);
