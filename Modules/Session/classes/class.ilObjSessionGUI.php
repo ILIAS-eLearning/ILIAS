@@ -384,7 +384,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		
 		$event_part = new ilEventParticipants($this->getCurrentObject()->getId());
-		
+
 		if(
 			$this->getCurrentObject()->isRegistrationUserLimitEnabled() and 
 			$this->getCurrentObject()->getRegistrationMaxUsers() and
@@ -1981,6 +1981,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$part->register($user_id);
 			$waiting_list->removeFromList($user_id);
 
+			include_once './Modules/Session/classes/class.ilSessionMembershipMailNotification.php';
+			$noti = new ilSessionMembershipMailNotification();
+			$noti->setRefId($this->object->getRefId());
+			$noti->setRecipients(array($user_id));
+			$noti->setType(ilSessionMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER);
+			$noti->send();
+			
 			++$added_users;
 		}
 		if($added_users)
@@ -2021,6 +2028,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		foreach($_POST["waiting"] as $user_id)
 		{
 			$waiting_list->removeFromList($user_id);
+			
+			include_once './Modules/Session/classes/class.ilSessionMembershipMailNotification.php';
+			$noti = new ilSessionMembershipMailNotification();
+			$noti->setRefId($this->object->getRefId());
+			$noti->setRecipients(array($user_id));
+			$noti->setType(ilSessionMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER);
+			$noti->send();
+			
 		}
 		
 		ilUtil::sendSuccess($this->lng->txt('sess_users_removed_from_list'));
@@ -2054,6 +2069,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			$part->add($usr_id);
 			$part->deleteSubscriber($usr_id);
+
+			include_once './Modules/Session/classes/class.ilSessionMembershipMailNotification.php';
+			$noti = new ilSessionMembershipMailNotification();
+			$noti->setRefId($this->object->getRefId());
+			$noti->setRecipients(array($usr_id));
+			$noti->setType(ilSessionMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER);
+			$noti->send();
 		}
 		ilUtil::sendSuccess($this->lng->txt("sess_msg_applicants_assigned"),true);
 		$this->ctrl->redirect($this,'members');
@@ -2084,6 +2106,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		foreach($_POST['subscribers'] as $usr_id)
 		{
 			$part->deleteSubscriber($usr_id);
+			
+			include_once './Modules/Session/classes/class.ilSessionMembershipMailNotification.php';
+			$noti = new ilSessionMembershipMailNotification();
+			$noti->setRefId($this->object->getRefId());
+			$noti->setRecipients(array($usr_id));
+			$noti->setType(ilSessionMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER);
+			$noti->send();
 		}
 		ilUtil::sendSuccess($this->lng->txt("sess_msg_applicants_removed"));
 		$this->membersObject();

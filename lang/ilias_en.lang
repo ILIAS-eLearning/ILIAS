@@ -15031,3 +15031,7 @@ content#:#cont_user_blocked#:#User out of tries in learning module "%s".
 content#:#cont_user_blocked2#:#A user has run out of tries for answering a question in the learning module. The user will not be able to navigate further through the learning module without your intervention.
 content#:#cont_user_blocked3#:#Open the learning module in edit mode and enter the screen:
 content#:#cont_lm_mail_permanent_link#:#Click on the following link to access the learning module:
+sess#:#sess_mail_sub_dec_sub#:#Registration refused for session "%s"
+sess#:#sess_mail_sub_dec_bod#:#we regret to say that your registration has been refused for session "%s".
+sess#:#sess_mail_sub_acc_sub#:#Registration for Session "%s"
+sess#:#sess_mail_sub_acc_bod#:#you have been registered for session "%s".

@@ -16,6 +16,9 @@ class ilEventParticipants
 	var $ilDB;
 	var $tree;
 	var $lng;
+	
+	protected $registered = array();
+	protected $participated = array();
 
 	var $event_id = null;
 	
@@ -385,6 +388,8 @@ class ilEventParticipants
 
 		include_once "Services/Tracking/classes/class.ilLPMarks.php";
 		
+		
+		
 		$query = "SELECT * FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($this->getEventId())." ";
 		$res = $this->db->query($query);
@@ -401,6 +406,16 @@ class ilEventParticipants
 			$lp_mark = new ilLPMarks($this->getEventId(), $row->usr_id);
 			$this->participants[$row->usr_id]['mark'] = $lp_mark->getMark();
 			$this->participants[$row->usr_id]['comment'] = $lp_mark->getComment();
+			
+			
+			if($row->registered)
+			{
+				$this->registered[] = $row->usr_id;
+			}
+			if($row->participated)
+			{
+				$this->participated[] = $row->usr_id;
+			}
 		}
 	}
 }
