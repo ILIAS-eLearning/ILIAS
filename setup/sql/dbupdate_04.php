@@ -4521,3 +4521,167 @@ $ilDB->insert('il_dcl_datatype_prop', array(
     'inputformat' => array('integer', 12),
 ));
 ?>
+<#4407>
+<?php
+$setting = new ilSetting();
+$fixState = $setting->get('dbupdate_randtest_pooldef_migration_fix', '0');
+
+if( $fixState === '0' )
+{
+	$query = "
+		SELECT		tst_tests.test_id, COUNT(tst_rnd_quest_set_qpls.def_id)
+		 
+		FROM		tst_tests
+
+		LEFT JOIN	tst_rnd_quest_set_qpls
+		ON			tst_tests.test_id = tst_rnd_quest_set_qpls.test_fi
+		 
+		WHERE		question_set_type = %s
+		
+		GROUP BY	tst_tests.test_id
+		
+		HAVING		COUNT(tst_rnd_quest_set_qpls.def_id) < 1
+	";
+
+	$res = $ilDB->queryF($query, array('text'), array('RANDOM_QUEST_SET'));
+
+	$testsWithoutDefinitionsDetected = false;
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		$testsWithoutDefinitionsDetected = true;
+		break;
+	}
+
+	if( $testsWithoutDefinitionsDetected )
+	{
+		echo "<pre>
+
+		Dear Administrator,
+		
+		DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
+
+		The update process has been stopped, because your attention is required.
+		
+		If you did not migrate ILIAS from version 4.3 to 4.4, but installed a 4.4 version from scratch,
+		please ignore this message and simply refresh the page.
+
+		Otherwise please have a look to: http://www.ilias.de/mantis/view.php?id=12700
+
+		A bug in the db migration for ILIAS 4.4.x has lead to missing source pool definitions within several random tests.
+		Your installation could be affected, because random tests without any source pool definition were detected.
+		Perhaps, these tests were just created, but the update process has to assume that these tests are broken.
+		
+		If you have a backup of your old ILIAS 4.3.x database the update process can repair these tests.
+		Therefor please restore the table > tst_test_random < from your ILIAS 4.3.x backup database to your productive ILIAS 4.4.x database.
+		
+		If you try to rerun the update process by refreshing the page, this message will be skipped.
+		
+		Possibly broken random tests will be repaired, if the old database table mentioned above is available.
+		After repairing the tests, the old database table will be dropped again.
+		
+		Best regards,
+		The Test Maintainers
+		
+		</pre>";
+
+		$setting->set('dbupdate_randtest_pooldef_migration_fix', '1');
+
+		exit; // db update step MUST NOT finish in a normal way, so step will be processed again
+	}
+	else
+	{
+		$setting->set('dbupdate_randtest_pooldef_migration_fix', '2');
+	}
+}
+elseif( $fixState === '1' )
+{
+	if( $ilDB->tableExists('tst_test_random') )
+	{
+		$query = "
+			SELECT		tst_test_random.test_fi,
+						tst_test_random.questionpool_fi,
+						tst_test_random.num_of_q,
+						tst_test_random.tstamp,
+						tst_test_random.sequence,
+						object_data.title pool_title
+			 
+			FROM		tst_tests
+			 
+			INNER JOIN	tst_test_random
+			ON			tst_tests.test_id = tst_test_random.test_fi
+			 
+			LEFT JOIN	tst_rnd_quest_set_qpls
+			ON			tst_tests.test_id = tst_rnd_quest_set_qpls.test_fi
+			
+			LEFT JOIN	object_data
+			ON 			object_data.obj_id = tst_test_random.questionpool_fi
+			 
+			WHERE		question_set_type = %s
+			AND			tst_rnd_quest_set_qpls.def_id IS NULL
+		";
+
+		$res = $ilDB->queryF($query, array('text'), array('RANDOM_QUEST_SET'));
+
+		$syncTimes = array();
+
+		while( $row = $ilDB->fetchAssoc($res) )
+		{
+			if( !(int)$row['num_of_q'] )
+			{
+				$row['num_of_q'] = null;
+			}
+
+			if( !strlen($row['pool_title']) )
+			{
+				$row['pool_title'] = '*** unknown/deleted ***';
+			}
+
+			$nextId = $ilDB->nextId('tst_rnd_quest_set_qpls');
+
+			$ilDB->insert('tst_rnd_quest_set_qpls', array(
+				'def_id' => array('integer', $nextId),
+				'test_fi' => array('integer', $row['test_fi']),
+				'pool_fi' => array('integer', $row['questionpool_fi']),
+				'pool_title' => array('text', $row['pool_title']),
+				'origin_tax_fi' => array('integer', null),
+				'origin_node_fi' => array('integer', null),
+				'mapped_tax_fi' => array('integer', null),
+				'mapped_node_fi' => array('integer', null),
+				'quest_amount' => array('integer', $row['num_of_q']),
+				'sequence_pos' => array('integer', $row['sequence'])
+			));
+
+			if( !is_array($syncTimes[$row['test_fi']]) )
+			{
+				$syncTimes[$row['test_fi']] = array();
+			}
+
+			$syncTimes[$row['test_fi']][] = $row['tstamp'];
+		}
+
+		foreach($syncTimes as $testId => $times)
+		{
+			$assumedSyncTS = max($times);
+
+			$ilDB->update('tst_rnd_quest_set_cfg',
+				array(
+					'quest_sync_timestamp' => array('integer', $assumedSyncTS)
+				),
+				array(
+					'test_fi' => array('integer', $testId)
+				)
+			);
+		}
+	}
+
+	$setting->set('dbupdate_randtest_pooldef_migration_fix', '2');
+}
+?>
+<#4408>
+<?php
+if( $ilDB->tableExists('tst_test_random') )
+{
+	$ilDB->dropTable('tst_test_random');
+}
+?>
