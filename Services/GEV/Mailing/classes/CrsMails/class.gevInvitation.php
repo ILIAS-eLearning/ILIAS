@@ -72,8 +72,10 @@ class gevInvitation extends gevCrsAutoMail {
 			throw new Exception("GEV-Invitation-Mails will only work for ILIAS-Users.");
 		}
 		
-		if (   gevDeadlineMailingJob::isMailSend($this->getCourse()->getId(), $this->getId()) 
+		// this really is no good style.
+		if (   !gevDeadlineMailingJob::isMailSend($this->getCourse()->getId(), $this->getId()) 
 			&& ilContext::getType() !== ilContext::CONTEXT_CRON 
+			&& $_GET["cmdClass"] !== "ilcronmanagergui"
 			&& $_GET["cmdClass"] !== "gevcrsmailinggui"
 			&& $this->days_before_course_start != 0) {
 			
