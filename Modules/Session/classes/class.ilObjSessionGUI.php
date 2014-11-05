@@ -388,7 +388,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if(
 			$this->getCurrentObject()->isRegistrationUserLimitEnabled() and 
 			$this->getCurrentObject()->getRegistrationMaxUsers() and
-			count($event_part->getRegistered() >= $this->getCurrentObject()->getRegistrationMaxUsers())
+			(count($event_part->getRegistered()) >= $this->getCurrentObject()->getRegistrationMaxUsers())
 		)
 		{
 			if($this->getCurrentObject()->isRegistrationWaitingListEnabled())
@@ -410,6 +410,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			{
 				ilUtil::sendInfo($this->lng->txt('sess_join_info'));
 				$ilToolbar->addFormButton($this->lng->txt('join_session'),'register', '', true);
+				$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
 				return TRUE;
 			}
 		}
