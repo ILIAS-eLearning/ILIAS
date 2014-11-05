@@ -119,9 +119,10 @@ abstract class wbdDataConnector {
 		$dat = explode('-',$d);
 		if(	(int)$dat[0] < 2000 && 
 			(int)$dat[0] > 1900) {
-			return true;
+			return array(true, 'OK');
 		}
-		return false;
+		return array(false, 'date not between 1900 and 2000');
+		
 	}
 
 	protected function validateUserRecord($user_record){
@@ -160,8 +161,12 @@ abstract class wbdDataConnector {
 						}
 						break;
 					case 'custom':
-						if(! $this->$setting($value)){
-							return 'wrong birthday';
+						$r = $this->$setting($value);
+						$result = $r[0];
+						$err = $r[1];
+
+						if(! $result){
+							return $err .' (' .$field .')';
 						}
 						break;
 				}
@@ -172,6 +177,14 @@ abstract class wbdDataConnector {
 
 
 	protected function validateEduRecord($edu_record){
+
+		//special check: dates plausible?
+		$from = new DateTime($edu_record['from']);
+		$till = new DateTime($edu_record['till']);
+		if($from > $till){
+			return 'dates implausible: begin > end <br>';
+		}
+
 		foreach($this->EDU_RECORD_VALIDATION  as $field => $validation){
 			$value = $edu_record[$field];
 			foreach ($validation as $rule => $setting) {

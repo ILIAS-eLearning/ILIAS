@@ -14,8 +14,8 @@
 $SET_LASTWBDRECORD = true;
 $SET_BWVID = true;
 
-$GET_NEW_USERS = true;
-$GET_UPDATED_USERS = true;
+$GET_NEW_USERS = false;
+$GET_UPDATED_USERS = false;
 $GET_NEW_EDURECORDS = true;
 
 $GET_CHANGED_EDURECORDS = false;
@@ -351,6 +351,47 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 
+
+
+	/**
+	 * set BWV-ID for user
+	 *
+	 * @param string $user_id
+	 * @param string $bwv_id
+	 * @param date $certification_begin
+	 * @return boolean
+	 */
+
+	public function set_bwv_id($user_id, $bwv_id, $certification_begin) {
+		global $SET_BWVID;
+		if(! $SET_BWVID){
+			return true;
+		}
+
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		global $ilAppEventHandler;
+		$uutils = gevUserUtils::getInstanceByObjOrId($user_id);
+		$uutils->setWBDBWVId($bwv_id);
+		//$uutils->setWBDFirstCertificationPeriodBegin($certification_begin);
+		//ensure a history-case for setting of bwv-id
+		$ilAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $uutils->getUser()));
+
+		//write last_wbd_report....
+		$sql = "
+			SELECT row_id FROM hist_user 
+			WHERE user_id = $user_id
+			AND hist_historic = 0
+		";
+		$result = $this->ilDB->query($sql);
+		$record = $this->ilDB->fetchAssoc($result);
+		$this->_set_last_wbd_report('hist_user', $record['row_id']);
+		return true;
+	}
+
+
+
+
+
 	/**
 	 * get users that do not have a BWV-ID yet
 	 *
@@ -638,12 +679,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$result = $this->ilDB->query($sql);
 	}
 
-	
-		
-	
-
-
-	
 	public function fail_new_edu_record($row_id, $e){
 		print 'ERROR on newEduRecord: ';
 		print($row_id);
@@ -653,6 +688,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 		
 		//die();
 	}
+
+
+
 
 
 	/**
@@ -669,6 +707,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 		if(! $GET_CHANGED_EDURECORDS){
 			return array();
 		}
+		
+		die('NOT IMPLEMENTED');
 
 		$sql = "
 			SELECT
@@ -719,11 +759,11 @@ class gevWBDDataConnector extends wbdDataConnector {
 				$ret[] = wbdDataConnector::new_edu_record($edudata);
 
 				//set last_wbd_report on the current record
-				$row_id = $current_record['row_id'];
+				//$row_id = $current_record['row_id'];
 			}
 
 			//set last_wbd_report!
-			$this->_set_last_wbd_report('hist_usercoursestatus', $row_id);
+			//$this->_set_last_wbd_report('hist_usercoursestatus', $row_id);
 		}
 
 		return $ret;
@@ -732,40 +772,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 
 
-	/**
-	 * set BWV-ID for user
-	 *
-	 * @param string $user_id
-	 * @param string $bwv_id
-	 * @param date $certification_begin
-	 * @return boolean
-	 */
+	
 
-	public function set_bwv_id($user_id, $bwv_id, $certification_begin) {
-		global $SET_BWVID;
-		if(! $SET_BWVID){
-			return true;
-		}
-
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		global $ilAppEventHandler;
-		$uutils = gevUserUtils::getInstanceByObjOrId($user_id);
-		$uutils->setWBDBWVId($bwv_id);
-		//$uutils->setWBDFirstCertificationPeriodBegin($certification_begin);
-		//ensure a history-case for setting of bwv-id
-		$ilAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $uutils->getUser()));
-
-		//write last_wbd_report....
-		$sql = "
-			SELECT row_id FROM hist_user 
-			WHERE user_id = $user_id
-			AND hist_historic = 0
-		";
-		$result = $this->ilDB->query($sql);
-		$record = $this->ilDB->fetchAssoc($result);
-		$this->_set_last_wbd_report('hist_user', $record['row_id']);
-		return true;
-	}
 
 
 	/**
@@ -789,6 +797,11 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 //normalize classname for wdb-connector-script
 class WBDDataAdapter extends gevWBDDataConnector {}
+
+
+
+
+
 
 
 
