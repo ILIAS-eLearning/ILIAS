@@ -9655,9 +9655,9 @@ survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed
 survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.
 survey#:#svy_create_export_file#:#Create Export File
 survey#:#svy_delete_all_user_data#:#Delete all User Data
-survey#:#svy_eval_cumulated#:#Cumulated Results
-survey#:#svy_eval_detail#:#Cumulated Results (Details)
-survey#:#svy_eval_user#:#User Specific Results
+survey#:#svy_eval_cumulated#:#Overview
+survey#:#svy_eval_detail#:#Details
+survey#:#svy_eval_user#:#Per Participant
 survey#:#svy_export_files#:#Export Files
 survey#:#svy_file#:#File
 survey#:#svy_general_properties#:#General Properties
@@ -15026,8 +15026,8 @@ survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the surv
 survey#:#survey_execution_exit#:#Back to repository
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.
 content#:#cont_notify_on_blocked_users#:#Notifications on Blocked Users
-content#:#cont_notify_on_blocked_users_info#:#You will be notified if users are blocked when the run out of tries.
+content#:#cont_notify_on_blocked_users_info#:#You will be notified if users are blocked when they run out of tries.
 content#:#cont_user_blocked#:#User out of tries in learning module "%s".
-content#:#cont_user_blocked2#:#A user has run out of tries for ansering a question in the learning module. The user will not be able to navigate further through the learning module without your intervention.
-content#:#cont_user_blocked3#:#Open the edit mode of the learning module and enter the screen:
+content#:#cont_user_blocked2#:#A user has run out of tries for answering a question in the learning module. The user will not be able to navigate further through the learning module without your intervention.
+content#:#cont_user_blocked3#:#Open the learning module in edit mode and enter the screen:
 content#:#cont_lm_mail_permanent_link#:#Click on the following link to access the learning module:

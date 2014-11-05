@@ -11563,9 +11563,9 @@ survey#:#svy_check_evaluation_wrong_key#:#Sie haben einen falschen Zugangsschlü
 survey#:#svy_create_export_file#:#Exportdatei erzeugen
 survey#:#svy_create_question#:#Frage erstellen
 survey#:#svy_delete_all_user_data#:#Alle Benutzerdaten löschen
-survey#:#svy_eval_cumulated#:#Kumulierte Ergebnisse
-survey#:#svy_eval_detail#:#Detaillierte kumulierte Ergebnisse
-survey#:#svy_eval_user#:#Teilnehmerdatensätze
+survey#:#svy_eval_cumulated#:#Überblick
+survey#:#svy_eval_detail#:#Detaillierte Ergebnisse
+survey#:#svy_eval_user#:#Pro Teilnehmer
 survey#:#svy_export_files#:#Dateien exportieren
 survey#:#svy_file#:#Datei
 survey#:#svy_general_properties#:#Allgemeine Einstellungen
@@ -14631,7 +14631,7 @@ rbac#:#taxs_read#:#Lesezugriff auf Taxonomie-Administration
 rbac#:#taxs_write#:#Einstellungen in Taxonomie-Administration bearbeiten
 rbac#:#taxs_edit_permission#:#Rechteeinstellungen für die Taxonomie-Administration ändern
 exc#:#exc_peer_review_file#:#Datei-Upload
-exc#:#exc_peer_review_file_info#:#Ermöglicht Peers 1 Datei je Review hochzuladen
+exc#:#exc_peer_review_file_info#:#Ermöglicht Peers eine Datei je Review hochzuladen
 exc#:#exc_peer_review_personal#:#Personalisiertes Peer-Feedback
 exc#:#exc_peer_review_personal_info#:#Peers werden mit vollem Namen gezeigt
 exc#:#exc_peer_review_recipient#:#Feedback-Nehmer
@@ -14661,16 +14661,16 @@ rbac#:#tst_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutz
 rbac#:#exc_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 content#:#cont_progress_icons#:#Fortschritts-Icons
-content#:#cont_progress_icons_info#:#Zeigt Fortschritts-Icons anstatt der Kapitel- und Seiten-Icons im Inhaltsverzeichnis an. Fortschrittsinformationen werden von ILIAS ab Version 4.5 gespeichert.
-content#:#cont_self_assessment#:#Self Assessment
-content#:#cont_tries#:#Question Behaviour
-content#:#cont_tries_reset_on_visit#:#Reset on Page Visit
-content#:#cont_tries_reset_on_visit_info#:#Questions start with 0 number of tries each time a learner visits a page. Learner has to answer questions on every page visit.
-content#:#cont_tries_store#:#Store Answer Status
-content#:#cont_tries_store_info#:#Number of tries are accumulated and stored. Correctly answered questions must not be answered again. Learners may run out of tries for questions.
-content#:#cont_restrict_forw_nav#:#Restrict Forward Navigation
-content#:#cont_restrict_forw_nav_info#:#Learners cannot navigate to subsequent pages unless they answered all previous questions correctly.
-content#:#cont_no_page_access_unansw_q#:#You need to answer all questions of previous pages correctly to gain access to this page.
+content#:#cont_progress_icons_info#:#Zeigt Fortschritts-Icons anstatt der Kapitel- und Seiten-Icons im Inhaltsverzeichnis an. Fortschrittsinformationen werden von ILIAS ab Version 5.0 gespeichert.
+content#:#cont_self_assessment#:#Selbsttests
+content#:#cont_tries#:#Antwortversuche
+content#:#cont_tries_reset_on_visit#:#Zurücksetzen bei Aufruf der Seite
+content#:#cont_tries_reset_on_visit_info#:#Benutzer haben bei jedem Aufruf einer Seite mit einer Testfrage die maximale Anzahl an Antwortversuchen. Die Testfragen müssen jedesmal beantwortet werden.
+content#:#cont_tries_store#:#Speichere Antwortversuche
+content#:#cont_tries_store_info#:#Die Zahl der Antwortversuche wird festgehalten und gespeichert. Korrekt beantwortete Fragen müssen nicht mehr beantwortet werden. Benutzer können die maximale Anzahl an Antwortversuchen überschreiten und dann gesperrt werden.
+content#:#cont_restrict_forw_nav#:#Vorwärtsblättern im Lernmodul reglementieren
+content#:#cont_restrict_forw_nav_info#:#Benutzer können eine nachfolgende Seite erst dann aufrufen, wenn sie zuvor alle vorherigen Testfragen korrekt beantwortet haben.
+content#:#cont_no_page_access_unansw_q#:#Sie müssen alle bisherigen Fragen korrekt beantworten, um diese Seite aufrufen zu können.
 classification#:#clsfct_block_title#:#Auswahl nach Themen
 classification#:#clsfct_block_info#:#Ihre Auswahl filtert die Objekte.
 classification#:#clsfct_content_title#:#Zu Ihrer Auswahl passende Objekte.
@@ -14681,21 +14681,21 @@ cntr#:#sorting_new_items_at_bottom#:#Unten
 cntr#:#sorting_new_items_order#:#Reihenfolge neuer Objekte
 form#:#form_location_radius#:#Umkreis
 form#:#form_location_radius_km#:#km
-content#:#cont_question_stats#:#Statistic
-content#:#cont_blocked_users#:#Blocked Users
-content#:#cont_last_try#:#Last Try
-content#:#cont_reset_nr_of_tries#:#Reset Number of Tries
+content#:#cont_question_stats#:#Statistik
+content#:#cont_blocked_users#:#Gesperrte Benutzer
+content#:#cont_last_try#:#Letzter Versuch
+content#:#cont_reset_nr_of_tries#:#Anzahl der Antwortversuche zurücksetzen.
 crs#:#crs_subscription_failed_limit#:#Die maximale Teilnehmeranzahl wurde überschritten.
 user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf E-Mail-Versand getestet wird.
-user#:#send_mail_to_inactive_users#:#Benachrichtigungs Mail
-user#:#send_mail_to_inactive_users_suffix#:#Tage vor Löschung.
-user#:#send_mail_to_inactive_users_desc#:#Bevor Accounts gelöscht werden, wird eine E-Mail an die in den Stammdaten hinterlegte Adresse gesendet. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang ermöglicht ist.
+user#:#send_mail_to_inactive_users#:#Benachrichtigungsmail
+user#:#send_mail_to_inactive_users_suffix#:#Tage bis zur Löschung.
+user#:#send_mail_to_inactive_users_desc#:#Bevor ein Benutzeraccount gelöscht werden, sendet ILIAS eine E-Mail an den Benutzer. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang möglich ist.
 user#:#del_mail_subject#:#(ILIAS) – Ihr Benutzerkonto wird bald gelöscht
 user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr Benutzerkonto wird daher in %4$s Tagen gelöscht. Bitte melden Sie sich erneut an, damit Ihr Benutzerkonto erhalten bleibt.
-user#:#send_mail_to_inactive_users_numbers_only#:#Bitte nur ganzzahlige, positive Werte eingeben, ihre Eingabe wurde gerundet.
+user#:#send_mail_to_inactive_users_numbers_only#:#Bitte nur ganzzahlige, positive Werte eingeben. Ihre Eingabe wurde gerundet.
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#Dieser Wert muss kleiner sein, als der Wert "Vergangene Tage seit letzter Anmeldung".
-user#:#send_mail_reminder_window_too_small#:#Ihr Intervall ist zu groß um einen E-Mailversand vor der Account Löschung zu gewährleisten.
+user#:#send_mail_reminder_window_too_small#:#Das Intervall ist zu groß um den Versand einer E-Mail vor der Löschung des Accounts zu gewährleisten.
 exc#:#exc_msg_new_feedback_text_uploaded#:#Es wurde ein neuer Kommentar zur Übung "%s" hinzugefügt.
 exc#:#exc_msg_new_feedback_text_uploaded2#:#Ein Tutor hat einen neuen Kommentar für Sie eingestellt.
 content#:#cont_start_file_set_to#:#%s wurde als Startdatei festgelegt.
@@ -14881,7 +14881,7 @@ crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lern
 crs#:#crs_loc_tst_new_run#:#Neuen Test starten
 crs#:#crs_loc_tst_resume#:#Alten Test fortsetzen
 crs#:#crs_loc_settings_reset#:#Testergebnisse
-crs#:#crs^_loc_settings_reset_enable#:#"Testergebnis-Zurücksetzen" erlauben
+crs#:#crs^_loc_settings_reset_enable#:#Zurücksetzen des Testergebnisses erlauben
 crs#:#crs_loc_settings_reset_enable_info#:#Wenn aktiviert, haben alle Benutzer die Möglichkeit, ihre individuellen Testergebnisse zurückzusetzen.
 crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und danach den qualifizierenden Test.
 ecs#:#ecs_part_settings#:#Einstellungen für Teilnehmer:
@@ -14889,7 +14889,7 @@ bibl#:#bibl_library_show_in_list#:#Link auch in der Liste anzeigen
 content#:#cont_ie_compatibility#:#Internet Explorer 7 Kompatibilitätsmodus
 content#:#cont_ie_compatibility_info#:#Insbesondere für ältere Lernmodule kann das Aktivieren des Kompatibilitätsmodus hilfreich sein. Bitte beachten Sie, dass bei neueren Versionen des Internet Explorer der Kompatibilitätsmodus deaktiviert werden kann.
 content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
-content#:#cont_ie_force_render_info#:#Aktivieren Sie diese Option nur wenn Inhalte des Lernmoduls im Internet Explorer auf Grund vieler Frames oder iFrames nicht korrekt angezeigt werden. Die Anzeige des Lernmoduls muss in einem neuen Fenster erfolgen.
+content#:#cont_ie_force_render_info#:#Aktivieren Sie diese Option nur, wenn Inhalte des Lernmoduls im Internet Explorer auf Grund vieler Frames oder iFrames nicht korrekt angezeigt werden. Die Anzeige des Lernmoduls muss in einem neuen Fenster erfolgen.
 maps#:#maps_enable_maps_info#:#Activiert Karten in Benutzerprofil, Gruppen und Kursen
 maps#:#maps_enable_maps#:#Aktiviere Karten
 maps#:#maps_extt_maps#:#Karten
@@ -14909,19 +14909,19 @@ wiki#:#wiki_add_link#:#Link hinzufügen
 wiki#:#wiki_link_text#:#Linktext
 wiki#:#wiki_target_page#:#Zielseite
 wiki#:#wiki_page_exists#:#Bestehende Seite
-style#:#sty_switch#:#Switch###26 09 2014 new variable
-style#:#sty_default#:#Default###26 09 2014 new variable
-style#:#sty_media_queries#:#Media Queries###26 09 2014 new variable
-style#:#sty_add_media_query#:#Add Media Query###26 09 2014 new variable
-style#:#sty_edit_media_query#:#Edit Media Query###26 09 2014 new variable
-style#:#sty_media_query_info#:#A separete CSS block is added for each media query after the default (no special media query) block.###26 09 2014 new variable
-style#:#sty_order#:#Order###26 09 2014 new variable
-style#:#sty_query#:#Query###26 09 2014 new variable
-style#:#sty_save_order#:#Save Order###26 09 2014 new variable
-style#:#sty_sure_del_mqueries#:#Do you really want to delete this media query and all related CSS rules?###26 09 2014 new variable
-style#:#sty_custom#:#Custom###26 09 2014 new variable
-style#:#sty_custom_par#:#Custom Parameters###26 09 2014 new variable
-style#:#sty_custom_par_info#:#Add custom CSS parameters using format "parameter: value".###26 09 2014 new variable
+style#:#sty_switch#:#Switch
+style#:#sty_default#:#Standard
+style#:#sty_media_queries#:#Media Queries
+style#:#sty_add_media_query#:#Media Query hinzufügen
+style#:#sty_edit_media_query#:#Media Query bearbeiten
+style#:#sty_media_query_info#:#Für jeden Media Query wird ein eigener CSS-Abschnitt nach dem Standard-Abschnitt (ohne Media Query) eingefügt.
+style#:#sty_order#:#Reihenfolge
+style#:#sty_query#:#Query
+style#:#sty_save_order#:#Reihenfolge speichern
+style#:#sty_sure_del_mqueries#:#Möchten Sie diesen Media Query und die zugehörigen CSS-Regeln wirklich löschen?
+style#:#sty_custom#:#Weitere CSS-Regeln
+style#:#sty_custom_par#:#Zusatzparameter
+style#:#sty_custom_par_info#:#Definieren Sie Zusatzparameter im Format "Parameter: Wert".
 style#:#sty_transform#:#Transform###26 09 2014 new variable
 style#:#sty_transform_origin#:#Transform-Origin###26 09 2014 new variable
 help#:#help_topcis#:#Themen
@@ -15021,8 +15021,8 @@ mail#:#link_check_reason#:#Sie erhalten diese Benachrichtigung, da Sie die Benac
 mail#:#link_check_affected_links#:#Betroffene Links
 mail#:#link_check_perma_link#:#Permanent Link
 assessment#:#positive_numbers_required#:#Bitte tragen Sie hier nur positive Zahlen ein.
-content#:#cont_table_border_info#:#Werte sind inkl. Einheit anzugeben (z.B. px). Bei keiner Angabe werden die Werte aus dem Stylesheet wirksam.
-content#:#cont_table_cellpadding_info#:#Werte sind inkl. Einheit anzugeben (z.B. px). Bei keiner Angabe werden die Werte aus dem Stylesheet wirksam.
+content#:#cont_table_border_info#:#Werte sind inkl. Einheit anzugeben (z.B. px). Ist kein Wert eingetragen, werden die Werte aus dem Stylesheet übernommen.
+content#:#cont_table_cellpadding_info#:#Werte sind inkl. Einheit anzugeben (z.B. px). Ist kein Wert eingetragen, werden die Werte aus dem Stylesheet übernommen.
 survey#:#svy_evaluation_access_off_info#:#todo1
 survey#:#svy_evaluation_access_all_info#:#todo2
 survey#:#svy_evaluation_access_participants_info#:#todo3
@@ -15038,9 +15038,9 @@ survey#:#survey_activate_skill_service_info#:#todo12
 survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden? Sie können danach Ihre Antworten nicht mehr korrigieren.
 survey#:#survey_execution_exit#:#Zurück zum Magazin
 news#:#news_inactive_private_feed_info#:#Ihr privater Newsfeed ist deaktiviert. Vergeben Sie ein Passwort in den Einstellungen.
-content#:#cont_notify_on_blocked_users#:#Notifications on Blocked Users
-content#:#cont_notify_on_blocked_users_info#:#You will be notified if users are blocked when the run out of tries.
-content#:#cont_user_blocked#:#User out of tries in learning module "%s".
-content#:#cont_user_blocked2#:#A user has run out of tries for ansering a question in the learning module. The user will not be able to navigate further through the learning module without your intervention.
-content#:#cont_user_blocked3#:#Open the edit mode of the learning module and enter the screen:
-content#:#cont_lm_mail_permanent_link#:#Click on the following link to access the learning module:
+content#:#cont_notify_on_blocked_users#:#Benachrichtigung über gesperrte Benutzer
+content#:#cont_notify_on_blocked_users_info#:#Sie werden benachrichtigt, sobald Benutzer gesperrt werden, weil sie die maximale Anzahl an Antwortversuchen überschritten haben.
+content#:#cont_user_blocked#:#Gesperrte Benutzer ohne weitere Antwortversuche im Lernmodul "%s".
+content#:#cont_user_blocked2#:#Ein Benutzer hat die maximale Anzahl an Antwortversuchen für eine Frage im Lernmodul überschritten. Dieser Benutzer kann nur dann weitere Seiten aufrufen, wenn Sie die Sperre des Benutzers aufheben.
+content#:#cont_user_blocked3#:#Öffnen Sie das Lernmodul im Bearbeitungsmodus und gehen auf folgende Ansicht:
+content#:#cont_lm_mail_permanent_link#:#Klicken Sie auf den folgenden Link um das Lernmodul aufzurufen:
