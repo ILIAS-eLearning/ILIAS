@@ -73,7 +73,7 @@ class gevInvitation extends gevCrsAutoMail {
 		}
 		
 		if (   gevDeadlineMailingJob::isMailSend($this->getCourse()->getId(), $this->getId()) 
-			&& ilContext::$type !== ilContext::CONTEXT_CRON 
+			&& ilContext::getType() !== ilContext::CONTEXT_CRON 
 			&& $_GET["cmdClass"] !== "gevcrsmailinggui"
 			&& $this->days_before_course_start != 0) {
 			
