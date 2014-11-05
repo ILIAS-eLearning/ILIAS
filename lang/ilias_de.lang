@@ -137,7 +137,7 @@ administration#:#language_all_modules#:#Alle Module
 administration#:#language_change_settings#:#Spracheinstellungen ändern
 administration#:#language_clear_local_changes#:#Lokale Änderungen in der Datenbank löschen
 administration#:#language_cleared_local#:#Die lokalen Änderungen wurden in der Datenbank gelöscht.
-administration#:#language_compare#:#Vergleiche mit:
+administration#:#language_compare#:#Vergleiche mit
 administration#:#language_default_entries#:# (Standardeinträge)
 administration#:#language_delete_local_additions#:#Lokale Ergänzungen in der Datenbank löschen
 administration#:#language_delete_local_changes#:#Lokale Änderungen in der Datenbank löschen
@@ -15048,3 +15048,18 @@ content#:#cont_user_blocked#:#Gesperrte Benutzer ohne weitere Antwortversuche im
 content#:#cont_user_blocked2#:#Ein Benutzer hat die maximale Anzahl an Antwortversuchen für eine Frage im Lernmodul überschritten. Dieser Benutzer kann nur dann weitere Seiten aufrufen, wenn Sie die Sperre des Benutzers aufheben.
 content#:#cont_user_blocked3#:#Öffnen Sie das Lernmodul im Bearbeitungsmodus und gehen auf folgende Ansicht:
 content#:#cont_lm_mail_permanent_link#:#Klicken Sie auf den folgenden Link um das Lernmodul aufzurufen:
+administration#:#language_mode_existing_delete_info#:#Löscht alle Datenbank-Einträge vor dem Import.<br /> WARNUNG: Die importierte Sprachdatei sollte vollständig sein, sonst bleiben Sprachvariablen undefiniert. In diesem Fall können Sie auf dem Reiter "Wartung" die Option "Lokale Änderungen in der Datenbank löschen" aufrufen, um den Standard wiederherzustellen.
+administration#:#language_mode_existing_keepall_info#:#Importiert nur neue Einträge, die noch nicht in der Datenbank existieren.
+administration#:#language_mode_existing_keepnew_info#:#Importiert neue Einträge und überschreibt alle, die noch Standardwerte besitzen. Einträge, die bereits in der Datenbank geändert wurden, bleiben erhalten.
+administration#:#language_mode_existing_replace_info#:#Importiert neue Einträge und überschreibt vorhandene Einträge mit den neuen Werten aus der Datei.
+administration#:#language_scope_global_info#:#Exportiert alle Datenbank-Einträge. Dies kann für Backups genutzt werden.
+administration#:#language_scope_local_info#:#Exportiert alle Einträge, die in der Datenbank lokal hinzugefügt oder geändert wurden. Dies ist ähnlich zum Speichern der lokalen Sprachdatei auf dem Reiter "Wartung".
+administration#:#language_scope_added_info#:#Exportiert alle Einträge, die in der Datenbank lokal hinzugefügt wurden. Dies kann genutzt werden, um zusätzliche Entwicklungs-Einträge zu sichern, bevor die lokalen Änderungen auf dem Reiter "Wartung" zurückgesetzt werden.
+administration#:#language_scope_unchanged_info#:#Exportiert alle Datenbank-Einträge, die gegenüber den Standardwerten nicht verändert wurden. Dies ist das Gegenteil zu "Nur lokale Änderungen". Beide Dateien zusammen ergeben ein Gesamt-Backup der Sprache in der Datenbank.
+administration#:#language_scope_merged_info#:#Exportiert die Standard-Sprachdatei von ILIAS, in der alle lokalen Änderungen und Ergänzungen alphabetisch nach Modul und Sprachvariable eingemischt sind. Dies kann verwendet werden, um die Sprachdatei auf dem SVN-Server zu aktualisieren.
+administration#:#language_save_local_changes_info#:#Speichert alle lokalen Änderungen oder Ergänzungen in der Datei Customizing/global/lang/ilias_%s_lang.local und setzt den Status der Sprache auf "Mit lokaler Version installiert". Der Web-Server muss Schreibrecht in dem Verzeichnis besitzen. Beachten Sie, dass diese Datei für alle Mandanten der Installation dieselbe ist.
+administration#:#language_load_local_changes_info#:#Lädt die Datei Customizing/global/lang/ilias_%s_lang.local in die Datenbank. Neue Einträge aus der Datei werden hinzugefügt und vorhandene Einträge in der Datenbank werden überschrieben.
+administration#:#language_clear_local_changes_info#:#Setzt die Einträge dieser Sprache in der Datenbank auf auf die Standard-Einträge in der Datei lang/ilias_%s.lang zurück. Alle lokalen Änderungen oder Ergänzungen werden entfernt.
+administration#:#language_delete_local_additions_info#:#Löscht alle Einträge in der Datenbank, die lokal hinzugefügt wurden.
+administration#:#language_merge_local_changes_info#:#Mischt alle lokalen Änderungen oder Ergänzungen in die Standard-Sprachdatei lang/ilias_%s.lang. Der Web-Server muss Schreibrecht auf dieser Datei besitzen.
+administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s_lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.

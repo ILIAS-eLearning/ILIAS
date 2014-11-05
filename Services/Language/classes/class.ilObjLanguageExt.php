@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-20014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Language/classes/class.ilObjLanguage.php";
 

@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-20014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilObjLanguageAccess
@@ -47,7 +27,7 @@ class ilObjLanguageAccess
 	* @access   static
 	* @return   boolean     translation possible (true/false)
 	*/
-	function _checkTranslate()
+	static function _checkTranslate()
 	{
 		global $lng, $ilSetting, $ilUser, $rbacsystem;
 
@@ -74,7 +54,7 @@ class ilObjLanguageAccess
 	* @access   static
 	* @return   boolean     maintenance possible (true/false)
 	*/
-	function _checkMaintenance()
+    static function _checkMaintenance()
 	{
 		global $ilSetting, $ilUser, $rbacsystem;
 
@@ -95,10 +75,9 @@ class ilObjLanguageAccess
 	/**
 	* Lookup the ref_id of the global language folder
 	*
-	* @access   static
 	* @return   int     	language folder ref_id
 	*/
-	function _lookupLangFolderRefId()
+    static function _lookupLangFolderRefId()
 	{
 		global $ilDB;
 		
@@ -113,11 +92,10 @@ class ilObjLanguageAccess
 	/**
 	* Lookup the object ID for a language key
 	*
-	* @access   static
 	* @param    string      language key
 	* @param    integer     language object id
 	*/
-	function _lookupId($a_key)
+	static function _lookupId($a_key)
 	{
 		global $ilDB;
 
@@ -128,6 +106,72 @@ class ilObjLanguageAccess
 		$row = $ilDB->fetchAssoc($set);
 		return $row['obj_id'];
 	}
+
+
+    /**
+     * Get the link to translate the current page
+     *
+     * @return  string  translation link
+     */
+    static function _getTranslationLink()
+    {
+        // ref id must be given to prevent params being deleted by ilAdministrtionGUI
+        return "ilias.php"
+        ."?ref_id=".self::_lookupLangFolderRefId()
+        ."&amp;baseClass=ilAdministrationGUI"
+        ."&amp;cmdClass=ilobjlanguageextgui"
+        ."&amp;view_mode=translate"
+        ."&amp;reset_offset=true";
+    }
+
+    /**
+     * Check if the current request is a page translation
+     *
+     * The page translation mode is used when the translation
+     * of a single page is called by the translation link on a page footer.
+     * On this screen only the topics stored from the calling page are shown for translation
+     * and only a save function for these topics is offered.
+     *
+     * @return   bool      page translation (true or false)
+     */
+    public static function _isPageTranslation()
+    {
+        return (strtolower($_GET['cmdClass'] == 'ilobjlanguageextgui') and $_GET['view_mode'] == "translate");
+    }
+
+
+    /**
+     * Store the collected usages in the user session
+     */
+    static function _saveUsages()
+    {
+        global $lng;
+        $_SESSION['lang_ext_maintenance']['used_modules'] = array_keys($lng->getUsedModules());
+        $_SESSION['lang_ext_maintenance']['used_topics'] = array_keys($lng->getUsedTopics());
+    }
+
+    /**
+     * Get the stored modules from the user session
+     *
+     * @return array    list of module names
+     */
+    static function _getSavedModules()
+    {
+       $saved = $_SESSION['lang_ext_maintenance']['used_modules'];
+       return is_array($saved) ? $saved : array();
+    }
+
+    /**
+     * Get the stored topics from the user session
+     *
+     * @return array    list of module names
+     */
+    static function _getSavedTopics()
+    {
+        $saved = $_SESSION['lang_ext_maintenance']['used_topics'];
+        return is_array($saved) ? $saved : array();
+    }
+
 }
 
 ?>

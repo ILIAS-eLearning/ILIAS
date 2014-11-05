@@ -69,6 +69,9 @@ class ilTablePropertiesStorage
 	function storeProperty($a_table_id, $a_user_id, $a_property,
 		$a_value)
 	{
+        global $ilLog;
+        $ilLog->write("store: " .$a_table_id. " " . $a_user_id ." ". $a_property. " " . $a_value);
+
 		global $ilDB;
 
 		if ($a_table_id == "" || !$this->isValidProperty($a_property))
@@ -106,8 +109,12 @@ class ilTablePropertiesStorage
 	function getProperty($a_table_id, $a_user_id, $a_property)
 	{
 		global $ilDB;
-		
-		if ($a_table_id == "" || !$this->isValidProperty($a_property))
+
+        global $ilLog;
+        $ilLog->write("get: ". $a_table_id. " " . $a_user_id ." ". $a_property);
+
+
+        if ($a_table_id == "" || !$this->isValidProperty($a_property))
 		{
 			return;
 		}

@@ -68,7 +68,7 @@ administration#:#language_all_modules#:#All modules
 administration#:#language_change_settings#:#Change Language Settings
 administration#:#language_clear_local_changes#:#Clear local changes in the database
 administration#:#language_cleared_local#:#The local changes were cleared in the database.
-administration#:#language_compare#:#Compare:
+administration#:#language_compare#:#Compare
 administration#:#language_default_entries#:# (default entries)
 administration#:#language_delete_local_changes#:#Delete all local changes in the database
 administration#:#language_error_clear_local#:#The local changed couldn't be cleared in the database!
@@ -15035,3 +15035,18 @@ sess#:#sess_mail_sub_dec_sub#:#Registration refused for session "%s"
 sess#:#sess_mail_sub_dec_bod#:#we regret to say that your registration has been refused for session "%s".
 sess#:#sess_mail_sub_acc_sub#:#Registration for Session "%s"
 sess#:#sess_mail_sub_acc_bod#:#you have been registered for session "%s".
+administration#:#language_mode_existing_delete_info#:#Delete all entries in the database before importing the file.<br /> WARNING: The imported language file should be complete, otherwise there will be undefined language variables. If that happens, switch to the tab "Maintain" and choose "Clear local changes in the database".
+administration#:#language_mode_existing_keepall_info#:#Import only new entries that do not yet exist in the database.
+administration#:#language_mode_existing_keepnew_info#:#Import new entries and overwrite all entries that still have their default values. Keep those entries that are already changed in the database.
+administration#:#language_mode_existing_replace_info#:#Import new entries and replace all existing entries with the new values defined in the import file.
+administration#:#language_scope_global_info#:#Export all database entries of this language. This can be used for backup purposes.
+administration#:#language_scope_local_info#:#Export all entries that are locally added or changed in the database. This is similar to the saving of a local language file on the tab "Maintain".
+administration#:#language_scope_added_info#:#Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab "Maintain".
+administration#:#language_scope_unchanged_info#:#Export all default language entries that are not changed in the database. This is the opposite to "Local changes only". Both together are a complete backup of the current language in the database.
+administration#:#language_scope_merged_info#:#Export the standard ILIAS language file with all local changes merged in alphabetically by module and identifier. This can be used to update the global language file on the ILIAS SVN server.
+administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file Customizing/global/lang/ilias_%s_lang.local and set the language status to "Installed With Local". The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.
+administration#:#language_load_local_changes_info#:#Load the file Customizing/global/lang/ilias_%s_lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.
+administration#:#language_clear_local_changes_info#:#Reset the database entries of this language to the default entries defined in lang/ilias_%s.lang. All local changes or additions will be removed.
+administration#:#language_delete_local_additions_info#:#Delete all entries that were locally added to the database.
+administration#:#language_merge_local_changes_info#:#Merge all local changes and additions alphabetically into the standard language file lang/ilias_%s.lang. The web server must have write permission on this file.
+administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s_lang.local and change the language status from "Installed With Local" to "Installed". The changes in the database are not touched.

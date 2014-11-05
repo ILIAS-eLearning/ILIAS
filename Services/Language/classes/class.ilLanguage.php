@@ -301,7 +301,7 @@ class ilLanguage
 		$this->loaded_modules[] = $a_module;
 
 		// remember the used modules globally
-		$this->used_modules[$a_module] = $a_module;
+		self::$used_modules[$a_module] = $a_module;
 
 		$lang_key = $this->lang_key;
 

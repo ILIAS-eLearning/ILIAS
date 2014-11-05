@@ -852,8 +852,19 @@ class ilTemplate extends ilTemplateX
 			$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=xhtml")] = array("Validate", true);
 			$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility")] = array("Accessibility", true);			
 		}
-		
-		$cnt = 0;
+
+        // output translation link (extended language maintenance)
+        if ($ilSetting->get("lang_ext_maintenance") == "1")
+        {
+            include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
+            if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation())
+            {
+                ilObjLanguageAccess::_saveUsages();
+                $link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), false);
+            }
+        }
+
+        $cnt = 0;
 		foreach($link_items as $url => $caption)
 		{
 			$cnt ++;		
@@ -870,18 +881,6 @@ class ilTemplate extends ilTemplateX
 			$ftpl->setVariable("URL_ITEM", $url);
 			$ftpl->setVariable("TXT_ITEM", $caption[0]);
 			$ftpl->parseCurrentBlock();			
-		}
-		
-		// output translation link
-		if ($ilSetting->get("lang_ext_maintenance") == "1")
-		{
-			include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
-			if (ilObjLanguageAccess::_checkTranslate())
-			{
-				include_once("Services/Language/classes/class.ilObjLanguageExtGUI.php");
-				$ftpl->setVariable("TRANSLATION_LINK",
-					ilObjLanguageExtGUI::_getTranslationLink());
-			}
 		}
 
 		if (DEVMODE)
