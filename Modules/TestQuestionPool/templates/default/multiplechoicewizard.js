@@ -262,6 +262,7 @@ function singlechoiceWizardEvents(e)
 	if (typeof tinyMCE == 'undefined' || tas.length == 0)
 	{
 		addbuttons = YAHOO.util.Dom.getElementsByClassName('singlechoicewizard_add');
+		console.log(addbuttons);
 		for (i = 0; i < addbuttons.length; i++)
 		{
 			button = addbuttons[i];
@@ -276,7 +277,6 @@ function singlechoiceWizardEvents(e)
 		upbuttons = YAHOO.util.Dom.getElementsByClassName('singlechoicewizard_up');
 		for (i = 0; i < upbuttons.length; i++)
 		{
-			console.log(upbuttons);
 			button = upbuttons[i];
 			YAHOO.util.Event.addListener(button, 'click', moveRowUp);
 		}
