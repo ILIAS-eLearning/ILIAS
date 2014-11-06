@@ -81,13 +81,14 @@ class ilSkillProfileGUI
 	 */
 	function setTabs($a_active)
 	{
-		global $ilTabs, $lng, $ilCtrl, $tpl;
+		global $ilTabs, $lng, $ilCtrl, $tpl, $ilHelp;
 		
 		$tpl->setTitle($lng->txt("skmg_profile").": ".
 			$this->profile->getTitle());
 		$tpl->setDescription("");
 		
 		$ilTabs->clearTargets();
+		$ilHelp->setScreenIdComponent("skmg_prof");
 		
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, ""));

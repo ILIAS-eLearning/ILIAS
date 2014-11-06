@@ -1588,7 +1588,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		if(!isset($_POST['comments_value']))
 		{
-			continue;
+			return;
 		}
   
 		$this->object->members_obj->setNoticeForMember($_GET["member_id"],
