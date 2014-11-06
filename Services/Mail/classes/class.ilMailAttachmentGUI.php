@@ -97,7 +97,10 @@ class ilMailAttachmentGUI
 			}
 		}
 
-		if($files && $size_of_selected_files > $this->mfile->getAttachmentsTotalSizeLimit())
+		if(
+			null !== $this->mfile->getAttachmentsTotalSizeLimit() && 
+			$files && $size_of_selected_files > $this->mfile->getAttachmentsTotalSizeLimit()
+		)
 		{
 			ilUtil::sendFailure($this->lng->txt('mail_max_size_attachments_total_error') . ' ' . ilFormat::formatSize($this->mfile->getAttachmentsTotalSizeLimit()));
 			return $this->showAttachments();

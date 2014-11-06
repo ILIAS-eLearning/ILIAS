@@ -84,10 +84,16 @@ class ilFileDataMail extends ilFileData
 	}
 
 	/**
-	 * @return float
+	 * @return float|null
 	 */
 	public function getAttachmentsTotalSizeLimit()
 	{
+		$max_size = $this->ilias->getSetting('mail_maxsize_attach', '');
+		if(!strlen($max_size))
+		{
+			return null;
+		}
+
 		return (float)$this->ilias->getSetting('mail_maxsize_attach', 0) * 1024;
 	}
 
