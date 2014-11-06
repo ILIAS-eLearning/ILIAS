@@ -9235,7 +9235,7 @@ survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To g
 survey#:#anonymize_personalized#:#No Anonymization
 survey#:#anonymize_registered_user#:#Anonymized Survey Access
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
-survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. 
+survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey results. An access code is a five digit code which is needed to take part in an anonymized survey.
 survey#:#anonymize_with_code#:#Anonymous Survey with Access Codes
 survey#:#anonymize_with_code_all#:#Access with survey codes for all users
 survey#:#anonymize_without_code#:#Anonymous Survey
@@ -9367,12 +9367,11 @@ survey#:#error_add_heading#:#Please enter a text for the heading!
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
 survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code &quot;%s&quot;. Please check the survey code you have entered!
 survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
-survey#:#evaluation_access_all#:#Evaluation Access for All Users
-survey#:#evaluation_access_description#:#Usually the access to the survey statistics is only granted to users with write permission for the survey (Evaluation Access = Off)
-survey#:#evaluation_access_info#:#You have access to the survey evaluation
-survey#:#evaluation_access_off#:#Off
-survey#:#evaluation_access_participants#:#Evaluation Access for Survey Participants
-survey#:#evaluation_access#:#Evaluation Access
+survey#:#evaluation_access_all#:#All Registered Users can Access the Results 
+survey#:#evaluation_access_info#:#You have access to the survey results
+survey#:#evaluation_access_off#:#Participants Cannot Access Results
+survey#:#evaluation_access_participants#:#All Survey Participants can Access the Results
+survey#:#evaluation_access#:#Access to Results 
 survey#:#evaluation#:#Statistics
 survey#:#existing_constraints#:#Existing Routing Rules
 survey#:#exit#:#Exit
@@ -9419,7 +9418,7 @@ survey#:#introduction#:#Introductory Message
 survey#:#invitation_mode_desc#:#To invite a user to this survey a link reference to the survey is created on the users personal desktop.
 survey#:#invitation_mode#:#Invite Users
 survey#:#invitation_off#:#Do not put on any Desktop
-survey#:#invitation#:#Link Survey to Personal Desktop
+survey#:#invitation#:#On Personal Desktop
 survey#:#invited_groups#:#Invited Groups
 survey#:#invited_users#:#Selected Users
 survey#:#label_resume_survey#:#Enter your 5 digit survey code
@@ -13431,7 +13430,7 @@ survey#:#survey_notification_target_group_parent_course#:#All members of parent 
 survey#:#survey_notification_target_group_parent_course_inactive#:#No parent course/group given - no reminders will be sent!
 survey#:#survey_notification_target_group_invited#:#All invited users
 survey#:#survey_notification_target_group_invited_info#:#Currently invited users: %s
-survey#:#survey_notification_tutor_setting#:#Notify tutors when	all participants have finished
+survey#:#survey_notification_tutor_setting#:#Notify Tutors after all Participants Finished the Survey
 survey#:#survey_notification_tutor_recipients#:#Tutors (Login[s])
 survey#:#survey_notification_tutor_recipients_invalid#:#Please state users with write permission.
 survey#:#survey_notification_tutor_subject#:#All participants have finished the survey "%s"
@@ -15010,9 +15009,9 @@ mail#:#link_check_perma_link#:#Permanent Link
 assessment#:#positive_numbers_required#:#Please enter only positive numbers.
 content#:#cont_table_border_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).
 content#:#cont_table_cellpadding_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).
-survey#:#svy_evaluation_access_off_info#:#todo1
-survey#:#svy_evaluation_access_all_info#:#todo2
-survey#:#svy_evaluation_access_participants_info#:#todo3
+survey#:#svy_evaluation_access_all_info#:#All registered users that can access the survey can also look at the results of this survey. 
+survey#:#svy_evaluation_access_off_info#:#Only Users that can edit the survey (write permission) have access to the survey's results.
+survey#:#svy_evaluation_access_participants_info#:#All users that participated in the survey may choose to look at the results after finishing it. 
 survey#:#svy_results_view_own_info#:#todo4
 survey#:#svy_results_mail_own_info#:#todo5
 survey#:#survey_360_self_evaluation_info#:#todo6

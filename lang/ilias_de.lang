@@ -11524,7 +11524,7 @@ survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie mu
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_question_pool#:#Fragenpool
 survey#:#survey_question_pool_title#:#Pool-Titel
-survey#:#survey_question_pool_usage#:#Fragenpool
+survey#:#survey_question_pool_usage#:#Fragenpool verwenden
 survey#:#survey_question_text_hidden#:#Text nicht sichtbar
 survey#:#survey_question_text_visible#:#Text sichtbar
 survey#:#survey_question_title#:#Fragetitel
@@ -12926,7 +12926,7 @@ administration#:#feedback_recipient_info#:#Diese Adresse wird in der Fusszeile f
 rep#:#rep_activation_online_object_info#:#Diese Einstellung wirkt sich auf alle Referenzen im Repository aus.
 rep#:#rep_activation_access_ref_info#:#Dieses Einstellung betrifft nur die aktuelle und keine andere Referenz.
 poll#:#poll_block_results_available_on#:#Die Ergebnisse werden am %s veröffentlicht.
-survey#:#svy_activation_online_info#:#Wählen Sie diese Einstellung, um die Umfrage für Benutzer verfügbar zumachen.
+survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Benutzer an der Umfrage teilnehmen. 
 survey#:#svy_availability_limitless_info#:#Wählen Sie diese Einstellung, um die Umfrage unbegrenzt freizuschalten.
 survey#:#svy_availability_until_info#:#Wählen Sie diese Einstellung, um die Umfrage nur während eines definierten Zeitraums freizuschalten.
 survey#:#svy_activation_limited_visibility_info#:#Falls aktiv, ist die Umfrage auch ausserhalb der Zugriffszeiten sichtbar.
@@ -12970,7 +12970,7 @@ content#:#cont_topic#:#Thema
 content#:#cont_selected_topic#:#Ausgewähltes Thema
 content#:#cont_all_topics#:#Alle Themen
 content#:#cont_highlight_class#:#Klasse hervorheben
-survey#:#survey_question_pool_usage_active#:#Fragen können optional im Fragenpool angelegt werden.
+survey#:#survey_question_pool_usage_active#:#Fragen können optional in einem Fragenpool angelegt werden.
 survey#:#survey_question_pool_usage_active_info#:#Beim Anlegen einer Fragen muss entschieden werden, ob ein Fragenpool verwendet werden soll.
 survey#:#survey_question_pool_usage_inactive#:#Fragen werden direkt in der Umfrage angelegt.
 survey#:#survey_question_pool_usage_inactive_info#:#Die Frage wird zuerst nur für die Umfrage erstellt und kann später manuell zu einem Fragenpool hinzugefügt werden.
@@ -13330,9 +13330,9 @@ blog#:#blog_posting_edit_approval_info#:#Der Eintrag muss vor der Veröffentlich
 survey#:#survey_code_delete_sure#:#Wollen Sie wirklich die folgenden Zugangsschlüssel löschen?
 survey#:#survey_360_title#:#360°
 survey#:#survey_360_mode#:#360°-Feedback
-survey#:#survey_360_self_evaluation#:#Feedback-Nehmer können selbst Feedback geben 
-survey#:#survey_360_self_raters#:#Feedback-Nehmer können ihre Feedback-Geber verwalten
-survey#:#survey_360_self_appraisee#:#Benutzer können sich selbst als Feedback-Nehmer hinzufügen
+survey#:#survey_360_self_evaluation#:#Selbsteinschätzung 
+survey#:#survey_360_self_raters#:#Feedback-Geber auswählen 
+survey#:#survey_360_self_appraisee#:#Offenes 360°-Feedback
 survey#:#survey_360_results#:#Feedback-Nehmer können die Antworten einsehen
 survey#:#survey_360_results_none#:#Kein Zugang
 survey#:#survey_360_results_own#:#Nur eigene Feedback-Geber
@@ -15028,12 +15028,12 @@ survey#:#svy_evaluation_access_all_info#:#todo2
 survey#:#svy_evaluation_access_participants_info#:#todo3
 survey#:#svy_results_view_own_info#:#todo4
 survey#:#svy_results_mail_own_info#:#todo5
-survey#:#survey_360_self_evaluation_info#:#todo6
-survey#:#survey_360_self_raters_info#:#todo7
-survey#:#survey_360_self_appraisee_info#:#todo8
-survey#:#survey_360_results_none_info#:#todo9
-survey#:#survey_360_results_own_info#:#todo10
-survey#:#survey_360_results_all_info#:#todo11
+survey#:#survey_360_self_evaluation_info#:#Feedback-Nehmer können anhand der Fragen eine Selbsteinschätzung vornehmen. 
+survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, welche ihnen eine Rückmeldung geben sollen selber aus. Sie laden diese Personen auch selbständig ein. 
+survey#:#survey_360_self_appraisee_info#:#Allen Benutzern wird ein Link auf dem Reiter "Info" angezeigt. Mit diesem Link können sie sich selbständig Umfrage als Empfänger von Feedback eintragen.  
+survey#:#survey_360_results_none_info#:#Feedback-Nehmer können die Antworten, welche Feedback-Geber ausgewählt haben nicht einsehen. 
+survey#:#survey_360_results_own_info#:#Feedback-Nehmer können nur die Antworten einsehen, welche Feedback-Geber zu ihnen persönlich ausgewählt haben. 
+survey#:#survey_360_results_all_info#:#Alle Feedback-Nehmer der 360°-Umfrage können alle Rückmeldungen aller Feedback-Geber zu sich und zu allen anderen Feedback-Nehmern einsehen. 
 survey#:#survey_activate_skill_service_info#:#todo12
 survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden? Sie können danach Ihre Antworten nicht mehr korrigieren.
 survey#:#survey_execution_exit#:#Zurück zum Magazin
