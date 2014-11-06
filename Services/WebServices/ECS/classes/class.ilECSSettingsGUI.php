@@ -651,7 +651,7 @@ class ilECSSettingsGUI
 
 		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
 		$settings = ilECSServerSettings::getInstance();
-		$settings->readInactiveServers();
+		#$settings->readInactiveServers();
 			
 		foreach($settings->getServers() as $server)
 		{
@@ -1824,7 +1824,7 @@ class ilECSSettingsGUI
 			"overview",get_class($this));
 		
 		// Disable all other tabs, if server hasn't been configured.
-		ilECSServerSettings::getInstance()->readInactiveServers();
+		#ilECSServerSettings::getInstance()->readInactiveServers();
 		if(!ilECSServerSettings::getInstance()->serverExists())
 		{
 			return true;
