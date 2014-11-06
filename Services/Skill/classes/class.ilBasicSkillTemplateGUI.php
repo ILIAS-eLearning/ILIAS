@@ -145,7 +145,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 		
 		$tpl->setTitleIcon(
 			ilSkillTreeNode::getIconPath(
-			0, "sktp", "_b", false));
+			0, "sktp", "", false));
 
 	}
 

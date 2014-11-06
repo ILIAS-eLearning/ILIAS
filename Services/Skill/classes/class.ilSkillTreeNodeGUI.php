@@ -574,7 +574,7 @@ class ilSkillTreeNodeGUI
 			:0;
 		$tpl->setTitleIcon(
 			ilSkillTreeNode::getIconPath(
-			$obj_id, $this->getType(), "_b",
+			$obj_id, $this->getType(), "",
 			(ilSkillTreeNode::_lookupStatus($obj_id) == ilSkillTreeNode::STATUS_DRAFT)));
 	}
 
