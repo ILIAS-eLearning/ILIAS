@@ -20,6 +20,13 @@ require_once("./Services/GEV/Utils/classes/class.gevUserUtils.php");
 class gevUserImport {
 	private $mysql, $ilDB;
 	static $instance = null;
+	private $user_id_blacklist = array(
+		19720,
+		20185,
+		20396,
+		20976,
+		21199
+	);
 
 	protected function __construct($mysql, $ilDB) {
 		$this->mysql = $mysql;
@@ -124,7 +131,8 @@ class gevUserImport {
 
 
 	public function update_imported_shadow_users() {
-		global $ilLog;
+		global $ilLog, $NO_UPDATE_USER_IDS;
+		$ilLog->write("Shadow User Update: Starting...");
 
 		$shadow_users = $this->get_imported_shadow_users();
 		if (!$shadow_users) {
@@ -133,6 +141,11 @@ class gevUserImport {
 
 		foreach($shadow_users as $ilias_id => $shadow_user) {
 			try {
+				if (in_array($ilias_id, $this->user_id_blacklist)) {
+					$ilLog->write("Shadow User Update: Skipping user ".$ilias_id." because they are blacklisted.");
+					continue;
+				}
+
 				if (ilObjUser::_lookupFullname($ilias_id) === null) {
 					$ilLog->write("Shadow User Update: Couldn't find user ".$ilias_id." in ILIAS database.");
 					continue;
@@ -151,13 +164,21 @@ class gevUserImport {
 
 					if ($austritt_dt <= $today_dt) {
 						$user->setActive(false, 6);
+						$ilLog->write("Shadow User Update: Deactivated user ".$ilias_id." due to exit date.");
 					}
 				} else {
 					$user->setActive(true, 6);
 				}
+
+				if ($shadow_user['status'] == 'I') {
+					$user->setActive(false, 6);
+					$ilLog->write("Shadow User Update: Deactivated user ".$ilias_id." due to 'inactive' status.");
+				}
+
 				$user->update();
 				$this->set_gev_attributes($user, $shadow_user);
 				$this->update_user_roles($user, $shadow_user);
+				$ilLog->write("Shadow User Update: Updated user ".$ilias_id.".");
 
 			} catch (Exception $e) {
 				$ilLog->write("Shadow User Update: Error while processing ".$ilias_id.":");
@@ -167,6 +188,7 @@ class gevUserImport {
 		}
 
 		echo "done.";
+		$ilLog->write("Shadow User Update: Done.");
 	}
 
 	private function get_imported_shadow_users() {
