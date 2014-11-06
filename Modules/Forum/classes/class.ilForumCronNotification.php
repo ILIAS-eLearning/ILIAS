@@ -32,12 +32,12 @@ class ilForumCronNotification extends ilCronJob
 	
 	public function getDefaultScheduleType()
 	{
-		return self::SCHEDULE_TYPE_DAILY;
+		return self::SCHEDULE_TYPE_IN_HOURS;
 	}
 	
 	public function getDefaultScheduleValue()
 	{
-		return;
+		return 1;
 	}
 	
 	public function hasAutoActivation()
@@ -47,7 +47,7 @@ class ilForumCronNotification extends ilCronJob
 	
 	public function hasFlexibleSchedule()
 	{
-		return false;
+		return true;
 	}
 	
 	public function hasCustomSettings() 
@@ -68,10 +68,10 @@ class ilForumCronNotification extends ilCronJob
 			$lastDate = null;
 		}
 
-		$numRows = 0;		
+		$numRows = 0;
 		$datecondition_frm = '';
 		$types = array();
-		$values = array();		
+		$values = array();
 		 	
 		if($lastDate != null && 
 		   checkDate(date('m', strtotime($lastDate)), date('d', strtotime($lastDate)), date('Y', strtotime($lastDate))))
@@ -80,7 +80,9 @@ class ilForumCronNotification extends ilCronJob
 			$types[] = 'timestamp';
 			$values[] = $lastDate;
 		}
-		
+
+		$cj_start_date = date('Y-m-d H:i:s');
+
 		/*** FORUMS ***/
 		$res = $ilDB->queryf('
 			SELECT 	frm_threads.thr_subject thr_subject, 
@@ -117,7 +119,7 @@ class ilForumCronNotification extends ilCronJob
 		
 		$numRows += $this->sendMails($res);
 
-		$ilSetting->set('cron_forum_notification_last_date', date('Y-m-d H:i:s'));
+		$ilSetting->set('cron_forum_notification_last_date', $cj_start_date);
 
 		$mess = 'Send '.$numRows.' messages.';
 		$ilLog->write(__METHOD__.': '.$mess);		
