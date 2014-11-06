@@ -226,7 +226,7 @@ class ilECSParticipantSetting
 		global $ilDB;
 
 		$query = 'INSERT INTO ecs_part_settings '.
-			'(sid,mid,export,import,import_type,title,cname,token) '.
+			'(sid,mid,export,import,import_type,title,cname,token,export_types, import_types) '.
 			'VALUES( '.
 			$ilDB->quote($this->getServerId(),'integer').', '.
 			$ilDB->quote($this->getMid(),'integer').', '.
