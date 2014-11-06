@@ -21,18 +21,17 @@
 	+-----------------------------------------------------------------------------+
 */
 
-/** 
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-* 
-* @ilCtrl_Calls 
-* @ingroup ServicesWebServicesECS 
-*/
-
 include_once('./Services/EventHandling/interfaces/interface.ilAppEventListener.php');
 
+/**
+ * ECS Event Handler
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * 
+ * 
+ * @ilCtrl_Calls 
+ * @ingroup ServicesWebServicesECS 
+ */
 class ilECSAppEventListener implements ilAppEventListener
 {
 	/**
@@ -73,6 +72,10 @@ class ilECSAppEventListener implements ilAppEventListener
 								$GLOBALS['ilLog']->write(__METHOD__.': No valid user found for usr_id '.$a_parameter['usr_id']);
 								return true;
 							}
+							
+							$settings = self::initServer($a_parameter['usr_id']);
+							self::extendAccount($settings, $user);
+							
 							include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatus.php';
 							self::updateEnrolmentStatus($a_parameter['obj_id'], $user, ilECSEnrolmentStatus::STATUS_PENDING);
 						}
@@ -91,7 +94,7 @@ class ilECSAppEventListener implements ilAppEventListener
 							self::updateEnrolmentStatus($a_parameter['obj_id'], $user, ilECSEnrolmentStatus::STATUS_UNSUBSCRIBED);
 						}
 						break;
-					case 'addSubscriber':
+						
 					case 'addParticipant':
 						
 						if((ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs'))
@@ -102,21 +105,9 @@ class ilECSAppEventListener implements ilAppEventListener
 								return true;
 							}
 							
-							include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
-							$server_id = ilECSImport::lookupServerId($a_parameter['usr_id']);
-							$GLOBALS['ilLog']->write(__METHOD__.': Found server id: '.$server_id);
-
-							include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
-							$settings = ilECSSetting::getInstanceByServerId($server_id);
+							$settings = self::initSettings($user->getId());
 							
-							$end = new ilDateTime(time(),IL_CAL_UNIX);
-							$end->increment(IL_CAL_MONTH,$settings->getDuration());
-							
-							if($user->getTimeLimitUntil() < $end->get(IL_CAL_UNIX))
-							{
-								$user->setTimeLimitUntil($end->get(IL_CAL_UNIX));
-								$user->update();
-							}
+							self::extendAccount($settings, $user);							
 							self::_sendNotification($settings,$user);
 							
 							include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatus.php';
@@ -127,6 +118,21 @@ class ilECSAppEventListener implements ilAppEventListener
 				}
 				break;			
 		}
+	}
+	
+	/**
+	 * Init server settings
+	 * @param type $a_usr_id
+	 */
+	protected static function initServer($a_usr_id)
+	{
+		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
+		$server_id = ilECSImport::lookupServerId($a_usr_id);
+
+		include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
+		$settings = ilECSSetting::getInstanceByServerId($server_id);
+		
+		return $settings;
 	}
 	
 	/**
@@ -185,7 +191,30 @@ class ilECSAppEventListener implements ilAppEventListener
 		
 	}
 	
+	/**
+	 * Extend account
+	 * @param ilECSSetting $server
+	 * @param ilObjUser $user
+	 */
+	protected static function extendAccount(ilECSSetting $settings, ilObjUser $user)
+	{
+		$end = new ilDateTime(time(),IL_CAL_UNIX);
+		$end->increment(IL_CAL_MONTH,$settings->getDuration());
+					
+		if($user->getTimeLimitUntil() < $end->get(IL_CAL_UNIX))
+		{
+			$user->setTimeLimitUntil($end->get(IL_CAL_UNIX));
+			$user->update();
+		}
+	}
 	
+	/**
+	 * Update enrolment status
+	 * @param type $a_obj_id
+	 * @param ilObjUser $user
+	 * @param type $a_status
+	 * @return boolean
+	 */
 	protected static function updateEnrolmentStatus($a_obj_id, ilObjUser $user, $a_status)
 	{
 		include_once './Services/WebServices/ECS/classes/class.ilECSRemoteUser.php';

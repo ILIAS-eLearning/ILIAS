@@ -602,7 +602,6 @@ class ilECSConnector
 	 */
 	protected function prepareConnection()
 	{
-	 	#$GLOBALS['ilLog']->write(__METHOD__.': '.$this->settings->getServerURI());
 
 		try
 	 	{
