@@ -119,7 +119,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$contact_onside_action = '<a href="mailto:'.$this->lng->txt("gev_book_contact_onside").'">'.$this->email_img.'</a>';
 		$contact_webinar_action = '<a href="mailto:'.$this->lng->txt("gev_book_contact_webinar").'">'.$this->email_img.'</a>';
 		
-		if (!$booking_deadline_expired && $a_set["free_places"] > 0) {
+		if (!$booking_deadline_expired && ($a_set["free_places"] > 0 || $unlimited)) {
 			$status = $this->bookable_img;
 			$action = $booking_action;
 		}
