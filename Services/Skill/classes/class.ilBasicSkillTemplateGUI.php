@@ -87,10 +87,11 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 	 */
 	function setLevelHead()
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng;
+		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
 
 		// tabs
 		$ilTabs->clearTargets();
+		$ilHelp->setScreenIdComponent("skmg_lev");
 		$ilTabs->setBackTarget($lng->txt("skmg_skill_levels"),
 			$ilCtrl->getLinkTarget($this, "edit"));
 
@@ -157,9 +158,10 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 	 */
 	function setTabs($a_tab)
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng;
+		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
 
 		$ilTabs->clearTargets();
+		$ilHelp->setScreenIdComponent("skmg_sktp");
 		
 		if ($this->tref_id == 0)
 		{

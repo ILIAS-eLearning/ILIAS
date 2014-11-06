@@ -46,7 +46,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl, $ilTabs;
+		global $ilCtrl, $tpl, $ilTabs, $ilHelp;
 		
 		$tpl->getStandardTemplate();
 		
@@ -417,10 +417,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	 */
 	function setLevelHead()
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng;
+		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
 
 		// tabs
 		$ilTabs->clearTargets();
+		$ilHelp->setScreenIdComponent("skmg_lev");
 		
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "edit"));
@@ -478,9 +479,10 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	 */
 	function setTabs($a_tab = "levels")
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng;
+		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
 
 		$ilTabs->clearTargets();
+		$ilHelp->setScreenIdComponent("skmg_skll");
 //		$ilTabs->setBackTarget($lng->txt("skmg_skill_hierarchie"),
 //			$ilCtrl->getLinkTargetByClass("ilobjskillmanagementgui", "editSkills"));
 
