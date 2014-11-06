@@ -58,8 +58,71 @@ class ilECSAppEventListener implements ilAppEventListener
 						break;
 				}
 				break;
+			
+			case 'Modules/Group':
+
+				$GLOBALS['ilLog']->write(__METHOD__.': New event from group: '.$a_event);
+				switch($a_event)
+				{
+					case 'addSubscriber':
+					case 'addToWaitingList':
+						if(ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs')
+						{
+							if(!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id']))
+							{
+								$GLOBALS['ilLog']->write(__METHOD__.': No valid user found for usr_id '.$a_parameter['usr_id']);
+								return true;
+							}
+							
+							$settings = self::initServer($a_parameter['usr_id']);
+							self::extendAccount($settings, $user);
+							
+							include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatus.php';
+							self::updateEnrolmentStatus($a_parameter['obj_id'], $user, ilECSEnrolmentStatus::STATUS_PENDING);
+						}
+						break;
+						
+					case 'deleteParticipant':
+						if(ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs')
+						{
+							if(!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id']))
+							{
+								$GLOBALS['ilLog']->write(__METHOD__.': No valid user found for usr_id '.$a_parameter['usr_id']);
+								return true;
+							}
+							include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatus.php';
+							self::updateEnrolmentStatus($a_parameter['obj_id'], $user, ilECSEnrolmentStatus::STATUS_UNSUBSCRIBED);
+						}
+						break;
+						
+					case 'addParticipant':
+						if((ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs'))
+						{
+							if(!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id']))
+							{
+								$GLOBALS['ilLog']->write(__METHOD__.': No valid user found for usr_id '.$a_parameter['usr_id']);
+								return true;
+							}
+							
+							$settings = self::initServer($user->getId());
+							
+							self::extendAccount($settings, $user);							
+							#self::_sendNotification($settings,$user);
+							
+							include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatus.php';
+							self::updateEnrolmentStatus($a_parameter['obj_id'],  $user, ilECSEnrolmentStatus::STATUS_ACTIVE);
+							unset($user);
+						}
+						break;
+						
+						
+				
+				}
+				break;
 				
 			case 'Modules/Course':
+				
+				$GLOBALS['ilLog']->write(__METHOD__.': New event from course: '.$a_event);
 				switch($a_event)
 				{
 
@@ -105,7 +168,7 @@ class ilECSAppEventListener implements ilAppEventListener
 								return true;
 							}
 							
-							$settings = self::initSettings($user->getId());
+							$settings = self::initServer($user->getId());
 							
 							self::extendAccount($settings, $user);							
 							self::_sendNotification($settings,$user);
@@ -200,7 +263,9 @@ class ilECSAppEventListener implements ilAppEventListener
 	{
 		$end = new ilDateTime(time(),IL_CAL_UNIX);
 		$end->increment(IL_CAL_MONTH,$settings->getDuration());
-					
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': account extension '.(string) $end);
+		
 		if($user->getTimeLimitUntil() < $end->get(IL_CAL_UNIX))
 		{
 			$user->setTimeLimitUntil($end->get(IL_CAL_UNIX));

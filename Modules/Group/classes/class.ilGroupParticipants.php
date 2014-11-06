@@ -95,6 +95,24 @@ class ilGroupParticipants extends ilParticipants
 		}
 		return $roles;
 	}
+	
+	public function addSubscriber($a_usr_id)
+	{
+		global $ilAppEventHandler, $ilLog;
+		
+		parent::addSubscriber($a_usr_id);
+
+		$ilLog->write(__METHOD__.': Raise new event: Modules/Group addSubscriber');
+		$ilAppEventHandler->raise(
+				"Modules/Group", 
+				'addSubscriber', 
+				array(
+					'obj_id' => $this->getObjId(),
+					'usr_id' => $a_usr_id
+				)
+			);
+	}
+	
 		
 	
 	/**

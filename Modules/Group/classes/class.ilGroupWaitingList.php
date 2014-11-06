@@ -34,6 +34,30 @@ include_once('./Services/Membership/classes/class.ilWaitingList.php');
 
 class ilGroupWaitingList extends ilWaitingList
 {
+	/**
+	 * Add to waiting list and raise event
+	 * @param int $a_usr_id
+	 */
+	public function addToList($a_usr_id)
+	{
+		global $ilAppEventHandler, $ilLog;
+		
+		if(!parent::addToList($a_usr_id))
+		{
+			return FALSE;
+		}
+		
+		$ilLog->write(__METHOD__.': Raise new event: Modules/Group addToList');
+		$ilAppEventHandler->raise(
+				"Modules/Group", 
+				'addToWaitingList', 
+				array(
+					'obj_id' => $this->obj_id,
+					'usr_id' => $a_usr_id
+				)
+			);
+		return TRUE;
+	}
 	
 }
 ?>

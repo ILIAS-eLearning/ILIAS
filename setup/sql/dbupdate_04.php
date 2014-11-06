@@ -4685,3 +4685,12 @@ if( $ilDB->tableExists('tst_test_random') )
 	$ilDB->dropTable('tst_test_random');
 }
 ?>
+
+<#4409>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4410>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
