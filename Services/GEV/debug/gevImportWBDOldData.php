@@ -476,6 +476,33 @@ class gevImportOldData {
 		}
 	}
 
+
+
+	public function rectifyOKZforAltdaten(){
+
+		$sql = 'SELECT hist_usercoursestatus.row_id as usrcrsRow, hist_usercoursestatus.usr_id, '
+			. " hist_user.okz AS userOKZ"
+			. " FROM hist_usercoursestatus"
+			. " INNER JOIN hist_user ON hist_usercoursestatus.usr_id = hist_user.user_id"
+			. " WHERE hist_user.hist_historic = 0 "
+			. " AND hist_user.okz != '-empty-' "
+			. " AND hist_usercoursestatus.creator_user_id = -100 "
+			. " AND hist_usercoursestatus.OKZ = '' "
+			. " AND hist_usercoursestatus.function = 'Mitglied' ";
+		
+
+		$result = $this->db->query($sql);
+		while($record = $this->db->fetchAssoc($result)) {
+			$okz = $record['userOKZ'];
+			$row_id = $record['usrcrsRow'];
+			$q = "UPDATE hist_usercoursestatus SET okz='$okz' WHERE row_id=$row_id";
+			print $q;
+			print '<br>';
+		}
+		return $ret;
+	}
+
+
 	
 }
 
@@ -493,6 +520,11 @@ $sem_many_matches = array();
 
 
 $import = new gevImportOldData();
+
+
+$import->rectifyOKZforAltdaten();
+die();
+
 $import->getOldData();
 
 foreach ($import->importdata as $rec) {

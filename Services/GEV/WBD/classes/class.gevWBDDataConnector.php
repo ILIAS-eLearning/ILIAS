@@ -614,6 +614,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 			AND
 				hist_usercoursestatus.function = 'Mitglied'
+			AND 
+				hist_usercoursestatus.okz IN ('OKZ1', 'OKZ2','OKZ3')
 			AND
 				hist_usercoursestatus.participation_status = 'teilgenommen'
 			AND
@@ -624,7 +626,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		// report edupoints for TP_Service, Edu_Provider only:
 		$sql .= " AND wbd_type IN ('"
-			.self::WBD_TP_SERVICE."', '".self::WBD_EDU_PROVIDER
+			.self::WBD_TP_SERVICE."', '"
+			.self::WBD_EDU_PROVIDER."', '"
+			.self::WBD_TP_BASIS
 			."')";
 
 

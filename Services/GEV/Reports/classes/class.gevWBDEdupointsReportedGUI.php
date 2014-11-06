@@ -120,8 +120,8 @@ class gevWBDEdupointsReportedGUI extends gevBasicReportGUI{
 							hist_usercoursestatus.usr_id = hist_user.user_id
 						WHERE 
 							hist_usercoursestatus.wbd_booking_id IS NOT NULL
-						AND 
-							hist_user.hist_historic = 0"
+						AND hist_user.hist_historic = 0
+						AND hist_course.hist_historic =0"
 
 
 					. $this->queryWhen($this->start_date, $this->end_date)
