@@ -59,6 +59,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 	public $valid_newusers = array();
 	public $broken_newusers = array();
+	
+	public $broken_updatedusers = array();
 
 	public $valid_newedurecords = array();
 	public $broken_newedurecords = array();
@@ -542,11 +544,17 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)) {
 			$udata = $this->_map_userdata($record);
-			$ret[] = wbdDataConnector::new_user_record($udata);
 
-			//set last_wbd_report!
-			//better wait for success, here?!
-			//$this->_set_last_wbd_report('hist_user', $record['row_id']);
+			$valid = $this->validateUserRecord($udata);
+
+			if($valid === true){
+				$ret[] = wbdDataConnector::new_user_record($udata);
+			} else {
+				$this->broken_updatedusers[] = array(
+					$valid,
+					$udata
+				);
+			}
 		}
 		return $ret;
 	}
@@ -846,7 +854,29 @@ if($DEBUG_HTML_OUT){
 
 	print '<h3>updated users:</h3>';
 	$cls->export_get_updated_users('html');
+
+	print '<br>';
+	print '<h2> invalid records: ' .count($cls->broken_updatedusers) .'</h2>';
+	print 'error';
+	foreach($cls->broken_updatedusers[0][1] as $hl=>$v){
+		print ', ' .$hl;
+	}
+	
+	foreach($cls->broken_updatedusers as $entry){
+		print '<br>';
+		print str_replace('<br>', '', $entry[0]);
+		
+		foreach( $entry[1] as $k=>$v){
+			print ', ' .$v;
+		}
+	}
+
+	
+
 	print '<hr>';
+
+
+
 
 	print '<h3>new edu-records:</h3>';
 	$cls->export_get_new_edu_records('html');
