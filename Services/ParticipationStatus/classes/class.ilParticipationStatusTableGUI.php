@@ -60,7 +60,7 @@ class ilParticipationStatusTableGUI extends ilTable2GUI
 			
 			if($this->may_write)
 			{
-				$this->addCommandButton("saveStatusAndPoints", $this->lng->txt("save"));
+				$this->addCommandButton("saveStatusAndPoints", $this->lng->txt("presave"));
 			}			
 			if((bool)$a_may_finalize /* && 
 				$this->status->allStatusSet() && 
