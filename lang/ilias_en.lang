@@ -15049,3 +15049,6 @@ administration#:#language_clear_local_changes_info#:#Reset the database entries 
 administration#:#language_delete_local_additions_info#:#Delete all entries that were locally added to the database.
 administration#:#language_merge_local_changes_info#:#Merge all local changes and additions alphabetically into the standard language file lang/ilias_%s.lang. The web server must have write permission on this file.
 administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s_lang.local and change the language status from "Installed With Local" to "Installed". The changes in the database are not touched.
+crs#:#crs_loc_type_initial_all_info#:#todo
+crs#:#crs_loc_type_qualified_info#:#todo
+crs#:#crs_loc_type_practise_info#:#todo

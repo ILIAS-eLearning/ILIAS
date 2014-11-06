@@ -254,15 +254,18 @@ class ilLOEditorGUI
 		$type->setValue(ilLOSettings::getInstanceByObjId($this->getParentObject()->getId())->getType());
 		
 		$type_1 = new ilRadioOption($this->lng->txt('crs_loc_type_initial_all'), ilLOSettings::LOC_INITIAL_ALL);
+		$type_1->setInfo($this->lng->txt('crs_loc_type_initial_all_info'));
 		$type->addOption($type_1);
 		
 		$type_2 = new ilRadioOption($this->lng->txt('crs_loc_type_initial_sel'), ilLOSettings::LOC_INITIAL_SEL);
 		#$type->addOption($type_2);
 
 		$type_3 = new ilRadioOption($this->lng->txt('crs_loc_type_qualified'), ilLOSettings::LOC_QUALIFIED);
+		$type_3->setInfo($this->lng->txt('crs_loc_type_qualified_info'));
 		$type->addOption($type_3);
 
 		$type_4 = new ilRadioOption($this->lng->txt('crs_loc_type_practise'), ilLOSettings::LOC_PRACTISE);
+		$type_4->setInfo($this->lng->txt('crs_loc_type_practise_info'));
 		$type->addOption($type_4);
 		$form->addItem($type);
 		

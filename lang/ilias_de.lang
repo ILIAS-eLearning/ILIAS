@@ -15063,3 +15063,6 @@ administration#:#language_clear_local_changes_info#:#Setzt die Einträge dieser 
 administration#:#language_delete_local_additions_info#:#Löscht alle Einträge in der Datenbank, die lokal hinzugefügt wurden.
 administration#:#language_merge_local_changes_info#:#Mischt alle lokalen Änderungen oder Ergänzungen in die Standard-Sprachdatei lang/ilias_%s.lang. Der Web-Server muss Schreibrecht auf dieser Datei besitzen.
 administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s_lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
+crs#:#crs_loc_type_initial_all_info#:#todo
+crs#:#crs_loc_type_qualified_info#:#todo
+crs#:#crs_loc_type_practise_info#:#todo
