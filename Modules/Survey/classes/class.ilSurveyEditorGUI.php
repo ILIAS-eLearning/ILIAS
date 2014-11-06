@@ -71,7 +71,12 @@ class ilSurveyEditorGUI
 					$this->ctrl->saveParameter($this, array("new_for_survey"));
 					
 					include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
-					$q_gui = SurveyQuestionGUI::_getQuestionGUI(null, $_REQUEST["q_id"]);					
+					$q_gui = SurveyQuestionGUI::_getQuestionGUI(null, $_REQUEST["q_id"]);
+					if (is_object($q_gui->object))
+					{
+						global $ilHelp;
+						$ilHelp->setScreenIdComponent("spl_qt".$q_gui->object->getQuestionTypeId());
+					}
 					// $q_gui->object->setObjId($this->object->getId());
 					$q_gui->setBackUrl($this->ctrl->getLinkTarget($this, "questions"));
 					$q_gui->setQuestionTabs();									
