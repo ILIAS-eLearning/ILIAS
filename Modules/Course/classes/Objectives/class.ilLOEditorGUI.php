@@ -995,6 +995,12 @@ class ilLOEditorGUI
 				$this->lng->txt('settings'),
 				$this->ctrl->getLinkTarget($this,'settings')
 		);
+		// learning objectives
+		$GLOBALS['ilTabs']->addSubTab(
+				'objectives',
+				$this->lng->txt('crs_loc_tab_objectives'),
+				$this->ctrl->getLinkTarget($this,'listObjectives')
+		);
 		// materials
 		/*
 		$GLOBALS['ilTabs']->addTab(
@@ -1020,12 +1026,6 @@ class ilLOEditorGUI
 				'qtest',
 				$this->lng->txt('crs_loc_tab_qtest'),
 				$this->ctrl->getLinkTarget($this,'testOverview')
-		);
-		// learning objectives
-		$GLOBALS['ilTabs']->addSubTab(
-				'objectives',
-				$this->lng->txt('crs_loc_tab_objectives'),
-				$this->ctrl->getLinkTarget($this,'listObjectives')
 		);
 		// start objects
 		$GLOBALS['ilTabs']->addSubTab(
