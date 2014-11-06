@@ -694,7 +694,7 @@ class gevBookingGUI {
 			return $this->book(true);
 		}
 
-		if ($this->isWithAccomodations()) {
+		if ($this->crs_utils->isWithAccomodations()) {
 			$_form = $this->getAccomodationsForm();
 			if (!$_form->checkInput()) {
 				$this->log->write("gevBookingGUI::finalizeBookingWithoutPayment: This should not happen, the form input did not check correctly.");
