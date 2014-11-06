@@ -153,7 +153,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 		// root?
 		if ($a_node["type"] == "skrt")
 		{
-			$icon = ilUtil::getImagePath("icon_scat_s.png");
+			$icon = ilUtil::getImagePath("icon_scat.png");
 		}
 		else
 		{
@@ -171,7 +171,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 			{
 				$type = "scat";
 			}
-			$icon = ilUtil::getImagePath("icon_".$type."_s.png");
+			$icon = ilUtil::getImagePath("icon_".$type.".png");
 		}
 		
 		return $icon;

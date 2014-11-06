@@ -116,18 +116,18 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 		// root?
 		if ($a_node["type"] == "skrt")
 		{
-			$icon = ilUtil::getImagePath("icon_sctp_s.png");
+			$icon = ilUtil::getImagePath("icon_sctp.png");
 		}
 		else
 		{
 			if (in_array($a_node["type"], array("skll", "scat", "sctr", "sktr")))
 			{
-				$icon = ilSkillTreeNode::getIconPath($a_node["child"], $a_node["type"], "_s",
+				$icon = ilSkillTreeNode::getIconPath($a_node["child"], $a_node["type"], "",
 					$this->draft[$a_node["child"]]);
 			}
 			else
 			{
-				$icon = ilUtil::getImagePath("icon_".$a_node["type"]."_s.png");
+				$icon = ilUtil::getImagePath("icon_".$a_node["type"].".png");
 			}
 		}
 		

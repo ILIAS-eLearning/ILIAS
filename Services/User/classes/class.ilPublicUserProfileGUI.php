@@ -300,7 +300,6 @@ class ilPublicUserProfileGUI
 			$tpl->setVariable("TXT_DOWNLOAD_VCARD", $lng->txt("vcard_download"));
 			$ilCtrl->setParameter($this, "user", $this->getUserId());
 			$tpl->setVariable("HREF_VCARD", $ilCtrl->getLinkTarget($this, "deliverVCard"));
-			//$tpl->setVariable("IMG_VCARD", ilUtil::getImagePath("vcard.png"));
 		}
 		
 		$webspace_dir = ilUtil::getWebspaceDir("user");

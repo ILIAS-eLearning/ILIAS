@@ -229,7 +229,6 @@ class ilEditClipboardGUI
 	{
 		global $ilTabs, $lng, $tpl;
 
-		//$tpl->setTitleIcon(ilUtil::getImagePath("icon_clip_b.png"));
 		$tpl->setTitle($lng->txt("clipboard"));
 		$this->getTabs($ilTabs);
 	}

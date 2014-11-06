@@ -111,7 +111,7 @@ class ilPersonalSkillsGUI
 		$cmd = $ilCtrl->getCmd($std_cmd);
 		
 		$tpl->setTitle($lng->txt("skills"));
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg_b.png"));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.png"));
 
 		switch($next_class)
 		{
@@ -557,7 +557,7 @@ $bs["tref"] = $bs["tref_id"];
 		$tpl->setTitle(ilSkillTreeNode::_lookupTitle((int) $_GET["skill_id"]));
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_".
 			ilSkillTreeNode::_lookupType((int) $_GET["skill_id"]).
-			"_b.png"));
+			".png"));
 		 
 		// basic skill selection
 		include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
@@ -751,7 +751,7 @@ $bs["tref"] = $bs["tref_id"];
 		$tpl->setTitle(ilSkillTreeNode::_lookupTitle((int) $_GET["skill_id"]));
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_".
 			ilSkillTreeNode::_lookupType((int) $_GET["skill_id"]).
-			"_b.png"));
+			".png"));
 		 
 		// basic skill selection
 		include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
