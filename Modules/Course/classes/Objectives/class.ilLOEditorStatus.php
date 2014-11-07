@@ -188,7 +188,7 @@ class ilLOEditorStatus
 		// course settings
 		$done = $this->getSettingsStatus();
 		$this->tpl->setCurrentBlock('status_row');
-		$this->tpl->setVariable('CSS_ROW',$this->section == self::SECTION_SETTINGS ? 'tblrowmarked' : 'tblrow1');
+		$this->tpl->setVariable('CSS_ROW',$this->section == self::SECTION_SETTINGS ? 'tblrowmarked' : 'std');
 		$this->tpl->setVariable('STEP_LINK',$this->ctrl->getLinkTarget($this->getCmdClass(),'settings'));
 		$this->tpl->setVariable('TXT_STEP',$this->lng->txt('crs_objective_status_settings'));
 		$this->showStatusInfo($done);
@@ -198,7 +198,7 @@ class ilLOEditorStatus
 		// Step 1.1
 		$done = $this->getObjectivesAvailableStatus();
 		$this->tpl->setCurrentBlock('status_row');
-		$this->tpl->setVariable('CSS_ROW',$this->section == self::SECTION_OBJECTIVES_NEW ? 'tblrowmarked' : 'tblrow1');
+		$this->tpl->setVariable('CSS_ROW',$this->section == self::SECTION_OBJECTIVES_NEW ? 'tblrowmarked' : 'std');
 		if($done)
 		{
 			$this->tpl->setVariable('STEP_LINK',$this->ctrl->getLinkTarget($this->getCmdClass(),'listObjectives'));
@@ -218,7 +218,7 @@ class ilLOEditorStatus
 		$this->showErrorsBySection(self::SECTION_MATERIALS);
 		
 		$this->tpl->setCurrentBlock('status_row');
-		$this->tpl->setVariable('CSS_ROW',$this->section == self::SECTION_MATERIALS ? 'tblrowmarked' : 'tblrow2');
+		$this->tpl->setVariable('CSS_ROW',$this->section == self::SECTION_MATERIALS ? 'tblrowmarked' : 'std');
 		
 		$this->ctrl->setParameterByClass('ilobjcoursegui','cmd','enableAdministrationPanel');
 		$this->tpl->setVariable(
@@ -237,7 +237,7 @@ class ilLOEditorStatus
 			$this->showErrorsBySection(self::SECTION_ITES);
 			
 			$this->tpl->setCurrentBlock('status_row');
-			$this->tpl->setVariable('CSS_ROW',$this->section == self::SECTION_ITES ? 'tblrowmarked' : 'tblrow1');
+			$this->tpl->setVariable('CSS_ROW',$this->section == self::SECTION_ITES ? 'tblrowmarked' : 'std');
 			$this->ctrl->setParameter($this->getCmdClass(),'tt', ilLOEditorGUI::TEST_TYPE_IT);
 			$this->tpl->setVariable('STEP_LINK',$this->ctrl->getLinkTarget($this->getCmdClass(),'testOverview'));
 			$this->tpl->setVariable('TXT_STEP',$this->lng->txt('crs_objective_status_itest'));
@@ -251,7 +251,7 @@ class ilLOEditorStatus
 		$this->showErrorsBySection(self::SECTION_QTEST);
 
 		$this->tpl->setCurrentBlock('status_row');
-		$this->tpl->setVariable('CSS_ROW',$this->section == self::SECTION_QTEST ? 'tblrowmarked' : 'tblrow2');
+		$this->tpl->setVariable('CSS_ROW',$this->section == self::SECTION_QTEST ? 'tblrowmarked' : 'std');
 		$this->ctrl->setParameter($this->getCmdClass(), 'tt', ilLOEditorGUI::TEST_TYPE_QT);
 		$this->tpl->setVariable('STEP_LINK',$this->ctrl->getLinkTarget($this->getCmdClass(),'testOverview'));
 		$this->tpl->setVariable('TXT_STEP',$this->lng->txt('crs_objective_status_qtest'));
@@ -263,7 +263,7 @@ class ilLOEditorStatus
 		$done = $this->getObjectivesStatus();
 		$this->showErrorsBySection(self::SECTION_OBJECTIVES);
 		$this->tpl->setCurrentBlock('status_row');
-		$this->tpl->setVariable('CSS_ROW',$this->section == self::SECTION_OBJECTIVES ? 'tblrowmarked' : 'tblrow1');
+		$this->tpl->setVariable('CSS_ROW',$this->section == self::SECTION_OBJECTIVES ? 'tblrowmarked' : 'std');
 		$this->tpl->setVariable('STEP_LINK',$this->ctrl->getLinkTarget($this->getCmdClass(),'listObjectives'));
 		$this->tpl->setVariable('TXT_STEP',$this->lng->txt('crs_objective_status_objectives'));
 		$this->showStatusInfo($done);
@@ -286,7 +286,7 @@ class ilLOEditorStatus
 		else
 		{
 			$this->tpl->setVariable('STATUS_CLASS','smallred');
-			$this->tpl->setVariable('STATUS_INFO','!');
+			$this->tpl->setVariable('STATUS_INFO','TODO');
 		}
 	}
 	
