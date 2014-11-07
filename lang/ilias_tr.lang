@@ -678,7 +678,6 @@ assessment#:#no_target_selected_for_move#:#Bir hedef pozisyon seçmelisiniz!
 assessment#:#no_terms_message#:#En az bir terim ekleyin.
 assessment#:#no_user_or_group_selected#:#Aramak istediklerinizi seçiniz (kullanıcılar,gruplar,roller) !
 assessment#:#not_all_obligations_answered#:#Testi bitirmeden önce tüm zorunlu sorulara cevap vermelisiniz.
-assessment#:#not_worked_through#:#Cevaplanmadı
 assessment#:#not_yet_accessed#:#Henüz Erişilmedi
 assessment#:#nr_of_correct_answers#:#İstenen Cevap Sayısı
 assessment#:#number_of_answers#:#Cevap Sayısı
@@ -1194,7 +1193,6 @@ assessment#:#tst_results_back_overview#:#Sonuçlar Genel Bakış Geri
 assessment#:#tst_results_overview#:#Test Sonuçlarına Genel Bakış
 assessment#:#tst_results_overview_pass#:#Geçiş% s için Sonuçları Genel
 assessment#:#tst_results_presentation#:#Test Sonuçlarının Sunumu
-assessment#:#tst_results_presentation_description#:#"Eğer çalışan testler için göster Geçiş Ayrıntıları", soru başlıkları seçilir ve test bitmiş değilse test geçişte her soruya ulaştı noktaları mevcuttur edilir. "Test Sonuçları göster Çözümler" seçilirse, ayrıntılı soru çözümü test sonuçları sunumda katılımcılar için kullanılabilir. Bu aksi takdirde her cevabın tam puanlama, soru başlıkları ve ulaştığı noktaları gösterilir sadece bir bakış içerir. Cevaplar listesi seçilirse, katılımcının cevapları ile tüm sorulara genel bir bakış oluşturulur. Bu liste Bilgi Sayfası ve son teklif verme öncesinde bir test sonunda sunulacaktır. "Test Sonuçları göster Cevap Özgü Görüşleri" seçilirse, cevap spesifik geribildirim soruların yanındaki sonuçları test gösterilecek. "Sonuçlar yazdırma görünümü (sadece cevapları)" seçilirse, ILIAS içeriği "Düzenle İçerik" sekmesini kullanarak bir soru etrafında bir yer çıktı görünür olmayacaktır. Bazı kağıt yer kazanmak istiyorsanız, bu seçeneği seçin. "İmza Göster tutucu" seçilirse, bir imza tutucu çıktısı için gösterilecek. Seçildiğinde "Çözüm Önerilen Göster" ise, soruların önerilen çözümler (mevcut ise) test sonuçları genel olarak gösterilecektir.
 assessment#:#tst_results_print_best_solution#:#Test Sonuçlarındaki En İyi Çözüm
 assessment#:#tst_results_print_best_solution_info#:#Eğer aktif ve katılımcı tarafından erişilebilir ise, en iyi çözüm test sonuç özetinde gösterilir.
 assessment#:#tst_resume_test#:#Testi Yeniden Başlat
@@ -11573,7 +11571,6 @@ survey#:#eval_legend_link#:#Lütfen sütun başlığı sembollerin anlamlarını
 survey#:#evaluation#:#İstatistikler
 survey#:#evaluation_access#:#Değerlendirme Erişim
 survey#:#evaluation_access_all#:#Tüm Kullanıcılar için Değerlendirilmesi Erişim
-survey#:#evaluation_access_description#:#Genellikle anket istatistiklerine erişimi sadece (Değerlendirme Erişim = Kapalı) detaylar için yazma izni olan kullanıcılar için verilir
 survey#:#evaluation_access_info#:#Sen anket değerlendirme erişim
 survey#:#evaluation_access_off#:#Kapalı
 survey#:#evaluation_access_participants#:#Anket katılımcıları için Değerlendirilmesi Erişim
@@ -14246,7 +14243,6 @@ assessment#:#tst_question_answer_status_all_non_correct#:#All Questions (Except 
 assessment#:#tst_question_answer_status_non_answered#:#Non Answered Questions###20 07 2014 new variable
 assessment#:#tst_question_answer_status_wrong_answered#:#Wrong Answered Questions###20 07 2014 new variable
 assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection###20 07 2014 new variable
-assessment#:#tst_num_open_questions#:#Open Questions###20 07 2014 new variable
 assessment#:#tst_num_non_answered_questions#:#Non Answered Questions###20 07 2014 new variable
 assessment#:#tst_num_wrong_answered_questions#:#Wrong Answered Questions###20 07 2014 new variable
 assessment#:#tst_num_postponed_questions#:#Postponed Questions###20 07 2014 new variable
@@ -14956,3 +14952,104 @@ scormtrac#:#report#:#Report###26 09 2014 new variable
 scormtrac#:#display_not_allowed#:#display not allowed###26 09 2014 new variable
 common#:#ps_export_scorm#:#SCORM Tracking Data###26 09 2014 new variable
 common#:#enable_export_scorm_desc#:#allow Export of User Data of SCORM-Learning Modules###26 09 2014 new variable
+assessment#:#no_archive_on_anonymous#:#Archiving is not possible in an anonymous test: option deactivated automatically.###07 11 2014 new variable
+assessment#:#qpl_maxchars_info_numeric_question#:#If you enter a value, the field for the numerical answer will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.###07 11 2014 new variable
+assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value###07 11 2014 new variable
+assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value###07 11 2014 new variable
+assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces###07 11 2014 new variable
+assessment#:#kprim_instruction_text#:#You have to decide on every statement: [%s] or [%s]###07 11 2014 new variable
+assessment#:#tst_limit_nr_of_tries#:#Maximum Number of Test Passes###07 11 2014 new variable
+assessment#:#tst_import_non_ilias_zip#:#Error: The filename of the uploaded import file does not match the expected format.###07 11 2014 new variable
+assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.###07 11 2014 new variable
+assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Please choose at least one question to be added to a question pool!###07 11 2014 new variable
+assessment#:#tst_show_pass_details_desc#:#If selected, the question titles and the reached points for every question in the test pass are available if the test is not finished.###07 11 2014 new variable
+assessment#:#tst_show_solution_details_desc#:#If selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown.###07 11 2014 new variable
+assessment#:#tst_show_solution_printview_desc#:#If selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission.###07 11 2014 new variable
+assessment#:#tst_show_solution_feedback_desc#:#If is selected, the answer specific feedback will be shown in the test results next to the questions.###07 11 2014 new variable
+assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option.###07 11 2014 new variable
+assessment#:#tst_show_solution_signature_desc#:#If is selected, a signature placeholder will be shown for printout.###07 11 2014 new variable
+assessment#:#tst_show_solution_suggested_desc#:#If is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.###07 11 2014 new variable
+assessment#:#answered#:#Answered###07 11 2014 new variable
+assessment#:#tst_highscore_mode#:#Mode###07 11 2014 new variable
+assessment#:#tst_highscore_all_tables#:#All Rankings###07 11 2014 new variable
+assessment#:#tst_highscore_all_tables_description#:#If selected, the test provides both ranking tables.###07 11 2014 new variable
+assessment#:#tst_input_dyn_quest_set_prev_quest_list_enabled#:#Provide List of Previously Answered Questions###07 11 2014 new variable
+assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic###07 11 2014 new variable
+assessment#:#tst_num_all_questions#:#Number of All Questions###07 11 2014 new variable
+assessment#:#tst_num_selected_questions#:#Number of Selected Questions###07 11 2014 new variable
+assessment#:#tst_num_correct_answered_questions#:#Correct Answered Questions###07 11 2014 new variable
+assessment#:#tst_settings_header_intro#:#Information Before Start of Test###07 11 2014 new variable
+assessment#:#tst_settings_header_execution#:#Administering the Test: Access###07 11 2014 new variable
+assessment#:#tst_starting_time_desc#:#Point in time after which the test can be started by clicking the button ‚Start‘, participants can provide answers to questions.###07 11 2014 new variable
+assessment#:#tst_ending_time_desc#:#Point in time at which the test will be finished: Participants an no longer answer questions, the test is finished by ILIAS.###07 11 2014 new variable
+assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.###07 11 2014 new variable
+assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.###07 11 2014 new variable
+assessment#:#tst_settings_header_test_run#:#Administering the Test: Testrun###07 11 2014 new variable
+assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.###07 11 2014 new variable
+assessment#:#tst_final_information#:#Finishing the Test: Information Before Submission###07 11 2014 new variable
+assessment#:#test_question_pool_usage_optional#:#Questions can be added optionally to a question pool###07 11 2014 new variable
+assessment#:#test_question_pool_usage_optional_info#:#The questions can be re-used in other tests.###07 11 2014 new variable
+assessment#:#test_question_pool_usage_tst_directly#:#Questions are created directly in the test###07 11 2014 new variable
+assessment#:#test_question_pool_usage_tst_directly_info#:#The questions cannot be re-used in other tests.###07 11 2014 new variable
+bibl#:#bib_default_note#:#Note###07 11 2014 new variable
+bibl#:#bib_default_howpublished#:#Published as###07 11 2014 new variable
+bibl#:#bib_default_key#:#Key###07 11 2014 new variable
+bibl#:#bib_default_month#:#Month###07 11 2014 new variable
+bibl#:#bib_default_abstract#:#Abstract###07 11 2014 new variable
+user#:#send_mail_to_inactive_users_suffix#:#Days before Deletion.###07 11 2014 new variable
+content#:#cont_ed_click_to_add_pg#:#Click here to add content.###07 11 2014 new variable
+link#:#link_edit_int_link#:#Edit Internal Link###07 11 2014 new variable
+link#:#link_chapters#:#Chapters###07 11 2014 new variable
+link#:#link_wpages#:#Wiki Pages###07 11 2014 new variable
+link#:#link_terms#:#Terms###07 11 2014 new variable
+link#:#link_mobs#:#Media Objects###07 11 2014 new variable
+mail#:#link_check_introduction#:#the following weblinks are invalid:###07 11 2014 new variable
+mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.###07 11 2014 new variable
+mail#:#link_check_affected_links#:#Affected Links###07 11 2014 new variable
+mail#:#link_check_perma_link#:#Permanent Link###07 11 2014 new variable
+assessment#:#positive_numbers_required#:#Please enter only positive numbers.###07 11 2014 new variable
+content#:#cont_table_border_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).###07 11 2014 new variable
+content#:#cont_table_cellpadding_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).###07 11 2014 new variable
+survey#:#svy_evaluation_access_all_info#:#All registered users that can access the survey can also look at the results of this survey. ###07 11 2014 new variable
+survey#:#svy_evaluation_access_off_info#:#Only Users that can edit the survey (write permission) have access to the survey's results.###07 11 2014 new variable
+survey#:#svy_evaluation_access_participants_info#:#All users that participated in the survey may choose to look at the results after finishing it. ###07 11 2014 new variable
+survey#:#svy_results_view_own_info#:#todo4###07 11 2014 new variable
+survey#:#svy_results_mail_own_info#:#todo5###07 11 2014 new variable
+survey#:#survey_360_self_evaluation_info#:#todo6###07 11 2014 new variable
+survey#:#survey_360_self_raters_info#:#todo7###07 11 2014 new variable
+survey#:#survey_360_self_appraisee_info#:#todo8###07 11 2014 new variable
+survey#:#survey_360_results_none_info#:#todo9###07 11 2014 new variable
+survey#:#survey_360_results_own_info#:#todo10###07 11 2014 new variable
+survey#:#survey_360_results_all_info#:#todo11###07 11 2014 new variable
+survey#:#survey_activate_skill_service_info#:#todo12###07 11 2014 new variable
+survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the survey? You will not be able to edit your answers afterwards.###07 11 2014 new variable
+survey#:#survey_execution_exit#:#Back to repository###07 11 2014 new variable
+news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.###07 11 2014 new variable
+content#:#cont_notify_on_blocked_users#:#Notifications on Blocked Users###07 11 2014 new variable
+content#:#cont_notify_on_blocked_users_info#:#You will be notified if users are blocked when they run out of tries.###07 11 2014 new variable
+content#:#cont_user_blocked#:#User out of tries in learning module "%s".###07 11 2014 new variable
+content#:#cont_user_blocked2#:#A user has run out of tries for answering a question in the learning module. The user will not be able to navigate further through the learning module without your intervention.###07 11 2014 new variable
+content#:#cont_user_blocked3#:#Open the learning module in edit mode and enter the screen:###07 11 2014 new variable
+content#:#cont_lm_mail_permanent_link#:#Click on the following link to access the learning module:###07 11 2014 new variable
+sess#:#sess_mail_sub_dec_sub#:#Registration refused for session "%s"###07 11 2014 new variable
+sess#:#sess_mail_sub_dec_bod#:#we regret to say that your registration has been refused for session "%s".###07 11 2014 new variable
+sess#:#sess_mail_sub_acc_sub#:#Registration for Session "%s"###07 11 2014 new variable
+sess#:#sess_mail_sub_acc_bod#:#you have been registered for session "%s".###07 11 2014 new variable
+administration#:#language_mode_existing_delete_info#:#Delete all entries in the database before importing the file.<br /> WARNING: The imported language file should be complete, otherwise there will be undefined language variables. If that happens, switch to the tab "Maintain" and choose "Clear local changes in the database".###07 11 2014 new variable
+administration#:#language_mode_existing_keepall_info#:#Import only new entries that do not yet exist in the database.###07 11 2014 new variable
+administration#:#language_mode_existing_keepnew_info#:#Import new entries and overwrite all entries that still have their default values. Keep those entries that are already changed in the database.###07 11 2014 new variable
+administration#:#language_mode_existing_replace_info#:#Import new entries and replace all existing entries with the new values defined in the import file.###07 11 2014 new variable
+administration#:#language_scope_global_info#:#Export all database entries of this language. This can be used for backup purposes.###07 11 2014 new variable
+administration#:#language_scope_local_info#:#Export all entries that are locally added or changed in the database. This is similar to the saving of a local language file on the tab "Maintain".###07 11 2014 new variable
+administration#:#language_scope_added_info#:#Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab "Maintain".###07 11 2014 new variable
+administration#:#language_scope_unchanged_info#:#Export all default language entries that are not changed in the database. This is the opposite to "Local changes only". Both together are a complete backup of the current language in the database.###07 11 2014 new variable
+administration#:#language_scope_merged_info#:#Export the standard ILIAS language file with all local changes merged in alphabetically by module and identifier. This can be used to update the global language file on the ILIAS SVN server.###07 11 2014 new variable
+administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file Customizing/global/lang/ilias_%s_lang.local and set the language status to "Installed With Local". The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.###07 11 2014 new variable
+administration#:#language_load_local_changes_info#:#Load the file Customizing/global/lang/ilias_%s_lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.###07 11 2014 new variable
+administration#:#language_clear_local_changes_info#:#Reset the database entries of this language to the default entries defined in lang/ilias_%s.lang. All local changes or additions will be removed.###07 11 2014 new variable
+administration#:#language_delete_local_additions_info#:#Delete all entries that were locally added to the database.###07 11 2014 new variable
+administration#:#language_merge_local_changes_info#:#Merge all local changes and additions alphabetically into the standard language file lang/ilias_%s.lang. The web server must have write permission on this file.###07 11 2014 new variable
+administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s_lang.local and change the language status from "Installed With Local" to "Installed". The changes in the database are not touched.###07 11 2014 new variable
+crs#:#crs_loc_type_initial_all_info#:#todo###07 11 2014 new variable
+crs#:#crs_loc_type_qualified_info#:#todo###07 11 2014 new variable
+crs#:#crs_loc_type_practise_info#:#todo###07 11 2014 new variable
