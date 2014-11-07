@@ -1435,10 +1435,10 @@ assessment#:#tst_highscore_top_num_description#:#Bestimmt, wie viele Einträge i
 assessment#:#tst_highscore_top_num_unit#:#Platzierungen
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Konfiguration Fragenauswahl
 assessment#:#tst_rnd_quest_cfg_tab_pool#:#Ausgewählte Fragenpools
-assessment#:#tst_question_set_type#:#Testmodus
-assessment#:#tst_question_set_type_fixed#:#Test mit fest definierter Fragenauswahl
+assessment#:#tst_question_set_type#:#Auswahl der Testfragen
+assessment#:#tst_question_set_type_fixed#:#Fest definierte Fragenauswahl
 assessment#:#tst_question_set_type_fixed_desc#:#Allen Teilnehmern werden die gleichen Fragen gestellt.
-assessment#:#tst_question_set_type_random#:#Test mit zufälliger Fragenauswahl
+assessment#:#tst_question_set_type_random#:#Zufällige Fragenauswahl
 assessment#:#tst_question_set_type_random_desc#:#Jedem Teilnehmer werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
 assessment#:#tst_question_set_type_dynamic#:#Fortlaufender Test über Fragenpool
 assessment#:#tst_question_set_type_dynamic_desc#:#Allen Teilnehmern werden Fragen aus einem Fragenpool gestellt. Falsch beantwortete Fragen werden erneut vorgelegt.
@@ -14840,7 +14840,7 @@ crs#:#crs_loc_tab_materials#:#Materialien
 crs#:#crs_loc_tab_itest#:#Einstiegstest
 crs#:#crs_loc_tab_qtest#:#Qualifizierender Test
 crs#:#crs_loc_settings_itest_tbl#:#Einstellungen für den Einstiegstest
-crs#:#crs_loc_tab_objectives#:#Lernziele
+crs#:#crs_loc_tab_objectives#:#Übersicht Lernziel
 crs#:#crs_loc_settings_qtest_tbl#:#Einstellungen für den qualifizierenden Test
 crs#:#crs_loc_tab_start#:#Startobjekte
 common#:#il_astpl_loc_initial#:#Einstiegstest
@@ -14849,7 +14849,7 @@ common#:#il_astpl_loc_initial_desc#:#Einstellungsvorlage für Einstiegstests ler
 common#:#il_astpl_loc_qualified_desc#:#Einstellungsvorlage für qualifizierende Tests lernzielorientierter Kurse
 crs#:#crs_loc_confirm_delete_tst#:#Sind sie sicher, dass die Zuordnung der Tests zum Lernzielorientierten Kurs gelöscht werden soll?
 crs#:#crs_loc_tbl_tst_type#:#Testmodus
-crs#:#crs_loc_form_assign_it#:#Testzuordnung
+crs#:#crs_loc_form_assign_it#:#Test auswählen 
 crs#:#crs_loc_form_tst_new#:#Neuen Test erstellen
 crs#:#crs_loc_form_assign#:#Vorhandenen Test verwenden
 crs#:#crs_loc_form_available_tsts#:#Verfügbare Tests:

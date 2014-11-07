@@ -5891,10 +5891,10 @@ crs#:#crs_users_added#:#Added user to the course
 crs#:#crs_users_already_assigned#:#The user is already assigned to this course
 crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list
 crs#:#crs_view_archive#:#Archive View
-crs#:#crs_view_info_objective#:#This presentation mode is used for the presentation of learning objectives.
+crs#:#crs_view_info_objective#:#Course for individualised studying: Performance on learning objectives organises the course work. Content might be recommended based on individual performance in a placement test. A final test can be used to prove learning objective mastery. 
 crs#:#crs_view_info_timing#:#Presentation mode for timing presettings.
 crs#:#crs_view_mode#:#Course Presentation
-crs#:#crs_view_objective#:#Learning Objectives View
+crs#:#crs_view_objective#:#Learning Objectives-Driven Course
 crs#:#crs_view_timing#:#Timings View
 crs#:#crs_visibility_limitless#:#Unlimited
 crs#:#crs_visibility_until#:#Limited Availability Period
@@ -14833,42 +14833,42 @@ crs#:#crs_loc_suggested#:#Please work through the following learning materials.
 crs#:#crs_loc_itest_info#:#Initial Test
 crs#:#crs_loc_qtest_info#:#Qualified Test
 crs#:#crs_loc_tt_info#:#You have reached %1$d%%. The test is passed with %2$d%%.
-crs#:#crs_objective_status_configure#:#Configure Learning Objective Oriented Course
+crs#:#crs_objective_status_configure#:#Configure Learning Objectives-Driven Course
 crs#:#crs_objective_status_settings#:#Course Settings
 crs#:#crs_objective_status_materials#:#Create New Course Materials
-crs#:#crs_objective_status_itest#:#Configure Initial Test
-crs#:#crs_objective_status_qtest#:#Configure Qualifying Test
+crs#:#crs_objective_status_itest#:#Configure Placement Test 
+crs#:#crs_objective_status_qtest#:#Configure Achievement Test
 crs#:#crs_objective_status_objectives#:#Configure Learning Objectives
 crs#:#crs_objective_status_start#:#Define Start Objects
 crs#:#crs_objective_status_fullfilled#:#OK
 crs#:#crs_objective_action_materials#:#Material Assignment
 crs#:#crs_objective_action_qtest#:#Question Assignment Qualifying
 crs#:#crs_objective_action_itest#:#Question Assignment Initial Test
-crs#:#crs_loc_qt_visibility#:#Visibility of Qualifying Test
-crs#:#crs_loc_qt_visibility_all#:#Show Qualifying Test about all Objectives
-crs#:#crs_loc_qt_visibility_lo#:#Show Qualifying Test for each Objective
+crs#:#crs_loc_qt_visibility#:#Visibility of Achievement Test 
+crs#:#crs_loc_qt_visibility_all#:#Show Achievement Test Covering all Objectives
+crs#:#crs_loc_qt_visibility_lo#:#Show Achievement Test for Each Individual Objective
 crs#:#crs_loc_limited_passes#:#Limited Test Passes
 crs#:#crs_loc_passes#:#Number of Passes
 crs#:#crs_loc_passes_info#:#Maximum Number of test passes
 crs#:#crs_loc_err_stat_no_materials#:#No Course Materials available
-crs#:#crs_loc_err_stat_no_qt#:#No Qualifying Test available
-crs#:#crs_loc_err_stat_no_it#:#No Initial Test available
+crs#:#crs_loc_err_stat_no_qt#:#No Achievement Test available
+crs#:#crs_loc_err_stat_no_it#:#No Placement Test available
 crs#:#crs_objective_status_objective_creation#:#Create Learning Objective
 crs#:#crs_loc_form_create_objectives#:#Create Learning Objectives
 crs#:#crs_loc_err_no_active_mat#:#Learning Objectives without Materials
 crs#:#crs_loc_err_no_active_it#:#Learning Objectives without Initial Test
 crs#:#crs_loc_err_no_active_qt#:#Learning Objectives without Qualifying Test
 crs#:#crs_loc_err_no_active_lo#:#No active Learning Objective
-crs#:#crs_loc_settings_tbl#:#Settings for the Learning Objective Oriented Course
+crs#:#crs_loc_settings_tbl#:#Settings for the Learning Objectives-Driven Course
 crs#:#crs_loc_settings_type#:#Course Type
-crs#:#crs_loc_type_initial_all#:#Course starts with initial test for all learning objectives
-crs#:#crs_loc_type_initial_sel#:#Course starts with initial test for selected learning objective
-crs#:#crs_loc_type_qualified#:#Course starts with qualifying test
-crs#:#crs_loc_type_practise#:#Course starts with learning and training
+crs#:#crs_loc_type_initial_all#:#Course starts with placement test for all learning objectives
+crs#:#crs_loc_type_initial_sel#:#Course starts with placement test for selected learning objective
+crs#:#crs_loc_type_qualified#:#Course starts with achievement test 
+crs#:#crs_loc_type_practise#:#Course starts with learning and practise
 crs#:#crs_loc_tab_materials#:#Material
-crs#:#crs_loc_tab_itest#:#Initial Test
-crs#:#crs_loc_tab_qtest#:#Qualifying Test
-crs#:#crs_loc_settings_itest_tbl#:#Settings for the Initial Test
+crs#:#crs_loc_tab_itest#:#Placement Test 
+crs#:#crs_loc_tab_qtest#:#Achievement Test
+crs#:#crs_loc_settings_itest_tbl#:#Settings for the Placement Test 
 crs#:#crs_loc_tab_objectives#:#Learning objectives
 crs#:#crs_loc_settings_qtest_tbl#:#Settings for the Qualifying Test
 crs#:#crs_loc_tab_start#:#Start Objects
