@@ -60,7 +60,17 @@
 		</div>
 	</div>
 </div>
-<!-- BEGIN osd_enabled --><script type="text/javascript">var OSDNotifier; $(function() { OSDNotifier = OSDNotifications({initialNotifications: {INITIAL_NOTIFICATIONS}, pollingIntervall: {OSD_POLLING_INTERVALL}, playSound: {OSD_PLAY_SOUND}})});</script><!-- END osd_enabled -->
+<!-- BEGIN osd_enabled --><script type="text/javascript">
+	var OSDNotifier;
+	$(function () {
+		OSDNotifier = OSDNotifications({
+			closeHtml:            {NOTIFICATION_CLOSE_HTML},
+			initialNotifications: {INITIAL_NOTIFICATIONS},
+			pollingIntervall:     {OSD_POLLING_INTERVALL},
+			playSound:            {OSD_PLAY_SOUND}
+		});
+	});
+	</script><!-- END osd_enabled -->
 <!-- BEGIN osd_container --><div class="osdNotificationContainer"></div><!-- END osd_container -->
 <div class="ilMainHeader ilTopFixed">
 	<header class="container">

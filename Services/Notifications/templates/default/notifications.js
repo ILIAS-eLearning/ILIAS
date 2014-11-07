@@ -1,8 +1,9 @@
 var OSDNotifications = function (settings) {
 	$.extend(
 		{
-			initialNotifications:[],
-			pollingIntervall:    0
+			initialNotifications: [],
+			pollingIntervall:     0,
+			closeHtml:            ''
 		},
 		settings
 	);
@@ -79,7 +80,7 @@ var OSDNotifications = function (settings) {
 
 							var newElement = $(
 								'<div class="osdNotification" id="osdNotification_' + this.notification_osd_id + '">'
-									+ ((getParam(this.data.handlerParams, 'osd.closable', true)) ? ('<div style="float: right" onclick="OSDNotifier.removeNotification(' + this.notification_osd_id + ')"><img src="templates/default/images/cancel.png" alt="close"/></div>') : '')
+									+ ((getParam(this.data.handlerParams, 'osd.closable', true)) ? ('<div class="btn-link" style="float: right" onclick="OSDNotifier.removeNotification(' + this.notification_osd_id + ')">' + settings.closeHtml + '</div>') : '')
 									+ '<div class="osdNotificationTitle"><img class="osdNotificationIcon" src="' + this.data.iconPath + '" alt="" />'
 									+ (this.data.link ? ('<a class="target_link" href="' + this.data.link + '" target="' + this.data.linktarget + '">' + this.data.title + '</a>') : this.data.title)
 									+ '</div>'

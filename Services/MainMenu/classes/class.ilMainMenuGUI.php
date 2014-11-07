@@ -252,7 +252,10 @@ class ilMainMenuGUI
 					$tpl->addCSS('Services/Notifications/templates/default/osd.css');
 
 					require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
+					require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+
 					$notifications = ilNotificationOSDHandler::getNotificationsForUser($ilUser->getId());
+					$this->tpl->setVariable('NOTIFICATION_CLOSE_HTML', json_encode(ilGlyphGUI::get(ilGlyphGUI::CLOSE, $lng->txt('close'))));
 					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
 					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '5');
 					$this->tpl->setVariable(
