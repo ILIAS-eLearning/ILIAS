@@ -5,10 +5,9 @@
  ********/
 
 #ilCharSelectorPanel.ilTopFixed {
-    background: #ffffff;
+    background: #FFFFFF;
     padding: 1em;
     z-index: 1029;      /* one less than the main menu to be behind the drop-downs */
-    display:none;	    /* will be shown when panel is openend */
 }
 
 body.kiosk #ilCharSelectorPanel.ilTopFixed {
@@ -17,22 +16,13 @@ body.kiosk #ilCharSelectorPanel.ilTopFixed {
     padding: 2em;
 }
 
-#ilCharSelectorSpacer {
-    display:none;	/* will be shown when panel is openend */
-}
-
-
 /****************
  *  Panel content
  ****************/
 
-#ilCharSelectorPreview {
+#ilCharSelectorPreviewCol {
    font-size: 3em;
-}
-
-
-#ilCharSelectorChars {
-	line-height: 2em;
+   height: 1em;
 }
 
 #ilCharSelectorChars a {
@@ -47,15 +37,9 @@ body.kiosk #ilCharSelectorPanel.ilTopFixed {
 	cursor: pointer;
     display: inline-block;
     min-width: 2em;
+    line-height: 2em;
 }
 
 #ilCharSelectorChars a:hover {
 	box-shadow: 2px 2px 4px #C0C0C0;
-}
-
-
-.ilCharSelectorDisabled,
-.ilCharSelectorDisabled:hover {
-	color: gray;
-	border: 1px solid #B6B6B6 !important;
 }

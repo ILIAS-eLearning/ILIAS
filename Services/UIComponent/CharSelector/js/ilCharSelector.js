@@ -259,18 +259,18 @@ il.CharSelector = new function() {
 		if (config.current_page == 0 && 
 			config.current_subpage == 0) 
 		{
-			$('#ilCharSelectorPrevPage').addClass('ilCharSelectorDisabled');
+			$('#ilCharSelectorPrevPage').attr('disabled','disabled');
 		} else 
 		{
-			$('#ilCharSelectorPrevPage').removeClass('ilCharSelectorDisabled');
+			$('#ilCharSelectorPrevPage').removeAttr('disabled');
 		}
 		if (config.current_page >= config.pages.length - 1 && 
 			config.current_subpage >= page_subpages -1) 
 		{
-			$('#ilCharSelectorNextPage').addClass('ilCharSelectorDisabled');
+			$('#ilCharSelectorNextPage').attr('disabled','disabled');
 		} else 
 		{
-			$('#ilCharSelectorNextPage').removeClass('ilCharSelectorDisabled');
+			$('#ilCharSelectorNextPage').removeAttr('disabled');
 		}
 		
 		// fill the subpage navigation
