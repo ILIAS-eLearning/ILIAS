@@ -6,8 +6,8 @@
 	});
 	
 	var iconsByType = {
-		user: 'templates/default/images/icon_usr_s.png',
-		room: 'templates/default/images/icon_chat_s.png'
+		user: 'templates/default/images/icon_usr.svg',
+		room: 'templates/default/images/icon_chtr.svg'
 	}
 
 

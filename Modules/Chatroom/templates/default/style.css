@@ -77,7 +77,12 @@ body {
 }
 
 .online_user {
-    line-height: 2em;
+	line-height: 2em;
+}
+
+.online_user img {
+	width: 22px;
+	height: 22px;
 }
 
 .listentry {
