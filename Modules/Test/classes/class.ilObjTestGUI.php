@@ -4674,6 +4674,8 @@ class ilObjTestGUI extends ilObjectGUI
 			return;
 
 		global $ilToolbar, $ilCtrl, $lng;
+		
+		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 
 		$this->getQuestionsSubTabs();
 
@@ -4764,9 +4766,23 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$ilToolbar->addSeparator();
 			}
+			
+			if( !(count($options) > 1 && $optionKeys[0] != $qid) )
+			{
+				$btn = ilLinkButton::getInstance();
+				$btn->setCaption("test_prev_question");
+				$btn->setUrl($ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'prevQuestion'));
+				$ilToolbar->addButtonInstance($btn);
+			}
 
-			$ilToolbar->addLink($lng->txt("test_prev_question"), $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'prevQuestion'), !(count($options) > 1 && $optionKeys[0] != $qid));
-			$ilToolbar->addLink($lng->txt("test_next_question"), $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'nextQuestion'), !(count($options) > 1 && $optionKeys[count($optionKeys) - 1] != $qid));
+
+			if( !(count($options) > 1 && $optionKeys[count($optionKeys) - 1] != $qid) )
+			{
+				$btn = ilLinkButton::getInstance();
+				$btn->setCaption("test_next_question");
+				$btn->setUrl($ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'nextQuestion'));
+				$ilToolbar->addButtonInstance($btn);
+			}
 		}
 
 		if(count($questions) > 1)
