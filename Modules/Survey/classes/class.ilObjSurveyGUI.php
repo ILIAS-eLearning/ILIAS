@@ -1134,11 +1134,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function propertiesObject(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilAccess, $ilTabs;
+		global $ilAccess, $ilTabs, $ilHelp;
 		
 		$this->handleWriteAccess();
 		
 		$ilTabs->activateTab("settings");
+
+
+		if ($this->object->get360Mode())
+		{
+			$ilHelp->setScreenId("settings_360");
+		}
 		
 		if(!$a_form)
 		{
