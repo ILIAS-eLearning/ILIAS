@@ -165,7 +165,7 @@ class gevWBDEdupointsReportedGUI extends gevBasicReportGUI{
 			$target = $this->ctrl->getLinkTarget($this, "deliverBillPDF");
 			$this->ctrl->clearParameters($this);
 			$rec["bill_link"] = "<a href=\"".$target."\">".$bill_link_icon."</a>";
-			
+
 			$data[] = $rec;
 		}
 

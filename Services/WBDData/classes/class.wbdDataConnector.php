@@ -448,9 +448,9 @@ abstract class wbdDataConnector {
 	 * @param 
 	 * @return array
 	 */	
-	abstract function get_all_bwv_ids() {}
+	abstract function get_all_bwv_ids();
 	
-	abstract function fail_get_external_edu_records($bwv_id, $e) {}
+	abstract function fail_get_external_edu_records($bwv_id, $e);
 	
 
 	/**
@@ -461,7 +461,7 @@ abstract class wbdDataConnector {
 	 * @return boolean
 	 */
 
-	abstract function save_external_edu_records($bwv_id, $edu_records) {}
+	abstract function save_external_edu_records($bwv_id, $edu_records);
 
 
 }

@@ -16,10 +16,9 @@ $SET_BWVID = true;
 
 $GET_NEW_USERS = false;
 $GET_UPDATED_USERS = false;
-$GET_NEW_EDURECORDS = true;
-
+$GET_NEW_EDURECORDS = false;
 $GET_CHANGED_EDURECORDS = false;
-$IMPORT_FOREIGN_EDURECORDS = false;
+$IMPORT_FOREIGN_EDURECORDS = true;
 
 $LIMIT_RECORDS = false;
 $ANON_DATA = false;
@@ -797,12 +796,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 		}
 		$ret = array();
 		$sql = "SELECT bwv_id FROM hist_user "
-			." WHERE bwv_id != '-empty-"
+			." WHERE bwv_id != '-empty-'"
 			." AND hist_historic=0";
 
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)) {
-			$ret[] = $record['bwv_id']);
+			$ret[] = $record['bwv_id'];
 		}
 		return $ret;
 	}
@@ -831,6 +830,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 			return true;
 		}
 		print '<hr><pre>';
+		print "\n\n";
 		print_r($edu_records);
 	}
 
@@ -935,18 +935,12 @@ if($DEBUG_HTML_OUT){
 	print '<hr>';
 
 
-
 	/*
-	
 	print '<hr>';
-
 	print '<h3>changed edu-records:</h3>';
 	$cls->export_get_changed_edu_records('html');
 	
 	*/
 }
-
-//$cls->set_bwv_id(255, 'XXXXXXXX');
-
 
 ?>
