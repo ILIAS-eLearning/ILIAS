@@ -7,7 +7,7 @@
 #ilCharSelectorPanel.ilTopFixed {
     background: #ffffff;
     padding: 1em;
-    z-index: 1029;      /* one less than the main menu to be behind the dro-downs */
+    z-index: 1029;      /* one less than the main menu to be behind the drop-downs */
     display:none;	    /* will be shown when panel is openend */
 }
 
@@ -27,7 +27,7 @@ body.kiosk #ilCharSelectorPanel.ilTopFixed {
  ****************/
 
 #ilCharSelectorPreview {
-   font-size: 4em;
+   font-size: 3em;
 }
 
 

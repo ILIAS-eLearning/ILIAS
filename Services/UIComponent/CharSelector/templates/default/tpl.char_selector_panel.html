@@ -1,43 +1,39 @@
 <div id="ilCharSelectorPanel" class="ilTopFixed container-fluid">
-    <div id="ilCharSelectorNavigation" class="row">
+    <div class="row">
 
-
-        <div class="col-sm-1 hidden-xs">
-        </div>
-
-        <div class="col-sm-push-10 col-sm-1 text-right">
-            <a id="ilCharSelectorClose" class="btn btn-default">
-                <span class="glyphicon glyphicon-remove-circle"></span>
-            </a> &nbsp;
-        </div>
-
-        <div class="col-sm-pull-1 col-sm-10">
-            <!-- BEGIN select -->
-            <select id="ilCharSelectorSelPage" class="" >
-                <!-- BEGIN page_option -->
-                <option value="{PAGE_INDEX}">{PAGE_NAME}</option>
-                <!-- END page_option -->
-            </select>
-            <!-- END select -->
-            <!-- BEGIN navigation -->
-            <select id="ilCharSelectorSelSubPage" class="" >
-            </select>
-            <a id="ilCharSelectorPrevPage" class="btn btn-default" href="#">&nbsp;{TXT_PREVIOUS_PAGE}&nbsp;</a>
-            <a id="ilCharSelectorNextPage" class="btn btn-default" href="#" >&nbsp;{TXT_NEXT_PAGE}&nbsp;</a>
-            <!-- END navigation -->
-        </div>
-
-    </div>
-
-    <div id="ilCharSelectorContent" class="row">
         <div class="col-sm-1 hidden-xs">
             <span id="ilCharSelectorPreview"></span>
         </div>
 
         <div class="col-sm-11">
+
+            <div class="ilFloatRight">
+                <a id="ilCharSelectorClose" class="btn btn-default">
+                    <span class="glyphicon glyphicon-remove-circle"></span>
+                </a> &nbsp;
+            </div>
+
+            <div>
+                <!-- BEGIN select -->
+                <select id="ilCharSelectorSelPage" class="" >
+                    <!-- BEGIN page_option -->
+                    <option value="{PAGE_INDEX}">{PAGE_NAME}</option>
+                    <!-- END page_option -->
+                </select>
+                <!-- END select -->
+                <!-- BEGIN navigation -->
+                <select id="ilCharSelectorSelSubPage" class="" >
+                </select>
+                <a id="ilCharSelectorPrevPage" class="btn btn-default" href="#">&nbsp;{TXT_PREVIOUS_PAGE}&nbsp;</a>
+                <a id="ilCharSelectorNextPage" class="btn btn-default" href="#" >&nbsp;{TXT_NEXT_PAGE}&nbsp;</a>
+                <!-- END navigation -->
+            </div>
+
             <!-- BEGIN chars -->
             <div id="ilCharSelectorChars"></div>
             <!-- END chars -->
+
         </div>
-     </div>
+
+    </div>
 </div>

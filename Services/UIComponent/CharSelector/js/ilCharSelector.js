@@ -102,11 +102,12 @@ il.CharSelector = new function() {
 		}
 
         // avoid loosing focus in the target text field
-		$('#ilCharSelectorContent').mousedown(function(){return false;});
+		$('#ilCharSelectorPanel').mousedown(function(){return false;});
+        // except for dropdown fields which must get focus to open
+        $('#ilCharSelectorSelPage').mousedown(function(event){event.stopPropagation();});
+        $('#ilCharSelectorSelSubPage').mousedown(function(event){event.stopPropagation();});
 
-		$('#ilCharSelectorPrevPage').mousedown(function(){return false;});
-		$('#ilCharSelectorNextPage').mousedown(function(){return false;});
-		$('#ilCharSelectorPrevPage').click(self.previousPage);
+        $('#ilCharSelectorPrevPage').click(self.previousPage);
 		$('#ilCharSelectorNextPage').click(self.nextPage);
 		$('#ilCharSelectorSelPage').change(self.selectPage);
 		$('#ilCharSelectorSelSubPage').change(self.selectSubPage);
