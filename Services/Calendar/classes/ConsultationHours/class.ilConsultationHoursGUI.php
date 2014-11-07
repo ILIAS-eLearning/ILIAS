@@ -950,7 +950,7 @@ class ilConsultationHoursGUI
 		}
 		$ilCtrl->setParameter($this, 'user_id', '');
 
-		$ilTabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this,'settings'));
+		$ilTabs->addTab('ch_settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this,'settings'));
 
 		$ilTabs->activateTab('consultation_hours_'.$this->getUserId());
 	}
@@ -1257,7 +1257,7 @@ class ilConsultationHoursGUI
 		global $tpl, $ilTabs, $ilHelp;
 
 		$ilHelp->setScreenId("consultation_hours_settings");
-		$ilTabs->activateTab('settings');
+		$ilTabs->activateTab('ch_settings');
 		
 		$form = $this->initSettingsForm();
 		$tpl->setContent($form->getHTML());
@@ -1302,11 +1302,11 @@ class ilConsultationHoursGUI
 			if(ilConsultationHourAppointments::setManager($mng))
 			{
 				ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
-				$ilCtrl->redirect($this, 'appointmentList');
+				$ilCtrl->redirect($this, 'settings');
 			}
 			else
 			{
-				$ilTabs->activateTab('settings');
+				$ilTabs->activateTab('ch_settings');
 
 				ilUtil::sendFailure($this->lng->txt('cal_ch_unknown_user'));
 				$field = $form->getItemByPostVar('mng');
