@@ -784,32 +784,60 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 
 
+	/**
+	 * get all bwv-ids
+	 *
+	 * @param 
+	 * @return array
+	 */	
+	public function get_all_bwv_ids() {
+		global $IMPORT_FOREIGN_EDURECORDS;
+		if(! $IMPORT_FOREIGN_EDURECORDS){
+			return array();
+		}
+		$ret = array();
+		$sql = "SELECT bwv_id FROM hist_user "
+			." WHERE bwv_id != '-empty-"
+			." AND hist_historic=0";
+
+		$result = $this->ilDB->query($sql);
+		while($record = $this->ilDB->fetchAssoc($result)) {
+			$ret[] = $record['bwv_id']);
+		}
+		return $ret;
+	}
+	
+	public function fail_get_external_edu_records($bwv_id, $e) {
+		print 'ERROR while getting edurecords: ';
+		print($bwv_id);
+		print "\n";
+		print_r($e->getReason());
+		print_r($e);
+		print "\n";
+	}
 	
 
-
-
 	/**
-	 * set edu-record for user
+	 * save external edu-record for user
 	 *
-	 * @param array $edu_record
+	 * @param string $bwv_id
+	 * @param array $edu_records
 	 * @return boolean
 	 */
 
-	public function set_edu_record($edu_record) {
+	public function save_external_edu_records($bwv_id, $edu_records) {
 		global $IMPORT_FOREIGN_EDURECORDS;
 		if(! $IMPORT_FOREIGN_EDURECORDS){
 			return true;
 		}
-		print '<pre>';
-		print_r($edu_record);
-		die();
+		print '<hr><pre>';
+		print_r($edu_records);
 	}
-}
 
+}
 
 //normalize classname for wdb-connector-script
 class WBDDataAdapter extends gevWBDDataConnector {}
-
 
 
 
@@ -908,14 +936,14 @@ if($DEBUG_HTML_OUT){
 
 
 
-	
-	
+	/*
 	
 	print '<hr>';
 
 	print '<h3>changed edu-records:</h3>';
 	$cls->export_get_changed_edu_records('html');
-
+	
+	*/
 }
 
 //$cls->set_bwv_id(255, 'XXXXXXXX');

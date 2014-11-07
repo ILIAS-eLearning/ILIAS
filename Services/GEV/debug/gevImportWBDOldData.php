@@ -498,6 +498,7 @@ class gevImportOldData {
 			$q = "UPDATE hist_usercoursestatus SET okz='$okz' WHERE row_id=$row_id";
 			print $q;
 			print '<br>';
+			$this->db->query($q);
 		}
 		return $ret;
 	}
@@ -522,8 +523,6 @@ $sem_many_matches = array();
 $import = new gevImportOldData();
 
 
-$import->rectifyOKZforAltdaten();
-die();
 
 $import->getOldData();
 
@@ -557,6 +556,8 @@ print '<hr>';
 // !!!!!!!!
 
 
+die();
+
 foreach($import->sem_ok as $rec){
 	$crs_id = $import->importSeminar($rec);
 
@@ -564,8 +565,10 @@ foreach($import->sem_ok as $rec){
 	$import->setReported($rec['id']);
 }
 
+$import->rectifyOKZforAltdaten();
+//$import->rematchWBDTopic();
+
 
 printToTable($import->sem_ok);
 
-//$import->rematchWBDTopic();
 ?>

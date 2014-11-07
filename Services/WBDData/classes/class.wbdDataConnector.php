@@ -408,6 +408,8 @@ abstract class wbdDataConnector {
 	public function get_changed_edu_records() {}
 
 
+
+
 	/**
 	* IMPORT FUNCTIONS
 	**/
@@ -435,14 +437,31 @@ abstract class wbdDataConnector {
 	public function set_booking_id($row_id, $booking_id) {}
 
 
+
+	/**
+	* importing foreign records
+	**/
+
+	/**
+	 * get all bwv-ids
+	 *
+	 * @param 
+	 * @return array
+	 */	
+	abstract function get_all_bwv_ids() {}
+	
+	abstract function fail_get_external_edu_records($bwv_id, $e) {}
+	
+
 	/**
 	 * save external edu-record for user
 	 *
-	 * @param array $edu_record
+	 * @param string $bwv_id
+	 * @param array $edu_records
 	 * @return boolean
 	 */
 
-	public function save_external_edu_record($edu_record) {}
+	abstract function save_external_edu_records($bwv_id, $edu_records) {}
 
 
 }
