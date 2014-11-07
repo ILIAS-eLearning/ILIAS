@@ -431,6 +431,10 @@ class ilSurveyExecutionGUI
 		}
 		else
 		{
+			global $ilHelp;
+			$ilHelp->setScreenIdComponent("svy");
+			$ilHelp->setScreenId("quest_presentation");
+
 			$required = false;
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_content.html", "Modules/Survey");
 			
