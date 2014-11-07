@@ -168,7 +168,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		{	
 			if( $this->object->getAnswerCount() == 0 )
 			{
-				$this->object->addAnswer("", 0, 0, 0);
+				$this->object->addAnswer("", 1, 0, 0);
 			}
 
 			$scoringMode = new ilRadioGroupInputGUI(

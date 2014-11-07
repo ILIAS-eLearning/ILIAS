@@ -75,7 +75,7 @@ class assTextQuestion extends assQuestion
 	{
 		parent::__construct($title, $comment, $author, $owner, $question);
 		$this->maxNumOfChars = 0;
-		$this->points = 0;
+		$this->points = 1;
 		$this->answers = array();
 		$this->matchcondition = 0;
 	}
@@ -175,7 +175,10 @@ class assTextQuestion extends assQuestion
 			$this->setOriginalId($data["original_id"]);
 			$this->setNrOfTries($data['nr_of_tries']);
 			$this->setAuthor($data["author"]);
-			$this->setPoints($data["points"]);
+			if(0 != (int)$data["points"])
+			{
+				$this->setPoints($data["points"]);
+			}
 			$this->setOwner($data["owner"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
