@@ -679,10 +679,12 @@ if (typeof DEBUG != 'undefined' && DEBUG) {
 					case 'private_room_left':
 						var data = $('#private_rooms').ilChatList('getDataById', messageObject.sub);
 						var userdata = $('#chat_users').ilChatList('getDataById', messageObject.user);
-						$('#chat_messages').ilChatMessageArea('addMessage', messageObject.sub || 0, {
-								type: 'private_room_left',
+						if (data && userdata) {
+							$('#chat_messages').ilChatMessageArea('addMessage', messageObject.sub || 0, {
+								type:    'private_room_left',
 								message: translate('private_room_left', {user: userdata.label, title: data.label})
-						    });
+							});
+						}
 						/*
 						if (messageObject.user == myId) {
 							roomHandler.getRoom(messageObject.sub).removeClass('in_room');
