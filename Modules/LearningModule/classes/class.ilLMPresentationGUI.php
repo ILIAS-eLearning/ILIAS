@@ -1303,7 +1303,13 @@ class ilLMPresentationGUI
 	*/
 	function ilPage(&$a_page_node, $a_page_id = 0)
 	{
-		global $ilUser;
+		global $ilUser, $ilHelp;
+
+
+		global $ilHelp;
+		$ilHelp->setScreenIdComponent("lm");
+		$ilHelp->setScreenId("content");
+		$ilHelp->setSubScreenId("content");
 
 		$this->fill_on_load_code = true;
 
