@@ -316,9 +316,11 @@ class ilObjectActivationGUI
 
 	function __setTabs()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilHelp;
 		
 		$this->tabs_gui->clearTargets();
+
+		$ilHelp->setScreenIdComponent("obj");
 
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->parent_ref_id);
 		$back_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "");
