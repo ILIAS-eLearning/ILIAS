@@ -280,8 +280,6 @@ class gevImportOldData {
 		$wbd_topic = $CORRECTIONS[$wbd_topic];
 
 
-
-
 		$begin_date = date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date = date('Y-m-d', strtotime($rec['Ende']));
 		$creator_id = $rec['creator_id'];

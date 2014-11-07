@@ -341,6 +341,173 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 
 
+	/**
+	 * new entry for foreign wbd-course
+	 * or matching for existing seminar
+	 * returns course_id
+	**/
+	private function importSeminar($rec){
+
+		$title 		= $rec['title'];
+		$type 		= $rec['type']; 
+		$wbd_topic 	= $rec['wbd_topic']; 
+		$begin_date	= $rec['begin']; // date('Y-m-d', strtotime($rec['Beginn']));
+		$end_date 	= $rec['end']; //date('Y-m-d', strtotime($rec['Ende']));
+		$creator_id = -200;
+
+
+		$sql = "SELECT crs_id FROM hist_course WHERE 
+			title = '$title'
+			AND
+			begin_date = '$begin_date'
+			AND 
+			end_date = '$end_date'
+		";
+		$result = $this->db->query($sql);
+		if($this->db->numRows($result) > 0){
+			$record = $this->db->fetchAssoc($result);
+			return $record['crs_id'];
+		}
+		
+		//new seminar
+		$sql = "SELECT crs_id FROM hist_course WHERE 
+				crs_id < 0
+				ORDER BY crs_id ASC
+				LIMIT 1
+		";	
+		$result = $this->db->query($sql);
+		$record = $this->db->fetchAssoc($result);
+		
+		$crs_id = $record['crs_id'] - 1;
+		//start with 4 digits
+		if($crs_id == -1){
+			$crs_id = -1000;
+		}
+
+		$next_id = $this->db->nextId('hist_course');
+
+		$sql = "INSERT INTO hist_course
+			(
+				row_id,
+				hist_version,
+				created_ts,
+				creator_user_id,
+		 		is_template,
+		 		crs_id,
+		 		title,
+		 		type, 
+		 		wbd_topic,
+		 		begin_date,
+		 		end_date,
+		 		
+		 		custom_id,
+		 		template_title,
+		 		max_credit_points
+			) 
+			VALUES 
+			(
+				$next_id,
+				0,
+				NOW(),
+				$creator_id,
+				'Nein',
+				$crs_id,
+				'$title',
+				'$type',
+		 		'$wbd_topic',
+		 		'$begin_date',
+		 		'$end_date',
+		 		'-empty-',
+		 		'-empty-',
+		 		'-empty-'
+			)";
+
+			
+die($sql);
+
+			if(! $this->db->query($sql)){
+				die($sql);
+			}
+
+		return $crs_id;
+	}
+
+	/**
+	 * new entry for foreign wbd-courses in hist_usercoursestatus
+	**/
+	private function assignUserToSeminar($rec, $crs_id){
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+
+		// get user (hist_user is ok, since bwv-id must not change 
+		// and was the starting point, anyway)
+		$sql = "SELECT user_id FROM hist_user "
+			." WHERE bwv_id = '" .$rec['bwv_id'] ."'"
+			." AND hist_historic=0";
+		$result = $this->ilDB->query($sql);
+		$user_rec = $this->ilDB->fetchAssoc($result)
+
+		$usr_id = $user_rec['user_id'];
+
+		$uutils = gevUserUtils::getInstanceByObjOrId($usr_id);
+
+		$okz 			= $uutils->getWBDOKZ();
+		$credit_points 	= $rec['credit_points'];
+		$begin_date 	= $rec['begin']; // date('Y-m-d', strtotime($rec['Beginn']));
+		$end_date 		= $rec['end']; //date('Y-m-d', strtotime($rec['Ende']));
+		$creator_id 	= -200;
+		$next_id 		= $this->db->nextId('hist_usercoursestatus');
+
+		$sql = "INSERT INTO hist_usercoursestatus
+			(
+				row_id,
+				created_ts,
+				creator_user_id,
+				usr_id,
+		 		crs_id,
+		 		credit_points,
+		 		hist_historic,
+		 		hist_version,
+		 		okz,
+		 		function,
+		 		booking_status,
+		 		participation_status,
+		 		begin_date,
+		 		end_date,
+		 		bill_id,
+		 		certificate
+			) 
+			VALUES 
+			(
+				$next_id,
+				UNIX_TIMESTAMP(),
+				$creator_id,
+				$usr_id,
+				$crs_id,
+				$credit_points,
+				0,
+				0,
+				$okz
+				'Mitglied',
+				'gebucht',
+				'teilgenommen',
+				'$begin_date',
+				'$end_date',
+				-1,
+				-1
+			)";
+		
+die($sql);
+			if(! $this->db->query($sql)){
+				die($sql);
+			}
+
+	
+	}
+
+
+
+
+
 
 	/*
 	* ------------- IMPLEMENTATION ------------
@@ -829,10 +996,49 @@ class gevWBDDataConnector extends wbdDataConnector {
 		if(! $IMPORT_FOREIGN_EDURECORDS){
 			return true;
 		}
-		print '<hr><pre>';
-		print "\n\n";
-		print_r($edu_records);
+
+		$recs = $edu_records['WeiterbildungsPunkteBuchungListe'];
+		if(count($recs) > 0){
+			foreach ($recs as $wpentry) {
+				//check, if the booking-ids are under our control
+				$booking_id = $wpentry['WeiterbildungsPunkteBuchungsId'];
+				$sql = "SELECT wbd_booking_id 
+						FROM hist_usercoursestatus 
+						WHERE wbd_booking_id = '$booking_id'";
+				
+				$temp_result = $this->ilDB->query($sql);
+				$num_rows = $temp_result->result->num_rows;
+
+				if($num_rows == 0){
+					// this is truly a foreign record
+
+					// ! Storno/Korrektur !
+					if($wpentry['Storniert'] || $wpentry['Korrekturbuchung']){
+						die('Storno/Korrektur - not implemented');
+					}
+
+					$rec = array(
+						'bwv_id' 		=> $wpentry['VermittlerId']
+						'wbd_booking_id'=> $booking_id,
+						'credit_points'	=> $wpentry['WeiterbildungsPunkte'],
+						'begin'			=> $wpentry['SeminarDatumVon'],
+						'end'			=> $wpentry['SeminarDatumBis'],
+						'title' 		=> $wpentry['Weiterbildung'],
+						'wbd_topic'		=> $wpentry['LernInhalt'],
+						'type'			=> $wpentry['LernArt']
+					);
+
+					$crs_id = $this->importSeminar($rec);
+					$this->assignUserToSeminar($rec, $crs_id);
+
+					print "\n\n imported seminar: \n";
+					print_r($wpentry);
+				}
+			}
+		}
+		return true;
 	}
+
 
 }
 
