@@ -424,7 +424,8 @@ class ilXmlWriter
 	{
 		// check for existing data (element's content)
 		if (is_string($data) or
-			is_integer($data))
+			is_integer($data) or
+			is_float($data))
 		{
 			// write starttag
 			$this->xmlStartTag($tag, $attrs, FALSE, $encode, $escape);
