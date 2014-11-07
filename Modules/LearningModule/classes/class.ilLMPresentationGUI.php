@@ -583,6 +583,9 @@ class ilLMPresentationGUI
 							il.LearningModule.openInitFrames();
 							");
 					}
+					$this->tpl->addOnLoadCode("il.LearningModule.setTocRefreshUrl('".
+						$ilCtrl->getLinkTarget($this, "refreshToc", "", false, false)."');
+							");
 				}
 				
 				// from main menu
@@ -764,7 +767,7 @@ class ilLMPresentationGUI
 	/**
 	* table of contents
 	*/
-	function ilTOC()
+	function ilTOC($a_get_explorer = false)
 	{
 		include_once("./Modules/LearningModule/classes/class.ilLMTOCExplorerGUI.php");
 		$exp = new ilLMTOCExplorerGUI($this, "ilTOC", $this, $this->lang);
@@ -810,9 +813,16 @@ class ilLMPresentationGUI
 				$exp->setOfflineMode(true);
 			}
 
-			$this->tpl->setCurrentBlock("il_toc");
-			$this->tpl->setVariable("EXPLORER", $exp->getHTML());
-			$this->tpl->parseCurrentBlock();
+			if ($a_get_explorer)
+			{
+				return $exp;
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("il_toc");
+				$this->tpl->setVariable("EXPLORER", $exp->getHTML());
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 	}
 
@@ -4054,6 +4064,19 @@ class ilLMPresentationGUI
 		}
 		return new ilLMPage($a_id);
 	}
+
+	/**
+	 * Refresh toc (called if questions have been answered correctly)
+	 */
+	function refreshToc()
+	{
+		$exp = $this->ilTOC(true);
+
+		echo $exp->getHTML().
+			"<script>".$exp->getOnLoadCode()."</script>";
+		exit;
+	}
+
 }
 
 ?>

@@ -1,6 +1,7 @@
 il.LearningModule = {
 	
 	save_url: '',
+	toc_refresh_url: '',
 	init_frame: {},
 	last_frame_url: {},
 	all_targets: ["center_bottom", "right", "right_top", "right_bottom"],
@@ -10,6 +11,11 @@ il.LearningModule = {
 	setSaveUrl: function (url) {
 		il.LearningModule.save_url = url;
 	},
+
+	setTocRefreshUrl: function (url) {
+		il.LearningModule.toc_refresh_url = url;
+	},
+
 
 	setCloseHTML: function (html) {
 		il.LearningModule.close_html = html;
@@ -161,8 +167,24 @@ il.LearningModule = {
 		}).done(function(data) {			
 			 $('#ilrtrpg').html(data);
 		});
-	}	
-}
+	},
+
+	processAnswer: function(questions) {
+		var correct = true, has_questions = false;
+		for (var i in questions.answers) {
+			has_questions = true;
+			if (!questions.answers[i].passed) {
+				correct = false;
+			}
+		}
+		if (has_questions && correct) {
+			$(".ilc_page_rnav_RightNavigation").removeClass("ilNoDisplay");
+			if (il.LearningModule.toc_refresh_url != "" && $("#left_nav")) {
+				il.Util.ajaxReplaceInner(il.LearningModule.toc_refresh_url, "left_nav");
+			}
+		}
+	}
+};
 
 $(function() {
 	$('body').focus();

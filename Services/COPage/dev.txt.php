@@ -9,6 +9,29 @@ handleCopiedContent
 - called by pasteContents
 -- called by ilPageEditorGUI->paste
 
+
+=================================
+handleCopiedContent
+=================================
+
+1. Page Rendering:
+
+ilPCQuestion->getOnloadCode()
+  - ilCOPageQuestionHandler.initCallback('".$url."');
+
+
+2. Clicking Answer
+
+Modules/Scorm2004/scripts/questions/question_handling.js
+  - ilias.questions.checkAnswers
+    - calls ilias.questions.<questiontype>(), e.g. ilias.questions.assMultipleChoice()
+    - calls ->
+ilCOPageQuestionHandler.js->processAnswer
+  - ->sendAnswer sends asynRequers to ->
+ilPageObjectGUI->processAnswer ->
+ilPageQuestionProcessor->saveQuestionAnswer
+
+
 =================================
 Multi lang
 =================================

@@ -98,9 +98,13 @@ ilias.questions.checkAnswers = function(a_id) {
 	
 	eval(call);
 
+
+	if (typeof il.LearningModule != "undefined") {
+		il.LearningModule.processAnswer(ilias.questions);
+	}
+
 	// forward answer to self assessment question handler (non-scorm)
-	if (typeof ilCOPageQuestionHandler != "undefined")
-	{
+	if (typeof ilCOPageQuestionHandler != "undefined") {
 		ilCOPageQuestionHandler.processAnswer(questions[a_id].type, a_id, answers[a_id]);
 	}
 };
