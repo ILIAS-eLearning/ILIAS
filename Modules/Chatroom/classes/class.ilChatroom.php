@@ -1008,7 +1008,7 @@ class ilChatroom
 			$notification->setLongDescriptionVar('chat_invitation_long', $bodyParams, 'chatroom');
 			$notification->setAutoDisable(false);
 			$notification->setLink($invitationLink);
-			$notification->setIconPath('templates/default/images/icon_chtr_s.png');
+			$notification->setIconPath('templates/default/images/icon_chtr.svg');
 			$notification->setValidForSeconds(0);
 
 			$notification->setHandlerParam('mail.sender', $sender_id);
