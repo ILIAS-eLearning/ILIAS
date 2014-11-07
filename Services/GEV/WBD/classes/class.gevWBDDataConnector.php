@@ -363,9 +363,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 			AND 
 			end_date = '$end_date'
 		";
-		$result = $this->db->query($sql);
-		if($this->db->numRows($result) > 0){
-			$record = $this->db->fetchAssoc($result);
+		$result = $this->ilDB->query($sql);
+		if($this->ilDB->numRows($result) > 0){
+			$record = $this->ilDB->fetchAssoc($result);
 			return $record['crs_id'];
 		}
 		
@@ -375,8 +375,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 				ORDER BY crs_id ASC
 				LIMIT 1
 		";	
-		$result = $this->db->query($sql);
-		$record = $this->db->fetchAssoc($result);
+		$result = $this->ilDB->query($sql);
+		$record = $this->ilDB->fetchAssoc($result);
 		
 		$crs_id = $record['crs_id'] - 1;
 		//start with 4 digits
@@ -384,7 +384,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 			$crs_id = -1000;
 		}
 
-		$next_id = $this->db->nextId('hist_course');
+		$next_id = $this->ilDB->nextId('hist_course');
 
 		$sql = "INSERT INTO hist_course
 			(
@@ -423,9 +423,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 			)";
 
 			
-die($sql);
 
-			if(! $this->db->query($sql)){
+print "\n\n$sql\n\n";
+
+			if(! $this->ilDB->query($sql)){
 				die($sql);
 			}
 
@@ -444,22 +445,24 @@ die($sql);
 			." WHERE bwv_id = '" .$rec['bwv_id'] ."'"
 			." AND hist_historic=0";
 		$result = $this->ilDB->query($sql);
-		$user_rec = $this->ilDB->fetchAssoc($result)
+		$user_rec = $this->ilDB->fetchAssoc($result);
 
 		$usr_id = $user_rec['user_id'];
 
 		$uutils = gevUserUtils::getInstanceByObjOrId($usr_id);
 
 		$okz 			= $uutils->getWBDOKZ();
+		$booking_id		= $rec['wbd_booking_id'];
 		$credit_points 	= $rec['credit_points'];
 		$begin_date 	= $rec['begin']; // date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date 		= $rec['end']; //date('Y-m-d', strtotime($rec['Ende']));
 		$creator_id 	= -200;
-		$next_id 		= $this->db->nextId('hist_usercoursestatus');
+		$next_id 		= $this->ilDB->nextId('hist_usercoursestatus');
 
 		$sql = "INSERT INTO hist_usercoursestatus
 			(
 				row_id,
+				wbd_booking_id,
 				created_ts,
 				creator_user_id,
 				usr_id,
@@ -479,6 +482,7 @@ die($sql);
 			VALUES 
 			(
 				$next_id,
+				'$booking_id',
 				UNIX_TIMESTAMP(),
 				$creator_id,
 				$usr_id,
@@ -486,7 +490,7 @@ die($sql);
 				$credit_points,
 				0,
 				0,
-				$okz
+				'$okz',
 				'Mitglied',
 				'gebucht',
 				'teilgenommen',
@@ -496,8 +500,9 @@ die($sql);
 				-1
 			)";
 		
-die($sql);
-			if(! $this->db->query($sql)){
+
+print "\n\n$sql\n\n";
+			if(! $this->ilDB->query($sql)){
 				die($sql);
 			}
 
@@ -1013,12 +1018,13 @@ die($sql);
 					// this is truly a foreign record
 
 					// ! Storno/Korrektur !
-					if($wpentry['Storniert'] || $wpentry['Korrekturbuchung']){
+					if($wpentry['Storniert'] != 'false' || $wpentry['Korrekturbuchung'] != 'false'){
+						print_r($wpentry);
 						die('Storno/Korrektur - not implemented');
 					}
 
 					$rec = array(
-						'bwv_id' 		=> $wpentry['VermittlerId']
+						'bwv_id' 		=> $wpentry['VermittlerId'],
 						'wbd_booking_id'=> $booking_id,
 						'credit_points'	=> $wpentry['WeiterbildungsPunkte'],
 						'begin'			=> $wpentry['SeminarDatumVon'],
@@ -1033,9 +1039,15 @@ die($sql);
 
 					print "\n\n imported seminar: \n";
 					print_r($wpentry);
+				} else {
+					print "\n not a foreign record";
+				
 				}
-			}
+			} 
+		} else {
+			print "\n no records.";
 		}
+		
 		return true;
 	}
 
