@@ -1349,8 +1349,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$up_gui = ($this->object->getType() == "dbk")
 			? "ilobjdlbookgui"
 			: "ilobjlearningmodulegui";
-		$form_gui->setExplorerUpdater("tree", "tree_div",
-			$ilCtrl->getLinkTargetByClass($up_gui, "explorer", "", true));
 
 		$ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "Modules/LearningModule");
 		$ctpl->setVariable("HIERARCHY_FORM", $form_gui->getHTML());

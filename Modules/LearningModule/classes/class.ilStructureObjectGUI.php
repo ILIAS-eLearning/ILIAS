@@ -170,8 +170,6 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			? "ilobjdlbookgui"
 			: "ilobjlearningmodulegui";
 		$ilCtrl->setParameterByClass($up_gui, "active_node", $this->obj->getId());
-		$form_gui->setExplorerUpdater("tree", "tree_div",
-			$ilCtrl->getLinkTargetByClass($up_gui, "explorer", "", true));
 		$ilCtrl->setParameterByClass($up_gui, "active_node", "");
 
 		$ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "Modules/LearningModule");

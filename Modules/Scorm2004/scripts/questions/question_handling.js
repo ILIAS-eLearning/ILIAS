@@ -82,7 +82,7 @@ ilias.questions.initAnswer = function(a_id, tries, passed) {
 	answers[a_id].passed = passed;
 	answers[a_id].answer = new Array();
 	answers[a_id].interactionId=null;
-	if (tries > 0 && answers[a_id].tries >= questions[a_id].nr_of_tries) {
+	if (tries > 0 && (answers[a_id].tries >= questions[a_id].nr_of_tries || passed)) {
 		answers[a_id].passed = passed;
 		ilias.questions.showFeedback(a_id);
 	}

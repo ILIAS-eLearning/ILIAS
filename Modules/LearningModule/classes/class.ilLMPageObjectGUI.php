@@ -133,9 +133,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					? "ilobjdlbookgui"
 					: "ilobjlearningmodulegui";
 				$ilCtrl->setParameterByClass($up_gui, "active_node", $this->obj->getId());
-				$page_gui->setExplorerUpdater("tree", "tree_div",
-				$ilCtrl->getLinkTargetByClass($up_gui, "explorer", "", true));
-				
+
 				$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.png"));
 				$tpl->setTitle($this->lng->txt("page").": ".$this->obj->getTitle());
 				if ($this->content_object->getLayoutPerPage())

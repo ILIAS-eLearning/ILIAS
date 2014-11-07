@@ -14661,7 +14661,7 @@ content#:#cont_tries#:#Antwortversuche
 content#:#cont_tries_reset_on_visit#:#Zurücksetzen bei Aufruf der Seite
 content#:#cont_tries_reset_on_visit_info#:#Benutzer haben bei jedem Aufruf einer Seite mit einer Testfrage die maximale Anzahl an Antwortversuchen. Die Testfragen müssen jedesmal beantwortet werden.
 content#:#cont_tries_store#:#Speichere Antwortversuche
-content#:#cont_tries_store_info#:#Die Zahl der Antwortversuche wird festgehalten und gespeichert. Korrekt beantwortete Fragen müssen nicht mehr beantwortet werden. Benutzer können die maximale Anzahl an Antwortversuchen überschreiten und dann gesperrt werden.
+content#:#cont_tries_store_info#:#Die Zahl der Antwortversuche wird festgehalten und gespeichert. Korrekt beantwortete Fragen müssen nicht mehr beantwortet werden. Benutzer können Fragen nach Erreichen der maximalen Versuche nicht erneut beantworten.
 content#:#cont_restrict_forw_nav#:#Vorwärtsblättern im Lernmodul reglementieren
 content#:#cont_restrict_forw_nav_info#:#Benutzer können eine nachfolgende Seite erst dann aufrufen, wenn sie zuvor alle vorherigen Testfragen korrekt beantwortet haben.
 content#:#cont_no_page_access_unansw_q#:#Sie müssen alle bisherigen Fragen korrekt beantworten, um diese Seite aufrufen zu können.

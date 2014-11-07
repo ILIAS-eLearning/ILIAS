@@ -371,11 +371,10 @@ class ilPCQuestion extends ilPageContent
 				{
 					include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
 					$as = ilPageQuestionProcessor::getAnswerStatus($q_id, $ilUser->getId());
-					$code[] = "ilias.questions.initAnswer(".$q_id.", ".(int) $as["try"].", ".($as["passed"] ? "true" : "null").")";
+					$code[] = "ilias.questions.initAnswer(".$q_id.", ".(int) $as["try"].", ".($as["passed"] ? "true" : "null").");";
 				}
 			}
 		}
-
 		return $code;
 	}
 
