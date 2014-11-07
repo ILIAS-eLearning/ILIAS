@@ -622,7 +622,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
 		if ($this->object->getAnswerCount() == 0)
 		{
-			$this->object->addAnswer( "", 0, 0, 0 );
+			$this->object->addAnswer( "", 1, 0, 0 );
 		}
 		require_once "./Modules/TestQuestionPool/classes/class.ilEssayKeywordWizardInputGUI.php";
 
