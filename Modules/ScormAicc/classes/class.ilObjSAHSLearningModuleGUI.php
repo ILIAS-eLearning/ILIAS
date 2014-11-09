@@ -494,6 +494,16 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			}*/
 		}
 		
+		//auto set learning progress settings
+		switch ($_POST["sub_type"])
+		{
+			case "scorm2004":
+			case "scorm":
+			$newObj->setLearningProgressSettingsAtUpload();
+			break;
+		}
+		
+		
 		ilUtil::sendInfo( $this->lng->txt($newObj->getType()."_added"), true);
 		ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$newObj->getRefId());
 	}
@@ -641,7 +651,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "properties"), array("", "properties"),
 			get_class($this));
 			
-		// learning progress and ofline mode
+		// learning progress and offline mode
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
 		{

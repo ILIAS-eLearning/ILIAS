@@ -219,6 +219,12 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$check->setChecked($privacy->enabledExportSCORM());
 		$form->addItem($check);
 
+		// scorm auto-setting for learning progress
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("scorm_lp_auto_activate"),"scorm_lp_auto_activate");
+		$cb_prop->setInfo($lng->txt("scorm_lp_auto_activate_info"));
+		$cb_prop->setChecked($lm_set->get("scorm_lp_auto_activate"));
+		$form->addItem($cb_prop);
+
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));
@@ -252,6 +258,8 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 			ilUtil::stripSlashes($_POST["scormdebug_disable_cache"]));
 		$lm_set->set("scorm_without_session",
 			ilUtil::stripSlashes($_POST["scorm_without_session"]));
+		$lm_set->set("scorm_lp_auto_activate",
+			ilUtil::stripSlashes($_POST["scorm_lp_auto_activate"]));
 		$lic_set = new ilSetting("license");
 		$lic_set->set("license_counter",
 			ilUtil::stripSlashes($_POST["license_counter"]));

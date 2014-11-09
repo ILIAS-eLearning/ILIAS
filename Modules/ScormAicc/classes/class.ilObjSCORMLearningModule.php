@@ -226,7 +226,34 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		return $slmParser->getPackageTitle();
 	}
 
-
+	/**
+	* set settings for learning progress determination per default at upload
+	*/
+	function setLearningProgressSettingsAtUpload()
+	{
+		global $ilSetting;
+		//condition 1
+		if ($ilSetting->get('scorm_lp_auto_activate',0)) return;
+		//condition 2
+		include_once("./Services/Tracking/classes/class.ilObjUserTracking.php");
+		if (ilObjUserTracking::_enabledLearningProgress() == false) return; 
+		
+		//set Learning Progress to Automatic by Collection of SCORM Items
+		include_once("./Services/Tracking/classes/class.ilLPObjSettings.php");
+		$lm_set = new ilLPObjSettings($this->getId());
+		$lm_set->setMode(ilLPObjSettings::LP_MODE_SCORM);
+		$lm_set->insert();
+		
+		//select all SCOs as relevant for Learning Progress
+		include_once("Services/Tracking/classes/collection/class.ilLPCollectionOfSCOs.php");
+		$collection = new ilLPCollectionOfSCOs($this->getId(), ilLPObjSettings::LP_MODE_SCORM);
+		$scos = array();
+		foreach($collection->getPossibleItems() as $sco_id => $item)
+		{
+			$scos[] = $sco_id;
+		}
+		$collection->activateEntries($scos);
+	}
 	/**
 	* get all tracked items of current user
 	*/
