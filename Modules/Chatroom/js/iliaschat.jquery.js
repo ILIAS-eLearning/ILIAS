@@ -1045,7 +1045,7 @@ il.Util.addOnLoad(function () {
 
 								var oldValue = $('#invite_user_text').val();
 								invitationChangeTimeout = window.setTimeout(cb = function () {
-									if ($('#invite_user_text').val() != oldValue && $('#invite_user_text').val().length) {
+									if ($('#invite_user_text').val() != oldValue && $('#invite_user_text').val().length > 2) {
 										oldValue = $('#invite_user_text').val();
 										$.get(
 											posturl.replace(/postMessage/, 'inviteUsersToPrivateRoom-getUserList') + '&q=' + $('#invite_user_text').val(),
@@ -1053,8 +1053,8 @@ il.Util.addOnLoad(function () {
 												response = $.getAsObject(response);
 												$('#invite_users_available').html('');
 
-												if ($(response).size()) {
-													$(response).each(function () {
+												if (response && $(response.items).size()) {
+													$(response.items).each(function () {
 														var login = this.value;
 														var publicName = this.label;
 														$('<li class="invite_user_line_login invite_user_line"></li>')

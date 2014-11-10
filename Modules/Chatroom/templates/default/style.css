@@ -187,8 +187,6 @@ h2.current_room_title {
 	font-size: 90%;
 	color: #404040;
 	background-color: #F8F8F8;
-	background-image: url(../../../../templates/default/images/block_top.png);
-	background-repeat: repeat-x;
 	border-bottom: 1px solid #E9E9E9;
 	margin-top: 0;
 	
@@ -210,7 +208,7 @@ h2.current_room_title {
 }
 
 .invite_user_line {
-	background-image: url(../../../../templates/default/images/icon_usr_s.png);
+	background-image: url(../../../../templates/default/images/icon_usr.svg);
 	background-position: left center;
 	background-repeat: no-repeat;
 }
@@ -274,4 +272,8 @@ h2.current_room_title {
 #ilChatBlockMessageBody {
 	overflow: auto;
 	height: 240px;
+}
+
+.ilNoDisplayChat {
+	display: none;
 }

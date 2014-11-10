@@ -46,13 +46,13 @@ var myId = {MY_ID};
     });
 </script>
 
-<div id="invite_users_container" class="ilNoDisplay">
-	<div style="display: none;">
-	    <input type="radio" name="invite_users_type" id="invite_users_in_room"/><span id="radioText">{LBL_USER_IN_ROOM}&nbsp;&nbsp;</span>
+<div id="invite_users_container" class="ilNoDisplayChat">
+	<div class="ilNoDisplayChat">
+		<input type="radio" name="invite_users_type" id="invite_users_in_room"/><span id="radioText">{LBL_USER_IN_ROOM}&nbsp;&nbsp;</span>
 		<input type="radio" name="invite_users_type" id="invite_users_global"/>{LBL_USER_IN_ILIAS}
 	</div>
 	<div>
-		<p id="invite_user_text_wrapper" class="ilNoDisplay"><label for="invite_user_text">{LBL_USER_TEXT}:</label> <input type="text" class="form-control" id="invite_user_text" /></p>
+		<p id="invite_user_text_wrapper" class="ilNoDisplayChat"><label for="invite_user_text">{LBL_USER_TEXT}:</label> <input type="text" class="form-control" id="invite_user_text" /></p>
 		<ul id="invite_users_available">
 			<li></li>
 		</ul>
@@ -107,7 +107,7 @@ var myId = {MY_ID};
 			<div class="form-group">
 				<label class="col-sm-3 control-label" for="submit_message_text"><span id="message_recipient_info_all">{LBL_TOALL}</span><span id="message_recipient_info"></span></label>
 				<div id="iosChatInputContainer" class="col-sm-9">
-					<input class="form-control" type="text" name="message" id="submit_message_text" style="margin:0"/>
+					<input class="form-control" type="text" name="message" id="submit_message_text"/>
 					<input type="button" class="btn btn-default btn-sm" value="{LBL_SEND}" id="submit_message"/>
 				</div>
 			</div>
@@ -162,6 +162,6 @@ var myId = {MY_ID};
 
 <input class="ilHidden" type="text" name="moreOptions" id="moreOptions" />
 
-<div class="ilNoDisplay" id="create_private_room_dialog">
+<div class="ilNoDisplayChat" id="create_private_room_dialog">
     <label for="new_room_name">{LBL_CREATE_PRIVATE_ROOM_TEXT}:</label> <input class="form-control" type="text" id="new_room_name" />
 </div>
