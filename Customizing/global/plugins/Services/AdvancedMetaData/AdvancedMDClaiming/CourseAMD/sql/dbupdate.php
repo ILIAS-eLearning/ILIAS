@@ -302,7 +302,7 @@ array( "Zeitraum"
 				 			 , array( "Präsenztraining"
 				 			 		, "Webinar"
 				 			 		, "Selbstlernkurs"
-				 			 		, "Virtuelles Training (gesteuertes E-Learning)"
+				 			 		, "Virtuelles Training"
 									)
 				 			 // if this is changed, gevUserUtils::getCourseHighlights
 				 			 // needs to be changed as well!!
