@@ -14829,7 +14829,8 @@ crs#:#crs_loc_settings_type#:#Kursdesign
 crs#:#crs_loc_type_initial_all#:#Einstiegstest und Lernempfehlung 
 crs#:#crs_loc_type_initial_sel#:#Kurs startet mit Einstiegstest zu ausgewähltem Lernziel
 crs#:#crs_loc_type_qualified#:#Qualifizierender Test mit Nachtest zu nicht erreichten Lernzielen
-crs#:#crs_loc_type_practise#:#Freier Lern- und Übungsteil mit Abschlusstestcrs#:#crs_loc_tab_materials#:#Materialien
+crs#:#crs_loc_type_practise#:#Freier Lern- und Übungsteil mit Abschlusstest
+crs#:#crs_loc_tab_materials#:#Materialien
 crs#:#crs_loc_tab_itest#:#Einstiegstest
 crs#:#crs_loc_tab_qtest#:#Qualifizierender Test
 crs#:#crs_loc_settings_itest_tbl#:#Einstellungen für Einstiegstest
