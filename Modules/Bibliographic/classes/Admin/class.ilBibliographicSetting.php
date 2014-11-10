@@ -1,271 +1,218 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+require_once('./Services/ActiveRecord/class.ActiveRecord.php');
+
 /**
  * Class ilBibliographicSetting
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author Martin Studer <ms@studer-raimann.ch>
+ * @author  Martin Studer <ms@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilBibliographicSetting {
+class ilBibliographicSetting extends ActiveRecord {
 
 	const TABLE_NAME = 'il_bibl_settings';
-	/**
-	 * @var int
-	 */
-	protected $id = 0;
-	/**
-	 * @var string
-	 */
-	protected $name = '';
-	/**
-	 * @var string
-	 */
-	protected $base_url = '';
-	/**
-	 * @var string
-	 */
-	protected $image_url = '';
-	/**
-	 * @var boolean
-	 */
-	protected $show_in_list = false;
 
 
 	/**
-	 * @param $id
+	 * @return string
+	 * @deprecated
 	 */
-	public function __construct($id = 0) {
-		$this->id = $id;
-		if ($this->id > 0) {
-			$this->read();
-		}
+	static function returnDbTableName() {
+		return self::TABLE_NAME;
 	}
 
 
-	public function read() {
-		global $ilDB;
-		/**
-		 * @var $ilDB ilDB
-		 */
-		$set = $ilDB->query('SELECT * FROM ' . self::TABLE_NAME . ' WHERE id = '
-			. $ilDB->quote($this->getId(), 'integer'));
-		$rec = $ilDB->fetchObject($set);
-		$this->setBaseUrl($rec->url);
-		$this->setImageUrl($rec->img);
-		$this->setName($rec->name);
-		$this->setShowInList($rec->show_in_list);
+	/**
+	 * @return string
+	 */
+	public function getConnectorContainerName() {
+		return self::TABLE_NAME;
 	}
+
+
+	/**
+	 * @var
+	 *
+	 * @con_has_field  true
+	 * @con_fieldtype  integer
+	 * @con_length     4
+	 * @con_is_notnull true
+	 * @con_is_primary true
+	 * @con_is_unique  true
+	 * @con_sequence   true
+	 */
+	protected $id;
+	/**
+	 * @var
+	 *
+	 * @con_has_field  true
+	 * @con_fieldtype  text
+	 * @con_length     50
+	 * @con_is_notnull true
+	 */
+	protected $name;
+	/**
+	 * @var
+	 *
+	 * @con_has_field  true
+	 * @con_fieldtype  text
+	 * @con_length     128
+	 * @con_is_notnull true
+	 */
+	protected $url;
+	/**
+	 * @var
+	 *
+	 * @con_has_field true
+	 * @con_fieldtype text
+	 * @con_length    128
+	 */
+	protected $img;
+	/**
+	 * @var
+	 *
+	 * @con_has_field true
+	 * @con_fieldtype integer
+	 * @con_length    1
+	 */
+	protected $show_in_list;
 
 
 	/**
 	 * @return ilBibliographicSetting[]
 	 */
 	public static function getAll() {
-		global $ilDB;
-		$return = array();
-		$set = $ilDB->query('SELECT * FROM ' . self::TABLE_NAME);
-		while ($rec = $ilDB->fetchObject($set)) {
-			$return[] = new self($rec->id);
-		}
-
-		return $return;
-	}
-
-
-	public function update() {
-		global $ilDB;
-
-		$ilDB->update(self::TABLE_NAME, array("name" => array(
-			"text", $this->getName()),
-			"url" => array( "text", $this->getBaseUrl()),
-			"img" => array( "text", $this->getImageUrl()),
-			"show_in_list" => array("integer", $this->getShowInList())),
-			array("id" => array("integer", $this->getId())));
-	}
-
-
-	public function create() {
-		global $ilDB;
-		// get lowest available id
-		$res = $ilDB->query("SELECT * FROM " . self::TABLE_NAME . " ORDER BY id ASC");
-		$id = 1;
-		while ($row = $ilDB->fetchAssoc($res)) {
-			if ($row['id'] == $id) {
-				$id ++;
-			} else {
-				break;
-			}
-		}
-		// insert new entry
-		$ilDB->insert(self::TABLE_NAME, array(
-			"id" => array( "integer", $id ),
-			"name" => array( "text", $this->getName() ),
-			"url" => array( "text", $this->getBaseUrl() ),
-			"img" => array( "text", $this->getImageUrl() ),
-			"show_in_list" => array( "integer", $this->getShowInList() )
-		));
+		return self::get();
 	}
 
 
 	/**
 	 * @param ilBibliographicEntry $entry
-	 * @param string $type (bib|ris)
+	 * @param string               $type (bib|ris)
 	 *
 	 * @return string
 	 */
-	public function generateLibraryLink($entry, $type) {
-
+	public function generateLibraryLink(ilBibliographicEntry $entry, $type) {
 		$attributes = $entry->getAttributes();
 		switch ($type) {
 			case 'bib':
 				$prefix = "bib_default_";
-				if(!empty($attributes[$prefix."isbn"])){
-                    $attr = Array("isbn");
-                }elseif(!empty($attributes[$prefix."issn"])){
-                    $attr = Array("issn");
-                }else{
-                    $attr = Array("title", "author", "year", "number", "volume");
-                }
-                break;
+				if (!empty($attributes[$prefix . "isbn"])) {
+					$attr = Array( "isbn" );
+				} elseif (!empty($attributes[$prefix . "issn"])) {
+					$attr = Array( "issn" );
+				} else {
+					$attr = Array( "title", "author", "year", "number", "volume" );
+				}
+				break;
 			case 'ris':
 				$prefix = "ris_" . strtolower($entry->getType()) . "_";
-				if(!empty($attributes[$prefix."sn"])){
-                    $attr = Array("sn");
-                }else{
-                    $attr = Array("ti", "t1", "au", "py", "is", "vl");
-                }
+				if (!empty($attributes[$prefix . "sn"])) {
+					$attr = Array( "sn" );
+				} else {
+					$attr = Array( "ti", "t1", "au", "py", "is", "vl" );
+				}
 				break;
 		}
 
-        $url_params = "?";
-		if(sizeof($attr) == 1){
-            $url_params .= $this->formatAttribute($attr[0], $type, $attributes, $prefix) . "=" . urlencode($attributes[$prefix . $attr[0]]);
-        }else{
-            foreach($attr as $a){
-                if(array_key_exists($prefix.$a, $attributes)){
-                    if(strlen($url_params) > 1){
-                        $url_params .= "&";
-                    }
-                    $url_params .= $this->formatAttribute($a, $type, $attributes, $prefix) . "=" . urlencode($attributes[$prefix . $a]);
-                }
-            }
-        }
+		$url_params = "?";
+		if (sizeof($attr) == 1) {
+			$url_params .= $this->formatAttribute($attr[0], $type, $attributes, $prefix) . "=" . urlencode($attributes[$prefix . $attr[0]]);
+		} else {
+			foreach ($attr as $a) {
+				if (array_key_exists($prefix . $a, $attributes)) {
+					if (strlen($url_params) > 1) {
+						$url_params .= "&";
+					}
+					$url_params .= $this->formatAttribute($a, $type, $attributes, $prefix) . "=" . urlencode($attributes[$prefix . $a]);
+				}
+			}
+		}
 
 		// return full link
-		$full_link = $this->getBaseUrl() . $url_params;
+		$full_link = $this->getUrl() . $url_params;
 
 		return $full_link;
 	}
 
-    /**
-     * @param String $a
-     * @param String $type
-     * @param Array $attributes
-     * @param String $prefix
-     * @return String
-     */
-    private function formatAttribute($a, $type, $attributes, $prefix){
-        if($type = 'ris'){
-            switch($a){
-                case 'ti':
-                    $a = "title";
-                    break;
-                case 't1':
-                    $a = "title";
-                    break;
-                case 'au':
-                    $a = "author";
-                    break;
-                case 'sn':
-                    if (strlen($attributes[$prefix."sn"]) <= 9) {
-                        $a = "issn";
-                    }else{
-                        $a = "isbn";
-                    }
-                    break;
-                case 'py':
-                    $a = "date";
-                    break;
-                case 'is':
-                    $a = "issue";
-                    break;
-                case 'vl':
-                    $a = "volume";
-                    break;
-            }
-        }elseif($type = 'bib'){
-            switch($a){
-                case "number":
-                    $a = "issue";
-                    break;
-                case "year":
-                    $a = "date";
-                    break;
-            }
-        }
-        return $a;
-    }
-
 
 	/**
-	 * @param string $base_url
-	 */
-	public function setBaseUrl($base_url) {
-		$this->base_url = $base_url;
-	}
-
-
-	/**
+	 * @param ilObjBibliographic   $bibl_obj
+	 * @param ilBibliographicEntry $entry
+	 *
 	 * @return string
 	 */
-	public function getBaseUrl() {
-		return $this->base_url;
+	public function getButton(ilObjBibliographic $bibl_obj, ilBibliographicEntry $entry) {
+		if ($this->getImg()) {
+			return '<a target="_blank" href="' . $this->generateLibraryLink($entry, $bibl_obj->getFiletype()) . '"><img src="' . $this->getImg()
+			. '"></a>';
+		} else {
+			require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
+			$button = ilLinkButton::getInstance();
+			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFiletype()));
+			$button->setTarget('_blank');
+			$button->setCaption('bibl_link_online');
+
+			return $button->render();
+		}
 	}
 
 
 	/**
-	 * @param string $image_url
+	 * @param String $a
+	 * @param String $type
+	 * @param Array  $attributes
+	 * @param String $prefix
+	 *
+	 * @return String
 	 */
-	public function setImageUrl($image_url) {
-		$this->image_url = $image_url;
+	private function formatAttribute($a, $type, $attributes, $prefix) {
+		if ($type = 'ris') {
+			switch ($a) {
+				case 'ti':
+					$a = "title";
+					break;
+				case 't1':
+					$a = "title";
+					break;
+				case 'au':
+					$a = "author";
+					break;
+				case 'sn':
+					if (strlen($attributes[$prefix . "sn"]) <= 9) {
+						$a = "issn";
+					} else {
+						$a = "isbn";
+					}
+					break;
+				case 'py':
+					$a = "date";
+					break;
+				case 'is':
+					$a = "issue";
+					break;
+				case 'vl':
+					$a = "volume";
+					break;
+			}
+		} elseif ($type = 'bib') {
+			switch ($a) {
+				case "number":
+					$a = "issue";
+					break;
+				case "year":
+					$a = "date";
+					break;
+			}
+		}
+
+		return $a;
 	}
 
 
 	/**
-	 * @return string
-	 */
-	public function getImageUrl() {
-		return $this->image_url;
-	}
-
-
-	/**
-	 * @param string $name
-	 */
-	public function setName($name) {
-		$this->name = $name;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getName() {
-		return $this->name;
-	}
-
-
-	/**
-	 * @param int $id
-	 */
-	public function setId($id) {
-		$this->id = $id;
-	}
-
-
-	/**
-	 * @return int
+	 * @return mixed
 	 */
 	public function getId() {
 		return $this->id;
@@ -273,7 +220,55 @@ class ilBibliographicSetting {
 
 
 	/**
-	 * @param boolean $show_in_list
+	 * @param mixed $id
+	 */
+	public function setId($id) {
+		$this->id = $id;
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getImg() {
+		return $this->img;
+	}
+
+
+	/**
+	 * @param mixed $img
+	 */
+	public function setImg($img) {
+		$this->img = $img;
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getName() {
+		return $this->name;
+	}
+
+
+	/**
+	 * @param mixed $name
+	 */
+	public function setName($name) {
+		$this->name = $name;
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getShowInList() {
+		return $this->show_in_list;
+	}
+
+
+	/**
+	 * @param mixed $show_in_list
 	 */
 	public function setShowInList($show_in_list) {
 		$this->show_in_list = $show_in_list;
@@ -281,10 +276,18 @@ class ilBibliographicSetting {
 
 
 	/**
-	 * @return boolean
+	 * @return mixed
 	 */
-	public function getShowInList() {
-		return $this->show_in_list;
+	public function getUrl() {
+		return $this->url;
+	}
+
+
+	/**
+	 * @param mixed $url
+	 */
+	public function setUrl($url) {
+		$this->url = $url;
 	}
 }
 

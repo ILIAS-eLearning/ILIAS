@@ -74,7 +74,7 @@ class ilBibliographicDetailsGUI {
 						$is_standard_field = ilRis::isStandardField($arrKey[2]);
 						break;
 				}
-//				var_dump($is_standard_field); // FSX
+				//				var_dump($is_standard_field); // FSX
 				if ($is_standard_field) {
 					$strDescTranslated = $lng->txt($arrKey[0] . "_default_" . $arrKey[2]);
 				} else {
@@ -95,16 +95,12 @@ class ilBibliographicDetailsGUI {
 		// generate/render links to libraries
 		$settings = ilBibliographicSetting::getAll();
 		foreach ($settings as $set) {
-			if ($set->getImageUrl() == '') {
-				// default image
-				$set->setImageUrl(ilUtil::getImagePath('lib_link_def.gif'));
-			}
 			$ci = new ilCustomInputGUI($set->getName());
-			$ci->setHtml('<a target="_blank" href="' . $set->generateLibraryLink($this->entry, $this->bibl_obj->getFiletype()) . '"><img src="'
-				. $set->getImageUrl() . '"></a>');
+			$ci->setHtml($set->getButton($this->bibl_obj, $this->entry));
 			$form->addItem($ci);
 		}
 		$tpl->setPermanentLink("bibl", $this->bibl_obj->getRefId(), "_" . $_GET[ilObjBibliographicGUI::P_ENTRY_ID]);
+
 		// set content and title
 		return $form->getHTML();
 		//Permanent Link

@@ -95,8 +95,8 @@ class ilObjBibliographicAdminLibrariesFormGUI extends ilPropertyFormGUI {
 	private function fillForm() {
 		$this->setValuesByArray(array(
 			'name' => $this->bibl_setting->getName(),
-			'url' => $this->bibl_setting->getBaseUrl(),
-			'img' => $this->bibl_setting->getImageUrl(),
+			'url' => $this->bibl_setting->getUrl(),
+			'img' => $this->bibl_setting->getImg(),
 			'show_in_list' => $this->bibl_setting->getShowInList()
 		));
 	}
@@ -107,8 +107,8 @@ class ilObjBibliographicAdminLibrariesFormGUI extends ilPropertyFormGUI {
 			return false;
 		}
 		$this->bibl_setting->setName($this->getInput("name"));
-		$this->bibl_setting->setBaseUrl($this->getInput("url"));
-		$this->bibl_setting->setImageUrl($this->getInput("img"));
+		$this->bibl_setting->setUrl($this->getInput("url"));
+		$this->bibl_setting->setImg($this->getInput("img"));
 		$this->bibl_setting->setShowInList($this->getInput("show_in_list"));
 		switch ($this->action) {
 			case 'create':

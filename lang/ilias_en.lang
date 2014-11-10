@@ -13249,6 +13249,7 @@ common#:#objs_bibl#:#Bibliographies
 common#:#obj_bibs#:#Bibliography
 common#:#obj_bibs_desc#:#Bibliography Administration
 bibl#:#bibl_new#:#New Bibliography
+bibl#:#bibl_link_online#:#Lookup inventory
 bibl#:#bibl_add#:#Add Bibliography
 bibl#:#bibl_import#:#Import Bibliography
 bibl#:#Download Original File#:#Download Original File

@@ -13238,6 +13238,7 @@ common#:#obj_bibl#:#Literaturliste
 common#:#obj_bibs#:#Literaturliste
 common#:#obj_bibs_desc#:#Literaturlisten-Administration
 bibl#:#bibl_new#:#Neue Literaturliste
+bibl#:#bibl_link_online#:#Bestandsabfrage
 bibl#:#bibl_add#:#Literaturliste hinzufügen
 bibl#:#bibl_import#:#Literaturliste importieren
 bibl#:#Download Original File#:#Original-Datei herunterladen

@@ -24,8 +24,8 @@ class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
 	 */
 	public function  __construct(ilObjBibliographicGUI $a_parent_obj, $a_parent_cmd) {
 		global $lng, $ilCtrl;
-		$this->setId("tbl_bibl_overview");
-		$this->setPrefix("tbl_bibl_overview");
+		$this->setId('tbl_bibl_overview');
+		$this->setPrefix('tbl_bibl_overview');
 		$this->setFormName('tbl_bibl_overview');
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->parent_obj = $a_parent_obj;
@@ -39,9 +39,9 @@ class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
 
 		$this->setEnableHeader(false);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.bibliographic_record_table_row.html", "Modules/Bibliographic");
+		$this->setRowTemplate('tpl.bibliographic_record_table_row.html', 'Modules/Bibliographic');
 		// enable sorting by alphabet -- therefore an unvisible column 'content' is added to the table, and the array-key 'content' is also delivered in setData
-		$this->addColumn($lng->txt("a"), 'content', "auto");
+		$this->addColumn($lng->txt('a'), 'content', 'auto');
 		$this->initData();
 		$this->setOrderField('content');
 		$this->setDefaultOrderField('content');
@@ -52,27 +52,21 @@ class ilDataBibliographicRecordListTableGUI extends ilTable2GUI {
 	 * @param array $a_set
 	 */
 	public function fillRow($a_set) {
-		$ilObjEntry = ilBibliographicEntry::getInstance($this->parent_obj->object->getFiletype(), $a_set['entry_id']);
-		$this->tpl->setVariable("SINGLE_ENTRY", $ilObjEntry->getOverwiew());
+		$il_obj_entry = ilBibliographicEntry::getInstance($this->parent_obj->object->getFiletype(), $a_set['entry_id']);
+		$this->tpl->setVariable('SINGLE_ENTRY', $il_obj_entry->getOverwiew());
 		//Detail-Link
 		$this->ctrl->setParameter($this->parent_obj, ilObjBibliographicGUI::P_ENTRY_ID, $a_set['entry_id']);
-		$this->tpl->setVariable("DETAIL_LINK", $this->ctrl->getLinkTarget($this->parent_obj, "showDetails"));
+		$this->tpl->setVariable('DETAIL_LINK', $this->ctrl->getLinkTarget($this->parent_obj, 'showDetails'));
 		// generate/render links to libraries
 		$settings = ilBibliographicSetting::getAll();
 		$arr_library_link = array();
 		foreach ($settings as $set) {
 			if ($set->getShowInList()) {
-				if ($set->getImageUrl() == '') {
-					// default image
-					$set->setImageUrl(ilUtil::getImagePath('lib_link_def.gif'));
-				}
-				$arr_library_link[] =
-					'<a target="_blank" href="' . $set->generateLibraryLink($ilObjEntry, $this->parent_obj->object->getFiletype()) . '"><img src="'
-					. $set->getImageUrl() . '"></a>';
+				$arr_library_link[] = $set->getButton($this->parent_obj->object, $il_obj_entry);
 			}
 		}
 		if (count($arr_library_link)) {
-			$this->tpl->setVariable("LIBRARY_LINK", implode("<br/>", $arr_library_link));
+			$this->tpl->setVariable('LIBRARY_LINK', implode('<br/>', $arr_library_link));
 		}
 	}
 

@@ -13,6 +13,7 @@ require_once("./Services/Export/classes/class.ilExportGUI.php");
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Gabriel Comte <gc@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
+ * @author            Fabian Schmid <fs@studer-raimann.ch>
  *
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
