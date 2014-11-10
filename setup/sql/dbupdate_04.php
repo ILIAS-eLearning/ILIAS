@@ -4694,3 +4694,12 @@ if( $ilDB->tableExists('tst_test_random') )
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4411>
+<?php
+if (!$ilDB->sequenceExists('il_bibl_settings')) {
+	$ilDB->createSequence('il_bibl_settings');
+	$set = $ilDB->query('SELECT MAX(id) new_seq FROM il_bibl_settings');
+	$rec = $ilDB->fetchObject($set);
+	$ilDB->insert('il_bibl_settings_seq', array('sequence' => array('integer', $rec->new_seq)));
+}
+?>
