@@ -128,12 +128,6 @@ class ilChatroomBlockGUI extends ilBlockGUI
 		$chatblock = new ilChatroomBlock();
 		$body_tpl  = new ilTemplate('tpl.chatroom_block_message_body.html', true, true, 'Modules/Chatroom');
 
-		$height = 120;
-		if($this->getCurrentDetailLevel() > 0 && $this->getCurrentDetailLevel() <= 3)
-		{
-			$height *= $this->getCurrentDetailLevel();
-		}
-		$body_tpl->setVariable('BLOCK_HEIGHT', $height);
 		$body_tpl->setVariable('TXT_ENABLE_AUTOSCROLL', $lng->txt('chat_enable_autoscroll'));
 
 		$ilCtrl->setParameterByClass('ilcolumngui', 'block_id', 'block_' . $this->getBlockType() . '_' . (int)$this->getBlockId());

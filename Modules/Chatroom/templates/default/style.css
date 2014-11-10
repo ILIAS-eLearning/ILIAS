@@ -270,3 +270,8 @@ h2.current_room_title {
 #ilChatBlockRoomSelect {
 	width: 100% !important;
 }
+
+#ilChatBlockMessageBody {
+	overflow: auto;
+	height: 240px;
+}
