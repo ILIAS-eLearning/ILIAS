@@ -47,7 +47,7 @@ var ilMultiFormValues = {
 	 * @param event e
 	 */
 	addEvent: function(e) {
-		var id = $(e.target).attr('id').split('~');
+		var id = $(e.delegateTarget).attr('id').split('~');
 		ilMultiFormValues.add(id[1], id[2], '');
 	},
 
@@ -57,7 +57,7 @@ var ilMultiFormValues = {
 	 * @param event e
 	 */
 	removeEvent: function(e) {
-		var id = $(e.target).attr('id').split('~');			
+		var id = $(e.delegateTarget).attr('id').split('~');			
 		if($('div[id*="ilFormField~' +  id[1] + '"]').length > 1) {
 			$('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]').remove();
 		}
@@ -72,7 +72,7 @@ var ilMultiFormValues = {
 	 * @param event e
 	 */
 	downEvent: function(e) {
-		var id = $(e.target).attr('id').split('~');		
+		var id = $(e.delegateTarget).attr('id').split('~');		
 		var original_element = $('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]');
 		var next = $(original_element).next();
 		if(next[0])
@@ -87,7 +87,7 @@ var ilMultiFormValues = {
 	 * @param event e
 	 */
 	upEvent: function(e) {
-		var id = $(e.target).attr('id').split('~');
+		var id = $(e.delegateTarget).attr('id').split('~');
 		var original_element = $('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]');		
 		var prev = $(original_element).prev();
 		if(prev[0])
@@ -249,7 +249,7 @@ var ilMultiFormValues = {
 		{
 			e.preventDefault();
 
-			var id = $(e.target).attr('id').split('~');
+			var id = $(e.delegateTarget).attr('id').split('~');
 			if(id.length  < 2)
 			{
 				id[1] = "0";
