@@ -18,6 +18,7 @@ abstract class ilButton
 	protected $omit_prevent_double_submission; // [bool]
 	protected $onclick; // [string]
 	protected $acc_key; // [string]
+	protected $disabled; // [bool]
 	protected $css = array(); // [array]
 	
 	const TYPE_SUBMIT = 1;
@@ -208,6 +209,26 @@ abstract class ilButton
 	}
 	
 	/**
+	 * Toggle disabled status
+	 * 
+	 * @param bool $a_value
+	 */
+	public function setDisabled($a_value)
+	{
+		$this->disabled = (bool)$a_value;
+	}
+	
+	/**
+	 * Get disabled status
+	 * 
+	 * @return bool 
+	 */
+	public function isDisabled()
+	{
+		return $this->disabled;
+	}
+	
+	/**
 	 * Add CSS class
 	 * 
 	 * @param string $a_value
@@ -287,12 +308,17 @@ abstract class ilButton
 		$attr = array();
 		$attr["id"] = $this->getId();
 		$attr["class"] = $this->gatherCssClasses();
-		$attr["onclick"] = $this->getOnClick();
+		$attr["onclick"] = $this->getOnClick();				
 		
 		if($this->getAccessKey())
 		{
 			include_once("./Services/Accessibility/classes/class.ilAccessKey.php");
 			$attr["accesskey"] = ilAccessKey::getKey($this->getAccessKey());
+		}
+		
+		if($this->isDisabled())
+		{
+			$attr["disabled"] = "disabled";
 		}
 		
 		if(sizeof($a_additional_attr))
