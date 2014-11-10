@@ -5700,13 +5700,13 @@ crs#:#crs_objective_wiz_final_limit_info#:#Here you can define the limits for th
 crs#:#crs_objective_wiz_final_limit#:#Limits for Final Test
 crs#:#crs_objective_wiz_final#:#Final Test Questions
 crs#:#crs_objective_wiz_materials_info#:#You can assign course materials that are recommended for processing the learning objective.
-crs#:#crs_objective_wiz_materials#:#Assignment of Course Materials
+crs#:#crs_objective_wiz_materials#:#Assign Course Material
 crs#:#crs_objective_wiz_self_info#:#Please define the initial test questions. Initial tests are intended to examine the previous knowledge of the course participants.
 crs#:#crs_objective_wiz_self_limit_info#:#Please define the limits for initial test questions.
 crs#:#crs_objective_wiz_self_limit#:#Limits for Initial Test
 crs#:#crs_objective_wiz_self#:#Initial Test Questions
 crs#:#crs_objective_wiz_title_info#:#Please choose a title and a short description of the learning objective.
-crs#:#crs_objective_wiz_title#:#Learning Objective Description
+crs#:#crs_objective_wiz_title#:#Describe Learning Objective 
 crs#:#crs_objectives_assign_chapter#:#Assign Chapter
 crs#:#crs_objectives_assigned_lm#:#The selected materials have been assigned.
 crs#:#crs_objectives_assigned_lms#:#Assigned learning materials
@@ -5882,7 +5882,7 @@ crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership i
 crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"
 crs#:#crs_unsubscribe_sure#:#Do you want to unsubscribe from this course
 crs#:#crs_unsubscribed_from_crs#:#You have been unsubscribed from this course
-crs#:#crs_update_objective#:#Edit Learning Objective
+crs#:#crs_update_objective#:#Checklist for Learning Objective
 crs#:#crs_update_subscr_request#:#Update Membership Request
 crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators
 crs#:#crs_user_agreement#:#Released Data Types
@@ -14834,9 +14834,9 @@ crs#:#crs_loc_suggested#:#Please work through the following learning materials.
 crs#:#crs_loc_itest_info#:#Initial Test
 crs#:#crs_loc_qtest_info#:#Qualified Test
 crs#:#crs_loc_tt_info#:#You have reached %1$d%%. The test is passed with %2$d%%.
-crs#:#crs_objective_status_configure#:#Configure Learning Objectives-Driven Course
+crs#:#crs_objective_status_configure#:#Checklist for Course
 crs#:#crs_objective_status_settings#:#Course Settings
-crs#:#crs_objective_status_materials#:#Create New Course Materials
+crs#:#crs_objective_status_materials#:#Create Course Content
 crs#:#crs_objective_status_itest#:#Configure Placement Test 
 crs#:#crs_objective_status_qtest#:#Configure Achievement Test
 crs#:#crs_objective_status_objectives#:#Configure Learning Objectives
@@ -14856,15 +14856,15 @@ crs#:#crs_loc_err_stat_no_qt#:#No Achievement Test available
 crs#:#crs_loc_err_stat_no_it#:#No Placement Test available
 crs#:#crs_objective_status_objective_creation#:#Create Learning Objective
 crs#:#crs_loc_form_create_objectives#:#Create Learning Objectives
-crs#:#crs_loc_err_no_active_mat#:#Learning Objectives without Materials
+crs#:#crs_loc_err_no_active_mat#:#Learning objectives without assigned content
 crs#:#crs_loc_err_no_active_it#:#Learning Objectives without Initial Test
 crs#:#crs_loc_err_no_active_qt#:#Learning Objectives without Qualifying Test
 crs#:#crs_loc_err_no_active_lo#:#No active Learning Objective
 crs#:#crs_loc_settings_tbl#:#Settings for the Learning Objectives-Driven Course
-crs#:#crs_loc_settings_type#:#Course Type
-crs#:#crs_loc_type_initial_all#:#Course starts with placement test for all learning objectives
+crs#:#crs_loc_settings_type#:#Course Design
+crs#:#crs_loc_type_initial_all#:#Course starts with placement test
 crs#:#crs_loc_type_initial_sel#:#Course starts with placement test for selected learning objective
-crs#:#crs_loc_type_qualified#:#Course starts with achievement test 
+crs#:#crs_loc_type_qualified#:#Credit-by-examination design 
 crs#:#crs_loc_type_practise#:#Course starts with learning and practise
 crs#:#crs_loc_tab_materials#:#Material
 crs#:#crs_loc_tab_itest#:#Placement Test 
@@ -15050,6 +15050,6 @@ administration#:#language_clear_local_changes_info#:#Reset the database entries 
 administration#:#language_delete_local_additions_info#:#Delete all entries that were locally added to the database.
 administration#:#language_merge_local_changes_info#:#Merge all local changes and additions alphabetically into the standard language file lang/ilias_%s.lang. The web server must have write permission on this file.
 administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s_lang.local and change the language status from "Installed With Local" to "Installed". The changes in the database are not touched.
-crs#:#crs_loc_type_initial_all_info#:#todo
-crs#:#crs_loc_type_qualified_info#:#todo
-crs#:#crs_loc_type_practise_info#:#todo
+crs#:#crs_loc_type_initial_all_info#:#Based on individual results of the placement test, ILIAS recommends learning content for the not-yet-sufficient learning objectives. The final achievement test assesses whether a test participant already mastered the learning objectives or if additional learning and training is needed.
+crs#:#crs_loc_type_qualified_info#:#The course starts with a test to assess if a course member already mastered the learning objectives. For all passed learning objectives, users do not have to work through any of the learning content or take more tests. For all not-yet-sufficient learning objectives, ILIAS recommends learning content. The mastery of the remaining learning objectives is tested in an additional test run. 
+crs#:#crs_loc_type_practise_info#:#Course members can use the full range of learning objectives and assigned learning content immediately. They can take the achievement testto assess whether they mastered the learning objectives already of if additional learning and training is needed.
