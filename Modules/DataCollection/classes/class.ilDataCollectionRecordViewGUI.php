@@ -26,20 +26,44 @@ class ilDataCollectionRecordViewGUI {
 	 * @var ilObjDataCollectionGUI
 	 */
 	protected $dcl_gui_object;
-	/** @var  ilNoteGUI */
-	protected $notesGui;
-	/** @var  ilDataCollectionTable */
+	/**
+	 * @var  ilNoteGUI
+	 */
+	protected $notes_gui;
+	/**
+	 * @var  ilDataCollectionTable
+	 */
 	protected $table;
-	/** @var  ilDataCollectionRecord */
+	/**
+	 * @var  ilDataCollectionRecord
+	 */
 	protected $record_obj;
-	protected $nextRecordId = 0;
-	protected $prevRecordId = 0;
-	protected $currentRecordPosition = 0;
-	protected $recordIds = array();
-	protected $isEnabledPaging = true;
+	/**
+	 * @var int
+	 */
+	protected $next_record_id = 0;
+	/**
+	 * @var int
+	 */
+	protected $prev_record_id = 0;
+	/**
+	 * @var int
+	 */
+	protected $current_record_position = 0;
+	/**
+	 * @var array
+	 */
+	protected $record_ids = array();
+	/**
+	 * @var bool
+	 */
+	protected $is_enabled_paging = true;
 
 
-	public function __construct($a_dcl_object) {
+	/**
+	 * @param ilObjDataCollection $a_dcl_object
+	 */
+	public function __construct(ilObjDataCollection $a_dcl_object) {
 		global $tpl, $ilCtrl;
 		$this->dcl_gui_object = $a_dcl_object;
 
@@ -75,19 +99,16 @@ class ilDataCollectionRecordViewGUI {
 		$ilCtrl->setParameterByClass("ilnotegui", "rep_id", $repId);
 
 		if (isset($_GET['disable_paging']) && $_GET['disable_paging']) {
-			$this->isEnabledPaging = false;
+			$this->is_enabled_paging = false;
 		}
 		// Find current, prev and next records for navigation
-		if ($this->isEnabledPaging) {
+		if ($this->is_enabled_paging) {
 			$this->determineNextPrevRecords();
 		}
 	}
 
 
-	/**
-	 * execute command
-	 */
-	public function &executeCommand() {
+	public function executeCommand() {
 		global $ilCtrl;
 
 		$cmd = $ilCtrl->getCmd();
@@ -124,10 +145,24 @@ class ilDataCollectionRecordViewGUI {
 	/**
 	 * @param $record_obj ilDataCollectionRecord
 	 *
+	 * @deprecated
+	 *
 	 * @return int|NULL returns the id of the viewdefinition if one is declared and NULL otherwise
 	 */
-	public static function _getViewDefinitionId($record_obj) {
+	public static function _getViewDefinitionId(ilDataCollectionRecord $record_obj) {
 		return ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_obj->getTableId());
+	}
+
+
+	/**
+	 * @param ilDataCollectionRecord $record_obj
+	 *
+	 * @return bool
+	 */
+	public static function hasValidViewDefinition(ilDataCollectionRecord $record_obj) {
+		$view = ilDataCollectionRecordViewViewdefinition::getInstanceByTableId($record_obj->getTableId());
+
+		return $view->getActive();
 	}
 
 
@@ -191,13 +226,13 @@ class ilDataCollectionRecordViewGUI {
 
 		// Buttons for previous/next records
 
-		if ($this->isEnabledPaging) {
+		if ($this->is_enabled_paging) {
 			$prevNextLinks = $this->renderPrevNextLinks();
 			$rctpl->setVariable('PREV_NEXT_RECORD_LINKS', $prevNextLinks);
 			$ilCtrl->clearParameters($this); // #14083
 			$rctpl->setVariable('FORM_ACTION', $ilCtrl->getFormAction($this));
 			$rctpl->setVariable('RECORD', $lng->txt('dcl_record'));
-			$rctpl->setVariable('RECORD_FROM_TOTAL', sprintf($lng->txt('dcl_record_from_total'), $this->currentRecordPosition, count($this->recordIds)));
+			$rctpl->setVariable('RECORD_FROM_TOTAL', sprintf($lng->txt('dcl_record_from_total'), $this->current_record_position, count($this->record_ids)));
 			$rctpl->setVariable('SELECT_OPTIONS', $this->renderSelectOptions());
 		}
 
@@ -289,16 +324,16 @@ class ilDataCollectionRecordViewGUI {
 	 */
 	protected function determineNextPrevRecords() {
 		if (isset($_SESSION['dcl_record_ids']) && count($_SESSION['dcl_record_ids'])) {
-			$this->recordIds = $_SESSION['dcl_record_ids'];
-			foreach ($this->recordIds as $k => $recId) {
+			$this->record_ids = $_SESSION['dcl_record_ids'];
+			foreach ($this->record_ids as $k => $recId) {
 				if ($recId == $this->record_id) {
 					if ($k != 0) {
-						$this->prevRecordId = $this->recordIds[$k - 1];
+						$this->prev_record_id = $this->record_ids[$k - 1];
 					}
-					if (($k + 1) < count($this->recordIds)) {
-						$this->nextRecordId = $this->recordIds[$k + 1];
+					if (($k + 1) < count($this->record_ids)) {
+						$this->next_record_id = $this->record_ids[$k + 1];
 					}
-					$this->currentRecordPosition = $k + 1;
+					$this->current_record_position = $k + 1;
 					break;
 				}
 			}
@@ -315,13 +350,13 @@ class ilDataCollectionRecordViewGUI {
 		global $ilCtrl, $lng;
 		$prevStr = $lng->txt('dcl_prev_record');
 		$nextStr = $lng->txt('dcl_next_record');
-		$ilCtrl->setParameter($this, 'record_id', $this->prevRecordId);
+		$ilCtrl->setParameter($this, 'record_id', $this->prev_record_id);
 		$url = $ilCtrl->getLinkTarget($this, 'renderRecord');
-		$out = ($this->prevRecordId) ? "<a href='{$url}'>{$prevStr}</a>" : "<span class='light'>{$prevStr}</span>";
+		$out = ($this->prev_record_id) ? "<a href='{$url}'>{$prevStr}</a>" : "<span class='light'>{$prevStr}</span>";
 		$out .= " | ";
-		$ilCtrl->setParameter($this, 'record_id', $this->nextRecordId);
+		$ilCtrl->setParameter($this, 'record_id', $this->next_record_id);
 		$url = $ilCtrl->getLinkTarget($this, 'renderRecord');
-		$out .= ($this->nextRecordId) ? "<a href='{$url}'>{$nextStr}</a>" : "<span class='light'>{$nextStr}</span>";
+		$out .= ($this->next_record_id) ? "<a href='{$url}'>{$nextStr}</a>" : "<span class='light'>{$nextStr}</span>";
 
 		return $out;
 	}
@@ -334,7 +369,7 @@ class ilDataCollectionRecordViewGUI {
 	 */
 	protected function renderSelectOptions() {
 		$out = '';
-		foreach ($this->recordIds as $k => $recId) {
+		foreach ($this->record_ids as $k => $recId) {
 			$selected = ($recId == $this->record_id) ? " selected" : "";
 			$out .= "<option value='{$recId}'{$selected}>" . ($k + 1) . "</option>";
 		}

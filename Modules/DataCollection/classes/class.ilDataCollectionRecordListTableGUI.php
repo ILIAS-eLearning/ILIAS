@@ -186,7 +186,7 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 			$ilCtrl->setParameterByClass("ildatacollectionrecordviewgui", "record_id", $record->getId());
 			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui", "record_id", $record->getId());
 
-			if (ilDataCollectionRecordViewGUI::_getViewDefinitionId($record)) {
+			if (ilDataCollectionRecordViewGUI::hasValidViewDefinition($record)) {
 				$record_data["_front"] = $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord');
 			}
 
@@ -194,7 +194,7 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 			$alist->setId($record->getId());
 			$alist->setListTitle($lng->txt("actions"));
 
-			if (ilDataCollectionRecordViewGUI::_getViewDefinitionId($record)) {
+			if (ilDataCollectionRecordViewGUI::hasValidViewDefinition($record)) {
 				$alist->addItem($lng->txt('view'), 'view', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord'));
 			}
 
@@ -249,7 +249,7 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 			$title = $field->getTitle();
 			$this->tpl->setCurrentBlock("field");
 			$content = $record_data[$title];
-			if ($content === false || $content === NULL) {
+			if ($content === false OR $content === NULL) {
 				$content = '';
 			} // SW - This ensures to display also zeros in the table...
 			$this->tpl->setVariable("CONTENT", $content);

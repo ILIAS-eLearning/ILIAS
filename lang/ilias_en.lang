@@ -12940,6 +12940,8 @@ blog#:#blog_contribute_other_roles#:#In addition to the list of 'Contributors', 
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
 dcl#:#dcl_visible#:#Visible for all users
 dcl#:#dcl_empty_view#:#Delete this View
+dcl#:#dcl_activate_view#:#Activate this view
+dcl#:#dcl_deactivate_view#:#Deactivate this view
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
 dcl#:#dcl_table_info_title#:#Info
 dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?
