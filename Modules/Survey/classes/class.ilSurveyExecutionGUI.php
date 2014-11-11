@@ -757,14 +757,13 @@ class ilSurveyExecutionGUI
 			$button->setUrl($this->ctrl->getLinkTarget($this, "exitSurvey"));										
 			$ilToolbar->addButtonInstance($button);		
 		
-			$ftpl = new ilTemplate("tpl.il_svy_svy_finished.html", true, true, "Modules/Survey");		
-			
 			if(strlen($this->object->getOutro()))
-			{						
-				$ftpl->setVariable("TEXT_FINISHED", $this->object->prepareTextareaOutput($this->object->getOutro()));
-			}
-			
-			$this->tpl->setContent($ftpl->get());				
+			{	
+				include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
+				$panel = ilPanelGUI::getInstance();
+				$panel->setBody($this->object->prepareTextareaOutput($this->object->getOutro()));
+				$this->tpl->setContent($panel->getHTML());			
+			}							
 		}
 	}
 	
