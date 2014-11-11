@@ -11,6 +11,19 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  */
 class ilForumCronNotification extends ilCronJob
 {
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 *
+	 */
+	public function __construct()
+	{
+		$this->settings = new ilSetting('frma');
+	}
+
 	public function getId()
 	{
 		return "frm_notification";
@@ -49,37 +62,45 @@ class ilForumCronNotification extends ilCronJob
 	{
 		return true;
 	}
-	
+
+	/**
+	 * @return bool
+	 */
 	public function hasCustomSettings() 
 	{
-		return false;
+		return true;
 	}
 
 	public function run()
-	{								
+	{
 		global $ilDB, $ilLog, $ilSetting, $lng;
-		
+
 		$status = ilCronJobResult::STATUS_NO_ACTION;
-		
+
 		$lng->loadLanguageModule('forum');
 
-		if(!($lastDate = $ilSetting->get('cron_forum_notification_last_date')))
+		if(!($last_run_datetime = $ilSetting->get('cron_forum_notification_last_date')))
 		{
-			$lastDate = null;
+			$last_run_datetime = null;
 		}
 
 		$numRows = 0;
-		$datecondition_frm = '';
-		$types = array();
-		$values = array();
-		 	
-		if($lastDate != null && 
-		   checkDate(date('m', strtotime($lastDate)), date('d', strtotime($lastDate)), date('Y', strtotime($lastDate))))
+		$types   = array();
+		$values  = array();
+
+		if($last_run_datetime != null &&
+		   checkDate(date('m', strtotime($last_run_datetime)), date('d', strtotime($last_run_datetime)), date('Y', strtotime($last_run_datetime))))
 		{
-			$datecondition_frm = ' frm_posts.pos_date >= %s AND ';
-			$types[] = 'timestamp';
-			$values[] = $lastDate;
+			$threshold = max(strtotime($last_run_datetime), strtotime('-' . (int)$this->settings->get('max_notification_age', 30) . ' days', time()));
 		}
+		else
+		{
+			$threshold = strtotime('-' . (int)$this->settings->get('max_notification_age', 30) . ' days', time());
+		}
+
+		$date_condition = ' frm_posts.pos_date >= %s AND ';
+		$types[]        = 'timestamp';
+		$values[]       = date('Y-m-d H:i:s', $threshold);
 
 		$cj_start_date = date('Y-m-d H:i:s');
 
@@ -91,13 +112,13 @@ class ilForumCronNotification extends ilCronJob
 					frm_notification.user_id user_id, 
 					frm_posts.* 
 			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
-			WHERE	'.$datecondition_frm.' frm_posts.pos_thr_fk = frm_threads.thr_pk 
+			WHERE	'.$date_condition.' frm_posts.pos_thr_fk = frm_threads.thr_pk
 			AND 	frm_threads.thr_top_fk = frm_data.top_pk 
 			AND 	frm_data.top_frm_fk = frm_notification.frm_id
 			ORDER BY frm_posts.pos_date ASC',
 			$types,
 			$values
-		);		
+		);
 		
 		$numRows += $this->sendMails($res);
 
@@ -109,7 +130,7 @@ class ilForumCronNotification extends ilCronJob
 					frm_notification.user_id user_id, 
 					frm_posts.* 
 			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
-			WHERE 	'.$datecondition_frm.' frm_posts.pos_thr_fk = frm_threads.thr_pk 
+			WHERE 	'.$date_condition.' frm_posts.pos_thr_fk = frm_threads.thr_pk
 			AND		frm_threads.thr_pk = frm_notification.thread_id 
 			AND 	frm_data.top_pk = frm_threads.thr_top_fk 
 			ORDER BY frm_posts.pos_date ASC',
@@ -259,6 +280,36 @@ class ilForumCronNotification extends ilCronJob
 			$ilSetting->set('forum_notification', 1);
 		}
 	}
-}
 
-?>
+	/**
+	 * @param ilPropertyFormGUI $a_form
+	 */
+	public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
+	{
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
+
+		$lng->loadLanguageModule('forum');
+
+		$max_notification_age = new ilNumberInputGUI($lng->txt('frm_max_notification_age'), 'max_notification_age');
+		$max_notification_age->setSize(5);
+		$max_notification_age->setSuffix($lng->txt('frm_max_notification_age_unit'));
+		$max_notification_age->setRequired(true);
+		$max_notification_age->allowDecimals(false);
+		$max_notification_age->setMinValue(1);
+		$max_notification_age->setInfo($lng->txt('frm_max_notification_age_info'));
+		$max_notification_age->setValue($this->settings->get('max_notification_age', 30));
+
+		$a_form->addItem($max_notification_age);
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $a_form
+	 */
+	public function saveCustomSettings(ilPropertyFormGUI $a_form)
+	{
+		$this->settings->set('max_notification_age', $a_form->getInput('max_notification_age'));
+	}
+}

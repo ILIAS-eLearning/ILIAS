@@ -14492,6 +14492,9 @@ forum#:#move_thread_to_forum#:#Verschiebe Thema in anderes Forum
 assessment#:#cloze_gap_size_info#:#Ist ein Wert größer 0 eingetragen, wird diese Lücke mit der hier angegebenen Länge erzeugt. Ist kein Wert angegeben, wird diese Lücke mit der global angegebenen Textfeldlänge erzeugt.
 forum#:#post_reply_count#:#Re (%s):
 survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
+forum#:#frm_max_notification_age#:#Schwellenwert für Benachrichtigungen
+forum#:#frm_max_notification_age_unit#:#Tag(e)
+forum#:#frm_max_notification_age_info#:#Bitte geben Sie hier das maximale Alter der Postings an, die für Benachrichtigungen berücksichtigt werden sollen. Der eingetragene Wert sollte größer sein als das gewählte Intervall im Zeitplan.
 dateplaner#:#cal_ical_url#:#iCal-URL
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
 survey#:#survey_not_available#:#n.a.
