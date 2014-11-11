@@ -17,7 +17,7 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_assigned_object_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_assigned_object_id, $a_info = null)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
@@ -26,7 +26,8 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
 		
 		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 		$this->setData(ilObjTaxonomy::getUsageOfObject($this->assigned_object_id, true));
-		$this->setTitle($lng->txt("obj_taxf"));
+		$this->setTitle($lng->txt("obj_taxf"));		
+		$this->setDescription($a_info);
 		
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("actions"));

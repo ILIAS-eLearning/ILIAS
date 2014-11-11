@@ -14608,7 +14608,7 @@ book#:#book_overall_limit#:#Limit number of bookings
 book#:#book_overall_limit_info#:#Maximum number of bookings for each user in this booking pool
 book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings.
 cntr#:#cntr_tax_none_available#:#There are no taxonomies available.
-cntr#:#cntr_taxonomy_sideblock_settings#:#Taxonomy Block Settings
+cntr#:#cntr_taxonomy_sideblock_settings#:#Presentation Settings
 cntr#:#cntr_taxonomy_show_sideblock#:#Show taxonomy in side block
 survey#:#svy_eval_skipped_value#:#Results: "skipped"
 survey#:#svy_eval_skipped_value_lng#:#Use language file entry
@@ -15063,3 +15063,5 @@ prtf#:#prtf_page_element_my_courses_info#:#All courses which are currently onlin
 prtf#:#prtf_allow_my_courses#:#Page Element "My Courses"
 prtf#:#prtf_allow_my_courses_info#:#Enables to include a list of current course memberships in a portfolio.
 prtf#:#prtf_page_element_teaser_my_courses_inactive#:#This type of page element has been deactivated.
+cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition
+cntr#:#cntr_tax_list_info#:#The following are all taxonomies that have been defined for this object.

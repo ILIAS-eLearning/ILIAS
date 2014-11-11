@@ -86,6 +86,26 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	}
 	
 	/**
+	 * Set list info
+	 *
+	 * @param string $a_val
+	 */
+	function setListInfo($a_val)
+	{
+		$this->list_info = trim($a_val);
+	}
+	
+	/**
+	 * Get list info
+	 *
+	 * @return string
+	 */
+	function getListInfo()
+	{
+		return $this->list_info;
+	}		
+	
+	/**
 	 * Activate sorting mode of assigned objects
 	 *
 	 * @param object $a_item_info_obj information object of assigned items
@@ -759,7 +779,8 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 		
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyListTableGUI.php");
 		
-		$tab = new ilTaxonomyListTableGUI($this, "listTaxonomies", $this->getAssignedObject());
+		$tab = new ilTaxonomyListTableGUI($this, "listTaxonomies", $this->getAssignedObject(),
+			$this->getListInfo());
 		
 		$tpl->setContent($tab->getHTML());
 	}

@@ -14561,7 +14561,7 @@ book#:#book_overall_limit#:#Begrenzung der Buchungsanzahl
 book#:#book_overall_limit_info#:#Maximale Anzahl Buchungen je Benutzer in diesem Buchungspool
 book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
 cntr#:#cntr_tax_none_available#:#Es gibt keine verfügbaren Taxonomien.
-cntr#:#cntr_taxonomy_sideblock_settings#:#Taxonomieblock-Einstellungen
+cntr#:#cntr_taxonomy_sideblock_settings#:#Präsentationseinstellungen
 cntr#:#cntr_taxonomy_show_sideblock#:#Taxonomie im Seitenblock darstellen
 survey#:#svy_eval_skipped_value#:#Ergebnisse: "übersprungen"
 survey#:#svy_eval_skipped_value_lng#:#Wert aus Sprachdatei übernehmen
@@ -15063,3 +15063,5 @@ prtf#:#prtf_page_element_my_courses_info#:#Alle Kurse, die aktuell online sind.
 prtf#:#prtf_allow_my_courses#:#Seitenelement "Meine Kurse"
 prtf#:#prtf_allow_my_courses_info#:#Ermöglicht eine Liste der aktuellen Kursmitgliedschaften in ein Portfolio aufzunehmen.
 prtf#:#prtf_page_element_teaser_my_courses_inactive#:#Dieser Seitenelementtyp wurde deaktiviert.
+cntr#:#cntr_taxonomy_definitions#:#Taxonomie-Definition
+cntr#:#cntr_tax_list_info#:#Nachfolgend sind alle Taxonomien gelistet, die für dieses Objekt definiert wurden.

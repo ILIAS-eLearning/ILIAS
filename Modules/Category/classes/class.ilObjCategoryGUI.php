@@ -207,6 +207,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$tax = new ilObjTaxonomyGUI();
 				$tax->setAssignedObject($this->object->getId());
 				$tax->setMultiple(true);
+				$tax->setListInfo($this->lng->txt("cntr_tax_list_info"));
 				$this->ctrl->forwardCommand($tax);				
 				break;
 
@@ -307,8 +308,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				))
 			{
 				$tabs_gui->addTarget("obj_tool_setting_taxonomies",
-					$this->ctrl->getLinkTargetByClass("ilObjTaxonomyGUI", ""), "", "ilObjTaxonomyGUI"
-					, "", $force_active);
+					$this->ctrl->getLinkTarget($this, "editTaxonomySettings"), "editTaxonomySettings", get_class($this));
 			}
 		}				
 
@@ -1694,11 +1694,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 	
 	protected function initTaxSubTabs($a_active = "tax_list")
 	{
-		$this->tabs_gui->setTabActive("obj_tool_setting_taxonomies");				
-		$this->tabs_gui->addSubTab("tax_list", $this->lng->txt("list"), 
-				$this->ctrl->getLinkTargetByClass("ilobjtaxonomygui", ""));
-		$this->tabs_gui->addSubTab("tax_settings", $this->lng->txt("settings"), 
+		$this->tabs_gui->setTabActive("obj_tool_setting_taxonomies");			
+		$this->tabs_gui->addSubTab("tax_settings", $this->lng->txt("cntr_taxonomy_sideblock_settings"), 
 				$this->ctrl->getLinkTarget($this, "editTaxonomySettings"));
+		$this->tabs_gui->addSubTab("tax_list", $this->lng->txt("cntr_taxonomy_definitions"), 
+				$this->ctrl->getLinkTargetByClass("ilobjtaxonomygui", ""));		
 		$this->tabs_gui->activateSubTab($a_active);
 	}
 	
@@ -1720,7 +1720,10 @@ class ilObjCategoryGUI extends ilContainerGUI
 			{
 				foreach($node_taxes as $node_tax)
 				{					
-					$res[$node_tax["tax_id"]] = $node_tax["title"];
+					$res[$node_tax["tax_id"]] = array(
+						"title" => $node_tax["title"]
+						,"source" => $node["child"]
+					);
 				}
 			}							
 		}
@@ -1741,9 +1744,20 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 		$current = $this->getActiveBlocks();
 		
-		foreach($tax as $tax_id => $tax_title)
-		{
-			$block->addOption(new ilCheckboxOption($tax_title, $tax_id));
+		foreach($tax as $tax_id => $tax_item)
+		{			
+			$option = new ilCheckboxOption($tax_item["title"], $tax_id);
+			
+			if($tax_item["source"] != $this->object->getRefId())
+			{
+				$loc = new ilLocatorGUI();
+				$loc->setTextOnly(true);
+				$loc->addRepositoryItems($tax_item["source"]);				
+				$option->setInfo($loc->getHTML());
+			}
+			
+			$block->addOption($option);
+			
 			if(in_array($tax_id, $current))
 			{
 				$value[] = $tax_id;
