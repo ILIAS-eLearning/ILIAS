@@ -487,7 +487,8 @@ class ilObjBlog extends ilObject2
 		
 		if(sizeof($notified))
 		{			
-			ilNotification::updateNotificationTime(ilNotification::TYPE_BLOG, $blog_obj_id, $notified);		
+			// #14387
+			ilNotification::updateNotificationTime(ilNotification::TYPE_BLOG, $blog_obj_id, $notified, $a_posting_id);		
 		}
 	}
 			
