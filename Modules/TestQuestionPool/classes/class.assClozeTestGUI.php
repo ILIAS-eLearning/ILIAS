@@ -1357,7 +1357,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			{
 				case CLOZE_TEXT:
 					$gaptype = $this->lng->txt('text_gap');
-					$tpl = $this->getTextGapAggregation($tpl, $gap);
+					$tpl = $this->getTextGapAggregation($index, $tpl, $gap);
 					break;
 				case CLOZE_SELECT:
 					$gaptype = $this->lng->txt('select_gap');
@@ -1372,14 +1372,13 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 							   $this->lng->txt('gap')
 							   . '&nbsp;' . ($index+1) 
 							   . '&nbsp;<small>(' . $gaptype . ')</small>');
-
 			$html .= $tpl->get();
 		}
 
 		return $html;
 	}
 
-	public function getTextGapAggregation($tpl, $gap_answers)
+	public function getTextGapAggregation($index, $tpl, $gap_answers)
 	{
 		$the_gap = $this->object->getGap($gap_answers[0]['value1']);
 		foreach($the_gap->getItems() as $answer)
@@ -1396,14 +1395,22 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 				$gapdata[$answer['value2']] = 1;
 			}
 		}
-
+		$temp_counter = 0;
 		foreach($gapdata as $answer => $count)
 		{
 			$tpl->setCurrentBlock( 'aggregaterow' );
-			$tpl->setVariable( 'OPTION', $answer );
+			$tpl->setVariable( 'OPTION', '<p id="text_answer_' . $index . '_' . $temp_counter . '">' . $answer . '</p>');
+			if(!in_array($answer, $answer_texts))
+			   {
+				   $tpl->setVariable( 'ACTION', '<input class="add_correction_answer submit" for="text_answer_' . $index . 
+					   				  '_' . $temp_counter . '"  name="' . $index . '" value="Add"/>' );
+				   $tpl->setVariable( 'POINTS', '<input type="text" id="text_points_' . $index . '_' . $temp_counter . '" value="0"/>' );
+			   }
 			$tpl->setVariable( 'COUNT', $count );
 			$tpl->parseCurrentBlock();
+			$temp_counter ++;
 		}
+		$tpl->touchBlock('js_cloze');
 		return $tpl;
 	}
 

@@ -4,13 +4,53 @@
     <tr class="tblheader">
         <th class="std">{OPTION_HEADER}</th>
         <th class="std">{COUNT_HEADER}</th>
+        <th class="std"></th>
+        <th class="std"></th>
     </tr>
 
     <!-- BEGIN aggregaterow -->
     <tr>
         <td class="std"><p>{OPTION}</p></td>
         <td class="std"><p>{COUNT}</p></td>
+        <td class="std">{POINTS}</td>
+        <td class="std add_answer">{ACTION}</td>
     </tr>
     <!-- END aggregaterow -->
 </table>
 </div>
+<!-- BEGIN js_cloze -->
+<script>
+    $('.add_correction_answer').off('click');
+    $('.add_correction_answer').click(function() {
+        var gap_id              = $(this).attr('name');
+        var gap_value           = $('#'+$(this).attr('for')).html();
+        var gap_answer_count    = $('#gap_' + gap_id).find('tr').length;
+        var gap_start_value     = 'gap_' + gap_id;
+        var gap_end_value       = '[' + gap_answer_count + ']';
+        var gap_custom_points_id= $('#text_points_' + gap_id + '_' + $(this).attr('for').split('_')[3]);
+        var gap_custom_points   = gap_custom_points_id.val();
+            var new_element = $('#gap_' + gap_id).find('.even.first').clone(true).attr({
+                'class': ''
+            });
+            new_element.find('input').eq(0).attr({
+                'id'    : gap_start_value + '[answer]' + gap_end_value,
+                'name'  : gap_start_value + '[answer]' + gap_end_value
+            }).val(gap_value);
+            new_element.find('input').eq(1).attr({
+                'id'    : gap_start_value + '[points]' + gap_end_value,
+                'name'  : gap_start_value + '[points]' + gap_end_value
+            }).val(gap_custom_points);
+            new_element.find('input').eq(2).attr({
+                'id'    : 'add_gap_' + gap_id + '[answer]' +  gap_end_value,
+                'name'  : 'cmd[addgap_' + gap_id +']' + gap_end_value
+            }).val();
+            new_element.find('input').eq(3).attr({
+                'id'    : 'remove_gap_' + gap_id + gap_end_value,
+                'name'  : 'cmd[removegap_' + gap_id +']' + gap_end_value
+            }).val();
+        new_element.appendTo($('#gap_' + gap_id).find('tbody'));
+       $(this).remove();
+       gap_custom_points_id.remove();
+    });
+</script>
+<!-- END js_cloze -->
