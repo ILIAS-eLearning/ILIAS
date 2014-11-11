@@ -166,12 +166,10 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		$this->initProviders();
 			
 		// empty selection is invalid
-		/*
 		if(!$_SESSION[self::getBlockType()])
 		{
-			$ilCtrl->returnToParent($this); 
+			exit();
 		}
-		*/
 		
 		$all_matching_provider_object_ids = null;
 	
