@@ -987,6 +987,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		$result['trueOptionLabel'] = $this->getTrueOptionLabelTranslation($this->lng, $this->getOptionLabel());
 		$result['falseOptionLabel'] = $this->getFalseOptionLabelTranslation($this->lng, $this->getOptionLabel());
 		
+		$result['num_allowed_failures'] = $this->getNumAllowedFailures();
+		
 		$answers = array();
 		$has_image = false;
 		
@@ -1020,6 +1022,16 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		$result['mobs'] = $mobs;
 
 		return json_encode($result);
+	}
+	
+	private function getNumAllowedFailures()
+	{
+		if( $this->isScorePartialSolutionEnabled() )
+		{
+			return self::NUM_REQUIRED_ANSWERS - self::PARTIAL_SCORING_NUM_CORRECT_ANSWERS;
+		}
+		
+		return 0;
 	}
 	
 	public static function isObligationPossible($questionId)

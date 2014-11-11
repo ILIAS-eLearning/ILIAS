@@ -5377,6 +5377,7 @@ content#:#cont_adjust_size#:#Größe anpassen
 content#:#cont_align#:#Ausrichtung
 content#:#cont_alignment#:#Ausrichtung
 content#:#cont_all_answers_correct#:#Richtig!
+content#:#cont_enough_answers_correct#:#Richtig, aber nicht die bestmögliche Lösung!
 content#:#cont_all_closed#:#Alle geschlossen
 content#:#cont_all_definitions#:#Alle Definitionen
 content#:#cont_all_pages#:#Alle Seiten

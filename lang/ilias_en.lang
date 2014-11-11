@@ -10662,6 +10662,7 @@ content#:#cont_wrong_answers#:#Incorrect Items
 content#:#cont_tries_remaining#:#Tries Remaining
 content#:#cont_please_try_again#:#Please try again!
 content#:#cont_all_answers_correct#:#Correct!
+content#:#cont_enough_answers_correct#:#Correct, but not the best solution!
 content#:#cont_nr_of_tries_exceeded#:#Number of tries exceeded.
 content#:#cont_correct_answers_shown#:#Correct solution see above.
 administration#:#apache_auth_settings#:#Apache

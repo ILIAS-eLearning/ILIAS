@@ -13,6 +13,7 @@ ilias.questions.txt = {
 	tries_remaining: "Tries Remaining",
 	please_try_again: "Please try again!",
 	all_answers_correct: "Correct!",
+	enough_answers_correct: 'Correct, but not the best solution!',
 	nr_of_tries_exceeded: "Number of tries exceeded.",
 	correct_answers_shown: "Correct solution see above.",
 	correct_answers_also: "Also correct are:",
@@ -26,6 +27,10 @@ ilias.questions.txt = {
 // these question types disable themself in checkAnswers instead of showCorrectAnswers
 ilias.questions.enhancedQuestionTypes = [
     "assMatchingQuestion"
+];
+
+ilias.questions.questionTypesSupportingPartialScoring = [
+	"assKprimChoice"
 ];
 
 ilias.questions.init = function() {
@@ -210,6 +215,7 @@ ilias.questions.assKprimChoice = function(a_id) {
 
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
+	answers[a_id].isBestSolution = true;
 	answers[a_id].choice = [];
 
 	for (var i = 0; i < questions[a_id].answers.length; i++)
@@ -221,8 +227,8 @@ ilias.questions.assKprimChoice = function(a_id) {
 		
 		if( !input || jQuery(input).val() != questions[a_id].answers[i]['correctness'] )
 		{
+			answers[a_id].isBestSolution = false;
 			answers[a_id].wrong++;
-			answers[a_id].passed = false;
 			answers[a_id].answer[i] = false;
 		}
 		
@@ -230,6 +236,11 @@ ilias.questions.assKprimChoice = function(a_id) {
 		{
 			answers[a_id].choice.push(answer.order);
 		}
+	}
+	
+	if( answers[a_id].wrong > questions[a_id].num_allowed_failures )
+	{
+		answers[a_id].passed = false;
 	}
 	
 	ilias.questions.showFeedback(a_id);
@@ -677,8 +688,6 @@ ilias.questions.assErrorText =function(a_id) {
 
 ilias.questions.showFeedback =function(a_id) {
 	
-	var fbtext = "";
-	
 	jQuery('#feedback'+a_id).hide();
 
 	// "image map as single choice" not supported yet
@@ -691,68 +700,114 @@ ilias.questions.showFeedback =function(a_id) {
 		var txt_wrong_answers = ilias.questions.txt.wrong_answers + ': ' +
 				answers[a_id].wrong ;
 	}
-	fbtext = "";
-	if (answers[a_id].passed===true || (answers[a_id].tries >=questions[a_id].nr_of_tries && questions[a_id].nr_of_tries!=0)) {
+	
+	if(jQuery.inArray(questions[a_id].type, ilias.questions.questionTypesSupportingPartialScoring) == -1)
+	{
+		answers[a_id].isBestSolution = answers[a_id].passed;
+	}
+
+	jQuery('#feedback'+a_id).removeClass("ilc_qfeedw_FeedbackWrong");
+	jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");
+
+	var fbtext = "";
+
+	if (answers[a_id].passed===true || (answers[a_id].tries >=questions[a_id].nr_of_tries && questions[a_id].nr_of_tries!=0))
+	{
 		jQuery('#button'+a_id).prop("disabled",true);
-		if (answers[a_id].passed===true) {
-			jQuery('#feedback'+a_id).removeClass("ilc_qfeedw_FeedbackWrong");				
+
+		if (answers[a_id].passed===true)
+		{
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedr_FeedbackRight");
-			if (ilias.questions.default_feedback) {
-				fbtext = '<b>' + ilias.questions.txt.all_answers_correct + '</b><br />';
+
+			if( answers[a_id].isBestSolution )
+			{
+				if (ilias.questions.default_feedback)
+				{
+					fbtext = '<b>' + ilias.questions.txt.all_answers_correct + '</b><br />';
+				}
+
+				if (questions[a_id].feedback['allcorrect'])
+				{
+					fbtext += questions[a_id].feedback['allcorrect'];
+				}
+
+				if( jQuery.inArray(questions[a_id].type, ilias.questions.enhancedQuestionTypes) == -1 )
+				{
+					ilias.questions.showCorrectAnswers(a_id);
+				}
 			}
-			if (questions[a_id].feedback['allcorrect']) {
-				fbtext += questions[a_id].feedback['allcorrect'];
+			else
+			{
+				if (ilias.questions.default_feedback)
+				{
+					fbtext = '<b>' + ilias.questions.txt.enough_answers_correct + '</b><br />'
+						+ txt_wrong_answers + '<br />' + ilias.questions.txt.correct_answers_shown;
+				}
+				
+				ilias.questions.showCorrectAnswers(a_id);
 			}
-            jQuery('#feedback'+a_id).html(fbtext);
-			if( jQuery.inArray(questions[a_id].type, ilias.questions.enhancedQuestionTypes) == -1 )
-            {
-                ilias.questions.showCorrectAnswers(a_id);
-            }
+
 			ilias.questions.scormHandler(a_id,"correct",ilias.questions.toJSONString(answers[a_id]));
-		} else {
-			jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");	
-			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");	
-			if (ilias.questions.default_feedback) {
+		}
+		else
+		{
+			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");
+			
+			if (ilias.questions.default_feedback)
+			{
 				fbtext = '<b>' + ilias.questions.txt.nr_of_tries_exceeded + '</b><br />'
-					+ ilias.questions.txt.correct_answers_shown + '<br />';
+							+ ilias.questions.txt.correct_answers_shown + '<br />';
 			}
-			if (questions[a_id].feedback['onenotcorrect']) {
+			
+			if (questions[a_id].feedback['onenotcorrect'])
+			{
 				fbtext += questions[a_id].feedback['onenotcorrect'];
 			}
-            jQuery('#feedback'+a_id).html(fbtext);
+
 			ilias.questions.showCorrectAnswers(a_id);
+			
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
 		}
-	} else {
-		if (questions[a_id].nr_of_tries!=0) {
-			jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");	
-			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");	
+	}
+	else
+	{
+		if (questions[a_id].nr_of_tries!=0)
+		{
+			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");
+			
 			var rem = questions[a_id].nr_of_tries - answers[a_id].tries;
 			
-			if (ilias.questions.default_feedback) {
-				fbtext = txt_wrong_answers + '<br />' +
-					ilias.questions.txt.tries_remaining + ': '+ rem +
-					"<br />";
+			if (ilias.questions.default_feedback)
+			{
+				fbtext = txt_wrong_answers + '<br />' + ilias.questions.txt.tries_remaining + ': '+ rem + "<br />";
 			}
-			if (questions[a_id].feedback['onenotcorrect']) {
+			
+			if (questions[a_id].feedback['onenotcorrect'])
+			{
 				fbtext += questions[a_id].feedback['onenotcorrect'];
 			}
-			jQuery('#feedback'+a_id).html(fbtext);
+			
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
-		} else {
-			jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");	
+		}
+		else
+		{
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");
-			if (ilias.questions.default_feedback) {
-				fbtext = txt_wrong_answers + '<br /> ' +
-					ilias.questions.txt.please_try_again + '<br />';
+			
+			if (ilias.questions.default_feedback)
+			{
+				fbtext = txt_wrong_answers + '<br /> ' + ilias.questions.txt.please_try_again + '<br />';
 			}
-			if (questions[a_id].feedback['onenotcorrect']) {
+			
+			if (questions[a_id].feedback['onenotcorrect'])
+			{
 				fbtext += questions[a_id].feedback['onenotcorrect'];
 			}
-            jQuery('#feedback'+a_id).html(fbtext);
+			
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
-		}	
+		}
 	}
+	
+	jQuery('#feedback'+a_id).html(fbtext);
 	jQuery('#feedback'+a_id).slideToggle();
 	
 	// update question overviews

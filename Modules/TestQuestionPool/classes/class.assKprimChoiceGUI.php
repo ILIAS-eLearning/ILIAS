@@ -198,14 +198,11 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		$points->setValue($this->object->getPoints());
 		$form->addItem($points);
 
-		if( !$this->object->getSelfAssessmentEditingMode() )
-		{
-			// score partial solution
-			$scorePartialSolution = new ilCheckboxInputGUI($this->lng->txt('score_partsol_enabled'), 'score_partsol_enabled');
-			$scorePartialSolution->setInfo($this->lng->txt('score_partsol_enabled_info'));
-			$scorePartialSolution->setChecked( $this->object->isScorePartialSolutionEnabled() );
-			$form->addItem($scorePartialSolution);
-		}
+		// score partial solution
+		$scorePartialSolution = new ilCheckboxInputGUI($this->lng->txt('score_partsol_enabled'), 'score_partsol_enabled');
+		$scorePartialSolution->setInfo($this->lng->txt('score_partsol_enabled_info'));
+		$scorePartialSolution->setChecked( $this->object->isScorePartialSolutionEnabled() );
+		$form->addItem($scorePartialSolution);
 		
 		return $form;
 	}
@@ -247,14 +244,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		
 		$this->object->setPoints($form->getItemByPostVar('points')->getValue());
 		
-		if( !$this->object->getSelfAssessmentEditingMode() )
-		{
-			$this->object->setScorePartialSolutionEnabled($form->getItemByPostVar('score_partsol_enabled')->getChecked());
-		}
-		else
-		{
-			$this->object->setScorePartialSolutionEnabled(false);
-		}
+		$this->object->setScorePartialSolutionEnabled($form->getItemByPostVar('score_partsol_enabled')->getChecked());
 	}
 
 	/**
