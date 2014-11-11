@@ -14306,6 +14306,9 @@ forum#:#merge_posts_into_thread#:#Merge Postings into other Thread
 forum#:#move_thread_to_forum#:#Move Thread to other Forum
 survey#:#spl_save_obligatory_state#:#Save Obligatory States
 forum#:#post_reply_count#:#Re(%s):
+forum#:#frm_max_notification_age#:#Max. Notification Age
+forum#:#frm_max_notification_age_unit#:#Day(s)
+forum#:#frm_max_notification_age_info#:#Please define the maximum age of postings to send notifications for. It is recommended to choose a higher value than the scheduled interval.
 dateplaner#:#cal_ical_url#:#iCal-URL
 survey#:#svy_eval_skipped_value#:#Results: "skipped"
 survey#:#svy_eval_skipped_value_lng#:#Use language file entry

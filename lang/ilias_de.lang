@@ -14305,6 +14305,9 @@ forum#:#merge_posts_into_thread#:#Verschmelze Posts mit anderem Thema
 forum#:#move_thread_to_forum#:#Verschiebe Thema in anderes Forum
 survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
 forum#:#post_reply_count#:#Re(%s):
+forum#:#frm_max_notification_age#:#Schwellenwert für Benachrichtigungen
+forum#:#frm_max_notification_age_unit#:#Tag(e)
+forum#:#frm_max_notification_age_info#:#Bitte geben Sie hier das maximale Alter der Postings an, die für Benachrichtigungen berücksichtigt werden sollen. Der eingetragene Wert sollte größer sein als das gewählte Intervall im Zeitplan.
 dateplaner#:#cal_ical_url#:#iCal-URL
 survey#:#svy_eval_skipped_value#:#Ergebnisse: "übersprungen"
 survey#:#svy_eval_skipped_value_lng#:#Wert aus Sprachdatei übernehmen
