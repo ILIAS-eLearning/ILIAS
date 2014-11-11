@@ -19,7 +19,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoring
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
+class assImagemapQuestion extends assQuestion //implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
 {
 	const MODE_SINGLE_CHOICE   = 0;
 	const MODE_MULTIPLE_CHOICE = 1;

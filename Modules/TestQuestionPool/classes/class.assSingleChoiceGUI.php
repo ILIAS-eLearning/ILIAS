@@ -761,7 +761,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 	 */
 	public function getAfterParticipationSuppressionQuestionPostVars()
 	{
-		return array();
+		return array('shuffle','types','thumb_size');
 	}
 
 	public function writeAnswerSpecificPostData($always = true)
@@ -840,6 +840,16 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		return array();
 	}
 
+	public function reworkFormForCorrectionMode(ilPropertyFormGUI $form)
+	{
+		/** @var ilSingleChoiceWizardInputGUI $singlechoice_wizardinputgui */
+		$singlechoice_wizardinputgui = $form->getItemByPostVar('choice');
+		$singlechoice_wizardinputgui->setDisableUpload(true);
+		$singlechoice_wizardinputgui->setDisableActions(true);
+		$singlechoice_wizardinputgui->setDisableText(true);
+		return $form;
+	}
+
 	/**
 	 * Returns an html string containing a question specific representation of the answers so far
 	 * given in the test for use in the right column in the scoring adjustment user interface.
@@ -850,7 +860,20 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		return  $this->renderAggregateView(
+		$passcount = count($relevant_answers);
+		foreach($relevant_answers as $pass)
+		{
+			$actives[$pass['active_fi']] = $pass['active_fi'];
+		}
+		$usercount = count($actives);
+		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_header.html', true, true, "Modules/TestQuestionPool");
+		$tpl->setVariable('HEADERTEXT', $this->lng->txt('overview'));
+		$tpl->setVariable('NUMBER_OF_USERS_INFO', $this->lng->txt('number_of_users'));
+		$tpl->setVariable('NUMBER_OF_USERS', $usercount);
+		$tpl->setVariable('NUMBER_OF_PASSES_INFO', $this->lng->txt('number_of_passes'));
+		$tpl->setVariable('NUMBER_OF_PASSES', $passcount);
+		
+		return  $tpl->get() . $this->renderAggregateView(
 					$this->aggregateAnswers( $relevant_answers, $this->object->getAnswers() ) )->get();
 	}
 
@@ -887,7 +910,9 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 	public function renderAggregateView($aggregate)
 	{
 		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
-
+		$tpl->setVariable( 'OPTION_HEADER', $this->lng->txt('option') );
+		$tpl->setVariable( 'COUNT_HEADER', $this->lng->txt('count') );
+		$tpl->setVariable( 'AGGREGATION_HEADER', $this->lng->txt('aggregated_answers_header') );
 		foreach ($aggregate as $line_data)
 		{
 			$tpl->setCurrentBlock( 'aggregaterow' );

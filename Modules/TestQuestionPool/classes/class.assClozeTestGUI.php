@@ -1246,120 +1246,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		return $this->object->prepareTextareaOutput($feedback, TRUE);
 	}
 
-	/**
-	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
-	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
-	 * make sense in the given context.
-	 *
-	 * E.g. array('cloze_type', 'image_filename')
-	 *
-	 * @return string[]
-	 */
-	public function getAfterParticipationSuppressionAnswerPostVars()
-	{
-		return array();
-	}
-
-	/**
-	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
-	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
-	 * make sense in the given context.
-	 *
-	 * E.g. array('cloze_type', 'image_filename')
-	 *
-	 * @return string[]
-	 */
-	public function getAfterParticipationSuppressionQuestionPostVars()
-	{
-		return array();
-	}
-
-	/**
-	 * Returns an html string containing a question specific representation of the answers so far
-	 * given in the test for use in the right column in the scoring adjustment user interface.
-	 *
-	 * @param array $relevant_answers
-	 *
-	 * @return string
-	 */
-	public function getAggregatedAnswersView($relevant_answers)
-	{
-		$overview = array();
-		$aggregation = array();
-		foreach ($relevant_answers as $answer)
-		{
-			$overview[$answer['active_fi']][$answer['pass']][$answer['value1']] = $answer['value2'];
-		}
-
-		foreach($overview as $active)
-		{
-			foreach ($active as $answer)
-			{
-				foreach ($answer as $option => $value)
-				{
-					$aggregation[$option][$value] = $aggregation[$option][$value] + 1;
-				}
-			}
-		}
-
-		$html = '<div>';
-		$i = 0;
-		foreach ($this->object->getGaps() as $gap)
-		{
-			if ($gap->type == CLOZE_SELECT)
-			{
-				$html .= '<p>Gap '.$i . ' - SELECT</p>';
-				$html .= '<ul>';
-				$j = 0;
-				foreach($gap->getItems() as $gap_item)
-				{
-					$aggregate = $aggregation[$i];
-					$html .= '<li>' . $gap_item->getAnswerText() . ' - ' . ($aggregate[$j] ? $aggregate[$j] : 0) . '</li>';
-					$j++;
-				}
-				$html .= '</ul>';
-			}
-
-			if($gap->type == CLOZE_TEXT)
-			{
-				$html .= '<p>Gap '.$i . ' - TEXT</p>';
-				$html .= '<ul>';
-				$j = 0;
-				foreach($gap->getItems() as $gap_item)
-				{
-					$aggregate = $aggregation[$i];
-					foreach ($aggregate as $answer => $count)
-					{
-					$html .= '<li>' . $answer . ' - ' . $count . '</li>';
-					}
-					$j++;
-				}
-				$html .= '</ul>';
-			}
-
-			if($gap->type == CLOZE_NUMERIC)
-			{
-				$html .= '<p>Gap '.$i . ' - NUMERIC</p>';
-				$html .= '<ul>';
-				$j = 0;
-				foreach($gap->getItems() as $gap_item)
-				{
-					$aggregate = $aggregation[$i];
-					foreach ($aggregate as $answer => $count)
-					{
-						$html .= '<li>' . $answer . ' - ' . $count . '</li>';
-					}
-					$j++;
-				}
-				$html .= '</ul>';
-			}
-			$i++;
-			$html .= '<hr />';
-		}
-
-		$html .= '</div>';
-		return $html;
-	}
 
 	public function applyIndizesToGapText( $question_text )
 	{
@@ -1386,5 +1272,218 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$parts         = preg_split( '/\[gap \d*\]/', $question_text );
 		$question_text = implode( '[gap]', $parts );
 		return $question_text;
+	}
+
+	/**
+	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
+	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
+	 * make sense in the given context.
+	 *
+	 * E.g. array('cloze_type', 'image_filename')
+	 *
+	 * @return string[]
+	 */
+	public function getAfterParticipationSuppressionAnswerPostVars()
+	{
+		return array();
+	}
+
+	/**
+	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
+	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
+	 * make sense in the given context.
+	 *
+	 * E.g. array('cloze_type', 'image_filename')
+	 *
+	 * @return string[]
+	 */
+	public function getAfterParticipationSuppressionQuestionPostVars()
+	{
+		return array('fixedTextLength');
+	}
+
+	public function getAggregatedAnswersView($relevant_answers)
+	{
+		$passes = array();
+		foreach($relevant_answers as $pass)
+		{
+			$passes[$pass['active_fi'].'-'.$pass['pass']] = '-';
+		}
+		$passcount = count($passes);
+
+		foreach($relevant_answers as $pass)
+		{
+			$actives[$pass['active_fi']] = $pass['active_fi'];
+		}
+		$usercount = count($actives);
+		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_header.html', true, true, "Modules/TestQuestionPool");
+		$tpl->setVariable('HEADERTEXT', $this->lng->txt('overview'));
+		$tpl->setVariable('NUMBER_OF_USERS_INFO', $this->lng->txt('number_of_users'));
+		$tpl->setVariable('NUMBER_OF_USERS', $usercount);
+		$tpl->setVariable('NUMBER_OF_PASSES_INFO', $this->lng->txt('number_of_passes'));
+		$tpl->setVariable('NUMBER_OF_PASSES', $passcount);
+		
+
+		return $tpl->get() . $this->renderAggregateView( $this->aggregateAnswers($relevant_answers) );
+	}
+
+	public function aggregateAnswers($relevant_answers_chosen)
+	{
+		$gaps = array();
+		foreach($relevant_answers_chosen as $answer)
+		{
+			$gaps[$answer['value1']][] = $answer;
+		}
+
+		return $gaps;
+	}
+
+	/**
+	 * @param $aggregate
+	 *
+	 * @return ilTemplate
+	 */
+	public function renderAggregateView($aggregate)
+	{
+		$html = '';
+		foreach($aggregate as $index => $gap)
+		{
+			$tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
+			$tpl->setVariable( 'OPTION_HEADER', $this->lng->txt('answer') );
+			$tpl->setVariable( 'COUNT_HEADER', $this->lng->txt('count') );
+
+			$current_gap_definition = $this->object->getGap($index);
+			switch ($current_gap_definition->getType())
+			{
+				case CLOZE_TEXT:
+					$gaptype = $this->lng->txt('text_gap');
+					$tpl = $this->getTextGapAggregation($tpl, $gap);
+					break;
+				case CLOZE_SELECT:
+					$gaptype = $this->lng->txt('select_gap');
+					$tpl = $this->getSelectGapAggregation($tpl, $gap);
+					break;
+				case CLOZE_NUMERIC:
+					$gaptype = $this->lng->txt('numeric_gap');
+					$tpl = $this->getNumericGapAggregation($tpl, $gap);
+					break;
+			}
+			$tpl->setVariable( 'AGGREGATION_HEADER', 
+							   $this->lng->txt('gap')
+							   . '&nbsp;' . ($index+1) 
+							   . '&nbsp;<small>(' . $gaptype . ')</small>');
+
+			$html .= $tpl->get();
+		}
+
+		return $html;
+	}
+
+	public function getTextGapAggregation($tpl, $gap_answers)
+	{
+		$the_gap = $this->object->getGap($gap_answers[0]['value1']);
+		foreach($the_gap->getItems() as $answer)
+		{
+			$answer_texts[] = $answer->getAnswertext();
+		}
+		$gapdata = array();
+		foreach($gap_answers as $answer)
+		{
+			if(isset($gapdata[$answer['value2']]))
+			{
+				$gapdata[$answer['value2']]++;
+			} else {
+				$gapdata[$answer['value2']] = 1;
+			}
+		}
+
+		foreach($gapdata as $answer => $count)
+		{
+			$tpl->setCurrentBlock( 'aggregaterow' );
+			$tpl->setVariable( 'OPTION', $answer );
+			$tpl->setVariable( 'COUNT', $count );
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl;
+	}
+
+	public function getSelectGapAggregation($tpl, $gap)
+	{
+		$gapdata = array();
+		foreach($gap as $answer)
+		{
+			$current_gap = $this->object->getGap($answer['value1']);
+			$items=$current_gap->getItems();
+			$item = $items[$answer['value2']];
+			$text = $item->getAnswertext();
+			if(isset($gapdata[$text]))
+			{
+				$gapdata[$text]++;
+			} else {
+				$gapdata[$text] = 1;
+			}
+		}
+
+		foreach($gapdata as $answer => $count)
+		{
+			$tpl->setCurrentBlock( 'aggregaterow' );
+			$tpl->setVariable( 'OPTION', $answer );
+			$tpl->setVariable( 'COUNT', $count );
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl;
+	}
+
+	public function getNumericGapAggregation($tpl, $gap)
+	{
+		$gapdata = array();
+		foreach($gap as $answer)
+		{
+			if(isset($gapdata[$answer['value2']]))
+			{
+				$gapdata[$answer['value2']]++;
+			} else {
+				$gapdata[$answer['value2']] = 1;
+			}
+		}
+
+		foreach($gapdata as $answer => $count)
+		{
+			$tpl->setCurrentBlock( 'aggregaterow' );
+			$tpl->setVariable( 'OPTION', $answer );
+			$tpl->setVariable( 'COUNT', $count );
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl;
+	}
+
+	public function reworkFormForCorrectionMode(ilPropertyFormGUI $form)
+	{
+		$gapindex = 0;
+		while($element = $form->getItemByPostVar('gap['.$gapindex.']'))
+		{
+			$type_selector = $form->getItemByPostVar('clozetype_'.$gapindex);
+			$type_selector->setDisabled(true);
+			$value = $type_selector->getValue();
+			switch ($value)
+			{
+				case CLOZE_TEXT:
+					break;
+				case CLOZE_SELECT:
+					$this->disableSelectGapFields($form, $gapindex);
+				case CLOZE_NUMERIC:
+			}
+			$gapindex++;
+		}
+		/** @var ilMultipleChoiceWizardInputGUI $multiplechoice_wizardinputgui */
+
+		return $form;
+	}
+	
+	public function disableSelectGapFields($form, $gapindex)
+	{
+		$element = $form->getItemByPostvar('gap_'.$gapindex);
+		$element->setDisableActions(true);
+		$element->setDisableText(true);
 	}
 }

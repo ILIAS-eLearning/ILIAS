@@ -17,6 +17,31 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 	protected $minvalue = false;
 	protected $minvalueShouldBeGreater = false;
 
+	protected $disable_actions;
+	protected $disable_text;
+
+	/**
+	 * @param mixed $disable_actions
+	 *
+	 * @return $this
+	 */
+	public function setDisableActions($disable_actions)
+	{
+		$this->disable_actions = $disable_actions;
+		return $this;
+	}
+
+	/**
+	 * @param mixed $disable_text
+	 *
+	 * @return $this
+	 */
+	public function setDisableText($disable_text)
+	{
+		$this->disable_text = $disable_text;
+		return $this;
+	}
+
 	/**
 	* Constructor
 	*
@@ -276,7 +301,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 				$tpl->setVariable("SINGLELINE_ROW_NUMBER", $i);
 				$tpl->setVariable("SINGLELINE_POST_VAR", $this->getPostVar());
 				$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
-				if ($this->getDisabled())
+				if ($this->getDisabled() || $this->disable_text)
 				{
 					$tpl->setVariable("DISABLED_SINGLELINE", " disabled=\"disabled\"");
 				}
@@ -326,8 +351,11 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 			{
 				$tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
 			}
-			$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
-			$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
+			if(!$this->disable_actions)
+			{
+				$tpl->setVariable( "ADD_BUTTON", ilUtil::getImagePath( 'edit_add.png' ) );
+				$tpl->setVariable( "REMOVE_BUTTON", ilUtil::getImagePath( 'edit_remove.png' ) );
+			}
 			$tpl->parseCurrentBlock();
 			$i++;
 		}
@@ -335,7 +363,10 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 		$tpl->setVariable("ELEMENT_ID", $this->getPostVar());
 		$tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
 		$tpl->setVariable("POINTS_TEXT", $lng->txt('points'));
-		$tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
+		if(!$this->disable_actions)
+		{
+			$tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
+		}
 
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());

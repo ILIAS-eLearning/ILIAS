@@ -19,7 +19,7 @@ include_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * 
  * @ingroup ModulesTestQuestionPool
 */
-class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
+class assJavaAppletGUI extends assQuestionGUI //implements ilGuiQuestionScoringAdjustable
 {
 	/**
 	 * assJavaAppletGUI constructor

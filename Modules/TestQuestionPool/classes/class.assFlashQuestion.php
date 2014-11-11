@@ -16,7 +16,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScori
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjustable
+class assFlashQuestion extends assQuestion //implements ilObjQuestionScoringAdjustable
 {
 	private $width;
 	private $height;

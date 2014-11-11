@@ -19,7 +19,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoring
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
+class assTextQuestion extends assQuestion //implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
 {
 	/**
 	* Maximum number of characters of the answertext

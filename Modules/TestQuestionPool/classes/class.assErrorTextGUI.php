@@ -21,7 +21,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @ilctrl_iscalledby assErrorTextGUI: ilObjQuestionPoolGUI
  * 
  */
-class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
+class assErrorTextGUI extends assQuestionGUI //implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
 	/**
 	 * assErrorTextGUI constructor

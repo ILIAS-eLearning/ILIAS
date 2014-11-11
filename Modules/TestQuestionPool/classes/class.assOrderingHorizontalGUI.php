@@ -506,7 +506,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 	 */
 	public function getAfterParticipationSuppressionQuestionPostVars()
 	{
-		return array();
+		return array('ordertext', 'textsize');
 	}
 
 	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
@@ -558,8 +558,32 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		return  $this->renderAggregateView(
-					$this->aggregateAnswers( $relevant_answers, $this->object->getOrderText() ) )->get();
+		$passes = array();
+		foreach($relevant_answers as $pass)
+		{
+			$passes[$pass['active_fi'].'-'.$pass['pass']] = '-';
+		}
+		$passcount = count($passes);
+
+		foreach($relevant_answers as $pass)
+		{
+			$actives[$pass['active_fi']] = $pass['active_fi'];
+		}
+		$usercount = count($actives);
+		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_header.html', true, true, "Modules/TestQuestionPool");
+		$tpl->setVariable('HEADERTEXT', $this->lng->txt('overview'));
+		$tpl->setVariable('NUMBER_OF_USERS_INFO', $this->lng->txt('number_of_users'));
+		$tpl->setVariable('NUMBER_OF_USERS', $usercount);
+		$tpl->setVariable('NUMBER_OF_PASSES_INFO', $this->lng->txt('number_of_passes'));
+		$tpl->setVariable('NUMBER_OF_PASSES', $passcount);
+
+		$header = $tpl->get();
+
+		$variants = $this->renderAggregateView(
+			$this->aggregateAnswers($relevant_answers, $this->object->getOrderText())
+		)->get();
+
+		return  $header . $variants ;
 	}
 
 	public function aggregateAnswers($relevant_answers_chosen, $answer_defined_on_question)
@@ -589,7 +613,9 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 	public function renderAggregateView($aggregate)
 	{
 		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
-
+		$tpl->setVariable( 'OPTION_HEADER', $this->lng->txt( 'answer_variant' ) );
+		$tpl->setVariable( 'COUNT_HEADER', $this->lng->txt( 'count' ) );
+		$tpl->setVariable( 'AGGREGATION_HEADER', $this->lng->txt( 'aggregated_answers_variants' ) );
 		foreach ($aggregate as $key => $line_data)
 		{
 			$tpl->setCurrentBlock( 'aggregaterow' );

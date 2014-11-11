@@ -416,8 +416,10 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 		
 		include_once "Services/jQuery/classes/class.iljQueryUtil.php";
 		global $tpl;
-		
-		$tpl->addJavaScript("./Services/jQuery/js/jquery.nestable.js");
+		if(!$this->getDisabled())
+		{
+			$tpl->addJavaScript( "./Services/jQuery/js/jquery.nestable.js" );
+		}
 		iljQueryUtil::initjQuery();
 		iljQueryUtil::initjQueryUI();
 		$js_output = '';
@@ -425,9 +427,17 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 		$js_include_tpl = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_javascript.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$js_include_tpl->setCurrentBlock('js_include');
 
-		$js_include_tpl->setVariable('PERFORM_JAVASCRIPT', $this->getPerformJavascript());
-		$js_include_tpl->setVariable('INSTANCE_ID', $this->getInstanceId());
+		if(!$this->getDisabled())
+		{
+			$js_include_tpl->setVariable( 'PERFORM_JAVASCRIPT', $this->getPerformJavascript() );
+		}
+		else 
+		{
+			$js_include_tpl->setVariable( 'PERFORM_JAVASCRIPT', false );
+		}
 
+		$js_include_tpl->setVariable( 'INSTANCE_ID', $this->getInstanceId() );
+		
 		$js_include_tpl->setVariable('HTML_OUTPUT', $html_output);
 
 		$js_include_tpl->parseCurrentBlock();

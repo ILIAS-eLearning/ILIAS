@@ -19,7 +19,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @ingroup ModulesTestQuestionPool
  */
-class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
+class assTextQuestionGUI extends assQuestionGUI //implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
 	/**
 	 * assTextQuestionGUI constructor

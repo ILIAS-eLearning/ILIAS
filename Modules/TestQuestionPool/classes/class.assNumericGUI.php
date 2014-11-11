@@ -521,9 +521,15 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 	 */
 	public function getAfterParticipationSuppressionQuestionPostVars()
 	{
-		return array();
+		return array('maxchars');
 	}
 
+	public function resetFormValuesForSuppressedPostvars($form)
+	{
+		$element = $form->getItemByPostvar('maxchars');
+		$_POST['maxchars'] = $this->object->getMaxChars();
+		$element->setValue(	$this->object->getMaxChars() );
+	}
 	/**
 	 * Returns an html string containing a question specific representation of the answers so far
 	 * given in the test for use in the right column in the scoring adjustment user interface.
@@ -534,8 +540,21 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		return  $this->renderAggregateView(
-					$this->aggregateAnswers( $relevant_answers ) )->get();
+		$passcount = count($relevant_answers);
+		foreach($relevant_answers as $pass)
+		{
+			$actives[$pass['active_fi']] = $pass['active_fi'];
+		}
+		$usercount = count($actives);
+		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_header.html', true, true, "Modules/TestQuestionPool");
+		$tpl->setVariable('HEADERTEXT', $this->lng->txt('overview'));
+		$tpl->setVariable('NUMBER_OF_USERS_INFO', $this->lng->txt('number_of_users'));
+		$tpl->setVariable('NUMBER_OF_USERS', $usercount);
+		$tpl->setVariable('NUMBER_OF_PASSES_INFO', $this->lng->txt('number_of_passes'));
+		$tpl->setVariable('NUMBER_OF_PASSES', $passcount);
+
+		return  $tpl->get() . $this->renderAggregateView(
+			$this->aggregateAnswers( $relevant_answers ) )->get();
 	}
 
 	public function aggregateAnswers($relevant_answers_chosen)
@@ -564,12 +583,15 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 	public function renderAggregateView($aggregate)
 	{
 		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
-
-		foreach ($aggregate as $key => $value)
+		$tpl->setVariable( 'OPTION_HEADER', $this->lng->txt('answer') );
+		$tpl->setVariable( 'COUNT_HEADER', $this->lng->txt('count') );
+		$tpl->setVariable( 'AGGREGATION_HEADER', $this->lng->txt('aggregated_answers_header') );
+		asort($aggregate);
+		foreach ($aggregate as $answer => $count)
 		{
 			$tpl->setCurrentBlock( 'aggregaterow' );
-			$tpl->setVariable( 'OPTION', $key );
-			$tpl->setVariable( 'COUNT', $value );
+			$tpl->setVariable( 'OPTION', $answer );
+			$tpl->setVariable( 'COUNT', $count );
 			$tpl->parseCurrentBlock();
 		}
 		return $tpl;

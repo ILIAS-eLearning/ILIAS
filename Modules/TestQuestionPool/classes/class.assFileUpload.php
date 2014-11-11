@@ -17,7 +17,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilObjFileHandlingQ
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjFileHandlingQuestionType
+class assFileUpload extends assQuestion //implements ilObjQuestionScoringAdjustable, ilObjFileHandlingQuestionType
 {
 	protected $maxsize;
 	

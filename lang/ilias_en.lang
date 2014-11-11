@@ -182,6 +182,12 @@ adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#ILIAS Page Editor
 adve#:#adve_rte_settings#:#TinyMCE Editor
 adve#:#adve_text_content_features#:#Text Content Menu
+assessment#:#aggregated_answers_header#:#Overview of Participant Answers
+assessment#:#aggregated_answers_variants#:#Answer Variations
+assessment#:#number_of_users#:#Number of Participants
+assessment#:#number_of_passes#:#Number of Passes
+assessment#:#answer_variant#:#Answervariant
+assessment#:#adjust_question_form_error#:#The form could not be submitted. Please check your input.
 assessment#:#no_archive_on_anonymous#:#Archiving is not possible in an anonymous test: option deactivated automatically.
 assessment#:#autosave#:#Automatic saving
 assessment#:#autosave_info#:#If checked, answers are saved in intervals without user interaction to avoid data loss.

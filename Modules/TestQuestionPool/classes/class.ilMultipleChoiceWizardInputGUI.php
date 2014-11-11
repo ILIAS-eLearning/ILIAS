@@ -243,6 +243,10 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 						$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
 						$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
 						$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
+						if($this->disable_upload)
+						{
+							$tpl->setVariable('DISABLED_UPLOAD', 'type="hidden" disabled="disabled"');
+						}
 						$tpl->parseCurrentBlock();
 					}
 					$tpl->setCurrentBlock('addimage');
@@ -250,6 +254,10 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 					$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
 					$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
 					$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
+					if($this->disable_upload)
+					{
+						$tpl->setVariable('DISABLED_UPLOAD', 'type="hidden" disabled="disabled"');
+					}
 					$tpl->parseCurrentBlock();
 				}
 
@@ -266,6 +274,11 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 					$tpl->parseCurrentBlock();
 				}
 				$tpl->setCurrentBlock('singleline');
+				if($this->disable_text)
+				{
+					$tpl->setVariable("DISABLED_SINGLELINE", 'readonly="readonly"');
+					$tpl->setVariable("DISABLED_SINGLELINE_BTN", 'readonly="readonly"');
+				}
 				$tpl->setVariable("SIZE", $this->getSize());
 				$tpl->setVariable("SINGLELINE_ID", $this->getPostVar() . "[answer][$i]");
 				$tpl->setVariable("SINGLELINE_ROW_NUMBER", $i);
@@ -289,6 +302,11 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 					$tpl->parseCurrentBlock();
 				}
 				$tpl->setCurrentBlock('multiline');
+				if($this->disable_text)
+				{
+					$tpl->setVariable("DISABLED_MULTILINE", " disabled=\"disabled\"");
+				}
+
 				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getAnswertext()));
 				$tpl->setVariable("MULTILINE_ID", $this->getPostVar() . "[answer][$i]");
 				$tpl->setVariable("MULTILINE_ROW_NUMBER", $i);
@@ -325,8 +343,15 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 			{
 				$tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
 			}
-			$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
-			$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
+			if($this->disable_actions)
+			{
+				$tpl->setVariable( 'DISABLE_ACTIONS', 'disabled="disabled"' );
+			}
+			else
+			{
+				$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
+				$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
+			}
 			$tpl->parseCurrentBlock();
 			$i++;
 		}
@@ -362,7 +387,10 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 		$tpl->setVariable("DELETE_IMAGE_QUESTION", $lng->txt('delete_image_question'));
 		$tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
 		$tpl->setVariable("POINTS_TEXT", $lng->txt('points'));
-		$tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
+		if(!$this->disable_actions)
+		{
+			$tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
+		}
 		$tpl->setVariable("POINTS_CHECKED_TEXT", $lng->txt('checkbox_checked'));
 		$tpl->setVariable("POINTS_UNCHECKED_TEXT", $lng->txt('checkbox_unchecked'));
 

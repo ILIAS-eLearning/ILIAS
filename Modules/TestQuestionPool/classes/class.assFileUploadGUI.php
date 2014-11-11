@@ -19,7 +19,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScori
  * @ilctrl_iscalledby assFileUploadGUI: ilObjQuestionPoolGUI
  * 
  */
-class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
+class assFileUploadGUI extends assQuestionGUI //implements ilGuiQuestionScoringAdjustable
 {
 	/**
 	 * assFileUploadGUI constructor

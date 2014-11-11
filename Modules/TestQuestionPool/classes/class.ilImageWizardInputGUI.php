@@ -16,7 +16,11 @@ class ilImageWizardInputGUI extends ilTextInputGUI
 	protected $allowMove = false;
 	protected $qstObject = null;
 	protected $suffixes = array();
-	
+
+	protected $disable_text = false;
+	protected $disable_upload = false;
+	protected $disable_actions = false;
+
 	/**
 	* Constructor
 	*
@@ -29,6 +33,30 @@ class ilImageWizardInputGUI extends ilTextInputGUI
 		$this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
 		$this->setSize('25');
 		$this->validationRegexp = "";
+	}
+
+	/**
+	 * @param boolean $disable_upload
+	 */
+	public function setDisableUpload($disable_upload)
+	{
+		$this->disable_upload = $disable_upload;
+	}
+
+	/**
+	 * @param boolean $disable_actions
+	 */
+	public function setDisableActions($disable_actions)
+	{
+		$this->disable_actions = $disable_actions;
+	}
+
+	/**
+	 * @param boolean $disable_text
+	 */
+	public function setDisableText($disable_text)
+	{
+		$this->disable_text = $disable_text;
 	}
 
 	/**
@@ -279,6 +307,10 @@ class ilImageWizardInputGUI extends ilTextInputGUI
 				$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
 				$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
 				$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
+				if($this->disable_upload)
+				{
+					$tpl->setVariable('DISABLED_UPLOADS', ' disabled="disabled"');
+				}
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock('addimage');
@@ -286,9 +318,13 @@ class ilImageWizardInputGUI extends ilTextInputGUI
 			$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
 			$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
 			$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
+			if($this->disable_upload)
+			{
+				$tpl->setVariable('DISABLED_UPLOADS', ' disabled="disabled"');
+			}
 			$tpl->parseCurrentBlock();
 
-			if ($this->getAllowMove())
+			if ($this->getAllowMove() && !$this->disable_actions)
 			{
 				$tpl->setCurrentBlock("move");
 				$tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
@@ -308,8 +344,14 @@ class ilImageWizardInputGUI extends ilTextInputGUI
 			$tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
 			$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
 			$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
-			$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
-			$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
+			if(!$this->disable_actions)
+			{
+				$tpl->setVariable( "ADD_BUTTON", ilUtil::getImagePath( 'edit_add.png' ) );
+				$tpl->setVariable( "REMOVE_BUTTON", ilUtil::getImagePath( 'edit_remove.png' ) );
+			} else {
+				$tpl->setVariable('DISABLED_ACTIONS', ' disabled="disabled"');
+			}
+
 			$tpl->parseCurrentBlock();
 			$i++;
 		}

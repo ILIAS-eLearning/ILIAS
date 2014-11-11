@@ -19,7 +19,7 @@ include_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * 
  * @ilctrl_iscalledby assFlashQuestionGUI: ilObjQuestionPoolGUI
  */
-class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
+class assFlashQuestionGUI extends assQuestionGUI //implements ilGuiQuestionScoringAdjustable
 {
 	private $newUnitId;
 	

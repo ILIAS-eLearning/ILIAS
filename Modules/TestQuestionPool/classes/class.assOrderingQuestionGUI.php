@@ -340,7 +340,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		else
 		{
-			$answers      = new ilTextWizardInputGUI($this->lng->txt( "answers" ), "answers");
+			require_once './Modules/TestQuestionPool/classes/class.ilOrderingTextWizardInputGUI.php';
+			$answers      = new ilOrderingTextWizardInputGUI($this->lng->txt( "answers" ), "answers");
 			$answervalues = array();
 			foreach ($this->object->getAnswers() as $index => $answervalue)
 			{
@@ -355,6 +356,32 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$form->addItem( $answers );
 		}
 
+		return $form;
+	}
+
+	public function reworkFormForCorrectionMode(ilPropertyFormGUI $form)
+	{
+		$wizard_gui = $form->getItemByPostVar('answers');
+		
+		if($wizard_gui instanceof ilTextWizardInputGUI)
+		{
+			/** @var ilTextWizardInputGUI $twizard_gui */
+			$wizard_gui->setDisableActions( true );
+			$wizard_gui->setDisableText( true );
+		}
+		
+		if($wizard_gui instanceof ilImageWizardInputGUI)
+		{
+			/** @var ilImageWizardInputGUI $wizard_gui */
+			$wizard_gui->setDisableActions(true);
+			$wizard_gui->setDisableUpload(true);
+		}
+
+		if($wizard_gui instanceof ilNestedOrderingGUI)
+		{
+			/** @var ilNestedOrderingGUI $wizard_gui */
+			$wizard_gui->setDisabled(true);
+		}
 		return $form;
 	}
 
@@ -1479,7 +1506,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 */
 	public function getAfterParticipationSuppressionQuestionPostVars()
 	{
-		return array();
+		return array('element_height', 'thumb_geometry');
 	}
 
 	/**
@@ -1492,58 +1519,70 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		return  $this->renderAggregateView(
+		$passes = array();
+		foreach($relevant_answers as $pass)
+		{
+			$passes[$pass['active_fi'].'-'.$pass['pass']] = '-';
+		}
+		$passcount = count($passes);
+		foreach($relevant_answers as $pass)
+		{
+			$actives[$pass['active_fi']] = $pass['active_fi'];
+		}
+		$usercount = count($actives);
+		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_header.html', true, true, "Modules/TestQuestionPool");
+		$tpl->setVariable('HEADERTEXT', $this->lng->txt('overview'));
+		$tpl->setVariable('NUMBER_OF_USERS_INFO', $this->lng->txt('number_of_users'));
+		$tpl->setVariable('NUMBER_OF_USERS', $usercount);
+		$tpl->setVariable('NUMBER_OF_PASSES_INFO', $this->lng->txt('number_of_passes'));
+		$tpl->setVariable('NUMBER_OF_PASSES', $passcount);
+
+		return  $tpl->get() . $this->renderAggregateView(
 					$this->aggregateAnswers( $relevant_answers, $this->object->getAnswers() ) )->get();
 	}
 
 	public function aggregateAnswers($relevant_answers_chosen, $answers_defined_on_question)
 	{
-		$passdata = array(); // Regroup answers into units of passes.
+		$passdata = array(); // Regroup answers into one line per pass.
 		foreach($relevant_answers_chosen as $answer_chosen)
 		{
-			$passdata[$answer_chosen['active_fi'].'-'. $answer_chosen['pass']][$answer_chosen['value2']] = $answer_chosen['value1'];
-		}
-		
-		$variants = array(); // Determine unique variants.
-		foreach($passdata as $key => $data)
-		{
-			$hash = md5(implode('-', $data));
-			$value_set = false;
-			foreach ($variants as $vkey => $variant)
+			$pass_ident = $answer_chosen['active_fi'].'-'. $answer_chosen['pass'];
+			$answers = $passdata[$pass_ident];
+			if(!strlen($answers))
 			{
-				if ($variant['hash'] == $hash)
-				{
-					$variant['count']++;
-					$value_set = true;
-				}
+				$answers = array();
 			}
-			if (!$value_set)
+			else
 			{
-				$variants[$key]['hash'] = $hash;
-				$variants[$key]['count'] = 1;
+				$answers = explode(',',$answers);
+			}
+			if($this->object->getOrderingType() == OQ_TERMS || $this->object->getOrderingType() == OQ_PICTURES)
+			{
+				$answers[$answer_chosen['value2']] = $answer_chosen['value1'];
+			} else {
+				$parts = explode(':',$answer_chosen['value2']);
+				$item = $parts[0];
+				$depth = $parts[1];
+				$answers[$answer_chosen['value1']] = implode('|', array($depth,$item));
+			}
+			$passdata[$pass_ident] = implode(',', $answers);
+		}
+
+		$variants = array();
+		foreach($passdata as $line_data)
+		{
+			if(isset($variants[$line_data]))
+			{
+				$variants[$line_data]++;
+			}
+			else
+			{
+				$variants[$line_data] = 1;
 			}
 		}
 
-		$aggregate = array(); // Render aggregate from variant.
-		foreach ($variants as $key => $variant_entry)
-		{
-			$variant = $passdata[$key];
-			
-			foreach($variant as $variant_key => $variant_line)
-			{
-				$i = 0;
-				$aggregated_info_for_answer['count'] = $variant_entry['count'];
-				foreach ($answers_defined_on_question as $answer)
-				{
-					$i++;
-					$aggregated_info_for_answer[$i . ' - ' . $answer->getAnswerText()] 
-						= $passdata[$key][$i];
-				}
-				
-			}
-			$aggregate[] = $aggregated_info_for_answer;
-		}
-		return $aggregate;
+		return $variants;
+	
 	}
 
 	/**
@@ -1554,18 +1593,63 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	public function renderAggregateView($aggregate)
 	{
 		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
-
-		foreach ($aggregate as $line_data)
+		$tpl->setVariable( 'OPTION_HEADER', $this->lng->txt('answer_variant') );
+		$tpl->setVariable( 'COUNT_HEADER', $this->lng->txt('count') );
+		$tpl->setVariable( 'AGGREGATION_HEADER', $this->lng->txt('aggregated_answers_header') );
+		foreach ($aggregate as $answers => $line_data)
 		{
 			$tpl->setCurrentBlock( 'aggregaterow' );
-			$count = array_shift($line_data);
-			$html = '<ul>';
-			foreach($line_data as $key => $line)
+			$html = '<ul style="list-style: none;">';
+
+			$answer_entries = explode(',',$answers);
+			foreach($answer_entries as $key => $line)
 			{
-				$html .= '<li>'. ++$line .'&nbsp;-&nbsp;' .$key. '</li>';
+				$html .= '<li>';
+				if($this->object->getOrderingType() == OQ_NESTED_TERMS || $this->object->getOrderingType() === OQ_NESTED_PICTURES)
+				{
+					$answer_parts = explode( '|', $line );
+					$line_item    = $answer_parts[1];
+					if(isset($answer_parts[0]))
+					{
+						$indent_level = $answer_parts[0];
+					} 
+					else
+					{
+						$indent_level = 0;
+					}
+					for($i = 0; $i < $indent_level; $i++)
+					{
+						$html .= '&nbsp;<small>&gt;</small>&nbsp;';
+					}
+					$answer_objs = $this->object->getAnswers();
+					foreach($answer_objs as $candidate)
+					{
+						if($candidate->getRandomId() == $line_item)
+						{
+							$answer_obj = $candidate;
+						}
+					}
+
+				} else {
+					$line_item = $line;
+					$answer_obj = $this->object->getAnswer($line_item);
+
+				}
+				
+				if($this->object->getOrderingType() == OQ_TERMS || $this->object->getOrderingType() == OQ_NESTED_TERMS)
+				{
+					$html .= $answer_obj->getAnswertext();
+				} else {
+					$html .= '&nbsp;<img src="'
+						. $this->object->getImagePathWeb()
+						. $this->object->getThumbPrefix()
+						. $answer_obj->getAnswertext()
+						. '" />'; // No, seriously.
+				}
+				$html .= '</li>';
 			}
 			$html .= '</ul>';
-			$tpl->setVariable( 'COUNT', $count );
+			$tpl->setVariable( 'COUNT', $line_data );
 			$tpl->setVariable( 'OPTION', $html );
 
 			$tpl->parseCurrentBlock();

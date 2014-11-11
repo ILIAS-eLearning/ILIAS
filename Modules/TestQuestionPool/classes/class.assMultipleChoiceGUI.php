@@ -933,7 +933,17 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 	 */
 	public function getAfterParticipationSuppressionQuestionPostVars()
 	{
-		return array();
+		return array('shuffle','types','thumb_size');
+	}
+
+	public function reworkFormForCorrectionMode(ilPropertyFormGUI $form)
+	{
+		/** @var ilMultipleChoiceWizardInputGUI $multiplechoice_wizardinputgui */
+		$multiplechoice_wizardinputgui = $form->getItemByPostVar('choice');
+		$multiplechoice_wizardinputgui->setDisableUpload(true);
+		$multiplechoice_wizardinputgui->setDisableActions(true);
+		$multiplechoice_wizardinputgui->setDisableText(true);
+		return $form;
 	}
 
 	/**
@@ -946,8 +956,30 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		return  $this->renderAggregateView( 
-			$this->aggregateAnswers( $relevant_answers, $this->object->getAnswers() ) )->get();
+		$passcount = count($relevant_answers);
+		foreach($relevant_answers as $pass)
+		{
+			$actives[$pass['active_fi']] = $pass['active_fi'];
+		}
+		$usercount = count($actives);
+		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_header.html', true, true, "Modules/TestQuestionPool");
+		$tpl->setVariable('HEADERTEXT', $this->lng->txt('overview'));
+		$tpl->setVariable('NUMBER_OF_USERS_INFO', $this->lng->txt('number_of_users'));
+		$tpl->setVariable('NUMBER_OF_USERS', $usercount);
+		$tpl->setVariable('NUMBER_OF_PASSES_INFO', $this->lng->txt('number_of_passes'));
+		$tpl->setVariable('NUMBER_OF_PASSES', $passcount);
+
+		$header = $tpl->get();
+		$overview = $this->renderAggregateView( 
+			$this->aggregateAnswers( $relevant_answers, $this->object->getAnswers() ) 
+		)->get();
+		
+		$variants = $this->renderVariantsView(
+			$this->aggregateAnswerVariants($relevant_answers, $this->object->getAnswers()),
+			$this->object->getAnswers()
+		)->get();
+		
+		return  $header . $overview . $variants ;
 	}
 
 	public function aggregateAnswers($relevant_answers_chosen, $answers_defined_on_question)
@@ -975,6 +1007,31 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		return $aggregate;
 	}
 
+	public function aggregateAnswerVariants($relevant_answers_chosen)
+	{
+		$variants = array();
+		$passdata = array();
+		foreach ($relevant_answers_chosen as $relevant_answer)
+		{
+			$pass_ident = $relevant_answer['active_fi'].$relevant_answer['pass'];
+			$answer = $passdata[$pass_ident];
+			if (strlen($answer))
+			{
+				$answer_elements = explode(',', $answer);
+			} else {
+				$answer_elements = array();
+			}
+			$answer_elements[] = $relevant_answer['value1'];
+			$passdata[$pass_ident] = implode(',',$answer_elements);
+		}
+		foreach($passdata as $passident => $behaviour)
+		{
+			$variants[$behaviour]++;
+		}
+		arsort($variants);
+		return $variants;
+	}
+
 	/**
 	 * @param $aggregate
 	 *
@@ -983,7 +1040,9 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 	public function renderAggregateView($aggregate)
 	{
 		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
-
+		$tpl->setVariable( 'OPTION_HEADER', $this->lng->txt('option') );
+		$tpl->setVariable( 'COUNT_HEADER', $this->lng->txt('count') );
+		$tpl->setVariable( 'AGGREGATION_HEADER', $this->lng->txt('aggregated_answers_header') );
 		foreach ($aggregate as $line_data)
 		{
 			$tpl->setCurrentBlock( 'aggregaterow' );
@@ -991,6 +1050,29 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			$tpl->setVariable( 'COUNT', $line_data['count_checked'] );
 			$tpl->parseCurrentBlock();
 		}
+		return $tpl;
+	}
+	
+	public function renderVariantsView($aggregate, $answers)
+	{
+		$tpl = new ilTemplate( 'tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool" );
+		$tpl->setVariable( 'OPTION_HEADER', $this->lng->txt( 'answer_variant' ) );
+		$tpl->setVariable( 'COUNT_HEADER', $this->lng->txt( 'count' ) );
+		$tpl->setVariable( 'AGGREGATION_HEADER', $this->lng->txt( 'aggregated_answers_variants' ) );
+		foreach ($aggregate as $options => $count)
+		{
+			$tpl->setCurrentBlock( 'aggregaterow' );
+			$optionstext = array();
+			foreach (explode( ',', $options ) as $option)
+			{
+				$answer        = $answers[$option];
+				$optionstext[] = $answer->getAnswerText();
+			}
+			$tpl->setVariable( 'OPTION', implode( ',&nbsp;', $optionstext ) );
+			$tpl->setVariable( 'COUNT', $count );
+			$tpl->parseCurrentBlock();
+		}
+
 		return $tpl;
 	}
 }
