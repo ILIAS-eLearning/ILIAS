@@ -710,9 +710,12 @@ class ilObjBlog extends ilObject2
 				
 		$notified = $ntf->sendMail($users, "_".$a_posting_id, 
 			($admin_only ? "write" : "read"));			
-		
+				
 		// #14387
-		ilNotification::updateNotificationTime(ilNotification::TYPE_BLOG, $blog_obj_id, $notified, $a_posting_id);				
+		if(sizeof($notified))
+		{
+			ilNotification::updateNotificationTime(ilNotification::TYPE_BLOG, $blog_obj_id, $notified, $a_posting_id);		
+		}
 	}
 			
 	/**
