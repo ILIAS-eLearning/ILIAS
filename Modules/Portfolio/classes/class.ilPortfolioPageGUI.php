@@ -568,13 +568,23 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$this->ctrl->getHTML($month_gui);	
 	}	
 	
+	protected function isMyCoursesActive()
+	{
+		$prfa_set = new ilSetting("prfa");							
+		return (bool)$prfa_set->get("mycrs", true);
+	}
+	
 	protected function renderMyCoursesTeaser($a_user_id)
 	{		
 		// not used 
 		// $user_id = $this->getPageContentUserId($a_user_id);
 		
-		return $this->renderTeaser("my_courses", 
-			$this->lng->txt("prtf_page_element_my_courses_title"));
+		$title = $this->isMyCoursesActive()
+			? "my_courses"
+			: "my_courses_inactive";
+				
+		return $this->renderTeaser($title, 
+			$this->lng->txt("prtf_page_element_my_courses_title")); 								
 	}	
 	
 	protected function renderMyCourses($a_user_id)
@@ -586,7 +596,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			return $this->renderMyCoursesTeaser($a_user_id);
 		}
 		
-		if($this->getOutputMode() == "offline")
+		if($this->getOutputMode() == "offline" || 
+			!$this->isMyCoursesActive())
 		{	
 			return;
 		}
@@ -644,7 +655,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				}
 				
 				// always check against current user
-				if($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "", $course["ref_id"], "crs"))	
+				if($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "", $course["ref_id"], "crs") ||
+					($ilAccess->checkAccessOfUser($ilUser->getId(), "visible", "", $course["ref_id"], "crs") &&
+					$ilAccess->checkAccessOfUser($ilUser->getId(), "join", "", $course["ref_id"], "crs")))	
 				{
 					$tpl->setCurrentBlock("course_link_bl");
 					$tpl->setVariable("COURSE_LINK_TITLE", $course["title"]);
@@ -674,18 +687,22 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		// see ilPDSelectedItemsBlockGUI
 		
+		include_once 'Modules/Course/classes/class.ilObjCourseAccess.php';
 		include_once 'Services/Membership/classes/class.ilParticipants.php';
 		$items = ilParticipants::_getMembershipByType($a_user_id, 'crs');
 				
 		$references = $lp_obj_refs = array();
 		foreach($items as $obj_id)
 		{
-			$item_references = ilObject::_getAllReferences($obj_id);
-			if(is_array($item_references) && count($item_references))
+			$ref_id = ilObject::_getAllReferences($obj_id);						
+			if(is_array($ref_id) && count($ref_id))
 			{
-				foreach($item_references as $ref_id)
-				{									
-					if(!$tree->isDeleted($ref_id))
+				$ref_id = array_pop($ref_id);
+				if(!$tree->isDeleted($ref_id))
+				{
+					$visible = false;
+					$active = ilObjCourseAccess::_isActivated($obj_id, $visible, false);
+					if($active && $visible)
 					{
 						$references[$ref_id] = array(
 							'ref_id' => $ref_id,
