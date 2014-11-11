@@ -598,6 +598,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{			
 			$tpl = new ilTemplate("tpl.pc_my_courses.html", true, true, "Modules/Portfolio");
 			$tpl->setVariable("TITLE", $this->lng->txt("prtf_page_element_my_courses_title"));
+			$tpl->setVariable("INFO", $this->lng->txt("prtf_page_element_my_courses_info")); // #14464
 		
 			include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 			$this->lng->loadLanguageModule("trac");
