@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns = 'http://www.w3.org/2001/XMLSchema'
+	targetNamespace = "http://www.ilias.de/Modules/Blog/blog/5_0"
+	xmlns:t = 'http://www.ilias.de/Modules/Blog/blog/5_0'>
+
+	<!-- t:Data type -->
+	<complexType name='Data' mixed='true'>
+	</complexType>
+
+
+	<!-- Blog -->
+	<element name='Blog'>
+		<complexType>
+		<sequence>
+			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Description' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Notes' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:BgColor' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:FontColor' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Img' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Ppic' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:RssActive' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Approval' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Dir' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:AbsShorten' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:AbsShortenLen' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:AbsImage' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:AbsImgWidth' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:AbsImgHeight' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:NavMode' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:NavListPost' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:NavListMon' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Keywords' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Authors' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:NavOrder' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:OvPost' minOccurs='1' maxOccurs='1'/>				
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='Id' type='t:Data' />
+	<element name='Title' type='t:Data' />
+	<element name='Description' type='t:Data' />
+	<element name='Notes' type='t:Data' />
+	<element name='BgColor' type='t:Data' />
+	<element name='FontColor' type='t:Data' />
+	<element name='Img' type='t:Data' />
+	<element name='Ppic' type='t:Data' />
+	<element name='RssActive' type='t:Data' />
+	<element name='Approval' type='t:Data' />
+	<element name='Dir' type='t:Data' />
+	<element name='AbsShorten' type='t:Data' />
+	<element name='AbsShortenLen' type='t:Data' />
+	<element name='AbsImage' type='t:Data' />
+	<element name='AbsImgWidth' type='t:Data' />
+	<element name='AbsImgHeight' type='t:Data' />
+	<element name='NavMode' type='t:Data' />
+	<element name='NavListPost' type='t:Data' />
+	<element name='NavListMon' type='t:Data' />
+	<element name='Keywords' type='t:Data' />
+	<element name='Authors' type='t:Data' />
+	<element name='NavOrder' type='t:Data' />
+	<element name='OvPost' type='t:Data' />				
+
+	<!-- BlogPosting -->
+	<element name='BlogPosting'>
+		<complexType>
+		<sequence>
+			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:BlogId' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Created' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Author' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Approved' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='Id' type='t:Data' />
+	<element name='BlogId' type='t:Data' />
+	<element name='Title' type='t:Data' />
+	<element name='Created' type='t:Data' />
+	<element name='Author' type='t:Data' />
+	<element name='Approved' type='t:Data' />
+
+</schema>

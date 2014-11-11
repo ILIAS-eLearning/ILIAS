@@ -57,6 +57,33 @@ class ilBlogDataSet extends ilDataSet
 						"Approval" => "integer",
 						"Dir" => "directory"
 						);
+					
+				case "5.0.0":
+					return array(
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"Notes" => "integer",
+						"BgColor" => "text",
+						"FontColor" => "text",
+						"Img" => "text",
+						"Ppic" => "integer",
+						"RssActive" => "integer",
+						"Approval" => "integer",
+						"Dir" => "directory",
+						"AbsShorten" => "integer",
+						"AbsShortenLen" => "integer",
+						"AbsImage" => "integer",
+						"AbsImgWidth" => "integer",
+						"AbsImgHeight" => "integer",
+						"NavMode" => "integer",
+						"NavListPost" => "integer",
+						"NavListMon" => "integer",
+						"Keywords" => "integer",
+						"Authors" => "integer",
+						"NavOrder" => "text",
+						"OvPost" => "integer"						
+						);
 			}
 		}
 		
@@ -103,7 +130,19 @@ class ilBlogDataSet extends ilDataSet
 						" JOIN object_data od ON (od.obj_id = bl.id)".
 						" WHERE ".$ilDB->in("bl.id", $a_ids, false, "integer").
 						" AND od.type = ".$ilDB->quote("blog", "text"));
-					break;				
+					break;		
+				
+				case "5.0.0":
+					$this->getDirectDataFromQuery("SELECT bl.id,od.title,od.description,".
+						"bl.notes,bl.bg_color,bl.font_color,bl.img,bl.ppic,bl.rss_active,bl.approval,".
+						"bl.abs_shorten,bl.abs_shorten_len,bl.abs_image,bl.abs_img_width,bl.abs_img_height,".
+						"bl.nav_mode,bl.nav_list_post,bl.nav_list_mon,bl.keywords,bl.authors,bl.nav_order,".
+						"bl.ov_post".
+						" FROM il_blog bl".
+						" JOIN object_data od ON (od.obj_id = bl.id)".
+						" WHERE ".$ilDB->in("bl.id", $a_ids, false, "integer").
+						" AND od.type = ".$ilDB->quote("blog", "text"));
+					break;		
 			}
 		}
 		
@@ -191,6 +230,20 @@ class ilBlogDataSet extends ilDataSet
 				$newObj->setRSS($a_rec["RssActive"]);
 				$newObj->setApproval($a_rec["Approval"]);
 				$newObj->setImage($a_rec["Img"]);
+				
+				$newObj->setAbstractShorten($a_rec["abs_shorten"]);
+				$newObj->setAbstractShortenLength($a_rec["abs_shorten_len"]);
+				$newObj->setAbstractImage($a_rec["abs_image"]);
+				$newObj->setAbstractImageWidth($a_rec["abs_img_width"]);
+				$newObj->setAbstractImageHeight($a_rec["abs_img_height"]);
+				$newObj->setNavMode($a_rec["nav_mode"]);
+				$newObj->setNavModeListPostings($a_rec["nav_list_post"]);
+				$newObj->setNavModeListMonths($a_rec["nav_list_mon"]);
+				$newObj->setKeywords($a_rec["keywords"]);
+				$newObj->setAuthors($a_rec["authors"]);
+				$newObj->setOrder($a_rec["nav_order"]);
+				$newObj->setOverviewPostings($a_rec["ov_post"]);
+				
 				$newObj->update();
 				
 				// handle image(s)
