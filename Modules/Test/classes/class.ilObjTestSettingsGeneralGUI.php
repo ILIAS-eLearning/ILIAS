@@ -847,7 +847,6 @@ class ilObjTestSettingsGeneralGUI
 		$fixedparticipants = new ilCheckboxInputGUI($this->lng->txt('participants_invitation'), "fixedparticipants");
 		$fixedparticipants->setValue(1);
 		$fixedparticipants->setChecked($this->testOBJ->getFixedParticipants());
-		$fixedparticipants->setOptionTitle($this->lng->txt("tst_allow_fixed_participants"));
 		$fixedparticipants->setInfo($this->lng->txt("participants_invitation_description"));
 		$invited_users = $this->testOBJ->getInvitedUsers();
 		if ($this->testOBJ->participantDataExist() && (count($invited_users) == 0))
