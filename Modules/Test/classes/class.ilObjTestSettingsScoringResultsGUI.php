@@ -21,14 +21,6 @@ class ilObjTestSettingsScoringResultsGUI
 	const CMD_SAVE_FORM					= 'saveForm';
 	const CMD_CONFIRMED_SAVE_FORM		= 'confirmedSaveForm';
 
-	/**
-	 * form field value constants
-	 */
-	const FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_STATUS = 'status';
-	const FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_MARK = 'mark';
-	const FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_NONE = 'none';
-	const FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_BOTH = 'both';
-
 	/** @var ilCtrl $ctrl */
 	protected $ctrl = null;
 	
@@ -233,25 +225,9 @@ class ilObjTestSettingsScoringResultsGUI
 
 		if( !$this->isHiddenFormItem('show_result_grading') )
 		{
-			switch( $form->getItemByPostVar('show_result_grading')->getValue() )
-			{
-				case self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_BOTH:
-					$this->testOBJ->setShowGradingStatusEnabled(true);
-					$this->testOBJ->setShowGradingMarkEnabled(true);
-					break;
-				case self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_NONE:
-					$this->testOBJ->setShowGradingStatusEnabled(false);
-					$this->testOBJ->setShowGradingMarkEnabled(false);
-					break;
-				case self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_STATUS:
-					$this->testOBJ->setShowGradingStatusEnabled(true);
-					$this->testOBJ->setShowGradingMarkEnabled(false);
-					break;
-				case self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_MARK:
-					$this->testOBJ->setShowGradingStatusEnabled(false);
-					$this->testOBJ->setShowGradingMarkEnabled(true);
-					break;
-			}
+			$value = $form->getItemByPostVar('show_result_grading')->getValue();
+			$this->testOBJ->setShowGradingStatusEnabled( in_array('grading_status', $value) );
+			$this->testOBJ->setShowGradingMarkEnabled( in_array('grading_mark', $value) );
 		}
 
 		if( !$this->isHiddenFormItem('print_bs_with_res') )
@@ -529,7 +505,6 @@ class ilObjTestSettingsScoringResultsGUI
 		$results_access->addOption($opt = new ilRadioOption($this->lng->txt('tst_results_access_never'), 4, ''));
 		$opt->setInfo($this->lng->txt('tst_results_access_never_desc'));
 		$results_access->setValue($this->testOBJ->getScoreReporting());
-		$results_access->setInfo($this->lng->txt('tst_results_access_description'));
 
 		// access date
 		$reporting_date = new ilDateTimeInputGUI('', 'reporting_date');
@@ -547,23 +522,14 @@ class ilObjTestSettingsScoringResultsGUI
 		$form->addItem($results_access);
 
 		// grading in test results
-		$rg = new ilRadioGroupInputGUI($this->lng->txt('tst_results_grading'), 'show_result_grading');
-		$rg->addOption(new ilRadioOption(
-			$this->lng->txt('tst_results_grading_opt_show_both'), self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_BOTH
-		));
-		$rg->addOption(new ilRadioOption(
-			$this->lng->txt('tst_results_grading_opt_show_none'), self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_NONE
-		));
-		$rg->addOption(new ilRadioOption(
-			$this->lng->txt('tst_results_grading_opt_show_status'), self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_STATUS
-		));
-		$rg->addOption(new ilRadioOption(
-			$this->lng->txt('tst_results_grading_opt_show_mark'), self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_MARK
-		));
-		$rg->setValue($this->getShowGradingFormFieldValue(
-			$this->testOBJ->isShowGradingStatusEnabled(), $this->testOBJ->isShowGradingMarkEnabled()
-		));
-		$form->addItem($rg);
+		$chbg = new ilCheckboxGroupInputGUI($this->lng->txt('tst_results_grading'), 'show_result_grading');
+		$chbg->addOption($opt = new ilCheckboxOption($this->lng->txt('tst_results_grading_opt_show_status'), 'grading_status'));
+		$chbg->addOption(new ilCheckboxOption($this->lng->txt('tst_results_grading_opt_show_mark'), 'grading_mark'));
+		$value = array();
+		if($this->testOBJ->isShowGradingStatusEnabled()) $value[] = 'grading_status';
+		if($this->testOBJ->isShowGradingMarkEnabled()) $value[] = 'grading_mark';
+		$chbg->setValue($value);
+		$form->addItem($chbg);
 
 		// best solution in test results
 		$results_print_best_solution = new ilCheckboxInputGUI($this->lng->txt('tst_results_print_best_solution'), 'print_bs_with_res');
