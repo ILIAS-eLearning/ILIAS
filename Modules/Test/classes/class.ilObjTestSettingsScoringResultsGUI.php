@@ -519,11 +519,15 @@ class ilObjTestSettingsScoringResultsGUI
 
 		// access to test results
 		$results_access = new ilRadioGroupInputGUI($this->lng->txt('tst_results_access'), 'results_access');
-		$results_access->addOption(new ilRadioOption($this->lng->txt('tst_results_access_always'), 2, ''));
-		$results_access->addOption(new ilRadioOption($this->lng->txt('tst_results_access_finished'), 1, ''));
+		$results_access->addOption($opt = new ilRadioOption($this->lng->txt('tst_results_access_always'), 2, ''));
+		$opt->setInfo($this->lng->txt('tst_results_access_always_desc'));
+		$results_access->addOption($opt = new ilRadioOption($this->lng->txt('tst_results_access_finished'), 1, ''));
+		$opt->setInfo($this->lng->txt('tst_results_access_finished_desc'));
 		$results_access_date_limitation = new ilRadioOption($this->lng->txt('tst_results_access_date'), 3, '');
+		$results_access_date_limitation->setInfo($this->lng->txt('tst_results_access_date_desc'));
 		$results_access->addOption($results_access_date_limitation);
-		$results_access->addOption(new ilRadioOption($this->lng->txt('tst_results_access_never'), 4, ''));
+		$results_access->addOption($opt = new ilRadioOption($this->lng->txt('tst_results_access_never'), 4, ''));
+		$opt->setInfo($this->lng->txt('tst_results_access_never_desc'));
 		$results_access->setValue($this->testOBJ->getScoreReporting());
 		$results_access->setInfo($this->lng->txt('tst_results_access_description'));
 
