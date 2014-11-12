@@ -177,7 +177,29 @@ class ilAuthContainerECS extends Auth_Container
 	 		$connector = new ilECSConnector($this->getCurrentServer());
 	 		$res = $connector->getAuth($hash);
 			$auths = $res->getResult();
-			$this->abreviation = $auths->abbr;
+			
+			$GLOBALS['ilLog']->write(__METHOD__.': Auths: '.print_r($auths,TRUE));
+			
+			if($auths->pid)
+			{
+				try
+				{
+					include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
+					$reader = ilECSCommunityReader::getInstanceByServerId($this->getCurrentServer()->getServerId());
+					$part = $reader->getParticipantByMID($auths->pid);
+					$this->abreviation = $part->getOrganisation()->getAbbreviation();
+				}
+				catch(Exception $e)
+				{
+					$ilLog->write(__METHOD__.': Authentication failed with message: '.$e->getMessage());
+					return false;
+				}
+			}
+			else
+			{
+				$this->abreviation = $auths->abbr;
+			}
+			
 			$ilLog->write(__METHOD__.': Got abr: '.$this->abreviation);
 	 	}
 	 	catch(ilECSConnectorException $e)

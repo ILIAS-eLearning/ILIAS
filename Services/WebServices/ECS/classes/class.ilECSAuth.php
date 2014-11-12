@@ -37,6 +37,12 @@ class ilECSAuth
 
 	//public $url;
 	public $realm;
+#	public $hash;
+#	public $sov;
+#	public $eov;
+#	public $url;
+#	public $abbr;
+#	public $pid;
 	
 
 	/**
@@ -51,6 +57,16 @@ class ilECSAuth
 		global $ilLog;
 		
 		$this->log = $ilLog;
+	}
+	
+	public function setPid($a_pid)
+	{
+		$this->pid = $a_pid;
+	}
+	
+	public function getPid()
+	{
+		return $this->pid;
 	}
 
 	/**

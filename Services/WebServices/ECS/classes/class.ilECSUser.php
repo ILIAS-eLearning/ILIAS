@@ -181,7 +181,15 @@ class ilECSUser
 	 	$this->lastname = ilUtil::stripSlashes(urldecode($_GET['ecs_lastname']));
 	 	$this->email = ilUtil::stripSlashes(urldecode($_GET['ecs_email']));
 	 	$this->institution = ilUtil::stripSlashes(urldecode($_GET['ecs_institution']));
-	 	$this->uid_hash = ilUtil::stripSlashes(urldecode($_GET['ecs_uid_hash']));
+		
+		if($_GET['ecs_uid_hash'])
+		{
+			$this->uid_hash = ilUtil::stripSlashes(urldecode($_GET['ecs_uid_hash']));
+		}
+		elseif($_GET['ecs_uid'])
+		{
+			$this->uid_hash = ilUtil::stripSlashes(urldecode($_GET['ecs_uid']));
+		}
 	}
 	
 	/**
@@ -210,6 +218,7 @@ class ilECSUser
 	 		'&ecs_email='.urlencode((string) $this->email).
 	 		'&ecs_institution='.urlencode((string) $this->institution).
 	 		'&ecs_uid_hash='.urlencode((string) $this->uid_hash);
+			'&ecs_uid='.urlencode((string) $this->uid_hash);
 	}
 	
 	/**

@@ -148,6 +148,7 @@ class ilECSConnector
 				throw new ilECSConnectorException('Received HTTP status code: '.$info);
 			}
 			$ilLog->write(__METHOD__.': ... got HTTP 201 (created)');
+			$ilLog->write(__METHOD__.': POST was: '.$a_post);
 
 			$result = new ilECSResult($ret);
 			$auth = $result->getResult();

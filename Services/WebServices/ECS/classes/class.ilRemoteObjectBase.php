@@ -298,9 +298,11 @@ abstract class ilRemoteObjectBase extends ilObject2
 		try
 		{	 	
 			$server_id = ilECSImport::lookupServerId($this->getId());
+			$import_info = new ilECSImport($server_id, $this->getId());
 			
 			$connector = new ilECSConnector(ilECSSetting::getInstanceByServerId($server_id));
 			$auth = new ilECSAuth();
+			$auth->setPid($import_info->getMID());
 			// URL is deprecated
 			$auth->setUrl($this->getRemoteLink());
 			$realm = sha1($a_plain_realm);
