@@ -12265,8 +12265,8 @@ registration#:#registration_code_role_info#:#Bei Benutzung eines Registrierungsc
 mail#:#mail_system_sender_name#:#Absendername
 mail#:#mail_system_sender_name_info#:#Bitte geben Sie einen Namen ein, der als Absender für automatisch generierte Nachrichten (intern und extern) genutzt werden soll. Falls Sie dieses Feld leer lassen, nutzt ILIAS den Kurztitel dieser Installation. Ist dieser ebenfalls nicht definiert, wird 'ILIAS' als Absender verwendet.
 content#:#cont_current_term#:#Aktueller Begriff
-assessment#:#tst_setting_offer_hints_label#:#Fragenspezifische Hinweise
-assessment#:#tst_setting_offer_hints_info#:#Wenn diese Option aktiviert ist, werden vorhandene Fragenspezifische Hinweise angeboten.
+assessment#:#tst_setting_offer_hints_label#:#Lösungshinweis
+assessment#:#tst_setting_offer_hints_info#:#Teilnehmer können Lösungshinweis anfordern, um eine Frage zu beantworten. Pro gegebenem Hinweis verringern sich die Punkte für die richtige Antwort.
 assessment#:#tst_question_hints_tab#:#Hinweise
 assessment#:#tst_question_hints_table_header#:#Hinweise zur Frage: %s
 assessment#:#tst_question_hints_table_no_items#:#Keine vorhandenen Hinweise
