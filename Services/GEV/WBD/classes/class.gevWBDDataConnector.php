@@ -792,6 +792,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 				hist_usercoursestatus.participation_status = 'teilgenommen'
 			AND
 				hist_usercoursestatus.last_wbd_report IS NULL
+			AND
+				hist_usercoursestatus.wbd_booking_id IS NULL
 
 			";
 
