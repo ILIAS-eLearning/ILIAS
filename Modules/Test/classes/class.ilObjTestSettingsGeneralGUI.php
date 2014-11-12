@@ -1272,11 +1272,10 @@ class ilObjTestSettingsGeneralGUI
 		$autosave_output->setValue(1);
 		$autosave_output->setChecked($this->testOBJ->getAutosave());
 		$autosave_output->setInfo($this->lng->txt('autosave_info'));
-
 		$autosave_interval = new ilTextInputGUI($this->lng->txt('autosave_ival'), 'autosave_ival');
 		$autosave_interval->setSize(10);
 		$autosave_interval->setValue($this->testOBJ->getAutosaveIval()/1000);
-		$autosave_interval->setInfo($this->lng->txt('autosave_ival_info'));
+		$autosave_interval->setSuffix($this->lng->txt('seconds'));
 		$autosave_output->addSubItem($autosave_interval);
 		$form->addItem($autosave_output);
 
