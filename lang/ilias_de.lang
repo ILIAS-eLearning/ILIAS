@@ -1098,7 +1098,7 @@ assessment#:#tst_invited_selected_groups#:#Die ausgewählten Gruppen wurden als 
 assessment#:#tst_invited_selected_roles#:#Die ausgewählten Rollen wurden als feste Teilnehmer hinzugefügt
 assessment#:#tst_invited_selected_users#:#Die ausgewählten Benutzer wurden als feste Teilnehmer hinzugefügt
 assessment#:#tst_link_only_unassigned#:#Sie haben mindestens eine Frage ausgewählt, die bereits einem Fragepool zugeordnet ist. Nur Fragen, die keinem Fragenpool zugeordnet sind, können einem Fragenpool hinzugefügt werden. Bitte treffen Sie eine neue Auswahl.
-assessment#:#tst_list_of_answers#:#Liste der Antworten
+assessment#:#tst_list_of_answers#:#Zusätzliche druckbare Liste der Antworten
 assessment#:#tst_list_of_answers_show#:#Liste der Antworten anzeigen
 assessment#:#tst_list_of_questions_end#:#Die Fragenübersicht anzeigen, bevor Teilnehmer den Test beenden
 assessment#:#tst_list_of_questions_start#:#Die Fragenübersicht anzeigen, bevor Teilnehmer die erste Frage bearbeiten
@@ -1518,8 +1518,8 @@ assessment#:#show_examview_html#:#Am Bildschirm
 assessment#:#show_examview_pdf#:#PDF-Download
 assessment#:#scoringadjust#:#Nachkorrektur
 assessment#:#tst_trigger_result_refreshing#:#Es erfolgt eine Neuberechnung des Ergebnisses. Dies kann eine Weile dauern.
-assessment#:#test_scoring#:#Bewertungsoptionen
-assessment#:#test_results#:#Ergebnisausgabeoptionen
+assessment#:#test_scoring#:#Bewertung des Tests
+assessment#:#test_results#:#Ausgabe Testergebnisse
 assessment#:#misc#:#Verschiedene Optionen
 assessment#:#tst_back_to_top#:#Zurück nach oben
 assessment#:#tst_back_to_question_list#:#Zurück zur Fragenliste
