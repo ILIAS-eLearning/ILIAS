@@ -1219,12 +1219,16 @@ assessment#:#tst_result#:#Testergebnis
 assessment#:#tst_result_user_name#:#Testergebnisse für %s
 assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_results#:#Testergebnisse
-assessment#:#tst_results_access#:#Zugang zu den Testergebnissen
+assessment#:#tst_results_access#:#Teilnehmer sehen Testergebnisse
 assessment#:#tst_results_access_always#:#Immer
+assessment#:#tst_results_access_always_desc#:#Teilnehmer können jederzeit ihre Testergebnisse einsehen.
 assessment#:#tst_results_access_date#:#Datum
+assessment#:#tst_results_access_date_desc#:#Teilnehmer können ihre Testergebnisse erst ab dem definierten Datum einsehen.
 assessment#:#tst_results_access_description#:#Diese Option regelt den Zugang der Teilnehmer zu ihren Testergebnissen. Wenn auf die Testergebnisse nach Beendigung des Tests zugegriffen werden kann, wird nach dem erstmaligen Abschließen eines Testdurchlaufs eine Schaltfläche zu den Testergebnissen angeboten. Wenn ein Datum und eine Uhrzeit angegeben werden, können die Teilnehmer erst auf die Testergebnisse zugreifen, wenn das Datum und die Uhrzeit erreicht sind. Wenn auf die Testergebnisse immer zugegriffen werden kann, dürfen die Teilnehmer die Ergebnisse jederzeit einsehen, selbst wenn sie den Test noch nicht vollständig durchlaufen haben. Ist 'Nie' ausgewählt, haben die Teilnehmer keinen Zugriff auf die Testergebnisse.
-assessment#:#tst_results_access_finished#:#Nach Beendigung eines Testdurchlaufs
+assessment#:#tst_results_access_finished#:#Nach Testdurchlauf
+assessment#:#tst_results_access_finished_desc#:#Teilnehmer können ihr Testergebnis erst nach Beendigung eines Testdurchlaufs einsehen.
 assessment#:#tst_results_access_never#:#Nie
+assessment#:#tst_results_access_never_desc#:#Teilnehmern wird ihr Ergebnis für diesen Test niemals angezeigt.
 assessment#:#tst_results_grading#:#Bewertung in Testergebnissen
 assessment#:#tst_results_grading_opt_show_both#:#Zeige den Status Bestanden/Nicht bestanden und die resultierende Note
 assessment#:#tst_results_grading_opt_show_none#:#Zeige weder den Status Bestanden/Nicht bestanden  noch die resultierende Note
@@ -13509,7 +13513,7 @@ assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#tst_test_execution#:#Abschließen
 assessment#:#redirect_after_finishing_tst#:#Weiterleitung
-assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer wird nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet.
+assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet.
 assessment#:#redirect_after_finishing_rule#:#Weiterleitung
 assessment#:#redirect_in_kiosk_mode#:#nur bei aktivierter Prüfungsansicht
 assessment#:#redirect_always#:#immer zur definierten Zielseite
