@@ -544,7 +544,7 @@ class ilObjTestSettingsScoringResultsGUI
 	{
 		// HEADER: result settings
 		$header_tr = new ilFormSectionHeaderGUI();
-		$header_tr->setTitle($this->lng->txt('test_results_details_options'));
+		$header_tr->setTitle($this->lng->txt('tst_results_details_options'));
 		$form->addItem($header_tr);
 
 		// results presentation
