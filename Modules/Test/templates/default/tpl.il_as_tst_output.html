@@ -27,15 +27,6 @@
 	<input type="image" name="cmd[{CMD_UNMARKED}][mark]" src="{IMAGE_UNMARKED}" title="{TEXT_UNMARKED}" />
 <!-- END isnotmarked -->
 <!-- END question_status -->
-<!-- BEGIN char_selector -->
-	<input type="image" src="{CHAR_SELECTOR_IMAGE}" class="btn-default btn-xs ilCharSelectorToggle" title="{CHAR_SELECTOR_TEXT}" />
-{CHAR_SELECTOR_TEMPLATE}
-<!-- END char_selector -->
-			</td>
-			<td style="text-align: right;">
-<!-- BEGIN cancel_test -->
-				<a href="{HREF_CANCELTEXT}">{TEXT_CANCELTEST}</a>&nbsp;<a href="{HREF_IMGCANCELTEST}"><img align="middle" alt="{TEXT_ALTCANCELTEXT}" title="{TEXT_TITLECANCELTEXT}" src="{IMAGE_CANCEL}" border="0" /></a>
-<!-- END cancel_test -->
 			</td>
 		</tr>
 </table>
@@ -47,6 +38,13 @@
 <!-- END prev -->
 	</td>
 	<td align="center" width="1" class="submit">
+		<!-- BEGIN char_selector -->
+		<input type="image" src="{CHAR_SELECTOR_IMAGE}" class="btn btn-default ilCharSelectorToggle" title="{CHAR_SELECTOR_TEXT}" />
+		{CHAR_SELECTOR_TEMPLATE}
+		<!-- END char_selector -->
+<!-- BEGIN cancel_test -->
+	<a href="{HREF_CANCELTEXT}" class="btn btn-default">{TEXT_CANCELTEST}</a>
+<!-- END cancel_test -->
 <!-- BEGIN summary -->
 		<input type="submit" class="btn btn-default" name="cmd[{CMD_SUMMARY}]" value="{BTN_SUMMARY}" id="summarybutton" />
 <!-- END summary -->

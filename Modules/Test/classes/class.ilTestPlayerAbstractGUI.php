@@ -237,19 +237,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	protected function populateCancelButtonBlock()
 	{
-		$this->tpl->setCurrentBlock( "cancel_test" );
-		$this->tpl->setVariable( "TEXT_CANCELTEST", $this->lng->txt( "cancel_test" ) );
-		$this->tpl->setVariable( "TEXT_ALTCANCELTEXT", $this->lng->txt( "cancel_test" ) );
-		$this->tpl->setVariable( "TEXT_TITLECANCELTEXT", $this->lng->txt( "cancel_test" ) );
-		$this->tpl->setVariable( "HREF_IMGCANCELTEST",
-								 $this->ctrl->getLinkTargetByClass( get_class( $this ), "outIntroductionPage"
-								 ) . "&cancelTest=true"
-		);
-		$this->tpl->setVariable( "HREF_CANCELTEXT",
-								 $this->ctrl->getLinkTargetByClass( get_class( $this ), "outIntroductionPage"
-								 ) . "&cancelTest=true"
-		);
-		$this->tpl->setVariable( "IMAGE_CANCEL", ilUtil::getImagePath( "cancel.png" ) );
+		$this->tpl->setCurrentBlock('cancel_test');
+		$this->tpl->setVariable('TEXT_CANCELTEST', $this->lng->txt('cancel_test'));
+		$this->ctrl->setParameterByClass(get_class($this), 'cancelTest', 'true');
+		$this->tpl->setVariable('HREF_CANCELTEXT', $this->ctrl->getLinkTargetByClass(get_class($this), 'outIntroductionPage'));
+		$this->ctrl->setParameterByClass(get_class($this), 'cancelTest', null);
 		$this->tpl->parseCurrentBlock();
 	}
 
