@@ -1222,17 +1222,15 @@ assessment#:#tst_results#:#Testergebnisse
 assessment#:#tst_results_access#:#Teilnehmer sehen Testergebnisse
 assessment#:#tst_results_access_always#:#Immer
 assessment#:#tst_results_access_always_desc#:#Teilnehmer können jederzeit ihre Testergebnisse einsehen.
-assessment#:#tst_results_access_date#:#Datum
+assessment#:#tst_results_access_date#:#Ab definiertem Datum
 assessment#:#tst_results_access_date_desc#:#Teilnehmer können ihre Testergebnisse erst ab dem definierten Datum einsehen.
 assessment#:#tst_results_access_finished#:#Nach Testdurchlauf
 assessment#:#tst_results_access_finished_desc#:#Teilnehmer können ihr Testergebnis erst nach Beendigung eines Testdurchlaufs einsehen.
 assessment#:#tst_results_access_never#:#Nie
 assessment#:#tst_results_access_never_desc#:#Teilnehmern wird ihr Ergebnis für diesen Test niemals angezeigt.
-assessment#:#tst_results_grading#:#Bewertung in Testergebnissen
-assessment#:#tst_results_grading_opt_show_both#:#Zeige den Status Bestanden/Nicht bestanden und die resultierende Note
-assessment#:#tst_results_grading_opt_show_none#:#Zeige weder den Status Bestanden/Nicht bestanden  noch die resultierende Note
-assessment#:#tst_results_grading_opt_show_status#:#Zeige nur den Bestanden/Nicht bestanden Status
-assessment#:#tst_results_grading_opt_show_mark#:#Zeige nur die resultierende Note
+assessment#:#tst_results_grading#:#Zusätzliche Angaben
+assessment#:#tst_results_grading_opt_show_status#:#Status "Bestanden" / "Nicht bestanden" anzeigen
+assessment#:#tst_results_grading_opt_show_mark#:#Resultierende Note anzeigen
 assessment#:#tst_results_aggregated#:#Aggregierte Testergebnisse
 assessment#:#tst_results_back_evaluation#:#Zurück zur Auswertungsübersicht
 assessment#:#tst_results_back_introduction#:#Zurück zur Startseite
