@@ -749,6 +749,7 @@ class ilObjTestSettingsGeneralGUI
 		// introduction
 		$introEnabled = new ilCheckboxInputGUI($this->lng->txt("tst_introduction"), 'intro_enabled');
 		$introEnabled->setChecked(strlen($this->testOBJ->getIntroduction()));
+		$introEnabled->setInfo($this->lng->txt('tst_introduction_desc'));
 		$form->addItem($introEnabled);
 		$intro = new ilTextAreaInputGUI($this->lng->txt("tst_introduction_text"), "introduction");
 		$intro->setRequired(true);
