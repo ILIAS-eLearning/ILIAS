@@ -161,6 +161,13 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$type->setRequired(true);
 		$a_form->addItem($type);
 		
+		// #14478
+		include_once "Modules/BookingManager/classes/class.ilBookingObject.php";
+		if(sizeof(ilBookingObject::getList($this->object->getId())))
+		{
+			$type->setDisabled(true);
+		}
+		
 		$fixed = new ilRadioOption($this->lng->txt("book_schedule_type_fixed"), ilObjBookingPool::TYPE_FIX_SCHEDULE);
 		$fixed->setInfo($this->lng->txt("book_schedule_type_fixed_info"));
 		$type->addOption($fixed);
@@ -189,7 +196,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
-	{
+	{		
 		$this->object->setOffline(!$a_form->getInput('online'));
 		$this->object->setPublicLog($a_form->getInput('public'));
 		$this->object->setScheduleType($a_form->getInput('stype'));
