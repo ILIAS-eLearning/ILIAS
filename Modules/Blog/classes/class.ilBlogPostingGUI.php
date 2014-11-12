@@ -378,7 +378,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		if ($this->checkAccess("write") || $this->checkAccess("contribute"))
 		{			
 			// delete all md keywords
-			$md_section = $this->getMDSection();
+			$md_section = $this->getBlogPosting()->getMDSection();
 			foreach($md_section->getKeywordIds() as $id)
 			{
 				$md_key = $md_section->getKeyword($id);				
@@ -604,7 +604,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$txt->setInfo($this->lng->txt("blog_keywords_info"));
 		$form->addItem($txt);
 				
-		$md_section = $this->getMDSection();
+		$md_section = $this->getBlogPosting()->getMDSection();
 		
 		$keywords = array();
 		foreach($ids = $md_section->getKeywordIds() as $id)

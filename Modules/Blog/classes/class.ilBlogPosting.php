@@ -434,7 +434,7 @@ class ilBlogPosting extends ilPageObject
 	
 	// keywords
 	
-	protected function getMDSection()
+	public function getMDSection()
 	{											
 		// general section available?
 		include_once 'Services/MetaData/classes/class.ilMD.php';
