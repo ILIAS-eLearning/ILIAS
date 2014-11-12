@@ -1297,7 +1297,7 @@ assessment#:#tst_show_solution_suggested#:#Musterlösungen anzeigen
 assessment#:#tst_show_summary#:#Fragenübersicht anzeigen
 assessment#:#tst_show_summary_description#:#Bietet Teilnehmern eine Fragenübersicht mit allen Testfragen an.
 assessment#:#tst_shuffle_questions#:#Fragen mischen
-assessment#:#tst_shuffle_questions_description#:#Reihenfolge der Fragen bei jedem Testdurchlauf neu mischen.
+assessment#:#tst_shuffle_questions_description#:#Reihenfolge der Fragen werden pro Teilnehmer und pro Testdurchlauf neu gemischt.
 assessment#:#tst_signature#:#Unterschrift
 assessment#:#tst_single_results#:#Ergebnisse zu Einzelfragen
 assessment#:#tst_start_new_test_pass#:#Neuen Testdurchlauf starten

@@ -1114,7 +1114,7 @@ assessment#:#tst_show_solution_signature#:#Show Signature Placeholder
 assessment#:#tst_show_solution_suggested#:#Show Suggested Solution
 assessment#:#tst_show_summary_description#:#Offers a list with all test questions available to the test participants during the test.
 assessment#:#tst_show_summary#:#Show List of Questions
-assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every test pass.
+assessment#:#tst_shuffle_questions_description#:#Shuffles the sequence of questions for every participant and every test pass.
 assessment#:#tst_shuffle_questions#:#Shuffle Questions
 assessment#:#tst_signature#:#Signature
 assessment#:#tst_single_results#:#Results by Question
