@@ -186,7 +186,6 @@ assessment#:#no_archive_on_anonymous#:#Archiving is not possible in an anonymous
 assessment#:#autosave#:#Automatic saving
 assessment#:#autosave_info#:#If checked, answers are saved in intervals without user interaction to avoid data loss.
 assessment#:#autosave_ival#:#Interval
-assessment#:#autosave_ival_info#:#Interval in which answers are saved automatically. (seconds)
 assessment#:#for#:#for
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pass for test "%s" does not contain any questions.
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
