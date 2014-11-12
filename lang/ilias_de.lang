@@ -1228,9 +1228,10 @@ assessment#:#tst_results_access_finished#:#Nach Testdurchlauf
 assessment#:#tst_results_access_finished_desc#:#Teilnehmer können ihr Testergebnis erst nach Beendigung eines Testdurchlaufs einsehen.
 assessment#:#tst_results_access_never#:#Nie
 assessment#:#tst_results_access_never_desc#:#Teilnehmern wird ihr Ergebnis für diesen Test niemals angezeigt.
+assessment#:#tst_results_details_options#:#Details Testergebnisse
 assessment#:#tst_results_grading#:#Zusätzliche Angaben
-assessment#:#tst_results_grading_opt_show_status#:#Status "Bestanden" / "Nicht bestanden" anzeigen
-assessment#:#tst_results_grading_opt_show_mark#:#Resultierende Note anzeigen
+assessment#:#tst_results_grading_opt_show_status#:#Status "Bestanden" / "Nicht bestanden" auf Übersicht Testergebnisse anzeigen
+assessment#:#tst_results_grading_opt_show_mark#:#Resultierende Note auf Übersicht Testergebnisse anzeigen
 assessment#:#tst_results_aggregated#:#Aggregierte Testergebnisse
 assessment#:#tst_results_back_evaluation#:#Zurück zur Auswertungsübersicht
 assessment#:#tst_results_back_introduction#:#Zurück zur Startseite
@@ -1519,7 +1520,7 @@ assessment#:#show_examview_pdf#:#PDF-Download
 assessment#:#scoringadjust#:#Nachkorrektur
 assessment#:#tst_trigger_result_refreshing#:#Es erfolgt eine Neuberechnung des Ergebnisses. Dies kann eine Weile dauern.
 assessment#:#test_scoring#:#Bewertung des Tests
-assessment#:#test_results#:#Ausgabe Testergebnisse
+assessment#:#test_results#:#Testergebnisse
 assessment#:#misc#:#Verschiedene Optionen
 assessment#:#tst_back_to_top#:#Zurück nach oben
 assessment#:#tst_back_to_question_list#:#Zurück zur Fragenliste

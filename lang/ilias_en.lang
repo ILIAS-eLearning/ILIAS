@@ -1059,6 +1059,7 @@ assessment#:#tst_results_access_finished_desc#:#Participants have access to thei
 assessment#:#tst_results_access_never#:#Never
 assessment#:#tst_results_access_never_desc#:#Participants have never access to their results in this test.
 assessment#:#tst_results_access#:#Access to Test Results
+assessment#:#tst_results_details_options#:#Details Test Results
 assessment#:#tst_results_grading#:#Grading in Test Results
 assessment#:#tst_results_grading_opt_show_both#:#Show Passed/Failed Status and Resulting Mark
 assessment#:#tst_results_grading_opt_show_none#:#Do NOT show Passed/Failed Status or Resulting Mark
