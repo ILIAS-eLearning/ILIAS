@@ -13508,11 +13508,12 @@ assessment#:#tst_imap_qst_mode#:#Antwortmodus
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#tst_test_execution#:#Abschließen
-assessment#:#redirect_after_finishing_tst#:#Nach Testdurchlauf weiterleiten
+assessment#:#redirect_after_finishing_tst#:#Weiterleitung
+assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer wird nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet.
 assessment#:#redirect_after_finishing_rule#:#Weiterleitung
-assessment#:#redirect_in_kiosk_mode#:#Weiterleitung nur bei aktivierter Prüfungsansicht
-assessment#:#redirect_always#:#Immer zum definierten Ziel der Weiterleitung
-assessment#:#redirection_url#:#Ziel der Weiterleitung
+assessment#:#redirect_in_kiosk_mode#:#nur bei aktivierter Prüfungsansicht
+assessment#:#redirect_always#:#immer zur definierten Zielseite
+assessment#:#redirection_url#:#URL Zielseite
 ecs#:#ecs_cmap_att_courseType#:#Veranstaltungsart
 ecs#:#ecs_cmap_att_degreeProgramme#:#Studiengang
 ecs#:#ecs_cmap_att_module#:#Modul

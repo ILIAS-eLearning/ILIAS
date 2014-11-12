@@ -13523,10 +13523,12 @@ assessment#:#tst_imap_qst_mode#:#Mode
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#tst_test_execution#:#Test Execution
-assessment#:#redirect_after_finishing_tst#:#Redirect after test
-assessment#:#redirect_in_kiosk_mode#:#Redirect only when exam view is activated
-assessment#:#redirect_always#:#Always to redirection target
-assessment#:#redirection_url#:#Redirection target
+assessment#:#redirect_after_finishing_tst#:#Redirect
+assessment#:#redirect_after_finishing_tst_desc#:#After completion of test each participant is automatically redirected to a defined webpage.
+assessment#:#redirect_after_finishing_rule#:#Redirect
+assessment#:#redirect_in_kiosk_mode#:#only when exam view is activated
+assessment#:#redirect_always#:#always to defined webpage
+assessment#:#redirection_url#:#URL of webpage
 assessment#:#exp_file_created#:#Export file created.
 tax#:#tax_added#:#Taxonomy has been created.
 tax#:#tax_max_one_tax#:#You can use maximum one taxonomy in this context.
