@@ -392,14 +392,17 @@ class ilObjTestSettingsGeneralGUI
 			$this->testOBJ->setListOfQuestionsDescription(0);
 		}
 		
-		if( $form->getItemByPostVar('mailnotification') instanceof ilFormPropertyGUI )
+		if( $form->getItemByPostVar('mailnotification') instanceof ilFormPropertyGUI && $form->getItemByPostVar('mailnotification')->getChecked() )
 		{
-			$this->testOBJ->setMailNotification($form->getItemByPostVar('mailnotification')->getValue());
-		}
-		if( $form->getItemByPostVar('mailnottype') instanceof ilFormPropertyGUI )
-		{
+			$this->testOBJ->setMailNotification($form->getItemByPostVar('mailnotification_content')->getValue());
 			$this->testOBJ->setMailNotificationType($form->getItemByPostVar('mailnottype')->getChecked());
 		}
+		else
+		{
+			$this->testOBJ->setMailNotification(0);
+			$this->testOBJ->setMailNotificationType(false);
+		}
+
 		if( $form->getItemByPostVar('chb_show_marker') instanceof ilFormPropertyGUI )
 		{
 			$this->testOBJ->setShowMarker($form->getItemByPostVar('chb_show_marker')->getChecked());
@@ -1087,18 +1090,22 @@ class ilObjTestSettingsGeneralGUI
 		$form->addItem($sign_submission_enabled);
 
 		// mail notification
-		$mailnotification = new ilRadioGroupInputGUI($this->lng->txt("tst_finish_notification"), "mailnotification");
-		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_no"), 0, ''));
-		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_simple"), 1, ''));
-		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_advanced"), 2, ''));
-		$mailnotification->setValue($this->testOBJ->getMailNotification());
+		$mailnotification = new ilCheckboxInputGUI($this->lng->txt("tst_finish_notification"), "mailnotification");
+		$mailnotification->setInfo($this->lng->txt("tst_finish_notification_desc"));
 		$form->addItem($mailnotification);
+
+		$mailnotificationContent = new ilRadioGroupInputGUI($this->lng->txt("tst_finish_notification_content"), "mailnotification_content");
+		$mailnotificationContent->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_simple"), 1, ''));
+		$mailnotificationContent->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_advanced"), 2, ''));
+		$mailnotificationContent->setValue($this->testOBJ->getMailNotification());
+		$mailnotificationContent->setRequired(true);
+		$mailnotification->addSubItem($mailnotificationContent);
 
 		$mailnottype = new ilCheckboxInputGUI('', "mailnottype");
 		$mailnottype->setValue(1);
 		$mailnottype->setOptionTitle($this->lng->txt("mailnottype"));
 		$mailnottype->setChecked($this->testOBJ->getMailNotificationType());
-		$form->addItem($mailnottype);
+		$mailnotification->addSubItem($mailnottype);
 
 		// Edit ecs export settings
 		include_once 'Modules/Test/classes/class.ilECSTestSettings.php';
