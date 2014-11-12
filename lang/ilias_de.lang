@@ -1092,6 +1092,7 @@ assessment#:#tst_instant_feedback_solution#:#Bestmögliche Lösung anzeigen
 assessment#:#tst_instant_feedback_solution_desc#:#Bei Anklicken des <i>Prüfen</i>-Button zeigt ILIAS die bestmögliche Lösung der Frage an.
 assessment#:#tst_instant_verification#:#Direkte Überprüfung
 assessment#:#tst_introduction#:#Einleitung
+assessment#:#tst_introduction_desc#:#Zeigt einen Hinweistext auf der Info-Seite des Tests an. Der Text ist bereits vor Beginn des Tests zugänglich.
 assessment#:#tst_invited_nobody#:#Es wurden keine Benutzer, Gruppen oder Rollen als feste Teilnehmer hinzugefügt
 assessment#:#tst_invited_selected_groups#:#Die ausgewählten Gruppen wurden als feste Teilnehmer hinzugefügt
 assessment#:#tst_invited_selected_roles#:#Die ausgewählten Rollen wurden als feste Teilnehmer hinzugefügt
@@ -1151,7 +1152,7 @@ assessment#:#tst_pass_overview_for_participant#:#Testdurchläufe für Teilnehmer
 assessment#:#tst_pass_scoring#:#Bewertung bei mehreren Testdurchläufen
 assessment#:#tst_pass_scoring_description#:#Normalerweise wird immer der letzte Testdurchlauf eines Teilnehmers bewertet. Falls der beste Testdurchlauf bewertet wird, wird der Testdurchlauf verwendet, bei dem der Teilnehmer die höchste Punktezahl erreicht hat. Diese Einstellungen machen natürlich nur dann Sinn, wenn bei einem Test mehr als ein Testdurchlauf zugelassen wird.
 assessment#:#tst_passes#:#Testdurchläufe
-assessment#:#tst_allowed_users_max#:#[tst_allowed_users_max]
+assessment#:#tst_allowed_users_max#:#Maximale Anzahl
 assessment#:#tst_password_form#:#Eingabe Testpasswort
 assessment#:#tst_password#:#Testpasswort
 assessment#:#tst_password_details#:#Wird ein Testpasswort definiert , müssen Teilnehmer dieses eingeben, um den Test starten zu können.

@@ -938,6 +938,7 @@ assessment#:#tst_instant_feedback_solution_desc#:#If solutions are selected, the
 assessment#:#tst_instant_feedback#:#Instant Feedback
 assessment#:#tst_instant_verification#:#Instant Verification
 assessment#:#tst_introduction#:#Introductory Message
+assessment#:#tst_introduction_desc#:Shows an introductory message at the info page of the test. This text is accessible already before the test can be started.
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_invited_selected_groups#:#The selected groups have been added as fixed test participants
 assessment#:#tst_invited_selected_roles#:#The selected roles have been added as fixed test participants
@@ -987,7 +988,7 @@ assessment#:#tst_pass_last_pass#:#Score the Last Pass
 assessment#:#tst_pass_scoring_description#:#If the last pass is scored, the last test pass of a participant will be used to calculate the test results. If the best pass is scored, the test pass with the highest number of reached points will be chosen a test result. This setting only has effect, if more than one test pass is allowed for a test.
 assessment#:#tst_pass_scoring#:#Multiple Pass Scoring
 assessment#:#tst_passes#:#Test Passes
-assessment#:#tst_allowed_users_max#:#[tst_allowed_users_max]
+assessment#:#tst_allowed_users_max#:#Maximum number of users
 assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test.
 assessment#:#tst_password_enter#:#Enter Password
 assessment#:#tst_password_entered_wrong_password#:#You cannot start the test because you entered the wrong test password!
