@@ -48,6 +48,7 @@ class ilECSParticipantSetting
 	private $title = '';
 	private $cname = '';
 	private $token = TRUE;
+	private $dtoken = TRUE;
 
 	private $export_types = array();
 	private $import_types = array();
@@ -181,6 +182,16 @@ class ilECSParticipantSetting
 		$this->import_types = $a_types;
 	}
 	
+	public function isDeprecatedTokenEnabled()
+	{
+		return $this->dtoken;
+	}
+	
+	public function enableDeprecatedToken($a_stat)
+	{
+		$this->dtoken = $a_stat;
+	}
+	
 	public function getImportTypes()
 	{
 		return $this->import_types;
@@ -190,7 +201,7 @@ class ilECSParticipantSetting
 	{
 		return $this->exists;
 	}
-
+	
 	/**
 	 * Update
 	 * Calls create automatically when no entry exists
@@ -213,6 +224,7 @@ class ilECSParticipantSetting
 			'title = '.$ilDB->quote($this->getTitle(),'text').', '.
 			'cname = '.$ilDB->quote($this->getCommunityName(),'text').', '.
 			'token = '.$ilDB->quote($this->isTokenEnabled(),'integer').', '.
+			'dtoken = '.$ilDB->quote($this->isDeprecatedTokenEnabled(),'integer').', '.
 			'export_types = '.$ilDB->quote(serialize($this->getExportTypes()),'text').', '.
 			'import_types = '.$ilDB->quote(serialize($this->getImportTypes()),'text').' '.
 			'WHERE sid = '.$ilDB->quote((int) $this->getServerId(),'integer').' '.
@@ -236,6 +248,7 @@ class ilECSParticipantSetting
 			$ilDB->quote($this->getTitle(),'text').', '.
 			$ilDB->quote($this->getCommunityName(),'text').', '.
 			$ilDB->quote($this->isTokenEnabled(),'integer').', '.
+			$ilDB->quote($this->isDeprecatedTokenEnabled(),'integer').', '.
 			$ilDB->quote(serialize($this->getExportTypes()),'text').', '.
 			$ilDB->quote(serialize($this->getImportTypes()),'text').' '.
 			')';
@@ -284,6 +297,7 @@ class ilECSParticipantSetting
 			$this->setTitle($row->title);
 			$this->setCommunityName($row->cname);
 			$this->enableToken($row->token);
+			$this->enableDeprecatedToken($row->dtoken);
 			
 			$this->setExportTypes((array) unserialize($row->export_types));
 			$this->setImportTypes((array) unserialize($row->import_types));
