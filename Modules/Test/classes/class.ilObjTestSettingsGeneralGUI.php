@@ -960,56 +960,7 @@ class ilObjTestSettingsGeneralGUI
 			$form->addItem($sessionheader);
 		}*/
 
-		if( !$this->settingsTemplate || $this->formShowPresentationSection($this->settingsTemplate->getSettings()) )
-		{
-			// sequence properties
-			$seqheader = new ilFormSectionHeaderGUI();
-			$seqheader->setTitle($this->lng->txt("tst_presentation_properties"));
-			$form->addItem($seqheader);
-		}
-
-		// question title output
-		$title_output = new ilRadioGroupInputGUI($this->lng->txt("tst_title_output"), "title_output");
-		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_full"), 0, ''));
-		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_hide_points"), 1, ''));
-		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_no_title"), 2, ''));
-		$title_output->setValue($this->testOBJ->getTitleOutput());
-		$title_output->setInfo($this->lng->txt("tst_title_output_description"));
-		$form->addItem($title_output);
-
-		// selector for unicode characters
-		global $ilSetting;
-		if ($ilSetting->get('char_selector_availability') > 0)
-		{
-			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
-			$char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_TEST);
-			$char_selector->getConfig()->setAvailability($this->testOBJ->getCharSelectorAvailability());
-			$char_selector->getConfig()->setDefinition($this->testOBJ->getCharSelectorDefinition());
-			$char_selector->addFormProperties($form);
-			$char_selector->setFormValues($form);
-		}
-		
-		// Autosave
-		$autosave_output = new ilCheckboxInputGUI($this->lng->txt('autosave'), 'autosave');
-		$autosave_output->setValue(1);
-		$autosave_output->setChecked($this->testOBJ->getAutosave());
-		$autosave_output->setInfo($this->lng->txt('autosave_info'));
-		
-		$autosave_interval = new ilTextInputGUI($this->lng->txt('autosave_ival'), 'autosave_ival');
-		$autosave_interval->setSize(10);
-		$autosave_interval->setValue($this->testOBJ->getAutosaveIval()/1000);
-		$autosave_interval->setInfo($this->lng->txt('autosave_ival_info'));
-		$autosave_output->addSubItem($autosave_interval);
-		$form->addItem($autosave_output);
-
-		// shuffle questions
-		$shuffle = new ilCheckboxInputGUI($this->lng->txt("tst_shuffle_questions"), "chb_shuffle_questions");
-		$shuffle->setValue(1);
-		$shuffle->setChecked($this->testOBJ->getShuffleQuestions());
-		$shuffle->setInfo($this->lng->txt("tst_shuffle_questions_description"));
-		$form->addItem($shuffle);
-
-		$this->addPresentationSettingsFormSection($form);
+		$this->addQuestionBehaviourFormSection($form);
 
 		if( !$this->settingsTemplate || $this->formShowSequenceSection($this->settingsTemplate->getSettings()) )
 		{
@@ -1285,12 +1236,56 @@ class ilObjTestSettingsGeneralGUI
 		return $form;
 	}
 
-	private function addPresentationSettingsFormSection(ilPropertyFormGUI $form)
+	private function addQuestionBehaviourFormSection(ilPropertyFormGUI $form)
 	{
-		// test presentation
-		$header_tp = new ilFormSectionHeaderGUI();
-		$header_tp->setTitle($this->lng->txt('test_presentation'));
-		$form->addItem($header_tp);
+
+		if( !$this->settingsTemplate || $this->formShowPresentationSection($this->settingsTemplate->getSettings()) )
+		{
+			// sequence properties
+			$seqheader = new ilFormSectionHeaderGUI();
+			$seqheader->setTitle($this->lng->txt("tst_presentation_properties"));
+			$form->addItem($seqheader);
+		}
+
+		// question title output
+		$title_output = new ilRadioGroupInputGUI($this->lng->txt("tst_title_output"), "title_output");
+		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_full"), 0, ''));
+		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_hide_points"), 1, ''));
+		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_no_title"), 2, ''));
+		$title_output->setValue($this->testOBJ->getTitleOutput());
+		$form->addItem($title_output);
+
+		// selector for unicode characters
+		global $ilSetting;
+		if ($ilSetting->get('char_selector_availability') > 0)
+		{
+			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+			$char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_TEST);
+			$char_selector->getConfig()->setAvailability($this->testOBJ->getCharSelectorAvailability());
+			$char_selector->getConfig()->setDefinition($this->testOBJ->getCharSelectorDefinition());
+			$char_selector->addFormProperties($form);
+			$char_selector->setFormValues($form);
+		}
+
+		// Autosave
+		$autosave_output = new ilCheckboxInputGUI($this->lng->txt('autosave'), 'autosave');
+		$autosave_output->setValue(1);
+		$autosave_output->setChecked($this->testOBJ->getAutosave());
+		$autosave_output->setInfo($this->lng->txt('autosave_info'));
+
+		$autosave_interval = new ilTextInputGUI($this->lng->txt('autosave_ival'), 'autosave_ival');
+		$autosave_interval->setSize(10);
+		$autosave_interval->setValue($this->testOBJ->getAutosaveIval()/1000);
+		$autosave_interval->setInfo($this->lng->txt('autosave_ival_info'));
+		$autosave_output->addSubItem($autosave_interval);
+		$form->addItem($autosave_output);
+
+		// shuffle questions
+		$shuffle = new ilCheckboxInputGUI($this->lng->txt("tst_shuffle_questions"), "chb_shuffle_questions");
+		$shuffle->setValue(1);
+		$shuffle->setChecked($this->testOBJ->getShuffleQuestions());
+		$shuffle->setInfo($this->lng->txt("tst_shuffle_questions_description"));
+		$form->addItem($shuffle);
 
 		// enable obligations
 		$checkBoxEnableObligations = new ilCheckboxInputGUI($this->lng->txt('tst_setting_enable_obligations_label'), 'obligations_enabled');
