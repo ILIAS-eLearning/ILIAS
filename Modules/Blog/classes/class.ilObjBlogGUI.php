@@ -2100,10 +2100,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	function getKeywords($a_show_inactive, $a_posting_id = null)
 	{								
 		$keywords = array();
-		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
+		include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 		if($a_posting_id)
 		{						
-			foreach(ilBlogPostingGUI::getKeywords($this->obj_id, $a_posting_id) as $keyword)
+			foreach(ilBlogPosting::getKeywords($this->obj_id, $a_posting_id) as $keyword)
 			{
 				$keywords[$keyword]++;
 			}
@@ -2116,7 +2116,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				{
 					if($a_show_inactive || ilBlogPosting::_lookupActive($item["id"], "blp"))
 					{					
-						foreach(ilBlogPostingGUI::getKeywords($this->obj_id, $item["id"]) as $keyword)
+						foreach(ilBlogPosting::getKeywords($this->obj_id, $item["id"]) as $keyword)
 						{
 							$keywords[$keyword]++;							
 						}
@@ -2588,13 +2588,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	protected function filterItemsByKeyWord(array $a_items, $a_keyword)
 	{		
 		$res = array();
-		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
+		include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 		foreach($a_items as $month => $items)
 		{						
 			foreach($items as $item)
 			{
 				if(in_array($a_keyword,
-					ilBlogPostingGUI::getKeywords($this->obj_id, $item["id"])))
+					ilBlogPosting::getKeywords($this->obj_id, $item["id"])))
 				{
 					$res[] = $item;
 				}

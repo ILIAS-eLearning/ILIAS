@@ -430,6 +430,41 @@ class ilBlogPosting extends ilPageObject
 	
 		return trim(strip_tags($snippet));			
 	}
+	
+	
+	// keywords
+	
+	protected function getMDSection()
+	{											
+		// general section available?
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+		$md_obj = new ilMD($this->getBlogId(), $this->getId(), "blp");
+		if(!is_object($md_section = $md_obj->getGeneral()))
+		{
+			$md_section = $md_obj->addGeneral();
+			$md_section->save();
+		}						
+		
+		return $md_section;
+	}
+		
+	public function updateKeywords(array $keywords)
+	{
+		global $ilUser;
+				
+		// language is not "used" anywhere
+		$ulang = $ilUser->getLanguage();
+		$keywords = array($ulang=>$keywords);
+
+		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");				
+		ilMDKeyword::updateKeywords($this->getMDSection(), $keywords);		
+	}
+		
+	public static function getKeywords($a_obj_id, $a_posting_id)
+	{
+		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
+		return ilMDKeyword::lookupKeywords($a_obj_id, $a_posting_id);
+	}	
 }
 
 ?>

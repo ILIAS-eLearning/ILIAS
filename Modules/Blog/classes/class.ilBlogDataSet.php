@@ -95,6 +95,7 @@ class ilBlogDataSet extends ilDataSet
 			switch ($a_version)
 			{				
 				case "4.3.0":
+				case "5.0.0":
 					return array(
 						"Id" => "integer",
 						"BlogId" => "integer",
@@ -154,6 +155,7 @@ class ilBlogDataSet extends ilDataSet
 			switch ($a_version)
 			{				
 				case "4.3.0":
+				case "5.0.0":
 					$this->getDirectDataFromQuery("SELECT id,blog_id,title,created,author,approved".
 						" FROM il_blog_posting WHERE ".
 						$ilDB->in("blog_id", $a_ids, false, "integer"));
@@ -164,6 +166,22 @@ class ilBlogDataSet extends ilDataSet
 					}
 					break;
 			}
+			
+			// keywords
+			include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
+			include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
+			foreach($this->data as $idx => $item)
+			{
+				$blog_id = ilBlogPosting::lookupBlogId($item["Id"]);
+				$keywords = ilBlogPosting::getKeywords($blog_id, $item["Id"]);
+				if($keywords)
+				{
+					foreach($keywords as $kidx => $keyword)
+					{
+						$this->data[$idx]["Keyword".$kidx] = $keyword;
+					}
+				}
+			}			
 		}	
 	}
 	
@@ -237,18 +255,20 @@ class ilBlogDataSet extends ilDataSet
 				$newObj->setApproval($a_rec["Approval"]);
 				$newObj->setImage($a_rec["Img"]);
 				
-				$newObj->setAbstractShorten($a_rec["abs_shorten"]);
-				$newObj->setAbstractShortenLength($a_rec["abs_shorten_len"]);
-				$newObj->setAbstractImage($a_rec["abs_image"]);
-				$newObj->setAbstractImageWidth($a_rec["abs_img_width"]);
-				$newObj->setAbstractImageHeight($a_rec["abs_img_height"]);
-				$newObj->setNavMode($a_rec["nav_mode"]);
-				$newObj->setNavModeListPostings($a_rec["nav_list_post"]);
-				$newObj->setNavModeListMonths($a_rec["nav_list_mon"]);
-				$newObj->setKeywords($a_rec["keywords"]);
-				$newObj->setAuthors($a_rec["authors"]);
-				$newObj->setOrder($a_rec["nav_order"]);
-				$newObj->setOverviewPostings($a_rec["ov_post"]);
+				$newObj->setAbstractShorten($a_rec["AbsShorten"]);
+				$newObj->setAbstractShortenLength($a_rec["AbsShortenLen"]);
+				$newObj->setAbstractImage($a_rec["AbsImage"]);
+				$newObj->setAbstractImageWidth($a_rec["AbsImgWidth"]);
+				$newObj->setAbstractImageHeight($a_rec["AbsImgHeight"]);
+				$newObj->setNavMode($a_rec["NavMode"]);
+				$newObj->setNavModeListPostings($a_rec["NavListPost"]);
+				$newObj->setNavModeListMonths($a_rec["NavListMon"]);
+				$newObj->setKeywords($a_rec["Keywords"]);
+				$newObj->setAuthors($a_rec["Authors"]);
+				$newObj->setOrder(trim($a_rec["NavOrder"]) 
+					? explode(";", $a_rec["NavOrder"]) 
+					: null);
+				$newObj->setOverviewPostings($a_rec["OvPost"]);
 				
 				$newObj->update();
 				
@@ -287,6 +307,24 @@ class ilBlogDataSet extends ilDataSet
 					$newObj->setAuthor($author["id"]);
 					
 					$newObj->create(true);
+					
+					// keywords
+					$keywords = array();
+					for($loop = 0; $loop < 1000; $loop++)
+					{
+						if(isset($a_rec["Keyword".$loop]))
+						{
+							$keyword = trim($a_rec["Keyword".$loop]);
+							if(strlen($keyword))
+							{
+								$keywords[] = $keyword;
+							}
+						}								
+					}
+					if(sizeof($keywords))
+					{						
+						$newObj->updateKeywords($keywords);
+					}
 					
 					$a_mapping->addMapping("Services/COPage", "pg", "blp:".$a_rec["Id"], "blp:".$newObj->getId());				
 				}

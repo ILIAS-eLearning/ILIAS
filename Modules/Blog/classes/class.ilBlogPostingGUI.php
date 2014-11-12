@@ -646,37 +646,15 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		}
 	}
 	
-	protected function getMDSection()
-	{											
-		// general section available?
-		include_once 'Services/MetaData/classes/class.ilMD.php';
-		$md_obj = new ilMD($this->getParentObjId(), 
-			$this->getBlogPosting()->getId(), "blp");
-		if(!is_object($md_section = $md_obj->getGeneral()))
-		{
-			$md_section = $md_obj->addGeneral();
-			$md_section->save();
-		}						
-		
-		return $md_section;
-	}
-	
 	function saveKeywordsForm()
-	{
-		global $ilUser;
-		
+	{		
 		$form = $this->initKeywordsForm();
 		if($form->checkInput())
 		{			
 			$keywords = $form->getInput("keywords");
 			if(is_array($keywords))
 			{
-				// language is not "used" anywhere
-				$ulang = $ilUser->getLanguage();
-				$keywords = array($ulang=>$keywords);
-				
-				include_once("./Services/MetaData/classes/class.ilMDKeyword.php");				
-				ilMDKeyword::updateKeywords($this->getMDSection(), $keywords);				
+				$this->getBlogPosting()->updateKeywords($keywords);
 			}
 			
 			$this->ctrl->redirect($this, "preview");
@@ -684,12 +662,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		
 		$form->setValuesByPost();
 		$this->editKeywords($form);
-	}
-	
-	public static function getKeywords($a_obj_id, $a_posting_id)
-	{
-		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
-		return ilMDKeyword::lookupKeywords($a_obj_id, $a_posting_id);
 	}
 	
 	function keywordAutocomplete()
