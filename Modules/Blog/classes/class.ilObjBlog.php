@@ -615,7 +615,7 @@ class ilObjBlog extends ilObject2
 		return $this->overview_postings;
 	}
 	
-	function setOrder(array $a_values)
+	function setOrder(array $a_values = null)
 	{
 		$this->order = $a_values;
 	}

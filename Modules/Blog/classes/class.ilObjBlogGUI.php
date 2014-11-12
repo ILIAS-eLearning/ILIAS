@@ -2150,9 +2150,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		// system style html exporter
 		include_once("./Services/Style/classes/class.ilSystemStyleHTMLExport.php");
 		$this->sys_style_html_export = new ilSystemStyleHTMLExport($export_dir);
-	    $this->sys_style_html_export->addImage("icon_blog_b.png");
+	    $this->sys_style_html_export->addImage("icon_blog.svg");
 		$this->sys_style_html_export->export();
-
+		
 		// init co page html exporter
 		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
 		$this->co_page_html_export = new ilCOPageHTMLExport($export_dir);

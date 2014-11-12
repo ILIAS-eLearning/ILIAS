@@ -256,7 +256,7 @@ class ilExportGUI
 				{
 					include_once("./Services/Export/classes/class.ilExport.php");
 					$exp = new ilExport();
-					$exp->exportObject($this->obj->getType(),$this->obj->getId(), "4.4.0");
+					$exp->exportObject($this->obj->getType(),$this->obj->getId(), "5.0.0");
 				}
 			}
 		}

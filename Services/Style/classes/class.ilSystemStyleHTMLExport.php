@@ -34,10 +34,8 @@ class ilSystemStyleHTMLExport
 		$this->addImage("spacer.png");
 		$this->addImage("icon_st.png");
 		$this->addImage("icon_st_s.png");
-		$this->addImage("icon_pg.png");
-		$this->addImage("icon_pg_s.png");
-		$this->addImage("icon_lm.png");
-		$this->addImage("icon_lm_s.png");
+		$this->addImage("icon_pg.svg");
+		$this->addImage("icon_lm.svg");
 		$this->addImage("nav_arr_L.png");
 		$this->addImage("nav_arr_R.png");
 		$this->addImage("browser/forceexp.png");
