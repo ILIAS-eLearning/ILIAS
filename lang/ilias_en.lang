@@ -853,7 +853,6 @@ assessment#:#too_many_targets_selected_for_move#:#You must select exactly one ta
 assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been removed!
-assessment#:#tst_allow_fixed_participants#:#Allow fixed participants in this test
 assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers
 assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
 assessment#:#tst_allowed_users#:#Maximum Number of Concurrent Participants
