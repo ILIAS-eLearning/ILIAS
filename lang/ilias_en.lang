@@ -589,6 +589,7 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Rules for Random Selection of Q
 assessment#:#tst_source_question_pool#:#Question Pool
 assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_filter_tax_node#:#Taxonomy Node
+assessment#:#tst_introduction_text#:#Introductory Message
 assessment#:#tst_save_and_create_new_rule#:#Save and Add New Rule
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for the random set of questions has been modified successfully. You can add a new rule now.
 assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random set of questions has been modified successfully.
@@ -1331,7 +1332,7 @@ assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editi
 assessment#:#tst_question_feedback_edit_page#:#Edit Content
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
 assessment#:#enable_examview#:#Enable Exam View
-assessment#:#enable_examview_desc#:#Enables the view of the test in the shape of an exam at the end of the pass, prior to submission.
+assessment#:#enable_examview_desc#:#Shows participants all questions and their answers in an overview before submitting the test.
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_examview_html_desc#:#Shows the tests questions and answers in ILIAS in a step prior to submission.
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.

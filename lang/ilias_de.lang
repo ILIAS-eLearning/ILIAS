@@ -707,6 +707,7 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Regeln für zufällige Auswahl 
 assessment#:#tst_source_question_pool#:#Fragenpool
 assessment#:#tst_filter_taxonomy#:#Taxonomie
 assessment#:#tst_filter_tax_node#:#Taxonomieknoten
+assessment#:tst_introduction_text#:#Einleitender Text
 assessment#:#tst_save_and_create_new_rule#:#Speichern und neue Regel hinzufügen
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert. Sie können nun eine neue Regel hinzufügen.
 assessment#:#tst_msg_random_question_set_config_modified#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert.
@@ -1511,8 +1512,8 @@ assessment#:#tst_add_quest_cont_edit_mode_default#:#Standard-Editierungsmodus f�
 assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Editierung zusätzlicher Frageninhalte mit dem ILIAS-Seiteneditor
 assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
-assessment#:#enable_examview#:#Klausuransicht aktivieren
-assessment#:#enable_examview_desc#:#Aktiviert die Klausuransicht des Tests in einem Bildschirm vor Abgabe.
+assessment#:#enable_examview#:#Kontrollansicht aktivieren
+assessment#:#enable_examview_desc#:#Zeigt Teilnehmern eine Übersicht der Fragen und ihrer Antworten vor Abgabe des Tests.
 assessment#:#test_enable_archiving#:#Archivierung aktivieren
 assessment#:#ass_create_archive_export#:#Archivexport erzeugen.
 assessment#:#cannot_export_archive#:#Archivexport kann nicht erzeugt werden.
