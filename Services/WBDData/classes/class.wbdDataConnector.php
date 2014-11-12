@@ -125,10 +125,11 @@ abstract class wbdDataConnector {
 		
 	}
 	
-	public function dateAfterSept2013($d){
+	protected function dateAfterSept2013($d){
 		$dat = explode('-',$d);
 		$val = strtotime($dat[2] . '-' .$dat[1] .'-' .$dat[0]);
 		$limit = strtotime('01-09-2013');//Sat, 31 Aug 2013 22:00:00 GMT
+		
 		if(	$val >= $limit) {
 			return array(true, 'OK');
 		}
@@ -230,6 +231,17 @@ abstract class wbdDataConnector {
 							return 'not well formed: ' .$field .'<br>';
 						}
 						break;
+
+					case 'custom':
+						$r = $this->$setting($value);
+						$result = $r[0];
+						$err = $r[1];
+
+						if(! $result){
+							return $err .' (' .$field .')';
+						}
+						break;
+
 					
 				}
 			}

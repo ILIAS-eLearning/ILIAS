@@ -9,7 +9,7 @@
 $LIVE = True;
 
 
-die();
+//die();
 
 
 //reset ilias for calls from somewhere else
@@ -17,7 +17,7 @@ $basedir = __DIR__;
 $basedir = str_replace('/Services/GEV/debug', '', $basedir);
 chdir($basedir);
 
-if(! $LIVE) {
+if( $LIVE) {
 	//context w/o user
 	require_once "./Services/Context/classes/class.ilContext.php";
 	ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
@@ -491,9 +491,9 @@ class gevImportOldData {
 
 		$result = $this->db->query($sql);
 		while($record = $this->db->fetchAssoc($result)) {
-			$okz = $record['userOKZ'];
-			$row_id = $record['usrcrsRow'];
-			$q = "UPDATE hist_usercoursestatus SET okz='$okz' WHERE row_id=$row_id";
+			$okz = $record['userokz'];
+			$row_id = $record['usrcrsrow'];
+			$q = "UPDATE hist_usercoursestatus SET okz='$okz' WHERE row_id=$row_id;";
 			print $q;
 			print '<br>';
 			$this->db->query($q);
@@ -517,6 +517,7 @@ run:
 
 $sem_many_matches = array();
 
+//die();
 
 $import = new gevImportOldData();
 
@@ -547,11 +548,9 @@ print '<br>sem_ok: ' .count($import->sem_ok);
 print '<hr>';
 
 
-
-
 // !!!!!!!!!!!
-	//$import->resetDB();
-// !!!!!!!!
+//	//$import->resetDB();
+// !!!!!!!!!!!
 
 
 die();
