@@ -1055,10 +1055,11 @@ assessment#:#tst_finish_confirm_button#:#Ja, ich will den Test beenden
 assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwort zurückgehen
 assessment#:#tst_finish_confirm_list_of_answers_button#:#Nein, zurück zur Liste der Antworten
 assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
-assessment#:#tst_finish_notification#:#E-Mail beim Beenden
-assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis an den Testersteller senden
-assessment#:#tst_finish_notification_no#:#Keine E-Mail-Benachrichtigungen versenden, wenn ein Teilnehmer den Test beendet hat
-assessment#:#tst_finish_notification_simple#:#Benutzername und Datum des Beendens an den Testersteller senden
+assessment#:#tst_finish_notification#:#Benachrichtigung
+assessment#:#tst_finish_notification_desc#:#Pro Teilnehmer, der einen Test beendet, erhält der Besitzer des Tests eine E-Mail mit folgenden Informationen.
+assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis pro Benutzer
+assessment#:#tst_finish_notification_content#:#Inhalt der Benachrichtigung
+assessment#:#tst_finish_notification_simple#:#Nur Benutzername und Datum des Beendens
 assessment#:#tst_finished#:#Beendet
 assessment#:#tst_fixed_participants_data_exists#:#Es gibt bereits Teilnehmer, die den Test begonnen haben. Sie dürfen die Einstellung für feste Teilnehmer nicht verändern!
 assessment#:#tst_fixed_participants_disable#:#Statuswechsel bestätigen
@@ -1535,8 +1536,8 @@ assessment#:#tst_allowed_users_desc#:#ILIAS prüft die Anzahl der gleichzeitigen
 assessment#:#tst_allowed_users_time_gap_desc#:#Teilnehmer die im Ablauf der angegeben Sekunden keinen Klick im Test ausführen, werden als ‚inaktiv‘ eingestuft und aus dem Test entfernt.
 assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
 assessment#:#saved_adjustment#:#Veränderung gespeichert.
-assessment#:#sign_submission#:#Digitale Signatur von Testabgaben
-assessment#:#sign_submission_info#:#Wenn diese Option aktiviert wurde und ein Signatur-Plugin installiert und aktiviert ist, werden Teilnehmer aufgefordert ihre Testabgabe zu signieren.
+assessment#:#sign_submission#:#Digitale Signatur
+assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und aktiviert sein, damit Teilnehmer aufgefordert werden, ihre Testabgabe zu signieren.
 assessment#:#preserve_manscoring#:#Manuelle Bewertungen erhalten
 assessment#:#preserve_manscoring_info#:#Aufgrund von Veränderungen in der Fragebewertung kann es erforderlich sein, bislang erfolgte manuelle Bewertungen zu verwerfen. Dieser Schalter gestattet die Entwertung ALLER manuellen Bewertungen in einem Test und sollte nur in Ausnahmefällen genutzt werden. 
 auth#:#auth_account_code#:#Code
