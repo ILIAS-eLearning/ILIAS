@@ -1159,10 +1159,9 @@ assessment#:#tst_test_output#:#Test Output
 assessment#:#tst_text_count_system#:#Scoring System
 assessment#:#tst_time_already_spent_left#:#You have %s left.
 assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s.
-assessment#:#tst_title_output_description#:#Select one of the above options for the presentation of the question titles and the available points during the test.
-assessment#:#tst_title_output_full#:#Show Question Titles and Available Points
-assessment#:#tst_title_output_hide_points#:#Show only Question Titles
-assessment#:#tst_title_output_no_title#:#Don't show Question Titles and Available Points
+assessment#:#tst_title_output_full#:#Question Titles and Available Points
+assessment#:#tst_title_output_hide_points#:#Only Question Titles
+assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available Points
 assessment#:#tst_title_output#:#Question Title Output
 assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the question pools are ignored. If you don't set this value, you need to enter an amount with every selected question pool!
 assessment#:#tst_total_questions#:#Total Amount of Questions

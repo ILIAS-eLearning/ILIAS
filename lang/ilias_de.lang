@@ -1343,11 +1343,10 @@ assessment#:#tst_test_output#:#Testdurchführung
 assessment#:#tst_text_count_system#:#Bewertungssystem
 assessment#:#tst_time_already_spent#:#Sie haben den Test am %s gestartet. Ihre maximale Bearbeitungsdauer beträgt %s.
 assessment#:#tst_time_already_spent_left#:#Es verbleiben Ihnen noch %s
-assessment#:#tst_title_output#:#Ausgabe der Fragentitel
-assessment#:#tst_title_output_description#:#Wählen Sie eine der oberen Optionen für die Darstellung der Fragentitel und der erreichbaren Punkte während eines Testdurchlaufs aus.
-assessment#:#tst_title_output_full#:#Fragentitel und erreichbare Punktezahl anzeigen
-assessment#:#tst_title_output_hide_points#:#Nur Fragentitel anzeigen
-assessment#:#tst_title_output_no_title#:#Weder Fragentitel noch erreichbare Punktezahl anzeigen
+assessment#:#tst_title_output#:#Anzeige der Fragentitel
+assessment#:#tst_title_output_full#:#Fragentitel und erreichbare Punkte
+assessment#:#tst_title_output_hide_points#:#Nur Fragentitel
+assessment#:#tst_title_output_no_title#:#Weder Fragentitel noch erreichbare Punkte
 assessment#:#tst_total_questions#:#Gesamtanzahl der Fragen
 assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werden die Zahlenangaben zu den einzelnen Fragenpools ignoriert. Wenn Sie diesen Wert nicht setzen, müssen Sie zu jedem Fragenpool eine Anzahl von Fragen angeben, die aus diesem Fragenpool verwendet werden soll.
 assessment#:#tst_tst_date#:#Datum des Tests
@@ -1535,9 +1534,9 @@ assessment#:#tst_single_answer_details#:#Zeige einzelne Antwort
 assessment#:#tst_pass_details_overview_table_title#:#Detaillierte Testergebnisse für Testdurchlauf %s
 assessment#:#tst_btn_show_best_solutions#:#Zeige bestmögliche Lösungen
 assessment#:#tst_btn_hide_best_solutions#:#Verstecke bestmögliche Lösungen
-assessment#:#tst_starting_time_desc#:#Zeitpunkt ab dem der Test begonnen werden kann: Das Klicken der Schaltfläche ‚Start‘ ist möglich, Teilnehmer können Fragen beantworten.
+assessment#:#tst_starting_time_desc#:#Zeitpunkt, ab dem der Test begonnen werden kann. Das Klicken der Schaltfläche <i>Start</i> ist möglich, und Teilnehmer können Fragen beantworten.
 assessment#:#tst_ending_time_desc#:#Zeitpunkt zu dem der Test abgeschlossen wird: Teilnehmer können keine Fragen mehr beantworten, ILIAS schließt den Test ab.
-assessment#:#tst_allowed_users_desc#:#ILIAS prüft die Anzahl der gleichzeitigen Teilnehmer des Tests. Wenn über die maximal erlaubte Anzahl hinaus weitere Benutzer versuchen den Test zu starten, werden sie am Zugriff gehindert.
+assessment#:#tst_allowed_users_desc#:#ILIAS prüft die Anzahl der gleichzeitigen Teilnehmer des Tests. Wenn über die maximal erlaubte Anzahl hinaus weitere Benutzer versuchen, den Test zu starten, werden sie am Zugriff gehindert.
 assessment#:#tst_allowed_users_time_gap_desc#:#Teilnehmer die im Ablauf der angegeben Sekunden keinen Klick im Test ausführen, werden als ‚inaktiv‘ eingestuft und aus dem Test entfernt.
 assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
 assessment#:#saved_adjustment#:#Veränderung gespeichert.
