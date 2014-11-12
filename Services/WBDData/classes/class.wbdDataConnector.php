@@ -124,6 +124,17 @@ abstract class wbdDataConnector {
 		return array(false, 'date not between 1900 and 2000');
 		
 	}
+	
+	public function dateAfterSept2013($d){
+		$dat = explode('-',$d);
+		$val = strtotime($dat[2] . '-' .$dat[1] .'-' .$dat[0]);
+		$limit = strtotime('01-09-2013');//Sat, 31 Aug 2013 22:00:00 GMT
+		if(	$val >= $limit) {
+			return array(true, 'OK');
+		}
+		return array(false, 'date before 09/2013');
+		
+	}
 
 	protected function validateUserRecord($user_record){
 		foreach($this->USER_RECORD_VALIDATION  as $field => $validation){

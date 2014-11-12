@@ -1076,8 +1076,11 @@ if($DEBUG_HTML_OUT){
 
 	$cls = new gevWBDDataConnector();
 
-	//print $cls->_polish_phone_nr('0049 183 5196177');
+
+	//print_r($cls->dateAfterSept2013('2013-08-31'));
 	//die();
+
+
 
 	print '<h3>new users:</h3>';
 	$cls->export_get_new_users('html');
