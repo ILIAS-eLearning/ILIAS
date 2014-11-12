@@ -1245,8 +1245,8 @@ assessment#:#tst_show_solution_feedback_desc#:#Wenn die antwortspezifischen Rüc
 assessment#:#tst_show_solution_answers_only_desc#:#Wenn "Druckausgabe der Ergebnisse (nur Antworten)" ausgewählt ist, werden ILIAS-Inhalte, die Sie über den "Inhalt bearbeiten" Karteireiter der Fragen vor und hinter dem eigentlichen Fragentext platzieren können, in einem Ausdruck nicht angezeigt.
 assessment#:#tst_show_solution_signature_desc#:#Ist "Unterschrift-Platzhalter anzeigen" ausgewählt, wird für den Ausdruck ein Platzhalter für die Unterschrift des Testteilnehmers angezeigt.
 assessment#:#tst_show_solution_suggested_desc#:#Wenn "Musterlösungen anzeigen" ausgewählt ist, werden die Musterlösungen von Fragen (falls vorhanden) in der Fragenübersicht der Testergebnisse angezeigt.
-assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung in Testergebnissen
-assessment#:#tst_results_print_best_solution_info#:#Falls aktiviert, und die Teilnehmer Zugang zu ihren Testergebnissen haben, wird den Lernenden die bestmögliche Lösung präsentiert.
+assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung
+assessment#:#tst_results_print_best_solution_info#:#Teilnehmern mit Zugang zu ihren Testergebnissen wird für jede Frage die bestmögliche Lösung angezeigt.
 assessment#:#tst_resume_test#:#Test fortsetzen
 assessment#:#tst_saved_manscoring_successfully#:#Die manuelle Bewertung für Testdurchlauf %s von %s wurde erfolgreich gespeichert.
 assessment#:#tst_save_manscoring_failed#:#Die manuelle Bewertung für Testdurchlauf %s konnte nicht gespeichert werden.
