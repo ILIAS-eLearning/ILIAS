@@ -1294,7 +1294,7 @@ assessment#:#tst_show_solution_printview#:#Liste der Antworten anzeigen
 assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift anzeigen
 assessment#:#tst_show_solution_suggested#:#Musterlösungen anzeigen
 assessment#:#tst_show_summary#:#Fragenübersicht anzeigen
-assessment#:#tst_show_summary_description#:#Bietet Teilnehmern eine Fragenübersicht mit allen Testfragen an.
+assessment#:#tst_show_summary_description#:#Teilnehmer können links neben den Testfragen eine Fragenliste anzeigen lassen und erhalten eine Schaltfläche "Fragenübersicht". Auf diesem Bildschirm wird auch der Gesamtbearbeitungsstatus angezeigt. Das Verhalten der Fragenübersicht können Sie noch weiter konfigurieren:
 assessment#:#tst_shuffle_questions#:#Fragen mischen
 assessment#:#tst_shuffle_questions_description#:#Reihenfolge der Fragen werden pro Teilnehmer und pro Testdurchlauf neu gemischt.
 assessment#:#tst_signature#:#Unterschrift
@@ -1499,14 +1499,14 @@ assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse anzeigen
 assessment#:#tst_analysis#:#Analyse
 assessment#:#tst_all_test_competences#:#Alle Test-Kompetenzen
 assessment#:#tst_gap_analysis#:#Gap-Analyse
-assessment#:#tst_test_result#:#Test Ergebnis
-assessment#:#feedback_setting#:#Modus des antwortspezifischen Feedback.
-assessment#:#feedback_all#:#Zeige Feedback bei allen Antwortmöglichkeiten.
-assessment#:#feedback_checked#:#Zeige Feedback bei ausgewählten Antworten des Prüflings.
-assessment#:#feedback_correct#:#Zeige Feedback bei richtigen Antworten.(Richtige Antworten sind die, die zu einer positiven Punktvergabe führen.)
-assessment#:#tst_add_quest_cont_edit_mode#:#Editierungsmodus für zusätzliche Frageninhalte
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Standard-Editierungsmodus für zusätzliche Frageninhalte
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Editierung zusätzlicher Frageninhalte mit dem ILIAS-Seiteneditor
+assessment#:#tst_test_result#:#Testergebnis
+assessment#:#feedback_setting#:#Modus "Rückmeldung pro Antwortoption"
+assessment#:#feedback_all#:#Zeige Rückmeldungen zu allen Antwortmöglichkeiten.
+assessment#:#feedback_checked#:#Zeige Rückmeldungen zu ausgewählten Antworten des Teilnehmers.
+assessment#:#feedback_correct#:#Zeige Rückmeldung für richtige Antworten (richtige Antworten sind solche, für die es positive Punkte gibt).
+assessment#:#tst_add_quest_cont_edit_mode#:#Bearbeitungsmodus für zusätzliche Frageninhalte
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Standard-Bearbeitungsmodus für zusätzliche Frageninhalte
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Bearbeitung zusätzlicher Frageninhalte mit dem ILIAS-Seiteneditor
 assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
 assessment#:#enable_examview#:#Übersicht gegebener Antworten
@@ -1517,7 +1517,7 @@ assessment#:#cannot_export_archive#:#Archivexport kann nicht erzeugt werden.
 assessment#:#show_examview_html#:#Am Bildschirm
 assessment#:#show_examview_pdf#:#PDF-Download
 assessment#:#scoringadjust#:#Nachkorrektur
-assessment#:#tst_trigger_result_refreshing#:#Eine Ergebnisneuberechnung wird erfolgen. Dies kann eine Weile dauern.
+assessment#:#tst_trigger_result_refreshing#:#Es erfolgt eine Neuberechnung des Ergebnisses. Dies kann eine Weile dauern.
 assessment#:#test_scoring#:#Bewertungsoptionen
 assessment#:#test_results#:#Ergebnisausgabeoptionen
 assessment#:#misc#:#Verschiedene Optionen
