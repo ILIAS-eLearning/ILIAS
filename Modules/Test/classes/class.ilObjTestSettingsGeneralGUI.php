@@ -1045,7 +1045,7 @@ class ilObjTestSettingsGeneralGUI
 		$form->addItem($enable_examview);
 
 		// show final statement
-		$showfinal = new ilCheckboxInputGUI($this->lng->txt("final_statement_show"), "showfinalstatement");
+		$showfinal = new ilCheckboxInputGUI($this->lng->txt("final_statement"), "showfinalstatement");
 		$showfinal->setChecked($this->testOBJ->getShowFinalStatement());
 		$showfinal->setInfo($this->lng->txt("final_statement_show_desc"));
 		$form->addItem($showfinal);
