@@ -44,13 +44,26 @@ class ilBlogImporter extends ilXmlImporter
 	 * @param	array		mapping array
 	 */
 	function finalProcessing($a_mapping)
-	{
+	{		
 		$blp_map = $a_mapping->getMappingsOfEntity("Services/COPage", "pg");
 		foreach ($blp_map as $blp_id)
 		{
 			$blp_id = substr($blp_id, 4);
 			$blog_id = ilBlogPosting::lookupBlogId($blp_id);
 			ilBlogPosting::_writeParentId("blp", $blp_id, $blog_id);
+		}
+				
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$sty_map = $a_mapping->getMappingsOfEntity("Services/Style", "sty");
+		foreach ($sty_map as $old_sty_id => $new_sty_id)
+		{			
+			if(is_array(ilBlogDataSet::$style_map[$old_sty_id]))
+			{
+				foreach(ilBlogDataSet::$style_map[$old_sty_id] as $blog_id)
+				{
+					ilObjStyleSheet::writeStyleUsage($blog_id, $new_sty_id);	
+				}
+			}				
 		}
 	}
 }

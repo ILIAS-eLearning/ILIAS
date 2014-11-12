@@ -18,6 +18,8 @@ class ilBlogDataSet extends ilDataSet
 {	
 	protected $current_blog;
 	
+	static public $style_map = array();
+	
 	/**
 	 * Get supported versions
 	 */
@@ -55,7 +57,7 @@ class ilBlogDataSet extends ilDataSet
 						"Ppic" => "integer",
 						"RssActive" => "integer",
 						"Approval" => "integer",
-						"Dir" => "directory"
+						"Dir" => "directory"						
 						);
 					
 				case "5.0.0":
@@ -82,7 +84,8 @@ class ilBlogDataSet extends ilDataSet
 						"Keywords" => "integer",
 						"Authors" => "integer",
 						"NavOrder" => "text",
-						"OvPost" => "integer"						
+						"OvPost" => "integer",
+						"Style" => "integer"
 						);
 			}
 		}
@@ -192,6 +195,9 @@ class ilBlogDataSet extends ilDataSet
 			include_once("./Modules/Blog/classes/class.ilObjBlog.php");
 			$dir = ilObjBlog::initStorage($a_set["Id"]);
 			$a_set["Dir"] = $dir;
+			
+			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			$a_set["Style"] = ilObjStyleSheet::lookupObjectStyle($a_set["Id"]);
 		}
 
 		return $a_set;
@@ -258,7 +264,11 @@ class ilBlogDataSet extends ilDataSet
 					}
 				}
 
-				$a_mapping->addMapping("Modules/Blog", "blog", $a_rec["Id"], $newObj->getId());
+				if($a_rec["Style"])
+				{
+					self::$style_map[$a_rec["Style"]][] = $newObj->getId();
+				}
+				$a_mapping->addMapping("Modules/Blog", "blog", $a_rec["Id"], $newObj->getId());				
 				break;
 
 			case "blog_posting":							

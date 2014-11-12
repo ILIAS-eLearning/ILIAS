@@ -23,7 +23,10 @@ class ilBlogExporter extends ilXmlExporter
 	}
 	
 	public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
-	{
+	{		
+		$res = array();
+		
+		// postings
 		include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 		$pg_ids = array();		
 		foreach ($a_ids as $id)
@@ -34,17 +37,40 @@ class ilBlogExporter extends ilXmlExporter
 				$pg_ids[] = "blp:".$p;
 			}
 		}
-		
-		return array (
-			array(
+		if(sizeof($pg_ids))
+		{
+			$res[] = array(
 				"component" => "Services/COPage",
 				"entity" => "pg",
-				"ids" => $pg_ids)
+				"ids" => $pg_ids
 			);
+		}
+		
+		// style
+		$style_ids = array();
+		foreach ($a_ids as $id)
+		{
+			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			$style_id = ilObjStyleSheet::lookupObjectStyle($id);			
+			if ($style_id > 0)
+			{
+				$style_ids[] = $style_id;				
+			}	
+		}
+		if(sizeof($style_ids))
+		{
+			$res[] = array(
+				"component" => "Services/Style",
+				"entity" => "sty",
+				"ids" => $style_ids
+			);
+		}
+				
+		return $res;
 	}
 	
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
-	{
+	{		
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 		return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);	
 	}
