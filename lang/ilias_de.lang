@@ -1156,7 +1156,7 @@ assessment#:#tst_allowed_users_max#:#[tst_allowed_users_max]
 assessment#:#tst_password_form#:#Eingabe Testpasswort
 assessment#:#tst_password#:#Testpasswort
 assessment#:#tst_password_details#:#Wird ein Testpasswort definiert , müssen Teilnehmer dieses eingeben, um den Test starten zu können.
-assessment#:#tst_password_enter#:#[tst_password_enter]
+assessment#:#tst_password_enter#:#Passwort eingeben
 assessment#:#tst_password_entered_wrong_password#:#Sie können den Test nicht starten, da Sie ein falsches Testpasswort eingegeben haben!
 assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet werden. Bitte tragen Sie das Passwort hier ein.
 assessment#:#tst_percent_solved#:#Prozent gelöst
