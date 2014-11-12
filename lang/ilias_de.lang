@@ -592,8 +592,7 @@ assessment#:#filter_show_question_types#:#Zeige folgende Fragetypen
 assessment#:#filter_show_questionpools#:#Zeige folgende Fragenpools
 assessment#:#filter_users#:#Teilnehmer filtern
 assessment#:#final_statement#:#Abschließende Bemerkung
-assessment#:#final_statement_show#:#Abschließende Bemerkung anzeigen
-assessment#:#final_statement_show_desc#:#Wenn diese Option ausgewählt ist, wird die Abschließende Bemerkung direkt nach dem finalen Beenden eines Tests anzeigt.
+assessment#:#final_statement_show_desc#:#Zeigt die Abschließende Bemerkung nach Abgabe des Tests an.
 assessment#:#fixed_participants_hint#:#Dieser Test ist nur für diese feste Gruppe von Teilnehmern verfügbar. Wenn Sie den Test für beliebige Teilnehmer verfügbar machen wollen, müssen Sie die Auswahl im Kontrollkästchen für feste Teilnehmer in den Testeinstellungen ändern.
 assessment#:#tst_res_jump_to_participant_hint_opt#:#--Zu Teilnehmer springen--
 assessment#:#tst_res_jump_to_participant_btn#:#Springe
