@@ -159,6 +159,7 @@ class ilECSParticipantSettingsGUI
 		if($form->checkInput())
 		{
 			$this->getParticipant()->enableToken($form->getInput('token'));
+			$this->getParticipant()->enableDeprecatedToken($form->getInput('deprecated_token'));
 			$this->getParticipant()->enableExport($form->getInput('export'));
 			$this->getParticipant()->setExportTypes($form->getInput('export_types'));
 			$this->getParticipant()->enableImport($form->getInput('import'));
@@ -190,6 +191,12 @@ class ilECSParticipantSettingsGUI
 		$token->setValue(1);
 		$token->setChecked($this->getParticipant()->isTokenEnabled());
 		$form->addItem($token);
+		
+		$dtoken = new ilCheckboxInputGUI($this->getLang()->txt('ecs_deprecated_token'),'dtoken');
+		$dtoken->setInfo($this->getLang()->txt('ecs_deprecated_token_info'));
+		$dtoken->setValue(1);
+		$dtoken->setChecked($this->getParticipant()->isDeprecatedTokenEnabled());
+		$form->addItem($dtoken);
 		
 		// Export
 		$export = new ilCheckboxInputGUI($this->getLang()->txt('ecs_tbl_export'), 'export');

@@ -4703,3 +4703,18 @@ if (!$ilDB->sequenceExists('il_bibl_settings')) {
 	$ilDB->insert('il_bibl_settings_seq', array('sequence' => array('integer', $rec->new_seq)));
 }
 ?>
+<#4412>
+<?php
+if(!$ilDB->tableColumnExists('ecs_part_settings', 'dtoken'))
+{
+    $ilDB->addTableColumn(
+        'ecs_part_settings',
+        'dtoken',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => TRUE,
+			'default' => 1
+        ));
+}
+?>
