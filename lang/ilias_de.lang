@@ -1085,9 +1085,8 @@ assessment#:#tst_instant_feedback_answer_specific#:#Rückmeldung pro Antwortopti
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Bei Anklicken des <i>Prüfen</i>-Button zeigt ILIAS für alle ausgewählten Antwortoptionen die jeweils hinterlegte Rückmeldung an (sofern der Fragetyp dies unterstützt).
 assessment#:#tst_instant_feedback_answer_generic#:#Rückmeldung "Richtige Lösung"
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Bei Anklicken des <i>Prüfen</i>-Button zeigt ILIAS an, zeigt ILIAS die Rückmeldung an, die für die richtige Lösung bzw. für die nicht vollständig richtige Lösung der Frage hinterlegt worden ist.
-assessment#:#tst_instant_feedback_description#:#, wird eine direkte Rückmeldung im Anschluss an die Beantwortung einer Frage angezeigt.
-assessment#:#tst_instant_feedback_fix_usr_answer#:#Lösung des Teilnehmers fixieren
-assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#Die vom Teilnehmer eingetragene Antwort kann nach dem Anfordern des Feedbacks nicht mehr verändert werden.
+assessment#:#tst_instant_feedback_fix_usr_answer#:#Gegebene Antwort fixieren
+assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#Nach dem Anfordern der Rückmeldung kann ein Teilnehmer seine Antwort nicht mehr verändern.
 assessment#:#tst_instant_feedback_results#:#Erreichte Punkte
 assessment#:#tst_instant_feedback_results_desc#:#Bei Anklicken des <i>Prüfen</i>-Button zeigt ILIAS an, wie viele Punkte für die gegebene Antwort erreicht wurden.
 assessment#:#tst_instant_feedback_solution#:#Bestmögliche Lösung anzeigen
