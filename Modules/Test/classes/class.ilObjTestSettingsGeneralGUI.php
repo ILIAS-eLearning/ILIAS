@@ -1286,38 +1286,25 @@ class ilObjTestSettingsGeneralGUI
 		$shuffle->setInfo($this->lng->txt("tst_shuffle_questions_description"));
 		$form->addItem($shuffle);
 
-		// enable obligations
-		$checkBoxEnableObligations = new ilCheckboxInputGUI($this->lng->txt('tst_setting_enable_obligations_label'), 'obligations_enabled');
-		$checkBoxEnableObligations->setChecked($this->testOBJ->areObligationsEnabled());
-		$checkBoxEnableObligations->setInfo($this->lng->txt('tst_setting_enable_obligations_info'));
-		$form->addItem($checkBoxEnableObligations);
-
 		// offer hints
 		$checkBoxOfferHints = new ilCheckboxInputGUI($this->lng->txt('tst_setting_offer_hints_label'), 'offer_hints');
 		$checkBoxOfferHints->setChecked($this->testOBJ->isOfferingQuestionHintsEnabled());
 		$checkBoxOfferHints->setInfo($this->lng->txt('tst_setting_offer_hints_info'));
 		$form->addItem($checkBoxOfferHints);
 
-		// disable settings influencing results indirectly
-		if( $this->testOBJ->participantDataExist() )
-		{
-			$checkBoxEnableObligations->setDisabled(true);
-			$checkBoxOfferHints->setDisabled(true);
-		}
-
 		// instant feedback
 		$instant_feedback = new ilCheckboxGroupInputGUI($this->lng->txt('tst_instant_feedback'), 'instant_feedback');
 		$instant_feedback->addOption(new ilCheckboxOption(
-			$this->lng->txt('tst_instant_feedback_answer_specific'), 'instant_feedback_specific',
-			$this->lng->txt('tst_instant_feedback_answer_specific_desc')
+			$this->lng->txt('tst_instant_feedback_results'), 'instant_feedback_points',
+			$this->lng->txt('tst_instant_feedback_results_desc')
 		));
 		$instant_feedback->addOption(new ilCheckboxOption(
 			$this->lng->txt('tst_instant_feedback_answer_generic'), 'instant_feedback_generic',
 			$this->lng->txt('tst_instant_feedback_answer_generic_desc')
 		));
 		$instant_feedback->addOption(new ilCheckboxOption(
-			$this->lng->txt('tst_instant_feedback_results'), 'instant_feedback_points',
-			$this->lng->txt('tst_instant_feedback_results_desc')
+			$this->lng->txt('tst_instant_feedback_answer_specific'), 'instant_feedback_specific',
+			$this->lng->txt('tst_instant_feedback_answer_specific_desc')
 		));
 		$instant_feedback->addOption(new ilCheckboxOption(
 			$this->lng->txt('tst_instant_feedback_solution'), 'instant_feedback_solution',
@@ -1336,6 +1323,19 @@ class ilObjTestSettingsGeneralGUI
 		$instant_feedback->setValue($values);
 		$instant_feedback->setInfo($this->lng->txt('tst_instant_feedback_description'));
 		$form->addItem($instant_feedback);
+
+		// enable obligations
+		$checkBoxEnableObligations = new ilCheckboxInputGUI($this->lng->txt('tst_setting_enable_obligations_label'), 'obligations_enabled');
+		$checkBoxEnableObligations->setChecked($this->testOBJ->areObligationsEnabled());
+		$checkBoxEnableObligations->setInfo($this->lng->txt('tst_setting_enable_obligations_info'));
+		$form->addItem($checkBoxEnableObligations);
+
+		// disable settings influencing results indirectly
+		if( $this->testOBJ->participantDataExist() )
+		{
+			$checkBoxEnableObligations->setDisabled(true);
+			$checkBoxOfferHints->setDisabled(true);
+		}
 	}
 
 	/**
