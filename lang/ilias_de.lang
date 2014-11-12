@@ -1083,8 +1083,8 @@ assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s
 assessment#:#tst_instant_feedback#:#Sofortige Rückmeldung
 assessment#:#tst_instant_feedback_answer_specific#:#Antwortspezifische Rückmeldungen anzeigen
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Wenn antwortspezifische Rückmeldung ausgewählt wurde, wird eine Rückmeldung abhängig von der Beantwortung der Frage angezeigt, sofern der Fragetyp dies unterstützt.
-assessment#:#tst_instant_feedback_answer_generic#:#Rückmeldung "Richtig/Falsch"
-assessment#:#tst_instant_feedback_answer_generic_desc#:#Fordert der Teilnehmer eine Rückmeldung an, zeigt ILIAS die Rückmeldung an, die für die richtige Lösung bzw. für die nicht vollständig richtige Lösung der Frage hinterlegt worden ist.
+assessment#:#tst_instant_feedback_answer_generic#:#Rückmeldung "Richtige Lösung"
+assessment#:#tst_instant_feedback_answer_generic_desc#:#Wenn angefordert, zeigt ILIAS die Rückmeldung an, die für die richtige Lösung bzw. für die nicht vollständig richtige Lösung der Frage hinterlegt worden ist.
 assessment#:#tst_instant_feedback_description#:#Wenn eine dieser Optionen ausgewählt ist, wird eine direkte Rückmeldung im Anschluss an die Beantwortung einer Frage angezeigt.
 assessment#:#tst_instant_feedback_fix_usr_answer#:#Lösung des Teilnehmers fixieren
 assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#Die vom Teilnehmer eingetragene Antwort kann nach dem Anfordern des Feedbacks nicht mehr verändert werden.
