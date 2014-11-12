@@ -1067,6 +1067,7 @@ class ilObjTestSettingsGeneralGUI
 
 		$redirection_mode = $this->testOBJ->getRedirectionMode();
 		$rm_enabled = new ilCheckboxInputGUI($this->lng->txt('redirect_after_finishing_tst'), 'redirection_enabled' );
+		$rm_enabled->setInfo($this->lng->txt('redirect_after_finishing_tst_desc'));
 		$rm_enabled->setChecked($redirection_mode == '0' ? false : true);
 			$radio_rm = new ilRadioGroupInputGUI($this->lng->txt('redirect_after_finishing_rule'), 'redirection_mode');
 			$always = new ilRadioOption($this->lng->txt('redirect_always'), REDIRECT_ALWAYS);
@@ -1092,6 +1093,7 @@ class ilObjTestSettingsGeneralGUI
 		// mail notification
 		$mailnotification = new ilCheckboxInputGUI($this->lng->txt("tst_finish_notification"), "mailnotification");
 		$mailnotification->setInfo($this->lng->txt("tst_finish_notification_desc"));
+		$mailnotification->setChecked($this->testOBJ->getMailNotification() > 0);
 		$form->addItem($mailnotification);
 
 		$mailnotificationContent = new ilRadioGroupInputGUI($this->lng->txt("tst_finish_notification_content"), "mailnotification_content");
