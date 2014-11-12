@@ -940,6 +940,25 @@ class ilObjTestSettingsGeneralGUI
 		$header->setTitle($this->lng->txt("tst_final_information"));
 		$form->addItem($header);
 
+		// examview
+		$enable_examview = new ilCheckboxInputGUI($this->lng->txt("enable_examview"), 'enable_examview');
+		$enable_examview->setValue(1);
+		$enable_examview->setChecked($this->testOBJ->getEnableExamview());
+		$enable_examview->setInfo($this->lng->txt("enable_examview_desc"));
+		$show_examview_html = new ilCheckboxInputGUI('', 'show_examview_html');
+		$show_examview_html->setValue(1);
+		$show_examview_html->setChecked($this->testOBJ->getShowExamviewHtml());
+		$show_examview_html->setOptionTitle($this->lng->txt("show_examview_html"));
+		$show_examview_html->setInfo($this->lng->txt("show_examview_html_desc"));
+		$enable_examview->addSubItem($show_examview_html);
+		$show_examview_pdf = new ilCheckboxInputGUI('', 'show_examview_pdf');
+		$show_examview_pdf->setValue(1);
+		$show_examview_pdf->setChecked($this->testOBJ->getShowExamviewPdf());
+		$show_examview_pdf->setOptionTitle($this->lng->txt("show_examview_pdf"));
+		$show_examview_pdf->setInfo($this->lng->txt("show_examview_pdf_desc"));
+		$enable_examview->addSubItem($show_examview_pdf);
+		$form->addItem($enable_examview);
+
 		// show final statement
 		$showfinal = new ilCheckboxInputGUI($this->lng->txt("final_statement_show"), "showfinalstatement");
 		$showfinal->setChecked($this->testOBJ->getShowFinalStatement());
@@ -958,25 +977,6 @@ class ilObjTestSettingsGeneralGUI
 		$finalstatement->setRteTagSet('full');
 		$showfinal->addSubItem($finalstatement);
 
-		// examview
-		$enable_examview = new ilCheckboxInputGUI($this->lng->txt("enable_examview"), 'enable_examview');
-		$enable_examview->setValue(1);
-		$enable_examview->setChecked($this->testOBJ->getEnableExamview());
-		$enable_examview->setInfo($this->lng->txt("enable_examview_desc"));
-			$show_examview_html = new ilCheckboxInputGUI('', 'show_examview_html');
-			$show_examview_html->setValue(1);
-			$show_examview_html->setChecked($this->testOBJ->getShowExamviewHtml());
-			$show_examview_html->setOptionTitle($this->lng->txt("show_examview_html"));
-			$show_examview_html->setInfo($this->lng->txt("show_examview_html_desc"));
-			$enable_examview->addSubItem($show_examview_html);
-			$show_examview_pdf = new ilCheckboxInputGUI('', 'show_examview_pdf');
-			$show_examview_pdf->setValue(1);
-			$show_examview_pdf->setChecked($this->testOBJ->getShowExamviewPdf());
-			$show_examview_pdf->setOptionTitle($this->lng->txt("show_examview_pdf"));
-			$show_examview_pdf->setInfo($this->lng->txt("show_examview_pdf_desc"));
-			$enable_examview->addSubItem($show_examview_pdf);
-		$form->addItem($enable_examview);
-		
 		/*if( !$this->settingsTemplate || $this->formShowSessionSection($this->settingsTemplate->getSettings()) )
 		{
 			// session properties
