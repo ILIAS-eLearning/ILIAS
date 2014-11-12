@@ -2064,21 +2064,25 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 		
 		if(sizeof($blocks))
-		{
+		{			
+			include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
+			
 			ksort($blocks);
 			foreach($blocks as $block)
 			{
+				$panel = ilPanelGUI::getInstance();
+				$panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
+				$panel->setHeadingStyle(ilPanelGUI::HEADING_STYLE_BLOCK);
+				$panel->setHeading($block[0]);
+				$panel->setBody($block[1]);
+				
 				if(isset($block[2]) && is_array($block[2]))
-				{					
-					$wtpl->setCurrentBlock("block_cmd_bl");
-					$wtpl->setVariable("TXT_BLOCK_CMD", $block[2][1]);
-					$wtpl->setVariable("URL_BLOCK_CMD", $block[2][0]);				
-					$wtpl->parseCurrentBlock();
+				{										
+					$panel->setFooter('<a href="'.$block[2][0].'">'.$block[2][1].'</a>');
 				}
 				
-				$wtpl->setCurrentBlock("block_bl");
-				$wtpl->setVariable("BLOCK_TITLE", $block[0]);
-				$wtpl->setVariable("BLOCK_CONTENT", $block[1]);				
+				$wtpl->setCurrentBlock("block_bl");		
+				$wtpl->setVariable("BLOCK", $panel->getHTML());
 				$wtpl->parseCurrentBlock();
 			}
 		}

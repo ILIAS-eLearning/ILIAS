@@ -16,11 +16,15 @@ class ilPanelGUI
 
 	const HEADING_STYLE_SUBHEADING = 0;
 	const HEADING_STYLE_BLOCK = 1;
+	
+	const FOOTER_STYLE_BLOCK = 0;
 
 	protected $heading = "";
 	protected $body = "";
+	protected $footer = "";
 	protected $panel_style = 0;
-	protected $heading_style = 0;
+	protected $heading_style = 0;	
+	protected $footer_style = 0;	
 
 	/**
 	 * Constructor
@@ -79,6 +83,26 @@ class ilPanelGUI
 	{
 		return $this->body;
 	}
+	
+	/**
+	 * Set footer
+	 *
+	 * @param string $a_val footer
+	 */
+	function setFooter($a_val)
+	{
+		$this->footer = $a_val;
+	}
+
+	/**
+	 * Get body
+	 *
+	 * @return string body
+	 */
+	function getFooter()
+	{
+		return $this->footer;
+	}
 
 	/**
 	 * Set panel style
@@ -119,6 +143,26 @@ class ilPanelGUI
 	{
 		return $this->heading_style;
 	}
+	
+	/**
+	 * Set footer style
+	 *
+	 * @param int $a_val footer style
+	 */
+	function setFooterStyle($a_val)
+	{
+		$this->footer_style = $a_val;
+	}
+
+	/**
+	 * Get footer style
+	 *
+	 * @return int footer style
+	 */
+	function getFooterStyle()
+	{
+		return $this->footer_style;
+	}
 
 	/**
 	 * Get HTML
@@ -153,6 +197,21 @@ class ilPanelGUI
 		}
 
 		$tpl->setVariable("BODY", $this->getBody());
+		
+		if ($this->getFooter() != "")
+		{
+			$tpl->setCurrentBlock("footer");
+			$tpl->setVariable("FOOTER", $this->getFooter());
+			
+			switch ($this->getFooterStyle())
+			{
+				case self::FOOTER_STYLE_BLOCK:
+					$tpl->setVariable("FOOT_DIV_STYLE", "panel-footer ilBlockInfo");					
+					break;
+			}
+						
+			$tpl->parseCurrentBlock();
+		}
 
 		switch ($this->getPanelStyle())
 		{
@@ -163,7 +222,7 @@ class ilPanelGUI
 			default:
 				$tpl->setVariable("PANEL_STYLE", "panel panel-primary ".$head_outer_div_style);
 				break;
-		}
+		}				
 
 		return $tpl->get();
 	}
