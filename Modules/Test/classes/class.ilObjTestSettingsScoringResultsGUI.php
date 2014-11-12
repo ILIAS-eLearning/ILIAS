@@ -230,29 +230,36 @@ class ilObjTestSettingsScoringResultsGUI
 			$this->testOBJ->setShowGradingMarkEnabled( in_array('grading_mark', $value) );
 		}
 
-		if( !$this->isHiddenFormItem('print_bs_with_res') )
-		{
-			$this->testOBJ->setPrintBestSolutionWithResult( (int)$form->getItemByPostVar('print_bs_with_res')->getChecked() );
-		}
-
 		if( !$this->isHiddenFormItem('results_presentation') )
 		{
 			$resultsPresentationSettings = (array)$form->getItemByPostVar('results_presentation')->getValue();
 			$this->testOBJ->setShowPassDetails( (int)in_array('pass_details', $resultsPresentationSettings) );
-			$this->testOBJ->setShowSolutionDetails( (int)in_array('solution_details', $resultsPresentationSettings) );
+
+			if( (int)in_array('solution_details', $resultsPresentationSettings) )
+			{
+				$this->testOBJ->setShowSolutionDetails(1);
+				$this->testOBJ->setPrintBestSolutionWithResult( (int)$form->getItemByPostVar('print_bs_with_res')->getChecked() );
+			}
+			else
+			{
+				$this->testOBJ->setShowSolutionDetails(0);
+				$this->testOBJ->setPrintBestSolutionWithResult(0);
+			}
 			
 			if( in_array('solution_printview', $resultsPresentationSettings) )
 			{
 				$this->testOBJ->setShowSolutionPrintview(1);
 				$this->testOBJ->setShowSolutionListComparison((bool)$form->getItemByPostVar('solution_compare')->getChecked());
+				$this->testOBJ->setShowSolutionAnswersOnly( (int)$form->getItemByPostVar('solution_answers_only')->getChecked() );
 			}
 			else
 			{
 				$this->testOBJ->setShowSolutionPrintview(0);
+				$this->testOBJ->setShowSolutionListComparison(false);
+				$this->testOBJ->setShowSolutionAnswersOnly(0);
 			}
 			
 			$this->testOBJ->setShowSolutionFeedback( (int)in_array('solution_feedback', $resultsPresentationSettings) );
-			$this->testOBJ->setShowSolutionAnswersOnly( (int)in_array('solution_answers_only', $resultsPresentationSettings) );
 			$this->testOBJ->setShowSolutionSignature( (int)in_array('solution_signature', $resultsPresentationSettings) );
 			$this->testOBJ->setShowSolutionSuggested( (int)in_array('solution_suggested', $resultsPresentationSettings) );
 		}
@@ -418,6 +425,7 @@ class ilObjTestSettingsScoringResultsGUI
 
 		$this->addScoringSettingsFormSection($form);
 		$this->addResultSettingsFormSection($form);
+		$this->addResultDetailsSettingsFormSection($form);
 		$this->addMiscSettingsFormSection($form);
 
 		// remove items when using template
@@ -488,7 +496,7 @@ class ilObjTestSettingsScoringResultsGUI
 
 	private function addResultSettingsFormSection(ilPropertyFormGUI $form)
 	{
-		// result settings
+		// HEADER: result settings
 		$header_tr = new ilFormSectionHeaderGUI();
 		$header_tr->setTitle($this->lng->txt('test_results'));
 		$form->addItem($header_tr);
@@ -530,13 +538,14 @@ class ilObjTestSettingsScoringResultsGUI
 		if($this->testOBJ->isShowGradingMarkEnabled()) $value[] = 'grading_mark';
 		$chbg->setValue($value);
 		$form->addItem($chbg);
+	}
 
-		// best solution in test results
-		$results_print_best_solution = new ilCheckboxInputGUI($this->lng->txt('tst_results_print_best_solution'), 'print_bs_with_res');
-		$results_print_best_solution->setInfo($this->lng->txt('tst_results_print_best_solution_info'));
-		$results_print_best_solution->setValue(1);
-		$results_print_best_solution->setChecked((bool) $this->testOBJ->isBestSolutionPrintedWithResult());
-		$form->addItem($results_print_best_solution);
+	private function addResultDetailsSettingsFormSection(ilPropertyFormGUI $form)
+	{
+		// HEADER: result settings
+		$header_tr = new ilFormSectionHeaderGUI();
+		$header_tr->setTitle($this->lng->txt('test_results_details_options'));
+		$form->addItem($header_tr);
 
 		// results presentation
 		$results_presentation = $this->buildResultPresentationSettingsCheckboxGroupInput($this->testOBJ);
@@ -560,6 +569,12 @@ class ilObjTestSettingsScoringResultsGUI
 		$results_presentation->addOption($showSolutionDetailsOption);
 		if( $this->testOBJ->getShowSolutionDetails() ) { $values[] = 'solution_details'; }
 
+			// best solution in test results
+			$results_print_best_solution = new ilCheckboxInputGUI($this->lng->txt('tst_results_print_best_solution'), 'print_bs_with_res');
+			$results_print_best_solution->setInfo($this->lng->txt('tst_results_print_best_solution_info'));
+			$results_print_best_solution->setChecked((bool) $this->testOBJ->isBestSolutionPrintedWithResult());
+			$showSolutionDetailsOption->addSubItem($results_print_best_solution);
+
 		// show solution printview ==> list of answers
 		$showSolutionPrintviewOption = new ilCheckboxOption($this->lng->txt('tst_show_solution_printview'), 'solution_printview');
 		$showSolutionPrintviewOption->setInfo($this->lng->txt('tst_show_solution_printview_desc'));
@@ -570,19 +585,19 @@ class ilObjTestSettingsScoringResultsGUI
 			$solutionCompareInput = new ilCheckboxInputGUI($this->lng->txt('tst_show_solution_compare'), 'solution_compare');
 			$solutionCompareInput->setChecked($this->testOBJ->getShowSolutionListComparison());
 			$showSolutionPrintviewOption->addSubItem($solutionCompareInput);
-			
+
+			// solution answers only ==> printview of results (answers only)
+			$solutionAnswersOnlyOption = new ilCheckboxInputGUI($this->lng->txt('tst_show_solution_answers_only'), 'solution_answers_only');
+			$solutionAnswersOnlyOption->setInfo($this->lng->txt('tst_show_solution_answers_only_desc'));
+			$solutionAnswersOnlyOption->setChecked($this->testOBJ->getShowSolutionAnswersOnly());
+			$showSolutionPrintviewOption->addSubItem($solutionAnswersOnlyOption);
+
 		// show solution feedback ==> solution feedback in test results
 		$showSolutionFeedbackOption = new ilCheckboxOption($this->lng->txt('tst_show_solution_feedback'), 'solution_feedback');
 		$showSolutionFeedbackOption->setInfo($this->lng->txt('tst_show_solution_feedback_desc'));
 		$results_presentation->addOption($showSolutionFeedbackOption);
 		if( $this->testOBJ->getShowSolutionFeedback() ) { $values[] = 'solution_feedback'; }
 
-		// solution answers only ==> printview of results (answers only)
-		$solutionAnswersOnlyOption = new ilCheckboxOption($this->lng->txt('tst_show_solution_answers_only'), 'solution_answers_only');
-		$solutionAnswersOnlyOption->setInfo($this->lng->txt('tst_show_solution_answers_only_desc'));
-		$results_presentation->addOption($solutionAnswersOnlyOption);
-		if( $this->testOBJ->getShowSolutionAnswersOnly() ) { $values[] = 'solution_answers_only'; }
-		
 		// show signature placeholder
 		$showSignaturePlaceholderOption = new ilCheckboxOption($this->lng->txt('tst_show_solution_signature'), 'solution_signature');
 		$showSignaturePlaceholderOption->setInfo($this->lng->txt('tst_show_solution_signature_desc'));
