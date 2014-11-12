@@ -424,7 +424,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 			
 
-print "\n\n$sql\n\n";
+//print "\n\n$sql\n\n";
 
 			if(! $this->ilDB->query($sql)){
 				die($sql);
@@ -501,7 +501,8 @@ print "\n\n$sql\n\n";
 			)";
 		
 
-print "\n\n$sql\n\n";
+//print "\n\n$sql\n\n";
+
 			if(! $this->ilDB->query($sql)){
 				die($sql);
 			}
@@ -972,6 +973,13 @@ print "\n\n$sql\n\n";
 			." WHERE bwv_id != '-empty-'"
 			." AND hist_historic=0";
 
+		// for TP_Service only:
+		$sql .= " AND wbd_type IN ('"
+			.self::WBD_TP_SERVICE."', '"
+			.self::WBD_TP_BASIS
+			."')";
+
+
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)) {
 			$ret[] = $record['bwv_id'];
@@ -984,7 +992,7 @@ print "\n\n$sql\n\n";
 		print($bwv_id);
 		print "\n";
 		print_r($e->getReason());
-		print_r($e);
+		//print_r($e);
 		print "\n";
 	}
 	
@@ -1035,8 +1043,8 @@ print "\n\n$sql\n\n";
 						'type'			=> $wpentry['LernArt']
 					);
 
-					//$crs_id = $this->importSeminar($rec);
-					//$this->assignUserToSeminar($rec, $crs_id);
+					$crs_id = $this->importSeminar($rec);
+					$this->assignUserToSeminar($rec, $crs_id);
 
 					print "\n\n imported seminar: \n";
 					print_r($wpentry);
