@@ -18,7 +18,7 @@ $GET_NEW_USERS = true;
 $GET_UPDATED_USERS = true;
 $GET_NEW_EDURECORDS = true;
 $GET_CHANGED_EDURECORDS = false;
-$IMPORT_FOREIGN_EDURECORDS = false;
+$IMPORT_FOREIGN_EDURECORDS = true;
 
 $LIMIT_RECORDS = false;
 $ANON_DATA = false;
@@ -963,10 +963,6 @@ print "\n\n$sql\n\n";
 	 */	
 	public function get_all_bwv_ids() {
 
-		/*not yet...*/
-		return array();
-
-
 		global $IMPORT_FOREIGN_EDURECORDS;
 		if(! $IMPORT_FOREIGN_EDURECORDS){
 			return array();
@@ -1039,8 +1035,8 @@ print "\n\n$sql\n\n";
 						'type'			=> $wpentry['LernArt']
 					);
 
-					$crs_id = $this->importSeminar($rec);
-					$this->assignUserToSeminar($rec, $crs_id);
+					//$crs_id = $this->importSeminar($rec);
+					//$this->assignUserToSeminar($rec, $crs_id);
 
 					print "\n\n imported seminar: \n";
 					print_r($wpentry);
