@@ -15066,3 +15066,5 @@ prtf#:#prtf_allow_my_courses_info#:#Ermöglicht eine Liste der aktuellen Kursmit
 prtf#:#prtf_page_element_teaser_my_courses_inactive#:#Dieser Seitenelementtyp wurde deaktiviert.
 cntr#:#cntr_taxonomy_definitions#:#Taxonomie-Definition
 cntr#:#cntr_tax_list_info#:#Nachfolgend sind alle Taxonomien gelistet, die für dieses Objekt definiert wurden.
+common#:#scorm_lp_auto_activate#:#Standardeinstellungen für den Lernfortschritt
+common#:#scorm_lp_auto_activate_info#:#Wenn der Lernfortschritt im Allgemeinen aktiviert ist, wird bei neuen SCORM-Lernmodulen der Gesamtstatus des Lernfortschritts bestimmt durch ausgewählte SCORM-Materialien (SCOs) und alle SCOs werden für die Lernfortschritts-Bestimmung ausgewählt. Anpassungen sind weiterhin bei jedem SCORM-Lernmodul möglich.

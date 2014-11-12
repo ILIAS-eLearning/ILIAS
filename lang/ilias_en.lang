@@ -15066,3 +15066,5 @@ prtf#:#prtf_allow_my_courses_info#:#Enables to include a list of current course 
 prtf#:#prtf_page_element_teaser_my_courses_inactive#:#This type of page element has been deactivated.
 cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition
 cntr#:#cntr_tax_list_info#:#The following are all taxonomies that have been defined for this object.
+common#:#scorm_lp_auto_activate#:#default settings for learning progress
+common#:#scorm_lp_auto_activate_info#:#If learning progress is activated in general, the settings for new SCORM learning modules are set to 'Collection of SCORM Items' and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module.
