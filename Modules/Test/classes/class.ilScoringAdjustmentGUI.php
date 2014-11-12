@@ -351,12 +351,13 @@ class ilScoringAdjustmentGUI
 		$question_pool_id = $_POST['qpl_id'];
 		$form = $this->buildAdjustQuestionForm($question_id, $question_pool_id);
 
-		$form->setValuesByPost($_POST);
+		
 
 		require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 		/** @var $question assQuestionGUI|ilGuiQuestionScoringAdjustable */
 		$question = assQuestion::instantiateQuestionGUI( $question_id );
 
+		$form->setValuesByPost($_POST);
 		if(method_exists($question, 'resetFormValuesForSuppressedPostvars'))
 		{
 			$question->resetFormValuesForSuppressedPostvars($form);

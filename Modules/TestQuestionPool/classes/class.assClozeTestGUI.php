@@ -1302,6 +1302,30 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		return array('fixedTextLength');
 	}
 
+	public function resetFormValuesForSuppressedPostvars($form)
+	{
+		$gapindex = 0;
+		while($element = $form->getItemByPostVar('gap['.$gapindex.']'))
+		{
+			$type_selector = $form->getItemByPostVar('clozetype_'.$gapindex);
+			$value = $type_selector->getValue();
+			
+			if($value == CLOZE_SELECT)
+			{
+				$the_gap = $this->object->getGap($gapindex);
+				foreach($the_gap->getItems() as $itemindex => $answer_cloze)
+				{
+					$_POST['gap_'.$gapindex]['answer'][$itemindex] = $answer_cloze->getAnswertext();
+					$a = 1;
+				}
+				$element = $form->getItemByPostVar('gap_'.$gapindex);
+				$element->setValues($the_gap->getItemsRaw());
+			}
+			$gapindex++;
+		}
+		$a = 1;
+	}
+
 	public function getAggregatedAnswersView($relevant_answers)
 	{
 		$passes = array();
