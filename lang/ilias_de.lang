@@ -1162,7 +1162,7 @@ assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpass
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_position#:#Frage %s von %s
 assessment#:#tst_postpone#:#Fragen zurückstellen
-assessment#:#tst_postpone_description#:#Wenn diese Option ausgewählt ist, können Teilnehmer einzelne Fragen für die Bearbeitung an das Ende des Tests zurückstellen.
+assessment#:#tst_postpone_description#:#Erlaubt Teilnehmern, einzelne Fragen für die Bearbeitung an das Ende des Tests zu stellen.
 assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_print_date#:#Datum des Ausdrucks
@@ -1356,8 +1356,8 @@ assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits du
 assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem laufenden Test löscht alle bereits durchgeführten Tests!
 assessment#:#tst_types#:#Test-Typen
 assessment#:#tst_use_javascript#:#JavaScript für das Ziehen und Ablegen von Antworten verwenden
-assessment#:#tst_use_previous_answers#:#Option zur Verwendung vorheriger Lösungen
-assessment#:#tst_use_previous_answers_description#:#Aktiviert das Kontrollkästchen auf der Startseite des Tests, um die Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte in zukünftigen Testdurchläufen zu verwenden. Diese Option auf der Startseite ist standardmäßig deaktiviert.
+assessment#:#tst_use_previous_answers#:#Verwendung vorheriger Lösungen
+assessment#:#tst_use_previous_answers_description#:#Aktiviert das Kontrollkästchen auf der Startseite des Tests, um die Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte im nächsten Testdurchlauf zu verwenden. Diese Option auf der Startseite ist standardmäßig deaktiviert.
 assessment#:#tst_use_previous_answers_user#:#Meine Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte verwenden
 assessment#:#tst_user_finished_test#:#Ein Teilnehmer hat den Test beendet (%s)
 assessment#:#tst_your_answer_was#:#Sie haben die folgende Antwort gegeben
