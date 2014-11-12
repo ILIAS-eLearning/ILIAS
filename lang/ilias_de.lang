@@ -1080,17 +1080,17 @@ assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s 
 assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie in dem Test hinzufügen wollen!
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
 assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Benutzern durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) hinzufügen wollen?
-assessment#:#tst_instant_feedback#:#Sofortige Rückmeldung
+assessment#:#tst_instant_feedback#:#Antwort prüfen
 assessment#:#tst_instant_feedback_answer_specific#:#Rückmeldung pro Antwortoption
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Wenn angefordert, zeigt ILIAS für alle ausgewählten Antwortoptionen die jeweils hinterlegte Rückmeldung an (sofern der Fragetyp dies unterstützt).
 assessment#:#tst_instant_feedback_answer_generic#:#Rückmeldung "Richtige Lösung"
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Wenn angefordert, zeigt ILIAS die Rückmeldung an, die für die richtige Lösung bzw. für die nicht vollständig richtige Lösung der Frage hinterlegt worden ist.
-assessment#:#tst_instant_feedback_description#:#Wenn eine dieser Optionen ausgewählt ist, wird eine direkte Rückmeldung im Anschluss an die Beantwortung einer Frage angezeigt.
+assessment#:#tst_instant_feedback_description#:#, wird eine direkte Rückmeldung im Anschluss an die Beantwortung einer Frage angezeigt.
 assessment#:#tst_instant_feedback_fix_usr_answer#:#Lösung des Teilnehmers fixieren
 assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#Die vom Teilnehmer eingetragene Antwort kann nach dem Anfordern des Feedbacks nicht mehr verändert werden.
 assessment#:#tst_instant_feedback_results#:#Erreichte Punkte
-assessment#:#tst_instant_feedback_results_desc#:#Wenn angefordert, zeigt ILIAS an, wie viele Punkte für die gegebene Antwort erreicht wurden.
-assessment#:#tst_instant_feedback_solution#:#Lösungen anzeigen
+assessment#:#tst_instant_feedback_results_desc#:#Klickt der Teilnehmer den Prüfen-Button, zeigt ILIAS an, wie viele Punkte für die gegebene Antwort erreicht wurden.
+assessment#:#tst_instant_feedback_solution#:#Bestmögliche Lösung anzeigen
 assessment#:#tst_instant_feedback_solution_desc#:#Wenn Lösungen ausgewählt ist, wird die korrekte Lösung einer Frage angezeigt.
 assessment#:#tst_instant_verification#:#Direkte Überprüfung
 assessment#:#tst_introduction#:#Einleitung
