@@ -13522,8 +13522,9 @@ assessment#:#tst_imap_qst_mode#:#Mode
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#tst_test_execution#:#Test Execution
-assessment#:#redirect_after_finishing_tst#:#Redirect after finishing the test
-assessment#:#redirect_in_kiosk_mode#:#Redirect only in exam view
+assessment#:#redirect_after_finishing_tst#:#Redirect after test
+assessment#:#redirect_in_kiosk_mode#:#Redirect only when exam view is activated
+assessment#:#redirect_always#:#Always to redirection target
 assessment#:#redirection_url#:#Redirection target
 assessment#:#exp_file_created#:#Export file created.
 tax#:#tax_added#:#Taxonomy has been created.
