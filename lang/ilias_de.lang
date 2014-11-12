@@ -1088,8 +1088,8 @@ assessment#:#tst_instant_feedback_answer_generic_desc#:#Wenn angefordert, zeigt 
 assessment#:#tst_instant_feedback_description#:#Wenn eine dieser Optionen ausgewählt ist, wird eine direkte Rückmeldung im Anschluss an die Beantwortung einer Frage angezeigt.
 assessment#:#tst_instant_feedback_fix_usr_answer#:#Lösung des Teilnehmers fixieren
 assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#Die vom Teilnehmer eingetragene Antwort kann nach dem Anfordern des Feedbacks nicht mehr verändert werden.
-assessment#:#tst_instant_feedback_results#:#Ergebnisse anzeigen (nur Angabe der erreichten Punkte)
-assessment#:#tst_instant_feedback_results_desc#:#Wenn das Ergebnis ausgewählt ist, werden die erzielten Punkte angezeigt.
+assessment#:#tst_instant_feedback_results#:#Erreichte Punkte
+assessment#:#tst_instant_feedback_results_desc#:#Wenn angefordert, zeigt ILIAS die erzielten Punkte für die gegebene Antwort an.
 assessment#:#tst_instant_feedback_solution#:#Lösungen anzeigen
 assessment#:#tst_instant_feedback_solution_desc#:#Wenn Lösungen ausgewählt ist, wird die korrekte Lösung einer Frage angezeigt.
 assessment#:#tst_instant_verification#:#Direkte Überprüfung
