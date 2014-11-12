@@ -949,13 +949,11 @@ class ilObjTestSettingsGeneralGUI
 		$show_examview_html->setValue(1);
 		$show_examview_html->setChecked($this->testOBJ->getShowExamviewHtml());
 		$show_examview_html->setOptionTitle($this->lng->txt("show_examview_html"));
-		$show_examview_html->setInfo($this->lng->txt("show_examview_html_desc"));
 		$enable_examview->addSubItem($show_examview_html);
 		$show_examview_pdf = new ilCheckboxInputGUI('', 'show_examview_pdf');
 		$show_examview_pdf->setValue(1);
 		$show_examview_pdf->setChecked($this->testOBJ->getShowExamviewPdf());
 		$show_examview_pdf->setOptionTitle($this->lng->txt("show_examview_pdf"));
-		$show_examview_pdf->setInfo($this->lng->txt("show_examview_pdf_desc"));
 		$enable_examview->addSubItem($show_examview_pdf);
 		$form->addItem($enable_examview);
 
