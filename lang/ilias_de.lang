@@ -1512,7 +1512,7 @@ assessment#:#tst_add_quest_cont_edit_mode_default#:#Standard-Editierungsmodus f�
 assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Editierung zusätzlicher Frageninhalte mit dem ILIAS-Seiteneditor
 assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
-assessment#:#enable_examview#:#
+assessment#:#enable_examview#:#Übersicht gegebener Antworten
 assessment#:#enable_examview_desc#:#Teilnehmern werden alle Fragen und die von ihnen gegebenen Antworten vor Abgabe des Tests präsentiert.
 assessment#:#test_enable_archiving#:#Archivierung aktivieren
 assessment#:#ass_create_archive_export#:#Archivexport erzeugen.
