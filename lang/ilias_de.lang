@@ -1517,10 +1517,8 @@ assessment#:#enable_examview_desc#:#Teilnehmern werden alle Fragen und die von i
 assessment#:#test_enable_archiving#:#Archivierung aktivieren
 assessment#:#ass_create_archive_export#:#Archivexport erzeugen.
 assessment#:#cannot_export_archive#:#Archivexport kann nicht erzeugt werden.
-assessment#:#show_examview_html#:#Klausuransicht innerhalb der ILIAS-Seite.
-assessment#:#show_examview_html_desc#:#Zeigt die Klausuransicht innerhalb von ILIAS.
-assessment#:#show_examview_pdf#:#Klausuransicht als PDF.
-assessment#:#show_examview_pdf_desc#:#Zeigt die Klausuransicht als automatischen PDF-Download. (Download-Button als Fallback vorhanden.)
+assessment#:#show_examview_html#:#Am Bildschirm
+assessment#:#show_examview_pdf#:#PDF-Download
 assessment#:#scoringadjust#:#Nachkorrektur
 assessment#:#tst_trigger_result_refreshing#:#Eine Ergebnisneuberechnung wird erfolgen. Dies kann eine Weile dauern.
 assessment#:#test_scoring#:#Bewertungsoptionen
