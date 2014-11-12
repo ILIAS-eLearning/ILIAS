@@ -1100,14 +1100,6 @@ class ilObjTestSettingsGeneralGUI
 		$mailnottype->setChecked($this->testOBJ->getMailNotificationType());
 		$form->addItem($mailnottype);
 
-		if( !$this->settingsTemplate || $this->formShowParticipantSection($this->settingsTemplate->getSettings()) )
-		{
-			// participants properties
-			$restrictions = new ilFormSectionHeaderGUI();
-			$restrictions->setTitle($this->lng->txt("tst_max_allowed_users"));
-			$form->addItem($restrictions);
-		}
-
 		// Edit ecs export settings
 		include_once 'Modules/Test/classes/class.ilECSTestSettings.php';
 		$ecs = new ilECSTestSettings($this->testOBJ);		

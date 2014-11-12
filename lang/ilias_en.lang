@@ -958,7 +958,6 @@ assessment#:#tst_mark_short_form#:#Short Form
 assessment#:#tst_mark#:#Mark
 assessment#:#tst_max_allowed_users_heading#:#The maximum number of simultaneous users in this test has been reached
 assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.
-assessment#:#tst_max_allowed_users#:#Participant Restriction
 assessment#:#tst_maximum_points#:#Maximum Points
 assessment#:#tst_missing_author#:#You have not entered the authors name in the test properties! Please add an authors name.
 assessment#:#tst_missing_marks#:#You do not have a mark schema in the test! Please add at least a simple mark schema to the test.
