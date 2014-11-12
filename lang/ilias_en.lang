@@ -1220,7 +1220,6 @@ assessment#:#toplist_col_percentage#:#Percentage
 assessment#:#toplist_col_hints#:#Hints
 assessment#:#toplist_col_wtime#:#Working Time
 assessment#:#toplist_your_result#:#Your ranking
-assessment#:#tst_highscore_options#:#High Score
 assessment#:#tst_highscore_enabled#:#High Score display activated
 assessment#:#tst_highscore_description#:#Should the display of high scores be available?
 assessment#:#tst_highscore_anon#:#Anonymization of the entries.
@@ -10953,7 +10952,6 @@ assessment#:#test_confirm_template_reset#:#Are you sure that you do not want to 
 assessment#:#test_template_reset#:#The template has been removed.
 assessment#:#test_using_template_link#:#Do not use template anymore
 common#:#tst_edit_questions#:#Edit Questions
-assessment#:#tst_mail_notification#:#Mail Notifications
 assessment#:#saveOrder#:#Save Order
 assessment#:#saveOrderAndObligations#:#Save Order and Obligations
 assessment#:#obligatory#:#Compulsory

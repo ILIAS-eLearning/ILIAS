@@ -1104,7 +1104,6 @@ assessment#:#tst_list_of_questions_end#:#Die Fragenübersicht anzeigen, bevor Te
 assessment#:#tst_list_of_questions_start#:#Die Fragenübersicht anzeigen, bevor Teilnehmer die erste Frage bearbeiten
 assessment#:#tst_list_of_questions_with_description#:#Fragenbeschreibungen in der Fragenübersicht anzeigen
 assessment#:#tst_list_of_questions_yes#:#Ja, und zusätzlich
-assessment#:#tst_mail_notification#:#Mail-Benachrichtigungen
 assessment#:#tst_manscoring_question_section_header#:#Frage: %s
 assessment#:#tst_manscoring_user_notification#:#Benachrichtigung senden
 assessment#:#tst_mark#:#Note
@@ -1401,7 +1400,6 @@ assessment#:#toplist_col_percentage#:#Prozentwert
 assessment#:#toplist_col_hints#:#Hinweise
 assessment#:#toplist_col_wtime#:#Bearbeitungszeit
 assessment#:#toplist_your_result#:#Ihre Platzierung
-assessment#:#tst_highscore_options#:#Platzierung
 assessment#:#tst_highscore_enabled#:#Platzierungen anzeigen
 assessment#:#tst_highscore_description#:#Zeigt das Abschneiden der verschiedenen Teilnehmer im Test
 assessment#:#tst_highscore_anon#:#Anonymisierung der Platzierten
