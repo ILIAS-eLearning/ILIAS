@@ -538,6 +538,23 @@ class ilObjTestSettingsGeneralGUI
 		$this->testOBJ->setAutosave($form->getItemByPostVar('autosave')->getChecked());
 		$this->testOBJ->setAutosaveIval($form->getItemByPostVar('autosave_ival')->getValue() * 1000);
 
+		if( !$this->testOBJ->participantDataExist() )
+		{
+			if( !$this->isHiddenFormItem('obligations_enabled') )
+			{
+				$this->testOBJ->setObligationsEnabled($form->getItemByPostVar('obligations_enabled')->getChecked());
+			}
+			if( !$this->isHiddenFormItem('offer_hints') )
+			{
+				$this->testOBJ->setOfferingQuestionHintsEnabled($form->getItemByPostVar('offer_hints')->getChecked());
+			}
+		}
+
+		if( !$this->isHiddenFormItem('instant_feedback') )
+		{
+			$this->testOBJ->setScoringFeedbackOptionsByArray($form->getItemByPostVar('instant_feedback')->getValue());
+		}
+
 		$this->testOBJ->setUsePreviousAnswers($form->getItemByPostVar('chb_use_previous_answers')->getChecked());		
 
 		// highscore settings
@@ -984,8 +1001,16 @@ class ilObjTestSettingsGeneralGUI
 		$autosave_interval->setInfo($this->lng->txt('autosave_ival_info'));
 		$autosave_output->addSubItem($autosave_interval);
 		$form->addItem($autosave_output);
-		
-		
+
+		// shuffle questions
+		$shuffle = new ilCheckboxInputGUI($this->lng->txt("tst_shuffle_questions"), "chb_shuffle_questions");
+		$shuffle->setValue(1);
+		$shuffle->setChecked($this->testOBJ->getShuffleQuestions());
+		$shuffle->setInfo($this->lng->txt("tst_shuffle_questions_description"));
+		$form->addItem($shuffle);
+
+		$this->addPresentationSettingsFormSection($form);
+
 		if( !$this->settingsTemplate || $this->formShowSequenceSection($this->settingsTemplate->getSettings()) )
 		{
 			// sequence properties
@@ -1007,13 +1032,6 @@ class ilObjTestSettingsGeneralGUI
 		$postpone->setChecked($this->testOBJ->getSequenceSettings());
 		$postpone->setInfo($this->lng->txt("tst_postpone_description"));
 		$form->addItem($postpone);
-		
-		// shuffle questions
-		$shuffle = new ilCheckboxInputGUI($this->lng->txt("tst_shuffle_questions"), "chb_shuffle_questions");
-		$shuffle->setValue(1);
-		$shuffle->setChecked($this->testOBJ->getShuffleQuestions());
-		$shuffle->setInfo($this->lng->txt("tst_shuffle_questions_description"));
-		$form->addItem($shuffle);
 
 		// show list of questions
 		$list_of_questions = new ilCheckboxInputGUI($this->lng->txt("tst_show_summary"), "list_of_questions");
@@ -1267,6 +1285,65 @@ class ilObjTestSettingsGeneralGUI
 		return $form;
 	}
 
+	private function addPresentationSettingsFormSection(ilPropertyFormGUI $form)
+	{
+		// test presentation
+		$header_tp = new ilFormSectionHeaderGUI();
+		$header_tp->setTitle($this->lng->txt('test_presentation'));
+		$form->addItem($header_tp);
+
+		// enable obligations
+		$checkBoxEnableObligations = new ilCheckboxInputGUI($this->lng->txt('tst_setting_enable_obligations_label'), 'obligations_enabled');
+		$checkBoxEnableObligations->setChecked($this->testOBJ->areObligationsEnabled());
+		$checkBoxEnableObligations->setInfo($this->lng->txt('tst_setting_enable_obligations_info'));
+		$form->addItem($checkBoxEnableObligations);
+
+		// offer hints
+		$checkBoxOfferHints = new ilCheckboxInputGUI($this->lng->txt('tst_setting_offer_hints_label'), 'offer_hints');
+		$checkBoxOfferHints->setChecked($this->testOBJ->isOfferingQuestionHintsEnabled());
+		$checkBoxOfferHints->setInfo($this->lng->txt('tst_setting_offer_hints_info'));
+		$form->addItem($checkBoxOfferHints);
+
+		// disable settings influencing results indirectly
+		if( $this->testOBJ->participantDataExist() )
+		{
+			$checkBoxEnableObligations->setDisabled(true);
+			$checkBoxOfferHints->setDisabled(true);
+		}
+
+		// instant feedback
+		$instant_feedback = new ilCheckboxGroupInputGUI($this->lng->txt('tst_instant_feedback'), 'instant_feedback');
+		$instant_feedback->addOption(new ilCheckboxOption(
+			$this->lng->txt('tst_instant_feedback_answer_specific'), 'instant_feedback_specific',
+			$this->lng->txt('tst_instant_feedback_answer_specific_desc')
+		));
+		$instant_feedback->addOption(new ilCheckboxOption(
+			$this->lng->txt('tst_instant_feedback_answer_generic'), 'instant_feedback_generic',
+			$this->lng->txt('tst_instant_feedback_answer_generic_desc')
+		));
+		$instant_feedback->addOption(new ilCheckboxOption(
+			$this->lng->txt('tst_instant_feedback_results'), 'instant_feedback_points',
+			$this->lng->txt('tst_instant_feedback_results_desc')
+		));
+		$instant_feedback->addOption(new ilCheckboxOption(
+			$this->lng->txt('tst_instant_feedback_solution'), 'instant_feedback_solution',
+			$this->lng->txt('tst_instant_feedback_solution_desc')
+		));
+		$instant_feedback->addOption(new ilCheckboxOption(
+			$this->lng->txt('tst_instant_feedback_fix_usr_answer'), 'instant_feedback_answer_fixation',
+			$this->lng->txt('tst_instant_feedback_fix_usr_answer_desc')
+		));
+		$values = array();
+		if ($this->testOBJ->getSpecificAnswerFeedback()) array_push($values, 'instant_feedback_specific');
+		if ($this->testOBJ->getGenericAnswerFeedback()) array_push($values, 'instant_feedback_generic');
+		if ($this->testOBJ->getAnswerFeedbackPoints()) array_push($values, 'instant_feedback_points');
+		if ($this->testOBJ->getInstantFeedbackSolution()) array_push($values, 'instant_feedback_solution');
+		if( $this->testOBJ->isInstantFeedbackAnswerFixationEnabled() ) array_push($values, 'instant_feedback_answer_fixation');
+		$instant_feedback->setValue($values);
+		$instant_feedback->setInfo($this->lng->txt('tst_instant_feedback_description'));
+		$form->addItem($instant_feedback);
+	}
+
 	/**
 	 * Enable all settings - Confirmation
 	 */
@@ -1421,6 +1498,28 @@ class ilObjTestSettingsGeneralGUI
 		}
 
 		if( !$form->getItemByPostVar('skill_service')->getChecked() )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	private function isHiddenFormItem($formFieldId)
+	{
+		if( !$this->settingsTemplate )
+		{
+			return false;
+		}
+
+		$settings = $this->settingsTemplate->getSettings();
+
+		if( !isset($settings[$formFieldId]) )
+		{
+			return false;
+		}
+
+		if( !$settings[$formFieldId]['hide'] )
 		{
 			return false;
 		}
