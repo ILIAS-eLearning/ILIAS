@@ -935,46 +935,6 @@ class ilObjTestSettingsGeneralGUI
 
 		$form->addItem($kiosk);
 
-		// section header TEMP
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("tst_final_information"));
-		$form->addItem($header);
-
-		// examview
-		$enable_examview = new ilCheckboxInputGUI($this->lng->txt("enable_examview"), 'enable_examview');
-		$enable_examview->setValue(1);
-		$enable_examview->setChecked($this->testOBJ->getEnableExamview());
-		$enable_examview->setInfo($this->lng->txt("enable_examview_desc"));
-		$show_examview_html = new ilCheckboxInputGUI('', 'show_examview_html');
-		$show_examview_html->setValue(1);
-		$show_examview_html->setChecked($this->testOBJ->getShowExamviewHtml());
-		$show_examview_html->setOptionTitle($this->lng->txt("show_examview_html"));
-		$enable_examview->addSubItem($show_examview_html);
-		$show_examview_pdf = new ilCheckboxInputGUI('', 'show_examview_pdf');
-		$show_examview_pdf->setValue(1);
-		$show_examview_pdf->setChecked($this->testOBJ->getShowExamviewPdf());
-		$show_examview_pdf->setOptionTitle($this->lng->txt("show_examview_pdf"));
-		$enable_examview->addSubItem($show_examview_pdf);
-		$form->addItem($enable_examview);
-
-		// show final statement
-		$showfinal = new ilCheckboxInputGUI($this->lng->txt("final_statement_show"), "showfinalstatement");
-		$showfinal->setChecked($this->testOBJ->getShowFinalStatement());
-		$showfinal->setInfo($this->lng->txt("final_statement_show_desc"));
-		$form->addItem($showfinal);
-		// final statement
-		$finalstatement = new ilTextAreaInputGUI($this->lng->txt("final_statement"), "finalstatement");
-		$finalstatement->setRequired(true);
-		$finalstatement->setValue($this->testOBJ->prepareTextareaOutput($this->testOBJ->getFinalStatement(), false, true));
-		$finalstatement->setRows(10);
-		$finalstatement->setCols(80);
-		$finalstatement->setUseRte(TRUE);
-		$finalstatement->addPlugin("latex");
-		$finalstatement->addButton("latex");
-		$finalstatement->setRTESupport($this->testOBJ->getId(), "tst", "assessment");
-		$finalstatement->setRteTagSet('full');
-		$showfinal->addSubItem($finalstatement);
-
 		/*if( !$this->settingsTemplate || $this->formShowSessionSection($this->settingsTemplate->getSettings()) )
 		{
 			// session properties
@@ -1190,6 +1150,46 @@ class ilObjTestSettingsGeneralGUI
 			$testExecution->setTitle($this->lng->txt("tst_test_execution"));
 			$form->addItem($testExecution);
 		}
+
+		// section header final informations etc
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("tst_final_information"));
+		$form->addItem($header);
+
+		// examview
+		$enable_examview = new ilCheckboxInputGUI($this->lng->txt("enable_examview"), 'enable_examview');
+		$enable_examview->setValue(1);
+		$enable_examview->setChecked($this->testOBJ->getEnableExamview());
+		$enable_examview->setInfo($this->lng->txt("enable_examview_desc"));
+		$show_examview_html = new ilCheckboxInputGUI('', 'show_examview_html');
+		$show_examview_html->setValue(1);
+		$show_examview_html->setChecked($this->testOBJ->getShowExamviewHtml());
+		$show_examview_html->setOptionTitle($this->lng->txt("show_examview_html"));
+		$enable_examview->addSubItem($show_examview_html);
+		$show_examview_pdf = new ilCheckboxInputGUI('', 'show_examview_pdf');
+		$show_examview_pdf->setValue(1);
+		$show_examview_pdf->setChecked($this->testOBJ->getShowExamviewPdf());
+		$show_examview_pdf->setOptionTitle($this->lng->txt("show_examview_pdf"));
+		$enable_examview->addSubItem($show_examview_pdf);
+		$form->addItem($enable_examview);
+
+		// show final statement
+		$showfinal = new ilCheckboxInputGUI($this->lng->txt("final_statement_show"), "showfinalstatement");
+		$showfinal->setChecked($this->testOBJ->getShowFinalStatement());
+		$showfinal->setInfo($this->lng->txt("final_statement_show_desc"));
+		$form->addItem($showfinal);
+		// final statement
+		$finalstatement = new ilTextAreaInputGUI($this->lng->txt("final_statement"), "finalstatement");
+		$finalstatement->setRequired(true);
+		$finalstatement->setValue($this->testOBJ->prepareTextareaOutput($this->testOBJ->getFinalStatement(), false, true));
+		$finalstatement->setRows(10);
+		$finalstatement->setCols(80);
+		$finalstatement->setUseRte(TRUE);
+		$finalstatement->addPlugin("latex");
+		$finalstatement->addButton("latex");
+		$finalstatement->setRTESupport($this->testOBJ->getId(), "tst", "assessment");
+		$finalstatement->setRteTagSet('full');
+		$showfinal->addSubItem($finalstatement);
 
 		$redirection_mode = $this->testOBJ->getRedirectionMode();
 		$rm_enabled = new ilCheckboxInputGUI($this->lng->txt('redirect_after_finishing_tst'), 'redirection_enabled' );
