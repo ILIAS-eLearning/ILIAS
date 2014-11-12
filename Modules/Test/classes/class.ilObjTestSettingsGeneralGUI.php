@@ -557,17 +557,6 @@ class ilObjTestSettingsGeneralGUI
 
 		$this->testOBJ->setUsePreviousAnswers($form->getItemByPostVar('chb_use_previous_answers')->getChecked());		
 
-		// highscore settings
-		$this->testOBJ->setHighscoreEnabled((bool) $form->getItemByPostVar('highscore_enabled')->getChecked());
-		$this->testOBJ->setHighscoreAnon((bool) $form->getItemByPostVar('highscore_anon')->getChecked());
-		$this->testOBJ->setHighscoreAchievedTS((bool) $form->getItemByPostVar('highscore_achieved_ts')->getChecked());
-		$this->testOBJ->setHighscoreScore((bool) $form->getItemByPostVar('highscore_score')->getChecked());
-		$this->testOBJ->setHighscorePercentage((bool) $form->getItemByPostVar('highscore_percentage')->getChecked());
-		$this->testOBJ->setHighscoreHints((bool) $form->getItemByPostVar('highscore_hints')->getChecked());
-		$this->testOBJ->setHighscoreWTime((bool) $form->getItemByPostVar('highscore_wtime')->getChecked());
-		$this->testOBJ->setHighscoreMode((int) $form->getItemByPostVar('highscore_mode')->getValue());
-		$this->testOBJ->setHighscoreTopNum((int) $form->getItemByPostVar('highscore_top_num')->getValue());
-
 		if( !$this->testOBJ->participantDataExist() )
 		{
 			// question set type
@@ -854,6 +843,19 @@ class ilObjTestSettingsGeneralGUI
 		$password->setValue($this->testOBJ->getPassword());
 		$pwEnabled->addSubItem($password);
 
+		// fixed participants
+		$fixedparticipants = new ilCheckboxInputGUI($this->lng->txt('participants_invitation'), "fixedparticipants");
+		$fixedparticipants->setValue(1);
+		$fixedparticipants->setChecked($this->testOBJ->getFixedParticipants());
+		$fixedparticipants->setOptionTitle($this->lng->txt("tst_allow_fixed_participants"));
+		$fixedparticipants->setInfo($this->lng->txt("participants_invitation_description"));
+		$invited_users = $this->testOBJ->getInvitedUsers();
+		if ($this->testOBJ->participantDataExist() && (count($invited_users) == 0))
+		{
+			$fixedparticipants->setDisabled(true);
+		}
+		$form->addItem($fixedparticipants);
+
 		// simultaneous users
 		$simulLimited = new ilCheckboxInputGUI($this->lng->txt("tst_allowed_users"), 'limitUsers');
 		$simulLimited->setInfo($this->lng->txt("tst_allowed_users_desc"));
@@ -1018,112 +1020,12 @@ class ilObjTestSettingsGeneralGUI
 		$marking->setInfo($this->lng->txt("question_marking_description"));
 		$form->addItem($marking);
 
-		if( !$this->settingsTemplate || $this->formShowNotificationSection($this->settingsTemplate->getSettings()) )
-		{
-			// notifications
-			$notifications = new ilFormSectionHeaderGUI();
-			$notifications->setTitle($this->lng->txt("tst_mail_notification"));
-			$form->addItem($notifications);
-		}
-
-		// mail notification
-		$mailnotification = new ilRadioGroupInputGUI($this->lng->txt("tst_finish_notification"), "mailnotification");
-		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_no"), 0, ''));
-		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_simple"), 1, ''));
-		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_advanced"), 2, ''));
-		$mailnotification->setValue($this->testOBJ->getMailNotification());
-		$form->addItem($mailnotification);
-
-		$mailnottype = new ilCheckboxInputGUI('', "mailnottype");
-		$mailnottype->setValue(1);
-		$mailnottype->setOptionTitle($this->lng->txt("mailnottype"));
-		$mailnottype->setChecked($this->testOBJ->getMailNotificationType());
-		$form->addItem($mailnottype);
-		
-		/* This options always active (?) */
-		$highscore_head = new ilFormSectionHeaderGUI();
-		$highscore_head->setTitle($this->lng->txt("tst_highscore_options"));
-		$form->addItem($highscore_head);
-
-		$highscore = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_enabled"), "highscore_enabled");
-		$highscore->setValue(1);
-		$highscore->setChecked($this->testOBJ->getHighscoreEnabled());
-		$highscore->setInfo($this->lng->txt("tst_highscore_description"));
-		$form->addItem($highscore);
-
-		$highscore_tables = new ilRadioGroupInputGUI($this->lng->txt('tst_highscore_mode'), 'highscore_mode');
-		$highscore_tables->setRequired(true);
-		$highscore_tables->setValue($this->testOBJ->getHighscoreMode());
-
-		$highscore_table_own = new ilRadioOption($this->lng->txt('tst_highscore_own_table'), ilObjTest::HIGHSCORE_SHOW_OWN_TABLE);
-		$highscore_table_own->setInfo($this->lng->txt('tst_highscore_own_table_description'));
-		$highscore_tables->addOption($highscore_table_own);
-
-		$highscore_table_other = new ilRadioOption($this->lng->txt('tst_highscore_top_table'), ilObjTest::HIGHSCORE_SHOW_TOP_TABLE);
-		$highscore_table_other->setInfo($this->lng->txt('tst_highscore_top_table_description'));
-		$highscore_tables->addOption($highscore_table_other);
-
-		$highscore_table_other = new ilRadioOption($this->lng->txt('tst_highscore_all_tables'), ilObjTest::HIGHSCORE_SHOW_ALL_TABLES);
-		$highscore_table_other->setInfo($this->lng->txt('tst_highscore_all_tables_description'));
-		$highscore_tables->addOption($highscore_table_other);
-		$highscore->addSubItem($highscore_tables);
-
-		$highscore_top_num = new ilNumberInputGUI($this->lng->txt("tst_highscore_top_num"), "highscore_top_num");
-		$highscore_top_num->setSize(4);
-		$highscore_top_num->setRequired(true);
-		$highscore_top_num->setMinValue(1);
-		$highscore_top_num->setSuffix($this->lng->txt("tst_highscore_top_num_unit"));
-		$highscore_top_num->setValue($this->testOBJ->getHighscoreTopNum(null));
-		$highscore_top_num->setInfo($this->lng->txt("tst_highscore_top_num_description"));
-		$highscore->addSubItem($highscore_top_num);
-		
-		$highscore_anon = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_anon"), "highscore_anon");
-		$highscore_anon->setValue(1);
-		$highscore_anon->setChecked($this->testOBJ->getHighscoreAnon());
-		$highscore_anon->setInfo($this->lng->txt("tst_highscore_anon_description"));
-		$highscore->addSubItem($highscore_anon);
-
-		$highscore_achieved_ts = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_achieved_ts"), "highscore_achieved_ts");
-		$highscore_achieved_ts->setValue(1);
-		$highscore_achieved_ts->setChecked($this->testOBJ->getHighscoreAchievedTS());
-		$highscore_achieved_ts->setInfo($this->lng->txt("tst_highscore_achieved_ts_description"));
-		$highscore->addSubItem($highscore_achieved_ts);
-		
-		$highscore_score = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_score"), "highscore_score");
-		$highscore_score->setValue(1);
-		$highscore_score->setChecked($this->testOBJ->getHighscoreScore());
-		$highscore_score->setInfo($this->lng->txt("tst_highscore_score_description"));
-		$highscore->addSubItem($highscore_score);
-
-		$highscore_percentage = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_percentage"), "highscore_percentage");
-		$highscore_percentage->setValue(1);
-		$highscore_percentage->setChecked($this->testOBJ->getHighscorePercentage());
-		$highscore_percentage->setInfo($this->lng->txt("tst_highscore_percentage_description"));
-		$highscore->addSubItem($highscore_percentage);
-
-		$highscore_hints = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_hints"), "highscore_hints");
-		$highscore_hints->setValue(1);
-		$highscore_hints->setChecked($this->testOBJ->getHighscoreHints()); 
-		$highscore_hints->setInfo($this->lng->txt("tst_highscore_hints_description"));
-		$highscore->addSubItem($highscore_hints);
-
-		$highscore_wtime = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_wtime"), "highscore_wtime");
-		$highscore_wtime->setValue(1);
-		$highscore_wtime->setChecked($this->testOBJ->getHighscoreWTime());
-		$highscore_wtime->setInfo($this->lng->txt("tst_highscore_wtime_description"));
-		$highscore->addSubItem($highscore_wtime);
-
 		if( !$this->settingsTemplate || $this->formShowTestExecutionSection($this->settingsTemplate->getSettings()) )
 		{
 			$testExecution = new ilFormSectionHeaderGUI();
-			$testExecution->setTitle($this->lng->txt("tst_test_execution"));
+			$testExecution->setTitle($this->lng->txt("tst_final_information"));
 			$form->addItem($testExecution);
 		}
-
-		// section header final informations etc
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("tst_final_information"));
-		$form->addItem($header);
 
 		// examview
 		$enable_examview = new ilCheckboxInputGUI($this->lng->txt("enable_examview"), 'enable_examview');
@@ -1184,6 +1086,20 @@ class ilObjTestSettingsGeneralGUI
 		$sign_submission_enabled->setInfo($this->lng->txt('sign_submission_info'));
 		$form->addItem($sign_submission_enabled);
 
+		// mail notification
+		$mailnotification = new ilRadioGroupInputGUI($this->lng->txt("tst_finish_notification"), "mailnotification");
+		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_no"), 0, ''));
+		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_simple"), 1, ''));
+		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_advanced"), 2, ''));
+		$mailnotification->setValue($this->testOBJ->getMailNotification());
+		$form->addItem($mailnotification);
+
+		$mailnottype = new ilCheckboxInputGUI('', "mailnottype");
+		$mailnottype->setValue(1);
+		$mailnottype->setOptionTitle($this->lng->txt("mailnottype"));
+		$mailnottype->setChecked($this->testOBJ->getMailNotificationType());
+		$form->addItem($mailnottype);
+
 		if( !$this->settingsTemplate || $this->formShowParticipantSection($this->settingsTemplate->getSettings()) )
 		{
 			// participants properties
@@ -1191,19 +1107,7 @@ class ilObjTestSettingsGeneralGUI
 			$restrictions->setTitle($this->lng->txt("tst_max_allowed_users"));
 			$form->addItem($restrictions);
 		}
-						
-		$fixedparticipants = new ilCheckboxInputGUI($this->lng->txt('participants_invitation'), "fixedparticipants");
-		$fixedparticipants->setValue(1);
-		$fixedparticipants->setChecked($this->testOBJ->getFixedParticipants());
-		$fixedparticipants->setOptionTitle($this->lng->txt("tst_allow_fixed_participants"));
-		$fixedparticipants->setInfo($this->lng->txt("participants_invitation_description"));
-		$invited_users = $this->testOBJ->getInvitedUsers();
-		if ($total && (count($invited_users) == 0))
-		{
-			$fixedparticipants->setDisabled(true);
-		}
-		$form->addItem($fixedparticipants);
-				
+
 		// Edit ecs export settings
 		include_once 'Modules/Test/classes/class.ilECSTestSettings.php';
 		$ecs = new ilECSTestSettings($this->testOBJ);		
