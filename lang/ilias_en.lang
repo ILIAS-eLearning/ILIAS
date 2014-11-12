@@ -938,7 +938,7 @@ assessment#:#tst_instant_feedback_solution_desc#:#If solutions are selected, the
 assessment#:#tst_instant_feedback#:#Instant Feedback
 assessment#:#tst_instant_verification#:#Instant Verification
 assessment#:#tst_introduction#:#Introductory Message
-assessment#:#tst_introduction_desc#:Shows an introductory message at the info page of the test. This text is accessible already before the test can be started.
+assessment#:#tst_introduction_desc#:#Shows an introductory message at the info page of the test. This text is accessible already before the test can be started.
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_invited_selected_groups#:#The selected groups have been added as fixed test participants
 assessment#:#tst_invited_selected_roles#:#The selected roles have been added as fixed test participants
