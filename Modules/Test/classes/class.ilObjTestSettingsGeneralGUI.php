@@ -1321,7 +1321,6 @@ class ilObjTestSettingsGeneralGUI
 		if ($this->testOBJ->getInstantFeedbackSolution()) array_push($values, 'instant_feedback_solution');
 		if( $this->testOBJ->isInstantFeedbackAnswerFixationEnabled() ) array_push($values, 'instant_feedback_answer_fixation');
 		$instant_feedback->setValue($values);
-		$instant_feedback->setInfo($this->lng->txt('tst_instant_feedback_description'));
 		$form->addItem($instant_feedback);
 
 		// enable obligations
