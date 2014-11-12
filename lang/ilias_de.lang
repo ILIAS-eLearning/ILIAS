@@ -853,8 +853,8 @@ assessment#:#qst_nr_of_tries#:#Anzahl der Versuche
 assessment#:#qt_multiple_choice#:#Multiple Choice
 assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
 assessment#:#question_instances_title#:#Diese Frage wird in den folgenden Tests verwendet
-assessment#:#question_marking#:#Fragenmarkierungen anzeigen
-assessment#:#question_marking_description#:#Wenn diese Option ausgewählt ist, haben alle Testteilnehmer die Möglichkeit, beliebige Fragen mit einer Markierung zu versehen. Damit kann z.B. angezeigt werden, dass eine Frage noch einmal überprüft werden muss, dass eine Frage nicht beantwortet wurde oder dass eine Frage korrekt gelöst wurde. Die Markierungen werden auch in der Fragenübersicht (sofern aktiviert) angezeigt.
+assessment#:#question_marking#:#Fragen markieren
+assessment#:#question_marking_description#:#Teilnehmer erhalten die Möglichkeit, beliebige Fragen für sich zu markieren. Die Markierungen werden auch in der Fragenübersicht angezeigt (sofern aktiviert).
 assessment#:#question_not_answered#:#Die Frage wurde nicht beantwortet
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
@@ -1294,7 +1294,7 @@ assessment#:#tst_show_solution_printview#:#Liste der Antworten anzeigen
 assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift anzeigen
 assessment#:#tst_show_solution_suggested#:#Musterlösungen anzeigen
 assessment#:#tst_show_summary#:#Fragenübersicht anzeigen
-assessment#:#tst_show_summary_description#:#Teilnehmer können links neben den Testfragen eine Fragenliste anzeigen lassen und erhalten eine Schaltfläche "Fragenübersicht". Auf diesem Bildschirm wird auch der Gesamtbearbeitungsstatus angezeigt. Das Verhalten der Fragenübersicht können Sie noch weiter konfigurieren:
+assessment#:#tst_show_summary_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen und erhalten eine Schaltfläche "Fragenübersicht". Auf diesem Bildschirm wird auch der Gesamtbearbeitungsstatus angezeigt. Das Verhalten der Fragenübersicht können Sie noch weiter konfigurieren:
 assessment#:#tst_shuffle_questions#:#Fragen mischen
 assessment#:#tst_shuffle_questions_description#:#Reihenfolge der Fragen werden pro Teilnehmer und pro Testdurchlauf neu gemischt.
 assessment#:#tst_signature#:#Unterschrift
