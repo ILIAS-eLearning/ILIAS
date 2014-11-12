@@ -951,13 +951,6 @@ class ilObjTestSettingsGeneralGUI
 			$form->addItem($seqheader);
 		}
 
-		// use previous answers
-		$prevanswers = new ilCheckboxInputGUI($this->lng->txt("tst_use_previous_answers"), "chb_use_previous_answers");
-		$prevanswers->setValue(1);
-		$prevanswers->setChecked($this->testOBJ->getUsePreviousAnswers());
-		$prevanswers->setInfo($this->lng->txt("tst_use_previous_answers_description"));
-		$form->addItem($prevanswers);
-
 		// question title output
 		$title_output = new ilRadioGroupInputGUI($this->lng->txt("tst_title_output"), "title_output");
 		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_full"), 0, ''));
@@ -1000,7 +993,14 @@ class ilObjTestSettingsGeneralGUI
 			$seqheader->setTitle($this->lng->txt("tst_sequence_properties"));
 			$form->addItem($seqheader);
 		}
-	
+
+		// use previous answers
+		$prevanswers = new ilCheckboxInputGUI($this->lng->txt("tst_use_previous_answers"), "chb_use_previous_answers");
+		$prevanswers->setValue(1);
+		$prevanswers->setChecked($this->testOBJ->getUsePreviousAnswers());
+		$prevanswers->setInfo($this->lng->txt("tst_use_previous_answers_description"));
+		$form->addItem($prevanswers);
+
 		// postpone questions
 		$postpone = new ilCheckboxInputGUI($this->lng->txt("tst_postpone"), "chb_postpone");
 		$postpone->setValue(1);
