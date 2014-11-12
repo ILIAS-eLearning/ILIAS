@@ -1282,8 +1282,8 @@ assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Tes
 assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#Der Test konnte nicht auf online gesetzt werden, da der Testmodus gewechselt wurde. Sie müssen eine neue Testmodus-bezogene Fragenkonfiguration erstellen, bevor Sie den Test wieder online setzen können.
 assessment#:#tst_settings_template#:#Vorlage
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
-assessment#:#tst_show_cancel#:#Option "Test unterbrechen" anzeigen
-assessment#:#tst_show_cancel_description#:#Zeigt während der Testdurchführung eine Schaltfläche an, mit der der Test unterbrochen werden kann. Nutzen Sie diese Option nicht gemeinsam mit einer 'Maximalen Bearbeitungsdauer' des Tests, da das Unterbrechen des Tests nicht die Bearbeitungszeit anhält.
+assessment#:#tst_show_cancel#:#"Test unterbrechen" anzeigen
+assessment#:#tst_show_cancel_description#:#Zeigt während der Durchführung des Tests eine Schaltfläche an, mit der der Test unterbrochen werden kann. Nutzen Sie diese Option nicht gemeinsam mit einer 'Maximalen Bearbeitungsdauer' des Tests, da das Unterbrechen des Tests nicht die Bearbeitungszeit anhält.
 assessment#:#tst_show_pass_details#:#Detaillierte Ergebnisse für laufende Tests anbieten
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_show_side_list#:#Fragenliste seitlich anzeigen
