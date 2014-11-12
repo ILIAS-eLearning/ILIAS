@@ -977,6 +977,13 @@ class ilObjTestSettingsGeneralGUI
 		$prevanswers->setInfo($this->lng->txt("tst_use_previous_answers_description"));
 		$form->addItem($prevanswers);
 
+		// show suspend test
+		$cancel = new ilCheckboxInputGUI($this->lng->txt("tst_show_cancel"), "chb_show_cancel");
+		$cancel->setValue(1);
+		$cancel->setChecked($this->testOBJ->getShowCancel());
+		$cancel->setInfo($this->lng->txt("tst_show_cancel_description"));
+		$form->addItem($cancel);
+
 		// postpone questions
 		$postpone = new ilCheckboxInputGUI($this->lng->txt("tst_postpone"), "chb_postpone");
 		$postpone->setValue(1);
@@ -1010,13 +1017,6 @@ class ilObjTestSettingsGeneralGUI
 		$marking->setChecked($this->testOBJ->getShowMarker());
 		$marking->setInfo($this->lng->txt("question_marking_description"));
 		$form->addItem($marking);
-
-		// show suspend test
-		$cancel = new ilCheckboxInputGUI($this->lng->txt("tst_show_cancel"), "chb_show_cancel");
-		$cancel->setValue(1);
-		$cancel->setChecked($this->testOBJ->getShowCancel());
-		$cancel->setInfo($this->lng->txt("tst_show_cancel_description"));
-		$form->addItem($cancel);
 
 		if( !$this->settingsTemplate || $this->formShowNotificationSection($this->settingsTemplate->getSettings()) )
 		{
