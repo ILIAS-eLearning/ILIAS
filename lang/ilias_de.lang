@@ -1019,7 +1019,9 @@ assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse w
 assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
 assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit mehr, Anworten einzugeben oder zu korrigieren.
 assessment#:#tst_count_correct_solutions#:#Nur vollständig richtige Lösungen bewerten
+assessment#:#tst_count_correct_solutions_desc#:#[tst_count_correct_solutions_desc]
 assessment#:#tst_count_partial_solutions#:#Teillösungen bewerten
+assessment#:#tst_count_partial_solutions_desc#:#[tst_count_partial_solutions_desc]
 assessment#:#tst_count_system_description#:#Wenn Teillösungen bewertet werden, werden die definierten Punkte abhängig von den Antworten der Teilnehmer aufsummiert. Wenn nur vollständige Lösungen bewertet werden, müssen Teilnehmer die maximale Punktezahl für eine Frage erzielen, anderenfalls wird die Frage mit 0 Punkten bewertet.
 assessment#:#tst_default_settings#:#Persönliche Standardeinstellungen
 assessment#:#tst_defaults_applied#:#Die ausgewählten Standardeinstellungen wurden angewendet.
@@ -1147,8 +1149,10 @@ assessment#:#tst_participants_no#:#Der Test wurde von niemandem gestartet!
 assessment#:#tst_participants_no_fixed#:#Es wurden keine festen Teilnehmer zu diesem Test hinzugefügt
 assessment#:#tst_participating_users#:#Teilnehmende Benutzer
 assessment#:#tst_pass_best_pass#:#Den besten Testdurchlauf bewerten
+assessment#:#tst_pass_best_pass_desc#:#[tst_pass_best_pass_desc]
 assessment#:#tst_pass_details#:#Details anzeigen
 assessment#:#tst_pass_last_pass#:#Den letzten Testdurchlauf bewerten
+assessment#:#tst_pass_last_pass_desc#:#[tst_pass_last_pass_desc]
 assessment#:#tst_pass_overview_for_participant#:#Testdurchläufe für Teilnehmer: %s
 assessment#:#tst_pass_scoring#:#Bewertung bei mehreren Testdurchläufen
 assessment#:#tst_pass_scoring_description#:#Normalerweise wird immer der letzte Testdurchlauf eines Teilnehmers bewertet. Falls der beste Testdurchlauf bewertet wird, wird der Testdurchlauf verwendet, bei dem der Teilnehmer die höchste Punktezahl erreicht hat. Diese Einstellungen machen natürlich nur dann Sinn, wenn bei einem Test mehr als ein Testdurchlauf zugelassen wird.
@@ -1257,13 +1261,17 @@ assessment#:#tst_manscoring_input_max_points_for_question#:#Maximale Punktezahl 
 assessment#:#tst_manscoring_input_question_and_user_solution#:#Frage und Teilnehmerlösung
 assessment#:#tst_manscoring_input_best_solution#:#Musterlösung
 assessment#:#tst_score_cut_question#:#Negative Punkte für alle Fragen bei Null abschneiden
+assessment#:#tst_score_cut_question_desc#:#[tst_score_cut_question_desc]
 assessment#:#tst_score_cut_test#:#Negative Punkte für die Gesamtsumme aller Fragenergebnisse bei Null abschneiden
+assessment#:#tst_score_cut_test_desc#:#[tst_score_cut_test_desc]
 assessment#:#tst_score_cutting#:#Negative Punkte abschneiden
 assessment#:#tst_score_cutting_description#:#Negative Punkte können für einzelne Fragen oder aber für die Summe aller Fragenergebnisse auf 0 zurückgesetzt werden. Bei der Summe aller Fragenergebnisse fallen negative Punkte stärker ins Gewicht.
 assessment#:#tst_score_mcmr_questions#:#Multiple-Choice-Fragen
 assessment#:#tst_score_mcmr_questions_description#:#Abhängig von der Punktevergabe bei Multiple-Choice-Fragen kann es passieren, dass für Fragen, bei denen keine Antwort ausgewählt wurde, Punkte vergeben werden. Dies wird durch die Standardeinstellung verhindert, indem in diesem Fall die Frage als nicht beantwortet gewertet wird und die Punkte automatisch auf Null gesetzt werden.
 assessment#:#tst_score_mcmr_use_scoring_system#:#Vergabe der Punktezahl, auch wenn keine Antwort ausgewählt wurde
+assessment#:#tst_score_mcmr_use_scoring_system_desc#:#[tst_score_mcmr_use_scoring_system_desc]
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Vergabe von 0 Punkten, wenn keine Antwort ausgewählt wurde
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#[tst_score_mcmr_zero_points_when_unanswered_desc]
 assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_score_type#:#Art der Ergebnisausgabe

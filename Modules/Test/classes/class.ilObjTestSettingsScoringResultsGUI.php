@@ -458,32 +458,40 @@ class ilObjTestSettingsScoringResultsGUI
 
 		// scoring system
 		$count_system = new ilRadioGroupInputGUI($this->lng->txt('tst_text_count_system'), 'count_system');
-		$count_system->addOption(new ilRadioOption($this->lng->txt('tst_count_partial_solutions'), 0, ''));
-		$count_system->addOption(new ilRadioOption($this->lng->txt('tst_count_correct_solutions'), 1, ''));
+		$count_system->addOption($opt = new ilRadioOption($this->lng->txt('tst_count_partial_solutions'), 0, ''));
+		$opt->setInfo($this->lng->txt('tst_count_partial_solutions_desc'));
+		$count_system->addOption($opt = new ilRadioOption($this->lng->txt('tst_count_correct_solutions'), 1, ''));
+		$opt->setInfo($this->lng->txt('tst_count_correct_solutions_desc'));
 		$count_system->setValue($this->testOBJ->getCountSystem());
 		$count_system->setInfo($this->lng->txt('tst_count_system_description'));
 		$form->addItem($count_system);
 
 		// mc questions
 		$mc_scoring = new ilRadioGroupInputGUI($this->lng->txt('tst_score_mcmr_questions'), 'mc_scoring');
-		$mc_scoring->addOption(new ilRadioOption($this->lng->txt('tst_score_mcmr_zero_points_when_unanswered'), 0, ''));
-		$mc_scoring->addOption(new ilRadioOption($this->lng->txt('tst_score_mcmr_use_scoring_system'), 1, ''));
+		$mc_scoring->addOption($opt = new ilRadioOption($this->lng->txt('tst_score_mcmr_zero_points_when_unanswered'), 0, ''));
+		$opt->setInfo($this->lng->txt('tst_score_mcmr_zero_points_when_unanswered_desc'));
+		$mc_scoring->addOption($opt = new ilRadioOption($this->lng->txt('tst_score_mcmr_use_scoring_system'), 1, ''));
+		$opt->setInfo($this->lng->txt('tst_score_mcmr_use_scoring_system_desc'));
 		$mc_scoring->setValue($this->testOBJ->getMCScoring());
 		$mc_scoring->setInfo($this->lng->txt('tst_score_mcmr_questions_description'));
 		$form->addItem($mc_scoring);
 
 		// score cutting
 		$score_cutting = new ilRadioGroupInputGUI($this->lng->txt('tst_score_cutting'), 'score_cutting');
-		$score_cutting->addOption(new ilRadioOption($this->lng->txt('tst_score_cut_question'), 0, ''));
-		$score_cutting->addOption(new ilRadioOption($this->lng->txt('tst_score_cut_test'), 1, ''));
+		$score_cutting->addOption($opt = new ilRadioOption($this->lng->txt('tst_score_cut_question'), 0, ''));
+		$opt->setInfo($this->lng->txt('tst_score_cut_question_desc'));
+		$score_cutting->addOption($opt = new ilRadioOption($this->lng->txt('tst_score_cut_test'), 1, ''));
+		$opt->setInfo($this->lng->txt('tst_score_cut_test_desc'));
 		$score_cutting->setValue($this->testOBJ->getScoreCutting());
 		$score_cutting->setInfo($this->lng->txt('tst_score_cutting_description'));
 		$form->addItem($score_cutting);
 
 		// pass scoring
 		$pass_scoring = new ilRadioGroupInputGUI($this->lng->txt('tst_pass_scoring'), 'pass_scoring');
-		$pass_scoring->addOption(new ilRadioOption($this->lng->txt('tst_pass_last_pass'), 0, ''));
-		$pass_scoring->addOption(new ilRadioOption($this->lng->txt('tst_pass_best_pass'), 1, ''));
+		$pass_scoring->addOption($opt = new ilRadioOption($this->lng->txt('tst_pass_last_pass'), 0, ''));
+		$opt->setInfo($this->lng->txt('tst_pass_last_pass_desc'));
+		$pass_scoring->addOption($opt = new ilRadioOption($this->lng->txt('tst_pass_best_pass'), 1, ''));
+		$opt->setInfo($this->lng->txt('tst_pass_best_pass_desc'));
 		$pass_scoring->setValue($this->testOBJ->getPassScoring());
 		$pass_scoring->setInfo($this->lng->txt('tst_pass_scoring_description'));
 		$form->addItem($pass_scoring);
