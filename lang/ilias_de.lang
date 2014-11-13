@@ -6556,7 +6556,7 @@ crs#:#crs_no_lms_inside_crs#:#In diesem Kurs befinden sich keine Lernmodule, die
 crs#:#crs_no_member_selected#:#Sie haben kein Kursmitglied ausgewählt
 crs#:#crs_no_members_assigned#:#Diesem Kurs sind noch keine Mitglieder zugeordnet
 crs#:#crs_no_notify#:#Keine Benachrichtigung bei Beitritten
-crs#:#crs_no_objective_lms_found#:#Dieser Kurs enthält keine Materialien, die dem Lernziel zugeordnet werden könnten.
+crs#:#crs_no_objective_lms_found#:#Dieser Kurs enthält keine Lerninhalte, die dem Lernziel zugeordnet werden könnten.
 crs#:#crs_no_objective_selected#:#Bitte wählen Sie mindestens ein Lernziel aus.
 crs#:#crs_no_objectives_created#:#Diesem Kurs sind keine Lernziele zugeordnet.
 crs#:#crs_no_question_selected#:#Bitte wählen Sie mindestens eine Frage aus.
@@ -6594,7 +6594,7 @@ crs#:#crs_objective_assigned_qst#:#Zugeordnete Fragen
 crs#:#crs_objective_deassign_question#:#Zuordnung entfernen
 crs#:#crs_objective_delete_lm_assignment#:#Zuordnung entfernen
 crs#:#crs_objective_err_limit#:#Bitte geben Sie eine Punktzahl zwischen %s und %s Punkten ein.
-crs#:#crs_objective_final_test#:#Qualifizierender Test
+crs#:#crs_objective_final_test#:#Fragen Abschlusstest
 crs#:#crs_objective_insert_percent#:#Bitte geben sie nur Prozentzahlen zwischen 0 und 100 ein.
 crs#:#crs_objective_limit_err#:#Die benötigte Punktzahl darf die Gesamtpunktzahl nicht übersteigen.
 crs#:#crs_objective_modified#:#Die Änderungen wurden übernommen.
@@ -6609,7 +6609,7 @@ crs#:#crs_objective_question_assignment#:#Fragenzuordnung
 crs#:#crs_objective_random_warn#:#Für diesen Test ist eine zufällige Anordnung der Fragen festgelegt, deshalb kann er nicht nicht für Lernziele verwendet werden.
 crs#:#crs_objective_result#:#Nach Abschlusstest
 crs#:#crs_objective_saved_sorting#:#Die Reihenfolge wurde gespeichert.
-crs#:#crs_objective_self_assessment#:#Einstiegstest
+crs#:#crs_objective_self_assessment#:#Fragen Einstiegstest
 crs#:#crs_objective_status#:#Lernzielstatus
 crs#:#crs_objective_step#:#Schritt
 crs#:#crs_objective_updated_test#:#Die Änderungen wurden übernommen.
@@ -6617,12 +6617,12 @@ crs#:#crs_objective_wiz_final#:#Fragen des Qualifizierenden Tests festlegen
 crs#:#crs_objective_wiz_final_info#:#Legen Sie nun die Fragen des Qualifizierenden Tests fest.
 crs#:#crs_objective_wiz_final_limit#:#Grenzen des Qualifizierenden Tests festlegen
 crs#:#crs_objective_wiz_final_limit_info#:#Bitte legen Sie nun die Punktzahl ein, die benötigt ist, um das Lernziel zu bestehen.
-crs#:#crs_objective_wiz_materials#:#Kursmaterialien zuordnen
-crs#:#crs_objective_wiz_materials_info#:#Hier können Sie festlegen, welche Kursmaterialien zur Bearbeitung des Lernziels empfohlen werden.
+crs#:#crs_objective_wiz_materials#:#Lerninhalte zuordnen
+crs#:#crs_objective_wiz_materials_info#:#Hier können Sie festlegen, welche Lerninhalte zur Bearbeitung des Lernziels empfohlen werden.
 crs#:#crs_objective_wiz_self#:#Fragen des Einstiegstests festlegen
 crs#:#crs_objective_wiz_self_info#:#Legen Sie nun die Fragen des Einstiegstests fest. Der Einstiegstest dient der Überprüfung, ob und welche Vorkenntnisse bei den Kursteilnehmern vorhanden sind.
 crs#:#crs_objective_wiz_self_limit#:#Grenzen des Einstiegstests festlegen
-crs#:#crs_objective_wiz_self_limit_info#:#Bitte geben Sie die Punktzahl ein, ab der keine Materialien zur weiteren Bearbeitung empfohlen werden.
+crs#:#crs_objective_wiz_self_limit_info#:#Bitte geben Sie die Anzahl der Punkte ein, ab der keine weiteren Lerninhalte zur Bearbeitung empfohlen werden.
 crs#:#crs_objective_wiz_title#:#Lernziel beschreiben
 crs#:#crs_objective_wiz_title_info#:#Bitte geben Sie einen Titel und eine kurze Beschreibung des Lernziels ein.
 crs#:#crs_objectives#:#Lernziele

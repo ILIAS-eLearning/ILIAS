@@ -5641,7 +5641,7 @@ crs#:#crs_no_lms_inside_crs#:#No learning materials inside this course, which ca
 crs#:#crs_no_member_selected#:#Please select one member
 crs#:#crs_no_members_assigned#:#There are no members assigned to this course
 crs#:#crs_no_notify#:#No notify for new registrations
-crs#:#crs_no_objective_lms_found#:#This course does not contain any materials.
+crs#:#crs_no_objective_lms_found#:#Dieser Kurs enthält keine Lerninhalte, die dem Lernziel zugeordnet werden könnten.
 crs#:#crs_no_objective_selected#:#Please select one objective.
 crs#:#crs_no_objectives_created#:#There are no objectives assigned.
 crs#:#crs_no_question_selected#:#Please select one question.
@@ -5676,7 +5676,7 @@ crs#:#crs_objective_assigned_qst#:#Assigned Questions
 crs#:#crs_objective_deassign_question#:#Delete assignment
 crs#:#crs_objective_delete_lm_assignment#:#Delete assignment
 crs#:#crs_objective_err_limit#:#Please enter points between %s and %s.
-crs#:#crs_objective_final_test#:#Final Test
+crs#:#crs_objective_final_test#:#Questions Achievement Test
 crs#:#crs_objective_insert_percent#:#Please enter only numbers between 0 and 100.
 crs#:#crs_objective_limit_err#:#The required points shouldn't be higher than the total points.
 crs#:#crs_objective_modified#:#Updated learning objective.
@@ -5691,7 +5691,7 @@ crs#:#crs_objective_question_assignment#:#Question assignment
 crs#:#crs_objective_random_warn#:#You can not use random tests in combination with learning objectives.
 crs#:#crs_objective_result#:#After final test
 crs#:#crs_objective_saved_sorting#:#Saved sorting.
-crs#:#crs_objective_self_assessment#:#Initial Test
+crs#:#crs_objective_self_assessment#:#Questions Placement Test
 crs#:#crs_objective_status#:#Objective Status
 crs#:#crs_objective_step#:#Step
 crs#:#crs_objective_updated_test#:#Updated modifications.
@@ -14846,14 +14846,14 @@ crs#:#crs_loc_tt_info#:#You have reached %1$d%%. The test is passed with %2$d%%.
 crs#:#crs_objective_status_configure#:#Checklist for Course
 crs#:#crs_objective_status_settings#:#Course Settings
 crs#:#crs_objective_status_materials#:#Create Course Content
-crs#:#crs_objective_status_itest#:#Configure Placement Test 
-crs#:#crs_objective_status_qtest#:#Configure Achievement Test
+crs#:#crs_objective_status_itest#:#Assign Placement Test
+crs#:#crs_objective_status_qtest#:#Assign Achievement Test
 crs#:#crs_objective_status_objectives#:#Configure Learning Objectives
 crs#:#crs_objective_status_start#:#Define Start Objects
 crs#:#crs_objective_status_fullfilled#:#OK
-crs#:#crs_objective_action_materials#:#Material Assignment
-crs#:#crs_objective_action_qtest#:#Question Assignment Qualifying
-crs#:#crs_objective_action_itest#:#Question Assignment Initial Test
+crs#:#crs_objective_action_materials#:#Assign Material
+crs#:#crs_objective_action_qtest#:#Assign Questions of Achievement Test
+crs#:#crs_objective_action_itest#:#Assign Questions of Placement Test
 crs#:#crs_loc_qt_visibility#:#Visibility of Achievement Test 
 crs#:#crs_loc_qt_visibility_all#:#Show Achievement Test Covering all Objectives
 crs#:#crs_loc_qt_visibility_lo#:#Show Achievement Test for Each Individual Objective
@@ -14901,7 +14901,7 @@ crs#:#crs_loc_rand_assign_qpl#:#Assignment form Question Pool
 crs#:#crs_loc_rand_qpl#:#Available Question Pools
 crs#:#crs_loc_num_qst#:#Number of Questions
 crs#:#crs_loc_perc#:#Required Percentage of Points
-crs#:#crs_loc_delete_assignment#:#Delete Assignment
+crs#:#crs_loc_delete_assignment#:#Deassign Test
 crs#:#crs_loc_err_no_active_qst#:#Objectives without questions
 crs#:#crs_loc_qtst_for_objective#:#Qualifying Test "%1$s"
 crs#:#crs_loc_itst_for_objective#:#Initial Test "%1$s"
