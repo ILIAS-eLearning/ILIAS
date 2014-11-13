@@ -1839,7 +1839,7 @@ abstract class assQuestionGUI
 		
 		$tabLink = $ilCtrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
 		
-		$tabs->addTarget('feedback', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');
+		$tabs->addTarget('tst_feedback', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');
 	}
 
 	/**

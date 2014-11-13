@@ -425,6 +425,7 @@ assessment#:#option_label_custom_true#:#Label for "TRUE"
 assessment#:#option_label_custom_false#:#Label for "FALSE"
 assessment#:#kprim_instruction_text#:#You have to decide on every statement: [%s] or [%s]
 assessment#:#kprim_answers_info#:#The multiple choice question type "four times decision right/wrong" (Type K', also known as Kprim) gives four answers or additions to a question or an incomplete statement. A decision about the correctness is to be done on all four answers/additions. The maximum points are granted only, if all decisions are correct.
+assessment#:#tst_feedback#:#Feedback
 assessment#:#ass_quest_process_lock#:#Use Locking on Participant Solution Submits
 assessment#:#ass_quest_process_lock_desc#:#Without the use of any locking mechanism, race conditions during the submit of solution data are possible. This can lead to inconsistent test results.
 assessment#:#ass_quest_process_lock_mode#:#Lock Mode during Submit of Participant Solutions
