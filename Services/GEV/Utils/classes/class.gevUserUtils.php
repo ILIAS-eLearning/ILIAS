@@ -1325,13 +1325,13 @@ class gevUserUtils {
 	const WBD_TP_BASIS			= "2 - TP-Basis";
 	const WBD_TP_SERVICE		= "3 - TP-Service";
 	
-	const WBD_OKZ_FROM_POSITION	= "0 - aus Stellung";
+	const WBD_OKZ_FROM_POSITION	= "0 - aus Rolle";
 	const WBD_OKZ1				= "1 - OKZ1";
 	const WBD_OKZ2				= "2 - OKZ2";
 	const WBD_OKZ3				= "3 - OKZ3";
 	const WBD_NO_OKZ			= "4 - keine Zuordnung";
 	
-	const WBD_AGENTSTATUS0	= "0 - aus Stellung";
+	const WBD_AGENTSTATUS0	= "0 - aus Rolle";
 	const WBD_AGENTSTATUS1	= "1 - Angestellter Außendienst";
 	const WBD_AGENTSTATUS2	= "2 - Ausschließlichkeitsvermittler";
 	const WBD_AGENTSTATUS3	= "3 - Makler";
@@ -1436,7 +1436,7 @@ class gevUserUtils {
 	public function getWBDAgentStatus() {
 		$agent_status_user =  $this->getRawWBDAgentStatus();
 		if($agent_status_user == self::WBD_AGENTSTATUS0){
-			//0 - aus Stellung
+			//0 - aus Stellung	//0 - aus Rolle
 			require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 			$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
 			foreach($roles as $key => $value) {

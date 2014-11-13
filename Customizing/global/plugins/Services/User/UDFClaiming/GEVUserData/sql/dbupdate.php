@@ -382,7 +382,7 @@ $fields = array( "TP-Typ"	=> array( gevSettings::USR_TP_TYPE
 												   , "changeable_lua"		=> false
 												   , "certificate"			=> false
 												   )
-											, array( "0 - aus Stellung"
+											, array( "0 - aus Rolle"
 												   , "1 - OKZ1"
 												   , "2 - OKZ2"
 												   , "3 - OKZ3"
@@ -403,7 +403,7 @@ $fields = array( "TP-Typ"	=> array( gevSettings::USR_TP_TYPE
 												   , "changeable_lua"		=> false
 												   , "certificate"			=> false
 												   )
-											, array( "0 - aus Stellung"
+											, array( "0 - aus Rolle"
 												   , "1 - Angestellter Außendienst"
 												   , "2 - Ausschließlichkeitsvermittler"
 												   , "3 - Makler"

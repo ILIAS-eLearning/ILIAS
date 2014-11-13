@@ -112,6 +112,7 @@ $VALUE_MAPPINGS = array(
 	),
 	"agent_status" => array(
 		"0 - aus Stellung" => "Sonstiges"
+		"0 - aus Rolle" => "Sonstiges"
 	  , "1 - Angestellter Außendienst" => "Angestellter Außendienst"
 	  , "2 - Ausschließlichkeitsvermittler" => "Ausschließlichkeitsvermittler"
 	  , "3 - Makler" => "Makler"

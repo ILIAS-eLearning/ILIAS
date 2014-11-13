@@ -357,7 +357,7 @@ class gevDebug {
 			){
 				//revert
 				print '<br>reverting.';
-				$uutils->setWBDAgentStatus('0 - aus Stellung');
+				$uutils->setWBDAgentStatus('0 - aus Rolle');
 			}
 
 		}
