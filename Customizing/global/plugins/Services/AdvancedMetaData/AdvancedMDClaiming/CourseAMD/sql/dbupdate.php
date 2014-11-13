@@ -208,7 +208,9 @@ array( "Zeitraum"
 		   				array( gevSettings::CRS_AMD_TARGET_GROUP
 		   					 , "Zielgruppe des Trainings"
 		   					 , true
-		   					 , array( "AD-Auszubildende (EVG)"
+		   					 , array( 
+		   					 	/*  GOA V1:
+		   					 		"AD-Auszubildende (EVG)"
 		   					 		, "Ausbildungsverantwortliche in Agenturen (EVG), die über einen Ausbildereignungsschein verfügen"
 		   					 		, "Agenturleiter und Ausbilder in Agenturen (EVG)"
 		   					 		, "Angestellter Außendienst (freie Vertriebe, EVG)"
@@ -220,6 +222,26 @@ array( "Zeitraum"
 		   					 		, "selbstständiger Außendienst (EVG) ab Karrierestufe BGA"
 		   					 		, "Verkaufsleiter (EVG)"
 		   					 		, "Agenturverkaufsleiter (EVG)"
+								*/
+									"Partnerverkäufer § 59"
+									,"§ 84"
+									,"Organisierende Partnerverkäufer"
+									,"Leiter einer Filialdirektion" 
+									,"Nebenberufsagenten"
+									,"Vertriebsassistenten"
+									,"DBV UVG"
+									,"DBV EVG"
+									,"Inhaber einer Unternehmeragentur" 
+									,"Innenvertrieb FD / OD / BD"
+									,"Innenvertrieb HV"
+									,"Organisationsdirektor"
+									,"Nachwuchsführungskräfte" 
+									,"Unabhängige Vertriebspartner"
+									,"Trainer"
+									,"Auszubildende"
+									,"Ausbildungsverantwortliche in den Agenturen mit ADA-Schein"
+									,"Innvertrieb Agenturen"
+									
 		   					 		)
 		   					 , $tmultiselect
 		   					 )

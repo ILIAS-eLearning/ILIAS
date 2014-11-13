@@ -35,6 +35,127 @@ function  __sortByCourseDate($a, $b) {
 class gevUserUtils {
 	static protected $instances = array();
 
+
+	// wbd stuff
+	const WBD_NO_SERVICE 		= "0 - kein Service";
+	const WBD_EDU_PROVIDER		= "1 - Bildungsdienstleister";
+	const WBD_TP_BASIS			= "2 - TP-Basis";
+	const WBD_TP_SERVICE		= "3 - TP-Service";
+	
+	const WBD_OKZ_FROM_POSITION	= "0 - aus Rolle";
+	const WBD_OKZ1				= "1 - OKZ1";
+	const WBD_OKZ2				= "2 - OKZ2";
+	const WBD_OKZ3				= "3 - OKZ3";
+	const WBD_NO_OKZ			= "4 - keine Zuordnung";
+	
+	const WBD_AGENTSTATUS0	= "0 - aus Rolle";
+	const WBD_AGENTSTATUS1	= "1 - Angestellter Außendienst";
+	const WBD_AGENTSTATUS2	= "2 - Ausschließlichkeitsvermittler";
+	const WBD_AGENTSTATUS3	= "3 - Makler";
+	const WBD_AGENTSTATUS4	= "4 - Mehrfachagent";
+	const WBD_AGENTSTATUS5	= "5 - Mitarbeiter eines Vermittlers";
+	const WBD_AGENTSTATUS6	= "6 - Sonstiges";
+	const WBD_AGENTSTATUS7	= "7 - keine Zuordnung";
+
+	static $wbd_agent_status_mapping = array(
+		//1 - Angestellter Außendienst
+		self::WBD_AGENTSTATUS1 => array(
+			/* GOA V1:
+			"OD/LD/BD/VD/VTWL"
+			,"DBV/VL-EVG"
+			,"DBV-UVG"
+			*/
+			"OD /BD"
+			,"OD/BD"
+			,"FD"
+			,"Org PV 59"
+			,"PV 59"
+			,"Ausbildungsbeauftragter"
+			,"VA 59"
+			,"VA HGB 84"
+			,"NFK"
+			,"OD-Betreuer"
+			,"DBV UVG"
+			,"DBV EVG"
+		),
+		//2 - Ausschließlichkeitsvermittler
+		self::WBD_AGENTSTATUS2 => array(
+			/* GOA V1:
+			"AVL"
+			,"HA"
+			,"BA"
+			,"NA"
+			*/
+			"UA"
+			,"HA 84"
+			,"BA 84"
+			,"NA"
+			,"AVL" 
+		),
+		//3 - Makler
+		self::WBD_AGENTSTATUS3 => array(
+			"VP"
+		)
+	);
+
+	/* GOA V1:
+	static $wbd_relevant_roles	= array( //"OD/LD/BD/VD/VTWL"
+									     "DBV/VL-EVG"
+									   , "DBV-UVG"
+									   , "AVL"
+									   , "HA"
+									   , "BA"
+									   //, "NA"
+									   , "VP"
+									   , "TP-Basis Registrierung"
+									   , "TP-Service Registrierung"
+									   );
+
+	static $wbd_tp_service_roles = array( //"OD/LD/BD/VD/VTWL"
+									     "DBV/VL-EVG"
+									   , "DBV-UVG"
+									   , "AVL"
+									   , "HA"
+									   , "BA"
+									   //, "NA"
+									   , "TP-Service Registrierung"
+									   );
+	*/
+
+	static $wbd_tp_service_roles = array(
+		"UA"
+		,"HA 84"
+		,"BA 84"
+		,"Org PV 59"
+		,"PV 59"
+		,"AVL"
+		,"DBV UVG"
+		,"DBV EVG"
+		,"TP Service"
+	);
+
+	
+	static $wbd_relevant_roles = array(
+		"UA"
+		,"HA 84"
+		,"BA 84"
+		,"Org PV 59"
+		,"PV 59"
+		,"AVL"
+		,"DBV UVG"
+		,"DBV EVG"
+		,"TP Service"
+	
+		,"TP Basis"
+		,"VP"
+	);
+	
+
+
+
+	
+
+
 	protected function __construct($a_user_id) {
 		global $ilDB;
 		global $ilAccess;
@@ -1318,55 +1439,7 @@ class gevUserUtils {
 		}
 	}
 
-	// wbd stuff
-	
-	const WBD_NO_SERVICE 		= "0 - kein Service";
-	const WBD_EDU_PROVIDER		= "1 - Bildungsdienstleister";
-	const WBD_TP_BASIS			= "2 - TP-Basis";
-	const WBD_TP_SERVICE		= "3 - TP-Service";
-	
-	const WBD_OKZ_FROM_POSITION	= "0 - aus Rolle";
-	const WBD_OKZ1				= "1 - OKZ1";
-	const WBD_OKZ2				= "2 - OKZ2";
-	const WBD_OKZ3				= "3 - OKZ3";
-	const WBD_NO_OKZ			= "4 - keine Zuordnung";
-	
-	const WBD_AGENTSTATUS0	= "0 - aus Rolle";
-	const WBD_AGENTSTATUS1	= "1 - Angestellter Außendienst";
-	const WBD_AGENTSTATUS2	= "2 - Ausschließlichkeitsvermittler";
-	const WBD_AGENTSTATUS3	= "3 - Makler";
-	const WBD_AGENTSTATUS4	= "4 - Mehrfachagent";
-	const WBD_AGENTSTATUS5	= "5 - Mitarbeiter eines Vermittlers";
-	const WBD_AGENTSTATUS6	= "6 - Sonstiges";
-	const WBD_AGENTSTATUS7	= "7 - keine Zuordnung";
-	
 
-
-
-
-
-
-	static $wbd_relevant_roles	= array( //"OD/LD/BD/VD/VTWL"
-									     "DBV/VL-EVG"
-									   , "DBV-UVG"
-									   , "AVL"
-									   , "HA"
-									   , "BA"
-									   //, "NA"
-									   , "VP"
-									   , "TP-Basis Registrierung"
-									   , "TP-Service Registrierung"
-									   );
-	
-	static $wbd_tp_service_roles= array( //"OD/LD/BD/VD/VTWL"
-									     "DBV/VL-EVG"
-									   , "DBV-UVG"
-									   , "AVL"
-									   , "HA"
-									   , "BA"
-									   //, "NA"
-									   , "TP-Service Registrierung"
-									   );
 
 	public function getWBDTPType() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_TP_TYPE);
@@ -1443,27 +1516,13 @@ class gevUserUtils {
 				$roles[$key] = ilObject::_lookupTitle($value);
 			}
 
-			if(
-				in_array("OD/LD/BD/VD/VTWL", $roles) ||
-				in_array("DBV/VL-EVG", $roles) ||
-				in_array("DBV-UVG", $roles) 
-			){
-				return self::WBD_AGENTSTATUS1; //1 - Angestellter Außendienst
+			foreach (self::$wbd_agent_status_mapping as $agent_status => $relevant_roles) {
+				foreach ($roles as $role) {
+					if(in_array($role, $relevant_roles)){
+						return $agent_status;
+					}
+				}
 			}
-			if(
-				in_array("AVL", $roles) ||
-				in_array("HA", $roles) ||
-				in_array("BA", $roles) ||
-				in_array("NA", $roles) 
-			){
-				return self::WBD_AGENTSTATUS2; //2 - Ausschließlichkeitsvermittler
-			}
-			if(
-				in_array("VP", $roles) 
-			){
-				return self::WBD_AGENTSTATUS3; //3 - Makler
-			}
-
 		}
 		return $agent_status_user; //raw
 
