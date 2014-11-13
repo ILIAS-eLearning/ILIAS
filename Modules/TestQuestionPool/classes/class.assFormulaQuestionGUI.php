@@ -496,7 +496,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				$tolerance->setValue($result->getTolerance());
 				
 				$suggest_range_button = new ilCustomInputGUI('', '');
-				$suggest_range_button->setHtml('<input type="submit" class="submit" name="cmd[suggestrange_'.$result->getResult().']" value="'.$this->lng->txt("suggest_range").'" />');
+				$suggest_range_button->setHtml('<input type="submit" class="btn btn-default" name="cmd[suggestrange_'.$result->getResult().']" value="'.$this->lng->txt("suggest_range").'" />');
 
 				$sel_result_units = new ilSelectInputGUI($this->lng->txt('unit'), 'unit_' . $result->getResult());
 				$sel_result_units->setOptions(array(0 => $this->lng->txt('no_selection')) + $unit_options);
