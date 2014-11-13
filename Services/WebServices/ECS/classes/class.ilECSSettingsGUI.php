@@ -980,7 +980,7 @@ class ilECSSettingsGUI
 		
 		if($sel_srv)
 		{
-			$form = $this->initMappingsForm($server->getServerId(),self::MAPPING_EXPORT);
+			$form = $this->initMappingsForm($sel_srv,self::MAPPING_EXPORT);
 			$this->tpl->setContent($form->getHTML());
 		}
 		
@@ -1001,7 +1001,7 @@ class ilECSSettingsGUI
 			{
 				include_once './Services/WebServices/ECS/classes/class.ilECSDataMappingSetting.php';
 				$map = new ilECSDataMappingSetting(
-					(int) $_POST['ecs_mapping_server'],
+					(int) $_REQUEST['ecs_mapping_server'],
 					(int) $mtype,
 					$ecs_field
 				);
