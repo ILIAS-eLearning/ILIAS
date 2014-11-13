@@ -281,7 +281,7 @@ class ilForumAuthorInformation
 		}
 		else
 		{
-			return trim(preg_replace('/\(?'.$this->getAuthorShortName().'\)?/', '', $this->authorName));
+			return trim(preg_replace('/\('.$this->getAuthorShortName().'\)/', '', $this->authorName));
 		}
 	}
 
