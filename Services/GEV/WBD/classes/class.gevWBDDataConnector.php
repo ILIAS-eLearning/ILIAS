@@ -798,7 +798,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 			";
 
 
-		// report edupoints for TP_Service, Edu_Provider only:
+		// report edupoints for TP_Service, TP_Basis and Edu_Provider only:
 		$sql .= " AND wbd_type IN ('"
 			.self::WBD_TP_SERVICE."', '"
 			.self::WBD_EDU_PROVIDER."', '"
@@ -976,10 +976,13 @@ class gevWBDDataConnector extends wbdDataConnector {
 			." AND hist_historic=0";
 
 		// for TP_Service only:
+		/*
 		$sql .= " AND wbd_type IN ('"
 			.self::WBD_TP_SERVICE."', '"
 			.self::WBD_TP_BASIS
 			."')";
+		*/
+		$sql .= " AND wbd_type='" .self::WBD_TP_SERVICE ."'"; 
 
 
 		$result = $this->ilDB->query($sql);
