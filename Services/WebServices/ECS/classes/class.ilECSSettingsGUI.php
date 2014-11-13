@@ -961,7 +961,7 @@ class ilECSSettingsGUI
 		
 		if($sel_srv)
 		{
-			$form = $this->initMappingsForm($server->getServerId(),self::MAPPING_EXPORT);
+			$form = $this->initMappingsForm($sel_srv,self::MAPPING_EXPORT);
 			$this->tpl->setContent($form->getHTML());
 		}
 		
