@@ -768,7 +768,12 @@ abstract class assQuestion
 					array_push($output, '<a href="' . assQuestion::_getInternalLinkHref($solution["internal_link"]) . '">' . $this->lng->txt("solution_hint") . '</a>');
 					break;
 				case "file":
-					array_push($output, '<a href="' . $this->getSuggestedSolutionPathWeb() . $solution["value"]["name"] . '">' . ((strlen($solution["value"]["filenme"])) ? ilUtil::prepareFormOutput($solution["value"]["filenme"]) : $this->lng->txt("solution_hint")) . '</a>');
+					$possible_texts = array_values(array_filter(array(
+						ilUtil::prepareFormOutput($solution['value']['filename']),
+						ilUtil::prepareFormOutput($solution['value']['name']),
+						$this->lng->txt('tst_show_solution_suggested')
+					)));
+					array_push($output, '<a href="' . $this->getSuggestedSolutionPathWeb() . $solution["value"]["name"] . '">' . $possible_texts[0] . '</a>');
 					break;
 				case "text":
 					array_push($output, $this->prepareTextareaOutput($solution["value"]));
@@ -2864,8 +2869,14 @@ abstract class assQuestion
 	 *
 	 * @param integer $question_id The question id
 	 * @return assQuestion The question instance
+	 * @deprecated use assQuestion::_instantiateQuestion() instead.
 	 */
-	public function &_instanciateQuestion($question_id) 
+	public static function _instanciateQuestion($question_id)
+	{
+		return self::_instantiateQuestion($question_id);
+	}
+	
+	public static function _instantiateQuestion($question_id)
 	{
 		global $ilCtrl, $ilDB, $lng;
 		
@@ -3645,6 +3656,8 @@ abstract class assQuestion
 			$processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB);
 			$processLockerFactory->setQuestionId($question_gui->object->getId());
 			$processLockerFactory->setUserId($ilUser->getId());
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+			$processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
 			$question_gui->object->setProcessLocker($processLockerFactory->getLocker());
 		}
 		else 

@@ -216,9 +216,9 @@ abstract class ilCronJob
 	/**
 	 * Add custom settings to form
 	 * 
-	 * @param ilObjPropertyFormGUI $a_form
+	 * @param ilPropertyFormGUI $a_form
 	 */
-    public function addCustomSettingsToForm(ilObjPropertyFormGUI $a_form)
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
 	{
 		
 	}
@@ -226,10 +226,10 @@ abstract class ilCronJob
 	/**
 	 * Save custom settings
 	 * 
-	 * @param ilObjPropertyFormGUI $a_form
+	 * @param ilPropertyFormGUI $a_form
 	 * @return boolean
 	 */
-	public function saveCustomSettings(ilObjPropertyFormGUI $a_form)
+	public function saveCustomSettings(ilPropertyFormGUI $a_form)
 	{
 		return true;
 	}

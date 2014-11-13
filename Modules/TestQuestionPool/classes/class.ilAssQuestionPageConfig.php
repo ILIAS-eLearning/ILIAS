@@ -19,7 +19,7 @@ class ilAssQuestionPageConfig extends ilPageConfig
 	 */
 	function init()
 	{
-		$this->setEnablePCType('Tabs', false);
+		$this->setEnablePCType('Tabs', true);
 		$this->setEnableInternalLinks(false);
 	}
 }

@@ -457,3 +457,7 @@ div.ilTestOutputBlock_DynTestFinished
 .ilCenterForced {
 	text-align: center !important;
 }
+
+.test_specific_feedback td{
+    padding-right: 0.5em;
+}

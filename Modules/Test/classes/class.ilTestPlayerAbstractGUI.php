@@ -796,7 +796,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$confirmation->setCancel($this->lng->txt("tst_finish_confirm_cancel_button"), 'backConfirmFinish');
 		}
-		$this->tpl->setVariable($this->getContentBlockName(), $confirmation->getHtml());
+
+		if($this->object->getKioskMode())
+		{
+			$this->tpl->addBlockfile($this->getContentBlockName(), 'content', "tpl.il_as_tst_kiosk_mode_content.html", "Modules/Test");
+			$this->tpl->setContent($confirmation->getHtml());
+		}
+		else
+		{
+			$this->tpl->setVariable($this->getContentBlockName(), $confirmation->getHtml());
+		}
 	}
 
 	function finishTestCmd($requires_confirmation = true)
@@ -885,10 +894,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		// Last try in limited tries & confirmed?
 		if (($actualpass == $this->object->getNrOfTries() - 1) && (!$requires_confirmation))
 		{
-			$this->testSession->setSubmitted(1);
-			$this->testSession->setSubmittedTimestamp(date('Y-m-d H:i:s'));
-			$this->testSession->saveToDb();
-			
 			$ilAuth->setIdle(ilSession::getIdleValue(), false);
 			$ilAuth->setExpire(0);
 			switch ($this->object->getMailNotification())
@@ -919,7 +924,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				}
 			}
 		}
-
+		
+		// no redirect request loops after test pass finished tasks has been performed
+		
 		$this->performTestPassFinishedTasks($actualpass);
 
 		$this->testSession->setLastFinishedPass($this->testSession->getPass());
@@ -930,6 +937,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	protected function performTestPassFinishedTasks($finishedPass)
 	{
+		if( !$this->testSession->isSubmitted() )
+		{
+			$this->testSession->setSubmitted(1);
+			$this->testSession->setSubmittedTimestamp(date('Y-m-d H:i:s'));
+			$this->testSession->saveToDb();
+		}
+
 		if( $this->object->getEnableArchiving() )
 		{
 			$this->archiveParticipantSubmission($this->testSession->getActiveId(), $finishedPass);

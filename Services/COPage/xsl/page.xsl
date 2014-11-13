@@ -159,7 +159,9 @@
 				<xsl:attribute name="name">fn<xsl:number count="Footnote" level="any"/></xsl:attribute>
 				<span class="ilc_text_inline_Strong">[<xsl:number count="Footnote" level="any"/>] </span>
 				</a>
+				<xsl:comment>ParStart</xsl:comment>
 				<xsl:apply-templates />
+				<xsl:comment>ParEnd</xsl:comment>
 				</div>
 			</xsl:otherwise>
 			</xsl:choose>
@@ -2798,7 +2800,7 @@
 		</xsl:when>
 
 		<!-- mp3 (mediaelement.js) -->
-		<xsl:when test = "$type='audio/mpeg' and substring-before($data,'.mp3') != ''">
+		<xsl:when test = "$type='audio/mpeg' and (substring-before($data,'.mp3') != '' or substring-before($data,'.MP3') != '')">
 			<audio class="ilPageAudio" height="30">
 				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>

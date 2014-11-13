@@ -17,7 +17,11 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 	protected $suffixes = array();
 	protected $showPoints = true;
 	protected $hideImages = false;
-	
+
+	protected $disable_text = false;
+	protected $disable_upload = false;
+	protected $disable_actions = false;
+
 	/**
 	* Constructor
 	*
@@ -30,6 +34,30 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 		$this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
 		$this->setSize('25');
 		$this->validationRegexp = "";
+	}
+
+	/**
+	 * @param boolean $disable_upload
+	 */
+	public function setDisableUpload($disable_upload)
+	{
+		$this->disable_upload = $disable_upload;
+	}
+
+	/**
+	 * @param boolean $disable_actions
+	 */
+	public function setDisableActions($disable_actions)
+	{
+		$this->disable_actions = $disable_actions;
+	}
+
+	/**
+	 * @param boolean $disable_text
+	 */
+	public function setDisableText($disable_text)
+	{
+		$this->disable_text = $disable_text;
 	}
 
 	/**
@@ -372,6 +400,10 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 						$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
 						$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
 						$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
+						if($this->disable_upload)
+						{
+							$tpl->setVariable('DISABLED_UPLOAD', 'type="hidden" disabled="disabled"');
+						}
 						$tpl->parseCurrentBlock();
 					}
 					$tpl->setCurrentBlock('addimage');
@@ -379,6 +411,11 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 					$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
 					$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
 					$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
+					if($this->disable_upload)
+					{
+						$tpl->setVariable('DISABLED_UPLOAD', 'type="hidden" disabled="disabled"');
+					}
+
 					$tpl->parseCurrentBlock();
 				}
 
@@ -394,6 +431,11 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 					}
 				} 
 				$tpl->setCurrentBlock('singleline');
+				if($this->disable_text)
+				{
+					$tpl->setVariable("DISABLED_SINGLELINE", 'readonly="readonly"');
+					$tpl->setVariable("DISABLED_SINGLELINE_BTN", 'readonly="readonly"');
+				}
 				$tpl->setVariable("SIZE", $this->getSize());
 				$tpl->setVariable("SINGLELINE_ID", $this->getPostVar() . "[answer][$i]");
 				$tpl->setVariable("SINGLELINE_ROW_NUMBER", $i);
@@ -417,6 +459,11 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 					}
 				}
 				$tpl->setCurrentBlock('multiline');
+				if($this->disable_text)
+				{
+					$tpl->setVariable("DISABLED_MULTILINE", " disabled=\"disabled\"");
+				}
+
 				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getAnswertext()));
 				$tpl->setVariable("MULTILINE_ID", $this->getPostVar() . "[answer][$i]");
 				$tpl->setVariable("MULTILINE_ROW_NUMBER", $i);
@@ -459,8 +506,15 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 			{
 				$tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
 			}
-			$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
-			$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
+			if($this->disable_actions)
+			{
+				$tpl->setVariable( 'DISABLE_ACTIONS', 'disabled="disabled"' );
+			} 
+			else 
+			{
+				$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
+				$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
+			}
 			$tpl->parseCurrentBlock();
 			$i++;
 		}
@@ -494,14 +548,17 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 			$tpl->setVariable("POINTS_TEXT", $lng->txt('points'));
 			$tpl->parseCurrentBlock();
 		}
-		
+		if(!$this->disable_actions)
+		{
+			$tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
+		}
 		$tpl->setVariable("ELEMENT_ID", $this->getPostVar());
 		$tpl->setVariable("TEXT_YES", $lng->txt('yes'));
 		$tpl->setVariable("TEXT_NO", $lng->txt('no'));
 		$tpl->setVariable("DELETE_IMAGE_HEADER", $lng->txt('delete_image_header'));
 		$tpl->setVariable("DELETE_IMAGE_QUESTION", $lng->txt('delete_image_question'));
 		$tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
-		$tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
+		//$tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
 
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());

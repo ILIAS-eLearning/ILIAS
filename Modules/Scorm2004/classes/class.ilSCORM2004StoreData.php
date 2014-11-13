@@ -522,7 +522,7 @@ class ilSCORM2004StoreData
 							  	  AND scope_id = %s
 							 	  AND objective_id IN ($existing_key_template)",
 							 	  array('integer', 'integer'),
-							 	  array($this->userId, $scope_id)
+							 	  array($dbuser, $scope_id)
 							     );
 							     
 			while($row = $ilDB->fetchAssoc($res))
@@ -553,7 +553,7 @@ class ilSCORM2004StoreData
 									 array($vals['satisfied'], $vals["measure"], $vals["score_raw"], 
 									 	   $vals["score_min"], $vals["score_max"], 
 									 	   $vals["completion_status"], $vals["progress_measure"],
-									 	   $obj_id, $this->userId, $scope_id) 	 
+									 	   $obj_id, $dbuser, $scope_id) 	 
 								 );
 			} else
 			{
@@ -566,7 +566,7 @@ class ilSCORM2004StoreData
 									array('integer', 'text', 'text', 'integer', 'text', 'text',
 										  'text', 'text', 'text', 'text', 'text'),
 										  
-									array($this->userId, $vals['satisfied'], $vals['measure'], 
+									array($dbuser, $vals['satisfied'], $vals['measure'], 
 										  $scope_id, NULL, $obj_id, $vals['score_raw'],
 										  $vals['score_min'], $vals['score_max'], 
 										  $vals['progress_measure'], $vals['completion_status'])	  

@@ -295,20 +295,31 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 
-		if ($news_set->get("enable_private_feed") && $ilUser->_getFeedPass($_SESSION["AccountId"])) 
+		if ($news_set->get("enable_private_feed")) 
 		{
 			$tpl = new ilTemplate("tpl.show_priv_feed_url.html", true, true, "Services/News");				
 
-			$tpl->setVariable("IMG_PRIV_RSS", ilUtil::getImagePath("privrss.png"));
+			// $tpl->setVariable("IMG_PRIV_RSS", ilUtil::getImagePath("privrss.png"));
 			$tpl->setVariable("TXT_PRIV_TITLE", $lng->txt("news_get_priv_feed_title"));
-			$tpl->setVariable("TXT_PRIV_INFO", $lng->txt("news_get_priv_feed_info"));
-			$tpl->setVariable("TXT_PRIV_FEED_URL", $lng->txt("news_feed_url"));
-			$tpl->setVariable("VAL_PRIV_FEED_URL",
-				str_replace("://", "://" . $ilUser->getLogin() . ":-password-@", ILIAS_HTTP_PATH)."/privfeed.php?client_id=".rawurlencode(CLIENT_ID)."&user_id=".$ilUser->getId().
-					"&hash=".ilObjUser::_lookupFeedHash($ilUser->getId(), true));
-			$tpl->setVariable("VAL_PRIV_FEED_URL_TXT",
-				str_replace("://", "://" . $ilUser->getLogin() . ":-password-@", ILIAS_HTTP_PATH)."/privfeed.php?client_id=".rawurlencode(CLIENT_ID)."&<br />user_id=".$ilUser->getId().
-					"&hash=".ilObjUser::_lookupFeedHash($ilUser->getId(), true));
+			
+			// #14365
+			if($ilUser->_getFeedPass($_SESSION["AccountId"]))
+			{
+				$tpl->setVariable("TXT_PRIV_INFO", $lng->txt("news_get_priv_feed_info"));
+				$tpl->setVariable("TXT_PRIV_FEED_URL", $lng->txt("news_feed_url"));
+				$tpl->setVariable("VAL_PRIV_FEED_URL",
+					str_replace("://", "://" . $ilUser->getLogin() . ":-password-@", ILIAS_HTTP_PATH)."/privfeed.php?client_id=".rawurlencode(CLIENT_ID)."&user_id=".$ilUser->getId().
+						"&hash=".ilObjUser::_lookupFeedHash($ilUser->getId(), true));
+				$tpl->setVariable("VAL_PRIV_FEED_URL_TXT",
+					str_replace("://", "://" . $ilUser->getLogin() . ":-password-@", ILIAS_HTTP_PATH)."/privfeed.php?client_id=".rawurlencode(CLIENT_ID)."&<br />user_id=".$ilUser->getId().
+						"&hash=".ilObjUser::_lookupFeedHash($ilUser->getId(), true));
+			}
+			else
+			{
+				$tpl->setVariable("TXT_PRIV_INFO", $lng->txt("news_inactive_private_feed_info"));
+				$tpl->setVariable("EDIT_SETTINGS_URL", $ilCtrl->getLinkTarget($this, "editSettings"));
+				$tpl->setVariable("EDIT_SETTINGS_TXT", $lng->txt("news_edit_news_settings"));
+			}
 		}
 		else
 		{
@@ -497,7 +508,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$cache = new ilNewsCache();
 		$cache->deleteEntry($ilUser->getId().":0");
 			
-		$ilCtrl->returnToParent($this);
+		$ilCtrl->returnToParent($this);					
 	}
 
 	/**
@@ -515,7 +526,8 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			{				
 				$ilUser->_setFeedPass($ilUser->getId(), "");		
 				ilUtil::sendSuccess($lng->txt("priv_feed_disabled"),true);
-				$ilCtrl->returnToParent($this);
+				// $ilCtrl->returnToParent($this);					
+				$ilCtrl->redirect($this, "showFeedUrl");
 			}
 			else
 			{					
@@ -529,7 +541,8 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 				{
 					$ilUser->_setFeedPass($ilUser->getId(), $passwd);		
 					ilUtil::sendSuccess($lng->txt("saved_successfully"),true);
-					$ilCtrl->returnToParent($this);
+					// $ilCtrl->returnToParent($this);					
+					$ilCtrl->redirect($this, "showFeedUrl");
 				}
 			}			
 		}

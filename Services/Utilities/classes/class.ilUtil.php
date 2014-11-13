@@ -4676,6 +4676,7 @@ class ilUtil
 			$result = str_replace("}", "&#125;", $result);
 			$result = str_replace("\\", "&#92;", $result);
 		}
+		
 		return $result;
 	}
 

@@ -2,7 +2,7 @@
 
 (function() {
 	tinymce.PluginManager.requireLangPack('ilfrmquote');
-	
+
 	tinymce.create('tinymce.plugins.ilFrmQuote', {
 		/**
 		 * Initializes the plugin, this will be executed after the plugin has been created.
@@ -33,14 +33,14 @@
 				cmd : 'ilFrmQuoteAjaxCall',
 				image : url + '/images/quote.gif'
 			});
-			
+
 			ed.addCommand('ilFrmQuoteAjaxCall', function() {
 				if (ilFrmQuoteAjaxHandler) {
 					new ilFrmQuoteAjaxHandler(t, ed);
-				}			
+				}
 			});
 		},
-		
+
 		getInfo : function() {
 			return {
 				longname : 'ilFrmQuote Plugin',
@@ -73,19 +73,16 @@
 			else if(startZ < endZ) {
 				var diff = endZ - startZ;
 				for(var i = 0; i < diff; i++) {
-					s = "<blockquote class=\"ilForumQuote\" style=\"margin: 0px 20px; padding: 5px; border-width:1px; border-color:#B6B6B6; border-style:solid;\">" + s;
+					s = "<blockquote class=\"ilForumQuote\">" + s;
 				}
-			}			
-		
-			rep(/<blockquote(.*?)class="ilForumQuote"(.*?)><div(.*?)class="ilForumQuoteHead"(.*?)>(.*?)\((.*?)\)<\/div>/gi, "[quote=\"$6\"]");
+			}
+			rep(/<blockquote[\s]*?class="ilForumQuote"[\s]*?>[\s]*?<div[\s]*?class="ilForumQuoteHead"[\s]*?>[\s\S]*?\(([\s\S]*?)\)<\/div>/gi, "[quote=\"$1\"]");
 			rep(/<blockquote(.*?)class="ilForumQuote"(.*?)>/gi, "[quote]");
-			
-			rep(/<\/blockquote>/gi, "[/quote]");		
-
-			return s; 
+			rep(/<\/blockquote>/gi, "[/quote]");
+			return s;
 		},
 
-		_ilfrmquote2html : function(ed, s) {		
+		_ilfrmquote2html : function(ed, s) {
 			s = tinymce.trim(s);
 
 			function rep(re, str) {
@@ -106,34 +103,33 @@
 				for(var i = 0; i < diff; i++) {
 					s = "[quote]" + s;
 				}
-			}			
+			}
 
-			rep(/\[quote="(.*?)"\]/gi, "<blockquote class=\"ilForumQuote\" style=\"margin: 0px 20px; padding: 5px; border-width:1px; border-color:#B6B6B6; border-style:solid;\"><div class=\"ilForumQuoteHead\" style=\"font-weight: bold; font-size: 90%; margin: 0px 0px 10px 0px;\">" + ed.translate('ilfrmquote.quote') + " ($1)</div>");
-			rep(/\[quote]/gi, "<blockquote class=\"ilForumQuote\" style=\"margin: 0px 20px; padding: 5px; border-width:1px; border-color:#B6B6B6; border-style:solid;\">");
-
+			rep(/\[quote="(.*?)"\]/gi, "<blockquote class=\"ilForumQuote\"><div class=\"ilForumQuoteHead\">" + ed.translate('ilfrmquote.quote') + " ($1)</div>");
+			rep(/\[quote]/gi, "<blockquote class=\"ilForumQuote\">");
 			rep(/\[\/quote\]/gi, "</blockquote>");
 
-			return s; 
+			return s;
 		},
-		
+
 		substr_count : function(haystack, needle, offset, length) {
-		    var pos = 0, cnt = 0;
-		
-		    haystack += '';
-		    needle += '';
-		    if(isNaN(offset)) {offset = 0;}
-		    if(isNaN(length)) {length = 0;}
-		    offset--;
-		
-		    while((offset = haystack.indexOf(needle, offset + 1)) != -1 ){
-		        if(length > 0 && (offset + needle.length) > length){
-		            return false;
-		        } else{
-		            cnt++;
-		        }
-		    }
-		
-		    return cnt;
+			var pos = 0, cnt = 0;
+
+			haystack += '';
+			needle += '';
+			if(isNaN(offset)) {offset = 0;}
+			if(isNaN(length)) {length = 0;}
+			offset--;
+
+			while((offset = haystack.indexOf(needle, offset + 1)) != -1 ){
+				if(length > 0 && (offset + needle.length) > length){
+					return false;
+				} else{
+					cnt++;
+				}
+			}
+
+			return cnt;
 		}
 	});
 

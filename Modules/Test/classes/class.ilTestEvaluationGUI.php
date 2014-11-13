@@ -1475,8 +1475,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 			case ilTestPassDeletionConfirmationGUI::CONTEXT_DYN_TEST_PLAYER:
 
-				require_once 'Modules/Test/classes/class.ilTestPlayerDynamicQuestionSetGUI.php';
-				$this->ctrl->redirectByClass('ilTestPlayerDynamicQuestionSetGUI', ilTestPlayerDynamicQuestionSetGUI::CMD_FROM_PASS_DELETION);
+				$this->ctrl->redirectByClass('ilTestPlayerDynamicQuestionSetGUI', 'startTest');
 		}
 	}
 	
@@ -1559,7 +1558,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					WHERE active_id = ' . $ilDB->quote($active_fi, 'integer')
 				);
 			}
-			
 			// tst_manual_fb
 			$ilDB->manipulate(
 				'DELETE
@@ -1619,7 +1617,33 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer'). '
 				AND pass > ' . $ilDB->quote($pass, 'integer')
 				); 
-			}		
+			}
+		
+		if( $this->object->isDynamicTest() )
+		{
+			$tables = array(
+				'tst_seq_qst_tracking', 'tst_seq_qst_answstatus', 'tst_seq_qst_postponed', 'tst_seq_qst_checked'
+			);
+			
+			foreach($tables as $table)
+			{
+				$ilDB->manipulate("
+						DELETE FROM $table
+						WHERE active_fi = {$ilDB->quote($active_fi, 'integer')}
+						AND pass = {$ilDB->quote($pass, 'integer')}
+				");
+				
+				if( $must_renumber )
+				{
+					$ilDB->manipulate("
+						UPDATE $table
+						SET pass = pass - 1
+						WHERE active_fi = {$ilDB->quote($active_fi, 'integer')}
+						AND pass > {$ilDB->quote($pass, 'integer')}
+					");
+				}
+			}
+		}
 						
 			// tst_solutions
 			$ilDB->manipulate(
@@ -1689,8 +1713,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		
 		if( $this->object->isDynamicTest() )
 		{
-			require_once 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetFilterStatisticTableGUI.php';
-			unset($_SESSION['form_'.ilTestDynamicQuestionSetFilterStatisticTableGUI::TABLE_ID]);
+			require_once 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php';
+			unset($_SESSION['form_'.ilTestDynamicQuestionSetStatisticTableGUI::FILTERED_TABLE_ID]);
 		}
 
 		$this->redirectToPassDeletionContext($_POST['context']);

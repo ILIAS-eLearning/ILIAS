@@ -112,7 +112,7 @@ administration#:#language_translation_enabled#:#Page translation enabled
 administration#:#language_translation_mode#:#Translation mode
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
 administration#:#log_scan#:#Log scan results
-administration#:#loginname_change_blocking_time_info#:#Insert a period in days that an user has to wait before changing again its login name. If you enter 0, user can change login names anytime.
+administration#:#loginname_change_blocking_time_info#:#Insert a period in days that a user has to wait before changing again its login name. If you enter 0, user can change login names anytime.
 administration#:#loginname_change_blocking_time_invalidity_info#:#Please insert a numeric value.
 administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names
 administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.
@@ -182,6 +182,13 @@ adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#ILIAS Page Editor
 adve#:#adve_rte_settings#:#TinyMCE Editor
 adve#:#adve_text_content_features#:#Text Content Menu
+assessment#:#aggregated_answers_header#:#Overview of Participant Answers
+assessment#:#aggregated_answers_variants#:#Answer Variations
+assessment#:#number_of_users#:#Number of Participants
+assessment#:#number_of_passes#:#Number of Passes
+assessment#:#answer_variant#:#Answervariant
+assessment#:#adjust_question_form_error#:#The form could not be submitted. Please check your input.
+assessment#:#no_archive_on_anonymous#:#Archiving is not possible in an anonymous test: option deactivated automatically.
 assessment#:#autosave#:#Automatic saving
 assessment#:#autosave_info#:#If checked, answers are saved in intervals without user interaction to avoid data loss.
 assessment#:#autosave_ival#:#Interval
@@ -291,7 +298,8 @@ assessment#:#circle#:#Circle
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#You can define a gap by entering [gap][/gap] at the text position of your choice or by clicking the button. Press the 'Create gaps' button to add an editable form for every gap.
 assessment#:#insert_gap#:#Insert Gap
-assessment#:#cloze_fixed_textlength_description#:#If you enter a value greater than 0, all text and numeric gap text fields will be created with the fixed length of this value.
+assessment#:#cloze_fixed_textlength_description#:#If you enter a value, all text gap fields, not providing an own maximum character limitation, as well as all numeric gap fields will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
+assessment#:#qpl_maxchars_info_numeric_question#:#If you enter a value, the field for the numerical answer will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
 assessment#:#cloze_fixed_textlength#:#Text Field Length
 assessment#:#cloze_text#:#Cloze Text
 assessment#:#cloze_textgap_case_insensitive#:#Case Insensitive
@@ -677,6 +685,7 @@ assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary
 assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.
+assessment#:#tst_import_non_ilias_zip#:#Error: The filename of the uploaded import file does not match the expected format.
 assessment#:#qpl_import_verify_found_questions#:#ILIAS found the following questions in the import file. Please select the questions you want to import.
 assessment#:#qpl_move_insert_clipboard#:#The selected question(s) are marked for moving
 assessment#:#qpl_move_select_none#:#Please check at least one question to select it for moving
@@ -705,6 +714,7 @@ assessment#:#question_saved_for_upload#:#The question was saved automatically in
 assessment#:#question_short#:#Q
 assessment#:#question_summary#:#List of Questions
 assessment#:#obligations_summary#:#List of Obligatory Questions
+assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.
 assessment#:#question_title#:#Question Title
 assessment#:#question_type#:#Question Type
 assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!
@@ -804,6 +814,7 @@ assessment#:#textsize#:#Text Size
 assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.
 assessment#:#thumb_geometry#:#Thumbnail Geometry
 assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.
+assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#thumb_size#:#Thumbnail Size
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!
@@ -903,7 +914,7 @@ assessment#:#tst_list_of_questions_start#:#Show the List of Questions prior to t
 assessment#:#tst_list_of_questions_with_description#:#Show the question descriptions in the List of Questions
 assessment#:#tst_list_of_questions_yes#:#Yes, and additional
 assessment#:#tst_mark_create_new_mark_step#:#Create New Mark Step
-assessment#:#tst_mark_create_simple_mark_schema#:#Create Simple Mark Schema
+assessment#:#tst_mark_create_simple_mark_schema#:#Reset to Simple Mark Schema
 assessment#:#tst_mark_minimum_level#:#Minimum Level (in %)
 assessment#:#tst_mark_official_form#:#Official Form
 assessment#:#tst_mark_passed#:#Passed
@@ -923,6 +934,7 @@ assessment#:#tst_no_export_randomtest#:#You cannot export a test with random sel
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!
 assessment#:#tst_no_more_available_questionpools#:#There are no more question pools available
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!
+assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Please choose at least one question to be added to a question pool!
 assessment#:#tst_no_questionpools_for_random_test#:#You have not added a question pool for this random test! Please select at least one question pool.
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
 assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added question pool.
@@ -1012,7 +1024,13 @@ assessment#:#tst_results_back_introduction#:#Back to Introductory Message
 assessment#:#tst_results_back_overview#:#Back to Results Overview
 assessment#:#tst_results_overview_pass#:#Results Overview for Pass %s
 assessment#:#tst_results_overview#:#Pass Overview of the Test Results
-assessment#:#tst_results_presentation_description#:#If "Show Pass Details for running tests" is selected, the question titles and the reached points for every question in the test pass are available if the test is not finished. If "Show Solutions in Test Results" is selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission. If "Show Answer-Specific Feedback in Test Results" is selected, the answer specific feedback will be shown in the test results next to the questions. If "Results print view (answers only)" is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option. If "Show Signature Placeholder" is selected, a signature placeholder will be shown for printout. If "Show Suggested Solution" is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.
+assessment#:#tst_show_pass_details_desc#:#If selected, the question titles and the reached points for every question in the test pass are available if the test is not finished.
+assessment#:#tst_show_solution_details_desc#:#If selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown.
+assessment#:#tst_show_solution_printview_desc#:#If selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission.
+assessment#:#tst_show_solution_feedback_desc#:#If is selected, the answer specific feedback will be shown in the test results next to the questions.
+assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option.
+assessment#:#tst_show_solution_signature_desc#:#If is selected, a signature placeholder will be shown for printout.
+assessment#:#tst_show_solution_suggested_desc#:#If is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.
 assessment#:#tst_results_presentation#:#Test Results Presentation
 assessment#:#tst_results#:#Test Results
 assessment#:#tst_resume_test#:#Resume the Test
@@ -1194,8 +1212,10 @@ assessment#:#tst_question_set_type_dynamic_desc#:#With this mode exactly one que
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#You are about to change the test mode from <b>%s</b> to <b>%s</b>, although a questions/questionpool configuration dependent on the current test mode already exists.<br />This already existing configuration will be lost.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Continues question selection configuration has been modified.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Continues question selection configuration cannot be modified due to existing participant data.
+assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#The random question set configuration cannot be modified due to existing participant data.
 assessment#:#tst_delete_dyn_test_results_btn#:#Delete Test Results
 assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Delete Previous Answers
+assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Testanswers
 assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Source Question Pool
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
@@ -1203,6 +1223,7 @@ assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Deleted) [%s
 assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Deleted Permanently)
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Provide Taxonomy Filter
 assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Provide Answer Status Filter
+assessment#:#tst_input_dyn_quest_set_prev_quest_list_enabled#:#Provide List of Previously Answered Questions
 assessment#:#tst_question_answer_status#:#Answer Status
 assessment#:#tst_question_answer_status_all_non_correct#:#All Questions (Except Correct Answered Ones)
 assessment#:#tst_question_answer_status_non_answered#:#Non Answered Questions
@@ -1218,10 +1239,13 @@ assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Start Test with Current Que
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Resume Test with Current Question Selection
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Back to Test with Current Question Selection
 assessment#:#tst_tracked_question_list#:#Previously Answered Questions
-assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection
-assessment#:#tst_num_open_questions#:#Open Questions
+assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection and Selection-Statistic
+assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic
+assessment#:#tst_num_all_questions#:#Number of All Questions
+assessment#:#tst_num_selected_questions#:#Number of Selected Questions
 assessment#:#tst_num_non_answered_questions#:#Non Answered Questions
 assessment#:#tst_num_wrong_answered_questions#:#Wrong Answered Questions
+assessment#:#tst_num_correct_answered_questions#:#Correct Answered Questions
 assessment#:#tst_num_postponed_questions#:#Postponed Questions
 assessment#:#tst_num_marked_questions#:#Marked Questions
 assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Selection
@@ -6044,7 +6068,7 @@ dateplaner#:#cal_type_usr#:#Personal Calendar
 dateplaner#:#cal_unshare_cal#:#Stop Sharing
 dateplaner#:#cal_unshared_selected_usr#:#Stopped sharing the calendar with the selected users.
 dateplaner#:#cal_user_settings#:#Calendar Settings
-dateplaner#:#cal_user_timezone#:#ILIAS-Zeitzone
+dateplaner#:#cal_user_timezone#:#ILIAS-Timezone
 dateplaner#:#cal_export_timezone#:#Timezone for Calendar Export
 dateplaner#:#cal_export_timezone_tz#:#Use ILIAS-Timezone
 dateplaner#:#cal_export_timezone_utc#:#Use Timezone UTC (compatible with MS Outlook)
@@ -6283,7 +6307,7 @@ delic#:#delic_settings#:#Delicious Settings
 delic#:#delic_user_profile#:#Enable Delicious Account Setting in User Profile
 ecs#:#cert_serial#:#Certificate Serial Number
 ecs#:#ecs_abr#:#Abbreviation
-ecs#:#ecs_account_duration_info#:#New ECS-User accounts are limited to the session duration. After assigning an user to a course the activation period will be extended by the given number months.
+ecs#:#ecs_account_duration_info#:#New ECS-User accounts are limited to the session duration. After assigning a user to a course the activation period will be extended by the given number months.
 ecs#:#ecs_account_duration#:#Activation Period Extension
 ecs#:#ecs_active_header#:#Import/Export Allowed
 ecs#:#ecs_active#:#Enable ECS Functionalities
@@ -8087,7 +8111,7 @@ payment#:#paya_edit_pay_method#:#Edit Pay Method
 payment#:#paya_edit_prices_first#:#Please edit the prices first.
 payment#:#paya_edit_prices#:#Edit Prices
 payment#:#paya_enabled#:#Enabled
-payment#:#paya_enter_login#:#Please enter an user name.
+payment#:#paya_enter_login#:#Please enter a user name.
 payment#:#paya_err_adding_object#:#Error adding object
 payment#:#paya_error_adding_customer#:#An error occurred while adding the selling process to the statistics.
 payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).
@@ -8415,7 +8439,7 @@ ps#:#ps_password_max_age_info#:#Sets the maximum age of passwords in days. Set t
 ps#:#ps_password_max_age#:#Maximum Password Age
 ps#:#ps_password_max_length_info#:#Sets the maximum size of account passwords. Set this to 0 for disabling this option.
 ps#:#ps_password_max_length#:#Maximum Password Size
-ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0 the passwords anyway have to have a minimum size of 1.
+ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0, the passwords anyway have to have a minimum size of 1. If the required length is altered, the new requirement will be applied only to those accounts that were created or changed after the new length was set. Existing accounts are not affected.
 ps#:#ps_password_min_length#:#Minimum Password Size
 ps#:#ps_password_special_chars_enabled_info#:#If enabled, passwords have to contain special characters.
 ps#:#ps_password_special_chars_enabled#:#Force Special Characters
@@ -9609,7 +9633,7 @@ trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found.
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.
 trac#:#info_dwell_time#:#Attention: The total dwell time of an object isn't addicted to the given period of time!
 trac#:#info_found_objects#:#The user tracking refers to the following objects of the type '%s' that were found according to your search terms.
-trac#:#info_valid_request#:#The maximum valid time between two requests of an user.
+trac#:#info_valid_request#:#The maximum valid time between two requests of a user.
 trac#:#last_login#:#Last Login
 trac#:#meta_typical_learning_time#:#Typical learning time
 trac#:#newUT_settings#:#Learning Module Statistics
@@ -9781,7 +9805,7 @@ trac#:#trac_mode_scorm_package#:#Automatic by SCORM Course Status
 trac#:#trac_mode_scorm#:#Automatic by Collection of SCORM Items
 trac#:#trac_mode_test_finished_info#:#Users have to finish a test completely.
 trac#:#trac_mode_test_finished#:#Test Finished
-trac#:#trac_mode_test_passed_info#:#The test has to be passed by an user to receive the status 'Completed'.
+trac#:#trac_mode_test_passed_info#:#The test has to be passed by a user to receive the status 'Completed'.
 trac#:#trac_mode_test_passed#:#Test Passed
 trac#:#trac_mode_tlt_info#:#Users who reached the Typical Learning Time will gain the status 'Completed'. Two requests of a user within %s seconds will be counted as one coherent visit.
 trac#:#trac_mode_tlt#:#Typical Learning Time
@@ -10778,6 +10802,8 @@ survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants
 survey#:#survey_using_template#:#This survey uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
 survey#:#survey_using_template_link#:#Do not use template anymore
 common#:#toggle_hidden_sections#:#Show More Information
+common#:#show_hidden_sections#:#Show More Information &raquo;
+common#:#hide_visible_sections#:#Hide More Information &raquo;
 assessment#:#test_enable_views#:#Enabled views
 assessment#:#test_enable_view_both#:#Table- and Page View
 assessment#:#test_enable_view_express#:#Page View
@@ -10922,7 +10948,7 @@ payment#:#special_info#:#If enabled, this object will be shown on the entire sho
 common#:#object_purchased_date#:#Purchase-Date
 common#:#object_duration#:#Access-Duration
 common#:#new_customer#:#Are you a new customer?
-common#:#new_customer_info#:#Please click here if you do not have an user account.
+common#:#new_customer_info#:#Please click here if you do not have a user account.
 payment#:#shop_url#:#Link to shop
 payment#:#shop_bought_objects_url#:#Link to bought objects
 tstv#:#tstv_create#:#Create Test Certificate
@@ -12766,7 +12792,7 @@ fm#:#fm_settings_filesize_info#:#Enter the maximum allowed filesize for uploaded
 blog#:#blog_authors#:#Authors
 blog#:#blog_author#:#Author
 blog#:#blog_enable_approval#:#Approval
-blog#:#blog_enable_approval_info#:#Before being published all postings need to be approved by an user with permission "Edit Settings" for this blog.
+blog#:#blog_enable_approval_info#:#Before being published all postings need to be approved by a user with permission "Edit Settings" for this blog.
 blog#:#blog_approve#:#Approve
 blog#:#blog_needs_approval#:#Needs Approval
 sess#:#sess_copy#:#Copy Session
@@ -13439,9 +13465,9 @@ cld#:#cld_upload_files#:#Upload Files
 cld#:#service_specific_settings#:#Specific Settings
 common#:#obj_cld#:#Cloud Object
 common#:#objs_cld#:#Cloud Objects
-assessment#:#tst_show_solution_compare#:#Compare Answer with Solution in List of Answers
-assessment#:#tst_header_participant#:#Result:
-assessment#:#tst_header_solution#:#Correct solution:
+assessment#:#tst_show_solution_compare#:#Show Best Solution in List of Answers
+assessment#:#tst_header_participant#:#Your Answer:
+assessment#:#tst_header_solution#:#Best Solution:
 rbac#:#delete_files#:#Delete Files
 rbac#:#cld_delete_files#:#Users can delete Files in the cloud object
 rbac#:#delete_folders#:#Delete Folders
@@ -13612,7 +13638,7 @@ prtf#:#prtf_create_template_from_portfolio_info#:#Select a portfolio to use its 
 prtf#:#prtf_template_import_quota_failure#:#This portfolio template cannot be copied because it would exceed your disk quota.
 cntr#:#prtf_create_portfolio_from_template#:#Create Portfolio From Template
 content#:#content_plugin_not_activated#:#The page content element plugin is currently not activated.
-administration#:#vc_information#:#Show Version Control Information
+administration#:#vc_information#:#Show SVN Revision
 administration#:#svn_revision_current#:#Current Revision: %s
 administration#:#svn_revision_last_change#:#Last Changed Revision: %s
 administration#:#svn_root#:#Root: %s
@@ -14278,7 +14304,7 @@ adve#:#advanced_editing_tst_editing_desc#:#Activates ILIAS Page Editor for feedb
 assessment#:#fq_precision_info#:#Enter the number of desired decimal places.
 assessment#:#result_units_info#:#The selected units are offered to the learner as part of an answer. The learner has to choose one unit.
 assessment#:#fq_no_restriction_info#:#Both decimals and fractions are accepted as input.
-assessment#:#additional_rating_info#:#Please note that the values ​​given here are expressed as percentages and these must add up to 100.
+assessment#:#additional_rating_info#:#Please note that the values given here are expressed as percentages and these must add up to 100.
 assessment#:#intprecision_info#:#"Divisible by" affects only the creation of variables, if the value for the precision is 0. In this case, you define for "Divisible by" an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, "Divisible by" is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
 assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.
 assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."
@@ -14286,6 +14312,9 @@ forum#:#merge_posts_into_thread#:#Merge Postings into other Thread
 forum#:#move_thread_to_forum#:#Move Thread to other Forum
 survey#:#spl_save_obligatory_state#:#Save Obligatory States
 forum#:#post_reply_count#:#Re(%s):
+forum#:#frm_max_notification_age#:#Max. Notification Age
+forum#:#frm_max_notification_age_unit#:#Day(s)
+forum#:#frm_max_notification_age_info#:#Please define the maximum age of postings to send notifications for. It is recommended to choose a higher value than the scheduled interval.
 dateplaner#:#cal_ical_url#:#iCal-URL
 survey#:#svy_eval_skipped_value#:#Results: "skipped"
 survey#:#svy_eval_skipped_value_lng#:#Use language file entry
@@ -14296,3 +14325,13 @@ survey#:#svy_eval_skipped_value_custom_value#:#Value
 mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files). 
 mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:
 user#:#passwd_generation_pre#:#Pre-defined Passwords
+content#:#cont_ie_compatibility#:#Internet Explorer 7 compatibility mode
+content#:#cont_ie_compatibility_info#:#Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer.
+content#:#cont_ie_force_render#:#Force Internet Explorer to render again
+content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iframes. Additionally you have to set the option 'Display' to 'in new window'.
+exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.
+mail#:#link_check_introduction#:#the following weblinks are invalid:
+mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.
+mail#:#link_check_affected_links#:#Affected Links
+mail#:#link_check_perma_link#:#Permanent Link
+news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.

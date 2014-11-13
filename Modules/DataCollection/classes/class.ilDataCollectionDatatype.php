@@ -688,19 +688,20 @@ class ilDataCollectionDatatype
 				//Property URL
 
 				$arr_properties = $record_field->getField()->getProperties();
-                if($arr_properties[ilDataCollectionField::PROPERTYID_URL])
-				{
-                    $link = $value;
-                    if (preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i", $value))
-                        $value = "mailto:".$value;
-                    elseif(!(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $value)))
-                        return $link;
+				if ($arr_properties[ilDataCollectionField::PROPERTYID_URL]) {
+					$link = $value;
 
-                    $link = $this->shortenLink($link);
-					$html = "<a target='_blank' href='".$value."'>".$link."</a>";
-				}
-				else
-				{
+					$preg_match = preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i", $value);
+
+					if ($preg_match) {
+						$value = "mailto:" . $value;
+					} elseif (!(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $value))) {
+						return $link;
+					}
+
+					$link = $this->shortenLink($link);
+					$html = "<a target='_blank' href='" . $value . "'>" . $link . "</a>";
+				} else {
 					$html = $value;
 				}
 				// BEGIN EASTEREGG
@@ -718,27 +719,34 @@ class ilDataCollectionDatatype
         return $html;
 	}
 
+
 	/**
 	 * This method shortens a link. The http(s):// and the www part are taken away. The rest will be shortened to sth similar to:
 	 * "somelink.de/lange...gugus.html".
+	 *
 	 * @param $value The link in it's original form.
+	 *
 	 * @return string The shortened link
 	 */
-	private function shortenLink($value){
-		if(strlen($value) > self::LINK_MAX_LENGTH){
-			if(substr($value, 0, 7) == "http://")
+	private function shortenLink($value) {
+		if (strlen($value) > self::LINK_MAX_LENGTH) {
+			if (substr($value, 0, 7) == "http://") {
 				$value = substr($value, 7);
-			if(substr($value, 0, 8) == "https://")
+			}
+			if (substr($value, 0, 8) == "https://") {
 				$value = substr($value, 8);
-			if(substr($value, 0, 4) == "www.")
+			}
+			if (substr($value, 0, 4) == "www.") {
 				$value = substr($value, 4);
+			}
+		}
+		$link = $value;
+		if (strlen($value) > self::LINK_MAX_LENGTH) {
+			$link = substr($value, 0, (self::LINK_MAX_LENGTH - 3) / 2);
+			$link .= "...";
+			$link .= substr($value, - (self::LINK_MAX_LENGTH - 3) / 2);
 		}
 
-		if(strlen($value) > self::LINK_MAX_LENGTH){
-			$link = substr($value, 0, (self::LINK_MAX_LENGTH-3)/2);
-	        $link.= "...";
-	        $link .= substr($value, -(self::LINK_MAX_LENGTH-3)/2);
-		}
 		return $link;
 	}
 

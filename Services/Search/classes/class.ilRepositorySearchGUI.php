@@ -174,11 +174,11 @@ class ilRepositorySearchGUI
 		{		
 			$lng->loadLanguageModule("search");
 			
-			$ilToolbar->addSeparator();
+			$toolbar->addSeparator();
 					
 			if((bool)$a_options['add_search'])
 			{							
-				$ilToolbar->addButton(
+				$toolbar->addButton(
 					$lng->txt("search_users"),
 					$ilCtrl->getLinkTargetByClass('ilRepositorySearchGUI',''));
 			}
@@ -197,12 +197,12 @@ class ilRepositorySearchGUI
 				{
 					if((bool)$a_options['add_search'])
 					{	
-						$ilToolbar->addSpacer();
+						$toolbar->addSpacer();
 					}
 					
 					$ilCtrl->setParameterByClass('ilRepositorySearchGUI', "list_obj", ilObject::_lookupObjId($parent_container_ref_id));
 
-					$ilToolbar->addButton(
+					$toolbar->addButton(
 						$lng->txt("search_add_members_from_container_".$parent_container_type),
 						$ilCtrl->getLinkTargetByClass(array(get_class($parent_object),'ilRepositorySearchGUI'), 'listUsers')
 					);

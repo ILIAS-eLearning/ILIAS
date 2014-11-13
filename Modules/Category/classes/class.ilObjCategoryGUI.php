@@ -79,16 +79,26 @@ class ilObjCategoryGUI extends ilContainerGUI
 				
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTarget($this,'listUsers'));
+				global $ilHelp;
+				$ilHelp->setScreenIdComponent("cat");
+				$ilHelp->setScreenId("administrate_user");
+				$ilHelp->setSubScreenId($ilCtrl->getCmd());
 				break;
 
 			case "ilobjuserfoldergui":
 				include_once('./Services/User/classes/class.ilObjUserFolderGUI.php');
 
-				$this->tabs_gui->setTabActive('administrate_users');
 				$this->gui_obj = new ilObjUserFolderGUI("",(int) $_GET['ref_id'],true, false);
 				$this->gui_obj->setUserOwnerId((int) $_GET['ref_id']);
 				$this->gui_obj->setCreationMode($this->creation_mode);
 				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+
+				$ilTabs->clearTargets();
+				$ilTabs->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTarget($this,'listUsers'));
+				global $ilHelp;
+				$ilHelp->setScreenIdComponent("cat");
+				$ilHelp->setScreenId("administrate_user");
+				$ilHelp->setSubScreenId($ilCtrl->getCmd());
 				break;
 				
 			case "ilcolumngui":
@@ -1186,6 +1196,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTarget($this,'listUsers'));
+		global $ilHelp;
+		$ilHelp->setScreenIdComponent("cat");
+		$ilHelp->setScreenId("administrate_user");
+		$ilHelp->setSubScreenId("assign_roles");
+
 
 		$roles = $this->__getAssignableRoles();
 		
@@ -1355,7 +1370,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$tpl->setVariable("COLUMN_COUNTS",4);
 		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 		
-		$tpl->setCurrentBlock("tbl_action_button");
+//		$tpl->setCurrentBlock("tbl_action_button");
 		$tpl->setVariable("BTN_NAME","assignSave");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("change_assignment"));
 		$tpl->parseCurrentBlock();

@@ -29,10 +29,16 @@ class ilDataCollectionFieldListGUI
 	 */
 	public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id)
 	{
-		$this->main_table_id = $a_parent_obj->object->getMainTableId();
+		global $ilCtrl, $lng;
+
+        $this->main_table_id = $a_parent_obj->object->getMainTableId();
 		$this->table_id = $table_id;
 		$this->parent_obj = $a_parent_obj;
 		$this->obj_id = $a_parent_obj->obj_id;
+        if ( ! $this->checkAccess()) {
+            ilUtil::sendFailure($lng->txt('permission_denied'), true);
+            $ilCtrl->redirectByClass('ildatacollectionrecordlistgui', 'listRecords');
+        }
 	}
 	
 	
@@ -129,6 +135,15 @@ class ilDataCollectionFieldListGUI
 		$ilCtrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
 		$ilCtrl->redirectByClass("ilDataCollectionFieldListGUI", "listFields"); 			
 	}
+
+    /**
+     * @return bool
+     */
+    protected function checkAccess()
+    {
+        $ref_id = $this->parent_obj->getDataCollectionObject()->getRefId();
+        return ilObjDataCollection::_hasWriteAccess($ref_id);
+    }
 }
 
 ?>

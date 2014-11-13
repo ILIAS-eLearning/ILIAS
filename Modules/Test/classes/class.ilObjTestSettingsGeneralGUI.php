@@ -343,7 +343,16 @@ class ilObjTestSettingsGeneralGUI
 		}
 		
 		// Archiving
-		$this->testOBJ->setEnableArchiving($form->getItemByPostVar('enable_archiving')->getChecked());
+		if($form->getItemByPostVar('anonymity')->getValue() == '1' 
+			&& $form->getItemByPostVar('enable_archiving')->getChecked() == true)
+		{
+			$this->testOBJ->setEnableArchiving(false);
+			ilUtil::sendInfo($this->lng->txt('no_archive_on_anonymous'), true);
+		}
+		else 
+		{
+			$this->testOBJ->setEnableArchiving($form->getItemByPostVar('enable_archiving')->getChecked());
+		}
 		
 		// Examview
 		$this->testOBJ->setEnableExamview($form->getItemByPostVar('enable_examview')->getChecked());
@@ -419,6 +428,12 @@ class ilObjTestSettingsGeneralGUI
 				$this->testOBJ->setShowKioskModeTitle( in_array('kiosk_title', $kioskOptions) );
 				$this->testOBJ->setShowKioskModeParticipant( in_array('kiosk_participant', $kioskOptions) );
 				$this->testOBJ->setExamidInKiosk( in_array('examid_in_kiosk', $_POST["kiosk_options"]) );
+			}
+			else
+			{
+				$this->testOBJ->setShowKioskModeTitle( false );
+				$this->testOBJ->setShowKioskModeParticipant( false );
+				$this->testOBJ->setExamidInKiosk( false );
 			}
 		}
 	

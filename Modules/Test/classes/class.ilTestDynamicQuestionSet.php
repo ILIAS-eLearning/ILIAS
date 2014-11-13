@@ -67,7 +67,7 @@ class ilTestDynamicQuestionSet
 	public function load(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilTestDynamicQuestionSetFilterSelection $filterSelection)
 	{
 		$this->completeQuestionList = $this->initCompleteQuestionList(
-					$dynamicQuestionSetConfig, $filterSelection
+					$dynamicQuestionSetConfig, $filterSelection->getAnswerStatusActiveId()
 		);
 		
 		$this->filteredQuestionList = $this->initFilteredQuestionList(
@@ -81,11 +81,13 @@ class ilTestDynamicQuestionSet
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	private function initCompleteQuestionList(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig)
+	private function initCompleteQuestionList(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, $answerStatusActiveId)
 	{
 		$questionList = new ilAssQuestionList(
 				$this->db, $this->lng, $this->pluginAdmin, $dynamicQuestionSetConfig->getSourceQuestionPoolId()
 		);
+
+		$questionList->setAnswerStatusActiveId($answerStatusActiveId);
 		
 		$questionList->load();
 		
@@ -222,6 +224,11 @@ class ilTestDynamicQuestionSet
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public function getCompleteQuestionList()
+	{
+		return $this->completeQuestionList;
+	}
 	
 	public function getFilteredQuestionList()
 	{

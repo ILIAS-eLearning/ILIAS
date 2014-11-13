@@ -16,6 +16,8 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	 */
 	protected $db;
 
+	private $assessmentLogEnabled = false;
+
 	/**
 	 * @param ilDB $db
 	 */
@@ -24,12 +26,40 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 		$this->db = $db;
 	}
 
+	public function isAssessmentLogEnabled()
+	{
+		return $this->assessmentLogEnabled;
+	}
+
+	public function setAssessmentLogEnabled($assessmentLogEnabled)
+	{
+		$this->assessmentLogEnabled = $assessmentLogEnabled;
+	}
+	
+	private function getTablesUsedDuringAssessmentLog()
+	{
+		return array(
+			array('name' => 'qpl_questions', 'type' => ilDB::LOCK_WRITE),
+			array('name' => 'tst_tests', 'type' => ilDB::LOCK_WRITE),
+			array('name' => 'tst_active', 'type' => ilDB::LOCK_WRITE),
+			array('name' => 'ass_log', 'type' => ilDB::LOCK_WRITE),
+			array('name' => 'ass_log', 'type' => ilDB::LOCK_WRITE, 'sequence' => true)
+		);
+	}
+
 	public function requestUserSolutionUpdateLock()
 	{
-		$this->db->lockTables(array(
+		$tables = array(
 			array('name' => 'tst_solutions', 'type' => ilDB::LOCK_WRITE),
 			array('name' => 'tst_solutions', 'type' => ilDB::LOCK_WRITE, 'sequence' => true)
-		));
+		);
+		
+		if( $this->isAssessmentLogEnabled() )
+		{
+			$tables = array_merge($tables, $this->getTablesUsedDuringAssessmentLog());
+		}
+		
+		$this->db->lockTables($tables);
 	}
 
 	public function releaseUserSolutionUpdateLock()

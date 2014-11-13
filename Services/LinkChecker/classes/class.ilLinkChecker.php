@@ -282,7 +282,9 @@ class ilLinkChecker
 		}
 
 		include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
-		
+		$body = "";
+		$obj_name = "";
+
 		foreach(ilLinkCheckNotify::_getAllNotifiers($this->db) as $usr_id => $obj_ids)
 		{
 			if(!is_object($tmp_user =& ilObjectFactory::getInstanceByObjId($usr_id,false)))
@@ -303,17 +305,17 @@ class ilLinkChecker
 				switch($this->__getType())
 				{
 					case 'webr':
-						$body .= $this->__txt($tmp_user->getLanguage(),'obj_webr');
+						$obj_name = $this->__txt($tmp_user->getLanguage(),'obj_webr');
 						break;
-
 					case 'lm':
 					default:
-						$body .= $this->__txt($tmp_user->getLanguage(),'lo');
+						$obj_name = $this->__txt($tmp_user->getLanguage(),'lo');
 						break;
 				}
-						
-				$body .= ': ';
-				$body .= $this->__getTitle($obj_id)."\r\n";
+				$body .= $obj_name.': '.$this->__getTitle($obj_id)."\r\n";
+				$body .= $this->__txt($tmp_user->getLanguage(),'link_check_perma_link', "mail"). ": " .
+					$this->createPermanentLink($obj_id, $usr_id, $this->__getType())." \r\n";
+				$body .= $this->__txt($tmp_user->getLanguage(),"link_check_affected_links", "mail"). ":\r\n";
 
 				// Print all invalid
 				foreach($notify[$obj_id] as $data)
@@ -324,18 +326,49 @@ class ilLinkChecker
 			}
 			if($counter)
 			{
-				include_once "Services/Mail/classes/class.ilFormatMail.php";
-				
-				$umail = new ilFormatMail($tmp_user->getId());
-				$subject = $this->__txt($tmp_user->getLanguage(),'link_check_subject');
+				include_once "./Services/Notification/classes/class.ilSystemNotification.php";
+				$ntf = new ilSystemNotification();
+				$ntf->setLangModules(array("mail", "common"));
+				$ntf->setSubjectLangId("link_check_subject");
+				$ntf->setIntroductionLangId("link_check_introduction");
+				$ntf->setReasonLangId("link_check_reason");
+				$ntf->addAdditionalInfo("additional_info", $body,true);
+				$ntf->sendMail(array($tmp_user->getId()));
 
-				$umail->sendMail($tmp_user->getLogin(),"","",$subject,$body,array(),array("normal"));
 				$this->__appendLogMessage('LinkChecker: Sent mail to '.$tmp_user->getEmail());
 			}
-
+			$body = "";
 		}
-				
+	}
 
+	/**
+	 * creates a permanent link
+	 * @param $a_obj_id
+	 * @param $a_usr_id
+	 * @param $a_obj_type
+	 * @return string goto link
+	 */
+	protected function createPermanentLink($a_obj_id, $a_usr_id, $a_obj_type)
+	{
+		global $ilAccess;
+		$ref_ids = ilObject::_getAllReferences($a_obj_id);
+		$ref_id = null;
+
+		foreach((array) $ref_ids as $id)
+		{
+			if($ilAccess->checkAccessOfUser($a_usr_id, "read", "", $id, $a_obj_type, $a_obj_id))
+			{
+				$ref_id = $id;
+			}
+		}
+
+		if($ref_id === null)
+		{
+			return false;
+		}
+
+		include_once './Services/Link/classes/class.ilLink.php';
+		return ilLink::_getLink($ref_id, $a_obj_type);
 	}
 
 	function __getNotifyLinks()

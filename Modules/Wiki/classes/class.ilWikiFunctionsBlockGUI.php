@@ -218,7 +218,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 			}
 		}
 
-		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		if ($ilAccess->checkAccess("edit_content", "", $_GET["ref_id"]))
 		{
 			// rename
 			$list->addItem($lng->txt("wiki_rename_page"), "",

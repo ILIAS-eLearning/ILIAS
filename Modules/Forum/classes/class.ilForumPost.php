@@ -100,7 +100,7 @@ class ilForumPost
 				'pos_subject'	=> array('text', $this->subject),
 				'pos_message'	=> array('clob', $this->message),
 				'pos_date'		=> array('timestamp', $this->createdate),
-				'pos_update'	=> array('timestamp', null),
+				'pos_update'	=> array('timestamp', $this->createdate),
 				'update_user'	=> array('integer', $this->user_id_update),
 				'pos_cens'		=> array('integer', $this->censored),
 				'notify'		=> array('integer', (int)$this->notification),

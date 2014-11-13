@@ -73,8 +73,9 @@ class ilObjForumListGUI extends ilObjectListGUI
 		 * @var $lng	  ilLanguage
 		 * @var $ilUser   ilObjUser
 		 * @var $ilAccess ilAccessHandler
+		 * @var $ilSetting ilSetting
 		 */
-		global $lng, $ilUser, $ilAccess;
+		global $lng, $ilUser, $ilAccess, $ilSetting;
 
 		if(!$ilAccess->checkAccess('read', '', $this->ref_id))
 		{
@@ -89,7 +90,14 @@ class ilObjForumListGUI extends ilObjectListGUI
 		$properties       = ilObjForumAccess::getStatisticsByRefId($this->ref_id);
 		$num_posts_total  = $properties['num_posts'];
 		$num_unread_total = $properties['num_unread_posts'];
-		$num_new_total    = $properties['num_new_posts'];
+
+		$frm_overview_setting = (int)$ilSetting::_lookupValue('frma','forum_overview');
+		$num_new_total = 0;
+		if($frm_overview_setting == ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS)
+		{
+			$num_new_total    = $properties['num_new_posts'];	
+		}	
+		
 		$last_post        = ilObjForumAccess::getLastPostByRefId($this->ref_id);
 
 		if(!$ilUser->isAnonymous())
@@ -102,14 +110,17 @@ class ilObjForumListGUI extends ilObjectListGUI
 					'property' => $lng->txt('forums_articles') . ' (' . $lng->txt('unread') . ')',
 					'value'	=> $num_posts_total . ' (' . $num_unread_total . ')'
 				);
-
-				// New
-				$alert   = ($num_new_total > 0) ? true : false;
-				$props[] = array(
-					'alert'	=> $alert,
-					'property' => $lng->txt('forums_new_articles'),
-					'value'	=> $num_new_total
-				);
+				if($frm_overview_setting == ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS)
+				{
+					if($num_new_total > 0)
+					{
+						// New
+						$alert   = ($num_new_total > 0) ? true : false;
+						$props[] = array(
+							'alert' => $alert, 'property' => $lng->txt('forums_new_articles'), 'value' => $num_new_total
+						);
+					}
+				}
 			}
 		}
 		else

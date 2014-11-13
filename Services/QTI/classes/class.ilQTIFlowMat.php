@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once 'Services/QTI/interfaces/interface.ilQTIMaterialAware.php';
+
 /**
 * QTI flow_mat class
 *
@@ -29,7 +31,7 @@
 *
 * @package assessment
 */
-class ilQTIFlowMat
+class ilQTIFlowMat implements ilQTIMaterialAware
 {
 	var $comment;
 	var $flow_mat;
@@ -57,12 +59,28 @@ class ilQTIFlowMat
 	{
 		array_push($this->flow_mat, $a_flow_mat);
 	}
-	
-	function addMaterial($a_material)
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function addMaterial(ilQTIMaterial $a_material)
 	{
-		array_push($this->material, $a_material);
+		$this->material[] = $a_material;
 	}
-	
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getMaterial($index)
+	{
+		if(isset($this->material[$index]))
+		{
+			return $this->material[$index];
+		}
+
+		return null;
+	}
+
 	function addMaterial_ref($a_material_ref)
 	{
 		array_push($this->material_ref, $a_material_ref);

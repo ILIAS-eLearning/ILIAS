@@ -20,7 +20,7 @@ include_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * 
  * @ingroup ModulesTestQuestionPool
  */
-class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
+class assImagemapQuestionGUI extends assQuestionGUI //implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
 	private $linecolor;
 	

@@ -18901,7 +18901,7 @@ if( !$ilDB->tableExists('tst_rnd_quest_set_qpls') )
 		INNER JOIN	tst_test_random
 		ON			tst_tests.test_id = tst_test_random.test_fi
 
-		INNER JOIN	tst_rnd_qpl_title
+		LEFT JOIN	tst_rnd_qpl_title
 		ON			tst_test_random.test_fi = tst_rnd_qpl_title.tst_fi
 		AND			tst_test_random.questionpool_fi = tst_rnd_qpl_title.qpl_fi
 

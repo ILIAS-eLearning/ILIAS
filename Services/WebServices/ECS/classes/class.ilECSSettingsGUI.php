@@ -407,10 +407,11 @@ class ilECSSettingsGUI
 
 		$pass = new ilPasswordInputGUI($this->lng->txt('ecs_apache_pass'), 'auth_pass');
 		$pass->setRetype(false);
-		$pass->setSize(16);
-		$pass->setMaxLength(32);
+		$pass->setSize(32);
+		$pass->setMaxLength(128);
 		$pass->setValue((string) $this->settings->getAuthPass());
 		$pass->setRequired(true);
+		$pass->setSkipSyntaxCheck(TRUE);
 		$apa_based->addSubItem($pass);
 
 
@@ -969,7 +970,7 @@ class ilECSSettingsGUI
 		
 		if($sel_srv)
 		{
-			$form = $this->initMappingsForm($server->getServerId(),self::MAPPING_EXPORT);
+			$form = $this->initMappingsForm($sel_srv,self::MAPPING_EXPORT);
 			$this->tpl->setContent($form->getHTML());
 		}
 		
@@ -990,7 +991,7 @@ class ilECSSettingsGUI
 			{
 				include_once './Services/WebServices/ECS/classes/class.ilECSDataMappingSetting.php';
 				$map = new ilECSDataMappingSetting(
-					(int) $_POST['ecs_mapping_server'],
+					(int) $_REQUEST['ecs_mapping_server'],
 					(int) $mtype,
 					$ecs_field
 				);

@@ -509,7 +509,10 @@ class ilLDAPQuery
 		{
 			case IL_LDAP_BIND_DEFAULT:
 				// Now bind anonymously or as user
-				if(strlen($this->settings->getBindUser()))
+				if(
+					IL_LDAP_BIND_USER == $this->settings->getBindingType() &&
+					strlen($this->settings->getBindUser())
+				)
 				{
 					$user = $this->settings->getBindUser();
 					$pass = $this->settings->getBindPassword();

@@ -44,15 +44,18 @@ class ilObjectFeedWriter extends ilFeedWriter
 			return;
 		}
 
+		// path
+		$loc = $this->getContextPath($a_ref_id);
+
 		if ($ilSetting->get('short_inst_name') != "")
 		{
 			$this->setChannelTitle($ilSetting->get('short_inst_name')." - ".
-				$this->prepareStr($loc.$obj_title));
+				$this->prepareStr($loc." ".$obj_title));
 		}
 		else
 		{
 			$this->setChannelTitle("ILIAS"." - ".
-				$this->prepareStr($loc.$obj_title.($a_purpose ? " - ".$a_purpose : "")));
+				$this->prepareStr($loc." ".$obj_title.($a_purpose ? " - ".$a_purpose : "")));
 		}
 		$this->setChannelAbout(ILIAS_HTTP_PATH);
 		$this->setChannelLink(ILIAS_HTTP_PATH);
@@ -75,16 +78,7 @@ class ilObjectFeedWriter extends ilFeedWriter
 			}
 		}
 
-		include_once("./Services/Locator/classes/class.ilLocatorGUI.php");
-		$cont_loc = new ilLocatorGUI();
-		$cont_loc->addContextItems($a_ref_id, true);
-		$cont_loc->setTextOnly(true);
-		$loc = $cont_loc->getTextVersion();
-		if (trim($loc) != "")
-		{
-			$loc = " [".$loc."] ";
-		}
-		
+
 		$rss_period = ilNewsItem::_lookupRSSPeriod();
 
 		ilNewsItem::setPrivateFeedId($a_userid);
@@ -121,15 +115,7 @@ class ilObjectFeedWriter extends ilFeedWriter
 				($item["context_obj_type"], $item["title"], $item["content_is_lang_var"],
 				$item["agg_ref_id"], $item["aggregation"]);
 
-			// path
-			$cont_loc = new ilLocatorGUI();
-			$cont_loc->addContextItems($item["ref_id"], true, $a_ref_id);
-			$cont_loc->setTextOnly(true);
-			$loc = $cont_loc->getHTML();
-			if (trim($loc) != "")
-			{
-				$loc = "[".$loc."]";
-			}
+			$loc = "";
 
 			if ($news_set->get("rss_title_format") == "news_obj")
 			{

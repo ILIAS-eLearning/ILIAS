@@ -474,7 +474,8 @@ class ilShopPurchaseGUI extends ilObjectGUI
 					$placeholderDescription = "ROW_DESCRIPTION";
 				}
 				$this->tpl->setCurrentBlock("price_row");
-				if ($buyedObject["price_id"] == $price['price_id'])
+
+				if(is_array($buyedObject) && $buyedObject["price_id"] == $price['price_id'])
 				{
 					$this->tpl->setVariable($placeholderCheckbox,ilUtil::formRadioButton(1,'price_id',$price['price_id']));
 				}

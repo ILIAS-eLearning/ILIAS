@@ -38,11 +38,20 @@ class ilSurveyEditorGUI
 		
 		$cmd = $this->ctrl->getCmd("questions");
 									
-		if($cmd == "questions" && $_REQUEST["pgov"])
+		if($_REQUEST["pgov"])
 		{
-			$this->ctrl->setCmdClass("ilsurveypagegui");
-			$this->ctrl->setCmd("renderpage");
-		}						
+			if($cmd == "questions")
+			{
+				$this->ctrl->setCmdClass("ilsurveypagegui");
+				$this->ctrl->setCmd("renderpage");
+			}
+			else if($cmd == "confirmRemoveQuestions")
+			{
+				// #14324
+				$this->ctrl->setCmdClass("ilsurveypagegui");
+				$this->ctrl->setCmd("confirmRemoveQuestions");
+			}
+		}									
 		
 		$next_class = $this->ctrl->getNextClass($this);	
 		switch($next_class)
@@ -62,7 +71,12 @@ class ilSurveyEditorGUI
 					$this->ctrl->saveParameter($this, array("new_for_survey"));
 					
 					include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
-					$q_gui = SurveyQuestionGUI::_getQuestionGUI(null, $_REQUEST["q_id"]);					
+					$q_gui = SurveyQuestionGUI::_getQuestionGUI(null, $_REQUEST["q_id"]);
+					if (is_object($q_gui->object))
+					{
+						global $ilHelp;
+						$ilHelp->setScreenIdComponent("spl_qt".$q_gui->object->getQuestionTypeId());
+					}
 					// $q_gui->object->setObjId($this->object->getId());
 					$q_gui->setBackUrl($this->ctrl->getLinkTarget($this, "questions"));
 					$q_gui->setQuestionTabs();									
@@ -1135,6 +1149,9 @@ class ilSurveyEditorGUI
 
 	public function addHeadingObject(ilPropertyFormGUI $a_form = null)
 	{		
+		$q_id = $_REQUEST["q_id"];
+		$this->ctrl->setParameter($this, "q_id", $q_id);
+		
 		$this->questionsSubtabs("questions");
 
 		if(!$a_form)

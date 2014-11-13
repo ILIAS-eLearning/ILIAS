@@ -1,11 +1,15 @@
 <!-- BEGIN user_rating_simple -->
+<!-- BEGIN rating_simple_title -->
 <p>{TXT_RATING_SIMPLE}</p>
+<!-- END rating_simple_title -->
 <p>
 <!-- BEGIN rating_link_simple -->
-<a href="{HREF_RATING}"{ONCLICK_RATING}>
+<a href="{HREF_RATING}" style="text-decoration:none;"{ONCLICK_RATING}>
+<!-- BEGIN rating_mark_simple --><img src="{SRC_MARK_SIMPLE}" alt="{ALT_MARK_SIMPLE}" style="position:absolute;" border="0" /><!-- END rating_mark_simple -->
 <img src="{SRC_ICON}" alt="{ALT_ICON}" border="0" />
 </a>
 <!-- END rating_link_simple -->
+{NUMBER_VOTES_SIMPLE}
 </p>
 <!-- BEGIN rating_simple_del_bl -->
 <p>

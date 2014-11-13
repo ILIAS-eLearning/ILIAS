@@ -236,7 +236,14 @@ class ilAccountRegistrationGUI
 				implode(", ", $domains))."<br />".
 				($this->code_enabled ? $lng->txt("reg_email_domains_code") : ""));
 		}
-
+				
+		// #14272
+		if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
+		{
+			$mail_obj = $this->form->getItemByPostVar('usr_email');
+			$mail_obj->setRequired(true);
+		}
+			
 		if(ilTermsOfServiceHelper::isEnabled())
 		{
 			try

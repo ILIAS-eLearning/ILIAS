@@ -576,6 +576,13 @@ class ilForumTopic
 				}
 			}
 
+			$this->db->lockTables(
+				array(
+					0 => array('name' => 'frm_user_read',     'type' => ilDB::LOCK_WRITE),
+					1 => array('name' => 'frm_thread_access', 'type' => ilDB::LOCK_WRITE)
+				)
+			);
+
 			$this->db->manipulateF('
 				DELETE FROM frm_user_read
 				WHERE obj_id = %s AND thread_id =%s',
@@ -601,7 +608,9 @@ class ilForumTopic
 				WHERE thread_id =%s',
 				array('integer', 'integer'),  
 				array($new_obj_id, $this->id));
-			
+
+			$this->db->unlockTables();
+
 			$this->db->manipulateF('
 				UPDATE frm_posts
 				SET pos_top_fk = %s
@@ -657,6 +666,7 @@ class ilForumTopic
 
 		$query = '
 			SELECT			fpt.depth,
+							fpt.rgt,
 							fpt.parent_pos,
 							fp.pos_pk,
 							fp.pos_subject,
@@ -727,7 +737,8 @@ class ilForumTopic
 							fp.pos_usr_id,
 							fp.pos_usr_alias,
 							fp.import_name,
-							fur.post_id
+							fur.post_id,
+							fpt.rgt 
 					ORDER BY fpt.rgt DESC
 		';		
 		

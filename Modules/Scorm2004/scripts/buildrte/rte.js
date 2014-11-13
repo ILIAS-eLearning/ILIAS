@@ -12557,7 +12557,7 @@ function loadPage(src) {
 		resContainer.name=RESOURCE_NAME;
 		onWindowResize();
 		ieForceRender();
-
+		
 		if (treeView==true && mlaunch.mSeqNonContent!="_TOC_" && mlaunch.mSeqNonContent!="_SEQABANDON_" && mlaunch.mSeqNonContent!="_SEQABANDONALL_") {
 			toggleView();
 		}

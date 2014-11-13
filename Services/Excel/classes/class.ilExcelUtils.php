@@ -13,7 +13,7 @@ class ilExcelUtils
 {
 	function _convert_text($a_text, $a_target = "has been removed")
 	{
-		return $a_text;
+		return strip_tags($a_text); // #14542
 
 		/* utf-8 is supported
 		$a_text = preg_replace("/<[^>]*?>/", "", $a_text);

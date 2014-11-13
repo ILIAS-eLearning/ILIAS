@@ -45,7 +45,7 @@ class ilLucenePathFilter implements ilLuceneResultFilter
 	public function __construct($a_root)
 	{
 		$this->root = $a_root;
-		$this->init();
+		//$this->init();
 	}
 	
 	/**
@@ -55,11 +55,13 @@ class ilLucenePathFilter implements ilLuceneResultFilter
 	 */
 	public function filter($a_ref_id)
 	{
+		global $tree;
+		
 		if($this->root == ROOT_FOLDER_ID)
 		{
 			return true;
 		}
-		return in_array($a_ref_id,$this->subnodes);
+		return $tree->isGrandChild($this->root, $a_ref_id);
 	}
 	
 	/**

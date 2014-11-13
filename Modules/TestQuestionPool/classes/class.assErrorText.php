@@ -18,7 +18,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoring
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
+class assErrorText extends assQuestion //implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
 {
 	protected $errortext;
 	protected $textsize;

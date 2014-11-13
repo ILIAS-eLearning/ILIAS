@@ -467,14 +467,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			switch($c)
-			{
-				case "last_access":
-				case "spent_seconds":
-				case "status_changed":
-					$val = $this->parseValue($c, $a_set[$c], "user");
-					$worksheet->write($a_row, $cnt, $val);
-					break;
-					
+			{				
 				case (substr($c, 0, 4) == "obj_"):
 					$obj_id = substr($c, 4);
 					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
@@ -499,6 +492,17 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
 					$worksheet->write($a_row, $cnt, $val);
 					break;										
+				
+				/* #14142
+				case "last_access":
+				case "spent_seconds":
+				case "status_changed":				
+				*/
+				default:
+					$val = $this->parseValue($c, $a_set[$c], "user");
+					$worksheet->write($a_row, $cnt, $val);
+					break;
+					
 			}			
 			$cnt++;
 		}
@@ -540,14 +544,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			switch($c)
-			{
-				case "last_access":
-				case "spent_seconds":
-				case "status_changed":
-					$val = $this->parseValue($c, $a_set[$c], "user");
-					$a_csv->addColumn($val);					
-					break;
-					
+			{				
 				case (substr($c, 0, 4) == "obj_"):
 					$obj_id = substr($c, 4);
 					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
@@ -571,6 +568,17 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
 					$a_csv->addColumn($val);
 					break;										
+				
+				/* #14142
+				case "last_access":
+				case "spent_seconds":
+				case "status_changed":				 
+				*/
+				default:
+					$val = $this->parseValue($c, $a_set[$c], "user");
+					$a_csv->addColumn($val);					
+					break;
+					
 			}			
 		}
 

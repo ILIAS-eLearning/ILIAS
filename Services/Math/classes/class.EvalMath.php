@@ -104,6 +104,10 @@ class EvalMath {
         // make the variables a little more accurate
         $this->v['pi'] = pi();
         $this->v['exp'] = exp(1);
+		// PATCH BEGIN
+		$this->v['e'] = exp(1); // different result for exp(1) and e
+		$this->fb[] = 'exp'; // usage of php exp function in formula
+		// PATCH END
     }
     
     function e($expr) {

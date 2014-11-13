@@ -271,7 +271,9 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 						$this->course_obj->setSubscriptionType(IL_CRS_SUBSCRIPTION_PASSWORD);
 						break;
 				}
+
 				$this->course_obj->setSubscriptionMaxMembers((int) $a_attribs['maxMembers']);
+				$this->course_obj->enableSubscriptionMembershipLimitation($this->course_obj->getSubscriptionMaxMembers() > 0);
 				$this->course_obj->setSubscriptionNotify($a_attribs['notification'] == 'Yes' ? true : false);
 				$this->course_obj->enableWaitingList($a_attribs['waitingList'] == 'Yes' ? true : false);
 				break;
@@ -315,7 +317,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				break;
 
 			case 'Disabled':
-				$this->course_obj->setSubscriptionType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
+				$this->course_obj->getSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
 				break;
 
 			case "MetaData":

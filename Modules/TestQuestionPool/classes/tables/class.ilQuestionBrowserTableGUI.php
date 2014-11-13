@@ -31,7 +31,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $confirmdelete = false, $taxIds = array())
 	{
-		$this->setId("qpl");
+		$this->setId("qpl_qst_brows_" . $a_parent_obj->object->getRefId());
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		global $lng, $ilCtrl;
@@ -64,8 +64,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				if (strcmp($c, 'created') == 0) $this->addColumn($this->lng->txt("create_date"),'created', '');
 				if (strcmp($c, 'tstamp') == 0) $this->addColumn($this->lng->txt("last_update"),'tstamp', '');
 			}
-
-			$this->setPrefix('q_id');
 			$this->setSelectAllCheckbox('q_id');
 		}
 		else

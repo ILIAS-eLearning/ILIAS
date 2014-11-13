@@ -2815,15 +2815,18 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			if($on_reply == true)
 			{
 				// i.e. $subject = "Re(12):"
-				$str_pos_start = strpos($subject,'(');
-				$str_pos_end   = strpos($subject,')');
-				$length = ((int)$str_pos_end - (int)$str_pos_start);
-				$str_pos_start++;
-				$txt_number = substr($subject,$str_pos_start, $length-1);
-	
-				$re_count = (int)$txt_number + 1;
+				$str_pos_start = strpos($subject, '(');
+				$str_pos_end   = strpos($subject, ')');
 
-				$modified_subject = str_replace($txt_number, $re_count, $subject);
+				$length        = ((int)$str_pos_end - (int)$str_pos_start);
+				$str_pos_start++;
+				$txt_number = substr($subject, $str_pos_start, $length - 1);
+
+				if(is_numeric($txt_number))
+				{
+					$re_count         = (int)$txt_number + 1;
+					$modified_subject = substr($subject, 0, $str_pos_start) . $re_count . substr($subject, $str_pos_end);
+				}
 			}
 		}
 		else
@@ -4230,13 +4233,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		if($lg instanceof ilObjForumListGUI)
 		{
-			$is_user_allowed_to_deactivate_notification = $this->isUserAllowedToDeactivateNotification();
-			
-			// Notification button
-			$frm_notificiation_enabled = false;
-			
 			if($ilUser->getId() != ANONYMOUS_USER_ID && $this->ilias->getSetting('forum_notification') != 0 )
 			{
+			$is_user_allowed_to_deactivate_notification = $this->isUserAllowedToDeactivateNotification();
+			
 				$frm = $this->object->Forum;
 				$frm->setForumId($this->object->getId());
 				$frm->setForumRefId($this->object->getRefId());
@@ -4248,28 +4248,37 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
 				}
 
-				if($frm_notificiation_enabled && $this->isParentObjectCrsOrGrp() == false)
+				if($this->isParentObjectCrsOrGrp())
 				{
-					//expected default behaviour for forum notification 
+					// special behaviour for CRS/GRP-Forum notification!!
+					if(
+						$frm_notificiation_enabled &&
+						$is_user_allowed_to_deactivate_notification
+					)
+					{
 					$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'disableForumNotification'), "forums_disable_forum_notification");
 				}
 				else
 				{
-					if($frm_notificiation_enabled && ($is_user_allowed_to_deactivate_notification && $this->isParentObjectCrsOrGrp() == true))
+						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'enableForumNotification'), "forums_enable_forum_notification");
+					}
+				}
+				else
 					{
-						// special behaviour for CRS/GRP-Forum notification!!
+					if($frm_notificiation_enabled)
+					{
 						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'disableForumNotification'), "forums_disable_forum_notification");
 					}
-					else if($frm_notificiation_enabled == false)
+					else
 					{
-						//expected default behaviour for forum notification 
 						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'enableForumNotification'), "forums_enable_forum_notification");	
 					}
 				}
 
-				$topic_notification_enabled = $this->objCurrentTopic->isNotificationEnabled($ilUser->getId());
+				$topic_notification_enabled = false;
 				if($this->objCurrentTopic->getId())
 				{
+					$topic_notification_enabled = $this->objCurrentTopic->isNotificationEnabled($ilUser->getId());
 					if($topic_notification_enabled)
 					{
 						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'toggleThreadNotification'), "forums_disable_notification");
@@ -4281,7 +4290,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 				$this->ctrl->setParameter($this, 'thr_pk', '');
 	
-				if($frm_notificiation_enabled || $is_user_allowed_to_deactivate_notification)
+				if($frm_notificiation_enabled || $topic_notification_enabled)
 				{
 					$lg->addHeaderIcon(
 						"not_icon",

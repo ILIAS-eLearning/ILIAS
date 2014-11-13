@@ -1536,7 +1536,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		if(!isset($_POST['comments_value']))
 		{
-			continue;
+			return;
 		}
   
 		$this->object->members_obj->setNoticeForMember($_GET["member_id"],
@@ -2281,6 +2281,26 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$valid = false;
 				}				 
 			}
+			else
+			{
+				if($_POST["type"] != ilExAssignment::TYPE_UPLOAD_TEAM &&
+					$_POST["peer"] && 
+					$_POST["peer_dl_tgl"])
+				{
+					$peer_dl =	$this->form->getItemByPostVar("peer_dl")->getDate();					
+					$peer_dl = $peer_dl->get(IL_CAL_UNIX);										
+					$end_date = $this->form->getItemByPostVar("deadline")->getDate();
+					$end_date = $end_date->get(IL_CAL_UNIX);
+					
+					// #13877
+					if ($peer_dl < $end_date)
+					{
+						$this->form->getItemByPostVar("peer_dl")
+							->setAlert($lng->txt("exc_peer_deadline_mismatch"));
+						$valid = false;
+					}
+				}			
+			}
 			
 			if(!$valid)
 			{
@@ -2503,6 +2523,26 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$valid = false;
 				}	
 			}
+			else
+			{
+				if($_POST["type"] != ilExAssignment::TYPE_UPLOAD_TEAM &&
+					$_POST["peer"] && 
+					$_POST["peer_dl_tgl"])
+				{
+					$peer_dl =	$this->form->getItemByPostVar("peer_dl")->getDate();					
+					$peer_dl = $peer_dl->get(IL_CAL_UNIX);										
+					$end_date = $this->form->getItemByPostVar("deadline")->getDate();
+					$end_date = $end_date->get(IL_CAL_UNIX);
+					
+					// #13877
+					if ($peer_dl < $end_date)
+					{
+						$this->form->getItemByPostVar("peer_dl")
+							->setAlert($lng->txt("exc_peer_deadline_mismatch"));
+						$valid = false;
+					}
+				}			
+			}
 			
 			if(!$valid)
 			{
@@ -2548,8 +2588,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 				
 				if($_POST["peer_dl_tgl"])
 				{
-					$peer_dl =	$this->form->getItemByPostVar("peer_dl")->getDate();
-					$ass->setPeerReviewDeadline($peer_dl->get(IL_CAL_UNIX));
+					$peer_dl =	$this->form->getItemByPostVar("peer_dl")->getDate();					
+					$ass->setPeerReviewDeadline($peer_dl->get(IL_CAL_UNIX));					
 				}
 				else
 				{
@@ -3488,14 +3528,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 			if(!in_array($user_id, $all_members))
 			{
 				$this->ass->addTeamMember($team_id, $user_id, $this->ref_id);
+				
+				// #14277
+				if (!$this->object->members_obj->isAssigned($user_id))
+				{
+					$this->object->members_obj->assignMember($user_id);
+				}
 
 				// see ilObjExercise::deliverFile()
 				if($has_files)
-				{
-					if (!$this->object->members_obj->isAssigned($user_id))
-					{
-						$this->object->members_obj->assignMember($user_id);
-					}
+				{					
 					ilExAssignment::updateStatusReturnedForUser($this->ass->getId(), $user_id, 1);
 					ilExerciseMembers::_writeReturned($this->object->getId(), $user_id, 1);
 				}
@@ -3844,6 +3886,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 		if($form->checkInput())
 		{			
 			$text = trim($form->getInput("atxt"));	
+						
+			$existing = (bool)ilExAssignment::getDeliveredFiles($this->ass->getExerciseId(), 
+				$this->ass->getId(), $ilUser->getId());			
 									
 			$returned_id = $this->object->updateTextSubmission(
 				$this->ass->getExerciseId(), 
@@ -3852,9 +3897,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 				// mob src to mob id
 				ilRTE::_replaceMediaObjectImageSrc($text, 0));	
 			
-			// mob usage
+			// no empty text
 			if($returned_id)
 			{
+				if(!$existing)
+				{
+					// #14332 - new text
+					$this->sendNotifications($this->ass->getId());
+					$this->object->handleSubmission($this->ass->getId());						
+				}
+				
+				// mob usage
 				include_once "Services/MediaObjects/classes/class.ilObjMediaObject.php";
 				$mobs = ilRTE::_getMediaObjects($text, 0);
 				foreach($mobs as $mob)

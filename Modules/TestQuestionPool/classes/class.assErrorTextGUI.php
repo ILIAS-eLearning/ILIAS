@@ -21,7 +21,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @ilctrl_iscalledby assErrorTextGUI: ilObjQuestionPoolGUI
  * 
  */
-class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
+class assErrorTextGUI extends assQuestionGUI //implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
 	/**
 	 * assErrorTextGUI constructor
@@ -180,7 +180,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	{
 		// errortext
 		$errortext = new ilTextAreaInputGUI($this->lng->txt( "errortext" ), "errortext");
-		$errortext->setValue( ilUtil::prepareFormOutput( $this->object->getErrorText() ) );
+		$errortext->setValue( $this->object->getErrorText() );
 		$errortext->setRequired( TRUE );
 		$errortext->setInfo( $this->lng->txt( "errortext_info" ) );
 		$errortext->setRows( 10 );

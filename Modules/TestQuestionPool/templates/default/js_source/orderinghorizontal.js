@@ -30,7 +30,9 @@ YAHOO.example.DDApp = {
 			resultStr = '';
 			for (i = 0; i < items.length; i++)
 			{
-				textelements = Dom.getElementsBy(function (el) { return true; }, 'span', items[i]);
+				textelements = Dom.getElementsBy(function(el) {
+					return (el.className.indexOf("ilOrderingValue") !== -1);
+				}, "span", items[i]);
 				textStr = "";
 				for (j = 0; j < textelements[0].childNodes.length; j++) 
 				{

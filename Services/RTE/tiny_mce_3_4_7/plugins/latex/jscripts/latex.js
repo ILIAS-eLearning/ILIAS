@@ -4,29 +4,34 @@ var LatexDialog = {
 	init : function() {
 		var f = document.forms[0];
 		// Get the selected contents as text and place it in the input
+		var value = "";
 		var elm = tinyMCEPopup.editor.selection.getNode();
 		if (elm != null)
 		{
-			var id = elm.getAttribute("class");
+			var id = ("getAttribute" in elm) ? elm.getAttribute("class") : '';
 			if (id == "latex")
 			{
-				text = "";
+				var text = "";
 				for (i = 0; i < elm.childNodes.length; i++)
 				{
 					text = text + elm.childNodes[i].data;
 				}
-				f.latex_code.value = text;
+                if(text != 'undefined')
+                {
+                    value = text;
+                }	
 			}
 			else
 			{
-				f.latex_code.value = tinyMCEPopup.editor.selection.getContent({format : 'text'});
+				value = tinyMCEPopup.editor.selection.getContent({format : 'text'});
 			}
 		}
 		else
 		{
-			f.latex_code.value = tinyMCEPopup.editor.selection.getContent({format : 'text'});
+			value = tinyMCEPopup.editor.selection.getContent({format : 'text'});
 		}
-		latexCodeChanged();
+		f.latex_code.value = value;
+		onLatexCodeChanged.call($("#latex_code"));
 	},
 
 	insert : function() {

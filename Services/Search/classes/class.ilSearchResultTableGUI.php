@@ -124,7 +124,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		if(!$objDefinition->isPlugin($type))
 		{
 			$type_txt = $lng->txt('icon').' '.$lng->txt('obj_'.$type);
-			$icon  = ilUtil::getImagePath('icon_'.$type.'.png');
+			$icon = ilObject::_getIcon($obj_id,'small',$type);
 		}
 		else
 		{

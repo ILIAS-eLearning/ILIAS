@@ -18,7 +18,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScori
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustable
+class assJavaApplet extends assQuestion //implements ilObjQuestionScoringAdjustable
 {
 	/**
 	* Java applet file name

@@ -765,3 +765,725 @@ if( !$ilDB->tableColumnExists('tst_tests', 'inst_fb_answer_fixation') )
 	));
 }
 ?>
+<#31>
+<?php
+	$ilDB->modifyTableColumn(
+		'ecs_server',
+		'auth_pass',
+		array(
+			"type" => "text",
+			"length" => 128,
+			"notnull" => false,
+			'fixed' => false
+		)
+	);
+?>
+<#32>
+<?php
+
+// #13822 - oracle does not support ALTER TABLE varchar2 to CLOB
+	
+$ilDB->lockTables(array(
+	array('name'=>'exc_assignment_peer', 'type'=>ilDB::LOCK_WRITE)
+));
+
+$def = array(
+	'type'    => 'clob',
+	'notnull' => false
+);
+$ilDB->addTableColumn('exc_assignment_peer', 'pcomment_long', $def);	
+
+$ilDB->manipulate('UPDATE exc_assignment_peer SET pcomment_long = pcomment');
+
+$ilDB->dropTableColumn('exc_assignment_peer', 'pcomment');
+
+$ilDB->renameTableColumn('exc_assignment_peer', 'pcomment_long', 'pcomment');
+
+$ilDB->unlockTables();
+
+?>
+<#33>
+<?php
+
+	$a_obj_id = array();
+	$a_scope_id = array();
+	$a_scope_id_one = array();
+	//select targetobjectiveid = cmi_gobjective.objective_id
+	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid 
+		FROM cp_package, cp_mapinfo, cp_node 
+		WHERE cp_package.global_to_system = 0 AND cp_package.obj_id = cp_node.slm_id AND cp_node.cp_node_id = cp_mapinfo.cp_node_id 
+		GROUP BY cp_mapinfo.targetobjectiveid');
+	while($data = $ilDB->fetchAssoc($res)) 
+	{
+		$a_obj_id[] = $data['targetobjectiveid'];
+	}
+	//make arrays
+	for ($i=0;$i<count($a_obj_id);$i++) {
+		$a_scope_id[$a_obj_id[$i]] = array();
+		$a_scope_id_one[$a_obj_id[$i]] = array();
+	}
+	//only global_to_system=0 -> should be updated
+	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid, cp_package.obj_id 
+		FROM cp_package, cp_mapinfo, cp_node 
+		WHERE cp_package.global_to_system = 0 AND cp_package.obj_id = cp_node.slm_id AND cp_node.cp_node_id = cp_mapinfo.cp_node_id');
+	while($data = $ilDB->fetchAssoc($res)) 
+	{
+		$a_scope_id[$data['targetobjectiveid']][] = $data['obj_id'];
+	}
+	//only global_to_system=1 -> should maintain
+	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid, cp_package.obj_id 
+		FROM cp_package, cp_mapinfo, cp_node 
+		WHERE cp_package.global_to_system = 1 AND cp_package.obj_id = cp_node.slm_id AND cp_node.cp_node_id = cp_mapinfo.cp_node_id');
+	while($data = $ilDB->fetchAssoc($res)) 
+	{
+		$a_scope_id_one[$data['targetobjectiveid']][] = $data['obj_id'];
+	}
+
+	//for all targetobjectiveid
+	for ($i=0;$i<count($a_obj_id);$i++) {
+		$a_toupdate = array();
+		//get old data without correct scope_id
+		$res = $ilDB->queryF(
+			"SELECT * FROM cmi_gobjective WHERE scope_id = %s AND objective_id = %s",
+			array('integer', 'text'),
+			array(0, $a_obj_id[$i])
+		);
+		while($data = $ilDB->fetchAssoc($res)) 
+		{
+			$a_toupdate[] = $data;
+		}
+		//check specific possible scope_ids with global_to_system=0 -> a_o
+		$a_o = $a_scope_id[$a_obj_id[$i]];
+		for ($z=0; $z<count($a_o); $z++) {
+			//for all existing entries
+			for ($y=0; $y<count($a_toupdate); $y++) {
+				$a_t=$a_toupdate[$y];
+				//only users attempted
+				$res = $ilDB->queryF('SELECT user_id FROM sahs_user WHERE obj_id=%s AND user_id=%s',
+					array('integer', 'integer'),
+					array($a_o[$z], $a_t['user_id'])
+				);
+				if($ilDB->numRows($res)) {
+				//check existing entry
+					$res = $ilDB->queryF('SELECT user_id FROM cmi_gobjective WHERE scope_id=%s AND user_id=%s AND objective_id=%s',
+						array('integer', 'integer','text'),
+						array($a_o[$z], $a_t['user_id'],$a_t['objective_id'])
+					);
+					if(!$ilDB->numRows($res)) {
+						$ilDB->manipulate("INSERT INTO cmi_gobjective (user_id, satisfied, measure, scope_id, status, objective_id, score_raw, score_min, score_max, progress_measure, completion_status) VALUES"
+						." (".$ilDB->quote($a_t['user_id'], "integer")
+						.", ".$ilDB->quote($a_t['satisfied'], "text")
+						.", ".$ilDB->quote($a_t['measure'], "text")
+						.", ".$ilDB->quote($a_o[$z], "integer")
+						.", ".$ilDB->quote($a_t['status'], "text")
+						.", ".$ilDB->quote($a_t['objective_id'], "text")
+						.", ".$ilDB->quote($a_t['score_raw'], "text")
+						.", ".$ilDB->quote($a_t['score_min'], "text")
+						.", ".$ilDB->quote($a_t['score_max'], "text")
+						.", ".$ilDB->quote($a_t['progress_measure'], "text")
+						.", ".$ilDB->quote($a_t['completion_status'], "text")
+						.")");
+					}
+				}
+			}
+		}
+		//delete entries if global_to_system=1 is not used by any learning module
+		if (count($a_scope_id_one[$a_obj_id[$i]]) == 0) {
+			$ilDB->queryF(
+				'DELETE FROM cmi_gobjective WHERE scope_id = %s AND objective_id = %s',
+				array('integer', 'text'),
+				array(0, $a_obj_id[$i])
+			);
+		}
+	}
+	
+	
+?>
+<#34>
+<?php
+	$ilDB->addPrimaryKey('cmi_gobjective', array('user_id', 'scope_id', 'objective_id'));
+?>
+<#35>
+<?php
+	$ilDB->addPrimaryKey('cp_suspend', array('user_id', 'obj_id'));
+?>
+<#36>
+<?php
+
+// #13858 
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::varchar2text('rbac_log', 'data');
+
+?>
+<#37>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#38>
+<?php
+$ilDB->addTableColumn("tst_test_defaults", "marks_tmp", array(
+	"type" => "clob",
+	"notnull" => false,
+	"default" => null)
+);
+
+$ilDB->manipulate('UPDATE tst_test_defaults SET marks_tmp = marks');
+$ilDB->dropTableColumn('tst_test_defaults', 'marks');
+$ilDB->renameTableColumn("tst_test_defaults", "marks_tmp", "marks");
+?>
+<#39>
+<?php
+$ilDB->addTableColumn("tst_test_defaults", "defaults_tmp", array(
+	"type" => "clob",
+	"notnull" => false,
+	"default" => null)
+);
+
+$ilDB->manipulate('UPDATE tst_test_defaults SET defaults_tmp = defaults');
+$ilDB->dropTableColumn('tst_test_defaults', 'defaults');
+$ilDB->renameTableColumn("tst_test_defaults", "defaults_tmp", "defaults");
+?>
+<#40>
+<?php
+
+if( !$ilDB->tableExists('tst_seq_qst_tracking') )
+{
+	$ilDB->createTable('tst_seq_qst_tracking', array(
+		'active_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pass' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'status' => array(
+			'type' => 'text',
+			'length' => 16,
+			'notnull' => false
+		),
+		'orderindex' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('tst_seq_qst_tracking', array('active_fi', 'pass', 'question_fi'));
+	$ilDB->addIndex('tst_seq_qst_tracking', array('active_fi', 'pass'), 'i1');
+	$ilDB->addIndex('tst_seq_qst_tracking', array('active_fi', 'question_fi'), 'i2');
+}
+
+?>
+<#41>
+<?php
+
+$query = "
+	SELECT active_fi, pass, sequence
+	FROM tst_tests
+	INNER JOIN tst_active
+	ON test_fi = test_id
+	INNER JOIN tst_sequence
+	ON active_fi = active_id
+	AND sequence IS NOT NULL
+	WHERE question_set_type = %s
+";
+
+$res = $ilDB->queryF($query, array('text'), array('DYNAMIC_QUEST_SET'));
+
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$tracking = unserialize($row['sequence']);
+
+	if( is_array($tracking) )
+	{
+		foreach($tracking as $index => $question)
+		{
+			$ilDB->replace('tst_seq_qst_tracking',
+				array(
+					'active_fi' => array('integer', $row['active_fi']),
+					'pass' => array('integer', $row['pass']),
+					'question_fi' => array('integer', $question['qid'])
+				),
+				array(
+					'status' => array('text', $question['status']),
+					'orderindex' => array('integer', $index + 1)
+				)
+			);
+		}
+
+		$ilDB->update('tst_sequence',
+			array(
+				'sequence' => array('text', null)
+			),
+			array(
+				'active_fi' => array('integer', $row['active_fi']),
+				'pass' => array('integer', $row['pass'])
+			)
+		);
+	}
+}
+
+?>
+<#42>
+<?php
+
+if( !$ilDB->tableExists('tst_seq_qst_postponed') )
+{
+	$ilDB->createTable('tst_seq_qst_postponed', array(
+		'active_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pass' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'cnt' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('tst_seq_qst_postponed', array('active_fi', 'pass', 'question_fi'));
+	$ilDB->addIndex('tst_seq_qst_postponed', array('active_fi', 'pass'), 'i1');
+	$ilDB->addIndex('tst_seq_qst_postponed', array('active_fi', 'question_fi'), 'i2');
+}
+
+?>
+<#43>
+<?php
+
+$query = "
+	SELECT active_fi, pass, postponed
+	FROM tst_tests
+	INNER JOIN tst_active
+	ON test_fi = test_id
+	INNER JOIN tst_sequence
+	ON active_fi = active_id
+	AND postponed IS NOT NULL
+	WHERE question_set_type = %s
+";
+
+$res = $ilDB->queryF($query, array('text'), array('DYNAMIC_QUEST_SET'));
+
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$postponed = unserialize($row['postponed']);
+
+	if( is_array($postponed) )
+	{
+		foreach($postponed as $questionId => $postponeCount)
+		{
+			$ilDB->replace('tst_seq_qst_postponed',
+				array(
+					'active_fi' => array('integer', $row['active_fi']),
+					'pass' => array('integer', $row['pass']),
+					'question_fi' => array('integer', $questionId)
+				),
+				array(
+					'cnt' => array('integer', $postponeCount)
+				)
+			);
+		}
+
+		$ilDB->update('tst_sequence',
+			array(
+				'postponed' => array('text', null)
+			),
+			array(
+				'active_fi' => array('integer', $row['active_fi']),
+				'pass' => array('integer', $row['pass'])
+			)
+		);
+	}
+}
+
+?>
+<#44>
+<?php
+
+if( !$ilDB->tableExists('tst_seq_qst_answstatus') )
+{
+	$ilDB->createTable('tst_seq_qst_answstatus', array(
+		'active_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pass' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'correctness' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('tst_seq_qst_answstatus', array('active_fi', 'pass', 'question_fi'));
+	$ilDB->addIndex('tst_seq_qst_answstatus', array('active_fi', 'pass'), 'i1');
+	$ilDB->addIndex('tst_seq_qst_answstatus', array('active_fi', 'question_fi'), 'i2');
+}
+
+?>
+<#45>
+<?php
+
+$query = "
+	SELECT active_fi, pass, hidden
+	FROM tst_tests
+	INNER JOIN tst_active
+	ON test_fi = test_id
+	INNER JOIN tst_sequence
+	ON active_fi = active_id
+	AND hidden IS NOT NULL
+	WHERE question_set_type = %s
+";
+
+$res = $ilDB->queryF($query, array('text'), array('DYNAMIC_QUEST_SET'));
+
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$answerStatus = unserialize($row['hidden']);
+
+	if( is_array($answerStatus) )
+	{
+		foreach($answerStatus['correct'] as $questionId)
+		{
+			$ilDB->replace('tst_seq_qst_answstatus',
+				array(
+					'active_fi' => array('integer', $row['active_fi']),
+					'pass' => array('integer', $row['pass']),
+					'question_fi' => array('integer', $questionId)
+				),
+				array(
+					'correctness' => array('integer', 1)
+				)
+			);
+		}
+
+		foreach($answerStatus['wrong'] as $questionId)
+		{
+			$ilDB->replace('tst_seq_qst_answstatus',
+				array(
+					'active_fi' => array('integer', $row['active_fi']),
+					'pass' => array('integer', $row['pass']),
+					'question_fi' => array('integer', $questionId)
+				),
+				array(
+					'correctness' => array('integer', 0)
+				)
+			);
+		}
+
+		$ilDB->update('tst_sequence',
+			array(
+				'hidden' => array('text', null)
+			),
+			array(
+				'active_fi' => array('integer', $row['active_fi']),
+				'pass' => array('integer', $row['pass'])
+			)
+		);
+	}
+}
+
+?>
+<#46>
+<?php
+
+$indexName = $ilDB->constraintName('tst_dyn_quest_set_cfg', $ilDB->getPrimaryKeyIdentifier());
+
+if( ($ilDB->db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) && $ilDB->db->options['field_case'] == CASE_LOWER )
+{
+	$indexName = strtolower($indexName);
+}
+else
+{
+	$indexName = strtoupper($indexName);
+}
+
+$indexDefinition = $ilDB->db->loadModule('Reverse')->getTableConstraintDefinition('tst_dyn_quest_set_cfg', $indexName);
+
+if( $indexDefinition instanceof MDB2_Error )
+{
+	$res = $ilDB->query("
+		SELECT test_fi, source_qpl_fi, source_qpl_title, answer_filter_enabled, tax_filter_enabled, order_tax
+		FROM tst_dyn_quest_set_cfg
+		GROUP BY test_fi, source_qpl_fi, source_qpl_title, answer_filter_enabled, tax_filter_enabled, order_tax
+		HAVING COUNT(*) > 1
+	");
+	
+	$insertStmt = $ilDB->prepareManip("
+		INSERT INTO tst_dyn_quest_set_cfg (
+		test_fi, source_qpl_fi, source_qpl_title, answer_filter_enabled, tax_filter_enabled, order_tax
+		) VALUES (?, ?, ?, ?, ?, ?)
+		", array('integer', 'integer', 'text', 'integer', 'integer', 'integer')
+	);
+	
+	while($row = $ilDB->fetchAssoc($res) )
+	{
+		$expressions = array();
+		
+		foreach($row as $field => $value)
+		{
+			if($value === null)
+			{
+				$expressions[] = "$field IS NULL";
+			}
+			else
+			{
+				if( $field == 'source_qpl_title' )
+				{
+					$value = $ilDB->quote($value, 'text');
+				}
+				else
+				{
+					$value = $ilDB->quote($value, 'integer');
+				}
+				
+				$expressions[] = "$field = $value";
+			}
+		}
+		
+		$expressions = implode(' AND ', $expressions);
+		
+		$ilDB->manipulate("DELETE FROM tst_dyn_quest_set_cfg WHERE $expressions");
+		
+		$ilDB->execute($insertStmt, array_values($row));
+	}
+	
+	$ilDB->addPrimaryKey('tst_dyn_quest_set_cfg', array('test_fi'));
+}
+
+?>
+<#47>
+<?php
+if(!$ilDB->tableColumnExists('tst_dyn_quest_set_cfg', 'prev_quest_list_enabled'))
+{
+	$ilDB->addTableColumn(
+		'tst_dyn_quest_set_cfg',
+		'prev_quest_list_enabled',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => TRUE,
+			'default' => 0
+		));
+}
+?>
+<#48>
+<?php
+
+$ilDB->manipulate("DELETE FROM settings".
+	" WHERE module = ".$ilDB->quote("common", "text").
+	" AND keyword = ".$ilDB->quote("obj_dis_creation_rcrs", "text"));
+
+?>
+<#49>
+<?php
+	$ilDB->manipulate("UPDATE frm_posts SET pos_update = pos_date WHERE pos_update IS NULL");
+?>
+<#50>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#51>
+<?php
+$setting = new ilSetting();
+$fixState = $setting->get('dbupdate_randtest_pooldef_migration_fix', '0');
+
+if( $fixState === '0' )
+{
+	$query = "
+		SELECT		tst_tests.test_id, COUNT(tst_rnd_quest_set_qpls.def_id)
+		 
+		FROM		tst_tests
+
+		LEFT JOIN	tst_rnd_quest_set_qpls
+		ON			tst_tests.test_id = tst_rnd_quest_set_qpls.test_fi
+		 
+		WHERE		question_set_type = %s
+		
+		GROUP BY	tst_tests.test_id
+		
+		HAVING		COUNT(tst_rnd_quest_set_qpls.def_id) < 1
+	";
+
+	$res = $ilDB->queryF($query, array('text'), array('RANDOM_QUEST_SET'));
+
+	$testsWithoutDefinitionsDetected = false;
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		$testsWithoutDefinitionsDetected = true;
+		break;
+	}
+
+	if( $testsWithoutDefinitionsDetected )
+	{
+		echo "<pre>
+
+		Dear Administrator,
+		
+		DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
+
+		The update process has been stopped, because your attention is required.
+		
+		If you did not migrate ILIAS from version 4.3 to 4.4, but installed a 4.4 version from scratch,
+		please ignore this message and simply refresh the page.
+
+		Otherwise please have a look to: http://www.ilias.de/mantis/view.php?id=12700
+
+		A bug in the db migration for ILIAS 4.4.x has lead to missing source pool definitions within several random tests.
+		Your installation could be affected, because random tests without any source pool definition were detected.
+		Perhaps, these tests were just created, but the update process has to assume that these tests are broken.
+		
+		If you have a backup of your old ILIAS 4.3.x database the update process can repair these tests.
+		Therefor please restore the table > tst_test_random < from your ILIAS 4.3.x backup database to your productive ILIAS 4.4.x database.
+		
+		If you try to rerun the update process by refreshing the page, this message will be skipped.
+		
+		Possibly broken random tests will be repaired, if the old database table mentioned above is available.
+		After repairing the tests, the old database table will be dropped again.
+		
+		Best regards,
+		The Test Maintainers
+		
+		</pre>";
+
+		$setting->set('dbupdate_randtest_pooldef_migration_fix', '1');
+
+		exit; // db update step MUST NOT finish in a normal way, so step will be processed again
+	}
+	else
+	{
+		$setting->set('dbupdate_randtest_pooldef_migration_fix', '2');
+	}
+}
+elseif( $fixState === '1' )
+{
+	if( $ilDB->tableExists('tst_test_random') )
+	{
+		$query = "
+			SELECT		tst_test_random.test_fi,
+						tst_test_random.questionpool_fi,
+						tst_test_random.num_of_q,
+						tst_test_random.tstamp,
+						tst_test_random.sequence,
+						object_data.title pool_title
+			 
+			FROM		tst_tests
+			 
+			INNER JOIN	tst_test_random
+			ON			tst_tests.test_id = tst_test_random.test_fi
+			 
+			LEFT JOIN	tst_rnd_quest_set_qpls
+			ON			tst_tests.test_id = tst_rnd_quest_set_qpls.test_fi
+			
+			LEFT JOIN	object_data
+			ON 			object_data.obj_id = tst_test_random.questionpool_fi
+			 
+			WHERE		question_set_type = %s
+			AND			tst_rnd_quest_set_qpls.def_id IS NULL
+		";
+
+		$res = $ilDB->queryF($query, array('text'), array('RANDOM_QUEST_SET'));
+
+		$syncTimes = array();
+
+		while( $row = $ilDB->fetchAssoc($res) )
+		{
+			if( !(int)$row['num_of_q'] )
+			{
+				$row['num_of_q'] = null;
+			}
+
+			if( !strlen($row['pool_title']) )
+			{
+				$row['pool_title'] = '*** unknown/deleted ***';
+			}
+
+			$nextId = $ilDB->nextId('tst_rnd_quest_set_qpls');
+
+			$ilDB->insert('tst_rnd_quest_set_qpls', array(
+				'def_id' => array('integer', $nextId),
+				'test_fi' => array('integer', $row['test_fi']),
+				'pool_fi' => array('integer', $row['questionpool_fi']),
+				'pool_title' => array('text', $row['pool_title']),
+				'origin_tax_fi' => array('integer', null),
+				'origin_node_fi' => array('integer', null),
+				'mapped_tax_fi' => array('integer', null),
+				'mapped_node_fi' => array('integer', null),
+				'quest_amount' => array('integer', $row['num_of_q']),
+				'sequence_pos' => array('integer', $row['sequence'])
+			));
+
+			if( !is_array($syncTimes[$row['test_fi']]) )
+			{
+				$syncTimes[$row['test_fi']] = array();
+			}
+
+			$syncTimes[$row['test_fi']][] = $row['tstamp'];
+		}
+
+		foreach($syncTimes as $testId => $times)
+		{
+			$assumedSyncTS = max($times);
+
+			$ilDB->update('tst_rnd_quest_set_cfg',
+				array(
+					'quest_sync_timestamp' => array('integer', $assumedSyncTS)
+				),
+				array(
+					'test_fi' => array('integer', $testId)
+				)
+			);
+		}
+	}
+
+	$setting->set('dbupdate_randtest_pooldef_migration_fix', '2');
+}
+?>
+<#52>
+<?php
+if( $ilDB->tableExists('tst_test_random') )
+{
+	$ilDB->dropTable('tst_test_random');
+}
+?>

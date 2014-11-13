@@ -14232,7 +14232,7 @@ ecs#:#ecs_server_title#:#Name of ECS Configuration###26 03 2014 new variable
 assessment#:#fq_precision_info#:#Enter the number of desired decimal places.###26 03 2014 new variable
 assessment#:#result_units_info#:#The selected units are offered to the learner as part of an answer. The learner has to choose one unit.###26 03 2014 new variable
 assessment#:#fq_no_restriction_info#:#Both decimals and fractions are accepted as input.###26 03 2014 new variable
-assessment#:#additional_rating_info#:#Please note that the values ​​given here are expressed as percentages and these must add up to 100.###26 03 2014 new variable
+assessment#:#additional_rating_info#:#Please note that the values given here are expressed as percentages and these must add up to 100.###26 03 2014 new variable
 assessment#:#intprecision_info#:#"Divisible by" affects only the creation of variables, if the value for the precision is 0. In this case, you define for "Divisible by" an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, "Divisible by" is a mandatory field and must contain a positive integer. The default value is 1 for any integers.###26 03 2014 new variable
 assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.###26 03 2014 new variable
 assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."###26 03 2014 new variable
@@ -14291,3 +14291,17 @@ survey#:#svy_eval_skipped_value_lng_info#:#Current value: "%s"###20 07 2014 new 
 survey#:#svy_eval_skipped_value_custom#:#Use custom value###20 07 2014 new variable
 survey#:#svy_eval_skipped_value_custom_info#:#Define any (or empty) value to use for skipped answers###20 07 2014 new variable
 survey#:#svy_eval_skipped_value_custom_value#:#Value###20 07 2014 new variable
+dateplaner#:#cal_export_timezone#:#Timezone for Calendar Export###08 09 2014 new variable
+dateplaner#:#cal_export_timezone_tz#:#Use ILIAS-Timezone###08 09 2014 new variable
+dateplaner#:#cal_export_timezone_utc#:#Use Timezone UTC (compatible with MS Outlook)###08 09 2014 new variable
+mail#:#back_to_folder#:#Back to Folder###08 09 2014 new variable
+mail#:#current_folder#:#Current Folder: %s###08 09 2014 new variable
+cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.###08 09 2014 new variable
+mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files). ###08 09 2014 new variable
+mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:###08 09 2014 new variable
+user#:#passwd_generation_pre#:#Pre-defined Passwords###08 09 2014 new variable
+content#:#cont_ie_compatibility#:#Internet Explorer 7 compatibility mode###08 09 2014 new variable
+content#:#cont_ie_compatibility_info#:#Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer.###08 09 2014 new variable
+content#:#cont_ie_force_render#:#Force Internet Explorer to render again###08 09 2014 new variable
+content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iframes. Additionally you have to set the option 'Display' to 'in new window'.###08 09 2014 new variable
+exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.###08 09 2014 new variable

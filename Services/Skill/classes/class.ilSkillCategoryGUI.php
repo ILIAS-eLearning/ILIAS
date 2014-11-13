@@ -61,9 +61,10 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 	 */
 	function setTabs($a_tab)
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng;
+		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
 
 		$ilTabs->clearTargets();
+		$ilHelp->setScreenIdComponent("skmg_scat");
 		
 		// content
 		$ilTabs->addTab("content", $lng->txt("content"),

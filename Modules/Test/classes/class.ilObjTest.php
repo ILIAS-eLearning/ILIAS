@@ -568,7 +568,7 @@ ilObjTest extends ilObject
 		$this->_customStyle = "";
 		$this->allowedUsersTimeGap = "";
 		$this->anonymity = 0;
-		$this->show_cancel = 1;
+		$this->show_cancel = 0;
 		$this->show_marker = 0;
 		$this->fixed_participants = 0;
 		$this->setShowPassDetails(TRUE);
@@ -3336,7 +3336,10 @@ function getAnswerFeedbackPoints()
 		global $ilDB;
 
 		$IN_userIds = $ilDB->in('user_fi', $userIds, false, 'integer');
-		$res = $ilDB->query("SELECT active_id FROM tst_active WHERE $IN_userIds");
+		$res = $ilDB->queryF(
+			"SELECT active_id FROM tst_active WHERE test_fi = %s AND $IN_userIds",
+			array('integer'), array($this->getTestId())
+		);
 
 		$activeIds = array();
 		while( $row = $ilDB->fetchAssoc($res) )
@@ -3352,10 +3355,17 @@ function getAnswerFeedbackPoints()
 		$ilDB->manipulate("DELETE FROM tst_pass_result WHERE $IN_activeIds");
 		$ilDB->manipulate("DELETE FROM tst_result_cache WHERE $IN_activeIds");
 		$ilDB->manipulate("DELETE FROM tst_sequence WHERE $IN_activeIds");
-
-		if ($this->isRandomTest())
+		
+		if( $this->isRandomTest() )
 		{
 			$ilDB->manipulate("DELETE FROM tst_test_rnd_qst WHERE $IN_activeIds");
+		}
+		elseif( $this->isDynamicTest() )
+		{
+			$ilDB->manipulate("DELETE FROM tst_seq_qst_tracking WHERE $IN_activeIds");
+			$ilDB->manipulate("DELETE FROM tst_seq_qst_answstatus WHERE $IN_activeIds");
+			$ilDB->manipulate("DELETE FROM tst_seq_qst_postponed WHERE $IN_activeIds");
+			$ilDB->manipulate("DELETE FROM tst_seq_qst_checked WHERE $IN_activeIds");
 		}
 
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
@@ -5362,6 +5372,8 @@ function getAnswerFeedbackPoints()
 			$processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB);
 			$processLockerFactory->setQuestionId($question->object->getId());
 			$processLockerFactory->setUserId($ilUser->getId());
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+			$processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
 			$question->object->setProcessLocker($processLockerFactory->getLocker());
 		}
 		
@@ -5603,12 +5615,10 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Receives parameters from a QTI parser and creates a valid ILIAS test object
-	*
-	* @param object $assessment The QTI assessment object
-	* @access public
-	*/
-	function fromXML(&$assessment)
+	 * Receives parameters from a QTI parser and creates a valid ILIAS test object
+	 * @param ilQTIAssessment $assessment
+	 */
+	public function fromXML(ilQTIAssessment $assessment)
 	{
 		unset($_SESSION["import_mob_xhtml"]);
 
@@ -5622,11 +5632,16 @@ function getAnswerFeedbackPoints()
 				$this->setIntroduction($this->QTIMaterialToString($material));
 			}
 		}
-		if ($assessment->getPresentationMaterial())
+
+		if(
+			$assessment->getPresentationMaterial() &&
+			$assessment->getPresentationMaterial()->getFlowMat(0) &&
+			$assessment->getPresentationMaterial()->getFlowMat(0)->getMaterial(0)
+		)
 		{
-			$this->setFinalStatement($this->QTIMaterialToString($assessment->getPresentationMaterial()->getMaterial(0)));
+			$this->setFinalStatement($this->QTIMaterialToString($assessment->getPresentationMaterial()->getFlowMat(0)->getMaterial(0)));
 		}
-		
+
 		foreach ($assessment->assessmentcontrol as $assessmentcontrol)
 		{
 			switch ($assessmentcontrol->getSolutionswitch())
@@ -7926,15 +7941,6 @@ function getAnswerFeedbackPoints()
 			$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
 			return $result;
 		}
-		
-		if ($testSession->isSubmitted())
-		{
-			$result["executable"] = FALSE;
-			$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
-			return $result;
-		}
-
-		// TODO: max. processing time
 
 		return $result;
 	}
@@ -9407,9 +9413,16 @@ function getAnswerFeedbackPoints()
 			'char_selector_definition' => $this->getCharSelectorDefinition()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_defaults (test_defaults_id, name, user_fi, defaults, marks, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-			array('integer', 'text', 'integer', 'text', 'text', 'integer'),
-			array($next_id, $a_name, $ilUser->getId(), serialize($testsettings), serialize($this->mark_schema), time())
+		$ilDB->insert(
+			'tst_test_defaults',
+			array(
+				'test_defaults_id' => array('integer', $next_id),
+				'name'             => array('text', $a_name),
+				'user_fi'          => array('integer', $ilUser->getId()),
+				'defaults'         => array('clob', serialize($testsettings)),
+				'marks'            => array('clob', serialize($this->mark_schema)),
+				'tstamp'           => array('integer', time())
+			)
 		);
 	}
 

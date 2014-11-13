@@ -575,4 +575,4 @@ tree_implementation_ns#:#入れ子集合モデル
 tree_implementation_mp#:#経路実体化モデル
 tree_implementation_switch_btn#:#ツリー構造へ切り替え
 tree_implementation_switched#:#ツリー構造タイプが切り替えました。
-feedback_recipient_info#:#This address is used in the footer link "Contact Administration"###14 05 2014 new variable
+feedback_recipient_info#:#このアドレスはフッタリンクの"システム管理者へ連絡"に使用されます。

@@ -25,6 +25,13 @@ class ilCourseAppEventListener
 
 		if($a_component == "Services/Tracking" && $a_event == "updateStatus")
 		{
+			// #13905
+			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+			if(!ilObjUserTracking::_enabledLearningProgress())
+			{
+				return;
+			}
+			
 			$obj_id = $a_parameter["obj_id"];
 			$user_id = $a_parameter["usr_id"];
 			$status = $a_parameter["status"];
