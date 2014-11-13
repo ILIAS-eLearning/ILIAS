@@ -136,6 +136,12 @@ class gevSettings {
 	// Homepage
 	const ORG_AMD_HOMEPAGE			= "org_amd_homepage";
 
+	// Kostenstelle
+	const ORG_AMD_FINANCIAL_ACCOUNT	= "org_amd_financial_account";
+
+
+
+
 	// AMD für Veranstaltungsorte
 	// Anfahrt
 	const VENUE_AMD_LOCATION		= "venue_amd_location";
