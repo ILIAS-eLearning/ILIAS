@@ -9,13 +9,15 @@
 $LIVE = True;
 
 
+//die();
+
 
 //reset ilias for calls from somewhere else
 $basedir = __DIR__; 
 $basedir = str_replace('/Services/GEV/debug', '', $basedir);
 chdir($basedir);
 
-if(! $LIVE) {
+if( $LIVE) {
 	//context w/o user
 	require_once "./Services/Context/classes/class.ilContext.php";
 	ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
@@ -34,6 +36,34 @@ $UMLAUT_REPLACEMENT = array(
 	'ß' => 'ss',
 	'é' => 'e'
 );
+
+
+$CORRECTIONS = array(
+			'Privat-Vorsorge-Lebens-/Rentenversicherung' => 'Privat-Vorsorge-Lebens-/Rentenversicherung',
+			'Privat-Vorsorge-Lebens-/Rentenverischerung' => 'Privat-Vorsorge-Lebens-/Rentenversicherung',
+			'Privat-Vorsorge-Kranken-/Pflegeversicherung' => 'Privat-Vorsorge-Kranken-/Pflegeversicherung',
+
+			'Firmenkunden -Sach-/Schadenversicherung' => 'Firmenkunden-Sach-/Schadenversicherung',
+			'Firmenkunden-Sach-/Schadenversicherung' => 'Firmenkunden-Sach-/Schadenversicherung',
+
+			'Spartenübergreifend' => 'Spartenübergreifend',
+			'spartenübergreifend' => 'Spartenübergreifend',
+
+			'Firmenkunden-Vorsorge (bAV/Personenversicherung' => 'Firmenkunden-Vorsorge (bAV/Personenversicherung)',
+			'Firmenkunden-Vorsorge (bAV/Personenversicherung)' => 'Firmenkunden-Vorsorge (bAV/Personenversicherung)',
+			'Firmenkunden-Vorsorge (bAV/Personenversicheurng' => 'Firmenkunden-Vorsorge (bAV/Personenversicherung)',
+			'Firmenkunden-Vorsorge (bav/Personenversicherung)'=> 'Firmenkunden-Vorsorge (bAV/Personenversicherung)',
+
+
+			'Firmenkunden-Vorsorge-Lebens-/Rentenersicherung'  => 'Firmenkunden-Vorsorge (bAV/Personenversicherung)',
+			'Firmenkunden-Vorsorge-Lebens-/Rentenversicherung'  => 'Firmenkunden-Vorsorge (bAV/Personenversicherung)',
+
+			'Beratungskompetenz' => 'Beratungskompetenz',
+
+			'Privat-Sach-/Schadenversicherung' => 'Privat-Sach-/Schadenversicherung'
+		);
+
+
 
 function printToTable($ar){
 	$header = false;
@@ -226,12 +256,12 @@ class gevImportOldData {
 		);
 		foreach ($tables as $table) {
 			$sql = "DELETE FROM $table WHERE crs_id < 0";
-			$this->db->query($sql);
+			//$this->db->query($sql);
 		}
 		
 		$sql = 'UPDATE wbd_altdaten 
 				SET  reported = 0';
-		mysql_query($sql, $this->importDB);
+		//mysql_query($sql, $this->importDB);
 
 	}
 
@@ -241,35 +271,13 @@ class gevImportOldData {
 	//returns course_id
 	*/
 	public function importSeminar($rec){
+		global $CORRECTIONS;
 		$title = $rec['Titel'];
 		
 		$type = $rec['Lernart']; //validate/check/map
 		$wbd_topic = $rec['Inhalt']; //validate/check/map
 
-		$corrections = array(
-			'Privat-Vorsorge-Lebens-/Rentenversicherung' => 'Privat-Vorsorge-Lebens-/Rentenversicherung',
-			'Privat-Vorsorge-Lebens-/Rentenverischerung' => 'Privat-Vorsorge-Lebens-/Rentenversicherung',
-			'Privat-Vorsorge-Kranken-/Pflegeversicherung' => 'Privat-Vorsorge-Kranken-/Pflegeversicherung',
-
-			'Firmenkunden -Sach-/Schadenversicherung' => 'Firmenkunden-Sach-/Schadensversicherung',
-			'Firmenkunden-Sach-/Schadenversicherung' => 'Firmenkunden-Sach-/Schadensversicherung',
-
-			'Spartenübergreifend' => 'Spartenübergreifend',
-
-			'Firmenkunden-Vorsorge (bAV/Personenversicherung' => 'Firmenkunden-Vorsorge (bAV/Personenversicherung)',
-			'Firmenkunden-Vorsorge (bAV/Personenversicherung)' => 'Firmenkunden-Vorsorge (bAV/Personenversicherung)',
-			'Firmenkunden-Vorsorge (bAV/Personenversicheurng' => 'Firmenkunden-Vorsorge (bAV/Personenversicherung)',
-
-			'Firmenkunden-Vorsorge-Lebens-/Rentenersicherung'  => 'Firmenkunden-Vorsorge (bAV/Personenversicherung)',
-			'Firmenkunden-Vorsorge-Lebens-/Rentenversicherung'  => 'Firmenkunden-Vorsorge (bAV/Personenversicherung)',
-
-			'Beratungskompetenz' => 'Beratungskompetenz',
-
-			'Privat-Sach-/Schadenversicherung' => 'Privat-Sach-/Schadenversicherung'
-		);
-		$wbd_topic = $corrections[$wbd_topic];
-
-
+		$wbd_topic = $CORRECTIONS[$wbd_topic];
 
 
 		$begin_date = date('Y-m-d', strtotime($rec['Beginn']));
@@ -335,7 +343,7 @@ class gevImportOldData {
 			(
 				$next_id,
 				0,
-				UNIX_TIMESTAMP(),
+				NOW(),
 				$creator_id,
 				'Nein',
 				$crs_id,
@@ -425,8 +433,73 @@ class gevImportOldData {
 	}
 
 
+	public function rematchWBDTopic(){
+		global $CORRECTIONS;
+		$sql = "SELECT row_id, title, type, begin_date, end_date FROM hist_course 
+			WHERE wbd_topic = ''
+			AND
+			crs_id < 0";
+
+		print $sql;
+		
+		$result = $this->db->query($sql);
+		while($rec = $this->db->fetchAssoc($result)){
+			$title =  $rec['title'];
+			$begin = date('d.m.Y', strtotime($rec['begin_date']));
+			$end = date('d.m.Y', strtotime($rec['end_date']));
+			
+			$q = "SELECT Inhalt FROM wbd_altdaten WHERE
+				Titel = '$title'
+				AND 
+				Beginn = '$begin'
+				AND
+				Ende = '$end'
+			";
+			$result2 = mysql_query($q, $this->importDB);
+			$record = mysql_fetch_assoc($result2);
+			$topic = $record['Inhalt'];
+			
+			if(! array_key_exists($topic, $CORRECTIONS)){
+				print "<br>############ $topic ###############<br>";
+				print_r($CORRECTIONS);
+			}else{
+				$row_id = $rec['row_id'];
+				$correct_topic = $CORRECTIONS[$topic];
+				$upSql = "UPDATE hist_course SET wbd_topic = '$correct_topic' WHERE row_id=$row_id";
+				print '<br>';
+				print $upSql;
+				$this->db->query($upSql);
+			}
+			
+		}
+	}
 
 
+
+	public function rectifyOKZforAltdaten(){
+
+		$sql = 'SELECT hist_usercoursestatus.row_id as usrcrsRow, hist_usercoursestatus.usr_id, '
+			. " hist_user.okz AS userOKZ"
+			. " FROM hist_usercoursestatus"
+			. " INNER JOIN hist_user ON hist_usercoursestatus.usr_id = hist_user.user_id"
+			. " WHERE hist_user.hist_historic = 0 "
+			. " AND hist_user.okz != '-empty-' "
+			. " AND hist_usercoursestatus.creator_user_id = -100 "
+			. " AND hist_usercoursestatus.OKZ = '' "
+			. " AND hist_usercoursestatus.function = 'Mitglied' ";
+		
+
+		$result = $this->db->query($sql);
+		while($record = $this->db->fetchAssoc($result)) {
+			$okz = $record['userokz'];
+			$row_id = $record['usrcrsrow'];
+			$q = "UPDATE hist_usercoursestatus SET okz='$okz' WHERE row_id=$row_id;";
+			print $q;
+			print '<br>';
+			$this->db->query($q);
+		}
+		return $ret;
+	}
 
 
 	
@@ -435,33 +508,32 @@ class gevImportOldData {
 
 
 
-print '<pre>';
+/*
+------------------------------------
+run: 
+*/
+
+
 
 $sem_many_matches = array();
 
+//die();
 
 $import = new gevImportOldData();
+
+
+
 $import->getOldData();
 
 foreach ($import->importdata as $rec) {
-/*
-	print '<hr><b>' .$rec['Vorname'] .' ' .$rec['Name'] .'</b>';
-	print '<br>' .$rec['Geburtsdatum'] .' - ' .$rec['Agenturnummer'];
-*/
 	$matches = $import->matchUser($rec);
 
 	if(count($matches) > 1){
 		$sem_many_matches[] = $rec;
-		//print_r($matches);
 	}
-	/*
-	if(count($matches) == 1){
-		$sem_ok[] = $matches[0];
-	}
-	*/
-
 }
 
+print '<pre>';
 print '<hr><hr>';
 
 print '<br>sem_no_user_matches: ' .count($import->sem_no_user_matches);
@@ -476,12 +548,12 @@ print '<br>sem_ok: ' .count($import->sem_ok);
 print '<hr>';
 
 
+// !!!!!!!!!!!
+//	//$import->resetDB();
+// !!!!!!!!!!!
 
-//print_r( array_diff_assoc($import->sem_bday_matches, $import->sem_ok));
 
-
-$import->resetDB();
-//die();
+die();
 
 foreach($import->sem_ok as $rec){
 	$crs_id = $import->importSeminar($rec);
@@ -490,23 +562,10 @@ foreach($import->sem_ok as $rec){
 	$import->setReported($rec['id']);
 }
 
+$import->rectifyOKZforAltdaten();
+//$import->rematchWBDTopic();
+
 
 printToTable($import->sem_ok);
 
-
-
-
-
-//update (old) courses for historizign of wbd study_contents
-require_once("Modules/Course/classes/class.ilObjCourse.php");
-
-$res = $ilDB->query("SELECT DISTINCT crs_id FROM hist_course");
-while ($rec = $ilDB->fetchAssoc($res)) {
-	$crs = new ilObjCourse($rec["crs_id"], false);
-	$crs->update();
-}
-
-
-
-die();
 ?>

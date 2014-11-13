@@ -14,12 +14,13 @@ class ilADTSchedulePresentationBridge extends ilADTPresentationBridge
 		global $lng;
 		
 		$schedules = $this->getADT()->getSchedules();
-		$res = "";
+		$res = '<div class="schedule_presentation">';
 		
 		foreach ($schedules as $key => $value) {
 			$res .= $lng->txt("time_d")." ".($key + 1).": ".$value."<br />";
 		}
 		
+		$res .= '</div>';
 		return $res;
 	}
 	

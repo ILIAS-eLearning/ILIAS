@@ -380,6 +380,10 @@ class gevBillingUtils {
 						);
 		// bill will be send immediately
 		$bill->setDate(new ilDate(time(), IL_CAL_UNIX));
+		
+		// remove context to make assumption one bill per course and user
+		// be correct.
+		$bill->setContextId($a_crs_id);
 
 		// search for the item regarding the course...
 		$items = $bill->getItems();

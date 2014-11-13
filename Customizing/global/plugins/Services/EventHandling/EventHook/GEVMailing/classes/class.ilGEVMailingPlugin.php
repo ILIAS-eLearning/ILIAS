@@ -41,8 +41,8 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 		$mails = new gevCrsAutoMails($crs_id);
 		
 		if ($os == ilCourseBooking::STATUS_WAITING && $ns == ilCourseBooking::STATUS_BOOKED) {
-			$mails->sendDeferred("participant_waiting_to_booked", array($usr_id));
-			$mails->sendDeferred("invitation", array($usr_id));
+			$mails->send("participant_waiting_to_booked", array($usr_id));
+			$mails->send("invitation", array($usr_id));
 		}
 		
 		// do not handle all booking events here, since the way the 

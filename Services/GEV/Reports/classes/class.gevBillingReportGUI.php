@@ -26,10 +26,10 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 
 		$this->table_cols = array
 			( array("gev_bill_number", "billnumber")
-			, array("gev_participation_status", "participation_status")
-			, array("gev_training_fee_pretax", "fee_pretax")
+			, array("status", "participation_status")
+			, array("gev_training_fee_pretax_report", "fee_pretax")
 			, array("gev_tax", "fee_tax")
-			, array("gev_training_fee_posttax", "fee_posttax")
+			, array("gev_training_fee_posttax_report", "fee_posttax")
 			, array("gev_coupon_pretax", "coupon_pretax")
 			, array("gev_tax", "coupon_tax")
 			, array("gev_coupon_posttax", "coupon_posttax")
@@ -37,16 +37,41 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 			, array("gev_tax", "amount_tax")
 			, array("gev_bill_amount_posttax", "amount_posttax")
 			, array("gev_charged_agency", "cost_center")
+			, array("create_date", "bill_finalized_date")
 			, array("lastname", "lastname")
 			, array("firstname", "firstname")
 			, array("gender", "gender")
 			, array("gev_org_unit_short", "org_unit")
 			, array("gev_event_title", "title")
 			, array("gev_number_of_measure", "custom_id")
-			, array("date", "date")
+			, array("gev_training_date", "date")
 			, array("gev_venue", "venue")
 			, array("", "bill_link")
 			);
+		
+		require_once("Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php");
+		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+		require_once("Services/Form/classes/class.ilDateTimeInputGUI.php");
+
+		$created_since = new ilDateTimeInputGUI($this->lng->txt("gev_created_since").": ", "created_since");
+		$created_since->setShowTime(false);
+
+		$this->filters = array(
+			"created_since" => $created_since
+			);
+
+		$date = date("Y")."-01-01";
+		if(isset($_POST["created_since"])) {
+			$date = $_POST["created_since"]["date"]["y"]
+					."-".$_POST["created_since"]["date"]["m"]
+					."-".$_POST["created_since"]["date"]["d"];
+			$_POST["created_since"] = urlencode($date);
+		}
+
+		$this->digestSearchParameter("created_since", urlencode($date));
+		
+		$this->created_since = new ilDate($this->filter_params["created_since"], IL_CAL_DATE);
+		$created_since->setDate($this->created_since);
 
 		$this->table_row_template= array(
 			"filename" => "tpl.gev_billing_row.html", 
@@ -54,30 +79,19 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 		);
 	}
 	
+	protected function getAdditionalFilters() {
+		$ret = '';
+		foreach ($this->filters as $filter_id =>$filter) {
+			$ret .= $filter->getTitle().$filter->render()."<br /><br />";
+		}
+		return $ret;
+	}
+	
 	protected function userIsPermitted () {
 		return $this->user_utils->isAdmin() || $this->permissions->viewBillingReport();
 	}
 
 	protected function executeCustomCommand($a_cmd) {
-	    
-	    if($_GET['debug']== 'x1'){
-	    print 'here';
-	    require("Services/GEV/Utils/classes/class.gevBillingUtils.php");
-	    $bu = gevBillingUtils::getInstance();
-	    
-	    // course_id, user_id
-	    
-	    //$bu->createCancellationBillAndCoupon(3077, 20054);
-	    //$bu->createCancellationBillAndCoupon(3168, 20054);
-	    
-	    print '<br>ok.';
-	    die();
-	    
-	    //in gev_bill_coupon war bill_pk bereits vorhanden.
-	    //das script kommt nicht bis "finalize".
-	    //die rechnung wird also nicht angezeigt.
-	    }
-	    
 		switch ($a_cmd) {
 			case "deliverBillPDF":
 				return $this->deliverBillPDF();
@@ -129,7 +143,8 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 		}
 
 		$query = 	 "SELECT  bill.bill_number as billnumber"
-					."		, usrcrs.participation_status as participation_status"
+					."		, IF(usrcrs.participation_status='fehlt entschuldigt' OR usrcrs.booking_status='kostenpflichtig storniert',
+								 'fehlt entschuldigt/kostenpflichtig storniert', usrcrs.participation_status) as participation_status"
 					."		, ROUND(SUM(IF(item.billitem_context_id = bill.bill_context_id, item.billitem_pta, 0)), 2) as fee_pretax"
 					."		, ROUND(SUM(IF(item.billitem_context_id = bill.bill_context_id, item.billitem_pta, 0)) * bill.bill_vat/100, 2) as fee_tax"
 					."		, ROUND(SUM(IF(item.billitem_context_id = bill.bill_context_id, item.billitem_pta, 0)) * (1 + bill.bill_vat/100), 2) as fee_posttax"
@@ -140,6 +155,7 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 					."		, ROUND(SUM(item.billitem_pta) * bill.bill_vat/100, 2) as amount_tax"
 					."		, ROUND(SUM(item.billitem_pta) * (1 + bill.bill_vat/100), 2) as amount_posttax"
 					."		, bill.bill_cost_center as cost_center"
+					."      , DATE_FORMAT(FROM_UNIXTIME(bill.bill_finalized_date), '%d.%m.%Y') as bill_finalized_date"
 					."		, usr.firstname as lastname"
 					."		, usr.lastname as firstname"
 					." 		, usr.gender as gender"
@@ -156,10 +172,10 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 					." RIGHT JOIN billitem item ON bill.bill_pk = item.bill_fk"
 					." WHERE bill.bill_final = 1"
 					. $this->queryWhen($this->start_date, $this->end_date)
+					. $this->queryCreatedSince()
 					." GROUP BY bill.bill_number"
 					. $sql_order_str
 					;
-
 
 		$bill_link_icon = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-get_bill.png").'" />';
 
@@ -215,6 +231,10 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 		}
 		
 		return $this->query_when;
+	}
+	
+	protected function queryCreatedSince() {
+		return "   AND bill.bill_finalized_date >= ".$this->db->quote($this->created_since->get(IL_CAL_UNIX), "integer"); 
 	}
 	
 	protected function deliverBillPDF() {

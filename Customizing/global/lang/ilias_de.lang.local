@@ -352,7 +352,7 @@ fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen u
 gev#:#dont_send_mail#:#keine Mail versenden
 gev#:#evg_email#:#E-Mail-Adresse
 gev#:#evg_mandatory#:#Sie müssen dieses Feld bestätigen, um sich registrieren zu können.
-gev#:#evg_toc#:#Ja, ich stimme den <a href='/data/Generali/documents/GEV_NB_Finale_Nutzungsbedingungen.pdf' target='_blank' class='blue'>Nutzungsbedingungen</a> zu, um auf die Generali Online Akademie zugreifen zu können.
+gev#:#evg_toc#:#Ja, ich stimme der <a href='/data/Generali/documents/GEV_NB_Finale_Nutzungsbedingungen.pdf' target='_blank' class='blue'>Nutzungsvereinbarung</a> zu, um auf die Generali Online Akademie zugreifen zu können.
 gev#:#evg_wbd#:#Hiermit erteile ich die <a href='/data/Generali/documents/GEV_BDL_Auftrag_BDL.pdf' target='_blank' class='blue'>Einwilligung zur Eintragung von Weiterbildungspunkten und -maßnahmen</a> in die WBD.
 gev#:#gev_accept_book_cond#:#Hiermit akzeptiere ich die <a href='/data/Generali/documents/GEV_Allg_Trainingsinfos Praesenz.pdf' target='_blank'  class='blue'>Buchungs- und Stornierungsbedingungen</a> der Generali Online Akademie.
 gev#:#gev_activity#:#Aktivität
@@ -445,6 +445,7 @@ gev#:#gev_course_mgmt#:#Trainings
 gev#:#gev_course_search#:#Filter
 gev#:#gev_course_search_desc#:#Hier können Sie gezielt suchen.
 gev#:#gev_course_type#:#Lernart
+gev#:#gev_created_since#:#erstellt seit
 gev#:#gev_credit_points#:#Bildungspunkte
 gev#:#gev_crs_book_overnight_details#:#Übernachtungen
 gev#:#gev_crs_function#:#Rolle
@@ -558,6 +559,7 @@ gev#:#gev_points_in_wbd_cert_year#:#Punkte im aktuellen Zertifizierungsjahr
 gev#:#gev_position#:#Vermittlernummer
 gev#:#gev_pot_applicants#:#POT Bewerber
 gev#:#gev_pot_participants#:#POT Teilnehmer
+gev#:#gev_presave#:#Zwischenspeichern
 gev#:#gev_private_contact#:#Kontaktdaten privat
 gev#:#gev_private_contact_info#:#Die Angabe Ihrer E-Mail und Mobiltelefonnummer ist zwingend notwendig, damit Ihr Konto in der zentralen Weiterbildungsdatenbank eröffnet und gepflegt werden kann.
 gev#:#gev_private_email#:#private Emailadresse
@@ -601,9 +603,13 @@ gev#:#gev_to_course_search#:#Zurück zum Bildungsangebot
 gev#:#gev_to_course_search2#:#Zur Trainingssuche
 gev#:#gev_trainer_operation_days#:#Trainereinsatztage
 gev#:#gev_training_contact#:#Ansprechpartner
+gev#:#gev_training_date#:#Traingsdatum
 gev#:#gev_training_fee#:#Teilnahmegebühr
 gev#:#gev_training_fee_pretax#:#Teilnahmegebühr netto
 gev#:#gev_training_fee_posttax#:#Teilnahmegebühr brutto
+gev#:#gev_training_fee_report#:#Gebühr
+gev#:#gev_training_fee_pretax_report#:#Gebühr netto
+gev#:#gev_training_fee_posttax_report#:#Gebühr brutto
 gev#:#gev_training_id#:#ID
 gev#:#gev_unlimited#:#unbegrenzt
 gev#:#gev_until#:#bis
@@ -629,7 +635,7 @@ gev#:#gev_wbd_registration_basic_header_note#:#Registrieren Sie sich bei der Wei
 gev#:#gev_wbd_registration_cb_mandatory#:#Sie müssen dieses Feld bestätigen, um die WBD-Registrierung abschließen zu können.
 gev#:#gev_wbd_registration_create_bwv_id#:#Die Generali soll für mich ein Weiterbildungskonto eröffnen.
 gev#:#gev_wbd_registration_create_bwv_id_cmd#:#Kontoeröffnung
-gev#:#gev_wbd_registration_finished_create_bwv_id#:#Vielen Dank, wir werden für Sie ein Konto in der Weiterbildungsdatenbank (WBD) des BWV e.V. sowie ein Nutzerkonto bei der Trusted German Insurance Cloud (TGIC) eröffnen.<br />Dieser Prozess wird in den nächsten Wochen abgeschlossen werden.<br />Nach Eröffnung Ihres Kontos erhalten Sie von dort insgesamt 3 Systemmails mit Ihrer Benutzerkennung, Ihrem Passwort und Ihrer Vermittler-ID.
+gev#:#gev_wbd_registration_finished_create_bwv_id#:#Vielen Dank, wir werden für Sie ein Konto in der Weiterbildungsdatenbank (WBD) des BWV e.V. sowie ein Nutzerkonto bei der Trusted German Insurance Cloud (TGIC) eröffnen.<br />Dieser Prozess wird in den nächsten Tagen abgeschlossen werden.<br />Nach Eröffnung Ihres Kontos erhalten Sie von dort insgesamt 3 Systemmails mit Ihrer Benutzerkennung, Ihrem Passwort und Ihrer Vermittler-ID.
 gev#:#gev_wbd_registration_finished_has_bwv_id_service#:#Vielen Dank, wir werden Ihre bei uns erworbenen Weiterbildungspunkte unter dieser Vermittler-ID an die zentrale Weiterbildungsdatenbank melden. Bitte wenden Sie sich an <a href="mailto:Bildungspunkte.de@Generali.com">Bildungspunkte.de@Generali.com</a>, um ggf. einen Wechsel des Trusted Partners durchzuführen.
 gev#:#gev_wbd_registration_finished_no_bwv_id_service#:#Vielen Dank für die Anmeldung an der Generali Online Akademie. Wir werden Ihre bei uns erworbenen Weiterbildungspunkte in der Generali Online Akademie sammeln und nach Eingabe Ihrer GDV Vermittler-ID an die zentrale Weiterbildungsdatenbank melden. Bitte wenden Sie sich an Bildungspunkte.de@Generali.com, um ggf. einen Wechsel des Trusted Partners durchzuführen.<br><br>Bitte beachten Sie, daß die Weiterbildungspunkte verfallen, sofern Sie Ihre GDV Vermittler-ID nicht innerhalb von 12 Monaten in Ihren Profildaten ergänzen.
 gev#:#gev_wbd_registration_finished_has_bwv_id#:#Vielen Dank, wir werden Ihre bei uns erworbenen Weiterbildungspunkte unter dieser Vermittler-ID an die zentrale Weiterbildungsdatenbank melden.
@@ -786,6 +792,7 @@ ps#:#ps_export_confirm#:#Aktiviere Nutzungsvereinbarung für Trainingsmitglieder
 ps#:#ps_export_course#:#Persönliche Daten in Trainings anzeigen und exportieren
 ps#:#ps_export_tutor#:#Trainer
 ps#:#ps_show_crs_access#:#Anzeige der letzten Zugriffszeit von Trainingsteilnehmern
+ptst#:#ptst_admin_finalize#:#Freigabe Bildungspunkte
 pwassist#:#password_assistance#:#Passwort-/Benutzernamen-Unterstützung
 pwassist#:#pwassist_enter_email#:#Sollten Sie sich nicht mehr an Ihren Benutzernamen erinnern können, so können Sie sich diesen hier per E-Mail zuschicken lassen. <br /><br />Geben Sie Ihre E-Mail-Adresse ein und klicken Sie auf die Schaltfläche "Abschicken".\n \nSie erhalten eine E-Mail mit Ihrem Benutzernamen.  Sind mehrere Benutzernamen mit Ihrer E-Mail-Adresse hinterlegt, so werden alle Benutzernamen aufgelistet. \n \nFalls  Sie keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Trainingsleitung oder senden Sie eine E-Mail an  %1$s.
 pwassist#:#pwassist_enter_username_and_email#:#Sollten Sie Ihr Passwort vergessen haben, so können Sie sich hier eine E-Mail zuschicken lassen, mit der Sie Ihr Passwort zurücksetzen können. \n\nGeben Sie bitte Ihren Benutzernamen und die dazugehörende E-Mail-Adresse ein. Klicken Sie dann auf die Schaltfläche "Abschicken". \n \nSie erhalten dann eine E-Mail mit weiteren Anweisungen. \n \nFalls Sie mit dieser Funktion Ihr Passwort nicht zurücksetzen können, benachrichtigen Sie bitte Ihre Trainingsleitung oder senden Sie ein E-Mail an %1$s.
@@ -897,3 +904,10 @@ gev#:#gev_report_bookingbyvenue#:#Buchungen nach Veranstaltungsort
 gev#:#gev_rep_bookings_by_venue_title#:#Buchungen nach Veranstaltungsort
 gev#:#gev_rep_bookings_by_venue_desc#:#Hier sehen Sie die Anzahl der Teilnehmer und die Anzahl der Übernachtungen für Trainings eines Veranstaltungsortes
 gev#:#gev_rep_filter_show_past_events#:#Auch vergangene anzeigen
+gev#:#begin_date#:#Startdatum
+gev#:#end_date#:#Enddatum
+gev#:#wbd_booking_id#:#GDV Buchungs-ID
+gev#:#wbd_service_type#:#Service-Typ
+gev#:#gev_report_wbd_edupoints#:#Gemeldete Bildungspunkte
+gev#:#gev_rep_wbd_edupoints#:#Gemeldete Bildungspunkte
+gev#:#gev_rep_wbd_edupoints_desc#:#Die folgenden Benutzer/Trainingsbeziehungen wurden an die WBD gemeldet.

@@ -7,6 +7,10 @@
 */
 
 //reset ilias for calls from somewhere else
+
+
+die();
+
 $basedir = __DIR__; 
 $basedir = str_replace('/Services/GEV/debug', '', $basedir);
 chdir($basedir);
@@ -369,20 +373,24 @@ class gevDebug {
 
 
 }
-
-$debug = new gevDebug();
 print '<pre>';
 
+
+die('online');
+$debug = new gevDebug();
+
+
+
+/*
 $rs = array(
 	'DBV/VL-EVG',
 //	'VP',
 //	'User',
 );
 
+*/
 
-die();
-
-print_r(implode(',', array_keys($debug->getUsersWithRole($rs))));
+//print_r(implode(',', array_keys($debug->getUsersWithRole($rs))));
 
 
 /*printToTable($debug->getDeletedCourses());
@@ -405,18 +413,27 @@ foreach ($debug->getAllUsers() as $id=>$usr) {
 }
 */
 
-$usrIds = array();
+/*
+$usrIds = array(
 
-foreach ($debug->getAllUsers($usrIds) as $id=>$usr) {
-	print_r($usr->getLogin());
-	print '<br>';
+);
+
+require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+foreach ($usrIds as $id) {
+	//$debug->updateHistoryForUser($usr);
+	$uutils = gevUserUtils::getInstanceByObjOrId($id);
+	$as = $uutils->getWBDAgentStatus();
+	if($as){
+		$sql = "update hist_user set agent_status = '$as' WHERE hist_historic=0 AND user_id=$id;";
+		print($sql);
 	//$debug->revertSetAgentStateForUser($id);
 	//$debug->updateHistoryForUserIfStellung($usr);
 	//$debug->setAgentStateForUser($id);
-	print '<hr>';
+		print '<br>';
+	}
 }
 
-
+*/
 
 print '<br><br><i>done.</i>';
 

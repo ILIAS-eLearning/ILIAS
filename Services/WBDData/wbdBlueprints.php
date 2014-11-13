@@ -74,6 +74,9 @@ $VALUE_MAPPINGS = array(
 		"Präsenz" => "Präsenzveranstaltung",
 		"Selbstlernkurs" => "selbstgesteuertes E-Learning",
 		"gesteuertes E-Learning" => "gesteuertes E-Learning",
+		"Webinar" => "gesteuertes E-Learning",
+		"gesteuertes E-learning" => "gesteuertes E-Learning",
+		"gesteuertes e-learning" => "gesteuertes E-Learning",
 
 		"XX" => "Einzeltraining",
 		"XX" => "Blended Learning"
@@ -92,8 +95,10 @@ $VALUE_MAPPINGS = array(
 	"study_content" => array(
 		'Privat-Vorsorge-Lebens-/Rentenversicherung' => 'Privat-Vorsorge-Lebens-/Rentenversicherung',
 		'Privat-Vorsorge-Kranken-/Pflegeversicherung' => 'Privat-Vorsorge-Kranken-/Pflegeversicherung',
-		'Firmenkunden-Sach-/Schadensversicherung' => 'Firmenkunden-Sach-/Schadensversicherung',
-		'Spartenübergreifend' => 'Spartenübergreifend',
+		'Firmenkunden-Sach-/Schadensversicherung' => 'Firmenkunden-Sach-/Schadenversicherung',
+		'Firmenkunden-Sach-/Schadenversicherung' => 'Firmenkunden-Sach-/Schadenversicherung',
+		
+		'Spartenübergreifend' => 'Sparten-übergreifend',
 		'Firmenkunden-Vorsorge (bAV/Personenversicherung)' => 'Firmenkunden-Vorsorge (bAV/Personenversicherung)',
 		'Beratungskompetenz' => 'Beratungskompetenz',
 		'Privat-Sach-/Schadenversicherung' => 'Privat-Sach-/Schadenversicherung'
@@ -168,6 +173,8 @@ $WBD_EDU_RECORD_VALIDATION = array(
 	,'study_content' 	=> array('mandatory'=>1,
 								 'list'=> array_values($VALUE_MAPPINGS['study_content'])
 							)
+	,'till'				=> array( 'custom' => 'dateAfterSept2013')
+	
 );
 
 

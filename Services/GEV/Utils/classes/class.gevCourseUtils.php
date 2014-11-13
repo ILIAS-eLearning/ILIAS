@@ -1523,6 +1523,10 @@ class gevCourseUtils {
 		return $this->getBookings()->fillFreePlaces();
 	}
 	
+	public function cleanWaitingList() {
+		$ws = $this->getBookings()->cleanWaitingList();
+	}
+	
 	// Participation
 	
 	public function getParticipationStatusOf($a_user_id) {

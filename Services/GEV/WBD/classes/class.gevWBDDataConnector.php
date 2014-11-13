@@ -17,9 +17,8 @@ $SET_BWVID = true;
 $GET_NEW_USERS = true;
 $GET_UPDATED_USERS = true;
 $GET_NEW_EDURECORDS = true;
-
 $GET_CHANGED_EDURECORDS = false;
-$IMPORT_FOREIGN_EDURECORDS = false;
+$IMPORT_FOREIGN_EDURECORDS = true;
 
 $LIMIT_RECORDS = false;
 $ANON_DATA = false;
@@ -59,6 +58,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 	public $valid_newusers = array();
 	public $broken_newusers = array();
+	
+	public $broken_updatedusers = array();
 
 	public $valid_newedurecords = array();
 	public $broken_newedurecords = array();
@@ -332,11 +333,184 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		$sql = "
 			UPDATE $table
-			SET last_wbd_report = UNIX_TIMESTAMP()
+			SET last_wbd_report = NOW()
 			WHERE row_id=$row_id
 		";
 		$result = $this->ilDB->query($sql);
 	}
+
+
+
+	/**
+	 * new entry for foreign wbd-course
+	 * or matching for existing seminar
+	 * returns course_id
+	**/
+	private function importSeminar($rec){
+
+		$title 		= $rec['title'];
+		$type 		= $rec['type']; 
+		$wbd_topic 	= $rec['wbd_topic']; 
+		$begin_date	= $rec['begin']; // date('Y-m-d', strtotime($rec['Beginn']));
+		$end_date 	= $rec['end']; //date('Y-m-d', strtotime($rec['Ende']));
+		$creator_id = -200;
+
+
+		$sql = "SELECT crs_id FROM hist_course WHERE 
+			title = '$title'
+			AND
+			begin_date = '$begin_date'
+			AND 
+			end_date = '$end_date'
+		";
+		$result = $this->ilDB->query($sql);
+		if($this->ilDB->numRows($result) > 0){
+			$record = $this->ilDB->fetchAssoc($result);
+			return $record['crs_id'];
+		}
+		
+		//new seminar
+		$sql = "SELECT crs_id FROM hist_course WHERE 
+				crs_id < 0
+				ORDER BY crs_id ASC
+				LIMIT 1
+		";	
+		$result = $this->ilDB->query($sql);
+		$record = $this->ilDB->fetchAssoc($result);
+		
+		$crs_id = $record['crs_id'] - 1;
+		//start with 4 digits
+		if($crs_id == -1){
+			$crs_id = -1000;
+		}
+
+		$next_id = $this->ilDB->nextId('hist_course');
+
+		$sql = "INSERT INTO hist_course
+			(
+				row_id,
+				hist_version,
+				created_ts,
+				creator_user_id,
+		 		is_template,
+		 		crs_id,
+		 		title,
+		 		type, 
+		 		wbd_topic,
+		 		begin_date,
+		 		end_date,
+		 		
+		 		custom_id,
+		 		template_title,
+		 		max_credit_points
+			) 
+			VALUES 
+			(
+				$next_id,
+				0,
+				NOW(),
+				$creator_id,
+				'Nein',
+				$crs_id,
+				'$title',
+				'$type',
+		 		'$wbd_topic',
+		 		'$begin_date',
+		 		'$end_date',
+		 		'-empty-',
+		 		'-empty-',
+		 		'-empty-'
+			)";
+
+			
+
+//print "\n\n$sql\n\n";
+
+			if(! $this->ilDB->query($sql)){
+				die($sql);
+			}
+
+		return $crs_id;
+	}
+
+	/**
+	 * new entry for foreign wbd-courses in hist_usercoursestatus
+	**/
+	private function assignUserToSeminar($rec, $crs_id){
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+
+		// get user (hist_user is ok, since bwv-id must not change 
+		// and was the starting point, anyway)
+		$sql = "SELECT user_id FROM hist_user "
+			." WHERE bwv_id = '" .$rec['bwv_id'] ."'"
+			." AND hist_historic=0";
+		$result = $this->ilDB->query($sql);
+		$user_rec = $this->ilDB->fetchAssoc($result);
+
+		$usr_id = $user_rec['user_id'];
+
+		$uutils = gevUserUtils::getInstanceByObjOrId($usr_id);
+
+		$okz 			= $uutils->getWBDOKZ();
+		$booking_id		= $rec['wbd_booking_id'];
+		$credit_points 	= $rec['credit_points'];
+		$begin_date 	= $rec['begin']; // date('Y-m-d', strtotime($rec['Beginn']));
+		$end_date 		= $rec['end']; //date('Y-m-d', strtotime($rec['Ende']));
+		$creator_id 	= -200;
+		$next_id 		= $this->ilDB->nextId('hist_usercoursestatus');
+
+		$sql = "INSERT INTO hist_usercoursestatus
+			(
+				row_id,
+				wbd_booking_id,
+				created_ts,
+				creator_user_id,
+				usr_id,
+		 		crs_id,
+		 		credit_points,
+		 		hist_historic,
+		 		hist_version,
+		 		okz,
+		 		function,
+		 		booking_status,
+		 		participation_status,
+		 		begin_date,
+		 		end_date,
+		 		bill_id,
+		 		certificate
+			) 
+			VALUES 
+			(
+				$next_id,
+				'$booking_id',
+				UNIX_TIMESTAMP(),
+				$creator_id,
+				$usr_id,
+				$crs_id,
+				$credit_points,
+				0,
+				0,
+				'$okz',
+				'Mitglied',
+				'gebucht',
+				'teilgenommen',
+				'$begin_date',
+				'$end_date',
+				-1,
+				-1
+			)";
+		
+
+//print "\n\n$sql\n\n";
+
+			if(! $this->ilDB->query($sql)){
+				die($sql);
+			}
+
+	
+	}
+
+
 
 
 
@@ -349,6 +523,47 @@ class gevWBDDataConnector extends wbdDataConnector {
 	
 	    print_r($e);
 	}
+
+
+
+
+	/**
+	 * set BWV-ID for user
+	 *
+	 * @param string $user_id
+	 * @param string $bwv_id
+	 * @param date $certification_begin
+	 * @return boolean
+	 */
+
+	public function set_bwv_id($user_id, $bwv_id, $certification_begin) {
+		global $SET_BWVID;
+		if(! $SET_BWVID){
+			return true;
+		}
+
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		global $ilAppEventHandler;
+		$uutils = gevUserUtils::getInstanceByObjOrId($user_id);
+		$uutils->setWBDBWVId($bwv_id);
+		//$uutils->setWBDFirstCertificationPeriodBegin($certification_begin);
+		//ensure a history-case for setting of bwv-id
+		$ilAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $uutils->getUser()));
+
+		//write last_wbd_report....
+		$sql = "
+			SELECT row_id FROM hist_user 
+			WHERE user_id = $user_id
+			AND hist_historic = 0
+		";
+		$result = $this->ilDB->query($sql);
+		$record = $this->ilDB->fetchAssoc($result);
+		$this->_set_last_wbd_report('hist_user', $record['row_id']);
+		return true;
+	}
+
+
+
 
 
 	/**
@@ -450,7 +665,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		print 'ERROR on newUser: ';
 		print($row_id);
 		print '<br>';
-		print_r($e);
+		print_r($e->getReason());
 	}
 
 
@@ -501,11 +716,17 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)) {
 			$udata = $this->_map_userdata($record);
-			$ret[] = wbdDataConnector::new_user_record($udata);
 
-			//set last_wbd_report!
-			//better wait for success, here?!
-			//$this->_set_last_wbd_report('hist_user', $record['row_id']);
+			$valid = $this->validateUserRecord($udata);
+
+			if($valid === true){
+				$ret[] = wbdDataConnector::new_user_record($udata);
+			} else {
+				$this->broken_updatedusers[] = array(
+					$valid,
+					$udata
+				);
+			}
 		}
 		return $ret;
 	}
@@ -518,7 +739,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		print 'ERROR on updateUser: ';
 		print($row_id);
 		print '<br>';
-		print_r($e);
+		print_r($e->getReason());
 	}
 
 
@@ -565,17 +786,23 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 			AND
 				hist_usercoursestatus.function = 'Mitglied'
+			AND 
+				hist_usercoursestatus.okz IN ('OKZ1', 'OKZ2','OKZ3')
 			AND
 				hist_usercoursestatus.participation_status = 'teilgenommen'
 			AND
 				hist_usercoursestatus.last_wbd_report IS NULL
+			AND
+				hist_usercoursestatus.wbd_booking_id IS NULL
 
 			";
 
 
-		// report edupoints for TP_Service, Edu_Provider only:
+		// report edupoints for TP_Service, TP_Basis and Edu_Provider only:
 		$sql .= " AND wbd_type IN ('"
-			.self::WBD_TP_SERVICE."', '".self::WBD_EDU_PROVIDER
+			.self::WBD_TP_SERVICE."', '"
+			.self::WBD_EDU_PROVIDER."', '"
+			.self::WBD_TP_BASIS
 			."')";
 
 
@@ -638,12 +865,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$result = $this->ilDB->query($sql);
 	}
 
-	
-		
-	
-
-
-	
 	public function fail_new_edu_record($row_id, $e){
 		print 'ERROR on newEduRecord: ';
 		print($row_id);
@@ -653,6 +874,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 		
 		//die();
 	}
+
+
+
 
 
 	/**
@@ -669,6 +893,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 		if(! $GET_CHANGED_EDURECORDS){
 			return array();
 		}
+		
+		die('NOT IMPLEMENTED');
 
 		$sql = "
 			SELECT
@@ -719,11 +945,11 @@ class gevWBDDataConnector extends wbdDataConnector {
 				$ret[] = wbdDataConnector::new_edu_record($edudata);
 
 				//set last_wbd_report on the current record
-				$row_id = $current_record['row_id'];
+				//$row_id = $current_record['row_id'];
 			}
 
 			//set last_wbd_report!
-			$this->_set_last_wbd_report('hist_usercoursestatus', $row_id);
+			//$this->_set_last_wbd_report('hist_usercoursestatus', $row_id);
 		}
 
 		return $ret;
@@ -733,62 +959,121 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 
 	/**
-	 * set BWV-ID for user
+	 * get all bwv-ids
 	 *
-	 * @param string $user_id
-	 * @param string $bwv_id
-	 * @param date $certification_begin
-	 * @return boolean
-	 */
+	 * @param 
+	 * @return array
+	 */	
+	public function get_all_bwv_ids() {
 
-	public function set_bwv_id($user_id, $bwv_id, $certification_begin) {
-		global $SET_BWVID;
-		if(! $SET_BWVID){
-			return true;
+		global $IMPORT_FOREIGN_EDURECORDS;
+		if(! $IMPORT_FOREIGN_EDURECORDS){
+			return array();
 		}
+		$ret = array();
+		$sql = "SELECT bwv_id FROM hist_user "
+			." WHERE bwv_id != '-empty-'"
+			." AND hist_historic=0";
 
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		global $ilAppEventHandler;
-		$uutils = gevUserUtils::getInstanceByObjOrId($user_id);
-		$uutils->setWBDBWVId($bwv_id);
-		//$uutils->setWBDFirstCertificationPeriodBegin($certification_begin);
-		//ensure a history-case for setting of bwv-id
-		$ilAppEventHandler->raise("Services/User", "afterUpdate", array("user_obj" => $uutils->getUser()));
+		// for TP_Service only:
+		/*
+		$sql .= " AND wbd_type IN ('"
+			.self::WBD_TP_SERVICE."', '"
+			.self::WBD_TP_BASIS
+			."')";
+		*/
+		$sql .= " AND wbd_type='" .self::WBD_TP_SERVICE ."'"; 
 
-		//write last_wbd_report....
-		$sql = "
-			SELECT row_id FROM hist_user 
-			WHERE user_id = $user_id
-			AND hist_historic = 0
-		";
+
 		$result = $this->ilDB->query($sql);
-		$record = $this->ilDB->fetchAssoc($result);
-		$this->_set_last_wbd_report('hist_user', $record['row_id']);
-		return true;
+		while($record = $this->ilDB->fetchAssoc($result)) {
+			$ret[] = $record['bwv_id'];
+		}
+		return $ret;
 	}
-
+	
+	public function fail_get_external_edu_records($bwv_id, $e) {
+		print 'ERROR while getting edurecords: ';
+		print($bwv_id);
+		print "\n";
+		print_r($e->getReason());
+		//print_r($e);
+		print "\n";
+	}
+	
 
 	/**
-	 * set edu-record for user
+	 * save external edu-record for user
 	 *
-	 * @param array $edu_record
+	 * @param string $bwv_id
+	 * @param array $edu_records
 	 * @return boolean
 	 */
 
-	public function set_edu_record($edu_record) {
+	public function save_external_edu_records($bwv_id, $edu_records) {
 		global $IMPORT_FOREIGN_EDURECORDS;
 		if(! $IMPORT_FOREIGN_EDURECORDS){
 			return true;
 		}
-		print '<pre>';
-		print_r($edu_record);
-		die();
-	}
-}
 
+		$recs = $edu_records['WeiterbildungsPunkteBuchungListe'];
+		if(count($recs) > 0){
+			foreach ($recs as $wpentry) {
+				//check, if the booking-ids are under our control
+				$booking_id = $wpentry['WeiterbildungsPunkteBuchungsId'];
+				$sql = "SELECT wbd_booking_id 
+						FROM hist_usercoursestatus 
+						WHERE wbd_booking_id = '$booking_id'";
+				
+				$temp_result = $this->ilDB->query($sql);
+				$num_rows = $temp_result->result->num_rows;
+
+				if($num_rows == 0){
+					// this is truly a foreign record
+
+					// ! Storno/Korrektur !
+					if($wpentry['Storniert'] != 'false' || $wpentry['Korrekturbuchung'] != 'false'){
+						print_r($wpentry);
+						die('Storno/Korrektur - not implemented');
+					}
+
+					$rec = array(
+						'bwv_id' 		=> $wpentry['VermittlerId'],
+						'wbd_booking_id'=> $booking_id,
+						'credit_points'	=> $wpentry['WeiterbildungsPunkte'],
+						'begin'			=> $wpentry['SeminarDatumVon'],
+						'end'			=> $wpentry['SeminarDatumBis'],
+						'title' 		=> $wpentry['Weiterbildung'],
+						'wbd_topic'		=> $wpentry['LernInhalt'],
+						'type'			=> $wpentry['LernArt']
+					);
+
+					$crs_id = $this->importSeminar($rec);
+					$this->assignUserToSeminar($rec, $crs_id);
+
+					print "\n\n imported seminar: \n";
+					print_r($wpentry);
+				} else {
+					print "\n not a foreign record";
+				
+				}
+			} 
+		} else {
+			print "\n no records.";
+		}
+		
+		return true;
+	}
+
+
+}
 
 //normalize classname for wdb-connector-script
 class WBDDataAdapter extends gevWBDDataConnector {}
+
+
+
+
 
 
 
@@ -800,15 +1085,18 @@ if($DEBUG_HTML_OUT){
 
 	$cls = new gevWBDDataConnector();
 
-	//print $cls->_polish_phone_nr('0049 183 5196177');
+
+	//print_r($cls->dateAfterSept2013('2013-08-31'));
 	//die();
+
+
 
 	print '<h3>new users:</h3>';
 	$cls->export_get_new_users('html');
 
 	print '<h2> total new users: ' .count($cls->valid_newusers) .'</h2>';
 	print '<h2> invalid records: ' .count($cls->broken_newusers) .'</h2>';
-	print_r($cls->broken_newusers);
+//	print_r($cls->broken_newusers);
 	
 	
 	
@@ -833,24 +1121,61 @@ if($DEBUG_HTML_OUT){
 
 	print '<h3>updated users:</h3>';
 	$cls->export_get_updated_users('html');
+
+	print '<br>';
+	print '<h2> invalid records: ' .count($cls->broken_updatedusers) .'</h2>';
+	print 'error';
+	foreach($cls->broken_updatedusers[0][1] as $hl=>$v){
+		print ', ' .$hl;
+	}
+	
+	foreach($cls->broken_updatedusers as $entry){
+		print '<br>';
+		print str_replace('<br>', '', $entry[0]);
+		
+		foreach( $entry[1] as $k=>$v){
+			print ', ' .$v;
+		}
+	}
+
+	
+
 	print '<hr>';
+
+
+
 
 	print '<h3>new edu-records:</h3>';
 	$cls->export_get_new_edu_records('html');
 
 	print '<h2> total new edurecords: ' .count($cls->valid_newedurecords) .'</h2>';
 	print '<h2> invalid edurecords: ' .count($cls->broken_newedurecords) .'</h2>';
-	print_r($cls->broken_newusers);
+//	print_r($cls->broken_newedurecords);
 	
+	print 'error';
+	foreach($cls->broken_newedurecords[0][1] as $hl=>$v){
+		print ', ' .$hl;
+	}
+	
+	foreach($cls->broken_newedurecords as $entry){
+		print '<br>';
+		print str_replace('<br>', '', $entry[0]);
+		
+		foreach( $entry[1] as $k=>$v){
+			print ', ' .$v;
+		}
+	
+	}
 	
 	print '<hr>';
 
+
+	/*
+	print '<hr>';
 	print '<h3>changed edu-records:</h3>';
 	$cls->export_get_changed_edu_records('html');
-
+	
+	*/
 }
-
-//$cls->set_bwv_id(255, 'XXXXXXXX');
-
 
 ?>

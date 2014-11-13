@@ -119,9 +119,22 @@ abstract class wbdDataConnector {
 		$dat = explode('-',$d);
 		if(	(int)$dat[0] < 2000 && 
 			(int)$dat[0] > 1900) {
-			return true;
+			return array(true, 'OK');
 		}
-		return false;
+		return array(false, 'date not between 1900 and 2000');
+		
+	}
+	
+	protected function dateAfterSept2013($d){
+		$dat = explode('-',$d);
+		$val = strtotime($dat[2] . '-' .$dat[1] .'-' .$dat[0]);
+		$limit = strtotime('01-09-2013');//Sat, 31 Aug 2013 22:00:00 GMT
+		
+		if(	$val >= $limit) {
+			return array(true, 'OK');
+		}
+		return array(false, 'date before 09/2013');
+		
 	}
 
 	protected function validateUserRecord($user_record){
@@ -160,8 +173,12 @@ abstract class wbdDataConnector {
 						}
 						break;
 					case 'custom':
-						if(! $this->$setting($value)){
-							return 'wrong birthday';
+						$r = $this->$setting($value);
+						$result = $r[0];
+						$err = $r[1];
+
+						if(! $result){
+							return $err .' (' .$field .')';
 						}
 						break;
 				}
@@ -172,6 +189,14 @@ abstract class wbdDataConnector {
 
 
 	protected function validateEduRecord($edu_record){
+
+		//special check: dates plausible?
+		$from = new DateTime($edu_record['from']);
+		$till = new DateTime($edu_record['till']);
+		if($from > $till){
+			return 'dates implausible: begin > end <br>';
+		}
+
 		foreach($this->EDU_RECORD_VALIDATION  as $field => $validation){
 			$value = $edu_record[$field];
 			foreach ($validation as $rule => $setting) {
@@ -206,6 +231,17 @@ abstract class wbdDataConnector {
 							return 'not well formed: ' .$field .'<br>';
 						}
 						break;
+
+					case 'custom':
+						$r = $this->$setting($value);
+						$result = $r[0];
+						$err = $r[1];
+
+						if(! $result){
+							return $err .' (' .$field .')';
+						}
+						break;
+
 					
 				}
 			}
@@ -395,6 +431,8 @@ abstract class wbdDataConnector {
 	public function get_changed_edu_records() {}
 
 
+
+
 	/**
 	* IMPORT FUNCTIONS
 	**/
@@ -422,14 +460,31 @@ abstract class wbdDataConnector {
 	public function set_booking_id($row_id, $booking_id) {}
 
 
+
+	/**
+	* importing foreign records
+	**/
+
+	/**
+	 * get all bwv-ids
+	 *
+	 * @param 
+	 * @return array
+	 */	
+	abstract function get_all_bwv_ids();
+	
+	abstract function fail_get_external_edu_records($bwv_id, $e);
+	
+
 	/**
 	 * save external edu-record for user
 	 *
-	 * @param array $edu_record
+	 * @param string $bwv_id
+	 * @param array $edu_records
 	 * @return boolean
 	 */
 
-	public function save_external_edu_record($edu_record) {}
+	abstract function save_external_edu_records($bwv_id, $edu_records);
 
 
 }

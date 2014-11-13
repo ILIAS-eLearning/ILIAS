@@ -212,6 +212,35 @@ class ilCourseBookings
 		return false;
 	}
 	
+	// gev-patch start
+	public function cleanWaitingList()
+	{
+		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+		
+		$automails = new gevCrsAutoMails($this->getCourse()->getId());
+		
+		if($this->isWaitingListActivated())
+		{
+			$waiting_status = $this->getWaitingUsers();
+			
+			$wlist = $this->getWaitingListInstance();
+			foreach($wlist->getUserIds() as $user_id)
+			{
+				// check against booking status
+				if(!in_array($user_id, $waiting_status))
+				{
+					$wlist->removeFromList($user_id);
+					continue;
+				}
+				
+				$this->cancelWithoutCosts($user_id);					
+				$automails->send("waiting_list_cancelled", $user_id);
+			}
+			return true;
+		}
+		return false;
+	}
+	// gev-patch end
 	
 	//
 	// users status 

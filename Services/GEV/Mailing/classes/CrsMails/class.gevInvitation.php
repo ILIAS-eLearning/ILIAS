@@ -65,23 +65,21 @@ class gevInvitation extends gevCrsAutoMail {
 	}
 
 	public function getMail($a_recipient) {
+		require_once("Services/Context/classes/class.ilContext.php");
+		require_once("Services/GEV/Mailing/classes/class.gevDeadlineMailingJob.php");
+		
 		if (!$this->checkUserID($a_recipient)) {
 			throw new Exception("GEV-Invitation-Mails will only work for ILIAS-Users.");
 		}
 		
-		if ($this->days_before_course_start > 0) {
-			// if this setting is 0, this means send mail immediately.
-			// if this settings is not 0, delay the sending until the day x days
-			// before course start. After that day send mails immediately.
-			$dl = $this->getCourseStart();
-			if ($dl) {
-				$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-				$dl->increment(ilDateTime::DAY, -1 * $this->days_before_course_start);
+		// this really is no good style.
+		if (   !gevDeadlineMailingJob::isMailSend($this->getCourse()->getId(), $this->getId()) 
+			&& ilContext::getType() !== ilContext::CONTEXT_CRON 
+			&& $_GET["cmdClass"] !== "ilcronmanagergui"
+			&& $_GET["cmdClass"] !== "gevcrsmailinggui"
+			&& $this->days_before_course_start != 0) {
 			
-				if(ilDateTime::_before($now, $dl)) {
-					return null;
-				}
-			}
+			return null;
 		}
 
 		$function = $this->getUserFunction($a_recipient);

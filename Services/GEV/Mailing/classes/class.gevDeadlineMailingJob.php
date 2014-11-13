@@ -47,6 +47,16 @@ class gevDeadlineMailingJob extends ilCronJob {
 		$this->max_after_course_end = gevParticipationStatusNotSet::DAYS_AFTER_COURSE_END;
 	}
 	
+	static public function isMailSend($a_crs_id, $a_mail_id) {
+		global $ilDB;
+		$res = $ilDB->query("SELECT COUNT(*) cnt FROM gev_crs_dl_mail_cron ".
+						    " WHERE crs_id = ".$ilDB->quote($a_crs_id, "integer").
+						    "   AND title = ".$ilDB->quote($a_mail_id, "text").
+						    "   AND NOT send_at IS NULL");
+		$rec = $ilDB->fetchAssoc($res);
+		return $rec["cnt"] > 0;
+	}
+	
 	public function run() {
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
