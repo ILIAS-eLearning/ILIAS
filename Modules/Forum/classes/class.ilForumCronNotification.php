@@ -311,5 +311,6 @@ class ilForumCronNotification extends ilCronJob
 	public function saveCustomSettings(ilPropertyFormGUI $a_form)
 	{
 		$this->settings->set('max_notification_age', $a_form->getInput('max_notification_age'));
+		return true;
 	}
 }
