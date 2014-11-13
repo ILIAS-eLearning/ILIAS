@@ -261,7 +261,11 @@ class ilObjTestSettingsScoringResultsGUI
 			
 			$this->testOBJ->setShowSolutionFeedback( (int)in_array('solution_feedback', $resultsPresentationSettings) );
 			$this->testOBJ->setShowSolutionSignature( (int)in_array('solution_signature', $resultsPresentationSettings) );
-			$this->testOBJ->setShowSolutionSuggested( (int)in_array('solution_suggested', $resultsPresentationSettings) );
+		}
+		
+		if( !$this->isHiddenFormItem('solution_suggested') )
+		{
+			$this->testOBJ->setShowSolutionSuggested($form->getItemByPostVar('solution_suggested')->getChecked());
 		}
 
 		if( !$this->isHiddenFormItem('export_settings') )
@@ -538,6 +542,12 @@ class ilObjTestSettingsScoringResultsGUI
 		if($this->testOBJ->isShowGradingMarkEnabled()) $value[] = 'grading_mark';
 		$chbg->setValue($value);
 		$form->addItem($chbg);
+
+		// show suggested solution
+		$showSuggestedSolutionOption = new ilCheckboxInputGUI($this->lng->txt('tst_show_solution_suggested'), 'solution_suggested');
+		$showSuggestedSolutionOption->setInfo($this->lng->txt('tst_show_solution_suggested_desc'));
+		$showSuggestedSolutionOption->setChecked($this->testOBJ->getShowSolutionSuggested());
+		$form->addItem($showSuggestedSolutionOption);
 	}
 
 	private function addResultDetailsSettingsFormSection(ilPropertyFormGUI $form)
@@ -604,12 +614,6 @@ class ilObjTestSettingsScoringResultsGUI
 		$results_presentation->addOption($showSignaturePlaceholderOption);
 		if( $this->testOBJ->getShowSolutionSignature() ) { $values[] = 'solution_signature'; }
 		if( $this->testOBJ->getAnonymity() ) { $showSignaturePlaceholderOption->setDisabled(true); }
-
-		// show suggested solution
-		$showSuggestedSolutionOption = new ilCheckboxOption($this->lng->txt('tst_show_solution_suggested'), 'solution_suggested');
-		$showSuggestedSolutionOption->setInfo($this->lng->txt('tst_show_solution_suggested_desc'));
-		$results_presentation->addOption($showSuggestedSolutionOption);
-		if( $this->testOBJ->getShowSolutionSuggested() ) { $values[] = 'solution_suggested'; }
 		
 		$results_presentation->setValue($values);
 
