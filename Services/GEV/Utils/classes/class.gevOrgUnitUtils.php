@@ -359,6 +359,17 @@ class gevOrgUnitUtils {
 		$this->amd->setField($this->orgu_id, gevSettings::VENUE_AMD_ALL_INCLUSIVE_COSTS, $a_costs);
 	}
 
+	public function getFinancialAccount() {
+		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_FINANCIAL_ACCOUNT);
+	}
+	
+	public function setFinancialAccount($a_finaccount) {
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_FINANCIAL_ACCOUNT, $a_finaccount);
+	}
+
+
+
+
 	// Helpers and Caching for role related stuff
 	
 	public function getRoleFolder() {

@@ -241,7 +241,7 @@ array( "Zeitraum"
 									,"Auszubildende"
 									,"Ausbildungsverantwortliche in den Agenturen mit ADA-Schein"
 									,"Innvertrieb Agenturen"
-									
+
 		   					 		)
 		   					 , $tmultiselect
 		   					 )
@@ -489,4 +489,25 @@ require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 
 gevAMDUtils::removeAMDField(gevSettings::CRS_AMD_CSN_LINK);
 
+?>
+
+<#9>
+<?php
+$def = serialize(
+	array( "AD20000 Veranstaltungen zum Vertriebswegebudget"
+		   , "AD30000 Azubiseminare"
+		   , "AD40000 FFS"
+		   , "AD50000 Grund- und IHK-Ausbildung"
+		   , "AD55000 GEP BA (ehem. Postphase)"
+		   , "AD60000 Weiterbildung"
+		   , "AD65000 Generali Entwicklungsprogramme"
+		   , "AD70000 Webinare"
+		   , "ST10000 Spezialistenveranstaltungen (SpezialistenTrainings)"
+		   , "SL10000 Selbstlernkurse"
+		   , "AD80000 Weiterbildung / Bildungskatalog für Führungskräfte"
+	)
+);
+
+global $ilDB;
+$ilDB->manipulate("UPDATE adv_mdf_definition SET field_values = '$def' WHERE title = 'Nummernkreis'");
 ?>
