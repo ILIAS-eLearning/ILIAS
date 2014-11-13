@@ -3,12 +3,12 @@
 <input type="hidden" name="move_{MOVE_COUNTER}" value="{MOVE_VALUE}">
 <!-- END move -->
 <!-- BEGIN browser_actions -->
-<p><input type="submit" class="submit" name="cmd[browseForQuestions]" value="{BUTTON_INSERT_QUESTION}" />&nbsp;{TEXT_CREATE_NEW}&nbsp;
+<p><input type="submit" class="btn btn-default" name="cmd[browseForQuestions]" value="{BUTTON_INSERT_QUESTION}" />&nbsp;{TEXT_CREATE_NEW}&nbsp;
 <select name="sel_question_types">
 <!-- BEGIN QTypes -->
 <option value="{QUESTION_TYPE_ID}"{QUESTION_TYPE_SELECTED}>{QUESTION_TYPE}</option>
 <!-- END QTypes -->
-</select>&nbsp;<input type="submit" class="submit" name="cmd[createQuestion]" value="{BUTTON_CREATE_QUESTION}" /> {TXT_OR} <input type="submit" class="submit" name="cmd[randomselect]" value="{TEXT_RANDOM_SELECT}" /></p>
+</select>&nbsp;<input type="submit" class="btn btn-default" name="cmd[createQuestion]" value="{BUTTON_CREATE_QUESTION}" /> {TXT_OR} <input type="submit" class="submit" name="cmd[randomselect]" value="{TEXT_RANDOM_SELECT}" /></p>
 <!-- END browser_actions -->
 </form>
 {QUESTIONBROWSER}
