@@ -33,12 +33,12 @@
 				<td class="imagecolumn">
 <!-- BEGIN addimage -->
 					<div class="imageselection">
-					<div><input type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20" /> <input type="submit" class="submit" name="cmd[upload{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{IMAGE_SUBMIT}" /></div>
+					<div><input type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20" /> <input type="submit" class="btn btn-default" name="cmd[upload{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{IMAGE_SUBMIT}" /></div>
 <!-- BEGIN image -->
 					<div class="imagepresentation">
 						<input type="hidden" name="{IMAGE_POST_VAR}[imagename][{IMAGE_ROW_NUMBER}]" value="{IMAGE_NAME}" />
 						<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
-						<input type="submit" class="submit" name="cmd[removeimage{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{TXT_DELETE_EXISTING}" /><br />
+						<input type="submit" class="btn btn-default" name="cmd[removeimage{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{TXT_DELETE_EXISTING}" /><br />
 					</div>
 <!-- END image -->
 				</div>
