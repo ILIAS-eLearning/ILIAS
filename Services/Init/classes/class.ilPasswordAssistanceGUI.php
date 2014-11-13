@@ -336,7 +336,9 @@ class ilPasswordAssistanceGUI
 					$pwassist_url,
 					$server_url,
 					$_SERVER['REMOTE_ADDR'],
-					$userObj->getLogin(),
+					// marco-polo-patch: begin
+					$userObj->getLogin() . ' (' . ilObjUser::_lookupFullname($userObj->getId()) . ')',
+					// marco-polo-patch: end
 					'mailto:' . $contact_address,
 					$alternative_pwassist_url
 				)
@@ -685,7 +687,13 @@ class ilPasswordAssistanceGUI
 		$server_url      = $protocol . $_SERVER['HTTP_HOST'] . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/')) . '/';
 		$login_url       = $server_url . 'pwassist.php' . '?client_id=' . $this->ilias->getClientId() . '&lang=' . $this->lng->getLangKey();
 		$contact_address = $this->settings->get('admin_email');
-
+		// marco-polo-patch: begin
+		foreach($logins as &$login)
+		{
+			$usr_id = ilObjUser::_loginExists($login);
+			$login .= ' (' . ilObjUser::_lookupFullname($usr_id) . ')';
+		}
+		// marco-polo-patch: end
 		$mm = new ilMimeMail();
 		$mm->Subject($this->lng->txt('pwassist_mail_subject'));
 		$mm->From($contact_address);

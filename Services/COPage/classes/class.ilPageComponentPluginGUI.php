@@ -148,6 +148,10 @@ abstract class ilPageComponentPluginGUI
 		return array();
 	}
 
+	public function handleCopiedContent(DOMDocument $a_domdoc, $a_self_ass = true, $a_clone_mobs = false)
+	{
+	}
+
 	/**
 	 * Add creation button
 	 *

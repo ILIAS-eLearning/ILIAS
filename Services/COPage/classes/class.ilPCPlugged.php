@@ -312,6 +312,43 @@ class ilPCPlugged extends ilPageContent
 		return $css_files;
 	}
 
+	/**
+	 * Handle copied content. This function must, e.g. create copies of
+	 * objects referenced within the content (e.g. question objects)
+	 *
+	 * @param DOMDocument $a_domdoc dom document
+	 */
+	static function handleCopiedContent(DOMDocument $a_domdoc, $a_self_ass = true, $a_clone_mobs = false)
+	{
+		/**
+		 * @var $ilPluginAdmin ilPluginAdmin
+		 */
+		global $ilPluginAdmin;
+
+		$xpath = new DOMXPath($a_domdoc);
+		$nodes = $xpath->query("//Plugged");
+		foreach($nodes as $node)
+		{
+			/**
+			 * @var $node DOMElement
+			 */
+			$plugin_name = $node->getAttribute('PluginName');
+			break;
+		}
+
+		if($plugin_name)
+		{
+			/**
+			 * @var $plugin_obj ilPageComponentPlugin
+			 * @var $gui_obj ilPageComponentPluginGUI
+			 */
+			$plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name);
+			$gui_obj = $plugin_obj->getUIClassInstance();
+			$gui_obj->handleCopiedContent($a_domdoc, $a_self_ass, $a_clone_mobs);
+		}
+		// @todo: Error handling!?!?
+	}
+
 }
 
 ?>

@@ -4,5 +4,11 @@
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
 		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
 		<xi:include href="../../Modules/LearningModule/LucenePageEditorDataSource.xml" />
+		<DataSource type="JDBC" action="append">
+			<Query>
+				<![CDATA[SELECT "Platzhalter Schwierigkeitsgrad, Platzhalter Vorbereitungszeit, Platzhalter Durchführungszeit" content FROM il_plugin LIMIT 1]]>
+			</Query>
+			<Field store="YES" index="ANALYZED" column="content" type="text" name="content" />
+		</DataSource>
 	</Document>
 </ObjectDefinition>

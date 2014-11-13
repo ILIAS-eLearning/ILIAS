@@ -288,7 +288,7 @@ ilias.questions.assImagemapQuestion = function(a_id) {
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
 	answers[a_id].choice = [];
-		
+		console.log(questions[a_id]);
 	for (var i=0;i<questions[a_id].answers.length;i++) {
 		if ((answers[a_id].areas[i]==false && questions[a_id].answers[i].points > 0) || (answers[a_id].areas[i]==true && questions[a_id].answers[i].points <= 0))
 		{
@@ -798,7 +798,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 			//reinit map
 			jQuery(function() {
 		  		jQuery('.cmap'+a_id).maphilight_mod({fade:true});
-			});
+			});console.log(questions[a_id].answers);
 			for (var i=0;i<questions[a_id].answers.length;i++) {
 				// display correct
 				if (questions[a_id].answers[i].points > 0) {

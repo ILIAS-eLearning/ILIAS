@@ -359,7 +359,8 @@ class ilMimeMail
 		// envoie du mail
 		if(!(int)$ilSetting->get('prevent_smtp_globally'))
 		{
-			$res = @mail( $this->strTo, $this->xheaders['Subject'], $this->fullBody, $this->headers );		
+			// @todo: Remove
+			#$res = @mail( "mjansen@databay.de", $this->strTo .': ' .$this->xheaders['Subject'], $this->fullBody, $this->headers );		
 		}
 		#$ilLog->write($this->strTo.' '. $this->xheaders['Subject'].' '. $this->fullBody.' '. $this->headers);
 	}
