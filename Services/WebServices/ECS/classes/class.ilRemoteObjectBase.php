@@ -544,7 +544,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 					$adv_md_defs = $values_record->getDefinitions();
 					if(isset($adv_md_defs[$field]))
 					{
-						$adv_md_def = $defs[$field];
+						$adv_md_def = $adv_md_defs[$field];
 						break;
 					}
 				}
