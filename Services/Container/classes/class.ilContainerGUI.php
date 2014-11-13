@@ -652,7 +652,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				{
 					include_once('./Services/Container/classes/class.ilContainer.php');
 
-					if ($this->object->getOrderType() == ilContainer::SORT_MANUAL)
+					if ($this->isActiveOrdering())
 					{
 						// #11843
 						$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
@@ -1205,8 +1205,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		if ($ilUser->getId() != ANONYMOUS_USER_ID &&
 			is_object($this->object) && 
-			$ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
-			$this->object->getOrderType() == ilContainer::SORT_MANUAL
+			$ilAccess->checkAccess("write", "", $this->object->getRefId()) /* &&
+			$this->object->getOrderType() == ilContainer::SORT_MANUAL */ // always on because of custom block order 
 			)
 		{
 			$ilTabs->addSubTab("ordering", $lng->txt("cntr_ordering"), $ilCtrl->getLinkTarget($this, "editOrder"));
@@ -1292,7 +1292,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 	
 	/**
-	 * Check if ordering is enabled
+	 * Check if ordering is enabled 
 	 * @return  bool
 	 */
 	public function isActiveOrdering()
@@ -1300,8 +1300,19 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return $this->edit_order ? true : false;
 	}
 	
-	
-	
+	/**
+	 * Check if item ordering is enabled
+	 * @return bool
+	 */
+	public function isActiveItemOrdering()
+	{
+		if($this->isActiveOrdering())
+		{
+			return (ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainer::SORT_MANUAL);			
+		}
+		return false;
+	}
+			
     /**
      * @see ilDesktopItemHandling::addToDesk()
      */

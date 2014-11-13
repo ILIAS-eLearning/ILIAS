@@ -11,8 +11,8 @@ class ilContainerRenderer
 {
 	// switches
 	protected $enable_manage_select_all; // [bool]
-	protected $enable_multi_download; // [bool]
-	protected $active_ordering; // [bool]
+	protected $enable_multi_download; // [bool]	
+	protected $active_block_ordering; // [bool]
 	
 	// properties
 	protected $type_blocks = array(); // [array]
@@ -37,15 +37,15 @@ class ilContainerRenderer
 	 * 
 	 * @param bool $a_enable_manage_select_all
 	 * @param bool $a_enable_multi_download
-	 * @param bool $a_active_ordering
+	 * @param bool $a_active_block_ordering
 	 * @param array $a_block_custom_positions
 	 * @return self
 	 */
-	public function __construct($a_enable_manage_select_all = false, $a_enable_multi_download = false, $a_active_ordering = false, array $a_block_custom_positions = null)
+	public function __construct($a_enable_manage_select_all = false, $a_enable_multi_download = false, $a_active_block_ordering = false, array $a_block_custom_positions = null)
 	{
 		$this->enable_manage_select_all = (bool)$a_enable_manage_select_all;
-		$this->enable_multi_download = (bool)$a_enable_multi_download;		
-		$this->active_ordering = (bool)$a_active_ordering;		
+		$this->enable_multi_download = (bool)$a_enable_multi_download;				
+		$this->active_block_ordering = (bool)$a_active_block_ordering;			
 		$this->block_custom_pos = $a_block_custom_positions;
 	}
 	
@@ -456,7 +456,7 @@ class ilContainerRenderer
 				}
 			}
 			
-			$order_id = (!$a_is_single && $this->active_ordering) 
+			$order_id = (!$a_is_single && $this->active_block_ordering) 
 				? $a_block_id
 				: null;			
 			$this->addHeaderRow($a_block_tpl, $a_block["type"], $a_block["caption"], array_unique($block_types), $a_block["actions"], $order_id);

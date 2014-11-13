@@ -214,7 +214,7 @@ abstract class ilContainerContentGUI
 		$this->renderer = new ilContainerRenderer(
 			($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"])
 			,$this->getContainerGUI()->isMultiDownloadEnabled()
-			,$this->getContainerGUI()->isActiveOrdering() && (get_class($this) != "ilContainerObjectiveGUI") // no block sorting in objective view
+			,$this->getContainerGUI()->isActiveOrdering() && (get_class($this) != "ilContainerObjectiveGUI") // no block sorting in objective view		
 			,$sorting->getBlockPositions()
 		);				
 	}
@@ -481,7 +481,7 @@ abstract class ilContainerContentGUI
 			$item_list_gui->enableDownloadCheckbox($a_item_data["ref_id"], true);
 		}
 		
-		if ($this->getContainerGUI()->isActiveOrdering() && ($a_item_data['type'] != 'sess' || get_class($this) != 'ilContainerSessionsContentGUI'))
+		if ($this->getContainerGUI()->isActiveItemOrdering() && ($a_item_data['type'] != 'sess' || get_class($this) != 'ilContainerSessionsContentGUI'))
 		{
 			$item_list_gui->setPositionInputField($a_pos_prefix."[".$a_item_data["ref_id"]."]",
 				sprintf('%d', (int)$a_position*10));
@@ -525,7 +525,7 @@ abstract class ilContainerContentGUI
 		if($a_item_data['type'] == 'sess' and (
 											$this->getDetailsLevel($a_item_data['obj_id']) != self::DETAILS_TITLE or
 											$this->getContainerGUI()->isActiveAdministrationPanel() or
-											$this->getContainerGUI()->isActiveOrdering()
+											$this->getContainerGUI()->isActiveItemOrdering()
 											)
 		)
 		{											
@@ -571,14 +571,11 @@ abstract class ilContainerContentGUI
 					$item_list_gui2->enableDownloadCheckbox($item['ref_id'], true);
 				}
 
-				if ($this->getContainerGUI()->isActiveOrdering())
-				{
-					if ($this->getContainerObject()->getOrderType() == ilContainer::SORT_MANUAL)
-					{
-						$item_list_gui2->setPositionInputField("[sess][".$a_item_data['obj_id']."][".$item["ref_id"]."]",
-							sprintf('%d', (int)$pos*10));
-						$pos++;
-					}					
+				if ($this->getContainerGUI()->isActiveItemOrdering())
+				{					
+					$item_list_gui2->setPositionInputField("[sess][".$a_item_data['obj_id']."][".$item["ref_id"]."]",
+						sprintf('%d', (int)$pos*10));
+					$pos++;									
 				}
 				
 				// #10611

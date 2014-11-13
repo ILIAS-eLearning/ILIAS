@@ -63,7 +63,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 			$white = array();
 			foreach ($objDefinition->getSubObjectsRecursively("root") as $rtype)
 			{
-				if ($rtype["name"] != "itgr" && !$objDefinition->isSideBlock($rtype["name"]))
+				if (/* $rtype["name"] != "itgr" && */ !$objDefinition->isSideBlock($rtype["name"]))
 				{
 					$white[] = $rtype["name"];
 				}
@@ -316,21 +316,83 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 			$this->type_grps[$parent_type] =
 				$objDefinition->getGroupedRepositoryObjectTypes($parent_type);
 		}
-		$group = array();
-		
+										
+		// #14465 - item groups 
+		include_once('./Services/Object/classes/class.ilObjectActivation.php');									
+		$group = array();		
 		foreach ($a_childs as $child)
-		{
-			$g = $objDefinition->getGroupOfObj($child["type"]);
-			if ($g == "")
+		{					
+			// item group: get childs
+			if ($child["type"] == "itgr")
 			{
-				$g = $child["type"];
+				$g = $child["child"];
+				$items = ilObjectActivation::getItemsByItemGroup($g);
+				if ($items)
+				{
+					// add item group ref id to item group block
+					$this->type_grps[$parent_type]["itgr"]["ref_ids"][] = $g;
+					
+					foreach($items as $item)
+					{
+						$group[$g][] = $item;
+					}
+				}
 			}
-			$group[$g][] = $child;
+			// type group
+			else
+			{			
+				$g = $objDefinition->getGroupOfObj($child["type"]);			
+				if ($g == "")
+				{
+					$g = $child["type"];
+				}
+				$group[$g][] = $child;		
+			}
 		}
+		
+		// custom block sorting?
+		include_once("./Services/Container/classes/class.ilContainerSorting.php");	
+		$sort = ilContainerSorting::_getInstance($parent_obj_id);									
+		$block_pos = $sort->getBlockPositions();		
+		if (sizeof($block_pos))
+		{									
+			$tmp = $this->type_grps[$parent_type];						
 
+			$this->type_grps[$parent_type] = array();
+			foreach ($block_pos as $block_type)
+			{
+				// type group
+				if (!is_numeric($block_type) && 
+					array_key_exists($block_type, $tmp))
+				{
+					$this->type_grps[$parent_type][$block_type] = $tmp[$block_type];
+					unset($tmp[$block_type]);
+				}
+				// item group 
+				else
+				{
+					// using item group ref id directly
+					$this->type_grps[$parent_type][$block_type] = array();
+				}
+			}			
+
+			// append missing
+			if (sizeof($tmp))
+			{
+				foreach ($tmp as $block_type => $grp)
+				{
+					$this->type_grps[$parent_type][$block_type] = $grp;
+				}
+			}
+
+			unset($tmp);
+		}			
+				
 		$childs = array();
+		$done = array();
 		foreach ($this->type_grps[$parent_type] as $t => $g)
 		{
+			// type group
 			if (is_array($group[$t]))
 			{
 				// do we have to sort this group??
@@ -347,7 +409,30 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 				
 				foreach ($group[$t] as $k => $item)
 				{
-					$childs[] = $item;
+					if (!in_array($item["child"], $done))
+					{						
+						$childs[] = $item;
+						$done[] = $item["child"];						
+					}
+				}
+			}
+			// item groups (if not custom block sorting)
+			else if ($t == "itgr" && 
+				is_array($g["ref_ids"]))
+			{
+				foreach ($g["ref_ids"] as $ref_id)
+				{
+					if (isset($group[$ref_id]))
+					{
+						foreach ($group[$ref_id] as $k => $item)
+						{
+							if(!in_array($item["child"], $done))
+							{								
+								$childs[] = $item;
+								$done[] = $item["child"];						
+							}
+						}
+					}
 				}
 			}
 		}
