@@ -95,13 +95,19 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 		}
 		else
 		{			
-			// :TODO: ?	
+			// optional empty is valid
+			$this->force_valid = true;
+			
+			$this->getADT()->setLongitude(null);
+			$this->getADT()->setLatitude(null);
+			$this->getADT()->setZoom(null);	
+			$this->radius = null;
 		}	
 	}
 		
 	public function isValid()
 	{
-		return (parent::isValid() && (int)$this->radius);		
+		return (parent::isValid() && ((int)$this->radius || (bool)$this->force_valid));		
 	}
 	
 	
