@@ -13239,7 +13239,7 @@ bibl#:#bibl_new#:#Neue Literaturliste
 bibl#:#bibl_link_online#:#Bestandsabfrage
 bibl#:#bibl_add#:#Literaturliste hinzufügen
 bibl#:#bibl_import#:#Literaturliste importieren
-bibl#:#Download Original File#:#Original-Datei herunterladen
+bibl#:#download_original_file#:#Original-Datei herunterladen
 bibl#:#Type#:#Typ
 bibl#:#bibl_edit#:#Edit Literaturliste bearbeiten
 bibl#:#bibliography file#:#Literaturlisten-Datei
@@ -13982,7 +13982,7 @@ search#:#lucene_prefix_wildcard_info#:#Wenn aktiviert, können Platzhalter auch 
 rep#:#rep_new_item_group_add_separator#:#Spalten-Trenner hinzufügen
 assessment#:#show_answer_overview#:#Antwortübersicht zeigen
 forum#:#forums_notification#:#Benachrichtigung
-bibl#:#Override Entries#:#Einträge überschreiben
+bibl#:#override_entries#:#Einträge überschreiben
 exp#:#exp_file_created#:#Eine Exportdatei wurde erstellt.
 tax#:#tax_added#:#Die Taxonomie wurde erstellt.
 tax#:#tax_max_one_tax#:#Sie können hier nur eine Taxonomie verwenden.

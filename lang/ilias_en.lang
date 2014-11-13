@@ -13252,9 +13252,9 @@ bibl#:#bibl_new#:#New Bibliography
 bibl#:#bibl_link_online#:#Lookup inventory
 bibl#:#bibl_add#:#Add Bibliography
 bibl#:#bibl_import#:#Import Bibliography
-bibl#:#Download Original File#:#Download Original File
+bibl#:#download_original_file#:#Download Original File
 bibl#:#Type#:#Type
-bibl#:#Override Entries#:#Override Entries
+bibl#:#override_entries#:#Override Entries
 bibl#:#bibl_edit#:#Edit Bibliography
 bibl#:#bibliography file#:#Bibliography File
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography

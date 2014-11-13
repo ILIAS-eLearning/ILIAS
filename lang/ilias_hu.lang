@@ -13202,9 +13202,9 @@ common#:#obj_bibs_desc#:#Bibliográfia rendszerbeállításai
 bibl#:#bibl_new#:#Új bibliográfia
 bibl#:#bibl_add#:#Bibliográfia hozzáadása
 bibl#:#bibl_import#:#Bibliográfia importálása
-bibl#:#Download Original File#:#Eredeti fájl letöltése
+bibl#:#download_original_file#:#Eredeti fájl letöltése
 bibl#:#Type#:#Típus
-bibl#:#Override Entries#:#Bejegyzések felülbírálása
+bibl#:#override_entries#:#Bejegyzések felülbírálása
 bibl#:#bibl_edit#:#Bibliográfia szerkesztése
 bibl#:#bibliography file#:#Bibliográfia fájl
 bibl#:#obj_bibl_duplicate#:#Bibliográfia duplikálása

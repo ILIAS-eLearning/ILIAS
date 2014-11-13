@@ -1847,9 +1847,9 @@ bibl#:#bibl_edit#:#Upravit bibliografii
 bibl#:#bibl_new#:#Nová bibliografie
 bibl#:#bibliography file#:#Bibliography File
 bibl#:#detail_view#:#Podrobný náhled
-bibl#:#Download Original File#:#Download Original File
+bibl#:#download_original_file#:#Download Original File
 bibl#:#obj_bibl_duplicate#:#Duplikovat bibliografii
-bibl#:#Override Entries#:#Override Entries
+bibl#:#override_entries#:#Override Entries
 bibl#:#ris_default_a1#:#Původní autor
 bibl#:#ris_default_a2#:#Sekundární autor
 bibl#:#ris_default_a3#:#Autoři

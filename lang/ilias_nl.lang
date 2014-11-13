@@ -1835,9 +1835,9 @@ bibl#:#bib_default_url#:#URL
 bibl#:#bib_default_volume#:#Volume
 bibl#:#bib_default_year#:#Jaar
 bibl#:#detail_view#:#Detailsbeeld
-bibl#:#Download Original File#:#Downloaden Origineel Bestand
+bibl#:#download_original_file#:#Downloaden Origineel Bestand
 bibl#:#obj_bibl_duplicate#:#Dupliceren Boekenlijst
-bibl#:#Override Entries#:#Overschrijf items
+bibl#:#override_entries#:#Overschrijf items
 bibl#:#ris_default_a1#:#Eerste auteur
 bibl#:#ris_default_a2#:#Tweede auteur
 bibl#:#ris_default_a3#:#Auteurs

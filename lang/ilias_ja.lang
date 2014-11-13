@@ -1980,10 +1980,10 @@ bibl#:#bibl_settings_libraries#:#ライブラリー
 bibl#:#bibl_settings_new#:#ライブラリーを追加
 bibl#:#bibliography file#:#著者目録ファイル
 bibl#:#detail_view#:#詳細ビュー
-bibl#:#Download Original File#:#オリジナルファイルをダウンロード
+bibl#:#download_original_file#:#オリジナルファイルをダウンロード
 bibl#:#libraries#:#ライブラリー
 bibl#:#obj_bibl_duplicate#:#著者目録を複製
-bibl#:#Override Entries#:#エントリを上書き
+bibl#:#override_entries#:#エントリを上書き
 bibl#:#ris_default_a1#:#第1著者
 bibl#:#ris_default_a2#:#第2著者
 bibl#:#ris_default_a3#:#著者

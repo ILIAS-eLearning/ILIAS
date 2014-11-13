@@ -276,7 +276,7 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 		$in_file = new ilFileInputGUI($lng->txt("bibliography file"), "bibliographic_file");
 		$in_file->setSuffixes(array( "ris", "bib", "bibtex" ));
 		$in_file->setRequired(false);
-		$cb_override = new ilCheckboxInputGUI($this->lng->txt("Override Entries"), "override_entries");
+		$cb_override = new ilCheckboxInputGUI($this->lng->txt("override_entries"), "override_entries");
 		$cb_override->addSubItem($in_file);
 		$form->addItem($cb_override);
 		$form->setFormAction($this->ctrl->getFormAction($this, "save"));
@@ -338,7 +338,7 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 			$ilTabs->setTabActive("content");
 			include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 			$ilToolbar = new ilToolbarGUI();
-			$ilToolbar->addButton($lng->txt("Download Original File"), $ilCtrl->getLinkTargetByClass("ilBibliographicDetailsGUI", "sendFile"));
+			$ilToolbar->addButton($lng->txt("download_original_file"), $ilCtrl->getLinkTargetByClass("ilBibliographicDetailsGUI", "sendFile"));
 			include_once "./Modules/Bibliographic/classes/class.ilBibliographicRecordListTableGUI.php";
 			$table = new ilDataBibliographicRecordListTableGUI($this, $this->cmd);
 			$html = $table->getHTML();

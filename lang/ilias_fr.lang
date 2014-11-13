@@ -1845,9 +1845,9 @@ bibl#:#bibl_edit#:#Editer Bibliographie
 bibl#:#bibl_new#:#Nouvelle Bibliographie
 bibl#:#bibliography file#:#Bibliography File
 bibl#:#detail_view#:#Vue Détaillée
-bibl#:#Download Original File#:#Download Original File
+bibl#:#download_original_file#:#Download Original File
 bibl#:#obj_bibl_duplicate#:#Dupliquer Bibliographie
-bibl#:#Override Entries#:#Override Entries
+bibl#:#override_entries#:#Override Entries
 bibl#:#ris_default_a1#:#Auteur principal
 bibl#:#ris_default_a2#:#Auteur secondaire
 bibl#:#ris_default_a3#:#Auteurs
