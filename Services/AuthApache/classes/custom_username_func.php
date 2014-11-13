@@ -1,9 +1,14 @@
 <?php
-$_SERVER['SSO'] = 1;
+
 class ApacheCustom {
 
 	public static function getUsername() {
-            return 'root';
+            /*
+             * enter your custom login-name resolve function here
+             *
+             * if you are using the "auto create account" feature
+             * be sure to return a valid username IN ANY CASE
+             */
 	}
 	
 }

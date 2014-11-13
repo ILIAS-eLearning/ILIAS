@@ -88,7 +88,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		$form->setTableWidth("100%");
 		$form->setId("asssinglechoice");
 
-
 		$this->addBasicQuestionFormProperties( $form );
 		$this->populateQuestionSpecificFormPart( $form );
 		$this->populateAnswerSpecificFormPart( $form );
