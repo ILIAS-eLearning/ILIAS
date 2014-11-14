@@ -905,7 +905,11 @@ $ilDB->unlockTables();
 ?>
 <#35>
 <?php
-//#13883	$ilDB->addPrimaryKey('cp_suspend', array('user_id', 'obj_id'));
+//#13883
+	if($ilDB->getDBType() == 'innodb')
+	{
+		$ilDB->addPrimaryKey('cp_suspend', array('user_id', 'obj_id'));
+	}
 ?>
 <#36>
 <?php
@@ -1486,4 +1490,8 @@ if( $ilDB->tableExists('tst_test_random') )
 {
 	$ilDB->dropTable('tst_test_random');
 }
+?>
+<#53>
+<?php
+// code erased 
 ?>
