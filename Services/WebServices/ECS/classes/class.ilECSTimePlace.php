@@ -74,6 +74,16 @@ class ilECSTimePlace
 		$this->end = $a_json->end;
 		$this->cycle = $a_json->cycle;
 		#$this->day = $a_json->day;
+		
+		$two = new ilDate('2000-01-02',IL_CAL_DATE);
+		if(ilDate::_before(new ilDateTime($this->getUTBegin(),IL_CAL_UNIX), $two))
+		{
+			$this->begin = '';
+		}
+		if(ilDate::_before(new ilDateTime($this->getUTEnd(),IL_CAL_UNIX), $two))
+		{
+			$this->end = '';
+		}
 	}
 
 	/**
@@ -87,7 +97,8 @@ class ilECSTimePlace
 		// is it unix time ?
 		if(is_numeric($a_begin) and $a_begin)
 		{
-			$this->begin = date('c', $a_begin);
+			$dt = new ilDateTime($a_begin, IL_CAL_UNIX, ilTimeZone::UTC);
+			$this->end = $dt->get(IL_CAL_DATE);
 		}
 		else
 		{
@@ -113,14 +124,10 @@ class ilECSTimePlace
 	 */
 	public function getUTBegin()
 	{
-		if(!@include_once('Date.php'))
-		{
-			return time();
-		}
-
-		$date = new Date();
-		$date->setDate($this->begin);
-		return $date->getDate(DATE_FORMAT_UNIXTIME);
+		include_once './Services/Calendar/classes/class.ilDateTime.php';
+		$dt = new ilDateTime($this->begin, IL_CAL_DATE, ilTimeZone::UTC);
+		return $dt->get(IL_CAL_UNIX);
+		
 	}
 
 	/**
@@ -135,7 +142,8 @@ class ilECSTimePlace
 		// is it unix time ?
 		if(is_numeric($a_end) and $a_end)
 		{
-			$this->end = date('c', $a_end);
+			$dt = new ilDateTime($a_end, IL_CAL_UNIX, ilTimeZone::UTC);
+			$this->end = $dt->get(IL_CAL_DATE);
 		}
 		else
 		{
@@ -161,15 +169,9 @@ class ilECSTimePlace
 	 */
 	public function getUTEnd()
 	{
-		
-		if(!@include_once('Date.php'))
-		{
-			return time();
-		}
-
-		$date = new Date();
-		$date->setDate($this->end);
-		return $date->getDate(DATE_FORMAT_UNIXTIME);
+		include_once './Services/Calendar/classes/class.ilDateTime.php';
+		$dt = new ilDateTime($this->end, IL_CAL_DATE, ilTimeZone::UTC);
+		return $dt->get(IL_CAL_UNIX);
 	}
 
 	/**

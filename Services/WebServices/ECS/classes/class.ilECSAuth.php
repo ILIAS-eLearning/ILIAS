@@ -117,11 +117,9 @@ class ilECSAuth
 	 */
 	public function setSOV($a_sov)
 	{
-	 	include_once('Date.php');
-	 	
-	 	$date = new Date();
-	 	$date->setDate($a_sov,DATE_FORMAT_UNIXTIME);
-	 	$this->sov = $date->getDate().'+01:00';
+		include_once './Services/Calendar/classes/class.ilDateTime.php';
+		$dt = new ilDateTime($a_sov,IL_CAL_UNIX);
+	 	$this->sov = $dt->get(IL_CAL_ISO_8601);
 	}
 
 	/**
@@ -133,11 +131,9 @@ class ilECSAuth
 	 */
 	public function setEOV($a_eov)
 	{
-	 	include_once('Date.php');
-	 	
-	 	$date = new Date();
-	 	$date->setDate($a_eov,DATE_FORMAT_UNIXTIME);
-	 	$this->eov = $date->getDate().'+01:00';
+		include_once './Services/Calendar/classes/class.ilDateTime.php';
+		$dt = new ilDateTime($a_eov,IL_CAL_UNIX);
+	 	$this->sov = $dt->get(IL_CAL_ISO_8601);
 	}
 }
 ?>

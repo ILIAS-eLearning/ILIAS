@@ -506,7 +506,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 	{
 		global $ilLog;
 		
-		$ilLog->write("importing metadata from json: ".print_r($a_definition, true));
+		$ilLog->write("importing metadata from json: ".print_r($a_json, true));
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
