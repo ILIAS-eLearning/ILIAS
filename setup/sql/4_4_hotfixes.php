@@ -905,7 +905,7 @@ $ilDB->unlockTables();
 ?>
 <#35>
 <?php
-	$ilDB->addPrimaryKey('cp_suspend', array('user_id', 'obj_id'));
+//#13883	$ilDB->addPrimaryKey('cp_suspend', array('user_id', 'obj_id'));
 ?>
 <#36>
 <?php
