@@ -1,5 +1,5 @@
 <div id="{ELEMENT_ID}" class="form-inline">
-	<table class="kprimchoicewizard" border="0">
+	<table class="kprimchoicewizard table table-condensed table-striped" border="0">
 		<thead>
 		<tr>
 			<th rowspan="2">{ANSWER_TEXT}<!-- BEGIN image_heading --> / {ANSWER_IMAGE}<!-- END image_heading --></th>
@@ -15,7 +15,7 @@
 		<tr class="{ROW_CLASS}">
 			<td>
 				<!-- BEGIN singleline -->
-					<input type="text" size="{SIZE}" id="{SINGLELINE_ID}" maxlength="{MAXLENGTH}" name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED_SINGLELINE}/>
+					<input class="form-control" type="text" size="{SIZE}" id="{SINGLELINE_ID}" maxlength="{MAXLENGTH}" name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED_SINGLELINE}/>
 					<!-- BEGIN addimage -->
 					<div class="imageselection">
 						<div>

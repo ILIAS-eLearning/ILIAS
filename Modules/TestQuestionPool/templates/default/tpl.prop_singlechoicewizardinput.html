@@ -1,5 +1,5 @@
 <div class="form-inline" id="{ELEMENT_ID}">
-	<table class="singlechoicewizard">
+	<table class="singlechoicewizard table table-condensed table-striped">
 		<thead>
 			<tr>
 				<th>{ANSWER_TEXT}</th>
@@ -15,10 +15,10 @@
 			<tr class="{ROW_CLASS}">
 				<td>
 <!-- BEGIN singleline -->
-					<input type="text" size="{SIZE}" id="{SINGLELINE_ID}" maxlength="{MAXLENGTH}" name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED_SINGLELINE}/>
+					<input class="form-control" type="text" size="{SIZE}" id="{SINGLELINE_ID}" maxlength="{MAXLENGTH}" name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED_SINGLELINE}/>
 <!-- END singleline -->
 <!-- BEGIN multiline -->
-					<textarea cols="60" rows="4" name="{MULTILINE_POST_VAR}[answer][{MULTILINE_ROW_NUMBER}]" id="{MULTILINE_ID}"{DISABLED_MULTILINE}>{PROPERTY_VALUE}</textarea>
+					<textarea class="form-control" cols="60" rows="4" name="{MULTILINE_POST_VAR}[answer][{MULTILINE_ROW_NUMBER}]" id="{MULTILINE_ID}"{DISABLED_MULTILINE}>{PROPERTY_VALUE}</textarea>
 <!-- END multiline -->
 				</td>
 				<td class="imagecolumn">
@@ -37,7 +37,7 @@
 				</td>
 <!-- BEGIN points -->
 				<td style="vertical-align: top;">
-					<input type="text" style="text-align: right;" size="5" id="{POINTS_ID}" name="{POINTS_POST_VAR}[points][{POINTS_ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
+					<input type="text" class="form-control" style="text-align: right;" size="5" id="{POINTS_ID}" name="{POINTS_POST_VAR}[points][{POINTS_ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
 				</td>
 <!-- END points -->
 				<td style="vertical-align: top;">
