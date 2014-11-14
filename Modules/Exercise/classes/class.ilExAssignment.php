@@ -3115,13 +3115,13 @@ class ilExAssignment
 					}
 					// rename file
 					rename($file_path, $target);
-				}
-				
-				if ($noti_rec_ids)
-				{
-					$exc->sendFeedbackFileNotification($file_name, $noti_rec_ids,
-						(int) $this->getId());
-				}
+										
+					if ($noti_rec_ids)
+					{
+						$exc->sendFeedbackFileNotification($file_name, $noti_rec_ids,
+							(int) $this->getId());
+					}
+				}				
 			}
 		}
 		
