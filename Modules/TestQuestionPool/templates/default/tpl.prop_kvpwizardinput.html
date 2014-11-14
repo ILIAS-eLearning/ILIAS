@@ -1,26 +1,26 @@
-<div id="{ELEMENT_ID}">
-	<table class="kvpwizard">
+<div class="form-inline" id="{ELEMENT_ID}">
+	<table class="kvpwizard table table-condensed table-striped">
 		<thead>
 			<tr>
 				<th>{KEY_TEXT}</th>
 				<th>{VALUE_TEXT}</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody class="kvpwzd">
 <!-- BEGIN row -->
-			<tr class="{ROW_CLASS}">
+			<tr class="kvpwzd">
 				<td>
-					<input type="text" size="{KEY_SIZE}" id="{KEY_ID}" maxlength="{KEY_MAXLENGTH}" name="{POST_VAR}[key][{ROW_NUMBER}]" <!-- BEGIN prop_key_propval -->value="{PROPERTY_VALUE}" <!-- END prop_key_propval -->{DISABLED_KEY}/>
+					<input class="form-control" type="text" size="{KEY_SIZE}" id="{KEY_ID}" maxlength="{KEY_MAXLENGTH}" name="{POST_VAR}[key][{ROW_NUMBER}]" <!-- BEGIN prop_key_propval -->value="{PROPERTY_VALUE}" <!-- END prop_key_propval -->{DISABLED_KEY}/>
 				</td>
 				<td>
-					<input type="text" size="{VALUE_SIZE}" id="{VALUE_ID}" maxlength="{VALUE_MAXLENGTH}" name="{POST_VAR}[value][{ROW_NUMBER}]" <!-- BEGIN prop_value_propval -->value="{PROPERTY_VALUE}" <!-- END prop_value_propval -->{DISABLED_VALUE}/>
+					<input class="form-control" type="text" size="{VALUE_SIZE}" id="{VALUE_ID}" maxlength="{VALUE_MAXLENGTH}" name="{POST_VAR}[value][{ROW_NUMBER}]" <!-- BEGIN prop_value_propval -->value="{PROPERTY_VALUE}" <!-- END prop_value_propval -->{DISABLED_VALUE}/>
 				</td>
 				<td style="vertical-align: top;">
-					<input type="image" name="{CMD_ADD}" class="kvp_add" id="add_{ID}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />
-					<input type="image" name="{CMD_REMOVE}" class="kvp_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
+					<button name="{CMD_ADD}" class="kvp_add btn btn-link" id="add_{ID}" onclick="javascript: void(0); return false;">{ADD_BUTTON}</button>
+					<button name="{CMD_REMOVE}" class="kvp_remove btn btn-link" id="remove_{ID}" onclick="javascript: void(0); return false;">{REMOVE_BUTTON}</button>
 <!-- BEGIN move -->
-					<input type="image" name="{CMD_UP}" class="kvp_up" id="up_{ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
-					<input type="image" name="{CMD_DOWN}" class="kvp_down" id="down_{ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
+					<button name="{CMD_UP}" class="kvp_up btn btn-link" id="up_{ID}" onclick="javascript: void(0); return false;">{UP_BUTTON}</button>
+					<button name="{CMD_DOWN}" class="kvp_down btn btn-link" id="down_{ID}" onclick="javascript: void(0); return false;">{DOWN_BUTTON}</button>
 <!-- END move -->
 				</td>
 			</tr>
