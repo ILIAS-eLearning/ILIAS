@@ -14193,11 +14193,18 @@ cptch#:#captcha_audio_title#:#Audio Captcha. Click to hear the letters and chara
 cptch#:#captcha_alt_txt#:#This is a visual captcha. Click the tab to get to an audio captcha
 obj#:#obj_features#:#Additional Features
 obj#:#obj_tool_setting_info_tab#:#Info Tab
-adve#:#char_selector#:#Selector for Unicode Characters
-adve#:#char_selector_inactive#:#Inactive
-adve#:#char_selector_inherit#:#Inherit
-adve#:#char_selector_enabled#:#Enabled
-adve#:#char_selector_disabled#:#Disabled
+adve#:#char_selector_admin#:#Selector for Unicode Characters (TODO)
+adve#:#char_selector_user#:#Selector for Unicode Characters (TODO)
+adve#:#char_selector_test#:#Selector for Unicode Characters (TODO)
+adve#:#char_selector_inactive_admin#:#Inactive (TODO)
+adve#:#char_selector_inherit_user#:#Inherit (TODO)
+adve#:#char_selector_inherit_test#:#Inherit (TODO)
+adve#:#char_selector_enabled_admin#:#Enabled (TODO)
+adve#:#char_selector_enabled_user#:#Enabled (TODO)
+adve#:#char_selector_enabled_test#:#Enabled (TODO)
+adve#:#char_selector_disabled_admin#:#Disabled (TODO)
+adve#:#char_selector_disabled_user#:#Disabled (TODO)
+adve#:#char_selector_disabled_test#:#Disabled (TODO)
 adve#:#char_selector_inactive_info_admin#:#Deactivates the selector. Users and tests can't overwrite this setting.
 adve#:#char_selector_inherit_info_user#:#Take the platform setting.
 adve#:#char_selector_inherit_info_test#:#Take the platform or user specific setting.

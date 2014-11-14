@@ -121,14 +121,14 @@ class ilCharSelectorGUI
 		global $lng;
 		$lng->loadLanguageModule('adve');
 				
-		$availability = new ilRadioGroupInputGUI($lng->txt('char_selector'), 'char_selector_availability');
-		$inactive = new ilRadioOption($lng->txt('char_selector_inactive'),ilCharSelectorConfig::INACTIVE);
+		$availability = new ilRadioGroupInputGUI($lng->txt('char_selector_'.$this->config->getContext()), 'char_selector_availability');
+		$inactive = new ilRadioOption($lng->txt('char_selector_inactive_'.$this->config->getContext()),ilCharSelectorConfig::INACTIVE);
 		$inactive->setInfo($lng->txt('char_selector_inactive_info_'.$this->config->getContext()));
-		$inherit = new ilRadioOption($lng->txt('char_selector_inherit'),ilCharSelectorConfig::INHERIT);
+		$inherit = new ilRadioOption($lng->txt('char_selector_inherit_'.$this->config->getContext()),ilCharSelectorConfig::INHERIT);
 		$inherit->setInfo($lng->txt('char_selector_inherit_info_'.$this->config->getContext()));
-		$enabled = new ilRadioOption($lng->txt('char_selector_enabled'), ilCharSelectorConfig::ENABLED);
+		$enabled = new ilRadioOption($lng->txt('char_selector_enabled_'.$this->config->getContext()), ilCharSelectorConfig::ENABLED);
 		$enabled->setInfo($lng->txt('char_selector_enabled_info_'.$this->config->getContext()));
-		$disabled = new ilRadioOption($lng->txt('char_selector_disabled'), ilCharSelectorConfig::DISABLED);
+		$disabled = new ilRadioOption($lng->txt('char_selector_disabled_'.$this->config->getContext()), ilCharSelectorConfig::DISABLED);
 		$disabled->setInfo($lng->txt('char_selector_disabled_info_'.$this->config->getContext()));
 
 		$blocks = new ilSelectInputGUI($lng->txt('char_selector_blocks'), 'char_selector_blocks');

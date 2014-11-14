@@ -14129,11 +14129,18 @@ poll#:#poll_voting_period_info#:#Ende der Abstimmung: %s
 cptch#:#captcha_code_reload#:#Neue Grafik laden
 cptch#:#captcha_audio_title#:#Akustisches Captcha. Bitte anklicken, um Zeichen vorgelesen zu bekommen.
 cptch#:#captcha_alt_txt#:#Grafik mit Zeichen, genannt Captcha. Klicken Sie mit der Tab-Taste weiter zu einem akustischen Captcha.
-adve#:#char_selector#:#Auswahl von Unicode-Zeichen
-adve#:#char_selector_inactive#:#Nicht verfügbar
-adve#:#char_selector_inherit#:#Übernommen
-adve#:#char_selector_enabled#:#Aktiviert
-adve#:#char_selector_disabled#:#Deaktiviert
+adve#:#char_selector_admin#:#Auswahl von Unicode-Zeichen (TODO)
+adve#:#char_selector_user#:#Auswahl von Unicode-Zeichen (TODO)
+adve#:#char_selector_test#:#Auswahl von Unicode-Zeichen (TODO)
+adve#:#char_selector_inactive_admin#:#Nicht verfügbar (TODO)
+adve#:#char_selector_inherit_user#:#Übernommen (TODO)
+adve#:#char_selector_inherit_test#:#Übernommen (TODO)
+adve#:#char_selector_enabled_admin#:#Aktiviert (TODO)
+adve#:#char_selector_enabled_user#:#Aktiviert (TODO)
+adve#:#char_selector_enabled_test#:#Aktiviert (TODO)
+adve#:#char_selector_disabled_admin#:#Deaktiviert (TODO)
+adve#:#char_selector_disabled_user#:#Deaktiviert (TODO)
+adve#:#char_selector_disabled_test#:#Deaktiviert (TODO)
 adve#:#char_selector_inactive_info_admin#:#Deaktiviert die Auswahl komplett. Nutzer und Tests können diese Einstellung nicht überschreiben.
 adve#:#char_selector_inherit_info_user#:#Es werden die Plattformeinstellungen übernommen.
 adve#:#char_selector_inherit_info_test#:#Es werden die Plattform- oder Nutzereinstellungen übernommen.
