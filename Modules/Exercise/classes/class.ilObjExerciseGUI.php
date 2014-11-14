@@ -2529,7 +2529,20 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$peer_dl_date = new ilDateTime($ass->getPeerReviewDeadline(), IL_CAL_UNIX);
 				$peer_dl = $this->form->getItemByPostVar("peer_dl");
 				$peer_dl->setDate($peer_dl_date);
-			}					
+			}		
+			
+			// #14450
+			if ($values["peer"] && 
+				$ass->hasPeerReviewGroups())
+			{
+				$this->form->getItemByPostVar("deadline_cb")->setDisabled(true);			
+				$this->form->getItemByPostVar("deadline")->setDisabled(true);			
+				$this->form->getItemByPostVar("peer")->setDisabled(true);			   
+				$this->form->getItemByPostVar("peer_min")->setDisabled(true);
+				$this->form->getItemByPostVar("peer_dl")->setDisabled(true);
+				$this->form->getItemByPostVar("peer_file")->setDisabled(true);
+				$this->form->getItemByPostVar("peer_prsl")->setDisabled(true);									
+			}			 
 		}		
 		$this->form->setValuesByArray($values);
 
@@ -2581,62 +2594,75 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 			
+			$ass = new ilExAssignment($_GET["ass_id"]);
+						
+			// #14450
+			$protected_peer_review_groups = false;
+			if($ass->getPeerReview() &&
+				$ass->hasPeerReviewGroups())
+			{
+				$protected_peer_review_groups = true;
+			}
+			
 			// additional checks
 			
-			$valid = true;			
+			$valid = true;	
 			
-			if ($_POST["start_time_cb"] && $_POST["deadline_cb"])
+			if(!$protected_peer_review_groups)
 			{
-				// check whether start date is before end date
-				$start_date =
-					$this->form->getItemByPostVar("start_time")->getDate();
-				$end_date =
-					$this->form->getItemByPostVar("deadline")->getDate();
-				if ($start_date->get(IL_CAL_UNIX) >=
-					$end_date->get(IL_CAL_UNIX))
-				{					
-					$this->form->getItemByPostVar("start_time")
-						->setAlert($lng->txt("exc_start_date_should_be_before_end_date"));
-					$this->form->getItemByPostVar("deadline")
-						->setAlert($lng->txt("exc_start_date_should_be_before_end_date"));
-					$valid = false;					
-				}
-			}
-			
-			if(!$_POST["deadline_cb"])
-			{
-				if($_POST["peer"])
+				if ($_POST["start_time_cb"] && $_POST["deadline_cb"])
 				{
-					$this->form->getItemByPostVar("peer")
-						->setAlert($lng->txt("exc_needs_deadline"));
-					$valid = false;
-				}	
-				if($_POST["fb"])
-				{
-					$this->form->getItemByPostVar("fb")
-						->setAlert($lng->txt("exc_needs_deadline"));
-					$valid = false;
-				}	
-			}
-			else
-			{
-				if($_POST["type"] != ilExAssignment::TYPE_UPLOAD_TEAM &&
-					$_POST["peer"] && 
-					$_POST["peer_dl_tgl"])
-				{
-					$peer_dl =	$this->form->getItemByPostVar("peer_dl")->getDate();					
-					$peer_dl = $peer_dl->get(IL_CAL_UNIX);										
-					$end_date = $this->form->getItemByPostVar("deadline")->getDate();
-					$end_date = $end_date->get(IL_CAL_UNIX);
-					
-					// #13877
-					if ($peer_dl < $end_date)
-					{
-						$this->form->getItemByPostVar("peer_dl")
-							->setAlert($lng->txt("exc_peer_deadline_mismatch"));
-						$valid = false;
+					// check whether start date is before end date
+					$start_date =
+						$this->form->getItemByPostVar("start_time")->getDate();
+					$end_date =
+						$this->form->getItemByPostVar("deadline")->getDate();
+					if ($start_date->get(IL_CAL_UNIX) >=
+						$end_date->get(IL_CAL_UNIX))
+					{					
+						$this->form->getItemByPostVar("start_time")
+							->setAlert($lng->txt("exc_start_date_should_be_before_end_date"));
+						$this->form->getItemByPostVar("deadline")
+							->setAlert($lng->txt("exc_start_date_should_be_before_end_date"));
+						$valid = false;					
 					}
-				}			
+				}
+
+				if(!$_POST["deadline_cb"])
+				{
+					if($_POST["peer"])
+					{
+						$this->form->getItemByPostVar("peer")
+							->setAlert($lng->txt("exc_needs_deadline"));
+						$valid = false;
+					}	
+					if($_POST["fb"])
+					{
+						$this->form->getItemByPostVar("fb")
+							->setAlert($lng->txt("exc_needs_deadline"));
+						$valid = false;
+					}	
+				}
+				else
+				{
+					if($_POST["type"] != ilExAssignment::TYPE_UPLOAD_TEAM &&
+						$_POST["peer"] && 
+						$_POST["peer_dl_tgl"])
+					{
+						$peer_dl =	$this->form->getItemByPostVar("peer_dl")->getDate();					
+						$peer_dl = $peer_dl->get(IL_CAL_UNIX);										
+						$end_date = $this->form->getItemByPostVar("deadline")->getDate();
+						$end_date = $end_date->get(IL_CAL_UNIX);
+
+						// #13877
+						if ($peer_dl < $end_date)
+						{
+							$this->form->getItemByPostVar("peer_dl")
+								->setAlert($lng->txt("exc_peer_deadline_mismatch"));
+							$valid = false;
+						}
+					}			
+				}
 			}
 			
 			if(!$valid)
@@ -2646,8 +2672,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$tpl->setContent($this->form->getHtml());
 				return;
 			}
-			
-			$ass = new ilExAssignment($_GET["ass_id"]);
+						
 			$ass->setTitle($_POST["title"]);
 			$ass->setInstruction($_POST["instruction"]);
 			$ass->setExerciseId($this->object->getId());
@@ -2665,36 +2690,39 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$ass->setStartTime(null);
 			}
 			
-			// deadline
-			if ($_POST["deadline_cb"])
+			if(!$protected_peer_review_groups)
 			{
-				$date =	$this->form->getItemByPostVar("deadline")->getDate();
-				$ass->setDeadline($date->get(IL_CAL_UNIX));
-			}
-			else
-			{
-				$ass->setDeadline(null);
-			}
-			
-			if($_POST["type"] != ilExAssignment::TYPE_UPLOAD_TEAM)
-			{
-				$ass->setPeerReview($_POST["peer"]);
-				$ass->setPeerReviewMin($_POST["peer_min"]);
-				$ass->setPeerReviewFileUpload($_POST["peer_file"]);
-				
-				if($ass->getDeadline() && $ass->getDeadline() > time())
+				// deadline
+				if ($_POST["deadline_cb"])
 				{
-					$ass->setPeerReviewPersonalized($_POST["peer_prsl"]);
-				}
-				
-				if($_POST["peer_dl_tgl"])
-				{
-					$peer_dl = $this->form->getItemByPostVar("peer_dl")->getDate();				
-					$ass->setPeerReviewDeadline($peer_dl->get(IL_CAL_UNIX));					
+					$date =	$this->form->getItemByPostVar("deadline")->getDate();
+					$ass->setDeadline($date->get(IL_CAL_UNIX));
 				}
 				else
 				{
-					$ass->setPeerReviewDeadline(null);
+					$ass->setDeadline(null);
+				}
+
+				if($_POST["type"] != ilExAssignment::TYPE_UPLOAD_TEAM)
+				{
+					$ass->setPeerReview($_POST["peer"]);
+					$ass->setPeerReviewMin($_POST["peer_min"]);
+					$ass->setPeerReviewFileUpload($_POST["peer_file"]);
+
+					if($ass->getDeadline() && $ass->getDeadline() > time())
+					{
+						$ass->setPeerReviewPersonalized($_POST["peer_prsl"]);
+					}
+
+					if($_POST["peer_dl_tgl"])
+					{
+						$peer_dl = $this->form->getItemByPostVar("peer_dl")->getDate();				
+						$ass->setPeerReviewDeadline($peer_dl->get(IL_CAL_UNIX));					
+					}
+					else
+					{
+						$ass->setPeerReviewDeadline(null);
+					}
 				}
 			}
 			
