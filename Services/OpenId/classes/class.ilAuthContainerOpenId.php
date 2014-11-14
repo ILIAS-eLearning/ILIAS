@@ -128,7 +128,7 @@ class ilAuthContainerOpenId extends Auth_Container
 			{
 				if($this->settings->isAccountMigrationEnabled() and !$this->force_creation and !$_SESSION['force_creation'])
 				{
-					//$a_auth->logout();
+					$a_auth->logout();
 					$_SESSION['tmp_auth_mode'] = 'openid';
 					$_SESSION['tmp_oid_username'] = urldecode($_GET['openid_identity']);
 					$_SESSION['tmp_oid_provider'] = $_POST['oid_provider'];
