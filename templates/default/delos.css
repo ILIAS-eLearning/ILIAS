@@ -6301,6 +6301,7 @@ div.ilFrame {
 }
 .ilContainerWidth {
   max-width: 1400px;
+  padding: 0 30px;
 }
 /* left navigation area (used, e.g. for explorer trees) */
 .ilLeftNav {
@@ -10020,6 +10021,9 @@ img[src$="icon_checked.svg"] {
 @media only screen and (max-width: 768px) {
   html {
     -webkit-text-size-adjust: none;
+  }
+  .ilContainerWidth {
+    padding: 0 15px;
   }
   div.il_HeaderInner {
     color: #222;
