@@ -1021,7 +1021,7 @@ assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Te
 assessment#:#tst_count_correct_solutions#:#Nur vollständig richtige Lösungen bewerten
 assessment#:#tst_count_correct_solutions_desc#:#[tst_count_correct_solutions_desc]
 assessment#:#tst_count_partial_solutions#:#Teillösungen bewerten
-assessment#:#tst_count_partial_solutions_desc#:#[tst_count_partial_solutions_desc]
+assessment#:#tst_count_partial_solutions_desc#:#Ich bin ein Todo
 assessment#:#tst_count_system_description#:#Wenn Teillösungen bewertet werden, werden die definierten Punkte abhängig von den Antworten der Teilnehmer aufsummiert. Wenn nur vollständige Lösungen bewertet werden, müssen Teilnehmer die maximale Punktezahl für eine Frage erzielen, anderenfalls wird die Frage mit 0 Punkten bewertet.
 assessment#:#tst_default_settings#:#Persönliche Standardeinstellungen
 assessment#:#tst_defaults_applied#:#Die ausgewählten Standardeinstellungen wurden angewendet.

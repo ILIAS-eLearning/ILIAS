@@ -872,7 +872,7 @@ assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your
 assessment#:#tst_count_correct_solutions#:#Count Only Complete Solutions
 assessment#:#tst_count_correct_solutions_desc#:#[tst_count_correct_solutions_desc]
 assessment#:#tst_count_partial_solutions#:#Count Partial Solutions
-assessment#:#tst_count_partial_solutions_desc#:#[tst_count_partial_solutions_desc]
+assessment#:#tst_count_partial_solutions_desc#:#I am a todo
 assessment#:#tst_count_system_description#:#If partial solutions are counted, the points for a question are given dependent on the answers of a participant. If only complete solutions are counted, a participant must reach the maximum available points for a question, otherwise the resulting points are set to zero.
 assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains participant datasets.
