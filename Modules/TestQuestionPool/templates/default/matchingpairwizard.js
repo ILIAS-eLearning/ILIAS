@@ -5,11 +5,11 @@ var ilMatchingPairWizardInputTemplate = {
 	tag_button: 'matchingpair',
 
 	getRowFromEvent: function(e) {
-		return $(e.target).parents(this.tag_row);
+		return $(e.target).closest(this.tag_row);
 	},
 
 	getContainerFromEvent: function(e) {
-		return $(e.target).parents(this.tag_container);
+		return $(e.target).closest(this.tag_container);
 	},
 
 	cleanRow: function(row) {
