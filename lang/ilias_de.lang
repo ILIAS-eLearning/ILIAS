@@ -15079,4 +15079,9 @@ common#:#scorm_lp_auto_activate_info#:#Wenn der Lernfortschritt im Allgemeinen a
 ecs#:#ecs_deprecated_token#:#Unterstützung für veraltete Authentifizierungstoken
 ecs#:#ecs_deprecated_token_info#:#Bietet Unterstützung für veraltete Authentifizierungstoken (zum Beispiel für ILIAS-Installationen der Version 4.x).
 exc#:#exc_peer_reviews_invalid_warning#:#Ungültige Peer-Gruppen
-exc#:#exc_peer_review_overview#:#Peer-Feedback anzeigen
+exc#:#exc_peer_review_overview#:#Peer-Gruppen anzeigen
+exc#:#exc_peer_review_overview_invalid_users#:#Ungültige Benutzer
+exc#:#exc_peer_review_missing_users#:#Benutzer mit einer Abgabe, die nicht Teil des Peer-Feedbacks sind
+exc#:#exc_peer_review_not_returned_users#:#Benutzer ohne Abgabe, die nicht Teil des Peer-Feedbacks sind
+exc#:#exc_peer_review_invalid_peer_ids#:#Feedback-Nehmer, die nicht mehr Teilnehmer der Übung sind oder keine Abgabe haben
+exc#:#exc_peer_review_invalid_giver_ids#:#Feedback-Geber, die nicht mehr Teilnehmer der Übung sind oder keine Abgabe haben

@@ -144,7 +144,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 						
 			$this->tpl->setVariable("TXT_PEER_OVERVIEW", $lng->txt("exc_peer_review_overview"));
 			$this->tpl->setVariable("CMD_PEER_OVERVIEW", 
-				$ilCtrl->getLinkTarget($this->parent_obj, "showAssignmentPeerOverview"));
+				$ilCtrl->getLinkTarget($this->parent_obj, "showPeerReviewOverview"));
 		}
 		else
 		{

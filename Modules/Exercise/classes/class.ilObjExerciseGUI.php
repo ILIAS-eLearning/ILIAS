@@ -4444,6 +4444,55 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$tpl->setContent($tbl->getHTML());		
 	}	
 	
+	public function showPeerReviewOverviewObject()
+	{
+		global $ilCtrl, $ilTabs, $tpl;
+		
+		if(!$this->ass || 
+			!$this->ass->getPeerReview())				
+		{
+			$ilCtrl->redirect($this, "showOverview");
+		}
+		
+		$this->checkPermission("write");
+				
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($this->lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "listAssignments"));
+		
+		include_once "Modules/Exercise/classes/class.ilExAssignmentPeerReviewOverviewTableGUI.php";
+		$tbl = new ilExAssignmentPeerReviewOverviewTableGUI($this, "showPeerReviewOverview", 
+			$this->ass);		
+		
+		$panel = "";
+		$panel_data = $tbl->getPanelInfo();
+		if(sizeof($panel_data))
+		{
+			$ptpl = new ilTemplate("tpl.exc_peer_review_overview_panel.html", true, true, "Modules/Exercise");
+			foreach($panel_data as $item)
+			{
+				$ptpl->setCurrentBlock("user_bl");
+				foreach($item["value"] as $user)
+				{
+					$ptpl->setVariable("USER", $user);
+					$ptpl->parseCurrentBlock();
+				}
+				
+				$ptpl->setCurrentBlock("item_bl");
+				$ptpl->setVariable("TITLE", $item["title"]);
+				$ptpl->parseCurrentBlock();
+			}
+		
+			include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
+			$panel = ilPanelGUI::getInstance();
+			$panel->setHeading($this->lng->txt("exc_peer_review_overview_invalid_users"));
+			$panel->setBody($ptpl->get());
+			$panel = $panel->getHTML();
+		}
+		
+		$tpl->setContent($tbl->getHTML().$panel);
+	}
+	
 	public function downloadGlobalFeedbackFileObject()
 	{
 		global $ilCtrl;

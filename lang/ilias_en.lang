@@ -15081,4 +15081,9 @@ common#:#scorm_lp_auto_activate_info#:#If learning progress is activated in gene
 ecs#:#ecs_deprecated_token#:#Support for Deprecated Authentication Token
 ecs#:#ecs_deprecated_token_info#:#Offers support for installations (e.g ILIAS installations of version 4.x) which use a deprecated token authentication mechanism.
 exc#:#exc_peer_reviews_invalid_warning#:#Invalid Peer Groups
-exc#:#exc_peer_review_overview#:#Show Peer-Feedback
+exc#:#exc_peer_review_overview#:#Show Peer Groups
+exc#:#exc_peer_review_overview_invalid_users#:#Invalid Users
+exc#:#exc_peer_review_missing_users#:#Users with submissions who are not part of the peer-feedback
+exc#:#exc_peer_review_not_returned_users#:#Users without submissions who are not part of the peer-feedback
+exc#:#exc_peer_review_invalid_peer_ids#:#Peer recipients who are not exercise members anymore or do not have a submission
+exc#:#exc_peer_review_invalid_giver_ids#:#Peer givers who are not exercise members anymore or do not have a submission

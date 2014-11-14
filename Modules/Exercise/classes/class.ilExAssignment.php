@@ -2654,24 +2654,25 @@ class ilExAssignment
 	public function validatePeerReviewGroups()
 	{
 		if($this->hasPeerReviewGroups())
-		{
-			// getValidPeerReviewUsers() only returns users who have uploaded
-			// we want all current members
+		{			
 			include_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
-			$all_valid = ilExerciseMembers::_getMembers($this->getExerciseId());
+			$all_exc = ilExerciseMembers::_getMembers($this->getExerciseId());
+			$all_valid = $this->getValidPeerReviewUsers(); // only returned
 			
 			$peer_ids = $invalid_peer_ids = $invalid_giver_ids = $all_reviews = array();
 			foreach($this->getAllPeerReviews(false) as $peer_id => $reviews)
 			{
 				$peer_ids[] = $peer_id;
 				
-				if(!in_array($peer_id, $all_valid))
+				if(!in_array($peer_id, $all_valid) ||
+					!in_array($peer_id, $all_exc))
 				{
 					$invalid_peer_ids[] = $peer_id;
 				}
 				foreach($reviews as $giver_id => $review)
 				{
-					if(!in_array($giver_id, $all_valid))
+					if(!in_array($giver_id, $all_valid) ||
+						!in_array($peer_id, $all_exc))
 					{
 						$invalid_giver_ids[] = $giver_id;
 					}
@@ -2693,12 +2694,22 @@ class ilExAssignment
 					$missing_user_ids[] = $user_id;
 				}
 			}
+			
+			$not_returned_ids = array();
+			foreach($all_exc as $user_id)
+			{				
+				if(!in_array($user_id, $all_valid))
+				{
+					$not_returned_ids[] = $user_id;
+				}
+			}
 						
 			return array(
 				"invalid" => (sizeof($missing_user_ids) || 
 					sizeof($invalid_peer_ids) || 
 					sizeof($invalid_giver_ids)),
 				"missing_user_ids" => $missing_user_ids, 
+				"not_returned_ids" => $not_returned_ids,
 				"invalid_peer_ids" => $invalid_peer_ids, 
 				"invalid_giver_ids" => $invalid_giver_ids,
 				"reviews" => $all_reviews);
