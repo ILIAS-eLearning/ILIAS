@@ -360,7 +360,8 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 			$tpl->setVariable("ROW_NUMBER", $i+1);
 			$tpl->setVariable("ROW_IDENTIFIER", $value->identifier);
 			$tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
-			$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]"); $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
+			$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
+			$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
 			$tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
 			$tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
 			$tpl->parseCurrentBlock();
@@ -399,9 +400,5 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();
-
-		global $tpl;
-		$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-		$tpl->addJavascript("./Modules/TestQuestionPool/templates/default/matchingwizard.js");
 	}
 }
