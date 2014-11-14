@@ -573,12 +573,10 @@ class ilRbacAdmin
 		// Copy template permissions
 		$this->copyRoleTemplatePermissions($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id,$a_consider_protected);
 		
-		$source_obj = $tree->getParentId($a_source_parent);
-		$target_obj = $tree->getParentId($a_dest_parent);
-		$ops = $rbacreview->getRoleOperationsOnObject($a_source_id,$source_obj);
-
-		$this->revokePermission($target_obj,$a_dest_id);
-		$this->grantPermission($a_dest_id,$ops,$target_obj);
+		$ops = $rbacreview->getRoleOperationsOnObject($a_source_id,$a_source_parent);
+		
+		$this->revokePermission($a_dest_parent,$a_dest_id);
+		$this->grantPermission($a_dest_id,$ops,$a_dest_parent);
 		return true;
 	}
 
