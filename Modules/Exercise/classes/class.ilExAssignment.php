@@ -1734,6 +1734,7 @@ class ilExAssignment
 			$cache[$directory] = $directory;
 			ilUtil::makeDir ($directory);
 			$sourcefiles = scandir($sourcedir);
+			$duplicates = array();
 			foreach ($sourcefiles as $sourcefile) {
 				if ($sourcefile == "." || $sourcefile == "..")
 				{
@@ -1746,6 +1747,20 @@ class ilExAssignment
 				{						
 					$targetfile= substr($targetfile, $pos + 1);
 				}
+				
+				/* #14536 (proposal)
+				if(array_key_exists($targetfile, $duplicates))
+				{
+					$suffix = strrpos($targetfile, ".");						
+					$targetfile = substr($targetfile, 0, $suffix).
+						" (".(++$duplicates[$targetfile]).")".
+						substr($targetfile, $suffix);				
+				}
+				else
+				{
+					$duplicates[$targetfile] = 1;
+				}
+				*/ 
 				
 				$targetfile = $directory.DIRECTORY_SEPARATOR.$targetfile;
 				$sourcefile = $sourcedir.DIRECTORY_SEPARATOR.$sourcefile;
@@ -1772,7 +1787,7 @@ class ilExAssignment
 
 			}
 		}
-
+		
 		$tmpfile = ilUtil::ilTempnam();
 		$tmpzipfile = $tmpfile . ".zip";
 		// Safe mode fix
@@ -3045,56 +3060,71 @@ class ilExAssignment
 	 * @param
 	 * @return
 	 */
-	function saveMultiFeedbackFiles($a_files, $a_user_id = 0)
-	{
-		global $ilUser;
-		
-		if ($a_user_id == 0)
-		{
-			$a_user_id = $ilUser->getId();
-		}
-		
-		// #14294
-		if($this->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
-		{
-			$team_id = $this->getTeamId($a_user_id);
-			$feedback_id = "t".$team_id;	
-						
-			$noti_rec_ids = array();
-			foreach($this->getTeamMembers($team_id) as $team_user_id)
-			{				
-				$noti_rec_ids[] = $team_user_id;
-			}						
-		}
-		else
-		{
-			$feedback_id = $a_user_id;
-			$noti_rec_ids = array($a_user_id);
-		}
-		
+	function saveMultiFeedbackFiles($a_files)
+	{			
 		$exc = new ilObjExercise($this->getExerciseId(), false);
 		
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$fstorage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
 		$fstorage->create();
 		
+		$team_map = array();
+		
 		$mf_files = $this->getMultiFeedbackFiles();
 		foreach ($mf_files as $f)
-		{
-			if ($a_files[$f["user_id"]][$f["file"]] != "")
-			{
-				$fb_path = $fstorage->getFeedbackPath($feedback_id);
-				$target = $fb_path."/".$f["file"];
-				if (is_file($target))
+		{			
+			$user_id = $f["user_id"];
+			$file_path = $f["full_path"];				
+			$file_name = $f["file"];
+			
+			// if checked in confirmation gui
+			if ($a_files[$user_id][md5($file_name)] != "")
+			{			
+				// #14294 - team assignment
+				if ($this->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 				{
-					unlink($target);
+					// just once for each user
+					if (!array_key_exists($user_id, $team_map))
+					{									
+						$team_id = $this->getTeamId($user_id);
+						$team_map[$user_id]["team_id"] = "t".$team_id;	
+
+						$team_map[$user_id]["noti_rec_ids"] = array();
+						foreach ($this->getTeamMembers($team_id) as $team_user_id)
+						{				
+							$team_map[$user_id]["noti_rec_ids"][] = $team_user_id;
+						}		
+					}
+
+					$feedback_id = $team_map[$user_id]["team_id"];
+					$noti_rec_ids = $team_map[$user_id]["noti_rec_ids"];
 				}
-				// rename file
-				rename($f["full_path"], $target);
-				$exc->sendFeedbackFileNotification($f["file"], $noti_rec_ids,
-					(int) $this->getId());
+				else
+				{
+					$feedback_id = $user_id;
+					$noti_rec_ids = array($user_id);
+				}			
+				
+				if ($feedback_id)
+				{
+					$fb_path = $fstorage->getFeedbackPath($feedback_id);
+					$target = $fb_path."/".$file_name;
+					if (is_file($target))
+					{
+						unlink($target);
+					}
+					// rename file
+					rename($file_path, $target);
+				}
+				
+				if ($noti_rec_ids)
+				{
+					$exc->sendFeedbackFileNotification($file_name, $noti_rec_ids,
+						(int) $this->getId());
+				}
 			}
 		}
+		
 		$this->clearMultiFeedbackDirectory();
 	}
 	
