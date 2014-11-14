@@ -9,12 +9,12 @@ var ilMatchingPairWizardInputTemplate = {
 	},
 
 	getContainerFromEvent: function(e) {
-		return $(e.target).parents(this.tag_container);
+		return $(e.target).closest(this.tag_container);
 	},
 
 	cleanRow: function(row) {
 		$(row).find('input:text').attr('value', '');
-		$(row).find('input:checkbox').prop('checked', false);
+		$(row).find('select').prop('selectedIndex', 0);
 	},
 
 	reindexRows: function(tbody) {
@@ -24,21 +24,18 @@ var ilMatchingPairWizardInputTemplate = {
 		// process all rows
 		$(tbody).find(this.tag_row).each(function() {
 
-			// answer
-			$(this).find('input:text[id*="[answer]"]').each(function() {
-				that.handleId(this, 'id', rowindex);
+			// definition
+			$(this).find('select[name*="[definition]"]').each(function() {
 				that.handleId(this, 'name', rowindex);
 			});
 
-			// scale
-			$(this).find('input:text[id*="[label]"]').each(function() {
-				that.handleId(this, 'id', rowindex);
+			// term
+			$(this).find('select[name*="[term]"]').each(function() {
 				that.handleId(this, 'name', rowindex);
 			});
 
-			// other
-			$(this).find('input:checkbox').each(function() {
-				that.handleId(this, 'id', rowindex);
+			// points
+			$(this).find('input:text[name*="[points]"]').each(function() {
 				that.handleId(this, 'name', rowindex);
 			});
 

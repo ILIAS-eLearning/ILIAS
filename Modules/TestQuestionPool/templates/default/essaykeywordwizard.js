@@ -14,7 +14,6 @@ var ilEssayKeywordWizardInputTemplate = {
 
 	cleanRow: function(row) {
 		$(row).find('input:text').attr('value', '');
-		$(row).find('input:checkbox').prop('checked', false);
 	},
 
 	reindexRows: function(tbody) {
