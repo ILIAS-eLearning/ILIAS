@@ -30,14 +30,8 @@ var ilEssayKeywordWizardInputTemplate = {
 				that.handleId(this, 'name', rowindex);
 			});
 
-			// scale
-			$(this).find('input:text[id*="[label]"]').each(function() {
-				that.handleId(this, 'id', rowindex);
-				that.handleId(this, 'name', rowindex);
-			});
-
-			// other
-			$(this).find('input:checkbox').each(function() {
+			// points
+			$(this).find('input:text[id*="[points]"]').each(function() {
 				that.handleId(this, 'id', rowindex);
 				that.handleId(this, 'name', rowindex);
 			});
