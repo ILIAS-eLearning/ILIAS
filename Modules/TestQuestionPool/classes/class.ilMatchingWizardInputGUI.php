@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php';
+require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 
 /**
  * This class represents a single choice wizard property in a property form.
@@ -350,23 +351,18 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 				$tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
 				$tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
 				$tpl->setVariable("ID", $this->getPostVar() . "[$i]");
-				$tpl->setVariable("UP_BUTTON", ilUtil::getImagePath('a_up.png'));
-				$tpl->setVariable("DOWN_BUTTON", ilUtil::getImagePath('a_down.png'));
+				$tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
+				$tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock("row");
-			$class = ($i % 2 == 0) ? "even" : "odd";
-			if ($i == 0) $class .= " first";
-			if ($i == count($this->values)-1) $class .= " last";
-			$tpl->setVariable("ROW_CLASS", $class);
 			$tpl->setVariable("POST_VAR", $this->getPostVar());
 			$tpl->setVariable("ROW_NUMBER", $i+1);
 			$tpl->setVariable("ROW_IDENTIFIER", $value->identifier);
 			$tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
-			$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
-			$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
-			$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
-			$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
+			$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]"); $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
+			$tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
+			$tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
 			$tpl->parseCurrentBlock();
 			$i++;
 		}
@@ -403,10 +399,9 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();
-		/*
+
 		global $tpl;
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initDomEvent();
-		$tpl->addJavascript("./Modules/TestQuestionPool/templates/default/matchingwizard.js");*/
+		$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+		$tpl->addJavascript("./Modules/TestQuestionPool/templates/default/matchingwizard.js");
 	}
 }
