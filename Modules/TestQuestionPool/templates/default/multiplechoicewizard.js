@@ -262,7 +262,6 @@ function singlechoiceWizardEvents(e)
 	if (typeof tinyMCE == 'undefined' || tas.length == 0)
 	{
 		addbuttons = YAHOO.util.Dom.getElementsByClassName('singlechoicewizard_add');
-		console.log(addbuttons);
 		for (i = 0; i < addbuttons.length; i++)
 		{
 			button = addbuttons[i];
