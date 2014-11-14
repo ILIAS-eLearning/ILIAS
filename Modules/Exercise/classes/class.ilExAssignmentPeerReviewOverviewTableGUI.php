@@ -35,7 +35,7 @@ class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("exc_peer_review_giver"), "giver");
 		$this->addColumn($this->lng->txt("status"), "status");
 		
-		$this->setDefaultOrderField("tstamp");
+		$this->setDefaultOrderField("recipient");
 						
 		$this->setRowTemplate("tpl.exc_peer_review_overview_row.html", "Modules/Exercise");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -45,6 +45,8 @@ class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
 		$this->disable("numinfo");
 		
 		$this->getItems();			
+		
+		$this->addCommandButton("confirmResetPeerReview", $this->lng->txt("exc_peer_review_reset"));
 	}
 	
 	protected function translateUserIds($a_user_ids, $a_implode = false)

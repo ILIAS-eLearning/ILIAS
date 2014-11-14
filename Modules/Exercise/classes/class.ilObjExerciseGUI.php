@@ -4493,6 +4493,46 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$tpl->setContent($tbl->getHTML().$panel);
 	}
 	
+	public function confirmResetPeerReviewObject()
+	{
+		global $ilCtrl, $tpl, $ilTabs;
+		
+		if(!$this->ass || 
+			!$this->ass->getPeerReview())				
+		{
+			$ilCtrl->redirect($this, "showOverview");
+		}
+		
+		$this->checkPermission("write");
+		
+		$ilTabs->clearTargets();
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($ilCtrl->getFormAction($this));
+		$cgui->setHeaderText(sprintf($this->lng->txt("exc_peer_review_reset_sure"), $this->ass->getTitle()));
+		$cgui->setCancel($this->lng->txt("cancel"), "showPeerReviewOverview");
+		$cgui->setConfirm($this->lng->txt("delete"), "resetPeerReview");
+
+		$tpl->setContent($cgui->getHTML());		
+	}
+	
+	public function resetPeerReviewObject()
+	{
+		global $ilCtrl;
+		
+		if($this->ass &&
+			$this->ass->getPeerReview())				
+		{
+			$this->checkPermission("write");
+			$this->ass->resetPeerReviews();
+
+			ilUtil::sendSuccess($this->lng->txt("exc_peer_review_reset_done"), true);
+		}
+						
+		$ilCtrl->redirect($this, "showPeerReviewOverview");
+	}
+	
 	public function downloadGlobalFeedbackFileObject()
 	{
 		global $ilCtrl;

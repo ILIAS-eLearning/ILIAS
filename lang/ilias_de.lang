@@ -15085,3 +15085,5 @@ exc#:#exc_peer_review_missing_users#:#Benutzer mit einer Abgabe, die nicht Teil 
 exc#:#exc_peer_review_not_returned_users#:#Benutzer ohne Abgabe, die nicht Teil des Peer-Feedbacks sind
 exc#:#exc_peer_review_invalid_peer_ids#:#Feedback-Nehmer, die nicht mehr Teilnehmer der Übung sind oder keine Abgabe haben
 exc#:#exc_peer_review_invalid_giver_ids#:#Feedback-Geber, die nicht mehr Teilnehmer der Übung sind oder keine Abgabe haben
+exc#:#exc_peer_review_reset#:#Peer-Feedback löschen und zurücksetzen
+exc#:#exc_peer_review_reset_sure#:#Wollen Sie wirklich das komplette Peer-Feedback für die Übungseinheit "%s" löschen?
