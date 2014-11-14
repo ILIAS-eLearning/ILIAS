@@ -76,6 +76,15 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		$data = ilExAssignment::getAssignmentDataOfExercise($this->exc->getId());
 		foreach($data as $idx => $row)
 		{
+			// #14450
+			if($row["peer"])
+			{
+				$data[$idx]["peer_invalid"] = true;		
+				$ass = new ilExAssignment($row["id"]);
+				$peer_reviews = $ass->validatePeerReviewGroups();
+				$data[$idx]["peer_invalid"] = $peer_reviews["invalid"];			
+			}
+			
 			$data[$idx]["type"] = $types_map[$row["type"]];
 		}
 		
@@ -122,9 +131,20 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_MANDATORY", $lng->txt("no"));
 		}
 		
+		$ilCtrl->setParameter($this->parent_obj, "ass_id", $d["id"]);
+		
 		if ($d["peer"])
 		{
 			$this->tpl->setVariable("TXT_PEER", $lng->txt("yes")." (".$d["peer_min"].")");
+			
+			if($d["peer_invalid"])
+			{
+				$this->tpl->setVariable("TXT_PEER_INVALID", $lng->txt("exc_peer_reviews_invalid_warning"));
+			}
+						
+			$this->tpl->setVariable("TXT_PEER_OVERVIEW", $lng->txt("exc_peer_review_overview"));
+			$this->tpl->setVariable("CMD_PEER_OVERVIEW", 
+				$ilCtrl->getLinkTarget($this->parent_obj, "showAssignmentPeerOverview"));
 		}
 		else
 		{
@@ -135,8 +155,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_TYPE", $d["type"]);
 		$this->tpl->setVariable("ORDER_VAL", $d["order_val"]);
 		
-		$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
-		$ilCtrl->setParameter($this->parent_obj, "ass_id", $d["id"]);
+		$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));		
 		$this->tpl->setVariable("CMD_EDIT",
 			$ilCtrl->getLinkTarget($this->parent_obj, "editAssignment"));
 	}

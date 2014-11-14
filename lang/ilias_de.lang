@@ -15078,3 +15078,5 @@ common#:#scorm_lp_auto_activate#:#Standardeinstellungen für den Lernfortschritt
 common#:#scorm_lp_auto_activate_info#:#Wenn der Lernfortschritt im Allgemeinen aktiviert ist, wird bei neuen SCORM-Lernmodulen der Gesamtstatus des Lernfortschritts bestimmt durch ausgewählte SCORM-Materialien (SCOs) und alle SCOs werden für die Lernfortschritts-Bestimmung ausgewählt. Anpassungen sind weiterhin bei jedem SCORM-Lernmodul möglich.
 ecs#:#ecs_deprecated_token#:#Unterstützung für veraltete Authentifizierungstoken
 ecs#:#ecs_deprecated_token_info#:#Bietet Unterstützung für veraltete Authentifizierungstoken (zum Beispiel für ILIAS-Installationen der Version 4.x).
+exc#:#exc_peer_reviews_invalid_warning#:#Ungültige Peer-Gruppen
+exc#:#exc_peer_review_overview#:#Peer-Feedback anzeigen

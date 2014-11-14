@@ -156,7 +156,14 @@ class ilFSStorageExercise extends ilFileSystemStorage
 		return $path;
 	}
 	
-	
+	/**
+	 * Remove all uploads
+	 */
+	function deletePeerReviewUploads()
+	{
+		$this->deleteDirectory($this->peer_review_upload_path);		
+	}
+		
 	/**
 	 * Create directory
 	 *

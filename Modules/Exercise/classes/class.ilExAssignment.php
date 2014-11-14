@@ -2515,6 +2515,35 @@ class ilExAssignment
 		return $result;
 	}
 	
+	public function hasPeerReviewGroups()
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT count(*) cnt".
+			" FROM exc_assignment_peer".
+			" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer"));
+		$cnt = $ilDB->fetchAssoc($set);
+		return (bool)$cnt["cnt"];
+	}
+	
+	protected function getValidPeerReviewUsers()
+	{
+		global $ilDB;
+		
+		$user_ids = array();
+		
+		// returned / assigned ?!
+		$set = $ilDB->query("SELECT DISTINCT(user_id)".
+			" FROM exc_returned".
+			" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$user_ids[] = $row["user_id"];
+		}
+		
+		return $user_ids;
+	}
+	
 	protected function initPeerReviews()
 	{
 		global $ilDB;
@@ -2525,20 +2554,9 @@ class ilExAssignment
 			return false;
 		}
 		
-		$set = $ilDB->query("SELECT count(*) cnt".
-			" FROM exc_assignment_peer".
-			" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer"));
-		$cnt = $ilDB->fetchAssoc($set);
-		if(!$cnt["cnt"])
+		if(!$this->hasPeerReviewGroups())
 		{
-			$user_ids = array();
-			$set = $ilDB->query("SELECT DISTINCT(user_id)".
-				" FROM exc_returned".
-				" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer"));
-			while($row = $ilDB->fetchAssoc($set))
-			{
-				$user_ids[] = $row["user_id"];
-			}
+			$user_ids = $this->getValidPeerReviewUsers();
 			
 			// forever alone
 			if(sizeof($user_ids) < 2)
@@ -2596,6 +2614,95 @@ class ilExAssignment
 			
 		}
 		return true;
+	}
+	
+	public function resetPeerReviewFileUploads()
+	{		
+		if($this->hasPeerReviewFileUpload())
+		{
+			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+			$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
+			$storage->deletePeerReviewUploads();
+		}
+	}
+	
+	public function resetPeerReviews()
+	{
+		global $ilDB;
+		
+		if($this->hasPeerReviewGroups())
+		{
+			// ratings					
+			foreach($this->getAllPeerReviews(false) as $peer_id => $reviews)
+			{
+				foreach($reviews as $giver_id => $review)
+				{					
+					ilRating::resetRatingForUserAndObject($this->getId(), "ass", 
+						$peer_id, "peer", $giver_id);
+				}
+			}
+			
+			// files
+			$this->resetPeerReviewFileUploads();
+			
+			// peer groups
+			$ilDB->manipulate("DELETE FROM exc_assignment_peer".
+				" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer"));						
+		}
+	}
+	
+	public function validatePeerReviewGroups()
+	{
+		if($this->hasPeerReviewGroups())
+		{
+			// getValidPeerReviewUsers() only returns users who have uploaded
+			// we want all current members
+			include_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
+			$all_valid = ilExerciseMembers::_getMembers($this->getExerciseId());
+			
+			$peer_ids = $invalid_peer_ids = $invalid_giver_ids = $all_reviews = array();
+			foreach($this->getAllPeerReviews(false) as $peer_id => $reviews)
+			{
+				$peer_ids[] = $peer_id;
+				
+				if(!in_array($peer_id, $all_valid))
+				{
+					$invalid_peer_ids[] = $peer_id;
+				}
+				foreach($reviews as $giver_id => $review)
+				{
+					if(!in_array($giver_id, $all_valid))
+					{
+						$invalid_giver_ids[] = $giver_id;
+					}
+					else 
+					{
+						$valid = (trim($review[0]) || $review[1]);					
+						$all_reviews[$peer_id][$giver_id] = $valid;						
+					}
+				}
+			}			
+			$invalid_giver_ids = array_unique($invalid_giver_ids);
+			
+			$missing_user_ids = array();
+			foreach($all_valid as $user_id)
+			{
+				// a missing peer is also a missing giver
+				if(!in_array($user_id, $peer_ids))
+				{
+					$missing_user_ids[] = $user_id;
+				}
+			}
+						
+			return array(
+				"invalid" => (sizeof($missing_user_ids) || 
+					sizeof($invalid_peer_ids) || 
+					sizeof($invalid_giver_ids)),
+				"missing_user_ids" => $missing_user_ids, 
+				"invalid_peer_ids" => $invalid_peer_ids, 
+				"invalid_giver_ids" => $invalid_giver_ids,
+				"reviews" => $all_reviews);
+		}
 	}
 	
 	public function getPeerReviewsByGiver($a_user_id)
@@ -2678,7 +2785,7 @@ class ilExAssignment
 		return $res;
 	}
 	
-	public function getAllPeerReviews()
+	public function getAllPeerReviews($a_validate = true)
 	{
 		global $ilDB;
 		
@@ -2695,7 +2802,8 @@ class ilExAssignment
 			$rating = round(ilRating::getRatingForUserAndObject($this->getId(), 
 					"ass", $row["peer_id"], "peer", $row["giver_id"]));		
 			
-			if(self::validatePeerReview($row, $rating))
+			if(!$a_validate ||
+				self::validatePeerReview($row, $rating))
 			{
 				$res[$row["peer_id"]][$row["giver_id"]] = array($row["pcomment"], $rating);
 			}
