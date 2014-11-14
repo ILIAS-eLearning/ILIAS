@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+
 /**
 * This class represents an image map file property in a property form.
 *
@@ -336,7 +338,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 				$template->setVariable('VALUE_COORDINATES', $area->getCoords());
 				$template->setVariable('TEXT_COORDINATES', $coords);
 				$template->setVariable('COUNTER', $counter);
-				$template->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
+				$template->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
 				$template->parseCurrentBlock();
 				$counter++;
 			}
