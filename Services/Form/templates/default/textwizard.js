@@ -5,7 +5,7 @@ var ilTextWizardInputTemplate = {
 	tag_button: 'textwizard',
 	
 	getRowFromEvent: function(e) {
-		return $(e.target).parent(this.tag_row);
+		return $(e.target).closest(this.tag_row);
 	},
 	
 	getContainerFromEvent: function(e) {
