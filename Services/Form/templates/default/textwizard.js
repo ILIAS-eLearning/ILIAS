@@ -9,7 +9,7 @@ var ilTextWizardInputTemplate = {
 	},
 	
 	getContainerFromEvent: function(e) {
-		return $(e.target).parents(this.tag_container);
+		return $(e.target).closest(this.tag_container);
 	},
 			
 	cleanRow: function(row) {
