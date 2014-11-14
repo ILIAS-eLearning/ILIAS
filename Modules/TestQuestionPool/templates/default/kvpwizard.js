@@ -14,7 +14,6 @@ var ilKVPWizardInputTemplate = {
 
 	cleanRow: function(row) {
 		$(row).find('input:text').attr('value', '');
-		$(row).find('input:checkbox').prop('checked', false);
 	},
 
 	reindexRows: function(tbody) {
@@ -24,20 +23,14 @@ var ilKVPWizardInputTemplate = {
 		// process all rows
 		$(tbody).find(this.tag_row).each(function() {
 
-			// answer
-			$(this).find('input:text[id*="[answer]"]').each(function() {
+			// name
+			$(this).find('input:text[id*="[key]"]').each(function() {
 				that.handleId(this, 'id', rowindex);
 				that.handleId(this, 'name', rowindex);
 			});
 
-			// scale
-			$(this).find('input:text[id*="[label]"]').each(function() {
-				that.handleId(this, 'id', rowindex);
-				that.handleId(this, 'name', rowindex);
-			});
-
-			// other
-			$(this).find('input:checkbox').each(function() {
+			// value
+			$(this).find('input:text[id*="[value]"]').each(function() {
 				that.handleId(this, 'id', rowindex);
 				that.handleId(this, 'name', rowindex);
 			});
