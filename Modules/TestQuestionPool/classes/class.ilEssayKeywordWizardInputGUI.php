@@ -253,16 +253,6 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 			}
 
 			$tpl->setCurrentBlock( "row" );
-			$class = ($i % 2 == 0) ? "even" : "odd";
-			if ($i == 0)
-			{
-				$class .= " first";
-			}
-			if ($i == count( $this->values ) - 1)
-			{
-				$class .= " last";
-			}
-			$tpl->setVariable( "ROW_CLASS", $class );
 			$tpl->setVariable( "POST_VAR", $this->getPostVar() );
 			$tpl->setVariable( "ROW_NUMBER", $i );
 			$tpl->setVariable( "ID", $this->getPostVar() . "[answer][$i]" );
@@ -294,9 +284,8 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 		$a_tpl->parseCurrentBlock();
 
 		global $tpl;
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initDomEvent();
-		$tpl->addJavascript( "./Modules/TestQuestionPool/templates/default/multiplechoicewizard.js" );
+		$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+		$tpl->addJavascript("./Modules/TestQuestionPool/templates/default/essaykeywordwizard.js");
 	}
 
 }
