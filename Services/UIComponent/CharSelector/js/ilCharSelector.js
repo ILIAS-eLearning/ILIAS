@@ -65,7 +65,10 @@ il.CharSelector = new function() {
 		texts = a_texts;
 	
 		// basic condition		
-		if (config.pages.length < 1) { return; }
+		if (config.pages.length < 1) {
+            $('.ilCharSelectorToggle').addClass('disabled');
+            return;
+        }
 		
 		if (config.current_page >= config.pages.length) {
 			config.current_page = 0;
