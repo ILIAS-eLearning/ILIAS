@@ -15089,3 +15089,4 @@ exc#:#exc_peer_review_invalid_peer_ids#:#Peer recipients who are not exercise me
 exc#:#exc_peer_review_invalid_giver_ids#:#Peer givers who are not exercise members anymore or do not have a submission
 exc#:#exc_peer_review_reset#:#Delete and Reset Peer-Feedback 
 exc#:#exc_peer_review_reset_sure#:#Are you sure you want to delete the complete peer-feedback for the assignment "%s"?
+exc#:#exc_peer_review_reset_done#:#All Peer-Feedback-related data has been deleted for the assignment.

@@ -82,6 +82,11 @@ class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
 		
 		$tmp = $this->ass->validatePeerReviewGroups();
 		
+		if(!is_array($tmp))
+		{
+			return;
+		}
+		
 		foreach($tmp["reviews"] as $peer_id => $reviews)
 		{
 			$peer = $this->translateUserIds($peer_id, true);
