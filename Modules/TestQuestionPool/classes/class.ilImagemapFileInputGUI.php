@@ -327,10 +327,6 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 					$template->parseCurrentBlock();
 				}
 				$template->setCurrentBlock('row');
-				$class = ($counter % 2 == 0) ? "tblrow1" : "tblrow2";
-				if ($counter == 0) $class .= " first";
-				if ($counter == count($this->getAreas())-1) $class .= " last";
-				$template->setVariable("ROW_CLASS", $class);
 				$template->setVariable('POST_VAR_R', $this->getPostVar());
 				$template->setVariable('TEXT_SHAPE', strtoupper($area->getArea()));
 				$template->setVariable('VALUE_SHAPE', $area->getArea());
@@ -372,8 +368,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 		$a_tpl->parseCurrentBlock();
 
 		global $tpl;
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initDomEvent();
+		$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
 		$tpl->addJavascript("./Modules/TestQuestionPool/templates/default/imagemap.js");
 	}
 

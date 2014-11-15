@@ -551,3 +551,7 @@ p.ilAssKprimInstruction
     font-size: 0.9em;
     margin:5px 0 15px 0 !important;
 }
+
+table.imagemapareas tr.active-area, table.imagemapareas tr.active-area td {
+	background-color: #fdfabb !important;
+}
