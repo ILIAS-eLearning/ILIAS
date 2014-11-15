@@ -23,8 +23,13 @@ var ilImageWizardInputTemplate = {
 		// process all rows
 		$(tbody).find(this.tag_row).each(function() {
 
-			// hidden
+			// hidden count
 			$(this).find('input:hidden[name*="[count]"]').each(function() {
+				that.handleId(this, 'name', rowindex);
+			});
+
+			// hidden imagename
+			$(this).find('input:hidden[name*="[imagename]"]').each(function() {
 				that.handleId(this, 'name', rowindex);
 			});
 
