@@ -342,13 +342,6 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 		}
 		$errortext_value = "";
-		if (strlen($_SESSION['qst_selection']))
-		{
-			// non javascript version is depreacted, this block can be removed
-			$this->object->toggleSelection($_SESSION['qst_selection'], $active_id, $pass);
-			unset($_SESSION['qst_selection']);
-			$solutions =& $this->object->getSolutionValues($active_id, $pass);
-		}
 		$selections = array();
 		if (is_array($solutions))
 		{

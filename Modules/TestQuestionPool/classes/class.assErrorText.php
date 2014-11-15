@@ -377,46 +377,6 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	}
 
 	/**
-	 * Change the selection during a test when a user selects/deselects a word without using javascript
-	 * @deprecated Non javascript implementation is not supported anymore
-	 */
-	public function toggleSelection($position, $active_id, $pass = null)
-	{
-		global $ilDB;
-		global $ilUser;
-
-		if (is_null($pass))
-		{
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			$pass = ilObjTest::_getPass($active_id);
-		}
-
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s",
-			array('integer','integer','integer', 'text'),
-			array($active_id, $this->getId(), $pass, $position)
-		);
-		if ($affectedRows == 0)
-		{
-			$next_id = $ilDB->nextId('tst_solutions');
-			$affectedRows = $ilDB->insert("tst_solutions", array(
-				"solution_id" => array("integer", $next_id),
-				"active_fi" => array("integer", $active_id),
-				"question_fi" => array("integer", $this->getId()),
-				"value1" => array("clob", $position),
-				"value2" => array("clob", null),
-				"pass" => array("integer", $pass),
-				"tstamp" => array("integer", time())
-			));
-		}
-		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
-		{
-			$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
-		}
-		$this->calculateReachedPoints($active_id, $pass);
-	}
-
-	/**
 	 * Saves the learners input of the question to the database.
 	 *
 	 * @access public
