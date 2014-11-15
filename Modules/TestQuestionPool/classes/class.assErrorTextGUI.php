@@ -268,13 +268,12 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		}
 
 		if ($this->object->getTextSize() >= 10)
-			echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
+			$template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
 
 		if ($show_question_text==true)
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
 
 		$errortext = $this->object->createErrorTextOutput($selections, $graphicalOutput, $show_correct_solution);
-		$errortext = preg_replace("/#HREF\d+/is", "javascript:void(0);", $errortext);
 
 		$template->setVariable("ERRORTEXT", $errortext);
 		$questionoutput = $template->get();
@@ -307,10 +306,9 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$selections = is_object($this->getPreviewSession()) ? (array)$this->getPreviewSession()->getParticipantsSolution() : array();
 
 		$template = new ilTemplate("tpl.il_as_qpl_errortext_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-		if ($this->object->getTextSize() >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
+		if ($this->object->getTextSize() >= 10) $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
 		$errortext = $this->object->createErrorTextOutput($selections);
-		$errortext = preg_replace("/#HREF\d+/is", "javascript:void(0);", $errortext);
 		$template->setVariable("ERRORTEXT", $errortext);
 		$template->setVariable("ERRORTEXT_ID", "qst_" . $this->object->getId());
 		$questionoutput = $template->get();
@@ -319,8 +317,6 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			// get page object output
 			$questionoutput = $this->getILIASPage($questionoutput);
 		}
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initElementSelection();
 		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/errortext.js");
 		return $questionoutput;
 	}
@@ -348,6 +344,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$errortext_value = "";
 		if (strlen($_SESSION['qst_selection']))
 		{
+			// non javascript version is depreacted, this block can be removed
 			$this->object->toggleSelection($_SESSION['qst_selection'], $active_id, $pass);
 			unset($_SESSION['qst_selection']);
 			$solutions =& $this->object->getSolutionValues($active_id, $pass);
@@ -361,10 +358,9 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			}
 			$errortext_value = join(",", $selections);
 		}
-		if ($this->object->getTextSize() >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
+		if ($this->object->getTextSize() >= 10) $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
 		$errortext = $this->object->createErrorTextOutput($selections);
-		$errortext = preg_replace_callback("/#HREF(\d+)/is", array(&$this, 'exchangeURL'), $errortext);
 		$this->ctrl->setParameterByClass($this->getTargetGuiClass(), 'errorvalue', '');
 		$template->setVariable("ERRORTEXT", $errortext);
 		$template->setVariable("ERRORTEXT_ID", "qst_" . $this->object->getId());
@@ -376,18 +372,10 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			// get page object output
 			$questionoutput = $this->getILIASPage($questionoutput);
 		}
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initElementSelection();
 		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/errortext.js");
 		$questionoutput = $template->get();
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;
-	}
-
-	public function exchangeURL($matches)
-	{
-		$this->ctrl->setParameterByClass($this->getTargetGuiClass(), 'qst_selection', $matches[1]);
-		return $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), 'gotoQuestion');
 	}
 
 	/**
