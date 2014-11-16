@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$().ready(function() {
 	$('div.errortext a').on('click', function(e) {
 		var $elm = $(this);
 
