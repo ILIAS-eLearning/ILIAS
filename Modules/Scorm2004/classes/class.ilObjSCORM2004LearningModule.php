@@ -264,6 +264,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			
 			//check for broken SCORM 1.2 manifest file (missing organization default-common error in a lot of manifest files)
 			$organizations = $doc->getElementsByTagName("organizations");
+			//first check if organizations is in manifest
+			if ($organizations->item(0)==null) die("organizations missing in manifest");
 			$default=$organizations->item(0)->getAttribute("default");
 		  	if ($default=="" || $default==null) {
 				//lookup identifier
@@ -297,7 +299,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			
 			file_put_contents($this->imsmanifestFile, $prc->transformToXML($this->totransform));
 
-			$ilLog->write("SCORM: Transoformation completed");
+			$ilLog->write("SCORM: Transformation completed");
 			return true;
 		}
 		
