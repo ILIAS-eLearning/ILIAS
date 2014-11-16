@@ -13,6 +13,11 @@ $.fn.ilHorizontalOrderingQuestion = function(method) {
 			return this.each(function () {
 				var $this = $(this);
 
+				// prevent double initialization
+				if ($this.data('ilHorizontalOrderingQuestion')) {
+					return;
+				}
+
 				var data = {
 					properties: $.extend(
 						true, {}, {
