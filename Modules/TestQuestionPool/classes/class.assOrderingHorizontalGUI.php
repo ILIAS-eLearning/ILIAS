@@ -216,7 +216,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
 		}
 //		$template->setVariable("SOLUTION_TEXT", ilUtil::prepareFormOutput($solutionvalue));
-		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
+		if ($this->object->textsize >= 10) $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
 
 		$questionoutput = $template->get();
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
@@ -258,12 +258,14 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		foreach ($elements as $id => $element)
 		{
 			$template->setCurrentBlock("element");
-			$template->setVariable("ELEMENT_ID", "e$id");
+			$template->setVariable("ELEMENT_ID", "e_" . $this->object->getId() . "_$id");
+			$template->setVariable("ORDERING_VALUE", ilUtil::prepareFormOutput($element));
 			$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
-			
 			$template->parseCurrentBlock();
 		}
-		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
+		$template->setVariable("QUESTION_ID", $this->object->getId());
+		$template->setVariable("VALUE_ORDERRESULT", ' value="' . join($elements, '{::}') . '"');
+		if ($this->object->textsize >= 10) $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
 		$questionoutput = $template->get();
 		if (!$show_question_only)
@@ -271,8 +273,6 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 			// get page object output
 			$questionoutput = $this->getILIASPage($questionoutput);
 		}
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initDragDropAnimation();
 		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
 		return $questionoutput;
 	}
@@ -297,16 +297,6 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 				$elements = split("{::}", $solutions[0]["value1"]);
 			}
 		}
-		if (strlen($_SESSION['qst_selection']))
-		{
-			$this->object->moveRight($_SESSION['qst_selection'], $active_id, $pass);
-			unset($_SESSION['qst_selection']);
-			$solutions =& $this->object->getSolutionValues($active_id, $pass);
-			if (count($solutions) == 1)
-			{
-				$elements = split("{::}", $solutions[0]["value1"]);
-			}
-		}
 		if (count($solutions) == 0)
 		{
 			$_SESSION['qst_ordering_horizontal_elements'] = $elements;
@@ -315,22 +305,16 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		{
 			unset($_SESSION['qst_ordering_horizontal_elements']);
 		}
-		$idx = 0;
 		foreach ($elements as $id => $element)
 		{
 			$template->setCurrentBlock("element");
 			$template->setVariable("ELEMENT_ID", "e_" . $this->object->getId() . "_$id");
 			$template->setVariable("ORDERING_VALUE", ilUtil::prepareFormOutput($element));
 			$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
-			$this->ctrl->setParameterByClass($this->getTargetGuiClass(), 'qst_selection', $idx);
-			$idx++;
-			$url = $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), 'gotoQuestion');
-			$template->setVariable("MOVE_RIGHT", $url);
-			$template->setVariable("TEXT_MOVE_RIGHT", $this->lng->txt('move_right'));
-			$template->setVariable("RIGHT_IMAGE", ilUtil::getImagePath('nav_arr_R.png'));
 			$template->parseCurrentBlock();
 		}
-		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
+		$template->setVariable("QUESTION_ID", $this->object->getId());
+		if ($this->object->textsize >= 10) $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
 		$template->setVariable("VALUE_ORDERRESULT", ' value="' . join($elements, '{::}') . '"');
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
 		$questionoutput = $template->get();
@@ -339,8 +323,6 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 			// get page object output
 			$questionoutput = $this->getILIASPage($questionoutput);
 		}
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initDragDropAnimation();
 		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
 		$questionoutput = $template->get();
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
