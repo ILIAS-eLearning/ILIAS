@@ -276,6 +276,18 @@ h2.current_room_title {
 	font-style: italic;
 }
 
+#ilChatBlockMessageBody .size_small {
+	font-size: 0.85em !important;
+}
+
+#ilChatBlockMessageBody .size_normal {
+	font-size: 1em !important;
+}
+
+#ilChatBlockMessageBody .size_large {
+	font-size: 1.1em !important;
+}
+
 .ilNoDisplayChat {
 	display: none;
 }
