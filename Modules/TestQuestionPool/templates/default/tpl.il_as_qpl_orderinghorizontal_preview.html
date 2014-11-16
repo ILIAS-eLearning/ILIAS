@@ -1,7 +1,6 @@
 {QUESTIONTEXT}
 <div class="ilClearFloat">
-	<ul class="horizontal" {STYLE}>
-	<!-- BEGIN element -->
+	<ul id="horizontal_{QUESTION_ID}" class="horizontal" {STYLE}><!-- BEGIN element -->
 	<li id="{ELEMENT_ID}">
 		<span class="tex2jax_ignore ilOrderingValue ilNoDisplay">{ORDERING_VALUE}</span>
 		<span>{ELEMENT_VALUE}</span>
@@ -11,3 +10,12 @@
 	<input type="hidden" id="orderresult_{QUESTION_ID}" name="orderresult"{VALUE_ORDERRESULT} />
 </div>
 <div class="ilClearFloat"></div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#horizontal_{QUESTION_ID}').ilHorizontalOrderingQuestion({
+			result_value_selector  : '.ilOrderingValue',
+			result_separator       : '{::}'
+		});
+	});
+</script>

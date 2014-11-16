@@ -50,10 +50,3 @@ $.fn.ilHorizontalOrderingQuestion = function(method) {
 		$.error("Method " + method + " does not exist on jQuery.ilHorizontalOrderingQuestion");
 	}
 };
-
-$(document).ready(function() {
-	$('ul.horizontal').ilHorizontalOrderingQuestion({
-		result_value_selector  : '.ilOrderingValue',
-		result_separator       : '{::}'
-	});
-});
