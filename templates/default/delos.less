@@ -2,8 +2,8 @@
  /* rtl-review is this font safe for RTL languages? */
  
  /* rtl-review */
-[dir="ltr"] * { direction: ltr; unicode-bidi: bidi-override; } //embed
-[dir="rtl"] * { direction: rtl; unicode-bidi: bidi-override; } //embed
+[dir="ltr"] * { direction: ltr; unicode-bidi: embed; } //bidi-override
+[dir="rtl"] * { direction: rtl; unicode-bidi: embed; } //bidi-override
 
 bdo[dir="ltr"] { direction: ltr; unicode-bidi: bidi-override; }
 bdo[dir="rtl"] { direction: rtl; unicode-bidi: bidi-override; }
