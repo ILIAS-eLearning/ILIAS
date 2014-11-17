@@ -182,18 +182,6 @@ class ilSurveyParticipantsGUI
 				 "inviteUserGroup", "disinviteUserGroup"),
 				 "");
 		}
-				
-		/*
-		$ilTabs->addSubTabTarget
-		(
-			"participating_users", 
-			$this->ctrl->getLinkTarget($this, "codesMail"), 
-			array("codesMail", "saveMailTableFields", "importExternalMailRecipients", 
-			'importExternalRecipientsFromFile', 'importExternalRecipientsFromText',
-			'importExternalRecipientsFromDataset'),	
-			""
-		);
-		*/
 		
 		$data = $this->object->getExternalCodeRecipients();
 		if (count($data))
@@ -881,7 +869,7 @@ class ilSurveyParticipantsGUI
 				}			
 				$this->object->sendCodes($_POST['m_notsent'], $_POST['m_subject'], $_POST['m_message'],$lang);
 				ilUtil::sendSuccess($this->lng->txt('mail_sent'), true);
-				$this->ctrl->redirect($this, 'codesMail');
+				$this->ctrl->redirect($this, 'mailCodes');
 			}
 		}
 		else
@@ -889,26 +877,6 @@ class ilSurveyParticipantsGUI
 			$form_gui->setValuesByPost();
 		}
 		$this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
-	}
-	
-	public function cancelCodesMailObject()
-	{
-		$this->ctrl->redirect($this, 'codesMail');
-	}
-
-	public function deleteInternalMailRecipientObject()
-	{
-		if (!is_array($_POST['chb_ext']) || count(is_array($_POST['chb_ext'])) == 0)
-		{
-			ilUtil::sendInfo($this->lng->txt("err_no_selection"), true);
-			$this->ctrl->redirect($this, 'codesMail');
-		}
-		foreach ($_POST['chb_ext'] as $code)
-		{
-			$this->object->deleteSurveyCode($code);
-		}
-		ilUtil::sendSuccess($this->lng->txt('external_recipients_deleted'), true);
-		$this->ctrl->redirect($this, 'codesMail');
 	}
 	
 	public function importExternalRecipientsFromTextObject()
