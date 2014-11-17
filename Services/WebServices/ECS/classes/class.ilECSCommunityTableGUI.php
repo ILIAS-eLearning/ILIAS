@@ -112,15 +112,37 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 
 		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
 		$part = new ilECSParticipantSetting($this->getServer()->getServerId(), $a_set['mid']);
+		
+		
 		if($part->isExportEnabled())
 		{
-			$this->tpl->setVariable('EXP_CHECKED', 'checked="checked"');
+			foreach($part->getExportTypes() as $obj_type)
+			{
+				$this->tpl->setCurrentBlock('obj_erow');
+				$this->tpl->setVariable('TXT_OBJ_EINFO',$this->lng->txt('objs_'.$obj_type));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
+		else
+		{
+			$this->lng->loadLanguageModule('administration');
+			$this->tpl->setVariable('TXT_OBJ_EINFO',$this->lng->txt('disabled'));
+		}
+		
 		if($part->isImportEnabled())
 		{
-			$this->tpl->setVariable('IMP_CHECKED', 'checked="checked"');
+			foreach($part->getImportTypes() as $obj_type)
+			{
+				$this->tpl->setCurrentBlock('obj_irow');
+				$this->tpl->setVariable('TXT_OBJ_IINFO',$this->lng->txt('objs_'.$obj_type));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
-
+		else
+		{
+			$this->lng->loadLanguageModule('administration');
+			$this->tpl->setVariable('TXT_OBJ_IINFO',$this->lng->txt('disabled'));
+		}
 		// :TODO: what types are to be supported?
 		$sel = ilUtil::formSelect(
 			$part->getImportType(),
