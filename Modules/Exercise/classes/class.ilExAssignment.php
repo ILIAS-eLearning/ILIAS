@@ -1403,6 +1403,7 @@ class ilExAssignment
 			$cache[$directory] = $directory;
 			ilUtil::makeDir ($directory);
 			$sourcefiles = scandir($sourcedir);
+			$duplicates = array();
 			foreach ($sourcefiles as $sourcefile) {
 				if ($sourcefile == "." || $sourcefile == "..")
 				{
@@ -1415,6 +1416,19 @@ class ilExAssignment
 				{						
 					$targetfile= substr($targetfile, $pos + 1);
 				}
+				
+				// #14536 
+				if(array_key_exists($targetfile, $duplicates))
+				{
+					$suffix = strrpos($targetfile, ".");						
+					$targetfile = substr($targetfile, 0, $suffix).
+						" (".(++$duplicates[$targetfile]).")".
+						substr($targetfile, $suffix);				
+				}
+				else
+				{
+					$duplicates[$targetfile] = 1;
+				}			
 				
 				$targetfile = $directory.DIRECTORY_SEPARATOR.$targetfile;
 				$sourcefile = $sourcedir.DIRECTORY_SEPARATOR.$sourcefile;
