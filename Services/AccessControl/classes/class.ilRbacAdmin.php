@@ -267,6 +267,8 @@ class ilRbacAdmin
 			$res = $ilDB->manipulate($query);
 		
 			$this->addDesktopItem($a_rol_id, $a_usr_id);
+
+			$rbacreview->setAssignedCacheEntry($a_rol_id,$a_usr_id,true);
 		}
 		
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
@@ -285,7 +287,7 @@ class ilRbacAdmin
 	 */
 	public function deassignUser($a_rol_id,$a_usr_id)
 	{
-		global $ilDB;
+		global $ilDB, $rbacreview;
 		
 		if (!isset($a_rol_id) or !isset($a_usr_id))
 		{
@@ -297,7 +299,9 @@ class ilRbacAdmin
 			 "WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer')." ".
 			 "AND rol_id = ".$ilDB->quote($a_rol_id,'integer')." ";
 		$res = $ilDB->manipulate($query);
-		
+
+		$rbacreview->setAssignedCacheEntry($a_rol_id,$a_usr_id,false);
+
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
 		$mapping = ilLDAPRoleGroupMapping::_getInstance();
 		$mapping->deassign($a_rol_id,$a_usr_id); 

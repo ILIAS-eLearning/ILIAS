@@ -50,7 +50,7 @@ class ilUnitUtil
  		}
  		catch(Exception $e)
  		{
-	 		$this->write($e->getTraceAsString());
+			echo($e->getTraceAsString()."\n\n");
  		}
 		exit();
 	}

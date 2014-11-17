@@ -2317,5 +2317,27 @@ class ilRbacReview
 		return $perms;
 	}
 
+	/**
+	 * set entry of assigned_chache
+	 * @param int $a_role_id
+	 * @param int $a_user_id
+	 * @param bool $a_value
+	 */
+	public function setAssignedCacheEntry($a_role_id,$a_user_id, $a_value)
+	{
+		self::$is_assigned_cache[$a_role_id][$a_user_id] = $a_value;
+	}
+
+	/**
+	 * get entry of assigned_chache
+	 * @param int $a_role_id
+	 * @param int $a_user_id
+
+	 */
+	public function getAssignedCacheEntry($a_role_id,$a_user_id)
+	{
+		return self::$is_assigned_cache[$a_role_id][$a_user_id];
+	}
+
 } // END class.ilRbacReview
 ?>
