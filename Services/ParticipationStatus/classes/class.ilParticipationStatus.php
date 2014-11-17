@@ -690,6 +690,11 @@ class ilParticipationStatus
 				{
 					$this->raiseEvent("setStatusAndPoints", $user_id);
 				}			
+				
+				// gev-patch start
+				require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
+				gevBillingUtils::createAllCancellationBillsAndCoupons($this->getCourse()->getId());
+				// gev-patch end
 			}
 			
 			return true;

@@ -317,8 +317,9 @@ class gevBillingUtils {
 							   , $user_utils->getFirstname()." ".$user_utils->getLastname()
 							   )
 						);
-		// bill will be send immediately
-		$bill->setDate(new ilDate(time(), IL_CAL_UNIX));
+
+		$date = $crs_utils->getEndDate();
+		$bill->setDate($date ? $date : (new ilDate(time(), IL_CAL_UNIX)));
 
 		// search for the item regarding the course...
 		$items = $bill->getItems();
@@ -359,6 +360,17 @@ class gevBillingUtils {
 						  " at course ".$a_crs_id.".");
 	}
 	
+	public function createAllCancellationBillsAndCoupons($a_crs_id) {
+		require_once("Services/GEV/classes/class.gevCourseUtils.php");
+		
+		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
+		$waiting = $crs_utils->getBookings()->getWaitingUsers();
+		
+		foreach($waiting as $usr_id) {
+			$this->createCancellationBillAndCoupon($a_crs_id, $usr_id);
+		}
+	}
+	
 	public function createCancellationBillAndCoupon($a_crs_id, $a_user_id) {
 		global $ilLog;
 
@@ -378,8 +390,9 @@ class gevBillingUtils {
 							   , $user_utils->getFirstname()." ".$user_utils->getLastname()
 							   )
 						);
-		// bill will be send immediately
-		$bill->setDate(new ilDate(time(), IL_CAL_UNIX));
+		
+		$date = $crs_utils->getEndDate();
+		$bill->setDate($date ? $date : (new ilDate(time(), IL_CAL_UNIX)));
 		
 		// remove context to make assumption one bill per course and user
 		// be correct.
