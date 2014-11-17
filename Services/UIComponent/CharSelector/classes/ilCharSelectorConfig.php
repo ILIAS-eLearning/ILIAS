@@ -471,8 +471,6 @@ class ilCharSelectorConfig
 				array_push($this->custom_items, trim($item));
 			}
 		}
-
-        // adjust the definition
 	}
 	
 	/**
