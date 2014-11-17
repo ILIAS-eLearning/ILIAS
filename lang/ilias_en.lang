@@ -14335,3 +14335,4 @@ mail#:#link_check_reason#:#You recife this mail because you enabled the notifica
 mail#:#link_check_affected_links#:#Affected Links
 mail#:#link_check_perma_link#:#Permanent Link
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.
+adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!
