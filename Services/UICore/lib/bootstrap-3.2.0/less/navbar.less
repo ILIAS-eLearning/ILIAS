@@ -36,11 +36,6 @@
   }
 }
 
-[dir="rtl"] .navbar-header {
-  @media (min-width: @grid-float-breakpoint) {
-    float: right;
-  }
-}
 
 // Navbar collapse (body)
 //
@@ -186,16 +181,6 @@
   }
 }
 
-[dir="rtl"] .navbar-brand {
-  float: right;
-  @media (min-width: @grid-float-breakpoint) {
-    .navbar > .container &,
-    .navbar > .container-fluid & {
-      margin-left: 0;
-      margin-right: -@navbar-padding-horizontal;
-    }
-  }
-}
 
 // Navbar toggle
 //
@@ -235,11 +220,6 @@
   }
 }
 
-[dir="rtl"] .navbar-toggle {
-  float: left;
-  margin-right: 0;
-  margin-left: @navbar-padding-horizontal;
-}
 
 // Navbar nav links
 //
@@ -298,32 +278,6 @@
   }
 }
 
-[dir="rtl"] .navbar-nav {
-  @media (max-width: @grid-float-breakpoint-max) {
-    // Dropdowns get custom display when collapsed
-    .open .dropdown-menu {
-      > li > a,
-      .dropdown-header {
-        padding: 5px 25px 5px 15px;
-      }
-    }
-  }
-
-  @media (min-width: @grid-float-breakpoint) {
-    float: right;
-    margin: 0;
-
-    > li {
-      float: right;
-    }
-
-    &.navbar-right:last-child {
-      margin-right: 0;
-      margin-left: -@navbar-padding-horizontal;
-    }
-  }
-}
-
 
 // Component alignment
 //
@@ -334,8 +288,6 @@
 @media (min-width: @grid-float-breakpoint) {
   .navbar-left  { .pull-left(); }
   .navbar-right { .pull-right(); }
-  [dir="rtl"] .navbar-left  { .pull-right(); }
-  [dir="rtl"] .navbar-right { .pull-left(); }
 }
 
 
@@ -382,14 +334,6 @@
   }
 }
 
-[dir="rtl"] .navbar-form {
-  @media (min-width: @grid-float-breakpoint) {
-    &.navbar-right:last-child {
-      margin-right: 0;
-      margin-left: -@navbar-padding-horizontal;
-    }
-  }
-}
 
 // Dropdown menus
 
@@ -435,16 +379,6 @@
     // Outdent the form if last child to line up with content down the page
     &.navbar-right:last-child {
       margin-right: 0;
-    }
-  }
-}
-
-[dir="rtl"] .navbar-text {
-  @media (min-width: @grid-float-breakpoint) {
-    float: right;
-    &.navbar-right:last-child {
-		margin-right: @navbar-padding-horizontal;
-		margin-left: 0;
     }
   }
 }
