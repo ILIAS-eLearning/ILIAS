@@ -45,12 +45,12 @@ class ilAdvancedMDFieldDefinitionSchedule extends ilAdvancedMDFieldDefinition
 	
 	public function getValueForXML(ilADT $element)
 	{
-		return $element->getText();
+		return serialize($element->getSchedules());
 	}
 	
 	public function importValueFromXML($a_cdata)
 	{
-		$this->getADT()->setText($a_cdata);
+		$this->getADT()->setSchedules(unserialize($a_cdata));
 	}
 	
 	public function importFromECS($a_ecs_type, $a_value, $a_sub_id)
