@@ -20,6 +20,11 @@ class ilIntLinkRepItemExplorerGUI extends ilRepositorySelectorExplorerGUI
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd, null, "", "");
+		
+		// #14587 - ilRepositorySelectorExplorerGUI::__construct() does NOT include side blocks!
+		$list = $this->getTypeWhiteList();
+		$list[] = "poll";
+		$this->setTypeWhiteList($list);
 	}
 
 

@@ -220,7 +220,14 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 			}
 			$group[$g][] = $child;
 		}
-
+	
+		// #14587 - $objDefinition->getGroupedRepositoryObjectTypes does NOT include side blocks!
+		$wl = $this->getTypeWhiteList();
+		if(is_array($wl) && in_array("poll", $wl))
+		{
+			$this->type_grps[$parent_type]["poll"] = array();
+		}
+		
 		$childs = array();
 		foreach ($this->type_grps[$parent_type] as $t => $g)
 		{
