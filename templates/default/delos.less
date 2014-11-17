@@ -1,100 +1,21 @@
-@font-face {
-	font-family: 'Open Sans';
-	src:	url('fonts/OpenSansWeb/opensans-regular-webfont.eot');
-	src:	url('fonts/OpenSansWeb/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
-			url('fonts/OpenSansWeb/opensans-regular-webfont.woff') format('woff'),
-			url('fonts/OpenSansWeb/opensans-regular-webfont.ttf') format('truetype'),
-			url('fonts/OpenSansWeb/opensans-regular-webfont.svg') format('svg');
-}
+@import "font.less"; 
+ /* rtl-review is this font safe for RTL languages? */
+ 
+ /* rtl-review */
+[dir="ltr"] * { direction: ltr; unicode-bidi: embed; }
+[dir="rtl"] * { direction: rtl; unicode-bidi: embed; }
 
-@font-face {
-	font-family: 'Open Sans';
-	src:	url('fonts/OpenSansWeb/opensans-bold-webfont.eot');
-	src:	url('fonts/OpenSansWeb/opensans-bold-webfont?#iefix') format('embedded-opentype'),
-			url('fonts/OpenSansWeb/opensans-bold-webfont.woff') format('woff'),
-			url('fonts/OpenSansWeb/opensans-bold-webfont.ttf') format('truetype'),
-			url('fonts/OpenSansWeb/opensans-bold-webfont.svg') format('svg');
-	font-weight: bold;
-}
+bdo[dir="ltr"] { direction: ltr; unicode-bidi: bidi-override; }
+bdo[dir="rtl"] { direction: rtl; unicode-bidi: bidi-override; }
 
-@font-face {
-	font-family: 'Open Sans';
-	src:	url('fonts/OpenSansWeb/opensans-italic-webfont.eot');
-	src:	url('fonts/OpenSansWeb/opensans-italic-webfont.eot?#iefix') format('embedded-opentype'),
-			url('fonts/OpenSansWeb/opensans-italic-webfont.woff') format('woff'),
-			url('fonts/OpenSansWeb/opensans-italic-webfont.ttf') format('truetype'),
-			url('fonts/OpenSansWeb/opensans-italic-webfont.svg') format('svg');
-	font-style: italic;
-}
-
-
-@font-face {
-	font-family: 'Open Sans';
-	src:	url('fonts/OpenSansWeb/opensans-bolditalic-webfont.eot');
-	src:	url('fonts/OpenSansWeb/opensans-bolditalic-webfont?#iefix') format('embedded-opentype'),
-			url('fonts/OpenSansWeb/opensans-bolditalic-webfont.woff') format('woff'),
-			url('fonts/OpenSansWeb/opensans-bolditalic-webfont.ttf') format('truetype'),
-			url('fonts/OpenSansWeb/opensans-bolditalic-webfont.svg') format('svg');
-	font-weight: bold;
-	font-style: italic;
-}
-
-@font-face {
-	font-family: 'Open Sans Light';
-	src:	url('fonts/OpenSansWeb/opensans-light-webfont.eot');
-	src:	url('fonts/OpenSansWeb/opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
-			url('fonts/OpenSansWeb/opensans-light-webfont.woff') format('woff'),
-			url('fonts/OpenSansWeb/opensans-light-webfont.ttf') format('truetype'),
-			url('fonts/OpenSansWeb/opensans-light-webfont.svg') format('svg');
-}
-
-@font-face {
-	font-family: 'Open Sans Light';
-	src:	url('fonts/OpenSansWeb/opensans-lightitalic-webfont.eot');
-	src:	url('fonts/OpenSansWeb/opensans-lightitalic-webfont.eot?#iefix') format('embedded-opentype'),
-			url('fonts/OpenSansWeb/opensans-lightitalic-webfont.woff') format('woff'),
-			url('fonts/OpenSansWeb/opensans-lightitalic-webfont.ttf') format('truetype'),
-			url('fonts/OpenSansWeb/opensans-lightitalic-webfont.svg') format('svg');
-	font-style: italic;
-}
-
-@font-face {
-	font-family: 'Open Sans Semibold';
-	src:	url('fonts/OpenSansWeb/opensans-semibold-webfont.eot');
-	src:	url('fonts/OpenSansWeb/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'),
-			url('fonts/OpenSansWeb/opensans-semibold-webfont.woff') format('woff'),
-			url('fonts/OpenSansWeb/opensans-semibold-webfont.ttf') format('truetype'),
-			url('fonts/OpenSansWeb/opensans-semibold-webfont.svg') format('svg');
-}
-
-@font-face {
-	font-family: 'Open Sans Semibold';
-	src:	url('fonts/OpenSansWeb/opensans-semibolditalic-webfont.eot');
-	src:	url('fonts/OpenSansWeb/opensans-semibolditalic-webfont.eot?#iefix') format('embedded-opentype'),
-			url('fonts/OpenSansWeb/opensans-semibolditalic-webfont.woff') format('woff'),
-			url('fonts/OpenSansWeb/opensans-semibolditalic-webfont.ttf') format('truetype'),
-			url('fonts/OpenSansWeb/opensans-semibolditalic-webfont.svg') format('svg');
-	font-style: italic;
-}
-
-@font-face {
-	font-family: 'Open Sans Extrabold';
-	src:	url('fonts/OpenSansWeb/opensans-extrabold-webfont.eot');
-	src:	url('fonts/OpenSansWeb/opensans-extrabold-webfont.eot?#iefix') format('embedded-opentype'),
-			url('fonts/OpenSansWeb/opensans-extrabold-webfont.woff') format('woff'),
-			url('fonts/OpenSansWeb/opensans-extrabold-webfont.ttf') format('truetype'),
-			url('fonts/OpenSansWeb/opensans-extrabold-webfont.svg') format('svg');
-}
-
-@font-face {
-	font-family: 'Open Sans Extrabold';
-	src:	url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.eot');
-	src:	url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.eot?#iefix') format('embedded-opentype'),
-			url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.woff') format('woff'),
-			url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.ttf') format('truetype'),
-			url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.svg') format('svg');
-	font-style: italic;
-}
+/*
+/* rtl-review */
+/* with specifics imports 
+add [dir="rtl"] SELECTOR ([dir="ltr"] is default)
+to elements with different left/right margin, padding, border, position, float, clear, text-align and, when needed, Background-position.
+In theory, you should also invert shadow... but i think we could postpone this to another release...
+All parts that aren't checked yet are actually marked with "rtl-review"
+*/
 
 @bsbase: "../../Services/UICore/lib/bootstrap-3.2.0/less/";
 
@@ -103,57 +24,57 @@
 // The variables.less should point to a customized version.
 
 // Core variables and mixins
-@import "@{bsbase}variables.less";    // original
-@import "@{bsbase}mixins.less";
+@import "@{bsbase}variables.less";    // original /* rtl-review */
+@import "@{bsbase}mixins.less"; /* rtl-review */
 
 // Reset and dependencies
-@import "@{bsbase}normalize.less";
-@import "@{bsbase}print.less";
-@import "@{bsbase}glyphicons.less";
+@import "@{bsbase}normalize.less"; /* rtl-review */
+@import "@{bsbase}print.less"; /* rtl-review */
+@import "@{bsbase}glyphicons.less"; /* rtl-review */
 
 // Core CSS
-@import "@{bsbase}scaffolding.less";
-@import "@{bsbase}type.less";
-@import "@{bsbase}code.less";
-@import "@{bsbase}grid.less";
-@import "@{bsbase}tables.less";
-@import "@{bsbase}forms.less";
-@import "@{bsbase}buttons.less";
+@import "@{bsbase}scaffolding.less"; /* rtl-review */
+@import "@{bsbase}type.less"; /* rtl-review */
+@import "@{bsbase}code.less"; /* rtl-review */
+@import "@{bsbase}grid.less"; /* rtl-review */
+@import "@{bsbase}tables.less"; /* rtl-review */
+@import "@{bsbase}forms.less"; /* rtl-review */
+@import "@{bsbase}buttons.less"; /* rtl-review */
 
 // Components
-@import "@{bsbase}component-animations.less";
-@import "@{bsbase}dropdowns.less";
-@import "@{bsbase}button-groups.less";
-@import "@{bsbase}input-groups.less";
-@import "@{bsbase}navs.less";
-@import "@{bsbase}navbar.less";
-@import "@{bsbase}breadcrumbs.less";
-@import "@{bsbase}pagination.less";
-@import "@{bsbase}pager.less";
-@import "@{bsbase}labels.less";
-@import "@{bsbase}badges.less";
-@import "@{bsbase}jumbotron.less";
-@import "@{bsbase}thumbnails.less";
-@import "@{bsbase}alerts.less";
-@import "@{bsbase}progress-bars.less";
-@import "@{bsbase}media.less";
-@import "@{bsbase}list-group.less";
-@import "@{bsbase}panels.less";
-@import "@{bsbase}responsive-embed.less";
-@import "@{bsbase}wells.less";
-@import "@{bsbase}close.less";
+@import "@{bsbase}component-animations.less"; /* rtl-review */
+@import "@{bsbase}dropdowns.less"; /* rtl-review */
+@import "@{bsbase}button-groups.less"; /* rtl-review */
+@import "@{bsbase}input-groups.less"; /* rtl-review */
+@import "@{bsbase}navs.less"; /* rtl-review */
+@import "@{bsbase}navbar.less"; /* rtl-review */
+@import "@{bsbase}breadcrumbs.less"; /* rtl-review */
+@import "@{bsbase}pagination.less"; /* rtl-review */
+@import "@{bsbase}pager.less"; /* rtl-review */
+@import "@{bsbase}labels.less"; /* rtl-review */
+@import "@{bsbase}badges.less"; /* rtl-review */
+@import "@{bsbase}jumbotron.less"; /* rtl-review */
+@import "@{bsbase}thumbnails.less"; /* rtl-review */
+@import "@{bsbase}alerts.less"; /* rtl-review */
+@import "@{bsbase}progress-bars.less"; /* rtl-review */
+@import "@{bsbase}media.less"; /* rtl-review */
+@import "@{bsbase}list-group.less"; /* rtl-review */
+@import "@{bsbase}panels.less"; /* rtl-review */
+@import "@{bsbase}responsive-embed.less"; /* rtl-review */
+@import "@{bsbase}wells.less"; /* rtl-review */
+@import "@{bsbase}close.less"; /* rtl-review */
 
 // Components w/ JavaScript
-@import "@{bsbase}modals.less";
-@import "@{bsbase}tooltip.less";
-@import "@{bsbase}popovers.less";
-@import "@{bsbase}carousel.less";
+@import "@{bsbase}modals.less"; /* rtl-review */
+@import "@{bsbase}tooltip.less"; /* rtl-review */
+@import "@{bsbase}popovers.less"; /* rtl-review */
+@import "@{bsbase}carousel.less"; /* rtl-review */
 
 // Utility classes
-@import "@{bsbase}utilities.less";
-@import "@{bsbase}responsive-utilities.less";
+@import "@{bsbase}utilities.less"; /* rtl-review */
+@import "@{bsbase}responsive-utilities.less"; /* rtl-review */
 
-@import "less/variables.less";             // customized
+@import "less/variables.less";             // customized /* rtl-review */
 
 // warning inline text
 span.ilAlert {

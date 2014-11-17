@@ -570,21 +570,27 @@ class ilTemplate extends ilTemplateX
 	public function fillContentLanguage()
 	{
 	 	global $ilUser,$lng;
-	 	
+	 	$contentLanguage = 'en';
+		$rtl = array('ar','fa','ur','he'); //make a list of rtl languages
+		/* rtl-review: add "de" for testing with ltr lang shown in rtl
+		 * and set unicode-bidi to bidi-override for mirror effect */
+		$textdir = 'ltr';
 	 	if(is_object($ilUser))
 	 	{
 	 		if($ilUser->getLanguage())
 	 		{
-		 		$this->setVariable('META_CONTENT_LANGUAGE',$ilUser->getLanguage());
-		 		return true;
+		 		$contentLanguage = $ilUser->getLanguage();
 	 		}
-	 		if(is_object($lng))
+	 		else if(is_object($lng))
 	 		{
-		 		$this->setVariable('META_CONTENT_LANGUAGE',$lng->getDefaultLanguage());
-		 		return true;
+		 		$contentLanguage = $lng->getDefaultLanguage();
 	 		}
 	 	}
- 		$this->setVariable('META_CONTENT_LANGUAGE','en');
+ 		$this->setVariable('META_CONTENT_LANGUAGE', $contentLanguage);
+		if (in_array($contentLanguage, $rtl)) { 
+			$textdir = 'rtl'; 
+		}
+		$this->setVariable('LANGUAGE_DIRECTION', $textdir);
 		return true;	 	
 	}
 
