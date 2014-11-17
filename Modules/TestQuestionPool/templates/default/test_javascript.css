@@ -1,6 +1,6 @@
-#orderlist li { margin: 0px; }
-#orderlist { margin-top: -4px; }
-#orderlist li { margin-top: 4px; }
+.ilVerticalOrderingQuestion li { margin: 0px; }
+.ilVerticalOrderingQuestion ul { margin-top: -4px; }
+.ilVerticalOrderingQuestion li { margin-top: 4px; }
 
 ul.boxy {
 	list-style-type: none;

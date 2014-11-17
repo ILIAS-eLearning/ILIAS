@@ -1,100 +1,46 @@
-
 {QUESTIONTEXT}
 <!-- BEGIN ordering_with_javascript -->
-<script>
-	var initialorder = new Array();
+<div class="ilVerticalOrderingQuestion ilClearFloat">
+	<div class="ilFloatRight">
+		<a class="btn btn-default reset" href="#">{RESET_POSITIONS}</a>
+	</div>
+	<div class="ilClearFloat"></div>
 
-	function saveInitialOrder()
-	{
-		var ul = document.getElementById("orderlist");
-		var listelements = ul.getElementsByTagName("li");
-		for (var i = 0; i < listelements.length; i++)
-		{
-			initialorder.push(listelements[i].id);
-		}
-	}
-
-	function restoreInitialOrder()
-	{
-		for (var i = initialorder.length - 1; i > 0; i--)
-		{
-			var $a = $("#" + initialorder[i]);
-			var $b = $("#" + initialorder[i- 1]);
-			$a.before($b);
-		}
-	}
-
-	function saveOrder(listID)
-	{
-		var list = document.getElementById(listID);
-		var items = list.getElementsByTagName("li");
-		var itemsString = "";
-		for(var i = 0; i < items.length; i++)
-		{
-			if (itemsString.length > 0) itemsString += ":";
-			itemsString += items[i].id;
-		}
-		document.getElementById('orderresult').value = itemsString;
-	}
-
-	function createSortable() {
-		$("#orderlist").sortable({
-			opacity: 0.6,
-			revert: true,
-			cursor: "move",
-			axis: "y"
-		}).disableSelection();
-	}
-
-	$(function() {
-		createSortable();
-		saveInitialOrder();
+	<ul id="vertical_{QUESTION_ID}" class="boxy">
+	<!-- BEGIN ordering_row_javascript_text -->
+		<li class="ilOrderingValue" id="id_{ANSWER_ID}">{ANSWER_TEXT}</li>
+	<!-- END ordering_row_javascript_text -->
+	<!-- BEGIN ordering_row_javascript_pictures -->
+		<li class="ilOrderingValue" id="id_{ANSWER_ID}">
+			<table border="0">
+				<tr>
+					<td class="text-right">
+						<img border="0" src="{THUMB_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
+					</td>
+					<td class="ilValignTop">
+						<a target="_new" href="{PICTURE_HREF}"><img border="0" src="{ENLARGE_HREF}" alt="{ENLARGE_ALT}" title="{ENLARGE_TITLE}" /></a>
+					</td>
+				</tr>
+			</table>
+		</li>
+	<!-- END ordering_row_javascript_pictures -->
+	</ul>
+	<input type="hidden" id="orderresult_{QUESTION_ID}" name="orderresult" {VALUE_ORDERRESULT} />
+</div>
+<div class="ilClearFloat"></div>
+<script type="text/javascript">
+	$().ready(function() {
+		$('div.ilVerticalOrderingQuestion').ilOrderingQuestion({
+			sortable_selector          : 'ul',
+			result_value_selector      : '.ilOrderingValue',
+			result_separator           : ':',<!-- BEGIN form_submit_register -->
+			build_result_on_form_submit: true,<!-- END form_submit_register -->
+			reset_selector             : '.reset',
+			initial_order              : $.parseJSON('{INITIAL_ORDER}') || []
+		});
 	});
 </script>
-<table class="ilClearFloat" border="0" width="100%">
-	<tr>
-		<td align="right">
-			<a class="btn btn-default" href="javascript:restoreInitialOrder();">{RESET_POSITIONS}</a>
-		</td>
-	</tr>
-</table>
-
-<ul id="orderlist" class="boxy">
-<!-- BEGIN ordering_row_javascript_text -->
-	<li id="id_{ANSWER_ID}">{ANSWER_TEXT}</li>
-<!-- END ordering_row_javascript_text -->
-<!-- BEGIN ordering_row_javascript_pictures -->
-	<li id="id_{ANSWER_ID}">
-		<table border="0">
-			<tr>
-				<td align="left">
-					<img border="0" src="{THUMB_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
-				</td>
-				<td valign="top">
-					<a target="_new" href="{PICTURE_HREF}"><img border="0" src="{ENLARGE_HREF}" alt="{ENLARGE_ALT}" title="{ENLARGE_TITLE}" /></a>
-				</td>
-			</tr>
-		</table>
-	</li>
-<!-- END ordering_row_javascript_pictures -->
-</ul>
-
-<input id="orderresult" type="hidden" name="orderresult" {VALUE_ORDERRESULT}>
 <!-- END ordering_with_javascript -->
-<!-- BEGIN form_submit_register -->
-<script type="text/javascript">
-	jQuery(function(){
-		jQuery('#orderlist').parents('form').submit(function(){
-			return saveOrder('orderlist');
-		})
-	});
-</script>
-<!-- END form_submit_register -->
-<!-- BEGIN javascript_restore_order -->
-<script type="text/javascript">
-	{RESTORE_ORDER}
-</script>
-<!-- END javascript_restore_order -->
 <!-- BEGIN nested_ordering_output -->
 {NESTED_ORDERING}
 <!-- END nested_ordering_output -->

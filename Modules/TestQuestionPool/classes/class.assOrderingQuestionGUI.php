@@ -825,10 +825,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
-		$template->setCurrentBlock('form_submit_register');
-		$template->touchBlock('form_submit_register');
-		$template->parseCurrentBlock();
-
 		if( is_object($this->getPreviewSession()) && count((array)$this->getPreviewSession()->getParticipantsSolution()) )
 		{
 			if ($this->object->getOrderingType() == OQ_NESTED_TERMS || $this->object->getOrderingType() == OQ_NESTED_PICTURES)
@@ -906,26 +902,31 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		else
 		{
-			if (count($jssolutions))
+			$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/ordering.js");
+
+			$template->setCurrentBlock('form_submit_register');
+			$template->touchBlock('form_submit_register');
+			$template->parseCurrentBlock();
+
+			if(count($jssolutions))
 			{
 				ksort($jssolutions);
-				$js = "";
-				foreach ($jssolutions as $key => $value)
+				$initial_order = array();
+				foreach($jssolutions as $key => $value)
 				{
-					if (is_object($this->object->getAnswer($value)))
+					if(is_object($this->object->getAnswer($value)))
 					{
-						$js .= "initialorder.push('id_" . $this->object->getAnswer($value)->getRandomID() . "');";
+						$initial_order[] = 'id_' . $this->object->getAnswer($value)->getRandomID();
 					}
 				}
-				$js .= "restoreInitialOrder();";
+
+				$template->setVariable('INITIAL_ORDER', json_encode($initial_order));
 			}
-			if (strlen($js))
+			else
 			{
-				$template->setCurrentBlock("javascript_restore_order");
-				$template->setVariable("RESTORE_ORDER", $js);
-				$template->parseCurrentBlock();
+				$template->setVariable('INITIAL_ORDER', json_encode(array()));
 			}
-		
+
 			foreach ($keys as $idx)
 			{
 				$answer = $this->object->answers[$idx];
@@ -953,7 +954,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					$template->parseCurrentBlock();
 				}
 			}
-			$template->setCurrentBlock("ordering_with_javascript");
 			if ($this->object->getOrderingType() == OQ_PICTURES)
 			{
 				$template->setVariable("RESET_POSITIONS", $this->lng->txt("reset_pictures"));
@@ -962,10 +962,10 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			{
 				$template->setVariable("RESET_POSITIONS", $this->lng->txt("reset_definitions"));
 			}
-			$template->parseCurrentBlock();
-			
+
 			$questiontext = $this->object->getQuestion();
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+			$template->setVariable("QUESTION_ID", $this->object->getId());
 			$questionoutput = $template->get();
 			if (!$show_question_only)
 			{
@@ -1095,8 +1095,10 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		else
 		{
+			$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/ordering.js");
+
 			// BEGIN: onsubmit form action for javascript enabled ordering questions
-			$this->tpl->setVariable("ON_SUBMIT", "return saveOrder('orderlist');");
+			$this->tpl->setVariable("ON_SUBMIT", "return $('div.ilVerticalOrderingQuestion').ilOrderingQuestion('saveOrder');");
 			// END: onsubmit form action for javascript enabled ordering questions
 
 			// get the solution of the user for the active pass or from the last pass if allowed
@@ -1138,24 +1140,23 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 						$jssolutions[$solution_value["value2"]] = $solution_value["value1"];
 					}
 				}
-				if (count($jssolutions))
+				if(count($jssolutions))
 				{
 					ksort($jssolutions);
-					$js = "";
-					foreach ($jssolutions as $key => $value)
+					$initial_order = array();
+					foreach($jssolutions as $key => $value)
 					{
-						if (is_object($this->object->getAnswer($value)))
+						if(is_object($this->object->getAnswer($value)))
 						{
-							$js .= "initialorder.push('id_" . $this->object->getAnswer($value)->getRandomID() . "');";
+							$initial_order[] = 'id_' . $this->object->getAnswer($value)->getRandomID();
 						}
 					}
-					$js .= "restoreInitialOrder();";
+
+					$template->setVariable('INITIAL_ORDER', json_encode($initial_order));
 				}
-				if (strlen($js))
+				else
 				{
-					$template->setCurrentBlock("javascript_restore_order");
-					$template->setVariable("RESTORE_ORDER", $js);
-					$template->parseCurrentBlock();
+					$template->setVariable('INITIAL_ORDER', json_encode(array()));
 				}
 			}
 
@@ -1186,8 +1187,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					$template->parseCurrentBlock();
 				}
 			}
-			$template->setCurrentBlock("ordering_with_javascript");
-			if ($this->object->getOrderingType() == OQ_PICTURES)
+			if($this->object->getOrderingType() == OQ_PICTURES)
 			{
 				$template->setVariable("RESET_POSITIONS", $this->lng->txt("reset_pictures"));
 			}
@@ -1195,12 +1195,13 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			{
 				$template->setVariable("RESET_POSITIONS", $this->lng->txt("reset_definitions"));
 			}
-			$template->parseCurrentBlock();
 
 			$questiontext = $this->object->getQuestion();
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+			$template->setVariable("QUESTION_ID", $this->object->getId());
 			$questionoutput = $template->get();
 			$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
+			$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/ordering.js");
 			return $pageoutput;
 		}
 	}
