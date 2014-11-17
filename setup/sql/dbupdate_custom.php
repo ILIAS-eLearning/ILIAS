@@ -2091,3 +2091,50 @@ if(!$ilDB->tableColumnExists("bill", "bill_finalized_date")) {
 $ilDB->manipulate("UPDATE bill SET bill_finalized_date = UNIX_TIMESTAMP() WHERE bill_final = 1");
 
 ?>
+
+
+
+
+
+<#60>
+<?php
+// TEP categories
+
+$query = "DELETE FROM tep_type WHERE 1";
+$ilDB->manipulate($query);
+
+
+$stmt = $ilDB->prepareManip("INSERT INTO tep_type (id, title, bg_color, font_color, tep_active) VALUES (?, ?, ?, ?, ?) "
+						   , array("integer", "text", "text", "text", "integer"));
+
+$data = array(
+	  array(1,  "Projekt", 					"f09273", "000000", "1")
+	, array(2,  "Ausgleichstag",			"86b37d", "000000", "1")
+	, array(3,  "Krankheit",				"86b37d", "000000", "1")
+	, array(4,  "Urlaub genehmigt",			"86b37d", "000000", "1")
+	, array(5,  "FD Gespräch",				"e6da9d", "000000", "1")
+	, array(6,  "FD-MA Teammeeting",		"e6da9d", "000000", "1")
+	, array(7,  "RD-Gespräch",				"e6da9d", "000000", "1")
+	, array(8,  "OD-FD Meeting",			"e6da9d", "000000", "1")
+	, array(9,  "AKL-Gespräch",				"e6da9d", "000000", "1")
+	, array(10, "bAV-Arbeitskreis",			"e6da9d", "000000", "1")
+	, array(11, "Gewerbe-Arbeitskreis",		"e6da9d", "000000", "1")
+	, array(12, "FDL-Arbeitskreis",			"e6da9d", "000000", "1")
+	, array(13, "Firmenkunden",				"cccccc", "000000", "1")
+	, array(14, "Aquise Pilotprojekt", 		"cccccc", "000000", "1")
+	, array(15, "Individuelle Unterstützung SpV/FD",	"cccccc", "000000", "1")
+	, array(16, "AD Begleitung",			"cccccc", "000000", "1")
+	, array(17, "Urlaub beantragt",			"b8ce8d", "000000", "1")
+	, array(18, "Trainer- / DBV Klausur (Zentral)", "bf6364", "000000", "1")
+	, array(19, "Trainer Teammeeting",		"bf6364", "000000", "1")
+	, array(20, "Arbeitsgespräch", 			"bf6364", "000000", "1")
+	, array(21, "Veranstaltung / Tagung (Zentral)",	"f09273", "000000", "1")
+	, array(22, "Büro", 					"b8ace6",  "000000", "1")
+	, array(23, "Dezentraler Feiertag", 	"b8ce8d", "000000", "1")
+	, array(24, "Training", 				"f0e960" , "000000", "1")
+	//, array(24, "Gibt es noch nicht", 		"bf6364" , "000000", "1")
+);
+
+$ilDB->executeMultiple($stmt, $data);
+$ilDB->free($stmt);
+?>
