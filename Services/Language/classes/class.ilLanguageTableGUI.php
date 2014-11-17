@@ -36,7 +36,8 @@ class ilLanguageTableGUI extends ilTable2GUI
 		{
 			$this->addColumn($this->lng->txt("last_change"));
 		}
-		$this->setDefaultOrderField("name");
+        // data will be sorted in getItems()
+        $this->sortData(false);
 		$this->setSelectAllCheckbox("id[]");
 		
 		$this->setEnableHeader(true);
@@ -52,17 +53,17 @@ class ilLanguageTableGUI extends ilTable2GUI
 		$this->disable("footer");
 		$this->setEnableTitle(true);
 
+        if ($ilSetting->get("lang_ext_maintenance") == "1")
+        {
+            $this->addMultiCommand("confirmRefreshSelected", $lng->txt("refresh"));
+        }
+        else
+        {
+            $this->addMultiCommand("RefreshSelected", $lng->txt("refresh"));
+        }
 		$this->addMultiCommand("install", $lng->txt("install"));
 		$this->addMultiCommand("installLocal", $lng->txt("install_local"));
 		$this->addMultiCommand("uninstall", $lng->txt("uninstall"));
-		if ($ilSetting->get("lang_ext_maintenance") == "1")
-		{
-			$this->addMultiCommand("confirmRefreshSelected", $lng->txt("refresh"));
-		}
-		else
-		{
-			$this->addMultiCommand("RefreshSelected", $lng->txt("refresh"));
-		}
 		$this->addMultiCommand("setSystemLanguage", $lng->txt("setSystemLanguage"));
 		$this->addMultiCommand("setUserLanguage", $lng->txt("setUserLanguage"));
 		$this->getItems();
@@ -79,6 +80,10 @@ class ilLanguageTableGUI extends ilTable2GUI
 		{
 			$data[] = array_merge($l, array("key" => $k));
 		}
+
+        // sort alphabetically but shoe installed languages first
+        $data = ilUtil::sortArray($data, 'name', 'asc', false, false);
+        $data = ilUtil::sortArray($data, 'desc', 'asc', false, false);
 
 		$this->setData($data);
 	}
