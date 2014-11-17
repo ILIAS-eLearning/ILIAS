@@ -1748,7 +1748,7 @@ class ilExAssignment
 					$targetfile= substr($targetfile, $pos + 1);
 				}
 				
-				/* #14536 (proposal)
+				// #14536 (proposal)
 				if(array_key_exists($targetfile, $duplicates))
 				{
 					$suffix = strrpos($targetfile, ".");						
@@ -1759,8 +1759,7 @@ class ilExAssignment
 				else
 				{
 					$duplicates[$targetfile] = 1;
-				}
-				*/ 
+				}				 
 				
 				$targetfile = $directory.DIRECTORY_SEPARATOR.$targetfile;
 				$sourcefile = $sourcedir.DIRECTORY_SEPARATOR.$sourcefile;
