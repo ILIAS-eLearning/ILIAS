@@ -361,7 +361,7 @@ class gevBillingUtils {
 	}
 	
 	public function createAllCancellationBillsAndCoupons($a_crs_id) {
-		require_once("Services/GEV/classes/class.gevCourseUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		
 		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
 		$waiting = $crs_utils->getBookings()->getWaitingUsers();
