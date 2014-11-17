@@ -15098,3 +15098,7 @@ exc#:#exc_peer_review_reset#:#Delete and Reset Peer-Feedback
 exc#:#exc_peer_review_reset_sure#:#Are you sure you want to delete the complete peer-feedback for the assignment "%s"?
 exc#:#exc_peer_review_reset_done#:#All Peer-Feedback-related data has been deleted for the assignment.
 adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!
+crs#:#crs_loc_form_tst_new_initial_info#:#--
+crs#:#crs_loc_form_tst_new_qualified_info#:#--
+crs#:#crs_loc_form_assign_initial_info#:#--
+crs#:#crs_loc_form_assign_qualified_info#:#--

@@ -15096,3 +15096,7 @@ exc#:#exc_peer_review_reset#:#Peer-Feedback löschen und zurücksetzen
 exc#:#exc_peer_review_reset_sure#:#Wollen Sie wirklich das komplette Peer-Feedback für die Übungseinheit "%s" löschen?
 exc#:#exc_peer_review_reset_done#:#Sämtliche Peer-Feedback-Daten wurde für die Übungseinheit gelöscht.
 adve#:#char_selector_msg_blocks_or_custom_needed#:#Wenn Sie die Auswahl aktivieren, wählen Sie bitte einen Zeichenblock oder geben Sie eine eigene Auswahl von Zeichen ein!
+crs#:#crs_loc_form_tst_new_initial_info#:#--
+crs#:#crs_loc_form_tst_new_qualified_info#:#--
+crs#:#crs_loc_form_assign_initial_info#:#--
+crs#:#crs_loc_form_assign_qualified_info#:#--

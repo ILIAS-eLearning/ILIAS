@@ -564,7 +564,18 @@ class ilLOEditorGUI
 		$cr_mode->setValue(self::TEST_NEW);
 		
 		$new = new ilRadioOption($this->lng->txt('crs_loc_form_tst_new'),self::TEST_NEW);
-		
+
+		switch($this->getTestType())
+		{
+			case ilLOSettings::TYPE_TEST_INITIAL:
+				$new->setInfo($this->lng->txt("crs_loc_form_tst_new_initial_info"));
+				break;
+
+			case ilLOSettings::TYPE_TEST_QUALIFIED:
+				$new->setInfo($this->lng->txt("crs_loc_form_tst_new_qualified_info"));
+				break;
+		}
+
 		// title
 		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
 		$ti->setValue(
@@ -611,6 +622,18 @@ class ilLOEditorGUI
 		
 		// assign existing
 		$existing = new ilRadioOption($this->lng->txt('crs_loc_form_assign'),self::TEST_ASSIGN);
+
+		switch($this->getTestType())
+		{
+			case ilLOSettings::TYPE_TEST_INITIAL:
+				$existing->setInfo($this->lng->txt("crs_loc_form_assign_initial_info"));
+				break;
+
+			case ilLOSettings::TYPE_TEST_QUALIFIED:
+				$existing->setInfo($this->lng->txt("crs_loc_form_assign_qualified_info"));
+				break;
+		}
+
 		if(!$assignable)
 		{
 			$existing->setDisabled(true);
