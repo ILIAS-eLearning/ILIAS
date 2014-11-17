@@ -42,6 +42,10 @@
 	padding: 0 0 0 5px;
 }
 
+[dir="rtl"] #ilTopNav.navbar > .navbar-collapse {
+	padding: 0 5px 0 0;
+}
+
 #ilTopNav.navbar-default {
 	background-color: transparent;//@body-bg;//lighten(@ilMainMenuColor, 30%);
 	//#gradient > .vertical(lighten(@ilMainMenuColor, 30%), lighten(@ilMainMenuColor, 27%), 0%, 100%);
@@ -89,6 +93,10 @@
 	}
 }
 
+[dir="rtl"] #ilTopNav .navbar-nav > li {
+			margin: 0 10px 0 0;
+}
+
 /* badges */
 #ilTopBarNav .badge {
 	font-size: 9px;
@@ -96,6 +104,11 @@
 	margin-top: -3px;
 	margin-left: -5px;
 	position: absolute;
+}
+
+[dir="rtl"] #ilTopBarNav .badge {
+	margin-left: 0;
+	margin-right: -5px;
 }
 
 #ilTopBarNav .ilBadgeSpacer {
@@ -116,12 +129,21 @@
 	/*word-spacing: -0.1em;*/
 }
 
+[dir="rtl"] .ilTopTitle {
+	float: right;
+	padding: 0 15px 0 0;
+}
+
 input.ilOpenIDBox {
 	background: #FFFFFF url(images/openid.png) 1px 2px no-repeat;
 	padding-left: 20px;
 }
 
-
+[dir="rtl"] input.ilOpenIDBox {
+	background: #FFFFFF url(images/openid.png) 2px 1px no-repeat;
+	padding-left: 0;
+	padding-right: 20px;
+}
 
 #ilTopBar.ilTopBar {
 	padding: 0;
@@ -222,6 +244,32 @@ input.ilOpenIDBox {
 	}
 }
 
+[dir="rtl"] #ilTopBarNav {
+	float: left;
+	margin: 0;
+	margin-left: 14px;
+	> li {
+		float: right;
+	}
+	> li > a {
+		margin-right: 1px;
+	}
+	#userlog {
+		> a {
+			padding: 0 0 0 10px;
+			img {
+				margin-left: 0;
+			}
+		}
+		.dropdown-menu {
+			> li > a {
+				padding-left: 0;
+				padding-right: 50px;
+			}
+		}
+	}
+}
+
 .ilMainHeader {
 	background-color: white;
 	> header > .row > a.navbar-brand {
@@ -254,7 +302,6 @@ input.ilOpenIDBox {
 
 .ilMainHeader > header > .row > a.navbar-brand {
 	height: 70px;
-	padding: 10px 0 px 15px;
 }
 
 .ilMainHeader > header > .row > a.navbar-brand > img {
@@ -276,6 +323,12 @@ input.ilOpenIDBox {
 	margin-right: 14px;
 }
 
+[dir="rtl"] #ilTopNav .navbar-nav {
+	float: left;
+	margin-right: 0;
+	margin-left: 14px;
+}
+
 #ilTopNav {
 	margin-top: -30px;
 }
@@ -289,4 +342,11 @@ input.ilOpenIDBox {
 	left: auto;
 	right: 0;
 	min-width: 100%;
+}
+
+[dir="rtl"] #ilTopNav .dropdown-menu {
+	float: left;
+	left: 0;
+	right: auto;
+	padding: 5px 0;
 }

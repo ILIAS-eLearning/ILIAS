@@ -6,6 +6,10 @@ div.il_Preconditions {
 	font-size: 90%;
 }
 
+[dir="rtl"] div.il_Preconditions {
+	text-align: right;
+}
+
 /* Repository */
 div.ilContainerListItemOuter {
 	padding: 15px 10px;
@@ -15,6 +19,11 @@ div.ilContainerListItemOuter {
 
 td.ilContainerListFooter {
 	padding-left: 15px;
+}
+
+[dir="rtl"] td.ilContainerListFooter {
+	padding-left: 0;
+	padding-right: 15px;
 }
 
 div.ilListItemSection {
@@ -40,14 +49,27 @@ div.ilContainerListItemCB {
 	width: 25px;
 }
 
+[dir="rtl"] div.ilContainerListItemCB {
+	float: right;
+}
+
 div.ilContainerListItemIcon {
 	margin-top: -3px;
 	float: left;
 	position: absolute;
 }
 
+[dir="rtl"] div.ilContainerListItemIcon {
+	float: right;
+}
+
 div.ilContainerListItemIconCB {
 	margin-left:25px;
+}
+
+[dir="rtl"] div.ilContainerListItemIconCB {
+	margin-left: 0;
+	margin-right:25px;
 }
 
 img.ilListItemIcon {
@@ -59,9 +81,19 @@ div.ilContainerListItemContent {
 	margin-left: 35px;
 }
 
+[dir="rtl"] div.ilContainerListItemContent {
+	margin-left: 0;
+	margin-right: 35px;
+}
+
 /* If checkbox is activated, add spacing */
 div.ilContainerListItemContentCB {
 	margin-left: 60px;
+}
+
+[dir="rtl"] div.ilContainerListItemContentCB {
+	margin-left: 0;
+	margin-right: 60px;
 }
 
 div.il_ContainerListItem {
@@ -69,12 +101,21 @@ div.il_ContainerListItem {
 	padding-left: 8px;
 }
 
+[dir="rtl"] div.il_ContainerListItem {
+	padding-left: 0;
+	padding-right: 8px;
+}
+
 th.ilContainerBlockHeader {
 	/* font-family: 'Open Sans Semibold'; */
 	font-weight: normal;
 	padding: 2px;
-	text-align:left;
+	text-align: left;
 	vertical-align: middle;
+}
+
+[dir="rtl"] th.ilContainerBlockHeader {
+	text-align: right;
 }
 
 h3.ilContainerBlockHeader {
@@ -92,6 +133,10 @@ div#cont_paste_explorer_tree ul.il_Explorer {
 	margin: 0 0 0 24px;
 }
 
+[dir="rtl"] div#cont_paste_explorer_tree ul.il_Explorer {
+	margin: 0 24px 0 0;
+}
+
 #ilContRepIntro {
 	margin: 20px 0 50px 0;
 	clear:both;
@@ -101,5 +146,9 @@ div#ilContRepIntro img {
 	float: right;
 	width: 150px;
 	height: 150px;
+}
+
+[dir="rtl"] div#ilContRepIntro img {
+	float: left;
 }
 

@@ -2,8 +2,8 @@
  /* rtl-review is this font safe for RTL languages? */
  
  /* rtl-review */
-[dir="ltr"] * { direction: ltr; unicode-bidi: embed; }
-[dir="rtl"] * { direction: rtl; unicode-bidi: embed; }
+[dir="ltr"] * { direction: ltr; unicode-bidi: bidi-override; } //embed
+[dir="rtl"] * { direction: rtl; unicode-bidi: bidi-override; } //embed
 
 bdo[dir="ltr"] { direction: ltr; unicode-bidi: bidi-override; }
 bdo[dir="rtl"] { direction: rtl; unicode-bidi: bidi-override; }
@@ -24,13 +24,13 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 // The variables.less should point to a customized version.
 
 // Core variables and mixins
-@import "@{bsbase}variables.less";    // original /* rtl-review */
+@import "@{bsbase}variables.less";    // original
 @import "@{bsbase}mixins.less"; /* rtl-review */
 
 // Reset and dependencies
-@import "@{bsbase}normalize.less"; /* rtl-review */
-@import "@{bsbase}print.less"; /* rtl-review */
-@import "@{bsbase}glyphicons.less"; /* rtl-review */
+@import "@{bsbase}normalize.less";
+@import "@{bsbase}print.less";
+@import "@{bsbase}glyphicons.less";
 
 // Core CSS
 @import "@{bsbase}scaffolding.less"; /* rtl-review */
@@ -97,6 +97,9 @@ span.ilAlert {
 		color: @dropdown-link-color;
 		white-space: nowrap // prevent links from randomly breaking onto new lines
 	}
+}
+[dir="rtl"] .dropdown-menu {
+	padding: 5px 0;
 }
 .yamm .dropdown-menu {
 	li > a {
@@ -186,12 +189,17 @@ div.ilFrame {
 	background-color: @il-secondary-container-bg;
 	border-right: 3px solid lighten(@mid-gray, 33%);
 	z-index: 100;
-
-
 	position: fixed;
 	top: @il-fixed-menu-height;
 
 	@media only screen and (max-width: 640px) {width: 100%;}
+}
+[dir="rtl"] .ilLeftNav {
+	float: right;
+	margin-left: 0;
+	margin-right: 15px;
+	border-right: none;
+	border-left: 3px solid lighten(@mid-gray, 33%);
 }
 
 /* search */
@@ -225,7 +233,11 @@ ul, ol, p {
 }
 
 ol, ul { 
-	padding-left: 40px 
+	padding-left: 40px; 
+}
+[dir="rtl"] ol, [dir="rtl"] ul {
+	padding-right: 40px;
+	padding-left: 0;
 }
 
 ol ul, ul ol,
@@ -351,14 +363,21 @@ body#tinymce {
   float: right;
 }
 
+[dir="rtl"] .ilFloatRight {
+  float: left;
+}
+
 .ilFloatLeft {
   float: left;
+}
+
+[dir="rtl"] .ilFloatLeft {
+  float: right;
 }
 
 .ilWhiteSpaceNowrap {
 	white-space: nowrap;
 }
-
 
 .ilPositionRelative {
 	position: relative;
@@ -380,6 +399,9 @@ div.ilFrame {
 	text-align: right;
 }
 
+[dir="rtl"] .ilRight {
+	text-align: left;
+}
 
 .ilValignMiddle {
 	vertical-align: middle;
@@ -454,8 +476,19 @@ div.ilCommandRow {
 	 margin-bottom: 15px;
 }
 
+[dir="rtl"] div.ilCommandRow {
+	 text-align: left; 
+	 padding-right: 0;
+	 padding-left: 1%;
+}
+
 div.ilCommandRow.one_side_col {
 	 padding-right: 22%; 
+}
+
+[dir="rtl"] div.ilCommandRow.one_side_col {
+	 padding-right: 0;
+	 padding-left: 22%;
 }
 
 div.ilAdminRow {
@@ -489,9 +522,14 @@ table.nobackground {
 
 .subitem {
   clear: both;
-  margin: 0px -10px 0px 0px;
+  margin: 0 -10px 0 0;
   padding-top: 5px;
   /* border-top: 1px dotted #C0C0C0; */
+}
+
+[dir="rtl"] .subitem {
+  clear: both;
+  margin: 0 0 0 -10px;
 }
   
 td.nobackground {
@@ -541,6 +579,10 @@ th.option, td.option {
 	border-top: 1px solid #9EADBA;
 }
 
+[dir="rtl"] th.option, [dir="rtl"] td.option {
+	text-align: left;
+}
+
 td.sub_option {
 	background-color: #FFF;
 	color: #222;
@@ -554,10 +596,13 @@ td.option_value {
 	background: none #FFF;
 	color: #222;
 	padding: 3px;
-	text-align: right;
 	vertical-align: top;
 	text-align: left;
 	border-top: 1px solid #9EADBA;
+}
+
+[dir="rtl"] td.option_value {
+	text-align: right;
 }
 
 td.option_value_center {
@@ -579,6 +624,9 @@ td.option_desc, p.option_desc {
 	text-align: left;
 }
 
+[dir="rtl"] td.option_desc, [dir="rtl"] p.option_desc {
+	text-align: right;
+}
 
 td.boxed {
 	border: 1px solid #000;
@@ -594,6 +642,13 @@ a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited {
 	font-weight: normal;
 }
 
+[dir="rtl"] a.il_ContainerItemCommand2:link,
+[dir="rtl"] a.il_ContainerItemCommand2:visited,
+[dir="rtl"] a.il_ContainerItemCommand:link,
+[dir="rtl"] a.il_ContainerItemCommand2:visited {
+	margin: 0 0 0 3px;
+}
+
 a.il_ContainerItemCommand2:hover,
 a.il_ContainerItemCommand:hover {
 	text-decoration: underline;
@@ -604,6 +659,9 @@ div.il_ContainerItemCommands2 {
 	margin: 0 3px 3px;
 }
 
+[dir="rtl"] div.il_ContainerItemCommands2 {
+	text-align: left;
+}
 
 div.il_ContainerItemCommands {
 	padding: 2px 0;
@@ -622,11 +680,19 @@ div.il_ContainerItemTitle {
 	padding-bottom: 5px;
 }
 
+[dir="rtl"] div.il_ContainerItemTitle {
+	float: right;
+}
+
 div.il_ItemProperties {
 	margin: 2px 0 5px;
 	text-align: left;
 	font-weight: normal;
 	font-size: 90%;
+}
+
+[dir="rtl"] div.il_ItemProperties {
+	text-align: right;
 }
 
 div.il_ItemNotice {
@@ -635,6 +701,10 @@ div.il_ItemNotice {
 	font-weight: normal;
 	font-size: 90%;
 	color: green;
+}
+
+[dir="rtl"] div.il_ItemNotice {
+	text-align: right;
 }
 
 a.il_ItemProperty:link, a.il_ItemProperty:visited {
@@ -670,15 +740,29 @@ div.il_Description, td.il_Description {
 	text-align: left;
 }
 
+[dir="rtl"] div.il_Description,
+[dir="rtl"] td.il_Description {
+	text-align: right;
+}
+
 div.il_Description_no_margin, td.il_Description_no_margin {
 	font-size: 90%;
 	font-style: italic;
 	text-align: left;
 }
 
+[dir="rtl"] div.il_Description_no_margin,
+[dir="rtl"] td.il_Description_no_margin {
+	text-align: right;
+}
+
 div.il_info {
 	font-size: 90%;
 	text-align: left;
+}
+
+[dir="rtl"] div.il_info {
+	text-align: right;
 }
 
 /* ---------------- headlines ------------------ */
@@ -713,6 +797,12 @@ h3.ilHeader {
 	//background-color: white;
 }
 
+[dir="rtl"] #headerimage {
+	margin-right: 0;
+	margin-left: 10px;
+	float: right;
+}
+
 
 span.ilHeader {}
 
@@ -721,8 +811,17 @@ div.ilHeadAction {
 	margin: 8px 0 5px; /* bottom 5px blog fullscreen */
 }
 
+[dir="rtl"] div.ilHeadAction {
+	float: left;
+}
+
 div.ilHeadAction .prop {
 	padding-right: 10px;
+}
+
+[dir="rtl"] div.ilHeadAction .prop {
+	padding-right: 0;
+	padding-left: 10px;
 }
 
 div.ilHeadAction a:hover {
@@ -759,6 +858,10 @@ div.il_TreeIcons {
 	float: right;
 }
 
+[dir="rtl"] div.il_TreeIcons {
+	padding: 15px 0 0 15px;
+	float: left;
+}
 
 div.il_Footer {
 	padding: 10px 0;
@@ -786,6 +889,9 @@ footer.ilFooter {
 	}
 }
 
+[dir="rtl"] footer.ilFooter {
+	text-align: right;
+}
 
 /* ----------------- permanent link  ------------- */
 div.ilPermaLink {
@@ -1004,6 +1110,12 @@ div#bot_center_area_drag:hover {
 	@media (max-width: @grid-float-breakpoint-max) {margin-left: 0 !important;}
 }
 
+[dir="rtl"] .ilLeftNavSpace {
+	margin-left: 0 !important;
+	margin-right: 315px !important;
+	@media (max-width: @grid-float-breakpoint-max) {margin-right: 0 !important;}
+}
+
 
 div.ilContentFixed {
 }
@@ -1020,6 +1132,11 @@ div.ilRightPanel {
 	left: auto !important;
 }
 
+[dir="rtl"] div.ilRightPanel {
+	right: auto !important;
+	width: 500px;
+	left: 0 !important;
+}
 
 /* Overlays, Blocks */
 .ilOverlay {
@@ -1030,12 +1147,15 @@ div.ilRightPanel {
 	box-shadow: 2px 2px 4px #C0C0C0;
 }
 
+[dir="rtl"] .ilOverlay {
+	text-align: right;
+}
+
 table.fullwidth {
 	background-color: #FFF;
 	width: 100%;
 	border-collapse: collapse;
 }
-
 
 .ilAccHeadingHidden, .ilAccHidden, .ui-helper-hidden-accessible {
 	position: absolute;
@@ -1044,6 +1164,11 @@ table.fullwidth {
 	width: 1px;
 	height: 1px;
 	overflow: hidden;
+}
+
+[dir="rtl"] .ilAccHeadingHidden, [dir="rtl"] .ilAccHidden, [dir="rtl"] .ui-helper-hidden-accessible {
+	left: auto; /* may causes a scrollbar when omitted */
+	right: -2000px;
 }
 
 a.ilAccAnchor, a.ilAccAnchor:hover {
@@ -1081,10 +1206,20 @@ div.ilHeaderImg {
 	margin: 2px 10px 10px 0;
 }
 
+[dir="rtl"] div.ilHeaderImg {
+	float: right; 
+	margin: 2px 0 10px 10px;
+}
+
 .ilHeaderImg img {
 	border: none;
 	margin-right: 25px;
 	max-height: 120px;
+}
+
+[dir="rtl"] .ilHeaderImg img {
+	margin-right: 0;
+	margin-left: 25px;
 }
 
 .ilFrameFixedWidth h1.ilHeader {
@@ -1092,6 +1227,11 @@ div.ilHeaderImg {
 
 .ilFrameFixedWidth div.ilHeaderDesc {
 	padding-left: 0;
+}
+
+[dir="rtl"] .ilFrameFixedWidth div.ilHeaderDesc {
+	padding-left: inherit;
+	padding-right: 0;
 }
 
 div.ilBox {
@@ -1116,13 +1256,26 @@ div.ilTopBarLeft {
 	float: left;
 }
 
+[dir="rtl"] div.ilTopBarLeft {
+	float: right;
+}
+
 div.ilTopBarRight {
 	float: right;
+}
+
+[dir="rtl"] div.ilTopBarRight {
+	float: left;
 }
 
 div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
 	margin-right: 25px;
 	color: black;
+}
+
+[dir="rtl"] div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
+	margin-right: 0;
+	margin-left: 25px;
 }
 
 div.ilTopBarRight td.il_adv_sel {
@@ -1158,6 +1311,9 @@ div.ilSideBarContent{
 	box-shadow: 2px 2px 4px #C0C0C0; 
 }
 
+[dir="rtl"] .ui-menu {
+	float: right;
+}
 
 .ui-menu .ui-menu-item {
 	margin: 0;
@@ -1166,6 +1322,11 @@ div.ilSideBarContent{
 	float: left;
 	clear: left;
 	width: 100%;
+}
+
+[dir="rtl"] .ui-menu .ui-menu-item {
+	float: right;
+	clear: right;
 }
 
 .ui-menu .ui-menu-category {
@@ -1178,6 +1339,11 @@ div.ilSideBarContent{
 	font-weight: bold;
 }
 
+[dir="rtl"] .ui-menu .ui-menu-category {
+	float: right;
+	clear: right;
+}
+
 .ui-menu .ui-menu-more {
 	display: block;
 	zoom: 1;
@@ -1186,6 +1352,12 @@ div.ilSideBarContent{
 	float: left;
 	clear: left;
 	width: 100%;
+}
+
+
+[dir="rtl"] .ui-menu .ui-menu-more {
+	float: right;
+	clear: right;
 }
 
 .ui-menu .ui-menu-more span {
@@ -1277,11 +1449,20 @@ div.editLink {
 	padding-right: 1em;
 }
 
+[dir="rtl"] div.editLink {
+	padding-right: 0;
+	padding-left: 1em;
+}
+
 img[src$="icon_checked.svg"] {
 	height: 11px;
     margin: 0 6px 0 5px;
     opacity: 0.5;
     width: 11px;
+}
+
+[dir="rtl"] img[src$="icon_checked.svg"] {
+    margin: 0 5px 0 6px;
 }
 
 .glyphicon-ok {
@@ -1367,6 +1548,11 @@ img[src$="icon_checked.svg"] {
 		margin-right: 25px;
 	}
 	
+    [dir="rtl"] .ilFrameFixedWidthHeader .ilHeaderImg img {
+		margin-right: 0;
+		margin-left: 25px;
+	}
+	
 	div.ilTableOuter {
 		max-width: 100%;
 		overflow: auto;
@@ -1420,6 +1606,11 @@ img[src$="icon_checked.svg"] {
 	div.ilContentFixed {
 		left: 0;
 		position: static;
+	}
+	
+	[dir="rtl"] div.ilContentFixed {
+		left: auto;
+		right: 0;
 	}
 
 	div.ilFileDropTargetOverlay {
