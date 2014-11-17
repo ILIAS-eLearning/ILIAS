@@ -766,7 +766,7 @@ class ilSurveyParticipantsGUI
 				}			
 				$this->object->sendCodes($_POST['m_notsent'], $_POST['m_subject'], $_POST['m_message'],$lang);
 				ilUtil::sendSuccess($this->lng->txt('mail_sent'), true);
-				$this->ctrl->redirect($this, 'codesMail');
+				$this->ctrl->redirect($this, 'mailCodes');
 			}
 		}
 		else
