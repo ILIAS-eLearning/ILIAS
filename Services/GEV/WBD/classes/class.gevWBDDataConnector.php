@@ -56,6 +56,14 @@ class gevWBDDataConnector extends wbdDataConnector {
 	const WBD_TP_SERVICE		= "3 - TP-Service";
 
 
+	/*
+	const WBD_NO_SERVICE 		= "kein Service";
+	const WBD_EDU_PROVIDER		= "Bildungsdienstleister";
+	const WBD_TP_BASIS			= "TP-Basis";
+	const WBD_TP_SERVICE		= "TP-Service";
+	*/
+
+
 	public $valid_newusers = array();
 	public $broken_newusers = array();
 	

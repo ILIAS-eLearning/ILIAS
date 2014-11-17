@@ -1508,6 +1508,7 @@ class gevUserUtils {
 
 	public function getWBDAgentStatus() {
 		$agent_status_user =  $this->getRawWBDAgentStatus();
+
 		if($agent_status_user == self::WBD_AGENTSTATUS0){
 			//0 - aus Stellung	//0 - aus Rolle
 			require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
@@ -1519,16 +1520,17 @@ class gevUserUtils {
 			foreach (self::$wbd_agent_status_mapping as $agent_status => $relevant_roles) {
 				foreach ($roles as $role) {
 					if(in_array($role, $relevant_roles)){
-						return $agent_status;
+						$ret = explode("-", $agent_status);
+						return trim($ret[1]);
 					}
 				}
 			}
 		}
-		return $agent_status_user; //raw
-
+		$ret = explode("-", $agent_status_user);
+		return trim($ret[1]);
 	}
 	
-	public function setWBDAgentStatus($a_state) {
+	public function setRawWBDAgentStatus($a_state) {
 	
 		if (!in_array($a_state, array( self::WBD_AGENTSTATUS0,
 									   self::WBD_AGENTSTATUS1,
