@@ -1083,7 +1083,6 @@ assessment#:#tst_show_solution_feedback_desc#:#If is selected, the answer specif
 assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option.
 assessment#:#tst_show_solution_signature_desc#:#If is selected, a signature placeholder will be shown for printout.
 assessment#:#tst_show_solution_suggested_desc#:#If is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.
-assessment#:#tst_results_presentation#:#Test Results Presentation
 assessment#:#tst_results#:#Test Results
 assessment#:#tst_resume_test#:#Resume the Test
 assessment#:#tst_score_cut_question#:#Cut off Negative Question Points
