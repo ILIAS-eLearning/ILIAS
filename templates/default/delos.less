@@ -25,7 +25,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 
 // Core variables and mixins
 @import "@{bsbase}variables.less";    // original
-@import "@{bsbase}mixins.less"; /* rtl-review */
+@import "@{bsbase}mixins.less"; 
 
 // Reset and dependencies
 @import "@{bsbase}normalize.less";
@@ -33,48 +33,123 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{bsbase}glyphicons.less";
 
 // Core CSS
-@import "@{bsbase}scaffolding.less"; /* rtl-review */
-@import "@{bsbase}type.less"; /* rtl-review */
-@import "@{bsbase}code.less"; /* rtl-review */
-@import "@{bsbase}grid.less"; /* rtl-review */
-@import "@{bsbase}tables.less"; /* rtl-review */
-@import "@{bsbase}forms.less"; /* rtl-review */
-@import "@{bsbase}buttons.less"; /* rtl-review */
+@import "@{bsbase}scaffolding.less";
+@import "@{bsbase}type.less";
+@import "@{bsbase}code.less";
+@import "@{bsbase}grid.less";
+@import "@{bsbase}tables.less";
+@import "@{bsbase}forms.less";
+@import "@{bsbase}buttons.less";
 
 // Components
-@import "@{bsbase}component-animations.less"; /* rtl-review */
-@import "@{bsbase}dropdowns.less"; /* rtl-review */
-@import "@{bsbase}button-groups.less"; /* rtl-review */
-@import "@{bsbase}input-groups.less"; /* rtl-review */
-@import "@{bsbase}navs.less"; /* rtl-review */
-@import "@{bsbase}navbar.less"; /* rtl-review */
-@import "@{bsbase}breadcrumbs.less"; /* rtl-review */
-@import "@{bsbase}pagination.less"; /* rtl-review */
-@import "@{bsbase}pager.less"; /* rtl-review */
-@import "@{bsbase}labels.less"; /* rtl-review */
-@import "@{bsbase}badges.less"; /* rtl-review */
-@import "@{bsbase}jumbotron.less"; /* rtl-review */
-@import "@{bsbase}thumbnails.less"; /* rtl-review */
-@import "@{bsbase}alerts.less"; /* rtl-review */
-@import "@{bsbase}progress-bars.less"; /* rtl-review */
-@import "@{bsbase}media.less"; /* rtl-review */
-@import "@{bsbase}list-group.less"; /* rtl-review */
-@import "@{bsbase}panels.less"; /* rtl-review */
-@import "@{bsbase}responsive-embed.less"; /* rtl-review */
-@import "@{bsbase}wells.less"; /* rtl-review */
-@import "@{bsbase}close.less"; /* rtl-review */
+@import "@{bsbase}component-animations.less";
+@import "@{bsbase}dropdowns.less";
+@import "@{bsbase}button-groups.less";
+@import "@{bsbase}input-groups.less";
+@import "@{bsbase}navs.less";
+@import "@{bsbase}navbar.less";
+@import "@{bsbase}breadcrumbs.less";
+@import "@{bsbase}pagination.less";
+@import "@{bsbase}pager.less";
+@import "@{bsbase}labels.less";
+@import "@{bsbase}badges.less";
+@import "@{bsbase}jumbotron.less";
+@import "@{bsbase}thumbnails.less";
+@import "@{bsbase}alerts.less";
+@import "@{bsbase}progress-bars.less";
+@import "@{bsbase}media.less";
+@import "@{bsbase}list-group.less";
+@import "@{bsbase}panels.less";
+@import "@{bsbase}responsive-embed.less";
+@import "@{bsbase}wells.less";
+@import "@{bsbase}close.less";
 
 // Components w/ JavaScript
-@import "@{bsbase}modals.less"; /* rtl-review */
-@import "@{bsbase}tooltip.less"; /* rtl-review */
-@import "@{bsbase}popovers.less"; /* rtl-review */
-@import "@{bsbase}carousel.less"; /* rtl-review */
+@import "@{bsbase}modals.less";
+@import "@{bsbase}tooltip.less";
+@import "@{bsbase}popovers.less";
+@import "@{bsbase}carousel.less";
 
 // Utility classes
-@import "@{bsbase}utilities.less"; /* rtl-review */
-@import "@{bsbase}responsive-utilities.less"; /* rtl-review */
+@import "@{bsbase}utilities.less";
+@import "@{bsbase}responsive-utilities.less";
 
-@import "less/variables.less";             // customized /* rtl-review */
+@import "less/variables.less";             // customized
+
+/* overwrite some specifics bootstrap styles */
+[dir="rtl"] .navbar-header {
+  @media (min-width: @grid-float-breakpoint) {
+    float: right;
+  }
+}
+
+[dir="rtl"] .navbar-brand {
+  float: right;
+  @media (min-width: @grid-float-breakpoint) {
+    .navbar > .container &,
+    .navbar > .container-fluid & {
+      margin-left: 0;
+      margin-right: -@navbar-padding-horizontal;
+    }
+  }
+}
+
+[dir="rtl"] .navbar-toggle {
+  float: left;
+  margin-right: 0;
+  margin-left: @navbar-padding-horizontal;
+}
+
+
+[dir="rtl"] .navbar-nav {
+  @media (max-width: @grid-float-breakpoint-max) {
+    // Dropdowns get custom display when collapsed
+    .open .dropdown-menu {
+      > li > a,
+      .dropdown-header {
+        padding: 5px 25px 5px 15px;
+      }
+    }
+  }
+
+  @media (min-width: @grid-float-breakpoint) {
+    float: right;
+    margin: 0;
+
+    > li {
+      float: right;
+    }
+
+    &.navbar-right:last-child {
+      margin-right: 0;
+      margin-left: -@navbar-padding-horizontal;
+    }
+  }
+}
+
+@media (min-width: @grid-float-breakpoint) {
+  [dir="rtl"] .navbar-left  { .pull-right(); }
+  [dir="rtl"] .navbar-right { .pull-left(); }
+}
+
+[dir="rtl"] .navbar-form {
+  @media (min-width: @grid-float-breakpoint) {
+    &.navbar-right:last-child {
+      margin-right: 0;
+      margin-left: -@navbar-padding-horizontal;
+    }
+  }
+}
+
+[dir="rtl"] .navbar-text {
+  @media (min-width: @grid-float-breakpoint) {
+    float: right;
+    &.navbar-right:last-child {
+		margin-right: @navbar-padding-horizontal;
+		margin-left: 0;
+    }
+  }
+}
 
 // warning inline text
 span.ilAlert {
