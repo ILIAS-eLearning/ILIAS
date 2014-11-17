@@ -693,7 +693,8 @@ class ilParticipationStatus
 				
 				// gev-patch start
 				require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
-				gevBillingUtils::createAllCancellationBillsAndCoupons($this->getCourse()->getId());
+				$billing = gevBillingUtils::getInstance();
+				$billing->createAllCancellationBillsAndCoupons($this->getCourse()->getId());
 				// gev-patch end
 			}
 			
