@@ -123,6 +123,10 @@ class ilUserHistorizingAppEventListener
 			$certification_begins = $certification_begins->get(IL_CAL_DATE);
 		}
 
+		$org_units_above = self::$ilUserHistorizingHelper->getOrgUnitsAboveOf($parameter['user_obj']);
+		
+
+
 
 		/** @var ilObjUser $parameter */
 
@@ -145,9 +149,15 @@ class ilUserHistorizingAppEventListener
 			'deleted'						=> 0,
 			'email'							=> self::$ilUserHistorizingHelper->getEMailOf($parameter['user_obj']),
 			//new 2014-10-14:
-			'agent_status'					=> self::$ilUserHistorizingHelper->getAgentStatusOf($parameter['user_obj']), //USR_WBD_STATUS
+			'wbd_agent_status'				=> self::$ilUserHistorizingHelper->getWBDAgentStatusOf($parameter['user_obj']),
 			'wbd_type'						=> self::$ilUserHistorizingHelper->getWBDTypeOf($parameter['user_obj']), 
 			'wbd_email'						=> self::$ilUserHistorizingHelper->getWBDEMailOf($parameter['user_obj']),
+			//new 2014-11-17:
+			'job_number' 		=> self::$ilUserHistorizingHelper->getJobNumberOf($parameter['user_obj']), 
+			'adp_number'		=> self::$ilUserHistorizingHelper->getADPNumberOf($parameter['user_obj']), 
+			'position_key'		=> self::$ilUserHistorizingHelper->getPositionKeyOf($parameter['user_obj']), 
+			'org_unit_above1'	=> $org_units_above[0],
+			'org_unit_above2'	=> $org_units_above[1]
 		);
 		/*
 		'street'	 	

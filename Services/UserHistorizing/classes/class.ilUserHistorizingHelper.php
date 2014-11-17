@@ -141,7 +141,7 @@ class ilUserHistorizingHelper
 	 *
 	 * @return string
 	 */
-	public static function getAgentStatusOf($user)
+	public static function getWBDAgentStatusOf($user)
 	{
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		//return gevUserUtils::getInstanceByObjOrId($user)->getAgentStatus();
@@ -188,13 +188,15 @@ class ilUserHistorizingHelper
 			//'zipcode'			=> $uutils->getPrivateZipcode(),
 			//'city'				=> $uutils->getPrivateCity(),
 			//'phone_nr'			=> $uutils->getUser()->getPhoneOffice(),
-			'mobile_phone_nr'	=> $uutils->getPrivatePhone(),
+			//'mobile_phone_nr'	=> $uutils->getPrivatePhone(),
 
 			//2014-10-14:
 			'street' 	=> $user->getStreet(),
 			'zipcode' 	=> $user->getZipcode(),
 			'city'		=> $user->getCity(),
-			'phone_nr' 	=> $user->getPhoneOffice()
+			'phone_nr' 	=> $user->getPhoneOffice(),
+			//2014-11-17
+			'mobile_phone_nr'	=> $user->getPhoneMobile()
 		);
 		return $ret;
 	}
@@ -221,4 +223,25 @@ class ilUserHistorizingHelper
 
 
 
+	public static function getOrgUnitsAboveOf($user)
+	{
+		//getOrgUnitOf
+		return array('B', 'A');
+	}
+ 	
+ 	//Vermittlernummer GEV, USR_UDF_JOB_NUMMER
+	public static function getJobNumberOf($user)
+	{
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		return gevUserUtils::getInstanceByObjOrId($user)->getJobNumber();
+	}
+ 	
+ 	//ADP-Nummer GEV, USR_UDF_ADP_NUMBER
+	public static function getADPNumberOf($user)
+	{
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		return gevUserUtils::getInstanceByObjOrId($user)->getADPNumber();
+	}
+ 	
+ 
 }

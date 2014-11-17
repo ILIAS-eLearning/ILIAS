@@ -25,9 +25,9 @@
 		,"7 - keine Zuordnung"
 	);
 	foreach ($agent_status as $status) {
-		$sql = "UPDATE hist_user SET agent_status="
+		$sql = "UPDATE hist_user SET wbd_agent_status="
 		. "'" .killOrderPrefix($status) ."'"
-		. "WHERE agent_status='$status'";
+		. "WHERE wbd_agent_status='$status'";
 
 		print $sql;
 	}

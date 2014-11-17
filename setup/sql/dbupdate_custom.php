@@ -2010,7 +2010,7 @@ if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'last_wbd_report')){
 <?php
 // update on #40,#53; missing fields for wbd
 $txt_fields_hist_user = array(
-	'agent_status', //USR_UDF_STATUS
+	'agent_status', 
 	'wbd_type', //USR_TP_TYPE
 
 );
@@ -2137,3 +2137,41 @@ $data = array(
 $ilDB->executeMultiple($stmt, $data);
 $ilDB->free($stmt);
 ?>
+
+
+<#61>
+<?php
+// update on #719, new fields 
+$txt_fields_hist_user = array(
+	'job_number',
+	'adp_number',
+	'position_key',
+	'org_unit_above1',
+	'org_unit_above2'
+);
+foreach ($txt_fields_hist_user as $field) {
+	if(!$ilDB->tableColumnExists('hist_user', $field)){
+		$ilDB->addTableColumn('hist_user', $field, array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+			)
+		);	
+	}
+}
+?>
+
+
+<#62>
+<?php
+// change fieldname
+
+$query = "ALTER TABLE hist_user 
+	CHANGE agent_status wbd_agent_status 
+	VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL 
+	DEFAULT NULL;
+";
+
+$ilDB->manipulate($query);
+?>
+

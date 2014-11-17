@@ -172,6 +172,11 @@ class gevRegistrationGUI {
 		$user->setZipcode($form->getInput("b_zipcode"));
 		$user->setCountry($form->getInput("b_country"));
 		$user->setPhoneOffice($form->getInput("b_phone"));
+		
+		$user->setPhoneMobile($form->getInput("p_phone"));
+
+
+
 		// is not active, owner is root
 		$user->setActive(0, 6);
 		$user->setTimeLimitUnlimited(true);
@@ -193,8 +198,8 @@ class gevRegistrationGUI {
 		$user_utils->setPrivateStreet($form->getInput("p_street"));
 		$user_utils->setPrivateCity($form->getInput("p_city"));
 		$user_utils->setPrivateZipcode($form->getInput("p_zipcode"));
-		$user_utils->setPrivateState($form->getInput("p_country"));
-		$user_utils->setPrivatePhone($form->getInput("p_phone"));
+		//$user_utils->setPrivateState($form->getInput("p_country"));
+		//$user_utils->setPrivatePhone($form->getInput("p_phone"));
 		
 		
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
