@@ -165,7 +165,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 				foreach($data['items'] as $pg_st)
 				{
 					$this->tpl->setCurrentBlock('st_pg');
-					$this->tpl->setVariable('MAT_IMG',ilUtil::getImagePath('icon_'.$pg_st['type'].'_s.png'));
+					$this->tpl->setVariable('MAT_IMG',ilObject::_getIcon($pg_st['obj_id'],"tiny", $pg_st['type']));
 					$this->tpl->setVariable('MAT_ALT',$this->lng->txt('obj_'.$pg_st['type']));
 					include_once('Modules/LearningModule/classes/class.ilLMObject.php');
 					$title = ilLMObject::_lookupTitle($pg_st['obj_id']);
@@ -180,7 +180,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 			}
 			$this->tpl->setCurrentBlock('mat_row');
 			#$this->tpl->setVariable('LM_IMG',ilUtil::getImagePath('icon_'.$data['type'].'_s.png'));
-			$this->tpl->setVariable('LM_IMG',ilUtil::getTypeIconPath($data['type'], $data['obj_id'],'tiny'));
+			$this->tpl->setVariable('LM_IMG',ilObject::_getIcon($data['obj_id'],"tiny", $data['type']));
 			$this->tpl->setVariable('LM_ALT',$this->lng->txt('obj_'.$data['type']));
 			
 			if($data['type'] == 'catr' or $data['type'] == 'crsr')

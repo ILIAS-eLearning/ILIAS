@@ -1493,10 +1493,6 @@ class ilCourseObjectivesGUI
 			$tpl->parseCurrentBlock();
 		}
 		
-		
-		$tpl->setVariable('WIZ_IMG',ilUtil::getImagePath('icon_lobj.png'));
-		$tpl->setVariable('WIZ_IMG_ALT',$this->lng->txt('crs_objectives'));
-		
 		if($_SESSION['objective_mode'] == self::MODE_CREATE)
 		{
 			$tpl->setVariable('WIZ_NAV_TITLE',$this->lng->txt('crs_add_objective'));

@@ -178,7 +178,7 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
 		
-		$this->tpl->setVariable('ROW_TYPE_IMG',ilUtil::getTypeIconPath($a_set['type'],$a_set['obj_id'],'tiny'));
+		$this->tpl->setVariable('ROW_TYPE_IMG',ilObject::_getIcon($a_set['obj_id'],"tiny", $a_set['type']));
 		$this->tpl->setVariable('ROW_TYPE_ALT',$this->lng->txt('obj_'.$a_set['type']));
 		
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
