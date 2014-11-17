@@ -927,6 +927,16 @@ class assErrorText extends assQuestion
 				if(substr($item, 0, 1) == "#")
 				{
 					$item = substr($item, 1);
+					
+					// #14115 - add position to correct answer 
+					foreach($result["correct_answers"] as $aidx => $answer)
+					{
+						if($answer["answertext_wrong"] == $item && !$answer["pos"])
+						{
+							$result["correct_answers"][$aidx]["pos"] = $textidx."_".($idx+1);
+							break;
+						}
+					}
 				}
 				array_push($answers, array(
 					"answertext" => (string) ilUtil::prepareFormOutput($item),
