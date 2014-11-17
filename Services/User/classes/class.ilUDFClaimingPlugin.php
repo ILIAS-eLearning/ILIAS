@@ -232,9 +232,14 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
 		if(self::hasDBField($a_field_id))
 		{
 			// :TODO: we are not deleting any values here
+			/* DONE:
+			$ilDB->manipulate("DELETE FROM udf_text".
+			." WHERE field_id = ".$ilDB->quote($a_field_id, "integer"));
+			*/
 			
 			$ilDB->manipulate("DELETE FROM udf_definition".
 				" WHERE field_id = ".$ilDB->quote($a_field_id, "integer"));
+
 			return true;
 		}
 		

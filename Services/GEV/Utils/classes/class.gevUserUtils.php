@@ -809,7 +809,7 @@ class gevUserUtils {
 		$birthplace = $this->getBirthplace();
 		$birthname = $this->getBirthname();
 		$email = $this->getPrivateEmail();
-		$mobile = $this->getPrivatePhone();
+		$mobile = $this->getMobilePhone();
 	
 		return $birthplace && $birthname && $email && $mobile && preg_match(gevUserProfileGUI::$telno_regexp, $mobile);
 	}
@@ -957,6 +957,7 @@ class gevUserUtils {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_AGENT_KEY, $a_key);
 	}
 	
+	/*
 	public function getCompanyTitle() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_COMPANY_TITLE);
 	}
@@ -964,6 +965,7 @@ class gevUserUtils {
 	public function setCompanyTitle($a_title) {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_COMPANY_TITLE, $a_title);
 	}
+	*/
 	
 	public function getPrivateEmail() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_PRIV_EMAIL);
@@ -997,6 +999,22 @@ class gevUserUtils {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_PRIV_ZIPCODE, $a_zipcode);
 	}
 	
+
+	public function getMobilePhone() {
+		return $this->getUser()->getPhoneMobile();
+	}
+	public function setMobilePhone($a_phone) {
+		return $this->getUser()->setPhoneMobile(a_phone);
+	}
+
+	/*
+	public function getPrivatePhone() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_PRIV_PHONE);
+	}
+	public function setPrivatePhone($a_phone) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_PRIV_PHONE, $a_phone);
+	}
+	
 	public function getPrivateState() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_PRIV_STATE);
 	}
@@ -1005,13 +1023,6 @@ class gevUserUtils {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_PRIV_STATE, $a_state);
 	}
 	
-	public function getPrivatePhone() {
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_PRIV_PHONE);
-	}
-	
-	public function setPrivatePhone($a_phone) {
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_PRIV_PHONE, $a_phone);
-	}
 	
 	public function getPrivateFax() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_PRIV_FAX);
@@ -1020,6 +1031,7 @@ class gevUserUtils {
 	public function setPrivateFax($a_fax) {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_PRIV_FAX, $a_fax);
 	}
+	*/
 	
 	public function getEntryDate() {
 		$val = $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_ENTRY_DATE);

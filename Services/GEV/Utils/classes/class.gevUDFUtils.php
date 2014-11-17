@@ -108,6 +108,42 @@ class gevUDFUtils {
 		}
 		return $field_ids;
 	}
+
+	
+	/**
+	 * removes a udf_field.
+	 * 
+	 */
+	public static function removeUDFField($a_udf_id) {
+		require_once("Services/User/classes/class.ilUDFClaimingPlugin.php");
+		$gev_set = gevSettings::getInstance();
+		$field_id = $gev_set->getUDFFieldId($a_udf_id);
+		ilUDFClaimingPlugin::deleteDBField($field_id);
+	}
+
+		
+	/**
+	 * renames a udf_field.
+	 * 
+	 */
+	public static function renameUDFField($a_udf_id, $a_name) {
+		//require_once("Services/User/classes/class.ilUDFClaimingPlugin.php");
+		$gev_set = gevSettings::getInstance();
+		$field_id = $gev_set->getUDFFieldId($a_udf_id);
+
+		//ilUDFClaimingPlugin::updateDBField($field_id, $a_name);
+		//lUDFClaimingPlugin::updateDBField does not preserve (selection)-values.
+		global $ilDB;
+		$sql = "UPDATE udf_definition SET field_name = '$a_name' WHERE field_id=$field_id";
+		$ilDB->manipulate($sql);
+	}
+
+
+
+
+
+
+
 }
 
 ?>

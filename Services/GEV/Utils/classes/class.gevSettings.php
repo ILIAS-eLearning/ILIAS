@@ -140,8 +140,6 @@ class gevSettings {
 	const ORG_AMD_FINANCIAL_ACCOUNT	= "org_amd_financial_account";
 
 
-
-
 	// AMD für Veranstaltungsorte
 	// Anfahrt
 	const VENUE_AMD_LOCATION		= "venue_amd_location";
@@ -169,8 +167,12 @@ class gevSettings {
 	
 	// zusätzliche Benutzerdaten
 	// adp-nummer
-	const USR_UDF_ADP_NUMBER		= "usr_udf_adp_number";
-	// stellennummer
+	const USR_UDF_ADP_NUMBER			= "usr_udf_adp_number";  //deprecated
+	const USR_UDF_ADP_GEV_NUMBER		= "usr_udf_adp_number";
+	const USR_UDF_ADP_VFS_NUMBER		= "usr_udf_adp_vfs_number";
+
+
+	// stellennummer/vermittlernummer
 	const USR_UDF_JOB_NUMMER		= "usr_udf_job_number";
 	// geburtsort
 	const USR_UDF_BIRTHPLACE		= "usr_udf_birthplace";
@@ -183,7 +185,14 @@ class gevSettings {
 	// Vermittlerschlüssel
 	const USR_UDF_AGENT_KEY			= "usr_udf_agent_key";
 	// Gesellschaftstitel
-	const USR_UDF_COMPANY_TITLE		= "usr_udf_company_title";
+	const USR_UDF_COMPANY_TITLE		= "usr_udf_company_title"; //deprecated
+
+	//Paisy-Personalnummer VFS
+	const USR_UDF_PAISY_NUMBER 		= "usr_udf_paisy_number";
+	//Kostenstelle VFS
+	const USR_UDF_FINANCIAL_ACCOUNT	= "usr_udf_financial_account";
+	
+
 	
 	// private Kontaktdaten, für geschäftliche Kontaktdaten werden
 	// die Standard-ILIAS-Felder verwendet
@@ -191,19 +200,19 @@ class gevSettings {
 	const USR_UDF_PRIV_STREET		= "usr_udf_priv_street";
 	const USR_UDF_PRIV_CITY			= "usr_udf_priv_city";
 	const USR_UDF_PRIV_ZIPCODE		= "usr_udf_priv_zipcode";
-	const USR_UDF_PRIV_STATE		= "usr_udf_priv_state";
-	const USR_UDF_PRIV_PHONE		= "usr_udf_priv_phone";
-	const USR_UDF_PRIV_FAX			= "usr_udf_priv_fax";
+	
+	const USR_UDF_PRIV_STATE		= "usr_udf_priv_state"; //deprecated
+	const USR_UDF_PRIV_PHONE		= "usr_udf_priv_phone"; //mobile phone!
+	const USR_UDF_PRIV_FAX			= "usr_udf_priv_fax"; //deprecated
 	
 	// Eintritts- und Austrittsdatum
 	const USR_UDF_ENTRY_DATE		= "usr_udf_entry_date";
 	const USR_UDF_EXIT_DATE			= "usr_udf_exit_date";
 	
 	// Status (????)
-	const USR_UDF_STATUS			= "usr_udf_status";
-	
+	const USR_UDF_STATUS			= "usr_udf_status"; //deprecated
 	// HPE
-	const USR_UDF_HPE				= "usr_udf_hpe";
+	const USR_UDF_HPE				= "usr_udf_hpe"; //deprecated
 	
 	// WBD-Stuff
 	// type of service for user
@@ -225,6 +234,8 @@ class gevSettings {
 	const USR_WBD_CERT_PERIOD_BEGIN = "usr_udf_wbd_cert_period_begin";
 	const USR_WBD_DID_REGISTRATION	= "usr_udf_wbd_did_registration";
 	const USR_WBD_COM_EMAIL			= "usr_udf_wbd_com_email";
+
+
 
 	// Role mapping
 	static $VMS_ROLE_MAPPING = array(

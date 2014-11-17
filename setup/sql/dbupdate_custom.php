@@ -2103,7 +2103,6 @@ $ilDB->manipulate("UPDATE bill SET bill_finalized_date = UNIX_TIMESTAMP() WHERE 
 $query = "DELETE FROM tep_type WHERE 1";
 $ilDB->manipulate($query);
 
-
 $stmt = $ilDB->prepareManip("INSERT INTO tep_type (id, title, bg_color, font_color, tep_active) VALUES (?, ?, ?, ?, ?) "
 						   , array("integer", "text", "text", "text", "integer"));
 

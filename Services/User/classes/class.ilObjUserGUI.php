@@ -66,6 +66,12 @@ class ilObjUserGUI extends ilObjectGUI
 							  'm'    => "salutation_m",
 							  'f'    => "salutation_f"
 							  );
+
+
+		// start patch GOA2
+		$this->tpl->addCSS("./Services/User/css/objUsrGUI.css");
+		// end patch GOA2
+
 	}
 
 	function &executeCommand()

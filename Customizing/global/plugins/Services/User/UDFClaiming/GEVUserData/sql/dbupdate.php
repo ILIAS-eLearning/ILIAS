@@ -502,3 +502,74 @@ gevUDFUtils::createUDFFields(array(
 	));
 
 ?>
+
+
+
+<#7>
+<?php
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/User/classes/class.ilUserDefinedFields.php");
+
+
+$new_fields = array(
+	 gevSettings::USR_UDF_ADP_VFS_NUMBER 	=> "ADP-Nummer VFS"
+	,gevSettings::USR_UDF_PAISY_NUMBER 		=> "Paisy-Personalnummer VFS"
+	,gevSettings::USR_UDF_FINANCIAL_ACCOUNT	=> "Kostenstelle VFS"
+	
+);
+
+$rename_fields = array(
+	 gevSettings::USR_UDF_ADP_NUMBER 	=> 'ADP-Nummer GEV'
+	,gevSettings::USR_UDF_JOB_NUMMER 	=> 'Vermittlernummer GEV'
+	,gevSettings::USR_UDF_AGENT_KEY 	=> 'Vermittlerschlüssel GEV'
+);
+
+$delete_fields = array(
+	 gevSettings::USR_UDF_COMPANY_TITLE
+	,gevSettings::USR_UDF_PRIV_STATE
+	,gevSettings::USR_UDF_PRIV_FAX
+	,gevSettings::USR_UDF_STATUS
+	,gevSettings::USR_UDF_HPE
+
+);
+
+
+$udfUtils = gevUDFUtils::getInstance();
+
+foreach ($new_fields as $udf_const => $title) {
+	$udfUtils->createUDFFields(array(
+		$title => array( $udf_const
+						, UDF_TYPE_TEXT
+						, array( "visible"				=> true
+							   , "changeable"			=> false
+							   , "searchable"			=> true
+							   , "required"				=> false
+							   , "export"				=> true
+							   , "course_export"		=> false
+							   , "group_export"			=> false
+							   , "registration_visible"	=> false
+							   , "visible_lua"			=> false
+							   , "changeable_lua"		=> false
+							   , "certificate"			=> false
+							   )
+						, null
+						)
+		));
+}
+foreach ($rename_fields as $udf_const => $title) {
+	$udfUtils->renameUDFField($udf_const, $title);
+}
+
+foreach ($delete_fields as $udf_const) {
+	$udfUtils->removeUDFField($udf_const);
+}
+
+
+
+	
+
+
+
+
+?>

@@ -279,14 +279,16 @@ class gevUserProfileGUI {
 		$form->addItem($p_email);
 		
 		$p_phone = new ilTextInputGUI($this->lng->txt("gev_mobile"), "p_phone");
-		$telno = $this->user_utils->getPrivatePhone();
+		$telno = $this->user_utils->getMobilePhone();
 		$p_phone->setValue($telno);
 		if (!preg_match(self::$telno_regexp, $telno)) {
 				$p_phone->setAlert($this->lng->txt("gev_telno_wbd_alert"));
 		}
 		$p_phone->setRequired(true);
 		$form->addItem($p_phone);
-		
+		/*
+		*/
+
 		/*$b_fax = new ilTextInputGUI($this->lng->txt("fax"), "b_fax");
 		$b_fax->setValue($this->user->getFax());
 		$form->addItem($b_fax);*/
