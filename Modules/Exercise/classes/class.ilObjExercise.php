@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObject.php";
-require_once "./Modules/Exercise/classes/class.ilFileDataExercise.php";
 require_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
 
 /** @defgroup ModulesExercise Modules/Exercise
@@ -287,10 +286,7 @@ class ilObjExercise extends ilObject
 	 	
 		// Copy assignments
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		ilExAssignment::cloneAssignmentsOfExercise($this->getId(), $new_obj->getId());
-		//$tmp_file_obj =& new ilFileDataExercise($this->getId());
-		//$tmp_file_obj->ilClone($new_obj->getId());
-		//unset($tmp_file_obj);
+		ilExAssignment::cloneAssignmentsOfExercise($this->getId(), $new_obj->getId());	
 		
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
@@ -418,10 +414,6 @@ class ilObjExercise extends ilObject
 		}
 		
 		$this->members_obj = new ilExerciseMembers($this);
-
-		// GET FILE ASSIGNED TO EXERCISE
-//		$this->file_obj = new ilFileDataExercise($this->getId());
-//		$this->files = $this->file_obj->getFiles();
 
 		return true;
 	}
