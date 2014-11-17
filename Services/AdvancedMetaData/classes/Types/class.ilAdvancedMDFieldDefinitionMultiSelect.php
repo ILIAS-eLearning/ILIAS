@@ -277,12 +277,12 @@ class ilAdvancedMDFieldDefinitionMultiSelect extends ilAdvancedMDFieldDefinition
 	
 	public function getValueForXML(ilADT $element)
 	{
-		return $element->getSelection();
+		return serialize($element->getSelections());
 	}
 	
 	public function importValueFromXML($a_cdata)
 	{		
-		$this->getADT()->setSelection($a_cdata);			
+		$this->getADT()->setSelections(unserialize($a_cdata));			
 	}	
 }
 

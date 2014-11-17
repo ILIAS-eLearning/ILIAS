@@ -847,7 +847,9 @@ class ilParticipants
 		}
 		// gev patch end
 
-		
+		print_r($this->role_data);
+		print_r($a_role);
+		die();
 		$this->participants[] = $a_usr_id;
 		$rbacadmin->assignUser($this->role_data[$a_role],$a_usr_id);
 		$this->addDesktopItem($a_usr_id);
