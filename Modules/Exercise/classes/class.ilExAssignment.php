@@ -1748,7 +1748,7 @@ class ilExAssignment
 					$targetfile= substr($targetfile, $pos + 1);
 				}
 				
-				// #14536 (proposal)
+				// #14536 
 				if(array_key_exists($targetfile, $duplicates))
 				{
 					$suffix = strrpos($targetfile, ".");						
