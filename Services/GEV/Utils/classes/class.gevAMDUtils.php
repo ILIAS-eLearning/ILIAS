@@ -377,6 +377,24 @@ class gevAMDUtils {
 		$field_id = $gev_set->getAMDFieldId($a_gev_setting);
 		ilAdvancedMDClaimingPlugin::deleteDBField($field_id);
 	}
+
+	public static function updateTitleOfAMDField($a_gev_setting, $title, $description) {
+		require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDClaimingPlugin.php");
+		global $ilDB;
+		
+		$gev_set = gevSettings::getInstance();
+		$field_id = $gev_set->getAMDFieldId($a_gev_setting);
+
+		$query = "UPDATE adv_mdf_definition SET 
+			title = '$title',
+			 description = '$description' 
+			 WHERE field_id= $field_id";
+
+		$ilDB->manipulate($query);
+	}
+
+
+
 }
 
 ?>

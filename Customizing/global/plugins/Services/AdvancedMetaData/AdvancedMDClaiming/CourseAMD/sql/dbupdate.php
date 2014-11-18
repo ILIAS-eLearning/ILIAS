@@ -511,3 +511,13 @@ $def = serialize(
 global $ilDB;
 $ilDB->manipulate("UPDATE adv_mdf_definition SET field_values = '$def' WHERE title = 'Nummernkreis'");
 ?>
+
+<#10>
+<?php
+//Trainingstyp
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+$amdutils = gevAMDUtils::getInstance();
+$amdutils->updateTitleOfAMDField(gevSettings::CRS_AMD_TYPE, 'Trainingstyp', 'Typ des Trainings');
+
+?>

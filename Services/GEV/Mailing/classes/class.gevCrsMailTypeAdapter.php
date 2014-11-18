@@ -25,7 +25,8 @@ class gevCrsMailTypeAdapter extends ilMailTypeAdapter {
 			$this->placeholders = array(
 				  array("Trainingstitel"			, "Titel des Trainings")
 				, array("Trainingsuntertitel"		, "Untertitel des Trainings")
-				, array("Lernart"					, "Lernart des Training")
+				//, array("Lernart"					, "Lernart des Training")
+				, array("Trainingstyp"				, "Typ des Training")
 				, array("Trainingsthemen"			, "alle Themen des Trainings aus Mehrfachauswahl")
 				, array("WP"						, "maximale Anzahl von Bildungspunkte, die für das Training erreicht werden können")
 				, array("Methoden"					, "Methoden des Trainings aus Mehrfachauswahl")
