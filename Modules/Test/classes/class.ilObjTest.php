@@ -3713,17 +3713,13 @@ function getAnswerFeedbackPoints()
 			$ilDB->manipulate("DELETE FROM tst_test_rnd_qst WHERE $IN_activeIds");
 		}
 
-		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
-		{
-			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), $this->userLookupFullName($this->_getUserIdFromActiveId($active_id))));
-		}
-
 		$IN_userIds = $ilDB->in('usr_id', $userIds, false, 'integer');
 		$ilDB->manipulateF(
 			"DELETE FROM usr_pref WHERE $IN_userIds AND keyword = %s",
 			array('text'), array("tst_password_".$this->getTestId())
 		);
+
+		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 
 		foreach ($activeIds as $active_id)
 		{
@@ -3732,6 +3728,11 @@ function getAnswerFeedbackPoints()
 			if (@is_dir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id"))
 			{
 				ilUtil::delDir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id");
+			}
+
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), $this->userLookupFullName($this->_getUserIdFromActiveId($active_id))));
 			}
 		}
 
