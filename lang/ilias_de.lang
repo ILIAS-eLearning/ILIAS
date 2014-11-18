@@ -940,7 +940,7 @@ assessment#:#showinfo#:#Testeigenschaften anzeigen
 assessment#:#showinfo_desc#:#Den Benutzern werden alle Testeigenschaften angezeigt, z.B. Reihenfolge, Bewertung oder Ergebnisausgabe.
 assessment#:#showSuggestedSolution#:#Art
 assessment#:#shuffle_answers#:#Antworten mischen
-assessment#:#solution_hint#:#Musterlösung zuordnen
+assessment#:#suggested_solution#:#Inhalte zur Wiederholung
 assessment#:#solution_may_contain_keywords#:#Die Lösung sollte eines der folgenden Schlagwörter enthalten
 assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#solutionText#:#Text

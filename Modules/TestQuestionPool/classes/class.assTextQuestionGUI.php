@@ -477,18 +477,9 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
 		// add tab for question hint within common class assQuestionGUI
 		$this->addTab_QuestionHints($ilTabs);
-		
-		if ($_GET["q_id"])
-		{
-			$ilTabs->addTarget("solution_hint",
-				$this->ctrl->getLinkTargetByClass($classname, "suggestedsolution"),
-				array("suggestedsolution", "saveSuggestedSolution", "outSolutionExplorer", "cancel", 
-				"addSuggestedSolution","cancelExplorer", "linkChilds", "removeSuggestedSolution"
-				),
-				$classname, 
-				""
-			);
-		}
+
+		// add tab for question's suggested solution within common class assQuestionGUI
+		$this->addTab_SuggestedSolution($ilTabs, $classname);
 
 		// Assessment of questions sub menu entry
 		if ($_GET["q_id"])

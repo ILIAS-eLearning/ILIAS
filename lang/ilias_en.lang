@@ -816,7 +816,7 @@ assessment#:#showinfo_desc#:#Complete list of test properties is displayed on In
 assessment#:#showinfo#:#Show all Test Properties on Info Tab
 assessment#:#showSuggestedSolution#:#Type
 assessment#:#shuffle_answers#:#Shuffle Answers
-assessment#:#solution_hint#:#Assign Suggested Solution
+assessment#:#suggested_solution#:#Content for Recapitulation
 assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords
 assessment#:#solution_order#:#Solution Order
 assessment#:#solutionText#:#Text
