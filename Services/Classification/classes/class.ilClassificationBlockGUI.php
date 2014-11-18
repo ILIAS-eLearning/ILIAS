@@ -127,7 +127,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		$html = array();		
 		foreach($this->providers as $provider)
 		{
-			$provider->render($html);
+			$provider->render($html, $this);
 		}		
 		
 		if(sizeof($html))

@@ -81,8 +81,9 @@ abstract class ilClassificationProvider
 	 * Render HTML chunks
 	 * 
 	 * @param array $a_html
+	 * @param object $a_parent_gui
 	 */
-	abstract public function render(array &$a_html);
+	abstract public function render(array &$a_html, $a_parent_gui);
 	
 	/**
 	 * Import post data

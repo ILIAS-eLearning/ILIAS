@@ -22,13 +22,13 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
 		return (bool)self::getActiveTaxonomiesForParentRefId($a_parent_ref_id);
 	}	
 	
-	public function render(array &$a_html)
+	public function render(array &$a_html, $a_parent_gui)
 	{
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");	
 	
 		foreach(self::$valid_tax_map[$this->parent_ref_id] as $tax_id)
 		{
-			$tax_exp = new ilTaxonomyExplorerGUI(null, null, $tax_id, null, null);			
+			$tax_exp = new ilTaxonomyExplorerGUI($a_parent_gui, null, $tax_id, null, null);			
 			$tax_exp->setSkipRootNode(true);
 			$tax_exp->setOnClick("il.Classification.toggle({tax_node: '{NODE_CHILD}'});");
 			

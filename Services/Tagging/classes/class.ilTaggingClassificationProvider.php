@@ -48,7 +48,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 		return $valid;
 	}	
 		
-	public function render(array &$a_html)
+	public function render(array &$a_html, $a_parent_gui)
 	{		
 		global $lng;
 		
