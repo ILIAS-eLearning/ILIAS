@@ -46,13 +46,23 @@ class ilPollBlockGUI extends ilBlockGUI
 	}
 
 	/**
-	* Get block type
+	* Is block of repository object?
 	*
 	* @return	string	Block type.
 	*/
 	static function isRepositoryObject()
 	{
 		return true;
+	}
+	
+	/**
+	 * Get repository object GUI name
+	 * 
+	 * @return string
+	 */
+	protected function getRepositoryObjectGUIName()
+	{
+		return "ilobjpollgui";
 	}
 	
 	/**
@@ -168,11 +178,11 @@ class ilPollBlockGUI extends ilBlockGUI
 					$this->tpl->parseCurrentBlock();
 				}		
 
-				$ilCtrl->setParameterByClass("ilobjpollgui",
+				$ilCtrl->setParameterByClass($this->getRepositoryObjectGUIName(),
 						"ref_id", $this->getRefId());		
-				$url = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjpollgui"),
+				$url = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", $this->getRepositoryObjectGUIName()),
 							"vote");
-				$ilCtrl->clearParametersByClass("ilobjpollgui");
+				$ilCtrl->clearParametersByClass($this->getRepositoryObjectGUIName());
 				
 				$url .= "#poll".$a_poll->getID();
 
@@ -349,7 +359,7 @@ class ilPollBlockGUI extends ilBlockGUI
 		$this->setTitle($poll_obj->getTitle());
 		$this->setData(array($poll_obj));	
 		
-		$ilCtrl->setParameterByClass("ilobjpollgui",
+		$ilCtrl->setParameterByClass($this->getRepositoryObjectGUIName(),
 			"ref_id", $this->getRefId());
 				
 		if(!$this->poll_block->getMessage($ilUser->getId()))
@@ -359,14 +369,14 @@ class ilPollBlockGUI extends ilBlockGUI
 			if(ilNotification::hasNotification(ilNotification::TYPE_POLL, $ilUser->getId(), $this->poll_block->getPoll()->getId()))
 			{						
 				$this->addBlockCommand(
-					$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjpollgui"),
+					$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", $this->getRepositoryObjectGUIName()),
 						"unsubscribe"),
 					$lng->txt("poll_notification_unsubscribe"));
 			}
 			else
 			{
 				$this->addBlockCommand(
-					$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjpollgui"),
+					$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", $this->getRepositoryObjectGUIName()),
 						"subscribe"),
 					$lng->txt("poll_notification_subscribe"));
 			}
@@ -376,11 +386,11 @@ class ilPollBlockGUI extends ilBlockGUI
 		{
 			// edit				
 			$this->addBlockCommand(
-				$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjpollgui"),
+				$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", $this->getRepositoryObjectGUIName()),
 					"render"),
 				$lng->txt("edit_content"));
 			$this->addBlockCommand(
-				$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjpollgui"),
+				$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", $this->getRepositoryObjectGUIName()),
 					"edit"),
 				$lng->txt("settings"));
 			
@@ -400,7 +410,7 @@ class ilPollBlockGUI extends ilBlockGUI
 			*/						
 		}
 		
-		$ilCtrl->clearParametersByClass("ilobjpollgui");
+		$ilCtrl->clearParametersByClass($this->getRepositoryObjectGUIName());
 		
 		return parent::getHTML();
 	}

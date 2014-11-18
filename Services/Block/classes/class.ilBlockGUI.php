@@ -724,7 +724,31 @@ abstract class ilBlockGUI
 					"ilias.php?baseClass=ilRepositoryGUI&ref_id=".$_GET["ref_id"]."&cmd=delete".
 					"&item_ref_id=".$this->getRefId(),
 					$lng->txt("delete"));
+								
+				// see ilObjectListGUI::insertCutCommand();
+				$this->addBlockCommand(
+					"ilias.php?baseClass=ilRepositoryGUI&ref_id=".$_GET["ref_id"]."&cmd=cut".
+					"&item_ref_id=".$this->getRefId(),
+					$lng->txt("move"));
 			}
+					
+			// #14595 - see ilObjectListGUI::insertCopyCommand()
+			if ($ilAccess->checkAccess("copy", "", $this->getRefId()))
+			{				
+				global $objDefinition;
+				$parent_type = ilObject::_lookupType($_GET["ref_id"], true);
+				$parent_gui = "ilObj".$objDefinition->getClassName($parent_type)."GUI";
+			
+				$ilCtrl->setParameterByClass("ilobjectcopygui", "source_id", $this->getRefId());
+				$copy_cmd = $ilCtrl->getLinkTargetByClass(
+					array("ilrepositorygui", $parent_gui, "ilobjectcopygui"), 
+					"initTargetSelection");
+
+				// see ilObjectListGUI::insertCopyCommand();
+				$this->addBlockCommand(
+					$copy_cmd,
+					$lng->txt("copy"));								
+			}		
 		}
 
 		// footer info
