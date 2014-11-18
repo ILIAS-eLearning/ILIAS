@@ -4718,3 +4718,19 @@ if(!$ilDB->tableColumnExists('ecs_part_settings', 'dtoken'))
         ));
 }
 ?>
+<#4413>
+<?php
+if($ilDB->tableColumnExists('crs_objectives', 'description'))
+{
+	$ilDB->modifyTableColumn(
+		'crs_objectives',
+		'description',
+		array(
+			"type" => "text",
+			"length" => 500,
+			"notnull" => false,
+			"default" => ""
+		)
+	);
+}
+?>
