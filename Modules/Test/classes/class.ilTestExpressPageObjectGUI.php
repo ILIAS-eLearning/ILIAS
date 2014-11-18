@@ -30,12 +30,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
         $pos = array_search($_REQUEST['q_id'], $questions);
 
-        if( $pos == count($questions) - 1 )
-		{
-            ilUtil::sendInfo('test_express_end_reached_moved_to_first', true);
-            $next = $questions[0];
-        }
-		elseif( $pos !== false )
+		if( $pos !== false )
 		{
             $next = $questions[$pos + 1];
         }
@@ -57,12 +52,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
         $pos = array_search($_REQUEST['q_id'], $questions);
 
-        if( $pos == 0 )
-		{
-            ilUtil::sendInfo('test_express_start_reached_moved_to_last', true);
-            $next = $questions[count($questions) - 1];
-        }
-		elseif( $pos !== false )
+		if( $pos !== false )
 		{
             $next = $questions[$pos - 1];
         }
