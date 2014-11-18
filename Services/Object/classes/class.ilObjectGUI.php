@@ -1225,7 +1225,8 @@ class ilObjectGUI
 		}
 
 		$form = $this->initEditForm();
-		if($form->checkInput())
+		if($form->checkInput() && 
+			$this->validateCustom($form))
 		{
 			$this->object->setTitle($form->getInput("title"));
 			$this->object->setDescription($form->getInput("desc"));
@@ -1240,6 +1241,17 @@ class ilObjectGUI
 		$ilTabs->activateTab("settings");
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHtml());
+	}
+	
+	/**
+	 * Validate custom values (if not possible with checkInput())
+	 * 
+	 * @param ilPropertyFormGUI $a_form
+	 * @return boolean
+	 */
+	protected function validateCustom(ilPropertyFormGUI $a_form)
+	{
+		return true;
 	}
 
 	/**

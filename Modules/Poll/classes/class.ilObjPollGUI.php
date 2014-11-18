@@ -150,6 +150,19 @@ class ilObjPollGUI extends ilObject2GUI
 		$a_values["comment"] = $this->object->getShowComments();
 		$a_values["show_results_as"] = $this->object->getShowResultsAs();
 	}
+	
+	protected function validateCustom(ilPropertyFormGUI $a_form)
+	{
+		// #14606
+		if(!$a_form->getInput("period") &&
+			$a_form->getInput("results") == ilObjPoll::VIEW_RESULTS_AFTER_PERIOD)
+		{		
+			ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+			$a_form->getItemByPostVar("results")->setAlert($this->lng->txt("poll_view_results_after_period_impossible"));
+			return false;
+		}
+		return parent::validateCustom($a_form);		
+	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{		
