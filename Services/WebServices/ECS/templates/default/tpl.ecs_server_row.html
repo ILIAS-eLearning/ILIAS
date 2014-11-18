@@ -2,14 +2,16 @@
 	<td class="std" style="text-align:center;">
 		<img src="{IMAGE_OK}" title="{TXT_OK}" alt="{TXT_OK}" border="0">
 	</td>
-	<td class="std"  style="vertical-align:top;">
+	<td class="std small"  style="vertical-align:top;">
 		<a href="{LINK_EDIT}">{VAL_TITLE}</a>
 		<div>
-			<small><strong>{TXT_SRV_ADDR}:</strong> {VAL_DESC}</small>
+			<strong>{TXT_SRV_ADDR}:</strong> {VAL_DESC}
 		</div>
 		<!-- BEGIN cert_valid -->
 		<div>
-			<small><strong>{TXT_CERT_VALID}:</strong> {VAL_CERT}</small>
+			<strong>{TXT_CERT_VALID}: </strong>
+			<!-- BEGIN invalid --><font class="smallred">{VAL_ICERT}</font><!-- END invalid -->
+			<!-- BEGIN valid -->{VAL_VCERT}<!-- END valid -->
 		</div>
 		<!-- END cert_valid -->
 	</td>

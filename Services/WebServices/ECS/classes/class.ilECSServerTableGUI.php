@@ -75,7 +75,22 @@ class ilECSServerTableGUI extends ilTable2GUI
 		if($dt != NULL)
 		{
 			$this->tpl->setVariable('TXT_CERT_VALID', $this->lng->txt('ecs_cert_valid_until'));
-			$this->tpl->setVariable('VAL_CERT',  ilDatePresentation::formatDate($dt));
+			
+			$now = new ilDateTime(time(),IL_CAL_UNIX);
+			$now->increment(IL_CAL_MONTH, 2);
+			
+			if(ilDateTime::_before($dt, $now))
+			{
+				$this->tpl->setCurrentBlock('invalid');
+				$this->tpl->setVariable('VAL_ICERT',  ilDatePresentation::formatDate($dt));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock('valid');
+				$this->tpl->setVariable('VAL_VCERT',  ilDatePresentation::formatDate($dt));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		// Actions
