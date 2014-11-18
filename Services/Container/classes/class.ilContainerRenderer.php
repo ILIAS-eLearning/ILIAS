@@ -442,17 +442,19 @@ class ilContainerRenderer
 	 */
 	protected function renderHelperGeneric(ilTemplate $a_block_tpl, $a_block_id, array $a_block, $a_is_single = false)
 	{					
-		if(!in_array($a_block_id, $this->rendered_blocks) &&
-			is_array($this->block_items[$a_block_id]))
+		if(!in_array($a_block_id, $this->rendered_blocks))
 		{	
 			$this->rendered_blocks[] = $a_block_id;
 		
 			$block_types = array();
-			foreach($this->block_items[$a_block_id] as $item_id)
-			{	
-				if(isset($this->items[$item_id]["type"]))
-				{
-					$block_types[] = $this->items[$item_id]["type"];
+			if(is_array($this->block_items[$a_block_id]))
+			{
+				foreach($this->block_items[$a_block_id] as $item_id)
+				{	
+					if(isset($this->items[$item_id]["type"]))
+					{
+						$block_types[] = $this->items[$item_id]["type"];
+					}
 				}
 			}
 			
@@ -466,10 +468,14 @@ class ilContainerRenderer
 				$this->addStandardRow($a_block_tpl, $a_block["prefix"]);
 			}
 
-			foreach($this->block_items[$a_block_id] as $item_id)
-			{							
-				$this->addStandardRow($a_block_tpl, $this->items[$item_id]["html"], $item_id);			
-			}		
+			// #14610
+			if(is_array($this->block_items[$a_block_id]))
+			{
+				foreach($this->block_items[$a_block_id] as $item_id)
+				{							
+					$this->addStandardRow($a_block_tpl, $this->items[$item_id]["html"], $item_id);			
+				}
+			}
 
 			if($a_block["postfix"])
 			{
