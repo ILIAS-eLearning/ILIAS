@@ -1361,10 +1361,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			{
 				$q_gui->object->setObjId($this->object->getId());
 				$title = $q_gui->object->getTitle();
-				if (strcmp($this->ctrl->getCmd(), "assessment") == 0)
-				{
-					$title .= " - " . $this->lng->txt("statistics");
-				}
 				if(!$title)
 				{
 					$title = $this->lng->txt('new').': '.assQuestion::_getQuestionTypeName($q_gui->object->getQuestionType());
