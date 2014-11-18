@@ -20,6 +20,7 @@ class ilGlyphGUI
 	const CALENDAR = "calendar";
 	const CLOSE = "close";
 	const ATTACHMENT = "attachment";
+	const CARET = "caret";
 	const NO_TEXT = "**notext**";
 
 	static protected $map = array(
@@ -31,7 +32,8 @@ class ilGlyphGUI
 		"next" => array("class" => "glyphicon glyphicon-chevron-right", "txt" => "next"),
 		"calendar" => array("class" => "glyphicon glyphicon-calendar", "txt" => "calendar"),
 		"close" => array("class" => "glyphicon glyphicon-remove", "txt" => "close"),
-		"attachment" => array("class" => "glyphicon glyphicon-paperclip", "txt" => "attachment")
+		"attachment" => array("class" => "glyphicon glyphicon-paperclip", "txt" => "attachment"),
+		"caret" => array("class" => "", "txt" => "")
 	);
 
 	/**
@@ -53,6 +55,10 @@ class ilGlyphGUI
 				: $a_text;
 		switch ($a_glyph)
 		{
+			case self::CARET:
+				$html = '<span class="caret"></span>';
+				break;
+
 			default:
 				$html = '<span class="sr-only">'.$text.
 					'</span><span class="'.self::$map[$a_glyph]["class"].'"></span>';

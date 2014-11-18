@@ -125,9 +125,6 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 	{
 		switch ($a_cmd)
 		{
-			case "versions":
-				return ilUtil::getImagePath("cmd_versions_s.png");
-
 			default:
 				return "";
 		}
