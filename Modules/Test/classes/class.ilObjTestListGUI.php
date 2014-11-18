@@ -183,21 +183,6 @@ class ilObjTestListGUI extends ilObjectListGUI
 		$this->command_link_params = $a_param;
 	}
 
-	/**
-	* Get command icon image
-	*/
-	function getCommandImage($a_cmd)
-	{
-		switch ($a_cmd)
-		{
-			case "outEvaluation":
-				return ilUtil::getImagePath("cmd_evaluation_s.png");
-			
-			default:
-				return "";
-		}
-	}
-	
 	// begin-patch lok
 	protected function modifyTitleLink($a_default_link)
 	{
