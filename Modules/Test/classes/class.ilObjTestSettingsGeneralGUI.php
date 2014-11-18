@@ -863,23 +863,25 @@ class ilObjTestSettingsGeneralGUI
 		$simulLimited = new ilCheckboxInputGUI($this->lng->txt("tst_allowed_users"), 'limitUsers');
 		$simulLimited->setInfo($this->lng->txt("tst_allowed_users_desc"));
 		$simulLimited->setChecked($this->testOBJ->getAllowedUsers());
-		$form->addItem($simulLimited);
+
 		$simul = new ilNumberInputGUI($this->lng->txt("tst_allowed_users_max"), "allowedUsers");
 		$simul->setRequired(true);
 		$simul->allowDecimals(false);
 		$simul->setMinValue(1);
 		$simul->setMinvalueShouldBeGreater(false);
-		$simul->setSize(3);
+		$simul->setSize(4);
 		$simul->setValue(($this->testOBJ->getAllowedUsers()) ? $this->testOBJ->getAllowedUsers() : '');
 		$simulLimited->addSubItem($simul);
 
 		// idle time
-		$idle = new ilTextInputGUI($this->lng->txt("tst_allowed_users_time_gap"), "allowedUsersTimeGap");
+		$idle = new ilNumberInputGUI($this->lng->txt("tst_allowed_users_time_gap"), "allowedUsersTimeGap");
 		$idle->setInfo($this->lng->txt("tst_allowed_users_time_gap_desc"));
 		$idle->setSize(4);
 		$idle->setSuffix($this->lng->txt("seconds"));
 		$idle->setValue(($this->testOBJ->getAllowedUsersTimeGap()) ? $this->testOBJ->getAllowedUsersTimeGap() : 300);
-		$form->addItem($idle);
+		$simulLimited->addSubItem($idle);
+
+		$form->addItem($simulLimited);
 
 		// section header test run
 		$header = new ilFormSectionHeaderGUI();
