@@ -30,7 +30,8 @@ class ilLMPresentationGUI
 	var $offline;
 	var $offline_directory;
 	protected $current_page_id = false;
-	
+	protected $focus_id = 0;		// focus id is set e.g. from learning objectives course, we focus on a chapter/page
+
 	private $needs_to_be_purchased = false;
 
 	function ilLMPresentationGUI()
@@ -45,7 +46,7 @@ class ilLMPresentationGUI
 		$this->offline = false;
 		$this->frames = array();
 		$this->ctrl = $ilCtrl;
-		$this->ctrl->saveParameter($this, array("ref_id", "transl"));
+		$this->ctrl->saveParameter($this, array("ref_id", "transl", "focus_id", "focus_return"));
 		$this->lm_set = new ilSetting("lm");
 
 		include_once("./Modules/LearningModule/classes/class.ilObjLearningModuleGUI.php");
@@ -97,6 +98,11 @@ class ilLMPresentationGUI
 		/*$this->lm_tree = new ilTree($this->lm->getId());
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
 		$this->lm_tree->setTreeTablePK("lm_id");*/
+
+		if ((int) $_GET["focus_id"] > 0 && $this->lm_tree->isInTree((int) $_GET["focus_id"]))
+		{
+			$this->focus_id = (int) $_GET["focus_id"];
+		}
 	}
 
 
@@ -770,7 +776,7 @@ class ilLMPresentationGUI
 	function ilTOC($a_get_explorer = false)
 	{
 		include_once("./Modules/LearningModule/classes/class.ilLMTOCExplorerGUI.php");
-		$exp = new ilLMTOCExplorerGUI($this, "ilTOC", $this, $this->lang);
+		$exp = new ilLMTOCExplorerGUI($this, "ilTOC", $this, $this->lang, $this->focus_id);
 		$exp->setTracker($this->getTracker());
 		if (!$exp->handleCommand())
 		{
@@ -1448,6 +1454,39 @@ class ilLMPresentationGUI
 				ilLMObject::_lookupTitle($_GET["obj_id"]));
 			$this->tpl->setVariable("PAGE_CONTENT", $mtpl->get());
 			return $mtpl->get();
+		}
+
+		// check if page is out of focus
+		if ($this->focus_id > 0)
+		{
+			$path = $this->lm_tree->getPathId($page_id);
+			if (!in_array($this->focus_id, $path))
+			{
+				$mtpl = new ilTemplate("tpl.out_of_focus_message.html", true, true,
+					"Modules/LearningModule");
+				$mtpl->setVariable("MESSAGE", $this->lng->txt("cont_out_of_focus_message"));
+				$mtpl->setVariable("TXT_SHOW_CONTENT", $this->lng->txt("cont_show_content_after_focus"));
+
+				if ($_GET["focus_return"] == "" || ilObject::_lookupType((int) $_GET["focus_return"], true) != "crs")
+				{
+					$mtpl->setVariable("TXT_BACK_BEGINNING", $this->lng->txt("cont_to_focus_beginning"));
+					$this->ctrl->setParameter($this, "obj_id", $this->focus_id);
+					$mtpl->setVariable("LINK_BACK_TO_BEGINNING", $this->ctrl->getLinkTarget($this, "layout"));
+					$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+				}
+				else
+				{
+					$mtpl->setVariable("TXT_BACK_BEGINNING", $this->lng->txt("cont_to_focus_return_crs"));
+					$mtpl->setVariable("LINK_BACK_TO_BEGINNING", ilLink::_getLink((int) $_GET["focus_return"]));
+				}
+
+				$this->ctrl->setParameter($this, "focus_id", "");
+				$mtpl->setVariable("LINK_SHOW_CONTENT", $this->ctrl->getLinkTarget($this, "layout"));
+				$this->ctrl->setParameter($this, "focus_id", $_GET["focus_id"]);
+
+				$this->tpl->setVariable("PAGE_CONTENT", $mtpl->get());
+				return $mtpl->get();
+			}
 		}
 		
 		// no page found
@@ -3739,7 +3778,23 @@ class ilLMPresentationGUI
 			}
 		}
 	}
-	
+
+	/**
+	 * Get focused link (used in learning objectives courses)
+	 *
+	 * @param int $a_ref_id reference id of learning module
+	 * @param int $a_obj_id chapter or page id
+	 * @param int $a_return_ref_id return ref id
+	 *
+	 * @return string link
+	 */
+	function getFocusLink($a_ref_id, $a_obj_id, $a_return_ref_id)
+	{
+		return "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=".$a_ref_id."&amp;obj_id=".$a_obj_id."&amp;focus_id=".
+			$a_obj_id."&amp;focus_return=".$a_return_ref_id;
+	}
+
+
 	/**
 	* handles links for learning module presentation
 	*/

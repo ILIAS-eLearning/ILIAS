@@ -25,7 +25,8 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 	 * @param ilLMPresentationGUI $a_lm_pres learning module presentation gui object
 	 * @param string $a_lang language
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, ilLMPresentationGUI $a_lm_pres, $a_lang = "-")
+	function __construct($a_parent_obj, $a_parent_cmd, ilLMPresentationGUI $a_lm_pres, $a_lang = "-",
+		$a_focus_id = 0)
 	{
 		$this->lm_pres = $a_lm_pres;
 		$this->lm = $this->lm_pres->lm;
@@ -39,6 +40,21 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 		{
 			$this->setTypeWhiteList(array("st", "du"));
 		}
+		$this->focus_id = $a_focus_id;
+	}
+
+	/**
+	 * Get root node
+	 */
+	function getRootNode()
+	{
+		$root_id = $this->getTree()->readRootId();
+		if ($this->focus_id > 0 && $this->getTree()->isInTree($this->focus_id) &&
+			ilLMObject::_lookupType($this->focus_id) == "st")
+		{
+			$root_id = $this->focus_id;
+		}
+		return $this->getTree()->getNodeData($root_id);
 	}
 
 	/**
@@ -104,15 +120,20 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 	 */
 	function getNodeContent($a_node)
 	{
-		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
-		{
-			return $this->lm->getTitle();
-		}
-
 		if ($a_node["type"] == "st")
 		{
 			return ilStructureObject::_getPresentationTitle($a_node["child"],
 				$this->lm->isActiveNumbering(), false, $this->lm->getId(), $this->lang);
+		}
+		else if ($a_node["type"] == "pg")
+		{
+			return ilLMPageObject::_getPresentationTitle($a_node["child"],
+				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
+				$this->lm_set->get("time_scheduled_page_activation"), true, $this->lm->getId(), $this->lang);
+		}
+		else if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
+		{
+			return $this->lm->getTitle();
 		}
 
 		if ($a_node["type"] == "pg")
