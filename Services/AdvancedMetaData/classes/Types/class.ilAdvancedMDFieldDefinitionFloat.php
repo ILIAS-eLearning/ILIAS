@@ -156,7 +156,19 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
 		}
 		
 		parent::importXMLProperty($a_key, $a_value);
-	}			
+	}
+	
+	public function getValueForXML(ilADT $element)
+	{
+		// To fix buggy behaviour of XML-Writer (ILIAS-Bug #14281)
+		return "".$element->getNumber();
+	}
+	
+	public function importValueFromXML($a_cdata)
+	{
+		// To fix buggy behaviour of XML-Writer (ILIAS-Bug #14281)
+		$this->getADT()->setNumber(floatval($a_cdata));
+	}	
 }
 
 ?>
