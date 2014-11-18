@@ -209,7 +209,6 @@ array( "Zeitraum"
 		   					 , "Zielgruppe des Trainings"
 		   					 , true
 		   					 , array( 
-		   					 	/*  GOA V1:
 		   					 		"AD-Auszubildende (EVG)"
 		   					 		, "Ausbildungsverantwortliche in Agenturen (EVG), die über einen Ausbildereignungsschein verfügen"
 		   					 		, "Agenturleiter und Ausbilder in Agenturen (EVG)"
@@ -222,26 +221,7 @@ array( "Zeitraum"
 		   					 		, "selbstständiger Außendienst (EVG) ab Karrierestufe BGA"
 		   					 		, "Verkaufsleiter (EVG)"
 		   					 		, "Agenturverkaufsleiter (EVG)"
-								*/
-									"Partnerverkäufer § 59"
-									,"§ 84"
-									,"Organisierende Partnerverkäufer"
-									,"Leiter einer Filialdirektion" 
-									,"Nebenberufsagenten"
-									,"Vertriebsassistenten"
-									,"DBV UVG"
-									,"DBV EVG"
-									,"Inhaber einer Unternehmeragentur" 
-									,"Innenvertrieb FD / OD / BD"
-									,"Innenvertrieb HV"
-									,"Organisationsdirektor"
-									,"Nachwuchsführungskräfte" 
-									,"Unabhängige Vertriebspartner"
-									,"Trainer"
-									,"Auszubildende"
-									,"Ausbildungsverantwortliche in den Agenturen mit ADA-Schein"
-									,"Innvertrieb Agenturen"
-
+							
 		   					 		)
 		   					 , $tmultiselect
 		   					 )
@@ -519,5 +499,37 @@ require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 $amdutils = gevAMDUtils::getInstance();
 $amdutils->updateTitleOfAMDField(gevSettings::CRS_AMD_TYPE, 'Trainingstyp', 'Typ des Trainings');
+
+?>
+
+
+<#11>
+<?php
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+$options = array(
+	"Partnerverkäufer § 59"
+	,"§ 84"
+	,"Organisierende Partnerverkäufer"
+	,"Leiter einer Filialdirektion" 
+	,"Nebenberufsagenten"
+	,"Vertriebsassistenten"
+	,"DBV UVG"
+	,"DBV EVG"
+	,"Inhaber einer Unternehmeragentur" 
+	,"Innenvertrieb FD / OD / BD"
+	,"Innenvertrieb HV"
+	,"Organisationsdirektor"
+	,"Nachwuchsführungskräfte" 
+	,"Unabhängige Vertriebspartner"
+	,"Trainer"
+	,"Auszubildende"
+	,"Ausbildungsverantwortliche in den Agenturen mit ADA-Schein"
+	,"Innvertrieb Agenturen"
+
+);
+
+$amdutils = gevAMDUtils::getInstance();
+$amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_TARGET_GROUP, $options);
 
 ?>

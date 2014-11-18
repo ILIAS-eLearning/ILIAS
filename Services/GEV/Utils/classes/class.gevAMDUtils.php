@@ -395,6 +395,22 @@ class gevAMDUtils {
 
 
 
+	public static function updateOptionsOfAMDField($a_gev_setting, $options) {
+		require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDClaimingPlugin.php");
+		global $ilDB;
+
+		$gev_set = gevSettings::getInstance();
+		$field_id = $gev_set->getAMDFieldId($a_gev_setting);
+
+		$field_values = serialize($options);
+
+		$query = "UPDATE adv_mdf_definition SET 
+			field_values = '$field_values'
+			 WHERE field_id= $field_id";
+
+		$ilDB->manipulate($query);
+	}
+
 }
 
 ?>
