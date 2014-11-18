@@ -155,7 +155,7 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 
 		if( $this->getShowHintCount() )
 		{
-			$this->tpl->setVariable('VALUE_HINT_COUNT', $row['requested_hints']);
+			$this->tpl->setVariable('VALUE_HINT_COUNT', (int)$row['requested_hints']);
 		}
 
 		if( $this->getShowSuggestedSolution() )
