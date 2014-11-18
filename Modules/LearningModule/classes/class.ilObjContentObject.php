@@ -2221,8 +2221,6 @@ class ilObjContentObject extends ilObject
 		copy(ilUtil::getImagePath("browser/forceexp.png", false, "filesystem"),
 			$image_dir."/browser/forceexp.png");
 			
-		copy(ilUtil::getImagePath("download.png", false, "filesystem"),
-			$image_dir."/download.png");
 		$ilBench->stop("ExportHTML", "exportHTMLImages");
 
 		// export flv/mp3 player

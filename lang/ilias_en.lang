@@ -15101,4 +15101,5 @@ crs#:#crs_loc_form_tst_new_initial_info#:#--
 crs#:#crs_loc_form_tst_new_qualified_info#:#--
 crs#:#crs_loc_form_assign_initial_info#:#--
 crs#:#crs_loc_form_assign_qualified_info#:#--
-poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.>>>>>>> .r55288
+poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.
+content#:#cont_download#:#Download

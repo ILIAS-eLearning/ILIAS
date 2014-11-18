@@ -39,7 +39,6 @@ class ilSystemStyleHTMLExport
 		$this->addImage("nav_arr_L.png");
 		$this->addImage("nav_arr_R.png");
 		$this->addImage("browser/forceexp.png");
-		$this->addImage("download.png");
 	}
 
 	/**
