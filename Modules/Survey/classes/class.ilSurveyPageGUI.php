@@ -1236,11 +1236,11 @@ class ilSurveyPageGUI
 	protected function renderToolbar($a_pages)
 	{
 		global $ilToolbar, $ilCtrl, $lng, $ilUser;
+		
+		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 
 		if(!$this->has_datasets)
-		{
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-
+		{			
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("survey_add_new_question");								
 			$button->setUrl($ilCtrl->getLinkTarget($this, "addQuestionToolbarForm"));										
@@ -1286,14 +1286,21 @@ class ilSurveyPageGUI
 		if($a_pages)
 		{
 			// previous/next
+			
 			$ilCtrl->setParameter($this, "pg", $this->current_page-1);
-			$ilToolbar->addLink($lng->txt("survey_prev_question"),
-				$ilCtrl->getLinkTarget($this, "renderPage"), !$this->has_previous_page);
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("survey_prev_question");								
+			$button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));	
+			$button->setDisabled(!$this->has_previous_page);						
+			$ilToolbar->addButtonInstance($button);		
+			
 			$ilCtrl->setParameter($this, "pg", $this->current_page+1);
-			$ilToolbar->addLink($lng->txt("survey_next_question"),
-				$ilCtrl->getLinkTarget($this, "renderPage"), !$this->has_next_page);
-			$ilCtrl->setParameter($this, "pg", $this->current_page);
-
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("survey_next_question");								
+			$button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));	
+			$button->setDisabled(!$this->has_next_page);						
+			$ilToolbar->addButtonInstance($button);		
+			
 			foreach($a_pages as $idx => $questions)
 			{
 				$page = $questions;
