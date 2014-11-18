@@ -754,18 +754,21 @@ class ilAdvancedSelectionListGUI
 			$tpl->touchBlock("cmd_table");
 			return $tpl->get("cmd_table");
 		}
-				
-		$tpl->setCurrentBlock("dd_content");
-		if ($this->getPullRight())
+
+		if ($this->getGroupedList() == null)
 		{
-			$tpl->setVariable("UL_CLASS", "dropdown-menu pull-right");
+			$tpl->setCurrentBlock("dd_content");
+			if ($this->getPullRight())
+			{
+				$tpl->setVariable("UL_CLASS", "dropdown-menu pull-right");
+			}
+			else
+			{
+				$tpl->setVariable("UL_CLASS", "dropdown-menu");
+			}
+			$tpl->setVariable("TABLE_ID", $this->getId());
+			$tpl->parseCurrentBlock();
 		}
-		else
-		{
-			$tpl->setVariable("UL_CLASS", "dropdown-menu");
-		}
-		$tpl->setVariable("TABLE_ID", $this->getId());
-		$tpl->parseCurrentBlock();
 
 		if ($this->getHeaderIcon() != ilAdvancedSelectionListGUI::NO_ICON)
 		{
