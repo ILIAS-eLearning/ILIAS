@@ -388,6 +388,39 @@ abstract class ilObjPortfolioBase extends ilObject2
 	//
 	// TRANSMOGRIFIER
 	//
+	
+	/**
+	 * Clone basic settings 
+	 * 
+	 * @param ilObjPortfolioBase $a_source
+	 * @param ilObjPortfolioBase $a_target
+	 */
+	protected function cloneBasics(ilObjPortfolioBase $a_source, ilObjPortfolioBase $a_target)
+	{
+		// copy portfolio properties
+		$a_target->setPublicComments($a_source->hasPublicComments());
+		$a_target->setProfilePicture($a_source->hasProfilePicture());
+		$a_target->setFontColor($a_source->getFontColor());
+		$a_target->setBackgroundColor($a_source->getBackgroundColor());	
+		$a_target->setImage($a_source->getImage());
+		$a_target->update();
+
+		// banner/images
+		$source_dir = $a_source->initStorage($a_source->getId());
+		$target_dir = $a_target->initStorage($a_target->getId());
+		ilFSStoragePortfolio::_copyDirectory($source_dir, $target_dir);
+		
+		// set/copy stylesheet
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$style_id = $a_source->getStyleSheetId();
+		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
+		{
+			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
+			$new_id = $style_obj->ilClone();
+			$a_target->setStyleSheetId($new_id);
+			$a_target->update();
+		}
+	}		
 
 	/**
 	 * Build template from portfolio and vice versa
@@ -418,29 +451,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 			return;
 		}
 		
-		// copy portfolio properties
-		$a_target->setPublicComments($a_source->hasPublicComments());
-		$a_target->setProfilePicture($a_source->hasProfilePicture());
-		$a_target->setFontColor($a_source->getFontColor());
-		$a_target->setBackgroundColor($a_source->getBackgroundColor());	
-		$a_target->setImage($a_source->getImage());
-		$a_target->update();
-
-		// banner/images
-		$source_dir = $a_source->initStorage($source_id);
-		$target_dir = $a_target->initStorage($target_id);
-		ilFSStoragePortfolio::_copyDirectory($source_dir, $target_dir);
-		
-		// set/copy stylesheet
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-		$style_id = $a_source->getStyleSheetId();
-		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
-		{
-			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
-			$new_id = $style_obj->ilClone();
-			$a_target->setStyleSheetId($new_id);
-			$a_target->update();
-		}
+		$this->cloneBasics($a_source, $a_target);
 
 		// personal skills
 		include_once "Services/Skill/classes/class.ilPersonalSkill.php";
