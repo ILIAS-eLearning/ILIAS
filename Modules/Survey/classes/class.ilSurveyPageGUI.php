@@ -1301,6 +1301,8 @@ class ilSurveyPageGUI
 			$button->setDisabled(!$this->has_next_page);						
 			$ilToolbar->addButtonInstance($button);		
 			
+			$ilCtrl->setParameter($this, "pg", $this->current_page); // #14615
+			
 			foreach($a_pages as $idx => $questions)
 			{
 				$page = $questions;
