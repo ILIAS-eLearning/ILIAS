@@ -59,7 +59,18 @@
 			</div>
 			<div style="float:right">
 				<p class="il_cal_navigation">
-					<!-- BEGIN new_app --><a href="{ADD_LINK}"><img style="vertical-align: bottom" src="{NEW_SRC}" alt="{NEW_ALT}" title="{NEW_ALT}" /></a><!-- END new_app --><!-- BEGIN new_ms --><a href="{NEW_MS_LINK}"><img style="vertical-align: bottom" src="{H_NEW_MS_SRC}" alt="{H_NEW_MS_ALT}" title="{H_NEW_MS_ALT}" /></a><!-- END new_ms -->
+					<!-- BEGIN new_app --><a href="{ADD_LINK}">{NEW_SRC}</a><!-- END new_app -->					
+					<!-- BEGIN new_ms -->	
+					<div class="btn-group">
+						<div class="dropdown-toggle" data-toggle="dropdown" data-container="body" id="add_dd_tr_{DD_ID}" type="button">
+							{DD_TRIGGER}
+						</div>
+						<ul class="dropdown-menu pull-right" role="menu" id="add_dd_{DD_ID}">
+							<li><a href="{URL_DD_NEW_APP}">{TXT_DD_NEW_APP}</a></li>						
+							<li><a href="{URL_DD_NEW_MS}">{TXT_DD_NEW_MS}</a></li>						
+					</ul>					
+					</div>
+					<!-- END new_ms -->
 				</p>
 			</div>
 			<div style="clear:both" />

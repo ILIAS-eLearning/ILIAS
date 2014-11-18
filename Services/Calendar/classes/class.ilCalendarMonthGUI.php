@@ -208,27 +208,36 @@ class ilCalendarMonthGUI
 
 			if(!$no_add)
 			{
+				include_once "Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php";
+				
+				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$date->get(IL_CAL_DATE));
+				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
+				$new_app_url = $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add');
+				
 				if ($settings->getEnableGroupMilestones())
 				{
 					$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$date->get(IL_CAL_DATE));
+					$new_ms_url = $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','addMilestone');
+															
 					$this->tpl->setCurrentBlock("new_ms");
-					$this->tpl->setVariable('H_NEW_MS_SRC',ilUtil::getImagePath('ms_add.png'));
-					$this->tpl->setVariable('H_NEW_MS_ALT',$this->lng->txt('cal_new_ms'));
-					$this->tpl->setVariable('NEW_MS_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','addMilestone'));
+					$this->tpl->setVariable('DD_ID', $date->get(IL_CAL_UNIX));
+					$this->tpl->setVariable('DD_TRIGGER', ilGlyphGUI::get(ilGlyphGUI::ADD));					
+					$this->tpl->setVariable('URL_DD_NEW_APP', $new_app_url);					
+					$this->tpl->setVariable('TXT_DD_NEW_APP', $this->lng->txt('cal_new_app'));					
+					$this->tpl->setVariable('URL_DD_NEW_MS', $new_ms_url);					
+					$this->tpl->setVariable('TXT_DD_NEW_MS', $this->lng->txt('cal_new_ms'));					
 					$this->tpl->parseCurrentBlock();
 				}
-			
-				$this->tpl->setCurrentBlock("new_app");
-				#$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('new.png','calendar'));
-				$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('date_add.png'));
-				$this->tpl->setVariable('NEW_ALT',$this->lng->txt('cal_new_app'));
-				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
-				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$date->get(IL_CAL_DATE));
-				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
-				$this->tpl->setVariable('ADD_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
-				$this->tpl->parseCurrentBlock();
+				else 
+				{											
+					$this->tpl->setCurrentBlock("new_app");				
+					$this->tpl->setVariable('ADD_LINK', $new_app_url);				
+					$this->tpl->setVariable('NEW_SRC', ilGlyphGUI::get(ilGlyphGUI::ADD, $this->lng->txt('cal_new_app')));
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 
 			

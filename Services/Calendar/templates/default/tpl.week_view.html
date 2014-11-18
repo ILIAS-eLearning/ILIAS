@@ -76,7 +76,20 @@
 					<!-- BEGIN day_view1_no_link -->
 					<font class="small">{HEADER_DATE}</font>
 					<!-- END day_view1_no_link -->
-				    <!-- BEGIN new_app --><a href="{NEW_APP_LINK}"><img style="vertical-align: middle" src="{NEW_APP_SRC}" alt="{NEW_APP_ALT}" title="{NEW_APP_ALT}" /></a><!-- END new_app --><!-- BEGIN new_ms --><a href="{NEW_MS_LINK}"><img style="vertical-align: middle" src="{H_NEW_MS_SRC}" alt="{H_NEW_MS_ALT}" title="{H_NEW_MS_ALT}" /></a><!-- END new_ms -->
+					
+				    <!-- BEGIN new_app --><a href="{NEW_APP_LINK}">{NEW_APP_SRC}</a><!-- END new_app -->
+					<!-- BEGIN new_ms -->
+					<div class="btn-group">
+						<div class="dropdown-toggle" data-toggle="dropdown" data-container="body" id="add_dd_tr_{DD_ID}" type="button">
+							{DD_TRIGGER}
+						</div>
+						<ul class="dropdown-menu pull-right" role="menu" id="add_dd_{DD_ID}">
+							<li><a href="{URL_DD_NEW_APP}">{TXT_DD_NEW_APP}</a></li>						
+							<li><a href="{URL_DD_NEW_MS}">{TXT_DD_NEW_MS}</a></li>						
+					</ul>					
+					</div>
+					<!-- END new_ms -->
+					
 					<br />
 					<!-- BEGIN day_view2_link -->
 					<a class="callink" href="{DAY_VIEW_LINK}">{DAYNAME}</a>
@@ -132,10 +145,7 @@
 				onmouseout="clearTimeout(timer);">
 				<!-- BEGIN new_app_link -->
 				<div id="new_link_{DAY_NEW_ID}" style="float: right;visibility: hidden">
-					<a href="{DAY_NEW_APP_LINK}">
-						<img id="img" style="vertical-align: bottom" src="{DAY_NEW_APP_SRC}" alt="{DAY_NEW_APP_ALT}" title="{DAY_NEW_APP_ALT}" /> 
-						
-					</a>
+					<a href="{DAY_NEW_APP_LINK}">{DAY_NEW_APP_SRC}</a>
 				</div>
 				<!-- END new_app_link -->
 				<!-- BEGIN not_empty -->
