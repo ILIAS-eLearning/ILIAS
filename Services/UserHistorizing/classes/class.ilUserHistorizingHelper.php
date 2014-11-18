@@ -233,6 +233,10 @@ class ilUserHistorizingHelper
 		$tree = ilObjOrgUnitTree::_getInstance();
 
 		$orgu_1_id = $user_utils->getOrgUnitId(); // first level above
+
+		if(! $orgu_1_id){
+			return array(null, null);
+		}
 		$orgu_1_refid = gevObjectUtils::getRefId($orgu_1_id);
 		$orgu_2_refid = $tree->getParent($orgu_1_refid);
 
