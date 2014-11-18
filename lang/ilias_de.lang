@@ -252,12 +252,12 @@ administration#:#searching_invalid_refs#:#Sucht nach ungültigen Referenzen...
 administration#:#searching_invalid_rolfs#:#Sucht nach ungültigen Rollenordnern...
 administration#:#searching_missing_objs#:#Sucht nach verlorenen Objekten...
 administration#:#searching_unbound_objs#:#Sucht nach nicht zugeordneten Objekten...
-administration#:#show_topics_overview#:#Themenübersicht
+administration#:#frm_displayed_infos#:#Angezeigte Informationen
 administration#:#skipped#:#ausgelassen
 administration#:#start_scan#:#Start!
 administration#:#stop_scan#:#Stopp!
 administration#:#systemcheck#:#Systemcheck
-administration#:#topics_overview_info#:#Bitte wählen Sie aus, welche Informationen in der Spalte "Beiträg" der Themenübersicht angezeigt werden.
+administration#:#frm_disp_info_desc#:#Bitte wählen Sie aus, welche Informationen in den Übersichten angezeigt werden sollen.
 administration#:#tree_corrupt#:#Baum ist korrumpiert! Siehe Scan-Log für Details
 administration#:#user_criteria#:#Eindeutiges Benutzermerkmal
 administration#:#user_criteria_desc#:#Eindeutiges Benutzermerkmal für den Import/Export von Testergebnissen. Das Merkmal wird benötigt, um einen identischen Benutzer auf unterschiedlichen ILIAS-Systemen zu identifizieren.

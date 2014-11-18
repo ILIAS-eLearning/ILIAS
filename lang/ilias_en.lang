@@ -10125,8 +10125,8 @@ forum#:#preset_subject#:#Preset subject on reply
 common#:#obj_frma#:#Forum
 common#:#obj_frma_desc#:#Global Forum Settings
 administration#:#forum_settings#:#Forumsettings
-administration#:#show_topics_overview#:#Topic Overview
-administration#:#topics_overview_info#:#Please select the attributes which should to be shown in the topics overview.
+administration#:#frm_displayed_infos#:#Displayed Information
+administration#:#frm_disp_info_desc#:#Please select the attributes which should to be shown in the overviews.
 common#:#show_system_messages#:#System Messages
 content#:#glo_presentation_mode#:#Presentation Mode
 content#:#glo_table_form#:#In Table Form

@@ -168,10 +168,10 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
 		$form->setTitle($this->lng->txt('settings'));
 
-		$frm_radio = new ilRadioGroupInputGUI($this->lng->txt('show_topics_overview'), 'forum_overview');
+		$frm_radio = new ilRadioGroupInputGUI($this->lng->txt('frm_displayed_infos'), 'forum_overview');
 		$frm_radio->addOption(new ilRadioOption($this->lng->txt('new') . ', ' . $this->lng->txt('is_read') . ', ' . $this->lng->txt('unread'), '0'));
 		$frm_radio->addOption(new ilRadioOption($this->lng->txt('is_read') . ', ' . $this->lng->txt('unread'), '1'));
-		$frm_radio->setInfo($this->lng->txt('topics_overview_info'));
+		$frm_radio->setInfo($this->lng->txt('frm_disp_info_desc'));
 		$form->addItem($frm_radio);
 
 		$check = new ilCheckboxInputGui($this->lng->txt('enable_fora_statistics'), 'fora_statistics');
