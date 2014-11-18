@@ -1193,7 +1193,7 @@ class ilCourseObjectivesGUI
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 		$this->questions = new ilCourseObjectiveQuestion((int) $_GET['objective_id']);
 		$this->questions->updateLimits();
-
+		
 		ilUtil::sendSuccess($this->lng->txt('crs_objectives_assigned_lm'));
 		$this->finalTestLimits();
 	}
@@ -1266,9 +1266,16 @@ class ilCourseObjectivesGUI
 			$this->objectives_qst_obj->setTestSuggestedLimit((int) $_POST['limit']);
 			$this->objectives_qst_obj->updateTest($test['test_objective_id']);
 		}
-
-		ilUtil::sendSuccess($this->lng->txt('crs_added_objective'));
-		$this->listObjectives();
+		
+		if($_SESSION['objective_mode'] != self::MODE_CREATE)
+		{
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'), TRUE);
+		}
+		else
+		{
+			ilUtil::sendSuccess($this->lng->txt('crs_added_objective'),TRUE);
+		}
+		$this->ctrl->returnToParent($this);
 	}
 	
 	/**
