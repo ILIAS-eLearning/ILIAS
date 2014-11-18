@@ -36,8 +36,6 @@ class ilLanguageTableGUI extends ilTable2GUI
 		{
 			$this->addColumn($this->lng->txt("last_change"));
 		}
-        // data will be sorted in getItems()
-        $this->sortData(false);
 		$this->setSelectAllCheckbox("id[]");
 		
 		$this->setEnableHeader(true);
@@ -82,8 +80,8 @@ class ilLanguageTableGUI extends ilTable2GUI
 		}
 
         // sort alphabetically but shoe installed languages first
-        $data = ilUtil::sortArray($data, 'name', 'asc', false, false);
-        $data = ilUtil::sortArray($data, 'desc', 'asc', false, false);
+        $data = ilUtil::stableSortArray($data, 'name', 'asc', false);
+        $data = ilUtil::stableSortArray($data, 'desc', 'asc', false);
 
 		$this->setData($data);
 	}
