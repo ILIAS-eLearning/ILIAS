@@ -72,6 +72,29 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
 		}
 	}
 	
+	protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null)
+	{
+		$this->cloneBasics($this, $new_obj);
+		
+		// copy pages
+		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
+		foreach(ilPortfolioPage::getAllPages($this->getId()) as $page)
+		{			
+			// see ilObjWiki::cloneObject();
+			
+			$page = new ilPortfolioTemplatePage($page["id"]);
+			
+			$new_page = new ilPortfolioTemplatePage();
+			$new_page->setPortfolioId($new_obj->getId());		
+			$new_page->setTitle($page->getTitle());
+			$new_page->setType($page->getType());
+			$new_page->setOrderNr($page->getOrderNr());
+			$new_page->create();
+			
+			$page->copy($new_page->getId(), "", 0, true);	
+		}	
+	}
+	
 		
 	//
 	// ACTIVATION
