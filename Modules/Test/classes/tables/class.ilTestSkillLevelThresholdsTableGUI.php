@@ -63,7 +63,8 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
 
 		$this->tpl->setCurrentBlock('competence');
 		$this->tpl->setVariable('ROWSPAN', $this->getRowspan(count($levels)));
-		$this->tpl->setVariable('COMPETENCE', $skill->getTitle());
+		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
+		$this->tpl->setVariable('COMPETENCE', ilBasicSkill::_lookupTitle($skill->getId(), $data['skill_tref_id']));
 		$this->tpl->setVariable('NUM_QUESTIONS', $data['num_assigns']);
 		$this->tpl->setVariable('MAX_COMP_POINTS', $data['max_points']);
 		$this->tpl->parseCurrentBlock();

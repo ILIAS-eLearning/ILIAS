@@ -232,7 +232,7 @@ class ilTestSkillQuestionAssignment
 		require_once 'Services/Skill/classes/class.ilSkillTree.php';
 
 		$this->setSkillTitle(
-			ilBasicSkill::_lookupTitle($this->getSkillBaseId())
+			ilBasicSkill::_lookupTitle($this->getSkillBaseId(), $this->getSkillTrefId())
 		);
 
 		$tree = new ilSkillTree();
@@ -244,7 +244,7 @@ class ilTestSkillQuestionAssignment
 		$nodes = array();
 		foreach ($path as $node)
 		{
-			if( $node['child'] > 1 && $node['child'] != $this->getSkillBaseId() )
+			if( $node['child'] > 1 && $node['skill_id'] != $this->getSkillBaseId() )
 			{
 				$nodes[] = $node['title'];
 			}
