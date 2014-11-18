@@ -1521,7 +1521,13 @@ class gevUserUtils {
 	public function getWBDAgentStatus() {
 		$agent_status_user =  $this->getRawWBDAgentStatus();
 
-		if($agent_status_user == self::WBD_AGENTSTATUS0){
+		if(  $agent_status_user == self::WBD_AGENTSTATUS0
+		  // When user gets created and nobody clicked "save" on his profile, the
+		  // udf-field will not contain a value, thus getRawWBDAgentStatus returned null.
+		  // The default for the agent status is to determine it based on the role of
+		  // a user.
+		  || $agent_status_user === null)
+		{
 			//0 - aus Stellung	//0 - aus Rolle
 			require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 			$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
