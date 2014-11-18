@@ -1109,7 +1109,7 @@ assessment#:#tst_select_tsts#:#Please select a test for duplication
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was removed successfully
 assessment#:#tst_sequence_fixed#:#The Sequence of Questions is Fixed
 assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test pass
-assessment#:#tst_sequence_properties#:#Sequence Settings
+assessment#:#tst_sequence_properties#:#Administering the Test: Functionality Available to Participants 
 assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_show_answer_sheet#:#Show Answers
@@ -1367,7 +1367,7 @@ assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participa
 assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
 assessment#:#tst_settings_header_test_run#:#Administering the Test: Testrun
 assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.
-assessment#:#tst_final_information#:#Finishing the Test: Information Before Submission
+assessment#:#tst_final_information#:#Finishing the Test
 assessment#:#saved_adjustment#:#Changes saved.
 assessment#:#sign_submission#:#Digitally sign test submissions
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.
@@ -10953,7 +10953,7 @@ assessment#:#test_using_template#:#This test uses the template %s. If you do not
 assessment#:#tst_anonymity_no_anonymization#:#Participants' Results and Names are Tracked
 assessment#:#tst_anonymity_anonymous_test#:#Participants Take Test Anonymously
 assessment#:#tst_beginning_ending_information#:#Information at Beginning and End of Test
-assessment#:#tst_presentation_properties#:#Presentation Settings
+assessment#:#tst_presentation_properties#:#Administering the Test: Behavior of the Question
 assessment#:#tst_settings_template#:#Template
 assessment#:#test_delete_page#:#Delete Question
 assessment#:#test_move_page#:#Move Question
