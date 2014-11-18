@@ -443,6 +443,8 @@ class ilInitialisation
 	 */
 	protected static function setCookieParams()
 	{
+		global $ilSetting;
+		
 		include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
 		if(ilAuthFactory::getContext() == ilAuthFactory::CONTEXT_HTTP) 
 		{
@@ -468,7 +470,7 @@ class ilInitialisation
 		if($cookie_path == "\\") $cookie_path = '/';
 		
 		include_once './Services/Http/classes/class.ilHTTPS.php';
-		$cookie_secure = ilHTTPS::getInstance()->isDetected();
+		$cookie_secure = !$ilSetting->get('https', 0) && ilHTTPS::getInstance()->isDetected();
 		
 		define('IL_COOKIE_EXPIRE',0);
 		define('IL_COOKIE_PATH',$cookie_path);
