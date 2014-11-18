@@ -2175,3 +2175,44 @@ $query = "ALTER TABLE hist_user
 $ilDB->manipulate($query);
 ?>
 
+<#63>
+<?php
+// change fieldname
+
+$query = "ALTER TABLE hist_usercoursestatus 
+	CHANGE bill_id bill_id 
+	VARCHAR(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL 
+	DEFAULT NULL;
+";
+
+$ilDB->manipulate($query);
+
+/**
+* migrate hist_usercoursestatus.bill_id to hold 
+*/
+
+$query = "SELECT 
+			hist_usercoursestatus.row_id, 
+			hist_usercoursestatus.bill_id,
+			bill.bill_number 
+		FROM hist_usercoursestatus
+		INNER JOIN bill ON 
+			hist_usercoursestatus.bill_id = bill.bill_pk
+		WHERE 
+			hist_usercoursestatus.bill_id > 0
+			AND 
+			hist_usercoursestatus.hist_historic = 0
+			AND 
+			bill.bill_number IS NOT NULL;
+		";
+
+
+$res = $ilDB->query($query);
+while($rec = $ilDB->fetchAssoc($res)) {
+	$bill_id = $rec['bill_number'];
+	$row_id = $rec['row_id'];
+	$sql = "UPDATE hist_usercoursestatus SET bill_id = '$bill_id' WHERE row_id=$row_id";
+	$ilDB->manipulate($sql);
+}
+?>
+

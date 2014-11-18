@@ -1,7 +1,7 @@
 <?php
 // gevMigrateToGOA2
 
-	/*
+	/**
 	* gevUserUtils::getWBDAgentStatus 
 	* returns "Angestellter Außendienst"
 	* instead of "1 - Angestellter Außendienst"
@@ -11,7 +11,6 @@
 		$ret = explode("-", $i);
 		return trim($ret[1]);
 	}
-
 
 
 	$agent_status = array(
@@ -31,6 +30,12 @@
 
 		print $sql;
 	}
+
+
+
+
+
+
 
 
 ?>

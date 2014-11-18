@@ -116,7 +116,7 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 	{
 		$definition =  array(
 			'credit_points'			=> 'integer',
-			'bill_id'				=> 'integer',
+			'bill_id'				=> 'text',
 			'booking_status'		=> 'text',
 			'participation_status'	=> 'text',
 			'okz'					=> 'text',

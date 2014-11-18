@@ -147,6 +147,8 @@ class ilUserCourseStatusHistorizingHelper
 	 */
 	public static function getBillIdOf($user, $course)
 	{
+
+		//getBillNumberOf
 		
 		$bills = gevBillingUtils::getInstance()
 							   ->getBillsForCourseAndUser( self::getId($user)
@@ -158,15 +160,18 @@ class ilUserCourseStatusHistorizingHelper
 		
 		// search for latest bill, that is the one with the highest id.
 		$id = $bills[0];
+		$nr = null;
 		foreach ($bills as $bill) {
-			$_id = $bill->getId();
+			$nr = $bill->getBillNumber();
 			if ($_id > $id) {
 				$id = $_id;
 			}
 		}
-		
-		return $_id;
+		return $nr;
 	}
+
+
+
 	
 	protected static function getId($obj) {
 		if (is_int($obj) || is_numeric($obj)) {
