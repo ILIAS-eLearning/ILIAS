@@ -14885,15 +14885,15 @@ crs#:#crs_loc_err_no_active_qt#:#Learning Objectives without Qualifying Test
 crs#:#crs_loc_err_no_active_lo#:#No active Learning Objective
 crs#:#crs_loc_settings_tbl#:#Settings for the Learning Objectives-Driven Course
 crs#:#crs_loc_settings_type#:#Course Design
-crs#:#crs_loc_type_initial_all#:#Course starts with placement test
-crs#:#crs_loc_type_initial_sel#:#Course starts with placement test for selected learning objective
+crs#:#crs_loc_type_initial_all#:#Course Starts with Placement Test
+crs#:#crs_loc_type_initial_sel#:#Course starts with Placement Test for Selected Learning Objective
 crs#:#crs_loc_type_qualified#:#Credit-by-examination design 
-crs#:#crs_loc_type_practise#:#Course starts with learning and practise
+crs#:#crs_loc_type_practise#:#Course Starts with Learning and Practise
 crs#:#crs_loc_tab_materials#:#Material
 crs#:#crs_loc_tab_itest#:#Placement Test 
 crs#:#crs_loc_tab_qtest#:#Achievement Test
 crs#:#crs_loc_settings_itest_tbl#:#Settings for the Placement Test 
-crs#:#crs_loc_tab_objectives#:#Learning objectives
+crs#:#crs_loc_tab_objectives#:#Learning Objectives
 crs#:#crs_loc_settings_qtest_tbl#:#Settings for the Qualifying Test
 crs#:#crs_loc_tab_start#:#Start Objects
 common#:#il_astpl_loc_initial#:#Initial Test
@@ -15101,4 +15101,4 @@ crs#:#crs_loc_form_tst_new_initial_info#:#--
 crs#:#crs_loc_form_tst_new_qualified_info#:#--
 crs#:#crs_loc_form_assign_initial_info#:#--
 crs#:#crs_loc_form_assign_qualified_info#:#--
-poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.
+poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.>>>>>>> .r55288
