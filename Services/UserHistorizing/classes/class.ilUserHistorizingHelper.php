@@ -225,10 +225,23 @@ class ilUserHistorizingHelper
 
 	public static function getOrgUnitsAboveOf($user)
 	{
-		//getOrgUnitOf
-		return array('B', 'A');
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+
+		$user_utils = gevUserUtils::getInstanceByObjOrId($user);
+		$tree = ilObjOrgUnitTree::_getInstance();
+
+		$orgu_1_id = $user_utils->getOrgUnitId(); // first level above
+		$orgu_1_refid = gevObjectUtils::getRefId($orgu_1_id);
+		$orgu_2_refid = $tree->getParent($orgu_1_refid);
+
+		$titles = $tree->getTitles(array($orgu_1_refid, $orgu_2_refid));
+
+		return array($titles[$orgu_1_refid], $titles[$orgu_2_refid]);
 	}
  	
+
  	//Vermittlernummer GEV, USR_UDF_JOB_NUMMER
 	public static function getJobNumberOf($user)
 	{
