@@ -126,7 +126,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 		{
 			$output_html = $this->insertPageEmbeddedBlocks($output_html);
 		}
-
+		
 		if (is_array($this->items["sess"]) ||
 			$this->items['sess_link']['prev']['value'] ||
 			$this->items['sess_link']['next']['value'])
@@ -157,7 +157,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 						$this->renderer->addItemToBlock("sess", $item_data["type"], $item_data["child"], $html);
 					}
 				}
-			}				
+			}			
 		}
 
 		$pos = $this->getItemGroupsHTML(1);
@@ -171,6 +171,12 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 			
 			foreach($this->items["_all"] as $item_data)
 			{
+				// #14599
+				if ($item_data["type"] == "sess" || $item_data["type"] == "itgr")
+				{
+					continue;
+				}
+				
 				if (!$this->renderer->hasItem($item_data["child"]))
 				{					
 					$html = $this->renderItem($item_data, $position++, true);

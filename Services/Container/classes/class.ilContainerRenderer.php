@@ -473,7 +473,7 @@ class ilContainerRenderer
 
 			if($a_block["postfix"])
 			{
-				$this->addStandardRow($a_block_tpl, $a_block["prefix"]);
+				$this->addStandardRow($a_block_tpl, $a_block["postfix"]);
 			}
 			
 			return true;
