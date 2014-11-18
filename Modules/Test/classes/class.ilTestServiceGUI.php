@@ -127,6 +127,24 @@ class ilTestServiceGUI
 	{
 		return $cmd;
 	}
+
+	/**
+	 * @return bool
+	 */
+	protected function isPdfDeliveryRequest()
+	{
+		if( !isset($_GET['pdf']) )
+		{
+			return false;
+		}
+
+		if( !(bool)$_GET['pdf'] )
+		{
+			return false;
+		}
+
+		return true;
+	}
 	
 	/**
 	 * Returns the pass overview for a given active ID
@@ -421,12 +439,11 @@ class ilTestServiceGUI
 		$tableGUI->setAnswerListAnchorEnabled($questionAnchorNav);
 		$tableGUI->setSingleAnswerScreenCmd($questionDetailsCMD);
 
+		$tableGUI->setShowHintCount($this->object->isOfferingQuestionHintsEnabled());
 		$tableGUI->initColumns()->initFilter();
 
 		$tableGUI->setActiveId($active_id);
 		$tableGUI->setPass($pass);
-
-		$tableGUI->setShowHintCount($this->object->isOfferingQuestionHintsEnabled());
 
 		$tableGUI->setShowSuggestedSolution(false);
 		$usersQuestionSolutions = array();
@@ -810,6 +827,7 @@ class ilTestServiceGUI
 	{
 		require_once 'Modules/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php';
 		$tableGUI = new ilTestPassDetailsOverviewTableGUI($this->ctrl, $targetGUI, $targetCMD);
+		$tableGUI->setIsPdfGenerationRequest($this->isPdfDeliveryRequest());
 		return $tableGUI;
 	}
 	

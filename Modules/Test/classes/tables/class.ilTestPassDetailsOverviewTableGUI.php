@@ -25,6 +25,8 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 	private $activeId = null;
 
 	private $pass = null;
+	
+	private $is_pdf_generation_request = false;
 
 	public function __construct(ilCtrl $ctrl, $parent, $cmd)
 	{
@@ -68,8 +70,8 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 			$this->lng->txt('tst_pass_details_overview_table_title'), $this->getPass() + 1
 		));
 
-		$this->addColumn($this->lng->txt("tst_question_no"), '', '1');
-		$this->addColumn($this->lng->txt("question_id"), '', '100');
+		$this->addColumn($this->lng->txt("tst_question_no"), '', '');
+		$this->addColumn($this->lng->txt("question_id"), '', '');
 		$this->addColumn($this->lng->txt("tst_question_title"), '', '');
 		$this->addColumn($this->lng->txt("tst_maximum_points"), '', '');
 		$this->addColumn($this->lng->txt("tst_reached_points"), '', '');
@@ -117,23 +119,25 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 		return $this;
 	}
 
+	/**
+	 * @return boolean
+	 */
+	public function isPdfGenerationRequest()
+	{
+		return $this->is_pdf_generation_request;
+	}
+
+	/**
+	 * @param boolean $is_print_request
+	 */
+	public function setIsPdfGenerationRequest($is_print_request)
+	{
+		$this->is_pdf_generation_request = $is_print_request;
+	}
+
 	public function fillRow(array $row)
 	{
 		$this->ctrl->setParameter($this->parent_obj, 'evaluation', $row['qid']);
-
-		if( $this->getShowHintCount() )
-		{
-			$this->tpl->setCurrentBlock('hint_count');
-			$this->tpl->setVariable('VALUE_HINT_COUNT', $row['requested_hints']);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		if( $this->getShowSuggestedSolution() )
-		{
-			$this->tpl->setCurrentBlock('question_suggested_solution');
-			$this->tpl->setVariable('SOLUTION_HINT', $row['solution']);
-			$this->tpl->parseCurrentBlock();
-		}
 
 		if( $this->isQuestionTitleLinkPossible() )
 		{
@@ -141,9 +145,7 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 
 			if( strlen($questionTitleLink) )
 			{
-				$this->tpl->setCurrentBlock('title_link_begin_tag');
 				$this->tpl->setVariable('URL_QUESTION_TITLE', $questionTitleLink);
-				$this->tpl->parseCurrentBlock();
 
 				$this->tpl->setCurrentBlock('title_link_end_tag');
 				$this->tpl->touchBlock('title_link_end_tag');
@@ -151,19 +153,24 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 			}
 		}
 
+		if( $this->getShowHintCount() )
+		{
+			$this->tpl->setVariable('VALUE_HINT_COUNT', $row['requested_hints']);
+		}
+
+		if( $this->getShowSuggestedSolution() )
+		{
+			$this->tpl->setVariable('SOLUTION_HINT', $row['solution']);
+		}
+
 		if( $this->areActionListsRequired() )
 		{
-			$this->tpl->setCurrentBlock('actions_menu');
 			$this->tpl->setVariable('ACTIONS_MENU', $this->getActionList($row['qid']));
-			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->setVariable('VALUE_QUESTION_TITLE', $row['title']);
-
 		$this->tpl->setVariable('VALUE_QUESTION_ID', $row['qid']);
-
 		$this->tpl->setVariable('VALUE_QUESTION_COUNTER', $row['nr']);
-
 		$this->tpl->setVariable('VALUE_MAX_POINTS', $row['max']);
 		$this->tpl->setVariable('VALUE_REACHED_POINTS', $row['reached']);
 		$this->tpl->setVariable('VALUE_PERCENT_SOLVED', $row['percent']);
@@ -208,6 +215,11 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 
 	private function areActionListsRequired()
 	{
+		if( $this->isPdfGenerationRequest() )
+		{
+			return false;
+		}
+
 		if( !$this->getAnswerListAnchorEnabled() )
 		{
 			return false;
@@ -272,6 +284,7 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 
 	public function setShowHintCount($showHintCount)
 	{
+		// Has to be called before column initialization
 		$this->showHintCount = $showHintCount;
 	}
 

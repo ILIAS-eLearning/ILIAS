@@ -54,6 +54,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			case 'iltestpassdetailsoverviewtablegui':
 				require_once 'Modules/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php';
 				$tableGUI = new ilTestPassDetailsOverviewTableGUI($this->ctrl, $this, 'outUserPassDetails');
+				$tableGUI->setIsPdfGenerationRequest($this->isPdfDeliveryRequest());
 				$tableGUI->initFilter();
 				$this->ctrl->forwardCommand($tableGUI);
 				break;
@@ -1802,24 +1803,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 
 		$this->redirectToPassDeletionContext($_POST['context']);
-	}
-
-	/**
-	 * @return bool
-	 */
-	protected function isPdfDeliveryRequest()
-	{
-		if( !isset($_GET['pdf']) )
-		{
-			return false;
-		}
-
-		if( !(bool)$_GET['pdf'] )
-		{
-			return false;
-		}
-
-		return true;
 	}
 
 	protected function getFilteredTestResult($active_id, $pass)
