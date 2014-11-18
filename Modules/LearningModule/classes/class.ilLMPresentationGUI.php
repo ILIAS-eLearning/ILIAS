@@ -1477,6 +1477,7 @@ class ilLMPresentationGUI
 				else
 				{
 					$mtpl->setVariable("TXT_BACK_BEGINNING", $this->lng->txt("cont_to_focus_return_crs"));
+					include_once("./Services/Link/classes/class.ilLink.php");
 					$mtpl->setVariable("LINK_BACK_TO_BEGINNING", ilLink::_getLink((int) $_GET["focus_return"]));
 				}
 
