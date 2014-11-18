@@ -525,7 +525,7 @@ $options = array(
 	,"Trainer"
 	,"Auszubildende"
 	,"Ausbildungsverantwortliche in den Agenturen mit ADA-Schein"
-	,"Innvertrieb Agenturen"
+	,"Innenvertrieb Agenturen"
 
 );
 
