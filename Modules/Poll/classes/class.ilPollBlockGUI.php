@@ -165,8 +165,15 @@ class ilPollBlockGUI extends ilBlockGUI
 					$end = ilDatePresentation::formatDate(new ilDateTime($end, IL_CAL_UNIX));
 					ilDatePresentation::setUseRelativeDates($rel);
 					
-					$this->tpl->setVariable("TOTAL_ANSWERS", $lng->txt("poll_block_message_already_voted").
-						' '.sprintf($lng->txt("poll_block_results_available_on"), $end));					
+					// #14607
+					$info = "";
+					if($this->poll_block->getPoll()->hasUserVoted($ilUser->getId()))
+					{
+						$info .= $lng->txt("poll_block_message_already_voted")." ";
+					}
+					
+					$this->tpl->setVariable("TOTAL_ANSWERS", $info.
+						sprintf($lng->txt("poll_block_results_available_on"), $end));					
 				}
 			}
 			else if($this->poll_block->getPoll()->hasUserVoted($ilUser->getId()))
