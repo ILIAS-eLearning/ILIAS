@@ -857,10 +857,17 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 	
 	 	// Assign admin
 		$new_obj->getMemberObject()->add($ilUser->getId(),IL_CRS_ADMIN);
+			
+		// #14596		
+		$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);		
+		if($cwo->isRootNode($this->getRefId()))
+		{
+			$this->setOfflineStatus(true);
+		}				
 		
 		// Copy settings
 		$this->cloneSettings($new_obj);
-		
+	
 		// Course Defined Fields
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 		ilCourseDefinedFieldDefinition::_clone($this->getId(),$new_obj->getId());
