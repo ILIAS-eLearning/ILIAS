@@ -65,10 +65,14 @@ li.il_Explorer {
 
 
 a.il_HighlightedNode, .ilHighlighted {
-	border: 1px solid #FD7;
-	background-color: #FF9;
+	background-color: darken(@il-highlight-bg, 10%);
 	padding: 0 5px;
 }
+
+li.ilExplSecHighlight {
+	background-color: @il-primary-container-bg !important;
+}
+
 
 div.il_ExplorerItemDescription {
 	margin-left: 40px;

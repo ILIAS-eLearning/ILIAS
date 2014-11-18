@@ -36,6 +36,10 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 		parent::__construct($a_parent_obj, $a_parent_cmd, $this->lm, $exp_id);
 		$this->lm_set = new ilSetting("lm");
 		$this->lang = $a_lang;
+		if ($a_focus_id > 0)
+		{
+			$this->setSecondaryHighlightedNodes(array($a_focus_id));
+		}
 		if ($this->lm->getTOCMode() != "pages")
 		{
 			$this->setTypeWhiteList(array("st", "du"));
@@ -52,7 +56,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 		if ($this->focus_id > 0 && $this->getTree()->isInTree($this->focus_id) &&
 			ilLMObject::_lookupType($this->focus_id) == "st")
 		{
-			$root_id = $this->focus_id;
+//			$root_id = $this->focus_id;
 		}
 		return $this->getTree()->getNodeData($root_id);
 	}

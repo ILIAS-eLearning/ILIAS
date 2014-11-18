@@ -22,7 +22,11 @@ il.Explorer2 = {
 		}
 		il.Explorer2.configs[config.container_id] = config;
 		$("#" + config.container_id).bind("loaded.jstree", function (event, data) {
+				var i;
 				$("#" + config.container_outer_id).removeClass("ilNoDisplay");
+				for (i = 0; i < config.second_hnodes.length; i++) {
+					$("#" + config.second_hnodes[i]).addClass("ilExplSecHighlight");
+				}
 			}).bind("open_node.jstree close_node.jstree", function (event, data) {
 				il.Explorer2.toggle(event, data);
 			}).jstree(js_tree_config);

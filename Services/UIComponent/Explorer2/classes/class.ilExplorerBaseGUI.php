@@ -23,6 +23,7 @@ abstract class ilExplorerBaseGUI
 	protected $selected_nodes = array();
 	protected $select_postvar = "";
 	protected $offline_mode = false;
+	protected $sec_highl_nodes = array();
 
 	/**
 	 * Constructor
@@ -301,6 +302,26 @@ abstract class ilExplorerBaseGUI
 	{
 		return $this->ajax;
 	}
+
+	/**
+	 * Set secondary (background) highlighted nodes
+	 *
+	 * @param array $a_val array of node ids
+	 */
+	function setSecondaryHighlightedNodes($a_val)
+	{
+		$this->sec_highl_nodes = $a_val;
+	}
+
+	/**
+	 * Get secondary (background) highlighted nodes
+	 *
+	 * @return array array of node ids
+	 */
+	function getSecondaryHighlightedNodes()
+	{
+		return $this->sec_highl_nodes;
+	}
 	
 	/**
 	 * Set node to be opened (additional custom opened node, not standard expand behaviour)
@@ -528,10 +549,18 @@ abstract class ilExplorerBaseGUI
 				$url = $ilCtrl->getLinkTargetByClass($this->parent_obj, $this->parent_cmd, "", true);
 			}
 		}
+
+		// secondary highlighted nodes
+		$shn = array();
+		foreach ($this->sec_highl_nodes as $sh)
+		{
+			$shn[] = $this->getDomNodeIdForNodeId($sh);
+		}
 		$config = array(
 			"container_id" => $container_id,
 			"container_outer_id" => $container_outer_id,
 			"url" => $url,
+			"second_hnodes" => $shn,
 			"ajax" => $this->getAjax(),
 		);
 

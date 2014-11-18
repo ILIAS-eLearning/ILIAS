@@ -7573,9 +7573,11 @@ li.il_Explorer {
 }
 a.il_HighlightedNode,
 .ilHighlighted {
-  border: 1px solid #FD7;
-  background-color: #FF9;
+  background-color: #ffff9d;
   padding: 0 5px;
+}
+li.ilExplSecHighlight {
+  background-color: #ffffff !important;
 }
 div.il_ExplorerItemDescription {
   margin-left: 40px;

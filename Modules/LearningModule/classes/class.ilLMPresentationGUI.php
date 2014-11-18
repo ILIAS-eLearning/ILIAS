@@ -1457,9 +1457,12 @@ class ilLMPresentationGUI
 		}
 
 		// check if page is out of focus
+		$focus_mess = "";
 		if ($this->focus_id > 0)
 		{
 			$path = $this->lm_tree->getPathId($page_id);
+
+			// out of focus
 			if (!in_array($this->focus_id, $path))
 			{
 				$mtpl = new ilTemplate("tpl.out_of_focus_message.html", true, true,
@@ -1485,8 +1488,43 @@ class ilLMPresentationGUI
 				$mtpl->setVariable("LINK_SHOW_CONTENT", $this->ctrl->getLinkTarget($this, "layout"));
 				$this->ctrl->setParameter($this, "focus_id", $_GET["focus_id"]);
 
-				$this->tpl->setVariable("PAGE_CONTENT", $mtpl->get());
-				return $mtpl->get();
+				$focus_mess = $mtpl->get();
+			}
+			else
+			{
+				$sp = $this->getSuccessorPage();
+				$path2 = array();
+				if ($sp > 0)
+				{
+					$path2 = $this->lm_tree->getPathId($this->getSuccessorPage());
+				}
+				if ($sp == 0 || !in_array($this->focus_id, $path2))
+				{
+					$mtpl = new ilTemplate("tpl.out_of_focus_message.html", true, true,
+						"Modules/LearningModule");
+					$mtpl->setVariable("MESSAGE", $this->lng->txt("cont_out_of_focus_message_last_page"));
+					$mtpl->setVariable("TXT_SHOW_CONTENT", $this->lng->txt("cont_show_content_after_focus"));
+
+					if ($_GET["focus_return"] == "" || ilObject::_lookupType((int) $_GET["focus_return"], true) != "crs")
+					{
+						$mtpl->setVariable("TXT_BACK_BEGINNING", $this->lng->txt("cont_to_focus_beginning"));
+						$this->ctrl->setParameter($this, "obj_id", $this->focus_id);
+						$mtpl->setVariable("LINK_BACK_TO_BEGINNING", $this->ctrl->getLinkTarget($this, "layout"));
+						$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+					}
+					else
+					{
+						$mtpl->setVariable("TXT_BACK_BEGINNING", $this->lng->txt("cont_to_focus_return_crs"));
+						include_once("./Services/Link/classes/class.ilLink.php");
+						$mtpl->setVariable("LINK_BACK_TO_BEGINNING", ilLink::_getLink((int) $_GET["focus_return"]));
+					}
+
+					$this->ctrl->setParameter($this, "focus_id", "");
+					$mtpl->setVariable("LINK_SHOW_CONTENT", $this->ctrl->getLinkTarget($this, "layout"));
+					$this->ctrl->setParameter($this, "focus_id", $_GET["focus_id"]);
+
+					$focus_mess = $mtpl->get();
+				}
 			}
 		}
 		
@@ -1622,9 +1660,9 @@ class ilLMPresentationGUI
 				"</div>";
 		}
 		
-		$this->tpl->setVariable("PAGE_CONTENT", $rating.$head.$ret.$foot); 
+		$this->tpl->setVariable("PAGE_CONTENT", $rating.$head.$focus_mess.$ret.$foot);
 //echo htmlentities("-".$ret."-");
-		return $head.$ret.$foot;
+		return $head.$focus_mess.$ret.$foot;
 	}
 	
 	function updatePageRating()
@@ -2137,6 +2175,86 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("INLINE_JS", $js);
 		}
 	}
+
+	/**
+	 * Get successor page
+	 *
+	 * @param
+	 * @return
+	 */
+	function getSuccessorPage()
+	{
+		global $ilUser;
+
+		$page_id = $this->getCurrentPageId();
+
+		if(empty($page_id))
+		{
+			return 0;
+		}
+
+		// determine successor page_id
+		$found = false;
+
+		// empty chapter
+		if ($this->chapter_has_no_active_page &&
+			ilLMObject::_lookupType($_GET["obj_id"]) == "st")
+		{
+			$c_id = $_GET["obj_id"];
+		}
+		else
+		{
+			if ($this->deactivated_page)
+			{
+				$c_id = $_GET["obj_id"];
+			}
+			else
+			{
+				$c_id = $page_id;
+			}
+		}
+		while (!$found)
+		{
+			$succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
+			$c_id = $succ_node["obj_id"];
+
+			$active = ilLMPage::_lookupActive($c_id,
+				$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
+
+			if ($succ_node["obj_id"] > 0 &&
+				($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) &&
+				( $this->lm->getPublicAccessMode() == "selected" &&
+					!ilLMObject::_isPagePublic($succ_node["obj_id"])))
+			{
+				$found = false;
+			}
+			else if ($succ_node["obj_id"] > 0 && !$active)
+			{
+				// look, whether activation data should be shown
+				$act_data = ilLMPage::_lookupActivationData((int) $succ_node["obj_id"], $this->lm->getType());
+				if ($act_data["show_activation_info"] &&
+					(ilUtil::now() < $act_data["activation_start"]))
+				{
+					$found = true;
+				}
+				else
+				{
+					$found = false;
+				}
+			}
+			else
+			{
+				$found = true;
+			}
+		}
+
+		if ($found)
+		{
+			return $succ_node["obj_id"];
+		}
+		return 0;
+	}
+
 
 	/**
 	* inserts sequential learning module navigation
