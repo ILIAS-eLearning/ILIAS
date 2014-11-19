@@ -2,7 +2,7 @@
 <div <!-- BEGIN hclass -->class="ilBlockHeader"<!-- END hclass --><!-- BEGIN hclassb -->class="ilBlockHeaderBig"<!-- END hclassb -->>
 <!-- BEGIN hitem -->
 <!-- BEGIN header_commands -->
-<div style="float:right;">
+<div class="ilFloatRight">
 <!-- BEGIN header_command -->
 <a class="il_ContainerItemCommand" href="{HREF_HCOMM}">{TXT_HCOMM}</a>
 <!-- END header_command -->
@@ -15,7 +15,7 @@
 </div>
 <!-- END header_commands -->
 <!-- BEGIN header_dropdown -->
-<div style="float:right; margin-top:-3px;">
+<div class="ilFloatRight" style="margin-top:-3px;">
 {ADV_DROPDOWN}
 </div>
 <!-- END header_dropdown -->
@@ -28,7 +28,7 @@
 <!-- END header_title -->
 <!-- END hitem -->
 <!-- BEGIN header_links -->
-<div style="float:right;" class="il_BlockInfo">
+<div class="il_BlockInfo ilFloatRight">
 <!-- BEGIN head_item -->
 <!-- BEGIN head_delim --><span style="font-weight: normal;"> | </span><!-- END head_delim -->
 <!-- BEGIN head_text --><span style="font-weight: normal;">{HTEXT}</span><!-- END head_text -->
@@ -69,7 +69,7 @@
 <!-- BEGIN foot_row -->
 <div class="tblfooter">
 	<!-- colspan="{PCOLSPAN}" -->
-	<div style="float:right;" class="il_BlockInfo">
+	<div class="il_BlockInfo ilFloatRight">
 	<!-- BEGIN foot_item -->
 	<!-- BEGIN foot_delim --> | <!-- END foot_delim -->
 	<!-- BEGIN foot_text -->{FTEXT}<!-- END foot_text -->
@@ -85,7 +85,7 @@
 </div></div>
 <!-- END footer_information -->
 <!-- BEGIN block_commands -->
-<div class="ilBlockInfo" style="text-align:left;"> <!-- colspan="{CCOLSPAN}" -->
+<div class="ilBlockInfo ilLeft"> <!-- colspan="{CCOLSPAN}" -->
 <!-- BEGIN block_check --><input type="checkbox" name="id[]" value="{BL_REF_ID}" /><!-- END block_check -->
 <!-- BEGIN block_command -->
 <a {BC_CLASS} href="{CMD_HREF}" <!-- BEGIN bc_target -->target="{CMD_TARGET}"<!-- END bc_target --> ><!-- BEGIN bc_image --><img src="{SRC_BC}" border="0" title="{ALT_BC}" alt="{ALT_BC}" /><!-- END bc_image -->{CMD_TEXT}</a>

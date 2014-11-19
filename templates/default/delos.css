@@ -10463,6 +10463,17 @@ div.ilNewObjectSelector {
   margin-left: 0;
   margin-right: -20px;
 }
+.il_InfoScreenSection {
+  padding: 10px 10px 0;
+}
+.il_InfoScreenSection > .ilFloatRight {
+  padding-bottom: 4px;
+  padding-right: 4px;
+}
+[dir="rtl"] .il_InfoScreenSection > .ilFloatRight {
+  padding-right: 0;
+  padding-left: 4px;
+}
 /* basic responsiveness (beta)
 
    The following section targets smartphones.

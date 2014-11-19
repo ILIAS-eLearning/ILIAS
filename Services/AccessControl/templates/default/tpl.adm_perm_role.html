@@ -48,7 +48,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
   <tr class="tblheader">
   <td class="std" colspan="4" style="padding-top:20px;">
 <!-- BEGIN obj_action_toggle_checkboxes -->
-	<div class="il_ContainerItemCommands" style="float:right;">
+	<div class="il_ContainerItemCommands ilFloatRight">
 		<a class="submit" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>
 		<a class="submit" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>
 	</div>
@@ -105,7 +105,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
   </tr>
 <!-- END tblfooter_protected -->
   <tr class="std">
-	<td class="std" style="text-align:left" colspan="{COL_ANZ_PLUS}">
+	<td class="std ilLeft" colspan="{COL_ANZ_PLUS}">
 		<input class="submit" type="submit" name="cmd[permSave]" value="{TXT_SAVE}" />
 	</td>
 	<td class="std" style="text-align:right" colspan="1">
