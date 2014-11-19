@@ -317,9 +317,9 @@ class ilClassificationBlockGUI extends ilBlockGUI
 					$this->parent_obj_typ			
 			);			
 		}
-		$this->providers = self::$providers_cache[$this->parent_ref_id];		
+		$this->providers = self::$providers_cache[$this->parent_ref_id];	
 		
-		if($a_check_post)
+		if($a_check_post && (bool)!$_REQUEST["rdrw"])
 		{
 			foreach($this->providers as $provider)
 			{	

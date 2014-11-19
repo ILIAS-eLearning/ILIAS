@@ -12,12 +12,12 @@ il.Classification = {
 		$(document).bind('il_classification_redraw',  this.redraw);
 	},
 	toggle: function(args) {									
-		this.loader(this.ajax_block_id + '_loader');		
+		this.loader(this.ajax_block_id + '_loader');	
+		this.loader(this.ajax_content_id);		
 		il.Util.sendAjaxGetRequestToUrl(this.ajax_block_url, args, {el_id: this.ajax_block_id, content_url: this.ajax_content_url, content_id: this.ajax_content_id}, this.toggleReload)			
 	},
 	toggleReload: function(o) {				
-		$('#' + o.argument.el_id).html(o.responseText);			
-		il.Classification.loader(o.argument.content_id);				
+		$('#' + o.argument.el_id).html(o.responseText);							
 		il.Util.sendAjaxGetRequestToUrl(o.argument.content_url, {}, {el_id: o.argument.content_id}, il.Classification.toggleReloadRender);		
 	},
 	toggleReloadRender: function(o) {	
@@ -32,7 +32,7 @@ il.Classification = {
 		}
 	},
 	redraw: function() {	
-		il.Util.ajaxReplaceInner(il.Classification.ajax_block_url, il.Classification.ajax_block_id);
+		il.Util.ajaxReplaceInner(il.Classification.ajax_block_url + '&rdrw=1', il.Classification.ajax_block_id);
 	},
 	loader: function(element_id) {
 		var loadergif = document.createElement('img');
