@@ -357,7 +357,7 @@ class gevEduBiographyGUI {
 		$res = $this->db->query( "SELECT crs_id"
 								."  FROM hist_usercoursestatus "
 								." WHERE usr_id = ".$this->db->quote($this->target_user_id, "integer")
-								."   AND bill_id = ".$this->db->quote($bill_id, "integer")
+								."   AND bill_id = ".$this->db->quote($bill_id, "text")
 								."   AND hist_historic = 0"
 								);
 		
@@ -366,15 +366,19 @@ class gevEduBiographyGUI {
 		}
 		$rec = $this->db->fetchAssoc($res);
 		
-		require_once("Services/Billing/classes/class.ilBill.php");
-		require_once("Services/GEV/Utils/classes/class.gevPDFBill.php");
+
+		require_once("Services/GEV/Utils/classes/class.gevBillStorage.php");
+		require_once 'Services/Utilities/classes/class.ilUtil.php';
+		
+		/*
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		$crs_utils = gevCourseUtils::getInstance($rec["crs_id"]);
-		$bill = ilBill::getInstanceById($_GET["bill_id"]);
-		$gevPDFBill = new gevPDFBill();
-		$gevPDFBill->setBill($bill);
-		$gevPDFBill->deliver("Rechnung_".$crs_utils->getCustomId().".pdf");
-		exit();
+		$fname = "Rechnung_".$crs_utils->getCustomId().".pdf";
+		*/
+		$fname = "Rechnung_".$bill_id.".pdf";
+		$bill_storage = gevBillStorage::getInstance();
+		$path = $bill_storage->getPathByBillNumber($bill_id);
+		ilUtil::deliverFile($path, $fname, 'application/pdf', false, false, true);
 	}
 	
 	protected function getCertificate() {
