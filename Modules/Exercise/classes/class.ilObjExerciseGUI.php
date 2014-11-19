@@ -2164,7 +2164,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		if(sizeof($types) > 1)
 		{
-			$ty = new ilSelectInputGUI($this->lng->txt("type"), "type");
+			$ty = new ilSelectInputGUI($this->lng->txt("exc_assignment_type"), "type");
 			$ty->setOptions($types);
 			$ty->setRequired(true);
 		}
