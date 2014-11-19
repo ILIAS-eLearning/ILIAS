@@ -15103,3 +15103,6 @@ crs#:#crs_loc_form_assign_initial_info#:#--
 crs#:#crs_loc_form_assign_qualified_info#:#--
 poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.
 content#:#cont_download#:#Download
+payment#:#topics_settings#:#Topics Settings
+payment#:#enable_topics#:#Enable Topics
+payment#:#enable_topics_info#:#If enabled, you can assign purchasable objects to self-created topics. 

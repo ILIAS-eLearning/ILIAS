@@ -28,16 +28,23 @@ class ilShopTopicsGUI
 		$this->lng = $lng;
 		$this->tpl = $tpl;
 		
-		$a_gui_object->tabs_gui->setTabActive('topics');		
+		$this->gui_object = $a_gui_object;
+		
+		$a_gui_object->tabs_gui->setTabActive('topics');	
 
-		$this->objCurrentTopic = new ilShopTopic(ilUtil::stripSlashes($_GET['topic_id']));
+		$this->objCurrentTopic = new ilShopTopic(ilUtil::stripSlashes($_GET['topic_id']));#
+		
 	}
 		
 	public function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd();
-		switch($this->ctrl->getNextClass($this))
+//		switch($this->ctrl->getNextClass($this))
+		switch($cmd)
 		{
+			
+				
+			
 			default:
 				if(!$cmd = $this->ctrl->getCmd())
 				{
@@ -49,6 +56,79 @@ class ilShopTopicsGUI
 		
 		return true;
 	}
+	
+	public function showTopicsSettings()
+	{
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html','Services/Payment');
+
+		$genSet = ilPaymentSettings::_getInstance();
+		$genSetData = $genSet->getAll();
+
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, 'saveTopicsSettings'));
+		$form->setTitle($this->lng->txt('pays_general_settings'));
+
+		$form->addCommandButton('saveTopicsSettings',$this->lng->txt('save'));
+
+		// use topics 
+		$formItem = new ilCheckboxInputGUI($this->lng->txt('enable_topics'), 'enable_topics');
+		$formItem->setChecked((int)$genSetData['enable_topics']);
+		$formItem->setInfo($this->lng->txt('enable_topics_info'));
+		$form->addItem($formItem);
+		
+		
+		// default sorting type
+		$formItem = new ilSelectInputGUI($this->lng->txt('pay_topics_default_sorting_type'), 'topics_sorting_type');
+		$formItem->setValue($genSetData['topics_sorting_type']);
+		$options = array(
+			1 => $this->lng->txt('pay_topics_sort_by_title'),
+			2 => $this->lng->txt('pay_topics_sort_by_date'),
+			3 => $this->lng->txt('pay_topics_sort_manually')
+		);
+		$formItem->setOptions($options);
+		$form->addItem($formItem);
+
+		// default sorting direction
+		$formItem = new ilSelectInputGUI($this->lng->txt('pay_topics_default_sorting_direction'), 'topics_sorting_direction');
+		$formItem->setValue($genSetData['topics_sorting_direction']);
+		$options = array(
+			'asc' => $this->lng->txt('sort_asc'),
+			'desc' => $this->lng->txt('sort_desc'),
+		);
+		$formItem->setOptions($options);
+		$form->addItem($formItem);
+
+		// topics custom sorting
+		$formItem = new ilCheckboxInputGUI($this->lng->txt('pay_topics_allow_custom_sorting'), 'topics_allow_custom_sorting');
+		$formItem->setChecked((int)$genSetData['topics_allow_custom_sorting']);
+		$formItem->setInfo($this->lng->txt('pay_topics_allow_custom_sorting_info'));
+		$form->addItem($formItem);
+
+		// show topics filter
+		$formItem = new ilCheckboxInputGUI($this->lng->txt('show_topics_filter'), 'show_topics_filter');
+		$formItem->setChecked((int)$genSetData['show_topics_filter']);
+		$formItem->setInfo($this->lng->txt('show_topics_filter_info'));
+		$form->addItem($formItem);
+		
+		$this->tpl->setVariable('FORM',$form->getHTML());
+		return true;
+		
+	}
+	
+	
+	public function saveTopicsSettings()
+	{
+		$genSet = ilPaymentSettings::_getInstance();
+		$genSet->set('enable_topics', $_POST['enable_topics'], 'gui');
+		$genSet->set('topics_allow_custom_sorting', $_POST['topics_allow_custom_sorting'], 'gui');
+		$genSet->set('topics_sorting_type', $_POST['topics_sorting_type'], 'gui');
+		$genSet->set('topics_sorting_direction', $_POST['topics_sorting_direction'], 'gui');
+		$genSet->set('show_topics_filter', $_POST['show_topics_filter'], 'gui');
+		ilUtil::sendSuccess($this->lng->txt('pays_updated_general_settings'));
+		$this->showTopicsSettings();
+		return true;
+	}
+	
 	
 	public function saveTopic()
 	{

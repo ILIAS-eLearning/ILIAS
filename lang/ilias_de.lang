@@ -15101,3 +15101,6 @@ crs#:#crs_loc_form_assign_initial_info#:#--
 crs#:#crs_loc_form_assign_qualified_info#:#--
 poll#:#poll_view_results_after_period_impossible#:#Die Stimmperiode ist nicht zeitlich begrenzt.
 content#:#cont_download#:#Download
+payment#:#topics_settings#:#Themen-Einstellungen
+payment#:#enable_topics#:#Aktiviere Themen
+payment#:#enable_topics_info#:#Wenn aktiviert, können Sie kaufbare Objekte selbsterstellten Themen zuordnen.

@@ -256,8 +256,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				
 			case 'ilshoptopicsgui':
 				include_once './Services/Payment/classes/class.ilShopTopicsGUI.php';
+				
 				$topics_gui = new ilShopTopicsGUI($this);
 				$ret = $this->ctrl->forwardCommand($topics_gui);
+				$this->getSubTabs('topics', 'showTopicsList');
 				break;
 			
 			default:
@@ -2345,6 +2347,15 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			case 'vats':
 				break;
 			case 'topics':
+				if(!$a_sub_tab) $a_sub_tab = 'topics';
+				$this->tabs_gui->addSubTabTarget('topics',
+					$this->ctrl->getLinkTargetByClass('ilshoptopicsgui', 'showTopicsList'),
+					'','', '',$a_sub_tab == 'topics' ? true : false);
+
+				$this->tabs_gui->addSubTabTarget('topics_settings',
+					$this->ctrl->getLinkTargetByClass('ilshoptopicsgui', 'showTopicsSettings'),
+					'','', '',$a_sub_tab == 'topics_settings' ? true : false);
+
 				break;
 			case 'documents':
 				if(!$a_sub_tab) $a_sub_tab = 'terms_conditions';
@@ -2442,39 +2453,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$formItem->setRequired(true);
 		$form->addItem($formItem);
 
-		// default sorting type
-		$formItem = new ilSelectInputGUI($this->lng->txt('pay_topics_default_sorting_type'), 'topics_sorting_type');
-		$formItem->setValue($genSetData['topics_sorting_type']);
-		$options = array(
-			1 => $this->lng->txt('pay_topics_sort_by_title'),
-			2 => $this->lng->txt('pay_topics_sort_by_date'),
-			3 => $this->lng->txt('pay_topics_sort_manually')
-		);
-		$formItem->setOptions($options);
-		$form->addItem($formItem);
-		
-		// default sorting direction
-		$formItem = new ilSelectInputGUI($this->lng->txt('pay_topics_default_sorting_direction'), 'topics_sorting_direction');
-		$formItem->setValue($genSetData['topics_sorting_direction']);
-		$options = array(
-			'asc' => $this->lng->txt('sort_asc'),
-			'desc' => $this->lng->txt('sort_desc'),
-		);
-		$formItem->setOptions($options);
-		$form->addItem($formItem);
-		
-		// topics custom sorting
-		$formItem = new ilCheckboxInputGUI($this->lng->txt('pay_topics_allow_custom_sorting'), 'topics_allow_custom_sorting');
-		$formItem->setChecked((int)$genSetData['topics_allow_custom_sorting']);
-		$formItem->setInfo($this->lng->txt('pay_topics_allow_custom_sorting_info'));
-		$form->addItem($formItem);
-		
-		// objects custom sorting
-/*		$formItem = new ilCheckboxInputGUI($this->lng->txt('pay_hide_filtering'), 'objects_allow_custom_sorting');
-		$formItem->setChecked((int)$genSetData['objects_allow_custom_sorting']);
-		$formItem->setInfo($this->lng->txt('pay_hide_filtering_info'));
-		$form->addItem($formItem);	
-*/
 		// max hits
 		$formItem = new ilSelectInputGUI($this->lng->txt('pay_max_hits'), 'max_hits');
 		$formItem->setValue($genSetData['max_hits']);
@@ -2521,12 +2499,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$formItem = new ilCheckboxInputGUI($this->lng->txt('show_general_filter'), 'show_general_filter');
 		$formItem->setChecked((int)$genSetData['show_general_filter']);
 		$formItem->setInfo($this->lng->txt('show_general_filter_info'));
-		$form->addItem($formItem);
-
-		// show topics filter
-		$formItem = new ilCheckboxInputGUI($this->lng->txt('show_topics_filter'), 'show_topics_filter');
-		$formItem->setChecked((int)$genSetData['show_topics_filter']);
-		$formItem->setInfo($this->lng->txt('show_topics_filter_info'));
 		$form->addItem($formItem);
 
 		// show shop explorer
@@ -2590,9 +2562,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$genSet->set('add_info', $_POST['add_info'], 'invoice');
 		$genSet->set('pdf_path', $_POST['pdf_path'], 'invoice');
 		
-		$genSet->set('topics_allow_custom_sorting', $_POST['topics_allow_custom_sorting'], 'gui');
-		$genSet->set('topics_sorting_type', $_POST['topics_sorting_type'], 'gui');
-		$genSet->set('topics_sorting_direction', $_POST['topics_sorting_direction'], 'gui');
 		$genSet->set('max_hits', $_POST['max_hits'], 'gui');
 
 		$genSet->set('hide_advanced_search', $_POST['hide_advanced_search'], 'gui');
@@ -2612,7 +2581,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$genSet->set('hide_shop_info', $_POST['hide_shop_info'], 'gui');
 		$genSet->set('use_shop_specials', $_POST['use_shop_specials'], 'gui');
 		$genSet->set('show_general_filter', $_POST['show_general_filter'], 'gui');
-		$genSet->set('show_topics_filter', $_POST['show_topics_filter'], 'gui');
 		$genSet->set('show_shop_explorer', $_POST['show_shop_explorer'], 'gui');
 
 		// payment notification

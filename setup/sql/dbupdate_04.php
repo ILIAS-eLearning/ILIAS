@@ -4734,3 +4734,12 @@ if($ilDB->tableColumnExists('crs_objectives', 'description'))
 	);
 }
 ?>
+<#4414>
+<?php
+
+$ilDB->insert("payment_settings", array(
+			"keyword" => array("text", 'enable_topics'),
+			"value" => array("clob", 1),
+			"scope" => array("text", 'gui')));
+
+?>
