@@ -55,6 +55,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		switch($next_class)
 		{
 			case "ilinfoscreengui":
+				$this->prepareOutput();	
 				$this->infoScreenForward();	// forwards command
 				break;
 
