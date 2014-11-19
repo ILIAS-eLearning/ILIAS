@@ -50,13 +50,18 @@
 	var current_id = null;
 	function showNewAppLink(num_link)
 	{
+		hideNewAppLink();
+		
+		document.getElementById('new_link_' + num_link).style.visibility = 'visible';
+		current_id = num_link;
+	}
+	
+	function hideNewAppLink()
+	{
 		if(current_id)
 		{
 			document.getElementById('new_link_' + current_id).style.visibility = 'hidden';
 		}
-		
-		document.getElementById('new_link_' + num_link).style.visibility = 'visible';
-		current_id = num_link;
 	}
 	
 	YAHOO.util.Event.onDOMReady(init);
@@ -140,10 +145,10 @@
 			<!-- END scrd_day_cell -->
 			<!-- BEGIN day_cell -->
 			<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}"
-				onmouseover="showNewAppLink({DAY_ID})">
+				onmouseover="showNewAppLink({DAY_ID})" onmouseout="hideNewAppLink()">
 				<!-- BEGIN new_app_link -->
 				<div id="new_link_{DAY_NEW_ID}" style="float: right;visibility: hidden">
-					<a href="{DAY_NEW_APP_LINK}">{DAY_NEW_APP_SRC}</a>
+					<a href="{DAY_NEW_APP_LINK}" class="callink">{DAY_NEW_APP_SRC}</a>
 				</div>
 				<!-- END new_app_link -->
 				<!-- BEGIN not_empty -->
