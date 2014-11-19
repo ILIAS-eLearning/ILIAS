@@ -154,7 +154,7 @@ ilTagging =
 			{
 			}
 			else
-			{
+			{				
 				// default action: replace html
 				ilTagging.insertPanelHTML(o.responseText);
 				if (typeof ilTagging.update_code != "undefined" &&
@@ -165,6 +165,12 @@ ilTagging =
 						eval(ilTagging.update_code);
 					}
 				}
+				
+				// only on update
+				if (o.argument.mode == 'cmd')
+				{				
+					$(document).trigger('il_classification_redraw');   
+				}				
 			}
 		}
 	},

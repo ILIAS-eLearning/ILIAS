@@ -8,6 +8,8 @@ il.Classification = {
 		this.ajax_block_url = block_url;
 		this.ajax_content_id = content_id;
 		this.ajax_content_url = content_url;
+		
+		$(document).bind('il_classification_redraw',  this.redraw);
 	},
 	toggle: function(args) {							
 		il.Util.sendAjaxGetRequestToUrl(this.ajax_block_url, args, {el_id: this.ajax_block_id, content_url: this.ajax_content_url, content_id: this.ajax_content_id}, this.toggleReload)			
@@ -26,5 +28,8 @@ il.Classification = {
 			// reload parent container (object list)
 			location.reload();
 		}
+	},
+	redraw: function() {	
+		il.Util.ajaxReplaceInner(il.Classification.ajax_block_url, il.Classification.ajax_block_id);
 	}
 }
