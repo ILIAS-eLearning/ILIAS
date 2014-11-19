@@ -80,7 +80,7 @@
 				    <!-- BEGIN new_app --><a href="{NEW_APP_LINK}">{NEW_APP_SRC}</a><!-- END new_app -->
 					<!-- BEGIN new_ms -->
 					<div class="btn-group">
-						<div class="dropdown-toggle" data-toggle="dropdown" data-container="body" id="add_dd_tr_{DD_ID}" type="button">
+						<div class="dropdown-toggle callink" data-toggle="dropdown" data-container="body" id="add_dd_tr_{DD_ID}" type="button">
 							{DD_TRIGGER}
 						</div>
 						<ul class="dropdown-menu pull-right" role="menu" id="add_dd_{DD_ID}">
@@ -127,8 +127,7 @@
 			<!-- END time_txt -->
 			<!-- BEGIN scrd_day_cell -->
 			<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}"
-				onmouseover="timer = setTimeout('showNewAppLink({DAY_ID})',400)"
-				onmouseout="clearTimeout(timer);">
+				onmouseover="showNewAppLink({DAY_ID})">
 				<!-- BEGIN scrd_not_empty -->
 				<div class="calevent" style="{DIV_STYLE}">
 				{PANEL_DATA}
@@ -141,8 +140,7 @@
 			<!-- END scrd_day_cell -->
 			<!-- BEGIN day_cell -->
 			<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}"
-				onmouseover="timer = setTimeout('showNewAppLink({DAY_ID})',400)"
-				onmouseout="clearTimeout(timer);">
+				onmouseover="showNewAppLink({DAY_ID})">
 				<!-- BEGIN new_app_link -->
 				<div id="new_link_{DAY_NEW_ID}" style="float: right;visibility: hidden">
 					<a href="{DAY_NEW_APP_LINK}">{DAY_NEW_APP_SRC}</a>
