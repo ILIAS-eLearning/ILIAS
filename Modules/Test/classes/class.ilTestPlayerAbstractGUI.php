@@ -899,16 +899,22 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass('ilTestSignatureGUI', 'invokeSignaturePlugin');
 		}
 
-		// redirect after test
+		if(!$_GET['skipfinalstatement'])
+		{
+			if ($this->object->getShowFinalStatement())
+			{
+				$this->ctrl->redirect($this, 'showFinalStatement');
+			}
+		}
 
+		// redirect after test
 		$redirection_mode = $this->object->getRedirectionMode();
 		$redirection_url  = $this->object->getRedirectionUrl();
-
-		if($redirection_url && $redirection_mode && !$this->object->canViewResults())
+		if( $redirection_url && $redirection_mode && !$this->object->canViewResults() )
 		{
-			if($redirection_mode == REDIRECT_KIOSK)
+			if( $redirection_mode == REDIRECT_KIOSK )
 			{
-				if($this->object->getKioskMode())
+				if( $this->object->getKioskMode() )
 				{
 					ilUtil::redirect($redirection_url);
 				}
@@ -918,16 +924,14 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				ilUtil::redirect($redirection_url);
 			}
 		}
-		
-		// custom after test redirect (ilTestOutput - objective oriented sessions)
 
+		// custom after test redirect (ilTestOutput - objective oriented sessions)
 		if( $this->customRedirectRequired() )
 		{
 			$this->performCustomRedirect();
 		}
-		
-		// default redirect (pass results)
 
+		// default redirect (pass results)
 		$this->redirectBackCmd();
 	}
 
@@ -1040,32 +1044,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	public function redirectBackCmd()
 	{
-		if (isset($_GET['reviewed']))
-        {
-            if (!$_GET["skipfinalstatement"])
-            {
-                if ($this->object->getShowFinalStatement() == 1)
-                {
-                    $this->ctrl->redirect($this, "showFinalStatement");
-                }
-            }
-			else
-			{
-                $this->ctrl->redirectByClass(
-						array('ilRepositoryGUI', 'ilObjTestGUI', 'ilTestEvaluationGUI'), "outUserResultsOverview"
-				);
-            }      
-        }
-
-		if (!$_GET["skipfinalstatement"])
-		{
-			if ($this->object->getShowFinalStatement())
-			{
-				$this->ctrl->redirect($this, "showFinalStatement");
-			}
-		}
-
-		if (!$this->object->canViewResults()) 
+		if(!$this->object->canViewResults()) 
 		{
 			$this->outIntroductionPageCmd();
 		}
@@ -1082,7 +1061,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		$template = new ilTemplate("tpl.il_as_tst_final_statement.html", TRUE, TRUE, "Modules/Test");
 		$this->ctrl->setParameter($this, "skipfinalstatement", 1);
-		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "redirectBack"));
+		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "afterTestPassFinished"));
 		$template->setVariable("FINALSTATEMENT", $this->object->getFinalStatement());
 		$template->setVariable("BUTTON_CONTINUE", $this->lng->txt("btn_next"));
 		$this->tpl->setVariable($this->getContentBlockName(), $template->get());
