@@ -49,6 +49,7 @@ div.il_droparea {
 	text-align: center;
 	font-size: @font-size-small;
 	background-color: #FCFCFC;
+	cursor: pointer;
 }
 
 div.il_droparea:hover, div.ilCOPGDropActice, .il_droparea_valid_target {
@@ -381,4 +382,34 @@ a.nostyle:hover {
 
 #error_panel_c {
 	z-index: 2000 !important;
+}
+
+#ilPageEditLegend {
+	background-color: @il-secondary-container-bg;
+	padding: 10px;
+	margin-top: 30px;
+}
+
+#ilPageEditLegend > div {
+	margin: 5px 0;
+}
+
+#ilPageEditLegend .il_droparea, #ilPageEditLegend .il_droparea:hover {
+	display: inline-block;
+	width: 40px;
+	border-color: #D0D0D0;
+	color: #D0D0D0;
+	background-color: #FCFCFC;
+	cursor: default;
+	height: 21px;
+}
+
+.ilPageEditLegendElement {
+	width: 40px;
+	border: 1px solid #D0D0D0;
+	height: 21px;
+	display: inline-block;
+	font-size: 12px;
+	padding: 1px 5px;
+	text-align: center;
 }

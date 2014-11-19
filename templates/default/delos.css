@@ -8002,6 +8002,7 @@ div.il_droparea {
   text-align: center;
   font-size: 12px;
   background-color: #FCFCFC;
+  cursor: pointer;
 }
 div.il_droparea:hover,
 div.ilCOPGDropActice,
@@ -8279,6 +8280,33 @@ a.nostyle:hover {
 #error_panel_c {
   z-index: 2000 !important;
 }
+#ilPageEditLegend {
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin-top: 30px;
+}
+#ilPageEditLegend > div {
+  margin: 5px 0;
+}
+#ilPageEditLegend .il_droparea,
+#ilPageEditLegend .il_droparea:hover {
+  display: inline-block;
+  width: 40px;
+  border-color: #D0D0D0;
+  color: #D0D0D0;
+  background-color: #FCFCFC;
+  cursor: default;
+  height: 21px;
+}
+.ilPageEditLegendElement {
+  width: 40px;
+  border: 1px solid #D0D0D0;
+  height: 21px;
+  display: inline-block;
+  font-size: 12px;
+  padding: 1px 5px;
+  text-align: center;
+}
 /* Services/Calendar */
 td.even {
   color: #222;
@@ -8390,6 +8418,18 @@ table.calmini td.calminitoday > .il_calmini_monthday > a {
 table.calmini td.calminiprev > .il_calmini_monthday > a,
 table.calmini td.calmininext > .il_calmini_monthday > a {
   color: #a9a9a9;
+}
+a.callink:link,
+a.callink:visited {
+  color: inherit;
+  cursor: pointer;
+}
+.callink .glyphicon {
+  color: #b1c0d3;
+  cursor: pointer;
+}
+.callink .glyphicon:hover {
+  color: #557196;
 }
 /* Modules/Wiki */
 a.ilWikiPageMissing:link,
