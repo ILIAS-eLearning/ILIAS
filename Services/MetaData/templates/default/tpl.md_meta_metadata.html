@@ -6,10 +6,10 @@
 	  <table class="std">
 		<tr class="tblheader">
 		  <td class="std" colspan="4">
-			<div style="float:left;">{TXT_META_METADATA}
+			<div class="ilFloatLeft">{TXT_META_METADATA}
 			  <a class="il_ContainerItemCommand" href="{ACTION_DELETE}">{TXT_DELETE}</a>
 			</div>
-			<div style="text-align:right;"><!-- BEGIN subelements -->{SEL_SUBELEMENTS}<!-- END subelements -->
+			<div class="ilRight"><!-- BEGIN subelements -->{SEL_SUBELEMENTS}<!-- END subelements -->
 			  <input class="submit" type="submit" name="cmd[addSectionElement]" value="{TXT_ADD}"/>
 			</div>
 		  </td>
@@ -25,7 +25,7 @@
 		<!-- BEGIN identifier_loop -->
 		<tr>
 		  <td class="option" colspan="4">
-			<div style="float:left">{IDENTIFIER_LOOP_TXT_IDENTIFIER}
+			<div class="ilFloatLeft">{IDENTIFIER_LOOP_TXT_IDENTIFIER}
 			  <!-- BEGIN identifier_delete -->
 			  <a class="il_ContainerItemCommand" href="{IDENTIFIER_LOOP_ACTION_DELETE}">{IDENTIFIER_LOOP_TXT_DELETE}</a>
 			  <!-- END identifier_delete -->
@@ -50,7 +50,7 @@
 		  <!-- BEGIN contribute_loop -->
 		  <tr>
 			<td class="option" colspan="4">
-			  <div style="float:left">{CONTRIBUTE_LOOP_TXT_CONTRIBUTE}
+			  <div class="ilFloatLeft">{CONTRIBUTE_LOOP_TXT_CONTRIBUTE}
 				<!-- BEGIN contribute_delete -->
 				<a class="il_ContainerItemCommand" href="{CONTRIBUTE_LOOP_ACTION_DELETE}">{CONTRIBUTE_LOOP_TXT_DELETE}</a>
 				<!-- END contribute_delete -->
@@ -64,7 +64,7 @@
 			<!-- BEGIN contribute_entity_loop -->
 			<tr>
 			  <td class="sub_option" colspan="2">
-				<div style="float:left">{CONTRIBUTE_ENTITY_LOOP_TXT_ENTITY}
+				<div class="ilFloatLeft">{CONTRIBUTE_ENTITY_LOOP_TXT_ENTITY}
 				  <!-- BEGIN contribute_entity_delete -->
 				  <a class="il_ContainerItemCommand" href="{CONTRIBUTE_ENTITY_LOOP_ACTION_DELETE}">{CONTRIBUTE_ENTITY_LOOP_TXT_DELETE}</a>
 				  <!-- END contribute_entity_delete -->
@@ -82,7 +82,7 @@
 			<!-- END contribute_loop -->
 
 			<tr>
-			  <td class="submit" colspan="4"><div align="right"><input class="submit" type="submit" name="cmd[updateMetaMetadata]" value="{TXT_SAVE}"/></div></td>
+			  <td class="submit" colspan="4"><div class="ilRight"><input class="submit" type="submit" name="cmd[updateMetaMetadata]" value="{TXT_SAVE}"/></div></td>
 			</tr>
 	  </table>
 	</form>

@@ -83,6 +83,15 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 [dir="rtl"] img:not(.noMirror) {
     transform: scaleX(-1);
 }
+
+[dir="rtl"] *[align="left"] {
+	text-align: right !important;
+}
+
+[dir="rtl"] *[align="right"] {
+	text-align: left !important;
+}
+
 [dir="rtl"] .navbar-header {
   @media (min-width: @grid-float-breakpoint) {
     float: right;
@@ -1596,6 +1605,22 @@ div.ilNewObjectSelector {
 	padding-left: 10px;
 }
 
+.pdMailRow {
+	.imageSpace {
+		margin-left: 40px;
+	}
+	> img {
+		margin: 2px 0;
+		max-width:30px;
+	}
+}
+
+[dir="rtl"] .pdMailRow {
+	.imageSpace {
+		margin-left: 0;
+		margin-right: 40px;
+	}
+}
 /* basic responsiveness (beta)
 
    The following section targets smartphones.

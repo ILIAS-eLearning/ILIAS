@@ -6,10 +6,10 @@
 	  <table class="std" >
 		  <tr class="tblheader">
 			<td class="std" colspan="4">
-			  <div style="float:left;">{TXT_LIFECYCLE}
+			  <div class="ilFloatLeft">{TXT_LIFECYCLE}
 				<a class="il_ContainerItemCommand" href="{ACTION_DELETE}">{TXT_DELETE}</a>
 			  </div>
-			  <div style="text-align:right;"><!-- BEGIN subelements -->{SEL_SUBELEMENTS}<!-- END subelements -->
+			  <div class="ilRight"><!-- BEGIN subelements -->{SEL_SUBELEMENTS}<!-- END subelements -->
 			  	<input class="submit" type="submit" name="cmd[addSectionElement]" value="{TXT_ADD}"/>
 			  </div>
 			</td>
@@ -27,7 +27,7 @@
 		  <!-- BEGIN contribute_loop -->
 		  <tr>
 			<td class="option" colspan="4">
-				<div style="float:left;">
+				<div class="ilFloatLeft">
 			  {CONTRIBUTE_LOOP_TXT_CONTRIBUTE}
 					<a class="il_ContainerItemCommand" href="{CONTRIBUTE_ENTITY_LOOP_ACTION_ADD}">{CONTRIBUTE_ENTITY_LOOP_TXT_ADD}</a>
 					<!-- BEGIN contribute_delete -->
@@ -48,7 +48,7 @@
 			</td>
 			<td class="option_value">
 				<!-- BEGIN contribute_entity_delete -->
-				<div style="float:right;" class="il_ContainerItemCommands">
+				<div class="il_ContainerItemCommands ilFloatRight">
 					<a class="il_ContainerItemCommand" href="{CONTRIBUTE_ENTITY_LOOP_ACTION_DELETE}">{CONTRIBUTE_ENTITY_LOOP_TXT_DELETE}</a>
 				</div>
 				<!-- END contribute_entity_delete -->
@@ -64,7 +64,7 @@
 
 		  <tr>
 			<td class="submit" colspan="4">
-			  <div align="right">
+			  <div class="ilRight">
 				<input class="submit" type="submit" name="cmd[updateLifecycle]" value="{TXT_SAVE}"/>
 			  </div>
 			</td>

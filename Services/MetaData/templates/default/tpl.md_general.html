@@ -1,8 +1,8 @@
 	<form action="{EDIT_ACTION}" method="post">
 	  <table class="std" width="50%">
 		  <tr class="tblheader">
-			<td class="std" colspan="2"><div style="float:left;">{TXT_GENERAL}</div>
-				<div style="text-align:right;">
+			<td class="std" colspan="2"><div class="ilFloatLeft">{TXT_GENERAL}</div>
+				<div class="ilRight">
 				<!-- BEGIN subelements -->{SEL_SUBELEMENTS}
 				<!-- END subelements -->
 				<input class="submit" type="submit" name="cmd[addSectionElement]" value="{TXT_ADD}"/>
@@ -13,14 +13,14 @@
 		  <tr>
 		  	<!-- BEGIN id_head -->
 			<td class="option" colspan="1" nowrap="nowrap" rowspan="{ROWSPAN_ID}">
-			  <div align="left">{IDENTIFIER_LOOP_TXT_IDENTIFIER}<br />
-			  <div class="il_Description">{IDENTIFIER_LOOP_TXT_CATALOG} / {IDENTIFIER_LOOP_TXT_ENTRY}</div>
+			  <div class="ilLeft">{IDENTIFIER_LOOP_TXT_IDENTIFIER}<br />
+				<div class="il_Description">{IDENTIFIER_LOOP_TXT_CATALOG} / {IDENTIFIER_LOOP_TXT_ENTRY}</div>
 			  </div>
 			</td>
 			<!-- END id_head -->
 			<td class="option_value" nowrap="nowrap">
 				<!-- BEGIN identifier_delete -->
-				<div style="float:right;" class="il_ContainerItemCommands">
+				<div class="il_ContainerItemCommands ilFloatRight">
 				<a class="il_ContainerItemCommand" href="{IDENTIFIER_LOOP_ACTION_DELETE}">{IDENTIFIER_LOOP_TXT_DELETE}</a>
 				</div>
 				<!-- END identifier_delete -->

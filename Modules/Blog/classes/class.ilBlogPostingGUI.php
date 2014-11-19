@@ -777,8 +777,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 							' src="'.$mob_dir."/".$mob_item->getLocation().'"'.
 							' width="'.$mob_res[0].'"'.
 							' height="'.$mob_res[1].'"'.
-							' class="ilBlogListItemSnippetPreviewImage"'.
-							' style="float:left;"'.
+							' class="ilBlogListItemSnippetPreviewImage ilFloatLeft noMirror"'.
 							' />';
 					}
 				}

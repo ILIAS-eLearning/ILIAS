@@ -471,7 +471,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		}
 		
 		
-		return '<div style="float:left;">'.$output.'</div>';
+		return '<div class="ilFloatLeft">'.$output.'</div>';
 	}
 	
 	/**

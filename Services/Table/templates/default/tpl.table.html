@@ -62,7 +62,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 		<label for="chb_select_all"><strong>{SELECT_ALL_TXT_SELECT_ALL}</strong></label>
 		<br />
 <!-- END select_all_checkbox -->
-	<div style="float:left;">
+	<div class="ilFloatLeft">
 		<!-- BEGIN tbl_footer_numinfo -->
 		{NUMINFO}
 		<!-- END tbl_footer_numinfo -->
@@ -70,7 +70,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 		<br /><font class="quote">{INFO_TEXT}</font>
 		<!-- END tbl_footer_info -->
 	</div>
-	<div style="text-align:right;">
+	<div class="ilRight">
 		<!-- BEGIN tbl_footer_linkbar -->
 			{LINKBAR}
 		<!-- END tbl_footer_linkbar -->
@@ -81,7 +81,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 <!-- BEGIN tbl_action_row -->
   <tr>
 	<td class="submit" colspan="{COLUMN_COUNTS}" align="left">
-		<div style="float:left;">
+		<div class="ilFloatLeft">
 		  <img src="{IMG_ARROW}" alt="{ALT_ARROW}" style="vertical-align:middle;" border="0" />
 <!-- BEGIN tbl_action_select -->
 				  {SELECT_ACTION}&nbsp;
@@ -99,7 +99,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 <!-- END tbl_action_toggle_checkboxes -->
 		</div>
 <!-- BEGIN add_object -->
-	<div style="text-align:right;">
+	<div class="ilRight">
 		{SELECT_OBJTYPE}
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_ADD}" />
 <!-- BEGIN import_object -->
@@ -108,7 +108,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 	</div>
 <!-- END add_object -->
 <!-- BEGIN plain_buttons -->
-			  <div style="text-align:right;">
+			  <div class="ilRight">
 <!-- BEGIN input_text -->
 				<input class="std" type="text" name="{PB_TXT_NAME}" value="{PB_TXT_VALUE}" />
 <!-- END input_text -->
