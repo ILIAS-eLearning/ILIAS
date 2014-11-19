@@ -62,6 +62,7 @@
   unicode-bidi: embed;
 }
 [dir="rtl"] * {
+  text-align: right;
   direction: rtl;
   unicode-bidi: embed;
 }
@@ -6260,7 +6261,13 @@ button.close {
 /* @il-highlight-bg: lighten(@brand-secondary, 53%); */
 /* @nav-tabs-link-hover-border-color: @brand-primary; */
 /* ILIAS variables candidates */
-/* overwrite some specifics bootstrap styles */
+/* RTL review overwrite some specifics [bootstrap] styles
+ *
+ * use class "noMirror" to avoid image flip
+*/
+[dir="rtl"] img:not(.noMirror) {
+  transform: scaleX(-1);
+}
 @media (min-width: 768px) {
   [dir="rtl"] .navbar-header {
     float: right;
@@ -6322,6 +6329,23 @@ button.close {
     margin-right: 15px;
     margin-left: 0;
   }
+}
+[dir="rtl"] form .col-sm-1,
+[dir="rtl"] form .col-sm-2,
+[dir="rtl"] form .col-sm-3,
+[dir="rtl"] form .col-sm-4,
+[dir="rtl"] form .col-sm-5,
+[dir="rtl"] form .col-sm-6,
+[dir="rtl"] form .col-sm-7,
+[dir="rtl"] form .col-sm-8,
+[dir="rtl"] form .col-sm-9,
+[dir="rtl"] form .col-sm-10,
+[dir="rtl"] form .col-sm-11,
+[dir="rtl"] form .col-sm-12 {
+  float: right;
+}
+[dir="rtl"] .nav-pills > li {
+  float: right;
 }
 span.ilAlert {
   color: #fa8228;
@@ -6594,6 +6618,12 @@ body#tinymce {
 [dir="rtl"] .ilRight {
   text-align: left;
 }
+.ilLeft {
+  text-align: left;
+}
+[dir="rtl"] .ilLeft {
+  text-align: right;
+}
 .ilValignMiddle {
   vertical-align: middle;
 }
@@ -6706,6 +6736,11 @@ td.std,
 th.std {
   padding: 4px 6px;
   text-align: left;
+}
+[dir="rtl"] th,
+[dir="rtl"] td.std,
+[dir="rtl"] th.std {
+  text-align: right;
 }
 th.option,
 td.option {
@@ -6965,11 +7000,13 @@ footer.ilFooter {
   background-color: #4c6586;
 }
 footer.ilFooter a.permalink_label,
-footer.ilFooter > .container > .row > a {
+footer.ilFooter > .container > .row > a,
+footer.ilFooter > .container-fluid > .row > a {
   color: white;
 }
 footer.ilFooter a.permalink_label:hover,
-footer.ilFooter > .container > .row > a:hover {
+footer.ilFooter > .container > .row > a:hover,
+footer.ilFooter > .container-fluid > .row > a:hover {
   color: white;
 }
 [dir="rtl"] footer.ilFooter {
@@ -7456,6 +7493,9 @@ select.form-control {
   color: #4d4d4d;
   font-size: 100%;
 }
+[dir="rtl"] .form-horizontal .control-label {
+  text-align: left;
+}
 label {
   font-weight: normal;
 }
@@ -7484,11 +7524,19 @@ td.form-inline > div.form-group {
   margin-right: 12px;
   float: right;
 }
+[dir="rtl"] .ilFormHeader .ilFormCmds {
+  margin-right: 0;
+  margin-left: 12px;
+  float: left;
+}
 .ilFormHeader h3 {
   margin: 0;
   padding: 4px;
   float: left;
   font-size: 110%;
+}
+[dir="rtl"] .ilFormHeader h3 {
+  float: right;
 }
 .ilSubForm {
   background-color: #f8f8f8;
@@ -7503,6 +7551,9 @@ td.form-inline > div.form-group {
 .ilFormFooter .ilFormCmds {
   text-align: right;
 }
+[dir="rtl"] .ilFormFooter .ilFormCmds {
+  text-align: left;
+}
 /* jQuery ui autocomplete menu */
 input.ilHFormHighlighted,
 .ui-state-focus {
@@ -7514,6 +7565,10 @@ div.ilFormExternalSetting {
 div.ilFormExternalSetting ul {
   margin: 2px 0;
   padding-left: 25px;
+}
+[dir="rtl"] div.ilFormExternalSetting ul {
+  padding-left: 0;
+  padding-right: 25px;
 }
 div.ilFormExternalSetting span {
   color: #C08030;
@@ -7612,6 +7667,19 @@ a.ilTreeView:hover,
 a.ilTreeView:active,
 a.ilTreeView:focus {
   outline: 0;
+}
+[dir="rtl"] a.ilTreeView {
+  border: 1px solid #e0e0e0;
+  border-right: none;
+}
+[dir="rtl"] a.ilTreeView > img {
+  margin-left: 0;
+  margin-right: -5px;
+}
+[dir="rtl"] a.ilTreeView:hover > img,
+[dir="rtl"] a.ilTreeView:active > img,
+[dir="rtl"] a.ilTreeView:focus > img {
+  margin-right: 0;
 }
 /* Explorer2, jsTree */
 .jstree a {
@@ -8545,6 +8613,10 @@ input.ilOpenIDBox {
   float: left;
   margin: 0;
   margin-left: 14px;
+  text-align: right;
+}
+[dir="rtl"] #ilTopBarNav .dropdown-menu a {
+  text-align: right;
 }
 [dir="rtl"] #ilTopBarNav > li {
   float: right;
@@ -8557,10 +8629,6 @@ input.ilOpenIDBox {
 }
 [dir="rtl"] #ilTopBarNav #userlog > a img {
   margin-left: 0;
-}
-[dir="rtl"] #ilTopBarNav #userlog .dropdown-menu > li > a {
-  padding-left: 0;
-  padding-right: 50px;
 }
 .ilMainHeader {
   background-color: white;
@@ -8647,6 +8715,10 @@ input.ilOpenIDBox {
   background-color: #607ea5;
   color: white;
   border: 0;
+}
+[dir="rtl"] .nav-tabs > li {
+  margin: 0 0 0 4px;
+  float: right;
 }
 #ilTab {
   padding: 0 0px;
@@ -10351,6 +10423,16 @@ img[src$="icon_checked.svg"] {
 .glyphicon-ok {
   font-size: 11px;
   text-align: center;
+}
+div.ilNewObjectSelector {
+  margin-bottom: 8px;
+  text-align: right;
+  padding-right: 10px;
+}
+[dir="rtl"] div.ilNewObjectSelector {
+  text-align: left;
+  padding-right: 0;
+  padding-left: 10px;
 }
 /* basic responsiveness (beta)
 

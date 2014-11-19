@@ -106,6 +106,20 @@ a.ilTreeView {
 	}
 }
 
+[dir="rtl"] a.ilTreeView {
+	border: 1px solid #e0e0e0;
+	border-right: none;
+	> img {
+		margin-left: 0;
+		margin-right: -5px;
+	}
+	&:hover > img,
+	&:active > img,
+	&:focus > img {
+		margin-right: 0;
+	}
+}
+
 a.ilTreeView:hover img {
 }
 

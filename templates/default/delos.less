@@ -3,7 +3,7 @@
  
  /* rtl-review */
 [dir="ltr"] * { direction: ltr; unicode-bidi: embed; } //bidi-override
-[dir="rtl"] * { direction: rtl; unicode-bidi: embed; } //bidi-override
+[dir="rtl"] * { text-align: right; direction: rtl; unicode-bidi: embed; } //bidi-override
 
 bdo[dir="ltr"] { direction: ltr; unicode-bidi: bidi-override; }
 bdo[dir="rtl"] { direction: rtl; unicode-bidi: bidi-override; }
@@ -76,7 +76,13 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 
 @import "less/variables.less";             // customized
 
-/* overwrite some specifics bootstrap styles */
+/* RTL review overwrite some specifics [bootstrap] styles
+ *
+ * use class "noMirror" to avoid image flip
+*/
+[dir="rtl"] img:not(.noMirror) {
+    transform: scaleX(-1);
+}
 [dir="rtl"] .navbar-header {
   @media (min-width: @grid-float-breakpoint) {
     float: right;
@@ -149,6 +155,25 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 		margin-left: 0;
     }
   }
+}
+
+[dir="rtl"] form .col-sm-1,
+[dir="rtl"] form .col-sm-2,
+[dir="rtl"] form .col-sm-3,
+[dir="rtl"] form .col-sm-4,
+[dir="rtl"] form .col-sm-5,
+[dir="rtl"] form .col-sm-6,
+[dir="rtl"] form .col-sm-7,
+[dir="rtl"] form .col-sm-8,
+[dir="rtl"] form .col-sm-9,
+[dir="rtl"] form .col-sm-10,
+[dir="rtl"] form .col-sm-11,
+[dir="rtl"] form .col-sm-12 {
+    float: right;
+}
+
+[dir="rtl"] .nav-pills > li {
+  float: right;
 }
 
 // warning inline text
@@ -478,6 +503,14 @@ div.ilFrame {
 	text-align: left;
 }
 
+.ilLeft {
+	text-align: left;
+}
+
+[dir="rtl"] .ilLeft {
+	text-align: right;
+}
+
 .ilValignMiddle {
 	vertical-align: middle;
 }
@@ -642,6 +675,11 @@ th {
 td.std, th.std {
 	padding: 4px 6px;
 	text-align: left;
+}
+
+[dir="rtl"] th,
+[dir="rtl"] td.std, [dir="rtl"] th.std {
+	text-align: right;
 }
 
 th.option, td.option {
@@ -956,7 +994,8 @@ footer.ilFooter {
 	color: white;
 	background-color: @brand-primary;
 	a.permalink_label,
-	> .container > .row > a {
+	> .container > .row > a,
+	> .container-fluid > .row > a {
 		color: white;
 		&:hover {
 			color: white;
@@ -1543,6 +1582,18 @@ img[src$="icon_checked.svg"] {
 .glyphicon-ok {
     font-size: 11px;
 	text-align: center;
+}
+
+div.ilNewObjectSelector {
+	margin-bottom: 8px;
+	text-align: right;
+	padding-right:10px;
+}
+
+[dir="rtl"] div.ilNewObjectSelector {
+	text-align: left;
+	padding-right: 0;
+	padding-left: 10px;
 }
 
 /* basic responsiveness (beta)

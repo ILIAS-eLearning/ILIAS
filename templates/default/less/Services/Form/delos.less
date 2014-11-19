@@ -37,6 +37,10 @@ select.form-control {
 	font-size: 100%;
 }
 
+[dir="rtl"] .form-horizontal .control-label {
+    text-align: left;
+}
+
 label {
 	font-weight: normal;
 }
@@ -70,11 +74,21 @@ td.form-inline > div.form-group {
 	float: right;
 }
 
+[dir="rtl"] .ilFormHeader .ilFormCmds {
+	margin-right: 0;
+	margin-left: 12px;
+	float: left;
+}
+
 .ilFormHeader h3 {
 	margin: 0;
 	padding: 4px;
 	float: left;
 	font-size: 110%;
+}
+
+[dir="rtl"] .ilFormHeader h3 {
+	float: right;
 }
 
 
@@ -95,6 +109,10 @@ td.form-inline > div.form-group {
 	text-align: right;
 }
 
+[dir="rtl"] .ilFormFooter .ilFormCmds {
+	text-align: left;
+}
+
 /* jQuery ui autocomplete menu */
 input.ilHFormHighlighted, .ui-state-focus {
 	background-color: #FF9;
@@ -106,7 +124,12 @@ div.ilFormExternalSetting {
 
 div.ilFormExternalSetting ul {
 	margin: 2px 0;
-	padding-left: 25px
+	padding-left: 25px;
+}
+
+[dir="rtl"] div.ilFormExternalSetting ul {
+	padding-left: 0;
+	padding-right: 25px;
 }
 
 div.ilFormExternalSetting span {

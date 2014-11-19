@@ -571,7 +571,7 @@ class ilTemplate extends ilTemplateX
 	{
 	 	global $ilUser,$lng;
 	 	$contentLanguage = 'en';
-		$rtl = array('ar','fa','ur','he'); //make a list of rtl languages
+		$rtl = array('ar','fa','ur','he');//, 'de'); //make a list of rtl languages
 		/* rtl-review: add "de" for testing with ltr lang shown in rtl
 		 * and set unicode-bidi to bidi-override for mirror effect */
 		$textdir = 'ltr';
