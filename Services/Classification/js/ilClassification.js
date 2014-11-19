@@ -11,11 +11,13 @@ il.Classification = {
 		
 		$(document).bind('il_classification_redraw',  this.redraw);
 	},
-	toggle: function(args) {							
+	toggle: function(args) {									
+		this.loader(this.ajax_block_id + '_loader');		
 		il.Util.sendAjaxGetRequestToUrl(this.ajax_block_url, args, {el_id: this.ajax_block_id, content_url: this.ajax_content_url, content_id: this.ajax_content_id}, this.toggleReload)			
 	},
 	toggleReload: function(o) {				
-		$('#' + o.argument.el_id).html(o.responseText);	
+		$('#' + o.argument.el_id).html(o.responseText);			
+		il.Classification.loader(o.argument.content_id);				
 		il.Util.sendAjaxGetRequestToUrl(o.argument.content_url, {}, {el_id: o.argument.content_id}, il.Classification.toggleReloadRender);		
 	},
 	toggleReloadRender: function(o) {	
@@ -31,5 +33,12 @@ il.Classification = {
 	},
 	redraw: function() {	
 		il.Util.ajaxReplaceInner(il.Classification.ajax_block_url, il.Classification.ajax_block_id);
+	},
+	loader: function(element_id) {
+		var loadergif = document.createElement('img');
+		loadergif.src = "./templates/default/images/loader.svg";
+		loadergif.border = 0;
+		$(loadergif).css("position", "absolute");	
+		$('#' + element_id).html(loadergif);
 	}
 }
