@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2014 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -184,7 +184,7 @@ adve#:#adve_rte_settings#:#TinyMCE Editor
 adve#:#adve_text_content_features#:#Text Content Menu
 assessment#:#no_archive_on_anonymous#:#Archiving is not possible in an anonymous test: option deactivated automatically.
 assessment#:#autosave#:#Automatic saving
-assessment#:#autosave_info#:#If checked, answers are saved in intervals without user interaction to avoid data loss.
+assessment#:#autosave_info#:#Answers are automatically saved in specified intervals to avoid data loss.
 assessment#:#autosave_ival#:#Interval
 assessment#:#for#:#for
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pass for test "%s" does not contain any questions.
@@ -221,7 +221,7 @@ assessment#:#add_poly#:#Add polygon area
 assessment#:#add_questionpool#:#Add Question Pool
 assessment#:#add_rect#:#Add rectangle area
 assessment#:#add_solution#:#Add Suggested Solution
-assessment#:#addSuggestedSolution#:#Add suggested solution
+assessment#:#addSuggestedSolution#:#Add Content for Recapitulation
 assessment#:#all_available_question_pools#:#All available question pools
 assessment#:#allow_images#:#Image Support for Answers
 assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).
@@ -482,9 +482,9 @@ assessment#:#filter_show_question_types#:#Show Question Types
 assessment#:#filter_show_questionpools#:#Show Question Pools
 assessment#:#filter_users#:#Filter Users
 assessment#:#filter#:#Filter
-assessment#:#final_statement_show_desc#:#Shows concluding remarks after the test has been completed (before the presentation of the test results).
+assessment#:#final_statement_show_desc#:#Shows concluding remarks after the test  was submitted.
 assessment#:#final_statement#:#Concluding Remarks
-assessment#:#fixed_participants_hint#:#This test is only accessible for a fixed set of participants shown below. You can change this setting by deactivating the fixed participants checkbox in the test settings.
+assessment#:#fixed_participants_hint#:#This test is only accessible for the manually added participants listed below. You can disable this setting by deactivating the checkbox 'Manually Selected Participants' in the test settings.
 assessment#:#tst_res_jump_to_participant_hint_opt#:#--Jump to Participant--
 assessment#:#tst_res_jump_to_participant_btn#:#Jump
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
@@ -515,7 +515,7 @@ assessment#:#internal_links_update#:#Update
 assessment#:#internal_links#:#Internal Links
 assessment#:#javaapplet#:#Java Applet
 assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or newlines to add an automatic scoring option for the essay question. If any of the keywords will be found in the answertext of the learner, the default score will be set to the maximum available points instead of 0 points.
-assessment#:#kiosk_description#:#Exam view runs test in kiosk mode. This hides the browser bar and navigation and all other screen elements that are not part of the test. Participants are prevented from leaving the test or opening an other website. 
+assessment#:#kiosk_description#:#Exam view runs test in kiosk mode. This hides the browser bar and navigation and all other screen elements that are not part of the test. Participants are prevented from opening an other website.
 assessment#:#kiosk_options_desc#:#Select if test title and/or name of the active participant are shown at the top of the test during the exam view.
 assessment#:#kiosk_options#:#Exam View Options
 assessment#:#kiosk_show_participant#:#Show Name of Participant
@@ -607,7 +607,7 @@ assessment#:#tst_inp_source_pool_no_tax_filter#:#Use No Taxonomy Based Filter
 assessment#:#tst_inp_source_pool_filter_tax_x#:#Use Taxonomy "%s" as Filter
 assessment#:#tst_inp_no_available_tax_hint#:#No Available Taxonomies for Selected Question Pool
 assessment#:#tst_msg_source_pool_definitions_deleted#:#The rule has been removed successfully.
-assessment#:#tst_limit_nr_of_tries#:#Maximum Number of Test Passes
+assessment#:#tst_limit_nr_of_tries#:#Number of Test Passes
 assessment#:#msg_deleted_export_files#:#Export file(s) removed
 assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.
 assessment#:#msg_poly_added#:#Polygon added
@@ -647,9 +647,9 @@ assessment#:#output_mode#:#Output Mode
 assessment#:#output#:#Output
 assessment#:#participants_data#:#Participants Data
 assessment#:#participants_evaluation#:#Evaluation for all Test Participants
-assessment#:#participants_invitation_description#:#You are able to make this test accessible only to a fixed group of ILIAS users. To enable this functionality, please check the above checkbox and press the save button.
-assessment#:#participants_invitation_search_introduction#:#To add fixed participants to this test, please select the users in the below search form and invite them into the test. All test participants will be shown on the Participants Data subtab.
-assessment#:#participants_invitation#:#Invite Fixed Participants
+assessment#:#participants_invitation_description#:#This test can only be accessed by users you have manually added in tab 'Participants'.
+assessment#:#participants_invitation_search_introduction#:#To add defined participants to this test, please select the users in the search below form and invite them into the test. All test participants will be shown on the Participants Data subtab.
+assessment#:#participants_invitation#:#Manually Selected Participants
 assessment#:#participants#:#Participants
 assessment#:#pass_finished#:#%s pass
 assessment#:#pass#:#Pass
@@ -737,8 +737,8 @@ assessment#:#qst_nr_of_tries#:#Number of Tries
 assessment#:#qt_multiple_choice#:#Multiple Choice Question
 assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics
 assessment#:#question_instances_title#:#This question is used in the following tests
-assessment#:#question_marking_description#:#If checked, every participant can mark each test question with a marker symbol to indicate that something has to be done to a question. (e.g. check again, answered, not answered etc.). The markers are also visible in the list of questions (if available).
-assessment#:#question_marking#:#Show Question Marking
+assessment#:#question_marking_description#:#Participants get the option to mark a test question for some purpose. The markers are shown in 'List of Questions', provided that it is activated.
+assessment#:#question_marking#:#Marking Questions
 assessment#:#question_not_answered#:#The question was not answered
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#Q
@@ -812,8 +812,8 @@ assessment#:#shape#:#Shape
 assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_user_answers#:#Show User's Marked Answers
-assessment#:#showinfo_desc#:#Complete list of test properties is displayed on Info tab along with introductory message. 
-assessment#:#showinfo#:#Show all Test Properties on Info Tab
+assessment#:#showinfo_desc#:#Users will be presented with a complete list of test properties on tab 'Info', i.e. information on scoring and reporting.
+assessment#:#showinfo#:#Show all Test Properties
 assessment#:#showSuggestedSolution#:#Type
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#suggested_solution#:#Content for Recapitulation
@@ -886,7 +886,7 @@ assessment#:#tst_delete_all_user_data#:#Remove all User Data
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to remove it
 assessment#:#tst_delete_results#:#Reset Test
 assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
-assessment#:#tst_ending_time#:#Finish Time
+assessment#:#tst_ending_time#:#Latest Finishing Time
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored
 assessment#:#tst_eval_no_anonymous_aggregation#:#No one has entered the test yet. There are no anonymous aggregated test results available.
 assessment#:#tst_eval_question_points#:#Question Results for Pass %s
@@ -907,7 +907,7 @@ assessment#:#tst_finish_confirmation_question#:#You are going to finish this tes
 assessment#:#tst_finish_notification_advanced#:#Send complete test result
 assessment#:#tst_finish_notification_content#:#Content of e-mail
 assessment#:#tst_finish_notification_simple#:#Send username and finish date
-assessment#:#tst_finish_notification#:#Mail on completion
+assessment#:#tst_finish_notification#:#Notification
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.
 assessment#:#tst_finished#:#Finished
 assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status!
@@ -929,28 +929,27 @@ assessment#:#tst_insert_missing_question#:#Please select at least one question t
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_instant_feedback_answer_specific#:#Show Answer-Specific Feedback
-assessment#:#tst_instant_feedback_answer_specific_desc#:#If answer-specific feedback is selected, the predefined feedback will be shown, depending on the answers of the participant (if supported by the question type).
-assessment#:#tst_instant_feedback_answer_generic#:#Show Generic ("Correct/Wrong") Feedback
-assessment#:#tst_instant_feedback_answer_generic_desc#:#The generic feedback prints a simple "right" or "wrong" feedback according to configuration of the question.
-assessment#:#tst_instant_feedback_fix_usr_answer#:#Fixation of Given Answers
-assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#This option causes a fixation of the participant's answer on requesting the instant feedback.
-assessment#:#tst_instant_feedback_results#:#Show Results (Only Points)
-assessment#:#tst_instant_feedback_results_desc#:#If results (in points) are selected, the reached points will be shown.
-assessment#:#tst_instant_feedback_solution#:#Show Solutions
-assessment#:#tst_instant_feedback_solution_desc#:#If solutions are selected, the correct solution will be shown too.
+assessment#:#tst_instant_feedback_answer_generic#:#Two Alternative Feedbacks
+assessment#:#tst_instant_feedback_answer_specific_desc#:#On clicking the <i>Check</i>-button ILIAS will show a specific feedback for every answer option selected by the participant. The feedback has to be prepared along with the question. Answer-specific feedback is not supported for all question types.
+assessment#:#tst_instant_feedback_fix_usr_answer#:#Freeze Answers Given
+assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#After having requested a feedback, participants can no longer change their answers.
+assessment#:#tst_instant_feedback_results#:#Points Awarded
+assessment#:#tst_instant_feedback_results_desc#:#On clicking the <i>Check</i>-button ILIAS will display how many points were awarded for answering this question.
+assessment#:#tst_instant_feedback_solution#:#Show Best Possible Answer
+assessment#:#tst_instant_feedback_solution_desc#:#On clicking the  <i>Check</i>-button ILIAS will display the best possible answer to the question.
 assessment#:#tst_instant_feedback#:#Instant Feedback
 assessment#:#tst_instant_verification#:#Instant Verification
 assessment#:#tst_introduction#:#Introductory Message
-assessment#:#tst_introduction_desc#:#Shows an introductory message at the info page of the test. This text is accessible already before the test can be started.
+assessment#:#tst_introduction_desc#:#Shows an introductory message at the Info-tab of the test. This text is accessible already before the test can be started.
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_invited_selected_groups#:#The selected groups have been added as fixed test participants
 assessment#:#tst_invited_selected_roles#:#The selected roles have been added as fixed test participants
 assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants
 assessment#:#tst_list_of_answers_show#:#Show List of Answers
 assessment#:#tst_list_of_answers#:#List of Answers
-assessment#:#tst_list_of_questions_end#:#Show the List of Questions before a participant finishes the test
-assessment#:#tst_list_of_questions_start#:#Show the List of Questions prior to the first question
-assessment#:#tst_list_of_questions_with_description#:#Show the question descriptions in the List of Questions
+assessment#:#tst_list_of_questions_end#:#Show before a participant finishes the test
+assessment#:#tst_list_of_questions_start#:#Show prior to the first question
+assessment#:#tst_list_of_questions_with_description#:#Include question descriptions
 assessment#:#tst_list_of_questions_yes#:#Yes, and additional
 assessment#:#tst_mark_create_new_mark_step#:#Create New Mark Step
 assessment#:#tst_mark_create_simple_mark_schema#:#Reset to Simple Mark Schema
@@ -1006,8 +1005,8 @@ assessment#:#tst_postpone_description#:#The participants may postpone questions 
 assessment#:#tst_postpone#:#Postpone Questions
 assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_print#:#Test and Assessment - Print View
-assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified time. Time is clocking away from the moment a user starts a test for the first time. 
-assessment#:#tst_processing_time#:#Duration of Test
+assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock.
+assessment#:#tst_processing_time#:#Maximum Duration of Test
 assessment#:#tst_properties#:#Test Properties
 assessment#:#tst_qst_order#:#Order
 assessment#:#tst_qst_resetsolved#:#Set Unsolved
@@ -1076,13 +1075,13 @@ assessment#:#tst_results_back_introduction#:#Back to Introductory Message
 assessment#:#tst_results_back_overview#:#Back to Results Overview
 assessment#:#tst_results_overview_pass#:#Results Overview for Pass %s
 assessment#:#tst_results_overview#:#Pass Overview of the Test Results
-assessment#:#tst_show_pass_details_desc#:#If selected, the question titles and the reached points for every question in the test pass are available if the test is not finished.
+assessment#:#tst_show_pass_details_desc#:#If selected, the question titles and the earned points for every question in the test pass are available if the test is not finished.
 assessment#:#tst_show_solution_details_desc#:#If selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown.
 assessment#:#tst_show_solution_printview_desc#:#If selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission.
 assessment#:#tst_show_solution_feedback_desc#:#If is selected, the answer specific feedback will be shown in the test results next to the questions.
 assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option.
 assessment#:#tst_show_solution_signature_desc#:#If is selected, a signature placeholder will be shown for printout.
-assessment#:#tst_show_solution_suggested_desc#:#If is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.
+assessment#:#tst_show_solution_suggested_desc#:#If content for recapitulation was assigned to the test questions in the first place, this content will be shown in the test results overview to offer an opportunity for remedial learning.
 assessment#:#tst_results#:#Test Results
 assessment#:#tst_resume_test#:#Resume the Test
 assessment#:#tst_score_cut_question#:#Cut off Negative Question Points
@@ -1113,8 +1112,8 @@ assessment#:#tst_sequence_properties#:#Administering the Test: Functionality Ava
 assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_show_answer_sheet#:#Show Answers
-assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown to participants. Do not use this option when running a test with a maximum processing time. Suspending the test does not stop the maximum processing time's countdown.
-assessment#:#tst_show_cancel#:#Show Suspend Test Option
+assessment#:#tst_show_cancel_description#:#Participants are presented with a button to stop the test run and to continue it later. Caution: Suspending the test does not stop the countdown of the maximum duration of the test.
+assessment#:#tst_show_cancel#:#Suspend Test
 assessment#:#tst_show_pass_details#:#Show Pass Details for Running Tests
 assessment#:#tst_show_results#:#Show Test Results
 assessment#:#tst_show_side_list#:#Show question list aside
@@ -1123,9 +1122,9 @@ assessment#:#tst_show_solution_details#:#Show Solutions in Test Results
 assessment#:#tst_show_solution_feedback#:#Show Answer-Specific Feedback in Test Results
 assessment#:#tst_show_solution_printview#:#Show List of Answers
 assessment#:#tst_show_solution_signature#:#Show Signature Placeholder
-assessment#:#tst_show_solution_suggested#:#Show Suggested Solution
-assessment#:#tst_show_summary_description#:#Offers a list with all test questions available to the test participants during the test.
-assessment#:#tst_show_summary#:#Show List of Questions
+assessment#:#tst_show_solution_suggested#:#Show Content for Recapitulation
+assessment#:#tst_show_summary_description#:#Participants can switch on a list of test questions on the left of the actual question. Additionally, they are presented with a button 'List of Questions'. On that screen the overall status of all questions will be displayed.
+assessment#:#tst_show_summary#:#Show "List of Questions"
 assessment#:#tst_shuffle_questions_description#:#Shuffles the sequence of questions for every participant and every test pass.
 assessment#:#tst_shuffle_questions#:#Shuffle Questions
 assessment#:#tst_signature#:#Signature
@@ -1133,7 +1132,7 @@ assessment#:#tst_single_results#:#Results by Question
 assessment#:#tst_start_new_test_pass#:#Start New Test Pass
 assessment#:#tst_start_test#:#Start the Test
 assessment#:#tst_started#:#Test Started
-assessment#:#tst_starting_time#:#Start Time
+assessment#:#tst_starting_time#:#Earliest Starting Time
 assessment#:#tst_stat_all_users#:#All Participants
 assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)
 assessment#:#tst_stat_result_atimeofwork#:#Average Time of Work
@@ -1170,10 +1169,10 @@ assessment#:#tst_test_output#:#Test Output
 assessment#:#tst_text_count_system#:#Scoring System
 assessment#:#tst_time_already_spent_left#:#You have %s left.
 assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s.
-assessment#:#tst_title_output_full#:#Question Titles and Available Points
+assessment#:#tst_title_output_full#:#Question Titles and Points to be Earned
 assessment#:#tst_title_output_hide_points#:#Only Question Titles
-assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available Points
-assessment#:#tst_title_output#:#Question Title Output
+assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Points to be Earned
+assessment#:#tst_title_output#:#Show Question Title
 assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the question pools are ignored. If you don't set this value, you need to enter an amount with every selected question pool!
 assessment#:#tst_total_questions#:#Total Amount of Questions
 assessment#:#tst_tst_date#:#Date of Test
@@ -1185,9 +1184,8 @@ assessment#:#exam_id#:#Exam Id:
 assessment#:#examid_in_kiosk#:#Display Exam ID in exam view 
 assessment#:#show_exam_id#:#Display Exam Id 
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
-assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use previous answers as default values in future test passes, otherwise previous answers are not shown in future test passes. An option is shown on the information screen, which is deactivated by default.
-assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
-assessment#:#tst_use_previous_answers#:#Option to Use Previous Answers
+assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test passes. This option has to be activated by individual participants on the Info-tab before starting a test pass. assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
+assessment#:#tst_use_previous_answers#:#Use Previous Answers
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_your_answer_was#:#Your answer was
 assessment#:#tst_your_answers#:#These are your answers given to the following questions.
@@ -1259,7 +1257,7 @@ assessment#:#tst_highscore_top_num_description#:#Controls, how many ranks should
 assessment#:#tst_highscore_top_num_unit#:#entries
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Configuration
 assessment#:#tst_rnd_quest_cfg_tab_pool#:#Selected Question Pools
-assessment#:#tst_question_set_type#:#Test Mode
+assessment#:#tst_question_set_type#:#Selection of Test Questions
 assessment#:#tst_question_set_type_fixed#:#Fixed Set of Questions
 assessment#:#tst_question_set_type_fixed_desc#:#All participants get the same set of questions. 
 assessment#:#tst_question_set_type_random#:#Random Set of Questions
@@ -1340,10 +1338,10 @@ assessment#:#tst_add_quest_cont_edit_mode_default#:#Default Editing Mode for Add
 assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Editor
 assessment#:#tst_question_feedback_edit_page#:#Edit Content
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
-assessment#:#enable_examview#:#Enable Exam View
-assessment#:#enable_examview_desc#:#Shows participants all questions and their answers in an overview before submitting the test.
+assessment#:#enable_examview#:#Overview of Answers Given
+assessment#:#enable_examview_desc#:#Participants are presented with all questions and the answers they provided in an overview prior to submitting the test.
 assessment#:#show_examview_html#:#On screen
-assessment#:#show_examview_pdf#:#Downloaded PDF
+assessment#:#show_examview_pdf#:#PDF Download
 assessment#:#scoringadjust#:#Corrections
 assessment#:#tst_trigger_result_refreshing#:#Results need to be recalculated. This may take a while.
 assessment#:#test_scoring#:#Scoring Options
@@ -1369,8 +1367,8 @@ assessment#:#tst_settings_header_test_run#:#Administering the Test: Testrun
 assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.
 assessment#:#tst_final_information#:#Finishing the Test
 assessment#:#saved_adjustment#:#Changes saved.
-assessment#:#sign_submission#:#Digitally sign test submissions
-assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.
+assessment#:#sign_submission#:#Digitally Sign Test Submissions
+assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be requested to digitally sign their submissions.
 assessment#:#preserve_manscoring#:#Preserve manual scorings
 assessment#:#preserve_manscoring_info#:#Changes in the scoring of a question may make it necessary to void manual scorings. This option allows to void ALL manual scorings in the test and should be used only in rare occasions.
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
@@ -10935,7 +10933,7 @@ survey#:#survey_question_text_hidden#:#Text hidden
 survey#:#survey_move_page#:#Move Page
 survey#:#survey_page_moved#:#The page has been moved.
 assessment#:#intro_desc#:#This message appears at the beginning of the test.
-assessment#:#test_question_pool_usage#:#Choose Question Pool when creating questions
+assessment#:#test_question_pool_usage#:#Use of Question Pools
 assessment#:#test_question_pool_usage_optional#:#Questions can be added optionally to a question pool
 assessment#:#test_question_pool_usage_optional_info#:#The questions can be re-used in other tests.
 assessment#:#test_question_pool_usage_tst_directly#:#Questions are created directly in the test
@@ -12318,8 +12316,8 @@ registration#:#registration_code_role_info#:#If you use a registration code, the
 mail#:#mail_system_sender_name#:#Sender Name
 mail#:#mail_system_sender_name_info#:#Please enter a name. This name will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, 'ILIAS' is used as the sender.
 content#:#cont_current_term#:#Current Term
-assessment#:#tst_setting_offer_hints_label#:#Question Specific Hints
-assessment#:#tst_setting_offer_hints_info#:#Participants can ask for hints to answer a question. The maximum number of points for the best solution of a question is reduced with every hint.
+assessment#:#tst_setting_offer_hints_label#:#Hints
+assessment#:#tst_setting_offer_hints_info#:#Participants request hints to answer a question. With every hint presented the maximum number of points to be earned decreases.
 assessment#:#tst_question_hints_tab#:#Hints
 assessment#:#tst_question_hints_table_header#:#Hints for Question: %s
 assessment#:#tst_question_hints_table_no_items#:#No Existing Hints
