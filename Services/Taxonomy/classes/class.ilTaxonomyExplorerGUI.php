@@ -129,6 +129,11 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 		{
 			return str_replace("{NODE_CHILD}", $a_node["child"], $this->onclick);
 		}
+		else
+		{
+			// #14623
+			return parent::getNodeOnClick($a_node);			
+		}
 	}	
 }
 
