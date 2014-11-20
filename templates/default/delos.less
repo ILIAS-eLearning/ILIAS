@@ -1002,9 +1002,13 @@ footer.ilFooter {
 	text-align: left;
 	color: white;
 	background-color: @brand-primary;
+	div.ilFooterContainer {
+		color: white;
+		float: left;
+		padding: 0 15px;
+	}
 	a.permalink_label,
-	> .container > .row > a,
-	> .container-fluid > .row > a {
+	div.ilFooterContainer > a {
 		color: white;
 		&:hover {
 			color: white;
@@ -1014,6 +1018,9 @@ footer.ilFooter {
 
 [dir="rtl"] footer.ilFooter {
 	text-align: right;
+	div.ilFooterContainer {
+		float: right;
+	}
 }
 
 /* ----------------- permanent link  ------------- */

@@ -7005,18 +7005,24 @@ footer.ilFooter {
   color: white;
   background-color: #4c6586;
 }
+footer.ilFooter div.ilFooterContainer {
+  color: white;
+  float: left;
+  padding: 0 15px;
+}
 footer.ilFooter a.permalink_label,
-footer.ilFooter > .container > .row > a,
-footer.ilFooter > .container-fluid > .row > a {
+footer.ilFooter div.ilFooterContainer > a {
   color: white;
 }
 footer.ilFooter a.permalink_label:hover,
-footer.ilFooter > .container > .row > a:hover,
-footer.ilFooter > .container-fluid > .row > a:hover {
+footer.ilFooter div.ilFooterContainer > a:hover {
   color: white;
 }
 [dir="rtl"] footer.ilFooter {
   text-align: right;
+}
+[dir="rtl"] footer.ilFooter div.ilFooterContainer {
+  float: right;
 }
 /* ----------------- permanent link  ------------- */
 div.ilPermaLink {
