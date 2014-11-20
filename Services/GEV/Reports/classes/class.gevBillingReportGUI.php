@@ -55,24 +55,39 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 
 		$created_since = new ilDateTimeInputGUI($this->lng->txt("gev_created_since").": ", "created_since");
 		$created_since->setShowTime(false);
+		
+		$created_till = new ilDateTimeInputGUI($this->lng->txt("gev_created_till").": ", "created_till");
+		$created_till->setShowTime(false);
 
 		$this->filters = array(
-			"created_since" => $created_since
+			  "created_since" => $created_since
+			, "created_till" => $created_till
 			);
 
-		$date = date("Y")."-01-01";
+		$since_date = date("Y")."-01-01";
 		if(isset($_POST["created_since"])) {
-			$date = $_POST["created_since"]["date"]["y"]
+			$since_date = $_POST["created_since"]["date"]["y"]
 					."-".$_POST["created_since"]["date"]["m"]
 					."-".$_POST["created_since"]["date"]["d"];
-			$_POST["created_since"] = urlencode($date);
+			$_POST["created_since"] = urlencode($since_date);
+		}
+		
+		$till_date = date("Y")."-01-01";
+		if(isset($_POST["created_till"])) {
+			$till_date = $_POST["created_till"]["date"]["y"]
+					."-".$_POST["created_till"]["date"]["m"]
+					."-".$_POST["created_till"]["date"]["d"];
+			$_POST["created_till"] = urlencode($till_date);
 		}
 
-		$this->digestSearchParameter("created_since", urlencode($date));
+		$this->digestSearchParameter("created_since", urlencode($since_date));
+		$this->digestSearchParameter("created_till", urlencode($till_date));
 		
 		$this->created_since = new ilDate($this->filter_params["created_since"], IL_CAL_DATE);
 		$created_since->setDate($this->created_since);
-
+		
+		$this->created_till = new ilDate($this->filter_params["created_till"], IL_CAL_DATE);
+		$created_till->setDate($this->created_till);
 		$this->table_row_template= array(
 			"filename" => "tpl.gev_billing_row.html", 
 			"path" => "Services/GEV/Reports"
@@ -173,6 +188,7 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 					." WHERE bill.bill_final = 1"
 					. $this->queryWhen($this->start_date, $this->end_date)
 					. $this->queryCreatedSince()
+					. $this->queryCreatedTill()
 					." GROUP BY bill.bill_number"
 					. $sql_order_str
 					;
@@ -235,6 +251,10 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 	
 	protected function queryCreatedSince() {
 		return "   AND bill.bill_finalized_date >= ".$this->db->quote($this->created_since->get(IL_CAL_UNIX), "integer"); 
+	}
+	
+	protected function queryCreatedTill() {
+		return "   AND bill.bill_finalized_date <= ".$this->db->quote($this->created_till->get(IL_CAL_UNIX), "integer");
 	}
 	
 	protected function deliverBillPDF() {
