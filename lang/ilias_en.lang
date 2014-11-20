@@ -1184,7 +1184,8 @@ assessment#:#exam_id#:#Exam Id:
 assessment#:#examid_in_kiosk#:#Display Exam ID in exam view 
 assessment#:#show_exam_id#:#Display Exam Id 
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
-assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test passes. This option has to be activated by individual participants on the Info-tab before starting a test pass. assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
+assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test passes. This option has to be activated by individual participants on the Info-tab before starting a test pass.
+assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_your_answer_was#:#Your answer was
