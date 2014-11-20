@@ -447,10 +447,13 @@ class gevUserUtils {
 	public function getMyAppointmentsCourseInformation() {
 			// used by gevMyTrainingsApTable, i.e.
 			
-			require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
+			//require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 			require_once("Services/TEP/classes/class.ilTEPCourseEntries.php");
 			require_once "Modules/Course/classes/class.ilObjCourse.php";
 			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+			require_once("Services/ParticipationStatus/classes/class.ilParticipationStatus.php");
+			require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusHelper.php");
+			require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusPermissions.php");
 			
 			$crss = $this->getCourseIdsWhereUserIsTutor();
 			$crss_ids = array_keys($crss);
@@ -473,10 +476,14 @@ class gevUserUtils {
 				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
 				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
 			);
-			$crss_amd = gevAMDUtils::getInstance()->getTable($crss_ids, $crs_amd);
+			$crss_amd = gevAMDUtils::getInstance()->getTable($crss_ids, $crs_amd, array("pstatus.state pstate"),
+				// Join over participation status table to remove courses, where state is already
+				// finalized
+				array(" JOIN crs_pstatus_crs pstatus ON pstatus.crs_id = od.obj_id "),
+				" AND pstatus.state != ".$this->db->quote(ilParticipationStatus::STATE_FINALIZED, "integer")
+				);
 
 			$ret = array();
-
 
 			foreach ($crss_amd as $id => $entry) {
 
@@ -484,56 +491,38 @@ class gevUserUtils {
 				
 				$entry['crs_ref_id'] = $crss[$id];
 
-				//second parameter: from_foreign class
-				$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($entry['crs_ref_id'], true);
-				$ptstatus_admingui_pstatus = $ptstatus_admingui->getParticipationStatus();
+				$crs_utils = gevCourseUtils::getInstance($id);
+				$orgu_utils = gevOrgUnitUtils::getInstance($entry["location"]);
+				$ps_helper = ilParticipationStatusHelper::getInstance($crs_utils->getCourse());
+				$ps_permission = ilParticipationStatusPermissions::getInstance($crs_utils->getCourse(), $this->user_id);
 
-				//Q: how can Participationstatus be empty?!
-				//A: user has no permissions for ParticipationStatus at Course
-				if($ptstatus_admingui && $ptstatus_admingui_pstatus){
-					if ($ptstatus_admingui_pstatus->getProcessState() == ilParticipationStatus::STATE_FINALIZED) {
-						//if course is finalized: do not append
-						$do_process_entry = false;
-					}
+				$entry["location"] = $orgu_utils->getLongTitle();
 
+				if($entry['start_date'] && $entry['end_date']) {
+					$crs_obj = new ilObjCourse($crss[$id]);
+					$tep_crsentries = ilTEPCourseEntries::getInstance($crs_obj);
+					$tep_opdays_inst = $tep_crsentries->getOperationsDaysInstance();
+					$tep_opdays = $tep_opdays_inst->getDaysForUser($this->user_id);
+				} else {
+					$tep_opdays =array();
 				}
+				
+				$ms = $crs_utils->getMembership();
+				$entry['mbr_booked_userids'] = $ms->getMembers();
+				$entry['mbr_booked'] = count($entry['mbr_booked_userids']);
+				$entry['mbr_waiting_userids'] = $crs_utils->getWaitingMembers($id);
+				$entry['mbr_waiting'] = count($entry['mbr_waiting_userids']);
+				$entry['apdays'] = $tep_opdays;
+				//$entry['category'] = '-';
+				
+				$entry['may_finalize'] = $ps_helper->isStartForParticipationStatusSettingReached()
+									   && (  (   $entry["pstate"] == ilParticipationStatus::STATE_SET 
+									   		  && $ps_permissions->setParticipationStatus())
+										  || (   $entry["pstate"] == ilParticipationStatus::STATE_REVIEW 
+									   		  && $ps_permissions->reviewParticipationStatus())
+										  );
 
-
-				if ($do_process_entry) {
-
-					$crs_utils = gevCourseUtils::getInstance($id);
-					$orgu_utils = gevOrgUnitUtils::getInstance($entry["location"]);
-
-					$entry["location"] = $orgu_utils->getLongTitle();
-
-					if($entry['start_date'] && $entry['end_date']) {
-						$crs_obj = new ilObjCourse($crss[$id]);
-						$tep_crsentries = ilTEPCourseEntries::getInstance($crs_obj);
-						$tep_opdays_inst = $tep_crsentries->getOperationsDaysInstance();
-						$tep_opdays = $tep_opdays_inst->getDaysForUser($this->user_id);
-					} else {
-						$tep_opdays =array();
-					}
-					
-					$ms = $crs_utils->getMembership();
-					$entry['mbr_booked_userids'] = $ms->getMembers();
-					$entry['mbr_booked'] = count($entry['mbr_booked_userids']);
-					$entry['mbr_waiting_userids'] = $crs_utils->getWaitingMembers($id);
-					$entry['mbr_waiting'] = count($entry['mbr_waiting_userids']);
-					$entry['apdays'] = $tep_opdays;
-					//$entry['category'] = '-';
-					
-					$entry['may_finalize'] = false;
-					
-					if($ptstatus_admingui && $ptstatus_admingui_pstatus){
-						$helper = ilParticipationStatusHelper::getInstance($ptstatus_admingui->getCourse());
-						if($helper->isStartForParticipationStatusSettingReached()){
-							$entry['may_finalize'] = $ptstatus_admingui->mayWrite();
-						}
-					}
-
-					$ret[$id] = $entry;
-				}
+				$ret[$id] = $entry;
 			}
 
 			//sort?

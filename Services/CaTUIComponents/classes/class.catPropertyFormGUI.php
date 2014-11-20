@@ -38,7 +38,12 @@ class catPropertyFormGUI extends ilPropertyFormGUI {
 	public function getInputs() {
 		$ret = array();
 		foreach ($this->getItems() as $item) {
-			$ret[$item->getPostVar()] = $item->getValue();
+			if ($item instanceof ilCheckboxInputGUI) {
+				$ret[$item->getPostVar()] = $item->getChecked();
+			}
+			else {
+				$ret[$item->getPostVar()] = $item->getValue();
+			}
 		}
 		return $ret;
 	}

@@ -57,7 +57,7 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 		$created_since->setShowTime(false);
 
 		$this->filters = array(
-			"created_since" => $created_since
+			"created_since" => $created_sincez
 			);
 
 		$date = date("Y")."-01-01";
