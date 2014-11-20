@@ -10175,6 +10175,12 @@ li.ilToolbarSeparator {
   min-height: 34px;
   padding: 0 15px 0 0;
 }
+li.ilToolbarTextonly {
+  padding: 5px 15px 5px 0;
+}
+li.ilToolbarTextonly > span {
+  line-height: 24px;
+}
 /* Services/UIComponent/Tooltip */
 .ui-tooltip-rounded,
 .ui-tooltip-rounded .ui-tooltip-content,
