@@ -72,7 +72,7 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 			$_POST["created_since"] = urlencode($since_date);
 		}
 		
-		$till_date = date("Y")."-01-01";
+		$till_date = (date("Y") + 1)."-01-01";
 		if(isset($_POST["created_till"])) {
 			$till_date = $_POST["created_till"]["date"]["y"]
 					."-".$_POST["created_till"]["date"]["m"]
@@ -115,7 +115,11 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 		}
 	}
 	
-	protected function fetchData(){ 
+	protected function fetchData(){
+		if ($this->created_till->get(IL_CAL_UNIX_) < $this->created_since->get(IL_CAL_UNIX) ) {
+			return array();
+		}
+		
 		//fetch retrieves the data 
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
