@@ -895,8 +895,14 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 					break;
 					
 				case self::VIEW_MODE_SORT:
-					$this->sort();
-					break;
+					// #14638
+					include_once './Services/Container/classes/class.ilContainerSortingSettings.php';					
+					if(ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainer::SORT_MANUAL)
+					{
+						$this->sort();
+						break;
+					}
+					// fallthrough
 				
 				default:
 					$this->showLinks();
