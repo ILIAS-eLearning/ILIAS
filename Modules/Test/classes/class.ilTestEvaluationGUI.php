@@ -1488,8 +1488,23 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			/** @var ilDB $ilDB */
 			global $ilDB;
 
-			$active_fi = $_GET['active_id'];
-			$pass = (int) $_GET['pass'];
+		$active_fi = null;
+		$pass = null;
+
+		if( isset($_POST['active_id']) && (int)$_POST['active_id'] )
+		{
+			$active_fi = $_POST['active_id'];
+		}
+
+		if( isset($_POST['pass']) && is_numeric($_POST['pass']) )
+		{
+			$pass = $_POST['pass'];
+		}
+
+		if( is_null($active_fi) || is_null($pass) )
+		{
+			$this->ctrl->redirect($this, 'outUserResultsOverview');
+		}
 			
 			// Get information
 			$result = $ilDB->query("
@@ -1529,8 +1544,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$isActivePass = true;
 				$must_renumber = false;
 			}
-		
-			if( $pass == 0 )
+
+			if( $pass == 0 && (
+				($lastFinishedPass == 0 && $tries == 1 && $tries != $row['pass'])
+				|| ($isActivePass == true) // should be equal to || ($lastFinishedPass == -1 && $tries == 0)
+			))
 			{
 				$last_pass = true;
 			}
