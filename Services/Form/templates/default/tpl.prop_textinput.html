@@ -111,6 +111,34 @@
 					}
 				});
 				<!-- END autocomplete_delimiter_bl -->
+				<!-- BEGIN autocomplete_autosubmit -->
+				$('{SEL_AUTOCOMPLETE_AUTOSUBMIT}').iladvancedautocomplete({
+					requestUrl: "{URL_AUTOCOMPLETE_AUTOSUBMIT_REQ}",
+					source: function( request, response ) {
+						var that = this;
+						$.getJSON( that.options.requestUrl, {
+							term: request.term
+						}, function(data) {
+							if (typeof data.items == "undefined") {
+								response(data);
+							} else {
+								that.more = data.hasMoreResults;
+								response(data.items);
+							}
+						});
+					},
+					select: function( event, ui ) {
+					
+						var submitUrl =  "{URL_AUTOCOMPLETE_AUTOSUBMIT_RESP}";
+						
+						submitUrl += "&selected_id=";
+						submitUrl += ui.item.id.toString();
+						
+						$(location).attr('href',submitUrl);
+					}
+				});
+				<!-- END autocomplete_autosubmit -->
+				
 			}
 		);	
 	</script>

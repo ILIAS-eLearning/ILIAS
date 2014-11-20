@@ -25,6 +25,8 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	protected $css_class;
 	protected $ajax_datasource;
 	protected $ajax_datasource_delimiter;
+	protected $ajax_datasource_commit = FALSE;
+	protected $ajax_datasource_commit_url;
 	protected $submit_form_on_enter = false;
 
 	/**
@@ -340,6 +342,26 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		$this->ajax_datasource_delimiter = $a_delimiter;
 	}
 	
+	public function setDataSourceSubmitOnSelection($a_stat)
+	{
+		$this->ajax_datasource_commit = $a_stat;
+	}
+	
+	public function getDataSourceSubmitOnSelection()
+	{
+		return $this->ajax_datasource_commit;
+	}
+	
+	public function setDataSourceSubmitUrl($a_url)
+	{
+		$this->ajax_datasource_commit_url = $a_url;
+	}
+	public function getDataSourceSubmitUrl()
+	{
+		return $this->ajax_datasource_commit_url;
+	}
+	
+	
 	public function setMultiValues(array $a_values)
 	{
 		foreach($a_values as $idx => $value)
@@ -464,10 +486,16 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			}
 
 			$tpl->setCurrentBlock("autocomplete_bl");
-			if(!$this->ajax_datasource_delimiter)
+			if(!$this->ajax_datasource_delimiter and !$this->getDataSourceSubmitOnSelection())
 			{
 				$tpl->setVariable('SEL_AUTOCOMPLETE', $sel_auto);
 				$tpl->setVariable('URL_AUTOCOMPLETE', $this->getDataSource());
+			}
+			elseif($this->getDataSourceSubmitOnSelection())
+			{
+				$tpl->setVariable('SEL_AUTOCOMPLETE_AUTOSUBMIT', $sel_auto);
+				$tpl->setVariable('URL_AUTOCOMPLETE_AUTOSUBMIT_REQ', $this->getDataSource());
+				$tpl->setVariable('URL_AUTOCOMPLETE_AUTOSUBMIT_RESP', $this->getDataSourceSubmitUrl());
 			}
 			else
 			{

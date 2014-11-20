@@ -231,7 +231,6 @@ class ilRepositorySearchGUI
 	 */
 	protected function doUserAutoComplete()
 	{
-
 		if(!isset($_GET['autoCompleteField']))
 		{
 			$a_fields = array('login','firstname','lastname','email');
@@ -389,7 +388,26 @@ class ilRepositorySearchGUI
 		$this->tpl->setContent($this->form->getHTML());
 	}
 	
-	public function initFormSearch()
+	/**
+	 * submit from autocomplete
+	 */
+	public function showSearchSelected()
+	{
+		$selected = (int) $_REQUEST['selected_id'];
+		
+		#include_once './Services/Object/classes/class.ilObjectFactory.php';
+		#$factory = new ilObjectFactory();
+		#$user = $factory->getInstanceByObjId($selected);
+		
+		#$this->initFormSearch($user);
+		#$this->tpl->setContent($this->form->getHTML());
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.rep_search_result.html','Services/Search');
+		$this->addNewSearchButton();
+		$this->showSearchUserTable(array($selected),'showSearchResults');
+	}
+	
+	public function initFormSearch(ilObjUser $user = NULL)
 	{
 		global $ilCtrl;
 
@@ -428,13 +446,42 @@ class ilRepositorySearchGUI
 				case FIELD_TYPE_TEXT:
 
 					if(isset($info['autoComplete']) and $info['autoComplete'])
-					{						
+					{
 						$ilCtrl->setParameterByClass(get_class($this),'autoCompleteField',$info['db']);
 						$ul = new ilTextInputGUI($info['lang'],	"rep_query[usr][".$info['db']."]");
+						$ul->setDataSourceSubmitOnSelection(TRUE);
+						$ul->setDataSourceSubmitUrl(
+								$this->ctrl->getLinkTarget(
+										$this,
+										'showSearchSelected',
+										'',
+										FALSE,
+										FALSE
+								)
+						);
 						$ul->setDataSource($ilCtrl->getLinkTarget($this,
 							"doUserAutoComplete", "", true));					
 						$ul->setSize(30);
 						$ul->setMaxLength(120);
+						
+						if($user instanceof ilObjUser)
+						{
+							switch($info['db'])
+							{
+								case 'firstname':
+									$ul->setValue($user->getFirstname());
+									break;
+								case 'lastname':
+									$ul->setValue($user->getLastname());
+									break;
+								case 'login':
+									$ul->setValue($user->getLogin());
+									break;
+							}
+						}
+						
+						
+						
 						$users->addSubItem($ul);
 					}
 					else

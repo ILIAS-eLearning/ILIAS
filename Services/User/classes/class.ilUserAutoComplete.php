@@ -280,6 +280,7 @@ class ilUserAutoComplete
 
 			$result[$cnt]['value'] = (string)$rec[$this->result_field];
 			$result[$cnt]['label'] = $label;
+			$result[$cnt]['id'] = $rec['usr_id'];
 			$cnt++;
 		}
 
@@ -287,6 +288,8 @@ class ilUserAutoComplete
 		
 		$result_json['items'] = $result;
 		$result_json['hasMoreResults'] = $more_results;
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($result_json,TRUE));
 		
 		return ilJsonUtil::encode($result_json);
 	}
@@ -297,6 +300,7 @@ class ilUserAutoComplete
 	protected function getSelectPart()
 	{
 		$fields = array(
+			'usr_id',
 			'login',
 			'firstname',
 			'lastname',
