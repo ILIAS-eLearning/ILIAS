@@ -499,7 +499,7 @@ $(document).ready(function ()
             more_errors = 0;
             var count = ClozeSettings.gaps_php[0][gap_id].values.length;
             var value = '';
-            for(var i = 0; i <= count; i++)
+            for(var i = 0; i < count; i++)
             {
                 value = $('#gap_' + gap_id + '\\[answer\\]\\[' + i + '\\]').val();
                 if (value === '' || value === null) 
