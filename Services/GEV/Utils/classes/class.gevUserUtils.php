@@ -479,16 +479,14 @@ class gevUserUtils {
 			$crss_amd = gevAMDUtils::getInstance()->getTable($crss_ids, $crs_amd, array("pstatus.state pstate"),
 				// Join over participation status table to remove courses, where state is already
 				// finalized
-				array(" JOIN crs_pstatus_crs pstatus ON pstatus.crs_id = od.obj_id "),
-				" AND pstatus.state != ".$this->db->quote(ilParticipationStatus::STATE_FINALIZED, "integer")
+				array(" LEFT JOIN crs_pstatus_crs pstatus ON pstatus.crs_id = od.obj_id "),
+				" AND ( pstatus.state != ".$this->db->quote(ilParticipationStatus::STATE_FINALIZED, "integer").
+			    "       OR pstatus.state IS NULL)"
 				);
 
 			$ret = array();
 
 			foreach ($crss_amd as $id => $entry) {
-
-				$do_process_entry = true;
-				
 				$entry['crs_ref_id'] = $crss[$id];
 
 				$crs_utils = gevCourseUtils::getInstance($id);
