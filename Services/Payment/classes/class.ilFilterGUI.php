@@ -675,7 +675,7 @@ class ilFilterGUI
 		{
 			if ($item->checkInput())
 			{
-				$item->setValueByArray($_POST);
+//				$item->setValueByArray($_POST);
 				$item->clearFromSession();
 			}
 		}
@@ -683,7 +683,7 @@ class ilFilterGUI
 		{
 			if ($item->checkInput())
 			{
-				$item->setValueByArray($_POST);
+//				$item->setValueByArray($_POST);
 				$item->clearFromSession();
 			}
 		}

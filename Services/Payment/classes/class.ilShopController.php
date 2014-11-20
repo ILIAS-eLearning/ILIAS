@@ -196,7 +196,7 @@ class ilShopController
 		}
 		if(ANONYMOUS_USER_ID != $ilUser->getId())
 		{
-			if((bool)ilPaymentSettings::_getInstance()->get('topics_allow_custom_sorting'))
+			if((bool)$allSet['topics_allow_custom_sorting'] && (bool)$allSet['enable_topics'])
 			{
 				$ilTabs->addTarget('pay_personal_settings', $this->ctrl->getLinkTargetByClass('ilshoppersonalsettingsgui'), '', '', '');
 			}

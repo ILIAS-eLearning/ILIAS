@@ -146,6 +146,7 @@ class ilShopGUI extends ilShopBaseGUI
 	{
 		$show_general_filter = $this->settings->get('show_general_filter');
 		$show_topics_filter  = $this->settings->get('show_topics_filter');
+		$topics_enabled 	 = $this->settings->get('enable_topics'); 
 		$show_shop_explorer  = $this->settings->get('show_shop_explorer');
 
 		if($show_general_filter)
@@ -156,7 +157,7 @@ class ilShopGUI extends ilShopBaseGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		if($show_topics_filter)
+		if($show_topics_filter && $topics_enabled)
 		{
 			$this->showTopicsFilter();
 		}
@@ -231,27 +232,17 @@ class ilShopGUI extends ilShopBaseGUI
 
 	public function setFilter()
 	{
+		$_SESSION['content_filter']['updateView']      = $_POST['updateView'];
+		$_SESSION['content_filter']['show_filter']     = $_POST['show_filter'];
+		$_SESSION['content_filter']['sel_filter_type'] = $_POST['sel_filter_type'];
+		$_SESSION['content_filter']['filter_text']     = $_POST['filter_text'];
+		$_SESSION['content_filter']['filter_topic_id'] = $_POST['filter_topic_id'];
 
-		
-//		if(!$_POST['show_filter'] && $_POST['updateView'] == '1')
-//		{
-//			$this->resetFilter();
-//			return;
-//		}
-//		else if($_POST['updateView'] == 1)
-//		{
-			$_SESSION['content_filter']['updateView']      = $_POST['updateView'];
-			$_SESSION['content_filter']['show_filter']     = $_POST['show_filter'];
-			$_SESSION['content_filter']['sel_filter_type'] = $_POST['sel_filter_type'];
-			$_SESSION['content_filter']['filter_text']     = $_POST['filter_text'];
-			$_SESSION['content_filter']['filter_topic_id'] = $_POST['filter_topic_id'];
+		$_SESSION['content_filter']['order_field']     = $_POST['order_field'];
+		$_SESSION['content_filter']['order_direction'] = $_POST['order_direction'];
 
-			$_SESSION['content_filter']['order_field']     = $_POST['order_field'];
-			$_SESSION['content_filter']['order_direction'] = $_POST['order_direction'];
-
-			$_SESSION['content_filter']['topics_sorting_type']      = $_POST['topics_sorting_type'];
-			$_SESSION['content_filter']['topics_sorting_direction'] = $_POST['topics_sorting_direction'];
-//		}
+		$_SESSION['content_filter']['topics_sorting_type']      = $_POST['topics_sorting_type'];
+		$_SESSION['content_filter']['topics_sorting_direction'] = $_POST['topics_sorting_direction'];
 
 		$this->setString($_POST['filter_text']);
 		$this->setType($_POST['sel_filter_type']);
@@ -443,9 +434,8 @@ class ilShopGUI extends ilShopBaseGUI
 		{
 			ilUtil::sendInfo($this->lng->txt('payment_shop_not_objects_found'));
 		}
-		
+			
 		$this->showTopicsContent($res);
-		
 		$this->addPager($res);
 		return;
 	}
@@ -543,46 +533,58 @@ class ilShopGUI extends ilShopBaseGUI
 
 		include_once './Services/Payment/classes/class.ilPaymentObject.php';
 		$filter_topics_id = NULL;
-		if($_SESSION['content_filter'] != NULL)
+		if($_SESSION['content_filter']['filter_topic_id'] != NULL)
 		{
 			$filter_topics_id = (int)$_SESSION['content_filter']['filter_topic_id'];
-		}
-		$pobjects = ilPaymentObject::_getTopicsObjects($filter_topics_id);
-		if(count($pobjects))
-		{
-			foreach($pobjects as $result)
+			$pobjects = ilPaymentObject::_getTopicsObjects($filter_topics_id);
+			if(count($pobjects))
 			{
-				$obj_id      = ilObject::_lookupObjId($result['ref_id']);
-				$title       = ilObject::_lookupTitle($obj_id);
-				$description = ilObject::_lookupDescription($obj_id);
-				$type        = ilObject::_lookupType($obj_id);
+				foreach($pobjects as $result)
+				{
+					$obj_id      = ilObject::_lookupObjId($result['ref_id']);
+					$title       = ilObject::_lookupTitle($obj_id);
+					$description = ilObject::_lookupDescription($obj_id);
+					$type        = ilObject::_lookupType($obj_id);
 
-				$presentation_results[(int)$result['pt_topic_fk']][$type][] =
-					array(
-						'ref_id'      => $result['ref_id'],
-						'title'       => $title,
-						'description' => $description,
-						'type'        => $type,
-						'obj_id'      => $obj_id,
-						'topic_id'    => (int)$result['pt_topic_fk'],
-						'child'       => $result['child']
+					$presentation_results[(int)$result['pt_topic_fk']][$type][] = array(
+						'ref_id' => $result['ref_id'], 'title' => $title, 'description' => $description, 'type' => $type, 'obj_id' => $obj_id, 'topic_id' => (int)$result['pt_topic_fk'], 'child' => $result['child']
 					);
+				}
+				$this->tpl->setVariable('PAGE_CONTENT', $this->getPageHTML());
 			}
-			$this->tpl->setVariable('PAGE_CONTENT', $this->getPageHTML());
+			else
+			{
+				$this->tpl->setVariable('PAGE_CONTENT', $this->lng->txt('please_choose_category'));
+			}
+
+			include_once 'Services/Payment/classes/class.ilShopResultPresentationGUI.php';
+			$search_result_presentation = new ilShopResultPresentationGUI($presentation_results);
+			$search_result_presentation->setSortField(strtolower(trim($this->getSortField())));
+			$search_result_presentation->setSortDirection(trim($this->getSortDirection()));
+
+			$html = $search_result_presentation->showTopics();
 		}
 		else
 		{
-			$this->tpl->setVariable('PAGE_CONTENT', $this->lng->txt('please_choose_category'));
+			foreach($oResult->getResults() as $result)
+			{
+
+				$obj_id      = ilObject::_lookupObjId($result['ref_id']);
+				$title       = ilObject::_lookupTitle($obj_id);
+				$description = ilObject::_lookupDescription($obj_id);
+				$tmp_res = array('ref_id' => $result['ref_id'], 'title' => $title, 'description' => $description, 
+								 'type' => $result['type'], 'obj_id' => $obj_id, 'topic_id' => 0, 'child' => 0);
+			
+				$presentation_results[0][$result['type']][] = $tmp_res;
+			}	
+			
+			include_once 'Services/Payment/classes/class.ilShopResultPresentationGUI.php';
+			$search_result_presentation = new ilShopResultPresentationGUI($presentation_results);
+			$search_result_presentation->setSortField(strtolower(trim($this->getSortField())));
+			$search_result_presentation->setSortDirection(trim($this->getSortDirection()));
+
+			$html = $search_result_presentation->showTopics();
 		}
-
-
-		include_once 'Services/Payment/classes/class.ilShopResultPresentationGUI.php';
-		$search_result_presentation = new ilShopResultPresentationGUI($presentation_results);
-		$search_result_presentation->setSortField(strtolower(trim($this->getSortField())));
-		$search_result_presentation->setSortDirection(trim($this->getSortDirection()));
-
-		$html = $search_result_presentation->showTopics();
-
 		$this->tpl->setVariable('RESULTS', $html);
 		$this->showFilters();
 	}

@@ -259,7 +259,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				
 				$topics_gui = new ilShopTopicsGUI($this);
 				$ret = $this->ctrl->forwardCommand($topics_gui);
-				$this->getSubTabs('topics', 'showTopicsList');
+				$this->getSubTabs('topics', $cmd);
 				break;
 			
 			default:
@@ -2334,13 +2334,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 					 $this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'paypalSettings'),
 					 '','', '',$a_sub_tab == 'paypalSettings' ? true : false);
 
-//				$this->tabs_gui->addSubTabTarget('pays_epay',
-//					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'epaySettings'),
-//					'','', '',$a_sub_tab == 'epaySettings' ? true : false);
-//
-//				$this->tabs_gui->addSubTabTarget('pays_erp',
-//					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'erpSettings'),
-//					'','', '',$a_sub_tab == 'erpSettings' ? true : false);
 				break;
 			case 'currencies':
 				break;
@@ -2350,11 +2343,11 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				if(!$a_sub_tab) $a_sub_tab = 'topics';
 				$this->tabs_gui->addSubTabTarget('topics',
 					$this->ctrl->getLinkTargetByClass('ilshoptopicsgui', 'showTopicsList'),
-					'','', '',$a_sub_tab == 'topics' ? true : false);
+					'','', '',$a_sub_tab == 'showTopicsList' ? true : false);
 
 				$this->tabs_gui->addSubTabTarget('topics_settings',
 					$this->ctrl->getLinkTargetByClass('ilshoptopicsgui', 'showTopicsSettings'),
-					'','', '',$a_sub_tab == 'topics_settings' ? true : false);
+					'','', '',$a_sub_tab == 'showTopicsSettings' ? true : false);
 
 				break;
 			case 'documents':

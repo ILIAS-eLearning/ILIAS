@@ -83,7 +83,6 @@ class ilShopResultPresentationGUI
 
 	public function showTopics()
 	{
-		// Get specials
 		$oContainerTpl = new ilTemplate ('tpl.shop_container.html', true, true, 'Services/Payment');
 		include_once './Services/Payment/classes/class.ilShopTopic.php';
 		include_once './Services/Payment/classes/class.ilShopTopics.php';
@@ -245,13 +244,12 @@ class ilShopResultPresentationGUI
 					$tpl->setVariable("BLOCK_HEADER_CONTENT",  $this->lng->txt("objs_".$act_type));
 					
 					$this->resetRowType();
-						
 					// content row
 					foreach($item_html as $ref_id => $html)
 					{
 						$this->addStandardRow($tpl, $html);
 					}
-					
+
 					++$items_counter;
 				}
 			}
@@ -535,9 +533,7 @@ class ilShopResultPresentationGUI
 	
 	public function showAdvancedSearchResults()
 	{
-		// Get results
-		$results = $this->result->getResultsForPresentation();
-		$html = $this->renderItemList($results);
-		return $html;
+		$this->result = $this->result->getResultsForPresentation();
+		return $this->showSpecials();
 	}
 }

@@ -29,19 +29,21 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 	{
 		parent::__construct();
 
-		// set filter
-		$this->setCombination($_SESSION['shop_advanced_search']['combination']);
-		$this->setString($_SESSION['shop_advanced_search']['string']);
-		$this->setDetails($_SESSION['shop_advanced_search']['details']);
-		$this->setTopicId($_SESSION['shop_advanced_search']['topic']);
-		
-		// set sorting
-		$this->setSortingTypeTopics($_SESSION['shop_advanced_search']['order_topics_sorting_type']);
-		$this->setSortingDirectionTopics($_SESSION['shop_advanced_search']['shop_topics_sorting_direction']);
-		
-		$this->setSortField($_SESSION['shop_advanced_search']['shop_order_field']);
-		$this->setSortDirection($_SESSION['shop_advanced_search']['shop_order_direction']);
+		if($this->cmd == 'setFilter')
+		{
+			// set filter
+			$this->setCombination($_SESSION['shop_advanced_search']['combination']);
+			$this->setString($_SESSION['shop_advanced_search']['string']);
+			$this->setDetails($_SESSION['shop_advanced_search']['details']);
+			$this->setTopicId($_SESSION['shop_advanced_search']['topic']);
 
+			// set sorting
+			$this->setSortingTypeTopics($_SESSION['shop_advanced_search']['order_topics_sorting_type']);
+			$this->setSortingDirectionTopics($_SESSION['shop_advanced_search']['shop_topics_sorting_direction']);
+
+			$this->setSortField($_SESSION['shop_advanced_search']['shop_order_field']);
+			$this->setSortDirection($_SESSION['shop_advanced_search']['shop_order_direction']);
+		}
 	}
 	
 	public function setSorting()
@@ -60,6 +62,16 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+
+		if(isset($_POST['cmd']) && $_POST['cmd'] == 'setFilter')
+		{
+			$this->cmd = 'setFilter';
+		}
+		else
+		{
+			$this->cmd = $this->ctrl->getCmd();
+		}
+
 		switch($next_class)
 		{
 			default:
@@ -76,13 +88,37 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 		return true;
 	}	
 	
+	public function setFilter()
+	{
+		if(isset($_POST['search_combination']))
+		{
+			$this->setCombination($_POST['search_combination']);
+		}
+		if(isset($_POST['search_string'])) 
+		{
+			$this->setString($_POST['search_string']);
+			
+		}
+		if(isset($_POST['search_details'])) 
+		{
+			$this->setDetails($_POST['search_details']);
+		}
+		if(isset($_POST['search_topic'])) 
+		{
+			$this->setTopicId($_POST['search_topic']);
+		}
+		$this->performSearch();
+	}
+
+
+	public function resetFilter()
+	{
+		unset($_SESSION['shop_advanced_search']);
+		return $this->showForm();
+	}
+	
 	public function performSearch()
 	{		
-		if(isset($_POST['search']['combination'])) $this->setCombination($_POST['search']['combination']);
-		if(isset($_POST['search']['string'])) $this->setString($_POST['search']['string']);
-		if(isset($_POST['search']['details'])) $this->setDetails($_POST['search']['details']);
-		if(isset($_POST['search']['topic'])) $this->setTopicId($_POST['search']['topic']);		
-		
 		if(!$this->getDetails())
 		{
 			if(method_exists($this, $this->ctrl->getCmd()))
@@ -150,8 +186,8 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 		{
 			ilShopTopics::_getInstance()->setIdFilter((int)$this->getTopicId());
 			ilShopTopics::_getInstance()->enableCustomSorting(false);
-			ilShopTopics::_getInstance()->setSortingType((int)$this->oGeneralSettings->get('topics_sorting_type'));
-			ilShopTopics::_getInstance()->setSortingDirection(strtoupper($this->oGeneralSettings->get('topics_sorting_direction')));
+			ilShopTopics::_getInstance()->setSortingType((int)$this->settings->get('topics_sorting_type'));
+			ilShopTopics::_getInstance()->setSortingDirection(strtoupper($this->settings->get('topics_sorting_direction')));
 			ilShopTopics::_getInstance()->read();
 		}
 		$oSearchResult->setTopics(ilShopTopics::_getInstance()->getTopics());
@@ -194,22 +230,19 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 	{
 		foreach($this->getDetails() as $key => $detail_type)
 		{
-			switch($key)
+			switch($detail_type)
 			{
 				case 'crs':
 					$filter[] = 'crs';
 					break;
-				
 				case 'lms':
 					$filter[] = 'lm';
 					$filter[] = 'sahs';
 					$filter[] = 'htlm';
 					break;
-
 				case 'tst':
 					$filter[] = 'tst';
 					break;
-
 				case 'fil':
 					$filter[] = 'file';
 					break;
@@ -220,160 +253,39 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 	
 	public function showForm($result = null)
 	{
-		global $ilUser;
-		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.shop_advanced_search.html', 'Services/Payment');
-		
-		$this->tpl->setVariable('TBL_TITLE',$this->lng->txt('advanced_search'));		
-		$this->tpl->setVariable('SEARCH_ACTION',$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable('TXT_SEARCHTERM',$this->lng->txt('search_search_term'));
-		$this->tpl->setVariable('TXT_AND',$this->lng->txt('search_all_words'));
-		$this->tpl->setVariable('TXT_OR',$this->lng->txt('search_any_word'));		
-		$this->tpl->setVariable('TXT_OBJECT_TYPE',$this->lng->txt('obj_type'));
-		$this->tpl->setVariable('TXT_TOPIC',$this->lng->txt('topic'));
-		$this->tpl->setVariable('BTN_SEARCH',$this->lng->txt('search'));
-
-		$this->tpl->setVariable('FORM_SEARCH_STR', ilUtil::prepareFormOutput($this->getString(), true));
-		
-		if ($this->getCombination() == self::SEARCH_AND)
-		{
-			$this->tpl->setVariable('AND_CHECKED', 'checked="checked"');
+		include_once 'Services/Payment/classes/class.ilAdvancedSearchFilterGUI.php';
+		$filterGUI = new ilAdvancedSearchFilterGUI($this, $this->cmd);
+		$filterGUI->initFilter();
+		if($this->cmd == 'setFilter')
+		{	
+			$filterGUI->writeFilterToSession();
 		}
 		else
 		{
-			$this->tpl->setVariable('OR_CHECKED', 'checked="checked"');
-		}	
-		
-		$this->tpl->setVariable('CRS',$this->lng->txt('courses'));
-		$this->tpl->setVariable('LMS',$this->lng->txt('learning_resources'));
-		$this->tpl->setVariable('TST',$this->lng->txt('tests'));
-		$this->tpl->setVariable('FIL',$this->lng->txt('objs_file'));
-		$details = $this->getDetails();
-		$this->tpl->setVariable('CHECK_CRS', ilUtil::formCheckbox($details['crs'] ? 1 : 0,'search[details][crs]', 1));
-		$this->tpl->setVariable('CHECK_LMS', ilUtil::formCheckbox($details['lms'] ? 1 : 0,'search[details][lms]', 1));
-		$this->tpl->setVariable('CHECK_TST', ilUtil::formCheckbox($details['tst'] ? 1 : 0,'search[details][tst]', 1));
-		$this->tpl->setVariable('CHECK_FIL', ilUtil::formCheckbox($details['fil'] ? 1 : 0,'search[details][fil]', 1));
-		
-		$selectable_topics = array();
-		$selectable_topics[''] = $this->lng->txt('search_any');;
-		ilShopTopics::_getInstance()->setIdFilter(false);
-		ilShopTopics::_getInstance()->read();
-		foreach(ilShopTopics::_getInstance()->getTopics() as $oTopic)
-		{
-			$selectable_topics[$oTopic->getId()] = $oTopic->getTitle();			
+			$_SESSION['shop_advanced_search'] = array();
+			$filterGUI->resetFilter();
 		}
-		
-		$this->tpl->setVariable('SELECT_TOPIC', ilUtil::formSelect(array($this->getTopicId()), 'search[topic]', $selectable_topics, false, true));
-		
+		$this->tpl->setVariable('FILTER', $filterGUI->getHtml());
+
 		// show results
-		if(count($result->getResults()))
+		if($result && count($result->getResults()))
 		{
 			include_once 'Services/Payment/classes/class.ilShopResultPresentationGUI.php';
 			$search_result_presentation = new ilShopResultPresentationGUI($result);			
-		 		
 			$this->tpl->setVariable('RESULTS', $search_result_presentation->showAdvancedSearchResults());
-			
-	
-			$objects = (bool)$this->settings->get('objects_allow_custom_sorting');
-			$topics = (bool)$this->settings->get('topics_allow_custom_sorting');
-			if($objects)
-			{		
-				$this->tpl->setCurrentBlock('objects_sort_block');
-						$order_fields = array(
-				'title' => $this->lng->txt('title'),
-				'author' => $this->lng->txt('author'),
-				'price' => $this->lng->txt('price_a')
-			);
-			
-			foreach($order_fields as $key => $value)
-			{
-				$this->tpl->setCurrentBlock('order_field');
-				$this->tpl->setVariable('ORDER_FIELD_VALUE', $key);
-				$this->tpl->setVariable('ORDER_FIELD_TEXT', $value);
-				if (strcmp(trim($this->getSortField()), $key) == 0)
-				{
-					$this->tpl->setVariable('ORDER_FIELD_SELECTED', ' selected="selected"');
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-				
-				$this->tpl->setVariable('SORT_BY_TEXT', $this->lng->txt('sort_by'));			
-				$this->tpl->setVariable('ASCENDING_TEXT', $this->lng->txt('sort_asc'));
-				$this->tpl->setVariable('DESCENDING_TEXT', $this->lng->txt('sort_desc'));			
-				$this->tpl->setVariable('ORDER_DIRECTION_'.strtoupper(trim($this->getSortDirection())).'_SELECTED', " selected=\"selected\"");
-				
-				$this->tpl->parseCurrentBlock();
-			}		
-
-			if($topics)
-			{
-				$this->tpl->setCurrentBlock('topics_sort_block');
-				
-				$this->tpl->setVariable('SORT_TOPICS_BY_TEXT', $this->lng->txt('sort_topics_by'));
-				
-				$this->tpl->setVariable('SORTING_TYPE_BY_TITLE', ilShopTopics::TOPICS_SORT_BY_TITLE);
-				$this->tpl->setVariable('SORTING_TYPE_BY_TITLE_TEXT', $this->lng->txt('sort_topics_by_title'));
-				if($this->getSortingTypeTopics() == ilShopTopics::TOPICS_SORT_BY_TITLE)
-				{
-					$this->tpl->setVariable('SORTING_TYPE_BY_TITLE_SELECTED', ' selected="selected"');
-				}
-				
-				$this->tpl->setVariable('SORTING_TYPE_BY_DATE', ilShopTopics::TOPICS_SORT_BY_CREATEDATE);
-				$this->tpl->setVariable('SORTING_TYPE_BY_DATE_TEXT', $this->lng->txt('sort_topics_by_date'));
-				if($this->getSortingTypeTopics() == ilShopTopics::TOPICS_SORT_BY_CREATEDATE)
-				{
-					$this->tpl->setVariable('SORTING_TYPE_BY_DATE_SELECTED', ' selected="selected"');
-				}
-				
-				if(ANONYMOUS_USER_ID != $ilUser->getId())
-				{
-					$this->tpl->setCurrentBlock('sort_manually');
-					$this->tpl->setVariable('SORTING_TYPE_MANUALLY', ilShopTopics::TOPICS_SORT_MANUALLY);			
-					$this->tpl->setVariable('SORTING_TYPE_MANUALLY_TEXT', $this->lng->txt('sort_topics_manually'));
-					if($this->getSortingTypeTopics() == ilShopTopics::TOPICS_SORT_MANUALLY)
-					{
-						$this->tpl->setVariable('SORTING_TYPE_MANUALLY_SELECTED', ' selected="selected"');
-					}
-					$this->tpl->parseCurrentBlock();
-				}
-				
-				$this->tpl->setVariable('SORTING_DIRECTION_ASCENDING_TEXT', $this->lng->txt('sort_asc'));				
-				$this->tpl->setVariable('SORTING_DIRECTION_DESCENDING_TEXT', $this->lng->txt('sort_desc'));
-				if(in_array(strtoupper($this->getSortingDirectionTopics()), array('ASC', 'DESC')))
-				{
-					$this->tpl->setVariable('SORTING_DIRECTION_'.strtoupper($this->getSortingDirectionTopics()).'_SELECTED', 
-											 ' selected="selected"');
-				}
-				else
-				{
-					$this->tpl->setVariable('SORTING_DIRECTION_'.strtoupper(ilShopTopics::DEFAULT_SORTING_DIRECTION).'_SELECTED', ' selected="selected"');
-				}
-				
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			if($objects || $topics)
-			{
-//				$this->tpl->setCurrentBlock('sort_button');
-				
-				$this->tpl->setVariable('SORTING_FORM_ACTION', $this->ctrl->getFormAction($this, 'setSorting'));			
-				$this->tpl->setVariable('CMD_SORT', 'setSorting');
-				$this->tpl->setVariable('SORT_TEXT', $this->lng->txt('sort'));	
-//				$this->tpl->parseCurrentBlock();
-			}			
-			
-			
-			$this->tpl->setCurrentBlock('sorting');
-			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
 			$this->tpl->setVariable('RESULTS', $this->lng->txt('payment_shop_not_objects_found'));
 		}
 		
-		$this->addPager($result);
-	
-		return true;
+		if($result)
+		{
+			$this->addPager($result);
+		}	
+		
+//		return true;
 	}
 	
 	public function setCombination($a_combination)
