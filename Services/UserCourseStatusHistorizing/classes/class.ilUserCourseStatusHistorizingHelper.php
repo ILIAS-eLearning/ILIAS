@@ -117,6 +117,12 @@ class ilUserCourseStatusHistorizingHelper
 		$function = gevUserUtils::getInstanceByObjOrId($user)
 						   ->getFunctionAtCourse(self::getId($course));
 
+
+		/*
+		2014-11-20 
+		0000751: UserCourseStatusHistorizing: "canceled"-Wert im Feld "function" entfernen
+		also see: class.gevEduBiographyGUI.php
+
 		//function asks for roles, actually;
 		//this should be historized otherwise, though.
 		if($function === null){
@@ -132,6 +138,7 @@ class ilUserCourseStatusHistorizingHelper
 
 		}
 		
+		*/
 		return $function;
 	}
 

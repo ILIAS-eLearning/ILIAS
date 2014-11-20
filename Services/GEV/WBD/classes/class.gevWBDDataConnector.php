@@ -1040,27 +1040,44 @@ class gevWBDDataConnector extends wbdDataConnector {
 					// this is truly a foreign record
 
 					// ! Storno/Korrektur !
-					if($wpentry['Storniert'] != 'false' || $wpentry['Korrekturbuchung'] != 'false'){
+					if($wpentry['Korrekturbuchung'] != 'false'){
 						print_r($wpentry);
-						die('Storno/Korrektur - not implemented');
+						die('Korrekturbuchung - not implemented');
 					}
 
-					$rec = array(
-						'bwv_id' 		=> $wpentry['VermittlerId'],
-						'wbd_booking_id'=> $booking_id,
-						'credit_points'	=> $wpentry['WeiterbildungsPunkte'],
-						'begin'			=> $wpentry['SeminarDatumVon'],
-						'end'			=> $wpentry['SeminarDatumBis'],
-						'title' 		=> $wpentry['Weiterbildung'],
-						'wbd_topic'		=> $wpentry['LernInhalt'],
-						'type'			=> $wpentry['LernArt']
-					);
 
-					$crs_id = $this->importSeminar($rec);
-					$this->assignUserToSeminar($rec, $crs_id);
 
-					print "\n\n imported seminar: \n";
-					print_r($wpentry);
+					if($wpentry['Storniert'] != 'false'){
+						
+						print "\n\n STORNO: \n";
+						print_r($wpentry);
+
+						die('.');	
+					}
+
+
+
+					if( $wpentry['Storniert'] == 'false' &&
+						$wpentry['Korrekturbuchung'] == 'false'){
+
+						$rec = array(
+							'bwv_id' 		=> $wpentry['VermittlerId'],
+							'wbd_booking_id'=> $booking_id,
+							'credit_points'	=> $wpentry['WeiterbildungsPunkte'],
+							'begin'			=> $wpentry['SeminarDatumVon'],
+							'end'			=> $wpentry['SeminarDatumBis'],
+							'title' 		=> $wpentry['Weiterbildung'],
+							'wbd_topic'		=> $wpentry['LernInhalt'],
+							'type'			=> $wpentry['LernArt']
+						);
+
+						$crs_id = $this->importSeminar($rec);
+						$this->assignUserToSeminar($rec, $crs_id);
+						print "\n\n imported seminar: \n";
+						print_r($wpentry);
+					}
+
+
 				} else {
 					print "\n not a foreign record";
 				

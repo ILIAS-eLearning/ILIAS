@@ -412,6 +412,13 @@ class gevEduBiographyGUI {
 	
 	protected function queryWhere(ilDate $start, ilDate $end) {
 		if ($this->query_where === null) {
+			/*
+			2014-11-20 
+			0000751: UserCourseStatusHistorizing: "canceled"-Wert im Feld "function" entfernen
+			check for booking_status should be enough...
+			
+			also see: getFunctionOf in class.iluserCourseStatusHistorizingHelper.php
+
 			$this->query_where =
 					 " WHERE usr.user_id = ".$this->db->quote($this->target_user_id, "integer")
 					."   AND ".$this->db->in("usrcrs.function", array("Mitglied", "Teilnehmer", "Member", 'canceled'), false, "text")
@@ -421,6 +428,18 @@ class gevEduBiographyGUI {
 					."        OR usrcrs.end_date = '0000-00-00')"
 					."   AND usrcrs.begin_date <= ".$this->db->quote($end->get(IL_CAL_DATE), "date")
 					;
+			*/
+			$this->query_where =
+					 " WHERE usr.user_id = ".$this->db->quote($this->target_user_id, "integer")
+					."   AND usrcrs.hist_historic = 0 "
+					."   AND ( usrcrs.end_date >= ".$this->db->quote($start->get(IL_CAL_DATE), "date")
+					."        OR usrcrs.end_date = '0000-00-00')"
+					."   AND usrcrs.begin_date <= ".$this->db->quote($end->get(IL_CAL_DATE), "date")
+					."   AND ".$this->db->in("usrcrs.booking_status", array("gebucht", "kostenpflichtig storniert", "kostenfrei storniert"), false, "text")
+					;
+
+
+
 		}
 		
 		return $this->query_where;
