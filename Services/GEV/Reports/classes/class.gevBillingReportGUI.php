@@ -263,7 +263,7 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 		// day, thus we do not get the bills created on said day.
 		$date = new ilDate($this->created_till->get(IL_CAL_UNIX), IL_CAL_UNIX);
 		$date->increment(ilDateTime::DAY, 1);
-		return "   AND bill.bill_finalized_date <= ".$this->db->quote($this->created_till->get(IL_CAL_UNIX), "integer");
+		return "   AND bill.bill_finalized_date <= ".$this->db->quote($date->get(IL_CAL_UNIX), "integer");
 	}
 	
 	protected function deliverBillPDF() {
