@@ -486,12 +486,32 @@ $(document).ready(function ()
     }
     function checkTextBoxQuick(selector)
     {
-        var gap_id      = 0;
-        var answer_id   = 0;
-        var temp        = '';
-        temp = selector.attr('id').split('_')[1].split('[');
-        gap_id          = parseInt(temp[0], 10);
-        checkInputElementNotEmpty(selector,selector.val());
+        var error_counter           = checkInputElementNotEmpty(selector,selector.val());  
+        var more_errors             = 0;
+        var find_gap_id             = selector.attr('id').split('_')[1].split('[');
+        var gap_id                  = parseInt(find_gap_id[0], 10);
+        if( error_counter === 1 )
+        {
+            $('#gap_error_' + gap_id).find('.value.form_error').removeClass('prototype');
+        }
+        else
+        {
+            more_errors = 0;
+            var count = ClozeSettings.gaps_php[0][gap_id].values.length;
+            var value = '';
+            for(var i = 0; i <= count; i++)
+            {
+                value = $('#gap_' + gap_id + '\\[answer\\]\\[' + i + '\\]').val();
+                if (value === '' || value === null) 
+                {
+                    more_errors ++;
+                }  
+            }
+            if(more_errors === 0)
+            {
+                $('#gap_error_' + gap_id).find('.value.form_error').addClass('prototype');
+            }
+        }
         checkInputTextForWhitespaces(gap_id,selector,selector.val());
         ClozeGlobals.whitespace_cleaner = false;
     }
