@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2014 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -272,11 +272,11 @@ adve#:#adve_grp_scorm#:#SCORM-Module
 adve#:#adve_grp_test#:#Test and Assessment
 adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#ILIAS-Seiteneditor
-adve#:#adve_pe_general#:#Semantische Auszeichner
+adve#:#adve_pe_general#:#Einstellungen
 adve#:#adve_rte_settings#:#TinyMCE Editor
 adve#:#adve_text_content_features#:#Text Content Menü
-adve#:#adve_use_physical#:#str/emp/imp durch b/i/u ersetzen
-adve#:#adve_use_physical_info#:#Die Einstellung ersetzt die Buttons der semantischen Styleklassen für strong, emphatic und important durch die physikalischen Auszeichnungen b (bold), i (italic) und u (underline). Achtung, hierbei kann es zu Inkonsistenzen kommen, wenn über den Styleeditor den Styleklassen für strong, emphatic und important andere Auszeichnungen zugeordnet werden.
+adve#:#adve_use_physical#:#str|emp|imp durch <b>B</b>|<i>I</i>|<u>U</u> ersetzen
+adve#:#adve_use_physical_info#:#Die Einstellung ersetzt die Buttons der semantischen Styleklassen für strong, emphatic und important durch die fest definierten Auszeichnungen <b>B</b> (bold), <i>I</i> (italic) und <u>U</u> (underline). Achtung: hierbei kann es zu Inkonsistenzen kommen, wenn über den Styleeditor den Styleklassen für strong, emphatic und important andere Auszeichnungen zugeordnet wurden.
 adve#:#adve_use_tiny_mce#:#TinyMCE für WYSIWYG-Editieren aktivieren
 assessment#:#no_archive_on_anonymous#:#Die Archivierung ist im anonymen Test unzulässig und wurde automatisch deaktiviert.
 assessment#:#autosave#:#Automatisches Speichern
@@ -318,7 +318,7 @@ assessment#:#add_poly#:#Polygon hinzufügen
 assessment#:#add_questionpool#:#Fragenpool hinzufügen
 assessment#:#add_rect#:#Rechteck hinzufügen
 assessment#:#add_solution#:#Musterlösung hinzufügen
-assessment#:#addSuggestedSolution#:#Musterlösung hinzufügen
+assessment#:#addSuggestedSolution#:#Inhalte zur Wiederholung
 assessment#:#adm_settings_templates#:#Einstellungsvorlagen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#allow_images#:#Grafikunterstützung für Antworten
@@ -628,7 +628,7 @@ assessment#:#internal_links_update#:#Aktualisierung
 assessment#:#javaapplet#:#Java-Applet
 assessment#:#keywords_hint#:#Um eine automatische Punktevergabe bei einer Frage vom Typ Freitext eingeben zu erreichen, geben Sie hier bitte eine Liste von Schlagwörtern an. Die Schlagwörter müssen durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sein. Ist eines der Schlagwörter im Antworttext vorhanden, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
 assessment#:#kiosk#:#Prüfungsansicht
-assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet.
+assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Teilnehmer werden daran gehindert, andere Webseiten zu öffnen.
 assessment#:#kiosk_options#:#Angezeigte Informationen
 assessment#:#kiosk_options_desc#:#Die ausgewählten Informationen werden im Kopfbereich der Seite angezeigt.
 assessment#:#kiosk_show_participant#:#Name des Teilnehmers
@@ -724,7 +724,7 @@ assessment#:#tst_inp_source_pool_no_tax_filter#:#Verwende keine Taxonomie als Fi
 assessment#:#tst_inp_source_pool_filter_tax_x#:#Verwende Taxonomie "%s" als Filter
 assessment#:#tst_inp_no_available_tax_hint#:#Für den ausgewählten Fragenpool stehen keine Taxonomien zur Verfügung
 assessment#:#tst_msg_source_pool_definitions_deleted#:#Die Regel für die Fragenauswahl wurde erfolgreich gelöscht.
-assessment#:#tst_limit_nr_of_tries#:#Maximale Anzahl von Testdurchläufen
+assessment#:#tst_limit_nr_of_tries#:#Anzahl von Testdurchläufen
 assessment#:#tst_settings_header_test_run#:#Durchführung: Steuerung Testdurchlauf
 assessment#:#tst_settings_header_intro#:#Informationen zum Einstieg
 assessment#:#tst_settings_header_execution#:#Durchführung: Zugang
@@ -765,7 +765,7 @@ assessment#:#participants#:#Teilnehmer
 assessment#:#participants_data#:#Teilnehmerdaten
 assessment#:#participants_evaluation#:#Statistik für alle Teilnehmer
 assessment#:#participants_invitation#:#Nur definierte Teilnehmer
-assessment#:#participants_invitation_description#:#Test kann nur von den Teilnehmern durchgeführt werden, die im Reiter "Teilnehmer" hinzugefügt wurden.
+assessment#:#participants_invitation_description#:#Der Test kann nur von den Benutzern durchgeführt werden, die im Reiter "Teilnehmer" hinzugefügt wurden.
 assessment#:#participants_invitation_search_introduction#:#Um feste Teilnehmer zu diesem Test einzuladen, geben Sie bitte die gewünschten Namen in das untere Suchfeld ein und wählen Sie dann aus den Ergebnissen die festen Teilnehmer aus, die Sie einladen wollen. Alle festen Teilnehmer werden in die benachbarte Rubrik &quot;Daten der Teilnehmer&quot; hinzugefügt
 assessment#:#pass#:#Durchlauf
 assessment#:#pass_finished#:#%s Durchlauf
@@ -854,7 +854,7 @@ assessment#:#qt_multiple_choice#:#Multiple Choice
 assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
 assessment#:#question_instances_title#:#Diese Frage wird in den folgenden Tests verwendet
 assessment#:#question_marking#:#Fragen markieren
-assessment#:#question_marking_description#:#Teilnehmer erhalten die Möglichkeit, beliebige Fragen für sich zu markieren. Die Markierungen werden auch in der Fragenübersicht angezeigt (sofern aktiviert).
+assessment#:#question_marking_description#:#Teilnehmer erhalten die Möglichkeit, Fragen für sich zu markieren. Die Markierungen werden auch in der Fragenübersicht angezeigt, sofern diese aktiviert ist.
 assessment#:#question_not_answered#:#Die Frage wurde nicht beantwortet
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
@@ -1083,11 +1083,11 @@ assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Fra
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
 assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Benutzern durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) hinzufügen wollen?
 assessment#:#tst_instant_feedback#:#Direkte Rückmeldung
-assessment#:#tst_instant_feedback_answer_specific#:#Rückmeldung pro Antwortoption
-assessment#:#tst_instant_feedback_answer_specific_desc#:#Bei Anklicken des <i>Prüfen</i>-Button zeigt ILIAS für alle ausgewählten Antwortoptionen die jeweils hinterlegte Rückmeldung an (sofern der Fragetyp dies unterstützt).
-assessment#:#tst_instant_feedback_answer_generic#:#Rückmeldung "Richtige Lösung"
-assessment#:#tst_instant_feedback_answer_generic_desc#:#Bei Anklicken des <i>Prüfen</i>-Button zeigt ILIAS an, zeigt ILIAS die Rückmeldung an, die für die richtige Lösung bzw. für die nicht vollständig richtige Lösung der Frage hinterlegt worden ist.
-assessment#:#tst_instant_feedback_fix_usr_answer#:#Gegebene Antwort fixieren
+assessment#:#tst_instant_feedback_answer_specific#:#Unterschiedliche Rückmeldungen pro möglicher Antwort
+assessment#:#tst_instant_feedback_answer_specific_desc#:#Bei Anklicken des <i>Prüfen</i>-Buttons zeigt ILIAS für alle abgegebenen Antworten die jeweils hinterlegte Rückmeldung an. Nicht alle Fragetypen unterstützen diese Art von Rückmeldungen.
+assessment#:#tst_instant_feedback_answer_generic#:#Zwei alternative Rückmeldungen
+assessment#:#tst_instant_feedback_answer_generic_desc#:#Bei Anklicken des <i>Prüfen</i>-Buttons zeigt ILIAS die zur abgegebenen Antwort passende Rückmeldung an. Diese Rückmeldungen zur richtigen Lösung bzw. zu einer nicht vollständig richtigen Lösung müssen in der Frage hinterlegt werden.
+assessment#:#tst_instant_feedback_fix_usr_answer#:#Gegebene Antworten festschreiben
 assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#Nach dem Anfordern der Rückmeldung kann ein Teilnehmer seine Antwort nicht mehr verändern.
 assessment#:#tst_instant_feedback_results#:#Erreichte Punkte
 assessment#:#tst_instant_feedback_results_desc#:#Bei Anklicken des <i>Prüfen</i>-Button zeigt ILIAS an, wie viele Punkte für die gegebene Antwort erreicht wurden.
@@ -1103,9 +1103,9 @@ assessment#:#tst_invited_selected_users#:#Die ausgewählten Benutzer wurden als 
 assessment#:#tst_link_only_unassigned#:#Sie haben mindestens eine Frage ausgewählt, die bereits einem Fragepool zugeordnet ist. Nur Fragen, die keinem Fragenpool zugeordnet sind, können einem Fragenpool hinzugefügt werden. Bitte treffen Sie eine neue Auswahl.
 assessment#:#tst_list_of_answers#:#Liste der Antworten
 assessment#:#tst_list_of_answers_show#:#Liste der Antworten anzeigen
-assessment#:#tst_list_of_questions_end#:#Die Fragenübersicht anzeigen, bevor Teilnehmer den Test beenden
-assessment#:#tst_list_of_questions_start#:#Die Fragenübersicht anzeigen, bevor Teilnehmer die erste Frage bearbeiten
-assessment#:#tst_list_of_questions_with_description#:#Fragenbeschreibungen in der Fragenübersicht anzeigen
+assessment#:#tst_list_of_questions_end#:#Vor dem Ende des Test anzeigen
+assessment#:#tst_list_of_questions_start#:#Noch vor der ersten Frage anzeigen
+assessment#:#tst_list_of_questions_with_description#:#Fragenbeschreibungen anzeigen
 assessment#:#tst_list_of_questions_yes#:#Ja, und zusätzlich
 assessment#:#tst_manscoring_question_section_header#:#Frage: %s
 assessment#:#tst_manscoring_user_notification#:#Benachrichtigung senden
@@ -1172,7 +1172,7 @@ assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_print_date#:#Datum des Ausdrucks
 assessment#:#tst_processing_time#:#Maximale Bearbeitungsdauer
-assessment#:#tst_processing_time_desc#:#Die Bearbeitungsdauer für den Test wird zeitlich eingegrenzt.
+assessment#:#tst_processing_time_desc#:#Teilnehmer können den Test nur für eine begrenzte Zeit bearbeiten. Die Zeit läuft von dem Moment des ersten Startens durch den Teilnehmer. "Test unterbrechen" stoppt den Ablauf der Bearbeitungsdauer nicht.
 assessment#:#tst_properties#:#Test-Eigenschaften
 assessment#:#tst_qst_order#:#Reihenfolge
 assessment#:#tst_qst_resetsolved#:#markiere als ungelöst
@@ -1249,7 +1249,7 @@ assessment#:#tst_show_solution_printview_desc#:#Wenn die Liste der Antworten ang
 assessment#:#tst_show_solution_feedback_desc#:#Wenn die antwortspezifischen Rückmeldungen ausgewählt sind, werden diese Rückmeldungen (falls vorhanden) in den Testergebnissen angezeigt.
 assessment#:#tst_show_solution_answers_only_desc#:#Wenn "Druckausgabe der Ergebnisse (nur Antworten)" ausgewählt ist, werden ILIAS-Inhalte, die Sie über den "Inhalt bearbeiten" Karteireiter der Fragen vor und hinter dem eigentlichen Fragentext platzieren können, in einem Ausdruck nicht angezeigt.
 assessment#:#tst_show_solution_signature_desc#:#Ist "Unterschrift-Platzhalter anzeigen" ausgewählt, wird für den Ausdruck ein Platzhalter für die Unterschrift des Testteilnehmers angezeigt.
-assessment#:#tst_show_solution_suggested_desc#:#Wenn "Musterlösungen anzeigen" ausgewählt ist, werden die Musterlösungen von Fragen (falls vorhanden) in der Fragenübersicht der Testergebnisse angezeigt.
+assessment#:#tst_show_solution_suggested_desc#:#Falls den Fragen im Test zuvor Inhalte zur Wiederholung des Stoff zugeordnet wurden, werden diese in der Fragenübersicht der Testergebnisse angezeigt. Teilnehmer können so etwaige Wissenslücken schließen.
 assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung
 assessment#:#tst_results_print_best_solution_info#:#Teilnehmern mit Zugang zu ihren Testergebnissen wird für jede Frage die bestmögliche Lösung angezeigt.
 assessment#:#tst_resume_test#:#Test fortsetzen
@@ -1302,11 +1302,11 @@ assessment#:#tst_show_solution_details#:#Bewertungsdetails anzeigen
 assessment#:#tst_show_solution_feedback#:#Antwortspezifische Rückmeldungen in den Testergebnissen anzeigen
 assessment#:#tst_show_solution_printview#:#Druckbare Liste der Antworten zusätzlich anzeigen
 assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift anzeigen
-assessment#:#tst_show_solution_suggested#:#Musterlösungen anzeigen
+assessment#:#tst_show_solution_suggested#:#Inhalte zur Wiederholung anzeigen
 assessment#:#tst_show_summary#:#Fragenübersicht anzeigen
 assessment#:#tst_show_summary_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen und erhalten eine Schaltfläche "Fragenübersicht". Auf diesem Bildschirm wird auch der Gesamtbearbeitungsstatus angezeigt. Das Verhalten der Fragenübersicht können Sie noch weiter konfigurieren:
 assessment#:#tst_shuffle_questions#:#Fragen mischen
-assessment#:#tst_shuffle_questions_description#:#Reihenfolge der Fragen werden pro Teilnehmer und pro Testdurchlauf neu gemischt.
+assessment#:#tst_shuffle_questions_description#:#Die Reihenfolge der Fragen wird pro Teilnehmer und pro Testdurchlauf neu gemischt.
 assessment#:#tst_signature#:#Unterschrift
 assessment#:#tst_single_results#:#Ergebnisse zu Einzelfragen
 assessment#:#tst_start_new_test_pass#:#Neuen Testdurchlauf starten
@@ -1540,8 +1540,8 @@ assessment#:#tst_single_answer_details#:#Zeige einzelne Antwort
 assessment#:#tst_pass_details_overview_table_title#:#Detaillierte Testergebnisse für Testdurchlauf %s
 assessment#:#tst_btn_show_best_solutions#:#Zeige bestmögliche Lösungen
 assessment#:#tst_btn_hide_best_solutions#:#Verstecke bestmögliche Lösungen
-assessment#:#tst_starting_time_desc#:#Zeitpunkt, ab dem der Test begonnen werden kann. Das Klicken der Schaltfläche <i>Start</i> ist möglich, und Teilnehmer können Fragen beantworten.
-assessment#:#tst_ending_time_desc#:#Zeitpunkt zu dem der Test abgeschlossen wird: Teilnehmer können keine Fragen mehr beantworten, ILIAS schließt den Test ab.
+assessment#:#tst_starting_time_desc#:#Zeitpunkt, ab dem der Test begonnen werden kann. Das Klicken der Schaltfläche <i>Test starten</i> ist möglich, und Teilnehmer können Fragen beantworten.
+assessment#:#tst_ending_time_desc#:#Zeitpunkt, zu dem der Test beendet wird. Teilnehmer können ab diesem Moment keine Antworten mehr abgeben.
 assessment#:#tst_allowed_users_desc#:#ILIAS prüft die Anzahl der gleichzeitigen Teilnehmer des Tests. Wenn über die maximal erlaubte Anzahl hinaus weitere Benutzer versuchen, den Test zu starten, werden sie am Zugriff gehindert.
 assessment#:#tst_allowed_users_time_gap_desc#:#Teilnehmer die im Ablauf der angegeben Sekunden keinen Klick im Test ausführen, werden als ‚inaktiv‘ eingestuft und aus dem Test entfernt.
 assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
@@ -6621,11 +6621,11 @@ crs#:#crs_objective_status#:#Lernzielstatus
 crs#:#crs_objective_step#:#Schritt
 crs#:#crs_objective_updated_test#:#Die Änderungen wurden übernommen.
 crs#:#crs_objective_wiz_final#:#Fragen des Qualifizierenden Tests festlegen
-crs#:#crs_objective_wiz_final_info#:#Legen Sie nun die Fragen des Qualifizierenden Tests fest.
+crs#:#crs_objective_wiz_final_info#:#Legen Sie nun die Fragen des Qualifizierenden Tests fest, die das Erreichen des Lernziels überprüfen sollen.
 crs#:#crs_objective_wiz_final_limit#:#Grenzen des Qualifizierenden Tests festlegen
-crs#:#crs_objective_wiz_final_limit_info#:#Bitte legen Sie nun die Punktzahl ein, die benötigt ist, um das Lernziel zu bestehen.
+crs#:#crs_objective_wiz_final_limit_info#:#Bitte tragen Sie nun die Punktzahl ein, die ein Kursteilnehmer benötigt, um das Lernziel zu bestehen.
 crs#:#crs_objective_wiz_materials#:#Lerninhalte zuordnen
-crs#:#crs_objective_wiz_materials_info#:#Hier können Sie festlegen, welche Lerninhalte zur Bearbeitung des Lernziels empfohlen werden.
+crs#:#crs_objective_wiz_materials_info#:#Hier legen Sie fest, welche Lerninhalte zur Bearbeitung des Lernziels empfohlen werden.
 crs#:#crs_objective_wiz_self#:#Fragen des Einstiegstests festlegen
 crs#:#crs_objective_wiz_self_info#:#Legen Sie nun die Fragen des Einstiegstests fest. Der Einstiegstest dient der Überprüfung, ob und welche Vorkenntnisse bei den Kursteilnehmern vorhanden sind.
 crs#:#crs_objective_wiz_self_limit#:#Grenzen des Einstiegstests festlegen
@@ -12273,7 +12273,7 @@ registration#:#registration_code_role_info#:#Bei Benutzung eines Registrierungsc
 mail#:#mail_system_sender_name#:#Absendername
 mail#:#mail_system_sender_name_info#:#Bitte geben Sie einen Namen ein, der als Absender für automatisch generierte Nachrichten (intern und extern) genutzt werden soll. Falls Sie dieses Feld leer lassen, nutzt ILIAS den Kurztitel dieser Installation. Ist dieser ebenfalls nicht definiert, wird 'ILIAS' als Absender verwendet.
 content#:#cont_current_term#:#Aktueller Begriff
-assessment#:#tst_setting_offer_hints_label#:#Lösungshinweis
+assessment#:#tst_setting_offer_hints_label#:#Lösungshinweise
 assessment#:#tst_setting_offer_hints_info#:#Teilnehmer können Lösungshinweise anfordern, um eine Frage zu beantworten. Pro gegebenem Hinweis verringern sich die Punkte für die richtige Antwort.
 assessment#:#tst_question_hints_tab#:#Hinweise
 assessment#:#tst_question_hints_table_header#:#Hinweise zur Frage: %s
@@ -14896,7 +14896,7 @@ crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lern
 crs#:#crs_loc_tst_new_run#:#Neuen Test starten
 crs#:#crs_loc_tst_resume#:#Alten Test fortsetzen
 crs#:#crs_loc_settings_reset#:#Testergebnisse
-crs#:#crs_loc_settings_reset_enable_info#:#Wenn aktiviert, haben alle Benutzer die Möglichkeit, ihre individuellen Testergebnisse zurückzusetzen.
+crs#:#crs_loc_settings_reset_enable_info#:#Kursmitglieder können die eigenen Testergebnisse löschen, um den Kurs von neuem zu beginnen. Diese Einstellung sollte nur in der Entwicklungsphase des Kurses genutzt werden, um dessen Ablauf leichter zu überprüfen.
 crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und danach den Qualifizierenden Test.
 ecs#:#ecs_part_settings#:#Einstellungen für Teilnehmer:
 bibl#:#bibl_library_show_in_list#:#Link auch in der Liste anzeigen
@@ -15072,8 +15072,8 @@ crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests e
 crs#:#crs_loc_type_qualified_info#:#Der Kurs startet mit einem Test, der individuell prüft, ob die Kursmitglieder die Lernziele bereits beherrschen. Beim Bestehen des Tests, brauchen weder weitere Lerninhalte noch Tests bearbeitet werden. Für alle nicht erreichten Lernziele empfiehlt ILIAS Lerninhalte. Die Erreichung dieser Lernziele wird in einem weiteren Testdurchlauf abgeprüft. 
 crs#:#crs_loc_type_practise_info#:#Kursmitgliedern werden Lerninhalte zu sämtlichen Lernzielen des Kurses präsentiert. Sie können frei navigieren und zu jedem Zeitpunkt einen Qualifizierenden Test durchführen. Dieser prüft die Erreichung aller Lernziele.  
 assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Rule for Selection of Questions###07 11 2014 new variable
-rbac#:#bibs_copy#:#User can copy bibliography###07 11 2014 new variable
-crs#:#crs_loc_settings_reset_enable#:#Allow "Reset Test Results"###07 11 2014 new variable
+rbac#:#bibs_copy#:#Literaturlisten kopieren
+crs#:#crs_loc_settings_reset_enable#:#Zurücksetzen der persönlichen Testergebnisse erlauben
 prtf#:#prtf_page_element_my_courses_info#:#Alle Kurse, die aktuell online sind.
 prtf#:#prtf_allow_my_courses#:#Seitenelement "Meine Kurse"
 prtf#:#prtf_allow_my_courses_info#:#Ermöglicht eine Liste der aktuellen Kursmitgliedschaften in ein Portfolio aufzunehmen.
