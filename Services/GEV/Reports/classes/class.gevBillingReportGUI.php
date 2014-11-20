@@ -116,7 +116,7 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 	}
 	
 	protected function fetchData(){
-		if ($this->created_till->get(IL_CAL_UNIX_) < $this->created_since->get(IL_CAL_UNIX) ) {
+		if ($this->created_till->get(IL_CAL_UNIX) < $this->created_since->get(IL_CAL_UNIX) ) {
 			return array();
 		}
 		
