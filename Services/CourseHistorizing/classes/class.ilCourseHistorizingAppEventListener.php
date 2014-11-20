@@ -140,7 +140,8 @@ class ilCourseHistorizingAppEventListener
 			'max_credit_points'					=> self::$ilCourseHistorizingHelper->getMaxCreditPointsOf($parameter),
 			'fee'								=> self::$ilCourseHistorizingHelper->getFeeOf($parameter),
 			'is_template'						=> self::$ilCourseHistorizingHelper->getIsTemplate($parameter),
-			'wbd_topic'							=> self::$ilCourseHistorizingHelper->getWBDTopicOf($parameter)
+			'wbd_topic'							=> self::$ilCourseHistorizingHelper->getWBDTopicOf($parameter),
+			'edu_program'						=> self::$ilCourseHistorizingHelper->getEduProgramOf($parameter)
 		
 		);
 

@@ -256,5 +256,13 @@ class ilCourseHistorizingHelper
 		return $utils->getWBDTopic();
 	}
 
+	public static function getEduProgramOf($course) {
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
+		return $utils->getEduProgramm();
+	}
+
+
+	
+
 
 }

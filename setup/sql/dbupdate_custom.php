@@ -2216,3 +2216,21 @@ while($rec = $ilDB->fetchAssoc($res)) {
 }
 ?>
 
+<#64>
+<?php
+// missing fields, hist_course
+$txt_fields_hist_course = array(
+	'edu_program' //CRS_AMD_EDU_PROGRAMM
+);
+foreach ($txt_fields_hist_course as $field) {
+	if(!$ilDB->tableColumnExists('hist_course', $field)){
+		$ilDB->addTableColumn('hist_course', $field, array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+			)
+		);	
+	}
+}
+?>
+
