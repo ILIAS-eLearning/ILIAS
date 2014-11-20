@@ -148,13 +148,24 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 						crs_acco acco
 					ON  
 						crs.crs_id = acco.crs_id
-
+					JOIN
+						object_reference oref
+					ON
+						oref.obj_id = crs.crs_id
+					JOIN
+						crs_settings cs
+					ON
+						cs.obj_id = crs.crs_id
 					WHERE 
 						crs.hist_historic=0
 					AND
 						crs.venue != '-empty-'
+					AND
+						oref.deleted IS NULL
+					AND
+						cs.activation_type = 1
 		";
-
+		
 		$query .= $this->queryWhen($this->start_date, $this->end_date, $this->show_past_events);
 		$query .= $sql_order_str;
 
