@@ -4743,3 +4743,241 @@ $ilDB->insert("payment_settings", array(
 			"scope" => array("text", 'gui')));
 
 ?>
+<#4415>
+<?php
+
+if( !$ilDB->uniqueConstraintExists('tst_active', array('user_fi', 'test_fi', 'anonymous_id')) )
+{
+	$ilDB->createTable('tmp_active_fix', array(
+		'test_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'anonymous_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'active_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+			'default' => null
+		)
+	));
+
+	$ilDB->addPrimaryKey('tmp_active_fix', array('test_fi', 'user_fi', 'anonymous_id'));
+	
+	$res = $ilDB->query("
+		SELECT COUNT(*), test_fi, user_fi, anonymous_id
+		FROM tst_active
+		GROUP BY user_fi, test_fi, anonymous_id
+		HAVING COUNT(*) > 1
+	");
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$ilDB->replace('tmp_active_fix',
+			array(
+				'test_fi' => array('integer', $row['test_fi']),
+				'user_fi' => array('integer', (int)$row['user_fi']),
+				'anonymous_id' => array('integer', (int)$row['anonymous_id'])
+			),
+			array()
+		);
+	}
+}
+
+
+
+?>
+<#4416>
+<?php
+
+if( $ilDB->tableExists('tmp_active_fix') )
+{
+	$selectUser = $ilDB->prepare("
+			SELECT active_id, max_points, reached_points, passed FROM tst_active
+			LEFT JOIN tst_result_cache ON active_fi = active_id
+			WHERE test_fi = ? AND user_fi = ? AND anonymous_id IS NULL
+		", array('integer', 'integer')
+	);
+
+	$selectAnonym = $ilDB->prepare("
+			SELECT active_id, max_points, reached_points, passed FROM tst_active
+			LEFT JOIN tst_result_cache ON active_fi = active_id
+			WHERE test_fi = ? AND user_fi IS NULL AND anonymous_id = ?
+		", array('integer', 'integer')
+	);
+
+	$select = $ilDB->prepare("
+			SELECT active_id, max_points, reached_points, passed FROM tst_active
+			LEFT JOIN tst_result_cache ON active_fi = active_id
+			WHERE test_fi = ? AND user_fi = ? AND anonymous_id = ?
+		", array('integer', 'integer', 'integer')
+	);
+
+	$update = $ilDB->prepareManip("
+			UPDATE tmp_active_fix SET active_id = ?
+			WHERE test_fi = ? AND user_fi = ? AND anonymous_id = ?
+		", array('integer', 'integer', 'integer', 'integer')
+	);
+
+	$res1 = $ilDB->query("SELECT * FROM tmp_active_fix WHERE active_id IS NULL");
+	
+	while($row1 = $ilDB->fetchAssoc($res1))
+	{
+		if(!$row1['user_fi'])
+		{
+			$res2 = $ilDB->execute($selectAnonym, array(
+				$row1['test_fi'], $row1['anonymous_id']
+			));
+		}
+		elseif(!$row1['anonymous_id'])
+		{
+			$res2 = $ilDB->execute($selectUser, array(
+				$row1['test_fi'], $row1['user_fi']
+			));
+		}
+		else
+		{
+			$res2 = $ilDB->execute($select, array(
+				$row1['test_fi'], $row1['user_fi'], $row1['anonymous_id']
+			));
+		}
+		
+		$activeId = null;
+		$passed = null;
+		$points = null;
+		
+		while($row2 = $ilDB->fetchAssoc($res2))
+		{
+			if($activeId === null)
+			{
+				$activeId = $row2['active_id'];
+				$passed = $row2['passed'];
+				$points = $row2['reached_points'];
+				continue;
+			}
+			
+			if( !$row2['max_points'] )
+			{
+				continue;
+			}
+
+			if(!$passed && $row2['passed'])
+			{
+				$activeId = $row2['active_id'];
+				$passed = $row2['passed'];
+				$points = $row2['reached_points'];
+				continue;
+			}
+			
+			if($passed && !$row2['passed'])
+			{
+				continue;
+			}
+
+			if($row2['reached_points'] > $points)
+			{
+				$activeId = $row2['active_id'];
+				$passed = $row2['passed'];
+				$points = $row2['reached_points'];
+				continue;
+			}
+		}
+		
+		$ilDB->execute($update, array(
+			$activeId, $row1['test_fi'], $row1['user_fi'], $row1['anonymous_id']
+		));
+	}
+}
+
+?>
+<#4417>
+<?php
+
+if( $ilDB->tableExists('tmp_active_fix') )
+{
+	$deleteUserActives = $ilDB->prepareManip(
+		"DELETE FROM tst_active WHERE active_id != ? AND test_fi = ? AND user_fi = ? AND anonymous_id IS NULL",
+		array('integer', 'integer', 'integer')
+	);
+
+	$deleteAnonymActives = $ilDB->prepareManip(
+		"DELETE FROM tst_active WHERE active_id != ? AND test_fi = ? AND user_fi IS NULL AND anonymous_id = ?",
+		array('integer', 'integer', 'integer')
+	);
+
+	$deleteActives = $ilDB->prepareManip(
+		"DELETE FROM tst_active WHERE active_id != ? AND test_fi = ? AND user_fi = ? AND anonymous_id = ?",
+		array('integer', 'integer', 'integer', 'integer')
+	);
+
+	$deleteLp = $ilDB->prepareManip(
+		"DELETE FROM ut_lp_marks WHERE obj_id = ? AND usr_id = ?",
+		array('integer', 'integer')
+	);
+
+	$deleteTmpRec = $ilDB->prepareManip(
+		"DELETE FROM tmp_active_fix WHERE test_fi = ? AND user_fi = ? AND anonymous_id = ?",
+		array('integer', 'integer', 'integer')
+	);
+	
+	$res = $ilDB->query("
+		SELECT tmp_active_fix.*, obj_fi FROM tmp_active_fix INNER JOIN tst_tests ON test_id = test_fi
+	");
+	
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		if(!$row['user_fi'])
+		{
+			$ilDB->execute($deleteAnonymActives, array(
+				$row['active_id'], $row['test_fi'], $row['anonymous_id']
+			));
+		}
+		elseif(!$row['anonymous_id'])
+		{
+			$ilDB->execute($deleteUserActives, array(
+				$row['active_id'], $row['test_fi'], $row['user_fi']
+			));
+		}
+		else
+		{
+			$ilDB->execute($deleteActives, array(
+				$row['active_id'], $row['test_fi'], $row['user_fi'], $row['anonymous_id']
+			));
+		}
+
+		$ilDB->execute($deleteLp, array(
+			$row['obj_fi'], $row['user_fi']
+		));
+
+		$ilDB->execute($deleteTmpRec, array(
+			$row['test_fi'], $row['user_fi'], $row['anonymous_id']
+		));
+	}
+	
+	$ilDB->dropTable('tmp_active_fix');
+}
+
+?>
+<#4418>
+<?php
+
+if( !$ilDB->uniqueConstraintExists('tst_active', array('user_fi', 'test_fi', 'anonymous_id')) )
+{
+	$ilDB->addUniqueConstraint('tst_active', array('user_fi', 'test_fi', 'anonymous_id'), 'uc1');
+}
+
+?>
+
