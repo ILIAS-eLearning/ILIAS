@@ -228,7 +228,8 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 			
 			$this->ctrl->setParameter($this, "billnumber", $rec["billnumber"]);
 			$target = $this->ctrl->getLinkTarget($this, "deliverBillPDF");
-			$this->ctrl->clearParameters($this);
+			//$this->ctrl->clearParameters();
+			$this->ctrl->setParameter($this, "billnumber", null);
 			$rec["bill_link"] = "<a href=\"".$target."\">".$bill_link_icon."</a>";
 			
 			$data[] = $rec;
@@ -258,6 +259,10 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 	}
 	
 	protected function queryCreatedTill() {
+		// we need to add one day, since unix-timestamp will be at the start of the
+		// day, thus we do not get the bills created on said day.
+		$date = new ilDate($this->created_till->get(IL_CAL_UNIX), IL_CAL_UNIX);
+		$date->increment(ilDateTime::DAY, 1);
 		return "   AND bill.bill_finalized_date <= ".$this->db->quote($this->created_till->get(IL_CAL_UNIX), "integer");
 	}
 	
