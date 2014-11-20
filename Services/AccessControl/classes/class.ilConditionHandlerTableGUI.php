@@ -90,7 +90,7 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 			$row['type'] = $condition['trigger_type'];
 			$row['title'] = ilObject::_lookupTitle($condition['trigger_obj_id']);
 			$row['description'] = ilObject::_lookupDescription($condition['trigger_obj_id']);
-			$row['icon'] = ilUtil::getImagePath('icon_'.$condition['trigger_type'].'_s.png');
+			$row['icon'] = ilUtil::getImagePath('icon_'.$condition['trigger_type'].'.png');
 			$row['icon_alt'] = $this->lng->txt('obj_'.$condition['trigger_type']);
 			$row['condition'] = $this->lng->txt('condition_'.$condition['operator']);
 			$row['obligatory'] = $condition['obligatory'];
