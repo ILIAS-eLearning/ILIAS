@@ -517,6 +517,18 @@ class ilRepositoryExplorer extends ilExplorer
 		}
 		return false;
 	}
+	
+	function buildTitle($a_title, $a_id, $a_type)
+	{
+		if(!trim($a_title) && $a_type == "sess")
+		{
+			// #14367 - see ilObjSessionListGUI
+			include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+			$app_info = ilSessionAppointment::_lookupAppointment(ilObject::_lookupObjId($a_id)); 	
+			$a_title = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'],$app_info['fullday']);
+		}
+		return $a_title;
+	}
 
 } // END class ilRepositoryExplorer
 ?>
