@@ -95,6 +95,7 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
 			$r['link']	= $objDefinition->allowLink($node['type']);
 			$r['perm_link'] = true;
 			
+			// #11905
 			if(!trim($r['title']) && $r['type'] == 'sess')
 			{
 				// use session date as title if no object title
