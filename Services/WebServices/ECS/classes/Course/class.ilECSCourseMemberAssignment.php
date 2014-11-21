@@ -32,6 +32,28 @@ class ilECSCourseMemberAssignment
 	}
 	
 	/**
+	 * Lookup missing assignments;
+	 * @global type $ilDB
+	 * @param type $a_usr_id
+	 * @return type
+	 */
+	public static function lookupMissingAssignmentsOfUser($a_usr_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT obj_id FROM ecs_course_assignments '.
+				'WHERE usr_id = '.$ilDB->quote($a_usr_id,'text');
+		$res = $ilDB->query($query);
+		
+		$obj_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$obj_ids[] = $row->obj_id;
+		}
+		return $obj_ids;
+	}
+	
+	/**
 	 * Delete by obj_id
 	 */
 	public static function deleteByObjId($a_obj_id)
@@ -204,6 +226,19 @@ class ilECSCourseMemberAssignment
 		
 		$this->id = $ilDB->nextId('ecs_course_assignments');
 		
+		
+		$assignment = self::lookupAssignment(
+				$this->getCmsId(), 
+				$this->getCmsSubId(), 
+				$this->getObjId(), 
+				$this->getUid()
+		);
+		if($assignment instanceof ilECSCourseMemberAssignment)
+		{
+			$assignment->update();
+			return TRUE;
+		}
+		
 		$query = 'INSERT INTO ecs_course_assignments '.
 				'(id,sid,mid,cms_id,cms_sub_id,obj_id,usr_id,status) '.
 				'VALUES( '.
@@ -233,10 +268,10 @@ class ilECSCourseMemberAssignment
 				'sid = '.$ilDB->quote($this->getServer(),'integer').', '.
 				'mid = '.$ilDB->quote($this->getMid(),'integer').', '.
 				'cms_id = '.$ilDB->quote($this->getCmsId(),'integer').', '.
-				'cms_sub_id = '.$ilDB->quote($this->getCmsSubId(),'integer').' '.
+				'cms_sub_id = '.$ilDB->quote($this->getCmsSubId(),'integer').', '.
 				'obj_id = '.$ilDB->quote($this->getObjId(),'integer').', '.
 				'usr_id = '.$ilDB->quote($this->getUid(),'text').', '.
-				'status = '.$ilDB->quote($this->get,'integer').' '.
+				'status = '.$ilDB->quote($this->getStatus(),'integer').' '.
 				'WHERE id = '.$ilDB->quote($this->getId(),'integer');
 		$ilDB->manipulate($query);
 		return true;
@@ -280,7 +315,7 @@ class ilECSCourseMemberAssignment
 			$this->setCmsId($row->cms_id);
 			$this->setCmsSubId($row->cms_sub_id);
 			$this->setObjId($row->obj_id);
-			$this->uid = $row->uid;
+			$this->setUid($row->usr_id);
 			$this->setStatus($row->status);
 		}
 	}

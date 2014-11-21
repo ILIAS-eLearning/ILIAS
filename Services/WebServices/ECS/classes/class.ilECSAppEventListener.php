@@ -45,16 +45,16 @@ class ilECSAppEventListener implements ilAppEventListener
 	{
 		global $ilLog;
 		
-		$ilLog->write(__METHOD__.': Listening to event from: '.$a_component);
+		$ilLog->write(__METHOD__.': Listening to event from: '.$a_component.' '.$a_event);
 		
 		switch($a_component)
 		{
 			case 'Services/User':
 				switch($a_event)
 				{
-					case 'afterCreation':
+					case 'afterCreate':
 						$user = $a_parameter['user_obj'];
-						$this->handleMembership($user);
+						self::handleMembership($user);
 						break;
 				}
 				break;
@@ -245,13 +245,25 @@ class ilECSAppEventListener implements ilAppEventListener
 	 * Assign mmissing course/groups to new user accounts
 	 * @param ilObjUser $user
 	 */
-	protected function handleMembership(ilObjUser $user)
+	protected static function handleMembership(ilObjUser $user)
 	{
+		$GLOBALS['ilLog']->write(__METHOD__.': Handling ECS assignments ');
+		
+		include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
 		if($user->getAuthMode() != ilECSSetting::lookupAuthMode())
 		{
-			return true;
+			$GLOBALS['ilLog']->write(__METHOD__.': Not user with authmode ' . ilECSSetting::lookupAuthMode());
+			return TRUE;
 		}
 		
+		include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMemberAssignment.php';
+		$assignment_ids = ilECSCourseMemberAssignment::lookupMissingAssignmentsOfUser($user->getExternalAccount());
+		foreach($assignment_ids as $obj_id)
+		{
+			include_once './Services/Membership/classes/class.ilParticipants.php';
+			$part = ilParticipants::getInstanceByObjId($obj_id);
+			$part->add($user->getId(), IL_CRS_MEMBER);
+		}
 	}
 	
 	/**
