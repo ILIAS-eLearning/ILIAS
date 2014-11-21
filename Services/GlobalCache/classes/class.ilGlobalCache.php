@@ -228,7 +228,11 @@ class ilGlobalCache {
 		 * @var $ilClientIniFile ilIniFile
 		 */
 		global $ilClientIniFile;
-		if ($ilClientIniFile->readVariable('cache', 'activate_global_cache') != '1') {
+		if ($ilClientIniFile instanceof ilIniFile) {
+			if ($ilClientIniFile->readVariable('cache', 'activate_global_cache') != '1') {
+				return false;
+			}
+		} else {
 			return false;
 		}
 		if (!$this->getActive()) {
