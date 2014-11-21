@@ -115,6 +115,15 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 					return true;
 				}
 				break;
+
+			case 'join':
+
+				include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
+				if(ilCourseWaitingList::_isOnList($a_user_id, $a_obj_id))
+				{
+					return false;
+				}
+				break;
 		}
 		
 		switch ($a_permission)
@@ -154,12 +163,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 				
 			case 'join':				
 				if(!self::_registrationEnabled($a_obj_id))
-				{
-					return false;
-				}
-				
-				include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
-				if(ilCourseWaitingList::_isOnList($a_user_id, $a_obj_id))
 				{
 					return false;
 				}
