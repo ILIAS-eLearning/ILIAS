@@ -56,7 +56,7 @@ class ilGlossaryImporter extends ilXmlImporter
 			$contParser = new ilContObjParser(
 				$newObj, 
 				$xml_file,
-				dirname($this->getImportDirectory())
+				basename($this->getImportDirectory())
 			);
 			
 			$contParser->startParsing();
