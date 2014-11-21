@@ -4989,4 +4989,8 @@ if( !$ilDB->uniqueConstraintExists('tst_active', array('user_fi', 'test_fi', 'an
 $ilDB->manipulate('delete from ecs_course_assignments');
 
 ?>
+<#4420>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
 
