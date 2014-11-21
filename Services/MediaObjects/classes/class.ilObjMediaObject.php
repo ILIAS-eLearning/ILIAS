@@ -1315,6 +1315,12 @@ class ilObjMediaObject extends ilObject
 								include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 								$obj_id = ilLMObject::_lookupContObjID($pinfo["page_id"]);
 							}
+							$pinfo = ilPCQuestion::_getPageForQuestionId($id, "sahs");
+							if ($pinfo && $pinfo["parent_type"] == "sahs")
+							{
+								include_once("./Modules/SCORM2004/classes/class.ilSCORM2004Node.php");
+								$obj_id = ilSCORM2004Node::_lookupSLMID($pinfo["page_id"]);
+							}
 						}
 						break;
 						
