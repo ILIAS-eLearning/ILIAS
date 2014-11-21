@@ -242,7 +242,6 @@ class ilRepositorySearchGUI
 			$result_field = (string) $_GET['autoCompleteField'];
 		}
 
-		$GLOBALS['ilLog']->write(print_r($a_fields,true));
 		include_once './Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
 		
