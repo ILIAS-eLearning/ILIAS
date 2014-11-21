@@ -111,7 +111,25 @@ class ilTemplate extends ilTemplateX
 
 		return true;
 	}
-	
+
+	/**
+	 * @param string $file
+	 * @param string $vers
+	 */
+	protected function fillJavascriptFile($file, $vers)
+	{
+		$this->setCurrentBlock("js_file");
+		if($this->js_files_vp[$file])
+		{
+			$this->setVariable("JS_FILE", ilUtil::appendUrlParameterString($file, $vers));
+		}
+		else
+		{
+			$this->setVariable("JS_FILE", $file);
+		}
+		$this->parseCurrentBlock();
+	}
+
 	// overwrite their init function
     function init()
     {
@@ -697,18 +715,15 @@ class ilTemplate extends ilTemplateX
 					{
 						if ($this->js_files_batch[$file] == $i)
 						{
-							$this->setCurrentBlock("js_file");
-		
-							if ($this->js_files_vp[$file])
-							{
-								$this->setVariable("JS_FILE", ilUtil::appendUrlParameterString($file,$vers));
-							}
-							else
-							{
-								$this->setVariable("JS_FILE", $file);
-							}
-							
-							$this->parseCurrentBlock();
+							$this->fillJavascriptFile($file, $vers);
+						}
+					}
+					else if(substr($file, 0, 2) == './') // #13962
+					{
+						$url_parts = parse_url($file);
+						if(is_file($url_parts['path']))
+						{
+							$this->fillJavascriptFile($file, $vers);
 						}
 					}
 				}
