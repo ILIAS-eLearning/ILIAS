@@ -1538,6 +1538,11 @@ if( !$ilDB->uniqueConstraintExists('tst_active', array('user_fi', 'test_fi', 'an
 
 	while($row = $ilDB->fetchAssoc($res))
 	{
+		if( !strlen($row['anonymous_id']) )
+		{
+			$row['anonymous_id'] = null;
+		}
+		
 		$ilDB->replace('tmp_active_fix',
 			array(
 				'test_fi' => array('integer', $row['test_fi']),
@@ -1582,6 +1587,11 @@ if( $ilDB->tableExists('tmp_active_fix') )
 			UPDATE tmp_active_fix SET active_id = ?
 			WHERE test_fi = ? AND user_fi = ? AND anonymous_id = ?
 		", array('integer', 'integer', 'integer', 'text')
+	);
+	$updateUser = $ilDB->prepareManip("
+			UPDATE tmp_active_fix SET active_id = ?
+			WHERE test_fi = ? AND user_fi = ? AND anonymous_id IS NULL
+		", array('integer', 'integer', 'integer')
 	);
 
 	$res1 = $ilDB->query("SELECT * FROM tmp_active_fix WHERE active_id IS NULL");
@@ -1648,9 +1658,18 @@ if( $ilDB->tableExists('tmp_active_fix') )
 			}
 		}
 		
-		$ilDB->execute($update, array(
-			$activeId, $row1['test_fi'], $row1['user_fi'], $row1['anonymous_id']
-		));
+		if( !strlen($row1['anonymous_id']) )
+		{
+			$ilDB->execute($updateUser, array(
+				$activeId, $row1['test_fi'], $row1['user_fi']
+			));
+		}
+		else
+		{
+			$ilDB->execute($update, array(
+				$activeId, $row1['test_fi'], $row1['user_fi'], $row1['anonymous_id']
+			));
+		}
 	}
 }
 
