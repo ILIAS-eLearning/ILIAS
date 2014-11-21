@@ -38,7 +38,16 @@ class ilExParticipantTableGUI extends ilTable2GUI
 		if ($this->part_id > 0)
 		{
 			$name = ilObjUser::_lookupName($this->part_id);
-			$this->user = new ilObjUser($this->part_id);
+			if(trim($name["login"]))
+			{
+				$this->user = new ilObjUser($this->part_id);
+			}
+			// #14650 - invalid user
+			else
+			{
+				$ilCtrl->setParameter($a_parent_obj, "part_id", "");
+				$ilCtrl->redirect($a_parent_obj, $a_parent_cmd);
+			}
 		}
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
