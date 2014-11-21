@@ -106,6 +106,9 @@ class gevBillingUtils {
 		require_once("Services/Billing/classes/class.ilBill.php");
 		require_once("Services/Billing/classes/class.ilCoupon.php");
 		
+		// #758: cancel all previous bills
+		$this->cancelBill($a_crs_id, $a_user_id);
+		
 		$user_utils = gevUserUtils::getInstance($a_user_id);
 		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
 		
@@ -233,27 +236,6 @@ class gevBillingUtils {
 	public function getBillsForCourseAndUser($a_user_id, $a_crs_id) {
 		require_once("Services/Billing/classes/class.ilBill.php");
 		return ilBill::getInstancesByUserAndContext($a_user_id, $a_crs_id);
-		
-/*		$amount_bills = count($bills);
-		
-		if ($amount_bills == 0) {
-			// there is no bill for the user at the course, so we don't need 
-			// to do anything.
-			return null;
-		}
-		
-		if ($amount_bills > 1) {
-			// this is an assumption about the booking process. There should
-			// never be more than one bill per course and user.
-			$this->log->write("gevBillingUtils::getBillsForCourseAndUser: ".
-						  "There is more than one bill for user ".$a_user_id.
-						  " at course ".$a_crs_id.", this violates a crucial".
-						  "assumption about the booking process."
-						  );
-			return null;
-		}
-		
-		return $bills[0];*/
 	}
 	
 	public function getNonFinalizedBillForCourseAndUser($a_crs_id, $a_user_id) {
@@ -384,52 +366,50 @@ class gevBillingUtils {
 			return;
 		}*/
 		
-		$bills = $this->getBillsForCourseAndUser($a_user_id, $a_crs_id);
+		$bill = $this->getNonFinalizedBillForCourseAndUser($a_user_id, $a_crs_id);
 		
-		foreach ($bills as $bill) {
-			require_once("Services/Billing/classes/class.ilCoupons.php");
-			
-			$crs_utils = gevCourseUtils::getInstance($a_crs_id);
-			$user_utils = gevUserUtils::getInstance($a_user_id);
-			
-			$bill->setTitle(sprintf( $this->lng->txt("gev_cancellation_bill_title")
-								   , $crs_utils->getTitle()
-								   , $user_utils->getFirstname()." ".$user_utils->getLastname()
-								   )
-							);
-			
-			$date = $crs_utils->getEndDate();
-			$bill->setDate($date ? $date : (new ilDate(time(), IL_CAL_UNIX)));
-			
-			// remove context to make assumption one bill per course and user
-			// be correct.
-			$bill->setContextId($a_crs_id);
+		require_once("Services/Billing/classes/class.ilCoupons.php");
+		
+		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
+		$user_utils = gevUserUtils::getInstance($a_user_id);
+		
+		$bill->setTitle(sprintf( $this->lng->txt("gev_cancellation_bill_title")
+							   , $crs_utils->getTitle()
+							   , $user_utils->getFirstname()." ".$user_utils->getLastname()
+							   )
+						);
+		
+		$date = $crs_utils->getEndDate();
+		$bill->setDate($date ? $date : (new ilDate(time(), IL_CAL_UNIX)));
+		
+		// remove context to make assumption one bill per course and user
+		// be correct.
+		$bill->setContextId($a_crs_id);
 
-			// search for the item regarding the course...
-			$items = $bill->getItems();
-			foreach ($items as $item) {
-				if ($item->getContextId() == $a_crs_id) {
-					// ... and change its title appropriately
-					$item->setTitle(sprintf( $this->lng->txt("gev_cancellation_bill_item")
-										   , $crs_utils->getCustomId()
-										   )
-									);
-					$item->update();
-				}
+		// search for the item regarding the course...
+		$items = $bill->getItems();
+		foreach ($items as $item) {
+			if ($item->getContextId() == $a_crs_id) {
+				// ... and change its title appropriately
+				$item->setTitle(sprintf( $this->lng->txt("gev_cancellation_bill_item")
+									   , $crs_utils->getCustomId()
+									   )
+								);
+				$item->update();
 			}
-			$bill->update();
-
-			$coupon_code = ilCoupons::getSingleton()->createCoupon((float)$bill->getAmount(), time() + 365 * 24 * 60 * 60);
-			
-			$this->db->manipulate("INSERT INTO gev_bill_coupon (bill_pk,coupon_code) VALUES "
-								  ."(".$this->db->quote($bill->getId(), "integer").", ".$this->db->quote($coupon_code, "text").")");
-
-			$bill->finalize();
-
-			$this->log->write("gevBillingUtils::createCancellationBillAndCoupon: created cancelation bill '"
-							 .$bill->getid()."' for course '".$a_crs_id."' and user '".$a_user_id."' with "
-							 ."coupon '".$coupon_code."'");
 		}
+		$bill->update();
+
+		$coupon_code = ilCoupons::getSingleton()->createCoupon((float)$bill->getAmount(), time() + 365 * 24 * 60 * 60);
+		
+		$this->db->manipulate("INSERT INTO gev_bill_coupon (bill_pk,coupon_code) VALUES "
+							  ."(".$this->db->quote($bill->getId(), "integer").", ".$this->db->quote($coupon_code, "text").")");
+
+		$bill->finalize();
+
+		$this->log->write("gevBillingUtils::createCancellationBillAndCoupon: created cancelation bill '"
+						 .$bill->getid()."' for course '".$a_crs_id."' and user '".$a_user_id."' with "
+						 ."coupon '".$coupon_code."'");
 	}
 }
 
