@@ -140,7 +140,7 @@ class ilTinyMCE extends ilRTE
 			$this->disableButtons(array(
 				'ibrowser',
 				'image',
-				'ilimgupload',
+				'ilimgupload'
 			));
 		}
 	}
