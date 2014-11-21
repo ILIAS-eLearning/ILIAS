@@ -700,7 +700,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	private function insertQuestion($matches) {
 		$q_exporter = new ilQuestionExporter();
 		
-		$ret = $q_exporter->exportQuestion($matches[2], "./objects/");
+		$ret = $q_exporter->exportQuestion($matches[2], "./objects/", "offline");
 		
 		return $ret;
 	}
