@@ -414,6 +414,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			ilUtil::sendSuccess($lng->txt("blog_posting_deleted"), true);
 		}
 		
+		$ilCtrl->setParameterByClass("ilobjbloggui", "blpg", ""); // #14363
 		$ilCtrl->redirectByClass("ilobjbloggui", "render");
 	}
 	
