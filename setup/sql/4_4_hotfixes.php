@@ -1516,8 +1516,8 @@ if( !$ilDB->uniqueConstraintExists('tst_active', array('user_fi', 'test_fi', 'an
 		'anonymous_id' => array(
 			'type' => 'text',
 			'length' => 255,
-			'notnull' => false,
-			'default' => null
+			'notnull' => true,
+			'default' => '-'
 		),
 		'active_id' => array(
 			'type' => 'integer',
@@ -1538,9 +1538,9 @@ if( !$ilDB->uniqueConstraintExists('tst_active', array('user_fi', 'test_fi', 'an
 
 	while($row = $ilDB->fetchAssoc($res))
 	{
-		if( !strlen($row['anonymous_id']) )
+		if( is_null($row['anonymous_id']) || !strlen($row['anonymous_id']) )
 		{
-			$row['anonymous_id'] = null;
+			$row['anonymous_id'] = '-';
 		}
 		
 		$ilDB->replace('tmp_active_fix',
@@ -1588,11 +1588,6 @@ if( $ilDB->tableExists('tmp_active_fix') )
 			WHERE test_fi = ? AND user_fi = ? AND anonymous_id = ?
 		", array('integer', 'integer', 'integer', 'text')
 	);
-	$updateUser = $ilDB->prepareManip("
-			UPDATE tmp_active_fix SET active_id = ?
-			WHERE test_fi = ? AND user_fi = ? AND anonymous_id IS NULL
-		", array('integer', 'integer', 'integer')
-	);
 
 	$res1 = $ilDB->query("SELECT * FROM tmp_active_fix WHERE active_id IS NULL");
 	
@@ -1604,7 +1599,7 @@ if( $ilDB->tableExists('tmp_active_fix') )
 				$row1['test_fi'], $row1['anonymous_id']
 			));
 		}
-		elseif(!strlen($row1['anonymous_id']))
+		elseif($row1['anonymous_id'] == '-')
 		{
 			$res2 = $ilDB->execute($selectUser, array(
 				$row1['test_fi'], $row1['user_fi']
@@ -1658,18 +1653,9 @@ if( $ilDB->tableExists('tmp_active_fix') )
 			}
 		}
 		
-		if( !strlen($row1['anonymous_id']) )
-		{
-			$ilDB->execute($updateUser, array(
-				$activeId, $row1['test_fi'], $row1['user_fi']
-			));
-		}
-		else
-		{
-			$ilDB->execute($update, array(
-				$activeId, $row1['test_fi'], $row1['user_fi'], $row1['anonymous_id']
-			));
-		}
+		$ilDB->execute($update, array(
+			$activeId, $row1['test_fi'], $row1['user_fi'], $row1['anonymous_id']
+		));
 	}
 }
 
@@ -1699,12 +1685,7 @@ if( $ilDB->tableExists('tmp_active_fix') )
 		array('integer', 'integer')
 	);
 
-	$deleteTmpUserRec = $ilDB->prepareManip(
-		"DELETE FROM tmp_active_fix WHERE test_fi = ? AND user_fi = ? AND anonymous_id IS NULL",
-		array('integer', 'integer')
-	);
-
-	$deleteTmpAnonymRec = $ilDB->prepareManip(
+	$deleteTmpRec = $ilDB->prepareManip(
 		"DELETE FROM tmp_active_fix WHERE test_fi = ? AND user_fi = ? AND anonymous_id = ?",
 		array('integer', 'integer', 'text')
 	);
@@ -1721,7 +1702,7 @@ if( $ilDB->tableExists('tmp_active_fix') )
 				$row['active_id'], $row['test_fi'], $row['anonymous_id']
 			));
 		}
-		elseif(!strlen($row['anonymous_id']))
+		elseif( $row['anonymous_id'] == '-' )
 		{
 			$ilDB->execute($deleteUserActives, array(
 				$row['active_id'], $row['test_fi'], $row['user_fi']
@@ -1738,18 +1719,9 @@ if( $ilDB->tableExists('tmp_active_fix') )
 			$row['obj_fi'], $row['user_fi']
 		));
 
-		if(!strlen($row['anonymous_id']))
-		{
-			$ilDB->execute($deleteTmpUserRec, array(
-				$row['test_fi'], $row['user_fi']
-			));
-		}
-		else
-		{
-			$ilDB->execute($deleteTmpAnonymRec, array(
-				$row['test_fi'], $row['user_fi'], $row['anonymous_id']
-			));
-		}
+		$ilDB->execute($deleteTmpRec, array(
+			$row['test_fi'], $row['user_fi'], $row['anonymous_id']
+		));
 	}
 	
 	$ilDB->dropTable('tmp_active_fix');
