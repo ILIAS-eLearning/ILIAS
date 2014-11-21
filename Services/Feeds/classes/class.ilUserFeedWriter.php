@@ -125,7 +125,7 @@ class ilUserFeedWriter extends ilFeedWriter
 					include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 					$wptitle = ilWikiPage::lookupTitle($item["context_sub_obj_id"]);
 					$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
-						"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]."_".$wptitle);
+						"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]."_".urlencode($wptitle)); // #14629
 				}
 				else if (in_array($item["context_obj_type"], array("frm")) && $item["context_sub_obj_type"] == "pos"
 					&& $item["context_sub_obj_id"] > 0)
