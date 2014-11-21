@@ -2794,32 +2794,14 @@ return;
 	function insertHelp($a_tpl)
 	{
 		global $lng;
-		
-		$a_tpl->setCurrentBlock("help_img");
-		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("streaked_area.png"));
-		$a_tpl->parseCurrentBlock();
-		$a_tpl->setCurrentBlock("help_item");
-		$a_tpl->setVariable("TXT_HELP", $lng->txt("cont_add_elements"));
-		$a_tpl->parseCurrentBlock();
-		
-		$a_tpl->setCurrentBlock("help_img");
-		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_cont_el_s.png"));
-		$a_tpl->parseCurrentBlock();
-		$a_tpl->setCurrentBlock("help_img");
-		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("drop_streaked_area.png"));
-		$a_tpl->parseCurrentBlock();
-		$a_tpl->setCurrentBlock("help_item");
-		$a_tpl->setVariable("TXT_HELP", $lng->txt("cont_drag_and_drop_elements"));
-		$a_tpl->parseCurrentBlock();
 
-		$a_tpl->setCurrentBlock("help_img");
-		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_cont_el_s.png"));
-		$a_tpl->parseCurrentBlock();
-		$a_tpl->setCurrentBlock("help_item");
-		$a_tpl->setVariable("TXT_HELP", $lng->txt("cont_double_click_to_delete"));
-		$a_tpl->parseCurrentBlock();
-		
 		$a_tpl->setCurrentBlock("help");
+		$a_tpl->setVariable("TXT_ADD_EL", $lng->txt("cont_add_elements"));
+		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+		$a_tpl->setVariable("PLUS", ilGlyphGUI::get(ilGlyphGUI::ADD));
+		$a_tpl->setVariable("DRAG_ARROW", ilGlyphGUI::get(ilGlyphGUI::DRAG));
+		$a_tpl->setVariable("TXT_DRAG", $lng->txt("cont_drag_and_drop_elements"));
+		$a_tpl->setVariable("TXT_SEL", $lng->txt("cont_double_click_to_delete"));
 		$a_tpl->parseCurrentBlock();
 	}
 	

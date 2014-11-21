@@ -172,13 +172,6 @@ p.il_cal_navigation {
 	margin: 0px;
 }
 
-a.callink:link, a.callink:visited {
-	color: inherit;
-}
-a.callink:hover {
-	text-decoration: underline;
-	color: inherit;
-}
 
 table.calmini 
 {
