@@ -1514,10 +1514,10 @@ if( !$ilDB->uniqueConstraintExists('tst_active', array('user_fi', 'test_fi', 'an
 			'default' => 0
 		),
 		'anonymous_id' => array(
-			'type' => 'integer',
-			'length' => 4,
-			'notnull' => true,
-			'default' => 0
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false,
+			'default' => null
 		),
 		'active_id' => array(
 			'type' => 'integer',
@@ -1542,7 +1542,7 @@ if( !$ilDB->uniqueConstraintExists('tst_active', array('user_fi', 'test_fi', 'an
 			array(
 				'test_fi' => array('integer', $row['test_fi']),
 				'user_fi' => array('integer', (int)$row['user_fi']),
-				'anonymous_id' => array('integer', (int)$row['anonymous_id'])
+				'anonymous_id' => array('text', $row['anonymous_id'])
 			),
 			array()
 		);
@@ -1568,20 +1568,20 @@ if( $ilDB->tableExists('tmp_active_fix') )
 			SELECT active_id, max_points, reached_points, passed FROM tst_active
 			LEFT JOIN tst_result_cache ON active_fi = active_id
 			WHERE test_fi = ? AND user_fi IS NULL AND anonymous_id = ?
-		", array('integer', 'integer')
+		", array('integer', 'text')
 	);
 
 	$select = $ilDB->prepare("
 			SELECT active_id, max_points, reached_points, passed FROM tst_active
 			LEFT JOIN tst_result_cache ON active_fi = active_id
 			WHERE test_fi = ? AND user_fi = ? AND anonymous_id = ?
-		", array('integer', 'integer', 'integer')
+		", array('integer', 'integer', 'text')
 	);
 
 	$update = $ilDB->prepareManip("
 			UPDATE tmp_active_fix SET active_id = ?
 			WHERE test_fi = ? AND user_fi = ? AND anonymous_id = ?
-		", array('integer', 'integer', 'integer', 'integer')
+		", array('integer', 'integer', 'integer', 'text')
 	);
 
 	$res1 = $ilDB->query("SELECT * FROM tmp_active_fix WHERE active_id IS NULL");
@@ -1594,7 +1594,7 @@ if( $ilDB->tableExists('tmp_active_fix') )
 				$row1['test_fi'], $row1['anonymous_id']
 			));
 		}
-		elseif(!$row1['anonymous_id'])
+		elseif(!strlen($row1['anonymous_id']))
 		{
 			$res2 = $ilDB->execute($selectUser, array(
 				$row1['test_fi'], $row1['user_fi']
@@ -1667,12 +1667,12 @@ if( $ilDB->tableExists('tmp_active_fix') )
 
 	$deleteAnonymActives = $ilDB->prepareManip(
 		"DELETE FROM tst_active WHERE active_id != ? AND test_fi = ? AND user_fi IS NULL AND anonymous_id = ?",
-		array('integer', 'integer', 'integer')
+		array('integer', 'integer', 'text')
 	);
 
 	$deleteActives = $ilDB->prepareManip(
 		"DELETE FROM tst_active WHERE active_id != ? AND test_fi = ? AND user_fi = ? AND anonymous_id = ?",
-		array('integer', 'integer', 'integer', 'integer')
+		array('integer', 'integer', 'integer', 'text')
 	);
 
 	$deleteLp = $ilDB->prepareManip(
@@ -1680,9 +1680,14 @@ if( $ilDB->tableExists('tmp_active_fix') )
 		array('integer', 'integer')
 	);
 
-	$deleteTmpRec = $ilDB->prepareManip(
+	$deleteTmpUserRec = $ilDB->prepareManip(
+		"DELETE FROM tmp_active_fix WHERE test_fi = ? AND user_fi = ? AND anonymous_id IS NULL",
+		array('integer', 'integer')
+	);
+
+	$deleteTmpAnonymRec = $ilDB->prepareManip(
 		"DELETE FROM tmp_active_fix WHERE test_fi = ? AND user_fi = ? AND anonymous_id = ?",
-		array('integer', 'integer', 'integer')
+		array('integer', 'integer', 'text')
 	);
 	
 	$res = $ilDB->query("
@@ -1697,7 +1702,7 @@ if( $ilDB->tableExists('tmp_active_fix') )
 				$row['active_id'], $row['test_fi'], $row['anonymous_id']
 			));
 		}
-		elseif(!$row['anonymous_id'])
+		elseif(!strlen($row['anonymous_id']))
 		{
 			$ilDB->execute($deleteUserActives, array(
 				$row['active_id'], $row['test_fi'], $row['user_fi']
@@ -1714,9 +1719,18 @@ if( $ilDB->tableExists('tmp_active_fix') )
 			$row['obj_fi'], $row['user_fi']
 		));
 
-		$ilDB->execute($deleteTmpRec, array(
-			$row['test_fi'], $row['user_fi'], $row['anonymous_id']
-		));
+		if(!strlen($row['anonymous_id']))
+		{
+			$ilDB->execute($deleteTmpUserRec, array(
+				$row['test_fi'], $row['user_fi']
+			));
+		}
+		else
+		{
+			$ilDB->execute($deleteTmpAnonymRec, array(
+				$row['test_fi'], $row['user_fi'], $row['anonymous_id']
+			));
+		}
 	}
 	
 	$ilDB->dropTable('tmp_active_fix');
