@@ -16,18 +16,18 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 */
 class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandling
 {
-	const VIEW_MY_OFFERS = 0;
-	const VIEW_MY_MEMBERSHIPS = 1;
+	const VIEW_SELECTED_ITEMS      = 0;
+	const VIEW_MY_MEMBERSHIPS      = 1;
 
 	static $block_type = "pditems";
-	
-	private $view = self::VIEW_MY_OFFERS;
+
+	private $view          = self::VIEW_SELECTED_ITEMS;
 	private $allowed_views = array();
 	
 	/**
 	* Constructor
 	*/
-	function ilPDSelectedItemsBlockGUI()
+	public function __construct()
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
@@ -43,9 +43,24 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$this->setAvailableDetailLevels(3, 1);
 //		$this->setBigMode(true);
 		$this->lng = $lng;
-		$this->allow_moving = false;		
-		
+		$this->allow_moving = false;
+
 		$this->determineViewSettings();
+	}
+
+	/**
+	 * 
+	 */
+	public function fillDetailRow()
+	{
+		/**
+		 * @var $ilCtrl ilCtrl
+		 */
+		global $ilCtrl;
+
+		$ilCtrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->view);
+		parent::fillDetailRow();
+		$ilCtrl->setParameterByClass('ilpersonaldesktopgui', 'view', '');
 	}
 	
     /**
@@ -58,6 +73,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
 	 	ilDesktopItemGUI::addToDesktop();
 	 	ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->view);
 		$ilCtrl->redirectByClass('ilpersonaldesktopgui', 'show');
     }
     
@@ -71,75 +87,79 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
 	 	ilDesktopItemGUI::removeFromDesktop();
 	 	ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->view);
 		$ilCtrl->redirectByClass('ilpersonaldesktopgui', 'show');
     }
-	
-	
+
 	/**
-     * Method to switch between the different views of personal items block
-     *
-     * @access public
-     */
+	 * Method to switch between the different views of personal items block
+	 */
 	public function changeView()
 	{
-		global $ilUser, $ilCtrl;
-		
+		/**
+		 * @var $ilCtrl ilCtrl
+		 */
+		global $ilCtrl;
+
 		if(in_array((int)$_GET['view'], $this->allowed_views))
 		{
-			$ilUser->writePref('pd_view', (int)$_GET['view']);
+			$view = (int)$_GET['view'];
 		}
 		else
 		{
-			@reset($this->allowed_views);
-			$view = (int)@current($this->allowed_views);
-			$ilUser->writePref('pd_view', $view);
+			reset($this->allowed_views);
+			$view = (int)current($this->allowed_views);
 		}
 
+		$ilCtrl->setParameterByClass('ilpersonaldesktopgui', 'view', $view);
 		$ilCtrl->redirectByClass('ilpersonaldesktopgui', 'show');
 	}
 	
 	/**
      * Sets the current view of the user and determines which views are allowed
-     *
-     * @access protected
      */
 	protected function determineViewSettings()
 	{
-		global $ilSetting, $ilUser;
+		/**
+		 * @var $ilSetting ilSetting
+		 * @var $ilCtrl    ilCtrl
+		 */
+		global $ilSetting, $ilCtrl;
 
 		$this->allowed_views = array();
-		
+
 		// determine view
 		if($ilSetting->get('disable_my_offers') == 1 &&
 		   $ilSetting->get('disable_my_memberships') == 1)
 		{
 			// if both views are disabled set default view (should not occur but we should prevent it)
-			$ilSetting->set('personal_items_default_view', self::VIEW_MY_OFFERS);
-			$this->allowed_views[] = self::VIEW_MY_OFFERS;
+			$ilSetting->set('personal_items_default_view', self::VIEW_SELECTED_ITEMS);
+			$this->allowed_views[] = self::VIEW_SELECTED_ITEMS;
 		}
 		// both views are enabled, get default view
 		else if($ilSetting->get('disable_my_offers') == 0 &&
 		   		$ilSetting->get('disable_my_memberships') == 0)
 		{
-			$this->allowed_views[] = self::VIEW_MY_OFFERS;
+			$this->allowed_views[] = self::VIEW_SELECTED_ITEMS;
 			$this->allowed_views[] = self::VIEW_MY_MEMBERSHIPS;
 		}
 		else if($ilSetting->get('disable_my_offers') == 0 &&
 		   		$ilSetting->get('disable_my_memberships') == 1)
 		{
-			$this->allowed_views[] = self::VIEW_MY_OFFERS;
+			$this->allowed_views[] = self::VIEW_SELECTED_ITEMS;
 		}
 		else
 		{
 			$this->allowed_views[] = self::VIEW_MY_MEMBERSHIPS;
 		}
-		
-		$this->view = $ilUser->getPref('pd_view');
-		if($this->view === false || !in_array((int)$this->view, $this->allowed_views))
+
+		$this->view = (int)$_GET['view'];
+		if(!in_array((int)$this->view, $this->allowed_views))
 		{
-			$ilUser->writePref('pd_view', (int)$ilSetting->get('personal_items_default_view'));
-			$this->view = (int)$ilSetting->get('personal_items_default_view');
+			$_GET['view'] = $this->view = (int)$ilSetting->get('personal_items_default_view');
 		}
+
+		$ilCtrl->saveParameter($this, 'view');
 	}
 	
 	/**
@@ -188,22 +208,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		global $ilCtrl, $ilSetting, $tpl, $lng, $ilHelp, $ilDB;
 
 		$ilDB->useSlave(true);
-		
-		// both views are activated (show buttons)
-		if($ilSetting->get('disable_my_offers') == 0 &&
-		   $ilSetting->get('disable_my_memberships') == 0)
-		{
-/*			$ilCtrl->setParameter($this, 'block_type', $this->getBlockType());			
-			$ilCtrl->setParameter($this, 'view', self::VIEW_MY_OFFERS);
-			$this->addHeaderLink($ilCtrl->getLinkTarget($this, 'changeView'), $this->lng->txt('pd_my_offers'),
-				($this->view == self::VIEW_MY_OFFERS ? false : true) 
-			);
-			$ilCtrl->setParameter($this, 'view', self::VIEW_MY_MEMBERSHIPS);
-			$this->addHeaderLink($ilCtrl->getLinkTarget($this, 'changeView'), $this->lng->txt('pd_my_memberships'),
-				($this->view == self::VIEW_MY_MEMBERSHIPS ? false : true) 
-			);
-			$ilCtrl->clearParameters($this);*/
-		}
 
 		// workaround to show details row
 		$this->setData(array("dummy"));
@@ -225,7 +229,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				$this->setContent($this->getMembershipItemsBlockHTML());
 				break;
 							
-			case self::VIEW_MY_OFFERS:			
+			case self::VIEW_SELECTED_ITEMS:
 			default:
 				$ilHelp->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, "sel_items");
 				if(!in_array(self::VIEW_MY_MEMBERSHIPS, $this->allowed_views))
@@ -377,7 +381,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				);
 //		}
 		
-		$this->addFooterLink(($this->view == self::VIEW_MY_OFFERS) ?
+		$this->addFooterLink(($this->view == self::VIEW_SELECTED_ITEMS) ?
 				$lng->txt("pd_remove_multiple") :
 				$lng->txt("pd_unsubscribe_multiple_memberships"),			
 			$ilCtrl->getLinkTarget($this, "manage"),
@@ -1384,7 +1388,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				$tpl->setVariable('TXT_INTRO_1', $lng->txt('pd_my_memberships_intro2'));
 				break;
 							
-			case self::VIEW_MY_OFFERS:			
+			case self::VIEW_SELECTED_ITEMS:
 			default:
 				// get repository link
 				$nd = $tree->getNodeData(ROOT_FOLDER_ID);
@@ -1424,6 +1428,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		}
 		else
 		{
+			$ilCtrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->view);
 			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
 		}
 	}
@@ -1444,6 +1449,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		}
 		else
 		{
+			$ilCtrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->view);
 			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
 		}
 	}
@@ -1460,7 +1466,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$top_tb = new ilToolbarGUI();
 		$top_tb->setFormAction($ilCtrl->getFormAction($this));
 		$top_tb->setLeadingImage(ilUtil::getImagePath("arrow_upright.png"), $lng->txt("actions"));
-		if ($this->view == self::VIEW_MY_OFFERS)
+		if($this->view == self::VIEW_SELECTED_ITEMS)
 		{
 			$top_tb->addFormButton($lng->txt("remove"), "confirmRemove");
 		}
@@ -1474,7 +1480,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		$bot_tb = new ilToolbarGUI();
 		$bot_tb->setLeadingImage(ilUtil::getImagePath("arrow_downright.png"), $lng->txt("actions"));
-		if ($this->view == self::VIEW_MY_OFFERS)
+		if($this->view == self::VIEW_SELECTED_ITEMS)
 		{
 			$bot_tb->addFormButton($lng->txt("remove"), "confirmRemove");
 		}
@@ -1520,14 +1526,15 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	public function confirmRemoveObject()
 	{
 		global $ilCtrl;
-		
+
+		$ilCtrl->setParameter($this, 'view', $this->view);
 		if(!sizeof($_POST["id"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("select_one"), true);
 			$ilCtrl->redirect($this, "manage");
 		}
 		
-		if($this->view == self::VIEW_MY_OFFERS)
+		if($this->view == self::VIEW_SELECTED_ITEMS)
 		{
 			$question = $this->lng->txt("pd_info_delete_sure_remove");
 			$cmd = "confirmedRemove";
@@ -1577,6 +1584,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		
 		// #12909
 		ilUtil::sendSuccess($this->lng->txt("pd_remove_multi_confirm"), true);
+		$ilCtrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->view);
 		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
 	}
 	
@@ -1637,6 +1645,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		
 		
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		$ilCtrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->view);
 		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
 	}
 }

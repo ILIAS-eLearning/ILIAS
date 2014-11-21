@@ -580,32 +580,42 @@ class ilPersonalDesktopGUI
 		
 		$ilHelp->setScreenIdComponent("pd");
 	}
-	
+
 	/**
 	 * Jump to memberships
 	 */
-	function jumpToMemberships()
+	public function jumpToMemberships()
 	{
-		global $ilSetting, $ilUser;
-		
-		if ($ilSetting->get('disable_my_memberships') == 0)
+		/**
+		 * @var $ilSetting ilSetting
+		 */
+		global $ilSetting;
+
+		if(!$ilSetting->get('disable_my_memberships'))
 		{
-			$ilUser->writePref('pd_view', 1);
+			require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php';
+			$_GET['view'] = ilPDSelectedItemsBlockGUI::VIEW_MY_MEMBERSHIPS;
 		}
+
 		$this->show();
 	}
-	
+
 	/**
 	 * Jump to selected items
 	 */
-	function jumpToSelectedItems()
+	public function jumpToSelectedItems()
 	{
-		global $ilSetting, $ilUser;
-		
-		if ($ilSetting->get('disable_my_offers') == 0)
+		/**
+		 * @var $ilSetting ilSetting
+		 */
+		global $ilSetting;
+
+		if(!$ilSetting->get('disable_my_offers'))
 		{
-			$ilUser->writePref('pd_view', 0);
+			require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php';
+			$_GET['view'] = ilPDSelectedItemsBlockGUI::VIEW_SELECTED_ITEMS;
 		}
+
 		$this->show();
 	}
 	

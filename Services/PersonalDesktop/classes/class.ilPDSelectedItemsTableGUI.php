@@ -30,7 +30,7 @@ class ilPDSelectedItemsTableGUI extends ilTable2GUI
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		
-		if($a_view == ilPDSelectedItemsBlockGUI::VIEW_MY_OFFERS)
+		if($a_view == ilPDSelectedItemsBlockGUI::VIEW_SELECTED_ITEMS)
 		{
 			$this->setTitle($this->lng->txt("pd_my_offers"));
 			$this->addMultiCommand('confirmRemove', $this->lng->txt('unsubscribe'));			
