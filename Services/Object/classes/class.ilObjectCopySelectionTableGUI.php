@@ -95,6 +95,15 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
 			$r['link']	= $objDefinition->allowLink($node['type']);
 			$r['perm_link'] = true;
 			
+			// #11905
+			if(!trim($r['title']) && $r['type'] == 'sess')
+			{
+				// use session date as title if no object title
+				include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+				$app_info = ilSessionAppointment::_lookupAppointment($node["obj_id"]); 	
+				$r['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'],$app_info['fullday']);
+			}
+			
 			$rows[] = $r;
 			
 			$first = false;
