@@ -229,7 +229,7 @@ class ilECSParticipantSettingsGUI
 		
 		
 		include_once './Services/WebServices/ECS/classes/class.ilECSUtils.php';
-		foreach(ilECSUtils::getPossibleReleaseTypes(TRUE) as $type => $trans)
+		foreach(ilECSUtils::getPossibleRemoteTypes(TRUE) as $type => $trans)
 		{
 			$imp_types->addOption(new ilCheckboxOption($trans, $type));
 		}
