@@ -2716,7 +2716,7 @@ common#:#country_free_text#:#Land (Freitext)
 common#:#country_selection#:#Land (Selektionsliste)
 common#:#course#:#Kurs
 common#:#courses#:#Kurse
-common#:Neue Seite hinzufügen:#Erstellen
+common#:#create#:#Erstellen
 common#:#create_block#:#Block erstellen
 common#:#create_date#:#Erstellt am
 common#:#create_export_file#:#Exportdatei erstellen
@@ -13724,12 +13724,12 @@ book#:#obj_book_duplicate#:#Buchungspool kopieren
 administration#:#adm_user_starting_point_invalid_info#:#Dieses Feature ist aktuell nicht aktiviert.
 ps#:#ps_password_settings#:#Passworteinstellungen
 rep#:#rep_new_item_group_unassigned#:#Nicht zugeordnet
-rep#:#rep_new_item_groups#:#Gruppen
-rep#:#rep_new_item_group_add#:#Gruppe hinzufügen
+rep#:#rep_new_item_groups#:#Gruppierungen
+rep#:#rep_new_item_group_add#:#Gruppierung hinzufügen
 rep#:#rep_new_item_group_nr_subitems#:#Anzahl zugeordnete Objekte
 rep#:#rep_new_item_group_unassigned_subitems#:#Anzahl nicht zugeordneter Objekte: %s
-rep#:#rep_new_item_group_edit#:#Gruppe bearbeiten
-rep#:#rep_new_item_group_delete_sure#:#Wollen Sie wirklich die folgenden Gruppen löschen?
+rep#:#rep_new_item_group_edit#:#Gruppierung bearbeiten
+rep#:#rep_new_item_group_delete_sure#:#Wollen Sie wirklich die folgenden Gruppierungen löschen?
 registration#:#reg_email_domains_code#:#Bei Verwendung eines Codes sind beliebige E-Mail-Adressen möglich.
 payment#:#placeholders#:#Platzhalter
 payment#:#current_timestamp#:#Aktueller Unix-Zeitstempel
