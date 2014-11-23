@@ -2716,7 +2716,7 @@ common#:#country_free_text#:#Land (Freitext)
 common#:#country_selection#:#Land (Selektionsliste)
 common#:#course#:#Kurs
 common#:#courses#:#Kurse
-common#:#create#:#Erstellen
+common#:Neue Seite hinzufügen:#Erstellen
 common#:#create_block#:#Block erstellen
 common#:#create_date#:#Erstellt am
 common#:#create_export_file#:#Exportdatei erstellen
@@ -11461,7 +11461,7 @@ survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das
 survey#:#start_survey#:#Umfrage beginnen
 survey#:#subject_mail_survey_id#:#Ihr Zugangsschlüssel für "%s"
 survey#:#subtype#:#Untertyp
-survey#:#survey_add_new_question#:#Neue Seite hinzufügen
+survey#:#survey_add_new_question#:#Seite erstellen
 survey#:#survey_at_beginning#:#An den Anfang
 survey#:#survey_auth_mode#:#Modus
 survey#:#survey_auto_block_title#:#Seitenüberschrift
