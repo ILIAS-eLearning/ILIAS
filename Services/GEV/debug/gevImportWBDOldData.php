@@ -123,14 +123,7 @@ class gevImportOldData {
 		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
 		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
 		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
-/*
-		if(! $LIVE){
-			$host = "localhost";
-			$user = "root";
-			$pass = "s09e10";
-			$name = "gev_ivimport";
-		}
-*/
+
 		$mysql = mysql_connect($host, $user, $pass) or die(mysql_error());
 		mysql_select_db($name, $mysql);
 		mysql_set_charset('utf8', $mysql);
@@ -566,7 +559,15 @@ foreach($import->sem_ok as $rec){
 //$import->rematchWBDTopic();
 
 
+
+
 printToTable($import->sem_ok);
+
+print '<hr>';
+print 'no match:';
+printToTable($import->sem_no_user_matches);
+
+
 
 print '<hr>';
 print 'many:';
