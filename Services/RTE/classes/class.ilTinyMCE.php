@@ -46,6 +46,11 @@ class ilTinyMCE extends ilRTE
 	 */
 	protected $remove_img_context_menu_item = false;
 
+	/**
+	 * @var integer
+	 */
+	protected $initialWidth = null;
+
 	function ilTinyMCE($a_version = "")
 	{
 		parent::ilRTE($a_version);
@@ -302,6 +307,12 @@ class ilTinyMCE extends ilRTE
 			if ($allowFormElements)
 			{
 				$tpl->touchBlock("formelements");
+			}
+			if($this->getInitialWidth() !== null)
+			{
+				$tpl->setCurrentBlock("initial_width");
+				$tpl->setVariable('INITIAL_WIDTH', $this->getInitialWidth());
+				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock("tinymce");
 			$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
@@ -1391,6 +1402,22 @@ class ilTinyMCE extends ilRTE
 	public function getRemoveImgContextMenuItem()
 	{
 		return $this->remove_img_context_menu_item;
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getInitialWidth()
+	{
+		return $this->initialWidth;
+	}
+
+	/**
+	 * @param integer $initialWidth
+	 */
+	public function setInitialWidth($initialWidth)
+	{
+		$this->initialWidth = $initialWidth;
 	}
 }
 ?>

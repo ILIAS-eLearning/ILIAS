@@ -429,6 +429,8 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 				$rtestring = ilRTE::_getRTEClassname();
 				include_once "./Services/RTE/classes/class.$rtestring.php";
 				$rte = new $rtestring($this->rteSupport['version']);
+
+				$rte->setInitialWidth('795');
 				
 				// @todo: Check this.
 				$rte->addPlugin("emotions");
