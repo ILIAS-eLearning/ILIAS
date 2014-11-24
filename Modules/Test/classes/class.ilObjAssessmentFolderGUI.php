@@ -145,6 +145,29 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$form->setTableWidth("100%");
 		$form->setId("settings");
 
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt('settings'));
+		$form->addItem($header);
+
+		// question process locking behaviour (e.g. on saving users working data)
+		$chb = new ilCheckboxInputGUI($this->lng->txt('ass_quest_process_lock'), 'quest_process_lock');
+		$chb->setChecked($this->object->getQuestionProcessLockMode() != ilAssQuestionProcessLocker::LOCK_MODE_NONE);
+		$chb->setInfo($this->lng->txt('ass_quest_process_lock_desc'));
+		$form->addItem($chb);
+		$rg = new ilRadioGroupInputGUI($this->lng->txt('ass_quest_process_lock_mode'), 'quest_process_lock_mode');
+		$rg->setRequired(true);
+		$opt = new ilRadioOption($this->lng->txt('ass_quest_process_lock_mode_file'), ilAssQuestionProcessLocker::LOCK_MODE_FILE);
+		$opt->setInfo($this->lng->txt('ass_quest_process_lock_mode_file_desc'));
+		$rg->addOption($opt);
+		$opt = new ilRadioOption($this->lng->txt('ass_quest_process_lock_mode_db'), ilAssQuestionProcessLocker::LOCK_MODE_DB);
+		$opt->setInfo($this->lng->txt('ass_quest_process_lock_mode_db_desc'));
+		$rg->addOption($opt);
+		if($this->object->getQuestionProcessLockMode() != ilAssQuestionProcessLocker::LOCK_MODE_NONE)
+		{
+			$rg->setValue($this->object->getQuestionProcessLockMode());
+		}
+		$chb->addSubItem($rg);
+
 		// question settings
 		$header = new ilFormSectionHeaderGUI();
 		$header->setTitle($this->lng->txt("assf_questiontypes"));
@@ -194,26 +217,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		}
 		$scoring->setInfo($this->lng->txt('assessment_log_scoring_adjustment_desc'));
 		$form->addItem($scoring);
-
-		// question process locking behaviour (e.g. on saving users working data)
-
-		$chb = new ilCheckboxInputGUI($this->lng->txt('ass_quest_process_lock'), 'quest_process_lock');
-		$chb->setChecked($this->object->getQuestionProcessLockMode() != ilAssQuestionProcessLocker::LOCK_MODE_NONE);
-		$chb->setInfo($this->lng->txt('ass_quest_process_lock_desc'));
-		$form->addItem($chb);
-		$rg = new ilRadioGroupInputGUI($this->lng->txt('ass_quest_process_lock_mode'), 'quest_process_lock_mode');
-		$rg->setRequired(true);
-		$opt = new ilRadioOption($this->lng->txt('ass_quest_process_lock_mode_file'), ilAssQuestionProcessLocker::LOCK_MODE_FILE);
-		$opt->setInfo($this->lng->txt('ass_quest_process_lock_mode_file_desc'));
-		$rg->addOption($opt);
-		$opt = new ilRadioOption($this->lng->txt('ass_quest_process_lock_mode_db'), ilAssQuestionProcessLocker::LOCK_MODE_DB);
-		$opt->setInfo($this->lng->txt('ass_quest_process_lock_mode_db_desc'));
-		$rg->addOption($opt);
-		if($this->object->getQuestionProcessLockMode() != ilAssQuestionProcessLocker::LOCK_MODE_NONE)
-		{
-			$rg->setValue($this->object->getQuestionProcessLockMode());
-		}
-		$chb->addSubItem($rg);
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
