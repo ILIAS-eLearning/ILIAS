@@ -553,7 +553,7 @@ print '<hr>';
 // !!!!!!!!!!!
 
 
-die();
+//die();
 
 foreach($import->sem_ok as $rec){
 	$crs_id = $import->importSeminar($rec);
@@ -562,10 +562,27 @@ foreach($import->sem_ok as $rec){
 	$import->setReported($rec['id']);
 }
 
-$import->rectifyOKZforAltdaten();
+//$import->rectifyOKZforAltdaten();
 //$import->rematchWBDTopic();
 
 
 printToTable($import->sem_ok);
+
+print '<hr>';
+print 'many:';
+printToTable($sem_many_matches);
+print '<hr>';
+print 'NR';
+printToTable($import->sem_nr_matches);
+print '<hr>';
+print 'bday';
+printToTable($import->sem_bday_matches);
+/*
+print '<hr>';
+print '<hr>';
+print '<h1>altdaten</h1>';
+printToTable($import->importdata);
+*/
+
 
 ?>
