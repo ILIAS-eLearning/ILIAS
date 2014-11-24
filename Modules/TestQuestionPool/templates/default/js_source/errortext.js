@@ -33,7 +33,7 @@ function toggleSelection(e, obj)
 
 function errortextEvents(e)
 {
-	errortexts = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'errortext') ? true : false; }, 'div', document);
+	errortexts = YAHOO.util.Dom.getElementsBy(function (el) { return (YAHOO.util.Dom.hasClass(el, 'errortext')) ? true : false; }, 'div', document);
 	for (i = 0; i < errortexts.length; i++)
 	{
 		anchors = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'a', errortexts[i]);

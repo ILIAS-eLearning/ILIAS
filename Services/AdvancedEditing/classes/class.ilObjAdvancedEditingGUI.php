@@ -607,14 +607,18 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
 		$char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_ADMIN);
 		$form = $this->initCharSelectorSettingsForm($char_selector);
-		$form->checkInput();
-		$char_selector->getFormValues($form);
+        if ($form->checkInput())
+        {
+            $char_selector->getFormValues($form);
 
-		$ilSetting->set('char_selector_availability', $char_selector->getConfig()->getAvailability());
-		$ilSetting->set('char_selector_definition', $char_selector->getConfig()->getDefinition());
-			
-		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-		$ilCtrl->redirect($this, "showCharSelectorSettings");
+            $ilSetting->set('char_selector_availability', $char_selector->getConfig()->getAvailability());
+            $ilSetting->set('char_selector_definition', $char_selector->getConfig()->getDefinition());
+
+            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $ilCtrl->redirect($this, "showCharSelectorSettings");
+        }
+        $form->setValuesByPost();
+        $tpl->setContent($form->getHTML());
 	}
 
 		

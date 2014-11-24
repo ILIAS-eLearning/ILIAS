@@ -120,8 +120,9 @@ class ilCharSelectorGUI
 	{
 		global $lng;
 		$lng->loadLanguageModule('adve');
-				
-		$availability = new ilRadioGroupInputGUI($lng->txt('char_selector'), 'char_selector_availability');
+
+        require_once ('Services/UIComponent/CharSelector/classes/class.ilCharSelectorRadioGroupInputGUI.php');
+		$availability = new ilCharSelectorRadioGroupInputGUI($lng->txt('char_selector'), 'char_selector_availability');
 		$inactive = new ilRadioOption($lng->txt('char_selector_inactive'),ilCharSelectorConfig::INACTIVE);
 		$inactive->setInfo($lng->txt('char_selector_inactive_info_'.$this->config->getContext()));
 		$inherit = new ilRadioOption($lng->txt('char_selector_inherit'),ilCharSelectorConfig::INHERIT);

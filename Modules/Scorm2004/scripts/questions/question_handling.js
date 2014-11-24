@@ -550,7 +550,8 @@ ilias.questions.assErrorText =function(a_id) {
 			var is_wrong = false;
 			for(var j=0;j<questions[a_id].correct_answers.length;j++)
 			{
-				if(text_select == questions[a_id].correct_answers[j]["answertext_wrong"])
+				if(text_select == questions[a_id].correct_answers[j]["answertext_wrong"] &&
+					questions[a_id].correct_answers[j]["pos"] == questions[a_id].answers[i]["order"]) // #14115
 				{
 					is_wrong = true;
 				}
@@ -951,7 +952,8 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 					var correct = "";
 					for(var j=0;j<questions[a_id].correct_answers.length;j++)
 					{
-						if(questions[a_id].answers[i]["answertext"] == questions[a_id].correct_answers[j]["answertext_wrong"])
+						if(questions[a_id].answers[i]["answertext"] == questions[a_id].correct_answers[j]["answertext_wrong"] &&
+							questions[a_id].correct_answers[j]["pos"] == questions[a_id].answers[i]["order"]) // #14115
 						{
 							is_wrong = true;
 							correct = questions[a_id].correct_answers[j]["answertext_correct"];

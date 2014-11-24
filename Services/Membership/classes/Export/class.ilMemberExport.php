@@ -283,7 +283,10 @@ class ilMemberExport
 	 	$udf = ilUserDefinedFields::_getInstance();
 	 	foreach($udf->getCourseExportableFields() as $field_id => $udf_data)
 	 	{
-	 		$fields[] = 'udf_'.$field_id;
+			if($this->settings->enabled('udf_'.$field_id))
+			{
+				$fields[] = 'udf_'.$field_id;
+			}
 	 	}
 	 	
 	 	// Add course specific fields

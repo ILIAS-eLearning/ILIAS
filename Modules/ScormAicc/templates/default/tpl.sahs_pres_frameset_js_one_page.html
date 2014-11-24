@@ -1,15 +1,35 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title></title>
+	<!-- tpl.sahs_pres_frameset_js_one_page.html -->
+	<title>ilias CoursePlayer (SCORM 1.2)</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<script type="text/javascript" src="{API_LINK}"></script>
+	
+	<meta name="viewport" content="width=device-width, maximum-scale=1" />
+	
 </head>
-<frameset rows="*" frameborder="0" framespacing="0" border="0">
-	<frame src="./Modules/ScormAicc/templates/default/dummy.html" name="sahs_content" marginwidth="0" marginheight="0" scrolling="auto" />
-</frameset>
-<noframes>
-The editor interface requires a <b>frames-capable</b> web browser.
-</noframes>
+
+<script type="text/javascript">
+    if(navigator.userAgent.match(/iPad/i)) {
+    	var tpl = new Array(
+ 			'<frameset rows="*, 20" frameborder="0" framespacing="0" border="0">'
+			,'	<frame src="./Modules/ScormAicc/templates/default/dummy.html" name="sahs_content" marginwidth="0" marginheight="0" scrolling="auto" />'
+			,'	<frame />'
+			,'</frameset>'
+    	).join("\n");
+    	
+    } else {
+    	var tpl = new Array(
+ 			'<frameset rows="*" frameborder="0" framespacing="0" border="0">'
+			,'	<frame src="./Modules/ScormAicc/templates/default/dummy.html" name="sahs_content" marginwidth="0" marginheight="0" scrolling="auto" />'
+			,'</frameset>'
+	   	).join("\n");
+    }
+	document.open();
+	document.write(tpl);
+	document.close();    
+</script>
+
 </html>

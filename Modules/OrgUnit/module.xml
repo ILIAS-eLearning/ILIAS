@@ -17,6 +17,9 @@
 	</objects>
 	<events>
 		<event type="raise" id="delete" />
+		<event type="listen" id="Services/User" />
+		<!--event type="listen" id="Modules/OrgUnit" /-->
+		<event type="listen" id="Services/Object" />
 	</events>
     <pluginslots>
         <pluginslot id="orgutypehk" name="OrgUnitTypeHook" />

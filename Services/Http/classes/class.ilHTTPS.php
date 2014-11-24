@@ -12,6 +12,9 @@
 
 class ilHTTPS
 {
+	const PROTOCOL_HTTP  = 1;
+	const PROTOCOL_HTTPS = 2;
+	
 	private static $instance = null;
 
 	var $enabled = false;
@@ -55,6 +58,36 @@ class ilHTTPS
 	}
 
 	/**
+	 * @param bool $to_protocol
+	 * @return bool
+	 */
+	protected function shouldSwitchProtocol($to_protocol)
+	{
+		switch($to_protocol)
+		{
+			case self::PROTOCOL_HTTP:
+				$should_switch_to_http = (
+					!in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) &&
+					!in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
+				) && $_SERVER['HTTPS'] == 'on';
+
+				return $should_switch_to_http;
+				break;
+
+			case self::PROTOCOL_HTTPS:
+				$should_switch_to_https = (
+					in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) ||
+					in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
+				) && $_SERVER['HTTPS'] != 'on';
+
+				return $should_switch_to_https;
+				break;
+		}
+
+		return false;
+	}
+
+	/**
 	 * check if current port usage is right: if https should be used than redirection is done, to http otherwise.
 	 *
 	 * @return unknown
@@ -64,16 +97,12 @@ class ilHTTPS
 		// if https is enabled for scripts or classes, check for redirection
 	    if ($this->enabled)
 		{
-    		if((in_array(basename($_SERVER["SCRIPT_NAME"]),$this->protected_scripts) or
-    			in_array($_GET['cmdClass'],$this->protected_classes)) and
-    		   $_SERVER["HTTPS"] != "on")
+    		if($this->shouldSwitchProtocol(self::PROTOCOL_HTTPS))
     		{
     			header("location: https://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
     			exit;
     		}
-    		if((!in_array(basename($_SERVER["SCRIPT_NAME"]),$this->protected_scripts) and
-    			!in_array($_GET['cmdClass'],$this->protected_classes)) and
-    		   $_SERVER["HTTPS"] == "on")
+    		if($this->shouldSwitchProtocol(self::PROTOCOL_HTTP))
     		{
     			header("location: http://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
     			exit;

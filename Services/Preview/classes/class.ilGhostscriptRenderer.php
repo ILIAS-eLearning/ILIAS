@@ -38,7 +38,7 @@ class ilGhostscriptRenderer extends ilFilePreviewRenderer
 	 */
 	public static function isGhostscriptInstalled()
 	{
-		return is_file(PATH_TO_GHOSTSCRIPT);
+		return (PATH_TO_GHOSTSCRIPT != "");
 	}
 	
 	/**

@@ -119,11 +119,29 @@ class ilTinyMCE extends ilRTE
 		else
 		{
 			parent::addPlugin('ibrowser');
-
 			parent::removePlugin('ilimgupload');
 			$this->disableButtons('ilimgupload');
 
 			$this->setRemoveImgContextMenuItem(false);
+		}
+	}
+
+	/**
+	 * @param array $tags
+	 */
+	private function handleImagePluginsBeforeRendering(array $tags)
+	{
+		if(!in_array('img', $tags))
+		{
+			$this->setRemoveImgContextMenuItem(true);
+			parent::removePlugin('ilimgupload');
+			parent::removePlugin('ibrowser');
+			parent::removePlugin('image');
+			$this->disableButtons(array(
+				'ibrowser',
+				'image',
+				'ilimgupload'
+			));
 		}
 	}
 	
@@ -279,7 +297,8 @@ class ilTinyMCE extends ilRTE
 		{
 			$tpl = new ilTemplate(($cfg_template === null ? "tpl.tinymce.html" : $cfg_template), true, true, "Services/RTE");
 			$this->handleImgContextMenuItem($tpl);
-			$tags =& ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
+			$tags = ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
+			$this->handleImagePluginsBeforeRendering($tags);
 			if ($allowFormElements)
 			{
 				$tpl->touchBlock("formelements");
@@ -355,6 +374,7 @@ class ilTinyMCE extends ilRTE
 	*/
 	function addCustomRTESupport($obj_id, $obj_type, $tags)
 	{
+		$this->handleImagePluginsBeforeRendering($tags);
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$tpl = new ilTemplate("tpl.tinymce.html", true, true, "Services/RTE");
 		$this->handleImgContextMenuItem($tpl);

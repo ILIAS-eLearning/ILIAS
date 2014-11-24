@@ -1482,7 +1482,6 @@ assessment#:#tst_results_back_overview#:#Zpět na přehled výsledků
 assessment#:#tst_results_overview#:#Přehled průchodů výsledky testu
 assessment#:#tst_results_overview_pass#:#Přehled výsledků pro průchod %s
 assessment#:#tst_results_presentation#:#Prezentace výsledků testu
-assessment#:#tst_results_presentation_description#:#Pokud je zvoleno "Zobrazit výsledky v průběhu testu", název otázky a dosažené body pro každou otázku jsou dostupné, ačkoliv test nebyl ještě ukončen. Pokud je zvoleno "Zobrazit řešení ve výsledcích testu", podrobné řešení otázky je účastníkům dostupné v prezentaci výsledků testu. To zahrnuje přesné bodování pro každou odpověď, tedy se zobrazí přehled s názvy otázek a dosažené body. Pokud je vybrán seznam odpovědí, pak bude vygenerován seznam všech otázek a odpovědí účastníka. Tento seznam bude nabídnut na Info stránce a na konci testu před finálním odesláním. Pokud je vybráno "Zobrazit odpovědi specifikovaný ohlas ve výsledcích testu", pak bude správná odpověď zobrazována jako specifikovaný ohlas v závěru každé odpovědi. Pokud je vybráno "Přehled výsledků (jen odpovědi)", obsah ILIAS, který umístíte k jednotlivým otázkám pomocí tabulky obsahu "Upravit obsah" nebude ve výtisku zobrazen. Pokud chcete nějaký prostor na papíru ušetřit, vyberte tuto volbu.  Pokud je vybráno "Zobrazit rezervované místo na podpis", pak bude místo na podpis na výtisku rezervováno. Pokud je vybráno "Zobrazit doporučené řešení", pak bude v přehledu výsledků testu zobrazeno i doporučené řešení, pokud existuje.
 assessment#:#tst_results_print_best_solution#:#Nejlepší řešení z výsledků testu
 assessment#:#tst_results_print_best_solution_info#:#Je-li aktivováno a dostupné uživatelům, nejlepší řešení se objeví v souhrnných výsledcích testu.
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Pokračování testu s aktuálním výběrem otázek
@@ -14269,7 +14268,6 @@ assessment#:#tst_question_answer_status_all_non_correct#:#All Questions (Except 
 assessment#:#tst_question_answer_status_non_answered#:#Non Answered Questions###20 07 2014 new variable
 assessment#:#tst_question_answer_status_wrong_answered#:#Wrong Answered Questions###20 07 2014 new variable
 assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection###20 07 2014 new variable
-assessment#:#tst_num_open_questions#:#Open Questions###20 07 2014 new variable
 assessment#:#tst_num_non_answered_questions#:#Non Answered Questions###20 07 2014 new variable
 assessment#:#tst_num_wrong_answered_questions#:#Wrong Answered Questions###20 07 2014 new variable
 assessment#:#tst_num_postponed_questions#:#Postponed Questions###20 07 2014 new variable
@@ -14305,3 +14303,41 @@ content#:#cont_ie_compatibility_info#:#Especially for older learning modules it 
 content#:#cont_ie_force_render#:#Force Internet Explorer to render again###08 09 2014 new variable
 content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iframes. Additionally you have to set the option 'Display' to 'in new window'.###08 09 2014 new variable
 exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.###08 09 2014 new variable
+assessment#:#aggregated_answers_header#:#Overview of Participant Answers###22 11 2014 new variable
+assessment#:#aggregated_answers_variants#:#Answer Variations###22 11 2014 new variable
+assessment#:#number_of_users#:#Number of Participants###22 11 2014 new variable
+assessment#:#number_of_passes#:#Number of Passes###22 11 2014 new variable
+assessment#:#answer_variant#:#Answervariant###22 11 2014 new variable
+assessment#:#adjust_question_form_error#:#The form could not be submitted. Please check your input.###22 11 2014 new variable
+assessment#:#no_archive_on_anonymous#:#Archiving is not possible in an anonymous test: option deactivated automatically.###22 11 2014 new variable
+assessment#:#qpl_maxchars_info_numeric_question#:#If you enter a value, the field for the numerical answer will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.###22 11 2014 new variable
+assessment#:#tst_import_non_ilias_zip#:#Error: The filename of the uploaded import file does not match the expected format.###22 11 2014 new variable
+assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.###22 11 2014 new variable
+assessment#:#thumb_size_unit_pixel#:#Pixel###22 11 2014 new variable
+assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Please choose at least one question to be added to a question pool!###22 11 2014 new variable
+assessment#:#tst_show_pass_details_desc#:#If selected, the question titles and the reached points for every question in the test pass are available if the test is not finished.###22 11 2014 new variable
+assessment#:#tst_show_solution_details_desc#:#If selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown.###22 11 2014 new variable
+assessment#:#tst_show_solution_printview_desc#:#If selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission.###22 11 2014 new variable
+assessment#:#tst_show_solution_feedback_desc#:#If is selected, the answer specific feedback will be shown in the test results next to the questions.###22 11 2014 new variable
+assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option.###22 11 2014 new variable
+assessment#:#tst_show_solution_signature_desc#:#If is selected, a signature placeholder will be shown for printout.###22 11 2014 new variable
+assessment#:#tst_show_solution_suggested_desc#:#If is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.###22 11 2014 new variable
+assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#The random question set configuration cannot be modified due to existing participant data.###22 11 2014 new variable
+assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Testanswers###22 11 2014 new variable
+assessment#:#tst_input_dyn_quest_set_prev_quest_list_enabled#:#Provide List of Previously Answered Questions###22 11 2014 new variable
+assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic###22 11 2014 new variable
+assessment#:#tst_num_all_questions#:#Number of All Questions###22 11 2014 new variable
+assessment#:#tst_num_selected_questions#:#Number of Selected Questions###22 11 2014 new variable
+assessment#:#tst_num_correct_answered_questions#:#Correct Answered Questions###22 11 2014 new variable
+common#:#show_hidden_sections#:#Show More Information &raquo;###22 11 2014 new variable
+common#:#hide_visible_sections#:#Hide More Information &raquo;###22 11 2014 new variable
+forum#:#frm_max_notification_age#:#Max. Notification Age###22 11 2014 new variable
+forum#:#frm_max_notification_age_unit#:#Day(s)###22 11 2014 new variable
+forum#:#frm_max_notification_age_info#:#Please define the maximum age of postings to send notifications for. It is recommended to choose a higher value than the scheduled interval.###22 11 2014 new variable
+mail#:#link_check_introduction#:#the following weblinks are invalid:###22 11 2014 new variable
+mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.###22 11 2014 new variable
+mail#:#link_check_affected_links#:#Affected Links###22 11 2014 new variable
+mail#:#link_check_perma_link#:#Permanent Link###22 11 2014 new variable
+news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.###22 11 2014 new variable
+adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!###22 11 2014 new variable
+exc#:#exc_assignment_type#:#Type Of Submission###22 11 2014 new variable

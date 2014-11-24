@@ -451,10 +451,11 @@ class ilCharSelectorConfig
 		// first reset all previous settings
 		$this->added_blocks = array();
 		$this->custom_items = array();
-		
-		if ($a_definition == '')
+
+        // set the default definition to all unicode blocks
+		if (trim($a_definition) == '')
 		{
-			return;
+            $a_definition = "[all]";
 		}
 		
 		// analyze definition items

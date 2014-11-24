@@ -84,7 +84,10 @@ class ilCalendarRemoteAccessHandler
 		include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
 		if($this->getTokenHandler()->getSelectionType() == ilCalendarAuthenticationToken::SELECTION_CALENDAR)
 		{
-			$export = new ilCalendarExport(array($this->getTokenHandler()->getCalendar()));
+			#$export = new ilCalendarExport(array($this->getTokenHandler()->getCalendar()));
+			$cats = ilCalendarCategories::_getInstance();
+			$cats->initialize(ilCalendarCategories::MODE_REMOTE_SELECTED, $this->getTokenHandler()->getCalendar());
+			$export = new ilCalendarExport($cats->getCategories(true));
 		}
 		else
 		{

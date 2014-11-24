@@ -53,6 +53,7 @@ class ilFeedbackConfirmationTable2GUI extends ilTable2GUI
 		$this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
 		$this->tpl->setVariable("LOGIN", $a_set["login"]);
 		$this->tpl->setVariable("FILE", $a_set["file"]);
+		$this->tpl->setVariable("POST_FILE", md5($a_set["file"]));
 		$this->tpl->setVariable("USER_ID", $a_set["user_id"]);
 	}
 
