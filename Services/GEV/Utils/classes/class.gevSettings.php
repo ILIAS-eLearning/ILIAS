@@ -322,6 +322,18 @@ class gevSettings {
 
 
 
+	//OrgUnit Mappings (Personal OrgUnits)
+	static $PERSONAL_ORGUNITS_MAPPING = array(
+		'base' => 277, //ref 72
+		'templates' => 281, //ref 74
+		'cpool' => 285 //ref 76
+	);
+
+
+
+
+
+
 	
 	private function __construct() {
 		$this->settings = new ilSetting(self::MODULE_NAME);
