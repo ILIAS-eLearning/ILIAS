@@ -82,6 +82,7 @@ class gevCrsMailData extends ilMailData {
 				$val = $this->crs_utils->getSubtitle();
 				break;
 			case "LERNART":
+			case "TRAININGSTYP":
 				$val = $this->crs_utils->getType();
 				break;
 			case "TRAININGSTHEMEN":
