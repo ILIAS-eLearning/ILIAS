@@ -4,6 +4,7 @@
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+require_once './Services/UIComponent/Button/classes/class.ilSubmitButton.php';
 
 /**
  * Output class for assessment test execution
@@ -177,17 +178,27 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	protected function populateLowerNextButtonBlockLeadingToQuestion()
 	{
+		$button = ilSubmitButton::getInstance();
+		$button->setPrimary( true );
+		$button->setCommand( 'nextQuestion' );
+		$button->setCaption( 'save_next' );
+		$button->setId( 'bottomnextbutton' );
+
 		$this->tpl->setCurrentBlock( "next_bottom" );
-		$this->tpl->setVariable( "CMD_NEXT", 'nextQuestion' );
-		$this->tpl->setVariable( "BTN_NEXT", $this->lng->txt( "save_next" ) . " &gt;&gt;" );
+		$this->tpl->setVariable( "BTN_NEXT", $button->render());
 		$this->tpl->parseCurrentBlock();
 	}
 
 	protected function populateUpperNextButtonBlockLeadingToQuestion()
 	{
+		$button = ilSubmitButton::getInstance();
+		$button->setPrimary( true );
+		$button->setCommand( 'nextQuestion' );
+		$button->setCaption( 'save_next' );
+		$button->setId( 'nextbutton' );
+
 		$this->tpl->setCurrentBlock( "next" );
-		$this->tpl->setVariable( "CMD_NEXT", 'nextQuestion' );
-		$this->tpl->setVariable( "BTN_NEXT", $this->lng->txt( "save_next" ) . " &gt;&gt;" );
+		$this->tpl->setVariable( "BTN_NEXT", $button->render());
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -199,17 +210,27 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	protected function populateLowerNextButtonBlockLeadingToEndOfTest()
 	{
+		$button = ilSubmitButton::getInstance();
+		$button->setPrimary( true );
+		$button->setCommand( 'nextQuestion' );
+		$button->setCaption( 'save_finish' );
+		$button->setId( 'bottomnextbutton' );
+
 		$this->tpl->setCurrentBlock( "next_bottom" );
-		$this->tpl->setVariable( "CMD_NEXT", 'nextQuestion' );
-		$this->tpl->setVariable( "BTN_NEXT", $this->lng->txt( "save_finish" ) . " &gt;&gt;" );
+		$this->tpl->setVariable( "BTN_NEXT", $button->render());
 		$this->tpl->parseCurrentBlock();
 	}
 
 	protected function populateUpperNextButtonBlockLeadingToEndOfTest()
 	{
+		$button = ilSubmitButton::getInstance();
+		$button->setPrimary( true );
+		$button->setCommand( 'nextQuestion' );
+		$button->setCaption( 'save_finish' );
+		$button->setId( 'nextbutton' );
+
 		$this->tpl->setCurrentBlock( "next" );
-		$this->tpl->setVariable( "CMD_NEXT", 'nextQuestion' );
-		$this->tpl->setVariable( "BTN_NEXT", $this->lng->txt( "save_finish" ) . " &gt;&gt;" );
+		$this->tpl->setVariable( "BTN_NEXT", $button->render());
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -221,17 +242,27 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	protected function populateLowerNextButtonBlockLeadingToSummary()
 	{
+		$button = ilSubmitButton::getInstance();
+		$button->setPrimary( true );
+		$button->setCommand( 'nextQuestion' );
+		$button->setCaption( 'question_summary' );
+		$button->setId( 'bottomnextbutton' );
+
 		$this->tpl->setCurrentBlock( "next_bottom" );
-		$this->tpl->setVariable( "CMD_NEXT", 'nextQuestion' );
-		$this->tpl->setVariable( "BTN_NEXT", $this->lng->txt( "question_summary" ) . " &gt;&gt;" );
+		$this->tpl->setVariable( "BTN_NEXT", $button->render());
 		$this->tpl->parseCurrentBlock();
 	}
 
 	protected function populateUpperNextButtonBlockLeadingToSummary()
 	{
+		$button = ilSubmitButton::getInstance();
+		$button->setPrimary( true );
+		$button->setCommand( 'nextQuestion' );
+		$button->setCaption( 'question_summary' );
+		$button->setId( 'nextbutton' );
+
 		$this->tpl->setCurrentBlock( "next" );
-		$this->tpl->setVariable( "CMD_NEXT", 'nextQuestion' );
-		$this->tpl->setVariable( "BTN_NEXT", $this->lng->txt( "question_summary" ) . " &gt;&gt;" );
+		$this->tpl->setVariable( "BTN_NEXT", $button->render());
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -314,20 +345,20 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected function populatePreviousButtonsLeadingToQuestion()
 	{
 		$this->populateUpperPreviousButtonBlock(
-				'previousQuestion', "&lt;&lt; " . $this->lng->txt( "save_previous" )
+				'previousQuestion', $this->lng->txt( "save_previous" )
 		);
 		$this->populateLowerPreviousButtonBlock(
-				'previousQuestion', "&lt;&lt; " . $this->lng->txt( "save_previous" )
+				'previousQuestion', $this->lng->txt( "save_previous" )
 		);
 	}
 
 	protected function populatePreviousButtonsLeadingToIntroduction()
 	{
 		$this->populateUpperPreviousButtonBlock(
-				'previousQuestion', "&lt;&lt; " . $this->getIntroductionPageButtonLabel()
+				'previousQuestion', $this->getIntroductionPageButtonLabel()
 		);
 		$this->populateLowerPreviousButtonBlock(
-				'previousQuestion', "&lt;&lt; " . $this->getIntroductionPageButtonLabel()
+				'previousQuestion', $this->getIntroductionPageButtonLabel()
 		);
 	}
 
