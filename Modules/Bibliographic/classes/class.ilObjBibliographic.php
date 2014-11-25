@@ -442,7 +442,7 @@ class ilObjBibliographic extends ilObject2 {
 	public function cloneStructure($original_id) {
 		$original = new ilObjBibliographic($original_id);
 		$this->moveFile($original->getFileAbsolutePath());
-		$this->setOnline($original->getOnline());
+		$this->setOnline(false);
 		$this->setDescription($original->getDescription());
 		$this->setTitle($original->getTitle());
 		$this->setType($original->getType());
