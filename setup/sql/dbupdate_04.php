@@ -4993,4 +4993,7 @@ $ilDB->manipulate('delete from ecs_course_assignments');
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
+<#4421>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
