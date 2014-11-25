@@ -1,0 +1,50 @@
+<form id="form_{POST_VAR}" enctype="multipart/form-data" action="{ACTION}" method="post">
+	<!-- BEGIN date -->
+	{DATE_FILTER_LABEL} {DATE_FILTER}
+	<!-- END date -->
+	<!-- BEGIN dateperiod -->
+	<div class="cat_filter_dateperiod ilFloatLeft" id="{POST_VAR}">
+		{DP_LABEL_START}&nbsp;
+		{DP_START_SELECT} 
+		<input type="image" alt="{DP_TXT_CALENDAR}" title="{DP_TXT_CALENDAR}" src="{DP_IMG_CALENDAR}" id="btn_cal_start_{POST_VAR}" />
+		<script type="text/javascript">
+		//<![CDATA[
+		Calendar.setup( 
+		{ 
+			button : "btn_cal_start_{POST_VAR}",
+			inputFieldsDate : "{POST_VAR}",
+			firstDay : {DP_DATE_FIRST_DAY},
+			onUpdate : ilUpdateEndDate
+		}
+		);
+		YAHOO.util.Event.onDOMReady(ilInitDuration,prefix = new String("{POST_VAR}"));
+		YAHOO.util.Event.onDOMReady(ilDisableSessionTime,prefix = new String("{POST_VAR}"));
+
+		//]]>
+		</script>
+		&nbsp;{DP_LABEL_END}&nbsp;
+		{DP_END_SELECT} 
+		<input type="image" alt="{DP_TXT_CALENDAR}" title="{DP_TXT_CALENDAR}" src="{DP_IMG_CALENDAR}" id="btn_cal_end_{POST_VAR}" />
+		<script type="text/javascript">
+			//<![CDATA[
+			Calendar.setup( 
+			{ 
+				button : "btn_cal_end_{POST_VAR}",
+				firstDay : {DP_DATE_FIRST_DAY},
+				inputFieldsDate : "{POST_VAR}"
+			}
+			);
+			
+			//]]>
+		</script>
+	</div>
+	<!-- END dateperiod -->
+	<!-- BEGIN select -->
+	{SELECT_FILTER_LABEL} {SELECT_FILTER}
+	<!-- END date -->
+	<!-- BEGIN date -->
+	{MULTISELECT_FILTER_LABEL} {MULTISELECT_FILTER}
+	<!-- END date -->
+	<div class="ilFloatLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="submit" type="SUBMIT" name="cmd[view]" value="{FILTER}"></div>
+	<div class="ilClearFloat"></div>
+</form>
