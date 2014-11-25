@@ -1179,6 +1179,12 @@ return;
 									$sub_icon = ilUtil::getImagePath("icon_".$a_obj_type."_s.png");
 								}
 							}
+							else if ($type == "poll")
+							{
+								include_once "Services/Link/classes/class.ilLink.php";
+								$title = ilObject::_lookupTitle($a_rep_obj_id);
+								$link = ilLink::_getLink($vis_ref_id, "poll");
+							}
 							else if ($a_obj_type != "pg")
 							{
 								if (!is_object($this->item_list_gui[$type]))
