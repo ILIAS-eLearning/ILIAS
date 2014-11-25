@@ -392,7 +392,7 @@ assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#Der Stat
 assessment#:#change_solution#:#Musterlösung wechseln
 assessment#:#changelog_description#:#Die folgende Tabelle beinhaltet alle Änderungen von Autoren an diesem Test
 assessment#:#changelog_heading#:#Änderungen
-assessment#:#changeSuggestedSolution#:#Art der Musterlösung auswählen
+assessment#:#changeSuggestedSolution#:#Art der Inhalte zur Wiederholung auswählen
 assessment#:#checkbox_checked#:#Ausgewählt
 assessment#:#checkbox_unchecked#:#Nicht ausgewählt
 assessment#:#circle#:#Kreis
@@ -441,7 +441,7 @@ assessment#:#delete_image#:#Bild entfernen
 assessment#:#delete_image_header#:#Bild entfernen
 assessment#:#delete_image_question#:#Möchten Sie das Bild wirklich entfernen?
 assessment#:#delete_user_data#:#Testdaten entfernen
-assessment#:#deleteSuggestedSolution#:#Musterlösung entfernen
+assessment#:#deleteSuggestedSolution#:#Inhalte zur Wiederholung entfernen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
 assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungsdauer des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
 assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungsdauer des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
@@ -7562,7 +7562,7 @@ ecs#:#ecs_unique_id#:#Teilnehmer-ID
 ecs#:#ecs_user_rcp#:#Benachrichtigungen über ECS-Benutzer
 ecs#:#ecs_user_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue ECS-Benutzer per E-Mail benachrichtigt werden sollen.
 exc#:#exc_add_assignment#:#Übungseinheit hinzufügen
-exc#:#exc_add_feedback_file#:#Feedback-Datei
+exc#:#exc_add_feedback_file#:#Als Datei hinterlegen
 exc#:#exc_add_participant#:#Teilnehmer hinzufügen
 exc#:#exc_assignment#:#Übungseinheit
 exc#:#exc_assignment_view#:#Je Übungseinheit
@@ -7662,7 +7662,7 @@ exercise#:#exc_grading#:#Bewertung
 exercise#:#exc_mark#:#Note
 exercise#:#exc_notgraded#:#Nicht bewertet
 exercise#:#exc_passed#:#Bestanden
-exercise#:#exc_send_mail#:#Mail versenden
+exercise#:#exc_send_mail#:#Als Mail versenden
 exercise#:#exc_start_date_should_be_before_end_date#:#Die Startzeit sollte vor dem Abgabetermin liegen.
 exercise#:#exc_your_submission#:#Ihre Einreichung
 exp#:#exp_create_file#:#Exportdatei erzeugen
@@ -11150,11 +11150,11 @@ survey#:#error_importing_question#:#Beim Importieren der Frage(n) der von Ihnen 
 survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Zugangsschlüssel %s nicht finden. Bitte überprüfen Sie den Zugangsschlüssel!
 survey#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
 survey#:#evaluation#:#Statistik
-survey#:#evaluation_access#:#Evaluationszugriff
-survey#:#evaluation_access_all#:#Evaluationszugriff für alle ILIAS-Benutzer
+survey#:#evaluation_access#:#Zugriff auf Ergebnisse
+survey#:#evaluation_access_all#:#Alle registrierten ILIAS-Benutzer können auf die Ergebnisse zugreifen
 survey#:#evaluation_access_info#:#Sie haben Zugriff auf die Auswertung der Umfrage
-survey#:#evaluation_access_off#:#Nicht verfügbar
-survey#:#evaluation_access_participants#:#Evaluationszugriff für Teilnehmer der Umfrage
+survey#:#evaluation_access_off#:#Teilnehmer haben keinen Zugriff auf Ergebnisse
+survey#:#evaluation_access_participants#:#Alle Teilnehmer der Umfrage haben Zugriff auf die Ergebnisse
 survey#:#existing_constraints#:#Bestehende Verzweigungsregeln
 survey#:#exit#:#Beenden
 survey#:#exp_type_csv#:#Durch Komma getrennte Werte (CSV)
@@ -14651,7 +14651,7 @@ exc#:#exc_global_feedback_file_date#:#Verfügbarkeit
 exc#:#exc_global_feedback_file_date_deadline#:#Nach dem Abgabetermin
 exc#:#exc_global_feedback_file_date_upload#:#Nach der Abgabe
 exc#:#exc_note_for_tutor#:#Notiz für Tutoren
-exc#:#exc_comment_for_learner_edit#:#Kommentar für Lerner bearbeiten
+exc#:#exc_comment_for_learner_edit#:#Als Kommentar in Textfeld eingeben
 common#:#sorting_creation_header#:#Nach Erstellungsdatum
 common#:#sorting_creation_info#:#Die enthaltenen Objekte werden automatisch nach ihrem Erstellungsdatum sortiert.
 exc#:#exc_comment_for_learner_info#:#Es wird eine Benachrichtigung an den Benutzer gesendet und das Feedback wird in dessen Übungseinheiten-Übersicht gelistet.
@@ -15024,11 +15024,11 @@ mail#:#link_check_perma_link#:#Permanent Link
 assessment#:#positive_numbers_required#:#Bitte tragen Sie hier nur positive Zahlen ein.
 content#:#cont_table_border_info#:#Werte sind inkl. Einheit anzugeben (z.B. px). Ist kein Wert eingetragen, werden die Werte aus dem Stylesheet übernommen.
 content#:#cont_table_cellpadding_info#:#Werte sind inkl. Einheit anzugeben (z.B. px). Ist kein Wert eingetragen, werden die Werte aus dem Stylesheet übernommen.
-survey#:#svy_evaluation_access_off_info#:#todo1
-survey#:#svy_evaluation_access_all_info#:#todo2
-survey#:#svy_evaluation_access_participants_info#:#todo3
-survey#:#svy_results_view_own_info#:#todo4
-survey#:#svy_results_mail_own_info#:#todo5
+survey#:#svy_evaluation_access_all_info#:#Alle registrierten Benutzer, welche Zugriff auf die Umfrage haben, können auch deren Ergebnisse einsehen.
+survey#:#svy_evaluation_access_off_info#:#Nur Benutzer, welche die Umfrage bearbeiten können (Recht 'Einstellungen bearbeiten') haben Zugriff auf die Ergebnisse der Umfrage.
+survey#:#svy_evaluation_access_participants_info#:#Alle Benutzer, die an der Umfrage teigenommen haben, können deren Ergebnisse einsehen nachdem sie die Umfrage abgeschlossen haben.
+survey#:#svy_results_mail_own_info#:#Teilnehmer können sich die eigenen Antworten per Mail zusenden lassen.
+survey#:#svy_results_view_own_info#:#Teilnehmer können sich eine Übersicht mit den eigenen Antworten anzeigen lassen, nachdem sie die Umfrage beendet haben. Sie können die Antworten nicht mehr ändern.
 survey#:#survey_360_self_evaluation_info#:#Feedback-Nehmer können anhand der Fragen eine Selbsteinschätzung vornehmen. 
 survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, welche ihnen eine Rückmeldung geben sollen selber aus. Sie laden diese Personen auch selbständig ein. 
 survey#:#survey_360_self_appraisee_info#:#Allen Benutzern wird ein Link auf dem Reiter "Info" angezeigt. Mit diesem Link können sie sich selbständig Umfrage als Empfänger von Feedback eintragen.  
@@ -15091,9 +15091,9 @@ exc#:#exc_peer_review_reset#:#Peer-Feedback löschen und zurücksetzen
 exc#:#exc_peer_review_reset_sure#:#Wollen Sie wirklich das komplette Peer-Feedback für die Übungseinheit "%s" löschen?
 exc#:#exc_peer_review_reset_done#:#Sämtliche Peer-Feedback-Daten wurde für die Übungseinheit gelöscht.
 adve#:#char_selector_msg_blocks_or_custom_needed#:#Wenn Sie die Auswahl aktivieren, wählen Sie bitte einen Zeichenblock oder geben Sie eine eigene Auswahl von Zeichen ein!
-crs#:#crs_loc_form_tst_new_initial_info#:#--
+crs#:#crs_loc_form_tst_new_initial_info#:#Einen neuen Test als Einstiegstest anlegen
 crs#:#crs_loc_form_tst_new_qualified_info#:#--
-crs#:#crs_loc_form_assign_initial_info#:#--
+crs#:#crs_loc_form_assign_initial_info#:#Einen der bereits im Kurs vorliegenden Tests als Einstiegstest auswählen
 crs#:#crs_loc_form_assign_qualified_info#:#--
 poll#:#poll_view_results_after_period_impossible#:#Die Stimmperiode ist nicht zeitlich begrenzt.
 content#:#cont_download#:#Download
