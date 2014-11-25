@@ -816,57 +816,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			"&baseClass=ilObjQuestionPoolGUI");
 	}
 
-	/**
-	* show assessment data of object
-	*/
-	function assessmentObject()
-	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", "Modules/TestQuestionPool");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
-		// catch feedback message
-		ilUtil::sendInfo();
-
-		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-		$question_title = assQuestion::_getTitle($_GET["q_id"]);
-		$title = $this->lng->txt("statistics") . " - $question_title";
-		if (!empty($title))
-		{
-			$this->tpl->setVariable("HEADER", $title);
-		}
-		include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
-		$total_of_answers = assQuestion::_getTotalAnswers($_GET["q_id"]);
-		$counter = 0;
-		$color_class = array("tblrow1", "tblrow2");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_assessment_of_questions.html", "Modules/TestQuestionPool");
-		if (!$total_of_answers)
-		{
-			$this->tpl->setCurrentBlock("emptyrow");
-			$this->tpl->setVariable("TXT_NO_ASSESSMENT", $this->lng->txt("qpl_assessment_no_assessment_of_questions"));
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("qpl_assessment_total_of_answers"));
-			$this->tpl->setVariable("TXT_VALUE", $total_of_answers);
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$counter++;
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("qpl_assessment_total_of_right_answers"));
-			$this->tpl->setVariable("TXT_VALUE", sprintf("%2.2f", assQuestion::_getTotalRightAnswers($_GET["edit"]) * 100.0) . " %");
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_QUESTION_TITLE", $question_title);
-		$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("result"));
-		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
-		$this->tpl->parseCurrentBlock();
-	}
-
 	function questionObject()
 	{
 //echo "<br>ilObjQuestionPoolGUI->questionObject()";
