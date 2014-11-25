@@ -13811,6 +13811,7 @@ orgu#:#orgu_staff_deassign#:#Are you sure you want to deassign these users from 
 orgu#:#deassign_user_successful#:#Users have been successfully deassigned from this role.
 orgu#:#il_orgu_superior#:#Superior
 orgu#:#orgu_staff#:#Staff
+orgu#:#orgu_msg_info_paste#:#Please select the place to paste the object.
 orgu#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits
 orgu#:#Staff#:#Staff
 orgu#:#orgu_edit#:#Edit

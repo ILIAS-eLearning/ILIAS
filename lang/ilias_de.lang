@@ -13778,6 +13778,7 @@ common#:#objs_orgu#:#Organisationseinheiten
 common#:#obj_orgu#:#Organisationseinheit
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
 orgu#:#orgu_staff_deassign#:#Diese Benutzer aus der Rolle wirklich entfernen?
+orgu#:#orgu_msg_info_paste#:#Wählen Sie nun den gewünschten Ort, an dem die ausgewählten Objekte eingefügt werden sollen.
 orgu#:#deassign_user_successful#:#Benutzer wurde erfolgreich ausgetragen.
 orgu#:#il_orgu_employee#:#Mitarbeiter
 orgu#:#il_orgu_superior#:#Vorgesetzte
