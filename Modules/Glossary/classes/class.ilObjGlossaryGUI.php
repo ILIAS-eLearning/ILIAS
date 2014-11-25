@@ -19,7 +19,7 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 *
 * @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjGlossaryGUI: ilObjTaxonomyGUI, ilExportGUI
+* @ilCtrl_Calls ilObjGlossaryGUI: ilObjTaxonomyGUI, ilExportGUI, ilObjectCopyGUI
 * 
 * @ingroup ModulesGlossary
 */
@@ -200,6 +200,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$ret = $this->ctrl->forwardCommand($exp_gui);
 				break;
 
+			case 'ilobjectcopygui':
+				$this->prepareOutput();
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('glo');
+				$this->ctrl->forwardCommand($cp);
+				break;
+
 			default:				
 				$cmd = $this->ctrl->getCmd("listTerms");
 
@@ -256,7 +264,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->object =& new ilObjGlossary($this->id, true);
 	}
 
-	protected function initCreationForms($a_new_type)
+	/*protected function initCreationForms($a_new_type)
 	{
 		$forms = array(
 			self::CFORM_NEW => $this->initCreateForm($a_new_type),
@@ -264,7 +272,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			);
 
 		return $forms;
-	}
+	}*/
 
     function initCreateForm($a_new_type)
 	{

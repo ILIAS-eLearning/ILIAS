@@ -15105,3 +15105,4 @@ exc#:#exc_assignment_type#:#Abgabetyp
 trac#:#trac_mode_event_info#:#Der Lernfortschrittsstatus wird durch den Teilnahmestatus bestimmt.
 sess#:#sess_lp_preset#:#Lernfortschritt aktivieren
 sess#:#sess_lp_preset_info#:#Den Lernfortschritt für alle Session-Termine (de-)aktivieren.
+glo#:#glo_copy#:#Glossar kopieren

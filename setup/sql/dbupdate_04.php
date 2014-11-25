@@ -5117,3 +5117,7 @@ if($ilDB->tableColumnExists('ecs_cms_data','cms_id'))
 	$ilDB->dropTableColumn('ecs_cms_data','cms_bak');
 }
 ?>
+<#4426>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
