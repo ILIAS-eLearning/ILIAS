@@ -565,7 +565,10 @@ printToTable($import->sem_ok);
 
 print '<hr>';
 print 'no match:';
-printToTable($import->sem_no_user_matches);
+//printToTable($import->sem_no_user_matches);
+foreach($import->sem_no_user_matches as $r){
+    print $r['id'].', ';
+}
 
 
 
