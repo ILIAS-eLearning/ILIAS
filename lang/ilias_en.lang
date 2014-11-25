@@ -6497,7 +6497,7 @@ ecs#:#ecs_unique_id#:#Participant-ID
 ecs#:#ecs_user_rcp_info#:#Enter one or more login names of users (comma seperated) that will be informed about new ECS users per e-mail.
 ecs#:#ecs_user_rcp#:#Notification About ECS Users
 exc#:#exc_add_assignment#:#Add Assignment
-exc#:#exc_add_feedback_file#:#Add Feedback File
+exc#:#exc_add_feedback_file#:#Deposit a Feedback File
 exc#:#exc_add_participant#:#Add Participant
 exc#:#exc_assignment_view#:#Assignment View
 exc#:#exc_assignment#:#Assignment
@@ -6564,7 +6564,7 @@ exercise#:#exc_grading#:#Grading
 exercise#:#exc_mark#:#Mark
 exercise#:#exc_notgraded#:#Not Graded
 exercise#:#exc_passed#:#Passed
-exercise#:#exc_send_mail#:#Send Mail
+exercise#:#exc_send_mail#:#Send as Mail
 exercise#:#exc_your_submission#:#Your Submission
 exp#:#exp_create_file#:#Create Export File
 exp#:#exp_export_files#:#Export Files
@@ -10369,7 +10369,7 @@ survey#:#label_info#:#Alternative identifier for further data processing (e.g. i
 survey#:#export_label_only#:#Export label only
 survey#:#export_title_only#:#Export title only
 survey#:#export_title_label#:#Export title and label
-survey#:#mailnotification#:#Email notification
+survey#:#mailnotification#:#E-Mail Notification
 survey#:#mailaddresses#:#Recipient addresses
 survey#:#mailaddresses_info#:#Enter a comma separated list of recipients who will receive a notification on finished surveys.
 survey#:#mailparticipantdata#:#Additional participant data
@@ -14597,8 +14597,8 @@ survey#:#svy_view_own_results#:#View given answers
 survey#:#svy_mail_own_results#:#Mail given answers
 survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers
 survey#:#svy_mail_own_results_body#:#the following is a complete summary of your survey participation.
-survey#:#svy_results_view_own#:#Participant can view own answers
-survey#:#svy_results_mail_own#:#Participant can mail own answers
+survey#:#svy_results_view_own#:#Participant can View Own Answers
+survey#:#svy_results_mail_own#:#Participant can Mail Own Answers
 exercise#:#exc_to_desktop_info#:#Add exercise to desktop of participant after hand-in
 wiki#:#wiki_wpg#:#Wiki Page
 wiki#:#wiki_add_page_properties#:#Activate Additional Wiki Page Properties
@@ -14714,7 +14714,7 @@ exc#:#exc_global_feedback_file_date#:#Availability
 exc#:#exc_global_feedback_file_date_deadline#:#After deadline
 exc#:#exc_global_feedback_file_date_upload#:#After submission
 exc#:#exc_note_for_tutor#:#Note for Tutors
-exc#:#exc_comment_for_learner_edit#:#Edit Comment for Learner
+exc#:#exc_comment_for_learner_edit#:#Enter in Textfield as Comment
 exc#:#exc_comment_for_learner_info#:#A notification is sent to the user and the feedback will be listed in the user's assignment view.
 common#:#sorting_creation_header#:#By Creation Date
 common#:#sorting_creation_info#:#Content items are arranged automatically by their creation date.
@@ -15031,8 +15031,8 @@ content#:#cont_table_cellpadding_info#:#Keep this empty to make content style se
 survey#:#svy_evaluation_access_all_info#:#All registered users that can access the survey can also look at the results of this survey. 
 survey#:#svy_evaluation_access_off_info#:#Only Users that can edit the survey (write permission) have access to the survey's results.
 survey#:#svy_evaluation_access_participants_info#:#All users that participated in the survey may choose to look at the results after finishing it. 
-survey#:#svy_results_view_own_info#:#todo4
-survey#:#svy_results_mail_own_info#:#todo5
+survey#:#svy_results_mail_own_info#:#Particiants can request a mail containing their own answers.
+survey#:#svy_results_view_own_info#:#After finishing the Survey participants can view a list of all answers they provided. They cannot change their answers
 survey#:#survey_360_self_evaluation_info#:#todo6
 survey#:#survey_360_self_raters_info#:#todo7
 survey#:#survey_360_self_appraisee_info#:#todo8
@@ -15092,9 +15092,9 @@ exc#:#exc_peer_review_reset#:#Delete and Reset Peer-Feedback
 exc#:#exc_peer_review_reset_sure#:#Are you sure you want to delete the complete peer-feedback for the assignment "%s"?
 exc#:#exc_peer_review_reset_done#:#All Peer-Feedback-related data has been deleted for the assignment.
 adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!
-crs#:#crs_loc_form_tst_new_initial_info#:#--
+crs#:#crs_loc_form_tst_new_initial_info#:#Create a new test to serve as Placement Test
 crs#:#crs_loc_form_tst_new_qualified_info#:#--
-crs#:#crs_loc_form_assign_initial_info#:#--
+crs#:#crs_loc_form_assign_initial_info#:#Select a test from this course to serve as Placement Test
 crs#:#crs_loc_form_assign_qualified_info#:#--
 poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.
 content#:#cont_download#:#Download
