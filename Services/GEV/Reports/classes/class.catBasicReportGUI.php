@@ -9,35 +9,10 @@
 * @version	$Id$
 */
 
-class catReportTable {
-	protected function __construct() {
-		$this->columns = array();
-		$this->row_template_filename = null;
-		$this->row_template_module = null;
-	}
-	
-	public static function create() {
-		return new catReportTable();
-	}
-	
-	public function column($a_id, $a_title, $a_sql_name = false, $a_no_lng_var = false, $a_width = "") {
-		$this->columns[] = array( $a_id
-								, $a_title
-								, ($a_sql_name === false) ? $a_sql_name : $a_id
-								, $a_no_lng_var
-								, $a_width
-								);
-		return $this;
-	}
-	
-	public function template($a_filename, $a_module) {
-		$this->row_template_filename = $a_filename;
-		$this->row_template_module = $a_module;
-		return $this;
-	}
-}
+require_once("Services/GEV/Reports/classes/class.catFilter.php");
 
-abstract class catBasicReportGUI {
+
+class catBasicReportGUI {
 
 	public function __construct() {
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
@@ -54,17 +29,10 @@ abstract class catBasicReportGUI {
 		$this->user_utils = gevUserUtils::getInstance($this->user->getId());
 
 		$this->title = null;
-		/*$this->title = array(
-			'title' => '',
-			'desc' => '',
-			'img' => '',
-			'no_lng_vars' => true
-		);*/
-
-		//$this->legend = null;
 		$this->table = null;
-		$this->query_from = null;
+		$this->query = null;
 		$this->data = false;
+		$this->filter = null;
 		
 		//watch out for sorting of special fields, i.e. dates shown as a period of time.
 		//to avoid the ilTable-sorting, set this too true.
@@ -72,8 +40,6 @@ abstract class catBasicReportGUI {
 		$this->external_sorting = false;
 
 		$this->permissions = gevReportingPermissions::getInstance($this->user->getId());
-
-		$this->filter = null;
 	}
 	
 
@@ -94,21 +60,6 @@ abstract class catBasicReportGUI {
 				return $this->render();
 		}
 	}
-	
-	/*protected function digestSearchParameter($param, $default){
-		//parameters should also be passed on table-sorting
-		$this->filter_params[$param] = $default;
-		if(isset($_GET[$param])){
-			$this->filter_params[$param] = $_GET[$param];
-		}
-		//post always wins
-		if(isset($_POST[$param])){
-			$this->filter_params[$param] = $_POST[$param];
-		}
-		//store for later
-		$this->ctrl->setParameter($this, $param, $this->filter_params[$param]);
-	}*/
-
 
 	protected function executeCustomCommand($a_cmd) {
 		return null;
@@ -129,23 +80,7 @@ abstract class catBasicReportGUI {
 
 	
 	protected function render() {
-		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
-		require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
-		require_once("Services/GEV/Desktop/classes/class.gevPeriodSelectorGUI.php");
-		
-		//$title = new catTitleGUI("gev_rep_attendance_by_employee_title", "gev_rep_attendance_by_employee_desc", "GEV_img/ico-head-edubio.png");
-
-		/*$title = new catTitleGUI(
-			$this->title['title'],
-			$this->title['desc'],
-			$this->title['img'],
-			!$this->title['no_lng_vars']
-		);
-		
-		if ($this->legend !== null) {
-			$title->setLegend($this->legend);
-		}*/
 
 		$spacer = new catHSpacerGUI();
 		
@@ -159,7 +94,6 @@ abstract class catBasicReportGUI {
 
 		return    ($this->title !== null ? $this->title->render() : "")
 				. ($this->filter !== null ? $this->filter->render() : "")
-				//. $period_input->render($this->getAdditionalFilters())
 				. $spacer->render()
 				. $export_btn
 				. $this->renderView()
@@ -197,21 +131,7 @@ abstract class catBasicReportGUI {
 							 );
 		}
 		
-		//$table->setFormAction($this->ctrl->getFormAction($this, "view"));
-
 		$data = $this->getData();
-/*		//process values, if necessary
-		if($process){
-			foreach ($data as $arpos => $entry) {
-				foreach ($entry as $key => $value) {
-					if (array_key_exists($key, $process)) {
-						$v = $this->$process[$key]($value);
-						$data[$arpos][$key] = $v;
-					} 
-				}
-			}
-		}
-*/
 		$cnt = count($data);
 		$table->setLimit($cnt);
 		$table->setMaxCount($cnt);
@@ -221,9 +141,6 @@ abstract class catBasicReportGUI {
 
 		return $table->getHTML();
 	}
-	
-
-
 
 	protected function exportXLS() {
 		require_once "Services/Excel/classes/class.ilExcelUtils.php";
@@ -280,10 +197,6 @@ abstract class catBasicReportGUI {
 		return " WHERE ".$this->filter->getSQL();
 	}
 	
-	protected function queryFrom() {
-		return $this->query_from;
-	}
-
 	protected function getData(){ 
 		if ($this->data == false){
 			$this->data = $this->fetchData();
@@ -291,6 +204,189 @@ abstract class catBasicReportGUI {
 		return $this->data;
 	}
 
-	abstract protected function fetchData();
+	protected function fetchData() {
+		if ($this->query === null) {
+			throw new Exception("catBasicReportGUI::fetchData: query not defined.");
+		}
+		
+		$query = $this->query->sql()
+			   . $this->queryWhere()
+			   ;
+		
+		$res = $this->db->query($query);
+		$data = array();
+		
+		while($rec = $this->db->fetchAssoc($res)) {
+			$data[] = $this->transformResultRow($rec);
+		}
+		
+		return $data;
+	}
+	
+	protected function transformResultRow($a_row) {
+		return $a_row;
+	}
 }
+
+
+
+class catReportTable {
+	protected function __construct() {
+		$this->columns = array();
+		$this->row_template_filename = null;
+		$this->row_template_module = null;
+	}
+	
+	public static function create() {
+		return new catReportTable();
+	}
+	
+	public function column($a_id, $a_title, $a_sql_name = false, $a_no_lng_var = false, $a_width = "") {
+		$this->columns[] = array( $a_id
+								, $a_title
+								, ($a_sql_name === false) ? $a_sql_name : $a_id
+								, $a_no_lng_var
+								, $a_width
+								);
+		return $this;
+	}
+	
+	public function template($a_filename, $a_module) {
+		$this->row_template_filename = $a_filename;
+		$this->row_template_module = $a_module;
+		return $this;
+	}
+}
+
+class catReportQuery {
+	protected function __construct() {
+		$this->fields = array();
+		$this->_from = null;
+		$this->joins = array();
+		$this->compiled = false;
+		$this->sql_str = null;
+		$this->sql_from = null;
+	}
+	
+	public static function create() {
+		return new catReportQuery();
+	}
+	
+	public function select($a_field) {
+		$this->checkNotCompiled();
+		
+		if (!is_array($a_field)) {
+			$this->fields[] = $a_field;
+		}
+		else {
+			$this->fields = array_merge($this->fields, $a_fields);
+		}
+		return $this;
+	}
+	
+	public function from($a_table) {
+		$this->checkNotCompiled();
+		if ($this->_from !== null) {
+			throw new Exception("catReportQuery::from: already defined.");
+		}
+		
+		$this->_from = $a_table;
+		return $this;
+	}
+	
+	
+	public function join($a_table) {
+		$this->checkNotCompiled();
+		return new catReportQueryOn($this, $a_table);
+	}
+	
+	public function sql() {
+		if( $this->sql_str !== null) {
+			return $this->sql_str;
+		}
+		$this->checkCompiled("sql");
+
+		$escp = array();
+		foreach ($this->fields as $field) {
+			$escp[] = catFilter::quoteDBId($field);
+		}
+
+		$this->sql_str = 
+			 "SELECT ".implode("\n\t,", $escp)
+			.$this->sqlFrom()
+			;
+			
+		return $this->sql_str;
+	}
+	
+	public function sqlFrom() {
+		if ($this->sql_from === null) {
+			$this->sql_from =
+				 "\n FROM ".$this->_from[0]." ".$this->_from[1]
+				.implode("\n ", $this->joins);
+		}
+		
+		return $this->sql_from;
+	}
+	
+	public function compile() {
+		$this->checkNotCompiled();
+		
+		if (count($this->fields) === 0) {
+			throw new Exception("catReportQuery::compile: No fields defined.");
+		}
+		if ($this->_from === null) {
+			throw new Exception("catReportQuery::compile: No FROM-table defined.");
+		}
+
+		$this->_from = $this->rectifyTableName("from", $this->_from);
+		foreach($this->joins as $key => $value) {
+			$tab = $this->rectifyTableName("join", $value[0]);
+			$this->joins[$key] = " JOIN ".$tab[0]." ".$tab[1]." ON ".$value[1]." ";
+		}
+		
+		$this->compiled = true;
+		
+		return $this;
+	}
+	
+	protected function checkNotCompiled() {
+		if ($this->compiled) {
+			throw new Exception("catReportQuery::checkCompiled: Don't modify a filter you already compiled.");
+		}
+	}
+
+	protected function checkCompiled($a_what) {
+		if (!$this->compiled) {
+			throw new Exception("catReportQuery::checkCompiled: Don't ".$a_what." a filter you did not compile.");
+		}
+	}
+	
+	protected function rectifyTableName($a_what, $name) {
+		$spl = explode(" ", $name);
+		if (count($spl) > 2) {
+			throw new Exception("catReportQuery::rectifiyTableName: Expected ".$a_what." to contain one space at most.");
+		}
+		if (count($spl) == 1) {
+			$spl[] = "";
+		}
+		
+		$spl[0] = catFilter::quoteDBId($spl[0]);
+		
+		return $spl;
+	}
+}
+
+class catReportQueryOn {
+	public function catReportQueryOn($a_query, $a_table) {
+		$this->query = $a_query;
+		$this->table = $a_table;
+	}
+	
+	public function on($a_condition) {
+		$this->query->joins[] = array($this->table, $a_condition);
+		return $this->query;
+	}
+}
+
 ?>

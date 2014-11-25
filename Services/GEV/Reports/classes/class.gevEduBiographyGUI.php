@@ -1,7 +1,6 @@
 <?php
 
 require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
-require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 
 class gevEduBiographyGUI extends catBasicReportGUI {
@@ -62,11 +61,29 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->template('tpl.gev_edu_bio_row.html', 'Services/GEV/Reports')
 						;
 		
-		$this->query_from =
-					 "  FROM hist_usercoursestatus usrcrs "
-					."  JOIN hist_user usr ON usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0"
-					."  JOIN hist_course crs ON crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0";
-
+		$this->query = catReportQuery::create()
+						->select("crs.custom_id")
+						->select("crs.title")
+						->select("crs.type")
+						->select("usrcrs.begin_date")
+						->select("usrcrs.end_date")
+						->select("crs.venue")
+						->select("crs.provider")
+						->select("crs.tutor")
+						->select("usrcrs.credit_points")
+						->select("crs.fee")
+						->select("usrcrs.participation_status")
+						->select("usrcrs.okz")
+						->select("usrcrs.bill_id")
+						->select("usrcrs.certificate")
+						->select("usrcrs.booking_status")
+						->from("hist_usercoursestatus usrcrs")
+						->join("hist_user usr")
+							->on("usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0")
+						->join("hist_course crs")
+							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
+						->compile();
+						
 		$this->filter = catFilter::create()
 						->dateperiod( "period"
 									, $this->lng->txt("gev_period")
@@ -182,7 +199,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 	
 	protected function academyQuery(ilDate $start, ilDate $end) {
 		return   "SELECT SUM(usrcrs.credit_points) sum "
-				.$this->queryFrom()
+				.$this->query->sqlFrom()
 				.$this->queryWhere($start, $end)
 				." AND usrcrs.participation_status = 'teilgenommen'"
 				." AND crs.crs_id > 0" // only academy points
@@ -253,88 +270,72 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 				;
 	}
 	
-	public function fetchData() {
-		$query =	 "SELECT crs.custom_id, crs.title, crs.type, usrcrs.begin_date, usrcrs.end_date, "
-					."       crs.venue, crs.provider, crs.tutor, usrcrs.credit_points, crs.fee, "
-					."       usrcrs.participation_status, usrcrs.okz, usrcrs.bill_id, usrcrs.certificate, "
-					."       usrcrs.booking_status "
-					. $this->queryFrom()
-					. $this->queryWhere()
-					;
-
-		$res = $this->db->query($query);
-		
+	protected function transformResultRow($rec) {
 		$no_entry = $this->lng->txt("gev_table_no_entry");
-		$user_utils = gevUserUtils::getInstance($this->target_user_id);
 		
-		$data = array();
-		while($rec = $this->db->fetchAssoc($res)) {
-			$rec["fee"] = (($rec["bill_id"] != -1 || $user_utils->paysFees())&& $rec["fee"] != -1)
-						? $rec["fee"] = gevCourseUtils::formatFee($rec["fee"])." &euro;"
-						: $rec["fee"] == "-empty-";
-						
-			if ($rec["participation_status"] == "teilgenommen") {
-				$rec["status"] = $this->success_img;
-			}
-			else if (in_array($rec["participation_status"], array("fehlt entschuldigt", "fehlt ohne Absage"))
-				 ||  in_array($rec["booking_status"], array("kostenpflichtig storniert", "kostenfrei storniert"))
-				) {
-				$rec["status"] = $this->failed_img;
-			}
-			else {
-				$rec["status"] = $this->in_progress_img;
-			}
+		$rec["fee"] = (($rec["bill_id"] != -1 || $this->target_user_utils->paysFees())&& $rec["fee"] != -1)
+					? $rec["fee"] = gevCourseUtils::formatFee($rec["fee"])." &euro;"
+					: $rec["fee"] == "-empty-";
+					
+		if ($rec["participation_status"] == "teilgenommen") {
+			$rec["status"] = $this->success_img;
+		}
+		else if (in_array($rec["participation_status"], array("fehlt entschuldigt", "fehlt ohne Absage"))
+			 ||  in_array($rec["booking_status"], array("kostenpflichtig storniert", "kostenfrei storniert"))
+			) {
+			$rec["status"] = $this->failed_img;
+		}
+		else {
+			$rec["status"] = $this->in_progress_img;
+		}
 
-			if ($rec["begin_date"] == "0000-00-00" && $rec["end_date"] == "0000-00-00") {
-				$rec["date"] = $no_entry;
-			}
-			else if ($rec["end_date"] == "0000-00-00") {
-				$dt = new ilDate($rec["begin_date"], IL_CAL_DATE);
-				$rec["date"] = $this->lng->txt("gev_from")." ".ilDatePresentation::formatDate($dt);
-			}
-			else if ($rec["begin_date"] == "0000-00-00") {
-				$dt = new ilDate($rec["end_date"], IL_CAL_DATE);
-				$rec["date"] = $this->lng->txt("gev_until")." ".ilDatePresentation::formatDate($dt);
-			}
-			else {
-				$start = new ilDate($rec["begin_date"], IL_CAL_DATE);
-				$end = new ilDate($rec["end_date"], IL_CAL_DATE);
-				$rec["date"] = ilDatePresentation::formatDate($start)." - <br/>".ilDatePresentation::formatDate($end);
-			}
-			
-			$rec["wbd"] = in_array($rec["okz"], array("OKZ1", "OKZ2", "OKZ3"))
-						? $this->lng->txt("yes")
-						: $this->lng->txt("no");
-			
-			$rec["action"] = "";
-			if ($rec["bill_id"] != -1) {
-				$this->ctrl->setParameter($this, "bill_id", $rec["bill_id"]);
-				$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
-				$rec["action"] = "<a href='".$this->ctrl->getLinkTarget($this, "getBill")."'>"
-							   . $this->get_bill_img."</a>";
-				$this->ctrl->clearParameters($this);
-			}
-			if ($rec["certificate"] != -1 && $rec["certificate"] != 0) {
-				$this->ctrl->setParameter($this, "cert_id", $rec["certificate"]);
-				$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
-				$rec["action"] .= "<a href='".$this->ctrl->getLinkTarget($this, "getCertificate")."'>"
-							   . $this->get_cert_img."</a>";
-				$this->ctrl->clearParameters($this);
-			}
-			
-			foreach ($rec as $key => $value) {
-				if ($value == '-empty-' || $value == -1) {
-					$rec[$key] = $no_entry;
-					continue;
-				}
-			}
-			
-			$data[] = $rec;
+		if ($rec["begin_date"] == "0000-00-00" && $rec["end_date"] == "0000-00-00") {
+			$rec["date"] = $no_entry;
+		}
+		else if ($rec["end_date"] == "0000-00-00") {
+			$dt = new ilDate($rec["begin_date"], IL_CAL_DATE);
+			$rec["date"] = $this->lng->txt("gev_from")." ".ilDatePresentation::formatDate($dt);
+		}
+		else if ($rec["begin_date"] == "0000-00-00") {
+			$dt = new ilDate($rec["end_date"], IL_CAL_DATE);
+			$rec["date"] = $this->lng->txt("gev_until")." ".ilDatePresentation::formatDate($dt);
+		}
+		else {
+			$start = new ilDate($rec["begin_date"], IL_CAL_DATE);
+			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
+			$rec["date"] = ilDatePresentation::formatDate($start)." - <br/>".ilDatePresentation::formatDate($end);
 		}
 		
-		return $data;
+		$rec["wbd"] = in_array($rec["okz"], array("OKZ1", "OKZ2", "OKZ3"))
+					? $this->lng->txt("yes")
+					: $this->lng->txt("no");
+		
+		$rec["action"] = "";
+		if ($rec["bill_id"] != -1) {
+			$this->ctrl->setParameter($this, "bill_id", $rec["bill_id"]);
+			$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
+			$rec["action"] = "<a href='".$this->ctrl->getLinkTarget($this, "getBill")."'>"
+						   . $this->get_bill_img."</a>";
+			$this->ctrl->clearParameters($this);
+		}
+		if ($rec["certificate"] != -1 && $rec["certificate"] != 0) {
+			$this->ctrl->setParameter($this, "cert_id", $rec["certificate"]);
+			$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
+			$rec["action"] .= "<a href='".$this->ctrl->getLinkTarget($this, "getCertificate")."'>"
+						   . $this->get_cert_img."</a>";
+			$this->ctrl->clearParameters($this);
+		}
+		
+		foreach ($rec as $key => $value) {
+			if ($value == '-empty-' || $value == -1) {
+				$rec[$key] = $no_entry;
+				continue;
+			}
+		}
+		
+		return $rec;
 	}
-	
+
 	protected function getBill() {
 		// check weather this bill really belongs to an edu bio record of the current user.
 		$bill_id = $_GET["bill_id"];
