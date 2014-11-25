@@ -12,7 +12,7 @@
 
 require_once("Services/GEV/Reports/classes/class.gevBasicReportGUI.php");
 
-class gevBillingReportGUI extends gevBasicReportGUI{
+class gevBillingReportGUI extends gevBasicReportGUI {
 	public function __construct() {
 		
 		parent::__construct();

@@ -18,9 +18,9 @@
 *
 */
 
-require_once("Services/GEV/Reports/classes/class.gevBasicReportGUI.php");
+require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
 
-class gevBookingsByVenueGUI extends gevBasicReportGUI{
+class gevBookingsByVenueGUI extends catBasicReportGUI{
 	public function __construct() {
 		
 		parent::__construct();

@@ -9,7 +9,35 @@
 * @version	$Id$
 */
 
-abstract class gevBasicReportGUI {
+class catReportTable {
+	protected function __construct() {
+		$this->columns = array();
+		$this->row_template_filename = null;
+		$this->row_template_module = null;
+	}
+	
+	public static function create() {
+		return new catReportTable();
+	}
+	
+	public function column($a_id, $a_title, $a_sql_name = false, $a_no_lng_var = false, $a_width = "") {
+		$this->columns[] = array( $a_id
+								, $a_title
+								, ($a_sql_name === false) ? $a_sql_name : $a_id
+								, $a_no_lng_var
+								, $a_width
+								);
+		return $this;
+	}
+	
+	public function template($a_filename, $a_module) {
+		$this->row_template_filename = $a_filename;
+		$this->row_template_module = $a_module;
+		return $this;
+	}
+}
+
+abstract class catBasicReportGUI {
 
 	public function __construct() {
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
@@ -28,22 +56,14 @@ abstract class gevBasicReportGUI {
 		$this->title = array(
 			'title' => '',
 			'desc' => '',
-			'img' => ''
+			'img' => '',
+			'no_lng_vars' => true
 		);
 
-		$this->filters = array();
-		$this->filter_params = array();
-		
-
-		$this->table_cols = array();//add arrays like this: array(translation-constant, key_in_data)
-		$this->table_row_template = array(
-			'filnename' => '',
-			'path' => ''
-		);
-		$this->query_where = null;
+		$this->legend = null;
+		$this->table = null;
 		$this->query_from = null;
 		$this->data = false;
-	
 		
 		//watch out for sorting of special fields, i.e. dates shown as a period of time.
 		//to avoid the ilTable-sorting, set this too true.
@@ -52,33 +72,7 @@ abstract class gevBasicReportGUI {
 
 		$this->permissions = gevReportingPermissions::getInstance($this->user->getId());
 
-
-		//date is a mandatory filter.
-		$sdate = date("Y")."-01-01";
-		$edate = date("Y")."-12-31";
-		if(isset($_POST["period"])){
-			$sdate = $_POST["period"]["start"]["date"]["y"]
-		  			 ."-".$_POST["period"]["start"]["date"]["m"]
-		  			 ."-".$_POST["period"]["start"]["date"]["d"];
-
-			$edate = $_POST["period"]["end"]["date"]["y"]
-					  ."-".$_POST["period"]["end"]["date"]["m"]
-					  ."-".$_POST["period"]["end"]["date"]["d"];
-					
-			$_POST['sdate'] = urlencode($sdate);
-			$_POST['edate'] = urlencode($edate);
-		}
-
-		// click on table nav should lead to search again.
-		$this->ctrl->setParameter($this, "cmd", "view");
-		
-		$this->digestSearchParameter('sdate', urlencode($sdate));
-		$this->digestSearchParameter('edate', urlencode($edate));
-		
-
-		$this->start_date = new ilDate($this->filter_params['sdate'], IL_CAL_DATE);
-		$this->end_date = new ilDate($this->filter_params['edate'], IL_CAL_DATE);
-
+		$this->filter = null;
 	}
 	
 
@@ -100,8 +94,8 @@ abstract class gevBasicReportGUI {
 		}
 	}
 	
-	protected function digestSearchParameter($param, $default){
-		/*parameters should also be passed on table-sorting*/
+	/*protected function digestSearchParameter($param, $default){
+		//parameters should also be passed on table-sorting
 		$this->filter_params[$param] = $default;
 		if(isset($_GET[$param])){
 			$this->filter_params[$param] = $_GET[$param];
@@ -112,7 +106,7 @@ abstract class gevBasicReportGUI {
 		}
 		//store for later
 		$this->ctrl->setParameter($this, $param, $this->filter_params[$param]);
-	}
+	}*/
 
 
 	protected function executeCustomCommand($a_cmd) {
@@ -144,33 +138,13 @@ abstract class gevBasicReportGUI {
 		$title = new catTitleGUI(
 			$this->title['title'],
 			$this->title['desc'],
-			$this->title['img']
+			$this->title['img'],
+			!$this->title['no_lng_vars']
 		);
-			
-		/*
-		//table legend
-
-		$this->get_cert_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-get_cert.png").'" />';
-		$this->get_bill_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-get_bill.png").'" />';
-		$this->success_img  = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-green.png").'" />';
-		$this->in_progress_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-orange.png").'" />';
-		$this->failed_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-red.png").'" />';
-		$this->action_img = '<img src="'.ilUtil::getImagePath("gev_action.png").'" />';
 		
-		$legend = new catLegendGUI();
-		$legend->addItem($this->get_cert_img, "gev_get_certificate")
-			   ->addItem($this->get_bill_img, "gev_get_bill")
-			   ->addItem($this->success_img, "gev_passed")
-			   ->addItem($this->in_progress_img, "gev_in_progress")
-			   ->addItem($this->failed_img, "gev_failed");
-		$title->setLegend($legend);
-		*/
-		$period_input = new gevPeriodSelectorGUI( $this->start_date
-												, $this->end_date
-												, $this->ctrl->getLinkTarget($this, "view")
-												);
-		
-
+		if ($this->legend !== null) {
+			$title->setLegend($this->legend);
+		}
 
 		$spacer = new catHSpacerGUI();
 		
@@ -183,26 +157,24 @@ abstract class gevBasicReportGUI {
 					.'</a>';
 
 		return    $title->render()
-				. $period_input->render($this->getAdditionalFilters())
+				. ($this->filter !== null ? $this->filter->render() : "")
+				//. $period_input->render($this->getAdditionalFilters())
 				. $spacer->render()
 				. $export_btn
-				. $this->renderTable()
+				. $this->renderView()
 				. $export_btn
 				;
 	}
 
-
-
-	protected function getAdditionalFilters(){
-		$ret = '';
-		foreach ($this->filters as $filter_id =>$filter) {
-			$ret .= '<div id="filter_' .$filter_id .'">' .$filter->render() .'</div>';
-		}
-		return $ret;
+	protected function renderView() {
+		return $this->renderTable();
 	}
 
-
 	protected function renderTable() {
+		if ($this->table === null) {
+			throw new Exception("catBasicReport::renderTable: you need to define a table.");
+		}
+
 		require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
 		
 		$table = new catTableGUI($this, "view");
@@ -210,29 +182,24 @@ abstract class gevBasicReportGUI {
 		$table->setTopCommands(false);
 		$table->setEnableHeader(true);
 		$table->setRowTemplate(
-			$this->table_row_template['filename'], 
-			$this->table_row_template['path']
+			$this->table->row_template_filename, 
+			$this->table->row_template_module
 		);
-		
+
 		$process = array();
 
 		$table->addColumn("", "blank", "0px", false);
-		foreach ($this->table_cols as $col) {
-			$table->addColumn($this->lng->txt($col[0]), $col[1]);
-
-			//check, if there are entries to process
-			//if not, skip iteration over data
-			$method_name = '_process_table_' .$col[1];
-			if (method_exists($this, $method_name)) {
-				$process[$col[1]] = $method_name;
-			}
+		foreach ($this->table->columns as $col) {
+			$table->addColumn( $col[3] ? $col[1] : $this->lng->txt($col[1])
+							 , $col[0]
+							 , $col[4]
+							 );
 		}
 		
-		$table->setFormAction($this->ctrl->getFormAction($this, "view"));
+		//$table->setFormAction($this->ctrl->getFormAction($this, "view"));
 
 		$data = $this->getData();
-		
-		//process values, if necessary
+/*		//process values, if necessary
 		if($process){
 			foreach ($data as $arpos => $entry) {
 				foreach ($entry as $key => $value) {
@@ -243,7 +210,7 @@ abstract class gevBasicReportGUI {
 				}
 			}
 		}
-
+*/
 		$cnt = count($data);
 		$table->setLimit($cnt);
 		$table->setMaxCount($cnt);
@@ -304,8 +271,17 @@ abstract class gevBasicReportGUI {
 		$workbook->close();		
 	}
 
-
-
+	protected function queryWhere() {
+		if ($this->filter === null) {
+			return " WHERE TRUE";
+		}
+		
+		return " WHERE ".$this->filter->getSQL();
+	}
+	
+	protected function queryFrom() {
+		return $this->query_from;
+	}
 
 	protected function getData(){ 
 		if ($this->data == false){
