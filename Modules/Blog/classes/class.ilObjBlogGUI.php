@@ -582,6 +582,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				
 			case "ilinfoscreengui":
 				$this->prepareOutput();
+				$this->addHeaderAction("render");
 				$this->infoScreenForward();	
 				break;
 			
@@ -712,7 +713,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
-		$info->enablePrivateNotes();
+		if($this->id_type != self::WORKSPACE_NODE_ID)
+		{
+			$info->enablePrivateNotes();
+		}
 		
 		if ($this->checkPermissionBool("read"))
 		{

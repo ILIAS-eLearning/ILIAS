@@ -55,7 +55,6 @@ class ilObjBlog extends ilObject2
 		$set = $ilDB->query("SELECT * FROM il_blog".
 				" WHERE id = ".$ilDB->quote($this->id, "integer"));
 		$row = $ilDB->fetchAssoc($set);
-		$this->setNotesStatus((bool)$row["notes"]);
 		$this->setProfilePicture((bool)$row["ppic"]);
 		$this->setBackgroundColor($row["bg_color"]);
 		$this->setFontColor($row["font_color"]);
@@ -78,6 +77,10 @@ class ilObjBlog extends ilObject2
 			$this->setOrder(explode(";", $row["nav_order"]));
 		}
 		
+		// #14661
+		include_once("./Services/Notes/classes/class.ilNote.php");
+		$this->setNotesStatus(ilNote::commentsActivated($this->id, 0, "blog"));
+		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->id));
 	}
@@ -86,11 +89,10 @@ class ilObjBlog extends ilObject2
 	{
 		global $ilDB;
 		
-		$ilDB->manipulate("INSERT INTO il_blog (id,notes,ppic,rss_active,approval".
+		$ilDB->manipulate("INSERT INTO il_blog (id,ppic,rss_active,approval".
 			",abs_shorten,abs_shorten_len,abs_image,abs_img_width,abs_img_height".
 			",keywords,authors,nav_mode,nav_list_post) VALUES (".
-			$ilDB->quote($this->id, "integer").",".
-			$ilDB->quote(true, "integer").",".
+			$ilDB->quote($this->id, "integer").",".			
 			$ilDB->quote(true, "integer").",".
 			$ilDB->quote(true, "integer").",".
 			$ilDB->quote(false, "integer").",".		
@@ -104,6 +106,10 @@ class ilObjBlog extends ilObject2
 			$ilDB->quote($this->getNavMode(), "integer").",".	
 			$ilDB->quote($this->getNavModeListPostings(), "integer").
 			")");
+		
+		// #14661
+		include_once("./Services/Notes/classes/class.ilNote.php");
+		ilNote::activateComments($this->id, 0, "blog", true);
 		
 		/*
 		if ($this->getStyleSheetId() > 0)
@@ -138,8 +144,7 @@ class ilObjBlog extends ilObject2
 		if($this->id)
 		{
 			$ilDB->manipulate("UPDATE il_blog".
-					" SET notes = ".$ilDB->quote($this->getNotesStatus(), "integer").
-					",ppic = ".$ilDB->quote($this->hasProfilePicture(), "integer").
+					" SET ppic = ".$ilDB->quote($this->hasProfilePicture(), "integer").
 					",bg_color = ".$ilDB->quote($this->getBackgroundColor(), "text").
 					",font_color = ".$ilDB->quote($this->getFontcolor(), "text").
 					",img = ".$ilDB->quote($this->getImage(), "text").
@@ -158,9 +163,13 @@ class ilObjBlog extends ilObject2
 					",ov_post = ".$ilDB->quote($this->getOverviewPostings(), "integer").
 					",nav_order = ".$ilDB->quote(implode(";", $this->getOrder()), "text").
 					" WHERE id = ".$ilDB->quote($this->id, "integer"));			
+						
+			// #14661
+			include_once("./Services/Notes/classes/class.ilNote.php");
+			ilNote::activateComments($this->id, 0, "blog", $this->getNotesStatus());
 			
 			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-			ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());
+			ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());			
 		}
 	}
 
