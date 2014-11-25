@@ -115,9 +115,15 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 		} else {
 			$date = '-';
 		}
-		$rec['date'] = str_replace("<nobr>", "", str_replace("</nobr>", "", $date));
+		$rec['date'] = $date;
 
 		return $rec;
+	}
+	
+	protected function _process_xls_date($val) {
+		$val = str_replace('<nobr>', '', $val);
+		$val = str_replace('</nobr>', '', $val);
+		return $val;
 	}
 }
 
