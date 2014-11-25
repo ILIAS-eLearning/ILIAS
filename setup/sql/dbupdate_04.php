@@ -5097,3 +5097,23 @@ if($ilDB->tableColumnExists("usr_portfolio", "comments"))
 }
 
 ?>
+
+<#4425>
+<?php
+
+if($ilDB->tableColumnExists('ecs_cms_data','cms_id'))
+{
+	$ilDB->renameTableColumn('ecs_cms_data','cms_id','cms_bak');
+	$ilDB->addTableColumn('ecs_cms_data', 'cms_id', array(
+			"type" => "text",
+			"notnull" => FALSE,
+			"length" => 512
+		)
+	);
+	
+	$query = 'UPDATE ecs_cms_data SET cms_id = cms_bak ';
+	$ilDB->manipulate($query);
+	
+	$ilDB->dropTableColumn('ecs_cms_data','cms_bak');
+}
+?>

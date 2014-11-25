@@ -87,7 +87,7 @@ class ilECSCmsData
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
 			'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
 			'AND tree_id = '.$ilDB->quote($a_tree_id,'integer').' '.
-			'AND cms_id = '.$ilDB->quote($cms_id,'integer');
+			'AND cms_id = '.$ilDB->quote($cms_id,'text');
 		$res = $ilDB->query($query);
 		
 		#$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
@@ -110,11 +110,13 @@ class ilECSCmsData
 	public static function lookupFirstTreeOfNode($a_server_id, $a_mid, $cms_id)
 	{
 		global $ilDB;
+		
+		$GLOBALS['ilLog']->write(__METHOD__.':ASDUASDUASDU '.$a_server_id.' '.$a_mid. ' '.$cms_id);
 
 		$query = 'SELECT tree_id FROM ecs_cms_data '.
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
 			'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
-			'AND cms_id = '.$ilDB->quote($cms_id,'integer'). ' '.
+			'AND cms_id = '.$ilDB->quote($cms_id,'text'). ' '.
 			'ORDER BY tree_id ';
 		$res = $ilDB->query($query);
 		
@@ -208,7 +210,7 @@ class ilECSCmsData
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
 			'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
 			'AND tree_id = '.$ilDB->quote($a_tree_id,'integer').' '.
-			'AND cms_id = '.$ilDB->quote($cms_id,'integer');
+			'AND cms_id = '.$ilDB->quote($cms_id,'text');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -309,7 +311,7 @@ class ilECSCmsData
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
 			'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
 			'AND tree_id = '.$ilDB->quote($a_tree_id,'integer').' '.
-			'AND '. $ilDB->in('cms_id',$cms_ids,false,'integer');
+			'AND '. $ilDB->in('cms_id',$cms_ids,false,'text');
 		$ilDB->manipulate($query);
 		return true;
 	}
@@ -478,7 +480,7 @@ class ilECSCmsData
 			$ilDB->quote($this->server_id, 'integer') . ', ' .
 			$ilDB->quote($this->mid,'integer').', '.
 			$ilDB->quote($this->tree_id,'integer').', '.
-			$ilDB->quote($this->cms_id,'integer').', '.
+			$ilDB->quote($this->cms_id,'text').', '.
 			$ilDB->quote($this->title,'text'). ', '.
 			$ilDB->quote($this->term,'text').', '.
 			$ilDB->quote($this->status,'integer').', '.
