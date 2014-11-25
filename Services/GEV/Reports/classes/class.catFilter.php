@@ -126,6 +126,10 @@ class catFilter {
 	// Initalizes parameters of filter from POST with fallback to GET and
 	// default.
 	public function compile() {
+		if ($this->action === null) {
+			throw new Exception("catFilter::compile: no action set.");
+		}
+		
 		$this->compiled = true;
 	
 		$this->loadSearchParameters();
@@ -146,6 +150,9 @@ class catFilter {
 			if (array_key_exists($postvar, $_POST)) {
 				$this->parameters[$name] = $this->preprocess_post($filter, $_POST[$postvar]);
 			}
+			else if(array_key_exists($name, $get_params)) {
+				$this->parameters[$name] = $get_params[$name];
+			}
 			else {
 				$this->parameters[$name] = $this->_default($filter);
 			}
@@ -158,7 +165,7 @@ class catFilter {
 			$this->encoded_params = base64_encode(serialize($this->parameters));
 		}
 		
-		return $encoded_params;
+		return $this->encoded_params;
 	}
 	
 	// Get the name to be used to append parameters to get
@@ -348,7 +355,9 @@ class catDatePeriodFilterType {
 		return "    (".catFilter::quoteDBId($a_conf[5])
 					  ." >= ".$ilDB->quote($a_pars["start"], "date")
 			  			// this accomodates history tables
-			  ."        OR ".catFilter::quoteDBId($a_conf[5])." = '0000-00-00')"
+			  ."        OR ".catFilter::quoteDBId($a_conf[5])." = '0000-00-00' "
+			  ."        OR ".catFilter::quoteDBId($a_conf[5])." = '-empty-'"
+			  ."    )"
 			  ."   AND ".catFilter::quoteDBId($a_conf[4])
 			  			." <= ".$ilDB->quote($a_pars["end"], "date")
 			  ;
@@ -373,7 +382,57 @@ class catDatePeriodFilterType {
 					);
 	}
 }
-
 catFilter::addFilterType(catDatePeriodFilterType::ID, new catDatePeriodFilterType());
+
+
+class catCheckboxFilterType {
+	const ID = "checkbox";
+	
+	public function getId() {
+		return catCheckboxFilterType::ID;
+	}
+	
+	public function checkConfig($a_conf) {
+		if (count($a_conf) !== 5) {
+			// one parameter less, since type is encoded in first parameter but not passed by user.
+			throw new Exception ("catCheckboxFilterType::checkConfig: expected 4 parameters for checkbox.");
+		}
+		return $a_conf;
+	}
+	
+	public function render($a_tpl, $a_postvar, $a_conf, $a_pars) {
+		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+		
+		$a_tpl->setVariable("PROPERTY_CHECKED", $a_pars ? "checked" : "");
+		$a_tpl->setVariable("OPTION_TITLE", $a_conf[2]);
+	}
+	
+	public function sql($a_conf, $a_pars) {
+		global $ilDB;
+	
+		if ($a_pars && $a_conf[3] !== null) {
+			return $a_conf[3];
+		}
+		
+		if($a_conf[4] !== null) {
+			return $a_conf[4];
+		}
+		
+		return "";
+	}
+	
+	public function get($a_pars) {
+		return $a_pars;
+	}
+	
+	public function _default($a_conf) {
+		return false;
+	}
+	
+	public function preprocess_post($a_post) {
+		return true;
+	}
+}
+catFilter::addFilterType(catCheckboxFilterType::ID, new catCheckboxFilterType());
 
 ?>

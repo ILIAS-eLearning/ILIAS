@@ -101,6 +101,8 @@ class catBasicReportGUI {
 		}
 
 		require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
+
+		$this->ctrl->setParameter($this, $this->filter->getGETName(), $this->filter->encodeSearchParamsForGET());
 		
 		$table = new catTableGUI($this, "view");
 		$table->setEnableTitle(false);
@@ -119,6 +121,12 @@ class catBasicReportGUI {
 							 , $col[0]
 							 , $col[4]
 							 );
+		}
+		
+		// TODO: This should be implemented via ORDER BY in sql.
+		if ($this->table->order_field !== null) {
+			$table->setOrderField($this->table->order_field);
+			$table->setOrderDirection($this->table->order_direction);
 		}
 		
 		$data = $this->getData();
@@ -230,11 +238,14 @@ class catBasicReportGUI {
 
 
 
+
 class catReportTable {
 	protected function __construct() {
 		$this->columns = array();
 		$this->row_template_filename = null;
 		$this->row_template_module = null;
+		$this->order_field = null;
+		$this->order_direction = null;
 	}
 	
 	public static function create() {
@@ -251,12 +262,26 @@ class catReportTable {
 		return $this;
 	}
 	
+	public function order($a_field, $a_direction) {
+		if (!in_array($a_direction, array("asc", "ASC", "desc", "DESC"))) {
+			throw new Exception("catReportTable::order: Expected ASC or DESC for direction.");
+		}
+		
+		$this->order_field = $a_field;
+		$this->order_direction = $a_direction;
+		
+		return $this;
+	}
+	
 	public function template($a_filename, $a_module) {
 		$this->row_template_filename = $a_filename;
 		$this->row_template_module = $a_module;
 		return $this;
 	}
 }
+
+
+
 
 class catReportQuery {
 	protected function __construct() {
@@ -266,10 +291,16 @@ class catReportQuery {
 		$this->compiled = false;
 		$this->sql_str = null;
 		$this->sql_from = null;
+		$this->_distinct = false;
 	}
 	
 	public static function create() {
 		return new catReportQuery();
+	}
+	
+	public function distinct() {
+		$this->_distinct = true;
+		return $this;
 	}
 	
 	public function select($a_field) {
@@ -312,7 +343,9 @@ class catReportQuery {
 		}
 
 		$this->sql_str = 
-			 "SELECT ".implode("\n\t,", $escp)
+			 "SELECT "
+			.($this->_distinct ? "DISTINCT " : "")
+			.implode("\n\t,", $escp)
 			.$this->sqlFrom()
 			;
 			
