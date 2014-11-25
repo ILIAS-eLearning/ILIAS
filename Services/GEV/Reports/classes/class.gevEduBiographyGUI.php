@@ -64,7 +64,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 					 "  FROM hist_usercoursestatus usrcrs "
 					."  JOIN hist_user usr ON usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0"
 					."  JOIN hist_course crs ON crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0";
-		
+
 		$this->filter = catFilter::create()
 						->dateperiod( "period"
 									, $this->lng->txt("gev_period")
