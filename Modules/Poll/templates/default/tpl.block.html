@@ -30,7 +30,7 @@
 
 				<!-- BEGIN answer -->
 				<div class="ilPollQuestionAnswer">
-					<input type="{ANSWER_INPUT}" name="{ANSWER_NAME}" value="{VALUE_ANSWER}"{ANSWER_STATUS}/>{TXT_ANSWER_VOTE}
+					<input type="{ANSWER_INPUT}" name="{ANSWER_NAME}" value="{VALUE_ANSWER}"{ANSWER_STATUS}/> {TXT_ANSWER_VOTE}
 				</div>
 				<!-- END answer -->
 
@@ -49,13 +49,7 @@
 			<!-- BEGIN answer_result -->
 			<div class="ilPollQuestionResult">
 				{TXT_ANSWER_RESULT}<br />
-				<div class="ilPollQuestionResultBar">
-					<div style="width:{PERC_ANSWER_RESULT}%" class="ilPollQuestionResultBarInner">&nbsp;</div>
-				</div>
-				<div class="ilPollQuestionResultPerc">
-					{PERC_ANSWER_RESULT}%
-				</div>
-				<br style="clear:both" />
+				{PERC_ANSWER_RESULT}				
 			</div>
 			<!-- END answer_result -->
 			<!-- BEGIN pie_bl -->

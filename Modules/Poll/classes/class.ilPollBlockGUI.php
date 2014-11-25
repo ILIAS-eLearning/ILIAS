@@ -216,66 +216,73 @@ class ilPollBlockGUI extends ilBlockGUI
 
 					$this->tpl->setVariable("TOTAL_ANSWERS", sprintf($lng->txt("poll_population"), $total));
 					
-					// sort results by votes / original position
-					if ($this->poll_block->getPoll()->getSortResultByVotes())
+					if($total)
 					{
-						$order = array_keys(ilUtil::sortArray($perc, "abs", "desc", true, true));
-
-						foreach (array_keys($answers) as $answer_id)
+						// sort results by votes / original position
+						if ($this->poll_block->getPoll()->getSortResultByVotes())
 						{
-							if (!in_array($answer_id, $order))
+							$order = array_keys(ilUtil::sortArray($perc, "abs", "desc", true, true));
+
+							foreach (array_keys($answers) as $answer_id)
 							{
-								$order[] = $answer_id;
+								if (!in_array($answer_id, $order))
+								{
+									$order[] = $answer_id;
+								}
 							}
-						}
-					} 
-					else
-					{
-						$order = array_keys($answers);
-					}
-
-					// pie chart
-					if ($this->poll_block->showResultsAs() == ilObjPoll::SHOW_RESULTS_AS_PIECHART)
-					{
-
-						include_once("./Services/Chart/classes/class.ilChart.php");
-
-						$chart = ilChart::getInstanceByType(ilCHart::TYPE_PIE, "poll_results_pie_". $this->getRefId());
-						$chart->setSize("100%", 200); 
-						$chart->setAutoResize(true);
-
-						$chart_data = $chart->getDataInstance();
-
-						foreach ($order as $answer_id)
-						{							
-							$chart_data->addPoint(
-								round($perc[$answer_id]["perc"]), 
-								nl2br($answers[$answer_id])
-							);
-						}
-
-						// disable legend, use inner labels - currently not preferred
-						// $chart_data->setLabelRadius(0.8);
-						
-						$chart->addData($chart_data);
-						
-						$pie_legend_id = "poll_legend_".$this->getRefId();
-						$legend = new ilChartLegend();
-						$legend->setContainer($pie_legend_id);
-						$chart->setLegend($legend);
-						
-						$this->tpl->setVariable("PIE_LEGEND_ID", $pie_legend_id);
-						$this->tpl->setVariable("PIE_CHART", $chart->getHTML());
-					}
-					// bar chart
-					else
-					{						
-						$this->tpl->setCurrentBlock("answer_result");
-						foreach ($order as $answer_id)
+						} 
+						else
 						{
-							$this->tpl->setVariable("TXT_ANSWER_RESULT", nl2br($answers[$answer_id]));
-							$this->tpl->setVariable("PERC_ANSWER_RESULT", round($perc[$answer_id]["perc"]));
-							$this->tpl->parseCurrentBlock();
+							$order = array_keys($answers);
+						}
+
+						// pie chart
+						if ($this->poll_block->showResultsAs() == ilObjPoll::SHOW_RESULTS_AS_PIECHART)
+						{
+
+							include_once("./Services/Chart/classes/class.ilChart.php");
+
+							$chart = ilChart::getInstanceByType(ilCHart::TYPE_PIE, "poll_results_pie_". $this->getRefId());
+							$chart->setSize("100%", 200); 
+							$chart->setAutoResize(true);
+
+							$chart_data = $chart->getDataInstance();
+
+							foreach ($order as $answer_id)
+							{							
+								$chart_data->addPoint(
+									round($perc[$answer_id]["perc"]), 
+									nl2br($answers[$answer_id])
+								);
+							}
+
+							// disable legend, use inner labels - currently not preferred
+							// $chart_data->setLabelRadius(0.8);
+
+							$chart->addData($chart_data);
+
+							$pie_legend_id = "poll_legend_".$this->getRefId();
+							$legend = new ilChartLegend();
+							$legend->setContainer($pie_legend_id);
+							$chart->setLegend($legend);
+
+							$this->tpl->setVariable("PIE_LEGEND_ID", $pie_legend_id);
+							$this->tpl->setVariable("PIE_CHART", $chart->getHTML());
+						}
+						// bar chart
+						else
+						{	
+							include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
+							
+							$this->tpl->setCurrentBlock("answer_result");
+							foreach ($order as $answer_id)
+							{
+								$pbar = ilProgressBar::getInstance();
+								$pbar->setCurrent(round($perc[$answer_id]["perc"]));
+								$this->tpl->setVariable("PERC_ANSWER_RESULT", $pbar->render());
+								$this->tpl->setVariable("TXT_ANSWER_RESULT", nl2br($answers[$answer_id]));								
+								$this->tpl->parseCurrentBlock();
+							}
 						}
 					}
 				}

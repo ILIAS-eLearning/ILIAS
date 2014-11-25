@@ -565,7 +565,7 @@ class ilObjPollGUI extends ilObject2GUI
 		}
 		
 		include_once "Services/Link/classes/class.ilLink.php";
-		ilUtil::redirect(ilLink:: _getLink($tree->getParentId($this->ref_id)));
+		ilUtil::redirect(ilLink::_getLink($tree->getParentId($this->ref_id)));
 	}		
 	
 	function subscribe()
@@ -577,7 +577,7 @@ class ilObjPollGUI extends ilObject2GUI
 		
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		include_once "Services/Link/classes/class.ilLink.php";
-		ilUtil::redirect(ilLink:: _getLink($tree->getParentId($this->ref_id)));
+		ilUtil::redirect(ilLink::_getLink($tree->getParentId($this->ref_id)));
 	}
 	
 	function unsubscribe()
@@ -589,7 +589,7 @@ class ilObjPollGUI extends ilObject2GUI
 		
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		include_once "Services/Link/classes/class.ilLink.php";
-		ilUtil::redirect(ilLink:: _getLink($tree->getParentId($this->ref_id)));
+		ilUtil::redirect(ilLink::_getLink($tree->getParentId($this->ref_id)));
 	}
 	
 	protected function sendNotifications()
@@ -604,12 +604,19 @@ class ilObjPollGUI extends ilObject2GUI
 		{
 			return;
 		}			
+		
+		
 								
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();		
 		$ntf->setLangModules(array("poll"));
 		$ntf->setRefId($this->ref_id);
-		$ntf->setChangedByUserId($ilUser->getId());
+		
+		if($this->object->getNonAnonymous())
+		{
+			$ntf->setChangedByUserId($ilUser->getId());
+		}
+		
 		$ntf->setSubjectLangId('poll_vote_notification_subject');
 		$ntf->setIntroductionLangId('poll_vote_notification_body');		
 		$ntf->setGotoLangId('poll_vote_notification_link');				
