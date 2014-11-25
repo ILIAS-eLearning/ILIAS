@@ -167,7 +167,7 @@ input.ilOpenIDBox {
 
 .ilMainMenu.ilTopFixed {
 	top: 110px;
-	border-bottom: solid 2px @body-bg;
+	/* border-bottom: solid 2px @body-bg; */
 }
 
 #ilTopBarNav {
@@ -319,22 +319,32 @@ input.ilOpenIDBox {
 }
 
 #ilTopNav .navbar-nav {
-	float: right;
-	margin-right: 14px;
+	float: left;
+	margin-left: 70px;
 }
 
 [dir="rtl"] #ilTopNav .navbar-nav {
-	float: left;
-	margin-right: 0;
-	margin-left: 14px;
+	float: right;
+	margin-left: 0;
+	margin-right: 70px;
 }
 
 #ilTopNav {
-	margin-top: -30px;
+	margin-top: -38px;
+}
+
+.ilMainMenuEntries {
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+
+.ilMainHeader {
+	height: 77px;
 }
 
 #ilTopNav a.dropdown-toggle {
 	text-transform: uppercase;
+	font-size: 14px;
 }
 
 #ilTopNav .dropdown-menu {
