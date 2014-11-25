@@ -15102,3 +15102,4 @@ payment#:#topics_settings#:#Topics Settings
 payment#:#enable_topics#:#Enable Topics
 payment#:#enable_topics_info#:#If enabled, you can assign purchasable objects to self-created topics. 
 exc#:#exc_assignment_type#:#Type Of Submission
+trac#:#trac_mode_event_info#:#The learning progress status will be determined by the participation status.

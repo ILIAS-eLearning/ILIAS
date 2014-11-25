@@ -1859,8 +1859,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		global $ilLocator;
 		
 		if (is_object($this->object))
-		{
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
+		{						
+			// see prepareOutput()
+			include_once './Modules/Session/classes/class.ilSessionAppointment.php';
+			$title = strlen($this->object->getTitle()) ? (': '.$this->object->getTitle()) : ''; 
+			$title = $this->object->getFirstAppointment()->appointmentToString().$title;
+		
+			$ilLocator->addItem($title, $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
 		}
 	}
 	

@@ -15101,3 +15101,4 @@ payment#:#topics_settings#:#Themen-Einstellungen
 payment#:#enable_topics#:#Aktiviere Themen
 payment#:#enable_topics_info#:#Wenn aktiviert, können Sie kaufbare Objekte selbsterstellten Themen zuordnen.
 exc#:#exc_assignment_type#:#Abgabetyp
+trac#:#trac_mode_event_info#:#Der Lernfortschrittsstatus wird durch den Teilnahmestatus bestimmt.

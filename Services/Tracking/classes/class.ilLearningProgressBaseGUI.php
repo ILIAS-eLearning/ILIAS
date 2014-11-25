@@ -171,7 +171,7 @@ class ilLearningProgressBaseGUI
 
 					if($has_read)
 					{
-						if(!$this->isAnonymized() && !in_array($this->obj_type, array('tst', 'htlm', 'exc')))
+						if(!$this->isAnonymized() && !in_array($this->obj_type, array('tst', 'htlm', 'exc', 'sess')))
 						{
 							$this->tabs_gui->addSubTabTarget("trac_matrix",
 															$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),
