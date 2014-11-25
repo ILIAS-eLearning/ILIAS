@@ -612,14 +612,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->createReference();
 		$this->object->putInTree($_GET["ref_id"]);
 		$this->object->setPermissions($_GET["ref_id"]);
-		
-		if($this->form->getInput("lp_preset"))
+				
+		// #14547 - active is default
+		if(!$this->form->getInput("lp_preset"))
 		{
-			
-		}
-		else
-		{
-			
+			include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
+			$lp_obj_settings = new ilLPObjSettings($this->object->getId());
+			$lp_obj_settings->setMode(ilLPObjSettings::LP_MODE_DEACTIVATED);	
+			$lp_obj_settings->update(false);
 		}
 		
 		// create appointment
@@ -628,7 +628,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->handleFileUpload();
 		
-		$this->createRecurringSessions();
+		$this->createRecurringSessions($this->form->getInput("lp_preset"));
 
 		if($a_redirect_on_success) 
 		{
@@ -693,10 +693,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 * create recurring sessions
 	 *
 	 * @access protected
-	 * @param
+	 * @param bool $a_activate_lp
 	 * @return
 	 */
-	protected function createRecurringSessions()
+	protected function createRecurringSessions($a_activate_lp = true)
 	{
 		global $tree;
 		
@@ -736,6 +736,15 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$new_obj->getFirstAppointment()->setEndingTime($date->get(IL_CAL_UNIX) + $period_diff);
 			$new_obj->getFirstAppointment()->update();
 			$new_obj->update();
+			
+			// #14547 - active is default
+			if(!$a_activate_lp)
+			{
+				include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
+				$lp_obj_settings = new ilLPObjSettings($new_obj->getId());
+				$lp_obj_settings->setMode(ilLPObjSettings::LP_MODE_DEACTIVATED);	
+				$lp_obj_settings->update(false);
+			}
 			
 			$new_evi = new ilEventItems($new_obj->getId());
 			$new_evi->setItems($eitems);
