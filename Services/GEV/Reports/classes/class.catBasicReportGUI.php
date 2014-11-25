@@ -84,20 +84,10 @@ class catBasicReportGUI {
 
 		$spacer = new catHSpacerGUI();
 		
-		//export-button
-		$export_btn = '<a class="submit exportXlsBtn"'
-					. 'href="'
-					.$this->ctrl->getLinkTarget($this, "exportxls")
-					.'">'
-					.$this->lng->txt("gev_report_exportxls")
-					.'</a>';
-
 		return    ($this->title !== null ? $this->title->render() : "")
 				. ($this->filter !== null ? $this->filter->render() : "")
 				. $spacer->render()
-				. $export_btn
 				. $this->renderView()
-				. $export_btn
 				;
 	}
 
@@ -139,7 +129,17 @@ class catBasicReportGUI {
 
 		$table->setData($data);
 
-		return $table->getHTML();
+		//export-button
+		$export_btn = '<a class="submit exportXlsBtn"'
+					. 'href="'
+					.$this->ctrl->getLinkTarget($this, "exportxls")
+					.'">'
+					.$this->lng->txt("gev_report_exportxls")
+					.'</a>';
+
+		return	 $export_btn
+				.$table->getHTML()
+				.$export_btn;
 	}
 
 	protected function exportXLS() {
