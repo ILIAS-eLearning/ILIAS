@@ -184,71 +184,23 @@ abstract class assQuestionGUI
 	/**
 	* output assessment
 	*/
-	function assessment()
+	public function assessment()
 	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", "Modules/TestQuestionPool");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		/**
+		 * @var $tpl ilTemplate
+		 */
+		global $tpl;
 
-		$total_of_answers = $this->object->getTotalAnswers();
-		$counter = 0;
-		$color_class = array("tblrow1", "tblrow2");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_assessment_of_questions.html", "Modules/TestQuestionPool");
-		if (!$total_of_answers)
-		{
-			$this->tpl->setCurrentBlock("emptyrow");
-			$this->tpl->setVariable("TXT_NO_ASSESSMENT", $this->lng->txt("qpl_assessment_no_assessment_of_questions"));
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("qpl_assessment_total_of_answers"));
-			$this->tpl->setVariable("TXT_VALUE", $total_of_answers);
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$counter++;
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("qpl_assessment_total_of_right_answers"));
-			$this->tpl->setVariable("TXT_VALUE", sprintf("%2.2f", $this->object->_getTotalRightAnswers($_GET["q_id"]) * 100.0) . " %");
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$this->tpl->parseCurrentBlock();
-		}
+		require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionCumulatedStatisticsTableGUI.php';
+		$stats_table = new ilQuestionCumulatedStatisticsTableGUI($this, 'assessment', '', $this->object);
 
-		$instances =& $this->object->getInstances();
-		$counter = 0;
-		foreach ($instances as $instance)
-		{
-			if (is_array($instance["refs"]))
-			{
-				foreach ($instance["refs"] as $ref_id)
-				{
-					$this->tpl->setCurrentBlock("references");
-					$this->tpl->setVariable("GOTO", "./goto.php?target=tst_" . $ref_id);
-					$this->tpl->setVariable("TEXT_GOTO", $this->lng->txt("perma_link"));
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			$this->tpl->setCurrentBlock("instance_row");
-			$this->tpl->setVariable("TEST_TITLE", $instance["title"]);
-			$this->tpl->setVariable("TEST_AUTHOR", $instance["author"]);
-			$this->tpl->setVariable("QUESTION_ID", $instance["question_id"]);
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$counter++;
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("instances");
-		$this->tpl->setVariable("TEXT_TEST_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TEXT_TEST_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("TEXT_TEST_LOCATION", $this->lng->txt("location"));
-		$this->tpl->setVariable("INSTANCES_TITLE", $this->lng->txt("question_instances_title"));
-		$this->tpl->parseCurrentBlock();
+		require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionUsagesTableGUI.php';
+		$usage_table = new ilQuestionUsagesTableGUI($this, 'assessment', '', $this->object);
 
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_QUESTION_TITLE", $this->lng->txt("question_cumulated_statistics"));
-		$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("result"));
-		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
-		$this->tpl->parseCurrentBlock();
+		$tpl->setContent(implode('<br />',  array(
+			$stats_table->getHTML(),
+			$usage_table->getHTML()
+		)));
 	}
 
 	/**
@@ -1279,7 +1231,7 @@ abstract class assQuestionGUI
 			{
 				$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
 				$template->setCurrentBlock("preview");
-				$template->setVariable("TEXT_SOLUTION", $this->lng->txt("solution_hint"));
+				$template->setVariable("TEXT_SOLUTION", $this->lng->txt("suggested_solution"));
 				$template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("view"). "</a> ");
 				$template->parseCurrentBlock();
 			}
@@ -1287,7 +1239,7 @@ abstract class assQuestionGUI
 			{
 				$href = $this->object->getSuggestedSolutionPathWeb() . $solution_array["value"]["name"];
 				$template->setCurrentBlock("preview");
-				$template->setVariable("TEXT_SOLUTION", $this->lng->txt("solution_hint"));
+				$template->setVariable("TEXT_SOLUTION", $this->lng->txt("suggested_solution"));
 				$template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . ilUtil::prepareFormOutput((strlen($solution_array["value"]["filename"])) ? $solution_array["value"]["filename"] : $solution_array["value"]["name"]). "</a> ");
 				$template->parseCurrentBlock();
 			}
