@@ -21,6 +21,7 @@ class ilSessionLP extends ilObjectLP
 	public function getValidModes()
 	{				
 		return array(
+			ilLPObjSettings::LP_MODE_DEACTIVATED,
 			ilLPObjSettings::LP_MODE_EVENT
 		);
 	}		

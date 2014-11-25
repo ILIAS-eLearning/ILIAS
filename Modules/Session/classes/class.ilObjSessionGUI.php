@@ -13,6 +13,7 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * 
 * @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipGUI
+* @ilCtrl_Calls ilObjSessionGUI:  ilLearningProgressGUI
 *
 * @ingroup ModulesSession 
 */
@@ -107,12 +108,20 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->forwardCommand($gui);
 				break;
 			
-			case 'ilmembershipgui':
-				
+			case 'ilmembershipgui':				
 				$this->ctrl->setReturn($this,'members');
 				include_once './Services/Membership/classes/class.ilMembershipGUI.php';
 				$mem = new ilMembershipGUI($this);
 				$this->ctrl->forwardCommand($mem);
+				break;
+			
+			case "illearningprogressgui":
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+													  $this->object->getRefId(),
+													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
+				$this->ctrl->forwardCommand($new_gui);
+				$this->tabs_gui->setTabActive('learning_progress');
 				break;
 		
 			default:
@@ -1889,6 +1898,16 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$tabs_gui->addTarget('event_edit_members',
 								 $this->ctrl->getLinkTarget($this,'members'));
 	 	}
+		
+		// learning progress
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		{
+			$tabs_gui->addTarget('learning_progress',
+				$this->ctrl->getLinkTargetByClass(array('ilobjsessiongui','illearningprogressgui'),''),
+				'',
+				array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+		}
 
 		// export
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
