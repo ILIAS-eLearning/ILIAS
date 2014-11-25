@@ -3237,7 +3237,7 @@ tbody.collapse.in {
 .dropdown-menu > li > a:focus {
   text-decoration: none;
   color: #262626;
-  background-color: #f5f5f5;
+  background-color: #ecf0f4;
 }
 .dropdown-menu > .active > a,
 .dropdown-menu > .active > a:hover,
@@ -6357,6 +6357,9 @@ span.ilAlert {
   color: #fa8228;
 }
 /* Drop Downs */
+.dropdown-menu {
+  background-color: #fafafa;
+}
 .dropdown-menu li > a {
   display: block;
   padding: 3px 20px;
@@ -6375,6 +6378,9 @@ span.ilAlert {
 .btn-group.open .dropdown-toggle {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
 }
+.dropdown-header {
+  background-color: #f3f3f3;
+}
 .dropdown-menu img {
   border: 0;
   width: 22px;
@@ -6389,7 +6395,7 @@ span.ilAlert {
 .dropdown-menu li > a:focus {
   text-decoration: none;
   color: #262626;
-  background-color: #f5f5f5;
+  background-color: #ecf0f4;
 }
 /* BS tables */
 .table {
@@ -8524,7 +8530,7 @@ li.ilWikiBlockItem {
 #ilTopNav .navbar-nav > .open > a:focus {
   outline: 0;
   border-top: 4px solid #4c6586;
-  background-color: white;
+  background-color: #fafafa;
   box-shadow: 3px 9px 9px 0px rgba(0, 0, 0, 0.176);
 }
 [dir="rtl"] #ilTopNav .navbar-nav > li {
