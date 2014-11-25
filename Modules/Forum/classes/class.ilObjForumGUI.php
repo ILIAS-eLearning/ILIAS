@@ -1426,7 +1426,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 				
 		// buttons
-		$this->replyEditForm->addCommandButton('savePost', $this->lng->txt('submit'));				
+		$this->replyEditForm->addCommandButton('savePost', $this->lng->txt('create'));
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
 		{
 			include_once 'Services/RTE/classes/class.ilRTE.php';
@@ -3349,7 +3349,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$captcha->setRequired(true);		
 			$this->create_topic_form_gui->addItem($captcha);
 		}
-		$this->create_topic_form_gui->addCommandButton('addThread', $this->lng->txt('submit'));
+		$this->create_topic_form_gui->addCommandButton('addThread', $this->lng->txt('create'));
 		$this->create_topic_form_gui->addCommandButton('showThreads', $this->lng->txt('cancel'));
 	}
 	
