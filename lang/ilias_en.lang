@@ -14071,7 +14071,7 @@ mob#:#mob_language#:#Language
 mob#:#mob_file#:#File
 mob#:#mob_really_delete_srt#:#Do you really want to delete the following srt files?
 mob#:#mob_srt_files_deleted#:#Subtitle files have been deleted.
-bibl#:#bibl_copy#:#User can copy bibliography
+bibl#:#bibl_copy#:#Copy Bibliography
 bibl#:#bib_default_address#:#Address
 bibl#:#bib_default_author#:#Author
 bibl#:#bib_default_booktitle#:#Title
