@@ -53,14 +53,15 @@ abstract class catBasicReportGUI {
 		$this->user = $ilUser;
 		$this->user_utils = gevUserUtils::getInstance($this->user->getId());
 
-		$this->title = array(
+		$this->title = null;
+		/*$this->title = array(
 			'title' => '',
 			'desc' => '',
 			'img' => '',
 			'no_lng_vars' => true
-		);
+		);*/
 
-		$this->legend = null;
+		//$this->legend = null;
 		$this->table = null;
 		$this->query_from = null;
 		$this->data = false;
@@ -135,7 +136,7 @@ abstract class catBasicReportGUI {
 		
 		//$title = new catTitleGUI("gev_rep_attendance_by_employee_title", "gev_rep_attendance_by_employee_desc", "GEV_img/ico-head-edubio.png");
 
-		$title = new catTitleGUI(
+		/*$title = new catTitleGUI(
 			$this->title['title'],
 			$this->title['desc'],
 			$this->title['img'],
@@ -144,7 +145,7 @@ abstract class catBasicReportGUI {
 		
 		if ($this->legend !== null) {
 			$title->setLegend($this->legend);
-		}
+		}*/
 
 		$spacer = new catHSpacerGUI();
 		
@@ -156,7 +157,7 @@ abstract class catBasicReportGUI {
 					.$this->lng->txt("gev_report_exportxls")
 					.'</a>';
 
-		return    $title->render()
+		return    ($this->title !== null ? $this->title->render() : "")
 				. ($this->filter !== null ? $this->filter->render() : "")
 				//. $period_input->render($this->getAdditionalFilters())
 				. $spacer->render()

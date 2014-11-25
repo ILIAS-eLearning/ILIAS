@@ -37,9 +37,17 @@ class catTitleGUI {
 		$this->use_lng = $a_use_lng;
 	}
 
+	static public function create() {
+		return new catTitleGUI();
+	}
+
 	public function setTitle($a_title) {
 		$this->title = $a_title;
 		return $this;
+	}
+	
+	public function title($a_title) {
+		return $this->setTitle($a_title);
 	}
 
 	public function getTitle() {
@@ -49,6 +57,10 @@ class catTitleGUI {
 	public function setSubtitle($a_subtitle) {
 		$this->subtitle = $a_subtitle;
 		return $this;
+	}
+	
+	public function subtitle($a_title) {
+		return $this->setSubtitle($a_title);
 	}
 
 	public function getSubtitle() {
@@ -60,6 +72,10 @@ class catTitleGUI {
 		return $this;
 	}
 
+	public function image($a_img) {
+		return $this->setImage($a_img);
+	}
+
 	public function getImage() {
 		return $this->img;
 	}
@@ -67,6 +83,10 @@ class catTitleGUI {
 	public function setLegend(catLegendGUI $a_legend) {
 		$this->legend = $a_legend;
 		return $this;
+	}
+	
+	public function legend(catLegendGUI $a_legend) {
+		return $this->setLegend($a_legend);
 	}
 
 	public function getLegend() {
@@ -88,6 +108,7 @@ class catTitleGUI {
 	// be used as it. Defaults to true.
 	public function useLng($a_use_it) {
 		$this->use_lng = (bool)$a_use_it;
+		return $this;
 	}
 
 	public function render() {

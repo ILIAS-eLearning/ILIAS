@@ -7,26 +7,28 @@ require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 class gevEduBiographyGUI extends catBasicReportGUI {
 	public function __construct() {
 		parent::__construct();
-		
+
+		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
+
 		$this->target_user_id = $_POST["target_user_id"]
 							  ? $_POST["target_user_id"]
 							  : $this->user->getId();
 		$this->target_user_utils = gevUserUtils::getInstance($this->target_user_id);
 
 		if ($this->user->getId() == $this->target_user_id) {
-			$this->title = array(
-				  "title" 	=> "gev_my_edu_bio"
-				, "desc"	=> "gev_my_edu_bio_desc"
-				, "img" 	=> "GEV_img/ico-head-edubio.png"
-				);
+			$this->title = catTitleGUI::create()
+							->title("gev_my_edu_bio")
+							->subTitle("gev_my_edu_bio_desc")
+							->image("GEV_img/ico-head-edubio.png")
+							;
 		}
 		else {
-			$this->title = array(
-				  "title"		=> sprintf($this->lng->txt("gev_others_edu_bio"), $this->target_user_utils->getFullName())
-				, "desc"		=> sprintf($this->lng->txt("gev_others_edu_bio_desc"), $this->target_user_utils->getFullName())
-				, "img"			=> "GEV_img/ico-head-edubio.png"
-				, "no_lng_vars" => true
-				);
+			$this->title = catTitleGUI::create()
+							->title(sprintf($this->lng->txt("gev_others_edu_bio"), $this->target_user_utils->getFullName()))
+							->subTitle(sprintf($this->lng->txt("gev_others_edu_bio_desc"), $this->target_user_utils->getFullName()))
+							->image("GEV_img/ico-head-edubio.png")
+							->useLng(false)
+							;
 		}
 		
 		$this->get_cert_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-get_cert.png").'" />';
@@ -36,13 +38,13 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 		$this->failed_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-red.png").'" />';
 		$this->action_img = '<img src="'.ilUtil::getImagePath("gev_action.png").'" />';
 		
-		$this->legend = catLegendGUI::create()
+		$this->title->legend(catLegendGUI::create()
 						->item($this->get_cert_img, "gev_get_certificate")
 						->item($this->get_bill_img, "gev_get_bill")
 						->item($this->success_img, "gev_passed")
 						->item($this->in_progress_img, "gev_in_progress")
 						->item($this->failed_img, "gev_failed")
-						;
+						);
 		
 		$this->table = catReportTable::create()
 						->column("custom_id", "gev_training_id")
