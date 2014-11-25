@@ -8748,7 +8748,8 @@ input.ilOpenIDBox {
   padding-bottom: 10px;
 }
 .ilMainHeader {
-  height: 77px;
+  height: 80px;
+  border-bottom: 3px solid #f0f0f0;
 }
 #ilTopNav a.dropdown-toggle {
   text-transform: uppercase;
