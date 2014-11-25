@@ -20,6 +20,10 @@ class catLegendGUI {
 		$this->lng = &$lng;
 	}
 	
+	static public function create() {
+		return new catLegendGUI();
+	}
+	
 	public function clearItems() {
 		$this->items = array();
 	}
@@ -27,6 +31,10 @@ class catLegendGUI {
 	public function addItem($a_icon_html, $a_lng_var) {
 		$this->items[] = array($a_icon_html, $a_lng_var);
 		return $this;
+	}
+	
+	public function item($a_icon_html, $a_lng_var) {
+		return $this->addItem($a_icon_html, $a_lng_var);
 	}
 	
 	public function render() {

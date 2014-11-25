@@ -18,57 +18,70 @@
 *
 */
 
-require_once("Services/GEV/Reports/classes/class.gevBasicReportGUI.php");
+require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
+require_once("Services/GEV/Reports/classes/class.catFilter.php");
+require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 
-class gevBookingsByVenueGUI extends gevBasicReportGUI{
+
+class gevBookingsByVenueGUI extends catBasicReportGUI{
 	public function __construct() {
 		
 		parent::__construct();
 
-		$this->title = array(
-			'title' => 'gev_rep_bookings_by_venue_title',
-			'desc' => 'gev_rep_bookings_by_venue_desc',
-			'img' => 'GEV_img/ico-head-edubio.png'
-		);
+		$this->title = catTitleGUI::create()
+						->title("gev_rep_bookings_by_venue_title")
+						->subTitle("gev_rep_bookings_by_venue_desc")
+						->image("GEV_img/ico-head-edubio.png")
+						;
 
-		$this->table_cols = array(
-			array("gev_training_id", "custom_id"),
-			array("title", "title"),
-			array("gev_venue", "venue"),
-			array("date", "date"),
-			array("il_crs_tutor", "tutor"),
-			array("no_members", "no_members"),
-			array("no_accomodations", "no_accomodations"),
-			array("list", "action"),
-		);
+		$this->table = catReportTable::create()
+						->column("custom_id", "gev_training_id")
+						->column("title", "title")
+						->column("venue", "gev_venue")
+						->column("date", "date")
+						->column("tutor", "il_crs_tutor")
+						->column("no_members", "no_members")
+						->column("no_accomodations", "no_accomodations")
+						->column("action", "list")
+						->template("tpl.gev_bookings_by_venue_row.html", "Services/GEV/Reports")
+						->order("date", "ASC")
+						;
+						
+		$this->query = catReportQuery::create()
+						->distinct()
+						->select("crs.crs_id")
+						->select("title")
+						->select("custom_id")
+						->select("tutor")
+						->select("begin_date")
+						->select("end_date")
+						->select("venue")
+						->from("hist_course crs")
+						->join("crs_acco acco")
+							->on("crs.crs_id = acco.crs_id")
+						->compile()
+						;
 
-		$this->table_row_template= array(
-			"filename" => "tpl.gev_bookings_by_venue_row.html", 
-			"path" => "Services/GEV/Reports"
-		);
-
-
-		//filters:
-		if(isset($_POST['period'])){ //form submitted; 
-			$_GET['show_past_events'] = "0";
-		}
-
-		$this->digestSearchParameter('show_past_events', '0');
-		$this->show_past_events = ($this->filter_params['show_past_events'] == "1") ? true : false;
-
-		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-		require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
-		$chkPastEvents = new ilCheckboxInputGUI('show_past_events', 'show_past_events');
-		$chkPastEvents->setOptionTitle($this->lng->txt('gev_rep_filter_show_past_events'));
-		$chkPastEvents->setChecked($this->show_past_events);
-
-		$this->filters = array(
-			'show_past_events' => $chkPastEvents
-		);
-		
-
+		$this->filter = catFilter::create()
+						->checkbox("show_past_events"
+								  , $this->lng->txt("gev_rep_filter_show_past_events")
+								  , null
+								  , "crs.end_date > '".date("Y-m-d")."'"
+								  )
+						->dateperiod( "period"
+									, $this->lng->txt("gev_period")
+									, $this->lng->txt("gev_until")
+									, "crs.begin_date"
+									, "crs.end_date"
+									, date("Y")."-01-01"
+									, date("Y")."-12-31"
+									)
+						->static_condition("crs.hist_historic = 0")
+						->static_condition("crs.venue != '-empty-'")
+						->action($this->ctrl->getLinkTarget($this, "view"))
+						->compile()
+						;
 	}
-	
 
 	protected function executeCustomCommand($a_cmd) {
 		switch ($a_cmd) {
@@ -78,194 +91,87 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 				return null;
 		}
 	}
-	
+
 	protected function userIsPermitted () {
 		return $this->user_utils->isAdmin() || $this->user_utils->hasRoleIn(array("Veranstalter"));
 	}
 
+	
+	protected function transformResultRow($rec) {
+		$lnk = $this->ctrl->getLinkTarget($this, "deliverMemberList");
+		$lnk .= '&crs_id=' .$rec["crs_id"];
+		$rec['action'] = '<a href="' . $lnk 
+			.'"><img src="./Customizing/global/skin/genv/images/GEV_img/ico-table-eye.png"></a>';
 
-	protected function fetchData(){ 
-		//fetch retrieves the data 
-		$data = array();
-			
-		if(isset($_GET['_table_nav'])){
-			$this->external_sorting = true; //set to false again, 
-											//if the field is not relevant
-			$table_nav_cmd = split(':', $_GET['_table_nav']);
-			
-			if ($table_nav_cmd[1] == "asc") {
-				$direction = " ASC";
-			}
-			else {
-				$direction = " DESC";
-			}
+		$start = new ilDate($rec["begin_date"], IL_CAL_DATE);
+		$end = new ilDate($rec["end_date"], IL_CAL_DATE);
+		$date = '<nobr>' .ilDatePresentation::formatPeriod($start,$end) .'</nobr>';
+		$rec['date'] = $date;
 
-			switch ($table_nav_cmd[0]) { //field
-				//append more fields, simply for performance...
-				case 'no_accomodations':
-				case 'date':
-					$direction = strtoupper($table_nav_cmd[1]);
-					$sql_order_str = " ORDER BY crs.begin_date ";
-					$sql_order_str .= $direction;
-					break;
+		// get this from hist_usercoursestatus.overnights instead?
+		// here, trainers are involved.
+		$query_temp = "SELECT
+					 		night,
+					 		COUNT(night) no_accomodations
+
+					 	FROM
+					 		crs_acco
+					 	WHERE 
+						 	crs_id =" .$rec['crs_id']
+						 	
+						." GROUP BY 
+						 	night
+						   ORDER BY
+						   	night
+
+						 ";
+
+
+		$res_temp = $this->db->query($query_temp);
+
+		$rec['no_accomodations'] = '';
+		while($rec_temp = $this->db->fetchAssoc($res_temp)) {
+			$night = new ilDate($rec_temp['night'], IL_CAL_DATE);
+			$night = ilDatePresentation::formatDate($night);
+			$rec['no_accomodations'] .= '<nobr>'
+				.$night
+				.' &nbsp; <b>' 
+				.$rec_temp['no_accomodations']
+				.'</b>' 
+				.'</nobr><br>';
+		}
+
+		//this is how the xls-list is generated:
+		//$user_ids = $this->getCourse()->getMembersObject()->getMembers();
+		//$tutor_ids = $this->getCourse()->getMembersObject()->getTutors();
+
+		$query_temp = "SELECT
+					 		COUNT(DISTINCT usr_id) no_members
+					 	FROM
+					 		hist_usercoursestatus
+					 	WHERE 
+						 	crs_id =" .$rec['crs_id']
+					."	AND
+							hist_historic = 0
+						AND (
+								(	
+								function = 'Mitglied' 
+								AND 
+								booking_status = 'gebucht'
+								)
+							OR
+								function = 'Trainer'
+						)
 				
+					";
 
-				//no external sorting for these
-				case 'no_members':
-				case 'action':
-					$this->external_sorting = false;
-					$sql_order_str = '';
-					break;
+		$res_temp = $this->db->query($query_temp);
+		$rec_temp = $this->db->fetchAssoc($res_temp);
+		$rec['no_members'] = $rec_temp['no_members'];
 
-				default:
-					$this->external_sorting = true;
-					$sql_order_str = " ORDER BY ".$this->db->quoteIdentifier($table_nav_cmd[0])." ".$direction;
-					//$sql_order_str = "";
-					break;
-			}
-		} else {
-			$this->external_sorting = true;
-			$sql_order_str = " ORDER BY crs.begin_date ASC";
-		}
-
-
-		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		require_once("Services/Accomodations/classes/class.ilAccomodations.php");
-
-		
-		//which venues?
-		//require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-		//$venu_names = gevOrgUnitUtils::getVenueNames();
-		//$valid_venues = "'" .join(array_values($venu_names), "', '") ."'";
-
-
-		$query = "SELECT DISTINCT
-						 crs.crs_id, title, custom_id, tutor, 
-						 begin_date, end_date, venue
-					FROM 
-						hist_course crs
-					JOIN 
-						crs_acco acco
-					ON  
-						crs.crs_id = acco.crs_id
-
-					WHERE 
-						crs.hist_historic=0
-					AND
-						crs.venue != '-empty-'
-		";
-
-		$query .= $this->queryWhen($this->start_date, $this->end_date, $this->show_past_events);
-		$query .= $sql_order_str;
-
-
-		$res = $this->db->query($query);
-		while($rec = $this->db->fetchAssoc($res)) {
-
-			$lnk = $this->ctrl->getLinkTarget($this, "deliverMemberList");
-			$lnk .= '&crs_id=' .$rec["crs_id"];
-			$rec['action'] = '<a href="' . $lnk 
-				.'"><img src="./Customizing/global/skin/genv/images/GEV_img/ico-table-eye.png"></a>';
-
-			$start = new ilDate($rec["begin_date"], IL_CAL_DATE);
-			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
-			$date = '<nobr>' .ilDatePresentation::formatPeriod($start,$end) .'</nobr>';
-			$rec['date'] = $date;
-
-			// get this from hist_usercoursestatus.overnights instead?
-			// here, trainers are involved.
-			$query_temp = "SELECT
-						 		night,
-						 		COUNT(night) no_accomodations
-
-						 	FROM
-						 		crs_acco
-						 	WHERE 
-							 	crs_id =" .$rec['crs_id']
-							 	
-							." GROUP BY 
-							 	night
-							   ORDER BY
-							   	night
-
-							 ";
-
-
-			$res_temp = $this->db->query($query_temp);
-
-			$rec['no_accomodations'] = '';
-			while($rec_temp = $this->db->fetchAssoc($res_temp)) {
-				$night = new ilDate($rec_temp['night'], IL_CAL_DATE);
-				$night = ilDatePresentation::formatDate($night);
-				$rec['no_accomodations'] .= '<nobr>'
-					.$night
-					.' &nbsp; <b>' 
-					.$rec_temp['no_accomodations']
-					.'</b>' 
-					.'</nobr><br>';
-			}
-
-
-
-
-			//this is how the xls-list is generated:
-			//$user_ids = $this->getCourse()->getMembersObject()->getMembers();
-			//$tutor_ids = $this->getCourse()->getMembersObject()->getTutors();
-
-			$query_temp = "SELECT
-						 		COUNT(DISTINCT usr_id) no_members
-						 	FROM
-						 		hist_usercoursestatus
-						 	WHERE 
-							 	crs_id =" .$rec['crs_id']
-						."	AND
-								hist_historic = 0
-							AND (
-									(	
-									function = 'Mitglied' 
-									AND 
-									booking_status = 'gebucht'
-									)
-								OR
-									function = 'Trainer'
-							)
-					
-						";
-
-			$res_temp = $this->db->query($query_temp);
-			$rec_temp = $this->db->fetchAssoc($res_temp);
-			$rec['no_members'] = $rec_temp['no_members'];
-
-			$data[] = $rec;
-
-		}
-
-
-		return $data;
+		return $rec;
 	}
 
-
-
-
-	protected function queryWhen(ilDate $start, ilDate $end, $show_past=false) {
-		if ($this->query_when === null) {
-			$this->query_when =
-					"   AND (crs.end_date >= ".$this->db->quote($start->get(IL_CAL_DATE), "date")
-					."        OR crs.end_date = '-empty-' OR crs.end_date = '0000-00-00')"
-					."   AND crs.begin_date <= ".$this->db->quote($end->get(IL_CAL_DATE), "date")
-					;
-
-			if(!$show_past) {
-				//do not show trainings that _ended_ before today
-				$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-				$this->query_when .= " AND crs.end_date >" .$this->db->quote($now);
-			}
-		
-		}
-		return $this->query_when;
-	}
-	
-	
 	protected function deliverMemberList() {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		$crs_id = $_GET["crs_id"];
@@ -278,7 +184,8 @@ class gevBookingsByVenueGUI extends gevBasicReportGUI{
 		$val = str_replace('<nobr>', '', $val);
 		$val = str_replace('</nobr>', '', $val);
 		return $val;
-	}	
+	}
+	
 	protected function _process_xls_no_accomodations($val) {
 		$val = str_replace('<nobr>', '', $val);
 		$val = str_replace('</nobr>', '', $val);
