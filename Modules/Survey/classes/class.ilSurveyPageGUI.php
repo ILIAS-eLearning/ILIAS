@@ -1110,7 +1110,7 @@ class ilSurveyPageGUI
 			$this->editor_gui->createQuestionObject($form);
 		}
 
-		$form->addCommandButton("addQuestionToolbar", $lng->txt("submit"));
+		$form->addCommandButton("addQuestionToolbar", $lng->txt("create"));
 		$form->addCommandButton("renderPage", $lng->txt("cancel"));
 
 		return $tpl->setContent($form->getHTML());
