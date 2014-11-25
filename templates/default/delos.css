@@ -10652,6 +10652,9 @@ div#il_prop_cont_introduction > .col-sm-9 {
   .ilTopTitle {
     display: none;
   }
+  .ilMainHeader {
+    height: auto;
+  }
   .ilMainHeader > header > .row > a.navbar-brand {
     height: 0px;
     padding: 0;
@@ -10737,6 +10740,12 @@ div#il_prop_cont_introduction > .col-sm-9 {
     float: none;
     left: auto;
     right: auto;
+  }
+  #ilTopNav .navbar-nav {
+    margin-left: 0px;
+  }
+  [dir="rtl"] #ilTopNav .navbar-nav {
+    margin-right: 0;
   }
   /* --- Services/COPage ---*/
   .ilTinyInfo {
