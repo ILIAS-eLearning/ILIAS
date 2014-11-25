@@ -5049,6 +5049,15 @@ if($ilDB->tableColumnExists("usr_portfolio", "comments"))
 		$row["comments"] = ($row["comments"] == "y" ? true : false);
 		$data[] = $row;
 	}
+	
+	$set = $ilDB->query("SELECT id,show_comments comments".
+		" FROM il_poll");
+	while($row = $ilDB->fetchAssoc($set))
+	{		
+		$row["type"] = "poll";
+		$row["comments"] = (bool)$row["comments"];
+		$data[] = $row;
+	}
 
 	if(sizeof($data))
 	{	
@@ -5084,6 +5093,7 @@ if($ilDB->tableColumnExists("usr_portfolio", "comments"))
 	$ilDB->dropTableColumn("usr_portfolio", "comments");
 	$ilDB->dropTableColumn("il_blog", "notes");
 	$ilDB->dropTableColumn("content_object", "pub_notes");
+	$ilDB->dropTableColumn("il_poll", "show_comments");
 }
 
 ?>

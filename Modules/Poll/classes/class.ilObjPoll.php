@@ -234,9 +234,12 @@ class ilObjPoll extends ilObject2
 		$this->setVotingPeriodEnd($row["period_end"]);
 		$this->setMaxNumberOfAnswers($row["max_answers"]);
 		$this->setSortResultByVotes($row["result_sort"]);
-		$this->setNonAnonymous($row["non_anon"]);
-		$this->setShowComments((bool)$row["show_comments"]);
+		$this->setNonAnonymous($row["non_anon"]);	
 		$this->setShowResultsAs($row["show_results_as"]);
+		
+		// #14661
+		include_once("./Services/Notes/classes/class.ilNote.php");
+		$this->setShowComments(ilNote::commentsActivated($this->getId(), 0, $this->getType()));				
 		
 		if($this->ref_id)
 		{
@@ -260,8 +263,7 @@ class ilObjPoll extends ilObject2
 			"period_end" => array("integer", $this->getVotingPeriodEnd()),
 			"max_answers" => array("integer", $this->getMaxNumberOfAnswers()),
 			"result_sort" => array("integer", $this->getSortResultByVotes()),
-			"non_anon" => array("integer", $this->getNonAnonymous()),
-			"show_comments" => array("integer", (bool)$this->getShowComments()),
+			"non_anon" => array("integer", $this->getNonAnonymous()),		
 			"show_results_as" => array("integer", $this->getShowResultsAs()),
 		);
 						
@@ -302,8 +304,11 @@ class ilObjPoll extends ilObject2
 			$fields = $this->propertiesToDB();
 			
 			$ilDB->update("il_poll", $fields,
-				array("id"=>array("integer", $this->getId())));
+				array("id"=>array("integer", $this->getId())));			
 			
+			// #14661
+			include_once("./Services/Notes/classes/class.ilNote.php");
+			ilNote::activateComments($this->getId(), 0, $this->getType(), $this->getShowComments());
 			
 			if($this->ref_id)
 			{

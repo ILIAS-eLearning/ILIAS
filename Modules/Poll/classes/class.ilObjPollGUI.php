@@ -604,9 +604,7 @@ class ilObjPollGUI extends ilObject2GUI
 		{
 			return;
 		}			
-		
-		
-								
+											
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();		
 		$ntf->setLangModules(array("poll"));
