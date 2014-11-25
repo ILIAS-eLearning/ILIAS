@@ -613,6 +613,15 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->putInTree($_GET["ref_id"]);
 		$this->object->setPermissions($_GET["ref_id"]);
 		
+		if($this->form->getInput("lp_preset"))
+		{
+			
+		}
+		else
+		{
+			
+		}
+		
 		// create appointment
 		$this->object->getFirstAppointment()->setSessionId($this->object->getId());
 		$this->object->getFirstAppointment()->create();
@@ -1546,6 +1555,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// Recurrence
 		if($a_mode == 'create')
 		{
+			// #14547
+			$lp = new ilCheckboxInputGUI($this->lng->txt("sess_lp_preset"), "lp_preset");
+			$lp->setInfo($this->lng->txt("sess_lp_preset_info"));
+			$lp->setChecked(true);
+			$this->form->addItem($lp);			
+			
 			if(!is_object($this->rec))
 			{
 				include_once('./Modules/Session/classes/class.ilEventRecurrence.php');

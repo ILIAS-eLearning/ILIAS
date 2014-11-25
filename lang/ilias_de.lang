@@ -15102,3 +15102,5 @@ payment#:#enable_topics#:#Aktiviere Themen
 payment#:#enable_topics_info#:#Wenn aktiviert, können Sie kaufbare Objekte selbsterstellten Themen zuordnen.
 exc#:#exc_assignment_type#:#Abgabetyp
 trac#:#trac_mode_event_info#:#Der Lernfortschrittsstatus wird durch den Teilnahmestatus bestimmt.
+sess#:#sess_lp_preset#:#Lernfortschritt aktivieren
+sess#:#sess_lp_preset_info#:#Den Lernfortschritt für alle Session-Termine (de-)aktivieren.
