@@ -8749,15 +8749,15 @@ input.ilOpenIDBox {
   font-size: 14px;
 }
 #ilTopNav .dropdown-menu {
-  float: right;
-  left: auto;
-  right: 0;
+  float: left;
+  right: auto;
+  left: 0;
   min-width: 100%;
 }
 [dir="rtl"] #ilTopNav .dropdown-menu {
-  float: left;
-  left: 0;
-  right: auto;
+  float: right;
+  left: auto;
+  right: 0;
   padding: 5px 0;
   text-align: right;
 }
