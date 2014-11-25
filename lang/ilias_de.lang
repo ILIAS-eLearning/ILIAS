@@ -1018,11 +1018,10 @@ assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageer
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!
 assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
 assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit mehr, Anworten einzugeben oder zu korrigieren.
-assessment#:#tst_count_correct_solutions#:#Nur vollständig richtige Lösungen bewerten
-assessment#:#tst_count_correct_solutions_desc#:#Ich bin ein Todo
-assessment#:#tst_count_partial_solutions#:#Teillösungen bewerten
-assessment#:#tst_count_partial_solutions_desc#:#Ich bin ein Todo
-assessment#:#tst_count_system_description#:#Wenn Teillösungen bewertet werden, werden die definierten Punkte abhängig von den Antworten der Teilnehmer aufsummiert. Wenn nur vollständige Lösungen bewertet werden, müssen Teilnehmer die maximale Punktezahl für eine Frage erzielen, anderenfalls wird die Frage mit 0 Punkten bewertet.
+assessment#:#tst_count_correct_solutions#:#Nur richtige und vollständige Antworten erzielen Punkte
+assessment#:#tst_count_correct_solutions_desc#:#Teilnehmer erhalten entweder die maximale Punktzahl für vollständige und richtige Antworten oder 0 Punkte in allen anderen Fällen.
+assessment#:#tst_count_partial_solutions#:#Richtige, aber unvollständige Antworten erzielen Punkte
+assessment#:#tst_count_partial_solutions_desc#:#Für richtige, aber unvollständige Antworten werden Punkte vergeben. Die Punkte für die korrekt gegebenen Teilantworten werden aufsummiert.
 assessment#:#tst_default_settings#:#Persönliche Standardeinstellungen
 assessment#:#tst_defaults_applied#:#Die ausgewählten Standardeinstellungen wurden angewendet.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS konnte die ausgewählten Standardeinstellungen nicht auf diesen Test anwenden! Eventuell enthält dieser Test bereits Teilnehmerdatensätze, die verhindern, dass bestimmte Standardeinstellungen übernommen werden können.
@@ -1148,14 +1147,13 @@ assessment#:#tst_participant_status#:#Teilnehmer Status
 assessment#:#tst_participants_no#:#Der Test wurde von niemandem gestartet!
 assessment#:#tst_participants_no_fixed#:#Es wurden keine festen Teilnehmer zu diesem Test hinzugefügt
 assessment#:#tst_participating_users#:#Teilnehmende Benutzer
-assessment#:#tst_pass_best_pass#:#Den besten Testdurchlauf bewerten
-assessment#:#tst_pass_best_pass_desc#:#Ich bin ein Todo
+assessment#:#tst_pass_best_pass#:#Besten Testdurchlauf bewerten
+assessment#:#tst_pass_best_pass_desc#:#Es wird der Testdurchlauf bewertet, bei dem der Teilnehmer die höchste Punktezahl erreicht hat. Diese Einstellungen greift nur, wenn mehrere Testdurchläufe durchgeführt werden können.
 assessment#:#tst_pass_details#:#Details anzeigen
-assessment#:#tst_pass_last_pass#:#Den letzten Testdurchlauf bewerten
-assessment#:#tst_pass_last_pass_desc#:#Ich bin ein Todo
+assessment#:#tst_pass_last_pass#:#Letzten Testdurchlauf bewerten
+assessment#:#tst_pass_last_pass_desc#:#Es wird immer der letzte Testdurchlauf eines Teilnehmers bewertet.
 assessment#:#tst_pass_overview_for_participant#:#Testdurchläufe für Teilnehmer: %s
 assessment#:#tst_pass_scoring#:#Bewertung bei mehreren Testdurchläufen
-assessment#:#tst_pass_scoring_description#:#Normalerweise wird immer der letzte Testdurchlauf eines Teilnehmers bewertet. Falls der beste Testdurchlauf bewertet wird, wird der Testdurchlauf verwendet, bei dem der Teilnehmer die höchste Punktezahl erreicht hat. Diese Einstellungen machen natürlich nur dann Sinn, wenn bei einem Test mehr als ein Testdurchlauf zugelassen wird.
 assessment#:#tst_passes#:#Testdurchläufe
 assessment#:#tst_allowed_users_max#:#Maximale Anzahl
 assessment#:#tst_password_form#:#Eingabe Testpasswort
@@ -1259,18 +1257,16 @@ assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#Die maximale Anzahl
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximale Punktezahl für die Frage
 assessment#:#tst_manscoring_input_question_and_user_solution#:#Frage und Teilnehmerlösung
 assessment#:#tst_manscoring_input_best_solution#:#Musterlösung
-assessment#:#tst_score_cut_question#:#Negative Punkte für alle Fragen bei Null abschneiden
-assessment#:#tst_score_cut_question_desc#:#Ich bin ein Todo
-assessment#:#tst_score_cut_test#:#Negative Punkte für die Gesamtsumme aller Fragenergebnisse bei Null abschneiden
-assessment#:#tst_score_cut_test_desc#:#Ich bin ein Todo
-assessment#:#tst_score_cutting#:#Negative Punkte abschneiden
-assessment#:#tst_score_cutting_description#:#Negative Punkte können für einzelne Fragen oder aber für die Summe aller Fragenergebnisse auf 0 zurückgesetzt werden. Bei der Summe aller Fragenergebnisse fallen negative Punkte stärker ins Gewicht.
-assessment#:#tst_score_mcmr_questions#:#Multiple-Choice-Fragen
-assessment#:#tst_score_mcmr_questions_description#:#Abhängig von der Punktevergabe bei Multiple-Choice-Fragen kann es passieren, dass für Fragen, bei denen keine Antwort ausgewählt wurde, Punkte vergeben werden. Dies wird durch die Standardeinstellung verhindert, indem in diesem Fall die Frage als nicht beantwortet gewertet wird und die Punkte automatisch auf Null gesetzt werden.
-assessment#:#tst_score_mcmr_use_scoring_system#:#Vergabe der Punktezahl, auch wenn keine Antwort ausgewählt wurde
-assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Ich bin ein Todo
-assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Vergabe von 0 Punkten, wenn keine Antwort ausgewählt wurde
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Ich bin ein Todo
+assessment#:#tst_score_cut_question#:#Negative Punkte pro Frage in "0 Punkte" ändern
+assessment#:#tst_score_cut_question_desc#:#Bei der Vergabe negativer Punkte für einzelne Antwortoptionen können Teilnehmer  mit der Beantwortung einer Frage Minuspunkte erzielen. Mit dieser Einstellungen werden die erzielten Minuspunkte pro Frage auf 0 Punkte hochgesetzt.
+assessment#:#tst_score_cut_test#:#Negatives Gesamttestergebnis in "0 Punkte" ändern
+assessment#:#tst_score_cut_test_desc#:#Es können pro Frage Minuspunkte erzielt werden. Die Punktestände aller Fragen werden aufsummiert und erst wenn dieses Gesamtergebnis noch negativ ist, wird das Gesamtergebnis des Test auf "0 Punkte " gesetzt, um ein negatives Gesamtergebnis zu verhindern. Mit dieser Einstellung fallen negative Punkte sehr stark ins Gewicht.
+assessment#:#tst_score_cutting#:#Negative Punkte
+assessment#:#tst_score_mcmr_questions#:#Nicht bearbeitete Multiple-Choice-Fragen
+assessment#:#tst_score_mcmr_use_scoring_system#:#Nicht beantwortete Fragen erzielen Punkte wie in der Frage definiert wurde
+assessment#:#tst_score_mcmr_use_scoring_system_desc#:#In seltenen Fällen kann es sinnvoll sein auch für nicht bearbeitete Multiple-Choice-Fragen, die in der Frage für das Auswählen oder Nicht-Auswählen der Antwortoptionen die in der Frage definierten Punkte zu vergeben.
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#0 Punkte, wenn keine Antwort ausgewählt wurde
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Teilnehmer erhalten für Multiple-Choice-Fragen, bei denen sie keine Antwortoption ausgewählt haben 0 Punkte. Diese Standardeinstellung ist in fast allen Fällen angebracht.
 assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_score_type#:#Art der Ergebnisausgabe
@@ -1348,7 +1344,7 @@ assessment#:#tst_submit_answers_txt#:#Sie können den Test jetzt durch das Absen
 assessment#:#tst_submit_results#:#JA, ich bestätige hiermit das Abschicken meiner Antworten
 assessment#:#tst_suggested_solution#:#Musterlösung
 assessment#:#tst_test_output#:#Testdurchführung
-assessment#:#tst_text_count_system#:#Bewertungssystem
+assessment#:#tst_text_count_system#:#Unvollständige Lösungen bewerten
 assessment#:#tst_time_already_spent#:#Sie haben den Test am %s gestartet. Ihre maximale Bearbeitungsdauer beträgt %s.
 assessment#:#tst_time_already_spent_left#:#Es verbleiben Ihnen noch %s
 assessment#:#tst_title_output#:#Anzeige der Fragentitel
@@ -6926,7 +6922,7 @@ crs#:#sess_gen_attendance_list#:#Liste erstellen
 crs#:#sess_gen_comment#:#Erzeuge Spalte für Kommentare
 crs#:#sess_gen_mark_title#:#Erzeuge Spalte für Noten
 crs#:#sess_gen_signature#:#Erzeuge Spalte für Unterschrift
-crs#:#sess_join_info#:#Bitte klicken Sie die Anmelden-Schaltfläche, wenn Sie an der Sitzung teilnehmen möchten.
+crs#:#sess_join_info#:#Bitte klicken Sie auf Anmelden, wenn Sie an dieser Sitzung teilnehmen möchten.
 crs#:#sess_limit#:#Sitzungsanzahl begrenzen
 crs#:#sess_limit_info#:#Wählen Sie diese Einstellung, um die Anzahl der dargestellten Sitzungen zu bestimmen. 
 crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen
@@ -14784,10 +14780,10 @@ mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
 sess#:#sess_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
 sess#:#sess_reg_type#:#Anmeldungsverfahren
 sess#:#sess_reg_direct#:#Direkte Anmeldung
-sess#:#sess_reg_request#:#Anmeldung mit Bestätigung
-sess#:#sess_reg_disabled#:#Keine selbständige Anmeldung
+sess#:#sess_reg_request#:#Teilnahme beantragen
+sess#:#sess_reg_disabled#:#Keine Anmeldung erforderlich
 sess#:#sess_reg_request_info#:#Eine Aufnahme erfolgt nur, wenn sie durch einen Administrator bestätigt wurde.
-sess#:#sess_reg_disabled_info#:#Für diesen Sitzungstermin ist keine explizite Anmeldung notwendig.
+sess#:#sess_reg_disabled_info#:#Für diesen Sitzungstermin ist eine Anmeldung nicht erforderlich.
 sess#:#sess_reg_max_members_short#:#Begrenzte Teilnehmeranzahl
 sess#:#sess_reg_max_members#:#Maximale Anzahl
 sess#:#sess_reg_max_members_info#:#Ist die maximale Teilnehmeranzahl erreicht, ist eine Anmeldung nicht mehr möglich.
