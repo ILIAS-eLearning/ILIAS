@@ -5013,3 +5013,77 @@ if( !(int)$settings->get('quest_process_lock_mode_autoinit', 0) )
 }
 
 ?>
+<#4423>
+<?php
+
+if($ilDB->tableColumnExists("usr_portfolio", "comments"))
+{
+	// #14661 - centralized public comments setting
+	include_once "Services/Notes/classes/class.ilNote.php";
+
+	$data = array();
+
+	$set = $ilDB->query("SELECT prtf.id,prtf.comments,od.type".
+		" FROM usr_portfolio prtf".
+		" JOIN object_data od ON (prtf.id = od.obj_id)");
+	while($row = $ilDB->fetchAssoc($set))
+	{		
+		$row["comments"] = (bool)$row["comments"];
+		$data[] = $row;
+	}
+
+	$set = $ilDB->query("SELECT id,notes comments".
+		" FROM il_blog");
+	while($row = $ilDB->fetchAssoc($set))
+	{		
+		$row["type"] = "blog";
+		$row["comments"] = (bool)$row["comments"];
+		$data[] = $row;
+	}
+
+	$set = $ilDB->query("SELECT cobj.id,cobj.pub_notes comments,od.type".
+		" FROM content_object cobj".
+		" JOIN object_data od ON (cobj.id = od.obj_id)");
+	while($row = $ilDB->fetchAssoc($set))
+	{		
+		$row["comments"] = ($row["comments"] == "y" ? true : false);
+		$data[] = $row;
+	}
+
+	if(sizeof($data))
+	{	
+		foreach($data as $item)
+		{
+			if($item["id"] && $item["type"])
+			{
+				$ilDB->manipulate("DELETE FROM note_settings".
+					" WHERE rep_obj_id = ".$ilDB->quote($item["id"], "integer").
+					" AND obj_id = ".$ilDB->quote(0, "integer").
+					" AND obj_type = ".$ilDB->quote($item["type"], "text"));
+
+				if($item["comments"])
+				{
+					$ilDB->manipulate("INSERT INTO note_settings".
+						" (rep_obj_id, obj_id, obj_type, activated)".
+						" VALUES (".$ilDB->quote($item["id"], "integer").
+						", ".$ilDB->quote(0, "integer").
+						", ".$ilDB->quote($item["type"], "text").
+						", ".$ilDB->quote(1, "integer").")");
+				}
+			}
+		}		
+	}
+}
+
+?>
+<#4424>
+<?php
+
+if($ilDB->tableColumnExists("usr_portfolio", "comments"))
+{
+	$ilDB->dropTableColumn("usr_portfolio", "comments");
+	$ilDB->dropTableColumn("il_blog", "notes");
+	$ilDB->dropTableColumn("content_object", "pub_notes");
+}
+
+?>
