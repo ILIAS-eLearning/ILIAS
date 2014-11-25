@@ -869,11 +869,10 @@ assessment#:#tst_confirm_delete_results_info#:#Your previous entered question re
 assessment#:#tst_confirm_delete_results#:#You are about to remove all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of passes, you already needed for this test. Do you really want to reset all your previous entered results?
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button.
-assessment#:#tst_count_correct_solutions#:#Count Only Complete Solutions
-assessment#:#tst_count_correct_solutions_desc#:#I am a todo
-assessment#:#tst_count_partial_solutions#:#Count Partial Solutions
-assessment#:#tst_count_partial_solutions_desc#:#I am a todo
-assessment#:#tst_count_system_description#:#If partial solutions are counted, the points for a question are given dependent on the answers of a participant. If only complete solutions are counted, a participant must reach the maximum available points for a question, otherwise the resulting points are set to zero.
+assessment#:#tst_count_correct_solutions#:#Only Correct and Complete Answers Score Points
+assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case.
+assessment#:#tst_count_partial_solutions#:#Correct, yet Incomplete Answers Score Points
+assessment#:#tst_count_partial_solutions_desc#:#Participants score points for correct but incomplete answers. Points for correctly provided partial answers are added up.
 assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains participant datasets.
 assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!
@@ -985,12 +984,11 @@ assessment#:#tst_participants_no_fixed#:#There is nobody assigned as a fixed par
 assessment#:#tst_participants_no#:#Nobody has started the test right now!
 assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_pass_best_pass#:#Score the Best Pass
-assessment#:#tst_pass_best_pass_desc#:#I am a todo
+assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible.
 assessment#:#tst_pass_details#:#Pass Details
 assessment#:#tst_pass_last_pass#:#Score the Last Pass
-assessment#:#tst_pass_last_pass_desc#:#I am a todo
-assessment#:#tst_pass_scoring_description#:#If the last pass is scored, the last test pass of a participant will be used to calculate the test results. If the best pass is scored, the test pass with the highest number of reached points will be chosen a test result. This setting only has effect, if more than one test pass is allowed for a test.
-assessment#:#tst_pass_scoring#:#Multiple Pass Scoring
+assessment#:#tst_pass_last_pass_desc#:#The last pass of a participant will be scored.
+assessment#:#tst_pass_scoring#:#Scoring Multiple Passes
 assessment#:#tst_passes#:#Test Passes
 assessment#:#tst_allowed_users_max#:#Maximum number of users
 assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test.
@@ -1084,18 +1082,16 @@ assessment#:#tst_show_solution_signature_desc#:#If is selected, a signature plac
 assessment#:#tst_show_solution_suggested_desc#:#If content for recapitulation was assigned to the test questions in the first place, this content will be shown in the test results overview to offer an opportunity for remedial learning.
 assessment#:#tst_results#:#Test Results
 assessment#:#tst_resume_test#:#Resume the Test
-assessment#:#tst_score_cut_question#:#Cut off Negative Question Points
-assessment#:#tst_score_cut_question_desc#:#I am a todo
-assessment#:#tst_score_cut_test#:#Cut off Negative Test Points
-assessment#:#tst_score_cut_test_desc#:#I am a todo
-assessment#:#tst_score_cutting_description#:#If Negative Question Points are cut off, the results for each question that a participant answers with a result of less than zero points will be set to zero points. If Negative Test Points are cut off, the results for the test will be set to zero points, if the sum of all question results is less than zero points.
-assessment#:#tst_score_cutting#:#Cut off Negative Points
-assessment#:#tst_score_mcmr_questions_description#:#If "Score 0 Points for Unchecked Answers" is selected, multiple choice questions without a selected check box will be scored with zero points, otherwise every check box will be scored dependent to the predefined points.
-assessment#:#tst_score_mcmr_questions#:#Multiple Choice Questions
-assessment#:#tst_score_mcmr_use_scoring_system#:#Use the Defined Score
-assessment#:#tst_score_mcmr_use_scoring_system_desc#:#I am a todo
+assessment#:#tst_score_cut_question#:#For Each Questions Negative Points are set to "0 Points"
+assessment#:#tst_score_cut_question_desc#:#Participants may score negative results for a question that had negative points for assigned to individual answer options. This setting ensures that per question any negativ result is set to 0 points.
+assessment#:#tst_score_cut_test#:#For the Whole Test a Negative Result is set to "0 Points"
+assessment#:#tst_score_cut_test_desc#:#Participants might score negative points in questions. Scored points of all questions are added up. Only if the overall result of the test is negative this overall result will be set to 0 points. With this setting negative points carry a lot of weight.
+assessment#:#tst_score_cutting#:#Negative Points
+assessment#:#tst_score_mcmr_questions#:#Multiple Choice Questions not Answered
+assessment#:#tst_score_mcmr_use_scoring_system#:#Score Points for Unanswered Questions as Defined in Question
+assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Despite a multiple choice question was not answered, it still scores points for selecting or not-selecting the answer options as definied in the question. This setting is appropriate only for few cases.
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 Points for Unchecked Answers
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#I am a todo
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Participants score 0 points for multiple choice questions in which they have not checked any answer option. This setting is appropriate for most tests.
 assessment#:#tst_score_reporting_date#:#Score Reporting Date
 assessment#:#tst_score_reporting#:#Score Reporting
 assessment#:#tst_score_type#:#Score Reporting Type
@@ -1166,8 +1162,7 @@ assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting 
 assessment#:#tst_submit_answers#:#Yes, I want to submit my answers
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
 assessment#:#tst_test_output#:#Test Output
-assessment#:#tst_text_count_system#:#Scoring System
-assessment#:#tst_time_already_spent_left#:#You have %s left.
+assessment#:#tst_text_count_system#:#Scoring Partial Solutionsassessment#:#tst_time_already_spent_left#:#You have %s left.
 assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s.
 assessment#:#tst_title_output_full#:#Question Titles and Points to be Earned
 assessment#:#tst_title_output_hide_points#:#Only Question Titles
@@ -2982,7 +2977,7 @@ common#:#java_server_no_connection#:#Attention: Cannot connect to Java server.
 common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Setup information
 common#:#java_server#:#Java-Server
-common#:#join_session#:#Join
+common#:#join_session#:#Attend
 common#:#join#:#Join
 common#:#kb#:#KByte
 common#:#keywords#:#Keywords
@@ -5995,7 +5990,7 @@ crs#:#sess_gen_attendance_list#:#Generate List
 crs#:#sess_gen_comment#:#Generate Column for Comments
 crs#:#sess_gen_mark_title#:#Generate Column for Notes
 crs#:#sess_gen_signature#:#Generate Column for Signatures
-crs#:#sess_join_info#:#Please click the Join button if you want to take part at this session.
+crs#:#sess_join_info#:#Please click Attend if you want to take part at this session.
 crs#:#sess_limit_info#:#Choose this option for limiting the number of visible sessions.
 crs#:#sess_limit#:#Limit Number of Sessions
 crs#:#sess_num_next#:#Number of Following Sessions
@@ -14806,10 +14801,10 @@ mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
 sess#:#sess_reg_type#:# Registration Procedure
 sess#:#sess_reg_direct#:#Direct Registration
-sess#:#sess_reg_request#:#Request Membership
-sess#:#sess_reg_disabled#:#No Self-enrolment
-sess#:#sess_reg_request_info#:#Interested users can send a request/message to administrators.
-sess#:#sess_reg_disabled_info#:#A registration is not required for this session appointment
+sess#:#sess_reg_request#:#Request Participation
+sess#:#sess_reg_disabled#:#No Registration Necessary
+sess#:#sess_reg_request_info#:#An administrator has to apply each user's request for participating at this session.
+sess#:#sess_reg_disabled_info#:#The registration is not deactivated for this session appointment
 sess#:#sess_reg_max_members_short#:#Number of Members
 sess#:#sess_reg_max_members#:#Limited Number of Members
 sess#:#sess_reg_max_members_info#:#Define the maximum number of users that can participate to this session.
