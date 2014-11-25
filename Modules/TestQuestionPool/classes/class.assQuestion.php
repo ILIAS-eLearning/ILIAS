@@ -1974,7 +1974,7 @@ abstract class assQuestion
 	*
 	* @param	int		$a_q_id		question id
 	*/
-	function _getTotalRightAnswers($a_q_id)
+	public static function _getTotalRightAnswers($a_q_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE original_id = %s OR question_id = %s",
