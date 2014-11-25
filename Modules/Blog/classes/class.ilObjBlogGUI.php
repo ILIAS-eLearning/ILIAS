@@ -112,10 +112,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$a_form->addItem($appr);
 		}
 		
-		$keyw = new ilCheckboxInputGUI($lng->txt("blog_enable_keywords"), "keywords");
-		$keyw->setInfo($lng->txt("blog_enable_keywords_info"));		
-		$a_form->addItem($keyw);
-		
 		$notes = new ilCheckboxInputGUI($lng->txt("blog_enable_notes"), "notes");
 		$a_form->addItem($notes);
 				
@@ -183,6 +179,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$auth->setInfo($lng->txt("blog_enable_nav_authors_info"));
 			$a_form->addItem($auth);
 		}		
+				
+		$keyw = new ilCheckboxInputGUI($lng->txt("blog_enable_keywords"), "keywords");
+		$keyw->setInfo($lng->txt("blog_enable_keywords_info"));		
+		$a_form->addItem($keyw);		
 		
 		if(!in_array($lng->txt("blog_keywords"), $order_options))
 		{
