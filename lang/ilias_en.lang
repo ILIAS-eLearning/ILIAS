@@ -1162,7 +1162,8 @@ assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting 
 assessment#:#tst_submit_answers#:#Yes, I want to submit my answers
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
 assessment#:#tst_test_output#:#Test Output
-assessment#:#tst_text_count_system#:#Scoring Partial Solutionsassessment#:#tst_time_already_spent_left#:#You have %s left.
+assessment#:#tst_text_count_system#:#Scoring Partial Solutions
+assessment#:#tst_time_already_spent_left#:#You have %s left.
 assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s.
 assessment#:#tst_title_output_full#:#Question Titles and Points to be Earned
 assessment#:#tst_title_output_hide_points#:#Only Question Titles
