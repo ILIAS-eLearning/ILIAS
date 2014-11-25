@@ -346,6 +346,15 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		$ilCtrl->redirectByClass("iltestscoringgui", "showManScoringParticipantsTable");
 	}
 	
+	private function saveReturnManScoringParticipantScreen()
+	{
+		global $ilCtrl;
+
+		$this->saveManScoringParticipantScreen(false);
+
+		$ilCtrl->redirectByClass("iltestscoringgui", "showManScoringParticipantsTable");
+	}
+
 	private function buildManScoringParticipantForm($questionGuiList, $activeId, $pass, $initValues = false)
 	{
 		global $ilCtrl, $lng;
@@ -410,6 +419,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		$form->addItem($check);
 		
 		$form->addCommandButton('saveManScoringParticipantScreen', $lng->txt('save'));
+		$form->addCommandButton('saveReturnManScoringParticipantScreen', $lng->txt('save_return'));
 		$form->addCommandButton('saveNextManScoringParticipantScreen', $lng->txt('save_and_next'));
 		
 		return $form;
