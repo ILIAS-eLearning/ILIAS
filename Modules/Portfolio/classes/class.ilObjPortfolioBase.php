@@ -203,12 +203,15 @@ abstract class ilObjPortfolioBase extends ilObject2
 				" WHERE id = ".$ilDB->quote($this->id, "integer"));
 		$row = $ilDB->fetchAssoc($set);
 		
-		$this->setOnline((bool)$row["is_online"]);
-		$this->setPublicComments((bool)$row["comments"]);
+		$this->setOnline((bool)$row["is_online"]);		
 		$this->setProfilePicture((bool)$row["ppic"]);		
 		$this->setBackgroundColor($row["bg_color"]);
 		$this->setFontColor($row["font_color"]);
 		$this->setImage($row["img"]);
+		
+		// #14661
+		include_once("./Services/Notes/classes/class.ilNote.php");
+		$this->setPublicComments(ilNote::commentsActivated($this->id, 0, $this->getType()));
 		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->id));
@@ -235,14 +238,17 @@ abstract class ilObjPortfolioBase extends ilObject2
 		global $ilDB;
 		
 		$fields = array(
-			"is_online" => array("integer", $this->isOnline()),
-			"comments" => array("integer", $this->hasPublicComments()),
+			"is_online" => array("integer", $this->isOnline()),			
 			"ppic" => array("integer", $this->hasProfilePicture()),
 			"bg_color" => array("text", $this->getBackgroundColor()),
 			"font_color" => array("text", $this->getFontcolor()),
 			"img" => array("text", $this->getImage())
 		);
 		$this->doUpdateCustom($fields);
+		
+		// #14661
+		include_once("./Services/Notes/classes/class.ilNote.php");
+		ilNote::activateComments($this->id, 0, $this->getType(), $this->hasPublicComments());
 		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());

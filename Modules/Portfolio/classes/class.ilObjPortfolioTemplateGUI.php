@@ -53,6 +53,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 			
 			case "ilinfoscreengui":
 				$this->prepareOutput();
+				$this->addHeaderAction("view");	
 				$this->infoScreenForward();	
 				break;
 			

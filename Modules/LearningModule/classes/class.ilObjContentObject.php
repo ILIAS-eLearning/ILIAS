@@ -1102,7 +1102,6 @@ class ilObjContentObject extends ilObject
 		$this->setActiveDownloadsPublic(ilUtil::yn2tf($lm_rec["downloads_public_active"]));
 		$this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
 		$this->setCleanFrames(ilUtil::yn2tf($lm_rec["clean_frames"]));
-		$this->setPublicNotes(ilUtil::yn2tf($lm_rec["pub_notes"]));
 		$this->setHeaderPage((int) $lm_rec["header_page"]);
 		$this->setFooterPage((int) $lm_rec["footer_page"]);
 		$this->setHistoryUserComments(ilUtil::yn2tf($lm_rec["hist_user_comments"]));
@@ -1117,6 +1116,10 @@ class ilObjContentObject extends ilObject
 		$this->setProgressIcons($lm_rec["progr_icons"]);
 		$this->setStoreTries($lm_rec["store_tries"]);
 		$this->setRestrictForwardNavigation($lm_rec["restrict_forw_nav"]);
+		
+		// #14661
+		include_once("./Services/Notes/classes/class.ilNote.php");
+		$this->setPublicNotes(ilNote::commentsActivated($this->getId(), 0, $this->getType()));		
 	}
 
 	/**
@@ -1146,7 +1149,6 @@ class ilObjContentObject extends ilObject
 			" downloads_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads()), "text").",".
 			" downloads_public_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloadsPublic()), "text").",".
 			" clean_frames = ".$ilDB->quote(ilUtil::tf2yn($this->cleanFrames()), "text").",".
-			" pub_notes = ".$ilDB->quote(ilUtil::tf2yn($this->publicNotes()), "text").",".
 			" hist_user_comments = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveHistoryUserComments()), "text").",".
 			" public_access_mode = ".$ilDB->quote($this->getPublicAccessMode(), "text").",".
 			" public_xml_file = ".$ilDB->quote($this->getPublicExportFile("xml"), "text").",".
@@ -1164,6 +1166,10 @@ class ilObjContentObject extends ilObject
 			" restrict_forw_nav = ".$ilDB->quote($this->getRestrictForwardNavigation(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($q);
+		
+		// #14661
+		include_once("./Services/Notes/classes/class.ilNote.php");
+		ilNote::activateComments($this->getId(), 0, $this->getType(), $this->publicNotes());		
 	}
 
 	/**
@@ -1175,6 +1181,11 @@ class ilObjContentObject extends ilObject
 		
 		$q = "INSERT INTO content_object (id) VALUES (".$ilDB->quote($this->getId(), "integer").")";
 		$ilDB->manipulate($q);
+		
+		// #14661
+		include_once("./Services/Notes/classes/class.ilNote.php");
+		ilNote::activateComments($this->getId(), 0, $this->getType(), true);	
+		
 		$this->readProperties();		// to get db default values
 	}
 
