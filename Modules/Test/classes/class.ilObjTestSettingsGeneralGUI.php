@@ -1162,18 +1162,6 @@ class ilObjTestSettingsGeneralGUI
 		$title_output->setValue($this->testOBJ->getTitleOutput());
 		$form->addItem($title_output);
 
-		// selector for unicode characters
-		global $ilSetting;
-		if ($ilSetting->get('char_selector_availability') > 0)
-		{
-			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
-			$char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_TEST);
-			$char_selector->getConfig()->setAvailability($this->testOBJ->getCharSelectorAvailability());
-			$char_selector->getConfig()->setDefinition($this->testOBJ->getCharSelectorDefinition());
-			$char_selector->addFormProperties($form);
-			$char_selector->setFormValues($form);
-		}
-
 		// Autosave
 		$autosave_output = new ilCheckboxInputGUI($this->lng->txt('autosave'), 'autosave');
 		$autosave_output->setValue(1);
@@ -1235,6 +1223,18 @@ class ilObjTestSettingsGeneralGUI
 		$checkBoxEnableObligations->setChecked($this->testOBJ->areObligationsEnabled());
 		$checkBoxEnableObligations->setInfo($this->lng->txt('tst_setting_enable_obligations_info'));
 		$form->addItem($checkBoxEnableObligations);
+
+		// selector for unicode characters
+		global $ilSetting;
+		if ($ilSetting->get('char_selector_availability') > 0)
+		{
+			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+			$char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_TEST);
+			$char_selector->getConfig()->setAvailability($this->testOBJ->getCharSelectorAvailability());
+			$char_selector->getConfig()->setDefinition($this->testOBJ->getCharSelectorDefinition());
+			$char_selector->addFormProperties($form);
+			$char_selector->setFormValues($form);
+		}
 
 		// disable settings influencing results indirectly
 		if( $this->testOBJ->participantDataExist() )
