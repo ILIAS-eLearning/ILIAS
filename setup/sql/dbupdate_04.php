@@ -5121,3 +5121,22 @@ if($ilDB->tableColumnExists('ecs_cms_data','cms_id'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4427>
+<?php
+
+if($ilDB->tableColumnExists('ecs_import','econtent_id'))
+{
+	$ilDB->renameTableColumn('ecs_import','econtent_id','econtent_id_bak');
+	$ilDB->addTableColumn('ecs_import', 'econtent_id', array(
+			"type" => "text",
+			"notnull" => FALSE,
+			"length" => 512
+		)
+	);
+	
+	$query = 'UPDATE ecs_import SET econtent_id = econtent_id_bak ';
+	$ilDB->manipulate($query);
+	
+	$ilDB->dropTableColumn('ecs_import','econtent_id_bak');
+}
+?>

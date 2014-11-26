@@ -313,13 +313,13 @@ class ilECSCourseCreationHandler
 		
 		$obj_id = $this->getImportId($course_id);
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': Handling course '. print_r($course,true));
+		$GLOBALS['ilLog']->write(__METHOD__.': Found obj_id '.$obj_id. ' for course_id '. $course_id );
 		
 		// Handle parallel groups
 		if($obj_id)
 		{
 			// update multiple courses/groups according to parallel scenario
-			$GLOBALS['ilLog']->write(__METHOD__.': '.$course->groupScenario);
+			$GLOBALS['ilLog']->write(__METHOD__.': Group scenario '.$course->groupScenario);
 			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
 			switch((int) $course->groupScenario)
 			{
@@ -357,8 +357,6 @@ class ilECSCourseCreationHandler
 					// Create parallel groups under crs
 					$this->createParallelGroups($a_content_id,$course,$crs->getRefId());
 					break;
-				
-					
 				
 				case ilECSMappingUtils::PARALLEL_COURSES_FOR_LECTURERS:
 					// Import empty to store the ecs ressource id (used for course member update).

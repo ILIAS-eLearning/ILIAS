@@ -43,7 +43,7 @@ class ilECSImport
 	
 	/**
 	 * Lookup content id 
-	 * The content is the - not necessarily unique - id provided by the econten type.
+	 * The content is the - not necessarily unique - id provided by the econtent type.
 	 * The econtent id is the unique id from ecs
 	 * @param type $a_server_id
 	 * @param type $a_mid
@@ -57,7 +57,7 @@ class ilECSImport
 		$query = 'SELECT * from ecs_import '.
 				'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
 				'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
-				'AND econtent_id = '.$ilDB->quote($a_econtent_id,'integer');
+				'AND econtent_id = '.$ilDB->quote($a_econtent_id,'text');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -242,7 +242,7 @@ class ilECSImport
 	{
 	 	global $ilDB;
 	 	
-	 	$query = "SELECT obj_id FROM ecs_import WHERE econtent_id  = ".$ilDB->quote($a_econtent_id,'integer')." ".
+	 	$query = "SELECT obj_id FROM ecs_import WHERE econtent_id  = ".$ilDB->quote($a_econtent_id,'text')." ".
 			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
 	 	$res = $ilDB->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -265,7 +265,7 @@ class ilECSImport
 		global $ilDB;
 		
 		$query = "SELECT obj_id FROM ecs_import ".
-			"WHERE econtent_id = ".$ilDB->quote($a_econtent_id,'integer')." ".
+			"WHERE econtent_id = ".$ilDB->quote($a_econtent_id,'text')." ".
 			"AND mid = ".$ilDB->quote($a_mid,'integer')." ".
 			'AND server_id = '.$ilDB->quote($a_server_id,'integer').' ';
 		
@@ -319,7 +319,7 @@ class ilECSImport
 	{
 		global $ilDB;
 		
-		$query = "SELECT mid FROM ecs_import WHERE econtent_id = ".$ilDB->quote($a_econtent_id,'integer')." ".
+		$query = "SELECT mid FROM ecs_import WHERE econtent_id = ".$ilDB->quote($a_econtent_id,'text')." ".
 			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -375,7 +375,7 @@ class ilECSImport
 		$query = 'DELETE FROM ecs_import '.
 				'WHERE server_id = '.$ilDB->quote($a_server_id,'integer'). ' '.
 				'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
-				'AND '.$ilDB->in('econtent_id',(array) $a_econtent_ids,false,'integer');
+				'AND '.$ilDB->in('econtent_id',(array) $a_econtent_ids,false,'text');
 		$ilDB->manipulate($query);
 		return true;
 	}
@@ -510,7 +510,7 @@ class ilECSImport
 			"VALUES ( ".
 			$this->db->quote($this->obj_id,'integer').", ".
 			$this->db->quote($this->mid,'integer').", ".
-			$this->db->quote($this->econtent_id,'integer').", ".
+			$this->db->quote($this->econtent_id,'text').", ".
 			$this->db->quote($this->getSubId(),'text'). ', '.
 			$this->db->quote($this->getServerId(),'integer').', '.
 			$this->db->quote($this->getContentId(),'text').' '.
