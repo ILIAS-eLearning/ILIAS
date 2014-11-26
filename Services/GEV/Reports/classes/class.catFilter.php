@@ -15,39 +15,73 @@
 * @version	$Id$
 */
 
+// This class needs to be implemented to create new types of filters.
+// Look at catDatePeriodFilterType to see how it is used.
 abstract class catFilterType {
+	// Get the ID of the filter type. (e.g. dateperiod)
 	abstract public function getId();
+	
+	// Check the config the user made for the filter.
+	// e.g. The user can call catFilter::dateperiod($a_name, ...)
+	// where ... are some more params the filter might need. catFilter
+	// creates an array of the form ($type_id, $name, ...), which is
+	// handed to checkConfig.
 	abstract public function checkConfig($a_conf);
+	
+	// Render the filter to HTML. $a_tpl is the tpl used for the complete
+	// filter, where the appropriate block for the type is already set.
+	// Rationale here is, that it might be desirable to render filters for
+	// the reports in a different way than ILIAS-standard controls. Furthermore
+	// a lot of options of the standard controls are not needed for the filters. 
+	// $a_conf is the error previously passed to checkConfig.
+	// $a_pars is the value(s) the filter currently is set to.
 	abstract public function render($a_tpl, $a_conf, $a_pars);
+	
+	// Create a part of an sql-query to be appended to WHERE. 
 	abstract public function sql($a_conf, $a_pars);
+	
+	// Preprocess the internally used parameter representation
+	// before handing it to the outside world. e.g. "2014-10-10" => ilDate
 	abstract public function get($a_pars);
+	
+	// Get the default for the filter type, based on configuration.
 	abstract public function _default($a_conf);
+	
+	// Preprocess variables retreived from post before making them
+	// a parameter for the filter. (e.g. checkbox => boolean)
 	abstract public function preprocess_post($a_post);
 }
 
-/*function errorHandler($errno, $errstr, $errfile, $errline) {
-	debug_print_backtrace();
-	return false;
-}
 
-set_error_handler("errorHandler");*/
-
+// Represents a complete set of filters. New filters can be 
+// appended via catFilter::$filter_type($a_name, ...)
 class catFilter {
+	// This stores the known types of filters...
 	protected static $filter_types = array();
 	
+	// ... and this registers a new one.
 	public static function addFilterType($a_id, $a_impl) {
 		catFilter::$filter_types[$a_id] = $a_impl;
 	}
 	
+	// Conditions that should be statically appended to the
+	// query.
 	protected $static_conditions;
+	// The configurations of the filters (like $name => $conf)
 	protected $filters;
+	// The parameters of the filters (like $name => $param(s))
 	protected $parameters;
+	// The name of the filter parameter in the GET-params
 	protected $get_string;
+	// Are the filters compiled or not?
 	protected $compiled;
+	// The action to be used for click on [Filter]-button.
 	protected $action;
+	// The title to be used for said action.
 	protected $action_title;
-	protected $calendar_util_inited;
+	// A prefix to be used for all filter related POST-vars.
 	protected $post_var_prefix;
+	// The string to be appended to GET to keep the parameters
 	protected $encoded_params;
 	
 	protected function __construct() {
