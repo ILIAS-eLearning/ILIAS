@@ -57,7 +57,9 @@ var ilWizardInput = {
 		var prev = $(source).prev();
 		if(prev[0])
 		{
-			$(prev).before(source);
+			$(prev).before(source);		
+			
+			this.reindexRows(this.getContainerFromEvent(e));
 		}		
 	},
 	
@@ -67,6 +69,8 @@ var ilWizardInput = {
 		if(next[0])
 		{
 			$(next).after(source);
+			
+			this.reindexRows(this.getContainerFromEvent(e));
 		}
 	},
 	

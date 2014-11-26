@@ -106,6 +106,16 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 		return $this->checkSubItemsInput();
 	}
 	
+	public function setValueByArray($a_values) 
+	{
+		parent::setValueByArray($a_values);
+		
+		foreach((array) $_POST[$this->getPostVar().'_open'] as $oindex => $ovalue)
+		{
+			$this->addOpenAnswerIndex($oindex);
+		}		
+	}
+	
 	/**
 	* Insert property html
 	*
@@ -141,10 +151,6 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock("row");
-			$class = ($i % 2 == 0) ? "even" : "odd";
-			if ($i == 0) $class .= " first";
-			if ($i == count($this->values)-1) $class .= " last";
-			$tpl->setVariable("ROW_CLASS", $class);
 			$tpl->setVariable("POST_VAR", $this->getPostVar() . "[$i]");
 			#$tpl->setVariable('POST_VAR_OPEN',$this->getPostVar().'[open]'.'['.$i.']');
 			$tpl->setVariable('POST_VAR_OPEN',$this->getPostVar().'_open'.'['.$i.']');
@@ -181,9 +187,8 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();
 		
-		global $tpl;
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initDomEvent();
+		global $tpl;		
+		$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
 		$tpl->addJavascript("./Services/Form/templates/default/textwizard.js");
 	}
 	

@@ -14,6 +14,7 @@ var ilTextWizardInputTemplate = {
 			
 	cleanRow: function(row) {
 		$(row).find('input:text').attr('value', '');		
+		$(row).find('input:checkbox').prop('checked', ''); // ilSelectBuilderInputGUI
 	},
 		
 	reindexRows: function(rootel) {					
@@ -25,6 +26,12 @@ var ilTextWizardInputTemplate = {
 			
 			// text
 			$(this).find('input:text').each(function() {					
+				that.handleId(this, 'id', rowindex);
+				that.handleId(this, 'name', rowindex);							
+			});
+			
+			// checkbox (ilSelectBuilderInputGUI)
+			$(this).find('input:checkbox').each(function() {					
 				that.handleId(this, 'id', rowindex);
 				that.handleId(this, 'name', rowindex);							
 			});
