@@ -746,7 +746,13 @@ class gevUserUtils {
 			$crs_booking_perms = ilCourseBookingPermissions::getInstance($crs);*/
 			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			
-			if (!$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id) && !gevUserUtils::getInstanceByObj($ilUser)->isAdmin()) {
+			if (   (   !$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)
+					|| in_array($crs_utils->getBookingStatusOf($this->user_id)
+							   , array(ilCourseBooking::STATUS_BOOKED, ilCourseBooking::STATUS_WAITING)
+							   )
+					|| $crs_utils->isMember($this->user_id)
+					)
+				) {
 				unset($info[$key]);
 				continue;
 			}

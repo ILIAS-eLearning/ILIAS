@@ -940,6 +940,10 @@ class gevCourseUtils {
 		return $this->getCourse()->getMembersObject();
 	}
 	
+	public function isMember($a_user_id) {
+		return $this->getMembership()->isAssigned($a_user_id);
+	}
+	
 	public function getMembersExceptForAdmins() {
 		$ms = $this->getMembership();
 		return array_merge($ms->getMembers(), $ms->getTutors());
