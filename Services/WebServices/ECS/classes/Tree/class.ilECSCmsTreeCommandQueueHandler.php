@@ -91,7 +91,7 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 					$this->getServer()->getServerId(),
 					$this->mid,
 					$a_content_id,
-					(int) $node->parent->id
+					$node->parent->id
 				);
 				$tree->insertNode($data->getObjId(), $parent_id);
 			}
@@ -247,7 +247,7 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 				$this->getServer()->getServerId(),
 				$this->mid,
 				$a_content_id,
-				(int) $node->parent->id
+				$node->parent->id
 			);
 			$tree->insertNode($data->getObjId(), $parent_id);
 		}

@@ -90,7 +90,7 @@ class ilECSCmsData
 			'AND cms_id = '.$ilDB->quote($cms_id,'text');
 		$res = $ilDB->query($query);
 		
-		#$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
+		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -248,7 +248,7 @@ class ilECSCmsData
 	public static function lookupCmsId($a_obj_id)
 	{
 		$cms_ids = self::lookupCmsIds(array($a_obj_id));
-		return (int) $cms_ids[0];
+		return $cms_ids[0];
 	}
 
 

@@ -227,7 +227,7 @@ class ilECSCourseCreationHandler
 				$cms_id);
 		
 		// node is not imported
-		$GLOBALS['ilLog']->write(__METHOD__.': ecs node with id '. $cms_id. ' is not imported!');
+		$GLOBALS['ilLog']->write(__METHOD__.': ecs node with id '. $cms_id. ' is not imported for mid ' . $this->getMid().' tree_id '.$tree_id);
 		
 		// check for mapping: if mapping is available create category
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignment.php';
@@ -293,7 +293,7 @@ class ilECSCourseCreationHandler
 			$cat->getId()
 		);
 		$import->setMID($this->getMid());
-		$import->setEContentId($data->getCmsId());
+		$import->setContentId($data->getCmsId());
 		$import->setImported(true);
 		$import->save();
 		
