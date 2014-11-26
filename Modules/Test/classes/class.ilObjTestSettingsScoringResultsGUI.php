@@ -481,7 +481,6 @@ class ilObjTestSettingsScoringResultsGUI
 		$count_system->addOption($opt = new ilRadioOption($this->lng->txt('tst_count_correct_solutions'), 1, ''));
 		$opt->setInfo($this->lng->txt('tst_count_correct_solutions_desc'));
 		$count_system->setValue($this->testOBJ->getCountSystem());
-		$count_system->setInfo($this->lng->txt('tst_count_system_description'));
 		$form->addItem($count_system);
 
 		// mc questions
@@ -491,7 +490,6 @@ class ilObjTestSettingsScoringResultsGUI
 		$mc_scoring->addOption($opt = new ilRadioOption($this->lng->txt('tst_score_mcmr_use_scoring_system'), 1, ''));
 		$opt->setInfo($this->lng->txt('tst_score_mcmr_use_scoring_system_desc'));
 		$mc_scoring->setValue($this->testOBJ->getMCScoring());
-		$mc_scoring->setInfo($this->lng->txt('tst_score_mcmr_questions_description'));
 		$form->addItem($mc_scoring);
 
 		// score cutting
@@ -501,7 +499,6 @@ class ilObjTestSettingsScoringResultsGUI
 		$score_cutting->addOption($opt = new ilRadioOption($this->lng->txt('tst_score_cut_test'), 1, ''));
 		$opt->setInfo($this->lng->txt('tst_score_cut_test_desc'));
 		$score_cutting->setValue($this->testOBJ->getScoreCutting());
-		$score_cutting->setInfo($this->lng->txt('tst_score_cutting_description'));
 		$form->addItem($score_cutting);
 
 		// pass scoring
@@ -511,7 +508,6 @@ class ilObjTestSettingsScoringResultsGUI
 		$pass_scoring->addOption($opt = new ilRadioOption($this->lng->txt('tst_pass_best_pass'), 1, ''));
 		$opt->setInfo($this->lng->txt('tst_pass_best_pass_desc'));
 		$pass_scoring->setValue($this->testOBJ->getPassScoring());
-		$pass_scoring->setInfo($this->lng->txt('tst_pass_scoring_description'));
 		$form->addItem($pass_scoring);
 
 		// disable scoring settings
