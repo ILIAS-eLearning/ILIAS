@@ -201,7 +201,7 @@ class ilMemberAgreementGUI
 		
 		if($a_mode == 'user')
 		{
-			$cdf = new ilNonEditableValueGUI($lng->txt('ps_crs_user_fields'));
+			$cdf = new ilNonEditableValueGUI($lng->txt('ps_'.$a_type.'_user_fields')); 
 			$cdf->setValue($lng->txt($a_type.'_ps_cdf_info'));
 			$cdf->setRequired(true);
 		}
@@ -308,7 +308,9 @@ class ilMemberAgreementGUI
 		
 		$form = $this->initFormAgreement();
 		
-		if($form->checkInput())
+		// #14715 - checkInput() does not work for checkboxes
+		if($this->checkAgreement() &&
+			$form->checkInput())
 		{
 			self::saveCourseDefinedFields($form, $this->obj_id);
 
