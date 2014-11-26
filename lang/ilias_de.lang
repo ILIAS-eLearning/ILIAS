@@ -12271,7 +12271,7 @@ mail#:#mail_system_sender_name_info#:#Bitte geben Sie einen Namen ein, der als A
 content#:#cont_current_term#:#Aktueller Begriff
 assessment#:#tst_setting_offer_hints_label#:#Lösungshinweise
 assessment#:#tst_setting_offer_hints_info#:#Teilnehmer können Lösungshinweise anfordern, um eine Frage zu beantworten. Pro gegebenem Hinweis verringern sich die Punkte für die richtige Antwort.
-assessment#:#tst_question_hints_tab#:#Hinweise
+assessment#:#tst_question_hints_tab#:#Lösungshinweise
 assessment#:#tst_question_hints_table_header#:#Hinweise zur Frage: %s
 assessment#:#tst_question_hints_table_no_items#:#Keine vorhandenen Hinweise
 assessment#:#tst_question_hints_table_column_hint_order#:#Reihenfolge
