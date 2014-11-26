@@ -17,37 +17,48 @@ class gevBillingReportGUI extends gevBasicReportGUI {
 		
 		parent::__construct();
 
-		$this->title = array(
-			'title' => 'gev_rep_billing_title',
-			'desc' => 'gev_rep_billing_desc',
-			'img' => 'GEV_img/ico-head-rep-billing.png'
-		);
+		$this->title = catTitleGUI::create()
+						->title("gev_rep_billing_title")
+						->subTitle("gev_rep_billing_desc")
+						->image("GEV_img/ico-head-rep-billing.png")
+						;
 
-
-		$this->table_cols = array
-			( array("gev_bill_number", "billnumber")
-			, array("status", "participation_status")
-			, array("gev_training_fee_pretax_report", "fee_pretax")
-			, array("gev_tax", "fee_tax")
-			, array("gev_training_fee_posttax_report", "fee_posttax")
-			, array("gev_coupon_pretax", "coupon_pretax")
-			, array("gev_tax", "coupon_tax")
-			, array("gev_coupon_posttax", "coupon_posttax")
-			, array("gev_bill_amount_pretax", "amount_pretax")
-			, array("gev_tax", "amount_tax")
-			, array("gev_bill_amount_posttax", "amount_posttax")
-			, array("gev_charged_agency", "cost_center")
-			, array("create_date", "bill_finalized_date")
-			, array("lastname", "lastname")
-			, array("firstname", "firstname")
-			, array("gender", "gender")
-			, array("gev_org_unit_short", "org_unit")
-			, array("gev_event_title", "title")
-			, array("gev_number_of_measure", "custom_id")
-			, array("gev_training_date", "date")
-			, array("gev_venue", "venue")
-			, array("", "bill_link")
-			);
+		$this->table = catReportTable::create()
+						->column("billnumber", "gev_bill_number")
+						->column("participation_status", "status")
+						->column("fee_pretax", "gev_training_fee_pretax_report")
+						->column("fee_tax", "gev_tax")
+						->column("fee_posttax", "gev_training_fee_posttax_report")
+						->column("coupon_pretax", "gev_coupon_pretax")
+						->column("coupon_tax", "gev_tax")
+						->column("coupon_posttax", "gev_coupon_posttax")
+						->column("amount_pretax", "gev_bill_amount_pretax")
+						->column("amount_tax", "gev_tax")
+						->column("amount_posttax", "gev_bill_amount_posttax")
+						->column("cost_center", "gev_charged_agency")
+						->column("bill_finalized_date", "create_date")
+						->column("lastname", "lastname")
+						->column("firstname", "firstname")
+						->column("gender", "gender")
+						->column("org_unit", "gev_org_unit_short")
+						->column("title", "gev_event_title")
+						->column("custom_id", "gev_number_of_measure")
+						->column("date", "gev_training_date")
+						->column("venue", "gev_venue")
+						->column("bill_link", "")
+						->template("tpl.gev_billing_row.html", "Services/GEV/Reports")
+						;
+		
+		$this->filter = catFilter::create()
+						->dateperiod( "period"
+									, $this->lng->txt("gev_period")
+									, $this->lng->txt("gev_until")
+									, "usrcrs.begin_date"
+									, "usrcrs.end_date"
+									, date("Y")."-01-01"
+									, date("Y")."-12-31"
+									)
+						;
 		
 		require_once("Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php");
 		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
@@ -73,10 +84,7 @@ class gevBillingReportGUI extends gevBasicReportGUI {
 		$this->created_since = new ilDate($this->filter_params["created_since"], IL_CAL_DATE);
 		$created_since->setDate($this->created_since);
 
-		$this->table_row_template= array(
-			"filename" => "tpl.gev_billing_row.html", 
-			"path" => "Services/GEV/Reports"
-		);
+		
 	}
 	
 	protected function getAdditionalFilters() {
