@@ -168,9 +168,9 @@ class catBasicReportGUI {
 		
 		//init cols and write titles
 		$colcount = 0;
-		foreach ($this->table_cols as $col) {
+		foreach ($this->table->columns as $col) {
 			$worksheet->setColumn($colcount, $colcount, 30); //width
-			$worksheet->writeString(0, $colcount, $this->lng->txt($col[0]), $format_bold);
+			$worksheet->writeString(0, $colcount, $col[3] ? $col[1] : $this->lng->txt($col[1]), $format_bold);
 			$colcount++;
 		}
 
@@ -178,8 +178,8 @@ class catBasicReportGUI {
 		$rowcount = 1;
 		foreach ($data as $entry) {
 			$colcount = 0;
-			foreach ($this->table_cols as $col) {
-				$k = $col[1];
+			foreach ($this->table->columns as $col) {
+				$k = $col[0];
 				$v = $entry[$k];
 
 				$method_name = '_process_xls_' .$k;
