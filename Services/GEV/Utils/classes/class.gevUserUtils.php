@@ -791,7 +791,7 @@ class gevUserUtils {
 			return $this->employees_for_course_search;
 		}
 		
-		require_once("Service/GEV/Utils/classes/class.geOrgUnitUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		$ou_utils = gevOrgUnitUtils::getInstance();
 		
 		// we need the employees in those ous
@@ -803,11 +803,20 @@ class gevUserUtils {
 		$e_ous = array_merge($_d_ous, $_r_ous);
 		$a_ous = $ou_utils->getAllChildren($_r_ous);
 		
-		$this->employees_for_course_search 
-			= array_unique(array_merge( $ou_utils->getEmployeesIn($e_ous)
-									  , $ou_utils->getAllPeopleIn($a_ous)
-						  			  )
-						  );
+		$e_ids = array_unique(array_merge( $ou_utils->getEmployeesIn($e_ous)
+										, $ou_utils->getAllPeopleIn($a_ous)
+										)
+							 );
+		
+		$res = $this->db->query( "SELECT usr_id, firstname, lastname"
+								." FROM usr_data "
+								." WHERE ".$this->db->in("usr_id", $e_ids, false, "integer")
+								);
+		
+		$this->employees_for_course_search = array();
+		while($rec = $this->db->fetchAssoc($res)) {
+			$this->employees_for_course_search[] = $rec;
+		}
 		
 		return $this->employees_for_course_search;
 	}
