@@ -109,12 +109,10 @@ class ilMapUtil
 	*/
 	static function getDefaultSettings()
 	{
-		$gm_set = new ilSetting("google_maps");
-
 		return array(
-			"longitude" => $gm_set->get("std_longitude"),
-			"latitude" => $gm_set->get("std_latitude"),
-			"zoom" => $gm_set->get("std_zoom"));
+			"longitude" => self::settings()->get("std_longitude"),
+			"latitude" => self::settings()->get("std_latitude"),
+			"zoom" => self::settings()->get("std_zoom"));
 	}
 	
 	/**
@@ -145,8 +143,8 @@ class ilMapUtil
 	{
 		global $lng;
 		$lng->loadLanguageModule("maps");
-		return array( "googlemaps"	=> $lng->txt("maps_google_maps")
-					, "openlayers" 	=> $lng->txt("maps_open_layers_maps")
+		return array( "openlayers" 	=> $lng->txt("maps_open_layers_maps")
+					, "googlemaps"	=> $lng->txt("maps_google_maps")
 					);
 	}
 }
