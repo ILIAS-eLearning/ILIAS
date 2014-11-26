@@ -545,7 +545,8 @@ class ilPersonalProfileGUI
 			return;
 		}
 		
-		$this->lng->loadLanguageModule("gmaps");
+		// Don't really know if this is still necessary...
+		$this->lng->loadLanguageModule("maps");
 
 		// Get user settings
 		$latitude = $a_user->getLatitude();
