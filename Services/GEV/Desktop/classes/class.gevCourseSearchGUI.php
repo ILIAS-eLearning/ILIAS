@@ -25,7 +25,8 @@ class gevCourseSearchGUI {
 		$this->tpl = &$tpl;
 		$this->log = &$ilLog;
 		$this->user_id = $ilUser->getId();
-		$this->user_utils = gevUserUtils::getInstance($ilUser->getId());
+		$this->user = &$ilUser;
+		$this->user_utils = gevUserUtils::getInstanceByObj($ilUser);
 		$this->search_form = null;
 
 		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
@@ -51,7 +52,14 @@ class gevCourseSearchGUI {
 	public function render($a_in_search = false) {
 		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
 			$user_selector = new gevUserSelectorGUI($this->target_user_id);
-			$user_selector->setUsers($this->user_utils->getEmployeesForCourseSearch())
+			$users = array_merge( array(array("usr_id" => $this->user_id
+											 , "firstname" => $this->user->getFirstname()
+											 , "lastname" => $this->user->getLastname()
+											 )
+									   )
+								, $this->user_utils->getEmployeesForCourseSearch()
+								);
+			$user_selector->setUsers($users)
 						  ->setCaption("gev_crs_srch_usr_slctr_caption")
 						  ->setAction($this->ctrl->getLinkTargetByClass("gevCourseSearchGUI"));
 			$usrsel = $user_selector->render();

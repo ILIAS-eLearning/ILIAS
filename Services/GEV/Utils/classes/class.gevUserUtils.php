@@ -171,6 +171,7 @@ class gevUserUtils {
 		$this->direct_superior_ous = null;
 		$this->superior_ous = null;
 		$this->employees = null;
+		$this->employees_for_course_search = null;
 		
 		$this->potentiallyBookableCourses = array();
 		$this->users_who_booked_at_course = array();
@@ -776,19 +777,26 @@ class gevUserUtils {
 	
 	
 	public function hasUserSelectorOnSearchGUI() {
-		return false; // TODO: Implement that properly.
+		return $this->isSuperior() && count($this->getEmployeesForCourseSearch()) > 0;
 	}
 	
 	public function getEmployeesForCourseSearch() {
-		// TODO: Implement that properly
-		return array();
-		global $ilDB;
-		$res = $ilDB->query("SELECT usr_id, firstname, lastname FROM usr_data");
-		$ret = array();
-		while($val = $ilDB->fetchAssoc($res)) {
-			$ret[] = $val;
+		if ($this->employees_for_course_search) {
+			return $this->employees_for_course_search;
 		}
-		return $ret;
+		
+		$this->employees_for_course_search = array();
+		$employee_ids = $this->getEmployees();
+		
+		$res = $this->db->query( "SELECT usr_id, firstname, lastname "
+								." FROM usr_data "
+								." WHERE ".$this->db->in("usr_id", $employee_ids, false, "integer")
+								);
+		while($val = $this->db->fetchAssoc($res)) {
+			$this->employees_for_course_search[] = $val;
+		}
+		
+		return $this->employees_for_course_search;
 	}
 
 	public function isProfileComplete() {
