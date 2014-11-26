@@ -75,11 +75,16 @@ class gevOrgUnitUtils {
 		}
 		
 		require_once("Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php");
-		$id = gevSettings::getInstance()->get(gevSettings::ORG_TYPE_VENUE);
 
-		$type = ilOrgUnitType::getInstance($id);
-		$ou_ids = $type->getOrgUnitIDs(false);
-		$ou_info = gevAMDUtils::getInstance()->getTable($ou_ids, array(gevSettings::ORG_AMD_CITY => "city"));
+		$type_name1 = gevSettings::getInstance()->get(gevSettings::ORG_TYPE_VENUE);
+		$type1 = ilOrgUnitType::getInstance($type_name1);
+		$ou_ids1 = $type1->getOrgUnitIDs(false);
+		
+		$type_name2 = gevSettings::getInstance()->get(gevSettings::ORG_TYPE_DEFAULT);
+		$type2 = ilOrgUnitType::getInstance($type_name2);
+		$ou_ids2 = $type2->getOrgUnitIDs(false);
+		
+		$ou_info = gevAMDUtils::getInstance()->getTable(array_merge($ou_ids1, $ou_ids2), array(gevSettings::ORG_AMD_CITY => "city"));
 
 		gevOrgUnitUtils::$venue_names = array();
 		foreach ($ou_info as $values) {

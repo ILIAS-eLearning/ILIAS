@@ -32,11 +32,16 @@ class gevCourseSearchGUI {
 		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
 			$this->target_user_id = $_POST["target_user_id"]
 								  ? $_POST["target_user_id"]
-								  : $ilUser->getId();
+								  : (   $_GET["target_user_id"]
+								  	  ? $_GET["target_user_id"]
+								  	  : $ilUser->getId()
+								  	);
 		}
 		else {
 			$this->target_user_id = $ilUser->getId();
 		}
+		
+		$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
 
 		$this->tpl->getStandardTemplate();
 	}
