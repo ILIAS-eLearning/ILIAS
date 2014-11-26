@@ -1404,7 +1404,7 @@ class gevUserUtils {
 			return $this->employees;
 		}
 		
-		require_once("Service/GEV/Utils/classes/class.geOrgUnitUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		$ou_utils = gevOrgUnitUtils::getInstance();
 		
 		$_ds_ous = $this->getOrgUnitsWhereUserIsDirectSuperior();
@@ -1425,7 +1425,7 @@ class gevUserUtils {
 		$nds_ous = array_diff($s_ous, $ds_ous);
 		
 		$de = $ou_utils->getEmployeesIn($ds_ous);
-		$re = $ou_utils->getPeopleIn($nds_ous);
+		$re = $ou_utils->getAllPeopleIn($nds_ous);
 		
 		$this->employees = array_unique(array_merge($de, $re));
 		
