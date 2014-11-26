@@ -123,14 +123,7 @@ class gevImportOldData {
 		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
 		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
 		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
-/*
-		if(! $LIVE){
-			$host = "localhost";
-			$user = "root";
-			$pass = "s09e10";
-			$name = "gev_ivimport";
-		}
-*/
+
 		$mysql = mysql_connect($host, $user, $pass) or die(mysql_error());
 		mysql_select_db($name, $mysql);
 		mysql_set_charset('utf8', $mysql);
@@ -553,7 +546,7 @@ print '<hr>';
 // !!!!!!!!!!!
 
 
-die();
+//die();
 
 foreach($import->sem_ok as $rec){
 	$crs_id = $import->importSeminar($rec);
@@ -562,10 +555,38 @@ foreach($import->sem_ok as $rec){
 	$import->setReported($rec['id']);
 }
 
-$import->rectifyOKZforAltdaten();
+//$import->rectifyOKZforAltdaten();
 //$import->rematchWBDTopic();
 
 
+
+
 printToTable($import->sem_ok);
+
+print '<hr>';
+print 'no match:';
+//printToTable($import->sem_no_user_matches);
+foreach($import->sem_no_user_matches as $r){
+    print $r['id'].', ';
+}
+
+
+
+print '<hr>';
+print 'many:';
+printToTable($sem_many_matches);
+print '<hr>';
+print 'NR';
+printToTable($import->sem_nr_matches);
+print '<hr>';
+print 'bday';
+printToTable($import->sem_bday_matches);
+/*
+print '<hr>';
+print '<hr>';
+print '<h1>altdaten</h1>';
+printToTable($import->importdata);
+*/
+
 
 ?>

@@ -234,7 +234,7 @@ class ilCourseBookings
 				}
 				
 				$this->cancelWithoutCosts($user_id);					
-				$automails->send("waiting_list_cancelled", $user_id);
+				$automails->send("waiting_list_cancelled", array($user_id));
 			}
 			return true;
 		}

@@ -754,7 +754,6 @@ class gevBookingGUI {
 				}
 				else {
 					$automails->send("self_booking_to_waiting", array($this->user_id));
-					$automails->send("invitation", array($this->user_id));
 				}
 			}
 			
@@ -775,7 +774,6 @@ class gevBookingGUI {
 				}
 				else {
 					$automails->send("superior_booking_to_waiting", array($this->user_id));
-					$automails->send("invitation", array($this->user_id));
 				}
 			}
 			

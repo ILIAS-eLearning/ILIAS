@@ -437,10 +437,10 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		$res = parent::send($a_recipients, $a_occasion);
 		if ($res) {
 			$this->setLastSend();
-		}
 
-		$ilLog->write("gevCrsAutoMail::send: sending done. crs_id=".$this->getCourse()->getId().", mail_id=".$this->getId().
-					  ($a_recipients?(", ".print_r($a_recipients, true)):""));
+			$ilLog->write("gevCrsAutoMail::send: sending done. crs_id=".$this->getCourse()->getId().", mail_id=".$this->getId().
+						  ($a_recipients?(", ".print_r($a_recipients, true)):""));
+		}
 
 		return $res;
 	}

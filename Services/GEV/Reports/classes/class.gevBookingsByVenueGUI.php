@@ -59,6 +59,10 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 						->from("hist_course crs")
 						->join("crs_acco acco")
 							->on("crs.crs_id = acco.crs_id")
+						->join("object_reference oref")
+							->on("oref.obj_id = crs.crs_id")
+						->join("crs_settings cs")
+							->on("cs.obj_id = crs.crs_id")
 						->compile()
 						;
 
@@ -78,6 +82,8 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 									)
 						->static_condition("crs.hist_historic = 0")
 						->static_condition("crs.venue != '-empty-'")
+						->static_condition("oref.deleted IS NULL")
+						->static_condition("cs.activation_type = 1")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
@@ -168,7 +174,7 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 		$res_temp = $this->db->query($query_temp);
 		$rec_temp = $this->db->fetchAssoc($res_temp);
 		$rec['no_members'] = $rec_temp['no_members'];
-
+		
 		return $rec;
 	}
 

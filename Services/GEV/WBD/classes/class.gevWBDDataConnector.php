@@ -625,16 +625,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql .= ' AND user_id IN (SELECT usr_id FROM usr_data)';
 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
 		
-		//FAIL: Der Benutzer wurde von einem anderen TP angelegt: 7649617873
-		$sql .= ' AND user_id NOT IN (20185)'; //Uwe Stange
-		//FAIL: Der Benutzer wurde bereits angelegt: 3766780778
-		$sql .= ' AND user_id NOT IN (20396)'; //Gerd Hollinger
-		//FAIL: Der Benutzer wurde bereits angelegt: 8799360049
-		$sql .= ' AND user_id NOT IN (21199)'; //Reinhardt Diek
-		//FAIL: Der Benutzer wurde bereits angelegt: 2796038831
-		$sql .= ' AND user_id NOT IN (19720)'; //Reinhold Schlick
-		//FAIL: Der Benutzer wurde bereits angelegt: 6454943045
-		$sql .= ' AND user_id NOT IN (20976)'; //Eva Ortolf
 		
 		
 		if($LIMIT_RECORDS){

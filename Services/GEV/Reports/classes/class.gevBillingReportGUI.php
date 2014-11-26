@@ -58,41 +58,16 @@ class gevBillingReportGUI extends gevBasicReportGUI {
 									, date("Y")."-01-01"
 									, date("Y")."-12-31"
 									)
+						->dateperiod( "created"
+									, $this->lng->txt("gev_created_since")
+									, $this->lng->txt("gev_created_till")
+									, "bill.bill_finalized_date"
+									, "bill.bill_finalized_date"
+									, date("Y")."-01-01"
+									, date("Y")."-12-31"
+									)
+						->static_condition("bill.bill_final = 1")
 						;
-		
-		require_once("Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php");
-		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-		require_once("Services/Form/classes/class.ilDateTimeInputGUI.php");
-
-		$created_since = new ilDateTimeInputGUI($this->lng->txt("gev_created_since").": ", "created_since");
-		$created_since->setShowTime(false);
-
-		$this->filters = array(
-			"created_since" => $created_sincez
-			);
-
-		$date = date("Y")."-01-01";
-		if(isset($_POST["created_since"])) {
-			$date = $_POST["created_since"]["date"]["y"]
-					."-".$_POST["created_since"]["date"]["m"]
-					."-".$_POST["created_since"]["date"]["d"];
-			$_POST["created_since"] = urlencode($date);
-		}
-
-		$this->digestSearchParameter("created_since", urlencode($date));
-		
-		$this->created_since = new ilDate($this->filter_params["created_since"], IL_CAL_DATE);
-		$created_since->setDate($this->created_since);
-
-		
-	}
-	
-	protected function getAdditionalFilters() {
-		$ret = '';
-		foreach ($this->filters as $filter_id =>$filter) {
-			$ret .= $filter->getTitle().$filter->render()."<br /><br />";
-		}
-		return $ret;
 	}
 	
 	protected function userIsPermitted () {
@@ -108,13 +83,17 @@ class gevBillingReportGUI extends gevBasicReportGUI {
 		}
 	}
 	
-	protected function fetchData(){ 
+	protected function fetchData(){
+		$created = $this->filter->get("created");
+		if ($created["end"]->get(IL_CAL_UNIX) < $created["start"]->get(IL_CAL_UNIX) ) {
+			return array();
+		}
+		
 		//fetch retrieves the data 
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 
 		$no_entry = $this->lng->txt("gev_table_no_entry");
-		$user_utils = gevUserUtils::getInstance($this->target_user_id);
 		$data = array();
 
 
@@ -179,10 +158,7 @@ class gevBillingReportGUI extends gevBasicReportGUI {
 					." INNER JOIN hist_usercoursestatus usrcrs ON usrcrs.usr_id = bill.bill_usr_id AND usrcrs.crs_id = bill.bill_context_id AND usrcrs.hist_historic = 0"
 					." RIGHT JOIN billitem item ON bill.bill_pk = item.bill_fk"
 					." WHERE bill.bill_final = 1"
-					. $this->queryWhen($this->start_date, $this->end_date)
-					. $this->queryCreatedSince()
-					." GROUP BY bill.bill_number"
-					. $sql_order_str
+					. $this->queryWhere()
 					;
 
 		$bill_link_icon = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-get_bill.png").'" />';
@@ -216,7 +192,8 @@ class gevBillingReportGUI extends gevBasicReportGUI {
 			
 			$this->ctrl->setParameter($this, "billnumber", $rec["billnumber"]);
 			$target = $this->ctrl->getLinkTarget($this, "deliverBillPDF");
-			$this->ctrl->clearParameters($this);
+			//$this->ctrl->clearParameters();
+			$this->ctrl->setParameter($this, "billnumber", null);
 			$rec["bill_link"] = "<a href=\"".$target."\">".$bill_link_icon."</a>";
 			
 			$data[] = $rec;
@@ -225,26 +202,6 @@ class gevBillingReportGUI extends gevBasicReportGUI {
 		return $data;
 	}
 
-	protected function queryWhen(ilDate $start, ilDate $end) {
-		if ($this->query_when === null) {
-			$this->query_when =
-					 //" WHERE usr.user_id = ".$this->db->quote($this->target_user_id, "integer")
-					//"  WHERE ".$this->db->in("usrcrs.function", array("Mitglied", "Teilnehmer", "Member"), false, "text")
-					//."   AND ".$this->db->in("usrcrs.booking_status", array("gebucht", "kostenpflichtig storniert", "kostenfrei storniert"), false, "text")
-					"   AND usrcrs.hist_historic = 0 "
-					."   AND ( usrcrs.end_date >= ".$this->db->quote($start->get(IL_CAL_DATE), "date")
-					."        OR usrcrs.end_date = '-empty-' OR usrcrs.end_date = '0000-00-00')"
-					."   AND usrcrs.begin_date <= ".$this->db->quote($end->get(IL_CAL_DATE), "date")
-					;
-		}
-		
-		return $this->query_when;
-	}
-	
-	protected function queryCreatedSince() {
-		return "   AND bill.bill_finalized_date >= ".$this->db->quote($this->created_since->get(IL_CAL_UNIX), "integer"); 
-	}
-	
 	protected function deliverBillPDF() {
 		$billnumber = $_GET["billnumber"];
 		if (!preg_match("/\d{6}-\d{5}/", $billnumber)) {

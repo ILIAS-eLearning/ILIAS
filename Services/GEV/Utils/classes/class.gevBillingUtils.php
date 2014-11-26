@@ -106,6 +106,9 @@ class gevBillingUtils {
 		require_once("Services/Billing/classes/class.ilBill.php");
 		require_once("Services/Billing/classes/class.ilCoupon.php");
 		
+		// #758: cancel all previous bills
+		$this->cancelBill($a_crs_id, $a_user_id);
+		
 		$user_utils = gevUserUtils::getInstance($a_user_id);
 		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
 		
@@ -233,27 +236,6 @@ class gevBillingUtils {
 	public function getBillsForCourseAndUser($a_user_id, $a_crs_id) {
 		require_once("Services/Billing/classes/class.ilBill.php");
 		return ilBill::getInstancesByUserAndContext($a_user_id, $a_crs_id);
-		
-/*		$amount_bills = count($bills);
-		
-		if ($amount_bills == 0) {
-			// there is no bill for the user at the course, so we don't need 
-			// to do anything.
-			return null;
-		}
-		
-		if ($amount_bills > 1) {
-			// this is an assumption about the booking process. There should
-			// never be more than one bill per course and user.
-			$this->log->write("gevBillingUtils::getBillsForCourseAndUser: ".
-						  "There is more than one bill for user ".$a_user_id.
-						  " at course ".$a_crs_id.", this violates a crucial".
-						  "assumption about the booking process."
-						  );
-			return null;
-		}
-		
-		return $bills[0];*/
 	}
 	
 	public function getNonFinalizedBillForCourseAndUser($a_crs_id, $a_user_id) {
@@ -317,8 +299,9 @@ class gevBillingUtils {
 							   , $user_utils->getFirstname()." ".$user_utils->getLastname()
 							   )
 						);
-		// bill will be send immediately
-		$bill->setDate(new ilDate(time(), IL_CAL_UNIX));
+
+		$date = $crs_utils->getEndDate();
+		$bill->setDate($date ? $date : (new ilDate(time(), IL_CAL_UNIX)));
 
 		// search for the item regarding the course...
 		$items = $bill->getItems();
@@ -359,6 +342,21 @@ class gevBillingUtils {
 						  " at course ".$a_crs_id.".");
 	}
 	
+	public function createAllCancellationBillsAndCoupons($a_crs_id) {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		
+		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
+		$cancelled = $crs_utils->getBookings()->getCancelledWithCostsUsers();
+		
+		global $ilLog;
+		
+		foreach($cancelled as $usr_id) {
+			$ilLog->write("gevBillingUtils::createAllCancellationBillsAndCoupons: create cancellation bill(s) ".
+						  "for user ".$usr_id." at course ".$a_crs_id);
+			$this->createCancellationBillAndCoupon($a_crs_id, $usr_id);
+		}
+	}
+	
 	public function createCancellationBillAndCoupon($a_crs_id, $a_user_id) {
 		global $ilLog;
 
@@ -378,8 +376,9 @@ class gevBillingUtils {
 							   , $user_utils->getFirstname()." ".$user_utils->getLastname()
 							   )
 						);
-		// bill will be send immediately
-		$bill->setDate(new ilDate(time(), IL_CAL_UNIX));
+		
+		$date = $crs_utils->getEndDate();
+		$bill->setDate($date ? $date : (new ilDate(time(), IL_CAL_UNIX)));
 		
 		// remove context to make assumption one bill per course and user
 		// be correct.

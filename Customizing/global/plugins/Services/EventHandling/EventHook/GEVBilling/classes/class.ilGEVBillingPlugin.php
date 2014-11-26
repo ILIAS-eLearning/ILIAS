@@ -55,9 +55,10 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 		if ($status == ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS) {
 			$billing_utils->cancelBill($a_crs_id, $a_user_id);
 		}
+		/* #758
 		else if ($status == ilCourseBooking::STATUS_CANCELLED_WITH_COSTS) {
 			$billing_utils->createCancellationBillAndCoupon($a_crs_id, $a_user_id);
-		}
+		}*/
 		else {
 			// Nothing to do here, bill was created in booking process if user or
 			// superior did the booking. There should be no bills if admin books
