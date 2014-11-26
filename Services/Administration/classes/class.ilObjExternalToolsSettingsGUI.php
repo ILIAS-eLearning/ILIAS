@@ -534,12 +534,13 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 //										 "", "", "", $overview);
 		/*$this->tabs_gui->addSubTabTarget("delic_extt_delicious", $this->ctrl->getLinkTarget($this, "editDelicious"),
 											"", "", "", $delicious);*/
-		$this->tabs_gui->addSubTabTarget("socialbm_extt_social_bookmarks", $this->ctrl->getLinkTarget($this, "editSocialBookmarks"),
-											"", "", "", $socialbookmarks);
-		$this->tabs_gui->addSubTabTarget("mathjax_mathjax", $this->ctrl->getLinkTarget($this, "editMathJax"),
-											"", "", "", $mathjax);
+
 		$this->tabs_gui->addSubTabTarget("maps_extt_maps", $this->ctrl->getLinkTarget($this, "editMaps"),
 										 "", "", "", $maps);
+		$this->tabs_gui->addSubTabTarget("mathjax_mathjax", $this->ctrl->getLinkTarget($this, "editMathJax"),
+											"", "", "", $mathjax);
+		$this->tabs_gui->addSubTabTarget("socialbm_extt_social_bookmarks", $this->ctrl->getLinkTarget($this, "editSocialBookmarks"),
+											"", "", "", $socialbookmarks);
 	}
 	
 	function &executeCommand()
