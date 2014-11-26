@@ -345,8 +345,8 @@ class catDatePeriodFilterType {
 
 		ilCalendarUtil::initJSCalendar();
 		
-		$a_tpl->setVariable('DP_LABEL_START', $a_label_begin);
-		$a_tpl->setVariable('DP_LABEL_END', $a_label_end);
+		$a_tpl->setVariable('DP_LABEL_START', $a_conf[2]);
+		$a_tpl->setVariable('DP_LABEL_END', $a_conf[3]);
 		
 		$a_tpl->setVariable("DP_IMG_CALENDAR", ilUtil::getImagePath("calendar.png"));
 		$a_tpl->setVariable("DP_TXT_CALENDAR", $lng->txt("open_calendar"));

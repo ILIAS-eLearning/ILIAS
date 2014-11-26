@@ -10,9 +10,11 @@
 *
 */
 
-require_once("Services/GEV/Reports/classes/class.gevBasicReportGUI.php");
+require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
+require_once("Services/GEV/Reports/classes/class.catFilter.php");
+require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 
-class gevBillingReportGUI extends gevBasicReportGUI {
+class gevBillingReportGUI extends catBasicReportGUI {
 	public function __construct() {
 		
 		parent::__construct();
@@ -67,6 +69,8 @@ class gevBillingReportGUI extends gevBasicReportGUI {
 									, date("Y")."-12-31"
 									)
 						->static_condition("bill.bill_final = 1")
+						->action($this->ctrl->getLinkTarget($this, "view"))
+						->compile()
 						;
 	}
 	
@@ -157,7 +161,6 @@ class gevBillingReportGUI extends gevBasicReportGUI {
 					." INNER JOIN hist_user usr ON usr.user_id = bill.bill_usr_id AND usr.hist_historic = 0"
 					." INNER JOIN hist_usercoursestatus usrcrs ON usrcrs.usr_id = bill.bill_usr_id AND usrcrs.crs_id = bill.bill_context_id AND usrcrs.hist_historic = 0"
 					." RIGHT JOIN billitem item ON bill.bill_pk = item.bill_fk"
-					." WHERE bill.bill_final = 1"
 					. $this->queryWhere()
 					;
 
