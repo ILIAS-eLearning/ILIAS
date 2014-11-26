@@ -2,6 +2,10 @@
 /**
 * ILIAS language file (All entries)
 *
+* @module       language file Japanese
+* @modulegroup  language
+* @author       Shiro Tamoto <tamoto@chic.ocn.ne.jp>
+* @version      $Id:
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -155,10 +159,12 @@ administration#:#language_administration#:#言語管理
 administration#:#language_all_modules#:#すべてのモジュール
 administration#:#language_change_settings#:#言語設定の変更
 administration#:#language_clear_local_changes#:#データベースのローカル変更を消去
+administration#:#language_clear_local_changes_info#:#この言語のデータベースエントリーを lang/ilias_%s.langに定義されている規定のエントリーへリセットする。全てのローカル変更または追加は削除されます。
 administration#:#language_cleared_local#:#データベースのローカル変更が消去されました。
 administration#:#language_compare#:#比較:
 administration#:#language_default_entries#:# (初期設定値)
 administration#:#language_delete_local_additions#:#データベース中のローカル追加を削除
+administration#:#language_delete_local_additions_info#:#データベースへローカルに追加されたエントリーを削除します。
 administration#:#language_delete_local_changes#:#データベースのすべてのローカル変更を削除
 administration#:#language_error_clear_local#:#データベースのローカル変更を消去する事ができませんでした!
 administration#:#language_error_delete_local#:#ローカル言語ファイルを削除できません!
@@ -174,35 +180,48 @@ administration#:#language_former_file_equal#:#ファイル <b>%s</b>は現在の
 administration#:#language_former_file_missing#:#ファイル <b>%s</b>がありません。
 administration#:#language_import_file#:#言語ファイルのインポート
 administration#:#language_load_local_changes#:#ローカル言語ファイルをデータベースへ読込む
+administration#:#language_load_local_changes_info#:#Customizing/global/lang/ilias_%s_lang.localファイルをデータベースへロードします。 このファイルの新しいエントリーはデータベースへ追加されて既存のエントリーは上書きされます。
 administration#:#language_loaded_local#:#ローカル言語ファイルがデータベースへ読込まれました。
 administration#:#language_local_file_deleted#:#ローカル言語ファイルが削除されました。
 administration#:#language_maintain#:#メンテナンス
 administration#:#language_maintain_local_changes#:#ローカル変更を維持
 administration#:#language_maintenance#:#言語メンテナンス
 administration#:#language_merge_local_changes#:#ローカル変更をグローバル言語ファイルへ統合
+administration#:#language_merge_local_changes_info#:#全てのローカル変更と追加をlang/ilias_%s.langの標準言語ファイルへアルファベット順にマージします。Webサーバはこのファイルの書き込み権が必須です。
 administration#:#language_merged_global#:#ローカル変更はグローバル言語ファイルへ統合されました。
 administration#:#language_mode_existing#:#既存のエントリー
 administration#:#language_mode_existing_delete#:#既存エントリーを削除
+administration#:#language_mode_existing_delete_info#:#ファイルをインポートする前にデータベースのエントリーを削除します。<br /> WARNING: インポートされる言語ファイルは完了しそうでないものは未定義の言語変数になります。そのような場合は"保守"タブに切り替えて"データベースのローカル変更をクリヤ"を選択します。
 administration#:#language_mode_existing_keepall#:#全ての既存エントリーを保持
+administration#:#language_mode_existing_keepall_info#:#データベースにまだ存在しない新しいエントリーのみをインポートする。
 administration#:#language_mode_existing_keepnew#:#全ての変更を保持
+administration#:#language_mode_existing_keepnew_info#:#新しいエントリーをインポートしてまだ規定値の全てのエントリーを上書きします。データベース内のすでに変更されたそれらのエナトリーをキープします。
 administration#:#language_mode_existing_replace#:#既存エントリーを入れ替え
+administration#:#language_mode_existing_replace_info#:#新しいエントリーをインポートして既存のエントリーをインポートファイルで規定された新しい値で置き換えます。
 administration#:#language_note_save_local#:#ローカル言語 ファイルの変更を定期的に保存してください。言語 ファイルカスタマイズの書き込みアクセス権限がない場合は、ローカル変更をエクスポートしてから必要に応じて再度インポートできます。
 administration#:#language_note_translation#:#ページ送信モードは各言語毎に使用可能になります。なお、ユーザは言語フォルダへの読み書き権利が必要です。
 administration#:#language_process_maintenance#:#プロセスメンテナンス
 administration#:#language_remove_local_file#:#ローカル言語ファイルを削除します
+administration#:#language_remove_local_file_info#:#Customizing/global/lang/ilias_%s_lang.localを削除して言語ステータスを"ローカルをインストール済み"から "インストール済み"へ変更します。データベース内の変更はされません。
 administration#:#language_save_local_changes#:#全ての変更をローカル言語ファイルへ保存
+administration#:#language_save_local_changes_info#:#Customizing/global/lang/ilias_%s_lang.localファイルへローカルに追加または変更されたデータベースエントリーを保存して言語ステータスを "ローカルへインストール済み"に設定します。Webサーバはこのフォルダの書き込み権が必要です。このファイルはこのシステムの全クライアント用として同じであることに注意願います。
 administration#:#language_saved_local#:#全ての変更をローカル言語ファイルへ保存しました。
 administration#:#language_scope_added#:#ローカル追加のみ
+administration#:#language_scope_added_info#:#データベースへローカルに追加された全てのエントリーをエクスポートします。ローカル変更が"保守"タブで削除される前に追加の開発エントリーのバックアップ用として利用できます。
 administration#:#language_scope_commented#:#言語管理からのコメント付
 administration#:#language_scope_conflicts#:#ローカルと更新変更
 administration#:#language_scope_dbremarks#:#データベース中のコメント付きエントリーのみを表示
 administration#:#language_scope_different#:#比較言語との違い
 administration#:#language_scope_equal#:#比較言語と一致
 administration#:#language_scope_global#:#全てのエントリー
+administration#:#language_scope_global_info#:#この言語の全てのデータベースエントリーをエクスポートします。これはバックアップ目的で利用できます。
 administration#:#language_scope_local#:#ローカル変更のみ
+administration#:#language_scope_local_info#:#データベース内へ追加または変更された全てのエントリーをエクスポートします。これは"保守"タブの言語ファイルの保存と類似しています。
 administration#:#language_scope_merged#:#ローカル変更をグローバル言語ファイルへ統合しました
+administration#:#language_scope_merged_info#:#モジュールと識別子でアルファベット順にマージされた全てのローカル変更の標準ILIAS言語ファイルをエクスポートします。ILIAS SVNサーバのグローバル言語更新に使用することができます。
 administration#:#language_scope_translate#:#全てのエントリーを翻訳のために空にする
 administration#:#language_scope_unchanged#:#未変更のエントリーのみ
+administration#:#language_scope_unchanged_info#:#データベース内の変更されていない全ての規定の言語をエクスポートします。"ローカル変更のみ"と逆です。両者共にデータベース内の現在の言語の完全なバックアップです。
 administration#:#language_settings#:#言語設定
 administration#:#language_statistics#:#統計
 administration#:#language_translation_disabled#:#ページ翻訳をしない
@@ -381,6 +400,7 @@ assessment#:#answer_is_wrong#:#解答は誤り
 assessment#:#answer_picture#:#答案図
 assessment#:#answer_text#:#答案テキスト
 assessment#:#answer_types#:#答案タイプ
+assessment#:#answered#:#解答
 assessment#:#answers_multiline#:#複数行の答案
 assessment#:#answers_of#:#解答:
 assessment#:#answers_singleline#:#単一行の答案
@@ -482,7 +502,10 @@ assessment#:#cloze_text#:#穴埋め問題のテキスト
 assessment#:#cloze_textgap_case_insensitive#:#大文字・小文字を非区分
 assessment#:#cloze_textgap_case_sensitive#:#大文字・小文字を区分
 assessment#:#cloze_textgap_levenshtein_of#:#%sのレーベンシュタイン距離
+assessment#:#cloze_textgap_multiple_whitespace#:#複数の白スペース
 assessment#:#cloze_textgap_rating#:#テキスト穴埋め比率
+assessment#:#cloze_textgap_whitespace_after#:#値の後の白スペース
+assessment#:#cloze_textgap_whitespace_before#:#値の前の白スペース
 assessment#:#code#:#コード
 assessment#:#codebase#:#コードベース
 assessment#:#concatenation#:#結び付け
@@ -736,6 +759,7 @@ assessment#:#kiosk_options_desc#:#テストタイトルやアクティブの参�
 assessment#:#kiosk_show_participant#:#参加者の名前を表示
 assessment#:#kiosk_show_title#:#テスト題名を表示
 assessment#:#kprim_answers_info#:#多肢選択問題タイプ"正誤4問解答"(タイプK、Kprimとも称す)は4つを解答、問題への追加、不完全な文のどれかになります。正解を確定するには4つ解答または追加をする必要があります。全て正解と確定する場合は最高点は承認のみになります。
+assessment#:#kprim_instruction_text#:#どの記述: [%s] または [%s]にも決定する必要があります。
 assessment#:#last_update#:#最終更新
 assessment#:#legend#:#凡例
 assessment#:#locked#:#固定
@@ -823,6 +847,7 @@ assessment#:#no_target_selected_for_move#:#目標位置の選択が必要です!
 assessment#:#no_terms_message#:#最用語を低一つ追加してください。
 assessment#:#no_user_or_group_selected#:#何(ユーザ、グループ、役割）を検索するかオプションをチェックしてください!
 assessment#:#not_all_obligations_answered#:#テストを終了するには全必須問題に解答する必要があります。
+assessment#:#not_worked_through#:#未解答
 assessment#:#not_yet_accessed#:#未接続
 assessment#:#nr_of_correct_answers#:#要求する解答数
 assessment#:#number_of_answers#:#解答数
@@ -893,6 +918,7 @@ assessment#:#polygon#:#多角形
 assessment#:#polygon_click_next_or_save#:#多角形の次のポイントをクリックするか、領域を保存してください。 （この多角形の開始点をもう一度クリックする必要はありません!）
 assessment#:#polygon_click_next_point#:#5角形の次の点をクリックしてください。
 assessment#:#polygon_click_starting_point#:#5角形の開始点をクリックしてください。
+assessment#:#positive_numbers_required#:#正数のみを入力してください。
 assessment#:#postpone#:#後回し問題
 assessment#:#postpone_status#:#後回し
 assessment#:#postponed#:#後回し
@@ -928,6 +954,7 @@ assessment#:#qpl_import_create_new_qpl#:#新しい問題集の中の問題をイ
 assessment#:#qpl_import_no_items#:#エラー。インポートファイルに問題が含まれていません!
 assessment#:#qpl_import_non_ilias_files#:#エラー。 インポートファイルにはILIASシステムが作成しないQTIファイルが含まれています。ILIASチームへ連絡してQTIファイル形式用のインポートフィルタを取得してください。。
 assessment#:#qpl_import_verify_found_questions#:#ILIASのインポートファイルに次の問題がありました。インポートしたい問題を選択してください。
+assessment#:#qpl_maxchars_info_numeric_question#:#値を入力すると数字解答用のフィールドがこの値の固定長で作成されますので許容文字数以上の入力はできません。数字ギャップ用十進数セパレーターは通常の文字としてカウントされることに注意願います。
 assessment#:#qpl_move_insert_clipboard#:#選択した問題は移動用としてマークされています
 assessment#:#qpl_move_select_none#:#移動するには最低一つ問題にチェックしてください
 assessment#:#qpl_paste_error#:#問題集の中に問題が一つも貼り付けられていない可能性があります。考えられる原因: 同じ問題集へ問題を移動しようとしていた。
@@ -941,6 +968,7 @@ assessment#:#qpl_qst_inp_matching_mode_all_on_all#:#複数用語が複数定義�
 assessment#:#qpl_qst_inp_matching_mode_one_on_one#:#用語一つが定義一つと合致します。(1:1)
 assessment#:#qpl_question_is_in_use#:#編集しようとしている問題は %s テストの中にあります。 テストへ挿入時点でシステムがコピーを作成するため、この問題を変更しても変わりません!
 assessment#:#qpl_questions_deleted#:#問題は削除されました。
+assessment#:#qpl_reset_preview#:#プレビューをリセット
 assessment#:#qpl_select_file_for_import#:#インポート用のファイル選択が必要です!
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#有効にすると作成された分類基準がフィルタ用に表示される事があります。
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#ナビゲーションツリー用の分類基準フィルタ
@@ -1121,6 +1149,10 @@ assessment#:#test_next_question#:#次の問題
 assessment#:#test_presentation#:#プレゼンテーションオプション
 assessment#:#test_prev_question#:#前の問題
 assessment#:#test_question_pool_usage#:#問題作成時は問題集を選択します
+assessment#:#test_question_pool_usage_optional#:#問題をオプションで問題集へ追加できます。
+assessment#:#test_question_pool_usage_optional_info#:#問題を別のテストへ再利用できます。
+assessment#:#test_question_pool_usage_tst_directly#:#問題を直接テストへ作成できます。
+assessment#:#test_question_pool_usage_tst_directly_info#:#問題を別のテストへ再利用できません。
 assessment#:#test_reference#:#テスト参照
 assessment#:#test_results#:#結果オプション
 assessment#:#test_scoring#:#採点オプション
@@ -1171,7 +1203,9 @@ assessment#:#tst_all_user_data_deleted#:#このテストの全ユーザデータ
 assessment#:#tst_allow_fixed_participants#:#このテストの固定受験者を許可
 assessment#:#tst_allow_instant_verification#:#解答の即時確認を許可
 assessment#:#tst_allowed_users#:#同時テスト受験者の最大ユーザ数
+assessment#:#tst_allowed_users_desc#:#ILIASは同時にテストを受験している受験者数をモニターします。ユーザが最大許容アクセス数を超えようとするとILIASはテスト開始しないように防止します。
 assessment#:#tst_allowed_users_time_gap#:#アクティブユーザのアイドル時間
+assessment#:#tst_allowed_users_time_gap_desc#:#テスト中の表示された時間にクリックしていない受験者は非アクティブとしてカテゴリー化されてテストから削除されます。
 assessment#:#tst_already_submitted#:#テストはすでに終了して提出済です。
 assessment#:#tst_already_taken#:#既にテスト済
 assessment#:#tst_analysis#:#分析
@@ -1182,6 +1216,7 @@ assessment#:#tst_answer_details#:#解答詳細
 assessment#:#tst_answer_sheet#:#テスト解答シート
 assessment#:#tst_answered_questions#:#解答済み問題
 assessment#:#tst_answered_questions_test#:#このテストへの解答結果
+assessment#:#tst_assign_competence#:#能力を割り当てる
 assessment#:#tst_availability_limitless_info#:#このモードを選択するとテスト作成とユーザ(以下の受験者制限設定による)へのアクセスが可能になります。
 assessment#:#tst_availability_until_info#:#テストを利用可能にして特定期間にユーザがアクセス可能にするにはこのモードを選択(以下の受験者の制限設定に依存)
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#現在の問題選択付のテストへ戻る
@@ -1191,6 +1226,7 @@ assessment#:#tst_back_to_top#:#トップへ戻る
 assessment#:#tst_beginning_ending_information#:#テスト中と終了の情報
 assessment#:#tst_best_solution_is#:#ベストの正解は
 assessment#:#tst_browse_for_questions#:#問題の更新
+assessment#:#tst_btn_hide_best_solutions#:#模範解答を非表示
 assessment#:#tst_btn_rebuild_random_question_stage#:#問題集と問題を同期する
 assessment#:#tst_btn_show_best_solutions#:#模範解答を表示
 assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#能力サービスは問題固定されていないテストモードなので有効化できません。
@@ -1230,10 +1266,12 @@ assessment#:#tst_dyn_test_msg_currently_finished_completely#:#現在、問題集
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#現在の問題選択の全問に解答しています。テストを継続するには問題選択を変更します。
 assessment#:#tst_dyn_test_msg_pass_deletion_link#:#以前の回答を削除
 assessment#:#tst_dyn_test_pass_deletion_button#:#全テスト解答をリセット
+assessment#:#tst_dynamic_question_set_complete#:#総合統計
 assessment#:#tst_dynamic_question_set_selection#:#テスト問題選択
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [問題 %s]
 assessment#:#tst_edit_scoring#:#点数を編集
 assessment#:#tst_ending_time#:#終了時間
+assessment#:#tst_ending_time_desc#:#テスト時点の得点は終了します: 受験者はこれ以降解答できません、ILIASはテストを終了します。
 assessment#:#tst_enter_questionpool#:#新規問題の保存場所の問題集名
 assessment#:#tst_eval_no_anonymous_aggregation#:#このテストにはだれも入力していません。利用可能な匿名集計テスト結果がありません。
 assessment#:#tst_eval_question_points#:#合格者%sの答案結果
@@ -1256,6 +1294,7 @@ assessment#:#tst_extratime_nodata#:#選択した参加者にはエントリー�
 assessment#:#tst_extratime_notavailable#:#延長時間は1回のテストと最長所要時間のみに追加することができます。
 assessment#:#tst_filter_tax_node#:#分類基準モード
 assessment#:#tst_filter_taxonomy#:#分類基準フィルタ
+assessment#:#tst_final_information#:#テスト終了中: 提出前の情報
 assessment#:#tst_finish_confirm_button#:#はい、テストを終了します
 assessment#:#tst_finish_confirm_cancel_button#:#いいえ、前の問題へ戻ります
 assessment#:#tst_finish_confirm_list_of_answers_button#:#いいえ、答案一覧に戻りますs
@@ -1283,12 +1322,15 @@ assessment#:#tst_hide_previous_results_introduction#:#このテストの1回以�
 assessment#:#tst_hide_side_list#:#問題一覧を表示しない
 assessment#:#tst_highscore_achieved_ts#:#テスト日を表示
 assessment#:#tst_highscore_achieved_ts_description#:#テスト日表示入りの列を制御する
+assessment#:#tst_highscore_all_tables#:#全ランキング
+assessment#:#tst_highscore_all_tables_description#:#選択するとテストは両方のランキング表を提供します。
 assessment#:#tst_highscore_anon#:#エントリーの匿名化
 assessment#:#tst_highscore_anon_description#:#氏名を順位で匿名化する場合は制御する。このオプションはテスト匿名化スイッチで無効にできます。
 assessment#:#tst_highscore_description#:#高得点表示を可能にしますか
 assessment#:#tst_highscore_enabled#:#高得点表示
 assessment#:#tst_highscore_hints#:#ヒントを表示
 assessment#:#tst_highscore_hints_description#:#ヒント要求有りのテスト表示入りの列を制御する
+assessment#:#tst_highscore_mode#:#モード
 assessment#:#tst_highscore_options#:#高得点
 assessment#:#tst_highscore_own_table#:#自己順位テーブルを表示
 assessment#:#tst_highscore_own_table_description#:#自己順位テーブル表示を制御する
@@ -1307,6 +1349,7 @@ assessment#:#tst_imap_qst_mode#:#モード
 assessment#:#tst_imap_qst_mode_mc#:#複数選択
 assessment#:#tst_imap_qst_mode_sc#:#単一選択
 assessment#:#tst_import_no_items#:#エラー。インポートファイルには問題が含まれていません。
+assessment#:#tst_import_non_ilias_zip#:#エラー: アップロードするインポートファイルのファイル名がエクスポート形式と一致しません。
 assessment#:#tst_import_verify_found_questions#:#テストインポートファイルから次の問題が見つかりました。このテストにインポートしたい問題を選択してください。
 assessment#:#tst_in_use_edit_questions_disabled#:#テストは %d ユーザが使用中です。テスト問題を編集もしくは移動することはできません!
 assessment#:#tst_inp_all_quest_points_equal_per_pool#:#均一の採点問題集を要求
@@ -1324,6 +1367,7 @@ assessment#:#tst_inp_source_pool_filter_tax_x#:#フィルタに分類基準"%s"�
 assessment#:#tst_inp_source_pool_label#:#問題集ソース
 assessment#:#tst_inp_source_pool_no_tax_filter#:#分類基準ではないフィルタを使用
 assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#回答ステータスフィルタを提供
+assessment#:#tst_input_dyn_quest_set_prev_quest_list_enabled#:#以前解答した問題のリストを提供
 assessment#:#tst_input_dynamic_question_set_ordering_tax#:#分類基準の順番
 assessment#:#tst_input_dynamic_question_set_ordering_tax_description#:#選択された分類基準の割り当て通りにテスト問題が表示されます。
 assessment#:#tst_input_dynamic_question_set_question_ordering#:#問題順
@@ -1333,7 +1377,7 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#問題集ソ�
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#分類基準フィルタを提供
 assessment#:#tst_insert_missing_question#:#テストに挿入する問題を最低一つ選択してください!
 assessment#:#tst_insert_questions#:#本当にテストへ次の問題を挿入しますか?
-assessment#:#tst_insert_questions_and_results#:#テストはすでに %s ユーザが開始しています。テストに挿入しようとしている問題はユーザの全テスト結果を削除します。本当に次の問題をテストに挿入しますか?
+assessment#:#tst_insert_questions_and_results#:#このテストはすでに %sのユーザにより実行されています。このテストへの問題挿入はユーザの全てのテスト結果を削除することになります。本当に次の問題をテストへ挿入しますか?
 assessment#:#tst_instant_feedback#:#即時フィードバック
 assessment#:#tst_instant_feedback_answer_generic#:#全般("正解/間違い")フィードバックを表示
 assessment#:#tst_instant_feedback_answer_generic_desc#:#一般のフィードバックは設問構成に沿って単純"正解"または"誤り"フィードバックを印刷します。
@@ -1352,7 +1396,8 @@ assessment#:#tst_invited_nobody#:#ユーザ、グループ、役割のいずれ�
 assessment#:#tst_invited_selected_groups#:#選択したグループはテスト確定受験者として追加されました
 assessment#:#tst_invited_selected_roles#:#選択した役割はテスト確定受験者として追加されました
 assessment#:#tst_invited_selected_users#:#選択したユーザはテスト確定受験者として追加されました
-assessment#:#tst_level#:#Competence Level
+assessment#:#tst_level#:#能力レベル
+assessment#:#tst_limit_nr_of_tries#:#最大テスト合格者数
 assessment#:#tst_link_only_unassigned#:#問題集に既にリンンクされている問題をどれか一つ選択しました。未割当問題のみ問題集へ追加できます。
 assessment#:#tst_list_answer_details#:#以下に表示
 assessment#:#tst_list_of_answers#:#解答の一覧
@@ -1380,6 +1425,7 @@ assessment#:#tst_mark_short_form#:#略式書式
 assessment#:#tst_max_allowed_users#:#受験者の制限
 assessment#:#tst_max_allowed_users_heading#:#テストの同時最大ユーザ数に達しました
 assessment#:#tst_max_allowed_users_message#:#テストの同時最大ユーザ数に達しました。 後でやり直すかもしくはテストを再開してください。 受験中のユーザのだれかが %s 以上中断すると入力できるようになる場合があります。ご理解ありがとうございます。
+assessment#:#tst_max_comp_points#:#最大能力ポイント
 assessment#:#tst_maximum_points#:#最高点
 assessment#:#tst_missing_author#:#テストプロパティの作者名が未入力です。作者名を入力してください。
 assessment#:#tst_missing_marks#:#テストの評価尺度がありません! 最低でもシンプル評価尺度を追加してください。
@@ -1405,6 +1451,7 @@ assessment#:#tst_no_evaluation_data#:#利用できる評価データがありま
 assessment#:#tst_no_export_randomtest#:#膨大で複雑になるエクスポートファイルを通して使用済問題集がエクスポートされるため、問題にランダムセクションのあるテストはエクスポートできません。
 assessment#:#tst_no_marks_defined#:#マークがないので、少なくともシンプル評価尺度を作成してください!
 assessment#:#tst_no_more_available_questionpools#:#これ以上利用できる問題集がありません
+assessment#:#tst_no_question_selected_for_moving_to_qpl#:#問題集へ追加する問題を一つは選択してください!
 assessment#:#tst_no_question_selected_for_removal#:#削除するには最低でも一つチェックしてください!
 assessment#:#tst_no_questionpools_for_random_test#:#ランダムテスト用の問題集が追加されていません! 最低一つ問題集を選択してくださいl.
 assessment#:#tst_no_questions_available#:#利用できる問題がありません! 新規問題を作成するか問題を更新しなけれなりません。
@@ -1419,11 +1466,15 @@ assessment#:#tst_notify_manscoring_done_body_msg_subject#:#テスト "%s"の手�
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#次のテストには手動採点が確約されました:
 assessment#:#tst_nr_of_passes#:#試験数
 assessment#:#tst_nr_of_tries#:#最大受験回数
+assessment#:#tst_nr_of_tries_desc#:#受験者が可能な最大合格数
 assessment#:#tst_nr_of_tries_of_user#:#完了済み合格者
 assessment#:#tst_num_marked_questions#:#マーク済問題
 assessment#:#tst_num_non_answered_questions#:#未解答問題
+assessment#:#tst_num_open_questions#:#保留問題
 assessment#:#tst_num_postponed_questions#:#延期された問題
 assessment#:#tst_num_wrong_answered_questions#:#不正解問題
+assessment#:#tst_num_questions#:#問題数
+assessment#:#tst_num_selected_questions#:#選択された問題数
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#テスト "%s"の合格開始には問題が存在しません。
 assessment#:#tst_participant#:#受験者
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
@@ -1545,6 +1596,7 @@ assessment#:#tst_random_select_questionpool#:#問題抽出用に問題集を選�
 assessment#:#tst_random_selection_question_count_too_high#:#入力した問題数は最大利用可能な問題数を上回りました。問題数は自動的に減少されました。
 assessment#:#tst_random_selection_question_total_count_too_high#:#入力した問題数は全選択の問答集が最大利用可能な問題数を上回りました。問題数は自動的に減少されました。
 assessment#:#tst_reached_points#:#得点
+assessment#:#tst_remove_competence#:#能力を削除
 assessment#:#tst_remove_mark#:#マークを外す
 assessment#:#tst_remove_question#:#テストから次の問題を本当に削除しますか?
 assessment#:#tst_remove_questions#:#本当にテストから次の問題を削除しますか?
@@ -1554,6 +1606,8 @@ assessment#:#tst_report_after_first_question#:#テストが開始された時の
 assessment#:#tst_report_after_question#:#答案の即時確認を許可
 assessment#:#tst_report_after_test#:#テスト終了時にテスト結果を表示
 assessment#:#tst_report_never#:#利用可能なテスト結果がありません
+assessment#:#tst_res_jump_to_participant_btn#:#ジャンプ
+assessment#:#tst_res_jump_to_participant_hint_opt#:#--受験者へジャンプ--
 assessment#:#tst_reset_processing_time#:#試験毎の制限時間をリセット
 assessment#:#tst_reset_processing_time_desc#:#チェックすると制限時間はテスト過程が終わった後に定義した制限時間にリセットされます。この設定は制限時間と複数試験を有効にすると動作します。
 assessment#:#tst_result#:#テスト結果
@@ -1621,21 +1675,31 @@ assessment#:#tst_setting_enable_obligations_info#:#チェックするとテス�
 assessment#:#tst_setting_enable_obligations_label#:#必須問題
 assessment#:#tst_setting_offer_hints_info#:#有効にすると現在のヒントを特定した問題が提示されます。
 assessment#:#tst_setting_offer_hints_label#:#ヒント特定の問題
+assessment#:#tst_settings_header_execution#:#テスト管理: アクセス
+assessment#:#tst_settings_header_intro#:#テスト開始前情報
+assessment#:#tst_settings_header_test_run#:#テスト管理: テスト中
 assessment#:#tst_settings_template#:#テンプレート
 assessment#:#tst_show_answer_sheet#:#全解答を表示
 assessment#:#tst_show_cancel#:#テスト中断オプションを表示
 assessment#:#tst_show_cancel_description#:#チェックするとテスト中断ボタンがテスト実行中表示されます。
 assessment#:#tst_show_comp_results#:#能力結果を表示
 assessment#:#tst_show_pass_details#:#ラニングテストの受験詳細を表示
+assessment#:#tst_show_pass_details_desc#:#選択するとテストを終了しない限りテスト解凍中の各問題の問題名と得点がわかります。
 assessment#:#tst_show_results#:#テスト結果を表示
 assessment#:#tst_show_side_list#:#脇に問題一覧を表示
 assessment#:#tst_show_solution_answers_only#:#結果印刷ビュー(解答のみ)
+assessment#:#tst_show_solution_answers_only_desc#:#選択すると"コンテンツ編集"タブを使って問題の周りに配置したILIASコンテンツのページは印刷には表示されません。少し紙面スペースを保存したい場合はこのオプションを選択します。
 assessment#:#tst_show_solution_compare#:#解答一覧の正解と解答を比較
 assessment#:#tst_show_solution_details#:#テスト結果の解答を表示
+assessment#:#tst_show_solution_details_desc#:#選択すると詳細問題解説がテスト結果表示中に受験者へ表示されます。これには各解答の正確な点数が含まれます。そうでない場合は問題名と点数の概要のみ表示されます。
 assessment#:#tst_show_solution_feedback#:#テスト結果の解答特定フィードバックを表示
+assessment#:#tst_show_solution_feedback_desc#:#選択すると特定のフィードバック解答が問題に続いてテスト結果内に表示されます。
 assessment#:#tst_show_solution_printview#:#解答一覧を表示
+assessment#:#tst_show_solution_printview_desc#:#選択すると受験者の解答と一緒に全問題の概要が生成されます。このリストはInfoページと最終提出前のテスト終了時に提示されます。
 assessment#:#tst_show_solution_signature#:#署名記入欄を表示
+assessment#:#tst_show_solution_signature_desc#:#選択すると署名プレースフォルダーが印刷用に表示されます。
 assessment#:#tst_show_solution_suggested#:#推奨解答を表示
+assessment#:#tst_show_solution_suggested_desc#:#選択すると問題推奨解答(利用可能時)がテスト結果概要に表示されます。
 assessment#:#tst_show_summary#:#問題一覧を表示
 assessment#:#tst_show_summary_description#:#テスト期間内にテスト受験者が利用可能な全テスト問題をリスト表示します。
 assessment#:#tst_show_toplist#:#高得点を表示
@@ -1653,6 +1717,7 @@ assessment#:#tst_start_new_test_pass#:#新しい試験を開始
 assessment#:#tst_start_test#:#テストを開始
 assessment#:#tst_started#:#テスト開始済み
 assessment#:#tst_starting_time#:#開始時間
+assessment#:#tst_starting_time_desc#:#受験者が問題へ解答できて開始ボタンをクリックしてテストを開始できる時間の点数。
 assessment#:#tst_stat_all_users#:#全受験者
 assessment#:#tst_stat_choose_users#:#(ユーザ一覧より1名以上のユーザを選択)
 assessment#:#tst_stat_result_atimeofwork#:#平均解答時間
@@ -1714,6 +1779,7 @@ assessment#:#tst_use_previous_answers#:#前回の解答を使用
 assessment#:#tst_use_previous_answers_description#:#チェックすると受験者は以降の試験の初期設定値として前回の解答を選択使用できますが後のテストに以前の解答は表示されません。
 assessment#:#tst_use_previous_answers_user#:#今後の試験の初期設定値に前回の解答を使用
 assessment#:#tst_user_finished_test#:#終了したテスト(%s) を使用
+assessment#:#tst_you_have_to_answer_this_question#:#テストを終了するにはこの問題に解答する必要があります。
 assessment#:#tst_your_answer_was#:#解答
 assessment#:#tst_your_answers#:#次の問題に対する答案があります。
 assessment#:#tt_assessment#:#アセスメントテスト
@@ -1940,6 +2006,7 @@ bibl#:#attr_order_bibtex#:#属性順(Bibtex)
 bibl#:#attr_order_bibtex_info#:#初期値: isbn,issn,title
 bibl#:#attr_order_ris#:#属性順 (ris)
 bibl#:#attr_order_ris_info#:#初期値: sn,ti, t1
+bibl#:#bib_default_abstract#:#抄録
 bibl#:#bib_default_address#:#アドレス
 bibl#:#bib_default_author#:#著者
 bibl#:#bib_default_booktitle#:#タイトル
@@ -1948,11 +2015,15 @@ bibl#:#bib_default_cite#:#前引用(Bib Cite)
 bibl#:#bib_default_crossref#:#クロスレファレンス
 bibl#:#bib_default_edition#:#版
 bibl#:#bib_default_editor#:#エディタ
+bibl#:#bib_default_howpublished#:#出版社
 bibl#:#bib_default_institution#:#機関
 bibl#:#bib_default_isbn#:#ISSN/SBN
 bibl#:#bib_default_journal#:#Journal
+bibl#:#bib_default_key#:#Key
 bibl#:#bib_default_keywords#:#キーワード
 bibl#:#bib_default_language#:#言語
+bibl#:#bib_default_month#:#Month
+bibl#:#bib_default_note#:#Note
 bibl#:#bib_default_number#:#Number
 bibl#:#bib_default_organization#:#組織
 bibl#:#bib_default_pages#:#ページ
@@ -1980,10 +2051,10 @@ bibl#:#bibl_settings_libraries#:#ライブラリー
 bibl#:#bibl_settings_new#:#ライブラリーを追加
 bibl#:#bibliography file#:#著者目録ファイル
 bibl#:#detail_view#:#詳細ビュー
-bibl#:#download_original_file#:#オリジナルファイルをダウンロード
+bibl#:#Download Original File#:#オリジナルファイルをダウンロード
 bibl#:#libraries#:#ライブラリー
 bibl#:#obj_bibl_duplicate#:#著者目録を複製
-bibl#:#override_entries#:#エントリを上書き
+bibl#:#Override Entries#:#エントリを上書き
 bibl#:#ris_default_a1#:#第1著者
 bibl#:#ris_default_a2#:#第2著者
 bibl#:#ris_default_a3#:#著者
@@ -3803,6 +3874,7 @@ common#:#hide_filter#:#フィルタを非表示
 common#:#hide_own_online_status#:#My Onlineステータスを非表示
 common#:#hide_private_notes#:#メモを非表示
 common#:#hide_structure#:#構造化表示を非表示
+common#:#hide_visible_sections#:#詳細&raquo;を非表示
 common#:#hint#:#ヒント
 common#:#hist_dbk_delete_pg#:#ペ－ジ "%1" [%2] は削除されました。
 common#:#hist_dbk_delete_st#:#章 "%1" [%2] は削除されました。
@@ -5319,6 +5391,7 @@ common#:#show_all_details#:#全詳細を表示
 common#:#show_details#:#詳細を表示
 common#:#show_filter#:#フィルタを表示
 common#:#show_hidden_block#:#隠しブロックを表示
+common#:#show_hidden_sections#:#詳細&raquo;を表示
 common#:#show_list#:#リストを表示
 common#:#show_members#:#メンバーを表示
 common#:#show_owner#:#オーナーを表示
@@ -6017,6 +6090,7 @@ content#:#cont_ed_align_right#:#整列：右
 content#:#cont_ed_align_right_float#:#整列：右フロート
 content#:#cont_ed_atable#:#詳細表
 content#:#cont_ed_class#:#スタイル
+content#:#cont_ed_click_to_add_pg#:#コンテンツを追加するにはここをクリック
 content#:#cont_ed_col_left#:#列を左へ移動
 content#:#cont_ed_col_right#:#列を右へ移動
 content#:#cont_ed_copy#:#コピー
@@ -6315,6 +6389,7 @@ content#:#cont_lk_term#:#用語集
 content#:#cont_lk_term_new#:#用語集(新フレーム)
 content#:#cont_lm_comments_desc#:#ユーザへ学習モジュールの全ページ上のコメント共有を許可します。
 content#:#cont_lm_default_layout#:#ラーニングモジュールのレイアウト初期設定
+content#:#cont_lm_mail_permanent_link#:#学習モジュールへアクセスするには次のリンクをクリック:
 content#:#cont_lm_menu#:#メニュー
 content#:#cont_lm_properties#:#ラーニングモジュールプロパティ
 content#:#cont_localfile#:#ローカルファイル
@@ -6396,6 +6471,8 @@ content#:#cont_no_zip_file#:#インポート ファイルはzip ァイルでは�
 content#:#cont_nomenu#:#トップナビゲーションバーを無効にする
 content#:#cont_none#:#None
 content#:#cont_not_js_chap_editing#:#JavaScript編集モードを使用しない
+content#:#cont_notify_on_blocked_users#:#ブロックしたユーザの通知
+content#:#cont_notify_on_blocked_users_info#:#ユーザが試行回数を超えてブロックされれば通知されます。
 content#:#cont_nr_col_footer#:#フッター欄
 content#:#cont_nr_col_header#:#ヘッダー欄
 content#:#cont_nr_cols#:#欄の数
@@ -6706,8 +6783,10 @@ content#:#cont_tab_cont_height#:#コンテンツの高さ
 content#:#cont_tab_cont_width#:#コンテンツの幅
 content#:#cont_table#:#表
 content#:#cont_table_border#:#枠線
+content#:#cont_table_border_info#:#コンテンツスタイル設定を有効にするには空にします。値はユニット(px)を含む必要があります。
 content#:#cont_table_cell_properties#:#表のセル属性
 content#:#cont_table_cellpadding#:#表のセルパディング
+content#:#cont_table_cellpadding_info#:#コンテンツスタイル設定を有効にするには空にします。値はユニット(px)を含む必要があります。
 content#:#cont_table_cellspacing#:#表のセルスペーシング
 content#:#cont_table_html_import#:#インポート HTML表
 content#:#cont_table_html_import_info#:#インポートはXHTML適合の表でのみ動作します。表はrootタグにしなければなりません!
@@ -6800,6 +6879,9 @@ content#:#cont_uploaded_file#:#既存のファイル
 content#:#cont_url#:#URL
 content#:#cont_usage#:#使用
 content#:#cont_use_same_resource_as_above#:#上記と同じリソースを使用
+content#:#cont_user_blocked#:#学習モジュール "%s"の失敗ユーザ
+content#:#cont_user_blocked2#:#ユーザは学習モジュールの問題解答に失敗しました。ユーザは招待なしに学習モジュールをこれ以上ナビゲートできなくなります。
+content#:#cont_user_blocked3#:#編集モードの学習モジュールを開いてスクリーンに入力します:
 content#:#cont_users_answered#:#解答のあったユーザ
 content#:#cont_users_have_mob_in_clip1#:#このメディア オブジェクトはクリップボードの中
 content#:#cont_users_have_mob_in_clip2#:#ユーザ
@@ -7226,11 +7308,14 @@ crs#:#crs_loc_tst_num_qst#:#問題数:
 crs#:#crs_loc_tst_qpls#:#利用可能問題集:
 crs#:#crs_loc_tst_resume#:#テストを継続
 crs#:#crs_loc_tt_info#:#%1$d%%です。 %2$d%%テストは合格です。
-crs#:#crs_loc_type_initial_all#:#Kurs startet mit Einstiegstest zu allen Lernzielen
-crs#:#crs_loc_type_initial_sel#:#Kurs startet mit Einstiegstest zu ausgew辰hltem Lernziel
-crs#:#crs_loc_type_practise#:#Kurs startet mit Lern- und ・bungsteil
-crs#:#crs_loc_type_qualified#:#Kurs startet mit qualifizierendem Test
-crs#:#crs_mail_all#:#全受講者
+crs#:#crs_loc_type_initial_all#:#コースは全ての学習オブジェクトの配置テストを開始します
+crs#:#crs_loc_type_initial_all_info#:#todo
+crs#:#crs_loc_type_initial_sel#:#コースは選択した学習オブジェクトの配置テストを開始します
+crs#:#crs_loc_type_practise#:#コースは学習と演習を開始します
+crs#:#crs_loc_type_practise_info#:#todo
+crs#:#crs_loc_type_qualified#:#コースはアーカイブテストを開始します
+crs#:#crs_loc_type_qualified_info#:#todo
+crs#:#crs_mail_all#:#全受験者
 crs#:#crs_mail_all_info#:#メンバと管理者と指導教員が"メンバ"タブ内の"メンバへメール"機能を使用できます。
 crs#:#crs_mail_permanent_link#:#リンクをクリックするとコースに関する必要な情報が得られます。
 crs#:#crs_mail_tutors_only#:#指導教員と管理者専用
@@ -9506,6 +9591,11 @@ license#:#remaining_licenses_explanation#:#利用可能なライセンスは、�
 license#:#used_licenses#:#使用済ライセンス
 license#:#used_licenses_explanation#:#ユーザが初めてアクセスする度にライセンスが使用されます。
 license#:#zero_licenses_explanation#:#ライセンスを無効にするには0 を入力します。
+link#:#link_chapters#:#章
+link#:#link_edit_int_link#:#内部リンクを編集
+link#:#link_mobs#:#メディアオブジェクト
+link#:#link_terms#:#用語
+link#:#link_wpages#:#Wiki Pages
 mail#:#activate_serial_letter_placeholders#:#定型文のプレースフォルダを利用
 mail#:#advice_mail_body_secured#:#セキュリティ上の理由のため ILIASはメッセージ要素の一部を削除する事があります。 セキュリティで保護されたメッセージを確認してメールを再送信してください。
 mail#:#also_as_email#:#emailも同様
@@ -9523,6 +9613,10 @@ mail#:#goto_invitation_chat#:#チャットルームを開く
 mail#:#info_mail_external_sender_noreply#:#外部システムメッセージと通知用の送信者のアドレスとして使用されるemailを入力してください。
 mail#:#invite_to_chat#:#チャットへ招待
 mail#:#linebreak#:#回線断までの時間
+mail#:#link_check_affected_links#:#影響のあるリンク
+mail#:#link_check_introduction#:#次のweblinkは無効です:
+mail#:#link_check_perma_link#:#Permanent Link
+mail#:#link_check_reason#:#無効なリンクの通知を有効にしているのでメールを受信します。
 mail#:#mail_account_mail#:#メールアカウント
 mail#:#mail_account_mail_check#:#メールアカウントを送信
 mail#:#mail_add_folder#:#新規サブフォルダを追加
@@ -10503,6 +10597,7 @@ news#:#news_hide_news_per_date#:#以降のニュースを表示
 news#:#news_hide_news_per_date_info#:#その日よりも新しいニュースのみが表示されます。
 news#:#news_hide_news_until_date#:#ニュース表示期限
 news#:#news_hide_news_until_date_info#:#その日よりも前のニュースのみが表示されます。
+news#:#news_inactive_private_feed_info#:#プライベートニュースフィードは解除されます。設定しているパスワードをセットしてください。
 news#:#news_indefinite#:#未定
 news#:#news_internal_news#:#ニュース
 news#:#news_keep_minimal_x_items#:#最低xアイテムを保持
@@ -11225,6 +11320,8 @@ pd#:#pd_enable_block_moving#:#ブロック移動を有効
 pd#:#pd_enable_block_moving_info#:#パーソナルデスクトップ上のコンテンツのブロック再編成を許可します。
 pd#:#pd_enable_bookmarks#:#ブックマークを有効
 pd#:#pd_enable_comments#:#コメントを有効化
+pd#:#pd_enable_comments_del_tutor#:#コメントは指導教員により削除される事があります。
+pd#:#pd_enable_comments_del_user#:#コメントは著者により削除される事があります。
 pd#:#pd_enable_global_profiles#:#グローバルプロファイルを有効
 pd#:#pd_enable_global_profiles_info#:#有効にすると、ユーザは自分のプロファイルをインターネットへ表示します。
 pd#:#pd_enable_my_memberships#:#'マイメンバーシップ'を有効
@@ -11725,8 +11822,13 @@ rbac#:#exc_delete#:#ユーザは演習問題を移動または削除できます
 rbac#:#exc_edit_learning_progress#:#ユーザは他のユーザの学習進捗の閲覧と学習進捗設定の編集ができます
 rbac#:#exc_edit_permission#:#ユーザはアクセス権設定を変更できます
 rbac#:#exc_read#:#ユーザは演習問題へ参加できます
+rbac#:#exc_read_learning_progress#:#ユーザは他のユーザの学習進捗を閲覧できます。
 rbac#:#exc_visible#:#演習問題を表示
 rbac#:#exc_write#:#ユーザは演習問題の割当と設定を編集できます
+rbac#:#excs_edit_permission#:#ユーザは演習管理のアクセス権設定を変更できます
+rbac#:#excs_read#:#ユーザは演習管理の読み込みアクセス権があります
+rbac#:#excs_visible#:#演習管理を表示します
+rbac#:#excs_write#:#演習管理の設定を編集
 rbac#:#export_member_data#:#ユーザデータへアクセス
 rbac#:#extt_edit_permission#:#ユーザはサードパーティー製ソフトウェアー管理のアクセス権設定を変更できます。
 rbac#:#extt_read#:#ユーザはサードパーティソフトウェア管理への読込アクセス権があります
@@ -12140,6 +12242,7 @@ rbac#:#sess_delete#:#セッションを削除
 rbac#:#sess_edit_event#:#カレンダー行事を編集
 rbac#:#sess_edit_permission#:#アクセス権限設定を変更
 rbac#:#sess_read#:#セッションを読込む
+rbac#:#sess_read_learning_progress#:#ユーザは他のユーザの学習進捗を閲覧できます。
 rbac#:#sess_visible#:#セッションを表示
 rbac#:#sess_write#:#セッションを編集
 rbac#:#skmg_edit_permission#:#アクセス権設定の変更
@@ -12838,6 +12941,10 @@ search#:#until#:#最大
 sess#:#sess_copy#:#セッションをコピー
 sess#:#sess_import#:#インポートセッション
 sess#:#sess_mail_permanent_link#:#セッションに必要なすべての情報見つけるには次のリンクをクリックします:
+sess#:#sess_mail_sub_acc_bod#:#セッション "%s"に登録済みです
+sess#:#sess_mail_sub_acc_sub#:#セッション"%s"の登録
+sess#:#sess_mail_sub_dec_bod#:#申し訳ありませんがセッション"%s"への登録が拒否されました。
+sess#:#sess_mail_sub_dec_sub#:#セッション"%s"の登録拒否
 sess#:#sess_msg_applicants_assigned#:#応募者はセッションを登録しました。
 sess#:#sess_msg_applicants_removed#:#応募者はリストから削除しました。
 sess#:#sess_reg_added_to_wl#:#あなたは待ちリストへ追加されました。
@@ -13880,18 +13987,25 @@ survey#:#survey_360_raters_status_info#:#考課終了しました
 survey#:#survey_360_remove_appraisees#:#評価者を削除
 survey#:#survey_360_results#:#評価者の結果へアクセス
 survey#:#survey_360_results_all#:#全ての評価者
+survey#:#survey_360_results_all_info#:#todo11
 survey#:#survey_360_results_none#:#なし
+survey#:#survey_360_results_none_info#:#todo9
 survey#:#survey_360_results_own#:#自身の考課へ
+survey#:#survey_360_results_own_info#:#todo10
 survey#:#survey_360_select_appraisee#:#選択
 survey#:#survey_360_self_appraisee#:#ユーザは評価者として自身を追加できます
+survey#:#survey_360_self_appraisee_info#:#todo8
 survey#:#survey_360_self_evaluation#:#評価者は自身を考課できます
+survey#:#survey_360_self_evaluation_info#:#todo6
 survey#:#survey_360_self_raters#:#評価者は考課者管理できます
+survey#:#survey_360_self_raters_info#:#todo7
 survey#:#survey_360_sure_appraisee_close#:#本当に全ての評価のサーベイを終了しますか?
 survey#:#survey_360_sure_appraisee_close_admin#:#本当に次の評価者のサーベイを終了しますか?
 survey#:#survey_360_sure_delete_appraises#:#本当に次の評価者を削除しますか?
 survey#:#survey_360_sure_delete_raters#:#本当に次の%sの考課者を削除しますか?
 survey#:#survey_360_title#:#360°
 survey#:#survey_activate_skill_service#:#能力サービスをアクティブ
+survey#:#survey_activate_skill_service_info#:#todo12
 survey#:#survey_add_new_question#:#新規ページを追加
 survey#:#survey_assign_competence#:#能力を割当て
 survey#:#survey_at_beginning#:#先頭へ
@@ -13932,6 +14046,8 @@ survey#:#survey_dnd_split_page#:#ページを分離
 survey#:#survey_edit_heading#:#見出しを編集
 survey#:#survey_edit_settings#:#設定を編集
 survey#:#survey_error_insert_incomplete_question#:#不備な問題をサーベイへ追加しようとしました!　問題は追加されませんでした。
+survey#:#survey_execution_exit#:#リポジトリへ戻る
+survey#:#survey_execution_sure_finish#:#本当にサーベイを終了しますか? このあとで解答の編集はできなくなります。
 survey#:#survey_existing_pool#:#既存の問題集を使用
 survey#:#survey_finish#:#サーベイ終了
 survey#:#survey_finished#:#サーベイを終了しました。ご参加いただきましてありがとうございます!
@@ -13990,7 +14106,7 @@ survey#:#survey_questions_to_clipboard_copy#:#問題がクリップボードに�
 survey#:#survey_questions_to_clipboard_cut#:#問題がクリップボードにコピーされました。ターゲットまたは空のクリップボードを選択してください。
 survey#:#survey_reached_level#:#達成レベル
 survey#:#survey_reminder_body#:#次のサーベイはまだ終了していません。
-survey#:#survey_reminder_cron_info#:#有効にするとユーザはサーベイに参加することを知らせれます。
+survey#:#survey_reminder_cron_info#:#有効にするとユーザはサーベイへの参加を通知されます。
 survey#:#survey_reminder_end#:#終わり
 survey#:#survey_reminder_frequency#:#間隔
 survey#:#survey_reminder_frequency_days#:#日数
@@ -14060,7 +14176,10 @@ survey#:#svy_eval_skipped_value_custom_value#:#値
 survey#:#svy_eval_skipped_value_lng#:#言語ファイルエントリを使用
 survey#:#svy_eval_skipped_value_lng_info#:#現在の値: "%s"
 survey#:#svy_eval_user#:#ユーザを特定した結果
-survey#:#svy_export_files#:#エクスポート ファイル
+survey#:#svy_evaluation_access_all_info#:#サーベイへアクセスできる全登録ユーザはサーベイ結果を見ることもできます。
+survey#:#svy_evaluation_access_off_info#:#サーベイを編集できるユーザのみ(書き込みアクセス権)がサーベイ結果へアクセス権があります。
+survey#:#svy_evaluation_access_participants_info#:#サーベイへ参加した全ユーザは終了した後で結果を見ることができます
+survey#:#svy_export_files#:#エクスポートファイル
 survey#:#svy_file#:#ファイル
 survey#:#svy_gap_analysis#:#ギャップ解析
 survey#:#svy_general_properties#:#全般プロパティ
@@ -14084,7 +14203,9 @@ survey#:#svy_presentation_properties#:#プレゼンテーション
 survey#:#svy_result_mail_notification_info#:#サーベイ終了時に各参加者の結果は確定済みの受講者へ送信されます。
 survey#:#svy_results#:#結果
 survey#:#svy_results_mail_own#:#参加者は自身の回答をメールすることができます
+survey#:#svy_results_mail_own_info#:#todo5
 survey#:#svy_results_view_own#:#参加者は自身の回答を表示することができます
+survey#:#svy_results_view_own_info#:#todo4
 survey#:#svy_save_sync#:#保存して問題コピーを同期
 survey#:#svy_search_users#:#参加者を検索
 survey#:#svy_select_file_for_import#:#インポート用のファイルを選択しなければなりません。
@@ -14593,6 +14714,7 @@ user#:#send_mail_to_inactive_users#:#催促メール送付の最短日日数
 user#:#send_mail_to_inactive_users_desc#:#アカウント削除が迫っている事に関して注意催促メールがユーザのe-mailアドレスへ送信されます。
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#この値は'最終ログイン以来経過した日数'よりも小さくする必要があります。
 user#:#send_mail_to_inactive_users_numbers_only#:#正の整数ではない数字のみ受付ます。
+user#:#send_mail_to_inactive_users_suffix#:#削除前の日数
 user#:#tos_accepted_content#:#コンテンツを承諾しました
 user#:#tos_not_accepted_yet#:#未承諾です
 user#:#tos_show_signed_text#:#詳細を表示
@@ -14928,124 +15050,3 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-assessment#:#no_archive_on_anonymous#:#Archiving is not possible in an anonymous test: option deactivated automatically.###07 11 2014 new variable
-assessment#:#qpl_reset_preview#:#Reset Preview###07 11 2014 new variable
-assessment#:#qpl_maxchars_info_numeric_question#:#If you enter a value, the field for the numerical answer will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value###07 11 2014 new variable
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces###07 11 2014 new variable
-assessment#:#kprim_instruction_text#:#You have to decide on every statement: [%s] or [%s]###07 11 2014 new variable
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Jump to Participant--###07 11 2014 new variable
-assessment#:#tst_res_jump_to_participant_btn#:#Jump###07 11 2014 new variable
-assessment#:#tst_limit_nr_of_tries#:#Maximum Number of Test Passes###07 11 2014 new variable
-assessment#:#tst_import_non_ilias_zip#:#Error: The filename of the uploaded import file does not match the expected format.###07 11 2014 new variable
-assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.###07 11 2014 new variable
-assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Please choose at least one question to be added to a question pool!###07 11 2014 new variable
-assessment#:#tst_show_pass_details_desc#:#If selected, the question titles and the reached points for every question in the test pass are available if the test is not finished.###07 11 2014 new variable
-assessment#:#tst_show_solution_details_desc#:#If selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown.###07 11 2014 new variable
-assessment#:#tst_show_solution_printview_desc#:#If selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission.###07 11 2014 new variable
-assessment#:#tst_show_solution_feedback_desc#:#If is selected, the answer specific feedback will be shown in the test results next to the questions.###07 11 2014 new variable
-assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option.###07 11 2014 new variable
-assessment#:#tst_show_solution_signature_desc#:#If is selected, a signature placeholder will be shown for printout.###07 11 2014 new variable
-assessment#:#tst_show_solution_suggested_desc#:#If is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.###07 11 2014 new variable
-assessment#:#tst_results#:#Test Results###07 11 2014 new variable
-assessment#:#answered#:#Answered###07 11 2014 new variable
-assessment#:#tst_highscore_mode#:#Mode###07 11 2014 new variable
-assessment#:#tst_highscore_all_tables#:#All Rankings###07 11 2014 new variable
-assessment#:#tst_highscore_all_tables_description#:#If selected, the test provides both ranking tables.###07 11 2014 new variable
-assessment#:#tst_input_dyn_quest_set_prev_quest_list_enabled#:#Provide List of Previously Answered Questions###07 11 2014 new variable
-assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic###07 11 2014 new variable
-assessment#:#tst_num_all_questions#:#Number of All Questions###07 11 2014 new variable
-assessment#:#tst_num_selected_questions#:#Number of Selected Questions###07 11 2014 new variable
-assessment#:#tst_num_correct_answered_questions#:#Correct Answered Questions###07 11 2014 new variable
-assessment#:#tst_assign_competence#:#Assign Competence###07 11 2014 new variable
-assessment#:#tst_remove_competence#:#Remove Competence###07 11 2014 new variable
-assessment#:#tst_num_questions#:#Number of Questions###07 11 2014 new variable
-assessment#:#tst_max_comp_points#:#Max. Competence Points###07 11 2014 new variable
-assessment#:#tst_btn_hide_best_solutions#:#Hide Best Solutions###07 11 2014 new variable
-assessment#:#tst_settings_header_intro#:#Information Before Start of Test###07 11 2014 new variable
-assessment#:#tst_settings_header_execution#:#Administering the Test: Access###07 11 2014 new variable
-assessment#:#tst_starting_time_desc#:#Point in time after which the test can be started by clicking the button ‚Start‘, participants can provide answers to questions.###07 11 2014 new variable
-assessment#:#tst_ending_time_desc#:#Point in time at which the test will be finished: Participants an no longer answer questions, the test is finished by ILIAS.###07 11 2014 new variable
-assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.###07 11 2014 new variable
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.###07 11 2014 new variable
-assessment#:#tst_settings_header_test_run#:#Administering the Test: Testrun###07 11 2014 new variable
-assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.###07 11 2014 new variable
-assessment#:#tst_final_information#:#Finishing the Test: Information Before Submission###07 11 2014 new variable
-common#:#show_hidden_sections#:#Show More Information &raquo;###07 11 2014 new variable
-common#:#hide_visible_sections#:#Hide More Information &raquo;###07 11 2014 new variable
-assessment#:#test_question_pool_usage_optional#:#Questions can be added optionally to a question pool###07 11 2014 new variable
-assessment#:#test_question_pool_usage_optional_info#:#The questions can be re-used in other tests.###07 11 2014 new variable
-assessment#:#test_question_pool_usage_tst_directly#:#Questions are created directly in the test###07 11 2014 new variable
-assessment#:#test_question_pool_usage_tst_directly_info#:#The questions cannot be re-used in other tests.###07 11 2014 new variable
-bibl#:#bib_default_note#:#Note###07 11 2014 new variable
-bibl#:#bib_default_howpublished#:#Published as###07 11 2014 new variable
-bibl#:#bib_default_key#:#Key###07 11 2014 new variable
-bibl#:#bib_default_month#:#Month###07 11 2014 new variable
-bibl#:#bib_default_abstract#:#Abstract###07 11 2014 new variable
-pd#:#pd_enable_comments_del_user#:#Comments may be deleted by their authors###07 11 2014 new variable
-pd#:#pd_enable_comments_del_tutor#:#Any Comment may be deleted by tutors###07 11 2014 new variable
-ps#:#cdf_edited_by_self#:#by the User###07 11 2014 new variable
-rbac#:#excs_visible#:#Exercise administration is visible###07 11 2014 new variable
-rbac#:#excs_read#:#User has read access to Exercise administration###07 11 2014 new variable
-rbac#:#excs_write#:#Edit settings in Exercise administration###07 11 2014 new variable
-rbac#:#excs_edit_permission#:#User can change permission settings in Exercise administration###07 11 2014 new variable
-rbac#:#exc_read_learning_progress#:#User can view learning progress of other users###07 11 2014 new variable
-rbac#:#sess_read_learning_progress#:#User can view learning progress of other users###07 11 2014 new variable
-user#:#send_mail_to_inactive_users_suffix#:#Days before Deletion.###07 11 2014 new variable
-content#:#cont_ed_click_to_add_pg#:#Click here to add content.###07 11 2014 new variable
-link#:#link_edit_int_link#:#Edit Internal Link###07 11 2014 new variable
-link#:#link_chapters#:#Chapters###07 11 2014 new variable
-link#:#link_wpages#:#Wiki Pages###07 11 2014 new variable
-link#:#link_terms#:#Terms###07 11 2014 new variable
-link#:#link_mobs#:#Media Objects###07 11 2014 new variable
-mail#:#link_check_introduction#:#the following weblinks are invalid:###07 11 2014 new variable
-mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.###07 11 2014 new variable
-mail#:#link_check_affected_links#:#Affected Links###07 11 2014 new variable
-mail#:#link_check_perma_link#:#Permanent Link###07 11 2014 new variable
-assessment#:#positive_numbers_required#:#Please enter only positive numbers.###07 11 2014 new variable
-content#:#cont_table_border_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).###07 11 2014 new variable
-content#:#cont_table_cellpadding_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).###07 11 2014 new variable
-survey#:#svy_evaluation_access_all_info#:#All registered users that can access the survey can also look at the results of this survey. ###07 11 2014 new variable
-survey#:#svy_evaluation_access_off_info#:#Only Users that can edit the survey (write permission) have access to the survey's results.###07 11 2014 new variable
-survey#:#svy_evaluation_access_participants_info#:#All users that participated in the survey may choose to look at the results after finishing it. ###07 11 2014 new variable
-survey#:#svy_results_view_own_info#:#todo4###07 11 2014 new variable
-survey#:#svy_results_mail_own_info#:#todo5###07 11 2014 new variable
-survey#:#survey_360_self_evaluation_info#:#todo6###07 11 2014 new variable
-survey#:#survey_360_self_raters_info#:#todo7###07 11 2014 new variable
-survey#:#survey_360_self_appraisee_info#:#todo8###07 11 2014 new variable
-survey#:#survey_360_results_none_info#:#todo9###07 11 2014 new variable
-survey#:#survey_360_results_own_info#:#todo10###07 11 2014 new variable
-survey#:#survey_360_results_all_info#:#todo11###07 11 2014 new variable
-survey#:#survey_activate_skill_service_info#:#todo12###07 11 2014 new variable
-survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the survey? You will not be able to edit your answers afterwards.###07 11 2014 new variable
-survey#:#survey_execution_exit#:#Back to repository###07 11 2014 new variable
-news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.###07 11 2014 new variable
-content#:#cont_notify_on_blocked_users#:#Notifications on Blocked Users###07 11 2014 new variable
-content#:#cont_notify_on_blocked_users_info#:#You will be notified if users are blocked when they run out of tries.###07 11 2014 new variable
-content#:#cont_user_blocked#:#User out of tries in learning module "%s".###07 11 2014 new variable
-content#:#cont_user_blocked2#:#A user has run out of tries for answering a question in the learning module. The user will not be able to navigate further through the learning module without your intervention.###07 11 2014 new variable
-content#:#cont_user_blocked3#:#Open the learning module in edit mode and enter the screen:###07 11 2014 new variable
-content#:#cont_lm_mail_permanent_link#:#Click on the following link to access the learning module:###07 11 2014 new variable
-sess#:#sess_mail_sub_dec_sub#:#Registration refused for session "%s"###07 11 2014 new variable
-sess#:#sess_mail_sub_dec_bod#:#we regret to say that your registration has been refused for session "%s".###07 11 2014 new variable
-sess#:#sess_mail_sub_acc_sub#:#Registration for Session "%s"###07 11 2014 new variable
-sess#:#sess_mail_sub_acc_bod#:#you have been registered for session "%s".###07 11 2014 new variable
-administration#:#language_mode_existing_delete_info#:#Delete all entries in the database before importing the file.<br /> WARNING: The imported language file should be complete, otherwise there will be undefined language variables. If that happens, switch to the tab "Maintain" and choose "Clear local changes in the database".###07 11 2014 new variable
-administration#:#language_mode_existing_keepall_info#:#Import only new entries that do not yet exist in the database.###07 11 2014 new variable
-administration#:#language_mode_existing_keepnew_info#:#Import new entries and overwrite all entries that still have their default values. Keep those entries that are already changed in the database.###07 11 2014 new variable
-administration#:#language_mode_existing_replace_info#:#Import new entries and replace all existing entries with the new values defined in the import file.###07 11 2014 new variable
-administration#:#language_scope_global_info#:#Export all database entries of this language. This can be used for backup purposes.###07 11 2014 new variable
-administration#:#language_scope_local_info#:#Export all entries that are locally added or changed in the database. This is similar to the saving of a local language file on the tab "Maintain".###07 11 2014 new variable
-administration#:#language_scope_added_info#:#Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab "Maintain".###07 11 2014 new variable
-administration#:#language_scope_unchanged_info#:#Export all default language entries that are not changed in the database. This is the opposite to "Local changes only". Both together are a complete backup of the current language in the database.###07 11 2014 new variable
-administration#:#language_scope_merged_info#:#Export the standard ILIAS language file with all local changes merged in alphabetically by module and identifier. This can be used to update the global language file on the ILIAS SVN server.###07 11 2014 new variable
-administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file Customizing/global/lang/ilias_%s_lang.local and set the language status to "Installed With Local". The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.###07 11 2014 new variable
-administration#:#language_load_local_changes_info#:#Load the file Customizing/global/lang/ilias_%s_lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.###07 11 2014 new variable
-administration#:#language_clear_local_changes_info#:#Reset the database entries of this language to the default entries defined in lang/ilias_%s.lang. All local changes or additions will be removed.###07 11 2014 new variable
-administration#:#language_delete_local_additions_info#:#Delete all entries that were locally added to the database.###07 11 2014 new variable
-administration#:#language_merge_local_changes_info#:#Merge all local changes and additions alphabetically into the standard language file lang/ilias_%s.lang. The web server must have write permission on this file.###07 11 2014 new variable
-administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s_lang.local and change the language status from "Installed With Local" to "Installed". The changes in the database are not touched.###07 11 2014 new variable
-crs#:#crs_loc_type_initial_all_info#:#todo###07 11 2014 new variable
-crs#:#crs_loc_type_qualified_info#:#todo###07 11 2014 new variable
-crs#:#crs_loc_type_practise_info#:#todo###07 11 2014 new variable

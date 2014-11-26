@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2014 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (setup)
 *
@@ -20,6 +20,7 @@
 absolute_path#:#絶対Path
 access#:#アクセス
 access_status#:#アクセス状態
+activate_global_cache#:#有効
 admin_login#:#マスターパスワードでログイン
 antivir#:#ウイルス監視
 applied_custom_updates#:#カスタム更新適用済
@@ -168,9 +169,10 @@ env_warning#:#ILIASはApache Webサーバを使ってLinuxとWindowsでのみテ
 environment#:#環境
 err_create_database_failed#:#データベースの作成に失敗しました。
 err_wrong_login#:#ログインが間違っています
-error_recipient#:#受信者のエラー
+error_recipient#:#エラー受領者
 example#:#例
-feedback_recipient#:#受信者へのフィードバック
+feedback_recipient#:#フィードバック受領者
+feedback_recipient_info#:#このアドレスはフッタリンクの"システム管理者へ連絡"に使用されます。
 ffmpeg_path#:#ffmpegのパス
 ffmpeg_path_comment#:#音声・ビデオ変換オプション、例'/your_path/ffmpeg
 file_does_not_exist#:#ファイルがありません。
@@ -184,11 +186,23 @@ finish_setup#:#セットアップを終了中
 firstname#:#名
 fop_path#:#FOPのPath
 fop_path_comment#:#PDF文書作成に必要
-form_input_not_valid#:#データが不完全か間違っています。フォーラム入力を訂正してください。
+form_input_not_valid#:#データが不完全か間違っています。フォーム入力を訂正してください。
 form_retype_password#:#パスワードを再入力してください。
-ghostscript_path#:#ゴーストｓクリプトPath
+ghostscript_path#:#ゴーストスクリプトPath
 ghostscript_path_comment#:#PDFプレビュー作成用オプション　例　 '/your_path/gs'
 ghostscript_path_comment_win#:#PDFプレビュー作成用オプション　例 'C:/tools/Ghostscript/gswin32c.exe'
+global_cache#:#グローバルキャッシュ
+global_cache_configuration#:#グローバルキャッシュ構成
+global_cache_install_info_0#:#内蔵
+global_cache_install_info_1#:#http://xcache.lighttpd.net
+global_cache_install_info_2#:#http://php.net/manual/de/memcached.installation.php
+global_cache_install_info_3#:#http://php.net/manual/de/apc.installation.php
+global_cache_service_type#:#キャッシングサービス
+global_cache_service_type_0#:#PHP-Static-Cache
+global_cache_service_type_1#:#xCache
+global_cache_service_type_2#:#Memcached
+global_cache_service_type_3#:#APC
+global_cache_supported_services#:#インストールされていないサービスがあり有効化できません。
 hide_clientlist#:#クライアントの選択をユーザーへ表示しません。
 host#:#ホスト
 hotfix_applied#:#Hotfix適用済
@@ -197,6 +211,7 @@ htmldoc_path#:#HTMLdocのPath
 htmldoc_path_comment#:#PDF作成用　例 '/etc/htmldoc'
 htmldoc_path_comment_win#:#PDF作成用　例 'C
 http_path#:#HTTP Path
+https_settings#:#HTTPS設定
 id#:#ID
 ilias_db_mode#:#ILIASのデータベースモード
 ilias_homepage#:#ILIASのホームページ
@@ -224,6 +239,7 @@ info_text_login#:#インストールとアカウントデータのクライア�
 info_text_nic#:#登録オプションでILIASオープンソースコミュニティーサーバからインストールID(NIC-ID)を入手します。別のILIASインストールと内容を共有したい場合はNIC-IDの入手が可能です。
 info_text_nic3#:#インストールを登録しました。ネットワークインターフェースカードのIDです
 info_text_password#:#セットアッププログラムのマスターパスワードをここで変更できます。
+info_text_password#:#セットアッププログラム用のマスターパスワードを変更できます
 info_text_pathes#:#ILIASは異なるデータベースのマルチクライアントをサポートします。データベースのディレクトリ、ログファイルの場所、サードパーティ製ツールのPathを以下に入力してください。これらの設定はすべてのクライアントを作成した後に有効になります。
 info_text_proxy#:#Proxy設定
 ini_client_id_exists#:#すでにそのクライアントIDは使用されています。別のクライアントIDを選択してください。
@@ -372,6 +388,17 @@ out_of_webspace#:#(Webスペース外）
 overall_status#:#全体状況
 overview#:#概要
 pass_does_not_match#:#入力されたパスワードが一致しません。
+passwd#:#パスワードエンコード
+passwd_default_encoder#:#エンコーダー
+passwd_default_encoder_info#:#ILIASクライアント用のストレージパスワードに使用される規定のエンコーダーを選択してください。
+passwd_encoder_bcrypt#:#bcrypt
+passwd_encoder_bcrypt_client_salt#:#Client Salt
+passwd_encoder_bcrypt_client_salt_invalid#:#ILIASはクライアントsaltを確定できなかったかクライアントsaltが要求基準に照合しませんでした。関連するファイルのコンテンツとアクセス権を確認してください。
+passwd_encoder_client_bcrypt_salt_info#:#<span style="font-weight:bold">初回選択された時に</span>ILIASはキー発生bcrypt機能用のランダムsaltを生成します。このsaltは前述のファイルの中で見つけることができます。バックアップ用にセキュアなロケーションへこのsaltをコピーされるようにお勧めします。ユーザーパスワードが保存されるとILIASは個別のパスワード用として追加のsaltを生成します。<span style="color:red">注意:一旦生成した後にクライアントのwide saltまたはデータベースに保存されているsaltは絶対変更しないこと。さもなければ、ユーザは二度とログインできなくなります。!</span>
+passwd_encoder_client_bcrypt_salt_info_php537#:#<span style="color:red;font-weight:bold">PHP %sを使用するbcryptの実装は、8ビット文字のパスワードを使うセキュリティフローを含むことができます。本件に関する詳細は次のリンクを参照してください。: <a href="http://php.net/security/crypt_blowfish.php" target="_blank">http://php.net/security/crypt_blowfish.php</a>.PHP 5.3.7以降のご利用をお勧めします。</span>
+passwd_encoder_md5#:#md5
+passwd_encoding_configured#:#構成済み
+passwd_encoding_not_configured#:#未構成
 passwd_not_match#:#入力内容は新しいパスワードと一致しません。新しいパスワードを再入力してください。
 password#:#パスワード
 password_changed#:#パスワードは変更されました。
@@ -437,6 +464,10 @@ proxy_port_info#:#0～65535(例：8080)のポートを入力してください�
 proxy_port_numeric#:#入力するポート番号は0～65535の数値となる必要があります
 proxy_status#:#Proxy
 proxy_status_info#:#ILIASのproxを使用する(例、webフィードやweblinkチェック用」)には以下のチェックボックスを有効にしてください。
+ps_auto_https#:#HTTPS自動検知
+ps_auto_https_description#:#有効にするとILIASは次に示すヘッダー値の解析によりHTTPステータスを検知しようとします。
+ps_auto_https_header_name#:#Header Name
+ps_auto_https_header_value#:#Header Value
 reload#:#更新
 required_field#:#入力必須欄
 reset#:#リセット
@@ -516,6 +547,7 @@ setup_process_step_finish#:#セットアップ終了
 setup_process_step_ini#:#基本データ
 setup_process_step_lang#:#言語
 setup_process_step_nic#:#登録
+setup_process_step_passwd#:#パスワード
 setup_process_step_proxy#:#Proxy
 setup_process_step_sess#:#セッション管理
 setup_ready#:#セットアップの準備ができました。ログインして進みシステム設定を確認します。
@@ -536,6 +568,7 @@ step_finish#:#セットアップ
 step_ini#:#iniファイル
 step_lang#:#各国語
 step_nic#:#登録
+step_passwd#:#パスワードエンコード
 step_proxy#:#Proxy
 step_sess#:#セッション管理
 street#:#住所
@@ -548,6 +581,11 @@ tiny_zip_does_not_exist#:#TinyMCEエディターを含むzipファイルが、RT
 tinymce_wysiwyg_editor#:#TinyMCE WYSIWYGエディター
 title#:#役職
 tools#:#ツール
+tree_implementation#:#ツリー構造
+tree_implementation_mp#:#経路実体化モデル
+tree_implementation_ns#:#入れ子集合モデル
+tree_implementation_switch_btn#:#ツリー構造へ切り替え
+tree_implementation_switched#:#ツリー構造タイプが切り替えました。
 unknown_client_id#:#不明なクライアント
 unknown_command#:#不明なコマンド
 unknown_display_mode#:#不明な表示モード
@@ -570,41 +608,3 @@ zip_path#:#ZipのPath
 zip_path_comment#:#エクスポートファイルの作成用　例 '/your_path/zip'
 zip_path_comment_win#:#インポートファイルの解凍用　例 'C
 zipcode#:#郵便番号
-tree_implementation#:#ツリー構造
-tree_implementation_ns#:#入れ子集合モデル
-tree_implementation_mp#:#経路実体化モデル
-tree_implementation_switch_btn#:#ツリー構造へ切り替え
-tree_implementation_switched#:#ツリー構造タイプが切り替えました。
-feedback_recipient_info#:#このアドレスはフッタリンクの"システム管理者へ連絡"に使用されます。
-passwd#:#Password Encoding###26 09 2014 new variable
-step_passwd#:#Password Encoding###26 09 2014 new variable
-setup_process_step_passwd#:#Passwords###26 09 2014 new variable
-info_text_passwd#:#Password Settings###26 09 2014 new variable
-passwd_encoder_md5#:#md5###26 09 2014 new variable
-passwd_encoder_bcrypt#:#bcrypt###26 09 2014 new variable
-passwd_default_encoder#:#Encoder###26 09 2014 new variable
-passwd_default_encoder_info#:#Please choose the default encoder used for password storage for your ILIAS client.###26 09 2014 new variable
-passwd_encoder_bcrypt_client_salt#:#Client Salt###26 09 2014 new variable
-passwd_encoder_client_bcrypt_salt_info#:#ILIAS generates a random salt for the key derivation function bcrypt <span style="font-weight:bold">when it is selected for the first time</span>. You can find this salt in the file mentioned above. You are advised to copy this salt to a secure location for backup purposes. If a user's password gets stored, ILIAS will generate an additional salt for the individual password. <span style="color:red">Attention: Never change the client wide salt or any salt stored in the database if they are generated once. Otherwise users will not be able to login anymore!</span>###26 09 2014 new variable
-passwd_encoder_client_bcrypt_salt_info_php537#:#<span style="color:red;font-weight:bold">The bcrypt implementation used by PHP %s can contain a security flaw using passwords with 8-bit characters. Please see the following link for details on the matter: <a href="http://php.net/security/crypt_blowfish.php" target="_blank">http://php.net/security/crypt_blowfish.php</a>. We suggest to upgrade to PHP 5.3.7+.</span>###26 09 2014 new variable
-passwd_encoder_bcrypt_client_salt_invalid#:#ILIAS could not determine the client salt or the client salt does not match the required criteria. Please check the content and the permissions of the related file.###26 09 2014 new variable
-passwd_encoding_configured#:#configured###26 09 2014 new variable
-passwd_encoding_not_configured#:#not configured###26 09 2014 new variable
-global_cache#:#Global Cache###26 09 2014 new variable
-global_cache_configuration#:#Global-Cache Configuration###26 09 2014 new variable
-activate_global_cache#:#Activate###26 09 2014 new variable
-global_cache_service_type#:#Caching-Service###26 09 2014 new variable
-global_cache_service_type_0#:#PHP-Static-Cache###26 09 2014 new variable
-global_cache_service_type_1#:#xCache###26 09 2014 new variable
-global_cache_service_type_2#:#Memcached###26 09 2014 new variable
-global_cache_service_type_3#:#APC###26 09 2014 new variable
-global_cache_supported_services#:#Some Services are not installed and can not be activated###26 09 2014 new variable
-global_cache_install_info_0#:#Built in###26 09 2014 new variable
-global_cache_install_info_1#:#http://xcache.lighttpd.net###26 09 2014 new variable
-global_cache_install_info_2#:#http://php.net/manual/de/memcached.installation.php###26 09 2014 new variable
-global_cache_install_info_3#:#http://php.net/manual/de/apc.installation.php###26 09 2014 new variable
-ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.###26 09 2014 new variable
-ps_auto_https_header_name#:#Header Name###26 09 2014 new variable
-ps_auto_https_header_value#:#Header Value###26 09 2014 new variable
-ps_auto_https#:#Autodetect HTTPS###26 09 2014 new variable
-https_settings#:#HTTPS Setting###26 09 2014 new variable
