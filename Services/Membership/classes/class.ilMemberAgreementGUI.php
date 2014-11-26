@@ -229,7 +229,7 @@ class ilMemberAgreementGUI
 							// open answers
 							if(in_array($key, $open_answer_indexes))
 							{
-								$open_answer = new ilTextInputGUI('Sonstiges', 'cdf_oa_'.$field_obj->getId().'_'.$key);
+								$open_answer = new ilTextInputGUI($lng->txt("form_open_answer"), 'cdf_oa_'.$field_obj->getId().'_'.$key);
 								$open_answer->setRequired(true);
 								$option_radio->addSubItem($open_answer);
 							}

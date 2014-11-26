@@ -15109,3 +15109,4 @@ trac#:#trac_mode_event_info#:#The learning progress status will be determined by
 sess#:#sess_lp_preset#:#Activate Learning Progress
 sess#:#sess_lp_preset_info#:#(De-)Active the learning progress for all session events.
 glo#:#glo_copy#:#Copy Glossary
+form#:#form_open_answer#:#Open Answer

@@ -123,6 +123,8 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 	*/
 	public function insert($a_tpl)
 	{
+		global $lng;
+		
 		$tpl = new ilTemplate("tpl.prop_selectbuilder.html", true, true, "Services/Form");
 		$i = 0;
 		foreach ($this->values as $value)
@@ -155,6 +157,7 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 			#$tpl->setVariable('POST_VAR_OPEN',$this->getPostVar().'[open]'.'['.$i.']');
 			$tpl->setVariable('POST_VAR_OPEN',$this->getPostVar().'_open'.'['.$i.']');
 			$tpl->setVariable('POST_VAR_OPEN_ID', $this->getPostVar().'_open['.$i.']');
+			$tpl->setVariable('TXT_OPEN', $lng->txt("form_open_answer"));
 			
 			if($this->isOpenAnswerIndex($i))
 			{
