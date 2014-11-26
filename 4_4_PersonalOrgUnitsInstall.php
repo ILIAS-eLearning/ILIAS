@@ -21,7 +21,7 @@
  * @version $Id$
  */
 
-if($_SERVER['argc'] < 4)
+/*if($_SERVER['argc'] < 4)
 {
 	die("Usage: " . __FILE__ . " username password client\n");
 }
@@ -34,7 +34,7 @@ ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
 $_POST['username'] 		= $_SERVER['argv'][1];
 $_POST['password'] 		= $_SERVER['argv'][2];
 $_COOKIE["ilClientId"] 	= $_SERVER['argv'][3];
-
+*/
 require_once './include/inc.header.php';
 
 /** @var ilDB $ilDB */
@@ -53,13 +53,13 @@ if(!$ilDB->tableExists('org_unit_personal_units'))
 	$fields = array (
     'orgunit_id'    => array(
     		'type' => 'integer',
-    		'length'  => 11
+    		'length'  => 11,
     		'notnull' => true,
     		'default' => 0),
 
   'usr_id'    => array(
     		'type' => 'integer',
-    		'length'  => 11
+    		'length'  => 11,
     		'notnull' => true,
     		'default' => 0),
 
@@ -69,5 +69,6 @@ if(!$ilDB->tableExists('org_unit_personal_units'))
   $ilDB->addPrimaryKey('org_unit_personal_units', array('orgunit_id'));
 // -----------------------------------------------------------------------------
 // End
+}
 
 echo "[DONE INSTALLING / UPDATING Database Tables]\r\n";

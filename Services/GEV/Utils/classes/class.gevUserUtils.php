@@ -791,16 +791,23 @@ class gevUserUtils {
 			return $this->employees_for_course_search;
 		}
 		
-		$this->employees_for_course_search = array();
-		$employee_ids = $this->getEmployees();
+		require_once("Service/GEV/Utils/classes/class.geOrgUnitUtils.php");
+		$ou_utils = gevOrgUnitUtils::getInstance();
 		
-		$res = $this->db->query( "SELECT usr_id, firstname, lastname "
-								." FROM usr_data "
-								." WHERE ".$this->db->in("usr_id", $employee_ids, false, "integer")
-								);
-		while($val = $this->db->fetchAssoc($res)) {
-			$this->employees_for_course_search[] = $val;
-		}
+		// we need the employees in those ous
+		$_d_ous = $this->getOrgUnitsWhereUserCanBookEmployees();
+		// we need the employees in those ous and everyone in the ous
+		// below those.
+		$_r_ous = $this->getOrgUnitsWhereUserCanBookEmployeesRecursive();
+		
+		$e_ous = array_merge($_d_ous, $_r_ous);
+		$a_ous = $ou_utils->getAllChildren($_r_ous);
+		
+		$this->employees_for_course_search 
+			= array_unique(array_merge( $ou_utils->getEmployeesIn($e_ous)
+									  , $ou_utils->getAllPeopleIn($a_ous)
+						  			  )
+						  );
 		
 		return $this->employees_for_course_search;
 	}
@@ -1371,10 +1378,25 @@ class gevUserUtils {
 		return $this->superior_ous;
 	}
 	
+	public function getOrgUnitsWhereUserCanBookEmployees() {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
+		return $tree->getOrgusWhereUserHasPermissionForOperation("book_employees");
+	}
+	
+	public function getOrgUnitsWhereUserCanBookEmployeesRecursive() {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
+		return $tree->getOrgusWhereUserHasPermissionForOperation("book_employees_rcrsv");
+	}
+	
 	public function getEmployees() {
 		if ($this->employees !== null) {
 			return $this->employees;
 		}
+		
+		require_once("Service/GEV/Utils/classes/class.geOrgUnitUtils.php");
+		$ou_utils = gevOrgUnitUtils::getInstance();
 		
 		$_ds_ous = $this->getOrgUnitsWhereUserIsDirectSuperior();
 		$_s_ous = $this->getOrgUnitsWhereUserIsSuperior();
@@ -1393,34 +1415,10 @@ class gevUserUtils {
 		// ref_ids of ous where user is superior but not direct superior
 		$nds_ous = array_diff($s_ous, $ds_ous);
 		
-		$this->employees = array();
+		$de = $ou_utils->getEmployeesIn($ds_ous);
+		$re = $ou_utils->getPeopleIn($nds_ous);
 		
-		// get all employees of ous where user is direct superior
-		$res = $this->db->query(
-			 "SELECT ua.usr_id"
-			."  FROM rbac_ua ua"
-			."  JOIN tree tr ON ".$this->db->in("tr.parent", $ds_ous, false, "integer")
-			."  JOIN rbac_fa fa ON fa.parent = tr.child"
-			."  JOIN object_data od ON od.obj_id = fa.rol_id"
-			." WHERE ua.rol_id = fa.rol_id"
-			."   AND od.title LIKE 'il_orgu_employee_%'"
-			);
-		while ($rec = $this->db->fetchAssoc($res)) {
-			$this->employees[] = $rec["usr_id"];
-		}
-		
-		$res = $this->db->query(
-			 "SELECT ua.usr_id"
-			."  FROM rbac_ua ua"
-			."  JOIN tree tr ON ".$this->db->in("tr.parent", $nds_ous, false, "integer")
-			."  JOIN rbac_fa fa ON fa.parent = tr.child"
-			." WHERE ua.rol_id = fa.rol_id"
-			);
-		while ($rec = $this->db->fetchAssoc($res)) {
-			$this->employees[] = $rec["usr_id"];
-		}
-		
-		$this->employees = array_unique($this->employees);
+		$this->employees = array_unique(array_merge($de, $re));
 		
 		return $this->employees;
 	}
