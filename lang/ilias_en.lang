@@ -607,7 +607,7 @@ assessment#:#tst_inp_source_pool_no_tax_filter#:#Use No Taxonomy Based Filter
 assessment#:#tst_inp_source_pool_filter_tax_x#:#Use Taxonomy "%s" as Filter
 assessment#:#tst_inp_no_available_tax_hint#:#No Available Taxonomies for Selected Question Pool
 assessment#:#tst_msg_source_pool_definitions_deleted#:#The rule has been removed successfully.
-assessment#:#tst_limit_nr_of_tries#:#Number of Test Passes
+assessment#:#tst_limit_nr_of_tries#:#Limit Number of Test Passes
 assessment#:#msg_deleted_export_files#:#Export file(s) removed
 assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.
 assessment#:#msg_poly_added#:#Polygon added
@@ -855,7 +855,7 @@ assessment#:#tst_access_code_created#:#To provide you with permanent access to y
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been removed!
 assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers
 assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
-assessment#:#tst_allowed_users#:#Maximum Number of Concurrent Participants
+assessment#:#tst_allowed_users#:#Limit Number of Concurrent Participants
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_already_taken#:#Tests Already Taken
 assessment#:#tst_anonymity#:#Test Record
@@ -871,8 +871,8 @@ assessment#:#tst_confirm_print#:#Press button to print all questions with points
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button.
 assessment#:#tst_count_correct_solutions#:#Only Correct and Complete Answers Score Points
 assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case.
-assessment#:#tst_count_partial_solutions#:#Correct, yet Incomplete Answers Score Points
-assessment#:#tst_count_partial_solutions_desc#:#Participants score points for correct but incomplete answers. Points for correctly provided partial answers are added up.
+assessment#:#tst_count_partial_solutions#:#Incomplete or Partly Wrong Answers Score Points
+assessment#:#tst_count_partial_solutions_desc#:#Points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers.
 assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains participant datasets.
 assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!
@@ -885,7 +885,7 @@ assessment#:#tst_delete_all_user_data#:#Remove all User Data
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to remove it
 assessment#:#tst_delete_results#:#Reset Test
 assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
-assessment#:#tst_ending_time#:#Latest Finishing Time
+assessment#:#tst_ending_time#:#Finishing Time
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored
 assessment#:#tst_eval_no_anonymous_aggregation#:#No one has entered the test yet. There are no anonymous aggregated test results available.
 assessment#:#tst_eval_question_points#:#Question Results for Pass %s
@@ -939,7 +939,7 @@ assessment#:#tst_instant_feedback_solution_desc#:#On clicking the  <i>Check</i>-
 assessment#:#tst_instant_feedback#:#Instant Feedback
 assessment#:#tst_instant_verification#:#Instant Verification
 assessment#:#tst_introduction#:#Introductory Message
-assessment#:#tst_introduction_desc#:#Shows an introductory message at the Info-tab of the test. This text is accessible already before the test can be started.
+assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab 'Info' of the test. This text is accessible already before the test can be started.
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_invited_selected_groups#:#The selected groups have been added as fixed test participants
 assessment#:#tst_invited_selected_roles#:#The selected roles have been added as fixed test participants
@@ -1004,7 +1004,7 @@ assessment#:#tst_postpone#:#Postpone Questions
 assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock.
-assessment#:#tst_processing_time#:#Maximum Duration of Test
+assessment#:#tst_processing_time#:#Limit Duration of Test
 assessment#:#tst_properties#:#Test Properties
 assessment#:#tst_qst_order#:#Order
 assessment#:#tst_qst_resetsolved#:#Set Unsolved
@@ -1128,7 +1128,7 @@ assessment#:#tst_single_results#:#Results by Question
 assessment#:#tst_start_new_test_pass#:#Start New Test Pass
 assessment#:#tst_start_test#:#Start the Test
 assessment#:#tst_started#:#Test Started
-assessment#:#tst_starting_time#:#Earliest Starting Time
+assessment#:#tst_starting_time#:#Starting Time
 assessment#:#tst_stat_all_users#:#All Participants
 assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)
 assessment#:#tst_stat_result_atimeofwork#:#Average Time of Work
@@ -1162,7 +1162,7 @@ assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting 
 assessment#:#tst_submit_answers#:#Yes, I want to submit my answers
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
 assessment#:#tst_test_output#:#Test Output
-assessment#:#tst_text_count_system#:#Scoring Partial Solutions
+assessment#:#tst_text_count_system#:#Scoring System
 assessment#:#tst_time_already_spent_left#:#You have %s left.
 assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s.
 assessment#:#tst_title_output_full#:#Question Titles and Points to be Earned
@@ -1259,7 +1259,7 @@ assessment#:#tst_question_set_type_fixed#:#Fixed Set of Questions
 assessment#:#tst_question_set_type_fixed_desc#:#All participants get the same set of questions. 
 assessment#:#tst_question_set_type_random#:#Random Set of Questions
 assessment#:#tst_question_set_type_random_desc#:#Each participant gets a different set of questions. Questions are randomly selected from one or more question pools. 
-assessment#:#tst_question_set_type_dynamic#:#Continuous Testing
+assessment#:#tst_question_set_type_dynamic#:#"Index Card Box" - All Questions from a Questionpool
 assessment#:#tst_question_set_type_dynamic_desc#:#Participants work through questions from one question pool. Questions answered incorrectly will be presented again. 
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#You are about to change the test mode from <b>%s</b> to <b>%s</b>, although a questions/questionpool configuration dependent on the current test mode already exists.<br />This already existing configuration will be lost.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Continues question selection configuration has been modified.
@@ -1342,7 +1342,7 @@ assessment#:#show_examview_pdf#:#PDF Download
 assessment#:#scoringadjust#:#Corrections
 assessment#:#tst_trigger_result_refreshing#:#Results need to be recalculated. This may take a while.
 assessment#:#test_scoring#:#Scoring Options
-assessment#:#test_results#:#Results Options
+assessment#:#test_results#:#Test Report
 assessment#:#misc#:#Misc Options
 assessment#:#tst_back_to_top#:#Back to Top
 assessment#:#tst_back_to_question_list#:#Back to Question List
@@ -15107,6 +15107,6 @@ payment#:#enable_topics_info#:#If enabled, you can assign purchasable objects to
 exc#:#exc_assignment_type#:#Type Of Submission
 trac#:#trac_mode_event_info#:#The learning progress status will be determined by the participation status.
 sess#:#sess_lp_preset#:#Activate Learning Progress
-sess#:#sess_lp_preset_info#:#(De-)Active the learning progress for all session events.
+sess#:#sess_lp_preset_info#:#(De-)Actives the learning progress for all session events.
 glo#:#glo_copy#:#Copy Glossary
 form#:#form_open_answer#:#Open Answer
