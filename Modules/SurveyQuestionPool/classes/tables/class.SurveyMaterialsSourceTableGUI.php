@@ -51,6 +51,9 @@ class SurveyMaterialsSourceTableGUI extends ilTable2GUI
 
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
 		$this->addCommandButton($a_cancel_cmd, $this->lng->txt('cancel'));
+		
+		$this->setDefaultOrderField("title");
+		$this->setDefaultOrderDirection("asc");
 	}
 	
 	/**

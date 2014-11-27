@@ -556,17 +556,22 @@ abstract class SurveyQuestionGUI
 		
 		$ilTabs->activateTab("preview");
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", "Modules/SurveyQuestionPool");
-		$question_output = $this->getWorkingForm();
+		$tpl = new ilTemplate("tpl.il_svy_qpl_preview.html", true, true, "Modules/SurveyQuestionPool");
 		
 		if ($this->object->getObligatory())
 		{
-			$this->tpl->setCurrentBlock("required");
-			$this->tpl->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
-			$this->tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("required");
+			$tpl->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
+			$tpl->parseCurrentBlock();
 		}
 		
-		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
+		$tpl->setVariable("QUESTION_OUTPUT", $this->getWorkingForm());
+		
+		include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
+		$panel = ilPanelGUI::getInstance();
+		$panel->setBody($tpl->get());
+		
+		$this->tpl->setContent($panel->getHTML());
 	}		
 	
 	
@@ -765,9 +770,12 @@ abstract class SurveyQuestionGUI
 	*/
 	public function addMaterial()
 	{
-		global $tree, $ilTabs;
+		global $tree, $ilTabs, $ilToolbar;
 		
 		$ilTabs->activateTab("material");
+		
+		$ilToolbar->addButton($this->lng->txt("cancel"),
+			$this->ctrl->getLinkTarget($this, "material"));
 		
 		if (strlen($_SESSION["link_new_type"]) || !$this->material(true))
 		{
@@ -794,31 +802,10 @@ abstract class SurveyQuestionGUI
 
 			ilUtil::sendInfo($this->lng->txt("select_object_to_link"));
 
-			$exp = new ilMaterialExplorer($this->ctrl->getLinkTarget($this, 'addMaterial'), get_class($this));
-
-			// expand current path (if no specific node given)
-			if(!$_GET["expand"])
-			{
-				$path = $tree->getPathId($_GET["ref_id"]);
-				$exp->setForceOpenPath($path);
-			}
-			else
-			{
-				$exp->setExpand($_GET["expand"]);
-			}
-			$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'addMaterial'));
-			$exp->setTargetGet("ref_id");
-			$exp->setRefId($_GET["ref_id"]);
-			$exp->addFilter($_SESSION["link_new_type"]);
-			$exp->setSelectableType($_SESSION["link_new_type"]);
-
-			// build html-output
-			$exp->setOutput(0);
-
-			$this->tpl->addBlockFile("ADM_CONTENT", "explorer", "tpl.il_svy_qpl_explorer.html", "Modules/SurveyQuestionPool");
-			$this->tpl->setVariable("EXPLORER_TREE",$exp->getOutput());
-			$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-			$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+			$exp = new ilMaterialExplorer($this, 'addMaterial', $_SESSION["link_new_type"]);
+			$exp->setPathOpen((int)$_GET["ref_id"]);
+			
+			$this->tpl->setContent($exp->getHTML());
 		}
 	}
 	
@@ -869,12 +856,14 @@ abstract class SurveyQuestionGUI
 		
 		$selectable_items = array();
 		
+		$source_id = $_GET["source_id"];
+		
 		switch ($_SESSION["search_link_type"])
 		{
 			case "pg":
 				include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-				$cont_obj_gui =& new ilObjContentObjectGUI("", $_GET["source_id"], true);
+				$cont_obj_gui =& new ilObjContentObjectGUI("", $source_id, true);
 				$cont_obj = $cont_obj_gui->object;
 				$pages = ilLMPageObject::getPageList($cont_obj->getId());										
 				foreach($pages as $page)
@@ -892,7 +881,7 @@ abstract class SurveyQuestionGUI
 				
 			case "st":				
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-				$cont_obj_gui =& new ilObjContentObjectGUI("", $_GET["source_id"], true);
+				$cont_obj_gui =& new ilObjContentObjectGUI("", $source_id, true);
 				$cont_obj = $cont_obj_gui->object;
 				// get all chapters
 				$ctree =& $cont_obj->getLMTree();
@@ -912,7 +901,7 @@ abstract class SurveyQuestionGUI
 				
 			case "glo":				
 				include_once "./Modules/Glossary/classes/class.ilObjGlossary.php";
-				$glossary =& new ilObjGlossary($_GET["source_id"], true);
+				$glossary =& new ilObjGlossary($source_id, true);
 				// get all glossary items
 				$terms = $glossary->getTermList();				
 				foreach($terms as $term)
@@ -926,7 +915,7 @@ abstract class SurveyQuestionGUI
 				break;
 				
 			case "lm":				
-				$this->object->addInternalLink("il__lm_" . $_GET["source_id"]);						
+				$this->object->addInternalLink("il__lm_" . $source_id);						
 				break;
 		}
 		
@@ -934,6 +923,7 @@ abstract class SurveyQuestionGUI
 		{
 			$ilTabs->activateTab("material");
 			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
+			$this->ctrl->setParameter($this, "source_id", $source_id);
 				
 			include_once "Modules/SurveyQuestionPool/classes/tables/class.SurveyMaterialsSourceTableGUI.php";
 			$tbl = new SurveyMaterialsSourceTableGUI($this, "linkChilds", "addMaterial");
