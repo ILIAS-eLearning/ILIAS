@@ -46,21 +46,16 @@ $(document).ready(function () {
 	}
 
 	dcl.changeStateForFormulaFields = function () {
-		var state = dcl.checkFormulaFieldsAttribute();
-		var required = $('#required');
-		required.prop('disabled', state);
-		required.prop('checked', false);
-		var unique = $('#unique');
-		unique.prop('disabled', state);
-		unique.prop('checked', false);
-
+        var state = dcl.checkFormulaFieldsAttribute();
+        var required = $('#required');
+        required.prop('disabled', state);
+        var unique = $('#unique');
+        unique.prop('disabled', state);
 	}
+
 	dcl.changeStateForFormulaFields();
 
-	$('#datatype').change(function () {
-		dcl.changeStateForFormulaFields();
-	});
-
+	$('#datatype').change(dcl.changeStateForFormulaFields);
 
 	/**
 	 * @var $tr tr object to highlight

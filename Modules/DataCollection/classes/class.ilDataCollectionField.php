@@ -239,7 +239,7 @@ class ilDataCollectionField
 	 */
 	public function setDescription($a_desc)
 	{
-		$this->desc = $a_desc;
+		$this->description = $a_desc;
 	}
 
 	/**

@@ -21,12 +21,33 @@ require_once('./Services/Form/classes/class.ilNonEditableValueGUI.php');
  */
 class ilDataCollectionFieldEditGUI {
 
-	private $obj_id;
-	private $table_id;
-	private $parent_obj;
-	private $table;
-	const REFERENCE_SEPARATOR = " -> ";
 
+    const REFERENCE_SEPARATOR = " -> ";
+
+    /**
+     * @var int
+     */
+	protected $obj_id;
+
+    /**
+     * @var int
+     */
+    protected $table_id;
+
+    /**
+     * @var ilObjDataCollectionGUI|object
+     */
+    protected $parent_obj;
+
+    /**
+     * @var ilDataCollectionTable
+     */
+    protected $table;
+
+    /**
+     * @var ilPropertyFormGUI
+     */
+    protected $form;
 
 	/**
 	 * Constructor
