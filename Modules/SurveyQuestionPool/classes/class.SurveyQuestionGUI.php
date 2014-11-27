@@ -865,6 +865,10 @@ abstract class SurveyQuestionGUI
 	
 	function linkChilds()
 	{
+		global $ilTabs;
+		
+		$selectable_items = array();
+		
 		switch ($_SESSION["search_link_type"])
 		{
 			case "pg":
@@ -872,93 +876,86 @@ abstract class SurveyQuestionGUI
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
 				$cont_obj_gui =& new ilObjContentObjectGUI("", $_GET["source_id"], true);
 				$cont_obj = $cont_obj_gui->object;
-				$pages = ilLMPageObject::getPageList($cont_obj->getId());
-				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-				$color_class = array("tblrow1", "tblrow2");
-				$counter = 0;
-				$this->tpl->addBlockFile("ADM_CONTENT", "link_selection", "tpl.il_svy_qpl_internallink_selection.html", "Modules/SurveyQuestionPool");
+				$pages = ilLMPageObject::getPageList($cont_obj->getId());										
 				foreach($pages as $page)
 				{
 					if($page["type"] == $_SESSION["search_link_type"])
 					{
-						$this->tpl->setCurrentBlock("linktable_row");
-						$this->tpl->setVariable("TEXT_LINK", $page["title"]);
-						$this->tpl->setVariable("TEXT_ADD", $this->lng->txt("add"));
-						$this->tpl->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($page["type"])) . "&" . $page["type"] . "=" . $page["obj_id"]);
-						$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-						$this->tpl->parseCurrentBlock();
-						$counter++;
+						$selectable_items[] = array(
+							"item_type" => $page["type"]
+							,"item_id" => $page["obj_id"]
+							,"title" => $page["title"]
+						);					
 					}
-				}
-				$this->tpl->setCurrentBlock("link_selection");
-				$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-				$this->tpl->setVariable("TEXT_LINK_TYPE", $this->lng->txt("obj_" . $_SESSION["search_link_type"]));
-				$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-				$this->tpl->parseCurrentBlock();
+				}				
 				break;
-			case "st":
-				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-				$color_class = array("tblrow1", "tblrow2");
-				$counter = 0;
+				
+			case "st":				
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
 				$cont_obj_gui =& new ilObjContentObjectGUI("", $_GET["source_id"], true);
 				$cont_obj = $cont_obj_gui->object;
 				// get all chapters
 				$ctree =& $cont_obj->getLMTree();
-				$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
-				$this->tpl->addBlockFile("ADM_CONTENT", "link_selection", "tpl.il_svy_qpl_internallink_selection.html", "Modules/SurveyQuestionPool");
+				$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));								
 				foreach($nodes as $node)
 				{
 					if($node["type"] == $_SESSION["search_link_type"])
 					{
-						$this->tpl->setCurrentBlock("linktable_row");
-						$this->tpl->setVariable("TEXT_LINK", $node["title"]);
-						$this->tpl->setVariable("TEXT_ADD", $this->lng->txt("add"));
-						$this->tpl->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($node["type"])) . "&" . $node["type"] . "=" . $node["obj_id"]);
-						$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-						$this->tpl->parseCurrentBlock();
-						$counter++;
+						$selectable_items[] = array(
+							"item_type" => $node["type"]
+							,"item_id" => $node["obj_id"]
+							,"title" => $node["title"]
+						);													
 					}
-				}
-				$this->tpl->setCurrentBlock("link_selection");
-				$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-				$this->tpl->setVariable("TEXT_LINK_TYPE", $this->lng->txt("obj_" . $_SESSION["search_link_type"]));
-				$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-				$this->tpl->parseCurrentBlock();
+				}				
 				break;
-			case "glo":
-				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-				$color_class = array("tblrow1", "tblrow2");
-				$counter = 0;
-				$this->tpl->addBlockFile("ADM_CONTENT", "link_selection", "tpl.il_svy_qpl_internallink_selection.html", "Modules/SurveyQuestionPool");
+				
+			case "glo":				
 				include_once "./Modules/Glossary/classes/class.ilObjGlossary.php";
 				$glossary =& new ilObjGlossary($_GET["source_id"], true);
 				// get all glossary items
-				$terms = $glossary->getTermList();
+				$terms = $glossary->getTermList();				
 				foreach($terms as $term)
 				{
-					$this->tpl->setCurrentBlock("linktable_row");
-					$this->tpl->setVariable("TEXT_LINK", $term["term"]);
-					$this->tpl->setVariable("TEXT_ADD", $this->lng->txt("add"));
-					$this->tpl->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "addGIT") . "&git=" . $term["id"]);
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-					$counter++;
-				}
-				$this->tpl->setCurrentBlock("link_selection");
-				$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-				$this->tpl->setVariable("TEXT_LINK_TYPE", $this->lng->txt("glossary_term"));
-				$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-				$this->tpl->parseCurrentBlock();
+					$selectable_items[] = array(
+							"item_type" => "GIT"
+							,"item_id" => $term["id"]
+							,"title" => $term["term"]
+						);						
+				}				
 				break;
-			case "lm":
-				$this->object->addInternalLink("il__lm_" . $_GET["source_id"]);
-				unset($_SESSION["link_new_type"]);
-				unset($_SESSION["search_link_type"]);
-				ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
-				$this->ctrl->redirect($this, "material");
+				
+			case "lm":				
+				$this->object->addInternalLink("il__lm_" . $_GET["source_id"]);						
 				break;
 		}
+		
+		if(sizeof($selectable_items))
+		{
+			$ilTabs->activateTab("material");
+			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
+				
+			include_once "Modules/SurveyQuestionPool/classes/tables/class.SurveyMaterialsSourceTableGUI.php";
+			$tbl = new SurveyMaterialsSourceTableGUI($this, "linkChilds", "addMaterial");
+			$tbl->setData($selectable_items);
+			$this->tpl->setContent($tbl->getHTML());	
+		}
+		else
+		{
+			if($_SESSION["search_link_type"] == "lm")
+			{
+				ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
+				
+				unset($_SESSION["link_new_type"]);
+				unset($_SESSION["search_link_type"]);
+				$this->ctrl->redirect($this, "material");		
+			}			
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt("material_added_empty"), true);
+				$this->ctrl->redirect($this, "addMaterial");	
+			}				
+		}					
 	}
 	
 		

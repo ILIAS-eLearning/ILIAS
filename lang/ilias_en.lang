@@ -15112,3 +15112,4 @@ survey#:#survey_results_personalized#:#With Names
 survey#:#survey_results_personalized_info#:#Participants and their answers to the survey are shown in the Result Tabs. Other participants that have access to these tabs can identify them.
 survey#:#survey_results_anonymized#:#Without Names
 survey#:#survey_results_anonymized_info#:#The answers of participants to the survey are shown in the Results Tabs but no names are provided. Other participants that have access to these tabs cannot attribute answers to partcipants.
+survey#:#material_added_empty#:#The object does not have any suitable material.
