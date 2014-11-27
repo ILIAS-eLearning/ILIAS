@@ -5150,10 +5150,19 @@ if($tgt_ops_id)
 	$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('sess');
 	if($lp_type_id)
 	{			
+		// add "edit_learning_progress" to session
 		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);				
-							
+									
+		// clone settings from "write" to "edit_learning_progress"
 		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');	
 		ilDBUpdateNewObjectType::cloneOperation('sess', $src_ops_id, $tgt_ops_id);
+		
+		// clone settings from "write" to "read_learning_progress" (4287 did not work for sessions)
+		$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_learning_progress');	
+		if($tgt_ops_id)
+		{
+			ilDBUpdateNewObjectType::cloneOperation('sess', $src_ops_id, $tgt_ops_id);
+		}
 	}	
 }
 
