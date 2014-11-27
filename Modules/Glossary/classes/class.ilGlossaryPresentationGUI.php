@@ -598,11 +598,14 @@ class ilGlossaryPresentationGUI
 				$ilCtrl->getLinkTarget($this, "printViewSelection"));
 	
 			$ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", $this->term_id);
-			$ilTabs->addNonTabbedLink("editing_view",
+			include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+			if (ilGlossaryTerm::_lookGlossaryID($this->term_id) == $this->glossary->getId())
+			{
+				$ilTabs->addNonTabbedLink("editing_view",
 				$lng->txt("glo_editing_view"),
 				$ilCtrl->getLinkTargetByClass(array("ilglossaryeditorgui", "ilobjglossarygui", "ilglossarytermgui"), "listDefinitions"));
 				//"ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".$_GET["ref_id"]."&amp;edit_term=".$this->term_id);
-			
+			}
 			$ilTabs->activateTab($a_act);
 		}
 	}
@@ -1324,10 +1327,14 @@ class ilGlossaryPresentationGUI
 				if ($ilAccess->checkAccess("write", "", (int) $_GET["ref_id"]) ||
 					$ilAccess->checkAccess("edit_content", "", (int) $_GET["ref_id"]))
 				{
-					$tabs_gui->addNonTabbedLink("editing_view",
-						$lng->txt("glo_editing_view"),
-						"ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".(int) $_GET["ref_id"],
-						"_top");
+					include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+					if (ilGlossaryTerm::_lookGlossaryID($this->term_id) == $this->glossary->getId())
+					{
+						$tabs_gui->addNonTabbedLink("editing_view",
+							$lng->txt("glo_editing_view"),
+							"ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".(int) $_GET["ref_id"],
+							"_top");
+					}
 				}
 
 			}

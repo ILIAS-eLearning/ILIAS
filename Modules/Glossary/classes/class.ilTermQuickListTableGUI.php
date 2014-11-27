@@ -35,7 +35,7 @@ class ilTermQuickListTableGUI extends ilTable2GUI
 
 		//$this->setData($this->glossary->getTermList($this->filter["term"], "",
 		//	$this->filter["definition"]));
-		$this->setData($this->glossary->getTermList("", "", ""));
+		$this->setData($this->glossary->getTermList("", "", "", 0, false, false, null, true));
 	}
 	
 	/**

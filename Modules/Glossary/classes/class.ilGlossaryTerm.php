@@ -300,7 +300,7 @@ class ilGlossaryTerm
 	/**
 	* get glossary id form term id
 	*/
-	function _lookGlossaryID($term_id)
+	static function _lookGlossaryID($term_id)
 	{
 		global $ilDB;
 
@@ -315,7 +315,7 @@ class ilGlossaryTerm
 	/**
 	* get glossary term
 	*/
-	function _lookGlossaryTerm($term_id)
+	static function _lookGlossaryTerm($term_id)
 	{
 		global $ilDB;
 
@@ -330,7 +330,7 @@ class ilGlossaryTerm
 	/**
 	* lookup term language
 	*/
-	function _lookLanguage($term_id)
+	static function _lookLanguage($term_id)
 	{
 		global $ilDB;
 

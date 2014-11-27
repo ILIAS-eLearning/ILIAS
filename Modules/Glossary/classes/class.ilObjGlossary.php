@@ -350,9 +350,16 @@ class ilObjGlossary extends ilObject
 	* Get term list
 	*/
 	function getTermList($searchterm = "", $a_letter = "", $a_def = "", $a_tax_node = 0, $a_include_offline_childs = false,
-		$a_add_amet_fields = false, array $a_amet_filter = null)
+		$a_add_amet_fields = false, array $a_amet_filter = null, $a_omit_virtual = false)
 	{
-		$glo_ids = $this->getAllGlossaryIds($a_include_offline_childs);
+		if ($a_omit_virtual)
+		{
+			$glo_ids[] = $this->getId();
+		}
+		else
+		{
+			$glo_ids = $this->getAllGlossaryIds($a_include_offline_childs);
+		}
 		$list = ilGlossaryTerm::getTermList($glo_ids, $searchterm, $a_letter, $a_def, $a_tax_node,
 			$a_add_amet_fields, $a_amet_filter);
 		return $list;
