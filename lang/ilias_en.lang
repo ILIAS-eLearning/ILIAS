@@ -13380,6 +13380,7 @@ assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#tst_test_execution#:#Test Execution
 assessment#:#redirect_after_finishing_tst#:#Redirect after finishing the test
+assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können.
 assessment#:#redirect_in_kiosk_mode#:#Redirect only in kiosk mode
 assessment#:#redirection_url#:#Redirection target
 assessment#:#exp_file_created#:#Export file created.

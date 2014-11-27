@@ -1149,6 +1149,7 @@ class ilObjTestSettingsGeneralGUI
 
 		$redirection_mode = $this->testOBJ->getRedirectionMode();
 		$rm_enabled = new ilCheckboxInputGUI($this->lng->txt('redirect_after_finishing_tst'), 'redirection_enabled' );
+		$rm_enabled->setInfo($this->lng->txt('redirect_after_finishing_tst_desc'));
 		$rm_enabled->setChecked($redirection_mode == '0' ? false : true);
 			$radio_rm = new ilRadioGroupInputGUI($this->lng->txt('redirect_after_finishing_tst'), 'redirection_mode');
 			$always = new ilRadioOption($this->lng->txt('tst_results_access_always'), REDIRECT_ALWAYS);
