@@ -58,7 +58,7 @@ class ilDataCollectionFieldListGUI
 	 */
 	public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id)
 	{
-        global $ilCtrl, $lng, $ilToolbar, $tpl, $ilTabsGUI;
+        global $ilCtrl, $lng, $ilToolbar, $tpl, $ilTabs;
 
 		$this->main_table_id = $a_parent_obj->object->getMainTableId();
 		$this->table_id = $table_id;
@@ -67,7 +67,7 @@ class ilDataCollectionFieldListGUI
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->tpl = $tpl;
-        $this->tabs = $ilTabsGUI;
+        $this->tabs = $ilTabs;
         $this->toolbar = $ilToolbar;
         if ( ! $this->checkAccess()) {
             ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
