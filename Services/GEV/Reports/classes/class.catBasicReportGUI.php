@@ -138,12 +138,17 @@ class catBasicReportGUI {
 		$table->setData($data);
 
 		//export-button
-		$export_btn = '<a class="submit exportXlsBtn"'
-					. 'href="'
-					.$this->ctrl->getLinkTarget($this, "exportxls")
-					.'">'
-					.$this->lng->txt("gev_report_exportxls")
-					.'</a>';
+		if (count($data) > 0) {
+			$export_btn = '<a class="submit exportXlsBtn"'
+						. 'href="'
+						.$this->ctrl->getLinkTarget($this, "exportxls")
+						.'">'
+						.$this->lng->txt("gev_report_exportxls")
+						.'</a>';
+		}
+		else {
+			$export_btn = "";
+		}
 
 		return	 $export_btn
 				.$table->getHTML()
@@ -233,6 +238,17 @@ class catBasicReportGUI {
 	
 	protected function transformResultRow($a_row) {
 		return $a_row;
+	}
+	
+	// Helper to replace "-empty-"-entries from historizing tables
+	// by gev_no_entry.
+	protected function replaceEmpty($a_rec) {
+		foreach ($a_rec as $key => $value) {
+			if ($a_rec[$key] == "-empty-" || $a_rec[$key] == "0000-00-00") {
+				$a_rec[$key] = $this->lng->txt("gev_table_no_entry");
+			}
+		}
+		return $a_rec;
 	}
 }
 

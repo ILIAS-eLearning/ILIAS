@@ -414,53 +414,59 @@ class gevOrgUnitUtils {
 
 	// queries
 	
-	public function getEmployeesIn($a_ref_ids) {
-		$res = $this->db->query(
+	static public function getEmployeesIn($a_ref_ids) {
+		global $ilDB;
+		
+		$res = $ilDB->query(
 			 "SELECT ua.usr_id"
 			."  FROM rbac_ua ua"
-			."  JOIN tree tr ON ".$this->db->in("tr.parent", $a_ref_ids, false, "integer")
+			."  JOIN tree tr ON ".$ilDB->in("tr.parent", $a_ref_ids, false, "integer")
 			."  JOIN rbac_fa fa ON fa.parent = tr.child"
 			."  JOIN object_data od ON od.obj_id = fa.rol_id"
 			." WHERE ua.rol_id = fa.rol_id"
 			."   AND od.title LIKE 'il_orgu_employee_%'"
 			);
 		$ret = array();
-		while ($rec = $this->db->fetchAssoc($res)) {
+		while ($rec = $ilDB->fetchAssoc($res)) {
 			$ret[] = $rec["usr_id"];
 		}
 		return $ret;
 	}
 	
 	// Get everyone in the given org-units.
-	public function getAllPeopleIn($a_ref_ids) {
-		$res = $this->db->query(
+	static public function getAllPeopleIn($a_ref_ids) {
+		global $ilDB;
+		
+		$res = $ilDB->query(
 			 "SELECT ua.usr_id"
 			."  FROM rbac_ua ua"
-			."  JOIN tree tr ON ".$this->db->in("tr.parent", $a_ref_ids, false, "integer")
+			."  JOIN tree tr ON ".$ilDB->in("tr.parent", $a_ref_ids, false, "integer")
 			."  JOIN rbac_fa fa ON fa.parent = tr.child"
 			." WHERE ua.rol_id = fa.rol_id"
 			);
 		$ret = array();
-		while ($rec = $this->db->fetchAssoc($res)) {
+		while ($rec = $ilDB->fetchAssoc($res)) {
 			$ret[] = $rec["usr_id"];
 		}
 		return $ret;
 	}
 	
 	// Get all orgunits below the given ones. Returns ref_ids.
-	public function getAllChildren($a_ref_ids) {
-		$res = $this->db->query(
+	static public function getAllChildren($a_ref_ids) {
+		global $ilDB;
+		
+		$res = $ilDB->query(
 			 "SELECT DISTINCT od.obj_id obj_id, c.child ref_id "
 			." FROM tree p"
 			." RIGHT JOIN tree c ON c.lft > p.lft AND c.rgt < p.rgt AND c.tree = p.tree"
 			." LEFT JOIN object_reference oref ON oref.ref_id = c.child"
 			." LEFT JOIN object_data od ON od.obj_id = oref.obj_id"
-			." WHERE ".$this->db->in("p.child", $a_ref_ids, false, "integer")
+			." WHERE ".$ilDB->in("p.child", $a_ref_ids, false, "integer")
 			."   AND od.type = 'orgu'"
 			);
 	
 		$ret = array();
-		while($rec = $this->db->fetchAssoc($res)) {
+		while($rec = $ilDB->fetchAssoc($res)) {
 			$ret[] = $rec;
 		}
 		return $ret;

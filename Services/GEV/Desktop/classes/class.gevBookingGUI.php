@@ -212,7 +212,7 @@ class gevBookingGUI {
 			else {
 				$title = new catTitleGUI("gev_booking", "gev_booking_header_note", "GEV_img/ico-head-booking.png");
 			}
-			$employee_info = "";
+			$employee = "";
 		}
 		else {
 			// TODO: correct textes here.

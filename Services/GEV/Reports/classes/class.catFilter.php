@@ -239,7 +239,11 @@ class catFilter {
 	// Render the filter to HTML output
 	public function render() {
 		$this->checkCompiled("render");
-		
+
+		if (count($self->filters) === 0) {
+			return "";
+		}
+
 		require_once("Services/UICore/classes/class.ilTemplate.php");
 		
 		$tpl = new ilTemplate("tpl.cat_filter.html", true, true, "Services/GEV/Reports");

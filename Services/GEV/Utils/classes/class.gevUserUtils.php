@@ -172,6 +172,9 @@ class gevUserUtils {
 		$this->superior_ous = null;
 		$this->employees = null;
 		$this->employees_for_course_search = null;
+		$this->employee_ids_for_course_search = null;
+		$this->employees_for_booking_cancellations = null;
+		$this->employee_ids_for_booking_cancellations = null;
 		
 		$this->potentiallyBookableCourses = array();
 		$this->users_who_booked_at_course = array();
@@ -676,7 +679,12 @@ class gevUserUtils {
 		while($val = $this->db->fetchAssoc($res)) {
 			$crs_utils = gevCourseUtils::getInstance($val["obj_id"]);
 			
-			if (!$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id) && !gevUserUtils::getInstanceByObj($ilUser)->isAdmin()) {
+			if ((   !$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)
+					|| in_array($crs_utils->getBookingStatusOf($this->user_id)
+							   , array(ilCourseBooking::STATUS_BOOKED, ilCourseBooking::STATUS_WAITING)
+							   )
+					|| $crs_utils->isMember($this->user_id)
+					)) {
 				continue;
 			}
 			
@@ -746,7 +754,7 @@ class gevUserUtils {
 			$crs_booking_perms = ilCourseBookingPermissions::getInstance($crs);*/
 			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			
-			if (   (   !$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)
+			/*if (   (   !$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)
 					|| in_array($crs_utils->getBookingStatusOf($this->user_id)
 							   , array(ilCourseBooking::STATUS_BOOKED, ilCourseBooking::STATUS_WAITING)
 							   )
@@ -755,7 +763,7 @@ class gevUserUtils {
 				) {
 				unset($info[$key]);
 				continue;
-			}
+			}*/
 			
 			$list = "";
 			foreach ($info[$key]["target_group_list"] as $val) {
@@ -786,13 +794,12 @@ class gevUserUtils {
 		return $this->isSuperior() && count($this->getEmployeesForCourseSearch()) > 0;
 	}
 	
-	public function getEmployeesForCourseSearch() {
-		if ($this->employees_for_course_search) {
-			return $this->employees_for_course_search;
+	public function getEmployeeIdsForCourseSearch() {
+		if ($this->employee_ids_for_course_search) {
+			return $this->employee_ids_for_course_search;
 		}
 		
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-		$ou_utils = gevOrgUnitUtils::getInstance();
 		
 		// we need the employees in those ous
 		$_d_ous = $this->getOrgUnitsWhereUserCanBookEmployees();
@@ -801,12 +808,23 @@ class gevUserUtils {
 		$_r_ous = $this->getOrgUnitsWhereUserCanBookEmployeesRecursive();
 		
 		$e_ous = array_merge($_d_ous, $_r_ous);
-		$a_ous = $ou_utils->getAllChildren($_r_ous);
+		$a_ous = gevOrgUnitUtils::getAllChildren($_r_ous);
 		
-		$e_ids = array_unique(array_merge( $ou_utils->getEmployeesIn($e_ous)
-										, $ou_utils->getAllPeopleIn($a_ous)
-										)
+		$e_ids = array_unique(array_merge( gevOrgUnitUtils::getEmployeesIn($e_ous)
+										 , gevOrgUnitUtils::getAllPeopleIn($a_ous)
+										 )
 							 );
+		
+		$this->employee_ids_for_course_search = $e_ids;
+		return $e_ids;
+	}
+	
+	public function getEmployeesForCourseSearch() {
+		if ($this->employees_for_course_search) {
+			return $this->employees_for_course_search;
+		}
+		
+		$e_ids = $this->getEmployeeIdsForCourseSearch();
 		
 		$res = $this->db->query( "SELECT usr_id, firstname, lastname"
 								." FROM usr_data "
@@ -819,6 +837,52 @@ class gevUserUtils {
 		}
 		
 		return $this->employees_for_course_search;
+	}
+	
+	public function getEmployeeIdsForBookingCancellations() {
+		if ($this->employee_ids_for_booking_cancellations) {
+			return $this->employee_ids_for_booking_cancellations;
+		}
+		
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+
+		// we need the employees in those ous
+		$_d_ous = $this->getOrgUnitsWhereUserCanCancelEmployeeBookings();
+		// we need the employees in those ous and everyone in the ous
+		// below those.
+		$_r_ous = $this->getOrgUnitsWhereUserCanCancelEmployeeBookingsRecursive();
+		
+		$e_ous = array_merge($_d_ous, $_r_ous);
+		$a_ous = gevOrgUnitUtils::getAllChildren($_r_ous);
+		
+		$e_ids = array_unique(array_merge( gevOrgUnitUtils::getEmployeesIn($e_ous)
+										 , gevOrgUnitUtils::getAllPeopleIn($a_ous)
+										 )
+							 );
+		
+		$this->employee_ids_for_booking_cancellations = $e_ids;
+		
+		return $e_ids;
+	}
+	
+	public function getEmployeesForBookingCancellations() {
+		if ($this->employees_for_booking_cancellations) {
+			return $this->employees_for_booking_cancellations;
+		}
+
+		$e_ids = $this->getEmployeeIdsForBookingCancellations();
+		
+		$res = $this->db->query( "SELECT usr_id, firstname, lastname"
+								." FROM usr_data "
+								." WHERE ".$this->db->in("usr_id", $e_ids, false, "integer")
+								);
+		
+		$this->employees_for_booking_cancellations = array();
+		while($rec = $this->db->fetchAssoc($res)) {
+			$this->employees_for_booking_cancellations[] = $rec;
+		}
+		
+		return $this->employees_for_booking_cancellations;
 	}
 
 	public function isProfileComplete() {
@@ -1399,14 +1463,25 @@ class gevUserUtils {
 		return $tree->getOrgusWhereUserHasPermissionForOperation("book_employees_rcrsv");
 	}
 	
+	public function getOrgUnitsWhereUserCanCancelEmployeeBookings() {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
+		return $tree->getOrgusWhereUserHasPermissionForOperation("cancel_employee_bookings");
+	}
+	
+	public function getOrgUnitsWhereUserCanCancelEmployeeBookingsRecursive() {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
+		return $tree->getOrgusWhereUserHasPermissionForOperation("cancel_employee_bookings_rcrsv");
+	}
+	
 	public function getEmployees() {
 		if ($this->employees !== null) {
 			return $this->employees;
 		}
 		
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-		$ou_utils = gevOrgUnitUtils::getInstance();
-		
+
 		$_ds_ous = $this->getOrgUnitsWhereUserIsDirectSuperior();
 		$_s_ous = $this->getOrgUnitsWhereUserIsSuperior();
 	
@@ -1424,8 +1499,8 @@ class gevUserUtils {
 		// ref_ids of ous where user is superior but not direct superior
 		$nds_ous = array_diff($s_ous, $ds_ous);
 		
-		$de = $ou_utils->getEmployeesIn($ds_ous);
-		$re = $ou_utils->getAllPeopleIn($nds_ous);
+		$de = gevOrgUnitUtils::getEmployeesIn($ds_ous);
+		$re = gevOrgUnitUtils::getAllPeopleIn($nds_ous);
 		
 		$this->employees = array_unique(array_merge($de, $re));
 		

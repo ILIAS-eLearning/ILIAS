@@ -2234,3 +2234,7 @@ foreach ($txt_fields_hist_course as $field) {
 }
 ?>
 
+<#65>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
