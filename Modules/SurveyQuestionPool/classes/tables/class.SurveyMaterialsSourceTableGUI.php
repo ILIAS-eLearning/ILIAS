@@ -42,7 +42,7 @@ class SurveyMaterialsSourceTableGUI extends ilTable2GUI
 				
 		$this->addColumn($lng->txt("title"), "title");
 		$this->addColumn($lng->txt("action"), "");
-		// $this->setTitle($this->lng->txt('materials'));
+		$this->setTitle($this->lng->txt('select_object_to_link'));
 		
 		$this->setLimit(9999);
 		$this->disable("numinfo");

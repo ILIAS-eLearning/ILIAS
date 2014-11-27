@@ -800,12 +800,15 @@ abstract class SurveyQuestionGUI
 					break;
 			}
 
-			ilUtil::sendInfo($this->lng->txt("select_object_to_link"));
-
 			$exp = new ilMaterialExplorer($this, 'addMaterial', $_SESSION["link_new_type"]);
 			$exp->setPathOpen((int)$_GET["ref_id"]);
 			
-			$this->tpl->setContent($exp->getHTML());
+			include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
+			$panel = ilPanelGUI::getInstance();
+			$panel->setHeading($this->lng->txt("select_object_to_link"));
+			$panel->setBody($exp->getHTML());
+			
+			$this->tpl->setContent($panel->getHTML());
 		}
 	}
 	
