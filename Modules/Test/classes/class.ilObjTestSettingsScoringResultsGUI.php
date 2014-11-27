@@ -510,6 +510,13 @@ class ilObjTestSettingsScoringResultsGUI
 		$pass_scoring->setValue($this->testOBJ->getPassScoring());
 		$form->addItem($pass_scoring);
 
+		// deletion of test results
+		$passDeletion = new ilRadioGroupInputGUI($this->lng->txt('tst_pass_deletion'), 'pass_deletion_allowed');
+		$passDeletion->addOption(new ilRadioOption($this->lng->txt('tst_pass_deletion_not_allowed'), 0, ''));
+		$passDeletion->addOption(new ilRadioOption($this->lng->txt('tst_pass_deletion_allowed'), 1, ''));
+		$passDeletion->setValue($this->testOBJ->isPassDeletionAllowed());
+		$form->addItem($passDeletion);
+
 		// disable scoring settings
 		if( !$this->areScoringSettingsWritable() )
 		{
@@ -634,13 +641,6 @@ class ilObjTestSettingsScoringResultsGUI
 		$header_misc = new ilFormSectionHeaderGUI();
 		$header_misc->setTitle($this->lng->txt('misc'));
 		$form->addItem($header_misc);
-
-		// deletion of test results
-		$passDeletion = new ilRadioGroupInputGUI($this->lng->txt('tst_pass_deletion'), 'pass_deletion_allowed');
-		$passDeletion->addOption(new ilRadioOption($this->lng->txt('tst_pass_deletion_not_allowed'), 0, ''));
-		$passDeletion->addOption(new ilRadioOption($this->lng->txt('tst_pass_deletion_allowed'), 1, ''));
-		$passDeletion->setValue($this->testOBJ->isPassDeletionAllowed());
-		$form->addItem($passDeletion);
 
 		// export settings
 		$export_settings = new ilCheckboxGroupInputGUI($this->lng->txt('tst_export_settings'), 'export_settings');
