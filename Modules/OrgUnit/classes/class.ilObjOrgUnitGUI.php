@@ -317,7 +317,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 
 	public function view() {
-
 		if (!$this->ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
 			if ($this->ilAccess->checkAccess("visible", "", $_GET["ref_id"])) {
 				ilUtil::sendFailure($this->lng->txt("msg_no_perm_read"));
@@ -330,6 +329,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		parent::renderObject();
 		$this->tabs_gui->setTabActive("view_content");
 		$this->tabs_gui->removeSubTab("page_editor");
+		$this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
 		if ($this->ilAccess->checkAccess("write", "", $_GET["ref_id"]) AND $this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
 			$this->toolbar->addButton($this->lng->txt("simple_import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "importScreen"));
 			$this->toolbar->addButton($this->lng->txt("simple_user_import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleUserImportGUI", "userImportScreen"));
@@ -412,6 +412,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	}
 
 
+	/**
+	 * @param int    $a_ref_id
+	 * @param string $a_cmd
+	 */
 	protected function redirectToRefId($a_ref_id, $a_cmd = "") {
 		$obj_type = ilObject::_lookupType($a_ref_id, true);
 		if ($obj_type != "orgu") {
@@ -423,13 +427,16 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	}
 
 
-	public function getTabs(&$tabs_gui) {
+	/**
+	 * @param ilTabsGUI $tabs_gui
+	 */
+	public function getTabs(ilTabsGUI $tabs_gui = NULL) {
 		if ($this->ilAccess->checkAccess('read', '', $this->object->getRefId())) {
 			$this->tabs_gui->addTab("view_content", $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, ""));
 			$this->tabs_gui->addTab("info_short", "Info", $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
 		}
 
-		//Tabs for OrgUnits exclusive root!
+		// Tabs for OrgUnits exclusive root!
 		if ($this->object->getRefId() != ilObjOrgUnit::getRootOrgRefId()) {
 			if (ilObjOrgUnitAccess::_checkAccessStaff($this->object->getRefId())) {
 				$this->tabs_gui->addTab("orgu_staff", $this->lng->txt("orgu_staff"), $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "showStaff"));
@@ -450,11 +457,14 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->tabs_gui->addTab('orgu_types', $this->lng->txt('orgu_types'), $this->ctrl->getLinkTargetByClass('ilOrgUnitTypeGUI'));
 			}
 		}
-		parent::getTabs($tabs_gui);
+		parent::getTabs($this->tabs_gui);
 	}
 
 
-	private function setSubTabsSettings($active_tab_id) {
+	/**
+	 * @param $active_tab_id
+	 */
+	protected function setSubTabsSettings($active_tab_id) {
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->tabs_gui->addSubTab('edit_settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this, 'editSettings'));
@@ -644,7 +654,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	}
 
 
-	public function getAdminTabs(&$tabs_gui) {
+	/**
+	 * @param ilTabsGUI $tabs_gui
+	 */
+	public function getAdminTabs(ilTabsGUI $tabs_gui) {
 		$this->getTabs($tabs_gui);
 	}
 
@@ -667,6 +680,9 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	}
 
 
+	/**
+	 * ??
+	 */
 	function doUserAutoCompleteObject() {
 	}
 
