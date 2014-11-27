@@ -93,7 +93,6 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		$this->record_gui->setSelectedOnly(true);
 		$this->record_gui->setTableGUI($this);
 		$this->record_gui->parse();
-		
 		//$this->setDefaultOrderField("login");
 		//$this->setDefaultOrderDirection("asc");
 		$this->setData($this->glossary->getTermList($this->filter["term"], $_GET["letter"],

@@ -102,7 +102,7 @@ class ilTermListTableGUI extends ilTable2GUI
 		//$this->addMultiCommand("addDefinition", $lng->txt("cont_add_definition"));
 		
 		$this->setShowRowsSelector(true);
-		
+
 		$this->initFilter();
 		$this->setData($this->glossary->getTermList($this->filter["term"], "",
 			$this->filter["definition"], $this->tax_node, true, true));

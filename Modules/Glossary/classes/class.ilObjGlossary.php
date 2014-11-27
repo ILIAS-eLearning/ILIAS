@@ -398,6 +398,12 @@ class ilObjGlossary extends ilObject
 					{
 						$glo_ids = ilObjGlossary::removeOfflineGlossaries($glo_ids);
 					}
+					// always show entries of current glossary (if no permission is given, user will not come to the presentation screen)
+					// see bug #14477
+					if (!in_array($this->getId(), $glo_ids))
+					{
+						$glo_ids[] = $this->getId();
+					}
 					break;
 
 				case "subtree":
@@ -413,6 +419,12 @@ class ilObjGlossary extends ilObject
 					if (!$a_include_offline_childs)
 					{
 						$glo_ids = ilObjGlossary::removeOfflineGlossaries($glo_ids);
+					}
+					// always show entries of current glossary (if no permission is given, user will not come to the presentation screen)
+					// see bug #14477
+					if (!in_array($this->getId(), $glo_ids))
+					{
+						$glo_ids[] = $this->getId();
 					}
 					break;
 				
@@ -1140,7 +1152,7 @@ class ilObjGlossary extends ilObject
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 		$this->cloneMetaData($new_obj);
 	 	
-		$new_obj->setTitle($this->getTitle());
+//		$new_obj->setTitle($this->getTitle());
 		$new_obj->setDescription($this->getDescription());
 		$new_obj->setVirtualMode($this->getVirtualMode());
 		$new_obj->setPresentationMode($this->getPresentationMode());
