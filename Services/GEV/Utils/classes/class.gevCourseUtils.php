@@ -1738,7 +1738,24 @@ class gevCourseUtils {
 		return $title->render() . $employee . $form->getHTML();
 	}
 
-	
+	static $hist_edu_programs = null;
+
+	// Over historizing course tables
+	static function getEduProgramsFromHisto() {
+		if (self::$hist_edu_programs !== null) {
+			return self::$hist_edu_programs;
+		}
+
+
+		global $ilDB;
+
+		$res = $ilDB->query("SELECT DISTINCT edu_program FROM hist_course WHERE edu_program != '-empty-'");
+		self::$hist_edu_programs = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			self::$hist_edu_programs[] = $rec["edu_program"];
+		}
+		return self::$hist_edu_programs;
+	}
 }
 
 ?>

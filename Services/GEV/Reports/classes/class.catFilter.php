@@ -240,7 +240,7 @@ class catFilter {
 	public function render() {
 		$this->checkCompiled("render");
 
-		if (count($self->filters) === 0) {
+		if (count($this->filters) === 0) {
 			return "";
 		}
 
@@ -332,6 +332,15 @@ class catDatePeriodFilterType {
 	public function getId() {
 		return catDatePeriodFilterType::ID;
 	}
+	
+	// config:
+	// id
+	// label_begin
+	// label_end
+	// field_begin
+	// field_end
+	// default_begin
+	// default_end
 	
 	public function checkConfig($a_conf) {
 		if (count($a_conf) !== 8) {
@@ -430,6 +439,12 @@ class catCheckboxFilterType {
 		return catCheckboxFilterType::ID;
 	}
 	
+	// config:
+	// id
+	// label
+	// sql_checked
+	// sql_unchecked
+	
 	public function checkConfig($a_conf) {
 		if (count($a_conf) !== 5) {
 			// one parameter less, since type is encoded in first parameter but not passed by user.
@@ -472,5 +487,93 @@ class catCheckboxFilterType {
 	}
 }
 catFilter::addFilterType(catCheckboxFilterType::ID, new catCheckboxFilterType());
+
+
+
+
+class catMultiSelectFilter {
+	const ID = "multiselect";
+	
+	public function getId() {
+		return catMultiSelectFilter::ID;
+	}
+	
+	// config:
+	// id
+	// label
+	// field
+	// values
+	// default_values
+	// width (optional)
+	// height (optional)
+	// field type (optional)
+	
+	public function checkConfig($a_conf) {
+		if (count($a_conf) < 6) {
+			// one parameter less, since type is encoded in first parameter but not passed by user.
+			throw new Exception ("catDatePeriodFilterType::checkConfig: expected at least 5 parameters for multiselect.");
+		}
+		
+		if (count($a_conf) === 6) {
+			$a_conf[] = 160; // width
+			$a_conf[] = 75; // height
+			$a_conf[] = "text"; // type
+		}
+		else if (count($a_conf) === 7) {
+			$a_conf[] = 75; // height
+			$a_conf[] = "text"; // type
+		}
+		else if (count($a_conf) === 8) {
+			$a_conf[] = "text"; // type
+		}
+		
+		return $a_conf;
+	}
+	
+	public function render($a_tpl, $a_postvar, $a_conf, $a_pars) {
+		$a_tpl->setVariable("MULTI_SELECT_LABEL", $a_conf[2]);
+		$a_tpl->setVariable("WIDTH", $a_conf[6]);
+		$a_tpl->setVariable("HEIGHT", $a_conf[7]);
+		
+		$count = 0;
+
+		// for some unknown reason, the var POST_VAR gets
+		// not filled in all places if i call it from catFilter::render.
+		$a_tpl->setVariable("FOO_POST_VAR", $a_postvar);
+		foreach ($a_conf[4] as $title) {
+			$a_tpl->setCurrentBlock("multiselect_item");
+			$a_tpl->setVariable("CNT", $count);
+			$a_tpl->setVariable("POST_VAR", $a_postvar);
+			$a_tpl->setVariable("OPTION_VALUE", $title);
+			$a_tpl->setVariable("OPTION_TITLE", $title);
+			if (in_array($title, $a_pars)) {
+				$a_tpl->setVariable("CHECKED", "checked");
+			}
+			$a_tpl->parseCurrentBlock();
+			$count++;
+		}
+	}
+	
+	public function sql($a_conf, $a_pars) {
+		global $ilDB;
+		return $ilDB->in(catFilter::quoteDBId($a_conf[3]), $a_pars, false, $a_conf[8]);
+	}
+	
+	public function get($a_pars) {
+		return $a_pars;
+	}
+	
+	public function _default($a_conf) {
+		return $a_conf[5];
+	}
+	
+	public function preprocess_post($a_post) {
+		unset($a_post["send"]);
+		return $a_post;
+	}
+}
+catFilter::addFilterType(catMultiSelectFilter::ID, new catMultiSelectFilter());
+
+
 
 ?>

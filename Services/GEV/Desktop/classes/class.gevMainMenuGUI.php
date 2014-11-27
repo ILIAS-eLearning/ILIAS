@@ -87,10 +87,13 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$report_permissions = gevReportingPermissions::getInstance($this->user->getId());
 		
 		$report_permission_billing = $this->userUtils->isAdmin() || $report_permissions->viewAnyReport();
-		$report_permission_attendancebyuser =  $this->userUtils->isAdmin();//$this->userUtils->isSuperior();// || $this->userUtils->isAdmin();
+		$report_permission_attendancebyuser =  $this->userUtils->isAdmin() || $this->userUtils->isSuperior();
 		$report_permission_bookingsbyvenue =  $this->userUtils->isAdmin() || $this->userUtils->hasRoleIn(array("Veranstalter"));
 		$report_permission_wbd = $this->userUtils->isAdmin() && false;
-		$has_reporting_menu = $this->userUtils->isAdmin() || $report_permissions->viewAnyReport() || $report_permission_bookingsbyvenue; //$report_permission_attendancebyuser; // || ....
+		$has_reporting_menu =  $report_permission_billing 
+							|| $report_permission_attendancebyuser 
+							|| $report_permission_bookingsbyvenue 
+							|| $report_permission_wbd; //$report_permission_attendancebyuser; // || ....
 
 		$is_trainer = $tep; // $tep_permissions->isTutor();
 
