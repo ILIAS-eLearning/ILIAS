@@ -8912,7 +8912,7 @@ search#:#search_my_search_results#:#My search results
 search#:#search_new_folder#:#New folder
 search#:#search_no_category#:#You have not selected any search categories
 search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.
-search#:#search_no_match_hint#:#Your search - <b>%s</b> - did not match any documents.<br /><br />Suggestions:<br />Make sure all words are spelled correctly.<br />Try different keywords.<br />Try more general keywords.<br />Try fewer keywords.
+search#:#search_no_match_hint#:#Your search - <b>%s</b> - did not match any documents.<br /><br />Suggestions:<br />• Make sure all words are spelled correctly.<br />• Try different keywords.<br />• Try more general keywords.<br />• Try fewer keywords.
 search#:#search_no_match#:#Your search did not match any results
 search#:#search_no_results_saved#:#No results saved.
 search#:#search_no_search_term#:#You have not selected any search terms
