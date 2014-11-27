@@ -5140,3 +5140,21 @@ if($ilDB->tableColumnExists('ecs_import','econtent_id'))
 	$ilDB->dropTableColumn('ecs_import','econtent_id_bak');
 }
 ?>
+<#4428>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');	
+if($tgt_ops_id)
+{				
+	$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('sess');
+	if($lp_type_id)
+	{			
+		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);				
+							
+		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');	
+		ilDBUpdateNewObjectType::cloneOperation('sess', $src_ops_id, $tgt_ops_id);
+	}	
+}
+
+?>
