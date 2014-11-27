@@ -1584,7 +1584,7 @@ abstract class assQuestionGUI
 		$rows = array();
 
 		foreach($terms as $term)
-		{var_dump($term);
+		{
 			$this->ctrl->setParameter($this, 'git', $term['id']);
 			$rows[] = array(
 				'title'       => $term['term'],
@@ -1595,7 +1595,7 @@ abstract class assQuestionGUI
 		}
 
 		$table = new ilQuestionInternalLinkSelectionTableGUI($this, 'cancelExplorer', __METHOD__);
-		$table->setTitle('glossary_term');
+		$table->setTitle($this->lng->txt('glossary_term'));
 		$table->setData($rows);
 
 		$this->tpl->setContent($table->getHTML());
