@@ -239,7 +239,10 @@ class catBasicReportGUI {
 		
 		//init cols and write titles
 		$colcount = 0;
-		foreach ($this->table->columns as $col) {
+		foreach ($this->table->all_columns as $col) {
+			if ($col[4]) {
+				continue;
+			}
 			$worksheet->setColumn($colcount, $colcount, 30); //width
 			$worksheet->writeString(0, $colcount, $col[2] ? $col[1] : $this->lng->txt($col[1]), $format_bold);
 			$colcount++;
@@ -249,7 +252,10 @@ class catBasicReportGUI {
 		$rowcount = 1;
 		foreach ($data as $entry) {
 			$colcount = 0;
-			foreach ($this->table->columns as $col) {
+			foreach ($this->table->all_columns as $col) {
+				if ($col[4]) {
+					continue;
+				}
 				$k = $col[0];
 				$v = $entry[$k];
 
@@ -324,6 +330,7 @@ class catBasicReportGUI {
 class catReportTable {
 	protected function __construct() {
 		$this->columns = array();
+		$this->all_columns = array();
 		$this->row_template_filename = null;
 		$this->row_template_module = null;
 		$this->order_field = null;
@@ -337,12 +344,14 @@ class catReportTable {
 		return new catReportTable();
 	}
 	
-	public function column($a_id, $a_title, $a_no_lng_var = false, $a_width = "") {
+	public function column($a_id, $a_title, $a_no_lng_var = false, $a_width = "", $a_no_excel = false) {
 		$this->columns[$a_id] = array( $a_id
 									 , $a_title
 									 , $a_no_lng_var
 									 , $a_width
+									 , $a_no_excel
 									 );
+		$this->all_columns[$a_id] = $this->columns[$a_id];
 		return $this;
 	}
 	

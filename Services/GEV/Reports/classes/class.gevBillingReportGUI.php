@@ -47,7 +47,7 @@ class gevBillingReportGUI extends catBasicReportGUI {
 						->column("custom_id", "gev_number_of_measure")
 						->column("date", "gev_training_date")
 						->column("venue", "gev_venue")
-						->column("bill_link", "")
+						->column("bill_link", "", false, "", true)
 						->template("tpl.gev_billing_row.html", "Services/GEV/Reports")
 						;
 		
