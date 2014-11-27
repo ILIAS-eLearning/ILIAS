@@ -1852,29 +1852,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// add members
 		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-		
-		if(ilCourseParticipant::_getInstanceByObjId($this->object->getId(), $GLOBALS['ilUser']->getId())->isAdmin() or $this->checkPermissionBool('edit_permission'))
-		{
-			$types = array(
-				ilCourseConstants::CRS_MEMBER => $lng->txt("crs_member"),
-				ilCourseConstants::CRS_TUTOR => $lng->txt("crs_tutor"),
-				ilCourseConstants::CRS_ADMIN => $lng->txt("crs_admin")
-			);
-		}
-		else
-		{
-			$types = array(
-				ilCourseConstants::CRS_MEMBER => $lng->txt("crs_member"),
-				ilCourseConstants::CRS_TUTOR => $lng->txt("crs_tutor")
-			);
-		}
-		
+
 		ilRepositorySearchGUI::fillAutoCompleteToolbar(
 			$this,
 			$ilToolbar,
 			array(
 				'auto_complete_name'	=> $lng->txt('user'),
-				'user_type'				=> $types,
+				'user_type'				=> $this->getLocalRoles(),
 				'submit_name'			=> $lng->txt('add')
 			)
 		);
@@ -2590,7 +2574,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	/**
 	 * callback from repository search gui
 	 * @global ilRbacSystem $rbacsystem
-	 * @param int $a_type
+	 * @param int $a_type role_id
 	 * @param array $a_usr_ids
 	 * @return bool
 	 */
@@ -2618,16 +2602,22 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			switch($a_type)
 			{
-				case ilCourseConstants::CRS_MEMBER:
+				case $this->object->getDefaultMemberRole():
 					$this->object->getMembersObject()->add($user_id,IL_CRS_MEMBER);
 					break;
-				case ilCourseConstants::CRS_TUTOR:
+				case $this->object->getDefaultTutorRole():
 					$this->object->getMembersObject()->add($user_id,IL_CRS_TUTOR);
 					break;
-				case ilCourseConstants::CRS_ADMIN:
+				case $this->object->getDefaultAdminRole():
 					$this->object->getMembersObject()->add($user_id,IL_CRS_ADMIN);
 					break;
-				
+				default:
+					if(in_array($a_type,$this->object->getLocalCourseRoles(true)))
+					{
+						$this->object->getMembersObject()->add($user_id,IL_CRS_MEMBER);
+						$this->object->getMembersObject()->updateRoleAssignments($user_id,(array)$a_type);
+					}
+					break;
 			}
 			$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
 
@@ -4311,11 +4301,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				{
 					$rep_search->setCallback($this,
 						'assignMembersObject',
-						array(
-							ilCourseConstants::CRS_MEMBER => $this->lng->txt('crs_member'),
-							ilCourseConstants::CRS_TUTOR	=> $this->lng->txt('crs_tutor'),
-							ilCourseConstants::CRS_ADMIN => $this->lng->txt('crs_admin')
-							)
+						$this->getLocalRoles()
 						);
 				}
 				else
@@ -5510,6 +5496,47 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 	}
 	// end-patch lok
+
+	/**
+	 * returns all local roles [role_id] => title
+	 * @return array localroles
+	 */
+	protected function getLocalRoles()
+	{
+		$crs_admin = $this->object->getDefaultAdminRole();
+		$crs_member = $this->object->getDefaultMemberRole();
+		$local_roles = $this->object->getLocalCourseRoles(false);
+		$crs_roles = array();
+
+		//put the course member role to the top of the crs_roles array
+		if(in_array($crs_member, $local_roles))
+		{
+			$crs_roles[$crs_member] = ilObjRole::_getTranslation(array_search ($crs_member, $local_roles));
+			unset($local_roles[$crs_roles[$crs_member]]);
+		}
+
+		foreach($local_roles as $title => $role_id)
+		{
+			if($role_id == $crs_admin && !$this->hasAdminPermission())
+			{
+				continue;
+			}
+
+			$crs_roles[$role_id] = ilObjRole::_getTranslation($title);
+		}
+		return $crs_roles;
+	}
+
+	/**
+	 * user has admin permission or "edit permission" permission on this course
+	 * @return bool
+	 */
+	protected function hasAdminPermission()
+	{
+		global $ilUser;
+		return ilCourseParticipant::_getInstanceByObjId($this->object->getId(), $ilUser->getId())->isAdmin()
+		or $this->checkPermissionBool('edit_permission');
+	}
 	
 } // END class.ilObjCourseGUI
 ?>

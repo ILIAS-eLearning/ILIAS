@@ -77,10 +77,8 @@ class ilObjGroupGUI extends ilContainerGUI
 				$rep_search =& new ilRepositorySearchGUI();
 				$rep_search->setCallback($this,
 					'addUserObject',
-					array(
-						ilObjGroup::GRP_MEMBER => $this->lng->txt('il_grp_member'),
-						ilObjGroup::GRP_ADMIN => $this->lng->txt('il_grp_admin')
-					));
+					$this->getLocalRoles()
+					);
 
 				// Set tabs
 				$this->tabs_gui->setTabActive('members');
@@ -1091,10 +1089,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$ilToolbar,
 			array(
 				'auto_complete_name'	=> $lng->txt('user'),
-				'user_type'				=> array(
-					ilObjGroup::GRP_MEMBER => $lng->txt("member"),
-					ilObjGroup::GRP_ADMIN => $lng->txt("administrator")
-				),
+				'user_type'				=> $this->getLocalRoles(),
 				'submit_name'			=> $lng->txt('add')
 			)
 		);
@@ -1870,21 +1865,12 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		foreach ($user_ids as $new_member)
 		{
-			switch($a_type)
+			if(in_array($a_type,$this->object->getLocalGroupRoles(false)))
 			{
-				case ilObjGroup::GRP_MEMBER:
-					if (!$this->object->addMember($new_member,$this->object->getDefaultMemberRole()))
-					{
-						$this->ilErr->raiseError("An Error occured while assigning user to group !",$this->ilErr->MESSAGE);
-					}
-					break;
-					
-				case ilObjGroup::GRP_ADMIN:
-					if (!$this->object->addMember($new_member,$this->object->getDefaultAdminRole()))
-					{
-						$this->ilErr->raiseError("An Error occured while assigning user to group !",$this->ilErr->MESSAGE);
-					}
-					break;
+				if (!$this->object->addMember($new_member,$a_type))
+				{
+					$this->ilErr->raiseError("An Error occured while assigning user to group !",$this->ilErr->MESSAGE);
+				}
 			}
 
 			ilObjUser::_addDesktopItem($new_member, $this->object->getRefId(), 'grp');
@@ -3187,6 +3173,30 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		echo $list->getFullscreenHTML();
 		exit();	
+	}
+
+	/**
+	 * returns all local roles [role_id] => title
+	 * @return array
+	 */
+	protected function getLocalRoles()
+	{
+		$local_roles = $this->object->getLocalGroupRoles(false);
+		$grp_member = $this->object->getDefaultMemberRole();
+		$grp_roles = array();
+
+		//put the group member role to the top of the crs_roles array
+		if(in_array($grp_member, $local_roles))
+		{
+			$grp_roles[$grp_member] = ilObjRole::_getTranslation(array_search ($grp_member, $local_roles));
+			unset($local_roles[$grp_roles[$grp_member]]);
+		}
+
+		foreach($local_roles as $title => $role_id)
+		{
+			$grp_roles[$role_id] = ilObjRole::_getTranslation($title);
+		}
+		return $grp_roles;
 	}
 
 } // END class.ilObjGroupGUI
