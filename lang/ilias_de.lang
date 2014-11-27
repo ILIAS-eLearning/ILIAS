@@ -1233,9 +1233,10 @@ assessment#:#tst_results_access_finished_desc#:#Teilnehmer sehen ihre Ergebnisse
 assessment#:#tst_results_access_never#:#Nie
 assessment#:#tst_results_access_never_desc#:#Teilnehmern wird ihr Ergebnis für diesen Test niemals angezeigt.
 assessment#:#tst_results_details_options#:#Details Testergebnisse
-assessment#:#tst_results_grading#:#Zusätzliche Angaben
-assessment#:#tst_results_grading_opt_show_status#:#Status "Bestanden" / "Nicht bestanden" auf Übersicht Testergebnisse anzeigen
-assessment#:#tst_results_grading_opt_show_mark#:#Resultierende Note auf Übersicht Testergebnisse anzeigen
+assessment#:#tst_results_grading_opt_show_status#:#Status "Bestanden" / "Nicht bestanden"
+assessment#:#tst_results_grading_opt_show_status_desc#:#Status "Bestanden" / "Nicht bestanden" auf Übersicht Testergebnisse anzeigen
+assessment#:#tst_results_grading_opt_show_mark#:#Resultierende Note in Übersicht der Testergebnisse
+assessment#:#tst_results_grading_opt_show_mark_desc#:#Resultierende Note auf Übersicht Testergebnisse anzeigen
 assessment#:#tst_results_aggregated#:#Aggregierte Testergebnisse
 assessment#:#tst_results_back_evaluation#:#Zurück zur Auswertungsübersicht
 assessment#:#tst_results_back_introduction#:#Zurück zur Startseite

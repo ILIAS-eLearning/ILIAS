@@ -225,9 +225,12 @@ class ilObjTestSettingsScoringResultsGUI
 
 		if( !$this->isHiddenFormItem('show_result_grading') )
 		{
-			$value = $form->getItemByPostVar('show_result_grading')->getValue();
-			$this->testOBJ->setShowGradingStatusEnabled( in_array('grading_status', $value) );
-			$this->testOBJ->setShowGradingMarkEnabled( in_array('grading_mark', $value) );
+			$this->testOBJ->setShowGradingStatusEnabled(
+				$form->getItemByPostVar('grading_status')->getChecked()
+			);
+			$this->testOBJ->setShowGradingMarkEnabled(
+				(int)$form->getItemByPostVar('grading_mark')->getChecked()
+			);
 		}
 
 		if( !$this->isHiddenFormItem('pass_details') )
@@ -562,15 +565,18 @@ class ilObjTestSettingsScoringResultsGUI
 		$results_access_date_limitation->addSubItem($reporting_date);
 		$form->addItem($results_access);
 
-		// grading in test results
-		$chbg = new ilCheckboxGroupInputGUI($this->lng->txt('tst_results_grading'), 'show_result_grading');
-		$chbg->addOption($opt = new ilCheckboxOption($this->lng->txt('tst_results_grading_opt_show_status'), 'grading_status'));
-		$chbg->addOption(new ilCheckboxOption($this->lng->txt('tst_results_grading_opt_show_mark'), 'grading_mark'));
-		$value = array();
-		if($this->testOBJ->isShowGradingStatusEnabled()) $value[] = 'grading_status';
-		if($this->testOBJ->isShowGradingMarkEnabled()) $value[] = 'grading_mark';
-		$chbg->setValue($value);
-		$form->addItem($chbg);
+		// grading
+		$chb_only_passed_failed = new ilCheckboxInputGUI($this->lng->txt('tst_results_grading_opt_show_status'), 'grading_status');
+		$chb_only_passed_failed->setInfo($this->lng->txt('tst_results_grading_opt_show_status_desc'));
+		$chb_only_passed_failed->setValue(1);
+		$chb_only_passed_failed->setChecked($this->testOBJ->isShowGradingStatusEnabled());
+		$form->addItem($chb_only_passed_failed);
+
+		$chb_resulting_mark_only = new ilCheckboxInputGUI($this->lng->txt('tst_results_grading_opt_show_mark'), 'grading_mark');
+		$chb_resulting_mark_only->setInfo($this->lng->txt('tst_results_grading_opt_show_mark_desc'));
+		$chb_resulting_mark_only->setValue(1);
+		$chb_resulting_mark_only->setChecked($this->testOBJ->isShowGradingMarkEnabled());
+		$form->addItem($chb_resulting_mark_only);
 	}
 
 	private function addResultDetailsSettingsFormSection(ilPropertyFormGUI $form)

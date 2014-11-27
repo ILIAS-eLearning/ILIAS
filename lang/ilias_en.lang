@@ -1063,11 +1063,12 @@ assessment#:#tst_results_access_never#:#Never
 assessment#:#tst_results_access_never_desc#:#Participants have never access to their results in this test.
 assessment#:#tst_results_access#:#Access to Test Results
 assessment#:#tst_results_details_options#:#Details Test Results
-assessment#:#tst_results_grading#:#Grading in Test Results
 assessment#:#tst_results_grading_opt_show_both#:#Show Passed/Failed Status and Resulting Mark
 assessment#:#tst_results_grading_opt_show_none#:#Do NOT show Passed/Failed Status or Resulting Mark
-assessment#:#tst_results_grading_opt_show_status#:#Show Passed/Failed Status only
-assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark only
+assessment#:#tst_results_grading_opt_show_status#:#Show Passed/Failed Status
+assessment#:#tst_results_grading_opt_show_status_desc#:#Show Passed/Failed Status only
+assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark
+assessment#:#tst_results_grading_opt_show_mark_desc#:#Show Resulting Mark only
 assessment#:#tst_results_aggregated#:#Aggregated Test Results
 assessment#:#tst_results_back_evaluation#:#Back to Evaluation Overview
 assessment#:#tst_results_back_introduction#:#Back to Introductory Message
