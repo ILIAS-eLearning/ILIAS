@@ -10524,7 +10524,7 @@ search#:#search_new_folder#:#Neuer Ordner
 search#:#search_no_category#:#Sie haben keine Suchkategorie ausgewählt.
 search#:#search_no_connection_lucene#:#Es kann keine Verbindung zum Lucene-Server hergestellt werden.
 search#:#search_no_match#:#Ihre Suche ergab keine Treffer
-search#:#search_no_match_hint#:#Es wurden keine mit Ihrer Suchanfrage - <b>%s</b> - übereinstimmenden Dokumente gefunden.<br />Vorschläge:<br /><br />• Vergewissern Sie sich, dass alle Wörter richtig geschrieben sind.<br />• Probieren Sie andere Suchbegriffe.<br />• Probieren Sie allgemeinere Suchbegriffe.<br />• Probieren Sie weniger Suchbegriffe.
+search#:#search_no_match_hint#:#Es wurden keine Treffer für Ihre Suchanfrage nach <b>%s</b> gefunden.<br />Vorschläge:<br /><br />• Vergewissern Sie sich, dass alle Wörter richtig geschrieben sind.<br />• Probieren Sie andere Suchbegriffe.<br />• Probieren Sie allgemeinere Suchbegriffe.<br />• Probieren Sie weniger Suchbegriffe.
 search#:#search_no_results_saved#:#Es sind keine Ergebnisse gespeichert.
 search#:#search_no_search_term#:#Sie haben keinen Suchbegriff gewählt
 search#:#search_no_selection#:#Sie haben keine Auswahl getroffen.
