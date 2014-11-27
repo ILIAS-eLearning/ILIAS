@@ -1471,127 +1471,134 @@ abstract class assQuestionGUI
 	
 	function outPageSelector()
 	{
-		include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
-		include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-		$cont_obj_gui =& new ilObjContentObjectGUI("", $_GET["source_id"], true);
-		$cont_obj = $cont_obj_gui->object;
-		$pages = ilLMPageObject::getPageList($cont_obj->getId());
-		$shownpages = array();
-		$tree = $cont_obj->getLMTree();
-		$chapters = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
-		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		$color_class = array("tblrow1", "tblrow2");
-		$counter = 0;
-		$template = new ilTemplate("tpl.il_as_qpl_internallink_selection.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		foreach ($chapters as $chapter)
+		require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionInternalLinkSelectionTableGUI.php';
+		require_once 'Modules/LearningModule/classes/class.ilLMPageObject.php';
+		require_once 'Modules/LearningModule/classes/class.ilObjContentObjectGUI.php';
+
+		$this->ctrl->setParameter($this, 'q_id', $this->object->getId());
+
+		$cont_obj_gui = new ilObjContentObjectGUI('', $_GET['source_id'], true);
+		$cont_obj     = $cont_obj_gui->object;
+		$pages        = ilLMPageObject::getPageList($cont_obj->getId());
+		$shownpages   = array();
+		$tree         = $cont_obj->getLMTree();
+		$chapters     = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
+
+		$rows = array();
+
+		foreach($chapters as $chapter)
 		{
-			$chapterpages = $tree->getChildsByType($chapter["obj_id"], "pg");
-			foreach ($chapterpages as $page)
+			$chapterpages = $tree->getChildsByType($chapter['obj_id'], 'pg');
+			foreach($chapterpages as $page)
 			{
-				if($page["type"] == $_GET["search_link_type"])
+				if($page['type'] == $_GET['search_link_type'])
 				{
-					array_push($shownpages, $page["obj_id"]);
-					$template->setCurrentBlock("linktable_row");
-					$template->setVariable("TEXT_LINK", $page["title"]);
-					$template->setVariable("TEXT_ADD", $this->lng->txt("add"));
-					$template->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($page["type"])) . "&" . $page["type"] . "=" . $page["obj_id"]);
-					$template->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					if ($tree->isInTree($page["obj_id"]))
+					array_push($shownpages, $page['obj_id']);
+
+					if($tree->isInTree($page['obj_id']))
 					{
-						$path_str = $this->getContextPath($cont_obj, $page["obj_id"]);
+						$path_str = $this->getContextPath($cont_obj, $page['obj_id']);
 					}
 					else
 					{
-						$path_str = "---";
+						$path_str = '---';
 					}
-					$template->setVariable("TEXT_DESCRIPTION", ilUtil::prepareFormOutput($path_str));
-					$template->parseCurrentBlock();
-					$counter++;
+
+					$this->ctrl->setParameter($this, $page['type'], $page['obj_id']);
+					$rows[] = array(
+						'title'       => $page['title'],
+						'description' => ilUtil::prepareFormOutput($path_str),
+						'text_add'    => $this->lng->txt('add'),
+						'href_add'    => $this->ctrl->getLinkTarget($this, 'add' . strtoupper($page['type']))
+					);
 				}
 			}
 		}
-		foreach ($pages as $page)
+		foreach($pages as $page)
 		{
-			if (!in_array($page["obj_id"], $shownpages))
+			if(!in_array($page['obj_id'], $shownpages))
 			{
-				$template->setCurrentBlock("linktable_row");
-				$template->setVariable("TEXT_LINK", $page["title"]);
-				$template->setVariable("TEXT_ADD", $this->lng->txt("add"));
-				$template->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($page["type"])) . "&" . $page["type"] . "=" . $page["obj_id"]);
-				$template->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-				$path_str = "---";
-				$template->setVariable("TEXT_DESCRIPTION", ilUtil::prepareFormOutput($path_str));
-				$template->parseCurrentBlock();
-				$counter++;
+				$this->ctrl->setParameter($this, $page['type'], $page['obj_id']);
+				$rows[] = array(
+					'title'       => $page['title'],
+					'description' => '---',
+					'text_add'    => $this->lng->txt('add'),
+					'href_add'    => $this->ctrl->getLinkTarget($this, 'add' . strtoupper($page['type']))
+				);
 			}
 		}
-		$template->setCurrentBlock("link_selection");
-		$template->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-		$template->setVariable("TEXT_LINK_TYPE", $this->lng->txt("obj_" . $_GET["search_link_type"]));
-		$template->setVariable("FORMACTION",$this->ctrl->getFormAction($this, "cancelExplorer"));
-		$template->parseCurrentBlock();
-		$this->tpl->setVariable("ADM_CONTENT", $template->get());
+
+		require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionInternalLinkSelectionTableGUI.php';
+		$table = new ilQuestionInternalLinkSelectionTableGUI($this, 'cancelExplorer', __METHOD__);
+		$table->setTitle($this->lng->txt('obj_' . ilUtil::stripSlashes($_GET['search_link_type'])));
+		$table->setData($rows);
+
+		$this->tpl->setContent($table->getHTML());
 	}
-	
+
 	public function outChapterSelector()
 	{
-		$template = new ilTemplate("tpl.il_as_qpl_internallink_selection.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		$color_class = array("tblrow1", "tblrow2");
-		$counter = 0;
-		include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-		$cont_obj_gui =& new ilObjContentObjectGUI("", $_GET["source_id"], true);
+		require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionInternalLinkSelectionTableGUI.php';
+		require_once 'Modules/LearningModule/classes/class.ilObjContentObjectGUI.php';
+
+		$this->ctrl->setParameter($this, 'q_id', $this->object->getId());
+
+		$cont_obj_gui = new ilObjContentObjectGUI('', $_GET['source_id'], true);
 		$cont_obj = $cont_obj_gui->object;
-		// get all chapters
-		$ctree =& $cont_obj->getLMTree();
+		$ctree = $cont_obj->getLMTree();
 		$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
+
+		$rows = array();
+
 		foreach($nodes as $node)
 		{
-			if($node["type"] == $_GET["search_link_type"])
+			if($node['type'] == $_GET['search_link_type'])
 			{
-				$template->setCurrentBlock("linktable_row");
-				$template->setVariable("TEXT_LINK", $node["title"]);
-				$template->setVariable("TEXT_ADD", $this->lng->txt("add"));
-				$template->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($node["type"])) . "&" . $node["type"] . "=" . $node["obj_id"]);
-				$template->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-				$template->parseCurrentBlock();
-				$counter++;
+				$this->ctrl->setParameter($this, $node['type'], $node['obj_id']);
+				$rows[] = array(
+					'title'       => $node['title'],
+					'description' => '',
+					'text_add'    => $this->lng->txt('add'),
+					'href_add'    => $this->ctrl->getLinkTarget($this, 'add' . strtoupper($node['type'])) 
+				);
 			}
 		}
-		$template->setCurrentBlock("link_selection");
-		$template->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-		$template->setVariable("TEXT_LINK_TYPE", $this->lng->txt("obj_" . $_GET["search_link_type"]));
-		$template->setVariable("FORMACTION",$this->ctrl->getFormAction($this, "cancelExplorer"));
-		$template->parseCurrentBlock();
-		$this->tpl->setVariable("ADM_CONTENT", $template->get());
+
+		$table = new ilQuestionInternalLinkSelectionTableGUI($this, 'cancelExplorer', __METHOD__);
+		$table->setTitle($this->lng->txt('obj_' . ilUtil::stripSlashes($_GET['search_link_type'])));
+		$table->setData($rows);
+
+		$this->tpl->setContent($table->getHTML());
 	}
 
 	public function outGlossarySelector()
 	{
-		$template = new ilTemplate("tpl.il_as_qpl_internallink_selection.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		$color_class = array("tblrow1", "tblrow2");
-		$counter = 0;
-		include_once "./Modules/Glossary/classes/class.ilObjGlossary.php";
-		$glossary =& new ilObjGlossary($_GET["source_id"], true);
-		// get all glossary items
+		require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionInternalLinkSelectionTableGUI.php';
+		require_once 'Modules/Glossary/classes/class.ilObjGlossary.php';
+
+		$this->ctrl->setParameter($this, 'q_id', $this->object->getId());
+
+		$glossary = new ilObjGlossary($_GET['source_id'], true);
 		$terms = $glossary->getTermList();
+
+		$rows = array();
+
 		foreach($terms as $term)
-		{
-			$template->setCurrentBlock("linktable_row");
-			$template->setVariable("TEXT_LINK", $term["term"]);
-			$template->setVariable("TEXT_ADD", $this->lng->txt("add"));
-			$template->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "addGIT") . "&git=" . $term["id"]);
-			$template->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$template->parseCurrentBlock();
-			$counter++;
+		{var_dump($term);
+			$this->ctrl->setParameter($this, 'git', $term['id']);
+			$rows[] = array(
+				'title'       => $term['term'],
+				'description' => '',
+				'text_add'    => $this->lng->txt('add'),
+				'href_add'    => $this->ctrl->getLinkTarget($this, 'addGIT')
+			);
 		}
-		$template->setCurrentBlock("link_selection");
-		$template->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-		$template->setVariable("TEXT_LINK_TYPE", $this->lng->txt("glossary_term"));
-		$template->setVariable("FORMACTION",$this->ctrl->getFormAction($this, "cancelExplorer"));
-		$template->parseCurrentBlock();
-		$this->tpl->setVariable("ADM_CONTENT", $template->get());
+
+		$table = new ilQuestionInternalLinkSelectionTableGUI($this, 'cancelExplorer', __METHOD__);
+		$table->setTitle('glossary_term');
+		$table->setData($rows);
+
+		$this->tpl->setContent($table->getHTML());
 	}
 	
 	function linkChilds()
