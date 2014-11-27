@@ -254,6 +254,7 @@ class ilAttendanceList
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this->parent_obj,$a_cmd));
 		$form->setTarget('_blank');
+		$form->setPreventDoubleSubmission(false);
 		$form->setTitle($lng->txt('sess_gen_attendance_list'));
 		
 		$title = new ilTextInputGUI($lng->txt('title'), 'title');
