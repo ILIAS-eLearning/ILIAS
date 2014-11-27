@@ -121,6 +121,7 @@ class ilUserProfile
 						"visib_reg_hide" => true,
 						"export_hide" => true,
 						"course_export_hide" => true,
+						"group_export_hide" => TRUE,
 						"lists_hide" => true,
 						"group" => "personal_data"),
 		"institution" => array(
