@@ -23,7 +23,7 @@ class ilPollDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.3.0", 5.0.0");
+		return array("4.3.0", "5.0.0");
 	}
 	
 	/**
