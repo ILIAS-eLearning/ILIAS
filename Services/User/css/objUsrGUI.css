@@ -1,0 +1,75 @@
+/*
+	objUsrGUI.css.css
+*/
+
+#il_prop_cont_auth_mode,
+#il_prop_cont_auth_mode + .ilFormValue {
+	display:none;
+}
+
+#il_prop_cont_userfile,
+#il_prop_cont_userfile + .ilFormValue {
+	display:none;
+}
+
+
+#il_prop_cont_institution,
+#il_prop_cont_institution + .ilFormValue,
+#il_prop_cont_department,
+#il_prop_cont_department + .ilFormValue {
+	display:none;
+}
+
+#il_prop_cont_country,
+#il_prop_cont_country + .ilFormValue {
+	display:none;
+}
+
+#il_prop_cont_phone_home,
+#il_prop_cont_phone_home + .ilFormValue,
+#il_prop_cont_fax,
+#il_prop_cont_fax + .ilFormValue {
+	display:none;
+}
+
+
+#il_prop_cont_hobby,
+#il_prop_cont_hobby + .ilFormValue,
+#il_prop_cont_referral_comment,
+#il_prop_cont_referral_comment + .ilFormValue,
+#il_prop_cont_im_icq,
+#il_prop_cont_im_icq + .ilFormValue,
+#il_prop_cont_im_yahoo,
+#il_prop_cont_im_yahoo + .ilFormValue,
+#il_prop_cont_im_msn,
+#il_prop_cont_im_msn + .ilFormValue,
+#il_prop_cont_im_aim,
+#il_prop_cont_im_aim + .ilFormValue,
+#il_prop_cont_im_skype,
+#il_prop_cont_im_skype + .ilFormValue,
+#il_prop_cont_im_jabber,
+#il_prop_cont_im_jabber + .ilFormValue,
+#il_prop_cont_im_voip,
+#il_prop_cont_im_voip + .ilFormValue,
+#il_prop_cont_matriculation,
+#il_prop_cont_matriculation + .ilFormValue,
+#il_prop_cont_delicious,
+#il_prop_cont_delicious + .ilFormValue,
+#il_prop_cont_client_ip,
+#il_prop_cont_client_ip + .ilFormValue {
+	display:none;
+}
+
+
+#il_prop_cont_language,
+#il_prop_cont_language + .ilFormValue,
+#il_prop_cont_skin_style,
+#il_prop_cont_skin_style + .ilFormValue,
+#il_prop_cont_show_users_online,
+#il_prop_cont_show_users_online + .ilFormValue,
+#il_prop_cont_hide_own_online_status,
+#il_prop_cont_hide_own_online_status + .ilFormValue {
+	display:none;
+}
+
+
