@@ -1,0 +1,29 @@
+<tr class="{CSS_ROW}">	
+	<!-- BEGIN checkbox -->
+	<td class="std" style="vertical-align: top">
+		<!-- BEGIN check_bl -->
+		<input type="checkbox" name="includeElements[]" value="{ID}" />
+		<!-- END check_bl -->
+	</td>	
+	<!-- END checkbox -->
+	<td class="std" style="vertical-align: top">
+		{COUNTER}.
+	</td>
+	<td class="std" style="vertical-align: top">
+		<img src="{ICON_HREF}" alt="{ICON_ALT}" /> {TITLE}
+	</td>
+	<td class="std" style="vertical-align: top">
+		{CONTENT}
+		<!-- BEGIN conjunction -->
+		<div>{TEXT_CONJUNCTION}:</div>
+		<!-- END conjunction -->
+		<!-- BEGIN constraint -->		
+		{CONSTRAINT_TEXT}
+		<!-- BEGIN constraint_actions -->
+		<a class="il_ContainerItemCommand" href="{EDIT_PRECONDITION}">{TEXT_EDIT_PRECONDITION}</a>
+		<a class="il_ContainerItemCommand" href="{DELETE_PRECONDITION}">{TEXT_DELETE_PRECONDITION}</a>
+		<!-- END constraint_actions -->
+		<br />
+		<!-- END constraint -->
+	</td>
+</tr>

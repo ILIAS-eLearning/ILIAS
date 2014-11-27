@@ -39,12 +39,12 @@ class ilSurveyConstraintsGUI
 	* Administration page for survey constraints
 	*/
 	public function constraintsObject()
-	{		
-		global $rbacsystem;
-		
-		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
+	{			
 		$step = 0;
-		if (array_key_exists("step", $_GET))	$step = $_GET["step"];
+		if (array_key_exists("step", $_GET))
+		{
+			$step = (int)$_GET["step"];
+		}
 		switch ($step)
 		{
 			case 1:
@@ -59,139 +59,22 @@ class ilSurveyConstraintsGUI
 				break;
 		}
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_constraints_list.html", "Modules/Survey");
-		$survey_questions =& $this->object->getSurveyQuestions();
-		$last_questionblock_id = 0;
-		$counter = 1;
-		$hasPreconditions = FALSE;
-		$structure = array();
-		$colors = array("tblrow1", "tblrow2");
-		foreach ($survey_questions as $question_id => $data)
-		{
-			$title = $data["title"];
-			$show = true;
-			if ($data["questionblock_id"] > 0)
-			{
-				$title = $data["questionblock_title"];
-				$type = $this->lng->txt("questionblock");
-				if ($data["questionblock_id"] != $last_questionblock_id) 
-				{
-					$last_questionblock_id = $data["questionblock_id"];
-					$structure[$counter] = array();
-					array_push($structure[$counter], $data["question_id"]);
-				}
-				else
-				{
-					array_push($structure[$counter-1], $data["question_id"]);
-					$show = false;
-				}
-			}
-			else
-			{
-				$structure[$counter] = array($data["question_id"]);
-				$type = $this->lng->txt("question");
-			}
-			if ($show)
-			{
-				if ($counter == 1)
-				{
-					$this->tpl->setCurrentBlock("description");
-					$this->tpl->setVariable("DESCRIPTION", $this->lng->txt("constraints_first_question_description"));
-					$this->tpl->parseCurrentBlock();
-				}
-				else
-				{
-					$constraints =& $this->object->getConstraints($data["question_id"]);
-					$rowcount = 0;
-					if (count($constraints))
-					{
-						$hasPreconditions = TRUE;
-						foreach ($constraints as $constraint)
-						{
-							$this->tpl->setCurrentBlock("constraint");
-							$this->tpl->setVariable("SEQUENCE_ID", $counter);
-							$this->tpl->setVariable("CONSTRAINT_ID", $constraint["id"]);
-							$this->tpl->setVariable("CONSTRAINT_TEXT", $survey_questions[$constraint["question"]]["title"] . " " . $constraint["short"] . " " . $constraint["valueoutput"]);
-							$this->tpl->setVariable("TEXT_EDIT_PRECONDITION", $this->lng->txt("edit"));
-							$this->ctrl->setParameter($this, "precondition", $constraint["id"]);
-							$this->ctrl->setParameter($this, "start", $counter);
-							$this->tpl->setVariable("EDIT_PRECONDITION", $this->ctrl->getLinkTarget($this, "editPrecondition"));
-							$this->ctrl->setParameter($this, "precondition", "");
-							$this->ctrl->setParameter($this, "start", "");
-							$this->tpl->parseCurrentBlock();
-						}
-						if (count($constraints) > 1)
-						{
-							$this->tpl->setCurrentBlock("conjunction");
-							$this->tpl->setVariable("TEXT_CONJUNCTION", ($constraints[0]['conjunction']) ? $this->lng->txt('conjunction_or_title') : $this->lng->txt('conjunction_and_title'));
-							$this->tpl->parseCurrentBlock();
-						}
-					}
-				}
-				if ($counter != 1)
-				{
-					$this->tpl->setCurrentBlock("include_elements");
-					$this->tpl->setVariable("QUESTION_NR", "$counter");
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock("constraint_section");
-				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-				$this->tpl->setVariable("QUESTION_NR", "$counter");
-				$this->tpl->setVariable("TITLE", "$title");
-				$icontype = "question.png";
-				if ($data["questionblock_id"] > 0)
-				{
-					$icontype = "questionblock.png";
-				}
-				$this->tpl->setVariable("TYPE", "$type: ");
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				$this->tpl->setVariable("ICON_HREF", ilUtil::getImagePath($icontype, "Modules/Survey"));
-				$this->tpl->setVariable("ICON_ALT", $type);
-				$this->tpl->parseCurrentBlock();
-				$counter++;
-			}
-		}
-		if (!$hasDatasets)
-		{
-			if ($hasPreconditions)
-			{
-				$this->tpl->setCurrentBlock("selectall_preconditions");
-				$this->tpl->setVariable("SELECT_ALL_PRECONDITIONS", $this->lng->txt("select_all"));
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("selectall");
-			$counter++;
-			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-			$this->tpl->parseCurrentBlock();
-
-			if ($hasPreconditions)
-			{
-				$this->tpl->setCurrentBlock("delete_button");
-				$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.png") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("buttons");
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.png") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
-			$this->tpl->setVariable("BTN_CREATE_CONSTRAINTS", $this->lng->txt("constraint_add"));
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("CONSTRAINTS_INTRODUCTION", $this->lng->txt("constraints_introduction"));
-		$this->tpl->setVariable("DEFINED_PRECONDITIONS", $this->lng->txt("existing_constraints"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "constraints"));
-		$this->tpl->setVariable("CONSTRAINTS_HEADER", $this->lng->txt("constraints_list_of_entities"));
-		$this->tpl->parseCurrentBlock();
-		$_SESSION["constraintstructure"] = $structure;
+		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
+		
+		include_once "Modules/Survey/classes/tables/class.SurveyConstraintsTableGUI.php";
+		$tbl = new SurveyConstraintsTableGUI($this, "constraints", $this->object, $hasDatasets);
+		$this->tpl->setContent($tbl->getHTML());
+		
 		if ($hasDatasets)
-		{
+		{						
 			// ilUtil::sendInfo($this->lng->txt("survey_has_datasets_warning"));
 			$link = $this->ctrl->getLinkTargetByClass("ilSurveyParticipantsGUI", "maintenance");
 			$link = "<a href=\"".$link."\">".$this->lng->txt("survey_has_datasets_warning_page_view_link")."</a>";
 			ilUtil::sendInfo($this->lng->txt("survey_has_datasets_warning_page_view")." ".$link);
+		}
+		else
+		{
+			$_SESSION["constraintstructure"] = $tbl->getStructure();		
 		}
 	}
 	
@@ -414,14 +297,10 @@ class ilSurveyConstraintsGUI
 	*/
 	public function deleteConstraintsObject()
 	{
-		$survey_questions =& $this->object->getSurveyQuestions();
-		$structure =& $_SESSION["constraintstructure"];
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/^constraint_(\d+)_(\d+)/", $key, $matches)) 
-			{
-				$this->object->deleteConstraint($matches[2]);
-			}
+		$id = (int)$_REQUEST["precondition"];
+		if($id)	
+		{		
+			$this->object->deleteConstraint($id);			
 		}
 
 		$this->ctrl->redirect($this, "constraints");
