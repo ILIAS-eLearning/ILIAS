@@ -43,6 +43,11 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $buttons;	
 	protected $rtesupport;
 	protected $use_tags_for_rte_only = true;
+
+	/**
+	 * @var int
+	 */
+	protected $initial_rte_width = 795;
 	
 	/** 
 	* Array of tinymce buttons which should be disabled
@@ -430,7 +435,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 				include_once "./Services/RTE/classes/class.$rtestring.php";
 				$rte = new $rtestring($this->rteSupport['version']);
 
-				$rte->setInitialWidth('795');
+				$rte->setInitialWidth($this->getInitialRteWidth());
 				
 				// @todo: Check this.
 				$rte->addPlugin("emotions");
@@ -642,5 +647,21 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 		{
 			return $this->disabled_buttons;
 		}
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getInitialRteWidth()
+	{
+		return $this->initial_rte_width;
+	}
+
+	/**
+	 * @param int $initial_rte_width
+	 */
+	public function setInitialRteWidth($initial_rte_width)
+	{
+		$this->initial_rte_width = $initial_rte_width;
 	}
 }
