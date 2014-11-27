@@ -22,8 +22,6 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
 		
 		$this->read_only = (bool)$a_read_only;
 		
-		$this->read_only = false;
-		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->setLimit(9999);
