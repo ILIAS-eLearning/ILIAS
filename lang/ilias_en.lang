@@ -817,6 +817,7 @@ assessment#:#showinfo#:#Show all Test Properties
 assessment#:#showSuggestedSolution#:#Type
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#suggested_solution#:#Content for Recapitulation
+assessment#:#solution_hint#:#Solution Hint
 assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords
 assessment#:#solution_order#:#Solution Order
 assessment#:#solutionText#:#Text

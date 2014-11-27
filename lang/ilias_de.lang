@@ -941,6 +941,7 @@ assessment#:#showinfo_desc#:#Den Benutzern werden auf dem 'Info'-Reiter alle Tes
 assessment#:#showSuggestedSolution#:#Art
 assessment#:#shuffle_answers#:#Antworten mischen
 assessment#:#suggested_solution#:#Inhalte zur Wiederholung
+assessment#:#solution_hint#:#Lösungshinweis
 assessment#:#solution_may_contain_keywords#:#Die Lösung sollte eines der folgenden Schlagwörter enthalten
 assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#solutionText#:#Text
