@@ -601,12 +601,7 @@ class ilConditionHandlerGUI
 	
 	function selector()
 	{
-		global $tree;
-
 		include_once ("./Services/AccessControl/classes/class.ilConditionSelector.php");
-
-		$this->tpl->addBlockFile('ADM_CONTENT', "adm_content", "tpl.condition_selector.html",
-			"Services/AccessControl");
 
 		ilUtil::sendInfo($this->lng->txt("condition_select_object"));
 
@@ -617,9 +612,10 @@ class ilConditionHandlerGUI
 		));
 		$exp->setClickableTypes($this->getConditionHandler()->getTriggerTypes());
 
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("EXPLORER",$exp->getHTML());
-		$this->tpl->parseCurrentBlock();
+		if (!$exp->handleCommand())
+		{
+			$this->tpl->setContent($exp->getHTML());
+		}
 	}
 
 	function add()

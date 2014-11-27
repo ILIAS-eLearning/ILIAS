@@ -25,12 +25,10 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_selection_gui = null, $a_selection_cmd = "add",
 								$a_selection_par = "source_id")
 	{
-
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_selection_gui, $a_selection_cmd,
 			$a_selection_par);
 
-		//TODO: find a stable way for ajax calls!
-		$this->setAjax(false);
+		$this->setAjax(true);
 	}
 
 	/**
