@@ -189,7 +189,7 @@ class ilSurveyConstraintsGUI
 		if ($hasDatasets)
 		{
 			// ilUtil::sendInfo($this->lng->txt("survey_has_datasets_warning"));
-			$link = $this->ctrl->getLinkTarget($this, "maintenance");
+			$link = $this->ctrl->getLinkTargetByClass("ilSurveyParticipantsGUI", "maintenance");
 			$link = "<a href=\"".$link."\">".$this->lng->txt("survey_has_datasets_warning_page_view_link")."</a>";
 			ilUtil::sendInfo($this->lng->txt("survey_has_datasets_warning_page_view")." ".$link);
 		}
