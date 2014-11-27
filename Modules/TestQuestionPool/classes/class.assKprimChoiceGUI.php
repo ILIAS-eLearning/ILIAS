@@ -73,7 +73,19 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		$this->object->saveToDb();
 		$this->editQuestion();
 	}
-	
+
+	public function downkprim_answers()
+	{
+		// @todo: Björn sort
+		$this->editQuestion();
+	}
+
+	public function upwnkprim_answers()
+	{
+		// @todo: Björn sort
+		$this->editQuestion();
+	}
+
 	protected function writePostData($upload = false)
 	{
 		$form = $this->buildEditForm();

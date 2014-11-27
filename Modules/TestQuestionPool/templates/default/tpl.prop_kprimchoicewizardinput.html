@@ -10,9 +10,9 @@
 			<th class="optionLabel false">{FALSE_TEXT}</th>
 		</tr>
 		</thead>
-		<tbody class="wizardTableBody">
+		<tbody class="kcwzd">
 		<!-- BEGIN row -->
-		<tr class="{ROW_CLASS}">
+		<tr class="kcwzd">
 			<td>
 				<!-- BEGIN singleline -->
 					<input class="form-control" type="text" size="{SIZE}" id="{SINGLELINE_ID}" maxlength="{MAXLENGTH}" name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED_SINGLELINE}/>
@@ -37,15 +37,15 @@
 				<!-- END multiline -->
 			</td>
 			<td class="correctness">
-				<input type="radio" style="text-align: right;" id="{CORRECTNESS_TRUE_ID}" name="{POST_VAR}[correctness][{ROW_NUMBER}]" value="{CORRECTNESS_TRUE_VALUE}"{CORRECTNESS_TRUE_SELECTED}{DISABLED_CORRECTNESS}/>
+				<input type="radio" class="text-right" id="{CORRECTNESS_TRUE_ID}" name="{POST_VAR}[correctness][{ROW_NUMBER}]" value="{CORRECTNESS_TRUE_VALUE}"{CORRECTNESS_TRUE_SELECTED}{DISABLED_CORRECTNESS}/>
 			</td>
 			<td class="correctness">
-				<input type="radio" style="text-align: right;" id="{CORRECTNESS_FALSE_ID}" name="{POST_VAR}[correctness][{ROW_NUMBER}]" value="{CORRECTNESS_FALSE_VALUE}"{CORRECTNESS_FALSE_SELECTED}{DISABLED_CORRECTNESS}/>
+				<input type="radio" class="text-right" id="{CORRECTNESS_FALSE_ID}" name="{POST_VAR}[correctness][{ROW_NUMBER}]" value="{CORRECTNESS_FALSE_VALUE}"{CORRECTNESS_FALSE_SELECTED}{DISABLED_CORRECTNESS}/>
 			</td>
 			<!-- BEGIN move -->
 			<td style="vertical-align: top;">
-				<button type="button" name="{CMD_UP}" class="singlechoicewizard_up btn btn-link" id="{UP_ID}" onclick="javascript: void(0); return false;">{UP_BUTTON}</button>
-				<button type="button" name="{CMD_DOWN}" class="singlechoicewizard_down btn btn-link" id="{DOWN_ID}" onclick="javascript: void(0); return false;">{DOWN_BUTTON}</button>
+				<button type="button" name="{CMD_UP}" class="kprimchoice_up btn btn-link" id="{UP_ID}">{UP_BUTTON}</button>
+				<button type="button" name="{CMD_DOWN}" class="kprimchoice_down btn btn-link" id="{DOWN_ID}">{DOWN_BUTTON}</button>
 			</td>
 			<!-- END move -->
 		</tr>

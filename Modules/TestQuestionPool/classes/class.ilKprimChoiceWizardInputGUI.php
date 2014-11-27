@@ -235,11 +235,6 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 			
 			$tpl->setCurrentBlock("row");
 			
-			$class = ($value->getPosition() % 2 == 0) ? "even" : "odd";
-			if ($value->getPosition() == 0) $class .= " first";
-			if ($value->getPosition() == count($this->values)-1) $class .= " last";
-			$tpl->setVariable("ROW_CLASS", $class);
-			
 			$tpl->setVariable("POST_VAR", $this->getPostVar());
 			$tpl->setVariable("ROW_NUMBER", $value->getPosition());
 			$tpl->setVariable("ID", $this->getPostVar() . "[answer][{$value->getPosition()}]");
@@ -327,9 +322,8 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 		$a_tpl->parseCurrentBlock();
 
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initDomEvent();
-		
-		$this->tpl->addJavascript('Modules/TestQuestionPool/templates/default/multiplechoicewizard.js');
+		$this->tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/kprimchoicewizard.js");
 		$this->tpl->addJavascript('Modules/TestQuestionPool/js/ilAssKprimChoice.js');
 	}
 	
