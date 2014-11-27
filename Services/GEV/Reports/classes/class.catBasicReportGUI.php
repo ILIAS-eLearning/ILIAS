@@ -19,13 +19,14 @@ class catBasicReportGUI {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
 
-		global $lng, $ilCtrl, $tpl, $ilUser, $ilDB;
+		global $lng, $ilCtrl, $tpl, $ilUser, $ilDB, $ilLog;
 		
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
 		$this->tpl = &$tpl;
 		$this->db = &$ilDB;
-		$this->user = $ilUser;
+		$this->log = &$ilLog;
+		$this->user = &$ilUser;
 		$this->user_utils = gevUserUtils::getInstance($this->user->getId());
 
 		$this->title = null;
