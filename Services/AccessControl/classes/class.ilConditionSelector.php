@@ -1,152 +1,126 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/*
+include_once "./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php";
+
+/**
 * Repository Explorer
 *
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 */
-
-require_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
-include_once './Services/Repository/classes/class.ilRepositoryExplorer.php';
-
-class ilConditionSelector extends ilRepositoryExplorer
+class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 {
 
 	/**
-	 * id of root folder
-	 * @var int root folder id
-	 * @access private
+	 * Construct
+	 *
+	 * @param object $a_parent_obj
+	 * @param string $a_parent_cmd
+	 * @param object $a_selection_gui
+	 * @param string $a_selection_cmd
+	 * @param string $a_selection_par
 	 */
-	var $root_id;
-	var $output;
-	var $ctrl;
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_selection_gui = null, $a_selection_cmd = "add",
+								$a_selection_par = "source_id")
+	{
 
-	var $selectable_type;
-	var $ref_id;
+		parent::__construct($a_parent_obj, $a_parent_cmd, $a_selection_gui, $a_selection_cmd,
+			$a_selection_par);
+
+		//TODO: find a stable way for ajax calls!
+		$this->setAjax(false);
+	}
+
 	/**
-	* Constructor
-	* @access	public
-	* @param	string	scriptname
-	* @param    int user_id
-	*/
-	function ilConditionSelector($a_target)
+	 * Is node visible
+	 *
+	 * @param array $a_node node data
+	 * @return bool visible true/false
+	 */
+	function isNodeVisible($a_node)
 	{
-		global $tree,$ilCtrl;
+		global $ilAccess;
 
-		$this->ctrl = $ilCtrl;
-
-		parent::ilExplorer($a_target);
-		$this->tree = $tree;
-		$this->root_id = $this->tree->readRootId();
-		$this->order_column = "title";
-
-		$this->setSessionExpandVariable("condition_selector_expand");
-
-		// add here all container objects
-		$this->addFilter("root");
-		$this->addFilter("cat");
-		$this->addFilter("grp");
-		$this->addFilter("fold");
-		$this->addFilter("crs");
-		$this->addFilter("exc");
-		$this->addFilter("tst");
-
-		$this->setFilterMode(IL_FM_POSITIVE);
-		$this->setFiltered(true);
-		
-		$this->setTitleLength(ilObject::TITLE_LENGTH);
+		if (!$ilAccess->checkAccess('read', '', $a_node["child"]))
+		{
+			return false;
+		}
+		return true;
 	}
 
-	function setControlClass(&$class)
+	/**
+	 * Is node clickable?
+	 *
+	 * @param array $a_node node data
+	 * @return boolean node clickable true/false
+	 */
+	function isNodeClickable($a_node)
 	{
-		$this->control_class =& $class;
-	}
-	function &getControlClass()
-	{
-		return $this->control_class;
+		if(!parent::isNodeClickable($a_node))
+			return false;
+
+		//has node a clickable type?
+		if(count($this->getClickableTypes())>0)
+		{
+			if(!in_array($a_node["type"], $this->getClickableTypes()))
+			{
+				return false;
+			}
+		}
+
+		if($a_node["child"] == $this->getRefId())
+		{
+			return false;
+		}
+
+		return true;
 	}
 
-	function setSelectableTypes($a_type)
+	/**
+	 * set Whitelist for clickable items
+	 *
+	 * @param array/string $a_types array type
+	 */
+	function setClickableTypes($a_types)
 	{
-		$this->selectable_types  = $a_type;
+		if(!is_array($a_types))
+		{
+			$a_types = array($a_types);
+		}
+		$this->clickable_types = $a_types;
 	}
+
+	/**
+	 * get whitelist for clickable items
+	 *
+	 * @return array types
+	 */
+	function getClickableTypes()
+	{
+		return (array)$this->clickable_types;
+	}
+
+	/**
+	 * set ref id of target object
+	 *
+	 * @param $a_ref_id
+	 */
 	function setRefId($a_ref_id)
 	{
 		$this->ref_id = $a_ref_id;
 	}
-	
-
-	function buildLinkTarget($a_node_id, $a_type)
-	{
-		if(in_array($a_type,$this->selectable_types))
-		{
-			#$this->ctrl->setParameterByClass('ilrepositorygui','source_id',$a_node_id);
-			$this->ctrl->setParameter($this->getControlClass(),'source_id',$a_node_id);
-			
-			return $this->ctrl->getLinkTarget($this->getControlClass(),'add');
-		}
-		else
-		{
-			$this->ctrl->setParameterByClass('ilrepositorygui',"ref_id",$this->ref_id);
-			return $this->ctrl->getLinkTargetByClass('ilrepositorygui','copySelector');
-		}
-	}
-
-	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
-	{
-		return '';
-	}
-
-	function isClickable($a_type, $a_ref_id)
-	{
-		return in_array($a_type,$this->selectable_types) and $a_ref_id != $this->ref_id;
-	}
-
-	function showChilds($a_ref_id)
-	{
-		global $rbacsystem;
-
-		if ($a_ref_id == 0)
-		{
-			return true;
-		}
-
-		if ($rbacsystem->checkAccess("read", $a_ref_id))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
 
 	/**
-	* overwritten method from base class
-	* @access	public
-	* @param	integer obj_id
-	* @param	integer array options
-	* @return	string
-	*/
-	function formatHeader($a_obj_id,$a_option)
+	 * get ref id of target object
+	 *
+	 * @return mixed
+	 */
+	function getRefId()
 	{
-		global $lng, $ilias;
-
-		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
-
-		$tpl->setCurrentBlock("text");
-		$tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
-		$tpl->parseCurrentBlock();
-
-//		$tpl->setCurrentBlock("row");
-//		$tpl->parseCurrentBlock();
-
-		$this->output[] = $tpl->get();
+		return $this->ref_id;
 	}
 
-} // END class ilRepositoryExplorer
-?>
+
+} 

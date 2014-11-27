@@ -610,30 +610,15 @@ class ilConditionHandlerGUI
 
 		ilUtil::sendInfo($this->lng->txt("condition_select_object"));
 
-		$exp = new ilConditionSelector($this->ctrl->getLinkTarget($this,'copySelector'));
-		$exp->setExpand($_GET["condition_selector_expand"] ? $_GET["condition_selector_expand"] : $this->tree->readRootId());
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'selector'));
-		$exp->setTargetGet("ref_id");
+		$exp = new ilConditionSelector($this, "selector");
 		$exp->setRefId($this->getTargetRefId());
-
-		if($this->getTargetRefId())
-		{
-			$path = $tree->getPathId($this->getTargetRefId());
-			array_pop($path);
-			$exp->setForceOpenPath($path);
-		}
-		
-		foreach($this->getConditionHandler()->getTriggerTypes() as $type)
-		{
-			$exp->addFilter($type);
-		}
-		$exp->setSelectableTypes($this->ch_obj->getTriggerTypes());
-		$exp->setControlClass($this);
-		// build html-output
-		$exp->setOutput(0);
+		$exp->setTypeWhiteList(array_merge($this->getConditionHandler()->getTriggerTypes(),
+								array("root", "cat", "grp", "fold", "crs")
+		));
+		$exp->setClickableTypes($this->getConditionHandler()->getTriggerTypes());
 
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
+		$this->tpl->setVariable("EXPLORER",$exp->getHTML());
 		$this->tpl->parseCurrentBlock();
 	}
 
