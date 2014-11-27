@@ -2079,6 +2079,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
 		include_once('./Modules/Course/classes/class.ilCourseParticipantsTableGUI.php');
 		
+		// gev-patch begin
+		// remove any previously set back target on the course booking admin gui.
+		// we want to come back here later.
+		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
+		ilCourseBookingAdminGUI::removeBackTarget();
+		// gev-patch end
 		
 		if(isset($_GET['member_table_nav']))
 		{

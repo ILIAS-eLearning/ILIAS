@@ -45,7 +45,8 @@ class gevMyTrainingsApGUI {
 			case "memberList":
 			case "showOvernights":
 			case "saveOvernights":
-			case "viewBookings";
+			case "viewBookings":
+			case "backFromBookings":
 				$cont = $this->$cmd();
 				break;
 
@@ -236,8 +237,19 @@ class gevMyTrainingsApGUI {
 	}
 	
 	protected function viewBookings() {
+		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
+		ilCourseBookingAdminGUI::setBackTarget(
+			$this->ctrl->getLinkTargetByClass(array("gevDesktopGUI", "gevMyTrainingsApGUI"), "backFromBookings")
+			);
+		
 		$this->ctrl->setParameterByClass("ilCourseBookingGUI", "ref_id", $_GET["crsrefid"]);
 		$this->ctrl->redirectByClass(array("ilCourseBookingGUI", "ilCourseBookingAdminGUI"));
+	}
+	
+	protected function backFromBookings() {
+		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
+		ilCourseBookingAdminGUI::removeBackTarget();
+		return $this->view();
 	}
 }
 
