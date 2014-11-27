@@ -138,7 +138,7 @@ class ilBlogDataSet extends ilDataSet
 				
 				case "5.0.0":
 					$this->getDirectDataFromQuery("SELECT bl.id,od.title,od.description,".
-						"bl.notes,bl.bg_color,bl.font_color,bl.img,bl.ppic,bl.rss_active,bl.approval,".
+						"bl.bg_color,bl.font_color,bl.img,bl.ppic,bl.rss_active,bl.approval,".
 						"bl.abs_shorten,bl.abs_shorten_len,bl.abs_image,bl.abs_img_width,bl.abs_img_height,".
 						"bl.nav_mode,bl.nav_list_post,bl.nav_list_mon,bl.keywords,bl.authors,bl.nav_order,".
 						"bl.ov_post".
@@ -216,6 +216,10 @@ class ilBlogDataSet extends ilDataSet
 			
 			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 			$a_set["Style"] = ilObjStyleSheet::lookupObjectStyle($a_set["Id"]);
+			
+			// #14734
+			include_once("./Services/Notes/classes/class.ilNote.php");
+			$a_set["Notes"] = ilNote::commentsActivated($a_set["Id"], 0, "blog");		
 		}
 
 		return $a_set;

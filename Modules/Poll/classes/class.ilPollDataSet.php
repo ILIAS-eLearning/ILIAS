@@ -23,7 +23,7 @@ class ilPollDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.3.0", "4.5.0");
+		return array("4.3.0", 5.0.0");
 	}
 	
 	/**
@@ -54,7 +54,7 @@ class ilPollDataSet extends ilDataSet
 						"Dir" => "directory"
 						);
 					break;
-				case "4.5.0":
+				case "5.0.0":
 					return array(
 						"Id" => "integer",
 						"Title" => "text",
@@ -78,7 +78,7 @@ class ilPollDataSet extends ilDataSet
 			switch ($a_version)
 			{				
 				case "4.3.0":
-				case "4.5.0":
+				case "5.0.0":
 					return array(
 						"Id" => "integer",
 						"PollId" => "integer",
@@ -117,9 +117,9 @@ class ilPollDataSet extends ilDataSet
 						" WHERE ".$ilDB->in("pl.id", $a_ids, false, "integer").
 						" AND od.type = ".$ilDB->quote("poll", "text"));
 					break;
-				case "4.5.0":
+				case "5.0.0":
 					$this->getDirectDataFromQuery("SELECT pl.id,od.title,od.description".
-						",pl.question,pl.image,pl.view_results,pl.show_comments,pl.show_results_as".
+						",pl.question,pl.image,pl.view_results,pl.show_results_as".
 						",pl.max_answers,pl.result_sort,pl.non_anon".
 						" FROM il_poll pl".
 						" JOIN object_data od ON (od.obj_id = pl.id)".
@@ -172,6 +172,9 @@ class ilPollDataSet extends ilDataSet
 			include_once("./Modules/Poll/classes/class.ilObjPoll.php");
 			$dir = ilObjPoll::initStorage($a_set["Id"]);
 			$a_set["Dir"] = $dir;
+			
+			include_once("./Services/Notes/classes/class.ilNote.php");
+			$a_set["ShowComments"] = ilNote::commentsActivated($a_set["Id"], 0, "poll");	
 		}
 
 		return $a_set;

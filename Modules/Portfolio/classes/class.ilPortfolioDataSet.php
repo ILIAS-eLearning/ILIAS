@@ -25,7 +25,7 @@ class ilPortfolioDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.4.0");
+		return array("4.4.0", "5.0.0");
 	}
 	
 	/**
@@ -46,6 +46,7 @@ class ilPortfolioDataSet extends ilDataSet
 			switch ($a_version)
 			{			
 				case "4.4.0":
+				case "5.0.0":
 					return array(
 						"Id" => "integer",
 						"Title" => "text",
@@ -65,6 +66,7 @@ class ilPortfolioDataSet extends ilDataSet
 			switch ($a_version)
 			{				
 				case "4.4.0":
+				case "5.0.0":
 					return array(
 						"Id" => "integer",
 						"PortfolioId" => "integer",
@@ -102,7 +104,16 @@ class ilPortfolioDataSet extends ilDataSet
 						" JOIN object_data od ON (od.obj_id = prtf.id)".
 						" WHERE ".$ilDB->in("prtf.id", $a_ids, false, "integer").
 						" AND od.type = ".$ilDB->quote("prtt", "text"));
-					break;				
+					break;		
+				
+				case "5.0.0":
+					$this->getDirectDataFromQuery("SELECT prtf.id,od.title,od.description,".
+						"prtf.bg_color,prtf.font_color,prtf.img,prtf.ppic".
+						" FROM usr_portfolio prtf".
+						" JOIN object_data od ON (od.obj_id = prtf.id)".
+						" WHERE ".$ilDB->in("prtf.id", $a_ids, false, "integer").
+						" AND od.type = ".$ilDB->quote("prtt", "text"));
+					break;		
 			}
 		}
 		
@@ -111,6 +122,7 @@ class ilPortfolioDataSet extends ilDataSet
 			switch ($a_version)
 			{				
 				case "4.4.0":
+				case "5.0.0":
 					$this->getDirectDataFromQuery("SELECT id,portfolio_id,title,order_nr,type".
 						" FROM usr_portfolio_page".
 						" WHERE ".$ilDB->in("portfolio_id", $a_ids, false, "integer"));					
@@ -147,6 +159,9 @@ class ilPortfolioDataSet extends ilDataSet
 			include_once("./Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php");
 			$dir = ilObjPortfolioTemplate::initStorage($a_set["Id"]);
 			$a_set["Dir"] = $dir;
+			
+			include_once("./Services/Notes/classes/class.ilNote.php");
+			$a_set["Comments"] = ilNote::commentsActivated($a_set["Id"], 0, "prtt");	
 		}
 
 		return $a_set;
@@ -178,7 +193,7 @@ class ilPortfolioDataSet extends ilDataSet
 								
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
-				$newObj->setPublicComments($a_rec["Notes"]);
+				$newObj->setPublicComments($a_rec["Comments"]);
 				$newObj->setBackgroundColor($a_rec["BgColor"]);
 				$newObj->setFontColor($a_rec["FontColor"]);
 				$newObj->setProfilePicture($a_rec["Ppic"]);			
