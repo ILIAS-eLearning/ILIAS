@@ -9236,13 +9236,8 @@ survey#:#already_completed_survey#:#You have already finished the survey! You ar
 survey#:#anonymization#:#Anonymization
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field above.
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 5-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.
-survey#:#anonymize_personalized#:#No Anonymization
 survey#:#anonymize_registered_user#:#Anonymized Survey Access
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
-survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey results. An access code is a five digit code which is needed to take part in an anonymized survey.
-survey#:#anonymize_with_code#:#Anonymous Survey with Access Codes
-survey#:#anonymize_with_code_all#:#Access with survey codes for all users
-survey#:#anonymize_without_code#:#Anonymous Survey
 survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!
 survey#:#answer#:#Answer
 survey#:#apply#:#Apply
@@ -10912,7 +10907,6 @@ assessment#:#adm_settings_templates#:#Settings Templates
 survey#:#survey_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
 survey#:#survey_template_reset#:#The template has been removed.
 survey#:#survey_introduction_info#:#This message appears at the beginning of the survey.
-survey#:#survey_auth_mode#:#Mode
 survey#:#survey_question_pool#:#Question Pool
 survey#:#survey_question_pool_usage#:#Question Pool
 survey#:#survey_pool_selection#:#Pool Selection
@@ -15111,3 +15105,10 @@ sess#:#sess_lp_preset#:#Activate Learning Progress
 sess#:#sess_lp_preset_info#:#(De-)Actives the learning progress for all session events.
 glo#:#glo_copy#:#Copy Glossary
 form#:#form_open_answer#:#Open Answer
+survey#:#survey_access_codes#:#Authentication by Codes
+survey#:#survey_access_codes_info#:#Users get access to the survey by entering a code on the Info-tab. You will get new tab in the Participants section for generating the codes.
+survey#:#survey_results_anonymization#:#Privacy
+survey#:#survey_results_personalized#:#With Names
+survey#:#survey_results_personalized_info#:#Participants and their answers to the survey are shown in the Result Tabs. Other participants that have access to these tabs can identify them.
+survey#:#survey_results_anonymized#:#Without Names
+survey#:#survey_results_anonymized_info#:#The answers of participants to the survey are shown in the Results Tabs but no names are provided. Other participants that have access to these tabs cannot attribute answers to partcipants.

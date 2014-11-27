@@ -709,7 +709,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 				
 		// anonymization
 		if(!$this->object->get360Mode())
-		{
+		{			
+			$codes = new ilCheckboxInputGUI($this->lng->txt("survey_access_codes"), "acc_codes");
+			$codes->setInfo($this->lng->txt("survey_access_codes_info"));
+			$codes->setChecked($this->object->isAccessibleWithoutCode());
+			$form->addItem($codes);
+				
+			if ($this->object->_hasDatasets($this->object->getSurveyId()))
+			{
+				$codes->setDisabled(true);				
+			}
+			
+			/*
 			$anonymization_options = new ilRadioGroupInputGUI($this->lng->txt("survey_auth_mode"), "anonymization_options");
 			$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
 			if ($hasDatasets)
@@ -733,6 +744,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			$anonymization_options->setInfo($this->lng->txt("anonymize_survey_description"));
 			$form->addItem($anonymization_options);
+			*/
 		}
 		// 360° 
 		else
@@ -894,8 +906,27 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// evaluation access
 		if(!$this->object->get360Mode())
 		{
+			$anonymization_options = new ilRadioGroupInputGUI($this->lng->txt("survey_results_anonymization"), "anonymization_options");	
+			
+			$option = new ilCheckboxOption($this->lng->txt("survey_results_personalized"), "statpers");
+			$option->setInfo($this->lng->txt("survey_results_personalized_info"));			
+			$anonymization_options->addOption($option);
+			
+			$option = new ilCheckboxOption($this->lng->txt("survey_results_anonymized"), "statanon");
+			$option->setInfo($this->lng->txt("survey_results_anonymized_info"));			
+			$anonymization_options->addOption($option);					
+			$anonymization_options->setValue($this->object->getAnonymize()
+				? "statanon"
+				: "statpers");				
+			$form->addItem($anonymization_options);
+			
+			if ($this->object->_hasDatasets($this->object->getSurveyId()))
+			{
+				$anonymization_options->setDisabled(true);
+			}
+			
+			
 			$evaluation_access = new ilRadioGroupInputGUI($this->lng->txt('evaluation_access'), "evaluation_access");
-			$evaluation_access->setInfo($this->lng->txt('evaluation_access_description'));
 			
 			$option = new ilCheckboxOption($this->lng->txt("evaluation_access_off"), ilObjSurvey::EVALUATION_ACCESS_OFF, '');
 			$option->setInfo($this->lng->txt("svy_evaluation_access_off_info"));
@@ -1134,7 +1165,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function propertiesObject(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilAccess, $ilTabs, $ilHelp;
+		global $ilTabs, $ilHelp;
 		
 		$this->handleWriteAccess();
 		

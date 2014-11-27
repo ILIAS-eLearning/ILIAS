@@ -10997,13 +10997,8 @@ survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt!
 survey#:#anonymization#:#Anonymisierung
 survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 5stelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Zugangsschlüssel in das obige Textfeld ein.
 survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 5stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS-Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span><br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können.
-survey#:#anonymize_personalized#:#Personalisierte Umfrage
 survey#:#anonymize_registered_user#:#Anonymisierter Zugang
-survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS-Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
-survey#:#anonymize_survey_description#:#Die Anonymisierung entfernt alle persönlichen Daten aus der Umfragenstatistik. Ein Zugangsschlüssel ist eine fünfstellige Kennung, die benötigt wird, um an einer anonymisierten Umfrage teilzunehmen. 
-survey#:#anonymize_with_code#:#Anonyme Umfrage mit Zugangsschlüssel
-survey#:#anonymize_with_code_all#:#Zugriff über einen Zugangsschlüssel für alle Benutzer
-survey#:#anonymize_without_code#:#Anonyme Umfrage
+survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS-Posteingang gesendet, nachdem Sie die Umfrage begonnen haben. 
 survey#:#anonymous_with_personalized_survey#:#Sie müssen im ILIAS-System angemeldet sein, um eine personalisierte Umfrage ausführen zu dürfen!
 survey#:#answer#:#Antwort
 survey#:#apply#:#Übernehmen
@@ -11460,7 +11455,6 @@ survey#:#subject_mail_survey_id#:#Ihr Zugangsschlüssel für "%s"
 survey#:#subtype#:#Untertyp
 survey#:#survey_add_new_question#:#Seite erstellen
 survey#:#survey_at_beginning#:#An den Anfang
-survey#:#survey_auth_mode#:#Modus
 survey#:#survey_auto_block_title#:#Seitenüberschrift
 survey#:#survey_available_question_pools#:#Verfügbare Pools
 survey#:#survey_behind_page#:#Hinter
@@ -15108,3 +15102,10 @@ sess#:#sess_lp_preset#:#Lernfortschritt aktivieren
 sess#:#sess_lp_preset_info#:#Den Lernfortschritt für alle Session-Termine (de-)aktivieren.
 glo#:#glo_copy#:#Glossar kopieren
 form#:#form_open_answer#:#Freitext
+survey#:#survey_access_codes#:#Authentifizierung mit Codes
+survey#:#survey_access_codes_info#:#Benutzer erhalten per Code Zugang auf dem Info-Tab. Codes können über einen eigenen Tab generiert werden.
+survey#:#survey_results_anonymization#:#Datenschutz
+survey#:#survey_results_personalized#:#Mit Namen
+survey#:#survey_results_personalized_info#:#Teilnehmer und ihre Antworten werden in den Ergebnis-Tabs gelistet. Andere Teilnehmer die Zugang zu diesen Tabs können sie identifizieren.
+survey#:#survey_results_anonymized#:#Ohne Namen
+survey#:#survey_results_anonymized_info#:#Es werden lediglich Antworten in den Ergebnis-Tabs gelistet, jedoch keinerlei Namen. Andere Teilnehmer können die jeweiligen Antworten nicht einem bestimmten Teilnehmer zuordnen.
