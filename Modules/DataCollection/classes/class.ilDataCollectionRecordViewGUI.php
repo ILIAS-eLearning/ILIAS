@@ -61,9 +61,9 @@ class ilDataCollectionRecordViewGUI {
 
 
 	/**
-	 * @param ilObjDataCollection $a_dcl_object
+	 * @param ilObjDataCollectionGUI $a_dcl_object
 	 */
-	public function __construct(ilObjDataCollection $a_dcl_object) {
+	public function __construct(ilObjDataCollectionGUI $a_dcl_object) {
 		global $tpl, $ilCtrl;
 		$this->dcl_gui_object = $a_dcl_object;
 
@@ -289,7 +289,7 @@ class ilDataCollectionRecordViewGUI {
 		$tpl->setCurrentBlock("reference_list");
 
 		if (!$field) {
-			if (ilObjDataCollection::_hasWriteAccess($this->dcl_gui_object->ref_id)) {
+			if (ilObjDataCollectionAccess::_hasWriteAccess($this->dcl_gui_object->ref_id)) {
 				ilUtil::sendInfo("Bad Viewdefinition at [ext tableOf=\"" . $found[1] . "\" ...]", true);
 			}
 
