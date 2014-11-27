@@ -564,12 +564,6 @@ class ilObjTestSettingsScoringResultsGUI
 		if($this->testOBJ->isShowGradingMarkEnabled()) $value[] = 'grading_mark';
 		$chbg->setValue($value);
 		$form->addItem($chbg);
-
-		// show suggested solution
-		$showSuggestedSolutionOption = new ilCheckboxInputGUI($this->lng->txt('tst_show_solution_suggested'), 'solution_suggested');
-		$showSuggestedSolutionOption->setInfo($this->lng->txt('tst_show_solution_suggested_desc'));
-		$showSuggestedSolutionOption->setChecked($this->testOBJ->getShowSolutionSuggested());
-		$form->addItem($showSuggestedSolutionOption);
 	}
 
 	private function addResultDetailsSettingsFormSection(ilPropertyFormGUI $form)
@@ -596,6 +590,12 @@ class ilObjTestSettingsScoringResultsGUI
 			$results_print_best_solution->setInfo($this->lng->txt('tst_results_print_best_solution_info'));
 			$results_print_best_solution->setChecked((bool) $this->testOBJ->isBestSolutionPrintedWithResult());
 			$showSolutionDetails->addSubItem($results_print_best_solution);
+
+		// show suggested solution
+		$showSuggestedSolutionOption = new ilCheckboxInputGUI($this->lng->txt('tst_show_solution_suggested'), 'solution_suggested');
+		$showSuggestedSolutionOption->setInfo($this->lng->txt('tst_show_solution_suggested_desc'));
+		$showSuggestedSolutionOption->setChecked($this->testOBJ->getShowSolutionSuggested());
+		$form->addItem($showSuggestedSolutionOption);
 
 		// show solution printview ==> list of answers
 		$showSolutionPrintview = new ilCheckboxInputGUI($this->lng->txt('tst_show_solution_printview'), 'solution_printview');
