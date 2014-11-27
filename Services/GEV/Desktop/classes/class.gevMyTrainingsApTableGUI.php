@@ -43,11 +43,14 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
 		$this->setstatus_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-state-neutral.png").'" />';
 		$this->overnight_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-edit.png").'" />';
+		$this->bookings_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-booking.png").'" />';
 		
 		$legend = new catLegendGUI();
 		$legend->addItem($this->memberlist_img, "gev_mytrainingsap_legend_memberlist")
 			   ->addItem($this->setstatus_img, "gev_mytrainingsap_legend_setstatus")
-			   ->addItem($this->overnight_img, "gev_mytrainingsap_legend_overnights");
+			   ->addItem($this->overnight_img, "gev_mytrainingsap_legend_overnights")
+			   ->addItem($this->bookings_img, "gev_mytrainingsap_legend_view_bookings")
+			   ;
 		$this->setLegend($legend);
 
 		
@@ -119,7 +122,10 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->ctrl->setParameter($this->parent_obj, "crs_id", $a_set['obj_id']);
 		$setstatus_link = $this->ctrl->getLinkTarget($this->parent_obj, "listStatus");
 		$overnights_link = $this->ctrl->getLinkTarget($this->parent_obj, "showOvernights");
+		$bookings_link = $this->ctrl->getLinkTarget($this->parent_obj, "viewBookings");
 		$this->ctrl->clearParameters($this->parent_obj);
+
+		$view_bookings = $crs_utils->canViewBookings($this->user_id);
 
 		$actions = "<a href=\"".$memberlist_link."\">".$this->memberlist_img."</a>";
 		if($a_set['may_finalize']) {
@@ -128,6 +134,10 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 												// is true after training start
 		if ($crs_utils->isWithAccomodations() && !$a_set["may_finalize"]) {
 			$actions .= "&nbsp;<a href=\"".$overnights_link."\">".$this->overnight_img."</a>";
+		}
+		
+		if ($view_bookings) {
+			$actions .= "&nbsp;<a href=\"".$bookings_link."\">".$this->bookings_img."</a>";
 		}
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
@@ -155,7 +165,12 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$this->tpl->setVariable("SETSTAT_LINK_TXT", $this->lng->txt('gev_mytrainingsap_btn_setstatus'));
 			$this->tpl->parseCurrentBlock();
 		}
-
+		if( $view_bookings ) {
+			$this->tpl->setCurrentBlock("view_bookings");
+			$this->tpl->setVariable("VIEW_BOOKINGS_LINK", $bookings_link);
+			$this->tpl->setVariable("VIEW_BOOKINGS_LINK_TXT", $this->lng->txt('gev_mytrainingsap_btn_bookings'));
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 }
 

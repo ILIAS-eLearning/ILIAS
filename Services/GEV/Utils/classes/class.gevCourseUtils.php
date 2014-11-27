@@ -1472,7 +1472,7 @@ class gevCourseUtils {
 		$dd->setSpaceBottom1(12.0);
 		$dd->setSpaceBottom2(8.5);
 		
-		$dd->setUsers($this->getMembersExceptForAdmins());
+		$dd->setUsers($this->getMembersExcepxfForAdmins());
 		if ($a_path === null) {
 			$dd->deliver();
 		}
@@ -1518,6 +1518,10 @@ class gevCourseUtils {
 		return    $this->getBookingPermissions($a_user_id)->bookCourseForUser($a_other_id)
 			   || in_array($a_other_id, $utils->getEmployeeIdsForCourseSearch())
 			   ;
+	}
+	
+	public function canViewBookings($a_user_id) {
+		return $this->getBookingPermissions($a_user_id)->viewOtherBookings();
 	}
 	
 	public function canCancelCourseForOther($a_user_id, $a_other_id) {

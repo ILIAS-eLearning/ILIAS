@@ -45,6 +45,7 @@ class gevMyTrainingsApGUI {
 			case "memberList":
 			case "showOvernights":
 			case "saveOvernights":
+			case "viewBookings";
 				$cont = $this->$cmd();
 				break;
 
@@ -232,6 +233,11 @@ class gevMyTrainingsApGUI {
 		$this->ctrl->clearParameters($this);
 
 		return $form;
+	}
+	
+	protected function viewBookings() {
+		$this->ctrl->setParameterByClass("ilCourseBookingGUI", "ref_id", $_GET["crsrefid"]);
+		$this->ctrl->redirectByClass(array("ilCourseBookingGUI", "ilCourseBookingAdminGUI"));
 	}
 }
 
