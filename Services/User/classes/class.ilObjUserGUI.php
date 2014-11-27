@@ -69,7 +69,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 
 		// start patch GOA2
-		$this->tpl->addCSS("./Services/User/css/objUsrGUI.css");
+		$this->tpl->addCSS("./Services/User/css/objUsrGUI.css", "all");
 		// end patch GOA2
 
 	}
