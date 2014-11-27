@@ -153,13 +153,13 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 			if (strcmp($c, 'users_answered') == 0)
 			{
 				$this->tpl->setCurrentBlock('users_answered');
-				$this->tpl->setVariable("USERS_ANSWERED", $data['users_answered']);
+				$this->tpl->setVariable("USERS_ANSWERED", trim($data['users_answered']));
 				$this->tpl->parseCurrentBlock();
 			}
 			if (strcmp($c, 'users_skipped') == 0)
 			{
 				$this->tpl->setCurrentBlock('users_skipped');
-				$this->tpl->setVariable("USERS_SKIPPED", $data['users_skipped']);
+				$this->tpl->setVariable("USERS_SKIPPED", trim($data['users_skipped']));
 				$this->tpl->parseCurrentBlock();
 			}
 			if (strcmp($c, 'mode') == 0)

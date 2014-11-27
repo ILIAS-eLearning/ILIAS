@@ -247,7 +247,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$a_new_object->set360Mode((bool)$this->getDidacticTemplateVar("svy360"));
 		if($a_new_object->get360Mode())
 		{
-			$a_new_object->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL);
+			// this should rather be ilObjSurvey::ANONYMIZE_ON - see ilObjSurvey::getUserDataFromActiveId()
+			$a_new_object->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL); 
 			$a_new_object->setEvaluationAccess(ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS);
 		}
 		$a_new_object->saveToDB();
@@ -365,7 +366,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// evaluation
 			$tabs_gui->addTab("svy_results",
 				$this->lng->txt("svy_results"),
-				$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", ""));
+				$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluation"));
 		}
 
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
@@ -907,7 +908,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$option = new ilCheckboxOption($this->lng->txt("survey_results_anonymized"), "statanon");
 			$option->setInfo($this->lng->txt("survey_results_anonymized_info"));			
 			$anonymization_options->addOption($option);					
-			$anonymization_options->setValue(($this->object->getAnonymize() == ilObjSurvey::ANONYMIZE_ON || $this->object->getAnonymize() == ilObjSurvey::ANONYMIZE_FREEACCESS)
+			$anonymization_options->setValue($this->object->hasAnonymizedResults()
 				? "statanon"
 				: "statpers");				
 			$form->addItem($anonymization_options);
@@ -1867,7 +1868,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$info->addSection($this->lng->txt("svy_general_properties"));
 			
 			$info->addProperty($this->lng->txt("survey_results_anonymization"), 
-				($this->object->getAnonymize() == ilObjSurvey::ANONYMIZE_OFF || $this->object->getAnonymize() == ilObjSurvey::ANONYMIZE_CODE_ALL)
+				!$this->object->hasAnonymizedResults()
 					? $this->lng->txt("survey_results_personalized_info")
 					: $this->lng->txt("survey_results_anonymized_info"));
 					

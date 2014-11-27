@@ -451,7 +451,7 @@ class ilSurveyParticipantsGUI
 		$this->parent_gui->handleWriteAccess();
 		$this->setCodesSubtabs();
 		
-		if ($this->object->getAnonymize() != 1 && !$this->object->isAccessibleWithCodeForAll())
+		if ($this->object->isAccessibleWithoutCode())
 		{
 			return ilUtil::sendInfo($this->lng->txt("survey_codes_no_anonymization"));
 		}

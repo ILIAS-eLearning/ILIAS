@@ -28,7 +28,7 @@ class ilObjSurvey extends ilObject
 	const MODE_PREDEFINED_USERS = 1;
 	
 	const ANONYMIZE_OFF = 0; // personalized, no codes
-	const ANONYMIZE_ON = 1; // anonymous, codes
+	const ANONYMIZE_ON = 1; // anonymized, codes
 	const ANONYMIZE_FREEACCESS = 2; // anonymized, no codes
 	const ANONYMIZE_CODE_ALL = 3; // personalized, codes
 	
@@ -1060,18 +1060,6 @@ class ilObjSurvey extends ilObject
 		return ($this->anonymize) ? $this->anonymize : 0;
 	}
 	
-	function isAccessibleWithCodeForAll()
-	{
-		if ($this->getAnonymize() == self::ANONYMIZE_CODE_ALL)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
 	/**
 	* Checks if the survey is accessable without a survey code
 	*
@@ -1079,14 +1067,19 @@ class ilObjSurvey extends ilObject
 	*/
 	function isAccessibleWithoutCode()
 	{
-		if ($this->getAnonymize() == self::ANONYMIZE_FREEACCESS || !$this->getAnonymize())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return ($this->getAnonymize() == self::ANONYMIZE_OFF || 
+			$this->getAnonymize() == self::ANONYMIZE_FREEACCESS);		
+	}
+	
+	/**
+	* Checks if the survey results are to be anonymized
+	*
+	* @return	boolean status
+	*/
+	function hasAnonymizedResults()
+	{
+		return ($this->getAnonymize() == self::ANONYMIZE_ON || 
+			$this->getAnonymize() == self::ANONYMIZE_FREEACCESS);
 	}
 
 /**
@@ -3153,12 +3146,15 @@ class ilObjSurvey extends ilObject
 								
 			$messagetext = $this->mailparticipantdata;
 			if(trim($messagetext))
-			{									
-				$data = ilObjUser::_getUserData(array($user_id));
-				$data = $data[0];
+			{				
+				if (!$this->hasAnonymizedResults())
+				{
+					$data = ilObjUser::_getUserData(array($user_id));
+					$data = $data[0];
+				}
 				foreach ($placeholders as $key => $mapping)
 				{									
-					if ($this->getAnonymize())
+					if (!$this->hasAnonymizedResults())
 					{
 						$messagetext = str_replace('[' . $key . ']', '', $messagetext);
 					}
@@ -3564,7 +3560,9 @@ class ilObjSurvey extends ilObject
 		);
 		if ($foundrows)
 		{
-			if (($row["user_fi"] > 0) && ($row["user_fi"] != ANONYMOUS_USER_ID) && ($this->getAnonymize() == 0))
+			if (($row["user_fi"] > 0) && ($row["user_fi"] != ANONYMOUS_USER_ID) && 				
+				!$this->hasAnonymizedResults() &&
+				!$this->get360Mode()) // 360° uses ANONYMIZE_CODE_ALL which is wrong - see ilObjSurveyGUI::afterSave()
 			{
 				include_once './Services/User/classes/class.ilObjUser.php';
 				if (strlen(ilObjUser::_lookupLogin($row["user_fi"])) == 0)

@@ -95,33 +95,29 @@ class ilSurveyEvaluationGUI
 		{
 			$ilTabs->addSubTabTarget(
 				"svy_eval_competences", 
-				$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "competenceEval"), 
-				array("competenceEval"),	
-				""
+				$this->ctrl->getLinkTarget($this, "competenceEval"), 
+				array("competenceEval")
 			);
 		}
 
 		$ilTabs->addSubTabTarget(
 			"svy_eval_cumulated", 
-			$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluation"), 
-			array("evaluation", "checkEvaluationAccess"),	
-			""
+			$this->ctrl->getLinkTarget($this, "evaluation"), 
+			array("evaluation", "checkEvaluationAccess")
 		);
 
 		$ilTabs->addSubTabTarget(
 			"svy_eval_detail", 
-			$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluationdetails"), 
-			array("evaluationdetails"),	
-			""
+			$this->ctrl->getLinkTarget($this, "evaluationdetails"), 
+			array("evaluationdetails")
 		);
 		
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			$ilTabs->addSubTabTarget(
 				"svy_eval_user", 
-				$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluationuser"), 
-				array("evaluationuser"),	
-				""
+				$this->ctrl->getLinkTarget($this, "evaluationuser"), 
+				array("evaluationuser")
 			);
 		}
 	}
@@ -529,9 +525,7 @@ class ilSurveyEvaluationGUI
 	
 	function evaluation($details = 0)
 	{
-		global $rbacsystem;
-		global $ilToolbar;
-		global $ilUser;
+		global $rbacsystem, $ilToolbar;
 
 		// auth
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
@@ -1006,7 +1000,7 @@ class ilSurveyEvaluationGUI
 	*/
 	function evaluationuser()
 	{
-		global $ilAccess, $ilLog, $ilToolbar;
+		global $ilAccess, $ilToolbar;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -1134,7 +1128,7 @@ class ilSurveyEvaluationGUI
 		$this->tpl->parseCurrentBlock();				
 		
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsUserTableGUI.php";
-		$table_gui = new ilSurveyResultsUserTableGUI($this, 'evaluationuser', $this->object->getAnonymize());
+		$table_gui = new ilSurveyResultsUserTableGUI($this, 'evaluationuser', $this->object->hasAnonymizedResults());
 		$table_gui->setData($tabledata);
 		$this->tpl->setContent($table_gui->getHTML());			
 	}
