@@ -625,15 +625,33 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
 					if (!$hasDatasets)
 					{
-						$anon_map = array('personalized' => ilObjSurvey::ANONYMIZE_OFF,
-							'anonymize_with_code' => ilObjSurvey::ANONYMIZE_ON,
-							'anonymize_without_code' => ilObjSurvey::ANONYMIZE_FREEACCESS);
-						if(array_key_exists($_POST["anonymization_options"], $anon_map))
-						{
-							$this->object->setAnonymize($anon_map[$_POST["anonymization_options"]]);
-							if (strcmp($_POST['anonymization_options'], 'anonymize_with_code') == 0) $anonymize = ilObjSurvey::ANONYMIZE_ON;
-							if (strcmp($_POST['anonymization_options'], 'anonymize_with_code_all') == 0) $anonymize = ilObjSurvey::ANONYMIZE_CODE_ALL;
+						$codes = (bool)$_POST["acc_codes"];
+						$anon = ((string)$_POST["anonymization_options"] == "statanon");						
+						if (!$anon)
+						{			
+							if (!$codes)
+							{
+								$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_OFF);
+							}
+							else
+							{
+								$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL);
+							}
 						}
+						else
+						{
+							if ($codes)
+							{
+								$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_ON);
+							}
+							else
+							{
+								$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_FREEACCESS);
+							}
+						}	
+						
+						// if settings were changed get rid of existing code
+						unset($_SESSION["anonymous_id"][$this->object->getId()]);
 					}
 				}
 
@@ -712,39 +730,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{			
 			$codes = new ilCheckboxInputGUI($this->lng->txt("survey_access_codes"), "acc_codes");
 			$codes->setInfo($this->lng->txt("survey_access_codes_info"));
-			$codes->setChecked($this->object->isAccessibleWithoutCode());
+			$codes->setChecked(!$this->object->isAccessibleWithoutCode());
 			$form->addItem($codes);
 				
 			if ($this->object->_hasDatasets($this->object->getSurveyId()))
 			{
 				$codes->setDisabled(true);				
-			}
-			
-			/*
-			$anonymization_options = new ilRadioGroupInputGUI($this->lng->txt("survey_auth_mode"), "anonymization_options");
-			$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
-			if ($hasDatasets)
-			{
-				$anonymization_options->setDisabled(true);
-			}
-			$anonymization_options->addOption(new ilCheckboxOption($this->lng->txt("anonymize_personalized"),
-					'personalized', ''));
-			$anonymization_options->addOption(new ilCheckboxOption(
-					$this->lng->txt("anonymize_without_code"), 'anonymize_without_code', ''));
-			$anonymization_options->addOption(new ilCheckboxOption(
-					$this->lng->txt("anonymize_with_code"), 'anonymize_with_code', ''));
-			if(!$this->object->getAnonymize())
-			{
-				$anonymization_options->setValue('personalized');
-			}
-			else
-			{
-				$anonymization_options->setValue(($this->object->isAccessibleWithoutCode()) ?
-						'anonymize_without_code' : 'anonymize_with_code');
-			}
-			$anonymization_options->setInfo($this->lng->txt("anonymize_survey_description"));
-			$form->addItem($anonymization_options);
-			*/
+			}			
 		}
 		// 360° 
 		else
@@ -915,7 +907,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$option = new ilCheckboxOption($this->lng->txt("survey_results_anonymized"), "statanon");
 			$option->setInfo($this->lng->txt("survey_results_anonymized_info"));			
 			$anonymization_options->addOption($option);					
-			$anonymization_options->setValue($this->object->getAnonymize()
+			$anonymization_options->setValue(($this->object->getAnonymize() == ilObjSurvey::ANONYMIZE_ON || $this->object->getAnonymize() == ilObjSurvey::ANONYMIZE_FREEACCESS)
 				? "statanon"
 				: "statpers");				
 			$form->addItem($anonymization_options);
@@ -1606,7 +1598,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			
 			
-			// handle code				
+			// handle code
 			
 			// validate incoming
 			$code_input = false;
@@ -1630,8 +1622,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 				{
 					$code_input = true;
 				}
-			}				
-							
+			}		
+										
 			// try to find code for current (registered) user from existing run
 			if($this->object->getAnonymize() && !$anonymous_code)
 			{
@@ -1869,38 +1861,26 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
 		$info->hideFurtherSections(false);
+						
+		if(!$this->object->get360Mode())
+		{
+			$info->addSection($this->lng->txt("svy_general_properties"));
+			
+			$info->addProperty($this->lng->txt("survey_results_anonymization"), 
+				($this->object->getAnonymize() == ilObjSurvey::ANONYMIZE_OFF || $this->object->getAnonymize() == ilObjSurvey::ANONYMIZE_CODE_ALL)
+					? $this->lng->txt("survey_results_personalized_info")
+					: $this->lng->txt("survey_results_anonymized_info"));
+					
+			include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
+			if ($ilAccess->checkAccess("write", "", $this->ref_id) || 
+				ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId()))
+			{
+				$info->addProperty($this->lng->txt("evaluation_access"), $this->lng->txt("evaluation_access_info"));
+			}
+		}
 		
-		$info->addSection($this->lng->txt("svy_general_properties"));
-		if (strlen($this->object->getAuthor()))
-		{
-			$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
-		}
-		$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
-		switch ($this->object->getAnonymize())
-		{
-			case ilObjSurvey::ANONYMIZE_OFF:
-				$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("anonymize_personalized"));
-				break;
-			case ilObjSurvey::ANONYMIZE_ON:
-				if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
-				{
-					$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("info_anonymize_with_code"));
-				}
-				else
-				{
-					$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("info_anonymize_registered_user"));
-				}
-				break;
-			case ilObjSurvey::ANONYMIZE_FREEACCESS:
-				$info->addProperty($this->lng->txt("anonymization"), $this->lng->txt("info_anonymize_without_code"));
-				break;
-		}
-		include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
-		if ($ilAccess->checkAccess("write", "", $this->ref_id) || ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId()))
-		{
-			$info->addProperty($this->lng->txt("evaluation_access"), $this->lng->txt("evaluation_access_info"));
-		}
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+		
 		$this->ctrl->forwardCommand($info);
 	}
 						

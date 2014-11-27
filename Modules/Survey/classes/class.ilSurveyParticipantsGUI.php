@@ -150,6 +150,8 @@ class ilSurveyParticipantsGUI
 	function setCodesSubtabs()
 	{
 		global $ilTabs;
+		
+		// not used in 360° mode
 	
 		// maintenance
 		$ilTabs->addSubTabTarget("results",
@@ -157,31 +159,22 @@ class ilSurveyParticipantsGUI
 			 array("maintenance", "deleteAllUserData"),					 
 			 "");
 
-		// 360° 
-		if($this->object->get360Mode())
-		{			
-			$ilTabs->addSubTabTarget("survey_360_appraisees",
-				 $this->ctrl->getLinkTarget($this,'listAppraisees'),
-				array("listAppraisees", "editRaters"),					 
-				"");						
-		}
-	
-		$ilTabs->addSubTabTarget("codes", 
-			$this->ctrl->getLinkTarget($this,'codes'),
-			array("codes", "editCodes", "createSurveyCodes", "setCodeLanguage", "deleteCodes", "exportCodes",
-				"importExternalMailRecipientsFromFileForm", "importExternalMailRecipientsFromTextForm"),
-			""
-		);
-
-		if(!$this->object->get360Mode())		
+		if(!$this->object->isAccessibleWithoutCode())
 		{
-			// #12277 - invite
-			$ilTabs->addSubTabTarget("invitation",
-				 $this->ctrl->getLinkTarget($this, 'invite'),
-				 array("invite", "saveInvitationStatus",
-				 "inviteUserGroup", "disinviteUserGroup"),
-				 "");
+			$ilTabs->addSubTabTarget("codes", 
+				$this->ctrl->getLinkTarget($this,'codes'),
+				array("codes", "editCodes", "createSurveyCodes", "setCodeLanguage", "deleteCodes", "exportCodes",
+					"importExternalMailRecipientsFromFileForm", "importExternalMailRecipientsFromTextForm"),
+				""
+			);
 		}
+
+		// #12277 - invite
+		$ilTabs->addSubTabTarget("invitation",
+			 $this->ctrl->getLinkTarget($this, 'invite'),
+			 array("invite", "saveInvitationStatus",
+			 "inviteUserGroup", "disinviteUserGroup"),
+			 "");		
 		
 		$data = $this->object->getExternalCodeRecipients();
 		if (count($data))
@@ -1083,7 +1076,6 @@ class ilSurveyParticipantsGUI
 		global $ilToolbar, $lng, $ilCtrl;
 		
 		$this->parent_gui->handleWriteAccess();
-		// $this->setCodesSubtabs();
 		
 		$this->ctrl->setParameter($this, "appr360", 1);
 		

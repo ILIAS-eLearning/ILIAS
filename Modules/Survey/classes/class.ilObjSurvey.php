@@ -27,10 +27,10 @@ class ilObjSurvey extends ilObject
 	const MODE_UNLIMITED = 0;
 	const MODE_PREDEFINED_USERS = 1;
 	
-	const ANONYMIZE_OFF = 0;
-	const ANONYMIZE_ON = 1;
-	const ANONYMIZE_FREEACCESS = 2;
-	const ANONYMIZE_CODE_ALL = 3;
+	const ANONYMIZE_OFF = 0; // personalized, no codes
+	const ANONYMIZE_ON = 1; // anonymous, codes
+	const ANONYMIZE_FREEACCESS = 2; // anonymized, no codes
+	const ANONYMIZE_CODE_ALL = 3; // personalized, codes
 	
 	const QUESTIONTITLES_HIDDEN = 0;
 	const QUESTIONTITLES_VISIBLE = 1;	
@@ -5956,7 +5956,8 @@ class ilObjSurvey extends ilObject
 				}
 			}
 		}		
-		else if($user_id == ANONYMOUS_USER_ID || $this->getAnonymize())
+		else if($user_id == ANONYMOUS_USER_ID ||
+			$this->getAnonymize() == self::ANONYMIZE_FREEACCESS)
 		{
 			if(!$a_code)
 			{			
