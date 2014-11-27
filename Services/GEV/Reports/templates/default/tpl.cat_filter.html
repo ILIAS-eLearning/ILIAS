@@ -1,5 +1,6 @@
+<!-- BEGIN filter_head -->
 <form id="form_{POST_VAR}" enctype="multipart/form-data" action="{ACTION}" method="post">
-	
+<!-- END filter_head -->
 	<!-- BEGIN checkbox -->
 	<div class="cat_filter_checkbox ilFloatLeft" id="{POST_VAR}">
 		<input class="ilFormCheckbox" id="inp_{POST_VAR}" type="checkbox" name="{POST_VAR}" value="1" {PROPERTY_CHECKED} />
@@ -95,7 +96,9 @@
 	<!-- BEGIN select -->
 	{SELECT_FILTER_LABEL} {SELECT_FILTER}
 	<!-- END date -->
+<!-- BEGIN filter_tail -->
 	<div class="ilClearFloat"></div>
 	<br />
 	<div><input class="submit" type="SUBMIT" name="cmd[view]" value="{FILTER}"></div>
 </form>
+<!-- END filter_tail -->

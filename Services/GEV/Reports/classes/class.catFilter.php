@@ -246,20 +246,33 @@ class catFilter {
 
 		require_once("Services/UICore/classes/class.ilTemplate.php");
 		
+		$out = "";
+		
 		$tpl = new ilTemplate("tpl.cat_filter.html", true, true, "Services/GEV/Reports");
+		$tpl->setCurrentBlock("filter_head");
+		$tpl->setVariable("POST_VAR", $this->post_var_prefix);
+		$tpl->parseCurrentBlock();
+		$out .= $tpl->get();
 		
 		foreach ($this->filters as $conf) {
+			$tpl = new ilTemplate("tpl.cat_filter.html", true, true, "Services/GEV/Reports");
 			$type = $this->getType($conf);
 			$tpl->setCurrentBlock($type->getId());
 			$postvar = $this->getPostVar($conf);
 			$tpl->setVariable("POST_VAR", $postvar);
 			$type->render($tpl, $postvar, $conf, $this->getParameters($conf));
 			$tpl->parseCurrentBlock();
+			$out .= $tpl->get();
 		}
 		
-		$tpl->setVariable("FILTER", $this->action_title);
+		$tpl = new ilTemplate("tpl.cat_filter.html", true, true, "Services/GEV/Reports");
 		
-		return $tpl->get();
+		$tpl->setCurrentBlock("filter_tail");
+		$tpl->setVariable("FILTER", $this->action_title);
+		$tpl->parseCurrentBlock();
+		$out .= $tpl->get();
+		
+		return $out;
 	}
 	
 	// get default value for filter
