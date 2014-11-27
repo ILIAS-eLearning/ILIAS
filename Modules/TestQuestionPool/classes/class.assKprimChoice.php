@@ -1045,4 +1045,34 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
 		return $numExistingSolutionRecords >= 4;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	{
+		require_once 'Services/Excel/classes/class.ilExcelUtils.php';
+
+		$solution = $this->getSolutionValues($active_id, $pass);
+
+		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
+		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+		$i = 1;
+		foreach($this->getAnswers() as $id => $answer)
+		{
+			$worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($answer->getAnswertext()), $format_bold);
+			$correctness = FALSE;
+			foreach($solution as $solutionvalue)
+			{
+				if($id == $solutionvalue['value1'])
+				{
+					$correctness = $solutionvalue['value2'];
+					break;
+				}
+			}
+			$worksheet->write($startrow + $i, 1, $correctness);
+			$i++;
+		}
+		return $startrow + $i + 1;
+	}
 }
