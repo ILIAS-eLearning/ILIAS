@@ -49,7 +49,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->column("custom_id", "gev_training_id")
 						->column("title", "title")
 						->column("type", "gev_learning_type")
-						->column("date", "date", null, false, "112px")
+						->column("date", "date", false, "112px")
 						->column("location", "gev_location")
 						->column("provider", "gev_provider")
 						->column("tutor", "il_crs_tutor")
@@ -57,7 +57,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->column("fee", "gev_costs")
 						->column("status", "status")
 						->column("wbd", "gev_wbd_relevant")
-						->column("action", $this->action_img, null, true)
+						->column("action", $this->action_img, true)
 						->template('tpl.gev_edu_bio_row.html', 'Services/GEV/Reports')
 						;
 		

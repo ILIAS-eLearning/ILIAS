@@ -105,39 +105,17 @@ class catBasicReportGUI {
 
 		$this->ctrl->setParameter($this, $this->filter->getGETName(), $this->filter->encodeSearchParamsForGET());
 		
-		$table = new catTableGUI($this, "view");
-		$table->setEnableTitle(false);
-		$table->setTopCommands(false);
-		$table->setEnableHeader(true);
-		$table->setRowTemplate(
-			$this->table->row_template_filename, 
-			$this->table->row_template_module
-		);
-
-		$process = array();
-
-		$table->addColumn("", "blank", "0px", false);
-		foreach ($this->table->columns as $col) {
-			$table->addColumn( $col[3] ? $col[1] : $this->lng->txt($col[1])
-							 , $col[0]
-							 , $col[4]
-							 );
-		}
-		
-		// TODO: This should be implemented via ORDER BY in sql.
-		if ($this->table->order_field !== null) {
-			$table->setOrderField($this->table->order_field);
-			$table->setOrderDirection($this->table->order_direction);
-		}
+		$content = null;
 		
 		$data = $this->getData();
-		$cnt = count($data);
-		$table->setLimit($cnt);
-		$table->setMaxCount($cnt);
-		$table->setExternalSorting($this->external_sorting);
-
-		$table->setData($data);
-
+		
+		if ($this->table->_group_by === null) {
+			$content = $this->renderUngroupedTable($data);
+		}
+		else {
+			$content = $this->renderGroupedTable($data);
+		}
+		
 		//export-button
 		if (count($data) > 0) {
 			$export_btn = '<a class="submit exportXlsBtn"'
@@ -152,8 +130,95 @@ class catBasicReportGUI {
 		}
 
 		return	 $export_btn
-				.$table->getHTML()
+				.$content
 				.$export_btn;
+	}
+	
+	protected function renderUngroupedTable($data) {
+		$table = new catTableGUI($this, "view");
+		$table->setEnableTitle(false);
+		$table->setTopCommands(false);
+		$table->setEnableHeader(true);
+		$table->setRowTemplate(
+			$this->table->row_template_filename, 
+			$this->table->row_template_module
+		);
+
+		$table->addColumn("", "blank", "0px", false);
+		foreach ($this->table->columns as $col) {
+			$table->addColumn( $col[2] ? $col[1] : $this->lng->txt($col[1])
+							 , $col[0]
+							 , $col[3]
+							 );
+		}
+		
+		// TODO: This should be implemented via ORDER BY in sql.
+		if ($this->table->order_field !== null) {
+			$table->setOrderField($this->table->order_field);
+			$table->setOrderDirection($this->table->order_direction);
+		}
+		
+		$cnt = count($data);
+		$table->setLimit($cnt);
+		$table->setMaxCount($cnt);
+		$table->setExternalSorting($this->external_sorting);
+
+		$table->setData($data);
+
+		return $table->getHtml();
+	}
+	
+	protected function renderGroupedTable($data) {
+		$grouped = $this->groupData($data);
+		$content = "";
+
+		foreach ($grouped as $key => $rows) {
+			// We know for sure there is at least one entry in the rows
+			// since we created a group from it.
+			$content .= $this->renderGroupHeader($rows[0]);
+			$content .= $this->renderUngroupedTable($rows);
+		}
+		
+		return $content;
+	}
+	
+	protected function renderGroupHeader($data) {
+		$tpl = new ilTemplate( $this->table->group_head_template_filename
+							 , true, true
+							 , $this->table->group_head_template_module
+							 );
+
+		foreach ($this->table->_group_by as $key => $conf) {
+			$tpl->setVariable("VAL_".strtoupper($key), $data[$key]);
+			$tpl->setVariable("TITLE_".strtoupper($key)
+							 , $conf[2] ? $conf[1] : $this->lng->txt($conf[1]));
+		}
+		
+		return $tpl->get();
+	}
+
+	protected function groupData($data) {
+		$grouped = array();
+
+		foreach ($data as $row) {
+			$group_key = $this->makeGroupKey($row);
+			if (!array_key_exists($group_key, $grouped)) {
+				$grouped[$group_key] = array();
+			}
+			$grouped[$group_key][] = $row;
+		}
+		
+		return $grouped;
+	}
+	
+	protected function makeGroupKey($row) {
+		$head = "";
+		$tail = "";
+		foreach ($this->table->_group_by as $key => $value) {
+			$head .= strlen($row[$key])."-";
+			$tail .= $row[$key];
+		}
+		return $head.$tail;
 	}
 
 	protected function exportXLS() {
@@ -176,7 +241,7 @@ class catBasicReportGUI {
 		$colcount = 0;
 		foreach ($this->table->columns as $col) {
 			$worksheet->setColumn($colcount, $colcount, 30); //width
-			$worksheet->writeString(0, $colcount, $col[3] ? $col[1] : $this->lng->txt($col[1]), $format_bold);
+			$worksheet->writeString(0, $colcount, $col[2] ? $col[1] : $this->lng->txt($col[1]), $format_bold);
 			$colcount++;
 		}
 
@@ -263,19 +328,21 @@ class catReportTable {
 		$this->row_template_module = null;
 		$this->order_field = null;
 		$this->order_direction = null;
+		$this->_group_by = null;
+		$this->group_head_template_filename = null;
+		$this->group_head_template_module = null;
 	}
 	
 	public static function create() {
 		return new catReportTable();
 	}
 	
-	public function column($a_id, $a_title, $a_sql_name = false, $a_no_lng_var = false, $a_width = "") {
-		$this->columns[] = array( $a_id
-								, $a_title
-								, ($a_sql_name === false) ? $a_sql_name : $a_id
-								, $a_no_lng_var
-								, $a_width
-								);
+	public function column($a_id, $a_title, $a_no_lng_var = false, $a_width = "") {
+		$this->columns[$a_id] = array( $a_id
+									 , $a_title
+									 , $a_no_lng_var
+									 , $a_width
+									 );
 		return $this;
 	}
 	
@@ -293,6 +360,33 @@ class catReportTable {
 	public function template($a_filename, $a_module) {
 		$this->row_template_filename = $a_filename;
 		$this->row_template_module = $a_module;
+		return $this;
+	}
+	
+	public function group_by($a_cols, $a_filename, $a_modules) {
+		if ($this->_group_by !== null) {
+			throw new Exception("catReportTable::group_by: Grouping already defined.");
+		}
+		
+		if (!is_array($a_cols) || count($a_cols) == 0) {
+			throw new Exception("catReportTable::group_by: Expected first argument to be an array "
+							   ."with at least one entry.");
+		}
+		
+		$this->_group_by = array();
+		
+		foreach ($a_cols as $col_name) {
+			if (!array_key_exists($col_name, $this->columns)) {
+				throw new Exception("catReportTable::group_by: Can't group by unknown column ".$col_name);
+			}
+			
+			$this->_group_by[$col_name] = $this->columns[$col_name];
+			unset($this->columns[$col_name]);
+		}
+		
+		$this->group_head_template_filename = $a_filename;
+		$this->group_head_template_module = $a_modules;
+		
 		return $this;
 	}
 }
