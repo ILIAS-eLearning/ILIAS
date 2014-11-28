@@ -40,7 +40,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->column("position_key", "gev_agent_key")
 						->column("gender", "gender")
 						->column("org_unit", "gev_org_unit_short")
-						->column("title", "title")
+						->column("position_key", "gev_position_key")
 						->column("custom_id", "gev_training_id")
 						->column("venue", "gev_location")
 						->column("provider", "gev_provider")
@@ -70,6 +70,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->select("crs.provider")
 						->select("crs.begin_date")
 						->select("crs.end_date")
+						->select("crs.title")
 						->from("hist_usercoursestatus usrcrs")
 						->join("hist_user usr")
 							->on("usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0")
@@ -88,6 +89,30 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									, date("Y")."-01-01"
 									, date("Y")."-12-31"
 									)
+						->multiselect("type"
+									 , $this->lng->txt("gev_course_type")
+									 , "type"
+									 , gevCourseUtils::getLearningTypesFromHisto()
+									 , gevCourseUtils::getLearningTypesFromHisto()
+									 )
+						->multiselect("template_title"
+									 , $this->lng->txt("crs_title")
+									 , "title"
+									 , gevCourseUtils::getTemplateTitleFromHisto()
+									 , gevCourseUtils::getTemplateTitleFromHisto()
+									 )
+						->multiselect("participation_status"
+									 , $this->lng->txt("gev_participation_status")
+									 , "participation_status"
+									 , gevCourseUtils::getParticipationStatusFromHisto()
+									 , gevCourseUtils::getParticipationStatusFromHisto()
+									 )
+						->multiselect("position_key"
+									 , $this->lng->txt("gev_position_key")
+									 , "position_key"
+									 , gevUserUtils::getPositionKeysFromHisto()
+									 , gevUserUtils::getPositionKeysFromHisto()
+									 )
 						->static_condition($this->db->in("usr.user_id", $allowed_user_ids, false, "integer"))
 						->static_condition("usrcrs.hist_historic = 0")
 						->static_condition("(usrcrs.booking_status != '-empty-' OR usrcrs.participation_status != '-empty-')")

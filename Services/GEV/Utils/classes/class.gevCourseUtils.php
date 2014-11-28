@@ -22,11 +22,12 @@ class gevCourseUtils {
 	static $instances = array();
 	
 	protected function __construct($a_crs_id) {
-		global $ilDB, $ilLog, $lng;
+		global $ilDB, $ilLog, $lng, $ilCtrl;
 		
 		$this->db = &$ilDB;
 		$this->log = &$ilLog;
 		$this->lng = &$lng;
+		$this->ctrl = &$ilCtrl;
 		
 		$this->lng->loadLanguageModule("crs");
 		
@@ -940,6 +941,10 @@ class gevCourseUtils {
 		return $this->getCourse()->getMembersObject();
 	}
 	
+	public function isMember($a_user_id) {
+		return $this->getMembership()->isAssigned($a_user_id);
+	}
+	
 	public function getMembersExceptForAdmins() {
 		$ms = $this->getMembership();
 		return array_merge($ms->getMembers(), $ms->getTutors());
@@ -1467,7 +1472,7 @@ class gevCourseUtils {
 		$dd->setSpaceBottom1(12.0);
 		$dd->setSpaceBottom2(8.5);
 		
-		$dd->setUsers($this->getMembersExceptForAdmins());
+		$dd->setUsers($this->getMembersExcepxfForAdmins());
 		if ($a_path === null) {
 			$dd->deliver();
 		}
@@ -1508,7 +1513,23 @@ class gevCourseUtils {
 	}
 	
 	public function canBookCourseForOther($a_user_id, $a_other_id) {
-		return $this->getBookingPermissions($a_user_id)->bookCourseForUser($a_other_id);
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$utils = gevUserUtils::getInstance($a_user_id);
+		return    $this->getBookingPermissions($a_user_id)->bookCourseForUser($a_other_id)
+			   || in_array($a_other_id, $utils->getEmployeeIdsForCourseSearch())
+			   ;
+	}
+	
+	public function canViewBookings($a_user_id) {
+		return $this->getBookingPermissions($a_user_id)->viewOtherBookings();
+	}
+	
+	public function canCancelCourseForOther($a_user_id, $a_other_id) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$utils = gevUserUtils::getInstance($a_user_id);
+		return    $this->getBookingPermissions($a_user_id)->cancelCourseForUser($a_other_id)
+			   || in_array($a_other_id, $utils->getEmployeeIdsForBookingCancellations())
+			   ;
 	}
 	
 	public function isBookableFor($a_user) {
@@ -1594,9 +1615,199 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_GDV_TOPIC);
 	}
 
-
-
+	// Common gui-elements for a course
 	
+	public function renderCancellationForm($a_gui, $a_user_id) {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
+		require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
+		
+		global $ilUser;
+		
+		$user_utils = gevUserUtils::getInstance($a_user_id);
+		$bill_utils = gevBillingUtils::getInstance();
+		$bill = $bill_utils->getNonFinalizedBillForCourseAndUser($this->crs_id, $a_user_id);
+		$status = $this->getBookingStatusOf($a_user_id);
+		
+		if ( $user_utils->paysFees() 
+		   && $this->getFee() 
+		   && $status != ilCourseBooking::STATUS_WAITING 
+		   && $this->isCancelDeadlineExpired()) {
+			$action = $this->lng->txt("gev_costly_cancellation_action");
+		}
+		else {
+			$action = $this->lng->txt("gev_free_cancellation_action");
+		}
+		
+		$title = new catTitleGUI("gev_cancellation_title", "gev_cancellation_subtitle", "GEV_img/ico-head-trash.png");
+		
+		$form = new catPropertyFormGUI();
+		$form->setTemplate("tpl.gev_booking_form.html", "Services/GEV/Desktop");
+		$form->setTitle($this->getTitle());
+		$this->ctrl->setParameter($a_gui, "crs_id", $this->crs_id);
+		$form->setFormAction($this->ctrl->getFormAction($a_gui));
+		$this->ctrl->clearParameters($a_gui, "crs_id", $this->crs_id);
+		$form->addCommandButton("view", $this->lng->txt("cancel"));
+		$form->addCommandButton("finalizeCancellation", $action);
+		
+		$officer_contact = $this->getTrainingOfficerContactInfo();
+
+		$vals = array(
+			  array( $this->lng->txt("gev_course_id")
+				   , true
+				   , $this->getCustomId()
+				   )
+			, array( $this->lng->txt("gev_course_type")
+				   , true
+				   , implode(", ", $this->getType())
+				   )
+			, array( $this->lng->txt("appointment")
+				   , true
+				   , $this->getFormattedAppointment()
+				   )
+			, array( $this->lng->txt("gev_provider")
+				   , $prv?true:false
+				   , $prv?$prv->getTitle():""
+				   )
+			, array( $this->lng->txt("gev_venue")
+				   , $ven?true:false
+				   , $ven?$ven->getTitle():""
+				   )
+			, array( $this->lng->txt("gev_instructor")
+				   , true
+				   , $this->getMainTrainerName()
+				   )
+			, array( $this->lng->txt("gev_free_cancellation_until")
+				   , $status == ilCourseBooking::STATUS_BOOKED
+				   , $this->getFormattedCancelDeadline()
+				   )
+			, array( $this->lng->txt("gev_free_places")
+				   , true
+				   , $this->getFreePlaces()
+				   )
+			, array( $this->lng->txt("gev_training_contact")
+				   , $officer_contact
+				   , $officer_contact
+				   )
+			, array( $this->lng->txt("gev_overall_prize")
+				   , ($bill !== null)
+				   , $bill_utils->formatPrize(
+				   			$bill !== null?$bill->getAmount():0
+				   		)." &euro;"
+				   	)
+			, array( $this->lng->txt("gev_credit_points")
+				   , true
+				   , $this->getCreditPoints()
+				   )
+			);
+		
+		foreach ($vals as $val) {
+			if (!$val[1] or !$val[2]) {
+				continue;
+			}
+		
+			$field = new ilNonEditableValueGUI($val[0], "", true);
+			$field->setValue($val[2]);
+			$form->addItem($field);
+		}
+
+		if ($ilUser->getId() !== $a_user_id) {
+			require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
+			require_once("Services/Form/classes/class.ilNonEditableValueGUI.php");
+			require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
+			
+			$spacer = new catHSpacerGUI();
+			
+			$form2 = new catPropertyFormGUI();
+			$form2->setTemplate("tpl.gev_booking_form.html", "Services/GEV/Desktop");
+			$field = new ilNonEditableValueGUI($this->lng->txt("gev_cancellation_for"), "", true);
+			$field->setValue($user_utils->getFullName());
+			$form2->addItem($field);
+			
+			$employee = $spacer->render()
+					  . $form2->getContent()
+					  . $spacer->render()
+					  ;
+
+		}
+		else {
+			$employee = "";
+		}
+
+		return $title->render() . $employee . $form->getHTML();
+	}
+
+	// Over historizing course tables
+
+	static $hist_edu_programs = null;
+
+	static function getEduProgramsFromHisto() {
+		if (self::$hist_edu_programs !== null) {
+			return self::$hist_edu_programs;
+		}
+
+		global $ilDB;
+
+		$res = $ilDB->query("SELECT DISTINCT edu_program FROM hist_course WHERE edu_program != '-empty-'");
+		self::$hist_edu_programs = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			self::$hist_edu_programs[] = $rec["edu_program"];
+		}
+		return self::$hist_edu_programs;
+	}
+
+	static $hist_course_types = null;
+
+	static function getLearningTypesFromHisto() {
+		if (self::$hist_course_types !== null) {
+			return self::$hist_course_types;
+		}
+
+		global $ilDB;
+		
+		$res = $ilDB->query("SELECT DISTINCT type FROM hist_course WHERE edu_program != '-empty-'");
+		self::$hist_course_types = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			self::$hist_course_types[] = $rec["type"];
+		}
+		return self::$hist_course_types;
+	}
+	
+	
+	static $hist_course_template_title = null;
+
+	static function getTemplateTitleFromHisto() {
+		if (self::$hist_course_template_title !== null) {
+			return self::$hist_course_template_title;
+		}
+
+		global $ilDB;
+
+		$res = $ilDB->query("SELECT DISTINCT template_title FROM hist_course WHERE template_title != '-empty-'");
+		self::$hist_course_template_title = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			self::$hist_course_template_title[] = $rec["template_title"];
+		}
+		return self::$hist_course_template_title;
+	}
+
+	static $hist_participation_status = null;
+
+	static function getParticipationStatusFromHisto() {
+		if (self::$hist_participation_status !== null) {
+			return self::$hist_participation_status;
+		}
+
+		global $ilDB;
+
+		$res = $ilDB->query("SELECT DISTINCT participation_status FROM hist_usercoursestatus WHERE participation_status != '-empty-'");
+		self::$hist_participation_status = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			self::$hist_participation_status[] = $rec["participation_status"];
+		}
+		return self::$hist_participation_status;
+	}
 }
 
 ?>
