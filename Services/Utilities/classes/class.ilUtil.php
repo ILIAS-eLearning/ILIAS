@@ -38,7 +38,6 @@ class ilUtil
 		$filename = ilObject::_getIcon("", $size, $a_type);
 
 		return "<img src=\"".$filename."\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
-		//return "<img src=\"".$a_path."/images/"."icon_".$a_type."$big.png\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
 	}
 
 	/**
