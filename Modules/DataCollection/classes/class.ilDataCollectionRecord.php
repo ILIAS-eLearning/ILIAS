@@ -572,6 +572,28 @@ class ilDataCollectionRecord
 		ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
 	}
 
+
+    /**
+     * @param $original_id integer
+     * @param $new_fields array($old_field_id => $new_field)
+     */
+    public function cloneStructure($original_id, $new_fields){
+        $original = ilDataCollectionCache::getRecordCache($original_id);
+        $this->setCreateDate($original->getCreateDate());
+        $this->setLastEditBy($original->getLastEditBy());
+        $this->setLastUpdate($original->getLastUpdate());
+        $this->setOwner($original->getOwner());
+        $this->doCreate();
+        foreach($new_fields as $old => $new){
+            $old_rec_field = $original->getRecordField($old);
+            $new_rec_field = new ilDataCollectionRecordField($this, $new);
+            $new_rec_field->setValue($old_rec_field->getValue());
+            $new_rec_field->doUpdate();
+            $this->recordfields[] = $new_rec_field;
+        }
+    }
+
+
     /**
      * Delete a file
      *

@@ -1131,12 +1131,23 @@ class ilDataCollectionTable {
 		$this->setTitle($original->getTitle());
 		$this->doCreate();
 
-		// Clone fields
-		foreach ($original->getRecordFields() as $field) {
-			$new_field = new ilDataCollectionField();
-			$new_field->setTableId($this->getId());
-			$new_field->cloneStructure($field->getId());
-		}
+        // Clone fields
+        $new_fields = array();
+        foreach ($original->getFields() as $orig_field) {
+            if(!$orig_field->isStandardField()){
+                $new_field = new ilDataCollectionField();
+                $new_field->setTableId($this->getId());
+                $new_field->cloneStructure($orig_field->getId());
+                $new_fields[$orig_field->getId()] = $new_field;
+            }
+        }
+
+        // Clone Records with recordfields
+        foreach($original->getRecords() as $orig_record){
+            $new_record = new ilDataCollectionRecord();
+            $new_record->setTableId($this->getId());
+            $new_record->cloneStructure($orig_record->getId(), $new_fields);
+        }
 
 		if ($old_view_id = ilDataCollectionRecordViewViewdefinition::getIdByTableId($original_id)) {
 			$old_view = new ilDataCollectionRecordViewViewdefinition($old_view_id);
