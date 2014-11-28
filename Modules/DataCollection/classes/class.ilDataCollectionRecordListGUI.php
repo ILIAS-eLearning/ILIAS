@@ -49,6 +49,10 @@ class ilDataCollectionRecordListGUI {
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
+	/**
+	 * @var array
+	 */
+	protected static $available_modes = array( self::MODE_VIEW, self::MODE_MANAGE );
 
 
 	/**
@@ -67,13 +71,7 @@ class ilDataCollectionRecordListGUI {
 		$this->parent_obj = $a_parent_obj;
 		$this->table_obj = ilDataCollectionCache::getTableCache($table_id);
 		$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui", "table_id", $table_id);
-		$this->mode = (isset($_GET['mode'])
-			&& in_array($_GET['mode'], array(
-				self::MODE_VIEW,
-				self::MODE_MANAGE
-			))) ? (int)$_GET['mode'] : self::MODE_VIEW;
-
-		return;
+		$this->mode = (isset($_GET['mode']) AND in_array($_GET['mode'], self::$available_modes)) ? (int)$_GET['mode'] : self::MODE_VIEW;
 	}
 
 
@@ -154,7 +152,7 @@ class ilDataCollectionRecordListGUI {
 			$add_new = ilLinkButton::getInstance();
 			$add_new->setCaption("dcl_add_new_record");
 			$add_new->setUrl($this->ctrl->getFormActionByClass("ildatacollectionrecordeditgui", "create"));
-//			$add_new->addCSSClass('emphsubmit');
+			//			$add_new->addCSSClass('emphsubmit');
 			$ilToolbar->addButtonInstance($add_new);
 		}
 
@@ -461,27 +459,21 @@ class ilDataCollectionRecordListGUI {
 	}
 
 
-	/**
-	 * Apply Filter
-	 */
-	public function applyFilter() {
-		global $ilCtrl;
-
+	protected function applyFilter() {
 		$table = new ilDataCollectionRecordListTableGUI($this, "listRecords", $this->table_obj);
 		$table->resetOffset();
 		$table->writeFilterToSession();
-		$this->listRecords();
+		$this->ctrl->redirect($this, 'listRecords');
+		//		$this->listRecords();
 	}
 
 
-	/**
-	 * Reset filter
-	 */
-	public function resetFilter() {
+	protected function resetFilter() {
 		$table = new ilDataCollectionRecordListTableGUI($this, "listRecords", $this->table_obj);
 		$table->resetOffset();
 		$table->resetFilter();
-		$this->listRecords();
+		$this->ctrl->redirect($this, 'listRecords');
+		//		$this->listRecords();
 	}
 
 
