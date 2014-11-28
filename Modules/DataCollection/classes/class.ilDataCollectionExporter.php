@@ -3,11 +3,13 @@ require_once("./Services/Export/classes/class.ilExport.php");
 require_once('./Services/Export/classes/class.ilXmlExporter.php');
 require_once('class.ilDataCollectionDataSet.php');
 require_once('class.ilDataCollectionCache.php');
+require_once('./Modules/MediaPool/classes/class.ilObjMediaPool.php');
 
 /**
  * Class ilDataCollectionExporter
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilDataCollectionExporter extends ilXmlExporter {
 
