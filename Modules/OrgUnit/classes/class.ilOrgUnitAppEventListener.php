@@ -66,15 +66,15 @@ class ilOrgUnitAppEventListener {
 
 	private function onServiceUserAfterUpdate($a_parameter){
 		require_once('./Modules/OrgUnit/classes/PersonalOrgUnit/class.ilPersonalOrgUnits.php');
-		ilPersonalOrgUnits::updateOrgUnitTitleOf($a_parameter['user_obj']);
+		if (ilPersonalOrgUnits::getInstance()->getOrgUnitIdOf() !== null) {
+			ilPersonalOrgUnits::updateOrgUnitTitleOf($a_parameter['user_obj']);
+		}
 	}
 
 	private function onModulesOrgUnitDelete($a_parameter){
 		require_once('./Modules/OrgUnit/classes/PersonalOrgUnit/class.ilPersonalOrgUnits.php');
-		ilPersonalOrgUnits::purgeOrgUnitLookupOf($a_parameter['obj_id']);
+		if (ilPersonalOrgUnits::getInstance()->getOrgUnitIdOf() !== null) {
+			ilPersonalOrgUnits::purgeOrgUnitLookupOf($a_parameter['obj_id']);
+		}
 	}
-
-
-
-	
 }
