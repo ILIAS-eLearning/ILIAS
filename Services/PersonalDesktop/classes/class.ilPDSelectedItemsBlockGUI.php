@@ -1493,34 +1493,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$bot_tb->setOpenFormTag(false);
 		
 		return $top_tb->getHTML().$this->getHTML().$bot_tb->getHTML();
-/*		
-		if($this->view == self::VIEW_MY_OFFERS)
-		{
-			return $top_tb->getHTML().$this->getHTML().$bot_tb->getHTML();
-			
-			foreach($ilUser->getDesktopItems() as $item)
-			{
-				$objects[] = $item;
-			}
-		}
-		else
-		{		 
-			$objtype_groups = $objDefinition->getGroupedRepositoryObjectTypes(
-			   array("cat", "crs", "grp", "fold"));
-
-			foreach($objtype_groups as $grpdata)
-			{							
-				foreach($this->getObjectsByMembership($grpdata["objs"]) as $item)
-				{
-					$objects[] = $item;
-				}
-			}
-		}
-		
-		include_once "Services/PersonalDesktop/classes/class.ilPDSelectedItemsTableGUI.php";
-		$tbl = new ilPDSelectedItemsTableGUI($this, "manage", $objects, $this->view, ($ilUser->getPref("pd_order_items") == 'location'));
-		return $tbl->getHTML();
-*/
 	}
 	
 	public function confirmRemoveObject()

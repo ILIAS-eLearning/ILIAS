@@ -30,13 +30,14 @@ class ilUtil
 	{
 		global $lng;
 
-		if ($a_big)
-		{
-			$big = "_b";
-		}
-		$filename = "icon_".$a_type."$big.png";
+		$size = ($a_big)
+			? "big"
+			: "small";
 
-		return "<img src=\"".ilUtil::getImagePath($filename)."\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
+		include_once("./Services/Object/classes/class.ilObject.php");
+		$filename = ilObject::_getIcon("", $size, $a_type);
+
+		return "<img src=\"".$filename."\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
 		//return "<img src=\"".$a_path."/images/"."icon_".$a_type."$big.png\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
 	}
 
@@ -44,54 +45,18 @@ class ilUtil
 	 * Get type icon path path
 	 * Return image path for icon_xxx.pngs
 	 * Or (if enabled) path to custom icon
+	 * Deprecated, use ilObject::_getIcon instead
 	 *
-	 * @access public
-	 * @param string obj_type
-	 * @param int obj_id
-	 * @param string size 'tiny','small' or 'big'
-	 * @static 
-	 *
+	 * @param string $a_type obj_type
+	 * @param int $a_obj_id obj_id
+	 * @param string $a_size size 'tiny','small' or 'big'
+	 * @return string path
+	 * @deprecated
 	 */
 	public static function getTypeIconPath($a_type,$a_obj_id,$a_size = 'small')
 	{
-	 	global $ilSetting, $objDefinition;
-
-	 	if($ilSetting->get("custom_icons"))
-	 	{
-		 	switch($a_type)
-		 	{
-	 			case 'cat':
-	 			case 'crs':
-	 			case 'grp':
-	 				include_once('./Services/Container/classes/class.ilContainer.php');
-	 				if(strlen($path = ilContainer::_lookupIconPath($a_obj_id,$a_size)))
-	 				{
-	 					return $path;
-	 				}
-		 	}
-	 	}
-		
-		if ($objDefinition->isPluginTypeName($a_type))
-		{
-			$class_name = "il".$objDefinition->getClassName($a_type).'Plugin';
-			$location = $objDefinition->getLocation($a_type);
-			include_once($location."/class.".$class_name.".php");
-			return call_user_func(array($class_name, "_getIcon"), $a_type, $a_size, $a_obj_id);                                
-		}			
-
-	 	switch($a_size)
-	 	{
-	 		case 'tiny':
-	 			$postfix = '_s.png';
-	 			break;
-	 		case 'big':
-	 			$postfix = '_b.png';
-	 			break;
-	 		default:
-	 			$postfix = '.png';
-	 			break;
-	 	}
-	 	return ilUtil::getImagePath('icon_'.$a_type.$postfix);
+		include_once("./Services/Object/classes/class.ilObject.php");
+		return ilObject::_getIcon($a_obj_id, $a_size, $a_type);
 	}
 
 	/**
