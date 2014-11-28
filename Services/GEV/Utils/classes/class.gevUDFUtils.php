@@ -108,6 +108,24 @@ class gevUDFUtils {
 		}
 		return $field_ids;
 	}
+	
+	/**
+	 * Update a set of udf_fields.
+	 *
+	 * Expects an array of the form
+	 * array( $setting => array($title, $access, $options) )
+	 *
+	 */
+	public static function updateUDFFields($a_fields) {
+		require_once("Services/User/classes/class.ilUDFClaimingPlugin.php");
+		
+		$gev_set = gevSettings::getInstance();
+		
+		foreach ($a_fields as $id => $field) {
+			$field_id = $gev_set->getUDFFieldId($id);
+			ilUDFClaimingPlugin::updateDBField($field_id, $field[0], $field[1], $field[2]);
+		}
+	}
 
 	
 	/**
