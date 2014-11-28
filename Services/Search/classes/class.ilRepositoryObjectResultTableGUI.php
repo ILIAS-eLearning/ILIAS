@@ -111,5 +111,18 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 		}
 		$this->setData($data ? $data : array());
 	}
+
+	/**
+	 * @param $a_field
+	 * @return bool
+	 */
+	function numericOrdering($a_field)
+	{
+		if($a_field == "member")
+		{
+			return true;
+		}
+		return false;
+	}
 }
 ?>

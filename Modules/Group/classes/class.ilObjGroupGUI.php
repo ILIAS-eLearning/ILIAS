@@ -1518,8 +1518,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		
 		
-		ilUtil::sendSuccess($this->lng->txt("grp_msg_membership_annulled"));
-		$this->membersObject();
+		ilUtil::sendSuccess($this->lng->txt("grp_msg_membership_annulled"), true);
+		$this->ctrl->redirect($this, "members");
 		return true;
 	}
 	
@@ -1716,8 +1716,8 @@ class ilObjGroupGUI extends ilContainerGUI
 				);
 			}
 		}
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
-		$this->membersObject();
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "members");
 		return true;		
 	}
 	

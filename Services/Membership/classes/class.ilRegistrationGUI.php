@@ -259,7 +259,7 @@ abstract class ilRegistrationGUI
 				$tpl->setVariable('ITEM_TITLE');
 			}
 			$tpl->setCurrentBlock('items');
-			$tpl->setVariable('TYPE_ICON',ilUtil::getTypeIconPath($type,$obj_id,'tiny'));
+			$tpl->setVariable('TYPE_ICON',ilObject::_getIcon($obj_id,tiny,$type));
 			$tpl->setVariable('ALT_ICON',$this->lng->txt('obj_'.$type));
 			$tpl->parseCurrentBlock();
 		}

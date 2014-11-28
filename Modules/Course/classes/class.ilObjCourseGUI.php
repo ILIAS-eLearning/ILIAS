@@ -2523,8 +2523,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			
 			$this->updateLPFromStatus($usr_id,in_array($usr_id,$passed));	
 		}
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
-		$this->membersObject();
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+		$this->ctrl->redirect($this, "members");
 		return true;		
 	
 	}
@@ -3106,8 +3106,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_DISMISS_MEMBER,$usr_id);
 			}
 		}
-		ilUtil::sendSuccess($this->lng->txt("crs_members_deleted"));
-		$this->membersObject();
+		ilUtil::sendSuccess($this->lng->txt("crs_members_deleted"), true);
+		$this->ctrl->redirect($this, "members");
 
 		return true;
 	}
