@@ -579,6 +579,9 @@ class catMultiSelectFilter {
 	
 	public function sql($a_conf, $a_pars) {
 		global $ilDB;
+		if (count($a_pars) == 0) {
+			return " TRUE ";
+		}
 		return $ilDB->in(catFilter::quoteDBId($a_conf[3]), $a_pars, false, $a_conf[8]);
 	}
 	
