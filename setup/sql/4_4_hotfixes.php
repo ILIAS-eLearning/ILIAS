@@ -1737,3 +1737,19 @@ if( !$ilDB->uniqueConstraintExists('tst_active', array('user_fi', 'test_fi', 'an
 }
 
 ?>
+<#58>
+<?php
+
+$settings = new ilSetting('assessment');
+
+if( !(int)$settings->get('quest_process_lock_mode_autoinit', 0) )
+{
+	if( $settings->get('quest_process_lock_mode', 'none') == 'none' )
+	{
+		$settings->set('quest_process_lock_mode', 'db');
+	}
+
+	$settings->set('quest_process_lock_mode_autoinit_done', 1);
+}
+
+?>

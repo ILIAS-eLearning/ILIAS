@@ -2236,5 +2236,29 @@ foreach ($txt_fields_hist_course as $field) {
 
 <#65>
 <?php
+if(!$ilDB->tableExists('org_unit_personal'))
+{
+	$fields = array (
+    'orgunit_id'    => array(
+    		'type' => 'integer',
+    		'length'  => 4,
+    		'notnull' => true,
+    		'default' => 0),
+
+  'usr_id'    => array(
+    		'type' => 'integer',
+    		'length'  => 4,
+    		'notnull' => true,
+    		'default' => 0),
+
+  
+  );
+  $ilDB->createTable('org_unit_personal', $fields);
+  $ilDB->addPrimaryKey('org_unit_personal', array('orgunit_id'));
+}
+?>
+
+<#66>
+<?php
 	$ilCtrlStructureReader->getStructure();
 ?>

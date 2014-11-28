@@ -260,8 +260,10 @@ class catFilter {
 			$tpl->setCurrentBlock($type->getId());
 			$postvar = $this->getPostVar($conf);
 			$tpl->setVariable("POST_VAR", $postvar);
-			$type->render($tpl, $postvar, $conf, $this->getParameters($conf));
-			$tpl->parseCurrentBlock();
+			if($type->render($tpl, $postvar, $conf, $this->getParameters($conf))) {
+				$tpl->parseCurrentBlock();
+				$out .= $tpl->get();
+			}
 			$out .= $tpl->get();
 		}
 		
@@ -407,6 +409,8 @@ class catDatePeriodFilterType {
 					'disabled' => false
 					),
 				false));
+		
+		return true;
 	}
 	
 	public function sql($a_conf, $a_pars) {
@@ -471,6 +475,8 @@ class catCheckboxFilterType {
 		
 		$a_tpl->setVariable("PROPERTY_CHECKED", $a_pars ? "checked" : "");
 		$a_tpl->setVariable("OPTION_TITLE", $a_conf[2]);
+		
+		return true;
 	}
 	
 	public function sql($a_conf, $a_pars) {
@@ -500,9 +506,6 @@ class catCheckboxFilterType {
 	}
 }
 catFilter::addFilterType(catCheckboxFilterType::ID, new catCheckboxFilterType());
-
-
-
 
 class catMultiSelectFilter {
 	const ID = "multiselect";
@@ -544,6 +547,10 @@ class catMultiSelectFilter {
 	}
 	
 	public function render($a_tpl, $a_postvar, $a_conf, $a_pars) {
+		if (count($a_conf[4]) == 0) {
+			return false;
+		}
+		
 		$a_tpl->setVariable("MULTI_SELECT_LABEL", $a_conf[2]);
 		$a_tpl->setVariable("WIDTH", $a_conf[6]);
 		$a_tpl->setVariable("HEIGHT", $a_conf[7]);
@@ -565,6 +572,8 @@ class catMultiSelectFilter {
 			$a_tpl->parseCurrentBlock();
 			$count++;
 		}
+		
+		return true;
 	}
 	
 	public function sql($a_conf, $a_pars) {
@@ -586,7 +595,5 @@ class catMultiSelectFilter {
 	}
 }
 catFilter::addFilterType(catMultiSelectFilter::ID, new catMultiSelectFilter());
-
-
 
 ?>

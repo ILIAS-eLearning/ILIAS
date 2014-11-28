@@ -81,7 +81,7 @@ class ilPersonalOrgUnits {
 
 	private function getPersonalOrguBySuperiorId($a_superior_id){
 		global $ilDB;
-		$query = "SELECT orgunit_id FROM org_unit_personal_units"
+		$query = "SELECT orgunit_id FROM org_unit_personal"
 			 	." WHERE usr_id=" .$ilDB->quote($a_superior_id, 'integer');
 		$res = $ilDB->query($query);
 		if($ilDB->numRows($res) > 0){
@@ -179,7 +179,7 @@ class ilPersonalOrgUnits {
 
 		//insert into lookup-table
 		global $ilDB;
-		$query = "INSERT INTO org_unit_personal_units"
+		$query = "INSERT INTO org_unit_personal"
 			   ." (orgunit_id, usr_id)"
 			   ." VALUES ("
 			   .$new_orgu->getId()
@@ -315,14 +315,14 @@ class ilPersonalOrgUnits {
 	} 
 
 	/**
-	* Remove the org-unit/superior entry in org_unit_personal_units
+	* Remove the org-unit/superior entry in org_unit_personal
 	*
 	* @param integer $a_orgunit_id
 	*
 	*/
 	public function purgeOrgUnitLookupOf($a_orgunit_id){
 		global $ilDB;
-		$query="DELETE FROM org_unit_personal_units WHERE orgunit_id=".$ilDB->quote($a_orgunit_id, 'integer');
+		$query="DELETE FROM org_unit_personal WHERE orgunit_id=".$ilDB->quote($a_orgunit_id, 'integer');
 		$ilDB->manipulate($query);
 	}
 

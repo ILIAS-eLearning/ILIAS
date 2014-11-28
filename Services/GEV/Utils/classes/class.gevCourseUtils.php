@@ -1738,14 +1738,14 @@ class gevCourseUtils {
 		return $title->render() . $employee . $form->getHTML();
 	}
 
+	// Over historizing course tables
+
 	static $hist_edu_programs = null;
 
-	// Over historizing course tables
 	static function getEduProgramsFromHisto() {
 		if (self::$hist_edu_programs !== null) {
 			return self::$hist_edu_programs;
 		}
-
 
 		global $ilDB;
 
@@ -1755,6 +1755,58 @@ class gevCourseUtils {
 			self::$hist_edu_programs[] = $rec["edu_program"];
 		}
 		return self::$hist_edu_programs;
+	}
+
+	static $hist_course_types = null;
+
+	static function getLearningTypesFromHisto() {
+		if (self::$hist_course_types !== null) {
+			return self::$hist_course_types;
+		}
+
+		global $ilDB;
+		
+		$res = $ilDB->query("SELECT DISTINCT type FROM hist_course WHERE edu_program != '-empty-'");
+		self::$hist_course_types = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			self::$hist_course_types[] = $rec["type"];
+		}
+		return self::$hist_course_types;
+	}
+	
+	
+	static $hist_course_template_title = null;
+
+	static function getTemplateTitleFromHisto() {
+		if (self::$hist_course_template_title !== null) {
+			return self::$hist_course_template_title;
+		}
+
+		global $ilDB;
+
+		$res = $ilDB->query("SELECT DISTINCT template_title FROM hist_course WHERE template_title != '-empty-'");
+		self::$hist_course_template_title = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			self::$hist_course_template_title[] = $rec["template_title"];
+		}
+		return self::$hist_course_template_title;
+	}
+
+	static $hist_participation_status = null;
+
+	static function getParticipationStatusFromHisto() {
+		if (self::$hist_participation_status !== null) {
+			return self::$hist_participation_status;
+		}
+
+		global $ilDB;
+
+		$res = $ilDB->query("SELECT DISTINCT participation_status FROM hist_usercoursestatus WHERE participation_status != '-empty-'");
+		self::$hist_participation_status = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			self::$hist_participation_status[] = $rec["participation_status"];
+		}
+		return self::$hist_participation_status;
 	}
 }
 

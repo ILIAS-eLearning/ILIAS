@@ -74,6 +74,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->select("crs.begin_date")
 						->select("crs.end_date")
 						->select("crs.edu_program")
+						->select("crs.title")
 						->from("hist_usercoursestatus usrcrs")
 						->join("hist_user usr")
 							->on("usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0")
@@ -97,6 +98,30 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									 , "edu_program"
 									 , gevCourseUtils::getEduProgramsFromHisto()
 									 , gevCourseUtils::getEduProgramsFromHisto()
+									 )
+						->multiselect("type"
+									 , $this->lng->txt("gev_course_type")
+									 , "type"
+									 , gevCourseUtils::getLearningTypesFromHisto()
+									 , gevCourseUtils::getLearningTypesFromHisto()
+									 )
+						->multiselect("template_title"
+									 , $this->lng->txt("crs_title")
+									 , "title"
+									 , gevCourseUtils::getTemplateTitleFromHisto()
+									 , gevCourseUtils::getTemplateTitleFromHisto()
+									 )
+						->multiselect("participation_status"
+									 , $this->lng->txt("gev_participation_status")
+									 , "participation_status"
+									 , gevCourseUtils::getParticipationStatusFromHisto()
+									 , gevCourseUtils::getParticipationStatusFromHisto()
+									 )
+						->multiselect("position_key"
+									 , $this->lng->txt("gev_position_key")
+									 , "position_key"
+									 , gevUserUtils::getPositionKeysFromHisto()
+									 , gevUserUtils::getPositionKeysFromHisto()
 									 )
 						->static_condition($this->db->in("usr.user_id", $allowed_user_ids, false, "integer"))
 						->static_condition("usrcrs.hist_historic = 0")
