@@ -565,6 +565,7 @@ gev#:#gev_points_in_wbd#:#Bildungspunkte in der WBD<br><small>Die Angaben erfolg
 gev#:#gev_points_in_wbd_cert_period#:#Punkte in der aktuellen Zertifizierungsperiode
 gev#:#gev_points_in_wbd_cert_year#:#Punkte im aktuellen Zertifizierungsjahr
 gev#:#gev_position#:#Vermittlernummer
+gev#:#gev_position_key#:#Stellungsschlüssel
 gev#:#gev_pot_applicants#:#POT Bewerber
 gev#:#gev_pot_participants#:#POT Teilnehmer
 gev#:#gev_presave#:#Zwischenspeichern

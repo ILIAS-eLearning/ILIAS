@@ -1765,6 +1765,25 @@ class gevUserUtils {
 	public function setWBDCommunicationEmail($a_email) {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_COM_EMAIL, $a_email);
 	}
+	
+	
+	
+	static $hist_position_keys = null;
+
+	static function getPositionKeysFromHisto() {
+		if (self::$hist_position_keys !== null) {
+			return self::$hist_position_keys;
+		}
+
+		global $ilDB;
+
+		$res = $ilDB->query("SELECT DISTINCT position_key FROM hist_user WHERE position_key != '-empty-'");
+		self::$hist_position_keys = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			self::$hist_position_keys[] = $rec["position_key"];
+		}
+		return self::$hist_position_keys;
+	}
 }
 
 ?>
