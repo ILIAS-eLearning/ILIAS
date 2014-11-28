@@ -985,9 +985,13 @@ class ilObjForum extends ilObject
 			self::$forum_statistics_cache[$ref_id] = $statistics;
 			return self::$forum_statistics_cache[$ref_id];
 		}
+		
+		$objProperties = ilForumProperties::getInstance(ilObject::_lookupObjectId($ref_id));
+		$is_post_activation_enabled = $objProperties->isPostActivationEnabled();
 
 		$act_clause = '';
-		if(!$ilAccess->checkAccess('moderate_frm', '', $ref_id))
+
+		if($is_post_activation_enabled && !$ilAccess->checkAccess('moderate_frm', '', $ref_id))
 		{
 			$act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(1, "integer") . " OR frm_posts.pos_author_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
 		}

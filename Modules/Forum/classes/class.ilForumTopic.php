@@ -638,6 +638,8 @@ class ilForumTopic
 		global $ilUser;
 
 		$data = null;
+		$objProperties = ilForumProperties::getInstance($this->getFrmObjId());
+		$is_post_activation_enabled = $objProperties->isPostActivationEnabled();
 
 		if( $pos_id !== null )
 		{
@@ -704,11 +706,9 @@ class ilForumTopic
 			$query .= '		AND fpt.lft > '.$this->db->quote($data['lft'], 'integer').
 					'		AND fpt.lft < '.$this->db->quote($data['rgt'], 'integer').' ';
 		}
-
-		if( !$this->is_moderator )
+		if($is_post_activation_enabled && !$this->is_moderator)
 		{
-			$query .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = '.
-						$this->db->quote($ilUser->getId(), 'integer').') ';
+			$query .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = ' . $this->db->quote($ilUser->getId(), 'integer') . ') ';
 		}
 		
 		if( $expandedNodes )			
@@ -740,10 +740,10 @@ class ilForumTopic
 			INNER JOIN		frm_posts fp
 				ON			fp.pos_pk = fpt.pos_fk
 			WHERE			fpt.thr_fk = '.$this->db->quote($this->id, 'integer');
-		if( !$this->is_moderator )
+
+		if($is_post_activation_enabled && !$this->is_moderator)
 		{
-			$queryCounter .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = '.
-						$this->db->quote($ilUser->getId(), 'integer').') ';
+			$queryCounter .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = ' . $this->db->quote($ilUser->getId(), 'integer') . ') ';
 		}
 		$queryCounter .= ' ORDER BY fpt.rgt DESC';
 

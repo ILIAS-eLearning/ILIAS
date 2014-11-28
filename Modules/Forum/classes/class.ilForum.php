@@ -1022,6 +1022,7 @@ class ilForum
 		global $ilDB, $ilUser, $ilSetting;
 		
 		$frm_overview_setting = (int)$ilSetting::_lookupValue('frma','forum_overview');
+		$frm_props = ilForumProperties::getInstance($this->getForumId());
 		
 		$excluded_ids_condition = '';
 		if(isset($params['excluded_ids']) && is_array($params['excluded_ids']) && $params['excluded_ids'])
@@ -1053,14 +1054,13 @@ class ilForum
 
 		$active_query = '';
 		$active_inner_query = '';
-		if(!$params['is_moderator'])
+		$is_post_activation_enabled = $frm_props->isPostActivationEnabled();
+		if($is_post_activation_enabled && !$params['is_moderator'])
 		{
-			$active_query = ' AND (pos_status = %s OR pos_author_id = %s) ';
+			$active_query       = ' AND (pos_status = %s OR pos_author_id = %s) ';
 			$active_inner_query = ' AND (ipos.pos_status = %s OR ipos.pos_author_id = %s) ';
 		}
-
-		$frm_props = ilForumProperties::getInstance($this->getForumId());
-
+		
 		$optional_fields = '';
 		if($frm_props->isIsThreadRatingEnabled())
 		{
@@ -1146,16 +1146,15 @@ class ilForum
 				$data_types[] = 'integer';
 				$data_types[] = 'integer';
 				$data_types[] = 'integer';
-
-				if(!$params['is_moderator'])
+				if($is_post_activation_enabled && !$params['is_moderator'])
 				{
 					array_push($data_types, 'integer', 'integer');
 				}
 			}
 			$data_types[] = 'integer';
-			if(!$params['is_moderator'])
+			if($is_post_activation_enabled && !$params['is_moderator'])
 			{
-				array_push($data_types, 'integer', 'integer');
+					array_push($data_types, 'integer', 'integer');
 			}
 			$data_types[] = 'integer';
 			$data_types[] = 'integer';
@@ -1166,14 +1165,13 @@ class ilForum
 				$data[] = $ilUser->getId();
 				$data[] = $ilUser->getId();
 				$data[] = $ilUser->getId();
-
-				if(!$params['is_moderator'])
+				if($is_post_activation_enabled && !$params['is_moderator'])
 				{
 					array_push($data, '1', $ilUser->getId());
 				}
 			}
 			$data[] = $ilUser->getId();
-			if(!$params['is_moderator'])
+			if($is_post_activation_enabled && !$params['is_moderator'])
 			{
 				array_push($data, '1', $ilUser->getId());
 			}
@@ -1201,13 +1199,12 @@ class ilForum
 						{$optional_fields}
 						ORDER BY is_sticky DESC {$additional_sort}, thr_date DESC";
 
-			if(!$params['is_moderator'])
+			if($is_post_activation_enabled && !$params['is_moderator'])
 			{
-				array_push($data_types, 'integer', 'integer');
+					array_push($data_types, 'integer', 'integer');
 			}
 			$data_types[] = 'integer';
-
-			if(!$params['is_moderator'])
+			if($is_post_activation_enabled && !$params['is_moderator'])
 			{
 				array_push($data, '1', $ilUser->getId());
 			}
