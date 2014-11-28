@@ -112,7 +112,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
         //Otherwise move-Objects would not work
         if($cmd != "cut")
         {
-            //$this->showTree();
+            $this->showTree();
         }
 
 
