@@ -1766,7 +1766,7 @@ class gevCourseUtils {
 
 		global $ilDB;
 		
-		$res = $ilDB->query("SELECT DISTINCT type FROM hist_course WHERE edu_program != '-empty-'");
+		$res = $ilDB->query("SELECT DISTINCT type FROM hist_course WHERE type != '-empty-'");
 		self::$hist_course_types = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {
 			self::$hist_course_types[] = $rec["type"];
