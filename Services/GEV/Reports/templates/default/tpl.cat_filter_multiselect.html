@@ -1,0 +1,42 @@
+<input type="checkbox" id="toggle_{POST_VAR}"><label for="toggle_{POST_VAR}">{MULTI_SELECT_LABEL}:</label>
+<div class="input" id="{POST_VAR}" style="width:{WIDTH}px; height:{HEIGHT}px; overflow:auto;">
+	<input type="hidden" name="{POST_VAR}[send]" value="true" />
+	<!-- BEGIN multiselect_item -->
+	<div style="white-space:nowrap">
+		<input type="checkbox" name="{POST_VAR}[]" id="inp_{POST_VAR}_{CNT}" value="{OPTION_VALUE}" {CHECKED}/>
+		<label for="inp_{POST_VAR}_{CNT}">{OPTION_TITLE}</label>
+	</div>
+	<!-- END multiselect_item -->
+</div>
+<script type="text/javascript">		
+	il.Util.addOnLoad(				
+		function() {
+			var $toggle = $('#toggle_{POST_VAR}');
+			var $parent =  $toggle.parent();
+
+			// current toggle status
+			var set_toggle_state = function() {
+				var num_all = $parent.find('input:checkbox[id*="inp_{POST_VAR}_"]').size();
+				var num_checked = $parent.find('input:checkbox[id*="inp_{POST_VAR}_"]:checked').size();
+				if (0 === num_checked) {
+					$toggle.prop("checked", false);
+					$toggle.prop("indeterminate", false)
+				} else if (num_checked === num_all) {
+					$toggle.prop("checked", true);
+					$toggle.prop("indeterminate", false)
+				} else {
+					$toggle.prop("checked", true);
+					$toggle.prop("indeterminate", true)
+				}
+			}
+			
+			set_toggle_state();
+			
+			$parent.find('input:checkbox[id*="inp_{POST_VAR}_"]:checked').on("change", set_toggle_state);
+			
+			// toggle bind event
+			$toggle.on('change', function() {
+				$parent.find('input:checkbox[id*="inp_{POST_VAR}_"]').prop("checked", this.checked);
+			});
+		});
+</script>

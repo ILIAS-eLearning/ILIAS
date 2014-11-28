@@ -1,0 +1,33 @@
+{DP_LABEL_START}&nbsp;
+{DP_START_SELECT} 
+<input type="image" alt="{DP_TXT_CALENDAR}" title="{DP_TXT_CALENDAR}" src="{DP_IMG_CALENDAR}" id="btn_cal_start_{POST_VAR}" />
+<script type="text/javascript">
+//<![CDATA[
+Calendar.setup( 
+{ 
+	button : "btn_cal_start_{POST_VAR}",
+	inputFieldsDate : "{POST_VAR}",
+	firstDay : {DP_DATE_FIRST_DAY},
+	onUpdate : ilUpdateEndDate
+}
+);
+YAHOO.util.Event.onDOMReady(ilInitDuration,prefix = new String("{POST_VAR}"));
+YAHOO.util.Event.onDOMReady(ilDisableSessionTime,prefix = new String("{POST_VAR}"));
+
+//]]>
+</script>
+&nbsp;{DP_LABEL_END}&nbsp;
+{DP_END_SELECT} 
+<input type="image" alt="{DP_TXT_CALENDAR}" title="{DP_TXT_CALENDAR}" src="{DP_IMG_CALENDAR}" id="btn_cal_end_{POST_VAR}" />
+<script type="text/javascript">
+	//<![CDATA[
+	Calendar.setup( 
+	{ 
+		button : "btn_cal_end_{POST_VAR}",
+		firstDay : {DP_DATE_FIRST_DAY},
+		inputFieldsDate : "{POST_VAR}"
+	}
+	);
+	
+	//]]>
+</script>
