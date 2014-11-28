@@ -157,12 +157,25 @@ class ilDataCollectionRecordViewGUI {
 	/**
 	 * @param ilDataCollectionRecord $record_obj
 	 *
+	 * @deprecated
 	 * @return bool
 	 */
 	public static function hasValidViewDefinition(ilDataCollectionRecord $record_obj) {
 		$view = ilDataCollectionRecordViewViewdefinition::getInstanceByTableId($record_obj->getTableId());
 
-		return $view->getActive();
+		return $view->getActive() AND $view->getId() !== NULL;
+	}
+
+
+	/**
+	 * @param ilDataCollectionTable $table
+	 *
+	 * @return bool
+	 */
+	public static function hasTableValidViewDefinition(ilDataCollectionTable $table) {
+		$view = ilDataCollectionRecordViewViewdefinition::getInstanceByTableId($table->getId());
+
+		return $view->getActive() AND $view->getId() !== NULL;
 	}
 
 

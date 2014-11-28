@@ -70,7 +70,11 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 			$this->setSelectAllCheckbox("record_ids[]");
 			$this->addMultiCommand("confirmDeleteRecords", $lng->txt('dcl_delete_records'));
 		}
-		$this->addColumn("", "_front", '15px');
+
+		if (ilDataCollectionRecordViewGUI::hasTableValidViewDefinition($this->table)) {
+			$this->addColumn("", "_front", '15px');
+		}
+
 		$this->numeric_fields = array();
 		foreach ($this->table->getVisibleFields() as $field) {
 			$title = $field->getTitle();
@@ -186,7 +190,7 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 			$ilCtrl->setParameterByClass("ildatacollectionrecordviewgui", "record_id", $record->getId());
 			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui", "record_id", $record->getId());
 
-			if (ilDataCollectionRecordViewGUI::hasValidViewDefinition($record)) {
+			if (ilDataCollectionRecordViewGUI::hasTableValidViewDefinition($this->table)) {
 				$record_data["_front"] = $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord');
 			}
 
@@ -194,7 +198,7 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 			$alist->setId($record->getId());
 			$alist->setListTitle($lng->txt("actions"));
 
-			if (ilDataCollectionRecordViewGUI::hasValidViewDefinition($record)) {
+			if (ilDataCollectionRecordViewGUI::hasTableValidViewDefinition($this->table)) {
 				$alist->addItem($lng->txt('view'), 'view', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord'));
 			}
 
@@ -262,8 +266,10 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 		}
 
 		if ($record_data["_front"]) {
+			$this->tpl->setCurrentBlock('view');
 			$this->tpl->setVariable("VIEW_IMAGE_LINK", $record_data["_front"]);
 			$this->tpl->setVariable("VIEW_IMAGE_SRC", ilUtil::img(ilUtil::getImagePath("cmd_view_s.png")));
+			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("ACTIONS", $record_data["_actions"]);
 

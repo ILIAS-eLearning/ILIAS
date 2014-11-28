@@ -18,6 +18,11 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 class ilDataCollectionRecordViewViewdefinition extends ilPageObject {
 
 	/**
+	 * @var bool
+	 */
+	protected $active = false;
+
+	/**
 	 * @var int
 	 */
 	protected $table_id;
@@ -46,6 +51,7 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject {
 	 */
 	public static function getInstance($key) {
 		//		if (!isset(self::$instances[$key])) {
+//		var_dump($key); // FSX
 		self::$instances[$key] = new self($key);
 
 		//		}
