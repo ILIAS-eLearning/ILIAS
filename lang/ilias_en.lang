@@ -8520,7 +8520,7 @@ ps#:#ps_export_user_data#:#Data Types
 ps#:#ps_export_wait#:#Users on the Waiting List
 ps#:#ps_field_type#:#Field Type
 ps#:#ps_files_deleted#:#Export Files Deleted
-ps#:#ps_login_max_attempts_info#:# Sets the maximum count of wrong login attempts. Set this to 0 for disabling this option.
+ps#:#ps_login_max_attempts_info#:# Sets the maximum count of wrong login attempts. Leave empty to disable this option.
 ps#:#ps_login_max_attempts#:#Maximum Login Attempts
 ps#:#ps_name_field#:#Name
 ps#:#ps_new_select_field#:#New Selection Box
