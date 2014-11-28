@@ -327,7 +327,7 @@ die("deprecated");
 			$lng->txt("cont_preview"),
 			$ilCtrl->getLinkTarget($this,'sco_preview'), "_blank");
 		
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_sco_b.png"));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_sco.png"));
 		$tpl->setTitle(
 		$lng->txt("sahs_unit").": ".$this->node_object->getTitle());
 	}
