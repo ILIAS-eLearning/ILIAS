@@ -32,7 +32,7 @@
 			
 			set_toggle_state();
 			
-			$parent.find('input:checkbox[id*="inp_{POST_VAR}_"]:checked').on("change", set_toggle_state);
+			$parent.find('input:checkbox[id*="inp_{POST_VAR}_"]').on("change", set_toggle_state);
 			
 			// toggle bind event
 			$toggle.on('change', function() {
