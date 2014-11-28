@@ -8359,6 +8359,10 @@ div.ilCalSelList {
   max-height: 250px;
   overflow: auto;
 }
+.ilCalSelList img {
+  width: 20px;
+  height: 20px;
+}
 ul.ilCalSel {
   margin: 0;
   padding: 0;

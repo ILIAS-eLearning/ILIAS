@@ -93,7 +93,7 @@ class ilMiniCalendarGUI
 			"Services/Calendar");
 		$this->addMiniMonth($tpl);
 
-		$ftpl->setVariable("IMG_BLOCK", ilUtil::getImagePath("icon_cals_s.png"));
+		$ftpl->setVariable("IMG_BLOCK", ilUtil::getImagePath("icon_cals.png"));
 		$ftpl->setVariable("BLOCK_TITLE", $lng->txt("calendar"));
 		$ftpl->setVariable("CONTENT", $tpl->get());
 		$ftpl->setVariable("ALT_BLOCK", $lng->txt("icon")." ".$lng->txt("calendar"));

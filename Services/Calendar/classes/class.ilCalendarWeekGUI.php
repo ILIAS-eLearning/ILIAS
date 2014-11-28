@@ -424,7 +424,7 @@ class ilCalendarWeekGUI
 		{
 			$this->tpl->setCurrentBlock('fullday_ms_icon');
 			$this->tpl->setVariable('ALT_FD_MS', $this->lng->txt("cal_milestone"));
-			$this->tpl->setVariable('SRC_FD_MS', ilUtil::getImagePath("icon_ms_s.png"));
+			$this->tpl->setVariable('SRC_FD_MS', ilUtil::getImagePath("icon_ms.png"));
 			$this->tpl->parseCurrentBlock();
 		}
 
