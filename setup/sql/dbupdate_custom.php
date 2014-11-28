@@ -2262,3 +2262,16 @@ if(!$ilDB->tableExists('org_unit_personal'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#67>
+<?php
+	if(!$ilDB->tableColumnExists('gev_crs_addset', "suppress_mails")){
+		$ilDB->addTableColumn('gev_crs_addset', "suppress_mails", array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+			)
+		);	
+	}
+?>
