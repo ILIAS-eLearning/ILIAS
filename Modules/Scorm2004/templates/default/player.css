@@ -339,7 +339,7 @@ li.ilc_rte_tli_RTETreeItem
 .ilc_rte_texp_RTETreeExpanded,
 .ilc_rte_texp_RTETreeCollapsed
 {
-	background: url(images/tree_exp.png) 0 0 no-repeat;
+	background: url(images/tree_exp.svg) 0 0 no-repeat;
 	display:block;
 	width:16px;
 	height:16px;
@@ -351,7 +351,7 @@ li.ilc_rte_tli_RTETreeItem
 
 a.ilc_rte_texp_RTETreeCollapsed
 {
-	background: url(images/tree_col.png) 0 0 no-repeat;
+	background: url(images/tree_col.svg) 0 0 no-repeat;
 }
 
 div.ilc_rte_node_RTECourse, div.ilc_rte_node_RTEChapter, div.ilc_rte_node_RTESco,

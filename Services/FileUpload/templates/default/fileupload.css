@@ -217,14 +217,14 @@ h3.ilFileUploadHeader {
 /* file header filename */
 td.ilFileUploadEntryFileName {
 	text-align: left;
-	background-image: url(../../../../templates/default/images/tree_col.png);
+	background-image: url(../../../../templates/default/images/tree_col.svg);
 	background-position: 5px 7px;
 	background-repeat: no-repeat;
 	padding: 7px 8px 6px 24px;
 	line-height: 1.35em;
 }
 .ilFileUploadEntryExpanded td.ilFileUploadEntryFileName {
-	background-image: url(../../../../templates/default/images/tree_exp.png);
+	background-image: url(../../../../templates/default/images/tree_exp.svg);
 }
 .ilFileUploadError td.ilFileUploadEntryFileName {
 	background-image: url(../../../../templates/default/images/icon_alert.png);

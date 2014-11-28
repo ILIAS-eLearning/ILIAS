@@ -7442,7 +7442,7 @@ div.ilSideBarContent {
   cursor: pointer;
   color: #557196;
   font-size: 110%;
-  background: url(images/tree_col.png) no-repeat 9px 9px #ffffff;
+  background: url(images/tree_col.svg) no-repeat 4px 4px #ffffff;
 }
 .il_VAccordionInnerContainer {
   margin-bottom: 10px;
@@ -7453,7 +7453,7 @@ div.ilSideBarContent {
 }
 .il_HAccordionHeadActive,
 .il_VAccordionHeadActive {
-  background-image: url(images/tree_exp.png);
+  background-image: url(images/tree_exp.svg);
   background-color: #ffffd0;
 }
 /* Modules/ScormAicc */
