@@ -9,6 +9,7 @@ require_once('./Services/Tracking/classes/class.ilLPStatus.php');
 require_once('./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php');
 require_once('class.ilDataCollectionDatatype.php');
 require_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
+require_once('./Services/Table/classes/class.ilTablePropertiesStorage.php');
 
 /**
  * Class ilDataCollectionField
@@ -54,9 +55,10 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 	public function  __construct(ilDataCollectionRecordListGUI $a_parent_obj, $a_parent_cmd, ilDataCollectionTable $table, $mode = ilDataCollectionRecordListGUI::MODE_VIEW) {
 		global $lng, $ilCtrl;
 
-		$this->setPrefix("dcl_record_list");
-		$this->setFormName('record_list');
-		$this->setId("dcl_record_list" . $table->getId());
+		$identifier = 'dcl_rl' . $table->getId();
+		$this->setPrefix($identifier);
+		$this->setFormName($identifier);
+		$this->setId($identifier);
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->table = $table;
 		$this->parent_obj = $a_parent_obj;
@@ -307,6 +309,7 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 
 
 	public function initFilter() {
+
 		foreach ($this->table->getFilterableFields() as $field) {
 			$input = ilDataCollectionDatatype::addFilterInputFieldToTable($field, $this);
 			$input->readFromSession();
@@ -320,6 +323,22 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 					$this->filter["filter_" . $field->getId()] = $value;
 				}
 			}
+		}
+	}
+
+
+	/**
+	 * @param string $type
+	 *
+	 * @return mixed
+	 */
+	public function loadProperty($type) {
+		global $ilUser;
+
+		if ($ilUser instanceof ilObjUser AND $this->getId()) {
+			$tab_prop = new ilTablePropertiesStorage();
+
+			return $tab_prop->getProperty($this->getId(), $ilUser->getId(), $type);
 		}
 	}
 
