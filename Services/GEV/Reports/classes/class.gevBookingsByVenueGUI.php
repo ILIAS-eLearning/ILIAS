@@ -42,7 +42,7 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 						->column("tutor", "il_crs_tutor")
 						->column("no_members", "no_members")
 						->column("no_accomodations", "no_accomodations")
-						->column("action", "list")
+						->column("action", "list", false, "", true)
 						->template("tpl.gev_bookings_by_venue_row.html", "Services/GEV/Reports")
 						->order("date", "ASC")
 						;

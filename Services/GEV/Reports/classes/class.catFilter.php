@@ -239,12 +239,23 @@ class catFilter {
 	// Render the filter to HTML output
 	public function render() {
 		$this->checkCompiled("render");
-		
+
+		if (count($this->filters) === 0) {
+			return "";
+		}
+
 		require_once("Services/UICore/classes/class.ilTemplate.php");
 		
+		$out = "";
+		
 		$tpl = new ilTemplate("tpl.cat_filter.html", true, true, "Services/GEV/Reports");
+		$tpl->setCurrentBlock("filter_head");
+		$tpl->setVariable("POST_VAR", $this->post_var_prefix);
+		$tpl->parseCurrentBlock();
+		$out .= $tpl->get();
 		
 		foreach ($this->filters as $conf) {
+			$tpl = new ilTemplate("tpl.cat_filter.html", true, true, "Services/GEV/Reports");
 			$type = $this->getType($conf);
 			$tpl->setCurrentBlock($type->getId());
 			$postvar = $this->getPostVar($conf);
@@ -255,9 +266,14 @@ class catFilter {
 			}
 		}
 		
-		$tpl->setVariable("FILTER", $this->action_title);
+		$tpl = new ilTemplate("tpl.cat_filter.html", true, true, "Services/GEV/Reports");
 		
-		return $tpl->get();
+		$tpl->setCurrentBlock("filter_tail");
+		$tpl->setVariable("FILTER", $this->action_title);
+		$tpl->parseCurrentBlock();
+		$out .= $tpl->get();
+		
+		return $out;
 	}
 	
 	// get default value for filter
@@ -330,6 +346,15 @@ class catDatePeriodFilterType {
 	public function getId() {
 		return catDatePeriodFilterType::ID;
 	}
+	
+	// config:
+	// id
+	// label_begin
+	// label_end
+	// field_begin
+	// field_end
+	// default_begin
+	// default_end
 	
 	public function checkConfig($a_conf) {
 		if (count($a_conf) !== 8) {
@@ -430,6 +455,12 @@ class catCheckboxFilterType {
 		return catCheckboxFilterType::ID;
 	}
 	
+	// config:
+	// id
+	// label
+	// sql_checked
+	// sql_unchecked
+	
 	public function checkConfig($a_conf) {
 		if (count($a_conf) !== 5) {
 			// one parameter less, since type is encoded in first parameter but not passed by user.
@@ -474,6 +505,7 @@ class catCheckboxFilterType {
 	}
 }
 catFilter::addFilterType(catCheckboxFilterType::ID, new catCheckboxFilterType());
+
 
 
 class catMultiSelectFilter {

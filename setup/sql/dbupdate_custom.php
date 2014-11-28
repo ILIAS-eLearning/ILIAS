@@ -2257,3 +2257,8 @@ if(!$ilDB->tableExists('org_unit_personal'))
   $ilDB->addPrimaryKey('org_unit_personal', array('orgunit_id'));
 }
 ?>
+
+<#66>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

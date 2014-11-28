@@ -25,17 +25,23 @@ class gevCourseSearchGUI {
 		$this->tpl = &$tpl;
 		$this->log = &$ilLog;
 		$this->user_id = $ilUser->getId();
-		$this->user_utils = gevUserUtils::getInstance($ilUser->getId());
+		$this->user = &$ilUser;
+		$this->user_utils = gevUserUtils::getInstanceByObj($ilUser);
 		$this->search_form = null;
 
 		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
 			$this->target_user_id = $_POST["target_user_id"]
 								  ? $_POST["target_user_id"]
-								  : $ilUser->getId();
+								  : (   $_GET["target_user_id"]
+								  	  ? $_GET["target_user_id"]
+								  	  : $ilUser->getId()
+								  	);
 		}
 		else {
 			$this->target_user_id = $ilUser->getId();
 		}
+		
+		$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
 
 		$this->tpl->getStandardTemplate();
 	}
@@ -49,12 +55,21 @@ class gevCourseSearchGUI {
 	}
 
 	public function render($a_in_search = false) {
+		$spacer = new catHSpacerGUI();
+
 		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
 			$user_selector = new gevUserSelectorGUI($this->target_user_id);
-			$user_selector->setUsers($this->user_utils->getEmployeesForCourseSearch())
+			$users = array_merge( array(array("usr_id" => $this->user_id
+											 , "firstname" => $this->user->getFirstname()
+											 , "lastname" => $this->user->getLastname()
+											 )
+									   )
+								, $this->user_utils->getEmployeesForCourseSearch()
+								);
+			$user_selector->setUsers($users)
 						  ->setCaption("gev_crs_srch_usr_slctr_caption")
 						  ->setAction($this->ctrl->getLinkTargetByClass("gevCourseSearchGUI"));
-			$usrsel = $user_selector->render();
+			$usrsel = $user_selector->render() . $spacer->render();
 		}
 		else {
 			$usrsel = "";
@@ -62,7 +77,6 @@ class gevCourseSearchGUI {
 
 		$hls = new gevCourseHighlightsGUI($this->target_user_id);
 
-		$spacer = new catHSpacerGUI();
 		$spacer_out = $spacer->render();
 		
 		$form = $this->getSearchForm();

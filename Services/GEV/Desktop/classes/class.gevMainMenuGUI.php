@@ -74,7 +74,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		require_once("Services/TEP/classes/class.ilTEPPermissions.php");
 		$tep_permissions = ilTEPPermissions::getInstance($this->user->getId());
 
-		$employee_booking = false;
+		$employee_booking = count($this->userUtils->getEmployeesForBookingCancellations()) > 0;
 		$my_org_unit = false;
 		$tep = $this->userUtils->isAdmin() || $tep_permissions->isTutor();
 		$pot_participants = false;
@@ -87,10 +87,13 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$report_permissions = gevReportingPermissions::getInstance($this->user->getId());
 		
 		$report_permission_billing = $this->userUtils->isAdmin() || $report_permissions->viewAnyReport();
-		$report_permission_attendancebyuser =  $this->userUtils->isAdmin();//$this->userUtils->isSuperior();// || $this->userUtils->isAdmin();
+		$report_permission_attendancebyuser =  $this->userUtils->isAdmin() || $this->userUtils->isSuperior();
 		$report_permission_bookingsbyvenue =  $this->userUtils->isAdmin() || $this->userUtils->hasRoleIn(array("Veranstalter"));
 		$report_permission_wbd = $this->userUtils->isAdmin() && false;
-		$has_reporting_menu = $this->userUtils->isAdmin() || $report_permissions->viewAnyReport() || $report_permission_bookingsbyvenue; //$report_permission_attendancebyuser; // || ....
+		$has_reporting_menu =  $report_permission_billing 
+							|| $report_permission_attendancebyuser 
+							|| $report_permission_bookingsbyvenue 
+							|| $report_permission_wbd; //$report_permission_attendancebyuser; // || ....
 
 		$is_trainer = $tep; // $tep_permissions->isTutor();
 
@@ -117,7 +120,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 											  //render entry?
   											  //url
 				                              //link title
-				  "gev_my_courses" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses",$this->lng->txt("gev_my_courses"))
+				  "gev_my_courses" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyCourses",$this->lng->txt("gev_my_courses"))
 				, "gev_edu_bio" => array(false, "NYI!",$this->lng->txt("gev_edu_bio"))
 				, "gev_my_profile" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyProfile",$this->lng->txt("gev_my_profile"))
 				, "gev_my_settings" => array(true, "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings",$this->lng->txt("gev_my_settings"))
@@ -127,7 +130,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 
 				), $this->lng->txt("gev_me_menu"))
 			, "gev_others_menu" => array(false, $has_others_menu, array(
-				  "gev_employee_booking" => array($employee_booking, "NYI!",$this->lng->txt("gev_employee_booking"))
+				  "gev_employee_booking" => array($employee_booking, "ilias.php?baseClass=gevDesktopGUI&cmd=toEmployeeBookings",$this->lng->txt("gev_employee_booking"))
 				, "gev_my_org_unit" => array($my_org_unit, "NYI!",$this->lng->txt("gev_my_org_unit"))
 				, "gev_tep" => array($tep, "ilias.php?baseClass=ilTEPGUI",$this->lng->txt("gev_tep"))
 				, "gev_pot_participants" => array($pot_participants, "NYI!",$this->lng->txt("gev_pot_participants"))

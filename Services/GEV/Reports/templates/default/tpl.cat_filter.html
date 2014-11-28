@@ -1,13 +1,17 @@
+<!-- BEGIN filter_head -->
 <form id="form_{POST_VAR}" enctype="multipart/form-data" action="{ACTION}" method="post">
+<!-- END filter_head -->
 	<!-- BEGIN checkbox -->
 	<div class="cat_filter_checkbox ilFloatLeft" id="{POST_VAR}">
 		<input class="ilFormCheckbox" id="inp_{POST_VAR}" type="checkbox" name="{POST_VAR}" value="1" {PROPERTY_CHECKED} />
 		<label for="inp_{POST_VAR}">{OPTION_TITLE}</label>
 	</div><br /><br />
 	<!-- END checkbox -->
+	
 	<!-- BEGIN date -->
 	{DATE_FILTER_LABEL} {DATE_FILTER}
 	<!-- END date -->
+	
 	<!-- BEGIN dateperiod -->
 	<div class="cat_filter_dateperiod ilFloatLeft" id="{POST_VAR}">
 		{DP_LABEL_START}&nbsp;
@@ -45,12 +49,56 @@
 		</script>
 	</div><br /><br />
 	<!-- END dateperiod -->
+	
+	<!-- BEGIN multiselect -->
+	<div class="ilFloatLeft">
+		{MULTI_SELECT_LABEL}:
+		<div class="input" id="{FOO_POST_VAR}" style="width:{WIDTH}px; height:{HEIGHT}px; overflow:auto;">
+			<input type="hidden" name="{FOO_POST_VAR}[send]" value="true" />
+			<!-- BEGIN multiselect_item -->
+			<div style="white-space:nowrap">
+				<input type="checkbox" name="{POST_VAR}[]" id="inp_{POST_VAR}_{CNT}" value="{OPTION_VALUE}" {CHECKED}/>
+				<label for="inp_{POST_VAR}_{CNT}">{OPTION_TITLE}</label>
+			</div>
+			<!-- END multiselect_item -->
+		</div>
+	</div>
+	<!-- BEGIN toggle_all_bl -->	
+<!--	<script type="text/javascript">		
+		il.Util.addOnLoad(				
+			function() {
+				var $toggle = $('#{TOGGLE_ALL_ID}');
+				var $parent =  $toggle.closest("#{TOGGLE_FIELD_ID}");
+
+				// current toggle status
+				var num_all = $parent.find('input:checkbox[id*="{TOGGLE_ALL_CBOX_ID}"]').size();
+				var num_checked = $parent.find('input:checkbox[id*="{TOGGLE_ALL_CBOX_ID}"]:checked').size();			
+				if (0 === num_checked) {
+					$toggle.prop("checked", false);
+					$toggle.prop("indeterminate", false)
+				} else if (num_checked === num_all) {
+					$toggle.prop("checked", true);
+					$toggle.prop("indeterminate", false)
+				} else {
+					$toggle.prop("checked", true);
+					$toggle.prop("indeterminate", true)
+				}	
+
+				// toggle bind event
+				$toggle.on('change', function() {
+					$parent.find('input:checkbox[id*="{TOGGLE_ALL_CBOX_ID}"]').prop("checked", this.checked);
+				});
+			});
+	</script>-->
+	<!-- END toggle_all_bl -->
+	<!-- END multiselect -->
+	
 	<!-- BEGIN select -->
 	{SELECT_FILTER_LABEL} {SELECT_FILTER}
 	<!-- END date -->
-	<!-- BEGIN date -->
-	{MULTISELECT_FILTER_LABEL} {MULTISELECT_FILTER}
-	<!-- END date -->
-	<div class="ilFloatLeft">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="submit" type="SUBMIT" name="cmd[view]" value="{FILTER}"></div>
+<!-- BEGIN filter_tail -->
 	<div class="ilClearFloat"></div>
+	<br />
+	<div><input class="submit" type="SUBMIT" name="cmd[view]" value="{FILTER}"></div>
 </form>
+<!-- END filter_tail -->

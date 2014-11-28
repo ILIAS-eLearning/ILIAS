@@ -162,6 +162,21 @@ class ilCourseBookingAdminGUI
 		return true;
 	}
 	
+	// gev-patch start
+	
+	static $back_target_id = "course_booking_admin_gui_back_target";
+	
+	// Functionality to control target of back link
+	static public function setBackTarget($a_target) {
+		ilSession::set(self::$back_target_id, $a_target);
+	}
+	
+	static public function removeBackTarget() {
+		ilSession::clear(self::$back_target_id);
+	}
+	
+	// gev-patch end
+	
 	/**
 	 * Set tabs
 	 * 
@@ -177,8 +192,12 @@ class ilCourseBookingAdminGUI
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTargetByClass("ilobjcoursegui", "members"));
 		*/
-		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "returnToParent"));
+		$back_target = ilSession::get(self::$back_target_id);
+		$ilTabs->setBackTarget(
+			$lng->txt("back")
+			, $back_target === null ? $ilCtrl->getLinkTarget($this, "returnToParent")
+									: $back_target
+			);
 		
 		$ilTabs->addTab("listBookings",
 			$lng->txt("crsbook_admin_tab_list_bookings"),

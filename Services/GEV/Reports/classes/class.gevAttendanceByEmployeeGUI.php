@@ -21,6 +21,7 @@
 require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
 require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
 class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 	public function __construct() {
@@ -36,41 +37,48 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 		$this->table = catReportTable::create()
 						->column("lastname", "lastname")
 						->column("firstname", "firstname")
-						->column("bwv_id", "gev_bwv_id")
-						->column("position_key", "gev_agent_key")
-						->column("gender", "gender")
+						->column("email", "email")
+						->column("adp_number", "gev_adp_number")
+						->column("job_number", "gev_job_number")
+						->column("od_bd", "gev_od_bd")
 						->column("org_unit", "gev_org_unit_short")
-						->column("position_key", "gev_position_key")
+						->column("position_key", "gev_agent_key")
 						->column("custom_id", "gev_training_id")
 						->column("venue", "gev_location")
-						->column("provider", "gev_provider")
 						->column("type", "gev_learning_type")
 						->column("date", "date")
+						->column("credit_points", "gev_credit_points")
 						->column("booking_status", "gev_booking_status")
 						->column("participation_status", "gev_participation_status")
 						->template("tpl.gev_attendance_by_employee_row.html", "Services/GEV/Reports")
 						;
 
 		$this->query = catReportQuery::create()
-						->select("usrcrs.usr_id")
-						->select("usrcrs.crs_id")
-						->select("usrcrs.booking_status")
-						->select("usrcrs.participation_status")
-						->select("usrcrs.okz")
-						->select("usrcrs.org_unit")
-						->select("usr.firstname")
 						->select("usr.lastname")
-						->select("usr.gender")
-						->select("usr.bwv_id")
+						->select("usr.firstname")
+						->select("usr.email")
+						->select("usr.adp_number")
+						->select("usr.job_number")
+						->select("usr.org_unit_above1")
+						->select("usr.org_unit_above2")
+						->select("usr.org_unit")
 						->select("usr.position_key")
 						->select("crs.custom_id")
-						->select("crs.title")
-						->select("crs.type")
 						->select("crs.venue")
-						->select("crs.provider")
+						->select("crs.type")
+						->select("usrcrs.credit_points")
+						->select("usrcrs.booking_status")
+						->select("usrcrs.participation_status")
+						->select("usrcrs.usr_id")
+						->select("usrcrs.crs_id")
 						->select("crs.begin_date")
 						->select("crs.end_date")
+<<<<<<< .working
 						->select("crs.title")
+=======
+						->select("crs.edu_program")
+						->select("crs.title")
+>>>>>>> .merge-right.r55671
 						->from("hist_usercoursestatus usrcrs")
 						->join("hist_user usr")
 							->on("usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0")
@@ -89,6 +97,12 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									, date("Y")."-01-01"
 									, date("Y")."-12-31"
 									)
+						->multiselect("edu_program"
+									 , $this->lng->txt("gev_edu_program")
+									 , "edu_program"
+									 , gevCourseUtils::getEduProgramsFromHisto()
+									 , gevCourseUtils::getEduProgramsFromHisto()
+									 )
 						->multiselect("type"
 									 , $this->lng->txt("gev_course_type")
 									 , "type"
@@ -116,6 +130,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->static_condition($this->db->in("usr.user_id", $allowed_user_ids, false, "integer"))
 						->static_condition("usrcrs.hist_historic = 0")
 						->static_condition("(usrcrs.booking_status != '-empty-' OR usrcrs.participation_status != '-empty-')")
+						->static_condition("usrcrs.booking_status != 'kostenfrei storniert'")
 						->static_condition("usrcrs.function NOT IN ('Trainingsbetreuer', 'Trainer')")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
@@ -124,9 +139,9 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 	}
 
 	protected function transformResultRow($rec) {
-		if ($value == '-empty-' || $value == -1) {
-			$rec[$key] = $no_entry;
-			continue;
+		// credit_points
+		if ($rec["credit_points"] == -1) {
+			$rec["credit_points"] = $this->lng->txt("gev_table_no_entry");
 		}
 
 		//date
@@ -141,8 +156,21 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 			$date = '-';
 		}
 		$rec['date'] = $date;
+		
+		// od_bd
+		if ( $rec["org_unit_above2"] == "-empty-") {
+			if ($rec["org_unit_above1"] == "-empty-") {
+				$rec["od_bd"] = $this->lng->txt("gev_table_no_entry");
+			}
+			else {
+				$rec["od_bd"] = $rec["org_unit_above1"];
+			}
+		}
+		else {
+			$rec["od_bd"] = $rec["org_unit_above1"]."/".$rec["org_unit_above2"];
+		}
 
-		return $rec;
+		return $this->replaceEmpty($rec);
 	}
 	
 	protected function _process_xls_date($val) {
