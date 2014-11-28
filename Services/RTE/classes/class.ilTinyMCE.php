@@ -308,7 +308,7 @@ class ilTinyMCE extends ilRTE
 			{
 				$tpl->touchBlock("formelements");
 			}
-			if($this->getInitialWidth() !== null)
+			if($this->getInitialWidth() !== null && $tpl->blockExists('initial_width'))
 			{
 				$tpl->setCurrentBlock("initial_width");
 				$tpl->setVariable('INITIAL_WIDTH', $this->getInitialWidth());
