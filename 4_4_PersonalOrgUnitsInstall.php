@@ -53,20 +53,20 @@ if(!$ilDB->tableExists('org_unit_personal'))
 	$fields = array (
     'orgunit_id'    => array(
     		'type' => 'integer',
-    		'length'  => 11,
+    		'length'  => 4,
     		'notnull' => true,
     		'default' => 0),
 
   'usr_id'    => array(
     		'type' => 'integer',
-    		'length'  => 11,
+    		'length'  => 4,
     		'notnull' => true,
     		'default' => 0),
 
   
   );
-  $ilDB->createTable('org_unit_personal_units', $fields);
-  $ilDB->addPrimaryKey('org_unit_personal_units', array('orgunit_id'));
+  $ilDB->createTable('org_unit_personal', $fields);
+  $ilDB->addPrimaryKey('org_unit_personal', array('orgunit_id'));
 }
 // -----------------------------------------------------------------------------
 // End

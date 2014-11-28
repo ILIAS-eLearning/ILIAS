@@ -315,7 +315,7 @@ class ilPersonalOrgUnits {
 	} 
 
 	/**
-	* Remove the org-unit/superior entry in org_unit_personal_units
+	* Remove the org-unit/superior entry in org_unit_personal
 	*
 	* @param integer $a_orgunit_id
 	*
