@@ -48,18 +48,18 @@ echo "[INSTALLING / UPDATING Database Tables]\r\n";
 // -----------------------------------------------------------------------------
 
 
-if(!$ilDB->tableExists('org_unit_personal_units'))
+if(!$ilDB->tableExists('org_unit_personal'))
 {
 	$fields = array (
     'orgunit_id'    => array(
     		'type' => 'integer',
-    		'length'  => 11
+    		'length'  => 11,
     		'notnull' => true,
     		'default' => 0),
 
   'usr_id'    => array(
     		'type' => 'integer',
-    		'length'  => 11
+    		'length'  => 11,
     		'notnull' => true,
     		'default' => 0),
 
@@ -67,6 +67,7 @@ if(!$ilDB->tableExists('org_unit_personal_units'))
   );
   $ilDB->createTable('org_unit_personal_units', $fields);
   $ilDB->addPrimaryKey('org_unit_personal_units', array('orgunit_id'));
+}
 // -----------------------------------------------------------------------------
 // End
 
