@@ -170,6 +170,7 @@ class gevUserUtils {
 		$this->org_id = null;
 		$this->direct_superior_ous = null;
 		$this->superior_ous = null;
+		$this->superior_ou_names = null;
 		$this->employees = null;
 		$this->employees_for_course_search = null;
 		$this->employee_ids_for_course_search = null;
@@ -1449,6 +1450,27 @@ class gevUserUtils {
 		}
 		
 		return $this->superior_ous;
+	}
+	
+	public function getOrgUnitNamesWhereUserIsSuperior() {
+		if ($this->superior_ou_names !== null) {
+			return $this->superior_ou_names;
+		}
+		
+		$ids = $this->getOrgUnitsWhereUserIsSuperior();
+		foreach($ids as $key => $value) {
+			$ids[$key] = $ids[$key]["obj_id"];
+		}
+		
+		$res = $this->db->query( "SELECT title FROM object_data "
+								."WHERE ".$this->db->in("obj_id", $ids, false, "integer")
+								);
+		$this->superior_ou_names = array();
+		while ($rec = $this->db->fetchAssoc($res)) {
+			$this->superior_ou_names[] = $rec["title"];
+		}
+		
+		return $this->superior_ou_names;
 	}
 	
 	public function getOrgUnitsWhereUserCanBookEmployees() {

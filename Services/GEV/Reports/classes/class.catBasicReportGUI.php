@@ -296,7 +296,7 @@ class catBasicReportGUI {
 		
 		$query = $this->query->sql()
 			   . $this->queryWhere()
-			   ;
+			   ; //die($query);
 		
 		$res = $this->db->query($query);
 		$data = array();

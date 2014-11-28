@@ -93,6 +93,12 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									, date("Y")."-01-01"
 									, date("Y")."-12-31"
 									)
+						->multiselect( "org_unit"
+									 , $this->lng->txt("gev_org_unit_short")
+									 , array("usr.org_unit", "org_unit_above1", "org_unit_above2")
+									 , $this->user_utils->getOrgUnitNamesWhereUserIsSuperior()
+									 , $this->user_utils->getOrgUnitNamesWhereUserIsSuperior()
+									 )
 						->multiselect("edu_program"
 									 , $this->lng->txt("gev_edu_program")
 									 , "edu_program"
