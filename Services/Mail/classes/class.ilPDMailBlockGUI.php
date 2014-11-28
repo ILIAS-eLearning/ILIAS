@@ -28,7 +28,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		parent::__construct();
 
 		$this->setLimit(5);
-		$this->setImage(ilUtil::getImagePath('icon_mail_s.png'));
+		$this->setImage(ilUtil::getImagePath('icon_mail.png'));
 		$this->setTitle($lng->txt('mail'));
 		$this->setAvailableDetailLevels(3);
 	}

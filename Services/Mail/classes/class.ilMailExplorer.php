@@ -45,7 +45,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
 	{		
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
-			return ilUtil::getImagePath("icon_mail_s.png");		
+			return ilUtil::getImagePath("icon_mail.png");
 		}
 		else
 		{
