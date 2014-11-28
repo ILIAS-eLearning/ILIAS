@@ -107,7 +107,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									 )
 						->multiselect("template_title"
 									 , $this->lng->txt("crs_title")
-									 , "title"
+									 , "template_title"
 									 , gevCourseUtils::getTemplateTitleFromHisto()
 									 , gevCourseUtils::getTemplateTitleFromHisto()
 									 )
