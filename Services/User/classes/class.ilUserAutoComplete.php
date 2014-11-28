@@ -280,7 +280,7 @@ class ilUserAutoComplete
 
 			$result[$cnt]['value'] = (string)$rec[$this->result_field];
 			$result[$cnt]['label'] = $label;
-			$result[$cnt]['id'] = $rec['usr_id'];
+			$result[$cnt]['id']    = $rec['usr_id'];
 			$cnt++;
 		}
 
@@ -300,11 +300,11 @@ class ilUserAutoComplete
 	protected function getSelectPart()
 	{
 		$fields = array(
-			'usr_id',
-			'login',
-			'firstname',
-			'lastname',
-			'email'
+			'ud.usr_id',
+			'ud.login',
+			'ud.firstname',
+			'ud.lastname',
+			'ud.email'
 		);
 
 		if(self::PRIVACY_MODE_RESPECT_USER_SETTING == $this->getPrivacyMode())
@@ -331,21 +331,21 @@ class ilUserAutoComplete
 		if(self::PRIVACY_MODE_RESPECT_USER_SETTING == $this->getPrivacyMode())
 		{
 			$joins[] = 'LEFT JOIN usr_pref profpref
-				ON profpref.usr_id = usr_data.usr_id
+				ON profpref.usr_id = ud.usr_id
 				AND profpref.keyword = ' . $ilDB->quote('public_profile', 'text');
 
 			$joins[] = 'LEFT JOIN usr_pref pubemail
-				ON pubemail.usr_id = usr_data.usr_id
+				ON pubemail.usr_id = ud.usr_id
 				AND pubemail.keyword = ' . $ilDB->quote('public_email', 'text');
 		}
 
 		if($joins)
 		{
-			return 'usr_data ' . implode(' ', $joins);
+			return 'usr_data ud ' . implode(' ', $joins);
 		}
 		else
 		{
-			return 'usr_data ';
+			return 'usr_data ud';
 		}
 	}
 
@@ -381,7 +381,7 @@ class ilUserAutoComplete
 			}
 		}
 
-		$outer_conditions[] =  'usr_data.usr_id != ' . $ilDB->quote(ANONYMOUS_USER_ID, 'integer');
+		$outer_conditions[] =  'ud.usr_id != ' . $ilDB->quote(ANONYMOUS_USER_ID, 'integer');
 
 		$field_conditions = array();
 		foreach($this->getFields() as $field)
