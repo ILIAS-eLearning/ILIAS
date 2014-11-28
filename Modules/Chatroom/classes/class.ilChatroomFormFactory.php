@@ -173,6 +173,7 @@ class ilChatroomFormFactory
 		global $lng;
 
 		$form = new ilPropertyFormGUI();
+		$form->setPreventDoubleSubmission(false);
 
 		require_once 'Services/Form/classes/class.ilDateDurationInputGUI.php';
 		$duration = new ilDateDurationInputGUI($lng->txt('period'), 'timeperiod');
@@ -240,6 +241,7 @@ class ilChatroomFormFactory
 		global $lng;
 
 		$form = new ilPropertyFormGUI();
+		$form->setPreventDoubleSubmission(false);
 		$list = new ilSelectInputGUI($lng->txt('session'), 'session');
 
 		$options = array();
