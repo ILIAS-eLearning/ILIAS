@@ -821,7 +821,6 @@ class ilObjectGUI
 			foreach ($a_forms as $form_type => $cf)
 			{				
 				$htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
-//					$htpl->setVariable("IMG_ARROW", ilUtil::getImagePath("accordion_arrow.png"));
 
 				// using custom form titles (used for repository plugins)
 				$form_title = "";

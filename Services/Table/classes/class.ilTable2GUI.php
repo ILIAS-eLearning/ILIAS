@@ -2729,7 +2729,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	{
 		global $ilUser;
 
-		if(is_object($ilUser) && $this->getId() != "" && $ilUser->getId() != ANONYMOUS_USER_ID)
+		if(is_object($ilUser) && $this->getId() != "")
 		{
 			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
 			$tab_prop = new ilTablePropertiesStorage();
@@ -2748,7 +2748,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
     {
 		global $ilUser;
 
-		if(is_object($ilUser) && $this->getId() != "" && $ilUser->getId() != ANONYMOUS_USER_ID)
+		if(is_object($ilUser) && $this->getId() != "")
 		{
 			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
 			$tab_prop = new ilTablePropertiesStorage();

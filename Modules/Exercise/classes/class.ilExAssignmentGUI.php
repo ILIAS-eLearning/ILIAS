@@ -73,8 +73,7 @@ class ilExAssignmentGUI
 			$mand = " (".$lng->txt("exc_mandatory").")";
 		}
 		$tpl->setVariable("TITLE", $a_data["title"].$mand);
-//		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("accordion_arrow.png"));
-		
+
 		// status icon
 		$stat = ilExAssignment::lookupStatusOfUser($a_data["id"], $ilUser->getId());
 		switch ($stat)
