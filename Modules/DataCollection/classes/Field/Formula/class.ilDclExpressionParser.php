@@ -282,7 +282,13 @@ class ilDclExpressionParser {
 				// Workaround for standardfields - title my be ID
 				$field = $table->getField($field_title);
 				if ($field === NULL) {
-					throw new ilException("Field with title '$field_title' not found");
+					global $lng;
+					/**
+					 * @var $lng ilLanguage
+					 */
+					$lng->loadLanguageModule('dcl');
+//					throw new ilException("Field with title '$field_title' not found");
+					throw new ilException(sprintf($lng->txt('dcl_err_formula_field_not_found'), $field_title));
 				}
 			}
 			self::$cache_fields[$placeholder] = $field;

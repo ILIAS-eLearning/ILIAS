@@ -12400,6 +12400,7 @@ dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Fel
 dcl#:#dcl_unique#:#Einzigartig
 dcl#:#dcl_unique_exception#:#Der eingegebene Wert wird schon von einem anderen Eintrag verwendet.
 dcl#:#dcl_unknown_exception#:#Der eingegebene Wert ist nicht gültig.
+dcl#:#dcl_err_formula_field_not_found#:#Feld mit dem Titel '%s' existiert nicht
 dcl#:#dcl_notimage_exception#:#Die Datei muss ein Bild sein.
 dcl#:#dcl_please_select#:#--- Bitte wählen ---
 dcl#:#dcl_asc#:#Aufsteigende Reihenfolge (ASC)
