@@ -26,6 +26,14 @@ class gevSuperiorCancelBookedToCancelledWithoutCosts extends gevCrsAutoMail {
 	public function getCC($a_recipient) {
 		return array();
 	}
+	
+	public function getMail($a_recipient) {
+		if ($this->getAdditionalMailSettings()->getSuppressMails()) {
+			return null;
+		}
+		
+		return parent::getMail($a_recipient);
+	}
 }
 
 ?>
