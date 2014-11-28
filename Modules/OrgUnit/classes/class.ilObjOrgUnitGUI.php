@@ -24,6 +24,7 @@ require_once("class.ilObjOrgUnitTree.php");
 require_once(dirname(__FILE__) . '/Types/class.ilOrgUnitTypeGUI.php');
 require_once(dirname(__FILE__) . '/Settings/class.ilObjOrgUnitSettingsFormGUI.php');
 require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+require_once('./Services/Container/classes/class.ilContainerByTypeContentGUI.php');
 
 /**
  * Class ilObjOrgUnit GUI class
