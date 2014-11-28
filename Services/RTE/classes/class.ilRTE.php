@@ -46,8 +46,14 @@ class ilRTE
 	var $buttons;
 	var $tpl;
 	var $ctrl;
-	var $lng;	
-	
+	var $lng;
+
+	/**
+	 * @var integer
+	 */
+	protected $initialWidth = null;
+
+
 	function ilRTE($a_version = "")
 	{
 		global $tpl, $ilCtrl, $lng;
@@ -318,6 +324,22 @@ class ilRTE
 	public function getDisabledButtons()
 	{
 		// must be overwritten in sub classes
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getInitialWidth()
+	{
+		return $this->initialWidth;
+	}
+
+	/**
+	 * @param integer $initialWidth
+	 */
+	public function setInitialWidth($initialWidth)
+	{
+		$this->initialWidth = $initialWidth;
 	}
 }
 

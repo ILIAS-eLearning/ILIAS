@@ -46,10 +46,6 @@ class ilTinyMCE extends ilRTE
 	 */
 	protected $remove_img_context_menu_item = false;
 
-	/**
-	 * @var integer
-	 */
-	protected $initialWidth = null;
 
 	function ilTinyMCE($a_version = "")
 	{
@@ -1404,20 +1400,7 @@ class ilTinyMCE extends ilRTE
 		return $this->remove_img_context_menu_item;
 	}
 
-	/**
-	 * @return integer
-	 */
-	public function getInitialWidth()
-	{
-		return $this->initialWidth;
-	}
+	
 
-	/**
-	 * @param integer $initialWidth
-	 */
-	public function setInitialWidth($initialWidth)
-	{
-		$this->initialWidth = $initialWidth;
-	}
 }
 ?>
