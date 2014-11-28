@@ -108,7 +108,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 		parent::prepareOutput();
-
+		
         //Otherwise move-Objects would not work
         if($cmd != "cut")
         {
@@ -636,7 +636,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	}
 
 	public function showPasteTreeObject() {
-
+		// gev-patch start (#781)
+		/*
 		$this->ctrl->setCmd('performPaste');
 
 		$ilOrgUnitExplorerGUI = new ilOrgUnitExplorerGUI("orgu_explorer", "ilObjOrgUnitGUI", "showTree", new ilTree(1));
@@ -644,7 +645,61 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 		if (!$ilOrgUnitExplorerGUI->handleCommand()) {
             $this->tpl->setContent($ilOrgUnitExplorerGUI->getHTML());
+		}*/
+		global $ilTabs, $ilToolbar;
+
+		$ilTabs->setTabActive('view_content');
+
+		if(!in_array($_SESSION['clipboard']['cmd'], array('link', 'copy', 'cut')))
+		{
+			$message = __METHOD__.": Unknown action.";
+			$this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
 		}
+		$cmd = $_SESSION['clipboard']['cmd'];
+
+		//
+		/*include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
+		$exp = new ilRepositorySelectorExplorerGUI($this, "showPasteTree");
+		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));*/
+		
+		$exp = new ilOrgUnitExplorerGUI("orgu_explorer", "ilObjOrgUnitGUI", "showTree", new ilTree(1));
+		$exp->setTypeWhiteList(array( "orgu" ));
+		
+		if ($cmd == "link")
+		{
+			$exp->setSelectMode("nodes", true);
+		}
+		else
+		{
+			$exp->setSelectMode("nodes[]", false);
+		}
+		if ($exp->handleCommand())
+		{
+			return;
+		}
+		$output = $exp->getHTML();
+
+		$txt_var = ($cmd == "copy")
+			? "copy"
+			: "paste";
+
+		// toolbars
+		$t = new ilToolbarGUI();
+		$t->setFormAction($this->ctrl->getFormAction($this, "performPaste"));
+		$t->addFormButton($this->lng->txt($txt_var), "performPaste");
+		/*$t->addSeparator();
+		$t->addFormButton($this->lng->txt("obj_insert_into_clipboard"), "keepObjectsInClipboard");
+		$t->addFormButton($this->lng->txt("cancel"), "cancelMoveLink");*/
+		$t->setCloseFormTag(false);
+		$t->setLeadingImage(ilUtil::getImagePath("arrow_upright.png"), " ");
+		$output = $t->getHTML().$output;
+		$t->setLeadingImage(ilUtil::getImagePath("arrow_downright.png"), " ");
+		$t->setCloseFormTag(true);
+		$t->setOpenFormTag(false);
+		$output.= "<br />".$t->getHTML();
+
+		$this->tpl->setContent($output);
+		// gev-patch end (#781)
 	}
 
 	public function getAdminTabs(&$tabs_gui) {
@@ -670,7 +725,9 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}
 		if ($_SESSION['clipboard']['cmd'] == 'cut') {
 			if (isset($_GET['ref_id']) && (int)$_GET['ref_id']) {
-				$_POST['nodes'] = array( $_GET['ref_id'] );
+				// gev-patch start (#781)
+				//$_POST['nodes'] = array( $_GET['ref_id'] );
+				// gev-patch end  (#781)
 				$this->performPasteIntoMultipleObjectsObject();
 			}
 		}
