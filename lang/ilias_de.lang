@@ -381,6 +381,7 @@ assessment#:#available_terms#:#Auswählbare Terme
 assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
 assessment#:#by#:#nach
+assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_edit_marks#:#Der Test wurde bereits von Teilnehmern durchgeführt. Sie können die Bewertung nur ändern, wenn ein Datum für die Ergebnisausgabe eingestellt wurde, das aktuell noch in der Zukunft liegt.
 assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
