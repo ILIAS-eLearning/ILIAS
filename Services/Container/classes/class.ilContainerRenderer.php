@@ -458,31 +458,36 @@ class ilContainerRenderer
 				}
 			}
 			
-			$order_id = (!$a_is_single && $this->active_block_ordering) 
-				? $a_block_id
-				: null;			
-			$this->addHeaderRow($a_block_tpl, $a_block["type"], $a_block["caption"], array_unique($block_types), $a_block["actions"], $order_id);
-
-			if($a_block["prefix"])
+			// #14610 - manage empty item groups
+			if(is_array($this->block_items[$a_block_id]) ||
+				is_numeric($a_block_id))
 			{
-				$this->addStandardRow($a_block_tpl, $a_block["prefix"]);
-			}
-
-			// #14610
-			if(is_array($this->block_items[$a_block_id]))
-			{
-				foreach($this->block_items[$a_block_id] as $item_id)
-				{							
-					$this->addStandardRow($a_block_tpl, $this->items[$item_id]["html"], $item_id);			
-				}
-			}
-
-			if($a_block["postfix"])
-			{
-				$this->addStandardRow($a_block_tpl, $a_block["postfix"]);
-			}
 			
-			return true;
+				$order_id = (!$a_is_single && $this->active_block_ordering) 
+					? $a_block_id
+					: null;			
+				$this->addHeaderRow($a_block_tpl, $a_block["type"], $a_block["caption"], array_unique($block_types), $a_block["actions"], $order_id);
+
+				if($a_block["prefix"])
+				{
+					$this->addStandardRow($a_block_tpl, $a_block["prefix"]);
+				}
+
+				if(is_array($this->block_items[$a_block_id]))
+				{
+					foreach($this->block_items[$a_block_id] as $item_id)
+					{							
+						$this->addStandardRow($a_block_tpl, $this->items[$item_id]["html"], $item_id);			
+					}	
+				}
+
+				if($a_block["postfix"])
+				{
+					$this->addStandardRow($a_block_tpl, $a_block["postfix"]);
+				}
+							
+				return true;
+			}
 		}
 		
 		return false;
