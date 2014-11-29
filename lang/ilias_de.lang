@@ -1753,7 +1753,7 @@ blog#:#blog_preview_banner_width#:#Breite des Banners
 blog#:#blog_profile_picture#:#Profil-Bild anzeigen
 blog#:#blog_rename_posting#:#Eintrag umbenennen
 blog#:#blog_settings#:#Blog-Administration
-blog#:#blog_toggle_draft#:#Als Entwurf speichern
+blog#:#blog_toggle_draft#:#Veröffentlichung zurücknehmen
 blog#:#blog_toggle_final#:#Eintrag veröffentlichen
 book#:#book_add#:#Buchungspool anlegen
 book#:#book_add_object#:#Objekt hinzufügen
