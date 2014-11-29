@@ -27,7 +27,6 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		parent::ilBlockGUI();
 		
 		$this->setLimit(5);
-		$this->setImage(ilUtil::getImagePath("icon_note_s.png"));
 		$this->setTitle($lng->txt("notes"));
 		$this->setAvailableDetailLevels(3);
 	}
@@ -275,7 +274,6 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		$content_block->setContent($note_gui->getPDNoteHTML($_GET["note_id"]));
 		$content_block->setTitle($lng->txt("note"));
 		$content_block->setColSpan(2);
-		$content_block->setImage(ilUtil::getImagePath("icon_note.png"));
 		$content_block->addHeaderCommand($ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"),
 			$lng->txt("selected_items_back"));
 		

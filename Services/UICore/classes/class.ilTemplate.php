@@ -2048,9 +2048,10 @@ class ilTemplate extends ilTemplateX
 		}
 		
 		// upper icon
+		// deprecated
 		if ($this->upper_icon != "")
 		{
-			if ($this->upper_icon_frame != "")
+			/*if ($this->upper_icon_frame != "")
 			{
 				$this->setCurrentBlock("target_top");
 				$this->setVariable("TARGET_TOP", $this->upper_icon_frame);
@@ -2063,8 +2064,7 @@ class ilTemplate extends ilTemplateX
 	
 			$this->setCurrentBlock("top");
 			$this->setVariable("LINK_TOP", $this->upper_icon);
-			$this->setVariable("IMG_TOP",ilUtil::getImagePath("ic_top.png"));
-			$this->parseCurrentBlock();
+			$this->parseCurrentBlock();*/
 		}
 		
 		// tree/flat icon

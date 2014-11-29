@@ -437,22 +437,6 @@ if ($this->private_enabled && $this->public_enabled
 			? " (".count($all_notes).")"
 			: "";
 
-		if (!$this->export_html)
-		{
-			$tpl->setCurrentBlock("notes_img");
-			if ($a_type == IL_NOTE_PUBLIC)
-			{
-				$tpl->setVariable("IMG_NOTES", ilUtil::getImagePath("icon_comment.png"));
-				$tpl->setVariable("ALT_NOTES", $lng->txt("icon")." ".$lng->txt("notes_public_comments"));
-			}
-			else
-			{
-				$tpl->setVariable("IMG_NOTES", ilUtil::getImagePath("icon_note.png"));
-				$tpl->setVariable("ALT_NOTES", $lng->txt("icon")." ".$lng->txt("private_notes"));
-			}
-			$tpl->parseCurrentBlock();
-		}
-		
 		// title
 		if ($this->ajax)
 		{			
