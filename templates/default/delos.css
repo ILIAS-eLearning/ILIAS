@@ -6726,11 +6726,6 @@ td.nobackground {
   padding: 3px;
   vertical-align: top;
 }
-.tbltitle {
-  color: #222;
-  font-weight: bold;
-  background: #ededed url(images/TableHeader.png) repeat-x;
-}
 tr.tbltitle {
   border-bottom: 1px solid #9EADBA;
 }
@@ -9278,7 +9273,6 @@ div.ilMainMenuSearch {
   padding: 0 10px 3px;
   margin: 1px 0 2px -1px;
   line-height: 26px;
-  background: url(images/mm_back2.png) repeat-x;
 }
 input.ilMainMenuSearch {
   cursor: pointer;

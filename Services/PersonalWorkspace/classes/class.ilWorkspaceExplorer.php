@@ -56,8 +56,7 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 			$root_id = $a_tree->createReference($root->getId());
 			$a_tree->addTree($a_tree->getTreeId(), $root_id);
 			$a_tree->setRootId($root_id);
-		}		
-		
+		}
 		$this->tree = $a_tree;
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = 'title';
@@ -276,7 +275,7 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 		
 		// custom icons
 		$path = ilObject::_getIcon($a_obj_id, "small", "wsrt");
-		
+
 		$tpl->setCurrentBlock("icon");
 		$title = $this->tree->getNodeData($this->root_id);
 		$title = $title["title"];

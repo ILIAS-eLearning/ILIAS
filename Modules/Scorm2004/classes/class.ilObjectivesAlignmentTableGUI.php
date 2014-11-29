@@ -116,7 +116,7 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
 					$this->tpl->setVariable("TXT_QUESTION", $qtext);
 					$this->tpl->setVariable("TXT_QTYPE", $lng->txt($qtype));
 					$this->tpl->setVariable("IMG_QST",
-						ilUtil::getImagePath("comment_question.png"));
+						ilUtil::getImagePath("icon_tst.png"));
 					$this->tpl->parseCurrentBlock();
 				}
 

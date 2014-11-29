@@ -807,7 +807,7 @@ class ilLOEditorGUI
 
 		include_once('./Modules/Course/classes/class.ilCourseObjectivesTableGUI.php');
 		$table = new ilCourseObjectivesTableGUI($this,$this->getParentObject());
-		$table->setTitle($this->lng->txt('crs_objectives'),'icon_lobj.png',$this->lng->txt('crs_objectives'));
+		$table->setTitle($this->lng->txt('crs_objectives'),'',$this->lng->txt('crs_objectives'));
 		$table->parse(ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId(),false));
 		$GLOBALS['tpl']->setContent($table->getHTML());
 		
