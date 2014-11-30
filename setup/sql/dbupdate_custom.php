@@ -2275,3 +2275,19 @@ if(!$ilDB->tableExists('org_unit_personal'))
 		);	
 	}
 ?>
+
+<#68>
+<?php
+	if(!$ilDB->tableColumnExists('hist_user', "is_vfs")){
+		$ilDB->addTableColumn('hist_user', "is_vfs", array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+			)
+		);	
+	}
+
+?>
+
+

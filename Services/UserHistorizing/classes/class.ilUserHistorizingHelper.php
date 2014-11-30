@@ -266,4 +266,11 @@ class ilUserHistorizingHelper
 	}
  	
  
+	public static function isVFSOf($user){
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$user_utils = gevUserUtils::getInstanceByObjOrId($user);
+		return $user_utils->hasRoleIn(array('VFS'));
+	}
+
+
 }
