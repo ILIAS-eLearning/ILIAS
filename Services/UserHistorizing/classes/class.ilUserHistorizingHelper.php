@@ -67,7 +67,12 @@ class ilUserHistorizingHelper
 	 */
 	public static function getPositionKeyOf($user)
 	{
-		return gevUserUtils::getInstanceByObjOrId($user)->getAgentKey();
+		$agent_key = gevUserUtils::getInstanceByObjOrId($user)->getAgentKey();
+		if(trim($agent_key) == '' || $agent_key == '-empty-'){
+			return gevUserUtils::getInstanceByObjOrId($user)->getAgentKeyVFS();
+		} else {
+			return $agent_key;
+		}
 	}
 
 	/**

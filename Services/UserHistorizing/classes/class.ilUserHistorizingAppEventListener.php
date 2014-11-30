@@ -140,7 +140,7 @@ class ilUserHistorizingAppEventListener
 			'gender'						=> $parameter['user_obj']->getGender(),
 			'birthday'						=> $parameter['user_obj']->getBirthday(),
 			'org_unit'						=> self::$ilUserHistorizingHelper->getOrgUnitOf($parameter['user_obj']),
-			'position_key'					=> self::$ilUserHistorizingHelper->getPositionKeyOf($parameter['user_obj']),
+			//'position_key'					=> self::$ilUserHistorizingHelper->getPositionKeyOf($parameter['user_obj']),
 			'entry_date'					=> $entry_date,
 			'exit_date'						=> $exit_date,
 			'bwv_id'						=> self::$ilUserHistorizingHelper->getBWVIdOf($parameter['user_obj']),

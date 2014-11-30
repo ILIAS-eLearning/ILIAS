@@ -1038,6 +1038,23 @@ class gevUserUtils {
 	public function setAgentKey($a_key) {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_AGENT_KEY, $a_key);
 	}
+
+	public function getAgentKeyVFS() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_AGENT_KEY_VFS);
+	}
+	
+	public function setAgentKeyVFS($a_key) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_AGENT_KEY_VFS, $a_key);
+	}
+
+	public function getAgentPositionVFS() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_AGENT_POSITION_VFS);
+	}
+	
+	public function setAgentPositionVFS($a_key) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_AGENT_POSITION_VFS, $a_key);
+	}
+
 	
 	/*
 	public function getCompanyTitle() {
