@@ -1541,12 +1541,16 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// instant messengers
+		// gev-patch start
+		/*
 		if($this->isSettingChangeable('instant_messengers'))
 		{
 			$sec_im = new ilFormSectionHeaderGUI();
 			$sec_im->setTitle($this->lng->txt("instant_messengers"));
 			$this->form_gui->addItem($sec_im);
 		}
+		*/
+		// gev-patch end
 
 		// icq, yahoo, msn, aim, skype
 		$fields = array("icq", "yahoo", "msn", "aim", "skype", "jabber", "voip");

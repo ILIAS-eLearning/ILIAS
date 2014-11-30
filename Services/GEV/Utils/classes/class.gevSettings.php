@@ -184,6 +184,15 @@ class gevSettings {
 	const USR_UDF_AD_TITLE			= "usr_udf_ad_title";
 	// Vermittlerschlüssel
 	const USR_UDF_AGENT_KEY			= "usr_udf_agent_key";
+	
+
+	//Stellungsschlüssel VFS
+	const USR_UDF_AGENT_KEY_VFS		= "usr_udf_agent_key_vfs";
+	//Stellung VFS	
+	const USR_UDF_AGENT_POSITION_VFS= "usr_udf_agent_position_vfs";
+
+
+	
 	// Gesellschaftstitel
 	const USR_UDF_COMPANY_TITLE		= "usr_udf_company_title"; //deprecated
 
@@ -192,6 +201,7 @@ class gevSettings {
 	//Kostenstelle VFS
 	const USR_UDF_FINANCIAL_ACCOUNT	= "usr_udf_financial_account";
 	
+
 
 	
 	// private Kontaktdaten, für geschäftliche Kontaktdaten werden

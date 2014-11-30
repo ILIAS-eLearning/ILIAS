@@ -922,3 +922,5 @@ gev#:#wbd_service_type#:#Service-Typ
 gev#:#gev_report_wbd_edupoints#:#Gemeldete Bildungspunkte
 gev#:#gev_rep_wbd_edupoints#:#Gemeldete Bildungspunkte
 gev#:#gev_rep_wbd_edupoints_desc#:#Die folgenden Benutzer/Trainingsbeziehungen wurden an die WBD gemeldet.
+common#:#login_data#:#Accountinformationen
+common#:#contact_data#:#Kontaktinformationen geschäftlich
