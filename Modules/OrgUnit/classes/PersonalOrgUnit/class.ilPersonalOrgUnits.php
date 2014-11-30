@@ -334,16 +334,17 @@ class ilPersonalOrgUnits {
 	* @param obj user $a_superior
 	*
 	*/
-	public function updateOrgUnitTitleOf($a_superior){
+	public function updateOrgUnitTitleOf($a_superior, $supress_error=False){
 		$orgu = self::getPersonalOrguBySuperiorId($a_superior->getId());
-		self::errorIfNull($orgu, 'updateOrgUnitTitleOf', $a_superior_id);
-
-		$title = self::buildOrguTitleFromUser($a_superior);
-
-		$orgu->setTitle($title);
-		$orgu->update();
+		if(! $supress_error){
+			self::errorIfNull($orgu, 'updateOrgUnitTitleOf', $a_superior_id);
+		}
+		if($orgu){
+			$title = self::buildOrguTitleFromUser($a_superior);
+			$orgu->setTitle($title);
+			$orgu->update();
+		}
 	}
-
 
 }
 
