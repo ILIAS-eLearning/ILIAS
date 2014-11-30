@@ -622,7 +622,7 @@ class ilCalendarAppointmentGUI
 		$rec = ilCalendarRecurrences::_getRecurrences($this->getAppointment()->getEntryId());
 		if(!$rec)
 		{
-			return $this->edit();
+			return $this->edit(TRUE);
 		}
 		// Show edit single/all appointments
 		$this->ctrl->saveParameter($this,array('seed','app_id','dt','idate'));
@@ -1282,6 +1282,7 @@ class ilCalendarAppointmentGUI
 		switch($_POST['frequence'])
 		{
 			case 'NONE':
+			case '':
 				// No recurrence => delete if there is an recurrence rule
 				if($this->rec->getRecurrenceId())
 				{

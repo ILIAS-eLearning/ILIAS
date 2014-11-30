@@ -5167,3 +5167,11 @@ if($tgt_ops_id)
 }
 
 ?>
+
+<#4429>
+<?php
+
+$query = 'DELETE from cal_recurrence_rules WHERE cal_id IN ( select cal_id from cal_entries where is_milestone =  '.$ilDB->quote(1,'integer').')';
+$ilDB->manipulate($query);
+
+?>
