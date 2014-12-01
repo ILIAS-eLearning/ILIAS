@@ -661,7 +661,7 @@ class ilGlossaryPresentationGUI
 		}
 		else
 		{
-			$enlarge_path = "images/enlarge.png";
+			$enlarge_path = "images/enlarge.svg";
 			$wb_path = "";
 		}
 

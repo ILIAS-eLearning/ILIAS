@@ -27,7 +27,7 @@ class ilSystemStyleHTMLExport
 		$this->img_browser_dir = $a_exp_dir."/images/browser";
 		
 		// add standard images
-		$this->addImage("enlarge.png");
+		$this->addImage("enlarge.svg");
 		$this->addImage("browser/blank.png", "/browser/plus.png");
 		$this->addImage("browser/blank.png", "/browser/minus.png");
 		$this->addImage("browser/blank.png", "/browser/blank.png");

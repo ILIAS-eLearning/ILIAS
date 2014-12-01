@@ -2110,9 +2110,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->setParameter($this,'role_hide_'.$role_id,1);
 				$table_gui->addHeaderCommand(
 					$this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('hide') /*,
-					'',
-					ilUtil::getImagePath('edit_remove.png') */
+					$this->lng->txt('hide')
 				);
 				$this->ctrl->clearParameters($this);
 			}

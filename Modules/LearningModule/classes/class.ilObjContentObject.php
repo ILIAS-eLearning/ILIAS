@@ -2203,8 +2203,8 @@ class ilObjContentObject extends ilObject
 		$image_dir = $a_target_dir."/images";
 		ilUtil::makeDir($image_dir);
 		ilUtil::makeDir($image_dir."/browser");
-		copy(ilUtil::getImagePath("enlarge.png", false, "filesystem"),
-			$image_dir."/enlarge.png");
+		copy(ilUtil::getImagePath("enlarge.svg", false, "filesystem"),
+			$image_dir."/enlarge.svg");
 		copy(ilUtil::getImagePath("browser/blank.png", false, "filesystem"),
 			$image_dir."/browser/plus.png");
 		copy(ilUtil::getImagePath("browser/blank.png", false, "filesystem"),
