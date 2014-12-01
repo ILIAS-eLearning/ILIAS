@@ -3106,10 +3106,11 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 					ob_start();
 					$this->fillMetaExcel($worksheet, $row);
 					$this->fillHeaderExcel($worksheet, $row);
+					$row++; // #14813
 					foreach($this->row_data as $set)
 					{						
 						$this->fillRowExcel($worksheet, $row, $set);
-						$row++;
+						$row++; // #14760
 					}
 					ob_end_clean();
 
@@ -3185,8 +3186,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				$worksheet->write($a_row, $col, $title);
 				$col++;
 			}
-		}
-		$a_row++;
+		}		
 	}
 
 	/**
