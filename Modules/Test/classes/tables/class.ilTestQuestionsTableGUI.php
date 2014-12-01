@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
+require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 
 /**
 *
@@ -222,11 +223,11 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		{
 			if ($data["sequence"] != 1)
 			{
-				$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&up=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_up.png") . "\" alt=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
+				$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&up=".$data["question_id"]."\">" . ilGlyphGUI::get(ilGlyphGUI::UP, $this->lng->txt('up')) . "</a>");
 			}
 			if ($data["sequence"] != count($this->getData()))
 			{
-				$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&down=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_down.png") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
+				$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&down=".$data["question_id"]."\">" . ilGlyphGUI::get(ilGlyphGUI::DOWN, $this->lng->txt('down')) . "</a>");
 			}
 		}
 
