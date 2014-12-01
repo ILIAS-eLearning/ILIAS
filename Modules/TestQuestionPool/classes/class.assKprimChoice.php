@@ -1075,4 +1075,52 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		}
 		return $startrow + $i + 1;
 	}
+	
+	public function moveAnswerDown($position)
+	{
+		if( $position < 0 || $position >= (self::NUM_REQUIRED_ANSWERS - 1) )
+		{
+			return false;
+		}
+		
+		for($i = 0, $max = count($this->answers); $i < $max; $i++)
+		{
+			if( $i == $position )
+			{
+				$movingAnswer = $this->answers[$i];
+				$targetAnswer = $this->answers[ $i + 1 ];
+
+				$movingAnswer->setPosition( $position + 1 );
+				$targetAnswer->setPosition( $position );
+
+				$this->answers[ $i + 1 ] = $movingAnswer;
+				$this->answers[$i] = $targetAnswer;
+			}
+		}
+	}
+	
+	public function moveAnswerUp($position)
+	{
+		if( $position <= 0 || $position > (self::NUM_REQUIRED_ANSWERS - 1) )
+		{
+			return false;
+		}
+		
+		for($i = 0, $max = count($this->answers); $i < $max; $i++)
+		{
+			if( $i == $position )
+			{
+				$movingAnswer = $this->answers[$i];
+				$targetAnswer = $this->answers[ $i - 1 ];
+
+				$movingAnswer->setPosition( $position - 1 );
+				$targetAnswer->setPosition( $position );
+
+				$this->answers[ $i - 1 ] = $movingAnswer;
+				$this->answers[$i] = $targetAnswer;
+			}
+		}
+		
+		return true;
+	}
 }

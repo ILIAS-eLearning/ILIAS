@@ -76,13 +76,23 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
 	public function downkprim_answers()
 	{
-		// @todo: Björn sort
+		if( isset($_POST['cmd'][__FUNCTION__]) && count($_POST['cmd'][__FUNCTION__]) )
+		{
+			$this->object->moveAnswerDown( key($_POST['cmd'][__FUNCTION__]) );
+			$this->object->saveToDb();
+		}
+		
 		$this->editQuestion();
 	}
 
-	public function upwnkprim_answers()
+	public function upkprim_answers()
 	{
-		// @todo: Björn sort
+		if( isset($_POST['cmd'][__FUNCTION__]) && count($_POST['cmd'][__FUNCTION__]) )
+		{
+			$this->object->moveAnswerUp( key($_POST['cmd'][__FUNCTION__]) );
+			$this->object->saveToDb();
+		}
+
 		$this->editQuestion();
 	}
 
