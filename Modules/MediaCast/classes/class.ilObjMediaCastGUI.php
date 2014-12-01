@@ -229,20 +229,36 @@ class ilObjMediaCastGUI extends ilObjectGUI
         				    }
         				    $url = ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&"."ref_id=".$_GET["ref_id"]."&purpose=$purpose";
         				    $title = $lng->txt("news_feed_url");
-        				    $icon = ilUtil::getImagePath("rss_icon_".strtolower($purpose).".png");
-        				    $target = "_blank";
 
-							$row1 .= "<A href='$url' target='$target'><img src='$icon' alt='$title'/></A>";
+							include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
+							switch (strtolower($purpose))
+							{
+								case "audioportable":
+									$type1 = ilRSSButtonGUI::ICON_RSS_AUDIO;
+									$type2 = ilRSSButtonGUI::ICON_ITUNES_AUDIO;
+									break;
+
+								case "videoportable":
+									$type1 = ilRSSButtonGUI::ICON_RSS_VIDEO;
+									$type2 = ilRSSButtonGUI::ICON_ITUNES_VIDEO;
+									break;
+
+								default:
+									$type1 = ilRSSButtonGUI::ICON_RSS;
+									$type2 = ilRSSButtonGUI::ICON_ITUNES;
+									break;
+							}
+							$row1 .= "&nbsp;".ilRSSButtonGUI::get($type1, $url);
             				if ($this->object->getPublicFiles())
             				{
             				    $url = preg_replace("/https?/i","itpc",$url);
             				    $title = $lng->txt("news_feed_url");
-            				    $icon = ilUtil::getImagePath("itunes_icon.png");
-								$row2 .= "<A href='$url' target='$target'><img src='$icon' alt='$title'/></A>";
+
+								include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
+								$row2 .= "&nbsp;".ilRSSButtonGUI::get($type2, $url);
             				}
             				break;
-        				}        				
-        				
+        				}
     				}
 			    }
 			    if ($html != "")
@@ -250,7 +266,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 					$html .= $row1;
 				    if ($row2 != "")
 					{
-						$html .= "&nbsp;&nbsp;".$row2;
+						$html .= $row2;
 					}
 				}
 			}

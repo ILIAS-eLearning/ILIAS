@@ -300,8 +300,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		{
 			$tpl = new ilTemplate("tpl.show_priv_feed_url.html", true, true, "Services/News");				
 
-			// $tpl->setVariable("IMG_PRIV_RSS", ilUtil::getImagePath("privrss.png"));
-			$tpl->setVariable("TXT_PRIV_TITLE", $lng->txt("news_get_priv_feed_title"));			
+			$tpl->setVariable("TXT_PRIV_TITLE", $lng->txt("news_get_priv_feed_title"));
 			
 			// #14365
 			if($ilUser->_getFeedPass($_SESSION["AccountId"]))
@@ -462,7 +461,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$feed_form = new ilPropertyFormGUI();
 		$feed_form->setFormAction($ilCtrl->getFormaction($this));
 		$feed_form->setTitle($lng->txt("priv_feed_settings"));
-		$feed_form->setTitleIcon(ilUtil::getImagePath("privrss.png"));
 
 		$feed_form->setTableWidth("100%");
 

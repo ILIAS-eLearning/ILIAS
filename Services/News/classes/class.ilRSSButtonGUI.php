@@ -12,7 +12,12 @@
 class ilRSSButtonGUI
 {
 	const ICON_RSS = "rss";
+	const ICON_RSS_AUDIO = "rss audio";
+	const ICON_RSS_VIDEO = "rss video";
 	const ICON_ICAL = "ical";
+	const ICON_ITUNES = "itunes";
+	const ICON_ITUNES_AUDIO = "itunes audio";
+	const ICON_ITUNES_VIDEO = "itunes video";
 
 	/**
 	 * Get icon html
@@ -41,8 +46,28 @@ class ilRSSButtonGUI
 				$text = "RSS";
 				break;
 
+			case self::ICON_RSS_AUDIO:
+				$text = "RSS Audio";
+				break;
+
+			case self::ICON_RSS_VIDEO:
+				$text = "RSS Video";
+				break;
+
 			case self::ICON_ICAL:
 				$text = "iCal";
+				break;
+
+			case self::ICON_ITUNES:
+				$text = "iTunes";
+				break;
+
+			case self::ICON_ITUNES_AUDIO:
+				$text = "iTunes Audio";
+				break;
+
+			case self::ICON_ITUNES_VIDEO:
+				$text = "iTunes Video";
 				break;
 		}
 
