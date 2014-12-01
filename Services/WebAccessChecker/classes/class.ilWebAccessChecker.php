@@ -1120,6 +1120,8 @@ class ilWebAccessChecker
 		$tpl->parseCurrentBlock();
         $tpl->addBlockFile("CONTENT", "content", "tpl.error.html");
 
+		$lng->loadLanguageModule("error");
+
 		// Check if user is logged in
 		$anonymous = ($ilUser->getId() == ANONYMOUS_USER_ID);
 
@@ -1137,7 +1139,7 @@ class ilWebAccessChecker
 			// Provide a link to the repository for authentified users
 
 			$nd = $tree->getNodeData(ROOT_FOLDER_ID);
-			$txt = $nd['title'] == 'ILIAS' ? $lng->txt('repository') : $nd['title'];
+			$txt = $lng->txt('error_back_to_repository');
 
 			$tpl->SetCurrentBlock("ErrorLink");
 			$tpl->SetVariable("TXT_LINK", $txt);
@@ -1147,8 +1149,8 @@ class ilWebAccessChecker
 
 		$tpl->setCurrentBlock("content");
 		$tpl->setVariable("ERROR_MESSAGE",($this->errortext));
-		$tpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_failure.png"));
-		$tpl->parseCurrentBlock();
+		$tpl->setVariable("MESSAGE_HEADING", $lng->txt('error_sry_error'));
+		//$tpl->parseCurrentBlock();
 
 		$tpl->show();
 		exit;

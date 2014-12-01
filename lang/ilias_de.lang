@@ -15114,3 +15114,5 @@ survey#:#material_added_empty#:#Das Objekt enthält kein geeignetes Material.
 ecs#:#ecs_refresh_participants#:#ECS-Teilnehmer aktualisieren
 survey#:#survey_sure_delete_constraint#:#Wollen Sie wirklich die Verzweigungsregel "%1$s" der Frage "%2$s" löschen?
 survey#:#survey_constraint_deleted#:#Die Regel wurde gelöscht.
+error#:#error_back_to_repository#:#Zurück zum Magazin
+error#:#error_sry_error#:#Es ist leider ein Fehler aufgetreten.

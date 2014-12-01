@@ -15117,3 +15117,5 @@ survey#:#material_added_empty#:#The object does not have any suitable material.
 ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants
 survey#:#survey_sure_delete_constraint#:#Are you sure you want to delete the routing rule "%1$s" for the question "%2$s"?
 survey#:#survey_constraint_deleted#:#The routing rule has been deleted.
+error#:#error_back_to_repository#:#Back to Repository
+error#:#error_sry_error#:#Sorry, an error occured.

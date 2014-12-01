@@ -73,31 +73,6 @@ div.ilSetupContent
 	padding: 10px 20px;
 }
 
-div.ilSetupInfoMessage {
-	background-color: #ecf0f9;
-	margin: 8px 0px 8px 0px;
-	padding: 10px 45px;
-	min-height: 20px;
-	vertical-align: middle;
-	background-image: url('../../templates/default/images/mess_info.png');
-	background-repeat: no-repeat;
-	background-position: 5px 5px;
-	font-size: 90%;
-	clear:both;
-}
-
-div.ilSetupFailureMessage {
-	background-color: #fceaea;
-	margin: 8px 0px 8px 0px;
-	padding: 10px 45px;
-	min-height: 20px;
-	vertical-align: middle;
-	background-image: url('../../templates/default/images/mess_failure.png');
-	background-repeat: no-repeat;
-	background-position: 5px 5px;
-	font-size: 90%;
-	clear:both;
-}
 
 h1 {
 	font-weight: normal;
