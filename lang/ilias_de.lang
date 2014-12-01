@@ -15067,7 +15067,7 @@ crs#:#crs_loc_type_practise_info#:#Kursmitgliedern werden Lerninhalte zu sämtli
 assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Rule for Selection of Questions###07 11 2014 new variable
 rbac#:#bibs_copy#:#Literaturlisten kopieren
 crs#:#crs_loc_settings_reset_enable#:#Zurücksetzen der persönlichen Testergebnisse erlauben
-prtf#:#prtf_page_element_my_courses_info#:#Alle Kurse, die aktuell online sind.
+prtf#:#prtf_page_element_my_courses_info#:#Dies ist eine Liste aller Kurse, in denen ich Mitglied bin und die aktuell online sind.
 prtf#:#prtf_allow_my_courses#:#Seitenelement "Meine Kurse"
 prtf#:#prtf_allow_my_courses_info#:#Ermöglicht eine Liste der aktuellen Kursmitgliedschaften in ein Portfolio aufzunehmen.
 prtf#:#prtf_page_element_teaser_my_courses_inactive#:#Dieser Seitenelementtyp wurde deaktiviert.

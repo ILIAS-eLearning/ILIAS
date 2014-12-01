@@ -15070,7 +15070,7 @@ administration#:#language_remove_local_file_info#:#Remove the file Customizing/g
 crs#:#crs_loc_type_initial_all_info#:#Based on individual results of the placement test, ILIAS recommends learning content for the not-yet-sufficient learning objectives. The final achievement test assesses whether a test participant already mastered the learning objectives or if additional learning and training is needed.
 crs#:#crs_loc_type_qualified_info#:#The course starts with a test to assess if a course member already mastered the learning objectives. For all passed learning objectives, users do not have to work through any of the learning content or take more tests. For all not-yet-sufficient learning objectives, ILIAS recommends learning content. The mastery of the remaining learning objectives is tested in an additional test run. 
 crs#:#crs_loc_type_practise_info#:#Course members can use the full range of learning objectives and assigned learning content immediately. They can take the achievement testto assess whether they mastered the learning objectives already of if additional learning and training is needed.
-prtf#:#prtf_page_element_my_courses_info#:#All courses which are currently online.
+prtf#:#prtf_page_element_my_courses_info#:#This is a list of all my courses which are currently online and where I have a membership.
 prtf#:#prtf_allow_my_courses#:#Page Element "My Courses"
 prtf#:#prtf_allow_my_courses_info#:#Enables to include a list of current course memberships in a portfolio.
 prtf#:#prtf_page_element_teaser_my_courses_inactive#:#This type of page element has been deactivated.
