@@ -928,6 +928,30 @@ class ilSurveyParticipantsGUI
 		
 		$this->ctrl->redirect($this, 'importExternalMailRecipientsFromTextForm');
 	}
+	
+	// see ilBookmarkImportExport
+	protected function  _convertCharset($a_string, $a_from_charset="", $a_to_charset="UTF-8")
+	{
+		if(extension_loaded("mbstring"))
+		{
+			if(!$a_from_charset)
+			{
+				mb_detect_order("UTF-8, ISO-8859-1, Windows-1252, ASCII");
+				$a_from_charset = mb_detect_encoding($a_string);
+			}
+			if(strtoupper($a_from_charset) != $a_to_charset)
+			{
+				return @mb_convert_encoding($a_string, $a_to_charset, $a_from_charset);
+			}
+		}
+		return $a_string;
+	}
+	
+	protected function removeUTF8Bom($a_text)
+	{
+		$bom = pack('H*','EFBBBF');
+		return preg_replace('/^'.$bom.'/', '', $a_text);
+	}
 
 	public function importExternalRecipientsFromFileObject()
 	{
@@ -938,6 +962,10 @@ class ilSurveyParticipantsGUI
 			$reader->open($_FILES['externalmails']['tmp_name']);
 			$data = $reader->getDataArrayFromCSVFile();
 			$fields = array_shift($data);
+			foreach($fields as $idx => $field)
+			{
+				$fields[$idx] = $this->removeUTF8Bom($field);
+			}
 			if (!in_array('email', $fields))
 			{
 				$reader->close();
@@ -954,6 +982,9 @@ class ilSurveyParticipantsGUI
 					array_push($existingcolumns, $key);
 				}
 			}
+			
+			include_once "Services/Utilities/classes/class.ilStr.php";
+			
 			$founddata = array();
 			foreach ($data as $row)
 			{
@@ -962,6 +993,9 @@ class ilSurveyParticipantsGUI
 					$dataset = array();
 					foreach ($fields as $idx => $fieldname)
 					{
+						// #14811
+						$row[$idx] = $this->_convertCharset($row[$idx]);
+						
 						if (count($existingcolumns))
 						{
 							if (array_key_exists($idx, $existingcolumns))
