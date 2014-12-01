@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+
 /**
  * Class ilScoringAdjustmentGUI
  *
@@ -302,7 +304,7 @@ class ilScoringAdjustmentGUI
 		
 		$container = new ilTemplate('tpl.il_as_tst_adjust_answer_aggregation_container.html', true, true, 'Modules/Test');
 		$container->setVariable('FORM_ELEMENT_NAME', 'aggr_usr_answ');
-		$container->setVariable('IMG_SRC_CLOSE', ilUtil::getImagePath('icon_close2_s.png'));
+		$container->setVariable('CLOSE_HTML', json_encode(ilGlyphGUI::get(ilGlyphGUI::CLOSE, $this->lng->txt('close'))));
 		$container->setVariable('TXT_SHOW_ANSWER_OVERVIEW', $this->lng->txt('show_answer_overview'));
 		$container->setVariable('TXT_CLOSE', $this->lng->txt('close'));
 		$container->setVariable('ANSWER_OVERVIEW', $answers_view);

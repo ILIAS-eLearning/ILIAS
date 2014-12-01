@@ -66,8 +66,8 @@
 				$panel.insertAfter($("body"));
 
 				$content.appendTo($panel);
-
-				$closeBtn = $("<a href=\"#\">{TXT_CLOSE}<img src=\"{IMG_SRC_CLOSE}\" alt=\"{TXT_CLOSE}\" id=\"adjustment_stats_container_close_{FORM_ELEMENT_NAME}\" /></a>")
+				var closeHtml = {CLOSE_HTML};
+				$closeBtn = $("<a href=\"#\">{TXT_CLOSE}" + closeHtml + "</a>")
 						.css({
 							display: "block",
 							position: "absolute",
