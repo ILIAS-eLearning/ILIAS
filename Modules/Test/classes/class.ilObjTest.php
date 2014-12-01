@@ -6898,6 +6898,7 @@ function getAnswerFeedbackPoints()
 		$testQuestionSetConfigFactory->getQuestionSetConfig()->cloneQuestionSetRelatedData($newObj);
 
 		$newObj->saveToDb();
+		$newObj->updateMetaData();// #14467
 		return $newObj;
 	}
 
