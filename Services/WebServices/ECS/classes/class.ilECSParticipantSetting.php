@@ -31,6 +31,14 @@
 */
 class ilECSParticipantSetting
 {
+	const AUTH_VERSION_4 = 1;
+	const AUTH_VERSION_5 = 2;
+	
+	const PERSON_EPPN = 1;
+	const PERSON_LUID = 2;
+	const PERSON_LOGIN = 3;
+	const PERSON_UID = 4;
+
 	protected static $instances = array();
 
 
@@ -47,8 +55,12 @@ class ilECSParticipantSetting
 	private $import_type = 1;
 	private $title = '';
 	private $cname = '';
-	private $token = TRUE;
-	private $dtoken = TRUE;
+	private $token = true;
+	private $dtoken = true;
+	
+	private $auth_version = self::AUTH_VERSION_4;
+	private $person_type = self::PERSON_UID;
+	
 
 	private $export_types = array();
 	private $import_types = array();
@@ -159,7 +171,7 @@ class ilECSParticipantSetting
 	
 	public function isTokenEnabled()
 	{
-		return $this->token;
+		return (bool) $this->token;
 	}
 	
 	public function enableToken($a_stat)
@@ -184,7 +196,7 @@ class ilECSParticipantSetting
 	
 	public function isDeprecatedTokenEnabled()
 	{
-		return $this->dtoken;
+		return (bool) $this->dtoken;
 	}
 	
 	public function enableDeprecatedToken($a_stat)
