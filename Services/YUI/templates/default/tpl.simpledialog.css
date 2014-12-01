@@ -1,25 +1,25 @@
 .yui-simple-dialog .bd span.blckicon {
-	background: url("../../../../templates/default/images/messagebox_critical.png") no-repeat;
+	background: none;
 }
 
 .yui-simple-dialog .bd span.alrticon {
-	background: url("../../../../templates/default/images/messagebox_alert.png") no-repeat;
+	background: none;
 }
 
 .yui-simple-dialog .bd span.hlpicon {
-	background: url("../../../../templates/default/images/messagebox_help.png") no-repeat;
+	background: none;
 }
 
 .yui-simple-dialog .bd span.infoicon {
-	background: url("../../../../templates/default/images/messagebox_info.png") no-repeat;
+	background: none;
 }
 
 .yui-simple-dialog .bd span.warnicon {
-	background: url("../../../../templates/default/images/messagebox_warning.png") no-repeat;
+	background: none;
 }
 
 .yui-simple-dialog .bd span.tipicon {
-	background: url("../../../../templates/default/images/messagebox_tip.png") no-repeat;
+	background: none;
 }
 
 .yui-panel .container-close {
@@ -31,14 +31,12 @@
 	width:16px;
 	margin:0px;
 	padding:0px;
-	background: url("../../../../templates/default/images/icon_close2_s.gif") no-repeat;
 	cursor:pointer;
 	visibility:inherit;
 }
 
 .yui-panel .hd {
 	background-color:#3d77cb;
-	background: url("../../../../templates/default/images/TableHeaderBlue.gif") repeat-x;
 	color:black;
 	font-size:100%;
 	line-height:100%;

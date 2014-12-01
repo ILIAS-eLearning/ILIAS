@@ -176,7 +176,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		if ($this->getWriteAccess() && !$this->getTotal() && $data["obj_fi"] > 0) 
 		{
                         if (!$data['complete']) {
-                            $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.png"));
+                            $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("icon_alert.svg"));
                             $this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
                             $this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
                         }
