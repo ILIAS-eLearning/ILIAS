@@ -3104,9 +3104,16 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 					$row = 0;
 					
 					ob_start();
-					$this->fillMetaExcel($worksheet, $row);
-					$this->fillHeaderExcel($worksheet, $row);
-					$row++; // #14813
+					$this->fillMetaExcel($worksheet, $row); // row must be increment in fillMetaExcel()! (optional method)
+					
+					// #14813
+					$pre = $row;
+					$this->fillHeaderExcel($worksheet, $row); // row should NOT be incremented in fillHeaderExcel()! (required method)
+					if($pre == $row)
+					{
+						$row++; 
+					}
+					
 					foreach($this->row_data as $set)
 					{						
 						$this->fillRowExcel($worksheet, $row, $set);
@@ -3169,7 +3176,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	}
 
 	/**
-	 * Excel Version of Fill Row. Likely to
+	 * Excel Version of Fill Header. Likely to
 	 * be overwritten by derived class.
 	 *
 	 * @param	object	$a_worksheet	current sheet
