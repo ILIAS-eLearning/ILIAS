@@ -633,17 +633,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		
 		if ($this->object->getJavaScriptOutput())
 		{
-			$this->tpl->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript_disable.png"));
-			$this->tpl->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("disable_javascript"));
-			$this->tpl->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("disable_javascript"));
+			$this->tpl->setVariable("JAVASCRIPT_TITLE", $this->lng->txt("disable_javascript"));
 			$this->ctrl->setParameter($this, "tst_javascript", "0");
 			$this->tpl->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTarget($this, "gotoQuestion"));
 		}
 		else
 		{
-			$this->tpl->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript.png"));
-			$this->tpl->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("enable_javascript"));
-			$this->tpl->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("enable_javascript"));
+			$this->tpl->setVariable("JAVASCRIPT_TITLE", $this->lng->txt("enable_javascript"));
 			$this->ctrl->setParameter($this, "tst_javascript", "1");
 			$this->tpl->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTarget($this, "gotoQuestion"));
 		}
