@@ -1025,9 +1025,6 @@ class ilMainMenuGUI
 			$acc->addJavascript();
 			$acc->addCss();
 
-			//$this->tpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_help.png"));
-			//$this->tpl->parseCurrentBlock();
-			
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 			ilTooltipGUI::addTooltip("help_tr", $lng->txt("help_open_online_help"), "",
 				"bottom center", "top center", false);

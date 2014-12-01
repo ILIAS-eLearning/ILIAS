@@ -1651,8 +1651,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			case 'create':
 				$this->form->setTitle($this->lng->txt('event_table_create'));
-				$this->form->setTitleIcon(ilUtil::getImagePath('icon_event.png'));
-		
+
 				$this->form->addCommandButton('save',$this->lng->txt('event_btn_add'));
 				$this->form->addCommandButton('saveAndAssignMaterials',$this->lng->txt('event_btn_add_edit'));
 				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
@@ -1661,8 +1660,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			
 			case 'edit':
 				$this->form->setTitle($this->lng->txt('event_table_update'));
-				$this->form->setTitleIcon(ilUtil::getImagePath('icon_event.png'));
-			
+
 				$this->form->addCommandButton('update',$this->lng->txt('save'));
 				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 				

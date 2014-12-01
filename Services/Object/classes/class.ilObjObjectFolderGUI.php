@@ -117,7 +117,6 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 
 		// title & header columns
 		$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType()."_b.png",$this->lng->txt("obj_".$this->object->getType()));
-		$tbl->setHelp("tbl_help.php","icon_help.png",$this->lng->txt("help"));
 
 		foreach ($this->data["cols"] as $val)
 		{

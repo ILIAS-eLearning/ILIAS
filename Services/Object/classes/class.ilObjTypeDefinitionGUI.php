@@ -113,8 +113,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("obj_".$this->object->getType())." '".$this->object->getTitle()."'","icon_".$this->object->getType()."_b.png",$this->lng->txt("obj_".$this->object->getType()));
-		$tbl->setHelp("tbl_help.php","icon_help.png",$this->lng->txt("help"));
-		
+
 		foreach ($this->data["cols"] as $val)
 		{
 			$header_names[] = $this->lng->txt($val);
@@ -326,8 +325,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("edit_operations")." ".strtolower($this->lng->txt("of"))." '".$this->object->getTitle()."'","icon_".$this->object->getType()."_b.png",$this->lng->txt("obj_".$this->object->getType()));
-		$tbl->setHelp("tbl_help.php","icon_help.png",$this->lng->txt("help"));
-		
+
 		foreach ($this->data["cols"] as $val)
 		{
 			$header_names[] = $this->lng->txt($val);
