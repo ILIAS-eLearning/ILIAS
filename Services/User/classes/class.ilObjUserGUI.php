@@ -1629,7 +1629,6 @@ class ilObjUserGUI extends ilObjectGUI
 		foreach($all_defs as $field_id => $definition){
 			$fname=$definition['field_name'];
 			$index = array_search($fname, $field_order);
-			print $fname .' ' .$index .'<br>';
 			if($index !== false){
 				$ordered_defs[$index] = $definition;
 			} else {
