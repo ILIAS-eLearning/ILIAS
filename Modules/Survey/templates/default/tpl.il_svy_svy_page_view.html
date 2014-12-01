@@ -22,7 +22,7 @@
 		<!-- BEGIN multi_cmds -->
 		<img border="0" alt="{MCMD_ALT}" src="{MCMD_IMG}" />
 		<!-- BEGIN multi_cmd -->
-		<input class="submit" type="SUBMIT" name="cmd[{ORG_CMD_MULTI}]" value="{MULTI_CMD_TXT}" onClick="return ilEditMultiAction('{ORG_CMD_MULTI}', '{MULTI_CMD}');" />
+		<input class="btn btn-default" type="submit" name="cmd[{ORG_CMD_MULTI}]" value="{MULTI_CMD_TXT}" onClick="return ilEditMultiAction('{ORG_CMD_MULTI}', '{MULTI_CMD}');" />
 		<!-- END multi_cmd -->
 		<!-- END multi_cmds -->
 	</td>
@@ -33,9 +33,21 @@
 
 <div style="margin-top: 10px;">
 <!-- BEGIN help_section -->
-<div>
-<!-- BEGIN help_img --><img alt="{ALT_HELP}" title="{ALT_HELP}" src="{IMG_HELP}" /><!-- END help_img -->
-<span class="subtitle">{TXT_HELP}</span>
+<div id="ilPageEditLegend">
+	<div>
+		<div class="il_droparea">{PLUS}</div>
+		<span class="subtitle">{TXT_ADD_EL}</span>
+	</div>
+	<div>
+		<div class="ilPageEditLegendElement">&nbsp;</div>
+		{DRAG_ARROW}
+		<div class="il_droparea">{PLUS}</div>
+		<span class="subtitle">{TXT_DRAG}</span>
+	</div>
+	<div>
+		<div class="ilPageEditLegendElement">&nbsp;</div>
+		<span class="subtitle">{TXT_SEL}</span>
+	</div>
 </div>
 <!-- END help_section -->
 </div>

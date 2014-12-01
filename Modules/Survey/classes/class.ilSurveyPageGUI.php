@@ -1422,28 +1422,15 @@ class ilSurveyPageGUI
 					$multi_commands[] = array("cmd"=>"clearClipboard", "text"=>$lng->txt("survey_dnd_clear_clipboard"));
 				}
 
-				// help
-				$ttpl->setCurrentBlock("help_img");
-				$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("streaked_area.png"));
-				$ttpl->parseCurrentBlock();
+				// help - see ilPageObjectGUI::insertHelp()						
+				$lng->loadLanguageModule("content");							
 				$ttpl->setCurrentBlock("help_section");
-				$ttpl->setVariable("TXT_HELP",	$lng->txt("form_hierarchy_add_elements"));
-				$ttpl->parseCurrentBlock();
-
-				$ttpl->setCurrentBlock("help_img");
-				$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_cont_el_s.png"));
-				$ttpl->parseCurrentBlock();
-				$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("drop_streaked_area.png"));
-				$ttpl->parseCurrentBlock();
-				$ttpl->setCurrentBlock("help_section");
-				$ttpl->setVariable("TXT_HELP",	$lng->txt("form_hierarchy_drag_drop_help"));
-				$ttpl->parseCurrentBlock();
-
-				$ttpl->setCurrentBlock("help_img");
-				$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_cont_el_s.png"));
-				$ttpl->parseCurrentBlock();
-				$ttpl->setCurrentBlock("help_section");
-				$ttpl->setVariable("TXT_HELP",	$lng->txt("survey_dnd_double_click_to_delete"));
+				$ttpl->setVariable("TXT_ADD_EL", $lng->txt("cont_add_elements"));
+				include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+				$ttpl->setVariable("PLUS", ilGlyphGUI::get(ilGlyphGUI::ADD));
+				$ttpl->setVariable("DRAG_ARROW", ilGlyphGUI::get(ilGlyphGUI::DRAG));
+				$ttpl->setVariable("TXT_DRAG", $lng->txt("cont_drag_and_drop_elements"));
+				$ttpl->setVariable("TXT_SEL", $lng->txt("cont_double_click_to_delete"));
 				$ttpl->parseCurrentBlock();
 
 				$ttpl->setVariable("DND_INIT_JS", "initDragElements();");
