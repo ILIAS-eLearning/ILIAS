@@ -247,6 +247,42 @@ class gevSettings {
 
 
 
+	static $UDF_FIELD_ORDER = array(
+		'Emailadresse (privat)'
+		,'Geburtsname'
+		,'Geburtsort'
+		,'Straße (privat)'
+		,'Postleitzahl (privat)'
+		,'Ort (privat)'
+
+		,'ADP-Nummer VFS'
+		,'ADP-Nummer GEV'
+		
+		,'Vermittlernummer GEV'
+		,'Vermittlerschlüssel GEV'
+
+		,'Stellungsschlüssel VFS'
+		,'Stellung VFS'
+				
+		,'Paisy-Personalnummer VFS'
+		,'Kostenstelle VFS'
+		
+		,'AD-Titel'
+		,'Eintrittsdatum'
+		,'Austrittsdatum'
+		,'IHK Registernummer'
+		
+		,'Hat WBD-Registrierung durchgeführt'
+		,'TP-Typ'
+		,'Zuweisung WBD OKZ'
+		,'Zuweisung WBD Vermittlerstatus'
+		,'BWV-ID'
+		,'Beginn erste Zertifizierungsperiode'
+		,'Email WBD'
+		
+	);
+
+
 	// Role mapping
 	static $VMS_ROLE_MAPPING = array(
 		601 => array("DBV/VL-EVG",       "DBV"),
