@@ -2065,12 +2065,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				}			
 				$url = ILIAS_HTTP_PATH."/feed.php?blog_id=".$blog_id.
 					"&client_id=".rawurlencode(CLIENT_ID);
-				
-				include_once "Services/UIComponent/Button/classes/class.ilImageLinkButton.php";
-				$button = ilImageLinkButton::getInstance();
-				$button->setImage("rss.png");
-				$button->setUrl($url);
-				$wtpl->setVariable("RSS_BUTTON", $button->render());
+
+				include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
+				$wtpl->setVariable("RSS_BUTTON", ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_RSS, $url));
 			}
 		}
 		

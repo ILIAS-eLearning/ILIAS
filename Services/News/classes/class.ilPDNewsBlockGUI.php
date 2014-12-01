@@ -233,9 +233,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		// show feed url
 		if ($enable_internal_rss)
 		{
+			include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
 			$this->addBlockCommand(
 				$ilCtrl->getLinkTarget($this, "showFeedUrl"),
-				$lng->txt("news_get_feed_url"), "", ilUtil::getImagePath("rss.png"), true);
+				$lng->txt("news_get_feed_url"), "", "", true, false, ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_RSS));
 		}
 
 		if ($allow_shorter_periods || $allow_longer_periods || $enable_private_feed)

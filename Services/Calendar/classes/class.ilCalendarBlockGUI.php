@@ -490,12 +490,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		if($this->mode == ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS or
 			$this->mode == ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP)
 		{
+			include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
 			$this->addBlockCommand(
 				$this->ctrl->getLinkTarget($this,'showCalendarSubscription'),
 				$lng->txt('ical_export'),
-				'',
-				ilUtil::getImagePath('ical.png'),
-				true
+				"", "", true, false, ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_ICAL)
 			);
 		}
 		

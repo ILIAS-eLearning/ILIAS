@@ -265,11 +265,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			if ($enable_internal_rss)
 			{
+				include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
 				$this->addBlockCommand(
 					ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&".
 						"ref_id=".$_GET["ref_id"],
-						$lng->txt("news_feed_url"), "_blank",
-						ilUtil::getImagePath("rss.png"));
+						$lng->txt("news_feed_url"), "", "", true, false, ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_RSS));
+
 			}
 		}
 

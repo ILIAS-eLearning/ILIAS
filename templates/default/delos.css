@@ -10476,6 +10476,19 @@ img.ilRatingIcon {
   margin: 4px 0 0 25px;
   font-size: 12px;
 }
+span.ilNewsRssIcon {
+  background-color: #ea6705;
+  color: #ffffff;
+  min-width: 36px;
+  font-size: 10px;
+  text-align: center;
+  display: inline-block;
+  padding: 0px 5px;
+}
+span.ilNewsRssIcon:hover {
+  text-decoration: none;
+  background-color: #b85104;
+}
 .noMargin {
   margin: 0;
 }

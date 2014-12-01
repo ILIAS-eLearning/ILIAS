@@ -544,12 +544,12 @@ abstract class ilBlockGUI
 	* @param	string	$a_text		text
 	*/
 	function addBlockCommand($a_href, $a_text, $a_target = "", $a_img = "", $a_right_aligned = false,
-		$a_checked = false)
+		$a_checked = false, $a_html = "")
 	{
 		return $this->block_commands[] = 
 			array("href" => $a_href,
 				"text" => $a_text, "target" => $a_target, "img" => $a_img,
-				"right" => $a_right_aligned, "checked" => $a_checked);
+				"right" => $a_right_aligned, "checked" => $a_checked, "html" => $a_html);
 	}
 
 	/**
@@ -769,7 +769,7 @@ abstract class ilBlockGUI
 			
 			foreach($this->getBlockCommands() as $command)
 			{
-				if(!$command["img"])
+				if(!$command["img"] && !$command["html"])
 				{
 					$this->dropdown[] = $command;
 					continue;
@@ -783,12 +783,19 @@ abstract class ilBlockGUI
 					$this->tpl->setVariable("CMD_TARGET", $command["target"]);
 					$this->tpl->parseCurrentBlock();
 				}
-					
+
 				if ($command["img"] != "")
 				{
 					$this->tpl->setCurrentBlock("bc_image");
 					$this->tpl->setVariable("SRC_BC", $command["img"]);
 					$this->tpl->setVariable("ALT_BC", $command["text"]);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("block_command");
+				}
+				else if ($command["html"] != "")
+				{
+					$this->tpl->setCurrentBlock("bc_html");
+					$this->tpl->setVariable("HTML", $command["html"]);
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("block_command");
 				}

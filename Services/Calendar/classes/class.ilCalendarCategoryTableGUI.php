@@ -131,7 +131,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		}
 
 		// Subscription link
-		$this->tpl->setVariable('SUB_SRC',ilUtil::getImagePath('ical.png'));
+		$this->tpl->setVariable('SUB_SRC',ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_ICAL));
 		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','seed',$this->seed->get(IL_CAL_DATE));
 		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','cal_id',$a_set['id']);
 		$this->tpl->setVariable('SUB_LINK',$this->ctrl->getLinkTargetByClass(array('ilcalendarpresentationgui','ilcalendarsubscriptiongui')));

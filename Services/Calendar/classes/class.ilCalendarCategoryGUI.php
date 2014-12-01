@@ -298,10 +298,11 @@ class ilCalendarCategoryGUI
 		}
 
 		// Ical link
+		include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
 		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','cal_id',(int) $_GET['category_id']);
 		$info->addProperty(
 			$this->lng->txt('cal_ical_infoscreen'),
-			'<img src="'.ilUtil::getImagePath('ical.png').'" />',
+			ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_ICAL),
 			$this->ctrl->getLinkTargetByClass(array('ilcalendarpresentationgui','ilcalendarsubscriptiongui'))
 		);
 
