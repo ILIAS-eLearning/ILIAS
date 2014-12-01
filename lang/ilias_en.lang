@@ -15115,3 +15115,5 @@ survey#:#survey_results_anonymized#:#Without Names
 survey#:#survey_results_anonymized_info#:#The answers of participants to the survey are shown in the Results Tabs but no names are provided. Other participants that have access to these tabs cannot attribute answers to partcipants.
 survey#:#material_added_empty#:#The object does not have any suitable material.
 ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants
+survey#:#survey_sure_delete_constraint#:#Are you sure you want to delete the routing rule "%1$s" for the question "%2$s"?
+survey#:#survey_constraint_deleted#:#The routing rule has been deleted.

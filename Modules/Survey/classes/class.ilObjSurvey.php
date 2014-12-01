@@ -2630,7 +2630,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$result_array = array();
-		$result = $ilDB->queryF("SELECT svy_constraint.*, svy_relation.* FROM svy_qst_constraint, svy_constraint, ".
+		$result = $ilDB->queryF("SELECT svy_constraint.*, svy_relation.*, svy_qst_constraint.question_fi ref_question_fi FROM svy_qst_constraint, svy_constraint, ".
 			"svy_relation WHERE svy_constraint.relation_fi = svy_relation.relation_id AND ".
 			"svy_qst_constraint.constraint_fi = svy_constraint.constraint_id AND svy_constraint.constraint_id = %s",
 			array('integer'),

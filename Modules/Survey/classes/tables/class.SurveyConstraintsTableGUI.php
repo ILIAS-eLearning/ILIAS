@@ -193,7 +193,7 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
 					$this->tpl->setVariable("EDIT_PRECONDITION", $url);
 										
 					$ilCtrl->setParameter($this->getParentObject(), "precondition", $constraint["id"]);					
-					$url = $ilCtrl->getLinkTarget($this->getParentObject(), "deleteConstraints");
+					$url = $ilCtrl->getLinkTarget($this->getParentObject(), "confirmDeleteConstraints");
 					$ilCtrl->setParameter($this->getParentObject(), "precondition", "");						
 					$this->tpl->setVariable("TEXT_DELETE_PRECONDITION", $lng->txt("delete"));		
 					$this->tpl->setVariable("DELETE_PRECONDITION", $url);					

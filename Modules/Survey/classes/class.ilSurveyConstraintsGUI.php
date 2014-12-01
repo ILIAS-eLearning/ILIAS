@@ -82,7 +82,7 @@ class ilSurveyConstraintsGUI
 	* Add a precondition for a survey question or question block
 	*/
 	public function constraintsAddObject()
-	{
+	{				
 		if (strlen($_POST["v"]) == 0)
 		{
 			ilUtil::sendFailure($this->lng->txt("msg_enter_value_for_valid_constraint"));
@@ -122,7 +122,7 @@ class ilSurveyConstraintsGUI
 	* Handles the first step of the precondition add action
 	*/
 	public function constraintStep1Object()
-	{
+	{				
 		$survey_questions =& $this->object->getSurveyQuestions();
 		$structure =& $_SESSION["constraintstructure"];
 		$start = $_GET["start"];
@@ -169,7 +169,12 @@ class ilSurveyConstraintsGUI
 		$survey_questions =& $this->object->getSurveyQuestions();
 		$option_questions = array();
 		if (strlen($_GET["precondition"]))
-		{
+		{	
+			if(!$this->validateConstraintForEdit($_GET["precondition"]))
+			{
+				$this->ctrl->redirect($this, "constraints");
+			}
+			
 			$pc = $this->object->getPrecondition($_GET["precondition"]);
 			$postvalues = array(
 				"c" => $pc["conjunction"],
@@ -291,6 +296,68 @@ class ilSurveyConstraintsGUI
 
 		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
+	
+	/**
+	 * Validate if given constraint id is part of current survey and there are sufficient permissions to edit+
+	 * 
+	 * @param int $a_id
+	 * @return bool
+	 */
+	protected function validateConstraintForEdit($a_id)
+	{
+		global $ilAccess;
+		
+		if($this->object->_hasDatasets($this->object->getSurveyId()))
+		{
+			return false;
+		}
+		if(!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			return false;
+		}
+		
+		return true;
+	}	
+	
+	/**
+	 * Delete constraint confirmation
+	 */
+	public function confirmDeleteConstraintsObject()
+	{
+		$id = (int)$_REQUEST["precondition"];
+		if(!$this->validateConstraintForEdit($id))	
+		{	
+			$this->ctrl->redirect($this, "constraints");
+		}
+		
+		$constraint = $this->object->getPrecondition($id);
+		$questions = $this->object->getSurveyQuestions();
+		$question = $questions[$constraint["question_fi"]];
+		$relation = $questions[$constraint["ref_question_fi"]];	
+		$relation = $relation["title"];
+		
+		// see ilSurveyConstraintsTableGUI
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+		$question_type = SurveyQuestion::_getQuestionType($constraint["question_fi"]);
+		SurveyQuestion::_includeClass($question_type);
+		$question_obj = new $question_type();
+		$question_obj->loadFromDb($constraint["question_fi"]);
+		$valueoutput = $question_obj->getPreconditionValueOutput($constraint["value"]);
+		
+		$title = $question["title"]." ".$constraint["shortname"]." ".$valueoutput;
+		
+		$this->ctrl->saveParameter($this, "precondition");
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText(sprintf($this->lng->txt("survey_sure_delete_constraint"), $title, $relation));
+
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "deleteConstraints"));
+		$cgui->setCancel($this->lng->txt("cancel"), "constraints");
+		$cgui->setConfirm($this->lng->txt("confirm"), "deleteConstraints");
+		
+		$this->tpl->setContent($cgui->getHTML());
+	}
 
 	/**
 	* Delete constraints of a survey
@@ -298,8 +365,9 @@ class ilSurveyConstraintsGUI
 	public function deleteConstraintsObject()
 	{
 		$id = (int)$_REQUEST["precondition"];
-		if($id)	
+		if($this->validateConstraintForEdit($id))	
 		{		
+			ilUtil::sendSuccess($this->lng->txt("survey_constraint_deleted", true));
 			$this->object->deleteConstraint($id);			
 		}
 
@@ -325,6 +393,11 @@ class ilSurveyConstraintsGUI
 	
 	function editPreconditionObject()
 	{
+		if(!$this->validateConstraintForEdit($_GET["precondition"]))	
+		{
+			$this->ctrl->redirect($this, "constraints");
+		}
+		
 		$_SESSION["includeElements"] = array($_GET["start"]);
 		$this->ctrl->setParameter($this, "precondition", $_GET["precondition"]);
 		$this->ctrl->setParameter($this, "start", $_GET["start"]);
