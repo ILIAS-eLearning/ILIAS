@@ -1808,6 +1808,34 @@ class gevCourseUtils {
 		}
 		return self::$hist_participation_status;
 	}
+
+
+
+
+
+	public function searchCourses($a_search_options, $a_offset, 
+								$a_limit, $a_order = "title", 
+								$a_direction = "desc") {
+
+
+		if ($a_order == "") {
+			$a_order = "title";
+		}
+
+		if ($a_direction !== "asc" && $a_direction !== "desc") {
+			throw new Exception("gevUserUtils::getPotentiallyBookableCourseInformation: unknown direction '".$a_direction."'");
+		}
+		
+		/*if (!in_array($a_order, array("title", "start_date", "end_date", "booking_date", "location"
+									 , "points", "fee", "target_group", "goals", "content", "type"))) 
+		{
+			throw new Exception("gevUserUtils::getPotentiallyBookableCourseInformation: unknown order '".$a_order."'");
+		}
+		*/
+
+
+	}
+
 }
 
 ?>

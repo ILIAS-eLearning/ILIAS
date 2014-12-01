@@ -10,6 +10,7 @@
 *
 * @ilCtrl_Calls gevDesktopGUI: gevMyCoursesGUI
 * @ilCtrl_Calls gevDesktopGUI: gevCourseSearchGUI
+* @ilCtrl_Calls gevDesktopGUI: ilAdminSearchGUI
 * @ilCtrl_Calls gevDesktopGUI: gevBookingGUI
 * @ilCtrl_Calls gevDesktopGUI: gevStaticpagesGUI
 * @ilCtrl_Calls gevDesktopGUI: gevEduBiographyGUI
@@ -65,6 +66,13 @@ class gevDesktopGUI {
 				$gui = new gevCourseSearchGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
+			case "iladminsearchgui":
+				$ilMainMenu->setActive("gev_admin_menu");
+				require_once("Services/GEV/Desktop/classes/class.ilAdminSearchGUI.php");
+				$gui = new ilAdminSearchGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+
 			case "gevbookinggui":
 				require_once("Services/GEV/Desktop/classes/class.gevBookingGUI.php");
 				$gui = new gevBookingGUI();
@@ -152,6 +160,7 @@ class gevDesktopGUI {
 	public function dispatchCmd($a_cmd) {
 		switch($a_cmd) {
 			case "toCourseSearch":
+			case "toAdmCourseSearch":
 			case "toMyCourses":
 			case "toMyProfile":
 			case "toStaticPages":
@@ -170,6 +179,10 @@ class gevDesktopGUI {
 	
 	protected function toCourseSearch() {
 		$this->ctrl->redirectByClass("gevCourseSearchGUI");
+	}
+	
+	protected function toAdmCourseSearch() {
+		$this->ctrl->redirectByClass("ilAdminSearchGUI");
 	}
 	
 	protected function toMyCourses() {

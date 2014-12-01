@@ -51,7 +51,7 @@ class gevDBVUtils {
 	*
 	*/
 	public function assignDBVsOfOrgUnit($a_gev_org_unit_id, $a_user_id){
-
+		die('NOT IMPLEMENTED gevDBVUtils::assignDBVsOfOrgUnit');
 	}
 
 

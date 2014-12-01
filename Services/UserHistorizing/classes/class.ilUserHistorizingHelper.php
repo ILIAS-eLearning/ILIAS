@@ -237,12 +237,13 @@ class ilUserHistorizingHelper
 		$user_utils = gevUserUtils::getInstanceByObjOrId($user);
 		$tree = ilObjOrgUnitTree::_getInstance();
 
-		$orgu_1_id = $user_utils->getOrgUnitId(); // first level above
+		$orgu_0_id = $user_utils->getOrgUnitId(); // first level
 
-		if(! $orgu_1_id){
+		if(! $orgu_0_id){
 			return array(null, null);
 		}
-		$orgu_1_refid = gevObjectUtils::getRefId($orgu_1_id);
+		$orgu_0_refid = gevObjectUtils::getRefId($orgu_0_id);
+		$orgu_1_refid = $tree->getParent($orgu_0_refid);
 		$orgu_2_refid = $tree->getParent($orgu_1_refid);
 
 		$titles = $tree->getTitles(array($orgu_1_refid, $orgu_2_refid));

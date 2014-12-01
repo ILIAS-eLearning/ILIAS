@@ -151,6 +151,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				), $this->lng->txt("gev_reporting_menu"))
 			, "gev_admin_menu" => array(false, $has_managment_menu, array(
 				  "gev_course_mgmt" => array($manage_courses, "goto.php?target=root_1",$this->lng->txt("gev_course_mgmt"))
+				//, "gev_course_mgmt_search" => array($manage_courses, "ilias.php?baseClass=gevDesktopGUI&cmd=toAdmCourseSearch",$this->lng->txt("gev_course_search_adm"))
 				, "gev_user_mgmt" => array($manage_users, "ilias.php?baseClass=ilAdministrationGUI&ref_id=7&cmd=jump",$this->lng->txt("gev_user_mgmt"))
 				, "gev_org_mgmt" => array($manage_org_units, "ilias.php?baseClass=ilAdministrationGUI&ref_id=56&cmd=jump",$this->lng->txt("gev_org_mgmt"))
 				, "gev_mail_mgmt" => array($manage_mails, "ilias.php?baseClass=ilAdministrationGUI&ref_id=12&cmd=jump",$this->lng->txt("gev_mail_mgmt"))
