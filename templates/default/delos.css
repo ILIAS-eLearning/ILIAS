@@ -8317,6 +8317,16 @@ a.nostyle:hover {
   padding: 1px 5px;
   text-align: center;
 }
+.ilCOPGMediaDisabled {
+  padding: 5px;
+  font-size: 0px;
+  line-height: 100%;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  background-color: #3b5620;
+  color: white;
+}
 /* Services/Calendar */
 td.even {
   color: #222;

@@ -2751,6 +2751,15 @@ function removeToolbar () {
 	}
 }
 
+// dynamically set "media disabled" text size
+il.Util.addOnLoad(function() { $(".ilCOPGMediaDisabled").each(function () {
+	var t = $(this),
+		max = (t.height() > 50)
+			? 50
+			: 18;
+	t.css('font-size', Math.max(Math.min(t.width() / 5, max), 10) + "px");
+})});
+
 
 //il.Util.addOnLoad(function(){ilCOPage.editTD('cell_0_0');});
 

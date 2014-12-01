@@ -2529,15 +2529,10 @@
 	<xsl:variable name="httpprefix"><xsl:if test="$mode = 'offline'">http:</xsl:if></xsl:variable>
 	<xsl:choose>
 		<xsl:when test="$media_mode = 'disable'">
-			<img border="0">
-				<xsl:if test="$width != ''">
-				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				</xsl:if>
-				<xsl:if test="$height != ''">
-				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-				</xsl:if>
-				<xsl:attribute name="src"><xsl:value-of select="$med_disabled_path"/></xsl:attribute>
-			</img>
+			<div class="ilCOPGMediaDisabled">
+				<xsl:attribute name="style">width:<xsl:value-of select="$width"/>px; height:<xsl:value-of select="$height"/>px;</xsl:attribute>
+				Media Disabled
+			</div>
 		</xsl:when>
 
 		<!-- all image mime types, except svg -->

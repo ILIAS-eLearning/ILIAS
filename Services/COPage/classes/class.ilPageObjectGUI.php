@@ -1587,7 +1587,6 @@ return;
 		$col_path = ilUtil::getImagePath("col.png");
 		$row_path = ilUtil::getImagePath("row.png");
 		$item_path = ilUtil::getImagePath("item.png");
-		$med_disabled_path = ilUtil::getImagePath("media_disabled.png");
 
 		if ($this->getOutputMode() != "offline")
 		{
@@ -1672,7 +1671,6 @@ return;
 						 'link_params' => $this->link_params,
 						 'file_download_link' => $file_download_link,
 						 'fullscreen_link' => $fullscreen_link,
-						 'med_disabled_path' => $med_disabled_path,
 						 'img_path' => $img_path,
 						 'parent_id' => $this->obj->getParentId(),
 						 'download_script' => $this->sourcecode_download_script,
