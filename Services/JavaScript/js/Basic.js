@@ -748,25 +748,25 @@ il.Rating = {
 			// active
 			if(i <= value)
 			{					
-				if(src.substring(src.length-6) == "on.png")
+				if(src.substring(src.length-6) == "on.svg")
 				{
-					src = src.substring(0, src.length-6)+"on_user.png";					
+					src = src.substring(0, src.length-6)+"on_user.svg";					
 				}
-				else if(src.substring(src.length-7) == "off.png")
+				else if(src.substring(src.length-7) == "off.svg")
 				{
-					src = src.substring(0, src.length-7)+"on_user.png";	
+					src = src.substring(0, src.length-7)+"on_user.svg";	
 				}											
 			}
 			// inactive
 			else
 			{
-				if(src.substring(src.length-6) == "on.png")
+				if(src.substring(src.length-6) == "on.svg")
 				{
-					src = src.substring(0, src.length-6)+"off.png";					
+					src = src.substring(0, src.length-6)+"off.svg";					
 				}
-				else if(src.substring(src.length-11) == "on_user.png")
+				else if(src.substring(src.length-11) == "on_user.svg")
 				{
-					src = src.substring(0, src.length-11)+"off.png";	
+					src = src.substring(0, src.length-11)+"off.svg";	
 				}							
 			}			
 		
@@ -814,12 +814,12 @@ il.Rating = {
 						// active
 						if(i <= value)
 						{					
-							src = icon_base+"_on_user.png";																				
+							src = icon_base+"_on_user.svg";																				
 						}
 						// inactive
 						else
 						{
-							src = icon_base+"_off.png";													
+							src = icon_base+"_off.svg";													
 						}			
 					}
 					else
