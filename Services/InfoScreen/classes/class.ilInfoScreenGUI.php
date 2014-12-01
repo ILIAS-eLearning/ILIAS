@@ -450,17 +450,6 @@ class ilInfoScreenGUI
 				include_once('./Services/Link/classes/class.ilLink.php');
 				$href = ilLink::_getStaticLink($ref_id,$type,true);
 
-				// delicous link
-				$d_set = new ilSetting("delicious");
-				if (true || $d_set->get("add_info_links") == "1")
-				{
-					$lng->loadLanguageModule("delic");
-					$del_link = '<br/><a class="small" href="http://del.icio.us/post?desc=nn&url='.
-						urlencode($href).'"><img border="0" src="'.ilUtil::getImagePath("icon_delicious_s.png").
-						'" /> '.$lng->txt("delic_add_to_delicious").
-						'</a>';
-				}
-
 				include_once 'Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
 				if(ilECSServerSettings::getInstance()->activeServerExists())
 				{
