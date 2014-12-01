@@ -2213,25 +2213,17 @@ class ilObjContentObject extends ilObject
 			$image_dir."/browser/blank.png");
 		copy(ilUtil::getImagePath("spacer.png", false, "filesystem"),
 			$image_dir."/spacer.png");
-		copy(ilUtil::getImagePath("icon_st.png", false, "filesystem"),
-			$image_dir."/icon_st.png");
-		copy(ilUtil::getImagePath("icon_pg.png", false, "filesystem"),
-			$image_dir."/icon_pg.png");
-		copy(ilUtil::getImagePath("icon_st.png", false, "filesystem"),
-			$image_dir."/icon_st_s.png");
-		copy(ilUtil::getImagePath("icon_pg.png", false, "filesystem"),
-			$image_dir."/icon_pg_s.png");
-		copy(ilUtil::getImagePath("icon_lm.png", false, "filesystem"),
-			$image_dir."/icon_lm.png");
-		copy(ilUtil::getImagePath("icon_lm.png", false, "filesystem"),
-			$image_dir."/icon_lm_s.png");
+		copy(ilUtil::getImagePath("icon_st.svg", false, "filesystem"),
+			$image_dir."/icon_st.svg");
+		copy(ilUtil::getImagePath("icon_pg.svg", false, "filesystem"),
+			$image_dir."/icon_pg.svg");
+		copy(ilUtil::getImagePath("icon_lm.svg", false, "filesystem"),
+			$image_dir."/icon_lm.svg");
 		copy(ilUtil::getImagePath("nav_arr_L.png", false, "filesystem"),
 			$image_dir."/nav_arr_L.png");
 		copy(ilUtil::getImagePath("nav_arr_R.png", false, "filesystem"),
 			$image_dir."/nav_arr_R.png");
-		copy(ilUtil::getImagePath("browser/forceexp.png", false, "filesystem"),
-			$image_dir."/browser/forceexp.png");
-			
+
 		$ilBench->stop("ExportHTML", "exportHTMLImages");
 
 		// export flv/mp3 player

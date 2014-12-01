@@ -1039,11 +1039,7 @@ class ilMainMenuGUI
 			
 			$lng->loadLanguageModule("help");
 			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
-			/*$this->tpl->setCurrentBlock("help_tt_icon");
-			$this->tpl->setVariable("IMG_TT_ON", ilUtil::getImagePath("icon_tt.png"));
-			$this->tpl->setVariable("IMG_TT_OFF", ilUtil::getImagePath("icon_tt_off.png"));
-			$this->tpl->parseCurrentBlock();*/
-			
+
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 			ilTooltipGUI::addTooltip("help_tt", $lng->txt("help_toggle_tooltips"), "",
 				"bottom center", "top center", false);
