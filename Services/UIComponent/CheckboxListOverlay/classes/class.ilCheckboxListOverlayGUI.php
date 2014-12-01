@@ -11,18 +11,12 @@ class ilCheckboxListOverlayGUI
 {
 	private $items = array();
 	
-	const DOWN_ARROW_LIGHT = "mm_down_arrow.png";
-	const DOWN_ARROW_DARK = "mm_down_arrow_dark.png";
-	const NO_ICON = "";
-	
-
 	/**
 	* Constructor.
 	*	
 	*/
 	public function __construct($a_id = "")
 	{
-		$this->setHeaderIcon(ilCheckboxListOverlayGUI::DOWN_ARROW_DARK);
 		$this->setId($a_id);
 	}
 
@@ -46,26 +40,7 @@ class ilCheckboxListOverlayGUI
 		return $this->id;
 	}
 	
-	/**
-	* Set Header Icon.
-	*
-	* @param	string	$a_headericon	Header Icon
-	*/
-	function setHeaderIcon($a_headericon)
-	{
-		$this->headericon = $a_headericon;
-	}
 
-	/**
-	* Get Header Icon.
-	*
-	* @return	string	Header Icon
-	*/
-	function getHeaderIcon()
-	{
-		return $this->headericon;
-	}
-	
 	/**
 	 * Set link title
 	 *

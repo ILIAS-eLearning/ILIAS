@@ -219,12 +219,14 @@ class ilSearchGUI extends ilSearchBaseGUI
 		ilOverlayGUI::initJavascript();
 		$this->tpl->addJavascript("./Services/Search/js/Search.js");
 
+		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.search.html','Services/Search');
 		$this->tpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this,'performSearch'));
 		$this->tpl->setVariable("TERM", ilUtil::prepareFormOutput($this->getString()));
 		$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
 		$this->tpl->setVariable("TXT_OPTIONS", $lng->txt("options"));
-		$this->tpl->setVariable("ARR_IMG", ilUtil::img(ilUtil::getImagePath("mm_down_arrow_dark.png")));
+		$this->tpl->setVariable("ARR_IMG", ilGlyphGUI::get(ilGlyphGUI::CARET));
 		$this->tpl->setVariable("TXT_COMBINATION", $lng->txt("search_term_combination"));
 		$this->tpl->setVariable('TXT_COMBINATION_DEFAULT', ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND ? $lng->txt('search_all_words') : $lng->txt('search_any_word'));
 
@@ -234,7 +236,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 			$this->tpl->setVariable('TXT_TYPE_DEFAULT',$lng->txt("search_fast_info"));
 			$this->tpl->setVariable("TXT_TYPE", $lng->txt("search_type"));
 			$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
-			$this->tpl->setVariable("ARR_IMGT", ilUtil::img(ilUtil::getImagePath("mm_down_arrow_dark.png")));
+			$this->tpl->setVariable("ARR_IMGT", ilGlyphGUI::get(ilGlyphGUI::CARET));
 			$this->tpl->setVariable("FORM", $this->form->getHTML());
 			$this->tpl->parseCurrentBlock();
 		}

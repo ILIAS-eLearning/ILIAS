@@ -540,11 +540,13 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		ilOverlayGUI::initJavascript();
 		$this->tpl->addJavascript("./Services/Search/js/Search.js");
 
+		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+
 		$this->tpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this,'performSearch'));
 		$this->tpl->setVariable("TERM", ilUtil::prepareFormOutput($this->search_cache->getQuery()));
 		$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
 		$this->tpl->setVariable("TXT_OPTIONS", $lng->txt("options"));
-		$this->tpl->setVariable("ARR_IMG", ilUtil::img(ilUtil::getImagePath("mm_down_arrow_dark.png")));
+		$this->tpl->setVariable("ARR_IMG", ilGlyphGUI::get(ilGlyphGUI::CARET));
 		$this->tpl->setVariable("TXT_COMBINATION", $lng->txt("search_term_combination"));
 		$this->tpl->setVariable('TXT_COMBINATION_DEFAULT', ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND ? $lng->txt('search_all_words') : $lng->txt('search_any_word'));
 		$this->tpl->setVariable('TXT_TYPE_DEFAULT',$lng->txt("search_off"));

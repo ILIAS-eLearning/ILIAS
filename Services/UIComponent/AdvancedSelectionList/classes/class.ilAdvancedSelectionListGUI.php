@@ -14,9 +14,7 @@ class ilAdvancedSelectionListGUI
 	private $id = "asl";
 	private $asynch = false;
 
-	const DOWN_ARROW_LIGHT = "mm_down_arrow.png";
-	const DOWN_ARROW_DARK = "mm_down_arrow_dark.png";
-	const DOWN_ARROW_TOPBAR = "mm_down_arrow_topbar.png";
+	const DOWN_ARROW_DARK = "down_arrow_dark";
 	const ICON_ARROW = "caret";
 	const ICON_CONFIG = "glyphicon glyphicon-cog";
 	const NO_ICON = "";
@@ -779,9 +777,7 @@ class ilAdvancedSelectionListGUI
 					$tpl->setVariable("IMG_SPAN_STYLE", ilAdvancedSelectionListGUI::ICON_CONFIG);
 					break;
 
-				case ilAdvancedSelectionListGUI::DOWN_ARROW_LIGHT:
 				case ilAdvancedSelectionListGUI::DOWN_ARROW_DARK:
-				case ilAdvancedSelectionListGUI::DOWN_ARROW_TOPBAR:
 				default:
 					$tpl->setVariable("IMG_SPAN_STYLE", ilAdvancedSelectionListGUI::ICON_ARROW);
 					break;

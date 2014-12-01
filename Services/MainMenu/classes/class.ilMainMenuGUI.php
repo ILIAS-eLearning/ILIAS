@@ -375,11 +375,6 @@ class ilMainMenuGUI
 		// personal desktop
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{
-			/*$this->renderEntry($a_tpl, "desktop",
-				$lng->txt("personal_desktop"),
-				$this->getScriptTarget("ilias.php?baseClass=ilPersonalDesktopGUI"),
-				$this->target);*/
-//			$this->renderDropDown($a_tpl, "desktop");
 			$this->renderEntry($a_tpl, "desktop",
 				$lng->txt("personal_desktop"), "#");
 		}
@@ -394,10 +389,6 @@ class ilMainMenuGUI
 			{
 				$title = $lng->txt("repository");
 			}
-			//$this->renderEntry($a_tpl, "repository",
-			//	$title,
-			//	ilLink::_getStaticLink(1,'root',true),
-			//	$this->target);
 			if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID || IS_PAYMENT_ENABLED)
 			{
 				$this->renderEntry($a_tpl, "repository",
@@ -405,15 +396,6 @@ class ilMainMenuGUI
 			}
 		}
 
-		// search
-		include_once 'Services/Search/classes/class.ilSearchSettings.php';
-		if($rbacsystem->checkAccess('search',ilSearchSettings::_getSearchSettingRefId()))
-		{
-/*			$this->renderEntry($a_tpl, "search",
-				$lng->txt("search"),
-				$this->getScriptTarget('ilias.php?baseClass=ilSearchController'),
-				$this->target); */
-		}
 
 		// webshop
 		if(IS_PAYMENT_ENABLED)
@@ -425,27 +407,8 @@ class ilMainMenuGUI
 		// administration
 		if(ilMainMenuGUI::_checkAdministrationPermission())
 		{
-			//$this->renderEntry($a_tpl, "administration",
-			//	$lng->txt("administration"),
-			//	$this->getScriptTarget("ilias.php?baseClass=ilAdministrationGUI"),
-			//	$this->target);
 			$this->renderDropDown($a_tpl, "administration");
 		}
-
-
-		// navigation history
-/*		require_once("Services/Navigation/classes/class.ilNavigationHistoryGUI.php");
-		$nav_hist = new ilNavigationHistoryGUI();
-		$nav_html = $nav_hist->getHTML();
-		if ($nav_html != "")
-		{
-
-			$a_tpl->setCurrentBlock("nav_history");
-			$a_tpl->setVariable("TXT_LAST_VISITED", $lng->txt("last_visited"));
-			$a_tpl->setVariable("NAVIGATION_HISTORY", $nav_html);
-			$a_tpl->parseCurrentBlock();
-		}*/
-
 
 		if ($a_call_get)
 		{
@@ -478,7 +441,6 @@ class ilMainMenuGUI
 			$gl->setAsDropDown(true);
 			
 			include_once("./Services/Link/classes/class.ilLink.php");
-			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.png"));
 			$icon = ilUtil::img(ilObject::_getIcon(ilObject::_lookupObjId(1), "tiny"));
 			
 			$gl->addEntry($icon." ".$a_txt." - ".$lng->txt("rep_main_page"), ilLink::_getStaticLink(1,'root',true),
@@ -526,8 +488,6 @@ class ilMainMenuGUI
 		{
 			$gl = new ilGroupedListGUI();
 			$gl->setAsDropDown(true);
-			
-			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.png"));
 			
 			// overview
 			$gl->addEntry($lng->txt("overview"),
@@ -687,8 +647,6 @@ class ilMainMenuGUI
 				$gl = new ilGroupedListGUI();
 				$gl->setAsDropDown(true);
 
-				$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.png"));
-
 				// shop_content
 				$gl->addEntry($lng->txt("content"),
 					"ilias.php?baseClass=ilShopController&amp;cmd=firstpage",
@@ -845,7 +803,7 @@ class ilMainMenuGUI
 		
 		$selection->setSelectionHeaderSpanClass("MMSpan");
 
-		$selection->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_LIGHT);
+		$selection->setHeaderIcon(ilAdvancedSelectionListGUI::ICON_ARROW);
 		$selection->setItemLinkClass("small");
 		$selection->setUseImages(false);
 
