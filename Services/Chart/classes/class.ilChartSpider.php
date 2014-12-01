@@ -78,11 +78,11 @@ class ilChartSpider extends ilChart
 	public function parseGlobalOptions(stdClass $a_options)
 	{		
 		$a_options->grid = new stdClass();
-		$a_options->hoverable = false;
-		$a_options->clickable = false;
-		$a_options->ticks = $this->getYAxisMax();
-		$a_options->tickColor = ilChart::renderColor("#000", 0.1);
-		$a_options->mode = "spider";
+		$a_options->grid->hoverable = false;
+		$a_options->grid->clickable = false;
+		$a_options->grid->ticks = $this->getYAxisMax();
+		$a_options->grid->tickColor = ilChart::renderColor("#000", 0.1);
+		$a_options->grid->mode = "spider";
 	}
 
 	/* Optes:

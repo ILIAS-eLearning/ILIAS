@@ -30,29 +30,29 @@ class ilChartDataSpider extends ilChartData
 	
 	public function parseGlobalOptions(stdClass $a_options, ilChart $a_chart)
 	{
-		$a_options->spider = new stdClass();
-		$a_options->spider->active = true;
+		$spider = new stdClass();
+		$spider->active = true;
 		
-		$a_options->spider->highlight = new stdClass();
-		$a_options->spider->highlight->mode = "line";
+		$spider->highlight = new stdClass();
+		$spider->highlight->mode = "line";
 		
 		
-		$a_options->spider->legs = new stdClass();		
-		$a_options->spider->legs->fillStyle = ilChart::renderColor("#000", 0.7);
+		$spider->legs = new stdClass();		
+		$spider->legs->fillStyle = ilChart::renderColor("#000", 0.7);
 		
 		switch (count($a_chart->getLegLabels()))
 		{
 			case 4:
 			case 6:
-				$a_options->spider->legs->legStartAngle = 10; 				
+				$spider->legs->legStartAngle = 10; 				
 				break;
 
 			default:
-				$a_options->spider->legs->legStartAngle = 0;
+				$spider->legs->legStartAngle = 0;
 				break;
 		}
 		
-		$a_options->spider->legs->data = array();
+		$spider->legs->data = array();
 				
 		$max_str_len = 0;
 		foreach ($a_chart->getLegLabels() as $l)
@@ -61,7 +61,7 @@ class ilChartDataSpider extends ilChartData
 			
 			$label =  new stdClass();
 			$label->label = $l;
-			$a_options->spider->legs->data[] = $label;
+			$spider->legs->data[] = $label;
 
 			$max_str_len = max($max_str_len, strlen($l));
 		}
@@ -79,17 +79,19 @@ class ilChartDataSpider extends ilChartData
 		{
 			$font_size = 15;
 		}
-		$a_options->spider->legs->font = $font_size."px Arial";
+		$spider->legs->font = $font_size."px Arial";
 		
-		$a_options->spider->spiderSize = 0.7;
-		$a_options->spider->lineWidth = 1;
-		$a_options->spider->pointSize = 0;
+		$spider->spiderSize = 0.7;
+		$spider->lineWidth = 1;
+		$spider->pointSize = 0;
 		
-		$a_options->spider->connection = new StdClass();
-		$a_options->spider->connection->width = 2;
+		$spider->connection = new StdClass();
+		$spider->connection->width = 2;
 		
-		$a_options->spider->legMin = 0.0000001;
-		$a_options->spider->legMax = $a_chart->getYAxisMax();	
+		$spider->legMin = 0.0000001;
+		$spider->legMax = $a_chart->getYAxisMax();	
+		
+		$a_options->series->spider = $spider;
 	}
 }
 
