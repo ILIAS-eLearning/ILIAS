@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceTableGUI.php';
+require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -94,7 +95,7 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 			$this->ctrl->setParameter($this->getParentObject(), 'agreement_document', rawurlencode($row['agreement_document']));
 			$row['content_link'] = $this->ctrl->getLinkTarget($this->getParentObject(), 'getAgreementTextByFilenameAsynch', '', true, false);
 			$this->ctrl->setParameter($this->getParentObject(), 'agreement_document', '');
-			$row['img_down'] = ilUtil::getImagePath('icon_preview.png');
+			$row['img_down'] = ilGlyphGUI::get(ilGlyphGUI::SEARCH);
 			$row['id'] = md5($row['language']);
 		}
 		else

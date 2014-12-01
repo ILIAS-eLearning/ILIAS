@@ -97,7 +97,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 		$this->ctrl->setParameter($this->getParentObject(), 'tosv_id', $row['tosv_id']);
 		$row['content_link'] = $this->ctrl->getLinkTarget($this->getParentObject(), 'getAcceptedContentAsynch', '', true, false);
 		$this->ctrl->setParameter($this->getParentObject(), 'tosv_id', '');
-		$row['img_down'] = ilGlyphGUI::SEARCH;
+		$row['img_down'] = ilGlyphGUI::get(ilGlyphGUI::SEARCH);
 
 		$row['id']       = md5($row['usr_id'].$row['ts']);
 	}
