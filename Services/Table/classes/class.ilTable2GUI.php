@@ -2684,14 +2684,14 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		if ($arrow)
 		{
 			$this->tpl->setCurrentBlock("tbl_action_img_arrow");
-			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
+			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
 			$this->tpl->setVariable("ALT_ARROW", $lng->txt("action"));
 			$this->tpl->parseCurrentBlock();
 
 			if ($this->getTopCommands())
 			{
 				$this->tpl->setCurrentBlock("tbl_top_action_img_arrow");
-				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_upright.png"));
+				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_upright.svg"));
 				$this->tpl->setVariable("ALT_ARROW", $lng->txt("action"));
 				$this->tpl->parseCurrentBlock();
 			}
