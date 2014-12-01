@@ -1043,9 +1043,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$table_gui = new ilWaitingListTableGUI($this,$waiting_list,false);
 				$this->ctrl->setParameter($this,'wait_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('show') /*,
-					'',
-					ilUtil::getImagePath('edit_add.png') */);
+					$this->lng->txt('show'));
 				$this->ctrl->clearParameters($this);
 			}
 			else
@@ -1053,9 +1051,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$table_gui = new ilWaitingListTableGUI($this,$waiting_list,true);
 				$this->ctrl->setParameter($this,'wait_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('hide') /*,
-					'',
-					ilUtil::getImagePath('edit_remove.png') */);
+					$this->lng->txt('hide'));
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->setUsers($wait);
@@ -1075,9 +1071,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$table_gui = new ilSubscriberTableGUI($this,false);
 				$this->ctrl->setParameter($this,'subscriber_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('show') /*,
-					'',
-					ilUtil::getImagePath('edit_add.png') */);
+					$this->lng->txt('show'));
 				$this->ctrl->clearParameters($this);
 			}
 			else
@@ -1085,9 +1079,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$table_gui = new ilSubscriberTableGUI($this,true);
 				$this->ctrl->setParameter($this,'subscriber_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('hide') /*,
-					'',
-					ilUtil::getImagePath('edit_remove.png') */);
+					$this->lng->txt('hide'));
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->readSubscriberData();
@@ -1105,9 +1097,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$table = new ilSessionParticipantsTableGUI($this,ilSessionParticipantsTableGUI::TYPE_ADMIN,false);
 				$this->ctrl->setParameter($this,'admin_hide',0);
 				$table->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('show') /*,
-					'',
-					ilUtil::getImagePath('edit_add.png') */);
+					$this->lng->txt('show'));
 				$this->ctrl->clearParameters($this);
 			}
 			else
@@ -1115,9 +1105,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$table = new ilSessionParticipantsTableGUI($this,ilSessionParticipantsTableGUI::TYPE_ADMIN,true);
 				$this->ctrl->setParameter($this,'admin_hide',1);
 				$table->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('hide') /*,
-					'',
-					ilUtil::getImagePath('edit_remove.png') */);
+					$this->lng->txt('hide'));
 				$this->ctrl->clearParameters($this);
 			}
 
@@ -1138,9 +1126,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$table = new ilSessionParticipantsTableGUI($this,ilSessionParticipantsTableGUI::TYPE_TUTOR,false);
 				$this->ctrl->setParameter($this,'tutor_hide',0);
 				$table->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('show') /*,
-					'',
-					ilUtil::getImagePath('edit_add.png') */);
+					$this->lng->txt('show'));
 				$this->ctrl->clearParameters($this);
 			}
 			else
@@ -1148,9 +1134,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$table = new ilSessionParticipantsTableGUI($this,ilSessionParticipantsTableGUI::TYPE_TUTOR,true);
 				$this->ctrl->setParameter($this,'tutor_hide',1);
 				$table->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('hide') /*,
-					'',
-					ilUtil::getImagePath('edit_remove.png') */);
+					$this->lng->txt('hide'));
 				$this->ctrl->clearParameters($this);
 			}
 			$table->addCommandButton('updateMembers',$this->lng->txt('save'));
@@ -1170,9 +1154,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$table = new ilSessionParticipantsTableGUI($this,ilSessionParticipantsTableGUI::TYPE_MEMBER,false);
 				$this->ctrl->setParameter($this,'member_hide',0);
 				$table->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('show') /*,
-					'',
-					ilUtil::getImagePath('edit_add.png') */);
+					$this->lng->txt('show'));
 				$this->ctrl->clearParameters($this);
 			}
 			else
@@ -1180,9 +1162,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$table = new ilSessionParticipantsTableGUI($this,ilSessionParticipantsTableGUI::TYPE_MEMBER,true);
 				$this->ctrl->setParameter($this,'member_hide',1);
 				$table->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('hide') /*,
-					'',
-					ilUtil::getImagePath('edit_remove.png') */);
+					$this->lng->txt('hide'));
 				$this->ctrl->clearParameters($this);
 			}
 			$table->addCommandButton('updateMembers',$this->lng->txt('save'));

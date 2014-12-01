@@ -1895,9 +1895,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$table_gui = new ilWaitingListTableGUI($this,$waiting_list,false);
 				$this->ctrl->setParameter($this,'wait_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('show') /*,
-					'',
-					ilUtil::getImagePath('edit_add.png') */);
+					$this->lng->txt('show'));
 				$this->ctrl->clearParameters($this);
 			}
 			else
@@ -1905,9 +1903,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$table_gui = new ilWaitingListTableGUI($this,$waiting_list,true);
 				$this->ctrl->setParameter($this,'wait_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('hide') /*,
-					'',
-					ilUtil::getImagePath('edit_remove.png') */);
+					$this->lng->txt('hide'));
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->setUsers($wait);
@@ -1924,9 +1920,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$table_gui = new ilSubscriberTableGUI($this,false);
 				$this->ctrl->setParameter($this,'subscriber_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('show') /*,
-					'',
-					ilUtil::getImagePath('edit_add.png') */);
+					$this->lng->txt('show'));
 				$this->ctrl->clearParameters($this);
 			}
 			else
@@ -1934,9 +1928,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$table_gui = new ilSubscriberTableGUI($this,true);
 				$this->ctrl->setParameter($this,'subscriber_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('hide') /*,
-					'',
-					ilUtil::getImagePath('edit_remove.png') */);
+					$this->lng->txt('hide'));
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->readSubscriberData();
@@ -1969,9 +1961,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				);
 				$this->ctrl->setParameter($this,'admin_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('show') /*,
-					'',
-					ilUtil::getImagePath('edit_add.png') */);
+					$this->lng->txt('show'));
 				$this->ctrl->clearParameters($this);
 			}
 			else
@@ -1988,9 +1978,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				);
 				$this->ctrl->setParameter($this,'admin_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('hide') /*,
-					'',
-					ilUtil::getImagePath('edit_remove.png') */);
+					$this->lng->txt('hide'));
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->setTitle($this->lng->txt('crs_administrators'),'icon_usr.png',$this->lng->txt('crs_administrators'));
@@ -2013,9 +2001,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				);
 				$this->ctrl->setParameter($this,'tutor_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('show') /*,
-					'',
-					ilUtil::getImagePath('edit_add.png') */);
+					$this->lng->txt('show'));
 				$this->ctrl->clearParameters($this);
 			}
 			else
@@ -2032,9 +2018,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				);
 				$this->ctrl->setParameter($this,'tutor_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('hide') /*,
-					'',
-					ilUtil::getImagePath('edit_remove.png') */);
+					$this->lng->txt('hide'));
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->setTitle($this->lng->txt('crs_tutors'),'icon_usr.png',$this->lng->txt('crs_tutors'));
@@ -2058,9 +2042,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 				$this->ctrl->setParameter($this,'member_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('show') /*,
-					'',
-					ilUtil::getImagePath('edit_add.png') */);
+					$this->lng->txt('show'));
 				$this->ctrl->clearParameters($this);
 			}
 			else
@@ -2077,9 +2059,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				);
 				$this->ctrl->setParameter($this,'member_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('hide') /*,
-					'',
-					ilUtil::getImagePath('edit_remove.png') */);
+					$this->lng->txt('hide'));
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->setTitle($this->lng->txt('crs_members'),'icon_usr.png',$this->lng->txt('crs_members'));
@@ -2111,9 +2091,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->setParameter($this,'role_hide_'.$role_id,0);
 				$table_gui->addHeaderCommand(
 					$this->ctrl->getLinkTarget($this,'members'),
-					$this->lng->txt('show') /*,
-					'',
-					ilUtil::getImagePath('edit_add.png') */
+					$this->lng->txt('show')
 				);
 				$this->ctrl->clearParameters($this);
 			}
