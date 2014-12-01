@@ -156,7 +156,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			$this->obj_settings->setVisits($new_visits);			
 			$this->obj_settings->update($refresh_lp);
 			
-			if($mode_changed && $this->obj_lp->getCollectionInstance())
+			if($mode_changed && 
+				$this->obj_lp->getCollectionInstance() &&
+				$new_mode != ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR) // #14819
 			{
 				ilUtil::sendInfo($this->lng->txt('trac_edit_collection'), true);
 			}
