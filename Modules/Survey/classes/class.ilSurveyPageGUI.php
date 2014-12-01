@@ -1781,7 +1781,8 @@ class ilSurveyPageGUI
 		{
 			$a_tpl->setCurrentBlock("drop_area");
 			$a_tpl->setVariable("DNODE_ID", $node_id);
-			$a_tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("spacer.png"));
+			include_once "Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php";
+			$a_tpl->setVariable("ICON_ADD", ilGlyphGUI::get(ilGlyphGUI::ADD));
 			$a_tpl->parseCurrentBlock();
 		}
 

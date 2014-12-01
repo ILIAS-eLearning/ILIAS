@@ -626,7 +626,7 @@ YAHOO.extend(ilDragContent, YAHOO.util.DDProxy,
 				{
 					this.originalStyles[targetEl.id] = targetEl.className;
 				}
-				targetEl.className = "il_droparea_valid_target";
+				targetEl.className = "il_droparea";
 			}
 		}
 	},
@@ -693,7 +693,7 @@ ilDragContent.prototype.onDragEnter = function(e, id)
 	{
 		d_target = document.getElementById(id);
 		oldclass[id] = d_target.className;
-		d_target.className = "il_droparea_active";
+		d_target.className = "il_droparea il_droparea_valid_target";
 	}
 	dragdropongoing = true;
 };
@@ -702,7 +702,7 @@ ilDragContent.prototype.onDragEnter = function(e, id)
 ilDragContent.prototype.onDragOut = function(e, id)
 {
 	d_target = document.getElementById(id);
-	d_target.className = "il_droparea_valid_target";
+	d_target.className = "il_droparea";
 	dragdropongoing = false;
 };
 
