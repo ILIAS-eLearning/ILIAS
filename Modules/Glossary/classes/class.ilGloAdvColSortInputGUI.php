@@ -77,6 +77,7 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
 		global $lng;
 		
 		$tpl = new ilTemplate("tpl.adv_col_sort_input.html", true, true, "Modules/Glossary");
+		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 		if (is_array($this->getValue()))
 		{
 			foreach ($this->getValue() as $k => $v)
@@ -84,9 +85,9 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
 				$tpl->setCurrentBlock("item");
 				$tpl->setVariable("TEXT", $v["text"]);
 				$tpl->setVariable("ID", $this->getFieldId()."~".$k);
-				$tpl->setVariable("SRC_DOWN", ilUtil::getImagePath('icon_down_s.png'));
+				$tpl->setVariable("DOWN", ilGlyphGUI::get(ilGlyphGUI::DOWN));
 				$tpl->setVariable("TXT_DOWN", $lng->txt("down"));
-				$tpl->setVariable("SRC_UP", ilUtil::getImagePath('icon_up_s.png'));
+				$tpl->setVariable("UP", ilGlyphGUI::get(ilGlyphGUI::UP));
 				$tpl->setVariable("TXT_UP", $lng->txt("up"));
 				$tpl->setVariable('NAME', $this->getPostVar()."[".$k."][id]");
 				$tpl->setVariable('TNAME', $this->getPostVar()."[".$k."][text]");
