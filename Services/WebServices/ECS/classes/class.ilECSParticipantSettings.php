@@ -76,6 +76,29 @@ class ilECSParticipantSettings
 		}
 		return self::$instances[$a_server_id] = new ilECSParticipantSettings($a_server_id);
 	}
+	
+	/**
+	 * Get all available mids
+	 * @global  $ilDB
+	 * @param type $a_server_id
+	 * @return type
+	 */
+	public static function getAvailabeMids($a_server_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT mid FROM ecs_part_settings '.
+				'WHERE sid = '.$ilDB->quote($a_server_id,'integer');
+		$res = $ilDB->query($query);
+		
+		$mids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$mids[] = $row->mid;
+		}
+		return $mids;
+	}
+	
 
 	/**
 	 * Get participants which are enabled and export is allowed

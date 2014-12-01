@@ -631,6 +631,38 @@ class ilECSSettingsGUI
 	}
 	
 	/**
+	 * Refresh participants
+	 */
+	protected function refreshParticipants()
+	{
+		include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
+		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
+		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
+		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
+		
+		$servers = ilECSServerSettings::getInstance();
+		$servers->readInactiveServers();
+		foreach($servers->getServers() as $server)
+		{
+			$creader = ilECSCommunityReader::getInstanceByServerId($server->getServerId());
+			
+			// read community
+			foreach(ilECSParticipantSettings::getAvailabeMids($server->getServerId()) as $mid)
+			{
+				if(!$creader->getParticipantByMID($mid))
+				{
+					$GLOBALS['ilLog']->write(__METHOD__.': Deleting deprecated participant '. $server->getServerId().' '. $mid);
+					
+					$part = new ilECSParticipantSetting($server->getServerId(),$mid);
+					$part->delete();
+				}
+			}
+		}
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),TRUE);
+		$this->ctrl->redirect($this,'communities');
+	}
+	
+	/**
 	 * show communities
 	 *
 	 * @access public
@@ -638,6 +670,12 @@ class ilECSSettingsGUI
 	 */
 	public function communities()
 	{
+		// add toolbar to refresh communities
+		$GLOBALS['ilToolbar']->addButton(
+				$this->lng->txt('ecs_refresh_participants'),
+				$this->ctrl->getLinkTarget($this,'refreshParticipants')
+		);
+		
 	 	$this->tabs_gui->setSubTabActive('ecs_communities');
 
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_communities.html','Services/WebServices/ECS');
