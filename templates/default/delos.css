@@ -10519,6 +10519,19 @@ span.ilNewsRssIcon:hover {
   text-decoration: none;
   background-color: #b85104;
 }
+div.ilSurveyPageEditDropArea {
+  border-color: #88be51;
+  color: #88be51;
+  background-color: #e1efd3;
+}
+div.ilSurveyPageEditDropAreaSelected {
+  border-color: #88be51;
+  color: #88be51;
+  background-color: #aed389;
+}
+div.ilSurveyPageEditAreaDragging {
+  background-color: rgba(240, 240, 240, 0.75);
+}
 .noMargin {
   margin: 0;
 }

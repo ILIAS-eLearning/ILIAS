@@ -1,24 +1,38 @@
-<div class="ilc_page_cont_PageContainer">
-	<div class="ilc_page_Page">
-		<!-- BEGIN element -->
-		<!-- BEGIN drop_area -->
-		<div class="il_droparea" id="droparea_{DNODE_ID}" onClick="doMouseClick(event, '{DNODE_ID}');" onMouseOver="doMouseOver(this.id, 'il_droparea il_droparea_valid_target');" onMouseOut="doMouseOut(this.id, 'il_droparea');">{ICON_ADD}</div>
-		<!-- END drop_area -->
-		<!-- BEGIN drop_area_menu -->
-		<div class="ilOverlay il_editmenu ilNoDisplay" id="dropareamenu_{MNODE_ID}">
-		<!-- BEGIN menu_cmd -->
-		<a href="#" class="ilGroupedListLE" id="hftd_{CMD_NODE}t{MCNT}_0" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('{MENU_CMD}', '{CMD_NODE}', '{FC}', 1);">
-		{TXT_MENU_CMD}
-		</a>
-		<!-- END menu_cmd -->
+<!-- BEGIN element -->
+	<!-- BEGIN drop_area -->
+	<div class="il_droparea" id="droparea_{DROP_ID}">
+		<!-- BEGIN dropdown_menu_bl -->
+		<div class="btn-group">
+			<div class="dropdown-toggle" data-toggle="dropdown" data-container="body">{ICON_ADD}</div>						
+			<ul class="dropdown-menu" role="menu">
+				<!-- BEGIN menu_cmd -->										
+				<li>						
+					<a href="{URL_MENU_CMD}"><span>{TXT_MENU_CMD}</span></a>
+				</li>					
+				<!-- END menu_cmd -->
+			</ul>					
 		</div>
-		<!-- END drop_area_menu -->
-		<!-- BEGIN list_item -->
-		<div class="il_editarea{NODE_DRAG}" id="{NODE_ID}" onMouseOver="doMouseOver(this.id, 'il_editarea_active');" onMouseOut="doMouseOut(this.id, 'il_editarea');" onClick="doMouseClick(event,this.id);"{VAL_DBLCLICK}>
-		<div class="ilEditLabel" style="display:none;" id="label_{NODE_ID}">{TXT_NODE_TYPE}</div>
-		<div style="padding: 5px;">{TXT_NODE_CONTENT}</div>
-		</div>
-		<!-- END list_item -->
-		<!-- END element -->
+		<!-- END dropdown_menu_bl -->
 	</div>
-</div>
+	<!-- END drop_area -->
+	<!-- BEGIN list_item -->					
+	<div class="il_editarea{SELECTABLE}" id="{NODE_ID}"{VAL_DBLCLICK}>										
+		<div class="ilEditLabel" style="display:none;" id="label_{NODE_ID}">{TXT_NODE_TYPE}</div>
+		<!-- BEGIN action_menu_bl -->
+		<div class="dropdown ilFloatRight" style="margin-top:2px;">
+			<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-container="body">
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu" id="actions_{NODE_ID}">
+				<!-- BEGIN action_cmd -->										
+				<li>						
+					<a href="{URL_ACTION_CMD}"><span>{TXT_ACTION_CMD}</span></a>
+				</li>					
+				<!-- END action_cmd -->
+			</ul>
+		</div>
+		<!-- END action_menu_bl -->
+		<div style="padding: 10px;">{TXT_NODE_CONTENT}</div>				
+	</div>			
+	<!-- END list_item -->
+<!-- END element -->
