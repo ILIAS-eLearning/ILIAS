@@ -541,12 +541,9 @@ class ilRatingGUI
 			
 			$ttpl->setCurrentBlock("act_rat_start");
 			$ttpl->setVariable("ID", $unique_id);
-			$ttpl->setVariable("SRC_ARROW", ilUtil::getImagePath("mm_down_arrow_dark.png"));
 			$ttpl->parseCurrentBlock();
 
-			$ttpl->setCurrentBlock("act_rat_end");
-			$ttpl->setVariable("SRC_ARROW", ilUtil::getImagePath("mm_down_arrow_dark.png"));
-			$ttpl->parseCurrentBlock();
+			$ttpl->touchBlock("act_rat_end");		
 		}
 
 		$ttpl->parseCurrentBlock();
