@@ -46,6 +46,16 @@ var ilSurveyPageView = {
 				activeClass: ilSurveyPageView.drop_active_css, 				
 				hoverClass: ilSurveyPageView.drop_selected_css, 				
 				tolerance: 'touch', 
+				accept: function(draggable) {
+					var drop_id = $(this).attr('id');
+					// directly neighbouring drop areas are no movement
+					if($(draggable).prev().attr('id') !== drop_id &&
+						$(draggable).next().attr('id') !== drop_id)
+					{
+						return true;
+					}
+					return false;
+				},
 				drop: function(event, ui) {							
 					var drag_id = $(ui.draggable).attr('id');
 					var drop_id = $(this).attr('id');
@@ -56,7 +66,7 @@ var ilSurveyPageView = {
 					$('#il_hform_subcmd').attr('value', 'dnd');
 					$('#il_hform_source_id').attr('value', drag_id);
 					$('#il_hform_target_id').attr('value', drop_id);
-					$('#form_hform').submit();					 					
+					$('#form_hform').submit(); 
 				}
 			});
 		});
@@ -130,4 +140,4 @@ var ilSurveyPageView = {
 
 		return false;
 	}
-}
+};
