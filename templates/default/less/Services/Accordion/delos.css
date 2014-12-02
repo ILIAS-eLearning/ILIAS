@@ -7,7 +7,7 @@
   cursor: pointer;
   color: #3444AA;
   font-size: 110%;
-  background: url(images/tree_col.png) no-repeat 7px 7px @il-secondary-container-bg;
+  background: url(images/tree_col.svg) no-repeat 7px 7px @il-secondary-container-bg;
 }
 .il_HAccordionHead:hover,
 .il_VAccordionHead:hover {

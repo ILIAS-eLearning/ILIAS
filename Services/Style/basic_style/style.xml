@@ -697,7 +697,7 @@
 	<StyleParameter Name="background-color" Value="#E2EAF4"/>
 	<StyleParameter Name="text-align" Value="left"/>
 	<StyleParameter Name="cursor" Value="pointer"/>
-	<StyleParameter Name="background-image" Value="tree_col.png"/>
+	<StyleParameter Name="background-image" Value="tree_col.svg"/>
 	<StyleParameter Name="background-repeat" Value="no-repeat"/>
 	<StyleParameter Name="background-position" Value="3px 4px"/>
 </Style>
@@ -731,7 +731,7 @@
 	<StyleParameter Name="background-color" Value="#E2EAF4"/>
 	<StyleParameter Name="text-align" Value="left"/>
 	<StyleParameter Name="cursor" Value="pointer"/>
-	<StyleParameter Name="background-image" Value="tree_col.png"/>
+	<StyleParameter Name="background-image" Value="tree_col.svg"/>
 	<StyleParameter Name="background-repeat" Value="no-repeat"/>
 	<StyleParameter Name="background-position" Value="6px 4px"/>
 </Style>
