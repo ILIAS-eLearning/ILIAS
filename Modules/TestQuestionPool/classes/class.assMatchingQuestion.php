@@ -964,7 +964,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	private function getMostPositiveScoredUniqueTermMatchingPairs()
 	{
-		$matchingPairsByTerm = array();
+		$matchingPairsByDefinition = array();
 
 		foreach( $this->matchingpairs as $pair )
 		{
@@ -973,19 +973,19 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				continue;
 			}
 
-			$termId = $pair->term->identifier;
+			$defId = $pair->definition->identifier;
 
-			if( !isset($matchingPairsByTerm[$termId]) )
+			if( !isset($matchingPairsByDefinition[$defId]) )
 			{
-				$matchingPairsByTerm[$termId] = $pair;
+				$matchingPairsByDefinition[$defId] = $pair;
 			}
-			elseif( $pair->points > $matchingPairsByTerm[$termId]->points )
+			elseif( $pair->points > $matchingPairsByDefinition[$defId]->points )
 			{
-				$matchingPairsByTerm[$termId] = $pair;
+				$matchingPairsByDefinition[$defId] = $pair;
 			}
 		}
 
-		return $matchingPairsByTerm;
+		return $matchingPairsByDefinition;
 	}
 
 	/**
