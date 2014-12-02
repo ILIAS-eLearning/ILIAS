@@ -1818,6 +1818,7 @@ class gevCourseUtils {
 								$a_direction = "desc") {
 		
 		global $ilDB;
+		global $ilUser;
 		
 		$gev_set = gevSettings::getInstance();
 		$db = &$ilDB;
@@ -1839,14 +1840,8 @@ class gevCourseUtils {
 		*/
 
 
-/*
-print '<hr>';
-print 'search options:<br>';
-		print_r($a_search_options);
-print '<hr>';
 
-*/
-		global $ilUser;
+
 		/*
 		$hash = md5(serialize($a_search_options));
 		if ($this->potentiallyBookableCourses[$hash] !== null) {
@@ -1967,7 +1962,7 @@ print '<hr>';
 				 "   ON cs.obj_id = ltype.obj_id ".
 				 "   AND ltype.field_id = ".$db->quote($type_field_id, "integer").
 
-//				 $additional_join.
+				 $additional_join.
 				 " WHERE ".
 
 /*				 "	 cs.activation_type = 1".
@@ -1981,9 +1976,21 @@ print '<hr>';
 				 "   AND  (ltype.value LIKE 'Pr_senztraining' ".
 				 "		OR ltype.value IN ('Webinar','Virtuelles Training', 'Selbstlernkurs')".
 				 "	 )".
-//				 $additional_where.
+				 $additional_where.
+				 
 				 "";
 
+/*
+
+print '<hr>';
+print 'search options:<br><pre>';
+		print_r($a_search_options);
+print '<hr>';
+
+print $additional_where;
+print '<hr>';
+print $query;
+*/
 		$res = $db->query($query);
 		$crss = array();
 		while($val = $db->fetchAssoc($res)) {
