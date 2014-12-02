@@ -2190,7 +2190,7 @@ th {
 }
 .table-striped > tbody > tr:nth-child(odd) > td,
 .table-striped > tbody > tr:nth-child(odd) > th {
-  background-color: #f9f9f9;
+  background-color: #ffffff;
 }
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
@@ -8915,12 +8915,16 @@ div.ilTableOuter {
 }
 div.ilTableSelectAll {
   background-color: #F8F8F8;
-  padding: 3px 6px;
+  padding: 6px 8px;
+  font-size: 90%;
+}
+div.ilTableSelectAll label {
+  padding-left: 13px;
 }
 div.ilTableCommandRow,
 div.ilTableCommandRowTop {
   background-color: #f9f9f9;
-  padding: 3px 6px;
+  padding: 5px 8px;
   font-size: 90%;
 }
 span.ilTableFootLight {
@@ -9030,7 +9034,11 @@ tr.tblheader {
   vertical-align: top;
 }
 .table > thead > tr > th {
-  border-bottom: 1px;
+  border-bottom: 1px solid #a0a0a0;
+  background-color: #fcfcfc;
+}
+.ilTableOuter .table {
+  background-color: #f9f9f9;
 }
 /* Services/Notes */
 div.ilNotes {
