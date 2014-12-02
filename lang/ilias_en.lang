@@ -12356,6 +12356,7 @@ assessment#:#tst_question_hints_back_to_question#:#Back to Question
 assessment#:#tst_question_hints_index_column_label#:#Hint %s
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Requested Hints
+assessment#:#tst_activate_skill_service_desc#:#TODO7
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Edit Points
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
 assessment#:#tst_question_hints_form_cmd_save_points#:#Save Points

@@ -12310,6 +12310,7 @@ assessment#:#tst_question_hints_back_to_question#:#Zurück zur Frage
 assessment#:#tst_question_hints_index_column_label#:#Lösungshinweis %s
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Angeforderte Lösungshinweise
+assessment#:#tst_activate_skill_service_desc#:#TODO7
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Punkte bearbeiten
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Seite bearbeiten
 assessment#:#tst_question_hints_form_cmd_save_points#:#Speichere Punkte
