@@ -6,7 +6,6 @@ var ilSurveyPageView = {
 	drag_process_css: 'ilSurveyPageEditAreaDragging',
 	drop_active_css: 'ilSurveyPageEditDropArea',
 	drop_selected_css: 'ilSurveyPageEditDropAreaSelected',
-	drag_containment: 'ilc_page_Page',
 	drag_process_id: null,
 	sel_edit_areas: Array(),
 	init: function() {		
@@ -17,19 +16,23 @@ var ilSurveyPageView = {
 			$(this).draggable({  
 				axis: 'y', 
 				scroll: true,
-				/* containment: 'div.' + ilSurveyPageView.drag_containment, */
+				containment: 'parent', 
 				cursor: 'move',				
 				revert: 'invalid',
+				opacity: 0.9, 
+				/* helper: 'clone', */
+				helper: function(event) {
+					return '<div class="' + ilSurveyPageView.drag_process_css + '">' +
+						$('#label_' + $(this).attr('id')).html()
+						+ '</div>';
+				},
 				start: function(event, ui) {
 					ilSurveyPageView.drag_process_id = $(this).attr('id');
-					$(this).addClass(ilSurveyPageView.drag_active_css);
-					$(this).addClass(ilSurveyPageView.drag_process_css); 			
+					$(this).removeClass(ilSurveyPageView.drag_active_css);	
+					$('#label_' + $(this).attr('id')).hide();
 				},
 				stop: function(event, ui) {
 					ilSurveyPageView.drag_process_id = null;										
-					$(this).removeClass(ilSurveyPageView.drag_active_css);
-					$(this).removeClass(ilSurveyPageView.drag_process_css);
-					$('#label_' + $(this).attr('id')).hide();
 				}
 				
 			});			

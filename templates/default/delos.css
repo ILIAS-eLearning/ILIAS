@@ -10530,7 +10530,11 @@ div.ilSurveyPageEditDropAreaSelected {
   background-color: #aed389;
 }
 div.ilSurveyPageEditAreaDragging {
-  background-color: rgba(240, 240, 240, 0.75);
+  width: 50%;
+  height: 75px;
+  border: 1px dashed #434343;
+  background-color: #f9f9f9;
+  padding: 5px;
 }
 .noMargin {
   margin: 0;
