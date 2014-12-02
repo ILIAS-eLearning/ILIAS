@@ -1819,6 +1819,7 @@ class gevCourseUtils {
 		
 		global $ilDB;
 		global $ilUser;
+		//global $ilCtrl;
 		
 		$gev_set = gevSettings::getInstance();
 		$db = &$ilDB;
@@ -2034,6 +2035,19 @@ $addsql = '';
 			// to instantiate the course to get booking information about it.
 			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
 			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
+			$crs_ref = gevObjectUtils::getRefId($crs_utils->getCourse()->getId());
+			
+			$edit_lnk = "ilias.php?cmdClass=ilobjcoursegui&cmd=editInfo&baseClass=ilRepositoryGUI&ref_id=" .$crs_ref;
+
+			$info[$key]["title"] = '<a href="'
+									.$edit_lnk
+									.'">'
+									.$info[$key]["title"]
+									.'</a>';
+
+			$orgu_utils->getLongTitle();
+
+
 			
 			$info[$key]["location"] = $orgu_utils->getLongTitle();
 			$info[$key]["trainer"] = $crs_utils->getMainTrainer()->getFullName();
@@ -2052,7 +2066,20 @@ $addsql = '';
 			$info[$key]["date"] = $info[$key]["start_date"] .'-' .$info[$key]["end_date"];
 			
 			$info[$key]["status"] = ($crs_utils->getCourse()->isActivated()) ? 'online' : 'offline';
-			$info[$key]["action"] = 'memberlist';
+			
+
+
+
+			$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
+			//http://localhost/4_4_generali2/ilias.php?ref_id=80&cmd=trainer&cmdClass=gevmemberlistdeliverygui&cmdNode=ei&baseClass=gevmemberlistdeliverygui
+			//$memberlist_link = $ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer");
+			$memberlist_lnk = "ilias.php?cmd=trainer&cmdClass=gevmemberlistdeliverygui&cmdNode=ei&baseClass=gevmemberlistdeliverygui&ref_id=" .$crs_ref;
+			$action = '<a href="'
+					.$memberlist_lnk
+					.'">'
+					.$memberlist_img
+					.'</a>';
+			$info[$key]["action"] = $action;
 
 		}
 
