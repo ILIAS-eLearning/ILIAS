@@ -616,7 +616,11 @@ class ilLuceneAdvancedSearchFields
 				include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
 				$field = ilAdvancedMDFieldDefinition::getInstance($field_id);
 				
-				return 'advancedMetaData_'.$field_id.': '.$field->getLuceneSearchString($a_query);				
+				$adv_query = $field->getLuceneSearchString($a_query);
+				if($adv_query)
+				{
+					return 'advancedMetaData_'.$field_id.': '.$adv_query;				
+				}
 		}
 	}
 	

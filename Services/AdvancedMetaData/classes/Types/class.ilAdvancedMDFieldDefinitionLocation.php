@@ -53,6 +53,22 @@ class ilAdvancedMDFieldDefinitionLocation extends ilAdvancedMDFieldDefinition
 			$adt->setZoom($parts[2]);
 		}
 	}
+		
+	
+	//
+	// search
+	// 
+	
+	public function getLuceneSearchString($a_value)
+	{
+		// #14777 - currently not supported
+		return;
+		
+		if($a_value["tgl"])
+		{
+			
+		}
+	}
 }
 
 ?>
