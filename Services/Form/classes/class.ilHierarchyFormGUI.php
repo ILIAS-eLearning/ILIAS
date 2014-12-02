@@ -522,13 +522,6 @@ class ilHierarchyFormGUI extends ilFormGUI
 		$childs = null;
 		$nodes_html = $this->getLevelHTML($top_node, 0, $childs);
 
-		// icon
-		if ($this->getIcon() != "")
-		{
-			$ttpl->setCurrentBlock("icon");
-			$ttpl->setVariable("SRC_ICON", $this->getIcon());
-			$ttpl->parseCurrentBlock();
-		}
 
 		// commands
 		$secs = array("1", "2");
@@ -646,44 +639,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 			}
 		}
 		$this->diss_menues[$a_id][$a_group][] = array("type" => $a_type, "text" => $a_diss_text);
-		
-		// help
-		$ttpl->setCurrentBlock("help_img");
-		$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("streaked_area.png"));
-		$ttpl->parseCurrentBlock();
-		$ttpl->setCurrentBlock("help_section");
-		$ttpl->setVariable("TXT_HELP",
-			$lng->txt("form_hierarchy_add_elements"));
-		$ttpl->parseCurrentBlock();
 
-		if ($this->getDragIcon() != "")
-		{
-			$ttpl->setCurrentBlock("help_img");
-			$ttpl->setVariable("IMG_HELP", $this->getDragIcon());
-			$ttpl->parseCurrentBlock();
-			$ttpl->setCurrentBlock("help_img");
-			$ttpl->setVariable("IMG_HELP",
-				ilUtil::getImagePath("drop_streaked_area.png"));
-			$ttpl->parseCurrentBlock();
-			$ttpl->setCurrentBlock("help_section");
-			$ttpl->setVariable("TXT_HELP",
-				$lng->txt("form_hierarchy_drag_drop_help"));
-			$ttpl->parseCurrentBlock();
-		}
-		
-		// additional help items
-		foreach ($this->getHelpItems() as $help)
-		{
-			if ($help["image"] != "")
-			{
-				$ttpl->setCurrentBlock("help_img");
-				$ttpl->setVariable("IMG_HELP", $help["image"]);
-				$ttpl->parseCurrentBlock();
-			}
-			$ttpl->setCurrentBlock("help_section");
-			$ttpl->setVariable("TXT_HELP", $help["text"]);
-			$ttpl->parseCurrentBlock();
-		}
 
 		if ($this->triggered_update_command != "")
 		{
@@ -739,7 +695,53 @@ class ilHierarchyFormGUI extends ilFormGUI
 		
 		return $ttpl->get();
 	}
-	
+
+	/**
+	 * Get Legend
+	 *
+	 * @return string legend html
+	 */
+	function getLegend()
+	{
+		global $lng;
+
+		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+
+		$ttpl = new ilTemplate("tpl.hierarchy_form_legend.html", true, true, "Services/Form");
+		if ($this->getDragIcon() != "")
+		{
+			$ttpl->setCurrentBlock("help_drag");
+			$ttpl->setVariable("IMG_DRAG", $this->getDragIcon());
+			$ttpl->setVariable("DRAG_ARROW",
+				ilGlyphGUI::get(ilGlyphGUI::DRAG));
+			$ttpl->setVariable("TXT_DRAG",
+				$lng->txt("form_hierarchy_drag_drop_help"));
+			$ttpl->setVariable("PLUS", ilGlyphGUI::get(ilGlyphGUI::ADD));
+			$ttpl->parseCurrentBlock();
+		}
+
+		// additional help items
+		foreach ($this->getHelpItems() as $help)
+		{
+			if ($help["image"] != "")
+			{
+				$ttpl->setCurrentBlock("help_img");
+				$ttpl->setVariable("IMG_HELP", $help["image"]);
+				$ttpl->parseCurrentBlock();
+			}
+			$ttpl->setCurrentBlock("help_item");
+			$ttpl->setVariable("TXT_HELP", $help["text"]);
+			$ttpl->parseCurrentBlock();
+		}
+
+		$ttpl->setVariable("TXT_ADD_EL",
+			$lng->txt("form_hierarchy_add_elements"));
+		$ttpl->setVariable("PLUS2", ilGlyphGUI::get(ilGlyphGUI::ADD));
+
+		return $ttpl->get();
+	}
+
+
 	/**
 	* Get Form HTML
 	*/
@@ -764,6 +766,11 @@ class ilHierarchyFormGUI extends ilFormGUI
 			$ttpl->setCurrentBlock("drop_area");
 			$ttpl->setVariable("DNODE_ID", $a_par_node["node_id"]."fc");		// fc means "first child"
 			$ttpl->setVariable("IMG_BLANK", ilUtil::getImagePath("spacer.png"));
+			if (count($childs) == 0)
+			{
+				$ttpl->setVariable("NO_CONTENT_CLASS", "ilCOPGNoPageContent");
+				$ttpl->setVariable("NO_CONTENT_TXT", " &nbsp;".$lng->txt("form_hier_click_to_add"));
+			}
 			$ttpl->parseCurrentBlock();
 	
 			$this->manageDragAndDrop($a_par_node, $a_depth, true, null, $childs);
@@ -1151,5 +1158,17 @@ class ilHierarchyFormGUI extends ilFormGUI
 	{
 		return (((int) $_POST["il_hform_fc"]) == 1);
 	}
+
+	/**
+	 * Get HTML
+	 *
+	 * @param
+	 * @return
+	 */
+	function getHTML()
+	{
+		return parent::getHTML().$this->getLegend();
+	}
+
 	
 }
