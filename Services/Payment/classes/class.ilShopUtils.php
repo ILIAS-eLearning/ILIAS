@@ -266,7 +266,7 @@
 	 
 	public static function _getSpecialObjectSymbol()
 	{
-		return ilUtil::img('./templates/default/images/payment/star_32.png');
+		return $img = ilUtil::img('./templates/default/images/icon_rate_10.svg','', '24px', '24px');
 	}
 
 	public static function _getPaymethodSymbol($a_paymethod)

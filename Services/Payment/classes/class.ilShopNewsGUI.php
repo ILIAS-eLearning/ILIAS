@@ -98,7 +98,6 @@ class ilShopNewsGUI extends ilShopBaseGUI
 	
 		$this->settings_form = new ilPropertyFormGUI();
 		$this->settings_form->setTitle($this->lng->txt('payment_news_settings'));
-		$this->settings_form->setTitleIcon(ilUtil::getImagePath('icon_news.png'));
 		
 		$oSelectBox = new ilSelectInputGUI($this->lng->txt('payment_news_archive_period'), 'archive_period');
 		$oSelectBox->setInfo($this->lng->txt('payment_news_archive_period_info'));
@@ -305,7 +304,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 
 		$oNewsItem = new ilShopNewsItem($_GET['news_id']);
 		$title=$oNewsItem->getTitle();
-		$c_gui->addItem($news_title,$_GET['news_id'],$title);
+		$c_gui->addItem($title, $_GET['news_id'],$title);
 		
 
 		switch($view)
@@ -347,10 +346,8 @@ class ilShopNewsGUI extends ilShopBaseGUI
 			$ilTabs->setSubTabActive('news');	
 		}
 		
-//		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		$this->form_gui = new ilPropertyFormGUI();
 		$this->form_gui->setTitle($this->lng->txt('shopnews_settings'));
-		$this->form_gui->setTitleIcon(ilUtil::getImagePath('icon_news.png'));
 		
 		// Property Title
 		$text_input = new ilTextInputGUI($this->lng->txt('news_news_item_title'), 'news_title');
@@ -474,7 +471,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 
 		$tbl = new ilTable2GUI($this);
 		$tbl->setId('shop_news_tbl');
-		$tbl->setTitle($this->lng->txt('news'), 'icon_news.png', $this->lng->txt('news'));		
+		$tbl->setTitle($this->lng->txt('news'), 0, $this->lng->txt('news'));		
 		$tbl->setRowTemplate('tpl.shop_news_row.html', 'Services/Payment'); 
 		$tbl->setFormAction($this->ctrl->getFormAction($this), 'showNews');
 		$tbl->addColumn($this->lng->txt('news'), 'title', '100%');
@@ -557,7 +554,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 		
 		$tbl = new ilTable2GUI($this);
 		$tbl->setId('shop_news_archive_tbl');
-		$tbl->setTitle($this->lng->txt('archive'), 'icon_news.png',$this->lng->txt('news'));	
+		$tbl->setTitle($this->lng->txt('archive'), 0 ,$this->lng->txt('news'));	
 		$tbl->setRowTemplate('tpl.shop_news_row.html', 'Services/Payment'); 
 		$tbl->setFormAction($this->ctrl->getFormAction($this), 'showArchive');
 	 	$tbl->addColumn($this->lng->txt('archive'), 'title', '100%');	 	
