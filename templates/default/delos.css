@@ -10579,12 +10579,6 @@ div.ilNewObjectSelector {
   padding-right: 0;
   padding-left: 4px;
 }
-div#il_prop_cont_introduction > label.control-label {
-  text-align: left;
-}
-div#il_prop_cont_introduction > .col-sm-9 {
-  width: 100%;
-}
 /* basic responsiveness (beta)
 
    The following section targets smartphones.
