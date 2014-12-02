@@ -9,26 +9,31 @@
 //reset ilias for calls from somewhere else
 
 
-die();
+
+//reset ilias for calls from somewhere else
+$LIVE = 1;
+
+//die();
 
 $basedir = __DIR__; 
 $basedir = str_replace('/Services/GEV/debug', '', $basedir);
 chdir($basedir);
 
-/*
+//require "./Services/GEV/debug/simplePwdSec.php";
+
+
 //context w/o user
 require_once "./Services/Context/classes/class.ilContext.php";
 ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
 require_once("./Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
-*/
+
+
 require_once("./include/inc.header.php");
 
 //require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 //require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 //require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
-
-
 
 
 
@@ -376,9 +381,22 @@ class gevDebug {
 print '<pre>';
 
 
-die('online');
+//die('online');
 $debug = new gevDebug();
 
+
+$usr_ids = array(
+266
+,289
+);
+
+foreach ($debug->getAllUsers($usr_ids) as $id=>$usr) {
+	$debug->updateHistoryForUser($usr);
+
+	print "<h2>$id</h2>";
+	print_r($usr->getLogin());
+	print '<hr>';
+}
 
 
 /*

@@ -78,7 +78,6 @@ class gevAMDUtils {
 				 "WHERE ".$this->db->in("od.obj_id", $a_objs, false, "integer")." ".$a_additional_where;
 
 		$res = $this->db->query($query);
-
 		return $this->makeTableResult($res, $field_ids, $types, $a_amd_settings);
 	}
 

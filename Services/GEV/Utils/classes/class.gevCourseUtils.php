@@ -1816,6 +1816,11 @@ class gevCourseUtils {
 	public function searchCourses($a_search_options, $a_offset, 
 								$a_limit, $a_order = "title", 
 								$a_direction = "desc") {
+		
+		global $ilDB;
+		
+		$gev_set = gevSettings::getInstance();
+		$db = &$ilDB;
 
 
 		if ($a_order == "") {
@@ -1834,6 +1839,227 @@ class gevCourseUtils {
 		*/
 
 
+/*
+print '<hr>';
+print 'search options:<br>';
+		print_r($a_search_options);
+print '<hr>';
+
+*/
+		global $ilUser;
+		/*
+		$hash = md5(serialize($a_search_options));
+		if ($this->potentiallyBookableCourses[$hash] !== null) {
+			return $this->potentiallyBookableCourses[$hash];
+		}
+		*/
+		
+		$is_tmplt_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
+		$start_date_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
+		$type_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
+		$bk_deadl_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_BOOKING_DEADLINE);
+		
+		// include search options 
+		$additional_join = "";
+		$additional_where = "";
+		
+		if (array_key_exists("title", $a_search_options)) {
+			$additional_join .= " LEFT JOIN object_data od ON cs.obj_id = od.obj_id ";
+			$additional_where .= " AND od.title LIKE ".$this->db->quote("%".$a_search_options["title"]."%", "text");
+		}
+		if (array_key_exists("custom_id", $a_search_options)) {
+			$custom_id_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_CUSTOM_ID);
+			
+			// this is knowledge from the course amd plugin!
+			$additional_join .= 
+				" LEFT JOIN adv_md_values_text custom_id".
+				"   ON cs.obj_id = custom_id.obj_id ".
+				"   AND custom_id.field_id = ".$db->quote($custom_id_field_id, "integer")
+				;
+			$additional_where .=
+				" AND custom_id.value LIKE ".$db->quote("%".$a_search_options["custom_id"]."%", "text");
+		}
+		if (array_key_exists("type", $a_search_options)) {
+			$additional_where .=
+				" AND ltype.value LIKE ".$db->quote("%".$a_search_options["type"]."%", "text");
+		}
+		if (array_key_exists("categorie", $a_search_options)) {
+			$categorie_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_TOPIC);
+			
+			// this is knowledge from the course amd plugin!
+			$additional_join .= 
+				" LEFT JOIN adv_md_values_text categorie".
+				"   ON cs.obj_id = categorie.obj_id ".
+				"   AND categorie.field_id = ".$db->quote($categorie_field_id, "integer")
+				;
+			$additional_where .=
+				" AND categorie.value LIKE ".$db->quote("%".$a_search_options["categorie"]."%", "text");
+		}
+		if (array_key_exists("target_group", $a_search_options)) {
+			$target_group_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_TARGET_GROUP);
+			
+			// this is knowledge from the course amd plugin!
+			$additional_join .= 
+				" LEFT JOIN adv_md_values_text target_group".
+				"   ON cs.obj_id = target_group.obj_id ".
+				"   AND target_group.field_id = ".$db->quote($target_group_field_id, "integer")
+				;
+			$additional_where .=
+				" AND target_group.value LIKE ".$db->quote("%".$a_search_options["target_group"]."%", "text");
+		}
+		if (array_key_exists("location", $a_search_options)) {
+			$location_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_VENUE);
+			
+			// this is knowledge from the course amd plugin!
+			$additional_join .= 
+				" LEFT JOIN adv_md_values_text location".
+				"   ON cs.obj_id = location.obj_id ".
+				"   AND location.field_id = ".$db->quote($location_field_id, "integer")
+				;
+			$additional_where .=
+				" AND location.value LIKE ".$db->quote("%".$a_search_options["location"]."%", "text");
+		}
+		if (array_key_exists("provider", $a_search_options)) {
+			$provider_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_PROVIDER);
+			
+			// this is knowledge from the course amd plugin!
+			$additional_join .= 
+				" LEFT JOIN adv_md_values_text provider".
+				"   ON cs.obj_id = provider.obj_id ".
+				"   AND provider.field_id = ".$db->quote($provider_field_id, "integer")
+				;
+			$additional_where .=
+				" AND provider.value LIKE ".$db->quote("%".$a_search_options["provider"]."%", "text");
+		}
+		if (array_key_exists("period", $a_search_options)) {
+			$end_date_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
+			
+			// this is knowledge from the course amd plugin!
+			$additional_join .=
+				" LEFT JOIN adv_md_values_date end_date".
+				"   ON cs.obj_id = end_date.obj_id ".
+				"   AND end_date.field_id = ".$db->quote($end_date_field_id, "integer")
+				;
+			$additional_where .=
+				" AND ( ( NOT start_date.value > ".$db->quote(date("Y-m-d", $a_search_options["period"]["end"]))." ) ".
+				"       OR ".$db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
+				" AND ( ( NOT end_date.value < ".$db->quote(date("Y-m-d", $a_search_options["period"]["start"]))." ) ".
+				"       OR ".$db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
+				"       OR (end_date.value IS NULL AND NOT start_date.value < ".$db->quote(date("Y-m-d", $a_search_options["period"]["start"])).")"
+				;
+		}
+		
+		// try to narrow down the set as much as possible to avoid permission checks
+		$query = "SELECT DISTINCT cs.obj_id ".
+				 " FROM crs_settings cs".
+				 " LEFT JOIN object_reference oref".
+				 "   ON cs.obj_id = oref.obj_id".
+				 // this is knowledge from the course amd plugin!
+				 " LEFT JOIN adv_md_values_text is_template".
+				 "   ON cs.obj_id = is_template.obj_id ".
+				 "   AND is_template.field_id = ".$db->quote($is_tmplt_field_id, "integer").
+				 // this is knowledge from the course amd plugin
+				 " LEFT JOIN adv_md_values_date start_date".
+				 "   ON cs.obj_id = start_date.obj_id ".
+				 "   AND start_date.field_id = ".$db->quote($start_date_field_id, "integer").
+				 // this is knowledge from the course amd plugin
+				 " LEFT JOIN adv_md_values_text ltype".
+				 "   ON cs.obj_id = ltype.obj_id ".
+				 "   AND ltype.field_id = ".$db->quote($type_field_id, "integer").
+
+//				 $additional_join.
+				 " WHERE ".
+
+/*				 "	 cs.activation_type = 1".
+				 "   AND cs.activation_start < ".time().
+				 "   AND cs.activation_end > ".time().
+				 "   AND oref.deleted IS NULL".
+*/
+				 "   oref.deleted IS NULL".
+
+				 "   AND is_template.value = ".$db->quote("Nein", "text").
+				 "   AND  (ltype.value LIKE 'Pr_senztraining' ".
+				 "		OR ltype.value IN ('Webinar','Virtuelles Training', 'Selbstlernkurs')".
+				 "	 )".
+//				 $additional_where.
+				 "";
+
+		$res = $db->query($query);
+		$crss = array();
+		while($val = $db->fetchAssoc($res)) {
+			$crss[] = $val["obj_id"];
+		}
+	
+		$crs_amd = 
+			array( gevSettings::CRS_AMD_CUSTOM_ID			=> "custom_id"
+				 , gevSettings::CRS_AMD_TYPE 				=> "type"
+				 , gevSettings::CRS_AMD_VENUE 				=> "location"
+				 , gevSettings::CRS_AMD_START_DATE			=> "start_date"
+				 , gevSettings::CRS_AMD_END_DATE 			=> "end_date"
+				 //trainer
+				 , gevSettings::CRS_AMD_CREDIT_POINTS 		=> "points"
+				 , gevSettings::CRS_AMD_FEE					=> "fee"
+				 //status (online/offline)
+				 , gevSettings::CRS_AMD_MIN_PARTICIPANTS	=> "min_participants"
+				 , gevSettings::CRS_AMD_MAX_PARTICIPANTS	=> "max_participants"
+
+				 //memberlist (link)
+
+				
+			);
+
+
+		$addsql = "ORDER BY ".$a_order." ".$a_direction." LIMIT ".$a_limit." OFFSET ".$a_offset;
+
+$addsql = '';
+
+		$info = gevAMDUtils::getInstance()->getTable(
+				$crss, 
+				$crs_amd, 
+				array(), 
+				array(),
+				$addsql			
+			);
+
+
+		foreach ($info as $key => $value) {
+			// TODO: This surely could be tweaked to be faster if there was no need
+			// to instantiate the course to get booking information about it.
+			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
+			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
+			
+			$info[$key]["location"] = $orgu_utils->getLongTitle();
+			$info[$key]["trainer"] = $crs_utils->getMainTrainer()->getFullName();
+
+			$ms = $crs_utils->getMembership();
+			
+			$mbr_booked_userids = $ms->getMembers();
+			$mbr_waiting_userids = $crs_utils->getWaitingMembers($id);
+
+			$mbr_booked = count($mbr_booked_userids);
+			$mbr_waiting = count($mbr_waiting_userids);
+
+			$info[$key]["members"] = $mbr_booked .' (' .$mbr_waiting .')'
+									.' / ' .$info[$key]["min_participants"] .'-' .$info[$key]["max_participants"];
+			
+			$info[$key]["date"] = $info[$key]["start_date"] .'-' .$info[$key]["end_date"];
+			
+			$info[$key]["status"] = ($crs_utils->getCourse()->isActivated()) ? 'online' : 'offline';
+			$info[$key]["action"] = 'memberlist';
+
+		}
+
+
+/*
+print '<hr><h2>info</h2>';
+print '<pre>';
+print_r($info);
+print '<hr>';
+print '</pre>';
+*/
+
+
+		return $info;
 	}
 
 }

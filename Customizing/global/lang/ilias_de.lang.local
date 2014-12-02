@@ -925,3 +925,5 @@ gev#:#gev_rep_wbd_edupoints_desc#:#Die folgenden Benutzer/Trainingsbeziehungen w
 common#:#login_data#:#Accountinformationen
 common#:#contact_data#:#Kontaktinformationen geschäftlich
 gev#:#gev_course_search_adm#:#Trainingssuche
+gev#:#gev_trainingsnumber#:#Trainingsnummer
+gev#:#tutor#:#Trainer
