@@ -247,8 +247,6 @@ class ilCalendarAppointmentGUI
 				$this->lng->txt('cal_fullday_title'),
 				$this->app->isFullday() ? true : false 
 			);
-			$dur->setMinuteStepSize(5);
-			$dur->setShowDate(true);
 			$dur->setShowTime(true);
 			$dur->setStart($this->app->getStart());
 			$dur->setEnd($this->app->getEnd());

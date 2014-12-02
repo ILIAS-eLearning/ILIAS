@@ -36,9 +36,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	protected $toggle_fulltime_txt = '';
 	protected $toggle_fulltime_checked = false;
 
-	protected $show_date = true;
 	protected $show_empty = false;
-	protected $show_time = true;
+	protected $showtime = false;
 	
 	/**
 	* Constructor
@@ -190,26 +189,6 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	public function getEnd()
 	{
 		return $this->end;
-	}
-	
-	/**
-	* Set Show Date Information.
-	*
-	* @param	boolean	$a_showdate	Show Date Information
-	*/
-	public function setShowDate($a_showdate)
-	{
-		$this->showdate = $a_showdate;
-	}
-
-	/**
-	* Get Show Date Information.
-	*
-	* @return	boolean	Show Date Information
-	*/
-	public function getShowDate()
-	{
-		return $this->showdate;
 	}
 	
 	/**
@@ -551,49 +530,46 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$tpl->setVariable('TXT_TOGGLE_FULLDAY',$this->toggle_fulltime_txt);
 			$tpl->parseCurrentBlock();
 		}
+				
+		$tpl->setVariable('POST_VAR',$this->getPostVar());
+		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+		$tpl->setVariable("IMG_START_CALENDAR", ilGlyphGUI::get(ilGlyphGUI::CALENDAR, $lng->txt("open_calendar")));
+
+		$tpl->setVariable("START_ID", $this->getPostVar());
+		$tpl->setVariable("DATE_ID_START", $this->getPostVar());
+
+		$tpl->setVariable("INPUT_FIELDS_START", $this->getPostVar()."[start][date]");
+		include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
+		$tpl->setVariable('DATE_FIRST_DAY',ilCalendarUserSettings::_getInstance()->getWeekStart());
+		$tpl->setVariable("START_SELECT",
+			ilUtil::makeDateSelect(
+				$this->getPostVar()."[start][date]",
+				$start_info['year'], $start_info['mon'], $start_info['mday'],
+				$this->getStartYear(),
+				true,
+				array(
+					'disabled' => $this->getDisabled(),
+					'select_attributes' => array('onchange' => 'ilUpdateEndDate();')
+					),
+				$this->getShowEmpty()));
+
+		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+		$tpl->setVariable("IMG_END_CALENDAR", ilGlyphGUI::get(ilGlyphGUI::CALENDAR, $lng->txt("open_calendar")));
+
+		$tpl->setVariable("END_ID", $this->getPostVar());
+		$tpl->setVariable("DATE_ID_END", $this->getPostVar());
+		$tpl->setVariable("INPUT_FIELDS_END", $this->getPostVar()."[end][date]");
+		$tpl->setVariable("END_SELECT",
+			ilUtil::makeDateSelect(
+				$this->getPostVar()."[end][date]",
+				$end_info['year'], $end_info['mon'], $end_info['mday'],
+				$this->getStartYear(),
+				true,
+				array(
+					'disabled' => $this->getDisabled()
+					),
+				$this->getShowEmpty()));
 		
-		
-		if ($this->getShowDate() or 1)
-		{
-			$tpl->setVariable('POST_VAR',$this->getPostVar());
-			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
-			$tpl->setVariable("IMG_START_CALENDAR", ilGlyphGUI::get(ilGlyphGUI::CALENDAR, $lng->txt("open_calendar")));
-
-			$tpl->setVariable("START_ID", $this->getPostVar());
-			$tpl->setVariable("DATE_ID_START", $this->getPostVar());
-			
-			$tpl->setVariable("INPUT_FIELDS_START", $this->getPostVar()."[start][date]");
-			include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
-			$tpl->setVariable('DATE_FIRST_DAY',ilCalendarUserSettings::_getInstance()->getWeekStart());
-			$tpl->setVariable("START_SELECT",
-				ilUtil::makeDateSelect(
-					$this->getPostVar()."[start][date]",
-					$start_info['year'], $start_info['mon'], $start_info['mday'],
-					$this->getStartYear(),
-					true,
-					array(
-						'disabled' => $this->getDisabled(),
-						'select_attributes' => array('onchange' => 'ilUpdateEndDate();')
-						),
-					$this->getShowEmpty()));
-
-			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
-			$tpl->setVariable("IMG_END_CALENDAR", ilGlyphGUI::get(ilGlyphGUI::CALENDAR, $lng->txt("open_calendar")));
-
-			$tpl->setVariable("END_ID", $this->getPostVar());
-			$tpl->setVariable("DATE_ID_END", $this->getPostVar());
-			$tpl->setVariable("INPUT_FIELDS_END", $this->getPostVar()."[end][date]");
-			$tpl->setVariable("END_SELECT",
-				ilUtil::makeDateSelect(
-					$this->getPostVar()."[end][date]",
-					$end_info['year'], $end_info['mon'], $end_info['mday'],
-					$this->getStartYear(),
-					true,
-					array(
-						'disabled' => $this->getDisabled()
-						),
-					$this->getShowEmpty()));
-		}
 		if($this->getShowTime())
 		{
 			$tpl->setCurrentBlock("show_start_time");
@@ -628,7 +604,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$tpl->parseCurrentBlock();
 		}
 		
-		if ($this->getShowTime() && $this->getShowDate())
+		if ($this->getShowTime())
 		{
 			$tpl->setVariable("DELIM", "<br />");
 		}

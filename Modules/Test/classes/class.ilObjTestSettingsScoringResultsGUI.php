@@ -551,8 +551,7 @@ class ilObjTestSettingsScoringResultsGUI
 		$results_access->setValue($this->testOBJ->getScoreReporting());
 
 		// access date
-		$reporting_date = new ilDateTimeInputGUI('', 'reporting_date');
-		$reporting_date->setShowDate(true);
+		$reporting_date = new ilDateTimeInputGUI('', 'reporting_date');		
 		$reporting_date->setShowTime(true);
 		if (strlen($this->testOBJ->getReportingDate()))
 		{

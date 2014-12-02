@@ -14,7 +14,6 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	protected $mode = null;
 	protected $date_obj = null;
 	protected $date;
-	protected $showdate = true;
 	protected $time = "00:00:00";
 	protected $showtime = false;
 	protected $showseconds = false;
@@ -116,26 +115,6 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	function getDate()
 	{
 		return $this->date;
-	}
-
-	/**
-	* Set Show Date Information.
-	*
-	* @param	boolean	$a_showdate	Show Date Information
-	*/
-	function setShowDate($a_showdate)
-	{
-		$this->showdate = $a_showdate;
-	}
-
-	/**
-	* Get Show Date Information.
-	*
-	* @return	boolean	Show Date Information
-	*/
-	function getShowDate()
-	{
-		return $this->showdate;
 	}
 
 	/**
@@ -476,86 +455,84 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			}
 		}
 
-		if ($this->getShowDate())
+		if($this->getMode() == self::MODE_SELECT)
 		{
-			if($this->getMode() == self::MODE_SELECT)
-			{
-				$tpl->setCurrentBlock("prop_date_input_select_setup");
-				$tpl->setVariable("INPUT_FIELDS_DATE", $this->getPostVar()."[date]");
-				$tpl->parseCurrentBlock();
-
-				$tpl->setCurrentBlock("prop_date");
-				$tpl->setVariable("DATE_SELECT",
-					ilUtil::makeDateSelect($this->getPostVar()."[date]", $date_info['year'], $date_info['mon'], $date_info['mday'],
-						$this->startyear,true,array('disabled' => $this->getDisabled()), $this->getShowEmpty()));		
-			}
-			else
-			{
-				$value = $this->getDate();
-				if($value)
-				{
-					$value = substr($this->getDate()->get(IL_CAL_DATETIME), 0, 10);
-					$day = substr($value, 8, 2);
-					$month = substr($value, 5, 2);
-					$year = substr($value, 0, 4);
-				}
-
-				switch($ilUser->getDateFormat())
-				{
-					case ilCalendarSettings::DATE_FORMAT_DMY:
-						if($value)
-						{
-							$value = date("d.m.Y", mktime(0, 0, 0, $month, $day, $year));
-						}
-						$format = "%d.%m.%Y";
-						$input_hint = $lng->txt("dd_mm_yyyy");
-						break;
-
-					case ilCalendarSettings::DATE_FORMAT_YMD:
-						if($value)
-						{
-							$value = date("Y-m-d", mktime(0, 0, 0, $month, $day, $year));
-						}
-						$format = "%Y-%m-%d";
-						$input_hint = $lng->txt("yyyy_mm_dd");
-						break;
-
-					case ilCalendarSettings::DATE_FORMAT_MDY:
-						if($value)
-						{
-							$value = date("m/d/Y", mktime(0, 0, 0, $month, $day, $year));
-						}
-						$format = "%m/%d/%Y";
-						$input_hint = $lng->txt("mm_dd_yyyy");
-						break;
-				}
-				
-				$tpl->setCurrentBlock("prop_date_input_field");
-				$tpl->setVariable("DATE_ID", $this->getPostVar());
-				$tpl->setVariable("DATE_VALUE", $value); 
-				$tpl->setVariable("DISABLED", $this->getDisabled() ? " disabled=\"disabled\"" : "");
-				$tpl->parseCurrentBlock();
-
-				$tpl->setCurrentBlock("prop_date_input_field_info");
-				$tpl->setVariable("TXT_INPUT_FORMAT", $input_hint);
-				$tpl->parseCurrentBlock();
-
-				$tpl->setCurrentBlock("prop_date_input_field_setup");
-				$tpl->setVariable("DATE_ID", $this->getPostVar());
-				$tpl->setVariable("DATE_FIELD_FORMAT", $format);
-				$tpl->parseCurrentBlock();
-			}
+			$tpl->setCurrentBlock("prop_date_input_select_setup");
+			$tpl->setVariable("INPUT_FIELDS_DATE", $this->getPostVar()."[date]");
+			$tpl->parseCurrentBlock();
 
 			$tpl->setCurrentBlock("prop_date");
-			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
-			$tpl->setVariable("IMG_DATE_CALENDAR", ilGlyphGUI::get(ilGlyphGUI::CALENDAR, $lng->txt("open_calendar")));
+			$tpl->setVariable("DATE_SELECT",
+				ilUtil::makeDateSelect($this->getPostVar()."[date]", $date_info['year'], $date_info['mon'], $date_info['mday'],
+					$this->startyear,true,array('disabled' => $this->getDisabled()), $this->getShowEmpty()));		
+		}
+		else
+		{
+			$value = $this->getDate();
+			if($value)
+			{
+				$value = substr($this->getDate()->get(IL_CAL_DATETIME), 0, 10);
+				$day = substr($value, 8, 2);
+				$month = substr($value, 5, 2);
+				$year = substr($value, 0, 4);
+			}
+
+			switch($ilUser->getDateFormat())
+			{
+				case ilCalendarSettings::DATE_FORMAT_DMY:
+					if($value)
+					{
+						$value = date("d.m.Y", mktime(0, 0, 0, $month, $day, $year));
+					}
+					$format = "%d.%m.%Y";
+					$input_hint = $lng->txt("dd_mm_yyyy");
+					break;
+
+				case ilCalendarSettings::DATE_FORMAT_YMD:
+					if($value)
+					{
+						$value = date("Y-m-d", mktime(0, 0, 0, $month, $day, $year));
+					}
+					$format = "%Y-%m-%d";
+					$input_hint = $lng->txt("yyyy_mm_dd");
+					break;
+
+				case ilCalendarSettings::DATE_FORMAT_MDY:
+					if($value)
+					{
+						$value = date("m/d/Y", mktime(0, 0, 0, $month, $day, $year));
+					}
+					$format = "%m/%d/%Y";
+					$input_hint = $lng->txt("mm_dd_yyyy");
+					break;
+			}
+
+			$tpl->setCurrentBlock("prop_date_input_field");
 			$tpl->setVariable("DATE_ID", $this->getPostVar());
+			$tpl->setVariable("DATE_VALUE", $value); 
+			$tpl->setVariable("DISABLED", $this->getDisabled() ? " disabled=\"disabled\"" : "");
+			$tpl->parseCurrentBlock();
 
-			include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
-			$tpl->setVariable('DATE_FIRST_DAY',ilCalendarUserSettings::_getInstance()->getWeekStart());
+			$tpl->setCurrentBlock("prop_date_input_field_info");
+			$tpl->setVariable("TXT_INPUT_FORMAT", $input_hint);
+			$tpl->parseCurrentBlock();
 
+			$tpl->setCurrentBlock("prop_date_input_field_setup");
+			$tpl->setVariable("DATE_ID", $this->getPostVar());
+			$tpl->setVariable("DATE_FIELD_FORMAT", $format);
 			$tpl->parseCurrentBlock();
 		}
+
+		$tpl->setCurrentBlock("prop_date");
+		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+		$tpl->setVariable("IMG_DATE_CALENDAR", ilGlyphGUI::get(ilGlyphGUI::CALENDAR, $lng->txt("open_calendar")));
+		$tpl->setVariable("DATE_ID", $this->getPostVar());
+
+		include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
+		$tpl->setVariable('DATE_FIRST_DAY',ilCalendarUserSettings::_getInstance()->getWeekStart());
+
+		$tpl->parseCurrentBlock();
+		
 		if($this->getShowTime())
 		{
 			if($this->getMode() == self::MODE_INPUT)
@@ -604,11 +581,6 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 				: "(".$lng->txt("hh_mm").")");
 			
 			$tpl->parseCurrentBlock();
-		}
-
-		if ($this->getShowTime() && $this->getShowDate() && $this->getMode() == self::MODE_SELECT)
-		{
-//			$tpl->setVariable("DELIM", "<br />");
 		}
 
 		return $tpl->get();

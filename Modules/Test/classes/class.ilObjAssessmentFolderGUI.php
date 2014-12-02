@@ -409,8 +409,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$form->addItem($header);
 		
 		// from
-		$from = new ilDateTimeInputGUI($this->lng->txt('cal_from'), "log_from");
-		$from->setShowDate(true);
+		$from = new ilDateTimeInputGUI($this->lng->txt('cal_from'), "log_from");		
 		$from->setShowTime(true);
 		$now = getdate();
 		$fromdate = ($p_from) ? $p_from : (($_GET['log_from']) ? $_GET['log_from'] : mktime(0, 0, 0, 1, 1, $now['year']));
@@ -418,8 +417,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$form->addItem($from);
 
 		// until
-		$until = new ilDateTimeInputGUI($this->lng->txt('cal_until'), "log_until");
-		$until->setShowDate(true);
+		$until = new ilDateTimeInputGUI($this->lng->txt('cal_until'), "log_until");		
 		$until->setShowTime(true);
 		$untildate = ($p_until) ? $p_until : (($_GET['log_until']) ? $_GET['log_until'] : time());
 		$until->setDate(new ilDateTime($untildate, IL_CAL_UNIX));

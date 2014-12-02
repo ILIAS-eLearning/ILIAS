@@ -2625,8 +2625,6 @@ class ilObjGroupGUI extends ilContainerGUI
 			$dur = new ilDateDurationInputGUI($this->lng->txt('grp_reg_period'),'reg');
 			$dur->setStartText($this->lng->txt('cal_start'));
 			$dur->setEndText($this->lng->txt('cal_end'));
-			$dur->setMinuteStepSize(5);
-			$dur->setShowDate(true);
 			$dur->setShowTime(true);
 			$dur->setStart($this->object->getRegistrationStart());
 			$dur->setEnd($this->object->getRegistrationEnd());

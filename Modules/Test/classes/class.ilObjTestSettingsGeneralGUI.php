@@ -793,8 +793,7 @@ class ilObjTestSettingsGeneralGUI
 			$enablestartingtime->setChecked(strlen($this->testOBJ->getStartingTime()));
 		}
 		// starting time
-		$startingtime = new ilDateTimeInputGUI('', 'starting_time');
-		$startingtime->setShowDate(true);
+		$startingtime = new ilDateTimeInputGUI('', 'starting_time');		
 		$startingtime->setShowTime(true);
 		if( strlen($this->testOBJ->getStartingTime()) )
 		{
@@ -822,8 +821,7 @@ class ilObjTestSettingsGeneralGUI
 		else
 			$enableendingtime->setChecked(strlen($this->testOBJ->getEndingTime()));
 		// ending time
-		$endingtime = new ilDateTimeInputGUI('', 'ending_time');
-		$endingtime->setShowDate(true);
+		$endingtime = new ilDateTimeInputGUI('', 'ending_time');		
 		$endingtime->setShowTime(true);
 		if (strlen($this->testOBJ->getEndingTime()))
 		{

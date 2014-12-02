@@ -182,9 +182,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 		$duration->setEndText($this->lng->txt('tos_period_until'));
 		$duration->setStart(new ilDateTime(strtotime('-1 year', time()), IL_CAL_UNIX));
 		$duration->setEnd(new ilDateTime(time(), IL_CAL_UNIX));
-		$duration->setMinuteStepSize(5);
 		$duration->setShowTime(true);
-		$duration->setShowDate(true);
 		$this->addFilterItem($duration, true);
 		$duration->readFromSession();
 		$this->optional_filter['period'] = $duration->getValue();

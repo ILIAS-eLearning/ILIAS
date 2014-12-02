@@ -823,8 +823,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// $enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
 		$enablestartingtime->setChecked($start);
 		// start date
-		$startingtime = new ilDateTimeInputGUI('', 'start_date');
-		$startingtime->setShowDate(true);
+		$startingtime = new ilDateTimeInputGUI('', 'start_date');		
 		$startingtime->setShowTime(true);				
 		if ($start)
 		{
@@ -840,8 +839,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// $enableendingtime->setOptionTitle($this->lng->txt("enabled"));
 		$enableendingtime->setChecked($end);
 		// end date
-		$endingtime = new ilDateTimeInputGUI('', 'end_date');
-		$endingtime->setShowDate(true);
+		$endingtime = new ilDateTimeInputGUI('', 'end_date');		
 		$endingtime->setShowTime(true);		
 		if ($end)
 		{
