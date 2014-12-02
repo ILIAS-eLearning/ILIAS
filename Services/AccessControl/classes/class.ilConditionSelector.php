@@ -13,6 +13,10 @@ include_once "./Services/Repository/classes/class.ilRepositorySelectorExplorerGU
 class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 {
 
+	protected $highlighted_parent = null;
+	protected $clickable_types = array();
+	protected $ref_id = null;
+
 	/**
 	 * Construct
 	 *
@@ -39,12 +43,18 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 	 */
 	function isNodeVisible($a_node)
 	{
-		global $ilAccess;
+		global $ilAccess, $tree;
 
 		if (!$ilAccess->checkAccess('read', '', $a_node["child"]))
 		{
 			return false;
 		}
+		//remove childs of target object
+		if($tree->getParentId($a_node["child"]) == $this->getRefId())
+		{
+			return false;
+		}
+
 		return true;
 	}
 
@@ -107,7 +117,17 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 	 */
 	function setRefId($a_ref_id)
 	{
+		global $tree;
+
 		$this->ref_id = $a_ref_id;
+
+		//can target object be highlighted?
+		$target_type = ilObject::_lookupType($a_ref_id,true);
+
+		if(!in_array($target_type,$this->getTypeWhiteList()))
+		{
+			$this->highlighted_parent = $tree->getParentId($a_ref_id);
+		}
 	}
 
 	/**
@@ -119,6 +139,25 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 	{
 		return $this->ref_id;
 	}
+
+	/**
+	 * Is node highlighted?
+	 *
+	 * @param mixed $a_node node object/array
+	 * @return boolean node visible true/false
+	 */
+	function isNodeHighlighted($a_node)
+	{
+		//highlight parent if target object cant be highlighted
+		if($this->highlighted_parent == $a_node["child"])
+		{
+			return true;
+		}
+
+		return parent::isNodeHighlighted($a_node);
+	}
+
+
 
 
 } 

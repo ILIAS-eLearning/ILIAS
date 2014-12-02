@@ -606,10 +606,11 @@ class ilConditionHandlerGUI
 		ilUtil::sendInfo($this->lng->txt("condition_select_object"));
 
 		$exp = new ilConditionSelector($this, "selector");
-		$exp->setRefId($this->getTargetRefId());
 		$exp->setTypeWhiteList(array_merge($this->getConditionHandler()->getTriggerTypes(),
 								array("root", "cat", "grp", "fold", "crs")
 		));
+		//setRefId have to be after setTypeWhiteList!
+		$exp->setRefId($this->getTargetRefId());
 		$exp->setClickableTypes($this->getConditionHandler()->getTriggerTypes());
 
 		if (!$exp->handleCommand())
