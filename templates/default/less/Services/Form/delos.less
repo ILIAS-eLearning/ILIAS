@@ -39,6 +39,10 @@ select.form-control {
 
 .form-horizontal .control-label {
     padding-top: 0;
+	&.col-sm-3.textarea {
+		text-align: left;
+		width: 100%;
+	}
 }
 
 [dir="rtl"] .form-horizontal .control-label {
@@ -99,10 +103,12 @@ td.form-inline > div.form-group {
 .ilSubForm {
 	background-color: darken(@ilFormBgColor, 2%);
 	padding: 3px 0;
-}
-
-.ilSubForm .form-group {
-	margin: 0;
+	.form-group {
+		margin: 0;
+	}
+	.col-sm-9.textarea {
+		width: 100%;
+	}
 }
 
 .ilFormFooter {

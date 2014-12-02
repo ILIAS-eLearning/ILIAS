@@ -7509,6 +7509,10 @@ select.form-control {
 .form-horizontal .control-label {
   padding-top: 0;
 }
+.form-horizontal .control-label.col-sm-3.textarea {
+  text-align: left;
+  width: 100%;
+}
 [dir="rtl"] .form-horizontal .control-label {
   text-align: left;
 }
@@ -7560,6 +7564,9 @@ td.form-inline > div.form-group {
 }
 .ilSubForm .form-group {
   margin: 0;
+}
+.ilSubForm .col-sm-9.textarea {
+  width: 100%;
 }
 .ilFormFooter {
   padding: 3px 0px;
