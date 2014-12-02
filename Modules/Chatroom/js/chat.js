@@ -248,7 +248,7 @@
 				var line = $(
 					'<p class="listentry '+options.type+'_'+options.id+' online_user"><img src="'+iconsByType[options.type]+'" />&nbsp;' +
 					'<button onclick="this.blur(); return false;" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" data-container="body">' +
-					'<span>' + options.label + '</span> ' +
+					'<span class="label">' + options.label + '</span> ' +
 					'<span class="caret" alt=""></span>' +
 					'</button>' +
 					'</p>');
@@ -312,7 +312,7 @@
 					line.addClass('self');
 				}
 				else if (options.type == 'user') {
-					line.find('.label').append($('<img>').attr('src', 'templates/default/images/mm_down_arrow_dark.png').css('margin-left', '5px'));
+					// Deleted line according to mantis: #14831
 				}
 				else if (options.type == 'room' && options.owner == personalUserInfo.userid) {
 					line.addClass('self');
