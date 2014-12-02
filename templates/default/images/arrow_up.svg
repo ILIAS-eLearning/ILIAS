@@ -20,7 +20,7 @@
    enable-background="new 0 0 32 32"
    xml:space="preserve"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="tree_exp.svg"><metadata
+   sodipodi:docname="arrow_down.svg"><metadata
      id="metadata3081"><rdf:RDF><cc:Work
          rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
@@ -45,10 +45,10 @@
      inkscape:window-maximized="0"
      inkscape:current-layer="Layer_1" /><g
      id="g3054"
-     transform="matrix(0,0.96121216,-0.87199997,0,23.156001,-6.0450271)"><defs
+     transform="matrix(0,-0.96121216,0.87199997,0,-4.747998,25.674974)"><defs
        id="defs3056"><polygon
          id="SVGID_1_"
-         points="11,23.5 22,16 11,8.5 " /></defs><clipPath
+         points="11,8.5 11,23.5 22,16 " /></defs><clipPath
        id="SVGID_2_"><use
          xlink:href="#SVGID_1_"
          overflow="visible"
