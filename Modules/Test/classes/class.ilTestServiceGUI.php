@@ -305,7 +305,7 @@ class ilTestServiceGUI
 
 						$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
 
-						if($this->object->getShowSolutionListComparison() && $show_solutions)
+						if($show_solutions)
 						{
 							$compare_template = new ilTemplate('tpl.il_as_tst_answers_compare.html', TRUE, TRUE, 'Modules/Test');
 							$compare_template->setVariable("HEADER_PARTICIPANT", $this->lng->txt('tst_header_participant'));
