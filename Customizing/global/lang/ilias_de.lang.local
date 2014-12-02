@@ -366,7 +366,7 @@ gev#:#gev_agb_wbd#:#AGB der WBD
 gev#:#gev_agent_key#:#Vermittlerschlüssel
 gev#:#gev_agent_registration#:#Registrierung: Generali Online Akademie
 gev#:#gev_agent_registration_note#:#Bitte vervollständigen Sie Ihr Benutzerprofil.
-gev#:#gev_agent_registration_success#:#Ihre Eingabe war erfolgreich.
+gev#:#gev_agent_registration_success#:#<b>ACHTUNG:</b> BITTE GEHEN SIE JETZT <a href="http://www.generali-onlineakademie.de">"ZURÜCK ZUR STARTSEITE"</a> UND MELDEN SICH MIT IHREN BENUTZERDATEN AN, UM DIE PUNKTEMELDUNG AN DIE WBD ABZUSCHLIEßEN. 
 gev#:#gev_alternative_email#:#alternative E-Mail-Adresse
 gev#:#gev_apprentice_grant#:#Azubizuschuss
 gev#:#gev_attachment_used_in#:#Die Datei wird in folgenden Mails verwendet
