@@ -291,7 +291,7 @@ class ilObjTestSettingsScoringResultsGUI
 
 		if( !$this->isHiddenFormItem('export_settings') )
 		{
-			$exportSettings = (array)$form->getItemByPostVar('export_settings');
+			$exportSettings = (array)$form->getItemByPostVar('export_settings')->getValue();
 			$this->testOBJ->setExportSettingsSingleChoiceShort( (int)in_array('exp_sc_short', $exportSettings) );
 		}
 
