@@ -555,3 +555,8 @@ p.ilAssKprimInstruction
 table.imagemapareas tr.active-area, table.imagemapareas tr.active-area td {
 	background-color: #fdfabb !important;
 }
+
+.ilTstMarkQuestionButton {
+	width: 16px;
+	height: 16px;
+}

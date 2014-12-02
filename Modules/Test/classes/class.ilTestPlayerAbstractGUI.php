@@ -156,7 +156,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		$this->tpl->setCurrentBlock( "isnotmarked" );
 		$this->tpl->setVariable( "CMD_UNMARKED", 'markQuestion' );
-		$this->tpl->setVariable( "IMAGE_UNMARKED", ilUtil::getImagePath( "marked_.png" ) );
+		$this->tpl->setVariable( "IMAGE_UNMARKED", ilUtil::getImagePath( "marked_.svg" ) );
 		$this->tpl->setVariable( "TEXT_UNMARKED", $this->lng->txt( "tst_question_mark" ) );
 		$this->tpl->parseCurrentBlock();
 	}
@@ -165,7 +165,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		$this->tpl->setCurrentBlock( "ismarked" );
 		$this->tpl->setVariable( "CMD_MARKED", 'unmarkQuestion' );
-		$this->tpl->setVariable( "IMAGE_MARKED", ilUtil::getImagePath( "marked.png" ) );
+		$this->tpl->setVariable( "IMAGE_MARKED", ilUtil::getImagePath( "marked.svg" ) );
 		$this->tpl->setVariable( "TEXT_MARKED", $this->lng->txt( "tst_remove_mark" ) );
 		$this->tpl->parseCurrentBlock();
 	}
