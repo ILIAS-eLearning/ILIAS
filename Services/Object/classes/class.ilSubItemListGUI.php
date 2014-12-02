@@ -237,20 +237,17 @@ abstract class ilSubItemListGUI
 			return '';
 		}
 		
-		$this->tpl->addBlockFile('SUB_REL','sub_rel','tpl.lucene_sub_relevance.html','Services/Search');
-		
 		$relevance = $this->getHighlighter()->getRelevance($this->getObjId(),$sub_item);
 		
-		$width1 = (int) ((int) $relevance / 2);
-		$width2 = (int) ((50 - $width1));
-			
-		$this->tpl->setCurrentBlock('relev');
-		$this->tpl->setVariable('VAL_REL',sprintf("%d %%",$relevance));
-		$this->tpl->setVariable('WIDTH_A',$width1);
-		$this->tpl->setVariable('WIDTH_B',$width2);
-		$this->tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.png"));
-		$this->tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.png"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->addBlockFile('SUB_REL','sub_rel','tpl.lucene_sub_relevance.html','Services/Search');
+		
+		include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
+		$pbar = ilProgressBar::getInstance();
+		$pbar->setCurrent($relevance); 
+		
+		$this->tpl->setCurrentBlock('relevance');
+		$this->tpl->setVariable('REL_PBAR', $pbar->render());		
+		$this->tpl->parseCurrentBlock();		
 	}
 	// end-patch mime_filter
 	

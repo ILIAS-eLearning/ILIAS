@@ -459,16 +459,14 @@ class ilSearchResultPresentation
 
 		$tpl = new ilTemplate('tpl.lucene_relevance.html',true,true,'Services/Search');
 		
-		$width1 = (int) $this->getRelevance($a_obj_id);
-		$width2 = (int) (100 - $width1);
+		include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
+		$pbar = ilProgressBar::getInstance();
+		$pbar->setCurrent($this->getRelevance()); 
 		
-		$tpl->setCurrentBlock('relevance');
-		$tpl->setVariable('VAL_REL',sprintf("%d %%",$this->getRelevance($a_obj_id)));
-		$tpl->setVariable('WIDTH_A',$width1);
-		$tpl->setVariable('WIDTH_B',$width2);
-		$tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.png"));
-		$tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.png"));
-		$tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock('relevance');
+		$this->tpl->setVariable('REL_PBAR', $pbar->render());		
+		$this->tpl->parseCurrentBlock();
+		
 		$html = $tpl->get();
 		return $html;
 	}

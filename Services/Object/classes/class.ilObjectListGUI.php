@@ -1715,18 +1715,13 @@ class ilObjectListGUI
 			return false;
 		}
 		
-		$width1 = (int) $this->getRelevance();
-		$width2 = (int) (100 - $width1);
+		include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
+		$pbar = ilProgressBar::getInstance();
+		$pbar->setCurrent($this->getRelevance()); 
 		
 		$this->tpl->setCurrentBlock('relevance');
-		#$this->tpl->setVariable('TXT_RELEVANCE',$lng->txt('search_relevance'));
-		$this->tpl->setVariable('VAL_REL',sprintf("%.02f %%",$this->getRelevance()));
-		$this->tpl->setVariable('WIDTH_A',$width1);
-		$this->tpl->setVariable('WIDTH_B',$width2);
-		$this->tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.png"));
-		$this->tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.png"));
-		$this->tpl->parseCurrentBlock();
-		
+		$this->tpl->setVariable('REL_PBAR', $pbar->render());		
+		$this->tpl->parseCurrentBlock();		
 	}
 
 	/**

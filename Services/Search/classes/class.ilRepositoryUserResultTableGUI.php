@@ -401,16 +401,14 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 	{
 		$tpl = new ilTemplate('tpl.lucene_relevance.html',true,true,'Services/Search');
 		
-		$width1 = (int) $a_rel;
-		$width2 = (int) (100 - $width1);
+		include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
+		$pbar = ilProgressBar::getInstance();
+		$pbar->setCurrent($a_rel);
 		
 		$tpl->setCurrentBlock('relevance');
-		$tpl->setVariable('VAL_REL',sprintf("%d %%",$a_rel));
-		$tpl->setVariable('WIDTH_A',$width1);
-		$tpl->setVariable('WIDTH_B',$width2);
-		$tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.png"));
-		$tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.png"));
+		$tpl->setVariable('REL_PBAR', $pbar->render());		
 		$tpl->parseCurrentBlock();
+		
 		return $tpl->get();
 	}
 }

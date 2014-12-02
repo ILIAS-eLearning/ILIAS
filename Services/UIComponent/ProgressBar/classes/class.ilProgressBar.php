@@ -54,11 +54,11 @@ class ilProgressBar
 	//
 	
 	/**
-	 * Set type
+	 * Set type (currently unwanted)
 	 * 
 	 * @param int $a_value
 	 */
-	public function setType($a_value)
+	protected function setType($a_value)
 	{
 		$valid = array(
 			self::TYPE_INFO
@@ -159,7 +159,7 @@ class ilProgressBar
 		$tpl->setVariable("MIN", $this->min);
 		$tpl->setVariable("MAX", $this->max);
 		$tpl->setVariable("CURRENT_INT", round($this->current));
-		$tpl->setVariable("CURRENT", $this->current);
+		$tpl->setVariable("CURRENT", round($this->current));
 		$tpl->setVariable("CAPTION", $this->caption);
 		
 		$map = array(

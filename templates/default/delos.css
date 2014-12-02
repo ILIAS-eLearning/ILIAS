@@ -4766,7 +4766,7 @@ a.thumbnail.active {
   overflow: hidden;
   height: 20px;
   margin-bottom: 20px;
-  background-color: #cccccc;
+  background-color: #bbbbbb;
   border-radius: 0px;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -4819,7 +4819,7 @@ a.thumbnail.active {
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
 .progress-bar-info {
-  background-color: #607ea5;
+  background-color: #435976;
 }
 .progress-striped .progress-bar-info {
   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
@@ -10490,19 +10490,16 @@ img.ilRatingMarker {
   margin: 4px 0 0 25px;
   font-size: 12px;
 }
-span.ilNewsRssIcon {
-  background-color: #ea6705;
-  color: #ffffff;
-  min-width: 36px;
-  font-size: 10px;
-  text-align: center;
-  display: inline-block;
-  padding: 0px 5px;
+.progress {
+  height: 15px;
+  min-width: 100px;
 }
-span.ilNewsRssIcon:hover {
-  text-decoration: none;
-  background-color: #b85104;
+.progress-bar {
+  font-size: 11px;
+  line-height: 15px;
+  min-width: 30px;
 }
+/* @import "less/Services/News/delos.less"; */
 .noMargin {
   margin: 0;
 }

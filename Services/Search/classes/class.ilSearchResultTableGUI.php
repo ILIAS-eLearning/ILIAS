@@ -106,16 +106,13 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		global $lng;
 		
 		if($this->enabledRelevance())
-		{
-			$width1 = (int) ((int) $relevance / 2);
-			$width2 = (int) ((50 - $width1));
+		{			
+			include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
+			$pbar = ilProgressBar::getInstance();
+			$pbar->setCurrent($relevance); 
 			
 			$this->tpl->setCurrentBlock('relev');
-			$this->tpl->setVariable('VAL_REL',sprintf("%d %%",$relevance));
-			$this->tpl->setVariable('WIDTH_A',$width1);
-			$this->tpl->setVariable('WIDTH_B',$width2);
-			$this->tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.png"));
-			$this->tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.png"));
+			$this->tpl->setVariable('REL_PBAR', $pbar->render());				
 			$this->tpl->parseCurrentBlock();
 		}
 
