@@ -356,7 +356,7 @@ class ilGlossaryTerm
 		global $ilDB;
 
 		$terms = array();
-		
+
 		// get all term ids under taxonomy node (if given)
 		if ($a_tax_node > 1)
 		{
@@ -376,9 +376,19 @@ class ilGlossaryTerm
 		
 		if ($a_def != "")
 		{
+			// meta glossary?
+			if (is_array($a_glo_id))
+			{
+				$glo_where = $ilDB->in("page_object.parent_id", $a_glo_id, false, "integer");
+			}
+			else
+			{
+				$glo_where = " page_object.parent_id = ".$ilDB->quote($a_glo_id, "integer");
+			}
+
 			$join = " JOIN glossary_definition gd ON (gd.term_id = gt.id)".
 			" JOIN page_object ON (".
-			"page_object.parent_id = ".$ilDB->quote($a_glo_id, "integer").
+			$glo_where.
 			" AND page_object.parent_type = ".$ilDB->quote("gdf", "text").
 			" AND page_object.page_id = gd.id".
 			" AND ".$ilDB->like("page_object.content", "text", "%".$a_def."%").
@@ -406,7 +416,7 @@ class ilGlossaryTerm
 		
 		$where.= $in;
 		
-		$q = "SELECT gt.term, gt.id, gt.glo_id, gt.language FROM glossary_term gt ".$join." WHERE ".$where.$searchterm." ORDER BY term";
+		$q = "SELECT DISTINCT(gt.term), gt.id, gt.glo_id, gt.language FROM glossary_term gt ".$join." WHERE ".$where.$searchterm." ORDER BY term";
 		$term_set = $ilDB->query($q);
 //var_dump($q);
 		while ($term_rec = $ilDB->fetchAssoc($term_set))

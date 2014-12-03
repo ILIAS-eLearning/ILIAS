@@ -337,6 +337,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$page_gui->setHeader("");
 		$ret = $page_gui->showPage();
 
+		//$ret = "<div style='background-color: white; padding:5px; margin-bottom: 30px;'>".$ret."</div>";
+
 		//$ret =& $page_gui->executeCommand();
 		return $ret;
 	}
