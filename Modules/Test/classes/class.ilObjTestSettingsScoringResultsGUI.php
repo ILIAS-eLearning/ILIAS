@@ -602,6 +602,12 @@ class ilObjTestSettingsScoringResultsGUI
 			$results_print_best_solution->setChecked((bool) $this->testOBJ->isBestSolutionPrintedWithResult());
 			$showSolutionDetails->addSubItem($results_print_best_solution);
 
+		// show solution feedback ==> solution feedback in test results
+		$showSolutionFeedbackOption = new ilCheckboxInputGUI($this->lng->txt('tst_show_solution_feedback'), 'solution_feedback');
+		$showSolutionFeedbackOption->setInfo($this->lng->txt('tst_show_solution_feedback_desc'));
+		$showSolutionFeedbackOption->setChecked($this->testOBJ->getShowSolutionFeedback());
+		$form->addItem($showSolutionFeedbackOption);
+
 		// show suggested solution
 		$showSuggestedSolutionOption = new ilCheckboxInputGUI($this->lng->txt('tst_show_solution_suggested'), 'solution_suggested');
 		$showSuggestedSolutionOption->setInfo($this->lng->txt('tst_show_solution_suggested_desc'));
@@ -682,12 +688,6 @@ class ilObjTestSettingsScoringResultsGUI
 		$highscore_wtime->setChecked($this->testOBJ->getHighscoreWTime());
 		$highscore_wtime->setInfo($this->lng->txt("tst_highscore_wtime_description"));
 		$highscore->addSubItem($highscore_wtime);
-
-		// show solution feedback ==> solution feedback in test results
-		$showSolutionFeedbackOption = new ilCheckboxInputGUI($this->lng->txt('tst_show_solution_feedback'), 'solution_feedback');
-		$showSolutionFeedbackOption->setInfo($this->lng->txt('tst_show_solution_feedback_desc'));
-		$showSolutionFeedbackOption->setChecked($this->testOBJ->getShowSolutionFeedback());
-		$form->addItem($showSolutionFeedbackOption);
 
 		// show signature placeholder
 		$showSignaturePlaceholder = new ilCheckboxInputGUI($this->lng->txt('tst_show_solution_signature'), 'solution_signature');
