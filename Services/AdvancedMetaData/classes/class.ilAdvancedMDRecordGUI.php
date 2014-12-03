@@ -854,7 +854,7 @@ class ilAdvancedMDRecordGUI
 							'md_activated['.$def->getFieldId().']', false);
 	 					$this->table_gui->addFilterItem($time);
 	 					$time->readFromSession();
-	 					$this->table_gui->filter['md_'.$def->getFieldId()] = $time->getValue();
+	 					$this->table_gui->filter['md_'.$def->getFieldId()] = $time->getDate();
 	 					break;
 	 			}
 	 		}
