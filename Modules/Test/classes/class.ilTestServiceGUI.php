@@ -223,7 +223,8 @@ class ilTestServiceGUI
 				
 				if (!$short)
 				{
-					$template->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($active_id, $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-2));
+					$answered = $result_array['pass']['num_workedthrough'] . ' ' . strtolower($this->lng->txt('of')) . ' ' . (count($result_array) - 2);
+					$template->setVariable("VALUE_ANSWERED", $answered);
 					if( $this->object->isOfferingQuestionHintsEnabled() )
 					{
 						$template->setVariable("VALUE_HINTS", $total_requested_hints);
