@@ -233,20 +233,81 @@ class ilAdvancedMDValues
 			{
 				foreach ($a_amet_filter as $fk => $fv)
 				{
-					if (!$skip && $fv != "" && substr($fk, 0, 3) == "md_")
+					if (!$skip && substr($fk, 0, 3) == "md_")
 					{
 						$fka = explode("_", $fk);
-						
-						if (!isset($val[$rec[$a_obj_id_key]][$rec[$a_obj_subid_key]][$fka[1]]["value"]))
+						$fka = $fka[1];
+
+						if (is_array($fv))
 						{
-							$skip = true;
+							$advmd_type = ilAdvancedMDFieldDefinition::_lookupFieldType($fka);
+							
+							// #12511 - currently supports only date/datetime
+							if (($advmd_type == ilAdvancedMDFieldDefinition::TYPE_DATE ||
+								$advmd_type == ilAdvancedMDFieldDefinition::TYPE_DATETIME) &&
+								array_key_exists("from", $fv) &&
+								array_key_exists("to", $fv) &&
+								($fv["from"] !== null || $fv["to"] !== null))
+							{
+								if (!isset($val[$rec[$a_obj_id_key]][$rec[$a_obj_subid_key]][$fka]["value"]))
+								{
+									$skip = true;
+								}
+								else
+								{
+									$from = $fv["from"];
+									$to = $fv["to"];
+									$md_val = $val[$rec[$a_obj_id_key]][$rec[$a_obj_subid_key]][$fka]["value"];	
+									
+									if($advmd_type == ilAdvancedMDFieldDefinition::TYPE_DATETIME)
+									{
+										$from = $from ? $from->get(IL_CAL_UNIX) : null;
+										$to = $to ? $to->get(IL_CAL_UNIX) : null;										
+									}
+									else
+									{
+										$from = $from ? $from->get(IL_CAL_DATE) : null;
+										$to = $to ? $to->get(IL_CAL_DATE) : null;		
+										$md_val = date("Y-m-d", $md_val);
+									}
+									
+									if($from && $to)
+									{
+										if($md_val < $from || $md_val > $to)
+										{
+											$skip = true;
+										}
+									}
+									else if($from)
+									{
+										if($md_val < $from)
+										{
+											$skip = true;
+										}
+									}
+									else 
+									{
+										if($md_val > $to)
+										{
+											$skip = true;
+										}
+									}
+								}
+							}
 						}
-						else
-						{
-							$md_val = $val[$rec[$a_obj_id_key]][$rec[$a_obj_subid_key]][$fka[1]]["value"];
-							if (trim($md_val) != trim($fv))
+						else if($fv != "")
+						{							
+							if (!isset($val[$rec[$a_obj_id_key]][$rec[$a_obj_subid_key]][$fka]["value"]))
 							{
 								$skip = true;
+							}
+							else
+							{
+								$md_val = $val[$rec[$a_obj_id_key]][$rec[$a_obj_subid_key]][$fka]["value"];								
+								if (trim($md_val) != trim($fv))
+								{
+									$skip = true;
+								}
 							}
 						}
 					}

@@ -835,26 +835,36 @@ class ilAdvancedMDRecordGUI
 	 					$this->table_gui->filter['md_'.$def->getFieldId()] = $select->getValue();
 	 					break;
 	 					
-	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
-	 					include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
-	 					$time = new ilDateTimeInputGUI($def->getTitle(),'md_'.$def->getFieldId());
-	 					$time->setShowTime(false);
-	 					$time->enableDateActivation($this->lng->txt('enabled'),
-							'md_activated['.$def->getFieldId().']', false);
-	 					$this->table_gui->addFilterItem($time);
-	 					$time->readFromSession();
-	 					$this->table_gui->filter['md_'.$def->getFieldId()] = $time->getDate();
+	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:												
+						include_once("./Services/Form/classes/class.ilCombinationInputGUI.php");
+						include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
+						$item = new ilCombinationInputGUI($def->getTitle(), 'md_'.$def->getFieldId());
+						$combi_item = new ilDateTimeInputGUI("", 'md_'.$def->getFieldId()."_from");				
+						$item->addCombinationItem("from", $combi_item, $this->lng->txt("from"));
+						$combi_item = new ilDateTimeInputGUI("", 'md_'.$def->getFieldId()."_to");
+						$item->addCombinationItem("to", $combi_item, $this->lng->txt("to"));
+						$item->setComparisonMode(ilCombinationInputGUI::COMPARISON_ASCENDING);
+						$item->setMode(ilDateTimeInputGUI::MODE_INPUT);
+						$this->table_gui->addFilterItem($item);
+						$item->readFromSession();						
+						$this->table_gui->filter['md_'.$def->getFieldId()] = $item->getValue();								
 	 					break;
 	 					
 	 				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-
-	 					$time = new ilDateTimeInputGUI($def->getTitle(),'md_'.$def->getFieldId());
-	 					$time->setShowTime(true);
-	 					$time->enableDateActivation($this->lng->txt('enabled'),
-							'md_activated['.$def->getFieldId().']', false);
-	 					$this->table_gui->addFilterItem($time);
-	 					$time->readFromSession();
-	 					$this->table_gui->filter['md_'.$def->getFieldId()] = $time->getDate();
+						include_once("./Services/Form/classes/class.ilCombinationInputGUI.php");
+						include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
+						$item = new ilCombinationInputGUI($def->getTitle(), 'md_'.$def->getFieldId());
+						$combi_item = new ilDateTimeInputGUI("", 'md_'.$def->getFieldId()."_from");
+						$combi_item->setShowTime(true);
+						$item->addCombinationItem("from", $combi_item, $this->lng->txt("from"));
+						$combi_item = new ilDateTimeInputGUI("", 'md_'.$def->getFieldId()."_to");
+						$combi_item->setShowTime(true);
+						$item->addCombinationItem("to", $combi_item, $this->lng->txt("to"));
+						$item->setComparisonMode(ilCombinationInputGUI::COMPARISON_ASCENDING);
+						$item->setMode(ilDateTimeInputGUI::MODE_INPUT);
+						$this->table_gui->addFilterItem($item);
+						$item->readFromSession();						
+						$this->table_gui->filter['md_'.$def->getFieldId()] = $item->getValue();									
 	 					break;
 	 			}
 	 		}
