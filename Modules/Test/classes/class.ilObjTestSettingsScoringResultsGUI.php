@@ -695,6 +695,12 @@ class ilObjTestSettingsScoringResultsGUI
 		$showSignaturePlaceholder->setChecked($this->testOBJ->getShowSolutionSignature());
 		if( $this->testOBJ->getAnonymity() ) { $showSignaturePlaceholder->setDisabled(true); }
 		$form->addItem($showSignaturePlaceholder);
+
+		// export settings
+		$export_settings = new ilCheckboxInputGUI($this->lng->txt('tst_exp_sc_short'), 'exp_sc_short');
+		$export_settings->setInfo($this->lng->txt('tst_exp_sc_short_desc'));
+		$export_settings->setChecked($this->testOBJ->getExportSettingsSingleChoiceShort());
+		$form->addItem($export_settings);
 	}
 
 	private function addMiscSettingsFormSection(ilPropertyFormGUI $form)
@@ -703,12 +709,6 @@ class ilObjTestSettingsScoringResultsGUI
 		$header_misc = new ilFormSectionHeaderGUI();
 		$header_misc->setTitle($this->lng->txt('misc'));
 		$form->addItem($header_misc);
-
-		// export settings
-		$export_settings = new ilCheckboxInputGUI($this->lng->txt('tst_exp_sc_short'), 'exp_sc_short');
-		$export_settings->setInfo($this->lng->txt('tst_exp_sc_short_desc'));
-		$export_settings->setChecked($this->testOBJ->getExportSettingsSingleChoiceShort());
-		$form->addItem($export_settings);
 
 		// result filter taxonomies
 		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->isResultTaxonomyFilterSupported() )
