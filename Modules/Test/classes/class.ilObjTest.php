@@ -4070,8 +4070,7 @@ function getAnswerFeedbackPoints()
 						tst_test_result.points reached,
 						tst_test_result.hint_count requested_hints,
 						tst_test_result.hint_points hint_points,
-						tst_test_result.answered answered,
-						tst_solutions.solution_id workedthru
+						tst_test_result.answered answered
 			
 			FROM		tst_test_result
 			
@@ -4091,6 +4090,8 @@ function getAnswerFeedbackPoints()
 		{
 			$arrResults[ $row['question_fi'] ] = $row;
 		}
+
+		$numWorkedThrough = count($arrResults);
 
 		require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		
@@ -4139,7 +4140,7 @@ function getAnswerFeedbackPoints()
 				"type" => $row["type_tag"],
 				"qid" => $row['question_id'],
 				"original_id" => $row["original_id"],
-				"workedthrough" => ($arrResults[$row['question_id']]['workedthru']) ? 1 : 0,
+				"workedthrough" => isset($arrResults[$row['question_id']]) ? 1 : 0,
 				'answered' => $arrResults[$row['question_id']]['answered']
 			);
 			
@@ -4197,6 +4198,7 @@ function getAnswerFeedbackPoints()
 		$found['pass']['total_hint_points'] = $pass_hint_points;
 		$found['pass']['percent'] = ($pass_max > 0) ? $pass_reached / $pass_max : 0;
 		$found['pass']['obligationsAnswered'] = $obligationsAnswered;
+		$found['pass']['num_workedthrough'] = $numWorkedThrough;
 		
 		$found["test"]["total_max_points"] = $results['max_points'];
 		$found["test"]["total_reached_points"] = $results['reached_points'];
