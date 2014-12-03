@@ -13,10 +13,10 @@ class ilGEVCourseTemplateCreationPlugin extends ilEventHookPlugin
 			return;
 		}
 
-		$this->createdCourses($a_parameter["object"], $a_parameter["obj_id"]);
+		$this->createdCourse($a_parameter["object"], $a_parameter["obj_id"]);
 	}
 
-	public function createdCourses(ilObjCourse $a_crs, $a_crs_id) {
+	public function createdCourse(ilObjCourse $a_crs, $a_crs_id) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Modules/Course/classes/class.ilObjCourse.php");
@@ -68,7 +68,7 @@ class ilGEVCourseTemplateCreationPlugin extends ilEventHookPlugin
 		}
 		catch (Exception $e) {
 			global $ilLog;
-			$ilLog->write("Error in ilGEVCourseTemplateCreationPlugin::clonedCourses: ".print_r($e, true));
+			$ilLog->write("Error in ilGEVCourseTemplateCreationPlugin::createdCourse: ".print_r($e, true));
 		}
 	}
 }
