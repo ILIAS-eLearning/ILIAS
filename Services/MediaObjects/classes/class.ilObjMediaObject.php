@@ -1234,19 +1234,20 @@ class ilObjMediaObject extends ilObject
 						$quest = SurveyQuestion::_instanciateQuestion($id);
 						if ($quest)
 						{
-							$parent_id = $quest->getObjId();
+							$parent_id = $quest->getObjId();							
 							
-							// pool question - return pool and all survey ids of the copies 
-							if (ilObject::_lookupType($obj_id) == "spl")
-							{													
-								$obj_id = array_keys($quest->getCopyIds(true));		
-								$obj_id[] = $parent_id; // add the pool itself (for pool previews)
-							}
+							// pool question copy - find survey, do not use pool itself
+							if ($quest->getOriginalId() &&
+								ilObject::_lookupType($parent_id) == "spl")
+							{											
+								$obj_id = SurveyQuestion::_lookupSurveyObjId($id);							
+							}	
+							// original question (in pool or survey)
 							else
 							{
 								$obj_id = $parent_id;
-							}
-						
+							}													
+							
 							unset($quest);
 						}
 						break;

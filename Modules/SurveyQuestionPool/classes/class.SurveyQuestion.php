@@ -2421,5 +2421,19 @@ class SurveyQuestion
 		include_once "Modules/Survey/classes/class.ilObjSurvey.php";
 		return ilObjSurvey::getSurveySkippedValue();
 	}
+	
+	public static function _lookupSurveyObjId($a_question_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT svy_svy.obj_fi FROM svy_svy_qst".
+			" JOIN svy_svy ON (svy_svy.survey_id = svy_svy_qst.survey_fi)".
+			" WHERE svy_svy_qst.question_fi = ".$ilDB->quote($a_question_id, "integer"));
+		$row = $ilDB->fetchAssoc($set);
+		if($ilDB->numRows($set))
+		{
+			return $row["obj_fi"];
+		}
+	}
 }
 ?>
