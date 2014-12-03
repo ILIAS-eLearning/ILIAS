@@ -1051,7 +1051,7 @@ assessment#:#tst_eval_total_passed_average_time#:#Mittlere Bearbeitungsdauer all
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test gestartet haben
 assessment#:#tst_eval_user_answer#:#Antwort
 assessment#:#tst_exp_sc_short#:#Komprimierte Übersicht für Single-Choice-Fragen erzeugen
-assessment#:#tst_export_settings#:#Exporteinstellungen
+assessment#:#tst_exp_sc_short_desc#:#todui
 assessment#:#tst_express_allow_question_pool#:#Erlaube Fragenpool in Seitenansicht
 assessment#:#tst_express_allow_question_pool_description#:#Wenn aktiviert, können Fragen einen Fragenpool zugeordnet werden.
 assessment#:#tst_finish_confirm_button#:#Ja, ich will den Test beenden

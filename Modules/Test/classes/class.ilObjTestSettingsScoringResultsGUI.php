@@ -289,10 +289,9 @@ class ilObjTestSettingsScoringResultsGUI
 			$this->testOBJ->setShowSolutionSuggested($form->getItemByPostVar('solution_suggested')->getChecked());
 		}
 
-		if( !$this->isHiddenFormItem('export_settings') )
+		if( !$this->isHiddenFormItem('exp_sc_short') )
 		{
-			$exportSettings = (array)$form->getItemByPostVar('export_settings')->getValue();
-			$this->testOBJ->setExportSettingsSingleChoiceShort( (int)in_array('exp_sc_short', $exportSettings) );
+			$this->testOBJ->setExportSettingsSingleChoiceShort( (int)$form->getItemByPostVar('exp_sc_short')->getChecked() );
 		}
 
 		if( !$this->isHiddenFormItem('pass_deletion_allowed') )
@@ -648,14 +647,9 @@ class ilObjTestSettingsScoringResultsGUI
 		$form->addItem($header_misc);
 
 		// export settings
-		$export_settings = new ilCheckboxGroupInputGUI($this->lng->txt('tst_export_settings'), 'export_settings');
-		$export_settings->addOption(new ilCheckboxOption($this->lng->txt('tst_exp_sc_short'), 'exp_sc_short', ''));
-		$values = array();
-		if( $this->testOBJ->getExportSettingsSingleChoiceShort() )
-		{
-			$values[] = 'exp_sc_short';
-		}
-		$export_settings->setValue($values);
+		$export_settings = new ilCheckboxInputGUI($this->lng->txt('tst_exp_sc_short'), 'exp_sc_short');
+		$export_settings->setInfo($this->lng->txt('tst_exp_sc_short_desc'));
+		$export_settings->setChecked($this->testOBJ->getExportSettingsSingleChoiceShort());
 		$form->addItem($export_settings);
 
 		// result filter taxonomies
