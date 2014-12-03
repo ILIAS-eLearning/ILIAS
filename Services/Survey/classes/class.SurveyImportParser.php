@@ -565,13 +565,19 @@ class SurveyImportParser extends ilSaxParser
 						$this->textblocks[$this->original_question_id] = $this->textblock;
 					}
 					$this->activequestion->saveToDb();
-					if (is_object($this->survey))
+					// duplicate the question for the survey (if pool is to be used)
+					if (is_object($this->survey) && 
+						$this->spl_id > 0)
 					{
-						// duplicate the question for the survey
+						
 						$question_id = $this->activequestion->duplicate(TRUE);
-						$this->survey->addQuestion($question_id);
-						$this->questions[$this->original_question_id] = $question_id;
+						$this->survey->addQuestion($question_id);						
 					}
+					else
+					{
+						$question_id = $this->activequestion->getId();
+					}
+					$this->questions[$this->original_question_id] = $question_id;
 					$this->activequestion = NULL;
 				}
 				$this->textblock = "";
