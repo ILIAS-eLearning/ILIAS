@@ -277,6 +277,7 @@ assessment#:#available_terms#:#Available Terms
 assessment#:#average_reached_points#:#Average Points
 assessment#:#backtocallingtest#:#Back to the calling test
 assessment#:#by#:#by
+assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#cancel_test#:#Suspend the Test
 assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!
@@ -14338,3 +14339,4 @@ mail#:#link_check_perma_link#:#Permanent Link
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.
 adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!
 exc#:#exc_assignment_type#:#Type Of Submission
+ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants

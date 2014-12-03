@@ -257,7 +257,13 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 					case 'cancel':
 						$this->view();
 					break;
+                    case 'cancelDelete':
+                        $this->view();
+                        break;
                     case 'performPaste':
+                    case 'paste':
+                        $this->performPaste();
+                        break;
                     case 'paste':
                         $this->performPaste();
                         break;
