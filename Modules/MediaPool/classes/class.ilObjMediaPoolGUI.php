@@ -1287,7 +1287,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		}
 
 		// info tab
-		if ($ilAccess->checkAccess('visible', '', $this->ref_id))
+		if ($ilAccess->checkAccess('visible', '', $this->ref_id) ||
+			$ilAccess->checkAccess('read', '', $this->ref_id) ||
+			$ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"
 				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
@@ -1390,7 +1392,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	{
 		global $ilAccess;
 
-		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		if (!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
+			!$ilAccess->checkAccess("read", "", $this->ref_id) &&
+			!$ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
