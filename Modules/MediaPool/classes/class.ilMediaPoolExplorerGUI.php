@@ -57,11 +57,11 @@ class ilMediaPoolExplorerGUI extends ilTreeExplorerGUI
 	{
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
-			$icon = ilUtil::getImagePath("icon_mep_s.png");
+			$icon = ilUtil::getImagePath("icon_mep.png");
 		}
 		else
 		{
-			$icon = ilUtil::getImagePath("icon_".$a_node["type"]."_s.png");
+			$icon = ilUtil::getImagePath("icon_".$a_node["type"].".png");
 		}
 		
 		return $icon;

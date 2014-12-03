@@ -77,6 +77,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 			case "ilfilesystemgui":
 				$this->fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
+				$this->fs_gui->setUseUploadDirectory(true);
 				$this->fs_gui->setTableId("sahsfs".$this->object->getId());
 				$ret =& $this->ctrl->forwardCommand($this->fs_gui);
 				break;

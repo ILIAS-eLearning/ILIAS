@@ -107,6 +107,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$ilTabs->activateTab('id_list_files');
 				$fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
 				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
+				$fs_gui->setUseUploadDirectory(true);
 				$fs_gui->setTableId("htlmfs".$this->object->getId());			
 				if ($this->object->getStartFile() != "")
 				{

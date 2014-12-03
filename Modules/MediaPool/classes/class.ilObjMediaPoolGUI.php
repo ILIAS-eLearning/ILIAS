@@ -854,7 +854,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function addLocatorItems()
 	{
-		global $ilLocator;
+		global $ilLocator, $ilAccess;
 		
 		if (!$this->getCreationMode() && $this->ctrl->getCmd() != "explorer")
 		{
@@ -868,7 +868,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				if ($node["child"] == $tree->getRootId())
 				{
 					$this->ctrl->setParameter($this, "mepitem_id", "");
-					$link = $this->ctrl->getLinkTarget($this, "listMedia");
+					if ($ilAccess->checkAccess("read", "", $this->object->getRefId()))
+					{
+						$link = $this->ctrl->getLinkTarget($this, "listMedia");
+					}
+					else if ($ilAccess->checkAccess("visible", "", $this->object->getRefId()))
+					{
+						$link = $this->ctrl->getLinkTarget($this, "infoScreen");
+					}
 					$title = $this->object->getTitle();
 					$this->ctrl->setParameter($this, "mepitem_id", $_GET["mepitem_id"]);
 					$ilLocator->addItem($title, $link, "", $_GET["ref_id"]);
@@ -1346,7 +1353,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			$_GET['mepitem_id'] = $subitem_id;
 			include("ilias.php");
 			exit;
-		} 
+		} else if ($ilAccess->checkAccess("visible", "", $ref_id))
+		{
+			$_GET["baseClass"] = "ilMediaPoolPresentationGUI";
+			$_GET["ref_id"] = $ref_id;
+			$_GET["cmd"] = "infoScreen";
+			include("ilias.php");
+			exit;
+		}
 		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{
 			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),

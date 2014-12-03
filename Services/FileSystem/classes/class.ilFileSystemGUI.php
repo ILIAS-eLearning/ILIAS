@@ -13,6 +13,8 @@ class ilFileSystemGUI
 {
 	var $ctrl;
 
+	protected $use_upload_directory = false;
+
 	function ilFileSystemGUI($a_main_directory)
 	{
 		global $lng, $ilCtrl, $tpl, $ilias;
@@ -140,6 +142,26 @@ class ilFileSystemGUI
 	function getTitle()
 	{
 		return $this->title;
+	}
+
+	/**
+	 * Set use upload directory
+	 *
+	 * @param bool $a_val use upload directory
+	 */
+	function setUseUploadDirectory($a_val)
+	{
+		$this->use_upload_directory = $a_val;
+	}
+
+	/**
+	 * Get use upload directory
+	 *
+	 * @return bool use upload directory
+	 */
+	function getUseUploadDirectory()
+	{
+		return $this->use_upload_directory;
 	}
 	
 	/**
@@ -395,7 +417,7 @@ class ilFileSystemGUI
 		}
 		
 		include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
-		if (ilUploadFiles::_getUploadDirectory())
+		if (ilUploadFiles::_getUploadDirectory() && $this->getAllowFileCreation() && $this->getUseUploadDirectory())
 		{
 			$ilToolbar->addSeparator();
 			$files = ilUploadFiles::_getUploadFiles();
