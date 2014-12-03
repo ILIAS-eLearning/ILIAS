@@ -389,6 +389,8 @@ gev#:#gev_book_no_cond_accept#:#Sie müssen die Buchungs- und Stornierungsbeding
 gev#:#gev_bookable#:#buchbar
 gev#:#gev_bookable_waiting#:#buchbar auf Warteliste
 gev#:#gev_booked#:#gebucht
+gev#:#gev_booked_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training gebucht und noch nicht beendet. Sie dürfen dieses Angebot daher für ihren Mitarbeiter nicht buchen.
+gev#:#gev_booked_similar_course_self#:#Sie sind auf dieses Training bereits gebucht, ohne es abgeschlossen zu haben. Sie dürfen dieses Angebot daher nicht buchen.
 gev#:#gev_booking#:#Buchung
 gev#:#gev_booking_bill_data#:#Rechnungsdaten
 gev#:#gev_booking_check_bill_data#:#Rechnungsdaten überprüfen
@@ -538,6 +540,8 @@ gev#:#gev_no_show_bill_title#:#Nicht stornierte Buchung des Trainings "%s" für 
 gev#:#gev_not_allowed_to_book_crs_for_other#:#Sie dürfen dieses Training nicht für einen anderen Benutzer buchen.
 gev#:#gev_not_allowed_to_book_crs_for_self#:#Sie dürfen dieses Training nicht buchen.
 gev#:#gev_not_allowed_to_book_crs_for_other#:#Sie dürfen diese Stornierung nicht vornehmen.
+gev#:#gev_not_allowed_to_book_crs_self_because_period#:#Sie dürfen dieses Training nicht buchen, da sie bereits ein anderes Training im gleichen Zeitraum gebucht haben.
+gev#:#gev_not_allowed_to_book_crs_other_because_period#:#Sie dürfen dieses Training nicht buchen, da ihr Mitarbeiter bereits ein anderes Training im gleichen Zeitraum gebucht hat.
 gev#:#gev_not_allowed_to_cancel_crs_for_other#:#Sie dürfen dieses Training nicht für einen anderen Benutzer stornieren.
 gev#:#gev_not_bookable#:#ausgebucht
 gev#:#gev_number_of_measure#:#Nummer der Maßnahme
@@ -551,7 +555,7 @@ gev#:#gev_others_menu#:#Organisation
 gev#:#gev_overall_prize#:#Gesamtpreis
 gev#:#gev_participation_status#:#Teilnahmestatus
 gev#:#gev_passed#:#teilgenommen
-gev#:#gev_passed_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training erfolgreich abgeschlossen. Die dürfen dieses Angebot daher für ihren Mitarbeiter nicht buchen.
+gev#:#gev_passed_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training erfolgreich abgeschlossen. Sie dürfen dieses Angebot daher für ihren Mitarbeiter nicht buchen.
 gev#:#gev_passed_similar_course_self#:#Sie sind auf dieses Training bereits an einem anderen Termin gebucht. Sie können keinen zweiten Termin buchen. Sollten Sie den Termin wechseln wollen, stornieren Sie zunächst das bereits gebuchte Training und buchen Sie dann den gewünschten neuen Termin.
 gev#:#gev_payment_type#:#Zahlungsart
 gev#:#gev_payment_type_bill#:#Rechnung
