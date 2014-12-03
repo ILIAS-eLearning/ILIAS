@@ -4183,10 +4183,33 @@ class ilObjSurvey extends ilObject
 					$importfile = $import_subdir . "/" . $mob["uri"];
 					if (file_exists($importfile))
 					{
-						$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
-						ilObjMediaObject::_saveUsage($media_object->getId(), "svy:html", $this->getId());
-						$this->setIntroduction(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getIntroduction()));
-						$this->setOutro(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getOutro()));
+						if (!$mob["type"])
+						{
+							$mob["type"] = "svy:html";
+						}
+						
+						$media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
+						
+						// survey mob
+						if ($mob["type"] == "svy:html")
+						{													
+							ilObjMediaObject::_saveUsage($media_object->getId(), "svy:html", $this->getId());
+							$this->setIntroduction(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getIntroduction()));
+							$this->setOutro(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getOutro()));
+						}
+						// question mob
+						else if($import->questions[$mob["id"]])
+						{
+							$new_qid = $import->questions[$mob["id"]];							
+							ilObjMediaObject::_saveUsage($media_object->getId(), $mob["type"], $new_qid);						
+							$new_question = SurveyQuestion::_instanciateQuestion($new_qid);			
+							$qtext = $new_question->getQuestiontext();
+							$qtext = ilRTE::_replaceMediaObjectImageSrc($qtext, 0);							
+							$qtext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $qtext);							
+							$qtext = ilRTE::_replaceMediaObjectImageSrc($qtext, 1);			
+							$new_question->setQuestiontext($qtext);
+							$new_question->saveToDb();					
+						}
 					}
 					else
 					{
@@ -5156,7 +5179,9 @@ class ilObjSurvey extends ilObject
 					$mob_obj =& new ilObjMediaObject($mob);
 					$imgattrs = array(
 						"label" => $mob_id,
-						"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
+						"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle(),
+						"type" => "svy:html",
+						"id" => $this->getId()
 					);
 					$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
 				}

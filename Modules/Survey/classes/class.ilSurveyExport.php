@@ -155,8 +155,8 @@ class ilSurveyExport
 			$mob_obj =& new ilObjMediaObject($mob);
 			$mob_obj->exportFiles($a_export_dir);
 			unset($mob_obj);
-		}
-		/* maybe this will be used later 
+		} 
+		// #14850
 		foreach ($this->survey_obj->questions as $question_id)
 		{
 			$mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $question_id);
@@ -166,7 +166,7 @@ class ilSurveyExport
 				$mob_obj->exportFiles($a_export_dir);
 				unset($mob_obj);
 			}
-		}*/
+		}
 		$ilBench->stop("SurveyExport", "exportXHTMLMediaObjects");
 	}
 
