@@ -44,11 +44,10 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 
 		$this->setRowTemplate("tpl.il_admin_search_row.html", "Services/GEV/Desktop");
 
-		//$this->addColumn("", "expand", "20px");
-		$this->addColumn("", "expand", "0px", false, "catTableExpandButton");
+		//$this->addColumn("", "expand", "0px", false, "catTableExpandButton");
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("status"), 'status');
-		$this->addColumn($this->lng->txt("gev_trainingsnumber"), 'custom_id');
+		$this->addColumn($this->lng->txt("gev_course_id"), 'custom_id');
 		$this->addColumn($this->lng->txt("gev_learning_type"), "type");
 		$this->addColumn($this->lng->txt("gev_location"), "location");
 		$this->addColumn($this->lng->txt("date"), "date");

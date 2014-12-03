@@ -211,19 +211,29 @@ class ilAdminSearchGUI {
 		$type = new ilSelectInputGUI($this->lng->txt("gev_course_type"), "type");
 		$type->setOptions(gevCourseUtils::getTypeOptions());
 		$form->addItem($type);
-		
+
+/*		
 		$categorie = new ilSelectInputGUI($this->lng->txt("gev_course_categorie"), "categorie");
 		$categorie->setOptions(gevCourseUtils::getCategorieOptions());
 		$form->addItem($categorie);
-		
+*/
+
+		$program = new ilSelectInputGUI($this->lng->txt("gev_edu_program"), "program");
+		$program->setOptions(gevCourseUtils::getEducationProgramOptions());
+		$form->addItem($program);
+
+
+/*				
 		$target_group = new ilSelectInputGUI($this->lng->txt("gev_target_group"), "target_group");
 		$target_group->setOptions(gevCourseUtils::getTargetGroupOptions());
 		$form->addItem($target_group);
+*/		
 
 		$location = new ilSelectInputGUI($this->lng->txt("udf_type_venueselect"), "location");
 		$location->setOptions(gevCourseUtils::getLocationOptions());
 		$form->addItem($location);
-		
+
+
 		/*$provider = new ilSelectInputGUI($this->lng->txt("udf_type_providerselect"), "provider");
 		$provider->setOptions(gevCourseUtils::getProviderOptions());
 		$form->addItem($provider);*/

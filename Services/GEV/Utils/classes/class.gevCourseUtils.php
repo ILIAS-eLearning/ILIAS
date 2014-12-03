@@ -896,6 +896,19 @@ class gevCourseUtils {
 		return array($all => $all) + $arr;
 	}
 	
+
+	public static function getEducationProgramOptions() {
+		global $lng;
+		$all = $lng->txt("gev_crs_srch_all");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		$arr = gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_EDU_PROGRAMM);
+		return array_merge(array($all => $all), $arr);
+	}
+	
+
+
+
+
 	// derived courses for templates
 	
 	public function getDerivedCourseIds() {
@@ -1842,7 +1855,6 @@ class gevCourseUtils {
 
 
 
-
 		/*
 		$hash = md5(serialize($a_search_options));
 		if ($this->potentiallyBookableCourses[$hash] !== null) {
@@ -1861,7 +1873,7 @@ class gevCourseUtils {
 		
 		if (array_key_exists("title", $a_search_options)) {
 			$additional_join .= " LEFT JOIN object_data od ON cs.obj_id = od.obj_id ";
-			$additional_where .= " AND od.title LIKE ".$this->db->quote("%".$a_search_options["title"]."%", "text");
+			$additional_where .= " AND od.title LIKE ".$db->quote("%".$a_search_options["title"]."%", "text");
 		}
 		if (array_key_exists("custom_id", $a_search_options)) {
 			$custom_id_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_CUSTOM_ID);
@@ -1915,6 +1927,7 @@ class gevCourseUtils {
 			$additional_where .=
 				" AND location.value LIKE ".$db->quote("%".$a_search_options["location"]."%", "text");
 		}
+
 		if (array_key_exists("provider", $a_search_options)) {
 			$provider_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_PROVIDER);
 			
@@ -1936,6 +1949,7 @@ class gevCourseUtils {
 				"   ON cs.obj_id = end_date.obj_id ".
 				"   AND end_date.field_id = ".$db->quote($end_date_field_id, "integer")
 				;
+			/*
 			$additional_where .=
 				" AND ( ( NOT start_date.value > ".$db->quote(date("Y-m-d", $a_search_options["period"]["end"]))." ) ".
 				"       OR ".$db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
@@ -1943,6 +1957,15 @@ class gevCourseUtils {
 				"       OR ".$db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
 				"       OR (end_date.value IS NULL AND NOT start_date.value < ".$db->quote(date("Y-m-d", $a_search_options["period"]["start"])).")"
 				;
+			*/
+			$additional_where .=
+				" AND (  NOT start_date.value > ".$db->quote(date("Y-m-d", $a_search_options["period"]["end"]))." ) ".
+				" AND (  NOT end_date.value < ".$db->quote(date("Y-m-d", $a_search_options["period"]["start"]))." ) ".
+				" OR (end_date.value IS NULL ".
+				" AND NOT start_date.value < ".$db->quote(date("Y-m-d", $a_search_options["period"]["start"])).")".
+				" OR (end_date.value IS NULL AND start_date.value IS NULL)"
+				;
+
 		}
 		
 		// try to narrow down the set as much as possible to avoid permission checks
@@ -1977,21 +2000,10 @@ class gevCourseUtils {
 				 "   AND  (ltype.value LIKE 'Pr_senztraining' ".
 				 "		OR ltype.value IN ('Webinar','Virtuelles Training', 'Selbstlernkurs')".
 				 "	 )".
-				 $additional_where.
-				 
-				 "";
+				 $additional_where;
 
-/*
 
-print '<hr>';
-print 'search options:<br><pre>';
-		print_r($a_search_options);
-print '<hr>';
 
-print $additional_where;
-print '<hr>';
-print $query;
-*/
 		$res = $db->query($query);
 		$crss = array();
 		while($val = $db->fetchAssoc($res)) {
@@ -2033,6 +2045,7 @@ $addsql = '';
 		foreach ($info as $key => $value) {
 			// TODO: This surely could be tweaked to be faster if there was no need
 			// to instantiate the course to get booking information about it.
+			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
 			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			$crs_ref = gevObjectUtils::getRefId($crs_utils->getCourse()->getId());
@@ -2050,7 +2063,12 @@ $addsql = '';
 
 			
 			$info[$key]["location"] = $orgu_utils->getLongTitle();
-			$info[$key]["trainer"] = $crs_utils->getMainTrainer()->getFullName();
+			$trainer = $crs_utils->getMainTrainer();
+			if($trainer){
+				$info[$key]["trainer"] = $trainer->getFullName();
+			} else {
+				$info[$key]["trainer"] = '-';
+			}
 
 			$ms = $crs_utils->getMembership();
 			

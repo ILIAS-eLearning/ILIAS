@@ -23,18 +23,18 @@ $IMPORT_FOREIGN_EDURECORDS = true;
 $LIMIT_RECORDS = false;
 $ANON_DATA = false;
 
-
 $DEBUG_HTML_OUT = isset($_GET['debug']);
-if($DEBUG_HTML_OUT){
-	echo('<pre>');	
-}
-
 
 
 //reset ilias for calls from somewhere else
 $basedir = __DIR__;
 $basedir = str_replace('/Services/GEV/WBD/classes', '', $basedir);
 chdir($basedir);
+
+if($DEBUG_HTML_OUT){
+	require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
+	echo('<pre>');	
+}
 
 //context w/o user
 require_once "./Services/Context/classes/class.ilContext.php";
