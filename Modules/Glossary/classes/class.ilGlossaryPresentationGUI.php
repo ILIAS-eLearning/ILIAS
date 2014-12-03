@@ -1328,13 +1328,10 @@ class ilGlossaryPresentationGUI
 					$ilAccess->checkAccess("edit_content", "", (int) $_GET["ref_id"]))
 				{
 					include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-					if (ilGlossaryTerm::_lookGlossaryID($this->term_id) == $this->glossary->getId())
-					{
-						$tabs_gui->addNonTabbedLink("editing_view",
-							$lng->txt("glo_editing_view"),
-							"ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".(int) $_GET["ref_id"],
-							"_top");
-					}
+					$tabs_gui->addNonTabbedLink("editing_view",
+						$lng->txt("glo_editing_view"),
+						"ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".(int) $_GET["ref_id"],
+						"_top");
 				}
 
 			}
