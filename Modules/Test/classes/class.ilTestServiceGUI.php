@@ -235,7 +235,7 @@ class ilTestServiceGUI
 				$row['date'] = $finishdate;
 				if(!$short)
 				{
-					$row['answered'] = $this->object->getAnsweredQuestionCount($active_id, $pass) . ' ' . strtolower($this->lng->txt('of')) . ' ' . (count($result_array) - 2);
+					$row['answered'] = $result_array['pass']['num_workedthrough'] . ' ' . strtolower($this->lng->txt('of')) . ' ' . (count($result_array) - 2);
 					if($this->object->isOfferingQuestionHintsEnabled())
 					{
 						$row['hints'] = $total_requested_hints;
