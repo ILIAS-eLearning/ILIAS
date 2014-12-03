@@ -14,6 +14,11 @@ class ilModalGUI
 	protected $heading = "";
 	protected $body = "";
 	protected $id = "";
+	const TYPE_LARGE = "large";
+	const TYPE_MEDIUM = "medium";
+	const TYPE_SMALL = "small";
+
+	protected $type = self::TYPE_MEDIUM;
 
 	/**
 	 * Constructor
@@ -26,7 +31,7 @@ class ilModalGUI
 	/**
 	 * Get instance
 	 *
-	 * @return ilPanelGUI panel instance
+	 * @return ilModalGUI panel instance
 	 */
 	static function getInstance()
 	{
@@ -92,6 +97,26 @@ class ilModalGUI
 	{
 		return $this->body;
 	}
+	
+	/**
+	 * Set type
+	 *
+	 * @param string $a_val type const ilModalGUI::TYPE_SMALL|ilModalGUI::TYPE_MEDIUM|ilModalGUI::TYPE_LARGE
+	 */
+	function setType($a_val)
+	{
+		$this->type = $a_val;
+	}
+	
+	/**
+	 * Get type
+	 *
+	 * @return string type
+	 */
+	function getType()
+	{
+		return $this->type;
+	}
 
 	/**
 	 * Get HTML
@@ -106,6 +131,17 @@ class ilModalGUI
 
 		$tpl->setVariable("MOD_ID", $this->getId());
 		$tpl->setVariable("BODY", $this->getBody());
+
+		switch ($this->getType())
+		{
+			case self::TYPE_LARGE:
+				$tpl->setVariable("CLASS", "modal-lg");
+				break;
+
+			case self::TYPE_SMALL:
+				$tpl->setVariable("CLASS", "modal-sm");
+				break;
+		}
 
 		return $tpl->get();
 	}

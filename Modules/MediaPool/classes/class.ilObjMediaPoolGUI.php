@@ -429,10 +429,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			return;
 		}
 
-		
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
 		$mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->object, "mepitem_id");
-		$tpl->setContent($mep_table_gui->getHTML());
+		$tpl->setContent($mep_table_gui->getHTML().$this->getPreviewModalHTML());
 //		$this->tpl->show();
 	}
 
@@ -535,15 +534,15 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	}
 	
 	/**
-	* show media object
-	*/
-	function showMedia()
+	 * show media object
+	 */
+	protected function showMedia()
 	{
 		global $ilAccess;
 
 		$this->checkPermission("read");
 
-		$this->tpl =& new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
+		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
 		include_once("Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -551,17 +550,17 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		//$int_links = $page_object->getInternalLinks();
 		$med_links = ilMediaItem::_getMapAreasIntLinks($_GET["mob_id"]);
-		
+
 		// later
 		//$link_xml = $this->getLinkXML($med_links, $this->getLayoutLinkTargets());
-		
+
 		$link_xlm = "";
 
 		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 		ilObjMediaObjectGUI::includePresentationJS($this->tpl);
 		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
-		
+
 		$xml = "<dummy>";
 		// todo: we get always the first alias now (problem if mob is used multiple
 		// times in page)
@@ -576,7 +575,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		$wb_path = ilUtil::getWebspaceDir("output")."/";
 
-		$mode = ($_GET["cmd"] != "showMedia")
+		$mode = ($_GET["cmd"] != "showPreview")
 			? "fullscreen"
 			: "media";
 		$enlarge_path = ilUtil::getImagePath("enlarge.png", false, "output");
@@ -591,6 +590,77 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		// unmask user html
 		$this->tpl->setVariable("MEDIA_CONTENT", $output);
 	}
+	
+	/**
+	 * Show page
+	 *
+	 * @param
+	 * @return
+	 */
+	function showPage()
+	{
+		global $tpl;
+		
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+
+		include_once("./Services/Container/classes/class.ilContainerPage.php");
+		include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
+
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath(0));
+		$tpl->setCurrentBlock("SyntaxStyle");
+		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
+		$tpl->parseCurrentBlock();
+
+		// get page object
+		//include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+		//$ot = ilObjectTranslation::getInstance($this->object->getId());
+		//$lang = $ot->getEffectiveContentLang($ilUser->getCurrentLanguage(), "cont");
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
+		$page_gui = new ilMediaPoolPageGUI((int) $_GET["mepitem_id"]);
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		//$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+		//	$this->object->getStyleSheetId(), $this->object->getType()));
+
+		$page_gui->setTemplateOutput(false);
+		$page_gui->setHeader("");
+		$ret = $page_gui->showPage(true);
+
+		$tpl->setBodyClass("ilMediaPoolPagePreviewBody");
+		$tpl->setVariable("CONTENT", $ret);
+		//$ret = "<div style='background-color: white; padding:5px; margin-bottom: 30px;'>".$ret."</div>";
+
+		//$ret =& $page_gui->executeCommand();
+		$tpl->show();
+		exit;
+	}
+	
+
+	/**
+	 * Show content snippet
+	 */
+	function showPreview()
+	{
+		$this->checkPermission("read");
+
+		$item = new ilMediaPoolItem((int) $_GET["mepitem_id"]);
+
+		switch ($item->getType())
+		{
+			case "mob":
+				$_GET["mob_id"] = $item->getForeignId();
+				$this->showMedia();
+				break;
+
+			case "pg":
+				$this->showPage();
+				break;
+		}
+	}
+
 
 	/**
 	* show fullscreen 
@@ -1559,5 +1629,32 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			$_GET["ref_id"]."&mepitem_id=".$_GET["mepitem_id"]);
 
 	}
+
+	/**
+	 * Get preview modal html
+	 */
+	function getPreviewModalHTML()
+	{
+		global $tpl, $ilCtrl, $lng;
+
+		require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+		ilObjMediaObjectGUI::includePresentationJS($this->tpl);
+
+		$tpl->addJavaScript("./Modules/MediaPool/js/ilMediaPool.js");
+
+		$ilCtrl->setParameter($this, "mepitem_id", "");
+		$tpl->addOnloadCode("il.MediaPool.setPreviewUrl('".$ilCtrl->getLinkTarget($this, "showPreview", "", false, false)."');");
+		$ilCtrl->setParameter($this, "mepitem_id", $_GET["mepitem_id"]);
+
+		include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
+		$modal = ilModalGUI::getInstance();
+		$modal->setHeading($lng->txt("preview"));
+		$modal->setId("ilMepPreview");
+		$modal->setType(ilModalGUI::TYPE_LARGE);
+		$modal->setBody("<iframe id='ilMepPreviewContent'></iframe>");
+
+		return $modal->getHTML();
+	}
+
 }
 ?>

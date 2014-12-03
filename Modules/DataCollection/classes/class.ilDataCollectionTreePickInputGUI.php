@@ -54,7 +54,7 @@ class ilDataCollectionTreePickInputGUI extends ilCustomInputGUI{
 		$tpl = new ilTemplate("tpl.dcl_tree.html", true, true, "Modules/DataCollection");
 		$tpl->setVariable("FIELD_ID", $this->getPostVar());
 		$tpl->setVariable("AJAX_LINK", $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", "searchObjects"));
-		$tpl->setVariable("LOADER_PATH", ilUtil::getImagePath("loader.gif"));
+		$tpl->setVariable("LOADER_PATH", ilUtil::getImagePath("loader.svg"));
         $out  = $this->title_input->getToolbarHTML();
         $out .= "<a href='#' style='display:inline-block;' id='remove_{$this->getPostVar()}'><img src='".ilUtil::getImagePath('edit_remove.png')."' alt='remove module'></a>";
         $out .= $this->search_input->getTableFilterHTML();

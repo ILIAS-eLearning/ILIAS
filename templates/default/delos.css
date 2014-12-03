@@ -7759,7 +7759,7 @@ a.ilTreeView:focus {
   margin-top: -25px;
   width: 30px;
   height: 30px;
-  background: url(images/loader.gif) no-repeat center !important;
+  background: url(images/loader.svg) no-repeat center !important;
 }
 .jstree .jstree-no-dots li,
 .jstree .jstree-no-dots .jstree-leaf > ins {
@@ -10552,6 +10552,17 @@ div.ilSurveyPageEditAreaDragging {
   border: 1px dashed #434343;
   background-color: #f9f9f9;
   padding: 5px;
+}
+/* Modules/MediaPool */
+#ilMepPreviewContent {
+  margin: 0;
+  width: 100%;
+  padding: 0;
+  border: 0;
+}
+.ilMediaPoolPagePreviewBody {
+  background-color: #ffffff;
+  height: auto;
 }
 .noMargin {
   margin: 0;
