@@ -142,21 +142,18 @@ class ilBirthdayInputGUI extends ilDateTimeInputGUI
 			$tpl->parseCurrentBlock();
 		}
 
-		if ($this->getShowDate())
-		{
-			$tpl->setCurrentBlock("prop_date");
-			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
-			$tpl->setVariable("IMG_DATE_CALENDAR", ilGlyphGUI::get(ilGlyphGUI::CALENDAR, $lng->txt("open_calendar")));
-			$tpl->setVariable("DATE_ID", $this->getPostVar());
-			$tpl->setVariable("INPUT_FIELDS_DATE", $this->getPostVar()."[date]");
-			include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
-			$tpl->setVariable('DATE_FIRST_DAY',ilCalendarUserSettings::_getInstance()->getWeekStart());
-			$tpl->setVariable("DATE_SELECT",
-				ilUtil::makeDateSelect($this->getPostVar()."[date]", $date_info['year'], $date_info['mon'], $date_info['mday'],
-					$this->startyear,true,array('disabled' => $this->getDisabled()), $this->getShowEmpty()));
-			$tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("prop_date");
+		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+		$tpl->setVariable("IMG_DATE_CALENDAR", ilGlyphGUI::get(ilGlyphGUI::CALENDAR, $lng->txt("open_calendar")));
+		$tpl->setVariable("DATE_ID", $this->getPostVar());
+		$tpl->setVariable("INPUT_FIELDS_DATE", $this->getPostVar()."[date]");
+		include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
+		$tpl->setVariable('DATE_FIRST_DAY',ilCalendarUserSettings::_getInstance()->getWeekStart());
+		$tpl->setVariable("DATE_SELECT",
+			ilUtil::makeDateSelect($this->getPostVar()."[date]", $date_info['year'], $date_info['mon'], $date_info['mday'],
+				$this->startyear,true,array('disabled' => $this->getDisabled()), $this->getShowEmpty()));
+		$tpl->parseCurrentBlock();
 			
-		}
 		return $tpl->get();
 	}
 }
