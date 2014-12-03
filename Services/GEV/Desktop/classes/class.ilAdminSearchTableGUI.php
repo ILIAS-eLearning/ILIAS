@@ -102,10 +102,11 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 	}
 
 	protected function fillRow($a_set) {
+/*
 		$this->tpl->setVariable("ACCORDION_BUTTON_CLASS", $this->getAccordionButtonExpanderClass());
 		$this->tpl->setVariable("ACCORDION_ROW", $this->getAccordionRowClass());
 		$this->tpl->setVariable("COLSPAN", $this->getColspan());
-
+*/
 		if ($a_set["end_date"] === null) {
 			$a_set["end_date"] = $a_set["start_date"];
 		}
