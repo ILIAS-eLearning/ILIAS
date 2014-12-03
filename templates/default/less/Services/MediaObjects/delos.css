@@ -22,7 +22,7 @@
   height: 100%;
 }
 .ilPlayerPreviewPlayButton {
-  background: url(images/bigplay.png) no-repeat scroll 0 0 transparent;
+  background: url(images/bigplay.svg) no-repeat scroll 0 0 transparent;
   height: 100px;
   left: 50%;
   margin: -50px 0 0 -50px;
