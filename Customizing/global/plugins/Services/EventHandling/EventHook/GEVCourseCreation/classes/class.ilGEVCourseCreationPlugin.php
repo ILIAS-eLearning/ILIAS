@@ -15,17 +15,18 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 		
 		require_once("Services/Object/classes/class.ilObject.php");
 
+		if (ilObject::_lookupType($a_parameter["source_ref_id"], true) == "cat") {
+			$this->clonedCategory($a_parameter["source_ref_id"], $a_parameter["target_ref_id"]);
+		}
+
 		if (ilObject::_lookupType($a_parameter["source_ref_id"], true) !== "crs") {
 			return;
 		}
 
-		$this->clonedCourses($a_parameter["source_ref_id"], $a_parameter["target_ref_id"]);
-
-		global $ilLog;
-		$ilLog->write("Cloned course ".$a_parameter["target_ref_id"]." from course ". $a_parameter["source_ref_id"]);		
+		$this->clonedCourse($a_parameter["source_ref_id"], $a_parameter["target_ref_id"]);
 	}
 
-	public function clonedCourses($a_source_ref_id, $a_target_ref_id) {
+	public function clonedCourse($a_source_ref_id, $a_target_ref_id) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Modules/Course/classes/class.ilObjCourse.php");
@@ -59,11 +60,11 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 			$target->update();
 		}
 		catch (Exception $e) {
-			$ilLog->write("Error in GEVCourseCreation::clonedCourses: ".print_r($e, true));
+			$ilLog->write("Error in GEVCourseCreation::clonedCourse: ".print_r($e, true));
 		}
-	}
-	
-	public function setCustomId($a_target_utils, $a_source_utils) {
+		}
+		
+		public function setCustomId($a_target_utils, $a_source_utils) {
 		if ($a_source_utils->isTemplate()) {
 			$custom_id_tmplt = $a_source_utils->getCustomId();
 		}
@@ -73,6 +74,9 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 
 		$custom_id = gevCourseUtils::createNewCustomId($custom_id_tmplt);
 		$a_target_utils->setCustomId($custom_id);
+		
+		global $ilLog;
+		$ilLog->write("Cloned course ".$target_ref_id." from course ". $source_ref_id);		
 	}
 	
 	public function setMailSettings($a_source_obj_id, $a_target_obj_id) {
@@ -87,6 +91,37 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
 		$add = new gevCrsAdditionalMailSettings($a_source_obj_id);
 		$add->copyTo($a_target_obj_id);
+	}
+	
+	// Ok, this is ugly. I can't find the correct location to throw afterClone for courses
+	// when courses are inside a copied category. So i have to reconstruct the correct
+	// source_ and target_ref_ids of courses inside a category.
+	public function clonedCategory($a_source_ref_id, $a_target_ref_id) {
+		global $ilDB;
+		global $ilLog;
+		
+		$query = "SELECT DISTINCT map.source_ref_id, map.target_ref_id "
+				."  FROM copy_mappings map"
+				."  JOIN object_reference tref ON tref.ref_id = map.target_ref_id AND tref.deleted IS NULL"
+				."  JOIN object_data tod ON tod.obj_id = tref.obj_id"
+				."  JOIN tree stree ON stree.child = ".$ilDB->quote($a_source_ref_id, "integer")
+				."  RIGHT JOIN tree stree2 ON stree2.lft > stree.lft AND stree2.rgt < stree.rgt "
+				."  JOIN tree ttree ON ttree.child =  ".$ilDB->quote($a_target_ref_id, "integer")
+				."  RIGHT JOIN tree ttree2 ON ttree2.lft > ttree.lft AND ttree2.rgt < ttree.rgt "
+				." WHERE tod.type = 'crs'"
+				;
+		
+		$ilLog->write($query);
+		
+		$res = $ilDB->query($query);
+		
+		$ret = array();
+		while($rec = $ilDB->fetchAssoc($res)) {
+			$this->clonedCourse($rec["source_ref_id"], $rec["target_ref_id"]);
+		}
+		
+		global $ilLog;
+		$ilLog->write("Cloned category ".$target_ref_id." from category ". $source_ref_id);		
 	}
 }
 

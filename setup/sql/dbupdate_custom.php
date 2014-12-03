@@ -2290,4 +2290,28 @@ if(!$ilDB->tableExists('org_unit_personal'))
 
 ?>
 
+<#69>
+<?php
+
+if(!$ilDB->tableExists('copy_mappings'))
+{
+	$fields = array (
+	'target_ref_id'    => array(
+			'type' => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0),
+	
+	'source_ref_id'    => array(
+			'type' => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0),
+	);
+
+	$ilDB->createTable('copy_mappings', $fields);
+	$ilDB->addPrimaryKey('copy_mappings', array('target_ref_id'));
+}
+
+?>
 

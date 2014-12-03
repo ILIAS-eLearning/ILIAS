@@ -482,6 +482,21 @@ class ilCopyWizardOptions
 			'options'	=> array('clob',serialize($mappings))
 		));
 		
+		// gev-patch start
+		// Keep info about which source objects where copied to which target.
+		// I need this information in ilGEVCourseCreationPlugin. This seems to
+		// be the correct location to not lose any required information.
+		
+		// For some unknown reasons the mapping 1 -> 1 is always appended. Just
+		// ignore it...
+		if ($a_target_id !== 1 && $a_source_id !== 1) {
+			$ilDB->insert('copy_mappings', array(
+				'target_ref_id'	=> array('integer', $a_target_id),
+				'source_ref_id'	=> array('integer', $a_source_id)
+			));
+		}
+		// gev-patch end
+		
 		return true;				
 	}
 	
