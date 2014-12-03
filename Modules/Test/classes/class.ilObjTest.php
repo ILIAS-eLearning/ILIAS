@@ -5160,15 +5160,23 @@ function getAnswerFeedbackPoints()
 		
 		while( $row = $ilDB->fetchAssoc($result) )
 		{
-			$data	->getParticipant($row["active_fi"])
-					->getPass($row["pass"])
-					->addAnsweredQuestion(
-						$row["question_fi"],
-						$row["maxpoints"],
-						$row["points"],
-						$row['answered']
-					)
-			;
+			$participantObject = $data->getParticipant($row["active_fi"]);
+
+			if( !($participantObject instanceof ilTestEvaluationUserData) )
+			{
+				continue;
+			}
+
+			$passObject = $participantObject->getPass($row["pass"]);
+
+			if( !($passObject instanceof ilTestEvaluationPassData) )
+			{
+				continue;
+			}
+
+			$passObject->addAnsweredQuestion(
+				$row["question_fi"], $row["maxpoints"], $row["points"], $row['answered']
+			);
 		}
 
 		foreach( array_keys($data->getParticipants()) as $active_id )
