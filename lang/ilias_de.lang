@@ -1519,6 +1519,7 @@ assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufend
 assessment#:#enable_examview#:#Übersicht gegebener Antworten
 assessment#:#enable_examview_desc#:#Teilnehmern werden alle Fragen und die von ihnen gegebenen Antworten vor Abgabe des Tests präsentiert.
 assessment#:#test_enable_archiving#:#Archivierung aktivieren
+assessment#:#test_enable_archiving_desc#:#todui
 assessment#:#ass_create_archive_export#:#Archivexport erzeugen.
 assessment#:#cannot_export_archive#:#Archivexport kann nicht erzeugt werden.
 assessment#:#show_examview_html#:#Am Bildschirm

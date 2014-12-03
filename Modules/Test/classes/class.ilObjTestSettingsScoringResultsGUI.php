@@ -696,6 +696,7 @@ class ilObjTestSettingsScoringResultsGUI
 
 		// enable_archiving
 		$enable_archiving = new ilCheckboxInputGUI($this->lng->txt('test_enable_archiving'), 'enable_archiving');
+		$enable_archiving->setInfo($this->lng->txt('test_enable_archiving_desc'));
 		$enable_archiving->setValue(1);
 		$enable_archiving->setChecked($this->testOBJ->getEnableArchiving());
 		$form->addItem($enable_archiving);
