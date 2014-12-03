@@ -20,3 +20,4 @@ svn.ilias.de/svn/ilias/branches/CaT/releases/4_4_generali_dev					merged: 53225
 svn.ilias.de/svn/ilias/branches/CaT/releases/4_4_generali						merged: 55209
 svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_SCORM							merged: 55465
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_PersonalOrgUnits				merged: 55463
+svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_TEPHistorizing				merged: 55869
