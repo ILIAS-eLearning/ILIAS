@@ -133,7 +133,6 @@ class gevUserUtils {
 		,"DBV EVG"
 		,"TP Service"
 	);
-
 	
 	static $wbd_relevant_roles = array(
 		"UA"
@@ -150,7 +149,25 @@ class gevUserUtils {
 		,"VP"
 	);
 	
-
+	// Für diese Rollen wird bei der Selbstbuchung der Hinweis "Vorabendanreise 
+	// mit Führungskraft klären" angezeigt.
+	static $roles_with_prearrival_note = array(
+		  "UA"
+		, "HA 84"
+		, "BA 84"
+		, "Org PV 59"
+		, "PV 59"
+		, "ID MA"
+		, "OD/FD/BD ID"
+		, "Agt-ID"
+		, "VA 59"
+		, "VA HGB 84"
+		, "NFK"
+		, "FDA"
+		, "Azubi"
+		, "DBV UVG"
+		, "DBV EVG"
+	);
 
 
 	
@@ -1210,6 +1227,12 @@ class gevUserUtils {
 	
 	public function paysFees() {
 		return !$this->hasRoleIn(gevSettings::$NO_PAYMENT_ROLES);
+	}
+	
+	// Soll für den Benutzer  bei der Selbstbuchung der Hinweis "Vorabendanreise 
+	// mit Führungskraft klären" angezeigt werden?
+	public function showPrearrivalNoteInBooking() {
+		return $this->hasRoleIn(gevUserUtils::$roles_with_prearrival_note);
 	}
 	
 	public function isAdmin() {

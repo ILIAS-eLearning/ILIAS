@@ -372,6 +372,12 @@ class gevBookingGUI {
 			else if ($_POST["accomodations"]) {
 				$form->getItemByPostVar("acco")->setValue(unserialize($_POST["accomodations"]));
 			}
+			
+			if ($this->isSelfBooking() && $this->user_utils->showPrearrivalNoteInBooking()) {
+				$field = new ilNonEditableValueGUI("", "", true);
+				$field->setValue($this->lng->txt("gev_prearrival_note"));
+				$form->addItem($field);
+			}
 		}
 		
 		/*if ($this->isSelfBooking()) {
