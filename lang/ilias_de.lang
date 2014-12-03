@@ -6286,7 +6286,7 @@ content#:#lm_menu_select_internal_object#:#Internes Objekt auswählen >>
 content#:#lm_menu_select_object_to_add#:#Bitte klicken Sie auf das Objekt, welches Sie im Menü hinzufügen wollen
 content#:#mep_folder_created#:#Ordner wurde angelegt.
 content#:#mob_upload_dir#:#Upload-Verzeichnis
-content#:#mob_upload_dir_info#:#Server-Verzeichnis, von dem mehrere Dateien gleichzeitig in einen Medienpool eingefügt werden können.Nur ILIAS-Administratoren sehen die Dateien in diesem Verzeichnis. Bitte geben Sie einen vollständigen Pfad ohne vorangestellten Slash an.
+content#:#mob_upload_dir_info#:#Server-Verzeichnis, von dem mehrere Dateien gleichzeitig in einen Medienpool eingefügt werden können. Nur ILIAS-Administratoren sehen die Dateien in diesem Verzeichnis. Bitte geben Sie einen vollständigen Pfad ohne abschließenden Slash an.
 content#:#msg_entry_added#:#Menüeintrag gespeichert
 content#:#msg_entry_removed#:#Menüeintrag entfernt
 content#:#msg_entry_updated#:#Menüeintrag aktualisiert

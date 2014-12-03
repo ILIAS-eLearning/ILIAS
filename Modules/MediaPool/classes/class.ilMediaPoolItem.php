@@ -231,7 +231,7 @@ class ilMediaPoolItem
 	static function updateObjectTitle($a_obj)
 	{
 		global $ilDB;
-		
+
 		if (ilObject::_lookupType($a_obj) == "mob")
 		{
 			$title = ilObject::_lookupTitle($a_obj);
