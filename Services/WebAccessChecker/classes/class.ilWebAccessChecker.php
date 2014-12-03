@@ -588,6 +588,21 @@ class ilWebAccessChecker
 			case 'impr:pg':
 				include_once 'Services/Imprint/classes/class.ilImprint.php';
 				return (ilImprint::isActive() || $this->checkAccessObject(SYSTEM_FOLDER_ID, 'adm'));
+				
+			case 'spl:html':
+				// pool question - check access for all surveys with copies
+				if (is_array($oid))
+				{
+					foreach ($oid as $svy_obj_id)
+					{
+						if ($this->checkAccessObject($svy_obj_id))
+						{
+							return true;
+						}
+					}
+					return false;
+				}
+				// fallthrough
 
 			case 'cstr:pg':
 			default:				

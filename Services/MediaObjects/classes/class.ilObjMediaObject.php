@@ -1228,20 +1228,20 @@ class ilObjMediaObject extends ilObject
 						}												
 						break;
 						
-					case "spl":
+					case "spl":						
 						// Question Pool *Question* Text (Survey)
 						include_once("./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php");
 						$quest = SurveyQuestion::_instanciateQuestion($id);
-						if($quest)
+						if ($quest)
 						{
-							if ($quest->getOriginalId() > 0)
-							{
-								$obj_id = $quest->getSurveyId();
+							$obj_id = $quest->getObjId();
+							
+							// pool question - return all survey ids of the copies
+							if (ilObject::_lookupType($obj_id) == "spl")
+							{													
+								$obj_id = array_keys($quest->getCopyIds(true));								
 							}
-							else
-							{
-								$obj_id = $quest->getObjId(); // usage in pool
-							}
+						
 							unset($quest);
 						}
 						break;
