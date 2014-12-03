@@ -49,6 +49,7 @@
 * The class name must be il<comp_name>AppEventListener.
 *
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Fabian Schmid <fs@studer-raimann.ch>
 * @version $Id$
 * @ingroup EventHandling
 */
@@ -59,60 +60,39 @@ class ilAppEventHandler
 	/**
 	* Constructor
 	*/
-	function __construct()
+	public function __construct()
 	{
-		/* moved to respective module.xml/service.xml
-		$this->listener["Services/News"] = array("Modules/Forum");
-		$this->listener['Modules/Group'] = array('Services/Calendar');
-		$this->listener['Modules/Session'] = array('Services/Calendar');
-		$this->listener['Modules/Course'] = array('Services/Calendar',
-		    'Services/WebServices/ECS','Services/ContainerReference');
-		$this->listener['Modules/Category'] = array('Services/ContainerReference');
-		$this->listener['Modules/RemoteCourse'] = array('Services/WebServices/ECS');
-		$this->listener["Services/Object"] = array("Services/Tagging",'Services/Search',
-			'Modules/MediaPool');
-		$this->listener['Services/Authentication'] = array();
-		$this->listener['Services/Tracking'] = array('Modules/Course');
-		*/
-						
 		$this->initListeners();
 	}
 
-
-	/**
-	 * @var array
-	 */
-	protected static $listener_cache;
-	
 	protected function initListeners()
 	{
-		global $ilDB;
-		
-		$this->listener = array();
+		require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
+		$ilGlobalCache = ilGlobalCache::getInstance(ilGlobalCache::COMP_EVENTS);
+		$cached_listeners = $ilGlobalCache->get('listeners');
+		if (is_array($cached_listeners)) {
+			$this->listener = $cached_listeners;
 
-		if (! isset(self::$listener_cache)) {
-			require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
-			$global_cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_EVENTS);
-			if ($global_cache->exists('listener')) {
-				self::$listener_cache = $global_cache->get('listener');;
-			} else {
-				$sql = "SELECT * FROM il_event_handling" . " WHERE type = " . $ilDB->quote("listen", "text");
-				$res = $ilDB->query($sql);
-				while ($row = $ilDB->fetchAssoc($res)) {
-					self::$listener_cache[$row["id"]][] = $row["component"];
-				}
-				$global_cache->set('listener', $this->listener);
-			}
-
-			$this->listener = self::$listener_cache;
-
+			return;
 		}
 
+		global $ilDB;
+
+		$this->listener = array();
+
+		$sql = "SELECT * FROM il_event_handling".
+			" WHERE type = ".$ilDB->quote("listen", "text");
+		$res = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$this->listener[$row["id"]][] = $row["component"];
+		}
+
+		$ilGlobalCache->set('listeners', $this->listener);
+	}
 
 
 
-	}	
-	
 	/**
 	* Raise an event. The event is passed to all interested listeners.
 	*
