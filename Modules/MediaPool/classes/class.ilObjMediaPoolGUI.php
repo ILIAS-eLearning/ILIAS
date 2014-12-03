@@ -1103,7 +1103,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$page->setId($item->getId());
 				$page->create();
 				
-				ilUtil::sendSuccess($lng->txt("mep_page_created"), true);
+				$ilCtrl->setParameterByClass("ilmediapoolpagegui", "mepitem_id", $item->getId());
+				$ilCtrl->redirectByClass("ilmediapoolpagegui", "edit");
+
 			}
 			$ilCtrl->redirect($this, "listMedia");
 		}
