@@ -28,6 +28,8 @@ class ilTEPHistorizingAppEventListener
 	 */
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
+		// deactivated.
+		return;
 		/** @var ilTEPEntry $tep_entry */
 		$tep_entry = $a_parameter['entry'];
 		self::initEventHandler();
