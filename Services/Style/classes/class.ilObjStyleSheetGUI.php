@@ -896,7 +896,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$cgui->setCancel($this->lng->txt("cancel"), "cancelDelete");
 		$cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
 		
-		$caption = ilUtil::getImageTagByType("styf", $this->tpl->tplPath).					
+		$caption = ilUtil::getImageTagByType("sty", $this->tpl->tplPath).
 					" ".ilObject::_lookupTitle($this->object->getId());		
 		
 		$cgui->addItem("id[]", "", $caption);
