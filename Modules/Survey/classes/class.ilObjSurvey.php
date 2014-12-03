@@ -4208,7 +4208,15 @@ class ilObjSurvey extends ilObject
 							$qtext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $qtext);							
 							$qtext = ilRTE::_replaceMediaObjectImageSrc($qtext, 1);			
 							$new_question->setQuestiontext($qtext);
-							$new_question->saveToDb();					
+							$new_question->saveToDb();	
+							
+							// also fix existing original in pool
+							if($new_question->getOriginalId())
+							{
+								$pool_question = SurveyQuestion::_instanciateQuestion($new_question->getOriginalId());
+								$pool_question->setQuestiontext($qtext);
+								$pool_question->saveToDb();		
+							}
 						}
 					}
 					else
