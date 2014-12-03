@@ -9457,6 +9457,9 @@ span.bibl_text_inline_Emph {
   width: 100%;
   height: 100%;
 }
+.mejs-overlay-button {
+  background-image: url(images/bigplay.svg);
+}
 .ilPlayerPreviewPlayButton {
   background: url(images/bigplay.svg) no-repeat scroll 0 0 transparent;
   height: 100px;
