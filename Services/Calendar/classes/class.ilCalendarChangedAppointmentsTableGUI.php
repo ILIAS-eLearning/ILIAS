@@ -174,7 +174,7 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 	{
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrences.php');
-		
+		$appointments = array();
 			
 		foreach($a_apps as $event)
 		{			
@@ -208,6 +208,9 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 			
 			$appointments[] = $tmp_arr;		
 		}
+
+		//cuts appointments array after Limit
+		$appointments = array_slice($appointments, 0, $this->getLimit());
 
 		$this->setData($appointments ? $appointments : array());
 	}
