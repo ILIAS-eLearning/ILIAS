@@ -1016,11 +1016,13 @@ class ilTrQuery
 					case "last_access":
 						if($value["from"])
 						{
+							$value["from"] = substr($value["from"], 0, -2)."00";					
 							$value["from"] = new ilDateTime($value["from"], IL_CAL_DATETIME);
 							$value["from"] = $value["from"]->get(IL_CAL_UNIX);
 						}
 						if($value["to"])
 						{
+							$value["to"] = substr($value["to"], 0, -2)."59"; // #14858					
 							$value["to"] = new ilDateTime($value["to"], IL_CAL_DATETIME);
 							$value["to"] = $value["to"]->get(IL_CAL_UNIX);
 						}
@@ -1074,9 +1076,9 @@ class ilTrQuery
 						}
 						break;
 
-				    case "spent_seconds":
+				    case "spent_seconds":						
 						if(!$a_aggregate)
-						{
+						{							
 							if($value["from"])
 							{
 								$where[] =  "(read_event.".$id."+read_event.childs_".$id.") >= ".$ilDB->quote($value["from"] ,"integer");
