@@ -351,11 +351,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function getTabs()
 	{
-		if(ilSearchSettings::getInstance()->getHideAdvancedSearch())
-		{
-			return false;
-		}
-
 		$this->tabs_gui->addTarget('search',$this->ctrl->getLinkTarget($this));
 		
 		if(ilSearchSettings::getInstance()->isLuceneUserSearchEnabled())
@@ -363,7 +358,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 			$this->tabs_gui->addTarget('search_user',$this->ctrl->getLinkTargetByClass('illuceneusersearchgui'));
 		}
 		
-		if($this->fields->getActiveFields())
+		if($this->fields->getActiveFields() && !ilSearchSettings::getInstance()->getHideAdvancedSearch())
 		{
 			$this->tabs_gui->addTarget('search_advanced',$this->ctrl->getLinkTargetByClass('illuceneAdvancedSearchgui'));
 		}
@@ -544,7 +539,11 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 
 		$this->tpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this,'performSearch'));
 		$this->tpl->setVariable("TERM", ilUtil::prepareFormOutput($this->search_cache->getQuery()));
-		$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
+		include_once("./Services/UIComponent/Button/classes/class.ilSubmitButton.php");
+		$btn = ilSubmitButton::getInstance();
+		$btn->setCommand("performSearch");
+		$btn->setCaption("search");
+		$this->tpl->setVariable("SUBMIT_BTN",$btn->render());
 		$this->tpl->setVariable("TXT_OPTIONS", $lng->txt("options"));
 		$this->tpl->setVariable("ARR_IMG", ilGlyphGUI::get(ilGlyphGUI::CARET));
 		$this->tpl->setVariable("TXT_COMBINATION", $lng->txt("search_term_combination"));
