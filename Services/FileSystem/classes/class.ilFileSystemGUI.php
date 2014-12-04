@@ -198,7 +198,7 @@ class ilFileSystemGUI
 	function &executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
+		$cmd = $this->ctrl->getCmd("listFiles");
 
 		switch($next_class)
 		{
@@ -266,17 +266,19 @@ class ilFileSystemGUI
 	*/
 	function &extCommand($a_nr)
 	{
-		// remove ".." items
-		foreach ($_POST["file"] as $k => $v)
+		if (isset($_POST["file"]))
 		{
-			if ($_POST["file"][$k] == "..")
+			// remove ".." items
+			foreach ($_POST["file"] as $k => $v)
 			{
-				unset($_POST["file"][$k]);
+				if ($_POST["file"][$k] == "..")
+				{
+					unset($_POST["file"][$k]);
+				}
 			}
 		}
-
 		// check if at least one item is select
-		if (!isset($_POST["file"]))
+		else
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
