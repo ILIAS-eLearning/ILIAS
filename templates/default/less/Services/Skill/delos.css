@@ -1,7 +1,6 @@
 /* Services/Skill */
 div.ilSkill {
-  background: url(images/FramedBack.png) repeat-x;
-  border: 1px solid #E0E0E0;
+  background: border: 1px solid #E0E0E0;
   padding: 5px;
   margin-bottom: 20px;
 }
