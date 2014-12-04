@@ -117,15 +117,14 @@ class ilChatroomBlockGUI extends ilBlockGUI
 		global $tpl, $lng, $ilCtrl;
 
 		//@todo: Dirty hack
-		if($ilCtrl->isAsynch())
+		if($ilCtrl->isAsynch() && isset($_GET['chatBlockCmd']))
 		{
-			return $this->getMessages();
+			return $this->dispatchAsyncCommand($_GET['chatBlockCmd']);
 		}
 
 		$tpl->addJavascript('./Modules/Chatroom/js/chatviewer.js');
 		$tpl->addCss('./Modules/Chatroom/templates/default/style.css');
 
-		$chatblock = new ilChatroomBlock();
 		$body_tpl  = new ilTemplate('tpl.chatroom_block_message_body.html', true, true, 'Modules/Chatroom');
 
 		$body_tpl->setVariable('TXT_ENABLE_AUTOSCROLL', $lng->txt('chat_enable_autoscroll'));
@@ -179,8 +178,39 @@ class ilChatroomBlockGUI extends ilBlockGUI
 			$body_tpl->setVariable($placeholder, json_encode($lng->txt($lng_variable)));
 		}
 
-		$content = $body_tpl->get() . $chatblock->getRoomSelect();
+		$content = $body_tpl->get();
 		$this->setDataSection($content);
+	}
+
+	/**
+	 * @param $cmd
+	 */
+	protected function dispatchAsyncCommand($cmd)
+	{
+		switch($cmd)
+		{
+			case 'getChatroomSelectionList':
+				return $this->getChatroomSelectionList();
+				break;
+
+			case 'getMessages':
+			default;
+				return $this->getMessages();
+				break;
+		}
+	}
+	
+	protected function getChatroomSelectionList()
+	{
+		$result     = new stdClass();
+		$result->ok = true;
+
+		$chatblock = new ilChatroomBlock();
+		$result->html = $chatblock->getRoomSelect();
+
+		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
+		echo ilJsonUtil::encode($result);
+		exit();
 	}
 
 	/**

@@ -1402,7 +1402,7 @@ public function getLastMessages($number, $chatuser = null) {
 	}
     }
 	
-	public static function getUntrashedChatReferences()
+	public static function getUntrashedChatReferences($filter = array())
 	{
 		/**
 		 * @var $ilDB ilDB
@@ -1421,7 +1421,20 @@ public function getLastMessages($number, $chatuser = null) {
 			INNER JOIN object_data odp ON odp.obj_id = orep.obj_id
 			INNER JOIN object_reference pre ON pre.ref_id = t.parent
 			INNER JOIN object_data pod ON pod.obj_id = pre.obj_id
+		';
+
+		if(isset($filter['last_activity']))
+		{
+			$threshold = $ilDB->quote($filter['last_activity'], 'integer');
+			$query    .= "
+				INNER JOIN chatroom_settings ON chatroom_settings.object_id = od.obj_id
+				INNER JOIN chatroom_history ON chatroom_history.room_id = chatroom_settings.room_id AND chatroom_history.timestamp > $threshold
+			";
+		}
+
+		$query .= '
 			WHERE od.type = %s AND t.tree > 0 AND ore.deleted IS NULL
+			GROUP BY od.obj_id, od.title, ore.ref_id, od.type, odp.title
 			ORDER BY od.title
 		';
 		$res = $ilDB->queryF($query, array('text'), array('chtr'));

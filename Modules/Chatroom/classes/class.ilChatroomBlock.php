@@ -23,7 +23,9 @@ class ilChatroomBlock
 
 		$readable_rooms = array();
 
-		$chatroom_objects = ilChatroom::getUntrashedChatReferences();
+		$chatroom_objects = ilChatroom::getUntrashedChatReferences(array(
+			'last_activity' => strtotime('-5 days', time())
+		));
 		foreach($chatroom_objects as $object)
 		{
 			if(isset($readable_rooms[$object['obj_id']]))
