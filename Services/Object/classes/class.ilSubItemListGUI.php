@@ -232,12 +232,13 @@ abstract class ilSubItemListGUI
 	// begin-patch mime_filter
 	protected function parseRelevance($sub_item)
 	{
-		if(!ilSearchSettings::getInstance()->isSubRelevanceVisible())
+		if(!ilSearchSettings::getInstance()->isSubRelevanceVisible() ||
+			!ilSearchSettings::enabledLucene())
 		{
 			return '';
 		}
 		
-		$relevance = $this->getHighlighter()->getRelevance($this->getObjId(),$sub_item);
+		$relevance = $this->getHighlighter()->getRelevance($this->getObjId(),$sub_item);		
 		
 		$this->tpl->addBlockFile('SUB_REL','sub_rel','tpl.lucene_sub_relevance.html','Services/Search');
 		
