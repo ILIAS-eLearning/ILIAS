@@ -258,6 +258,14 @@ class ilTEPOperationDays
 		{
 			$this->insertEntry($a_user_id, $day);
 		}
+		
+		// gev-patch start
+		if ($this->getObjectType() == "tep_entry") {
+			require_once("Services/TEP/classes/class.ilTEPEntry.php");
+			$entry = new ilTEPEntry($this->getObjectId());
+			$entry->update();
+		}
+		// gev-patch end
 	}
 	
 	/**
@@ -266,6 +274,14 @@ class ilTEPOperationDays
 	public function setAllDaysForUser($a_user_id)
 	{
 		$this->deleteEntries($a_user_id);
+				
+		// gev-patch start
+		if ($this->getObjectType() == "tep_entry") {
+			require_once("Services/TEP/classes/class.ilTEPEntry.php");
+			$entry = new ilTEPEntry($this->getObjectId());
+			$entry->update();
+		}
+		// gev-patch end
 	}
 	
 	/**
@@ -295,6 +311,14 @@ class ilTEPOperationDays
 				$this->insertEntry($a_user_id, $day);
 			}
 		}
+		
+		// gev-patch start
+		if ($this->getObjectType() == "tep_entry") {
+			require_once("Services/TEP/classes/class.ilTEPEntry.php");
+			$entry = new ilTEPEntry($this->getObjectId());
+			$entry->update();
+		}
+		// gev-patch end
 	}
 	
 	/**

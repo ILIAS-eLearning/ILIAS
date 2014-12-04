@@ -13,6 +13,7 @@
 
 require_once("Services/TEP/classes/class.ilTEPEntry.php");
 require_once("Services/TEP/classes/class.ilCalDerivedEntry.php");
+require_once("Services/TEP/classes/class.ilTEPOperationDays.php");
 
 class ilTEPHistorizingAppEventListener
 {
@@ -42,7 +43,20 @@ class ilTEPHistorizingAppEventListener
 		$state_data = self::getStateData($a_event, $tep_entry);
 		$record_creator = self::getRecordCreator($a_event, $tep_entry);
 		$ts = self::getCreationTimestamp($a_event, $tep_entry);
+
+		// Users with derived entries
+		$uids = ilCalDerivedEntry::getUserIdsByMasterEntryIds(array($tep_entry->getEntryId()));
+		if (array_key_exists($tep_entry->getEntryId(), $uids)) {
+			$uids = $uids[$tep_entry->getEntryId()];
+		}
+		else {
+			$uids = array();
+		}
 		
+		$op_days_obj = new ilTEPOperationDays("tep_entry", $tep_entry->getEntryId(), $tep_entry->getStart(), $tep_entry->getEnd());
+		$op_days = $op_days_obj->getDaysForUsers(array_merge(array($tep_entry->getOwnerId()), array_keys($uids)));
+
+		$state_data["individual_days"] = count($op_days[$tep_entry->getOwnerId()]);
 
 		// Historize Base-Entry
 		self::$ilTEPHistorizing->updateHistorizedData(
@@ -54,17 +68,10 @@ class ilTEPHistorizingAppEventListener
 		);
 		
 		// historize derived entries
-		$uids = ilCalDerivedEntry::getUserIdsByMasterEntryIds(array($tep_entry->getEntryId()));
-		if (array_key_exists($tep_entry->getEntryId(), $uids)) {
-			$uids = $uids[$tep_entry->getEntryId()];
-		}
-		else {
-			$uids = array();
-		}
 		foreach($uids as $uid => $drvd_id) {
 			$case_id["user_id"] = $uid;
 			$case_id["cal_derived_entry_id"] = $drvd_id;
-			// TODO: set individual days
+			$state_data["individual_days"] = $op_days[$uid];
 			self::$ilTEPHistorizing->updateHistorizedData(
 									$case_id,
 									$state_data,
@@ -155,7 +162,7 @@ class ilTEPHistorizingAppEventListener
 			'begin_date'			=> $parameter->getStart(),
 			'end_date'				=> $parameter->getEnd(),
 			'category'				=> $parameter->getTypeTitle(),
-			'individual_days'		=> -1, // TODO: this is not correct!
+			'individual_days'		=> -1,
 			'deleted'				=> ($event == 'delete' ? 1 : 0)
 		);
 
