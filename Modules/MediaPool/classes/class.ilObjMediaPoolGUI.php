@@ -474,7 +474,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			"mepitem_id", ilMediaPoolTableGUI::IL_MEP_EDIT, true);
 		}
 
-		$tpl->setContent($mep_table_gui->getHTML());
+		$tpl->setContent($mep_table_gui->getHTML().$this->getPreviewModalHTML());
 //		$this->tpl->show();
 	}
 	
