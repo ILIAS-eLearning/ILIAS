@@ -19,10 +19,11 @@ var ilSurveyPageView = {
 				containment: 'parent', 
 				cursor: 'move',				
 				revert: 'invalid',
-				opacity: 0.9, 
+				opacity: 0.6, 
 				/* helper: 'clone', */
 				helper: function(event) {
-					return '<div class="' + ilSurveyPageView.drag_process_css + '">' +
+					return '<div class="' + ilSurveyPageView.drag_process_css + 
+						'" style="width:' + $(this).width() + 'px; height: 150px;">' +				
 						$('#label_' + $(this).attr('id')).html()
 						+ '</div>';
 				},
