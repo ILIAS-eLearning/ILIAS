@@ -2997,23 +2997,6 @@ class ilObjUserGUI extends ilObjectGUI
 		
 		return $profileMaybeIncomplete;
 	}
-	
-	/**
-	 *
-	 */
-	protected function showAgreementTextAsynchObject()
-	{
-		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-		/**
-		 * @var $entity ilTermsOfServiceAcceptanceEntity
-		 */
-		$entity = ilTermsOfServiceHelper::getCurrentAcceptanceForUser($this->object);
-		if($entity->getId())
-		{
-			echo '<div style="max-width:640px;max-height:480px;overflow:auto;padding:5px">' . $entity->getText() . '</div>';
-		}
-		exit();
-	}
 
 	/**
 	 * 
@@ -3040,17 +3023,8 @@ class ilObjUserGUI extends ilObjectGUI
 				$agreement_lang->setValue($this->lng->txt('meta_l_' . $entity->getIso2LanguageCode()));
 				$show_agreement_text->addSubItem($agreement_lang);
 
-				$agreement_document = new ilNonEditableValueGUI($this->lng->txt('tos_agreement_document'), '', true);
-
-				require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
-				$action = new ilAdvancedSelectionListGUI();
-				$action->setId('asl_content_accepted_content');
-				$action->setListTitle($this->lng->txt('tos_accepted_content'));
-				$action->setHeaderIcon(ilUtil::getImagePath('icon_preview.png'));
-				$action->setAsynch(true);
-				$action->setAsynchUrl($this->ctrl->getLinkTarget($this, 'showAgreementTextAsynch', '', true, false));
-				$agreement_document->setValue($entity->getSource().$action->getHtml());
-
+				require_once 'Services/TermsOfService/classes/form/class.ilTermsOfServiceSignedDocumentFormElementGUI.php';
+				$agreement_document = new ilTermsOfServiceSignedDocumentFormElementGUI($this->lng->txt('tos_agreement_document'), '', $entity);
 				$show_agreement_text->addSubItem($agreement_document);
 				$agree_date->addSubItem($show_agreement_text);
 			}

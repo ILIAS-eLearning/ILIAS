@@ -1,0 +1,11 @@
+<div id="{MODAL_ID}_trigger">{MODAL_TRIGGER_HTML}</div>
+<script type="text/javascript">
+	(function($) {
+		$().ready(function() {
+			$('#{MODAL_ID}_trigger').click(function() {
+				$('#{MODAL_ID}').modal('show');
+			});
+		});
+	})(jQuery);
+</script>
+{MODAL}
