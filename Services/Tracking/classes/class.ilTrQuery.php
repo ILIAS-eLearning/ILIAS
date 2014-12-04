@@ -727,7 +727,7 @@ class ilTrQuery
 		// users
 		$a_users = self::getParticipantsForObject($a_ref_id);
 		$left = "";
-		if (is_array($a_users) && sizeof($a_users))
+		if (is_array($a_users)) // #14840
 		{
 			$left = "LEFT";
 			$where[] = $ilDB->in("usr_data.usr_id", $a_users, false, "integer");
