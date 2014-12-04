@@ -4,53 +4,26 @@
 	<td class="std">{VAL_AGREEMENT_DOCUMENT}
 		<!-- BEGIN tos_content -->
 		<a class="il_ContainerItemCommand" id="accpt_doc_trigger_{VAL_ID}" href="#">{VAL_IMG_DOWN}</a>
-		<script>
+		{VAL_MODAL}
+		<script type="text/javascript">
 			(function($) {
-				$("#accpt_doc_trigger_{VAL_ID}").click(function(e) {
-
-					il.Overlay.hideAllOverlays(e.originalEvent, true);
-
-					var $this = $(this);
-					var $panel = $('#answer_container_' + $this.attr('id'));
-
-					if ($panel.size() == 0) {
-						var $panel = $('<div class="ilOverlay ilRightPanel yui-module yui-overlay" style="overflow: auto; display: none;" id="answer_container_' + $this.attr('id') + '"></div>')
-							.css({
-								position: 'fixed',
-								top: '0px',
-								bottom: '0px',
-								left: '',
-								right: '0px',
-								width: '40%',
-								padding: '5px'
-							});
-						$("<iframe></iframe>").appendTo($panel);
-						$panel.insertAfter($this);
-
-						$.ajax({
+				$().ready(function() {
+					$('#accpt_doc_trigger_{VAL_ID}').click(function() {
+						var promise = $.ajax({
 							url: '{VAL_CONTENT_LINK}',
-							dataType: 'json',
-							success: function(response) {
-								if (1 == response.status) {
-									var $iframe = $panel.find("iframe");
-									$iframe.css({width: '100%', height: '100%'});
-									$iframe.get(0).contentWindow.document.open('text/html', 'replace');
-									$iframe.get(0).contentWindow.document.write(response.body);
-									$iframe.get(0).contentWindow.document.close();
+							dataType: 'json'
+						});
 
-									il.Overlay.add('answer_container_' + $this.attr('id'), {yuicfg: {
-									}});
-									il.Overlay.show(e.originalEvent, 'answer_container_' + $this.attr('id'));
-								}
+						promise.done(function(response) {
+							if (1 == response.status) {
+								var $modal = $('#tos_{VAL_ID}');
+								$modal.find('.modal-body').html(response.body);
+								$modal.modal('show');
 							}
-						})
-					} else {
-						il.Overlay.show(e.originalEvent, 'answer_container_' + $this.attr('id'));
-					}
-					return false;
-
+						});
+					});
 				});
-			}(jQuery));
+			})(jQuery);
 		</script>
 		<!-- END tos_content -->
 	

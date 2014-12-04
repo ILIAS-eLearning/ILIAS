@@ -92,11 +92,18 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 	{
 		if(is_string($row['agreement_document']) && strlen($row['agreement_document']))
 		{
+			require_once 'Services/UIComponent/Modal/classes/class.ilModalGUI.php';
+			$modal = ilModalGUI::getInstance();
+			$modal->setHeading($this->lng->txt('tos_agreement_document'));
+			$modal->setId('tos_' . md5($row['language']));
+			$modal->setBody('');
+
 			$this->ctrl->setParameter($this->getParentObject(), 'agreement_document', rawurlencode($row['agreement_document']));
 			$row['content_link'] = $this->ctrl->getLinkTarget($this->getParentObject(), 'getAgreementTextByFilenameAsynch', '', true, false);
 			$this->ctrl->setParameter($this->getParentObject(), 'agreement_document', '');
 			$row['img_down'] = ilGlyphGUI::get(ilGlyphGUI::SEARCH);
 			$row['id'] = md5($row['language']);
+			$row['modal'] = $modal->getHTML();
 		}
 		else
 		{
@@ -109,7 +116,7 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 	 */
 	protected function getStaticData()
 	{
-		return array('id', 'language', 'agreement', 'missing_agreement_css_class', 'agreement_document', 'content_link', 'img_down', 'language_key');
+		return array('modal', 'id', 'language', 'agreement', 'missing_agreement_css_class', 'agreement_document', 'content_link', 'img_down', 'language_key');
 	}
 
 	/**
