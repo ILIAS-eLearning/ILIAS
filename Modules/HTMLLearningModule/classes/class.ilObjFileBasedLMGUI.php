@@ -105,7 +105,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			case "ilfilesystemgui":
 				$this->checkPermission("write");
 				$ilTabs->activateTab('id_list_files');
-				$fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
+				$fs_gui = new ilFileSystemGUI($this->object->getDataDirectory());
 				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
 				$fs_gui->setUseUploadDirectory(true);
 				$fs_gui->setTableId("htlmfs".$this->object->getId());			
@@ -116,7 +116,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				}							
 				$fs_gui->addCommand($this, "setStartFile", $this->lng->txt("cont_set_start_file"));
 				
-				$ret =& $this->ctrl->forwardCommand($fs_gui);
+				$this->ctrl->forwardCommand($fs_gui);
 				
 				// try to set start file automatically
 				if (!$this->object->getStartFile())

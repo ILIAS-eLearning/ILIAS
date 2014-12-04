@@ -440,8 +440,7 @@ class ilFileSystemGUI
 		include_once("./Services/FileSystem/classes/class.ilFileSystemTableGUI.php");
 		$fs_table = new ilFileSystemTableGUI($this, "listFiles", $cur_dir, $cur_subdir,
 			$this->label_enable, $this->file_labels, $this->label_header, $this->commands,
-			$this->getPostDirPath());
-		$fs_table->setId($this->getTableId());
+			$this->getPostDirPath(), $this->getTableId());
 		if ($this->getTitle() != "")
 		{
 			$fs_table->setTitle($this->getTitle());

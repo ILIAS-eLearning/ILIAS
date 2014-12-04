@@ -20,10 +20,11 @@ class ilFileSystemTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_cur_dir, 
 		$a_cur_subdir, $a_label_enable = false,
 		$a_file_labels, $a_label_header = "", $a_commands = array(),
-		$a_post_dir_path = false)
+		$a_post_dir_path = false, $a_table_id = "")
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 
+		$this->setId($a_table_id);
 		$this->cur_dir = $a_cur_dir;
 		$this->cur_subdir = $a_cur_subdir;
 		$this->label_enable = $a_label_enable;
