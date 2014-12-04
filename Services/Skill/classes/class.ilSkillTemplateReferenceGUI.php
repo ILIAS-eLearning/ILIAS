@@ -168,6 +168,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 		
 		// title
 		$ti = new ilTextInputGUI($lng->txt("title"), "title");
+		$ti->setRequired(true);
 		$this->form->addItem($ti);
 		
 		// order nr
