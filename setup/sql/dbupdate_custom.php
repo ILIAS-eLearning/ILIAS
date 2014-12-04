@@ -2315,3 +2315,89 @@ if(!$ilDB->tableExists('copy_mappings'))
 
 ?>
 
+<#70>
+<?php
+
+if(!$ilDB->tableExists('hist_tep'))
+{
+	$fields = array (
+		'row_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'hist_version' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 1),
+		'hist_historic' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'creator_user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'created_ts' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'cal_entry_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'cal_derived_entry_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false),
+		'context_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'subtitle' => array(
+			'type' => 'text',
+			'length' => 255),
+		'description' => array(
+			'type' => 'text',
+			'length' => 255),
+		'location' => array(
+			'type' => 'text',
+			'length' => 255),
+		'fullday' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true),
+		'begin_date' => array(
+			'type' => 'date'),
+		'end_date' => array(
+			'type' => 'date'),
+		'individual_days' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'category' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'deleted' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true)
+	);
+	$ilDB->createTable('hist_tep', $fields);
+	$ilDB->addPrimaryKey('hist_tep', array('row_id'));
+	$ilDB->createSequence('hist_tep');
+}
+
+?>
+

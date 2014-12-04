@@ -10,6 +10,10 @@
  *
  * @version $Id$
  */
+
+require_once("Services/TEP/classes/class.ilTEPEntry.php");
+require_once("Services/TEP/classes/class.ilCalDerivedEntry.php");
+
 class ilTEPHistorizingAppEventListener
 {
 	/** @var  ilTEPHistorizing $ilTEPHistorizing */
@@ -28,41 +32,70 @@ class ilTEPHistorizingAppEventListener
 	 */
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
-		// deactivated.
-		return;
+		global $ilDB;
+		
 		/** @var ilTEPEntry $tep_entry */
 		$tep_entry = $a_parameter['entry'];
 		self::initEventHandler();
 
+		$case_id = self::getCaseId($a_event, $tep_entry);
+		$state_data = self::getStateData($a_event, $tep_entry);
+		$record_creator = self::getRecordCreator($a_event, $tep_entry);
+		$ts = self::getCreationTimestamp($a_event, $tep_entry);
+		
+
 		// Historize Base-Entry
 		self::$ilTEPHistorizing->updateHistorizedData(
-							   self::getCaseId($a_event, $tep_entry),
-							   self::getStateData($a_event, $tep_entry),
-							   self::getRecordCreator($a_event, $tep_entry),
-							   self::getCreationTimestamp($a_event, $tep_entry),
-							   false // Not a mass-action
+								$case_id,
+								$state_data,
+								$record_creator,
+								$ts,
+								false // Not a mass-action
 		);
-
-		if($a_event == 'delete')
-		{
+		
+		// historize derived entries
+		$uids = ilCalDerivedEntry::getUserIdsByMasterEntryIds(array($tep_entry->getEntryId()));
+		if (array_key_exists($tep_entry->getEntryId(), $uids)) {
+			$uids = $uids[$tep_entry->getEntryId()];
+		}
+		else {
+			$uids = array();
+		}
+		foreach($uids as $uid => $drvd_id) {
+			$case_id["user_id"] = $uid;
+			$case_id["cal_derived_entry_id"] = $drvd_id;
+			// TODO: set individual days
 			self::$ilTEPHistorizing->updateHistorizedData(
-								   array(
-									   'user_id' => $derived_user, 
-									   'cal_entry_id' => $tep_entry->getEntryId(),
-									   // REVIEW: this is not the id of the derived entry, but the
-									   // tep entry it self. Use $derived_entry_id as described
-									   // above. 
-									   'cal_derived_entry_id' => $tep_entry->getEntryId()),
-								   self::getStateData($a_event, $tep_entry),
-								   self::getRecordCreator($a_event, $tep_entry),
-								   self::getCreationTimestamp($a_event, $tep_entry),
-								   false // Not a mass-action
+									$case_id,
+									$state_data,
+									$record_creator,
+									$ts,
+									false // Not a mass-action
 			);
-			self::persistDerivedDeleted( $a_event, $tep_entry );
-		} else {
-			self::persistDerivedEntries( $a_event, $tep_entry );
 		}
 
+		// Mark all removed derived entries as deleted.
+		$query = "SELECT cal_derived_entry_id, user_id FROM hist_tep "
+				." WHERE ".(count($uids) > 0 ? $ilDB->in("cal_derived_entry_id", $uids, true, "integer")
+											 : " 1 = 1")
+				."   AND cal_entry_id = ".$ilDB->quote($tep_entry->getEntryId(), "integer")
+				."   AND cal_derived_entry_id <> -1" // this is to not delete the master entry histo
+				."   AND deleted = 0"
+				."   AND hist_historic = 0"
+				;
+
+		$res = $ilDB->query($query);
+		while($rec = $ilDB->fetchAssoc($res)) {
+			$case_id["user_id"] = $rec["user_id"];
+			$case_id["cal_derived_entry_id"] = $rec["cal_derived_entry_id"];
+			self::$ilTEPHistorizing->updateHistorizedData(
+										$case_id,
+										array("deleted" => 1),
+										$record_creator,
+										$ts,
+										false // Not a mass-action
+									);
+		}
 	}
 
 	/**
@@ -96,7 +129,7 @@ class ilTEPHistorizingAppEventListener
 			'cal_entry_id'			=> $parameter->getEntryId(),
 			// REVIEW: since this is only use for the owner of the master entry
 			// set the derived entry id to null.
-			'cal_derived_entry_id'	=> $parameter->getDerivedUsers(),
+			'cal_derived_entry_id'	=> -1
 		);
 	}
 
@@ -115,13 +148,14 @@ class ilTEPHistorizingAppEventListener
 		$data_payload = array(
 			'context_id'			=> $parameter->getContextId(),
 			'title'					=> $parameter->getTitle(),
-			'subtitle'				=> $parameter->getSubtitle(),
+			'subtitle'				=> $parameter->getSubtitle(),	
 			'description'			=> $parameter->getDescription(),
 			'location'				=> $parameter->getLocation(),
 			'fullday'				=> $parameter->isFullday(),
 			'begin_date'			=> $parameter->getStart(),
 			'end_date'				=> $parameter->getEnd(),
-			'type'					=> $parameter->getType(),
+			'category'				=> $parameter->getTypeTitle(),
+			'individual_days'		=> -1, // TODO: this is not correct!
 			'deleted'				=> ($event == 'delete' ? 1 : 0)
 		);
 
@@ -158,60 +192,5 @@ class ilTEPHistorizingAppEventListener
 	protected static function getCreationTimestamp($event, $parameter)
 	{
 		return time();
-	}
-
-	/**
-	 * Persists derived entries on "non-deletion".
-	 * 
-	 * @param string 		$a_event
-	 * @param ilTEPEntry 	$tep_entry
-	 */
-	private static function persistDerivedEntries($a_event, ilTEPEntry $tep_entry)
-	{
-		$derived_users = ilCalDerivedEntry::getUserIdsByMasterEntryIds( array( $tep_entry->getEntryId() ) );
-		$derived_users = $derived_users[$tep_entry->getEntryId()];
-
-		foreach ($derived_users as $derived_user => $derived_entry_id)
-		{
-			self::$ilTEPHistorizing->updateHistorizedData(
-								   array(
-									   'user_id'              => $derived_user,
-									   'cal_entry_id'         => $tep_entry->getEntryId(),
-									   'cal_derived_entry_id' => $derived_entry_id ),
-								   self::getStateData( $a_event, $tep_entry ),
-								   self::getRecordCreator( $a_event, $tep_entry ),
-								   self::getCreationTimestamp( $a_event, $tep_entry ),
-								   false // Not a mass-action
-			);
-		}
-	}
-
-	/**
-	 * Persists deletion for derived entries.
-	 * 
-	 * @param string     $a_event (Which should always be "delete")
-	 * @param ilTEPEntry $tep_entry
-	 */
-	private static function persistDerivedDeleted($a_event, ilTEPEntry $tep_entry)
-	{
-		global $ilDB;
-		$query = 'SELECT user_id, cal_derived_entry_id FROM hist_tep WHERE cal_derived_entry_id != 1 AND cal_entry_id = ' 
-			. $ilDB->quote($tep_entry->getEntryId(), 'integer');
-		$result = $ilDB->query($query);
-
-		/** @noinspection PhpAssignmentInConditionInspection */
-		while( $row = $ilDB->fetchAssoc($result) )
-		{
-			self::$ilTEPHistorizing->updateHistorizedData(
-								   array(
-									   'user_id'              => $row['user_id'],
-									   'cal_entry_id'         => $tep_entry->getEntryId(),
-									   'cal_derived_entry_id' => $row['cal_derived_entry_id'] ),
-								   self::getStateData( $a_event, $tep_entry ),
-								   self::getRecordCreator( $a_event, $tep_entry ),
-								   self::getCreationTimestamp( $a_event, $tep_entry ),
-								   false // Not a mass-action
-			);
-		}
 	}
 }

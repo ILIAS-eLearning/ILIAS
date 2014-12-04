@@ -121,9 +121,10 @@ class ilTEPHistorizing extends ilHistorizingStorage
 			'description'			=> 'text',
 			'location'				=> 'text',
 			'fullday'				=> 'integer',
-			'begin_date'			=> 'timestamp',
-			'end_date'				=> 'timestamp',
-			'type'					=> 'text',
+			'begin_date'			=> 'date',
+			'end_date'				=> 'date',
+			'individual_days'		=> 'integer',
+			'category'				=> 'text',
 			'deleted'				=> 'integer'
 		);
 

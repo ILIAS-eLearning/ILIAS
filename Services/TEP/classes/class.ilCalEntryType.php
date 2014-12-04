@@ -25,6 +25,7 @@ class ilCalEntryType
 	{
 		if($a_id)
 		{
+			$this->setId($a_id);
 			$this->read();
 		}
 	}

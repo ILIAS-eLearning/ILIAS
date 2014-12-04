@@ -17,8 +17,11 @@ class ilTEPEntry extends ilCalendarEntry
 	protected $owner_id; // [int]
 	protected $derived_user_ids; // [array]
 	protected $type; // [int]
+	protected $type_title; // [string]
 		
 	const OPERATION_DAY_ID = "tep_entry";	
+	
+	
 	
 	//
 	// properties
@@ -66,6 +69,20 @@ class ilTEPEntry extends ilCalendarEntry
 			return $this->derived_user_ids;
 		}	
 	}
+	
+	// gev-patch start
+	public function getTypeTitle() {
+		if ($this->type_title !== null) {
+			return $this->type_title;
+		}
+		
+		require_once("Services/TEP/classes/class.ilCalEntryType.php");
+		$t = new ilCalEntryType($this->getType());
+		$this->type_title = $t->getTitle();
+
+		return $this->type_title;
+	}
+	// gev-patch end
 	
 	
 	//
