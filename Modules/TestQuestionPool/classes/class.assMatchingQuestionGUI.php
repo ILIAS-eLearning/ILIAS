@@ -716,18 +716,37 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		return $questionoutput;
 	}
 
-	protected function sortDefinitionsBySolution($solution)
+	/**
+	 * @param array $solution
+	 * @param assAnswerMatchingDefinition[] $definitions
+	 * @return array
+	 */
+	protected function sortDefinitionsBySolution(array $solution, array $definitions)
 	{
-		$neworder = array();
-		foreach ($solution as $solution_values)
+		$neworder           = array();
+		$handled_defintions = array();
+		foreach($solution as $solution_values)
 		{
 			$id = $solution_values['value2'];
-			if(!isset($neworder[$id]))
+			if(!isset($handled_defintions[$id]))
 			{
-				$neworder[$id] = $this->object->getDefinitionWithIdentifier($id);
+				$neworder[]              = $this->object->getDefinitionWithIdentifier($id);
+				$handled_defintions[$id] = $id;
 			}
 		}
-		return array_values($neworder);
+
+		foreach($definitions as $definition)
+		{
+			/**
+			 * @var $definition assAnswerMatchingDefinition
+			 */
+			if(!isset($handled_defintions[$definition->identifier]))
+			{
+				$neworder[] = $definition;
+			}
+		}
+
+		return $neworder;
 	}
 
 	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
@@ -782,7 +801,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$terms = $this->object->pcArrayShuffle($terms);
 				if (count($solutions))
 				{
-					$definitions = $this->sortDefinitionsBySolution($solutions);
+					$definitions = $this->sortDefinitionsBySolution($solutions, $definitions);
 				}
 				else
 				{
@@ -795,7 +814,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			case 3:
 				if (count($solutions))
 				{
-					$definitions = $this->sortDefinitionsBySolution($solutions);
+					$definitions = $this->sortDefinitionsBySolution($solutions, $definitions);
 				}
 				else
 				{
