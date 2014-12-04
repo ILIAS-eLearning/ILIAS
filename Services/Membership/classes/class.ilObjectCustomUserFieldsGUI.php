@@ -357,6 +357,11 @@ class ilObjectCustomUserFieldsGUI
 		$ty->setRequired(true);
 		$this->form->addItem($ty);
 		
+		if($a_mode == self::MODE_UPDATE)
+		{			
+			$ty->setDisabled(true); // #14888
+		}
+		
 		//		Text type	
 		$ty_te = new ilRadioOption($this->lng->txt('ps_type_txt_long'),IL_CDF_TYPE_TEXT);
 		$ty->addOption($ty_te);
@@ -372,7 +377,7 @@ class ilObjectCustomUserFieldsGUI
 		$ty_se_mu->setRequired(true);
 		$ty_se_mu->setSize(32);
 		$ty_se_mu->setMaxLength(128);
-		$ty_se->addSubItem($ty_se_mu);
+		$ty_se->addSubItem($ty_se_mu);				
 		
 		// Required
 		$re = new ilCheckboxInputGUI($this->lng->txt('ps_cdf_required'),'re');
