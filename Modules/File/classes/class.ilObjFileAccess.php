@@ -276,21 +276,23 @@ class ilObjFileAccess extends ilObjectAccess
          * - Calling ilObjFileAccess::_appendCopyToTitle('Hello - Copy (3).txt', null)
          *   returns: "Hello - Copy (4).txt".
 	 */
-	public static function _appendNumberOfCopyToFilename($a_file_name, $nth_copy = null)
+	public static function _appendNumberOfCopyToFilename($a_file_name, $nth_copy = null, $a_handle_extension = false)
 	{
 		global $lng;
+		
+		$filenameWithoutExtension= $a_file_name;
                 
-		// Get the extension and the filename without the extension
-		$extension = ilObjFileAccess::_getFileExtension($a_file_name);
-		if (strlen($extension) > 0)
+		$extension = null;
+		if ($a_handle_extension)
 		{
-			$extension = '.'.$extension;
-			$filenameWithoutExtension= substr($a_file_name, 0, -strlen($extension));
-		}
-		else
-		{
-			$filenameWithoutExtension= $a_file_name;
-		}
+			// Get the extension and the filename without the extension
+			$extension = ilObjFileAccess::_getFileExtension($a_file_name);
+			if (strlen($extension) > 0)
+			{
+				$extension = '.'.$extension;
+				$filenameWithoutExtension= substr($a_file_name, 0, -strlen($extension));
+			}
+		}		
                 
 		// create a regular expression from the language text copy_n_of_suffix, so that
 		// we can match it against $filenameWithoutExtension, and retrieve the number of the copy.

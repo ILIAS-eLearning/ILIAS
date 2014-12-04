@@ -1786,7 +1786,8 @@ class ilObject
 		$title_unique = false;
 		require_once 'Modules/File/classes/class.ilObjFileAccess.php';
 		$numberOfCopy = 1;
-		$title = ilObjFileAccess::_appendNumberOfCopyToFilename($this->getTitle(), $numberOfCopy);
+		$handleExtension = ($this->getType() == "file"); // #14883
+		$title = ilObjFileAccess::_appendNumberOfCopyToFilename($this->getTitle(), $numberOfCopy, $handleExtension);
 		while(!$title_unique)
 		{
 			$found = 0;
@@ -1799,7 +1800,7 @@ class ilObject
 			}
 			if($found > 0)
 			{
-				$title = ilObjFileAccess::_appendNumberOfCopyToFilename($this->getTitle(), ++$numberOfCopy);
+				$title = ilObjFileAccess::_appendNumberOfCopyToFilename($this->getTitle(), ++$numberOfCopy, $handleExtension);
 			}
 			else
 			{
