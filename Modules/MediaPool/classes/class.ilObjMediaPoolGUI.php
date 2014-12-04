@@ -98,7 +98,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 					break;
 					
 				case "fold":
-// todo
 					$this->ctrl->redirectByClass("ilobjfoldergui", "create");
 					break;
 			}
@@ -107,6 +106,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		switch($next_class)
 		{
 			case 'ilmediapoolpagegui':
+				$this->checkPermission("write");
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				$this->setMediaPoolPageTabs();
@@ -184,7 +184,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				break;
 
 			case "ilobjfoldergui":
-// todo
+				$this->checkPermission("write");
 				$this->addHeaderAction();
 				$folder_gui = new ilObjFolderGUI("", 0, false, false);
 				$this->ctrl->setReturn($this, "listMedia");
@@ -257,6 +257,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				break;
 
 			case 'ilpermissiongui':
+				$this->checkPermission("edit_permission");
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
@@ -266,6 +267,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				break;
 				
 			case "ilexportgui":
+				$this->checkPermission("write");
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
@@ -276,6 +278,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				break;
 
 			case "ilfilesystemgui":
+				$this->checkPermission("write");
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				$ilTabs->clearTargets();
@@ -351,12 +354,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		// default width
 		$ni = new ilNumberInputGUI($this->lng->txt("mep_default_width"), "default_width");
 		$ni->setMinValue(0);
+		$ni->setSuffix("px");
 		$ni->setMaxLength(5);
 		$ni->setSize(5);
 		$a_form->addItem($ni);
 
 		// default height
 		$ni = new ilNumberInputGUI($this->lng->txt("mep_default_height"), "default_height");
+		$ni->setSuffix("px");
 		$ni->setMinValue(0);
 		$ni->setMaxLength(5);
 		$ni->setSize(5);
