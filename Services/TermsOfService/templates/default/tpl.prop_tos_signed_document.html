@@ -2,8 +2,10 @@
 <script type="text/javascript">
 	(function($) {
 		$().ready(function() {
-			$('#{MODAL_ID}_trigger').click(function() {
+			$('#{MODAL_ID}_trigger').click(function(e) {
 				$('#{MODAL_ID}').modal('show');
+
+				e.preventDefault();
 			});
 		});
 	})(jQuery);

@@ -8,7 +8,7 @@
 		<script type="text/javascript">
 			(function($) {
 				$().ready(function() {
-					$('#accpt_doc_trigger_{VAL_ID}').click(function() {
+					$('#accpt_doc_trigger_{VAL_ID}').click(function(e) {
 						var promise = $.ajax({
 							url: '{VAL_CONTENT_LINK}',
 							dataType: 'json'
@@ -21,6 +21,8 @@
 								$modal.modal('show');
 							}
 						});
+
+						e.preventDefault();
 					});
 				});
 			})(jQuery);

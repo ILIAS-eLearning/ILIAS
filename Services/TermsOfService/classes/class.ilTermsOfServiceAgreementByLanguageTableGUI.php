@@ -3,6 +3,7 @@
 
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceTableGUI.php';
 require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+require_once 'Services/UIComponent/Modal/classes/class.ilModalGUI.php';
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -92,17 +93,18 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 	{
 		if(is_string($row['agreement_document']) && strlen($row['agreement_document']))
 		{
-			require_once 'Services/UIComponent/Modal/classes/class.ilModalGUI.php';
-			$modal = ilModalGUI::getInstance();
-			$modal->setHeading($this->lng->txt('tos_agreement_document'));
-			$modal->setId('tos_' . md5($row['language']));
-			$modal->setBody('');
+			$unique_id = md5($row['language']);
 
 			$this->ctrl->setParameter($this->getParentObject(), 'agreement_document', rawurlencode($row['agreement_document']));
 			$row['content_link'] = $this->ctrl->getLinkTarget($this->getParentObject(), 'getAgreementTextByFilenameAsynch', '', true, false);
 			$this->ctrl->setParameter($this->getParentObject(), 'agreement_document', '');
 			$row['img_down'] = ilGlyphGUI::get(ilGlyphGUI::SEARCH);
-			$row['id'] = md5($row['language']);
+			$row['id']       = $unique_id;
+
+			$modal = ilModalGUI::getInstance();
+			$modal->setHeading($this->lng->txt('tos_agreement_document'));
+			$modal->setId('tos_' . $unique_id);
+			$modal->setBody('');
 			$row['modal'] = $modal->getHTML();
 		}
 		else

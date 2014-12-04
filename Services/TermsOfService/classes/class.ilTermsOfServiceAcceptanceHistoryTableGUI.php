@@ -3,6 +3,7 @@
 
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceTableGUI.php';
 require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+require_once 'Services/UIComponent/Modal/classes/class.ilModalGUI.php';
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -94,12 +95,19 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 	 */
 	protected function prepareRow(array &$row)
 	{
+		$unique_id = md5($row['usr_id'].$row['ts']);
+
 		$this->ctrl->setParameter($this->getParentObject(), 'tosv_id', $row['tosv_id']);
 		$row['content_link'] = $this->ctrl->getLinkTarget($this->getParentObject(), 'getAcceptedContentAsynch', '', true, false);
 		$this->ctrl->setParameter($this->getParentObject(), 'tosv_id', '');
 		$row['img_down'] = ilGlyphGUI::get(ilGlyphGUI::SEARCH);
+		$row['id']       = $unique_id;
 
-		$row['id']       = md5($row['usr_id'].$row['ts']);
+		$modal = ilModalGUI::getInstance();
+		$modal->setHeading($this->lng->txt('tos_agreement_document'));
+		$modal->setId('tos_' . $unique_id);
+		$modal->setBody('');
+		$row['modal'] = $modal->getHTML();
 	}
 
 	/**
@@ -107,7 +115,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 	 */
 	protected function getStaticData()
 	{
-		return array('ts', 'login', 'lng', 'src', 'text', 'id', 'img_down', 'content_link');
+		return array('modal', 'ts', 'login', 'lng', 'src', 'text', 'id', 'img_down', 'content_link');
 	}
 
 	/**
