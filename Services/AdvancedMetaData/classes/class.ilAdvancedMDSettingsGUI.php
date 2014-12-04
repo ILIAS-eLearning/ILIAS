@@ -683,7 +683,7 @@ class ilAdvancedMDSettingsGUI
 		{
 			$table_gui->addCommandButton("updateFields", $this->lng->txt("save"));
 		}		
-		// $table_gui->addCommandButton('showRecords',$this->lng->txt('cancel'));
+		$table_gui->addCommandButton("showRecords", $this->lng->txt('cancel'));
 		$table_gui->addMultiCommand("confirmDeleteFields", $this->lng->txt("delete"));
 		$table_gui->setSelectAllCheckbox("field_id");
 		
