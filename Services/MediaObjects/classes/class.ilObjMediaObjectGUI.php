@@ -660,13 +660,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		if ($_POST["standard_type"] == "File")
 		{
-			$file = $mob_dir."/".$_FILES['standard_file']['name'];
+			$file_name = ilObjMediaObject::fixFilename($_FILES['standard_file']['name']);
+			$file = $mob_dir."/".$file_name;
 			ilUtil::moveUploadedFile($_FILES['standard_file']['tmp_name'],
-				$_FILES['standard_file']['name'], $file);
+				$file_name, $file);
 
 			// get mime type
 			$format = ilObjMediaObject::getMimeType($file);
-			$location = $_FILES['standard_file']['name'];
+			$location = $file_name;
 
 			// resize standard images
 			if ($_POST["standard_size"] != "original" &&
@@ -723,16 +724,17 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$format = $location = "";
 				if ($_FILES['full_file']['name'] != "")
 				{
-					$file = $mob_dir."/".$_FILES['full_file']['name'];
+					$full_file_name = ilObjMediaObject::fixFilename($_FILES['full_file']['name']);
+					$file = $mob_dir."/".$full_file_name;
 					ilUtil::moveUploadedFile($_FILES['full_file']['tmp_name'],
-						$_FILES['full_file']['name'], $file);
+						$full_file_name, $file);
 					$format = ilObjMediaObject::getMimeType($file);
-					$location = $_FILES['full_file']['name'];
+					$location = $full_file_name;
 				}
 			}
 			else if ($_POST["full_type"] == "Standard" && $_POST["standard_type"] == "File")
 			{
-				$location = $_FILES['standard_file']['name'];
+				$location = $file_name;
 			}
 			
 			// resize file
@@ -925,13 +927,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$resize = false;
 				if ($_FILES['standard_file']['name'] != "")
 				{
-					$file = $mob_dir."/".$_FILES['standard_file']['name'];
+					$file_name = ilObjMediaObject::fixFilename($_FILES['standard_file']['name']);
+					$file = $mob_dir."/".$file_name;
 					ilUtil::moveUploadedFile($_FILES['standard_file']['tmp_name'],
-						$_FILES['standard_file']['name'], $file);
+						$file_name, $file);
 	
 					// get mime type
 					$format = ilObjMediaObject::getMimeType($file);
-					$location = $_FILES['standard_file']['name'];
+					$location = $file_name;
 					
 					$resize = true;
 				}
@@ -1034,12 +1037,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 					$resize = false;
 					if ($_FILES['full_file']['name'] != "")
 					{
-						$file = $mob_dir."/".$_FILES['full_file']['name'];
+						$full_file_name = ilObjMediaObject::fixFilename($_FILES['full_file']['name']);
+						$file = $mob_dir."/".$full_file_name;
 						ilUtil::moveUploadedFile($_FILES['full_file']['tmp_name'],
-							$_FILES['full_file']['name'], $file);
+							$full_file_name, $file);
 	
 						$format = ilObjMediaObject::getMimeType($file);
-						$location = $_FILES['full_file']['name'];
+						$location = $full_file_name;
 						
 						$resize = true;
 					}
@@ -1370,9 +1374,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		{
 			//move_uploaded_file($_FILES["new_file"]["tmp_name"],
 				//$cur_dir."/".$_FILES["new_file"]["name"]);
-			$file = $cur_dir."/".$_FILES["new_file"]["name"];
+			$file_name = ilObjMediaObject::fixFilename($_FILES["new_file"]["name"]);
+			$file = $cur_dir."/".$file_name;
 			ilUtil::moveUploadedFile($_FILES['new_file']['tmp_name'],
-				$_FILES['new_file']['name'], $file);
+				$file_name, $file);
 
 		}
 		ilUtil::renameExecutables($mob_dir);

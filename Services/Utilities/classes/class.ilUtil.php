@@ -2324,7 +2324,6 @@ class ilUtil
 		
 		// OS do not allow the following characters in filenames: \/:*?"<>|
 		$ascii_filename = preg_replace('/[:\x5c\/\*\?\"<>\|]/', '_', $ascii_filename);
-
 		return $ascii_filename;
 	}
 

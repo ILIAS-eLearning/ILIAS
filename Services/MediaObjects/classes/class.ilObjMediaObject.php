@@ -1885,6 +1885,23 @@ class ilObjMediaObject extends ilObject
 		}
 		return "";
 	}
+
+	/**
+	 * Fix filename of uploaded file
+	 *
+	 * @param string $a_name upload file name
+	 * @return string fixed file name
+	 */
+	static function fixFilename($a_name)
+	{
+		$a_name = ilUtil::getASCIIFilename($a_name);
+
+		$rchars = array("`", "=", "$", "{", "}", "'", ";", " ", "(", ")");
+		$a_name = str_replace($rchars, "_", $a_name);
+		$a_name = str_replace("__", "_", $a_name);
+		return $a_name;
+	}
+
 	
 }
 ?>
