@@ -417,22 +417,6 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 					$this->tpl->setVariable("MEDIA_INFO",
 						ilObjMediaObjectGUI::_getMediaInfoHTML($mob));
 					$ilCtrl->setParameter($this->parent_obj, $this->folder_par, $this->current_folder);
-					
-					// output keywords
-					include_once './Services/MetaData/classes/class.ilMDKeyword.php';
-					if(count($kws = ilMDKeyword::lookupKeywords(0, $a_set['foreign_id'])))
-					{
-						$this->tpl->setCurrentBlock('additional_info');
-						$this->tpl->setVariable('ADD_INFO',$lng->txt('keywords').': '.implode(' ',$kws));
-						$this->tpl->parseCurrentBlock();
-					}
-					// output caption
-					if($med && strlen($med->getCaption()))
-					{
-						$this->tpl->setCurrentBlock('additional_info');
-						$this->tpl->setVariable('ADD_INFO',$lng->txt('cont_caption').': '.$med->getCaption());
-						$this->tpl->parseCurrentBlock();
-					}
 				}
 				break;
 		}

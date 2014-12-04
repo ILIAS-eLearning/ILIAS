@@ -1704,6 +1704,27 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 					$tpl->parseCurrentBlock();
 				}
 			}
+
+			// output caption
+			if($med && strlen($med->getCaption()))
+			{
+				$tpl->setCurrentBlock('additional_info');
+				$tpl->setVariable('ADD_INFO',$lng->txt('cont_caption').': '.$med->getCaption());
+				$tpl->parseCurrentBlock();
+			}
+
+			// output keywords
+			if ($type == "Standard")
+			{
+				include_once './Services/MetaData/classes/class.ilMDKeyword.php';
+				if(count($kws = ilMDKeyword::lookupKeywords(0, $med->getMobId())))
+				{
+					$tpl->setCurrentBlock('additional_info');
+					$tpl->setVariable('ADD_INFO',$lng->txt('keywords').': '.implode(', ',$kws));
+					$tpl->parseCurrentBlock();
+				}
+			}
+
 			$tpl->setCurrentBlock("media_info");
 			$tpl->parseCurrentBlock();
 		}
