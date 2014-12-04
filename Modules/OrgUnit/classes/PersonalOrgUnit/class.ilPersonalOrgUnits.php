@@ -25,7 +25,7 @@ class ilPersonalOrgUnits {
 	
 	public $orgu_base = null;
 	public $orgu_template = null;
-
+	
 	//user object of the superior
 	public $user_obj = null;
 

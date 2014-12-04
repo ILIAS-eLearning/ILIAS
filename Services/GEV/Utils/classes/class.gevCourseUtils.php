@@ -1865,12 +1865,14 @@ class gevCourseUtils {
 		$is_tmplt_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
 		$start_date_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
 		$type_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
-		$bk_deadl_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_BOOKING_DEADLINE);
 		
 		// include search options 
 		$additional_join = "";
 		$additional_where = "";
 		
+
+
+
 		if (array_key_exists("title", $a_search_options)) {
 			$additional_join .= " LEFT JOIN object_data od ON cs.obj_id = od.obj_id ";
 			$additional_where .= " AND od.title LIKE ".$db->quote("%".$a_search_options["title"]."%", "text");
@@ -1985,6 +1987,8 @@ class gevCourseUtils {
 				 " LEFT JOIN adv_md_values_text ltype".
 				 "   ON cs.obj_id = ltype.obj_id ".
 				 "   AND ltype.field_id = ".$db->quote($type_field_id, "integer").
+
+				
 
 				 $additional_join.
 				 " WHERE ".

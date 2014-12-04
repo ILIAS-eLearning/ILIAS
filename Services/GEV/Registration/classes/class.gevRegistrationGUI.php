@@ -232,8 +232,14 @@ class gevRegistrationGUI {
 		$org_unit_utils->getOrgUnitInstance();
 		$org_unit_utils->assignUser($user_id, $org_role_title);
 		
+/*
 		$user->setActive(true, 6);
 		$user->update();
+*/
+		$user = new ilObjUser($user_id);
+		$user->setActive(true, 6);
+		$user->update();
+
 		
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		$title = new catTitleGUI("gev_agent_registration", null, "GEV_img/ico-head-evg_registration.png");
