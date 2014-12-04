@@ -722,9 +722,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		foreach ($solution as $solution_values)
 		{
 			$id = $solution_values['value2'];
-			array_push($neworder, $this->object->getDefinitionWithIdentifier($id));
+			if(!isset($neworder[$id]))
+			{
+				$neworder[$id] = $this->object->getDefinitionWithIdentifier($id);
+			}
 		}
-		return $neworder;
+		return array_values($neworder);
 	}
 
 	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
