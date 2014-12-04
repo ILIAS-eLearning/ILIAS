@@ -547,6 +547,7 @@ gev#:#gev_not_allowed_to_cancel_crs_for_other#:#Sie dürfen dieses Training nich
 gev#:#gev_not_bookable#:#ausgebucht
 gev#:#gev_number_of_measure#:#Nummer der Maßnahme
 gev#:#gev_obligatory_booking#:#Verbindliche Buchung
+gev#:#gev_od_bd#:#OD/BD
 gev#:#gev_org_mgmt#:#Organisationseinheiten
 gev#:#gev_org_unit#:#zugehörige Organisationseinheit
 gev#:#gev_org_unit_short#:#Org.-Einheit
