@@ -346,7 +346,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
 
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=".$newObj->getRefId()."&cmd=edit");
+		ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=".$newObj->getRefId()."&cmd=listMedia");
 	}
 
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
