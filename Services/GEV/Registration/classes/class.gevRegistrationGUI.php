@@ -232,11 +232,7 @@ class gevRegistrationGUI {
 		$org_unit_utils->getOrgUnitInstance();
 		$org_unit_utils->assignUser($user_id, $org_role_title);
 		
-/*
-		$user->setActive(true, 6);
-		$user->update();
-*/
-		$user = new ilObjUser($user_id);
+		//$user = new ilObjUser($user_id);
 		$user->setActive(true, 6);
 		$user->update();
 
