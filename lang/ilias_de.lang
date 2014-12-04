@@ -15119,3 +15119,24 @@ survey#:#survey_constraint_deleted#:#Die Regel wurde gelöscht.
 error#:#error_back_to_repository#:#Zurück zum Magazin
 error#:#error_sry_error#:#Es ist leider ein Fehler aufgetreten.
 form#:#form_hier_click_to_add#:#Klicken Sie hier, um neue Elemente hinzuzufügen.
+scormtrac#:#exportselectedsuccess#:#Basis-Report zum Bearbeitungsstand
+scormtrac#:#LearningModuleId#:#Id des Lernmoduls
+scormtrac#:#LearningModuleTitle#:#Titel des Lernmoduls
+scormtrac#:#LearningModuleVersion#:#Version des Lernmoduls
+scormtrac#:#Status#:#Status gesamt
+scormtrac#:#Percentage#:#Prozentsatz abgeschlossener SCOs
+scormtrac#:#Attempts#:#Versuche
+scormtrac#:#existingSCOs#:#Anzahl vorhandener SCOs
+scormtrac#:#startedSCOs#:#Anzahl begonnener SCOs
+scormtrac#:#completedSCOs#:#Anzahl vollständig bearbeiteter SCOs
+scormtrac#:#passedSCOs#:#Anzahl bestandener SCOs
+scormtrac#:#roundedTotal_timeSeconds#:#Bearbeitungszeit in Sekunden (gerundet)
+scormtrac#:#cont_tracking_modify#:#Daten modifizieren
+scormtrac#:#counter_i_correct#:#richtig beantwortete Aufgaben
+scormtrac#:#counter_i_correct_percent#:#Prozentsatz richtig beantworteter Aufgaben
+scormtrac#:#counter_i_incorrect#:#falsch beantwortete Aufgaben
+scormtrac#:#counter_i_incorrect_percent#:#Prozentsatz falsch beantworteter Aufgaben
+scormtrac#:#counter_i_other#:#weder richtig noch falsch beantwortete Aufgaben
+scormtrac#:#counter_i_other_percent#:#Prozentsatz weder richtig noch falsch beantworteter Aufgaben
+scormtrac#:#sco_id#:#Id des Kapitels
+scormtrac#:#lesson_status#:#lesson_status: Status der Bearbeitung

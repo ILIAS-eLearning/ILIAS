@@ -14984,7 +14984,7 @@ scormtrac#:#cp_node_id#:#Id of the chapter (SCO)
 scormtrac#:#credit#:#cmi.credit
 scormtrac#:#delivery_speed#:#cmi.learner_preference.delivery_speed
 scormtrac#:#exportselectedcore#:#Basic report for chapters (SCO)
-scormtrac#:#exportselectedinteractions#:#Basic report forinteractions
+scormtrac#:#exportselectedinteractions#:#Basic report for interactions
 scormtrac#:#id#:#Id
 scormtrac#:#interaction_description#:#Description of the interaction
 scormtrac#:#interaction_id#:#Id of the interaction
@@ -15122,3 +15122,24 @@ survey#:#survey_constraint_deleted#:#The routing rule has been deleted.
 error#:#error_back_to_repository#:#Back to Repository
 error#:#error_sry_error#:#Sorry, an error occured.
 form#:#form_hier_click_to_add#:#Click here to add new elements.
+scormtrac#:#exportselectedsuccess#:#Basic report for success
+scormtrac#:#LearningModuleId#:#Id of the learning module
+scormtrac#:#LearningModuleTitle#:#Title of the learning module
+scormtrac#:#LearningModuleVersion#:#Version of the learning module
+scormtrac#:#Status#:#total status
+scormtrac#:#Percentage#:#Percentage of completed SCOs
+scormtrac#:#Attempts#:#Attempts
+scormtrac#:#existingSCOs#:#Number of existing SCOs
+scormtrac#:#startedSCOs#:#Number of SCOs been started
+scormtrac#:#completedSCOs#:#Number of fully completed SCO
+scormtrac#:#passedSCOs#:#Number of passed SCOs
+scormtrac#:#roundedTotal_timeSeconds#:#Total time in seconds (rounded)
+scormtrac#:#cont_tracking_modify#:#modify data
+scormtrac#:#counter_i_correct#:#correctly answered interactions
+scormtrac#:#counter_i_correct_percent#:#Percentage of correctly answered interactions
+scormtrac#:#counter_i_incorrect#:#incorrectly answered interactions
+scormtrac#:#counter_i_incorrect_percent#:#Percentage of incorrectly answered interactions
+scormtrac#:#counter_i_other#:#neither correctly nor incorrectly answered interactions
+scormtrac#:#counter_i_other_percent#:#Percentage of neither correctly nor incorrectly answered interactions
+scormtrac#:#sco_id#:#Id of the chapter (SCO)
+scormtrac#:#lesson_status#:#lesson_status
