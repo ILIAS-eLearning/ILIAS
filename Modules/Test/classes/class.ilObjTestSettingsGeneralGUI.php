@@ -661,7 +661,21 @@ class ilObjTestSettingsGeneralGUI
 			$desc->setValue($desc_obj->getDescription());
 			$form->addItem($desc);
 		}
-		
+
+		// pool usage
+		$pool_usage = new ilRadioGroupInputGUI($this->lng->txt('test_question_pool_usage'), 'use_pool');
+
+		$optional_qpl = new ilRadioOption($this->lng->txt('test_question_pool_usage_optional'), 1);
+		$optional_qpl->setInfo($this->lng->txt('test_question_pool_usage_optional_info'));
+		$pool_usage->addOption($optional_qpl);
+
+		$tst_directly = new ilRadioOption($this->lng->txt('test_question_pool_usage_tst_directly'), 0);
+		$tst_directly->setInfo($this->lng->txt('test_question_pool_usage_tst_directly_info'));
+		$pool_usage->addOption($tst_directly);
+
+		$pool_usage->setValue($this->testOBJ->getPoolUsage() ? 1 : 0);
+		$form->addItem($pool_usage);
+
 		// test mode (question set type)
 		$questSetType = new ilRadioGroupInputGUI($this->lng->txt("tst_question_set_type"), 'question_set_type');
 		$questSetTypeFixed = new ilRadioOption(
@@ -729,20 +743,6 @@ class ilObjTestSettingsGeneralGUI
 		$act_type->addSubItem($visible);
 
 		$form->addItem($act_type);
-
-		// pool usage
-		$pool_usage = new ilRadioGroupInputGUI($this->lng->txt('test_question_pool_usage'), 'use_pool');
-
-		$optional_qpl = new ilRadioOption($this->lng->txt('test_question_pool_usage_optional'), 1);
-		$optional_qpl->setInfo($this->lng->txt('test_question_pool_usage_optional_info'));
-		$pool_usage->addOption($optional_qpl);
-
-		$tst_directly = new ilRadioOption($this->lng->txt('test_question_pool_usage_tst_directly'), 0);
-		$tst_directly->setInfo($this->lng->txt('test_question_pool_usage_tst_directly_info'));
-		$pool_usage->addOption($tst_directly);
-
-		$pool_usage->setValue($this->testOBJ->getPoolUsage() ? 1 : 0);
-		$form->addItem($pool_usage);
 
 		// section introduction
 		$section = new ilFormSectionHeaderGUI();
