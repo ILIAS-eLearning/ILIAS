@@ -703,6 +703,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$header->setTitle($this->lng->txt("settings"));
 		$form->addItem($header);
 		
+		
 		// title & description (meta data)
 		
 		include_once 'Services/MetaData/classes/class.ilMD.php';
@@ -725,23 +726,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$desc->setValue($desc_obj->getDescription());
 			$form->addItem($desc);
 		}
-				
-		// anonymization
-		if(!$this->object->get360Mode())
-		{			
-			$codes = new ilCheckboxInputGUI($this->lng->txt("survey_access_codes"), "acc_codes");
-			$codes->setInfo($this->lng->txt("survey_access_codes_info"));
-			$codes->setChecked(!$this->object->isAccessibleWithoutCode());
-			$form->addItem($codes);
-				
-			if ($this->object->_hasDatasets($this->object->getSurveyId()))
-			{
-				$codes->setDisabled(true);				
-			}			
-		}
-		// 360° 
-		else
-		{						
+					
+		// pool usage
+		$pool_usage = new ilRadioGroupInputGUI($this->lng->txt("survey_question_pool_usage"), "use_pool");		
+		$opt = new ilRadioOption($this->lng->txt("survey_question_pool_usage_active"), 1);
+		$opt->setInfo($this->lng->txt("survey_question_pool_usage_active_info"));
+		$pool_usage->addOption($opt);
+		$opt = new ilRadioOption($this->lng->txt("survey_question_pool_usage_inactive"), 0);
+		$opt->setInfo($this->lng->txt("survey_question_pool_usage_inactive_info"));
+		$pool_usage->addOption($opt);
+		$pool_usage->setValue($this->object->getPoolUsage());
+		$form->addItem($pool_usage);
+		
+		// 360°: appraisees
+		if($this->object->get360Mode())
+		{								
 			$self_eval = new ilCheckboxInputGUI($this->lng->txt("survey_360_self_evaluation"), "self_eval");
 			$self_eval->setInfo($this->lng->txt("survey_360_self_evaluation_info"));
 			$self_eval->setChecked($this->object->get360SelfEvaluation());
@@ -757,17 +756,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$self_appr->setChecked($this->object->get360SelfAppraisee());
 			$form->addItem($self_appr);
 		}
-				
-		// pool usage
-		$pool_usage = new ilRadioGroupInputGUI($this->lng->txt("survey_question_pool_usage"), "use_pool");		
-		$opt = new ilRadioOption($this->lng->txt("survey_question_pool_usage_active"), 1);
-		$opt->setInfo($this->lng->txt("survey_question_pool_usage_active_info"));
-		$pool_usage->addOption($opt);
-		$opt = new ilRadioOption($this->lng->txt("survey_question_pool_usage_inactive"), 0);
-		$opt->setInfo($this->lng->txt("survey_question_pool_usage_inactive_info"));
-		$pool_usage->addOption($opt);
-		$pool_usage->setValue($this->object->getPoolUsage());
-		$form->addItem($pool_usage);
 		
 		
 		// activation
@@ -815,6 +803,34 @@ class ilObjSurveyGUI extends ilObjectGUI
 			
 		$form->addItem($act_type);									
 				
+						
+		// before start
+		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('svy_settings_section_before_start'));
+		$form->addItem($section);
+		
+		// introduction
+		$intro = new ilTextAreaInputGUI($this->lng->txt("introduction"), "introduction");
+		$intro->setValue($this->object->prepareTextareaOutput($this->object->getIntroduction()));
+		$intro->setRows(10);
+		$intro->setCols(80);
+		$intro->setUseRte(TRUE);
+		$intro->setInfo($this->lng->txt("survey_introduction_info"));
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$intro->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
+		$intro->addPlugin("latex");
+		$intro->addButton("latex");
+	    $intro->addButton("pastelatex");
+		$intro->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
+		$form->addItem($intro);
+
+		
+		// access
+		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('svy_settings_section_access'));
+		$form->addItem($section);
 		
 		// enable start date
 		$start = $this->object->getStartDate();
@@ -847,12 +863,27 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$enableendingtime->addSubItem($endingtime);
 		$form->addItem($enableendingtime);
+							
+		// anonymization
+		if(!$this->object->get360Mode())
+		{			
+			$codes = new ilCheckboxInputGUI($this->lng->txt("survey_access_codes"), "acc_codes");
+			$codes->setInfo($this->lng->txt("survey_access_codes_info"));
+			$codes->setChecked(!$this->object->isAccessibleWithoutCode());
+			$form->addItem($codes);
+				
+			if ($this->object->_hasDatasets($this->object->getSurveyId()))
+			{
+				$codes->setDisabled(true);				
+			}			
+		}
 		
 		
-		// presentation properties
-		$info = new ilFormSectionHeaderGUI();
-		$info->setTitle($this->lng->txt("svy_presentation_properties"));
-		$form->addItem($info);
+		// question behaviour
+		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('svy_settings_section_question_behaviour'));
+		$form->addItem($section);
 		
 		// show question titles
 		$show_question_titles = new ilCheckboxInputGUI($this->lng->txt("svy_show_questiontitles"), "show_question_titles");
@@ -860,21 +891,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$show_question_titles->setChecked($this->object->getShowQuestionTitles());
 		$form->addItem($show_question_titles);
 		
-		// introduction
-		$intro = new ilTextAreaInputGUI($this->lng->txt("introduction"), "introduction");
-		$intro->setValue($this->object->prepareTextareaOutput($this->object->getIntroduction()));
-		$intro->setRows(10);
-		$intro->setCols(80);
-		$intro->setUseRte(TRUE);
-		$intro->setInfo($this->lng->txt("survey_introduction_info"));
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$intro->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-		$intro->addPlugin("latex");
-		$intro->addButton("latex");
-	    $intro->addButton("pastelatex");
-		$intro->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
-		$form->addItem($intro);
-
+		
+		// finishing
+		
+		$info = new ilFormSectionHeaderGUI();
+		$info->setTitle($this->lng->txt("svy_settings_section_finishing"));
+		$form->addItem($info);
+							
+		$view_own = new ilCheckboxInputGUI($this->lng->txt("svy_results_view_own"), "view_own");
+		$view_own->setInfo($this->lng->txt("svy_results_view_own_info"));
+		$view_own->setChecked($this->object->hasViewOwnResults());
+		$form->addItem($view_own);
+		
+		$mail_own = new ilCheckboxInputGUI($this->lng->txt("svy_results_mail_own"), "mail_own");
+		$mail_own->setInfo($this->lng->txt("svy_results_mail_own_info"));
+		$mail_own->setChecked($this->object->hasMailOwnResults());
+		$form->addItem($mail_own);				
+		
 		// final statement
 		$finalstatement = new ilTextAreaInputGUI($this->lng->txt("outro"), "outro");
 		$finalstatement->setValue($this->object->prepareTextareaOutput($this->object->getOutro()));
@@ -887,73 +920,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$finalstatement->addButton("pastelatex");
 		$finalstatement->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
 		$form->addItem($finalstatement);
-
 		
-		// results properties
-		$results = new ilFormSectionHeaderGUI();
-		$results->setTitle($this->lng->txt("results"));
-		$form->addItem($results);
-
-		// evaluation access
-		if(!$this->object->get360Mode())
-		{
-			$anonymization_options = new ilRadioGroupInputGUI($this->lng->txt("survey_results_anonymization"), "anonymization_options");	
-			
-			$option = new ilCheckboxOption($this->lng->txt("survey_results_personalized"), "statpers");
-			$option->setInfo($this->lng->txt("survey_results_personalized_info"));			
-			$anonymization_options->addOption($option);
-			
-			$option = new ilCheckboxOption($this->lng->txt("survey_results_anonymized"), "statanon");
-			$option->setInfo($this->lng->txt("survey_results_anonymized_info"));			
-			$anonymization_options->addOption($option);					
-			$anonymization_options->setValue($this->object->hasAnonymizedResults()
-				? "statanon"
-				: "statpers");				
-			$form->addItem($anonymization_options);
-			
-			if ($this->object->_hasDatasets($this->object->getSurveyId()))
-			{
-				$anonymization_options->setDisabled(true);
-			}
-			
-			
-			$evaluation_access = new ilRadioGroupInputGUI($this->lng->txt('evaluation_access'), "evaluation_access");
-			
-			$option = new ilCheckboxOption($this->lng->txt("evaluation_access_off"), ilObjSurvey::EVALUATION_ACCESS_OFF, '');
-			$option->setInfo($this->lng->txt("svy_evaluation_access_off_info"));
-			$evaluation_access->addOption($option);
-			
-			$option = new ilCheckboxOption($this->lng->txt("evaluation_access_all"), ilObjSurvey::EVALUATION_ACCESS_ALL, '');
-			$option->setInfo($this->lng->txt("svy_evaluation_access_all_info"));
-			$evaluation_access->addOption($option);
-			
-			$option = new ilCheckboxOption($this->lng->txt("evaluation_access_participants"), ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS, '');
-			$option->setInfo($this->lng->txt("svy_evaluation_access_participants_info"));
-			$evaluation_access->addOption($option);
-			
-			$evaluation_access->setValue($this->object->getEvaluationAccess());
-			$form->addItem($evaluation_access);
-		}
-		// 360°
-		else
-		{			
-			$ts_results = new ilRadioGroupInputGUI($this->lng->txt("survey_360_results"), "ts_res");
-			$ts_results->setValue($this->object->get360Results());
-			
-			$option = new ilRadioOption($this->lng->txt("survey_360_results_none"), ilObjSurvey::RESULTS_360_NONE);
-			$option->setInfo($this->lng->txt("survey_360_results_none_info"));
-			$ts_results->addOption($option);
-			
-			$option = new ilRadioOption($this->lng->txt("survey_360_results_own"), ilObjSurvey::RESULTS_360_OWN);
-			$option->setInfo($this->lng->txt("survey_360_results_own_info"));
-			$ts_results->addOption($option);
-			
-			$option = new ilRadioOption($this->lng->txt("survey_360_results_all"), ilObjSurvey::RESULTS_360_ALL);
-			$option->setInfo($this->lng->txt("survey_360_results_all_info"));
-			$ts_results->addOption($option);
-			$form->addItem($ts_results);		
-		}
-
 		// mail notification
 		$mailnotification = new ilCheckboxInputGUI($this->lng->txt("mailnotification"), "mailnotification");
 		// $mailnotification->setOptionTitle($this->lng->txt("activate"));
@@ -995,20 +962,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$mailnotification->addSubItem($participantdata);
 		$mailnotification->addSubItem($participantdatainfo);
 		$form->addItem($mailnotification);
-				
-		$view_own = new ilCheckboxInputGUI($this->lng->txt("svy_results_view_own"), "view_own");
-		$view_own->setInfo($this->lng->txt("svy_results_view_own_info"));
-		$view_own->setChecked($this->object->hasViewOwnResults());
-		$form->addItem($view_own);
-		
-		$mail_own = new ilCheckboxInputGUI($this->lng->txt("svy_results_mail_own"), "mail_own");
-		$mail_own->setInfo($this->lng->txt("svy_results_mail_own_info"));
-		$mail_own->setChecked($this->object->hasMailOwnResults());
-		$form->addItem($mail_own);		
-		
-		// reminder/notification - currently not available for 360° 
+	
+		// tutor notification - currently not available for 360° 
 		if(!$this->object->get360Mode())
-		{
+		{						
 			// parent course?
 			global $tree;
 			$has_parent = $tree->checkForParentType($this->object->getRefId(), "grp");
@@ -1017,12 +974,62 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$has_parent = $tree->checkForParentType($this->object->getRefId(), "crs");
 			}
 			$num_inv = sizeof($this->object->getInvitedUsers());
+			
+			// notification
+			$tut = new ilCheckboxInputGUI($this->lng->txt("survey_notification_tutor_setting"), "tut");
+			$tut->setChecked($this->object->getTutorNotificationStatus());
+			$form->addItem($tut);
 
-			$ntf = new ilFormSectionHeaderGUI();
-			$ntf->setTitle($this->lng->txt("survey_notification_settings"));
-			$form->addItem($ntf);
+			$tut_logins = array();
+			$tuts = $this->object->getTutorNotificationRecipients();
+			if($tuts)
+			{
+				foreach($tuts as $tut_id)
+				{
+					$tmp = ilObjUser::_lookupName($tut_id);
+					if($tmp["login"])
+					{
+						$tut_logins[] = $tmp["login"];
+					}
+				}
+			}		
+			$tut_ids = new ilTextInputGUI($this->lng->txt("survey_notification_tutor_recipients"), "tut_ids");
+			$tut_ids->setDataSource($this->ctrl->getLinkTarget($this, "doAutoComplete", "", true));
+			$tut_ids->setRequired(true);
+			$tut_ids->setMulti(true);		
+			$tut_ids->setMultiValues($tut_logins);
+			$tut_ids->setValue(array_shift($tut_logins));		
+			$tut->addSubItem($tut_ids);
 
-			// reminder
+			$tut_grp = new ilRadioGroupInputGUI($this->lng->txt("survey_notification_target_group"), "tut_grp");
+			$tut_grp->setRequired(true);
+			$tut_grp->setValue($this->object->getTutorNotificationTarget());
+			$tut->addSubItem($tut_grp);
+
+			$tut_grp_crs = new ilRadioOption($this->lng->txt("survey_notification_target_group_parent_course"), 
+				ilObjSurvey::NOTIFICATION_PARENT_COURSE);
+			if(!$has_parent)
+			{
+				$tut_grp_crs->setInfo($this->lng->txt("survey_notification_target_group_parent_course_inactive"));
+			}
+			$tut_grp->addOption($tut_grp_crs);
+
+			$tut_grp_inv = new ilRadioOption($this->lng->txt("survey_notification_target_group_invited"), 
+				ilObjSurvey::NOTIFICATION_INVITED_USERS);
+			$tut_grp_inv->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"), $num_inv));
+			$tut_grp->addOption($tut_grp_inv);
+		}		
+		
+		
+		// reminders
+		
+		// reminder - currently not available for 360° 
+		if(!$this->object->get360Mode())
+		{			
+			$info = new ilFormSectionHeaderGUI();
+			$info->setTitle($this->lng->txt("svy_settings_section_reminders"));
+			$form->addItem($info);		
+			
 			$rmd = new ilCheckboxInputGUI($this->lng->txt("survey_reminder_setting"), "rmd");
 			$rmd->setChecked($this->object->getReminderStatus());
 			$form->addItem($rmd);
@@ -1070,54 +1077,78 @@ class ilObjSurveyGUI extends ilObjectGUI
 				ilObjSurvey::NOTIFICATION_INVITED_USERS);
 			$rmd_grp_inv->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"), $num_inv));
 			$rmd_grp->addOption($rmd_grp_inv);
-
-
-			// notification
-			$tut = new ilCheckboxInputGUI($this->lng->txt("survey_notification_tutor_setting"), "tut");
-			$tut->setChecked($this->object->getTutorNotificationStatus());
-			$form->addItem($tut);
-
-			$tut_logins = array();
-			$tuts = $this->object->getTutorNotificationRecipients();
-			if($tuts)
-			{
-				foreach($tuts as $tut_id)
-				{
-					$tmp = ilObjUser::_lookupName($tut_id);
-					if($tmp["login"])
-					{
-						$tut_logins[] = $tmp["login"];
-					}
-				}
-			}		
-			$tut_ids = new ilTextInputGUI($this->lng->txt("survey_notification_tutor_recipients"), "tut_ids");
-			$tut_ids->setDataSource($this->ctrl->getLinkTarget($this, "doAutoComplete", "", true));
-			$tut_ids->setRequired(true);
-			$tut_ids->setMulti(true);		
-			$tut_ids->setMultiValues($tut_logins);
-			$tut_ids->setValue(array_shift($tut_logins));		
-			$tut->addSubItem($tut_ids);
-
-			$tut_grp = new ilRadioGroupInputGUI($this->lng->txt("survey_notification_target_group"), "tut_grp");
-			$tut_grp->setRequired(true);
-			$tut_grp->setValue($this->object->getTutorNotificationTarget());
-			$tut->addSubItem($tut_grp);
-
-			$tut_grp_crs = new ilRadioOption($this->lng->txt("survey_notification_target_group_parent_course"), 
-				ilObjSurvey::NOTIFICATION_PARENT_COURSE);
-			if(!$has_parent)
-			{
-				$tut_grp_crs->setInfo($this->lng->txt("survey_notification_target_group_parent_course_inactive"));
-			}
-			$tut_grp->addOption($tut_grp_crs);
-
-			$tut_grp_inv = new ilRadioOption($this->lng->txt("survey_notification_target_group_invited"), 
-				ilObjSurvey::NOTIFICATION_INVITED_USERS);
-			$tut_grp_inv->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"), $num_inv));
-			$tut_grp->addOption($tut_grp_inv);
 		}		
 		
+		
+		// results
+		
+		$results = new ilFormSectionHeaderGUI();
+		$results->setTitle($this->lng->txt("results"));
+		$form->addItem($results);
+
+		// evaluation access
+		if(!$this->object->get360Mode())
+		{			
+			$evaluation_access = new ilRadioGroupInputGUI($this->lng->txt('evaluation_access'), "evaluation_access");
+			
+			$option = new ilCheckboxOption($this->lng->txt("evaluation_access_off"), ilObjSurvey::EVALUATION_ACCESS_OFF, '');
+			$option->setInfo($this->lng->txt("svy_evaluation_access_off_info"));
+			$evaluation_access->addOption($option);
+			
+			$option = new ilCheckboxOption($this->lng->txt("evaluation_access_all"), ilObjSurvey::EVALUATION_ACCESS_ALL, '');
+			$option->setInfo($this->lng->txt("svy_evaluation_access_all_info"));
+			$evaluation_access->addOption($option);
+			
+			$option = new ilCheckboxOption($this->lng->txt("evaluation_access_participants"), ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS, '');
+			$option->setInfo($this->lng->txt("svy_evaluation_access_participants_info"));
+			$evaluation_access->addOption($option);
+			
+			$evaluation_access->setValue($this->object->getEvaluationAccess());
+			$form->addItem($evaluation_access);
+			
+			
+			$anonymization_options = new ilRadioGroupInputGUI($this->lng->txt("survey_results_anonymization"), "anonymization_options");	
+			
+			$option = new ilCheckboxOption($this->lng->txt("survey_results_personalized"), "statpers");
+			$option->setInfo($this->lng->txt("survey_results_personalized_info"));			
+			$anonymization_options->addOption($option);
+			
+			$option = new ilCheckboxOption($this->lng->txt("survey_results_anonymized"), "statanon");
+			$option->setInfo($this->lng->txt("survey_results_anonymized_info"));			
+			$anonymization_options->addOption($option);					
+			$anonymization_options->setValue($this->object->hasAnonymizedResults()
+				? "statanon"
+				: "statpers");				
+			$form->addItem($anonymization_options);
+			
+			if ($this->object->_hasDatasets($this->object->getSurveyId()))
+			{
+				$anonymization_options->setDisabled(true);
+			}						
+		}
+		// 360°
+		else
+		{			
+			$ts_results = new ilRadioGroupInputGUI($this->lng->txt("survey_360_results"), "ts_res");
+			$ts_results->setValue($this->object->get360Results());
+			
+			$option = new ilRadioOption($this->lng->txt("survey_360_results_none"), ilObjSurvey::RESULTS_360_NONE);
+			$option->setInfo($this->lng->txt("survey_360_results_none_info"));
+			$ts_results->addOption($option);
+			
+			$option = new ilRadioOption($this->lng->txt("survey_360_results_own"), ilObjSurvey::RESULTS_360_OWN);
+			$option->setInfo($this->lng->txt("survey_360_results_own_info"));
+			$ts_results->addOption($option);
+			
+			$option = new ilRadioOption($this->lng->txt("survey_360_results_all"), ilObjSurvey::RESULTS_360_ALL);
+			$option->setInfo($this->lng->txt("survey_360_results_all_info"));
+			$ts_results->addOption($option);
+			$form->addItem($ts_results);		
+		}
+
+			
 		// competence service activation for 360 mode
+		
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
 		if($this->object->get360Mode() && $skmg_set->isActivated())
@@ -1132,6 +1163,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$form->addItem($skill_service);
 		}
 				
+		
 		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
 
 		// remove items when using template

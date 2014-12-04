@@ -15143,3 +15143,8 @@ scormtrac#:#counter_i_other#:#neither correctly nor incorrectly answered interac
 scormtrac#:#counter_i_other_percent#:#Percentage of neither correctly nor incorrectly answered interactions
 scormtrac#:#sco_id#:#Id of the chapter (SCO)
 scormtrac#:#lesson_status#:#lesson_status
+survey#:#svy_settings_section_before_start#:#Information before Start of Survey
+survey#:#svy_settings_section_access#:#Administering the Survey: Access
+survey#:#svy_settings_section_question_behaviour#:#Administering the Survey: Behaviour of the Question
+survey#:#svy_settings_section_finishing#:#Finishing the Survey
+survey#:#svy_settings_section_reminders#:#Reminders

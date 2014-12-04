@@ -15140,3 +15140,8 @@ scormtrac#:#counter_i_other#:#weder richtig noch falsch beantwortete Aufgaben
 scormtrac#:#counter_i_other_percent#:#Prozentsatz weder richtig noch falsch beantworteter Aufgaben
 scormtrac#:#sco_id#:#Id des Kapitels
 scormtrac#:#lesson_status#:#lesson_status: Status der Bearbeitung
+survey#:#svy_settings_section_before_start#:#Informationen vor dem Umfragestart
+survey#:#svy_settings_section_access#:#Umfrage-Verwaltung: Zugriff
+survey#:#svy_settings_section_question_behaviour#:#Umfrage-Verwaltung: Verhalten der Frage
+survey#:#svy_settings_section_finishing#:#Umfrage beenden
+survey#:#svy_settings_section_reminders#:#Erinnerungen
