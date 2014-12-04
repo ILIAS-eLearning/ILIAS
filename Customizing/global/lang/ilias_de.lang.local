@@ -860,6 +860,16 @@ rbac#:#tep_view_other_rcrsv#:#TEP Termine von anderen Trainer sehen (rekursiv)
 rbac#:#view_bookings#:#Buchungen einsehen
 rbac#:#view_employee_bookings#:#Buchungen von Mitarbeitern einsehen
 rbac#:#view_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern einsehen (rekursiv)
+rbac#:#crs_view_bookings#:#Buchungen einsehen
+rbac#:#crs_view_participation_status#:#Teilnahmestatus bearbeiten
+rbac#:#crs_view_own_accomodations#:#Eigene Buchungen einsehen
+rbac#:#crs_set_own_accomodations#:#Eigene Übernachtungen bearbeiten
+rbac#:#crs_book_users#:#Buchungen vornehmen
+rbac#:#crs_set_participation_status#:#Teilnahmestatus setzen
+rbac#:#crs_review_participation_status#:#Teilnahmestatus finalisieren
+rbac#:#crs_view_others_accomodations#:#Übernachtungen anderer einsehen
+rbac#:#crs_set_others_accomodations#:#Übernachtungen anderer bearbeiten
+rbac#:#crs_cancel_bookings#:#Buchungen stornieren
 search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Training hinzufügen
 search#:#search_crs_title#:#Trainingsname
 search#:#search_for_crs_members#:#Nach Trainingsteilnehmern suchen
