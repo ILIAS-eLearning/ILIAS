@@ -10551,6 +10551,10 @@ div.ilSurveyPageEditAreaDragging {
   background-color: #f9f9f9;
   padding: 5px;
 }
+div.ilSurveyPageEditActionMenu {
+  float: right;
+  margin: 3px;
+}
 /* Modules/MediaPool */
 #ilMepPreviewContent {
   margin: 0;
