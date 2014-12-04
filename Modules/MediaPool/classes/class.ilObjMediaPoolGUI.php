@@ -547,24 +547,23 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		$this->checkPermission("read");
 
+		$item = new ilMediaPoolItem((int) $_GET["mepitem_id"]);
+		$mob_id = $item->getForeignId();
+
 		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
 		include_once("Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
 
-		//$int_links = $page_object->getInternalLinks();
-		$med_links = ilMediaItem::_getMapAreasIntLinks($_GET["mob_id"]);
-
-		// later
-		//$link_xml = $this->getLinkXML($med_links, $this->getLayoutLinkTargets());
-
-		$link_xlm = "";
 
 		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 		ilObjMediaObjectGUI::includePresentationJS($this->tpl);
-		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
+		$media_obj = new ilObjMediaObject((int) $mob_id);
+
+
+		$this->tpl->setVariable("TITLE", " - ".$media_obj->getTitle());
 
 		$xml = "<dummy>";
 		// todo: we get always the first alias now (problem if mob is used multiple
@@ -656,7 +655,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		switch ($item->getType())
 		{
 			case "mob":
-				$_GET["mob_id"] = $item->getForeignId();
 				$this->showMedia();
 				break;
 
