@@ -1583,6 +1583,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			$this->ctrl->redirect($this, 'outUserResultsOverview');
 		}
+
+		if( !$this->object->isDynamicTest() && $pass == $this->object->_getResultPass($active_fi) )
+		{
+			$this->ctrl->redirect($this, 'outUserResultsOverview');
+		}
 			
 			// Get information
 			$result = $ilDB->query("
@@ -1626,6 +1631,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			{
 				throw new ilTestException ('This should not happen, please contact Bjoern Heyser to clean up this pass salad!');
 			}
+
+		if( !$this->object->isDynamicTest() && $isActivePass )
+		{
+			$this->ctrl->redirect($this, 'outUserResultsOverview');
+		}
 		
 			if( $pass == 0 && (
 					($lastFinishedPass == 0 && $tries == 1 && $tries != $row['pass'])

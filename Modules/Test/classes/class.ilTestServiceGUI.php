@@ -174,8 +174,7 @@ class ilTestServiceGUI
 		{
 			$row = array();
 
-			$finishdate = $this->object->getPassFinishDate($active_id, $pass);
-			if($finishdate > 0)
+			if($pass <= $this->testSessionFactory->getSession($active_id)->getLastFinishedPass())
 			{
 				if(!$short)
 				{
@@ -207,7 +206,7 @@ class ilTestServiceGUI
 							'tst_pass_details',
 							$this->ctrl->getLinkTargetByClass($targetclass, $targetcommand)
 						);
-						if($this->object->isPassDeletionAllowed())
+						if($this->object->isPassDeletionAllowed() && $pass != $counted_pass)
 						{
 							$aslgui->addItem(
 								$this->lng->txt('delete'),
@@ -232,7 +231,7 @@ class ilTestServiceGUI
 				}
 
 				$row['pass'] = $pass + 1;
-				$row['date'] = $finishdate;
+				$row['date'] = $this->object->getPassFinishDate($active_id, $pass);
 				if(!$short)
 				{
 					$row['answered'] = $result_array['pass']['num_workedthrough'] . ' ' . strtolower($this->lng->txt('of')) . ' ' . (count($result_array) - 2);
