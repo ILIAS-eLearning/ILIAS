@@ -4672,7 +4672,7 @@ class ilObjSurvey extends ilObject
 	*/
 	function getSurveyCodesForExport(array $a_codes = null, array $a_ids = null)
 	{
-		global $ilDB, $ilUser;
+		global $ilDB, $ilUser, $lng;
 		
 		include_once "./Services/Link/classes/class.ilLink.php";
 
@@ -4691,8 +4691,21 @@ class ilObjSurvey extends ilObject
 			$sql .= " AND ".$ilDB->in("svy_anonymous.anonymous_id", $a_ids, "", "text");
 		}
 		
-		$result = $ilDB->query($sql);
 		$export = array();
+		
+		// #14905
+		$titles = array();
+		$titles[] = '"'.$lng->txt("survey_code").'"';
+		$titles[] = '"'.$lng->txt("email").'"';
+		$titles[] = '"'.$lng->txt("lastname").'"';
+		$titles[] = '"'.$lng->txt("firstname").'"';
+		$titles[] = '"'.$lng->txt("create_date").'"';
+		$titles[] = '"'.$lng->txt("used").'"';
+		$titles[] = '"'.$lng->txt("mail_sent_short").'"';
+		$titles[] = '"'.$lng->txt("survey_code_url").'"';
+		$export[] = implode(";", $titles);
+				
+		$result = $ilDB->query($sql);		
 		$default_lang = $ilUser->getPref("survey_code_language");
 		while ($row = $ilDB->fetchAssoc($result))
 		{			
