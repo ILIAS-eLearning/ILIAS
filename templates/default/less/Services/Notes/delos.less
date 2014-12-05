@@ -1,7 +1,17 @@
 /* Services/Notes */
 
 div.ilNotes {
-	max-width: 600px;
+	background-color: @il-secondary-container-bg;
+	padding: 15px;
+}
+
+#ilRightPanel div.ilNotes {
+	background-color: @il-primary-container-bg;
+}
+
+div.ilNotes .fullwidth_invisible {
+	background-color: transparent;
+	padding: 10px;
 }
 
 div.ilComment {
@@ -21,6 +31,9 @@ div.ilNoteText {
 div.ilNotesHeader {
 	background-color: #F0F0F0;
 	margin-bottom: 5px;
+}
+
+#ilRightPanel div.ilNotesHeader {
 	padding: 5px;
 }
 
@@ -43,7 +56,6 @@ td.ilNoteList {
 }
 
 textarea#note {
-	width: 90%;
 	height: 6em;
 }
 

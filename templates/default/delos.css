@@ -7218,6 +7218,13 @@ div.ilRightPanel {
   width: 500px;
   left: 0 !important;
 }
+#ilRightPanelClose {
+  display: block;
+  float: right;
+}
+[dir="rtl"] #ilRightPanelClose {
+  float: left;
+}
 /* Overlays, Blocks */
 .ilOverlay {
   background-color: #FFF;
@@ -9042,7 +9049,15 @@ tr.tblheader {
 }
 /* Services/Notes */
 div.ilNotes {
-  max-width: 600px;
+  background-color: #f9f9f9;
+  padding: 15px;
+}
+#ilRightPanel div.ilNotes {
+  background-color: #ffffff;
+}
+div.ilNotes .fullwidth_invisible {
+  background-color: transparent;
+  padding: 10px;
 }
 div.ilComment {
   padding-left: 50px;
@@ -9058,6 +9073,8 @@ div.ilNoteText {
 div.ilNotesHeader {
   background-color: #F0F0F0;
   margin-bottom: 5px;
+}
+#ilRightPanel div.ilNotesHeader {
   padding: 5px;
 }
 h3.ilNotesHeader {
@@ -9076,7 +9093,6 @@ td.ilNoteList {
   vertical-align: top;
 }
 textarea#note {
-  width: 90%;
   height: 6em;
 }
 div.ilNoteInput {

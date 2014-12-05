@@ -38,10 +38,15 @@ a.il_PrintBack
 <a class="il_PrintBack" href="{LINK_BACK}">{TXT_BACK}</a>
 <!-- END print_back -->
 <div class="ilNotesHeader">
-<!-- BEGIN notes_img -->
+	<!-- BEGIN close_img -->
+	<a id="ilRightPanelClose" class="btn btn-link" onclick="il.UICore.hideRightPanel(event); return false;" href="#">
+		{CLOSE_IMG}
+	</a>
+	<!-- END close_img -->
+	<!-- BEGIN notes_img -->
 <!-- <img alt="{ALT_NOTES}" title="{ALT_NOTES}" src="{IMG_NOTES}" border="0" style="vertical-align:text-bottom;" /> -->
 <!-- END notes_img -->
-<h3 class="ilNotesHeader">{TXT_NOTES}<!-- BEGIN title --><br /><span class="small">{TITLE}</span><!-- END title --></h3>
+<h3 class="ilHeader">{TXT_NOTES}<!-- BEGIN title --><br /><span class="small">{TITLE}</span><!-- END title --></h3>
 </div>
 <div class="ilNotes" id="ilNotes">
 <form {ON_SUBMIT_FORM} id="ilNoteForm{FORM_ID}" action="{FORMACTION}" name="cmd" method="post">
@@ -62,7 +67,7 @@ a.il_PrintBack
 	<!-- <a class="il_ContainerItemCommand2" href="{LINK_ADD_NOTE}">{TXT_ADD_NOTE}</a> -->
 	<!-- END add_note_btn -->
 	</div>
-<div style="padding:5px;">{MESS}</div>
+{MESS}
 <!-- BEGIN no_notes -->
 <div class="small light">{NO_NOTES}</div>
 <!-- END no_notes -->
@@ -78,10 +83,8 @@ a.il_PrintBack
 <!-- END sort_list -->
 <!-- BEGIN note_row -->
 <!-- BEGIN edit_note_form -->
-<tr class="std">
-	<td valign="top">&nbsp;
-	</td>
-	<td valign="top">
+<tr>
+	<td valign="top" colspan="2">
 	<a name="note_edit"></a>
 	{EDIT_FORM}
 	</td>
@@ -155,7 +158,7 @@ a.il_PrintBack
 </tr>
 <!-- END delete_cancel -->
 </table>
-</form><br />
+</form>
 </div>
 <!-- BEGIN print_js -->
 <script type="text/javascript" language="javascript1.2">

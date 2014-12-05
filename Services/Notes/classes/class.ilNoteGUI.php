@@ -431,6 +431,14 @@ if ($this->private_enabled && $this->public_enabled
 			"", $this->repository_mode);
 
 		$tpl = new ilTemplate("tpl.notes_list.html", true, true, "Services/Notes");
+
+		if ($this->ajax)
+		{
+			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+			$tpl->setCurrentBlock("close_img");
+			$tpl->setVariable("CLOSE_IMG", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
+			$tpl->parseCurrentBlock();
+		}
 		
 		// show counter if notes are hidden
 		$cnt_str = (count($all_notes) > 0)
