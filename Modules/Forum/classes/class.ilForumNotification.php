@@ -462,7 +462,9 @@ class ilForumNotification
 			{
 				// update source notification
 				$ilDB->update('frm_notification',
-					array('thread_id' => array('integer', $merge_target_thread_id)));
+					array('thread_id' => array('integer', $merge_target_thread_id)),
+					array('thread_id' => array('integer', $merge_source_thread_id)
+					));
 			}
 		}
 	}
