@@ -159,7 +159,7 @@ class ilECSParticipantSettingsGUI
 		if($form->checkInput())
 		{
 			$this->getParticipant()->enableToken($form->getInput('token'));
-			$this->getParticipant()->enableDeprecatedToken($form->getInput('deprecated_token'));
+			$this->getParticipant()->enableDeprecatedToken($form->getInput('dtoken'));
 			$this->getParticipant()->enableExport($form->getInput('export'));
 			$this->getParticipant()->setExportTypes($form->getInput('export_types'));
 			$this->getParticipant()->enableImport($form->getInput('import'));
