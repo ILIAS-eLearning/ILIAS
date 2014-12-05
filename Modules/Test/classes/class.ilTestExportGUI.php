@@ -51,6 +51,16 @@ class ilTestExportGUI extends ilExportGUI
 	}
 
 	/**
+	 * @return ilTestExportTableGUI
+	 */
+	protected function buildExportTableGUI()
+	{
+		require_once 'Modules/Test/classes/tables/class.ilTestExportTableGUI.php';
+		$table = new ilTestExportTableGUI($this, 'listExportFiles', $this->obj);
+		return $table;
+	}
+
+	/**
 	 * Create test export file
 	 */
 	public function createTestExport()
@@ -183,8 +193,7 @@ class ilTestExportGUI extends ilExportGUI
 			}
 		}
 
-		require_once 'Modules/Test/classes/tables/class.ilTestExportTableGUI.php';
-		$table = new ilTestExportTableGUI($this, 'listExportFiles', $this->obj);
+		$table = $this->buildExportTableGUI();
 		$table->setSelectAllCheckbox("file");
 		foreach($this->getCustomColumns() as $c)
 		{

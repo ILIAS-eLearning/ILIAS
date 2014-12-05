@@ -22,7 +22,7 @@ require_once './Modules/Test/classes/class.ilObjTest.php';
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI, assTextSubsetGUI, assSingleChoiceGUI, ilPropertyFormGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI, ilInfoScreenGUI, ilObjTaxonomyGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilQuestionPoolExportGUI, ilInfoScreenGUI, ilObjTaxonomyGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilObjQuestionPoolSettingsGeneralGUI, assFormulaQuestionGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPreviewGUI
@@ -216,13 +216,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($cp);
 				break;
 				
-			case "ilexportgui":
-				include_once("./Services/Export/classes/class.ilExportGUI.php");
-				$exp_gui = new ilExportGUI($this);
-				$exp_gui->addFormat("zip", $this->lng->txt('qpl_export_xml'), $this, "createExportQTI");
-				$exp_gui->addFormat("xls", $this->lng->txt('qpl_export_excel'), $this, "createExportExcel");
-	//			$exp_gui->addCustomColumn($lng->txt("cont_public_access"), $this, "getPublicAccessColValue");
-	//			$exp_gui->addCustomMultiCommand($lng->txt("cont_public_access"), $this, "publishExportFile");
+			case "ilquestionpoolexportgui":
+				require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolExportGUI.php';
+				$exp_gui = new ilQuestionPoolExportGUI($this);
+				$exp_gui->addFormat('zip', $this->lng->txt('qpl_export_xml'), $this, 'createExportQTI');
+				$exp_gui->addFormat('xls', $this->lng->txt('qpl_export_excel'), $this, 'createExportExcel');
 				$ret = $this->ctrl->forwardCommand($exp_gui);
 				break;
 			
@@ -1199,7 +1197,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$question_ids =& $this->object->getAllQuestionIds();
 			$qpl_exp = new ilQuestionpoolExport($this->object, 'xml', $question_ids);
 			$qpl_exp->buildExportFile();
-			$this->ctrl->redirectByClass("ilexportgui", "");
+			$this->ctrl->redirectByClass("ilquestionpoolexportgui", "");
 		}
 	}
 
@@ -1212,7 +1210,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$question_ids =& $this->object->getAllQuestionIds();
 			$qpl_exp = new ilQuestionpoolExport($this->object, 'xls', $question_ids);
 			$qpl_exp->buildExportFile();
-			$this->ctrl->redirectByClass("ilexportgui", "");
+			$this->ctrl->redirectByClass("ilquestionpoolexportgui", "");
 		}
 	}
 
@@ -1360,7 +1358,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "":
 			case "ilpermissiongui":
 			case "ilmdeditorgui":
-			case "ilexportgui":
+			case "ilquestionpoolexportgui":
 				break;
 			
 			case 'ilobjtaxonomygui':
@@ -1459,8 +1457,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if( $currentUserHasWriteAccess )
 		{
 			$tabs_gui->addTarget("export",
-				$this->ctrl->getLinkTargetByClass("ilexportgui", ""),
-				"", "ilexportgui");
+				$this->ctrl->getLinkTargetByClass("ilquestionpoolexportgui", ""),
+				"", "ilquestionpoolexportgui");
 		}
 
 		if ($ilAccess->checkAccess("edit_permission", "", $this->object->getRefId()))
