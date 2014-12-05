@@ -1041,6 +1041,8 @@ class ilExAssignment
 		$ass_ids = array();
 		foreach(self::getAssignmentDataOfExercise($a_exc_id) as $item)
 		{
+			self::updateStatusOfUser($item["id"], $a_user_id, "notgraded"); // #14900
+			
 			$ass_ids[] = $item["id"];
 		}		
 		if($ass_ids)
