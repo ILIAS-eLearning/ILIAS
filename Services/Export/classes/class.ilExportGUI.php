@@ -41,7 +41,17 @@ class ilExportGUI
 		$lng->loadLanguageModule("exp");
 		$this->tpl = $tpl;
 	}
-	
+
+	/**
+	 * @return ilExportTableGUI
+	 */
+	protected function buildExportTableGUI()
+	{
+		include_once("./Services/Export/classes/class.ilExportTableGUI.php");
+		$table = new ilExportTableGUI($this, "listExportFiles", $this->obj);
+		return $table;
+	}
+
 	/**
 	 * get parent gui
 	 * @return 
@@ -206,10 +216,9 @@ class ilExportGUI
 			$button->setCommand("create_".$format["key"]);				
 		}
 		
-		$ilToolbar->addButtonInstance($button);		
-	
-		include_once("./Services/Export/classes/class.ilExportTableGUI.php");
-		$table = new ilExportTableGUI($this, "listExportFiles", $this->obj);
+		$ilToolbar->addButtonInstance($button);
+
+		$table = $this->buildExportTableGUI();
 		$table->setSelectAllCheckbox("file");
 		foreach ($this->getCustomColumns() as $c)
 		{
