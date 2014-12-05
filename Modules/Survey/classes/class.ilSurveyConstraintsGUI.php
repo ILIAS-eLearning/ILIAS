@@ -367,7 +367,7 @@ class ilSurveyConstraintsGUI
 		$id = (int)$_REQUEST["precondition"];
 		if($this->validateConstraintForEdit($id))	
 		{		
-			ilUtil::sendSuccess($this->lng->txt("survey_constraint_deleted", true));
+			ilUtil::sendSuccess($this->lng->txt("survey_constraint_deleted"), true);
 			$this->object->deleteConstraint($id);			
 		}
 
