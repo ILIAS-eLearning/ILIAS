@@ -140,6 +140,42 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 		return true;
 	}
 	
+	public function cloneCollection($a_target_id, $a_copy_id)
+	{	
+		parent::cloneCollection($a_target_id, $a_copy_id);
+		
+		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+		$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+		$mappings = $cwo->getMappings();
+		
+		$target_obj_id = ilObject::_lookupObjId($a_target_id);
+		$target_collection = new static($target_obj_id, $this->mode);
+		
+		// clone (active) groupings
+		foreach($this->getGroupedItemsForLPStatus() as $group)
+		{
+			$target_item_ids = array();
+			foreach($group["items"] as $item)
+			{
+				if(!isset($mappings[$item]) or !$mappings[$item])
+				{
+					continue;
+				}
+
+				$target_item_ids[] = $mappings[$item];	 	
+			}
+			
+			// single item left after copy?
+			if(sizeof($target_item_ids) > 1)
+			{
+				// should not be larger than group
+				$num_obligatory = min(sizeof($target_item_ids), $group["num_obligatory"]);
+				
+				$target_collection->createNewGrouping($target_item_ids, $num_obligatory);
+			}
+		}
+	}
+	
 	
 	//
 	// CRUD
@@ -284,7 +320,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 		}
 	}
 
-	public function createNewGrouping(array $a_item_ids)
+	public function createNewGrouping(array $a_item_ids, $a_num_obligatory = 1)
 	{
 		global $ilDB;
 
@@ -318,7 +354,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 
 		$query = "UPDATE ut_lp_collections SET".
 			" grouping_id = ".$ilDB->quote($grp_id, "integer").
-			", num_obligatory = ".$ilDB->quote(1, "integer").
+			", num_obligatory = ".$ilDB->quote($a_num_obligatory, "integer").
 			", active = ".$ilDB->quote(1, "integer").
 			" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer").
 			" AND ".$ilDB->in("item_id", $all_item_ids, false, "integer");
