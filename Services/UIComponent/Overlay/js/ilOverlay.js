@@ -114,6 +114,7 @@ il.Overlay = {
 		// display the overlay at the anchor position
 		el = document.getElementById(id);
 		el.style.display = 'block';
+		el.style.zIndex = "1200";
 		if (anchor_id != null && anchor_id != '') {
 			this.overlays[id].cfg.setProperty("context", [anchor_id, ov_corner, anch_corner]);
 			this.overlays[id].cfg.setProperty("fixedcenter", false);
