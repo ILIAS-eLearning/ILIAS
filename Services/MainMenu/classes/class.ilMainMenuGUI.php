@@ -986,7 +986,7 @@ class ilMainMenuGUI
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 			ilTooltipGUI::addTooltip("help_tr", $lng->txt("help_open_online_help"), "",
 				"bottom center", "top center", false);
-			$helpl->addEntry("<span>&nbsp;</span> ".$lng->txt("help_topics"), "#", "", "il.Help.listHelp(event, false);");
+			$helpl->addEntry("<span>&nbsp;</span> ".$lng->txt("help_topcis"), "#", "", "il.Help.listHelp(event, false);");
 		}
 				
 		$module_id = (int) $ilSetting->get("help_module");
