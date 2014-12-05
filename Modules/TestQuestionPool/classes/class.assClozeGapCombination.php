@@ -184,7 +184,7 @@ class assClozeGapCombination
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF('SELECT gap_fi, combination_id FROM `qpl_a_cloze_combi_res` WHERE question_fi = %s GROUP BY gap_fi',
+		$result = $ilDB->queryF('SELECT gap_fi, combination_id FROM `qpl_a_cloze_combi_res` WHERE question_fi = %s GROUP BY gap_fi, combination_id',
 			array('integer'),
 			array($question_id)
 		);
