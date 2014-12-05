@@ -1,4 +1,5 @@
 <!-- BEGIN found -->
+<!-- BEGIN index_selection_block -->
 <form name="form_index" action="{FOUND_ACTION}" method="post">
 <p><table cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -14,7 +15,7 @@
 </tr>
 </table></p>
 </form>
-
+<!-- END index_selection_block -->
 <form action="{EDIT_ACTION}" {TARGET} name="post" method="post">
 <input type="hidden" name="bibItemIndex" value="{VAL_INDEX}"/>
 <input type="hidden" name="bibItemPath" value="BibItem"/>
@@ -64,7 +65,7 @@
 	</td>
 </tr>
 <tr>
-	<td class="submit" colspan="3"><div align="right"><input class="submit" type="submit" name="cmd[addBibItem]" value="{TXT_ADD}"/></div></td>
+	<td class="submit" colspan="3"><div align="right"><input class="btn btn-default" type="submit" name="cmd[addBibItem]" value="{TXT_ADD}"/></div></td>
 </tr>
 <tr>
 	<td class="option" colspan="2">{TXT_TYPE} (Type)</td>
@@ -332,7 +333,7 @@
 </tr>
 
 <tr>
-	<td class="submit" colspan="3"><div align="right"><input class="submit" type="submit" name="cmd[saveBibItem]" value="{TXT_SAVE}"/></div></td>
+	<td class="submit" colspan="3"><div align="right"><input class="btn btn-default" type="submit" name="cmd[saveBibItem]" value="{TXT_SAVE}"/></div></td>
 </tr>
 </table>
 </form>

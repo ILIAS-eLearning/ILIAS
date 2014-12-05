@@ -544,7 +544,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			$a_target = "adm_object.php?ref_id=" . $this->object->getRefId();
 		}
 
-		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target, $bibItemIndex);
+		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target, max(0, $bibItemIndex - 1));
 	}
 
 	/**

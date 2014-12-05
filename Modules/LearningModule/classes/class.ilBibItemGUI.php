@@ -475,26 +475,29 @@ class ilBibItemGUI
 		else
 		{
 #echo "OK!<br>\n";
-#vd($data);
-			for ($i = 0; $i < count($data); $i++)
+#vd($data);va
+			if(count($data) > 1)
 			{
-				$edition = $this->bib_obj->getElement("Edition", "BibItem", $i);
-				$year = $this->bib_obj->getElement("Year", "BibItem", $i);
-				$this->tpl->setCurrentBlock("index_loop");
-				$this->tpl->setVariable("INDEX_LOOP_VALUE", $i);
-				if ($a_index == $i)
+				for($i = 0; $i < count($data); $i++)
 				{
-					$this->tpl->setVariable("INDEX_LOOP_SELECTED", " selected");
+					$edition = $this->bib_obj->getElement("Edition", "BibItem", $i);
+					$year    = $this->bib_obj->getElement("Year", "BibItem", $i);
+					$this->tpl->setCurrentBlock("index_loop");
+					$this->tpl->setVariable("INDEX_LOOP_VALUE", $i);
+					if($a_index == $i)
+					{
+						$this->tpl->setVariable("INDEX_LOOP_SELECTED", " selected");
+					}
+					$this->tpl->setVariable("INDEX_LOOP_TEXT", $edition[0]["value"] . ", " . $year[0]["value"]);
+					$this->tpl->parseCurrentBlock("index_loop");
 				}
-				$this->tpl->setVariable("INDEX_LOOP_TEXT", $edition[0]["value"] . ", " . $year[0]["value"]);
-				$this->tpl->parseCurrentBlock("index_loop");
+
+				$this->tpl->setVariable("FOUND_ACTION", $a_formaction . "&cmd=editBibItem");
+				$this->tpl->setVariable("FOUND_TXT" , $this->lng->txt("bibitem_choose_index"));
 			}
-			$this->tpl->setCurrentBlock("found");
-			$this->tpl->setVariable("FOUND_ACTION", $a_formaction . "&cmd=editBibItem");
-			$this->tpl->setVariable("FOUND_TXT" , $this->lng->txt("bibitem_choose_index"));
-#echo "Einlesen des BibItems:<br>\n";
 			$this->fill($a_formaction, $a_index, $a_language);
-			$this->tpl->parseCurrentBlock();
+#echo "Einlesen des BibItems:<br>\n";
+			
 		}
 	}
 
