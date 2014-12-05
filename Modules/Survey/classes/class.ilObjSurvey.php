@@ -1316,9 +1316,9 @@ class ilObjSurvey extends ilObject
 */
 	function setInvitation($invitation = 0) 
 	{
-		global $ilDB;
-		global $ilAccess;
-    $this->invitation = $invitation;
+		global $ilDB, $ilAccess;
+		
+		$this->invitation = $invitation;
 		if ($invitation == self::INVITATION_OFF)
 		{
 			$this->disinviteAllUsers();
@@ -1329,7 +1329,7 @@ class ilObjSurvey extends ilObject
 			{
 				$result = $ilDB->query("SELECT usr_id FROM usr_data");
 				while ($row = $ilDB->fetchAssoc($result))
-				{
+				{					
 					if ($ilAccess->checkAccessOfUser($row["usr_id"], "read", "", $this->getRefId(), "svy", $this->getId()))
 					{
 						$this->inviteUser($row['usr_id']);

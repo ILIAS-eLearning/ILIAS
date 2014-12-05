@@ -243,15 +243,13 @@ class ilSurveyParticipantsGUI
 		switch ($mode)
 		{
 			case 0:
-				$this->object->setInvitation(0);
+				$this->object->setInvitation(ilObjSurvey::INVITATION_OFF);
 				break;
 			case 1:
-				$this->object->setInvitation(1);
-				$this->object->setInvitationMode(0);
+				$this->object->setInvitationAndMode(ilObjSurvey::INVITATION_ON, ilObjSurvey::MODE_UNLIMITED);							
 				break;
 			case 2:
-				$this->object->setInvitation(1);
-				$this->object->setInvitationMode(1);
+				$this->object->setInvitationAndMode(ilObjSurvey::INVITATION_ON, ilObjSurvey::MODE_PREDEFINED_USERS);					
 				break;
 		}
 		$this->object->saveToDb();
