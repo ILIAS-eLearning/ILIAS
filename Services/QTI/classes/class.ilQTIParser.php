@@ -1329,6 +1329,13 @@ class ilQTIParser extends ilSaxParser
 				}
 				$this->matimage = NULL;
 				break;
+			// add support for matbreak element
+			case "matbreak":
+				$this->mattext = new ilQTIMattext();
+				$this->mattext->setContent('<br />');
+				$this->material->addMattext($this->mattext);
+				$this->mattext = NULL;
+				break;
 			case "resprocessing":
 				if ($this->item != NULL)
 				{
