@@ -2866,7 +2866,7 @@ class ilExAssignment
 		
 		$sql = "UPDATE exc_assignment_peer".
 			" SET tstamp = ".$ilDB->quote(ilUtil::now(), "timestamp").
-			",pcomment  = ".$ilDB->quote(trim($a_comment), "text");
+			",pcomment  = ".$ilDB->quote(trim($a_comment), "text").
 			" WHERE giver_id = ".$ilDB->quote($ilUser->getId(), "integer").
 			" AND peer_id = ".$ilDB->quote($a_peer_id, "integer").
 			" AND ass_id = ".$ilDB->quote($this->getId(), "integer");
