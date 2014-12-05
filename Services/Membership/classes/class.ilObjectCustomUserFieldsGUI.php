@@ -356,6 +356,11 @@ class ilObjectCustomUserFieldsGUI
 		$ty->setRequired(true);
 		$this->form->addItem($ty);
 		
+		if($a_mode == self::MODE_UPDATE)
+		{			
+			$ty->setDisabled(true); // #14888
+		}
+		
 		//		Text type	
 		$ty_te = new ilRadioOption($this->lng->txt('ps_type_txt_long'),IL_CDF_TYPE_TEXT);
 		$ty->addOption($ty_te);

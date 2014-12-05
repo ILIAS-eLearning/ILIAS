@@ -379,7 +379,7 @@ class SurveyImportParser extends ilSaxParser
 						{
 							// import an mediaobject which was inserted using tiny mce
 							if (!is_array($_SESSION["import_mob_xhtml"])) $_SESSION["import_mob_xhtml"] = array();
-							array_push($_SESSION["import_mob_xhtml"], array("mob" => $a_attribs["label"], "uri" => $a_attribs["uri"]));
+							array_push($_SESSION["import_mob_xhtml"], array("mob" => $a_attribs["label"], "uri" => $a_attribs["uri"], "type" => $a_attribs["type"], "id" => $a_attribs["id"]));
 						}
 					}
 				break;
@@ -564,14 +564,20 @@ class SurveyImportParser extends ilSaxParser
 					{
 						$this->textblocks[$this->original_question_id] = $this->textblock;
 					}
-					$this->activequestion->saveToDb();
-					if (is_object($this->survey))
-					{
-						// duplicate the question for the survey
+					$this->activequestion->saveToDb();					
+					// duplicate the question for the survey (if pool is to be used)
+					if (is_object($this->survey) && 
+						$this->spl_id > 0)
+					{						
 						$question_id = $this->activequestion->duplicate(TRUE);
-						$this->survey->addQuestion($question_id);
-						$this->questions[$this->original_question_id] = $question_id;
+						$this->survey->addQuestion($question_id);						
 					}
+					else
+					{
+						$question_id = $this->activequestion->getId();
+					}
+					$this->questions[$this->original_question_id] = $question_id;
+					
 					$this->activequestion = NULL;
 				}
 				$this->textblock = "";

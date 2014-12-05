@@ -88,7 +88,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilErr, $tpl, $lng, $ilTabs, $ilPluginAdmin, $ilDB, $tree, $ilUser;
 
-		if((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
+		if((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])))
 		{
 			global $ilias;
 			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
@@ -1775,6 +1775,8 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$qpl_mode || ($qpl_mode == 2 && strcmp($_REQUEST["txt_qpl"], "") == 0) || ($qpl_mode == 3 && strcmp($qpl_ref_id, "") == 0))
 		//if ((strcmp($_REQUEST["txt_qpl"], "") == 0) && (strcmp($qpl_ref_id, "") == 0))
 		{
+			// Mantis #14890
+			$_REQUEST['sel_question_types'] = $sel_question_types;
 			ilUtil::sendInfo($this->lng->txt("questionpool_not_entered"));
 			$this->createQuestionObject();
 			return;
@@ -3950,7 +3952,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->createRandomSolutions($_GET['createRandomSolutions']);
 		}
 
-		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		if (!$ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -4711,7 +4713,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 
 			// info tab
-			if ($ilAccess->checkAccess("visible", "", $this->ref_id) && !in_array('info_short', $hidden_tabs))
+			if ($ilAccess->checkAccess("read", "", $this->ref_id) && !in_array('info_short', $hidden_tabs))
 			{
 				$tabs_gui->addTarget("info_short",
 					 $this->ctrl->getLinkTarget($this,'infoScreen'),
@@ -4880,7 +4882,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilErr, $lng;
 
-		if ($ilAccess->checkAccess("visible", "", $a_target))
+		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
 			//include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$_GET["baseClass"] = "ilObjTestGUI";

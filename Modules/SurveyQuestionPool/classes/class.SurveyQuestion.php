@@ -1926,7 +1926,9 @@ class SurveyQuestion
 				$mob_obj =& new ilObjMediaObject($mob);
 				$imgattrs = array(
 					"label" => "il_" . IL_INST_ID . "_mob_" . $mob,
-					"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
+					"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle(),
+					"type" => "spl:html",
+					"id" => $this->getId()
 				);
 				$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
 			}
