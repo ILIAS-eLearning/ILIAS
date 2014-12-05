@@ -19,12 +19,15 @@
 				return '#' + key + '#';
 			},
 			getNewMessages:   function () {
-				var $this = this;
+				var $this = this, data = $this.data('chatviewer');
 
 				var promise = $.ajax({
 					type:    'GET',
 					dataType:'json',
-					url:     internals.getPollingUrl.apply($this)
+					url:     internals.getPollingUrl.apply($this),
+					beforeSend: function() {
+						$(data.properties.message_container_selector).html($('<img src="' + data.properties.loaderImage + '" />'));
+					}
 				});
 				promise.done(function (response) {
 					try {
@@ -231,9 +234,11 @@
 					var data = {
 						properties:     $.extend(true, {}, {
 							base_url:                  '',
+							loaderImage:               '',
 							message_container_selector:'',
 							message_header_selector:   '',
 							room_selector:             '',
+							room_selector_container:   '',
 							autoscroll_selector:       '',
 							polling_interval:          20,
 							smilies:                   {},
@@ -247,14 +252,17 @@
 					var promise = $.ajax({
 						type:     'GET',
 						dataType: 'json',
-						url:      internals.getChatroomListUrl.apply($this)
+						url:      internals.getChatroomListUrl.apply($this),
+						beforeSend: function() {
+							$(data.properties.room_selector_container).html($('<img src="' + data.properties.loaderImage + '" />'));
+						}
 					});
 					promise.done(function(response) {
 						try {
 							if (!response.ok) {
 								return;
 							}
-							$(data.properties.message_header_selector).parent().append(response.html);
+							$(data.properties.room_selector_container).html(response.html);
 
 							$(data.properties.room_selector).on('change', function () {
 								$this.ilChatViewer('onRoomChange');

@@ -128,6 +128,7 @@ class ilChatroomBlockGUI extends ilBlockGUI
 		$body_tpl  = new ilTemplate('tpl.chatroom_block_message_body.html', true, true, 'Modules/Chatroom');
 
 		$body_tpl->setVariable('TXT_ENABLE_AUTOSCROLL', $lng->txt('chat_enable_autoscroll'));
+		$body_tpl->setVariable('LOADER_PATH', ilUtil::getImagePath('loader.svg'));
 
 		$ilCtrl->setParameterByClass('ilcolumngui', 'block_id', 'block_' . $this->getBlockType() . '_' . (int)$this->getBlockId());
 		$ilCtrl->setParameterByClass('ilcolumngui', 'ref_id', '#__ref_id');
