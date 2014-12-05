@@ -178,8 +178,7 @@ class ilTestServiceGUI
 							'tst_pass_details', 
 							$this->ctrl->getLinkTargetByClass($targetclass, $targetcommand)
 						);
-						
-						if( $this->object->isPassDeletionAllowed() )
+						if($this->object->isPassDeletionAllowed() && $pass != $counted_pass)
 						{
 							$aslgui->addItem(
 								$this->lng->txt("delete"), 

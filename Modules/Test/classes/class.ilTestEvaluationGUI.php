@@ -1459,6 +1459,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 			$active_fi = $_GET['active_id'];
 			$pass = (int) $_GET['pass'];
+
+		if( !$this->object->isDynamicTest() && $pass == $this->object->_getResultPass($active_fi) )
+		{
+			$this->ctrl->redirect($this, 'outUserResultsOverview');
+		}
 			
 			// Get information
 			$result = $ilDB->query("
@@ -1498,8 +1503,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$isActivePass = true;
 				$must_renumber = false;
 			}
+
+		if( !$this->object->isDynamicTest() && $isActivePass )
+		{
+			$this->ctrl->redirect($this, 'outUserResultsOverview');
+		}
 		
-			if( $pass == 0 )
+			if( $pass == 0 && (
+				($lastFinishedPass == 0 && $tries == 1 && $tries != $row['pass'])
+				|| ($isActivePass == true) // should be equal to || ($lastFinishedPass == -1 && $tries == 0)
+			))
 			{
 				$last_pass = true;
 			}
