@@ -5192,3 +5192,7 @@ if(! $ilDB->tableColumnExists('qpl_a_cloze_combi_res', 'row_id'))
 			 ));
 }
 ?>
+<#4431>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
