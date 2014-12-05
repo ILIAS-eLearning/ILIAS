@@ -750,7 +750,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->tpl, $this->lng);
 
 		$this->ctrl->setParameter($this, 'pdf', '1');
-		$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, 'showDetailedResults') );
+		$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, $this->ctrl->getCmd()) );
 		$this->ctrl->setParameter($this, 'pdf', '');
 
 		if( $show_answers )
