@@ -738,7 +738,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 			return false;
 		}
 
-		if ($ilAccess->checkAccess("visible", "", $t_arr[1]))
+		if ($ilAccess->checkAccess("read", "", $t_arr[1]))
 		{
 			return true;
 		}
