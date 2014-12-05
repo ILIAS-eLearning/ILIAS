@@ -2455,6 +2455,11 @@ function setGenericAnswerFeedback($generic_answer_feedback = 0)
 	{
 		return ($this->score_reporting) ? $this->score_reporting : 0;
 	}
+	
+	public function isScoreReportingEnabled()
+	{
+		return $this->getScoreReporting() > 0 && $this->getScoreReporting() < 4;
+	}
 
 /**
 * Returns 1 if the correct solution will be shown after answering a question

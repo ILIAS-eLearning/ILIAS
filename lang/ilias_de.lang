@@ -1224,15 +1224,15 @@ assessment#:#tst_result#:#Testergebnis
 assessment#:#tst_result_user_name#:#Testergebnisse für %s
 assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_results#:#Testergebnisse
-assessment#:#tst_results_access#:#Teilnehmer sehen Testergebnisse
+assessment#:#tst_results_access_enabled#:#Teilnehmer sehen Testergebnisse
+assessment#:#tst_results_access_enabled_desc#:#TODO99
+assessment#:#tst_results_access_setting#:#TODO42
 assessment#:#tst_results_access_always#:#Immer
 assessment#:#tst_results_access_always_desc#:#Teilnehmer können ihre Ergebnisse schon während eines Testdurchlaufs im 'Info'-Reiter einsehen. Ihre Ergebnisse werden ihnen zudem direkt nach Abschluss des Testdurchlaufs präsentiert.
 assessment#:#tst_results_access_date#:#Ab definiertem Datum
 assessment#:#tst_results_access_date_desc#:#Erst ab dem gewählten Datum können Teilnehmer ihre Ergebnisse im 'Info'-Reiter  einsehen.
 assessment#:#tst_results_access_finished#:#Nach Testdurchlauf
 assessment#:#tst_results_access_finished_desc#:#Teilnehmer sehen ihre Ergebnisse direkt nach Abschluss eines Testdurchlaufs. Sie können ihre Ergebnisse danach jederzeit im 'Info'-Reiter einsehen.
-assessment#:#tst_results_access_never#:#Nie
-assessment#:#tst_results_access_never_desc#:#Teilnehmern wird ihr Ergebnis für diesen Test niemals angezeigt.
 assessment#:#tst_results_details_options#:#Details Testergebnisse
 assessment#:#tst_results_grading_opt_show_status#:#Status "Bestanden" / "Nicht bestanden"
 assessment#:#tst_results_grading_opt_show_status_desc#:#Status "Bestanden" / "Nicht bestanden" auf Übersicht Testergebnisse anzeigen

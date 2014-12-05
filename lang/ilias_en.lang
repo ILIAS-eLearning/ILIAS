@@ -1060,9 +1060,9 @@ assessment#:#tst_results_access_date#:#Date
 assessment#:#tst_results_access_date_desc#:#Participants get access to their test results after the defined date.
 assessment#:#tst_results_access_finished#:#After Test is Finished
 assessment#:#tst_results_access_finished_desc#:#Participants have access to their test results after finishing the test pass.
-assessment#:#tst_results_access_never#:#Never
-assessment#:#tst_results_access_never_desc#:#Participants have never access to their results in this test.
-assessment#:#tst_results_access#:#Access to Test Results
+assessment#:#tst_results_access_enabled#:#Access to Test Results
+assessment#:#tst_results_access_enabled_desc#:#TODO99
+assessment#:#tst_results_access_setting#:#TODO42
 assessment#:#tst_results_details_options#:#Details Test Results
 assessment#:#tst_results_grading_opt_show_both#:#Show Passed/Failed Status and Resulting Mark
 assessment#:#tst_results_grading_opt_show_none#:#Do NOT show Passed/Failed Status or Resulting Mark

@@ -206,19 +206,30 @@ class ilObjTestSettingsScoringResultsGUI
 				$this->testOBJ->setPassScoring($form->getItemByPostVar('pass_scoring')->getValue());
 			}
 		}
-
-		if( !$this->isHiddenFormItem('results_access') )
+		
+		if( !$this->isHiddenFormItem('results_access_enabled') )
 		{
-			$this->testOBJ->setScoreReporting($form->getItemByPostVar('results_access')->getValue());
-			
-			if( $this->testOBJ->getScoreReporting() == REPORT_AFTER_DATE )
+			if( $form->getItemByPostVar('results_access_enabled')->getChecked() )
 			{
-				$this->testOBJ->setReportingDate(
-					$form->getItemByPostVar('reporting_date')->getDate()->get(IL_CAL_FKT_DATE, 'YmdHis')
-				);
+				$this->testOBJ->setScoreReporting($form->getItemByPostVar('results_access_setting')->getValue());
+
+				if( $this->testOBJ->getScoreReporting() == REPORT_AFTER_DATE )
+				{
+					$this->testOBJ->setReportingDate(
+						$form->getItemByPostVar('reporting_date')->getDate()->get(IL_CAL_FKT_DATE, 'YmdHis')
+					);
+				}
+				else
+				{
+					$this->testOBJ->setReportingDate('');
+				}
+				
+				$this->testOBJ->setShowPassDetails($form->getItemByPostVar('pass_details')->getChecked());
 			}
 			else
 			{
+				$this->testOBJ->setScoreReporting(4); // never
+				$this->testOBJ->setShowPassDetails(false);
 				$this->testOBJ->setReportingDate('');
 			}
 		}
@@ -231,11 +242,6 @@ class ilObjTestSettingsScoringResultsGUI
 			$this->testOBJ->setShowGradingMarkEnabled(
 				(int)$form->getItemByPostVar('grading_mark')->getChecked()
 			);
-		}
-
-		if( !$this->isHiddenFormItem('pass_details') )
-		{
-			$this->testOBJ->setShowPassDetails($form->getItemByPostVar('pass_details')->getChecked());
 		}
 
 		if( !$this->isHiddenFormItem('solution_details') )
@@ -537,31 +543,40 @@ class ilObjTestSettingsScoringResultsGUI
 		$form->addItem($header_tr);
 
 		// access to test results
-		$results_access = new ilRadioGroupInputGUI($this->lng->txt('tst_results_access'), 'results_access');
-		$results_access->addOption($opt = new ilRadioOption($this->lng->txt('tst_results_access_always'), 2, ''));
-		$opt->setInfo($this->lng->txt('tst_results_access_always_desc'));
-		$results_access->addOption($opt = new ilRadioOption($this->lng->txt('tst_results_access_finished'), 1, ''));
-		$opt->setInfo($this->lng->txt('tst_results_access_finished_desc'));
-		$results_access_date_limitation = new ilRadioOption($this->lng->txt('tst_results_access_date'), 3, '');
-		$results_access_date_limitation->setInfo($this->lng->txt('tst_results_access_date_desc'));
-		$results_access->addOption($results_access_date_limitation);
-		$results_access->addOption($opt = new ilRadioOption($this->lng->txt('tst_results_access_never'), 4, ''));
-		$opt->setInfo($this->lng->txt('tst_results_access_never_desc'));
-		$results_access->setValue($this->testOBJ->getScoreReporting());
-
-		// access date
-		$reporting_date = new ilDateTimeInputGUI('', 'reporting_date');		
-		$reporting_date->setShowTime(true);
-		if (strlen($this->testOBJ->getReportingDate()))
-		{
-			$reporting_date->setDate(new ilDateTime($this->testOBJ->getReportingDate(), IL_CAL_TIMESTAMP));
-		}
-		else
-		{
-			$reporting_date->setDate(new ilDateTime(time(), IL_CAL_UNIX));
-		}
-		$results_access_date_limitation->addSubItem($reporting_date);
-		$form->addItem($results_access);
+		$resultsAccessEnabled = new ilCheckboxInputGUI($this->lng->txt('tst_results_access_enabled'), 'results_access_enabled');
+		$resultsAccessEnabled->setInfo($this->lng->txt('tst_results_access_enabled_desc'));
+		$resultsAccessEnabled->setChecked($this->testOBJ->isScoreReportingEnabled());
+			$resultsAccessSetting = new ilRadioGroupInputGUI($this->lng->txt('tst_results_access_setting'), 'results_access_setting');
+			$resultsAccessSetting->setRequired(true);
+			$optAlways = new ilRadioOption($this->lng->txt('tst_results_access_always'), 2, '');
+			$optAlways->setInfo($this->lng->txt('tst_results_access_always_desc'));
+			$resultsAccessSetting->addOption($optAlways);
+			$optFinished = $opt = new ilRadioOption($this->lng->txt('tst_results_access_finished'), 1, '');
+			$optFinished->setInfo($this->lng->txt('tst_results_access_finished_desc'));
+			$resultsAccessSetting->addOption($optFinished);
+			$optionDate = new ilRadioOption($this->lng->txt('tst_results_access_date'), 3, '');
+			$optionDate->setInfo($this->lng->txt('tst_results_access_date_desc'));
+				// access date
+				$reportingDate = new ilDateTimeInputGUI($this->lng->txt('tst_reporting_date'), 'reporting_date');
+				$reportingDate->setShowTime(true);
+				if (strlen($this->testOBJ->getReportingDate()))
+				{
+					$reportingDate->setDate(new ilDateTime($this->testOBJ->getReportingDate(), IL_CAL_TIMESTAMP));
+				}
+				else
+				{
+					$reportingDate->setDate(new ilDateTime(time(), IL_CAL_UNIX));
+				}
+				$optionDate->addSubItem($reportingDate);
+			$resultsAccessSetting->addOption($optionDate);
+			$resultsAccessSetting->setValue($this->testOBJ->getScoreReporting());
+			$resultsAccessEnabled->addSubItem($resultsAccessSetting);
+			// show pass details
+			$showPassDetails = new ilCheckboxInputGUI($this->lng->txt('tst_show_pass_details'), 'pass_details');
+			$showPassDetails->setInfo($this->lng->txt('tst_show_pass_details_desc'));
+			$showPassDetails->setChecked($this->testOBJ->getShowPassDetails());
+			$resultsAccessEnabled->addSubItem($showPassDetails);
+		$form->addItem($resultsAccessEnabled);
 
 		// grading
 		$chb_only_passed_failed = new ilCheckboxInputGUI($this->lng->txt('tst_results_grading_opt_show_status'), 'grading_status');
@@ -583,12 +598,6 @@ class ilObjTestSettingsScoringResultsGUI
 		$header_tr = new ilFormSectionHeaderGUI();
 		$header_tr->setTitle($this->lng->txt('tst_results_details_options'));
 		$form->addItem($header_tr);
-
-		// show pass details
-		$showPassDetails = new ilCheckboxInputGUI($this->lng->txt('tst_show_pass_details'), 'pass_details');
-		$showPassDetails->setInfo($this->lng->txt('tst_show_pass_details_desc'));
-		$showPassDetails->setChecked($this->testOBJ->getShowPassDetails());
-		$form->addItem($showPassDetails);
 
 		// show solution details
 		$showSolutionDetails = new ilCheckboxInputGUI($this->lng->txt('tst_show_solution_details'), 'solution_details');
