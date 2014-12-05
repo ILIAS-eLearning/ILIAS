@@ -50,6 +50,11 @@ class ilTable2GUI extends ilTableGUI
 	protected $enable_command_for_all;
 
 	/**
+	 * @var bool
+	 */
+	protected $prevent_double_submission = true;
+
+	/**
 	 * @var string
 	 */
 	protected $row_selector_label;
@@ -1574,7 +1579,12 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				{
 					$this->tpl->touchBlock("form_multipart_bl");
 				}
-				
+
+				if($this->getPreventDoubleSubmission())
+				{
+					$this->tpl->touchBlock("pdfs");
+				}
+
 				$this->tpl->setCurrentBlock("tbl_form_header");
 				$this->tpl->setVariable("FORMACTION", $this->getFormAction().$hash);
 				$this->tpl->setVariable("FORMNAME", $this->getFormName());				
@@ -3311,6 +3321,26 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	public function getRowSelectorLabel()
 	{
 		return $this->row_selector_label;
+	}
+
+	/**
+	 * Set prevent double submission
+	 *
+	 * @param bool $a_val prevent double submission
+	 */
+	public function setPreventDoubleSubmission($a_val)
+	{
+		$this->prevent_double_submission = $a_val;
+	}
+
+	/**
+	 * Get prevent double submission
+	 *
+	 * @return bool prevent double submission
+	 */
+	public function getPreventDoubleSubmission()
+	{
+		return $this->prevent_double_submission;
 	}
 }
 
