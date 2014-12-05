@@ -1074,7 +1074,8 @@ class ilSurveyParticipantsGUI
 		}
 		else
 		{
-			$inp->setValue($this->lng->txt('mail_import_example1') . "\n" . $this->lng->txt('mail_import_example2') . "\n" . $this->lng->txt('mail_import_example3') . "\n");
+			// $this->lng->txt('mail_import_example1') #14897
+			$inp->setValue("email;firstname;lastname\n" . $this->lng->txt('mail_import_example2') . "\n" . $this->lng->txt('mail_import_example3') . "\n");
 		}
 		$inp->setRequired(true);
 		$inp->setCols(80);
