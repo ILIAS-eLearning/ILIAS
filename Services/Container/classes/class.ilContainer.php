@@ -441,7 +441,6 @@ class ilContainer extends ilObject
 		$collection = $olp->getCollectionInstance();
 		if($collection)
 		{
-			// this line seems to fail
 			$collection->cloneCollection($a_target_id, $a_copy_id);	 	
 		}
 
