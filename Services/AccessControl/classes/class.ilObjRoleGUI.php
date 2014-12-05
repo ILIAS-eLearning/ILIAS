@@ -1233,6 +1233,10 @@ class ilObjRoleGUI extends ilObjectGUI
         foreach ($assigned_users_new as $user)
 		{
 			$rbacadmin->assignUser($this->object->getId(),$user,false);
+			// gev-patch start
+			// create new historizing case for user.
+			$this->ilias->obj_factory->getInstanceByObjId($user)->update();
+			// gev-patch end
         }
         
     	// update object data entry (to update last modification date)
@@ -1295,6 +1299,10 @@ class ilObjRoleGUI extends ilObjectGUI
 			if(!isset($last_role[$user]))
 			{
 				$rbacadmin->deassignUser($this->object->getId(), $user);
+				// gev-patch start
+				// create new historizing case for user.
+				$this->ilias->obj_factory->getInstanceByObjId($user)->update();
+				// gev-patch end
 			}
 		}
 
