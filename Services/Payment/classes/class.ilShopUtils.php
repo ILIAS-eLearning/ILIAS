@@ -288,7 +288,7 @@
 			case '3':
 			case 'pm_paypal':
 			case 'paypal':
-			case 'PAY_METHOD_PAYPAL': return ilUtil::img('./templates/default/images/payment/paypal_48.png');
+			case 'PAY_METHOD_PAYPAL': return ilUtil::img('./templates/default/images/payment/paypal.svg');
 				break;
 
 			case '4':
