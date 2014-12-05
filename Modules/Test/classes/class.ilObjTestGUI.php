@@ -1775,6 +1775,8 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$qpl_mode || ($qpl_mode == 2 && strcmp($_REQUEST["txt_qpl"], "") == 0) || ($qpl_mode == 3 && strcmp($qpl_ref_id, "") == 0))
 		//if ((strcmp($_REQUEST["txt_qpl"], "") == 0) && (strcmp($qpl_ref_id, "") == 0))
 		{
+			// Mantis #14890
+			$_REQUEST['sel_question_types'] = $sel_question_types;
 			ilUtil::sendInfo($this->lng->txt("questionpool_not_entered"));
 			$this->createQuestionObject();
 			return;
