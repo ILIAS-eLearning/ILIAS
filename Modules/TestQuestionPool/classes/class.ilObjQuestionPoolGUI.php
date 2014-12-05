@@ -964,6 +964,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());
 
 		$table_gui = $this->buildQuestionBrowserTableGUI($taxIds);
+		$table_gui->setPreventDoubleSubmission(false);
 
 		if( $rbacsystem->checkAccess('write', $_GET['ref_id']) )
 		{
