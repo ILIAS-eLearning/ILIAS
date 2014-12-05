@@ -925,6 +925,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'wiki',$page->getWikiId(),'wpg',$page->getId());
 		$this->record_gui->setPropertyForm($form);
+		$this->record_gui->setSelectedOnly(true); // #14912
 		$this->record_gui->parse();
 		
 		$form->addCommandButton("updateAdvancedMetaData", $lng->txt("save"));
