@@ -19,7 +19,7 @@
     {
         width:16px;
         height:16px:
-    background-color:blue;
+        background-color:blue;
     }
     .gap_combination_spacer_applied
     {
@@ -34,6 +34,10 @@
     {
         float:left;
     }
+    .gap_combination_points
+    {
+        float:left;
+    }
     .solution_table td{
         padding-right: 1em;
     }
@@ -41,10 +45,21 @@
         margin-top: 1em;
     }
     .form_error{
+        font-size:90%;
         background-color: rgba(255,0,0,0.4);
     }
     .form_warning{
+        font-size:90%;
         background-color: rgba(255,255,0,0.4);
+    }
+    .small_hidden{
+       height: 0px;
+       visibility: hidden;
+    }
+    .small_hidden_input{
+        height: 0px;
+        visibility: hidden;
+        padding-right: 15px;
     }
 </style>
 <script type="text/javascript">
@@ -52,11 +67,13 @@
     {
         gaps_php            : {GAP_JSON},
         gaps_combination    : {GAP_COMBINATION_JSON},
+        unused_gaps_comb    : [],
         outofbound_text     : "{OUT_OF_BOUND}",
         combination_error   : "{PLEASE_SELECT}",
         combination_text    : "{GAP_COMBINATION}",
         copy_of_combination : "{COPY} {GAP_COMBINATION}",
-        gap_in_more_than_one: "{GAP_IS_USED_MORE_THAN_ONE_COMB}"
+        gap_in_more_than_one: "{GAP_IS_USED_MORE_THAN_ONE_COMB}",
+        gap_text            : "{GAP}"
     };
 </script>
 <script type='text/javascript' src='./Modules/TestQuestionPool/templates/default/cloze_gap_builder.js'></script>
@@ -75,7 +92,7 @@
         <label for="clozetype_0">{TYPE}</label>
     </div>
     <div>
-        <select id="clozetype_0" class="form-control" name="clozetype_0">
+        <select id="clozetype_0" class="clozetype form-control" name="clozetype_0">
             <option value="0">{TEXT_GAP}</option>
             <option value="1">{SELECT_GAP}</option>
             <option value="2">{NUMERIC_GAP}</option>
@@ -181,7 +198,7 @@
         <label>{GAP_SIZE}</label>
     </div>
     <div>
-        <div style="">
+        <div class="form-inline">
             <input style="text-align:right;" type="text" size="3" id="gap_a_gapsize" maxlength="6" name="gap_a_gapsize" value="">
             <div class="help-block">{GAP_SIZE_INFO}</div>
         </div>
@@ -225,12 +242,21 @@
 </div>
 <div class="prototype" id="gap_combination">
     <div class="">
+        <label for="">{GAP}</label>
+    </div>
+    <div class="form-group">
+        <select id="gap_id_select" class="form-control gap_combination" label="select"></select>
+    </div>
+</div>
+<div class="prototype" id="gap_combination_value">
+    <div class="">
         <label for="">{VALUES}</label>
     </div>
     <div class="form-group">
-        <select id="gap_id_select" class="form-control gap_combination" label="select">
-        </select><select id="gap_id_value" class="form-control gap_combination" label="value"></select>
+        <div class="combination_labels"><table><tr class="first_row"><td>{POINTS}</td></tr><tr class="stretch_row"><td><input type="text" style="text-align: right;" class="gap_combination_points form-control small_hidden_input" size="5"></td></tr></table></div>
+        <div class="value_container"><select id="gap_id_value" class="form-control gap_combination" label="value"></select></div>
     </div>
+  
 </div>
 <div class="prototype add_remove_buttons">
     <button name="add_gap" class="clone_fields_add combination btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-plus"></span></button>

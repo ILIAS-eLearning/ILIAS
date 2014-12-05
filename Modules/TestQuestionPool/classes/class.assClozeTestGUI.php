@@ -218,7 +218,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 				$assClozeGapCombinationObject->clearGapCombinationsFromDb($this->object->getId());
 				if(count($_POST['gap_combination']) > 0)
 				{
-					$assClozeGapCombinationObject->saveGapCombinationToDb($this->object->getId(),$_POST['gap_combination'],ilUtil::stripSlashes($_POST['best_possible_solution']));
+					$assClozeGapCombinationObject->saveGapCombinationToDb($this->object->getId(),ilUtil::stripSlashesRecursive($_POST['gap_combination']), ilUtil::stripSlashesRecursive($_POST['gap_combination_values']));
 				}	
 			}
 			if ($this->ctrl->getCmd() != 'createGaps')
@@ -965,28 +965,105 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 					// output of ok/not ok icons for user entered solutions
 					$details = $this->object->calculateReachedPoints($active_id, $pass, TRUE);
 					$check = $details[$gap_index];
-					if ($check["best"])
+					
+					$assClozeGapCombinationObject 	= new assClozeGapCombination();
+					$check_for_gap_combinations 	= $assClozeGapCombinationObject->loadFromDb($this->object->getId());
+					if(count($check_for_gap_combinations) != 0)
 					{
-						$gaptemplate->setCurrentBlock("icon_ok");
-						$gaptemplate->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.png"));
-						$gaptemplate->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-						$gaptemplate->parseCurrentBlock();
-					}
-					else
-					{
-						$gaptemplate->setCurrentBlock("icon_not_ok");
-						if ($check["positive"])
+						$gaps_used_in_combination = $assClozeGapCombinationObject->getGapsWhichAreUsedInCombination($this->object->getId());
+						$custom_user_solution = array();
+						if(array_key_exists($gap_index, $gaps_used_in_combination))
 						{
-							$gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.png"));
-							$gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
+							$combination_id = $gaps_used_in_combination[$gap_index];
+							foreach($gaps_used_in_combination as $key => $value)
+							{
+								$a = 0;
+								if($value == $combination_id)
+								{
+									
+									foreach($user_solution as $solution_key => $solution_value)
+									{
+										if($solution_value['value1'] == $key)
+										{
+											$result_row = array();
+											$result_row['gap_id'] = $solution_value['value1'];
+											$result_row['value'] = $solution_value['value2'];
+											array_push($custom_user_solution, $result_row);
+										}
+									}
+								}
+							}
+							$points_array = $this->object->calculateCombinationResult($custom_user_solution);
+							$max_combination_points	= $assClozeGapCombinationObject->getMaxPointsForCombination($this->object->getId(), $combination_id);
+							if($points_array[0] == $max_combination_points)
+							{
+								$gaptemplate->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.png"));
+								$gaptemplate->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+							}
+							else if($points_array[0] > 0)
+							{
+								$gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.png"));
+								$gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
+							}
+							else
+							{
+								$gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.png"));
+								$gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+							}
+
 						}
 						else
 						{
-							$gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.png"));
-							$gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+							if ($check["best"])
+							{
+								$gaptemplate->setCurrentBlock("icon_ok");
+								$gaptemplate->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.png"));
+								$gaptemplate->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+								$gaptemplate->parseCurrentBlock();
+							}
+							else
+							{
+								$gaptemplate->setCurrentBlock("icon_not_ok");
+								if ($check["positive"])
+								{
+									$gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.png"));
+									$gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
+								}
+								else
+								{
+									$gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.png"));
+									$gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+								}
+								$gaptemplate->parseCurrentBlock();
+							}
 						}
-						$gaptemplate->parseCurrentBlock();
 					}
+					else
+					{
+						if ($check["best"])
+						{
+							$gaptemplate->setCurrentBlock("icon_ok");
+							$gaptemplate->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.png"));
+							$gaptemplate->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+							$gaptemplate->parseCurrentBlock();
+						}
+						else
+						{
+							$gaptemplate->setCurrentBlock("icon_not_ok");
+							if ($check["positive"])
+							{
+								$gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.png"));
+								$gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
+							}
+							else
+							{
+								$gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.png"));
+								$gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+							}
+							$gaptemplate->parseCurrentBlock();
+						}
+					}
+					
 				}
 			}
 			if ($result_output)

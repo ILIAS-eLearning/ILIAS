@@ -5,27 +5,27 @@ class assClozeGapCombination
 	public function loadFromDb($question_id)
 	{
 		global $ilDB;
-		
 		$result = $ilDB->queryF('
-				SELECT combination_id,
-				gap_fi,
-				answer,
-				cloze_type,
-				combinations.points,
-				best_solution
-				FROM qpl_a_cloze_combi_res combinations
-				INNER JOIN qpl_a_cloze AS cloze
-				WHERE combinations.question_fi = cloze.question_fi
-				AND combinations.gap_fi = cloze.gap_id
-				AND combinations.question_fi = %s
-				/* AND combinations.answer = cloze.answertext */
-			',
+									SELECT 	combinations.combination_id,
+											combinations.gap_fi,
+											combinations.answer,
+											combinations.row_id,
+											combinations.points,
+											combinations.best_solution,
+											combinations.question_fi,
+											cloze.cloze_type
+									FROM 	qpl_a_cloze_combi_res AS combinations
+									INNER JOIN qpl_a_cloze AS cloze
+													WHERE combinations.question_fi = cloze.question_fi
+													AND combinations.gap_fi = cloze.gap_id
+													AND combinations.question_fi = %s 
+									ORDER BY combination_id, row_id, gap_fi ASC
+									',
 			array('integer'),
 			array($question_id)
 		);
-		
+
 		$return_array = array();
-		
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			if( isset($return_array[$data['combination_id'].'::'.$data['gap_fi']]) )
@@ -33,12 +33,13 @@ class assClozeGapCombination
 				continue;
 			}
 			
-			$return_array[$data['combination_id'].'::'.$data['gap_fi']]=array(
+			$return_array[$data['combination_id'].'::'.$data['row_id'].'::'.$data['gap_fi']]=array(
 									'cid' 			=> $data['combination_id'],
 									'gap_fi' 		=> $data['gap_fi'], 
 									'answer' 		=> $data['answer'], 
 									'points' 		=> $data['points'],
-									'type' 			=> $data['cloze_type'], 
+									'row_id'		=> $data['row_id'],
+									'type'			=> $data['cloze_type'],
 									'best_solution'	=> $data['best_solution']
 								 );
 		}
@@ -53,50 +54,64 @@ class assClozeGapCombination
 		$clean_array = array();
 		foreach($combination_from_db as $key => $value)
 		{
-			$clean_array[$value['cid']][$value['gap_fi']]['answer'] = $value['answer'];
-			$clean_array[$value['cid']]['points'] 					= $value['points'];
-			$clean_array[$value['cid']][$value['gap_fi']]['type'] 	= $value['type'];
+			$clean_array[$value['cid']][$value['row_id']][$value['gap_fi']]['answer'] 	= $value['answer'];
+			$clean_array[$value['cid']][$value['row_id']]['points'] 					= $value['points'];
+			$clean_array[$value['cid']][$value['row_id']][$value['gap_fi']]['type'] 	= $value['type'];
 		}
 		return $clean_array;	
 	}
 	
-	public function saveGapCombinationToDb($question_id, $gap_combinations, $best_solution)
+	public function saveGapCombinationToDb($question_id, $gap_combinations, $gap_values)
 	{
 		global $ilDB;
-		
-		foreach($gap_combinations as $key => $row)
+		$best_solutions = array();
+		for($i = 0; $i < count($gap_combinations['points']); $i++)
 		{
-			if(is_array($row))
+			$highest_points = 0;
+			for($j = 0; $j < count($gap_combinations['points'][$i]); $j++)
 			{
-				foreach($row as $key2 => $gap)
+				if($highest_points < $gap_combinations['points'][$i][$j])
 				{
-					$best_possible_solution = 0;
-					if($key == $best_solution)
+					$highest_points = $gap_combinations['points'][$i][$j];
+					$best_solutions[$i] = $j;
+				}
+			}
+		}
+		for($i = 0; $i < count($gap_values); $i++)
+		{
+			for($j = 0; $j < count($gap_values[$i]); $j++)
+			{
+				for($k = 0; $k < count($gap_values[$i][$j]); $k++)
+				{
+					if($best_solutions[$i] == $j )
 					{
-						$best_possible_solution = 1;
+						$best_solution = 1;
 					}
-					if(is_array($gap))
+					else
 					{
-						$ilDB->manipulateF( 'INSERT INTO qpl_a_cloze_combi_res
-			 				(combination_id, question_fi, gap_fi, answer, points, best_solution) VALUES (%s, %s, %s, %s, %s, %s)',
-							array(
-								'integer',
-								'integer',
-								'integer',
-								'text',
-								'float',
-								'integer'
-							),
-							array(
-								$key,
-								$question_id,
-								$gap['select'],
-								$gap['value'],
-								$row['points'],
-								$best_possible_solution
-							)
-						);
+						$best_solution = 0;
 					}
+					$ilDB->manipulateF( 'INSERT INTO qpl_a_cloze_combi_res
+			 				(combination_id, question_fi, gap_fi, row_id, answer, points, best_solution) VALUES (%s, %s, %s, %s, %s, %s, %s)',
+						array(
+							'integer',
+							'integer',
+							'integer',
+							'integer',
+							'text',
+							'float',
+							'integer'
+						),
+						array(
+							$i,
+							$question_id,
+							$gap_combinations['select'][$i][$k],
+							$j,
+							$gap_values[$i][$j][$k],
+							$gap_combinations['points'][$i][$j],
+							$best_solution
+						)
+					);
 				}
 			}
 		}
@@ -114,19 +129,21 @@ class assClozeGapCombination
 			if($question_id != -1)
 			{
 				$ilDB->manipulateF( 'INSERT INTO qpl_a_cloze_combi_res
-				(combination_id, question_fi, gap_fi, answer, points, best_solution) VALUES (%s, %s, %s, %s, %s, %s)',
+			 				(combination_id, question_fi, gap_fi, row_id, answer, points, best_solution) VALUES (%s, %s, %s, %s, %s, %s, %s)',
 					array(
 						'integer',
 						'integer',
 						'integer',
-						'text',
 						'integer',
+						'text',
+						'float',
 						'integer'
 					),
 					array(
 						$row['cid'],
 						$question_id,
 						$row['gap_fi'],
+						$row['row_id'],
 						$row['answer'],
 						$row['points'],
 						$row['best_solution']
@@ -163,25 +180,62 @@ class assClozeGapCombination
 		}
 	}
 
-	public function getMaxPointsForCombination($question_id)
+	public function getGapsWhichAreUsedInCombination($question_id)
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF('SELECT points FROM qpl_a_cloze_combi_res WHERE question_fi = %s AND best_solution=1 GROUP BY points',
+		$result = $ilDB->queryF('SELECT gap_fi, combination_id FROM `qpl_a_cloze_combi_res` WHERE question_fi = %s GROUP BY gap_fi',
 			array('integer'),
 			array($question_id)
 		);
+		$gaps = array();
 		if ($result->numRows() > 0)
 		{
 			while ($data = $ilDB->fetchAssoc($result))
 			{
-				return $data['points'];
+				$gaps[$data['gap_fi']] = $data['combination_id'];
+			}
+		}
+		return $gaps;
+	}
+	
+	public function getMaxPointsForCombination($question_id, $combination_id = -1)
+	{
+		global $ilDB;
+
+		if($combination_id == -1)
+		{
+			$result = $ilDB->queryF('SELECT combination_id, points FROM qpl_a_cloze_combi_res WHERE question_fi = %s AND best_solution=1 GROUP BY combination_id, points',
+				array('integer'),
+				array($question_id)
+			);
+			if ($result->numRows() > 0)
+			{
+				$points = 0;
+				while ($data = $ilDB->fetchAssoc($result))
+				{
+					$points += $data['points'];
+				}
+				return $points;
 			}
 		}
 		else
 		{
-			return 0;
+			$result = $ilDB->queryF('SELECT combination_id, points FROM qpl_a_cloze_combi_res WHERE question_fi = %s AND  combination_id = %s AND best_solution=1 GROUP BY combination_id, points',
+				array('integer', 'integer'),
+				array($question_id, $combination_id)
+			);
+			if ($result->numRows() > 0)
+			{
+				$points = 0;
+				while ($data = $ilDB->fetchAssoc($result))
+				{
+					$points += $data['points'];
+				}
+				return $points;
+			}
 		}
+		return 0;
 	}
 
 	public function getBestSolutionCombination($question_id)
@@ -194,13 +248,26 @@ class assClozeGapCombination
 		);
 		if ($result->numRows() > 0)
 		{
-			$return_string ='';
+			$return_string 	='<br>';
+			$combination_id = 0;
+			$points			= 0;
 			while ($data = $ilDB->fetchAssoc($result))
 			{
-				$return_string .= $data['answer'].'|';
+				if($combination_id != $data['combination_id'])
+				{
+					$combination_id = $data['combination_id'];
+					$return_string .= $points;
+					$return_string .= '<br>';
+					$return_string .= $data['answer'].'|';
+				}
+				else
+				{
+					$return_string .= $data['answer'].'|';
+				}
+				
 				$points = ' (' . $data['points'] . ' '. $lng->txt('points') .')';
 			}
-			return rtrim($return_string, '|') . $points;
+			return rtrim($return_string , '|') . $points;
 		}
 		else
 		{

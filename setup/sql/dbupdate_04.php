@@ -5175,3 +5175,20 @@ $query = 'DELETE from cal_recurrence_rules WHERE cal_id IN ( select cal_id from 
 $ilDB->manipulate($query);
 
 ?>
+
+<#4430>
+<?php
+if(! $ilDB->tableColumnExists('qpl_a_cloze_combi_res', 'row_id'))
+{
+	$query = 'DELETE from qpl_a_cloze_combi_res';
+	$ilDB->manipulate($query);
+	$ilDB->addTableColumn(
+		 'qpl_a_cloze_combi_res',
+			 'row_id',
+			 array(
+				 'type' => 'integer',
+				 'length' => 4,
+				 'default' => 0
+			 ));
+}
+?>

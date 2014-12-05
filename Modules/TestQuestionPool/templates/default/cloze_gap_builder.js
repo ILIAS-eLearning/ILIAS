@@ -26,10 +26,8 @@ var ClozeGlobals = {
 $(document).ready(function ()
 {
     'use strict';
-    ClozeSettings.gaps_combination = $.map(ClozeSettings.gaps_combination, function(value, index) {
-        return [value];
-    });
-    ClozeSettings.gaps_php = $.map(ClozeSettings.gaps_php, function(value, index) {
+    ClozeSettings.gaps_combination = jQuery().ensureNoArrayIsAnObjectRecursive( ClozeSettings.gaps_combination );
+    ClozeSettings.gaps_php = $.map( ClozeSettings.gaps_php, function(value) {
         return [value];
     });
     
@@ -45,15 +43,7 @@ $(document).ready(function ()
 
     function paintGaps()
     {
-        if(ClozeSettings.gaps_php[0].length == ClozeGlobals.gap_count)
-        {
-            var ilform =$(ClozeGlobals.form_class);
-            ilform.height(ilform.height());
-        }
-        else
-        {
-            $(ClozeGlobals.form_class).height('');
-        }
+        var last_position = $(window).scrollTop();
         $('.interactive').remove();
         var c = 0;
         ClozeSettings.gaps_php.forEach(function (obj, counter) {
@@ -77,6 +67,7 @@ $(document).ready(function ()
             });
         });
         ClozeGlobals.gap_count = c;
+        refreshUnusedGapsForCombination();
         if(ClozeSettings.gaps_combination.length > 0)
         {
             appendGapCombinationForm();
@@ -93,6 +84,7 @@ $(document).ready(function ()
                 ilTinyMceInitCallbackRegistry.addCallback(bindTextareaHandlerTiny);
             }
         }
+       $(window).scrollTop(last_position);
     }
     var selector =  $('#gaptrigger');
     selector.off('click');
@@ -153,7 +145,7 @@ $(document).ready(function ()
             gapsize_row.find('#gap_a_gapsize').attr({
                 'id': 'gap_' + counter + '_gapsize',
                 'name': 'gap_' + counter + '_gapsize',
-                'class' : 'gapsize',
+                'class' : 'gapsize form-control',
                 'value': gap_field_length
             });
         }
@@ -280,175 +272,236 @@ $(document).ready(function ()
         return value;
     }
     
-    function appendGapCombinationForm()
-    {
-        var max_points = 0;
-        var best_combination_option = $('#select_option_placeholder').html();
-        $.each(ClozeSettings.gaps_combination, function(i, obj) {
-            var combinationCounter = parseInt(i) +1;
-            $('#gap_combination_header').clone().attr({
-                'class': ClozeGlobals.form_row + ' interactive',
-                'id' : 'gap_combination_header_' + combinationCounter
-            }).appendTo(ClozeGlobals.form_class);
-            var gapCombinationHeader =  $('#gap_combination_header_' + combinationCounter);
-            appendFormHeaderClasses(gapCombinationHeader);
-            gapCombinationHeader.find('.text').html(ClozeSettings.combination_text + ' ' + combinationCounter + '');
-            gapCombinationHeader.attr('copy','<h3>' + ClozeSettings.combination_text + ' ' + combinationCounter + '</h3>');
-            $('#gap_combination_points_prototype').clone().attr({
-                'id': 'gap_combination_points_' + i +'_outer',
-                'class': ClozeGlobals.form_row + ' interactive'
-            }).appendTo(ClozeGlobals.form_class);
-            $('#gap_combination').clone().attr({
-                'id': 'gap_combination_' + i,
-                'class': ClozeGlobals.form_row + ' interactive clear_before_use'
-            }).appendTo(ClozeGlobals.form_class);
-            $('#gap_combination_' + i).find('.form-group').attr({
-                'id':'gap_id_select_append_' + i + '_0'
-            });
-            var gap_combination_outer =  $('#gap_combination_points_' + i +'_outer');
-            appendFormClasses(gap_combination_outer);
-            gap_combination_outer.find('#gap_combination_points').attr({
-                'id':'gap_combination_points_' + i,
-                'name': 'gap_combination[' + i +'][points]'
-            });
-            gap_combination_outer.find('#best_possible_solution').attr({
-                'id':'best_possible_solution_' + i,
-                'value': i
-            });
-            var gapCombinationSelector  = $('#gap_combination_' + i);
-            appendFormClasses(gapCombinationSelector);
-            var first_row               = true;
-            var best_solution           = '';
-            $.each(obj, function(r, obj_row) {
-                var buildOptionsSelect  = $('#select_option_placeholder').html();
-                var buildOptionsValue   = buildOptionsSelect;
-                if(!obj_row.points)
-                {
-                    if(first_row)
-                    {
-                        gapCombinationSelector.find('#gap_id_select').attr({
-                            'id':   'gap_id_select_' + i + '_0',
-                            'name': 'gap_combination[' + i + '][0][select]'
-                        });
-                        gapCombinationSelector.find('#gap_id_value').attr({
-                            'id':   'gap_id_value_' + i + '_0',
-                            'name': 'gap_combination[' + i + '][0][value]'
-                        });
-                        first_row = false;
-                    }
-                    else
-                    {
-                        $('.gap_combination_spacer').clone().attr({
-                            'class':'gap_combination_spacer_applied'
-                        }).appendTo('#gap_id_select_append_' + i + '_0');
-                        gapCombinationSelector.find('#gap_id_select_' + i + '_0').clone().attr({
-                            'id':'gap_id_select_' + i + '_' + r,
-                            'name':'gap_combination[' + i + '][' + r +'][select]'
-                        }).appendTo('#gap_id_select_append_' + i + '_0');
-                        gapCombinationSelector.find('#gap_id_value_' + i + '_0').clone().attr({
-                            'id':'gap_id_value_' + i+ '_' + r,
-                            'name':'gap_combination[' + i+ '][' + r +'][value]'
-                        }).appendTo('#gap_id_select_append_' + i + '_0');
+    function buildCombinationHeader(combinationCounter, i){
+        $('#gap_combination_header').clone().attr({
+            'class': ClozeGlobals.form_row + ' interactive',
+            'id' : 'gap_combination_header_' + combinationCounter
+        }).appendTo(ClozeGlobals.form_class);
+        var gapCombinationHeader =  $('#gap_combination_header_' + combinationCounter);
+        appendFormHeaderClasses(gapCombinationHeader);
+        gapCombinationHeader.find('.text').html(ClozeSettings.combination_text + ' ' + combinationCounter + '');
+        gapCombinationHeader.attr('copy','<h3>' + ClozeSettings.combination_text + ' ' + combinationCounter + '</h3>');
 
-                        $('#gap_id_select_' + i + '_' + r).html('');
-                        $('#gap_id_value_' + i + '_' + r).html('');
-                    }
-                    addCloneButtons(i,r);
-                }
-                else
-                {
-                    $('#gap_combination_points_' + i).val(obj_row.points);
-                }
-                $.each(ClozeSettings.gaps_php[0], function(j, obj_inner_values){
-                    var value = parseInt(j, 10) + 1;
-                    if(parseInt(obj[r].gap, 10) == parseInt(j, 10) )
-                    {
-                        buildOptionsSelect += '<option value="' + j + '" selected>Gap ' + value + '</option>';
-                        if(obj[r].type == 'numeric' || obj[r].type == 2)
-                        {
-                            var answer = obj_inner_values.values[0].answer;
-                            var inrange, outrange;
-                            if(obj[r].answer == answer)
-                            {
-                                inrange = 'selected';
-                            }
-                            else if(obj[r].answer == 'OutOfBound')
-                            {
-                                outrange = 'selected';
-                            }
-                            buildOptionsValue += '<option value="'+ answer +'" ' + inrange + '>'+ answer +'</option>';
-                            buildOptionsValue += '<option value="OutOfBound" ' + outrange + '> ' + ClozeSettings.outofbound_text + '</option>';
-                        }
-                        else
-                        {
-                            $.each(obj_inner_values.values, function(k,value){
-                                if(obj[r].answer == value.answer)
-                                {
-                                    buildOptionsValue += '<option value="' + value.answer + '" selected>' + value.answer + '</option>';
-                                }
-                                else
-                                {
-                                    buildOptionsValue += '<option value="' + value.answer + '">' + value.answer + '</option>';
-                                }
-                            });
-                        }
-                    }
-                    else
-                    {
-                        buildOptionsSelect += '<option value="' + j + '">Gap ' + value + '</option>';
-                    }
-                });
-                $('#gap_id_select_' + i + '_' + r).html(buildOptionsSelect);
-                $('#gap_id_value_' + i + '_' + r).html(buildOptionsValue);
-                if(obj_row.best_solution == 1)
-                {
-                    best_solution   = i;
-                    max_points      = obj_row.points;
-                }
-            });
-            if(best_solution == i)
+        $('#gap_combination').clone().attr({
+            'id': 'gap_combination_' + i,
+            'class': ClozeGlobals.form_row + ' interactive clear_before_use'
+        }).appendTo(ClozeGlobals.form_class);
+        $('#gap_combination_' + i).find('.form-group').attr({
+            'id':'gap_id_select_append_' + i + '_0'
+        });
+        appendFormClasses($('#gap_combination_' + i));
+    }
+    
+    function fillCombinationSelectWithGapOptions(gaps,i,g){
+        var buildOptionsSelect  = $('#select_option_placeholder').html();
+        var pos                 = parseInt(gaps, 10) + 1;
+        $.each(ClozeSettings.gaps_php[0], function(k){
+            var value = parseInt(k, 10) + 1;
+            if(pos === value)
             {
-                best_combination_option += '<option value="' + i + '"selected>'+ ClozeSettings.combination_text + " " + combinationCounter + '</option>';
+                buildOptionsSelect += '<option selected value="' + k + '">' + ClozeSettings.gap_text +' ' + value + '</option>';
             }
             else
             {
-                best_combination_option += '<option value="' + i + '">'+ ClozeSettings.combination_text + " " + combinationCounter + '</option>';
+                if(ClozeSettings.unused_gaps_comb[k] === false)
+                {
+                    buildOptionsSelect += '<option value="' + k + '">' + ClozeSettings.gap_text +' ' + value + '</option>';
+                }
             }
         });
-        $('#highlander_show').remove();
-        $('#best_resultion_header').clone().attr({
-            'id':'best_solution_show',
-            'name':'',
-            'class':ClozeGlobals.form_row + ' interactive'
-        }).appendTo(ClozeGlobals.form_class);
-        appendFormHeaderClasses($('#best_solution_show'));
-        $('#highlander').clone().attr({
-            'id':'highlander_show',
-            'name':'',
-            'class':ClozeGlobals.form_row + ' interactive'
-        }).appendTo(ClozeGlobals.form_class);
-        appendFormClasses($('#highlander_show'));
-        /*$('#max_points').clone().attr({
-         'id':'max_points_show',
-         'name':'',
-         'class':ClozeGlobals.form_row + ' interactive'
-         }).appendTo(ClozeGlobals.form_class);
-         */
-        $('#highlander_show').find('#best_possible_solution').html(best_combination_option);
-        // $('#max_points_show').find('#max_points_input').val(max_points);
+        $('#gap_id_select_' + i + '_' + g).html(buildOptionsSelect);
     }
-    function addCloneButtons(i,j)
+    function appendGapCombinationForm()
+    {
+        $.each(ClozeSettings.gaps_combination, function(i, combination) {
+            
+            var combinationCounter = parseInt(i) +1;
+            buildCombinationHeader(combinationCounter, i);
+            var gapCombinationSelector  = $('#gap_combination_' + i);
+            var first_row               = true;
+            
+            $.each(combination[0], function(g, gaps) {
+                if(first_row)
+                {
+                    gapCombinationSelector.find('#gap_id_select').attr({
+                        'id':   'gap_id_select_' + i + '_0',
+                        'name': 'gap_combination[select][' + i + '][0]'
+                    });
+                    first_row = false;
+                }
+                else
+                {
+                    $('.gap_combination_spacer').clone().attr({
+                        'class':'gap_combination_spacer_applied'
+                    }).appendTo('#gap_id_select_append_' + i + '_0');
+                    gapCombinationSelector.find('#gap_id_select_' + i + '_0').clone().attr({
+                        'id':'gap_id_select_' + i + '_' + g,
+                        'name':'gap_combination[select][' + i + '][' + g +']'
+                    }).appendTo('#gap_id_select_append_' + i + '_0');
+                    $('#gap_id_select_' + i + '_' + g).html('');
+                }
+                addCloneButtonsForCombinations(i,g);
+                fillCombinationSelectWithGapOptions(gaps,i,g);
+            });
+
+            $('#gap_combination_value').clone().attr({
+                'id': 'gap_combination_values_' + i,
+                'class': ClozeGlobals.form_row + ' interactive clear_before_use'
+            }).appendTo($('#gap_combination_' + i).parent());
+            $('#gap_combination_values_' + i).find('.form-group').attr({
+                'id':'gap_id_value_append_' + i + '_0'
+            });
+            $('#gap_combination_values_' + i).find('.value_container').attr({
+                'class':'value_container_' + i + '_0 form-inline'
+            });
+            var gapCombinationValues  = $('#gap_combination_values_' + i);
+            appendFormClasses(gapCombinationValues);
+            first_row = true;
+           
+            $.each(combination[1][0], function(a, answers) {
+                if(first_row)
+                {
+                    gapCombinationValues.find('#gap_id_value').attr({
+                        'id':   'gap_id_value_' + i + '_0_0',
+                        'name': 'gap_combination[' + i + '][0][0][value]'
+                    });
+                    first_row = false;
+                }
+                else
+                {
+                    gapCombinationValues.find('#gap_id_value_' + i + '_0_0').clone().attr({
+                        'id':'gap_id_value_' + i + '_0_' + a,
+                        'name':'gap_combination[' + i+ '][0][' + a +'][value]'
+                    }).appendTo('.value_container_' + i + '_0');
+                }
+                var buildOptionsSelect  = $('#select_option_placeholder').html();
+                var buildOptionsValue   = buildOptionsSelect;
+                var pos                 = parseInt(ClozeSettings.gaps_combination[i][0][a], 10) + 1;
+                $.each(ClozeSettings.gaps_php[0], function(k, obj_inner_values)
+                {
+                    var value = parseInt(k, 10) + 1;
+                    if(pos === value)
+                    {
+                        $.each(obj_inner_values.values, function(l,value){
+                            buildOptionsValue += '<option value="' + value.answer + '">' + value.answer + '</option>';
+                        });
+                        if(obj_inner_values.type == 'numeric')
+                        {
+                            buildOptionsValue += '<option value="out_of_bound">' + ClozeSettings.outofbound_text + '</option>';
+                        }
+                    }
+                    $('#gap_id_value_' + i + '_0_' + a).html(buildOptionsValue);
+                });
+            });
+            addCloneButtonsForCombinationValues(i,0,0);
+            multiplyCombinationAnswers(i, combination[1]);
+            setValuesForCombinationAnswers(i, combination[1]);
+            
+            $.each(combination[2], function(p, points) {
+                    $('#gap_combination_points').clone().attr({
+                        'id' :'gap_combination_points_' + i + '_' + p ,
+                        'class' :'gap_combination_points form-control' ,
+                        'name'  :'gap_combination[points][' + i+ '][' + p +']',
+                        'value' : points
+                    }).prependTo('.value_container_' + i + '_' + p);
+            });
+        });
+    }
+    
+    function multiplyCombinationAnswers(i, object)
+    {
+        var text = '';
+        $('.value_container_' + i + '_0').find('select').each(function( index ) {
+            //Todo: replace this with a proper header function and not a workaround
+            text = '';
+            if($('#gap_id_select_' + i + '_' + index +' option:selected').val() != 'none_selected_minus_one')
+            {
+                text = $('#gap_id_select_' + i + '_' + index +' option:selected' ).text();
+            }
+            $('#gap_id_value_append_' + i + '_0').find('.stretch_row').append('<td class=dummy_'+index+'></td>');
+            $('#gap_id_value_append_' + i + '_0').find('.dummy_' + index).append($(this).clone().attr({id:'', 'name':''}).addClass('small_hidden'));
+            $('#gap_id_value_append_' + i + '_0').find('.first_row').append('<td>' + text + ' </td>');           
+        });
+        for(var j = 1; j < object.length; j++)
+        {  
+            $('.gap_combination_spacer').clone().attr({
+                'class':'gap_combination_spacer_applied'
+            }).appendTo('#gap_id_value_append_' + i +'_0');
+            
+            $('.value_container_' + i + '_0').clone().attr({
+                'class' : 'value_container_' + i + '_' + j + ' form-inline'
+            }).appendTo('#gap_id_value_append_' + i +'_0');
+            
+            $('.value_container_' + i + '_' +j).find('select').each(function( index ) {
+                $( this ).attr({
+                    'id'   : 'gap_id_value_' + i + '_' + j + '_' + index,
+                    'name' : 'gap_combination[' + i + '][' + j + '][' + index + '][value]'
+                });
+            });
+            
+            $('.value_container_' + i + '_' +j).find('.add_remove_buttons_gap').each(function( index ) {
+                $( this ).attr({
+                    'name' : 'gap_combination_' + i + '_' + j + '_' + index
+                });
+            });
+        }
+    }
+    
+    function setValuesForCombinationAnswers(i, object)
+    {
+        var default_value = 'none_selected_minus_one';
+        for(var j = 0; j < object.length; j++)
+        {
+            $('.value_container_' + i + '_' +j).find('select').each(function( index ) {
+                if(object[j][index] !== -1)
+                {
+                    default_value = object[j][index];
+                }
+                else
+                {
+                    default_value = 'none_selected_minus_one';
+                }
+                $( this ).attr({
+                    'id'   : 'gap_id_value_' + i + '_' + j + '_' + index,
+                    'name' : 'gap_combination_values[' + i + '][' + j + '][' + index + ']',
+                    'class': 'form-control gap_combination gap_comb_values',
+                    'value': default_value
+                });
+                if($(this).attr('value') === '')
+                {
+                    $(this).attr('value', 'none_selected_minus_one');
+                }
+            });
+        }
+    }
+    
+    function addCloneButtonsForCombinations(i,j)
     {
         $('.add_remove_buttons').clone().attr({
             'class':'add_remove_buttons_gap',
             'name':'gap_combination_' + i + '_' +j
-        }).insertAfter('#gap_id_value_' + i + '_' +j);
-        var count_gaps = ClozeSettings.gaps_php[0].length;
-        var count_combination = parseInt(ClozeSettings.gaps_combination[i].length,10) - 1;
-        if( count_combination >= count_gaps )
+        }).insertAfter('#gap_id_select_' + i + '_' +j);
+        var counter = 0;
+        $.each(ClozeSettings.gaps_combination, function(index, value ) {
+               counter += value[0].length;
+        });
+        if( counter === ClozeSettings.gaps_php[0].length)
         {
             $('#gap_combination_' + i).find('.clone_fields_add').remove();
         }
+    }
+    function addCloneButtonsForCombinationValues(i,j,k)
+    {
+        $('.add_remove_buttons').clone().attr({
+            'class':'add_remove_buttons_gap',
+            'name':'gap_combination_' + i + '_' +j+ '_' + k
+        }).appendTo('.value_container_' + i + '_' +j);
+        $('.value_container_' + i + '_' +j).find('.clone_fields_add.combination.btn.btn-link').attr({
+            class : 'clone_fields_add_value combination btn btn-link'
+        });
+        $('.value_container_' + i + '_' +j).find('.clone_fields_remove.combination.btn.btn-link').attr({
+            class : 'clone_fields_remove_value combination btn btn-link'
+        });
     }
     function appendGapCombinationButton()
     {
@@ -461,26 +514,13 @@ $(document).ready(function ()
             }).prependTo(ClozeGlobals.form_footer_buttons);
             $('#create_gap_combination_in_form').live('click', function ()
             {
-                var position = ClozeSettings.gaps_combination.length;
-                var answer1 = new Object({
-                    'gap': '',
-                    'answer': '',
-                    'type':''
-                });
-                var answer2 = new Object({
-                    'gap': '',
-                    'answer': '',
-                    'type':''
-                });
-                var points = new Object({
-                    'points': '0',
-                    'best_solution': '0'
-                });
-                var insert = [answer1,answer2,points];
-
+                var position    = ClozeSettings.gaps_combination.length;
+                var gaps        = new Array(null,null);
+                var answers     = new Array(new Array(null,null));
+                var points      = new Array(1);
+                var insert      = [gaps,answers,points];
                 ClozeSettings.gaps_combination.splice(position, 0, insert);
                 paintGaps();
-                //return false;
             });
         }
     }
@@ -610,8 +650,7 @@ $(document).ready(function ()
                     showHidePrototypes(row,'number',false);
                 }
                 if (parseFloat(points) === 0) {
-                    var gapCheck = checkIfGapIsUsedInCombination(row);
-                    if(ClozeSettings.gaps_combination.length > 0 && gapCheck)
+                    if(ClozeSettings.unused_gaps_comb[row] === true)
                     {
                         removeHighlight($('.gap_points_' + row));
                         showHidePrototypes(row,'points',false);
@@ -634,97 +673,7 @@ $(document).ready(function ()
             ClozeGlobals.whitespace_cleaner = false;
         });
         $('#gap_json_post').attr('value',JSON.stringify(ClozeSettings.gaps_php));
-        if(ClozeSettings.gaps_combination.length > 0)
-        {
-            ClozeSettings.gaps_combination.forEach(function (entry, i) {
-                var checkGaps = [];
-                var no_error = true;
-                entry.forEach(function (row,j){
-                    if( checkGaps.indexOf( parseInt(row.gap, 10)) != -1  || row.answer == ClozeSettings.combination_error || row.answer == 'none_selected_minus_one' )
-                    {
-                        highlightRed($('#gap_id_select_append_' + i + '_0'));
-                        no_error = false;
-                    }
-                    else if(no_error)
-                    {
-                        removeHighlight($('#gap_id_select_append_' + i + '_0'));
-                    }
-
-                    if(row.points)
-                    {
-                        if(isNaN(row.points) || row.points === '' || parseFloat(row.points) === 0 )
-                        {
-                            highlightRed($('#gap_combination_points_' + i));
-                        }
-                        else
-                        {
-                            removeHighlight($('#gap_combination_points_' + i ));
-                        }
-                    }
-                    checkGaps[j] = parseInt(row.gap, 10);
-                });
-            });
-        }
         $('#gap_json_combination_post').attr('value',JSON.stringify(ClozeSettings.gaps_combination));
-        var higlanderShow = $('#highlander_show');
-        if (isNaN(parseInt(higlanderShow.find('#best_possible_solution').val())))
-        {
-            highlightRed(higlanderShow);
-        }
-        else
-        {
-            removeHighlight(higlanderShow);
-        }
-        checkIfCombinationsUnique();
-    }
-    function checkIfCombinationsUnique()
-    {
-        if(ClozeSettings.gaps_combination.length > 1)
-        {
-            var convertCombinationObject = [];
-            ClozeSettings.gaps_combination.forEach(function (entry1,key1){
-                var temp_array = new Array(entry1.length -1);
-                entry1.forEach(function (entry2,key2){
-                    if(typeof(entry2.best_solution) == 'undefined')
-                    {
-                        temp_array[entry2.gap] = entry2.answer;
-                    }
-                });
-                convertCombinationObject.push(JSON.stringify(temp_array));
-            });
-            convertCombinationObject.forEach(function (entry,key){
-                var result = convertCombinationObject.indexOf(entry, key + 1);
-                if(result != -1)
-                {
-                    var first        = key    + 1;
-                    var second       = result + 1;
-                    var first_comb   = $('#gap_combination_header_' + first);
-                    var second_comb  = $('#gap_combination_header_' + second);
-                    var text         = '(' + ClozeSettings.copy_of_combination + ' ';
-                    highlightRed(first_comb.find(ClozeGlobals.form_header_class));
-                    highlightRed(second_comb.find(ClozeGlobals.form_header_class));
-                    first_comb.find('.text').html(first_comb.attr('copy') + text + second  + ')');
-                    second_comb.find('.text').html(second_comb.attr('copy')  + text + first   + ')');
-                }
-            });
-        }
-    }
-
-    function checkIfGapIsUsedInCombination(id)
-    {
-        var found = false;
-        if(ClozeSettings.gaps_combination.length > 0)
-        {
-            ClozeSettings.gaps_combination.forEach(function (entry,i) {
-                entry.forEach(function (row,j){
-                    if( parseInt(id, 10) == parseInt(row.gap, 10))
-                    {
-                        found = true;
-                    }
-                });
-            });
-        }
-        return found;
     }
 
     function checkInputIsNumeric(number,row,field)
@@ -754,12 +703,12 @@ $(document).ready(function ()
     function buildTitle(counter)
     {
         $('#gap_title').clone().attr({
-            'id': 'tile_' + counter,
-            'name': 'tile_' + counter,
+            'id': 'title_' + counter,
+            'name': 'title_' + counter,
             'class': ClozeGlobals.form_row + ' interactive'
         }).appendTo(ClozeGlobals.form_class);
         appendFormHeaderClasses($('#tile_' + counter));
-        $('#tile_' + counter).find('h3').text('Gap ' + (counter + 1));
+        $('#title_' + counter).find('h3').text(ClozeSettings.gap_text + ' ' + (counter + 1));
     }
 
     function appendFormClasses(selector)
@@ -782,8 +731,8 @@ $(document).ready(function ()
             if (c === 0) {
                 $('#answer_text').clone().attr(
                     {
-                        'id': 'text_row_' + counter_question + '_' + c,
-                        'class': ClozeGlobals.form_row + ' interactive'
+                        'id'    : 'text_row_' + counter_question + '_' + c,
+                        'class' : ClozeGlobals.form_row + ' interactive'
                     }).appendTo(ClozeGlobals.form_class);
                 text_row_selector =  $('#text_row_' + counter_question + '_' + c);
                 appendFormClasses(text_row_selector);
@@ -792,7 +741,7 @@ $(document).ready(function ()
                         'id': 'table_body_' + counter_question
                     });
                 $('#table_body_' + counter_question).find('tr').attr({
-                    'class': ClozeGlobals.form_row + ' interactive'
+                    'class': ClozeGlobals.form_row + ' interactive form-inline'
                 });
                 text_row_selector.find('.btn.btn-default.remove_gap_button').attr(
                     {
@@ -802,42 +751,43 @@ $(document).ready(function ()
             else {
                 $('#inner_text').clone().attr(
                     {
-                        'id': 'text_row_' + counter_question + '_' + c,
-                        'class': ClozeGlobals.form_row + ' interactive'
+                        'id'    : 'text_row_' + counter_question + '_' + c,
+                        'class' : ClozeGlobals.form_row + ' interactive form-inline'
                     }).appendTo('#table_body_' + counter_question);
             }
             text_row_selector= $('#text_row_' + counter_question + '_' + c);
             text_row_selector.find('.gap_counter').attr(
                 {
-                    'id': 'gap[' + counter_question + ']',
-                    'name': 'gap[' + counter_question + ']'
+                    'id'    : 'gap[' + counter_question + ']',
+                    'name'  : 'gap[' + counter_question + ']'
                 });
             text_row_selector.find('#gap_points').attr(
                 {
-                    'id': 'gap_' + counter_question + '' + '[points][' + c + ']',
-                    'name': 'gap_' + counter_question + '' + '[points][' + c + ']',
-                    'class': 'gap_points gap_points_' + counter_question,
-                    'value': s.points
+                    'id'    : 'gap_' + counter_question + '' + '[points][' + c + ']',
+                    'name'  : 'gap_' + counter_question + '' + '[points][' + c + ']',
+                    'class' : 'gap_points gap_points_' + counter_question + ' form-control',
+                    'value' : s.points
                 });
             text_row_selector.find('.text_field').attr(
                 {
-                    'name': 'gap_' + counter_question + '' + '[answer][' + c + ']',
-                    'id': 'gap_' + counter_question + '' + '[answer][' + c + ']',
-                    'value': s.answer
+                    'name'  : 'gap_' + counter_question + '' + '[answer][' + c + ']',
+                    'id'    : 'gap_' + counter_question + '' + '[answer][' + c + ']',
+                    'value' : s.answer,
+                    'class' : 'text_field form-control'
                 });
             $('#shuffle_answers_' + counter_question).find('#shuffle_dummy').attr(
                 {
-                    'name': 'shuffle_' + counter_question,
-                    'class': 'shuffle',
-                    'id': 'shuffle_' + counter_question
+                    'name'  : 'shuffle_' + counter_question,
+                    'class' : 'shuffle',
+                    'id'    : 'shuffle_' + counter_question
                 });
             text_row_selector.find('.clone_fields_add').attr(
                 {
-                    'name': 'add_gap_' + counter_question + '_' + c
+                    'name'  : 'add_gap_' + counter_question + '_' + c
                 });
             text_row_selector.find('.clone_fields_remove').attr(
                 {
-                    'name': 'remove_gap_' + counter_question + '_' + c
+                    'name'  : 'remove_gap_' + counter_question + '_' + c
                 });
             c++;
         });
@@ -847,16 +797,16 @@ $(document).ready(function ()
     {
         var prototype_head = $('#select_field');
         prototype_head.clone().attr({
-            'id': type + '-gap-r-' + counter,
-            'class': ClozeGlobals.form_row + ' interactive'
+            'id'    : type + '-gap-r-' + counter,
+            'class' : ClozeGlobals.form_row + ' interactive'
         }).appendTo(ClozeGlobals.form_class);
         var select_field_selector = $('#' + type + '-gap-r-' + counter);
         appendFormClasses(select_field_selector);
         select_field_selector.children(ClozeGlobals.form_options_class).attr('id', type + '-gap-r-' + counter);
         select_field_selector.children().children('.form-control').attr(
             {
-                'id': 'clozetype_' + counter,
-                'name': 'clozetype_' + counter
+                'id'    : 'clozetype_' + counter,
+                'name'  : 'clozetype_' + counter
             });
         $('#clozetype_' + counter + ' option').attr('selected', false);
         if (type == 'text') {
@@ -879,8 +829,8 @@ $(document).ready(function ()
             getPosition = $(this).attr('name');
             pos = getPosition.split('_');
             insert = new Object({
-                points: '0',
-                answer: ''
+                points  : '0',
+                answer  : ''
             });
             ClozeSettings.gaps_php[0][pos[2]].values.splice(parseInt(pos[3], 10) + 1, 0, insert);
         }
@@ -888,11 +838,44 @@ $(document).ready(function ()
         {
             getPosition = $(this).parent().attr('name');
             pos = getPosition.split('_');
-            insert = new Object({
-                'gap': '',
-                'answer': ''
+            ClozeSettings.gaps_combination[pos[2]][0].splice(parseInt(pos[3], 10) + 1, 0, -1);
+            ClozeSettings.gaps_combination[pos[2]][1].forEach(function (answers) {
+                answers.splice(parseInt(pos[3], 10) + 1, 0, -1);
             });
-            ClozeSettings.gaps_combination[pos[2]].splice(parseInt(pos[3], 10) + 1, 0, insert);
+        }
+        paintGaps();
+        return false;
+    });
+    $('.clone_fields_add_value').live('click', function ()
+    {
+        var getPosition, pos;
+        getPosition = $(this).parent().attr('name');
+        pos = getPosition.split('_');
+        
+        var dummy_array = [];
+        var length = ClozeSettings.gaps_combination[pos[2]][1][0].length;
+        for(var i = 0; i < length; i++) {
+            dummy_array.push(null);
+        }    
+        ClozeSettings.gaps_combination[pos[2]][1].splice(parseInt(pos[3], 10) + 1, 0, dummy_array);
+        ClozeSettings.gaps_combination[pos[2]][2].splice(parseInt(pos[3], 10) + 1, 0, 0);
+        paintGaps();
+        return false;
+    });
+    $('.clone_fields_remove_value').live('click', function ()
+    {
+        var getPosition, pos;
+        getPosition = $(this).parent().attr('name');
+        pos = getPosition.split('_');
+        
+        if(ClozeSettings.gaps_combination[pos[2]][1].length === 1)
+        {
+            ClozeSettings.gaps_combination.splice(parseInt(pos[2], 10),1);
+        }
+        else
+        {
+            ClozeSettings.gaps_combination[pos[2]][1].splice(parseInt(pos[3], 10), 1);
+            ClozeSettings.gaps_combination[pos[2]][2].splice(parseInt(pos[3], 10), 1);    
         }
         paintGaps();
         return false;
@@ -916,13 +899,13 @@ $(document).ready(function ()
         {
             getPosition = $(this).parent().attr('name');
             pos = getPosition.split('_');
-            if( ClozeSettings.gaps_combination[pos[2]].length == 3 )
+            ClozeSettings.gaps_combination[pos[2]][0].splice(parseInt(pos[3], 10), 1);
+            ClozeSettings.gaps_combination[pos[2]][1].forEach(function (answers) {
+                answers.splice(parseInt(pos[3], 10), 1);
+            });
+            if(ClozeSettings.gaps_combination[pos[2]][0].length < 2)
             {
-                ClozeSettings.gaps_combination.splice(parseInt(pos[2], 10), 1);
-            }
-            else
-            {
-                ClozeSettings.gaps_combination[pos[2]].splice(parseInt(pos[3], 10), 1);
+                ClozeSettings.gaps_combination.splice(parseInt(pos[2], 10),1);
             }
         }
         paintGaps();
@@ -945,78 +928,76 @@ $(document).ready(function ()
         }
         //return false;
     });
-
+    function refreshUnusedGapsForCombination()
+    {
+        ClozeSettings.gaps_php[0].forEach(function (unused, key){
+            ClozeSettings.unused_gaps_comb[key] = false; 
+        });
+        ClozeSettings.gaps_combination.forEach(function (gaps) {
+            gaps[0].forEach(function (gap) {
+                ClozeSettings.unused_gaps_comb[gap] = true;
+                showHidePointsFieldForGaps(gap, 'none');
+            });
+        });
+    }
     function bindSelectHandler()
     {
-        var selector = $('.form-control') ;
+        var selector = $('.form-control.gap_combination') ;
         selector.off('change');
         selector.change(function () {
             var value, id;
-            if($(this).attr('class') != 'form-control gap_combination')
+            if($(this).attr('class') == 'form-control gap_combination gap_comb_values')
             {
-                value = parseInt($(this).attr('value'), 10);
-                id = $(this).attr('id').split('_');
-                if (value === 0) {
-                    ClozeSettings.gaps_php[0][id[1]].type = 'text';
-                }
-                else if (value == 1) {
-                    ClozeSettings.gaps_php[0][id[1]].type = 'select';
-                }
-                else if (value == 2) {
-                    ClozeSettings.gaps_php[0][id[1]].values = new Object(new Array({
-                        answer: '',
-                        lower: '',
-                        upper: '',
-                        points: 0
-                    }));
-                    ClozeSettings.gaps_php[0][id[1]].type = 'numeric';
-                    editTextarea(id[1]);
-                }
-                updateGapCombinationFields();
+                value   = $(this).attr('value');
+                id      = $(this).attr('id').split('_');
+                ClozeSettings.gaps_combination[id[3]][1][id[4]][id[5]] = value;
             }
             else
             {
                 if($(this).attr('label') == 'select')
                 {
-                    value   = parseInt($(this).attr('value'), 10);
-                    id      = $(this).attr('id').split('_');
-                    ClozeSettings.gaps_combination[id[3]][id[4]].gap = value;
-                    if(!isNaN(value))
-                    {
-                        ClozeSettings.gaps_combination[id[3]][id[4]].type = ClozeSettings.gaps_php[0][value].type;
-                    }
+                    value           = parseInt($(this).attr('value'), 10);
+                    id              = $(this).attr('id').split('_');
+                    var old_value   = ClozeSettings.gaps_combination[id[3]][0][id[4]];
+                    ClozeSettings.gaps_combination[id[3]][0][id[4]] = value;
+                    ClozeSettings.unused_gaps_comb[old_value] = false;
+                    ClozeSettings.unused_gaps_comb[value] = true;
                 }
-                else if($(this).attr('label') == 'value')
-                {
-                    value   = $(this).attr('value');
-                    id      = $(this).attr('id').split('_');
-                    ClozeSettings.gaps_combination[id[3]][id[4]].answer = value;
-                }
+               
             }
             paintGaps();
-            //return false;
         });
+        selector = $('.clozetype.form-control');
+        selector.off('change');
+        selector.change(function () {
+            var value, id;
+            value = parseInt($(this).attr('value'), 10);
+            id = $(this).attr('id').split('_');
+            if (value === 0) {
+                ClozeSettings.gaps_php[0][id[1]].type = 'text';
+            }
+            else if (value == 1) {
+                ClozeSettings.gaps_php[0][id[1]].type = 'select';
+            }
+            else if (value == 2) {
+                ClozeSettings.gaps_php[0][id[1]].values = new Object(new Array({
+                    answer  : '',
+                    lower   : '',
+                    upper   : '',
+                    points  : 0
+                }));
+                ClozeSettings.gaps_php[0][id[1]].type = 'numeric';
+                editTextarea(id[1]);
+            }
+            paintGaps();
+        });
+
     }
     
-    function updateGapCombinationFields()
-    {
-        if( $.isArray(ClozeSettings.gaps_combination) ||  ClozeSettings.gaps_combination.length )
-        {
-            ClozeSettings.gaps_combination.forEach(function (entry, i) {
-                entry.forEach(function (row, j) {
-                    if(!row.points)
-                    {
-                        var gap =   ClozeSettings.gaps_combination[i][j].gap;
-                        if(gap !== '')
-                        {
-                            ClozeSettings.gaps_combination[i][j].type = ClozeSettings.gaps_php[0][gap].type;
-                        }
-                    }
-                });
-            });
-        }
+    function showHidePointsFieldForGaps(gap, show){
+        $('.gap_points_' + gap).css('display', show);
+        $('#text_row_' + gap + '_0').find('th').eq(1).css('display', show);
     }
-    
     function getPositionFromInputs(selector,single_value)
     {
         var getPosition = selector.attr('name');
@@ -1048,24 +1029,7 @@ $(document).ready(function ()
                     $('.interactive').find('#gap_' + pos[0] + '\\[answer\\]\\[' + pos[1] + '\\]').val($(this).val());
                 }
             }
-            $.each(ClozeSettings.gaps_combination, function(i, object)
-            {
-                $.each(object, function(j, row)
-                {
-                    if(row.gap == pos[0])
-                    {
-                        if(ClozeSettings.gaps_combination[i][j].answer == temp)
-                        {
-                            if(ClozeSettings.gaps_combination[i][j].answer != ClozeSettings.gaps_php[0][pos[0]].values[pos[1]].answer)
-                            {
-                                ClozeSettings.gaps_combination[i][j].answer = ClozeSettings.gaps_php[0][pos[0]].values[pos[1]].answer;
-                                paintGaps();
-                                //Todo: get focus from tabbing back
-                            }
-                        }
-                    }
-                });
-            });
+           
             checkForm();
         });
         listener = 'keyup';
@@ -1094,13 +1058,11 @@ $(document).ready(function ()
             checkForm();
         });
     
-        selector =  $('.points_field');
+        selector =  $('.gap_combination_points');
         selector.off('keyup');
         selector.keyup(function () {
-            var pos = $(this).parent().parent().attr('id').split('_');
-            var field = parseInt(ClozeSettings.gaps_combination[pos[3]].length, 10) - 1;
-            ClozeSettings.gaps_combination[pos[3]][field].points = $(this).val();
-            $('#max_points_show').find('#max_points_input').val($(this).val());
+            var pos = $(this).attr('id').split('_');
+            ClozeSettings.gaps_combination[pos[3]][2][pos[4]] = $(this).val();
             checkForm();
         });
     
@@ -1151,31 +1113,7 @@ $(document).ready(function ()
             checkForm();
         });
     
-        selector =   $('.best_possible_solution');
-        selector.off('change');
-        selector.change(function () {
-            var id = parseInt($(this).val(), 10);
-            if(!isNaN(id))
-            {
-                ClozeSettings.gaps_combination.forEach(function (entry1,key1){
-                    entry1.forEach(function (entry2,key2){
-                        if(typeof(entry2.best_solution) !== 'undefined')
-                        {
-                            if(key1 == id)
-                            {
-                                ClozeSettings.gaps_combination[key1][key2].best_solution = 1;
-                                $('#max_points_show').find('#max_points_input').val(ClozeSettings.gaps_combination[key1][key2].points);
-                            }
-                            else
-                            {
-                                ClozeSettings.gaps_combination[key1][key2].best_solution = 0;
-                            }
-                        }
-                    });
-                });
-                checkForm();
-            }
-        });
+       
     }
     function bindTextareaHandler()
     {
@@ -1230,7 +1168,6 @@ $(document).ready(function ()
             /*var inst = tinyMCE.activeEditor;
             var cursorPosition = getCursorPositionTiny(inst);
             var pos = cursorInGap(cursorPosition);
-            console.log(pos)
             g_cursor_pos = cursorPosition;
            if (pos[1] != -1) {
                 setCursorPositionTiny(inst, pos[1]);
@@ -1395,23 +1332,23 @@ $(document).ready(function ()
     function insertGapToJson(index, values)
     {
         var newObjects = new Array({
-            answer: '',
-            points: 0
+            answer  : '',
+            points  : 0
         });
         if (values !== null) {
             var objects = values.split(',');
             if (objects !== null) {
                 for (var i = 0; i < objects.length; i++) {
                     newObjects[i] = ({
-                        answer: objects[i],
-                        points: 0
+                        answer  : objects[i],
+                        points  : 0
                     });
                 }
             }
         }
         var insert = new Object({
-            type: 'text',
-            values: newObjects
+            type    : 'text',
+            values  : newObjects
         });
         ClozeSettings.gaps_php[0].splice(index, 0, insert);
     }
@@ -1467,9 +1404,9 @@ $(document).ready(function ()
 
     function cursorInGap(position)
     {
-        var text = getTextAreaValue();
-        var end = 0;
-        var inGap = -1;
+        var text    = getTextAreaValue();
+        var end     = 0;
+        var inGap   = -1;
         var gapNumber;
         for (var i = 0; i < ClozeSettings.gaps_php[0].length; i++) {
             var start = text.indexOf('[gap ', end);
@@ -1488,11 +1425,11 @@ $(document).ready(function ()
 
     function removeFromTextarea(gap_count)
     {
-        var text = getTextAreaValue();
-        var pos = parseInt(gap_count, 10) + 1;
+        var text            = getTextAreaValue();
+        var pos             = parseInt(gap_count, 10) + 1;
         var regexExpression = '\\[gap ' + pos + '\\](.*?)\\[\\/gap\\]';
-        var regex = new RegExp(regexExpression, 'i');
-        var newText = text.replace(regex, '');
+        var regex           = new RegExp(regexExpression, 'i');
+        var newText         = text.replace(regex, '');
         setTextAreaValue(newText);
         cleanGapCode();
     }
@@ -1626,3 +1563,19 @@ $(document).ready(function ()
         $('#ilGapModal').draggable();
     });
 });
+(function ( $ ) {
+    
+    $.fn.ensureNoArrayIsAnObjectRecursive = function( obj ) {
+        if ($.type(obj) === 'object' || $.type(obj) === 'array')
+        {
+            Object.keys(obj).forEach(function(key) {
+                obj[key] = jQuery().ensureNoArrayIsAnObjectRecursive(obj[key]);
+            });
+            obj = $.map(obj, function(value) {
+                return [value];
+            });
+        }
+        return obj;
+    };
+    
+}( jQuery ));

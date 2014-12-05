@@ -54,22 +54,17 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 	public function setValueCombinationFromDb($value)
 	{
 		$return_array  = array();
-		$return_points = array();
-		$temp          = -1;
 		if($value)
 		{
 			foreach($value as $row)
 			{
-				$return_array[$row['cid']][] = array('answer' => $row['answer'], 'gap' => $row['gap_fi'], 'type' => $row['type']);
-				if($temp != $row['cid'])
+				if($row['row_id'] == 0)
 				{
-					$return_points[] = array('key' => $row['cid'], 'points' => $row['points'], 'best_solution' => $row['best_solution']);
-					$temp            = $row['cid'];
+					$return_array[$row['cid']][0][] = $row['gap_fi'];
 				}
-			}
-			foreach($return_points as $row)
-			{
-				$return_array[$row['key']][] = array('points' => $row['points'], 'best_solution' => $row['best_solution']);
+				$return_array[$row['cid']][1][$row['row_id']][] = $row['answer'];
+				$return_array[$row['cid']][2][$row['row_id']] 	= $row['points']; //= array('key' => $row['cid'], 'points' => $row['points'], 'best_solution' => $row['best_solution']);
+
 			}
 			$this->setValueCombination($return_array);
 		}
@@ -80,51 +75,44 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 		$error        = false;
 		$json         = json_decode(ilUtil::stripSlashes($_POST['gap_json_post']));
 		$_POST['gap'] = ilUtil::stripSlashesRecursive($_POST['gap']);
+		$gaps_used_in_combination = array();
 		if(array_key_exists('gap_combination', $_POST))
 		{
-			$best_solution = ilUtil::stripSlashes($_POST['best_possible_solution']);
-			if($best_solution == '')
+			$_POST['gap_combination'] 			= ilUtil::stripSlashesRecursive($_POST['gap_combination']);
+			$_POST['gap_combination_values'] 	= ilUtil::stripSlashesRecursive($_POST['gap_combination_values']);
+			$gap_with_points          			= array();
+		
+			for($i=0; $i < count($_POST['gap_combination']['select']); $i++)
 			{
-				$error = true;
-			}
-			$_POST['gap_combination'] = ilUtil::stripSlashesRecursive($_POST['gap_combination']);
-			$gap_with_points          = array();
-			$find_doubles             = array();
-			foreach($_POST['gap_combination'] as $key => $item)
-			{
-				$temp_array = array();
-				$points     = $item['points'];
-				if($points == 0)
+				foreach($_POST['gap_combination']['select'][$i] as $key => $item)
 				{
-					$error = true;
-				}
-				$find_double_in_combination = array();
-				foreach($item as $inner_key => $inner_value)
-				{
-					if(is_array($inner_value) && array_key_exists('select', $inner_value))
+					if($item == 'none_selected_minus_one')
 					{
-						if(in_array($inner_value['select'], $find_double_in_combination))
+						return false;
+					}
+					$gaps_used_in_combination[$item] = $item;
+					$check_points_for_best_scoring = false;
+					foreach($_POST['gap_combination_values'][$i] as $index => $answeritems)
+					{
+						foreach($answeritems as $answeritem )
 						{
-							$error = true;
+							if($answeritem == 'none_selected_minus_one')
+							{
+								return false;
+							}
 						}
-						$find_double_in_combination[]            = $inner_value['select'];
-						$gap_with_points[$inner_value['select']] = $points;
-						$temp_array[$inner_value['select']]      = $inner_value['select'] . ' ' . $inner_value['value'];
-						if($inner_value['value'] == 'none_selected_minus_one')
+						$points				= $_POST['gap_combination']['points'][$i][$index];
+						if($points > 0)
 						{
-							$error = true;
+							$check_points_for_best_scoring = true;
 						}
 					}
+					if(!$check_points_for_best_scoring)
+					{
+						return false;
+					}
 				}
-				sort($temp_array);
-				$find_doubles[$key] = implode($temp_array);
-			}
-			foreach($find_doubles as $value)
-			{
-				if(count(array_keys($find_doubles, $value)) > 1)
-				{
-					$error = true;
-				}
+
 			}
 		}
 
@@ -167,7 +155,10 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 						}
 						if($points_sum == 0)
 						{
-							$error = true;
+							if(!array_key_exists($key, $gaps_used_in_combination))
+							{
+								$error = true;
+							}
 						}
 						if($getType == CLOZE_SELECT)
 						{
@@ -228,7 +219,10 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 
 					if(!isset($points) || $points == '' || !is_numeric($points) || $points == 0)
 					{
-						$error = true;
+						if(!array_key_exists($key, $gaps_used_in_combination))
+						{
+							$error = true;
+						}
 					}
 
 					$json[0][$key]->values[0]->error = $mark_errors;
@@ -259,7 +253,8 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 		$custom_template = new ilTemplate('tpl.il_as_cloze_gap_builder.html', true, true, 'Modules/TestQuestionPool');
 		$custom_template->setVariable("MY_MODAL", 						$modal->getHTML());
 		$custom_template->setVariable('GAP_JSON', 						json_encode(array($this->getValue())));
-		$custom_template->setVariable('GAP_COMBINATION_JSON', 			json_encode(json_decode(json_encode($this->getValueCombination()), true)));
+		$custom_template->setVariable('GAP', 							$lng->txt('gap'));
+		$custom_template->setVariable('GAP_COMBINATION_JSON', 			json_encode($this->getValueCombination()));
 		$custom_template->setVariable('TEXT_GAP', 						$lng->txt('text_gap'));
 		$custom_template->setVariable('SELECT_GAP', 					$lng->txt('select_gap'));
 		$custom_template->setVariable('NUMERIC_GAP', 					$lng->txt('numeric_gap'));
@@ -283,6 +278,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 		$custom_template->setVariable('BEST_POSSIBLE_SOLUTION_HEADER', 	$lng->txt('tst_best_solution_is'));
 		$custom_template->setVariable('BEST_POSSIBLE_SOLUTION', 		$lng->txt('value'));
 		$custom_template->setVariable('MAX_POINTS', 					$lng->txt('max_points'));
+		//Todo add translation for out of range
 		$custom_template->setVariable('OUT_OF_BOUND', 					$lng->txt('out_of_range'));
 		$custom_template->setVariable('TYPE',							$lng->txt('type'));
 		$custom_template->setVariable('VALUES', 						$lng->txt('values'));
