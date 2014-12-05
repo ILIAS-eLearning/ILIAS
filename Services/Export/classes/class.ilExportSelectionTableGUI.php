@@ -170,7 +170,12 @@ class ilExportSelectionTableGUI extends ilTable2GUI
 			{
 				#continue;
 			}
-
+			include_once("./Modules/File/classes/class.ilObjFileAccess.php");
+			if ($node['type'] == "file" &&
+				ilObjFileAccess::_isFileHidden($node['title']))
+			{
+				continue;
+			}
 			$r = array();
 
 			if($last = ilExportFileInfo::lookupLastExport($node['obj_id'], 'xml'))
