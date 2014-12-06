@@ -10454,47 +10454,16 @@ fieldset[disabled] .btn-info.active {
   background-color: transparent;
 }
 /* old stuff */
-input.emphsubmit,
-a.emphsubmit,
-a.emphsubmit:hover {
-  background-color: #5dbf61;
-  background-image: none;
-  /* IE10 will not work otherwise */
-  background-image: -moz-linear-gradient(top, #5dbf61, #4fa152);
-  background-image: -webkit-linear-gradient(top, #5dbf61, #4fa152);
-  background-image: -o-linear-gradient(top, #5dbf61, #4fa152);
-  background-image: linear-gradient(to bottom, #5dbf61, #4fa152);
-  background-repeat: repeat-x;
-  border-color: #0044CC #0044CC #003AAD;
-  color: #FFFFFF;
-  font-weight: 600;
-  border-color: #4ea051 #4ea051 #7fcc81;
-  min-width: 100px;
-  display: inline-block;
-  text-align: center;
-}
-input.emphsubmit:hover,
-a.emphsubmit:hover {
-  border-color: #707070;
-  color: #FFFFFF;
-  box-shadow: 0px 0px 1px #909090;
-}
 input.ilSubmitInactive,
 input.ilSubmitInactive:hover,
 input.ilSubmitInactive:active,
 a.ilSubmitInactive,
 a.ilSubmitInactive:hover,
 a.ilSubmitInactive:active {
-  color: #909090;
+  color: #e0e0e0;
+  background-color: #b0b0b0;
+  border-color: #b0b0b0;
   cursor: default;
-  box-shadow: none;
-  background-color: #fefefe;
-  background-image: -webkit-linear-gradient(top, #fefefe 0%, #f1f1f1 100%);
-  background-image: -o-linear-gradient(top, #fefefe 0%, #f1f1f1 100%);
-  background-image: linear-gradient(to bottom, #fefefe 0%, #f1f1f1 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffefefe', endColorstr='#fff1f1f1', GradientType=0);
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 /* Services/Rating */
 img.ilRatingIcon {
