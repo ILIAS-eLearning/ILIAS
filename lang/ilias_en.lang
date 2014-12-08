@@ -931,6 +931,7 @@ assessment#:#tst_insert_questions_and_results#:#This test was already executed b
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_instant_feedback_answer_specific#:#Show Answer-Specific Feedback
 assessment#:#tst_instant_feedback_answer_generic#:#Two Alternative Feedbacks
+assessment#:#tst_instant_feedback_answer_generic_desc#:#Ist die Gesamtheit der Antwort richtig, so zeigt ILIAS beim Anklicken des 'Rückmeldung anfordern'-Buttons die eine Art hinterlegter Rückmeldung an. Ist die Gesamtheit der Antwort nicht vollständig richtig, wird eine andere  Rückmeldung angezeigt. Beide Versionen müssen bei der Frage im Reiter 'Rückmeldungen' hinterlegt werden.
 assessment#:#tst_instant_feedback_answer_specific_desc#:#On clicking the <i>Check</i>-button ILIAS will show a specific feedback for every answer option selected by the participant. The feedback has to be prepared along with the question. Answer-specific feedback is not supported for all question types.
 assessment#:#tst_instant_feedback_fix_usr_answer#:#Freeze Answers Given
 assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#After having requested a feedback, participants can no longer change their answers.
