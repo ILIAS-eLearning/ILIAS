@@ -777,6 +777,20 @@ mailing#:#send_by#:#versendet von
 mailing#:#upload_attachment_failure#:#Beim Upload des Anhangs ist ein unbekannter Fehler aufgetreten. Bitte wenden Sie sich an die Administration.
 mailing#:#upload_attachment_no_file#:#Die hochgeladene Datei ist leer.
 mailing#:#upload_attachment_success#:#Datei '%s' erfolgreich hochgeladen.
+maps#:#maps_enable_maps_info#:#Aktiviert Karten in Benutzerprofilen, Gruppen und Kursen.
+maps#:#maps_enable_maps#:#Karten aktivieren
+maps#:#maps_extt_maps#:#Karten
+maps#:#maps_latitude#:#Breitengrad
+maps#:#maps_longitude#:#Längengrad
+maps#:#maps_lookup_address#:#Adresse suchen
+maps#:#maps_public_profile_info#:#Ort im persönlichen Profil anzeigen.
+maps#:#maps_settings#:#Einstellungen Karten
+maps#:#maps_std_location_desc#:#Auf die Karte klicken um Ort zu bestimmen.
+maps#:#maps_std_location#:#Standardort
+maps#:#maps_zoom_level#:#Zoom
+maps#:#maps_google_maps#:#Google Maps
+maps#:#maps_open_layers_maps#:#Open Layers Maps
+maps#:#maps_map_type#:#Typ
 modul#:#identifier#:#2Text (neu)
 news#:#news_enable_internal_news_info#:#Aktiviert Nachrichtenblöcke für Kategorien, Trainings, Gruppen und andere Objekte. Benutzer können diese Nachrichten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
 news#:#news_nr_of_items_info#:#Anzahl der Nachrichten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Trainings mehr Nachrichten enthalten können, da sie auch die Nachrichten ihrer Unterobjekte anzeigen.
