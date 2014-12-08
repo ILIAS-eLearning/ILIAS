@@ -232,7 +232,6 @@ class ilOrgUnitStaffGUI {
 
 
 	public function addOtherRoles() {
-		global $rbacreview, $lng, $rbacadmin;
 		if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this->parent_gui, "");
@@ -246,17 +245,12 @@ class ilOrgUnitStaffGUI {
 				$user_ids[] = $user_id;
 			}
 		}
-		$user_type = isset($_POST['user_type']) ? $_POST['user_type'] : 0;
-		$arrLocalRoles = $rbacreview->getLocalRoles($this->parent_object->getRefId());
-		if (in_array($user_type, $arrLocalRoles)) {
-			foreach ($user_ids as $user_id) {
-				$rbacadmin->assignUser($user_type, $user_id);
-			}
-		} else {
-			ilUtil::sendFailure($lng->txt("no_permission"));
-		}
-		ilUtil::sendSuccess($this->lng->txt("users_successfuly_added"), true);
-		$this->ctrl->redirect($this,"showOtherRoles");
+        $role_id = isset($_POST['user_type']) ? $_POST['user_type'] : 0;
+        foreach ($user_ids as $user_id) {
+            $this->parent_object->assignUserToLocalRole($role_id, $user_id);
+        }
+        ilUtil::sendSuccess($this->lng->txt("users_successfuly_added"), true);
+        $this->ctrl->redirect($this,"showOtherRoles");
 	}
 
 
@@ -386,10 +380,9 @@ class ilOrgUnitStaffGUI {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this->parent_gui, "");
 		}
-		global $rbacadmin;
 		$arrObjIdRolId = explode("-", $_POST["obj_id-role_id"]);
-		$rbacadmin->deassignUser($arrObjIdRolId[1], $arrObjIdRolId[0]);
-		ilUtil::sendSuccess($this->lng->txt("deassign_user_successful"), true);
+        $this->parent_object->deassignUserFromLocalRole($arrObjIdRolId[1], $arrObjIdRolId[0]);
+        ilUtil::sendSuccess($this->lng->txt("deassign_user_successful"), true);
 		$this->ctrl->redirect($this, "showOtherRoles");
 	}
 

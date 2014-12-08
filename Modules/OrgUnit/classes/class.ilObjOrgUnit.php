@@ -322,7 +322,66 @@ class ilObjOrgUnit extends ilContainer {
 	}
 
 
-	/**
+    /**
+     * Assign a given user to a given local role
+     *
+     * @param int $role_id
+     * @param int $user_id
+     * @return bool
+     */
+    public function assignUserToLocalRole($role_id, $user_id)
+    {
+        global $rbacreview, $rbacadmin, $ilAppEventHandler;
+
+        $arrLocalRoles = $rbacreview->getLocalRoles($this->getRefId());
+        if ( ! in_array($role_id, $arrLocalRoles)) {
+            return false;
+        }
+
+        $return = $rbacadmin->assignUser($role_id, $user_id);
+
+        $ilAppEventHandler->raise('Modules/OrgUnit',
+            'assignUserToLocalRole',
+            array('object' => $this,
+                'obj_id' => $this->getId(),
+                'ref_id' =>  $this->getRefId(),
+                'role_id' => $role_id,
+                'user_id' => $user_id));
+
+        return $return;
+    }
+
+
+    /**
+     * Deassign a given user to a given local role
+     *
+     * @param int $role_id
+     * @param int $user_id
+     * @return bool
+     */
+    public function deassignUserFromLocalRole($role_id, $user_id)
+    {
+        global $rbacreview, $rbacadmin, $ilAppEventHandler;
+
+        $arrLocalRoles = $rbacreview->getLocalRoles($this->getRefId());
+        if ( ! in_array($role_id, $arrLocalRoles)) {
+            return false;
+        }
+
+        $return = $rbacadmin->deassignUser($role_id, $user_id);
+
+        $ilAppEventHandler->raise('Modules/OrgUnit',
+            'deassignUserFromLocalRole',
+            array('object' => $this,
+                'obj_id' => $this->getId(),
+                'ref_id' =>  $this->getRefId(),
+                'role_id' => $role_id,
+                'user_id' => $user_id));
+
+        return $return;
+    }
+
+    /**
 	 * @param int $employee_role
 	 */
 	public function setEmployeeRole($employee_role) {
