@@ -171,12 +171,13 @@ class ilOrderingTextWizardInputGUI extends ilTextInputGUI
 				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value));
 				$tpl->parseCurrentBlock();
 			}
-			if ($this->getAllowMove() && !$this->disable_actions)
+
+			if ($this->getAllowMove())
 			{
 				$tpl->setCurrentBlock("move");
+				$tpl->setVariable("MOVE_ID", $this->getFieldId() . "[$i]");
 				$tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
 				$tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
-				$tpl->setVariable("ID", $this->getFieldId() . "[$i]");
 				$tpl->setVariable("UP_BUTTON", ilUtil::getImagePath('a_up.png'));
 				$tpl->setVariable("DOWN_BUTTON", ilUtil::getImagePath('a_down.png'));
 				$tpl->parseCurrentBlock();
