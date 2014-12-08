@@ -54,6 +54,9 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
 	{
 		switch($a_field)
 		{
+			case 'points':
+				return true;
+
 			case 'qid':
 				return true;
 
@@ -75,8 +78,17 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
 	{
 		$this->tpl->setVariable("ID", $data["qid"]);
 		$this->tpl->setVariable("TITLE", $data["title"]);
-		$this->tpl->setVariable("POINTS", $data["points"]);
+		$this->tpl->setVariable("POINTS", $this->formatPoints($data));
 		$this->tpl->setVariable("PERCENTAGE", sprintf("%.2f", $data["percentage"]) . "%");
 		$this->tpl->setVariable("ANSWERS", $data["answers"]);
+	}
+
+	/**
+	 * @param array $data
+	 * @return string
+	 */
+	protected function formatPoints(array $data)
+	{
+		return sprintf("%.2f", $data['points_reached']) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $data['points_max']);
 	}
 }

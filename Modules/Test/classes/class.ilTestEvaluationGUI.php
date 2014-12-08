@@ -644,13 +644,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$percent = $max ? $reached/$max * 100.0 : 0;
 			$counter++;
 			$this->ctrl->setParameter($this, "qid", $question_id);
-			array_push($rows, 
+
+			$points_reached = ($answered ? $reached / $answered : 0);
+			$points_max     = ($answered ? $max / $answered : 0);
+			array_push($rows,
 				array(
-						'qid' => $question_id,
-						'title' => $question_title, 
-						'points' => sprintf("%.2f", $answered ? $reached / $answered : 0) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $answered ? $max / $answered : 0),
-						'percentage' => (float)$percent,
-						'answers' => $answered
+					'qid'            => $question_id,
+					'title'          => $question_title,
+					'points'         => $points_reached,
+					'points_reached' => $points_reached,
+					'points_max'     => $points_max,
+					'percentage'     => (float)$percent,
+					'answers'        => $answered
 				)
 			);
 		}
