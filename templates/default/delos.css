@@ -10320,8 +10320,8 @@ ol.breadcrumb {
 */
 .btn-default {
   color: #ffffff;
-  background-color: #a1b3ca;
-  border-color: #a1b3ca;
+  background-color: #708bae;
+  border-color: #708bae;
 }
 .btn-default:hover,
 .btn-default:focus,
@@ -10329,8 +10329,8 @@ ol.breadcrumb {
 .btn-default.active,
 .open > .dropdown-toggle.btn-default {
   color: #ffffff;
-  background-color: #8198b7;
-  border-color: #7a93b4;
+  background-color: #557196;
+  border-color: #526c90;
 }
 .btn-default:active,
 .btn-default.active,
@@ -10352,11 +10352,11 @@ fieldset[disabled] .btn-default:active,
 .btn-default.disabled.active,
 .btn-default[disabled].active,
 fieldset[disabled] .btn-default.active {
-  background-color: #a1b3ca;
-  border-color: #a1b3ca;
+  background-color: #708bae;
+  border-color: #708bae;
 }
 .btn-default .badge {
-  color: #a1b3ca;
+  color: #708bae;
   background-color: #ffffff;
 }
 .btn-primary {
@@ -10555,6 +10555,43 @@ div.ilSurveyPageEditActionMenu {
 .ilMediaPoolPagePreviewBody {
   background-color: #ffffff;
   height: auto;
+}
+/* Services/Tags */
+.ilTagCloud {
+  max-height: 400px;
+  overflow: auto;
+  font-size: 90%;
+}
+.ilTag {
+  background-color: #75deea;
+  /* background-color: lighten(@brand-primary, 10%); */
+  color: white;
+  display: inline-block;
+  white-space: nowrap;
+  padding: 1px 5px;
+  margin: 2px 4px 2px 0;
+  border-radius: 3px;
+}
+.ilTag:hover,
+.ilTag:active {
+  text-decoration: none;
+  color: white;
+  background-color: #60eeff;
+}
+.ilTagRelHigh {
+  background-color: #85d1da;
+}
+.ilTagRelMiddle {
+  background-color: #95c5ca;
+}
+.ilTagRelLow {
+  background-color: #a5b8ba;
+}
+.ilTagRelVeryLow {
+  background-color: #b0b0b0;
+}
+.ilTag.ilHighlighted {
+  background-color: #ea6705;
 }
 .noMargin {
   margin: 0;

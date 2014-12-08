@@ -79,21 +79,18 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 					foreach($tags as $tag => $counter)
 					{						
 						$tpl->setVariable("TAG_TYPE", $type);
-						$tpl->setVariable("TAG_TITLE", $tag);					
-						$tpl->setVariable("FONT_SIZE",
-							ilTagging::calculateFontSize($counter, $max)."%");
-
+						$tpl->setVariable("TAG_TITLE", $tag);
+						$tpl->setVariable("REL_CLASS",
+							ilTagging::getRelevanceClass($counter, $max));
 						if(is_array($this->selection[$type]) &&
 							in_array($tag, $this->selection[$type]))
 						{
-							$tpl->setVariable("TAG_CLASS", ' class="ilHighlighted"');							
+							$tpl->setVariable("HIGHL_CLASS", ' ilHighlighted');
 						}
 
 						$tpl->parseCurrentBlock();
 					}
-					
-					$tpl->setVariable("CLOUD_STYLE", ' class="small"');					
-					
+
 					$a_html[] = array(
 						"title" => $title,
 						"html" => $tpl->get()

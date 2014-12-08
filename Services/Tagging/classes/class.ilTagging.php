@@ -226,7 +226,33 @@ class ilTagging
 		$font_size = round($a + ($m * $cnt));
 		return (int) $font_size;
 	}
-	
+
+	/**
+	 * Get style class for tag relevance
+	 */
+	static function getRelevanceClass($cnt, $max)
+	{
+		$m = $cnt / $max;
+		if ($m >= 0.8)
+		{
+			return "ilTagRelVeryHigh";
+		}
+		else if ($m >= 0.6)
+		{
+			return "ilTagRelHigh";
+		}
+		else if ($m >= 0.4)
+		{
+			return "ilTagRelMiddle";
+		}
+		else if ($m >= 0.2)
+		{
+			return "ilTagRelLow";
+		}
+
+		return "ilTagRelVeryLow";
+	}
+
 	/**
 	* Set offline
 	*

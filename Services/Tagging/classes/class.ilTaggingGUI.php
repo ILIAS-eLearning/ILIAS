@@ -216,7 +216,8 @@ class ilTaggingGUI
 			if (!$this->isForbidden($tag["tag"]))
 			{
 				$ttpl->setCurrentBlock("unlinked_tag");
-				$ttpl->setVariable("FONT_SIZE", ilTagging::calculateFontSize($tag["cnt"], $max)."%");
+				$ttpl->setVariable("REL_CLASS",
+					ilTagging::getRelevanceClass($tag["cnt"], $max));
 				$ttpl->setVariable("TAG_TITLE", $tag["tag"]);
 				$ttpl->parseCurrentBlock();
 			}

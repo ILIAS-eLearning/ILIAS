@@ -11,7 +11,9 @@ il.Classification = {
 		
 		$(document).bind('il_classification_redraw',  this.redraw);
 	},
-	toggle: function(args) {									
+	toggle: function(args) {
+		console.log(this);
+		console.log(this.ajax_block_url);
 		this.loader(this.ajax_block_id + '_loader');	
 		this.loader(this.ajax_content_id);		
 		il.Util.sendAjaxGetRequestToUrl(this.ajax_block_url, args, {el_id: this.ajax_block_id, content_url: this.ajax_content_url, content_id: this.ajax_content_id}, this.toggleReload)			

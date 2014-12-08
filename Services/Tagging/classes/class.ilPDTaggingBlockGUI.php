@@ -126,7 +126,7 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 		global $ilUser;
 		
 		include_once("./Services/Tagging/classes/class.ilTagging.php");
-		$this->tags = ilTagging::getTagsForUser($ilUser->getId(), 100);
+		$this->tags = ilTagging::getTagsForUser($ilUser->getId(), 1000000);
 
 		if ($this->getCurrentDetailLevel() > 1 && (count($this->tags) > 0))
 		{
@@ -166,11 +166,10 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 			$tpl->setVariable("HREF_TAG",
 				$ilCtrl->getLinkTarget($this, "showResourcesForTag"));
 			$tpl->setVariable("TAG_TITLE", $tag["tag"]);
-			$tpl->setVariable("FONT_SIZE",
-				ilTagging::calculateFontSize($tag["cnt"], $max)."%");
+			$tpl->setVariable("REL_CLASS",
+				ilTagging::getRelevanceClass($tag["cnt"], $max));
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->setVariable("CLOUD_STYLE", ' class="small" ');
 		return $tpl->get();
 	}
 	
