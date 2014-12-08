@@ -1425,7 +1425,7 @@ class ilSurveyPageGUI
 				$tags = ilObjAdvancedEditing::_getUsedHTMLTags("survey");
 
 				include_once "./Services/RTE/classes/class.ilTinyMCE.php";
-				$tiny = new ilTinyMCE("3.3.9.2");				
+				$tiny = new ilTinyMCE();				
 				$ttpl->setVariable("WYSIWYG_BLOCKFORMATS", $tiny->_buildAdvancedBlockformatsFromHTMLTags($tags));
 				$ttpl->setVariable("WYSIWYG_VALID_ELEMENTS", $tiny->_getValidElementsFromHTMLTags($tags));
 
@@ -1488,7 +1488,7 @@ class ilSurveyPageGUI
 			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 			ilYuiUtil::initDragDrop();
 			$tpl->addJavascript("./Modules/Survey/js/SurveyPageView.js");
-			$tpl->addJavascript("./Services/RTE/tiny_mce_3_3_9_2/tiny_mce_src.js");
+			$tpl->addJavascript("./Services/RTE/tiny_mce_3_5_11/tiny_mce_src.js");
 		}
 	}
 

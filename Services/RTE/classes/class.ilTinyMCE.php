@@ -35,8 +35,7 @@ include_once "./Services/RTE/classes/class.ilRTE.php";
 class ilTinyMCE extends ilRTE
 {
 	protected $mode = "textareas";
-	protected $version = ""; // set default version here
-	//protected $version = "3.3.9.2"; // set default version here
+	protected $version = ""; // set default version here	
 	protected $vd = ""; // version directory suffix
 
 	/**
@@ -48,20 +47,23 @@ class ilTinyMCE extends ilRTE
 
 	function ilTinyMCE($a_version = "")
 	{
-		parent::ilRTE($a_version);
+		if(!$a_version)
+		{
+			$a_version = "3.5.11";
+		}
+		
+		parent::ilRTE($a_version);				
 
 		switch ($a_version)
-		{
-			case "3.3.9.2":
+		{			
+			case "3.4.7":			
+			case "3.5.11":			
 				$this->version = $a_version;
-				$this->vd = "_3_3_9_2";
+				$this->vd = "_".str_replace(".", "_", $a_version);
 				break;
 			
-			// #10991
-			case "3.4.7":
 			default:
-				$this->version = $a_version;
-				$this->vd = "_3_4_7";
+				// unknown/unsupported version?
 				break;
 		}
 		

@@ -1,0 +1,351 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>{#ibrowser.title}</title>
+<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
+<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
+<script language="javascript" type="text/javascript" src="jscripts/functions.js"></script>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script language="JavaScript" type="text/JavaScript"> 
+	var iliaspath = '{ILIAS_INST_PATH}';
+	image_param = new Array();
+	// click ok - select picture or save changes
+	function selectClick() 
+	{
+		if (validateParams()) 
+		{	
+			var ed = tinyMCEPopup.editor;
+			el = ed.selection.getNode();
+
+			if (document.forms[0].src.value !='') 
+			{		
+				var src = document.forms[0].src.value;
+				var alt = document.forms[0].alt.value;
+				var border = document.forms[0].border.value;
+				var vspace = document.forms[0].vspace.value;
+				var hspace = document.forms[0].hspace.value;
+				var width = document.forms[0].width.value;
+				var height = document.forms[0].height.value;
+				var align = document.forms[0].align.options[document.forms[0].align.selectedIndex].value;
+				args = {
+					src : src,
+					alt : alt,
+					border : border,
+					vspace : vspace,
+					hspace : hspace,
+					width : width,
+					height : height,
+					align : align
+				};
+				if (el && el.nodeName == 'IMG') {
+					ed.dom.setAttribs(el, args);
+				} else {
+					ed.execCommand('mceInsertContent', false, '<img id="__mce_tmp" />', {skip_undo : 1});
+					ed.dom.setAttribs('__mce_tmp', args);
+					ed.dom.setAttrib('__mce_tmp', 'id', '');
+					ed.undoManager.add();
+				}
+				tinyMCEPopup.close();
+			} 
+			else 
+			{
+				alert(tinyMCE.getLang('#ibrowser.error')+ ' : '+ tinyMCE.getLang('#ibrowser.errornoimg'));
+			}
+    }
+	}
+	
+	// validate input values
+	function validateParams() 
+	{
+		// check numeric values for attributes
+		if (isNaN(parseInt(document.libbrowser.width.value)) && document.libbrowser.width.value != '') { 
+			alert(tinyMCE.getLang('#ibrowser.error')+ ' : '+ tinyMCE.getLang('#ibrowser.error_width_nan'));     		
+			document.libbrowser.width.focus();
+				return false;}
+		
+		if (isNaN(parseInt(document.libbrowser.height.value)) && document.libbrowser.height.value != '') {
+			alert(tinyMCE.getLang('#ibrowser.error')+ ' : '+ tinyMCE.getLang('#ibrowser.error_height_nan'));  
+				document.libbrowser.height.focus();
+			return false;}
+		
+		if (isNaN(parseInt(document.libbrowser.border.value)) && document.libbrowser.border.value != '') {
+		alert(tinyMCE.getLang('#ibrowser.error')+ ' : '+ tinyMCE.getLang('#ibrowser.error_border_nan'));  
+				document.libbrowser.border.focus();
+				return false;}
+		
+		if (isNaN(parseInt(document.libbrowser.hspace.value)) && document.libbrowser.hspace.value != '') {
+		alert(tinyMCE.getLang('#ibrowser.error')+ ' : '+ tinyMCE.getLang('#ibrowser.error_hspace_nan')); 
+		document.libbrowser.hspace.focus();
+				return false;}
+		
+		if (isNaN(parseInt(document.libbrowser.vspace.value)) && document.libbrowser.vspace.value != '') {
+		alert(tinyMCE.getLang('#ibrowser.error')+ ' : '+ tinyMCE.getLang('#ibrowser.error_vspace_nan')); 
+				document.libbrowser.vspace.focus();
+				return false;}
+		return true;
+	}
+		
+	// delete image
+	function deleteClick()
+	{
+		if (document.libbrowser.imglist.selectedIndex>=0)
+	  {
+			if (confirm(tinyMCE.getLang('#ibrowser.confirmdelete')))
+			{
+				document.libbrowser.lib_action.value = 'delete';
+				document.libbrowser.submit();
+			}
+	  }
+	}
+	
+// set picture attributes on change
+	function selectChange(obj)
+	{
+		var formObj = document.forms[0];
+		if (obj.selectedIndex < 0) return;
+
+		var temp_index = obj.selectedIndex;
+
+		formObj.src.value = obj.options[obj.selectedIndex].value + obj.options[obj.selectedIndex].text; 
+		imgpreview.location.href = formObj.src.value;
+		
+		formObj.width.value = image_param[temp_index]['img_width'];
+		formObj.height.value = image_param[temp_index]['img_height'];
+		formObj.size.value = image_param[temp_index]['f_size'];
+		formObj.alt.value = obj.options[obj.selectedIndex].text;
+		owidth = eval(formObj.width.value);
+		oheight = eval(formObj.height.value);
+		updateStyle()		
+	}
+	
+	// init functions
+	function init()
+	{
+		// if existing image (image properties)
+		if (tinyMCEPopup.getWindowArg('src') != '') 
+		{
+			var formObj = document.forms[0];
+			for (var i=0; i<document.forms[0].align.options.length; i++) {
+				if (document.forms[0].align.options[i].value == tinyMCEPopup.getWindowArg('align'))
+				document.forms[0].align.options.selectedIndex = i;
+			}
+			var imgsrc = tinyMCEPopup.getWindowArg('src');
+			if (imgsrc.indexOf('data') == 0) imgsrc = iliaspath + imgsrc;
+			formObj.src.value = imgsrc;				
+			formObj.alt.value = tinyMCEPopup.getWindowArg('alt');
+			formObj.border.value = tinyMCEPopup.getWindowArg('border');
+			formObj.vspace.value = tinyMCEPopup.getWindowArg('vspace');
+			formObj.hspace.value = tinyMCEPopup.getWindowArg('hspace');
+			formObj.width.value = tinyMCEPopup.getWindowArg('width');
+			formObj.height.value = tinyMCEPopup.getWindowArg('height');
+			formObj.size.value = 'n/a';
+			owidth = eval(formObj.width.value);
+			oheight = eval(formObj.height.value);
+			frameID = "imgpreview";
+			//document.all(frameID).src = tinyMCE.getWindowArg('src');
+			imgpreview.location.href = imgsrc;
+			updateStyle();					
+		}			
+		
+		tinyMCEPopup.resizeToInnerSize();
+		selectChange(document.getElementById('imglist'));
+		window.focus();		
+	}
+	
+	// updates style settings
+	function updateStyle() 
+	{
+		if (validateParams()) 
+		{
+			document.getElementById('wrap').align = document.libbrowser.align.value;
+			document.getElementById('wrap').vspace = document.libbrowser.vspace.value;
+			document.getElementById('wrap').hspace = document.libbrowser.hspace.value;
+			document.getElementById('wrap').border = document.libbrowser.border.value;
+			document.getElementById('wrap').alt = document.libbrowser.alt.value;
+		}
+	}
+	
+	// change picture dimensions
+	var oheight; // original width
+	var owidth;  // original height
+	
+	function changeDim(sel) 
+	{
+		var formObj = document.forms[0];
+		if (formObj.src.value!='')
+		{
+			f=oheight/owidth;					
+			if (sel==0)
+			{
+				formObj.width.value = Math.round(formObj.height.value/f);
+			} 
+			else 
+			{
+				formObj.height.value= Math.round(formObj.width.value*f);
+			}	
+		}
+	}
+	
+	function resetDim() 
+	{
+ 		var formObj = document.forms[0];
+		formObj.width.value = owidth;
+		formObj.height.value = oheight;
+	}		
+</script>
+</head>
+<body onLoad="init();">
+<script language="JavaScript" type="text/JavaScript">  
+    window.name = 'imglibrary'; 
+</script>
+<form name="libbrowser" method="post" action="imagemanager.php?obj_id={OBJ_ID}&amp;obj_type={OBJ_TYPE}&amp;update={VALUE_UPDATE}" enctype="multipart/form-data" target="imglibrary">
+  <input type="hidden" name="lib_action" value="">
+  <fieldset style= "padding: 5 5 5 5; margin-top: -5px;">
+  <legend>{#ibrowser.img_sel}</legend>
+  <table width="440" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><table width="100%"  border="0" cellpadding="2" cellspacing="0">
+          <tr>
+            <td width="210"><strong>{#ibrowser.images}:</strong></td>
+            <td>&nbsp;</td>
+            <td width="210"><strong>{#ibrowser.preview}:</strong></td>
+          </tr>
+          <tr>
+            <td>
+							<select name="imglist" id="imglist" size="15" style="width: 100%;" onChange="selectChange(this);" ondblclick="selectClick();">
+<!-- BEGIN imagefile -->
+								<option value="{IMAGEFILE_VALUE}"{IMAGEFILE_SELECTED}>{IMAGEFILE_TEXT}</option>
+<!-- END imagefile -->
+							</select>
+<script language="javascript">
+<!-- BEGIN imageparams -->
+	var temprow = new Array();
+	temprow['img_width'] = '{IMG_WIDTH}';
+	temprow['img_height'] = '{IMG_HEIGHT}';
+	temprow['f_size'] = '{F_SIZE}'; 
+	temprow['img_path'] = '{IMG_PATH}'; 
+	image_param[image_param.length]=temprow;
+<!-- END imageparams -->
+</script>
+						</td>
+            <td></td>
+            <td width="210" align="left" valign="top"><iframe name="imgpreview" class="previewWindow" src="{URL_PREVIEW}" style="width: 100%; height: 100%;" scrolling="Auto" marginheight="0" marginwidth="0" frameborder="0"></iframe>
+          </tr>
+          <tr>
+            <td colspan="3"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="40%">
+<!-- BEGIN delete_allowed -->									
+                    <input type="button" value="{#ibrowser.delete}" class="bt" onClick="deleteClick();">
+<!-- END delete_allowed -->									
+                  </td>
+                  <td align="right"></td>
+                </tr>
+              </table></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+  </fieldset>
+  <fieldset style= "padding: 5 5 5 5; margin-top: 10px;">
+  <legend>{#ibrowser.img_info}</legend>
+  <table width="440" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td>
+				<table width="440" border="0" cellpadding="2" cellspacing="0">
+          <tr>
+            <td width="80">{#ibrowser.src}:</td>
+            <td colspan="5"><input name="src" type="text" id="src" value="" style="width: 100%;" readonly></td>
+          </tr>
+          <tr>
+            <td>{#ibrowser.alt}:</td>
+            <td colspan="5"><input name="alt" type="text" id="alt" value="" style="width: 100%;" onChange="updateStyle()"></td>
+          </tr>
+          <tr>
+            <td>{#ibrowser.align}:</td>
+            <td colspan="3"><select name="align" style="width: 100%;" onChange="updateStyle()">
+                <option value="">{#ibrowser.align_default}</option>
+                <option value="baseline">{#ibrowser.align_baseline}</option>
+                <option value="top">{#ibrowser.align_top}</option>
+                <option value="middle">{#ibrowser.align_middle}</option>
+                <option value="bottom">{#ibrowser.align_bottom}</option>
+                <option value="texttop">{#ibrowser.align_texttop}</option>
+                <option value="absmiddle">{#ibrowser.align_absmiddle}</option>
+                <option value="absbottom">{#ibrowser.align_absbottom}</option>
+                <option value="left">{#ibrowser.align_left}</option>
+                <option value="right">{#ibrowser.align_right}</option>
+              </select></td>
+            <td width="5">&nbsp;</td>
+            <td width="210" rowspan="7" align="left" valign="top">
+							<div id="stylepreview" style="padding-left:3px; padding-right: 3px; width: 100%; height:100%; overflow:hidden; background-color:#ffffff; font-size:10px" class="previewWindow">
+                <p><img id="wrap" src="images/textflow.gif" width="45" height="45"  alt="" hspace="" vspace="" border="" />Lorem
+                  ipsum, Dolor sit amet, consectetuer adipiscing loreum ipsum
+                  edipiscing elit, sed diam nonummy nibh euismod tincidunt ut
+                  laoreet dolore magna aliquam erat volutpat.Loreum ipsum edipiscing
+                  elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore
+                  magna aliquam erat volutpat.</p>
+              </div>
+						</td>
+          </tr>
+          <tr>
+            <td>{#ibrowser.size}:</td>
+            <td colspan="3"><input name="size" type="text" id="size" value="" readonly style="width: 100%;"></td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>{#ibrowser.height}:</td>
+            <td width="40"><input name="height" type="text" id="height" value="" size="5" maxlength="4" style="text-align: right;" onChange="changeDim(0)"></td>
+            <td width="25" rowspan="2" align="left" valign="middle"><a href="#" onClick="resetDim();" ><img src="images/constrain.gif" alt="{#ibrowser.reset}" width="22" height="29" border="0"></a></td>
+            <td rowspan="2">&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>{#ibrowser.width}:</td>
+            <td><input name="width" type="text" id="width" value="" size="5" maxlength="4" style="text-align: right;" onChange="changeDim(1)"></td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>{#ibrowser.border}:</td>
+            <td colspan="3"><input name="border" type="text" id="border" value="" size="5" maxlength="4" style="text-align: right;" onChange="updateStyle()"></td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>{#ibrowser.vspace}:</td>
+            <td colspan="3"><input name="vspace" type="text" id="vspace" value="" size="5" maxlength="4" style="text-align: right;" onChange="updateStyle()"></td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>{#ibrowser.hspace}:</td>
+            <td colspan="3"><input name="hspace" type="text" id="hspace" value="" size="5" maxlength="4" style="text-align: right;" onChange="updateStyle()"></td>
+            <td>&nbsp;</td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+  </fieldset>
+  <fieldset style= "padding: 5 5 5 5; margin-top: 10px;">
+  <legend>{#ibrowser.img_upload}</legend>
+	{ERROR_MESSAGES}
+	<table width="440" border="0" cellpadding="2" cellspacing="0">
+		<tr>
+			<td width="80">{#ibrowser.uploadtxt}:</td>
+			<td><input type="file" name="img_file" style="width: 100%;" /></td>
+			<td><input type="submit" name="btnupload" class="bt" value="{#ibrowser.uploadbt}" /></td>
+		</tr>
+	</table>
+  </fieldset>
+
+	<div class="mceActionPanel">
+		<div style="float: left">
+			<input type="button" id="insert" name="insert" value="{INSERT_COMMAND}" onclick="selectClick();" />
+		</div>
+
+		<div style="float: right">
+			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="window.close();" />
+		</div>
+	</div>
+</form>
+</body>
+</html>
