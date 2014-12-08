@@ -731,7 +731,9 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		$may_create_entry = (($this->getPermissions()->isTutor() && $a_user_id == $ilUser->getId()) ||
 			$this->getPermissions()->mayEditOthers());
 	
-		$may_create_decentral_training = true;
+		require_once("Services/GEV/Utils/classes/class.gevDecentralTrainingUtils.php");
+	
+		$may_create_decentral_training = gevDecentralTrainingUtils::getInstance()->canCreateFor($ilUser->getId(), $a_user_id);
 	
 		// gev-patch start
 		// ilAdvancedSelectionListGUI

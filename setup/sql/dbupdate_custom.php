@@ -2406,3 +2406,14 @@ if(!$ilDB->tableExists('hist_tep'))
 	$ilCtrlStructureReader->getStructure();
 ?>
 
+<#72>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+
+	$new_org_ops = array(
+		 'add_dec_training_self' => array('Create decentral Trainings for self', 2907)
+		,'add_dec_training_others' => array('Create decentral Trainings for others', 2908)
+		,'add_dec_training_others_rec' => array('Create decentral Trainings for others (recursiv)', 2909)
+	);
+	ilCustomInstaller::addRBACOps('orgu', $new_org_ops);
+?>
