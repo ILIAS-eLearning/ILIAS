@@ -14961,20 +14961,20 @@ registration#:#registration_codes_type_reg#:#Registration Code
 registration#:#registration_codes_type_reg_info#:#Code can be used for the registration if a new user account
 registration#:#registration_codes_type_ext#:#Extension of limited user accounts
 registration#:#registration_codes_type_ext_info#:#Code can be used for the extension of limited accounts.
-scormtrac#:#audio_captioning#:#cmi.learner_preference.audio_captioning
-scormtrac#:#audio_level#:#cmi.learner_preference.audio_level
-scormtrac#:#c_entry#:#cmi.entry
-scormtrac#:#c_exit#:#cmi.exit
-scormtrac#:#c_language#:#cmi.learner_preference.language
-scormtrac#:#c_location#:#cmi.location
-scormtrac#:#c_max#:#cmi.score.max
-scormtrac#:#c_min#:#cmi.score.min
-scormtrac#:#c_mode#:#cmi.mode
-scormtrac#:#c_raw#:#cmi.score.raw: achieved score
+scormtrac#:#audio_captioning#:#learner_preference.audio_captioning
+scormtrac#:#audio_level#:#learner_preference.audio_level
+scormtrac#:#c_entry#:#entry
+scormtrac#:#c_exit#:#exit
+scormtrac#:#c_language#:#learner_preference.language
+scormtrac#:#c_location#:#location
+scormtrac#:#c_max#:#score.max
+scormtrac#:#c_min#:#score.min
+scormtrac#:#c_mode#:#mode
+scormtrac#:#c_raw#:#score.raw: achieved score
 scormtrac#:#c_timestamp#:#Last access
-scormtrac#:#c_type#:#cmi.interactions.n.type
-scormtrac#:#completion_status#:#cmi.completion_status
-scormtrac#:#completion_threshold#:#cmi.completion_threshold
+scormtrac#:#c_type#:#type
+scormtrac#:#completion_status#:#completion_status
+scormtrac#:#completion_threshold#:#completion_threshold
 scormtrac#:#counter_all#:#all users
 scormtrac#:#counter_correct#:#users with correct result
 scormtrac#:#counter_correct_percent#:#Percentage of users with correct result
@@ -14983,37 +14983,37 @@ scormtrac#:#counter_incorrect_percent#:#Percentage of users with incorrect resul
 scormtrac#:#counter_other#:#users with other result
 scormtrac#:#counter_other_percent#:#Percentage of users with other result
 scormtrac#:#cp_node_id#:#Id of the chapter (SCO)
-scormtrac#:#credit#:#cmi.credit
-scormtrac#:#delivery_speed#:#cmi.learner_preference.delivery_speed
+scormtrac#:#credit#:#credit
+scormtrac#:#delivery_speed#:#learner_preference.delivery_speed
 scormtrac#:#exportselectedcore#:#Basic report for chapters (SCO)
 scormtrac#:#exportselectedinteractions#:#Basic report for interactions
 scormtrac#:#id#:#Id
 scormtrac#:#interaction_description#:#Description of the interaction
 scormtrac#:#interaction_id#:#Id of the interaction
 scormtrac#:#interaction_value#:#result of the interaction
-scormtrac#:#latency#:#cmi.interactions.n.latency: time
-scormtrac#:#latency_seconds#:#cmi.interactions.n.latency: time in seconds
-scormtrac#:#launch_data#:#cmi.launch_data: data at start of the SCO
-scormtrac#:#learner_response#:#cmi.interactions.n.learner_response: Response
+scormtrac#:#latency#:#latency: time
+scormtrac#:#latency_seconds#:#latency: time in seconds
+scormtrac#:#launch_data#:#launch_data: data at start of the SCO
+scormtrac#:#learner_response#:#learner_response: Response
 scormtrac#:#lm_id#:#Id of the learning module
 scormtrac#:#lm_title#:#Title of the learning module
-scormtrac#:#progress_measure#:#cmi.progress_measure
-scormtrac#:#result#:#cmi.interactions.n.result
-scormtrac#:#scaled#:#cmi.score.scaled: score achieved as a decimal fraction
-scormtrac#:#scaled_passing_score#:#cmi.scaled_passing_score: score required to pass as a decimal fraction
+scormtrac#:#progress_measure#:#progress_measure
+scormtrac#:#result#:#result
+scormtrac#:#scaled#:#score.scaled: score achieved as a decimal fraction
+scormtrac#:#scaled_passing_score#:#scaled_passing_score: score required to pass as a decimal fraction
 scormtrac#:#sco_marked_for_learning_progress#:#relevant for learning progress
 scormtrac#:#sco_title#:#title of the chapter (SCO)
-scormtrac#:#session_time#:#cmi.session_time: time in the last session
-scormtrac#:#session_time_seconds#:#cmi.session_time: time in the last session in seconds
-scormtrac#:#success_status#:#cmi.success_status: success
-scormtrac#:#suspend_data#:#cmi.suspend_data: variable buffer of the SCO
-scormtrac#:#total_time#:#cmi.total_time: total time
-scormtrac#:#total_time_seconds#:#cmi.total_time: total time in seconds
+scormtrac#:#session_time#:#session_time: time in the last session
+scormtrac#:#session_time_seconds#:#session_time: time in the last session in seconds
+scormtrac#:#success_status#:#success_status: success
+scormtrac#:#suspend_data#:#suspend_data: variable buffer of the SCO
+scormtrac#:#total_time#:#total_time: total time
+scormtrac#:#total_time_seconds#:#total_time: total time in seconds
 scormtrac#:#tracinteractionitem#:#Evaluation per interaction
 scormtrac#:#tracinteractionuser#:#Evaluation per user
 scormtrac#:#tracinteractionuseranswers#:#Responses of users
 scormtrac#:#user_id#:#User-Id
-scormtrac#:#weighting#:#cmi.interactions.n.weighting
+scormtrac#:#weighting#:#weighting
 scormtrac#:#report#:#Report
 scormtrac#:#display_not_allowed#:#display not allowed
 common#:#ps_export_scorm#:#SCORM Tracking Data
@@ -15150,3 +15150,11 @@ survey#:#svy_settings_section_access#:#Administering the Survey: Access
 survey#:#svy_settings_section_question_behaviour#:#Administering the Survey: Behaviour of the Question
 survey#:#svy_settings_section_finishing#:#Finishing the Survey
 survey#:#svy_settings_section_reminders#:#Reminders
+scormtrac#:#satisfied#:#Status: satisfied
+scormtrac#:#measure#:#Status: measure
+scormtrac#:#exportobjglobaltosystem#:#Report for Objectives Global To System (used by Sequencing)
+scormtrac#:#exportselectedobjectives#:#Report for objectives
+scormtrac#:#scope#:#scope
+scormtrac#:#counter#:#counter
+scormtrac#:#student_response#:#student_response: Response
+scormtrac#:#ostatus#:#Status of the objective
