@@ -1078,7 +1078,7 @@ protected function showTrackingItemsBySco()
 	$ilTabs->setTabActive("cont_tracking_data");
 	$ilTabs->setSubTabActive("cont_tracking_bysco");
 
-	$reports = array('exportSelectedCore','exportSelectedInteractions','tracInteractionItem','tracInteractionUser','tracInteractionUserAnswers');
+	$reports = array('exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','tracInteractionItem','tracInteractionUser','tracInteractionUserAnswers');
 
 	$scoSelected = "all";
 	if (isset($_GET["scoSelected"])) $scoSelected = ilUtil::stripSlashes($_GET["scoSelected"]);
@@ -1122,7 +1122,7 @@ function showTrackingItems()
 	$ilTabs->setTabActive('cont_tracking_data');
 	$ilTabs->setSubTabActive('cont_tracking_byuser');
 
-	$reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions');
+	$reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportObjGlobalToSystem');
 
 	$userSelected = "all";
 	if (isset($_GET["userSelected"])) $userSelected = ilUtil::stripSlashes($_GET["userSelected"]);

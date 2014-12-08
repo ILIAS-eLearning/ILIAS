@@ -98,7 +98,10 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 				$cols=ilSCORMTrackingItems::exportSelectedCoreColumns($this->bySCO, $this->allowExportPrivacy);
 			break;
 			case "exportSelectedInteractions":
-				$cols=ilSCORMTrackingItems::exportSelectedInteractionsColumns($this->bySCO, $this->allowExportPrivacy);
+				$cols=ilSCORMTrackingItems::exportSelectedInteractionsColumns();
+			break;
+			case "exportSelectedObjectives":
+				$cols=ilSCORMTrackingItems::exportSelectedObjectivesColumns();
 			break;
 			case "tracInteractionItem":
 				$cols=ilSCORMTrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
@@ -110,7 +113,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 				$cols=ilSCORMTrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
 			break;
 			case "exportSelectedSuccess":
-				$cols=ilSCORMTrackingItems::exportSelectedSuccessColumns($this->allowExportPrivacy);
+				$cols=ilSCORMTrackingItems::exportSelectedSuccessColumns();
 			break;
 		}
 		
@@ -138,6 +141,9 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 			case "exportSelectedInteractions":
 				$tr_data = ilSCORMTrackingItems::exportSelectedInteractions($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
 			break;
+			case "exportSelectedObjectives":
+				$tr_data = ilSCORMTrackingItems::exportSelectedObjectives($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+			break;
 			case "tracInteractionItem":
 				$tr_data = ilSCORMTrackingItems::tracInteractionItem($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
 			break;
@@ -162,7 +168,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 	protected function parseValue($id, $value, $type)
 	{
 		global $lng;
-		$lng->loadLanguageModule("scormtrac");
+		$lng->loadLanguageModule("trac");
 		switch($id)
 		{
 			case "status":
@@ -172,9 +178,9 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 				$value = ilUtil::img($path, $text);
 				break;
 		}
-		if ($id=="launch_data" || $id=="suspend_data") return $value;
 		//BLUM round
-		// if (is_numeric($value)) return round($value,2);
+		if ($id=="launch_data" || $id=="suspend_data") return $value;
+		if (is_numeric($value)) return round($value,2);
 		return $value;
 	}
 	/**
@@ -206,6 +212,9 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 
 	protected function fillRowExcel($worksheet, &$a_row, $a_set)
 	{
+		global $lng;
+		$lng->loadLanguageModule("trac");
+		include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 		$cnt = 0;
 		foreach ($this->getSelectedColumns() as $c)
 		{
@@ -235,6 +244,9 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 
 	protected function fillRowCSV($a_csv, $a_set)
 	{
+		global $lng;
+		$lng->loadLanguageModule("trac");
+		include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			if($c != 'status')

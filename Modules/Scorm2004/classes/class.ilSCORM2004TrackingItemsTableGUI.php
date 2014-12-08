@@ -98,7 +98,13 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 				$cols=ilSCORM2004TrackingItems::exportSelectedCoreColumns($this->bySCO, $this->allowExportPrivacy);
 			break;
 			case "exportSelectedInteractions":
-				$cols=ilSCORM2004TrackingItems::exportSelectedInteractionsColumns($this->bySCO, $this->allowExportPrivacy);
+				$cols=ilSCORM2004TrackingItems::exportSelectedInteractionsColumns();
+			break;
+			case "exportSelectedObjectives":
+				$cols=ilSCORM2004TrackingItems::exportSelectedObjectivesColumns();
+			break;
+			case "exportObjGlobalToSystem":
+				$cols=ilSCORM2004TrackingItems::exportObjGlobalToSystemColumns();
 			break;
 			case "tracInteractionItem":
 				$cols=ilSCORM2004TrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
@@ -138,6 +144,12 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 			case "exportSelectedInteractions":
 				$tr_data = ilSCORM2004TrackingItems::exportSelectedInteractions($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
 			break;
+			case "exportSelectedObjectives":
+				$tr_data = ilSCORM2004TrackingItems::exportSelectedObjectives($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+			break;
+			case "exportObjGlobalToSystem":
+				$tr_data = ilSCORM2004TrackingItems::exportObjGlobalToSystem($this->userSelected, $this->allowExportPrivacy);
+			break;
 			case "tracInteractionItem":
 				$tr_data = ilSCORM2004TrackingItems::tracInteractionItem($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
 			break;
@@ -162,7 +174,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 	protected function parseValue($id, $value, $type)
 	{
 		global $lng;
-		$lng->loadLanguageModule("scormtrac");
+		$lng->loadLanguageModule("trac");
 		switch($id)
 		{
 			case "status":
@@ -172,9 +184,9 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 				$value = ilUtil::img($path, $text);
 				break;
 		}
-		if ($id=="launch_data" || $id=="suspend_data") return $value;
 		//BLUM round
-		// if (is_numeric($value)) return round($value,2);
+		if ($id=="launch_data" || $id=="suspend_data") return $value;
+		if (is_numeric($value)) return round($value,2);
 		return $value;
 	}
 	/**
@@ -206,6 +218,9 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 
 	protected function fillRowExcel($worksheet, &$a_row, $a_set)
 	{
+		global $lng;
+		$lng->loadLanguageModule("trac");
+		include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 		$cnt = 0;
 		foreach ($this->getSelectedColumns() as $c)
 		{
@@ -235,6 +250,9 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 
 	protected function fillRowCSV($a_csv, $a_set)
 	{
+		global $lng;
+		$lng->loadLanguageModule("trac");
+		include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			if($c != 'status')

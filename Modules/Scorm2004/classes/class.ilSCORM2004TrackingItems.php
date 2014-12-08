@@ -130,7 +130,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		return $returnData;
 	}
 	
-	function exportSelectedInteractionsColumns($b_orderBySCO, $b_allowExportPrivacy) {
+	function exportSelectedInteractionsColumns() {
 		global $lng;
 		$lng->loadLanguageModule("scormtrac");
 		$cols = array();
@@ -138,7 +138,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 		$a_cols=explode(',',
 			'lm_id,lm_title,cp_node_id,sco_marked_for_learning_progress,sco_title,'.$udh["cols"]
 			.',id,description,weighting,c_type,result,latency,latency_seconds,c_timestamp,learner_response');
-		$a_true=explode(',',$udh["default"].",sco_title,description,result,learner_response");//note for trunk: id instead of description
+		$a_true=explode(',',$udh["default"].",sco_title,id,result,learner_response");//note for trunk: id instead of description
 		for ($i=0;$i<count($a_cols);$i++) {
 			$cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
 		}
@@ -204,6 +204,142 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 //		var_dump($returnData);
 		return $returnData;
 	}
+
+	function exportSelectedObjectivesColumns() {
+		global $lng;
+		$lng->loadLanguageModule("scormtrac");
+		$cols = array();
+		$udh=self::userDataHeaderForExport();
+		$a_cols=explode(',',
+			'lm_id,lm_title,cp_node_id,sco_marked_for_learning_progress,sco_title,'.$udh["cols"]
+			.',id,description,completion_status,progress_measure,success_status,scaled,c_max,c_min,c_raw,scope');
+		$a_true=explode(',',$udh["default"].",sco_title,id,completion_status,success_status");
+		for ($i=0;$i<count($a_cols);$i++) {
+			$cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
+		}
+		for ($i=0;$i<count($a_true);$i++) {
+			$cols[$a_true[$i]]["default"] = true;
+		}
+		return $cols;
+	}
+
+	function exportSelectedObjectives($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false) {
+		global $ilDB, $lng;
+		$lng->loadLanguageModule("scormtrac");
+
+		$returnData = array();
+
+		$scoTitles = self::scoTitlesForExportSelected();
+
+		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles);
+
+		$dbdata = array();
+		$query = 'SELECT cmi_node.user_id, cmi_node.cp_node_id,
+				cmi_objective.cmi_objective_id,
+				cmi_objective.id, 
+				cmi_objective.description, 
+				cmi_objective.completion_status,
+				cmi_objective.progress_measure,
+				cmi_objective.success_status,
+				cmi_objective.scaled,
+				cmi_objective.c_max,
+				cmi_objective.c_min,
+				cmi_objective.c_raw,
+				cmi_objective.scope 
+				FROM cmi_objective, cmi_node 
+				WHERE '.$ilDB->in('cp_node_id', $a_sco, false, 'integer') .' 
+				AND '.$ilDB->in('cmi_node.user_id', $a_user, false, 'integer') .'
+				AND cmi_node.cmi_node_id = cmi_objective.cmi_node_id 
+				AND cmi_interaction_id is null 
+				ORDER BY ';
+			if ($b_orderBySCO) $query.='cmi_node.cp_node_id, cmi_node.user_id';
+			else $query.='cmi_node.user_id, cmi_node.cp_node_id';
+			$query.=', cmi_objective.cmi_node_id';
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$dbdata[] = $row;
+		}
+		foreach($dbdata as $data) {
+			$data["lm_id"] = $this->getObjId();
+			$data["lm_title"] = $this->lmTitle;
+			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+			$data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
+			$data["sco_title"] = $scoTitles[$data["cp_node_id"]];
+			$data["description"] = "".$data["description"]; 
+			$data["completion_status"] = "".$data["completion_status"];
+			$data["progress_measure"] = "".$data["progress_measure"];
+			$data["success_status"] = "".$data["success_status"];
+			$data["scaled"] = "".$data["scaled"];
+			$data["c_max"] = "".$data["c_max"];
+			$data["c_min"] = "".$data["c_min"];
+			$data["c_raw"] = "".$data["c_raw"];
+			$data["scope"] = "".$data["scope"];
+			$returnData[]=$data;
+		}
+//		var_dump($returnData);
+		return $returnData;
+	}
+
+	function exportObjGlobalToSystemColumns() {
+		global $lng;
+		$lng->loadLanguageModule("scormtrac");
+		$cols = array();
+		$udh=self::userDataHeaderForExport();
+		$a_cols=explode(',',
+			'lm_id,lm_title,'.$udh["cols"]
+			.',Status,satisfied,measure,c_raw,c_min,c_max,completion_status,progress_measure');
+		$a_true=explode(',',$udh["default"].",lm_title,Status,satisfied,completion_status");
+		for ($i=0;$i<count($a_cols);$i++) {
+			$cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
+		}
+		for ($i=0;$i<count($a_true);$i++) {
+			$cols[$a_true[$i]]["default"] = true;
+		}
+		return $cols;
+	}
+
+	function exportObjGlobalToSystem($a_user = array(), $allowExportPrivacy=false) {
+		global $ilDB, $lng;
+		$lng->loadLanguageModule("scormtrac");
+		$returnData = array();
+		$dbdata = array();
+		$query = 'SELECT user_id, scope_id,
+				status,
+				satisfied,
+				measure,
+				score_raw as c_raw,
+				score_min as c_min,
+				score_max as c_max,
+				completion_status,
+				progress_measure
+				FROM cmi_gobjective 
+				WHERE scope_id = %s  
+				AND '.$ilDB->in('user_id', $a_user, false, 'integer') .'
+				ORDER BY user_id, scope_id';
+		$res = $ilDB->queryF($query,array('integer'),array($this->getObjId()));
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$dbdata[] = $row;
+		}
+		foreach($dbdata as $data) {
+			$data["lm_id"] = $data["scope_id"];
+			$data["lm_title"] = $this->lmTitle;
+			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+			$data["Status"] = "".$data["status"];
+			$data["satisfied"] = "".$data["satisfied"];
+			$data["measure"] = "".$data["measure"];
+			$data["c_raw"] = "".$data["c_raw"];
+			$data["c_min"] = "".$data["c_min"];
+			$data["c_max"] = "".$data["c_max"];
+			$data["completion_status"] = "".$data["completion_status"];
+			$data["progress_measure"] = "".$data["progress_measure"];
+			$returnData[]=$data;
+		}
+//		var_dump($returnData);
+		return $returnData;
+	}
+
 	
 	function tracInteractionItemColumns($b_orderBySCO, $b_allowExportPrivacy) {
 		global $lng;
