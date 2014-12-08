@@ -1497,6 +1497,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	function getMaximumGapPoints($gap_index) 
 	{
 		$points = 0;
+		$gap_max_points = 0;
 		if (array_key_exists($gap_index, $this->gaps))
 		{
 			$gap =& $this->gaps[$gap_index];
@@ -1731,7 +1732,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	public function calculateCombinationResult($user_result)
 	{
 		$points = 0;
+		
 		$assClozeGapCombinationObj = new assClozeGapCombination();
+		
 		if($assClozeGapCombinationObj->combinationExistsForQid($this->getId()))
 		{
 			$combinations_for_question 	= $assClozeGapCombinationObj->getCleanCombinationArray($this->getId());
@@ -1744,6 +1747,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 					$gap_answers[$user_result_build_list['gap_id']] = $user_result_build_list['value'];
 				}
 			}
+
 			foreach($combinations_for_question as $combination)
 			{
 
@@ -1826,8 +1830,13 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			$detailed = array();
 		}
 
-		$combinations = $this->calculateCombinationResult($user_result);
-		$points	      = $combinations[0]; 
+		$assClozeGapCombinationObj = new assClozeGapCombination();
+		$combinations = NULL;
+		if($assClozeGapCombinationObj->combinationExistsForQid($this->getId()))
+		{
+			$combinations = $this->calculateCombinationResult($user_result);
+			$points = $combinations[0];
+		}
 		$counter 	  = 0;
 		$solution_values_text = array(); // for identical scoring checks
 		$solution_values_select = array(); // for identical scoring checks
@@ -1839,7 +1848,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 				$value = array("value" => $value);
 			}
 			
-			if(array_key_exists($gap_id, $this->gaps) && !array_key_exists ($gap_id, $combinations[1]))
+			if(!$combinations == NULL && array_key_exists($gap_id, $this->gaps) && !array_key_exists ($gap_id, $combinations[1]))
 			{
 				switch($this->gaps[$gap_id]->getType())
 				{
