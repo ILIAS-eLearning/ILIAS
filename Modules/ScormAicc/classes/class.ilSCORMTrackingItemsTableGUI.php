@@ -172,9 +172,9 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 				$value = ilUtil::img($path, $text);
 				break;
 		}
-		//BLUM round
 		if ($id=="launch_data" || $id=="suspend_data") return $value;
-		if (is_numeric($value)) return round($value,2);
+		//BLUM round
+		// if (is_numeric($value)) return round($value,2);
 		return $value;
 	}
 	/**

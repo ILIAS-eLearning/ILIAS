@@ -93,30 +93,6 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 		// default fields
 		$cols = array();
 		
-/*		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
-		$tracking = new ilObjUserTracking();
-		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
-		{
-			$cols["first_access"] = array(
-				"txt" => $lng->txt("trac_first_access"),
-				"default" => true);
-			$cols["last_access"] = array(
-				"txt" => $lng->txt("trac_last_access"),
-				"default" => true);
-		}
-		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT))
-		{
-			$cols["read_count"] = array(
-				"txt" => $lng->txt("trac_read_count"),
-				"default" => true);
-		}
-		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
-		{
-			$cols["spent_seconds"] = array(
-				"txt" => $lng->txt("trac_spent_seconds"),
-				"default" => true);
-		}
-	*/
 		switch($this->report) {
 			case "exportSelectedCore":
 				$cols=ilSCORM2004TrackingItems::exportSelectedCoreColumns($this->bySCO, $this->allowExportPrivacy);
@@ -196,9 +172,9 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 				$value = ilUtil::img($path, $text);
 				break;
 		}
-		//BLUM round
 		if ($id=="launch_data" || $id=="suspend_data") return $value;
-		if (is_numeric($value)) return round($value,2);
+		//BLUM round
+		// if (is_numeric($value)) return round($value,2);
 		return $value;
 	}
 	/**
