@@ -74,7 +74,7 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
 	
 	protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null)
 	{
-		$this->cloneBasics($this, $new_obj);
+		self::cloneBasics($this, $new_obj);
 		
 		// copy pages
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
