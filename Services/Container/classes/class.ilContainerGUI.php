@@ -3871,6 +3871,63 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$settings->update();
 	}
-	
+
+	/**
+	 * Show trash content of object
+	 *
+	 * @access	public
+	 */
+	public function trashObject()
+	{
+		global $tpl;
+
+		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
+		$ru = new ilRepUtilGUI($this);
+		$ru->showTrashTable($_GET["ref_id"]);
+	}
+
+	/**
+	 * remove objects from trash bin and all entries therefore every object needs a specific deleteObject() method
+	 *
+	 * @access	public
+	 */
+	public function removeFromSystemObject()
+	{
+		global $log, $ilAppEventHandler, $lng;
+
+		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
+		$ru = new ilRepUtilGUI($this);
+		$ru->removeObjectsFromSystem($_POST["trash_id"]);
+		$this->ctrl->redirect($this, "trash");
+	}
+
+	/**
+	 * Get objects back from trash
+	 */
+	public function undeleteObject()
+	{
+		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
+		$ru = new ilRepUtilGUI($this);
+		$ru->restoreObjects($_GET["ref_id"], $_POST["trash_id"]);
+		$this->ctrl->redirect($this, "trash");
+	}
+
+	/**
+	 * confirmation screen remove from system
+	 */
+	public function confirmRemoveFromSystemObject()
+	{
+		global $lng;
+		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
+
+		if(!isset($_POST["trash_id"]))
+		{
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+			$this->ctrl->redirect($this, "trash");
+		}
+
+		$ru = new ilRepUtilGUI($this);
+		$ru->confirmRemoveFromSystemObject($_POST["trash_id"]);
+	}
 }
 ?>

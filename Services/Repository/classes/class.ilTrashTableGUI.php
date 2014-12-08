@@ -40,10 +40,9 @@ class ilTrashTableGUI extends ilTable2GUI
 		//$this->disable("footer");
 		$this->setEnableTitle(true);
 		$this->setSelectAllCheckbox("trash_id[]");
-		
 
-		$this->addMultiCommand("removeFromSystem", $lng->txt("btn_remove_system"));
-		$this->addMultiCommand("undelete", $lng->txt("btn_undelete"));
+		$this->addMultiCommand("undelete",$lng->txt("btn_undelete"));
+		$this->addMultiCommand("confirmRemoveFromSystem", $lng->txt("btn_remove_system"));
 	}
 	
 	/**
