@@ -395,7 +395,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 	 * @param ilObjPortfolioBase $a_source
 	 * @param ilObjPortfolioBase $a_target
 	 */
-	protected function cloneBasics(ilObjPortfolioBase $a_source, ilObjPortfolioBase $a_target)
+	protected static function cloneBasics(ilObjPortfolioBase $a_source, ilObjPortfolioBase $a_target)
 	{
 		// copy portfolio properties
 		$a_target->setPublicComments($a_source->hasPublicComments());
@@ -451,7 +451,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 			return;
 		}
 		
-		$this->cloneBasics($a_source, $a_target);
+		self::cloneBasics($a_source, $a_target);
 
 		// personal skills
 		include_once "Services/Skill/classes/class.ilPersonalSkill.php";
