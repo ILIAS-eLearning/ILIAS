@@ -9969,6 +9969,7 @@ div.ilCreationFormSection div.ilForm div.ilForm {
   width: 18px;
   height: 18px;
 }
+.il_ItemProperty .badge,
 .ilHeadAction .badge {
   font-size: 8px;
   padding: 2px 4px;
@@ -10473,6 +10474,9 @@ img.ilRatingIcon {
 img.ilRatingMarker {
   width: 7px;
   height: 7px;
+}
+a.ilRating {
+  text-decoration: none;
 }
 .panel {
   box-shadow: none;
