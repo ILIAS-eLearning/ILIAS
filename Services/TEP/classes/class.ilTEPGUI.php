@@ -250,6 +250,10 @@ class ilTEPGUI
 		{
 			$ilToolbar->addButton($lng->txt("tep_add_new_entry"),
 				$ilCtrl->getLinkTargetByClass("ilTEPEntryGUI", "createEntry"));
+			// gev-patch start
+			$ilToolbar->addButton($lng->txt("gev_create_decentral_training"),
+				$ilCtrl->getLinkTargetByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "createTraining"));
+			// gev-patch end
 		}
 		
 		if($a_has_content)
