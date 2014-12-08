@@ -5196,3 +5196,7 @@ if(! $ilDB->tableColumnExists('qpl_a_cloze_combi_res', 'row_id'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4432>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
