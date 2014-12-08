@@ -30,7 +30,7 @@
 <div class="ilClearFloat"></div>
 <script type="text/javascript">
 	$().ready(function() {
-		if ($.fn.ilOrderingQuestion != 'undefined') {
+		if (typeof $.fn.ilOrderingQuestion != 'undefined') {
 			$('div.ilVerticalOrderingQuestion').ilOrderingQuestion({
 				sortable_selector:     'ul',
 				result_value_selector: '.ilOrderingValue',

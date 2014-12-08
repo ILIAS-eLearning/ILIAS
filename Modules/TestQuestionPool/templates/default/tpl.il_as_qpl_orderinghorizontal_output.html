@@ -13,7 +13,7 @@
 
 <script type="text/javascript">
 	$().ready(function() {
-		if ($.fn.ilHorizontalOrderingQuestion != 'undefined') {
+		if (typeof $.fn.ilHorizontalOrderingQuestion != 'undefined') {
 			$('#horizontal_{QUESTION_ID}').ilHorizontalOrderingQuestion({
 				result_value_selector: '.ilOrderingValue',
 				result_separator: '{::}'
