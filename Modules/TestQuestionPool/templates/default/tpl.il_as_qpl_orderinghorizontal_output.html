@@ -13,9 +13,11 @@
 
 <script type="text/javascript">
 	$().ready(function() {
-		$('#horizontal_{QUESTION_ID}').ilHorizontalOrderingQuestion({
-			result_value_selector  : '.ilOrderingValue',
-			result_separator       : '{::}'
-		});
+		if ($.fn.ilHorizontalOrderingQuestion != 'undefined') {
+			$('#horizontal_{QUESTION_ID}').ilHorizontalOrderingQuestion({
+				result_value_selector: '.ilOrderingValue',
+				result_separator: '{::}'
+			});
+		}
 	});
 </script>

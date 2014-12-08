@@ -30,14 +30,16 @@
 <div class="ilClearFloat"></div>
 <script type="text/javascript">
 	$().ready(function() {
-		$('div.ilVerticalOrderingQuestion').ilOrderingQuestion({
-			sortable_selector          : 'ul',
-			result_value_selector      : '.ilOrderingValue',
-			result_separator           : ':',<!-- BEGIN form_submit_register -->
-			build_result_on_form_submit: true,<!-- END form_submit_register -->
-			reset_selector             : '.reset',
-			initial_order              : $.parseJSON('{INITIAL_ORDER}') || []
-		});
+		if ($.fn.ilOrderingQuestion != 'undefined') {
+			$('div.ilVerticalOrderingQuestion').ilOrderingQuestion({
+				sortable_selector:     'ul',
+				result_value_selector: '.ilOrderingValue',
+				result_separator:      ':', <!-- BEGIN form_submit_register -->
+				build_result_on_form_submit: true, <!-- END form_submit_register -->
+				reset_selector:        '.reset',
+				initial_order: $.parseJSON('{INITIAL_ORDER}') || []
+			});
+		}
 	});
 </script>
 <!-- END ordering_with_javascript -->
