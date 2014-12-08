@@ -188,26 +188,30 @@ class ilOrderingTextWizardInputGUI extends ilTextInputGUI
 			$tpl->setVariable("ROW_CLASS", $class);
 			$tpl->setVariable("POST_VAR", $this->getPostVar() . "[$i]");
 			$tpl->setVariable("ID", $this->getFieldId() . "[$i]");
-			$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
-			$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
 			$tpl->setVariable("SIZE", $this->getSize());
 			$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
-			if ($this->getDisabled())
+
+			if($this->getDisabled())
 			{
-				$tpl->setVariable("DISABLED",
-					" disabled=\"disabled\"");
+				$tpl->setVariable("DISABLED", " disabled=\"disabled\"");
 			}
+
 			if(!$this->disable_actions)
 			{
-				$tpl->setVariable('DISABLED_ACTIONS', ' disabled="disabled"');
+				$tpl->setVariable("ID_ADD_BUTTON", $this->getFieldId() . "[$i]");
+				$tpl->setVariable("ID_REMOVE_BUTTON", $this->getFieldId() . "[$i]");
+				$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
+				$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
 				$tpl->setVariable( "ADD_BUTTON", ilUtil::getImagePath( 'edit_add.png' ) );
 				$tpl->setVariable( "REMOVE_BUTTON", ilUtil::getImagePath( 'edit_remove.png' ) );
 			}
+
 			if($this->disable_text)
 			{
 				$tpl->setVariable('DISABLED_TEXT', ' readonly="readonly"');
 			}
-				$tpl->parseCurrentBlock();
+
+			$tpl->parseCurrentBlock();
 			$i++;
 		}
 		$tpl->setVariable("ELEMENT_ID", $this->getFieldId());

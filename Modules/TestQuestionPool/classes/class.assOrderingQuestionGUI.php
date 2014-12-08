@@ -363,7 +363,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		$wizard_gui = $form->getItemByPostVar('answers');
 		
-		if($wizard_gui instanceof ilTextWizardInputGUI)
+		if($wizard_gui instanceof ilOrderingTextWizardInputGUI)
 		{
 			/** @var ilTextWizardInputGUI $twizard_gui */
 			$wizard_gui->setDisableActions( true );
