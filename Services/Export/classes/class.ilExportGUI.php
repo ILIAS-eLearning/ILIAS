@@ -352,7 +352,7 @@ class ilExportGUI
 	/**
 	 * Download file
 	 */
-	function download()
+	public function download()
 	{
 		global $ilCtrl, $lng;
 		
