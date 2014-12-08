@@ -42,9 +42,8 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		if (!$this->getCreationMode())
 		{
 			$tpl->setTitle($this->object->getTitle());
-			$tpl->setTitleIcon($this->plugin->getImagePath("icon_".$this->object->getType()."_b.png"),
-				$lng->txt("icon")." ".$this->txt("obj_".$this->object->getType()));
-				
+			$tpl->setTitleIcon(ilObject::_getIcon($this->object->getId()));
+
 			// set tabs
 			if (strtolower($_GET["baseClass"]) != "iladministrationgui")
 			{
