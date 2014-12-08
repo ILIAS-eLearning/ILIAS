@@ -23,6 +23,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevMyTrainingsApGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDEdupointsReportedGUI
 * @ilCtrl_Calls gevDesktopGUI: gevEmployeeBookingsGUI
+* @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingGUI
 *
 */
 
@@ -144,6 +145,12 @@ class gevDesktopGUI {
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
+			case "gevdecentraltraininggui":
+				$ilMainMenu->setActive("gev_others_menu");
+				require_once("Services/GEV/Desktop/classes/class.gevDecentralTrainingGUI.php");
+				$gui = new gevDecentralTrainingGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
 
 			default:	
 				$this->dispatchCmd($cmd);

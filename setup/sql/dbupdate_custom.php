@@ -2401,3 +2401,8 @@ if(!$ilDB->tableExists('hist_tep'))
 
 ?>
 
+<#71>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+

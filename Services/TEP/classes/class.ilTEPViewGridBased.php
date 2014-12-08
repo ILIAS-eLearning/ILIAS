@@ -731,22 +731,33 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		$may_create_entry = (($this->getPermissions()->isTutor() && $a_user_id == $ilUser->getId()) ||
 			$this->getPermissions()->mayEditOthers());
 	
+		$may_create_decentral_training = true;
+	
+		// gev-patch start
+		// ilAdvancedSelectionListGUI
+		require_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$list = new ilAdvancedSelectionListGUI();
+		$list->setId("ceal_".$a_id);
+		$list->setHeaderIcon(ilUtil::getImagePath("date_add.png"));
+	
 		if($may_create_entry)
 		{
 			$url_event = $ilCtrl->getLinkTargetByClass("ilTEPEntryGUI", "createEntry");
-			
-			/* ilAdvancedSelectionListGUI
-			include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
-			$list = new ilAdvancedSelectionListGUI();
-			$list->setId("ceal_".$a_id);
-			
-			$list->addItem($lng->txt("tep_add_new_entry"), "", $url_event);						
-			
-			return $list->getHTML();			 
-			*/
-			
-			return $url_event;
+			$list->addItem($lng->txt("tep_add_new_entry"), "", $url_event);
 		}
+		
+		if ($may_create_decentral_training) {
+			$spl = explode("_", $a_id);
+			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "user_id", $spl[0]);
+			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "date", $spl[1]);
+			$url_event = $ilCtrl->getLinkTargetByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "createTraining");
+			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "user_id", null);
+			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "date", null);
+			$list->addItem($lng->txt("gev_create_decentral_training"), "", $url_event);
+		}
+		
+		return $list->getHTML();
+		// gev-patch end
 	}
 		
 	/**
@@ -777,14 +788,15 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			{															
 				$a_tpl->setCurrentBlock("col_actions_bl");
 			
-				/* ilAdvancedSelectionListGUI
+				// gev-patch start
+				// ilAdvancedSelectionListGUI
 				$a_tpl->setVariable("ACTION_ID", $unique_id);
 				$a_tpl->setVariable("ACTION_LIST", $actions);
-				*/
 				
-				$a_tpl->setVariable("ADD_URL", $actions);				
-				$a_tpl->setVariable("ADD_ALT", $lng->txt("tep_add_new_entry"));				
-				$a_tpl->setVariable("ADD_ICON", ilUtil::getImagePath("date_add.png"));		
+				//$a_tpl->setVariable("ADD_URL", $actions);				
+				//$a_tpl->setVariable("ADD_ALT", $lng->txt("tep_add_new_entry"));				
+				//$a_tpl->setVariable("ADD_ICON", ilUtil::getImagePath("date_add.png"));		
+				// gev-patch end
 				
 				$a_tpl->parseCurrentBlock();
 			}	
