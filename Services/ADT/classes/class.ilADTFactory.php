@@ -176,24 +176,27 @@ class ilADTFactory
 				
 			}
 		}
+		
+		// multi enum search (single) == enum search (multi)		
+		if(!$a_multi &&
+			$a_adt_def->getType() == "MultiEnum")
+		{
+			$class = $this->initTypeClass("Enum", "SearchBridgeMulti");	
+			return new $class($a_adt_def);	
+		}	
+		
 		if($a_multi)
 		{
 			try
-			{			
-				// enum multi search == multi enum search
-				$adt_type = $a_adt_def->getType();
-				if($adt_type == "MultiEnum")
-				{
-					$adt_type = "Enum";
-				}								
-				$class = $this->initTypeClass($adt_type, "SearchBridgeMulti");	
+			{													
+				$class = $this->initTypeClass($a_adt_def->getType(), "SearchBridgeMulti");	
 				return new $class($a_adt_def);	
 			}
 			catch(Exception $e)
 			{
 
 			}
-		}
+		}			
 		$class = $this->initTypeClass($a_adt_def->getType(), "SearchBridgeSingle");	
 		return new $class($a_adt_def);					
 	}

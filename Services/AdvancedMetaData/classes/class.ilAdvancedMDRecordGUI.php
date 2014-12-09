@@ -296,7 +296,7 @@ class ilAdvancedMDRecordGUI
 			
 			foreach(ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true) as $field)
 			{									 			
-	 			$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, true);				
+	 			$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);				
 				$field_form->setForm($this->form);
 				$field_form->setElementId("advmd[".$field->getFieldId()."]");
 				$field_form->setTitle($field->getTitle());			
