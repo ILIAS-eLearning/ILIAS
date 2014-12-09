@@ -1831,7 +1831,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		}
 
 		$assClozeGapCombinationObj = new assClozeGapCombination();
-		$combinations = NULL;
+		$combinations[1] = array();
 		if($assClozeGapCombinationObj->combinationExistsForQid($this->getId()))
 		{
 			$combinations = $this->calculateCombinationResult($user_result);
@@ -1848,7 +1848,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 				$value = array("value" => $value);
 			}
 			
-			if(!$combinations == NULL && array_key_exists($gap_id, $this->gaps) && !array_key_exists ($gap_id, $combinations[1]))
+			if(array_key_exists($gap_id, $this->gaps) && !array_key_exists ($gap_id, $combinations[1]))
 			{
 				switch($this->gaps[$gap_id]->getType())
 				{
