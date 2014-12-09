@@ -88,7 +88,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 		array_push($headernames, $this->lng->txt("tst_reached_points"));
 		array_push($headernames, $this->lng->txt("tst_mark"));
-		if ($this->object->ects_output)
+		if ($this->object->getECTSOutput())
 		{
 			array_push($headernames, $this->lng->txt("ects_grade"));
 		}
@@ -112,7 +112,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 		array_push($headervars, "resultspoints");
 		array_push($headervars, "resultsmarks");
-		if ($this->object->ects_output)
+		if ($this->object->getECTSOutput())
 		{
 			array_push($headervars, "ects_grade");
 		}
@@ -191,7 +191,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$counter = 1;
 		if (count($foundParticipants) > 0)
 		{
-			if ($this->object->ects_output)
+			if ($this->object->getECTSOutput())
 			{
 				$passed_array =& $this->object->getTotalPointsPassedArray();
 			}
@@ -240,7 +240,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					{
 						$evaluationrow['mark'] = $mark->getShortName();
 					}
-					if ($this->object->ects_output)
+					if ($this->object->getECTSOutput())
 					{
 						$ects_mark = $this->object->getECTSGrade($passed_array, $userdata->getReached(), $userdata->getMaxPoints());
 						$evaluationrow['ects_grade'] = $ects_mark;
