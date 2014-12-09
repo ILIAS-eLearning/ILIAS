@@ -248,7 +248,24 @@ class ilUserHistorizingHelper
 
 		$titles = $tree->getTitles(array($orgu_1_refid, $orgu_2_refid));
 
-		return array($titles[$orgu_1_refid], $titles[$orgu_2_refid]);
+		$orgu_1_title = $titles[$orgu_1_refid];
+		$orgu_2_title = $titles[$orgu_2_refid];
+		
+		//better check for level?
+		$invalid =  array(
+			'System Settings', 
+			'__OrgUnitAdministration'
+		);
+
+		if(in_array($orgu_1_title, $invalid)){
+			$orgu_1_title = null;
+		}
+
+		if(in_array($orgu_2_title, $invalid)){
+			$orgu_2_title = null;
+		}
+
+		return array($orgu_1_title, $orgu_2_title);
 	}
  	
 

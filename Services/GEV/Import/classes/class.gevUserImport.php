@@ -152,13 +152,13 @@ $imp = new gevUserImport();
 
 print '<pre>';
 
-/*
-$imp->fetchVFSUsers();
-print 'done VFS-users.<br>';
-*/
 
 $imp->fetchGEVUsers();
 print 'done GEV-users.<br>';
+
+$imp->fetchVFSUsers();
+print 'done VFS-users.<br>';
+
 
 
 print '<br><br>ok.';
