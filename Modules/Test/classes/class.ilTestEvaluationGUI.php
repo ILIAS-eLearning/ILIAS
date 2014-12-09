@@ -1097,17 +1097,17 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 			$tpl->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
-			$tpl->setCurrentBlock('signature');
-			$tpl->setVariable("SIGNATURE", $this->getResultsSignature());
-			if ($this->object->getShowExamid())
+			if ($this->object->getShowExamIdInTestResultsEnabled())
 			{
-				vd($pass);
+				$tpl->setCurrentBlock('signature_exam_id');
 				$tpl->setVariable('EXAM_ID', $this->object->getExamId(
 					$testSession->getActiveId(), $pass
 				));
-
 				$tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
+				$tpl->parseCurrentBlock();
 			}
+			$tpl->setCurrentBlock('signature');
+			$tpl->setVariable("SIGNATURE", $this->getResultsSignature());
 			$tpl->parseCurrentBlock();
 		}
 

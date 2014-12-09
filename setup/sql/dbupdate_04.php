@@ -5211,3 +5211,11 @@ if( $ilDB->tableColumnExists('tst_tests', 'examid_in_kiosk') )
 	$ilDB->renameTableColumn('tst_tests', 'examid_in_kiosk', 'examid_in_test_pass');
 }
 ?>
+<#4435>
+<?php
+if( $ilDB->tableColumnExists('tst_tests', 'show_exam_id') )
+{
+	$ilDB->renameTableColumn('tst_tests', 'show_exam_id', 'examid_in_test_res');
+}
+?>
+

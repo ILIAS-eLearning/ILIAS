@@ -1183,7 +1183,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				
 		$postpone = ( $this->object->getSequenceSettings() == TEST_POSTPONE );
 		
-		if ($this->object->getShowExamid() && !$this->object->getKioskMode())
+		if ($this->object->getShowExamIdInTestResultsEnabled() && !$this->object->getKioskMode())
 		{
 			$this->tpl->setCurrentBlock('exam_id');
 			$this->tpl->setVariable('EXAM_ID', $this->object->getExamId(
