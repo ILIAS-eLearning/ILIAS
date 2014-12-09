@@ -744,6 +744,10 @@ ilias.questions.showFeedback =function(a_id) {
 					fbtext = '<b>' + ilias.questions.txt.enough_answers_correct + '</b><br />'
 						+ txt_wrong_answers + '<br />' + ilias.questions.txt.correct_answers_shown;
 				}
+				else if (questions[a_id].feedback['allcorrect'])
+				{
+					fbtext += questions[a_id].feedback['allcorrect'];
+				}
 				
 				ilias.questions.showCorrectAnswers(a_id);
 			}
