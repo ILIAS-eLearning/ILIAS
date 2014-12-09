@@ -42,4 +42,15 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
 	}	
 	
 	
+	//
+	// definition (NOT ADT-based)
+	// 
+	
+	public function importDefinitionFormPostValuesNeedsConfirmation()
+	{
+		// handling changed values not supported yet
+		return false;
+	}
+	
+	
 }
