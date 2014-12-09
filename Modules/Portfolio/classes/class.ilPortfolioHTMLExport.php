@@ -83,32 +83,39 @@ class ilPortfolioHTMLExport
 			copy($ppic, $this->export_dir."/".basename($ppic));
 		}	
 		
-		// page element: course list icons
-		$crs_list_icons = array("icon_crs.svg", "icon_lobj.svg", "scorm/complete.svg", 
-			"scorm/not_attempted.svg", "scorm/failed.svg", "scorm/incomplete.svg");
-		$path = "./templates/default/images/";
-		foreach($crs_list_icons as $icon)
-		{
-			if(is_file($path.$icon))
-			{
-				copy($path.$icon, $this->export_dir."/images/".basename($icon));
-			}
-		}
-		
-		// profile: location/map
-		$js_files = array("ServiceGoogleMaps.js", "OpenLayers.js", "ServiceOpenLayers.js");
-		$path = "./Services/Maps/js/";
-		foreach($js_files as $js_file)
-		{
-			if(is_file($path.$js_file))
-			{
-				copy($path.$js_file, $this->export_dir."/js/".basename($js_file));
-			}
-		}
-		
 		// export pages
 		$this->exportHTMLPages();
-
+		
+		// add js/images/file to zip
+		$images = $files = $js_files = array();
+		foreach($this->export_material as $items)
+		{
+			$images = array_merge($images, $items["images"]);
+			$files = array_merge($files, $items["files"]);
+			$js_files = array_merge($js_files, $items["js"]);
+		}
+		foreach(array_unique($images) as $image)
+		{
+			if(is_file($image))
+			{
+				copy($image, $this->export_dir."/images/".basename($image));
+			}
+		}
+		foreach(array_unique($js_files) as $js_file)
+		{
+			if(is_file($js_file))
+			{
+				copy($js_file, $this->export_dir."/js/".basename($js_file));
+			}
+		}
+		foreach(array_unique($files) as $file)
+		{
+			if(is_file($file))
+			{
+				copy($file, $this->export_dir."/files/".basename($file));
+			}
+		}
+		
 		// zip everything
 		if (true)
 		{
@@ -185,7 +192,7 @@ class ilPortfolioHTMLExport
 		$this->co_page_html_export->exportPageElements();
 	}
 	
-	function buildExportTemplate()
+	function buildExportTemplate(array $a_js_files = null)
 	{
 		global $ilTabs;
 		
@@ -193,17 +200,18 @@ class ilPortfolioHTMLExport
 		$this->tpl->getStandardTemplate();
 		$this->tpl->addOnLoadCode('il.Tooltip.init();', 3);
 		
-		// profile: location/map
-		$this->tpl->setCurrentBlock("js_file");
-		$this->tpl->setVariable("JS_FILE", "http://maps.google.com/maps/api/js?sensor=false");
-		$this->tpl->parseCurrentBlock();
-		$js_files = array("ServiceGoogleMaps.js", "OpenLayers.js", "ServiceOpenLayers.js");
-		foreach($js_files as $js_file)
-		{
-			$this->tpl->setCurrentBlock("js_file");
-			$this->tpl->setVariable("JS_FILE", "./js/".$js_file);
-			$this->tpl->parseCurrentBlock();
-		}		
+		// js files
+		if(is_array($a_js_files))
+		{						
+			foreach($a_js_files as $js_file)
+			{				
+				$this->tpl->setCurrentBlock("js_file");
+				$this->tpl->setVariable("JS_FILE", !stristr($js_file, "://")
+					? "./js/".basename($js_file)
+					: $js_file);
+				$this->tpl->parseCurrentBlock();
+			}		
+		}
 		
 		// workaround
 		$this->tpl->setVariable("MAINMENU", "<div style='min-height:40px;'></div>");
@@ -227,7 +235,7 @@ class ilPortfolioHTMLExport
 		return $this->tpl;
 	}
 	
-	function writeExportFile($a_file, $a_content, $a_onload = null)
+	function writeExportFile($a_file, $a_content, $a_onload = null, $a_js_files = null)
 	{
 		$file = $this->export_dir."/".$a_file;
 		// return if file is already existing
@@ -241,7 +249,7 @@ class ilPortfolioHTMLExport
 			"Modules/Portfolio");
 		$ep_tpl->setVariable("PAGE_CONTENT", $a_content);		
 		
-		$this->buildExportTemplate();	
+		$this->buildExportTemplate($a_js_files);	
 		$this->tpl->setContent($ep_tpl->get());
 		
 		if(is_array($a_onload))
@@ -283,7 +291,10 @@ class ilPortfolioHTMLExport
 		$pgui->setFullscreenLink("fullscreen.html"); // #12930 - see page.xsl
 		$page_content = $pgui->showPage();
 		
-		$this->writeExportFile("prtf_".$a_post_id.".html", $page_content, $pgui->getJsOnloadCode());
+		$material = $pgui->getExportMaterial();
+		$this->export_material[] = $material;
+		
+		$this->writeExportFile("prtf_".$a_post_id.".html", $page_content, $pgui->getJsOnloadCode(), $material["js"]);
 	}
 }
 

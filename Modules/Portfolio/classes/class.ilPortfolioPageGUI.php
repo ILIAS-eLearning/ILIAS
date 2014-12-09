@@ -21,6 +21,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected $js_onload_code = array();
 	protected $additional = array();
+	protected $export_material = array("js"=>array(), "images"=>array(), "files"=>array());
+	
 	
 	/**
 	 * Constructor
@@ -275,6 +277,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		$user_id = $this->getPageContentUserId($a_user_id);
 		
+		if($this->getOutputMode() == "offline")
+		{
+			// profile picture is done in ilPortfolioHTMLExport
+			
+			$this->export_material["js"][] = "http://maps.google.com/maps/api/js?sensor=false";	
+			$this->export_material["js"][] = "./Services/Maps/js/ServiceGoogleMaps.js";
+			$this->export_material["js"][] = "./Services/Maps/js/OpenLayers.js";
+			$this->export_material["js"][] = "./Services/Maps/js/ServiceOpenLayers.js";								
+		}
+		
 		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
 		$pub_profile = new ilPublicUserProfileGUI($user_id);
 		$pub_profile->setEmbedded(true, ($this->getOutputMode() == "offline"));
@@ -318,10 +330,20 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		include_once $objDefinition->getLocation($a_type)."/class.".$class.".php";
 		$verification = new $class($a_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
 		
-		// direct download link
-		$this->ctrl->setParameter($this, "dlid", $a_id);
-		$url = $this->ctrl->getLinkTarget($this, "dl".$a_type);
-		$this->ctrl->setParameter($this, "dlid", "");
+		if($this->getOutputMode() != "offline")
+		{			
+			// direct download link
+			$this->ctrl->setParameter($this, "dlid", $a_id);
+			$url = $this->ctrl->getLinkTarget($this, "dl".$a_type);
+			$this->ctrl->setParameter($this, "dlid", "");
+		}
+		else
+		{
+			$file = $verification->object->getFilePath();
+			$url = "files/".basename($file);
+			
+			$this->export_material["files"][] = $file;		
+		}		
 		
 		return $verification->render(true, $url);
 	}
@@ -604,6 +626,13 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$img_path = null;
 		if($this->getOutputMode() == "offline")
 		{
+			$this->export_material["images"][] = "./templates/default/images/icon_crs.svg";
+			$this->export_material["images"][] = "./templates/default/images/icon_lobj.svg";
+			$this->export_material["images"][] = "./templates/default/images/scorm/complete.svg";
+			$this->export_material["images"][] = "./templates/default/images/scorm/not_attempted.svg";
+			$this->export_material["images"][] = "./templates/default/images/scorm/failed.svg";
+			$this->export_material["images"][] = "./templates/default/images/scorm/incomplete.svg";
+			
 			$img_path = "images/";
 		}
 		
@@ -836,6 +865,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		}
 		
 		return $res;
+	}
+	
+	public function getExportMaterial()
+	{
+		return $this->export_material;
 	}
 }
 
