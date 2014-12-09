@@ -558,7 +558,7 @@ class ilTestServiceGUI
 		$template->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
 		$uname = $this->object->userLookupFullName($user_id, $overwrite_anonymity);
 		$template->setVariable("VALUE_USR_NAME", $uname);
-		$pass = $this->object->_getPass($active_id);
+		$pass = $this->object->_getResultPass($active_id);
 		$template->setVariable("EXAM_ID_TXT", $this->lng->txt("exam_id"));
 		$template->setVariable("EXAM_ID", $this->object->getExamId($active_id , $pass));
 		$template->setVariable("TXT_TEST_DATE", $this->lng->txt("tst_tst_date"));

@@ -1066,8 +1066,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$this->ctrl->saveParameter($this, "pass");
 		$pass = $_GET["pass"];
+		vd($pass);
 
 		$result_array = $this->getFilteredTestResult($active_id, $pass);
+		
+		vd($result_array);
 
 		$command_solution_details = "";
 		if ($this->object->getShowSolutionDetails())
@@ -1101,8 +1104,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$tpl->setVariable("SIGNATURE", $this->getResultsSignature());
 			if ($this->object->getShowExamid())
 			{
+				vd($pass);
 				$tpl->setVariable('EXAM_ID', $this->object->getExamId(
-					$testSession->getActiveId(), $testSession->getPass()
+					$testSession->getActiveId(), $pass
 				));
 
 				$tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
