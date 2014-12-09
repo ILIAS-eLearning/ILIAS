@@ -88,7 +88,7 @@ class ilPCAMDPageList extends ilPageContent
 	}
 	
 	/**
-	 * Get consultation hours group ids
+	 * Get filter field values
 	 *
 	 * @param int $a_data_id
 	 * @return string
@@ -143,7 +143,7 @@ class ilPCAMDPageList extends ilPageContent
 			{				
 				if(isset($list_values[$field->getFieldId()]))					
 				{						
-					$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);						
+					$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, true);						
 					$field->setSearchValueSerialized($field_form, $list_values[$field->getFieldId()]);																
 					$found_pages = $field->searchSubObjects($field_form, $wiki_id, "wpg");						
 					if(is_array($found_ids))

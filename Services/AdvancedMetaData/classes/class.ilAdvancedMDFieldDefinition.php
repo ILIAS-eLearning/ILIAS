@@ -1072,7 +1072,7 @@ abstract class ilAdvancedMDFieldDefinition
 						 			
 		$condition = $a_adt_search->getSQLCondition($element_id);				
 		if($condition)
-		{			
+		{						
 			$objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(), $condition);
 			if(sizeof($objects))
 			{			

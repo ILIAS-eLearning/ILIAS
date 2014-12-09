@@ -273,6 +273,8 @@ class ilAdvancedMDRecordGUI
 		// 
 		// current usage: wiki page element "[amd] page list"
 		
+		$this->lng->loadLanguageModule('search');
+		
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');		
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');			
 		if ($this->getSelectedOnly())
@@ -294,7 +296,7 @@ class ilAdvancedMDRecordGUI
 			
 			foreach(ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true) as $field)
 			{									 			
-	 			$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);				
+	 			$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, true);				
 				$field_form->setForm($this->form);
 				$field_form->setElementId("advmd[".$field->getFieldId()."]");
 				$field_form->setTitle($field->getTitle());			
