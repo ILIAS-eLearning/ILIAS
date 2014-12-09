@@ -1946,7 +1946,7 @@ class gevCourseUtils {
 				$online_status = 0;
 			}
 			$additional_where .=" AND cs.activation_type = " .$db->quote($online_status, 'integer');
-			print $additional_where;
+			//print $additional_where;
 		}
 
 		
