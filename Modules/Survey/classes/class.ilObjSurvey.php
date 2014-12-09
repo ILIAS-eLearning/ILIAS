@@ -3953,20 +3953,34 @@ class ilObjSurvey extends ilObject
 		// add the rest of the preferences in qtimetadata tags, because there is no correspondent definition in QTI
 		$a_xml_writer->xmlStartTag("metadata");
 
-		$a_xml_writer->xmlStartTag("metadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "evaluation_access");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getEvaluationAccess());
-		$a_xml_writer->xmlEndTag("metadatafield");
-
-		$a_xml_writer->xmlStartTag("metadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "status");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getStatus());
-		$a_xml_writer->xmlEndTag("metadatafield");
-
-		$a_xml_writer->xmlStartTag("metadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "display_question_titles");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getShowQuestionTitles());
-		$a_xml_writer->xmlEndTag("metadatafield");
+		$custom_properties = array();
+		$custom_properties["evaluation_access"] = $this->getEvaluationAccess();
+		$custom_properties["status"] = $this->getStatus();
+		$custom_properties["display_question_titles"] = $this->getShowQuestionTitles();
+		$custom_properties["pool_usage"] = (int)$this->getPoolUsage();
+		
+		$custom_properties["own_results_view"] = (int)$this->hasViewOwnResults();
+		$custom_properties["own_results_mail"] = (int)$this->hasMailOwnResults();
+		
+		$custom_properties["mode_360"] = (int)$this->get360Mode();
+		$custom_properties["mode_360_self_eval"] = (int)$this->get360SelfEvaluation();
+		$custom_properties["mode_360_self_rate"] = (int)$this->get360SelfRaters();
+		$custom_properties["mode_360_self_appr"] = (int)$this->get360SelfAppraisee();
+		$custom_properties["mode_360_results"] = $this->get360Results();
+		$custom_properties["mode_360_skill_service"] = (int)$this->get360SkillService();
+		
+		
+		// :TODO: skills?
+				
+		// reminder/tutor notification are (currently?) not exportable
+		
+		foreach($custom_properties as $label => $value)
+		{
+			$a_xml_writer->xmlStartTag("metadatafield");
+			$a_xml_writer->xmlElement("fieldlabel", NULL, $label);
+			$a_xml_writer->xmlElement("fieldentry", NULL, $value);
+			$a_xml_writer->xmlEndTag("metadatafield");
+		}
 
 		$a_xml_writer->xmlStartTag("metadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "SCORM");
@@ -3977,7 +3991,7 @@ class ilObjSurvey extends ilObject
 		$metadata = $writer->xmlDumpMem();
 		$a_xml_writer->xmlElement("fieldentry", NULL, $metadata);
 		$a_xml_writer->xmlEndTag("metadatafield");
-
+		
 		$a_xml_writer->xmlEndTag("metadata");
 		$a_xml_writer->xmlEndTag("survey");
 
