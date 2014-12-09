@@ -1244,6 +1244,14 @@ class gevUserUtils {
 		return !$this->hasRoleIn(gevSettings::$NO_PAYMENT_ROLES);
 	}
 	
+
+	public function isVFS() {
+		return $this->hasRoleIn(array('VFS'));
+	}
+	
+
+
+
 	// Soll für den Benutzer  bei der Selbstbuchung der Hinweis "Vorabendanreise 
 	// mit Führungskraft klären" angezeigt werden?
 	public function showPrearrivalNoteInBooking() {
