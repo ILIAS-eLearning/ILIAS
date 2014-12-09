@@ -1362,7 +1362,8 @@ assessment#:#tst_type#:#Test-Typ
 assessment#:#exam_id#:#Klausurnummer: 
 assessment#:#examid_in_test_pass#:#ILIAS-Prüfungsnummer anzeigen
 assessment#:#examid_in_test_pass_desc#:#TODO4711
-assessment#:#show_exam_id#:#ILIAS-Prüfungsnummer anzeigen
+assessment#:#examid_in_test_res#:#ILIAS-Prüfungsnummer anzeigen
+assessment#:#examid_in_test_res_desc#:#TODO4812
 assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits durchgeführten Tests wurden gelöscht!
 assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem laufenden Test löscht alle bereits durchgeführten Tests!
 assessment#:#tst_types#:#Test-Typen

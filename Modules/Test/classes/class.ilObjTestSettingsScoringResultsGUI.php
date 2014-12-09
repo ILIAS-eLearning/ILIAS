@@ -289,6 +289,11 @@ class ilObjTestSettingsScoringResultsGUI
 		{
 			$this->testOBJ->setShowSolutionSignature($form->getItemByPostVar('solution_signature')->getChecked());
 		}
+
+		if( !$this->isHiddenFormItem('examid_in_test_res') )
+		{
+			$this->testOBJ->setShowExamIdInTestResultsEnabled($form->getItemByPostVar('examid_in_test_res')->getChecked());
+		}
 		
 		if( !$this->isHiddenFormItem('solution_suggested') )
 		{
@@ -705,6 +710,12 @@ class ilObjTestSettingsScoringResultsGUI
 		if( $this->testOBJ->getAnonymity() ) { $showSignaturePlaceholder->setDisabled(true); }
 		$form->addItem($showSignaturePlaceholder);
 
+		// show signature placeholder
+		$showExamId = new ilCheckboxInputGUI($this->lng->txt('examid_in_test_res'), 'examid_in_test_res');
+		$showExamId->setInfo($this->lng->txt('examid_in_test_res_desc'));
+		$showExamId->setChecked($this->testOBJ->isShowExamIdInTestResultsEnabled());
+		$form->addItem($showExamId);
+		
 		// export settings
 		$export_settings = new ilCheckboxInputGUI($this->lng->txt('tst_exp_sc_short'), 'exp_sc_short');
 		$export_settings->setInfo($this->lng->txt('tst_exp_sc_short_desc'));

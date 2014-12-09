@@ -1119,9 +1119,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$template->setVariable("PARTICIPANT_EMAIL", $ilUser->getEmail());
 			$template->parseCurrentBlock();
 		}
-		if ($this->object->getShowExamIdInTestPassEnabled())
+		if ($this->object->isShowExamIdInTestPassEnabled())
 		{
-			$exam_id = $this->object->getExamId($this->testSession->getActiveId() , $this->testSession->getPass());
+			$exam_id = ilObjTest::buildExamId(
+				$this->testSession->getActiveId() , $this->testSession->getPass(), $this->object->getId()
+			);
 			
 			$template->setCurrentBlock("kiosk_show_exam_id");
 			$template->setVariable("EXAM_ID_TXT", $this->lng->txt("exam_id"));
@@ -1179,11 +1181,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				
 		$postpone = ( $this->object->getSequenceSettings() == TEST_POSTPONE );
 		
-		if ($this->object->getShowExamIdInTestPassEnabled() && !$this->object->getKioskMode())
+		if ($this->object->isShowExamIdInTestPassEnabled() && !$this->object->getKioskMode())
 		{
-			$this->tpl->setCurrentBlock('exam_id');
-			$this->tpl->setVariable('EXAM_ID_VAL', $this->object->getExamId(
-					$this->testSession->getActiveId(), $this->testSession->getPass()
+			$this->tpl->setCurrentBlock('exam_id_footer');
+			$this->tpl->setVariable('EXAM_ID_VAL', ilObjTest::lookupExamId(
+					$this->testSession->getActiveId(), $this->testSession->getPass(), $this->object->getId()
 			));
 			$this->tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
 			$this->tpl->parseCurrentBlock();
@@ -1923,16 +1925,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->tpl->setVariable("KIOSK_HEAD", $head);
 			$this->tpl->parseCurrentBlock();
 		}
-	}
-	
-	protected function populateExamIdFooter()
-	{
-		$exam_id = $this->object->getExamId($this->testSession->getActiveId() , $this->testSession->getPass());
-
-		$this->tpl->setCurrentBlock('exam_id_footer');
-		$this->tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
-		$this->tpl->setVariable('EXAM_ID_VAL', $exam_id);
-		$this->tpl->parseCurrentBlock();
 	}
 
 	protected function handlePasswordProtectionRedirect()

@@ -1097,10 +1097,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 			$tpl->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
-			if ($this->object->getShowExamIdInTestResultsEnabled())
+			if ($this->object->isShowExamIdInTestResultsEnabled())
 			{
 				$tpl->setCurrentBlock('signature_exam_id');
-				$tpl->setVariable('EXAM_ID', $this->object->getExamId(
+				$tpl->setVariable('EXAM_ID', $this->object->lookupExamId(
 					$testSession->getActiveId(), $pass
 				));
 				$tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));

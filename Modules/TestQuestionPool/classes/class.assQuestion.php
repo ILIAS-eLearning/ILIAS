@@ -1272,7 +1272,7 @@ abstract class assQuestion
 			if( $row['hint_count'] === null ) $row['hint_count'] = 0;
 			if( $row['hint_points'] === null ) $row['hint_points'] = 0;
 
-			$exam_identifier = self::buildExamId( $active_id, $pass, $test_obj_id);
+			$exam_identifier = ilObjTest::buildExamId( $active_id, $pass, $test_obj_id);
 			
 			if( is_object($processLocker) )
 			{
@@ -1349,34 +1349,6 @@ abstract class assQuestion
 			'obligations_answered' => $obligations_answered,
 			'exam_id' => $exam_identifier
 		);
-	}
-
-	/**
-	 * @deprecated Use method in ilObjTest.
-	 * @param  $active_id
-	 * @param  $pass
-	 * @param  $test_obj_id
-	 * @return array
-	 */
-	public function buildExamId($active_id, $pass, $test_obj_id = null)
-	{
-		/** @TODO Move this to a proper place. */
-		global $ilSetting;
-		
-		$inst_id = $ilSetting->get( 'inst_id', null );
-		
-		if($test_obj_id === null)
-		{
-			$obj_id  = ilObjTest::_getObjectIDFromActiveID($active_id);
-		}
-		else
-		{
-			$obj_id  = $test_obj_id;			
-		}
-		
-		$examId = 'I' . $inst_id . '_T' . $obj_id . '_A' . $active_id . '_P' . $pass;
-		
-		return $examId;
 	}
 
 	/**

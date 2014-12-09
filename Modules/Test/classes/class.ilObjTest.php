@@ -1334,8 +1334,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'redirection_mode' => array('integer', (int)$this->getRedirectionMode()),
 				'redirection_url' => array('text', (string)$this->getRedirectionUrl()),
 				'enable_archiving' => array('integer', (int)$this->getEnableArchiving()),
-				'examid_in_test_pass' => array('integer', (int)$this->getShowExamIdInTestPassEnabled()),
-				'examid_in_test_res' => array('integer', (int)$this->getShowExamIdInTestResultsEnabled()),
+				'examid_in_test_pass' => array('integer', (int)$this->isShowExamIdInTestPassEnabled()),
+				'examid_in_test_res' => array('integer', (int)$this->isShowExamIdInTestResultsEnabled()),
 				'sign_submission' => array('integer', (int)$this->getSignSubmission()),
 				'question_set_type' => array('text', $this->getQuestionSetType()),
 				'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
@@ -1448,8 +1448,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 						'redirection_mode' => array('integer', (int)$this->getRedirectionMode()),
 						'redirection_url' => array('text', (string)$this->getRedirectionUrl()),
 						'enable_archiving' => array('integer', (int)$this->getEnableArchiving()),
-						'examid_in_test_pass' => array('integer', (int)$this->getShowExamIdInTestPassEnabled()),
-						'examid_in_test_res' => array('integer', (int)$this->getShowExamIdInTestResultsEnabled()),
+						'examid_in_test_pass' => array('integer', (int)$this->isShowExamIdInTestPassEnabled()),
+						'examid_in_test_res' => array('integer', (int)$this->isShowExamIdInTestResultsEnabled()),
 						'sign_submission' => array('integer', (int)$this->getSignSubmission()),
 						'question_set_type' => array('text', $this->getQuestionSetType()),
 						'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
@@ -6172,13 +6172,13 @@ function getAnswerFeedbackPoints()
 		// examid in test pass
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "examid_in_test_pass");
-		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShowExamIdInTestPassEnabled()));
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->isShowExamIdInTestPassEnabled()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// examid in kiosk
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "examid_in_test_res");
-		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShowExamIdInTestResultsEnabled()));
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->isShowExamIdInTestResultsEnabled()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		
 		// solution details
@@ -7020,8 +7020,8 @@ function getAnswerFeedbackPoints()
 		$newObj->setTemplate($this->getTemplate());
 		$newObj->setPoolUsage($this->getPoolUsage());
 		$newObj->setPrintBestSolutionWithResult($this->isBestSolutionPrintedWithResult());
-		$newObj->setShowExamIdInTestPassEnabled($this->getShowExamIdInTestPassEnabled());
-		$newObj->setShowExamIdInTestResultsEnabled($this->getShowExamIdInTestResultsEnabled());
+		$newObj->setShowExamIdInTestPassEnabled($this->isShowExamIdInTestPassEnabled());
+		$newObj->setShowExamIdInTestResultsEnabled($this->isShowExamIdInTestResultsEnabled());
 		$newObj->setEnableExamView($this->getEnableExamview());
 		$newObj->setShowExamViewHtml($this->getShowExamviewHtml());
 		$newObj->setShowExamViewPdf($this->getShowExamviewPdf());
@@ -11444,7 +11444,7 @@ function getAnswerFeedbackPoints()
 	 * @param $pass
 	 * @return array
 	 */
-	public function getExamId($active_id, $pass)
+	public function lookupExamId($active_id, $pass)
 	{
 		/** @TODO Move this to a proper place. */
 		global $ilDB, $ilSetting;
@@ -11462,10 +11462,33 @@ function getAnswerFeedbackPoints()
 		}
 		
 		return null;
+	}
+
+	/**
+	 * @param  $active_id
+	 * @param  $pass
+	 * @param  $test_obj_id
+	 * @return array
+	 */
+	public static function buildExamId($active_id, $pass, $test_obj_id = null)
+	{
+		/** @TODO Move this to a proper place. */
+		global $ilSetting;
 
 		$inst_id = $ilSetting->get( 'inst_id', null );
-		$obj_id  = ilObject::_lookupObjId($this->ref_id);
-		return 'I' . $inst_id . '_T' . $obj_id . '_A' . $active_id . '_P' . $pass;
+
+		if($test_obj_id === null)
+		{
+			$obj_id  = self::_getObjectIDFromActiveID($active_id);
+		}
+		else
+		{
+			$obj_id  = $test_obj_id;
+		}
+
+		$examId = 'I' . $inst_id . '_T' . $obj_id . '_A' . $active_id . '_P' . $pass;
+
+		return $examId;
 	}
 
 	public function setShowExamIdInTestPassEnabled($show_exam_id_in_test_pass_enabled)
@@ -11473,7 +11496,7 @@ function getAnswerFeedbackPoints()
 		$this->show_exam_id_in_test_pass_enabled = $show_exam_id_in_test_pass_enabled;
 	}
 
-	public function getShowExamIdInTestPassEnabled()
+	public function isShowExamIdInTestPassEnabled()
 	{
 		return $this->show_exam_id_in_test_pass_enabled;
 	}
@@ -11489,7 +11512,7 @@ function getAnswerFeedbackPoints()
 	/**
 	 * @return boolean
 	 */
-	public function getShowExamIdInTestResultsEnabled()
+	public function isShowExamIdInTestResultsEnabled()
 	{
 		return $this->show_exam_id_in_test_results_enabled;
 	}
