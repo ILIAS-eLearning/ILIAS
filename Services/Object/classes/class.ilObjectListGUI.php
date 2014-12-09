@@ -1870,12 +1870,12 @@ class ilObjectListGUI
 						{
 							if($is_tag_owner)
 							{
-								$tags_tmp[] = "<a class=\"ilTag\" href='#' onclick=\"return ".
+								$tags_tmp[] = "<a class=\"ilTag ilTagRelHigh\" href='#' onclick=\"return ".
 									$tags_url."\">".$tag."</a>";
 							}
 							else
 							{
-								$tags_tmp[] = $tag;
+								$tags_tmp[] = "<span class=\"ilTag ilTagRelMiddle\">".$tag."</span>";
 							}
 						}
 						$tags_value = implode(" ", $tags_tmp);
