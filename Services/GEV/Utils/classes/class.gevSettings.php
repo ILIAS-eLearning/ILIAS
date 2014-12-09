@@ -389,8 +389,8 @@ class gevSettings {
 		
 		'AD Begleitung',
 		'Firmenkunden',
-		'Aquise Pilotprojekt',
-		//'Akquise Pilotprojekt',
+		//'Aquise Pilotprojekt',
+		'Akquise Pilotprojekt',
 		'Individuelle Unterstützung SpV/FD',
 		'Büro',
 		

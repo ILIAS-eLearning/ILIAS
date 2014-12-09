@@ -2417,3 +2417,9 @@ if(!$ilDB->tableExists('hist_tep'))
 	);
 	ilCustomInstaller::addRBACOps('orgu', $new_org_ops);
 ?>
+
+<#73>
+<?php
+	$query = "UPDATE  tep_type SET title = 'Akquise Pilotprojekt' WHERE id=14";
+	$ilDB->manipulate($query);
+?>
