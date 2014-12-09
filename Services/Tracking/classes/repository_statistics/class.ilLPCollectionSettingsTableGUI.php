@@ -112,19 +112,37 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 				$path = new ilPathGUI();
 				$this->tpl->setVariable('COLL_PATH', $this->lng->txt('path').': '.$path->getPath($this->getNode(),$a_set['ref_id']));
 
+				$mode_suffix = '';
+				if($a_set['grouped'] ||
+					$a_set['group_item'])
+				{				
+					// #14941					
+					$mode_suffix = '_INLINE';
+					
+					if(!$a_set['group_item'])
+					{
+						$this->tpl->setVariable("COLL_MODE", "");
+					}
+				}
+				
 				$mode = $a_set['mode_id'];
 				if($mode != ilLPObjSettings::LP_MODE_DEACTIVATED && $mode != ilLPObjSettings::LP_MODE_UNDEFINED)
 				{
-					$this->tpl->setVariable("COLL_MODE", $a_set['mode']);
+					$this->tpl->setVariable("COLL_MODE".$mode_suffix, $a_set['mode']);
 				}
 				else
 				{
-					$this->tpl->setVariable("COLL_MODE", "");
-					$this->tpl->setVariable("COLL_MODE_DEACTIVATED", $a_set['mode']);			
+					$this->tpl->setVariable("COLL_MODE".$mode_suffix, "");
+					$this->tpl->setVariable("COLL_MODE_DEACTIVATED".$mode_suffix, $a_set['mode']);			
 				}
 				if($a_set["anonymized"])
 				{
-					$this->tpl->setVariable("ANONYMIZED", $this->lng->txt('trac_anonymized_info_short'));
+					$this->tpl->setVariable("ANONYMIZED".$mode_suffix, $this->lng->txt('trac_anonymized_info_short'));
+				}
+				
+				if($mode_suffix)
+				{
+					$this->tpl->setVariable("COLL_MODE_LABEL", $this->lng->txt("trac_mode"));
 				}
 			}
 			else 
@@ -187,6 +205,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 		// Parse grouped items
 		foreach((array) $a_set['grouped'] as $item)
 		{
+			$item['group_item'] = true;
 			$this->fillRow($item);
 		}
 
