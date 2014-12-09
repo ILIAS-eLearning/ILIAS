@@ -489,12 +489,13 @@ class ilCopyWizardOptions
 		
 		// For some unknown reasons the mapping 1 -> 1 is always appended. Just
 		// ignore it...
-		if ($a_target_id !== 1 && $a_source_id !== 1 && $a_target_id != $a_source_id) {
-			$ilDB->insert('copy_mappings', array(
-				'target_ref_id'	=> array('integer', $a_target_id),
-				'source_ref_id'	=> array('integer', $a_source_id)
-			));
-		}
+		$ilDB->manipulate("INSERT INTO copy_mappings (target_ref_id, source_ref_id) "
+						 ."VALUES (".$ilDB->quote($a_target_id, "integer")
+						 ."       ,".$ilDB->quote($a_source_id, "integer")
+						 ."       )"
+						 ." ON DUPLICATE KEY UPDATE "
+						 ."       source_ref_id = ".$ilDB->quote($a_source_id, "integer")
+						 );
 		// gev-patch end
 		
 		return true;				
