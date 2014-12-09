@@ -4291,6 +4291,9 @@ class ilObjSurvey extends ilObject
 		$newObj->setAnonymize($this->getAnonymize());
 		$newObj->setShowQuestionTitles($this->getShowQuestionTitles());
 		$newObj->setTemplate($this->getTemplate());
+		$newObj->setPoolUsage($this->getPoolUsage());
+		$newObj->setViewOwnResults($this->hasViewOwnResults());
+		$newObj->setMailOwnResults($this->hasMailOwnResults());
 		
 		// #12661
 		if($this->get360Mode())
@@ -4300,7 +4303,7 @@ class ilObjSurvey extends ilObject
 			$newObj->set360SelfAppraisee($this->get360SelfAppraisee());
 			$newObj->set360SelfRaters($this->get360SelfRaters());
 			$newObj->set360Results($this->get360Results());
-			$newObj->set360SkillService($this->get360SkillService());
+			$newObj->set360SkillService($this->get360SkillService());			
 		}
 				
 		// reminder/notification
@@ -4318,6 +4321,7 @@ class ilObjSurvey extends ilObject
 		// clone the questions
 		$mapping = array();
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+		
 		foreach ($this->questions as $key => $question_id)
 		{
 			$question = ilObjSurvey::_instanciateQuestion($question_id);
@@ -4328,12 +4332,30 @@ class ilObjSurvey extends ilObject
 				$question->saveToDb($original_id);
 				$newObj->questions[$key] = $question->getId();
 				$question_pointer[$question_id] = $question->getId();
-				$mapping[$question_id] = $question->getId();
+				$mapping[$question_id] = $question->getId();				
 			}
 		}
 
 		$newObj->saveToDb();		
 		$newObj->cloneTextblocks($mapping);
+		
+		// #14929
+		if($this->get360Mode() &&
+			$this->get360SkillService())
+		{
+			include_once "./Modules/Survey/classes/class.ilSurveySkill.php";
+			$src_skills = new ilSurveySkill($this);
+			$tgt_skills = new ilSurveySkill($newObj);
+			
+			foreach($mapping as $src_qst_id => $tgt_qst_id)
+			{
+				$qst_skill = $src_skills->getSkillForQuestion($src_qst_id);
+				if($qst_skill)
+				{
+					$tgt_skills->addQuestionSkillAssignment($tgt_qst_id, $qst_skill["base_skill_id"], $qst_skill["tref_id"]);
+				}
+			}
+		}
 
 		// clone the questionblocks
 		$questionblocks = array();
