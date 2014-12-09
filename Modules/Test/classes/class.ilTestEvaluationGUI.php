@@ -1097,6 +1097,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 			$tpl->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
+			$tpl->setCurrentBlock('signature');
+			$tpl->setVariable("SIGNATURE", $this->getResultsSignature());
+			$tpl->parseCurrentBlock();
+			
 			if ($this->object->isShowExamIdInTestResultsEnabled())
 			{
 				$tpl->setCurrentBlock('signature_exam_id');
@@ -1106,9 +1110,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
 				$tpl->parseCurrentBlock();
 			}
-			$tpl->setCurrentBlock('signature');
-			$tpl->setVariable("SIGNATURE", $this->getResultsSignature());
-			$tpl->parseCurrentBlock();
 		}
 
 		if( $this->isGradingMessageRequired() && $this->object->getNrOfTries() == 1 )
