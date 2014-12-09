@@ -8731,7 +8731,7 @@ input.ilOpenIDBox {
 .dropdown-menu {
   font-weight: normal;
   border: none;
-  box-shadow: 3px 9px 9px 0px rgba(0, 0, 0, 0.176);
+  box-shadow: 3px 9px 9px 0px rgba(0, 0, 0, 0.3);
 }
 .dropdown-menu li > a {
   padding: 3px 10px;
@@ -10576,8 +10576,8 @@ div.ilSurveyPageEditActionMenu {
   margin: 2px 4px 2px 0;
   border-radius: 3px;
 }
-.ilTag:hover,
-.ilTag:active {
+a.ilTag:hover,
+a.ilTag:active {
   text-decoration: none;
   color: white;
   background-color: #60eeff;
