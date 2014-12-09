@@ -104,6 +104,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 		{
 			$form->setTitle($this->lng->txt("cont_update_amd_page_list"));
 		}
+		$form->setDescription($this->lng->txt("wiki_page_list_form_info"));
 				
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_SEARCH,'wiki',$this->getPage()->getWikiId(),'wpg',$this->getPage()->getId());

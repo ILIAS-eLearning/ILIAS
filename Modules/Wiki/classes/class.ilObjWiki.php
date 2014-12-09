@@ -986,6 +986,7 @@ class ilObjWiki extends ilObject
 			$new_page->setTitle($page->getTitle());
 			$new_page->setBlocked($page->getBlocked());
 			$new_page->setRating($page->getRating());
+			$new_page->hideAdvancedMetadata($page->isAdvancedMetadataHidden());
 			$new_page->create();
 
 			$page->copy($new_page->getId(), "", 0, true);
