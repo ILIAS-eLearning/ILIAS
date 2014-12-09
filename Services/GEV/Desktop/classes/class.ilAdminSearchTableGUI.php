@@ -27,18 +27,24 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
 
-		$user_util = gevUserUtils::getInstance($a_user_id);
-		$course_util = gevUserUtils::getInstance($a_user_id);
-		$this->user_id = $a_user_id;
+		//$user_util = gevUserUtils::getInstance($a_user_id);
+		//$course_util = gevCourseUtils::getInstance($a_user_id);
+		//$this->user_id = $a_user_id;
 
 		$this->setEnableTitle(true);
 		$this->setTopCommands(false);
 		$this->setEnableHeader(true);
 		$this->setExternalSorting(true);
-		$this->setExternalSegmentation(true);
+
+		//$this->setExternalSegmentation(true);
+		$this->setExternalSegmentation(false);
+		
+		/*
 		$cnt = count($user_util->getPotentiallyBookableCourseIds($a_search_options));
+
 		$this->setMaxCount($cnt);
 		$this->setLimit($cnt);
+		*/
 		$this->determineOffsetAndOrder();
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
@@ -57,10 +63,7 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 		$this->addColumn($this->lng->txt("mbrcount"), "members");
 		//$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "", "20px");
 		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "actions", "20px", false);
-
-
-
-		
+	
 		//legend
 		$this->memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
 		$legend = new catLegendGUI();
@@ -69,36 +72,21 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 
 		$order = $this->getOrderField();
 		
-		if ($order == "status") {
-			// TODO: This will not make the user happy.
-			$order = "title";
-		}
 		//                      #671
 		if ($order == "date" || $order == "") {
 			$order = "start_date";
 		}
 
-
-/*
-		$this->setData($user_util->getPotentiallyBookableCourseInformation(
-										$a_search_options, 
-										$this->getOffset(),
-										$this->getLimit(),
-										$order,
-										$this->getOrderDirection()
-					   ));
-
-
-*/					   
-		$this->setData(gevCourseUtils::searchCourses(
-				$a_search_options, 
-				$this->getOffset(),
-				$this->getLimit(),
-				$order,
-				$this->getOrderDirection()
-
-			)
+			   
+		$data = gevCourseUtils::searchCourses(
+			$a_search_options, 
+			$this->getOffset(),
+			$this->getLimit(),
+			$order,
+			$this->getOrderDirection()
 		);
+
+		$this->setData($data);
 	}
 
 	protected function fillRow($a_set) {

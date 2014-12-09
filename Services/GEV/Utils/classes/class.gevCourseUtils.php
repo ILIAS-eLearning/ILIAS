@@ -841,7 +841,8 @@ class gevCourseUtils {
 		global $lng;
 		$all = $lng->txt("gev_crs_srch_all");
 		$pt = "Präsenztraining";
-		$wb = "Webinar";
+		//$wb = "Webinar";
+		$wb = "Virtuelles Training";
 		$sk = "Selbstlernkurs";
 /*		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 		$arr = gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TYPE);
@@ -1837,13 +1838,12 @@ class gevCourseUtils {
 		$gev_set = gevSettings::getInstance();
 		$db = &$ilDB;
 
-
 		if ($a_order == "") {
 			$a_order = "title";
 		}
 
 		if ($a_direction !== "asc" && $a_direction !== "desc") {
-			throw new Exception("gevUserUtils::getPotentiallyBookableCourseInformation: unknown direction '".$a_direction."'");
+			throw new Exception("gevCourseUtils::searchCourses: unknown direction '".$a_direction."'");
 		}
 		
 		/*if (!in_array($a_order, array("title", "start_date", "end_date", "booking_date", "location"
@@ -1852,8 +1852,6 @@ class gevCourseUtils {
 			throw new Exception("gevUserUtils::getPotentiallyBookableCourseInformation: unknown order '".$a_order."'");
 		}
 		*/
-
-
 
 		/*
 		$hash = md5(serialize($a_search_options));
@@ -1871,16 +1869,16 @@ class gevCourseUtils {
 		$additional_where = "";
 		
 
-
-
 		if (array_key_exists("title", $a_search_options)) {
 			$additional_join .= " LEFT JOIN object_data od ON cs.obj_id = od.obj_id ";
 			$additional_where .= " AND od.title LIKE ".$db->quote("%".$a_search_options["title"]."%", "text");
 		}
+
 		if (array_key_exists("custom_id", $a_search_options)) {
 			$custom_id_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_CUSTOM_ID);
 			
 			// this is knowledge from the course amd plugin!
+
 			$additional_join .= 
 				" LEFT JOIN adv_md_values_text custom_id".
 				"   ON cs.obj_id = custom_id.obj_id ".
@@ -1889,34 +1887,26 @@ class gevCourseUtils {
 			$additional_where .=
 				" AND custom_id.value LIKE ".$db->quote("%".$a_search_options["custom_id"]."%", "text");
 		}
+
 		if (array_key_exists("type", $a_search_options)) {
 			$additional_where .=
 				" AND ltype.value LIKE ".$db->quote("%".$a_search_options["type"]."%", "text");
 		}
-		if (array_key_exists("categorie", $a_search_options)) {
-			$categorie_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_TOPIC);
-			
+
+
+		if (array_key_exists("program", $a_search_options)) {
+			$custom_id_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_EDU_PROGRAMM);
 			// this is knowledge from the course amd plugin!
 			$additional_join .= 
-				" LEFT JOIN adv_md_values_text categorie".
-				"   ON cs.obj_id = categorie.obj_id ".
-				"   AND categorie.field_id = ".$db->quote($categorie_field_id, "integer")
+				" LEFT JOIN adv_md_values_text edu_program".
+				"   ON cs.obj_id = edu_program.obj_id ".
+				"   AND edu_program.field_id = ".$db->quote($custom_id_field_id, "integer")
 				;
 			$additional_where .=
-				" AND categorie.value LIKE ".$db->quote("%".$a_search_options["categorie"]."%", "text");
+				" AND edu_program.value LIKE ".$db->quote("%".$a_search_options["program"]."%", "text");
 		}
-		if (array_key_exists("target_group", $a_search_options)) {
-			$target_group_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_TARGET_GROUP);
-			
-			// this is knowledge from the course amd plugin!
-			$additional_join .= 
-				" LEFT JOIN adv_md_values_text target_group".
-				"   ON cs.obj_id = target_group.obj_id ".
-				"   AND target_group.field_id = ".$db->quote($target_group_field_id, "integer")
-				;
-			$additional_where .=
-				" AND target_group.value LIKE ".$db->quote("%".$a_search_options["target_group"]."%", "text");
-		}
+
+
 		if (array_key_exists("location", $a_search_options)) {
 			$location_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_VENUE);
 			
@@ -1930,18 +1920,7 @@ class gevCourseUtils {
 				" AND location.value LIKE ".$db->quote("%".$a_search_options["location"]."%", "text");
 		}
 
-		if (array_key_exists("provider", $a_search_options)) {
-			$provider_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_PROVIDER);
-			
-			// this is knowledge from the course amd plugin!
-			$additional_join .= 
-				" LEFT JOIN adv_md_values_text provider".
-				"   ON cs.obj_id = provider.obj_id ".
-				"   AND provider.field_id = ".$db->quote($provider_field_id, "integer")
-				;
-			$additional_where .=
-				" AND provider.value LIKE ".$db->quote("%".$a_search_options["provider"]."%", "text");
-		}
+	
 		if (array_key_exists("period", $a_search_options)) {
 			$end_date_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
 			
@@ -1951,24 +1930,25 @@ class gevCourseUtils {
 				"   ON cs.obj_id = end_date.obj_id ".
 				"   AND end_date.field_id = ".$db->quote($end_date_field_id, "integer")
 				;
-			/*
 			$additional_where .=
-				" AND ( ( NOT start_date.value > ".$db->quote(date("Y-m-d", $a_search_options["period"]["end"]))." ) ".
-				"       OR ".$db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
-				" AND ( ( NOT end_date.value < ".$db->quote(date("Y-m-d", $a_search_options["period"]["start"]))." ) ".
-				"       OR ".$db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
-				"       OR (end_date.value IS NULL AND NOT start_date.value < ".$db->quote(date("Y-m-d", $a_search_options["period"]["start"])).")"
-				;
-			*/
-			$additional_where .=
-				" AND (  NOT start_date.value > ".$db->quote(date("Y-m-d", $a_search_options["period"]["end"]))." ) ".
-				" AND (  NOT end_date.value < ".$db->quote(date("Y-m-d", $a_search_options["period"]["start"]))." ) ".
+				" AND ((NOT start_date.value > ".$db->quote(date("Y-m-d", $a_search_options["period"]["end"]))." ) ".
+				" AND (NOT end_date.value < ".$db->quote(date("Y-m-d", $a_search_options["period"]["start"]))." ) ".
 				" OR (end_date.value IS NULL ".
 				" AND NOT start_date.value < ".$db->quote(date("Y-m-d", $a_search_options["period"]["start"])).")".
-				" OR (end_date.value IS NULL AND start_date.value IS NULL)"
+				" OR (end_date.value IS NULL AND start_date.value IS NULL))"
 				;
 
 		}
+
+		if (array_key_exists("online_status", $a_search_options)) {
+			$online_status = $a_search_options['online_status'];
+			if($online_status == 2){ //offline
+				$online_status = 0;
+			}
+			$additional_where .=" AND cs.activation_type = " .$db->quote($online_status, 'integer');
+			print $additional_where;
+		}
+
 		
 		// try to narrow down the set as much as possible to avoid permission checks
 		$query = "SELECT DISTINCT cs.obj_id ".
@@ -1999,12 +1979,10 @@ class gevCourseUtils {
 				 "   AND oref.deleted IS NULL".
 */
 				 "   oref.deleted IS NULL".
-
 				 "   AND is_template.value = ".$db->quote("Nein", "text").
-				 "   AND  (ltype.value LIKE 'Pr_senztraining' ".
-				 "		OR ltype.value IN ('Webinar','Virtuelles Training', 'Selbstlernkurs')".
-				 "	 )".
+
 				 $additional_where;
+
 
 
 
@@ -2028,14 +2006,10 @@ class gevCourseUtils {
 				 , gevSettings::CRS_AMD_MAX_PARTICIPANTS	=> "max_participants"
 
 				 //memberlist (link)
-
-				
+			
 			);
 
-
-		$addsql = "ORDER BY ".$a_order." ".$a_direction." LIMIT ".$a_limit." OFFSET ".$a_offset;
-
-$addsql = '';
+		$addsql = "ORDER BY ".$a_order." ".$a_direction; //." LIMIT ".$a_limit." OFFSET ".$a_offset;
 
 		$info = gevAMDUtils::getInstance()->getTable(
 				$crss, 
@@ -2088,9 +2062,6 @@ $addsql = '';
 			$info[$key]["date"] = $info[$key]["start_date"] .'-' .$info[$key]["end_date"];
 			
 			$info[$key]["status"] = ($crs_utils->getCourse()->isActivated()) ? 'online' : 'offline';
-			
-
-
 
 			$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
 			//http://localhost/4_4_generali2/ilias.php?ref_id=80&cmd=trainer&cmdClass=gevmemberlistdeliverygui&cmdNode=ei&baseClass=gevmemberlistdeliverygui
@@ -2104,16 +2075,6 @@ $addsql = '';
 			$info[$key]["action"] = $action;
 
 		}
-
-
-/*
-print '<hr><h2>info</h2>';
-print '<pre>';
-print_r($info);
-print '<hr>';
-print '</pre>';
-*/
-
 
 		return $info;
 	}

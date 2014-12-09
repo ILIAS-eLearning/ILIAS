@@ -246,6 +246,18 @@ class ilAdminSearchGUI {
 		$period->setEnd($one_year);
 		$form->addItem($period);
 		
+
+		
+		$options = array(
+			'0' => 'alle',
+			'1' => 'online',
+			'2' => 'offline',
+		);
+		$type = new ilSelectInputGUI($this->lng->txt("gev_course_online_status"), "online_status");
+		$type->setOptions($options);
+		$form->addItem($type);
+
+
 		$this->search_form = $form;
 		return $form;
 	}
