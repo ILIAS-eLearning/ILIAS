@@ -10075,7 +10075,8 @@ div.ilBlockContent {
   border-bottom: 1px solid #F0F0F0;
 }
 div.ilBlockPropertyCaption {
-  font-weight: bold;
+  color: #696969;
+  font-style: italic;
 }
 /* Services/UIComponent/Lightbox */
 .ilLightbox {

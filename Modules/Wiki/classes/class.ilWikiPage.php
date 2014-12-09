@@ -14,6 +14,8 @@ include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
 class ilWikiPage extends ilPageObject
 {
 	protected $blocked = false;
+	protected $rating = false; // [boo,]
+	protected $hide_adv_md = false; // [bool]
 
 	/**
 	 * Get parent type
@@ -135,6 +137,26 @@ class ilWikiPage extends ilPageObject
 	{
 		return $this->rating;
 	}
+	
+	/**
+	 * Toggle adv md visibility
+	 *
+	 * @param	boolean	$a_val	
+	 */
+	public function hideAdvancedMetadata($a_val)
+	{
+		$this->hide_adv_md = (bool)$a_val;
+	}
+
+	/**
+	 * Get adv md visibility status 
+	 *
+	 * @return	boolean	
+	 */
+	public function isAdvancedMetadataHidden()
+	{
+		return $this->hide_adv_md;
+	}
 
 	/**
 	 * Create page from xml
@@ -174,12 +196,14 @@ class ilWikiPage extends ilPageObject
 			", wiki_id".
 			", blocked".
 			", rating".
+			", hide_adv_md".
 			" ) VALUES (".
 			$ilDB->quote($this->getId(), "integer")
 			.",".$ilDB->quote($this->getTitle(), "text")
 			.",".$ilDB->quote((int) $this->getWikiId(), "integer")
 			.",".$ilDB->quote((int) $this->getBlocked(), "integer")
 			.",".$ilDB->quote((int) $this->getRating(), "integer")
+			.",".$ilDB->quote((int) $this->isAdvancedMetadataHidden(), "integer")
 			.")";
 		$ilDB->manipulate($query);
 
@@ -250,6 +274,7 @@ class ilWikiPage extends ilPageObject
 			",wiki_id = ".$ilDB->quote((int) $this->getWikiId(), "integer").
 			",blocked = ".$ilDB->quote((int) $this->getBlocked(), "integer").
 			",rating = ".$ilDB->quote((int) $this->getRating(), "integer").
+			",hide_adv_md = ".$ilDB->quote((int) $this->isAdvancedMetadataHidden(), "integer").
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 		$updated = parent::update($a_validate, $a_no_history);
@@ -285,6 +310,7 @@ class ilWikiPage extends ilPageObject
 		$this->setWikiId($rec["wiki_id"]);
 		$this->setBlocked($rec["blocked"]);
 		$this->setRating($rec["rating"]);
+		$this->hideAdvancedMetadata($rec["hide_adv_md"]);
 		
 		// get co page
 		if (!$a_omit_page_read)
@@ -1053,6 +1079,20 @@ class ilWikiPage extends ilPageObject
 
 		return $res;
 	}
-
+	
+	public static function lookupAdvancedMetadataHidden($a_page_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM il_wiki_page".
+			" WHERE id = ".$ilDB->quote($a_page_id, "integer");
+		$set = $ilDB->query($query);
+		if($rec = $ilDB->fetchAssoc($set))
+		{
+			return (bool)$rec["hide_adv_md"];
+		}
+		
+		return false;
+	}
 }
 ?>

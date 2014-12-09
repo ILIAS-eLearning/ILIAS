@@ -970,6 +970,28 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		}		
 		$ilCtrl->redirect($this, "preview");
 	}
+	
+	function hideAdvancedMetaData()
+	{
+		global $ilCtrl, $lng;
+		
+		$this->getPageObject()->hideAdvancedMetadata(true);
+		$this->getPageObject()->update();
+			
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);	
+		$ilCtrl->redirect($this, "preview");
+	}
+	
+	function unhideAdvancedMetaData()
+	{
+		global $ilCtrl, $lng;
+		
+		$this->getPageObject()->hideAdvancedMetadata(false);
+		$this->getPageObject()->update();
+			
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$ilCtrl->redirect($this, "preview");
+	}
 
 	/**
 	 * Edit

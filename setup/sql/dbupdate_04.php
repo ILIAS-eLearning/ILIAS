@@ -5218,4 +5218,15 @@ if( $ilDB->tableColumnExists('tst_tests', 'show_exam_id') )
 	$ilDB->renameTableColumn('tst_tests', 'show_exam_id', 'examid_in_test_res');
 }
 ?>
-
+<#4436>
+<?php
+if(! $ilDB->tableColumnExists('il_wiki_page', 'hide_adv_md'))
+{	
+	$ilDB->addTableColumn('il_wiki_page', 'hide_adv_md',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'default' => 0
+		));
+}
+?>
