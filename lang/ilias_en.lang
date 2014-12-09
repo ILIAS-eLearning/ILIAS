@@ -9674,7 +9674,7 @@ survey#:#svy_select_file_for_import#:#You must select a file for import!
 survey#:#svy_select_questionpools#:#Please select a question pool to store the imported questions
 survey#:#svy_select_surveys#:#Please select a survey for duplication
 survey#:#svy_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully
-survey#:#svy_show_questiontitles#:#Show Question Titles in Survey
+survey#:#svy_show_questiontitles#:#Show Question Title
 survey#:#svy_size#:#Size
 survey#:#svy_statistical_evaluation#:#Statistical Evaluation
 survey#:#svy_status_missing_elements#:#The following elements are missing:
@@ -10370,11 +10370,11 @@ survey#:#label_info#:#Alternative identifier for further data processing (e.g. i
 survey#:#export_label_only#:#Export label only
 survey#:#export_title_only#:#Export title only
 survey#:#export_title_label#:#Export title and label
-survey#:#mailnotification#:#E-Mail Notification
+survey#:#mailnotification#:#Seperate E-Mail for Each Finished Surevy
 survey#:#mailaddresses#:#Recipient addresses
 survey#:#mailaddresses_info#:#Enter a comma separated list of recipients who will receive a notification on finished surveys.
 survey#:#mailparticipantdata#:#Additional participant data
-survey#:#mailparticipantdata_info#:#Add an introductory message to the notification mail. 
+survey#:#mailparticipantdata_info#:#This information will be precede the automatically included results section of the notification mail.
 survey#:#table_fields#:#Definition of field names for external mails
 survey#:#tablefields#:#Field names
 survey#:#mail_import_example1#:#email;firstname;lastname
@@ -10911,7 +10911,7 @@ assessment#:#ass_create_question#:#Create Question
 assessment#:#adm_settings_templates#:#Settings Templates
 survey#:#survey_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
 survey#:#survey_template_reset#:#The template has been removed.
-survey#:#survey_introduction_info#:#This message appears at the beginning of the survey.
+survey#:#survey_introduction_info#:#This message is permanently displayed on the 'Info'-tab.
 survey#:#survey_question_pool#:#Question Pool
 survey#:#survey_question_pool_usage#:#Question Pool
 survey#:#survey_pool_selection#:#Pool Selection
@@ -12349,8 +12349,8 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#The ordering clipb
 assessment#:#tst_question_hints_save_order_success_msg#:#The order of hint was saved successfully.
 assessment#:#tst_question_hints_paste_before_success_msg#:#The hint %s has been pasted before hint %s successfully.
 assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been pasted after hint %s successfully.
-assessment#:#tst_processing_time_duration#:#TODO1
-assessment#:#tst_processing_time_duration_desc#:#TODO2
+assessment#:#tst_processing_time_duration#:#Processing Time
+assessment#:#tst_processing_time_duration_desc#:#Defines the maximum processing time for running the test.
 assessment#:#button_request_question_hint#:#Request Hint
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_show_requested_question_hints#:#Show Requested Hints
@@ -12933,10 +12933,10 @@ ecs#:#ecs_cms_tree_synchronized#:#The tree has been synchronized.
 rep#:#rep_activation_online_object_info#:#This setting affects all references in the repository.
 rep#:#rep_activation_access_ref_info#:#This setting only affects this and no other reference in the repository.
 poll#:#poll_block_results_available_on#:#The results will be available on %s.
-survey#:#svy_activation_online_info#:#Activate this setting to make the survey accessible to users.
+survey#:#svy_activation_online_info#:#Only if a survey is online, users can participate in it.
 survey#:#svy_availability_limitless_info#:#Choose this mode for making the survey available limitless.
 survey#:#svy_availability_until_info#:#Choose this mode for making the survey available for a fixed period of time.
-survey#:#svy_activation_limited_visibility_info#:#If chosen, the survey is visible even outside of the given availability.
+survey#:#svy_activation_limited_visibility_info#:#Outside the indicated period, only the title of the survey will be displayed while the question are not accessible.
 blog#:#blog_contributors#:#Contributors
 blog#:#blog_add_contributor#:#Add Contributor
 blog#:#blog_search_users#:#Search Users
@@ -12979,10 +12979,10 @@ content#:#cont_sc_auto_review_info_12#:#Set the lesson mode to 'review' when a l
 content#:#cont_sc_usession_info#:#This setting activates periodical requests to the server to keep the session alive.
 content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.
 content#:#cont_time_from_lms_info#:#Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS.
-survey#:#survey_question_pool_usage_active#:#Questions can be added optionally to a question pool.
+survey#:#survey_question_pool_usage_active#:#Questions can be added optionally to a question pool
 survey#:#survey_question_pool_usage_active_info#:#Each time a question is created it has to be decided if a question pool is to be used. 
 survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.
-survey#:#survey_question_pool_usage_inactive_info#:#The questions can be added to a question pool manually later but are created only for the survey first.
+survey#:#survey_question_pool_usage_inactive_info#:#The questions can be added to a question pool manually later but are created only for this survey first.
 mcst#:#mcst_viewmode#:#Presentation Mode
 mcst#:#mcst_list#:#List
 mcst#:#mcst_gallery#:#Tiles
@@ -13132,7 +13132,7 @@ tos#:#tos_acceptance_datetime#:#Date
 tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any of the installed languages.
 tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service for any of the installed languages. Please add at least one document for any of the installed languages.
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
-survey#:#svy_invite_action#:#Invite users to a survey
+survey#:#svy_invite_action#:#Put on Personal Desktop
 rbac#:#chtr_delete#:#User can move or delete course
 ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
 ecs#:#ecs_role_mapping_value#:#Attribute Value
@@ -13440,7 +13440,7 @@ survey#:#survey_notification_target_group_parent_course#:#All members of parent 
 survey#:#survey_notification_target_group_parent_course_inactive#:#No parent course/group given - no reminders will be sent!
 survey#:#survey_notification_target_group_invited#:#All invited users
 survey#:#survey_notification_target_group_invited_info#:#Currently invited users: %s
-survey#:#survey_notification_tutor_setting#:#Notify Tutors after all Participants Finished the Survey
+survey#:#survey_notification_tutor_setting#:#One E-Mail after all Participants Finished
 survey#:#survey_notification_tutor_recipients#:#Tutors (Login[s])
 survey#:#survey_notification_tutor_recipients_invalid#:#Please state users with write permission.
 survey#:#survey_notification_tutor_subject#:#All participants have finished the survey "%s"
@@ -14476,7 +14476,7 @@ user#:#usr_id#:#System ID
 meta#:#meta_c_XK#:#Kosovo
 certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Matriculation number of the user
-survey#:#mailparticipantdata_placeholder#:#The following placeholders will be replaced with real user data in personalized surveys:
+survey#:#mailparticipantdata_placeholder#:#These placeholders are replaced by actual user data if 'Privacy' is 'With Names':
 poll#:#poll_notification_subscribe#:#Activate Notification
 poll#:#poll_notification_unsubscribe#:#Deactivate Notification
 poll#:#poll_vote_notification_subject#:#Poll "%s": new vote
@@ -14602,8 +14602,8 @@ survey#:#svy_view_own_results#:#View given answers
 survey#:#svy_mail_own_results#:#Mail given answers
 survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers
 survey#:#svy_mail_own_results_body#:#the following is a complete summary of your survey participation.
-survey#:#svy_results_view_own#:#Participant can View Own Answers
-survey#:#svy_results_mail_own#:#Participant can Mail Own Answers
+survey#:#svy_results_view_own#:#Participants can View Own Answers
+survey#:#svy_results_mail_own#:#Participants can Mail Own Answers
 exercise#:#exc_to_desktop_info#:#Add exercise to desktop of participant after hand-in
 wiki#:#wiki_wpg#:#Wiki Page
 wiki#:#wiki_add_page_properties#:#Activate Additional Wiki Page Properties
@@ -15037,7 +15037,7 @@ survey#:#svy_evaluation_access_all_info#:#All registered users that can access t
 survey#:#svy_evaluation_access_off_info#:#Only Users that can edit the survey (write permission) have access to the survey's results.
 survey#:#svy_evaluation_access_participants_info#:#All users that participated in the survey may choose to look at the results after finishing it. 
 survey#:#svy_results_mail_own_info#:#Particiants can request a mail containing their own answers.
-survey#:#svy_results_view_own_info#:#After finishing the Survey participants can view a list of all answers they provided. They cannot change their answers
+survey#:#svy_results_view_own_info#:#After finishing the survey, participants can view a list of all answers they provided. They cannot change their answers
 survey#:#survey_360_self_evaluation_info#:#todo6
 survey#:#survey_360_self_raters_info#:#todo7
 survey#:#survey_360_self_appraisee_info#:#todo8
@@ -15106,19 +15106,19 @@ content#:#cont_download#:#Download
 payment#:#topics_settings#:#Topics Settings
 payment#:#enable_topics#:#Enable Topics
 payment#:#enable_topics_info#:#If enabled, you can assign purchasable objects to self-created topics. 
-exc#:#exc_assignment_type#:#Type Of Submission
+exc#:#exc_assignment_type#:#Type of Submission
 trac#:#trac_mode_event_info#:#The learning progress status will be determined by the participation status.
 sess#:#sess_lp_preset#:#Activate Learning Progress
 sess#:#sess_lp_preset_info#:#(De-)Actives the learning progress for all session events.
 glo#:#glo_copy#:#Copy Glossary
 form#:#form_open_answer#:#Open Answer
-survey#:#survey_access_codes#:#Authentication by Codes
-survey#:#survey_access_codes_info#:#Users get access to the survey by entering a code on the Info-tab. You will get new tab in the Participants section for generating the codes.
+survey#:#survey_access_codes#:#Authentication by Access Codes
+survey#:#survey_access_codes_info#:#Users get access to the survey by entering a code on the 'Info'-tab. These access codes are generated in a sub-tab 'Access Codes' in the tab 'Participants'.
 survey#:#survey_results_anonymization#:#Privacy
 survey#:#survey_results_personalized#:#With Names
-survey#:#survey_results_personalized_info#:#Participants and their answers to the survey are shown in the Result Tabs. Other participants that have access to these tabs can identify them.
+survey#:#survey_results_personalized_info#:#In the tab 'Results' the names of the partcipants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer.
 survey#:#survey_results_anonymized#:#Without Names
-survey#:#survey_results_anonymized_info#:#The answers of participants to the survey are shown in the Results Tabs but no names are provided. Other participants that have access to these tabs cannot attribute answers to partcipants.
+survey#:#survey_results_anonymized_info#:#In the tab 'Results' participants' names are replaced by codes. Users having acces to this tab cannot attribute answers to named participants but only to user "iTXaF" (example).
 survey#:#material_added_empty#:#The object does not have any suitable material.
 ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants
 survey#:#survey_sure_delete_constraint#:#Are you sure you want to delete the routing rule "%1$s" for the question "%2$s"?
