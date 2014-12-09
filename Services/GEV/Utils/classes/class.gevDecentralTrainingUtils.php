@@ -12,6 +12,7 @@
 require_once("Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php");
 require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 class gevDecentralTrainingUtils {
@@ -20,11 +21,12 @@ class gevDecentralTrainingUtils {
 	protected $creation_users = array();
 	
 	protected function __construct() {
-		global $ilDB, $ilias, $ilLog, $ilAccess;;
+		global $ilDB, $ilias, $ilLog, $ilAccess, $tree;
 		$this->db = &$ilDB;
 		$this->ilias = &$ilias;
 		$this->log = &$ilLog;
 		$this->access = &$ilAccess;
+		$this->tree = &$tree;
 	}
 	
 	public static function getInstance() {
@@ -151,6 +153,48 @@ class gevDecentralTrainingUtils {
 		
 		// Could also mean that no permission is granted, but we hide that 
 		throw new Exception("gevDecentralTrainingUtils::getTemplateInfoFor: Training not found.");
+	}
+	
+	public function create($a_user_id, $a_template_id, $a_trainer_ids) {
+		foreach ($a_trainer_ids as $trainer_id) {
+			if (!$this->canCreateFor($a_user_id, $trainer_id)) {
+				throw new Exception( "gevDecentralTrainingUtils::create: No permission for ".$a_user_id
+									." to create training for ".$trainer_id);
+			}
+		}
+		
+		$info = $this->getTemplateInfoFor($a_user_id, $a_template_id);
+		$parent = $this->tree->getParentId($info["ref_id"]);
+		
+		$res = $this->db->query(
+			 "SELECT DISTINCT c.child ref_id, od.type "
+			." FROM tree p"
+			." RIGHT JOIN tree c ON c.lft > p.lft AND c.rgt < p.rgt AND c.tree = p.tree"
+			." LEFT JOIN object_reference oref ON oref.ref_id = c.child"
+			." LEFT JOIN object_data od ON od.obj_id = oref.obj_id"
+			." WHERE p.child = ".$this->db->quote($info["ref_id"], "integer")
+			);
+	
+		$options = array();
+		while($rec = $this->db->fetchAssoc($res)) {
+			if ($type == "rolf") {
+				continue;
+			}
+			$options[$rec["ref_id"]] = array("type" => 2);
+		}
+		
+		$src_utils = gevCourseUtils::getInstance($info["obj_id"]);
+		$trgt_ref = $src_utils->getCourse()
+						->cloneAllObject( $_COOKIE['PHPSESSID']
+										, $_COOKIE['ilClientId']
+										, "crs"
+										, $parent
+										, $info["ref_id"]
+										, $options
+										);
+	
+		echo $trgt_ref;
+		die();
 	}
 }
 

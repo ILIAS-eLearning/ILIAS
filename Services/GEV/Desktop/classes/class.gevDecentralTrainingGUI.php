@@ -113,16 +113,29 @@ class gevDecentralTrainingGUI {
 		
 		$title = new catTitleGUI("gev_dec_training_creation", "gev_dec_training_creation_header_note", "GEV_img/ico-head-create-decentral-training.png");
 		
-		$form = ($a_form === null) ? $this->buildTrainingOptionsForm(null, $trainer_ids, $this->date, $template_id) 
+		$form = ($a_form === null) ? $this->buildTrainingOptionsForm(true, null, $trainer_ids, $this->date, $template_id) 
 								   : $a_form;
+		
+		$form->addCommandButton("finalizeTrainingCreation", $this->lng->txt("gev_dec_training_creation"));
+		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+		$form->setFormAction($this->ctrl->getFormAction($this));
 		
 		return   $title->render()
 				.$form->getHTML();
 	}
 	
 	protected function finalizeTrainingCreation() {
-		print_r($_POST);
-		die();
+		$form_prev = $this->buildChooseTemplateAndTrainersForm($this->user_id, $this->date);
+		$dec_utils = gevDecentralTrainingUtils::getInstance();
+		
+		if (!$form_prev->checkInput()) {
+			return $this->createTraining($form_prev);
+		}
+		
+		$template_id = $form_prev->getInput("template_id");
+		$trainer_ids = unserialize(base64_decode($form_prev->getInput("trainer_ids")));
+		
+		$crs_id = $dec_utils->create($this->current_user->getId(), $template_id, $trainer_ids);
 	}
 	
 	protected function buildChooseTemplateAndTrainersForm($a_user_id = null, $a_date = null) {
@@ -206,7 +219,7 @@ class gevDecentralTrainingGUI {
 		return $form;
 	}
 	
-	protected function buildTrainingOptionsForm($a_training_id = null, $a_trainer_ids = null, $a_date = null, $a_template_id = null) {
+	protected function buildTrainingOptionsForm($a_fill = false, $a_training_id = null, $a_trainer_ids = null, $a_date = null, $a_template_id = null) {
 		require_once("Services/Form/classes/class.ilNonEditableValueGUI.php");
 		require_once("Services/Form/classes/class.ilSelectInputGUI.php");
 		require_once("Services/Form/classes/class.ilHiddenInputGUI.php");
@@ -217,11 +230,11 @@ class gevDecentralTrainingGUI {
 		require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		
-		if ($a_training_id === null && $a_template_id === null) {
+		if ($a_training_id === null && $a_template_id === null && $a_fill) {
 			throw new Exception("gevDecentralTrainingGUI::buildTrainingOptionsForm: Either set training_id or template_id.");
 		}
 		
-		if ($a_template_id !== null && $a_trainer_ids === null) {
+		if ($a_template_id !== null && $a_trainer_ids === null && $a_fill) {
 			throw new Exception("gevDecentralTrainingGUI::buildTrainingOptionsForm: You need to set trainer_ids if you set a template_id.");
 		}
 		
@@ -230,18 +243,29 @@ class gevDecentralTrainingGUI {
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_dec_training_choose_template_form.html", "Services/GEV/Desktop");
 		$form->setTitle($this->lng->txt("gev_dec_training_settings"));
-		$form->addCommandButton("finalizeTrainingCreation", $this->lng->txt("gev_dec_training_creation"));
-		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 		
-		if ($a_template_id !== null) {
-			$training_info = $dec_utils->getTemplateInfoFor($this->current_user_id, $a_template_id);
-			$trainer_ids = $a_trainer_ids;
-			$training_info["date"] = ($a_date !== null) ? new ilDate($a_date, IL_CAL_DATE)
-														: new ilDate(date("Y-m-d"), IL_CAL_DATE);
-			$no_changes_allowed = false;
+		if ($a_fill) {
+			if ($a_template_id !== null) {
+				$training_info = $dec_utils->getTemplateInfoFor($this->current_user_id, $a_template_id);
+				$trainer_ids = $a_trainer_ids;
+				$training_info["date"] = ($a_date !== null) ? new ilDate($a_date, IL_CAL_DATE)
+															: new ilDate(date("Y-m-d"), IL_CAL_DATE);
+				$no_changes_allowed = false;
+				
+				$tmplt_id = new ilHiddenInputGUI("template_id");
+				$tmplt_id->setValue($a_template_id);
+				$form->addItem($tmplt_id);
+				
+				$trnrs = new ilHiddenInputGUI("trainer_ids");
+				$trnrs->setValue(base64_encode(serialize($a_trainer_ids)));
+				$form->addItem($trnrs);
+			}
+			else {
+				die ("TODO1");
+			}
 		}
 		else {
-			die ("TODO1");
+			$no_changes_allowed = false;
 		}
 		
 		$title = new ilNonEditableValueGUI($this->lng->txt("title"), "", false);
