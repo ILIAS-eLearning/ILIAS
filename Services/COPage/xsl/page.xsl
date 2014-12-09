@@ -3974,7 +3974,8 @@
 
 <!-- Advanced MD Page List -->
 <xsl:template match="AMDPageList">
-	[[[[[AMDPageList;<xsl:value-of select="@Id"/>]]]]]
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_amdpl']/@value"/></xsl:with-param></xsl:call-template>
+	[[[[[AMDPageList;<xsl:value-of select="@Id"/>]]]]]	
 	<xsl:if test="$mode = 'edit'">
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<xsl:if test="$javascript='disable'">
