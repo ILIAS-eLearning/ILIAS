@@ -603,23 +603,26 @@ if ($this->private_enabled && $this->public_enabled
 			$tpl->parseCurrentBlock();
 		}
 		
-		if((int)$_SESSION["comments_sort_asc"] == 1)
-		{
-			$sort_txt = $lng->txt("notes_sort_desc");
-			$sort_cmd = "listSortDesc";
-		}
-		else
-		{
-			$sort_txt = $lng->txt("notes_sort_asc");
-			$sort_cmd = "listSortAsc";
-		}	
-		$this->renderLink($tpl, "sort_list", $sort_txt, $sort_cmd, $anch);
-		
 		// list all notes
 		if ($user_setting_notes_by_type != "n" || !$this->enable_hiding)
 		{
 			$reldates = ilDatePresentation::useRelativeDates();
 			ilDatePresentation::setUseRelativeDates(false);
+			
+			if(sizeof($notes))
+			{
+				if((int)$_SESSION["comments_sort_asc"] == 1)
+				{
+					$sort_txt = $lng->txt("notes_sort_desc");
+					$sort_cmd = "listSortDesc";
+				}
+				else
+				{
+					$sort_txt = $lng->txt("notes_sort_asc");
+					$sort_cmd = "listSortAsc";
+				}	
+				$this->renderLink($tpl, "sort_list", $sort_txt, $sort_cmd, $anch);		
+			}
 			
 			$notes_given = false;
 			foreach($notes as $note)
