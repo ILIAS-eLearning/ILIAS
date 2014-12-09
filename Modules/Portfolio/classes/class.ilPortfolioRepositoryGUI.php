@@ -39,7 +39,7 @@ class ilPortfolioRepositoryGUI
 		$cmd = $ilCtrl->getCmd("show");
 						
 		$tpl->setTitle($lng->txt("portfolio"));
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_prtf_b.png"), 
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_prtf.png"), 
 			$lng->txt("portfolio"));
 
 		switch($next_class)

@@ -55,7 +55,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$title .= ": ".$this->object->getTitle();	
 		}
 		$this->tpl->setTitle($title);
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_prtf_b.png"), 
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_prtf.png"), 
 			$this->lng->txt("portfolio"));
 
 		$next_class = $this->ctrl->getNextClass($this);
