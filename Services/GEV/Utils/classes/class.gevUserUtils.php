@@ -826,7 +826,10 @@ class gevUserUtils {
 		$_r_ous = $this->getOrgUnitsWhereUserCanBookEmployeesRecursive();
 		
 		$e_ous = array_merge($_d_ous, $_r_ous);
-		$a_ous = gevOrgUnitUtils::getAllChildren($_r_ous);
+		$a_ous = array();
+		foreach(gevOrgUnitUtils::getAllChildren($_r_ous) as $val) {
+			$a_ous[] = $val["ref_id"];
+		}
 		
 		$e_ids = array_unique(array_merge( gevOrgUnitUtils::getEmployeesIn($e_ous)
 										 , gevOrgUnitUtils::getAllPeopleIn($a_ous)
@@ -871,13 +874,15 @@ class gevUserUtils {
 		$_r_ous = $this->getOrgUnitsWhereUserCanCancelEmployeeBookingsRecursive();
 		
 		$e_ous = array_merge($_d_ous, $_r_ous);
-		$a_ous = gevOrgUnitUtils::getAllChildren($_r_ous);
+		$a_ous = array();
+		foreach(gevOrgUnitUtils::getAllChildren($_r_ous) as $val) {
+			$a_ous[] = $val["ref_id"];
+		}
 		
 		$e_ids = array_unique(array_merge( gevOrgUnitUtils::getEmployeesIn($e_ous)
 										 , gevOrgUnitUtils::getAllPeopleIn($a_ous)
 										 )
 							 );
-		
 		$this->employee_ids_for_booking_cancellations = $e_ids;
 		
 		return $e_ids;
@@ -1435,7 +1440,7 @@ class gevUserUtils {
 		return $sups;
 	}
 	
-	public function isEmployeeOf($a_user_id) {
+	public function isEmployeeOf($a_user_id) {	
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
 		// propably faster then checking the employees of this->user
