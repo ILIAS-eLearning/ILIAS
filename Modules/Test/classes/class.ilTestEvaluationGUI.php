@@ -197,17 +197,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				if (!$remove)
 				{
 					// build the evaluation row
-					$userfields = ilObjUser::_lookupFields($userdata->getUserID());
-					foreach ($userfields as $key => $value)
-					{
-						$evaluationrow[$key] = strlen($value) ? $value : ' ';
-					}
 					$evaluationrow = array();
-					$fullname = "";
 					if ($this->object->getAnonymity())
 					{
-						$fullname = $counter;
-						$evaluationrow['name'] = $fullname;
+						$evaluationrow['name'] = $counter;
 						$evaluationrow['login'] = '';
 					}
 					else
