@@ -397,9 +397,34 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		$used = ilCalEntryType::getAll();
 			$tep_tpl = new ilTemplate("tpl.view_legend.html", true, true, "Services/TEP");
 			
-			$counter = 0;
-			foreach(ilCalEntryType::getListData($used) as $item)
-			{				
+		//gev-patch start
+
+			$counter = 4;
+
+			$type_order = gevSettings::$TEPTYPE_ORDER;
+	
+			$ordered_types = array();
+			$unaccounted_types = array();
+
+			$all_types = ilCalEntryType::getListData($used);
+
+			foreach($all_types as $id => $typeitem){
+				$title=$typeitem['title'];
+				$index = array_search($title, $type_order);
+				if($index !== false){
+					$ordered_types[$index] = $typeitem;
+				} else {
+					$unaccounted_types[] = $typeitem;
+				}
+			}
+			ksort($ordered_types);
+			$all_types = $ordered_types + $unaccounted_types;
+
+			foreach($all_types as $item)
+			//foreach(ilCalEntryType::getListData($used) as $item)
+
+		//gev-patch end			
+			{		
 				$counter++;
 
 				$tep_tpl->setCurrentBlock("type_bl");

@@ -378,6 +378,39 @@ class gevSettings {
 
 
 
+	static $TEPTYPE_ORDER = array(
+		'Training',
+		
+		'Projekt',
+		'Veranstaltung / Tagung (Zentral)',
+		'Trainer- / DBV Klausur (Zentral)',
+		'Trainer Teammeeting',
+		'Arbeitsgespräch',
+		
+		'AD Begleitung',
+		'Firmenkunden',
+		'Aquise Pilotprojekt',
+		//'Akquise Pilotprojekt',
+		'Individuelle Unterstützung SpV/FD',
+		'Büro',
+		
+		'Urlaub beantragt',
+		'Dezentraler Feiertag',
+		'Urlaub genehmigt',
+		'Ausgleichstag',
+		'Krankheit',
+		
+		'OD-FD Meeting',
+		'FD Gespräch',
+		'RD-Gespräch',
+		'AKL-Gespräch',
+		'FD-MA Teammeeting',
+		
+		'Gewerbe-Arbeitskreis',
+		'bAV-Arbeitskreis',
+		'FDL-Arbeitskreis'
+	);
+
 
 
 	
