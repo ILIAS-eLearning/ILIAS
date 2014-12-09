@@ -238,6 +238,7 @@ class gevDecentralTrainingGUI {
 			$trainer_ids = $a_trainer_ids;
 			$training_info["date"] = ($a_date !== null) ? new ilDate($a_date, IL_CAL_DATE)
 														: new ilDate(date("Y-m-d"), IL_CAL_DATE);
+			$no_changes_allowed = false;
 		}
 		else {
 			die ("TODO1");
@@ -245,19 +246,23 @@ class gevDecentralTrainingGUI {
 		
 		$title = new ilNonEditableValueGUI($this->lng->txt("title"), "", false);
 		$title->setValue($training_info["title"]);
+		$title->setDisabled($no_changes_allowed);
 		$form->addItem($title);
 		
 		$description = new ilTextAreaInputGUI($this->lng->txt("description"), "description");
 		$description->setValue($training_info["description"]);
+		$description->setDisabled($no_changes_allowed);
 		$form->addItem($description);
 		
 		$ltype = new ilNonEditableValueGUI($this->lng->txt("gev_course_type"), "", false);
 		$ltype->setValue($training_info["ltype"]);
+		$ltype->setDisabled($no_changes_allowed);
 		$form->addItem($ltype);
 		
 		$date = new ilDateTimeInputGUI($this->lng->txt("date"), "date");
 		$date->setShowTime(false);
 		$date->setDate($training_info["date"]);
+		$date->setDisabled($no_changes_allowed);
 		$form->addItem($date);
 		
 		$time = new ilDateDurationInputGUI($this->lng->txt("gev_duration"), "time");
@@ -265,10 +270,12 @@ class gevDecentralTrainingGUI {
 		$time->setShowTime(true);#
 		$time->setStartText($this->lng->txt("gev_from"));
 		$time->setEndText($this->lng->txt("until"));
+		$time->setDisabled($no_changes_allowed);
 		$form->addItem($time);
 		
 		$trainers = new ilNonEditableValueGUI($this->lng->txt("tutor"), "", true);
 		$trainers->setValue(implode("<br />", gevUserUtils::getFullNames($trainer_ids)));
+		$trainers->setDisabled($no_changes_allowed);
 		$form->addItem($trainers);
 		
 		$venue = new ilSelectInputGUI($this->lng->txt("gev_venue"), "venue");
@@ -276,16 +283,19 @@ class gevDecentralTrainingGUI {
 		if ($training_info["venue"]) {
 			$venue->setValue($training_info["value"]);
 		}
+		$venue->setDisabled($no_changes_allowed);
 		$form->addItem($venue);
 		
 		if ($training_info["ltype"] == "Webinar") {
 			$webinar_link = new ilTextInputGUI($this->lng->txt("gev_webinar_link"), "webinar_link");
+			$webinar_link->setDisabled($no_changes_allowed);
 			if ($training_info["webinar_link"]) {
 				$webinar_link->setValue($training_info["webinar_link"]);
 			}
 			$form->addItem($webinar_link);
 			
 			$webinar_password = new ilTextInputGUI($this->lng->txt("gev_webinar_password"), "webinar_password");
+			$webinar_password->setDisabled($no_changes_allowed);
 			if ($training_info["webinar_password"]) {
 				$webinar_password->setValue($training_info["webinar_password"]);
 			}
@@ -297,7 +307,7 @@ class gevDecentralTrainingGUI {
 		$suppress_mails->setPostvar("suppress_mails");
 		$suppress_mails->setOptionTitle($this->lng->txt("gev_suppress_mails_info"));
 		$suppress_mails->setChecked($training_info["suppress_mails"]);
-		$suppress_mails->setDisabled($training_info["suppress_mails"]);
+		$suppress_mails->setDisabled($training_info["suppress_mails"] || $no_changes_allowed);
 		$form->addItem($suppress_mails);
 		
 		return $form;
