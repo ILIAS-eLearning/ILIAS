@@ -1870,7 +1870,7 @@ class ilObjectListGUI
 						{
 							if($is_tag_owner)
 							{
-								$tags_tmp[] = "<a href='#' onclick=\"return ".
+								$tags_tmp[] = "<a class=\"ilTag\" href='#' onclick=\"return ".
 									$tags_url."\">".$tag."</a>";
 							}
 							else
