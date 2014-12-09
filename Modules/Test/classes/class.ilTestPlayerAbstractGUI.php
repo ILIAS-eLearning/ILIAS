@@ -1119,7 +1119,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$template->setVariable("PARTICIPANT_EMAIL", $ilUser->getEmail());
 			$template->parseCurrentBlock();
 		}
-		if ($this->object->getShowExamIdInTestPassEnabled())
+		if ($this->object->getExamidInKiosk())
 		{
 			$template->setCurrentBlock("kiosk_show_exam_id");
 			$template->setVariable("EXAM_ID_TXT", $this->lng->txt("exam_id"));

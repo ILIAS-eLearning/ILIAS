@@ -1360,9 +1360,8 @@ assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werd
 assessment#:#tst_tst_date#:#Datum des Tests
 assessment#:#tst_type#:#Test-Typ
 assessment#:#exam_id#:#Klausurnummer: 
-assessment#:#examid_in_test_pass#:#ILIAS-Prüfungsnummer anzeigen
-assessment#:#examid_in_test_pass_desc#:#TODO4711
-assessment#:#show_exam_id#:#ILIAS-Prüfungsnummer anzeigen
+assessment#:#examid_in_kiosk#:#ILIAS-Prüfungsnummer
+assessment#:#show_exam_id#:#Klausurnummer anzeigen 
 assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits durchgeführten Tests wurden gelöscht!
 assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem laufenden Test löscht alle bereits durchgeführten Tests!
 assessment#:#tst_types#:#Test-Typen
