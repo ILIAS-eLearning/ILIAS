@@ -76,7 +76,7 @@ class ilTestGradingMessageBuilder
 			$this->populateGradingMark();
 		}
 
-		if( $this->testOBJ->ects_output )
+		if( $this->testOBJ->getECTSOutput() )
 		{
 			$this->populateEctsGrade();
 		}
@@ -96,7 +96,7 @@ class ilTestGradingMessageBuilder
 	{
 		$this->resultData = $this->testOBJ->getResultsForActiveId($this->getActiveId());
 
-		if( $this->testOBJ->ects_output )
+		if( $this->testOBJ->getECTSOutput() )
 		{
 			$ectsMark = $this->testOBJ->getECTSGrade(
 				$this->testOBJ->getTotalPointsPassedArray(),

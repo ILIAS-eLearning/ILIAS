@@ -334,7 +334,7 @@ class ilTestExport
 		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_resultspoints")), $format_title);
 		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("maximum_points")), $format_title);
 		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_resultsmarks")), $format_title);
-		if ($this->test_obj->ects_output)
+		if ($this->test_obj->getECTSOutput())
 		{
 			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("ects_grade")), $format_title);
 		}
@@ -403,7 +403,7 @@ class ilTestExport
 				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($data->getParticipant($active_id)->getReached()));
 				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($data->getParticipant($active_id)->getMaxpoints()));
 				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($data->getParticipant($active_id)->getMark()));
-				if ($this->test_obj->ects_output)
+				if ($this->test_obj->getECTSOutput())
 				{
 					$worksheet->write($row, $col++, ilExcelUtils::_convert_text($data->getParticipant($active_id)->getECTSMark()));
 				}
@@ -797,7 +797,7 @@ class ilTestExport
 		$col++;
 		array_push($datarow, $this->lng->txt("tst_stat_result_resultsmarks"));
 		$col++;
-		if ($this->test_obj->ects_output)
+		if ($this->test_obj->getECTSOutput())
 		{
 			array_push($datarow, $this->lng->txt("ects_grade"));
 			$col++;
@@ -877,7 +877,7 @@ class ilTestExport
 				array_push($datarow2, $data->getParticipant($active_id)->getReached());
 				array_push($datarow2, $data->getParticipant($active_id)->getMaxpoints());
 				array_push($datarow2, $data->getParticipant($active_id)->getMark());
-				if ($this->test_obj->ects_output)
+				if ($this->test_obj->getECTSOutput())
 				{
 					array_push($datarow2, $data->getParticipant($active_id)->getECTSMark());
 				}

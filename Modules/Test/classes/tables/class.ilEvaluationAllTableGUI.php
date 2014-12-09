@@ -66,7 +66,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 		
 		$this->addColumn($lng->txt("tst_mark"), "mark", "");
 		
-		if ($this->parent_obj->object->ects_output)
+		if ($this->parent_obj->object->getECTSOutput())
 		{
 			foreach ($this->getSelectedColumns() as $c)
 			{
@@ -161,7 +161,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 				"default" => false
 			);
 		}
-		if ($this->parent_obj->object->ects_output)
+		if ($this->parent_obj->object->getECTSOutput())
 		{
 			$cols["ects_grade"] = array(
 				"txt" => $lng->txt("ects_grade"),
@@ -282,7 +282,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
-			if ($this->parent_obj->object->ects_output)
+			if ($this->parent_obj->object->getECTSOutput())
 			{
 				if (strcmp($c, 'ects_grade') == 0)
 				{
