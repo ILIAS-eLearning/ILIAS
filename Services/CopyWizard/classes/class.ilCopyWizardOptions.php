@@ -486,9 +486,6 @@ class ilCopyWizardOptions
 		// Keep info about which source objects where copied to which target.
 		// I need this information in ilGEVCourseCreationPlugin. This seems to
 		// be the correct location to not lose any required information.
-		
-		// For some unknown reasons the mapping 1 -> 1 is always appended. Just
-		// ignore it...
 		$ilDB->manipulate("INSERT INTO copy_mappings (target_ref_id, source_ref_id) "
 						 ."VALUES (".$ilDB->quote($a_target_id, "integer")
 						 ."       ,".$ilDB->quote($a_source_id, "integer")
