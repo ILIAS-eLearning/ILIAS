@@ -243,8 +243,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 			,"birthday_or_internal_agent_id" => $record['user_id']
 			,"agent_id" 			=> $record['bwv_id']
-			,"from" 				=> $record['begin_date']
-			,"till" 				=> $record['end_date']
+//			,"from" 				=> $record['begin_date']
+//			,"till" 				=> $record['end_date']
+
+			,"from" 				=> $record['course_begin']
+			,"till" 				=> $record['course_end']
+
 			,"score"				=> $record['credit_points']
 			,"study_type_selection" => $this->VALUE_MAPPINGS['course_type'][$record['type']] // "Präsenzveranstaltung" | "Selbstgesteuertes E-Learning" | "Gesteuertes E-Learning";
 			,"study_content"		=> $this->VALUE_MAPPINGS['study_content'][$record['wbd_topic']] 
@@ -759,7 +763,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		$sql = "
 			SELECT
-				*,hist_usercoursestatus.row_id as row_id
+				*, hist_usercoursestatus.row_id as row_id,
+				hist_usercoursestatus.begin_date as course_begin,
+				hist_usercoursestatus.end_dat as course_end
 			FROM
 				hist_usercoursestatus
 
@@ -825,8 +831,16 @@ class gevWBDDataConnector extends wbdDataConnector {
 			if($num_rows == 0){
 
 				$edudata = $this->_map_edudata($record);
+
+				
+				if($edudata['study_type_selection'] == 'selbstgesteuertes E-Learning'){
+					$edudata['till'] = $edudata['from'];
+				}
+
 				//these are _new_ edu-records:
 				$edudata['score_code'] = 'Meldung';
+
+
 
 
 				$valid = $this->validateEduRecord($edudata);
