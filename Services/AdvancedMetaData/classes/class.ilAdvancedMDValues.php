@@ -118,7 +118,7 @@ class ilAdvancedMDValues
 			$factory = ilADTFactory::getInstance();
 			
 			$adt_group_db = $factory->getDBBridgeForInstance($this->getADTGroup());
-
+							 
 			$primary = array(
 				"obj_id" => array("integer", $this->obj_id),
 				"sub_type" => array("text", $this->sub_type),
@@ -126,6 +126,14 @@ class ilAdvancedMDValues
 			);
 			$adt_group_db->setPrimary($primary);
 			$adt_group_db->setTable("adv_md_values");
+			
+			foreach($adt_group_db->getElements() as $element)
+			{
+				if($element->getADT()->getType() == "MultiEnum")
+				{
+					$element->setFakeSingle(true);
+				}
+			}		
 
 			$this->active_record = $factory->getActiveRecordByTypeInstance($adt_group_db);
 			$this->active_record->setElementIdColumn("field_id", "integer");

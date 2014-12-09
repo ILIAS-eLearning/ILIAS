@@ -31,6 +31,7 @@ abstract class ilAdvancedMDFieldDefinition
 	const TYPE_INTEGER = 5;
 	const TYPE_FLOAT = 6;
 	const TYPE_LOCATION = 7;
+	const TYPE_SELECT_MULTI = 8;
 	
 	/**
 	 * Constructor
@@ -90,7 +91,8 @@ abstract class ilAdvancedMDFieldDefinition
 			self::TYPE_DATETIME => "DateTime",
 			self::TYPE_FLOAT => "Float",
 			self::TYPE_LOCATION => "Location",
-			self::TYPE_INTEGER => "Integer"				
+			self::TYPE_INTEGER => "Integer",				
+			self::TYPE_SELECT_MULTI => "SelectMulti"				
 		);	
 		$map = array_flip($map);
 		if(array_key_exists($a_type, $map))
@@ -246,7 +248,7 @@ abstract class ilAdvancedMDFieldDefinition
 	{
 		return array(self::TYPE_TEXT, self::TYPE_DATE, self::TYPE_DATETIME,
 			self::TYPE_SELECT, self::TYPE_INTEGER, self::TYPE_FLOAT,
-			self::TYPE_LOCATION);
+			self::TYPE_LOCATION, self::TYPE_SELECT_MULTI);
 	}
 	
 	/**
@@ -284,7 +286,8 @@ abstract class ilAdvancedMDFieldDefinition
 				self::TYPE_DATETIME => "DateTime",
 				self::TYPE_FLOAT => "Float",
 				self::TYPE_LOCATION => "Location",
-				self::TYPE_INTEGER => "Integer"				
+				self::TYPE_INTEGER => "Integer",			
+				self::TYPE_SELECT_MULTI => "SelectMulti"				
 			);		
 			return $map[$a_type];
 		}		

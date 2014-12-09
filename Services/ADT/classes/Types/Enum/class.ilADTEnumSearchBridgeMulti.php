@@ -4,17 +4,29 @@ require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeMulti.php";
 
 class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 {
+	protected $multi_source; // [boo]
+	
 	protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
 	{		
-		return ($a_adt_def instanceof ilADTEnumDefinition);
+		return ($a_adt_def instanceof ilADTEnumDefinition ||
+			$a_adt_def instanceof ilADTMultiEnumDefinition);
 	}
 	
 	protected function convertADTDefinitionToMulti(ilADTDefinition $a_adt_def)
 	{		
-		$def = ilADTFactory::getInstance()->getDefinitionInstanceByType("MultiEnum");	
-		$def->setNumeric($a_adt_def->isNumeric());
-		$def->setOptions($a_adt_def->getOptions());		
-		return $def;
+		if($a_adt_def->getType() == "Enum")
+		{
+			$this->multi_source = false;
+			$def = ilADTFactory::getInstance()->getDefinitionInstanceByType("MultiEnum");	
+			$def->setNumeric($a_adt_def->isNumeric());
+			$def->setOptions($a_adt_def->getOptions());		
+			return $def;
+		}
+		else
+		{
+			$this->multi_source = true;
+			return $a_adt_def;
+		}
 	}
 	
 	public function loadFilter()
@@ -78,10 +90,25 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 		global $ilDB;
 		
 		if(!$this->isNull() && $this->isValid())		
-		{			
+		{									
 			$type = ($this->getADT() instanceof ilADTMultiEnumText)
 				? "text"
 				: "integer";
+			
+			if($this->multi_source)
+			{
+				include_once "Services/ADT/classes/Types/MultiEnum/class.ilADTMultiEnumDBBridge.php";
+				
+				$parts = array();
+				foreach($this->getADT()->getSelections() as $item)
+				{
+					$item = "%".ilADTMultiEnumDBBridge::SEPARATOR.
+						$item.
+						ilADTMultiEnumDBBridge::SEPARATOR."%";							
+					$parts[] = $ilDB->like($a_element_id, "text", $item, false);
+				}
+				return "(".implode(" AND ", $parts).")";				
+			}
 			
 			return $ilDB->in($a_element_id, $this->getADT()->getSelections(), "", $type);				
 		}
