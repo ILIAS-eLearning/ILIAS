@@ -780,7 +780,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$ppic = null;
 		if($a_portfolio->hasProfilePicture())
 		{
-			$ppic = ilObjUser::_getPersonalPicturePath($a_user_id, "big");
+			$ppic = ilObjUser::_getPersonalPicturePath($a_user_id, "xsmall", true, true);
 			if($a_export)
 			{
 				$ppic = basename($ppic);

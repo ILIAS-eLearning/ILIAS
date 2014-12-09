@@ -310,7 +310,12 @@ class ilPublicUserProfileGUI
 		if (!@is_file($check_file))
 		{
 			$imagefile = $check_file =
-				ilObjUser::_getPersonalPicturePath($user->getId(), "small", false, true);
+				ilObjUser::_getPersonalPicturePath($user->getId(), "small", false, true);			
+		}
+		
+		if($this->offline)
+		{
+			$imagefile = basename($imagefile);			
 		}
 
 		if ($this->getPublicPref($user, "public_upload")=="y" && $imagefile != "")
@@ -479,25 +484,28 @@ class ilPublicUserProfileGUI
 			$tpl->parseCurrentBlock();
 		}
 		
-		// map
-		include_once("./Services/Maps/classes/class.ilMapUtil.php");
-		if (ilMapUtil::isActivated() && 
-			$this->getPublicPref($user, "public_location") == "y" && 
-			$user->getLatitude() != "")
+		if(!$this->offline)
 		{
-			$tpl->setVariable("TXT_LOCATION", $lng->txt("location"));
+			// map
+			include_once("./Services/Maps/classes/class.ilMapUtil.php");
+			if (ilMapUtil::isActivated() && 
+				$this->getPublicPref($user, "public_location") == "y" && 
+				$user->getLatitude() != "")
+			{
+				$tpl->setVariable("TXT_LOCATION", $lng->txt("location"));
 
-			$map_gui = ilMapUtil::getMapGUI();
-			$map_gui->setMapId("user_map")
-					->setWidth("350px")
-					->setHeight("230px")
-					->setLatitude($user->getLatitude())
-					->setLongitude($user->getLongitude())
-					->setZoom($user->getLocationZoom())
-					->setEnableNavigationControl(true)
-					->addUserMarker($user->getId());
-			
-			$tpl->setVariable("MAP_CONTENT", $map_gui->getHTML());
+				$map_gui = ilMapUtil::getMapGUI();
+				$map_gui->setMapId("user_map")
+						->setWidth("350px")
+						->setHeight("230px")
+						->setLatitude($user->getLatitude())
+						->setLongitude($user->getLongitude())
+						->setZoom($user->getLocationZoom())
+						->setEnableNavigationControl(true)
+						->addUserMarker($user->getId());
+
+				$tpl->setVariable("MAP_CONTENT", $map_gui->getHTML());
+			}
 		}
 		
 		// additional defined user data fields

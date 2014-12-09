@@ -68,7 +68,15 @@ class ilPortfolioHTMLExport
 			$banner = $this->object->getImageFullPath();
 			copy($banner, $this->export_dir."/".basename($banner));
 		}
-		$ppic = ilObjUser::_getPersonalPicturePath($this->object->getOwner(), "big");
+		// profile page block
+		$ppic = ilObjUser::_getPersonalPicturePath($this->object->getOwner(), "big", true, true);
+		if($ppic)
+		{
+			$ppic = array_shift(explode("?", $ppic));
+			copy($ppic, $this->export_dir."/".basename($ppic));
+		}	
+		// header image
+		$ppic = ilObjUser::_getPersonalPicturePath($this->object->getOwner(), "xsmall", true, true);
 		if($ppic)
 		{
 			$ppic = array_shift(explode("?", $ppic));
