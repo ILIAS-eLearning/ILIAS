@@ -369,5 +369,44 @@ class ilRepUtilGUI
 		}
 		return $result;
 	}
+
+	/**
+	 * Confirmation for trash
+	 *
+	 * @param array $a_ids ref_ids
+	 */
+	public function confirmRemoveFromSystemObject($a_ids)
+	{
+		global $ilCtrl, $lng, $objDefinition, $tpl;
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+
+		if(!is_array($a_ids))
+		{
+			$a_ids = array($a_ids);
+		}
+
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($ilCtrl->getFormAction($this->parent_gui));
+		$cgui->setCancel($lng->txt("cancel"), "trash");
+		$cgui->setConfirm($lng->txt("confirm"), "removeFromSystem");
+		$cgui->setFormName("trash_confirmation");
+		$cgui->setHeaderText($lng->txt("info_delete_sure"));
+
+		foreach($a_ids as $id)
+		{
+			$obj_id = ilObject::_lookupObjId($id);
+			$type = ilObject::_lookupType($obj_id);
+			$title = call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'),$obj_id);
+			$alt = ($objDefinition->isPlugin($type))
+				? $lng->txt("icon")." ".ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type)
+				: $lng->txt("icon")." ".$lng->txt("obj_".$type);
+
+			$cgui->addItem("trash_id[]", $id, $title,
+				ilObject::_getIcon($obj_id, "small", $type),
+				$alt);
+		}
+
+		$tpl->setContent($cgui->getHTML());
+	}
 }
 ?>
