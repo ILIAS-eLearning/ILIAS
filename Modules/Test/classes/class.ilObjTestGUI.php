@@ -19,7 +19,7 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  *
  * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilMDEditorGUI, ilCertificateGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPlayerFixedQuestionSetGUI, ilTestPlayerRandomQuestionSetGUI, ilTestPlayerDynamicQuestionSetGUI
- * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI, ilMarkSchemaGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilShopPurchaseGUI, ilObjectCopyGUI, ilTestScoringGUI
  * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilScoringAdjustmentGUI, ilTestExportGUI
@@ -264,6 +264,19 @@ class ilObjTestGUI extends ilObjectGUI
 				require_once "./Modules/Test/classes/class.ilTestScoringGUI.php";
 				$output_gui = new ilTestScoringGUI($this->object);
 				$this->ctrl->forwardCommand($output_gui);
+				break;
+
+			case 'ilmarkschemagui':
+				if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
+				{
+					ilUtil::sendInfo($this->lng->txt('cannot_edit_test'), true);
+					$this->ctrl->redirect($this, 'infoScreen');
+				}
+				$this->prepareOutput();
+				$this->addHeaderAction();
+				require_once 'Modules/Test/classes/class.ilMarkSchemaGUI.php';
+				$mark_schema_gui = new ilMarkSchemaGUI($this->object);
+				$this->ctrl->forwardCommand($mark_schema_gui);
 				break;
 
 			case 'iltestscoringbyquestionsgui':
@@ -2241,277 +2254,6 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Add a new mark step to the tests marks
-	*
-	* Add a new mark step to the tests marks
-	*
-	* @access	public
-	*/
-	function addMarkStepObject()
-	{
-		$this->saveMarkSchemaFormData();
-		$this->object->mark_schema->addMarkStep();
-		$this->marksObject();
-	}
-
-	/**
-	* Save the mark schema POST data when the form was submitted
-	*
-	* Save the mark schema POST data when the form was submitted
-	*
-	* @access	public
-	*/
-	function saveMarkSchemaFormData()
-	{
-		$this->object->mark_schema->flush();
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/mark_short_(\d+)/", $key, $matches)) 
-			{
-				$this->object->mark_schema->addMarkStep(ilUtil::stripSlashes($_POST["mark_short_$matches[1]"]), ilUtil::stripSlashes($_POST["mark_official_$matches[1]"]), ilUtil::stripSlashes($_POST["mark_percentage_$matches[1]"]), ilUtil::stripSlashes($_POST["passed_$matches[1]"]));
-			}
-		}
-		$this->object->ects_grades["A"] = $_POST["ects_grade_a"];
-		$this->object->ects_grades["B"] = $_POST["ects_grade_b"];
-		$this->object->ects_grades["C"] = $_POST["ects_grade_c"];
-		$this->object->ects_grades["D"] = $_POST["ects_grade_d"];
-		$this->object->ects_grades["E"] = $_POST["ects_grade_e"];
-		if ($_POST["chbUseFX"])
-		{
-			$this->object->ects_fx = $_POST["percentFX"];
-		}
-		else
-		{
-			$this->object->ects_fx = "";
-		}
-		$this->object->ects_output = $_POST["chbECTS"];
-	}
-	
-	/**
-	* Add a simple mark schema to the tests marks
-	*
-	* Add a simple mark schema to the tests marks
-	*
-	* @access	public
-	*/
-	function addSimpleMarkSchemaObject()
-	{
-		$this->object->mark_schema->createSimpleSchema($this->lng->txt("failed_short"), $this->lng->txt("failed_official"), 0, 0, $this->lng->txt("passed_short"), $this->lng->txt("passed_official"), 50, 1);
-		$this->marksObject();
-	}
-	
-	/**
-	* Delete selected mark steps
-	*
-	* Delete selected mark steps
-	*
-	* @access	public
-	*/
-	function deleteMarkStepsObject()
-	{
-		$this->saveMarkSchemaFormData();
-		$delete_mark_steps = array();
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/cb_(\d+)/", $key, $matches)) {
-				array_push($delete_mark_steps, $matches[1]);
-			}
-		}
-		if (count($delete_mark_steps)) {
-			$this->object->mark_schema->deleteMarkSteps($delete_mark_steps);
-		} else {
-			ilUtil::sendInfo($this->lng->txt("tst_delete_missing_mark"));
-		}
-		$this->marksObject();
-	}
-
-	/**
-	* Cancel the mark schema form and return to the properties form
-	*
-	* Cancel the mark schema form and return to the properties form
-	*
-	* @access	public
-	*/
-	function cancelMarksObject()
-	{
-		$this->ctrl->redirect($this, "marks");
-	}
-	
-	/**
-	* Save the mark schema
-	*
-	* Save the mark schema
-	*
-	* @access	public
-	*/
-	function saveMarksObject()
-	{
-		try
-		{
-			$this->saveMarkSchemaFormData();
-			$mark_check = $this->object->checkMarks();
-		}
-		catch (Exception $ex)
-		{
-			$mark_check = $this->lng->txt('mark_schema_invalid');
-		}
-		
-		if ($mark_check !== true)
-		{
-			ilUtil::sendFailure($this->lng->txt($mark_check));
-		}
-		elseif ($_POST["chbECTS"] && ((strcmp($_POST["ects_grade_a"], "") == 0) or (strcmp($_POST["ects_grade_b"], "") == 0) or (strcmp($_POST["ects_grade_c"], "") == 0) or (strcmp($_POST["ects_grade_d"], "") == 0) or (strcmp($_POST["ects_grade_e"], "") == 0)))
-		{
-			ilUtil::sendInfo($this->lng->txt("ects_fill_out_all_values"), true);
-		}
-		elseif (($_POST["ects_grade_a"] > 100) or ($_POST["ects_grade_a"] < 0))
-		{
-			ilUtil::sendInfo($this->lng->txt("ects_range_error_a"), true);
-		}
-		elseif (($_POST["ects_grade_b"] > 100) or ($_POST["ects_grade_b"] < 0))
-		{
-			ilUtil::sendInfo($this->lng->txt("ects_range_error_b"), true);
-		}
-		elseif (($_POST["ects_grade_c"] > 100) or ($_POST["ects_grade_c"] < 0))
-		{
-			ilUtil::sendInfo($this->lng->txt("ects_range_error_c"), true);
-		}
-		elseif (($_POST["ects_grade_d"] > 100) or ($_POST["ects_grade_d"] < 0))
-		{
-			ilUtil::sendInfo($this->lng->txt("ects_range_error_d"), true);
-		}
-		elseif (($_POST["ects_grade_e"] > 100) or ($_POST["ects_grade_e"] < 0))
-		{
-			ilUtil::sendInfo($this->lng->txt("ects_range_error_e"), true);
-		}
-		else 
-		{
-			$this->object->mark_schema->saveToDb($this->object->getTestId());
-			$this->object->saveCompleteStatus( $this->testQuestionSetConfigFactory->getQuestionSetConfig() );
-			if ($this->object->getReportingDate())
-			{
-				$fxpercent = "";
-				if ($_POST["chbUseFX"])
-				{
-					$fxpercent = ilUtil::stripSlashes($_POST["percentFX"]);
-				}
-				$this->object->saveECTSStatus($_POST["chbECTS"], $fxpercent, ilUtil::stripSlashes($this->object->ects_grades["A"]), ilUtil::stripSlashes($this->object->ects_grades["B"]), ilUtil::stripSlashes($this->object->ects_grades["C"]), ilUtil::stripSlashes($this->object->ects_grades["D"]), ilUtil::stripSlashes($this->object->ects_grades["E"]));
-			}
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-		}
-		$this->marksObject();
-	}
-	
-	function marksObject() 
-	{
-		global $ilAccess;
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
-		{
-			// allow only write access
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->ctrl->redirect($this, "infoScreen");
-		}
-
-		if (!$this->object->canEditMarks())
-		{
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_marks"));
-		}
-		
-		$this->object->mark_schema->sort();
-	
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_marks.html", "Modules/Test");
-		$marks = $this->object->mark_schema->mark_steps;
-		$rows = array("tblrow1", "tblrow2");
-		$counter = 0;
-		foreach ($marks as $key => $value)
-		{
-			$this->tpl->setCurrentBlock("markrow");
-			$this->tpl->setVariable("MARK_SHORT", $value->getShortName());
-			$this->tpl->setVariable("MARK_OFFICIAL", $value->getOfficialName());
-			$this->tpl->setVariable("MARK_PERCENTAGE", sprintf("%.2f", $value->getMinimumLevel()));
-			$this->tpl->setVariable("MARK_PASSED", strtolower($this->lng->txt("tst_mark_passed")));
-			$this->tpl->setVariable("MARK_ID", "$key");
-			$this->tpl->setVariable("ROW_CLASS", $rows[$counter % 2]);
-
-			if( $value->getPassed() )
-			{
-				$this->tpl->setVariable("MARK_PASSED_CHECKED", " checked=\"checked\"");
-			}
-			
-			$this->tpl->parseCurrentBlock();
-			$counter++;
-		}
-		if (count($marks) == 0) 
-		{
-			$this->tpl->setCurrentBlock("Emptyrow");
-			$this->tpl->setVariable("EMPTY_ROW", $this->lng->txt("tst_no_marks_defined"));
-			$this->tpl->setVariable("ROW_CLASS", $rows[$counter % 2]);
-			$this->tpl->parseCurrentBlock();
-		} 
-		else 
-		{
-			if ($ilAccess->checkAccess("write", "", $this->ref_id) && $this->object->canEditMarks()) 
-			{
-				$this->tpl->setCurrentBlock("selectall");
-				$counter++;
-				$this->tpl->setVariable("ROW_CLASS", $rows[$counter % 2]);
-				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("Footer");
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.png") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
-				$this->tpl->setVariable("BUTTON_EDIT", $this->lng->txt("edit"));
-				$this->tpl->setVariable("BUTTON_DELETE", $this->lng->txt("delete"));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		
-		if ($this->object->getReportingDate())
-		{
-			$this->tpl->setCurrentBlock("ects");
-			if ($this->object->ects_output)
-			{
-				$this->tpl->setVariable("CHECKED_ECTS", " checked=\"checked\"");
-			}
-			$this->tpl->setVariable("TEXT_OUTPUT_ECTS_GRADES", $this->lng->txt("ects_output_of_ects_grades"));
-			$this->tpl->setVariable("TEXT_ALLOW_ECTS_GRADES", $this->lng->txt("ects_allow_ects_grades"));
-			$this->tpl->setVariable("TEXT_USE_FX", $this->lng->txt("ects_use_fx_grade"));
-			if (preg_match("/\d+/", $this->object->ects_fx))
-			{
-				$this->tpl->setVariable("CHECKED_FX", " checked=\"checked\"");
-				$this->tpl->setVariable("VALUE_PERCENT_FX", sprintf("value=\"%s\" ", $this->object->ects_fx));
-			}
-			$this->tpl->setVariable("TEXT_PERCENT", $this->lng->txt("ects_use_fx_grade_part2"));
-			$this->tpl->setVariable("ECTS_GRADE", $this->lng->txt("ects_grade"));
-			$this->tpl->setVariable("PERCENTILE", $this->lng->txt("percentile"));
-			$this->tpl->setVariable("ECTS_GRADE_A", "A - " . $this->lng->txt("ects_grade_a_short"));
-			$this->tpl->setVariable("VALUE_GRADE_A", $this->object->ects_grades["A"]);
-			$this->tpl->setVariable("ECTS_GRADE_B", "B - " . $this->lng->txt("ects_grade_b_short"));
-			$this->tpl->setVariable("VALUE_GRADE_B", $this->object->ects_grades["B"]);
-			$this->tpl->setVariable("ECTS_GRADE_C", "C - " . $this->lng->txt("ects_grade_c_short"));
-			$this->tpl->setVariable("VALUE_GRADE_C", $this->object->ects_grades["C"]);
-			$this->tpl->setVariable("ECTS_GRADE_D", "D - " . $this->lng->txt("ects_grade_d_short"));
-			$this->tpl->setVariable("VALUE_GRADE_D", $this->object->ects_grades["D"]);
-			$this->tpl->setVariable("ECTS_GRADE_E", "E - " . $this->lng->txt("ects_grade_e_short"));
-			$this->tpl->setVariable("VALUE_GRADE_E", $this->object->ects_grades["E"]);
-			
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("ACTION_MARKS", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("HEADER_SHORT", $this->lng->txt("tst_mark_short_form"));
-		$this->tpl->setVariable("HEADER_OFFICIAL", $this->lng->txt("tst_mark_official_form"));
-		$this->tpl->setVariable("HEADER_PERCENTAGE", $this->lng->txt("tst_mark_minimum_level"));
-		$this->tpl->setVariable("HEADER_PASSED", $this->lng->txt("tst_mark_passed"));
-		if ($ilAccess->checkAccess("write", "", $this->ref_id) && $this->object->canEditMarks()) 
-		{
-			$this->tpl->setVariable("BUTTON_NEW", $this->lng->txt("tst_mark_create_new_mark_step"));
-			$this->tpl->setVariable("BUTTON_NEW_SIMPLE", $this->lng->txt("tst_mark_create_simple_mark_schema"));
-			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-		}
-		$this->tpl->parseCurrentBlock();
-	}
-
-	/**
 	* Deletes all user data for the test object
 	*
 	* Deletes all user data for the test object
@@ -4196,6 +3938,9 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	function getSettingsSubTabs($hiddenTabs = array())
 	{
+		/**
+		 * @var $ilTabs ilTabsGUI
+		 */
 		global $ilTabs, $ilias;
 		
 		// general subtab
@@ -4203,17 +3948,16 @@ class ilObjTestGUI extends ilObjectGUI
 			 '',											// auto activation regardless from cmd
 			 array('ilobjtestsettingsgeneralgui')			// auto activation for ilObjTestSettingsGeneralGUI
 		);
-                
-		if (!in_array('mark_schema', $hiddenTabs)) {
-                    // mark schema subtab
-                    $ilTabs->addSubTabTarget(
-                            "mark_schema",
-                            $this->ctrl->getLinkTarget($this,'marks'),
-                            array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
-                                    "saveMarks", "cancelMarks"),
-                            array("", "ilobjtestgui", "ilcertificategui")
-                    );
-                }
+
+		if(!in_array('mark_schema', $hiddenTabs))
+		{
+			$ilTabs->addSubTabTarget(
+				'mark_schema',
+				$this->ctrl->getLinkTargetByClass('ilmarkschemagui', 'showMarkSchema'),
+				'',
+				array('ilmarkschemagui')
+			);
+		}
 
 		// scoring subtab
 		$ilTabs->addSubTabTarget('scoring', $this->ctrl->getLinkTargetByClass('ilObjTestSettingsScoringResultsGUI'),
@@ -4317,6 +4061,7 @@ class ilObjTestGUI extends ilObjectGUI
 				
 				return; // no tabs .. no subtabs .. during test pass
 				
+			case 'ilmarkschemagui':
 			case 'ilobjtestsettingsgeneralgui':
 			case 'ilobjtestsettingsscoringresultsgui':
 				
@@ -4373,12 +4118,6 @@ class ilObjTestGUI extends ilObjectGUI
 				}				
 				break;
 			case "scoring":
-			case "marks":
-			case "saveMarks":
-			case "cancelMarks":
-			case "addMarkStep":
-			case "deleteMarkSteps":
-			case "addSimpleMarkSchema":
 			case "certificate":
 			case "certificateservice":
 			case "certificateImport":
@@ -4471,7 +4210,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if (!in_array('settings', $hidden_tabs))
 				{
 					$settingsCommands = array(
-						"marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema", "saveMarks", "cancelMarks", 
+						"marks", "showMarkSchema","addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema", "saveMarks",
 						"certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
 						"certificatePreview", "certificateDelete", "certificateUpload", "certificateImport",
 						"scoring", "defaults", "addDefaults", "deleteDefaults", "applyDefaults",
@@ -4492,7 +4231,8 @@ class ilObjTestGUI extends ilObjectGUI
 					
 					$tabs_gui->addTarget("settings",
 						$this->ctrl->getLinkTargetByClass('ilObjTestSettingsGeneralGUI'),
-						$settingsCommands, array("ilobjtestsettingsgeneralgui", "ilobjtestsettingsscoringresultsgui", "ilobjtestgui", "ilcertificategui")
+						$settingsCommands,
+						array("ilmarkschemagui", "ilobjtestsettingsgeneralgui", "ilobjtestsettingsscoringresultsgui", "ilobjtestgui", "ilcertificategui")
 					);
 				}
 

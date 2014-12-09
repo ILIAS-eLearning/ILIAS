@@ -5200,3 +5200,7 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4433>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

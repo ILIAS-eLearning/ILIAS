@@ -483,8 +483,9 @@ assessment#:#ects_range_error_b#:#Bitte geben Sie einen Wert zwischen 0 und 100 
 assessment#:#ects_range_error_c#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note C an!
 assessment#:#ects_range_error_d#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note D an!
 assessment#:#ects_range_error_e#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note E an!
-assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgefallenen Teilnehmer mindestens
-assessment#:#ects_use_fx_grade_part2#:#Prozent der Gesamtpunktezahl erreicht haben.
+assessment#:#use_ects_fx#:#Verwenden der ECTS-Note 'FX'
+assessment#:#ects_fx_threshold#:#Grenzwert
+assessment#:#ects_fx_threshold_info#:#Bitte geben Sie den Grenzwert an, ab dem durchgefallene Teilnehmer die ECTS-Note 'FX' erhalten.
 assessment#:#edit_page#:#Seite bearbeiten
 assessment#:#edit_question#:#Frage bearbeiten
 assessment#:#edit_test_questions#:#Listenansicht

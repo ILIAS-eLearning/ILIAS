@@ -374,8 +374,9 @@ assessment#:#ects_range_error_b#:#Please enter a value between 0 and 100 for ECT
 assessment#:#ects_range_error_c#:#Please enter a value between 0 and 100 for ECTS grade C!
 assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECTS grade D!
 assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!
-assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
-assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least
+assessment#:#use_ects_fx#:#Use the 'FX' grade
+assessment#:#ects_fx_threshold#:#Threshold
+assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the 'FX' grade.
 assessment#:#edit_page#:#Edit Page
 assessment#:#edit_question#:#Edit Question
 assessment#:#edit_test_questions#:#List View

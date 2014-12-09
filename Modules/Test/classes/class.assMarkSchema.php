@@ -433,6 +433,22 @@ class ASS_MarkSchema
 	}
 
 	/**
+	 * @return ASS_Mark[]
+	 */
+	public function getMarkSteps()
+	{
+		return $this->mark_steps;
+	}
+
+	/**
+	 * @param ASS_Mark[] $mark_steps
+	 */
+	public function setMarkSteps($mark_steps)
+	{
+		$this->mark_steps = $mark_steps;
+	}
+
+	/**
 	 * Logs an action into the Test&Assessment log.
 	 *
 	 * @param integer 	$test_id The database id of the test.

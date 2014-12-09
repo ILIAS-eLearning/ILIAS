@@ -1,8 +1,10 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Object/classes/class.ilObject.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once 'Services/Object/classes/class.ilObject.php';
+require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
+require_once 'Modules/Test/interfaces/interface.ilMarkSchemaAware.php';
+require_once 'Modules/Test/interfaces/interface.ilEctsGradesEnabled.php';
 
 /**
  * Class ilObjTest
@@ -14,7 +16,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
  * @defgroup ModulesTest Modules/Test
  * @extends ilObject
  */
-class ilObjTest extends ilObject
+class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabled
 {
 	const DEFAULT_PROCESSING_TIME_MINUTES = 90;
 
@@ -242,25 +244,22 @@ class ilObjTest extends ilObject
   	var $ending_time;
 
 	/**
-* Indicates if ECTS grades will be used
-*
-* @var integer
-*/
-  	var $ects_output;
+	 * Indicates if ECTS grades will be used
+	 * @var int|boolean
+	 */
+	protected $ects_output = FALSE;
 
 	/**
-* Contains the percentage of maximum points a failed user needs to get the FX ECTS grade
-*
-* @var float
-*/
-  	var $ects_fx;
+	 * Contains the percentage of maximum points a failed user needs to get the FX ECTS grade
+	 * @var float|null
+	 */
+	protected $ects_fx = NULL;
 
 	/**
-* The percentiles of the ECTS grades for this test
-*
-* @var array
-*/
-  	var $ects_grades;
+	 * The percentiles of the ECTS grades for this test
+	 * @var array
+	 */
+	protected $ects_grades = array();
 
 
 	/**
@@ -587,8 +586,8 @@ class ilObjTest extends ilObject
 		$this->processing_time = "00:00:00";
 		$this->enable_processing_time = "0";
 		$this->reset_processing_time = 0;
-		$this->ects_output = 0;
-		$this->ects_fx = NULL;
+		$this->ects_output = FALSE;
+		$this->ects_fx     = NULL;
 		$this->shuffle_questions = FALSE;
 		$this->mailnottype = 0;
 		$this->exportsettings = 0;
@@ -621,11 +620,11 @@ class ilObjTest extends ilObject
 		$this->poolUsage = 1;
 		
 		$this->ects_grades = array(
-			"A" => 90,
-			"B" => 65,
-			"C" => 35,
-			"D" => 10,
-			"E" => 0
+			'A' => 90,
+			'B' => 65,
+			'C' => 35,
+			'D' => 10,
+			'E' => 0
 		);
 
 		$this->autosave = FALSE;
@@ -1144,57 +1143,63 @@ class ilObjTest extends ilObject
 		return $test->isComplete( $testQuestionSetConfigFactory->getQuestionSetConfig() );
 	}
 
-/**
-* Saves the ECTS status (output of ECTS grades in a test) to the database
-*
-* @access public
-*/
-	function saveECTSStatus($ects_output = 0, $fx_support = "", $ects_a = 90, $ects_b = 65, $ects_c = 35, $ects_d = 10, $ects_e = 0)
+	/**
+	 * Saves the ECTS status (output of ECTS grades in a test) to the database
+	 */
+	public function saveECTSStatus()
 	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
-		if ($this->test_id > 0) 
+
+		if($this->getTestId() > 0)
 		{
-			$fx_support = preg_replace("/,/", ".", $fx_support);
-			if (preg_match("/\d+/", $fx_support))
+			$this->setECTSFX(preg_replace('/,/', '.', $this->getECTSFX()));
+			if(!preg_match('/\d+/', $this->getECTSFX()))
 			{
-				$fx_support = $fx_support;
+				$this->setECTSFX(NULL);
 			}
-			else
-			{
-				$fx_support = NULL;
-			}
-			$affectedRows = $ilDB->manipulateF("UPDATE tst_tests SET ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s WHERE test_id = %s",
-				array('text','float','float','float','float','float','float','integer'),
-				array($ects_output, $ects_a, $ects_b, $ects_c, $ects_d, $ects_e, $fx_support, $this->getTestId())
+
+			$grades = $this->getECTSGrades();
+			$ilDB->manipulateF(
+				"UPDATE tst_tests
+				SET ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s
+				WHERE test_id = %s",
+				array('text', 'float', 'float', 'float', 'float', 'float', 'float', 'integer'),
+				array(
+					(int)$this->getECTSOutput(),
+					$grades['A'], $grades['B'], $grades['C'], $grades['D'], $grades['E'],
+					$this->getECTSFX(),
+					$this->getTestId()
+				)
 			);
-			$this->ects_output = $ects_output;
-			$this->ects_fx = $fx_support;
 		}
 	}
 
-/**
-* Checks if the test is complete and saves the status in the database
-*
-* @access public
-*/
-	function saveCompleteStatus(ilTestQuestionSetConfig $testQuestionSetConfig)
+	/**
+	 * Checks if the test is complete and saves the status in the database
+	 * @param ilTestQuestionSetConfig $testQuestionSetConfig
+	 */
+	public function saveCompleteStatus(ilTestQuestionSetConfig $testQuestionSetConfig)
 	{
 		global $ilDB;
 
 		$complete = 0;
-		if ($this->isComplete($testQuestionSetConfig))
+		if($this->isComplete($testQuestionSetConfig))
 		{
 			$complete = 1;
 		}
-		if ($this->test_id > 0)
+		if($this->getTestId() > 0)
 		{
-			$affectedRows = $ilDB->manipulateF("UPDATE tst_tests SET complete = %s WHERE test_id = %s",
-				array('text','integer'),
+			$ilDB->manipulateF(
+				"UPDATE tst_tests SET complete = %s WHERE test_id = %s",
+				array('text', 'integer'),
 				array($complete, $this->test_id)
 			);
 		}
 	}
-	
+
 	/**
 	* Returns the content of all RTE enabled text areas in the test
 	*
@@ -2234,78 +2239,51 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Indicates if ECTS grades output is presented in this test
-	*
-	* @return integer 0 if there is no ECTS grades output, 1 otherwise
-	* @access public
-	* @see $ects_output
-	*/
-	function getECTSOutput()
+	 * {@inheritdoc}
+	 */
+	public function getECTSOutput()
 	{
 		return ($this->ects_output) ? 1 : 0;
 	}
 
 	/**
-	* Enables/Disables ECTS grades output for this test
-	*
-	* @param integer $a_ects_output 0 if ECTS grades output should be deactivated, 1 otherwise
-	* @access public
-	* @see $ects_output
-	*/
-	function setECTSOutput($a_ects_output)
+	 * {@inheritdoc}
+	 */
+	public function setECTSOutput($a_ects_output)
 	{
 		$this->ects_output = $a_ects_output ? 1 : 0;
 	}
 
 	/**
-	* Returns the ECTS FX grade
-	*
-	* @return mixed The ECTS FX grade, NULL if empty
-	* @access public
-	* @see $ects_fx
-	*/
-	function getECTSFX()
+	 * {@inheritdoc}
+	 */
+	public function getECTSFX()
 	{
 		return (strlen($this->ects_fx)) ? $this->ects_fx : NULL;
 	}
 
 	/**
-	* Sets the ECTS FX grade
-	*
-	* @param string $a_ects_fx The ECTS FX grade
-	* @access public
-	* @see $ects_fx
-	*/
-	function setECTSFX($a_ects_fx)
+	 * {@inheritdoc}
+	 */
+	public function setECTSFX($a_ects_fx)
 	{
 		$this->ects_fx = $a_ects_fx;
 	}
 
 	/**
-	* Returns the ECTS grades
-	*
-	* @return array The ECTS grades
-	* @access public
-	* @see $ects_grades
-	*/
-	function &getECTSGrades()
+	 * {@inheritdoc}
+	 */
+	public function getECTSGrades()
 	{
 		return $this->ects_grades;
 	}
 
 	/**
-	* Sets the ECTS grades
-	*
-	* @param array $a_ects_grades The ECTS grades
-	* @access public
-	* @see $ects_grades
-	*/
-	function setECTSGrades($a_ects_grades)
+	 * {@inheritdoc}
+	 */
+	public function setECTSGrades(array $a_ects_grades)
 	{
-		if (is_array($a_ects_grades))
-		{
-			$this->ects_grades = $a_ects_grades;
-		}
+		$this->ects_grades = $a_ects_grades;
 	}
 
 /**
@@ -2411,19 +2389,16 @@ function setGenericAnswerFeedback($generic_answer_feedback = 0)
 		}
 	}
 
-/**
-* Sets the reporting date of the ilObjTest object
-*
-* @param timestamp $reporting_date The date and time the score reporting is available
-* @access public
-* @see $reporting_date
-*/
-	function setReportingDate($reporting_date)
+	/**
+	 * Sets the reporting date of the ilObjTest object
+	 * @param timestamp $reporting_date The date and time the score reporting is available
+	 */
+	public function setReportingDate($reporting_date)
 	{
-		if (!$reporting_date)
+		if(!$reporting_date)
 		{
-			$this->reporting_date = "";
-			$this->ects_output = 0;
+			$this->reporting_date = '';
+			$this->setECTSOutput(false);
 		}
 		else
 		{
@@ -4981,7 +4956,7 @@ function getAnswerFeedbackPoints()
 			}
 		}
 
-		if ($this->ects_output)
+		if($this->getECTSOutput())
 		{
 			$passed_array =& $this->getTotalPointsPassedArray();
 		}
@@ -5006,7 +4981,7 @@ function getAnswerFeedbackPoints()
 				);
 			}
 			
-			if ($this->ects_output)
+			if($this->getECTSOutput())
 			{
 				$ects_mark = $this->getECTSGrade(
 						$passed_array, $tstUserData->getReached(), $tstUserData->getMaxPoints()
@@ -6678,28 +6653,25 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns the ECTS grade for a number of reached points
-	*
-	* @param array $passed_array An array with the points of all users who passed the test
-	* @param double $reached_points The points reached in the test
-	* @param double $max_points The maximum number of points for the test
-	* @return string The ECTS grade short description
-	* @access public
-	*/
-	function getECTSGrade($passed_array, $reached_points, $max_points)
+	 * {@inheritdoc}
+	 */
+	public function canEditEctsGrades()
 	{
-		return ilObjTest::_getECTSGrade($passed_array, $reached_points, $max_points, $this->ects_grades["A"], $this->ects_grades["B"], $this->ects_grades["C"], $this->ects_grades["D"], $this->ects_grades["E"], $this->ects_fx);
+		return $this->getReportingDate();
 	}
 
 	/**
-	* Returns the ECTS grade for a number of reached points
-	*
-	* @param double $reached_points The points reached in the test
-	* @param double $max_points The maximum number of points for the test
-	* @return string The ECTS grade short description
-	* @access public
-	*/
-	function _getECTSGrade($points_passed, $reached_points, $max_points, $a, $b, $c, $d, $e, $fx)
+	 * {@inheritdoc}
+	 */
+	public function getECTSGrade($passed_array, $reached_points, $max_points)
+	{
+		return self::_getECTSGrade($passed_array, $reached_points, $max_points, $this->ects_grades["A"], $this->ects_grades["B"], $this->ects_grades["C"], $this->ects_grades["D"], $this->ects_grades["E"], $this->ects_fx);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public static function _getECTSGrade($points_passed, $reached_points, $max_points, $a, $b, $c, $d, $e, $fx)
 	{
 		include_once "./Modules/Test/classes/class.ilStatistics.php";
 		// calculate the median
@@ -6759,14 +6731,72 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-	function checkMarks()
+	/**
+	 * {@inheritdoc}
+	 */
+	public function checkMarks()
 	{
 		return $this->mark_schema->checkMarks();
 	}
-	
-	function getMarkSchema()
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getMarkSchema()
 	{
 		return $this->mark_schema;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getMarkSchemaForeignId()
+	{
+		return $this->getTestId();
+	}
+
+	/**
+	 */
+	public function onMarkSchemaSaved()
+	{
+		/**
+		 * @var $tree          ilTree
+		 * @var $ilDB          ilDB
+		 * @var $ilPluginAdmin ilPluginAdmin
+		 */
+		global $ilDB, $ilPluginAdmin, $tree;
+
+		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
+		$this->saveCompleteStatus($testQuestionSetConfigFactory->getQuestionSetConfig());
+	}
+
+	/**
+	 * @return {@inheritdoc}
+	 */
+	public function canEditMarks()
+	{
+		$total = $this->evalTotalPersons();
+		if($total > 0)
+		{
+			if($this->getReportingDate())
+			{
+				if(preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches))
+				{
+					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+					$now        = mktime();
+					if($now < $epoch_time)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 /**
@@ -7688,7 +7718,7 @@ function getAnswerFeedbackPoints()
 		$results[] = $row;
 		if (count($participants))
 		{
-			if ($this->ects_output)
+			if($this->getECTSOutput())
 			{
 				$passed_array =& $this->getTotalPointsPassedArray();
 			}
@@ -8113,31 +8143,6 @@ function getAnswerFeedbackPoints()
 		if (($this->endingTimeReached()) || $notimeleft) $result = TRUE;
 		$result = $result & $this->canViewResults();
 		return $result;
-	}
-
-	function canEditMarks()
-	{
-		$total = $this->evalTotalPersons();
-		if ($total > 0)
-		{
-			if ($this->getReportingDate())
-			{
-				if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches))
-				{
-					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-					$now = mktime();
-					if ($now < $epoch_time)
-					{
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-		else
-		{
-			return true;
-		}
 	}
 
 /**
