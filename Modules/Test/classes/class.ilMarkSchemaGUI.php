@@ -138,12 +138,9 @@ class ilMarkSchemaGUI
 
 		$this->saveMarkSchemaFormData();
 		$delete_mark_steps = array();
-		foreach($_POST as $key => $value)
+		foreach($_POST['marks'] as $mark_step_id)
 		{
-			if(preg_match('/cb_(\d+)/', $key, $matches))
-			{
-				array_push($delete_mark_steps, $matches[1]);
-			}
+			$delete_mark_steps[] = $mark_step_id;
 		}
 
 		if(count($delete_mark_steps))
