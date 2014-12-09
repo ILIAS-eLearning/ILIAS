@@ -252,7 +252,7 @@ class ilTEPGUI
 				$ilCtrl->getLinkTargetByClass("ilTEPEntryGUI", "createEntry"));
 			// gev-patch start
 			$ilToolbar->addButton($lng->txt("gev_create_decentral_training"),
-				$ilCtrl->getLinkTargetByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "createTraining"));
+				$ilCtrl->getLinkTargetByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "chooseTemplate"));
 			// gev-patch end
 		}
 		

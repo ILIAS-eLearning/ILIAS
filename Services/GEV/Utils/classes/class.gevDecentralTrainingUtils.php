@@ -20,10 +20,11 @@ class gevDecentralTrainingUtils {
 	protected $creation_users = array();
 	
 	protected function __construct() {
-		global $ilDB, $ilias, $ilLog;
+		global $ilDB, $ilias, $ilLog, $ilAccess;;
 		$this->db = &$ilDB;
 		$this->ilias = &$ilias;
 		$this->log = &$ilLog;
+		$this->access = &$ilAccess;
 	}
 	
 	public static function getInstance() {
@@ -38,6 +39,8 @@ class gevDecentralTrainingUtils {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		return ilObjOrgUnitTree::_getInstance();
 	}
+	
+	// PERMISSIONS
 	
 	public function canCreateFor($a_user_id, $a_target_user_id) {
 		if (!array_key_exists($a_user_id, $this->creation_permissions)) {
@@ -61,7 +64,7 @@ class gevDecentralTrainingUtils {
 		}
 	}
 	
-	protected function getUsersWhereCanCreateFor($a_user_id) {
+	public function getUsersWhereCanCreateFor($a_user_id) {
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		
 		if (array_key_exists($a_user_id, $this->creation_users)) {
@@ -83,6 +86,46 @@ class gevDecentralTrainingUtils {
 						, $orgu_utils->getAllPeopleIn($orgus_a)
 						);
 		return $this->creation_users[$a_user_id];
+	}
+	
+	// TEMPLATES
+	
+	public function getAvailableTemplatesFor($a_user_id) {
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		$ltype_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
+		$edu_prog_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_EDU_PROGRAMM);
+		$is_tmplt_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
+		
+		$query = "SELECT DISTINCT od.obj_id, od.title, oref.ref_id, ltype.value as ltype"
+				."  FROM crs_settings cs"
+				."  JOIN object_data od ON od.obj_id = cs.obj_id"
+				."  LEFT JOIN object_reference oref "
+				."    ON cs.obj_id = oref.obj_id "
+				."  LEFT JOIN adv_md_values_text edu_prog"
+				."    ON cs.obj_id = edu_prog.obj_id"
+				."    AND edu_prog.field_id = ".$this->db->quote($edu_prog_field_id, "integer")
+				."  LEFT JOIN adv_md_values_text ltype"
+				."    ON cs.obj_id = ltype.obj_id"
+				."    AND ltype.field_id = ".$this->db->quote($ltype_field_id, "integer")
+				."  LEFT JOIN adv_md_values_text is_template"
+				."    ON cs.obj_id = is_template.obj_id"
+				."    AND is_template.field_id = ".$this->db->quote($is_tmplt_field_id, "integer")
+				." WHERE cs.activation_type = 1"
+				."   AND oref.deleted IS NULL"
+				."   AND is_template.value = 'Ja'"
+				."   AND edu_prog.value = 'dezentrales Training'"
+				;
+		$res = $this->db->query($query);
+		
+		$ret = array();
+		while ($rec = $this->db->fetchAssoc($res)) {
+			if ($this->access->checkAccessOfUser($a_user_id, "visible",  "", $rec["ref_id"], "crs")) {
+				$ret[$rec["obj_id"]] = $rec;
+			}
+		}
+		
+		return $ret;
 	}
 }
 

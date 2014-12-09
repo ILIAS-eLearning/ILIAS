@@ -752,7 +752,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			$spl = explode("_", $a_id);
 			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "user_id", $spl[0]);
 			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "date", $spl[1]);
-			$url_event = $ilCtrl->getLinkTargetByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "createTraining");
+			$url_event = $ilCtrl->getLinkTargetByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "chooseTemplate");
 			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "user_id", null);
 			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "date", null);
 			$list->addItem($lng->txt("gev_create_decentral_training"), "", $url_event);
