@@ -1506,7 +1506,28 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 */
 	public function getAfterParticipationSuppressionQuestionPostVars()
 	{
-		return array('element_height', 'thumb_geometry');
+		return array('element_height', 'thumb_geometry','answers');
+	}
+
+	public function resetFormValuesForSuppressedPostvars($form)
+	{
+		$element = $form->getItemByPostvar('element_height');
+		if($element)
+		{
+			$_POST['element_height'] = $this->object->getElementHeight();
+			$element->setValue( $this->object->getElementHeight() );
+		}
+		$element = $form->getItemByPostvar('thumb_geometry');
+
+		if($element)
+		{
+			$_POST['thump_geometry'] = $this->object->getThumbGeometry();
+			$element->setValue( $this->object->getThumbGeometry() );
+			$element->setRequired( false );
+		}
+
+		$element = $form->getItemByPostvar('answers');
+		$element->setRequired(false);
 	}
 
 	/**

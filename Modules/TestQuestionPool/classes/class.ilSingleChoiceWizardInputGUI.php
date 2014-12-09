@@ -479,7 +479,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 				$tpl->setCurrentBlock("move");
 				$tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
 				$tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
-				$tpl->setVariable("ID", $this->getPostVar() . "[$i]");
+				$tpl->setVariable("MOVE_ID", $this->getPostVar() . "[$i]");
 				$tpl->setVariable("UP_BUTTON", ilUtil::getImagePath('a_up.png'));
 				$tpl->setVariable("DOWN_BUTTON", ilUtil::getImagePath('a_down.png'));
 				$tpl->parseCurrentBlock();
@@ -499,21 +499,18 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 			$tpl->setVariable("ROW_CLASS", $class);
 			$tpl->setVariable("POST_VAR", $this->getPostVar());
 			$tpl->setVariable("ROW_NUMBER", $i);
-			$tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
-			$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
-			$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
+			if(!$this->disable_actions)
+			{
+				//$tpl->setCurrentBlock('addremove');
+				$tpl->setVariable( "ID", $this->getPostVar() . "[answer][$i]" );
+				$tpl->setVariable( "CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]" );
+				$tpl->setVariable( "CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]" );
+				$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
+				$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
+			}
 			if ($this->getDisabled())
 			{
 				$tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
-			}
-			if($this->disable_actions)
-			{
-				$tpl->setVariable( 'DISABLE_ACTIONS', 'disabled="disabled"' );
-			} 
-			else 
-			{
-				$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
-				$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
 			}
 			$tpl->parseCurrentBlock();
 			$i++;

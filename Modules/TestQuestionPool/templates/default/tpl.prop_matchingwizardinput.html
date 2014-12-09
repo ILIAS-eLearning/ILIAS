@@ -30,11 +30,13 @@
 <!-- END addimage -->
 				</td>
 				<td style="vertical-align: top;">
+<!-- BEGIN addremove -->
 					<input {DISABLE_ACTIONS} value="" type="image" name="{CMD_ADD}" class="matchingwizard_add" id="add_{ID}" src="{ADD_BUTTON}" />
 					<input {DISABLE_ACTIONS} value="" type="image" name="{CMD_REMOVE}" class="matchingwizard_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" />
+<!-- END addremove -->
 <!-- BEGIN move -->
-					<input {DISABLE_ACTIONS} type="image" name="{CMD_UP}" class="matchingwizard_up" id="up_{ID}" src="{UP_BUTTON}" />
-					<input {DISABLE_ACTIONS} type="image" name="{CMD_DOWN}" class="matchingwizard_down" id="down_{ID}" src="{DOWN_BUTTON}" />
+					<input {DISABLE_ACTIONS} type="image" name="{CMD_UP}" class="matchingwizard_up" id="up_{MOVE_ID}" src="{UP_BUTTON}" />
+					<input {DISABLE_ACTIONS} type="image" name="{CMD_DOWN}" class="matchingwizard_down" id="down_{MOVE_ID}" src="{DOWN_BUTTON}" />
 <!-- END move -->
 				</td>
 			</tr>

@@ -1,9 +1,11 @@
 <div id="{ELEMENT_ID}">
 	<!-- BEGIN row -->
 	<div class="{ROW_CLASS}">
-		<input {DISABLED_TEXT} type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/><!-- BEGIN add_button -->
-		<input value="" type="image" name="{CMD_ADD}" class="textwizard_add" id="add_{ID_ADD_BUTTON}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" /><!-- END add_button --><!-- BEGIN remove_button -->
-		<input value="" type="image" name="{CMD_REMOVE}" class="textwizard_remove" id="remove_{ID_REMOVE_BUTTON}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" /><!-- END remove_button -->
+		<input {DISABLED_TEXT} type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/>
+<!-- BEGIN addremove -->
+		<input value="" type="image" name="{CMD_ADD}" class="textwizard_add" id="add_{ID_ADD_BUTTON}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />
+		<input value="" type="image" name="{CMD_REMOVE}" class="textwizard_remove" id="remove_{ID_REMOVE_BUTTON}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
+<!-- END addremove -->
 		<!-- BEGIN move -->
 		<input type="image" value="" name="{CMD_UP}" class="textwizard_up" id="up_{MOVE_ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
 		<input type="image" value="" name="{CMD_DOWN}" class="textwizard_down" id="down_{MOVE_ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />

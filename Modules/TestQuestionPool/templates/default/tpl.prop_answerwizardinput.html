@@ -19,11 +19,13 @@
 					<input type="text" style="text-align: right;" size="5" id="{POINTS_ID}" name="{POST_VAR}[points][{ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
 				</td>
 				<td style="vertical-align: top;">
+<!-- BEGIN addremove -->
 					<input type="image" value="" name="{CMD_ADD}" class="answerwizard_add" id="add_{ID}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />
 					<input type="image" value="" name="{CMD_REMOVE}" class="answerwizard_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
+<!-- END addremove -->
 <!-- BEGIN move -->
-					<input type="image" name="{CMD_UP}" class="answerwizard_up" id="up_{ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
-					<input type="image" name="{CMD_DOWN}" class="answerwizard_down" id="down_{ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
+					<input type="image" name="{CMD_UP}" class="answerwizard_up" id="up_{MOVE_ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
+					<input type="image" name="{CMD_DOWN}" class="answerwizard_down" id="down_{MOVE_ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
 <!-- END move -->
 				</td>
 			</tr>

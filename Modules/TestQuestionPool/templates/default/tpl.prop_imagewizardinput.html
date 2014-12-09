@@ -19,11 +19,13 @@
 <!-- END addimage -->
 				</td>
 				<td style="vertical-align: top;">
+<!-- BEGIN addremove -->
 					<input {DISABLED_ACTIONS} type="image" value="" name="{CMD_ADD}" class="imagewizard_add" id="add_{ID}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />
 					<input {DISABLED_ACTIONS} type="image" value="" name="{CMD_REMOVE}" class="imagewizard_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
+<!-- END addremove -->
 <!-- BEGIN move -->
-					<input {DISABLED_ACTIONS} type="image" value="" name="{CMD_UP}" class="imagewizard_up" id="up_{ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
-					<input {DISABLED_ACTIONS} type="image" value="" name="{CMD_DOWN}" class="imagewizard_down" id="down_{ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
+					<input {DISABLED_ACTIONS} type="image" value="" name="{CMD_UP}" class="imagewizard_up" id="up_{MOVE_ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
+					<input {DISABLED_ACTIONS} type="image" value="" name="{CMD_DOWN}" class="imagewizard_down" id="down_{MOVE_ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
 <!-- END move -->
 				</td>
 			</tr>

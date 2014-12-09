@@ -41,11 +41,13 @@
 				</td>
 <!-- END points -->
                 <td style="vertical-align: top;">
+<!-- BEGIN addremove -->
 					<input {DISABLE_ACTIONS} type="image" name="{CMD_ADD}" class="singlechoicewizard_add" id="add_{ID}" value="" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />
 					<input {DISABLE_ACTIONS} type="image" name="{CMD_REMOVE}" class="singlechoicewizard_remove" id="remove_{ID}" value="" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
+<!-- END addremove -->
 <!-- BEGIN move -->
-					<input type="image" name="{CMD_UP}" class="singlechoicewizard_up" id="up_{ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
-					<input type="image" name="{CMD_DOWN}" class="singlechoicewizard_down" id="down_{ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
+					<input type="image" name="{CMD_UP}" class="singlechoicewizard_up" id="up_{MOVE_ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
+					<input type="image" name="{CMD_DOWN}" class="singlechoicewizard_down" id="down_{MOVE_ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
 <!-- END move -->
 				</td>
 			</tr>
