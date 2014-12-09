@@ -617,10 +617,16 @@ class ilTable2GUI extends ilTableGUI
 		}
 
 		// restore filter values (from stored view)
-		if($this->restore_filter_values &&
-			array_key_exists($a_input_item->getFieldId(), $this->restore_filter_values))
+		if($this->restore_filter_values)
 		{
-			$this->setFilterValue($a_input_item, $this->restore_filter_values[$a_input_item->getFieldId()]);
+			if(array_key_exists($a_input_item->getFieldId(), $this->restore_filter_values))
+			{
+				$this->setFilterValue($a_input_item, $this->restore_filter_values[$a_input_item->getFieldId()]);
+			}
+			else
+			{				
+				$this->setFilterValue($a_input_item, null); // #14949
+			}
 		}
 	}
 
