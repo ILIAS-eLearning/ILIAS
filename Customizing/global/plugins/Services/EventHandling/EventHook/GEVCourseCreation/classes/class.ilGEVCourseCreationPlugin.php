@@ -62,9 +62,12 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 		catch (Exception $e) {
 			$ilLog->write("Error in GEVCourseCreation::clonedCourse: ".print_r($e, true));
 		}
-		}
 		
-		public function setCustomId($a_target_utils, $a_source_utils) {
+		global $ilLog;
+		$ilLog->write("Cloned course ".$target_ref_id." from course ". $source_ref_id);		
+	}
+		
+	public function setCustomId($a_target_utils, $a_source_utils) {
 		if ($a_source_utils->isTemplate()) {
 			$custom_id_tmplt = $a_source_utils->getCustomId();
 		}
@@ -74,9 +77,6 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 
 		$custom_id = gevCourseUtils::createNewCustomId($custom_id_tmplt);
 		$a_target_utils->setCustomId($custom_id);
-		
-		global $ilLog;
-		$ilLog->write("Cloned course ".$target_ref_id." from course ". $source_ref_id);		
 	}
 	
 	public function setMailSettings($a_source_obj_id, $a_target_obj_id) {
