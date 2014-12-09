@@ -934,6 +934,21 @@ class gevUserUtils {
 		return $this->getLastname().", ".$this->getFirstname();
 	}
 	
+	static public function getFullNames($a_user_ids) {
+		global $ilDB;
+		
+		$query = "SELECT usr_id, CONCAT(lastname, ', ', firstname) as fullname"
+				."  FROM usr_data"
+				." WHERE ".$ilDB->in("usr_id", $a_user_ids, false, "integer");
+		$res = $ilDB->query($query);
+		
+		$ret = array();
+		while($rec = $ilDB->fetchAssoc($res)) {
+			$ret[$rec["usr_id"]] = $rec["fullname"];
+		}
+		return $ret;
+	}
+	
 	public function getEMail() {
 		return $this->getUser()->getEmail();
 	}

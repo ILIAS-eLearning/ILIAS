@@ -469,8 +469,11 @@ gev#:#gev_csn_list#:#CSN-Liste
 gev#:#gev_desk_displays#:#Tischaufsteller
 gev#:#gev_dec_training_creation#:#Dezentrales Training anlegen
 gev#:#gev_dec_training_creation_header_note#:#Hier können sie ein neues dezentrales Training anlegen.
+gev#:#gev_dec_training_settings#:#Trainingseinstellungen
 gev#:#gev_dec_training_template#:#Vorlage
-gev#:#gev_dec_training_choose_template#:#Vorlage auswählen
+gev#:#gev_dec_training_choose_template_and_trainers#:#Vorlage und Trainer auswählen
+gev#:#gev_dec_training_choose_min_one_trainer#:#Sie müssen mindestens einen Trainer auswählen.
+gev#:#gev_duration#:#Dauer
 gev#:#gev_edu_bio#:#Bildungsbiographie
 gev#:#gev_edu_program#:#Bildungsprogramm
 gev#:#gev_edit_overnights#:#Übernachtungen
@@ -612,6 +615,8 @@ gev#:#gev_spec_course_create#:#Spezialistentraining anlegen
 gev#:#gev_standard_mail#:#Standardmail verwenden
 gev#:#gev_status#:#Status
 gev#:#gev_subscription_end#:#Anmeldungsende
+gev#:#gev_suppress_mails#:#Mailversand unterbinden
+gev#:#gev_suppress_mails_info#:#Keine Einladungs-, Stornierungs- oder Buchungsmails für dieses Training versenden.
 gev#:#gev_table_no_entry#:#-
 gev#:#gev_target_group#:#Zielgruppe
 gev#:#gev_targets_and_benefit#:#Ziele und Nutzen
@@ -671,6 +676,8 @@ gev#:#gev_wbd_registration_question_basis#:#Haben Sie bereits ein Weiterbildungs
 gev#:#gev_wbd_registration_question_service#:#Sofern die Generali nicht Ihr Trusted Partner Service sein soll, oder Sie bereits an anderer Stelle eine Kontoeröffnung beantragt haben, nutzen Sie unten stehende Eingabefelder.
 gev#:#gev_wbd_relevant#:#WBD relevant
 gev#:#gev_wbd_transfer_on#:#Ihre Bildungspunkte werden an die WBD gemeldet.
+gev#:#gev_webinar_link#:#Webinar Link
+gev#:#gev_webinar_password#:#Webinar Passwort
 gev#:#housenumber#:#Hausnummer
 gev#:#no_edu_bio_permission#:#Sie haben keine Berechtigung auf diese Bildungsbiographie zuzugreifen.
 gev#:#no_invitation_mail_available#:#Keine Einladungsmail ausgewählt.

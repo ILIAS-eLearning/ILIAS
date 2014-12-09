@@ -57,7 +57,7 @@ class gevDecentralTrainingUtils {
 	protected function queryCanCreateFor($a_user_id, $a_target_user_id) {
 		
 		if ($a_user_id == $a_target_user_id) {
-			return count($this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_self"));
+			return count($this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_self")) > 0;
 		}
 		else {
 			return in_array($a_target_user_id, $this->getUsersWhereCanCreateFor());
@@ -71,33 +71,35 @@ class gevDecentralTrainingUtils {
 			return $this->creation_users[$a_user_id];
 		}
 		
-		$orgu_utils = gevOrgUnitUtils::getInstance();
-		
 		$orgus_e1 = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others");
 		$orgus_e2 = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others_rec");
 		$orgus_e = array_unique(array_merge($orgus_e1, $orgus_e2));
-		$orgus_a = $orgu_utils->getAllChildren($orgus_e2);
+		$orgus_a = gevOrgUnitUtils::getAllChildren($orgus_e2);
 		foreach ($orgus_a as $key => $value) {
 			$orgus_a[$key] = $value["ref_id"];
 		}
 		
 		$this->creation_users[$a_user_id] = 
-			array_merge(  $orgu_utils->getEmployeesIn($orgus_e)
-						, $orgu_utils->getAllPeopleIn($orgus_a)
+			array_merge(  gevOrgUnitUtils::getEmployeesIn($orgus_e)
+						, gevOrgUnitUtils::getAllPeopleIn($orgus_a)
 						);
 		return $this->creation_users[$a_user_id];
 	}
 	
 	// TEMPLATES
 	
-	public function getAvailableTemplatesFor($a_user_id) {
+	protected function templateBaseQuery() {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		
 		$ltype_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
 		$edu_prog_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_EDU_PROGRAMM);
 		$is_tmplt_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
 		
-		$query = "SELECT DISTINCT od.obj_id, od.title, oref.ref_id, ltype.value as ltype"
+		return   "SELECT DISTINCT od.obj_id"
+				."              , od.title"
+				."              , od.description"
+				."              , oref.ref_id"
+				."				, ltype.value as ltype"
 				."  FROM crs_settings cs"
 				."  JOIN object_data od ON od.obj_id = cs.obj_id"
 				."  LEFT JOIN object_reference oref "
@@ -114,8 +116,17 @@ class gevDecentralTrainingUtils {
 				." WHERE cs.activation_type = 1"
 				."   AND oref.deleted IS NULL"
 				."   AND is_template.value = 'Ja'"
-				."   AND edu_prog.value = 'dezentrales Training'"
-				;
+				."   AND edu_prog.value = 'dezentrales Training'";
+	}
+	
+	public function getAvailableTemplatesFor($a_user_id) {
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		$ltype_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
+		$edu_prog_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_EDU_PROGRAMM);
+		$is_tmplt_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
+		
+		$query = $this->templateBaseQuery();
 		$res = $this->db->query($query);
 		
 		$ret = array();
@@ -126,6 +137,20 @@ class gevDecentralTrainingUtils {
 		}
 		
 		return $ret;
+	}
+	
+	public function getTemplateInfoFor($a_user_id, $a_template_id) {
+		$query = $this->templateBaseQuery()
+				."  AND od.obj_id = ".$this->db->quote($a_template_id);
+		$res = $this->db->query($query);
+		if ($rec = $this->db->fetchAssoc($res)) {
+			if ($this->access->checkAccessOfUser($a_user_id, "visible",  "", $rec["ref_id"], "crs")) {
+				return $rec;
+			}
+		}
+		
+		// Could also mean that no permission is granted, but we hide that 
+		throw new Exception("gevDecentralTrainingUtils::getTemplateInfoFor: Training not found.");
 	}
 }
 

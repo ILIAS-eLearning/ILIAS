@@ -522,9 +522,9 @@ class gevCrsMailingGUI extends ilMailingGUI {
 		$form->addItem($suppress_mails);
 		
 		$suppress_mails = new ilCheckboxInputGUI();
-		$suppress_mails->setTitle("Mailversand unterbinden");
+		$suppress_mails->setTitle($this->lng->txt("gev_suppress_mails"));
 		$suppress_mails->setPostvar("suppress_mails");
-		$suppress_mails->setOptionTitle("Keine Einladungs-, Stornierungs- oder Buchungsmails für dieses Training versenden.");
+		$suppress_mails->setOptionTitle($this->lng->txt("gev_suppress_mails_info"));
 		$suppress_mails->setChecked($this->getAdditionalMailSettings()->getSuppressMails());
 		$suppress_mails->setDisabled($this->getAdditionalMailSettings()->getSuppressMails());
 		
