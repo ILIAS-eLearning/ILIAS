@@ -508,8 +508,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 */
 	private $redirection_url = NULL;
 	
-	/** @var bool $examid_in_kiosk */
-	protected $examid_in_kiosk;
+	/** @var bool $show_exam_id_in_test_pass_enabled */
+	protected $show_exam_id_in_test_pass_enabled;
 
 	/** @var bool $show_exam_id */
 	protected $show_exam_id;
@@ -639,7 +639,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->template_id = '';
 		$this->redirection_mode = 0;
 		$this->redirection_url = NULL;
-		$this->examid_in_kiosk = false;
+		$this->show_exam_id_in_test_pass_enabled = false;
 		$this->show_exam_id = false;
 		$this->sign_submission = false;
 		$this->char_selector_availability = 0;
@@ -1334,7 +1334,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'redirection_mode' => array('integer', (int)$this->getRedirectionMode()),
 				'redirection_url' => array('text', (string)$this->getRedirectionUrl()),
 				'enable_archiving' => array('integer', (int)$this->getEnableArchiving()),
-				'examid_in_kiosk' => array('integer', (int)$this->getExamidInKiosk()),
+				'examid_in_test_pass' => array('integer', (int)$this->getShowExamIdInTestPassEnabled()),
 				'show_exam_id' => array('integer', (int)$this->getShowExamid()),
 				'sign_submission' => array('integer', (int)$this->getSignSubmission()),
 				'question_set_type' => array('text', $this->getQuestionSetType()),
@@ -1448,7 +1448,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 						'redirection_mode' => array('integer', (int)$this->getRedirectionMode()),
 						'redirection_url' => array('text', (string)$this->getRedirectionUrl()),
 						'enable_archiving' => array('integer', (int)$this->getEnableArchiving()),
-						'examid_in_kiosk' => array('integer', (int)$this->getExamidInKiosk()),
+						'examid_in_test_pass' => array('integer', (int)$this->getShowExamIdInTestPassEnabled()),
 						'show_exam_id' => array('integer', (int)$this->getShowExamid()),
 						'sign_submission' => array('integer', (int)$this->getSignSubmission()),
 						'question_set_type' => array('text', $this->getQuestionSetType()),
@@ -1936,7 +1936,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$this->setShowExamviewHtml((bool)$data->show_examview_html);
 			$this->setShowExamviewPdf((bool)$data->show_examview_pdf);
 			$this->setEnableArchiving((bool)$data->enable_archiving);
-			$this->setExamidInKiosk( (bool)$data->examid_in_kiosk);
+			$this->setShowExamIdInTestPassEnabled( (bool)$data->examid_in_test_pass);
 			$this->setShowExamid( (bool)$data->show_exam_id);
 			$this->setSignSubmission( (bool)$data->sign_submission );
 			$this->setQuestionSetType($data->question_set_type);
@@ -5937,7 +5937,8 @@ function getAnswerFeedbackPoints()
 					$this->setRedirectionUrl($metadata['entry']);
 					break;
 				case 'examid_in_kiosk':
-					$this->setExamidInKiosk($metadata['entry']);
+				case 'examid_in_test_pass':
+					$this->setShowExamIdInTestPassEnabled($metadata['entry']);
 					break;
 				case 'show_exam_id':
 					$this->setShowExamid($metadata['entry']);
@@ -6167,10 +6168,10 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getResultsPresentation()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
-		// examid in kiosk
+		// examid in test pass
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "examid_in_kiosk");
-		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getExamidInKiosk()));
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "examid_in_test_pass");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShowExamIdInTestPassEnabled()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// examid in kiosk
@@ -7018,7 +7019,7 @@ function getAnswerFeedbackPoints()
 		$newObj->setTemplate($this->getTemplate());
 		$newObj->setPoolUsage($this->getPoolUsage());
 		$newObj->setPrintBestSolutionWithResult($this->isBestSolutionPrintedWithResult());
-		$newObj->setExamidInKiosk($this->getExamidInKiosk());
+		$newObj->setShowExamIdInTestPassEnabled($this->getShowExamIdInTestPassEnabled());
 		$newObj->setShowExamid($this->getShowExamid());
 		$newObj->setEnableExamView($this->getEnableExamview());
 		$newObj->setShowExamViewHtml($this->getShowExamviewHtml());
@@ -9639,7 +9640,14 @@ function getAnswerFeedbackPoints()
 		$this->setHighscoreTopTable($testsettings['highscore_top_table']);
 		$this->setHighscoreTopNum($testsettings['highscore_top_num']);
 		$this->setPassDeletionAllowed($testsettings['pass_deletion_allowed']);
-		$this->setExamidInKiosk($testsettings['examid_in_kiosk']);
+		if( isset($testsettings['examid_in_kiosk']) )
+		{
+			$this->setShowExamIdInTestPassEnabled($testsettings['examid_in_kiosk']);
+		}
+		else
+		{
+			$this->setShowExamIdInTestPassEnabled($testsettings['examid_in_test_pass']);
+		}
 		$this->setShowExamid($testsettings['show_exam_id']);
 		$this->setEnableExamview($testsettings['enable_examview']);
 		$this->setShowExamviewHtml($testsettings['show_examview_html']);
@@ -11444,26 +11452,22 @@ function getAnswerFeedbackPoints()
 				return $exam_id_row['exam_id'];
 			}
 		}
+		
+		return null;
 
 		$inst_id = $ilSetting->get( 'inst_id', null );
 		$obj_id  = ilObject::_lookupObjId($this->ref_id);
 		return 'I' . $inst_id . '_T' . $obj_id . '_A' . $active_id . '_P' . $pass;
 	}
 
-	/**
-	 * @param boolean $examid_in_kiosk
-	 */
-	public function setExamidInKiosk($examid_in_kiosk)
+	public function setShowExamIdInTestPassEnabled($show_exam_id_in_test_pass_enabled)
 	{
-		$this->examid_in_kiosk = $examid_in_kiosk;
+		$this->show_exam_id_in_test_pass_enabled = $show_exam_id_in_test_pass_enabled;
 	}
 
-	/**
-	 * @return boolean
-	 */
-	public function getExamidInKiosk()
+	public function getShowExamIdInTestPassEnabled()
 	{
-		return $this->examid_in_kiosk;
+		return $this->show_exam_id_in_test_pass_enabled;
 	}
 
 	/**

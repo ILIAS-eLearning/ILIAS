@@ -1182,8 +1182,9 @@ assessment#:#tst_type_comment#:#Warning: Changing the test type of a running tes
 assessment#:#tst_type#:#Test Type
 assessment#:#tst_types#:#Test Types
 assessment#:#exam_id#:#Exam Id: 
-assessment#:#examid_in_kiosk#:#Display Exam ID in exam view 
-assessment#:#show_exam_id#:#Display Exam Id 
+assessment#:#examid_in_test_pass#:#Display Exam ID
+assessment#:#examid_in_test_pass_desc#:#TODO4711
+assessment#:#show_exam_id#:#Display Exam ID
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test passes. This option has to be activated by individual participants on the Info-tab before starting a test pass.
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
