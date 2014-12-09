@@ -1162,10 +1162,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$this->populateKioskHead();
 		}
-		elseif( $this->object->getShowExamIdInTestPassEnabled() )
-		{
-			$this->populateExamIdFooter();
-		}
 		
 		$this->tpl->setVariable("TEST_ID", $this->object->getTestId());
 		$this->tpl->setVariable("LOGIN", $ilUser->getLogin());
@@ -1183,10 +1179,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				
 		$postpone = ( $this->object->getSequenceSettings() == TEST_POSTPONE );
 		
-		if ($this->object->getShowExamIdInTestResultsEnabled() && !$this->object->getKioskMode())
+		if ($this->object->getShowExamIdInTestPassEnabled() && !$this->object->getKioskMode())
 		{
 			$this->tpl->setCurrentBlock('exam_id');
-			$this->tpl->setVariable('EXAM_ID', $this->object->getExamId(
+			$this->tpl->setVariable('EXAM_ID_VAL', $this->object->getExamId(
 					$this->testSession->getActiveId(), $this->testSession->getPass()
 			));
 			$this->tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
