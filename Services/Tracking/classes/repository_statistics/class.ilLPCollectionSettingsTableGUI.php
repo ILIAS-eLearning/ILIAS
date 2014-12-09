@@ -24,6 +24,8 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setId('lpobjs_'.$this->getNode());
 		
+		$this->setShowRowsSelector(false);
+		
 		$this->node_id = $a_node_id;		
 		$this->mode = $a_mode;		
 	}
