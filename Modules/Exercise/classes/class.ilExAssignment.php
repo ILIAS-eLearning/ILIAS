@@ -2593,8 +2593,11 @@ class ilExAssignment
 					// 1st peer
 					else
 					{
-						$peer_id = array_rand($possible_peer_ids);
-						$matrix[$rater_id] = array($peer_id);	
+						if(sizeof($possible_peer_ids)) // #14947
+						{
+							$peer_id = array_rand($possible_peer_ids);
+							$matrix[$rater_id] = array($peer_id);	
+						}
 					}
 					
 					unset($run_ids[$peer_id]);
