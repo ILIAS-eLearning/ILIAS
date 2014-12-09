@@ -992,7 +992,8 @@ class ilTrQuery
 							}
 							if($value["to"])
 							{
-								$where[] = "ut_lp_marks.".$id." <= ".$ilDB->quote($value["to"] ,"integer");
+								$where[] = "(ut_lp_marks.".$id." <= ".$ilDB->quote($value["to"] ,"integer").
+									" OR ut_lp_marks.".$id." IS NULL)";
 							}
 						}
 						else
@@ -1060,7 +1061,8 @@ class ilTrQuery
 							}
 							if($value["to"])
 							{
-								$where[] = "(read_event.".$id."+read_event.childs_".$id.") <= ".$ilDB->quote($value["to"] ,"integer");
+								$where[] = "((read_event.".$id."+read_event.childs_".$id.") <= ".$ilDB->quote($value["to"] ,"integer").
+									" OR (read_event.".$id."+read_event.childs_".$id.") IS NULL)";
 							}
 						}
 						else
@@ -1085,7 +1087,8 @@ class ilTrQuery
 							}
 							if($value["to"])
 							{
-								$where[] = "(read_event.".$id."+read_event.childs_".$id.") <= ".$ilDB->quote($value["to"] ,"integer");
+								$where[] = "((read_event.".$id."+read_event.childs_".$id.") <= ".$ilDB->quote($value["to"] ,"integer").
+									" OR (read_event.".$id."+read_event.childs_".$id.") IS NULL)";
 							}
 						}
 						else
