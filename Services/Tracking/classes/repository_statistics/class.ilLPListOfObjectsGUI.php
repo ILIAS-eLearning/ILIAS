@@ -335,6 +335,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	{
 		global $tpl, $ilToolbar;
 
+		/*
 		$print_view = (bool)$_GET['prt'];
 		if(!$print_view)
 		{
@@ -342,7 +343,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->ctrl->setParameter($this, 'prt', 1);
 			$ilToolbar->addButton($this->lng->txt('print_view'),$this->ctrl->getLinkTarget($this,'showObjectSummary'), '_blank');
 			$this->ctrl->setParameter($this, 'prt', '');
-		}
+		}		 
+		*/
 
 		include_once("./Services/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php");
 		$table = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->getRefId(), $print_view);
