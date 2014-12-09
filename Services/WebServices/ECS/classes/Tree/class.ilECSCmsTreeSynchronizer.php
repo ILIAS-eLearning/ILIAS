@@ -147,10 +147,10 @@ class ilECSCmsTreeSynchronizer
 		$cms_data = new ilECSCmsData($a_tnode_id);
 		
 		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
-		$import_obj_id = ilECSImport::_lookupObjId(
+		$import_obj_id = ilECSImport::lookupObjIdByContentId(
 				$this->getServer()->getServerId(),
-				$cms_data->getCmsId(),
-				$this->mid);
+				$this->mid,
+				$cms_data->getCmsId());
 		if(!$import_obj_id)
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': cms tree node not imported. tnode_id: '. $a_tnode_id);
@@ -234,10 +234,10 @@ class ilECSCmsTreeSynchronizer
 		// perform title update
 		// perform position update
 		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
-		$obj_id = ilECSImport::_lookupObjId(
+		$obj_id = ilECSImport::lookupObjIdByContentId(
 				$this->getServer()->getServerId(),
-				$data->getCmsId(),
-				$this->mid);
+				$this->mid,
+				$data->getCmsId());
 		if($obj_id)
 		{
 			$refs = ilObject::_getAllReferences($obj_id);
@@ -291,7 +291,7 @@ class ilECSCmsTreeSynchronizer
 					$cat->getId()
 				);
 			$import->setMID($this->mid);
-			$import->setEContentId($data->getCmsId());
+			$import->setContentId($data->getCmsId());
 			$import->setImported(true);
 			$import->save();
 			
