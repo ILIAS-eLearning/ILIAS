@@ -587,7 +587,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$page->setTitle($form->getInput("blog"));									
 			$page->create();
 
-			ilUtil::sendSuccess($this->lng->txt("prtf_page_created"), true);
+			ilUtil::sendSuccess($this->lng->txt("prtf_blog_page_created"), true);
 			$this->ctrl->redirect($this, "view");
 		}
 
