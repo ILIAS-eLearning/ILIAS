@@ -1121,14 +1121,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 		if ($this->object->getShowExamIdInTestPassEnabled())
 		{
+			$exam_id = $this->object->getExamId($this->testSession->getActiveId() , $this->testSession->getPass());
+			
 			$template->setCurrentBlock("kiosk_show_exam_id");
 			$template->setVariable("EXAM_ID_TXT", $this->lng->txt("exam_id"));
-			
-			$user_id = $ilUser->getId();
-			$object_id = $this->object->getTestId();
-			$active_id = $this->object->_getActiveIdOfUser( $user_id, $object_id  );
-			$pass = $this->object->_getPass($active_id);			
-			$exam_id = $this->object->getExamId($active_id , $pass);
 			$template->setVariable(	"EXAM_ID", $exam_id);
 			$template->parseCurrentBlock();			
 		}
@@ -1165,6 +1161,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if ($this->object->getKioskMode())
 		{
 			$this->populateKioskHead();
+		}
+		elseif( $this->object->getShowExamIdInTestPassEnabled() )
+		{
+			$this->populateExamIdFooter();
 		}
 		
 		$this->tpl->setVariable("TEST_ID", $this->object->getTestId());
@@ -1927,6 +1927,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->tpl->setVariable("KIOSK_HEAD", $head);
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+	
+	protected function populateExamIdFooter()
+	{
+		$exam_id = $this->object->getExamId($this->testSession->getActiveId() , $this->testSession->getPass());
+
+		$this->tpl->setCurrentBlock('exam_id_footer');
+		$this->tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
+		$this->tpl->setVariable('EXAM_ID_VAL', $exam_id);
+		$this->tpl->parseCurrentBlock();
 	}
 
 	protected function handlePasswordProtectionRedirect()
