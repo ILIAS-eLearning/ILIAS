@@ -163,12 +163,6 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 	{		
 		global $lng;
 		
-		if ($this->isHidden())
-		{
-			$this->setDataSection('<div class="help-block alert alert-info">'.$lng->txt("wiki_adv_md_hidden").'</div>');
-			return;
-		}
-		
 		$btpl = new ilTemplate("tpl.wiki_advmd_block.html", true, true, "Modules/Wiki");		
 		
 		// see ilAdvancedMDRecordGUI::parseInfoPage()
@@ -208,6 +202,12 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 			$btpl->parseCurrentBlock();										
 		}
 		
+		
+		if ($this->isHidden())
+		{
+			$btpl->setVariable("HIDDEN_INFO", $lng->txt("wiki_adv_md_hidden"));			
+		}
+				
 		$this->setDataSection($btpl->get());		
 		
 		ilDatePresentation::setUseRelativeDates($old_dt);

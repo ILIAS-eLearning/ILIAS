@@ -15161,3 +15161,4 @@ scormtrac#:#counter#:#counter
 scormtrac#:#student_response#:#student_response: Response
 scormtrac#:#ostatus#:#Status of the objective
 prtf#:#prtf_blog_page_created#:#Blog has been added.
+wiki#:#wiki_adv_md_hidden#:#This block is currently hidden.
