@@ -58,12 +58,13 @@ class ilDAVCronDiskQuota extends ilCronJob
 	}
 
 	public function run()
-	{						
-		require_once'./Services/WebDAV/classes/class.ilDiskQuotaChecker.php';		
+	{								
+		require_once'./Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';						
 		if(ilDiskQuotaActivationChecker::_isActive())
 		{
+			require_once'./Services/WebDAV/classes/class.ilDiskQuotaChecker.php';		
 			ilDiskQuotaChecker::_updateDiskUsageReport();
-
+			
 			if(ilDiskQuotaActivationChecker::_isReminderMailActive())
 			{
 				ilDiskQuotaChecker::_sendReminderMails();
