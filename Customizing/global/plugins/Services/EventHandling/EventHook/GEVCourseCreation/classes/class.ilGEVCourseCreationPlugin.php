@@ -64,7 +64,7 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 		}
 		
 		global $ilLog;
-		$ilLog->write("Cloned course ".$target_ref_id." from course ". $source_ref_id);		
+		$ilLog->write("Cloned course ".$a_target_ref_id." from course ". $a_source_ref_id);		
 	}
 		
 	public function setCustomId($a_target_utils, $a_source_utils) {
