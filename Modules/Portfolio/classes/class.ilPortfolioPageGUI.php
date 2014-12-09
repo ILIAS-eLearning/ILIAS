@@ -596,10 +596,15 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			return $this->renderMyCoursesTeaser($a_user_id);
 		}
 		
-		if($this->getOutputMode() == "offline" || 
-			!$this->isMyCoursesActive())
+		if(!$this->isMyCoursesActive())
 		{	
 			return;
+		}
+		
+		$img_path = null;
+		if($this->getOutputMode() == "offline")
+		{
+			$img_path = "images/";
 		}
 		
 		$user_id = $this->getPageContentUserId($a_user_id);
@@ -625,6 +630,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 					$lp_icon = ilLearningProgressBaseGUI::_getImagePathForStatus($course["lp_status"]);
 					$lp_alt = ilLearningProgressBaseGUI::_getStatusText($course["lp_status"]);
 					
+					if($img_path)
+					{
+						$lp_icon = $img_path.basename($lp_icon);
+					}
+					
 					$tpl->setCurrentBlock("lp_bl");
 					$tpl->setVariable("LP_ICON_URL", $lp_icon);
 					$tpl->setVariable("LP_ICON_ALT", $lp_alt);
@@ -638,10 +648,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 					$has_initial_test = (bool)$loc_settings->getInitialTest();
 					
 					foreach($course["objectives"] as $objtv)
-					{					
+					{				
+						$objtv_icon = ilUtil::getTypeIconPath("lobj", $objtv["id"]);
+						if($img_path)
+						{
+							$objtv_icon = $img_path.basename($objtv_icon);
+						}
+						
 						$tpl->setCurrentBlock("objective_bl");
 						$tpl->setVariable("OBJECTIVE_TITLE", $objtv["title"]);				
-						$tpl->setVariable("OBJTV_ICON_URL", ilUtil::getTypeIconPath("lobj", $objtv["id"]));				
+						$tpl->setVariable("OBJTV_ICON_URL", $objtv_icon);				
 						$tpl->setVariable("OBJTV_ICON_ALT", $this->lng->txt("crs_objectives"));
 						
 						if($objtv["type"])
@@ -671,8 +687,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 					$tpl->parseCurrentBlock();		
 				}
 				
+				$crs_icon = ilUtil::getTypeIconPath("crs", $course["obj_id"]);
+				if($img_path)
+				{
+					$crs_icon = $img_path.basename($crs_icon);
+				}
+				
 				$tpl->setCurrentBlock("course_bl");
-				$tpl->setVariable("CRS_ICON_URL", ilUtil::getTypeIconPath("crs", $course["obj_id"]));				
+				$tpl->setVariable("CRS_ICON_URL", $crs_icon);				
 				$tpl->setVariable("CRS_ICON_ALT", $this->lng->txt("obj_crs"));
 				$tpl->parseCurrentBlock();				
 			}

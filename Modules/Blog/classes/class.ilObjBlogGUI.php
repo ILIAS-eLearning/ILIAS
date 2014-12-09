@@ -1297,7 +1297,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ppic = null;
 		if($this->object->hasProfilePicture())
 		{			
-			$ppic = ilObjUser::_getPersonalPicturePath($a_user_id, "big");
+			$ppic = ilObjUser::_getPersonalPicturePath($a_user_id, "xsmall", true, true);
 			if($a_export)
 			{
 				$ppic = basename($ppic);
@@ -2179,7 +2179,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				copy($banner, $export_dir."/".basename($banner));
 			}
 		}
-		$ppic = ilObjUser::_getPersonalPicturePath($this->object->getOwner(), "big");
+		$ppic = ilObjUser::_getPersonalPicturePath($this->object->getOwner(), "xsmall", true, true);
 		if($ppic)
 		{
 			$ppic = array_shift(explode("?", $ppic));

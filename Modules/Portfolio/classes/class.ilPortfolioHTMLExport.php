@@ -61,28 +61,51 @@ class ilPortfolioHTMLExport
 		$this->co_page_html_export->exportStyles();
 		$this->co_page_html_export->exportSupportScripts();
 		
-		// banner / profile picture
+		// banner 
 		$prfa_set = new ilSetting("prfa");
 		if($prfa_set->get("banner"))
 		{		
 			$banner = $this->object->getImageFullPath();
 			copy($banner, $this->export_dir."/".basename($banner));
 		}
-		// profile page block
+		// page element: profile picture
 		$ppic = ilObjUser::_getPersonalPicturePath($this->object->getOwner(), "big", true, true);
 		if($ppic)
 		{
 			$ppic = array_shift(explode("?", $ppic));
 			copy($ppic, $this->export_dir."/".basename($ppic));
 		}	
-		// header image
+		// header image: profile picture
 		$ppic = ilObjUser::_getPersonalPicturePath($this->object->getOwner(), "xsmall", true, true);
 		if($ppic)
 		{
 			$ppic = array_shift(explode("?", $ppic));
 			copy($ppic, $this->export_dir."/".basename($ppic));
 		}	
-
+		
+		// page element: course list icons
+		$crs_list_icons = array("icon_crs.svg", "icon_lobj.svg", "scorm/complete.svg", 
+			"scorm/not_attempted.svg", "scorm/failed.svg", "scorm/incomplete.svg");
+		$path = "./templates/default/images/";
+		foreach($crs_list_icons as $icon)
+		{
+			if(is_file($path.$icon))
+			{
+				copy($path.$icon, $this->export_dir."/images/".basename($icon));
+			}
+		}
+		
+		// profile: location/map
+		$js_files = array("ServiceGoogleMaps.js", "OpenLayers.js", "ServiceOpenLayers.js");
+		$path = "./Services/Maps/js/";
+		foreach($js_files as $js_file)
+		{
+			if(is_file($path.$js_file))
+			{
+				copy($path.$js_file, $this->export_dir."/js/".basename($js_file));
+			}
+		}
+		
 		// export pages
 		$this->exportHTMLPages();
 
@@ -169,6 +192,18 @@ class ilPortfolioHTMLExport
 		$this->tpl = $this->co_page_html_export->getPreparedMainTemplate();		
 		$this->tpl->getStandardTemplate();
 		$this->tpl->addOnLoadCode('il.Tooltip.init();', 3);
+		
+		// profile: location/map
+		$this->tpl->setCurrentBlock("js_file");
+		$this->tpl->setVariable("JS_FILE", "http://maps.google.com/maps/api/js?sensor=false");
+		$this->tpl->parseCurrentBlock();
+		$js_files = array("ServiceGoogleMaps.js", "OpenLayers.js", "ServiceOpenLayers.js");
+		foreach($js_files as $js_file)
+		{
+			$this->tpl->setCurrentBlock("js_file");
+			$this->tpl->setVariable("JS_FILE", "./js/".$js_file);
+			$this->tpl->parseCurrentBlock();
+		}		
 		
 		// workaround
 		$this->tpl->setVariable("MAINMENU", "<div style='min-height:40px;'></div>");

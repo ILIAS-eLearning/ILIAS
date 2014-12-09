@@ -484,29 +484,26 @@ class ilPublicUserProfileGUI
 			$tpl->parseCurrentBlock();
 		}
 		
-		if(!$this->offline)
+		// map
+		include_once("./Services/Maps/classes/class.ilMapUtil.php");
+		if (ilMapUtil::isActivated() && 
+			$this->getPublicPref($user, "public_location") == "y" && 
+			$user->getLatitude() != "")
 		{
-			// map
-			include_once("./Services/Maps/classes/class.ilMapUtil.php");
-			if (ilMapUtil::isActivated() && 
-				$this->getPublicPref($user, "public_location") == "y" && 
-				$user->getLatitude() != "")
-			{
-				$tpl->setVariable("TXT_LOCATION", $lng->txt("location"));
+			$tpl->setVariable("TXT_LOCATION", $lng->txt("location"));
 
-				$map_gui = ilMapUtil::getMapGUI();
-				$map_gui->setMapId("user_map")
-						->setWidth("350px")
-						->setHeight("230px")
-						->setLatitude($user->getLatitude())
-						->setLongitude($user->getLongitude())
-						->setZoom($user->getLocationZoom())
-						->setEnableNavigationControl(true)
-						->addUserMarker($user->getId());
+			$map_gui = ilMapUtil::getMapGUI();
+			$map_gui->setMapId("user_map")
+					->setWidth("350px")
+					->setHeight("230px")
+					->setLatitude($user->getLatitude())
+					->setLongitude($user->getLongitude())
+					->setZoom($user->getLocationZoom())
+					->setEnableNavigationControl(true)
+					->addUserMarker($user->getId());
 
-				$tpl->setVariable("MAP_CONTENT", $map_gui->getHTML());
-			}
-		}
+			$tpl->setVariable("MAP_CONTENT", $map_gui->getHTML());
+		}		
 		
 		// additional defined user data fields
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
