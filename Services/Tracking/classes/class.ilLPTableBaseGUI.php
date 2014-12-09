@@ -428,8 +428,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				}
 				else
 				{
-					include_once("./Services/Utilities/classes/class.ilFormat.php");
-					$value = ilFormat::_secondsToString($value);
+					include_once("./Services/Utilities/classes/class.ilFormat.php");					
+					$value = ilFormat::_secondsToString($value, ($value < 3600 ? true : false)); // #14858					
 				}
 				break;
 

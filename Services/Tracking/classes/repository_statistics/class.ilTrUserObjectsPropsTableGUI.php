@@ -322,8 +322,8 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 							break;
 
 						case "spent_seconds":
-							include_once("./Services/Utilities/classes/class.ilFormat.php");
-							$val = ilFormat::_secondsToString($data[$c]);
+							include_once("./Services/Utilities/classes/class.ilFormat.php");							
+							$val = ilFormat::_secondsToString($data[$c], ($data[$c] < 3600 ? true : false)); // #14858
 							break;
 
 						case "percentage":
