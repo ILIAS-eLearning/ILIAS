@@ -77,6 +77,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->select("usrcrs.bill_id")
 						->select("usrcrs.certificate")
 						->select("usrcrs.booking_status")
+						->select("usrcsr.certificate")
 						->from("hist_usercoursestatus usrcrs")
 						->join("hist_user usr")
 							->on("usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0")
