@@ -77,7 +77,6 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->select("usrcrs.bill_id")
 						->select("usrcrs.certificate")
 						->select("usrcrs.booking_status")
-						->select("usrcsr.certificate")
 						->from("hist_usercoursestatus usrcrs")
 						->join("hist_user usr")
 							->on("usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0")
@@ -312,7 +311,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 					: $this->lng->txt("no");
 		
 		$rec["action"] = "";
-		if ($rec["bill_id"] != -1) {
+		if ($rec["bill_id"] != -1 && $rec["bill_id"] != "-empty-") {
 			$this->ctrl->setParameter($this, "bill_id", $rec["bill_id"]);
 			$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
 			$rec["action"] = "<a href='".$this->ctrl->getLinkTarget($this, "getBill")."'>"
