@@ -672,6 +672,7 @@ class ilAdvancedMDRecordGUI
 				if(!in_array($def->getType(), array(
 					ilAdvancedMDFieldDefinition::TYPE_TEXT,
 					ilAdvancedMDFieldDefinition::TYPE_SELECT,
+					ilAdvancedMDFieldDefinition::TYPE_SELECT_MULTI,
 					ilAdvancedMDFieldDefinition::TYPE_DATE,
 					ilAdvancedMDFieldDefinition::TYPE_DATETIME)))
 				{

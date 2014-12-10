@@ -68,8 +68,16 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 				
 		if($post && $this->shouldBeImportedFromPost($post))
 		{					
-			$item = $this->getForm()->getItemByPostVar($this->getElementId());		
-			$item->setValue($post);	
+			if($this->getForm() instanceof ilPropertyFormGUI)
+			{				
+				$item = $this->getForm()->getItemByPostVar($this->getElementId());		
+				$item->setValue($post);				
+			}
+			else if(array_key_exists($this->getElementId(), $this->table_filter_fields))
+			{
+				$this->table_filter_fields[$this->getElementId()]->setValue($post);				
+				$this->writeFilter($post);
+			}
 			
 			if(is_array($post))
 			{

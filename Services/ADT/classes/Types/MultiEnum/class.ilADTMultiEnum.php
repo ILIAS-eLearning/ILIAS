@@ -66,8 +66,8 @@ abstract class ilADTMultiEnum extends ilADT
 	public function equals(ilADT $a_adt)
 	{
 		if($this->getDefinition()->isComparableTo($a_adt))
-		{
-			return ($this->getCheckSum() !== $a_adt->getCheckSum());
+		{			
+			return ($this->getCheckSum() === $a_adt->getCheckSum());
 		}
 	}
 				
