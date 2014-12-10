@@ -636,97 +636,119 @@ class ilLearningProgressBaseGUI
 			$lng->txt("trac_failed"));
 		return $tpl->get();
 	}
+	
+	protected function initEditUserForm($a_user_id, $a_obj_id, $a_cancel = null)
+	{
+		global $lng, $ilCtrl;
+		
+		include_once 'Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($a_obj_id);		
+		$lp_mode = $olp->getCurrentMode();
+		
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();		
+		
+		$form->setFormAction($ilCtrl->getFormAction($this, "updateUser"));
+		
+		$form->setTitle($lng->txt("edit").": ".ilObject::_lookupTitle($a_obj_id));
+		$form->setDescription($lng->txt('trac_mode').": ".$olp->getModeText($lp_mode));
+		
+		include_once "Services/User/classes/class.ilUserUtil.php";
+		$user = new ilNonEditableValueGUI($lng->txt("user"), null, true);
+		$user->setValue(ilUserUtil::getNamePresentation($a_user_id, true));
+		$form->addItem($user);
+				
+		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+		$marks = new ilLPMarks($a_obj_id, $a_user_id);
+		
+		$type = ilObject::_lookupType($a_obj_id);
+		if($type != 'lm')
+		{
+			$mark = new ilTextInputGUI($lng->txt("trac_mark"), "mark");
+			$mark->setValue($marks->getMark());
+			$mark->setMaxLength(32);
+			$form->addItem($mark);
+		}
+		
+		$comm = new ilTextInputGUI($lng->txt("trac_comment"), "comment");
+		$comm->setValue($marks->getComment());
+		$form->addItem($comm);
+			
+		if($lp_mode == ilLPObjSettings::LP_MODE_MANUAL || 
+			$lp_mode == ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR)
+		{
+			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+			$completed = ilLPStatus::_lookupStatus($a_obj_id, $a_user_id);	
+			
+			$status = new ilCheckboxInputGUI($lng->txt('trac_completed'), "completed");
+			$status->setChecked(($completed == ilLPStatus::LP_STATUS_COMPLETED_NUM));
+			$form->addItem($status);
+		}
+			
+		$form->addCommandButton("updateUser", $lng->txt('save'));
+		
+		if($a_cancel)
+		{
+			$form->addCommandButton($a_cancel, $lng->txt('cancel'));
+		}
+		
+		return $form;
+	}
 
 	function __showEditUser($a_user_id, $a_ref_id, $a_cancel, $a_sub_id = false)
-	{
-		global $ilObjDataCache, $lng, $ilCtrl;
-
-		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-
+	{				
+		global $ilCtrl;
+		
 		if(!$a_sub_id)
         {
-			$obj_id = $ilObjDataCache->lookupObjId($a_ref_id);
+			$obj_id = ilObject::_lookupObjId($a_ref_id);
 		}
 		else
 		{
 			$ilCtrl->setParameter($this,'userdetails_id',$a_sub_id);
-			$obj_id = $ilObjDataCache->lookupObjId($a_sub_id);
-		}
+			$obj_id = ilObject::_lookupObjId($a_sub_id);
+		}		
+				
+		$ilCtrl->setParameter($this, 'user_id', $a_user_id);
+		$ilCtrl->setParameter($this, 'details_id', $a_ref_id);
 		
-		$marks = new ilLPMarks($obj_id, $a_user_id);
-
-		$tpl = new ilTemplate('tpl.lp_edit_user.html', true, true, 'Services/Tracking');
-																				
-        $tpl->setVariable("OBJ_TITLE", $lng->txt("edit").": ".$ilObjDataCache->lookupTitle($obj_id));
+		$form = $this->initEditUserForm($a_user_id, $obj_id, $a_cancel);
 		
-		include_once 'Services/Object/classes/class.ilObjectLP.php';
-		$olp = ilObjectLP::getInstance($obj_id);		
-		$lp_mode = $olp->getCurrentMode();
-		
-		$tpl->setVariable("OBJ_SUBTITLE", $this->lng->txt('trac_mode').": ".$olp->getModeText($lp_mode));
-
-		$ilCtrl->setParameter($this,'user_id',$a_user_id);
-		$ilCtrl->setParameter($this,'details_id',$a_ref_id);
-		$tpl->setVariable("FORMACTION",$ilCtrl->getFormAction($this));
-
-		$tpl->setVariable("TYPE_IMG",ilObjUser::_getPersonalPicturePath($a_user_id,'xxsmall'));
-		$tpl->setVariable("ALT_IMG",$ilObjDataCache->lookupTitle($a_user_id));
-		$tpl->setVariable("TXT_LP",$lng->txt('trac_learning_progress_tbl_header'));
-
-		$tpl->setVariable("COMMENT",ilUtil::prepareFormOutput($marks->getComment(),false));
-
-		$type = $ilObjDataCache->lookupType($obj_id);
-		if($type != 'lm')
-		{
-			$tpl->setVariable("TXT_MARK",$lng->txt('trac_mark'));
-			$tpl->setVariable("MARK",ilUtil::prepareFormOutput($marks->getMark(),false));
-		}
-
-		$tpl->setVariable("TXT_COMMENT",$lng->txt('trac_comment'));
-		
-		if($lp_mode == ilLPObjSettings::LP_MODE_MANUAL or $lp_mode == ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR)
-		{
-			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
-			$completed = ilLPStatus::_lookupStatus($obj_id, $a_user_id);		
-
-			$tpl->setVariable("mode_manual");
-			$tpl->setVariable("TXT_COMPLETED",$lng->txt('trac_completed'));
-			$tpl->setVariable("CHECK_COMPLETED",ilUtil::formCheckbox(($completed == ilLPStatus::LP_STATUS_COMPLETED_NUM),
-																		   'completed',
-																		   '1'));
-		}
-
-		$tpl->setVariable("TXT_CANCEL",$lng->txt('cancel'));
-		$tpl->setVariable("TXT_SAVE",$lng->txt('save'));
-		$tpl->setVariable("CMD_CANCEL", $a_cancel);
-
-		return $tpl->get();
+		return $form->getHTML();
 	}
 
 	function __updateUser($user_id, $obj_id)
-	{
-		global $ilUser;
-		
-		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-
-		$marks = new ilLPMarks($obj_id, $user_id);
-		$marks->setMark(ilUtil::stripSlashes($_POST['mark']));
-		$marks->setComment(ilUtil::stripSlashes($_POST['comment']));
-		
-		$do_lp = false;
-		if($marks->getCompleted() != (bool) $_POST['completed'])
+	{		
+		$form = $this->initEditUserForm($user_id, $obj_id);
+		if($form->checkInput())
 		{
-			$marks->setCompleted((bool) $_POST['completed']);
-			$do_lp = true;
-		}
-		
-		$marks->update();
+			include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
-		// #11600
-		if($do_lp)
-		{
-			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-			ilLPStatusWrapper::_updateStatus($obj_id, $user_id);			
+			$marks = new ilLPMarks($obj_id, $user_id);
+			$marks->setMark($form->getInput("mark"));
+			$marks->setComment($form->getInput("comment"));
+			
+			$do_lp = false;
+			
+			// status/completed is optional
+			$status = $form->getItemByPostVar("completed");
+			if(is_object($status))
+			{			
+				if($marks->getCompleted() != $form->getInput("completed"))
+				{
+					$marks->setCompleted($form->getInput("completed"));
+					$do_lp = true;
+				}
+			}
+
+			$marks->update();
+
+			// #11600
+			if($do_lp)
+			{
+				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+				ilLPStatusWrapper::_updateStatus($obj_id, $user_id);			
+			}
 		}
 	}
 	
