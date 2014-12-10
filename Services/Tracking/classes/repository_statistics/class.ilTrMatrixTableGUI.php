@@ -248,9 +248,10 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				}
 			}
 			
-			$data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"], $this->filter["name"], $a_user_fields, $a_privary_fields, $check_agreement);
+			$data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"], $this->filter["name"], $a_user_fields, $a_privary_fields, $check_agreement);			
 			if($collection["objectives_parent_id"] && $data["users"])
-			{
+			{				
+				// sub-items: learning objectives
 				$objectives = ilTrQuery::getUserObjectiveMatrix($collection["objectives_parent_id"], $data["users"]);
 				
 				$this->objective_ids = array();
@@ -262,7 +263,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 						foreach($objectives as $objective_id => $status)
 						{
 							$obj_id = "objtv_".$objective_id;
-							$data["set"][$user_id]["objects"][$obj_id] = array("status"=>$status);
+							$data["set"][$user_id][$obj_id] = $status;
 														
 							if(!in_array($obj_id, $this->objective_ids))
 							{
@@ -273,6 +274,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				}							
 			}
 
+			// sub-items: SCOs
 			if($collection["scorm"] && $data["set"])
 			{
 				$this->sco_ids = array();
@@ -304,11 +306,12 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 						}
 
 						$obj_id = "objsco_".$sco;
-						$data["set"][$user_id]["objects"][$obj_id] = array("status"=>$status);
+						$data["set"][$user_id][$obj_id] = $status;
 					}
 				}
 			}
 			
+			// sub-items: generic, e.g. lm chapter
 			if($collection["subitems"] && $data["set"])
 			{				
 				foreach(array_keys($data["set"]) as $user_id)
@@ -329,7 +332,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 						}			
 						
 						$obj_id = "objsub_".$item_id;
-						$data["set"][$user_id]["objects"][$obj_id] = array("status"=>$status);
+						$data["set"][$user_id][$obj_id] = $status;
 					}				
 				}
 			}
@@ -338,16 +341,18 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			if($data["set"])
 			{
 				$this->perc_map = array();
-				foreach($data["set"] as $item)
-				{
-					if(is_array($item["objects"]))
-					{
-						foreach($item["objects"] as $obj_id => $obj_data)
-						{														
-							if((int)$obj_data["percentage"] > 0)
+				foreach($data["set"] as $row)
+				{		
+					foreach($row as $column => $value)
+					{						
+						if(substr($column, -5) == "_perc")
+						{							
+							if((int)$value > 0)
 							{
+								$obj_id = explode("_", $column);
+								$obj_id = (int)$obj_id[1];
 								$this->perc_map[$obj_id] = true;
-							}
+							}	
 						}
 					}
 				}
@@ -381,21 +386,15 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 						$this->tpl->parseCurrentBlock();				
 						continue;
 					}
+															
+					$status = isset($a_set[$c]) 
+						? (int)$a_set[$c] 
+						: ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+					$percentage = isset($a_set[$c."_perc"]) 
+						? (int)$a_set[$c."_perc"] 
+						: null;
 					
-					if(!isset($a_set["objects"][$obj_id]))
-					{
-						$data = array("status"=>0);
-					}
-					else
-					{
-						$data = $a_set["objects"][$obj_id];
-						if($data["percentage"] == "0")
-						{
-							$data["percentage"] = NULL;
-						}
-					}
-
-					if($data['status'] != ilLPStatus::LP_STATUS_COMPLETED_NUM)
+					if($status != ilLPStatus::LP_STATUS_COMPLETED_NUM)
 					{
 						$timing = $this->showTimingsWarning($this->ref_ids[$obj_id], $a_set["usr_id"]);
 						if($timing)
@@ -416,28 +415,23 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					}
 
 					$this->tpl->setCurrentBlock("objects");
-					$this->tpl->setVariable("VAL_STATUS", $this->parseValue("status", $data["status"], ""));
-					$this->tpl->setVariable("VAL_PERCENTAGE", $this->parseValue("percentage", $data["percentage"], ""));					
+					$this->tpl->setVariable("VAL_STATUS", $this->parseValue("status", $status, ""));
+					$this->tpl->setVariable("VAL_PERCENTAGE", $this->parseValue("percentage", $percentage, ""));					
 					$this->tpl->parseCurrentBlock();
 					break;
 
 
 				case (substr($c, 0, 6) == "objtv_"):
 				case (substr($c, 0, 7) == "objsco_"):
-				case (substr($c, 0, 7) == "objsub_"):		
-					$obj_id = $c;
-					if(!isset($a_set["objects"][$obj_id]))
-					{
-						$data = array("status"=>0);
-					}
-					else
-					{
-						$data = $a_set["objects"][$obj_id];
-					}					
+				case (substr($c, 0, 7) == "objsub_"):												
+					$status = isset($a_set[$c]) 
+						? (int)$a_set[$c] 
+						: ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;	
+					
 					$this->tpl->setCurrentBlock("objects");
 					if(!$a_set["privacy_conflict"])
 					{
-						$this->tpl->setVariable("VAL_STATUS", $this->parseValue("status", $data["status"], ""));
+						$this->tpl->setVariable("VAL_STATUS", $this->parseValue("status", $status, ""));
 					}
 					else
 					{
@@ -525,13 +519,13 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			{			
 				case (substr($c, 0, 4) == "obj_"):
 					$obj_id = substr($c, 4);
-					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set[$c]);
 					$worksheet->write($a_row, $cnt, $val);
 					
 					if(is_array($this->perc_map) && $this->perc_map[$obj_id])
 					{
 						$cnt++;
-						$perc = (int)$a_set["objects"][$obj_id]["percentage"];
+						$perc = (int)$a_set[$c."_perc"];
 						if(!$perc)
 						{
 							$perc = null;
@@ -542,9 +536,8 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				
 				case (substr($c, 0, 6) == "objtv_"):
 				case (substr($c, 0, 7) == "objsco_"):
-				case (substr($c, 0, 7) == "objsub_"):
-					$obj_id = $c;
-					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+				case (substr($c, 0, 7) == "objsub_"):					
+					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set[$c]);
 					$worksheet->write($a_row, $cnt, $val);
 					break;										
 				
@@ -602,12 +595,12 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			{			
 				case (substr($c, 0, 4) == "obj_"):
 					$obj_id = substr($c, 4);
-					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set[$c]);
 					$a_csv->addColumn($val);
 					
 					if(is_array($this->perc_map) && $this->perc_map[$obj_id])
 					{
-						$perc = (int)$a_set["objects"][$obj_id]["percentage"];
+						$perc = (int)$a_set[$c."_perc"];
 						if(!$perc)
 						{
 							$perc = null;
@@ -618,9 +611,8 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				
 				case (substr($c, 0, 6) == "objtv_"):
 				case (substr($c, 0, 7) == "objsco_"):
-				case (substr($c, 0, 7) == "objsub_"):
-					$obj_id = $c;
-					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+				case (substr($c, 0, 7) == "objsub_"):					
+					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set[$c]);
 					$a_csv->addColumn($val);
 					break;		
 				
