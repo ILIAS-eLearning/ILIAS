@@ -1588,51 +1588,17 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$wtpl->parseCurrentBlock();
 		}
 		
-		// notes
-		/*
-		if($a_cmd == "previewFullscreen" && $this->object->getNotesStatus())
-		{
-			$wtpl->setVariable("NOTES", $this->getNotesHTML());
-		}		 
-		*/
-		
 		// permalink
 		if($a_cmd == "previewFullscreen")
-		{
-			$wtpl->setVariable("PERMALINK", $this->getPermanentLinkWidget(null, true));
+		{			
+			$this->tpl->setPermanentLink("blog", $this->node_id, 
+				($this->id_type == self::WORKSPACE_NODE_ID)
+				? "_wsp"
+				: "");			
 		}
 		
 		return $wtpl->get();
 	}
-	
-	/*
-	function getNotesHTML()
-	{
-		global $ilCtrl, $ilUser;
-
-		include_once("Services/Notes/classes/class.ilNoteGUI.php");			
-		$notes_gui = new ilNoteGUI($this->object->getId(), 0, "blog");
-		// $notes_gui->enablePrivateNotes();
-		$notes_gui->enablePublicNotes();
-			
-		if($this->checkPermissionBool("write"))
-		{
-			$notes_gui->enablePublicNotesDeletion(true);
-		}
-		
-		$html = $notes_gui->getNotesHTML();
-		$next_class = $ilCtrl->getNextClass($this);
-		if ($next_class == "ilnotegui")
-		{
-			$html = $ilCtrl->forwardCommand($notes_gui);
-		}
-		else
-		{
-			$html = $notes_gui->getNotesHTML();
-		}		
-		return $html;
-	}	 
-	 */
 	
 	/**
 	 * Build navigation by date block

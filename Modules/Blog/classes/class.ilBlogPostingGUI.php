@@ -209,9 +209,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			{
 				$append .= "_wsp";
 			}
-			include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
-			$perma_link = new ilPermanentLinkGUI("blog", $this->node_id, $append);
-			$wtpl->setVariable("PERMA_LINK", $perma_link->getHTML());
+			$tpl->setPermanentLink("blog", $this->node_id, $append);
 		}
 		
 		$wtpl->setVariable("PAGE", parent::preview());

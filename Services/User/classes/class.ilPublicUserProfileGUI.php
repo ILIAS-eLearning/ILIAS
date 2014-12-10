@@ -176,15 +176,11 @@ class ilPublicUserProfileGUI
 			case "ilobjportfoliogui":								
 				$portfolio_id = $this->getProfilePortfolio();
 				if($portfolio_id)
-				{
-					include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
-					$plink = new ilPermanentLinkGUI("usr", $this->getUserId());
-					$plink = $plink->getHTML();		
-					
+				{					
 					include_once "Modules/Portfolio/classes/class.ilObjPortfolioGUI.php";
 					$gui = new ilObjPortfolioGUI($portfolio_id); // #11876		
 					$gui->setAdditional($this->getAdditional());
-					$gui->setPermaLink($plink);
+					$gui->setPermaLink($this->getUserId(), "usr");
 					$ilCtrl->forwardCommand($gui);	
 					break;
 				}							

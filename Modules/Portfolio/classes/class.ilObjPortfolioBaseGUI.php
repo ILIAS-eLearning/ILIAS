@@ -149,11 +149,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	/**
 	 * Set custom perma link (used in public profile?)
 	 * 
-	 * @param string $a_link
+	 * @param int $a_obj_id
+	 * @param string $a_type
 	 */
-	public function setPermaLink($a_link)
+	public function setPermaLink($a_obj_id, $a_type)
 	{
-		$this->perma_link = $a_link;
+		$this->perma_link = array("obj_id"=>$a_obj_id, "type"=>$a_type);
 	}	
 		
 	
@@ -707,17 +708,16 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
 			if($this->getType() == "prtf")
 			{
-				$plink = new ilPermanentLinkGUI($this->getType(), $this->object->getId(), "_".$current_page);
+				$this->tpl->setPermanentLink($this->getType(), $this->object->getId(), "_".$current_page);				
 			}
 			else
 			{
-				$plink = new ilPermanentLinkGUI($this->getType(), $this->object->getRefId());
-			}
-			$plink = $plink->getHTML();		
+				$this->tpl->setPermanentLink($this->getType(), $this->object->getRefId());				
+			}			
 		}
 		else
 		{
-			$plink = $this->perma_link;
+			$this->tpl->setPermanentLink($this->perma_link["type"], $this->perma_link["obj_id"]);
 		}
 		
 		self::renderFullscreenHeader($this->object, $this->tpl, $user_id);
@@ -743,7 +743,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	
 		// #10717
 		$this->tpl->setContent($content.
-			'<div class="ilClearFloat">'.$notes.$plink.'</div>');			
+			'<div class="ilClearFloat">'.$note.'</div>');			
 		$this->tpl->setFrameFixedWidth(true);
 		
 		echo $this->tpl->show("DEFAULT", true, true);

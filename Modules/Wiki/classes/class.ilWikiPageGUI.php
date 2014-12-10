@@ -316,10 +316,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		// permanent link
 		$append = ($_GET["page"] != "")
 			? "_".ilWikiUtil::makeUrlTitle($_GET["page"])
-			: "";
-		include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
-		$perma_link = new ilPermanentLinkGUI("wiki", $_GET["ref_id"], $append);
-		$wtpl->setVariable("PERMA_LINK", $perma_link->getHTML());
+			: "";	
+		$tpl->setPermanentLink("wiki", $_GET["ref_id"], $append);
 
 		// page content
 		$this->setOutputMode(IL_PAGE_PRESENTATION);
