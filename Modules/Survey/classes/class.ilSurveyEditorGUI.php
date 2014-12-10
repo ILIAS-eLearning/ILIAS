@@ -1156,7 +1156,7 @@ class ilSurveyEditorGUI
 
 		if(!$a_form)
 		{
-			$a_form = $this->initHeadingForm();
+			$a_form = $this->initHeadingForm($q_id);
 		}
 			
 		$this->tpl->setContent($a_form->getHTML());
