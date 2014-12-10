@@ -489,7 +489,7 @@ gev#:#gev_evg_registration#:#Registrierung: Generali Online Akademie
 gev#:#gev_evg_registration_header_note#:#Hier können Sie einen neuen Benutzer mit ihren Daten aus der IV-Datenbank anlegen.
 gev#:#gev_evg_registration_not_found#:#Zu Ihrer Eingabe konnte kein passender Datensatz gefunden werden. Versuchen Sie es erneut oder wenden Sie sich an <a href="mailto:bildungspunkte.de@generali.com" class="blue">bildungspunkte.de@generali.com</a>.
 gev#:#gev_evg_registration_success#:#Ihre Eingabe konnte eindeutig zugeordnet werden.
-gev#:#gev_excel_course_title#:#Generelle Angaben zum Seminar
+gev#:#gev_excel_course_title#:#Generelle Angaben zum Training
 gev#:#gev_excel_member_row_title#:#Mitgliederliste
 gev#:#gev_excel_member_title#:#Mitgliederliste
 gev#:#gev_exit_date#:#Austrittsdatum
@@ -523,7 +523,7 @@ gev#:#gev_location#:#Ort
 gev#:#gev_mail_mgmt#:#Mails
 gev#:#gev_preview_invitation_mail#:#Vorschau Einladungsmail
 gev#:#gev_mailing_additional_settings#:#erweiterte Einstellungen
-gev#:#gev_mailing_inv_mailing_date_expl#:#Anzahl der Tage vor dem Seminar, an dem die Einladungsmail versandt wird. Ist 0 eingestellt, wird die Mail mit der Buchungsmail versandt.
+gev#:#gev_mailing_inv_mailing_date_expl#:#Anzahl der Tage vor dem Training, an dem die Einladungsmail versandt wird. Ist 0 eingestellt, wird die Mail mit der Buchungsmail versandt.
 gev#:#gev_mandate#:#Auftrag
 gev#:#gev_me_menu#:#Übersicht
 gev#:#gev_member_list#:#Mitgliederliste
@@ -585,7 +585,7 @@ gev#:#gev_position#:#Vermittlernummer
 gev#:#gev_position_key#:#Stellungsschlüssel
 gev#:#gev_pot_applicants#:#POT Bewerber
 gev#:#gev_pot_participants#:#POT Teilnehmer
-gev#:#gev_prearrival_note#:#Achtung: Bei eintägigen Seminaren bitte keine Übernachtungen buchen. Vorabendanreisen oder Abreisen am nächsten Morgen bedürfen der gesonderten Genehmigung der Führungskraft.
+gev#:#gev_prearrival_note#:#Achtung: Bei eintägigen Trainings bitte keine Übernachtungen buchen. Vorabendanreisen oder Abreisen am nächsten Morgen bedürfen der gesonderten Genehmigung der Führungskraft.
 gev#:#gev_presave#:#Zwischenspeichern
 gev#:#gev_private_contact#:#Kontaktdaten privat
 gev#:#gev_private_contact_info#:#Die Angabe Ihrer E-Mail und Mobiltelefonnummer ist zwingend notwendig, damit Ihr Konto in der zentralen Weiterbildungsdatenbank eröffnet und gepflegt werden kann.
@@ -869,7 +869,7 @@ rbac#:#crss_read#:#Lesezugriff auf Trainings-Betreuung
 rbac#:#crss_visible#:#Trainingsbetreuer ist sichtbar
 rbac#:#crss_write#:#Einstellungen in Trainings-Betreuung bearbeiten
 rbac#:#il_orgu_employee#:#Mitarbeiter
-rbac#:#orgu_book_employees#:#Mitarbeiter auf Seminare buchen
+rbac#:#orgu_book_employees#:#Mitarbeiter auf Trainings buchen
 rbac#:#orgu_book_employees_rcrsv#:#Mitarbeiter auf Trainings buchen (rekursiv)
 rbac#:#orgu_cancel_employee_bookings#:#Buchungen von Mitarbeitern stornieren
 rbac#:#orgu_cancel_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern stornieren (rekursiv)
