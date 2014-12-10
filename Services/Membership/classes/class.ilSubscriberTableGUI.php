@@ -38,6 +38,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 
 	protected static $all_columns = null;
 	protected static $has_odf_definitions = FALSE;
+	protected $show_subject = true;
 	
 	
 	/**
@@ -47,7 +48,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj,$show_content = true)
+	public function __construct($a_parent_obj,$show_content = true, $show_subject = true)
 	{
 	 	global $lng,$ilCtrl;
 	 	
@@ -55,6 +56,8 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		$this->lng->loadLanguageModule('grp');
 		$this->lng->loadLanguageModule('crs');
 	 	$this->ctrl = $ilCtrl;
+
+		$this->setShowSubject($show_subject);
 	 	
 		$this->setId('crs_sub_'. $a_parent_obj->object->getId());
 		parent::__construct($a_parent_obj,'members');
@@ -72,7 +75,10 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		}
 		
 	 	$this->addColumn($this->lng->txt('application_date'),'sub_time',"10%");
-		$this->addColumn($this->lng->txt('subject'),'subject','15%');
+
+		if($this->getShowSubject())
+			$this->addColumn($this->lng->txt('subject'),'subject','15%');
+
 		$this->addColumn('','mail','10%');
 		
 		$this->addMultiCommand('assignSubscribers',$this->lng->txt('assign'));
@@ -188,11 +194,20 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		$this->showActionLinks($a_set);
 		
 		
-		
-		if(strlen($a_set['subject']))
+		if($this->getShowSubject())
 		{
-			$this->tpl->setVariable('VAL_SUBJECT','"'.$a_set['subject'].'"');
-			
+
+			if(strlen($a_set['subject']))
+			{
+				$this->tpl->setCurrentBlock('subject');
+				$this->tpl->setVariable('VAL_SUBJECT','"'.$a_set['subject'].'"');
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->touchBlock('subject');
+			}
+
 		}
 	}
 	
@@ -407,6 +422,15 @@ class ilSubscriberTableGUI extends ilTable2GUI
 	{
 		return true;
 	}
-	
+
+	public function setShowSubject($a_value)
+	{
+		$this->show_subject  = (bool)$a_value;
+	}
+
+	public function getShowSubject()
+	{
+		return $this->show_subject;
+	}
 }
 ?>
