@@ -33,6 +33,7 @@ class ilAdminSearchGUI {
 		$this->user_utils = gevUserUtils::getInstanceByObj($ilUser);
 		$this->search_form = null;
 
+		/*
 		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
 			$this->target_user_id = $_POST["target_user_id"]
 								  ? $_POST["target_user_id"]
@@ -44,7 +45,8 @@ class ilAdminSearchGUI {
 		else {
 			$this->target_user_id = $ilUser->getId();
 		}
-		
+		*/
+		$this->target_user_id = $ilUser->getId();
 		$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
 
 		$this->tpl->getStandardTemplate();
@@ -61,6 +63,7 @@ class ilAdminSearchGUI {
 	public function render($a_in_search = false) {
 		$spacer = new catHSpacerGUI();
 
+		/*
 		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
 			$user_selector = new gevUserSelectorGUI($this->target_user_id);
 			$users = array_merge( array(array("usr_id" => $this->user_id
@@ -78,6 +81,8 @@ class ilAdminSearchGUI {
 		else {
 			$usrsel = "";
 		}
+		*/
+		$usrsel = "";
 
 		$spacer_out = $spacer->render();
 		
