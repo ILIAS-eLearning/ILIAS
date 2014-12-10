@@ -1151,7 +1151,7 @@ class ilObjTestSettingsGeneralGUI
 
 		$examIdInPass = new ilCheckboxInputGUI($this->lng->txt('examid_in_test_pass'), 'examid_in_test_pass');
 		$examIdInPass->setInfo($this->lng->txt('examid_in_test_pass_desc'));
-		$examIdInPass->setChecked($this->testOBJ->getShowExamIdInTestPassEnabled());
+		$examIdInPass->setChecked($this->testOBJ->isShowExamIdInTestPassEnabled());
 		$form->addItem($examIdInPass);
 
 		$redirection_mode = $this->testOBJ->getRedirectionMode();

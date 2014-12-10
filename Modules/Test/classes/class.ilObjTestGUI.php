@@ -1238,6 +1238,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setShowSolutionListComparison(isset($_POST['solution_compare']) && $_POST['solution_compare']);
 			$this->object->setExportSettingsSingleChoiceShort((is_array($_POST['export_settings']) && in_array('exp_sc_short', $_POST['export_settings'])) ? 1 : 0);
 
+			$this->object->setShowExamIdInTestResultsEnabled(isset($_POST['examid_in_test_res']) && $_POST['examid_in_test_res']);
+
 			$this->object->setPrintBestSolutionWithResult((int) $_POST['print_bs_with_res'] ? true : false);
 			
 			$this->object->setPassDeletionAllowed((bool)$_POST['pass_deletion_allowed']);
@@ -1458,6 +1460,12 @@ class ilObjTestGUI extends ilObjectGUI
 			$signatureOption->setDisabled(true);
 		}
 		$form->addItem($results_presentation);
+
+		// show signature placeholder
+		$showExamId = new ilCheckboxInputGUI($this->lng->txt('examid_in_test_res'), 'examid_in_test_res');
+		$showExamId->setInfo($this->lng->txt('examid_in_test_res_desc'));
+		$showExamId->setChecked($this->object->isShowExamIdInTestResultsEnabled());
+		$form->addItem($showExamId);
 
 		// misc properties
 		$header_misc = new ilFormSectionHeaderGUI();
