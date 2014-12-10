@@ -138,7 +138,8 @@ class gevDecentralTrainingUtils {
 		
 		$ret = array();
 		while ($rec = $this->db->fetchAssoc($res)) {
-			if ($this->access->checkAccessOfUser($a_user_id, "visible",  "", $rec["ref_id"], "crs")) {
+			if (   $this->access->checkAccessOfUser($a_user_id, "visible",  "", $rec["ref_id"], "crs")
+				&& $this->access->checkAccessOfUser($a_user_id, "copy", "", $rec["ref_id"], "crs")) {
 				$ret[$rec["obj_id"]] = $rec;
 			}
 		}
