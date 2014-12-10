@@ -203,6 +203,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 				.$this->queryWhere($start, $end)
 				." AND usrcrs.participation_status = 'teilgenommen'"
 				." AND crs.crs_id > 0" // only academy points
+				." AND usrcrs.credit_points > 0"
 				;
 	}
 	
