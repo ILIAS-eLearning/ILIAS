@@ -156,6 +156,8 @@ class gevDecentralTrainingUtils {
 	}
 	
 	public function create($a_user_id, $a_template_id, $a_trainer_ids) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		
 		foreach ($a_trainer_ids as $trainer_id) {
 			if (!$this->canCreateFor($a_user_id, $trainer_id)) {
 				throw new Exception( "gevDecentralTrainingUtils::create: No permission for ".$a_user_id
@@ -183,18 +185,26 @@ class gevDecentralTrainingUtils {
 			$options[$rec["ref_id"]] = array("type" => 2);
 		}
 		
-		$src_utils = gevCourseUtils::getInstance($info["obj_id"]);
-		$trgt_ref = $src_utils->getCourse()
+		$src_utils = gevCourseUtils::getInstance($a_template_id);
+		$trgt_ref_id = $src_utils->getCourse()
 						->cloneAllObject( $_COOKIE['PHPSESSID']
 										, $_COOKIE['ilClientId']
 										, "crs"
 										, $parent
 										, $info["ref_id"]
 										, $options
+										, false
+										, true
 										);
-	
-		echo $trgt_ref;
-		die();
+			$trgt_obj_id = gevObjectUtils::getObjId($trgt_ref_id);
+		$trgt_utils = gevCourseUtils::getInstance($trgt_obj_id);
+		$trgt_crs = $trgt_utils->getCourse();
+		$trgt_crs->setOwner($src_utils->getMainAdmin());
+		foreach ($a_trainer_ids as $trainer_id) {
+			$trgt_crs->getMembersObject()->add($trainer_id,IL_CRS_TUTOR);
+		}
+		
+		return array("ref_id" => $trgt_ref_id, "obj_id" => $trgt_obj_id);
 	}
 }
 

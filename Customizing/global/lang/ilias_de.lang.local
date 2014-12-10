@@ -520,6 +520,7 @@ gev#:#gev_last_course#:#Mein letztes Training
 gev#:#gev_learning_type#:#Trainingstyp
 gev#:#gev_location#:#Ort
 gev#:#gev_mail_mgmt#:#Mails
+gev#:#gev_preview_invitation_mail#:#Vorschau Einladungsmail
 gev#:#gev_mailing_additional_settings#:#erweiterte Einstellungen
 gev#:#gev_mailing_inv_mailing_date_expl#:#Anzahl der Tage vor dem Seminar, an dem die Einladungsmail versandt wird. Ist 0 eingestellt, wird die Mail mit der Buchungsmail versandt.
 gev#:#gev_mandate#:#Auftrag
