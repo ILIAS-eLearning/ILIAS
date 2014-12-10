@@ -1163,11 +1163,11 @@ class ilTrQuery
 						case "language":
 							if($function)
 							{
-								$a_fields[] = $function."(value) AS ".$field."_".strtolower($function);
+								$a_fields[] = $function."(value) ".$field."_".strtolower($function);
 							}
 							else
 							{
-								$a_fields[] = "value AS ".$field;
+								$a_fields[] = "value ".$field;
 							}
 							break;
 						
@@ -1175,17 +1175,17 @@ class ilTrQuery
 						case "spent_seconds":
 							if(!$function)
 							{
-								$a_fields[] = "(".$field."+childs_".$field.") AS ".$field;
+								$a_fields[] = "(".$field."+childs_".$field.") ".$field;
 							}
 							else
 							{
 								if($function == "AVG")
 								{
-									$a_fields[] = "ROUND(AVG(".$field."+childs_".$field."), 2) AS ".$field."_".strtolower($function);
+									$a_fields[] = "ROUND(AVG(".$field."+childs_".$field."), 2) ".$field."_".strtolower($function);
 								}
 								else
 								{
-									$a_fields[] = $function."(".$field."+childs_".$field.") AS ".$field."_".strtolower($function);
+									$a_fields[] = $function."(".$field."+childs_".$field.") ".$field."_".strtolower($function);
 								}
 							}
 							break;
@@ -1193,7 +1193,7 @@ class ilTrQuery
 						case "read_count_spent_seconds":							
 							if($function == "AVG")
 							{
-								$a_fields[] = "ROUND(AVG((spent_seconds+childs_spent_seconds)/(read_count+childs_read_count)), 2) AS ".$field."_".strtolower($function);
+								$a_fields[] = "ROUND(AVG((spent_seconds+childs_spent_seconds)/(read_count+childs_read_count)), 2) ".$field."_".strtolower($function);
 							}
 							break;
 
@@ -1202,11 +1202,11 @@ class ilTrQuery
 							{
 								if($function == "AVG")
 								{
-									$a_fields[] = "ROUND(AVG(".$field."), 2) AS ".$field."_".strtolower($function);
+									$a_fields[] = "ROUND(AVG(".$field."), 2) ".$field."_".strtolower($function);
 								}
 								else
 								{
-									$a_fields[] = $function."(".$field.") AS ".$field."_".strtolower($function);
+									$a_fields[] = $function."(".$field.") ".$field."_".strtolower($function);
 								}
 							}
 							else
@@ -1529,6 +1529,12 @@ class ilTrQuery
 						
 						foreach($fields as $field)
 						{
+							// #14957 - value [as] language
+							if(stristr($field, "language"))
+							{
+								$field = "language";
+							}
+							
 							if(isset($row[$field]))
 							{
 								// #14955
