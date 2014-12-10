@@ -427,14 +427,18 @@ class ilObjTestSettingsGeneralGUI
 			{
 				$this->testOBJ->setShowKioskModeTitle( in_array('kiosk_title', $kioskOptions) );
 				$this->testOBJ->setShowKioskModeParticipant( in_array('kiosk_participant', $kioskOptions) );
-				$this->testOBJ->setExamidInKiosk( in_array('examid_in_kiosk', $_POST["kiosk_options"]) );
 			}
 			else
 			{
 				$this->testOBJ->setShowKioskModeTitle( false );
 				$this->testOBJ->setShowKioskModeParticipant( false );
-				$this->testOBJ->setExamidInKiosk( false );
 			}
+		}
+		
+		if( $form->getItemByPostVar('examid_in_test_pass') instanceof ilFormPropertyGUI)
+		{
+			$value = $form->getItemByPostVar('examid_in_test_pass')->getChecked();
+			$this->testOBJ->setShowExamIdInTestPassEnabled( $value );
 		}
 	
 		// redirect after test
@@ -1136,16 +1140,19 @@ class ilObjTestSettingsGeneralGUI
 		$kiosktitle = new ilCheckboxGroupInputGUI($this->lng->txt("kiosk_options"), "kiosk_options");
 		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt("kiosk_show_title"), 'kiosk_title', ''));
 		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt("kiosk_show_participant"), 'kiosk_participant', ''));
-		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt('examid_in_kiosk'), 'examid_in_kiosk'));
 		$values = array();
 		if ($this->testOBJ->getShowKioskModeTitle()) array_push($values, 'kiosk_title');
 		if ($this->testOBJ->getShowKioskModeParticipant()) array_push($values, 'kiosk_participant');
-		if ($this->testOBJ->getExamidInKiosk()) array_push($values, 'examid_in_kiosk');
 		$kiosktitle->setValue($values);
 		$kiosktitle->setInfo($this->lng->txt("kiosk_options_desc"));
 		$kiosk->addSubItem($kiosktitle);
 
 		$form->addItem($kiosk);
+
+		$examIdInPass = new ilCheckboxInputGUI($this->lng->txt('examid_in_test_pass'), 'examid_in_test_pass');
+		$examIdInPass->setInfo($this->lng->txt('examid_in_test_pass_desc'));
+		$examIdInPass->setChecked($this->testOBJ->getShowExamIdInTestPassEnabled());
+		$form->addItem($examIdInPass);
 
 		$redirection_mode = $this->testOBJ->getRedirectionMode();
 		$rm_enabled = new ilCheckboxInputGUI($this->lng->txt('redirect_after_finishing_tst'), 'redirection_enabled' );

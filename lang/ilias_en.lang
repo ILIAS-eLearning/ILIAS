@@ -1129,8 +1129,9 @@ assessment#:#tst_type_comment#:#Warning: Changing the test type of a running tes
 assessment#:#tst_type#:#Test Type
 assessment#:#tst_types#:#Test Types
 assessment#:#exam_id#:#Exam Id: 
-assessment#:#examid_in_kiosk#:#Display Exam Id in Kiosk mode 
-assessment#:#show_exam_id#:#Display Exam Id 
+assessment#:#examid_in_test_pass#:#Display Exam ID
+assessment#:#examid_in_test_pass_desc#:#TODO4711
+assessment#:#show_exam_id#:#Display Exam ID
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use previous answers as default values in future test passes, otherwise previous answers are not shown in future test passes. An option is shown on the information screen, which is deactivated by default.
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes

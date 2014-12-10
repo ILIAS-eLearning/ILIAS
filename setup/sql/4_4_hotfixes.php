@@ -1753,3 +1753,10 @@ if( !(int)$settings->get('quest_process_lock_mode_autoinit', 0) )
 }
 
 ?>
+<#59>
+<?php
+if( $ilDB->tableColumnExists('tst_tests', 'examid_in_kiosk') )
+{
+	$ilDB->renameTableColumn('tst_tests', 'examid_in_kiosk', 'examid_in_test_pass');
+}
+?>
