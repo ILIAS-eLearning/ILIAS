@@ -435,16 +435,16 @@ class ilTestServiceGUI
 		$this->ctrl->setParameter($targetGUI, 'pass', $pass);
 
 		$tableGUI = $this->buildPassDetailsOverviewTableGUI($targetGUI, $targetCMD);
+
 		$tableGUI->setAnswerListAnchorEnabled($questionAnchorNav);
 		$tableGUI->setSingleAnswerScreenCmd($questionDetailsCMD);
-
 		$tableGUI->setShowHintCount($this->object->isOfferingQuestionHintsEnabled());
-		$tableGUI->initColumns()->initFilter();
-
 		$tableGUI->setActiveId($active_id);
 		$tableGUI->setPass($pass);
-
 		$tableGUI->setShowSuggestedSolution(false);
+
+		$tableGUI->initColumns()->initFilter();
+
 		$usersQuestionSolutions = array();
 
 		foreach($result_array as $key => $val)
