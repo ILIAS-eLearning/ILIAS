@@ -76,10 +76,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				{
 					$this->setTabs();
 					$this->tabs_gui->activateTab("share");
-					
-					include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
-					$plink = new ilPermanentLinkGUI("prtf", $this->object->getId());
-					$plink = $plink->getHTML();
+										
+					$this->tpl->setPermanentLink("prtf", $this->object->getId());
 
 					include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
 					$wspacc = new ilWorkspaceAccessGUI($this->object->getId(), $this->access_handler, true, $plink);

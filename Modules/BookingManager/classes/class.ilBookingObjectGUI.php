@@ -67,12 +67,11 @@ class ilBookingObjectGUI
 			$bar = $bar->getHTML();
 		}
 		
-		include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
-		$plink = new ilPermanentLinkGUI('book', $this->ref_id);
+		$tpl->setPermanentLink('book', $this->ref_id);
 		
 		include_once 'Modules/BookingManager/classes/class.ilBookingObjectsTableGUI.php';
 		$table = new ilBookingObjectsTableGUI($this, 'render', $this->ref_id, $this->pool_id, $this->pool_has_schedule, $this->pool_overall_limit);
-		$tpl->setContent($bar.$table->getHTML().$plink->getHTML());
+		$tpl->setContent($bar.$table->getHTML());
 	}
 
 	/**
