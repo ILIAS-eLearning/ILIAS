@@ -125,6 +125,8 @@ class gevDecentralTrainingGUI {
 	}
 	
 	protected function finalizeTrainingCreation() {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		
 		$form_prev = $this->buildChooseTemplateAndTrainersForm($this->user_id, $this->date);
 		$dec_utils = gevDecentralTrainingUtils::getInstance();
 		
@@ -135,7 +137,15 @@ class gevDecentralTrainingGUI {
 		$template_id = $form_prev->getInput("template_id");
 		$trainer_ids = unserialize(base64_decode($form_prev->getInput("trainer_ids")));
 		
-		$crs_id = $dec_utils->create($this->current_user->getId(), $template_id, $trainer_ids);
+		$res = $dec_utils->create($this->current_user->getId(), $template_id, $trainer_ids);
+		
+		$crs_utils = gevCourseUtils::getInstance($res["obj_id"]);
+		$crs = $crs_utils->getCourse();
+		$crs->setDescription($form_prev->getInput("description"));
+		$crs_utils->setVenueId($form_prev->getInput("venue"));
+		$crs->update();
+		
+		// TODO: Show some message....
 	}
 	
 	protected function buildChooseTemplateAndTrainersForm($a_user_id = null, $a_date = null) {
@@ -176,7 +186,9 @@ class gevDecentralTrainingGUI {
 		
 		$ltype_choice = new ilRadioGroupInputGUI($this->lng->txt("gev_course_type"), "ltype");
 		$form->addItem($ltype_choice);
-		foreach ($templates as $ltype => $tmplts) {
+		// foreach ($templates as $ltype => $tmplts)
+		foreach (array("Präsenztraining", "Webinar") as $ltype) {
+			$tmplts = $templates[$ltype];
 			$key = strtolower(str_replace(" ", "_", $ltype));
 			$ltype_opt = new ilRadioOption($ltype, $key);
 			$ltype_choice->addOption($ltype_opt);
@@ -186,7 +198,7 @@ class gevDecentralTrainingGUI {
 
 			$ltype_opt->addSubItem($training_select);
 		}
-		$ltype_choice->setValue($key);
+		$ltype_choice->setValue("präsenztraining");
 		
 		
 		// maybe choice of trainers
@@ -228,7 +240,9 @@ class gevDecentralTrainingGUI {
 		require_once("Services/Form/classes/class.ilDateTimeInputGUI.php");
 		require_once("Services/Form/classes/class.ilDateDurationInputGUI.php");
 		require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
+		require_once("Services/Form/classes/class.ilFormSectionHeaderGUI.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		
 		if ($a_training_id === null && $a_template_id === null && $a_fill) {
 			throw new Exception("gevDecentralTrainingGUI::buildTrainingOptionsForm: Either set training_id or template_id.");
@@ -250,6 +264,7 @@ class gevDecentralTrainingGUI {
 				$trainer_ids = $a_trainer_ids;
 				$training_info["date"] = ($a_date !== null) ? new ilDate($a_date, IL_CAL_DATE)
 															: new ilDate(date("Y-m-d"), IL_CAL_DATE);
+				$training_info["invitation_preview"] = gevCourseUtils::getInstance($a_template_id)->getInvitationMailPreview();
 				$no_changes_allowed = false;
 				
 				$tmplt_id = new ilHiddenInputGUI("template_id");
@@ -324,6 +339,20 @@ class gevDecentralTrainingGUI {
 				$webinar_password->setValue($training_info["webinar_password"]);
 			}
 			$form->addItem($webinar_password);
+		}
+		
+		$mail_section = new ilFormSectionHeaderGUI();
+		$mail_section->setTitle($this->lng->txt("gev_mail_mgmt"));
+		$form->addItem($mail_section);
+		
+		if ($training_info["invitation_preview"]) {
+			$this->lng->loadLanguageModule("mail");
+			$preview = new ilNonEditableValueGUI($this->lng->txt("gev_preview_invitation_mail"), "", true);
+			$preview->setValue( "<b>".$this->lng->txt("mail_message_subject")."</b>: ".$training_info["invitation_preview"]["subject"]
+							  . "<br /><br />"
+							  . $training_info["invitation_preview"]["message_html"]
+							  );
+			$form->addItem($preview);
 		}
 		
 		$suppress_mails = new ilCheckboxInputGUI();

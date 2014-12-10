@@ -81,6 +81,7 @@ class gevInvitation extends gevCrsAutoMail {
 			&& ilContext::getType() !== ilContext::CONTEXT_CRON 
 			&& $_GET["cmdClass"] !== "ilcronmanagergui"
 			&& $_GET["cmdClass"] !== "gevcrsmailinggui"
+			&& $_GET["cmdClass"] !== "gevdecentraltraininggui"
 			&& $this->days_before_course_start != 0) {
 			
 			return null;

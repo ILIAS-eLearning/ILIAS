@@ -282,11 +282,11 @@ class gevCourseUtils {
 	public function getSubtitle() {
 		return $this->getCourse()->getDescription();
 	}
-
+	
 	public function getLink() {
 		return self::getLinkTo($this->crs_id);
 	}
-
+	
 	public function getCustomId() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CUSTOM_ID);
 	}
@@ -1187,6 +1187,12 @@ class gevCourseUtils {
 		return "";
 	}
 	
+	
+	public function getInvitationMailPreview() {
+		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+		$am = new gevCrsAutoMails($this->getId());
+		return $am->getPreview("invitation");
+	}
 	
 	// Memberlist creation
 	
