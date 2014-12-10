@@ -981,6 +981,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		if ($this->object->getNrOfTries() == 1)
 		{
+
 			$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
 			$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
 		}
@@ -1129,7 +1130,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$template->setVariable("SIGNATURE", $signature);
 			if ($this->object->isShowExamIdInTestResultsEnabled())
 			{
-				$template->setCurrentBlock('signature_exam_id');
+				$template->setCurrentBlock('exam_id');
 				$template->setVariable('EXAM_ID', $this->object->lookupExamId(
 					$testSession->getActiveId(), $pass
 				));
