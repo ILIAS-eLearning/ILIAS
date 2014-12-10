@@ -196,8 +196,14 @@ class gevDecentralTrainingGUI {
 		
 		$templates = array();
 		$key = null;
+		$_templates = $dec_utils->getAvailableTemplatesFor($this->current_user->getId());
 		
-		foreach ($dec_utils->getAvailableTemplatesFor($this->current_user->getId()) as $obj_id => $info) {
+		if (count($_templates) == 0) {
+			ilUtil::sendFailure($this->lng->txt("gev_dec_training_no_templates"), true);
+			$this->ctrl->redirectByClass("ilTEPGUI");
+		}
+		
+		foreach ($_templates as $obj_id => $info) {
 			if (!$info["ltype"]) {
 				// Only use templates with a learning type
 				continue;
