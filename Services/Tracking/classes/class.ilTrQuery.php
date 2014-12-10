@@ -1524,6 +1524,7 @@ class ilTrQuery
 							$result["set"][$row["usr_id"]]["status_changed"] = $row["status_changed"];
 							$result["set"][$row["usr_id"]]["last_access"] = $row["last_access"];
 							$result["set"][$row["usr_id"]]["spent_seconds"] = $row["spent_seconds"];
+							$result["set"][$row["usr_id"]]["read_count"] = $row["read_count"];
 						}
 						
 						foreach($fields as $field)
