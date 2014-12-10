@@ -62,7 +62,7 @@ class gevDecentralTrainingUtils {
 			return count($this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_self")) > 0;
 		}
 		else {
-			return in_array($a_target_user_id, $this->getUsersWhereCanCreateFor());
+			return in_array($a_target_user_id, $this->getUsersWhereCanCreateFor($a_user_id));
 		}
 	}
 	
@@ -88,8 +88,9 @@ class gevDecentralTrainingUtils {
 		return $this->creation_users[$a_user_id];
 	}
 	
-	public function canCreate() {
-		return count($this->getUsersWhereCanCreateFor()) > 0;
+	public function canCreate($a_user_id) {
+		return	   count($this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_self")) > 0
+				|| count($this->getUsersWhereCanCreateFor($a_user_id)) > 0;
 	}
 	
 	// TEMPLATES
@@ -190,6 +191,7 @@ class gevDecentralTrainingUtils {
 		}
 		
 		$src_utils = gevCourseUtils::getInstance($a_template_id);
+
 		$trgt_ref_id = $src_utils->getCourse()
 						->cloneAllObject( $_COOKIE['PHPSESSID']
 										, $_COOKIE['ilClientId']
@@ -200,6 +202,12 @@ class gevDecentralTrainingUtils {
 										, false
 										, true
 										);
+		if (!$trgt_ref_id) {
+			throw new Exception("gevDecentralTrainingUtils::create: <br />"
+								."User has no permission to create training in the category with ref_id = ".$parent
+								." or user has no permission to copy template course with ref_id = ".$info["ref_id"]);
+		}
+		
 		$trgt_obj_id = gevObjectUtils::getObjId($trgt_ref_id);
 		$trgt_utils = gevCourseUtils::getInstance($trgt_obj_id);
 		$trgt_crs = $trgt_utils->getCourse();

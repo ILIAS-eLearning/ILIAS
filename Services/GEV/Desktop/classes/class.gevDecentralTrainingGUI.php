@@ -134,7 +134,7 @@ class gevDecentralTrainingGUI {
 			return $this->createTraining($form_prev);
 		}
 		
-		$template_id = $form_prev->getInput("template_id");
+		$template_id = intval($form_prev->getInput("template_id"));
 		$trainer_ids = unserialize(base64_decode($form_prev->getInput("trainer_ids")));
 		
 		$res = $dec_utils->create($this->current_user->getId(), $template_id, $trainer_ids);

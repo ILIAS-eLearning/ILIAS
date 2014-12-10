@@ -61,9 +61,9 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 		}
 		catch (Exception $e) {
 			$ilLog->write("Error in GEVCourseCreation::clonedCourse: ".print_r($e, true));
+			return;
 		}
 		
-		global $ilLog;
 		$ilLog->write("Cloned course ".$a_target_ref_id." from course ". $a_source_ref_id);		
 	}
 		
