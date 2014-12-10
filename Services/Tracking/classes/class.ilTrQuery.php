@@ -1023,7 +1023,10 @@ class ilTrQuery
 						}
 						if($value["to"])
 						{
-							$value["to"] = substr($value["to"], 0, -2)."59"; // #14858					
+							if(strlen($value["to"]) == 19)
+							{
+								$value["to"] = substr($value["to"], 0, -2)."59"; // #14858					
+							}
 							$value["to"] = new ilDateTime($value["to"], IL_CAL_DATETIME);
 							$value["to"] = $value["to"]->get(IL_CAL_UNIX);
 						}
@@ -1047,7 +1050,11 @@ class ilTrQuery
 							$where[] = $id." >= ".$ilDB->quote($value["from"] ,"date");
 						}
 						if($value["to"])
-						{
+						{							
+							if(strlen($value["to"]) == 19)
+							{
+								$value["to"] = substr($value["to"], 0, -2)."59"; // #14858								
+							}
 							$where[] = $id." <= ".$ilDB->quote($value["to"] ,"date");
 						}
 					    break;
