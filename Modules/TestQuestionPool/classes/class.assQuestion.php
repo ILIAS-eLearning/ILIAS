@@ -1194,7 +1194,7 @@ abstract class assQuestion
 			if( $row['hint_count'] === null ) $row['hint_count'] = 0;
 			if( $row['hint_points'] === null ) $row['hint_points'] = 0;
 
-			$exam_identifier = self::getExamId( $active_id, $pass );
+			$exam_identifier = self::buildExamId( $active_id, $pass );
 			
 			if( is_object($processLocker) )
 			{
@@ -1279,26 +1279,17 @@ abstract class assQuestion
 	 * @param $pass
 	 * @return array
 	 */
-	public function getExamId($active_id, $pass)
+	public function buildExamId($active_id, $pass)
 	{
 		/** @TODO Move this to a proper place. */
-		global $ilDB, $ilSetting;
-
-		$exam_id_query  = 'SELECT exam_id FROM tst_pass_result WHERE active_fi = %s AND pass = %s';
-		$exam_id_result = $ilDB->queryF( $exam_id_query, array( 'integer', 'integer' ), array( $active_id, $pass ) );
-		if ($ilDB->numRows( $exam_id_result ) == 1)
-		{
-			$exam_id_row = $ilDB->fetchAssoc( $exam_id_result );
-			
-			if ($exam_id_row['exam_id'] != null)
-			{
-				return $exam_id_row['exam_id'];
-			}
-		}
-
+		global $ilSetting;
+		
 		$inst_id = $ilSetting->get( 'inst_id', null );
-		$obj_id  = $this->obj_id;
-		return 'I' . $inst_id . '_T' . $obj_id . '_A' . $active_id . '_P' . $pass;
+		$obj_id  = ilObjTest::_getObjectIDFromActiveID($active_id);
+		
+		$examId = 'I' . $inst_id . '_T' . $obj_id . '_A' . $active_id . '_P' . $pass;
+		
+		return $examId;
 	}
 
 	/**
