@@ -713,11 +713,19 @@ class ilSurveyExecutionGUI
 	{
 		global $tree;
 		
-		// #11534
-		$parent_ref_id = $tree->getParentId($this->object->getRefId());
+		// #14971
+		if($this->object->get360Mode())
+		{
+			$target_ref_id = $this->object->getRefId();
+		}
+		else
+		{		
+			// #11534
+			$target_ref_id = $tree->getParentId($this->object->getRefId());
+		}
 				
 		include_once "Services/Link/classes/class.ilLink.php";
-		ilUtil::redirect(ilLink::_getLink($parent_ref_id));	
+		ilUtil::redirect(ilLink::_getLink($target_ref_id));	
 	}
 
 /**
