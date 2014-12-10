@@ -1879,15 +1879,18 @@ class ilObjectListGUI
 							}
 						}
 						$tags_value = implode(" ", $tags_tmp);
+						$nl = true;
+						$prop_text = "";
 					}
 					// tags counter
 					else
 					{
 						$tags_value = "<a href='#' onclick=\"return ".$tags_url."\">".
-							self::$cnt_tags[$note_obj_id]."</a>";						
+							self::$cnt_tags[$note_obj_id]."</a>";
+						$prop_text = $lng->txt("tagging_tags");
 					}
 					$props[] = array("alert" => false,
-							"property" => $lng->txt("tagging_tags"),
+							"property" => $prop_text,
 							"value" => $tags_value,
 							"newline" => $nl);
 					$nl = false;
@@ -1920,7 +1923,7 @@ class ilObjectListGUI
 					$this->tpl->touchBlock("newline_prop");
 				}
 				//BEGIN WebDAV: Support hidden property names.
-				if (isset($prop["property"]) && $prop['propertyNameVisible'] !== false)
+				if (isset($prop["property"]) && $prop['propertyNameVisible'] !== false && $prop["property"] != "")
 				//END WebDAV: Support hidden property names.
 				{
 					$this->tpl->setCurrentBlock("prop_name");
@@ -3594,13 +3597,19 @@ class ilObjectListGUI
 				
 				$rating = new ilRatingGUI();
 				$rating->setObject($this->obj_id, $this->type);
+/*				$this->addCustomProperty(
+					$this->lng->txt("rating_average_rating"),
+					$rating->getListGUIProperty($this->ref_id, $may_rate, $this->ajax_hash, $this->parent_ref_id),
+					false,
+					true
+				);*/
 				$this->addCustomProperty(
-					$this->lng->txt("rating_average_rating"), 
-					$rating->getListGUIProperty($this->ref_id, $may_rate, $this->ajax_hash, $this->parent_ref_id), 
-					false, 
+					"",
+					$rating->getListGUIProperty($this->ref_id, $may_rate, $this->ajax_hash, $this->parent_ref_id),
+					false,
 					true
 				);
-			}	
+			}
 		}
 		
 		// read from cache
