@@ -2085,14 +2085,15 @@ class ilObjSurvey extends ilObject
 * @return integer The database id of the newly created questionblock
 * @access public
 */
-	function _addQuestionblock($title = "", $owner = 0)
+	function _addQuestionblock($title = "", $owner = 0,  $show_questiontext = true, $show_blocktitle = false)
 	{
 		global $ilDB;
 		$next_id = $ilDB->nextId('svy_qblk');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qblk (questionblock_id, title, owner_fi, tstamp) " .
-			"VALUES (%s, %s, %s, %s)",
-			array('integer','text','integer','integer'),
-			array($next_id, $title, $owner, time())
+		$ilDB->manipulateF("INSERT INTO svy_qblk (questionblock_id, title, show_questiontext,".
+			" show_blocktitle, owner_fi, tstamp) " .
+			"VALUES (%s, %s, %s, %s, %s, %s)",
+			array('integer','text','integer','integer','integer','integer'),
+			array($next_id, $title, $show_questiontext, $show_blocktitle, $owner, time())
 		);
 		return $next_id;
 	}
@@ -4183,7 +4184,7 @@ class ilObjSurvey extends ilObject
 		foreach ($questionblocks as $key => $value)
 		{
 			$questionblock = ilObjSurvey::_getQuestionblock($key);
-			$questionblock_id = ilObjSurvey::_addQuestionblock($questionblock["title"], $questionblock["owner_fi"]);
+			$questionblock_id = ilObjSurvey::_addQuestionblock($questionblock["title"], $questionblock["owner_fi"], $questionblock["show_questiontext"], $questionblock["show_blocktitle"]);
 			$questionblocks[$key] = $questionblock_id;
 		}
 		// create new questionblock questions
