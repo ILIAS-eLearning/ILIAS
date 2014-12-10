@@ -15167,3 +15167,6 @@ wiki#:#wiki_adv_md_hidden#:#This block is currently hidden.
 wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below.
 content#:#cont_pc_amdpl#:#Page List
 meta#:#udf_type_selectmulti#:#Selection List (Checkboxes)
+wiki#:#wiki_no_page_found#:#No wiki page has been found for search term '$1'.
+wiki#:#wiki_pages_found#:#The following pages match your search term '$1'.
+wiki#:#wiki_no_search_term#:#No search term has been entered. All pages of the wiki are listed below.

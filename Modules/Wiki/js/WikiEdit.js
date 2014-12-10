@@ -73,6 +73,7 @@ il.Wiki.Edit = {
 					}
 					$("#ilWikiACSearchResult a").click(function () {
 						il.Wiki.Edit.openLinkDialog(il.Wiki.Edit.url, $(this).html());
+						return false;
 					});
 					$("#ilWikiACSearchCancel").click(function () {
 						console.log("search cancel!");

@@ -1087,16 +1087,44 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	{
 		global $lng;
 
+		$lng->loadLanguageModule("wiki");
+
 		$tpl = new ilTemplate("tpl.wiki_ac_search_result.html", true, true, "Modules/Wiki");
-		$term = $_GET["term"];
+		$term = trim($_GET["term"]);
 
 		$pages = ilObjWiki::_performSearch($this->getPageObject()->getParentId(), $term);
+		$found = array();
 		foreach ($pages as $page)
 		{
+			$found[] = array("page_id" => $page, "title" => ilWikiPage::lookupTitle($page));
+		}
+
+		// sort if all pages are listed
+		if ($term == "")
+		{
+			$found = ilUtil::sortArray($found, "title", "asc");
+		}
+
+		foreach ($found as $f)
+		{
 			$tpl->setCurrentBlock("item");
-			$tpl->setVariable("WIKI_TITLE", ilWikiPage::lookupTitle($page));
+			$tpl->setVariable("WIKI_TITLE", $f["title"]);
 			$tpl->parseCurrentBlock();
 		}
+
+		if (count($pages) == 0)
+		{
+			$tpl->setVariable("INFOTEXT", str_replace("$1", $term, $lng->txt("wiki_no_page_found")));
+		}
+		else if ($term == '')
+		{
+			$tpl->setVariable("INFOTEXT", $lng->txt("wiki_no_search_term"), $term);
+		}
+		else
+		{
+			$tpl->setVariable("INFOTEXT", str_replace("$1", $term, $lng->txt("wiki_pages_found")));
+		}
+
 		$tpl->setVariable("TXT_BACK", $lng->txt("back"));
 		echo $tpl->get();
 		exit;

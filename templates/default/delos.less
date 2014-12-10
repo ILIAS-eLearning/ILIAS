@@ -289,6 +289,25 @@ div.ilFrame {
 	padding: 0 30px;
 }
 
+/*
+	it would be good to limit the content width in some cases
+	- for many forms 1400px is too wide
+	- but not for all (e.g. question editing if tiny is used)
+	- screens that use tables often need the full width
+	- screens with (container) item lists often look ugly on 1400px (title <-> action arrow distance)
+	1028px is the current max. width of the center column if at least one other column
+	is displayed. This or any higher value could be set for the center column as a max-width,
+	but not for all screens, options:
+	- introduce a limiting class for center col and set this as "default", add another class that deactivates the
+	  limit (-> screens that have wide content need to activate this class)
+	- keep the current wide center col, introduce only a limiting class (-> screens that want a narrow view need
+	  to activate the class)
+	- use a limiting class only on some UI elements, e.g. forms and container item lists
+*/
+#il_center_col {
+	/* max-width: 1028px; */
+}
+
 
 /* left navigation area (used, e.g. for explorer trees) */
 .ilLeftNav {
