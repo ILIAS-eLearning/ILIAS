@@ -283,13 +283,13 @@ class ilTagging
 	}
 
 	/**
-	* Deletes tags of an object
-	*
-	* @param	int			$a_obj_id			Object ID
-	* @param	string		$a_obj_type			Object Type
-	* @param	int			$a_sub_obj_id		Subobject ID
-	* @param	string		$a_sub_obj_type		Subobject Type
-	*/
+	 * Deletes tags of an object
+	 *
+	 * @param	int			$a_obj_id			Object ID
+	 * @param	string		$a_obj_type			Object Type
+	 * @param	int			$a_sub_obj_id		Subobject ID
+	 * @param	string		$a_sub_obj_type		Subobject Type
+	 */
 	static function deleteTagsOfObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type)
 	{
 		global $ilDB;
@@ -298,7 +298,7 @@ class ilTagging
 		{
 			$a_sub_obj_type = "-";
 		}
-		
+
 		$ilDB->manipulateF("DELETE FROM il_tag ".
 			"WHERE ".
 			"obj_id = %s AND ".
@@ -307,6 +307,37 @@ class ilTagging
 			$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true),
 			array("integer", "text", "integer"),
 			array($a_obj_id, $a_obj_type, $a_sub_obj_id));
+	}
+
+	/**
+	 * Deletes tag of an object
+	 *
+	 * @param	int			$a_user_id			User Id
+	 * @param	int			$a_obj_id			Object ID
+	 * @param	string		$a_obj_type			Object Type
+	 * @param	int			$a_sub_obj_id		Subobject ID
+	 * @param	string		$a_sub_obj_type		Subobject Type
+	 * @param	string		$a_tag				Tag
+	 */
+	static function deleteTagOfObjectForUser($a_user_id, $a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type, $a_tag)
+	{
+		global $ilDB;
+
+		if ($a_sub_obj_type == "")
+		{
+			$a_sub_obj_type = "-";
+		}
+
+		$ilDB->manipulateF("DELETE FROM il_tag ".
+			"WHERE ".
+			"user_id = %s AND ".
+			"obj_id = %s AND ".
+			"obj_type = %s AND ".
+			"sub_obj_id = %s AND ".
+			$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true)." AND ".
+			"tag = %s",
+			array("integer", "integer", "text", "integer", "text"),
+			array($a_user_id, $a_obj_id, $a_obj_type, $a_sub_obj_id, $a_tag));
 	}
 
 	/**

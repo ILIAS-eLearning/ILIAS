@@ -15170,3 +15170,6 @@ meta#:#udf_type_selectmulti#:#Selection List (Checkboxes)
 wiki#:#wiki_no_page_found#:#No wiki page has been found for search term '$1'.
 wiki#:#wiki_pages_found#:#The following pages match your search term '$1'.
 wiki#:#wiki_no_search_term#:#No search term has been entered. All pages of the wiki are listed below.
+tagging#:#tag_some_obj_tagged_without_access#:#You do not have the permissions to access some of the tagged objects anymore. Should the tag be removed for these objects?
+tagging#:#tag_remove_tags_of_obj_without_access#:#Remove Tag
+tagging#:#tag_tags_deleted#:#Tag has been removed from inaccessible objects.

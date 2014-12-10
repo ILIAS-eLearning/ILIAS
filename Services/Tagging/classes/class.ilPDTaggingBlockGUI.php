@@ -196,6 +196,7 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 		include_once("./Services/Tagging/classes/class.ilTagging.php");
 		$objs = ilTagging::getObjectsForTagAndUser($ilUser->getId(), $_GET["tag"]);
 
+		$unaccessible = false;
 		foreach($objs as $key => $obj)
 		{
 			$ref_ids = ilObject::_getAllReferences($obj["obj_id"]);
@@ -203,7 +204,10 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 			{
 				$type = $obj["obj_type"];
 				
-				if ($type == "") continue;
+				if ($type == "") {
+					$unaccessible = true;
+					continue;
+				}
 				
 				// get list gui class for each object type
 				if (empty($this->item_list_gui[$type]))
@@ -242,13 +246,77 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 						ilUtil::getImagePath("icon_".$type.".png"));
 					$tpl->parseCurrentBlock();
 				}
+				else
+				{
+					$unaccessible = true;
+				}
 			}
 		}
+
+		if ($unaccessible)
+		{
+			$tpl->setCurrentBlock("no_access");
+			$tpl->setVariable("SOME_OBJ_WITHOUT_ACCESS", $lng->txt("tag_some_obj_tagged_without_access"));
+			$ilCtrl->saveParameter($this, "tag");
+			$tpl->setVariable("HREF_REMOVE_TAGS", $ilCtrl->getLinkTarget($this, "removeTagsWithoutAccess"));
+			$tpl->setVariable("REMOVE_TAGS", $lng->txt("tag_remove_tags_of_obj_without_access"));
+			$tpl->parseCurrentBlock();
+		}
+
 		$content_block->setContent($tpl->get());
 		//$content_block->setContent("test");
 
 		return $content_block->getHTML();
 	}
+
+	/**
+	 * Remove tasg without access
+	 */
+	function removeTagsWithoutAccess()
+	{
+		global $ilCtrl, $ilAccess, $ilUser, $lng;
+
+		// get resources
+		include_once("./Services/Tagging/classes/class.ilTagging.php");
+		$objs = ilTagging::getObjectsForTagAndUser($ilUser->getId(), $_GET["tag"]);
+
+		foreach($objs as $key => $obj)
+		{
+			$ref_ids = ilObject::_getAllReferences($obj["obj_id"]);
+			if (count($ref_ids) == 0)
+			{
+				$inaccessible = true;
+			}
+			else
+			{
+				$inaccessible = false;
+			}
+			foreach ($ref_ids as $ref_id)
+			{
+				$type = $obj["obj_type"];
+
+				if ($type == "") {
+					$inaccessible = true;
+					continue;
+				}
+				if (!$ilAccess->checkAccess("visible", "", $ref_id) &&
+					!$ilAccess->checkAccess("read", "", $ref_id) &&
+					!$ilAccess->checkAccess("write", "", $ref_id))
+				{
+					$inaccessible = true;
+				}
+				if ($inaccessible)
+				{
+					ilTagging::deleteTagOfObjectForUser($ilUser->getId(), $obj["obj_id"], $obj["obj_type"], $obj["sub_obj_id"], $obj["sub_obj_type"], $_GET["tag"]);
+				}
+			}
+		}
+
+		ilUtil::sendSuccess($lng->txt("tag_tags_deleted"), true);
+
+		$ilCtrl->returnToParent($this);
+	}
+
 
 	/**
 	* block footer
