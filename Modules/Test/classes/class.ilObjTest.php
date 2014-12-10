@@ -486,8 +486,8 @@ ilObjTest extends ilObject
 	/** @var bool $show_exam_id_in_test_pass_enabled */
 	protected $show_exam_id_in_test_pass_enabled;
 
-	/** @var bool $show_exam_id */
-	protected $show_exam_id;
+	/** @var bool $show_exam_id_in_test_results_enabled */
+	protected $show_exam_id_in_test_results_enabled;
 	
 	/** @var bool $sign_submission */
 	protected $sign_submission;
@@ -601,7 +601,7 @@ ilObjTest extends ilObject
 		$this->redirection_mode = 0;
 		$this->redirection_url = NULL;
 		$this->show_exam_id_in_test_pass_enabled = false;
-		$this->show_exam_id = false;
+		$this->show_exam_id_in_test_results_enabled = false;
 		$this->sign_submission = false;
 		$this->char_selector_availability = 0;
 		$this->char_selector_definition = null;
@@ -1299,7 +1299,7 @@ ilObjTest extends ilObject
 				'redirection_url' => array('text', (string)$this->getRedirectionUrl()),
 				'enable_archiving' => array('integer', (int)$this->getEnableArchiving()),
 				'examid_in_test_pass' => array('integer', (int)$this->getShowExamIdInTestPassEnabled()),
-				'show_exam_id' => array('integer', (int)$this->getShowExamid()),
+				'examid_in_test_res' => array('integer', (int)$this->getShowExamIdInTestResultsEnabled()),
 				'sign_submission' => array('integer', (int)$this->getSignSubmission()),
 				'question_set_type' => array('text', $this->getQuestionSetType()),
 				'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
@@ -1408,7 +1408,7 @@ ilObjTest extends ilObject
 						'redirection_url' => array('text', (string)$this->getRedirectionUrl()),
 						'enable_archiving' => array('integer', (int)$this->getEnableArchiving()),
 						'examid_in_test_pass' => array('integer', (int)$this->getShowExamIdInTestPassEnabled()),
-						'show_exam_id' => array('integer', (int)$this->getShowExamid()),
+						'examid_in_test_res' => array('integer', (int)$this->getShowExamIdInTestResultsEnabled()),
 						'sign_submission' => array('integer', (int)$this->getSignSubmission()),
 						'question_set_type' => array('text', $this->getQuestionSetType()),
 						'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
@@ -1891,7 +1891,7 @@ ilObjTest extends ilObject
 			$this->setShowExamviewPdf((bool)$data->show_examview_pdf);
 			$this->setEnableArchiving((bool)$data->enable_archiving);
 			$this->setShowExamIdInTestPassEnabled( (bool)$data->examid_in_test_pass);
-			$this->setShowExamid( (bool)$data->show_exam_id);
+			$this->setShowExamIdInTestResultsEnabled( (bool)$data->examid_in_test_res);
 			$this->setSignSubmission( (bool)$data->sign_submission );
 			$this->setQuestionSetType($data->question_set_type);
 			$this->setCharSelectorAvailability((int)$data->char_selector_availability);
@@ -5897,7 +5897,8 @@ function getAnswerFeedbackPoints()
 					$this->setShowExamIdInTestPassEnabled($metadata['entry']);
 					break;
 				case 'show_exam_id':
-					$this->setShowExamid($metadata['entry']);
+				case 'examid_in_test_res':
+					$this->setShowExamIdInTestResultsEnabled($metadata['entry']);
 					break;
 				case 'enable_archiving':
 					$this->setEnableArchiving($metadata['entry']);
@@ -6120,8 +6121,8 @@ function getAnswerFeedbackPoints()
 
 		// examid in kiosk
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_exam_id");
-		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShowExamid()));
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "examid_in_test_res");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShowExamIdInTestResultsEnabled()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		
 		// solution details
@@ -6885,7 +6886,7 @@ function getAnswerFeedbackPoints()
 		$newObj->setPoolUsage($this->getPoolUsage());
 		$newObj->setPrintBestSolutionWithResult($this->isBestSolutionPrintedWithResult());
 		$newObj->setShowExamIdInTestPassEnabled($this->getShowExamIdInTestPassEnabled());
-		$newObj->setShowExamid($this->getShowExamid());
+		$newObj->setShowExamIdInTestResultsEnabled($this->getShowExamIdInTestResultsEnabled());
 		$newObj->setEnableExamView($this->getEnableExamview());
 		$newObj->setShowExamViewHtml($this->getShowExamviewHtml());
 		$newObj->setShowExamViewPdf($this->getShowExamviewPdf());
@@ -9523,7 +9524,14 @@ function getAnswerFeedbackPoints()
 		{
 			$this->setShowExamIdInTestPassEnabled($testsettings['examid_in_test_pass']);
 		}
-		$this->setShowExamid($testsettings['show_exam_id']);
+		if( isset($testsettings['show_exam_id']) )
+		{
+			$this->setShowExamIdInTestResultsEnabled($testsettings['show_exam_id']);
+		}
+		else
+		{
+			$this->setShowExamIdInTestResultsEnabled($testsettings['examid_in_test_res']);
+		}
 		$this->setEnableExamview($testsettings['enable_examview']);
 		$this->setShowExamviewHtml($testsettings['show_examview_html']);
 		$this->setShowExamviewPdf($testsettings['show_examview_pdf']);
@@ -11289,17 +11297,17 @@ function getAnswerFeedbackPoints()
 	/**
 	 * @param boolean $show_exam_id
 	 */
-	public function setShowExamid($show_exam_id)
+	public function setShowExamIdInTestResultsEnabled($show_exam_id_in_test_results_enabled)
 	{
-		$this->show_exam_id = $show_exam_id;
+		$this->show_exam_id_in_test_results_enabled = $show_exam_id_in_test_results_enabled;
 	}
 
 	/**
 	 * @return boolean
 	 */
-	public function getShowExamid()
+	public function getShowExamIdInTestResultsEnabled()
 	{
-		return $this->show_exam_id;
+		return $this->show_exam_id_in_test_results_enabled;
 	}
 
 	/**
