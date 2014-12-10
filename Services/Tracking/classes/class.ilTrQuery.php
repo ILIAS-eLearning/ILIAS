@@ -1531,7 +1531,12 @@ class ilTrQuery
 						{
 							if(isset($row[$field]))
 							{
-								$result["set"][$row["usr_id"]][$field] = $row[$field];							
+								// #14955
+								if($obj_id == $parent_obj_id || 
+									!in_array($field, array("mark", "u_comment")))
+								{
+									$result["set"][$row["usr_id"]][$field] = $row[$field];							
+								}
 							}
 						}						
 					}
