@@ -448,7 +448,32 @@ class gevOrgUnitUtils {
 		while ($rec = $ilDB->fetchAssoc($res)) {
 			$ret[] = $rec["usr_id"];
 		}
-		return $ret;
+		return array_unique($ret);
+	}
+	
+	// Get everyone who counts as Trainer in the given Org-Units
+	static public function getTrainersIn($a_ref_ids) {
+		global $ilDB;
+		
+		$res = $ilDB->query(
+			 "SELECT ua.usr_id, pa.ops_id"
+			."  FROM rbac_ua ua"
+			."  JOIN tree tr ON ".$ilDB->in("tr.parent", $a_ref_ids, false, "integer")
+			."  JOIN rbac_fa fa ON fa.parent = tr.child"
+			."  JOIN rbac_pa pa ON pa.rol_id = fa.rol_id"
+			." WHERE ua.rol_id = fa.rol_id"
+			);
+		
+		$op_id = ilRbacReview::_getOperationIdByName("tep_is_tutor");
+		
+		$ret = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			$ops = unserialize($rec["ops_id"]);
+			if (in_array($op_id, $ops)) {
+				$ret[] = $rec["usr_id"];
+			}
+		}
+		return array_unique($ret);
 	}
 	
 	// Get all orgunits below the given ones. Returns ref_ids.

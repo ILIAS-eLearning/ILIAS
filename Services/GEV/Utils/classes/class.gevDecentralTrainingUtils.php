@@ -73,18 +73,16 @@ class gevDecentralTrainingUtils {
 			return $this->creation_users[$a_user_id];
 		}
 		
-		$orgus_e1 = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others");
-		$orgus_e2 = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others_rec");
-		$orgus_e = array_unique(array_merge($orgus_e1, $orgus_e2));
-		$orgus_a = gevOrgUnitUtils::getAllChildren($orgus_e2);
-		foreach ($orgus_a as $key => $value) {
-			$orgus_a[$key] = $value["ref_id"];
+		$orgus_d = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others");
+		$orgus_r = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others_rec");
+		$orgus_s = gevOrgUnitUtils::getAllChildren($orgus_r);
+		foreach ($orgus_s as $key => $value) {
+			$orgus_s[$key] = $value["ref_id"];
 		}
 		
-		$this->creation_users[$a_user_id] = 
-			array_merge(  gevOrgUnitUtils::getEmployeesIn($orgus_e)
-						, gevOrgUnitUtils::getAllPeopleIn($orgus_a)
-						);
+		$orgus = array_unique(array_merge($orgus_d, $orgus_r, $orgus_s));
+		
+		$this->creation_users[$a_user_id] = gevOrgUnitUtils::getTrainersIn($orgus);
 		return $this->creation_users[$a_user_id];
 	}
 	
@@ -138,8 +136,10 @@ class gevDecentralTrainingUtils {
 		
 		$ret = array();
 		while ($rec = $this->db->fetchAssoc($res)) {
+			$parent = $this->tree->getParentId($rec["ref_id"]);
 			if (   $this->access->checkAccessOfUser($a_user_id, "visible",  "", $rec["ref_id"], "crs")
-				&& $this->access->checkAccessOfUser($a_user_id, "copy", "", $rec["ref_id"], "crs")) {
+				&& $this->access->checkAccessOfUser($a_user_id, "copy", "", $rec["ref_id"], "crs")
+				&& $this->access->checkAccessOfUser($a_user_id, "create_crs", "", $parent, "cat")) {
 				$ret[$rec["obj_id"]] = $rec;
 			}
 		}
