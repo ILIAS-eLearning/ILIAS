@@ -526,6 +526,8 @@ class ilContainer extends ilObject
 		}
 		// gev-patch start
 		else if ($ret_new_ref) {
+			while(!ilCopyWizardOptions::_isFinished($copy_id)) {
+			}
 			return $res;
 		}
 		// gev-patch end

@@ -88,6 +88,10 @@ class gevDecentralTrainingUtils {
 		return $this->creation_users[$a_user_id];
 	}
 	
+	public function canCreate() {
+		return count($this->getUsersWhereCanCreateFor()) > 0;
+	}
+	
 	// TEMPLATES
 	
 	protected function templateBaseQuery() {
@@ -196,13 +200,18 @@ class gevDecentralTrainingUtils {
 										, false
 										, true
 										);
-			$trgt_obj_id = gevObjectUtils::getObjId($trgt_ref_id);
+		$trgt_obj_id = gevObjectUtils::getObjId($trgt_ref_id);
 		$trgt_utils = gevCourseUtils::getInstance($trgt_obj_id);
 		$trgt_crs = $trgt_utils->getCourse();
-		$trgt_crs->setOwner($src_utils->getMainAdmin());
+		$trgt_crs->setOfflineStatus(false);
+		$trgt_crs->update();
+		//$trgt_crs->setOwner($src_utils->getMainAdmin());
 		foreach ($a_trainer_ids as $trainer_id) {
 			$trgt_crs->getMembersObject()->add($trainer_id,IL_CRS_TUTOR);
 		}
+		/*if (!in_array($a_user_id, $a_trainer_ids)) {
+			$trgt_crs->getMembersObject()->add($a_user_id,IL_CRS_ADMIN);
+		}*/
 		
 		return array("ref_id" => $trgt_ref_id, "obj_id" => $trgt_obj_id);
 	}
