@@ -303,10 +303,17 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		require_once './Modules/Test/classes/class.ilTestScoring.php';
 		$scorer = new ilTestScoring($this->object);
 		$scorer->setPreserveManualScores(true);
-		$scorer->recalculateSolutions();
-		
-		$user_name = ilObjUser::_lookupName( ilObjTestAccess::_getParticipantId($activeId));
-		ilUtil::sendSuccess(sprintf($lng->txt('tst_saved_manscoring_successfully'), $pass + 1, $user_name['firstname'].' '. $user_name['lastname']), true);
+		$scorer->recalculateSolutions();			
+		if($this->object->getAnonymity() == 0)
+		{
+			$user_name 				= ilObjUser::_lookupName( ilObjTestAccess::_getParticipantId($activeId));
+			$name_real_or_anon 		= $user_name['firstname'].' '. $user_name['lastname'];
+		}
+		else
+		{
+			$name_real_or_anon 		= $lng->txt('anonymous');
+		}
+		ilUtil::sendSuccess(sprintf($lng->txt('tst_saved_manscoring_successfully'), $pass + 1, $name_real_or_anon ), true);
 		if($redirect == true)
 		{
 			$ilCtrl->redirect($this, 'showManScoringParticipantScreen');

@@ -173,7 +173,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		/**
 		 * @var $ilAccess ilAccessHandler
 		 */
-		global  $ilAccess;
+		global  $ilAccess, $lng;
 
 		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
 		{
@@ -276,8 +276,16 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
 		if($changed_one)
 		{
-			$user_name = ilObjUser::_lookupName( ilObjTestAccess::_getParticipantId($active_id));
-			ilUtil::sendSuccess(sprintf($this->lng->txt('tst_saved_manscoring_successfully'), $pass + 1, $user_name['firstname'].' '. $user_name['lastname']), true);
+			if($this->object->getAnonymity() == 0)
+			{
+				$user_name 				= $user_name = ilObjUser::_lookupName( ilObjTestAccess::_getParticipantId($active_id));
+				$name_real_or_anon 		= $user_name['firstname'].' '. $user_name['lastname'];
+			}
+			else
+			{
+				$name_real_or_anon 		= $lng->txt('anonymous');
+			}
+			ilUtil::sendSuccess(sprintf($this->lng->txt('tst_saved_manscoring_successfully'), $pass + 1,$name_real_or_anon), true);
 
 			require_once './Modules/Test/classes/class.ilTestScoring.php';
 			$scorer = new ilTestScoring($this->object);
