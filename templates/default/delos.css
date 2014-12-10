@@ -9687,10 +9687,10 @@ div.ilContainerListItemOuter {
   zoom: 1;
   background-color: #ffffff;
 }
-td.ilContainerListFooter {
+.ilContainerListFooter {
   padding-left: 15px;
 }
-[dir="rtl"] td.ilContainerListFooter {
+[dir="rtl"] .ilContainerListFooter {
   padding-left: 0;
   padding-right: 15px;
 }
@@ -9706,7 +9706,7 @@ div.ilContainerListItemOuterHighlight {
 .ilCLIRow2 {
   padding: 0;
 }
-td.ilCLI {
+.ilCLI {
   padding: 0;
 }
 div.ilContainerListItemCB {
@@ -9758,20 +9758,18 @@ div.il_ContainerListItem {
   padding-left: 0;
   padding-right: 8px;
 }
-th.ilContainerBlockHeader {
+.ilContainerBlockHeader {
   /* font-family: 'Open Sans Semibold'; */
   font-weight: normal;
   padding: 2px;
   text-align: left;
   vertical-align: middle;
 }
-[dir="rtl"] th.ilContainerBlockHeader {
+[dir="rtl"] .ilContainerBlockHeader {
   text-align: right;
 }
-table.ilContainerBlock {
+.ilContainerBlock {
   width: 100%;
-  /* border-spacing: 0; */
-  border-collapse: collapse;
   clear: both;
   margin-bottom: 20px;
 }
