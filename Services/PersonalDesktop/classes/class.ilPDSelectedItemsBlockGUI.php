@@ -392,20 +392,24 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$item_references = ilObject::_getAllReferences($obj_id);
 			foreach($item_references as $ref_id)
 			{
-				$title = $ilObjDataCache->lookupTitle($obj_id);
-				$type  = $ilObjDataCache->lookupType($obj_id);
-				
-				$parent_ref_id = $tree->getParentId($ref_id);
-				$par_left      = $tree->getLeftValue($parent_ref_id);
-				$par_left      = sprintf("%010d", $par_left);
+				if($tree->isInTree($ref_id))
+				{
+					$title = $ilObjDataCache->lookupTitle($obj_id);
+					$type  = $ilObjDataCache->lookupType($obj_id);
 
-				$references[$par_left.$title.$ref_id] =
-					array('ref_id' => $ref_id,
-						  'obj_id' => $obj_id,
-						  'type' => $type,
-						  'title' => $title,
-						  'description' => $ilObjDataCache->lookupDescription($obj_id),
-						  'parent_ref' => $parent_ref_id);
+					$parent_ref_id = $tree->getParentId($ref_id);
+					$par_left      = $tree->getLeftValue($parent_ref_id);
+					$par_left      = sprintf("%010d", $par_left);
+
+					$references[$par_left . $title . $ref_id] = 	array(
+						'ref_id'      => $ref_id,
+						'obj_id'      => $obj_id,
+						'type'        => $type,
+						'title'       => $title,
+						'description' => $ilObjDataCache->lookupDescription($obj_id),
+						'parent_ref'  => $parent_ref_id
+					);
+				}
 			}
 		}
 		ksort($references);
