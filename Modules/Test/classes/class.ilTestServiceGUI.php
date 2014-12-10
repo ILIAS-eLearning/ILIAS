@@ -913,6 +913,16 @@ class ilTestServiceGUI
 
 			$signature = $this->getResultsSignature();
 			$template->setVariable("SIGNATURE", $signature);
+			
+			if ($this->object->isShowExamIdInTestResultsEnabled())
+			{
+				$template->setCurrentBlock('exam_id_footer');
+				$template->setVariable('EXAM_ID_VAL', $this->object->lookupExamId(
+					$testSession->getActiveId(), $pass
+				));
+				$template->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
+				$template->parseCurrentBlock();
+			}
 		}
 		$template->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name"), $uname));
 		$template->setVariable("USER_DATA", $user_data);
