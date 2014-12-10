@@ -170,8 +170,8 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 		$automails = new gevCrsAutoMails($this->crs_id);
 		
-		if ($o_status === ilCourseBooking::STATUS_BOOKED) {
-			if ($n_status === ilCourseBooking::STATUS_CANCELLED_WITH_COSTS) {
+		if ($o_status == ilCourseBooking::STATUS_BOOKED) {
+			if ($n_status == ilCourseBooking::STATUS_CANCELLED_WITH_COSTS) {
 				$automails->send("superior_cancel_booked_to_cancelled_with_costs"
 								, array($this->target_user_id));
 			}
