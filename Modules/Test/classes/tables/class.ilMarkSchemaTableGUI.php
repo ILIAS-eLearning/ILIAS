@@ -23,6 +23,11 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 	protected $object;
 
 	/**
+	 * @var bool
+	 */
+	protected $is_editable = true;
+
+	/**
 	 * @param        $parent
 	 * @param string $cmd
 	 */
@@ -35,6 +40,8 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 
 		$this->object = $object;
 		$this->ctrl   = $ilCtrl;
+		
+		$this->is_editable = $this->object->canEditMarks();
 
 		$this->setId('mark_schema_gui_' . $this->object->getMarkSchemaForeignId());
 		parent::__construct($parent, $cmd);
@@ -105,10 +112,9 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 	 */
 	public function fillRow(array $row)
 	{
-		// @todo: htmlspecialchars
 		$short_name = new ilTextInputGUI('', 'mark_short_' . $row['mark_id']);
 		$short_name->setValue($row['mark_short']);
-		$short_name->setDisabled(!$this->object->canEditMarks());
+		$short_name->setDisabled(!$this->is_editable);
 		$short_name->setSize(10);
 
 		$official_name = new ilTextInputGUI('', 'mark_official_' . $row['mark_id']);
@@ -117,17 +123,18 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 		$official_name->setValue($row['mark_official']);
 
 		$percentage = new ilNumberInputGUI('', 'mark_percentage_' . $row['mark_id']);
+		$percentage->allowDecimals(true);
 		$percentage->setValue($row['mark_percentage']);
 		$percentage->setSize(10);
-		$percentage->setDisabled(!$this->object->canEditMarks());
-		// @todo: Minimum value? Ask Björn
-		$percentage->allowDecimals(true);
+		$percentage->setDisabled(!$this->is_editable);
+		$percentage->setMinValue(0);
+		$percentage->setMaxValue(100);
 
 		$this->tpl->setVariable('VAL_MARK_ID', $row['mark_id']);
-		$this->tpl->setVariable('VAL_CHECKBOX', ilUtil::formCheckbox(false, 'marks[]', $row['mark_id'], !$this->object->canEditMarks()));
+		$this->tpl->setVariable('VAL_CHECKBOX', ilUtil::formCheckbox(false, 'marks[]', $row['mark_id'], !$this->is_editable));
 		$this->tpl->setVariable('VAL_SHORT_NAME', $short_name->render());
 		$this->tpl->setVariable('VAL_OFFICIAL_NAME', $official_name->render());
 		$this->tpl->setVariable('VAL_PERCENTAGE', $percentage->render());
-		$this->tpl->setVariable('VAL_PASSED_CHECKBOX', ilUtil::formCheckbox((bool)$row['mark_passed'], 'passed_' . $row['mark_id'], '1', !$this->object->canEditMarks()));
+		$this->tpl->setVariable('VAL_PASSED_CHECKBOX', ilUtil::formCheckbox((bool)$row['mark_passed'], 'passed_' . $row['mark_id'], '1', !$this->is_editable));
 	}
 }

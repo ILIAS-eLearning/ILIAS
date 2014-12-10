@@ -29,7 +29,7 @@ class ilMarkSchemaGUI
 	protected $tpl;
 
 	/**
-	 * @var ilToolbar
+	 * @var ilToolbarGUI
 	 */
 	protected $toolbar;
 
