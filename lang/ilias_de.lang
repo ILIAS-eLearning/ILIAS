@@ -15173,3 +15173,4 @@ wiki#:#wiki_no_search_term#:#Es wurde kein Suchbegriff eingegeben. Nachfolgend w
 tagging#:#tag_some_obj_tagged_without_access#:#Zu einigen der getaggten Objekte haben Sie keinen Zugriff mehr. Sollen der Tag zu diesen Objekten entfernt werden?
 tagging#:#tag_remove_tags_of_obj_without_access#:#Tag entfernen
 tagging#:#tag_tags_deleted#:#Tag wurde für Objekte ohne Zugriff entfernt.
+content#:#cont_automatically_set_store_tries#:#Die Option "$1" wurde automatisch aktiviert, da der Modus "$2" aktiviert wurde.

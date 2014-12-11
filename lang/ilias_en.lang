@@ -9424,7 +9424,7 @@ survey#:#introduction#:#Introductory Message
 survey#:#invitation_mode_desc#:#A link reference to the survey is created on the users' personal desktop.
 survey#:#invitation_mode#:#Put Link to Survey on the Personal Desktop of
 survey#:#invitation_off#:#Do not put on any Desktop
-survey#:#invitation#:#survey#:#invitation#
+survey#:#invitation#:#Invitation
 survey#:#invited_groups#:#Invited Groups
 survey#:#invited_users#:#Selected Users
 survey#:#label_resume_survey#:#Enter your 5 digit survey code
@@ -15173,3 +15173,4 @@ wiki#:#wiki_no_search_term#:#No search term has been entered. All pages of the w
 tagging#:#tag_some_obj_tagged_without_access#:#You do not have the permissions to access some of the tagged objects anymore. Should the tag be removed for these objects?
 tagging#:#tag_remove_tags_of_obj_without_access#:#Remove Tag
 tagging#:#tag_tags_deleted#:#Tag has been removed from inaccessible objects.
+content#:#cont_automatically_set_store_tries#:#Option "$1" has been activated automatically, because option "$2" has been enabled.

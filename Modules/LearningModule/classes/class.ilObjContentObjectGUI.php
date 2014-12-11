@@ -597,6 +597,16 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->object->setRatingPages($_POST["rating_pages"]);
 			$this->object->setDisableDefaultFeedback((int) $_POST["disable_def_feedback"]);
 			$this->object->setProgressIcons((int) $_POST["progr_icons"]);
+
+			$add_info = "";
+			if ($_POST["restrict_forw_nav"] && !$_POST["store_tries"])
+			{
+				$_POST["store_tries"] = 1;
+				$add_info = "</br>".$lng->txt("cont_automatically_set_store_tries");
+				$add_info = str_replace("$1", $lng->txt("cont_tries_store"), $add_info);
+				$add_info = str_replace("$2", $lng->txt("cont_restrict_forw_nav"), $add_info);
+			}
+
 			$this->object->setStoreTries((int) $_POST["store_tries"]);
 			$this->object->setRestrictForwardNavigation((int) $_POST["restrict_forw_nav"]);
 			$this->object->updateProperties();
@@ -626,7 +636,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		
 		if($valid)
 		{
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified").$add_info, true);
 			$this->ctrl->redirect($this, "properties");
 		}
 		else

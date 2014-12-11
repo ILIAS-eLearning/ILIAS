@@ -177,7 +177,9 @@ il.LearningModule = {
 				correct = false;
 			}
 		}
-		if (has_questions && correct) {
+
+		//if (has_questions && correct) {
+		if (ilias.questions.determineSuccessStatus() == "passed") {
 			$(".ilc_page_rnav_RightNavigation").removeClass("ilNoDisplay");
 			if (il.LearningModule.toc_refresh_url != "" && $("#left_nav")) {
 				il.Util.ajaxReplaceInner(il.LearningModule.toc_refresh_url, "left_nav");
