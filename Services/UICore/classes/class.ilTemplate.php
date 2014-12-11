@@ -1934,7 +1934,13 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setLocator()
 	{
-		global $ilLocator, $lng, $ilPluginAdmin;
+		global $ilLocator, $lng, $ilPluginAdmin, $ilMainMenu;
+		
+		if($ilMainMenu->getMode() != ilMainMenuGUI::MODE_FULL)
+		{			
+			$this->setVariable("LOCATOR", "");
+			return;
+		}
 
 		$html = "";
 		if (is_object($ilPluginAdmin))

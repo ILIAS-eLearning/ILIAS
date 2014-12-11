@@ -728,9 +728,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$this->ctrl->setParameter($this, "user_page", "");
 		$this->tpl->setTitleUrl($this->ctrl->getLinkTarget($this, "preview")); 
 		$this->ctrl->setParameter($this, "user_page", $this->page_id);
-						
-		// wiki/forum will set locator items
-		$this->tpl->setVariable("LOCATOR", "");
 		
 		// blog pages do their own (page) style handling
 		if(!$current_blog)
@@ -791,7 +788,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$a_tpl->setTitleIcon($ppic);
 		$a_tpl->setTitle($a_portfolio->getTitle());
 		$a_tpl->setTitleColor($a_portfolio->getFontColor());		
-		$a_tpl->setDescription($name);				
+		$a_tpl->setDescription($name);		
 		
 		// :TODO: obsolete?
 		// $a_tpl->setBodyClass("std ilExternal ilPortfolio");

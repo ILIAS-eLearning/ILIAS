@@ -46,7 +46,7 @@ class ilPersonalWorkspaceGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl, $lng, $objDefinition, $tpl;
+		global $ilCtrl, $objDefinition, $tpl, $ilMainMenu;
 
 		$ilCtrl->setReturn($this, "render");		
 		$cmd = $ilCtrl->getCmd();
@@ -95,8 +95,12 @@ class ilPersonalWorkspaceGUI
 		}
 		$ilCtrl->forwardCommand($gui);		
 		
-		$this->renderBack();
-		$tpl->setLocator();
+		if($ilMainMenu->getMode() == ilMainMenuGUI::MODE_FULL)
+		{
+			$this->renderBack();
+		}
+		
+		$tpl->setLocator();		
 	}
 
 	/**
@@ -118,14 +122,13 @@ class ilPersonalWorkspaceGUI
 
 	protected function renderBack()
 	{
-		global $lng, $ilTabs, $ilCtrl, $ilUser, $ilMainMenu;
+		global $lng, $ilTabs, $ilCtrl, $ilUser;
 		
 		$root = $this->tree->getNodeData($this->node_id);
 		if($root["type"] != "wfld" && $root["type"] != "wsrt")
 		{
 			// do not override existing back targets, e.g. public user profile gui
-			if(!$ilTabs->back_target &&
-				$ilMainMenu->getMode() == ilMainMenuGUI::MODE_FULL)
+			if(!$ilTabs->back_target)
 			{
 				$owner = $this->tree->lookupOwner($this->node_id);
 				// workspace
