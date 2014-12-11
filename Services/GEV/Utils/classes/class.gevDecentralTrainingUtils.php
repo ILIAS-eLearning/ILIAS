@@ -21,12 +21,16 @@ class gevDecentralTrainingUtils {
 	protected $creation_users = array();
 	
 	protected function __construct() {
-		global $ilDB, $ilias, $ilLog, $ilAccess, $tree;
+		global $ilDB, $ilias, $ilLog, $ilAccess, $tree, $lng, $rbacreview, $rbacadmin, $rbacsystem;
 		$this->db = &$ilDB;
 		$this->ilias = &$ilias;
 		$this->log = &$ilLog;
 		$this->access = &$ilAccess;
 		$this->tree = &$tree;
+		$this->lng = &$lng;
+		$this->rbacreview = &$rbacreview;
+		$this->rbacadmin = &$rbacadmin;
+		$this->rbacsystem = &$rbacsystem;
 	}
 	
 	public static function getInstance() {
@@ -214,13 +218,48 @@ class gevDecentralTrainingUtils {
 		$trgt_crs = $trgt_utils->getCourse();
 		$trgt_crs->setOfflineStatus(false);
 		$trgt_crs->update();
-		//$trgt_crs->setOwner($src_utils->getMainAdmin());
+		
+		
+		// Roles and Members
+		
+		$rolf_data = $this->rbacreview->getRoleFolderOfObject($trgt_ref_id);
+		$rolf = $this->ilias->obj_factory->getInstanceByRefId($rolf_data["ref_id"]);
+		$creator_role = $rolf->createRole( $this->lng->txt("gev_dev_training_creator")
+										 , sprintf($this->lng->txt("gev_dev_training_creator_desc"), $trgt_ref_id)
+										 );
+		
+		$res = $this->db->query( "SELECT obj_id FROM object_data "
+								."WHERE type = 'rolt'"
+								."  AND title = ".$this->db->quote($this->lng->txt("gev_dev_training_creator"), "text")
+								);
+		if ($rec = $this->db->fetchAssoc($res)) {
+			$this->rbacadmin->copyRoleTemplatePermissions(
+						$rec["obj_id"], ROLE_FOLDER_ID
+						, $rolf->getRefId(), $creator_role->getId());
+			$ops = $this->rbacreview->getOperationsOfRole($creator_role->getId(), "crs", $rolf->getRefId());
+			$this->rbacadmin->grantPermission($creator_role->getId(), $ops, $trgt_ref_id);
+			$this->rbacadmin->assignUser($creator_role->getId(), $a_user_id);
+		}
+		else {
+			throw new Exception( "gevDecentralTrainingUtils::create: Roletemplate '"
+								.$this->lng->txt("gev_dev_training_creator")
+								."' does not exist.");
+		}
+		
+		$trgt_crs->setOwner($src_utils->getMainAdmin()->getId());
+		$trgt_crs->updateOwner();
+		
+		$trgt_crs->setTitle($src_utils->getTitle());
+		$trgt_crs->update();
+		
 		foreach ($a_trainer_ids as $trainer_id) {
 			$trgt_crs->getMembersObject()->add($trainer_id,IL_CRS_TUTOR);
 		}
 		/*if (!in_array($a_user_id, $a_trainer_ids)) {
 			$trgt_crs->getMembersObject()->add($a_user_id,IL_CRS_ADMIN);
 		}*/
+		
+		$this->rbacsystem->resetRoleCache();
 		
 		return array("ref_id" => $trgt_ref_id, "obj_id" => $trgt_obj_id);
 	}

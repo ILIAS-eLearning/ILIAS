@@ -455,6 +455,12 @@ class ilRbacSystem
 		$paCacheKey = $a_usr_id.':'.$a_ref_id;		
         unset(self::$_paCache[$paCacheKey]);
 	}
+	
+	// gev-patch start
+	public function resetRoleCache() {
+		self::$user_role_cache = array();
+	}
+	// gev-patch end
 
 } // END class.RbacSystem
 ?>

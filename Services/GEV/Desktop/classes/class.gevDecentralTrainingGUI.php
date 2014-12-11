@@ -148,28 +148,28 @@ class gevDecentralTrainingGUI {
 		ilUtil::sendSuccess($this->lng->txt("gev_dec_training_creation_successfull"), true);
 		
 		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
-		$this->ctrl->setParameter($this, "obj_id", $res["obj_id"]);
-		ilCourseBookingAdminGUI::setBackTarget(
-			$this->ctrl->getLinkTarget($this, "backFromBooking")
-			);
-		$this->ctrl->setParameter($this, "obj_id", null);
+		require_once("Services/CourseBooking/classes/class.ilCourseBookingPermissions.php");
 		
-		$this->ctrl->setParameterByClass("ilCourseBookingGUI", "ref_id", $res["ref_id"]);
-		$this->ctrl->redirectByClass(array("ilCourseBookingGUI", "ilCourseBookingAdminGUI"));
+		if (ilCourseBookingPermissions::getInstanceByRefId($res["ref_id"], $this->current_user->getId())->bookCourseForOthers()) {
+			ilUtil::sendSuccess($this->lng->txt("gev_dev_training_book_users"), true);
+			$this->ctrl->setParameter($this, "obj_id", $res["obj_id"]);
+			ilCourseBookingAdminGUI::setBackTarget(
+				$this->ctrl->getLinkTarget($this, "backFromBooking")
+				);
+			$this->ctrl->setParameter($this, "obj_id", null);
+			
+			$this->ctrl->setParameterByClass("ilCourseBookingGUI", "ref_id", $res["ref_id"]);
+			$this->ctrl->redirectByClass(array("ilCourseBookingGUI", "ilCourseBookingAdminGUI"));
+		}
+		else {
+			return $this->backFromBooking();
+		}
 	}
 	
 	protected function backFromBooking() {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
 		ilCourseBookingAdminGUI::setBackTarget(null);
-		
-		// remove creator as owner
-		// ATTENTION: this also means, the creator will stay the owner of the object
-		// if he does not get here...
-		if ($_GET["obj_id"] !== null) {
-			$crs_utils = gevCourseUtils::getInstance($_GET["obj_id"]);
-			$crs_utils->getCourse()->setOwner($crs_utils->getMainAdmin());
-		}
 		
 		$this->ctrl->redirectByClass(array("ilTEPGUI"));
 		return;
