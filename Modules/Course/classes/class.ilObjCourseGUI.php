@@ -5118,7 +5118,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$lg->addCustomCommand($cert_url, "download_certificate");
 				
 				$lg->addHeaderIcon("cert_icon",
-						ilUtil::getImagePath("icon_cert_s.png"),
+						ilUtil::getImagePath("icon_cert.png"),
 						$this->lng->txt("download_certificate"),
 						null,
 						null,
