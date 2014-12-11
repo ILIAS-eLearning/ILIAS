@@ -129,9 +129,11 @@ class ilLPStatusCollectionTLT extends ilLPStatus
 	{
 		$info = self::_getStatusInfo($a_obj_id);		
 				
+		$completed_once = false;
+		
 		if(is_array($info["completed"]))
 		{
-			$completed = true;
+			$completed = true;			
 			foreach($info["completed"] as $user_ids)
 			{
 				// must have completed all items to complete collection
@@ -140,11 +142,21 @@ class ilLPStatusCollectionTLT extends ilLPStatus
 					$completed = false;
 					break;
 				}
+				else
+				{
+					$completed_once = true;
+				}
 			}
 			if($completed)
 			{
 				return self::LP_STATUS_COMPLETED_NUM;
 			}	
+		}
+		
+		// #14997
+		if($completed_once)
+		{
+			return self::LP_STATUS_IN_PROGRESS_NUM;
 		}
 		
 		if(is_array($info["in_progress"]))
