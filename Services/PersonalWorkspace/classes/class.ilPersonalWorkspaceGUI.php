@@ -118,13 +118,14 @@ class ilPersonalWorkspaceGUI
 
 	protected function renderBack()
 	{
-		global $lng, $ilTabs, $ilCtrl, $ilUser;
+		global $lng, $ilTabs, $ilCtrl, $ilUser, $ilMainMenu;
 		
 		$root = $this->tree->getNodeData($this->node_id);
 		if($root["type"] != "wfld" && $root["type"] != "wsrt")
 		{
 			// do not override existing back targets, e.g. public user profile gui
-			if(!$ilTabs->back_target)
+			if(!$ilTabs->back_target &&
+				$ilMainMenu->getMode() == ilMainMenuGUI::MODE_FULL)
 			{
 				$owner = $this->tree->lookupOwner($this->node_id);
 				// workspace

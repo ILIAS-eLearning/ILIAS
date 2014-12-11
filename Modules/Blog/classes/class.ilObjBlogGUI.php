@@ -1243,7 +1243,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$back = ilLink::_getStaticLink($parent_id);
 			}
 		}				
-		$tpl->setTopBar($back);
+		
+		global $ilMainMenu;
+		$ilMainMenu->setMode(ilMainMenuGUI::MODE_TOPBAR_REDUCED);		
+		$ilMainMenu->setTopBarBack($back);
 		
 		$this->renderFullscreenHeader($tpl, $owner);
 			
@@ -1256,11 +1259,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	
 		// content
 		$tpl->setContent($a_content);
-		$tpl->setRightContent($a_navigation);
-		$tpl->setFrameFixedWidth(true);
-
-		echo $tpl->show("DEFAULT", true, true);
-		exit();
+		$tpl->setRightContent($a_navigation);		
 	}
 	
 		/**
@@ -1304,16 +1303,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			}
 		}
 		
-		include_once("./Services/User/classes/class.ilUserUtil.php");
-		$a_tpl->setFullscreenHeader($this->object->getTitle(), 
-			$name, 	
-			$ppic,
-			$banner,
-			$this->object->getBackgroundColor(),
-			$this->object->getFontColor(),
-			$banner_width,
-			$banner_height,
-			$a_export);
+		$a_tpl->resetHeaderBlock(false);
+		$a_tpl->setBackgroundColor($this->object->getBackgroundColor());
+		$a_tpl->setBanner($banner, $banner_width, $banner_height, $a_export);
+		$a_tpl->setTitleIcon($ppic);
+		$a_tpl->setTitle($this->object->getTitle());
+		$a_tpl->setTitleColor($this->object->getFontColor());		
+		$a_tpl->setDescription($name);				
+		
+		// :TODO: obsolete?
 		$a_tpl->setBodyClass("std ilExternal ilBlog");		
 	}
 	
@@ -2300,8 +2298,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 				
 		$this->renderFullscreenHeader($tpl, $this->object->getOwner(), true);
-		$tpl->setFrameFixedWidth(true);
-
+		
 		return $tpl;
 	}
 	

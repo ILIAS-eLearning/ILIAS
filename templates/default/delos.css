@@ -6664,6 +6664,9 @@ body#tinymce {
 .ilFixedTopSpacer {
   margin-top: 117px;
 }
+.ilFixedTopSpacerBarOnly {
+  margin-top: 27px;
+}
 .fullwidth {
   width: 100%;
 }

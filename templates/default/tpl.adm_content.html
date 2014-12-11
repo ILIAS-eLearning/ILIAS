@@ -1,22 +1,3 @@
-<!-- BEGIN fullscreen_topbar -->
-<div class="ilTopBar small">
-	<div class="ilTopBarLeft">
-		<!-- BEGIN topbar_backlink -->
-		<a href="{TOPBAR_BACK_URL}">{TOPBAR_BACK}</a>
-		<!-- END topbar_backlink -->
-	</div>
-	<div class="ilTopBarRight">
-		<!-- BEGIN topbar_usr_reg -->
-		{TOPBAR_USER}
-		<!-- END topbar_usr_reg -->
-		<!-- BEGIN topbar_usr_ano -->
-		{TOPBAR_LANGUAGES}<a href="{TOPBAR_LOGIN_URL}">&raquo; {TOPBAR_LOGIN_CAPTION}</a>
-		<!-- END topbar_usr_ano -->
-	</div>
-	<div class="ilClearFloat"></div>
-</div>
-<!-- END fullscreen_topbar -->
-
 {MAINMENU}
 
 <!-- BEGIN sr_focus -->
@@ -27,7 +8,7 @@
 <a {TREE_ACC_KEY} class="ilTreeView{RIGHT}<!-- BEGIN tree_lns --> kilLeftNavSpace<!-- END tree_lns -->" href="{LINK_MODE}" target="{TARGET_TREE}" id="imgtree">
 	<img src="{IMG_TREE}" alt="{ALT_TREE}" title="{ALT_TREE}" /></a>
 <!-- END tree_mode -->
-<div id="mainspacekeeper" class="container-fluid ilContainerWidth ilFixedTopSpacer">
+<div id="mainspacekeeper" class="container-fluid ilContainerWidth {MAINMENU_SPACER}">
 	<div class="row" style="position: relative;">
 	<!-- BEGIN left_nav -->
 	<div id="left_nav" class="ilLeftNav">{LEFT_NAV_CONTENT}</div>
@@ -36,22 +17,14 @@
 		<div id="mainscrolldiv" {FRAME_BG_COLOR}>
 			{STATUSLINE}
 			
-	<!-- BEGIN fullscreen_headerbl -->
-	<div class="ilFrameFixedWidthHeader">
-		
-		<!-- BEGIN fullscreen_bannerbl -->
-		<div class="ilHeaderBanner" style="width:{FULLSCREEN_BANNER_WIDTH}px; height:{FULLSCREEN_BANNER_HEIGHT}px;{FULLSCREEN_BG}">
+	<!-- BEGIN banner_bl -->
+	<div class="ilFrameFixedWidthHeader">				
+		<div class="ilHeaderBanner" style="width:{BANNER_WIDTH}px; height:{BANNER_HEIGHT}px;{BANNER_BG}">
 			&nbsp;
 		</div>
-		<!-- END fullscreen_bannerbl -->
 		<div class="ilClearFloat"></div>
-	</div>
-	<!-- BEGIN fullscreen_iconbl -->
-	<div class="ilHeaderImg ilFloatLeft">
-		<img id="headerimage" src="{FULLSCREEN_ICON}" alt="" />
-	</div>
-	<!-- END fullscreen_iconbl -->
-	<!-- END fullscreen_headerbl -->
+	</div>	
+	<!-- END banner_bl -->
 	
 	<div class="media il_HeaderInner"{FILEUPLOAD_DROPZONE_ID}>
 		<!-- BEGIN head_action -->

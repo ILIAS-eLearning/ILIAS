@@ -4,7 +4,10 @@
 			<!-- BEGIN header_top_title -->
 			<div class="ilTopTitle">{TXT_HEADER_TITLE}</div>
 			<!-- END header_top_title -->
-		<ul id="ilTopBarNav" class="">
+			<!-- BEGIN header_back_bl -->
+			<div class="ilTopTitle"><a href="{URL_HEADER_BACK}">&laquo; {TXT_HEADER_BACK}</a></div>
+			<!-- END header_back_bl -->
+				<ul id="ilTopBarNav" class="">
 					<!-- BEGIN status_box -->
 						<!-- BEGIN status_item -->
 						<li><a target="_top" href="{STATUS_HREF}"><span class="glyphicon glyphicon-envelope"></span> <!-- BEGIN status_text --><span class="badge">{STATUS_TXT}</span><span class="ilBadgeSpacer">{STATUS_TXT}</span><!-- END status_text --></a></li>
@@ -72,6 +75,7 @@
 	});
 	</script><!-- END osd_enabled -->
 <!-- BEGIN osd_container --><div class="osdNotificationContainer"></div><!-- END osd_container -->
+<!-- BEGIN main_menu_bl -->
 <div class="ilMainHeader ilTopFixed">
 	<header class="container-fluid ilContainerWidth">
 		<div class="row">
@@ -111,3 +115,4 @@
 	</div>
 </div>
 </div>
+<!-- END main_menu_bl -->

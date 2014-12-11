@@ -631,7 +631,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 				$back = $this->ctrl->getLinkTarget($this, "view");
 			}
 		}
-		$this->tpl->setTopBar($back);				
+		
+		global $ilMainMenu;
+		$ilMainMenu->setMode(ilMainMenuGUI::MODE_TOPBAR_REDUCED);		
+		$ilMainMenu->setTopBarBack($back);
 		
 		// render tabs
 		$current_blog = null;
@@ -742,11 +745,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	
 		// #10717
 		$this->tpl->setContent($content.
-			'<div class="ilClearFloat">'.$note.'</div>');			
-		$this->tpl->setFrameFixedWidth(true);
-		
-		echo $this->tpl->show("DEFAULT", true, true);
-		exit();
+			'<div class="ilClearFloat">'.$note.'</div>');					
 	}
 	
 	/**
@@ -786,16 +785,15 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			}
 		}
 		
-		include_once("./Services/User/classes/class.ilUserUtil.php");
-		$a_tpl->setFullscreenHeader($a_portfolio->getTitle(), 
-			$name, 	
-			$ppic,
-			$banner,
-			$a_portfolio->getBackgroundColor(),
-			$a_portfolio->getFontColor(),
-			$banner_width,
-			$banner_height,
-			$a_export);
+		$a_tpl->resetHeaderBlock(false);
+		$a_tpl->setBackgroundColor($a_portfolio->getBackgroundColor());
+		$a_tpl->setBanner($banner, $banner_width, $banner_height, $a_export);
+		$a_tpl->setTitleIcon($ppic);
+		$a_tpl->setTitle($a_portfolio->getTitle());
+		$a_tpl->setTitleColor($a_portfolio->getFontColor());		
+		$a_tpl->setDescription($name);				
+		
+		// :TODO: obsolete?
 		$a_tpl->setBodyClass("std ilExternal ilPortfolio");
 	}
 			

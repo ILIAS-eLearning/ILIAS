@@ -746,16 +746,6 @@ class ilLMPresentationGUI
 			return;
 		}
 
-//		if ($this->determineLayout() == "2window" || 
-//			$this->determineLayout() == "3window")
-//		{
-//			$ilMainMenu->setSmallMode(true);
-//		}
-//		else
-//		{
-			$ilMainMenu->setSmallMode(false);
-//		}
-
 		$page_id = $this->getCurrentPageId();
 		if ($page_id > 0)
 		{

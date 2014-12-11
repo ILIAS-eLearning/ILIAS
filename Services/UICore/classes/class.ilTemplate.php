@@ -51,8 +51,7 @@ class ilTemplate extends ilTemplateX
 	protected $page_actions = array();
 	protected $permanent_link = false;
 	protected $content_style_sheet = "";
-	protected $frame_fixed_width = false;
-
+	
 	protected $title_alerts = array();
 	protected $header_action;
 	protected $lightbox = array();
@@ -442,16 +441,6 @@ class ilTemplate extends ilTemplateX
 	}
 	
 	/**
-	 * Restrict content frame to fixed width (will be centered on screen)
-	 * 
-	 * @param bool $a_value 	 
-	 */
-	function setFrameFixedWidth($a_value)
-	{
-		$this->frame_fixed_width = (bool)$a_value;
-	}
-	
-	/**
 	* @access	public
 	* @param	string
 	* @param bool fill template variable {TABS} with content of ilTabs
@@ -817,6 +806,7 @@ class ilTemplate extends ilTemplateX
 		{
 			$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
 			$this->main_menu = $ilMainMenu->getHTML();
+			$this->main_menu_spacer = $ilMainMenu->getSpacerClass();
 		}
 	}
 	
@@ -826,6 +816,7 @@ class ilTemplate extends ilTemplateX
 		if($this->variableExists('MAINMENU'))
 		{
 			$tpl->setVariable("MAINMENU", $this->main_menu);
+			$tpl->setVariable("MAINMENU_SPACER", $this->main_menu_spacer);
 		}
 	}
 
@@ -1652,11 +1643,6 @@ class ilTemplate extends ilTemplateX
 	{
 		global $lng, $ilUser, $ilCtrl;
 		
-		if($this->frame_fixed_width)
-		{
-			$this->setVariable("FRAME_FIXED_WIDTH", " ilFrameFixedWidth");
-		}
-		
 		$icon = false;
 		if ($this->icon_path != "")
 		{
@@ -2446,45 +2432,25 @@ class ilTemplate extends ilTemplateX
 				'</script>'."\n";
 		}
 	}
+	
+	function setBackgroundColor($a_bg_color)
+	{
+		if($a_bg_color != "")
+		{
+			$this->setVariable("FRAME_BG_COLOR", " style=\"background-color: #".$a_bg_color."\"");
+		}
+	}
 
 	/**
-	 * Set fullscreen header data
-	 * 
-	 * @param string $a_title
-	 * @param string $a_description
-	 * @param string $a_icon path
-	 * @param string $a_img banner full path (background image)
-	 * @param string $a_bg_color html color code (page background)
-	 * @param string $a_font_color html color code (title and description)
+	 * Set banner
+	 * 	
+	 * @param string $a_img banner full path (background image)	
 	 * @param int $a_width banner width
 	 * @param int $a_height banner height
 	 * @param bool $a_export
 	 */
-	function setFullscreenHeader($a_title, $a_description = null, $a_icon = null, $a_img = null, $a_bg_color = null, $a_font_color = null, $a_width = 880, $a_height = 100, $a_export = false)
-	{
-		$this->resetHeaderBlock(false);
-		
-		$this->setTitle($a_title);
-		$this->setTitleColor($a_font_color);
-		$this->setDescription($a_description);
-		
-		if($a_icon)
-		{
-			$this->setCurrentBlock("fullscreen_iconbl");
-			$this->setVariable("FULLSCREEN_ICON", $a_icon);
-			$this->parseCurrentBlock();
-		}
-		
-		if($a_bg_color)
-		{
-			//$this->setVariable("FRAME_BG_COLOR", " style=\"padding:1px; background-color: #".$a_bg_color."\"");
-			$this->setVariable("FRAME_BG_COLOR", " style=\"background-color: #".$a_bg_color."\"");
-		}
-		else
-		{
-			//$this->setVariable("FRAME_BG_COLOR", " style=\"padding:1px;\"");
-		}
-		
+	function setBanner($a_img, $a_width = 880, $a_height = 100, $a_export = false)
+	{		
 		if($a_img)
 		{
 			if(!$a_export)
@@ -2492,64 +2458,12 @@ class ilTemplate extends ilTemplateX
 				$a_img = ILIAS_HTTP_PATH."/".$a_img;
 			}
 			
-			$this->setCurrentBlock("fullscreen_bannerbl");
-			$this->setVariable("FULLSCREEN_BANNER_WIDTH", $a_width);
-			$this->setVariable("FULLSCREEN_BANNER_HEIGHT", $a_height);
-			$this->setVariable("FULLSCREEN_BG", " background-image: url(".$a_img.")");
-			
+			$this->setCurrentBlock("banner_bl");
+			$this->setVariable("BANNER_WIDTH", $a_width);
+			$this->setVariable("BANNER_HEIGHT", $a_height);
+			$this->setVariable("BANNER_BG", " background-image: url(".$a_img.")");			
 			$this->parseCurrentBlock();
 		}
-	}
-	
-	/**
-	 * Add top toolbar
-	 * 
-	 * @param string $a_back_url 
-	 */
-	function setTopBar($a_back_url = null)
-	{
-		global $lng, $ilUser;
-				
-		// fallback: desktop overview
-		if(!$a_back_url && $ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID)
-		{
-			$a_back_url = "./ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems";
-		}
-		
-		if($a_back_url)
-		{
-			$this->setCurrentBlock("topbar_backlink");
-			$this->setVariable("TOPBAR_BACK_URL", $a_back_url);
-			$this->setVariable("TOPBAR_BACK", "&laquo; ".$lng->txt("back"));
-			$this->parseCurrentBlock();
-		}		
-		
-		// user name
-		if($ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID)
-		{
-			$this->setCurrentBlock("topbar_usr_reg");
-			$this->setVariable("TOPBAR_USER", $ilUser->getFullname());
-			$this->parseCurrentBlock();
-		}
-		// not logged in
-		else
-		{
-			include_once "Services/MainMenu/classes/class.ilMainMenuGUI.php";
-			$selection = ilMainMenuGUI::getLanguageSelection(true);
-			
-			// #13058
-			$target_str = ($this->getLoginTargetPar() != "")
-				? $this->getLoginTargetPar()
-				: self::buildLoginTarget();
-			
-			$this->setCurrentBlock("topbar_usr_ano");
-			$this->setVariable("TOPBAR_LANGUAGES", $selection); 
-			$this->setVariable("TOPBAR_LOGIN_CAPTION", $lng->txt("login_to_ilias"));
-			$this->setVariable("TOPBAR_LOGIN_URL", "./login.php?target=".$target_str."&client_id=".rawurlencode(CLIENT_ID)."&cmd=force_login");
-			$this->parseCurrentBlock();
-		}
-		
-		// $this->touchBlock("fullscreen_topbar");
 	}
 	
 	/**
