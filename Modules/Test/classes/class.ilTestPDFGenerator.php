@@ -15,7 +15,42 @@ class ilTestPDFGenerator
 	const PDF_OUTPUT_DOWNLOAD = 'D';
 	const PDF_OUTPUT_INLINE = 'I';
 	const PDF_OUTPUT_FILE = 'F';
-	
+
+	/**
+	 * @param $html
+	 * @return string
+	 */
+	private static function removeScriptElements($html)
+	{
+		if(!is_string($html) || !strlen(trim($html)))
+		{
+			return $html;
+		}
+
+		$dom = new DOMDocument();
+		if(!@$dom->loadHTML($html))
+		{
+			return $html;
+		}
+
+		$script_elements     = $dom->getElementsByTagName('script');
+		$num_script_elements = $script_elements->length;
+
+		for($i = 0; $i < $num_script_elements; $i++)
+		{
+			$elm = $script_elements->item($i);
+			$elm->parentNode->removeChild($elm);
+		}
+
+		$cleaned_html = $dom->saveHTML();
+		if(!$cleaned_html)
+		{
+			return $html;
+		}
+
+		return $cleaned_html;
+	}
+
 	public static function generatePDF($pdf_output, $output_mode, $filename=null)
 	{
 		$pdf_output = self::preprocessHTML($pdf_output);
@@ -43,6 +78,7 @@ class ilTestPDFGenerator
 	
 	public static function preprocessHTML($html)
 	{
+		$html = self::removeScriptElements($html);
 		$pdf_css_path = self::getTemplatePath('test_pdf.css');
 		return '<style>' . file_get_contents($pdf_css_path)	. '</style>' . $html;
 	}
