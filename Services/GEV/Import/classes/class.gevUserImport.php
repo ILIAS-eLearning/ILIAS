@@ -62,16 +62,7 @@ class gevUserImport {
 
 
 	private function createDB(){
-		//orgunits
-		$sql = "CREATE TABLE IF NOT EXISTS interimOrgunits ("
-			." orgu_id int(11) NOT NULL,"
-			." name varchar(64) COLLATE utf8_unicode_ci NOT NULL,"
-			." parent int(11) NOT NULL,"
-			." PRIMARY KEY (orgu_id)"
-			." ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-
-		$result = mysql_query($sql, $this->shadowDB);
-		
+/*
 		//usr/org_units
 		$sql = "CREATE TABLE IF NOT EXISTS interimUserOrgunits ("
 			." usr_id int(11) NOT NULL,"
@@ -89,7 +80,7 @@ class gevUserImport {
 			." ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
 
 		$result = mysql_query($sql, $this->shadowDB);
-
+*/
 		//users
 		$fields = gevImportedUser::$USERFIELDS;
 		$fstring = implode(' varchar(128) DEFAULT NULL,', $fields);
@@ -141,6 +132,13 @@ class gevUserImport {
 	}
 
 
+	// -------------------
+	public function createOrgStructure(){
+		require_once("Services/GEV/Import/classes/class.gevImportOrgStructure.php");
+		$importer = new gevImportOrgStructure();
+		$importer->createOrgUnits();
+	}
+
 
 
 
@@ -150,15 +148,17 @@ class gevUserImport {
 
 $imp = new gevUserImport();
 
+
+$imp->createOrgStructure();
+
 print '<pre>';
 
-
+/*
 $imp->fetchGEVUsers();
 print 'done GEV-users.<br>';
 
 $imp->fetchVFSUsers();
 print 'done VFS-users.<br>';
-
-
+*/
 
 print '<br><br>ok.';

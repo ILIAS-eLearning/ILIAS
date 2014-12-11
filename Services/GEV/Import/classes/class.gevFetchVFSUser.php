@@ -200,7 +200,7 @@ class gevFetchFVSUser {
 
 		foreach (self::$UDFFIELDS as $name => $id) {
 			$vals[] = "$name.value as $name";
-			$addjoins[] = "INNER JOIN udf_text $name ON usr_data.usr_id=$name .usr_id AND $name.field_id=$id";
+			$addjoins[] = "LEFT JOIN udf_text $name ON usr_data.usr_id=$name .usr_id AND $name.field_id=$id";
 		}	
 
 		$sql = "SELECT "

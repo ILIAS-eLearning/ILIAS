@@ -664,10 +664,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 	public function fail_new_user($row_id, $e){
+		print "\n";
 		print 'ERROR on newUser: ';
-		print($row_id);
-		print '<br>';
+		print $row_id;
+		print "\n";
 		print_r($e->getReason());
+		print "\n\n";
 	}
 
 
@@ -738,10 +740,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 	public function fail_update_user($row_id, $e){
+		print "\n";
 		print 'ERROR on updateUser: ';
-		print($row_id);
-		print '<br>';
+		print $row_id;
+		print "\n";
 		print_r($e->getReason());
+		print "\n\n";
 	}
 
 
@@ -765,7 +769,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 			SELECT
 				*, hist_usercoursestatus.row_id as row_id,
 				hist_usercoursestatus.begin_date as course_begin,
-				hist_usercoursestatus.end_dat as course_end
+				hist_usercoursestatus.end_date as course_end
 			FROM
 				hist_usercoursestatus
 
@@ -841,8 +845,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 				$edudata['score_code'] = 'Meldung';
 
 
-
-
 				$valid = $this->validateEduRecord($edudata);
 
 				if($valid === true){
@@ -878,13 +880,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 	public function fail_new_edu_record($row_id, $e){
+		print "\n";
 		print 'ERROR on newEduRecord: ';
-		print($row_id);
+		print $row_id;
 		print "\n";
 		print_r($e->getReason());
-		print "\n";
-		
-		//die();
+		print "\n\n";
 	}
 
 
@@ -1083,8 +1084,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 
 				} else {
-					print "\n not a foreign record";
-				
+					//print "\n not a foreign record";
 				}
 			} 
 		} else {
