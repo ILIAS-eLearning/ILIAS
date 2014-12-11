@@ -1,4 +1,4 @@
-<div id="ilTopBar" class="ilTopBar ilTopFixed">
+<div id="ilTopBar" class="ilTopBar ilTopFixed{TOPBAR_CLASS}">
 	<div class="container-fluid ilContainerWidth">
 		<div class="row">
 			<!-- BEGIN header_top_title -->
@@ -7,7 +7,10 @@
 			<!-- BEGIN header_back_bl -->
 			<div class="ilTopTitle ilTopTitleVisible"><a href="{URL_HEADER_BACK}">&laquo; {TXT_HEADER_BACK}</a></div>
 			<!-- END header_back_bl -->
-				<ul id="ilTopBarNav" class="">
+			<!-- BEGIN member_view_bl -->
+			<div class="ilTopMemberView"><h3>{MEMBER_VIEW_INFO}</h3></div>
+			<!-- END member_view_bl -->
+				<ul id="ilTopBarNav" class="">					
 					<!-- BEGIN status_box -->
 						<!-- BEGIN status_item -->
 						<li><a target="_top" href="{STATUS_HREF}"><span class="glyphicon glyphicon-envelope"></span> <!-- BEGIN status_text --><span class="badge">{STATUS_TXT}</span><span class="ilBadgeSpacer">{STATUS_TXT}</span><!-- END status_text --></a></li>

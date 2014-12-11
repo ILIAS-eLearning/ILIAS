@@ -8798,6 +8798,17 @@ input.ilOpenIDBox {
   padding: 5px 0;
   text-align: right;
 }
+div.ilMemberViewMainHeader {
+  background-color: #981A0A;
+}
+div.ilTopMemberView {
+  text-align: center;
+}
+div.ilTopMemberView h3 {
+  padding: 0;
+  margin: 0;
+  line-height: 40px;
+}
 /* Services/UIComponent/Tabs */
 .nav-tabs > li {
   margin: 0 4px 0 0;

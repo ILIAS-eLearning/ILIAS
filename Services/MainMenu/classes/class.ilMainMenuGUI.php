@@ -30,7 +30,7 @@ class ilMainMenuGUI
 	const MODE_FULL = 1;
 	const MODE_TOPBAR_ONLY = 2;
 	const MODE_TOPBAR_REDUCED = 3;
-
+	const MODE_TOPBAR_MEMBERVIEW = 4;
 
 	/**
 	* @param	string		$a_target				target frame
@@ -57,6 +57,14 @@ class ilMainMenuGUI
 		}
 		
 		$this->setMode(self::MODE_FULL);		
+		
+		// member view
+		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
+		$set = ilMemberViewSettings::getInstance();		
+		if($set->isActive())
+		{
+			$this->initMemberView();
+		}		
 	}
 	
 	public function setMode($a_value)
@@ -81,6 +89,7 @@ class ilMainMenuGUI
 		{
 			case self::MODE_TOPBAR_ONLY:
 			case self::MODE_TOPBAR_REDUCED:
+			case self::MODE_TOPBAR_MEMBERVIEW:
 				return "ilFixedTopSpacerBarOnly";
 				
 			case self::MODE_FULL:
@@ -175,7 +184,8 @@ class ilMainMenuGUI
 		// get user interface plugins
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 
-		if($this->getMode() != self::MODE_TOPBAR_REDUCED)
+		if($this->getMode() != self::MODE_TOPBAR_REDUCED &&
+			$this->getMode() != self::MODE_TOPBAR_MEMBERVIEW)
 		{
 			// search
 			include_once 'Services/Search/classes/class.ilSearchSettings.php';
@@ -225,116 +235,125 @@ class ilMainMenuGUI
 			$this->tpl->setVariable("MAIN_MENU_LIST_ENTRIES", $mmle_html);
 		}
 
-		$link_dir = (defined("ILIAS_MODULE"))
-			? "../"
-			: "";
+		if($this->getMode() != self::MODE_TOPBAR_MEMBERVIEW)
+		{					
+			$link_dir = (defined("ILIAS_MODULE"))
+				? "../"
+				: "";
 		
-		// login stuff
-		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
-		{
-			include_once 'Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
-			if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
+			// login stuff
+			if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 			{
-				$this->tpl->setCurrentBlock("registration_link");
-				$this->tpl->setVariable("TXT_REGISTER",$lng->txt("register"));
-				$this->tpl->setVariable("LINK_REGISTER", $link_dir."register.php?client_id=".rawurlencode(CLIENT_ID)."&lang=".$ilias->account->getCurrentLanguage());
+				include_once 'Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
+				if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
+				{
+					$this->tpl->setCurrentBlock("registration_link");
+					$this->tpl->setVariable("TXT_REGISTER",$lng->txt("register"));
+					$this->tpl->setVariable("LINK_REGISTER", $link_dir."register.php?client_id=".rawurlencode(CLIENT_ID)."&lang=".$ilias->account->getCurrentLanguage());
+					$this->tpl->parseCurrentBlock();
+				}
+
+				// language selection
+				$selection = self::getLanguageSelection();
+				if($selection)
+				{
+					// bs-patch start
+					global $ilUser, $lng;
+					$this->tpl->setVariable("TXT_LANGSELECT", $lng->txt("language"));
+					// bs-patch end
+					$this->tpl->setVariable("LANG_SELECT", $selection);
+				}
+
+				$this->tpl->setCurrentBlock("userisanonymous");
+				$this->tpl->setVariable("TXT_NOT_LOGGED_IN",$lng->txt("not_logged_in"));
+				$this->tpl->setVariable("TXT_LOGIN",$lng->txt("log_in"));
+
+				// #13058
+				$target_str = ($this->getLoginTargetPar() != "")
+					? $this->getLoginTargetPar()
+					: ilTemplate::buildLoginTarget();				
+				$this->tpl->setVariable("LINK_LOGIN",
+					$link_dir."login.php?target=".$target_str."&client_id=".rawurlencode(CLIENT_ID)."&cmd=force_login&lang=".$ilias->account->getCurrentLanguage());
 				$this->tpl->parseCurrentBlock();
 			}
-
-			// language selection
-			$selection = self::getLanguageSelection();
-			if($selection)
+			else
 			{
-				// bs-patch start
-				global $ilUser, $lng;
-				$this->tpl->setVariable("TXT_LANGSELECT", $lng->txt("language"));
-				// bs-patch end
-				$this->tpl->setVariable("LANG_SELECT", $selection);
+				if($this->getMode() != self::MODE_TOPBAR_REDUCED)
+				{
+					$notificationSettings = new ilSetting('notifications');
+					$chatSettings = new ilSetting('chatroom');
+
+					/**
+					 * @var $tpl ilTemplate
+					 */
+					global $tpl;
+
+					if($chatSettings->get('chat_enabled') && $notificationSettings->get('enable_osd'))
+					{
+						$this->tpl->touchBlock('osd_enabled');
+						$this->tpl->touchBlock('osd_container');
+
+						include_once "Services/jQuery/classes/class.iljQueryUtil.php";
+						iljQueryUtil::initjQuery();
+
+						include_once 'Services/MediaObjects/classes/class.ilPlayerUtil.php';
+						ilPlayerUtil::initMediaElementJs();
+
+						$tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
+						$tpl->addCSS('Services/Notifications/templates/default/osd.css');
+
+						require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
+						require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+
+						$notifications = ilNotificationOSDHandler::getNotificationsForUser($ilUser->getId());
+						$this->tpl->setVariable('NOTIFICATION_CLOSE_HTML', json_encode(ilGlyphGUI::get(ilGlyphGUI::CLOSE, $lng->txt('close'))));
+						$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
+						$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '5');
+						$this->tpl->setVariable(
+							'OSD_PLAY_SOUND',
+							$chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
+						foreach($notifications as $notification)
+						{
+							if($notification['type'] == 'osd_maint')
+							{
+								continue;
+							}
+							$this->tpl->setCurrentBlock('osd_notification_item');
+
+							$this->tpl->setVariable('NOTIFICATION_ICON_PATH', $notification['data']->iconPath);
+							$this->tpl->setVariable('NOTIFICATION_TITLE', $notification['data']->title);
+							$this->tpl->setVariable('NOTIFICATION_LINK', $notification['data']->link);
+							$this->tpl->setVariable('NOTIFICATION_LINKTARGET', $notification['data']->linktarget);
+							$this->tpl->setVariable('NOTIFICATION_ID', $notification['notification_osd_id']);
+							$this->tpl->setVariable('NOTIFICATION_SHORT_DESCRIPTION', $notification['data']->shortDescription);
+							$this->tpl->parseCurrentBlock();
+						}
+					}
+				}
+
+				$this->tpl->setCurrentBlock("userisloggedin");
+				$this->tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
+				$user_img_src = $ilias->account->getPersonalPicturePath("small", true);
+				$user_img_alt = $ilias->account->getFullname();
+				$this->tpl->setVariable("USER_IMG", ilUtil::img($user_img_src, $user_img_alt));
+				$this->tpl->setVariable("USR_LINK_PROFILE", "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile");
+				$this->tpl->setVariable("USR_TXT_PROFILE", $lng->txt("personal_profile"));
+				$this->tpl->setVariable("USR_LINK_SETTINGS", "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings");
+				$this->tpl->setVariable("USR_TXT_SETTINGS", $lng->txt("personal_settings"));
+				$this->tpl->setVariable("TXT_LOGOUT2",$lng->txt("logout"));
+				$this->tpl->setVariable("LINK_LOGOUT2", $link_dir."logout.php?lang=".$ilias->account->getCurrentLanguage());
+				$this->tpl->setVariable("USERNAME",$ilias->account->getFullname());
+				$this->tpl->setVariable("LOGIN",$ilias->account->getLogin());
+				$this->tpl->setVariable("MATRICULATION",$ilias->account->getMatriculation());
+				$this->tpl->setVariable("EMAIL",$ilias->account->getEmail());
+				$this->tpl->parseCurrentBlock();
 			}
-
-			$this->tpl->setCurrentBlock("userisanonymous");
-			$this->tpl->setVariable("TXT_NOT_LOGGED_IN",$lng->txt("not_logged_in"));
-			$this->tpl->setVariable("TXT_LOGIN",$lng->txt("log_in"));
-
-			// #13058
-			$target_str = ($this->getLoginTargetPar() != "")
-				? $this->getLoginTargetPar()
-				: ilTemplate::buildLoginTarget();				
-			$this->tpl->setVariable("LINK_LOGIN",
-				$link_dir."login.php?target=".$target_str."&client_id=".rawurlencode(CLIENT_ID)."&cmd=force_login&lang=".$ilias->account->getCurrentLanguage());
-			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
-			if($this->getMode() != self::MODE_TOPBAR_REDUCED)
-			{
-				$notificationSettings = new ilSetting('notifications');
-				$chatSettings = new ilSetting('chatroom');
-
-				/**
-				 * @var $tpl ilTemplate
-				 */
-				global $tpl;
-
-				if($chatSettings->get('chat_enabled') && $notificationSettings->get('enable_osd'))
-				{
-					$this->tpl->touchBlock('osd_enabled');
-					$this->tpl->touchBlock('osd_container');
-
-					include_once "Services/jQuery/classes/class.iljQueryUtil.php";
-					iljQueryUtil::initjQuery();
-
-					include_once 'Services/MediaObjects/classes/class.ilPlayerUtil.php';
-					ilPlayerUtil::initMediaElementJs();
-
-					$tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
-					$tpl->addCSS('Services/Notifications/templates/default/osd.css');
-
-					require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
-					require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
-
-					$notifications = ilNotificationOSDHandler::getNotificationsForUser($ilUser->getId());
-					$this->tpl->setVariable('NOTIFICATION_CLOSE_HTML', json_encode(ilGlyphGUI::get(ilGlyphGUI::CLOSE, $lng->txt('close'))));
-					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
-					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '5');
-					$this->tpl->setVariable(
-						'OSD_PLAY_SOUND',
-						$chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
-					foreach($notifications as $notification)
-					{
-						if($notification['type'] == 'osd_maint')
-						{
-							continue;
-						}
-						$this->tpl->setCurrentBlock('osd_notification_item');
-
-						$this->tpl->setVariable('NOTIFICATION_ICON_PATH', $notification['data']->iconPath);
-						$this->tpl->setVariable('NOTIFICATION_TITLE', $notification['data']->title);
-						$this->tpl->setVariable('NOTIFICATION_LINK', $notification['data']->link);
-						$this->tpl->setVariable('NOTIFICATION_LINKTARGET', $notification['data']->linktarget);
-						$this->tpl->setVariable('NOTIFICATION_ID', $notification['notification_osd_id']);
-						$this->tpl->setVariable('NOTIFICATION_SHORT_DESCRIPTION', $notification['data']->shortDescription);
-						$this->tpl->parseCurrentBlock();
-					}
-				}
-			}
-
-			$this->tpl->setCurrentBlock("userisloggedin");
-			$this->tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
-			$user_img_src = $ilias->account->getPersonalPicturePath("small", true);
-			$user_img_alt = $ilias->account->getFullname();
-			$this->tpl->setVariable("USER_IMG", ilUtil::img($user_img_src, $user_img_alt));
-			$this->tpl->setVariable("USR_LINK_PROFILE", "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile");
-			$this->tpl->setVariable("USR_TXT_PROFILE", $lng->txt("personal_profile"));
-			$this->tpl->setVariable("USR_LINK_SETTINGS", "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings");
-			$this->tpl->setVariable("USR_TXT_SETTINGS", $lng->txt("personal_settings"));
-			$this->tpl->setVariable("TXT_LOGOUT2",$lng->txt("logout"));
-			$this->tpl->setVariable("LINK_LOGOUT2", $link_dir."logout.php?lang=".$ilias->account->getCurrentLanguage());
-			$this->tpl->setVariable("USERNAME",$ilias->account->getFullname());
-			$this->tpl->setVariable("LOGIN",$ilias->account->getLogin());
-			$this->tpl->setVariable("MATRICULATION",$ilias->account->getMatriculation());
-			$this->tpl->setVariable("EMAIL",$ilias->account->getEmail());
-			$this->tpl->parseCurrentBlock();
+			// member view info
+			$this->tpl->setVariable("TOPBAR_CLASS", " ilMemberViewMainHeader");
+			$this->tpl->setVariable("MEMBER_VIEW_INFO", $lng->txt("mem_view_long"));
 		}
 
 		if(!$this->topbar_back_url)
@@ -798,40 +817,24 @@ class ilMainMenuGUI
 	}
 	
 	function getHTML()
-	{
-		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
-		$set = ilMemberViewSettings::getInstance();
-		
-		if($set->isActive())
-		{
-			return $this->getMemberViewHTML();
-		}
-		
-		
+	{		
 		$this->setTemplateVars();
 
 		return $this->tpl->get();
 	}
 	
-	protected function getMemberViewHTML()
+	protected function initMemberView()
 	{
 		global $lng;
 		
-		$this->tpl = new ilTemplate('tpl.member_view_main_menu.html',true,true,'Services/MainMenu');
-		
-		$this->tpl->setVariable('TXT_MM_HEADER',$lng->txt('mem_view_long'));
-		$this->tpl->setVariable('TXT_MM_CLOSE_PREVIEW',$lng->txt('mem_view_close'));
-
 		include_once './Services/Link/classes/class.ilLink.php';
+		$url = ilLink::_getLink(
+			(int) $_GET['ref_id'],
+			ilObject::_lookupType(ilObject::_lookupObjId((int) $_GET['ref_id'])),
+			array('mv' => 0));
 		
-		$this->tpl->setVariable(
-			'HREF_CLOSE_MM',
-			ilLink::_getLink(
-				(int) $_GET['ref_id'],
-				ilObject::_lookupType(ilObject::_lookupObjId((int) $_GET['ref_id'])),
-				array('mv' => 0)));
-		
-		return $this->tpl->get();
+		$this->setMode(self::MODE_TOPBAR_MEMBERVIEW);
+		$this->setTopBarBack($url, $lng->txt('mem_view_close'));				
 	}
 
 	/**
