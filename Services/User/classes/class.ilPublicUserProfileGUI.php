@@ -35,7 +35,7 @@ class ilPublicUserProfileGUI
 		}
 		else
 		{
-			$this->setUserId((int)$_GET["user_id"]);	
+			$this->setUserId((int)$_GET["user_id"]);
 		}
 		
 		$ilCtrl->saveParameter($this, array("user_id","back_url", "user"));
@@ -160,12 +160,12 @@ class ilPublicUserProfileGUI
 	function executeCommand()
 	{
 		global $ilCtrl, $tpl;
-		
+
 		if(!self::validateUser($this->getUserId()))
 		{
 			return;
 		}
-		
+
 		$next_class = $ilCtrl->getNextClass($this);	
 		$cmd = $ilCtrl->getCmd();
 		
@@ -190,7 +190,7 @@ class ilPublicUserProfileGUI
 				$tpl->setContent($ret);
 				
 				// only for direct links
-				if ($_GET["baseClass"] == "ilPublicUserProfileGUI")
+				if (strtolower($_GET["baseClass"]) == "ilpublicuserprofilegui")
 				{
 					$tpl->show();
 				}
@@ -665,7 +665,7 @@ class ilPublicUserProfileGUI
 	protected static function validateUser($a_user_id)
 	{
 		global $ilUser;
-		
+
 		if (ilObject::_lookupType($a_user_id) != "usr")
 		{
 			return false;

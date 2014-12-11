@@ -92,17 +92,21 @@ class ilPageHistoryTableGUI extends ilTable2GUI
 			// user name
 			$user = ilObjUser::_lookupName($a_set["user"]);
 			$login = ilObjUser::_lookupLogin($a_set["user"]);
-			$this->tpl->setVariable("TXT_LINKED_USER",
-				$user["lastname"].", ".$user["firstname"]." [".$login."]");
+			//$this->tpl->setVariable("TXT_LINKED_USER",
+			//	$user["lastname"].", ".$user["firstname"]." [".$login."]");
 				
 			// profile link
-			$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user", $a_set["user"]);
-			$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
-				rawurlencode($ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd())));
-			$this->tpl->setVariable("USER_LINK",
-				$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
-			$img = ilObjUser::_getPersonalPicturePath($a_set["user"], "xxsmall", true);
-			$this->tpl->setVariable("IMG_USER", $img);
+			include_once("./Services/User/classes/class.ilUserUtil.php");
+			$name_pres = ilUserUtil::getNamePresentation($a_set["user"], true, true, $ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd()));
+			//$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user", $a_set["user"]);
+			//$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
+			//	rawurlencode($ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd())));
+			//$this->tpl->setVariable("USER_LINK",
+			//	$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
+			//$img = ilObjUser::_getPersonalPicturePath($a_set["user"], "xxsmall");
+			//$this->tpl->setVariable("IMG_USER", $img);
+			$this->tpl->setVariable("TXT_USER", $name_pres);
+
 		}
 			
 		$ilCtrl->setParameter($this->getParentObject(), "old_nr", "");

@@ -109,7 +109,7 @@ class ilUserUtil
 			
 			if ($a_profile_link && $has_public_profile)
 			{
-				$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user", $row->usr_id);
+				$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $row->usr_id);
 				if ($a_profile_back_link != "")
 				{
 					$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
