@@ -518,7 +518,7 @@ assessment#:#internal_links#:#Internal Links
 assessment#:#javaapplet#:#Java Applet
 assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or newlines to add an automatic scoring option for the essay question. If any of the keywords will be found in the answertext of the learner, the default score will be set to the maximum available points instead of 0 points.
 assessment#:#kiosk_description#:#Exam view runs test in kiosk mode. This hides the browser bar and navigation and all other screen elements that are not part of the test. Participants are prevented from opening an other website.
-assessment#:#kiosk_options_desc#:#Select if test title and/or name of the active participant are shown at the top of the test during the exam view.
+assessment#:#kiosk_options_desc#:#Information is displayed at the top section of the screen.
 assessment#:#kiosk_options#:#Exam View Options
 assessment#:#kiosk_show_participant#:#Show Name of Participant
 assessment#:#kiosk_show_title#:#Show Test Title
@@ -739,8 +739,8 @@ assessment#:#qst_nr_of_tries#:#Number of Tries
 assessment#:#qt_multiple_choice#:#Multiple Choice Question
 assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics
 assessment#:#question_instances_title#:#This question is used in the following tests
-assessment#:#question_marking_description#:#Participants get the option to mark a test question for some purpose. The markers are shown in 'List of Questions', provided that it is activated.
-assessment#:#question_marking#:#Marking Questions
+assessment#:#question_marking_description#:#Participants get the option to flag a test question for some purpose. The flags are shown in 'List of Questions', provided that it is activated.
+assessment#:#question_marking#:#Flagging Questions
 assessment#:#question_not_answered#:#The question was not answered
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#Q
@@ -930,16 +930,16 @@ assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?
-assessment#:#tst_instant_feedback_answer_specific#:#Show Answer-Specific Feedback
-assessment#:#tst_instant_feedback_answer_generic#:#Two Alternative Feedbacks
-assessment#:#tst_instant_feedback_answer_generic_desc#:#Ist die Gesamtheit der Antwort richtig, so zeigt ILIAS beim Anklicken des 'Rückmeldung anfordern'-Buttons die eine Art hinterlegter Rückmeldung an. Ist die Gesamtheit der Antwort nicht vollständig richtig, wird eine andere  Rückmeldung angezeigt. Beide Versionen müssen bei der Frage im Reiter 'Rückmeldungen' hinterlegt werden.
-assessment#:#tst_instant_feedback_answer_specific_desc#:#On clicking the <i>Check</i>-button ILIAS will show a specific feedback for every answer option selected by the participant. The feedback has to be prepared along with the question. Answer-specific feedback is not supported for all question types.
+assessment#:#tst_instant_feedback_answer_generic#:#Feedback on Fully Correct Answer
+assessment#:#tst_instant_feedback_answer_generic_desc#:#If the answer provided is fully correct ILIAS will show one type of feedback upon clicking the 'Check' button.  If the answer provided is not fully correct, another type of feedback will be displayed. Both types of feedback have to be prepared in the tab 'Feedback' of the respective question.
+assessment#:#tst_instant_feedback_answer_specific#:#Specific Feedback for Each Answer provided
+assessment#:#tst_instant_feedback_answer_specific_desc#:#On clicking the 'Check'-button, ILIAS will show a specific feedback for every answer option selected by the participant. The feedback has to be prepared along with the question. This specific feedback is not supported for all question types.
 assessment#:#tst_instant_feedback_fix_usr_answer#:#Freeze Answers Given
-assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#After having requested a feedback, participants can no longer change their answers.
-assessment#:#tst_instant_feedback_results#:#Points Awarded
-assessment#:#tst_instant_feedback_results_desc#:#On clicking the <i>Check</i>-button ILIAS will display how many points were awarded for answering this question.
+assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#After clicking the 'Check'-button, participants can no longer change their answers.
+assessment#:#tst_instant_feedback_results#:#Points Attained
+assessment#:#tst_instant_feedback_results_desc#:#On clicking the 'Check'-button ILIAS will display how many points were attained by answering this question.
 assessment#:#tst_instant_feedback_solution#:#Show Best Possible Answer
-assessment#:#tst_instant_feedback_solution_desc#:#On clicking the  <i>Check</i>-button ILIAS will display the best possible answer to the question.
+assessment#:#tst_instant_feedback_solution_desc#:#On clicking the 'Check'-button ILIAS will display the best possible answer to the question.
 assessment#:#tst_instant_feedback#:#Instant Feedback
 assessment#:#tst_instant_verification#:#Instant Verification
 assessment#:#tst_introduction#:#Introductory Message
@@ -994,7 +994,7 @@ assessment#:#tst_pass_last_pass#:#Score the Last Pass
 assessment#:#tst_pass_last_pass_desc#:#The last pass of a participant will be scored.
 assessment#:#tst_pass_scoring#:#Scoring Multiple Passes
 assessment#:#tst_passes#:#Test Passes
-assessment#:#tst_allowed_users_max#:#Maximum number of users
+assessment#:#tst_allowed_users_max#:#Max. Number of Participants
 assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test.
 assessment#:#tst_password_enter#:#Enter Password
 assessment#:#tst_password_entered_wrong_password#:#You cannot start the test because you entered the wrong test password!
@@ -1052,8 +1052,8 @@ assessment#:#tst_report_after_first_question#:#Offer test results when the test 
 assessment#:#tst_report_after_question#:#Allow instant verification of answers
 assessment#:#tst_report_after_test#:#Offer test results when the test is finished
 assessment#:#tst_report_never#:#No test results available
-assessment#:#tst_reset_processing_time_desc#:#If checked, the maximum processing time will be reset back to the defined maximum processing time after a test pass has been finished. This setting only works with an enabled maximum processing time and multiple test passes.
-assessment#:#tst_reset_processing_time#:#Reset the maximum processing time for every test pass
+assessment#:#tst_reset_processing_time_desc#:#The duration will be reset to the defined maximum for every test pass. This setting requires multiple test passes to become effective.
+assessment#:#tst_reset_processing_time#:#Reset duration for every test pass
 assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
 assessment#:#tst_result_user_name#:#Test Results for %s
 assessment#:#tst_results_access_always#:#Always
@@ -1170,9 +1170,9 @@ assessment#:#tst_test_output#:#Test Output
 assessment#:#tst_text_count_system#:#Scoring System
 assessment#:#tst_time_already_spent_left#:#You have %s left.
 assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum processing time is %s.
-assessment#:#tst_title_output_full#:#Question Titles and Points to be Earned
+assessment#:#tst_title_output_full#:#Question Titles and Available Points
 assessment#:#tst_title_output_hide_points#:#Only Question Titles
-assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Points to be Earned
+assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available Points
 assessment#:#tst_title_output#:#Show Question Title
 assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the question pools are ignored. If you don't set this value, you need to enter an amount with every selected question pool!
 assessment#:#tst_total_questions#:#Total Amount of Questions
@@ -1182,8 +1182,8 @@ assessment#:#tst_type_comment#:#Warning: Changing the test type of a running tes
 assessment#:#tst_type#:#Test Type
 assessment#:#tst_types#:#Test Types
 assessment#:#exam_id#:#Exam Id: 
-assessment#:#examid_in_test_pass#:#Display Exam ID
-assessment#:#examid_in_test_pass_desc#:#TODO4711
+assessment#:#examid_in_test_pass#:#Display Testpass ID
+assessment#:#examid_in_test_pass_desc#:#A testpass ID is diplayed in the test. A new ID is generated for every testpass.
 assessment#:#show_exam_id#:#Display Exam ID
 assessment#:#examid_in_test_res#:#Display Exam ID
 assessment#:#examid_in_test_res_desc#:#TODO4812
@@ -1269,7 +1269,7 @@ assessment#:#tst_question_set_type_fixed_desc#:#All participants get the same se
 assessment#:#tst_question_set_type_random#:#Random Set of Questions
 assessment#:#tst_question_set_type_random_desc#:#Each participant gets a different set of questions. Questions are randomly selected from one or more question pools. 
 assessment#:#tst_question_set_type_dynamic#:#"Index Card Box" - All Questions from a Questionpool
-assessment#:#tst_question_set_type_dynamic_desc#:#Participants work through questions from one question pool. Questions answered incorrectly will be presented again. 
+assessment#:#tst_question_set_type_dynamic_desc#:#Participants work through questions from one question pool. Questions answered incorrectly will be presented again. Questions can be added and edited in a running test.
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#You are about to change the test mode from <b>%s</b> to <b>%s</b>, although a questions/questionpool configuration dependent on the current test mode already exists.<br />This already existing configuration will be lost.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Continues question selection configuration has been modified.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Continues question selection configuration cannot be modified due to existing participant data.
@@ -1368,7 +1368,7 @@ assessment#:#tst_settings_header_execution#:#Administering the Test: Access
 assessment#:#tst_starting_time_desc#:#Point in time after which the test can be started by clicking the button ‚Start‘, participants can provide answers to questions.
 assessment#:#tst_ending_time_desc#:#Point in time at which the test will be finished: Participants an no longer answer questions, the test is finished by ILIAS.
 assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
+assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test for the indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
 assessment#:#tst_settings_header_test_run#:#Administering the Test: Testrun
 assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.
 assessment#:#tst_final_information#:#Finishing the Test
@@ -9424,7 +9424,7 @@ survey#:#introduction#:#Introductory Message
 survey#:#invitation_mode_desc#:#A link reference to the survey is created on the users' personal desktop.
 survey#:#invitation_mode#:#Put Link to Survey on the Personal Desktop of
 survey#:#invitation_off#:#Do not put on any Desktop
-survey#:#invitation#:#Invitation
+survey#:#invitation#:#Put Link On Personal Desktop
 survey#:#invited_groups#:#Invited Groups
 survey#:#invited_users#:#Selected Users
 survey#:#label_resume_survey#:#Enter your 5 digit survey code
@@ -10967,7 +10967,7 @@ assessment#:#saveOrderAndObligations#:#Save Order and Obligations
 assessment#:#obligatory#:#Compulsory
 assessment#:#not_all_obligations_answered#:#You must answer all compulsory questions before you can finish the test.
 assessment#:#tst_setting_enable_obligations_label#:#Compulsory Questions
-assessment#:#tst_setting_enable_obligations_info#:#If checked, questions of the test can be marked as compulsory (*). All compulsory questions need to be filled out to pass this test. You can set compulsory questions in the "list view". We recommend to also activate "Show List of Questions" when compulsory questions are defined.
+assessment#:#tst_setting_enable_obligations_info#:#Only if all compulsory questions are answered ths test can be finished. Compulsory questions can be defined in the 'List view'. For participants the option 'Show List of Questions' should be activated.
 assessment#:#tst_test_contains_obligatory_questions#:#To end this test you have to answer all compulsory questions (*).
 assessment#:#copy_and_link_to_questionpool#:#Add to question pool
 assessment#:#tst_result#:#Test Result
@@ -12351,8 +12351,8 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#The ordering clipb
 assessment#:#tst_question_hints_save_order_success_msg#:#The order of hint was saved successfully.
 assessment#:#tst_question_hints_paste_before_success_msg#:#The hint %s has been pasted before hint %s successfully.
 assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been pasted after hint %s successfully.
-assessment#:#tst_processing_time_duration#:#Processing Time
-assessment#:#tst_processing_time_duration_desc#:#Defines the maximum processing time for running the test.
+assessment#:#tst_processing_time_duration#:#Maximum Duration of the Test
+assessment#:#tst_processing_time_duration_desc#:#Maximum of time granted to take the test.
 assessment#:#button_request_question_hint#:#Request Hint
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_show_requested_question_hints#:#Show Requested Hints
@@ -12363,7 +12363,7 @@ assessment#:#tst_question_hints_back_to_question#:#Back to Question
 assessment#:#tst_question_hints_index_column_label#:#Hint %s
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Requested Hints
-assessment#:#tst_activate_skill_service_desc#:#TODO7
+assessment#:#tst_activate_skill_service_desc#:#A new tab 'Competences' will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Edit Points
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
 assessment#:#tst_question_hints_form_cmd_save_points#:#Save Points
