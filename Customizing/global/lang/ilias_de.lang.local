@@ -907,6 +907,8 @@ rbac#:#crs_cancel_bookings#:#Buchungen stornieren
 rbac#:#add_dec_training_self#:#Dezentrale Trainings für sich selbst anlegen
 rbac#:#add_dec_training_others#:#Dezentrale Trainings für andere anlegen
 rbac#:#add_dec_training_others_rec#:#Dezentrale Trainings für andere anlegen (rekursiv)
+rbac#:#write_reduced_settings#:#Kleine Trainingseinstellungen ändern
+rbac#:#crs_write_reduced_settings#:#Kleine Trainingseinstellungen ändern
 search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Training hinzufügen
 search#:#search_crs_title#:#Trainingsname
 search#:#search_for_crs_members#:#Nach Trainingsteilnehmern suchen

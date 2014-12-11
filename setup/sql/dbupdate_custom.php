@@ -2423,3 +2423,13 @@ if(!$ilDB->tableExists('hist_tep'))
 	$query = "UPDATE  tep_type SET title = 'Akquise Pilotprojekt' WHERE id=14";
 	$ilDB->manipulate($query);
 ?>
+
+<#74>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+
+	$new_crs_ops = array(
+		 'write_reduced_settings' => array('Edit reduced settings of training.', 6001)
+	);
+	ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+?>
