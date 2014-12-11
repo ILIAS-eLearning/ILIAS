@@ -9121,21 +9121,10 @@ div.ilNoteInput {
   padding-bottom: 10px;
 }
 /* Modules/Blog */
-h3.ilBlogMonthHeader {
-  border: 0;
-  color: #404040;
-  font-size: 130%;
-  margin: 15px 0 15px 0;
-  padding: 0;
-  font-weight: normal;
-}
-.ilFrameFixedWidth h3.ilBlogMonthHeader {
-  margin-top: 0px;
-}
 div.ilBlogList {
-  border: 1px solid #E0E0E0;
   padding: 10px;
   margin-bottom: 10px;
+  background-color: #ffffff;
 }
 div.ilBlogListItem {
   padding-bottom: 5px;
