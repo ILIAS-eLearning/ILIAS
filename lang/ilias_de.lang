@@ -11807,7 +11807,7 @@ trac#:#trac_fold_relevant_items#:#Ordnerinhalt
 trac#:#trac_group_materials#:#Gruppierung mit optionalen Materialien erstellen
 trac#:#trac_group_materials_num#:#Anzahl zu bestehender Materialien
 trac#:#trac_group_materials_save#:#Anzahl verpflichtender Materialien speichern
-trac#:#trac_grouped_material_obligatory_err#:#The number of obligatory materials must be greater than 0 and smaller than the number of materials assigned to this grouping.
+trac#:#trac_grouped_material_obligatory_err#:#Die Anzahl der obligatorischen Materialien muss größer als 0 sein und kleiner als die Anzahl der Materialien, die dieser Gruppierung zugeordnet sind. 
 trac#:#trac_grp_relevant_items#:#Gruppenmaterialien
 trac#:#trac_head_timing#:#Zu bearbeiten bis
 trac#:#trac_hide#:#Ausblenden
