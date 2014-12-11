@@ -154,7 +154,9 @@ class ilCourseBookingHelper
 	public function getUltimateBookingDeadline()
 	{
 		$end_date = gevCourseUtils::getInstance($this->course->getId())->getEndDate();
-		$end_date->increment(IL_CAL_DAY, 1);
+		if ($end_date !== null) {
+			$end_date->increment(IL_CAL_DAY, 1);
+		}
 		return $end_date;
 	}
 	
