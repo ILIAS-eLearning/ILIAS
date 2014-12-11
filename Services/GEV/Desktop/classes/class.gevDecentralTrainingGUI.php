@@ -186,9 +186,13 @@ class gevDecentralTrainingGUI {
 		}
 		else {
 			$form = $a_form;
+			$obj_id = intval($_POST["obj_id"]);
 		}
 		
-		$form->addCommandButton("updateSettings", $this->lng->txt("save"));
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		if (!gevCourseUtils::getInstance($obj_id)->mailCronJobDidRun()) {
+			$form->addCommandButton("updateSettings", $this->lng->txt("save"));
+		}
 		$form->addCommandButton("cancel", $this->lng->txt("back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 				
@@ -233,6 +237,10 @@ class gevDecentralTrainingGUI {
 		$crs_utils = gevCourseUtils::getInstance($a_obj_id);
 		$crs = $crs_utils->getCourse();
 		$mail_settings = new gevCrsAdditionalMailSettings($a_obj_id);
+		
+		if ($crs_utils->mailCronJobDidRun()) {
+			throw new Exception("gevDecentralTrainingGUI::updateSettingsFromForm: not update allowed, mail cron job already ran.");
+		}
 		
 		$crs->setDescription($a_form->getInput("description"));
 		
@@ -422,7 +430,7 @@ class gevDecentralTrainingGUI {
 					);
 				$trainer_ids = $crs_utils->getTrainers();
 				// TODO: this needs to be true when first mail cronjob was run.
-				$no_changes_allowed = false;
+				$no_changes_allowed = $crs_utils->mailCronJobDidRun();
 			}
 		}
 		else {
@@ -443,7 +451,7 @@ class gevDecentralTrainingGUI {
 					, "invitation_preview" => $crs_utils->getInvitationMailPreview()
 					, "suppress_mails" => $mail_settings->getSuppressMails()
 					);
-				
+				$no_changes_allowed = $crs_utils->mailCronJobDidRun();
 			}
 		}
 		

@@ -1210,6 +1210,13 @@ class gevCourseUtils {
 		return $am->getPreview("invitation");
 	}
 	
+	public function mailCronJobDidRun() {
+		$res = $this->db->query("SELECT COUNT(*) cnt FROM gev_crs_dl_mail_cron ".
+								"WHERE crs_id = ".$this->db->quote($this->crs_id, "integer"));
+		$rec = $this->db->fetchAssoc($res);
+		return $rec["cnt"] > 0;
+	}
+	
 	// Memberlist creation
 	
 	const MEMBERLIST_TRAINER = 0;
