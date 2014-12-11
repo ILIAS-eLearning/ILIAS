@@ -291,7 +291,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$shuffle = $this->object->getShuffleQuestions();
 				if ($this->object->isRandomTest())
 				{
+					$this->processLocker->requestRandomPassBuildLock();
 					$this->generateRandomTestPassForActiveUser();
+					$this->processLocker->releaseRandomPassBuildLock();
+
 					$this->object->loadQuestions();
 					$shuffle = FALSE; // shuffle is already done during the creation of the random questions
 				}
@@ -339,11 +342,15 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 				if ($this->object->isRandomTest())
 				{
+					$this->processLocker->requestRandomPassBuildLock();
+					
 					if (!$this->testSequence->hasRandomQuestionsForPass($active_id, $this->testSession->getPass()))
 					{
 						// create a new set of random questions
 						$this->generateRandomTestPassForActiveUser();
 					}
+
+					$this->processLocker->releaseRandomPassBuildLock();
 				}
 				$shuffle = $this->object->getShuffleQuestions();
 				if ($this->object->isRandomTest())

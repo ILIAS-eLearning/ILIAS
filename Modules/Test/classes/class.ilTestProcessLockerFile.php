@@ -12,6 +12,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.
 class ilTestProcessLockerFile extends ilTestProcessLocker
 {
 	const PROCESS_NAME_TEST_START_LOCK_CHECK = 'testStartLockCheck';
+	const PROCESS_NAME_RANDOM_PASS_BUILD = 'randomPassBuild';
 	
 	/**
 	 * @var ilTestProcessLockFileStorage
@@ -40,6 +41,16 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
 	public function releaseTestStartLockCheckLock()
 	{
 		$this->releaseLock(self::PROCESS_NAME_TEST_START_LOCK_CHECK);
+	}
+
+	public function requestRandomPassBuildLock()
+	{
+		$this->requestLock(self::PROCESS_NAME_RANDOM_PASS_BUILD);
+	}
+
+	public function releaseRandomPassBuildLock()
+	{
+		$this->releaseLock(self::PROCESS_NAME_RANDOM_PASS_BUILD);
 	}
 	
 	private function requestLock($processName)

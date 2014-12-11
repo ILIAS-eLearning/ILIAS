@@ -18,4 +18,14 @@ abstract class ilTestProcessLocker
 	{
 		// overwrite method in concrete locker if something to do
 	}
+
+	public function requestRandomPassBuildLock()
+	{
+		// overwrite method in concrete locker if something to do
+	}
+
+	public function releaseRandomPassBuildLock()
+	{
+		// overwrite method in concrete locker if something to do
+	}
 }
