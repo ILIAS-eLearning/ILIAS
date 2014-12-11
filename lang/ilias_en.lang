@@ -404,13 +404,13 @@ assessment#:#errors_section#:#Error Data
 assessment#:#errors#:#Errors
 assessment#:#errortext_info#:#Please enter the error text. To mark a word as an error please insert a hash sign (#) in front of the word. To mark a group of words as an error please encapsulate the words group between double brackets (i.e.: here is ((an example)) of it). If you press the &quot;Analyze Error Text&quot; button, all marked words will be extracted for further processing.
 assessment#:#errortext#:#Error Text
-assessment#:#ass_process_lock#:#Use Locking on Participant Solution Submits
-assessment#:#ass_process_lock_desc#:#Without the use of any locking mechanism, race conditions during the submit of solution data are possible. This can lead to inconsistent test results.
-assessment#:#ass_process_lock_mode#:#Lock Mode during Submit of Participant Solutions
+assessment#:#ass_process_lock#:#Use Lockings during Test Passes
+assessment#:#ass_process_lock_desc#:#Without the use of any locking mechanism, race conditions are possible. This can lead to inconsistent test results.
+assessment#:#ass_process_lock_mode#:#Lock Mode during Test Pass
 assessment#:#ass_process_lock_mode_file#:#Use Filesystem Locks
-assessment#:#ass_process_lock_mode_file_desc#:#This locking mechanism requests locks on empty files in the filesystem. Concurrent processes for the same user and the same question are waiting until the other process releases his lock.
+assessment#:#ass_process_lock_mode_file_desc#:#This locking mechanism requests locks on empty files in the filesystem. Concurrent processes for the same user and the same test/question are waiting until the other process releases his lock.
 assessment#:#ass_process_lock_mode_db#:#Use Database Table Locks
-assessment#:#ass_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent Processes for the same or other users in the same or in another test are waiting until the other process releases his locks.
+assessment#:#ass_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent processes for the same or other users in the same or in another test for the same or another question are waiting until the other process releases his locks.
 assessment#:#eval_all_users#:#Evaluation for All Users
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.

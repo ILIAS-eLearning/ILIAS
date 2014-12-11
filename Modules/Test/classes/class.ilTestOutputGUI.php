@@ -57,6 +57,8 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->testSession->saveToDb();
 		}
 		
+		$this->initProcessLocker($this->testSession->getActiveId());
+		
 		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
 		$this->testSequence = $testSequenceFactory->getSequence($this->testSession);
 		$this->testSequence->loadFromDb();

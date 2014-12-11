@@ -31,6 +31,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	var $endingTimeReached;
 
 	/**
+	 * @var ilTestProcessLocker
+	 */
+	protected $processLocker;
+
+	/**
 	* ilTestOutputGUI constructor
 	*
 	* @param ilObjTest $a_object
@@ -39,6 +44,22 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		parent::ilTestServiceGUI($a_object);
 		$this->ref_id = $_GET["ref_id"];
+		
+		$this->processLocker = null;
+	}
+	
+	protected function initProcessLocker($activeId)
+	{
+		global $ilDB;
+		
+		$settings = new ilSetting('assessment');
+
+		require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
+		$processLockerFactory = new ilTestProcessLockerFactory($settings, $ilDB);
+
+		$processLockerFactory->setActiveId($activeId);
+		
+		$this->processLocker = $processLockerFactory->getLocker();
 	}
 
 	/**
@@ -505,11 +526,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		$isFirstTestStartRequest = false;
 		
+		$this->processLocker->requestTestStartLockCheckLock();
+		
 		if( $this->testSession->lookupTestStartLock() != $this->getLockParameter() )
 		{
 			$this->testSession->persistTestStartLock($this->getLockParameter());
 			$isFirstTestStartRequest = true;
 		}
+
+		$this->processLocker->releaseTestStartLockCheckLock();
 		
 		if( $isFirstTestStartRequest )
 		{
