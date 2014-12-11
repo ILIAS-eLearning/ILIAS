@@ -2461,7 +2461,7 @@ class ilTemplate extends ilTemplateX
 			$this->setCurrentBlock("banner_bl");
 			$this->setVariable("BANNER_WIDTH", $a_width);
 			$this->setVariable("BANNER_HEIGHT", $a_height);
-			$this->setVariable("BANNER_BG", " background-image: url(".$a_img.")");			
+			$this->setVariable("BANNER_URL", $a_img);			
 			$this->parseCurrentBlock();
 		}
 	}
