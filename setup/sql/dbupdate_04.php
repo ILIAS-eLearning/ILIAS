@@ -5230,3 +5230,16 @@ if(! $ilDB->tableColumnExists('il_wiki_page', 'hide_adv_md'))
 		));
 }
 ?>
+<#4437>
+<?php
+if( !$ilDB->tableColumnExists('tst_active', 'start_lock'))
+{	
+	$ilDB->addTableColumn('tst_active', 'start_lock',
+		array(
+			'type' => 'text',
+			'length' => 128,
+			'notnull' => false,
+			'default' => null
+		));
+}
+?>
