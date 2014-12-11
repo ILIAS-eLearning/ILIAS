@@ -204,10 +204,14 @@ class gevDecentralTrainingGUI {
 	
 	protected function updateSettings() {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
+		$mail_settings = new gevCrsAdditionalMailSettings($_POST["obj_id"]);
 		
 		$form = $this->buildTrainingOptionsForm(false, $_POST["obj_id"]);
 		
 		$form->setValuesByPost();
+		$suppress_mail = $form->getItemByPostVar("suppress_mails");
+		$suppress_mail->setChecked($mail_settings->getSuppressMails());
 		if (!$form->checkInput()) {
 			return $this->showSettings($form);
 		}
@@ -243,7 +247,9 @@ class gevDecentralTrainingGUI {
 		$time = array($start[0].":".$start[1]."-".$end[0].":".$end[1]);
 		$crs_utils->setSchedule($time);
 		
-		$crs_utils->setVenueId($a_form->getInput("venue"));
+		if ($crs_utils->isPraesenztraining()) {
+			$crs_utils->setVenueId($a_form->getInput("venue"));
+		}
 		
 		if ($crs_utils->isWebinar()) {
 			$link = $a_form->getInput("webinar_link");
@@ -430,7 +436,13 @@ class gevDecentralTrainingGUI {
 			if (!$a_fill) {
 				require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
 				$crs_utils = gevCourseUtils::getInstance($a_training_id);
-				$training_info = array("ltype" => $crs_utils->getType());
+				$mail_settings = new gevCrsAdditionalMailSettings($a_training_id);
+				$training_info = array(
+					  "ltype" => $crs_utils->getType()
+					, "invitation_preview" => $crs_utils->getInvitationMailPreview()
+					, "suppress_mails" => $mail_settings->getSuppressMails()
+					);
+				
 			}
 		}
 		
@@ -482,13 +494,15 @@ class gevDecentralTrainingGUI {
 		$trainers->setDisabled($no_changes_allowed);
 		$form->addItem($trainers);
 		
-		$venue = new ilSelectInputGUI($this->lng->txt("gev_venue"), "venue");
-		$venue->setOptions(gevOrgUnitUtils::getVenueNames());
-		if ($training_info["venue"] && $a_fill) {
-			$venue->setValue($training_info["venue"]);
+		if ($crs_utils->isPraesenztraining()) {
+			$venue = new ilSelectInputGUI($this->lng->txt("gev_venue"), "venue");
+			$venue->setOptions(gevOrgUnitUtils::getVenueNames());
+			if ($training_info["venue"] && $a_fill) {
+				$venue->setValue($training_info["venue"]);
+			}
+			$venue->setDisabled($no_changes_allowed);
+			$form->addItem($venue);
 		}
-		$venue->setDisabled($no_changes_allowed);
-		$form->addItem($venue);
 		
 		if ($training_info["ltype"] == "Webinar") {
 			$webinar_link = new ilTextInputGUI($this->lng->txt("gev_webinar_link"), "webinar_link");
@@ -524,9 +538,7 @@ class gevDecentralTrainingGUI {
 		
 		$suppress_mails = new ilCheckboxInputGUI($this->lng->txt("gev_suppress_mails"), "suppress_mails");
 		$suppress_mails->setOptionTitle($this->lng->txt("gev_suppress_mails_info"));
-		if ($a_fill) {
-			$suppress_mails->setChecked($training_info["suppress_mails"]);
-		}
+		$suppress_mails->setChecked($training_info["suppress_mails"]);
 		$suppress_mails->setDisabled($training_info["suppress_mails"] || $no_changes_allowed);
 		$form->addItem($suppress_mails);
 		
