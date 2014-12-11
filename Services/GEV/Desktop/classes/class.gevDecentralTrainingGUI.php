@@ -387,7 +387,6 @@ class gevDecentralTrainingGUI {
 				$trainer_ids = $a_trainer_ids;
 				$training_info["date"] = ($a_date !== null) ? new ilDate($a_date, IL_CAL_DATE)
 															: new ilDate(date("Y-m-d"), IL_CAL_DATE);
-				// TODO: this needs to be corrected, see input $time
 				$training_info["start_datetime"] = new ilDateTime("1970-01-01 09:00:00", IL_CAL_DATETIME);
 				$training_info["end_datetime"] = new ilDateTime("1970-01-01 18:00:00", IL_CAL_DATETIME);
 				$training_info["invitation_preview"] = gevCourseUtils::getInstance($a_template_id)->getInvitationMailPreview();
@@ -405,13 +404,15 @@ class gevDecentralTrainingGUI {
 				require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
 				$crs_utils = gevCourseUtils::getInstance($a_training_id);
 				$mail_settings = new gevCrsAdditionalMailSettings($a_training_id);
+				$tmp = $crs_utils->getSchedule();
+				$sched = explode("-",$tmp[0]);
 				$training_info = array(
 					  "title" => $crs_utils->getTitle()
 					, "description" => $crs_utils->getSubtitle()
 					, "ltype" => $crs_utils->getType()
 					, "date" => $crs_utils->getStartDate()
-					, "start_datetime" => new ilDateTime("1970-01-01 09:00:00", IL_CAL_DATETIME)
-					, "end_datetime" => new ilDateTime("1970-01-01 18:00:00", IL_CAL_DATETIME)
+					, "start_datetime" => new ilDateTime("1970-01-01 ".$sched[0].":00", IL_CAL_DATETIME)
+					, "end_datetime" => new ilDateTime("1970-01-01 ".$sched[1].":00", IL_CAL_DATETIME)
 					, "time" => null
 					, "venue" => $crs_utils->getVenueId()
 					, "webinar_link" => $crs_utils->getWebExLink()
