@@ -10792,6 +10792,9 @@ div.ilNewObjectSelector {
   .ilTopTitle {
     display: none;
   }
+  .ilTopTitleVisible {
+    display: block;
+  }
   .ilMainHeader {
     height: auto;
   }
