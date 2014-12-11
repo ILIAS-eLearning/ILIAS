@@ -794,30 +794,33 @@ class ilTestServiceGUI
 	public function getQuestionResultForTestUsers($question_id, $test_id)
 	{
 		// REQUIRED, since we call this object regardless of the loop
-		$question_gui =& $this->object->createQuestionGUI("", $question_id);
+		$question_gui = $this->object->createQuestionGUI("", $question_id);
 
 		$foundusers = $this->object->getParticipantsForTestAndQuestion($test_id, $question_id);
-		$output = "";
-		foreach ($foundusers as $active_id => $passes)
+		$output     = '';
+		foreach($foundusers as $active_id => $passes)
 		{
 			$resultpass = $this->object->_getResultPass($active_id);
-			for ($i = 0; $i < count($passes); $i++)
+			for($i = 0; $i < count($passes); $i++)
 			{
-				if (($resultpass !== null) && ($resultpass == $passes[$i]["pass"]))
+				if(($resultpass !== null) && ($resultpass == $passes[$i]["pass"]))
 				{
+					if($output)
+					{
+						$output .= "<br /><br /><br />";
+					}
+
 					// check if re-instantiation is really neccessary
-					$question_gui =& $this->object->createQuestionGUI("", $passes[$i]["qid"]);
-					
-					$output .= $this->getResultsHeadUserAndPass($active_id, $resultpass+1);
+					$question_gui = $this->object->createQuestionGUI("", $passes[$i]["qid"]);
+					$output .= $this->getResultsHeadUserAndPass($active_id, $resultpass + 1);
 					$output .= $question_gui->getSolutionOutput(
-						$active_id, 
-						$resultpass, 
-						$graphicalOutput = FALSE, 
-						$result_output = FALSE, 
-						$show_question_only = FALSE, 
+						$active_id,
+						$resultpass,
+						$graphicalOutput = FALSE,
+						$result_output = FALSE,
+						$show_question_only = FALSE,
 						$show_feedback = FALSE
 					);
-					$output .= "<br /><br /><br />";
 				}
 			}
 		}
