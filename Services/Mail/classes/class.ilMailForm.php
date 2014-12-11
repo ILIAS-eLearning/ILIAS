@@ -25,9 +25,12 @@ class ilMailForm
 	 * @access	public
 	 *
 	 */
-	public function getRecipientAsync($quoted_term, $term)
+	public function getRecipientAsync($quoted_term, $term, $search_recipients = true)
 	{
-		$sent_mails_recipient_provider = new ilMailAutoCompleteSentMailsRecipientsProvider($quoted_term, $term);
+		if($search_recipients)
+		{
+			$sent_mails_recipient_provider = new ilMailAutoCompleteSentMailsRecipientsProvider($quoted_term, $term);
+		}
 		$address_book_login            = new ilMailAutoCompleteAddressbookLoginProvider($quoted_term, $term);
 		$address_book_email            = new ilMailAutoCompleteAddressbookEmailProvider($quoted_term, $term);
 		$user                          = new ilMailAutoCompleteUserProvider($quoted_term, $term);
@@ -39,7 +42,10 @@ class ilMailForm
 		);
 
 		$result_fetcher = new ilMailAutoCompleteSearch($result);
-		$result_fetcher->addProvider($sent_mails_recipient_provider);
+		if($search_recipients)
+		{
+			$result_fetcher->addProvider($sent_mails_recipient_provider);
+		}
 		$result_fetcher->addProvider($address_book_login);
 		$result_fetcher->addProvider($address_book_email);
 		$result_fetcher->addProvider($user);

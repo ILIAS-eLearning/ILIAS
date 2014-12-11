@@ -740,8 +740,13 @@ class ilMailFormGUI
 			exit;
 		}
 		
+		// #14768
+		$quoted = ilUtil::stripSlashes($search);
+		$quoted = str_replace('%', '\%', $quoted);
+		$quoted = str_replace('_', '\_', $quoted);
+		
 		$mailFormObj = new ilMailForm;
-		$result      = $mailFormObj->getRecipientAsync("%" . ilUtil::stripSlashes($search) . "%", ilUtil::stripSlashes($search));
+		$result      = $mailFormObj->getRecipientAsync("%" . $quoted . "%", ilUtil::stripSlashes($search));
 		
 		echo ilJsonUtil::encode($result);
 		exit;

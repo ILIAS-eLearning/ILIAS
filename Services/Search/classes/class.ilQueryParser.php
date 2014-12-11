@@ -47,6 +47,7 @@ class ilQueryParser
 	var $message; // Translated error message
 	var $combination; // combiniation of search words e.g 'and' or 'or'
 	protected $settings = null;
+	protected $wildcards_allowed; // [bool]
 
 	/**
 	* Constructor
@@ -70,6 +71,8 @@ class ilQueryParser
 		{
 			$this->setMinWordLength(MIN_WORD_LENGTH);
 		}
+		
+		$this->setAllowedWildcards(false);
 	}
 
 	function setMinWordLength($a_length,$a_force = false)
@@ -88,6 +91,16 @@ class ilQueryParser
 	function getMinWordLength()
 	{
 		return $this->min_word_length;
+	}
+	
+	function setAllowedWildcards($a_value)
+	{
+		$this->wildcards_allowed = (bool)$a_value;
+	}
+	
+	function getAllowedWildcards()
+	{
+		return $this->wildcards_allowed;
 	}
 
 	function setMessage($a_msg)
@@ -176,6 +189,7 @@ class ilQueryParser
 				$this->setMessage($this->lng->txt('search_minimum_three'));
 				continue;
 			}
+			
 			$this->words[] = ilUtil::prepareDBString($word);
 		}
 		
@@ -184,11 +198,25 @@ class ilQueryParser
 		{
 			$this->words[] = ilUtil::prepareDBString($fullstr);
 		}
-		
+				
+		if(!$this->getAllowedWildcards())
+		{
+			// #14768
+			foreach($this->words as $idx => $word)
+			{				
+				if(!stristr($word, '\\'))
+				{
+					$word = str_replace('%', '\%', $word);
+					$word = str_replace('_', '\_', $word);					
+				}		
+				$this->words[$idx] = $word;
+			}
+		}
+
 		// Parse strings like && 'A "B C D" E' as 'A' && 'B C D' && 'E'
 		// Can be used in LIKE search or fulltext search > MYSQL 4.0
 		$this->__parseQuotation();
-
+		
 		return true;
 	}
 
@@ -214,9 +242,23 @@ class ilQueryParser
 			{
 				continue;
 			}
+			
 			$this->quoted_words[] = ilUtil::prepareDBString($word);
 		}
-		
+						
+		if(!$this->getAllowedWildcards())
+		{
+			// #14768
+			foreach($this->quoted_words as $idx => $word)
+			{				
+				if(!stristr($word, '\\'))
+				{
+					$word = str_replace('%', '\%', $word);
+					$word = str_replace('_', '\_', $word);					
+				}		
+				$this->quoted_words[$idx] = $word;
+			}
+		}
 	}
 
 	function validate()

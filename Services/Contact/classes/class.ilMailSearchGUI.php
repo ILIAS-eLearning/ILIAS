@@ -197,9 +197,16 @@ class ilMailSearchGUI
 			echo ilJsonUtil::encode($result);
 			exit;
 		}
+		
+		// #14768
+		$quoted = ilUtil::stripSlashes($search);
+		$quoted = str_replace('%', '\%', $quoted);
+		$quoted = str_replace('_', '\_', $quoted);
+		
+		$search_recipients = ($_GET["ref"] != "wsp");
 
 		$mailFormObj = new ilMailForm;
-		$result      = $mailFormObj->getRecipientAsync("%" . ilUtil::stripSlashes($search) . "%", ilUtil::stripSlashes($search));
+		$result      = $mailFormObj->getRecipientAsync("%" . $quoted . "%", ilUtil::stripSlashes($search), $search_recipients);
 
 		echo ilJsonUtil::encode($result);
 		exit;

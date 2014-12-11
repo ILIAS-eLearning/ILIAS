@@ -89,7 +89,10 @@ class ilAddressbook
 
 		if($a_query_str)
 		{
-		
+			// #14768
+			$a_query_str = str_replace('%', '\%', $a_query_str);
+			$a_query_str = str_replace('_', '\_', $a_query_str);
+			
 			$query = "SELECT * FROM ".$this->table_addr." 
 				WHERE ( " .$ilDB->like('login', 'text', '%'.$a_query_str.'%'). " 
 				OR " .$ilDB->like('firstname', 'text', '%'.$a_query_str.'%'). "
