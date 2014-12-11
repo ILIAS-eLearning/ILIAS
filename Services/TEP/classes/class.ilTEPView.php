@@ -229,7 +229,15 @@ abstract class ilTEPView
 								
 				$url = "";
 				if($entry["course_ref_id"])
-				{								
+				{
+					// gev-patch start
+					if ($ilAccess->checkAccess("write_reduced_settings", "", $entry["course_ref_id"])) {
+						$ilCtrl->setParameterByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "ref_id", $entry["course_ref_id"]);
+						$url = $ilCtrl->getLinkTargetByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "modifySettings");
+						$ilCtrl->setParameterByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "ref_id", null);
+					}
+					else 
+					// gev-patch end
 					if($ilAccess->checkAccess("read", "", $entry["course_ref_id"]))
 					{
 						$url = ilLink::_getStaticLink($entry["course_ref_id"]);

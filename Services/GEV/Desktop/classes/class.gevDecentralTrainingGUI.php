@@ -43,6 +43,7 @@ class gevDecentralTrainingGUI {
 			case "finalizeTrainingCreation":
 			case "cancel":
 			case "backFromBooking":
+			case "modifySettings":
 				$cont = $this->$cmd();
 			default:
 				$this->log->write("gevDecentralTrainingGUI: Unknown command '".$this->cmd."'");
@@ -151,7 +152,7 @@ class gevDecentralTrainingGUI {
 		require_once("Services/CourseBooking/classes/class.ilCourseBookingPermissions.php");
 		
 		if (ilCourseBookingPermissions::getInstanceByRefId($res["ref_id"], $this->current_user->getId())->bookCourseForOthers()) {
-			ilUtil::sendSuccess($this->lng->txt("gev_dev_training_book_users"), true);
+			ilUtil::sendInfo($this->lng->txt("gev_dev_training_book_users"), true);
 			$this->ctrl->setParameter($this, "obj_id", $res["obj_id"]);
 			ilCourseBookingAdminGUI::setBackTarget(
 				$this->ctrl->getLinkTarget($this, "backFromBooking")
@@ -173,6 +174,10 @@ class gevDecentralTrainingGUI {
 		
 		$this->ctrl->redirectByClass(array("ilTEPGUI"));
 		return;
+	}
+	
+	protected function modifySettings() {
+		die("modify settings");
 	}
 	
 	protected function buildChooseTemplateAndTrainersForm($a_user_id = null, $a_date = null) {
