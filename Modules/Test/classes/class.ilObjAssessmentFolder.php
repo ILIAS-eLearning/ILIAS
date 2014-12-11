@@ -18,7 +18,11 @@ class ilObjAssessmentFolder extends ilObject
 {
 	const ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_DISABLED = 0;
 	const ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_ENABLED = 1;
-	
+
+	const ASS_PROC_LOCK_MODE_NONE = 'none';
+	const ASS_PROC_LOCK_MODE_FILE = 'file';
+	const ASS_PROC_LOCK_MODE_DB = 'db';
+
 	var $setting;
 	
 	/**
@@ -591,13 +595,18 @@ class ilObjAssessmentFolder extends ilObject
 		return $isPageEditorEnabled;
 	}
 	
-	public function getQuestionProcessLockMode()
+	public function getAssessmentProcessLockMode()
 	{
-		return $this->setting->get('quest_process_lock_mode', ilAssQuestionProcessLocker::LOCK_MODE_NONE);
+		return $this->setting->get('ass_process_lock_mode', self::ASS_PROC_LOCK_MODE_NONE);
 	}
 
-	public function setQuestionProcessLockMode($lockMode)
+	public function setAssessmentProcessLockMode($lockMode)
 	{
-		$this->setting->set('quest_process_lock_mode', $lockMode);
+		$this->setting->set('ass_process_lock_mode', $lockMode);
+	}
+	
+	public static function getValidAssessmentProcessLockModes()
+	{
+		return array(self::ASS_PROC_LOCK_MODE_NONE, self::ASS_PROC_LOCK_MODE_FILE, self::ASS_PROC_LOCK_MODE_DB);
 	}
 }
