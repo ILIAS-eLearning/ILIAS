@@ -7288,20 +7288,20 @@ a.ilAccAnchor:hover {
 /* Fixed Frame Width */
 div.ilFrameFixedWidth,
 .ilFrameFixedWidth #mainscrolldiv {
-  /* max-width: 880px; */
+  /* max-width: 1370px; */
   margin: 0 auto;
 }
 .ilFrameFixedWidth #mainscrolldiv {
-  max-width: 880px;
+  max-width: 1370px;
   margin: 0 auto;
 }
 div.ilFrameFixedWidthHeader {
-  max-width: 880px;
+  max-width: 1370px;
   margin: 0 auto;
   padding: 0;
 }
 .ilFrameFixedWidthHeader div.ilHeaderBanner {
-  max-width: 880px;
+  max-width: 1370px;
   margin: 5px auto;
 }
 div.ilHeaderImg {

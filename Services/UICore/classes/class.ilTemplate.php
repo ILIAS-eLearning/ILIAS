@@ -2449,7 +2449,7 @@ class ilTemplate extends ilTemplateX
 	 * @param int $a_height banner height
 	 * @param bool $a_export
 	 */
-	function setBanner($a_img, $a_width = 880, $a_height = 100, $a_export = false)
+	function setBanner($a_img, $a_width = 1370, $a_height = 100, $a_export = false)
 	{		
 		if($a_img)
 		{
