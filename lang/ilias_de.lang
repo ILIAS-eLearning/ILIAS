@@ -8231,7 +8231,7 @@ mail#:#mail_email_forbidden#:#Sie sind nicht berechtigt E-Mails zu verschicken
 mail#:#mail_empty_trash#:#Papierkorb leeren
 mail#:#mail_empty_trash_confirmation#:#Sind Sie sicher, dass alle Mails im Papierkorb gelöscht werden sollen?
 mail#:#mail_enable_crs_member_notification#:#Kursbenachrichtigung
-mail#:#mail_enable_crs_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen ihrer Kursmitgliedschaften per Mail informatiert.
+mail#:#mail_enable_crs_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen ihrer Kursmitgliedschaften per Mail informiert.
 mail#:#mail_enable_grp_member_notification#:#Gruppenbenachrichtigung
 mail#:#mail_enable_grp_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen ihrer Gruppenmitgliedschaften per Mail informiert.
 mail#:#mail_enter_login_or_email_addr#:#Bitte geben Sie einen Benutzernamen oder eine E-Mail-Adresse ein.
