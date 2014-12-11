@@ -297,9 +297,16 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		$grp->setInfo($subitem_info);
 		$form->addItem($grp);
 		
+		// #14994 - using possible items for proper sorting		
+		
 		$completed = array();
-		foreach($coll_items as $item_id)
+		foreach(array_keys($possible_items) as $item_id)
 		{			
+			if(!in_array($item_id, $coll_items))
+			{
+				continue;
+			}
+			
 			$info = null;
 			$status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 			
