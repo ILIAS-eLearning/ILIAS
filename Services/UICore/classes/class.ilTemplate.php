@@ -1937,7 +1937,8 @@ class ilTemplate extends ilTemplateX
 		global $ilLocator, $lng, $ilPluginAdmin, $ilMainMenu;
 		
 		// blog/portfolio
-		if($ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_REDUCED)
+		if($ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_REDUCED ||
+			$ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_ONLY)
 		{						
 			$this->setVariable("LOCATOR", "");
 			return;

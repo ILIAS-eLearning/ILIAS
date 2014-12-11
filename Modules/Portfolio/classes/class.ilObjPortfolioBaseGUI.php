@@ -633,7 +633,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		}
 		
 		global $ilMainMenu;
-		$ilMainMenu->setMode(ilMainMenuGUI::MODE_TOPBAR_REDUCED);		
+		$ilMainMenu->setMode(ilMainMenuGUI::MODE_TOPBAR_ONLY);		
 		$ilMainMenu->setTopBarBack($back);
 		
 		// render tabs

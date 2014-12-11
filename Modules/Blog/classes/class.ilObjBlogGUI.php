@@ -854,14 +854,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$list = $nav = "";		
 		if($list_items)
 		{	
-			$list = $this->renderList($list_items, "preview", null, $is_owner);
-			
-			// #14635
-			include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
-			$panel = ilPanelGUI::getInstance();
-			$panel->setBody($list);
-			$list = $panel->getHTML();
-			
+			$list = $this->renderList($list_items, "preview", null, $is_owner);			
 			$nav = $this->renderNavigation($this->items, "render", "preview", null, $is_owner);		
 		}
 		
@@ -1245,7 +1238,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}				
 		
 		global $ilMainMenu;
-		$ilMainMenu->setMode(ilMainMenuGUI::MODE_TOPBAR_REDUCED);		
+		$ilMainMenu->setMode(ilMainMenuGUI::MODE_TOPBAR_ONLY);		
 		$ilMainMenu->setTopBarBack($back);
 		
 		$this->renderFullscreenHeader($tpl, $owner);
