@@ -287,6 +287,8 @@ class gevAMDUtils {
 				return $this->db->quote($a_value, "float");
 			case ilAdvancedMDFieldDefinition::TYPE_MULTI_SELECT:
 				return $this->db->quote(serialize($a_value), "text");
+			case ilAdvancedMDFieldDefinition::TYPE_SCHEDULE:
+				return $this->db->quote(serialize($a_value), "text");
 			case ilAdvancedMDFieldDefinition::TYPE_LOCATION:
 				die("gevAMDUtils::canonicalTransformTypedValue: Location not implemented.");
 			default:

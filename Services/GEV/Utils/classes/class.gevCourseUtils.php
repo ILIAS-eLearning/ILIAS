@@ -331,6 +331,10 @@ class gevCourseUtils {
 		return preg_match("/.*senztraining/", $this->getType());
 	}
 	
+	public function isWebinar() {
+		return $this->getType() == "Webinar";
+	}
+	
 	public function getStartDate() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_START_DATE);
 	}
@@ -371,6 +375,10 @@ class gevCourseUtils {
 	
 	public function getSchedule() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_SCHEDULE);
+	}
+	
+	public function setSchedule($a_value) {
+		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_SCHEDULE, $a_value);
 	}
 	
 	public function getFormattedSchedule($a_line_break = "<br />") {
@@ -814,8 +822,16 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LINK);
 	}
 	
+	public function setWebExLink($a_value) {
+		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LINK, $a_value);
+	}
+	
 	public function getWebExPassword() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD);
+	}
+	
+	public function setWebExPassword($a_value) {
+		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD, $a_value);
 	}
 	
 	/*public function getCSNLink() {

@@ -471,6 +471,8 @@ gev#:#gev_dec_training_creation_successfull#:#Das neue dezentrale Training wurde
 gev#:#gev_dev_training_book_users#:#Bitte buchen sie Benutzer auf das Training.
 gev#:#gev_dec_training_creation#:#Dezentrales Training anlegen
 gev#:#gev_dec_training_creation_header_note#:#Hier können sie ein neues dezentrales Training anlegen.
+gev#:#gev_dec_training_settings_header#:#Einstellungen für dezentrales Training
+gev#:#gev_dec_training_settings_header_note#:#Hier können sie für ein bestehendes dezentrales Training vornehmen.
 gev#:#gev_dec_training_settings#:#Trainingseinstellungen
 gev#:#gev_dec_training_no_templates#:#Es sind leider keine Vorlagen für dezentrale Trainings vorhanden.
 gev#:#gev_dec_training_template#:#Vorlage
