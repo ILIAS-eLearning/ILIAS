@@ -9332,7 +9332,7 @@ survey#:#dc_yes#:#yes
 survey#:#define_questionblock#:#Define Question Block
 survey#:#delete_user_data#:#Delete the Survey Data of the Selected Users
 survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
-survey#:#disinvite#:#Disinvite
+survey#:#disinvite#:#Take from Personal Desktop
 survey#:#display_all_available#:#Display all available
 survey#:#dp_standard_attitude_agree_disagree#:#Standard Attitude (agree-disagree)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard Attitude (agree-undecided-disagree)
@@ -9377,7 +9377,7 @@ survey#:#evaluation_access_all#:#All Registered Users can Access the Results
 survey#:#evaluation_access_info#:#You have access to the survey results
 survey#:#evaluation_access_off#:#Participants Cannot Access Results
 survey#:#evaluation_access_participants#:#All Survey Participants can Access the Results
-survey#:#evaluation_access#:#Access to Results 
+survey#:#evaluation_access#:#Participants' Access to Results
 survey#:#evaluation#:#Statistics
 survey#:#existing_constraints#:#Existing Routing Rules
 survey#:#exit#:#Exit
@@ -9421,10 +9421,10 @@ survey#:#insert_missing_questionblock#:#Please select at least one question bloc
 survey#:#internal_link#:#Internal Link
 survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.
 survey#:#introduction#:#Introductory Message
-survey#:#invitation_mode_desc#:#To invite a user to this survey a link reference to the survey is created on the users personal desktop.
-survey#:#invitation_mode#:#Invite Users
+survey#:#invitation_mode_desc#:#A link reference to the survey is created on the users' personal desktop.
+survey#:#invitation_mode#:#Put Link to Survey on the Personal Desktop of
 survey#:#invitation_off#:#Do not put on any Desktop
-survey#:#invitation#:#On Personal Desktop
+survey#:#invitation#:#survey#:#invitation#
 survey#:#invited_groups#:#Invited Groups
 survey#:#invited_users#:#Selected Users
 survey#:#label_resume_survey#:#Enter your 5 digit survey code
