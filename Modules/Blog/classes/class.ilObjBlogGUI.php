@@ -1312,7 +1312,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$a_tpl->setDescription($name);				
 		
 		// :TODO: obsolete?
-		$a_tpl->setBodyClass("std ilExternal ilBlog");		
+		// $a_tpl->setBodyClass("std ilExternal ilBlog");		
 	}
 	
 	/**

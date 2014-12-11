@@ -794,7 +794,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$a_tpl->setDescription($name);				
 		
 		// :TODO: obsolete?
-		$a_tpl->setBodyClass("std ilExternal ilPortfolio");
+		// $a_tpl->setBodyClass("std ilExternal ilPortfolio");
 	}
 			
 	function export()
