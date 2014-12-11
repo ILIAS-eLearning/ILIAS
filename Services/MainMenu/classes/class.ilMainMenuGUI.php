@@ -1018,9 +1018,12 @@ class ilMainMenuGUI
 		{
 			if ($ilHelp->getScreenId() != "")
 			{
-				$this->tpl->setCurrentBlock("screen_id");
-				$this->tpl->setVariable("SCREEN_ID", $ilHelp->getScreenId());
-				$this->tpl->parseCurrentBlock();
+				if($this->getMode() == self::MODE_FULL)
+				{
+					$this->tpl->setCurrentBlock("screen_id");
+					$this->tpl->setVariable("SCREEN_ID", $ilHelp->getScreenId());
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 		}
 		
