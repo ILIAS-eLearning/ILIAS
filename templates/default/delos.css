@@ -8052,8 +8052,11 @@ div.il_editarea_nojs {
 div.il_editarea {
   border: 1px solid transparent;
 }
+div.ilc_page_Page > div.il_editarea_disabled {
+  padding: 10px;
+}
 div.il_editarea_disabled {
-  border: 2px dotted red;
+  border: 2px dotted #fa8228;
 }
 div.il_editarea_active {
   border: 1px solid #909090;
@@ -8062,7 +8065,7 @@ div.il_editarea_selected {
   border: 2px solid #6ea03c;
 }
 div.il_editarea_disabled_selected {
-  border: 2px solid red;
+  border: 2px solid #fa8228;
 }
 div.il_editarea_active_selected {
   border: 2px solid #000;

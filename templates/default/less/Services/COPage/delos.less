@@ -72,8 +72,12 @@ div.il_editarea {
 	border: 1px solid transparent;
 }
 
+div.ilc_page_Page > div.il_editarea_disabled {
+	padding: 10px;
+}
+
 div.il_editarea_disabled {
-	border: 2px dotted red;
+	border: 2px dotted @brand-warning;
 }
 
 div.il_editarea_active {
@@ -86,7 +90,7 @@ div.il_editarea_selected {
 
 div.il_editarea_disabled_selected
 {
-	border: 2px solid red;
+	border: 2px solid @brand-warning;
 }
 
 div.il_editarea_active_selected {
