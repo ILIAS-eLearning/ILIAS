@@ -1767,3 +1767,17 @@ if( $ilDB->tableColumnExists('tst_tests', 'show_exam_id') )
 	$ilDB->renameTableColumn('tst_tests', 'show_exam_id', 'examid_in_test_res');
 }
 ?>
+<#61>
+<?php
+if( !$ilDB->tableColumnExists('tst_active', 'start_lock'))
+{
+	$ilDB->addTableColumn('tst_active', 'start_lock',
+		array(
+			'type' => 'text',
+			'length' => 128,
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+?>

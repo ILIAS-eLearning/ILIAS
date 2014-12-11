@@ -445,6 +445,34 @@ class ilTestSession
 	{
 		return $this->lastFinishedPass;
 	}
+	
+	public function persistTestStartLock($testStartLock)
+	{
+		global $ilDB;
+
+		$ilDB->update(
+			'tst_active',
+			array('start_lock' => array('text', $testStartLock)),
+			array('active_id' => array('integer', $this->getActiveId()))
+		);
+	}
+
+	public function lookupTestStartLock()
+	{
+		global $ilDB;
+		
+		$res = $ilDB->queryF(
+			"SELECT start_lock FROM tst_active WHERE active_id = %s",
+			array('integer'), array($this->getActiveId())
+		);
+		
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			return $row['start_lock'];
+		}
+		
+		return null;
+	}
 }
 
 ?>

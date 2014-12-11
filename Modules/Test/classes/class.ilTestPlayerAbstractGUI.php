@@ -503,12 +503,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function startPlayerCmd()
 	{
-		if ( $_SESSION["lock"] != $this->getLockParameter() )
+		$isFirstTestStartRequest = false;
+		
+		if( $this->testSession->lookupTestStartLock() != $this->getLockParameter() )
 		{
-			$_SESSION["lock"] = $this->getLockParameter();
-
+			$this->testSession->persistTestStartLock($this->getLockParameter());
+			$isFirstTestStartRequest = true;
+		}
+		
+		if( $isFirstTestStartRequest )
+		{
 			$this->handleUserSettings();
-
 			if( !$this->checkTestPassword() )
 			{
 				$this->ctrl->redirect($this, 'showPasswordProtectionPage');
@@ -516,10 +521,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 			$this->ctrl->redirect($this, "initTest");
 		}
-		else
-		{
-			$this->ctrl->redirectByClass("ilobjtestgui", "redirectToInfoScreen");
-		}
+		
+		$this->ctrl->redirectByClass("ilobjtestgui", "redirectToInfoScreen");
 	}
 
 	protected function getLockParameter()
