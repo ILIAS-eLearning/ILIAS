@@ -108,8 +108,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		}
 		
 		$this->__updateUser($_REQUEST['user_id'], $this->details_obj_id);
-		ilUtil::sendSuccess($this->lng->txt('trac_update_edit_user'));
+		ilUtil::sendSuccess($this->lng->txt('trac_update_edit_user'), true);
+		$this->ctrl->returnToParent($this); // #14993
 
+		/*
 		if(!isset($_GET["userdetails_id"]))
 		{
 			$this->details();
@@ -118,7 +120,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		{
 			$this->__initDetails($parent);
 			$this->userDetails();
-		}
+		}		 
+		*/
 	}
 
 	function editUser()

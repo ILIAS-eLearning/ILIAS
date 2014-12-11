@@ -1027,9 +1027,10 @@ class ilInfoScreenGUI
 		ilLPStatusWrapper::_updateStatus($this->gui_object->object->getId(),$ilUser->getId());
 
 		$this->lng->loadLanguageModule('trac');
-		ilUtil::sendSuccess($this->lng->txt('trac_updated_status'));
-
-		$this->showSummary();
+		ilUtil::sendSuccess($this->lng->txt('trac_updated_status'), true);
+		$this->ctrl->redirect($this, ""); // #14993
+		
+		// $this->showSummary();
 	}
 
 
@@ -1174,16 +1175,17 @@ class ilInfoScreenGUI
 	}
 	
 	function saveTags()
-	{
-		global $ilCtrl;
-		
+	{		
 		include_once("Services/Tagging/classes/class.ilTaggingGUI.php");
 		$tagging_gui = new ilTaggingGUI();
 		$tagging_gui->setObject($this->gui_object->object->getId(),
 			$this->gui_object->object->getType());
 		$tagging_gui->saveInput();
 		
-		return $this->showSummary();
+		ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+		$this->ctrl->redirect($this, ""); // #14993
+		
+		// return $this->showSummary();
 	}
 
 	function hideFurtherSections($a_add_toggle = true)
