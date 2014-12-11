@@ -790,6 +790,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$a_tpl->setTitleColor($a_portfolio->getFontColor());		
 		$a_tpl->setDescription($name);		
 		
+		// to get rid of locator in portfolio template preview
+		$a_tpl->setVariable("LOCATOR", "");
+		
 		// :TODO: obsolete?
 		// $a_tpl->setBodyClass("std ilExternal ilPortfolio");
 	}
