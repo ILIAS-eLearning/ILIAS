@@ -10876,6 +10876,9 @@ div.ilNewObjectSelector {
   [dir="rtl"] #ilTopNav .navbar-nav {
     margin-right: 0;
   }
+  div.ilTopMemberView {
+    display: none;
+  }
   /* --- Services/COPage ---*/
   .ilTinyInfo {
     display: none;
