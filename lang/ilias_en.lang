@@ -13348,13 +13348,13 @@ blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tut
 survey#:#survey_code_delete_sure#:#Are you sure you want to delete the following access codes?
 survey#:#survey_360_title#:#360°
 survey#:#survey_360_mode#:#360° Feedback
-survey#:#survey_360_self_evaluation#:#Appraisees Can Rate Themselves
-survey#:#survey_360_self_raters#:#Appraisees Can Manage Their Raters
-survey#:#survey_360_self_appraisee#:#Users Can Add Themselves As Appraisees
+survey#:#survey_360_self_evaluation#:#Self-Evaluation
+survey#:#survey_360_self_raters#:#Appraisees Select Own Raters
+survey#:#survey_360_self_appraisee#:#Open 360° Feedback
 survey#:#survey_360_results#:#Access To Results For Appraisees
-survey#:#survey_360_results_none#:#None
-survey#:#survey_360_results_own#:#To Own Raters
-survey#:#survey_360_results_all#:#To All Appraisees
+survey#:#survey_360_results_none#:#No Access to Results
+survey#:#survey_360_results_own#:#Access to Feedback of Own Raters
+survey#:#survey_360_results_all#:#All Feedbacks
 survey#:#survey_360_appraisees#:#Appraisees
 survey#:#survey_360_edit_raters#:#Manage Raters
 survey#:#survey_360_sure_delete_appraises#:#Are you sure you want to remove the following appraisees?
@@ -15040,13 +15040,13 @@ survey#:#svy_evaluation_access_off_info#:#Only Users that can edit the survey (w
 survey#:#svy_evaluation_access_participants_info#:#All users that participated in the survey may choose to look at the results after finishing it. 
 survey#:#svy_results_mail_own_info#:#Particiants can request a mail containing their own answers.
 survey#:#svy_results_view_own_info#:#After finishing the survey, participants can view a list of all answers they provided. They cannot change their answers
-survey#:#survey_360_self_evaluation_info#:#todo6
-survey#:#survey_360_self_raters_info#:#todo7
-survey#:#survey_360_self_appraisee_info#:#todo8
-survey#:#survey_360_results_none_info#:#todo9
-survey#:#survey_360_results_own_info#:#todo10
-survey#:#survey_360_results_all_info#:#todo11
-survey#:#survey_activate_skill_service_info#:#todo12
+survey#:#survey_360_self_evaluation_info#:#Appraisees are allowed to rate themselves using the questions.
+survey#:#survey_360_self_raters_info#:#Appraisees autonomously select and invite those persons that are supposed to provide feedback to them.
+survey#:#survey_360_self_appraisee_info#:#On the 'Info'-tab a link is displayed to all users. By clicking this link they can add themselves as appraisee and receive feedback.
+survey#:#survey_360_results_none_info#:#Appraisees can not access the feedback provided by raters.
+survey#:#survey_360_results_own_info#:#Appraisees can access only the feedback of their own raters.
+survey#:#survey_360_results_all_info#:#All appraisees of the 360°-Survey can view all feedback provided by all raters of all appraisees, not only by their own raters.
+survey#:#survey_activate_skill_service_info#:#A new tab 'Competences' will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.
 survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the survey? You will not be able to edit your answers afterwards.
 survey#:#survey_execution_exit#:#Back to repository
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.
