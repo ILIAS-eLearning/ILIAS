@@ -419,6 +419,15 @@ class ilLMTracker
 				$cnt_completed = 0;
 				foreach ($this->tree_arr["childs"][$a_obj_id] as $c)
 				{
+					// if child is not activated/displayed count child as implicitly completed
+					// rationale: everything that is visible for the learner determines the status
+					// see also bug #14642
+					if (!self::_isNodeVisible($c))
+					{
+						$cnt_completed++;
+						continue;
+					}
+
 					$c_stat = $this->determineProgressStatus($c["child"], $a_has_pred_incorrect_answers,
 						$a_has_pred_incorrect_not_unlocked_answers);
 					if ($status != ilLMTracker::FAILED)
@@ -623,6 +632,44 @@ class ilLMTracker
 		}
 
 		return $blocked_users;
+	}
+
+	/**
+	 * Is node visible for the learner
+	 *
+	 * @param mixed $a_node node object/array
+	 * @return boolean node visible true/false
+	 */
+	static function _isNodeVisible($a_node)
+	{
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+
+		if ($a_node["type"] != "pg")
+		{
+			return true;
+		}
+
+		$lm_set = new ilSetting("lm");
+		$active = ilPageObject::_lookupActive($a_node["child"], "lm",
+			$lm_set->get("time_scheduled_page_activation"));
+
+		if(!$active)
+		{
+			$act_data = ilPageObject::_lookupActivationData((int) $a_node["child"], "lm");
+			if ($act_data["show_activation_info"] &&
+				(ilUtil::now() < $act_data["activation_start"]))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 
