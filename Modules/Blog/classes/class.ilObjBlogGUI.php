@@ -1302,7 +1302,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$a_tpl->setTitleIcon($ppic);
 		$a_tpl->setTitle($this->object->getTitle());
 		$a_tpl->setTitleColor($this->object->getFontColor());		
-		$a_tpl->setDescription($name);				
+		$a_tpl->setDescription($name);		
+		
+		// to get rid of locator in repository preview
+		$a_tpl->setVariable("LOCATOR", "");
 		
 		// :TODO: obsolete?
 		// $a_tpl->setBodyClass("std ilExternal ilBlog");		
