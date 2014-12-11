@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.php';
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockerNone.php';
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockerFile.php';
@@ -103,7 +104,7 @@ class ilAssQuestionProcessLockerFactory
 
 	private function getLockModeSettingValue()
 	{
-		return $this->settings->get('quest_process_lock_mode', ilAssQuestionProcessLocker::LOCK_MODE_NONE);
+		return $this->settings->get('ass_process_lock_mode', ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
 	}
 
 	/**
@@ -113,12 +114,12 @@ class ilAssQuestionProcessLockerFactory
 	{
 		switch( $this->getLockModeSettingValue() )
 		{
-			case ilAssQuestionProcessLocker::LOCK_MODE_NONE:
+			case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE:
 				
 				$locker = new ilAssQuestionProcessLockerNone();
 				break;
 				
-			case ilAssQuestionProcessLocker::LOCK_MODE_FILE:
+			case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_FILE:
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockFileStorage.php';
 				$storage = new ilAssQuestionProcessLockFileStorage($this->getQuestionId(), $this->getUserId());
@@ -127,7 +128,7 @@ class ilAssQuestionProcessLockerFactory
 				$locker = new ilAssQuestionProcessLockerFile($storage);
 				break;
 			
-			case ilAssQuestionProcessLocker::LOCK_MODE_DB:
+			case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_DB:
 
 				$locker = new ilAssQuestionProcessLockerDb($this->db);
 				$locker->setAssessmentLogEnabled($this->isAssessmentLogEnabled());

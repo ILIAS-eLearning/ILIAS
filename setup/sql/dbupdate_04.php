@@ -5243,3 +5243,15 @@ if( !$ilDB->tableColumnExists('tst_active', 'start_lock'))
 		));
 }
 ?>
+<#4438>
+<?php
+$ilDB->update('settings',
+	array(
+		'keyword' => array('text', 'ass_process_lock_mode')
+	),
+	array(
+		'module' => array('text', 'assessment'),
+		'keyword' => array('text', 'quest_process_lock_mode')
+	)
+);
+?>
