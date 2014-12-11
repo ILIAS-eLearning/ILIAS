@@ -154,7 +154,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 		// question process locking behaviour (e.g. on saving users working data)
 		$chb = new ilCheckboxInputGUI($this->lng->txt('ass_process_lock'), 'ass_process_lock');
-		$chb->setChecked($this->object->getAsessmentProcessLockMode() != ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
+		$chb->setChecked($this->object->getAssessmentProcessLockMode() != ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
 		$chb->setInfo($this->lng->txt('ass_process_lock_desc'));
 		$form->addItem($chb);
 		$rg = new ilRadioGroupInputGUI($this->lng->txt('ass_process_lock_mode'), 'ass_process_lock_mode');
