@@ -196,7 +196,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 		}
 		else
 		{
-			$width->setValue(880);
+			$width->setValue(1370);
 			$height->setValue(100);
 		}
 		

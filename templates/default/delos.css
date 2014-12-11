@@ -7302,11 +7302,10 @@ div.ilFrameFixedWidthHeader {
 }
 .ilFrameFixedWidthHeader div.ilHeaderBanner {
   max-width: 1370px;
+  overflow: hidden;
 }
 div.ilHeaderBanner img.ilHeaderImg {
   width: 100%;
-  height: 100px;
-  overflow: hidden;
 }
 .ilFrameFixedWidth div.ilHeaderDesc {
   padding-left: 0;
@@ -10713,6 +10712,7 @@ div.ilNewObjectSelector {
   }
   .ilFrameFixedWidthHeader div.ilHeaderBanner {
     max-width: 100%;
+    height: 40px !important;
   }
   div.ilTableOuter {
     max-width: 100%;

@@ -12077,8 +12077,8 @@ certificate#:#certificate_ph_sco_points_raw#:#placeholder<br/>for points
 certificate#:#certificate_ph_sco_points_max#:#placeholder<br/>for points<br/>max
 exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of the blog right now? You can do it anytime from the blog editor later on.
 exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version of the portfolio right now? You can do it anytime from the portfolio editor later on.
-prtf#:#prtf_preview_banner_info#:#Default size is 880x100 pixels.
-blog#:#blog_preview_banner_info#:#Default size is 880x100 pixels.
+prtf#:#prtf_preview_banner_info#:#Default size is 1370x100 pixels.
+blog#:#blog_preview_banner_info#:#Default size is 1370x100 pixels.
 exc#:#exc_no_assignments_available#:#No assignments created yet. Please open "Assignments" and "Edit" to create a first assignment.
 wsp#:#wsp_invalid_password#:#The given password is invalid.
 wiki#:#wiki_navigation_info#:#Here you can add and remove links to existing wiki pages to the navigation block in the wiki.
