@@ -428,6 +428,13 @@ class ilUserAutoComplete
 		 * @var $ilDB ilDB
 		 */
 		global $ilDB;
+		
+		// #14768
+		if(!stristr($a_str, '\\'))
+		{
+			$a_str = str_replace('%', '\%', $a_str);
+			$a_str = str_replace('_', '\_', $a_str);
+		}
 
 		if(self::SEARCH_TYPE_LIKE == $this->getSearchType())
 		{
