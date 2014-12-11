@@ -2442,6 +2442,9 @@ class ilTemplate extends ilTemplateX
 	
 	function setBackgroundColor($a_bg_color)
 	{
+		// :TODO: currently inactive, JF should discuss this
+		return;
+		
 		if($a_bg_color != "")
 		{
 			$this->setVariable("FRAME_BG_COLOR", " style=\"background-color: #".$a_bg_color."\"");
