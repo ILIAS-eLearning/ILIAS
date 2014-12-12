@@ -351,12 +351,18 @@ class catDatePeriodFilterType {
 	// field_end
 	// default_begin
 	// default_end
+	// as_timestamp (optional, defaults to false)
 	
 	public function checkConfig($a_conf) {
-		if (count($a_conf) !== 8) {
+		if (count($a_conf) !== 8 && count($a_conf) !== 9) {
 			// one parameter less, since type is encoded in first parameter but not passed by user.
 			throw new Exception ("catDatePeriodFilterType::checkConfig: expected 7 parameters for dateperiod.");
 		}
+		
+		if (count($a_conf) === 8) {
+			$a_conf[8] = false;
+		}
+		
 		return $a_conf;
 	}
 	
@@ -411,15 +417,26 @@ class catDatePeriodFilterType {
 	public function sql($a_conf, $a_pars) {
 		global $ilDB;
 	
-		return "    (".catFilter::quoteDBId($a_conf[5])
-					  ." >= ".$ilDB->quote($a_pars["start"], "date")
-			  			// this accomodates history tables
-			  ."        OR ".catFilter::quoteDBId($a_conf[5])." = '0000-00-00' "
-			  ."        OR ".catFilter::quoteDBId($a_conf[5])." = '-empty-'"
-			  ."    )"
-			  ."   AND ".catFilter::quoteDBId($a_conf[4])
-			  			." <= ".$ilDB->quote($a_pars["end"], "date")
-			  ;
+		if (!$a_conf[8]) {
+			return "    (".catFilter::quoteDBId($a_conf[5])
+						  ." >= ".$ilDB->quote($a_pars["start"], "date")
+				  			// this accomodates history tables
+				  ."        OR ".catFilter::quoteDBId($a_conf[5])." = '0000-00-00' "
+				  ."        OR ".catFilter::quoteDBId($a_conf[5])." = '-empty-'"
+				  ."    )"
+				  ."   AND ".catFilter::quoteDBId($a_conf[4])
+				  			." <= ".$ilDB->quote($a_pars["end"], "date")
+				  ;
+		}
+		else {
+			$d = new ilDate($a_pars["start"], IL_CAL_DATE);
+			$val_s = $d->get(IL_CAL_UNIX);
+			$d = new ilDate($a_pars["end"], IL_CAL_DATE);
+			$d->increment(ilDateTime::DAY, 1);
+			$val_e = $d->get(IL_CAL_UNIX);
+			return   catFilter::quoteDBId($a_conf[5])." >= ".$ilDB->quote($val_s, "integer")
+			." AND ".catFilter::quoteDBId($a_conf[5])." <= ".$ilDB->quote($val_e, "integer");
+		}
 	}
 	
 	public function get($a_pars) {
