@@ -407,6 +407,8 @@ class gevDecentralTrainingGUI {
 				$trnrs = new ilHiddenInputGUI("trainer_ids");
 				$trnrs->setValue(base64_encode(serialize($a_trainer_ids)));
 				$form->addItem($trnrs);
+				
+				$crs_utils = gevCourseUtils::getInstance($a_template_id);
 			}
 			else {
 				require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
