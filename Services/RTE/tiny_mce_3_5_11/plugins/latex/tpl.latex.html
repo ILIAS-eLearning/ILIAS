@@ -51,13 +51,6 @@
 				$("#preview").html($mj_start + $(this).val() + $mj_end);
                 if (typeof MathJax != "undefined") {
                     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-				<!-- END js_on_change_math_jax -->
-
-                }
-				<!-- BEGIN js_on_change_math_jax -->
-				$("#preview").html($mj_start + $(this).val() + $mj_end);
-                if (typeof MathJax != "undefined") {
-                    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
                 }
 				<!-- END js_on_change_math_jax -->
 			};
