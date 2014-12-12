@@ -116,8 +116,14 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI {
 				$this->tpl->touchBlock("icon_link_e");
 			}
 			$this->enableIcon(false);
-            $this->tpl->touchBlock("i_1");    // indent main div  }
-            $this->tpl->touchBlock("d_2");    // indent main div  } #0014913
+            if($this->getContainerObject()->isActiveAdministrationPanel())
+            {
+                $this->tpl->touchBlock("i_1");    // indent main div  }
+                $this->tpl->touchBlock("d_2");    // indent main div  } #0014913
+            }else{
+                $this->tpl->touchBlock("d_1");
+            }
+
             parent::insertIconsAndCheckboxes();
 			$this->tpl->setCurrentBlock("icon");
             $this->tpl->setVariable("ALT_ICON", $lng->txt("icon") . " " . $lng->txt("obj_" . $this->getIconImageType()));
