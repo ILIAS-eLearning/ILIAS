@@ -1726,6 +1726,14 @@ div.ilNewObjectSelector {
 	img {
 		max-width: 100%;
 	}
+
+	// this fixes the open street map images, not the best place to
+	// to this. another option would be to not put the
+	// max-width behaviour above on every img...
+	img.olTileImage {
+		max-width: none;
+	}
+
 	
 	div.ilFrame {
 		margin: 0;

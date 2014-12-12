@@ -10710,6 +10710,9 @@ div.ilNewObjectSelector {
   img {
     max-width: 100%;
   }
+  img.olTileImage {
+    max-width: none;
+  }
   div.ilFrame {
     margin: 0;
     width: 100%;
