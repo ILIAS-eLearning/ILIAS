@@ -234,8 +234,6 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 
 		$this->questionHintTracking->storeRequest($nextRequestableHint);
 		
-		$this->parentGUI->saveQuestionSolution();
-		
 		$redirectTarget = $this->getHintPresentationLinkTarget($nextRequestableHint->getId(), false);
 		
 		ilUtil::redirect($redirectTarget);

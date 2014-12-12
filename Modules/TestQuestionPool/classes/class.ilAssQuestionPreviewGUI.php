@@ -19,6 +19,8 @@ class ilAssQuestionPreviewGUI
 	const CMD_RESET = 'reset';
 	const CMD_INSTANT_RESPONSE = 'instantResponse';
 	const CMD_HANDLE_QUESTION_ACTION = 'handleQuestionAction';
+	const CMD_GATEWAY_CONFIRM_HINT_REQUEST = 'gatewayConfirmHintRequest';
+	const CMD_GATEWAY_SHOW_HINT_LIST = 'gatewayShowHintList';
 
 	const TAB_ID_QUESTION_PREVIEW = 'preview';
 	
@@ -145,7 +147,7 @@ class ilAssQuestionPreviewGUI
 		switch($nextClass)
 		{
 			case 'ilassquestionhintrequestgui':
-
+				
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
 				$gui = new ilAssQuestionHintRequestGUI($this, self::CMD_SHOW, $this->questionGUI, $this->hintTracking);
 
@@ -300,6 +302,8 @@ class ilAssQuestionPreviewGUI
 		$navGUI = new ilAssQuestionRelatedNavigationBarGUI($this->ctrl, $this->lng);
 
 		$navGUI->setInstantResponseCmd(self::CMD_INSTANT_RESPONSE);
+		$navGUI->setHintRequestCmd(self::CMD_GATEWAY_CONFIRM_HINT_REQUEST);
+		$navGUI->setHintListCmd(self::CMD_GATEWAY_SHOW_HINT_LIST);
 		
 		$navGUI->setInstantResponseEnabled($this->previewSettings->isInstantFeedbackNavigationRequired());
 		$navGUI->setHintProvidingEnabled($this->previewSettings->isHintProvidingEnabled());
@@ -366,5 +370,27 @@ class ilAssQuestionPreviewGUI
 	public function saveQuestionSolution()
 	{
 		$this->questionOBJ->persistPreviewState($this->previewSession);
+	}
+
+	public function gatewayConfirmHintRequestCmd()
+	{
+		$this->saveQuestionSolution();
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
+		
+		$this->ctrl->redirectByClass(
+			'ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_CONFIRM_REQUEST
+		);
+	}
+
+	public function gatewayShowHintListCmd()
+	{
+		$this->saveQuestionSolution();
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
+		
+		$this->ctrl->redirectByClass(
+			'ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_SHOW_LIST
+		);
 	}
 }

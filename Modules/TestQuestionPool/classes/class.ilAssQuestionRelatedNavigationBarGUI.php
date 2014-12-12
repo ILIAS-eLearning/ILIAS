@@ -30,10 +30,34 @@ class ilAssQuestionRelatedNavigationBarGUI
 
 	protected $hintRequestsExist;
 	
+	protected $hintRequestCmd;
+	
+	protected $hintListCmd;
+	
 	public function __construct(ilCtrl $ctrl, ilLanguage $lng)
 	{
 		$this->ctrl = $ctrl;
 		$this->lng = $lng;
+	}
+
+	public function getHintListCmd()
+	{
+		return $this->hintListCmd;
+	}
+
+	public function setHintListCmd($hintListCmd)
+	{
+		$this->hintListCmd = $hintListCmd;
+	}
+
+	public function getHintRequestCmd()
+	{
+		return $this->hintRequestCmd;
+	}
+
+	public function setHintRequestCmd($hintRequestCmd)
+	{
+		$this->hintRequestCmd = $hintRequestCmd;
 	}
 
 	public function setHintRequestsExist($hintRequestsExist)
@@ -118,10 +142,8 @@ class ilAssQuestionRelatedNavigationBarGUI
 					$buttonText = $this->lng->txt("button_request_question_hint");
 				}
 				
-				$href = $this->ctrl->getLinkTargetByClass('ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_CONFIRM_REQUEST);
-
 				$navTpl->setCurrentBlock("button_request_next_question_hint");
-				$navTpl->setVariable("HREF_REQUEST_NEXT_QUESTION_HINT", $href);
+				$navTpl->setVariable("CMD_REQUEST_NEXT_QUESTION_HINT", $this->getHintRequestCmd());
 				$navTpl->setVariable("TEXT_REQUEST_NEXT_QUESTION_HINT", $buttonText);
 				$navTpl->parseCurrentBlock();
 
@@ -130,10 +152,8 @@ class ilAssQuestionRelatedNavigationBarGUI
 
 			if( $this->doesHintRequestsExist() )
 			{
-				$href = $this->ctrl->getLinkTargetByClass('ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_SHOW_LIST);
-
 				$navTpl->setCurrentBlock("button_show_requested_question_hints");
-				$navTpl->setVariable("HREF_SHOW_REQUESTED_QUESTION_HINTS", $href);
+				$navTpl->setVariable("CMD_SHOW_REQUESTED_QUESTION_HINTS", $this->getHintListCmd());
 				$navTpl->setVariable("TEXT_SHOW_REQUESTED_QUESTION_HINTS", $this->lng->txt("button_show_requested_question_hints"));
 				$navTpl->parseCurrentBlock();
 
