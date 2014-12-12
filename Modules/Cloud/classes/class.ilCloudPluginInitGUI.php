@@ -314,20 +314,21 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
 
         if($list_gui_html)
         {
-            // toolbar
-            $ov_id         = "il_add_new_cld_item_v";
-            $ov_trigger_id = $ov_id ."_tr";
+             //toolbar
             $toolbar_locator = new ilLocatorGUI();
             $toolbar_locator->addItem($this->getGuiClass()->object->getTitle(), ilCloudPluginFileTreeGUI::getLinkToFolder($root_node));
             $ilToolbar->setId('xcld_toolbar');
             $ilToolbar->addText("<div class='xcld_locator'>". $toolbar_locator->getHtml()."</div>");
             $ilToolbar->addSeparator();
-            $ilToolbar->addButton($lng->txt("cld_add_new_item"), "#", "", "", "", $ov_trigger_id, 'submit emphsubmit');
-            include_once "Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php";
-            $ov = new ilOverlayGUI($ov_id);
-            $ov->add();
-            $ov->addTrigger($ov_trigger_id, "click", $ov_trigger_id, false, "tl", "tr");
-            $tpl->setVariable("SELECT_OBJTYPE_REPOS", '<div id="' . $ov_id . '" class="ilOverlay ilNoDisplay">'.$list_gui_html.'</div>');
+
+            include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+            $adv = new ilAdvancedSelectionListGUI();
+            $adv->setListTitle($lng->txt("cld_add_new_item"));
+
+            $adv->setGroupedList($create_list_gui->getGroupedListItems($this->getPermUploadItems(), $this->getPermCreateFolders()));
+            $adv->setStyle(ilAdvancedSelectionListGUI::STYLE_EMPH);
+
+            $ilToolbar->addText($adv->getHTML());
         }
     }
 

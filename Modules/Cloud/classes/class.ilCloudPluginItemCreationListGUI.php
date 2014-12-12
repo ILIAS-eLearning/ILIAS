@@ -21,20 +21,30 @@ class ilCloudPluginItemCreationListGUI extends ilCloudPluginListGUI
     protected $gl = null;
 
     /**
-     * @param bool $delete
-     * @param ilCloudFileNode $node
-     * @return string $html
+     * @param bool $showUpload
+     * @param bool $showCreateFolders
+     * @return string
      */
     public function getGroupedListItemsHTML($showUpload = false, $showCreateFolders = false)
     {
+        $gl = $this->getGroupedListItems($showUpload, $showCreateFolders);
+        return $gl->getHTML();
 
+    }
 
+    /**
+     * @param bool $showUpload
+     * @param bool $showCreateFolders
+     * @return ilGroupedListGUI
+     */
+    public function getGroupedListItems($showUpload = false, $showCreateFolders = false){
         global $lng;
 
         include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
         $this->gl = new ilGroupedListGUI();
 
         $this->addItemsBefore();
+        $this->gl->setAsDropDown(true);
 
         if ($showUpload)
         {
@@ -54,7 +64,7 @@ class ilCloudPluginItemCreationListGUI extends ilCloudPluginListGUI
 
         $this->addItemsAfter();
 
-        return $this->gl->getHTML();
+        return $this->gl;
     }
 
     protected function addItemsBefore()
