@@ -14629,7 +14629,7 @@ pd#:#pd_enable_comments_del_tutor#:#Jegliche Kommentare k√∂nnen von Tutoren gel√
 notes#:#notes_sort_asc#:#Aufsteigend sortieren
 notes#:#notes_sort_desc#:#Absteigend sortieren
 obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud
-obj#:#obj_tool_setting_tag_cloud_info#:#Der Block "Tag Cloud" wird im Reiter "Inhalt" angezeigt.
+obj#:#obj_tool_setting_tag_cloud_info#:#Es wird eine Tag Cloud im Block "Auswahl nach Themen" im Reiter "Inhalt" angezeigt.
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Einzelne Tags anstatt Anzahl auflisten
 tagging#:#tagging_other_users#:#Andere Benutzer
 common#:#autocomplete_more#:#mehr
