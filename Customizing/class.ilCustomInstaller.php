@@ -226,4 +226,46 @@ class ilCustomInstaller
 		require_once("Services/UICore/classes/class.ilCtrl.php");
 		$GLOBALS["ilCtrl"] = new ilCtrl();
 	}
+	
+	/*
+	 * Initialize global ilAppEventHandler object if there is none.
+	 */
+	static public function maybeInitAppEventHandler() {
+		if (isset($GLOBALS["ilAppEventHandler"])) {
+			return;
+		}
+		
+		require_once("Services/EventHandling/classes/class.ilAppEventHandler.php");
+		$GLOBALS["ilAppEventHandler"] = new ilAppEventHandler();
+	}
+	
+	/*
+	 * Initialize global ilDB object if there is none.
+	 */
+	static public function maybeInitTree() {
+		if (isset($GLOBALS["tree"])) {
+			return;
+		}
+		
+		require_once "./Services/Tree/classes/class.ilTree.php";
+		$GLOBALS["tree"] = new ilTree(ROOT_FOLDER_ID);
+	}
+	
+	/*
+	 * Initialize rbacadmin, rbacreview and rbacsystem object if they are not existent.
+	 */
+	static public function maybeInitRBAC() {
+		if (!isset($GLOBALS["rbacadmin"])) {
+			require_once("Services/AccessControl/classes/class.ilRbacAdmin.php");
+			$GLOBALS["rbacadmin"] = new ilRbacAdmin();
+		}
+		if (!isset($GLOBALS["rbacreview"])) {
+			require_once("Services/AccessControl/classes/class.ilRbacReview.php");
+			$GLOBALS["rbacreview"] = new ilRbacReview();
+		}
+		if (!isset($GLOBALS["rbacsystem"])) {
+			require_once("Services/AccessControl/classes/class.ilRbacSystem.php");
+			$GLOBALS["rbacsystem"] = ilRbacSystem::getInstance();
+		}
+	}
 }

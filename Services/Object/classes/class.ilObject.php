@@ -1319,7 +1319,10 @@ class ilObject
 		$next_id = $ilDB->nextId('object_reference');
 		$query = "INSERT INTO object_reference ".
 			 "(ref_id, obj_id) VALUES (".$ilDB->quote($next_id,'integer').','.$ilDB->quote($this->id ,'integer').")";
-		$this->ilias->db->query($query);
+		// gev-patch start
+		//$this->ilias->db->query($query);
+		$ilDB->query($query);
+		// gev-patch end
 
 		$this->ref_id = $next_id;
 		$this->referenced = true;

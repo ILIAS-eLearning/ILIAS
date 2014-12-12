@@ -2433,3 +2433,32 @@ if(!$ilDB->tableExists('hist_tep'))
 	);
 	ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
 ?>
+
+<#75>
+<?php
+	// create instance
+	include_once("Services/AccessControl/classes/class.ilObjRoleTemplate.php");
+	require_once "Customizing/class.ilCustomInstaller.php";
+	
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitUserToRoot();
+	
+	$newObj = new ilObjRoleTemplate();
+	$newObj->setType("rolt");
+	$newObj->setTitle("Trainingsersteller");
+	$newObj->setDescription("Rolle für die Ersteller von dezentralen Trainings");
+	$newObj->create();
+	$newObj->createReference();
+	$newObj->putInTree(ROLE_FOLDER_ID);
+	$newObj->setPermissions(ROLE_FOLDER_ID);
+
+	$ilDB->manipulate("INSERT INTO rbac_fa (rol_id, parent, assign, protected)"
+					 ." VALUES ( ".$ilDB->quote($newObj->getId(), "integer")
+					 ."        , ".$ilDB->quote(ROLE_FOLDER_ID, "integer")
+					 ."        , 'n', 'y')"
+					 );
+?>
