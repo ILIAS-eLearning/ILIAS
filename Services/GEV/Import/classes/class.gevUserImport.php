@@ -96,45 +96,98 @@ class gevUserImport {
 	}
 
 
+	private function addSingleUserToInterimsDB($usr) {
+		$fields = gevImportedUser::$USERFIELDS;
+		$sql = "INSERT INTO interimUsers ("
+			.implode(', ', $fields)
+			.") VALUES ('"
+			.implode("', '", $usr->userdata)
+			."')";
+
+		$result = mysql_query($sql, $this->shadowDB);
+		if(!$result){
+			print $sql;
+			die("ERROR WHILE DOING QUERY ABOVE");
+		}
+	}
+
+	private function updateSingleUserInInterimsDB($usr) {
+		$id_field = ($usr->userdata['ilid_gev'] != '') ? 'ilid_gev' : 'ilid_vfs';
+		$id = $usr->userdata[$id_field];
+
+		$fbuffer = array();
+		foreach ($usr->userdata as $field=>$val){
+			$fbuffer[] = "$field='$val'";
+		}
+		$sql = "UPDATE interimUsers SET "
+			.implode(', ', $fbuffer)
+			." WHERE $id_field='$id'";
+
+		$result = mysql_query($sql, $this->shadowDB);
+		if(!$result){
+			print $sql;
+			die("ERROR WHILE DOING QUERY ABOVE");
+		}
+
+
+	}
+
+	private function userExistsInInterimsDB($usr) {
+		$id_field = ($usr->userdata['ilid_gev'] != '') ? 'ilid_gev' : 'ilid_vfs';
+		$id = $usr->userdata[$id_field];
+
+		$sql = "SELECT id FROM interimUsers "
+			." WHERE $id_field='$id'";
+
+		$result = mysql_query($sql, $this->shadowDB);
+		if($result && mysql_num_rows($result) >0){
+			return true;
+		}	
+		return false;
+	}
+
+
+
 	private function storeUsersToInterimsDB($users) {
 		$fields = gevImportedUser::$USERFIELDS;
 		foreach ($users as $usr) {
-			$sql = "INSERT INTO interimUsers ("
-				.implode(', ', $fields)
-				.") VALUES ('"
-				.implode("', '", $usr->userdata)
-				."')";
-
-			$result = mysql_query($sql, $this->shadowDB);
-			if(!$result){
-				print $sql;
-				die("ERROR WHILE DOING QUERY ABOVE");
+			print '<br>' .$usr->userdata['login'] .': ';
+			if($this->userExistsInInterimsDB($usr)){
+				$this->updateSingleUserInInterimsDB($usr);
+				print 'update';
+			} else {
+				$this->addSingleUserToInterimsDB($usr);
+				print 'insert';
 			}
 		}
 	}
 
 	public function fetchVFSUsers(){
+		print '<h2>Fetching and updating VFS users</h2>';
 		require_once("Services/GEV/Import/classes/class.gevFetchVFSUser.php");
 		$fetcher = new gevFetchFVSUser();
 		$users = $fetcher->fetchUsers();
 
 		$this->storeUsersToInterimsDB($users);
 		$fetcher->updateOrgUnitNameForImportedUsers();
+		print '<br><b>Fetching and updating VFS users: done</b>';
 	}
 
 	public function fetchGEVUsers(){
+		print '<h2>Fetching and updating GEV users</h2>';
 		require_once("Services/GEV/Import/classes/class.gevFetchGEVUser.php");
 		$fetcher = new gevFetchGEVUser();
 		$users = $fetcher->fetchUsers();
 		
 		$this->storeUsersToInterimsDB($users);
 		$fetcher->updateOrgUnitNameForImportedUsers();
+		print '<br><b>Fetching and updating GEV users: done</b>';
 	}
 
 
 	// -------------------
 	public function createOrgStructure(){
-		print '<h2>Creating OrgUnits:</h2>';
+		print '<h2>Creating OrgUnits</h2>';
 		require_once("Services/GEV/Import/classes/class.gevImportOrgStructure.php");
 		$importer = new gevImportOrgStructure();
 		$importer->createOrgUnits();
@@ -153,11 +206,11 @@ print '<pre>';
 
 
 
-$imp->createOrgStructure();
+//$imp->createOrgStructure();
+$imp->fetchGEVUsers();
 
 
 /*
-$imp->fetchGEVUsers();
 $imp->fetchVFSUsers();
 */
 

@@ -70,6 +70,12 @@ class gevImportOrgStructure {
 		);
 	}
 	
+	private function notEmptyString($v){
+		if(trim($v) === ''){
+			$v = ' ';
+		}
+		return $v;
+	}
 	
 	private function createSingleOrgUnit($rec){
 		//global $tree;
@@ -112,15 +118,15 @@ class gevImportOrgStructure {
 		$orgu->putInTree($parent);
 
 		$orgutils->setType(gevSettings::ORG_TYPE_DEFAULT);
-		$orgutils->setZipcode($rec['zip']);
-		$orgutils->setCity($rec['city']);
-		$orgutils->setContactPhone($rec['fon']);
-		$orgutils->setContactFax($rec['fax']);
-		$orgutils->setFinancialAccount($rec['finaccount']);
+		$orgutils->setZipcode($this->notEmptyString($rec['zip']));
+		$orgutils->setCity($this->notEmptyString($rec['city']));
+		$orgutils->setContactPhone($this->notEmptyString($rec['fon']));
+		$orgutils->setContactFax($this->notEmptyString($rec['fax']));
+		$orgutils->setFinancialAccount($this->notEmptyString($rec['finaccount']));
 
-		$streetnr = $this->extract_house_nr($rec['street']);
-		$orgutils->setStreet($streetnr['street']);
-		$orgutils->setHouseNumber($streetnr['nr']);
+		$streetnr = $this->extract_house_nr($this->notEmptyString($rec['street']));
+		$orgutils->setStreet($this->notEmptyString($streetnr['street']));
+		$orgutils->setHouseNumber($this->notEmptyString($streetnr['nr']));
 
 	}
 
