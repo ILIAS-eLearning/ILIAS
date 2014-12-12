@@ -134,9 +134,11 @@ class gevUserImport {
 
 	// -------------------
 	public function createOrgStructure(){
+		print '<h2>Creating OrgUnits:</h2>';
 		require_once("Services/GEV/Import/classes/class.gevImportOrgStructure.php");
 		$importer = new gevImportOrgStructure();
 		$importer->createOrgUnits();
+		print '<br><b>Creating OrgUnits: done.</b>';
 	}
 
 
@@ -147,18 +149,16 @@ class gevUserImport {
 
 
 $imp = new gevUserImport();
+print '<pre>';
+
 
 
 $imp->createOrgStructure();
 
-print '<pre>';
 
 /*
 $imp->fetchGEVUsers();
-print 'done GEV-users.<br>';
-
 $imp->fetchVFSUsers();
-print 'done VFS-users.<br>';
 */
 
 print '<br><br>ok.';

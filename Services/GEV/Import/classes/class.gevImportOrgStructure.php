@@ -40,6 +40,35 @@ class gevImportOrgStructure {
 		$this->shadowDB = $mysql;
 	}
 
+
+	private function extract_house_nr($streetnr){
+
+		//special cases:
+		//Mannheim, Q5
+		$i = 0 ;
+		if(strtoupper(substr(trim($streetnr), 0, 2)) == 'Q5') {
+		    $i = 2;
+		}
+		if(strtoupper(substr(trim($streetnr), 0, 3)) == 'Q 5') {
+		    $i = 3;
+		}
+
+		//find first number in string
+	    $len = strlen($streetnr);
+	    $pos = False;
+	    for($i; $i < $len; $i++) {
+	        if(is_numeric($streetnr[$i])) {
+	        	$pos = $i;
+	        	break;
+	        }
+	    }
+	    $street = trim(substr($streetnr, 0, $pos));
+	    $nr = trim(substr($streetnr, $pos));
+		return array(
+			'street' => trim($street), 
+			'nr' =>trim($nr)
+		);
+	}
 	
 	
 	private function createSingleOrgUnit($rec){
@@ -53,9 +82,7 @@ class gevImportOrgStructure {
 		$id = $orgu->getId();
 		$refId = $orgu->getRefId();
 
-print '<hr>';
-print '<b>' .$rec['title'] .'</b><br>';
-print_r($rec);
+		print '<i>' .$rec['title'] .'</i><br>';
 
 		$orgutils = gevOrgUnitUtils::getInstance($id);
 
@@ -81,29 +108,19 @@ print_r($rec);
 			$parent = $record['ref_id'];
 		}
 
-print '<br>put in tree: ' . $id .'('. $refId.') under ' .$parent;
-		
+
 		$orgu->putInTree($parent);
 
-
 		$orgutils->setType(gevSettings::ORG_TYPE_DEFAULT);
-		//$orgutils->orgu_instance = null;
-
-		if($rec['zip']){
-			$orgutils->setZipcode($rec['zip']);
-print '<pre>';
-print_r($orgutils);
-die();
-
-		}
+		$orgutils->setZipcode($rec['zip']);
 		$orgutils->setCity($rec['city']);
 		$orgutils->setContactPhone($rec['fon']);
 		$orgutils->setContactFax($rec['fax']);
 		$orgutils->setFinancialAccount($rec['finaccount']);
-		//$rec['street']
-		//$orgutils->setStreet();
-		//$orgutils->setHouseNumber($rec['title']);
 
+		$streetnr = $this->extract_house_nr($rec['street']);
+		$orgutils->setStreet($streetnr['street']);
+		$orgutils->setHouseNumber($streetnr['nr']);
 
 	}
 
