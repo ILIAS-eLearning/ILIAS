@@ -1060,6 +1060,7 @@ assessment#:#tst_results_access_always#:#Always
 assessment#:#tst_results_access_always_desc#:#Participants have always access to their test results.
 assessment#:#tst_results_access_date#:#Date
 assessment#:#tst_results_access_date_desc#:#Participants get access to their test results after the defined date.
+assessment#:#tst_reporting_date#:#T0D07
 assessment#:#tst_results_access_finished#:#After Test is Finished
 assessment#:#tst_results_access_finished_desc#:#Participants have access to their test results after finishing the test pass.
 assessment#:#tst_results_access_enabled#:#Access to Test Results
