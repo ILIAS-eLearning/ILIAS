@@ -1052,8 +1052,8 @@ assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl
 assessment#:#tst_eval_total_passed_average_time#:#Mittlere Bearbeitungsdauer aller bestandenen Tests
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test gestartet haben
 assessment#:#tst_eval_user_answer#:#Antwort
-assessment#:#tst_exp_sc_short#:#Im Reiter 'Statistik' in der Export-Option 'MS Excel' wird ein zusätzliches Datenblatt für eine Item-Statistik außerhalb von ILIAS erzeugt. Diese Option funktioniert nur für reine Single Choice Tests.
-assessment#:#tst_exp_sc_short_desc#:#todui
+assessment#:#tst_exp_sc_short#:#Item-Statistik-Export für reinen Single Choice-Test
+assessment#:#tst_exp_sc_short_desc#:#Im Reiter 'Statistik' kann eine Export-Option 'MS Excel' ausgewählt werden. Sie erzeugt ein zusätzliches Datenblatt für eine Item-Statistik außerhalb von ILIAS. Diese Option funktioniert nur für reine Single Choice-Tests.
 assessment#:#tst_express_allow_question_pool#:#Erlaube Fragenpool in Seitenansicht
 assessment#:#tst_express_allow_question_pool_description#:#Wenn aktiviert, können Fragen einen Fragenpool zugeordnet werden.
 assessment#:#tst_finish_confirm_button#:#Ja, ich will den Test beenden
@@ -1226,9 +1226,9 @@ assessment#:#tst_result_user_name#:#Testergebnisse für %s
 assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_results#:#Testergebnisse
 assessment#:#tst_results_access_enabled#:#Teilnehmer sehen Testergebnisse
-assessment#:#tst_results_access_enabled_desc#:#TODO99
-assessment#:#tst_results_access_setting#:#TODO42
-assessment#:#tst_results_access_always#:#Immer
+assessment#:#tst_results_access_enabled_desc#:#Teilnehmer erhalten Zugriff auf ihre Testergebnisse. Um diese einzusehen klicken sie auf dem Reiter 'Info' den Button 'Testergenisse anzeigen'.
+assessment#:#tst_results_access_setting#:#Zeitpunkt
+assessment#:#tst_results_access_always#:#Sofort
 assessment#:#tst_results_access_always_desc#:#Teilnehmer können ihre Ergebnisse schon während eines Testdurchlaufs im 'Info'-Reiter einsehen. Ihre Ergebnisse werden ihnen zudem direkt nach Abschluss des Testdurchlaufs präsentiert.
 assessment#:#tst_results_access_date#:#Ab definiertem Datum
 assessment#:#tst_results_access_date_desc#:#Erst ab dem gewählten Datum können Teilnehmer ihre Ergebnisse im 'Info'-Reiter  einsehen.
@@ -1236,10 +1236,10 @@ assessment#:#tst_reporting_date#:#T0D07
 assessment#:#tst_results_access_finished#:#Nach Testdurchlauf
 assessment#:#tst_results_access_finished_desc#:#Teilnehmer sehen ihre Ergebnisse direkt nach Abschluss eines Testdurchlaufs. Sie können ihre Ergebnisse danach jederzeit im 'Info'-Reiter einsehen.
 assessment#:#tst_results_details_options#:#Details Testergebnisse
-assessment#:#tst_results_grading_opt_show_status#:#Status "Bestanden" / "Nicht bestanden"
-assessment#:#tst_results_grading_opt_show_status_desc#:#Status "Bestanden" / "Nicht bestanden" auf Übersicht Testergebnisse anzeigen
-assessment#:#tst_results_grading_opt_show_mark#:#Resultierende Note
-assessment#:#tst_results_grading_opt_show_mark_desc#:#Resultierende Note auf Übersicht Testergebnisse anzeigen
+assessment#:#tst_results_grading_opt_show_mark#:#Resultierende Note anzeigen
+assessment#:#tst_results_grading_opt_show_mark_desc#:#Die resultierende Note wird in der Übersicht Testergebnisse angezeigt. Teilnehmer können die Testergebnisse über einen Button auf dem Reiter 'Info' einsehen.
+assessment#:#tst_results_grading_opt_show_status#:#"Bestanden" / "Nicht bestanden" anzeigen
+assessment#:#tst_results_grading_opt_show_status_desc#:#Der Status "Bestanden" / "Nicht bestanden" wird in der Übersicht Testergebnisse angezeigt. Teilnehmer können die Testergebnisse über einen Button auf dem Reiter 'Info' einsehen.
 assessment#:#tst_results_aggregated#:#Aggregierte Testergebnisse
 assessment#:#tst_results_back_evaluation#:#Zurück zur Auswertungsübersicht
 assessment#:#tst_results_back_introduction#:#Zurück zur Startseite
@@ -1252,7 +1252,7 @@ assessment#:#tst_show_solution_printview_desc#:#Teilnehmer wird eine Übersicht 
 assessment#:#tst_show_solution_feedback_desc#:#Falls Rückmeldungen zu den gegebenen Antworten bei der Frage hinterlegt worden sind, werden diese angezeigt. Sie müssen die Option 'Bewertete Teilnehmerantworten' aktivieren, um diese Funktion zu nutzen.
 assessment#:#tst_show_solution_answers_only_desc#:#Wenn "Druckausgabe der Ergebnisse (nur Antworten)" ausgewählt ist, werden ILIAS-Inhalte, die Sie über den "Inhalt bearbeiten" Karteireiter der Fragen vor und hinter dem eigentlichen Fragentext platzieren können, in einem Ausdruck nicht angezeigt.
 assessment#:#tst_show_solution_signature_desc#:#Es wird im Ausdruck ein Platzhalter für die Unterschrift des Testteilnehmers angezeigt. Sie müssen, um diese Funktion zu nutzen, zusätzlich die Option 'Erzielte Punkte pro Frage' aktivieren.
-assessment#:#tst_show_solution_suggested_desc#:#Falls den Fragen im Test zuvor Inhalte zur Wiederholung des Stoff zugeordnet wurden, werden diese in der Tabelle' Erzielte Punkte pro Frage' angezeigt. Teilnehmer können so etwaige Wissenslücken schließen. Sie müssen, um diese Funktion zu nutzen, zusätzlich die Option 'Erzielte Punkte pro Frage' aktivieren.
+assessment#:#tst_show_solution_suggested_desc#:#Falls den Fragen im Test zuvor Inhalte zur Wiederholung des Stoffs zugeordnet wurden, werden diese in der Tabelle 'Erzielte Punkte pro Frage' angezeigt. Teilnehmer können so etwaige Wissenslücken schließen. Sie müssen, um diese Funktion zu nutzen, zusätzlich die Option 'Erzielte Punkte pro Frage' aktivieren.
 assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung
 assessment#:#tst_results_print_best_solution_info#:#Zusätzlich wird für jede Frage die bestmögliche Lösung angezeigt.
 assessment#:#tst_resume_test#:#Test fortsetzen
@@ -1362,9 +1362,9 @@ assessment#:#tst_tst_date#:#Datum des Tests
 assessment#:#tst_type#:#Test-Typ
 assessment#:#exam_id#:#Klausurnummer: 
 assessment#:#examid_in_test_pass#:#ILIAS-Prüfungsnummer anzeigen
-assessment#:#examid_in_test_pass_desc#:#TODO4711
+assessment#:#examid_in_test_pass_desc#:#Im Test wird eine ILIAS-Prüfungsnummer angezeigt. Für jeden Testdurchlauf wird eine eigene Nummer erzeugt.
 assessment#:#examid_in_test_res#:#ILIAS-Prüfungsnummer anzeigen
-assessment#:#examid_in_test_res_desc#:#TODO4812
+assessment#:#examid_in_test_res_desc#:#In den Testergebnissen wird die ILIAS-Prüfungsnummer dargestellt.
 assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits durchgeführten Tests wurden gelöscht!
 assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem laufenden Test löscht alle bereits durchgeführten Tests!
 assessment#:#tst_types#:#Test-Typen
@@ -1416,27 +1416,27 @@ assessment#:#toplist_col_wtime#:#Bearbeitungszeit
 assessment#:#toplist_your_result#:#Ihre Platzierung
 assessment#:#tst_highscore_enabled#:#Platzierungen
 assessment#:#tst_highscore_description#:#Im Reiter 'Info' wird Teilnehmern ein Button 'Zeige Platzierung' angezeigt. Teilnehmern wird nach dem Anklicken eine Tabelle über das Abschneiden der verschiedenen Teilnehmer im Test  angezeigt.
-assessment#:#tst_highscore_anon#:#Anonymisierung der Platzierten
-assessment#:#tst_highscore_anon_description#:#Wenn aktiviert, werden die Platzierungen in anonymisierter Form angezeigt. Dies geschieht ohnehin bei anonymisierten Tests.
-assessment#:#tst_highscore_achieved_ts#:#Anzeige des Testzeitpunkts
-assessment#:#tst_highscore_achieved_ts_description#:#Bestimmt, ob eine Spalte mit dem Zeitpunkt des Tests eingeblendet wird.
-assessment#:#tst_highscore_score#:#Anzeige der Punktzahl
-assessment#:#tst_highscore_score_description#:#Bestimmt, ob eine Spalte mit dem Punktwert des Tests eingeblendet wird.
-assessment#:#tst_highscore_percentage#:#Anzeige des Prozentwerts
-assessment#:#tst_highscore_percentage_description#:#Bestimmt, ob eine Spalte mit dem Prozentwert des Tests eingeblendet wird.
-assessment#:#tst_highscore_hints#:#Anzeige der angeforderten Lösungshinweise
-assessment#:#tst_highscore_hints_description#:#Bestimmt, ob eine Spalte mit der Anzahl der in Anspruch genommenen Hinweise des Tests eingeblendet wird.
-assessment#:#tst_highscore_wtime#:#Anzeige der Bearbeitungsdauer
-assessment#:#tst_highscore_wtime_description#:#Bestimmt, ob eine Spalte mit der Bearbeitungsdauer des Tests eingeblendet wird.
+assessment#:#tst_highscore_anon#:#Keine Namen anzeigen
+assessment#:#tst_highscore_anon_description#:#Die Platzierungen werden ohne Angabe der Namen angezeigt.  Dies geschieht ohnehin bei anonymisierten Tests.
+assessment#:#tst_highscore_achieved_ts#:#Datum
+assessment#:#tst_highscore_achieved_ts_description#:#Es wird eine zusätzliche Spalte mit dem Zeitpunkt des Tests eingeblendet.
+assessment#:#tst_highscore_score#:#Punkte
+assessment#:#tst_highscore_score_description#:#Es wird einen zusätzliche Spalte mit der Angabe der erreichten Punkte eingeblendet.
+assessment#:#tst_highscore_percentage#:#Prozentwert
+assessment#:#tst_highscore_percentage_description#:#Es wird einen zusätzliche Spalte mit der Angabe des erreichten Prozentwerts eingeblendet.
+assessment#:#tst_highscore_hints#:#Lösungshinweise
+assessment#:#tst_highscore_hints_description#:#Es wird einen zusätzliche Spalte eingeblendet, in welcher angezeigt wird, wie viele Lösungshinweise angefordert wurden.
+assessment#:#tst_highscore_wtime#:#Bearbeitungsdauer
+assessment#:#tst_highscore_wtime_description#:#Es wird einen zusätzliche Spalte mit der Bearbeitungsdauer eingeblendet.
 assessment#:#tst_highscore_mode#:#Modus
-assessment#:#tst_highscore_own_table#:#Eigene Platzierung
-assessment#:#tst_highscore_own_table_description#:#Zeigt eine Tabelle mit der eigenen Platzierung.
-assessment#:#tst_highscore_top_table#:#Top-Platzierung
-assessment#:#tst_highscore_top_table_description#:#Zeigt eine Tabelle mit den besten Platzierungen.
-assessment#:#tst_highscore_all_tables#:#Alle Platzierungen
+assessment#:#tst_highscore_own_table#:#Nur eigenen Rang anzeigen
+assessment#:#tst_highscore_own_table_description#:#Teilnehmern wird ihr Rang in der Platzierung angezeigt.
+assessment#:#tst_highscore_top_table#:#Bestenliste
+assessment#:#tst_highscore_top_table_description#:#Teilnehmern wird eine Tabelle mit den besten Platzierungen angezeigt.
+assessment#:#tst_highscore_all_tables#:#Eigener Rang und Bestenliste
 assessment#:#tst_highscore_all_tables_description#:#Zeigt sowohl eine Tabelle mit der eigenen Platzierung als auch eine Tabelle mit den besten Platzierungen.
-assessment#:#tst_highscore_top_num#:#Anzahl der angezeigten Top-Platzierungen
-assessment#:#tst_highscore_top_num_description#:#Bestimmt, wie viele Einträge in der Tabelle "Top-Platzierungen" angezeigt werden.
+assessment#:#tst_highscore_top_num#:#Länge der Bestenliste
+assessment#:#tst_highscore_top_num_description#:#Bestimmt, wie viele Einträge in der Bestenliste angezeigt werden.
 assessment#:#tst_highscore_top_num_unit#:#Platzierungen
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Konfiguration Fragenauswahl
 assessment#:#tst_rnd_quest_cfg_tab_pool#:#Ausgewählte Fragenpools
@@ -1446,7 +1446,7 @@ assessment#:#tst_question_set_type_fixed_desc#:#Allen Teilnehmern werden die gle
 assessment#:#tst_question_set_type_random#:#Zufällige Fragenauswahl
 assessment#:#tst_question_set_type_random_desc#:#Jedem Teilnehmer werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
 assessment#:#tst_question_set_type_dynamic#:#"Karteikasten" - alle Fragen eines Fragenpools
-assessment#:#tst_question_set_type_dynamic_desc#:#Allen Teilnehmern werden nach und nach alle Fragen aus einem definierten Fragenpool gestellt. Falsch beantwortete Fragen legt ILIAS erneut vor.
+assessment#:#tst_question_set_type_dynamic_desc#:#Allen Teilnehmern werden nach und nach alle Fragen aus einem definierten Fragenpool gestellt. Falsch beantwortete Fragen legt ILIAS erneut vor. Auch Fragen bereits laufender Tests können hinzugefügt oder geändert werden.
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Sie sind im Begriff den Test-Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test-Modus-abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen, wenn Sie den Test-Modus ändern.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenauswahl wurde geändert.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
@@ -1524,7 +1524,7 @@ assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufend
 assessment#:#enable_examview#:#Übersicht gegebener Antworten
 assessment#:#enable_examview_desc#:#Teilnehmern werden alle Fragen und die von ihnen gegebenen Antworten vor Abgabe des Tests präsentiert.
 assessment#:#test_enable_archiving#:#Archivierung aktivieren
-assessment#:#test_enable_archiving_desc#:#todui
+assessment#:#test_enable_archiving_desc#:#Im Reiter 'Export' kann der gesamte Test mit allen zugehörigen Teilnehmerantworten exportiert und herunterladen werden.
 assessment#:#ass_create_archive_export#:#Archivexport erzeugen.
 assessment#:#cannot_export_archive#:#Archivexport kann nicht erzeugt werden.
 assessment#:#show_examview_html#:#Am Bildschirm
@@ -1544,8 +1544,8 @@ assessment#:#tst_single_answer_details#:#Zeige einzelne Antwort
 assessment#:#tst_pass_details_overview_table_title#:#Detaillierte Testergebnisse für Testdurchlauf %s
 assessment#:#tst_btn_show_best_solutions#:#Zeige bestmögliche Lösungen
 assessment#:#tst_btn_hide_best_solutions#:#Verstecke bestmögliche Lösungen
-assessment#:#tst_starting_time_desc#:#Zeitpunkt, ab dem der Test begonnen werden kann. Das Klicken des Buttons <i>Test starten</i> ist möglich, und Teilnehmer können Fragen beantworten.
-assessment#:#tst_ending_time_desc#:#Zeitpunkt, zu dem der Test beendet wird. Teilnehmer können ab diesem Moment keine Antworten mehr abgeben.
+assessment#:#tst_starting_time_desc#:#Zeitpunkt, ab dem der Test begonnen werden kann. Das Klicken des Buttons 'Test starten' ist möglich, und Teilnehmer können Fragen beantworten.
+assessment#:#tst_ending_time_desc#:#Zeitpunkt, zu dem der Test beendet wird. Teilnehmer können ab diesem Moment keine Antworten mehr abgeben. ILIAS beendet den Test.
 assessment#:#tst_allowed_users_desc#:#ILIAS prüft die Anzahl der gleichzeitigen Teilnehmer des Tests. Wenn über die maximal erlaubte Anzahl hinaus weitere Benutzer versuchen, den Test zu starten, werden sie am Zugriff gehindert.
 assessment#:#tst_allowed_users_time_gap_desc#:#Teilnehmer die im Ablauf der angegeben Sekunden keinen Klick im Test ausführen, werden als ‚inaktiv‘ eingestuft und aus dem Test entfernt.
 assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
