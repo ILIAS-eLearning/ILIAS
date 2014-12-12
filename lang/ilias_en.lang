@@ -13600,7 +13600,7 @@ cld#:#cld_folder_name#:#Folder Name
 cld#:#cld_folder_not_existing_on_service#:#Folder not existing on service:
 cld#:#cld_id_already_exists_in_file_tree_in_session#:#Id already exists in filetree in Session:
 cld#:#cld_id_does_not_exist_in_file_tree_in_session#:#Id does not exist in filetree in Session:
-cld#:#cld_info_add_file_to_current_directory#:#Add Folder to current directory
+cld#:#cld_info_add_file_to_current_directory#:#Add File to current directory
 cld#:#cld_info_add_folder_to_current_directory#:#Add Folder to current directory
 cld#:#cld_invalid_input#:#Invalid Input
 cld#:#cld_new#:#New Cloud Object
