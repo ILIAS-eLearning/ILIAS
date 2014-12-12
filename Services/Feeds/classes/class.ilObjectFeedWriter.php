@@ -144,7 +144,8 @@ class ilObjectFeedWriter extends ilFeedWriter
 				&& $item["context_sub_obj_id"] > 0)
 			{
 				include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-				$wptitle = ilWikiPage::lookupTitle($item["context_sub_obj_id"]);
+				include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
+				$wptitle = ilWikiUtil::makeUrlTitle(ilWikiPage::lookupTitle($item["context_sub_obj_id"]));
 				$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
 					"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]."_".$wptitle);
 			}
