@@ -293,7 +293,19 @@ class gevUserImport {
 		$this->prnt('Fetching and updating VFS users: done', 2);
 	}
 
-
+	public function fetchVFSUserRoles(){
+		$this->prnt('Fetching roles for VFS-users', 1);
+		
+		$fetcher = $this->getFetchterVFS();
+		//global roles
+		$all_roles = $fetcher->getGlobalRoles();
+		$this->storeGlobalRolesToInterimsDB($all_roles, 'VFS');
+		//user roles
+		$user_roles = $fetcher->getGlobalRolesForUsers();
+		$this->storeUserRolesToInterimsBD($user_roles, 'VFS');
+			
+		$this->prnt('Fetching roles for VFS-users: done', 2);
+	}
 
 	/**
 	* GENERALI
@@ -319,13 +331,10 @@ class gevUserImport {
 		//user roles
 		$user_roles = $fetcher->getGlobalRolesForUsers();
 		$this->storeUserRolesToInterimsBD($user_roles, 'GEV');
-		
-	
+			
 		$this->prnt('Fetching roles for GEV-users: done', 2);
 	}
 	
-
-
 
 	public function fetchGEVEduRecords(){
 		$this->prnt('Fetching GEV EduRecords', 1);
@@ -359,12 +368,12 @@ $imp = new gevUserImport();
 
 //$imp->createOrgStructure();
 
-$imp->fetchGEVUsers();
-$imp->fetchGEVUserRoles();
+//$imp->fetchGEVUsers();
+//$imp->fetchGEVUserRoles();
 //$imp->fetchGEVEduRecords();
 
 //$imp->fetchVFSUsers();
-//$imp->fetchVFSUserRoles();
+$imp->fetchVFSUserRoles();
 //$imp->fetchVFSEduRecords();
 
 

@@ -19,6 +19,9 @@ From the VofueDB, import table
 	"udf_text" 
 	"edu_biography" 
 
+	"obj_data"
+	"rbac_ua"
+
 into the shadowDB gev_ivimport
 
 */
@@ -280,5 +283,43 @@ class gevFetchFVSUser {
 
 		//roles, udf...
 	}
+
+
+
+	public function getGlobalRoles(){
+		$roles = array();
+		$sql = "SELECT obj_id, title FROM object_data WHERE type='role'"
+			." AND title NOT LIKE 'il_%'"
+			." AND title NOT LIKE 'loc_%'";
+
+		$result = mysql_query($sql, $this->shadowDB);	
+		while($record = mysql_fetch_assoc($result)) {
+			$roles[$record['obj_id']] = $record['title'];
+		}
+		mysql_free_result($result);
+		return $roles;
+	}
+
+	public function getGlobalRolesForUsers(){
+		$ret = array();
+
+		$global_roles = array_keys($this->getGlobalRoles());
+
+
+		$sql = "SELECT usr_id, rol_id FROM rbac_ua"
+			." WHERE rol_id IN ("
+			.implode(',', $global_roles)
+			.')';
+		$result = mysql_query($sql, $this->shadowDB);	
+		while($record = mysql_fetch_assoc($result)) {
+			if(! array_key_exists($record['usr_id'], $ret)){
+				$ret[$record['usr_id']] = array();
+			}
+			$ret[$record['usr_id']][] = $record['rol_id'];
+		}
+		mysql_free_result($result);
+		return $ret;
+	}
+	
 
 }
