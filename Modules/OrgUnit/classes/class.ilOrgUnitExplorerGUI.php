@@ -19,17 +19,19 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI
 	public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree)
 	{
 		parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree);
-		$this->setAjax(true);
+		$this->setAjax(false);
 	}
 
 		public function getNodeContent($node){
-			global $lng;
+			global $lng, $ilAccess;
 			if($node["title"] == "__OrgUnitAdministration")
 				$node["title"] = $lng->txt("objs_orgu");
 			if($node["child"] == $_GET["ref_id"])
-				return "<span class='ilExp2NodeContent ilHighlighted'>".$node["title"]."</span>";
+				$title = "<span class='ilExp2NodeContent ilHighlighted'>".$node["title"]."</span>";
 			else
-				return $node["title"];
+				$title = $node["title"];
+			
+			return $title;
 		}
 
 		public function getRootNode(){
@@ -58,10 +60,12 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI
 
 		function getNodeHref($node){
 			global $ilCtrl;
-            if($ilCtrl->getCmd() == "performPaste")
+            // gev-patch start
+            /*if($ilCtrl->getCmd() == "performPaste")
             {
                 $ilCtrl->setParameterByClass("ilObjOrgUnitGUI","target_node",$node["child"]);
-            }
+            }*/
+            // gev-patch end
 			$ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $node["child"]);
 			return $this->getLinkTarget();
 		}
@@ -75,7 +79,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI
             }
 			else
             {
-                return $ilCtrl->getLinkTargetByClass("ilobjorgunitgui", "view");
+                return $ilCtrl->getLinkTargetByClass("ilobjorgunitgui", $ilCtrl->getCmd());
             }
 
 		}
@@ -163,13 +167,30 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI
 		 */
 		function isNodeClickable($a_node)
 		{
+			//gev-patch start
+			return false;
+			//gev-patch end
 			global $ilAccess;
 
-			if($ilAccess->checkAccess('read', '', $a_node['ref_id']))
+			if($ilAccess->checkAccess('read', '', $a_node['child']))
 			{
 				return true;
 			}
 			return false;
 		}
+		
+		function isNodeSelectable($a_node) {
+			global $ilAccess;
+			return  $ilAccess->checkAccess('create_orgu', '', $a_node['child'])
+				 && $_GET["item_ref_id"] !== $a_node["child"]
+				 && $_GET["ref_id"] !== $a_node["child"];
+		}
+		
+		// gev-patch start
+		function getNodeOnClick()
+		{
+			return "";
+		}
+		// gev-patch end
 	}
 ?>

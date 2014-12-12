@@ -654,26 +654,27 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}*/
 		global $ilTabs, $ilToolbar;
 
-		$ilTabs->setTabActive('view_content');
+		/*$ilTabs->setTabActive('view_content');
 
 		if(!in_array($_SESSION['clipboard']['cmd'], array('link', 'copy', 'cut')))
 		{
 			$message = __METHOD__.": Unknown action.";
 			$this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
 		}
-		$cmd = $_SESSION['clipboard']['cmd'];
+		$cmd = $_SESSION['clipboard']['cmd'];*/
+		$cmd = $this->ctrl->getCmd();
 
-		//
-		/*include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
-		$exp = new ilRepositorySelectorExplorerGUI($this, "showPasteTree");
-		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));*/
-		
-		$exp = new ilOrgUnitExplorerGUI("orgu_explorer", "ilObjOrgUnitGUI", "showTree", new ilTree(1));
+		//include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
+		//$exp = new ilRepositorySelectorExplorerGUI($this, "showPasteTree", null, "performPaste", "ref_id", new ilTree(1));
+		//$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));
+
+		$this->ctrl->setCmd('performPaste');
+		$exp = new ilOrgUnitExplorerGUI("orgu_explorer", "ilObjOrgUnitGUI", "performPaste", new ilTree(1));
 		$exp->setTypeWhiteList(array( "orgu" ));
 		
-		if ($cmd == "link")
+		if ($cmd == "link" || $cmd == "cut")
 		{
-			$exp->setSelectMode("nodes", true);
+			$exp->setSelectMode("nodes", false);
 		}
 		else
 		{
@@ -691,6 +692,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 		// toolbars
 		$t = new ilToolbarGUI();
+		$this->ctrl->setParameter($this, "ref_id", $_GET["item_ref_id"]);
+		$this->ctrl->setParameter($this, "item_ref_id", $_GET["item_ref_id"]);
 		$t->setFormAction($this->ctrl->getFormAction($this, "performPaste"));
 		$t->addFormButton($this->lng->txt($txt_var), "performPaste");
 		/*$t->addSeparator();
@@ -725,18 +728,19 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	 * @description Prepare $_POST for the generic method performPasteIntoMultipleObjectsObject
 	 */
 	public function performPaste() {
-		if (! in_array($_SESSION['clipboard']['cmd'], array( 'cut' ))) {
+/*		if (! in_array($_SESSION['clipboard']['cmd'], array( 'cut' ))) {
 			$message = __METHOD__ . ": cmd was not 'cut' ; may be a hack attempt!";
 			$this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
 		}
 		if ($_SESSION['clipboard']['cmd'] == 'cut') {
-			if (isset($_GET['ref_id']) && (int)$_GET['ref_id']) {
+			if (isset($_GET['nodes']) && (int)$_GET['ref_id']) {
 				// gev-patch start (#781)
 				//$_POST['nodes'] = array( $_GET['ref_id'] );
 				// gev-patch end  (#781)
 				$this->performPasteIntoMultipleObjectsObject();
 			}
-		}
+		}*/
+		$this->tree->moveTree($_GET["item_ref_id"],$_POST["nodes"]);
 		$this->ctrl->returnToParent($this);
 	}
 
