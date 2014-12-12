@@ -2734,7 +2734,6 @@ common#:#grp_btn_unsubscribe#:#Unsubscribe From Group
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
 rbac#:#grp_copy#:#User can copy group
 common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
-rbac#:#grp#:#User can copy group
 common#:#grp_count_members#:#Number of members
 common#:#grp_create#:#Create Group
 rbac#:#grp_delete#:#User can move or delete group
@@ -15175,3 +15174,4 @@ tagging#:#tag_some_obj_tagged_without_access#:#You do not have the permissions t
 tagging#:#tag_remove_tags_of_obj_without_access#:#Remove Tag
 tagging#:#tag_tags_deleted#:#Tag has been removed from inaccessible objects.
 content#:#cont_automatically_set_store_tries#:#Option "$1" has been activated automatically, because option "$2" has been enabled.
+rbac#:#rbac_cant_import_role_wrong_type#:#Can't import a role from item %s into item %s.

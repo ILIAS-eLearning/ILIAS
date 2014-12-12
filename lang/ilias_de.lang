@@ -12767,7 +12767,6 @@ fm#:#fm_settings_local_info#:#Wenn aktiviert, wird der Dateimanager in einer Zwe
 fm#:#fm_settings_filesize#:#Maximal Upload-Dateigrösse
 fm#:#fm_settings_filesize_info#:#Bitte geben Sie die maximale Upload-Dateigröße in MebiByte an.
 common#:#chat_invite_public_room#:#Öffentlicher Chatraum
-rbac#:#grp#:#Benutzer kann Gruppe kopieren
 rbac#:#sahs_copy#:#Benutzer kann SCORM/AICC-Lernmodul kopieren
 content#:#cont_LocalFile#:#Likale Datei
 ecs#:#ecs_cms_directory_trees_tbl#:#CMS-Verzeichnisbäume
@@ -15175,3 +15174,4 @@ tagging#:#tag_some_obj_tagged_without_access#:#Zu einigen der getaggten Objekte 
 tagging#:#tag_remove_tags_of_obj_without_access#:#Tag entfernen
 tagging#:#tag_tags_deleted#:#Tag wurde für Objekte ohne Zugriff entfernt.
 content#:#cont_automatically_set_store_tries#:#Die Option "$1" wurde automatisch aktiviert, da der Modus "$2" aktiviert wurde.
+rbac#:#rbac_cant_import_role_wrong_type#:#Eine Rolle aus dem Objekt $s in ein Objekt $s hinzuzufügen ist nicht möglich.

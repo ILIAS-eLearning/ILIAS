@@ -90,7 +90,7 @@ class ilRoleXmlImporter
 	 */
 	public function importSimpleXml(SimpleXMLElement $role)
 	{
-		global $rbacadmin, $rbacreview;
+		global $rbacadmin, $rbacreview, $lng;
 
 		$import_id = (string) $role['id'];
 		$GLOBALS['ilLog']->write(__METHOD__.' Importing role with import id '. $import_id);
@@ -103,10 +103,33 @@ class ilRoleXmlImporter
 		$this->getRole()->setTitle(trim((string) $role->title));
 		$this->getRole()->setDescription(trim((string) $role->description));
 		
+		$type =  ilObject::_lookupType($this->getRoleFolderId(), true);
+		$exp = explode("_", $this->getRole()->getTitle());
+
+		if(count($exp) > 0 && $exp[0] === "il")
+		{
+			if(count($exp) > 1 && $exp[1] !== $type)
+			{
+				throw new ilRoleImporterException(sprintf($lng->txt("rbac_cant_import_role_wrong_type"),
+					$lng->txt('obj_'.$exp[1]),$lng->txt('obj_'.$type)));
+			}
+
+			$exp[3] = $this->getRoleFolderId();
+
+			$id = ilObjRole::_getIdsForTitle(implode("_", $exp))[0];
+
+			if($id)
+			{
+				$GLOBALS['ilLog']->write(__METHOD__.': Overwrite role '. implode("_", $exp));
+				$this->getRole()->setId($id);
+				$this->getRole()->read();
+			}
+		}
 
 		// Create or update
 		if($this->getRole()->getId())
 		{
+			$rbacadmin->deleteRolePermission($this->getRole()->getId(), $this->getRoleFolderId());
 			$this->getRole()->update();
 		}
 		else
@@ -169,13 +192,18 @@ class ilRoleXmlImporter
 	 */
 	protected function assigntoRoleFolder()
 	{
-		global $rbacadmin;
+		global $rbacadmin, $rbacreview;
 		
 		if(!$this->getRoleFolderId())
 		{
 			return;
 		}
-		
+
+		if($rbacreview->isRoleAssignedToObject($this->getRole()->getId(),$this->getRoleFolderId()))
+		{
+			return;
+		}
+
 		$rbacadmin->assignRoleToFolder(
 			$this->getRole()->getId(),
 			$this->getRoleFolderId(),
