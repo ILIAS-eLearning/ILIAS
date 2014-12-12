@@ -330,7 +330,18 @@ class ilParticipationStatusAdminGUI
 		}
 		else
 		{
-			$may_finalize = $may_write;
+			// gev-patch start
+			// super special rule for decentral trainings
+			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+			$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
+
+			if ($crs_utils->isDecentralTraining() && ($crs_utils->getMinParticipants() > count($crs_utils->getParticipants()))) {
+				$may_finalize = false;
+			}
+			else {
+				$may_finalize = $may_write;
+			}
+			// gev-patch end
 		}
 		
 		// attendance list

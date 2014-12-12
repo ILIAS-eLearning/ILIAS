@@ -335,6 +335,10 @@ class gevCourseUtils {
 		return $this->getType() == "Webinar";
 	}
 	
+	public function isDecentralTraining() {
+		return $this->getEduProgramm() == "dezentrales Training";
+	}
+	
 	public function getStartDate() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_START_DATE);
 	}
