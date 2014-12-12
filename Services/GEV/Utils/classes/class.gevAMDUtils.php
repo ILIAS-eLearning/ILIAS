@@ -248,14 +248,40 @@ class gevAMDUtils {
 		
 		$postfix = self::getTablePostfixForType($a_type);
 		$value = $this->getSQLInsertValue($a_type, $a_value);
+		
+		// Query for subtype to set it correctly.
+		$res = $this->db->query( "SELECT sub_type"
+								."  FROM adv_md_record_objs r"
+								."  JOIN adv_mdf_definition d ON r.record_id = d.record_id"
+								." WHERE d.field_id = ".$this->db->quote($a_field_id, "integer")
+								);
+		if (!($rec = $this->db->fetchAssoc($res))) {
+			throw new Exception("gevAMDUtils::setValue: Could not determine subtype of field with id ".$a_field_id);
+		}
+		
+		// Special treatment for orgus, due to subtype.
+		if ($rec["sub_type"] == "orgu_type") {
+			$res2 = $this->db->query("SELECT orgu_type_id"
+									."  FROM orgu_data"
+									." WHERE orgu_id = ".$this->db->quote($a_obj, "integer")
+									);
+			if (!($rec2 = $this->db->fetchAssoc($res2))) {
+				throw new Exception("gevAMDUtils::setValue: Could not determine type of orgu with id ".$a_obj);
+			}
+			$rec["sub_id"] = $rec2["orgu_type_id"];
+		}
+		else {
+			$rec["sub_id"] = 0;
+		}
+		
 		$this->db->manipulate("INSERT INTO adv_md_values_".$postfix.
 							  " (obj_id, field_id, value, disabled, sub_type, sub_id)".
 							  " VALUES (".$this->db->quote($a_obj, "integer").
 							  "        ,".$this->db->quote($a_field_id, "integer").
 							  "        ,".$value.
 							  "        ,".$this->db->quote(0, "integer").
-							  "        ,".$this->db->quote("-", "text").
-							  "        ,".$this->db->quote(0, "integer").
+							  "        ,".$this->db->quote($rec["sub_type"], "text").
+							  "        ,".$this->db->quote($rec["sub_id"], "integer").
 							  "        ) ".
 							  " ON DUPLICATE KEY UPDATE value = ".$value
 							 );
