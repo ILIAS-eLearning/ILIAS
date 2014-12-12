@@ -39,15 +39,23 @@ class gevFetchGEVUser {
 		$this->shadowDB = $mysql;
 	}
 
-	private function getAllUsers(){
-		require_once("Services/User/classes/class.ilObjUser.php");
-		
+	private function getAllUserIds(){
 		$ret = array();
 		$sql = 'SELECT usr_id FROM usr_data';
-		
 		$result = $this->db->query($sql);
 		while($record = $this->db->fetchAssoc($result)) {
-			$ret[] = new ilObjUser($record['usr_id']);
+			$ret[] = $record['usr_id'];
+		}
+		return $ret;
+	}
+	
+
+	private function getAllUsers(){
+		require_once("Services/User/classes/class.ilObjUser.php");
+		$ret = array();
+		$usr_ids = $this->getAllUserIds();
+		foreach ($usr_ids as $usr_id) {
+			$ret[] = new ilObjUser($usr_id);
 		}
 		return $ret;
 	}
@@ -109,8 +117,6 @@ class gevFetchGEVUser {
 	}
 
 
-
-
 	public function fetchUsers(){
 		$ret = array();
 		$ilsusrs =  $this->getAllUsers();
@@ -145,7 +151,27 @@ class gevFetchGEVUser {
 				
 			mysql_query($sql, $this->shadowDB);
 		}
-
 	}
+
+	
+	public function getGlobalRoles(){
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		$role_utils = gevRoleUtils::getInstance();
+		$roles = $role_utils->getGlobalRoles();
+		return $roles;
+	}
+
+	public function getGlobalRolesForUsers(){
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		$ret = array();
+		$role_utils = gevRoleUtils::getInstance();
+
+		$usr_ids = $this->getAllUserIds();
+		foreach ($usr_ids as $usr_id) {
+			$ret[$usr_id] = $role_utils->getGlobalRolesOf($usr_id);
+		}
+		return $ret;
+	}
+	
 
 }
