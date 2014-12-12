@@ -166,7 +166,6 @@ class gevBillingReportGUI extends catBasicReportGUI {
 					." GROUP BY bill.bill_number "
 					. $sql_order_str
 					;
-		die($query);
 		$bill_link_icon = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-get_bill.png").'" />';
 
 		$res = $this->db->query($query);
