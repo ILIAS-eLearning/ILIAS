@@ -310,6 +310,8 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	*/
 	function updateObject()
 	{
+		global $ilSetting;
+
 		if (!$this->checkPermissionBool("write"))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
@@ -322,19 +324,14 @@ class ilObjRootFolderGUI extends ilContainerGUI
 				$this->saveSortingSettings($form);
 
 				// save custom icons
-				if ($this->ilias->getSetting("custom_icons"))
+				//save custom icons
+				if ($ilSetting->get("custom_icons"))
 				{
-					if($form->getItemByPostVar("cont_big_icon")->getDeletionFlag())
+					if($_POST["cont_icon_delete"])
 					{
-						$this->object->removeBigIcon();
+						$this->object->removeCustomIcon();
 					}
-					if($form->getItemByPostVar("cont_tiny_icon")->getDeletionFlag())
-					{
-						$this->object->removeTinyIcon();
-					}
-
-					$this->object->saveIcons($_FILES["cont_big_icon"]['tmp_name'],
-						null, $_FILES["cont_tiny_icon"]['tmp_name']);
+					$this->object->saveIcons($_FILES["cont_icon"]['tmp_name']);
 				}
 
 				// hide icon/title

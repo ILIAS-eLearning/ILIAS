@@ -15174,4 +15174,5 @@ tagging#:#tag_some_obj_tagged_without_access#:#Zu einigen der getaggten Objekte 
 tagging#:#tag_remove_tags_of_obj_without_access#:#Tag entfernen
 tagging#:#tag_tags_deleted#:#Tag wurde für Objekte ohne Zugriff entfernt.
 content#:#cont_automatically_set_store_tries#:#Die Option "$1" wurde automatisch aktiviert, da der Modus "$2" aktiviert wurde.
+cntr#:#cont_custom_icon#:#Custom Icon
 rbac#:#rbac_cant_import_role_wrong_type#:#Eine Rolle aus dem Objekt $s in ein Objekt $s hinzuzufügen ist nicht möglich.

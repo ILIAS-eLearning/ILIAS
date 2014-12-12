@@ -15174,4 +15174,5 @@ tagging#:#tag_some_obj_tagged_without_access#:#You do not have the permissions t
 tagging#:#tag_remove_tags_of_obj_without_access#:#Remove Tag
 tagging#:#tag_tags_deleted#:#Tag has been removed from inaccessible objects.
 content#:#cont_automatically_set_store_tries#:#Option "$1" has been activated automatically, because option "$2" has been enabled.
+cntr#:#cont_custom_icon#:#Custom Icon
 rbac#:#rbac_cant_import_role_wrong_type#:#Can't import a role from item %s into item %s.

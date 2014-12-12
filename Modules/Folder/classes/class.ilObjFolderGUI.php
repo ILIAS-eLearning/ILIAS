@@ -562,29 +562,21 @@ class ilObjFolderGUI extends ilContainerGUI
 	*/
 	function updateIconsObject()
 	{
+		global $ilSetting;
+
 		$this->checkPermission('write');
 		
 		$form = $this->initIconsForm();
 		if($form->checkInput())
 		{
 			//save custom icons
-			if ($this->ilias->getSetting("custom_icons"))
+			if ($ilSetting->get("custom_icons"))
 			{
-				if($_POST["cont_big_icon_delete"])
+				if($_POST["cont_icon_delete"])
 				{
-					$this->object->removeBigIcon();
+					$this->object->removeCustomIcon();
 				}
-				if($_POST["cont_small_icon_delete"])
-				{
-					$this->object->removeSmallIcon();
-				}
-				if($_POST["cont_tiny_icon_delete"])
-				{
-					$this->object->removeTinyIcon();
-				}
-				$this->object->saveIcons($_FILES["cont_big_icon"]['tmp_name'],
-					$_FILES["cont_small_icon"]['tmp_name'], $_FILES["cont_tiny_icon"]['tmp_name']);
-
+				$this->object->saveIcons($_FILES["cont_icon"]['tmp_name']);
 			}
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 			$this->ctrl->redirect($this,"editIcons");

@@ -126,36 +126,49 @@ class ilContainer extends ilObject
 	}
 	
 	/**
-	* Get path for big icon.
-	*
-	* @return	string	icon path
-	*/
+	 * Get path for big icon.
+	 *
+	 * @return	string	icon path
+	 * @deprecated use _lookupIconPath instead
+	 */
 	function getBigIconPath()
 	{
-		return ilContainer::_lookupIconPath($this->getId(), "big");
+		return self::_lookupIconPath($this->getId());
 	}
 
 	/**
-	* Get path for small icon
-	*
-	* @return	string	icon path
-	*/
+	 * Get path for small icon
+	 *
+	 * @return	string	icon path
+	 * @deprecated use _lookupIconPath instead
+	 */
 	function getSmallIconPath()
 	{
-		return ilContainer::_lookupIconPath($this->getId(), "small");
+		return self::_lookupIconPath($this->getId());
 	}
 
 	/**
-	* Get path for tiny icon
-	*
-	* @return	string	icon path
-	*/
+	 * Get path for tiny icon
+	 *
+	 * @return	string	icon path
+	 * @deprecated use _lookupIconPath instead
+	 */
 	function getTinyIconPath()
 	{
-		return ilContainer::_lookupIconPath($this->getId(), "tiny");
+		return self::_lookupIconPath($this->getId());
 	}
-	
-	
+
+	/**
+	 * Get path for custom icon
+	 *
+	 * @return	string	icon path
+	 */
+	function getCustomIconPath()
+	{
+		return self::_lookupIconPath($this->getId());
+	}
+
+
 	/**
 	* Set Found hidden files (set by getSubItems).
 	*
@@ -323,13 +336,20 @@ class ilContainer extends ilObject
 		{
 			$a_size = "big";
 		}
-		
 		$size = $a_size;
 		
-		if (ilContainer::_lookupContainerSetting($a_id, "icon_".$size))
+		if (ilContainer::_lookupContainerSetting($a_id, "icon_custom"))
 		{
 			$cont_dir = ilContainer::_getContainerDirectory($a_id);
-			
+
+			$file_name = $cont_dir."/icon_custom.svg";
+			if (is_file($file_name))
+			{
+				return $file_name;
+			}
+
+			return;
+
 			// png version? (introduced with ILIAS 4.3)
 			$file_name = $cont_dir."/icon_".$a_size.".png";
 			if (is_file($file_name))
@@ -351,7 +371,7 @@ class ilContainer extends ilObject
 	/**
 	* save container icons
 	*/
-	function saveIcons($a_big_icon, $a_small_icon, $a_tiny_icon)
+	function saveIcons($a_custom_icon)
 	{
 		global $ilDB;
 		
@@ -359,6 +379,7 @@ class ilContainer extends ilObject
 		$cont_dir = $this->getContainerDirectory();
 		
 		// save big icon
+		/*
 		$big_geom = $this->ilias->getSetting("custom_icon_big_width")."x".
 			$this->ilias->getSetting("custom_icon_big_height");
 		$big_file_name = $cont_dir."/icon_big.png";
@@ -376,28 +397,30 @@ class ilContainer extends ilObject
 		else
 		{
 			ilContainer::_writeContainerSetting($this->getId(), "icon_big", 0);
-		}
-		// save small icon
-		$small_geom = $this->ilias->getSetting("custom_icon_small_width")."x".
-			$this->ilias->getSetting("custom_icon_small_height");
-		$small_file_name = $cont_dir."/icon_small.png";
+		}*/
 
-		if (is_file($a_small_icon))
+		// save custom icon
+		//$small_geom = $this->ilias->getSetting("custom_icon_small_width")."x".
+		//	$this->ilias->getSetting("custom_icon_small_height");
+
+		$file_name = "";
+		if ($a_custom_icon != "")
 		{
-			$a_small_icon = ilUtil::escapeShellArg($a_small_icon);
-			$small_file_name = ilUtil::escapeShellArg($small_file_name);
-			ilUtil::execConvert($a_small_icon."[0] -geometry ".$small_geom." PNG:".$small_file_name);
+			$file_name = $cont_dir."/icon_custom.svg";
+			ilUtil::moveUploadedFile($a_custom_icon, "icon_custom.svg", $file_name);
 		}
-		if (is_file($cont_dir."/icon_small.png"))
+
+		if ($file_name != "" && is_file($file_name))
 		{
-			ilContainer::_writeContainerSetting($this->getId(), "icon_small", 1);
+			ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 1);
 		}
 		else
 		{
-			ilContainer::_writeContainerSetting($this->getId(), "icon_small", 0);
+			ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 0);
 		}
 
 		// save tiny icon
+		/*
 		$tiny_geom = $this->ilias->getSetting("custom_icon_tiny_width")."x".
 			$this->ilias->getSetting("custom_icon_tiny_height");
 		$tiny_file_name = $cont_dir."/icon_tiny.png";
@@ -415,41 +438,19 @@ class ilContainer extends ilObject
 		else
 		{
 			ilContainer::_writeContainerSetting($this->getId(), "icon_tiny", 0);
-		}
+		}*/
 
 	}
 
-	/**
-	* remove big icon
-	*/ 
-	function removeBigIcon()
-	{
-		$cont_dir = $this->getContainerDirectory();
-		$big_file_name = $cont_dir."/icon_big.png";
-		@unlink($big_file_name);
-		ilContainer::_writeContainerSetting($this->getId(), "icon_big", 0);
-	}
-	
 	/**
 	* remove small icon
 	*/ 
-	function removeSmallIcon()
+	function removeCustomIcon()
 	{
 		$cont_dir = $this->getContainerDirectory();
-		$small_file_name = $cont_dir."/icon_small.png";
+		$small_file_name = $cont_dir."/icon_custom.svg";
 		@unlink($small_file_name);
-		ilContainer::_writeContainerSetting($this->getId(), "icon_small", 0);
-	}
-	
-	/**
-	* remove tiny icon
-	*/ 
-	function removeTinyIcon()
-	{
-		$cont_dir = $this->getContainerDirectory();
-		$tiny_file_name = $cont_dir."/icon_tiny.png";
-		@unlink($tiny_file_name);
-		ilContainer::_writeContainerSetting($this->getId(), "icon_tiny", 0);
+		ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 0);
 	}
 	
 	/**

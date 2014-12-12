@@ -1922,10 +1922,18 @@ class ilObject
 			in_array($a_type, array("cat","grp","crs", "root", "fold")))
 		{
 			require_once("./Services/Container/classes/class.ilContainer.php");
-			if (ilContainer::_lookupContainerSetting($a_obj_id, "icon_".$a_size))
+			if (ilContainer::_lookupContainerSetting($a_obj_id, "icon_custom"))
 			{
 				$cont_dir = ilContainer::_getContainerDirectory($a_obj_id);
-				
+
+				$file_name = $cont_dir."/icon_custom.svg";
+				if (is_file($file_name))
+				{
+					return $file_name;
+				}
+
+				return;
+
 				// png version? (introduced with ILIAS 4.3)
 				$file_name = $cont_dir."/icon_".$a_size.".png";
 				if (is_file($file_name))

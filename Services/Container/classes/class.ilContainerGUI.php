@@ -2727,6 +2727,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			if(!$a_form)
 			{
+				/*
 				$this->tpl->addBlockFile("CONTAINER_ICONS", "container_icon_settings",
 					"tpl.container_icon_settings.html", "Services/Container");
 
@@ -2772,12 +2773,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$this->ilias->getSetting("custom_icon_tiny_height").")");
 				$this->tpl->setVariable("TXT_REMOVE", $this->lng->txt("remove"));
 				$this->tpl->parseCurrentBlock();
+				*/
 			}
 			else
 			{
-				$big_icon = $this->object->getBigIconPath();
-				$small_icon = $this->object->getSmallIconPath();
-				$tiny_icon = $this->object->getTinyIconPath();
+				//$big_icon = $this->object->getBigIconPath();
+				$custom_icon = $this->object->getCustomIconPath();
+				//$tiny_icon = $this->object->getTinyIconPath();
 
 				if($a_as_section)
 				{					
@@ -2791,6 +2793,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$a_form->addItem($title);
 
 				// big
+				/*
 				$caption = $this->lng->txt("big_icon")." (".
 					$this->ilias->getSetting("custom_icon_big_width")."x".
 					$this->ilias->getSetting("custom_icon_big_height").")";
@@ -2803,16 +2806,18 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				else
 				{
 					$title->addSubItem($icon);
-				}
+				}*/
 				
 				// small/standard
-				if ($this->object->getType() != "root")
-				{
-					$caption = $this->lng->txt("standard_icon")." (".
+				//if ($this->object->getType() != "root")
+				//{
+					/*$caption = $this->lng->txt("standard_icon")." (".
 						$this->ilias->getSetting("custom_icon_small_width")."x".
-						$this->ilias->getSetting("custom_icon_small_height").")";
-					$icon = new ilImageFileInputGUI($caption, "cont_small_icon");
-					$icon->setImage($small_icon);
+						$this->ilias->getSetting("custom_icon_small_height").")";*/
+					$caption = $this->lng->txt("cont_custom_icon");
+					$icon = new ilImageFileInputGUI($caption, "cont_icon");
+					$icon->setSuffixes(array("svg"));
+					$icon->setImage($custom_icon);
 					if($a_as_section)
 					{
 						$a_form->addItem($icon);
@@ -2821,9 +2826,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					{
 						$title->addSubItem($icon);
 					}
-				}
+				//}
 
 				// tiny
+				/*
 				$caption = $this->lng->txt("tiny_icon")." (".
 					$this->ilias->getSetting("custom_icon_tiny_width")."x".
 					$this->ilias->getSetting("custom_icon_tiny_height").")";
@@ -2837,6 +2843,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				{
 					$title->addSubItem($icon);
 				}
+				*/
 			}
 		}
 	}
