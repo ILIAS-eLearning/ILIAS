@@ -116,7 +116,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI {
 				$this->tpl->touchBlock("icon_link_e");
 			}
 			$this->enableIcon(false);
-            if($this->getContainerObject()->isActiveAdministrationPanel())
+            if($this->getContainerObject()->isActiveAdministrationPanel() && !$_SESSION['clipboard'])
             {
                 $this->tpl->touchBlock("i_1");    // indent main div  }
                 $this->tpl->touchBlock("d_2");    // indent main div  } #0014913
