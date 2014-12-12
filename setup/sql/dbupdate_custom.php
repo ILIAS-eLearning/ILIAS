@@ -2462,3 +2462,43 @@ if(!$ilDB->tableExists('hist_tep'))
 					 ."        , 'n', 'y')"
 					 );
 ?>
+
+<#76>
+<?php
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+	$res = $ilDB->query("SELECT record_id FROM adv_md_record"
+					   ." WHERE title = 'Verwaltung'");
+	$rec = $ilDB->fetchAssoc($res);
+	$record_id = $rec["record_id"];
+	
+	$res = $ilDB->query("SELECT field_id FROM adv_mdf_definition"
+					   ." WHERE title = 'Bildungsprogramm'");
+	$rec = $ilDB->fetchAssoc($res);
+	$field_id = $rec["field_id"];
+	
+	$ilDB->manipulate("UPDATE adv_mdf_definition "
+					 ."   SET record_id = ".$ilDB->quote($record_id, "integer")
+					 ." WHERE title = 'Bildungsprogramm'"
+					 );
+	$ilDB->manipulate("UPDATE settings "
+					 ."   SET value = ".$this->db->quote($record_id." ".$field_id, "text")
+					 ." WHERE keyword = ".$this->db->quote(gevSettings::CRS_AMD_EDU_PROGRAMM, "text")
+					 );
+
+	$pos = array( 1 => "Trainingsnummer"
+				, 2 => "Trainingtyp"
+				, 3 => "Bildungsprogramm"
+				, 4 => "Vorlage"
+				, 5 => "Vorlagentitel"
+				, 6 => "Referenz-Id der Vorlage"
+				, 7 => "Nummernkreis"
+				);
+	
+	foreach ($pos as $key => $value) {
+		$ilDB->manipulate("UPDATE adv_mdf_definition"
+						 ."   SET position = ".$ilDB->quote($key, "integer")
+						 ." WHERE title = ".$ilDB->quote($value, "text")
+						 );
+	}
+?>
