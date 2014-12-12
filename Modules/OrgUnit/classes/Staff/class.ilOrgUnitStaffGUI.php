@@ -219,7 +219,6 @@ class ilOrgUnitStaffGUI {
 		}
 
 		if(!count($user_ids)) {
-			die("gere");
 			ilUtil::sendFailure($this->lng->txt("user_not_found"), true);
 			$this->ctrl->redirect($this,"showStaff");
 		}
