@@ -56,7 +56,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		{
 			case 'illicenseoverviewgui':
 				include_once("./Services/License/classes/class.ilLicenseOverviewGUI.php");
-				$license_gui =& new ilLicenseOverviewGUI($this,LIC_MODE_ADMINISTRATION);
+				$license_gui =& new ilLicenseOverviewGUI($this,ilLicenseOverviewGUI::LIC_MODE_ADMINISTRATION);
 				$ret =& $this->ctrl->forwardCommand($license_gui);
 				break;
 

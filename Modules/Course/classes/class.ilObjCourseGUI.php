@@ -4250,7 +4250,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 			case 'illicenseoverviewgui':
 				include_once("./Services/License/classes/class.ilLicenseOverviewGUI.php");
-				$license_gui =& new ilLicenseOverviewGUI($this, LIC_MODE_REPOSITORY);
+				$license_gui =& new ilLicenseOverviewGUI($this, ilLicenseOverviewGUI::LIC_MODE_REPOSITORY);
 				$ret =& $this->ctrl->forwardCommand($license_gui);
 				$this->tabs_gui->setTabActive('licenses');
 				break;

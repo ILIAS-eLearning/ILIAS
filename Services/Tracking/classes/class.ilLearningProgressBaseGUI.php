@@ -634,7 +634,13 @@ class ilLearningProgressBaseGUI
 			$lng->txt("trac_completed"));
 		$tpl->setVariable("TXT_FAILED",
 			$lng->txt("trac_failed"));
-		return $tpl->get();
+		
+		include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
+		$panel = ilPanelGUI::getInstance();
+		$panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
+		$panel->setBody($tpl->get());
+		
+		return $panel->getHTML();
 	}
 	
 	protected function initEditUserForm($a_user_id, $a_obj_id, $a_cancel = null)
