@@ -521,6 +521,9 @@ class ilTEPEntries
 				{					
 					// add period to key to enable sorting (see below)
 					$idx = $entry["start"]."_".$entry["end"]."_".$entry_id;
+					// gev-patch start
+					$entry["user_id"] = $user_id;
+					// gev-patch end
 					$res[$user_id][$idx] = $entry;
 				}					
 			}

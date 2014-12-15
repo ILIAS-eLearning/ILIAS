@@ -638,7 +638,8 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			global $ilUser, $ilCtrl, $lng;
 			$cur_user_id = $ilUser->getId();
 			$ref_id = $a_entry["course_ref_id"];
-			$crs_utils = gevCourseUtils::getInstance($a_entry["context_id"]);
+			$crs_id = $a_entry["context_id"];
+			$crs_utils = gevCourseUtils::getInstance($crs_id);
 			$actions = "";
 			if ($crs_utils->hasTrainer($cur_user_id) || $crs_utils->hasAdmin($cur_user_id)) {
 				$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
@@ -648,12 +649,13 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", null);
 			}
 			$ilCtrl->setParameterByClass("ilTEPGUI", "ref_id", $ref_id);
+			$ilCtrl->setParameterByClass("ilTEPGUI", "crs_id", $crs_id);
 			if ( $crs_utils->canModifyParticipationStatus($cur_user_id)) {
 				$setstatus_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-state-neutral.png").'" />';
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilTEPGUI", "showParticipationStatus")
 							."' title='".$lng->txt("gev_mytrainingsap_legend_setstatus")."'>".$setstatus_img."</a>&nbsp;";
 			}
-			if ($crs_utils->isWithAccomodations() && $crs_utils->canViewBookings($cur_user_id)) {
+			if ($crs_utils->isWithAccomodations() && $a_entry["start"] > date("Y-m-d") && $cur_user_id == $a_entry["user_id"]) {
 				$overnight_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-edit.png").'" />';
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilTEPGUI", "showOvernights")
 							."' title='".$lng->txt("gev_mytrainingsap_legend_overnights")."'>".$overnight_img."</a>&nbsp;";
@@ -664,6 +666,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 							."' title='".$lng->txt("gev_mytrainingsap_legend_overnights")."'>".$bookings_img."</a>&nbsp;";
 			}
 			$ilCtrl->setParameterByClass("ilTEPGUI", "ref_id", null);
+			$ilCtrl->setParameterByClass("ilTEPGUI", "crs_id", null);
 			
 			if ($actions) {
 				$a_entry["description"] .= "<br /><br />".$actions;
