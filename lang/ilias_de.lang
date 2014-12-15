@@ -15176,3 +15176,7 @@ tagging#:#tag_tags_deleted#:#Tag wurde für Objekte ohne Zugriff entfernt.
 content#:#cont_automatically_set_store_tries#:#Die Option "$1" wurde automatisch aktiviert, da der Modus "$2" aktiviert wurde.
 cntr#:#cont_custom_icon#:#Custom Icon
 rbac#:#rbac_cant_import_role_wrong_type#:#Eine Rolle aus dem Objekt $s in ein Objekt $s hinzuzufügen ist nicht möglich.
+content#:#cont_license#:#Lizenz
+content#:#cont_license_info#:#Aktiviert das Lizenz-Feature
+content#:#cont_biblio#:#Bibliographische Daten
+content#:#cont_biblio_info#:#Aktiviert das Bibliographische Daten - Feature

@@ -20,6 +20,10 @@ require_once "./Services/Object/classes/class.ilObject.php";
 class ilObjFileBasedLM extends ilObject
 {
 	var $tree;
+	
+	protected $online; // [bool]
+	protected $show_license; // [bool]
+	protected $show_bib; // [bool]
 
 	/**
 	* Constructor
@@ -32,6 +36,9 @@ class ilObjFileBasedLM extends ilObject
 		// this also calls read() method! (if $a_id is set)
 		$this->type = "htlm";
 		$this->ilObject($a_id,$a_call_by_reference);
+		
+		$this->setShowLicense(false);
+		$this->setShowBibliographicalData(false);
 	}
 
 
@@ -49,8 +56,10 @@ class ilObjFileBasedLM extends ilObject
 		parent::update();
 
 		$ilDB->manipulate("UPDATE file_based_lm SET ".
-			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline()), "text").",".
-			" startfile = ".$ilDB->quote($this->getStartFile(), "text")." ".
+			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline()), "text").
+			", startfile = ".$ilDB->quote($this->getStartFile(), "text")." ".
+			", show_lic = ".$ilDB->quote($this->getShowLicense(), "integer")." ".
+			", show_bib = ".$ilDB->quote($this->getShowBibliographicalData(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 
 		return true;
@@ -70,7 +79,8 @@ class ilObjFileBasedLM extends ilObject
 		$lm_rec = $ilDB->fetchAssoc($lm_set);
 		$this->setOnline(ilUtil::yn2tf($lm_rec["is_online"]));
 		$this->setStartFile((string) $lm_rec["startfile"]);
-
+		$this->setShowLicense($lm_rec["show_lic"]);
+		$this->setShowBibliographicalData($lm_rec["show_bib"]);
 	}
 
 	/**
@@ -140,6 +150,26 @@ class ilObjFileBasedLM extends ilObject
 	function getOnline()
 	{
 		return $this->online;
+	}
+	
+	function setShowLicense($a_value)
+	{
+		$this->show_license = (bool)$a_value;
+	}
+	
+	function getShowLicense()
+	{
+		return $this->show_license;
+	}
+	
+	function setShowBibliographicalData($a_value)
+	{
+		$this->show_bib = (bool)$a_value;
+	}
+	
+	function getShowBibliographicalData()
+	{
+		return $this->show_bib;
 	}
 
 	/**
@@ -318,6 +348,8 @@ class ilObjFileBasedLM extends ilObject
 	 	
 		$new_obj->setTitle($this->getTitle());
 		$new_obj->setDescription($this->getDescription());
+		$new_obj->setShowLicense($this->getShowLicense());
+		$new_obj->setShowBibliographicalData($this->getShowBibliographicalData());
 
 		// copy content
 		$new_obj->populateByDirectoy($this->getDataDirectory());

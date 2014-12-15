@@ -5255,3 +5255,26 @@ $ilDB->update('settings',
 	)
 );
 ?>
+<#4439>
+<?php
+if( !$ilDB->tableColumnExists('file_based_lm', 'show_lic'))
+{	
+	$ilDB->addTableColumn('file_based_lm', 'show_lic',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => null
+		));
+}
+if( !$ilDB->tableColumnExists('file_based_lm', 'show_bib'))
+{	
+	$ilDB->addTableColumn('file_based_lm', 'show_bib',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => null
+		));
+}
+?>
