@@ -27,11 +27,11 @@ class ilTree
 	const POS_FIRST_NODE = -1;
 	
 	
-	const RELATION_NONE = 0;
 	const RELATION_CHILD = 1;		// including grand child
 	const RELATION_PARENT = 2;		// including grand child
 	const RELATION_SIBLING = 3;
 	const RELATION_EQUALS = 4;
+	const RELATION_NONE = 5;
 	
 	
 	/**
@@ -2720,6 +2720,16 @@ class ilTree
 		}
 		
 		return $res;
+	}
+	
+	public function deleteNode($a_tree_id,$a_node_id)
+	{
+		global $ilDB;
+		
+		$query = 'DELETE FROM tree where '.
+				'child = '.$ilDB->quote($a_node_id,'integer').' '.
+				'AND tree = '.$ilDB->quote($a_tree_id,'integer');
+		$ilDB->manipulate($query);
 	}
 	
 	
