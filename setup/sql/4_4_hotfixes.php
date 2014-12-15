@@ -1784,14 +1784,14 @@ if( !$ilDB->tableColumnExists('tst_active', 'start_lock'))
 <#62>
 <?php
 $row = $ilDB->fetchAssoc($ilDB->queryF(
-	"SELECT count(*) cnt FROM settings WHERE module = %s AND keyword = %s)",
+	"SELECT count(*) cnt FROM settings WHERE module = %s AND keyword = %s",
 	array('text', 'text'), array('assessment', 'ass_process_lock_mode')
 ));
 
 if( $row['cnt'] )
 {
 	$ilDB->manipulateF(
-		"DELETE FROM settings WHERE module = %s AND keyword = %s)",
+		"DELETE FROM settings WHERE module = %s AND keyword = %s",
 		array('text', 'text'), array('assessment', 'quest_process_lock_mode')
 	);
 }
