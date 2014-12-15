@@ -5245,15 +5245,32 @@ if( !$ilDB->tableColumnExists('tst_active', 'start_lock'))
 ?>
 <#4438>
 <?php
-$ilDB->update('settings',
-	array(
-		'keyword' => array('text', 'ass_process_lock_mode')
-	),
-	array(
-		'module' => array('text', 'assessment'),
-		'keyword' => array('text', 'quest_process_lock_mode')
-	)
-);
+
+$row = $ilDB->fetchAssoc($ilDB->queryF(
+	"SELECT count(*) cnt FROM settings WHERE module = %s AND keyword = %s)",
+	array('text', 'text'), array('assessment', 'ass_process_lock_mode')
+));
+
+if( $row['cnt'] )
+{
+	$ilDB->manipulateF(
+		"DELETE FROM settings WHERE module = %s AND keyword = %s)",
+		array('text', 'text'), array('assessment', 'quest_process_lock_mode')
+	);
+}
+else
+{
+	$ilDB->update('settings',
+		array(
+			'keyword' => array('text', 'ass_process_lock_mode')
+		),
+		array(
+			'module' => array('text', 'assessment'),
+			'keyword' => array('text', 'quest_process_lock_mode')
+		)
+	);
+}	
+
 ?>
 <#4439>
 <?php
