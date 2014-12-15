@@ -123,7 +123,7 @@ class gevRegistrationGUI {
 			return $this->inputUserProfile(null, $res[0]);
 		}
 		else {
-			return $this->checkEVGRegistration($res[0], $import);
+			return $this->startRegistration($res[0]);
 		}
 	}
 
@@ -247,7 +247,7 @@ class gevRegistrationGUI {
 				. $tpl->get();
 	}
 	
-	protected function checkEVGRegistration($a_form, $a_import) {
+	/*protected function checkEVGRegistration($a_form, $a_import) {
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		$title = new catTitleGUI("gev_evg_registration", null, "GEV_img/ico-head-evg_registration.png");
 	
@@ -270,7 +270,7 @@ class gevRegistrationGUI {
 	
 		return	  $title->render()
 				. $tpl->get();
-	}
+	}*/
 
 	protected function checkRegistrationStartForm() {
 		$form = $this->buildRegistrationStartForm();
