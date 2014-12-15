@@ -12894,7 +12894,7 @@ common#:#search_globally#:#Im gesamten Magazin
 common#:#search_at_current_position#:#An der aktuellen Position
 survey#:#svy_copy#:#Umfrage kopieren
 blog#:#blog_authors#:#Autoren
-blog#:#blog_author#:#Autor
+blog#:#blog_author#:#Beiträge von
 blog#:#blog_enable_approval#:#Neue Beiträge freischalten
 blog#:#blog_enable_approval_info#:#Ist diese Option eingeschaltet, müssen alle Beiträge durch einen Benutzer mit dem Recht "Einstellungen bearbeiten" freigeschaltet werden.
 blog#:#blog_approve#:#Abnahme erteilen

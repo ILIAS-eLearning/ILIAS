@@ -12899,7 +12899,7 @@ fm#:#fm_settings_local_info#:#If enabled, the file manager starts with two frame
 fm#:#fm_settings_filesize#:#Maximum Upload File Size
 fm#:#fm_settings_filesize_info#:#Enter the maximum allowed filesize for uploaded files in mebibyte.
 blog#:#blog_authors#:#Authors
-blog#:#blog_author#:#Author
+blog#:#blog_author#:#Written by
 blog#:#blog_enable_approval#:#Approve Postings
 blog#:#blog_enable_approval_info#:#Postings are published only after being approved by a user with permission "Edit Settings" for this blog.
 blog#:#blog_approve#:#Approve
