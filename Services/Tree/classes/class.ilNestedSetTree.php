@@ -372,7 +372,6 @@ class ilNestedSetTree implements ilTreeImplementation
 		$depth = $this->getTree()->getDepth($a_parent_id) + 1;
 
 		// insert node
-		//$this->log->write('ilTree.insertNode('.$a_node_id.','.$a_parent_id.') inserting node:'.$a_node_id.' parent:'.$a_parent_id." ".$lft."..".$rgt." depth:".$depth);
 		$query = sprintf('INSERT INTO '.$this->getTree()->getTreeTable().' ('.$this->getTree()->getTreePk().',child,parent,lft,rgt,depth) '.
 			'VALUES (%s,%s,%s,%s,%s,%s)',
 			$ilDB->quote($this->getTree()->getTreeId(),'integer'),
@@ -411,13 +410,11 @@ class ilNestedSetTree implements ilTreeImplementation
 		// Fetch lft, rgt directly (without fetchNodeData) to avoid unnecessary table locks
 		// (object_reference, object_data)
 		$query = 'SELECT *  FROM '.$this->getTree()->getTreeTable().' '.
-				'WHERE child = '.$ilDB->quote($a_node_id,'integer');
+				'WHERE child = '.$ilDB->quote($a_node_id,'integer').' '.
+				'AND '.$this->getTree()->getTreePk().' = '.$ilDB->quote($this->getTree()->getTreeId(),'integer');
 		$res = $ilDB->query($query);
 		$a_node = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		
-		$GLOBALS['ilLog']->write(__METHOD__.' '.print_r($a_node,true));
-		
-
 		// delete subtree
 		$query = sprintf('DELETE FROM '.$this->getTree()->getTreeTable().' '.
 			'WHERE lft BETWEEN %s AND %s '.
