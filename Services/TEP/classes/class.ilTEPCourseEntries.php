@@ -218,6 +218,9 @@ class ilTEPCourseEntries
 				$actions .=  "<a href='".($ilCtrl->getLinkTargetByClass("ilTEPGUI", "showBookings"))
 							."' title='".($lng->txt("gev_mytrainingsap_legend_overnights"))."'>".$bookings_img."</a>";
 			}
+			if ($actions) {
+				$description .= "<br /><br />".$actions;
+			}
 			// gev-patch end
 			if($description != $a_entry->getDescription())
 			{
