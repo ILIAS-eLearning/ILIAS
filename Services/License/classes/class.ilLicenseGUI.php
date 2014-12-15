@@ -51,36 +51,60 @@ class ilLicenseGUI
 
 		return true;
 	}
+	
+	protected function initLicenseForm()
+	{					
+		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "updateLicense"));
+		$form->setTitle($this->lng->txt('edit_license'));
+		
+		$exist = new ilNumberInputGUI($this->lng->txt("existing_licenses"), "licenses");
+		$exist->setInfo($this->lng->txt("zero_licenses_explanation"));
+		$exist->setValue($this->license->getLicenses());
+		$form->addItem($exist);
+		
+		$info_used = new ilNonEditableValueGUI($this->lng->txt("used_licenses"));
+		$info_used->setInfo($this->lng->txt("used_licenses_explanation"));
+		$info_used->setValue($this->license->getAccesses());
+		$form->addItem($info_used);
+		
+		$remaining_licenses = ($this->license->getLicenses() == "0")
+			? $this->lng->txt("arbitrary") 
+			: $this->license->getRemainingLicenses();		
+		
+		$info_remain = new ilNonEditableValueGUI($this->lng->txt("remaining_licenses"));
+		$info_remain->setInfo($this->lng->txt("remaining_licenses_explanation"));
+		$info_remain->setValue($remaining_licenses);
+		$form->addItem($info_remain);
+		
+		$info_potential = new ilNonEditableValueGUI($this->lng->txt("potential_accesses"));
+		$info_potential->setInfo($this->lng->txt("potential_accesses_explanation"));
+		$info_potential->setValue($this->license->getPotentialAccesses());
+		$form->addItem($info_potential);
+		
+		$comm = new ilTextAreaInputGUI($this->lng->txt("comment"), "remarks");
+		$comm->setRows(5);	
+		$comm->setValue($this->license->getRemarks());
+		$form->addItem($comm);
+		
+		$form->addCommandButton('updateLicense', $this->lng->txt('save'));
+		
+		return $form;		
+	}
 
 	/**
 	* Show the license form
 	* @access public
 	*/
-	function editLicense()
+	function editLicense(ilPropertyFormGUI $a_form = null)
 	{
-		$licenses = strval($this->license->getLicenses());
-		$used_licenses = strval($this->license->getAccesses());
-		$remaining_licenses = $licenses == "0" ? $this->lng->txt("arbitrary") : strval($this->license->getRemainingLicenses());
-		$potential_accesses = strval($this->license->getPotentialAccesses());
+		if(!$a_form)
+		{
+			$a_form = $this->initLicenseForm();
+		}
 		
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.lic_edit_license.html',"Services/License");
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_EDIT_LICENSE", $this->lng->txt("edit_license"));
-		$this->tpl->setVariable("TXT_EXISTING_LICENSES", $this->lng->txt("existing_licenses"));
-		$this->tpl->setVariable("LICENSES", $licenses);
-		$this->tpl->setVariable("TXT_ZERO_LICENSES_EXPLANATION", $this->lng->txt("zero_licenses_explanation"));
-		$this->tpl->setVariable("TXT_USED_LICENSES", $this->lng->txt("used_licenses"));
-		$this->tpl->setVariable("USED_LICENSES", $used_licenses);
-		$this->tpl->setVariable("TXT_USED_LICENSES_EXPLANATION", $this->lng->txt("used_licenses_explanation"));
-		$this->tpl->setVariable("TXT_REMAINING_LICENSES", $this->lng->txt("remaining_licenses"));
-		$this->tpl->setVariable("REMAINING_LICENSES", $remaining_licenses);
-		$this->tpl->setVariable("TXT_REMAINING_LICENSES_EXPLANATION", $this->lng->txt("remaining_licenses_explanation"));
-		$this->tpl->setVariable("TXT_POTENTIAL_ACCESSES", $this->lng->txt("potential_accesses"));
-		$this->tpl->setVariable("POTENTIAL_ACCESSES", $potential_accesses);
-		$this->tpl->setVariable("TXT_POTENTIAL_ACCESSES_EXPLANATION", $this->lng->txt("potential_accesses_explanation"));
-		$this->tpl->setVariable("TXT_REMARKS", $this->lng->txt("comment"));
-		$this->tpl->setVariable("REMARKS", $this->license->getRemarks());
-		$this->tpl->setVariable("BTN_UPDATE", $this->lng->txt("save"));
+		$this->tpl->setContent($a_form->getHTML());				
 	}
 	
 	/**
@@ -89,11 +113,18 @@ class ilLicenseGUI
 	*/
 	function updateLicense()
 	{
-		$this->license->setLicenses((int) $_REQUEST["licenses"]);
-		$this->license->setRemarks($_REQUEST["remarks"]);
-		$this->license->update();
-		ilUtil::sendInfo($this->lng->txt('license_updated'), true);
-		$this->ctrl->redirect($this,"editLicense");
+		$form = $this->initLicenseForm();
+		if($form->checkInput())
+		{
+			$this->license->setLicenses($form->getInput("licenses"));
+			$this->license->setRemarks($form->getInput("remarks"));
+			$this->license->update();
+			
+			ilUtil::sendSuccess($this->lng->txt('license_updated'), true);
+			$this->ctrl->redirect($this,"editLicense");
+		}
+		
+		$form->setValuesByPost();
+		$this->editLicense($form);		
 	}
 } 
-?>
