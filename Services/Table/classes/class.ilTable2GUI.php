@@ -48,6 +48,9 @@ class ilTable2GUI extends ilTableGUI
 	protected $print_mode;
 	
 	protected $enable_command_for_all;
+	protected $restore_filter; // [bool]
+	protected $restore_filter_values; // [bool]
+	
 
 	/**
 	 * @var bool
@@ -615,10 +618,10 @@ class ilTable2GUI extends ilTableGUI
 		{
 			$this->optional_filters[] = $a_input_item;
 		}
-
+		
 		// restore filter values (from stored view)
-		if($this->restore_filter_values)
-		{
+		if($this->restore_filter)
+		{			
 			if(array_key_exists($a_input_item->getFieldId(), $this->restore_filter_values))
 			{
 				$this->setFilterValue($a_input_item, $this->restore_filter_values[$a_input_item->getFieldId()]);
@@ -2959,6 +2962,8 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 			{
 				$this->restore_filter_values = $data["filter_values"];
 			}
+			
+			$this->restore_filter = true;
 
 			return true;
 		}

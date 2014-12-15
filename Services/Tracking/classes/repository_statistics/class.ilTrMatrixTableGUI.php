@@ -46,10 +46,10 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				$this->in_course = ilObject::_lookupObjId($this->in_course);
 			}
 		}
-
-		$this->initFilter();
-
+		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
+
+		$this->initFilter(); 	
 		$this->setLimit(9999);
 		$this->parseTitle($this->obj_id, "trac_matrix");
 	
