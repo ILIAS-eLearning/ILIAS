@@ -5295,3 +5295,19 @@ if( !$ilDB->tableColumnExists('file_based_lm', 'show_bib'))
 		));
 }
 ?>
+<#4440>
+<?php
+
+$ilDB->manipulate("UPDATE settings ".
+	"SET value = ".$ilDB->quote(1370, "text").
+	" WHERE module = ".$ilDB->quote("blga", "text").
+	" AND keyword = ".$ilDB->quote("banner_width", "text").
+	" AND value = ".$ilDB->quote(880, "text"));
+
+$ilDB->manipulate("UPDATE settings ".
+	"SET value = ".$ilDB->quote(1370, "text").
+	" WHERE module = ".$ilDB->quote("prfa", "text").
+	" AND keyword = ".$ilDB->quote("banner_width", "text").
+	" AND value = ".$ilDB->quote(880, "text"));
+
+?>
