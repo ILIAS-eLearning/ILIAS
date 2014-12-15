@@ -634,7 +634,6 @@ class ilObjRole extends ilObject
 		
 		// get local policies
 		$all_local_policies = $rbacreview->getObjectsWithStopedInheritance($this->getId());
-
 		
 		// filter relevant roles
 		$local_policies = array();
@@ -706,81 +705,46 @@ class ilObjRole extends ilObject
 		
 		$operation_stack = array();
 		$policy_stack = array();
-		#$left_stack = array();
-		#$right_stack = array();
 		$node_stack = array();
 		
 		$start_node = current($a_nodes);
-		#array_push($left_stack, $start_node['lft']);
-		#array_push($right_stack, $start_node['rgt']);
 		array_push($node_stack,$start_node);
 		$this->updatePolicyStack($policy_stack, $start_node['child']);
 		$this->updateOperationStack($operation_stack, $start_node['child'],true);
-
+		
 		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
 		$rbac_log_active = ilRbacLog::isActive();
 		
 		$local_policy = false;
 		foreach($a_nodes as $node)
 		{
-			#$lft = end($left_stack);
-			#$rgt = end($right_stack);
-			
 			$cmp_node = end($node_stack);
 			while($relation = $tree->getRelationOfNodes($node,$cmp_node))
 			{
-				#$GLOBALS['ilLog']->write(__METHOD__.': New relation '. $relation);
 				switch($relation)
 				{
 					case ilTree::RELATION_NONE:
 					case ilTree::RELATION_SIBLING:
-						#$GLOBALS['ilLog']->write(__METHOD__.': Handling sibling/none '. $relation);
-						#$GLOBALS['ilLog']->write(__METHOD__.': Node a '.print_r($node,true).' '.print_r($cmp_node,true));
+						$GLOBALS['ilLog']->write(__METHOD__.': Handling sibling/none relation.');
+						array_pop($operation_stack);
+						array_pop($policy_stack);
+						array_pop($node_stack);
+						$cmp_node = end($node_stack);
+						$local_policy = false;
 						break;
 
 					case ilTree::RELATION_CHILD:
 					case ilTree::RELATION_EQUALS:
 					case ilTree::RELATION_PARENT:
 					default:
-						#$GLOBALS['ilLog']->write(__METHOD__.': Handling child/equals/parent '. $relation);
+						$GLOBALS['ilLog']->write(__METHOD__.': Handling child/equals/parent '. $relation);
 						break 2;
 				}
-				#$GLOBALS['ilLog']->write(__METHOD__.': end switch ');
 				
-				
-				#$GLOBALS['ilLog']->write(__METHOD__.': Comparing '. print_r($node,true).' with '. print_r($cmp_node,true).' with result '. $tree->getRelationOfnodes($node,$cmp_node));
-				array_pop($operation_stack);
-				array_pop($policy_stack);
-				array_pop($node_stack);
-				#array_pop($left_stack);
-				#array_pop($right_stack);
-				
-				$cmp_node = end($node_stack);
-				
-				$local_policy = false;
 			}
-			#$GLOBALS['ilLog']->write(__METHOD__.': End while');
-			
 
-			/*
-			while(($node['lft'] < $lft) or ($node['rgt'] > $rgt))
-			{
-				#echo "LEFT ".$node['child'].'<br>';
-				array_pop($operation_stack);
-				array_pop($policy_stack);
-				array_pop($left_stack);
-				array_pop($right_stack);
-
-				$lft = end($left_stack);
-				$rgt = end($right_stack);
-
-				$local_policy = false;
-			}
-			*/
 			if($local_policy)
 			{
-				#echo "LOCAL ".$node['child'].' left:'.$node['lft'].' right: '.$node['rgt'].'<br>';
-				// Continue if inside of local policy
 				continue;
 			}
 
@@ -816,17 +780,14 @@ class ilObjRole extends ilObject
 			// Node has local policies => update permission stack and continue
 			if(in_array($node['child'], $a_policies) and ($node['child'] != SYSTEM_FOLDER_ID))
 			{
-				#echo "POLICIES ".$node['child'].' left:'.$node['lft'].' right: '.$node['rgt'].'<br>';
 				$local_policy = true;
 				$this->updatePolicyStack($policy_stack, $node['child']);
 				$this->updateOperationStack($operation_stack, $node['child']);
-				#array_push($left_stack,$node['lft']);
-				#array_push($right_stack, $node['rgt']);
 				array_push($node_stack, $node);
 				continue;
 			}
 			
-			// Continue if this object type is in filter
+			// Continue if this object type is not in filter
 			if(!$this->isHandledObjectType($a_filter,$a_exclusion_filter,$node['type']))
 			{
 				continue;
@@ -838,23 +799,17 @@ class ilObjRole extends ilObject
 				$rbac_log_old = ilRbacLog::gatherFaPa($node['child'], array_keys($rbac_log_roles));
 			}
 		
-			#echo "MODE: ".$a_mode.'TYPE: '.$node['type'].'<br>';
 			// Node is course => create course permission intersection
 			if(($a_mode == self::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES or
 				$a_mode == self::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES) and ($node['type'] == 'crs'))
 				
 			{
-				#echo "CRS ".$node['child'].'<br>';
 				// Copy role permission intersection
-				
 				$perms = end($operation_stack);
 				$this->createPermissionIntersection($policy_stack,$perms['crs'],$node['child'],$node['type']);
 				if($this->updateOperationStack($operation_stack,$node['child']))
 				{
-					#echo "CRS SUCCESS ".$node['child'].'<br>';
 					$this->updatePolicyStack($policy_stack, $node['child']);
-					#array_push($left_stack, $node['lft']);
-					#array_push($right_stack, $node['rgt']);
 					array_push($node_stack, $node);
 				}
 			}
@@ -863,21 +818,16 @@ class ilObjRole extends ilObject
 			if(($a_mode == self::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES or
 				$a_mode == self::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES) and ($node['type'] == 'grp'))
 			{
-				#echo "GRP ".$node['child'].'<br>';
 				// Copy role permission intersection
 				$perms = end($operation_stack);
 				$this->createPermissionIntersection($policy_stack,$perms['grp'],$node['child'],$node['type']);
 				if($this->updateOperationStack($operation_stack,$node['child']))
 				{
-					#echo "GRP SUCCESS ".$node['child'].'<br>';
 					$this->updatePolicyStack($policy_stack, $node['child']);
-					#array_push($left_stack, $node['lft']);
-					#array_push($right_stack, $node['rgt']);
 					array_push($node_stack, $node);
 				}
 			}
 
-			#echo "GRANTED ".$node['child'].'<br>';
 			// Set permission
 			$perms = end($operation_stack);
 			$rbacadmin->grantPermission(
@@ -885,7 +835,6 @@ class ilObjRole extends ilObject
 				(array) $perms[$node['type']],
 				$node['child']
 			);
-			#var_dump("ALL INFO ",$this->getId(),$perms[$node['type']]);
 
 			if($rbac_log_active)
 			{
@@ -983,8 +932,8 @@ class ilObjRole extends ilObject
 			return false;
 		}
 		
-		$a_stack[] = $rolf;
-		return true;
+			$a_stack[] = $rolf;
+			return TRUE;
 	}
 	
 	/**

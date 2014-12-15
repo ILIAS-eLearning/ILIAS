@@ -27,11 +27,11 @@ class ilTree
 	const POS_FIRST_NODE = -1;
 	
 	
-	const RELATION_NONE = 0;
 	const RELATION_CHILD = 1;		// including grand child
 	const RELATION_PARENT = 2;		// including grand child
 	const RELATION_SIBLING = 3;
 	const RELATION_EQUALS = 4;
+	const RELATION_NONE = 5;
 	
 	
 	/**

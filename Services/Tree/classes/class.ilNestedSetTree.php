@@ -124,22 +124,27 @@ class ilNestedSetTree implements ilTreeImplementation
 	{
 		if($a_node_a['child'] == $a_node_b['child'])
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': EQUALS');
 			return ilTree::RELATION_EQUALS;
 		}
 		if($a_node_a['lft'] < $a_node_b['lft'] and $a_node_a['rgt'] > $a_node_b['rgt'])
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': PARENT');
 			return ilTree::RELATION_PARENT;
 		}
 		if($a_node_b['lft'] < $a_node_a['lft'] and $a_node_b['rgt'] > $a_node_a['rgt'])
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': CHILD');
 			return ilTree::RELATION_CHILD;
 		}
 		
 		// if node is also parent of node b => sibling
 		if($a_node_a['parent'] == $a_node_b['parent'])
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': SIBLING');
 			return ilTree::RELATION_SIBLING;
 		}
+		$GLOBALS['ilLog']->write(__METHOD__.': NONE');
 		return ilTree::RELATION_NONE;
 	}
 	
@@ -800,6 +805,9 @@ class ilNestedSetTree implements ilTreeImplementation
 			"AND t1.".$this->getTree()->getTreePk()." = ".$ilDB->quote($this->getTree()->getTreeId(),'integer')." ".
 			"AND t2.".$this->getTree()->getTreePk()." = ".$ilDB->quote($this->getTree()->getTreeId(),'integer')." ".
 			"ORDER BY t2.lft";
+		
+		 $GLOBALS['ilLog']->write(__METHOD__.': '.$query);
+		
 			
 		$res = $ilDB->query($query);
 		$nodes = array();
