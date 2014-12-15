@@ -608,7 +608,7 @@ class ilExAssignmentGUI
 							$img." ".$lng->txt("exc_".$status));
 					}
 					
-					if ($cnt_files > 0 || $show_global_feedback)
+					if ($cnt_files > 0)
 					{
 						$info->addSection($lng->txt("exc_fb_files").
 							'<a name="fb'.$a_data["id"].'"></a>');
@@ -624,16 +624,18 @@ class ilExAssignmentGUI
 									$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadFeedbackFile"));
 								$ilCtrl->setParameterByClass("ilobjexercisegui", "file", "");
 							}
-						}
+						}												
+					}	
+					
+					// #15002 - global feedback																	
+					if($show_global_feedback)
+					{
+						$info->addSection($lng->txt("exc_global_feedback_file"));
 						
-						// global feedback																	
-						if($show_global_feedback)
-						{
-							$info->addProperty($a_data["fb_file"],
-								$lng->txt("download"),
-								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadGlobalFeedbackFile"));								
-						}
-					}										
+						$info->addProperty($a_data["fb_file"],
+							$lng->txt("download"),
+							$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadGlobalFeedbackFile"));								
+					}
 				}								
 			}
 		}
