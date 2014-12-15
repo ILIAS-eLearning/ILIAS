@@ -535,12 +535,7 @@ class gevUserUtils {
 				$entry['apdays'] = $tep_opdays;
 				//$entry['category'] = '-';
 				
-				$entry['may_finalize'] = $ps_helper->isStartForParticipationStatusSettingReached()
-									   && (  (   $entry["pstate"] == ilParticipationStatus::STATE_SET 
-									   		  && $ps_permissions->setParticipationStatus())
-										  || (   $entry["pstate"] == ilParticipationStatus::STATE_REVIEW 
-									   		  && $ps_permissions->reviewParticipationStatus())
-										  );
+				$entry['may_finalize'] = $crs_utils->canModifyParticipationStatus($this->user_id);
 
 				$ret[$id] = $entry;
 			}

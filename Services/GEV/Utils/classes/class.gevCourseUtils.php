@@ -1003,6 +1003,10 @@ class gevCourseUtils {
 		return $this->getMembership()->getAdmins();
 	}
 	
+	public function hasAdmin($admin_id) {
+		return in_array($trainer_id, $this->getAdmins());
+	}
+	
 	public function getMembers() {
 		return array_merge($this->getMembership()->getMembers(), $this->getTrainers(), $this->getAdmins());
 	}
@@ -1596,6 +1600,21 @@ class gevCourseUtils {
 	}
 	
 	// Participation
+	
+	public function canModifyParticipationStatus($a_user_id) {
+		require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusHelper.php");
+		require_once("Services/ParticipationStatus/classes/class.ilParticipationStatus.php");
+		require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusPermissions.php");
+		$ps_helper = ilParticipationStatusHelper::getInstance($this->getCourse());
+		$ps = ilParticipationStatus::getInstance($this->getCourse());
+		$ps_permissions = ilParticipationStatusPermissions::getInstance($this->getCourse(), $a_user_id);
+		return     $ps_helper->isStartForParticipationStatusSettingReached()
+				&& (    (   $ps->getProcessState() == ilParticipationStatus::STATE_SET 
+						 && $ps_permissions->setParticipationStatus())
+					 || (   $ps->getProcessState() == ilParticipationStatus::STATE_REVIEW 
+					 	 && $ps_permissions->reviewParticipationStatus())
+				   );
+	}
 	
 	public function getParticipationStatusOf($a_user_id) {
 		$sp = $this->getParticipations()->getStatusAndPoints($a_user_id);
