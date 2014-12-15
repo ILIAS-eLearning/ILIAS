@@ -1867,7 +1867,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$ilCtrl->setParameter($this, "kwd", "");
 
 				$wtpl->setVariable("TXT_KEYWORD", $keyword);				
-				$wtpl->setVariable("SIZE_KEYWORD", ilTagging::calculateFontSize($counter, $max));				
+				$wtpl->setVariable("CLASS_KEYWORD", ilTagging::getRelevanceClass($counter, $max));				
 				$wtpl->setVariable("URL_KEYWORD", $url);
 				$wtpl->parseCurrentBlock();					
 			}			
