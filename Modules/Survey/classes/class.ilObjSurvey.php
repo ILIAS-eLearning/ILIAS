@@ -3350,7 +3350,37 @@ class ilObjSurvey extends ilObject
 	function getActiveID($user_id, $anonymize_id, $appr_id)
 	{
 		global $ilDB;
+		
+		// see self::isSurveyStarted()
+		
+		// #15031 - should not matter if code was used by registered or anonymous (each code must be unique)
+		if($anonymize_id)
+		{
+			$result = $ilDB->queryF("SELECT finished_id FROM svy_finished".
+				" WHERE survey_fi = %s AND anonymous_id = %s AND appr_id = %s",
+				array('integer','text','integer'),
+				array($this->getSurveyId(), $anonymize_id, $appr_id)
+			);
+		}
+		else
+		{
+			$result = $ilDB->queryF("SELECT finished_id FROM svy_finished".
+				" WHERE survey_fi = %s AND user_fi = %s AND appr_id = %s",
+				array('integer','integer','integer'),
+				array($this->getSurveyId(), $user_id, $appr_id)
+			);
+		}
+		if ($result->numRows() == 0)
+		{
+			return false;
+		}			
+		else
+		{
+			$row = $ilDB->fetchAssoc($result);
+			return $row["finished_id"];
+		}	
 
+		/*
 		if ($this->getAnonymize())
 		{
 			if ((($user_id != ANONYMOUS_USER_ID) && (strlen($anonymize_id) == 0)) && (!($this->isAccessibleWithoutCode() && $this->isAllowedToTakeMultipleSurveys())))
@@ -3386,7 +3416,8 @@ class ilObjSurvey extends ilObject
 		{
 			$row = $ilDB->fetchAssoc($result);
 			return $row["finished_id"];
-		}
+		}		 
+		*/
 	}
 	
 /**
