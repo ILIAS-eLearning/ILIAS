@@ -67,10 +67,11 @@ class ilLicenseOverviewGUI
 		include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
 		$panel = ilPanelGUI::getInstance();
 		$panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
-		$panel->setBody(
+		$panel->setBody('<div class="small">'.
 			$this->lng->txt("used_licenses_explanation")."<br/>".
 			$this->lng->txt("remaining_licenses_explanation")."<br/>".
-			$this->lng->txt("potential_accesses_explanation")
+			$this->lng->txt("potential_accesses_explanation").
+			"</div>"
 		);
 		
 		$this->tpl->setContent($tbl->getHTML()."<br />".$panel->getHTML());	

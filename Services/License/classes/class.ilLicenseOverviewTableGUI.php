@@ -19,6 +19,7 @@ class ilLicenseOverviewTableGUI extends ilTable2GUI
 	{	
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
+		$this->setId("licovw");
 		$this->setTitle($this->lng->txt("licenses"));
 		
 		$this->addColumn($this->lng->txt("title"), "title");		
