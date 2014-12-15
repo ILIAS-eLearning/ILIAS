@@ -45,18 +45,27 @@ div.ilContainerListItemOuterHighlight {
 }
 
 div.ilContainerListItemCB {
-	float: left;
-	width: 25px;
+	/*float: left;
+	width: 25px;*/
+	display: table-cell;
+	vertical-align: top;
+	padding-right: 10px;
 }
 
 [dir="rtl"] div.ilContainerListItemCB {
-	float: right;
+	/* float: right; */
 }
 
 div.ilContainerListItemIcon {
+	/* margin-top: -3px;
+	   float: left;
+	position: absolute; */
+	display: table-cell;
+	vertical-align: top;
+}
+div.ilContainerListItemIcon a {
+	display: block;
 	margin-top: -3px;
-	float: left;
-	position: absolute;
 }
 
 [dir="rtl"] div.ilContainerListItemIcon {
@@ -78,22 +87,25 @@ img.ilListItemIcon {
 }
 
 div.ilContainerListItemContent {
-	margin-left: 35px;
+	/* margin-left: 35px; */
+	display: table-cell;
+	vertical-align: top;
+	width: 100%;
 }
 
 [dir="rtl"] div.ilContainerListItemContent {
-	margin-left: 0;
-	margin-right: 35px;
+	/* margin-left: 0;
+	margin-right: 35px; */
 }
 
 /* If checkbox is activated, add spacing */
 div.ilContainerListItemContentCB {
-	margin-left: 60px;
+	/* margin-left: 60px; */
 }
 
 [dir="rtl"] div.ilContainerListItemContentCB {
-	margin-left: 0;
-	margin-right: 60px;
+	/* margin-left: 0;
+	margin-right: 60px; */
 }
 
 div.il_ContainerListItem {
