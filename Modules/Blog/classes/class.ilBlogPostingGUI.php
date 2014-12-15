@@ -106,7 +106,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 				{
 					$this->setPresentationTitle($posting->getTitle());
 					
-					$tpl->setTitle(ilObject::_lookupTitle($this->getBlogPosting()->getBlogId())." - ".
+					$tpl->setTitle(ilObject::_lookupTitle($this->getBlogPosting()->getBlogId()).": ". // #15017
 						$posting->getTitle());
 					$tpl->setTitleIcon(ilUtil::getImagePath("icon_blog.png"),
 						$this->lng->txt("obj_blog")); // #12879
