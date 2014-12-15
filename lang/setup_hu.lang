@@ -1,11 +1,10 @@
-﻿/* Copyright (c) 1998-2014 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
-* ILIAS language file
-* @translator 52982 2014-09-03 14:30 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* ILIAS language file Hungarian Setup
+* @translator 53894 2014-09-26 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @translator 31603 Antónia Berecz <berecz@gdf.hu>
 * @module       setup language file hungarian
 * @modulegroup  language
-* @author       Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @version      $Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
@@ -55,7 +54,7 @@ client_deleted#:#Kliens törölve.
 client_id#:#Kliens azonosító (ID)
 client_info#:#Leírás
 client_institution#:#Intézmény
-client_login#:#Bejelentkezés kliensadminisztrátorként
+client_login#:#Bejelentkezés kliensrendszergazdaként
 client_name#:#Név
 client_setup_not_finished#:#A kliens beállítása még nem fejeződött be.
 client#:#Kliens
@@ -174,7 +173,7 @@ fop_path#:#FOP elérési útvonal
 form_input_not_valid#:#Néhány adat hiányos vagy nem érvényes. Javítsa ki a beviteli űrlapot!
 form_retype_password#:#Jelszó újragépelése
 hide_clientlist#:#A kliensválasztás rejtve van a felhasználók elől.
-host#:#Host
+host#:#Kiszolgáló
 hotfix_applied#:#Gyorsjavítások alkalmazva
 hotfix_available#:#Gyorsjavítások elérhetőek
 htmldoc_path_comment_win#:#PDF dokumentumok generálásának lehetősége, e.g. 'C:/tools/htmldoc/htmldoc.exe'.
@@ -203,8 +202,8 @@ info_text_first_client#:#Alapbeállításai elmentésre kerültek. Most beállí
 info_text_first_install#:#Úgy tűnik, először installálja az ILIAS-t, mert nem található ilias.ini fájl. Abban a fájlban tárolja az ILIAS a mesterjelszót, hogy megvédje az ILIAS setup-ot az engedély nélküli hozzáférésétől.
 info_text_ini#:#Válasszon kliens-azonosítót (ID-t). Minden betű használható (kivéve az umlautosak) és számok. A kliens-azonosítónak egy szónak kell lennie.<br/>Majd az adatbázis-kapcsolódáshoz szükséges adatokat adja meg. A setup egy tesztkapcsolódással megvizsgálja beállításait, és teszteli, hogy létezik-e az adatbázis. Ha az adatbázis nem létezik még, a setup következő telepítési lépésében létrehozza Önnek.
 info_text_lang#:#Válasszon további nyelveket és/vagy távolítsa el a kiválasztott nyelveket. Az alapértelmezett nyelv azon új felhasználói fiókoknak vagy felhasználóknak határozza meg a használt nyelvet, akik nem választottak még.
-info_text_list#:#Ebben az áttekintésben minden elérhető kliens, setup és elérési állapot látszik. Jobb fent a kliensválasztás képernyőjét be-/kikapcsolhatja. Ha a kliensválasztás bekapcsolt, minden elérhető on-line kliens megjelenik az ILIAS kezdőlapján egy listában. Ha a kliensválasztás kikapcsolt, és egy felhasználó a startlapra lép, az <i>alapértelmezett</> kliens bejelentkezési képernyője jelenik meg. Az alapértelmezett klienst az alul lévő gombbal határozhatja meg.
-info_text_login#:#Adja meg installációja kliensazonosítóját (ID) és számlafiókjának adatait. Felhasználói fiókját hozzá kell rendelni az 'adminisztrátor' szerephez.
+info_text_list#:#Ebben az áttekintésben minden elérhető kliens, setup és elérési állapot látszik. Jobb fent a kliensválasztás képernyőjét be-/kikapcsolhatja. Ha a kliensválasztás bekapcsolt, minden elérhető on-line kliens megjelenik az ILIAS kezdőlapján egy listában. Ha a kliensválasztás kikapcsolt, és egy felhasználó a startlapra lép, az <i>alapértelmezett</i> kliens bejelentkezési képernyője jelenik meg. Az alapértelmezett klienst az alul lévő gombbal határozhatja meg.
+info_text_login#:#Adja meg installációja kliensazonosítóját (ID) és számlafiókjának adatait. Felhasználói fiókját hozzá kell rendelni az 'rendszergazda' szerephez.
 info_text_nic#:#Kívánt esetben regisztráljon, és szerezzen be installációs ID-t (NIC-ID) a nyílt forráskódú ILIAS közösségi szervernél. A NIC-ID ajánlott, ha más ILIAS installációkkal tartalmat akar megosztani.
 info_text_nic3#:#Regisztrálta installációját. Az Ön nic-id-je
 info_text_password#:#Itt cserélheti le setup-programjának mesterjelszavát.
@@ -216,24 +215,24 @@ ini_client_id_too_long#:#A kliens ID túl hosszú.
 ini_client_id_too_short#:#A kliens ID túl rövid.
 ini_db_name_exists#:#már létezik! Válasszon másik adatbázisnevet.
 ini_no_client_id#:#Nincs megadva kliensazonosító (ID).
-ini_no_db_host#:#Nem hostnév.
-ini_no_db_name#:#nem adatbázisnév.
-ini_no_db_user#:#Nem adatbázis-felhasználónév.
+ini_no_db_host#:#Nincs kiszolgálónév.
+ini_no_db_name#:#Nincs adatbázisnév.
+ini_no_db_user#:#Nincs adatbázis-felhasználónév.
 inifile_can_write#:#Az ILIAS setup tudja írni az ini-fájlját.
 inifile_cannot_write#:#Az ILIAS setup nem tudja írni az ini-fájlját. Először ellenőrizze az írási jogosultságokat.
 inifile_content#:#Ini-fájljának ez a tartalma:
 inifile_exists#:#Létezik egy ini-fájl. Ez az installációs folyamat törli az előző beállításokat.
 inifile_fill_all#:#Töltsön ki minden mezőt.
 inifile_firsttime#:#Nincs előzetes ini-fájl! Úgy tűnik, ez az első indítása az ILIAS-nak.
-inifile_written#:#Az ini-fájl sikeresen elmentésre került hostjára.
+inifile_written#:#Az ini-fájl sikeresen elmentésre került kiszolgálójára.
 inifile#:#ini-fájl
-input_error#:#Inputhiba
+input_error#:#Bementi hiba
 inst_identification#:#Installációs azonosítás
 inst_name#:#Installáció neve
 install#:#Installálás
 installation#:#Installáció
-installed_local#:#Helyivel installálva
-installed#:#Installálva
+installed_local#:#Helyi nyelvi fájllal telepítve
+installed#:#Telepítve
 institution#:#Intézmény
 intro_install#:#Ez az ILIAS setup-jának főlapja. Innen tudja végrehajtani az installációt.
 ip_address#:#IP-cím
@@ -289,7 +288,7 @@ list#:#lista
 log_path_comment_win#:#Pl. 'C:/iliasdata/iliaslog.txt' (A fájl létre jön.)
 log_path_comment#:#Pl. '/path_to_log_dir/ilias.log' (A fálj létre jön.)
 log_path#:#Naplófájl elérési útvonala
-logged_out#:#Ön kijelentkezett.
+logged_out#:#Kijelentkezett.
 logging#:#Naplózás (logging)
 login_invalid#:#Érvénytelen bejelentkezés.
 login_to_ilias#:#Bejelentkezés az ILIAS-ba
@@ -328,7 +327,7 @@ no_client_id#:#Nincs megadva kliens-azonosító (ID)
 no_client_name#:#NINCS KLIENSNÉV
 no_clients_available#:#Nincs elérhető kliens
 no_database#:#Nincs adatbázis
-no_db_connect_consult_admin#:#Nem tudott kapcsolódni az adatbázishoz. Konzultáljon a rendszeradminisztrátorral
+no_db_connect_consult_admin#:#Nem tudott kapcsolódni az adatbázishoz. Keresse a rendszergazdát.
 no_db_update_file#:#a dbupdate.php nem található!
 no_items#:#Nincs bejegyzés
 no_latex_url#:#Nincs megadva LaTeX CGI script URL.
@@ -408,7 +407,7 @@ pre_xsl#:#XSL támogatás
 preliminaries#:#Előfeltételek
 prev#:#Előző
 reload#:#Újratöltés
-required_field#:#Szükséges mezők
+required_field#:#Kötelező mezők
 reset#:#Alaphelyzetbe állítás (reset)
 root_access#:#root hozzáférés
 safe_mode_enabled#:#Biztonságos mód (Safe mode) engedélyezve!
@@ -544,9 +543,8 @@ available_custom_updates#:#Elérhető egyedi frissítések
 custom_update_applied#:#Egyedi frissítés alkalmazva
 apply_custom_updates#:#Egyedi frissítések alkalmazása
 proxy_connectable#:#A kapcsolat létrejött.
-proxy_connectable#:#A kapcsolat létrejött.
-proxy_host_info#:#Adjon meg egy host-ot.
-proxy_host#:#Host
+proxy_host_info#:#Adjon meg egy kiszolgálót.
+proxy_host#:#Kiszolgáló
 proxy_not_connectable#:#Az ILIAS nem tud kapcsolatot létesíteni definiált proxyval.
 proxy_pear_net_socket_error#:#PEAR Net_Socket hiba
 proxy_port_info#:#Adjon meg egy portot 0 és 65535 között, pl. 8080.
@@ -604,8 +602,9 @@ global_cache_supported_services#:#Néhány szolgáltatás nincs telepítve és n
 global_cache_install_info_0#:#Beépített
 global_cache_install_info_1#:#http://xcache.lighttpd.net
 global_cache_install_info_2#:#http://php.net/manual/en/memcached.installation.php
-global_cache_install_info_3#:#http://php.net/manual/en/apc.installation.phpps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.###26 09 2014 new variable
-ps_auto_https_header_name#:#Header Name###26 09 2014 new variable
-ps_auto_https_header_value#:#Header Value###26 09 2014 new variable
-ps_auto_https#:#Autodetect HTTPS###26 09 2014 new variable
-https_settings#:#HTTPS Setting###26 09 2014 new variable
+global_cache_install_info_3#:#http://php.net/manual/en/apc.installation.php
+ps_auto_https_description#:#Ha be van kapcsolva, az ILIAS megpróbálja felismerni a HTTP állapotát az alább megadott fejlécérték elemzésével.
+ps_auto_https_header_name#:#Fejléc neve
+ps_auto_https_header_value#:#Fejléc értéke
+ps_auto_https#:#Automatikus HTTPS felismerés
+https_settings#:#HTTPS beállítások
