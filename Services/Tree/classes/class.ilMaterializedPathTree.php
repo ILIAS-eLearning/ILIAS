@@ -83,29 +83,30 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	{
 		if($a_node_a['child'] == $a_node_b['child'])
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': EQUALS');
 			return ilTree::RELATION_EQUALS;
 		}
 		if(stristr($a_node_a['path'], $a_node_b['path']))
 		{
-			#$GLOBALS['ilLog']->write(__METHOD__.': PARENT');
+			$GLOBALS['ilLog']->write(__METHOD__.': PARENT');
 			return ilTree::RELATION_CHILD;
 		}
 		if(stristr($a_node_b['path'], $a_node_a['path']))
 		{
-			#$GLOBALS['ilLog']->write(__METHOD__.': CHILD');
+			$GLOBALS['ilLog']->write(__METHOD__.': CHILD');
 			return ilTree::RELATION_PARENT;
 		}
 		$path_a = substr($a_node_a['path'],0,strrpos($a_node_a['path'],'.'));
 		$path_b = substr($a_node_b['path'],0,strrpos($a_node_b['path'],'.'));
-		#$GLOBALS['ilLog']->write(__METHOD__.': Comparing '.$path_a .' '. 'with '.$path_b);
+		$GLOBALS['ilLog']->write(__METHOD__.': Comparing '.$path_a .' '. 'with '.$path_b);
 
 		if($a_node_a['path'] and (strcmp($path_a,$path_b) === 0))
 		{
-			#$GLOBALS['ilLog']->write(__METHOD__.': SIBLING');
+			$GLOBALS['ilLog']->write(__METHOD__.': SIBLING');
 			return ilTree::RELATION_SIBLING;
 		}
 
-		#$GLOBALS['ilLog']->write(__METHOD__.': NONE');
+		$GLOBALS['ilLog']->write(__METHOD__.': NONE');
 		return ilTree::RELATION_NONE;
 	}
 
@@ -495,7 +496,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		// The idea is to use a subquery to join and filter the trees, and only the result
 		// is joined to obj_reference and obj_data.
 		
-		 $query = "SELECT t2.child child, type " .
+		 $query = "SELECT t2.child child, type, t2.path path " .
 				"FROM " . $this->getTree()->getTreeTable() . " t1 " .
 				"JOIN " . $this->getTree()->getTreeTable() . " t2 ON (t2.path BETWEEN t1.path AND CONCAT(t1.path, '.Z')) " .
 				"JOIN " . $this->getTree()->getTableReference() . " obr ON t2.child = obr.ref_id " .
@@ -504,6 +505,8 @@ class ilMaterializedPathTree implements ilTreeImplementation
 				"AND t1." . $this->getTree()->getTreePk() . " = " . $ilDB->quote($this->getTree()->getTreeId(), 'integer') . " " .
 				"AND t2." . $this->getTree()->getTreePk() . " = " . $ilDB->quote($this->getTree()->getTreeId(), 'integer') . " " .
 				"ORDER BY t2.path";
+		 
+		 $GLOBALS['ilLog']->write(__METHOD__.': '.$query);
 
 		 
 		$res = $ilDB->query($query);
