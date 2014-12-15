@@ -61,7 +61,9 @@ class ilLicenseGUI
 		
 		$exist = new ilNumberInputGUI($this->lng->txt("existing_licenses"), "licenses");
 		$exist->setInfo($this->lng->txt("zero_licenses_explanation"));
-		$exist->setValue($this->license->getLicenses());
+		$exist->setMaxLength(10);
+		$exist->setSize(10);
+		$exist->setValue($this->license->getLicenses());		
 		$form->addItem($exist);
 		
 		$info_used = new ilNonEditableValueGUI($this->lng->txt("used_licenses"));
