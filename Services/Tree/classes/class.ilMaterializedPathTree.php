@@ -503,8 +503,9 @@ class ilMaterializedPathTree implements ilTreeImplementation
 				"WHERE t1.child = " . $ilDB->quote($a_endnode_id, 'integer') . " " .
 				"AND t1." . $this->getTree()->getTreePk() . " = " . $ilDB->quote($this->getTree()->getTreeId(), 'integer') . " " .
 				"AND t2." . $this->getTree()->getTreePk() . " = " . $ilDB->quote($this->getTree()->getTreeId(), 'integer') . " " .
-				"ORDER BY t2.depth";
+				"ORDER BY t2.path";
 
+		 
 		$res = $ilDB->query($query);
 		$nodes = array();
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
