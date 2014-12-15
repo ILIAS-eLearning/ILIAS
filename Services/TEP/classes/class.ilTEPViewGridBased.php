@@ -631,7 +631,45 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		{
 			$a_tpl->setVariable("SUBTITLE", $a_entry["subtitle"]);
 		}
-		
+		// gev-patch start
+		// Buttons for #840
+		if ($a_entry["course_ref_id"]) {
+			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+			global $ilUser, $ilCtrl, $lng;
+			$cur_user_id = $ilUser->getId();
+			$ref_id = $a_entry["course_ref_id"];
+			$crs_utils = gevCourseUtils::getInstance($a_entry["context_id"]);
+			$actions = "";
+			if ($crs_utils->hasTrainer($cur_user_id) || $crs_utils->hasAdmin($cur_user_id)) {
+				$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
+				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
+				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer")
+							."' title='".$lng->txt("gev_mytrainingsap_legend_memberlist")."'>".$memberlist_img."</a>&nbsp;";
+				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", null);
+			}
+			$ilCtrl->setParameterByClass("ilTEPGUI", "ref_id", $ref_id);
+			if ( $crs_utils->canModifyParticipationStatus($cur_user_id)) {
+				$setstatus_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-state-neutral.png").'" />';
+				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilTEPGUI", "showParticipationStatus")
+							."' title='".$lng->txt("gev_mytrainingsap_legend_setstatus")."'>".$setstatus_img."</a>&nbsp;";
+			}
+			if ($crs_utils->isWithAccomodations() && $crs_utils->canViewBookings($cur_user_id)) {
+				$overnight_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-edit.png").'" />';
+				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilTEPGUI", "showOvernights")
+							."' title='".$lng->txt("gev_mytrainingsap_legend_overnights")."'>".$overnight_img."</a>&nbsp;";
+			}
+			if ($crs_utils->canViewBookings($cur_user_id)) {
+				$bookings_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-booking.png").'" />';
+				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilTEPGUI", "showBookings")
+							."' title='".$lng->txt("gev_mytrainingsap_legend_overnights")."'>".$bookings_img."</a>&nbsp;";
+			}
+			$ilCtrl->setParameterByClass("ilTEPGUI", "ref_id", null);
+			
+			if ($actions) {
+				$a_entry["description"] .= "<br /><br />".$actions;
+			}
+		}
+		// gev-patch end
 		if($a_entry["description"])
 		{
 			$a_tpl->setVariable("DESCRIPTION", $a_entry["description"]);

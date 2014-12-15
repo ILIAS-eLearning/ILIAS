@@ -192,36 +192,6 @@ class ilTEPCourseEntries
 			else {
 				$description = $schedule;
 			}
-			// gev-patch start
-			// Buttons for #840
-			global $ilUser, $ilCtrl, $lng;
-			$cur_user_id = $ilUser->getId();
-			$actions = "";
-			if ($crs_utils->hasTrainer($cur_user_id) || $crs_utils->hasAdmin($cur_user_id)) {
-				$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
-				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilTEPGUI", "getMemberlist")
-							."' title='".$lng->txt("gev_mytrainingsap_legend_memberlist")."'>".$memberlist_img."</a>";
-				
-			}
-			if ( $crs_utils->canModifyParticipationStatus($cur_user_id)) {
-				$setstatus_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-state-neutral.png").'" />';
-				$actions .=  "<a href='".($ilCtrl->getLinkTargetByClass("ilTEPGUI", "showParticipationStatus"))
-							."' title='".($lng->txt("gev_mytrainingsap_legend_setstatus"))."'>".$setstatus_img."</a>";
-			}
-			if ($crs_utils->isWithAccomodations() && $crs_utils->canViewBookings($cur_user_id)) {
-				$overnight_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-edit.png").'" />';
-				$actions .=  "<a href='".($ilCtrl->getLinkTargetByClass("ilTEPGUI", "showOvernights"))
-							."' title='".($lng->txt("gev_mytrainingsap_legend_overnights"))."'>".$overnight_img."</a>";
-			}
-			if ($crs_utils->canViewBookings($cur_user_id)) {
-				$bookings_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-booking.png").'" />';
-				$actions .=  "<a href='".($ilCtrl->getLinkTargetByClass("ilTEPGUI", "showBookings"))
-							."' title='".($lng->txt("gev_mytrainingsap_legend_overnights"))."'>".$bookings_img."</a>";
-			}
-			if ($actions) {
-				$description .= "<br /><br />".$actions;
-			}
-			// gev-patch end
 			if($description != $a_entry->getDescription())
 			{
 				$a_entry->setDescription($description);
