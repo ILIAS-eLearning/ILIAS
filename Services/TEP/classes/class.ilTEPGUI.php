@@ -289,5 +289,48 @@ class ilTEPGUI
 		}
 
 		$ilCtrl->redirect($this, "view");
-	}		
+	}
+	
+	// gev-patch start
+	public function getCrsRefId() {
+		$crs_ref_id = $_GET['ref_id'];
+
+		if(! $crs_ref_id){
+			throw new ilException("ilTEPGUI - needs course ref_id");
+		}
+		return $crs_ref_id;
+	}
+
+	public function getCrsId() {
+		$crs_id = $_GET['crs_id'];
+
+		if(! $crs_id){
+			throw new ilException("ilTEPGUI - needs course crs_id");
+		}
+		return $crs_id;
+	}
+	
+	protected function showParticipationStatus() {
+		global $ilCtrl, $tpl;
+		$ref_id = $this->getCrsRefId();
+		require_once("Services/GEV/Desktop/classes/class.gevMyTrainingsApGUI.php");
+		$tpl->setTitle(null);
+		$tpl->setContent(
+			gevMyTrainingsApGUI::renderListParticipationStatus(
+					$this, 
+					$ilCtrl->getLinkTarget($this, "view"),
+					$ref_id));
+	}
+	
+	protected function showOvernights() {
+		$ref_id = $this->getCrsRefId();
+		die("showOvernights ".$ref_id);
+	}
+	
+	protected function showBookings() {
+		$ref_id = $this->getCrsRefId();
+		die("showBookings ".$ref_id);
+	}
+	
+	// gev-patch end
 }

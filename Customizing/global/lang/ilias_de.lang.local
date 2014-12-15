@@ -483,7 +483,7 @@ gev#:#gev_dev_training_creator_desc#:#Ersteller des dezentralen Trainings mit Re
 gev#:#gev_duration#:#Dauer
 gev#:#gev_edu_bio#:#Bildungsbiographie
 gev#:#gev_edu_program#:#Bildungsprogramm
-gev#:#gev_edit_overnights#:#Übernachtungen
+gev#:#gev_edit_overnights#:#Ihre Übernachtungen beim Training "%s"
 gev#:#gev_edit_overnights_desc#:#Hier können sie ihre Übernachtungen beim Training bearbeiten.
 gev#:#gev_email#:#E-Mail-Adresse
 gev#:#gev_com_email#:#Kommunikations E-Mail-Adresse
@@ -955,7 +955,7 @@ gev#:#gev_mytrainingsap_btn_setstatus#:#Teilnehmerstatus setzen
 gev#:#gev_mytrainingsap_btn_bookings#:#Buchungen
 gev#:#gev_mytrainingsap_no_accomodations#:#Bei diesem Training kann nicht übernachtet werden.
 gev#:#gev_mytrainingsap_saved_overnights#:#Ihre Übernachtungen wurden gespeichert.
-gev#:#gev_set_course_status_title#:#Teilnehmerstatus setzen
+gev#:#gev_set_course_status_title#:#Teilnehmerstatus von Training "%s" setzen
 gev#:#gev_set_course_status_title_desc#:#Setzen Sie hier die Teilnehmerstatus.
 gev#:#mbrcount#:#Teilnehmer
 gev#:#gev_learning_cat#:#Kategorie
