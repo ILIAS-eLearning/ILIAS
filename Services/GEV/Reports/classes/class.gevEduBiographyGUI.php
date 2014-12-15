@@ -77,11 +77,14 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->select("usrcrs.bill_id")
 						->select("usrcrs.certificate")
 						->select("usrcrs.booking_status")
+						->select("oref.ref_id")
 						->from("hist_usercoursestatus usrcrs")
 						->join("hist_user usr")
 							->on("usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0")
 						->join("hist_course crs")
 							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
+						->join("object_reference oref")
+							->on("crs.crs_id = oref.obj_id AND oref.deleted IS NULL")
 						->compile();
 						
 		$this->filter = catFilter::create()
@@ -328,6 +331,16 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 			$this->ctrl->setParameter($this, "cert_id", null);
 			$this->ctrl->setParameter($this, "target_user_id", null);
 		}
+		if ($rec["ref_id"] !== null) {
+			$rec["link_open"] = "<a href='goto.php?target=crs_".$rec["ref_id"]."'>";
+			$rec["link_close"] = "</a>";
+		}
+		else {
+			$rec["link_open"] = "";
+			$rec["link_close"] = "";
+		}
+		
+		print_r($rec);
 		
 		foreach ($rec as $key => $value) {
 			if ($value == '-empty-' || $value == -1) {
