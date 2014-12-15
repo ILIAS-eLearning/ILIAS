@@ -2502,3 +2502,29 @@ if(!$ilDB->tableExists('hist_tep'))
 						 );
 	}
 ?>
+
+<#77>
+<?php
+
+	$ilDB->manipulate("UPDATE adv_mdf_definition SET field_values = '".serialize(array(
+			  "Fachwissen"
+			, "SUHK - Privatkunden"
+			, "SUHK - Firmenkunden"
+			, "Leben und Rente"
+			, "Betriebliche Altersvorsorge"
+			, "Kooperationspartner"
+			, "Vertrieb"
+			, "Akquise / Verkauf"
+			, "Beratungs- und Tarifierungstools"
+			, "Büromanagement"
+			, "Neue Medien"
+			, "Unternehmensführung"
+			, "Agenturmanagement"
+			, "Führung"
+			, "Persönlichkeit"
+			, "Grundausbildung"
+			, "Ausbilder"
+			, "Erstausbildung"
+			, "Qualifizierungsprogramm"
+		))."' WHERE title = 'Trainingskategorie'");
+?>
