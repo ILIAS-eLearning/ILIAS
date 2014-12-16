@@ -38,6 +38,7 @@ class ilObjectCopyGUI
 		
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('search');
+		$this->lng->loadLanguageModule('obj');
 
 		$this->parent_obj = $a_parent_gui;
 
