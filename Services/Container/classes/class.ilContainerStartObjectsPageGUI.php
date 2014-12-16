@@ -11,8 +11,9 @@ include_once("./Services/Container/classes/class.ilContainerStartObjectsPage.php
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
  * @ilCtrl_Calls ilContainerStartObjectsPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
- * @ilCtrl_Calls ilContainerStartObjectsPageGUI: ilPublicUserProfileGUI, ilNoteGUI, ilRepositoryGUI
+ * @ilCtrl_Calls ilContainerStartObjectsPageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilContainerStartObjectsPageGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
+ * @ilCtrl_IsCalledBy ilContainerStartObjectsPageGUI: ilRepositoryGUI
  *
  * @ingroup ServicesContainer
  */
