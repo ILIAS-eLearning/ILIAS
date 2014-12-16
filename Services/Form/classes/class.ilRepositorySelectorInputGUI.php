@@ -175,21 +175,23 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 	{
 		global $tpl, $lng, $ilCtrl, $tree, $ilUser;
 		
-		include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
+		include_once 'Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php';
 		$ilCtrl->setParameter($this, "postvar", $this->getPostVar());
 
 		ilUtil::sendInfo($this->getHeaderMessage());
-		
-		$exp = new ilSearchRootSelector($ilCtrl->getLinkTarget($this,'showRepositorySelection'));
-		$exp->setExpand($_GET["search_root_expand"] ? $_GET["search_root_expand"] : $tree->readRootId());
-		$exp->setExpandTarget($ilCtrl->getLinkTarget($this,'showRepositorySelection'));
-		$exp->setTargetClass(get_class($this));
-		$exp->setCmd('selectRepositoryItem');
-		$exp->setClickableTypes($this->getClickableTypes());
 
+		$exp = new ilRepositorySelectorExplorerGUI($this, "showRepositorySelection",
+			$this, "selectRepositoryItem", "root_id");
+		$exp->setNodeOpen($this->getValue());
+		$exp->setTypeWhiteList($this->getClickableTypes());
+		$exp->setHighlightedNode($this->getValue());
+
+		if ($exp->handleCommand())
+		{
+			return;
+		}
 		// build html-output
-		$exp->setOutput(0);
-		$tpl->setContent($exp->getOutput());
+		$tpl->setContent($exp->getHTML());
 	}
 	
 	/**
