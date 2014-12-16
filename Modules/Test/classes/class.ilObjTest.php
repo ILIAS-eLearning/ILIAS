@@ -9919,7 +9919,14 @@ function getAnswerFeedbackPoints()
 			$html = str_replace("&otimes;", "X", $html);
 		}
 		$html = preg_replace("/src=\".\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
-		$this->deliverPDFfromFO($this->processPrintoutput2FO($html), $title);
+		$fo = $this->processPrintoutput2FO($html);
+		if( $fo === false )
+		{
+			global $ilLog, $ilias;
+			$ilLog->write(__METHOD__.': could not process HTML to FO: '.$html);
+			$ilias->raiseError(__METHOD__.': could not process HTML to FO: '.htmlentities($html));
+		}
+		$this->deliverPDFfromFO($fo, $title);
 	}
 	
 	/**
