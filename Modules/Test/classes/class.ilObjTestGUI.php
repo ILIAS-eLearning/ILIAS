@@ -3333,7 +3333,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$extratime->setInfo($this->lng->txt('tst_extratime_info'));
 		$extratime->setRequired(true);
 		$extratime->setMinValue(0);
-		$extratime->setMinvalueShouldBeGreater(true);
+		$extratime->setMinvalueShouldBeGreater(false);
 		$extratime->setSuffix($this->lng->txt('minutes'));
 		$extratime->setSize(5);
 		$form->addItem($extratime);
