@@ -118,6 +118,11 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->getItems();
 		}
 	}
+	
+	function numericOrdering($a_field)
+	{
+		return ($a_field == "percentage"); // #15041
+	}
 
 	function getItems()
 	{
