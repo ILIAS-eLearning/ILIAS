@@ -1687,6 +1687,57 @@ class ilQTIParser extends ilSaxParser
 			return $this->import_mapping;
 		}
 	}
+
+	function setXMLContent($a_xml_content)
+	{
+		$a_xml_content = $this->cleanInvalidXmlChars($a_xml_content);
+		
+		return parent::setXMLContent($a_xml_content);
+	}
 	
+	function openXMLFile()
+	{
+		$xmlContent = file_get_contents($this->xml_file);
+		$xmlContent = $this->cleanInvalidXmlChars($xmlContent);
+		file_put_contents($this->xml_file, $xmlContent);
+		
+		return parent::openXMLFile();
+	}
+	
+	protected function cleanInvalidXmlChars($xmlContent)
+	{
+		// http://www.w3.org/TR/xml/#charsets
+		
+		// DOES ACTUALLY KILL CONTENT, SHOULD CLEAN NON ESCAPED ILLEGAL CHARS, DON'T KNOW
+		//$reg = '/[^\x09\x0A\x0D\x20-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]/';
+		//$xmlContent = preg_replace($reg, '', $xmlContent);
+		
+		// remove illegal chars escaped to html entities
+		$needles = array();
+		for($i = 0x00, $max = 0x08; $i <= $max; $i += 0x01)
+		{
+			$needles[] = "&#{$i};";
+		}
+		for($i = 0x0b, $max = 0x0c; $i <= $max; $i += 0x01)
+		{
+			$needles[] = "&#{$i};";
+		}
+		for($i = 0x0e, $max = 0x1f; $i <= $max; $i += 0x01)
+		{
+			$needles[] = "&#{$i};";
+		}
+		for($i = 0xd800, $max = 0xdfff; $i <= $max; $i += 0x0001)
+		{
+			$needles[] = "&#{$i};";
+		}
+		for($i = 0xfffe, $max = 0xffff; $i <= $max; $i += 0x0001)
+		{
+			$needles[] = "&#{$i};";
+		}
+		$reg = '/('.implode('|', $needles).')/';
+		$xmlContent = preg_replace($reg, '', $xmlContent);
+		
+		return $xmlContent;
+	}
 }
 ?>
