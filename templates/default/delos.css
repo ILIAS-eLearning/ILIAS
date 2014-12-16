@@ -10286,6 +10286,9 @@ li.ilToolbarTextonly {
 li.ilToolbarTextonly > span {
   line-height: 24px;
 }
+.ilToolbar input[type=file] {
+  display: inline-block;
+}
 /* Services/UIComponent/Tooltip */
 .ui-tooltip-rounded,
 .ui-tooltip-rounded .ui-tooltip-content,
