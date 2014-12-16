@@ -5311,3 +5311,23 @@ $ilDB->manipulate("UPDATE settings ".
 	" AND value = ".$ilDB->quote(880, "text"));
 
 ?>
+<#4441>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('copy');	
+if($tgt_ops_id)
+{				
+	$feed_type_id = ilDBUpdateNewObjectType::getObjectTypeId('feed');
+	if($feed_type_id)
+	{			
+		// add "copy" to (external) feed
+		ilDBUpdateNewObjectType::addRBACOperation($feed_type_id, $tgt_ops_id);				
+									
+		// clone settings from "write" to "copy"
+		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');	
+		ilDBUpdateNewObjectType::cloneOperation('feed', $src_ops_id, $tgt_ops_id);		
+	}	
+}
+
+?>
