@@ -252,11 +252,11 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$form->addItem($sh);
 		
 		// Disable External Web Feeds in catetegories
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("feed_disable_rep_feeds"),
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("feed_enable_rep_feeds"),
 			"disable_repository_feeds");
 		$cb_prop->setValue("1");
-		$cb_prop->setInfo($lng->txt("feed_disable_rep_feeds_info"));
-		$cb_prop->setChecked($disable_repository_feeds);
+		$cb_prop->setInfo($lng->txt("feed_enable_rep_feeds_info"));
+		$cb_prop->setChecked(!$disable_repository_feeds);
 		$form->addItem($cb_prop);
 
 		// Number of External Feeds on personal desktop
@@ -307,7 +307,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$news_set->set("rss_period", $_POST["news_rss_period"]);
 		$news_set->set("rss_title_format", $_POST["rss_title_format"]);
 		
-		$feed_set->set("disable_rep_feeds", $_POST["disable_repository_feeds"]);
+		$feed_set->set("disable_rep_feeds", !$_POST["disable_repository_feeds"]);
 		$ilSetting->set("block_limit_pdfeed", $_POST["nr_pd_feeds"]);
 		if ($_POST["nr_pd_feeds"] > 0)
 		{
