@@ -443,10 +443,10 @@ class gevDecentralTrainingGUI {
 			$obj_id = new ilHiddenInputGUI("obj_id");
 			$obj_id->setValue($a_training_id);
 			$form->addItem($obj_id);
+			$crs_utils = gevCourseUtils::getInstance($a_training_id);
 			
 			if (!$a_fill) {
 				require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
-				$crs_utils = gevCourseUtils::getInstance($a_training_id);
 				$mail_settings = new gevCrsAdditionalMailSettings($a_training_id);
 				$training_info = array(
 					  "ltype" => $crs_utils->getType()
