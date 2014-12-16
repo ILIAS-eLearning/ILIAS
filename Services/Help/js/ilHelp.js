@@ -96,6 +96,7 @@ il.Help = {
 
 				if (typeof il.Accordion != "undefined") {
 					il.Accordion.initByIntId('oh_acc');
+					console.log("called init");
 				}
 			}
 		}

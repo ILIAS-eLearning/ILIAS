@@ -220,7 +220,8 @@ class ilHelpGUI
 			
 			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 			$acc = new ilAccordionGUI();
-			$acc->setId("oh_acc");
+			$acc->setId("oh_acc_".$h_id);
+			$acc->setUseSessionStorage(true);
 			$acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
 			
 			foreach ($help_arr as $h_id)

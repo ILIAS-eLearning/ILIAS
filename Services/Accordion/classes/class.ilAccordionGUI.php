@@ -462,11 +462,11 @@ class ilAccordionGUI
 		}
 
 		$options["height"] = null;
-		$options["id"] = 'accordion_'.self::$accordion_cnt;
+		$options["id"] = 'accordion_'.$this->getId().'_'.self::$accordion_cnt;
 		$options["multi"] = (bool) $this->getAllowMultiOpened();
 		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
 		$tpl->setVariable("OPTIONS", $str = ilJsonUtil::encode($options));
-		$tpl->setVariable("CNT", self::$accordion_cnt);
+		$tpl->setVariable("ACC_ID", $options["id"]);
 //echo "<br><br><br><br><br><br>".$str;
 		return $tpl->get();
 	}
