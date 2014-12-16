@@ -206,6 +206,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 				$collection->activateEntries($_POST['item_ids']);
 			}
 			
+			// #15045 - has to be done before LP refresh!
+			$this->obj_lp->resetCaches();
+			
 			// refresh learning progress
 			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 			ilLPStatusWrapper::_refreshStatus($this->getObjId());
@@ -232,11 +235,14 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			if($collection && $collection->hasSelectableItems())
 			{			
 				$collection->deactivateEntries($_POST['item_ids']);
-				
-				// refresh learning progress
-				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-				ilLPStatusWrapper::_refreshStatus($this->getObjId());
-			}		
+			}
+			
+			// #15045 - has to be done before LP refresh!
+			$this->obj_lp->resetCaches();
+			
+			// refresh learning progress
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+			ilLPStatusWrapper::_refreshStatus($this->getObjId());			
 		}
 		ilUtil::sendSuccess($this->lng->txt('trac_settings_saved'),true);
 		$this->ctrl->redirect($this,'show');
