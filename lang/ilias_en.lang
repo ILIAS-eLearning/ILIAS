@@ -14343,3 +14343,4 @@ news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. 
 adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!
 exc#:#exc_assignment_type#:#Type Of Submission
 ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants
+search#:#search_minimum_info#:#Your search must be at least %s characters long

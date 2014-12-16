@@ -40,6 +40,7 @@ class ilQueryParser
 	var $lng = null;
 
 	var $min_word_length = 0;
+	var $global_min_length = null;
 
 
 	var $query_str;
@@ -91,6 +92,24 @@ class ilQueryParser
 	function getMinWordLength()
 	{
 		return $this->min_word_length;
+	}
+	
+	function setGlobalMinLength($a_value)
+	{
+		if($a_value !== null)
+		{
+			$a_value = (int)$a_value;
+			if($a_value < 1)
+			{
+				return;
+			}
+		}
+		$this->global_min_length = $a_value;
+	}
+	
+	function getGlobalMinLength()
+	{
+		return $this->global_min_length;
 	}
 	
 	function setAllowedWildcards($a_value)
@@ -186,7 +205,7 @@ class ilQueryParser
 			
 			if(strlen(trim($word)) < $this->getMinWordLength())
 			{
-				$this->setMessage($this->lng->txt('search_minimum_three'));
+				$this->setMessage(sprintf($this->lng->txt('search_minimum_info'), $this->getMinWordLength()));
 				continue;
 			}
 			$this->words[] = ilUtil::prepareDBString($word);
@@ -270,6 +289,12 @@ class ilQueryParser
 		if($this->getMinWordLength() and !count($this->getWords()))
 		{
 			$this->setMessage($this->lng->txt('msg_no_search_string'));
+			return false;
+		}
+		// No search string given
+		if($this->getGlobalMinLength() and strlen(str_replace('"', '', $this->getQueryString())) < $this->getGlobalMinLength())
+		{
+			$this->setMessage(sprintf($this->lng->txt('search_minimum_info'), $this->getGlobalMinLength()));
 			return false;
 		}
 
