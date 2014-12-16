@@ -7,8 +7,11 @@ div.ilBlogList {
 }
 
 div.ilBlogListItem {
-	padding: 1px 0 5px;
+	padding: 1px 1px 5px;
 	margin-bottom: 35px;
+	&.ilBlogListItemDraft {
+		padding: 3px;
+	}
 }
 
 div.ilBlogListItemTitle {
@@ -29,6 +32,7 @@ div.ilBlogListItemSubTitle {
 div.ilBlogListItemSnippet {
 	margin-top: 5px;
 	margin-bottom: 5px;
+	min-height: 10px;
 }
 
 img.ilBlogListItemSnippetPreviewImage {
@@ -43,7 +47,8 @@ div.ilBlogListItemMore {
 div.ilBlogListItemCommtensPerma {
 	text-align: right;
 	font-size: 90%;
-	margin-top: 15px
+	margin-top: 15px;
+	min-height: 15px;
 }
 
 div.ilBlogSideBlocks {

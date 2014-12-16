@@ -9127,8 +9127,11 @@ div.ilBlogList {
   background-color: #ffffff;
 }
 div.ilBlogListItem {
-  padding: 1px 0 5px;
+  padding: 1px 1px 5px;
   margin-bottom: 35px;
+}
+div.ilBlogListItem.ilBlogListItemDraft {
+  padding: 3px;
 }
 div.ilBlogListItemTitle {
   border-bottom: 1px solid #E0E0E0;
@@ -9145,6 +9148,7 @@ div.ilBlogListItemSubTitle {
 div.ilBlogListItemSnippet {
   margin-top: 5px;
   margin-bottom: 5px;
+  min-height: 10px;
 }
 img.ilBlogListItemSnippetPreviewImage {
   margin-right: 10px;
@@ -9157,6 +9161,7 @@ div.ilBlogListItemCommtensPerma {
   text-align: right;
   font-size: 90%;
   margin-top: 15px;
+  min-height: 15px;
 }
 div.ilBlogSideBlocks {
   margin-left: 5px;
@@ -10236,7 +10241,7 @@ div#il_startup_content {
 .ilStartupSection {
   padding-top: 25px;
 }
-div.ilStartupSection form.form-horizontal {
+div.ilStartupSection div.form-horizontal {
   text-align: left;
   width: 40em;
 }
@@ -10775,7 +10780,7 @@ div.ilNewObjectSelector {
   #il_startup_content form table {
     width: auto;
   }
-  div.ilStartupSection form.form-horizontal {
+  div.ilStartupSection div.form-horizontal {
     width: auto;
   }
   .ilStartupSection {
