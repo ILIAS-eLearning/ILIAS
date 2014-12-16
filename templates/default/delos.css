@@ -9182,9 +9182,9 @@ ul.ilBlogSideBlockNavigation {
 div.ilBlogSideBlockNavigationSelection {
   margin-bottom: 5px;
 }
-.ilBlogListItemDraft {
+div.ilBlogListItemDraft {
   border: 2px dotted red;
-  padding: 3px;
+  padding: 10px;
 }
 .ilBlogNavigationItemDraft {
   margin-right: 50px;
@@ -10236,7 +10236,7 @@ div#il_startup_content {
 .ilStartupSection {
   padding-top: 25px;
 }
-div.ilStartupSection div.form-horizontal {
+div.ilStartupSection form.form-horizontal {
   text-align: left;
   width: 40em;
 }
@@ -10775,7 +10775,7 @@ div.ilNewObjectSelector {
   #il_startup_content form table {
     width: auto;
   }
-  div.ilStartupSection div.form-horizontal {
+  div.ilStartupSection form.form-horizontal {
     width: auto;
   }
   .ilStartupSection {
