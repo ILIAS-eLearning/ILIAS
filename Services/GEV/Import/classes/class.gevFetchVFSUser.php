@@ -278,10 +278,7 @@ class gevFetchFVSUser {
 	public function fetchUsers(){
 		$ret = array();
 		$usrs =  $this->getAllUsers();
-
 		return $usrs;
-
-		//roles, udf...
 	}
 
 
@@ -300,16 +297,17 @@ class gevFetchFVSUser {
 		return $roles;
 	}
 
+
 	public function getGlobalRolesForUsers(){
 		$ret = array();
 
 		$global_roles = array_keys($this->getGlobalRoles());
 
-
 		$sql = "SELECT usr_id, rol_id FROM rbac_ua"
 			." WHERE rol_id IN ("
 			.implode(',', $global_roles)
 			.')';
+
 		$result = mysql_query($sql, $this->shadowDB);	
 		while($record = mysql_fetch_assoc($result)) {
 			if(! array_key_exists($record['usr_id'], $ret)){
@@ -321,5 +319,28 @@ class gevFetchFVSUser {
 		return $ret;
 	}
 	
+
+
+	public function getEduRecordsForImportedUsers(){
+		$ret = array();	
+		//if we don't have the user, we will not need his/her records...
+		$sql = "SELECT id, ilid_vfs FROM interimUsers WHERE ilid_vfs != ''";
+		$result = mysql_query($sql, $this->shadowDB);
+		while($record = mysql_fetch_assoc($result)) {
+			
+			$sql = "SELECT * from edu_biography"
+				." WHERE user_id = " .$record['ilid_vfs']
+				." AND ("
+				." hist_historic=0 OR wbd_case_id != '-empty-'"
+				.")";
+			$res = mysql_query($sql, $this->shadowDB);
+			while($rec = mysql_fetch_assoc($res)) {
+				$ret[] = $rec;
+			}
+
+		}
+		return $ret;
+	}
+
 
 }

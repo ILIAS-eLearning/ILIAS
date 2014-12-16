@@ -77,6 +77,13 @@ class gevImportOrgStructure {
 		return $v;
 	}
 	
+	private function updateIlIdForOrgUnit($orgu_id, $ilid){
+		$sql = "UPDATE interimOrgUnits SET ilid='$ilid' WHERE id='$orgu_id'";
+		print '<br>' .$sql;
+		flush();
+		mysql_query($sql, $this->shadowDB);
+	}
+
 	private function createSingleOrgUnit($rec){
 		//global $tree;
 
@@ -127,6 +134,8 @@ class gevImportOrgStructure {
 		$streetnr = $this->extract_house_nr($this->notEmptyString($rec['street']));
 		$orgutils->setStreet($this->notEmptyString($streetnr['street']));
 		$orgutils->setHouseNumber($this->notEmptyString($streetnr['nr']));
+
+		$this->updateIlIdForOrgUnit($rec['id'], $id);
 
 	}
 

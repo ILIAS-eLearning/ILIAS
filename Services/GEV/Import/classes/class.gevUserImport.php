@@ -77,6 +77,42 @@ class gevUserImport {
 			//mysql_free_result($result);
 		}
 	}
+	
+	private function entryExistsInInterimsDB($table, $field, $value) {
+		$sql = "SELECT id FROM $table WHERE $field='$value'";
+		$result = $this->queryShadowDB($sql);
+		if($result && mysql_num_rows($result) >0){
+			mysql_free_result($result);
+			return true;
+		}
+		mysql_free_result($result);	
+		return false;
+	}
+
+	private function getInterimsId($table, $field, $searchvalue) {
+		$sql = "SELECT id FROM $table WHERE $field='$searchvalue'";
+		$result = $this->queryShadowDB($sql);
+		$record = mysql_fetch_assoc($result);
+		mysql_free_result($result);
+		return $record['id'];
+	}
+
+	private function getNextCourseId() {
+		//! negative courseIds
+		$sql = "SELECT crs_id FROM interimCourse ORDER BY crs_id ASC LIMIT 1";
+		$result = $this->queryShadowDB($sql);
+		if(mysql_num_rows($result) == 0){
+			$crs_id	= -999;
+		} else {
+			$record = mysql_fetch_assoc($result);
+			mysql_free_result($result);
+		}
+		$crs_id = (int)$record['crs_id'] -1;
+		return $crs_id;
+	}
+
+
+
 
 
 	private function getFetchterVFS(){
@@ -135,7 +171,7 @@ class gevUserImport {
 		  	." PRIMARY KEY (id)"
 			." ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=0";
 
-		$result = $this->queryShadowDB($sql);
+		$this->queryShadowDB($sql);
 
 		//roles
 		$sql = "CREATE TABLE IF NOT EXISTS interimRoles ("
@@ -146,7 +182,7 @@ class gevUserImport {
 			." title varchar(128) COLLATE utf8_unicode_ci NOT NULL,"
 			." PRIMARY KEY (id)"
 			.") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
-		$result = $this->queryShadowDB($sql);
+		$this->queryShadowDB($sql);
 
 
 		//userroles
@@ -154,30 +190,68 @@ class gevUserImport {
 		  	." interim_usr_id int(11) NOT NULL,"
 		  	." interim_role_id int(11) NOT NULL"
 			.") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-		$result = $this->queryShadowDB($sql);
+		$this->queryShadowDB($sql);
 
+		//hist_usercoursestatus
+		$sql = "CREATE TABLE IF NOT EXISTS interimUsercoursestatus ("
+		  ." row_id int(11) NOT NULL,"
+		  ." usr_id_vfs int(11) NOT NULL,"
+		  ." usr_id_gev int(11) NOT NULL,"
+		  ." hist_version int(11) NOT NULL DEFAULT '1',"
+		  ." hist_historic int(11) NOT NULL DEFAULT '0',"
+		  ." created_ts int(11) NOT NULL DEFAULT '0',"
+		  ." last_wbd_report date DEFAULT NULL,"
+		  ." crs_id int(11) NOT NULL," //matches interimCourse.crs_id
+		  ." credit_points int(11) NOT NULL,"
+		  ." bill_id varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,"
+		  ." booking_status varchar(255) COLLATE utf8_unicode_ci NOT NULL,"
+		  ." participation_status varchar(255) COLLATE utf8_unicode_ci NOT NULL,"
+		  ." okz varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+		  ." org_unit varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+		  ." certificate int(11) DEFAULT NULL,"
+		  ." begin_date date DEFAULT NULL,"
+		  ." end_date date DEFAULT NULL,"
+		  ." overnights int(11) DEFAULT NULL,"
+		  ." function varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+		  ." wbd_booking_id varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+		  ." PRIMARY KEY (row_id)"
+		." ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+		$this->queryShadowDB($sql);
+
+		//hist_course
+		$sql = "CREATE TABLE IF NOT EXISTS interimCourse ("
+		  ." row_id int(11) NOT NULL,"
+//		  ." hist_version int(11) NOT NULL DEFAULT '1',"
+//		  ." hist_historic int(11) NOT NULL DEFAULT '0',"
+		  ." crs_id int(11) NOT NULL," //matches interimUsercoursestatus.crs_id
+//		  ." created_ts int(11) NOT NULL DEFAULT '0',"
+		  ." custom_id varchar(255) COLLATE utf8_unicode_ci NOT NULL,"
+		  ." title varchar(255) COLLATE utf8_unicode_ci NOT NULL,"
+//		  ." template_title varchar(255) COLLATE utf8_unicode_ci NOT NULL,"
+		  ." type varchar(255) COLLATE utf8_unicode_ci NOT NULL,"
+		  ." topic_set int(11) NOT NULL,"
+		  ." begin_date date DEFAULT NULL,"
+		  ." end_date date DEFAULT NULL,"
+		  ." hours int(11) DEFAULT '0',"
+		  ." is_expert_course tinyint(4) NOT NULL DEFAULT '0',"
+		  ." venue varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+		  ." provider varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+//		  ." tutor varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+		  ." max_credit_points varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+		  ." fee double DEFAULT NULL,"
+//		  ." is_template varchar(8) COLLATE utf8_unicode_ci DEFAULT NULL,"
+		  ." wbd_topic varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+		  ." edu_program varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
+		  ." PRIMARY KEY (row_id)"
+		." ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+
+		$this->queryShadowDB($sql);
 
 	}
 
 
-	private function entryExistsInInterimsDB($table, $field, $value) {
-		$sql = "SELECT id FROM $table WHERE $field='$value'";
-		$result = $this->queryShadowDB($sql);
-		if($result && mysql_num_rows($result) >0){
-			mysql_free_result($result);
-			return true;
-		}
-		mysql_free_result($result);	
-		return false;
-	}
 
-	private function getInterimsId($table, $field, $searchvalue) {
-		$sql = "SELECT id FROM $table WHERE $field='$searchvalue'";
-		$result = $this->queryShadowDB($sql);
-		$record = mysql_fetch_assoc($result);
-		mysql_free_result($result);
-		return $record['id'];
-	}
+
 
 
 	private function addSingleUserToInterimsDB($usr) {
@@ -257,20 +331,220 @@ class gevUserImport {
 		foreach ($userroles as $old_usr_id => $old_role_ids) {
 			$interims_user_id = $this->getInterimsId('interimUsers', $id_field, $old_usr_id);
 			
-			$this->prnt($interims_user_id .': ');
-			
-			$sql = "DELETE FROM interimUserRoles WHERE interim_usr_id=$interims_user_id";
-			$this->queryShadowDB($sql);
-
-			foreach ($old_role_ids as $old_role_id) {
-				$interims_role_id = $this->getInterimsId('interimRoles', $id_field, $old_role_id);
-				$sql = "INSERT INTO interimUserRoles (interim_usr_id, interim_role_id)"
-					." VALUES ($interims_user_id, $interims_role_id)";
-				$this->queryShadowDB($sql);
+			if(! $interims_user_id){
+				$this->prnt('<b>NO USER with id '. $old_usr_id .'</b>');
+			} else {
+				$this->prnt($interims_user_id .': ');
 				
-				$this->prnt($interims_role_id.',', -1);
+				$sql = "DELETE FROM interimUserRoles WHERE interim_usr_id=$interims_user_id";
+				$this->queryShadowDB($sql);
+
+				foreach ($old_role_ids as $old_role_id) {
+					$interims_role_id = $this->getInterimsId('interimRoles', $id_field, $old_role_id);
+					$sql = "INSERT INTO interimUserRoles (interim_usr_id, interim_role_id)"
+						." VALUES ($interims_user_id, $interims_role_id)";
+					$this->queryShadowDB($sql);
+					
+					$this->prnt($interims_role_id.',', -1);
+				}
 			}
 		}
+	}
+
+
+
+	private function normalizeCourseEntry($entry, $client){
+		if($client == 'VFS'){
+			/*
+			course:
+				.$entry['custom_id'] .","
+				.$entry['title'] .","
+				.$entry['type'] ."," //selbstlern...
+
+				.$entry['begin'] ."," 
+				.$entry['end'] ."," 
+
+				.$entry['topic_set'] ."," 
+				.$entry['hours'] ."," 
+				.$entry['venue'] ."," 
+				.$entry['provider'] ."," 
+				
+				.$entry['max_credit_points'] ."," 
+				.$entry['fee'] ."," 
+				.$entry['wbd_topic'] ."," 
+				.$entry['edu_program']
+			*/
+
+			$entry['title'] = $entry['crs_template_title'];
+			$entry['begin_date'] = $entry['crs_start_date'];
+			$entry['end_date'] = $entry['crs_end_date'];
+			/*
+			user:
+				.$entry['old_usr_id'] .","
+
+				.$entry['usr_begin_date'] .","
+				.$entry['usr_end_date'] ."," 
+
+				.$entry['hist_version'] ."," 
+				.$entry['hist_historic'] ."," 
+				.$entry['created_ts'] ."," 
+				.$entry['last_wbd_report'] ."," 
+
+				.$entry['credit_points'] ."," 
+				.$entry['bill_id'] ."," 
+				.$entry['booking_status'] ."," 
+				.$entry['participation_status'] ."," 
+
+				.$entry['function'] ."," 
+				.$entry['wbd_booking_id']
+			*/
+
+			$entry['old_usr_id'] = $entry['user_id'];
+			$entry['usr_begin_date'] = $entry['crs_start_date'];
+			$entry['usr_end_date'] = $entry['crs_end_date'];
+			$entry['last_wbd_report']  = $entry['wbd_transfer_ts'];
+			$entry['credit_points']  = $entry['crs_credit_points'];
+
+			$entry['bill_id']  = '';
+			$entry['booking_status']  = $entry['part_booking_state_title'];
+			$entry['participation_status']  = $entry['part_participation_state_title'];
+			$entry['function']  = $entry['part_function_title'];
+			$entry['wbd_booking_id']  = $entry['wbd_case_id'];
+
+		}
+		if($client == 'GEV'){
+			$entry['old_usr_id'] = $entry['usr_id'];
+		}
+
+
+		return $entry;
+	}
+
+
+	private function storeCourseToInterimsBD($entry){
+		//to interimCourse
+		//is there a course with this title and dates?
+		//return crs_id
+		$title = $entry['title'];
+		$begin_date = $entry['begin'];
+		$end_date = $entry['end'];
+
+		$sql = "SELECT crs_id FROM interimCourse WHERE 	
+			title = '$title'
+			AND
+			begin_date = '$begin_date'
+			AND 
+			end_date = '$end_date'
+		";
+		$result = $this->queryShadowDB($sql);
+		if($result && mysql_num_rows($result) > 0){
+			//found a matching course, return id.
+			$record = mysql_fetch_assoc($result);
+			mysql_free_result($result);
+			return $record['crs_id'];
+		}
+
+		//new course
+		$next_id = $this->getNextCourseId();
+		$sql = "INSERT INTO interimCourse ("
+					."crs_id,"
+					."custom_id,"
+					."title,"
+					."type,"
+
+					."begin_date,"
+					."end_date,"
+
+					."topic_set,"
+					."hours,"
+					."venue,"
+					."provider,"
+
+					."max_credit_points,"
+					."fee,"
+					."wbd_topic,"
+					."edu_program"
+				.") VALUES ("
+					.$next_id .","
+					.$entry['custom_id'] .","
+					.$entry['title'] .","
+					.$entry['type'] ."," //selbstlern...
+
+					.$entry['begin'] ."," 
+					.$entry['end'] ."," 
+
+					.$entry['topic_set'] ."," 
+					.$entry['hours'] ."," 
+					.$entry['venue'] ."," 
+					.$entry['provider'] ."," 
+					
+					.$entry['max_credit_points'] ."," 
+					.$entry['fee'] ."," 
+					.$entry['wbd_topic'] ."," 
+					.$entry['edu_program']
+				.")";
+
+		$this->queryShadowDB($sql);
+
+		return $next_id;
+	}
+
+
+
+	private function storeEduRecordForUser($crs_id, $entry, $client){
+		//gets new crs-id which matches interimCourse.crs_id
+
+
+		// !check, if user has a relation to that course already!
+		
+
+		$sql = "INSERT INTO interimUsercoursestatus ("
+				. "usr_id_" .strtolower($client) .","
+				." crs_id," //matches interimCourse.crs_id
+
+				." begin_date,"
+				." end_date,"
+
+				." hist_version,"
+				." hist_historic,"
+				." created_ts,"
+				." last_wbd_report,"
+
+				." credit_points,"
+				." bill_id,"
+				." booking_status,"
+				." participation_status,"
+
+				." okz,"
+				." org_unit,"
+				." certificate,"
+				." overnights,"
+
+				." function,"
+				." wbd_booking_id"
+
+			.") VALUES ("
+				.$entry['old_usr_id'] .","
+				.$crs_id .","
+
+				.$entry['usr_begin_date'] .","
+				.$entry['usr_end_date'] ."," 
+
+				.$entry['hist_version'] ."," 
+				.$entry['hist_historic'] ."," 
+				.$entry['created_ts'] ."," 
+				.$entry['last_wbd_report'] ."," 
+
+				.$entry['credit_points'] ."," 
+				.$entry['bill_id'] ."," 
+				.$entry['booking_status'] ."," 
+				.$entry['participation_status'] ."," 
+
+				.$entry['function'] ."," 
+				.$entry['wbd_booking_id']
+			.")";
+
+			$this->queryShadowDB($sql);
 	}
 
 
@@ -306,6 +580,25 @@ class gevUserImport {
 			
 		$this->prnt('Fetching roles for VFS-users: done', 2);
 	}
+
+
+	public function fetchVFSEduRecords(){
+		$this->prnt('Fetching VFS EduRecords', 1);
+		
+		$fetcher = $this->getFetchterVFS();
+		$edu_records = $fetcher->getEduRecordsForImportedUsers();
+		$this->prnt($edu_records, 666);
+die();
+		foreach ($edu_records as $entry) {
+			$entry = $this->normalizeCourseEntry($entry, 'VFS');
+		//	$crs_id = $this->storeCourseToInterimsBD($entry);
+		//  $this->storeEduRecordForUser($crs_id, $entry, 'VFS');
+			$this->prnt($entry, 666);
+		}
+
+		$this->prnt('Fetching VFS EduRecords: done', 2);
+	}
+
 
 	/**
 	* GENERALI
@@ -373,7 +666,7 @@ $imp = new gevUserImport();
 //$imp->fetchGEVEduRecords();
 
 //$imp->fetchVFSUsers();
-$imp->fetchVFSUserRoles();
+//$imp->fetchVFSUserRoles();
 //$imp->fetchVFSEduRecords();
 
 
