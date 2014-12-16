@@ -2528,3 +2528,17 @@ if(!$ilDB->tableExists('hist_tep'))
 			, "Qualifizierungsprogramm"
 		))."' WHERE title = 'Trainingskategorie'");
 ?>
+
+<#78>
+<?php
+
+	$ilDB->manipulate("UPDATE cat_mail_templates SET template_type = 'Agentregistration'"
+					 ." WHERE template_type = 'Registration'");
+	$res = $ilDB->manipulate("SELECT id FROM cat_mail_templates WHERE category_name = 'EVG_Aktivierung'");
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		$ilDB->manipulate("DELETE FROM cat_mail_variants WHERE mail_types_fi = ".$ilDB->quote($rec["id"], "integer"));
+	}
+	$ilDB->manipulate("DELETE FROM cat_mail_templates WHERE category_name = 'EVG_Aktivierung'");
+	$ilDB->manipulate("UPDATE cat_mail_templates SET category_name = 'Confirmation'"
+					 ." WHERE category_name = 'Makler_Aktivierung'");
+?>

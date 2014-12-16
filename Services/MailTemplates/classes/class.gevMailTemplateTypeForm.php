@@ -76,7 +76,7 @@ class gevMailTemplateTypeForm extends ilMailTemplateTypeForm {
 				return "crs_invitation";
 			case "CrsMail":
 				return "crs_auto";
-			case "Registration":
+			case "Agentregistration":
 				return "registration";
 			default:
 				throw new Exception("gevMailTemplateTypeForm::mapTemplateTypeNameToTypeInput: unknown type: '".$a_name."'");
@@ -90,7 +90,7 @@ class gevMailTemplateTypeForm extends ilMailTemplateTypeForm {
 			case "crs_auto":
 				return "CrsMail";
 			case "registration":
-				return "Registration";
+				return "Agentregistration";
 			default:
 				throw new Exception("gevMailTemplateTypeForm::mapTemplateTypeInputToTypeName: unknown input: '".$a_name."'");
 		}
