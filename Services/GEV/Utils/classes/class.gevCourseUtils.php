@@ -1274,6 +1274,9 @@ class gevCourseUtils {
 						, $lng->txt("gev_org_unit_short")
 						);
 
+		$format_wrap = $workbook->addFormat();
+		$format_wrap->setTextWrap();
+		
 		$worksheet->setColumn(0, 0, 16);		// gender
 		$worksheet->setColumn(1, 1, 20); 	// firstname
 		$worksheet->setColumn(2, 2, 20);	// lastname
@@ -1282,11 +1285,13 @@ class gevCourseUtils {
 		if($a_type == self::MEMBERLIST_HOTEL)
 		{
 			$columns[] = $lng->txt("gev_crs_book_overnight_details"); // #3764
+			$columns[] = "Selbstzahler Vorabendanreise";
 
-			$worksheet->setColumn(4, 4, 50); // #4481
+			$worksheet->setColumn(4, 4, 45); // #4481
+			$worksheet->setColumn(5, 5, 15);
 		}
 		else if ($a_type == self::MEMBERLIST_PARTICIPANT) {
-			$columns[] = $lng->txt("status");
+			$columns[] = "Funktion";
 			
 			$worksheet->setColumn(4, 4, 20);
 		}
@@ -1294,11 +1299,14 @@ class gevCourseUtils {
 		{
 			$columns[] = $lng->txt("status");
 			$columns[] = $lng->txt("birthday");
-			$columns[] = $lng->txt("gev_signature");
+			$columns[] = "Vorbedingung erfüllt";
+			$columns[] = "Funktion";
+			//$columns[] = $lng->txt("gev_signature");
 			
 			$worksheet->setColumn(4, 4, 20);
 			$worksheet->setColumn(5, 5, 25);
-			$worksheet->setColumn(6, 6, 20);
+			$worksheet->setColumn(6, 6, 25);
+			$worksheet->setColumn(7, 7, 20);
 		}
 
 		$row = $this->buildListMeta( $workbook
@@ -1310,6 +1318,7 @@ class gevCourseUtils {
 										)
 							   , $lng->txt("gev_excel_member_row_title")
 							   , $columns
+							   , $a_type
 							   );
 
 		$user_ids = $this->getCourse()->getMembersObject()->getMembers();
@@ -1319,9 +1328,6 @@ class gevCourseUtils {
 
 		if($user_ids)
 		{
-			$format_wrap = $workbook->addFormat();
-			$format_wrap->setTextWrap();
-
 			foreach($user_ids as $user_id)
 			{
 				$row++;
@@ -1342,6 +1348,7 @@ class gevCourseUtils {
 				{
 					// vfstep3.1
 					$worksheet->write($row, 4, $user_utils->getFormattedOvernightDetailsForCourse($this->getCourse()), $format_wrap);
+					$worksheet->write($row, 5, $user_utils->paysPrearrival() ? "Ja" : "Nein", $format_wrap);
 
 					//$txt[] = $lng->txt("vofue_crs_book_overnight_details").": ".$user_data["ov"];
 				}
@@ -1350,9 +1357,11 @@ class gevCourseUtils {
 				}
 				else
 				{
-					$worksheet->write($row, 4, $user_utils->getFunctionAtCourse($this->crs_id), $format_wrap);
+					//$worksheet->write($row, 4, $user_utils->getFunctionAtCourse($this->crs_id), $format_wrap);
+					$worksheet->write($row, 4, $user_utils->getIDHGBAADStatus(), $format_wrap);
 					$worksheet->write($row, 5, $user_utils->getFormattedBirthday(), $format_wrap);
-					$worksheet->write($row, 6, "", $format_wrap);
+					$worksheet->write($row, 6, $user_utils->hasFullfilledPreconditionOf($this->crs_id) ? "Ja" : "Nein");
+					$worksheet->write($row, 7, $user_utils->getFunctionAtCourse($this->crs_id), $format_wrap);
 					
 					//$txt[] = $lng->txt("vofue_udf_join_date").": ".$user_data["jdate"];
 					//$txt[] = $lng->txt("birthday").": ".$user_data["bdate"];
@@ -1373,7 +1382,7 @@ class gevCourseUtils {
 		return array($filename, "Teilnehmer.xls");//, implode("\n", $txt));
 	}
 	
-	protected function buildListMeta($workbook, $worksheet, $title, $row_title, array $column_titles)
+	protected function buildListMeta($workbook, $worksheet, $title, $row_title, array $column_titles, $a_type)
 	{
 		global $lng;
 
@@ -1382,6 +1391,8 @@ class gevCourseUtils {
 		$format_bold = $workbook->addFormat(array("bold" => 1));
 		$format_title = $workbook->addFormat(array("bold" => 1, "size" => 14));
 		$format_subtitle = $workbook->addFormat(array("bold" => 1, "bottom" => 6));
+		$format_row_header = $workbook->addFormat(array("bold" => 1));
+		$format_row_header->setTextWrap();
 
 		$worksheet->writeString(0, 0, $title, $format_title);
 		$worksheet->mergeCells(0, 0, 0, $num_cols-1);
@@ -1397,7 +1408,7 @@ class gevCourseUtils {
 
 		// course info
 		$row = 4;
-		foreach($this->getListMetaData() as $caption => $value)
+		foreach($this->getListMetaData($a_type) as $caption => $value)
 		{
 			$worksheet->writeString($row, 0, $caption, $format_bold);
 
@@ -1447,13 +1458,13 @@ class gevCourseUtils {
 		// title row
 		for($loop = 0; $loop < $num_cols; $loop++)
 		{
-			$worksheet->writeString($row, $loop, $column_titles[$loop], $format_bold);
+			$worksheet->writeString($row, $loop, $column_titles[$loop], $format_row_header);
 		}
 
 		return $row;
 	}
 	
-	protected function getListMetaData() {
+	protected function getListMetaData($a_type) {
 		$start_date = $this->getStartDate();
 		$end_date = $this->getEndDate();
 		$arr = array("Titel" => $this->getTitle()
@@ -1464,10 +1475,17 @@ class gevCourseUtils {
 								 : ""
 					, "Veranstaltungsort" => $this->getVenueTitle()
 					, "Bildungspunkte" => $this->getCreditPoints()
-					, "Trainer" => ($this->getMainTrainer() !== null)
-								   ?$this->getMainTrainerLastname().", ".$this->getMainTrainerFirstname()
-								   :""
+					, "Trainer" =>   ($this->getMainTrainer() !== null)
+								   ? $this->getMainTrainerName()." (".$this->getMainTrainerEMail().")"
+								   : ""
+					, "Trainingsbetreuer" => $this->getMainAdminName(). " (".$this->getMainAdminContactInfo().")"
+					, "Fachlich verantwortlich" => $this->getTrainingOfficerContactInfo()
 					);
+		
+		if ($a_type === self::MEMBERLIST_HOTEL) {
+			unset($arr["Bildungspunkte"]);
+		}
+		
 		if ($this->isPraesenztraining()) {
 			$arr["Bei Rückfragen"] = "Ad-Schulung.de@generali.com";
 		}
@@ -1673,6 +1691,12 @@ class gevCourseUtils {
 			return $this->getCreditPoints();
 		}
 		return 0;
+	}
+	
+	public function userFullfilledPrecondition($a_user_id) {
+		require_once("Services/AccessControl/classes/class.ilConditionHandler.php");
+		$ref_id = gevObjectUtils::getRefId($this->crs_id);
+		return ilConditionHandler::_checkAllConditionsOfTarget($ref_id, $this->crs_id, "crs", $a_user_id);
 	}
 
 

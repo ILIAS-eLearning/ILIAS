@@ -1244,12 +1244,25 @@ class gevUserUtils {
 		return !$this->hasRoleIn(gevSettings::$NO_PAYMENT_ROLES);
 	}
 	
+	public function paysPrearrival() {
+		return !$this->hasRoleIn(gevSettings::$NO_PREARRIVAL_PAYMENT_ROLES);
+	}
 
 	public function isVFS() {
 		return $this->hasRoleIn(array('VFS'));
 	}
 	
-
+	public function getIDHGBAADStatus() {
+		$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
+		foreach ($roles as $role) {
+			$title = ilObject::_lookupTitle($role);
+			$status = gevSettings::$IDHGBAAD_STATUS_MAPPING[$title];
+			if ($status !== null) {
+				return $status;
+			}
+		}
+		return "";
+	}
 
 
 	// Soll für den Benutzer  bei der Selbstbuchung der Hinweis "Vorabendanreise 
@@ -1287,6 +1300,10 @@ class gevUserUtils {
 	
 	public function getFunctionAtCourse($a_crs_id) {
 		return gevCourseUtils::getInstance($a_crs_id)->getFunctionOfUser($this->user_id);
+	}
+	
+	public function hasFullfilledPreconditionOf($a_crs_id) {
+		return gevCourseUtils::getInstance($a_crs_id)->userFullfilledPrecondition($this->user_id);
 	}
 	
 	public function getOvernightDetailsForCourse(ilObjCourse $a_crs) {

@@ -348,6 +348,41 @@ class gevSettings {
 		, "ext. Referent"
 		);
 	
+	// Names of roles where users need to pay the 
+	static $NO_PREARRIVAL_PAYMENT_ROLES = array(
+		  "Administrator"
+		, "Admin-Voll"
+		, "Admin-eingeschraenkt"
+		, "Admin-Ansicht"
+		, "OD/BD"
+		, "FD"
+		, "UA"
+		, "HA 84"
+		, "BA 84"
+		, "Org PV 59"
+		, "PV 59"
+		, "Ausbildungsbeauftragter"
+		, "ID FK"
+		, "ID MA"
+		, "OD/FD/BD ID"
+		, "VA 59"
+		, "VA HGB 84"
+		, "NFK"
+		, "FDA"
+		, "Ausbilder"
+		, "Azubi"
+		, "Buchhaltung"
+		, "Veranstalter"
+		, "int. Trainer"
+		, "ext. Trainer"
+		, "OD-Betreuer"
+		, "DBV UVG"
+		, "DBV EVG"
+		, "TP Service"
+		, "TP Basis"
+		, "VFS"
+		);
+	
 	// Names of roles that count as admins
 	static $ADMIN_ROLES = array(
 		  "Administrator"
@@ -375,8 +410,44 @@ class gevSettings {
 		'cpool' => 285 //ref 76
 	);
 
-
-
+	// Role to "Status" mapping
+	static $IDHGBAAD_STATUS_MAPPING = array(
+		  "Administrator"			=> "ID"
+		, "Admin-Voll"				=> "ID"
+		, "Admin-eingeschraenkt"	=> "ID"
+		, "Admin-Ansicht"			=> "ID"
+		, "OD/BD"					=> "ID"
+		, "FD"						=> "ID"
+		, "UA"						=> "HGB §84"
+		, "HA 84"					=> "HGB §84"
+		, "BA 84"					=> "HGB §84"
+		, "Org PV 59"				=> "AAD"
+		, "PV 59"					=> "AAD"
+		, "NA"						=> "HGB §84"
+		, "VP"						=> "HGB §84"
+		, "AVL"						=> "HGB §84"
+		//, "Ausbildungsbeauftragter" => "nicht relevant"
+		, "ID FK"					=> "ID"
+		, "ID MA"					=> "ID"
+		, "OD/FD/BD ID"				=> "ID"
+		, "Agt-Id"					=> "HGB §84"
+		, "VA 59"					=> "AAD"
+		, "VA HGB 84"				=> "HGB §84"
+		, "NFK"						=> "AAD"
+		, "FDA"						=> "AAD"
+		//, "Ausbilder"				=> "nicht relevant"
+		, "Azubi"					=> "AAD"
+		, "Buchhaltung"				=> "ID"
+		//, "Veranstalter"			=> "nicht relevant"
+		, "int. Trainer"			=> "ID"
+		//, "ext. Trainer"			=> "nicht relevant"
+		, "OD-Betreuer"				=> "ID"
+		, "DBV UVG"					=> "AAD"
+		, "DBV EVG"					=> "AAD"
+		//, "TP Service"			=> "nicht relevant"
+		//, "TP Basis"				=> "nicht relevant"
+		//, "VFS"					=> "nicht relevant"
+		);
 
 	static $TEPTYPE_ORDER = array(
 		'Training',
