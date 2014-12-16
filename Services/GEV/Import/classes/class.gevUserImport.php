@@ -13,7 +13,7 @@
 
 
 //reset ilias for calls from somewhere else
-$basedir = __DIR__; 
+/*$basedir = __DIR__; 
 $basedir = str_replace('/Services/GEV/Import/classes', '', $basedir);
 chdir($basedir);
 
@@ -24,7 +24,7 @@ require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
 require_once "./Services/Context/classes/class.ilContext.php";
 ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
 require_once("./Services/Init/classes/class.ilInitialisation.php");
-ilInitialisation::initILIAS();
+ilInitialisation::initILIAS();*/
 
 
 //settings and imports
@@ -57,7 +57,11 @@ class gevUserImport {
 		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
 		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
 
-		$mysql = mysql_connect($host, $user, $pass) or die(mysql_error());
+		$mysql = mysql_connect($host, $user, $pass) 
+				or die( "MySQL: ".mysql_error()." ### "
+						." Is the shadowdb initialized?"
+						." Are the settings for the shadowdb initialized in the client.ini.php?"
+					  );
 		mysql_select_db($name, $mysql);
 		mysql_set_charset('utf8', $mysql);
 
@@ -657,7 +661,7 @@ die();
 }
 
 
-$imp = new gevUserImport();
+//$imp = new gevUserImport();
 
 //$imp->createOrgStructure();
 
@@ -671,4 +675,4 @@ $imp = new gevUserImport();
 
 
 
-print '<br><br><hr>all through.';
+//print '<br><br><hr>all through.';

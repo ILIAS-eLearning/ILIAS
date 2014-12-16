@@ -368,7 +368,8 @@ INSERT INTO `interimOrgUnits` (`row_id`, `ilid`, `id`, `title`, `parent`, `count
 (314, '', 'exit', 'Ausgeschiedene Mitarbeiter', 'root', '', '', '', '', '', '', ''),
 (315, '', 'uvg', 'UVG', 'root', '', '', '', '', '', '', ''),
 (316, '', 'na', 'Nebenberufsagenturen', 'root', '', '', '', '', '', '', ''),
-(317, '', 'cpool', 'C-Pool', 'uvg', '', '', '', '', '', '', '');
+(317, '', 'cpool', 'C-Pool', 'uvg', '', '', '', '', '', '', ''),
+(318, '', 'dbv_tmplt', 'Vorlage DBV-Einheit', 'uvg', '', '', '', '', '', '', '');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -727,7 +727,6 @@ class ilTree
 			}
 		}
 
-
 		if (!isset($a_node_id) or !isset($a_parent_id))
 		{
 			$GLOBALS['ilLog']->logStack();
@@ -739,11 +738,8 @@ class ilTree
 			$this->ilErr->raiseError(get_class($this)."::insertNode(): Node ".$a_node_id." already in tree ".
 									 $this->table_tree."!",$this->ilErr->WARNING);
 		}
-
 		$this->getTreeImplementation()->insertNode($a_node_id, $a_parent_id, $a_pos);
-		
 		$this->in_tree_cache[$a_node_id] = true;
-
 		// reset deletion date
 		if ($a_reset_deletion_date)
 		{

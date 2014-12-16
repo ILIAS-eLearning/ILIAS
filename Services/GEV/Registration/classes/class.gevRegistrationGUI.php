@@ -222,7 +222,7 @@ class gevRegistrationGUI {
 		$role_utils = gevRoleUtils::getInstance();
 		$role_utils->assignUserToGlobalRole($user_id, $role_title);
 		
-		$org_role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][1];
+		/*$org_role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][1];
 		$org_unit_import_id = $this->getOrgUnitImportId($stellennummer);
 		$org_unit_id = ilObjOrgUnit::_lookupObjIdByImportId($org_unit_import_id);
 		if (!$org_unit_id) {
@@ -230,7 +230,9 @@ class gevRegistrationGUI {
 		}
 		$org_unit_utils = gevOrgUnitUtils::getInstance($org_unit_id);
 		$org_unit_utils->getOrgUnitInstance();
-		$org_unit_utils->assignUser($user_id, $org_role_title);
+		$org_unit_utils->assignUser($user_id, $org_role_title);*/
+		
+		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
 		
 		//$user = new ilObjUser($user_id);
 		$user->setActive(true, 6);

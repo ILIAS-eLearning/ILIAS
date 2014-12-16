@@ -268,4 +268,31 @@ class ilCustomInstaller
 			$GLOBALS["rbacsystem"] = ilRbacSystem::getInstance();
 		}
 	}
+	
+	static public function maybeInitClientIni() {
+		if (isset($GLOBALS["ilClientIniFile"])) {
+			return;
+		}
+		
+		$ini_file = "./".ILIAS_WEB_DIR."/".$_COOKIE["ilClientId"]."/client.ini.php";
+		require_once("./Services/Init/classes/class.ilIniFile.php");
+		$ilClientIniFile = new ilIniFile($ini_file);		
+		$ilClientIniFile->read();
+		
+		// invalid client id / client ini
+		if ($ilClientIniFile->ERROR != "") {
+			die("ilCustomInstaller::maybeInitClientIni: reading ".$ini_file." - ".$ilClientIniFile->ERROR);
+		}
+		
+		$GLOBALS["ilClientIniFile"] = $ilClientIniFile;
+	}
+
+	static public function maybeInitObjDataCache() {
+		if (isset($GLOBALS["ilObjDataCache"])) {
+			return;
+		}
+		
+		require_once("Services/Object/classes/class.ilObjectDataCache.php");
+		$GLOBALS["ilObjDataCache"] = new ilObjectDataCache();
+	}
 }

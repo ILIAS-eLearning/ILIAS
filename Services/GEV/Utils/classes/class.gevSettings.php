@@ -404,11 +404,43 @@ class gevSettings {
 
 
 	//OrgUnit Mappings (Personal OrgUnits)
+	
+	// for DBVen
+	const DBV_POU_BASE_UNIT_KEY = "gev_dbv_pou_base_unit";
+	const DBV_POU_TEMPLATE_UNIT_KEY = "gev_dbv_pou_template_unit_key";
+	const CPOOL_UNIT_KEY = "gev_dbv_pou_cpool_unit_key";
+	
+	public function getDBVPOUBaseUnitId() {
+		return $this->settings->get(self::DBV_POU_BASE_UNIT_KEY);
+	}
+	
+	public function setDBVPOUBaseUnitId($a_val) {
+		$this->settings->set(self::DBV_POU_BASE_UNIT_KEY, $a_val);
+	}
+	
+	public function getDBVPOUTemplateUnitId() {
+		return $this->settings->get(self::DBV_POU_TEMPLATE_UNIT_KEY);
+	}
+	
+	public function setDBVPOUTemplateUnitId($a_val) {
+		$this->settings->set(self::DBV_POU_TEMPLATE_UNIT_KEY, $a_val);
+	}
+	
+	public function getCPoolUnitId() {
+		return $this->settings->get(self::CPOOL_UNIT_KEY);
+	}
+	
+	public function setCPoolUnitId($a_val) {
+		$this->settings->set(self::CPOOL_UNIT_KEY, $a_val);
+	}
+	
 	static $PERSONAL_ORGUNITS_MAPPING = array(
 		'base' => 277, //ref 72
 		'templates' => 281, //ref 74
 		'cpool' => 285 //ref 76
 	);
+	
+	
 
 	// Role to "Status" mapping
 	static $IDHGBAAD_STATUS_MAPPING = array(

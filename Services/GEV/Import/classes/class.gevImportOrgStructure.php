@@ -32,7 +32,7 @@ class gevImportOrgStructure {
 		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
 		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
 		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
-
+		
 		$mysql = mysql_connect($host, $user, $pass) or die(mysql_error());
 		mysql_select_db($name, $mysql);
 		mysql_set_charset('utf8', $mysql);
@@ -79,8 +79,8 @@ class gevImportOrgStructure {
 	
 	private function updateIlIdForOrgUnit($orgu_id, $ilid){
 		$sql = "UPDATE interimOrgUnits SET ilid='$ilid' WHERE id='$orgu_id'";
-		print '<br>' .$sql;
-		flush();
+		//print '<br>' .$sql;
+		//flush();
 		mysql_query($sql, $this->shadowDB);
 	}
 
@@ -91,11 +91,13 @@ class gevImportOrgStructure {
 		$orgu->setTitle($rec['title']);
 		$orgu->create();
 		$orgu->createReference();
+		$orgu->setImportId($rec["id"]);
+		$orgu->update();
 		
 		$id = $orgu->getId();
 		$refId = $orgu->getRefId();
 
-		print '<i>' .$rec['title'] .'</i><br>';
+		//print '<i>' .$rec['title'] .'</i><br>';
 
 		$orgutils = gevOrgUnitUtils::getInstance($id);
 
@@ -111,16 +113,18 @@ class gevImportOrgStructure {
 			$result = mysql_query($sql, $this->shadowDB);
 			$record = mysql_fetch_assoc($result);
 
+			if (!$record) {
+				die("ERROR: ".mysql_error());
+			}
+
 			//get refId from object_reference via object_data.title
 			$sql = "SELECT oref.ref_id FROM object_data od"
-					." INNER JOIN object_reference oref ON od.obj_id = oref.obj_id"
+					." INNER JOIN object_reference oref ON od.obj_id = oref.obj_id AND oref.deleted IS NULL"
 					." WHERE od.type='orgu' AND od.title=" .$this->db->quote($record['title'], 'text');
-
 			$result = $this->db->query($sql);
 			$record = $this->db->fetchAssoc($result);
 			$parent = $record['ref_id'];
 		}
-
 
 		$orgu->putInTree($parent);
 
@@ -131,33 +135,36 @@ class gevImportOrgStructure {
 		$orgutils->setContactFax($this->notEmptyString($rec['fax']));
 		$orgutils->setFinancialAccount($this->notEmptyString($rec['finaccount']));
 
+
 		$streetnr = $this->extract_house_nr($this->notEmptyString($rec['street']));
 		$orgutils->setStreet($this->notEmptyString($streetnr['street']));
 		$orgutils->setHouseNumber($this->notEmptyString($streetnr['nr']));
 
 		$this->updateIlIdForOrgUnit($rec['id'], $id);
-
 	}
 
 
 
 	public function createOrgUnits(){
-		//start with root
-		$sql = "SELECT * from interimOrgUnits WHERE parent = 'root'";
-		$result = mysql_query($sql, $this->shadowDB);
-		while($record = mysql_fetch_assoc($result)) {
-			$this->createSingleOrgUnit($record);
+		$parents = array("root");
+		
+		while(count($parents) > 0) {
+			$new_parents = array();
+			foreach ($parents as $parent) {
+				//start with root
+				$sql = "SELECT * from interimOrgUnits WHERE parent = '".$parent."'";
+				$result = mysql_query($sql, $this->shadowDB);
+				
+				if ($result === false) {
+					die("ERROR: ".mysql_error());
+				}
+				
+				while($record = mysql_fetch_assoc($result)) {
+					$this->createSingleOrgUnit($record);
+					$new_parents[] = $record["id"];
+				}
+			}
+			$parents = $new_parents;
 		}
-
-		//order by parent (notice: "evg" before "O-" or "W-")
-		$sql = "SELECT * from interimOrgUnits WHERE parent != 'root' ORDER BY parent ASC";
-		$result = mysql_query($sql, $this->shadowDB);
-		while($record = mysql_fetch_assoc($result)) {
-			$this->createSingleOrgUnit($record);
-		}
-
 	}
-
-
-
 }

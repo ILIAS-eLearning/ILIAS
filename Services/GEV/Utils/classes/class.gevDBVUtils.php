@@ -21,10 +21,12 @@ class gevDBVUtils {
 		$this->db = &$ilDB;
 		$this->ilias = &$ilias;
 		$this->log = &$ilLog;
+		
+		$gev_settings = gevSettings::getInstance();
 
 		$this->pou = ilPersonalOrgUnits::getInstance(
-			gevSettings::PERSONAL_ORGUNITS_MAPPING['base'],
-			gevSettings::PERSONAL_ORGUNITS_MAPPING['templates']				
+			$gev_settings->getDBVPOUBaseUnitId(),
+			$gev_settings->getDBVPOUTemplateUnitId()
 			);
 	}
 	
@@ -38,7 +40,6 @@ class gevDBVUtils {
 	
 
 	/**
-
 	* "Ein Makler meldet sich mit einer Stellennummer an. 
 	* Dieser Stellennummer ist in den IV-Daten die ID einer Organisationseinheit 
 	* zugeordnet. 
@@ -65,37 +66,6 @@ class gevDBVUtils {
 	*
 	*/
 	public function assignUserToDBVsByShadowDB($a_user_id){
-		die('NOT IMPLEMENTED gevDBVUtils::assignUserToDBVsByShadowDB');
-
-/*
-		//from shadow db:
-		//get user:
-		sql_stelle_id FROM ivimport_adp WHERE ilias_id = $a_user_id
-		
-		//get his org_unit
-		sql_org_unit_id FROM ivimport_stelle WHERE id = __above__sql_stelle_id
-
-		//get the dbvs
-	 	sql_dbaf_id,
-	 	sql_dbbav_id,
-	 	sql_dbvg_id,
-	 	sql_dbatv_id FROM ivimport_orgunit WHERE id = __above__sql_org_unit_id
-
-	 	
-	 	for(sql_dbaf_id,
-		 	sql_dbbav_id,
-		 	sql_dbvg_id,
-		 	sql_dbatv_id) {
-	 			//get adb via stelle	
-		 		sql_adp_id FROM ivimport_stelle WHERE id = __above__(sql_dbvg_id)
-			 	//get superior-user:
-			 	ilias_id FROM ivimport_adp WHERE id = __above__sql_adp_id
-	 			
-			 	//back to internal:
-	 			//get orgunit of sup. and assign user.
-	 	}
-*/
-
 		global $ilClientIniFile;
 	 	$dbhost = $ilClientIniFile->readVariable('shadowdb', 'host');
 		$dbuser = $ilClientIniFile->readVariable('shadowdb', 'user');
@@ -135,16 +105,26 @@ class gevDBVUtils {
 			." ivimport_adp.id = ivimport_stelle.sql_adp_id"
 			." WHERE ivimport_stelle.id IN "
 			."(" 
-			.implode(',', array_values($record));
-			.")"
+			.implode(',', array_values($record))
+			.")";
 
+		$assigned = false;
 		$result = mysql_query($sql, $shdowDB);
 		while($record = mysql_fetch_assoc($result)) {
 			//assign user
 			$superior_id = $record['ilias_id'];
 			$this->pou->assignEmployee($superior_id, $a_user_id);
+			$assigned = true;
 		}
-
+		
+		if (!$assigned) {
+			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+			$cpool_id = gevSettings::getInstance()->getCPoolUnitId();
+			if (!$cpool_id) {
+				throw new Exception("gevDBVUtils::assignUserToDBVsByShadowDB: No CPool-Org-Unit set.");
+			}
+			gevOrgUnitUtils::getInstance($cpool_id)->assignUser($a_user_id, "Mitarbeiter");
+		}
 	}
 
 

@@ -247,7 +247,9 @@ class ilObject
 		{
 			// Read long description
 			$query = "SELECT * FROM object_description WHERE obj_id = ".$ilDB->quote($this->id,'integer');
-			$res = $this->ilias->db->query($query);
+			// gev-patch start
+			$res = $ilDB->query($query);
+			// gev-patch end
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				if(strlen($row->description))
@@ -268,11 +270,13 @@ class ilObject
 		}
 		elseif ($translation_type == "db")
 		{
+			// gev-patch start
 			$q = "SELECT title,description FROM object_translation ".
 				 "WHERE obj_id = ".$ilDB->quote($this->id,'integer')." ".
-				 "AND lang_code = ".$ilDB->quote($this->ilias->account->getCurrentLanguage(),'text')." ".
+				 "AND lang_code = ".$ilDB->quote( $this->ilias ? $this->ilias->account->getCurrentLanguage() : "de",'text')." ".
 				 "AND NOT lang_default = 1";
-			$r = $this->ilias->db->query($q);
+			//gev-patch end
+			$r = $ilDB->query($q);
 			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 			if ($row)
 			{
@@ -708,7 +712,7 @@ class ilObject
 		if($objDefinition->isRBACObject($this->getType()))
 		{
 			// Update long description
-			$res = $this->ilias->db->query("SELECT * FROM object_description WHERE obj_id = ".
+			$res = $ilDB->query("SELECT * FROM object_description WHERE obj_id = ".
 				$ilDB->quote($this->getId(),'integer'));
 			if($res->numRows())
 			{
@@ -1269,9 +1273,7 @@ class ilObject
 	function putInTree($a_parent_ref)
 	{
 		global $tree, $log;
-
 		$tree->insertNode($this->getRefId(), $a_parent_ref);
-		
 		// write log entry
 		$log->write("ilObject::putInTree(), parent_ref: $a_parent_ref, ref_id: ".
 			$this->getRefId().", obj_id: ".$this->getId().", type: ".

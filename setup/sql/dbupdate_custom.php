@@ -2542,3 +2542,48 @@ if(!$ilDB->tableExists('hist_tep'))
 	$ilDB->manipulate("UPDATE cat_mail_templates SET category_name = 'Confirmation'"
 					 ." WHERE category_name = 'Makler_Aktivierung'");
 ?>
+
+<#79>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	
+	ini_set('max_execution_time', 0);
+	set_time_limit(0);
+
+	require_once("Services/GEV/Import/classes/class.gevImportOrgStructure.php");
+	$imp = new gevImportOrgStructure();
+	$imp->createOrgUnits();
+
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	$gev_settings = gevSettings::getInstance();
+	$res = $ilDB->query("SELECT obj_id FROM object_data WHERE import_id = 'uvg' AND type = 'orgu'");
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		$gev_settings->setDBVPOUBaseUnitId($rec["obj_id"]);
+	}
+	else {
+		die("Custom Update #79: Expected to find org_unit with import_id = 'uvg'");
+	}
+	
+	$res = $ilDB->query("SELECT obj_id FROM object_data WHERE import_id = 'cpool' AND type = 'orgu'");
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		$gev_settings->setCPoolUnitId($rec["obj_id"]);
+	}
+	else {
+		die("Custom Update #79: Expected to find org_unit with import_id = 'cpool'");
+	}
+	
+	$res = $ilDB->query("SELECT obj_id FROM object_data WHERE import_id = 'dbv_tmplt' AND type = 'orgu'");
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		$gev_settings->setDBVPOUTemplateUnitId($rec["obj_id"]);
+	}
+	else {
+		die("Custom Update #79: Expected to find org_unit with import_id = 'dbv_tmplt'");
+	}
+?>
