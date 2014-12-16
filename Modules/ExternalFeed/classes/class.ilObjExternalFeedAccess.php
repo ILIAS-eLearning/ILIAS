@@ -47,7 +47,7 @@ class ilObjExternalFeedAccess extends ilObjectAccess
 	{
 		global $ilAccess;
 		
-		return false;
+		// #14870 - used for redirect after copy
 		
 		$t_arr = explode("_", $a_target);
 

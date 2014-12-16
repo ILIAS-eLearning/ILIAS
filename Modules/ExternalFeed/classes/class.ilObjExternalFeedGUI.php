@@ -198,7 +198,21 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 				$lng->txt("perm_settings"),
 				$this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
 		}
+	}
+	
+	public static function _goto($a_target)
+	{						
+		global $tree;
+		
+		$id = explode("_", $a_target);		
+		$ref_id = $id[0];
+		
+		// is sideblock: so show parent instead
+		$container_id = $tree->getParentId($ref_id);
 
+		// #14870
+		include_once "Services/Link/classes/class.ilLink.php";
+		ilUtil::redirect(ilLink::_getLink($container_id));		
 	}
 } // END class.ilObjExternalFeed
 ?>
