@@ -436,6 +436,7 @@ class gevDecentralTrainingGUI {
 			}
 		}
 		else {
+			$crs_utils = gevCourseUtils::getInstance(intval($_POST["template_id"]));
 			$no_changes_allowed = false;
 		}
 		
