@@ -18,7 +18,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_user = "", $obj_ids = NULL, $details = false, $mode = null, $personal_only = false, $a_parent_id = null, $lp_context = null)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_user = "", $obj_ids = NULL, $details = false, $mode = null, $personal_only = false, $a_parent_id = null, $a_parent_ref_id = null, $lp_context = null)
 	{
 		global $ilCtrl, $lng, $ilUser;
 
@@ -28,7 +28,14 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$this->mode = $mode;
 		$this->parent_obj_id = $a_parent_id;
 		$this->lp_context = $lp_context;
-
+		
+		if($a_parent_id)
+		{
+			// #15042 - needed for export meta
+			$this->obj_id = $this->parent_obj_id;
+			$this->ref_id = $a_parent_ref_id;
+		}
+		
 		$this->setId("lpprgtbl");
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
