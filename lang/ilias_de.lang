@@ -15180,3 +15180,4 @@ content#:#cont_license#:#Lizenz
 content#:#cont_license_info#:#Aktiviert das Lizenz-Feature
 content#:#cont_biblio#:#Bibliographische Daten
 content#:#cont_biblio_info#:#Aktiviert das Bibliographische Daten - Feature
+search#:#search_minimum_info#:#Die Suchbegriffe müssen mindestens %s Zeichen lang sein
