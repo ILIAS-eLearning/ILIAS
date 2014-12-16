@@ -242,7 +242,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		{
 			include_once "Services/Accordion/classes/class.ilAccordionGUI.php";
 			$acc = new ilAccordionGUI();
-			$acc->setBehaviour(ilAccordionGUI::ONE_OPEN_SESSION);
+			$acc->setUseSessionStorage(true);
+			$acc->setAllowMultiOpened(true);
+			$acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
 			$acc->setId("crsobjtv_".$this->container_obj->getId());
 		}
 		else

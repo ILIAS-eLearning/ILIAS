@@ -94,8 +94,8 @@ il.Help = {
 				// default action: replace html
 				il.Help.insertPanelHTML(o.responseText);
 
-				if (typeof ilInitAccordionById != "undefined") {
-					ilInitAccordionById('oh_acc');
+				if (typeof il.Accordion != "undefined") {
+					il.Accordion.initByIntId('oh_acc');
 				}
 			}
 		}

@@ -3443,18 +3443,42 @@
 			</xsl:variable>
 			<xsl:if test="@Type = 'VerticalAccordion'">
 			<script type="text/javascript">
-				ilAccordionData[ilAccordionData.length] =
-					new Array('ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
-					'il_VAccordionToggleDef', 'il_VAccordionToggleActiveDef',
-					'il_VAccordionContentDef', null, null, 'vertical', '<xsl:value-of select = "$beh"/>', '', 'ilc_va_iheada_VAccordIHeadActive', '');
+				$(function () {
+					il.Accordion.add({
+						id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
+						toggle_class: 'il_VAccordionToggleDef',
+						toggle_act_class: 'il_VAccordionToggleActiveDef',
+						content_class: 'il_VAccordionContentDef',
+						width: null,
+						height: null,
+						orientation: 'vertical',
+						behaviour: '<xsl:value-of select = "$beh"/>',
+						save_url: '',
+						active_head_class: 'ilc_va_iheada_VAccordIHeadActive',
+						int_id: '',
+						multi: false
+						});
+					});
 			</script>
 			</xsl:if>
 			<xsl:if test="@Type = 'HorizontalAccordion'">
 			<script type="text/javascript">
-				ilAccordionData[ilAccordionData.length] =
-					new Array('ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
-					'il_HAccordionToggleDef', 'il_HAccordionToggleActiveDef',
-					'il_HAccordionContentDef', <xsl:value-of select="$cwidth" />, null, 'horizontal', '<xsl:value-of select="@Behavior"/>', '', 'ilc_ha_iheada_HAccordIHeadActive', '');
+				$(function () {
+					il.Accordion.add({
+						id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
+						toggle_class: 'il_HAccordionToggleDef',
+						toggle_act_class: 'il_HAccordionToggleActiveDef',
+						content_class: 'il_HAccordionContentDef',
+						width: <xsl:value-of select="$cwidth" />,
+						height: null,
+						orientation: 'horizontal',
+						behaviour: '<xsl:value-of select="@Behavior"/>',
+						save_url: '',
+						active_head_class: 'ilc_ha_iheada_HAccordIHeadActive',
+						int_id: '',
+						multi: false
+						});
+					});
 			</script>
 			</xsl:if>
 		</xsl:if>
@@ -3583,10 +3607,10 @@
 	<div>
 		<xsl:choose>
 		<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit'">
-			<xsl:attribute name="class">il_VAccordionContentDef</xsl:attribute>
+			<xsl:attribute name="class">il_VAccordionContentDef <xsl:if test="$mode != 'edit' and ../@Behavior != 'ForceAllOpen'">ilAccHideContent</xsl:if></xsl:attribute>
 		</xsl:when>
 		<xsl:when test="../@Type = 'HorizontalAccordion'">
-			<xsl:attribute name="class">il_HAccordionContentDef</xsl:attribute>
+			<xsl:attribute name="class">il_HAccordionContentDef <xsl:if test="$mode != 'edit' and ../@Behavior != 'ForceAllOpen'">ilAccHideContent</xsl:if></xsl:attribute>
 		</xsl:when>
 		</xsl:choose>
 		<xsl:if test="../@Type = 'HorizontalAccordion' and $mode != 'edit' and ../@Behavior = 'ForceAllOpen'">

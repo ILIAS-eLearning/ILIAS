@@ -7461,6 +7461,11 @@ div.ilSideBarContent {
   background-image: url(images/tree_exp.svg);
   background-color: #ffffd0;
 }
+.ilAccHideContent {
+  width: 0px;
+  height: 0px;
+  display: none;
+}
 /* Modules/ScormAicc */
 table.il_ScormTable {
   color: #222;

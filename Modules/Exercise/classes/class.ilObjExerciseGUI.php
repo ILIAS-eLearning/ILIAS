@@ -2939,9 +2939,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		else
 		{
-			$acc->setBehaviour("OneOpenSession");
+			$acc->setUseSessionStorage(true);
 		}
-		
 		
 		$tpl->setContent($acc->getHTML());
 	}

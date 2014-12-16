@@ -37,8 +37,43 @@ class ilAccordionPropertiesStorage
 		
 		if ($_GET["user_id"] == $ilUser->getId())
 		{
-			$this->storeProperty($_GET["accordion_id"], $_GET["user_id"],
-				"opened", $_GET["tab_nr"]);
+			switch ($_GET["act"])
+			{
+
+				case "add":
+					$cur = $this->getProperty($_GET["accordion_id"], (int) $_GET["user_id"],
+						"opened");
+					$cur_arr = explode(";", $cur);
+					if (!in_array((int) $_GET["tab_nr"], $cur_arr))
+					{
+						$cur_arr[] = (int) $_GET["tab_nr"];
+					}
+					$this->storeProperty($_GET["accordion_id"], (int) $_GET["user_id"],
+						"opened", implode($cur_arr, ";"));
+					break;
+
+				case "rem":
+					$cur = $this->getProperty($_GET["accordion_id"], (int) $_GET["user_id"],
+						"opened");
+					$cur_arr = explode(";", $cur);
+					if(($key = array_search((int) $_GET["tab_nr"], $cur_arr)) !== false) {
+						unset($cur_arr[$key]);
+					}
+					$this->storeProperty($_GET["accordion_id"], (int) $_GET["user_id"],
+						"opened", implode($cur_arr, ";"));
+					break;
+
+				case "clear":
+					$this->storeProperty($_GET["accordion_id"], (int) $_GET["user_id"],
+						"opened", "");
+					break;
+
+				case "set":
+				default:
+					$this->storeProperty($_GET["accordion_id"], (int) $_GET["user_id"],
+						"opened", $_GET["tab_nr"]);
+					break;
+			}
 		}
 	}
 	
@@ -49,7 +84,7 @@ class ilAccordionPropertiesStorage
 		$a_value)
 	{
 		global $ilDB;
-		
+
 		switch ($this->properties[$a_property]["storage"])
 		{
 			case "session":
@@ -80,7 +115,9 @@ class ilAccordionPropertiesStorage
 		switch ($this->properties[$a_property]["storage"])
 		{
 			case "session":
-				return $_SESSION["accordion"][$a_table_id][$a_user_id][$a_property];
+				$r = $_SESSION["accordion"][$a_table_id][$a_user_id][$a_property];
+//echo "<br><br><br><br><br><br><br><br>get-".$r;
+				return $r;
 				break;
 				
 			case "db":

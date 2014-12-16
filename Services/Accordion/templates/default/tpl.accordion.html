@@ -2,13 +2,13 @@
 <!-- BEGIN item -->
 <div class="{INNER_CONTAINER_CLASS}">
 <div class="il_{OR_SHORT}AccordionToggleDef"><div class="{HEADER_CLASS}" style="{HHEIGHT}">{HEADER}</div></div>
-<div class="il_{OR_SHORT}AccordionContentDef"><div class="{CONTENT_CLASS}" style="{HEIGHT}">{CONTENT}</div></div>
+<div class="il_{OR_SHORT}AccordionContentDef {HIDE_CONTENT_CLASS}"><div class="{CONTENT_CLASS}" style="{HEIGHT}">{CONTENT}</div></div>
 </div>
 <!-- END item -->
 <div style="clear:both;"></div>
 </div>
 <script type="text/javascript">
-	ilAccordionData[ilAccordionData.length] = new Array('accordion_{CNT}', 'il_{OR2_SHORT}AccordionToggleDef',
-		'il_{OR2_SHORT}AccordionToggleActiveDef', 'il_{OR2_SHORT}AccordionContentDef',
-		{WIDTH}, null, '{ORIENTATION}', '{BEHAVIOUR}', '{SAVE_URL}', '{ACTIVE_HEAD_CLASS}', '{ID}');
+	$(function () {
+		il.Accordion.add({OPTIONS});
+	});
 </script>

@@ -1,332 +1,256 @@
-// inspired by accordion.js v2.0, Copyright (c) 2007 stickmanlabs
-// Author: Kevin P Miller | http://www.stickmanlabs.com
-// MIT-style licensed
-//
-// Complete rewrite using YUI instead of prototype by Alex Killing for
-// ILIAS open source
+/* */
 
+il.Accordion = {
 
-ilAccordionData = Array();
+	duration : 200,
 
-// Success Handler
-var ilAccSuccessHandler = function(o)
-{
-	// parse headers function
-	function parseHeaders()
-	{
-	}
-}
+	data: {},
 
-// Success Handler
-var ilAccFailureHandler = function(o)
-{
-	//alert('FailureHandler');
-}
+	/**
+	 * Add accordion element
+	 *
+	 * Options:
+	 * id: id,
+	 * toggle_class: toggle_class,
+	 * toggle_act_class: toggle_act_class,
+	 * content_class: content_class,
+	 * width: width,
+	 * height: height,
+	 * orientation: orientation,
+	 * behaviour: behaviour,
+	 * save_url: save_url,
+	 * active_head_class: active_head_class,
+	 * int_id: int_id,
+	 * initial_opened: initial opened accordion tabs (nr, separated by ;)
+	 * multi: multi
+	 */
+	add: function (options) {
+		options.animating = false;
+		options.clicked_acc = null;
+		options.last_opened_acc = null;
 
-function ilAccordionJSHandler(sUrl)
-{
-	var ilAccCallback =
-	{
-		success: ilAccSuccessHandler,
-		failure: ilAccFailureHandler
-	};
+		if ((typeof options.initial_opened != "undefined") && options.initial_opened && options.initial_opened.length > 0) {
+			options.initial_opened = options.initial_opened.split(";");
+		} else {
+			options.initial_opened = [];
+		}
 
-	var request = YAHOO.util.Connect.asyncRequest('GET', sUrl, ilAccCallback);
-	
-	return false;
-}
-
-
-function ilGetNextSibling(n)
-{
-	do n = n.nextSibling;
-	while (n && n.nodeType != 1);
-	return n;
-}
-
-//var accordion = Class.create();
-var accordion = function() {};
-accordion.prototype =
-{
-
-	//
-	//  Setup the Variables
-	//
-	showAccordion : null,
-	currentAccordion : null,
-	duration : null,
-	effects : [],
-	animating : false,
-	
-	//  
-	//  Initialize the accordions
-	//
-	initialize: function(container, options) {
-		this.options = options;
-	
-		var accordions = YAHOO.util.Dom.getElementsByClassName(this.options.classNames.toggle, 'div', container);
-		for (k in accordions)
-		{
-			var accordion = accordions[k];
-			
-			if (accordion.parentNode.parentNode.id == container) {
-				YAHOO.util.Event.addListener(accordion, "click", this.clickHandler, accordion, this);
-				accordion.onclick = function() {return false;};
-				
-				var n = ilGetNextSibling(accordion);
-				
-				if (n != undefined)
-				{
-					
-					if (this.options.direction == 'horizontal')
-					{
-						n.style.width = '0px';
-					}
-					else
-					{
-						n.style.height = '0px';
-					}
-					n.style.display = 'none';
-					this.currentAccordion = n;
-				}
-			}
-		}			
+		il.Accordion.data[options.id] = options;
+		il.Accordion.init(options.id);
 	},
-	
-	
-	//
-	//  Handle click on accordion header
-	//
-	clickHandler : function(e, accordion) {
-		if (this.animating) {
+
+	init: function (id) {
+		var t, el, next_el, acc_el, a = il.Accordion.data[id];
+
+		// open the inital opened tabs
+		if (a.initial_opened.length > 0) {
+			for (var i = 0; i < a.initial_opened.length; i++) {
+				acc_el = $("#" + id + " div." + a.content_class + ":eq(" + (parseInt(a.initial_opened[i])-1) + ")");
+				acc_el.removeClass("ilAccHideContent");
+				il.Accordion.addActiveHeadClass(id, acc_el[0]);
+				a.last_opened_acc = acc_el;
+			}
+		} else if (a.behaviour == "FirstOpen") {
+			acc_el = $("#" + id + " div." + a.content_class + ":eq(0)");
+			acc_el.removeClass("ilAccHideContent");
+			il.Accordion.addActiveHeadClass(id, acc_el[0]);
+			a.last_opened_acc = acc_el;
+		}
+
+		// register click handler (if not all opened is forced)
+		if (a.behaviour != "ForceAllOpen") {
+			$("#" + id).children().children("." + a.toggle_class).each(function () {
+				t = $(this);
+				t.on("click", { id: id, el: t}, il.Accordion.clickHandler);
+			});
+		}
+	},
+
+	isOpened: function (el) {
+		return !$(el).hasClass("ilAccHideContent");
+	},
+
+	getAllOpenedNr: function (id) {
+		var opened_str = "", lim = "", t = 1, a = il.Accordion.data[id];
+
+		$("#" + id).children().children("." + a.content_class).each(function () {
+			if (!$(this).hasClass("ilAccHideContent")) {
+				opened_str = opened_str + lim + "" + t;
+				lim = ";";
+			}
+			t++;
+		});
+
+		return opened_str;
+	},
+
+	clickHandler: function (e) {
+		var a, el, id;
+//console.log("clicked");
+		id = e.data.id
+		a = il.Accordion.data[id];
+		el = e.data.el;
+		e.preventDefault();
+
+		if (a.animating) {
 			return false;
 		}
-		
-		this.effects = [];
-		this.currentAccordion = ilGetNextSibling(accordion);
 
-		if (this.currentAccordion == this.showAccordion)
-		{
-			this.deactivate();
+		a.clicked_acc = el.next()[0];
+
+		if (il.Accordion.isOpened(a.clicked_acc)) {
+			il.Accordion.deactivate(id, el);
+		} else {
+			il.Accordion.handleAccordion(id, el);
 		}
-		else
-		{
-			this._handleAccordion();
+		return false;
+	},
+
+	initByIntId: function(int_id) {
+		for(var a in il.Accordion.data) {
+			if (a.int_id == int_id) {
+				il.Accordion.init(a.id);
+			}
 		}
 	},
-	
-	
-	// 
-	// Deactivate an active accordion
-	//
-	deactivate : function() {
-		var acc = this;
-		this.currentAccordion.style.display = 'block';
-		if (this.options.direction == 'vertical')
-		{
-			var myAnim = new YAHOO.util.Anim(this.showAccordion, { 
-				height: { to: 0 }  
-				}, 1, YAHOO.util.Easing.easeOut);
+
+	addActiveHeadClass: function (id, acc_el) {
+		var a = il.Accordion.data[id];
+
+		if (a.active_head_class && a.active_head_class != "" && acc_el) {
+			$(acc_el.parentNode).children("div:first").children("div:first").
+				addClass(a.active_head_class);
 		}
-		else
-		{
-			var myAnim = new YAHOO.util.Anim(this.showAccordion, { 
-				width: { to: 0 }  
-				}, 1, YAHOO.util.Easing.easeOut);
+	},
+
+	removeActiveHeadClass: function (id, acc_el) {
+		var a = il.Accordion.data[id];
+
+		if (a.active_head_class && a.active_head_class != "" && acc_el) {
+			$(acc_el.parentNode).children("div:first").children("div:first").
+				removeClass(a.active_head_class);
 		}
-		myAnim.duration = 0.35;
-		myAnim.onStart.subscribe(function() {
-			var t = acc;
-			if (t.options.classNames.activeHead && t.showAccordion && t.options.classNames.activeHead != "") {
-				$(t.showAccordion.parentNode).children("div:first").children("div:first").
-					removeClass(t.options.classNames.activeHead);
+	},
+
+	deactivate: function(id, el) {
+		var options, act, a = il.Accordion.data[id];
+
+//console.log("deactivate");
+		a.animating = true;
+
+		//$(el).css("display", "block");
+
+		il.Accordion.removeActiveHeadClass(id, a.clicked_acc);
+
+		if (a.orientation == 'vertical') {
+			options = { height: 0 }
+		} else {
+			options = { width: 0 }
+		}
+
+		$(a.clicked_acc).animate(options, il.Accordion.duration, function () {
+			$(a.clicked_acc).addClass("ilAccHideContent");
+			a.last_opened_acc = null;
+			a.animating = false;
+			if (typeof a.save_url != "undefined" && a.save_url != "") {
+				act = (a.multi)
+					? "&act=rem"
+					: "&act=clear";
+				tab_nr = il.Accordion.getTabNr(a.clicked_acc);
+				il.Util.sendAjaxGetRequestToUrl(a.save_url + act + "&tab_nr=" + tab_nr, {}, {}, null);
 			}
 		});
-		myAnim.onComplete.subscribe(function(a, b, t) {
-			console.log(t);
-				t.showAccordion.style.height = 'auto';
-				t.showAccordion.style.display = 'none';
-				t.showAccordion = null;
-				t.animating = false;
-				if (typeof t.options.save_url != "undefined" && t.options.save_url != "")
-				{
-					ilAccordionJSHandler(t.options.save_url + "&tab_nr=0");
-				}
-			}, this);
-		myAnim.animate();
 	},
 
-	//
-	// Handle the open/close actions of the accordion
-	//
-	_handleAccordion : function() {
-		var acc = this;
+	getTabNr: function (acc_el) {
+		var tab_nr = 1;
+		var cel = acc_el.parentNode;
+		while(cel = cel.previousSibling) {
+			if (cel.nodeName.toUpperCase() == 'DIV') {
+				tab_nr++;
+			}
+		}
+		return tab_nr;
+	},
+
+	handleAccordion: function(id, el) {
+//console.log("handle");
+		var options, options2, last_acc, tab_nr, a = il.Accordion.data[id];
+		a.animating = true;
+
+		// add active class to opened accordion
+		if (a.active_head_class && a.active_head_class != '') {
+			if (a.last_opened_acc && !a.multi) {
+				$(a.last_opened_acc.parentNode).children("div:first").children("div:first").
+					removeClass(a.active_head_class);
+			}
+			$(a.clicked_acc.parentNode).children("div:first").children("div:first").
+				addClass(a.active_head_class);
+		}
 
 		// fade in the new accordion (currentAccordion)
-		if (this.options.direction == 'vertical')
+		if (a.orientation == 'vertical')
 		{
-			this.currentAccordion.style.position = 'relative';
-			this.currentAccordion.style.left = '-1000px';
-			this.currentAccordion.style.display = 'block';
-			var nh = this.options.defaultSize.height ? this.options.defaultSize.height : this.currentAccordion.scrollHeight
-			this.currentAccordion.style.height = '0px';
-			this.currentAccordion.style.position = '';
-			this.currentAccordion.style.left = '';
-			var myAnim = new YAHOO.util.Anim(this.currentAccordion, { 
-				height: {
-					from: 0,
-					to: nh }  
-				}, 1, YAHOO.util.Easing.easeOut);
+			$(a.clicked_acc).css("position", 'relative')
+				.css("left", '-10000px')
+				.css("display", 'block');
+
+			$(a.clicked_acc).removeClass("ilAccHideContent");
+
+			var nh = a.height
+				? a.height
+				: $(a.clicked_acc).prop("scrollHeight");
+
+			$(a.clicked_acc).css("height", '0px')
+				.css("position", '')
+				.css("display", '')
+				.css("left", '');
+
+			options = {height: a.height
+				? a.height
+				: $(a.clicked_acc).prop("scrollHeight")};
 		}
 		else
 		{
-			this.currentAccordion.style.display = 'block';
-			var myAnim = new YAHOO.util.Anim(this.currentAccordion, { 
-				width: {
-					from: 0,
-					to: this.options.defaultSize.width ? this.options.defaultSize.width : this.currentAccordion.scrollWidth }  
-				}, 1, YAHOO.util.Easing.easeOut);
+			$(a.clicked_acc).removeClass("ilAccHideContent");
+			options = { width: a.width
+				? a.width
+				: $(a.clicked_acc).prop("scrollWidth")};
 		}
-		myAnim.duration = 0.35;
-		this.animating = true;
-		myAnim.onStart.subscribe(function(a, b, t) {
-			var t = acc;
 
-			// add active class to opened accordion
-			if (t.options.classNames.activeHead && t.options.classNames.activeHead != '')
+		$(a.clicked_acc).animate(options, il.Accordion.duration, function () {
+
+			$(a.clicked_acc).css("height", "auto");
+
+			// set the currently shown accordion
+			a.last_opened_acc = a.clicked_acc;
+			if (typeof a.save_url != "undefined" && a.save_url != "")
 			{
-				if (t.showAccordion) {
-					$(t.showAccordion.parentNode).children("div:first").children("div:first").
-						removeClass(t.options.classNames.activeHead);
+				if (a.multi) {
+					tab_nr = il.Accordion.getAllOpenedNr(id);
+				} else {
+					tab_nr = il.Accordion.getTabNr(a.last_opened_acc);
 				}
-				$(t.currentAccordion.parentNode).children("div:first").children("div:first").
-					addClass(t.options.classNames.activeHead);
+				act = "&act=set";
+				il.Util.sendAjaxGetRequestToUrl(a.save_url + act + "&tab_nr=" + tab_nr, {}, {}, null);
 			}
-		});
-		myAnim.onComplete.subscribe(function(a, b, t) {
-				if (t.showAccordion) {
-					t.showAccordion.style.display = 'none';
-				}
-				t.currentAccordion.style.height = 'auto';
-				
 
-				// set the currently shown accordion
-				t.showAccordion = t.currentAccordion;
-				if (typeof t.options.save_url != "undefined" && t.options.save_url != "")
-				{
-					var tab_nr = 1;
-					var cel = t.showAccordion.parentNode;
-					while(cel = cel.previousSibling)
-					{
-						if (cel.nodeName.toUpperCase() == 'DIV')
-						{
-							tab_nr++;
-						}
-					}
-					ilAccordionJSHandler(t.options.save_url + "&tab_nr=" + tab_nr);
-				}
-				
-				t.animating = false;
-			}, this);
-		myAnim.onStart.subscribe(function(a, b, t) {
-				t.currentAccordion.style.display = 'block';
-			}, this);
-		
-		// fade out the currently shown accordion (showAccordion)
-		if (this.showAccordion)
-		{
-			if (this.options.direction == 'vertical')
-			{
-				var myAnim2 = new YAHOO.util.Anim(this.showAccordion, { 
-					height: { to: 0 }  
-					}, 1, YAHOO.util.Easing.easeOut);
-			}
-			else
-			{
-				var myAnim2 = new YAHOO.util.Anim(this.showAccordion, { 
-					width: { to: 0 }  
-					}, 1, YAHOO.util.Easing.easeOut);
-			}
-			myAnim2.duration = 0.35;
-			
-			myAnim2.animate();
-
-		}
-		myAnim.animate();
-	}
-}
-
-il.Util.addOnLoad(ilInitAccordions);
-
-function ilInitAccordions()
-{
-	// run through accordions
-	for (var i=0; i<ilAccordionData.length; i++)
-	{
-		ilInitAccordion(ilAccordionData[i][0], ilAccordionData[i][1],
-			ilAccordionData[i][2], ilAccordionData[i][3], ilAccordionData[i][4],
-			ilAccordionData[i][5], ilAccordionData[i][6], ilAccordionData[i][7],
-			ilAccordionData[i][8], ilAccordionData[i][9], ilAccordionData[i][10]);
-	}
-}
-
-function ilInitAccordionById(id)
-{
-	// run through accordions
-	for (var i=0; i<ilAccordionData.length; i++)
-	{
-		if (ilAccordionData[i][10] == id)
-		{
-			ilInitAccordion(ilAccordionData[i][0], ilAccordionData[i][1],
-				ilAccordionData[i][2], ilAccordionData[i][3], ilAccordionData[i][4],
-				ilAccordionData[i][5], ilAccordionData[i][6], ilAccordionData[i][7],
-				ilAccordionData[i][8], ilAccordionData[i][9], ilAccordionData[i][10]);
-		}
-	}
-}
-
-function ilInitAccordion(id, toggle_class, toggle_active_class, content_class, width, height, direction, behavior, save_url,
-	active_head_class, int_id)
-{
-	if (behavior != "ForceAllOpen")
-	{
-		var acc = new accordion();
-		acc.initialize(id, {
-			classNames : {
-				toggle : toggle_class,
-				toggleActive : toggle_active_class,
-				content : content_class,
-				activeHead : active_head_class
-			},
-			defaultSize : {
-				width : width,
-				height : height
-			},
-			direction : direction,
-			save_url : save_url
+			a.animating = false;
 		});
 
-	}
-	if (behavior == "FirstOpen")
-	{
-		var a_el = YAHOO.util.Dom.getElementsByClassName(toggle_class, 'div', id);
 
-		a1 = a_el[0];
-		if (a1)
-		{
-			acc.clickHandler(null, a1);
+		// fade out the currently shown accordion (last_opened_acc)
+		if ((last_acc = a.last_opened_acc) && !a.multi) {
+
+			if (a.orientation == 'vertical') {
+				options2 = {height: 0};
+			} else {
+				options2 = {width: 0};
+			}
+			$(last_acc).animate(options2, il.Accordion.duration, function () {
+				$(last_acc).addClass("ilAccHideContent");
+			});
 		}
 	}
-	else if (!isNaN(behavior))	// open nth tab, if behaviour is a number
-	{
-		var a_el = YAHOO.util.Dom.getElementsByClassName(toggle_class, 'div', id);
 
-		a1 = a_el[Number(behavior) - 1];
-		if (a1)
-		{
-			acc.clickHandler(null, a1);
-		}
-	}
-	
-	return acc;
-}
+};

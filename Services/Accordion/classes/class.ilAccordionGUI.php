@@ -11,15 +11,17 @@
 class ilAccordionGUI
 {
 	protected $items = array();
-	protected $force_open;
-	protected static $accordion_cnt = 0;	
+	protected $force_open = array();
+	protected static $accordion_cnt = 0;
+	protected $use_session_storage = false;
+	protected $allow_multi_opened = false;
 	
 	const VERTICAL = "vertical";
 	const HORIZONTAL = "horizontal";
 	const FORCE_ALL_OPEN = "ForceAllOpen";
 	const FIRST_OPEN = "FirstOpen";
-	const ONE_OPEN_SESSION = "OneOpenSession";
-	
+	const ALL_CLOSED = "AllClosed";
+
 	/**
 	* Constructor
 	*/
@@ -213,7 +215,7 @@ class ilAccordionGUI
 	}
 
 	/**
-	 * Set behaviour "ForceAllOpen" | "FirstOpen" | "OneOpenSession"
+	 * Set behaviour "ForceAllOpen" | "FirstOpen" | "AllClosed"
 	 *
 	 * @param	string	behaviour
 	 */
@@ -231,7 +233,47 @@ class ilAccordionGUI
 	{
 		return $this->behaviour;
 	}
-		
+
+	/**
+	 * Set use session storage
+	 *
+	 * @param bool $a_val use session storage
+	 */
+	function setUseSessionStorage($a_val)
+	{
+		$this->use_session_storage = $a_val;
+	}
+
+	/**
+	 * Get use session storage
+	 *
+	 * @return bool use session storage
+	 */
+	function getUseSessionStorage()
+	{
+		return $this->use_session_storage;
+	}
+
+	/**
+	 * Set allow multi opened
+	 *
+	 * @param bool $a_val allow multiple accordions being opened	
+	 */
+	function setAllowMultiOpened($a_val)
+	{
+		$this->allow_multi_opened = $a_val;
+	}
+	
+	/**
+	 * Get allow multi opened
+	 *
+	 * @return bool allow multiple accordions being opened
+	 */
+	function getAllowMultiOpened()
+	{
+		return $this->allow_multi_opened;
+	}
+
 	/**
 	* Add javascript files that are necessary to run accordion
 	*/
@@ -263,11 +305,11 @@ class ilAccordionGUI
 	function addItem($a_header, $a_content, $a_force_open = false)
 	{
 		$this->items[] = array("header" => $a_header,
-			"content" => $a_content);
+			"content" => $a_content, "force_open" => $a_force_open);
 		
 		if($a_force_open)
 		{
-			$this->force_open = sizeof($this->items);
+			$this->force_open[] = sizeof($this->items);
 		}
 	}
 	
@@ -319,6 +361,12 @@ class ilAccordionGUI
 				? $this->getHeaderClass() : "il_".$or_short."AccordionHead");
 			$tpl->setVariable("CONTENT_CLASS", $this->getContentClass()
 				? $this->getContentClass() : "il_".$or_short."AccordionContent");
+
+			if ($this->getBehaviour() != self::FORCE_ALL_OPEN)
+			{
+				$tpl->setVariable("HIDE_CONTENT_CLASS", "ilAccHideContent");
+			}
+
 			$tpl->setVariable("OR_SHORT", $or_short);
 			
 			$tpl->setVariable("INNER_CONTAINER_CLASS", $this->getInnerContainerClass()
@@ -335,46 +383,62 @@ class ilAccordionGUI
 			}
 			$tpl->parseCurrentBlock();
 		}
-		
-		$tpl->setVariable("CNT", self::$accordion_cnt);
+
 		$tpl->setVariable("CONTAINER_CLASS", $this->getContainerClass()
 			? $this->getContainerClass() : "il_".$or_short."AccordionContainer");
-		$tpl->setVariable("ORIENTATION", $this->getOrientation());
-		$tpl->setVariable("ID", $this->getId());
-		if ($this->getBehaviour() == "OneOpenSession" && $this->getId() != "")
+
+		$options["orientation"] = $this->getOrientation();
+		$options["int_id"] = $this->getId();
+
+		if ($this->getUseSessionStorage() && $this->getId() != "")
 		{			
 			include_once("./Services/Accordion/classes/class.ilAccordionPropertiesStorage.php");
 			$stor = new ilAccordionPropertiesStorage();
 			
-			if($this->force_open)
+			$ctab = $stor->getProperty($this->getId(), $ilUser->getId(),
+				"opened");
+			$ctab_arr = explode(";", $ctab);
+
+			foreach ($this->force_open as $fo)
 			{
-				$stor->storeProperty($this->getId(), $ilUser->getId(),
-					"opened", $this->force_open);
-				
-				$ctab = $this->force_open;
+				if (!in_array($fo, $ctab_arr))
+				{
+					$ctab_arr[] = $fo;
+				}
 			}
-			else
-			{
-				$ctab = $stor->getProperty($this->getId(), $ilUser->getId(),
-					"opened");
+			$ctab = implode(";", $ctab_arr);
+
+			if ($ctab == "0") {
+				$ctab = "";
 			}
-			
-			$tpl->setVariable("BEHAVIOUR", $ctab);
-			$tpl->setVariable("SAVE_URL", "./ilias.php?baseClass=ilaccordionpropertiesstorage&cmd=setOpenedTab".
-				"&accordion_id=".$this->getId()."&user_id=".$ilUser->getId());
+
+			$options["initial_opened"] = $ctab;
+			$options["save_url"] = "./ilias.php?baseClass=ilaccordionpropertiesstorage&cmd=setOpenedTab".
+				"&accordion_id=".$this->getId()."&user_id=".$ilUser->getId();
 		}
-		else if ($this->getBehaviour() != "")
+
+		$options["behaviour"] = $this->getBehaviour();
+		if ($this->getOrientation() == ilAccordionGUI::HORIZONTAL)
 		{
-			$tpl->setVariable("BEHAVIOUR", $this->getBehaviour());
-		}
-		$tpl->setVariable("OR2_SHORT", $or_short);
-		if ($width > 0)
-		{
-			$tpl->setVariable("WIDTH", $width);
+			$options["toggle_class"] = 'il_HAccordionToggleDef';
+			$options["toggle_act_class"] = 'il_HAccordionToggleActiveDef';
+			$options["content_class"] = 'il_HAccordionContentDef';
 		}
 		else
 		{
-			$tpl->setVariable("WIDTH", "null");
+			$options["toggle_class"] = 'il_VAccordionToggleDef';
+			$options["toggle_act_class"] = 'il_VAccordionToggleActiveDef';
+			$options["content_class"] = 'il_VAccordionContentDef';
+		}
+
+
+		if ($width > 0)
+		{
+			$options["width"] = $width;
+		}
+		else
+		{
+			$options["width"] = null;
 		}
 		if ($width > 0 && $this->getOrientation() == ilAccordionGUI::VERTICAL)
 		{
@@ -383,20 +447,27 @@ class ilAccordionGUI
 
 		if ($this->head_class_set)
 		{
-			$tpl->setVariable("ACTIVE_HEAD_CLASS", $this->getActiveHeaderClass());
+			$options["active_head_class"] = $this->getActiveHeaderClass();
 		}
 		else
 		{
 			if ($this->getOrientation() == ilAccordionGUI::VERTICAL)
 			{
-				$tpl->setVariable("ACTIVE_HEAD_CLASS", "il_HAccordionHeadActive");
+				$options["active_head_class"] = "il_HAccordionHeadActive";
 			}
 			else
 			{
-				$tpl->setVariable("ACTIVE_HEAD_CLASS", "il_VAccordionHeadActive");
+				$options["active_head_class"] =  "il_VAccordionHeadActive";
 			}
 		}
 
+		$options["height"] = null;
+		$options["id"] = 'accordion_'.self::$accordion_cnt;
+		$options["multi"] = (bool) $this->getAllowMultiOpened();
+		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
+		$tpl->setVariable("OPTIONS", $str = ilJsonUtil::encode($options));
+		$tpl->setVariable("CNT", self::$accordion_cnt);
+//echo "<br><br><br><br><br><br>".$str;
 		return $tpl->get();
 	}
 	
