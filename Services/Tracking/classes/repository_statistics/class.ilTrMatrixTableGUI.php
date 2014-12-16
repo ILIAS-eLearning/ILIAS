@@ -47,9 +47,11 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			}
 		}
 		
-		parent::__construct($a_parent_obj, $a_parent_cmd);
-
+		// has to be before constructor to work
 		$this->initFilter(); 	
+	
+		parent::__construct($a_parent_obj, $a_parent_cmd);
+		
 		$this->setLimit(9999);
 		$this->parseTitle($this->obj_id, "trac_matrix");
 	
@@ -111,6 +113,13 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 		$item = $this->addFilterItemByMetaType("name", ilTable2GUI::FILTER_TEXT);
 		$this->filter["name"] = $item->getValue();
+		
+		// #14949 - is called before constructor, so we have to do it ourselves
+		if(isset($_GET[$this->prefix."_tpl"]))
+        {
+			$this->filter["name"] = null;
+			$item->setValue(null);
+		}		
 	}
 
 	function getSelectableColumns()
