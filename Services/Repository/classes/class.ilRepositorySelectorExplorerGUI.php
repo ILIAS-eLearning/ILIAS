@@ -22,6 +22,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 {
 	protected $type_grps = array();
 	protected $session_materials = array();
+	protected $highlighted_node = null;
 	
 	/**
 	 * Constructor
@@ -138,6 +139,15 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function isNodeHighlighted($a_node)
 	{
+		if($this->getHighlightedNode())
+		{
+			if($this->getHighlightedNode() == $a_node["child"])
+			{
+				return true;
+			}
+			return false;
+		}
+
 		if ($a_node["child"] == $_GET["ref_id"] ||
 			($_GET["ref_id"] == "" && $a_node["child"] == $this->getNodeId($this->getRootNode())))
 		{
@@ -287,6 +297,27 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 		}
 
 		return true;
+	}
+
+	/**
+	 * set an alternate highlighted node if $_GET["ref_id"] is not set or wrong
+	 *
+	 * @param int $a_value ref_id
+	 */
+	public function setHighlightedNode($a_value)
+	{
+		$this->highlighted_node = $a_value;
+	}
+
+	/**
+	 * get an alternate highlighted node if $_GET["ref_id"] is not set or wrong
+	 * Returns null if not set
+	 *
+	 * @return mixed ref_id
+	 */
+	public function getHighlightedNode()
+	{
+		return $this->highlighted_node;
 	}
 
 }
