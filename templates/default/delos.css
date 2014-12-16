@@ -7257,11 +7257,6 @@ div.ilRightPanel {
 [dir="rtl"] .ilOverlay {
   text-align: right;
 }
-table.fullwidth {
-  background-color: #FFF;
-  width: 100%;
-  border-collapse: collapse;
-}
 .ilAccHeadingHidden,
 .ilAccHidden,
 .ui-helper-hidden-accessible {
@@ -10240,7 +10235,7 @@ div#il_startup_content {
 .ilStartupSection {
   padding-top: 25px;
 }
-div.ilStartupSection form.form-horizontal {
+div.ilStartupSection div.form-horizontal {
   text-align: left;
   width: 40em;
 }
@@ -10782,7 +10777,7 @@ div.ilNewObjectSelector {
   #il_startup_content form table {
     width: auto;
   }
-  div.ilStartupSection form.form-horizontal {
+  div.ilStartupSection div.form-horizontal {
     width: auto;
   }
   .ilStartupSection {
