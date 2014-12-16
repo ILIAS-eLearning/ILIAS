@@ -28,7 +28,7 @@ ilInitialisation::initILIAS();*/
 
 
 //settings and imports
-ini_set("memory_limit","1024M"); 
+ini_set("memory_limit","2048M"); 
 ini_set('max_execution_time', 0);
 set_time_limit(0);
 require_once("Services/GEV/Import/classes/class.gevImportedUser.php");
@@ -110,8 +110,9 @@ class gevUserImport {
 		} else {
 			$record = mysql_fetch_assoc($result);
 			mysql_free_result($result);
+			$crs_id = (int)$record['crs_id'];
 		}
-		$crs_id = (int)$record['crs_id'] -1;
+		$crs_id = $crs_id -1;
 		return $crs_id;
 	}
 
@@ -198,7 +199,7 @@ class gevUserImport {
 
 		//hist_usercoursestatus
 		$sql = "CREATE TABLE IF NOT EXISTS interimUsercoursestatus ("
-		  ." row_id int(11) NOT NULL,"
+		  ." row_id int(11) NOT NULL AUTO_INCREMENT,"
 		  ." usr_id_vfs int(11) NOT NULL,"
 		  ." usr_id_gev int(11) NOT NULL,"
 		  ." hist_version int(11) NOT NULL DEFAULT '1',"
@@ -224,7 +225,7 @@ class gevUserImport {
 
 		//hist_course
 		$sql = "CREATE TABLE IF NOT EXISTS interimCourse ("
-		  ." row_id int(11) NOT NULL,"
+		  ." row_id int(11) NOT NULL AUTO_INCREMENT,"
 //		  ." hist_version int(11) NOT NULL DEFAULT '1',"
 //		  ." hist_historic int(11) NOT NULL DEFAULT '0',"
 		  ." crs_id int(11) NOT NULL," //matches interimUsercoursestatus.crs_id
@@ -238,6 +239,7 @@ class gevUserImport {
 		  ." end_date date DEFAULT NULL,"
 		  ." hours int(11) DEFAULT '0',"
 		  ." is_expert_course tinyint(4) NOT NULL DEFAULT '0',"
+		  ." is_decentral tinyint(4) NOT NULL DEFAULT '0',"
 		  ." venue varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
 		  ." provider varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
 //		  ." tutor varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,"
@@ -359,61 +361,47 @@ class gevUserImport {
 
 	private function normalizeCourseEntry($entry, $client){
 		if($client == 'VFS'){
-			/*
-			course:
-				.$entry['custom_id'] .","
-				.$entry['title'] .","
-				.$entry['type'] ."," //selbstlern...
 
-				.$entry['begin'] ."," 
-				.$entry['end'] ."," 
+			$begin_date = date('Y-m-d', $entry['crs_start_date']);
+			$end_date = date('Y-m-d', $entry['crs_end_date']);
+			
+			//$created = date('Y-m-d', $entry['created_ts']);
+			$created = $entry['created_ts'];
 
-				.$entry['topic_set'] ."," 
-				.$entry['hours'] ."," 
-				.$entry['venue'] ."," 
-				.$entry['provider'] ."," 
-				
-				.$entry['max_credit_points'] ."," 
-				.$entry['fee'] ."," 
-				.$entry['wbd_topic'] ."," 
-				.$entry['edu_program']
-			*/
+			$entry['custom_id'] = '';
+			$entry['topic_set'] = -1; // this needs an id an the filled topic_set!
+			$entry['is_expert_course'] = 0;
+			$entry['hours'] = -1;
+			$entry['edu_program'] = '';
+			$entry['bill_id']  = -1;
+			$entry['certificate']  = -1;
+			//$entry['is_decentral'] = 0;
 
-			$entry['title'] = $entry['crs_template_title'];
-			$entry['begin_date'] = $entry['crs_start_date'];
-			$entry['end_date'] = $entry['crs_end_date'];
-			/*
-			user:
-				.$entry['old_usr_id'] .","
 
-				.$entry['usr_begin_date'] .","
-				.$entry['usr_end_date'] ."," 
+			$entry['begin_date'] = $begin_date;
+			$entry['end_date'] = $end_date;
+			$entry['usr_begin_date'] = $begin_date;
+			$entry['usr_end_date'] = $end_date;
+			$entry['created_ts']  = $created;
 
-				.$entry['hist_version'] ."," 
-				.$entry['hist_historic'] ."," 
-				.$entry['created_ts'] ."," 
-				.$entry['last_wbd_report'] ."," 
-
-				.$entry['credit_points'] ."," 
-				.$entry['bill_id'] ."," 
-				.$entry['booking_status'] ."," 
-				.$entry['participation_status'] ."," 
-
-				.$entry['function'] ."," 
-				.$entry['wbd_booking_id']
-			*/
+			$entry['last_wbd_report']  = $entry['wbd_transfer_ts'];
 
 			$entry['old_usr_id'] = $entry['user_id'];
-			$entry['usr_begin_date'] = $entry['crs_start_date'];
-			$entry['usr_end_date'] = $entry['crs_end_date'];
-			$entry['last_wbd_report']  = $entry['wbd_transfer_ts'];
-			$entry['credit_points']  = $entry['crs_credit_points'];
-
-			$entry['bill_id']  = '';
+			$entry['title'] = $entry['crs_template_title'];
+			$entry['type'] = $entry['crs_type_title'];
+			$entry['venue'] = $entry['crs_venue_title'];
+			$entry['provider'] = $entry['crs_provider_title'];
+			$entry['fee'] = $entry['crs_cost_per_part'];
+			$entry['max_credit_points']  = $entry['crs_credit_points'];
 			$entry['booking_status']  = $entry['part_booking_state_title'];
 			$entry['participation_status']  = $entry['part_participation_state_title'];
 			$entry['function']  = $entry['part_function_title'];
 			$entry['wbd_booking_id']  = $entry['wbd_case_id'];
+
+			$entry['okz']  = $entry['part_okz'];
+			$entry['org_unit']  = $entry['part_org_unit_title'];
+			$entry['overnights']  = $entry['part_accomodation_nights'];
+			$entry['wbd_topic'] =  $entry['crs_wbd_content'];
 
 		}
 		if($client == 'GEV'){
@@ -429,9 +417,9 @@ class gevUserImport {
 		//to interimCourse
 		//is there a course with this title and dates?
 		//return crs_id
-		$title = $entry['title'];
-		$begin_date = $entry['begin'];
-		$end_date = $entry['end'];
+		$title = mysql_real_escape_string($entry['title']);
+		$begin_date = $entry['begin_date'];
+		$end_date = $entry['end_date'];
 
 		$sql = "SELECT crs_id FROM interimCourse WHERE 	
 			title = '$title'
@@ -440,6 +428,7 @@ class gevUserImport {
 			AND 
 			end_date = '$end_date'
 		";
+
 		$result = $this->queryShadowDB($sql);
 		if($result && mysql_num_rows($result) > 0){
 			//found a matching course, return id.
@@ -460,9 +449,11 @@ class gevUserImport {
 					."end_date,"
 
 					."topic_set,"
+					."is_expert_course,"
 					."hours,"
 					."venue,"
 					."provider,"
+					."is_decentral,"
 
 					."max_credit_points,"
 					."fee,"
@@ -470,22 +461,25 @@ class gevUserImport {
 					."edu_program"
 				.") VALUES ("
 					.$next_id .","
-					.$entry['custom_id'] .","
-					.$entry['title'] .","
-					.$entry['type'] ."," //selbstlern...
+					."'" .$entry['custom_id'] ."',"
+					."'" .mysql_real_escape_string($entry['title']) ."',"
+					."'" .$entry['type'] ."'," //selbstlern...
 
-					.$entry['begin'] ."," 
-					.$entry['end'] ."," 
+					."'" .$entry['begin_date'] ."'," 
+					."'" .$entry['end_date'] ."'," 
 
 					.$entry['topic_set'] ."," 
-					.$entry['hours'] ."," 
-					.$entry['venue'] ."," 
-					.$entry['provider'] ."," 
+					.$entry['is_expert_course'] ."," 
+					.$entry['hours'] .","
+					."'" .mysql_real_escape_string($entry['venue']) ."'," 
+					."'" .mysql_real_escape_string($entry['provider']) ."'," 
 					
-					.$entry['max_credit_points'] ."," 
+					.$entry['is_decentral'] .","
+
+					."'" .$entry['max_credit_points'] ."'," 
 					.$entry['fee'] ."," 
-					.$entry['wbd_topic'] ."," 
-					.$entry['edu_program']
+					."'" .$entry['wbd_topic'] ."'," 
+					."'" .$entry['edu_program'] ."'" 
 				.")";
 
 		$this->queryShadowDB($sql);
@@ -499,31 +493,29 @@ class gevUserImport {
 		//gets new crs-id which matches interimCourse.crs_id
 
 
-		// !check, if user has a relation to that course already!
-		
+		// delete entries for this user/course first
+		$sql = "DELETE FROM  interimUsercoursestatus WHERE "
+			. "usr_id_" .strtolower($client) ." = '" .$entry['old_usr_id'] ."'"
+			." AND crs_id = " .$crs_id;
+		$this->queryShadowDB($sql);
 
 		$sql = "INSERT INTO interimUsercoursestatus ("
 				. "usr_id_" .strtolower($client) .","
 				." crs_id," //matches interimCourse.crs_id
-
 				." begin_date,"
 				." end_date,"
-
 				." hist_version,"
 				." hist_historic,"
 				." created_ts,"
 				." last_wbd_report,"
-
 				." credit_points,"
 				." bill_id,"
 				." booking_status,"
 				." participation_status,"
-
 				." okz,"
 				." org_unit,"
 				." certificate,"
 				." overnights,"
-
 				." function,"
 				." wbd_booking_id"
 
@@ -531,24 +523,27 @@ class gevUserImport {
 				.$entry['old_usr_id'] .","
 				.$crs_id .","
 
-				.$entry['usr_begin_date'] .","
-				.$entry['usr_end_date'] ."," 
-
+				."'" .$entry['usr_begin_date'] ."',"
+				."'" .$entry['usr_end_date'] ."'," 
 				.$entry['hist_version'] ."," 
 				.$entry['hist_historic'] ."," 
 				.$entry['created_ts'] ."," 
 				.$entry['last_wbd_report'] ."," 
-
-				.$entry['credit_points'] ."," 
+				.$entry['max_credit_points'] ."," 
 				.$entry['bill_id'] ."," 
-				.$entry['booking_status'] ."," 
-				.$entry['participation_status'] ."," 
-
-				.$entry['function'] ."," 
-				.$entry['wbd_booking_id']
+				."'" .$entry['booking_status'] ."'," 
+				."'" .$entry['participation_status'] ."'," 
+				."'" .$entry['okz'] ."'," 
+				."'" .$entry['org_unit'] ."'," 
+				.$entry['certificate'] ."," 
+				.$entry['overnights'] ."," 
+				."'" .$entry['function'] ."'," 
+				."'" .$entry['wbd_booking_id'] ."'" 
 			.")";
 
 			$this->queryShadowDB($sql);
+
+			$this->prnt('edurecord for user ' . $entry['old_usr_id'] .': ' .$entry['title']);
 	}
 
 
@@ -591,13 +586,11 @@ class gevUserImport {
 		
 		$fetcher = $this->getFetchterVFS();
 		$edu_records = $fetcher->getEduRecordsForImportedUsers();
-		$this->prnt($edu_records, 666);
-die();
+
 		foreach ($edu_records as $entry) {
 			$entry = $this->normalizeCourseEntry($entry, 'VFS');
-		//	$crs_id = $this->storeCourseToInterimsBD($entry);
-		//  $this->storeEduRecordForUser($crs_id, $entry, 'VFS');
-			$this->prnt($entry, 666);
+			$crs_id = $this->storeCourseToInterimsBD($entry);
+		  	$this->storeEduRecordForUser($crs_id, $entry, 'VFS');
 		}
 
 		$this->prnt('Fetching VFS EduRecords: done', 2);
@@ -671,7 +664,7 @@ die();
 
 //$imp->fetchVFSUsers();
 //$imp->fetchVFSUserRoles();
-//$imp->fetchVFSEduRecords();
+$imp->fetchVFSEduRecords();
 
 
 

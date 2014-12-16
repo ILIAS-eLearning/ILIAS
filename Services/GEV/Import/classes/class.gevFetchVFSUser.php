@@ -22,6 +22,9 @@ From the VofueDB, import table
 	"obj_data"
 	"rbac_ua"
 
+	"vf_crs_data"
+	"object_reference"
+
 into the shadowDB gev_ivimport
 
 */
@@ -223,7 +226,7 @@ class gevFetchFVSUser {
 	public function updateOrgUnitNameForImportedUsers(){
 		//the joins from above over edu_biography is maximum memory greedy,
 		//and awfully slow. 
-		//Thus: separete function
+		//Thus: separate function
 
 		$sql = "SELECT id, ilid_vfs from interimUsers WHERE ilid_vfs != ''";
 		$result = mysql_query($sql, $this->shadowDB);
@@ -325,6 +328,9 @@ class gevFetchFVSUser {
 		$ret = array();	
 		//if we don't have the user, we will not need his/her records...
 		$sql = "SELECT id, ilid_vfs FROM interimUsers WHERE ilid_vfs != ''";
+
+$sql .=" LIMIT 100";
+
 		$result = mysql_query($sql, $this->shadowDB);
 		while($record = mysql_fetch_assoc($result)) {
 			
@@ -333,12 +339,35 @@ class gevFetchFVSUser {
 				." AND ("
 				." hist_historic=0 OR wbd_case_id != '-empty-'"
 				.")";
+			
 			$res = mysql_query($sql, $this->shadowDB);
 			while($rec = mysql_fetch_assoc($res)) {
+
+				$rec['is_decentral'] = 0;	
+				if($rec['crs_ref_id'] > 0){
+					$sql = "SELECT decentral FROM vf_crs_data"
+						." INNER JOIN object_reference ON "
+						." vf_crs_data.id = object_reference.obj_id"
+						." WHERE object_reference.ref_id="
+						.$rec['crs_ref_id'];
+
+					$res_temp = mysql_query($sql, $this->shadowDB);
+					$rec_temp = mysql_fetch_assoc($res_temp);
+
+					if($rec_temp['decentral']){
+						$rec['is_decentral'] = 1;
+					}
+					mysql_free_result($res_temp);
+				
+				}
+
+
 				$ret[] = $rec;
 			}
+			mysql_free_result($res);
 
 		}
+		mysql_free_result($result);
 		return $ret;
 	}
 
