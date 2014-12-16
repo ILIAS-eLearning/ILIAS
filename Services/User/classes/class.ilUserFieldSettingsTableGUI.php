@@ -44,6 +44,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 		$up = new ilUserProfile();
 		$up->skipField("username");
 		$fds = $up->getStandardFields();
+		vd($fds);
 		foreach ($fds as $k => $f)
 		{
 			$fds[$k]["key"] = $k;

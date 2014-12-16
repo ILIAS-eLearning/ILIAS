@@ -51,7 +51,17 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 				if (strcmp($c, 'street') == 0) $this->addColumn($this->lng->txt("street"),'street', '');
 				if (strcmp($c, 'city') == 0) $this->addColumn($this->lng->txt("city"),'city', '');
 				if (strcmp($c, 'zipcode') == 0) $this->addColumn($this->lng->txt("zipcode"),'zipcode', '');
-				if (strcmp($c, 'country') == 0) $this->addColumn($this->lng->txt("country"),'country', '');
+				
+				if( $this->isFieldEnabledEnoughByAdministration('country') && $c == 'country' )
+				{
+					$this->addColumn($this->lng->txt("country"),'country', '');
+				}
+				
+				if( $this->isFieldEnabledEnoughByAdministration('sel_country') && $c == 'sel_country' )
+				{
+					$this->addColumn($this->lng->txt("country"),'sel_country', '');
+				}
+				
 				if (strcmp($c, 'department') == 0) $this->addColumn($this->lng->txt("department"),'department', '');
 				if (strcmp($c, 'matriculation') == 0) $this->addColumn($this->lng->txt("matriculation"),'matriculation', '');
 			}
@@ -87,6 +97,11 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 		$this->setFilterCommand('filterEvaluation');
 		$this->setResetCommand('resetfilterEvaluation');
 		$this->initFilter();
+
+		if($this->isFieldEnabledEnoughByAdministration('sel_country'))
+		{
+			$this->lng->loadLanguageModule('meta');
+		}
 	}
 
 	/**
@@ -148,10 +163,20 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 				"txt" => $lng->txt("zipcode"),
 				"default" => false
 			);
-			$cols["country"] = array(
-				"txt" => $lng->txt("country"),
-				"default" => false
-			);
+			if( $this->isFieldEnabledEnoughByAdministration('country') )
+			{
+				$cols["country"] = array(
+					"txt" => $lng->txt("country"),
+					"default" => false
+				);
+			}
+			if( $this->isFieldEnabledEnoughByAdministration('sel_country') )
+			{
+				$cols["sel_country"] = array(
+					"txt" => $lng->txt("country"),
+					"default" => false
+				);
+			}
 			$cols["department"] = array(
 				"txt" => $lng->txt("department"),
 				"default" => false
@@ -263,10 +288,16 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 					$this->tpl->setVariable("ZIPCODE", strlen($data['zipcode']) ? $data['zipcode'] : '&nbsp;');
 					$this->tpl->parseCurrentBlock();
 				}
-				if (strcmp($c, 'country') == 0)
+				if( $this->isFieldEnabledEnoughByAdministration('country') && $c == 'country' )
 				{
 					$this->tpl->setCurrentBlock('country');
 					$this->tpl->setVariable("COUNTRY", strlen($data['country']) ? $data['country'] : '&nbsp;');
+					$this->tpl->parseCurrentBlock();
+				}
+				if( $this->isFieldEnabledEnoughByAdministration('sel_country') && $c == 'sel_country' )
+				{
+					$this->tpl->setCurrentBlock('country');
+					$this->tpl->setVariable("COUNTRY", strlen($data['sel_country']) ? $this->getCountryTranslation($data['sel_country']) : '&nbsp;');
 					$this->tpl->parseCurrentBlock();
 				}
 				if (strcmp($c, 'department') == 0)
@@ -324,8 +355,42 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 
 		return $scol;
 	}
-	
-	
-	
+
+	protected function getCountryTranslation($countryCode)
+	{
+		return $this->lng->txt('meta_c_'.$countryCode);
+	}
+
+	protected function isFieldEnabledEnoughByAdministration($fieldIdentifier)
+	{
+		global $ilSetting;
+		
+		if( $ilSetting->get("usr_settings_hide_".$fieldIdentifier) ) // visible
+		{
+			return false;
+		}
+
+		if( !$ilSetting->get('usr_settings_visib_reg_'.$fieldIdentifier) ) // visib_reg
+		{
+			return false;
+		}
+
+		if( !$ilSetting->get('usr_settings_visib_lua_'.$fieldIdentifier) ) // visib_lua
+		{
+			return false;
+		}
+		
+		if ( $ilSetting->get("usr_settings_disable_".$fieldIdentifier) ) // changeable
+		{
+			return false;
+		}
+		
+		if( !$ilSetting->get('usr_settings_changeable_lua_'.$fieldIdentifier) ) // changeable_lua
+		{
+			return false;
+		}
+		
+		return true;
+	}
 }
 ?>
