@@ -44,8 +44,8 @@ class gevCrsAutoMails extends ilAutoMails {
 		, "min_participants_not_reached" 						=> "gevMinParticipantsNotReached"
 		, "reminder_participants" 								=> "gevReminderParticipants"
 		, "reminder_trainer"									=> "gevReminderTrainer"
-		, "list_for_accomodation" 								=> "gevListForAccomodation"
-		, "updated_list_for_accomodation" 						=> "gevUpdatedListForAccomodation"
+		//, "list_for_accomodation" 								=> "gevListForAccomodation"
+		//, "updated_list_for_accomodation" 						=> "gevUpdatedListForAccomodation"
 		, "participation_status_not_set" 						=> "gevParticipationStatusNotSet"
 		, "invitation" 											=> "gevInvitation"
 		
