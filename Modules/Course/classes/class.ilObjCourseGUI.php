@@ -19,7 +19,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, rilContainerStartObjectsPageGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI
 *
 * @extends ilContainerGUI
