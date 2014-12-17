@@ -167,7 +167,7 @@ abstract class SurveyQuestionGUI
 		}
 		if ($_GET["q_id"])
 		{
-			$ilTabs->addTab("preview",
+			$ilTabs->addNonTabbedLink("preview",
 				$this->lng->txt("preview"),
 				$this->ctrl->getLinkTargetByClass($guiclass, "preview"));
 		}
