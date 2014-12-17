@@ -10693,6 +10693,29 @@ div.ilNewObjectSelector {
 .yui-panel-container {
   color: #333333;
 }
+.mceEditor,
+.mceLayout {
+  width: 100% !important;
+}
+table.mceLayout {
+  table-layout: fixed;
+}
+.mceIframeContainer iframe {
+  max-width: 100%;
+}
+table.mceToolbar {
+  table-layout: fixed;
+  display: inline-block;
+  float: left;
+  height: auto !important;
+  max-width: 100%;
+}
+table.mceToolbar tbody,
+table.mceToolbar tr,
+table.mceToolbar td {
+  display: inline-block;
+  white-space: normal !important;
+}
 /* basic responsiveness (beta)
 
    The following section targets smartphones.
