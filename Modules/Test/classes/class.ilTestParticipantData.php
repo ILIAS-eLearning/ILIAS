@@ -38,6 +38,9 @@ class ilTestParticipantData
 	
 	public function load($testId)
 	{
+		$this->byActiveId = array();
+		$this->byUserId   = array();
+
 		$query = "
 			SELECT		ta.active_id,
 						ta.user_fi user_id,
