@@ -286,9 +286,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$shuffle = $this->object->getShuffleQuestions();
 				if ($this->object->isRandomTest())
 				{
-					$this->processLocker->requestRandomPassBuildLock();
 					$this->generateRandomTestPassForActiveUser();
-					$this->processLocker->releaseRandomPassBuildLock();
 
 					$this->object->loadQuestions();
 					$shuffle = FALSE; // shuffle is already done during the creation of the random questions
@@ -337,15 +335,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 				if ($this->object->isRandomTest())
 				{
-					$this->processLocker->requestRandomPassBuildLock();
-					
 					if (!$this->testSequence->hasRandomQuestionsForPass($active_id, $this->testSession->getPass()))
 					{
 						// create a new set of random questions
 						$this->generateRandomTestPassForActiveUser();
 					}
-
-					$this->processLocker->releaseRandomPassBuildLock();
 				}
 				$shuffle = $this->object->getShuffleQuestions();
 				if ($this->object->isRandomTest())
@@ -862,11 +856,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 	protected function generateRandomTestPassForActiveUser()
 	{
-		if( $this->performTearsAndAngerBrokenConfessionChecks() )
-		{
-			return;
-		}
-
 		global $tree, $ilDB, $ilPluginAdmin;
 
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
@@ -880,6 +869,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList($ilDB, $this->object, $sourcePoolDefinitionFactory);
 		$sourcePoolDefinitionList->loadDefinitions();
 
+		$this->processLocker->requestRandomPassBuildLock($sourcePoolDefinitionList->hasTaxonomyFilters());
+		
+		if( $this->performTearsAndAngerBrokenConfessionChecks() )
+		{
+			return;
+		}
+		
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
 		$stagingPoolQuestionList = new ilTestRandomQuestionSetStagingPoolQuestionList($ilDB, $ilPluginAdmin);
 
@@ -887,6 +883,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$questionSetBuilder = ilTestRandomQuestionSetBuilder::getInstance($ilDB, $this->object, $questionSetConfig, $sourcePoolDefinitionList, $stagingPoolQuestionList);
 
 		$questionSetBuilder->performBuild($this->testSession);
+		
+		$this->processLocker->releaseRandomPassBuildLock();
 	}
 
 	protected function getObjectiveOrientedContainerId()
