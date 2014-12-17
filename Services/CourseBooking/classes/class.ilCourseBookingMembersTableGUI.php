@@ -207,7 +207,7 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 				$crs_hasfee = $crs_utils->getFee();
 				$usr_paysfee = $usr_utils->paysFees();
 				$usr_isbooked = ($a_set["status"] == ilCourseBooking::STATUS_BOOKED);
-				$has_bill = (gevBillingUtils::getInstance()->getNonFinalizedBillForCourseAndUser() !== null);
+				$has_bill = (gevBillingUtils::getInstance()->getNonFinalizedBillForCourseAndUser($this->course->getId(), $a_set["id"]) !== null);
 
 				if($crs_reached_deadline && $crs_hasfee && $usr_paysfee && $usr_isbooked && $has_bill){
 					//when deadline expired 
