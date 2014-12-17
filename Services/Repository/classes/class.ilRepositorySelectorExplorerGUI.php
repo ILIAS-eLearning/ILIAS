@@ -23,6 +23,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 	protected $type_grps = array();
 	protected $session_materials = array();
 	protected $highlighted_node = null;
+	protected $clickable_types = array();
 	
 	/**
 	 * Constructor
@@ -296,6 +297,11 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 			return false;
 		}
 
+		if(is_array($this->getClickableTypes()) && count($this->getClickableTypes())>0)
+		{
+			return in_array($a_node["type"], $this->getClickableTypes());
+		}
+
 		return true;
 	}
 
@@ -318,6 +324,30 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 	public function getHighlightedNode()
 	{
 		return $this->highlighted_node;
+	}
+
+	/**
+	 * set Whitelist for clickable items
+	 *
+	 * @param array/string $a_types array type
+	 */
+	function setClickableTypes($a_types)
+	{
+		if(!is_array($a_types))
+		{
+			$a_types = array($a_types);
+		}
+		$this->clickable_types = $a_types;
+	}
+
+	/**
+	 * get whitelist for clickable items
+	 *
+	 * @return array types
+	 */
+	function getClickableTypes()
+	{
+		return (array)$this->clickable_types;
 	}
 
 }
