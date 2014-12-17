@@ -8973,7 +8973,7 @@ legend.ilTableFilter {
   font-size: 80%;
   border: none;
   padding: 2px 5px;
-  margin: 0;
+  margin: -12px 0 0;
   font-weight: normal;
 }
 fieldset.ilTableFilter {
