@@ -388,7 +388,7 @@ class gevRegistrationGUI {
 		$firstname->setRequired(true);
 		$form->addItem($firstname);
 		
-		$title = new ilTextInputGUI($this->lng->txt("firstname"), "title");
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
 		$title->setRequired(true);
 		$form->addItem($title);
 		

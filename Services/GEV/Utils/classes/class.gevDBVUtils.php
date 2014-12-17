@@ -103,7 +103,7 @@ class gevDBVUtils {
 			."         ON ou.id = stelle.sql_org_unit_id "
 			."        AND stelle.stellennummer = '".$job_number."' "
 			;
-
+		
 		$result = mysql_query($sql, $mysql);
 		$record = mysql_fetch_assoc($result);
 
@@ -138,7 +138,6 @@ class gevDBVUtils {
 			}
 			gevOrgUnitUtils::getInstance($cpool_id)->assignUser($a_user_id, "Mitarbeiter");
 		}
-		die();
 	}
 
 
