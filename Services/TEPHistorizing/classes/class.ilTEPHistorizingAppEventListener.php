@@ -53,7 +53,13 @@ class ilTEPHistorizingAppEventListener
 			$uids = array();
 		}
 		
-		$op_days_obj = new ilTEPOperationDays("tep_entry", $tep_entry->getEntryId(), $tep_entry->getStart(), $tep_entry->getEnd());
+		// gev-patch start
+		require_once("Services/Calendar/classes/class.ilDate.php");
+		$start = new ilDate($tep_entry->getStart()->get(IL_CAL_DATE), IL_CAL_DATE);
+		$end = new ilDate($tep_entry->getEnd()->get(IL_CAL_DATE), IL_CAL_DATE);
+		
+		$op_days_obj = new ilTEPOperationDays("tep_entry", $tep_entry->getEntryId(), $start, $end);
+		// gev-patch end
 		$op_days = $op_days_obj->getDaysForUsers(array_merge(array($tep_entry->getOwnerId()), array_keys($uids)));
 
 		$state_data["individual_days"] = count($op_days[$tep_entry->getOwnerId()]);
