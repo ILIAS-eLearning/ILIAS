@@ -329,7 +329,7 @@ class gevFetchFVSUser {
 		//if we don't have the user, we will not need his/her records...
 		$sql = "SELECT id, ilid_vfs FROM interimUsers WHERE ilid_vfs != ''";
 
-$sql .=" LIMIT 100";
+$sql .=" LIMIT 500";
 
 		$result = mysql_query($sql, $this->shadowDB);
 		while($record = mysql_fetch_assoc($result)) {

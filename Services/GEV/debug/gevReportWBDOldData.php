@@ -6,29 +6,21 @@
 * @version	$Id$
 */
 
-$LIVE = 0;
-
-
-
-
-
-
-
 //reset ilias for calls from somewhere else
 $basedir = __DIR__; 
 $basedir = str_replace('/Services/GEV/debug', '', $basedir);
 chdir($basedir);
 
 
-require "./Services/GEV/debug/simplePwdSec.php";
+require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
 
-if( !$LIVE) {
+//if( !$LIVE) {
 	//context w/o user
 	require_once "./Services/Context/classes/class.ilContext.php";
 	ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
 	require_once("./Services/Init/classes/class.ilInitialisation.php");
 	ilInitialisation::initILIAS();
-}
+//}
 
 require_once("./include/inc.header.php");
 
@@ -76,20 +68,11 @@ class gevReportOldData {
 		$this->db = &$ilDB;
 		$this->user = &$ilUser;
 
-		if($LIVE){
-
-			$host = $ilClientIniFile->readVariable('shadowdb', 'host');
-			$user = $ilClientIniFile->readVariable('shadowdb', 'user');
-			$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
-			$name = $ilClientIniFile->readVariable('shadowdb', 'name');
-
-		}else{
-			$host = 'localhost';
-			$user = 'root';
-			$pass = '****';
-			$name = 'gev_ivimport';
-		}
-
+		$host = $ilClientIniFile->readVariable('shadowdb', 'host');
+		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
+		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
+		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
+	
 		$mysql = mysql_connect($host, $user, $pass) or die(mysql_error());
 		mysql_select_db($name, $mysql);
 		mysql_set_charset('utf8', $mysql);
@@ -367,6 +350,74 @@ class gevReportOldData {
 		return $rec['wps'];
 	}
 
+
+	public function getNotWBDReportedUser(){
+		$sql = "SELECT * FROM hist_user"
+			." WHERE hist_user.wbd_type IN ('3 - TP-Service', '2 - TP-Basis', '1 - Bildungsdienstleister')"
+			." AND hist_user.hist_historic=0"
+			." AND hist_user.bwv_id='-empty-'";
+
+		return $this->doIlQuery($sql);	
+	}
+	
+	public function getNotWBDReportedUsersWithRegistration(){
+
+		$sql_ids = "SELECT usr_id FROM udf_text"
+			." WHERE field_id=25"
+			." AND udf_text.value = '1 - Ja'";
+
+		$sql = "SELECT * FROM hist_user"
+			." WHERE user_id IN ("
+			.$sql_ids
+			.")"
+			." AND hist_user.wbd_type IN ('0 - kein Service', '-empty-')"
+			." AND hist_user.hist_historic=0"
+			." AND hist_user.bwv_id='-empty-'";
+
+		return $this->doIlQuery($sql);	
+	}
+
+
+
+	public function getSeminarsForUser($usr_id){
+		$sql = "SELECT * FROM hist_usercoursestatus"
+		    ." INNER JOIN hist_course on hist_usercoursestatus.crs_id = hist_course.crs_id AND hist_course.hist_historic=0"
+			." WHERE usr_id = " .$usr_id
+			." AND hist_usercoursestatus.hist_historic=0";
+		return $this->doIlQuery($sql);	
+	}
+
+
+	public function getGlobalRoles(){
+		$sql = "SELECT obj_id, title FROM object_data WHERE type='role'"
+			." AND title NOT LIKE 'il_%'"
+			." AND title NOT LIKE 'loc_%'";
+		$r = $this->doIlQuery($sql);
+		$ret = array();
+		foreach ($r[1] as $no=>$entry) {
+			$ret[$entry['obj_id']] = $entry['title'];
+		}
+		return $ret;
+	}
+
+	public function getGlobalRolesForUser($usr_id){
+		$global_roles = $this->getGlobalRoles();
+		
+		$sql = "SELECT rol_id FROM rbac_ua"
+			." WHERE rol_id IN ("
+			.implode(',', array_keys($global_roles))
+			.')'
+			.'AND usr_id = ' .$usr_id;
+
+		$r = $this->doIlQuery($sql);
+
+		$ret = array();
+		foreach ($r[1] as $entry) {
+			$ret[] = $global_roles[$entry['rol_id']];
+		}
+		return $ret;
+	}
+
 	
 }
 
@@ -411,7 +462,9 @@ $report = new gevREportOldData();
 </head>
 <body>
 
-
+<?php
+/*
+?>
 
 
 <h1>WBD</h1>
@@ -605,10 +658,6 @@ $report = new gevREportOldData();
 				?>
 			</td>
 		</tr>
-
-
-
-
 
 	</table>
 
@@ -842,8 +891,106 @@ $report = new gevREportOldData();
 	</table>
 
 
+<?php
+*/
+?>
+
+
+<h2>User mit WBD-Typ Service/Basis/BDL <u>ohne</u> BWV-ID</h2>
+
+	<?php
+		$not_reported_users = $report->getNotWBDReportedUser();
+		
+		print '<b>insgesamt: </b>' .$not_reported_users[0];
+		print '<br><br>';
+		print '<table border=1><tr>';
+		print '<th>Vorname</th>';
+		print '<th>Nachname</th>';
+		print '<th>eMail</th>';
+		print '<th>status</th>';		
+		print '<th>type</th>';		
+		print '</tr>';
+		
+		foreach ($not_reported_users[1] as $entry) {
+			print '<tr>';
+			print '<td>' .$entry['firstname'] .'</td>';
+			print '<td>' .$entry['lastname'] .'</td>';
+			print '<td>' .$entry['email'] .'</td>';
+			print '<td>' .$entry['agent_status'] .'</td>';
+			print '<td>' .$entry['wbd_type'] .'</td>';
+			print '</tr><tr><td colspan=2></td>';
+			print '<td colspan=3><table border=1 width="100%">';
+				$sems = $report->getSeminarsForUser($entry['user_id'])[1];
+				foreach ($sems as $sem){
+					print '<tr>';
+					print '<td>' .$sem['title'] .'</td>';
+					print '<td>' .$sem['begin_date'] .'</td>';
+					print '<td>' .$sem['end_date'] .'</td>';					
+					print '<td>' .$sem['credit_points'] .'</td>';					
+					print '</tr>';
+				}
+			
+			print '</table></td></tr>';
+			
+		}
+		
+		print '</table>';
+		
+	?>			
+
+
+<h2>User, die die WBD-Anmeldung bejaht haben und auf "kein Service" bzw. "-empty-" stehen</h2>
+<?php
+		$not_reported_users = $report->getNotWBDReportedUsersWithRegistration();
+		
+		print '<b>insgesamt: </b>' .$not_reported_users[0];
+		print '<br><br>';
+		print '<table border=1><tr>';
+		print '<th>Vorname</th>';
+		print '<th>Nachname</th>';
+		print '<th>eMail</th>';
+		print '<th>status</th>';		
+		print '<th>type</th>';
+		print '<th>Rollen</th>';
+		print '</tr>';
+
+		foreach ($not_reported_users[1] as $entry) {
+			print '<tr>';
+
+			print '<td>' .$entry['firstname'] .'</td>';
+			print '<td>' .$entry['lastname'] .'</td>';
+			print '<td>' .$entry['email'] .'</td>';
+			
+			print '<td>';
+			if($entry['agent_status'] == '-empty-'){
+				$user_id = $entry['user_id'];
+				$lnk = "https://generali-onlineakademie.de/ilias.php?ref_id=7&admin_mode=settings&obj_id=$user_id&cmd=view&cmdClass=ilobjusergui&cmdNode=1v:i8&baseClass=ilAdministrationGUI";
+				print '<a href="' .$lnk .'"">';
+				print $entry['agent_status'];
+				print '</a>';
+					
+			} else {
+				print $entry['agent_status'];
+			}
+			
+			print '</td>';
+			
+			print '<td>' .$entry['wbd_type'] .'</td>';
+			print '<td>';
+			print implode('<br>', array_values($report->getGlobalRolesForUser($entry['user_id'])));
+			print '</td>';
+			print '</tr>';
+			
+		}
+		
+		print '</table>';
+		
+	?>			
+
+
 
 
 
 </body>
 </html>
+

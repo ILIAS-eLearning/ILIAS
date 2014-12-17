@@ -11,33 +11,45 @@
 */
 
 
+$WEBMODE = false;
+if(isset($_GET['webmode']) && $_GET['webmode']=='1'){
+	$WEBMODE = true;
+}
 
-//reset ilias for calls from somewhere else
-/*$basedir = __DIR__; 
-$basedir = str_replace('/Services/GEV/Import/classes', '', $basedir);
-chdir($basedir);
+if($WEBMODE === true){
+	//reset ilias for calls from somewhere else
+	$basedir = __DIR__; 
+	$basedir = str_replace('/Services/GEV/Import/classes', '', $basedir);
+	chdir($basedir);
 
-//SIMPLE SEC !
-require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
+	//SIMPLE SEC !
+	require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
 
-//context w/o user
-require_once "./Services/Context/classes/class.ilContext.php";
-ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
-require_once("./Services/Init/classes/class.ilInitialisation.php");
-ilInitialisation::initILIAS();*/
+	//context w/o user
+	require_once "./Services/Context/classes/class.ilContext.php";
+	ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
+	require_once("./Services/Init/classes/class.ilInitialisation.php");
+	ilInitialisation::initILIAS();
+
+	require_once("./Services/GEV/Import/classes/class.gevImportedUser.php");
+
+} else {
+	require_once("Services/GEV/Import/classes/class.gevImportedUser.php");
+}
 
 
 //settings and imports
 ini_set("memory_limit","2048M"); 
 ini_set('max_execution_time', 0);
 set_time_limit(0);
-require_once("Services/GEV/Import/classes/class.gevImportedUser.php");
 
 
 
 class gevUserImport {
 	
 	private $shadowDB = NULL;
+	private $ilDB = NULL;
+
 	private $fetchers = array(
 			'VFS' => NULL,
 			'GEV' => NULL
@@ -45,8 +57,12 @@ class gevUserImport {
 
 
 	public function __construct() {
+		global $ilDB;
+
 		$this->connectShadowDB();
 		$this->createDB();
+
+		$this->ilDB = &$ilDB;
 	}
 
 
@@ -115,9 +131,6 @@ class gevUserImport {
 		$crs_id = $crs_id -1;
 		return $crs_id;
 	}
-
-
-
 
 
 	private function getFetchterVFS(){
@@ -358,6 +371,86 @@ class gevUserImport {
 	}
 
 
+	private function getTopicSetFor($topic_title){
+		$sql = "SELECT topic_set_id FROM hist_topicset2topic"
+			." INNER JOIN hist_topics ON hist_topicset2topic.topic_id = hist_topics.topic_id"
+			." WHERE hist_topics.topic_title = '$topic_title'";
+			
+		$result = $this->ilDB->query($sql);
+		if($this->ilDB->numRows($result) == 0){
+			//insert new topic set
+			//and return its id
+			return $this->insertNewTopicSetWithSingleTopic($topic_title);
+		}
+
+		$rec = $this->ilDB->fetchAssoc($result);
+
+		$topic_set_id = $rec['topic_set_id'];
+
+		//check, if there are other entries in the topic_set
+		$sql = "SELECT COUNT(topic_set_id) AS no_ts FROM hist_topicset2topic"
+			." WHERE topic_set_id = " .$topic_set_id;
+		$result = $this->ilDB->query($sql);
+		$record = $this->ilDB->fetchAssoc($result);
+		if($record['no_ts'] != 1){
+			//insert new topic_set
+			return $this->insertNewTopicSetWithSingleTopic($topic_title);
+		}
+
+		//$this->prnt('got topicSet for ' .$topic_title .' : ' . $topic_set_id, 3);
+		return $topic_set_id;
+	}
+
+
+
+
+	private function getTopicIdByTitle($topic_title){
+		$sql = "SELECT topic_id FROM hist_topics"
+			." WHERE topic_title= '$topic_title'";
+		$result = $this->ilDB->query($sql);
+		if($this->ilDB->numRows($result) > 0){
+			$record = $this->ilDB->fetchAssoc($result);
+			return $record['topic_id'];
+		}
+
+		//insert new
+		$this->prnt('new topic: ' .$topic_title, 3);
+		$id = $this->ilDB->nextId('hist_topics');
+		$this->ilDB->insert(
+			'hist_topics',
+			array(
+				'row_id'      => array( 'integer', $id ),
+				'topic_id'    => array( 'integer', $id ),
+				'topic_title' => array( 'text', $topic_title )
+			)
+		);
+		return $id;
+
+
+	}
+
+	private function insertNewTopicSetWithSingleTopic($topic_title){
+
+		$this->prnt('new topicset: ' .$topic_title, 3);
+
+		$topic_set_id = $this->ilDB->nextId( 'hist_topicset2topic' );
+		$topic_id = $this->getTopicIdByTitle($topic_title);
+
+		$this->ilDB->insert(
+			'hist_topicset2topic',
+			array(
+				'row_id'       => array( 'integer', $topic_set_id),
+				'topic_set_id' => array( 'integer', $topic_set_id ),
+				'topic_id'     => array( 'integer', $topic_id )
+			)
+		);
+
+		return $topic_set_id;
+	}
+
+
+
+
 
 	private function normalizeCourseEntry($entry, $client){
 		if($client == 'VFS'){
@@ -365,11 +458,16 @@ class gevUserImport {
 			$begin_date = date('Y-m-d', $entry['crs_start_date']);
 			$end_date = date('Y-m-d', $entry['crs_end_date']);
 			
+			
+
+			//$entry['topic_set'] = -1; // this needs an id an the filled topic_set!
+			$entry['topic_set'] = $this->getTopicSetFor($entry['crs_topic_title']);
+
+
+
 			//$created = date('Y-m-d', $entry['created_ts']);
 			$created = $entry['created_ts'];
-
 			$entry['custom_id'] = '';
-			$entry['topic_set'] = -1; // this needs an id an the filled topic_set!
 			$entry['is_expert_course'] = 0;
 			$entry['hours'] = -1;
 			$entry['edu_program'] = '';
@@ -439,6 +537,11 @@ class gevUserImport {
 
 		//new course
 		$next_id = $this->getNextCourseId();
+
+
+
+
+
 		$sql = "INSERT INTO interimCourse ("
 					."crs_id,"
 					."custom_id,"
@@ -653,19 +756,20 @@ class gevUserImport {
 
 }
 
+if($WEBMODE === true){
 
-//$imp = new gevUserImport();
+	$imp = new gevUserImport();
 
-//$imp->createOrgStructure();
+	//$imp->createOrgStructure();
 
-//$imp->fetchGEVUsers();
-//$imp->fetchGEVUserRoles();
-//$imp->fetchGEVEduRecords();
+	//$imp->fetchGEVUsers();
+	//$imp->fetchGEVUserRoles();
+	//$imp->fetchGEVEduRecords();
 
-//$imp->fetchVFSUsers();
-//$imp->fetchVFSUserRoles();
-$imp->fetchVFSEduRecords();
+	//$imp->fetchVFSUsers();
+	//$imp->fetchVFSUserRoles();
+	$imp->fetchVFSEduRecords();
 
+	//print '<br><br><hr>all through.';
 
-
-//print '<br><br><hr>all through.';
+}
