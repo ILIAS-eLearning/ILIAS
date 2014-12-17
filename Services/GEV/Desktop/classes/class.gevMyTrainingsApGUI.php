@@ -189,6 +189,7 @@ class gevMyTrainingsApGUI {
 								);
 
 		if ($a_form === null) {
+			$ilCtrl->setParameter($a_parent_gui, "crs_id", $a_crs_utils->getId());
 			$a_form = static::buildOvernightsForm($a_user_id, $a_crs_utils, $ilCtrl->getFormAction($a_parent_gui));
 		}
 		
@@ -198,7 +199,7 @@ class gevMyTrainingsApGUI {
 
 	protected function showOvernights($a_form = null) {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		$crs_id = $_GET["crs_id"];
+		$crs_id = intval($_GET["crs_id"]);
 		$crs_utils = gevCourseUtils::getInstance($crs_id);
 		
 		$this->checkAccomodation($crs_utils);
@@ -209,13 +210,14 @@ class gevMyTrainingsApGUI {
 	
 	protected function saveOvernights() {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		$crs_id = $_GET["crs_id"];
+		$crs_id = intval($_GET["crs_id"]);
 		$crs_utils = gevCourseUtils::getInstance($crs_id);
 		
 		$this->checkAccomodation($crs_utils);
 		$this->checkIsTrainer($crs_utils);
-
-		$form = static::buildOvernightsForm($this->user->getId(), $crs_utils, $this->ctrl->getFormAction($a_parent_gui));
+		
+		$this->ctrl->setParameter($this, "crs_id", $crs_id);
+		$form = static::buildOvernightsForm($this->user->getId(), $crs_utils, $this->ctrl->getFormAction($this));
 		if ($form->checkInput()) {
 			ilSetAccomodationsGUI::importAccomodationsFromForm($form, $crs_id, $this->user->getId());
 			ilUtil::sendSuccess($this->lng->txt("gev_mytrainingsap_saved_overnights"));
