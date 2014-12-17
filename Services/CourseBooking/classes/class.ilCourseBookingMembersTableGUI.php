@@ -198,6 +198,7 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 				// #0000641
 				require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 				require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+				require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
 				
 				$crs_utils = gevCourseUtils::getInstanceByObj($this->course);
 				$usr_utils = gevUserUtils::getInstance($a_set["id"]);
@@ -206,17 +207,9 @@ class ilCourseBookingMembersTableGUI extends ilTable2GUI
 				$crs_hasfee = $crs_utils->getFee();
 				$usr_paysfee = $usr_utils->paysFees();
 				$usr_isbooked = ($a_set["status"] == ilCourseBooking::STATUS_BOOKED);
+				$has_bill = (gevBillingUtils::getInstance()->getNonFinalizedBillForCourseAndUser() !== null);
 
-/*
-				print '<hr>';
-				print '<br>COURSE: ' .$this->course->getId();
-				print '<br>deadline: ' .$crs_reached_deadline;
-				print '<br>crs fee: ' .$crs_hasfee;
-				print '<br>usr fee: ' .$usr_paysfee;
-				print '<br>booked: ' .$usr_isbooked;
-*/
-
-				if($crs_reached_deadline && $crs_hasfee && $usr_paysfee && $usr_isbooked){
+				if($crs_reached_deadline && $crs_hasfee && $usr_paysfee && $usr_isbooked && $has_bill){
 					//when deadline expired 
 					//and user pays fees 
 					//and seminar has fees
