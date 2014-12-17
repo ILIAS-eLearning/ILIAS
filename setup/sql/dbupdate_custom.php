@@ -2588,3 +2588,40 @@ if(!$ilDB->tableExists('hist_tep'))
 		die("Custom Update #79: Expected to find org_unit with import_id = 'dbv_tmplt'");
 	}
 ?>
+
+<#80>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	
+	require_once("Services/GEV/Import/classes/class.gevImportOrgStructure.php");
+	$imp = new gevImportOrgStructure();
+	$imp->createOrgUnit("na_tmplt", "Vorlage NA-Einheit", "na", "", "", "", "", "", "", "");
+
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	$gev_settings = gevSettings::getInstance();
+	$res = $ilDB->query("SELECT obj_id FROM object_data WHERE import_id = 'na' AND type = 'orgu'");
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		$gev_settings->setNAPOUBaseUnitId($rec["obj_id"]);
+	}
+	else {
+		die("Custom Update #79: Expected to find org_unit with import_id = 'na'");
+	}
+	
+	$res = $ilDB->query("SELECT obj_id FROM object_data WHERE import_id = 'na_tmplt' AND type = 'orgu'");
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		$gev_settings->setNAPOUTemplateUnitId($rec["obj_id"]);
+	}
+	else {
+		die("Custom Update #79: Expected to find org_unit with import_id = 'na_tmplt'");
+	}
+
+
+?>

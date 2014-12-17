@@ -143,7 +143,20 @@ class gevImportOrgStructure {
 		$this->updateIlIdForOrgUnit($rec['id'], $id);
 	}
 
-
+	public function createOrgUnit($id, $title, $parent, $country, $zip, $city, $street, $fon, $fax, $finaccount) {
+		$this->createSingleOrgUnit(array(
+				  "id"			=> $id
+				, "title"		=> $title
+				, "parent"		=> $parent
+				, "country"		=> $country
+				, "zip"			=> $zip
+				, "city"		=> $city
+				, "street"		=> $street
+				, "fon"			=> $fon
+				, "fax"			=> $fax
+				, "finaccount"	=> $finaccount
+			));
+	}
 
 	public function createOrgUnits(){
 		$parents = array("root");
