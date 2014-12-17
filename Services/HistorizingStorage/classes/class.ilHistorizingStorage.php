@@ -400,7 +400,7 @@ abstract class ilHistorizingStorage
 				if ($a_data[$key] === null || $a_data[$key] === "") {
 					switch($col_def[$key]) {
 						case "date":
-							$value = "00-00-0000";
+							$value = "0000-00-00";
 							break;
 						case "text":
 							$value = "-empty-";
