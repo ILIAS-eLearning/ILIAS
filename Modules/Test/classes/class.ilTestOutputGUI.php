@@ -50,12 +50,7 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$testSessionFactory = new ilTestSessionFactory($this->object);
 		$this->testSession = $testSessionFactory->getSession($_GET['active_id']);
 		
-		if( !$this->testSession->getActiveId() )
-		{
-			$this->testSession->setUserId($ilUser->getId());
-			$this->testSession->setAnonymousId($_SESSION["tst_access_code"][$this->object->getTestId()]);
-			$this->testSession->saveToDb();
-		}
+		$this->ensureExistingTestSession($this->testSession);
 		
 		$this->initProcessLocker($this->testSession->getActiveId());
 		
