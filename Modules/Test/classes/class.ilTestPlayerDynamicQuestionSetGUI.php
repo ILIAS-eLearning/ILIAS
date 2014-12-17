@@ -66,6 +66,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		$testSessionFactory = new ilTestSessionFactory($this->object);
 		$this->testSession = $testSessionFactory->getSession($_GET['active_id']);
+
+		$this->ensureExistingTestSession($this->testSession);
+		$this->initProcessLocker($this->testSession->getActiveId());
 		
 		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
 		$this->testSequence = $testSequenceFactory->getSequence($this->testSession);
@@ -155,12 +158,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	protected function startTestCmd()
 	{
 		global $ilUser;
-		
-		// ensure existing test session
-		$this->testSession->setRefId($this->object->getRefId());
-		$this->testSession->setTestId($this->object->getTestId());
-		$this->testSession->setUserId($ilUser->getId());
-		$this->testSession->setAnonymousId($_SESSION['tst_access_code'][$this->object->getTestId()]);
 		
 		$this->testSession->setCurrentQuestionId(null); // no question "came up" yet
 		

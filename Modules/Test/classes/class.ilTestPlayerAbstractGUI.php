@@ -58,6 +58,18 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->processLocker = null;
 	}
 	
+	protected function ensureExistingTestSession(ilTestSession $testSession)
+	{
+		if( !$testSession->getActiveId() )
+		{
+			global $ilUser;
+
+			$testSession->setUserId($ilUser->getId());
+			$testSession->setAnonymousId($_SESSION['tst_access_code'][$this->object->getTestId()]);
+			$testSession->saveToDb();
+		}
+	}
+	
 	protected function initProcessLocker($activeId)
 	{
 		global $ilDB;
