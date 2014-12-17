@@ -413,46 +413,92 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->objProperties->update();
 	}
-	
-	public function editThreadObject($a_thread_id)
+
+	/**
+	 * @param  int $a_thread_id
+	 * @return ilPropertyFormGUI
+	 */
+	private function getThreadEditingForm($a_thread_id)
 	{
-		/**
-		 * @var $ilTabs ilTabsGUI
-		 */
-		global $ilTabs;
-		
-		$ilTabs->setTabActive('forums_threads');
-		
-		$this->ctrl->setParameter($this, 'thr_pk', $a_thread_id);
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html', 'Modules/Forum');
 		$form = new ilPropertyFormGUI();
+		$this->ctrl->setParameter($this, 'thr_pk', $a_thread_id);
 		$form->setFormAction($this->ctrl->getFormAction($this, 'updateThread'));
 
 		$ti_prop = new ilTextInputGUI($this->lng->txt('title'), 'title');
-		$ti_prop->setValue(ilForumTopic::_lookupTitle($a_thread_id));
+		$ti_prop->setRequired(true);
+		$ti_prop->setMaxLength(255);
+		$ti_prop->setSize(50);
 		$form->addItem($ti_prop);
 
 		$form->addCommandButton('updateThread', $this->lng->txt('save'));
 		$form->addCommandButton('showThreads', $this->lng->txt('cancel'));
-
-		$this->tpl->setVariable('FORM1', $form->getHTML());
+		
+		return $form;
 	}
 
-	public function updateThreadObject()
+	/**
+	 * @param                   $a_thread_id
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function editThreadObject($a_thread_id, ilPropertyFormGUI $form = null)
 	{
 		/**
 		 * @var $ilTabs ilTabsGUI
 		 */
 		global $ilTabs;
 
-		$ilTabs->setTabActive('forums_threads');
-		
-		if(isset($_POST['title']) && strlen($_POST['title']))
+		if(!$this->is_moderator)
 		{
-			$this->objCurrentTopic->setSubject($_POST['title']);
-			$this->objCurrentTopic->updateThreadTitle();
+			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
-		
+
+		$ilTabs->setTabActive('forums_threads');
+
+		if(!($form instanceof ilPropertyFormGUI))
+		{
+			$form = $this->getThreadEditingForm($a_thread_id);
+			$form->setValuesByArray(array(
+				'title' => ilForumTopic::_lookupTitle($a_thread_id)
+			));
+		}
+
+		$this->tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * 
+	 */
+	public function updateThreadObject()
+	{
+		if(!$this->is_moderator)
+		{
+			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		}
+
+		if(!$this->objCurrentTopic->getId())
+		{
+			$this->showThreadsObject();
+			return;
+		}
+
+		$forum_id = ilObjForum::lookupForumIdByObjId($this->object->getId());
+		if($this->objCurrentTopic->getForumId() != $forum_id)
+		{
+			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		}
+
+		$form = $this->getThreadEditingForm($this->objCurrentTopic->getId());
+		if(!$form->checkInput())
+		{
+			$form->setValuesByPost();
+			$this->editThreadObject($this->objCurrentTopic->getId(), $form);
+			return;
+		}
+
+		$this->objCurrentTopic->setSubject($form->getInput('title'));
+		$this->objCurrentTopic->updateThreadTitle();
+
+		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		$this->showThreadsObject();
 	}
 
@@ -3033,7 +3079,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					{
 						foreach($_POST['thread_ids'] as $thread_id)
 						{
-							return $this->editThreadObject($thread_id);
+							return $this->editThreadObject($thread_id, null);
 						}
 					}
 				}
