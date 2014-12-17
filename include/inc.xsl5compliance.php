@@ -58,7 +58,8 @@ function xslt_process(&$proc, $xml_var, $xslt_var, $dummy, $args, $params,
 	//{
 		$xml_domdoc = new DomDocument();
 		$xml_domdoc->loadXML($args[substr($xml_var, 4)]);
-		$result = @$xslt->transformToXML($xml_domdoc);
+		// show warnings again due to discussion in #12866
+		$result = $xslt->transformToXML($xml_domdoc);
 	//}
 	//else
 	//{
