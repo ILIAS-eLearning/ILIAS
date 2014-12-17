@@ -600,17 +600,28 @@ class ilCourseContentGUI
 
 		include_once 'Modules/Course/classes/Timings/class.ilTimingAccepted.php';
 		$accept_obj = new ilTimingAccepted($this->course_obj->getId(),$ilUser->getId());
-
-		$this->tpl->setVariable("REMARK",$accept_obj->getRemark());
-		$this->tpl->setVariable("ACCEPT_CHECKED",$accept_obj->isAccepted() ? 'checked="checked"' : '');
-		$this->tpl->setVariable("TUTOR_CHECKED",$accept_obj->isVisible() ? 'checked="checked"' : '');
-
-		$this->tpl->setVariable("TIMING_ACCEPT",$this->lng->txt('timing_accept_table'));
-		$this->tpl->setVariable("TXT_ACCEPT",$this->lng->txt('timing_user_accept'));
-		$this->tpl->setVariable("TXT_REMARK",$this->lng->txt('timing_remark'));
-		$this->tpl->setVariable("TXT_TUTOR",$this->lng->txt('timing_tutor_visible'));
-		$this->tpl->setVariable("TXT_BTN_UPDATE",$this->lng->txt('save'));
+		
+		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, 'saveAcceptance'));
+		$form->setTitle($this->lng->txt('timing_accept_table'));
+		
+		$accept = new ilCheckboxInputGUI($this->lng->txt('timing_user_accept'), "accepted");	
+		$accept->setChecked($accept_obj->isAccepted());
+		$form->addItem($accept);
+		
+		$remark = new ilTextAreaInputGUI($this->lng->txt('timing_remark'), "remark");
+		$remark->setValue($accept_obj->getRemark());
+		$form->addItem($remark);
+		
+		$tutor = new ilCheckboxInputGUI($this->lng->txt('timing_tutor_visible'), "tutor");	
+		$tutor->setChecked($accept_obj->isVisible());
+		$form->addItem($tutor);
+		
+		$form->addCommandButton('saveAcceptance', $this->lng->txt('save'));
+		$this->tpl->setVariable("FORM", $form->getHTML());
 	}
+	
 	function saveAcceptance()
 	{
 		global $ilUser;
@@ -1062,29 +1073,28 @@ class ilCourseContentGUI
 
 	function __showTimingsPanel()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilToolbar;
 
 		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
 		{
 			return true;
 		}
-
+		
+		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+		$btn = ilLinkButton::getInstance();
+			
 		if(!$_SESSION['crs_timings_panel'][$this->course_obj->getId()])
 		{
-			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'timingsOn'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("timings_timings_on"));
-			$this->tpl->parseCurrentBlock();
+			$btn->setCaption("timings_timings_on");
+			$btn->setUrl($this->ctrl->getLinkTarget($this,'timingsOn'));		
 		}
 		else
 		{
-			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'timingsOff'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("timings_timings_off"));
-			$this->tpl->parseCurrentBlock();
+			$btn->setCaption("timings_timings_off");
+			$btn->setUrl($this->ctrl->getLinkTarget($this,'timingsOff'));			
 		}
+		
+		$ilToolbar->addButtonInstance($btn);
 	}
 
 	function timingsOn()

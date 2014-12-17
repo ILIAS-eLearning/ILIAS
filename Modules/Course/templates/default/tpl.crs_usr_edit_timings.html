@@ -1,21 +1,21 @@
+<div class="ilTableHeaderTitle">
+	<div class="ilRight">
+		<a class="il_ContainerItemCommand" href="{SHOW_HIDE_LINK}">{SHOW_HIDE_TEXT}</a>	    
+	</div>
+	<!-- <img src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" /> -->
+	<h3 class="ilHeader ilTableHeaderTitle">{BLOCK_HEADER_CONTENT}</h3>
+</div>
 <form action="{FORMACTION}" method="post">
-	<table class="fullwidth">
-	  <tr class="tbltitle">
-		<th class="std" colspan="3">
-		  <div class="ilFloatLeft">
-			<img src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
-			&nbsp;{BLOCK_HEADER_CONTENT}
-		  </div>
-		  <div class="ilFloatRight">
-			<a class="il_ContainerItemCommand" href="{SHOW_HIDE_LINK}">{SHOW_HIDE_TEXT}</a>
-		  </div>
-		</th>
-	  </tr>
-	  <tr class="tblheader">
+	<div class="form-inline table-responsive">
+	<table class="table table-striped">
+		<thead>
+	  <tr>
 		<th class="std">{TXT_TITLE}</th>
 		<th class="std">{TXT_START}</th>
 		<th class="std">{TXT_END}</th>
 	  </tr>
+		</thead>
+		<tbody>
 	  <!-- BEGIN container_standard_row -->
 	  <tr class="{ROWCLASS}">
 		<td>
@@ -49,30 +49,9 @@
 		</td>
 	  </tr>
 	  <!-- END container_standard_row -->
+		</tbody>
 	</table>
-	<br />
-	<table class="std">
-	  <tr class="tblheader">
-		<th>{TIMING_ACCEPT}</th>
-	  </tr>
-	  <tr class="std">
-		<td class="option_value">
-		  <input type="checkbox" name="accepted" value="1" {ACCEPT_CHECKED} /> {TXT_ACCEPT}<br />
-		  <div style="padding-top:5px;">
-			{TXT_REMARK}:
-		  </div>
-		  <textarea rows="3" cols="50" name="remark">{REMARK}</textarea>
-		  <div style="padding-top:5px;">
-			<input type="checkbox" name="tutor" value="1" {TUTOR_CHECKED} /> {TXT_TUTOR}<br />
-		  </div>
-		  </td>
-	  </tr>
-	  <tr class="tblfooter">
-		<td class="std">
-		  <div class="ilRight">
-			<input class="submit" type="submit" name="cmd[saveAcceptance]" value="{TXT_BTN_UPDATE}" />
-		  </div>
-		</td>
-	  </tr>
-	</table>
-  </form>
+</div>
+</form>	
+<br />
+{FORM}
