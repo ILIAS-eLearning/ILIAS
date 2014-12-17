@@ -246,18 +246,18 @@ class gevDecentralTrainingUtils {
 								."' does not exist.");
 		}
 		
-		$trgt_crs->setOwner($src_utils->getMainAdmin()->getId());
+		$orig_admin_id = $src_utils->getMainAdmin()->getId();
+		$trgt_crs->setOwner($orig_admin_id);
 		$trgt_crs->updateOwner();
 		
 		$trgt_crs->setTitle($src_utils->getTitle());
 		$trgt_crs->update();
+		$trgt_crs->getMembersObject()->add($orig_admin_id, IL_CRS_ADMIN);
+		$trgt_crs->getMembersObject()->delete($a_user_id);
 		
 		foreach ($a_trainer_ids as $trainer_id) {
 			$trgt_crs->getMembersObject()->add($trainer_id,IL_CRS_TUTOR);
 		}
-		/*if (!in_array($a_user_id, $a_trainer_ids)) {
-			$trgt_crs->getMembersObject()->add($a_user_id,IL_CRS_ADMIN);
-		}*/
 		
 		$this->rbacsystem->resetRoleCache();
 		
