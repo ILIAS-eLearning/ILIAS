@@ -1480,6 +1480,7 @@ class gevUserUtils {
 			."  JOIN rbac_ua ua ON ua.rol_id = od.obj_id"
 			."  JOIN object_data od2 ON od2.obj_id = oref.obj_id"
 			." WHERE oref.ref_id = tr.parent"
+			."   AND oref.deleted IS NULL"
 			."   AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
 			."   AND od2.type = 'orgu'"
 			);
