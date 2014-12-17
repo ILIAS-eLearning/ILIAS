@@ -10240,7 +10240,7 @@ div#il_startup_content {
 .ilStartupSection {
   padding-top: 25px;
 }
-div.ilStartupSection div.form-horizontal {
+div.ilStartupSection form.form-horizontal {
   text-align: left;
   width: 40em;
 }
@@ -10782,7 +10782,7 @@ div.ilNewObjectSelector {
   #il_startup_content form table {
     width: auto;
   }
-  div.ilStartupSection div.form-horizontal {
+  div.ilStartupSection .form-horizontal {
     width: auto;
   }
   .ilStartupSection {
