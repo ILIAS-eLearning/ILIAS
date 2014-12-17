@@ -27,7 +27,7 @@ class gevRegistrationMails extends ilAutoMails {
 	}
 
 	public function getTitle() {
-		return "Registrierungsmails";
+		return "Maklerregistrierungsmails";
 	}
 
 	public function getSubtitle() {
