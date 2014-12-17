@@ -284,7 +284,11 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 					case 'cut':
                         $this->tabs_gui->clearTargets();
                         $this->tabs_gui->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTarget($this));
-                        parent::cutObject();
+                        // gev-patch start
+                        $this->ctrl->setParameter($this, "ref_id", $_GET["ref_id"]);
+                        $this->cutObject();
+                        //parent::cutObject();
+                        // gev-patch end
 						break;
 					case 'clear':
 						parent::clearObject();
@@ -692,7 +696,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 		// toolbars
 		$t = new ilToolbarGUI();
-		$this->ctrl->setParameter($this, "ref_id", $_GET["item_ref_id"]);
+		$this->ctrl->setParameter($this, "ref_id", $_GET["ref_id"]);
 		$this->ctrl->setParameter($this, "item_ref_id", $_GET["item_ref_id"]);
 		$t->setFormAction($this->ctrl->getFormAction($this, "performPaste"));
 		$t->addFormButton($this->lng->txt($txt_var), "performPaste");
@@ -728,6 +732,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	 * @description Prepare $_POST for the generic method performPasteIntoMultipleObjectsObject
 	 */
 	public function performPaste() {
+		// gev-patch start
 /*		if (! in_array($_SESSION['clipboard']['cmd'], array( 'cut' ))) {
 			$message = __METHOD__ . ": cmd was not 'cut' ; may be a hack attempt!";
 			$this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
@@ -740,8 +745,26 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->performPasteIntoMultipleObjectsObject();
 			}
 		}*/
-		$this->tree->moveTree($_GET["item_ref_id"],$_POST["nodes"]);
+		
+		// for other 
+		if (!isset($_POST["item_ref_id"])) {
+			$_POST["item_ref_id"] = $_SESSION["CaT_paste_ids"];
+			unset($_SESSION["CaT_paste_ids"]);
+		}
+		if (!isset($_POST["nodes"])) {
+			throw new Exception("ilObjOrgUnit::performPaste: did not find nodes in POST.");
+		}
+		
+		if (is_array($_POST["item_ref_id"])) {
+			foreach($_POST["item_ref_id"] as $ref) {
+				$this->tree->moveTree($ref, $_POST["nodes"]);
+			}
+		}
+		else {
+			$this->tree->moveTree($_GET["item_ref_id"],$_POST["nodes"]);
+		}
 		$this->ctrl->returnToParent($this);
+		// gev-patch end
 	}
 
 	function doUserAutoCompleteObject() {
@@ -765,5 +788,68 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	public function __setTableGUIBasicData($tbl, $a_result_set, $a_from, $a_form) {
 		return parent::__setTableGUIBasicData($tbl, $a_result_set, $a_from, $a_form);
 	}
+	
+	// gev-patch start
+	// copied from ilContainerGUI. I don't want the clipboard.
+	function cutObject()
+	{
+		global $rbacsystem, $ilCtrl;
+
+		if ($_GET["item_ref_id"] != "")
+		{
+			$_POST["id"] = array($_GET["item_ref_id"]);
+		}
+
+		//$this->ilias->raiseError("move operation does not work at the moment and is disabled",$this->ilias->error_obj->MESSAGE);
+
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// FOR ALL OBJECTS THAT SHOULD BE COPIED
+		foreach ($_POST["id"] as $ref_id)
+		{
+			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
+			$node_data = $this->tree->getNodeData($ref_id);
+			$subtree_nodes = $this->tree->getSubTree($node_data);
+
+			$all_node_data[] = $node_data;
+			$all_subtree_nodes[] = $subtree_nodes;
+
+			// CHECK DELETE PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
+			foreach ($subtree_nodes as $node)
+			{
+				if($node['type'] == 'rolf')
+				{
+					continue;
+				}
+				
+				if (!$rbacsystem->checkAccess('delete',$node["ref_id"]))
+				{
+					$no_cut[] = $node["ref_id"];
+				}
+			}
+		}
+		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
+		if (count($no_cut))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_cut")." ".implode(',',$this->getTitlesByRefId($no_cut)),
+									 $this->ilias->error_obj->MESSAGE);
+		}
+
+		return $this->initAndDisplayMoveIntoObjectObject();
+	} // END CUT
+	
+	public function initAndDisplayMoveIntoObjectObject()
+	{
+		global $tree;
+		
+		$_SESSION["CaT_paste_ids"] = $_POST["id"];
+		
+		return $this->showPasteTreeObject();
+	}
+	
+	// gev-patch end
 }
 ?>
