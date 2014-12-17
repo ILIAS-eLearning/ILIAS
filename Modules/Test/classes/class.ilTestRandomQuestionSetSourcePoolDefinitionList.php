@@ -147,6 +147,20 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		return $row['cnt'] > 0;
 	}
 
+	public function hasTaxonomyFilters()
+	{
+		foreach($this as $definition)
+		{
+			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
+			if( $definition->getMappedFilterTaxId() && $definition->getMappedFilterTaxNodeId() )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
 	/**
 	 * @return ilTestRandomQuestionSetSourcePoolDefinition
 	 */

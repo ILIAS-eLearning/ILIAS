@@ -38,17 +38,22 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
 		$this->db->unlockTables();
 	}
 
-	public function requestRandomPassBuildLock()
+	public function requestRandomPassBuildLock($withTaxonomyTables = false)
 	{
-		$tables = array(
-			array('name' => 'tst_test_rnd_qst', 'type' => ilDB::LOCK_WRITE),
-			array('name' => 'tst_test_rnd_qst', 'type' => ilDB::LOCK_WRITE, 'sequence' => true),
-			array('name' => 'tst_rnd_quest_set_cfg', 'type' => ilDB::LOCK_WRITE),
-			array('name' => 'tst_rnd_quest_set_qpls', 'type' => ilDB::LOCK_WRITE),
-			array('name' => 'tst_rnd_cpy', 'type' => ilDB::LOCK_WRITE),
-			array('name' => 'qpl_questions', 'type' => ilDB::LOCK_WRITE),
-			array('name' => 'qpl_qst_type', 'type' => ilDB::LOCK_WRITE)
-		);
+		$tables = array();
+		
+		$tables[] = array('name' => 'tst_rnd_cpy', 'type' => ilDB::LOCK_WRITE);
+		$tables[] = array('name' => 'qpl_questions', 'type' => ilDB::LOCK_WRITE);
+		$tables[] = array('name' => 'qpl_qst_type', 'type' => ilDB::LOCK_WRITE);
+		$tables[] = array('name' => 'tst_test_rnd_qst', 'type' => ilDB::LOCK_WRITE);
+		$tables[] = array('name' => 'tst_test_rnd_qst', 'type' => ilDB::LOCK_WRITE, 'sequence' => true);
+
+		if( $withTaxonomyTables )
+		{
+			$tables[] = array('name' => 'tax_tree s', 'type' => ilDB::LOCK_WRITE);
+			$tables[] = array('name' => 'tax_tree t', 'type' => ilDB::LOCK_WRITE);
+			$tables[] = array('name' => 'tax_node_assignment', 'type' => ilDB::LOCK_WRITE);
+		}
 
 		$this->db->lockTables($tables);
 	}
