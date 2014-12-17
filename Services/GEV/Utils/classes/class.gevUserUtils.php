@@ -436,12 +436,15 @@ class gevUserUtils {
 	}
 	
 	public function getCourseIdsWhereUserIsTutor() {
-			
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
 		$like_role = array();
 		foreach (gevSettings::$TUTOR_ROLES as $role) {
 			$like_role[] = "od.title LIKE ".$this->db->quote($role);
 		}
 		$like_role = implode(" OR ", $like_role);
+		
+		$tmplt_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
 		
 		$res = $this->db->query(
 			 "SELECT oref.obj_id, oref.ref_id "
@@ -451,10 +454,14 @@ class gevUserUtils {
 			."  JOIN tree tr ON tr.child = fa.parent"
 			."  JOIN rbac_ua ua ON ua.rol_id = od.obj_id"
 			."  JOIN object_data od2 ON od2.obj_id = oref.obj_id"
+			." LEFT JOIN adv_md_values_text is_template "
+			."    ON oref.obj_id = is_template.obj_id "
+			."   AND is_template.field_id = ".$this->db->quote($tmplt_field_id, "integer")
 			." WHERE oref.ref_id = tr.parent"
 			."   AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
 			."   AND od2.type = 'crs'"
 			."   AND oref.deleted IS NULL"
+			."   AND is_template.value = 'Nein'"
 			);
 
 		$crs_ids = array();
