@@ -961,6 +961,7 @@ class gevUserUtils {
 					." WHERE od.type = 'role' " 
 					." AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
 					." AND od.title LIKE 'il_orgu_employee_%' "
+					." AND oref.deleted IS NULL"
 					." ORDER BY obj_id ASC LIMIT 1 OFFSET 0";
 			
 			$res = $this->db->query($query);
@@ -975,6 +976,7 @@ class gevUserUtils {
 						." WHERE od.type = 'role' " 
 						." AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
 						." AND od.title LIKE 'il_orgu_superior_%' "
+						." AND oref.deleted IS NULL"
 						." ORDER BY obj_id ASC LIMIT 1 OFFSET 0";
 				$res = $this->db->query($query);
 				if ($rec = $this->db->fetchAssoc($res)) {
@@ -1521,6 +1523,7 @@ class gevUserUtils {
 			."  JOIN tree tr ON ( ".$where." )"
 			." WHERE od.type = 'orgu'"
 			."   AND oref.ref_id = tr.child"
+			."   AND oref.deleted IS NULL"
 			);
 		
 		$this->superior_ous = array();
