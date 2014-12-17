@@ -248,7 +248,7 @@ class ilInfoScreenGUI
 	*/
 	function addPropertyTextinput($a_name, $a_input_name, $a_input_value = "", $a_input_size = "", $direct_button_command = "", $direct_button_label = "", $direct_button_primary = false)
 	{
-		$input = "<input type=\"text\" name=\"$a_input_name\" id=\"$a_input_name\"";
+		$input = "<span class=\"form-inline\"><input class=\"form-control\" type=\"text\" name=\"$a_input_name\" id=\"$a_input_name\"";
 		if (strlen($a_input_value))
 		{
 			$input .= " value=\"" . ilUtil::prepareFormOutput($a_input_value) . "\"";
@@ -267,6 +267,7 @@ class ilInfoScreenGUI
 			}
 			$input .= " <input type=\"submit\" class=\"btn btn-default".$css."\" name=\"cmd[$direct_button_command]\" value=\"$direct_button_label\" />";
 		}
+		$input .= "</span>";
 		$this->section[$this->sec_nr]["properties"][] =
 			array("name" => "<label for=\"$a_input_name\">$a_name</label>", "value" => $input);
 	}
