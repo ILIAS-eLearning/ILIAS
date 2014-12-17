@@ -9919,6 +9919,8 @@ function getAnswerFeedbackPoints()
 			$html = str_replace("&otimes;", "X", $html);
 		}
 		$html = preg_replace("/src=\".\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
+		// #12866
+		$html = preg_replace('/&(?!amp)/', '&amp;', $html);
 		$fo = $this->processPrintoutput2FO($html);
 		if( $fo === false )
 		{
