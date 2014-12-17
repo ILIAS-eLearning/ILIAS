@@ -94,12 +94,10 @@ class ilOrgUnitStaffGUI {
 						}
 						break;
 					default:
-						// gev-patch start
-						/*$repo = new ilRepositorySearchGUI();
+						$repo = new ilRepositorySearchGUI();
 						$this->ctrl->forwardCommand($repo);
-						*/
-						ilUtil::sendFailure($this->lng->txt("user_not_found"), true);
-						$this->ctrl->redirect($this,"showStaff");
+						//ilUtil::sendFailure($this->lng->txt("user_not_found"), true);
+						//$this->ctrl->redirect($this,"showStaff");
 						break;
 						// gev-patch end
 				}
