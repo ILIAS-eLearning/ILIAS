@@ -10693,6 +10693,9 @@ div.ilNewObjectSelector {
   padding-right: 0;
   padding-left: 4px;
 }
+.yui-panel-container {
+  color: #333333;
+}
 /* basic responsiveness (beta)
 
    The following section targets smartphones.
