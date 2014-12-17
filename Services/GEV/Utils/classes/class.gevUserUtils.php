@@ -1322,7 +1322,7 @@ class gevUserUtils {
 	}
 	
 	public function getFormattedOvernightDetailsForCourse(ilObjCourse $a_crs) {
-		return gevGeneralUtils::foldConsecutiveDays($this->getOvernightDetailsForCourse($a_crs));
+		return gevGeneralUtils::foldConsecutiveOvernights($this->getOvernightDetailsForCourse($a_crs));
 	}
 	
 	public function getOvernightAmountForCourse(ilObjCourse $a_crs) {
