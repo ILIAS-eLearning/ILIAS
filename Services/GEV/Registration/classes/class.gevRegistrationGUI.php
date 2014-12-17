@@ -389,7 +389,6 @@ class gevRegistrationGUI {
 		$form->addItem($firstname);
 		
 		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$title->setRequired(true);
 		$form->addItem($title);
 		
 		$gender = new ilRadioGroupInputGUI($this->lng->txt("gender"), "gender");
