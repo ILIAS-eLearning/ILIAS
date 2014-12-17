@@ -495,6 +495,14 @@ class ilCourseContentGUI
 			}
 			else
 			{
+				if(!$item['title'] &&
+					$item['type'] == 'sess')
+				{					
+					include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+					$app_info = ilSessionAppointment::_lookupAppointment(ilObject::_lookupObjId($item["ref_id"])); 						
+					$item['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'],$app_info['fullday']);
+				}
+				
 				$this->tpl->setVariable("TITLE",$item['title']);
 			}
 
@@ -766,6 +774,14 @@ class ilCourseContentGUI
 			$this->tpl->setVariable("TLT_VAL",ilFormat::_secondsToString($tlt));
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		if(!$item['title'] &&
+			$item['type'] == 'sess')
+		{					
+			include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+			$app_info = ilSessionAppointment::_lookupAppointment(ilObject::_lookupObjId($item["ref_id"])); 						
+			$item['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'],$app_info['fullday']);
+		}
 
 		$this->tpl->setCurrentBlock("title_plain");
 		$this->tpl->setVariable("TITLE",$item['title']);
@@ -971,6 +987,14 @@ class ilCourseContentGUI
 			$this->tpl->setVariable("TXT_TLT",$this->lng->txt('meta_typical_learning_time'));
 			$this->tpl->setVariable("TLT_VAL",ilFormat::_secondsToString($tlt));
 			$this->tpl->parseCurrentBlock();
+		}
+		
+		if(!$item['title'] &&
+			$item['type'] == 'sess')
+		{					
+			include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+			$app_info = ilSessionAppointment::_lookupAppointment(ilObject::_lookupObjId($item["ref_id"])); 						
+			$item['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'],$app_info['fullday']);
 		}
 
 		if($ilAccess->checkAccess('read','',$item['ref_id']))
