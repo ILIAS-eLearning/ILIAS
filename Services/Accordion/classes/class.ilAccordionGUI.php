@@ -15,6 +15,8 @@ class ilAccordionGUI
 	protected static $accordion_cnt = 0;
 	protected $use_session_storage = false;
 	protected $allow_multi_opened = false;
+	protected $show_all_element = null;
+	protected $hide_all_element = null;
 	
 	const VERTICAL = "vertical";
 	const HORIZONTAL = "horizontal";
@@ -275,6 +277,46 @@ class ilAccordionGUI
 	}
 
 	/**
+	 * Set show all element
+	 *
+	 * @param string $a_val ID of show all html element
+	 */
+	function setShowAllElement($a_val)
+	{
+		$this->show_all_element = $a_val;
+	}
+
+	/**
+	 * Get show all element
+	 *
+	 * @return string ID of show all html element
+	 */
+	function getShowAllElement()
+	{
+		return $this->show_all_element;
+	}
+
+	/**
+	 * Set hide all element
+	 *
+	 * @param string $a_val ID of hide all html element
+	 */
+	function setHideAllElement($a_val)
+	{
+		$this->hide_all_element = $a_val;
+	}
+
+	/**
+	 * Get hide all element
+	 *
+	 * @return string ID of hide all html element
+	 */
+	function getHideAllElement()
+	{
+		return $this->hide_all_element;
+	}
+
+	/**
 	* Add javascript files that are necessary to run accordion
 	*/
 	static function addJavaScript()
@@ -464,6 +506,9 @@ class ilAccordionGUI
 		$options["height"] = null;
 		$options["id"] = 'accordion_'.$this->getId().'_'.self::$accordion_cnt;
 		$options["multi"] = (bool) $this->getAllowMultiOpened();
+		$options["show_all_element"] = $this->getShowAllElement();
+		$options["hide_all_element"] = $this->getHideAllElement();
+
 		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
 		$tpl->setVariable("OPTIONS", $str = ilJsonUtil::encode($options));
 		$tpl->setVariable("ACC_ID", $options["id"]);

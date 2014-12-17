@@ -2,7 +2,7 @@
 
 il.Accordion = {
 
-	duration : 200,
+	duration : 150,
 
 	data: {},
 
@@ -23,11 +23,21 @@ il.Accordion = {
 	 * int_id: int_id,
 	 * initial_opened: initial opened accordion tabs (nr, separated by ;)
 	 * multi: multi
+	 * show_all_element: ID of HTML element that triggers show all
+	 * hide_all_element: ID of HTML element that triggers hide all
 	 */
 	add: function (options) {
 		options.animating = false;
 		options.clicked_acc = null;
 		options.last_opened_acc = null;
+
+		if (typeof options.show_all_element == "undefined") {
+			options.show_all_element = null;
+		}
+
+		if (typeof options.hide_all_element == "undefined") {
+			options.hide_all_element = null;
+		}
 
 		if ((typeof options.initial_opened != "undefined") && options.initial_opened && options.initial_opened.length > 0) {
 			options.initial_opened = options.initial_opened.split(";");
@@ -64,6 +74,13 @@ il.Accordion = {
 				t.on("click", { id: id, el: t}, il.Accordion.clickHandler);
 			});
 		}
+
+		if (a.show_all_element) {
+			$("#" + a.show_all_element).prop("onclick", "").on("click", { id: id}, il.Accordion.showAll);
+		}
+		if (a.hide_all_element) {
+			$("#" + a.hide_all_element).prop("onclick", "").on("click", { id: id}, il.Accordion.hideAll);
+		}
 	},
 
 	isOpened: function (el) {
@@ -82,6 +99,17 @@ il.Accordion = {
 		});
 
 		return opened_str;
+	},
+
+	getAllNr: function (id) {
+		var all_str = "", lim = "", t = 1, a = il.Accordion.data[id];
+
+		$("#" + id).children().children("." + a.content_class).each(function () {
+			all_str = all_str + lim + "" + t;
+			lim = ";";
+			t++;
+		});
+		return all_str;
 	},
 
 	clickHandler: function (e) {
@@ -132,6 +160,85 @@ il.Accordion = {
 		}
 	},
 
+	showAll: function (e) {
+		var options, id = e.data.id;
+		var a = il.Accordion.data[id];
+		e.preventDefault();
+		e.stopPropagation();
+		if (a.multi) {
+
+			//console.log("deactivate");
+			a.animating = true;
+
+			$("#" + id).children().children("." + a.content_class).each(function () {
+				t = $(this);
+				if (t.hasClass("ilAccHideContent")) {
+
+					if (a.active_head_class) {
+						$(this.parentNode).children("div:first").children("div:first").
+							addClass(a.active_head_class);
+					}
+
+					// fade in the accordion (currentAccordion)
+					options = il.Accordion.prepareShow(a, t);
+					$(t).animate(options, il.Accordion.duration, function () {
+
+						$(t).css("height", "auto");
+
+						// set the currently shown accordion
+						a.last_opened_acc = t;
+
+						a.animating = false;
+					});
+				}
+			});
+
+			il.Accordion.saveAllAsOpenedTabs(a, id);
+		}
+
+		return false;
+	},
+
+	hideAll: function (e) {
+		var id = e.data.id;
+		var a = il.Accordion.data[id];
+		e.preventDefault();
+		e.stopPropagation();
+		if (a.multi) {
+//			console.log("hide all");
+
+			//console.log("deactivate");
+			a.animating = true;
+
+			$("#" + id).children().children("." + a.content_class).each(function () {
+				t = $(this);
+				if (!t.hasClass("ilAccHideContent")) {
+
+					il.Accordion.removeActiveHeadClass(id, t);
+
+					if (a.orientation == 'vertical') {
+						options = { height: 0 }
+					} else {
+						options = { width: 0 }
+					}
+
+					t.animate(options, il.Accordion.duration, function () {
+//						console.log("adding hide to");
+//						console.log(this);
+						$(this).addClass("ilAccHideContent");
+						a.last_opened_acc = null;
+						a.animating = false;
+					});
+				}
+			});
+
+			if (typeof a.save_url != "undefined" && a.save_url != "") {
+				il.Util.sendAjaxGetRequestToUrl(a.save_url + "&act=clear&tab_nr=", {}, {}, null);
+			}
+		}
+		return false;
+	},
+
 	deactivate: function(id, el) {
 		var options, act, a = il.Accordion.data[id];
 
@@ -173,6 +280,59 @@ il.Accordion = {
 		return tab_nr;
 	},
 
+	prepareShow: function(a, acc_el) {
+		var options;
+		if (a.orientation == 'vertical')
+		{
+			$(acc_el).css("position", 'relative')
+				.css("left", '-10000px')
+				.css("display", 'block');
+
+			$(acc_el).removeClass("ilAccHideContent");
+
+			var nh = a.height
+				? a.height
+				: $(acc_el).prop("scrollHeight");
+
+			$(acc_el).css("height", '0px')
+				.css("position", '')
+				.css("display", '')
+				.css("left", '');
+
+			options = {height: a.height
+				? a.height
+				: $(acc_el).prop("scrollHeight")};
+		}
+		else
+		{
+			$(acc_el).removeClass("ilAccHideContent");
+			options = { width: a.width
+				? a.width
+				: $(acc_el).prop("scrollWidth")};
+		}
+		return options;
+	},
+
+	saveAllAsOpenedTabs: function(a, id) {
+		if (typeof a.save_url != "undefined" && a.save_url != "") {
+			tab_nr = il.Accordion.getAllNr(id);
+			il.Util.sendAjaxGetRequestToUrl(a.save_url + "&act=set&tab_nr=" + tab_nr, {}, {}, null);
+		}
+	},
+
+	saveOpenedTabs: function(a, id) {
+		if (typeof a.save_url != "undefined" && a.save_url != "")
+		{
+			if (a.multi) {
+				tab_nr = il.Accordion.getAllOpenedNr(id);
+			} else {
+				tab_nr = il.Accordion.getTabNr(a.last_opened_acc);
+			}
+			act = "&act=set";
+			il.Util.sendAjaxGetRequestToUrl(a.save_url + act + "&tab_nr=" + tab_nr, {}, {}, null);
+		}
+	},
+
 	handleAccordion: function(id, el) {
 //console.log("handle");
 		var options, options2, last_acc, tab_nr, a = il.Accordion.data[id];
@@ -189,34 +349,7 @@ il.Accordion = {
 		}
 
 		// fade in the new accordion (currentAccordion)
-		if (a.orientation == 'vertical')
-		{
-			$(a.clicked_acc).css("position", 'relative')
-				.css("left", '-10000px')
-				.css("display", 'block');
-
-			$(a.clicked_acc).removeClass("ilAccHideContent");
-
-			var nh = a.height
-				? a.height
-				: $(a.clicked_acc).prop("scrollHeight");
-
-			$(a.clicked_acc).css("height", '0px')
-				.css("position", '')
-				.css("display", '')
-				.css("left", '');
-
-			options = {height: a.height
-				? a.height
-				: $(a.clicked_acc).prop("scrollHeight")};
-		}
-		else
-		{
-			$(a.clicked_acc).removeClass("ilAccHideContent");
-			options = { width: a.width
-				? a.width
-				: $(a.clicked_acc).prop("scrollWidth")};
-		}
+		options = il.Accordion.prepareShow(a, a.clicked_acc);
 
 		$(a.clicked_acc).animate(options, il.Accordion.duration, function () {
 
@@ -224,16 +357,8 @@ il.Accordion = {
 
 			// set the currently shown accordion
 			a.last_opened_acc = a.clicked_acc;
-			if (typeof a.save_url != "undefined" && a.save_url != "")
-			{
-				if (a.multi) {
-					tab_nr = il.Accordion.getAllOpenedNr(id);
-				} else {
-					tab_nr = il.Accordion.getTabNr(a.last_opened_acc);
-				}
-				act = "&act=set";
-				il.Util.sendAjaxGetRequestToUrl(a.save_url + act + "&tab_nr=" + tab_nr, {}, {}, null);
-			}
+
+			il.Accordion.saveOpenedTabs(a, id);
 
 			a.animating = false;
 		});
@@ -251,6 +376,10 @@ il.Accordion = {
 				$(last_acc).addClass("ilAccHideContent");
 			});
 		}
+	},
+
+	rerenderMathJax: function() {
+		// see http://docs.mathjax.org/en/latest/typeset.html
 	}
 
 };

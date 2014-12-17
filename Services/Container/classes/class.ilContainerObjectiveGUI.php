@@ -164,7 +164,10 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
 			if(ilLOUserResults::hasResults($this->getContainerObject()->getId(),$GLOBALS['ilUser']->getId()))
 			{
-				$this->showButton('askReset',$lng->txt('crs_reset_results'));
+				if (!$is_manage && !$is_order)
+				{
+					$this->showButton('askReset',$lng->txt('crs_reset_results'));
+				}
 			}
 		}
 
@@ -257,8 +260,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		$has_initial = ilLOSettings::getInstanceByObjId($this->container_obj->getId())->worksWithInitialTest();				
 		
 		$has_lo_page = false;
+		$obj_cnt = 0;
 		foreach($objective_ids as $objective_id)
-		{	
+		{
 			include_once './Modules/Course/classes/Objectives/class.ilLOUtils.php';
 			if(
 				$has_initial &&
@@ -273,11 +277,21 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			{
 				$lur_data[$objective_id] = array("type"=>ilLOSettings::TYPE_TEST_INITIAL);
 			}
-						
+
 			if($html = $this->renderObjective($objective_id, $has_lo_page, $acc, $lur_data[$objective_id]))
 			{
 				$this->renderer->addItemToBlock('lobj', 'lobj', $objective_id, $html);
 			}
+			$obj_cnt++;
+		}
+
+		// buttons for showing/hiding all objectives
+		if (!$a_is_order && $obj_cnt > 1)
+		{
+			$this->showButton("", $lng->txt("crs_show_all_obj"), "", "crs_show_all_obj_btn");
+			$this->showButton("", $lng->txt("crs_hide_all_obj"), "", "crs_hide_all_obj_btn");
+			$acc->setShowAllElement("crs_show_all_obj_btn");
+			$acc->setHideAllElement("crs_hide_all_obj_btn");
 		}
 		
 		if(!$has_container_page && $has_lo_page)
@@ -1136,14 +1150,14 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 * @param
 	 * @return
 	 */
-	protected function showButton($a_cmd,$a_text,$a_target = '')
+	protected function showButton($a_cmd,$a_text,$a_target = '', $a_id = "")
 	{
 		global $ilToolbar, $ilCtrl;
 		
 		// #11842
-		$ilToolbar->addButton($a_text, 
+		$ilToolbar->addButton($a_text,
 			$ilCtrl->getLinkTarget($this->getContainerGUI(),$a_cmd),
-			$a_target);	
+			$a_target, "", '', $a_id);
 	}
 }
 ?>

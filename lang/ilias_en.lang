@@ -15180,3 +15180,5 @@ content#:#cont_license_info#:#Enables the license feature
 content#:#cont_biblio#:#Bibliographical Data
 content#:#cont_biblio_info#:#Enables the bibliographical data feature
 search#:#search_minimum_info#:#Your search must be at least %s characters long
+crs#:#crs_show_all_obj#:#Expand All
+crs#:#crs_hide_all_obj#:#Collapse All

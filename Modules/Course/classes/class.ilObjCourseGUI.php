@@ -1575,6 +1575,19 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 
 	/**
+	 * show possible sub objects selection list
+	 */
+	function showPossibleSubObjects()
+	{
+		if ($this->object->getViewMode() == ilContainer::VIEW_OBJECTIVE
+			&& !$this->isActiveAdministrationPanel())
+		{
+			return false;
+		}
+		parent::showPossibleSubObjects();
+	}
+
+	/**
 	* remove small icon
 	*
 	* @access	public
