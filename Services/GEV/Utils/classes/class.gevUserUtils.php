@@ -1609,6 +1609,22 @@ class gevUserUtils {
 		return $this->employees;
 	}
 	
+	public function getVenuesWhereUserIsMember() {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$ou_tree = ilObjOrgUnitTree::_getInstance();
+		$ous = $ou_tree->getOrgUnitOfUser($this->user_id, 0, true);
+		$ret = array();
+		foreach ($ous as $ou_id) {
+			$utils = gevOrgUnitUtils::getInstance($ou_id);
+			if (!$utils->isVenue()) {
+				continue;
+			}
+			$ret[] = $ou_id;
+		}
+		return $ret;
+	}
+	
 	// billing info
 	
 	public function getLastBillingDataMaybe() {

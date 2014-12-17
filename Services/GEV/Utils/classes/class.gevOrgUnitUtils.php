@@ -196,8 +196,12 @@ class gevOrgUnitUtils {
 		}
 	}
 	
+	public function isVenue() {
+		return $this->getType() == gevSettings::ORG_TYPE_VENUE;
+	}
+	
 	public function checkIsVenue($a_caller) {
-		if ($this->getType() !== $this->gev_set->get(gevSettings::ORG_TYPE_VENUE)) {
+		if (!$this->isVenue()) {
 			throw new Exception("gevOrgUnitUtils::".$a_caller.": orgunit '".$this->orgu_id."' is no venue.");
 		}
 	}

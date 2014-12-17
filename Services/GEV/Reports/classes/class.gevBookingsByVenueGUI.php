@@ -25,8 +25,23 @@ require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 
 class gevBookingsByVenueGUI extends catBasicReportGUI{
 	public function __construct() {
+		global $ilUser;
 		
 		parent::__construct();
+		
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$user_utils = gevUserUtils::getInstance($ilUser->getId());
+		
+		$venue_names = gevOrgUnitUtils::getVenueNames();
+		if (!$user_utils->isAdmin()) {
+			$venues = $user_utils->getVenuesWhereUserIsMember();
+			foreach($venue_names as $id => $name) {
+				if (!in_array($id, $venues)) {
+					unset($venue_names[$id]);
+				}
+			}
+		}
 
 		$this->title = catTitleGUI::create()
 						->title("gev_rep_bookings_by_venue_title")
@@ -57,8 +72,6 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 						->select("end_date")
 						->select("venue")
 						->from("hist_course crs")
-						->join("crs_acco acco")
-							->on("crs.crs_id = acco.crs_id")
 						->join("object_reference oref")
 							->on("oref.obj_id = crs.crs_id")
 						->join("crs_settings cs")
@@ -84,6 +97,7 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 						->static_condition("crs.venue != '-empty-'")
 						->static_condition("oref.deleted IS NULL")
 						->static_condition("cs.activation_type = 1")
+						->static_condition($this->db->in("venue", $venue_names, false, "text"))
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
