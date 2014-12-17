@@ -173,7 +173,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$form->addItem($cb_prop);
 		
 		// license warning
-		$tx_prop = new ilTextInputGUI($lng->txt("license_warning"),
+		$tx_prop = new ilNumberInputGUI($lng->txt("license_warning"),
 			"license_warning");
 		$tx_prop->setSize(5);
 		$tx_prop->setInfo($lng->txt("license_warning_info"));

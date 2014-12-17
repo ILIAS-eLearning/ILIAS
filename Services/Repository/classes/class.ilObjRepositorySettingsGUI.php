@@ -203,7 +203,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$sdesc->setChecked($ilSetting->get("rep_shorten_description"));
 		$form->addItem($sdesc);
 		
-		$sdesclen = new ilTextInputGUI($this->lng->txt("adm_rep_shorten_description_length"), "rep_shorten_description_length");
+		$sdesclen = new ilNumberInputGUI($this->lng->txt("adm_rep_shorten_description_length"), "rep_shorten_description_length");
 		$sdesclen->setValue($ilSetting->get("rep_shorten_description_length"));
 		$sdesclen->setSize(3);
 		$sdesc->addSubItem($sdesclen);

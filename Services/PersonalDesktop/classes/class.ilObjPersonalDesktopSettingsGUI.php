@@ -186,7 +186,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked($enable_active_users);
 		
 			// maximum inactivity time
-			$ti_prop = new ilTextInputGUI($lng->txt("pd_time_before_removal"),
+			$ti_prop = new ilNumberInputGUI($lng->txt("pd_time_before_removal"),
 				"time_removal");
 			$ti_prop->setValue($pd_set->get("user_activity_time"));
 			$ti_prop->setInfo($lng->txt("pd_time_before_removal_info"));

@@ -108,7 +108,7 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->form->addItem($sh);
 		
 		// max attachment size
-		$ti = new ilTextInputGUI($this->lng->txt('mail_maxsize_attach'), 'mail_maxsize_attach');
+		$ti = new ilNumberInputGUI($this->lng->txt('mail_maxsize_attach'), 'mail_maxsize_attach');
 		$ti->setSuffix($this->lng->txt('kb'));
 		$ti->setInfo($this->lng->txt('mail_max_size_attachments_total'));
 		$ti->setMaxLength(10);

@@ -1322,9 +1322,10 @@ class ilAdvancedMDSettingsGUI
 					$check->setDisabled(true);
 				}
 				
-				$pos = new ilTextInputGUI($this->lng->txt('position'),'position['.$obj_type.']['.$definition_id.']');
-				$pos->setSize(3);
+				$pos = new ilNumberInputGUI($this->lng->txt('position'),'position['.$obj_type.']['.$definition_id.']');
+				$pos->setSize(3);				
 				$pos->setMaxLength(4);
+				$pos->allowDecimals(true);				
 				$pos->setValue(sprintf('%.1f',$counter++));
 				$check->addSubItem($pos);
 				
