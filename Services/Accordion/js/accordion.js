@@ -187,6 +187,7 @@ il.Accordion = {
 
 						// set the currently shown accordion
 						a.last_opened_acc = t;
+						il.Accordion.rerenderMathJax(t);
 
 						a.animating = false;
 					});
@@ -358,6 +359,8 @@ il.Accordion = {
 			// set the currently shown accordion
 			a.last_opened_acc = a.clicked_acc;
 
+			il.Accordion.rerenderMathJax(a.clicked_acc);
+
 			il.Accordion.saveOpenedTabs(a, id);
 
 			a.animating = false;
@@ -378,7 +381,10 @@ il.Accordion = {
 		}
 	},
 
-	rerenderMathJax: function() {
+	rerenderMathJax: function(acc_el) {
+		if (typeof MathJax != "undefined") {
+			MathJax.Hub.Queue(["Reprocess",MathJax.Hub, acc_el[0]]);
+		}
 		// see http://docs.mathjax.org/en/latest/typeset.html
 	}
 
