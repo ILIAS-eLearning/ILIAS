@@ -42,9 +42,6 @@ class ilBookmarkAdministrationTableGUI extends ilTable2GUI
  
 		$this->setFormAction($ilCtrl->getFormAction($a_ref, $hash));
 		$this->setSelectAllCheckbox('bm_id');
-		
-		$this->addCommandButton('newFormBookmark', $lng->txt("bookmark_new"));
-		$this->addCommandButton('newFormBookmarkFolder', $lng->txt("bookmark_folder_new"));
 				
 		$this->addMultiCommand('export', $lng->txt('export'));
 		$this->addMultiCommand('sendmail', $lng->txt('bkm_sendmail'));

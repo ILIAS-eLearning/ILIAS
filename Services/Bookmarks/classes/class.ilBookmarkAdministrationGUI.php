@@ -166,11 +166,18 @@ class ilBookmarkAdministrationGUI
 	*/
 	function view()
 	{		
+		global $ilToolbar;
+		
 		if($this->id > 0 && !$this->tree->isInTree($this->id))
 		{
 			$this->ctrl->setParameter($this, 'bmf_id', '');
 			$this->ctrl->redirect($this);
 		}
+		
+		$ilToolbar->addButton($this->lng->txt("bookmark_new"), 
+			$this->ctrl->getLinkTarget($this, "newFormBookmark"));
+		$ilToolbar->addButton($this->lng->txt("bookmark_folder_new"), 
+			$this->ctrl->getLinkTarget($this, "newFormBookmarkFolder"));
 
 		$objects = ilBookmarkFolder::getObjects($this->id);
 
