@@ -39,6 +39,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 {
 	protected $options;
 	protected $value;
+	protected $container_types = array("root", "cat", "grp", "fold", "crs");
 	
 	/**
 	* Constructor
@@ -51,7 +52,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 		global $lng;
 		
 		parent::__construct($a_title, $a_postvar);
-		$this->setClickableTypes(array("root", "cat", "grp", "fold", "crs"));
+		$this->setClickableTypes($this->container_types);
 		$this->setHeaderMessage($lng->txt('search_area_info'));
 		$this->setType("rep_select");
 		$this->setSelectText($lng->txt("select"));
@@ -182,9 +183,14 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 
 		$exp = new ilRepositorySelectorExplorerGUI($this, "showRepositorySelection",
 			$this, "selectRepositoryItem", "root_id");
-		$exp->setNodeOpen($this->getValue());
-		$exp->setTypeWhiteList($this->getClickableTypes());
-		$exp->setHighlightedNode($this->getValue());
+		$exp->setTypeWhiteList($this->getVisibleTypes());
+		$exp->setClickableTypes($this->getClickableTypes());
+
+		if($this->getValue())
+		{
+			$exp->setPathOpen($this->getValue());
+			$exp->setHighlightedNode($this->getHighlightedNode());
+		}
 
 		if ($exp->handleCommand())
 		{
@@ -302,6 +308,33 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 	{
 		$html = $this->render("table_filter");
 		return $html;
+	}
+
+	/**
+	 * Returns the highlighted object
+	 *
+	 * @return int ref_id (node)
+	 */
+	protected function getHighlightedNode()
+	{
+		global $tree;
+
+		if(!in_array(ilObject::_lookupType($this->getValue(),true), $this->getVisibleTypes()))
+		{
+			return $tree->getParentId($this->getValue());
+		}
+
+		return $this->getValue();
+	}
+
+	/**
+	 * returns all visible types like container and clickable types
+	 *
+	 * @return array
+	 */
+	protected function getVisibleTypes()
+	{
+		return array_merge((array)$this->container_types, (array)$this->getClickableTypes());
 	}
 
 }

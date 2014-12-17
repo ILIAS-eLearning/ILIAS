@@ -69,45 +69,12 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 		if(!parent::isNodeClickable($a_node))
 			return false;
 
-		//has node a clickable type?
-		if(count($this->getClickableTypes())>0)
-		{
-			if(!in_array($a_node["type"], $this->getClickableTypes()))
-			{
-				return false;
-			}
-		}
-
 		if($a_node["child"] == $this->getRefId())
 		{
 			return false;
 		}
 
 		return true;
-	}
-
-	/**
-	 * set Whitelist for clickable items
-	 *
-	 * @param array/string $a_types array type
-	 */
-	function setClickableTypes($a_types)
-	{
-		if(!is_array($a_types))
-		{
-			$a_types = array($a_types);
-		}
-		$this->clickable_types = $a_types;
-	}
-
-	/**
-	 * get whitelist for clickable items
-	 *
-	 * @return array types
-	 */
-	function getClickableTypes()
-	{
-		return (array)$this->clickable_types;
 	}
 
 	/**

@@ -75,47 +75,4 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
 		else
 			return false;
 	}
-
-	/**
-	 * Is node clickable?
-	 *
-	 * @param array $a_node node data
-	 * @return boolean node clickable true/false
-	 */
-	function isNodeClickable($a_node)
-	{
-		if(!parent::isNodeClickable($a_node))
-			return false;
-
-		if(count($this->getClickableTypes())>0)
-		{
-			return in_array($a_node["type"], $this->getClickableTypes());
-		}
-
-		return true;
-	}
-
-	/**
-	 * set Whitelist for clickable items
-	 *
-	 * @param array/string $a_types array type
-	 */
-	function setClickableTypes($a_types)
-	{
-		if(!is_array($a_types))
-		{
-			$a_types = array($a_types);
-		}
-		$this->clickable_types = $a_types;
-	}
-
-	/**
-	 * get whitelist for clickable items
-	 *
-	 * @return array types
-	 */
-	function getClickableTypes()
-	{
-		return (array)$this->clickable_types;
-	}
 }
