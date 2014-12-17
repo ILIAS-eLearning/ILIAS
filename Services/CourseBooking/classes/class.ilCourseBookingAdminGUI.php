@@ -787,6 +787,8 @@ class ilCourseBookingAdminGUI
 		
 		
 		// see ilObjCourseGUI::assignMembers()
+		include_once "./Services/CourseBooking/classes/class.ilCourseBookingHelper.php";	
+		$helper = ilCourseBookingHelper::getInstance($this->getCourse());
 		
 		include_once "./Modules/Forum/classes/class.ilForumNotification.php";				
 		$bookings = ilCourseBookings::getInstance($this->getCourse());		
@@ -798,6 +800,11 @@ class ilCourseBookingAdminGUI
 			if(!ilObjectFactory::getInstanceByObjId($user_id, false))
 			{								
 				continue;				
+			}
+			
+			if(!$helper->isBookable($user_id))
+			{
+				continue;
 			}
 			
 			/* #29
