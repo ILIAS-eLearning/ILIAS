@@ -7521,10 +7521,7 @@ select.form-control {
   color: #4d4d4d;
   font-size: 100%;
 }
-.form-horizontal .control-label {
-  padding-top: 0;
-}
-.form-horizontal .control-label.col-sm-3.textarea {
+.form-horizontal .control-label.col-sm-3.il_textarea {
   text-align: left;
   width: 100%;
 }
@@ -7580,7 +7577,7 @@ td.form-inline > div.form-group {
 .ilSubForm .form-group {
   margin: 0;
 }
-.ilSubForm .col-sm-9.textarea {
+.ilSubForm .col-sm-9.il_textarea {
   width: 100%;
 }
 .ilFormFooter {
@@ -8973,7 +8970,7 @@ legend.ilTableFilter {
   font-size: 80%;
   border: none;
   padding: 2px 5px;
-  margin: -12px 0 0;
+  margin: -15px 0 0;
   font-weight: normal;
 }
 fieldset.ilTableFilter {
