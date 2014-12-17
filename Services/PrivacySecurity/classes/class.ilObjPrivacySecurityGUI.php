@@ -146,9 +146,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 	include_once('Services/Membership/classes/class.ilMemberAgreement.php');
 	 	if(ilMemberAgreement::_hasAgreements())
 	 	{
-			$html = new ilNonEditableValueGUI();
-			$html->setValue($this->lng->txt('ps_warning_modify'));
-			$form->addItem($html);
+			ilUtil::sendInfo($this->lng->txt('ps_warning_modify'));
 	 	}
 
 		$value = array();

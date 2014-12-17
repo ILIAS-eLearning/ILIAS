@@ -1,21 +1,23 @@
-<div class="il_Block">
-<p>{CAPTION_CURRENT}: {VALUE_CURRENT}</p>
-<p>{CAPTION_LAST_AGGR}: {VALUE_LAST_AGGR}</p>
-<p>{CAPTION_LAST_MAX}: {VALUE_LAST_MAX}</p>
-<p>{CAPTION_SESSION_CONTROL}: {VALUE_SESSION_CONTROL}</p>
-<!-- BEGIN control_details -->
-<ul style="margin:0px; margin-bottom: 10px;">
-	<li>{CAPTION_SESSION_CONTROL_LIMIT}: {VALUE_SESSION_CONTROL_LIMIT}</li>
-	<li>{CAPTION_SESSION_CONTROL_IDLE_MIN}: {VALUE_SESSION_CONTROL_IDLE_MIN}</li>
-	<li>{CAPTION_SESSION_CONTROL_IDLE_MAX}: {VALUE_SESSION_CONTROL_IDLE_MAX}</li>
-	<li>{CAPTION_SESSION_CONTROL_IDLE_FIRST}: {VALUE_SESSION_CONTROL_IDLE_FIRST}</li>
-</ul>
-<!-- END control_details -->
-<!-- BEGIN sync -->
-<div class="ilBlockInfo">
-<form action="{URL_SYNC}" method="POST">
-<input type="submit" class="btn btn-default" value="{TXT_SYNC}" name="cmd[{CMD_SYNC}]" />
-</form>
-</div>
-<!-- END sync -->
+<div class="panel panel-default">
+	<div class="panel-body">
+		<p>{CAPTION_CURRENT}: {VALUE_CURRENT}</p>
+		<p>{CAPTION_LAST_AGGR}: {VALUE_LAST_AGGR}</p>
+		<p>{CAPTION_LAST_MAX}: {VALUE_LAST_MAX}</p>
+		<p>{CAPTION_SESSION_CONTROL}: {VALUE_SESSION_CONTROL}</p>
+		<!-- BEGIN control_details -->
+		<ul style="margin:0px; margin-bottom: 10px;">
+			<li>{CAPTION_SESSION_CONTROL_LIMIT}: {VALUE_SESSION_CONTROL_LIMIT}</li>
+			<li>{CAPTION_SESSION_CONTROL_IDLE_MIN}: {VALUE_SESSION_CONTROL_IDLE_MIN}</li>
+			<li>{CAPTION_SESSION_CONTROL_IDLE_MAX}: {VALUE_SESSION_CONTROL_IDLE_MAX}</li>
+			<li>{CAPTION_SESSION_CONTROL_IDLE_FIRST}: {VALUE_SESSION_CONTROL_IDLE_FIRST}</li>
+		</ul>
+		<!-- END control_details -->
+	</div>
+	<!-- BEGIN sync -->
+	<div class="panel-footer">
+		<form action="{URL_SYNC}" method="POST">
+		<input type="submit" class="btn btn-default" value="{TXT_SYNC}" name="cmd[{CMD_SYNC}]" />
+		</form>
+	</div>
+	<!-- END sync -->
 </div>
