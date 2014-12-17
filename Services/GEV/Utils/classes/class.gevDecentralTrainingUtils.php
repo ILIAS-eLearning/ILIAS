@@ -238,7 +238,9 @@ class gevDecentralTrainingUtils {
 						, $rolf->getRefId(), $creator_role->getId());
 			$ops = $this->rbacreview->getOperationsOfRole($creator_role->getId(), "crs", $rolf->getRefId());
 			$this->rbacadmin->grantPermission($creator_role->getId(), $ops, $trgt_ref_id);
-			$this->rbacadmin->assignUser($creator_role->getId(), $a_user_id);
+			if (!in_array($a_user_id,$a_trainer_ids)) {
+				$this->rbacadmin->assignUser($creator_role->getId(), $a_user_id);
+			}
 		}
 		else {
 			throw new Exception( "gevDecentralTrainingUtils::create: Roletemplate '"
