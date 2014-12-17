@@ -205,7 +205,10 @@ class ilPersonalOrgUnits {
 	*/
 	public function assignEmployee($a_superior_id, $a_employee_id){
 		$orgu = $this->getPersonalOrguBySuperiorId($a_superior_id);
-		$this->errorIfNull($orgu, 'assignEmployee', $a_superior_id);
+		if ($orgu === null) {
+			$this->createOrgUnitFor($a_superior_id);
+			$orgu = $this->getPersonalOrguBySuperiorId($a_superior_id);
+		}
 		$orgu->assignUsersToEmployeeRole(array($a_employee_id));
 	} 
 

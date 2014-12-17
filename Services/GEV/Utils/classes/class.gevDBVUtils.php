@@ -11,7 +11,7 @@
 */
 
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
-require_once("Modules/OrgUnit/PersonalOrgUnit/class.ilPersonalOrgUnits.php");
+require_once("Modules/OrgUnit/classes/PersonalOrgUnit/class.ilPersonalOrgUnits.php");
 
 class gevDBVUtils {
 	static $instance;
@@ -22,11 +22,11 @@ class gevDBVUtils {
 		$this->ilias = &$ilias;
 		$this->log = &$ilLog;
 		
-		$gev_settings = gevSettings::getInstance();
+		$this->gev_settings = gevSettings::getInstance();
 
 		$this->pou = ilPersonalOrgUnits::getInstance(
-			$gev_settings->getDBVPOUBaseUnitId(),
-			$gev_settings->getDBVPOUTemplateUnitId()
+			$this->gev_settings->getDBVPOUBaseUnitId(),
+			$this->gev_settings->getDBVPOUTemplateUnitId()
 			);
 	}
 	
@@ -66,65 +66,79 @@ class gevDBVUtils {
 	*
 	*/
 	public function assignUserToDBVsByShadowDB($a_user_id){
-		global $ilClientIniFile;
-	 	$dbhost = $ilClientIniFile->readVariable('shadowdb', 'host');
-		$dbuser = $ilClientIniFile->readVariable('shadowdb', 'user');
-		$dbpass = $ilClientIniFile->readVariable('shadowdb', 'pass');
-		$dbname = $ilClientIniFile->readVariable('shadowdb', 'name');
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		
+		global $ilClientIniFile, $ilDB;
+		
+		$utils = gevUserUtils::getInstance($a_user_id);
+		
+		$job_number = $utils->getJobNumber();
+		
+		if (!$job_number) {
+			return;
+		}
+		
+		$host = $ilClientIniFile->readVariable('shadowdb', 'host');
+		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
+		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
+		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
 
-		$mysql = mysql_connect($host, $user, $pass) or die(mysql_error());
+		$mysql = mysql_connect($host, $user, $pass);
+		
+		if (!$mysql) {
+			throw new Exception("gevDBVUtils::assignUserToDBVsByShadowDB: Can't connect to shadow db.");
+		}
+		
 		mysql_select_db($name, $mysql);
 		mysql_set_charset('utf8', $mysql);
 
-		$shdowDB = $mysql;
- 	
-	 	//get DBVs
-	 	$sql= "SELECT "
-	 		." sql_dbaf_id,"
-	 		." sql_dbbav_id,"
-	 		." sql_dbvg_id,"
-	 		." sql_dbatv_id"
+		//get DBVs
+		$sql= "SELECT "
+			." ou.dbaf,"
+			." ou.dbbav,"
+			." ou.dbvg,"
+			." ou.dbatv"
+			." FROM ivimport_orgunit ou "
+			." INNER JOIN ivimport_stelle stelle "
+			."         ON ou.id = stelle.sql_org_unit_id "
+			."        AND stelle.stellennummer = '".$job_number."' "
+			;
 
-	 	." FROM ivimport_adp"
-
- 		." INNER JOIN ivimport_stelle ON"
-		." 	ivimport_adp.sql_stelle_id=ivimport_stelle.id"
-
-		." INNER JOIN ivimport_orgunit ON"
-		." 	ivimport_stelle.sql_org_unit_id=ivimport_orgunit.id"
-
-		." WHERE ivimport_adp.ilias_id=" .$a_user_id;
-
-		$result = mysql_query($sql, $shdowDB);
+		$result = mysql_query($sql, $mysql);
 		$record = mysql_fetch_assoc($result);
 
+		if (!$record) {
+			return;
+		}
 
-		//get ilUsers for DBVs
-		$sql = "SELECT ilias_id FROM ivimport_adp"
-			." INNER JOIN ivimport_stelle ON"
-			." ivimport_adp.id = ivimport_stelle.sql_adp_id"
-			." WHERE ivimport_stelle.id IN "
-			."(" 
-			.implode(',', array_values($record))
-			.")";
+		$job_number_field_id = $this->gev_settings->getUDFFieldId(gevSettings::USR_UDF_JOB_NUMMER);
 
 		$assigned = false;
-		$result = mysql_query($sql, $shdowDB);
-		while($record = mysql_fetch_assoc($result)) {
-			//assign user
-			$superior_id = $record['ilias_id'];
-			$this->pou->assignEmployee($superior_id, $a_user_id);
-			$assigned = true;
+		foreach($record as $key => $dbv_job_number) {
+			if (!$dbv_job_number) {
+				continue;
+			}
+			$res = $this->db->query( "SELECT usr_id FROM udf_text "
+									."WHERE field_id = ".$this->db->quote($job_number_field_id, "integer")
+									."  AND value = ".$this->db->quote($dbv_job_number, "text")
+									);
+			// There might be many people having the job number, i'll take
+			// rather all of them then dying or only the first one. 
+			while($rec = $this->db->fetchAssoc($res)) {
+				$this->pou->assignEmployee($rec["usr_id"], $a_user_id);
+				$assigned = true;
+			}
 		}
-		
+
 		if (!$assigned) {
 			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-			$cpool_id = gevSettings::getInstance()->getCPoolUnitId();
+			$cpool_id = $this->gev_settings->getCPoolUnitId();
 			if (!$cpool_id) {
 				throw new Exception("gevDBVUtils::assignUserToDBVsByShadowDB: No CPool-Org-Unit set.");
 			}
 			gevOrgUnitUtils::getInstance($cpool_id)->assignUser($a_user_id, "Mitarbeiter");
 		}
+		die();
 	}
 
 

@@ -215,8 +215,8 @@ class gevRegistrationGUI {
 		$user_utils->setADPNumber($data["adp"]);
 		$user_utils->setJobNumber($stellennummer);
 		$user_utils->setAgentKey($data["vms"]);
-		$user_utils->setCompanyTitle($data["gesellschaftstitel"]);
-		$user_utils->setHPE($data["hpe"]);
+		//$user_utils->setCompanyTitle($data["gesellschaftstitel"]);
+		//$user_utils->setHPE($data["hpe"]);
 		
 		$role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][0];
 		$role_utils = gevRoleUtils::getInstance();
@@ -233,11 +233,11 @@ class gevRegistrationGUI {
 		$org_unit_utils->assignUser($user_id, $org_role_title);*/
 		
 		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
+		gevDBVUtils::getInstance()->assignUserToDBVsByShadowDB($user->getId());
 		
 		//$user = new ilObjUser($user_id);
 		$user->setActive(true, 6);
 		$user->update();
-
 		
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		$title = new catTitleGUI("gev_agent_registration", null, "GEV_img/ico-head-evg_registration.png");
