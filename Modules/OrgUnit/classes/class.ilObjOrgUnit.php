@@ -334,7 +334,7 @@ class ilObjOrgUnit extends ilContainer {
 	}
 
 	public function initDefaultRoles(){
-		global $rbacadmin,$rbacreview, $ilAppEventHandler;
+		global $rbacadmin,$rbacreview, $ilAppEventHandler, $ilDB;
 
 		$rolf_obj = $this->createRoleFolder();
 
@@ -360,7 +360,7 @@ class ilObjOrgUnit extends ilContainer {
 		$query = "SELECT obj_id FROM object_data ".
 			" WHERE type='rolt' AND title='il_orgu_superior'";
 
-		$res = $this->ilias->db->getRow($query, DB_FETCHMODE_OBJECT);
+		$res = $ilDB->getRow($query, DB_FETCHMODE_OBJECT);
 		$rbacadmin->copyRoleTemplatePermissions($res->obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
 
 		// SET OBJECT PERMISSIONS OF COURSE OBJECT

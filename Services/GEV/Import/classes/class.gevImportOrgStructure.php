@@ -104,11 +104,10 @@ class gevImportOrgStructure {
 		//ilTree.insertNode, find the parent id
 		if($rec['parent'] == 'root'){
 			$parent = $orgu->getRootOrgRefId();
-
 		}else{
 			//get title from shadowDB
 			$parent_id = $rec['parent'];
-			$sql = "SELECT title FROM interimOrgUnits WHERE id='$parent_id'";
+			$sql = "SELECT ilid FROM interimOrgUnits WHERE id='$parent_id'";
 
 			$result = mysql_query($sql, $this->shadowDB);
 			$record = mysql_fetch_assoc($result);
@@ -120,13 +119,14 @@ class gevImportOrgStructure {
 			//get refId from object_reference via object_data.title
 			$sql = "SELECT oref.ref_id FROM object_data od"
 					." INNER JOIN object_reference oref ON od.obj_id = oref.obj_id AND oref.deleted IS NULL"
-					." WHERE od.type='orgu' AND od.title=" .$this->db->quote($record['title'], 'text');
+					." WHERE od.type='orgu' AND od.obj_id=" .$this->db->quote($record['ilid'], 'integer');
 			$result = $this->db->query($sql);
 			$record = $this->db->fetchAssoc($result);
 			$parent = $record['ref_id'];
 		}
-
+		
 		$orgu->putInTree($parent);
+		$orgu->initDefaultRoles();
 
 		$orgutils->setType(gevSettings::ORG_TYPE_DEFAULT);
 		$orgutils->setZipcode($this->notEmptyString($rec['zip']));

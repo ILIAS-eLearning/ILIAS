@@ -2553,6 +2553,7 @@ if(!$ilDB->tableExists('hist_tep'))
 	ilCustomInstaller::maybeInitTree();
 	ilCustomInstaller::maybeInitRBAC();
 	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
 	
 	ini_set('max_execution_time', 0);
 	set_time_limit(0);
