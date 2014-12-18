@@ -304,7 +304,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 				$tpl->setCurrentBlock('multiline');
 				if($this->disable_text)
 				{
-					$tpl->setVariable("DISABLED_MULTILINE", " disabled=\"disabled\"");
+					$tpl->setVariable("DISABLED_MULTILINE", 'readonly="readonly"');
 				}
 
 				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getAnswertext()));
