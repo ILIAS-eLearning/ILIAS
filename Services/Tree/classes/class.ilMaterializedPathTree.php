@@ -83,6 +83,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	{
 		if($a_node_a['child'] == $a_node_b['child'])
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': EQUALS');
 			return ilTree::RELATION_EQUALS;
 		}
 		if(stristr($a_node_a['path'], $a_node_b['path']))
