@@ -408,8 +408,7 @@ class ilObjPollGUI extends ilObject2GUI
 		$form = $this->initQuestionForm();
 		if($form->checkInput())
 		{			
-			$this->object->setQuestion($form->getInput("question"));
-			$this->object->setMaxNumberOfAnswers($form->getInput("nanswers"));
+			$this->object->setQuestion($form->getInput("question"));			
 			$this->object->setNonAnonymous($form->getInput("mode"));
 						
 			$image = $form->getItemByPostVar("image");				
@@ -422,7 +421,10 @@ class ilObjPollGUI extends ilObject2GUI
 				$this->object->deleteImage();
 			}
 			 
-			$this->object->saveAnswers($form->getInput("answers"));
+			$nr_of_anwers = $this->object->saveAnswers($form->getInput("answers"));
+			
+			// #15073
+			$this->object->setMaxNumberOfAnswers(min($form->getInput("nanswers"), $nr_of_anwers));
 			
 			if($this->object->update())
 			{

@@ -699,6 +699,8 @@ class ilObjPoll extends ilObject2
 		{
 			$this->updateAnswerPositions($ids);
 		}
+		
+		return sizeof($ids);
 	}
 	
 	
