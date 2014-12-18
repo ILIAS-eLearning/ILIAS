@@ -208,6 +208,14 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 		$val = str_replace('</nobr>', '', $val);
 		return $val;
 	}
+	
+	protected function _process_xls_header($val) {
+		if ($val == "&euro;") {
+			return "€";
+		}
+		
+		return $val;
+	}
 }
 
 ?>

@@ -244,7 +244,12 @@ class catBasicReportGUI {
 				continue;
 			}
 			$worksheet->setColumn($colcount, $colcount, 30); //width
-			$worksheet->writeString(0, $colcount, $col[2] ? $col[1] : $this->lng->txt($col[1]), $format_bold);
+			if (method_exists($this, "_process_xls_header") && $col[2]) {
+				$worksheet->writeString(0, $colcount, $this->_process_xls_header($col[1]), $format_bold);
+			}
+			else {
+				$worksheet->writeString(0, $colcount, $col[2] ? $col[1] : $this->lng->txt($col[1]), $format_bold);
+			}
 			$colcount++;
 		}
 
