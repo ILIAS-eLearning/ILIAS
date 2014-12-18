@@ -340,8 +340,6 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 			$rec["link_close"] = "";
 		}
 		
-		print_r($rec);
-		
 		foreach ($rec as $key => $value) {
 			if ($value == '-empty-' || $value == -1) {
 				$rec[$key] = $no_entry;
