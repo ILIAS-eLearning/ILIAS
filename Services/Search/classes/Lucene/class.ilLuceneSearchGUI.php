@@ -554,7 +554,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		{
 			$this->tpl->setCurrentBlock("type_sel");
 			$this->tpl->setVariable('TXT_TYPE_DEFAULT',$lng->txt("search_off"));
-			$this->tpl->setVariable("ARR_IMGT", ilUtil::img(ilUtil::getImagePath("mm_down_arrow_dark.png")));
+			$this->tpl->setVariable("ARR_IMGT", ilGlyphGUI::get(ilGlyphGUI::CARET));
 			$this->tpl->setVariable("TXT_FILTER_BY_TYPE", $lng->txt("search_filter_by_type"));
 			$this->tpl->setVariable('FORM',$this->form->getHTML());
 			$this->tpl->parseCurrentBlock();
