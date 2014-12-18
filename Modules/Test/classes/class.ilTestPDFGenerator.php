@@ -33,12 +33,16 @@ class ilTestPDFGenerator
 			return $html;
 		}
 
-		$script_elements     = $dom->getElementsByTagName('script');
-		$num_script_elements = $script_elements->length;
+		$invalid_elements = array();
 
-		for($i = 0; $i < $num_script_elements; $i++)
+		$script_elements     = $dom->getElementsByTagName('script');
+		foreach($script_elements as $elm)
 		{
-			$elm = $script_elements->item($i);
+			$invalid_elements[] = $elm;
+		}
+
+		foreach($invalid_elements as $elm)
+		{
 			$elm->parentNode->removeChild($elm);
 		}
 
