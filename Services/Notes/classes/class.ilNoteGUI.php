@@ -849,12 +849,16 @@ if ($this->private_enabled && $this->public_enabled
 				
 			case "ntsdel":
 				$mtype = "success";
-				$mtxt = $lng->txt("notes_notes_deleted");
+				$mtxt = ($a_type == IL_NOTE_PRIVATE) 
+					? $lng->txt("notes_notes_deleted")
+					: $lng->txt("notes_comments_deleted");
 				break;
 
 			case "ntdel":
 				$mtype = "success";
-				$mtxt = $lng->txt("notes_note_deleted");
+				$mtxt = ($a_type == IL_NOTE_PRIVATE) 
+					? $lng->txt("notes_note_deleted")
+					: $lng->txt("notes_comment_deleted");
 				break;
 				
 			case "frmfld":

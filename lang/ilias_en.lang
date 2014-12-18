@@ -15183,3 +15183,5 @@ crs#:#crs_loc_tst_assignment#:#Test Assignment
 search#:#search_minimum_info#:#Your search must be at least %s characters long
 crs#:#crs_show_all_obj#:#Expand All
 crs#:#crs_hide_all_obj#:#Collapse All
+notes#:#notes_comment_deleted#:#The comment has been deleted.
+notes#:#notes_comments_deleted#:#The comments have been deleted.
