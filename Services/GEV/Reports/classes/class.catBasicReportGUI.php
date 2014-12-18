@@ -56,6 +56,7 @@ class catBasicReportGUI {
 		switch ($cmd) {
 			case "exportxls":
 				$this->exportXLS();
+				exit();
 				//no "break;" !
 			default:
 				return $this->render();

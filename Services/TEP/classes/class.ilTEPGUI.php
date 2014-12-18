@@ -286,6 +286,7 @@ class ilTEPGUI
 		if($view->loadData())
 		{
 			$view->exportXLS();
+			exit();
 		}
 
 		$ilCtrl->redirect($this, "view");
