@@ -18,7 +18,6 @@ class gevNAUtils {
 	protected function __construct() {
 		global $ilDB, $ilias, $ilLog;
 		$this->db = &$ilDB;
-		$this->ilias = &$ilias;
 		$this->log = &$ilLog;
 		
 		$this->gev_settings = gevSettings::getInstance();
@@ -89,6 +88,49 @@ class gevNAUtils {
 	 */
 	public function getNAsOf($a_adviser_id) {
 		return $this->pou->getEmployeesOf();
+	}
+	
+	
+	/**
+	 * Sucht einen ILIAS-Benutzer, der zur Eingabe passt. Durchsucht werden
+	 * Login sowie Vorname und Nachname aller Benutzer.
+	 *
+	 * Durchsucht zuerst das Feld login, um eine eindeutige Möglichkeit zu haben,
+	 * den Betreuer einzugeben.
+	 *
+	 * Gibt null zurück, wenn keiner oder viele Benutzer gefunden werden, die
+	 * zur Eingabe passen. Gibt ansonsten die ILIAS-Id des gefundenen Benutzers
+	 * zurück.
+	 */
+	public function searchAdviser($a_search) {
+		$res = $this->db->query(
+			 "SELECT usr_id "
+			."  FROM usr_data"
+			." WHERE login = ".$this->db->quote($a_search, "text")
+			);
+		
+		if ($this->db->numRows($res) === 1) {
+			$rec = $this->db->fetchAssoc($res);
+			return $rec["usr_id"];
+		}
+		
+		$spl = explode(" ", $a_search);
+		foreach($spl as $key => $value) {
+			$search = $this->db->quote("%".trim($value)."%", "text");
+			$spl[$key] = "( firstname LIKE ".$search." OR lastname LIKE ".$search." )";
+		}
+		$res = $this->db->query(
+				 "SELECT usr_id"
+				."  FROM usr_data"
+				." WHERE ".implode(" AND ", $spl)
+				);
+
+		if ($this->db->numRows($res) === 1) {
+			$rec = $this->db->fetchAssoc($res);
+			return $rec["usr_id"];
+		}
+		
+		return null;
 	}
 }
 
