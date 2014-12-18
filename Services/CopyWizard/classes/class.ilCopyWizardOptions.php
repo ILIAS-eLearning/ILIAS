@@ -482,6 +482,19 @@ class ilCopyWizardOptions
 			'options'	=> array('clob',serialize($mappings))
 		));
 		
+		// gev-patch start
+		// Keep info about which source objects where copied to which target.
+		// I need this information in ilGEVCourseCreationPlugin. This seems to
+		// be the correct location to not lose any required information.
+		$ilDB->manipulate("INSERT INTO copy_mappings (target_ref_id, source_ref_id) "
+						 ."VALUES (".$ilDB->quote($a_target_id, "integer")
+						 ."       ,".$ilDB->quote($a_source_id, "integer")
+						 ."       )"
+						 ." ON DUPLICATE KEY UPDATE "
+						 ."       source_ref_id = ".$ilDB->quote($a_source_id, "integer")
+						 );
+		// gev-patch end
+		
 		return true;				
 	}
 	

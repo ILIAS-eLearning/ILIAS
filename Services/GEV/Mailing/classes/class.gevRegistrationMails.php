@@ -13,8 +13,7 @@ require_once("Services/Mailing/classes/class.ilMailLog.php");
 class gevRegistrationMails extends ilAutoMails {
 	public function __construct($a_link, $a_token) {
 		$this->mail_data = array(
-		  "evg_activation" 		=> "gevEVGActivationMail"
-		, "agent_activation"	=> "gevAgentActivationMail"
+		  "agent_activation"	=> "gevAgentActivationMail"
 		);
 		$this->token = $a_token;
 		$this->link = $a_link;
@@ -28,7 +27,7 @@ class gevRegistrationMails extends ilAutoMails {
 	}
 
 	public function getTitle() {
-		return "Registrierungsmails";
+		return "Maklerregistrierungsmails";
 	}
 
 	public function getSubtitle() {

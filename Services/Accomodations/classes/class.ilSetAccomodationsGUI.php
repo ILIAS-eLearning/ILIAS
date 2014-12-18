@@ -391,6 +391,7 @@ class ilSetAccomodationsGUI
 	
 		$user_nights = array();
 
+		// gev-patch start
 		if (!$a_fill_default) {
 			foreach($accomodations->getAccomodationsOfUser($a_user_id) as $night)
 			{
@@ -401,11 +402,19 @@ class ilSetAccomodationsGUI
 			$start = $accomodations->getCourseStart();
 			$start->increment(ilDateTime::DAY, -1);
 			$end = $accomodations->getCourseEnd();
+			
+			// #828
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+			if (gevUserUtils::getInstance($a_user_id)->showPrearrivalNoteInBooking()) {
+				$start->increment(IL_CAL_DAY, 1);
+			}
+			
 			while (ilDate::_before($start, $end)) {
 				$user_nights[] = $start->get(IL_CAL_DATE);
 				$start->increment(IL_CAL_DAY, 1);
 			}
 		}
+		// gev-patch end
 		
 		require_once "Services/Accomodations/classes/class.ilAccomodationsPeriodInputGUI.php";
 		$nights = new ilAccomodationsPeriodInputGUI($lng->txt("acco_accomodations"), $a_field_name);

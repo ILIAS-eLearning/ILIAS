@@ -67,6 +67,8 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 							->on("usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0")
 						->join("hist_course crs")
 							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
+						->join("object_reference oref")
+							->on("crs.crs_id = oref.obj_id AND oref.deleted IS NULL")
 						->compile()
 						;
 
@@ -90,6 +92,14 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 				return null;
 		}
 	}
+	
+	protected function renderView() {
+		if (count($this->getData()) == 0) {
+			return $this->lng->txt("gev_no_employee_bookings");
+		}
+		return parent::renderView();
+	}
+
 
 	protected function transformResultRow($rec) {
 		//date
@@ -130,7 +140,7 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 		$this->loadCourseAndTargetUserId();
 		$this->checkIfUserIsAllowedToCancelCourseForOtherUser();
 		
-		$o_status = $this->crs_utils->getBookingStatusOf($this->target_user);
+		$o_status = $this->crs_utils->getBookingStatusOf($this->target_user_id);
 		
 		if (!$this->crs_utils->cancelBookingOf($this->target_user_id)) {
 			$this->log->write("gevEmployeeBookingsGUI::finalizeCancellation: ".
@@ -139,7 +149,7 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 			return $this->render();
 		}
 		
-		$n_status = $this->crs_utils->getBookingStatusOf($this->target_user);
+		$n_status = $this->crs_utils->getBookingStatusOf($this->target_user_id);
 		
 		if (!in_array($n_status, array(ilCourseBooking::STATUS_CANCELLED_WITH_COSTS
 									  , ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS))) {
@@ -160,8 +170,8 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 		$automails = new gevCrsAutoMails($this->crs_id);
 		
-		if ($o_status === ilCourseBooking::STATUS_BOOKED) {
-			if ($n_status === ilCourseBooking::STATUS_CANCELLED_WITH_COSTS) {
+		if ($o_status == ilCourseBooking::STATUS_BOOKED) {
+			if ($n_status == ilCourseBooking::STATUS_CANCELLED_WITH_COSTS) {
 				$automails->send("superior_cancel_booked_to_cancelled_with_costs"
 								, array($this->target_user_id));
 			}
@@ -196,6 +206,14 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 	protected function _process_xls_date($val) {
 		$val = str_replace('<nobr>', '', $val);
 		$val = str_replace('</nobr>', '', $val);
+		return $val;
+	}
+	
+	protected function _process_xls_header($val) {
+		if ($val == "&euro;") {
+			return "€";
+		}
+		
 		return $val;
 	}
 }

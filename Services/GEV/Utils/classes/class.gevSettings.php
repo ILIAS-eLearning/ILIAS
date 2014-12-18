@@ -184,6 +184,15 @@ class gevSettings {
 	const USR_UDF_AD_TITLE			= "usr_udf_ad_title";
 	// Vermittlerschlüssel
 	const USR_UDF_AGENT_KEY			= "usr_udf_agent_key";
+	
+
+	//Stellungsschlüssel VFS
+	const USR_UDF_AGENT_KEY_VFS		= "usr_udf_agent_key_vfs";
+	//Stellung VFS	
+	const USR_UDF_AGENT_POSITION_VFS= "usr_udf_agent_position_vfs";
+
+
+	
 	// Gesellschaftstitel
 	const USR_UDF_COMPANY_TITLE		= "usr_udf_company_title"; //deprecated
 
@@ -192,6 +201,7 @@ class gevSettings {
 	//Kostenstelle VFS
 	const USR_UDF_FINANCIAL_ACCOUNT	= "usr_udf_financial_account";
 	
+
 
 	
 	// private Kontaktdaten, für geschäftliche Kontaktdaten werden
@@ -237,45 +247,81 @@ class gevSettings {
 
 
 
+	static $UDF_FIELD_ORDER = array(
+		'Emailadresse (privat)'
+		,'Geburtsname'
+		,'Geburtsort'
+		,'Straße (privat)'
+		,'Postleitzahl (privat)'
+		,'Ort (privat)'
+
+		,'ADP-Nummer VFS'
+		,'ADP-Nummer GEV'
+		
+		,'Vermittlernummer GEV'
+		,'Vermittlerschlüssel GEV'
+
+		,'Stellungsschlüssel VFS'
+		,'Stellung VFS'
+				
+		,'Paisy-Personalnummer VFS'
+		,'Kostenstelle VFS'
+		
+		,'AD-Titel'
+		,'Eintrittsdatum'
+		,'Austrittsdatum'
+		,'IHK Registernummer'
+		
+		,'Hat WBD-Registrierung durchgeführt'
+		,'TP-Typ'
+		,'Zuweisung WBD OKZ'
+		,'Zuweisung WBD Vermittlerstatus'
+		,'BWV-ID'
+		,'Beginn erste Zertifizierungsperiode'
+		,'Email WBD'
+		
+	);
+
+
 	// Role mapping
 	static $VMS_ROLE_MAPPING = array(
-		601 => array("DBV/VL-EVG",       "DBV"),
-		602 => array("NA",               "Mitarbeiter"),
-		603 => array("BA",               "Mitarbeiter"),
-		604 => array("BA",               "Mitarbeiter"),
-		606 => array("BA",               "Mitarbeiter"),
-		607 => array("BA",               "Mitarbeiter"),
-		608 => array("VP",               "Mitarbeiter"),
-		609 => array("OD/LD/BD/VD/VTWL", "Vorgesetzter"),
-		610 => array("DBV/VL-EVG",       "DBV"),
-		613 => array("DBV-UVG",          "DBV"),
-		614 => array("DBV/VL-EVG",       "DBV"),
-		615 => array("DBV-UVG",          "DBV"),
-		616 => array("DBV-UVG",          "DBV"),
-		617 => array("DBV/VL-EVG",       "DBV"),
-		618 => array("DBV/VL-EVG",       "DBV"),
-		620 => array("DBV/VL-EVG",       "DBV"),
-		625 => array("OD/LD/BD/VD/VTWL", "Vorgesetzter"),
-		628 => array("HA",               "Vorgesetzter"),
-		630 => array("HA",               "Vorgesetzter"),
-		632 => array("HA",               "Vorgesetzter"),
-		633 => array("HA",               "Vorgesetzter"),
-		634 => array("AVL",              "Vorgesetzter"),
-		649 => array("OD/LD/BD/VD/VTWL", "Vorgesetzter"),
-		650 => array("VP",               "Mitarbeiter"),
-		651 => array("VP",               "Mitarbeiter"),
-		653 => array("NA",               "Mitarbeiter"),
-		655 => array("NA",               "Mitarbeiter"),
-		657 => array("NA",               "Mitarbeiter"),
-		661 => array("NA",               "Mitarbeiter"),
-		664 => array("NA",               "Mitarbeiter"),
-		671 => array("OD/LD/BD/VD/VTWL", "Vorgesetzter"),
-		674 => array("VP",               "Mitarbeiter"),
-		675 => array("DBV/VL-EVG",       "DBV"),
-		679 => array("VP",               "Mitarbeiter"),
-		690 => array("HA",               "Vorgesetzter"),
-		693 => array("NA",               "Mitarbeiter"),
-		694 => array("BA",               "Mitarbeiter")
+		601 => array("DBV EVG",		"DBV"),
+		602 => array("NA",			"Mitarbeiter"),
+		603 => array("BA 84",		"Mitarbeiter"),
+		604 => array("BA 84",		"Mitarbeiter"),
+		606 => array("BA 84",		"Mitarbeiter"),
+		607 => array("BA 84",		"Mitarbeiter"),
+		608 => array("VP",			"Mitarbeiter"),
+		609 => array("OD/BD",		"Vorgesetzter"),
+		610 => array("HA 84",		"DBV"),
+		613 => array("DBV UVG",		"DBV"),
+		614 => array("DBV EVG",		"DBV"),
+		615 => array("DBV EVG",		"DBV"),
+		616 => array("DBV UVG",		"DBV"),
+		617 => array("DBV EVG",		"DBV"),
+		618 => array("DBV EVG",		"DBV"),
+		620 => array("DBV EVG",		"DBV"),
+		625 => array("OD/BD",		"Vorgesetzter"),
+		628 => array("HA 84",		"Vorgesetzter"),
+		630 => array("HA 84",		"Vorgesetzter"),
+		632 => array("HA 84",		"Vorgesetzter"),
+		633 => array("HA 84",		"Vorgesetzter"),
+		634 => array("AVL",			"Vorgesetzter"),
+		649 => array("OD/BD",		"Vorgesetzter"),
+		650 => array("VP",			"Mitarbeiter"),
+		651 => array("VP",			"Mitarbeiter"),
+		653 => array("NA",			"Mitarbeiter"),
+		655 => array("NA",			"Mitarbeiter"),
+		657 => array("NA",			"Mitarbeiter"),
+		661 => array("NA",			"Mitarbeiter"),
+		664 => array("NA",			"Mitarbeiter"),
+		671 => array("FD",			"Vorgesetzter"),
+		674 => array("UA",			"Mitarbeiter"),
+		675 => array("DBV EVG",		"DBV"),
+		679 => array("VP",			"Mitarbeiter"),
+		690 => array("HA 84",		"Vorgesetzter"),
+		693 => array("NA",			"Mitarbeiter"),
+		694 => array("BA 84",		"Mitarbeiter")
 	);
 	
 	// Names of roles where we should be tolerant in the email at the
@@ -302,6 +348,41 @@ class gevSettings {
 		, "ext. Referent"
 		);
 	
+	// Names of roles where users need to pay the 
+	static $NO_PREARRIVAL_PAYMENT_ROLES = array(
+		  "Administrator"
+		, "Admin-Voll"
+		, "Admin-eingeschraenkt"
+		, "Admin-Ansicht"
+		, "OD/BD"
+		, "FD"
+		, "UA"
+		, "HA 84"
+		, "BA 84"
+		, "Org PV 59"
+		, "PV 59"
+		, "Ausbildungsbeauftragter"
+		, "ID FK"
+		, "ID MA"
+		, "OD/FD/BD ID"
+		, "VA 59"
+		, "VA HGB 84"
+		, "NFK"
+		, "FDA"
+		, "Ausbilder"
+		, "Azubi"
+		, "Buchhaltung"
+		, "Veranstalter"
+		, "int. Trainer"
+		, "ext. Trainer"
+		, "OD-Betreuer"
+		, "DBV UVG"
+		, "DBV EVG"
+		, "TP Service"
+		, "TP Basis"
+		, "VFS"
+		);
+	
 	// Names of roles that count as admins
 	static $ADMIN_ROLES = array(
 		  "Administrator"
@@ -323,14 +404,125 @@ class gevSettings {
 
 
 	//OrgUnit Mappings (Personal OrgUnits)
-	static $PERSONAL_ORGUNITS_MAPPING = array(
-		'base' => 277, //ref 72
-		'templates' => 281, //ref 74
-		'cpool' => 285 //ref 76
+	
+	// for DBVen AND NA-Superiors
+	const DBV_POU_BASE_UNIT_KEY = "gev_dbv_pou_base_unit";
+	const DBV_POU_TEMPLATE_UNIT_KEY = "gev_dbv_pou_template_unit_key";
+	const CPOOL_UNIT_KEY = "gev_dbv_pou_cpool_unit_key";
+	const NA_POU_BASE_UNIT_KEY = "gev_na_pou_base_unit";
+	const NA_POU_TEMPLATE_UNIT_KEY = "gev_na_pou_template_unit_key";
+	
+	public function getDBVPOUBaseUnitId() {
+		return $this->settings->get(self::DBV_POU_BASE_UNIT_KEY);
+	}
+	
+	public function setDBVPOUBaseUnitId($a_val) {
+		$this->settings->set(self::DBV_POU_BASE_UNIT_KEY, $a_val);
+	}
+	
+	public function getDBVPOUTemplateUnitId() {
+		return $this->settings->get(self::DBV_POU_TEMPLATE_UNIT_KEY);
+	}
+	
+	public function setDBVPOUTemplateUnitId($a_val) {
+		$this->settings->set(self::DBV_POU_TEMPLATE_UNIT_KEY, $a_val);
+	}
+	
+	public function getCPoolUnitId() {
+		return $this->settings->get(self::CPOOL_UNIT_KEY);
+	}
+	
+	public function setCPoolUnitId($a_val) {
+		$this->settings->set(self::CPOOL_UNIT_KEY, $a_val);
+	}
+	
+	public function getNAPOUBaseUnitId() {
+		return $this->settings->get(self::NA_POU_BASE_UNIT_KEY);
+	}
+	
+	public function setNAPOUBaseUnitId($a_val) {
+		$this->settings->set(self::NA_POU_BASE_UNIT_KEY, $a_val);
+	}
+	
+	public function getNAPOUTemplateUnitId() {
+		return $this->settings->get(self::NA_POU_TEMPLATE_UNIT_KEY);
+	}
+	
+	public function setNAPOUTemplateUnitId($a_val) {
+		$this->settings->set(self::NA_POU_TEMPLATE_UNIT_KEY, $a_val);
+	}
+
+	// Role to "Status" mapping
+	static $IDHGBAAD_STATUS_MAPPING = array(
+		  "Administrator"			=> "ID"
+		, "Admin-Voll"				=> "ID"
+		, "Admin-eingeschraenkt"	=> "ID"
+		, "Admin-Ansicht"			=> "ID"
+		, "OD/BD"					=> "ID"
+		, "FD"						=> "ID"
+		, "UA"						=> "HGB §84"
+		, "HA 84"					=> "HGB §84"
+		, "BA 84"					=> "HGB §84"
+		, "Org PV 59"				=> "AAD"
+		, "PV 59"					=> "AAD"
+		, "NA"						=> "HGB §84"
+		, "VP"						=> "HGB §84"
+		, "AVL"						=> "HGB §84"
+		//, "Ausbildungsbeauftragter" => "nicht relevant"
+		, "ID FK"					=> "ID"
+		, "ID MA"					=> "ID"
+		, "OD/FD/BD ID"				=> "ID"
+		, "Agt-Id"					=> "HGB §84"
+		, "VA 59"					=> "AAD"
+		, "VA HGB 84"				=> "HGB §84"
+		, "NFK"						=> "AAD"
+		, "FDA"						=> "AAD"
+		//, "Ausbilder"				=> "nicht relevant"
+		, "Azubi"					=> "AAD"
+		, "Buchhaltung"				=> "ID"
+		//, "Veranstalter"			=> "nicht relevant"
+		, "int. Trainer"			=> "ID"
+		//, "ext. Trainer"			=> "nicht relevant"
+		, "OD-Betreuer"				=> "ID"
+		, "DBV UVG"					=> "AAD"
+		, "DBV EVG"					=> "AAD"
+		//, "TP Service"			=> "nicht relevant"
+		//, "TP Basis"				=> "nicht relevant"
+		//, "VFS"					=> "nicht relevant"
+		);
+
+	static $TEPTYPE_ORDER = array(
+		'Training',
+		
+		'Projekt',
+		'Veranstaltung / Tagung (Zentral)',
+		'Trainer- / DBV Klausur (Zentral)',
+		'Trainer Teammeeting',
+		'Arbeitsgespräch',
+		
+		'AD Begleitung',
+		'Firmenkunden',
+		//'Aquise Pilotprojekt',
+		'Akquise Pilotprojekt',
+		'Individuelle Unterstützung SpV/FD',
+		'Büro',
+		
+		'Urlaub beantragt',
+		'Dezentraler Feiertag',
+		'Urlaub genehmigt',
+		'Ausgleichstag',
+		'Krankheit',
+		
+		'OD-FD Meeting',
+		'FD Gespräch',
+		'RD-Gespräch',
+		'AKL-Gespräch',
+		'FD-MA Teammeeting',
+		
+		'Gewerbe-Arbeitskreis',
+		'bAV-Arbeitskreis',
+		'FDL-Arbeitskreis'
 	);
-
-
-
 
 
 

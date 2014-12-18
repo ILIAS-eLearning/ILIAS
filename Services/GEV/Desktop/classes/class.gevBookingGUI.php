@@ -36,11 +36,11 @@ class gevBookingGUI {
 		$this->initCourse();
 
 		$this->checkIfCourseIsOnlineAndBookable();
-		$this->checkIfUserAlreadyPassedASimilarCourse();
+		$this->checkIfUserAlreadyBookedASimilarCourse();
 		$this->checkIfCourseIsFull();
 		$this->checkIfUserIsAllowedToBookCourseForOtherUser();
 		$this->checkIfUserIsAllowedToBookCourse();
-		$this->maybeShowOtherBookingsInPeriodWarning();
+		$this->checkOtherBookingsInPeriod();
 
 		
 		$this->cmd = $this->ctrl->getCmd();
@@ -102,10 +102,10 @@ class gevBookingGUI {
 		}
 	}
 	
-	protected function checkIfUserAlreadyPassedASimilarCourse() {
+	protected function checkIfUserAlreadyBookedASimilarCourse() {
 		if (!$this->user_utils->canBookCourseDerivedFromTemplate($this->crs_utils->getTemplateRefId())) {
-			ilUtil::sendFailure( $this->isSelfBooking() ? $this->lng->txt("gev_passed_similar_course_self")
-														: $this->lng->txt("gev_passed_similar_course_employee")
+			ilUtil::sendFailure( $this->isSelfBooking() ? $this->lng->txt("gev_booked_similar_course_self")
+														: $this->lng->txt("gev_booked_similar_course_employee")
 							   , true);
 			$this->toCourseSearch();
 		}
@@ -139,7 +139,7 @@ class gevBookingGUI {
 		}
 	}
 	
-	public function maybeShowOtherBookingsInPeriodWarning() {
+	public function checkOtherBookingsInPeriod() {
 		$start = $this->crs_utils->getStartDate();
 		$end = $this->crs_utils->getEndDate();
 		
@@ -154,7 +154,15 @@ class gevBookingGUI {
 			return;
 		}
 		
-		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+		if ($this->current_user->getId() == $this->user_id) {
+			ilUtil::sendFailure($this->lng->txt("gev_not_allowed_to_book_crs_self_because_period"), true);
+		}
+		else {
+			ilUtil::sendFailure($this->lng->txt("gev_not_allowed_to_book_crs_for_other_because_period"), true);
+		}
+		$this->toCourseSearch();
+		
+		/*require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 		
 		if ($this->isSelfBooking()) {
 			$msg = $this->lng->txt("gev_booking_other_courses_in_period_self")."<br />";
@@ -165,7 +173,7 @@ class gevBookingGUI {
 		foreach($others as $crs) {
 			$msg .= $crs["title"]." (".ilDatePresentation::formatPeriod($crs["start"], $crs["end"]).")</br>";
 		}
-		ilUtil::sendInfo($msg);
+		ilUtil::sendInfo($msg);*/
 	}
 	
 	protected function setRequestParameters() {
@@ -363,6 +371,12 @@ class gevBookingGUI {
 			}
 			else if ($_POST["accomodations"]) {
 				$form->getItemByPostVar("acco")->setValue(unserialize($_POST["accomodations"]));
+			}
+			
+			if ($this->isSelfBooking() && $this->user_utils->showPrearrivalNoteInBooking()) {
+				$field = new ilNonEditableValueGUI("", "", true);
+				$field->setValue($this->lng->txt("gev_prearrival_note"));
+				$form->addItem($field);
 			}
 		}
 		

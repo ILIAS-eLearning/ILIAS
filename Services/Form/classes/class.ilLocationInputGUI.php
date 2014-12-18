@@ -170,14 +170,14 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 	{
 		global $lng;
 		
-		$lng->loadLanguageModule("gmaps");
+		$lng->loadLanguageModule("maps");
 		$tpl = new ilTemplate("tpl.prop_location.html", true, true, "Services/Form");
 		$tpl->setVariable("POST_VAR", $this->getPostVar());
-		$tpl->setVariable("TXT_ZOOM", $lng->txt("gmaps_zoom_level"));
-		$tpl->setVariable("TXT_LATITUDE", $lng->txt("gmaps_latitude"));
-		$tpl->setVariable("TXT_LONGITUDE", $lng->txt("gmaps_longitude"));
+		$tpl->setVariable("TXT_ZOOM", $lng->txt("maps_zoom_level"));
+		$tpl->setVariable("TXT_LATITUDE", $lng->txt("maps_latitude"));
+		$tpl->setVariable("TXT_LONGITUDE", $lng->txt("maps_longitude"));
 		$tpl->setVariable("TXT_ADDR", $lng->txt("address"));
-		$tpl->setVariable("LOC_DESCRIPTION", $lng->txt("gmaps_std_location_desc"));
+		$tpl->setVariable("LOC_DESCRIPTION", $lng->txt("maps_std_location_desc"));
 		
 		$lat = is_numeric($this->getLatitude())
 			? $this->getLatitude()
@@ -197,19 +197,20 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 				"onchange" => "ilUpdateMap('"."map_".$this->getPostVar()."');")));
 		$tpl->setVariable("MAP_ID", "map_".$this->getPostVar());
 		$tpl->setVariable("ID", $this->getPostVar());
-		$tpl->setVariable("TXT_LOOKUP", $lng->txt("gmaps_lookup_address"));
+		$tpl->setVariable("TXT_LOOKUP", $lng->txt("maps_lookup_address"));
 		$tpl->setVariable("TXT_ADDRESS", $this->getAddress());
 		
-		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
-		$map_gui = new ilGoogleMapGUI();
-		$map_gui->setMapId("map_".$this->getPostVar());
-		$map_gui->setLatitude($lat);
-		$map_gui->setLongitude($long);
-		$map_gui->setZoom($this->getZoom());
-		$map_gui->setEnableTypeControl(true);
-		$map_gui->setEnableLargeMapControl(true);
-		$map_gui->setEnableUpdateListener(true);
-		$map_gui->setEnableCentralMarker(true);
+		include_once("./Services/Maps/classes/class.ilMapUtil.php");
+		$map_gui = ilMapUtil::getMapGUI();
+		$map_gui->setMapId("map_".$this->getPostVar())
+				->setLatitude($lat)
+				->setLongitude($long)
+				->setZoom($this->getZoom())
+				->setEnableTypeControl(true)
+				->setEnableLargeMapControl(true)
+				->setEnableNavigationControl(true)
+				->setEnableUpdateListener(true)
+				->setEnableCentralMarker(true);
 		
 		$tpl->setVariable("MAP", $map_gui->getHtml());
 		

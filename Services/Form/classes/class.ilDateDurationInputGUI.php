@@ -385,12 +385,20 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		$ok = true;
 
 		// Start
-		$_POST[$this->getPostVar()]['start']["date"]["y"] =
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["date"]["y"]);
-		$_POST[$this->getPostVar()]['start']["date"]["m"] =
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["date"]["m"]);
-		$_POST[$this->getPostVar()]['start']["date"]["d"] =
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["date"]["d"]);
+		// gev-patch start
+		if ($this->getShowDate()) {
+			$_POST[$this->getPostVar()]['start']["date"]["y"] =
+				ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["date"]["y"]);
+			$_POST[$this->getPostVar()]['start']["date"]["m"] =
+				ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["date"]["m"]);
+			$_POST[$this->getPostVar()]['start']["date"]["d"] =
+				ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["date"]["d"]);
+		}
+		else {
+			$_POST[$this->getPostVar()]['start']["date"]["y"] = "1970";
+			$_POST[$this->getPostVar()]['start']["date"]["m"] = "01";
+			$_POST[$this->getPostVar()]['start']["date"]["d"] = "01";
+		}
 		$_POST[$this->getPostVar()]['start']["time"]["h"] =
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["time"]["h"]);
 		$_POST[$this->getPostVar()]['start']["time"]["m"] =
@@ -433,12 +441,19 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		$this->setStart($date);
 
 		// End
-		$_POST[$this->getPostVar()]['end']["date"]["y"] = 
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["date"]["y"]);
-		$_POST[$this->getPostVar()]['end']["date"]["m"] =
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["date"]["m"]);
-		$_POST[$this->getPostVar()]['end']["date"]["d"] =
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["date"]["d"]);
+		if ($this->getShowDate()) {
+			$_POST[$this->getPostVar()]['end']["date"]["y"] = 
+				ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["date"]["y"]);
+			$_POST[$this->getPostVar()]['end']["date"]["m"] =
+				ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["date"]["m"]);
+			$_POST[$this->getPostVar()]['end']["date"]["d"] =
+				ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["date"]["d"]);
+		}
+		else {
+			$_POST[$this->getPostVar()]['end']["date"]["y"] = "1970";
+			$_POST[$this->getPostVar()]['end']["date"]["m"] = "01";
+			$_POST[$this->getPostVar()]['end']["date"]["d"] = "01";
+		}
 		$_POST[$this->getPostVar()]['end']["time"]["h"] =
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["time"]["h"]);
 		$_POST[$this->getPostVar()]['end']["time"]["m"] =

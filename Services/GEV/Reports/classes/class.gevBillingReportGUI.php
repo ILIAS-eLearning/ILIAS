@@ -67,6 +67,7 @@ class gevBillingReportGUI extends catBasicReportGUI {
 									, "bill.bill_finalized_date"
 									, date("Y")."-01-01"
 									, date("Y")."-12-31"
+									, true
 									)
 						->static_condition("bill.bill_final = 1")
 						->action($this->ctrl->getLinkTarget($this, "view"))
@@ -162,8 +163,9 @@ class gevBillingReportGUI extends catBasicReportGUI {
 					." INNER JOIN hist_usercoursestatus usrcrs ON usrcrs.usr_id = bill.bill_usr_id AND usrcrs.crs_id = bill.bill_context_id AND usrcrs.hist_historic = 0"
 					." RIGHT JOIN billitem item ON bill.bill_pk = item.bill_fk"
 					. $this->queryWhere()
+					." GROUP BY bill.bill_number "
+					. $sql_order_str
 					;
-
 		$bill_link_icon = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-get_bill.png").'" />';
 
 		$res = $this->db->query($query);

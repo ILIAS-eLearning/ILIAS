@@ -130,9 +130,12 @@ class ilCalendarInboxGUI
 			$this->tpl->setVariable('SHARED_CAL_TABLE',$table->getHTML());
 		}
 
-		
+		include_once('./Services/Calendar/classes/class.ilCalendarChangedAppointmentsTableGUI.php');
+
+		$table_gui = new ilCalendarChangedAppointmentsTableGUI($this,'inbox');
+
 		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_INBOX);
-		$schedule->setEventsLimit(100);
+		$schedule->setEventsLimit($table_gui->getLimit());
 		$schedule->addSubitemCalendars(true);		
 		$schedule->calculate();
 		
@@ -150,10 +153,7 @@ class ilCalendarInboxGUI
 			//$events = $schedule->getEvents();
 			$events = $schedule->getScheduledEvents();
 		}
-		
-		include_once('./Services/Calendar/classes/class.ilCalendarChangedAppointmentsTableGUI.php');
-		
-		$table_gui = new ilCalendarChangedAppointmentsTableGUI($this,'inbox');
+
 		$table_gui->setTitle($title);
 		$table_gui->setAppointments($events);
 		

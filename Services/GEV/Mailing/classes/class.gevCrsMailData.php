@@ -263,6 +263,30 @@ class gevCrsMailData extends ilMailData {
 					$val = implode("<br />", $dates);
 				}
 				break;
+			case "VORABENDANREISE":
+				if ($this->user_utils !== null) {
+					$tmp = $this->usr_utils->getOvernightDetailsForCourse($this->crs_util->getCourse());
+					if (   count($tmp) > 0 
+						&& $tmp[0]->get(IL_CAL_DATE) == $this->crs_utils->getStartDate()->get(IL_CAL_DATE)) {
+						$val = "Ja";
+					}
+					else {
+						$val = "Nein";
+					}
+				}
+				break;
+			case "NACHTAGABREISE":
+				if ($this->user_utils !== null) {
+					$tmp = $this->usr_utils->getOvernightDetailsForCourse($this->crs_util->getCourse());
+					if (   count($tmp) > 0 
+						&& $tmp[count($tmp)-1]->get(IL_CAL_DATE) == $this->crs_utils->getEndDate()->get(IL_CAL_DATE)) {
+						$val = "Ja";
+					}
+					else {
+						$val = "Nein";
+					}
+				}
+				break;
 			case "ORGANISATORISCHES":
 				$val = $this->crs_utils->getOrgaInfo();
 				break;

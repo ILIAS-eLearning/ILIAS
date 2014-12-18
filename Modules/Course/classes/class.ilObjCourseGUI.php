@@ -1682,8 +1682,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 				
 				// map settings
-				include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
-				if (ilGoogleMapUtil::isActivated())
+				include_once("./Services/Maps/classes/class.ilMapUtil.php");
+				if (ilMapUtil::isActivated())
 				{
 					$this->tabs_gui->addSubTabTarget("crs_map_settings",
 						 $this->ctrl->getLinkTarget($this,'editMapSettings'),
@@ -1748,8 +1748,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 				
 				// members map
-				include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
-				if (ilGoogleMapUtil::isActivated() && $this->object->getEnableCourseMap())
+				include_once("./Services/Maps/classes/class.ilMapUtil.php");
+				if (ilMapUtil::isActivated() && $this->object->getEnableCourseMap())
 				{
 					$this->tabs_gui->addSubTabTarget("crs_members_map",
 						$this->ctrl->getLinkTarget($this,'membersMap'),
@@ -5162,7 +5162,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->setSubTabs("properties");
 		$this->tabs_gui->setTabActive('settings');
 		
-		if (!ilGoogleMapUtil::isActivated() ||
+		if (!ilMapUtil::isActivated() ||
 			!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			return;
@@ -5175,7 +5175,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		// Get Default settings, when nothing is set
 		if ($latitude == 0 && $longitude == 0 && $zoom == 0)
 		{
-			$def = ilGoogleMapUtil::getDefaultSettings();
+			$def = ilMapUtil::getDefaultSettings();
 			$latitude = $def["latitude"];
 			$longitude = $def["longitude"];
 			$zoom =  $def["zoom"];
@@ -5235,23 +5235,22 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->setSubTabs('members');
 		$this->tabs_gui->setSubTabActive("crs_members_map");
 		
-		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
-		if (!ilGoogleMapUtil::isActivated() || !$this->object->getEnableCourseMap())
+		include_once("./Services/Maps/classes/class.ilMapUtil.php");
+		if (!ilMapUtil::isActivated() || !$this->object->getEnableCourseMap())
 		{
 			return;
 		}
 		
-		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
-		$map = new ilGoogleMapGUI();
-		$map->setMapId("course_map");
-		$map->setWidth("700px");
-		$map->setHeight("500px");
-		$map->setLatitude($this->object->getLatitude());
-		$map->setLongitude($this->object->getLongitude());
-		$map->setZoom($this->object->getLocationZoom());
-		$map->setEnableTypeControl(true);
-		$map->setEnableNavigationControl(true);
-		$map->setEnableCentralMarker(true);
+		$map = ilMapUtil::getMapGUI();
+		$map->setMapId("course_map")
+			->setWidth("700px")
+			->setHeight("500px")
+			->setLatitude($this->object->getLatitude())
+			->setLongitude($this->object->getLongitude())
+			->setZoom($this->object->getLocationZoom())
+			->setEnableTypeControl(true)
+			->setEnableNavigationControl(true)
+			->setEnableCentralMarker(true);
 
 		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 		$members = ilCourseParticipants::_getInstanceByObjId($this->object->getId())->getParticipants();

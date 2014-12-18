@@ -283,6 +283,8 @@ abstract class ilHistorizingStorage
 				switch($type)
 				{
 					case "date":
+						$value = "00-00-0000";
+						break;
 					case "text":
 						$value = "-empty-";
 						break;
@@ -370,7 +372,8 @@ abstract class ilHistorizingStorage
 		$cases = self::getCaseIdsByPartialCase($a_case_id);
 		if (count($cases) > 1 && $mass_modification_allowed == false)
 		{
-			throw new Exception('Illegal call: Case-Id does not point to a unique record.');
+			throw new Exception( 'Illegal call: Case-Id '.implode(", ", $a_case_id).' does not point to a unique record in '
+								.static::getHistorizedTableName().'.');
 		}
 
 		if ( count($cases) == 0 && $mass_modification_allowed == false)
@@ -382,11 +385,54 @@ abstract class ilHistorizingStorage
 		foreach ($cases as $case)
 		{
 			$current_data = static::getCurrentRecordByCase($case);
-			$new_data = array_merge($current_data, $a_data);
-			if ($new_data == $current_data)
-			{
+			// gev-patch start
+			
+			// Check weather new data is really different then existing one.
+			$continue = true;
+			$col_def = static::getContentColumnsDefinition();
+			foreach ($a_data as $key => $value) {
+				//echo $key.":".$a_data[$key].":".$current_data[$key]."\n";
+				if (   $key == "creator_user_id" || $key == "created_ts"
+					|| $key == "hist_historic" || $key == "hist_version") {
+					continue;
+				}
+				
+				if ($a_data[$key] === null || $a_data[$key] === "") {
+					switch($col_def[$key]) {
+						case "date":
+							$value = "0000-00-00";
+							break;
+						case "text":
+							$value = "-empty-";
+							break;
+						case "integer":
+						case "float":
+							$value = -1;
+							break;
+						default:
+							trigger_error("unknown column definition type ".$type, E_USER_ERROR);
+							break;
+					}
+
+					if ($current_data[$key] != $value) {
+						$continue = false;
+						break;
+					}
+				}
+				else {
+					if ($current_data[$key] != $a_data[$key]) {
+						$continue = false;
+						break;
+					}
+				}
+			}
+			if ($continue) {
 				continue;
 			}
+			//die("here");
+
+			$new_data = array_merge($current_data, $a_data);
+			// gev-patch end
 			$new_data[static::getVersionColumnName()] = $current_data[static::getVersionColumnName()]+1;
 			self::validateRecordData($new_data);
 			try {
@@ -859,7 +905,7 @@ abstract class ilHistorizingStorage
 		if ($ilDB->numRows($result) == 0)
 		{
 			require_once './Services/Exceptions/classes/class.ilException.php';
-			throw new ilException('No case.');
+			throw new ilException('ilHistorizingStorage::getCurrentRecordByCase: No case.');
 		}
 		$row = $ilDB->fetchAssoc($result);
 		return $row;

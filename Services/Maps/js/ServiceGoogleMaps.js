@@ -6,13 +6,13 @@ ilMapUserMarker = Array();
 if (google.maps)
 {
 	var ilMarkerImage = new google.maps.MarkerImage(
-		"./Services/GoogleMaps/images/mm_20_blue.png",      
+		"./Services/Maps/images/mm_20_blue.png",      
 		new google.maps.Size(12, 20),
 		new google.maps.Point(0,0),
 		new google.maps.Point(6, 20));
 		
 	var ilMarkerShadow = new google.maps.MarkerImage(
-		"./Services/GoogleMaps/images/mm_20_shadow.png",
+		"./Services/Maps/images/mm_20_shadow.png",
 		new google.maps.Size(22, 20),
 		new google.maps.Point(0,0),
 		new google.maps.Point(0, 32));
@@ -22,7 +22,6 @@ if (google.maps)
 {
 	il.Util.addOnLoad(ilInitMaps);
 }
-
 /** 
 * Init all maps
 */

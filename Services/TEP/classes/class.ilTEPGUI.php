@@ -250,6 +250,14 @@ class ilTEPGUI
 		{
 			$ilToolbar->addButton($lng->txt("tep_add_new_entry"),
 				$ilCtrl->getLinkTargetByClass("ilTEPEntryGUI", "createEntry"));
+			// gev-patch start
+			require_once("Services/GEV/Utils/classes/class.gevDecentralTrainingUtils.php");
+			global $ilUser;
+			if (gevDecentralTrainingUtils::getInstance()->canCreate($ilUser->getId())) {
+				$ilToolbar->addButton($lng->txt("gev_create_decentral_training"),
+					$ilCtrl->getLinkTargetByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "chooseTemplateAndTrainers"));
+			}
+			// gev-patch end
 		}
 		
 		if($a_has_content)
@@ -278,8 +286,110 @@ class ilTEPGUI
 		if($view->loadData())
 		{
 			$view->exportXLS();
+			exit();
 		}
 
 		$ilCtrl->redirect($this, "view");
-	}		
+	}
+	
+	// gev-patch start
+	public function getCrsRefId() {
+		$crs_ref_id = $_GET['ref_id'];
+
+		if(! $crs_ref_id){
+			throw new ilException("ilTEPGUI - needs course ref_id");
+		}
+		return $crs_ref_id;
+	}
+
+	public function getCrsId() {
+		$crs_id = $_GET['crs_id'];
+
+		if(! $crs_id){
+			throw new ilException("ilTEPGUI - needs course crs_id");
+		}
+		return $crs_id;
+	}
+	
+	protected function checkAccomodation($crs_utils) {
+		if (!$crs_utils->isWithAccomodations()) {
+			ilUtil::sendFailure($this->lng->txt("gev_mytrainingsap_no_accomodations"), true);
+			$this->ctrl->redirect($this, "view");
+		}
+	}
+	
+	protected function showParticipationStatus() {
+		global $ilCtrl, $tpl;
+		$ref_id = $this->getCrsRefId();
+		require_once("Services/GEV/Desktop/classes/class.gevMyTrainingsApGUI.php");
+		$tpl->setTitle(null);
+		$tpl->setContent(
+			gevMyTrainingsApGUI::renderListParticipationStatus(
+					$this, 
+					$ilCtrl->getLinkTarget($this, "view"),
+					$ref_id));
+	}
+	
+	protected function showOvernights($a_form = null) {
+		global $ilCtrl, $tpl, $ilUser;
+		$crs_id = $this->getCrsId();
+		$crs_utils = gevCourseUtils::getInstance($crs_id);
+		
+		$this->checkAccomodation($crs_utils);
+		
+		$ilCtrl->setParameter($this, "crs_id", $crs_id);
+		
+		require_once("Services/GEV/Desktop/classes/class.gevMyTrainingsApGUI.php");
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$tpl->setTitle(null);
+		$tpl->setContent(
+			gevMyTrainingsApGUI::renderShowOvernights(
+					$this, 
+					$ilCtrl->getLinkTarget($this, "view"),
+					$ilUser->getId(),
+					$crs_utils,
+					$a_form
+				)
+			);
+	}
+	
+	protected function saveOvernights() {
+		global $ilCtrl, $tpl, $ilUser, $lng;
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_id = $this->getCrsId();
+		$crs_utils = gevCourseUtils::getInstance($crs_id);
+		
+		$this->checkAccomodation($crs_utils);
+		
+		$ilCtrl->setParameter($this, "crs_id", $crs_id);
+
+		require_once("Services/GEV/Desktop/classes/class.gevMyTrainingsApGUI.php");
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$form = gevMyTrainingsApGUI::buildOvernightsForm($crs_id, $crs_utils, $ilCtrl->getFormAction($this));
+		if ($form->checkInput()) {
+			ilSetAccomodationsGUI::importAccomodationsFromForm($form, $crs_id, $ilUser->getId());
+			ilUtil::sendSuccess($lng->txt("gev_mytrainingsap_saved_overnights"));
+		}
+		return $this->showOvernights($form);
+	}
+	
+	protected function showBookings() {
+		global $ilCtrl;
+		$ref_id = $this->getCrsRefId();
+		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
+		ilCourseBookingAdminGUI::setBackTarget(
+			$ilCtrl->getLinkTargetByClass("ilTEPGUI", "backFromBookings")
+			);
+		
+		$ilCtrl->setParameterByClass("ilCourseBookingGUI", "ref_id", $ref_id);
+		$ilCtrl->redirectByClass(array("ilCourseBookingGUI", "ilCourseBookingAdminGUI"));
+	}
+	
+	protected function backFromBookings() {
+		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
+		ilCourseBookingAdminGUI::removeBackTarget();
+		return $this->view();
+	}
+	
+	// gev-patch end
 }

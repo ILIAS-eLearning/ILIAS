@@ -312,27 +312,45 @@ class ilObjOrgUnitTree {
      * @param int $ref_id if given, only OrgUnits under this ID are returned (including $ref_id)
      * @return int[]
      */
-    public function getOrgUnitOfUser($user_id, $ref_id = 0){
+    // gev-patch start
+    public function getOrgUnitOfUser($user_id, $ref_id = 0, $return_obj_ids = false){
+    // gev-patch end
         $q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
                 INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
 				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id) OR roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id)
 				INNER JOIN rbac_ua rbac ON rbac.usr_id = ".$this->db->quote($user_id, "integer")." AND roles.obj_id = rbac.rol_id
 				WHERE orgu.type = 'orgu' AND refr.deleted IS NULL";
         $set = $this->db->query($q);
-        $orgu_ref_ids = array();
-        while($res = $this->db->fetchAssoc($set)){
-            $orgu_ref_ids[] = $res['ref_id'];
-        }
-        $orgu_ref_ids = array_unique($orgu_ref_ids);
-        if ($ref_id) {
-            $childernOrgIds = $this->getAllChildren($ref_id);
-            foreach ($orgu_ref_ids as $k => $refId) {
-                if (!in_array($refId, $childernOrgIds)) {
-                    unset($orgu_ref_ids[$k]);
-                }
-            }
-        }
-        return $orgu_ref_ids;
+        // gev-patch start
+        if (!$return_obj_ids) {
+        // gev-patch end 
+        	$orgu_ref_ids = array();
+	        while($res = $this->db->fetchAssoc($set)){
+	            $orgu_ref_ids[] = $res['ref_id'];
+	        }
+	        $orgu_ref_ids = array_unique($orgu_ref_ids);
+	        if ($ref_id) {
+	            $childernOrgIds = $this->getAllChildren($ref_id);
+	            foreach ($orgu_ref_ids as $k => $refId) {
+	                if (!in_array($refId, $childernOrgIds)) {
+	                    unset($orgu_ref_ids[$k]);
+	                }
+	            }
+	        }
+	        return $orgu_ref_ids;
+	    // gev-patch start
+	    }
+	    else {
+	    	if ($ref_id !== 0) {
+	    		throw new Exception("ilObjOrgUnitTree::getOrgUnitOfUser: ref_id not supported when obj_ids should be returned.");
+	    	}
+	    	$orgu_obj_ids = array();
+	        while($res = $this->db->fetchAssoc($set)){
+	            $orgu_obj_ids[] = $res['obj_id'];
+	        }
+	        return $orgu_obj_ids;
+	    }
+	    // gev-patch end
     }
 
 	public function getTitles($org_refs){

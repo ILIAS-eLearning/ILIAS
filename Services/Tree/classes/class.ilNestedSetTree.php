@@ -229,6 +229,7 @@ class ilNestedSetTree implements ilTreeImplementation
 							$ilDB->unlockTables();
 						}
 						$GLOBALS['ilLog']->logStack();
+						die('Parent with id '. $a_parent_id.' not found in tree');
 						throw new ilInvalidTreeStructureException('Parent with id '. $a_parent_id.' not found in tree');
 					}
 					$parentRgt = $r['rgt'];
@@ -272,7 +273,6 @@ class ilNestedSetTree implements ilTreeImplementation
 					}
 					$rgt = $lft + 1;
 					
-
 					// spread tree if there is not enough space to insert the new node
 					if ($availableSpace < 2)
 					{
@@ -367,7 +367,6 @@ class ilNestedSetTree implements ilTreeImplementation
 				break;
 
 		}
-
 		// get depth
 		$depth = $this->getTree()->getDepth($a_parent_id) + 1;
 

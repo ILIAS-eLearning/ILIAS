@@ -116,29 +116,26 @@ class gevMyTrainingsApGUI {
 	}
 
 
-	public function listParticipationStatus() {
-		global $lng;
-			
-		$crs_ref_id = $this->getCrsRefId();
-
-		$title = new catTitleGUI("gev_set_course_status_title", "gev_set_course_status_title_desc", "GEV_img/ico-head-edubio.png");
-		$spacer = new catHSpacerGUI();
-		
-
+	static public function renderListParticipationStatus($a_parent_gui, $a_back_target, $a_crs_ref_id) {
 		global $ilTabs, $ilCtrl, $lng;
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "view"));
+		$ilTabs->setBackTarget($lng->txt("back"), $a_back_target);
 		
 		//ilParticipationStatusTableGUI
 		require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusAdminGUI.php");
 		require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusTableGUI.php");
 		require_once "Modules/Course/classes/class.ilObjCourse.php";
-		$crs_obj = new ilObjCourse($crs_ref_id);
+		$crs_obj = new ilObjCourse(intval($a_crs_ref_id));
+
+		$title = new catTitleGUI(sprintf($lng->txt("gev_set_course_status_title"), $crs_obj->getTitle())
+								, $lng->txt("gev_set_course_status_title_desc")
+								, "GEV_img/ico-head-edubio.png"
+								, false);
+		$spacer = new catHSpacerGUI();
 		
 		$lng->loadLanguageModule("ptst");
 
-		$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($crs_ref_id);
+		$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($a_crs_ref_id);
 		//$ptstatus_admingui =  new ilParticipationStatusAdminGUI($crs_obj);
 		$may_write = $ptstatus_admingui->mayWrite();
 		if($ptstatus_admingui->getParticipationStatus()->getMode() == ilParticipationStatus::MODE_CONTINUOUS)
@@ -149,10 +146,10 @@ class gevMyTrainingsApGUI {
 		{
 			$may_finalize = $may_write;
 		}
-		$ptstatusgui = new ilParticipationStatusTableGUI($this, 'listParticipationStatus', $crs_obj, $may_write, $may_finalize);
+		$ptstatusgui = new ilParticipationStatusTableGUI($a_parent_gui, 'listParticipationStatus', $crs_obj, $may_write, $may_finalize);
 		
 		$form_action = $ptstatusgui->getFormAction();
-		$form_action .= '&crsrefid=' .$crs_ref_id;
+		$form_action .= '&crsrefid=' .$a_crs_ref_id;
 		$ptstatusgui->setFormAction($form_action);
 
 		return (
@@ -160,6 +157,11 @@ class gevMyTrainingsApGUI {
 			   .$spacer->render()
 			   .$ptstatusgui->getHTML()
 			   );
+	}
+
+	protected function listParticipationStatus() {
+		global $ilCtrl;
+		return static::renderListParticipationStatus($this, $ilCtrl->getLinkTarget($this, "view"), $this->getCrsRefId());
 	}
 	
 	protected function checkAccomodation($crs_utils) {
@@ -175,38 +177,47 @@ class gevMyTrainingsApGUI {
 		}
 	}
 
-	protected function showOvernights($a_form = null) {
-		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		$crs_id = $_GET["crs_id"];
-		$crs_utils = gevCourseUtils::getInstance($crs_id);
-		
-		$this->checkAccomodation($crs_utils);
-		$this->checkIsTrainer($crs_utils);
-		
+	public static function renderShowOvernights($a_parent_gui, $a_backlink_target, $a_user_id, $a_crs_utils, $a_form = null) {
 		global $ilTabs, $ilCtrl, $lng;
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "view"));
+		$ilTabs->setBackTarget($lng->txt("back"), $a_backlink_target);
 
-		$title = new catTitleGUI("gev_edit_overnights", "gev_edit_overnights_desc", "GEV_img/ico-head-edit.png");
+		$title = new catTitleGUI(sprintf($lng->txt("gev_edit_overnights"), $a_crs_utils->getTitle())
+								, $lng->txt("gev_edit_overnights_desc")
+								, "GEV_img/ico-head-edit.png"
+								, false
+								);
 
 		if ($a_form === null) {
-			$a_form = $this->buildOvernightsForm($crs_id, $crs_utils);
+			$ilCtrl->setParameter($a_parent_gui, "crs_id", $a_crs_utils->getId());
+			$a_form = static::buildOvernightsForm($a_user_id, $a_crs_utils, $ilCtrl->getFormAction($a_parent_gui));
 		}
 		
 		return    $title->render()
 				. $a_form->getHTML();
 	}
-	
-	protected function saveOvernights() {
+
+	protected function showOvernights($a_form = null) {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		$crs_id = $_GET["crs_id"];
+		$crs_id = intval($_GET["crs_id"]);
 		$crs_utils = gevCourseUtils::getInstance($crs_id);
 		
 		$this->checkAccomodation($crs_utils);
 		$this->checkIsTrainer($crs_utils);
-
-		$form = $this->buildOvernightsForm($crs_id, $crs_utils);
+		
+		return static::renderShowOvernights($this, $this->ctrl->getLinkTarget($this, "view"), $this->user->getId(), $crs_utils, $a_form);
+	}
+	
+	protected function saveOvernights() {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_id = intval($_GET["crs_id"]);
+		$crs_utils = gevCourseUtils::getInstance($crs_id);
+		
+		$this->checkAccomodation($crs_utils);
+		$this->checkIsTrainer($crs_utils);
+		
+		$this->ctrl->setParameter($this, "crs_id", $crs_id);
+		$form = static::buildOvernightsForm($this->user->getId(), $crs_utils, $this->ctrl->getFormAction($this));
 		if ($form->checkInput()) {
 			ilSetAccomodationsGUI::importAccomodationsFromForm($form, $crs_id, $this->user->getId());
 			ilUtil::sendSuccess($this->lng->txt("gev_mytrainingsap_saved_overnights"));
@@ -214,24 +225,24 @@ class gevMyTrainingsApGUI {
 		return $this->showOvernights($form);	
 	}
 	
-	protected function buildOvernightsForm($crs_id, $crs_utils) {
+	public static function buildOvernightsForm($a_user_id, $a_crs_utils, $a_form_action) {
+		global $lng;
+		
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 		require_once("Services/Accomodations/classes/class.ilSetAccomodationsGUI.php");
 		
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_overnights_form.html", "Services/GEV/Desktop");
-		$form->setTitle($crs_utils->getTitle());
-		$form->addCommandButton("saveOvernights", $this->lng->txt("save"));
+		//$form->setTitle($a_crs_utils->getTitle());
+		$form->addCommandButton("saveOvernights", $lng->txt("save"));
 		
-		$this->lng->loadLanguageModule("acco");
-		ilSetAccomodationsGUI::addAccomodationsToForm($form, $crs_id, $this->user->getId());
+		$lng->loadLanguageModule("acco");
+		ilSetAccomodationsGUI::addAccomodationsToForm($form, $a_crs_utils->getId(), $a_user_id);
 		if ($_POST["acco"]) {
 			$form->getItemByPostVar("acco")->setValue($_POST["acco"]);
 		}
 		
-		$this->ctrl->setParameter($this, "crs_id", $crs_id);
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$this->ctrl->clearParameters($this);
+		$form->setFormAction($a_form_action);
 
 		return $form;
 	}

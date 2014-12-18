@@ -1,0 +1,125 @@
+<!-- BEGIN std_table -->
+<!-- Please note the usage of datatable attribute which is non-standard
+	but ensures that JAWS treats this table as a layout table -->
+<!-- removed a width="{STD_TABLE_WIDTH}" -->
+<div class="ilForm">
+<!-- END std_table -->
+<!-- BEGIN sub_table -->
+<div class="ilForm">
+<!-- END sub_table -->
+<!-- BEGIN item -->
+<!-- BEGIN header -->
+	<div class="ilFormRow">
+		<div class="ilFormHeader">
+<!-- BEGIN title_icon --><!-- <img src="{IMG_ICON}" alt="{IMG_ALT}" border="0"/> --><!-- END title_icon -->
+		<h3 class="ilFormHeader"><a name="{LABEL}"></a>{TXT_TITLE}</h3><div class="ilFormInfo">{TXT_DESCRIPTION}</div>
+		</div>
+
+		<div class="ilFormHeader ilFormCommands">
+		<!-- BEGIN char_selector -->
+		<input id ="ilCharSelectorToggleForm" class="submit ilCharSelectorToggle" type="SUBMIT" value="&nbsp;&Omega;&nbsp;" />
+		<!-- END char_selector -->
+		<!-- BEGIN commands2 -->
+		<!-- BEGIN cmd2 -->
+		<input class="submit" type="SUBMIT" name="cmd[{CMD}]" value="{CMD_TXT}" />
+		<!-- END cmd2 -->
+		<!-- END commands2 -->
+		</div>
+	</div>
+<!-- END header -->
+<!-- BEGIN prop -->
+<!-- BEGIN std_prop_start -->
+	<div class="ilFormRow">
+		<div class="ilFormOption{HIDE_LABELS_STYLE}" id="il_prop_cont_{LAB_ID}">
+			<label for="{LAB_ID}">{PROPERTY_TITLE}<!-- BEGIN std_hid_title --> <span class="ilAccHeadingHidden">{PHID_TITLE}</span><!-- END std_hid_title --><!-- BEGIN required --> <span class="asterisk">*</span><!-- END required --></label>
+		</div>
+		<div class="ilFormValue">
+<!-- END std_prop_start -->
+<!-- BEGIN sub_prop_start -->
+	<div class="ilFormRow">
+		<div class="ilFormSubOption">
+		<label for="{LAB_ID}">{PROPERTY_TITLE}<!-- BEGIN sub_hid_title --> <span class="ilAccHeadingHidden">{SPHID_TITLE}</span><!-- END sub_hid_title --><!-- BEGIN sub_required --> <span class="asterisk">*</span><!-- END sub_required --></label>
+		</div>
+		<div class="ilFormSubValue">
+<!-- END sub_prop_start -->
+<!-- BEGIN cssrect -->
+		<label for="{ID}[top]">{TEXT_TOP}</label>
+		<input type="text" size="{SIZE}" id="{ID}[top]" name="{POST_VAR}[top]" <!-- BEGIN cssrect_value_top -->value="{CSSRECT_VALUE}" <!-- END cssrect_value_top -->{DISABLED} />
+		<label for="{ID}[right]">{TEXT_RIGHT}</label>
+		<input type="text" size="{SIZE}" id="{ID}[right]" name="{POST_VAR}[right]" <!-- BEGIN cssrect_value_right -->value="{CSSRECT_VALUE}" <!-- END cssrect_value_right -->{DISABLED} />
+		<label for="{ID}[bottom]">{TEXT_BOTTOM}</label>
+		<input type="text" size="{SIZE}" id="{ID}[bottom]" name="{POST_VAR}[bottom]" <!-- BEGIN cssrect_value_bottom -->value="{CSSRECT_VALUE}" <!-- END cssrect_value_bottom -->{DISABLED} />
+		<label for="{ID}[left]">{TEXT_LEFT}</label>
+		<input type="text" size="{SIZE}" id="{ID}[left]" name="{POST_VAR}[left]" <!-- BEGIN cssrect_value_left -->value="{CSSRECT_VALUE}" <!-- END cssrect_value_left -->{DISABLED} />
+<!-- END cssrect -->
+<!-- BEGIN prop_text -->
+		<input type="{PROP_INPUT_TYPE}" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/>
+<!-- END prop_text -->
+<!-- BEGIN prop_login -->
+		<input type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED} {AUTOCOMPLETE}/>
+<!-- END prop_login -->
+<!-- BEGIN prop_email -->
+		<input type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED}/>
+		{HIDDEN_INPUT}
+<!-- END prop_email -->
+<!-- BEGIN prop_custom -->
+		{CUSTOM_CONTENT}
+<!-- END prop_custom -->
+<!-- BEGIN prop_generic -->
+
+		<!-- BEGIN multi_in -->
+		<div id="ilFormField~{ID}~0" style="margin-bottom:5px">
+		<!-- END multi_in -->
+
+		{PROP_GENERIC}
+		
+		<!-- BEGIN multi_out -->
+		</div>
+		<!-- END multi_out -->		
+		
+<!-- END prop_generic -->
+<!-- BEGIN prop_color -->
+		{PROP_COLOR_JS}
+		<div class="yui-skin-sam" style="padding-top: 7px;">
+		<input type="text" id="{PROP_COLOR_ID}" size="15" maxlength="21" name="{POST_VAR}" value="{PROPERTY_VALUE_COLOR}" {COLOR_DISABLED}/> <span style="vertical-align:bottom;" id="{POST_VAR}-bc"></span>
+		</div>
+<!-- END prop_color -->
+<!-- BEGIN description -->
+		<div class="ilFormInfo">{PROPERTY_DESCRIPTION}</div>
+<!-- END description -->
+<!-- BEGIN alert -->
+		<div class="ilFormInfo"><img border="0" src="{IMG_ALERT}" alt="{ALT_ALERT}" /> {TXT_ALERT}</div>
+<!-- END alert -->
+<!-- BEGIN sub_form -->
+		<div class="ilSubForm" id="subform_{SFID}">{PROP_SUB_FORM}</div>
+		<!-- BEGIN sub_form_hide --><script type="text/javascript">
+			il.Form.hideSubForm('subform_{DSFID}');
+			</script><!-- END sub_form_hide -->
+<!-- END sub_form -->
+		</div>
+	</div> <!-- end of ilFormRow -->
+	<!-- <script type="text/javascript">
+	$(function() {
+		il.Form.initItem('{ID}', {CFG});
+	});
+	</script> -->
+<!-- END prop -->
+<!-- END item -->
+<!-- BEGIN commands -->
+	<div class="ilFormRow">
+		<div class="ilFormFooter">
+<!-- BEGIN hidden -->
+		<input type="{PROP_INPUT_TYPE}" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}"/>
+<!-- END hidden -->
+<!-- BEGIN required_text -->
+			<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED}</span>
+<!-- END required_text -->
+		&nbsp;</div>
+		<div class="ilFormFooter ilFormCommands">
+<!-- BEGIN cmd -->
+		<input class="submit" type="submit" name="cmd[{CMD}]" value="{CMD_TXT}" />
+<!-- END cmd -->
+		</div>
+	</div> <!-- end of ilFormRow -->
+<!-- END commands -->
+</div>

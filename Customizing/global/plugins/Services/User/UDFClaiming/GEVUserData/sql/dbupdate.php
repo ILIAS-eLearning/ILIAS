@@ -565,11 +565,93 @@ foreach ($delete_fields as $udf_const) {
 	$udfUtils->removeUDFField($udf_const);
 }
 
+?>
+
+<#8>
+<?php
+
+gevUDFUtils::updateUDFFields(array(
+		  gevSettings::USR_WBD_OKZ => array( "Zuweisung WBD OKZ"
+											, array( "visible"				=> true
+												   , "changeable"			=> false
+												   , "searchable"			=> true
+												   , "required"				=> false
+												   , "export"				=> true
+												   , "course_export"		=> false
+												   , "group_export"			=> false
+												   , "registration_visible"	=> false
+												   , "visible_lua"			=> false
+												   , "changeable_lua"		=> false
+												   , "certificate"			=> false
+												   )
+											, array( "0 - aus Rolle"
+												   , "1 - OKZ1"
+												   , "2 - OKZ2"
+												   , "3 - OKZ3"
+												   , "4 - keine Zuordnung"
+												   )
+											)
+		,  gevSettings::USR_WBD_STATUS => array( "Zuweisung WBD Vermittlerstatus"
+											, array( "visible"				=> true
+												   , "changeable"			=> false
+												   , "searchable"			=> true
+												   , "required"				=> false
+												   , "export"				=> true
+												   , "course_export"		=> false
+												   , "group_export"			=> false
+												   , "registration_visible"	=> false
+												   , "visible_lua"			=> false
+												   , "changeable_lua"		=> false
+												   , "certificate"			=> false
+												   )
+											, array( "0 - aus Rolle"
+												   , "1 - Angestellter Außendienst"
+												   , "2 - Ausschließlichkeitsvermittler"
+												   , "3 - Makler"
+												   , "4 - Mehrfachagent"
+												   , "5 - Mitarbeiter eines Vermittlers"
+												   , "6 - Sonstiges"
+												   , "7 - keine Zuordnung"
+												   )
+											)
+		));
+
+?>
 
 
-	
+
+<#9>
+<?php
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/User/classes/class.ilUserDefinedFields.php");
 
 
+$new_fields = array(
+	 gevSettings::USR_UDF_AGENT_KEY_VFS 	=> "Stellungsschlüssel VFS"
+	,gevSettings::USR_UDF_AGENT_POSITION_VFS=> "Stellung VFS"
 
+);
 
+$udfUtils = gevUDFUtils::getInstance();
+foreach ($new_fields as $udf_const => $title) {
+	$udfUtils->createUDFFields(array(
+		$title => array( $udf_const
+						, UDF_TYPE_TEXT
+						, array( "visible"				=> true
+							   , "changeable"			=> false
+							   , "searchable"			=> true
+							   , "required"				=> false
+							   , "export"				=> true
+							   , "course_export"		=> false
+							   , "group_export"			=> false
+							   , "registration_visible"	=> false
+							   , "visible_lua"			=> false
+							   , "changeable_lua"		=> false
+							   , "certificate"			=> false
+							   )
+						, null
+						)
+		));
+}
 ?>

@@ -140,7 +140,7 @@ class ilUserHistorizingAppEventListener
 			'gender'						=> $parameter['user_obj']->getGender(),
 			'birthday'						=> $parameter['user_obj']->getBirthday(),
 			'org_unit'						=> self::$ilUserHistorizingHelper->getOrgUnitOf($parameter['user_obj']),
-			'position_key'					=> self::$ilUserHistorizingHelper->getPositionKeyOf($parameter['user_obj']),
+			//'position_key'					=> self::$ilUserHistorizingHelper->getPositionKeyOf($parameter['user_obj']),
 			'entry_date'					=> $entry_date,
 			'exit_date'						=> $exit_date,
 			'bwv_id'						=> self::$ilUserHistorizingHelper->getBWVIdOf($parameter['user_obj']),
@@ -157,7 +157,10 @@ class ilUserHistorizingAppEventListener
 			'adp_number'		=> self::$ilUserHistorizingHelper->getADPNumberOf($parameter['user_obj']), 
 			'position_key'		=> self::$ilUserHistorizingHelper->getPositionKeyOf($parameter['user_obj']), 
 			'org_unit_above1'	=> $org_units_above[0],
-			'org_unit_above2'	=> $org_units_above[1]
+			'org_unit_above2'	=> $org_units_above[1],
+			
+			//new 2014-11-30:
+			'is_vfs'			=>self::$ilUserHistorizingHelper->isVFSOf($parameter['user_obj'])
 		);
 		/*
 		'street'	 	

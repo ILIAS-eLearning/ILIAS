@@ -352,9 +352,10 @@ fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen u
 gev#:#dont_send_mail#:#keine Mail versenden
 gev#:#evg_email#:#E-Mail-Adresse
 gev#:#evg_mandatory#:#Sie müssen dieses Feld bestätigen, um sich registrieren zu können.
-gev#:#evg_toc#:#Ja, ich stimme der <a href='/data/Generali/documents/GEV_NB_Finale_Nutzungsbedingungen.pdf' target='_blank' class='blue'>Nutzungsvereinbarung</a> zu, um auf die Generali Online Akademie zugreifen zu können.
-gev#:#evg_wbd#:#Hiermit erteile ich die <a href='/data/Generali/documents/GEV_BDL_Auftrag_BDL.pdf' target='_blank' class='blue'>Einwilligung zur Eintragung von Weiterbildungspunkten und -maßnahmen</a> in die WBD.
-gev#:#gev_accept_book_cond#:#Hiermit akzeptiere ich die <a href='/data/Generali/documents/GEV_Allg_Trainingsinfos Praesenz.pdf' target='_blank'  class='blue'>Buchungs- und Stornierungsbedingungen</a> der Generali Online Akademie.
+gev#:#evg_toc#:#Ja, ich stimme der <a href='/Customizing/global/skin/genv/static/documents/GEV_NB_Finale_Nutzungsbedingungen.pdf' target='_blank' class='blue'>Nutzungsvereinbarung</a> zu, um auf die Generali Online Akademie zugreifen zu können.
+gev#:#evg_wbd#:#Hiermit erteile ich die <a href='/Customizing/global/skin/genv/static/documents/GEV_BDL_Auftrag_BDL.pdf' target='_blank' class='blue'>Einwilligung zur Eintragung von Weiterbildungspunkten und -maßnahmen</a> in die WBD.
+gev#:#gev_accept_book_cond#:#Hiermit akzeptiere ich die <a href='/Customizing/global/skin/genv/static/documents/GEV_Allg_Trainingsinfos Praesenz.pdf' target='_blank'  class='blue'>Buchungs- und Stornierungsbedingungen</a> der Generali Online Akademie.
+gev#:#gev_accomodations#:#Übernachtungen
 gev#:#gev_activity#:#Aktivität
 gev#:#gev_ad_title#:#AD-Titel
 gev#:#gev_additional_settings_update_failure#:#Die weiteren Einstellungen konnten nicht aktualisiert werden.
@@ -366,7 +367,7 @@ gev#:#gev_agb_wbd#:#AGB der WBD
 gev#:#gev_agent_key#:#Vermittlerschlüssel
 gev#:#gev_agent_registration#:#Registrierung: Generali Online Akademie
 gev#:#gev_agent_registration_note#:#Bitte vervollständigen Sie Ihr Benutzerprofil.
-gev#:#gev_agent_registration_success#:#Ihre Eingabe war erfolgreich.
+gev#:#gev_agent_registration_success#:#<b>ACHTUNG:</b> BITTE GEHEN SIE JETZT <a href="http://www.generali-onlineakademie.de">"ZURÜCK ZUR STARTSEITE"</a> UND MELDEN SICH MIT IHREN BENUTZERDATEN AN, UM DIE PUNKTEMELDUNG AN DIE WBD ABZUSCHLIEßEN. 
 gev#:#gev_alternative_email#:#alternative E-Mail-Adresse
 gev#:#gev_apprentice_grant#:#Azubizuschuss
 gev#:#gev_attachment_used_in#:#Die Datei wird in folgenden Mails verwendet
@@ -389,6 +390,8 @@ gev#:#gev_book_no_cond_accept#:#Sie müssen die Buchungs- und Stornierungsbeding
 gev#:#gev_bookable#:#buchbar
 gev#:#gev_bookable_waiting#:#buchbar auf Warteliste
 gev#:#gev_booked#:#gebucht
+gev#:#gev_booked_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training gebucht und noch nicht beendet. Sie dürfen dieses Angebot daher für ihren Mitarbeiter nicht buchen.
+gev#:#gev_booked_similar_course_self#:#Sie sind auf dieses Training bereits gebucht, ohne es abgeschlossen zu haben. Sie dürfen dieses Angebot daher nicht buchen.
 gev#:#gev_booking#:#Buchung
 gev#:#gev_booking_bill_data#:#Rechnungsdaten
 gev#:#gev_booking_check_bill_data#:#Rechnungsdaten überprüfen
@@ -427,7 +430,7 @@ gev#:#gev_username_free#:#frei wählbarer Benutzername
 gev#:#gev_company_title#:#Gesellschaftsschlüssel
 gev#:#gev_competence_mgmt#:#Kompetenzen
 gev#:#gev_confirm_agb#:#Mit den %s bin ich einverstanden.
-gev#:#gev_confirm_qualification#:#Ich habe die <a href='/data/Generali/documents/03_Checkliste Qualifikationsvoraussetzungen.pdf' target='_blank' class='blue'>Qualifikationsvoraussetzungen</a> gemäß Abschnitt 1 der VersVermV erbracht (Sachkundeprüfung zur Versicherungsvermittlung oder gleichgestellte andere Berufsqualifikation) oder eine Ausbildung zur Versicherungsvermittlung auf dem Niveau der Anforderungen zur Sachkundeprüfung durchlaufen.
+gev#:#gev_confirm_qualification#:#Ich habe die <a href='/Customizing/global/skin/genv/static/documents/03_Checkliste Qualifikationsvoraussetzungen.pdf' target='_blank' class='blue'>Qualifikationsvoraussetzungen</a> gemäß Abschnitt 1 der VersVermV erbracht (Sachkundeprüfung zur Versicherungsvermittlung oder gleichgestellte andere Berufsqualifikation) oder eine Ausbildung zur Versicherungsvermittlung auf dem Niveau der Anforderungen zur Sachkundeprüfung durchlaufen.
 gev#:#gev_confirm_refresh_attachments#:#Möchten Sie die Anhänge wirklich aktualisieren?
 gev#:#gev_confirm_wbd#:#Mit den %s bin ich einverstanden.
 gev#:#gev_contents#:#Inhalte
@@ -449,6 +452,7 @@ gev#:#gev_course_search_desc#:#Hier können Sie gezielt suchen.
 gev#:#gev_course_type#:#Trainingstyp
 gev#:#gev_created_since#:#erstellt seit
 gev#:#gev_created_till#:#erstellt bis
+gev#:#gev_create_decentral_training#:#Neues dezentrales Training anlegen
 gev#:#gev_credit_points#:#Bildungspunkte
 gev#:#gev_crs_book_overnight_details#:#Übernachtungen
 gev#:#gev_crs_function#:#Rolle
@@ -463,9 +467,23 @@ gev#:#gev_crs_srch_title#:#Übersicht
 gev#:#gev_crs_srch_usr_slctr_caption#:#Suche für:
 gev#:#gev_csn_list#:#CSN-Liste
 gev#:#gev_desk_displays#:#Tischaufsteller
+gev#:#gev_dec_training_creation_successfull#:#Das neue dezentrale Training wurde erfolgreich angelegt.
+gev#:#gev_dev_training_book_users#:#Bitte buchen sie Benutzer auf das Training.
+gev#:#gev_dec_training_creation#:#Dezentrales Training anlegen
+gev#:#gev_dec_training_creation_header_note#:#Hier können sie ein neues dezentrales Training anlegen.
+gev#:#gev_dec_training_settings_header#:#Einstellungen für dezentrales Training
+gev#:#gev_dec_training_settings_header_note#:#Hier können sie für ein bestehendes dezentrales Training vornehmen.
+gev#:#gev_dec_training_settings#:#Trainingseinstellungen
+gev#:#gev_dec_training_no_templates#:#Es sind leider keine Vorlagen für dezentrale Trainings vorhanden.
+gev#:#gev_dec_training_template#:#Vorlage
+gev#:#gev_dec_training_choose_template_and_trainers#:#Vorlage und Trainer auswählen
+gev#:#gev_dec_training_choose_min_one_trainer#:#Sie müssen mindestens einen Trainer auswählen.
+gev#:#gev_dev_training_creator#:#Trainingsersteller
+gev#:#gev_dev_training_creator_desc#:#Ersteller des dezentralen Trainings mit Ref-Id %d
+gev#:#gev_duration#:#Dauer
 gev#:#gev_edu_bio#:#Bildungsbiographie
 gev#:#gev_edu_program#:#Bildungsprogramm
-gev#:#gev_edit_overnights#:#Übernachtungen
+gev#:#gev_edit_overnights#:#Ihre Übernachtungen beim Training "%s"
 gev#:#gev_edit_overnights_desc#:#Hier können sie ihre Übernachtungen beim Training bearbeiten.
 gev#:#gev_email#:#E-Mail-Adresse
 gev#:#gev_com_email#:#Kommunikations E-Mail-Adresse
@@ -477,7 +495,7 @@ gev#:#gev_evg_registration#:#Registrierung: Generali Online Akademie
 gev#:#gev_evg_registration_header_note#:#Hier können Sie einen neuen Benutzer mit ihren Daten aus der IV-Datenbank anlegen.
 gev#:#gev_evg_registration_not_found#:#Zu Ihrer Eingabe konnte kein passender Datensatz gefunden werden. Versuchen Sie es erneut oder wenden Sie sich an <a href="mailto:bildungspunkte.de@generali.com" class="blue">bildungspunkte.de@generali.com</a>.
 gev#:#gev_evg_registration_success#:#Ihre Eingabe konnte eindeutig zugeordnet werden.
-gev#:#gev_excel_course_title#:#Generelle Angaben zum Seminar
+gev#:#gev_excel_course_title#:#Generelle Angaben zum Training
 gev#:#gev_excel_member_row_title#:#Mitgliederliste
 gev#:#gev_excel_member_title#:#Mitgliederliste
 gev#:#gev_exit_date#:#Austrittsdatum
@@ -494,7 +512,7 @@ gev#:#gev_from#:#ab
 gev#:#gev_get_bill#:#Rechnung anfordern
 gev#:#gev_get_certificate#:#Teilnahmebescheinigung abrufen
 gev#:#gev_give_mandate_tp_basis#:#Hiermit erteile ich den %s ein WB-Konto bei der WBD einzurichten.
-gev#:#gev_give_mandate_tp_service#:#Hiermit erteile ich den %s (<a href='/data/Generali/documents/GEV_TPS_AAD_Finaler_Auftrag_TPS_AAD.pdf' target='_blank' class='blue'>als AAD</a> / <a href='/data/Generali/documents/GEV_TPSEVG_Finaler_Auftrag_TPS_§84HGB.pdf' target='_blank'  class='blue'>als §84HGB</a>) ein WB-Konto bei der WBD einzurichten.
+gev#:#gev_give_mandate_tp_service#:#Hiermit erteile ich den %s (<a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_AAD_Finaler_Auftrag_TPS_AAD.pdf' target='_blank' class='blue'>als AAD</a> / <a href='/Customizing/global/skin/genv/static/documents/GEV_TPSEVG_Finaler_Auftrag_TPS_§84HGB.pdf' target='_blank'  class='blue'>als §84HGB</a>) ein WB-Konto bei der WBD einzurichten.
 gev#:#gev_highlights#:#Highlights
 gev#:#gev_hotel#:#Hotel
 gev#:#gev_ihk_number#:#IHK Registrierungsnummer
@@ -509,8 +527,9 @@ gev#:#gev_last_course#:#Mein letztes Training
 gev#:#gev_learning_type#:#Trainingstyp
 gev#:#gev_location#:#Ort
 gev#:#gev_mail_mgmt#:#Mails
+gev#:#gev_preview_invitation_mail#:#Vorschau Einladungsmail
 gev#:#gev_mailing_additional_settings#:#erweiterte Einstellungen
-gev#:#gev_mailing_inv_mailing_date_expl#:#Anzahl der Tage vor dem Seminar, an dem die Einladungsmail versandt wird. Ist 0 eingestellt, wird die Mail mit der Buchungsmail versandt.
+gev#:#gev_mailing_inv_mailing_date_expl#:#Anzahl der Tage vor dem Training, an dem die Einladungsmail versandt wird. Ist 0 eingestellt, wird die Mail mit der Buchungsmail versandt.
 gev#:#gev_mandate#:#Auftrag
 gev#:#gev_me_menu#:#Übersicht
 gev#:#gev_member_list#:#Mitgliederliste
@@ -530,6 +549,7 @@ gev#:#gev_my_settings#:#Meine Einstellungen
 gev#:#gev_my_trainer_ap#:#Meine Trainingseinsätze
 gev#:#gev_need_agb_accept#:#Sie müssen die Buchungs- und Stornierungsbedingungen akzeptieren um fortfahren zu können.
 gev#:#gev_next_course#:#Mein nächstes Training
+gev#:#gev_no_employee_bookings#:#Es liegen keine Buchungen ihrer Mitarbeiter vor.
 gev#:#gev_no_last_course#:#Sie haben noch an keinem Training teilgenommen.
 gev#:#gev_no_next_course#:#Sie haben kein Training gebucht.
 gev#:#gev_no_other_wbd_mandate#:#Ich versichere, dass ich nicht bereits an anderer Stelle eine solche Kontoeröffnung beantragt habe.
@@ -538,10 +558,13 @@ gev#:#gev_no_show_bill_title#:#Nicht stornierte Buchung des Trainings "%s" für 
 gev#:#gev_not_allowed_to_book_crs_for_other#:#Sie dürfen dieses Training nicht für einen anderen Benutzer buchen.
 gev#:#gev_not_allowed_to_book_crs_for_self#:#Sie dürfen dieses Training nicht buchen.
 gev#:#gev_not_allowed_to_book_crs_for_other#:#Sie dürfen diese Stornierung nicht vornehmen.
+gev#:#gev_not_allowed_to_book_crs_self_because_period#:#Sie dürfen dieses Training nicht buchen, da sie bereits ein anderes Training im gleichen Zeitraum gebucht haben.
+gev#:#gev_not_allowed_to_book_crs_other_because_period#:#Sie dürfen dieses Training nicht buchen, da ihr Mitarbeiter bereits ein anderes Training im gleichen Zeitraum gebucht hat.
 gev#:#gev_not_allowed_to_cancel_crs_for_other#:#Sie dürfen dieses Training nicht für einen anderen Benutzer stornieren.
 gev#:#gev_not_bookable#:#ausgebucht
 gev#:#gev_number_of_measure#:#Nummer der Maßnahme
 gev#:#gev_obligatory_booking#:#Verbindliche Buchung
+gev#:#gev_od_bd#:#OD/BD
 gev#:#gev_org_mgmt#:#Organisationseinheiten
 gev#:#gev_org_unit#:#zugehörige Organisationseinheit
 gev#:#gev_org_unit_short#:#Org.-Einheit
@@ -551,7 +574,7 @@ gev#:#gev_others_menu#:#Organisation
 gev#:#gev_overall_prize#:#Gesamtpreis
 gev#:#gev_participation_status#:#Teilnahmestatus
 gev#:#gev_passed#:#teilgenommen
-gev#:#gev_passed_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training erfolgreich abgeschlossen. Die dürfen dieses Angebot daher für ihren Mitarbeiter nicht buchen.
+gev#:#gev_passed_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training erfolgreich abgeschlossen. Sie dürfen dieses Angebot daher für ihren Mitarbeiter nicht buchen.
 gev#:#gev_passed_similar_course_self#:#Sie sind auf dieses Training bereits an einem anderen Termin gebucht. Sie können keinen zweiten Termin buchen. Sollten Sie den Termin wechseln wollen, stornieren Sie zunächst das bereits gebuchte Training und buchen Sie dann den gewünschten neuen Termin.
 gev#:#gev_payment_type#:#Zahlungsart
 gev#:#gev_payment_type_bill#:#Rechnung
@@ -568,6 +591,7 @@ gev#:#gev_position#:#Vermittlernummer
 gev#:#gev_position_key#:#Stellungsschlüssel
 gev#:#gev_pot_applicants#:#POT Bewerber
 gev#:#gev_pot_participants#:#POT Teilnehmer
+gev#:#gev_prearrival_note#:#Achtung: Bei eintägigen Trainings bitte keine Übernachtungen buchen. Vorabendanreisen oder Abreisen am nächsten Morgen bedürfen der gesonderten Genehmigung der Führungskraft.
 gev#:#gev_presave#:#Zwischenspeichern
 gev#:#gev_private_contact#:#Kontaktdaten privat
 gev#:#gev_private_contact_info#:#Die Angabe Ihrer E-Mail und Mobiltelefonnummer ist zwingend notwendig, damit Ihr Konto in der zentralen Weiterbildungsdatenbank eröffnet und gepflegt werden kann.
@@ -600,6 +624,8 @@ gev#:#gev_spec_course_create#:#Spezialistentraining anlegen
 gev#:#gev_standard_mail#:#Standardmail verwenden
 gev#:#gev_status#:#Status
 gev#:#gev_subscription_end#:#Anmeldungsende
+gev#:#gev_suppress_mails#:#Mailversand unterbinden
+gev#:#gev_suppress_mails_info#:#Keine Einladungs-, Stornierungs- oder Buchungsmails für dieses Training versenden.
 gev#:#gev_table_no_entry#:#-
 gev#:#gev_target_group#:#Zielgruppe
 gev#:#gev_targets_and_benefit#:#Ziele und Nutzen
@@ -659,6 +685,8 @@ gev#:#gev_wbd_registration_question_basis#:#Haben Sie bereits ein Weiterbildungs
 gev#:#gev_wbd_registration_question_service#:#Sofern die Generali nicht Ihr Trusted Partner Service sein soll, oder Sie bereits an anderer Stelle eine Kontoeröffnung beantragt haben, nutzen Sie unten stehende Eingabefelder.
 gev#:#gev_wbd_relevant#:#WBD relevant
 gev#:#gev_wbd_transfer_on#:#Ihre Bildungspunkte werden an die WBD gemeldet.
+gev#:#gev_webinar_link#:#Webinar Link
+gev#:#gev_webinar_password#:#Webinar Passwort
 gev#:#housenumber#:#Hausnummer
 gev#:#no_edu_bio_permission#:#Sie haben keine Berechtigung auf diese Bildungsbiographie zuzugreifen.
 gev#:#no_invitation_mail_available#:#Keine Einladungsmail ausgewählt.
@@ -770,6 +798,20 @@ mailing#:#send_by#:#versendet von
 mailing#:#upload_attachment_failure#:#Beim Upload des Anhangs ist ein unbekannter Fehler aufgetreten. Bitte wenden Sie sich an die Administration.
 mailing#:#upload_attachment_no_file#:#Die hochgeladene Datei ist leer.
 mailing#:#upload_attachment_success#:#Datei '%s' erfolgreich hochgeladen.
+maps#:#maps_enable_maps_info#:#Aktiviert Karten in Benutzerprofilen, Gruppen und Kursen.
+maps#:#maps_enable_maps#:#Karten aktivieren
+maps#:#maps_extt_maps#:#Karten
+maps#:#maps_latitude#:#Breitengrad
+maps#:#maps_longitude#:#Längengrad
+maps#:#maps_lookup_address#:#Adresse suchen
+maps#:#maps_public_profile_info#:#Ort im persönlichen Profil anzeigen.
+maps#:#maps_settings#:#Einstellungen Karten
+maps#:#maps_std_location_desc#:#Auf die Karte klicken um Ort zu bestimmen.
+maps#:#maps_std_location#:#Standardort
+maps#:#maps_zoom_level#:#Zoom
+maps#:#maps_google_maps#:#Google Maps
+maps#:#maps_open_layers_maps#:#Open Layers Maps
+maps#:#maps_map_type#:#Typ
 modul#:#identifier#:#2Text (neu)
 news#:#news_enable_internal_news_info#:#Aktiviert Nachrichtenblöcke für Kategorien, Trainings, Gruppen und andere Objekte. Benutzer können diese Nachrichten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
 news#:#news_nr_of_items_info#:#Anzahl der Nachrichten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Trainings mehr Nachrichten enthalten können, da sie auch die Nachrichten ihrer Unterobjekte anzeigen.
@@ -833,7 +875,7 @@ rbac#:#crss_read#:#Lesezugriff auf Trainings-Betreuung
 rbac#:#crss_visible#:#Trainingsbetreuer ist sichtbar
 rbac#:#crss_write#:#Einstellungen in Trainings-Betreuung bearbeiten
 rbac#:#il_orgu_employee#:#Mitarbeiter
-rbac#:#orgu_book_employees#:#Mitarbeiter auf Seminare buchen
+rbac#:#orgu_book_employees#:#Mitarbeiter auf Trainings buchen
 rbac#:#orgu_book_employees_rcrsv#:#Mitarbeiter auf Trainings buchen (rekursiv)
 rbac#:#orgu_cancel_employee_bookings#:#Buchungen von Mitarbeitern stornieren
 rbac#:#orgu_cancel_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern stornieren (rekursiv)
@@ -845,7 +887,7 @@ rbac#:#ps_export_member_data#:#Export von Teilnehmerdaten in Gruppen und Trainin
 rbac#:#rbac_create_crs#:#Training anlegen
 rbac#:#rbac_create_crsr#:#Trainingreferenz anlegen
 rbac#:#rbac_delete_local_policies_info#:#WÃ¤hlen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen (z.B. in Trainings und Gruppen) zu entfernen. Alle Rechte werden neu geschrieben, anschlieÃŸend wird der Rechteschutz aktiviert.
-rbac#:#rbac_unprotected_delete_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen Ã¼berschrieben und die Rechte in Trainings und Gruppen neu initialisiert.
+rbac#:#rbac_unprotected_delete_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen überschrieben und die Rechte in Trainings und Gruppen neu initialisiert.
 rbac#:#tep_edit_other#:#TEP Termine von anderen Trainern bearbeiten
 rbac#:#tep_edit_other_rcrsv#:#TEP Termine von anderen Trainern bearbeiten (rekursiv)
 rbac#:#tep_is_tutor#:#ist Trainer in dieser Einheit
@@ -854,6 +896,21 @@ rbac#:#tep_view_other_rcrsv#:#TEP Termine von anderen Trainer sehen (rekursiv)
 rbac#:#view_bookings#:#Buchungen einsehen
 rbac#:#view_employee_bookings#:#Buchungen von Mitarbeitern einsehen
 rbac#:#view_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern einsehen (rekursiv)
+rbac#:#crs_view_bookings#:#Buchungen einsehen
+rbac#:#crs_view_participation_status#:#Teilnahmestatus bearbeiten
+rbac#:#crs_view_own_accomodations#:#Eigene Buchungen einsehen
+rbac#:#crs_set_own_accomodations#:#Eigene Übernachtungen bearbeiten
+rbac#:#crs_book_users#:#Buchungen vornehmen
+rbac#:#crs_set_participation_status#:#Teilnahmestatus setzen
+rbac#:#crs_review_participation_status#:#Teilnahmestatus finalisieren
+rbac#:#crs_view_others_accomodations#:#Übernachtungen anderer einsehen
+rbac#:#crs_set_others_accomodations#:#Übernachtungen anderer bearbeiten
+rbac#:#crs_cancel_bookings#:#Buchungen stornieren
+rbac#:#add_dec_training_self#:#Dezentrale Trainings für sich selbst anlegen
+rbac#:#add_dec_training_others#:#Dezentrale Trainings für andere anlegen
+rbac#:#add_dec_training_others_rec#:#Dezentrale Trainings für andere anlegen (rekursiv)
+rbac#:#write_reduced_settings#:#Kleine Trainingseinstellungen ändern
+rbac#:#crs_write_reduced_settings#:#Kleine Trainingseinstellungen ändern
 search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Training hinzufügen
 search#:#search_crs_title#:#Trainingsname
 search#:#search_for_crs_members#:#Nach Trainingsteilnehmern suchen
@@ -898,7 +955,7 @@ gev#:#gev_mytrainingsap_btn_setstatus#:#Teilnehmerstatus setzen
 gev#:#gev_mytrainingsap_btn_bookings#:#Buchungen
 gev#:#gev_mytrainingsap_no_accomodations#:#Bei diesem Training kann nicht übernachtet werden.
 gev#:#gev_mytrainingsap_saved_overnights#:#Ihre Übernachtungen wurden gespeichert.
-gev#:#gev_set_course_status_title#:#Teilnehmerstatus setzen
+gev#:#gev_set_course_status_title#:#Teilnehmerstatus von Training "%s" setzen
 gev#:#gev_set_course_status_title_desc#:#Setzen Sie hier die Teilnehmerstatus.
 gev#:#mbrcount#:#Teilnehmer
 gev#:#gev_learning_cat#:#Kategorie
@@ -922,3 +979,7 @@ gev#:#wbd_service_type#:#Service-Typ
 gev#:#gev_report_wbd_edupoints#:#Gemeldete Bildungspunkte
 gev#:#gev_rep_wbd_edupoints#:#Gemeldete Bildungspunkte
 gev#:#gev_rep_wbd_edupoints_desc#:#Die folgenden Benutzer/Trainingsbeziehungen wurden an die WBD gemeldet.
+common#:#login_data#:#Accountinformationen
+common#:#contact_data#:#Kontaktinformationen geschäftlich
+gev#:#gev_course_search_adm#:#Trainingssuche
+gev#:#tutor#:#Trainer

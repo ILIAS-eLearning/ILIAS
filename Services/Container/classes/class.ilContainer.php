@@ -441,7 +441,6 @@ class ilContainer extends ilObject
 		$collection = $olp->getCollectionInstance();
 		if($collection)
 		{
-			// this line seems to fail
 			$collection->cloneCollection($a_target_id, $a_copy_id);	 	
 		}
 
@@ -459,7 +458,9 @@ class ilContainer extends ilObject
 	 * @param array $options
 	 * @return new refid if clone has finished or parameter ref id if cloning is still in progress
 	 */
-	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $soap_call = false)
+	// gev-patch start
+	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $soap_call = false, $ret_new_ref = false)
+	// gev-patch end
 	{
 		global $ilLog;
 		
@@ -523,6 +524,13 @@ class ilContainer extends ilObject
 		{
 			return $res;
 		}
+		// gev-patch start
+		else if ($ret_new_ref) {
+			while(!ilCopyWizardOptions::_isFinished($copy_id)) {
+			}
+			return $res;
+		}
+		// gev-patch end
 		else
 		{
 			return $ref_id;

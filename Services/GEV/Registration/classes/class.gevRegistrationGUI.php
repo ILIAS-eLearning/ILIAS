@@ -123,7 +123,7 @@ class gevRegistrationGUI {
 			return $this->inputUserProfile(null, $res[0]);
 		}
 		else {
-			return $this->checkEVGRegistration($res[0], $import);
+			return $this->startRegistration($res[0]);
 		}
 	}
 
@@ -165,6 +165,7 @@ class gevRegistrationGUI {
 		$user->setLastname($form->getInput("lastname"));
 		$user->setFirstname($form->getInput("firstname"));
 		$user->setGender($form->getInput("gender"));
+		$user->setUTitle($form->getInput("title"));
 		$birthday = $form->getInput("birthday");
 		$user->setBirthday($birthday["date"]);
 		$user->setStreet($form->getInput("b_street"));
@@ -191,9 +192,9 @@ class gevRegistrationGUI {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$user_utils = gevUserUtils::getInstanceByObj($user);
 		
-		$user_utils->setBirthplace($form->getInput("birthplace"));
-		$user_utils->setBirthname($form->getInput("birthname"));
-		$user_utils->setIHKNumber($form->getInput("ihk_number"));
+		//$user_utils->setBirthplace($form->getInput("birthplace"));
+		//$user_utils->setBirthname($form->getInput("birthname"));
+		//$user_utils->setIHKNumber($form->getInput("ihk_number"));
 		$user_utils->setPrivateEmail($form->getInput("p_email"));
 		$user_utils->setPrivateStreet($form->getInput("p_street"));
 		$user_utils->setPrivateCity($form->getInput("p_city"));
@@ -215,14 +216,14 @@ class gevRegistrationGUI {
 		$user_utils->setADPNumber($data["adp"]);
 		$user_utils->setJobNumber($stellennummer);
 		$user_utils->setAgentKey($data["vms"]);
-		$user_utils->setCompanyTitle($data["gesellschaftstitel"]);
-		$user_utils->setHPE($data["hpe"]);
+		//$user_utils->setCompanyTitle($data["gesellschaftstitel"]);
+		//$user_utils->setHPE($data["hpe"]);
 		
 		$role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][0];
 		$role_utils = gevRoleUtils::getInstance();
 		$role_utils->assignUserToGlobalRole($user_id, $role_title);
 		
-		$org_role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][1];
+		/*$org_role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][1];
 		$org_unit_import_id = $this->getOrgUnitImportId($stellennummer);
 		$org_unit_id = ilObjOrgUnit::_lookupObjIdByImportId($org_unit_import_id);
 		if (!$org_unit_id) {
@@ -230,8 +231,12 @@ class gevRegistrationGUI {
 		}
 		$org_unit_utils = gevOrgUnitUtils::getInstance($org_unit_id);
 		$org_unit_utils->getOrgUnitInstance();
-		$org_unit_utils->assignUser($user_id, $org_role_title);
+		$org_unit_utils->assignUser($user_id, $org_role_title);*/
 		
+		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
+		gevDBVUtils::getInstance()->assignUserToDBVsByShadowDB($user->getId());
+		
+		//$user = new ilObjUser($user_id);
 		$user->setActive(true, 6);
 		$user->update();
 		
@@ -245,7 +250,7 @@ class gevRegistrationGUI {
 				. $tpl->get();
 	}
 	
-	protected function checkEVGRegistration($a_form, $a_import) {
+	/*protected function checkEVGRegistration($a_form, $a_import) {
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		$title = new catTitleGUI("gev_evg_registration", null, "GEV_img/ico-head-evg_registration.png");
 	
@@ -268,7 +273,7 @@ class gevRegistrationGUI {
 	
 		return	  $title->render()
 				. $tpl->get();
-	}
+	}*/
 
 	protected function checkRegistrationStartForm() {
 		$form = $this->buildRegistrationStartForm();
@@ -383,6 +388,9 @@ class gevRegistrationGUI {
 		$firstname->setRequired(true);
 		$form->addItem($firstname);
 		
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$form->addItem($title);
+		
 		$gender = new ilRadioGroupInputGUI($this->lng->txt("gender"), "gender");
 		$gender->addOption(new ilRadioOption($this->lng->txt("gender_m"), "m"));
 		$gender->addOption(new ilRadioOption($this->lng->txt("gender_f"), "f"));
@@ -394,16 +402,16 @@ class gevRegistrationGUI {
 		$birthday->setStartYear(1940);
 		$form->addItem($birthday);
 		
-		$birthplace = new ilTextInputGUI($this->lng->txt("gev_birthplace"), "birthplace");
+		/*$birthplace = new ilTextInputGUI($this->lng->txt("gev_birthplace"), "birthplace");
 		$birthplace->setRequired(true);
 		$form->addItem($birthplace);
 		
 		$birthname = new ilTextInputGUI($this->lng->txt("gev_birthname"), "birthname");
 		$birthname->setRequired(true);
-		$form->addItem($birthname);
+		$form->addItem($birthname);*/
 		
-		$ihk = new ilTextInputGUI($this->lng->txt("gev_ihk_number"), "ihk_number");
-		$form->addItem($ihk);
+		//$ihk = new ilTextInputGUI($this->lng->txt("gev_ihk_number"), "ihk_number");
+		//$form->addItem($ihk);
 		
 		$section2 = new ilFormSectionHeaderGUI();
 		$section2->setTitle($this->lng->txt("gev_business_contact"));

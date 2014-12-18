@@ -25,7 +25,7 @@ class ilPersonalOrgUnits {
 	
 	public $orgu_base = null;
 	public $orgu_template = null;
-
+	
 	//user object of the superior
 	public $user_obj = null;
 
@@ -205,7 +205,10 @@ class ilPersonalOrgUnits {
 	*/
 	public function assignEmployee($a_superior_id, $a_employee_id){
 		$orgu = $this->getPersonalOrguBySuperiorId($a_superior_id);
-		$this->errorIfNull($orgu, 'assignEmployee', $a_superior_id);
+		if ($orgu === null) {
+			$this->createOrgUnitFor($a_superior_id);
+			$orgu = $this->getPersonalOrguBySuperiorId($a_superior_id);
+		}
 		$orgu->assignUsersToEmployeeRole(array($a_employee_id));
 	} 
 
@@ -334,16 +337,17 @@ class ilPersonalOrgUnits {
 	* @param obj user $a_superior
 	*
 	*/
-	public function updateOrgUnitTitleOf($a_superior){
+	public function updateOrgUnitTitleOf($a_superior, $supress_error=False){
 		$orgu = self::getPersonalOrguBySuperiorId($a_superior->getId());
-		self::errorIfNull($orgu, 'updateOrgUnitTitleOf', $a_superior_id);
-
-		$title = self::buildOrguTitleFromUser($a_superior);
-
-		$orgu->setTitle($title);
-		$orgu->update();
+		if(! $supress_error){
+			self::errorIfNull($orgu, 'updateOrgUnitTitleOf', $a_superior_id);
+		}
+		if($orgu){
+			$title = self::buildOrguTitleFromUser($a_superior);
+			$orgu->setTitle($title);
+			$orgu->update();
+		}
 	}
-
 
 }
 

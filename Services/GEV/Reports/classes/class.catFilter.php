@@ -99,7 +99,7 @@ class catFilter {
 		$this->template = null;
 		$this->action = null;
 		$this->action_title = null;
-		$this->post_var_prefix = "filter_";
+		$this->post_var_prefix = "filter";
 		
 		$this->encoded_params = null;
 		$this->calendar_util_inited = false;
@@ -249,32 +249,27 @@ class catFilter {
 		$out = "";
 		
 		$tpl = new ilTemplate("tpl.cat_filter.html", true, true, "Services/GEV/Reports");
-		$tpl->setCurrentBlock("filter_head");
-		$tpl->setVariable("POST_VAR", $this->post_var_prefix);
-		$tpl->parseCurrentBlock();
-		$out .= $tpl->get();
 		
 		foreach ($this->filters as $conf) {
-			$tpl = new ilTemplate("tpl.cat_filter.html", true, true, "Services/GEV/Reports");
-			$type = $this->getType($conf);
-			$tpl->setCurrentBlock($type->getId());
 			$postvar = $this->getPostVar($conf);
-			$tpl->setVariable("POST_VAR", $postvar);
-			if($type->render($tpl, $postvar, $conf, $this->getParameters($conf))) {
+			$type = $this->getType($conf);
+			$type_id = $type->getId();
+
+			$_tpl = new ilTemplate( "tpl.cat_filter_".$type_id.".html", true, true, "Services/GEV/Reports"
+								  , array("POST_VAR" => $postvar));
+			if($type->render($_tpl, $postvar, $conf, $this->getParameters($conf))) {
+				$tpl->setCurrentBlock($type_id);
+				$_tpl->setVariable("POST_VAR", $postvar);
+				$tpl->setVariable("FILTER_ITEM", $_tpl->get());
 				$tpl->parseCurrentBlock();
-				$out .= $tpl->get();
 			}
-			$out .= $tpl->get();
 		}
 		
-		$tpl = new ilTemplate("tpl.cat_filter.html", true, true, "Services/GEV/Reports");
-		
-		$tpl->setCurrentBlock("filter_tail");
+		$tpl->setVariable("POST_VAR_PREFIX", $this->post_var_prefix);
+		$tpl->setVariable("ACTION", $this->action);
 		$tpl->setVariable("FILTER", $this->action_title);
-		$tpl->parseCurrentBlock();
-		$out .= $tpl->get();
 		
-		return $out;
+		return $tpl->get();
 	}
 	
 	// get default value for filter
@@ -290,7 +285,7 @@ class catFilter {
 	}
 	
 	protected function getPostVar($a_conf) {
-		return $this->post_var_prefix . $this->getName($a_conf);
+		return $this->post_var_prefix . "_" . $this->getName($a_conf);
 	}
 	
 	protected function getType($a_conf) {
@@ -356,12 +351,18 @@ class catDatePeriodFilterType {
 	// field_end
 	// default_begin
 	// default_end
+	// as_timestamp (optional, defaults to false)
 	
 	public function checkConfig($a_conf) {
-		if (count($a_conf) !== 8) {
+		if (count($a_conf) !== 8 && count($a_conf) !== 9) {
 			// one parameter less, since type is encoded in first parameter but not passed by user.
 			throw new Exception ("catDatePeriodFilterType::checkConfig: expected 7 parameters for dateperiod.");
 		}
+		
+		if (count($a_conf) === 8) {
+			$a_conf[8] = false;
+		}
+		
 		return $a_conf;
 	}
 	
@@ -416,15 +417,26 @@ class catDatePeriodFilterType {
 	public function sql($a_conf, $a_pars) {
 		global $ilDB;
 	
-		return "    (".catFilter::quoteDBId($a_conf[5])
-					  ." >= ".$ilDB->quote($a_pars["start"], "date")
-			  			// this accomodates history tables
-			  ."        OR ".catFilter::quoteDBId($a_conf[5])." = '0000-00-00' "
-			  ."        OR ".catFilter::quoteDBId($a_conf[5])." = '-empty-'"
-			  ."    )"
-			  ."   AND ".catFilter::quoteDBId($a_conf[4])
-			  			." <= ".$ilDB->quote($a_pars["end"], "date")
-			  ;
+		if (!$a_conf[8]) {
+			return "    (".catFilter::quoteDBId($a_conf[5])
+						  ." >= ".$ilDB->quote($a_pars["start"], "date")
+				  			// this accomodates history tables
+				  ."        OR ".catFilter::quoteDBId($a_conf[5])." = '0000-00-00' "
+				  ."        OR ".catFilter::quoteDBId($a_conf[5])." = '-empty-'"
+				  ."    )"
+				  ."   AND ".catFilter::quoteDBId($a_conf[4])
+				  			." <= ".$ilDB->quote($a_pars["end"], "date")
+				  ;
+		}
+		else {
+			$d = new ilDate($a_pars["start"], IL_CAL_DATE);
+			$val_s = $d->get(IL_CAL_UNIX);
+			$d = new ilDate($a_pars["end"], IL_CAL_DATE);
+			$d->increment(ilDateTime::DAY, 1);
+			$val_e = $d->get(IL_CAL_UNIX);
+			return   catFilter::quoteDBId($a_conf[5])." >= ".$ilDB->quote($val_s, "integer")
+			." AND ".catFilter::quoteDBId($a_conf[5])." <= ".$ilDB->quote($val_e, "integer");
+		}
 	}
 	
 	public function get($a_pars) {
@@ -507,6 +519,8 @@ class catCheckboxFilterType {
 }
 catFilter::addFilterType(catCheckboxFilterType::ID, new catCheckboxFilterType());
 
+
+
 class catMultiSelectFilter {
 	const ID = "multiselect";
 	
@@ -517,7 +531,7 @@ class catMultiSelectFilter {
 	// config:
 	// id
 	// label
-	// field
+	// field(s)
 	// values
 	// default_values
 	// width (optional)
@@ -559,13 +573,12 @@ class catMultiSelectFilter {
 
 		// for some unknown reason, the var POST_VAR gets
 		// not filled in all places if i call it from catFilter::render.
-		$a_tpl->setVariable("FOO_POST_VAR", $a_postvar);
 		foreach ($a_conf[4] as $title) {
 			$a_tpl->setCurrentBlock("multiselect_item");
 			$a_tpl->setVariable("CNT", $count);
-			$a_tpl->setVariable("POST_VAR", $a_postvar);
 			$a_tpl->setVariable("OPTION_VALUE", $title);
 			$a_tpl->setVariable("OPTION_TITLE", $title);
+			$a_tpl->setVariable("POST_VAR", $a_postvar);
 			if (in_array($title, $a_pars)) {
 				$a_tpl->setVariable("CHECKED", "checked");
 			}
@@ -578,6 +591,18 @@ class catMultiSelectFilter {
 	
 	public function sql($a_conf, $a_pars) {
 		global $ilDB;
+		if (count($a_pars) == 0) {
+			return " TRUE ";
+		}
+		
+		if (is_array($a_conf[3])) {
+			$stmts = array();
+			foreach($a_conf[3] as $field) {
+				$stmts[] = $ilDB->in(catFilter::quoteDBId($field), $a_pars, false, $a_conf[8]);
+			}
+			return "(".implode(" OR ", $stmts).")";
+		}
+		
 		return $ilDB->in(catFilter::quoteDBId($a_conf[3]), $a_pars, false, $a_conf[8]);
 	}
 	

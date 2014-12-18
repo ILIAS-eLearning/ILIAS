@@ -7,28 +7,30 @@
 */
 
 //reset ilias for calls from somewhere else
+$LIVE = 1;
 
-
-die();
+//die();
 
 $basedir = __DIR__; 
 $basedir = str_replace('/Services/GEV/debug', '', $basedir);
 chdir($basedir);
 
-/*
+require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
+
+
+
 //context w/o user
 require_once "./Services/Context/classes/class.ilContext.php";
 ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
 require_once("./Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
-*/
+
+
 require_once("./include/inc.header.php");
 
 //require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 //require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 //require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
-
-
 
 
 
@@ -50,6 +52,9 @@ function printToTable($ar){
 			print '<tr>';
 		}
 		print '<td>';
+		if(!is_array($entry)){
+			$entry = array($entry);
+		}
 		print join(array_values($entry),'</td><td>');
 		print '</td>';
 		print '</tr>';
@@ -61,10 +66,32 @@ function printToTable($ar){
 
 class gevDebug {
 	public function __construct() {
+
 		global $ilUser, $ilDB;
+		global $ilClientIniFile;
+		global $LIVE;
 
 		$this->db = &$ilDB;
 		$this->user = &$ilUser;
+
+
+		$host = $ilClientIniFile->readVariable('shadowdb', 'host');
+		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
+		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
+		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
+
+		if(! $LIVE){
+			$host = "localhost";
+			$user = "root";
+			$pass = "****";
+			$name = "gev_ivimport";
+		}
+
+		$mysql = mysql_connect($host, $user, $pass) or die(mysql_error());
+		mysql_select_db($name, $mysql);
+		mysql_set_charset('utf8', $mysql);
+
+		$this->importDB = $mysql;
 
 	}
 
@@ -357,7 +384,7 @@ class gevDebug {
 			){
 				//revert
 				print '<br>reverting.';
-				$uutils->setWBDAgentStatus('0 - aus Rolle');
+				$uutils->setWBDAgentStatus('0 - aus Stellung');
 			}
 
 		}
@@ -372,13 +399,73 @@ class gevDebug {
 	}
 
 
+	public function getIdsReported($reported = 1){
+		$ret = array();
+		$sql = "SELECT id FROM wbd_altdaten WHERE reported = " .$reported;
+		$result = mysql_query($sql, $this->importDB);
+		while($record = mysql_fetch_assoc($result)) {
+			$ret[] = $record['id'];
+		}
+		return $ret;
+	}
+
+	public function getDistinctNames(){
+		$ret = array();
+		$sql= "SELECT DISTINCT concat( vorname, ' ', name ) AS fullname FROM wbd_altdaten";
+		$result = mysql_query($sql, $this->importDB);
+		while($rec = mysql_fetch_assoc($result)) {
+			$ret[] = $rec['fullname'];
+		}
+		return $ret;
+	}
+
+
+	
+
+
+
+
+
 }
 print '<pre>';
 
 
-die('online');
+//die('online');
 $debug = new gevDebug();
 
+
+$usr_ids = array(
+266
+,289
+);
+
+foreach ($debug->getAllUsers($usr_ids) as $id=>$usr) {
+	$debug->updateHistoryForUser($usr);
+
+	print "<b>$id</b>";
+	print_r($usr->getLogin());
+	print '<hr>';
+}
+
+
+die();
+
+/*
+
+$reported1 = $debug->getDistinctNamesReported(1);
+$reported0 = $debug->getDistinctNamesReported(0);
+
+print '<br>';
+//print implode(',', $debug->getDistinctNamesReported(0));
+
+
+$intersect = array_intersect($reported1, $reported0);
+
+printToTable($reported1);
+
+
+print_r($intersect);
+*/
 
 
 /*

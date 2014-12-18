@@ -13,7 +13,7 @@ class gevRegistrationMailTypeAdapter extends ilMailTypeAdapter {
 	private $placeholders = null;
 	
 	public function getCategoryNameLocalized($category_name, $lng) {
-		return 'GEVRegistration';
+		return 'Agentregistration';
 	}
 
 	public function getTemplateTypeLocalized($category_name, $template_type, $lng) {

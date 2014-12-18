@@ -429,6 +429,14 @@ class ilAdvancedMDValues
 							{			
 								continue(3);
 							}
+							else
+							{
+								$md_val = $val[$rec[$a_obj_id_key]][$rec[$a_obj_subid_key]][$fka]["value"];								
+								if (trim($md_val) != trim($fv))
+								{
+									$skip = true;
+								}
+							}
 						}
 					}
 				}

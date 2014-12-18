@@ -2262,3 +2262,366 @@ if(!$ilDB->tableExists('org_unit_personal'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#67>
+<?php
+	if(!$ilDB->tableColumnExists('gev_crs_addset', "suppress_mails")){
+		$ilDB->addTableColumn('gev_crs_addset', "suppress_mails", array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+			)
+		);	
+	}
+?>
+
+<#68>
+<?php
+	if(!$ilDB->tableColumnExists('hist_user', "is_vfs")){
+		$ilDB->addTableColumn('hist_user', "is_vfs", array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+			)
+		);	
+	}
+
+?>
+
+<#69>
+<?php
+
+if(!$ilDB->tableExists('copy_mappings'))
+{
+	$fields = array (
+	'target_ref_id'    => array(
+			'type' => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0),
+	
+	'source_ref_id'    => array(
+			'type' => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0),
+	);
+
+	$ilDB->createTable('copy_mappings', $fields);
+	$ilDB->addPrimaryKey('copy_mappings', array('target_ref_id'));
+}
+
+?>
+
+<#70>
+<?php
+
+if(!$ilDB->tableExists('hist_tep'))
+{
+	$fields = array (
+		'row_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'hist_version' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 1),
+		'hist_historic' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'creator_user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'created_ts' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'cal_entry_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'cal_derived_entry_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false),
+		'context_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'subtitle' => array(
+			'type' => 'text',
+			'length' => 255),
+		'description' => array(
+			'type' => 'text',
+			'length' => 255),
+		'location' => array(
+			'type' => 'text',
+			'length' => 255),
+		'fullday' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true),
+		'begin_date' => array(
+			'type' => 'date'),
+		'end_date' => array(
+			'type' => 'date'),
+		'individual_days' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'category' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'deleted' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true)
+	);
+	$ilDB->createTable('hist_tep', $fields);
+	$ilDB->addPrimaryKey('hist_tep', array('row_id'));
+	$ilDB->createSequence('hist_tep');
+}
+
+?>
+
+<#71>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#72>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+
+	$new_org_ops = array(
+		 'add_dec_training_self' => array('Create decentral Trainings for self', 2907)
+		,'add_dec_training_others' => array('Create decentral Trainings for others', 2908)
+		,'add_dec_training_others_rec' => array('Create decentral Trainings for others (recursiv)', 2909)
+	);
+	ilCustomInstaller::addRBACOps('orgu', $new_org_ops);
+?>
+
+<#73>
+<?php
+	$query = "UPDATE  tep_type SET title = 'Akquise Pilotprojekt' WHERE id=14";
+	$ilDB->manipulate($query);
+?>
+
+<#74>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+
+	$new_crs_ops = array(
+		 'write_reduced_settings' => array('Edit reduced settings of training.', 6001)
+	);
+	ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+?>
+
+<#75>
+<?php
+	// create instance
+	include_once("Services/AccessControl/classes/class.ilObjRoleTemplate.php");
+	require_once "Customizing/class.ilCustomInstaller.php";
+	
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitUserToRoot();
+	
+	$newObj = new ilObjRoleTemplate();
+	$newObj->setType("rolt");
+	$newObj->setTitle("Trainingsersteller");
+	$newObj->setDescription("Rolle für die Ersteller von dezentralen Trainings");
+	$newObj->create();
+	$newObj->createReference();
+	$newObj->putInTree(ROLE_FOLDER_ID);
+	$newObj->setPermissions(ROLE_FOLDER_ID);
+
+	$ilDB->manipulate("INSERT INTO rbac_fa (rol_id, parent, assign, protected)"
+					 ." VALUES ( ".$ilDB->quote($newObj->getId(), "integer")
+					 ."        , ".$ilDB->quote(ROLE_FOLDER_ID, "integer")
+					 ."        , 'n', 'y')"
+					 );
+?>
+
+<#76>
+<?php
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+	$res = $ilDB->query("SELECT record_id FROM adv_md_record"
+					   ." WHERE title = 'Verwaltung'");
+	$rec = $ilDB->fetchAssoc($res);
+	$record_id = $rec["record_id"];
+	
+	$res = $ilDB->query("SELECT field_id FROM adv_mdf_definition"
+					   ." WHERE title = 'Bildungsprogramm'");
+	$rec = $ilDB->fetchAssoc($res);
+	$field_id = $rec["field_id"];
+	
+	$ilDB->manipulate("UPDATE adv_mdf_definition "
+					 ."   SET record_id = ".$ilDB->quote($record_id, "integer")
+					 ." WHERE title = 'Bildungsprogramm'"
+					 );
+	$ilDB->manipulate("UPDATE settings "
+					 ."   SET value = ".$this->db->quote($record_id." ".$field_id, "text")
+					 ." WHERE keyword = ".$this->db->quote(gevSettings::CRS_AMD_EDU_PROGRAMM, "text")
+					 );
+
+	$pos = array( 1 => "Trainingsnummer"
+				, 2 => "Trainingtyp"
+				, 3 => "Bildungsprogramm"
+				, 4 => "Vorlage"
+				, 5 => "Vorlagentitel"
+				, 6 => "Referenz-Id der Vorlage"
+				, 7 => "Nummernkreis"
+				);
+	
+	foreach ($pos as $key => $value) {
+		$ilDB->manipulate("UPDATE adv_mdf_definition"
+						 ."   SET position = ".$ilDB->quote($key, "integer")
+						 ." WHERE title = ".$ilDB->quote($value, "text")
+						 );
+	}
+?>
+
+<#77>
+<?php
+
+	$ilDB->manipulate("UPDATE adv_mdf_definition SET field_values = '".serialize(array(
+			  "Fachwissen"
+			, "SUHK - Privatkunden"
+			, "SUHK - Firmenkunden"
+			, "Leben und Rente"
+			, "Betriebliche Altersvorsorge"
+			, "Kooperationspartner"
+			, "Vertrieb"
+			, "Akquise / Verkauf"
+			, "Beratungs- und Tarifierungstools"
+			, "Büromanagement"
+			, "Neue Medien"
+			, "Unternehmensführung"
+			, "Agenturmanagement"
+			, "Führung"
+			, "Persönlichkeit"
+			, "Grundausbildung"
+			, "Ausbilder"
+			, "Erstausbildung"
+			, "Qualifizierungsprogramm"
+		))."' WHERE title = 'Trainingskategorie'");
+?>
+
+<#78>
+<?php
+
+	$ilDB->manipulate("UPDATE cat_mail_templates SET template_type = 'Agentregistration'"
+					 ." WHERE template_type = 'Registration'");
+	$res = $ilDB->query("SELECT id FROM cat_mail_templates WHERE category_name = 'EVG_Aktivierung'");
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		$ilDB->manipulate("DELETE FROM cat_mail_variants WHERE mail_types_fi = ".$ilDB->quote($rec["id"], "integer"));
+	}
+	$ilDB->manipulate("DELETE FROM cat_mail_templates WHERE category_name = 'EVG_Aktivierung'");
+	$ilDB->manipulate("UPDATE cat_mail_templates SET category_name = 'Confirmation'"
+					 ." WHERE category_name = 'Makler_Aktivierung'");
+?>
+
+<#79>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	
+	ini_set('max_execution_time', 0);
+	set_time_limit(0);
+
+	require_once("Services/GEV/Import/classes/class.gevImportOrgStructure.php");
+	$imp = new gevImportOrgStructure();
+	$imp->createOrgUnits();
+
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	$gev_settings = gevSettings::getInstance();
+	$res = $ilDB->query("SELECT obj_id FROM object_data WHERE import_id = 'uvg' AND type = 'orgu'");
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		$gev_settings->setDBVPOUBaseUnitId($rec["obj_id"]);
+	}
+	else {
+		die("Custom Update #79: Expected to find org_unit with import_id = 'uvg'");
+	}
+	
+	$res = $ilDB->query("SELECT obj_id FROM object_data WHERE import_id = 'cpool' AND type = 'orgu'");
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		$gev_settings->setCPoolUnitId($rec["obj_id"]);
+	}
+	else {
+		die("Custom Update #79: Expected to find org_unit with import_id = 'cpool'");
+	}
+	
+	$res = $ilDB->query("SELECT obj_id FROM object_data WHERE import_id = 'dbv_tmplt' AND type = 'orgu'");
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		$gev_settings->setDBVPOUTemplateUnitId($rec["obj_id"]);
+	}
+	else {
+		die("Custom Update #79: Expected to find org_unit with import_id = 'dbv_tmplt'");
+	}
+?>
+
+<#80>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	
+	require_once("Services/GEV/Import/classes/class.gevImportOrgStructure.php");
+	$imp = new gevImportOrgStructure();
+	$imp->createOrgUnit("na_tmplt", "Vorlage NA-Einheit", "na", "", "", "", "", "", "", "");
+
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	$gev_settings = gevSettings::getInstance();
+	$res = $ilDB->query("SELECT obj_id FROM object_data WHERE import_id = 'na' AND type = 'orgu'");
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		$gev_settings->setNAPOUBaseUnitId($rec["obj_id"]);
+	}
+	else {
+		die("Custom Update #79: Expected to find org_unit with import_id = 'na'");
+	}
+	
+	$res = $ilDB->query("SELECT obj_id FROM object_data WHERE import_id = 'na_tmplt' AND type = 'orgu'");
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		$gev_settings->setNAPOUTemplateUnitId($rec["obj_id"]);
+	}
+	else {
+		die("Custom Update #79: Expected to find org_unit with import_id = 'na_tmplt'");
+	}
+
+
+?>

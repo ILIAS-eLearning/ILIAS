@@ -195,13 +195,13 @@ class gevUserProfileGUI {
 		
 		$birthplace = new ilTextInputGUI($this->lng->txt("gev_birthplace"), "birthplace");
 		$birthplace->setValue($this->user_utils->getBirthplace());
-		$birthplace->setRequired(true);
+		//$birthplace->setRequired(true);
 		$form->addItem($birthplace);
 		
 		$birthname = new ilTextInputGUI($this->lng->txt("gev_birthname"), "birthname");
 		$bn = $this->user_utils->getBirthname();
 		$birthname->setValue($bn?$bn:$this->user->getLastname());
-		$birthname->setRequired(true);
+		//$birthname->setRequired(true);
 		$form->addItem($birthname);
 		
 		$ihk = new ilTextInputGUI($this->lng->txt("gev_ihk_number"), "ihk_number");

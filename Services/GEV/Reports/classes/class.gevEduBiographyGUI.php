@@ -77,11 +77,14 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->select("usrcrs.bill_id")
 						->select("usrcrs.certificate")
 						->select("usrcrs.booking_status")
+						->select("oref.ref_id")
 						->from("hist_usercoursestatus usrcrs")
 						->join("hist_user usr")
 							->on("usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0")
 						->join("hist_course crs")
 							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
+						->join("object_reference oref")
+							->on("crs.crs_id = oref.obj_id AND oref.deleted IS NULL")
 						->compile();
 						
 		$this->filter = catFilter::create()
@@ -203,6 +206,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 				.$this->queryWhere($start, $end)
 				." AND usrcrs.participation_status = 'teilgenommen'"
 				." AND crs.crs_id > 0" // only academy points
+				." AND usrcrs.credit_points > 0"
 				;
 	}
 	
@@ -311,7 +315,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 					: $this->lng->txt("no");
 		
 		$rec["action"] = "";
-		if ($rec["bill_id"] != -1) {
+		if ($rec["bill_id"] != -1 && $rec["bill_id"] != "-empty-") {
 			$this->ctrl->setParameter($this, "bill_id", $rec["bill_id"]);
 			$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
 			$rec["action"] = "<a href='".$this->ctrl->getLinkTarget($this, "getBill")."'>"
@@ -326,6 +330,14 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						   . $this->get_cert_img."</a>";
 			$this->ctrl->setParameter($this, "cert_id", null);
 			$this->ctrl->setParameter($this, "target_user_id", null);
+		}
+		if ($rec["ref_id"] !== null) {
+			$rec["link_open"] = "<a href='goto.php?target=crs_".$rec["ref_id"]."'>";
+			$rec["link_close"] = "</a>";
+		}
+		else {
+			$rec["link_open"] = "";
+			$rec["link_close"] = "";
 		}
 		
 		foreach ($rec as $key => $value) {

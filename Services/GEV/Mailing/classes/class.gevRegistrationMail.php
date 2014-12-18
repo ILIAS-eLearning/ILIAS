@@ -21,7 +21,7 @@ abstract class gevRegistrationMail extends ilAutoMail {
 
 	protected $gev_registration_mail_template_type;
 	
-	private static $template_type = "Registration";
+	private static $template_type = "Agentregistration";
 
 	public function __construct($a_token, $a_link, $a_id) {
 		global $ilDB, $lng, $ilCtrl, $ilias, $ilSetting, $ilUser;

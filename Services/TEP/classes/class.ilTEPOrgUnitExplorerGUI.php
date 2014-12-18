@@ -95,7 +95,7 @@ class ilTEPOrgUnitExplorerGUI extends ilOrgUnitExplorerGUI
 		return $childs;
 	}
 	
-	protected function isNodeSelectable(array $a_node)
+	public function isNodeSelectable(array $a_node)
 	{
 		$selectable = $this->getSelectableOrgUnitIds();
 		if(is_array($selectable) && !in_array($a_node["ref_id"], $selectable))

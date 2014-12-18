@@ -233,6 +233,7 @@ class ilObjUserGUI extends ilObjectGUI
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
 
+
 		if($this->object->getType() == 'usr')
 		{
 			$user_defined_data = $this->object->getUserDefinedData();
@@ -1541,12 +1542,16 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// instant messengers
+		// gev-patch start
+		/*
 		if($this->isSettingChangeable('instant_messengers'))
 		{
 			$sec_im = new ilFormSectionHeaderGUI();
 			$sec_im->setTitle($this->lng->txt("instant_messengers"));
 			$this->form_gui->addItem($sec_im);
 		}
+		*/
+		// gev-patch end
 
 		// icq, yahoo, msn, aim, skype
 		$fields = array("icq", "yahoo", "msn", "aim", "skype", "jabber", "voip");
@@ -1612,8 +1617,36 @@ class ilObjUserGUI extends ilObjectGUI
 			$all_defs = $user_defined_fields->getChangeableLocalUserAdministrationDefinitions();
 		}
 	
-		foreach($all_defs as $field_id => $definition)
+
+
+	//gev-patch start
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		$field_order = gevSettings::$UDF_FIELD_ORDER;
+		$orderes_defs = array();
+		$unaccounted_defs = array();
+
+
+		foreach($all_defs as $field_id => $definition){
+			$fname=$definition['field_name'];
+			$index = array_search($fname, $field_order);
+			if($index !== false){
+				$ordered_defs[$index] = $definition;
+			} else {
+				$unaccounted_defs[] = $definition;
+			}
+		}
+		ksort($ordered_defs);
+		$all_defs = $ordered_defs + $unaccounted_defs;
+
+
+		//foreach($all_defs as $field_id => $definition)
+		foreach($all_defs as $field_index => $definition)
 		{
+			$field_id = $definition['field_id'];
+
+	//gev-patch end
+
+
 			if($definition['field_type'] == UDF_TYPE_TEXT)	// text input
 			{
 				$udf = new ilTextInputGUI($definition['field_name'],
@@ -3694,6 +3727,7 @@ class ilObjUserGUI extends ilObjectGUI
 		
 		include_once 'Services/User/classes/class.ilUserDefinedFields.php';
 		$user_defined_fields = ilUserDefinedFields::_getInstance();
+
 		foreach($user_defined_fields->getDefinitions() as $field_id => $definition)
 		{
 			$elm = $this->form_gui->getItemByPostVar('udf_'.$definition['field_id']);

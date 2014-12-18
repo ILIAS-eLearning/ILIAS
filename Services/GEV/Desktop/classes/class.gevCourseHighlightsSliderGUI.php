@@ -42,6 +42,18 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 	public function countHighlights() {
 		return count($this->highlight_ids);
 	}
+
+
+	private function limit_entry_length($text, $max_length){
+		if(strlen($text) > $max_length) {
+			$t_out = '<a title="' .$text .'">';
+			$t_out .= substr($text, 0, $max_length - 5);
+			$t_out .= ' [...]</a>';
+			return $t_out;
+		}
+		return $text;
+	}
+
 	
 	public function renderSlides() {
 		$crs_amd =
@@ -62,15 +74,8 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 			$tpl->setVariable("CREDIT_POINT", $crs["credit_points"]);
 			$tpl->setVariable("TYPE", $crs["type"]);
 
-			$org_title = $crs["title"];
-			if(strlen($org_title) > 48) {
-				$title = '<a title="' .$org_title .'">';
-				$title .= substr($org_title, 0, 48);
-				$title .= ' [...]</a>';
-			}else{
-				$title = $org_title;
-			}
-			$tpl->setVariable("TITLE", $title);
+			$org_title = $this->limit_entry_length($crs["title"], 48);
+			$tpl->setVariable("TITLE", $org_title);
 
 			if ($crs["start_date"] && $crs["end_date"]) {
 				$tpl->setCurrentBlock("date");
@@ -83,7 +88,9 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 			}
 			if ($crs["venue"]) {
 				$tpl->setCurrentBlock("venue");
-				$tpl->setVariable("VENUE", gevOrgUnitUtils::getInstance($crs["venue"])->getLongTitle());
+				$venue_title = gevOrgUnitUtils::getInstance($crs["venue"])->getLongTitle();
+				$venue_title = $this->limit_entry_length($venue_title, 38);
+				$tpl->setVariable("VENUE", $venue_title);
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setVariable("FEE", gevCourseUtils::formatFee($crs["fee"])." €");

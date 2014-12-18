@@ -23,18 +23,18 @@ $IMPORT_FOREIGN_EDURECORDS = true;
 $LIMIT_RECORDS = false;
 $ANON_DATA = false;
 
-
 $DEBUG_HTML_OUT = isset($_GET['debug']);
-if($DEBUG_HTML_OUT){
-	echo('<pre>');	
-}
-
 
 
 //reset ilias for calls from somewhere else
 $basedir = __DIR__;
 $basedir = str_replace('/Services/GEV/WBD/classes', '', $basedir);
 chdir($basedir);
+
+if($DEBUG_HTML_OUT){
+	require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
+	echo('<pre>');	
+}
 
 //context w/o user
 require_once "./Services/Context/classes/class.ilContext.php";
@@ -243,8 +243,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 			,"birthday_or_internal_agent_id" => $record['user_id']
 			,"agent_id" 			=> $record['bwv_id']
-			,"from" 				=> $record['begin_date']
-			,"till" 				=> $record['end_date']
+//			,"from" 				=> $record['begin_date']
+//			,"till" 				=> $record['end_date']
+
+			,"from" 				=> $record['course_begin']
+			,"till" 				=> $record['course_end']
+
 			,"score"				=> $record['credit_points']
 			,"study_type_selection" => $this->VALUE_MAPPINGS['course_type'][$record['type']] // "Präsenzveranstaltung" | "Selbstgesteuertes E-Learning" | "Gesteuertes E-Learning";
 			,"study_content"		=> $this->VALUE_MAPPINGS['study_content'][$record['wbd_topic']] 
@@ -660,10 +664,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 	public function fail_new_user($row_id, $e){
+		print "\n";
 		print 'ERROR on newUser: ';
-		print($row_id);
-		print '<br>';
+		print $row_id;
+		print "\n";
 		print_r($e->getReason());
+		print "\n\n";
 	}
 
 
@@ -734,10 +740,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 	public function fail_update_user($row_id, $e){
+		print "\n";
 		print 'ERROR on updateUser: ';
-		print($row_id);
-		print '<br>';
+		print $row_id;
+		print "\n";
 		print_r($e->getReason());
+		print "\n\n";
 	}
 
 
@@ -759,7 +767,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		$sql = "
 			SELECT
-				*,hist_usercoursestatus.row_id as row_id
+				*, hist_usercoursestatus.row_id as row_id,
+				hist_usercoursestatus.begin_date as course_begin,
+				hist_usercoursestatus.end_date as course_end
 			FROM
 				hist_usercoursestatus
 
@@ -825,6 +835,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 			if($num_rows == 0){
 
 				$edudata = $this->_map_edudata($record);
+
+				
+				if($edudata['study_type_selection'] == 'selbstgesteuertes E-Learning'){
+					$edudata['till'] = $edudata['from'];
+				}
+
 				//these are _new_ edu-records:
 				$edudata['score_code'] = 'Meldung';
 
@@ -864,13 +880,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 	public function fail_new_edu_record($row_id, $e){
+		print "\n";
 		print 'ERROR on newEduRecord: ';
-		print($row_id);
+		print $row_id;
 		print "\n";
 		print_r($e->getReason());
-		print "\n";
-		
-		//die();
+		print "\n\n";
 	}
 
 
@@ -1069,8 +1084,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 
 				} else {
-					print "\n not a foreign record";
-				
+					//print "\n not a foreign record";
 				}
 			} 
 		} else {

@@ -153,7 +153,15 @@ class ilCourseBookingHelper
 	 */
 	public function getUltimateBookingDeadline()
 	{
-		return gevCourseUtils::getInstance($this->course->getId())->getEndDate();
+		// gev-patch start
+		/*$end_date = gevCourseUtils::getInstance($this->course->getId())->getEndDate();
+		if ($end_date !== null) {
+			$end_date->increment(IL_CAL_DAY, 1);
+		}
+		return $end_date;*/
+		throw new Exception( "ilCourseBookingHelper::getUltimateBookingDeadline: Do not use this anymore. "
+							."The ultimate booking deadline depends on the finalisation of the participation status.");
+		// gev-patch end
 	}
 	
 	/**
@@ -163,9 +171,14 @@ class ilCourseBookingHelper
 	 */
 	public function isUltimateBookingDeadlineReached()
 	{
-		$udl = $this->getUltimateBookingDeadline();
+		// gev-patch start
+		require_once("Services/ParticipationStatus/classes/class.ilParticipationStatus.php");
+		$ps = ilParticipationStatus::getInstance($this->getCourse());
+		return $ps->getProcessState() == ilParticipationStatus::STATE_FINALIZED;
+		/*$udl = $this->getUltimateBookingDeadline();
 		$now = new ilDateTime(time(), IL_CAL_UNIX);
-		return ($udl && ilDateTime::_before($udl, $now));
+		return ($udl && ilDateTime::_before($udl, $now));*/
+		// gev-patch end
 	}
 	
 	/**

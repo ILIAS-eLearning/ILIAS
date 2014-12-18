@@ -17,7 +17,10 @@ $basedir = __DIR__;
 $basedir = str_replace('/Services/GEV/debug', '', $basedir);
 chdir($basedir);
 
-if( $LIVE) {
+require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
+
+
+if( !$LIVE) {
 	//context w/o user
 	require_once "./Services/Context/classes/class.ilContext.php";
 	ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
@@ -165,18 +168,26 @@ class gevImportOldData {
 
 
 	public function matchUser($rec){
-
-		//users that match the name
-		//$sql = "SELECT * FROM usr_data_import WHERE"; //user_table
-		$sql = "SELECT * FROM usr_data WHERE"; //user_table
-		if($LIVE){
+		$docheck = True;
+		if($rec['goa_username'] != ''){
+			$login = $rec['goa_username'];
+			$sql = "SELECT * FROM usr_data WHERE login ='$login'"; 
+			$docheck = False;
+		}else{
+			//users that match the name
+			//$sql = "SELECT * FROM usr_data_import WHERE"; //user_table
 			$sql = "SELECT * FROM usr_data WHERE"; //user_table
+			if($LIVE){
+				$sql = "SELECT * FROM usr_data WHERE"; //user_table
+			}
+			$sql .= " (LOWER(firstname) = '" .strtolower(trim($rec['Vorname'])) ."'";
+			$sql .= " OR LOWER(firstname) = '" .$this->fuzzyName(trim($rec['Vorname'])) ."')";
+			$sql .= " AND";
+			$sql .= " (LOWER(lastname) = '" .strtolower(trim($rec['Name'])) ."'";
+			$sql .= " OR LOWER(lastname) = '" .$this->fuzzyName(trim($rec['Name'])) ."')";
 		}
-		$sql .= " (LOWER(firstname) = '" .strtolower(trim($rec['Vorname'])) ."'";
-		$sql .= " OR LOWER(firstname) = '" .$this->fuzzyName(trim($rec['Vorname'])) ."')";
-		$sql .= " AND";
-		$sql .= " (LOWER(lastname) = '" .strtolower(trim($rec['Name'])) ."'";
-		$sql .= " OR LOWER(lastname) = '" .$this->fuzzyName(trim($rec['Name'])) ."')";
+
+
 
 		//print $sql .'<br>';
 		$ret = array();
@@ -229,7 +240,7 @@ class gevImportOldData {
 			}
 
 			
-			if($match_bday || $match_nr){
+			if($match_bday || $match_nr || $docheck==False){
 				$ret[] = $rec;
 			}
 

@@ -190,7 +190,7 @@ class ilTestServiceGUI
 				$row['date'] = $finishdate;
 				if(!$short)
 				{
-					$row['answered'] = $this->object->getAnsweredQuestionCount($active_id, $pass) . ' ' . strtolower($this->lng->txt('of')) . ' ' . (count($result_array) - 2);
+					$row['answered'] = $result_array['pass']['num_workedthrough'] . ' ' . strtolower($this->lng->txt('of')) . ' ' . (count($result_array) - 2);
 					if($this->object->isOfferingQuestionHintsEnabled())
 					{
 						$row['hints'] = $total_requested_hints;
@@ -303,7 +303,7 @@ class ilTestServiceGUI
 
 						$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
 
-						if($this->object->getShowSolutionListComparison() && $show_solutions)
+						if($show_solutions)
 						{
 							$compare_template = new ilTemplate('tpl.il_as_tst_answers_compare.html', TRUE, TRUE, 'Modules/Test');
 							$compare_template->setVariable("HEADER_PARTICIPANT", $this->lng->txt('tst_header_participant'));

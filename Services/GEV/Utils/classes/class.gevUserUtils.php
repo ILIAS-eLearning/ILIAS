@@ -133,7 +133,6 @@ class gevUserUtils {
 		,"DBV EVG"
 		,"TP Service"
 	);
-
 	
 	static $wbd_relevant_roles = array(
 		"UA"
@@ -150,7 +149,25 @@ class gevUserUtils {
 		,"VP"
 	);
 	
-
+	// Für diese Rollen wird bei der Selbstbuchung der Hinweis "Vorabendanreise 
+	// mit Führungskraft klären" angezeigt.
+	static $roles_with_prearrival_note = array(
+		  "UA"
+		, "HA 84"
+		, "BA 84"
+		, "Org PV 59"
+		, "PV 59"
+		, "ID MA"
+		, "OD/FD/BD ID"
+		, "Agt-ID"
+		, "VA 59"
+		, "VA HGB 84"
+		, "NFK"
+		, "FDA"
+		, "Azubi"
+		, "DBV UVG"
+		, "DBV EVG"
+	);
 
 
 	
@@ -170,6 +187,7 @@ class gevUserUtils {
 		$this->org_id = null;
 		$this->direct_superior_ous = null;
 		$this->superior_ous = null;
+		$this->superior_ou_names = null;
 		$this->employees = null;
 		$this->employees_for_course_search = null;
 		$this->employee_ids_for_course_search = null;
@@ -418,12 +436,15 @@ class gevUserUtils {
 	}
 	
 	public function getCourseIdsWhereUserIsTutor() {
-			
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
 		$like_role = array();
 		foreach (gevSettings::$TUTOR_ROLES as $role) {
 			$like_role[] = "od.title LIKE ".$this->db->quote($role);
 		}
 		$like_role = implode(" OR ", $like_role);
+		
+		$tmplt_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
 		
 		$res = $this->db->query(
 			 "SELECT oref.obj_id, oref.ref_id "
@@ -433,10 +454,14 @@ class gevUserUtils {
 			."  JOIN tree tr ON tr.child = fa.parent"
 			."  JOIN rbac_ua ua ON ua.rol_id = od.obj_id"
 			."  JOIN object_data od2 ON od2.obj_id = oref.obj_id"
+			." LEFT JOIN adv_md_values_text is_template "
+			."    ON oref.obj_id = is_template.obj_id "
+			."   AND is_template.field_id = ".$this->db->quote($tmplt_field_id, "integer")
 			." WHERE oref.ref_id = tr.parent"
 			."   AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
 			."   AND od2.type = 'crs'"
 			."   AND oref.deleted IS NULL"
+			."   AND is_template.value = 'Nein'"
 			);
 
 		$crs_ids = array();
@@ -517,12 +542,7 @@ class gevUserUtils {
 				$entry['apdays'] = $tep_opdays;
 				//$entry['category'] = '-';
 				
-				$entry['may_finalize'] = $ps_helper->isStartForParticipationStatusSettingReached()
-									   && (  (   $entry["pstate"] == ilParticipationStatus::STATE_SET 
-									   		  && $ps_permissions->setParticipationStatus())
-										  || (   $entry["pstate"] == ilParticipationStatus::STATE_REVIEW 
-									   		  && $ps_permissions->reviewParticipationStatus())
-										  );
+				$entry['may_finalize'] = $crs_utils->canModifyParticipationStatus($this->user_id);
 
 				$ret[$id] = $entry;
 			}
@@ -808,7 +828,10 @@ class gevUserUtils {
 		$_r_ous = $this->getOrgUnitsWhereUserCanBookEmployeesRecursive();
 		
 		$e_ous = array_merge($_d_ous, $_r_ous);
-		$a_ous = gevOrgUnitUtils::getAllChildren($_r_ous);
+		$a_ous = array();
+		foreach(gevOrgUnitUtils::getAllChildren($_r_ous) as $val) {
+			$a_ous[] = $val["ref_id"];
+		}
 		
 		$e_ids = array_unique(array_merge( gevOrgUnitUtils::getEmployeesIn($e_ous)
 										 , gevOrgUnitUtils::getAllPeopleIn($a_ous)
@@ -853,13 +876,15 @@ class gevUserUtils {
 		$_r_ous = $this->getOrgUnitsWhereUserCanCancelEmployeeBookingsRecursive();
 		
 		$e_ous = array_merge($_d_ous, $_r_ous);
-		$a_ous = gevOrgUnitUtils::getAllChildren($_r_ous);
+		$a_ous = array();
+		foreach(gevOrgUnitUtils::getAllChildren($_r_ous) as $val) {
+			$a_ous[] = $val["ref_id"];
+		}
 		
 		$e_ids = array_unique(array_merge( gevOrgUnitUtils::getEmployeesIn($e_ous)
 										 , gevOrgUnitUtils::getAllPeopleIn($a_ous)
 										 )
 							 );
-		
 		$this->employee_ids_for_booking_cancellations = $e_ids;
 		
 		return $e_ids;
@@ -887,12 +912,10 @@ class gevUserUtils {
 
 	public function isProfileComplete() {
 		require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
-		$birthplace = $this->getBirthplace();
-		$birthname = $this->getBirthname();
 		$email = $this->getPrivateEmail();
 		$mobile = $this->getMobilePhone();
 	
-		return $birthplace && $birthname && $email && $mobile && preg_match(gevUserProfileGUI::$telno_regexp, $mobile);
+		return $email && $mobile && preg_match(gevUserProfileGUI::$telno_regexp, $mobile);
 	}
 	
 	
@@ -916,6 +939,21 @@ class gevUserUtils {
 		return $this->getLastname().", ".$this->getFirstname();
 	}
 	
+	static public function getFullNames($a_user_ids) {
+		global $ilDB;
+		
+		$query = "SELECT usr_id, CONCAT(lastname, ', ', firstname) as fullname"
+				."  FROM usr_data"
+				." WHERE ".$ilDB->in("usr_id", $a_user_ids, false, "integer");
+		$res = $ilDB->query($query);
+		
+		$ret = array();
+		while($rec = $ilDB->fetchAssoc($res)) {
+			$ret[$rec["usr_id"]] = $rec["fullname"];
+		}
+		return $ret;
+	}
+	
 	public function getEMail() {
 		return $this->getUser()->getEmail();
 	}
@@ -928,6 +966,7 @@ class gevUserUtils {
 					." WHERE od.type = 'role' " 
 					." AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
 					." AND od.title LIKE 'il_orgu_employee_%' "
+					." AND oref.deleted IS NULL"
 					." ORDER BY obj_id ASC LIMIT 1 OFFSET 0";
 			
 			$res = $this->db->query($query);
@@ -942,6 +981,7 @@ class gevUserUtils {
 						." WHERE od.type = 'role' " 
 						." AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
 						." AND od.title LIKE 'il_orgu_superior_%' "
+						." AND oref.deleted IS NULL"
 						." ORDER BY obj_id ASC LIMIT 1 OFFSET 0";
 				$res = $this->db->query($query);
 				if ($rec = $this->db->fetchAssoc($res)) {
@@ -1037,6 +1077,23 @@ class gevUserUtils {
 	public function setAgentKey($a_key) {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_AGENT_KEY, $a_key);
 	}
+
+	public function getAgentKeyVFS() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_AGENT_KEY_VFS);
+	}
+	
+	public function setAgentKeyVFS($a_key) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_AGENT_KEY_VFS, $a_key);
+	}
+
+	public function getAgentPositionVFS() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_AGENT_POSITION_VFS);
+	}
+	
+	public function setAgentPositionVFS($a_key) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_AGENT_POSITION_VFS, $a_key);
+	}
+
 	
 	/*
 	public function getCompanyTitle() {
@@ -1194,6 +1251,33 @@ class gevUserUtils {
 		return !$this->hasRoleIn(gevSettings::$NO_PAYMENT_ROLES);
 	}
 	
+	public function paysPrearrival() {
+		return !$this->hasRoleIn(gevSettings::$NO_PREARRIVAL_PAYMENT_ROLES);
+	}
+
+	public function isVFS() {
+		return $this->hasRoleIn(array('VFS'));
+	}
+	
+	public function getIDHGBAADStatus() {
+		$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
+		foreach ($roles as $role) {
+			$title = ilObject::_lookupTitle($role);
+			$status = gevSettings::$IDHGBAAD_STATUS_MAPPING[$title];
+			if ($status !== null) {
+				return $status;
+			}
+		}
+		return "";
+	}
+
+
+	// Soll für den Benutzer  bei der Selbstbuchung der Hinweis "Vorabendanreise 
+	// mit Führungskraft klären" angezeigt werden?
+	public function showPrearrivalNoteInBooking() {
+		return $this->hasRoleIn(gevUserUtils::$roles_with_prearrival_note);
+	}
+	
 	public function isAdmin() {
 		// root
 		if ($this->user_id == 6) {
@@ -1225,6 +1309,10 @@ class gevUserUtils {
 		return gevCourseUtils::getInstance($a_crs_id)->getFunctionOfUser($this->user_id);
 	}
 	
+	public function hasFullfilledPreconditionOf($a_crs_id) {
+		return gevCourseUtils::getInstance($a_crs_id)->userFullfilledPrecondition($this->user_id);
+	}
+	
 	public function getOvernightDetailsForCourse(ilObjCourse $a_crs) {
 		require_once("Services/Accomodations/classes/class.ilAccomodations.php");
 		return ilAccomodations::getInstance($a_crs)
@@ -1232,7 +1320,7 @@ class gevUserUtils {
 	}
 	
 	public function getFormattedOvernightDetailsForCourse(ilObjCourse $a_crs) {
-		return gevGeneralUtils::foldConsecutiveDays($this->getOvernightDetailsForCourse($a_crs));
+		return gevGeneralUtils::foldConsecutiveOvernights($this->getOvernightDetailsForCourse($a_crs));
 	}
 	
 	public function getOvernightAmountForCourse(ilObjCourse $a_crs) {
@@ -1371,7 +1459,7 @@ class gevUserUtils {
 		return $sups;
 	}
 	
-	public function isEmployeeOf($a_user_id) {
+	public function isEmployeeOf($a_user_id) {	
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
 		// propably faster then checking the employees of this->user
@@ -1399,6 +1487,7 @@ class gevUserUtils {
 			."  JOIN rbac_ua ua ON ua.rol_id = od.obj_id"
 			."  JOIN object_data od2 ON od2.obj_id = oref.obj_id"
 			." WHERE oref.ref_id = tr.parent"
+			."   AND oref.deleted IS NULL"
 			."   AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
 			."   AND od2.type = 'orgu'"
 			);
@@ -1439,6 +1528,7 @@ class gevUserUtils {
 			."  JOIN tree tr ON ( ".$where." )"
 			." WHERE od.type = 'orgu'"
 			."   AND oref.ref_id = tr.child"
+			."   AND oref.deleted IS NULL"
 			);
 		
 		$this->superior_ous = array();
@@ -1449,6 +1539,27 @@ class gevUserUtils {
 		}
 		
 		return $this->superior_ous;
+	}
+	
+	public function getOrgUnitNamesWhereUserIsSuperior() {
+		if ($this->superior_ou_names !== null) {
+			return $this->superior_ou_names;
+		}
+		
+		$ids = $this->getOrgUnitsWhereUserIsSuperior();
+		foreach($ids as $key => $value) {
+			$ids[$key] = $ids[$key]["obj_id"];
+		}
+		
+		$res = $this->db->query( "SELECT title FROM object_data "
+								."WHERE ".$this->db->in("obj_id", $ids, false, "integer")
+								);
+		$this->superior_ou_names = array();
+		while ($rec = $this->db->fetchAssoc($res)) {
+			$this->superior_ou_names[] = $rec["title"];
+		}
+		
+		return $this->superior_ou_names;
 	}
 	
 	public function getOrgUnitsWhereUserCanBookEmployees() {
@@ -1505,6 +1616,22 @@ class gevUserUtils {
 		$this->employees = array_unique(array_merge($de, $re));
 		
 		return $this->employees;
+	}
+	
+	public function getVenuesWhereUserIsMember() {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$ou_tree = ilObjOrgUnitTree::_getInstance();
+		$ous = $ou_tree->getOrgUnitOfUser($this->user_id, 0, true);
+		$ret = array();
+		foreach ($ous as $ou_id) {
+			$utils = gevOrgUnitUtils::getInstance($ou_id);
+			if (!$utils->isVenue()) {
+				continue;
+			}
+			$ret[] = $ou_id;
+		}
+		return $ret;
 	}
 	
 	// billing info
@@ -1784,6 +1911,8 @@ class gevUserUtils {
 		}
 		return self::$hist_position_keys;
 	}
+
+
 }
 
 ?>

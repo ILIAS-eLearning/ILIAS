@@ -67,7 +67,12 @@ class ilUserHistorizingHelper
 	 */
 	public static function getPositionKeyOf($user)
 	{
-		return gevUserUtils::getInstanceByObjOrId($user)->getAgentKey();
+		$agent_key = gevUserUtils::getInstanceByObjOrId($user)->getAgentKey();
+		if(trim($agent_key) == '' || $agent_key == '-empty-'){
+			return gevUserUtils::getInstanceByObjOrId($user)->getAgentKeyVFS();
+		} else {
+			return $agent_key;
+		}
 	}
 
 	/**
@@ -232,17 +237,35 @@ class ilUserHistorizingHelper
 		$user_utils = gevUserUtils::getInstanceByObjOrId($user);
 		$tree = ilObjOrgUnitTree::_getInstance();
 
-		$orgu_1_id = $user_utils->getOrgUnitId(); // first level above
+		$orgu_0_id = $user_utils->getOrgUnitId(); // first level
 
-		if(! $orgu_1_id){
+		if(! $orgu_0_id){
 			return array(null, null);
 		}
-		$orgu_1_refid = gevObjectUtils::getRefId($orgu_1_id);
+		$orgu_0_refid = gevObjectUtils::getRefId($orgu_0_id);
+		$orgu_1_refid = $tree->getParent($orgu_0_refid);
 		$orgu_2_refid = $tree->getParent($orgu_1_refid);
 
 		$titles = $tree->getTitles(array($orgu_1_refid, $orgu_2_refid));
 
-		return array($titles[$orgu_1_refid], $titles[$orgu_2_refid]);
+		$orgu_1_title = $titles[$orgu_1_refid];
+		$orgu_2_title = $titles[$orgu_2_refid];
+		
+		//better check for level?
+		$invalid =  array(
+			'System Settings', 
+			'__OrgUnitAdministration'
+		);
+
+		if(in_array($orgu_1_title, $invalid)){
+			$orgu_1_title = null;
+		}
+
+		if(in_array($orgu_2_title, $invalid)){
+			$orgu_2_title = null;
+		}
+
+		return array($orgu_1_title, $orgu_2_title);
 	}
  	
 
@@ -261,4 +284,12 @@ class ilUserHistorizingHelper
 	}
  	
  
+	public static function isVFSOf($user){
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$user_utils = gevUserUtils::getInstanceByObjOrId($user);
+		//return $user_utils->hasRoleIn(array('VFS'));
+		return $user_utils->isVFS();
+	}
+
+
 }

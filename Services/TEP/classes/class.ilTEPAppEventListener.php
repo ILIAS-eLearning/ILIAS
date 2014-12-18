@@ -10,7 +10,7 @@
  */
 class ilTEPAppEventListener
 {
-	const COURSE_ENTRY_TYPE = 1;
+	const COURSE_ENTRY_TYPE = 24;
 	
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{		

@@ -93,35 +93,41 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									, date("Y")."-01-01"
 									, date("Y")."-12-31"
 									)
+						->multiselect( "org_unit"
+									 , $this->lng->txt("gev_org_unit_short")
+									 , array("usr.org_unit", "org_unit_above1", "org_unit_above2")
+									 , $this->user_utils->getOrgUnitNamesWhereUserIsSuperior()
+									 , array()
+									 )
 						->multiselect("edu_program"
 									 , $this->lng->txt("gev_edu_program")
 									 , "edu_program"
 									 , gevCourseUtils::getEduProgramsFromHisto()
-									 , gevCourseUtils::getEduProgramsFromHisto()
+									 , array()
 									 )
 						->multiselect("type"
 									 , $this->lng->txt("gev_course_type")
 									 , "type"
 									 , gevCourseUtils::getLearningTypesFromHisto()
-									 , gevCourseUtils::getLearningTypesFromHisto()
+									 , array()
 									 )
 						->multiselect("template_title"
 									 , $this->lng->txt("crs_title")
-									 , "title"
+									 , "template_title"
 									 , gevCourseUtils::getTemplateTitleFromHisto()
-									 , gevCourseUtils::getTemplateTitleFromHisto()
+									 , array()
 									 )
 						->multiselect("participation_status"
 									 , $this->lng->txt("gev_participation_status")
 									 , "participation_status"
 									 , gevCourseUtils::getParticipationStatusFromHisto()
-									 , gevCourseUtils::getParticipationStatusFromHisto()
+									 , array()
 									 )
 						->multiselect("position_key"
 									 , $this->lng->txt("gev_position_key")
 									 , "position_key"
 									 , gevUserUtils::getPositionKeysFromHisto()
-									 , gevUserUtils::getPositionKeysFromHisto()
+									 , array()
 									 )
 						->static_condition($this->db->in("usr.user_id", $allowed_user_ids, false, "integer"))
 						->static_condition("usrcrs.hist_historic = 0")

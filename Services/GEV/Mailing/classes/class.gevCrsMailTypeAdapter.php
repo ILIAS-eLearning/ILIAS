@@ -70,6 +70,8 @@ class gevCrsMailTypeAdapter extends ilMailTypeAdapter {
 				, array("Buchender_Nachname"		, "Nachname des Benutzers, der eine Buchung vorgenommen hat")
 				, array("Einsatztage"				, "Einsatztage des Trainers beim Training")
 				, array("Uebernachtungen"			, "Übernachtungen des Benutzers beim Training")
+				, array("Vorabendanreise"			, "Ja, wenn der Benutzer eine Vorabendanreise angegeben hat, sonst Nein.")
+				, array("Nachtagabreise"			, "Ja, wenn der Benutzer eine Nachtagabreise angegeben hat, sonst Nein.")
 				, array("Liste"						, "Liste der Teilnehmer am Training")
 				, array("Organisatorisches"			, "Feld Organisatorisches aus den Trainingsdetails")
 				);
