@@ -234,6 +234,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 							$this->setTabs();
 							$this->setLocator();
 							$this->addHeaderAction();
+							
+							if($cmd == "redrawHeaderAction")
+							{
+								$cmd = "redrawHeaderActionObject";
+							}
 						}
 					}
 					$ret =& $this->$cmd();
