@@ -204,7 +204,9 @@ class ilObjGlossary extends ilObject
 	 */
 	function getSnippetLength()
 	{
-		return $this->snippet_length;
+		return ($this->snippet_length > 0)
+			? $this->snippet_length
+			: null;
 	}
 
 	function setOnline($a_online)
@@ -336,7 +338,7 @@ class ilObjGlossary extends ilObject
 			" downloads_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads()), "text").", ".
 			" pres_mode = ".$ilDB->quote($this->getPresentationMode(), "text").", ".
 			" show_tax = ".$ilDB->quote((int) $this->getShowTaxonomy(), "integer").", ".
-			" snippet_length = ".$ilDB->quote($this->getSnippetLength(), "integer")." ".
+			" snippet_length = ".$ilDB->quote((int)$this->getSnippetLength(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
