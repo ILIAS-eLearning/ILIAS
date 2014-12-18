@@ -370,6 +370,7 @@ class ilLOEditorGUI
 					$this->getParentObject()->getId(),
 					$this->getTestType()
 			);
+			$table->setTitle($this->lng->txt('crs_loc_tst_assignment'));
 			$table->init();
 			$table->parse(ilLOSettings::getInstanceByObjId($this->getParentObject()->getId())->getTestByType($this->getTestType()));
 			$GLOBALS['tpl']->setContent($table->getHTML());
@@ -547,11 +548,11 @@ class ilLOEditorGUI
 		
 		switch($this->getTestType())
 		{
-			case ilLOSettings::TYPE_TEST_INITIAL:
+			case self::TEST_TYPE_IT:
 				$form->setTitle($this->lng->txt('crs_loc_settings_itest_tbl'));
 				break;
 			
-			case ilLOSettings::TYPE_TEST_QUALIFIED:
+			case self::TEST_TYPE_QT:
 				$form->setTitle($this->lng->txt('crs_loc_settings_qtest_tbl'));
 				break;
 				
