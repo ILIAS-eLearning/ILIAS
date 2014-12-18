@@ -418,15 +418,19 @@ class ilObjSCORMTracking
 			);
 		}
 		
+		$in_progress = array();
+		
 		while($row = $ilDB->fetchObject($res))
 		{
-			// see _getProgressInfo()
-			if(!($a_blocked_user_ids && in_array($row->user_id, $a_blocked_user_ids)))
+			// #15061 - see _getProgressInfo()
+			if(!($a_blocked_user_ids && 
+				is_array($a_blocked_user_ids[$row->sco_id]) && 
+				in_array($row->user_id, $a_blocked_user_ids[$row->sco_id])))
 			{
 				$in_progress[$row->sco_id][] = $row->user_id;
 			}
 		}
-		return is_array($in_progress) ? $in_progress : array();
+		return $in_progress;
 	}
 
 	/**
@@ -761,12 +765,12 @@ class ilObjSCORMTracking
 				case 'completed':
 				case 'passed':
 					$info['completed'][$row->sco_id][] = $row->user_id;
-					$user_ids[] = $row->user_id;
+					$user_ids[$row->sco_id][] = $row->user_id;
 					break;
 
 				case 'failed':
 					$info['failed'][$row->sco_id][] = $row->user_id;
-					$user_ids[] = $row->user_id;
+					$user_ids[$row->sco_id][] = $row->user_id;
 					break;
 			}
 		}
