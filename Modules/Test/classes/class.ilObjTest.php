@@ -9920,7 +9920,7 @@ function getAnswerFeedbackPoints()
 		}
 		$html = preg_replace("/src=\".\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
 		// #12866
-		$html = preg_replace('/&(?!amp)/', '&amp;', $html);
+		$html = preg_replace('/&(?!([\w]+?;|#[\d]+?;))/', '&amp;', $html);
 		$fo = $this->processPrintoutput2FO($html);
 		if( $fo === false )
 		{
