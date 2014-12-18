@@ -628,6 +628,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 				case 'wiki':
 					$filter[] = 'wpg';
 					break;
+				
+				default:
+					$filter[] = $key;
 			}
 		}
 		return $filter ? $filter : array();
