@@ -209,7 +209,7 @@ class ilGlobalCache {
 			case self::TYPE_XCACHE:
 				return 'ilXcache';
 				break;
-			case self::TYPE_STATIC:
+			default:
 				return 'ilStaticCache';
 				break;
 		}
