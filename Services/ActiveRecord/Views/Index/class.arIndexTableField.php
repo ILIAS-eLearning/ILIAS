@@ -1,7 +1,7 @@
 <?php
 require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/class.arViewField.php');
 /**
- * GUI-Class arViewField
+ * GUI-Class arIndexTableField
  *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version 2.0.6
@@ -18,25 +18,29 @@ class arIndexTableField extends arViewField
      */
     protected $sortable = false;
 
+    /**
+     * @var bool
+     */
+    protected $visible_default = false;
 
     /**
-     * @param $name
+     * @param string $name
      * @param null $txt
-     * @param null $type
      * @param null $position
      * @param bool $visible
+     * @param bool $custom_field
      * @param bool $sortable
      * @param bool $has_filter
      */
-    function __construct($name = "" , $txt = null, $type = null, $position = null, $visible = false, $sortable = false, $has_filter = false)
+    function __construct($name = "" , $txt = null, $position = null, $visible = false, $custom_field = false, $sortable = false, $has_filter = false)
     {
         $this->sortable = $sortable;
         $this->has_filter  = $has_filter;
-        parent::__construct($name, $txt, $type, $position, $visible);
+        parent::__construct($name, $txt, $position, $visible, $custom_field);
     }
 
     /**
-     * @param boolean $has_filter
+     * @param $has_filter
      */
     public function setHasFilter($has_filter)
     {
@@ -44,7 +48,7 @@ class arIndexTableField extends arViewField
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getHasFilter()
     {
@@ -52,7 +56,7 @@ class arIndexTableField extends arViewField
     }
 
     /**
-     * @param boolean $sortable
+     * @param bool $sortable
      */
     public function setSortable($sortable)
     {
@@ -60,14 +64,28 @@ class arIndexTableField extends arViewField
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getSortable()
     {
         return $this->sortable;
     }
 
+    /**
+     * @param boolean $visible_default
+     */
+    public function setVisibleDefault($visible_default)
+    {
+        $this->setVisible(true);
+        $this->visible_default = $visible_default;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getVisibleDefault()
+    {
+        return $this->visible_default;
+    }
 
 }
-
-?>

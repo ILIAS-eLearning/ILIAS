@@ -8,128 +8,114 @@ require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
  * @version 2.0.6
  *
  */
-class arDeleteGUI {
-
-	/**
-	 * @var  ActiveRecord
-	 */
-	protected $record;
-	/**
-	 * @var arGUI
-	 */
-	protected $parent_gui;
-	/**
-	 * @var  ilCtrl
-	 */
-	protected $ctrl;
-	/**
-	 * @var ilConfirmationTableGUI
-	 */
-	protected $gui;
-	/**
-	 * @var string
-	 */
-	protected $lng_prefix = "";
-	/**
-	 * @var string
-	 */
-	protected $message = "";
-	/**
-	 * @var ilTemplate
-	 */
-	protected $tpl = NULL;
-
-
-	/**
-	 * @param              $parent_gui
-	 * @param ActiveRecord $record
-	 * @param ilPlugin     $plugin_object
-	 */
-	public function __construct(arGUI $parent_gui, ActiveRecord $record, ilPlugin $plugin_object = NULL) {
-		global $ilCtrl, $tpl;
-
-		$this->record = $record;
-		$this->parent_gui = $parent_gui;
-		$this->ctrl = $ilCtrl;
-		$this->tpl = $tpl;
-		$this->message = $this->txt("confirm_delete_record");
-		$this->ctrl->saveParameter($parent_gui, 'ar_id');
-
-		$this->initGUI();
-	}
-
-
-
-	protected function initGUI() {
-
-		include_once("Services/Utilities/classes/class.ilConfirmationTableGUI.php");
-		$this->gui = new ilConfirmationTableGUI(true);
-		$this->gui->setFormName($this->txt("delete_item"));
-		$this->saveParameter();
-		$this->setActionTarget();
-		$this->setCommandButtons();
-		$this->setFormAction();
-		$this->gui->setData($this->getItems());
-	}
-
-
-	protected function saveParameter() {
-		$this->ctrl->saveParameter($parent_gui, 'ar_id');
-	}
-
-
-	protected function getItems() {
-		return array(
-			array(
-				"var" => 'id',
-				"id" => $this->record->getID(),
-				"text" => $this->txt("object") . $this->record->getID(),
-				"img" => "./templates/default/images/icon_file.png"
-			)
-		);
-	}
-
-
-	protected function setActionTarget() { }
-
-
-	protected function setCommandButtons() {
-		$this->gui->addCommandButton('deleteItem', $this->txt('confirm', false));
-		$this->gui->addCommandButton('index', $this->txt('cancel', false));
-	}
-
-
-	protected function setFormAction() {
-		$this->gui->setFormAction($this->ctrl->getFormAction($this->parent_gui));
-	}
-
+class arDeleteGUI extends arIndexTableGUI {
 
     /**
-     * @param $message
+     * @var array
      */
-    protected function setMessage($message) {
-		$this->message = $message;
-	}
+    protected $ids = null;
 
 
     /**
+     * @param arGUI $a_parent_obj
+     * @param string $a_parent_cmd
+     * @param ActiveRecordList $active_record_list
+     * @param null $custom_title
+     * @param null $ids
+     */
+    public function __construct(arGUI $a_parent_obj, $a_parent_cmd, ActiveRecordList $active_record_list,$custom_title = null, $ids = null) {
+        $this->setIds($ids);
+        parent::__construct( $a_parent_obj, $a_parent_cmd,  $active_record_list,$custom_title);
+	}
+
+    protected function initActions()
+    {
+
+    }
+
+    protected function initFormAction(){
+        $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
+    }
+
+    protected function initRowSelector(){
+        $this->setShowRowsSelector(false);
+        $this->setLimit(9999);
+    }
+
+    /**
+     * @return array
+     */
+    function getSelectableColumns()
+    {
+        return array();
+    }
+
+    protected function initCommandButtons(){
+        $this->addCommandButton("deleteItems", $this->txt("delete",false));
+        $this->addCommandButton("index", $this->txt("cancel",false));
+
+        $id_nr = 0;
+        foreach($this->getIds() as $id){
+            $this->addHiddenInput("delete_id_".$id_nr, $id);
+            $id_nr++;
+        }
+        $this->addHiddenInput("nr_ids", $id_nr);
+
+    }
+
+    public function customizeFields()
+    {
+        $field = $this->getFields()->getPrimaryField();
+        /**
+         * @var arIndexTableField $field
+         */
+        $field->setTxt($field->getName());
+        $field->setVisibleDefault(true);
+        $field->setHasFilter(false);
+        $field->setSortable(false);
+        $field->setPosition(0);
+
+    }
+    /**
+     * @return bool
+     * @description returns false, if no filter is needed, otherwise implement filters
+     *
+     */
+    protected function beforeGetData()
+    {
+
+        $this->active_record_list->where($this->buildWhereQueryForIds($this->getIds()));
+    }
+
+    /**
+     * @param $ids
      * @return string
      */
-    public function getHTML() {
-		ilUtil::sendQuestion($this->message);
-
-		return $this->gui->getHTML();
-	}
-
+    public function buildWhereQueryForIds($ids){
+        $query = "";
+        foreach($ids as $id){
+            if($query != "")
+            {
+                $query .= " OR ";
+            }
+            $query .= $this->getFields()->getPrimaryField()->getName() ." = '" .$id."'";
+        }
+        return $query;
+    }
 
     /**
-     * @param $txt
-     * @param bool $plugin_txt
-     * @return string
+     * @param array $ids
      */
-    protected function txt($txt, $plugin_txt = true) {
-		return $this->parent_gui->txt($txt, $plugin_txt);
-	}
+    public function setIds($ids)
+    {
+        $this->ids = $ids;
+    }
+
+    /**
+     * @return array
+     */
+    public function getIds()
+    {
+        return $this->ids;
+    }
 }
-
-?>

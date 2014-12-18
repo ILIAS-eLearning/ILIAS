@@ -1,6 +1,8 @@
 <?php
 include_once("./Services/Component/classes/class.ilPluginConfigGUI.php");
 include_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecordList.php');
+include_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Index/class.arIndexTableGUI.php');
+include_once('./Services/UICore/classes/class.ilTemplate.php');
 
 /**
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
@@ -29,15 +31,21 @@ class arGUI {
 	 * @var ilPlugin
 	 */
 	protected $plugin_object = NULL;
-	/**
-	 * @param  $string
-	 */
-	protected $record_type;
+
+    /**
+     * @var string
+     */
+    protected $record_type = "";
 
     /**
      * @var ActiveRecord
      */
     protected $ar;
+
+    /**
+     * @var string
+     */
+    protected $lng_prefix = "";
 
     /**
      * @param $record_type
@@ -64,18 +72,43 @@ class arGUI {
 
 	function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
-		$this->$cmd();
+        switch($cmd){
+            case "edit":
+            case "update":
+            case "view":
+            case "delete":
+                $this->$cmd(arIndexTableGUI::domid_decode($_GET['ar_id']));
+                break;
+            case "multiAction":
+                $action_name = $_POST["index_table_multi_action_2"];
+                $this->multiAction($action_name);
+                break;
+            default:
+                $this->$cmd();
+                break;
+        }
 	}
 
-	function index() {
-		$index_table_gui_class = $this->record_type . "IndexTableGUI";
-		$table_gui = new $index_table_gui_class($this, "index", new ActiveRecordList($this->ar));
+    /**
+     * @param arIndexTableGUI $table_gui
+     */
+    function index(arIndexTableGUI $table_gui = null) {
+        if(!$table_gui){
+            $index_table_gui_class = $this->record_type . "IndexTableGUI";
+            /**
+             * @var arIndexTableGUI $table_gui
+             */
+            $table_gui = new $index_table_gui_class($this, "index", new ActiveRecordList($this->ar));
+        }
 		$this->tpl->setContent($table_gui->getHTML());
 	}
 
     function applyFilter()
     {
         $index_table_gui_class = $this->record_type . "IndexTableGUI";
+        /**
+         * @var arIndexTableGUI $table_gui
+         */
         $table_gui             = new $index_table_gui_class($this, "index", new ActiveRecordList($this->ar));
         $table_gui->applyFilter();
         $this->index();
@@ -84,92 +117,201 @@ class arGUI {
     function resetFilter()
     {
         $index_table_gui_class = $this->record_type . "IndexTableGUI";
+        /**
+         * @var arIndexTableGUI $table_gui
+         */
         $table_gui             = new $index_table_gui_class($this, "index", new ActiveRecordList($this->ar));
         $table_gui->resetFilter();
         $this->index();
     }
 
-    function applyAssignmentFilter()
+    /**
+     * @param string $action_name
+     */
+    function multiAction($action_name = "")
     {
-        include_once("class.ilDigisemadminChangeAssignmentTableGUI.php");
-        $table_gui = new ilDigisemadminChangeAssignmentTableGUI($this, "showAssignment");
-        $table_gui->writeFilterToSession();
-        $table_gui->resetOffset();
-        $this->showContent();
+        $ids = array();
+        if($_POST['id']){
+            foreach($_POST['id'] as $id){
+                $ids[] = arIndexTableGUI::domid_decode($id);
+            }
+        }
+
+        if(empty($ids)){
+            ilUtil::sendFailure($this->txt("no_checkbox",false),true);
+            $this->ctrl->redirect($this, "index");
+        }
+
+
+        switch($action_name)
+        {
+            case "delete":
+                $this->deleteMultiple($ids);
+                break;
+            default:
+                $this->customMultiAction($action_name, $ids);
+                break;
+        }
     }
 
-    function resetAssignmentFilter()
-    {
-        include_once("class.ilDigisemadminChangeAssignmentTableGUI.php");
-        $table_gui = new ilDigisemadminChangeAssignmentTableGUI($this, "showAssignment");
-        $table_gui->resetOffset();
-        $table_gui->resetFilter();
-        $this->showContent();
+    /**
+     * @param string $action_name
+     * @param null $ids
+     */
+    function customMultiAction($action_name = "",$ids = null){
+
     }
 
 	/**
 	 * Configure screen
 	 */
-	function edit() {
+	function edit($id) {
 		$edit_gui_class = $this->record_type . "EditGUI";
-		$form = new $edit_gui_class($this, $this->ar->find($_GET['ar_id']));
-		$this->tpl->setContent($form->getHTML());
+        /**
+         * @var arEditGUI $edit_gui
+         */
+		$edit_gui = new $edit_gui_class($this, $this->ar->find($id));
+		$this->tpl->setContent($edit_gui->getHTML());
 	}
 
 
 	function add() {
 		$edit_gui_class = $this->record_type . "EditGUI";
-		$form = new $edit_gui_class($this, $this->ar);
-		$this->tpl->setContent($form->getHTML());
+        /**
+         * @var arEditGUI $edit_gui
+         */
+        $edit_gui = new $edit_gui_class($this, $this->ar);
+		$this->tpl->setContent($edit_gui->getHTML());
 	}
 
 
 	public function create() {
 		$edit_gui_class = $this->record_type . "EditGUI";
-		$form = new $edit_gui_class($this, $this->ar);
-		$this->save($form);
+        /**
+         * @var arEditGUI $edit_gui
+         */
+        $edit_gui = new $edit_gui_class($this, $this->ar);
+		$this->save($edit_gui);
 	}
 
 
-	public function update() {
+    /**
+     * @param $id
+     */
+    public function update($id) {
 		$edit_gui_class = $this->record_type . "EditGUI";
-		$form = new $edit_gui_class($this, $this->ar->find($_GET['ar_id']));
-		$this->save($form);
+        /**
+         * @var arEditGUI $edit_gui
+         */
+        $edit_gui = new $edit_gui_class($this, $this->ar->find($id));
+		$this->save($edit_gui);
 	}
 
 
-	public function save(arEditGUI $form) {
-		if ($form->saveObject()) {
-			ilUtil::sendSuccess($this->txt('record_created'), true);
+    /**
+     * @param arEditGUI $edit_gui
+     */
+    public function save(arEditGUI $edit_gui) {
+		if ($edit_gui->saveObject()) {
+			ilUtil::sendSuccess($this->getRecordCreatedMessage());
 			$this->ctrl->redirect($this, "index");
 		} else {
-			$this->tpl->setContent($form->getHTML());
+			$this->tpl->setContent($edit_gui->getHTML());
 		}
 	}
 
-	function view() {
+    /**
+     * @return string
+     */
+    public function getRecordCreatedMessage(){
+        return $this->txt(('record_created'), true);
+    }
+
+    /**
+     * @param $id
+     */
+    function view($id) {
 		$display_gui_class = $this->record_type . "DisplayGUI";
-		$display_gui = new $display_gui_class($this, $this->ar->find($_GET['ar_id']));
+        /**
+         * @var arDisplayGUI $display_gui
+         */
+		$display_gui = new $display_gui_class($this, $this->ar->find($id));
 		$this->tpl->setContent($display_gui->getHtml());
 	}
 
-
-	function delete() {
-		$delete_gui_class = $this->record_type . "DeleteGUI";
-		$form = new $delete_gui_class($this, $this->ar->find($_GET['ar_id']));
-		$this->tpl->setContent($form->getHTML());
+    /**
+     * @param $id
+     */
+    function delete($id) {
+		$this->deleteMultiple(array($id));
 	}
 
+    /**
+     * @param $ids[]
+     */
+    function deleteMultiple($ids =null) {
+        $delete_gui_class = $this->record_type . "DeleteGUI";
+        /**
+         * @var arDeleteGUI $delete_gui
+         */
+        $delete_gui = new $delete_gui_class($this, "delete", new ActiveRecordList($this->ar),"delete",$ids);
+        if(count($ids) == 1){
+            ilUtil::sendQuestion($this->getDeleteRecordConfirmationMessage());
+        }
+        else{
+            ilUtil::sendQuestion($this->getDeleteRecordsConfirmationMessage());
+        }
+        $this->tpl->setContent($delete_gui->getHTML());
+    }
 
-	function deleteItem() {
-		$record = $this->ar->find($_GET['ar_id']);
-		$record->delete();
-		ilUtil::sendSuccess("object_deleted");
-		$this->ctrl->redirect($this, "index");
+    /**
+     * @return string
+     */
+    public function getDeleteRecordsConfirmationMessage(){
+        return $this->txt(('delete_records_confirmation'), true);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeleteRecordConfirmationMessage(){
+        return $this->txt(('delete_record_confirmation'), true);
+    }
+
+    function deleteItems() {
+        $nr_ids = $_POST['nr_ids'];
+        for($i = 0; $i<$nr_ids; $i++){
+            $id = $_POST['delete_id_'.$i];
+            $record = $this->ar->find($id);
+            $record->delete();
+        }
+        if($i==1){
+            ilUtil::sendSuccess($this->getDeleteRecordMessage(),true);
+        }
+        else{
+            ilUtil::sendSuccess($this->getDeleteRecordsMessage(),true);
+        }
+
+        $this->ctrl->redirect($this, "index");
 	}
 
+    /**
+     * @return string
+     */
+    public function getDeleteRecordsMessage(){
+        return $this->txt(('records_deleted'), true);
+    }
 
-	/**
+    /**
+     * @return string
+     */
+    public function getDeleteRecordMessage(){
+        return $this->txt(('record_deleted'), true);
+    }
+
+
+
+    /**
 	 * @param string $lng_prefix
 	 */
 	public function setLngPrefix($lng_prefix) {
@@ -197,5 +339,3 @@ class arGUI {
 		}
 	}
 }
-
-?>

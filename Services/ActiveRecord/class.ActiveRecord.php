@@ -571,6 +571,24 @@ abstract class ActiveRecord implements arStorageInterface {
 	}
 
 
+    /**
+     * Tries to find the object and throws an Exception if object is not found, instead of returning null
+     *
+     * @param $primary_key
+     * @param array $add_constructor_args
+     * @throws arException
+     * @return ActiveRecord
+     */
+    public static function findOrFail($primary_key, array $add_constructor_args = array()) {
+        $obj = self::find($primary_key, $add_constructor_args);
+        if (is_null($obj)) {
+            throw new arException(arException::RECORD_NOT_FOUND);
+        }
+
+        return $obj;
+    }
+
+
 	/**
 	 * @param       $primary_key
 	 * @param array $add_constructor_args

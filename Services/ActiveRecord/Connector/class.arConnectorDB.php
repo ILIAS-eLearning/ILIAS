@@ -76,7 +76,7 @@ class arConnectorDB extends arConnector {
 		}
 		foreach ($arFieldList->getFields() as $i => $arField) {
 			if ($arField->getIndex() === 'true') {
-				if (! in_array($arField->getName(), $existing_indices)) {
+				if (!in_array($arField->getName(), $existing_indices)) {
 					$ilDB->addIndex($ar->getConnectorContainerName(), array( $arField->getName() ), 'i' . $i);
 				}
 			}
@@ -92,7 +92,7 @@ class arConnectorDB extends arConnector {
 	public function updateDatabase(ActiveRecord $ar) {
 		$ilDB = $this->returnDB();
 		foreach ($ar->getArFieldList()->getFields() as $field) {
-			if (! $ilDB->tableColumnExists($ar->getConnectorContainerName(), $field->getName())) {
+			if (!$ilDB->tableColumnExists($ar->getConnectorContainerName(), $field->getName())) {
 				$ilDB->addTableColumn($ar->getConnectorContainerName(), $field->getName(), $field->getAttributesForConnector());
 			}
 		}
@@ -193,7 +193,7 @@ class arConnectorDB extends arConnector {
 		if ($ilDB->tableColumnExists($ar->getConnectorContainerName(), $old_name)) {
 			//throw new arException($old_name, arException::COLUMN_DOES_NOT_EXIST);
 
-			if (! $ilDB->tableColumnExists($ar->getConnectorContainerName(), $new_name)) {
+			if (!$ilDB->tableColumnExists($ar->getConnectorContainerName(), $new_name)) {
 				//throw new arException($new_name, arException::COLUMN_DOES_ALREADY_EXIST);
 				$ilDB->renameTableColumn($ar->getConnectorContainerName(), $old_name, $new_name);
 			}
@@ -220,8 +220,8 @@ class arConnectorDB extends arConnector {
 	public function read(ActiveRecord $ar) {
 		$ilDB = $this->returnDB();
 
-		$query = 'SELECT * FROM ' . $ar->getConnectorContainerName() . ' ' . ' WHERE ' . arFieldCache::getPrimaryFieldName($ar)
-			. ' = ' . $ilDB->quote($ar->getPrimaryFieldValue(), arFieldCache::getPrimaryFieldType($ar));
+		$query = 'SELECT * FROM ' . $ar->getConnectorContainerName() . ' ' . ' WHERE ' . arFieldCache::getPrimaryFieldName($ar) . ' = '
+			. $ilDB->quote($ar->getPrimaryFieldValue(), arFieldCache::getPrimaryFieldType($ar));
 
 		$set = $ilDB->query($query);
 		$records = array();

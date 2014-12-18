@@ -160,7 +160,7 @@ class ActiveRecordList {
 	 * @throws arException
 	 */
 	public function orderBy($order_by, $order_direction = 'ASC') {
-		if (! $this->getAR()->getArFieldList()->isField($order_by)) {
+		if (!$this->getAR()->getArFieldList()->isField($order_by)) {
 			//			throw new arException(arException::LIST_ORDER_BY_WRONG_FIELD, $order_by); // Due to Bugfix with Joins
 		}
 		$arOrder = new arOrder();
@@ -212,14 +212,14 @@ class ActiveRecordList {
 	 * @param        $on_external
 	 * @param array  $fields
 	 * @param string $operator
-	 * @param        $both_external
+	 * @param bool   $both_external
 	 *
 	 * @return $this
 	 * @throws arException
 	 */
 
-	protected function join($type = arJoin::TYPE_INNER, $tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=', $both_external) {
-		if (! $this->getAR()->getArFieldList()->isField($on_this)) {
+	protected function join($type = arJoin::TYPE_INNER, $tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=', $both_external = false) {
+		if (!$this->getAR()->getArFieldList()->isField($on_this) && !$both_external) {
 			throw new arException(arException::LIST_JOIN_ON_WRONG_FIELD, $on_this);
 		}
 		$full_names = false;
@@ -329,6 +329,9 @@ class ActiveRecordList {
 	}
 
 
+	/**
+	 * @return $this
+	 */
 	public function debug() {
 		$this->loaded = false;
 		$this->debug = true;
@@ -479,7 +482,7 @@ class ActiveRecordList {
 		$array = array();
 		foreach ($this->result_array as $row) {
 			if ($key) {
-				if (! array_key_exists($key, $row)) {
+				if (!array_key_exists($key, $row)) {
 					throw new Exception("The attribute $key does not exist on this model.");
 				}
 				$array[$row[$key]] = $this->buildRow($row, $values);
@@ -503,7 +506,7 @@ class ActiveRecordList {
 			return $row;
 		} else {
 			$array = array();
-			if (! is_array($values)) {
+			if (!is_array($values)) {
 				return $row[$values];
 			}
 			foreach ($row as $key => $value) {
@@ -531,12 +534,12 @@ class ActiveRecordList {
 
 			foreach ($records as $res) {
 				$primary_field_value = $res[$primaryFieldName];
-				if (! $this->getRaw()) {
+				if (!$this->getRaw()) {
 					$obj = arFactory::getInstance($class, NULL, $this->getAddidtionalParameters());
 					$this->result[$primary_field_value] = $obj->buildFromArray($res);
 				}
 				$res_awake = array();
-				if (! $this->getRaw()) {
+				if (!$this->getRaw()) {
 					foreach ($res as $key => $value) {
 						$arField = $obj->getArFieldList()->getFieldByName($key);
 						if ($arField !== NULL) {

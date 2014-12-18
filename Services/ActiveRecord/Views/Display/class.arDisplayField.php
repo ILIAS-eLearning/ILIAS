@@ -9,7 +9,4 @@ require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/class.ar
  */
 class arDisplayField extends arViewField
 {
-
 }
-
-?>
