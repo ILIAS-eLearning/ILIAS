@@ -887,7 +887,7 @@ rbac#:#ps_export_member_data#:#Export von Teilnehmerdaten in Gruppen und Trainin
 rbac#:#rbac_create_crs#:#Training anlegen
 rbac#:#rbac_create_crsr#:#Trainingreferenz anlegen
 rbac#:#rbac_delete_local_policies_info#:#WÃ¤hlen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen (z.B. in Trainings und Gruppen) zu entfernen. Alle Rechte werden neu geschrieben, anschlieÃŸend wird der Rechteschutz aktiviert.
-rbac#:#rbac_unprotected_delete_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen Ã¼berschrieben und die Rechte in Trainings und Gruppen neu initialisiert.
+rbac#:#rbac_unprotected_delete_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen überschrieben und die Rechte in Trainings und Gruppen neu initialisiert.
 rbac#:#tep_edit_other#:#TEP Termine von anderen Trainern bearbeiten
 rbac#:#tep_edit_other_rcrsv#:#TEP Termine von anderen Trainern bearbeiten (rekursiv)
 rbac#:#tep_is_tutor#:#ist Trainer in dieser Einheit
