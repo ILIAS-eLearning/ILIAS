@@ -10,6 +10,22 @@
 */
 
 
+/*
+reset db:
+
+DELETE FROM `object_reference` WHERE obj_id >500;
+DELETE FROM `object_data` WHERE `type` LIKE 'orgu' AND obj_id >500;
+DELETE FROM `adv_md_values_text` WHERE obj_id >500;
+DELETE FROM `object_reference` WHERE obj_id >500;
+DELETE FROM `tree` WHERE parent > 1900 OR child > 1900;
+UPDATE gev_ivimport.interimOrgUnits SET ilid = '' WHERE 1 ;
+*/
+
+
+
+
+
+
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 require_once("Services/Tree/classes/class.ilTree.php");
 require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
@@ -23,7 +39,6 @@ class gevImportOrgStructure {
 		$this->connectShadowDB();
 
 	}
-
 
 
 	private function connectShadowDB(){

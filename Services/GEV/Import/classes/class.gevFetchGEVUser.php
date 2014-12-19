@@ -173,5 +173,44 @@ class gevFetchGEVUser {
 		return $ret;
 	}
 	
+	public function getEduRecordsForImportedUsers(){
+		/*$sql = "SELECT ilid_vfs FROM interimUsers WHERE ilid_gev != ''";
+		$result = mysql_query($sql, $this->shadowDB);
+		$user_ids = array();
+		while($record = mysql_fetch_assoc($result)) {
+			$user_ids[]=$record['ilid_vfs'];
+		}
+
+		$sql = "SELECT * from hist_usercoursestatus"
+			." WHERE user_id IN (" 
+			.implode(',', $user_ids)
+			.") AND ("
+			." hist_historic=0 OR wbd_booking_id IS NOT NULL"
+			.")";
+			//I looked: there are no historic records with booking-id. (nlz)
+		$result = $this->db->query($sql);
+		while($record = mysql_fetch_assoc($result)) {
+			$user_ids[]=$record['ilid_vfs'];
+		}
+		*/
+
+		$ret = array();
+		$sql = "SELECT *"
+			.", hist_usercoursestatus.begin_date as usr_begin_date"
+			.", hist_usercoursestatus.end_date as usr_end_date"
+			." FROM hist_usercoursestatus"
+			." INNER JOIN hist_course ON hist_usercoursestatus.crs_id = hist_course.crs_id "
+			." AND hist_course.hist_historic=0 AND is_template='Nein'"
+			." WHERE (hist_usercoursestatus.hist_historic=0 OR wbd_booking_id IS NOT NULL)"
+			." AND hist_usercoursestatus.function IN ('Mitglied', 'canceled')";
+
+		$result = $this->db->query($sql);
+		while($record = $this->db->fetchAssoc($result)) {
+			$ret[] = $record;
+		}
+		return $ret;
+	}
+
+
 
 }

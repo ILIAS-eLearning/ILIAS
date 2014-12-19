@@ -10,32 +10,7 @@
 * @version	$Id$
 */
 
-
-$WEBMODE = false;
-if(isset($_GET['webmode']) && $_GET['webmode']=='1'){
-	$WEBMODE = true;
-}
-
-if($WEBMODE === true){
-	//reset ilias for calls from somewhere else
-	$basedir = __DIR__; 
-	$basedir = str_replace('/Services/GEV/Import/classes', '', $basedir);
-	chdir($basedir);
-
-	//SIMPLE SEC !
-	require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
-
-	//context w/o user
-	require_once "./Services/Context/classes/class.ilContext.php";
-	ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
-	require_once("./Services/Init/classes/class.ilInitialisation.php");
-	ilInitialisation::initILIAS();
-
-	require_once("./Services/GEV/Import/classes/class.gevImportedUser.php");
-
-} else {
-	require_once("Services/GEV/Import/classes/class.gevImportedUser.php");
-}
+require_once("Services/GEV/Import/classes/class.gevImportedUser.php");
 
 
 //settings and imports
@@ -47,6 +22,8 @@ set_time_limit(0);
 
 class gevUserImport {
 	
+	public $webmode = true;
+
 	private $shadowDB = NULL;
 	private $ilDB = NULL;
 
@@ -151,18 +128,36 @@ class gevUserImport {
 
 
 	private function prnt($m, $mode=0){
+		if($this->webmode){
+			$m = str_replace('<br>', "\n", $m);
+		}
 		switch ($mode){
 			case -1:
 				print $m;
 				break;
 			case 1:
-				print '<hr><h2>' .$m .'</h2>';
+				if($this->webmode){
+					print '<hr><h2>' .$m .'</h2>';
+				} else {
+					print "--------------------\n";
+					print '*** ' .$m ." ***\n";
+				}
 				break;
 			case 2:
-				print '<br><br><b>' .$m .'</b>';
+				if($this->webmode){
+					print '<br><br><b>' .$m .'</b>';
+				} else {
+					print "\n";
+					print ' - ' .$m ." \n";	
+				}
 				break;
 			case 3:
-				print '<br><b><i>' .$m .'</i></b>';
+				if($this->webmode){
+					print '<br><b><i>' .$m .'</i></b>';
+				} else {
+					print "\n";
+					print ' > ' .$m ." \n";	
+				}
 				break;
 			case 666:
 				print '<pre>';
@@ -171,7 +166,11 @@ class gevUserImport {
 				break;
 
 			default:
-				print '<br> &nbsp; &nbsp; ' .$m;
+				if($this->webmode){
+					print '<br> &nbsp; &nbsp; ' .$m;
+				} else {
+					print "\n ..." .$m;
+				}
 		} 
 		flush();
 	}
@@ -457,33 +456,22 @@ class gevUserImport {
 
 			$begin_date = date('Y-m-d', $entry['crs_start_date']);
 			$end_date = date('Y-m-d', $entry['crs_end_date']);
-			
-			
-
-			//$entry['topic_set'] = -1; // this needs an id an the filled topic_set!
+		
 			$entry['topic_set'] = $this->getTopicSetFor($entry['crs_topic_title']);
 
-
-
-			//$created = date('Y-m-d', $entry['created_ts']);
-			$created = $entry['created_ts'];
 			$entry['custom_id'] = '';
 			$entry['is_expert_course'] = 0;
 			$entry['hours'] = -1;
 			$entry['edu_program'] = '';
 			$entry['bill_id']  = -1;
 			$entry['certificate']  = -1;
-			//$entry['is_decentral'] = 0;
-
 
 			$entry['begin_date'] = $begin_date;
 			$entry['end_date'] = $end_date;
 			$entry['usr_begin_date'] = $begin_date;
 			$entry['usr_end_date'] = $end_date;
-			$entry['created_ts']  = $created;
 
 			$entry['last_wbd_report']  = $entry['wbd_transfer_ts'];
-
 			$entry['old_usr_id'] = $entry['user_id'];
 			$entry['title'] = $entry['crs_template_title'];
 			$entry['type'] = $entry['crs_type_title'];
@@ -495,7 +483,6 @@ class gevUserImport {
 			$entry['participation_status']  = $entry['part_participation_state_title'];
 			$entry['function']  = $entry['part_function_title'];
 			$entry['wbd_booking_id']  = $entry['wbd_case_id'];
-
 			$entry['okz']  = $entry['part_okz'];
 			$entry['org_unit']  = $entry['part_org_unit_title'];
 			$entry['overnights']  = $entry['part_accomodation_nights'];
@@ -504,6 +491,9 @@ class gevUserImport {
 		}
 		if($client == 'GEV'){
 			$entry['old_usr_id'] = $entry['usr_id'];
+			$entry['is_decentral'] = ($entry['edu_program'] == 'dezentrales Training') ? 1 : 0;
+			$entry['last_wbd_report'] = ($entry['last_wbd_report']) ? $entry['last_wbd_report'] : 'NULL';
+
 		}
 
 
@@ -537,10 +527,6 @@ class gevUserImport {
 
 		//new course
 		$next_id = $this->getNextCourseId();
-
-
-
-
 
 		$sql = "INSERT INTO interimCourse ("
 					."crs_id,"
@@ -595,7 +581,6 @@ class gevUserImport {
 	private function storeEduRecordForUser($crs_id, $entry, $client){
 		//gets new crs-id which matches interimCourse.crs_id
 
-
 		// delete entries for this user/course first
 		$sql = "DELETE FROM  interimUsercoursestatus WHERE "
 			. "usr_id_" .strtolower($client) ." = '" .$entry['old_usr_id'] ."'"
@@ -633,7 +618,7 @@ class gevUserImport {
 				.$entry['created_ts'] ."," 
 				.$entry['last_wbd_report'] ."," 
 				.$entry['max_credit_points'] ."," 
-				.$entry['bill_id'] ."," 
+				."'" .$entry['bill_id'] ."'," 
 				."'" .$entry['booking_status'] ."'," 
 				."'" .$entry['participation_status'] ."'," 
 				."'" .$entry['okz'] ."'," 
@@ -648,7 +633,6 @@ class gevUserImport {
 
 			$this->prnt('edurecord for user ' . $entry['old_usr_id'] .': ' .$entry['title']);
 	}
-
 
 
 
@@ -734,6 +718,15 @@ class gevUserImport {
 		
 		$fetcher = $this->getFetchterGEV();
 	
+		$edu_records = $fetcher->getEduRecordsForImportedUsers();
+
+		foreach ($edu_records as $entry) {
+			$entry = $this->normalizeCourseEntry($entry, 'GEV');
+			$crs_id = $this->storeCourseToInterimsBD($entry);
+		  	$this->storeEduRecordForUser($crs_id, $entry, 'GEV');
+		}
+
+
 		$this->prnt('Fetching GEV EduRecords: done', 2);
 	}
 
@@ -753,23 +746,5 @@ class gevUserImport {
 
 
 
-
-}
-
-if($WEBMODE === true){
-
-	$imp = new gevUserImport();
-
-	//$imp->createOrgStructure();
-
-	//$imp->fetchGEVUsers();
-	//$imp->fetchGEVUserRoles();
-	//$imp->fetchGEVEduRecords();
-
-	//$imp->fetchVFSUsers();
-	//$imp->fetchVFSUserRoles();
-	$imp->fetchVFSEduRecords();
-
-	//print '<br><br><hr>all through.';
 
 }
