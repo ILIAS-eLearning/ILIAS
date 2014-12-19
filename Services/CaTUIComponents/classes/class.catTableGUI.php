@@ -83,7 +83,7 @@ class catTableGUI extends ilTable2GUI {
 		//print_r($this);
 		//die();
 		if ($this->_title_enabled) {
-			return $this->_title->render().parent::render();
+			return $this->_title->render()."<br />".parent::render();
 		}
 		return parent::render();
 	}
