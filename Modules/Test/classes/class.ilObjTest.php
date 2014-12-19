@@ -4844,7 +4844,7 @@ function getAnswerFeedbackPoints()
 			}
 
 			$passObject->addAnsweredQuestion(
-				$row["question_fi"], $row["maxpoints"], $row["points"], $row['answered']
+				$row["question_fi"], $row["maxpoints"], $row["points"], $row['answered'], null, $row['manual']
 			);
 		}
 
