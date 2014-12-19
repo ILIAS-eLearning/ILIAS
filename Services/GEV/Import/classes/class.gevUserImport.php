@@ -13,6 +13,7 @@
 require_once("Services/GEV/Import/classes/class.gevImportedUser.php");
 
 
+require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 //settings and imports
 ini_set("memory_limit","2048M"); 
 ini_set('max_execution_time', 0);
@@ -40,6 +41,44 @@ class gevUserImport {
 		$this->createDB();
 
 		$this->ilDB = &$ilDB;
+
+		$this->role_utils = gevRoleUtils::getInstance();
+
+		$this->ROLEMAPPINGS = array(
+
+
+'VD'	=> '' //aus Stellungsschlüssel
+,'OD'	=> ''
+,'BD'	=> ''
+,'HGB 84/1'	=> ''
+,'HGB 84/2'	=> '' 
+,'Org PV'	=> ''
+,'PV 1'	=> ''
+,'PV 2'	=> ''
+
+,'MiZ'	=> 'MiZ / NA'
+,'ID 1'	=> 'ID MA'
+,'ID 2'	=> 'ID FK'
+,'VSPS BD'	=> 'OD / FD / BD ID'
+,'VSPS VD'	=> 'OD / FD / BD ID'
+,'VA-Ausbildung'	=> 'VA / BA in Ausbildung'
+,'NFK'	=> 'NFK'
+,'BDA'	=> 'FDA'
+
+,'RTL'	=> '' //aus Stellungsschlüssel
+,'Trainer intern'	=> ''
+
+,'Key Account'	=> 'int. Trainer'
+,'Trainer extern'	=> 'ext. Trainer'
+,'Admin eingeschränkt'	=> 'Admin-eingeschraenkt'
+
+,'EinMan'	=> '' //entfällt
+
+
+
+
+		);
+
 	}
 
 
@@ -745,6 +784,183 @@ class gevUserImport {
 
 
 
+	
+
+	public function createUser($rec){
+
+		$user = new ilObjUser();
+		$user->setLogin($rec['login']);
+		$user->setEmail($rec['mail']);
+
+		//$user->setPasswd($rec['password"));
+		
+		$user->setLastname($rec['lastname']);
+		$user->setFirstname($rec['firstname']);
+		$user->setGender($rec['gender']);
+		$user->setUTitle($rec['title']);
+		$birthday = $rec['bday'];
+		$user->setBirthday($birthday);
+		$user->setStreet($rec['street']);
+		$user->setCity($rec['city']);
+		$user->setZipcode($rec['plz']);
+		$user->setCountry($rec['country']);
+		$user->setPhoneOffice($rec['fon_work']);
+		$user->setPhoneMobile($rec['fon_mobil']);
+
+		// is not active, owner is root
+		$user->setActive(0, 6);
+		$user->setTimeLimitUnlimited(true);
+	
+		//$user->setIsSelfRegistered(true);
+		
+		$user->create();
+		$user->saveAsNew();
+
+		$user_id = $user->getId();
+		
+		//$now = new ilDateTime(time(),IL_CAL_UNIX);
+		//$user->setAgreeDate($now->get(IL_CAL_DATETIME));
+
+		//update pass, creation, agreement
+		$sql = "UPDATE usr_data SET"
+			." passwd='" .$rec['pwd'] ."',"
+			." create_date='" .$rec['created'] ."',"
+			." approve_date='" .$rec['approved'] ."',"
+			." last_login='" .$rec['last_login'] ."'"
+			." WHERE usr_id=" .$user_id;
+		$this->ilDB->query($sql);
+			
+
+
+
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+		
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$user_utils = gevUserUtils::getInstanceByObj($user);
+
+		$user_utils->setBirthplace($rec['bcity']);
+		$user_utils->setBirthname($rec['bname']);
+
+		$user_utils->setIHKNumber($rec['ihknr']);
+		$user_utils->setPrivateEmail($rec['mail_priv']);
+		$user_utils->setPrivateStreet($rec['street_priv']);
+		$user_utils->setPrivateCity($rec['city_priv']);
+		$user_utils->setPrivateZipcode($rec['plz_priv']);
+
+		//$user_utils->setADPNumberGEV($rec["adp_gev"]);
+		//$user_utils->setADPNumberVFS($rec["adp_vfs"]);
+
+		$user_utils->setEntryDate(new ilDate($rec['entry_date'], IL_CAL_DATE));
+		$user_utils->setExitDate(new ilDate($rec['exit_date'], IL_CAL_DATE));
+
+
+
+/*		
+		$stellennummer = $rec['position");
+		$vermittlerstatus = $this->getVermittlerStatus($stellennummer);
+		$data = $this->getStellennummerData($stellennummer);
+		
+		$user_utils->setJobNumber($stellennummer);
+		$user_utils->setAgentKey($data["vms"]);
+		//$user_utils->setCompanyTitle($data["gesellschaftstitel"]);
+		//$user_utils->setHPE($data["hpe"]);
+		
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		$role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][0];
+		$role_utils = gevRoleUtils::getInstance();
+		$role_utils->assignUserToGlobalRole($user_id, $role_title);
+		
+		
+		$org_role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][1];
+		$org_unit_import_id = $this->getOrgUnitImportId($stellennummer);
+		$org_unit_id = ilObjOrgUnit::_lookupObjIdByImportId($org_unit_import_id);
+		if (!$org_unit_id) {
+			throw new Exception("Could not determine obj_id for org unit with import id '".$org_unit_import_id."'");
+		}
+		$org_unit_utils = gevOrgUnitUtils::getInstance($org_unit_id);
+		$org_unit_utils->getOrgUnitInstance();
+		$org_unit_utils->assignUser($user_id, $org_role_title);
+		
+		
+
+
+		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
+		gevDBVUtils::getInstance()->assignUserToDBVsByShadowDB($user->getId());
+		
+		//$user = new ilObjUser($user_id);
+		$user->setActive(true, 6);
+		$user->update();
+*/
+
+		return $user_id;
+	}
+
+
+
+
+	public function createUserAccounts(){
+
+		$this->prnt('Creating UserAccounts', 1);
+
+		$sql = "SELECT login FROM usr_data";
+		$result = $this->ilDB->query($sql);
+		$exclude = array();
+		while($record = $this->ilDB->fetchAssoc($result)) {
+			$exclude[] = "'" .$record['login'] ."'";
+		}
+
+		$sql = "SELECT * FROM interimUsers WHERE login NOT IN ("
+			.implode(', ', $exclude)
+			.")"
+			." AND id IN (606, 607, 608)";
+
+		$result = $this->queryShadowDB($sql);
+		while ($record = mysql_fetch_assoc($result)){
+			$user_id = $this->createUser($record);
+			$sql = "UPDATE interimUsers SET ilid = '$user_id' WHERE"
+				." id=" .$record['id'];
+			$this->queryShadowDB($sql);
+
+			$this->assignUserRoles($record['id'], $user_id, $record);
+		};
+
+
+		$this->prnt('Creating UserAccounts: done', 2);
+	}
+	
+
+
+	public function assignUserRoles($interim_user_id, $il_user_id, $user_record){
+
+		$sql="SELECT interimRoles.title AS role_title FROM interimRoles"
+		." INNER JOIN interimUserRoles ON interimRoles.id=interimUserRoles.interim_role_id"
+		." WHERE interimUserRoles.interim_user_id = $interim_user_id";
+
+		$result = $this->queryShadowDB($sql);
+		while ($record = mysql_fetch_assoc($result)){
+
+
+			//match roles!!!!
+			//user_record
+			//$new_role = $this->ROLEMAPPINGS[$record['role_title']];
+
+			//$this->role_utils->assignUserToGlobalRole($il_user_id, $new_role);
+		}	
+
+	}
+
+
+
+	public function assignUsersToOrgUnits(){
+	}
+
+
+
+	public function importEduRecords(){
+	}
 
 
 }

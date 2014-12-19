@@ -15,15 +15,13 @@ PREPARATION NEEDED:
 
 From the VofueDB, import table 
 
-	"usr_data" 
-	"udf_text" 
 	"edu_biography" 
-
-	"obj_data"
-	"rbac_ua"
-
-	"vf_crs_data"
+	"object_data"
 	"object_reference"
+	"rbac_ua"
+	"udf_text" 
+	"usr_data" 
+	"vf_crs_data"
 
 into the shadowDB gev_ivimport
 
