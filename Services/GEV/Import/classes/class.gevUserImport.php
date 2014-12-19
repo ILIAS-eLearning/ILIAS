@@ -44,41 +44,6 @@ class gevUserImport {
 
 		$this->role_utils = gevRoleUtils::getInstance();
 
-		$this->ROLEMAPPINGS = array(
-
-
-'VD'	=> '' //aus Stellungsschlüssel
-,'OD'	=> ''
-,'BD'	=> ''
-,'HGB 84/1'	=> ''
-,'HGB 84/2'	=> '' 
-,'Org PV'	=> ''
-,'PV 1'	=> ''
-,'PV 2'	=> ''
-
-,'MiZ'	=> 'MiZ / NA'
-,'ID 1'	=> 'ID MA'
-,'ID 2'	=> 'ID FK'
-,'VSPS BD'	=> 'OD / FD / BD ID'
-,'VSPS VD'	=> 'OD / FD / BD ID'
-,'VA-Ausbildung'	=> 'VA / BA in Ausbildung'
-,'NFK'	=> 'NFK'
-,'BDA'	=> 'FDA'
-
-,'RTL'	=> '' //aus Stellungsschlüssel
-,'Trainer intern'	=> ''
-
-,'Key Account'	=> 'int. Trainer'
-,'Trainer extern'	=> 'ext. Trainer'
-,'Admin eingeschränkt'	=> 'Admin-eingeschraenkt'
-
-,'EinMan'	=> '' //entfällt
-
-
-
-
-		);
-
 	}
 
 
@@ -915,7 +880,7 @@ class gevUserImport {
 		$sql = "SELECT * FROM interimUsers WHERE login NOT IN ("
 			.implode(', ', $exclude)
 			.")"
-			." AND id IN (606, 607, 608)";
+			." AND id in ('605','606','607','608','609','610','712')";
 
 		$result = $this->queryShadowDB($sql);
 		while ($record = mysql_fetch_assoc($result)){
@@ -933,25 +898,48 @@ class gevUserImport {
 	
 
 
+	public function matchRole($role_title, $position_key){
+		require_once("Services/GEV/Import/classes/class.gevUserImportMatching.php");
+		if(! array_key_exists($role_title, gevUserImportMatching::$ROLEMAPPINGS)){
+			$this->prnt('role does not map: ' .$role_title, 3);
+			die();
+		}
+		$new_role = gevUserImportMatching::$ROLEMAPPINGS[$role_title];
+		if($new_role == '#FROMKEY'){
+			//$this->prnt('...key...');
+			$sql = "SELECT role_title FROM interimRoleFromKey WHERE position_key='$position_key'";
+			$result = $this->queryShadowDB($sql);
+			$rec = mysql_fetch_assoc($result);
+			$new_role = trim($rec['role_title']);
+		}
+		return $new_role;
+	}
+
 	public function assignUserRoles($interim_user_id, $il_user_id, $user_record){
+		
+		$client = ($user_record['ilid_vfs'] == '') ? 'gev' : 'vfs';
+		$agentkey = $user_record['vkey_' .$client];
+		if($client == 'VFS'){
+			$this->prnt($user_record['login'] .': +VFS');
+			$this->role_utils->assignUserToGlobalRole($il_user_id, 'VFS');
+		}
 
 		$sql="SELECT interimRoles.title AS role_title FROM interimRoles"
 		." INNER JOIN interimUserRoles ON interimRoles.id=interimUserRoles.interim_role_id"
-		." WHERE interimUserRoles.interim_user_id = $interim_user_id";
+		." WHERE interimUserRoles.interim_usr_id = $interim_user_id";
 
 		$result = $this->queryShadowDB($sql);
 		while ($record = mysql_fetch_assoc($result)){
-
-
-			//match roles!!!!
-			//user_record
-			//$new_role = $this->ROLEMAPPINGS[$record['role_title']];
-
-			//$this->role_utils->assignUserToGlobalRole($il_user_id, $new_role);
+			$new_role = $this->matchRole($record['role_title'], $agentkey);
+			$this->prnt($user_record['login'] .': ' .$record['role_title'] .' -> ');
+			$this->prnt($new_role, -1);
+			if($new_role != '#DROP'){
+				$this->role_utils->assignUserToGlobalRole($il_user_id, $new_role);
+			}
 		}	
 
-	}
 
+	}
 
 
 	public function assignUsersToOrgUnits(){
