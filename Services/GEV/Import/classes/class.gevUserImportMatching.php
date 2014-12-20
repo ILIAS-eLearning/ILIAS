@@ -56,17 +56,26 @@ class gevUserImportMatching {
 
 	static $ROLEMAPPINGS = array(
 
+		'Administrator' => 'Administrator'
+		,'User' => 'User' 
+		,'Guest' =>'Guest'
+		,'Anonymous' =>'Anonymous'
+
 		//'VFS' => array(
-			'VD' => '#FROMKEY' //aus Stellungsschlüssel
+			,'VD' => '#FROMKEY' //aus Stellungsschlüssel
 			,'OD' => '#FROMKEY'
 			,'BD' => '#FROMKEY'
 			,'HGB 84/1'	=> '#FROMKEY'
+			,'HGB84er 1' => '#FROMKEY'
 			,'HGB 84/2'	=> '#FROMKEY' 
+			,'HGB84er 2' => '#FROMKEY' 
 			,'Org PV' => '#FROMKEY'
 			,'PV 1'	=> '#FROMKEY'
+			,'PV1'	=> '#FROMKEY'
 			,'PV 2'	=> '#FROMKEY'
 			,'PV2'	=> '#FROMKEY'
 			,'MiZ'	=> 'MiZ / NA'
+			,'MIZ'	=> 'MiZ / NA'
 			,'ID 1'	=> 'ID MA'
 			,'Innendienst I'	=> 'ID MA'
 			,'ID 2'	=> 'ID FK'
@@ -82,9 +91,13 @@ class gevUserImportMatching {
 			,'Trainer intern' => '#FROMKEY'
 			,'Interne Trainer' => '#FROMKEY'
 			,'Key Account' => 'int. Trainer'
+			,'Key Accounter' => 'int. Trainer'
+			,'Key-Accounter' => 'int. Trainer'
 			,'Trainer extern' => 'ext. Trainer'
+			,'Externer Trainer' => 'ext. Trainer'
 			,'Admin eingeschränkt' => 'Admin-eingeschraenkt'
 			,'EinMan' => '#DROP' //entfällt
+			,'Go Live' => '#DROP' //entfällt
 			
 		//),
 		//'GEV' => array(

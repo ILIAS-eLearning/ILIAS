@@ -14,6 +14,7 @@ require_once("Services/GEV/Import/classes/class.gevImportedUser.php");
 
 
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 //settings and imports
 ini_set("memory_limit","2048M"); 
 ini_set('max_execution_time', 0);
@@ -43,6 +44,15 @@ class gevUserImport {
 		$this->ilDB = &$ilDB;
 
 		$this->role_utils = gevRoleUtils::getInstance();
+		$this->global_roles = $this->role_utils->getGlobalRoles();
+		$this->orgu_superior_roles = array();
+		foreach (gevSettings::$VMS_ROLE_MAPPING as $key => $value) {
+			if($value[1] == 'Vorgesetzter' && ! in_array($value[0], $this->orgu_superior_roles)){
+				$this->orgu_superior_roles[] = $value[0];
+			}	
+		}
+		
+
 
 	}
 
@@ -767,7 +777,6 @@ class gevUserImport {
 		$user->setEmail($rec['mail']);
 
 		//$user->setPasswd($rec['password"));
-		
 		$user->setLastname($rec['lastname']);
 		$user->setFirstname($rec['firstname']);
 		$user->setGender($rec['gender']);
@@ -803,42 +812,8 @@ class gevUserImport {
 			." WHERE usr_id=" .$user_id;
 		$this->ilDB->query($sql);
 	
-
 		$user->setActive(true, 6);
 		$user->update();
-
-/*		
-		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
-		
-		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
-		
-
-		$vermittlerstatus = $this->getVermittlerStatus($stellennummer);
-		$data = $this->getStellennummerData($stellennummer);
-		$user_utils->setJobNumber($stellennummer);
-		$user_utils->setAgentKey($data["vms"]);
-		
-		
-		$org_role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][1];
-
-		$stellennummer = $rec['position");
-		$org_unit_import_id = $this->getOrgUnitImportId($stellennummer);
-		$org_unit_id = ilObjOrgUnit::_lookupObjIdByImportId($org_unit_import_id);
-		if (!$org_unit_id) {
-			throw new Exception("Could not determine obj_id for org unit with import id '".$org_unit_import_id."'");
-		}
-		$org_unit_utils = gevOrgUnitUtils::getInstance($org_unit_id);
-		$org_unit_utils->getOrgUnitInstance();
-		$org_unit_utils->assignUser($user_id, $org_role_title);
-		
-		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
-		gevDBVUtils::getInstance()->assignUserToDBVsByShadowDB($user->getId());
-		
-		//$user = new ilObjUser($user_id);
-		$user->setActive(true, 6);
-		$user->update();
-*/
 
 		return $user_id;
 	}
@@ -846,9 +821,11 @@ class gevUserImport {
 
 
 	public function setUserAdditionalData($il_user_id, $user_record){
+		$this->prnt('setUserAdditionalData', 3);
 
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$user_utils = gevUserUtils::getInstance($il_user_id);
+
 
 		$user_utils->setBirthplace($user_record['bcity']);
 		$user_utils->setBirthname($user_record['bname']);
@@ -866,9 +843,11 @@ class gevUserImport {
 
 		
 
-$this->prnt($user_record, 666);
+//$this->prnt($user_record, 666);
 
-		$user_utils->setWBDTPType($user_record['tp_type']);
+		if($user_record['tp_type']){
+			$user_utils->setWBDTPType($user_record['tp_type']);
+		}
 
 		if($user_record['bwvid']){
 			$user_utils->setWBDBWVId($user_record['bwvid']);
@@ -936,7 +915,8 @@ $this->prnt($user_record, 666);
 	}
 
 	public function assignUserRoles($interim_user_id, $il_user_id, $user_record){
-		
+		$this->prnt('assignUserRoles', 3);
+
 		$client = ($user_record['ilid_vfs'] == '') ? 'gev' : 'vfs';
 		$agentkey = $user_record['vkey_' .$client];
 		if($client == 'vfs'){
@@ -960,9 +940,9 @@ $this->prnt($user_record, 666);
 	}
 
 
-
-
 	public function assignUserToOrgUnits($interim_user_id, $il_user_id, $client){
+		$this->prnt('assignUserToOrgUnits', 3);
+
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		$sql = "SELECT orgu_id, ilid FROM interimOrguAssignments"
 			." LEFT JOIN interimOrgUnits on interimOrguAssignments.orgu_id = interimOrgUnits.id"
@@ -980,10 +960,17 @@ $this->prnt($user_record, 666);
 				$org_unit_id = $rec['ilid'];
 			}
 			
-			$this->prnt('in OrgUnit '. $org_unit_id, 3);
+			$this->prnt('in OrgUnit '. $org_unit_id);
 
 			$org_role_title = 'Mitarbeiter';
-			//$org_role_title = gevSettings::$VMS_ROLE_MAPPING[ - - - ];
+			$user_roles = $this->role_utils->getGlobalRolesOf($il_user_id);
+			
+			foreach ($user_roles as $urole) {
+				if(in_array($this->global_roles[$urole], $this->orgu_superior_roles)){
+					$org_role_title = 'Vorgesetzter';
+				}
+			}
+
 
 			$org_unit_utils = gevOrgUnitUtils::getInstance($org_unit_id);
 			$org_unit_utils->getOrgUnitInstance();
@@ -991,12 +978,9 @@ $this->prnt($user_record, 666);
 			
 		}
 
-
-
-
 		// fromRegistrationGUI, DBV assign
-		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
-		gevDBVUtils::getInstance()->assignUserToDBVsByShadowDB($il_user_id);
+		//require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
+		//gevDBVUtils::getInstance()->assignUserToDBVsByShadowDB($il_user_id);
 	}
 
 
@@ -1014,22 +998,40 @@ $this->prnt($user_record, 666);
 
 
 		$sql = "SELECT * FROM interimUsers"
-//			." WHERE id in ('605','606','607','608','609','610','712')";
-			." WHERE id in (605,606,607,608,609,610,712, 995)";
-
+		." WHERE login NOT IN ('root', 'anonymous', 'cron')"
+		." AND mail NOT LIKE '%@qualitus.de'"
+//		." AND id BETWEEN 2755 AND 2765"
+//." LIMIT 200 OFFSET 400"
+		;
 		$result = $this->queryShadowDB($sql);
 
 		while ($record = mysql_fetch_assoc($result)){
+
+$this->prnt($record, 666);
+			
 			if(! in_array(trim($record['login']), $exclude)){
 				//create
+				
 				$user_id = $this->createUser($record);
 				$sql = "UPDATE interimUsers SET ilid = '$user_id' WHERE"
 					." id=" .$record['id'];
+
 				$this->queryShadowDB($sql);
 			} else{
 				$user_id = $record['ilid'];
-			}
 
+				//this should not happen?!
+				if(! $user_id){
+					$sql = "SELECT usr_id FROM usr_data"
+					." WHERE login='".$record['login']."'";
+					$res = $this->ilDB->query($sql);
+					$rec = $this->ilDB->fetchAssoc($res);
+					$user_id = $rec['usr_id'];
+					$sql = "UPDATE interimUsers SET ilid = '$user_id' WHERE"
+					." id=" .$record['id'];
+					$this->queryShadowDB($sql);
+				}
+			}
 
 
 			$this->setUserAdditionalData($user_id, $record);
