@@ -98,6 +98,7 @@ class gevUserImportMatching {
 			,'Admin eingeschränkt' => 'Admin-eingeschraenkt'
 			,'EinMan' => '#DROP' //entfällt
 			,'Go Live' => '#DROP' //entfällt
+			,'VFS' => 'VFS' 
 			
 		//),
 		//'GEV' => array(
