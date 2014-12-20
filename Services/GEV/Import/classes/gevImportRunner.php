@@ -35,9 +35,11 @@ require_once("Services/GEV/Import/classes/class.gevUserImport.php");
 $imp = new gevUserImport();
 //$imp->webmode = false;
 
-$imp->createUserAccounts();
-
 //$imp->createOrgStructure();
+
+
+$imp->createOrUpdateUserAccounts();
+
 
 /*
 $imp->fetchVFSUsers();

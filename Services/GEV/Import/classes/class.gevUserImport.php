@@ -452,6 +452,15 @@ class gevUserImport {
 	}
 
 
+	/*
+	private function stripNumbersFromSelectionEntry($entry){
+		if(is_numeric(substr($entry, 0,1))){
+			$entry = substr($entry, 4);
+			print '<hr>' . $entry ."<hr>";
+		}
+		return $entry;
+	}
+	*/
 
 
 
@@ -775,8 +784,7 @@ class gevUserImport {
 		// is not active, owner is root
 		$user->setActive(0, 6);
 		$user->setTimeLimitUnlimited(true);
-	
-		//$user->setIsSelfRegistered(true);
+		$user->setIsSelfRegistered(true);
 		
 		$user->create();
 		$user->saveAsNew();
@@ -784,62 +792,37 @@ class gevUserImport {
 		$user_id = $user->getId();
 		
 		//$now = new ilDateTime(time(),IL_CAL_UNIX);
-		//$user->setAgreeDate($now->get(IL_CAL_DATETIME));
+		$create_date = new ilDateTime($rec['created'], IL_CAL_DATETIME);
+		$user->setAgreeDate($create_date->get(IL_CAL_DATETIME));
 
 		//update pass, creation, agreement
 		$sql = "UPDATE usr_data SET"
 			." passwd='" .$rec['pwd'] ."',"
-			." create_date='" .$rec['created'] ."',"
 			." approve_date='" .$rec['approved'] ."',"
 			." last_login='" .$rec['last_login'] ."'"
 			." WHERE usr_id=" .$user_id;
 		$this->ilDB->query($sql);
-			
+	
 
+		$user->setActive(true, 6);
+		$user->update();
 
-
+/*		
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 		
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		$user_utils = gevUserUtils::getInstanceByObj($user);
 
-		$user_utils->setBirthplace($rec['bcity']);
-		$user_utils->setBirthname($rec['bname']);
-
-		$user_utils->setIHKNumber($rec['ihknr']);
-		$user_utils->setPrivateEmail($rec['mail_priv']);
-		$user_utils->setPrivateStreet($rec['street_priv']);
-		$user_utils->setPrivateCity($rec['city_priv']);
-		$user_utils->setPrivateZipcode($rec['plz_priv']);
-
-		//$user_utils->setADPNumberGEV($rec["adp_gev"]);
-		//$user_utils->setADPNumberVFS($rec["adp_vfs"]);
-
-		$user_utils->setEntryDate(new ilDate($rec['entry_date'], IL_CAL_DATE));
-		$user_utils->setExitDate(new ilDate($rec['exit_date'], IL_CAL_DATE));
-
-
-
-/*		
-		$stellennummer = $rec['position");
 		$vermittlerstatus = $this->getVermittlerStatus($stellennummer);
 		$data = $this->getStellennummerData($stellennummer);
-		
 		$user_utils->setJobNumber($stellennummer);
 		$user_utils->setAgentKey($data["vms"]);
-		//$user_utils->setCompanyTitle($data["gesellschaftstitel"]);
-		//$user_utils->setHPE($data["hpe"]);
-		
-		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
-		$role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][0];
-		$role_utils = gevRoleUtils::getInstance();
-		$role_utils->assignUserToGlobalRole($user_id, $role_title);
 		
 		
 		$org_role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][1];
+
+		$stellennummer = $rec['position");
 		$org_unit_import_id = $this->getOrgUnitImportId($stellennummer);
 		$org_unit_id = ilObjOrgUnit::_lookupObjIdByImportId($org_unit_import_id);
 		if (!$org_unit_id) {
@@ -849,9 +832,6 @@ class gevUserImport {
 		$org_unit_utils->getOrgUnitInstance();
 		$org_unit_utils->assignUser($user_id, $org_role_title);
 		
-		
-
-
 		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
 		gevDBVUtils::getInstance()->assignUserToDBVsByShadowDB($user->getId());
 		
@@ -865,37 +845,77 @@ class gevUserImport {
 
 
 
+	public function setUserAdditionalData($il_user_id, $user_record){
 
-	public function createUserAccounts(){
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$user_utils = gevUserUtils::getInstance($il_user_id);
 
-		$this->prnt('Creating UserAccounts', 1);
+		$user_utils->setBirthplace($user_record['bcity']);
+		$user_utils->setBirthname($user_record['bname']);
 
-		$sql = "SELECT login FROM usr_data";
-		$result = $this->ilDB->query($sql);
-		$exclude = array();
-		while($record = $this->ilDB->fetchAssoc($result)) {
-			$exclude[] = "'" .$record['login'] ."'";
+		$user_utils->setIHKNumber($user_record['ihknr']);
+		$user_utils->setPrivateEmail($user_record['mail_priv']);
+		$user_utils->setPrivateStreet($user_record['street_priv']);
+		$user_utils->setPrivateCity($user_record['city_priv']);
+		$user_utils->setPrivateZipcode($user_record['plz_priv']);
+
+		$user_utils->setEntryDate(new ilDate($user_record['entry_date'], IL_CAL_DATE));
+		if($user_record['exit_date'] != '00.00.0000'){
+			$user_utils->setExitDate(new ilDate($user_record['exit_date'], IL_CAL_DATE));
 		}
 
-		$sql = "SELECT * FROM interimUsers WHERE login NOT IN ("
-			.implode(', ', $exclude)
-			.")"
-			." AND id in ('605','606','607','608','609','610','712')";
+		
 
-		$result = $this->queryShadowDB($sql);
-		while ($record = mysql_fetch_assoc($result)){
-			$user_id = $this->createUser($record);
-			$sql = "UPDATE interimUsers SET ilid = '$user_id' WHERE"
-				." id=" .$record['id'];
-			$this->queryShadowDB($sql);
+$this->prnt($user_record, 666);
 
-			$this->assignUserRoles($record['id'], $user_id, $record);
-		};
+		$user_utils->setWBDTPType($user_record['tp_type']);
+
+		if($user_record['bwvid']){
+			$user_utils->setWBDBWVId($user_record['bwvid']);
+		}
+		if($user_record['wbd_okz']){
+			$okz = $user_record['wbd_okz'];
+			$okz = str_replace('aus Stellung', 'aus Rolle', $okz);
+			$user_utils->setRawWBDOKZ($okz);
+		}
+		if($user_record['wbd_status']){
+			$status = $user_record['wbd_status'];
+			$status = str_replace('aus Stellung', 'aus Rolle', $status);
+			$user_utils->setRawWBDAgentStatus($status);
+		}
+		if($user_record['wbd_registered'] == '1 - Ja'){
+			$user_utils->setWBDRegistrationDone();
+		}
+		$user_utils->setWBDCommunicationEmail($user_record['mail_wbd']);
+		$user_utils->setIHKNumber($user_record['ihknr']);
+		$user_utils->getAgentPositionVFS($user_record['pos_vfs']);
 
 
-		$this->prnt('Creating UserAccounts: done', 2);
+		$user_utils->setJobNumber($user_record['vnr_gev']);
+		$user_utils->setAgentKey($user_record['vkey_gev']);
+		$user_utils->setAgentKeyVFS($user_record['vkey_vfs']);
+/*
+		$user_utils->setPaisyNr($user_record['paisy']);
+
+
+		if($user_record['adp_vfs']){
+			$user_utils->setADPNumberVFS($user_record["adp_vfs"]);
+		}
+		if($user_record['adp_gev']){
+			$user_utils->setADPNumberGEV($user_record["adp_gev"]);
+		}
+
+		//$user_utils->setWBDFirstCertificationPeriodBegin($user_record['wbd_cert_begin']));
+*/
+
+		$user = new ilObjUser($il_user_id);
+		$user->update();
+
 	}
-	
+
+
+
+
 
 
 	public function matchRole($role_title, $position_key){
@@ -919,7 +939,7 @@ class gevUserImport {
 		
 		$client = ($user_record['ilid_vfs'] == '') ? 'gev' : 'vfs';
 		$agentkey = $user_record['vkey_' .$client];
-		if($client == 'VFS'){
+		if($client == 'vfs'){
 			$this->prnt($user_record['login'] .': +VFS');
 			$this->role_utils->assignUserToGlobalRole($il_user_id, 'VFS');
 		}
@@ -937,13 +957,95 @@ class gevUserImport {
 				$this->role_utils->assignUserToGlobalRole($il_user_id, $new_role);
 			}
 		}	
-
-
 	}
 
 
-	public function assignUsersToOrgUnits(){
+
+
+	public function assignUserToOrgUnits($interim_user_id, $il_user_id, $client){
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$sql = "SELECT orgu_id, ilid FROM interimOrguAssignments"
+			." LEFT JOIN interimOrgUnits on interimOrguAssignments.orgu_id = interimOrgUnits.id"
+			." WHERE interimOrguAssignments.interim_usr_id = '$interim_user_id'";
+
+
+		$result = $this->queryShadowDB($sql);
+		while ($record = mysql_fetch_assoc($result)){
+
+			$org_unit_id = $record['ilid'];
+			if($org_unit_id == 0){
+				$org_unit_id = 'nogroup_' . $client;
+				$res = $this->queryShadowDB("SELECT ilid FROM interimOrgUnits WHERE id='$org_unit_id'");
+				$rec = mysql_fetch_assoc($res);
+				$org_unit_id = $rec['ilid'];
+			}
+			
+			$this->prnt('in OrgUnit '. $org_unit_id, 3);
+
+			$org_role_title = 'Mitarbeiter';
+			//$org_role_title = gevSettings::$VMS_ROLE_MAPPING[ - - - ];
+
+			$org_unit_utils = gevOrgUnitUtils::getInstance($org_unit_id);
+			$org_unit_utils->getOrgUnitInstance();
+			$org_unit_utils->assignUser($il_user_id, $org_role_title);
+			
+		}
+
+
+
+
+		// fromRegistrationGUI, DBV assign
+		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
+		gevDBVUtils::getInstance()->assignUserToDBVsByShadowDB($il_user_id);
 	}
+
+
+
+	public function createOrUpdateUserAccounts(){
+		$this->prnt('Creating/Updating UserAccounts', 1);
+
+		//exclude users from creation  that are already there...
+		$sql = "SELECT login FROM usr_data";
+		$result = $this->ilDB->query($sql);
+		$exclude = array();
+		while($record = $this->ilDB->fetchAssoc($result)) {
+			$exclude[] = $record['login'];
+		}
+
+
+		$sql = "SELECT * FROM interimUsers"
+//			." WHERE id in ('605','606','607','608','609','610','712')";
+			." WHERE id in (605,606,607,608,609,610,712, 995)";
+
+		$result = $this->queryShadowDB($sql);
+
+		while ($record = mysql_fetch_assoc($result)){
+			if(! in_array(trim($record['login']), $exclude)){
+				//create
+				$user_id = $this->createUser($record);
+				$sql = "UPDATE interimUsers SET ilid = '$user_id' WHERE"
+					." id=" .$record['id'];
+				$this->queryShadowDB($sql);
+			} else{
+				$user_id = $record['ilid'];
+			}
+
+
+
+			$this->setUserAdditionalData($user_id, $record);
+
+			$this->assignUserRoles($record['id'], $user_id, $record);
+
+			
+			$client = ($record['ilid_vfs'] == '') ? 'gev' : 'vfs';
+			$this->assignUserToOrgUnits($record['id'], $user_id, $client);
+
+		};
+
+
+		$this->prnt('Creating/Updating UserAccounts: done', 2);
+	}
+	
 
 
 

@@ -1934,6 +1934,24 @@ class gevUserUtils {
 	}
 
 
+
+	public function getPaisyNr() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_PAISY_NUMBER);
+	}
+	public function setPaisyNr($a_nr) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_PAISY_NUMBER, $a_nr);
+	}
+	
+	public function getFinancialAccountVFS() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_FINANCIAL_ACCOUNT);
+	}
+	public function setFinancialAccountVFS($a_nr) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_FINANCIAL_ACCOUNT, $a_nr);
+	}
+	
+
+
+
 }
 
 ?>
