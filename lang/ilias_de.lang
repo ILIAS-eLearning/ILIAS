@@ -3225,7 +3225,7 @@ common#:#grp_count_members#:#Anzahl der Mitglieder
 common#:#grp_create#:#Neue Gruppe anlegen
 rbac#:#grp_delete#:#Gruppe löschen oder verschieben
 common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
-common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
+common#:#grp_dismiss_member#:#Möchten Sie folgende Mitglieder aus der Gruppe austragen?
 common#:#grp_dismiss_myself#:#Möchten Sie sich aus der Gruppe austragen?
 common#:#grp_edit#:#Einstellungen der Gruppe
 rbac#:#grp_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
@@ -6380,7 +6380,7 @@ crs#:#crs_grp_no_course_selected#:#Bitte wählen Sie mindestens einen Kurs aus.
 crs#:#crs_grp_no_courses_assigned#:#Keine zugeordneten Kurse.
 crs#:#crs_grp_table_assigned_courses#:#Zugeordnete Kurse
 crs#:#crs_header_archives#:#Kursarchive
-crs#:#crs_header_delete_members#:#Mitglieder löschen
+crs#:#crs_header_delete_members#:#Möchten Sie folgende Mitglieder aus dem Kurs austragen?
 crs#:#crs_header_delete_subscribers#:#Anträge löschen
 crs#:#crs_header_edit_members#:#Mitglieder bearbeiten
 crs#:#crs_header_members#:#Kursmitglieder

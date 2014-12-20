@@ -5472,7 +5472,7 @@ crs#:#crs_grp_no_course_selected#:#Please select one course.
 crs#:#crs_grp_no_courses_assigned#:#No assigned courses.
 crs#:#crs_grp_table_assigned_courses#:#Assigned courses
 crs#:#crs_header_archives#:#Course Archives
-crs#:#crs_header_delete_members#:#Delete Members
+crs#:#crs_header_delete_members#:#Would you like to remove the following members from this course?
 crs#:#crs_header_delete_subscribers#:#Delete subscribers
 crs#:#crs_header_edit_members#:#Edit Members
 crs#:#crs_header_members#:#Course members
