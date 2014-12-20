@@ -1360,7 +1360,7 @@ assessment#:#tst_total_questions#:#Gesamtanzahl der Fragen
 assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werden die Zahlenangaben zu den einzelnen Fragenpools ignoriert. Wenn Sie diesen Wert nicht setzen, müssen Sie zu jedem Fragenpool eine Anzahl von Fragen angeben, die aus diesem Fragenpool verwendet werden soll.
 assessment#:#tst_tst_date#:#Datum des Tests
 assessment#:#tst_type#:#Test-Typ
-assessment#:#exam_id#:#Klausurnummer: 
+assessment#:#exam_id#:#ILIAS-Prüfungsnummer:
 assessment#:#examid_in_test_pass#:#ILIAS-Prüfungsnummer anzeigen
 assessment#:#examid_in_test_pass_desc#:#Im Test wird eine ILIAS-Prüfungsnummer angezeigt. Für jeden Testdurchlauf wird eine eigene Nummer erzeugt.
 assessment#:#examid_in_test_res#:#ILIAS-Prüfungsnummer anzeigen

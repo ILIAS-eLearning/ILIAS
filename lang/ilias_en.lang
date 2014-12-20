@@ -1181,10 +1181,10 @@ assessment#:#tst_type_changed#:#You have changed the test type. All previous pro
 assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will remove all previous processed tests!
 assessment#:#tst_type#:#Test Type
 assessment#:#tst_types#:#Test Types
-assessment#:#exam_id#:#Exam Id: 
+assessment#:#exam_id#:#Testpass ID:
 assessment#:#examid_in_test_pass#:#Display Testpass ID
 assessment#:#examid_in_test_pass_desc#:#A testpass ID is diplayed in the test. A new ID is generated for every testpass.
-assessment#:#show_exam_id#:#Display Exam ID
+assessment#:#show_exam_id#:#Display Testpass ID
 assessment#:#examid_in_test_res#:#ILIAS Testpass ID
 assessment#:#examid_in_test_res_desc#:#The ILIAS Testpass ID will be included in the test results.
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
