@@ -80,8 +80,6 @@ class catTableGUI extends ilTable2GUI {
 	}
 
 	public function render() {
-		//print_r($this);
-		//die();
 		if ($this->_title_enabled) {
 			return $this->_title->render()."<br />".parent::render();
 		}
@@ -90,13 +88,6 @@ class catTableGUI extends ilTable2GUI {
 	
 	protected function fillRow($a_set)
 	{
-		//echo "-----------------------\n";
-		/*foreach ($this->column as $col) {
-			$key = $col["sort_field"];
-			$value = $a_set[$key];
-			//echo $key."-".$value."\n";
-			$this->tpl->setVariable("VAL_".strtoupper($key), $value);
-		}*/
 		foreach ($a_set as $key => $value) {
 			$this->tpl->setVariable("VAL_".strtoupper($key), $value);
 		}
