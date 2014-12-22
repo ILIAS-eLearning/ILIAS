@@ -626,6 +626,7 @@ class ilCourseBookings
 				*/
 				require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 				require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+				require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
 				
 				$crs_utils = gevCourseUtils::getInstanceByObj($this->course);
 				$usr_utils = gevUserUtils::getInstance($a_user_id);
@@ -633,6 +634,7 @@ class ilCourseBookings
 				$crs_reached_deadline = ($deadline !== null && ilDate::_after($now, $deadline));
 				$crs_hasfee = $crs_utils->getFee();
 				$usr_paysfee = $usr_utils->paysFees();
+				$usr_has_bill = gevBillingUtils::getInstance()->getNonFinalizedBillForCourseAndUser($this->course->getId(), $a_user_id) !== null;
 												
 				/*
 				print '<hr>';
@@ -645,7 +647,7 @@ class ilCourseBookings
 				die();
 				*/
 
-				if($crs_reached_deadline && $crs_hasfee && $usr_paysfee){
+				if($crs_reached_deadline && $crs_hasfee && $usr_paysfee && $usr_has_bill){
 					return $this->cancelWithCosts($a_user_id);
 				} else {
 					return $this->cancelWithoutCosts($a_user_id);
