@@ -44,7 +44,6 @@ class gevNARegistrationGUI {
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		
 		$title = new catTitleGUI("gev_registration", null, "GEV_img/ico-head-registration.png");
-		
 		$tpl = new ilTemplate("tpl.gev_start_na_registration.html", false, false, "Services/GEV/Registration");
 		
 		if ($a_form !== null) {
@@ -74,9 +73,38 @@ class gevNARegistrationGUI {
 		
 		require_once("Services/GEV/Utils/classes/class.gevNAUtils.php");
 		$adviser_id = gevNAUtils::getInstance()->searchAdviser($form->getInput("adviser"));
-		echo $adviser_id?$adviser_id:"not found";
-		die();
+
+		if ($adviser_id === null) {
+			$form->getItemByPostVar("adviser")->setAlert($this->lng->txt("gev_na_reg_no_adviser"));
+			return $this->startNARegistration($form);
+		}
+		
+		return $this->inputUserProfile(null, $form->getInput("email"), $adviser_id);
 	}
+	
+	protected function inputUserProfile($a_form = null, $a_email = null, $a_adviser_id) {
+		if ($a_form === null && ($a_email === null || $a_adviser_id = null)) {
+			throw new Exception("gevNARegistrationGUI::inputUserProfile: either a_form or a_email and a_adviser_id need to be set.");
+		} 
+		
+		if ($a_form !== null) {
+			$form = $a_form;
+			$form->setValuesByPost();
+		}
+		else {
+			$form = $this->buildNAForm($a_email, $a_adviser_id);
+		}
+		
+		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
+		$title = new catTitleGUI("gev_registration", null, "GEV_img/ico-head-registration.png");
+		
+		$tpl = new ilTemplate("tpl.gev_agent_profile.html", false, false, "Services/GEV/Registration");
+		$tpl->setVariable("FORM", $form->getHTML());
+		
+		return   $title->render()
+				.$tpl->get();
+	}
+	
 	
 	protected function buildRegistrationStartForm() {
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
@@ -94,6 +122,7 @@ class gevNARegistrationGUI {
 		$form->addItem($email);
 		
 		$adviser = new ilTextInputGUI($this->lng->txt("gev_na_adviser"), "adviser");
+		$adviser->setInfo($this->lng->txt("gev_na_adviser_input_info"));
 		$adviser->setSize(40);
 		$adviser->setRequired(true);
 		$form->addItem($adviser);
@@ -102,6 +131,135 @@ class gevNARegistrationGUI {
 		$chb1->setOptionTitle($this->lng->txt("evg_toc"));
 		$chb1->setRequired(true);
 		$form->addItem($chb1);
+		
+		return $form;
+	}
+	
+	protected function buildNAForm($a_email = null, $a_adviser = null) {
+		
+		require_once("Services/Calendar/classes/class.ilDate.php");
+		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		require_once("Services/Form/classes/class.ilFormSectionHeaderGUI.php");
+		require_once("Services/Form/classes/class.ilTextInputGUI.php");
+		require_once("Services/Form/classes/class.ilDateTimeInputGUI.php");
+		require_once("Services/Form/classes/class.ilRadioGroupInputGUI.php");
+		require_once("Services/Form/classes/class.ilRadioOption.php");
+		require_once("Services/Form/classes/class.ilEMailInputGUI.php");
+		require_once("Services/Form/classes/class.ilNonEditableValueGUI.php");
+		require_once("Services/Form/classes/class.ilPasswordInputGUI.php");
+		require_once("Services/Form/classes/class.ilUserLoginInputGUI.php");
+		require_once("Services/Form/classes/class.ilHiddenInputGUI.php");
+		
+		$form = new ilPropertyFormGUI();
+		$form->addCommandButton("registerAgent", $this->lng->txt("register"));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		
+		$adviser = new ilHiddenInputGUI("adviser");
+		if ($a_adviser !== null) {
+			$adviser->setValue($a_adviser);
+		}
+		$form->addItem($adviser);
+		
+		$section1 = new ilFormSectionHeaderGUI();
+		$section1->setTitle($this->lng->txt("gev_personal_data"));
+		$form->addItem($section1);
+		
+		$username = new ilUserLoginInputGUI($this->lng->txt("gev_username_free"), "username");
+		$username->setRequired(true);
+		$form->addItem($username);
+		
+		$password1 = new ilPasswordInputGUI($this->lng->txt("password"), "password");
+		$password1->setRequired(true);
+		$form->addItem($password1);
+		
+		$lastname = new ilTextInputGUI($this->lng->txt("lastname"), "lastname");
+		$lastname->setRequired(true);
+		$form->addItem($lastname);
+		
+		$firstname = new ilTextInputGUI($this->lng->txt("firstname"), "firstname");
+		$firstname->setRequired(true);
+		$form->addItem($firstname);
+		
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$form->addItem($title);
+		
+		$gender = new ilRadioGroupInputGUI($this->lng->txt("gender"), "gender");
+		$gender->addOption(new ilRadioOption($this->lng->txt("gender_m"), "m"));
+		$gender->addOption(new ilRadioOption($this->lng->txt("gender_f"), "f"));
+		$gender->setRequired(true);
+		$form->addItem($gender);
+
+		$birthday = new ilBirthdayInputGUI($this->lng->txt("birthday"), "birthday");
+		$birthday->setRequired(true);
+		$birthday->setStartYear(1940);
+		$form->addItem($birthday);
+		
+		$birthplace = new ilTextInputGUI($this->lng->txt("gev_birthplace"), "birthplace");
+		$birthplace->setRequired(true);
+		$form->addItem($birthplace);
+		
+		$birthname = new ilTextInputGUI($this->lng->txt("gev_birthname"), "birthname");
+		$birthname->setRequired(true);
+		$form->addItem($birthname);
+		
+		$ihk = new ilTextInputGUI($this->lng->txt("gev_ihk_number"), "ihk_number");
+		$form->addItem($ihk);
+		
+		$section2 = new ilFormSectionHeaderGUI();
+		$section2->setTitle($this->lng->txt("gev_business_contact"));
+		$form->addItem($section2);
+		
+		$b_email = new ilTextInputGUI($this->lng->txt("gev_email"), "b_email");
+		if ($a_email !== null) {
+			$b_email->setValue($a_email);
+		}
+		$b_email->setRequired(true);
+		$form->addItem($b_email);
+		
+		$b_phone = new ilTextInputGUI($this->lng->txt("gev_profile_phone"), "b_phone");
+		$form->addItem($b_phone);
+		
+		$info = new ilNonEditableValueGUI("");
+		$info->setValue($this->lng->txt("gev_private_contact_info"));
+		$form->addItem($info);
+		
+		$p_email = new ilEMailInputGUI($this->lng->txt("email"), "p_email");
+		if ($a_email !== null) {
+			$p_email->setValue($a_email);
+		}
+		$form->addItem($p_email);
+		
+		$p_phone = new ilTextInputGUI($this->lng->txt("gev_mobile"), "p_phone");
+		$p_phone->setRequired(true);
+		$form->addItem($p_phone);
+		
+		$section3 = new ilFormSectionHeaderGUI();
+		$section3->setTitle($this->lng->txt("gev_private_contact"));
+		$form->addItem($section3);
+		
+		$p_street = new ilTextInputGUI($this->lng->txt("street"), "p_street");
+		$form->addItem($p_street);
+		
+		$p_city = new ilTextInputGUI($this->lng->txt("city"), "p_city");
+		$form->addItem($p_city);
+		
+		$p_zipcode = new ilTextInputGUI($this->lng->txt("zipcode"), "p_zipcode");
+		$form->addItem($p_zipcode);
+		
+		$p_country = new ilTextInputGUI($this->lng->txt("federal_state"), "p_country");
+		$form->addItem($p_country);
+		
+		$section4 = new ilFormSectionHeaderGUI();
+		$section4->setTitle($this->lng->txt("gev_further_information"));
+		
+		$adp_gev = new ilTextInputGUI($this->lng->txt("gev_adp_number_gev"), "adp_gev");
+		$form->addItem($adp_gev);
+		
+		$adp_vfs = new ilTextInputGUI($this->lng->txt("gev_adp_number_vfs"), "adp_vfs");
+		$form->addItem($adp_vfs);
+		
+		$position = new ilTextInputGUI($this->lng->txt("gev_position"), "position");
+		$form->addItem($position);
 		
 		return $form;
 	}

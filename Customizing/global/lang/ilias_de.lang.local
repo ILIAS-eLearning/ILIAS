@@ -509,6 +509,7 @@ gev#:#gev_free_cancellation_msg#:#Möchten Sie die Buchung des Trainings "%s" wi
 gev#:#gev_free_cancellation_until#:#kostenfreie Stornierung bis
 gev#:#gev_free_places#:#verfügbare Plätze
 gev#:#gev_from#:#ab
+gev#:#gev_further_information#:#Weitere Informationen
 gev#:#gev_get_bill#:#Rechnung anfordern
 gev#:#gev_get_certificate#:#Teilnahmebescheinigung abrufen
 gev#:#gev_give_mandate_tp_basis#:#Hiermit erteile ich den %s ein WB-Konto bei der WBD einzurichten.
