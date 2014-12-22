@@ -428,9 +428,6 @@ class gevAgentRegistrationGUI {
 		$p_zipcode = new ilTextInputGUI($this->lng->txt("zipcode"), "p_zipcode");
 		$form->addItem($p_zipcode);
 		
-		$p_country = new ilTextInputGUI($this->lng->txt("federal_state"), "p_country");
-		$form->addItem($p_country);
-		
 		return $form;
 	}
 }
