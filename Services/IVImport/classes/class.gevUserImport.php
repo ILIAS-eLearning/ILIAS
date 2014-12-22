@@ -409,7 +409,7 @@ class gevUserImport {
 		//print_r($shadow_user);
 
 		$utils->setJobNumber($shadow_user['stellennummer']);
-		$utils->setADPNumber($shadow_user['adp']);
+		$utils->setADPNumberGEV($shadow_user['adp']);
 		$utils->setIHKNumber($shadow_user['ihk']);
 		$utils->setADTitle($shadow_user['ad_title']);
 		$utils->setAgentKey($shadow_user['vms']);

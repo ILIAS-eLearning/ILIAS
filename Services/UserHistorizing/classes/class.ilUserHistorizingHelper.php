@@ -280,7 +280,13 @@ class ilUserHistorizingHelper
 	public static function getADPNumberOf($user)
 	{
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		return gevUserUtils::getInstanceByObjOrId($user)->getADPNumber();
+		$gev_adp = gevUserUtils::getInstanceByObjOrId($user)->getADPNumberGEV();
+		if ($gev_adp === null) {
+			return gevUserUtils::getInstanceByObjOrId($user)->getADPNumberVFS();
+		}
+		else {
+			return $gev_adp;
+		}
 	}
  	
  

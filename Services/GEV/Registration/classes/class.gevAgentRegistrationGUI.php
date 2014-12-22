@@ -206,7 +206,7 @@ class gevAgentRegistrationGUI {
 		$vermittlerstatus = $this->getVermittlerStatus($stellennummer);
 		$data = $this->getStellennummerData($stellennummer);
 		
-		$user_utils->setADPNumber($data["adp"]);
+		$user_utils->setADPNumberGEV($data["adp"]);
 		$user_utils->setJobNumber($stellennummer);
 		$user_utils->setAgentKey($data["vms"]);
 		
