@@ -135,7 +135,7 @@ class gevNAUtils {
 	
 	// Confirmation or denial of na accounts.
 	
-	public function createConfirmationToken($a_user_id) {
+	public function createConfirmationToken($a_user_id, $a_adviser_id) {
 		$max_attempts = 10;
 		$found_token = false;
 		$attempt = 0;
@@ -152,7 +152,7 @@ class gevNAUtils {
 			$attempt++;
 		}
 		
-		$this->saveToken($token, $a_user_id);
+		$this->saveToken($token, $a_user_id, $a_adviser_id);
 		
 		return $token;
 	}
@@ -162,9 +162,10 @@ class gevNAUtils {
 		return $this->db->numRows($res) == 0;
 	}
 	
-	protected function saveToken($a_token, $a_user_id) {
-		$this->db->manipulate("INSERT INTO gev_na_tokens (user_id, token)"
+	protected function saveToken($a_token, $a_user_id, $a_adviser_id) {
+		$this->db->manipulate("INSERT INTO gev_na_tokens (user_id, adviser_id, token)"
 							 ." VALUES ( ".$this->db->quote($a_user_id, "integer")
+							 ."        , ".$this->db->quote($a_adviser_id, "integer")
 							 ."        , ".$this->db->quote($a_token, "text")
 							 ."        )"
 							 );
@@ -184,6 +185,10 @@ class gevNAUtils {
 		
 		$user->setActive(true, 6);
 		$user->update();
+		
+		$adviser_id = $this->getAdviserForToken($a_token);
+		
+		$this->assignAdviser($user_id, $adviser_id);
 		
 		require_once("Services/GEV/Mailing/classes/class.gevNARegistrationMails.php");
 		$na_mails = new gevNARegistrationMails( $user->getId()
@@ -230,6 +235,19 @@ class gevNAUtils {
 								);
 		if ($rec = $this->db->fetchAssoc($res)) {
 			return $rec["user_id"];
+		}
+		return null;
+	}
+	
+	protected function getAdviserForToken($a_token) {
+		$res = $this->db->query( "SELECT adviser_id "
+								."  FROM gev_na_tokens"
+								."  JOIN usr_data ON usr_id = user_id"
+								." WHERE token = ".$this->db->quote($a_token, "text")
+								."   AND NOT login IS NULL"
+								);
+		if ($rec = $this->db->fetchAssoc($res)) {
+			return $rec["adviser_id"];
 		}
 		return null;
 	}

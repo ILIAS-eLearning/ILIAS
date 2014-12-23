@@ -2672,6 +2672,10 @@ if(!$ilDB->tableExists('hist_tep'))
 				'type' => 'integer',
 				'length' => 4,
 				'notnull' => true),
+			'adviser_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
 			'token' => array(
 				'type' => 'text',
 				'length' => 32,

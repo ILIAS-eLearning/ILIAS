@@ -337,7 +337,7 @@ class gevNARegistrationGUI {
 		
 		$na_utils = gevNAUtils::getInstance();
 		
-		$token = $na_utils->createConfirmationToken($a_user->getId());
+		$token = $na_utils->createConfirmationToken($a_user->getId(), $a_adviser_id);
 		$link_base = ilUtil::_getHttpPath()."/na_confirmation.php?token=".$token;
 		$link_confirm = $link_base."&action=confirm";
 		$link_deny = $link_base."&action=deny";
