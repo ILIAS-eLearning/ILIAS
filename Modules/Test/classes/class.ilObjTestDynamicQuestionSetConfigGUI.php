@@ -322,7 +322,6 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		$taxFilterInput = new ilCheckboxInputGUI($this->lng->txt('tst_input_dynamic_question_set_taxonomie_filter_enabled'), 'tax_filter_enabled');
 		$taxFilterInput->setValue(1);
 		$taxFilterInput->setChecked( $this->questionSetConfig->isTaxonomyFilterEnabled() );
-		$taxFilterInput->setRequired(true);
 		$form->addItem($taxFilterInput);
 		
 		$answStatusFilterInput = new ilCheckboxInputGUI(
@@ -330,7 +329,6 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		);
 		$answStatusFilterInput->setValue(1);
 		$answStatusFilterInput->setChecked( $this->questionSetConfig->isAnswerStatusFilterEnabled() );
-		$answStatusFilterInput->setRequired(true);
 		$form->addItem($answStatusFilterInput);
 		
 		$previousQuestionsListInput = new ilCheckboxInputGUI(
@@ -338,7 +336,6 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		);
 		$previousQuestionsListInput->setValue(1);
 		$previousQuestionsListInput->setChecked( $this->questionSetConfig->isPreviousQuestionsListEnabled() );
-		$previousQuestionsListInput->setRequired(true);
 		$form->addItem($previousQuestionsListInput);
 
 		if( $this->testOBJ->participantDataExist() )
