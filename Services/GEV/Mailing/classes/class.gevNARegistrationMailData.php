@@ -60,10 +60,20 @@ class gevNARegistrationMailData extends ilMailData {
 				$val = $utils->getLastname();
 				break;
 			case "BESTAETIGUNGSLINK":
-				$val = $this->confirmation_link;
+				if ($a_markup) {
+					$val = "<a href='".$this->confirmation_link."'>".$this->confirmation_link."</a>";
+				}
+				else {
+					$val = $this->confirmation_link;
+				}
 				break;
 			case "ABLEHNUNGSLINK":
-				$val = $this->no_confirmation_link;
+				if ($a_markup) {
+					$val = "<a href='".$this->no_confirmation_link."'>".$this->no_confirmation_link."</a>";
+				}
+				else {
+					$val = $this->no_confirmation_link;
+				}
 				break;
 		}
 		
