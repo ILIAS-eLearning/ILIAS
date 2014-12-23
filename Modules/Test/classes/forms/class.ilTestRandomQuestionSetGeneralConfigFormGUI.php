@@ -54,6 +54,8 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 	{
 		$this->ctrl = $ctrl;
 		$this->lng = $lng;
+		// Bugfix for mantis: 0015081
+		$this->lng->loadLanguageModule('form');
 		$this->testOBJ = $testOBJ;
 		$this->questionSetConfigGUI = $questionSetConfigGUI;
 		$this->questionSetConfig = $questionSetConfig;
