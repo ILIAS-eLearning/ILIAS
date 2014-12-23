@@ -503,7 +503,7 @@ class ilParticipationStatus
 				}
 				if($data["status"] == self::STATUS_SUCCESSFUL)
 				{
-					if($data["cpoints"])
+					if($data["cpoints"] !== null)
 					{
 						$points = (int)$data["cpoints"];
 					}

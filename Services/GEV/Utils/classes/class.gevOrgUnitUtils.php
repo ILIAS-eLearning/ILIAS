@@ -21,7 +21,7 @@ class gevOrgUnitUtils {
 	static $provider_names = null;
 
 	protected function __construct($a_orgu_id) {
-		global $ilDB, $ilias, $ilLog;
+		global $ilDB, $ilias, $ilLog, $rbacreview, $rbacadmin, $rbacsystem;
 		$this->db = &$ilDB;
 		$this->ilias = &$ilias;
 		$this->log = &$ilLog;
@@ -29,6 +29,9 @@ class gevOrgUnitUtils {
 		$this->ref_id = null;
 		$this->gev_set = gevSettings::getInstance();
 		$this->amd = gevAMDUtils::getInstance();
+		$this->rbacreview = &$rbacreview;
+		$this->rbacadmin = &$rbacadmin;
+		$this->rbacsystem = &$rbacsystem;
 		
 		$this->local_roles = null;
 		$this->flipped_local_roles = null;
@@ -545,6 +548,45 @@ class gevOrgUnitUtils {
 		}
 		
 		gevRoleUtils::getRbacAdmin()->deassignUser($roles[$role_title], $a_user_id);
+	}
+	
+	// setting of permissions
+	public function grantPermissionsFor($a_role_name, $a_permissions) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		
+		$ou = $this->getOrgUnitInstance();
+		$ref_id = gevObjectUtils::getRefId($ou->getId());
+		$ou->setRefId($ref_id);
+
+		if ($a_role_name = "superior") {
+			$role = $ou->getSuperiorRole();
+		}
+		elseif ($a_role_name = "employee") {
+			$role = $ou->getEmployeeRole();
+		}
+		else {
+			throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role_name);
+		}
+		
+		$cur_ops = $this->rbacreview->getRoleOperationsOnObject($role, $ref_id);
+		$grant_ops = ilRbacReview::_getOperationIdsByName($a_permissions);
+		$new_ops = array_unique(array_merge($grant_ops, $cur_ops));
+		$this->rbacadmin->revokePermission($ref_id, $role);
+		$this->rbacadmin->grantPermission($role, $new_ops, $ref_id);
+	}
+	
+	static public function grantPermissionsRecursivelyFor($a_start_ref, $a_role_name, $a_permissions) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$obj_id = gevObjectUtils::getObjId($a_start_ref);
+		$ou_utils = gevOrgUnitUtils::getInstance($obj_id);
+		
+		$ou_utils->grantPermissionsFor($a_role_name, $a_permissions);
+		
+		$children = self::getAllChildren(array($a_start_ref));
+		foreach($children as $child) {
+			$ou_utils = gevOrgUnitUtils::getInstance($child["obj_id"]);
+			$ou_utils->grantPermissionsFor($a_role, $a_permissions);
+		}
 	}
 	
 	// assignment and deassignment of standard org unit roles for the default org

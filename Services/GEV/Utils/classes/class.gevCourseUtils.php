@@ -1723,7 +1723,9 @@ class gevCourseUtils {
 		if ( $user_utils->paysFees() 
 		   && $this->getFee() 
 		   && $status != ilCourseBooking::STATUS_WAITING 
-		   && $this->isCancelDeadlineExpired()) {
+		   && $this->isCancelDeadlineExpired()
+		   && $bill_utils->getNonFinalizedBillForCourseAndUser($this->crs_id, $a_user_id) !== null
+		   ) {
 			$action = $this->lng->txt("gev_costly_cancellation_action");
 		}
 		else {

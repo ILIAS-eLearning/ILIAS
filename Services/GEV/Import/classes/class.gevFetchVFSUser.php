@@ -15,15 +15,13 @@ PREPARATION NEEDED:
 
 From the VofueDB, import table 
 
-	"usr_data" 
-	"udf_text" 
 	"edu_biography" 
-
-	"obj_data"
-	"rbac_ua"
-
-	"vf_crs_data"
+	"object_data"
 	"object_reference"
+	"rbac_ua"
+	"udf_text" 
+	"usr_data" 
+	"vf_crs_data"
 
 into the shadowDB gev_ivimport
 
@@ -328,8 +326,6 @@ class gevFetchFVSUser {
 		$ret = array();	
 		//if we don't have the user, we will not need his/her records...
 		$sql = "SELECT id, ilid_vfs FROM interimUsers WHERE ilid_vfs != ''";
-
-$sql .=" LIMIT 500";
 
 		$result = mysql_query($sql, $this->shadowDB);
 		while($record = mysql_fetch_assoc($result)) {

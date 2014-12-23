@@ -54,13 +54,89 @@ class gevUserImportMatching {
 
 
 
+	static $ROLEMAPPINGS = array(
+
+		'Administrator' => 'Administrator'
+		,'User' => 'User' 
+		,'Guest' =>'Guest'
+		,'Anonymous' =>'Anonymous'
+
+		//'VFS' => array(
+			,'VD' => '#FROMKEY' //aus Stellungsschlüssel
+			,'OD' => '#FROMKEY'
+			,'BD' => '#FROMKEY'
+			,'HGB 84/1'	=> '#FROMKEY'
+			,'HGB84er 1' => '#FROMKEY'
+			,'HGB 84/2'	=> '#FROMKEY' 
+			,'HGB84er 2' => '#FROMKEY' 
+			,'Org PV' => '#FROMKEY'
+			,'PV 1'	=> '#FROMKEY'
+			,'PV1'	=> '#FROMKEY'
+			,'PV 2'	=> '#FROMKEY'
+			,'PV2'	=> '#FROMKEY'
+			,'MiZ'	=> 'MiZ / NA'
+			,'MIZ'	=> 'MiZ / NA'
+			,'ID 1'	=> 'ID MA'
+			,'Innendienst I'	=> 'ID MA'
+			,'ID 2'	=> 'ID FK'
+			,'Innendienst II'	=> 'ID FK'
+			,'VSPS BD' => 'OD/FD/BD ID'
+			,'VSPS-BD' => 'OD/FD/BD ID'
+			,'VSPS VD' => 'OD/FD/BD ID'
+			,'VSPS-VD' => 'OD/FD/BD ID'
+			,'VA-Ausbildung' => 'VA/BA in Ausbildung'
+			,'NFK' => 'NFK'
+			,'BDA' => 'FDA'
+			,'RTL' => '#FROMKEY' //aus Stellungsschlüssel
+			,'Trainer intern' => '#FROMKEY'
+			,'Interne Trainer' => '#FROMKEY'
+			,'Key Account' => 'int. Trainer'
+			,'Key Accounter' => 'int. Trainer'
+			,'Key-Accounter' => 'int. Trainer'
+			,'Trainer extern' => 'ext. Trainer'
+			,'Externer Trainer' => 'ext. Trainer'
+			,'Admin eingeschränkt' => 'Admin-eingeschraenkt'
+			,'EinMan' => '#DROP' //entfällt
+			,'Go Live' => '#DROP' //entfällt
+			,'VFS' => 'VFS' 
+			
+		//),
+		//'GEV' => array(
+
+			,'Administrator' => 'Administrator'
+			,'Administrator-Voll' => 'Admin-Voll'
+			,'Administrator-Eingeschränkt' => 'Admin-eingeschraenkt'
+			,'OD/LD/BD/VD/VTWL' => '#FROMKEY'
+			,'LD-ID/BD/ID' => 'OD/FD/BD ID'
+
+			,'DBV/VL-EVG' => '#FROMKEY'
+			,'DBV-UVG' => '#FROMKEY'
+			,'AVL' => '#FROMKEY'
+			,'HA' => '#FROMKEY'
+			,'BA' => '#FROMKEY'
+			,'NA' => '#FROMKEY'
+			
+			,'AD-ID' => 'AD ID'
+			,'Azubi' => 'Azubi'
+			,'VP' => 'VP'
+			,'ID-FK' => 'ID FK'
+			,'ID-MA' => 'ID MA'
+			,'Spezialist' => 'int. Trainer'
+			,'Ausbilder' => 'Ausbilder'
+			,'int. Referent' => 'int. Trainer'
+			,'ext. Referent' => 'ext. Trainer'
+			,'Buchhaltung' => 'Buchhaltung'
+			,'Veranstalter' => 'Veranstalter'
+			,'BA-Ausbildung' => 'VA/BA in Ausbildung'
+			,'TP-Basis Registrierung' => 'TP Basis' //this was switched in document....
+			,'TP-Service Registrierung' => 'TP Service'//this was switched in document....
+
+		//)
+
+	);
 
 
 
-
-	public function matchRoleVFS($a_role){
-
-	}
 
 
 }

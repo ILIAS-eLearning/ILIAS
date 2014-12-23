@@ -525,7 +525,7 @@ gev#:#gev_instructor#:#Referent
 gev#:#gev_invalid_coupon_codes#:#Folgende Gutscheincodes sind nicht mehr gültig: %s
 gev#:#gev_invitation_mail_for#:#Einladungsmail für %s
 gev#:#gev_invitation_mail_settings_success#:#Einstellungen für Einladungsmails erfolgreich gespeichert.
-gev#:#gev_job_number#:#Stellennummer
+gev#:#gev_job_number#:#Vermittlernummer
 gev#:#gev_last_course#:#Mein letztes Training
 gev#:#gev_learning_type#:#Trainingstyp
 gev#:#gev_location#:#Ort
@@ -677,8 +677,8 @@ gev#:#gev_wbd_registration_cb_mandatory#:#Sie müssen dieses Feld bestätigen, u
 gev#:#gev_wbd_registration_create_bwv_id#:#Die Generali soll für mich ein Weiterbildungskonto eröffnen.
 gev#:#gev_wbd_registration_create_bwv_id_cmd#:#Kontoeröffnung
 gev#:#gev_wbd_registration_finished_create_bwv_id#:#Vielen Dank, wir werden für Sie ein Konto in der Weiterbildungsdatenbank (WBD) des BWV e.V. sowie ein Nutzerkonto bei der Trusted German Insurance Cloud (TGIC) eröffnen.<br />Dieser Prozess wird in den nächsten Tagen abgeschlossen werden.<br />Nach Eröffnung Ihres Kontos erhalten Sie von dort insgesamt 3 Systemmails mit Ihrer Benutzerkennung, Ihrem Passwort und Ihrer Vermittler-ID.
-gev#:#gev_wbd_registration_finished_has_bwv_id_service#:#Vielen Dank, wir werden Ihre bei uns erworbenen Weiterbildungspunkte unter dieser Vermittler-ID an die zentrale Weiterbildungsdatenbank melden. Bitte wenden Sie sich an <a href="mailto:Bildungspunkte.de@Generali.com">Bildungspunkte.de@Generali.com</a>, um ggf. einen Wechsel des Trusted Partners durchzuführen.
-gev#:#gev_wbd_registration_finished_no_bwv_id_service#:#Vielen Dank für die Anmeldung an der Generali Online Akademie. Wir werden Ihre bei uns erworbenen Weiterbildungspunkte in der Generali Online Akademie sammeln und nach Eingabe Ihrer GDV Vermittler-ID an die zentrale Weiterbildungsdatenbank melden. Bitte wenden Sie sich an Bildungspunkte.de@Generali.com, um ggf. einen Wechsel des Trusted Partners durchzuführen.<br><br>Bitte beachten Sie, daß die Weiterbildungspunkte verfallen, sofern Sie Ihre GDV Vermittler-ID nicht innerhalb von 12 Monaten in Ihren Profildaten ergänzen.
+gev#:#gev_wbd_registration_finished_has_bwv_id_service#:#Vielen Dank, wir werden Ihre bei uns erworbenen Weiterbildungspunkte unter dieser Vermittler-ID an die zentrale Weiterbildungsdatenbank melden. Bitte wenden Sie sich an <a style="blue" href="mailto:Bildungspunkte.de@Generali.com">Bildungspunkte.de@Generali.com</a>, um ggf. einen Wechsel des Trusted Partners durchzuführen.
+gev#:#gev_wbd_registration_finished_no_bwv_id_service#:#Vielen Dank für die Anmeldung an der Generali Online Akademie. Wir werden Ihre bei uns erworbenen Weiterbildungspunkte in der Generali Online Akademie sammeln und nach Eingabe Ihrer GDV Vermittler-ID an die zentrale Weiterbildungsdatenbank melden. Bitte wenden Sie sich an <a style="blue" href="mailto:Bildungspunkte.de@Generali.com">Bildungspunkte.de@Generali.com</a>, um ggf. einen Wechsel des Trusted Partners durchzuführen.<br><br>Bitte beachten Sie, daß die Weiterbildungspunkte verfallen, sofern Sie Ihre GDV Vermittler-ID nicht innerhalb von 12 Monaten in Ihren Profildaten ergänzen.
 gev#:#gev_wbd_registration_finished_has_bwv_id#:#Vielen Dank, wir werden Ihre bei uns erworbenen Weiterbildungspunkte unter dieser Vermittler-ID an die zentrale Weiterbildungsdatenbank melden.
 gev#:#gev_wbd_registration_finished_no_bwv_id#:#Vielen Dank für die Anmeldung an der Generali Online Akademie. Wir werden Ihre bei uns erworbenen Weiterbildungspunkte in der Generali Online Akademie sammeln und nach Eingabe Ihrer GDV Vermittler-ID an die zentrale Weiterbildungsdatenbank (WBD) melden. <br><br>Bitte beachten Sie, daß die Weiterbildungspunkte verfallen, sofern Sie Ihre GDV Vermittler-ID nicht innerhalb von 12 Monaten in Ihren Profildaten ergänzen.
 gev#:#gev_wbd_registration_has_bwv_id#:#Ich habe bereits eine GDV Vermittler-ID

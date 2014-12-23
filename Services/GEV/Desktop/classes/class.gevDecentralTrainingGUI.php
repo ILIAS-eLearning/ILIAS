@@ -115,7 +115,7 @@ class gevDecentralTrainingGUI {
 		$trainer_ids = $form_prev->getInput("trainers");
 		
 		$title = new catTitleGUI("gev_dec_training_creation", "gev_dec_training_creation_header_note", "GEV_img/ico-head-create-decentral-training.png");
-		
+
 		$form = ($a_form === null) ? $this->buildTrainingOptionsForm(true, null, $trainer_ids, $this->date, $template_id) 
 								   : $a_form;
 		
@@ -268,6 +268,7 @@ class gevDecentralTrainingGUI {
 		
 		if (!$mail_settings->getSuppressMails()) {
 			$mail_settings->setSuppressMails($a_form->getInput("suppress_mails"));
+			$mail_settings->save();
 		} 
 		
 		$crs->update();
@@ -392,11 +393,14 @@ class gevDecentralTrainingGUI {
 		if ($a_fill) {
 			if ($a_template_id !== null) {
 				$training_info = $dec_utils->getTemplateInfoFor($this->current_user_id, $a_template_id);
+				$crs_utils = gevCourseUtils::getInstance($a_template_id);
+				$tmp = $crs_utils->getSchedule();
+				$sched = explode("-",$tmp[0]);
 				$trainer_ids = $a_trainer_ids;
 				$training_info["date"] = ($a_date !== null) ? new ilDate($a_date, IL_CAL_DATE)
 															: new ilDate(date("Y-m-d"), IL_CAL_DATE);
-				$training_info["start_datetime"] = new ilDateTime("1970-01-01 09:00:00", IL_CAL_DATETIME);
-				$training_info["end_datetime"] = new ilDateTime("1970-01-01 18:00:00", IL_CAL_DATETIME);
+				$training_info["start_datetime"] = new ilDateTime("1970-01-01 ".$sched[0].":00", IL_CAL_DATETIME);
+				$training_info["end_datetime"] = new ilDateTime("1970-01-01 ".$sched[1].":00", IL_CAL_DATETIME);
 				$training_info["invitation_preview"] = gevCourseUtils::getInstance($a_template_id)->getInvitationMailPreview();
 				$no_changes_allowed = false;
 				
@@ -408,7 +412,6 @@ class gevDecentralTrainingGUI {
 				$trnrs->setValue(base64_encode(serialize($a_trainer_ids)));
 				$form->addItem($trnrs);
 				
-				$crs_utils = gevCourseUtils::getInstance($a_template_id);
 			}
 			else {
 				require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");

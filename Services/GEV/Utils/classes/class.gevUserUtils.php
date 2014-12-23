@@ -1025,11 +1025,12 @@ class gevUserUtils {
 	public function getADPNumberGEV() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_ADP_GEV_NUMBER);
 	}
-	
+
 	public function setADPNumberGEV($a_adp) {
+		//same as setADPNumber
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_ADP_GEV_NUMBER, $a_adp);
-	}
-	
+	}	
+
 	public function getADPNumberVFS() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_ADP_VFS_NUMBER);
 	}
@@ -1919,6 +1920,24 @@ class gevUserUtils {
 		}
 		return self::$hist_position_keys;
 	}
+
+
+
+	public function getPaisyNr() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_PAISY_NUMBER);
+	}
+	public function setPaisyNr($a_nr) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_PAISY_NUMBER, $a_nr);
+	}
+	
+	public function getFinancialAccountVFS() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_FINANCIAL_ACCOUNT);
+	}
+	public function setFinancialAccountVFS($a_nr) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_FINANCIAL_ACCOUNT, $a_nr);
+	}
+	
+
 
 
 }

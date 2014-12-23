@@ -302,7 +302,7 @@ class catBasicReportGUI {
 		
 		$query = $this->query->sql()
 			   . $this->queryWhere()
-			   ; //die($query);
+			   ;// die($query);
 		
 		$res = $this->db->query($query);
 		$data = array();
@@ -322,7 +322,7 @@ class catBasicReportGUI {
 	// by gev_no_entry.
 	protected function replaceEmpty($a_rec) {
 		foreach ($a_rec as $key => $value) {
-			if ($a_rec[$key] == "-empty-" || $a_rec[$key] == "0000-00-00") {
+			if ($a_rec[$key] == "-empty-" || $a_rec[$key] == "0000-00-00" || $a_rec[$key] === null) {
 				$a_rec[$key] = $this->lng->txt("gev_table_no_entry");
 			}
 		}
