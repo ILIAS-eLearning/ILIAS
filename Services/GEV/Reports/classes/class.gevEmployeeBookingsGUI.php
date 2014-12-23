@@ -32,6 +32,8 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 						->column("firstname", "firstname")
 						->column("adp_number", "gev_adp_number")
 						->column("entry_date", "gev_entry_date")
+						->column("od_bd", "gev_od_bd")
+						->column("org_unit", "gev_org_unit_short")
 						->column("custom_id", "gev_training_id")
 						->column("title", "title")
 						->column("type", "gev_learning_type")
@@ -39,9 +41,10 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 						->column("venue", "gev_location")
 						->column("max_credit_points", "gev_credit_points")
 						->column("fee", "&euro;", true)
+						->column("booking_status", "gev_booking_status")
 						->column("action", $this->action_img, true, "", true)
 						->template("tpl.gev_employee_bookings_row.html", "Services/GEV/Reports")
-						->group_by(array("lastname", "firstname", "adp_number", "entry_date")
+						->group_by(array("lastname", "firstname", "adp_number", "entry_date", "od_bd", "org_unit")
 								  , "tpl.gev_employee_bookings_group_header.html"
 								  , "Services/GEV/Reports"
 								  )
@@ -62,6 +65,10 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 						->select("crs.venue")
 						->select("crs.max_credit_points")
 						->select("crs.fee")
+						->select("usr.org_unit_above1")
+						->select("usr.org_unit_above2")
+						->select("usr.org_unit")
+						->select("usrcrs.booking_status")
 						->from("hist_usercoursestatus usrcrs")
 						->join("hist_user usr")
 							->on("usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0")
@@ -116,6 +123,19 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 		$rec["date"] = $date;
 		$rec["fee"] = $rec["fee"] !== "-1" ? gevCourseUtils::formatFee($rec["fee"]) 
 										   : $this->lng->txt("gev_table_no_entry");
+		
+		// od_bd
+		if ( $rec["org_unit_above2"] == "-empty-") {
+			if ($rec["org_unit_above1"] == "-empty-") {
+				$rec["od_bd"] = $this->lng->txt("gev_table_no_entry");
+			}
+			else {
+				$rec["od_bd"] = $rec["org_unit_above1"];
+			}
+		}
+		else {
+			$rec["od_bd"] = $rec["org_unit_above1"]."/".$rec["org_unit_above2"];
+		}
 		
 		$this->ctrl->setParameter($this, "usr_id", $rec["user_id"]);
 		$this->ctrl->setParameter($this, "crs_id", $rec["crs_id"]);
