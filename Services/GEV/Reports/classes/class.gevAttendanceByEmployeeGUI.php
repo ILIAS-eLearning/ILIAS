@@ -54,6 +54,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						;
 
 		$this->query = catReportQuery::create()
+						->select("usr.user_id")
 						->select("usr.lastname")
 						->select("usr.firstname")
 						->select("usr.email")
@@ -83,7 +84,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->compile()
 						;
 
-		$allowed_user_ids = $this->user_utils->getEmployees();
+		$this->allowed_user_ids = $this->user_utils->getEmployees();
 		$this->filter = catFilter::create()
 						->dateperiod( "period"
 									, $this->lng->txt("gev_period")
@@ -129,7 +130,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									 , gevUserUtils::getPositionKeysFromHisto()
 									 , array()
 									 )
-						->static_condition($this->db->in("usr.user_id", $allowed_user_ids, false, "integer"))
+						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 						->static_condition("usrcrs.hist_historic = 0")
 						->static_condition("(usrcrs.booking_status != '-empty-' OR usrcrs.participation_status != '-empty-')")
 						->static_condition("usrcrs.booking_status != 'kostenfrei storniert'")
@@ -179,6 +180,63 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 		$val = str_replace('<nobr>', '', $val);
 		$val = str_replace('</nobr>', '', $val);
 		return $val;
+	}
+	
+	
+	protected function fetchData() {
+		if ($this->query === null) {
+			throw new Exception("catBasicReportGUI::fetchData: query not defined.");
+		}
+		
+		$query = $this->query->sql()
+			   . $this->queryWhere()
+			   ; //die($query);
+		
+		$res = $this->db->query($query);
+		$data = array();
+		
+		$found_users = array();
+		
+		while($rec = $this->db->fetchAssoc($res)) {
+			$row = $this->transformResultRow($rec);
+			$data[] = $row;
+			$found_users[] = $row["user_id"]; 
+		}
+		
+		$not_found_users = array_diff($this->allowed_user_ids, array_unique($found_users));
+		
+		$res = $this->db->query("SELECT usr.user_id"
+								."     , usr.lastname"
+								."     , usr.firstname"
+								."     , usr.email"
+								."     , usr.adp_number"
+								."     , usr.job_number"
+								."     , usr.org_unit_above1"
+								."     , usr.org_unit_above2"
+								."     , usr.org_unit"
+								."     , usr.position_key"
+								."  FROM hist_user usr"
+								." WHERE ".$this->db->in("user_id", $not_found_users, false, "integer")
+								."   AND hist_historic = 0"
+								);
+
+		while ($rec = $this->db->fetchAssoc($res)) {
+			$rec["custom_id"] = null;
+			$rec["venue"] = null;
+			$rec["type"] = null;
+			$rec["credit_points"] = null;
+			$rec["booking_status"] = null;
+			$rec["participation_status"] = null;
+			$rec["usr_id"] = null;
+			$rec["crs_id"] = null;
+			$rec["begin_date"] = null;
+			$rec["end_date"] = null;
+			$rec["edu_program"] = null;
+			$rec["title"] = null;
+			$data[] = $this->transformResultRow($rec);
+		}
+
+		return $data;
 	}
 }
 
