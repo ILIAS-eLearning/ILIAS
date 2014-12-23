@@ -253,8 +253,9 @@ class gevDecentralTrainingUtils {
 				$trainer_role,
 				$trgt_ref_id
 			);
-		$revoke_ops = ilRbacReview::_getOperationIdsByName(array("write", "copy", "edit_learning_progress", "book_users"));
-		$new_trainer_ops = array_diff($trainer_ops, $revoke_ops);
+		$revoke_ops = ilRbacReview::_getOperationIdsByName(array("write", "copy", "edit_learning_progress"));
+		$grant_ops = ilRbacReview::_getOperationIdsByName(array("book_users", "cancel_bookings", "view_bookings"));
+		$new_trainer_ops = array_unique(array_merge($grant_ops, array_diff($trainer_ops, $revoke_ops)));
 		$this->rbacadmin->revokePermission($trgt_ref_id, $trainer_role);
 		$this->rbacadmin->grantPermission($trainer_role, $new_trainer_ops, $trgt_ref_id);
 
