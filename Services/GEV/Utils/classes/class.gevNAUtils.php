@@ -136,8 +136,38 @@ class gevNAUtils {
 	// Confirmation or denial of na accounts.
 	
 	public function createConfirmationToken($a_user_id) {
-		return "1234567890";
-		die("gevNAUtils::createConfirmationToken: NYI!");
+		$max_attempts = 10;
+		$found_token = false;
+		$attempt = 0;
+
+		while (true) {
+			$token = md5(rand());
+			if ($this->tokenIsUsable($token)) {
+				break;
+			}
+
+			if ($attempt > $max_attempts) {
+				throw new Exception("gevNAUtils::createConfirmationToken: Number of maximum attempts has been reached.");
+			}
+			$attempt++;
+		}
+		
+		$this->saveToken($token, $a_user_id);
+		
+		return $token;
+	}
+
+	protected function tokenIsUsable($a_token) {
+		$res = $this->db->query("SELECT * FROM gev_na_tokens WHERE token = ".$this->db->quote($a_token, "text"));
+		return $this->db->numRows($res) == 0;
+	}
+	
+	protected function saveToken($a_token, $a_user_id) {
+		$this->db->manipulate("INSERT INTO gev_na_tokens (user_id, token)"
+							 ." VALUES ( ".$this->db->quote($a_user_id, "integer")
+							 ."        , ".$this->db->quote($a_token, "text")
+							 ."        )"
+							 );
 	}
 }
 

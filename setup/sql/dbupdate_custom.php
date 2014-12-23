@@ -2662,3 +2662,22 @@ if(!$ilDB->tableExists('hist_tep'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#83>
+<?php
+	if(!$ilDB->tableExists('gev_na_tokens'))
+	{
+		$fields = array (
+			'user_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'token' => array(
+				'type' => 'text',
+				'length' => 32,
+				'notnull' => true)
+		);
+		$ilDB->createTable('gev_na_tokens', $fields);
+		$ilDB->addPrimaryKey('gev_na_tokens', array('user_id'));
+	}
+?>
