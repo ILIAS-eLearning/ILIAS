@@ -230,7 +230,9 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 		$tpl->setVariable("WBD_CERT_PERIOD", ilDatePresentation::formatPeriod($cp_start, $cp_end));
 		$tpl->setVariable("WBD_CERT_YEAR", ilDatePresentation::formatPeriod($cy_start, $cy_end));
 		
-		$query = $this->wbdQuery($this->start_date, $this->end_date);
+		$period = $this->filter->get("period");
+		
+		$query = $this->wbdQuery($period["start"], $period["end"]);
 		$res = $this->db->query($query);
 		if ($rec = $this->db->fetchAssoc($res)) {
 			$tpl->setVariable("WBD_SUM", $rec["sum"] ? $rec["sum"] : 0);
@@ -249,7 +251,9 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 		}
 		
 		$query = "SELECT SUM(usrcrs.credit_points) sum "
-				.$this->queryFrom()
+				." FROM hist_usercoursestatus usrcrs"
+				." JOIN hist_user usr ON usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0"
+				." JOIN hist_course crs ON crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0"
 				.$this->queryWhere($cy_start, $cy_end)
 				." AND usrcrs.booking_status = 'gebucht'"
 				." AND ".$this->db->in("usrcrs.participation_status", array("teilgenommen", "nicht gesetzt"), false, "text")
@@ -265,7 +269,9 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 	
 	protected function wbdQuery(ilDate $start, ilDate $end) {
 		return   "SELECT SUM(usrcrs.credit_points) sum "
-				.$this->queryFrom()
+				." FROM hist_usercoursestatus usrcrs"
+				." JOIN hist_user usr ON usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0"
+				." JOIN hist_course crs ON crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0"
 				.$this->queryWhere($start, $end)
 				." AND usrcrs.participation_status = 'teilgenommen'"
 				." AND (".$this->db->in("usrcrs.okz", array("OKZ1", "OKZ2", "OKZ3"), false, "text")
