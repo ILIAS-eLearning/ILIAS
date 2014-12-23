@@ -100,8 +100,7 @@ class ilTrackedQuestionsTableGUI extends ilTable2GUI
 			if ($data['marked'])
 			{
 				$this->tpl->setCurrentBlock('marked_img');
-				$this->tpl->setVariable("ALT_MARKED", $this->lng->txt("tst_question_marked"));
-				$this->tpl->setVariable("HREF_MARKED", ilUtil::getImagePath("marked.png"));
+				$this->tpl->setVariable("HREF_MARKED", ilUtil::img('./templates/default/images/marked.svg', $this->lng->txt("tst_question_marked"), '24px', '24px'));
 				$this->tpl->parseCurrentBlock();
 				
 				$this->tpl->setCurrentBlock('marker');
