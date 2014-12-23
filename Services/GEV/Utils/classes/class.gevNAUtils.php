@@ -169,6 +169,70 @@ class gevNAUtils {
 							 ."        )"
 							 );
 	}
+	
+	public function confirmWithToken($a_token) {
+		$user_id = $this->getUserWithToken($a_token);
+		if ($user_id === null) {
+			return false;
+		}
+		
+		$user = new ilObjUser($user_id);
+		
+		if ($user->getActive()) {
+			return false;
+		}
+		
+		$user->setActive(true, 6);
+		$user->update();
+		
+		require_once("Services/GEV/Mailing/classes/class.gevNARegistrationMails.php");
+		$na_mails = new gevNARegistrationMails( $user->getId()
+											  , ""
+											  , ""
+											  );
+				
+		$na_mails->send("na_confirmed", array($user->getId()));
+		
+		return true;
+	}
+	
+	public function denyWithToken($a_token) {
+		$user_id = $this->getUserWithToken($a_token);
+		if ($user_id === null) {
+			return false;
+		}
+		
+		$user = new ilObjUser($user_id);
+		
+		if ($user->getActive()) {
+			return false;
+		}
+		
+		$user->delete();
+
+		require_once("Services/GEV/Mailing/classes/class.gevNARegistrationMails.php");
+		$na_mails = new gevNARegistrationMails( $user->getId()
+											  , ""
+											  , ""
+											  );
+				
+		$na_mails->send("na_confirmed", array($user->getId()));
+		
+		return true;
+	}
+	
+	protected function getUserWithToken($a_token) {
+		$res = $this->db->query( "SELECT user_id "
+								."  FROM gev_na_tokens"
+								."  JOIN usr_data ON usr_id = user_id"
+								." WHERE token = ".$this->db->quote($a_token, "text")
+								."   AND NOT login IS NULL"
+								);
+		if ($rec = $this->db->fetchAssoc($res)) {
+			return $rec["user_id"];
+		}
+		return null;
+	}
 }
 
 ?>
