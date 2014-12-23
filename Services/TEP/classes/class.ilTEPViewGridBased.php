@@ -663,7 +663,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			if ($crs_utils->canViewBookings($cur_user_id)) {
 				$bookings_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-booking.png").'" />';
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("ilTEPGUI", "showBookings")
-							."' title='".$lng->txt("gev_mytrainingsap_view_bookings")."'>".$bookings_img."</a>&nbsp;";
+							."' title='".$lng->txt("gev_mytrainingsap_legend_view_bookings")."'>".$bookings_img."</a>&nbsp;";
 			}
 			$ilCtrl->setParameterByClass("ilTEPGUI", "ref_id", null);
 			$ilCtrl->setParameterByClass("ilTEPGUI", "crs_id", null);
