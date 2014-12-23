@@ -451,7 +451,9 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->sourcePoolDefinitionList->loadDefinitions();
 		$this->stagingPool->rebuild( $this->sourcePoolDefinitionList );
 		$this->sourcePoolDefinitionList->saveDefinitions();
-
+		
+		// Bugfix for mantis: 0015082
+		$this->questionSetConfig->loadFromDb();
 		$this->questionSetConfig->setLastQuestionSyncTimestamp(time());
 		$this->questionSetConfig->saveToDb();
 
