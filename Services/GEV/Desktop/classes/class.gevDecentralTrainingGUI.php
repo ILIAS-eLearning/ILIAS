@@ -268,6 +268,7 @@ class gevDecentralTrainingGUI {
 		
 		if (!$mail_settings->getSuppressMails()) {
 			$mail_settings->setSuppressMails($a_form->getInput("suppress_mails"));
+			$mail_settings->save();
 		} 
 		
 		$crs->update();
