@@ -132,6 +132,13 @@ class gevNAUtils {
 		
 		return null;
 	}
+	
+	// Confirmation or denial of na accounts.
+	
+	public function createConfirmationToken($a_user_id) {
+		return "1234567890";
+		die("gevNAUtils::createConfirmationToken: NYI!");
+	}
 }
 
 ?>

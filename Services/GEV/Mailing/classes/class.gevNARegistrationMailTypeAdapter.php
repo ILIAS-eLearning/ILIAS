@@ -13,7 +13,7 @@ class gevNARegistrationMailTypeAdapter extends ilMailTypeAdapter {
 	private $placeholders = null;
 	
 	public function getCategoryNameLocalized($category_name, $lng) {
-		return 'NARegistration';
+		return 'NA-Registration';
 	}
 
 	public function getTemplateTypeLocalized($category_name, $template_type, $lng) {
@@ -25,7 +25,7 @@ class gevNARegistrationMailTypeAdapter extends ilMailTypeAdapter {
 			$this->placeholders = array(
 				  array( "NA-Vorname"				, "Vorname des NA")
 				, array( "NA-Nachname"				, "Nachname des NA")
-				, array( "Bestätigungslink"			, "Link zur Bestätigung des NAs")
+				, array( "Bestaetigungslink"		, "Link zur Bestätigung des NAs")
 				, array( "Ablehnungslink"			, "Link zur Ablehnung des NAs")
 				);
 		}

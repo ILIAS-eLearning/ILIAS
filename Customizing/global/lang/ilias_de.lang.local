@@ -362,6 +362,8 @@ gev#:#gev_additional_settings_update_failure#:#Die weiteren Einstellungen konnte
 gev#:#gev_additional_settings_updated#:#Die weiteren Einstellungen wurden aktualisiert.
 gev#:#gev_admin_menu#:#Verwaltung
 gev#:#gev_adp_number#:#ADP-Nummer
+gev#:#gev_adp_number_gev#:#ADP-Nummer GEV
+gev#:#gev_adp_number_vfs#:#ADP-Nummer VFS
 gev#:#gev_agb_tgic#:#AGB der TGIC
 gev#:#gev_agb_wbd#:#AGB der WBD
 gev#:#gev_agent_key#:#Vermittlerschlüssel
@@ -549,6 +551,8 @@ gev#:#gev_my_roadmap#:#Meine Azubiroadmap
 gev#:#gev_my_settings#:#Meine Einstellungen
 gev#:#gev_my_trainer_ap#:#Meine Trainingseinsätze
 gev#:#gev_na_adviser#:#NA-Betreuer
+gev#:#gev_na_adviser_input_info#:#Geben sie den Namen oder Benutzernamen ihres NA-Betreuers ein.
+gev#:#gev_na_registration_success#:#Eine Mail zur Bestätigung ihres Accounts wurde an ihren Betreuer versandt.
 gev#:#gev_need_agb_accept#:#Sie müssen die Buchungs- und Stornierungsbedingungen akzeptieren um fortfahren zu können.
 gev#:#gev_next_course#:#Mein nächstes Training
 gev#:#gev_no_employee_bookings#:#Es liegen keine Buchungen ihrer Mitarbeiter vor.

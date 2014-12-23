@@ -29,6 +29,7 @@ class gevNARegistrationGUI {
 		switch ($cmd) {
 			case "startNARegistration":
 			case "checkAdviser":
+			case "registerNA":
 				$cont = $this->$cmd();
 				break;
 			default:
@@ -82,8 +83,8 @@ class gevNARegistrationGUI {
 		return $this->inputUserProfile(null, $form->getInput("email"), $adviser_id);
 	}
 	
-	protected function inputUserProfile($a_form = null, $a_email = null, $a_adviser_id) {
-		if ($a_form === null && ($a_email === null || $a_adviser_id = null)) {
+	protected function inputUserProfile($a_form = null, $a_email = null, $a_adviser_id = null) {
+		if ($a_form === null && ($a_email === null || $a_adviser_id === null)) {
 			throw new Exception("gevNARegistrationGUI::inputUserProfile: either a_form or a_email and a_adviser_id need to be set.");
 		} 
 		
@@ -105,6 +106,74 @@ class gevNARegistrationGUI {
 				.$tpl->get();
 	}
 	
+	protected function registerNA() {
+		$form = $this->buildNAForm();
+		if (!$form->checkInput()) {
+			return $this->inputUserProfile($form);
+		}
+
+		$user = new ilObjUser();
+		$user->setLogin($form->getInput("username"));
+		$user->setEmail($form->getInput("b_email"));
+		$user->setPasswd($form->getInput("password"));
+		$user->setLastname($form->getInput("lastname"));
+		$user->setFirstname($form->getInput("firstname"));
+		$user->setGender($form->getInput("gender"));
+		$user->setUTitle($form->getInput("title"));
+		$birthday = $form->getInput("birthday");
+		$user->setBirthday($birthday["date"]);
+		$user->setPhoneOffice($form->getInput("b_phone"));
+		$user->setPhoneMobile($form->getInput("p_phone"));
+
+		// is not active, owner is root
+		$user->setActive(0, 6);
+		$user->setTimeLimitUnlimited(true);
+		// user already agreed at registration
+		$now = new ilDateTime(time(),IL_CAL_UNIX);
+		$user->setAgreeDate($now->get(IL_CAL_DATETIME));
+		$user->setIsSelfRegistered(true);
+		
+		$user->create();
+		$user->saveAsNew();
+		
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$user_utils = gevUserUtils::getInstanceByObj($user);
+		
+		$user_utils->setPrivateEmail($form->getInput("p_email"));
+		$user_utils->setPrivateStreet($form->getInput("p_street"));
+		$user_utils->setPrivateCity($form->getInput("p_city"));
+		$user_utils->setPrivateZipcode($form->getInput("p_zipcode"));
+		
+		
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+		
+		$user_id = $user->getId();
+		
+		$user_utils->setADPNumberGEV($form->getInput("adp_gev"));
+		$user_utils->setADPNumberGEV($form->getInput("adp_vfs"));
+		$user_utils->setJobNumber($form->getInput("position"));
+		
+		$role_utils = gevRoleUtils::getInstance();
+		$role_utils->assignUserToGlobalRole($user_id, "NA");
+		
+		$user->update();
+		
+		$adviser_id = intval($form->getInput("adviser"));
+		$this->sendConfirmationMail($user, $adviser_id);
+		
+		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
+		$title = new catTitleGUI("gev_agent_registration", null, "GEV_img/ico-head-evg_registration.png");
+		
+		ilUtil::sendSuccess($this->lng->txt("gev_na_registration_success"));
+		$tpl = new ilTemplate("tpl.gev_na_successfull_registration.html", false, false, "Services/GEV/Registration");
+		
+		return	  $title->render()
+				. $tpl->get();
+
+	}
 	
 	protected function buildRegistrationStartForm() {
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
@@ -151,7 +220,7 @@ class gevNARegistrationGUI {
 		require_once("Services/Form/classes/class.ilHiddenInputGUI.php");
 		
 		$form = new ilPropertyFormGUI();
-		$form->addCommandButton("registerAgent", $this->lng->txt("register"));
+		$form->addCommandButton("registerNA", $this->lng->txt("register"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		
 		$adviser = new ilHiddenInputGUI("adviser");
@@ -246,9 +315,6 @@ class gevNARegistrationGUI {
 		$p_zipcode = new ilTextInputGUI($this->lng->txt("zipcode"), "p_zipcode");
 		$form->addItem($p_zipcode);
 		
-		$p_country = new ilTextInputGUI($this->lng->txt("federal_state"), "p_country");
-		$form->addItem($p_country);
-		
 		$section4 = new ilFormSectionHeaderGUI();
 		$section4->setTitle($this->lng->txt("gev_further_information"));
 		
@@ -262,6 +328,25 @@ class gevNARegistrationGUI {
 		$form->addItem($position);
 		
 		return $form;
+	}
+	
+	protected function sendConfirmationMail($a_user, $a_adviser_id) {
+		require_once("Services/GEV/Utils/classes/class.gevNAUtils.php");
+		require_once("Services/GEV/Mailing/classes/class.gevNARegistrationMails.php");
+		require_once("Services/Utilities/classes/class.ilUtil.php");
+		
+		$na_utils = gevNAUtils::getInstance();
+		
+		$token = $na_utils->createConfirmationToken($a_user->getId());
+		$link_base = ilUtil::_getHttpPath()."/na_confirmation.php?token=".$token;
+		$link_confirm = $link_base."&action=confirm";
+		$link_deny = $link_base."&action=deny";
+		
+		$na_mails = new gevNARegistrationMails( $a_user->getId()
+											  , $link_confirm
+											  , $link_deny
+											  );
+		$na_mails->send("na_confirmation", array($a_adviser_id));
 	}
 }
 

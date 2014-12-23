@@ -1023,19 +1023,19 @@ class gevUserUtils {
 	}
 	
 	public function getADPNumberGEV() {
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_ADP_NUMBER_GEV);
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_ADP_GEV_NUMBER);
 	}
 	
 	public function setADPNumberGEV($a_adp) {
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_ADP_NUMBER_GEV, $a_adp);
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_ADP_GEV_NUMBER, $a_adp);
 	}
 	
 	public function getADPNumberVFS() {
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_ADP_NUMBER_VFS);
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_ADP_VFS_NUMBER);
 	}
 	
 	public function setADPNumberVFS($a_adp) {
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_ADP_NUMBER_VFS, $a_adp);
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_ADP_VFS_NUMBER, $a_adp);
 	}
 	
 	public function getJobNumber() {
