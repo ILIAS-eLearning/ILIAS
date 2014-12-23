@@ -1656,6 +1656,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	function validateDom()
 	{
 		$this->stripHierIDs();
+
+		// possible fix for #14820
+		libxml_disable_entity_loader(false);
+
 		$this->dom->validate($error);
 		return $error;
 	}
