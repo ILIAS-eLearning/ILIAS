@@ -123,6 +123,7 @@ class gevRegistrationGUI {
 			return $this->inputUserProfile(null, $res[0]);
 		}
 		else {
+			ilUtil::sendFailure($this->lng->txt("gev_evg_registration_not_found"), true);
 			return $this->startRegistration($res[0]);
 		}
 	}
