@@ -1,9 +1,13 @@
 <?php
 
 abstract class Renderer {
+    public function render();
 }
 
 class EmptyRenderer extends Renderer {
+    public function render() {
+        return "";
+    }
 };
 
 class CombinedRenderer extends Renderer {
@@ -13,6 +17,23 @@ class CombinedRenderer extends Renderer {
     public function __construct(Renderer $left, Renderer $right) {
         $this->l = $left;
         $this->r = $right;
+    }
+
+    public function render() {
+        return $l->render().$r->render();
+    }
+}
+
+class ConstRenderer extends Renderer {
+    private $content;
+
+    public function __construct($content) {
+        guardIsString($content);
+        $this->content = $content;
+    }
+
+    public function render() {
+        return $content;
     }
 }
 
@@ -38,13 +59,43 @@ class ApplyCollector extends Collector {
     }
 }
 
+class EmptyCollector extends Collector {
+}
+
+
+class TypeError extends Exception {
+    private $expected;
+    private $found;
+
+    public function __construct($expected, $found) {
+        $this->expected = $expected;
+        $this->found = $found;
+
+        parent::__construct("Expected $expected, found $found...");
+    }
+}
+
+function typeName($arg) {
+    $t = getType($arg);
+    if ($t == "object") {
+        return get_class($arg);
+    }
+    return $t;
+}
+
+function guardIsString($arg) {
+    if (!is_string($arg)) {
+        throw new TypeError("string", typeName($arg));
+    } 
+}
+
 
 abstract class FormletFactory {
     abstract static function instantiate($args);
 }
 
 abstract class Formlet {
-    abstract function build($name_source);
+    public abstract function build($name_source);
 }
 
 function verboseCheck_isFormlet($name, $args) {
@@ -88,7 +139,7 @@ function print_check_isFormlet($name, $args) {
 }
 
 class PureValueFactory {
-    static function instantiate($args) {
+    public static function instantiate($args) {
         return new PureValue($args[0]); 
     }
 }
@@ -110,10 +161,10 @@ class PureValue extends Formlet {
 }
 
 print_check_isFormlet("PureValue", array(42));
-
+echo "\n";
 
 class CombinedFormletsFactory {
-    static function instantiate($args) {
+    public static function instantiate($args) {
         return new CombinedFormlets($args[0], $args[1]);
     }
 }
@@ -140,7 +191,34 @@ class CombinedFormlets {
 
 $pv = PureValueFactory::instantiate(1337);
 print_check_isFormlet("CombinedFormlets", array($pv, $pv));
+echo "\n";
 
+
+class StaticSectionFactory {
+    public static function instantiate($args) {
+        return new StaticSection($args[0]);
+    } 
+}
+
+class StaticSection {
+    private $content; // string
+
+    public function __construct($content) { 
+        guardIsString($content);
+        $this->content = $content;
+    }
+
+    public function build($name_source) {
+        return array
+            ( "renderer"    => new ConstRenderer($this->content)
+            , "collector"   => new EmptyCollector()
+            , "name_source" => $name_source
+            );
+    }
+}
+
+print_check_isFormlet("StaticSection", array("Hello World!"));
+echo "\n";
 
 /*abstract class NameSource {
     abstract public function getName();
