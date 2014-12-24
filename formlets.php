@@ -20,7 +20,7 @@ class CombinedRenderer extends Renderer {
     }
 
     public function render() {
-        return $l->render().$r->render();
+        return $this->l->render().$this->r->render();
     }
 }
 
@@ -33,7 +33,7 @@ class ConstRenderer extends Renderer {
     }
 
     public function render() {
-        return $content;
+        return $this->content;
     }
 }
 
@@ -131,7 +131,7 @@ function check_isFormlet($name, $args) {
     return _and($res);
 }
 
-functin print_check_isFormlet($name, $args) {
+function print_check_isFormlet($name, $args) {
     $res = verboseCheck_isFormlet($name, $args);
     echo "Checking $name:\n";
     foreach($res as $test => $result) {
