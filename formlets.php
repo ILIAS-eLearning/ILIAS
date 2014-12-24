@@ -101,9 +101,12 @@ abstract class Formlet {
 function verboseCheck_isFormlet($name, $args) {
     $name .= "Factory";
     $res = $name::instantiate($args)->build(0);
+    $renderer_res = $res["renderer"]->render();
     return array
         ( "Renderer has correct instance"
             => $res["renderer"] instanceof Renderer
+        , "Renderer returns string."
+            => is_string($renderer_res)
         , "Collector has correct instance"
             => $res["collector"] instanceof Collector
         , "Name source is integer."
