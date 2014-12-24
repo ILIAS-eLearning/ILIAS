@@ -1,5 +1,9 @@
 <?php
 
+/************/
+/* Renderer */
+/************/
+
 abstract class Renderer {
     abstract public function render();
 }
@@ -38,6 +42,10 @@ class ConstRenderer extends Renderer {
 }
 
 
+/*************/
+/* Collector */
+/*************/
+
 abstract class Collector {
 }
 
@@ -62,6 +70,10 @@ class ApplyCollector extends Collector {
 class EmptyCollector extends Collector {
 }
 
+
+/******************/
+/* Error Handling */
+/******************/
 
 class TypeError extends Exception {
     private $expected;
@@ -89,6 +101,26 @@ function guardIsString($arg) {
     } 
 }
 
+/***********/
+/* Helpers */
+/***********/
+
+function andR($carry, $item) {
+    return $carry && $item;
+}
+
+function _and($arr) {
+    return array_reduce($arr, "andR", true);
+}
+
+function _o_f($val) {
+    return $val?"OK":"FAIL"; 
+}
+
+
+/************/
+/* Formlets */
+/************/
 
 abstract class FormletFactory {
     abstract static function instantiate($args);
@@ -97,6 +129,11 @@ abstract class FormletFactory {
 abstract class Formlet {
     public abstract function build($name_source);
 }
+
+
+/****************************/
+/* Tests on implementations */
+/****************************/
 
 function verboseCheck_isFormlet($name, $args) {
     $name .= "Factory";
@@ -114,18 +151,6 @@ function verboseCheck_isFormlet($name, $args) {
         );
 }
 
-function andR($carry, $item) {
-    return $carry && $item;
-}
-
-function _and($arr) {
-    return array_reduce($arr, "andR", true);
-}
-
-function _o_f($val) {
-    return $val?"OK":"FAIL"; 
-}
-
 function check_isFormlet($name, $args) {
     $res = verboseCheck_isFormlet($name, $args);
     return _and($res);
@@ -139,6 +164,11 @@ function print_check_isFormlet($name, $args) {
     }
     echo "=> "._o_f(_and($res))."\n";
 }
+
+
+/*************/
+/* PureValue */ 
+/*************/
 
 class PureValueFactory {
     public static function instantiate($args) {
@@ -164,6 +194,11 @@ class PureValue extends Formlet {
 
 print_check_isFormlet("PureValue", array(42));
 echo "\n";
+
+
+/*********************/
+/* CombinatedFormets */
+/*********************/
 
 class CombinedFormletsFactory {
     public static function instantiate($args) {
@@ -196,6 +231,10 @@ print_check_isFormlet("CombinedFormlets", array($pv, $pv));
 echo "\n";
 
 
+/*****************/
+/* StaticSection */
+/*****************/
+
 class StaticSectionFactory {
     public static function instantiate($args) {
         return new StaticSection($args[0]);
@@ -221,43 +260,6 @@ class StaticSection {
 
 print_check_isFormlet("StaticSection", array("Hello World!"));
 echo "\n";
-
-/*abstract class NameSource {
-    abstract public function getName();
-}
-
-abstract class Env {
-}
-
-abstract class Formlet {
-    private $name_source; // NameSource
-
-    public function __construct(NameSource $name_source) {
-        $this->name_source = $name_source; 
-    }
-
-    abstract public function render();
-    abstract public function collect(Env $env);
-    public function apply(Formlet $other) {
-        
-    }
-}
-
-class PureValue extends Formlet {
-    private $value; // mixed
-    public function __construct($value) {
-        $this->value = $value;
-    }
-
-    public function render() {
-        return "";
-    }
-
-    public function collect(Env $env) {
-        return $this->value;
-    }
-}
-*/
 
 ?>
 
