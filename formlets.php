@@ -116,7 +116,6 @@ function andR($carry, $item) {
 }
 
 function _and($arr) {
-    echo getType($arr)."\n";
     return array_reduce($arr, "andR", true);
 }
 
@@ -129,7 +128,7 @@ function check_isFormlet($name, $args) {
     return _and($res);
 }
 
-function print_check_isFormlet($name, $args) {
+functin print_check_isFormlet($name, $args) {
     $res = verboseCheck_isFormlet($name, $args);
     echo "Checking $name:\n";
     foreach($res as $test => $result) {
