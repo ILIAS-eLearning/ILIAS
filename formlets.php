@@ -1,7 +1,7 @@
 <?php
 
 abstract class Renderer {
-    public function render();
+    abstract public function render();
 }
 
 class EmptyRenderer extends Renderer {
