@@ -137,10 +137,13 @@ abstract class Formlet {
 
 function verboseCheck_isFormlet($name, $args) {
     $name .= "Factory";
-    $res = $name::instantiate($args)->build(0);
+    $formlet = $name::instantiate($args);
+    $res = $formlet->build(0);
     $renderer_res = $res["renderer"]->render();
     return array
-        ( "Renderer has correct instance"
+        ( "Formlet has correct class."
+            => $formlet instanceof Formlet
+        , "Renderer has correct instance"
             => $res["renderer"] instanceof Renderer
         , "Renderer returns string."
             => is_string($renderer_res)
@@ -170,7 +173,7 @@ function print_check_isFormlet($name, $args) {
 /* PureValue */ 
 /*************/
 
-class PureValueFactory {
+class PureValueFactory extends FormletFactory {
     public static function instantiate($args) {
         return new PureValue($args[0]); 
     }
@@ -200,13 +203,13 @@ echo "\n";
 /* CombinatedFormets */
 /*********************/
 
-class CombinedFormletsFactory {
+class CombinedFormletsFactory extends FormletFactory {
     public static function instantiate($args) {
         return new CombinedFormlets($args[0], $args[1]);
     }
 }
 
-class CombinedFormlets {
+class CombinedFormlets extends Formlet {
     private $l; // Formlet
     private $r; // Formlet
 
@@ -235,13 +238,13 @@ echo "\n";
 /* StaticSection */
 /*****************/
 
-class StaticSectionFactory {
+class StaticSectionFactory extends FormletFactory {
     public static function instantiate($args) {
         return new StaticSection($args[0]);
     } 
 }
 
-class StaticSection {
+class StaticSection extends Formlet {
     private $content; // string
 
     public function __construct($content) { 
@@ -256,6 +259,13 @@ class StaticSection {
             , "name_source" => $name_source
             );
     }
+}
+
+/*************/
+/* TextInput */
+/*************/
+
+class TextInput {
 }
 
 print_check_isFormlet("StaticSection", array("Hello World!"));
