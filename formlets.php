@@ -1,5 +1,11 @@
 <?php
 
+global $TEST_MODE;
+
+if ($TEST_MODE === null) {
+    $TEST_MODE = true;
+}
+
 /************/
 /* Renderer */
 /************/
@@ -29,7 +35,7 @@ class CombinedRenderer extends Renderer {
 }
 
 class ConstRenderer extends Renderer {
-    private $content;
+    private $content; // string
 
     public function __construct($content) {
         guardIsString($content);
@@ -38,6 +44,22 @@ class ConstRenderer extends Renderer {
 
     public function render() {
         return $this->content;
+    }
+}
+
+class CallbackRenderer extends Renderer {
+    private $call_object; // callable
+    private $args; // mixed
+
+    public function __construct($call_object, $args) {
+        $this->call_object = $call_object;
+        $this->args = $args;
+    }
+
+    public function render() {
+        $res = $this->call_object->render($this->args);
+        guardIsString($res);
+        return $res; 
     }
 }
 
@@ -68,6 +90,15 @@ class ApplyCollector extends Collector {
 }
 
 class EmptyCollector extends Collector {
+}
+
+class StringCollector extends Collector {
+    private $name; // string
+
+    public function __construct($name) {
+        guardIsName($name);
+        $this->name = $name;
+    }
 }
 
 
@@ -101,6 +132,11 @@ function guardIsString($arg) {
     } 
 }
 
+function guardIsName($arg) {
+    guardIsString($arg);
+    // ToDo: implement properly
+}
+
 /***********/
 /* Helpers */
 /***********/
@@ -117,6 +153,42 @@ function _o_f($val) {
     return $val?"OK":"FAIL"; 
 }
 
+/**************/
+/* NameSource */
+/**************/
+
+final class NameSource {
+    private $i;
+    private $used = false;
+    static private $instantiated = false;
+    
+    public static function instantiate() {
+        if (static::$instantiated) {
+            throw new Exception("NameSource can only be instantiated once.");
+        }
+        return new NameSource(0);
+    } 
+
+    public static function unsafeInstantiate() {
+        return new NameSource(0);
+    }
+
+    private function __construct($i) {
+        $this->i = $i;
+    }
+
+    public function getNameAndNext() {
+        if ($this->used) {
+            throw new Exception("NameSource can only be used once.");
+        }
+
+        $this->used = true;
+        return array
+            ( "name" => "input".$this->i
+            , "name_source" => new NameSource($this->i + 1)
+            );
+    }
+}
 
 /************/
 /* Formlets */
@@ -127,7 +199,7 @@ abstract class FormletFactory {
 }
 
 abstract class Formlet {
-    public abstract function build($name_source);
+    public abstract function build(NameSource $name_source);
 }
 
 
@@ -138,7 +210,7 @@ abstract class Formlet {
 function verboseCheck_isFormlet($name, $args) {
     $name .= "Factory";
     $formlet = $name::instantiate($args);
-    $res = $formlet->build(0);
+    $res = $formlet->build(NameSource::unsafeInstantiate());
     $renderer_res = $res["renderer"]->render();
     return array
         ( "Formlet has correct class."
@@ -149,8 +221,8 @@ function verboseCheck_isFormlet($name, $args) {
             => is_string($renderer_res)
         , "Collector has correct instance"
             => $res["collector"] instanceof Collector
-        , "Name source is integer."
-            => is_int($res["name_source"])
+        , "Name source has correct instance."
+            => $res["name_source"] instanceof NameSource
         );
 }
 
@@ -186,7 +258,7 @@ class PureValue extends Formlet {
         $this->value = $value;
     }
 
-    public function build($name_source) {
+    public function build(NameSource $name_source) {
         return array
             ( "renderer"    => new EmptyRenderer()
             , "collector"   => new ConstCollector($this->value)
@@ -195,9 +267,10 @@ class PureValue extends Formlet {
     }
 }
 
-print_check_isFormlet("PureValue", array(42));
-echo "\n";
-
+if ($TEST_MODE) {
+    print_check_isFormlet("PureValue", array(42));
+    echo "\n";
+}
 
 /*********************/
 /* CombinatedFormets */
@@ -218,7 +291,7 @@ class CombinedFormlets extends Formlet {
         $this->r = $right;
     }
 
-    public function build($name_source) {
+    public function build(NameSource $name_source) {
         $l = $this->l->build($name_source);
         $r = $this->r->build($l["name_source"]);
         return array
@@ -229,9 +302,11 @@ class CombinedFormlets extends Formlet {
     }
 }
 
-$pv = PureValueFactory::instantiate(1337);
-print_check_isFormlet("CombinedFormlets", array($pv, $pv));
-echo "\n";
+if ($TEST_MODE) {
+    $pv = PureValueFactory::instantiate(1337);
+    print_check_isFormlet("CombinedFormlets", array($pv, $pv));
+    echo "\n";
+}
 
 
 /*****************/
@@ -252,7 +327,7 @@ class StaticSection extends Formlet {
         $this->content = $content;
     }
 
-    public function build($name_source) {
+    public function build(NameSource $name_source) {
         return array
             ( "renderer"    => new ConstRenderer($this->content)
             , "collector"   => new EmptyCollector()
@@ -261,15 +336,46 @@ class StaticSection extends Formlet {
     }
 }
 
+if ($TEST_MODE) {
+    print_check_isFormlet("StaticSection", array("Static"));
+    echo "\n";
+}
+
 /*************/
 /* TextInput */
 /*************/
 
-class TextInput {
+class TextInputFactory extends FormletFactory {
+    public static function instantiate($args) {
+        return new TextInput();
+    } 
 }
 
-print_check_isFormlet("StaticSection", array("Hello World!"));
-echo "\n";
+class TextInput extends Formlet {
+    public function __construct() {
+        
+    }
+
+    public function build(NameSource $name_source) {
+        $res = $name_source->getNameAndNext();
+        return array
+            ( "renderer"    => new CallbackRenderer($this, array
+                                        ( "name" => $res["name"]
+                                        )) 
+            , "collector"   => new StringCollector($res["name"])
+            , "name_source" => $res["name_source"]
+            );
+    }
+
+    public function render($args) {
+        // TODO: this would need some more parameters 
+        return "<input type='text' name='".$args["name"]."'/>";
+    }
+}
+
+if ($TEST_MODE) {
+    print_check_isFormlet("TextInput", array("Hello World!"));
+    echo "\n";
+}
 
 ?>
-
