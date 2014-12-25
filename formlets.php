@@ -64,6 +64,43 @@ class CallbackRenderer extends Renderer {
 }
 
 
+/*********/
+/* Value */
+/*********/
+
+abstract class Value {
+    abstract public function get();
+    abstract public function apply(Value $to);
+    abstract public function isApplicable();
+}
+
+class ApplyError extends Exception {
+    public function __construct($what) {
+        parent::__construct("Can't apply $what");
+    }
+}
+
+class ConstValue extends Value {
+    private $value; //mixed
+
+    public function __construct($value) {
+        $this->value = $value;
+    }
+
+    public function get() {
+        return $this->value;
+    }
+
+    public function apply(Value $to) {
+        throw new ApplyError("ConstValue");
+    }
+
+    public function isApplicable() {
+        return false;
+    }
+}
+
+
 /*************/
 /* Collector */
 /*************/
@@ -72,9 +109,9 @@ abstract class Collector {
 }
 
 class ConstCollector extends Collector {
-    private $value;
+    private $value; // Value
 
-    public function __construct($value) {
+    public function __construct(Value $value) {
         $this->value = $value;
     }
 }
@@ -135,6 +172,12 @@ function guardIsString($arg) {
 function guardIsName($arg) {
     guardIsString($arg);
     // ToDo: implement properly
+}
+
+function guardIsValue($arg) {
+    if (!($arg instanceof Value)) {
+        throw new TypeError("Value", typeName($arg));
+    }
 }
 
 /***********/
@@ -247,6 +290,7 @@ function print_check_isFormlet($name, $args) {
 
 class PureValueFactory extends FormletFactory {
     public static function instantiate($args) {
+        guardIsValue($args[0]);
         return new PureValue($args[0]); 
     }
 }
@@ -254,7 +298,7 @@ class PureValueFactory extends FormletFactory {
 class PureValue extends Formlet {
     private $value; // mixes
 
-    public function __construct($value) {
+    public function __construct(Value $value) {
         $this->value = $value;
     }
 
@@ -268,7 +312,7 @@ class PureValue extends Formlet {
 }
 
 if ($TEST_MODE) {
-    print_check_isFormlet("PureValue", array(42));
+    print_check_isFormlet("PureValue", array(new ConstValue(42)));
     echo "\n";
 }
 
@@ -303,7 +347,7 @@ class CombinedFormlets extends Formlet {
 }
 
 if ($TEST_MODE) {
-    $pv = PureValueFactory::instantiate(1337);
+    $pv = PureValueFactory::instantiate(array(new ConstValue(1337)));
     print_check_isFormlet("CombinedFormlets", array($pv, $pv));
     echo "\n";
 }
