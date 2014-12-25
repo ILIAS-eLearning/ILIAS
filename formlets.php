@@ -75,12 +75,18 @@ abstract class Value {
 }
 
 class ApplyError extends Exception {
-    public function __construct($what) {
-        parent::__construct("Can't apply $what");
+    public function __construct($what, $other) {
+        parent::__construct("Can't apply $what to $other");
     }
 }
 
-class ConstValue extends Value {
+class GetError extends Exception {
+    public function __construct($what) {
+        parent::__construct("Can't get value from $what");
+    }
+}
+
+final class ConstValue extends Value {
     private $value; //mixed
 
     public function __construct($value) {
@@ -92,11 +98,45 @@ class ConstValue extends Value {
     }
 
     public function apply(Value $to) {
-        throw new ApplyError("ConstValue");
+        throw new ApplyError("ConstValue", "any Value");
     }
 
     public function isApplicable() {
         return false;
+    }
+}
+
+final class FunctionValue extends Value {
+    private $function_name; // string
+    private $call_object; // object
+
+    public function __construct($function_name, $call_object = null) {
+        $this->function_name = $function_name;
+        $this->call_object = $call_object; 
+    }
+
+    public function get() {
+        throw new GetError("FunctionValue");
+    } 
+
+    public function apply(Value $to) {
+        if ($to->isApplicable) {
+            throw new ApplyError("FunctionValue", typeName($to));
+        }
+
+        $fn = $this->function_name;
+        $obj = $this->call_object;
+
+        if ($obj === null) {
+            return $fn($to->get());
+        }
+        else {
+            return $obj->$fn($to->get());
+        }
+    }
+
+    public function isApplicable() {
+        return true;
     }
 }
 
