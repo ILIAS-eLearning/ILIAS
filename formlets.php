@@ -106,6 +106,10 @@ final class ConstValue extends Value {
     }
 }
 
+function _const($value) {
+    return new ConstValue($value);
+}
+
 final class FunctionValue extends Value {
     private $function_name; // string
     private $call_object; // object
@@ -120,7 +124,7 @@ final class FunctionValue extends Value {
     } 
 
     public function apply(Value $to) {
-        if ($to->isApplicable) {
+        if ($to->isApplicable()) {
             throw new ApplyError("FunctionValue", typeName($to));
         }
 
@@ -140,12 +144,17 @@ final class FunctionValue extends Value {
     }
 }
 
+function _function($function_name, $call_object = null) {
+    return new FunctionValue($function_name, $call_object);
+}
+
 
 /*************/
 /* Collector */
 /*************/
 
 abstract class Collector {
+    abstract public function collect($env);
 }
 
 class ConstCollector extends Collector {
@@ -153,6 +162,10 @@ class ConstCollector extends Collector {
 
     public function __construct(Value $value) {
         $this->value = $value;
+    }
+
+    public function collect($env) {
+        return $this->value;
     }
 }
 
@@ -164,9 +177,19 @@ class ApplyCollector extends Collector {
         $this->l = $left;
         $this->r = $right;
     }
+
+    public function collect($env) {
+        $l = $this->l->collect($env);
+        $r = $this->r->collect($env);
+        return $l->apply($r);
+    }
 }
 
 class EmptyCollector extends Collector {
+    public function collect($env) {
+        // hmm, what is needed here??
+        die("EmptyCollector::collect: NYI!");
+    }
 }
 
 class StringCollector extends Collector {
@@ -175,6 +198,11 @@ class StringCollector extends Collector {
     public function __construct($name) {
         guardIsName($name);
         $this->name = $name;
+    }
+
+    public function collect($env) {
+        guardIsString($env[$this->name]);
+        return _const($env[$this->name]);
     }
 }
 
@@ -283,6 +311,10 @@ abstract class FormletFactory {
 
 abstract class Formlet {
     public abstract function build(NameSource $name_source);
+
+    public function cmb(Formlet $other) {
+        return new CombinedFormlets($this, $other);
+    }
 }
 
 
@@ -325,17 +357,17 @@ function print_check_isFormlet($name, $args) {
 
 
 /*************/
-/* PureValue */ 
+/* PureFormlet */ 
 /*************/
 
-class PureValueFactory extends FormletFactory {
+class PureFormletFactory extends FormletFactory {
     public static function instantiate($args) {
         guardIsValue($args[0]);
-        return new PureValue($args[0]); 
+        return new PureFormlet($args[0]); 
     }
 }
 
-class PureValue extends Formlet {
+class PureFormlet extends Formlet {
     private $value; // mixes
 
     public function __construct(Value $value) {
@@ -351,8 +383,12 @@ class PureValue extends Formlet {
     }
 }
 
+function _pure(Value $value) {
+    return new PureFormlet($value); 
+}
+
 if ($TEST_MODE) {
-    print_check_isFormlet("PureValue", array(new ConstValue(42)));
+    print_check_isFormlet("PureFormlet", array(new ConstValue(42)));
     echo "\n";
 }
 
@@ -387,23 +423,23 @@ class CombinedFormlets extends Formlet {
 }
 
 if ($TEST_MODE) {
-    $pv = PureValueFactory::instantiate(array(new ConstValue(1337)));
+    $pv = PureFormletFactory::instantiate(array(new ConstValue(1337)));
     print_check_isFormlet("CombinedFormlets", array($pv, $pv));
     echo "\n";
 }
 
 
 /*****************/
-/* StaticSection */
+/* StaticFormlet */
 /*****************/
 
-class StaticSectionFactory extends FormletFactory {
+class StaticFormletFactory extends FormletFactory {
     public static function instantiate($args) {
-        return new StaticSection($args[0]);
+        return new StaticFormlet($args[0]);
     } 
 }
 
-class StaticSection extends Formlet {
+class StaticFormlet extends Formlet {
     private $content; // string
 
     public function __construct($content) { 
@@ -420,8 +456,12 @@ class StaticSection extends Formlet {
     }
 }
 
+function _static($content) {
+    return new StaticFormlet($content);
+}
+
 if ($TEST_MODE) {
-    print_check_isFormlet("StaticSection", array("Static"));
+    print_check_isFormlet("StaticFormlet", array("Static"));
     echo "\n";
 }
 
@@ -455,6 +495,10 @@ class TextInput extends Formlet {
         // TODO: this would need some more parameters 
         return "<input type='text' name='".$args["name"]."'/>";
     }
+}
+
+function _text_input() {
+    return new TextInput();
 }
 
 if ($TEST_MODE) {
