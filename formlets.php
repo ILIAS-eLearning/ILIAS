@@ -25,20 +25,80 @@ if ($TEST_MODE === null) {
     $TEST_MODE = true;
 }
 
-/************/
-/* Renderer */
-/************/
+/**************************************
+/* TypeErrors for error checking. 
+*/
+
+class TypeError extends Exception {
+    private $expected;
+    private $found;
+
+    public function __construct($expected, $found) {
+        $this->expected = $expected;
+        $this->found = $found;
+
+        parent::__construct("Expected $expected, found $found...");
+    }
+}
+
+function typeName($arg) {
+    $t = getType($arg);
+    if ($t == "object") {
+        return get_class($arg);
+    }
+    return $t;
+}
+
+function guardIsString($arg) {
+    if (!is_string($arg)) {
+        throw new TypeError("string", typeName($arg));
+    } 
+}
+
+function guardIsInt($arg) {
+    if (!is_int($arg)) {
+        throw new TypeError("int", typeName($arg));
+    } 
+}
+
+function guardIsName($arg) {
+    guardIsString($arg);
+    // ToDo: implement properly
+}
+
+function guardIsArray($arg) {
+    if(!is_array($arg)) {
+        throw new TypeError("array", typeName($arg));
+    }
+}
+
+function guardIsObject($arg) {
+    if(!is_object($arg)) {
+        throw new TypeError("object", typeName($arg));
+    }
+}
+
+function guardIsValue($arg) {
+    if (!($arg instanceof Value)) {
+        throw new TypeError("Value", typeName($arg));
+    }
+}
+
+
+/******************************************************************************
+/* Fairly simple implementation of a Renderer. Can render strings and supports
+/* combining of renderers. A more sophisticated version could be build upon
+/* HTML primitives.
+*/
 
 abstract class Renderer {
+    /* Returns a string. */
     abstract public function render();
 }
 
-class EmptyRenderer extends Renderer {
-    public function render() {
-        return "";
-    }
-};
-
+/* Renderer that combines two sub renderers by adding the output of the 
+/* renderers.
+*/
 class CombinedRenderer extends Renderer {
     private $l; // Renderer
     private $r; // Renderer
@@ -53,6 +113,7 @@ class CombinedRenderer extends Renderer {
     }
 }
 
+/* A renderer that produces a constant output. */
 class ConstRenderer extends Renderer {
     private $content; // string
 
@@ -66,11 +127,16 @@ class ConstRenderer extends Renderer {
     }
 }
 
+/* A renderer that calls 'render' from another object to produce its output. */
 class CallbackRenderer extends Renderer {
     private $call_object; // callable
     private $args; // mixed
 
+    /* Construct with object to call and an array of arguments to be passed
+     * to said óbjects render method.
+     */
     public function __construct($call_object, $args) {
+        guardIsObject($call_object);
         $this->call_object = $call_object;
         $this->args = $args;
     }
@@ -150,22 +216,30 @@ function _plain($value) {
 
 
 final class FunctionValue extends Value {
+    private $arity; // int
     private $function_name; // string
     private $call_object; // object
-    private $arity; // int
     private $args; // array
 
+    /* Create a function value by at least passing it an arity, that is a number
+     * of required arguments and a name of a function to be called. Optionaly an
+     * object could be passed, then function_name refers to a method of that 
+     * object. One could also optionally pass an array of arguments for the first
+     * arguments of the function to call. This is also used in construction of
+     * new function values after apply.
+     */
     public function __construct($arity, $function_name, $call_object = null, $args = null) {
         $args = defaultTo($args, array());
 
         guardIsInt($arity);
         guardIsString($function_name);
         guardIsArray($args);
-        if ($call_object !== null) guardIsObject($call_object);
+        if ($call_object !== null) 
+            guardIsObject($call_object);
 
+        $this->arity = $arity;
         $this->function_name = $function_name;
         $this->call_object = $call_object; 
-        $this->arity = $arity;
         $this->args = $args;
     }
 
@@ -175,6 +249,9 @@ final class FunctionValue extends Value {
 
     public function apply(Value $to) {
         if ($this->arity > 1) {
+            // The call should also guarantee, that $this->args
+            // gets copied, so the function value could be used
+            // more than once for a curried call.
             return $this->deferredCall($this->args, $to->get());
         }
         else {
@@ -183,6 +260,7 @@ final class FunctionValue extends Value {
                 return $to;
             }
 
+            // See comment at deferredCall above. 
             $val = $this->actualCall($this->args, $to->get());
             return $this->toValue($val);
         }
@@ -230,6 +308,9 @@ final class FunctionValue extends Value {
     }
 }
 
+/* Construct a function value from an arity and the name of an ordinary
+/* function. Arity is the number of arguments of the function.
+*/
 function _function($arity, $function_name, $call_object = null) {
     return new FunctionValue($arity, $function_name, $call_object);
 }
@@ -320,66 +401,6 @@ class StringCollector extends Collector {
     public function collect($env) {
         guardIsString($env[$this->name]);
         return _plain($env[$this->name]);
-    }
-}
-
-
-/******************/
-/* Error Handling */
-/******************/
-
-class TypeError extends Exception {
-    private $expected;
-    private $found;
-
-    public function __construct($expected, $found) {
-        $this->expected = $expected;
-        $this->found = $found;
-
-        parent::__construct("Expected $expected, found $found...");
-    }
-}
-
-function typeName($arg) {
-    $t = getType($arg);
-    if ($t == "object") {
-        return get_class($arg);
-    }
-    return $t;
-}
-
-function guardIsString($arg) {
-    if (!is_string($arg)) {
-        throw new TypeError("string", typeName($arg));
-    } 
-}
-
-function guardIsInt($arg) {
-    if (!is_int($arg)) {
-        throw new TypeError("int", typeName($arg));
-    } 
-}
-
-function guardIsName($arg) {
-    guardIsString($arg);
-    // ToDo: implement properly
-}
-
-function guardIsArray($arg) {
-    if(!is_array($arg)) {
-        throw new TypeError("array", typeName($arg));
-    }
-}
-
-function guardIsObject($arg) {
-    if(!is_object($arg)) {
-        throw new TypeError("object", typeName($arg));
-    }
-}
-
-function guardIsValue($arg) {
-    if (!($arg instanceof Value)) {
-        throw new TypeError("Value", typeName($arg));
     }
 }
 
@@ -518,7 +539,7 @@ class PureFormlet extends Formlet {
 
     public function build(NameSource $name_source) {
         return array
-            ( "renderer"    => new EmptyRenderer()
+            ( "renderer"    => new ConstRenderer("")
             , "collector"   => new ConstCollector($this->value)
             , "name_source" => $name_source
             );
