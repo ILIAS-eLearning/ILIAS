@@ -52,5 +52,19 @@ echo $res["renderer"]->render()."\n";
 $val = $res["collector"]->collect(array("input0" => "123"));
 echo $val.(is_int($val)?" is int":" is no int")
 
+class Date() {
+    public function __construct($y, $m, $d) {
+        $this->y = $y;
+        $this->m = $m;
+        $this->d = $d;
+    }
+}
+
+/*function guardInRange($l,$r,$value) {
+    if ($value < $l || $value > $r) {
+        throw new Exception("Expected value to be in range $l to $r, but is $value");
+    }
+}*/
+
 ?>
 

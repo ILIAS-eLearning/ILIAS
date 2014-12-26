@@ -72,6 +72,7 @@ abstract class Value {
     abstract public function get();
     abstract public function apply(Value $to);
     abstract public function isApplicable();
+    abstract public function isError();
 }
 
 class ApplyError extends Exception {
@@ -104,6 +105,10 @@ final class ConstValue extends Value {
     public function isApplicable() {
         return false;
     }
+
+    public function isError() {
+        return false;
+    }
 }
 
 function _const($value) {
@@ -124,6 +129,10 @@ final class FunctionValue extends Value {
     } 
 
     public function apply(Value $to) {
+        if($to->isError()) {
+            return $to;
+        }
+
         if ($to->isApplicable()) {
             throw new ApplyError("FunctionValue", typeName($to));
         }
@@ -142,12 +151,46 @@ final class FunctionValue extends Value {
     public function isApplicable() {
         return true;
     }
+
+    public function isError() {
+        return false;
+    }
 }
 
 function _function($function_name, $call_object = null) {
     return new FunctionValue($function_name, $call_object);
 }
 
+
+final class ErrorValue extends Value {
+    private $others; // array(ErrorValue)
+    private $reason; // string
+
+    public function __construct($reason) {
+        $this->others = array();
+        $this->reason = $reason;
+    }
+
+    public function get() {
+        throw new GetError("ErrorValue");
+    } 
+
+    public function apply(Value $to) {
+        if ($to->isError() {
+            $this->$others[] = $to;
+        }
+
+        return $this;
+    }
+
+    public function isApplicable() {
+        return true;
+    }
+
+    public function isError() {
+        return true;
+    }
+}
 
 /*************/
 /* Collector */
