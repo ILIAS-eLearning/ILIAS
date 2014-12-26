@@ -118,10 +118,21 @@ function _const($value) {
 final class FunctionValue extends Value {
     private $function_name; // string
     private $call_object; // object
+    private $arity; // int
+    private $args; // array
 
-    public function __construct($function_name, $call_object = null) {
+    public function __construct($arity, $function_name, $call_object = null, $args = null) {
+        $args = defaultTo($args, array());
+
+        guardIsInt($arity);
+        guardIsString($function_name);
+        guardIsArray($args);
+        if ($call_object !== null) guardIsObject($call_object);
+
         $this->function_name = $function_name;
         $this->call_object = $call_object; 
+        $this->arity = $arity;
+        $this->args = $args;
     }
 
     public function get() {
@@ -129,23 +140,53 @@ final class FunctionValue extends Value {
     } 
 
     public function apply(Value $to) {
-        if($to->isError()) {
-            return $to;
-        }
-
         if ($to->isApplicable()) {
             throw new ApplyError("FunctionValue", typeName($to));
         }
 
-        $fn = $this->function_name;
-        $obj = $this->call_object;
+        if ($this->arity > 1) {
+            return $this->deferredCall($this->args, $to->get());
+       }
+        else {
+            if($to->isError()) {
+                return $to;
+            }
 
-        if ($obj === null) {
-            return $fn($to->get());
+            $val = $this->actualCall($this->args, $to->get());
+            return $this->toValue($val);
+        }
+    }
+    
+    private function deferredCall($args, $next_value) {
+        $args[] = $next_value;
+        return new FunctionValue( $this->arity - 1
+                                , $this->function_name
+                                , $this->call_object
+                                , $args
+                                );
+    }
+
+    private function actualCall($args, $last_value) {
+        $args[] = $last_value;
+
+        if ($this->call_object === null) {
+            return call_user_func_array($this->function_name, $args);
         }
         else {
-            return $obj->$fn($to->get());
+            return call_user_func_array( array( $this->call_object
+                                              , $this->function_name
+                                              )
+                                       , $args);
         }
+    }
+
+    private function toValue($val) {
+        if ($val instanceof Value) {
+            return $val;
+        }
+        else {
+            return _const($val);
+        }            
     }
 
     public function isApplicable() {
@@ -176,8 +217,8 @@ final class ErrorValue extends Value {
     } 
 
     public function apply(Value $to) {
-        if ($to->isError() {
-            $this->$others[] = $to;
+        if ($to->isError()) {
+            $this->others[] = $to;
         }
 
         return $this;
@@ -191,6 +232,7 @@ final class ErrorValue extends Value {
         return true;
     }
 }
+
 
 /*************/
 /* Collector */
@@ -280,9 +322,27 @@ function guardIsString($arg) {
     } 
 }
 
+function guardIsInt($arg) {
+    if (!is_int($arg)) {
+        throw new TypeError("int", typeName($arg));
+    } 
+}
+
 function guardIsName($arg) {
     guardIsString($arg);
     // ToDo: implement properly
+}
+
+function guardIsArray($arg) {
+    if(!is_array($arg)) {
+        throw new TypeError("array", typeName($arg));
+    }
+}
+
+function guardIsObject($arg) {
+    if(!is_object($arg)) {
+        throw new TypeError("object", typeName($arg));
+    }
 }
 
 function guardIsValue($arg) {
@@ -305,6 +365,13 @@ function _and($arr) {
 
 function _o_f($val) {
     return $val?"OK":"FAIL"; 
+}
+
+function defaultTo($arg, $default) {
+    if ($arg === null) {
+        return $default;
+    }
+    return $arg;
 }
 
 /**************/
