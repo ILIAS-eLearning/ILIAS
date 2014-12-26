@@ -81,7 +81,8 @@ function mkDate($y, $m, $d) {
     return new _Date($y, $m, $d);
 }
 
-$int_formlet = _pure(_function(1, "intval"))->cmb(_text_input());
+$int_formlet = _pure(_function(1, "intval"))
+                ->cmb(_text_input());
 
 $formlet = _pure(_function(3, "mkDate"))
                 ->cmb($int_formlet)

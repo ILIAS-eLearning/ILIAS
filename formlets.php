@@ -1,5 +1,24 @@
 <?php
 
+/******************************************************************************
+/* Copyright (c) 2014 Richard Klees
+/*
+/* This is an attempt to a PHP implementation of the idea of formlets [1].
+/* General idea is to have an abstract and composable representation of forms, 
+/* called Formlets, that can be transformed to a concrete Renderer and 
+/* Collector. 
+/* While the Renderer is responsible for creating an HTML representation of a 
+/* Formlet, the Collector is responsible for collection inputs of the user from 
+/* the environment.
+/*
+/* The PHP implementations turns out to be a little more complex, since stuff 
+/* like currying and functions as values is not as handy as in functional 
+/* languages.
+/*
+/* [1] http://groups.inf.ed.ac.uk/links/papers/formlets-essence.pdf
+/*     The Essence of Form Abstraction (Cooper, Lindley, wadler, Yallop)
+*/
+
 global $TEST_MODE;
 
 if ($TEST_MODE === null) {
@@ -64,14 +83,27 @@ class CallbackRenderer extends Renderer {
 }
 
 
-/*********/
-/* Value */
-/*********/
+/******************************************************************************
+/* Values work around the problem, that functions could not be used as ordinary
+/* values easily in PHP.
+/*
+/* A value either wraps a plain value in an underlying PHP-Representation or 
+/* is a possibly curried function that could be applied to other values.
+*/
 
 abstract class Value {
+    /* Get the value in the underlying PHP-representation. 
+     * Throws GetError when value represents a function.
+     */
     abstract public function get();
+    /* Apply the value to another value, yielding a new value.
+     * Throws ApplyError when value represents a plain value.
+     */
     abstract public function apply(Value $to);
+    /* Check weather value could be applied to another value. */
     abstract public function isApplicable();
+
+    /* EXPERIMENTAL */
     abstract public function isError();
 }
 
@@ -87,7 +119,7 @@ class GetError extends Exception {
     }
 }
 
-final class ConstValue extends Value {
+final class PlainValue extends Value {
     private $value; //mixed
 
     public function __construct($value) {
@@ -99,7 +131,7 @@ final class ConstValue extends Value {
     }
 
     public function apply(Value $to) {
-        throw new ApplyError("ConstValue", "any Value");
+        throw new ApplyError("PlainValue", "any Value");
     }
 
     public function isApplicable() {
@@ -111,9 +143,11 @@ final class ConstValue extends Value {
     }
 }
 
-function _const($value) {
-    return new ConstValue($value);
+/* Construct a plain value from a PHP value. */
+function _plain($value) {
+    return new PlainValue($value);
 }
+
 
 final class FunctionValue extends Value {
     private $function_name; // string
@@ -140,14 +174,11 @@ final class FunctionValue extends Value {
     } 
 
     public function apply(Value $to) {
-        if ($to->isApplicable()) {
-            throw new ApplyError("FunctionValue", typeName($to));
-        }
-
         if ($this->arity > 1) {
             return $this->deferredCall($this->args, $to->get());
-       }
+        }
         else {
+            // EXPERIMENTAL
             if($to->isError()) {
                 return $to;
             }
@@ -157,6 +188,14 @@ final class FunctionValue extends Value {
         }
     }
     
+    public function isApplicable() {
+        return true;
+    }
+
+    public function isError() {
+        return false;
+    }
+
     private function deferredCall($args, $next_value) {
         $args[] = $next_value;
         return new FunctionValue( $this->arity - 1
@@ -176,7 +215,8 @@ final class FunctionValue extends Value {
             return call_user_func_array( array( $this->call_object
                                               , $this->function_name
                                               )
-                                       , $args);
+                                       , $args
+                                       );
         }
     }
 
@@ -185,24 +225,16 @@ final class FunctionValue extends Value {
             return $val;
         }
         else {
-            return _const($val);
+            return _plain($val);
         }            
     }
-
-    public function isApplicable() {
-        return true;
-    }
-
-    public function isError() {
-        return false;
-    }
 }
 
-function _function($function_name, $call_object = null) {
-    return new FunctionValue($function_name, $call_object);
+function _function($arity, $function_name, $call_object = null) {
+    return new FunctionValue($arity, $function_name, $call_object);
 }
 
-
+// EXPERIMENTAL
 final class ErrorValue extends Value {
     private $others; // array(ErrorValue)
     private $reason; // string
@@ -287,7 +319,7 @@ class StringCollector extends Collector {
 
     public function collect($env) {
         guardIsString($env[$this->name]);
-        return _const($env[$this->name]);
+        return _plain($env[$this->name]);
     }
 }
 
@@ -498,7 +530,7 @@ function _pure(Value $value) {
 }
 
 if ($TEST_MODE) {
-    print_check_isFormlet("PureFormlet", array(new ConstValue(42)));
+    print_check_isFormlet("PureFormlet", array(new PlainValue(42)));
     echo "\n";
 }
 
@@ -533,7 +565,7 @@ class CombinedFormlets extends Formlet {
 }
 
 if ($TEST_MODE) {
-    $pv = PureFormletFactory::instantiate(array(new ConstValue(1337)));
+    $pv = PureFormletFactory::instantiate(array(new PlainValue(1337)));
     print_check_isFormlet("CombinedFormlets", array($pv, $pv));
     echo "\n";
 }
