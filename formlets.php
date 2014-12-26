@@ -1,23 +1,23 @@
 <?php
 
 /******************************************************************************
-/* Copyright (c) 2014 Richard Klees
-/*
-/* This is an attempt to a PHP implementation of the idea of formlets [1].
-/* General idea is to have an abstract and composable representation of forms, 
-/* called Formlets, that can be transformed to a concrete Renderer and 
-/* Collector. 
-/* While the Renderer is responsible for creating an HTML representation of a 
-/* Formlet, the Collector is responsible for collection inputs of the user from 
-/* the environment.
-/*
-/* The PHP implementations turns out to be a little more complex, since stuff 
-/* like currying and functions as values is not as handy as in functional 
-/* languages.
-/*
-/* [1] http://groups.inf.ed.ac.uk/links/papers/formlets-essence.pdf
-/*     The Essence of Form Abstraction (Cooper, Lindley, wadler, Yallop)
-*/
+ * Copyright (c) 2014 Richard Klees
+ *
+ * This is an attempt to a PHP implementation of the idea of formlets [1].
+ * General idea is to have an abstract and composable representation of forms, 
+ * called Formlets, that can be transformed to a concrete Renderer and 
+ * Collector. 
+ * While the Renderer is responsible for creating an HTML representation of a 
+ * Formlet, the Collector is responsible for collection inputs of the user from 
+ * the environment.
+ *
+ * The PHP implementations turns out to be a little more complex, since stuff 
+ * like currying and functions as values is not as handy as in functional 
+ * languages.
+ *
+ * [1] http://groups.inf.ed.ac.uk/links/papers/formlets-essence.pdf
+ *     The Essence of Form Abstraction (Cooper, Lindley, wadler, Yallop)
+ */
 
 global $TEST_MODE;
 
@@ -26,8 +26,8 @@ if ($TEST_MODE === null) {
 }
 
 /**************************************
-/* TypeErrors for error checking. 
-*/
+ * TypeErrors for error checking. 
+ */
 
 class TypeError extends Exception {
     private $expected;
@@ -86,10 +86,10 @@ function guardIsValue($arg) {
 
 
 /******************************************************************************
-/* Fairly simple implementation of a Renderer. Can render strings and supports
-/* combining of renderers. A more sophisticated version could be build upon
-/* HTML primitives.
-*/
+ * Fairly simple implementation of a Renderer. Can render strings and supports
+ * combining of renderers. A more sophisticated version could be build upon
+ * HTML primitives.
+ */
 
 abstract class Renderer {
     /* Returns a string. */
@@ -97,8 +97,8 @@ abstract class Renderer {
 }
 
 /* Renderer that combines two sub renderers by adding the output of the 
-/* renderers.
-*/
+ * renderers.
+ */
 class CombinedRenderer extends Renderer {
     private $l; // Renderer
     private $r; // Renderer
@@ -150,12 +150,12 @@ class CallbackRenderer extends Renderer {
 
 
 /******************************************************************************
-/* Values work around the problem, that functions could not be used as ordinary
-/* values easily in PHP.
-/*
-/* A value either wraps a plain value in an underlying PHP-Representation or 
-/* is a possibly curried function that could be applied to other values.
-*/
+ * Values work around the problem, that functions could not be used as ordinary
+ * values easily in PHP.
+ *
+ * A value either wraps a plain value in an underlying PHP-Representation or 
+ * is a possibly curried function that could be applied to other values.
+ */
 
 abstract class Value {
     /* Get the value in the underlying PHP-representation. 
@@ -309,8 +309,8 @@ final class FunctionValue extends Value {
 }
 
 /* Construct a function value from an arity and the name of an ordinary
-/* function. Arity is the number of arguments of the function.
-*/
+ * function. Arity is the number of arguments of the function.
+ */
 function _function($arity, $function_name, $call_object = null) {
     return new FunctionValue($arity, $function_name, $call_object);
 }
@@ -347,15 +347,42 @@ final class ErrorValue extends Value {
 }
 
 
-/*************/
-/* Collector */
-/*************/
+/******************************************************************************
+ * Base class and primitives for collectors.
+ */
 
 abstract class Collector {
+    /* Expects an array. Tries to collect it's desired input from it and returns
+     * it as a Value. Throws if desired content can not be found. A missing 
+     * input is not to be considered as a regular error but rather points at 
+     * some problem in the implementation or tampering with the input, thus we 
+     * throw.
+     */
     abstract public function collect($env);
+    /* Check weather Collector collects something. */
+    abstract public function isEmptyCollector();
 }
 
-class ConstCollector extends Collector {
+class MissingInputError extends Exception {
+    private $name; //string
+    public function __construct($name) {
+        $this->name = $name;
+        parent::__construct("Missing input $name.");
+    }
+}
+
+/* A collector that collects nothing and will be dropped by apply collectors. */
+final class EmptyCollector extends Collector {
+    public function collect($env) {
+        die("EmptyCollector::collect: This should never be called.");
+    }
+    public function isEmptyCollector() {
+        return true;
+    }
+}
+
+/* A collector that always returns a constant value. */
+final class ConstCollector extends Collector {
     private $value; // Value
 
     public function __construct(Value $value) {
@@ -365,9 +392,16 @@ class ConstCollector extends Collector {
     public function collect($env) {
         return $this->value;
     }
+
+    public function isEmptyCollector() {
+        return false;
+    }
 }
 
-class ApplyCollector extends Collector {
+/* A collector that applies the input from its left collector to the input
+ * from its right collector.
+ */
+final class ApplyCollector extends Collector {
     private $l;
     private $r;
 
@@ -381,16 +415,14 @@ class ApplyCollector extends Collector {
         $r = $this->r->collect($env);
         return $l->apply($r);
     }
-}
 
-class EmptyCollector extends Collector {
-    public function collect($env) {
-        // hmm, what is needed here??
-        die("EmptyCollector::collect: NYI!");
+    public function isEmptyCollector() {
+        return false;
     }
 }
 
-class StringCollector extends Collector {
+/* A collector that collects a string. */
+final class StringCollector extends Collector {
     private $name; // string
 
     public function __construct($name) {
@@ -399,8 +431,15 @@ class StringCollector extends Collector {
     }
 
     public function collect($env) {
+        if (!array_key_exists($this->name, $env)) {
+            throw new MissingInputError($this->name);
+        }
         guardIsString($env[$this->name]);
         return _plain($env[$this->name]);
+    }
+
+    public function isEmptyCollector() {
+        return false;
     }
 }
 
@@ -577,9 +616,19 @@ class CombinedFormlets extends Formlet {
     public function build(NameSource $name_source) {
         $l = $this->l->build($name_source);
         $r = $this->r->build($l["name_source"]);
+        $l_empty = $l["collector"]->isEmptyCollector();
+        $r_empty = $r["collector"]->isEmptyCollector();
+        if ($l_empty && $r_empty) 
+            $collector = new EmptyCollector();
+        elseif ($r_empty)
+            $collector = $l["collector"];
+        elseif ($l_empty)
+            $collector = $r["collector"];
+        else
+            $collector = new ApplyCollector($l["collector"], $r["collector"]);
         return array
             ( "renderer"    => new CombinedRenderer($l["renderer"], $r["renderer"])
-            , "collector"   => new ApplyCollector($l["collector"], $r["collector"]) 
+            , "collector"   => $collector
             , "name_source" => $r["name_source"]
             );
     }

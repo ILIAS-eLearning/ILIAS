@@ -53,14 +53,14 @@ require_once("formlets.php");
             , TextInputFactory::instantiate(array())
             )); 
 */
-/*$formlet = _pure(_function(1, "intval"))->cmb(_text_input());
+$formlet = _pure(_function(1, "intval"))->cmb(_text_input());
 
 $res = $formlet->build(NameSource::instantiate());
 
 echo $res["renderer"]->render()."\n";
 $val = $res["collector"]->collect(array("input0" => "123"))->get();
-echo $val.(is_int($val)?" is int":" is no int");
-*/
+echo $val.(is_int($val)?" is int\n":" is no int\n");
+
 
 class _Date {
     public function __construct($y, $m, $d) {
