@@ -375,26 +375,29 @@ final class FunctionValue extends Value {
     }
 
     private function rawActualCall() {
-        $args = array();
-        foreach ($this->_args as $value) {
-            if ($value->isApplicable()) {
-                $args[] = $value;
-            }
-            else {
-                $args[] = $value->get();
-            } 
-        }
-
+        $args = $this->evalArgs(); 
         if ($this->_call_object === null) {
-            return call_user_func_array($this->_function_name, $args);
+            return call_user_func_array
+                    ($this->_function_name, $args);
         }
         else {
-            return call_user_func_array( array( $this->_call_object
-                                              , $this->_function_name
-                                              )
-                                       , $args
-                                       );
+            return call_user_func_array
+                    ( array($this->_call_object, $this->_function_name)
+                    , $args);
         }
+    }
+
+    private function evalArgs() {
+        $res = array();
+        foreach ($this->_args as $value) {
+            if ($value->isApplicable()) {
+                $res[] = $value;
+            }
+            else {
+                $res[] = $value->get();
+            } 
+        }
+        return $res;
     }
 
     private function toValue($val) {
