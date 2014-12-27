@@ -590,19 +590,19 @@ final class CheckedCollector extends Collector {
 
 /* A collector that collects a string from input. */
 final class StringCollector extends Collector {
-    private $name; // string
+    private $_name; // string
 
     public function __construct($name) {
         guardIsName($name);
-        $this->name = $name;
+        $this->_name = $name;
     }
 
     public function collect($env) {
-        if (!array_key_exists($this->name, $env)) {
-            throw new MissingInputError($this->name);
+        if (!array_key_exists($this->_name, $env)) {
+            throw new MissingInputError($this->_name);
         }
-        guardIsString($env[$this->name]);
-        return _plain($env[$this->name]);
+        guardIsString($env[$this->_name]);
+        return _plain($env[$this->_name], $this->_name);
     }
 
     public function isNullaryCollector() {
