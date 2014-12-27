@@ -84,6 +84,14 @@ function guardIsValue($arg) {
     }
 }
 
+function guardHasArity(FunctionValue $fun, $arity) {
+    if ($fun->arity() != $arity) {
+        throw new TypeError( "FunctionValue with arity $arity"
+                           , "FunctionValue with arity ".$fun->arity()
+                           );
+    }    
+}
+
 
 /******************************************************************************
  * Fairly simple implementation of a Renderer. Can render strings and supports
@@ -216,10 +224,14 @@ function _plain($value) {
 
 
 final class FunctionValue extends Value {
-    private $arity; // int
-    private $function_name; // string
-    private $call_object; // object
-    private $args; // array
+    private $_arity; // int
+    private $_function_name; // string
+    private $_call_object; // object
+    private $_args; // array
+
+    public function arity() {
+        return $this->_arity;
+    }
 
     /* Create a function value by at least passing it an arity, that is a number
      * of required arguments and a name of a function to be called. Optionaly an
@@ -237,10 +249,10 @@ final class FunctionValue extends Value {
         if ($call_object !== null) 
             guardIsObject($call_object);
 
-        $this->arity = $arity;
-        $this->function_name = $function_name;
-        $this->call_object = $call_object; 
-        $this->args = $args;
+        $this->_arity = $arity;
+        $this->_function_name = $function_name;
+        $this->_call_object = $call_object; 
+        $this->_args = $args;
     }
 
     public function get() {
@@ -248,20 +260,20 @@ final class FunctionValue extends Value {
     } 
 
     public function apply(Value $to) {
-        if ($this->arity > 1) {
+        // EXPERIMENTAL
+        if($to->isError()) {
+            return $to;
+        }
+
+        if ($this->_arity > 1) {
             // The call should also guarantee, that $this->args
             // gets copied, so the function value could be used
             // more than once for a curried call.
-            return $this->deferredCall($this->args, $to->get());
+            return $this->deferredCall($this->_args, $to->get());
         }
         else {
-            // EXPERIMENTAL
-            if($to->isError()) {
-                return $to;
-            }
-
             // See comment at deferredCall above. 
-            $val = $this->actualCall($this->args, $to->get());
+            $val = $this->actualCall($this->_args, $to->get());
             return $this->toValue($val);
         }
     }
@@ -276,9 +288,9 @@ final class FunctionValue extends Value {
 
     private function deferredCall($args, $next_value) {
         $args[] = $next_value;
-        return new FunctionValue( $this->arity - 1
-                                , $this->function_name
-                                , $this->call_object
+        return new FunctionValue( $this->_arity - 1
+                                , $this->_function_name
+                                , $this->_call_object
                                 , $args
                                 );
     }
@@ -286,12 +298,12 @@ final class FunctionValue extends Value {
     private function actualCall($args, $last_value) {
         $args[] = $last_value;
 
-        if ($this->call_object === null) {
-            return call_user_func_array($this->function_name, $args);
+        if ($this->_call_object === null) {
+            return call_user_func_array($this->_function_name, $args);
         }
         else {
-            return call_user_func_array( array( $this->call_object
-                                              , $this->function_name
+            return call_user_func_array( array( $this->_call_object
+                                              , $this->_function_name
                                               )
                                        , $args
                                        );
@@ -311,18 +323,20 @@ final class FunctionValue extends Value {
 /* Construct a function value from an arity and the name of an ordinary
  * function. Arity is the number of arguments of the function.
  */
-function _function($arity, $function_name, $call_object = null) {
-    return new FunctionValue($arity, $function_name, $call_object);
+function _function($arity, $function_name, $call_object = null, $args = null) {
+    return new FunctionValue($arity, $function_name, $call_object, $args);
 }
 
 // EXPERIMENTAL
 final class ErrorValue extends Value {
-    private $others; // array(ErrorValue)
-    private $reason; // string
+    private $_reason; // string
+
+    public function reason() {
+        return $this->_reason;
+    }
 
     public function __construct($reason) {
-        $this->others = array();
-        $this->reason = $reason;
+        $this->_reason = $reason;
     }
 
     public function get() {
@@ -330,10 +344,6 @@ final class ErrorValue extends Value {
     } 
 
     public function apply(Value $to) {
-        if ($to->isError()) {
-            $this->others[] = $to;
-        }
-
         return $this;
     }
 
@@ -344,6 +354,10 @@ final class ErrorValue extends Value {
     public function isError() {
         return true;
     }
+}
+
+function _error($reason) {
+    return new ErrorValue($reason);
 }
 
 
@@ -414,6 +428,43 @@ final class ApplyCollector extends Collector {
         $l = $this->l->collect($env);
         $r = $this->r->collect($env);
         return $l->apply($r);
+    }
+
+    public function isNullaryCollector() {
+        return false;
+    }
+}
+
+/* A collector that does a predicate check on the input from another
+ * collector and return an error if the predicate fails.
+ */
+final class CheckedCollector extends Collector {
+    private $_collector; // Collector
+    private $_predicate; // FunctionValue
+    private $_error; // string
+
+    public function __construct(Collector $collector, FunctionValue $predicate, $error) {
+        guardIsString($error);
+        guardHasArity($predicate, 1);
+        $this->_collector = $collector;
+        $this->_predicate = $predicate;
+        $this->_error = $error;
+    }
+
+    public function collect($env) {
+        $res = $this->_collector->collect($env);
+        if ($res->isError()) {
+            return $res;
+        }
+
+        // TODO: Maybe check for PlainValue on result before
+        // doing this?
+        if ($this->_predicate->apply($res)->get()) {
+            return $res;
+        }
+        else {
+            return _error($this->_error);
+        }
     }
 
     public function isNullaryCollector() {
@@ -517,9 +568,17 @@ abstract class FormletFactory {
 
 abstract class Formlet {
     public abstract function build(NameSource $name_source);
-
-    public function cmb(Formlet $other) {
+    
+    /* Combine this formlet with another formlet. Yields a new formlet. */
+    final public function cmb(Formlet $other) {
         return new CombinedFormlets($this, $other);
+    }
+
+    /* Get a new formlet with an additional check of a predicate on the input
+     * to the formlet and an error message for the case the predicate fails.
+     */
+    final public function satisfies(FunctionValue $predicate, $error) {
+        return new CheckedFormlet($this, $predicate, $error);
     }
 }
 
@@ -528,9 +587,15 @@ abstract class Formlet {
 /* Tests on implementations */
 /****************************/
 
+function alwaysTrue($val) {
+    return true;
+}
+
 function verboseCheck_isFormlet($name, $args) {
     $name .= "Factory";
     $formlet = $name::instantiate($args);
+    //$formlet_pred = $formlet
+    //    ->satisfies(_function(1, alwaysTrue), "This is impossible");
     $res = $formlet->build(NameSource::unsafeInstantiate());
     $renderer_res = $res["renderer"]->render();
     return array
@@ -644,6 +709,49 @@ if ($TEST_MODE) {
     echo "\n";
 }
 
+/******************/
+/* CheckedFormlet */
+/******************/
+
+class CheckedFormletFactory extends FormletFactory {
+    public static function instantiate($args) {
+        return new CheckedFormlet($args[0], $args[1], $args[2]);
+    } 
+}
+
+class CheckedFormlet extends Formlet {
+    private $_formlet; // Formlet
+    private $_predicate; // Predicate
+    private $_error; // string
+    
+    public function __construct(Formlet $formlet, FunctionValue $predicate, $error) {
+        guardIsString($error); 
+        guardHasArity($predicate, 1);
+        $this->_formlet = $formlet;
+        $this->_predicate = $predicate;
+        $this->_error = $error;
+    }
+
+    public function build(NameSource $name_source) {
+        $fmlt = $this->_formlet->build($name_source);
+        return array( "renderer"    => $fmlt["renderer"]
+                    , "collector"   => new CheckedCollector( $fmlt["collector"]
+                                                           , $this->_predicate
+                                                           , $this->_error
+                                                           )
+                    , "name_source" => $fmlt["name_source"]
+                    );
+    }
+}
+
+if ($TEST_MODE) {
+    print_check_isFormlet("CheckedFormlet", array
+                            ( _pure(_plain(3))
+                            , _function(1, "alwaysTrue")
+                            , "ERROR"
+                            ));
+    echo "\n";
+}
 
 /*****************/
 /* StaticFormlet */
