@@ -421,7 +421,7 @@ final class ApplyCollector extends Collector {
     }
 }
 
-/* A collector that collects a string. */
+/* A collector that collects a string from input. */
 final class StringCollector extends Collector {
     private $name; // string
 
@@ -466,9 +466,13 @@ function defaultTo($arg, $default) {
     return $arg;
 }
 
-/**************/
-/* NameSource */
-/**************/
+/******************************************************************************
+ * The NameSource is used to create unique names for every input. This is 
+ * needed for composability of the Formlets without the need to worry about
+ * names.
+ * It should only be instantiated once per process. Unsafe should only be used
+ * for testing or debugging.
+ */
 
 final class NameSource {
     private $i;
