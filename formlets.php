@@ -1,7 +1,7 @@
 <?php
 
 /******************************************************************************
- * Copyright (c) 2014 Richard Klees
+ * Copyright (c) 2014 Richard Klees <richard.klees@rwth-aachen.de>
  *
  * This is an attempt to a PHP implementation of the idea of formlets [1].
  * General idea is to have an abstract and composable representation of forms, 
@@ -360,7 +360,7 @@ abstract class Collector {
      */
     abstract public function collect($env);
     /* Check weather Collector collects something. */
-    abstract public function isEmptyCollector();
+    abstract public function isNullaryCollector();
 }
 
 class MissingInputError extends Exception {
@@ -372,11 +372,11 @@ class MissingInputError extends Exception {
 }
 
 /* A collector that collects nothing and will be dropped by apply collectors. */
-final class EmptyCollector extends Collector {
+final class NullaryCollector extends Collector {
     public function collect($env) {
-        die("EmptyCollector::collect: This should never be called.");
+        die("NullaryCollector::collect: This should never be called.");
     }
-    public function isEmptyCollector() {
+    public function isNullaryCollector() {
         return true;
     }
 }
@@ -393,7 +393,7 @@ final class ConstCollector extends Collector {
         return $this->value;
     }
 
-    public function isEmptyCollector() {
+    public function isNullaryCollector() {
         return false;
     }
 }
@@ -416,7 +416,7 @@ final class ApplyCollector extends Collector {
         return $l->apply($r);
     }
 
-    public function isEmptyCollector() {
+    public function isNullaryCollector() {
         return false;
     }
 }
@@ -438,7 +438,7 @@ final class StringCollector extends Collector {
         return _plain($env[$this->name]);
     }
 
-    public function isEmptyCollector() {
+    public function isNullaryCollector() {
         return false;
     }
 }
@@ -620,10 +620,10 @@ class CombinedFormlets extends Formlet {
     public function build(NameSource $name_source) {
         $l = $this->l->build($name_source);
         $r = $this->r->build($l["name_source"]);
-        $l_empty = $l["collector"]->isEmptyCollector();
-        $r_empty = $r["collector"]->isEmptyCollector();
+        $l_empty = $l["collector"]->isNullaryCollector();
+        $r_empty = $r["collector"]->isNullaryCollector();
         if ($l_empty && $r_empty) 
-            $collector = new EmptyCollector();
+            $collector = new NullaryCollector();
         elseif ($r_empty)
             $collector = $l["collector"];
         elseif ($l_empty)
@@ -666,7 +666,7 @@ class StaticFormlet extends Formlet {
     public function build(NameSource $name_source) {
         return array
             ( "renderer"    => new ConstRenderer($this->content)
-            , "collector"   => new EmptyCollector()
+            , "collector"   => new NullaryCollector()
             , "name_source" => $name_source
             );
     }
