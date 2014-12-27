@@ -37,7 +37,7 @@ class TypeError extends Exception {
         $this->expected = $expected;
         $this->found = $found;
 
-        parent::__construct("Expected $expected, found $found...");
+        parent::__construct("Expected $expected, found $found.");
     }
 }
 
@@ -652,6 +652,39 @@ final class CheckedCollector extends Collector {
     }
 }
 
+/* A collector where the input is mapped by a function */
+final class MappedCollector extends Collector {
+    private $_collector; // Collector
+    private $_function; // FunctionValue
+    
+    public function __construct(Collector $collector, FunctionValue $function) {
+        guardHasArity($function, 1);
+        if ($collector->isNullaryCollector()) {
+            throw new TypeError("non nullary collector", typeName($collector));
+        }
+        $this->_collector = $collector;
+        $this->_function = $function;
+    }
+
+    public function collect($env) {
+        $res = $this->_collector->collect($env);
+        if ($res->isError()) {
+            return $res;
+        }
+
+        $res2 = $this->_function->apply($res);
+        if (!$res2->isError() && !$res2->isApplicable()) {
+            // rewrap ordinary values to keep origin.
+            $res2 = _plain($res2->get(), $res->origin());
+        }
+        return $res2;
+    }
+
+    public function isNullaryCollector() {
+        return false;
+    }
+}
+
 /* A collector that collects a string from input. */
 final class StringCollector extends Collector {
     private $_name; // string
@@ -759,6 +792,11 @@ abstract class Formlet {
      */
     final public function satisfies(FunctionValue $predicate, $error) {
         return new CheckedFormlet($this, $predicate, $error);
+    }
+
+    /* Map a function over the input. */
+    final public function mapCollector(FunctionValue $transformation) {
+        return new MappedCollectorFormlet($this, $transformation);
     }
 }
 
@@ -932,6 +970,47 @@ if ($TEST_MODE) {
                             ));
     echo "\n";
 }
+
+/**********************/
+/* MappedCollectorFormlet */
+/**********************/
+
+class MappedCollectorFormletFactory extends FormletFactory {
+    public static function instantiate($args) {
+        return new MappedCollectorFormlet($args[0], $args[1]);
+    } 
+}
+
+class MappedCollectorFormlet extends Formlet {
+    private $_formlet; // Formlet
+    private $_transformation; // Predicate
+    
+    public function __construct(Formlet $formlet, FunctionValue $transformation) {
+        guardHasArity($transformation, 1);
+        $this->_formlet = $formlet;
+        $this->_transformation = $transformation;
+    }
+
+    public function build(NameSource $name_source) {
+        $fmlt = $this->_formlet->build($name_source);
+        return array( "renderer"    => $fmlt["renderer"]
+                    , "collector"   => new MappedCollector( $fmlt["collector"]
+                                                          , $this->_transformation
+                                                          )
+                    , "name_source" => $fmlt["name_source"]
+                    );
+    }
+}
+
+if ($TEST_MODE) {
+    print_check_isFormlet("MappedCollectorFormlet", array
+                            ( _pure(_plain("3"))
+                            , _function(1, "intval")
+                            ));
+    echo "\n";
+}
+
+
 
 /*****************/
 /* StaticFormlet */

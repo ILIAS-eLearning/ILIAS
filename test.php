@@ -133,8 +133,8 @@ print_r($res);
 print_r($res->get());
 */
 
-$int_formlet = _pure(_function(1, "intval"))
-                ->cmb(_text_input());
+$int_formlet = _text_input()
+                ->mapCollector(_function(1, "intval"));
 
 $month_formlet = $int_formlet
     ->satisfies(_inRange(1,12), "Month must have value between 1 and 12.")
@@ -166,11 +166,12 @@ $val2 = $res["collector"]->collect(array
 echo "val2 ".($val2->isError()?"is error\n":"is no error\n");
 if ($val2->isError()) echo "Reason is '".$val2->error()."'\n";
 
+
+echo "----------------------\n";
+print_r($val2);
 echo "----------------------\n";
 print_r(toOriginDicts::computeFrom($val2));
 echo "----------------------\n";
-
-//print_r($val2);
 
 $val3 = $res["collector"]->collect(array
                             ( "input0" => "2014"
