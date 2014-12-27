@@ -170,7 +170,7 @@ if ($val2->isError()) echo "Reason is '".$val2->error()."'\n";
 echo "----------------------\n";
 print_r($val2);
 echo "----------------------\n";
-print_r(toOriginDicts::computeFrom($val2));
+print_r(renderDictionaries::computeFrom($val2));
 echo "----------------------\n";
 
 $val3 = $res["collector"]->collect(array

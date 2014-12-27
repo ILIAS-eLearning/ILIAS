@@ -94,70 +94,6 @@ function guardHasArity(FunctionValue $fun, $arity) {
 
 
 /******************************************************************************
- * Fairly simple implementation of a Renderer. Can render strings and supports
- * combining of renderers. A more sophisticated version could be build upon
- * HTML primitives.
- */
-
-abstract class Renderer {
-    /* Returns a string. */
-    abstract public function render();
-}
-
-/* Renderer that combines two sub renderers by adding the output of the 
- * renderers.
- */
-class CombinedRenderer extends Renderer {
-    private $l; // Renderer
-    private $r; // Renderer
-
-    public function __construct(Renderer $left, Renderer $right) {
-        $this->l = $left;
-        $this->r = $right;
-    }
-
-    public function render() {
-        return $this->l->render().$this->r->render();
-    }
-}
-
-/* A renderer that produces a constant output. */
-class ConstRenderer extends Renderer {
-    private $content; // string
-
-    public function __construct($content) {
-        guardIsString($content);
-        $this->content = $content;
-    }
-
-    public function render() {
-        return $this->content;
-    }
-}
-
-/* A renderer that calls 'render' from another object to produce its output. */
-class CallbackRenderer extends Renderer {
-    private $call_object; // callable
-    private $args; // mixed
-
-    /* Construct with object to call and an array of arguments to be passed
-     * to said óbjects render method.
-     */
-    public function __construct($call_object, $args) {
-        guardIsObject($call_object);
-        $this->call_object = $call_object;
-        $this->args = $args;
-    }
-
-    public function render() {
-        $res = $this->call_object->render($this->args);
-        guardIsString($res);
-        return $res; 
-    }
-}
-
-
-/******************************************************************************
  * Values work around the problem, that functions could not be used as ordinary
  * values easily in PHP.
  *
@@ -554,6 +490,70 @@ class renderDictionaries {
         if ($origin !== null) {
             $values[$origin] = $value->get();
         }
+    }
+}
+
+
+/******************************************************************************
+ * Fairly simple implementation of a Renderer. Can render strings and supports
+ * combining of renderers. A more sophisticated version could be build upon
+ * HTML primitives.
+ */
+
+abstract class Renderer {
+    /* Returns a string. */
+    abstract public function render();
+}
+
+/* Renderer that combines two sub renderers by adding the output of the 
+ * renderers.
+ */
+class CombinedRenderer extends Renderer {
+    private $l; // Renderer
+    private $r; // Renderer
+
+    public function __construct(Renderer $left, Renderer $right) {
+        $this->l = $left;
+        $this->r = $right;
+    }
+
+    public function render() {
+        return $this->l->render().$this->r->render();
+    }
+}
+
+/* A renderer that produces a constant output. */
+class ConstRenderer extends Renderer {
+    private $content; // string
+
+    public function __construct($content) {
+        guardIsString($content);
+        $this->content = $content;
+    }
+
+    public function render() {
+        return $this->content;
+    }
+}
+
+/* A renderer that calls 'render' from another object to produce its output. */
+class CallbackRenderer extends Renderer {
+    private $call_object; // callable
+    private $args; // mixed
+
+    /* Construct with object to call and an array of arguments to be passed
+     * to said óbjects render method.
+     */
+    public function __construct($call_object, $args) {
+        guardIsObject($call_object);
+        $this->call_object = $call_object;
+        $this->args = $args;
+    }
+
+    public function render() {
+        $res = $this->call_object->render($this->args);
+        guardIsString($res);
+        return $res; 
     }
 }
 
