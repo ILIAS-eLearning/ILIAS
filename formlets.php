@@ -174,11 +174,13 @@ abstract class Value {
      * Throws ApplyError when value represents a plain value.
      */
     abstract public function apply(Value $to);
+
     /* Check weather value could be applied to another value. */
     abstract public function isApplicable();
 
     /* EXPERIMENTAL */
     abstract public function isError();
+    abstract public function error();
 }
 
 class ApplyError extends Exception {
@@ -215,6 +217,10 @@ final class PlainValue extends Value {
     public function isError() {
         return false;
     }
+
+    public function error() {
+        throw new Exception("Implementation problem.");
+    }
 }
 
 /* Construct a plain value from a PHP value. */
@@ -229,6 +235,7 @@ final class FunctionValue extends Value {
     private $_call_object; // object
     private $_args; // array
     private $_reifyExceptions; // array
+    private $_result; // maybe Value 
 
     public function arity() {
         return $this->_arity;
@@ -261,27 +268,43 @@ final class FunctionValue extends Value {
         $this->_reify_exceptions = $reify_exceptions;
     }
 
+    private function result() {
+        if ($this->_arity !== 0) {
+            throw new Exception("Problem with implementation.");
+        }
+
+        if ($this->_result === null) {
+            $res = $this->actualCall();
+            $this->_result = $this->toValue($res); 
+        }
+        return $this->_result; 
+    }
+
+    public function isSatisfied() {
+        return $this->_arity === 0;
+    }
+
     public function get() {
+        if ($this->isSatisfied()) {
+            return $this->result()->get();
+        }
         throw new GetError("FunctionValue");
     } 
 
     public function apply(Value $to) {
+        if ($this->isSatisfied()) {
+            return $this->result()->apply($to);
+        }
+
         // EXPERIMENTAL
         if($to->isError()) {
             return $to;
         }
 
-        if ($this->_arity > 1) {
-            // The call should also guarantee, that $this->args
-            // gets copied, so the function value could be used
-            // more than once for a curried call.
-            return $this->deferredCall($this->_args, $to->get());
-        }
-        else {
-            // See comment at deferredCall above. 
-            $val = $this->actualCall($this->_args, $to->get());
-            return $this->toValue($val);
-        }
+        // The call should also guarantee, that $this->args
+        // gets copied, so the function value could be used
+        // more than once for a curried call.
+        return $this->deferredCall($this->_args, $to->get());
     }
 
     /* Define a subclass of Exception to be caught and returned
@@ -301,11 +324,26 @@ final class FunctionValue extends Value {
     }
     
     public function isApplicable() {
+        if ($this->isSatisfied()) {
+            return $this->result()->isApplicable();
+        }
+
         return true;
     }
 
     public function isError() {
+        if ($this->isSatisfied()) {
+            return $this->result()->isError();
+        }
+
         return false;
+    }
+
+    public function error() {
+        if ($this->isSatisfied()) {
+            return $this->result()->error();
+        }
+        throw new Exception("Implementation error.");
     }
 
     private function deferredCall($args, $next_value) {
@@ -318,9 +356,9 @@ final class FunctionValue extends Value {
                                 );
     }
 
-    private function actualCall($args, $last_value) {
+    private function actualCall() {
         try {
-            return $this->rawActualCall($args, $last_value);
+            return $this->rawActualCall();
         }
         catch(Exception $e) {
             foreach ($this->_reify_exceptions as $exc_class) {
@@ -332,17 +370,15 @@ final class FunctionValue extends Value {
         }
     }
 
-    private function rawActualCall($args, $last_value) {
-        $args[] = $last_value;
-
+    private function rawActualCall() {
         if ($this->_call_object === null) {
-            return call_user_func_array($this->_function_name, $args);
+            return call_user_func_array($this->_function_name, $this->_args);
         }
         else {
             return call_user_func_array( array( $this->_call_object
                                               , $this->_function_name
                                               )
-                                       , $args
+                                       , $this->_args
                                        );
         }
     }
@@ -375,7 +411,7 @@ function _method($arity, $object, $function_name, $args = null) {
 final class ErrorValue extends Value {
     private $_reason; // string
 
-    public function reason() {
+    public function error() {
         return $this->_reason;
     }
 
