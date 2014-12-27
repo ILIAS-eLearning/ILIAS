@@ -254,6 +254,10 @@ final class FunctionValue extends Value {
         return $this->_arity;
     }
 
+    public function args() {
+        return $this->_args;
+    }
+
     /* Create a function value by at least passing it an arity, that is a number
      * of required arguments and a name of a function to be called. Optionaly an
      * object could be passed, then function_name refers to a method of that 
@@ -287,7 +291,7 @@ final class FunctionValue extends Value {
         parent::__construct(null);
     }
 
-    private function result() {
+    public function result() {
         if ($this->_arity !== 0) {
             throw new Exception("Problem with implementation.");
         }
