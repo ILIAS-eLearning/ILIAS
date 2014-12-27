@@ -154,9 +154,8 @@ $val = $res["collector"]->collect(array
                             ( "input0" => "2014"
                             , "input1" => "12"
                             , "input2" => "24"
-                            ))
-                        ->get();
-echo $val->toISO()."\n";
+                            ));
+echo $val->get()->toISO()."\n";
 
 $val2 = $res["collector"]->collect(array
                             ( "input0" => "2014"
@@ -166,6 +165,8 @@ $val2 = $res["collector"]->collect(array
 
 echo "val2 ".($val2->isError()?"is error\n":"is no error\n");
 if ($val2->isError()) echo "Reason is '".$val2->error()."'\n";
+
+print_r(toOriginDicts::computeFrom($val2));
 
 //print_r($val2);
 

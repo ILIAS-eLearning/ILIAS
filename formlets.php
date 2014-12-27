@@ -452,6 +452,10 @@ final class ErrorValue extends Value {
         return $this->_reason;
     }
 
+    public function originalValue() {
+        return $this->_original_value;
+    }
+
     public function __construct($reason, Value $original_value) {
         $this->_reason = $reason;
         $this->_original_value = $original_value;
@@ -478,6 +482,55 @@ final class ErrorValue extends Value {
 
 function _error($reason, Value $original_value) {
     return new ErrorValue($reason, $original_value);
+}
+
+/* Turn a value to two dictionaries:
+ *  - one contains the origins and the original values
+ *  - one contains the origins and the errors on those values.
+ */
+class toOriginDicts {
+    static public function computeFrom(Value $value) {
+        $values = array();
+        $errors = array();
+        self::dispatchValue($value, $values, $errors);
+        return array($values, $errors);
+    }
+
+    public static function dispatchValue($value, &$values, &$errors) {
+        if ($value instanceof ErrorValue) {
+            self::handleError($value, $values, $errors); 
+        } 
+        elseif ($value instanceof FunctionValue) {
+            self::handleFunction($value, $values, $errors);
+        }
+        else {
+            self::handleValue($value, $values, $errors); 
+        }
+    }
+
+    public static function handleError($value, &$values, &$errors) {
+        $origin = $value->origin();
+        if ($origin !== null) {
+            if (!array_key_exists($origin, $errors)) {
+                $errors[$origin] = array();
+            }
+            $errors[$origin][] = $value->error();
+        }
+        self::dispatchValue($value->originalValue(), $values, $errors);
+    }
+
+    public static function handleFunction($value, &$values, &$errors) {
+        foreach($value->args() as $value) {
+            self::dispatchValue($value, $values, $errors);
+        }
+    }
+
+    public static function handleValue($value, &$values, &$errors) {
+        $origin = $value->origin();
+        if ($origin !== null) {
+            $values[$origin] = $value->get();
+        }
+    }
 }
 
 
