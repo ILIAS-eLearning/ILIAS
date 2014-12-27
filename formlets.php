@@ -367,7 +367,7 @@ final class FunctionValue extends Value {
         catch(Exception $e) {
             foreach ($this->_reify_exceptions as $exc_class) {
                 if ($e instanceof $exc_class) {
-                    return new ErrorValue($e->getMessage());
+                    return _error($e->getMessage(), $this);
                 }
             }
             throw $e;
@@ -424,13 +424,15 @@ function _method($arity, $object, $function_name, $args = null) {
 // EXPERIMENTAL
 final class ErrorValue extends Value {
     private $_reason; // string
+    private $_original_value; // Value
 
     public function error() {
         return $this->_reason;
     }
 
-    public function __construct($reason) {
+    public function __construct($reason, Value $original_value) {
         $this->_reason = $reason;
+        $this->_original_value = $original_value;
     }
 
     public function get() {
@@ -450,8 +452,8 @@ final class ErrorValue extends Value {
     }
 }
 
-function _error($reason) {
-    return new ErrorValue($reason);
+function _error($reason, Value $original_value) {
+    return new ErrorValue($reason, $original_value);
 }
 
 
@@ -557,7 +559,7 @@ final class CheckedCollector extends Collector {
             return $res;
         }
         else {
-            return _error($this->_error);
+            return _error($this->_error, $res);
         }
     }
 
