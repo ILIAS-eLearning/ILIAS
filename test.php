@@ -166,7 +166,9 @@ $val2 = $res["collector"]->collect(array
 echo "val2 ".($val2->isError()?"is error\n":"is no error\n");
 if ($val2->isError()) echo "Reason is '".$val2->error()."'\n";
 
+echo "----------------------\n";
 print_r(toOriginDicts::computeFrom($val2));
+echo "----------------------\n";
 
 //print_r($val2);
 

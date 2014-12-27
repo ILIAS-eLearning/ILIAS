@@ -319,11 +319,6 @@ final class FunctionValue extends Value {
             return $this->result()->apply($to);
         }
 
-        // EXPERIMENTAL
-        if($to->isError()) {
-            return $to;
-        }
-
         // The call should also guarantee, that $this->args
         // gets copied, so the function value could be used
         // more than once for a curried call.
@@ -394,7 +389,14 @@ final class FunctionValue extends Value {
     }
 
     private function rawActualCall() {
-        $args = $this->evalArgs(); 
+        $res = $this->evalArgs(); 
+        $args = $res[0];
+        $error = $res[1];
+
+        if ($error) {
+            return _error("Function arguments contain errors.", $this);
+        }
+
         if ($this->_call_object === null) {
             return call_user_func_array
                     ($this->_function_name, $args);
@@ -408,7 +410,12 @@ final class FunctionValue extends Value {
 
     private function evalArgs() {
         $res = array();
+        $error = false;
         foreach ($this->_args as $value) {
+            if ($value->isError()) {
+                $error = true;
+                $res[] = $value;
+            }
             if ($value->isApplicable()) {
                 $res[] = $value;
             }
@@ -416,7 +423,7 @@ final class FunctionValue extends Value {
                 $res[] = $value->get();
             } 
         }
-        return $res;
+        return array($res, $error);
     }
 
     private function toValue($val) {
