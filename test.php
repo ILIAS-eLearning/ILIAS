@@ -44,6 +44,23 @@ function bar($arr) {
 print_r($foo);
 */
 
+/*class FooError extends Exception {};
+
+$error = "FooError";
+
+try {
+    throw new FooError("foobar");
+}
+catch(Exception $e) {
+    if ($e instanceof $error) {
+        echo "CAUGHT";
+    }
+    else {
+        throw $e;
+    }
+}
+*/
+
 $TEST_MODE = false;
 
 require_once("formlets.php");
@@ -72,6 +89,14 @@ class _Date {
         guardIsInt($y);
         guardIsInt($m);
         guardIsInt($d);
+
+        if ($m === 2 && $d > 29) {
+            throw new Exception("Month is 2 but day is $d.");
+        }
+        if (in_array($m, array(4,6,9,11)) && $d > 30) {
+            throw new Exception("Month is $m but day is $d.");
+        }
+
         $this->y = $y;
         $this->m = $m;
         $this->d = $d;
@@ -84,6 +109,12 @@ class _Date {
 
 function mkDate($y, $m, $d) {
     return new _Date($y, $m, $d);
+}
+
+function _mkDate() {
+    return _function(3, "mkDate")
+            ->catchAndReify("Exception")
+            ;
 }
 
 function inRange($l, $r, $value) {
@@ -113,7 +144,7 @@ $day_formlet = $int_formlet
     ->satisfies(_inRange(1,31), "Day must have value between 1 and 31.")
     ;
 
-$formlet = _pure(_function(3, "mkDate"))
+$formlet = _pure(_mkDate())
                 ->cmb($int_formlet)
                 ->cmb($month_formlet)
                 ->cmb($day_formlet);
@@ -134,7 +165,18 @@ $val2 = $res["collector"]->collect(array
                             ));
 
 echo "val2 ".($val2->isError()?"is error\n":"is no error\n");
-if ($val2->isError()) echo "Reason is '".$val2->reason()."'";
+if ($val2->isError()) echo "Reason is '".$val2->reason()."'\n";
+
+$val3 = $res["collector"]->collect(array
+                            ( "input0" => "2014"
+                            , "input1" => "11"
+                            , "input2" => "31"
+                            ));
+
+echo "val3 ".($val3->isError()?"is error\n":"is no error\n");
+if ($val3->isError()) echo "Reason is '".$val3->reason()."'\n";
+
+
 
 /*function guardInRange($l,$r,$value) {
     if ($value < $l || $value > $r) {

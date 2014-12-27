@@ -228,6 +228,7 @@ final class FunctionValue extends Value {
     private $_function_name; // string
     private $_call_object; // object
     private $_args; // array
+    private $_reifyExceptions; // array
 
     public function arity() {
         return $this->_arity;
@@ -239,20 +240,25 @@ final class FunctionValue extends Value {
      * object. One could also optionally pass an array of arguments for the first
      * arguments of the function to call. This is also used in construction of
      * new function values after apply.
+     * When finally calling the wrapped function, Exceptions given as 
+     * reify_exceptions will be caught and turned into an ErrorValue as return.
      */
-    public function __construct($arity, $function_name, $call_object = null, $args = null) {
+    public function __construct($arity, $function_name, $call_object = null, $args = null, $reify_exceptions = null) {
         $args = defaultTo($args, array());
+        $reify_exceptions = defaultTo($reify_exceptions, array());
 
         guardIsInt($arity);
         guardIsString($function_name);
-        guardIsArray($args);
         if ($call_object !== null) 
             guardIsObject($call_object);
+        guardIsArray($args);
+        guardIsArray($reify_exceptions);
 
         $this->_arity = $arity;
         $this->_function_name = $function_name;
         $this->_call_object = $call_object; 
         $this->_args = $args;
+        $this->_reify_exceptions = $reify_exceptions;
     }
 
     public function get() {
@@ -277,6 +283,22 @@ final class FunctionValue extends Value {
             return $this->toValue($val);
         }
     }
+
+    /* Define a subclass of Exception to be caught and returned
+     * as an ErrorValue instead of being thrown to the outside
+     * of apply.
+     */
+    public function catchAndReify($exc_class) {
+        guardIsString($exc_class);
+        $re = $this->_reify_exceptions;
+        $re[] = $exc_class;
+        return new FunctionValue( $this->_arity
+                                , $this->_function_name
+                                , $this->_call_object
+                                , $this->_args
+                                , $re
+                                );
+    }
     
     public function isApplicable() {
         return true;
@@ -292,10 +314,25 @@ final class FunctionValue extends Value {
                                 , $this->_function_name
                                 , $this->_call_object
                                 , $args
+                                , $this->_reify_exceptions
                                 );
     }
 
     private function actualCall($args, $last_value) {
+        try {
+            return $this->rawActualCall($args, $last_value);
+        }
+        catch(Exception $e) {
+            foreach ($this->_reify_exceptions as $exc_class) {
+                if ($e instanceof $exc_class) {
+                    return new ErrorValue($e->getMessage());
+                }
+            }
+            throw $e;
+        }
+    }
+
+    private function rawActualCall($args, $last_value) {
         $args[] = $last_value;
 
         if ($this->_call_object === null) {
@@ -332,6 +369,7 @@ function _function($arity, $function_name, $args = null) {
 function _method($arity, $object, $function_name, $args = null) {
     return new FunctionValue($arity, $function_name, $object, $args);
 }
+
 
 // EXPERIMENTAL
 final class ErrorValue extends Value {
