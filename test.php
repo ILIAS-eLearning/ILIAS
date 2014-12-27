@@ -91,7 +91,7 @@ function inRange($l, $r, $value) {
 }
 
 function _inRange($l, $r) {
-    return _function(1, "inRange", null, array($l, $r));
+    return _function(1, "inRange", array($l, $r));
 }
 
 /*echo inRange(1,31,24)?"TRUE\n":"FALSE\n";

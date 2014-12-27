@@ -321,10 +321,16 @@ final class FunctionValue extends Value {
 }
 
 /* Construct a function value from an arity and the name of an ordinary
- * function. Arity is the number of arguments of the function.
+ * function. Arity is the number of arguments of the function. An array
+ * of arguments to be inserted in the first arguments of the function
+ * could be passed 
  */
-function _function($arity, $function_name, $call_object = null, $args = null) {
-    return new FunctionValue($arity, $function_name, $call_object, $args);
+function _function($arity, $function_name, $args = null) {
+    return new FunctionValue($arity, $function_name, null, $args);
+}
+
+function _method($arity, $object, $function_name, $args = null) {
+    return new FunctionValue($arity, $function_name, $object, $args);
 }
 
 // EXPERIMENTAL
