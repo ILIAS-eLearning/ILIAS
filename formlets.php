@@ -166,6 +166,18 @@ class CallbackRenderer extends Renderer {
  */
 
 abstract class Value {
+    private $_origin; // string
+
+    public function __construct($origin) {
+        if ($origin !== null)
+            guardIsString($origin);
+        $this->_origin = $origin;
+    }
+
+    public function origin() {
+        return $this->_origin;
+    }
+
     /* Get the value in the underlying PHP-representation. 
      * Throws GetError when value represents a function.
      */
@@ -198,8 +210,9 @@ class GetError extends Exception {
 final class PlainValue extends Value {
     private $value; //mixed
 
-    public function __construct($value) {
+    public function __construct($value, $origin = null) {
         $this->value = $value;
+        parent::__construct($origin);
     }
 
     public function get() {
@@ -224,8 +237,8 @@ final class PlainValue extends Value {
 }
 
 /* Construct a plain value from a PHP value. */
-function _plain($value) {
-    return new PlainValue($value);
+function _plain($value, $origin = null) {
+    return new PlainValue($value, $origin);
 }
 
 
@@ -270,6 +283,8 @@ final class FunctionValue extends Value {
         $this->_call_object = $call_object; 
         $this->_args = $args;
         $this->_reify_exceptions = $reify_exceptions;
+        
+        parent::__construct(null);
     }
 
     private function result() {
@@ -436,6 +451,8 @@ final class ErrorValue extends Value {
     public function __construct($reason, Value $original_value) {
         $this->_reason = $reason;
         $this->_original_value = $original_value;
+        // ToDo: don't know wether this is clever.
+        parent::__construct($original_value->origin());
     }
 
     public function get() {
