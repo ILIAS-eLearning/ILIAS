@@ -495,15 +495,32 @@ function _error($reason, Value $original_value) {
  *  - one contains the origins and the original values
  *  - one contains the origins and the errors on those values.
  */
-class toOriginDicts {
-    static public function computeFrom(Value $value) {
+class renderDictionaries {
+    private $_values; // array
+    private $_errors; // array
+
+    public function value($name) {
+        return $this->_values[$name];
+    }
+
+    public function errors($name) {
+        return $this->_errors[$name];
+    }
+
+    public function __construct(Value $value) {
+        $res = self::computeFrom($value);
+        $this->_values = $res[0]; 
+        $this->_errors = $res[1]; 
+    }
+
+    public static function computeFrom(Value $value) {
         $values = array();
         $errors = array();
         self::dispatchValue($value, $values, $errors);
         return array($values, $errors);
     }
 
-    public static function dispatchValue($value, &$values, &$errors) {
+    protected static function dispatchValue($value, &$values, &$errors) {
         if ($value instanceof ErrorValue) {
             self::handleError($value, $values, $errors); 
         } 
@@ -515,7 +532,7 @@ class toOriginDicts {
         }
     }
 
-    public static function handleError($value, &$values, &$errors) {
+    protected static function handleError($value, &$values, &$errors) {
         $origin = $value->origin();
         if ($origin !== null) {
             if (!array_key_exists($origin, $errors)) {
@@ -526,13 +543,13 @@ class toOriginDicts {
         self::dispatchValue($value->originalValue(), $values, $errors);
     }
 
-    public static function handleFunction($value, &$values, &$errors) {
+    protected static function handleFunction($value, &$values, &$errors) {
         foreach($value->args() as $value) {
             self::dispatchValue($value, $values, $errors);
         }
     }
 
-    public static function handleValue($value, &$values, &$errors) {
+    protected static function handleValue($value, &$values, &$errors) {
         $origin = $value->origin();
         if ($origin !== null) {
             $values[$origin] = $value->get();
