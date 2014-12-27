@@ -431,7 +431,7 @@ function _error($reason, Value $original_value) {
  *  - one contains the origins and the original values
  *  - one contains the origins and the errors on those values.
  */
-class renderDictionaries {
+class RenderDictionaries {
     private $_values; // array
     private $_errors; // array
 
@@ -502,7 +502,7 @@ class renderDictionaries {
 
 abstract class Renderer {
     /* Returns a string. */
-    abstract public function render();
+    abstract public function render(RenderDictionaries $dicts);
 }
 
 /* Renderer that combines two sub renderers by adding the output of the 
