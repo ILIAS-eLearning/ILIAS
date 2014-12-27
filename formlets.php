@@ -254,6 +254,10 @@ final class FunctionValue extends Value {
         $args = defaultTo($args, array());
         $reify_exceptions = defaultTo($reify_exceptions, array());
 
+        foreach($args as $key => $value) {
+            $args[$key] = $this->toValue($value);
+        }
+
         guardIsInt($arity);
         guardIsString($function_name);
         if ($call_object !== null) 
@@ -304,7 +308,7 @@ final class FunctionValue extends Value {
         // The call should also guarantee, that $this->args
         // gets copied, so the function value could be used
         // more than once for a curried call.
-        return $this->deferredCall($this->_args, $to->get());
+        return $this->deferredCall($this->_args, $to);
     }
 
     /* Define a subclass of Exception to be caught and returned
@@ -371,14 +375,20 @@ final class FunctionValue extends Value {
     }
 
     private function rawActualCall() {
+        $args = array();
+        foreach ($this->_args as $value) {
+            // ToDo: There is some error handling missing here.
+            $args[] = $value->get();
+        }
+
         if ($this->_call_object === null) {
-            return call_user_func_array($this->_function_name, $this->_args);
+            return call_user_func_array($this->_function_name, $args);
         }
         else {
             return call_user_func_array( array( $this->_call_object
                                               , $this->_function_name
                                               )
-                                       , $this->_args
+                                       , $args
                                        );
         }
     }
