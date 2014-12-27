@@ -377,8 +377,12 @@ final class FunctionValue extends Value {
     private function rawActualCall() {
         $args = array();
         foreach ($this->_args as $value) {
-            // ToDo: There is some error handling missing here.
-            $args[] = $value->get();
+            if ($value->isApplicable()) {
+                $args[] = $value;
+            }
+            else {
+                $args[] = $value->get();
+            } 
         }
 
         if ($this->_call_object === null) {
