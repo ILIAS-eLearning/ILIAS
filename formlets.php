@@ -431,16 +431,20 @@ function _error($reason, Value $original_value) {
  *  - one contains the origins and the original values
  *  - one contains the origins and the errors on those values.
  */
-class RenderDictionaries {
+class RenderDict {
     private $_values; // array
     private $_errors; // array
 
     public function value($name) {
-        return $this->_values[$name];
+        if (array_key_exists($name, $this->_values))
+            return $this->_values[$name];
+        return null;
     }
 
     public function errors($name) {
-        return $this->_errors[$name];
+        if (array_key_exists($name, $this->_errors))
+            return $this->_errors[$name];
+        return null;
     }
 
     public function __construct(Value $value) {
@@ -448,6 +452,17 @@ class RenderDictionaries {
         $this->_values = $res[0]; 
         $this->_errors = $res[1]; 
     }
+
+    private static $_emptyInst = null;
+
+    public static function _empty() {
+        // ToDo: Why does this not work?
+        /*if (self::_emptyInst === null) {
+            self::_emptyInst = new RenderDict(_plain(0));
+        }
+        return self::_emptyInst;*/
+        return new RenderDict(_plain(0));
+    }  
 
     public static function computeFrom(Value $value) {
         $values = array();
@@ -502,7 +517,10 @@ class RenderDictionaries {
 
 abstract class Renderer {
     /* Returns a string. */
-    abstract public function render(RenderDictionaries $dicts);
+    abstract public function renderValues(RenderDict $dict);
+    public function render() {
+        return $this->renderValues(RenderDict::_empty());
+    }
 }
 
 /* Renderer that combines two sub renderers by adding the output of the 
@@ -517,8 +535,8 @@ class CombinedRenderer extends Renderer {
         $this->r = $right;
     }
 
-    public function render() {
-        return $this->l->render().$this->r->render();
+    public function renderValues(RenderDict $dict) {
+        return $this->l->renderValues($dict).$this->r->renderValues($dict);
     }
 }
 
@@ -531,7 +549,7 @@ class ConstRenderer extends Renderer {
         $this->content = $content;
     }
 
-    public function render() {
+    public function renderValues(RenderDict $dict) {
         return $this->content;
     }
 }
@@ -550,8 +568,8 @@ class CallbackRenderer extends Renderer {
         $this->args = $args;
     }
 
-    public function render() {
-        $res = $this->call_object->render($this->args);
+    public function renderValues(RenderDict $dict) {
+        $res = $this->call_object->renderValues($dict, $this->args);
         guardIsString($res);
         return $res; 
     }
@@ -1091,9 +1109,19 @@ class TextInput extends Formlet {
             );
     }
 
-    public function render($args) {
+    public function renderValues(RenderDict $dict, $args) {
+        $name = $args["name"];
+        $value = $dict->value($name);
+        $errors = $dict->errors($name);
         // TODO: this would need some more parameters 
-        return "<input type='text' name='".$args["name"]."'/>";
+        return "<input type='text' name='$name'"
+              .($value !== null ? " value='$value'" : "")
+              ."/>"
+              .($errors !== null ? "<span class='error'>"
+                                        .implode("<br />", $errors)
+                                  ."</span>"
+                                 : "" 
+               );
     }
 }
 

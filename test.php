@@ -165,13 +165,8 @@ $val2 = $res["collector"]->collect(array
 
 echo "val2 ".($val2->isError()?"is error\n":"is no error\n");
 if ($val2->isError()) echo "Reason is '".$val2->error()."'\n";
+echo $res["renderer"]->renderValues(new RenderDict($val2))."\n";
 
-
-echo "----------------------\n";
-print_r($val2);
-echo "----------------------\n";
-print_r(RenderDictionaries::computeFrom($val2));
-echo "----------------------\n";
 
 $val3 = $res["collector"]->collect(array
                             ( "input0" => "2014"
@@ -181,7 +176,6 @@ $val3 = $res["collector"]->collect(array
 
 echo "val3 ".($val3->isError()?"is error\n":"is no error\n");
 if ($val3->isError()) echo "Reason is '".$val3->error()."'\n";
-
 
 
 /*function guardInRange($l,$r,$value) {
