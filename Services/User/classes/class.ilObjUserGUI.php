@@ -3622,7 +3622,13 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$mmail = new ilMimeMail();
 		$mmail->autoCheck(false);
-		$mmail->From($ilUser->getEmail());
+		// gev-patch start
+		global $ilias, $ilSetting;
+		$fn = $ilSetting->get("mail_system_sender_name");
+		$fm = $ilias->getSetting("mail_external_sender_noreply");
+		$mmail->From($fn." <".$fm.">");
+		//$mmail->From($ilUser->getEmail());
+		// gev-patch end
 		$mmail->To($this->object->getEmail());
 
 		// mail subject

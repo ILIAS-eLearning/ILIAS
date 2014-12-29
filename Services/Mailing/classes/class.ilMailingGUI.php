@@ -1343,8 +1343,18 @@ abstract class ilMailingGUI {
 		
 		$attachments = array_map(array($this, "mapAttachmentToRecord"), $a_attachments);
 		
+		// gev-patch start
+		global $ilias, $ilSetting;
+		$fn = $ilSetting->get("mail_system_sender_name");
+		$fm = $ilias->getSetting("mail_external_sender_noreply");
+		// gev-patch end
+		
 		foreach($a_to as $recipient) {
-			$mail_data = array( "from" => $this->mapUserIdToMailString($a_from)
+			$mail_data = array( 
+						// gev-patch start
+						//"from" => $this->mapUserIdToMailString($a_from)
+						   "from" => $fn." <".$fm.">"
+						// gev-patch end
 						 , "to" => $this->mapUserIdToMailString($recipient)
 						 , "cc" => array()
 						 , "bcc" => array()
