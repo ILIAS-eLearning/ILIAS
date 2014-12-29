@@ -104,9 +104,13 @@ class gevNAUtils {
 	 */
 	public function searchAdviser($a_search) {
 		$res = $this->db->query(
-			 "SELECT usr_id "
-			."  FROM usr_data"
-			." WHERE login = ".$this->db->quote($a_search, "text")
+			 "SELECT DISTINCT ud.usr_id "
+			."  FROM usr_data ud"
+			."  LEFT JOIN object_data od ON od.type='role' AND od.title='NA'"
+			."  LEFT JOIN object_reference oref ON od.obj_id = oref.obj_id AND oref.deleted IS NULL"
+			."  LEFT JOIN rbac_ua ua ON ua.usr_id = ud.usr_id AND ua.rol_id = od.obj_id"
+			." WHERE ud.login = ".$this->db->quote($a_search, "text")
+			."   AND ua.usr_id IS NULL"
 			);
 		
 		if ($this->db->numRows($res) === 1) {
@@ -120,9 +124,13 @@ class gevNAUtils {
 			$spl[$key] = "( firstname LIKE ".$search." OR lastname LIKE ".$search." )";
 		}
 		$res = $this->db->query(
-				 "SELECT usr_id"
-				."  FROM usr_data"
+				 "SELECT ud.usr_id"
+				."  FROM usr_data ud"
+				."  LEFT JOIN object_data od ON od.type='role' AND od.title='NA'"
+				."  LEFT JOIN object_reference oref ON od.obj_id = oref.obj_id AND oref.deleted IS NULL"
+				."  LEFT JOIN rbac_ua ua ON ua.usr_id = ud.usr_id AND ua.rol_id = od.obj_id"
 				." WHERE ".implode(" AND ", $spl)
+				."   AND ua.usr_id IS NULL"
 				);
 
 		if ($this->db->numRows($res) === 1) {
