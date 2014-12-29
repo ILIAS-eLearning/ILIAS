@@ -38,8 +38,8 @@ class gevDeadlineMailingJob extends ilCronJob {
 		  "min_participants_not_reached"
 		, "reminder_participants"
 		, "reminder_trainer"
-		//, "list_for_accomodation"
-		//, "updated_list_for_accomodation"
+		, "list_for_accomodation"
+		, "updated_list_for_accomodation"
 		, "participation_status_not_set"
 		, "invitation"
 		);
