@@ -57,9 +57,8 @@ class ilAddressbookTableGUI extends ilTable2GUI
 		$this->setMailingAllowed($is_mailing_allowed);
 		$this->setChatActive($is_chat_active);
 
-		parent::__construct($a_parent_obj, $a_parent_cmd);
-
 		$this->setId('addr_book');
+		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, 'setAddressbookFilter'));
 
