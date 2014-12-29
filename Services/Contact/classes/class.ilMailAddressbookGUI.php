@@ -415,34 +415,32 @@ class ilMailAddressbookGUI
 		$this->tpl->setTitle($this->lng->txt("mail_addressbook"));		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html", "Services/Contact");		
 
-	    // check if current user may send mails
-	    include_once "Services/Mail/classes/class.ilMail.php";
-	    $mail = new ilMail($_SESSION["AccountId"]);
-	    $mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
+		// check if current user may send mails
+		include_once "Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail($_SESSION["AccountId"]);
+		$mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
+
+		$chatSettings = new ilSetting('chatroom');
+		$chat_active = $chatSettings->get("chat_enabled", false);
 		
 		// check if current user may send smtp mails
 		$smtp_mailing_allowed =  $rbacsystem->checkAccess("smtp_mail", $this->umail->getMailObjectReferenceId());
 
-	    $tbl = new ilAddressbookTableGUI($this);
-		$tbl->setMailingAllowed($mailing_allowed);
+		$tbl = new ilAddressbookTableGUI($this, '', $mailing_allowed, $chat_active);
 		$tbl->setSmtpMailingAllowed($smtp_mailing_allowed);
-		
-	    $this->abook->setSearchQuery($tbl->getFilterQuery());
-	    $entries = $this->abook->getEntries();
-		
+
+		$this->abook->setSearchQuery($tbl->getFilterQuery());
+		$entries = $this->abook->getEntries();
+
 		$tbl->setData($entries);
 
-		$chatSettings = new ilSetting('chatroom');
-		$chat_active = $chatSettings->get("chat_enabled", false);
-		$tbl->setChatActive($chat_active);
+		$this->tpl->setVariable('TABLE', $tbl->getHTML());
 
-	    $this->tpl->setVariable('TABLE', $tbl->getHTML());
+		$this->tpl->show();
 
-	    $this->tpl->show();
+		unset($_SESSION['addr_search']);
 
-	    unset($_SESSION['addr_search']);
-
-	    return true;
+		return true;
 	}
 
 
