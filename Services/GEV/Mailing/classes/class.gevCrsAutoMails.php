@@ -35,6 +35,7 @@ class gevCrsAutoMails extends ilAutoMails {
 		, "participant_successfull" 							=> "gevParticipantSuccessfull"
 		, "participant_absent_excused" 							=> "gevParticipantAbsentExcused"
 		, "participant_absent_not_excused"						=> "gevParticipantAbsentNotExcused"
+		, "na_successfull"										=> "gevNASuccessfull"
 		
 		, "trainer_added" 										=> "gevTrainerAdded"
 		, "trainer_removed" 									=> "gevTrainerRemoved"

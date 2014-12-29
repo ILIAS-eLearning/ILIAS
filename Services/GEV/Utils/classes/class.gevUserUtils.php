@@ -1279,6 +1279,10 @@ class gevUserUtils {
 		return "";
 	}
 
+	public function isNA() {
+		return $this->hasRoleIn(array("NA"));
+	}
+
 
 	// Soll für den Benutzer  bei der Selbstbuchung der Hinweis "Vorabendanreise 
 	// mit Führungskraft klären" angezeigt werden?
