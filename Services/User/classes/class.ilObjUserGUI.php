@@ -1796,14 +1796,13 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// send email
-		// gev-patch start
-		/*$se = new ilCheckboxInputGUI($lng->txt('inform_user_mail'), 'send_mail');
+		$se = new ilCheckboxInputGUI($lng->txt('inform_user_mail'), 'send_mail');
 		$se->setInfo($lng->txt('inform_user_mail_info'));
 		$se->setValue('y');
 		$se->setChecked(($ilUser->getPref('send_info_mails') == 'y'));
 		$this->form_gui->addItem($se);
-		*/
 		
+		// gev-patch start
 		// ignore required fields
 		/*$irf = new ilCheckboxInputGUI($lng->txt('ignore_required_fields'), 'ignore_rf');
 		$irf->setInfo($lng->txt('ignore_required_fields_info'));
