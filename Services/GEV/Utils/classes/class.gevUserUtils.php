@@ -193,6 +193,7 @@ class gevUserUtils {
 		$this->employee_ids_for_course_search = null;
 		$this->employees_for_booking_cancellations = null;
 		$this->employee_ids_for_booking_cancellations = null;
+		$this->od = false;
 		
 		$this->potentiallyBookableCourses = array();
 		$this->users_who_booked_at_course = array();
@@ -1279,6 +1280,42 @@ class gevUserUtils {
 		return "";
 	}
 
+	public function isNA() {
+		return $this->hasRoleIn(array("NA"));
+	}
+
+	public function getOD() {
+		if ($this->od !== false) {
+			return $this->od;
+		}
+		
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
+		
+		if (!$this->isNA()) {
+			$ous = $tree->getOrgUnitOfUser($this->user_id);
+		}
+		else {
+			require_once("Services/GEV/Utils/classes/class.gevNAUtils.php");
+			$ous = $tree->getOrgUnitOfUser(gevNAUtils::getInstance()->getAdviserOf($this->user_id));
+		}
+		foreach($ous as $ou_ref) {
+			while ($ou_ref !== null) {
+				$ou_id = ilObject::_lookupObjectId($ou_ref);
+				$title = ilObject::_lookupTitle($ou_id);
+				if (preg_match("/Organisationsdirektion.*/", $title)) {
+					$this->od = array( "obj_id" => $ou_id
+									 , "title" => $title
+									 );
+					return $this->od;
+				}
+				$ou_ref = $tree->getParent($ou_ref);
+			}
+		}
+		
+		$this->od = null;
+		return $this->od;
+	}
 
 	// Soll für den Benutzer  bei der Selbstbuchung der Hinweis "Vorabendanreise 
 	// mit Führungskraft klären" angezeigt werden?

@@ -75,6 +75,32 @@ class gevCrsMailData extends ilMailData {
 		$val = null;
 		
 		switch ($a_placeholder_code) {
+			case "MOBIL":
+				if ($this->usr_utils !== null) {
+					$val = $this->usr_utils->getMobilePhone();
+				}
+				break;
+			case "OD":
+				if ($this->usr_utils !== null) {
+					$val = $this->usr_utils->getOD();
+					$val = $val["title"];
+				}
+				break;
+			case "VERMITTLERNUMMER":
+				if ($this->usr_utils !== null) {
+					$val = $this->usr_utils->getJobNumber();
+				}
+				break;
+			case "ADP GEV":
+				if ($this->usr_utils !== null) {
+					$val = $this->usr_utils->getADPNumberGEV();
+				}
+				break;
+			case "ADP VFS":
+				if ($this->usr_utils !== null) {
+					$val = $this->usr_utils->getADPNumberVFS();
+				}
+				break;
 			case "TRAININGSTITEL":
 				$val = $this->crs_utils->getTitle();
 				break;

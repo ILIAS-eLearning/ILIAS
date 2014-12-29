@@ -23,7 +23,12 @@ class gevCrsMailTypeAdapter extends ilMailTypeAdapter {
 	protected function getPlaceholders() {
 		if ($this->placeholders == null) {
 			$this->placeholders = array(
-				  array("Trainingstitel"			, "Titel des Trainings")
+				  array("Mobil"						, "Mobilfunknummer des Teilnehmers")
+				, array("OD"						, "OD des Teilnehmers")
+				, array("Vermittlernummer"			, "Vermittlernummer des Teilnehmers")
+				, array("ADP GEV"					, "ADP-Nummer GEV des Teilnehmers")
+				, array("ADP VFS"					, "ADP-Nummer VFS des Teilnehmers")
+				, array("Trainingstitel"			, "Titel des Trainings")
 				, array("Trainingsuntertitel"		, "Untertitel des Trainings")
 				//, array("Lernart"					, "Lernart des Training")
 				, array("Trainingstyp"				, "Typ des Training")
