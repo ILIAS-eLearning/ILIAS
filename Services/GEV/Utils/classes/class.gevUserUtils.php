@@ -1027,7 +1027,6 @@ class gevUserUtils {
 	}
 
 	public function setADPNumberGEV($a_adp) {
-		//same as setADPNumber
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_ADP_GEV_NUMBER, $a_adp);
 	}	
 

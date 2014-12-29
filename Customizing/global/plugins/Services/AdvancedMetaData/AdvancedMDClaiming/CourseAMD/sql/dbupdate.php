@@ -482,7 +482,7 @@ $def = serialize(
 		   , "AD60000 Weiterbildung"
 		   , "AD65000 Generali Entwicklungsprogramme"
 		   , "AD70000 Webinare"
-		   , "ST10000 Spezialistenveranstaltungen (SpezialistenTrainings)"
+		   , "ST10000 Dezentrales Training"
 		   , "SL10000 Selbstlernkurse"
 		   , "AD80000 Weiterbildung / Bildungskatalog für Führungskräfte"
 	)

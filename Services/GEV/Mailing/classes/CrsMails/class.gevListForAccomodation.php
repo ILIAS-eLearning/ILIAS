@@ -49,7 +49,7 @@ class gevListForAccomodation extends gevCrsAutoMail {
 	}
 	
 	public function getMail($a_recipient) {
-		if ($this->getCourseUtils()->isWebinar()) {
+		if (!$this->getCourseUtils()->isPraesenztraining()) {
 			return null;
 		}
 		

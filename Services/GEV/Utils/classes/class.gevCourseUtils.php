@@ -2086,8 +2086,11 @@ class gevCourseUtils {
 				 //memberlist (link)
 			
 			);
-
+		
 		$addsql = "ORDER BY ".$a_order." ".$a_direction; //." LIMIT ".$a_limit." OFFSET ".$a_offset;
+		if ($a_order !== "start_date") {
+			$addsql .= ", start_date DESC ";
+		}
 
 		$info = gevAMDUtils::getInstance()->getTable(
 				$crss, 

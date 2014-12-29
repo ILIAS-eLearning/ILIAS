@@ -67,7 +67,9 @@ class ilTEPGUI
 		// default
 		if(!$this->view_id)
 		{	
-			$default = ilTEPView::TYPE_LIST;
+			// gev-patch start
+			$default = ilTEPView::TYPE_MONTH;
+			// gev-patch end
 			$ilCtrl->setParameter($this, "vw", $default);
 			$this->view_id = $default;					
 		}
