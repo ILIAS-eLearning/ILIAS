@@ -11,14 +11,13 @@ require_once("Services/Mailing/classes/class.ilMailLog.php");
 */
 
 class gevNARegistrationMails extends ilAutoMails {
-	public function __construct($a_na_firstname, $a_na_lastname, $a_confirmation_link, $a_no_confirmation_link) {
+	public function __construct($a_na_id, $a_confirmation_link, $a_no_confirmation_link) {
 		$this->mail_data = array(
 		  "na_confirmation"		=> "gevNAConfirmationMail"
 		, "na_confirmed"		=> "gevNAConfirmedMail"
 		, "na_not_confirmed"	=> "gevNANotConfirmedMail"
 		);
-		$this->na_firstname = $a_na_firstname;
-		$this->na_lastname = $a_na_lastname;
+		$this->na_id = $a_na_id;
 		$this->confirmation_link = $a_confirmation_link;
 		$this->no_conformation_link = $a_no_confirmation_link;
 
@@ -48,8 +47,7 @@ class gevNARegistrationMails extends ilAutoMails {
 		}
 		
 		require_once("./Services/GEV/Mailing/classes/RegistrationMails/class.".$this->mail_data[$a_id].".php");
-		return new $this->mail_data[$a_id]($this->na_firstname, $this->na_lastname
-										  , $this->confirmation_link, $this->no_conformation_link);
+		return new $this->mail_data[$a_id]($this->na_id, $this->confirmation_link, $this->no_conformation_link, $a_id);
 	}
 	
 	protected function initMailLog() {

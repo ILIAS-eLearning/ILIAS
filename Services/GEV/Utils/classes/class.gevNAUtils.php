@@ -18,7 +18,6 @@ class gevNAUtils {
 	protected function __construct() {
 		global $ilDB, $ilias, $ilLog;
 		$this->db = &$ilDB;
-		$this->ilias = &$ilias;
 		$this->log = &$ilLog;
 		
 		$this->gev_settings = gevSettings::getInstance();
@@ -89,6 +88,170 @@ class gevNAUtils {
 	 */
 	public function getNAsOf($a_adviser_id) {
 		return $this->pou->getEmployeesOf();
+	}
+	
+	
+	/**
+	 * Sucht einen ILIAS-Benutzer, der zur Eingabe passt. Durchsucht werden
+	 * Login sowie Vorname und Nachname aller Benutzer.
+	 *
+	 * Durchsucht zuerst das Feld login, um eine eindeutige Möglichkeit zu haben,
+	 * den Betreuer einzugeben.
+	 *
+	 * Gibt null zurück, wenn keiner oder viele Benutzer gefunden werden, die
+	 * zur Eingabe passen. Gibt ansonsten die ILIAS-Id des gefundenen Benutzers
+	 * zurück.
+	 */
+	public function searchAdviser($a_search) {
+		$res = $this->db->query(
+			 "SELECT usr_id "
+			."  FROM usr_data"
+			." WHERE login = ".$this->db->quote($a_search, "text")
+			);
+		
+		if ($this->db->numRows($res) === 1) {
+			$rec = $this->db->fetchAssoc($res);
+			return $rec["usr_id"];
+		}
+		
+		$spl = explode(" ", $a_search);
+		foreach($spl as $key => $value) {
+			$search = $this->db->quote("%".trim($value)."%", "text");
+			$spl[$key] = "( firstname LIKE ".$search." OR lastname LIKE ".$search." )";
+		}
+		$res = $this->db->query(
+				 "SELECT usr_id"
+				."  FROM usr_data"
+				." WHERE ".implode(" AND ", $spl)
+				);
+
+		if ($this->db->numRows($res) === 1) {
+			$rec = $this->db->fetchAssoc($res);
+			return $rec["usr_id"];
+		}
+		
+		return null;
+	}
+	
+	// Confirmation or denial of na accounts.
+	
+	public function createConfirmationToken($a_user_id, $a_adviser_id) {
+		$max_attempts = 10;
+		$found_token = false;
+		$attempt = 0;
+
+		while (true) {
+			$token = md5(rand());
+			if ($this->tokenIsUsable($token)) {
+				break;
+			}
+
+			if ($attempt > $max_attempts) {
+				throw new Exception("gevNAUtils::createConfirmationToken: Number of maximum attempts has been reached.");
+			}
+			$attempt++;
+		}
+		
+		$this->saveToken($token, $a_user_id, $a_adviser_id);
+		
+		return $token;
+	}
+
+	protected function tokenIsUsable($a_token) {
+		$res = $this->db->query("SELECT * FROM gev_na_tokens WHERE token = ".$this->db->quote($a_token, "text"));
+		return $this->db->numRows($res) == 0;
+	}
+	
+	protected function saveToken($a_token, $a_user_id, $a_adviser_id) {
+		$this->db->manipulate("INSERT INTO gev_na_tokens (user_id, adviser_id, token)"
+							 ." VALUES ( ".$this->db->quote($a_user_id, "integer")
+							 ."        , ".$this->db->quote($a_adviser_id, "integer")
+							 ."        , ".$this->db->quote($a_token, "text")
+							 ."        )"
+							 );
+	}
+	
+	public function confirmWithToken($a_token) {
+		$user_id = $this->getUserWithToken($a_token);
+		if ($user_id === null) {
+			die("1");
+			return false;
+		}
+		
+		$user = new ilObjUser($user_id);
+		
+		if ($user->getActive()) {
+			die("2");
+			return false;
+		}
+		
+		$user->setActive(true, 6);
+		$user->update();
+		
+		$adviser_id = $this->getAdviserForToken($a_token);
+		
+		$this->assignAdviser($user_id, $adviser_id);
+		
+		require_once("Services/GEV/Mailing/classes/class.gevNARegistrationMails.php");
+		$na_mails = new gevNARegistrationMails( $user->getId()
+											  , ""
+											  , ""
+											  );
+				
+		$na_mails->send("na_confirmed", array($user->getId()));
+		
+		return true;
+	}
+	
+	public function denyWithToken($a_token) {
+		$user_id = $this->getUserWithToken($a_token);
+		if ($user_id === null) {
+			return false;
+		}
+		
+		$user = new ilObjUser($user_id);
+		
+		if ($user->getActive()) {
+			return false;
+		}
+
+		require_once("Services/GEV/Mailing/classes/class.gevNARegistrationMails.php");
+		$na_mails = new gevNARegistrationMails( $user->getId()
+											  , ""
+											  , ""
+											  );
+				
+		$na_mails->send("na_not_confirmed", array($user->getId()));
+		
+		$user->delete();
+		
+		return true;
+	}
+	
+	protected function getUserWithToken($a_token) {
+		$res = $this->db->query( "SELECT user_id "
+								."  FROM gev_na_tokens"
+								."  JOIN usr_data ON usr_id = user_id"
+								." WHERE token = ".$this->db->quote($a_token, "text")
+								."   AND NOT login IS NULL"
+								);
+		if ($rec = $this->db->fetchAssoc($res)) {
+			return $rec["user_id"];
+		}
+		return null;
+	}
+	
+	protected function getAdviserForToken($a_token) {
+		$res = $this->db->query( "SELECT adviser_id "
+								."  FROM gev_na_tokens"
+								."  JOIN usr_data ON usr_id = user_id"
+								." WHERE token = ".$this->db->quote($a_token, "text")
+								."   AND NOT login IS NULL"
+								);
+		if ($rec = $this->db->fetchAssoc($res)) {
+			return $rec["adviser_id"];
+		}
+		return null;
 	}
 }
 

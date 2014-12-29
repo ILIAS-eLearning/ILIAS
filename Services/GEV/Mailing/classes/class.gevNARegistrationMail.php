@@ -21,10 +21,14 @@ abstract class gevNARegistrationMail extends ilAutoMail {
 
 	protected $gev_registration_mail_template_type;
 	
-	private static $template_type = "Agentregistration";
+	private static $template_type = "NA-Registration";
 
-	public function __construct($a_token, $a_link, $a_id) {
+	public function __construct($a_na_id, $a_confirmation_link, $a_no_confirmation_link, $a_id) {
 		global $ilDB, $lng, $ilCtrl, $ilias, $ilSetting, $ilUser;
+
+		$this->na_id = $a_na_id;
+		$this->confirmation_link = $a_confirmation_link;
+		$this->no_confirmation_link = $a_no_confirmation_link;
 
 		$this->db = &$ilDB;
 		$this->lng = &$lng;
@@ -129,12 +133,14 @@ abstract class gevNARegistrationMail extends ilAutoMail {
 	}
 
 	protected function getMessage($a_template_id, $a_recipient) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$utils = gevUserUtils::getInstance($a_recipient);
+		
 		$message = $this->getMessageFromTemplate($a_template_id
-												, $a_recipient["email"]
+												, $a_recipient
 												);
-
 		return array( "from" => $this->getFrom()
-					, "to" =>$a_recipient["name"]." <".$a_recipient["email"].">"
+					, "to" =>$utils->getFullname()." <".$utils->getEmail().">"
 					, "cc" => array()
 					, "bcc" => $this->getBCC($a_recipient)
 					, "subject" => $message["subject"]?$message["subject"]:""
@@ -151,15 +157,12 @@ abstract class gevNARegistrationMail extends ilAutoMail {
 
 	// Turn template to mail content. Returns
 	// a dict containing fields "subject", "plain" and "html"
-	protected function getMessageFromTemplate($a_templ_id, $a_email) {
+	protected function getMessageFromTemplate($a_templ_id, $a_recipient) {
 		$this->initTemplateObjects($a_templ_id, "de");
 
-		require_once "./Services/GEV/Mailing/classes/class.gevRegistrationMailData.php";
+		require_once "./Services/GEV/Mailing/classes/class.gevNARegistrationMailData.php";
 
-		$data = $this->getRegistrationData();
-		$mail_data = new gevRegistrationMailData($this->link, $a_email, $data["firstname"]
-												, $data["lastname"], $data["gender"], $data["username"]
-												);
+		$mail_data = new gevNARegistrationMailData($a_recipient, $this->na_id, $this->confirmation_link, $this->no_confirmation_link);
 
 		$adapter = $this->template_settings->getAdapterClassInstance();
 
@@ -178,39 +181,6 @@ abstract class gevNARegistrationMail extends ilAutoMail {
 		return $this->gev_registration_mail_template_type;
 	}
 	
-	protected function getRegistrationData() {
-		if ($this->reg_data === null) {
-			$sql = "SELECT login as username, firstname, lastname, gender, email ".
-				   "  FROM usr_data ".
-				   " WHERE reg_hash = ".$this->db->quote($this->token, "text")
-				   ;
-
-			$res = $this->db->query($sql);
-			if ($rec = $this->db->fetchAssoc($res)) {
-				$this->reg_data = $rec;
-			}
-			else {
-				throw new Exception("gevRegistrationMail::getRegistrationData: could not read users registration data.");
-			}
-		}
-		return $this->reg_data;
-	}
-
-	public function getAttachmentsForMail() {
-		return;
-	}
-	
-	public function getRecipientUserIDs() {
-		return array();
-	}
-	
-	public function getRecipientAddresses() {
-		$reg_data = $this->getRegistrationData();
-		return array(array( "name" => $reg_data["firstname"]." ".$reg_data["lastname"]
-						  , "email" => $reg_data["email"]
-					));
-	}
-	
 	public function getCC($a_recipient) {
 		return array();
 	}
@@ -227,17 +197,8 @@ abstract class gevNARegistrationMail extends ilAutoMail {
 
 	public function getMail($a_recipient) {
 		$mail = $this->getMessage($this->getTemplateId(), $a_recipient);
-		$mail["to"] = $a_recipient["name"]." <".$a_recipient["email"].">";
 		return $mail;	
 	}
-	
-	public function getMessageFromTemplate($a_templ_id, $a_user_id, $a_email, $a_name) {
-		global $ilUser;
-		$user_id = $ilUser->getId();
-				 
-		return parent::getMessageFromTemplate($a_templ_id, $user_id, $a_email, $a_name);
-	}
-
 
 	abstract public function getTemplateCategory();
 }

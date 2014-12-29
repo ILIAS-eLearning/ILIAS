@@ -66,7 +66,8 @@ class gevMailTemplateTypeForm extends ilMailTemplateTypeForm {
 	protected function getAvailableTypeOptions() {
 		return array( "crs_invitation" => "Einladungsmail für Training"
 					, "crs_auto" => "automatische Mail für Trainings"
-					, "registration" => "Mails während der Registrierung"
+					, "registration" => "Mails während der Makler-Registrierung"
+					, "na_registration" => "Mails während der NA-Registrierung"
 					);
 	}
 	
@@ -78,6 +79,8 @@ class gevMailTemplateTypeForm extends ilMailTemplateTypeForm {
 				return "crs_auto";
 			case "Agentregistration":
 				return "registration";
+			case "NA-Registration":
+				return "na_registration";
 			default:
 				throw new Exception("gevMailTemplateTypeForm::mapTemplateTypeNameToTypeInput: unknown type: '".$a_name."'");
 		}
@@ -91,6 +94,8 @@ class gevMailTemplateTypeForm extends ilMailTemplateTypeForm {
 				return "CrsMail";
 			case "registration":
 				return "Agentregistration";
+			case "na_registration":
+				return "NA-Registration";
 			default:
 				throw new Exception("gevMailTemplateTypeForm::mapTemplateTypeInputToTypeName: unknown input: '".$a_name."'");
 		}
@@ -104,6 +109,8 @@ class gevMailTemplateTypeForm extends ilMailTemplateTypeForm {
 				return "Services/GEV/Mailing/classes/class.gevCrsMailTypeAdapter.php";
 			case "registration":
 				return "Services/GEV/Mailing/classes/class.gevRegistrationMailTypeAdapter.php";
+			case "na_registration":
+				return "Services/GEV/Mailing/classes/class.gevNARegistrationMailTypeAdapter.php";
 			default:
 				throw new Exception("gevMailTemplateTypeForm::mapTemplateTypeInputToConsumerLocation: unknown input: '".$a_name."'");
 		}

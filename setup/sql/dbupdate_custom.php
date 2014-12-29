@@ -2638,7 +2638,6 @@ if(!$ilDB->tableExists('hist_tep'))
 
 	require_once "Services/GEV/Utils/classes/class.gevOrgUnitUtils.php";
 	
-
 	$res = $ilDB->query("SELECT DISTINCT oref.ref_id "
 						."  FROM object_data od "
 						."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
@@ -2657,5 +2656,32 @@ if(!$ilDB->tableExists('hist_tep'))
 					 , "cancel_employee_bookings_rcrsv"
 					 ));
 	}
+?>
 
+<#82>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#83>
+<?php
+	if(!$ilDB->tableExists('gev_na_tokens'))
+	{
+		$fields = array (
+			'user_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'adviser_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true),
+			'token' => array(
+				'type' => 'text',
+				'length' => 32,
+				'notnull' => true)
+		);
+		$ilDB->createTable('gev_na_tokens', $fields);
+		$ilDB->addPrimaryKey('gev_na_tokens', array('user_id'));
+	}
 ?>

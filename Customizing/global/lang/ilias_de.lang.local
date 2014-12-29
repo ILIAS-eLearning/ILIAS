@@ -362,6 +362,8 @@ gev#:#gev_additional_settings_update_failure#:#Die weiteren Einstellungen konnte
 gev#:#gev_additional_settings_updated#:#Die weiteren Einstellungen wurden aktualisiert.
 gev#:#gev_admin_menu#:#Verwaltung
 gev#:#gev_adp_number#:#ADP-Nummer
+gev#:#gev_adp_number_gev#:#ADP-Nummer GEV
+gev#:#gev_adp_number_vfs#:#ADP-Nummer VFS
 gev#:#gev_agb_tgic#:#AGB der TGIC
 gev#:#gev_agb_wbd#:#AGB der WBD
 gev#:#gev_agent_key#:#Vermittlerschlüssel
@@ -509,6 +511,7 @@ gev#:#gev_free_cancellation_msg#:#Möchten Sie die Buchung des Trainings "%s" wi
 gev#:#gev_free_cancellation_until#:#kostenfreie Stornierung bis
 gev#:#gev_free_places#:#verfügbare Plätze
 gev#:#gev_from#:#ab
+gev#:#gev_further_information#:#Weitere Informationen
 gev#:#gev_get_bill#:#Rechnung anfordern
 gev#:#gev_get_certificate#:#Teilnahmebescheinigung abrufen
 gev#:#gev_give_mandate_tp_basis#:#Hiermit erteile ich den %s ein WB-Konto bei der WBD einzurichten.
@@ -547,6 +550,9 @@ gev#:#gev_my_profile#:#Mein Profil
 gev#:#gev_my_roadmap#:#Meine Azubiroadmap
 gev#:#gev_my_settings#:#Meine Einstellungen
 gev#:#gev_my_trainer_ap#:#Meine Trainingseinsätze
+gev#:#gev_na_adviser#:#NA-Betreuer
+gev#:#gev_na_adviser_input_info#:#Geben sie den Namen oder Benutzernamen ihres NA-Betreuers ein.
+gev#:#gev_na_registration_success#:#Eine Mail zur Bestätigung ihres Accounts wurde an ihren Betreuer versandt.
 gev#:#gev_need_agb_accept#:#Sie müssen die Buchungs- und Stornierungsbedingungen akzeptieren um fortfahren zu können.
 gev#:#gev_next_course#:#Mein nächstes Training
 gev#:#gev_no_employee_bookings#:#Es liegen keine Buchungen ihrer Mitarbeiter vor.
@@ -604,8 +610,14 @@ gev#:#gev_provider#:#Anbieter
 gev#:#gev_quicklinks#:#Quicklinks
 gev#:#gev_quicklinks_desc#:#Greifen Sie hier schnell und unkompliziert auf weitere Informationen zu Ihren Trainings und auf Ihre persönliche Bildungsbiografie zu.
 gev#:#gev_refresh_attachments#:#Anhänge aktualisieren
-gev#:#gev_registration#:#Registrierung: Generali Online Akademie 
+gev#:#gev_registration#:#Erstregistrierung: Generali Online Akademie 
 gev#:#gev_registration_success#:#Eine Email mit einem Aktivierungslink wurde an Sie versendet.
+gev#:#gev_registration_pretext#:#Bitte treffen sie ihre Auswahl:
+gev#:#gev_agent_registration_label#:#Erstregistrierung als:
+gev#:#gev_na_registration_label#:#Erstregistrierung als:
+gev#:#gev_agent_registration_button#:#unabhängiger Vertriebspartner
+gev#:#gev_na_registration_button#:#Nebenberufsagentur
+gev#:#gev_registration_posttext#:#Bei Rückfragen wenden sie sich an: <a href="mailto:bildungspunkte.de@generali.com" class="blue">bildungspunkte.de@generali.com</a>
 gev#:#gev_rep_attendance_by_employee_desc#:#Hier sehen sie die Buchungen und Trainingsteilnahmen ihrer Mitarbeiter.
 gev#:#gev_rep_attendance_by_employee_title#:#Teilnahme nach Mitarbeiter
 gev#:#gev_rep_billing_title#:#Rechnungen

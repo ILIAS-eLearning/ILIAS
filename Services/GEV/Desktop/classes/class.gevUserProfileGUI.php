@@ -178,9 +178,13 @@ class gevUserProfileGUI {
 		$gender->setRequired(true);
 		$form->addItem($gender);
 		
-		$adp = new ilNonEditableValueGUI($this->lng->txt("gev_adp_number"));
-		$adp->setValue($this->user_utils->getADPNumber());
+		$adp = new ilNonEditableValueGUI($this->lng->txt("gev_adp_number_gev"));
+		$adp->setValue($this->user_utils->getADPNumberGEV());
 		$form->addItem($adp);
+		
+		$adp2 = new ilNonEditableValueGUI($this->lng->txt("gev_adp_number_vfs"));
+		$adp2->setValue($this->user_utils->getADPNumberVFS());
+		$form->addItem($adp2);
 		
 		$position_key = new ilNonEditableValueGUI($this->lng->txt("gev_position"));
 		$position_key->setValue($this->user_utils->getJobNumber());

@@ -1362,6 +1362,7 @@ class ilInitialisation
 			$a_current_script == "il_securimage_play.php" ||
 			// gev-patch start
 			$a_current_script == "gev_registration.php" ||
+			$a_current_script == "na_confirmation.php"  ||
 			// gev-patch end
 			$a_current_script == "il_securimage_show.php") 
 		{

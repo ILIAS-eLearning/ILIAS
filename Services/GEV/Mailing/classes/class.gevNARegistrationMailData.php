@@ -2,9 +2,6 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Services/MailTemplates/classes/class.ilMailData.php';
-require_once("Services/Calendar/classes/class.ilDatePresentation.php");
-require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
 /**
  * Generali mail data for courses
@@ -16,13 +13,11 @@ require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 class gevNARegistrationMailData extends ilMailData {
 	protected $cache;
 	
-	public function __construct($link, $email, $firstname, $lastname, $gender, $login) {
-		$this->link = $link;
-		$this->email = $email;
-		$this->firstname = $firstname;
-		$this->lastname = $lastname;
-		$this->gender = $gender;
-		$this->login = $login;
+	public function __construct($a_recipient_id, $a_na_id, $a_confirmation_link, $a_no_confirmation_link) {
+		$this->recipient_id = $a_recipient_id;
+		$this->na_id = $a_na_id;
+		$this->confirmation_link = $a_confirmation_link;
+		$this->no_confirmation_link = $a_no_confirmation_link;
 	}
 	
 	function getRecipientMailAddress() {
@@ -49,33 +44,36 @@ class gevNARegistrationMailData extends ilMailData {
 	}
 	
 	function getPlaceholderLocalized($a_placeholder_code, $a_lng, $a_markup = false) {
-		if (array_key_exists($a_placeholder_code, $this->cache)) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		/*if (array_key_exists($a_placeholder_code, $this->cache)) {
 			return $this->cache[$a_placeholder_code];
-		}
+		}*/
 		
 		$val = null;
+		$utils = gevUserUtils::getInstance($this->na_id);
 		
 		switch ($a_placeholder_code) {
-			case "SALUTATION":
-				if ($this->gender == "m") {
-					$val = "Sehr geehrter Herr";
+			case "NA-VORNAME":
+				$val = $utils->getFirstname();
+				break;
+			case "NA-NACHNAME":
+				$val = $utils->getLastname();
+				break;
+			case "BESTAETIGUNGSLINK":
+				if ($a_markup) {
+					$val = "<a href='".$this->confirmation_link."'>".$this->confirmation_link."</a>";
 				}
 				else {
-					$val = "Sehr geehrte Frau";
+					$val = $this->confirmation_link;
 				}
 				break;
-			case "LOGIN":
-				$val = $this->login;
-				break;
-			case "FIRST_NAME":
-				$val = $this->firstname;
-				break;
-			case "LAST_NAME":
-				$val = $this->lastname;
-				break;
-			case "AKTIVIERUNGSLINK":
-				$link = $this->link;
-				$val = $link;//"<a href='".$link."'>".$link."</a>";
+			case "ABLEHNUNGSLINK":
+				if ($a_markup) {
+					$val = "<a href='".$this->no_confirmation_link."'>".$this->no_confirmation_link."</a>";
+				}
+				else {
+					$val = $this->no_confirmation_link;
+				}
 				break;
 		}
 		
@@ -95,11 +93,11 @@ class gevNARegistrationMailData extends ilMailData {
 	}
 	
 	function getRecipientUserId() {
-		return null;
+		return $this->recipient_id;
 	}
 	
 	function deliversStandardPlaceholders() {
-		return true;
+		return false;
 	}
 }
 

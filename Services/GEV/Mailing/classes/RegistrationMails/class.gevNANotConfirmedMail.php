@@ -1,6 +1,6 @@
 <?php
 
-require_once("Services/GEV/Mailing/classes/class.gevRegistrationMail.php");
+require_once("Services/GEV/Mailing/classes/class.gevNARegistrationMail.php");
 
 class gevNANotConfirmedMail extends gevNARegistrationMail {
 	public function getTitle() {

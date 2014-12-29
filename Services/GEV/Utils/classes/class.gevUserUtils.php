@@ -1022,34 +1022,21 @@ class gevUserUtils {
 		return $date;
 	}
 	
-	public function getADPNumber() {
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_ADP_NUMBER);
-	}
-	
-	public function setADPNumber($a_adp) {
-		//deprecated...
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_ADP_NUMBER, $a_adp);
-	}
-
-	public function setADPNumberGEV($a_adp) {
-		//same as setADPNumber
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_ADP_GEV_NUMBER, $a_adp);
-	}	
-	public function setADPNumberVFS($a_adp) {
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_ADP_VFS_NUMBER, $a_adp);
-	}
-
-	
 	public function getADPNumberGEV() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_ADP_GEV_NUMBER);
 	}
-	
+
+	public function setADPNumberGEV($a_adp) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_ADP_GEV_NUMBER, $a_adp);
+	}	
+
 	public function getADPNumberVFS() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_ADP_VFS_NUMBER);
 	}
-
-
-
+	
+	public function setADPNumberVFS($a_adp) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_ADP_VFS_NUMBER, $a_adp);
+	}
 	
 	public function getJobNumber() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_JOB_NUMMER);
