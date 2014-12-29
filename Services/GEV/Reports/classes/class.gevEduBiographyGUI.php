@@ -101,7 +101,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->static_condition($this->db->in( "usrcrs.booking_status"
 														, array( "gebucht"
 															   , "kostenpflichtig storniert"
-															   , "kostenfrei storniert")
+															   )
 														, false, "text")
 										  )
 						->action($this->ctrl->getLinkTarget($this, "view"))

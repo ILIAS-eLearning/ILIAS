@@ -174,12 +174,14 @@ class gevNAUtils {
 	public function confirmWithToken($a_token) {
 		$user_id = $this->getUserWithToken($a_token);
 		if ($user_id === null) {
+			die("1");
 			return false;
 		}
 		
 		$user = new ilObjUser($user_id);
 		
 		if ($user->getActive()) {
+			die("2");
 			return false;
 		}
 		
@@ -212,8 +214,6 @@ class gevNAUtils {
 		if ($user->getActive()) {
 			return false;
 		}
-		
-		$user->delete();
 
 		require_once("Services/GEV/Mailing/classes/class.gevNARegistrationMails.php");
 		$na_mails = new gevNARegistrationMails( $user->getId()
@@ -221,7 +221,9 @@ class gevNAUtils {
 											  , ""
 											  );
 				
-		$na_mails->send("na_confirmed", array($user->getId()));
+		$na_mails->send("na_not_confirmed", array($user->getId()));
+		
+		$user->delete();
 		
 		return true;
 	}

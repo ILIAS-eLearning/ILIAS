@@ -49,6 +49,10 @@ class gevUpdatedListForAccomodation extends gevCrsAutoMail {
 	}
 	
 	public function getMail($a_recipient) {
+		if ($this->getCourseUtils()->isWebinar()) {
+			return null;
+		}
+		
 		if ($this->checkUserID($a_recipient)) {
 			$a_recipient = array( "name" => ilObjUser::_lookupFullname($a_recipient)
 								, "email" => ilObjUser::_lookupEmail($a_recipient));

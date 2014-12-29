@@ -335,17 +335,28 @@ class gevSettings {
 	// Names of roles where users do not need to pay fees
 	static $NO_PAYMENT_ROLES = array(
 		  "Administrator"
-		, "Administrator-eingeschränkt"
-		, "Administrator-Voll"
-		, "OD/LD/BD/VD/VTWL"
-		, "LD/BD-Innen"
-		, "DBV/VL-EVG"
-		, "DBV-UVG"
-		, "Azubi"
+		, "Admin-Voll"
+		, "Admin-eingeschraenkt"
+		, "Admin-Ansicht"
+		, "OD/BD"
+		, "FD"
+		, "Org PV 59"
+		, "PV 59"
+		, "Ausbildungsbeauftragter"
 		, "ID FK"
 		, "ID MA"
-		, "int. Referent"
-		, "ext. Referent"
+		, "OD/LD/BD/VD/VTWL"
+		, "VA 59"
+		, "VA HGB 84"
+		, "NFK"
+		, "FDA"
+		, "Ausbilder"
+		, "Azubi"
+		, "Buchhaltung"
+		, "Veranstalter"
+		, "int. Trainer"
+		, "ext. Trainer"
+		, "OD-Betreuer"
 		);
 	
 	// Names of roles where users need to pay the 
@@ -386,8 +397,8 @@ class gevSettings {
 	// Names of roles that count as admins
 	static $ADMIN_ROLES = array(
 		  "Administrator"
-		, "Administrator-eingeschränkt"
-		, "Administrator-Voll"
+		, "Admin-eingeschraenkt"
+		, "Admin-Voll"
 		);
 	
 	// Names of roles that count as superiors
