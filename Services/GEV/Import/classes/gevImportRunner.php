@@ -38,8 +38,8 @@ $imp = new gevUserImport();
 //$imp->createOrgStructure();
 
 $imp->createOrUpdateUserAccounts();
-$imp->assignAllUserRoles(); //ROLES BEFORE ORG-UNITS
-$imp->assignAllUsersToOrgUnits();
+//$imp->assignAllUserRoles(); //ROLES BEFORE ORG-UNITS
+//$imp->assignAllUsersToOrgUnits();
 
 
 

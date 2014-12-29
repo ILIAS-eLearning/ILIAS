@@ -807,13 +807,6 @@ class gevUserImport {
 		$create_date = new ilDateTime($rec['created'], IL_CAL_DATETIME);
 		$user->setAgreeDate($create_date->get(IL_CAL_DATETIME));
 
-		//update pass, creation, agreement
-		$sql = "UPDATE usr_data SET"
-			." passwd='" .$rec['pwd'] ."',"
-			." approve_date='" .$rec['approved'] ."',"
-			." last_login='" .$rec['last_login'] ."'"
-			." WHERE usr_id=" .$user_id;
-		$this->ilDB->query($sql);
 	
 		$user->setActive(true, 6);
 		$user->update();
@@ -822,6 +815,21 @@ class gevUserImport {
 	}
 
 
+
+	public function	update_pass($user_id, $rec){
+
+		//update pass, creation, agreement
+		$sql = "UPDATE usr_data SET"
+			." passwd='" .$rec['pwd'] ."',"
+			." approve_date='" .$rec['approved'] ."',"
+			." last_login='" .$rec['last_login'] ."'"
+			." WHERE usr_id=" .$user_id;
+	
+			print $sql;
+
+		$this->ilDB->query($sql);
+
+	}
 
 	public function setUserAdditionalData($il_user_id, $user_record){
 		$this->prnt('setUserAdditionalData', 3);
@@ -886,6 +894,9 @@ class gevUserImport {
 		if($user_record['adp_gev']){
 			$user_utils->setADPNumberGEV($user_record["adp_gev"]);
 		}
+
+		//setFinancialAccountVFS
+
 
 		//$user_utils->setWBDFirstCertificationPeriodBegin($user_record['wbd_cert_begin']));
 
@@ -970,7 +981,7 @@ class gevUserImport {
 			$result = $this->queryShadowDB($sql);
 			$record = mysql_fetch_assoc($result);
 			$il_adviser_user_id = $record['il_adviser_user_id'];
-			
+
 			if(! is_numeric($il_adviser_user_id)){
 				$sql = "SELECT ilid as il_adviser_user_id FROM interimUsers"
 					." WHERE mail = '" . $il_adviser_user_id ."'";
@@ -1140,6 +1151,7 @@ class gevUserImport {
 			}
 
 
+			$this->update_pass($user_id, $record);
 			$this->setUserAdditionalData($user_id, $record);
 
 		};
