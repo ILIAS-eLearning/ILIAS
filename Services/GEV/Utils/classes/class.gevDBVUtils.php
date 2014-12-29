@@ -125,6 +125,11 @@ class gevDBVUtils {
 			// There might be many people having the job number, i'll take
 			// rather all of them then dying or only the first one. 
 			while($rec = $this->db->fetchAssoc($res)) {
+				// NAs can't be DBVs (#863)
+				$uu = gevUserUtils::getInstance($rec["usr_id"]);
+				if ($uu->isNA()) {
+					continue;
+				}
 				$this->pou->assignEmployee($rec["usr_id"], $a_user_id);
 				$assigned = true;
 			}
