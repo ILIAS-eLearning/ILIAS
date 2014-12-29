@@ -90,6 +90,25 @@ class gevNAUtils {
 		return $this->pou->getEmployeesOf();
 	}
 	
+	static $ADVISER_ROLES = array(
+		  "Administrator"
+		, "Admin-Voll"
+		, "Admin-eingeschraenkt"
+		, "OD/BD"
+		, "FD"
+		, "UA"
+		, "HA 84"
+		, "BA 84"
+		, "Org PV 59"
+		, "PV 59"
+		, "AVL"
+		, "VA 59"
+		, "VA HGB 84"
+		, "NFK"
+		, "int. Trainer"
+		, "DBV EVG"
+		);
+	
 	/**
 	 * Sucht einen ILIAS-Benutzer, der zur Eingabe passt. Durchsucht werden
 	 * Login sowie Vorname und Nachname aller Benutzer.
@@ -104,14 +123,18 @@ class gevNAUtils {
 	 * Benutzer, die die Rolle NA werden aus der Suche ausgenommen (#863)
 	 */
 	public function searchAdviser($a_search) {
-		$res = $this->db->query(
+		$query_head = 
 			 "SELECT DISTINCT ud.usr_id "
 			."  FROM usr_data ud"
-			."  LEFT JOIN object_data od ON od.type='role' AND od.title='NA'"
+			."  LEFT JOIN object_data od ON od.type='role' AND ".$this->db->in("od.title", self::$ADVISER_ROLES, false, "text")
 			."  LEFT JOIN object_reference oref ON od.obj_id = oref.obj_id AND oref.deleted IS NULL"
 			."  LEFT JOIN rbac_ua ua ON ua.usr_id = ud.usr_id AND ua.rol_id = od.obj_id"
+			;
+			
+		$res = $this->db->query(
+			 $query_head
 			." WHERE ud.login = ".$this->db->quote($a_search, "text")
-			."   AND ua.usr_id IS NULL"
+			."   AND NOT ua.usr_id IS NULL"
 			);
 		
 		if ($this->db->numRows($res) === 1) {
@@ -125,13 +148,9 @@ class gevNAUtils {
 			$spl[$key] = "( firstname LIKE ".$search." OR lastname LIKE ".$search." )";
 		}
 		$res = $this->db->query(
-				 "SELECT DISTINCT ud.usr_id"
-				."  FROM usr_data ud"
-				."  LEFT JOIN object_data od ON od.type='role' AND od.title='NA'"
-				."  LEFT JOIN object_reference oref ON od.obj_id = oref.obj_id AND oref.deleted IS NULL"
-				."  LEFT JOIN rbac_ua ua ON ua.usr_id = ud.usr_id AND ua.rol_id = od.obj_id"
+				 $query_head
 				." WHERE ".implode(" AND ", $spl)
-				."   AND ua.usr_id IS NULL"
+				."   AND NOT ua.usr_id IS NULL"
 				);
 
 		if ($this->db->numRows($res) === 1) {
