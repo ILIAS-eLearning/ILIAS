@@ -15,6 +15,7 @@ require_once("Services/GEV/Import/classes/class.gevImportedUser.php");
 
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/Utils/classes/class.gevNAUtils.php");
 //settings and imports
 ini_set("memory_limit","2048M"); 
 ini_set('max_execution_time', 0);
@@ -44,6 +45,8 @@ class gevUserImport {
 		$this->ilDB = &$ilDB;
 
 		$this->role_utils = gevRoleUtils::getInstance();
+		$this->na_utils = gevNAUtils::getInstance();
+
 		$this->global_roles = $this->role_utils->getGlobalRoles();
 		$this->orgu_superior_roles = array();
 		foreach (gevSettings::$VMS_ROLE_MAPPING as $key => $value) {
@@ -873,7 +876,7 @@ class gevUserImport {
 		$user_utils->setJobNumber($user_record['vnr_gev']);
 		$user_utils->setAgentKey($user_record['vkey_gev']);
 		$user_utils->setAgentKeyVFS($user_record['vkey_vfs']);
-/*
+
 		$user_utils->setPaisyNr($user_record['paisy']);
 
 
@@ -885,7 +888,7 @@ class gevUserImport {
 		}
 
 		//$user_utils->setWBDFirstCertificationPeriodBegin($user_record['wbd_cert_begin']));
-*/
+
 
 		$user = new ilObjUser($il_user_id);
 		$user->update();
@@ -905,7 +908,7 @@ class gevUserImport {
 		}
 		$new_role = gevUserImportMatching::$ROLEMAPPINGS[$role_title];
 		if($new_role == '#FROMKEY'){
-			//$this->prnt('...key...');
+			$this->prnt('...key...');
 			$sql = "SELECT role_title FROM interimRoleFromKey WHERE position_key='$position_key'";
 			$result = $this->queryShadowDB($sql);
 			$rec = mysql_fetch_assoc($result);
@@ -913,6 +916,8 @@ class gevUserImport {
 		}
 		return $new_role;
 	}
+
+
 
 	public function assignUserRoles($interim_user_id, $il_user_id, $user_record){
 		$this->prnt('assignUserRoles', 3);
@@ -929,38 +934,147 @@ class gevUserImport {
 		." WHERE interimUserRoles.interim_usr_id = $interim_user_id";
 
 		$result = $this->queryShadowDB($sql);
+		if(mysql_num_rows($result) == 0){
+			print_r($user_record);
+			print_r($sql);
+			print ('no role.');
+		}
+
+		$new_roles = array();
+		$this->prnt($user_record['login'] .': ' .$record['role_title'] .' -> ');
 		while ($record = mysql_fetch_assoc($result)){
 			$new_role = $this->matchRole($record['role_title'], $agentkey);
-			$this->prnt($user_record['login'] .': ' .$record['role_title'] .' -> ');
-			$this->prnt($new_role, -1);
 			if($new_role != '#DROP'){
 				$this->role_utils->assignUserToGlobalRole($il_user_id, $new_role);
+				$this->prnt($new_role, -1);
+				$new_roles[] = $new_role;
+			}else{
+				$this->prnt('-drop-', -1);
 			}
 		}	
+
 	}
 
 
-	public function assignUserToOrgUnits($interim_user_id, $il_user_id, $client){
-		$this->prnt('assignUserToOrgUnits', 3);
-
-		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-		$sql = "SELECT orgu_id, ilid FROM interimOrguAssignments"
-			." LEFT JOIN interimOrgUnits on interimOrguAssignments.orgu_id = interimOrgUnits.id"
-			." WHERE interimOrguAssignments.interim_usr_id = '$interim_user_id'";
 
 
-		$result = $this->queryShadowDB($sql);
-		while ($record = mysql_fetch_assoc($result)){
+	public function assignAsMiZ($user_record, $mizcoach){
+		$il_user_id = $user_record['ilid'];
 
-			$org_unit_id = $record['ilid'];
-			if($org_unit_id == 0){
-				$org_unit_id = 'nogroup_' . $client;
-				$res = $this->queryShadowDB("SELECT ilid FROM interimOrgUnits WHERE id='$org_unit_id'");
-				$rec = mysql_fetch_assoc($res);
-				$org_unit_id = $rec['ilid'];
-			}
+		if($user_record['isMizOfADP']){
+
+			$sql = "SELECT ilid as il_adviser_user_id FROM interimUsers"
+				." WHERE adp_vfs = '" . $user_record['isMizOfADP'] ."'";
+
+		
+			$result = $this->queryShadowDB($sql);
+			$record = mysql_fetch_assoc($result);
+			$il_adviser_user_id = $record['il_adviser_user_id'];
 			
-			$this->prnt('in OrgUnit '. $org_unit_id);
+			if(! is_numeric($il_adviser_user_id)){
+				$sql = "SELECT ilid as il_adviser_user_id FROM interimUsers"
+					." WHERE mail = '" . $il_adviser_user_id ."'";
+				$result = $this->queryShadowDB($sql);
+				$record = mysql_fetch_assoc($result);
+				$il_adviser_user_id = $record['il_adviser_user_id'];
+			}
+		
+			
+			$this->prnt('... by interimUser: MIZ of ' .$il_adviser_user_id);
+			try{
+				$this->na_utils->assignAdviser($il_user_id, $il_adviser_user_id);
+			}
+			catch(Exception $e){
+				print_r($e);
+				//pass				
+			}
+			$this->prnt(' .... ok', -1);
+		}
+
+
+		if(is_numeric($mizcoach)){
+			//get mizcoach
+			$sql = "SELECT ilid as il_adviser_user_id FROM interimUsers"
+					." WHERE id = $mizcoach";
+
+			$result = $this->queryShadowDB($sql);
+			$record = mysql_fetch_assoc($result);
+			$il_adviser_user_id = $record['il_adviser_user_id'];
+
+			$this->prnt('... by interimOrguAssignments: MIZ of ' .$il_adviser_user_id);
+			try{
+				$this->na_utils->assignAdviser($il_user_id, $il_adviser_user_id);
+			}
+			catch(Exception $e){
+				print_r($e);
+				//pass				
+			}
+			$this->prnt(' .... ok', -1);
+		}
+
+	}
+
+
+
+
+
+	public function assignUserToOrgUnits($interim_user_id, $il_user_id, $user_record){
+		//$this->prnt('assignUserToOrgUnits', 3);
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+
+		$sql = "SELECT * FROM interimOrguAssignments WHERE interim_usr_id='$interim_user_id'";
+		$result = $this->queryShadowDB($sql);
+		if(mysql_num_rows($result) == 0){
+			//keine zuordnung
+			$this->prnt('Keine Zuordnung: ' .$user_record['login'], 3);
+			//$orgu_id = 'ohne_zuordnung';
+			$client = ($user_record['ilid_vfs'] == '') ? 'gev' : 'vfs';
+			$orgu_id = 'nogroup_' .$client;
+
+
+		} else {
+
+			$record = mysql_fetch_assoc($result);
+			$orgu_id = $record['orgu_id'];
+		}
+
+
+		if($orgu_id == 'root'){
+			$this->prnt('root-user? : ' .$user_record['login'], 3);
+		}
+
+		if($orgu_id == 'makler'){
+			$this->prnt($user_record['login'] .' (' .$interim_user_id .') is a DBV-Makler ');
+			// fromRegistrationGUI, DBV assign
+			require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
+			gevDBVUtils::getInstance()->assignUserToDBVsByShadowDB($il_user_id);
+			
+		}
+		if($orgu_id == 'na'){
+			$this->prnt($user_record['login'] .' (' .$interim_user_id .') is a NA ');
+			$this->assignAsMiZ($user_record, $record['interim_usr_id_mizcoach']);
+		}
+
+
+
+
+		if(	$orgu_id != 'na' 
+			&& $orgu_id != 'makler'
+			&& $orgu_id != 'root'){
+
+			$sql = "SELECT ilid, id, title FROM interimOrgUnits "
+				." WHERE id = '" .$orgu_id ."'";
+
+			$res = $this->queryShadowDB($sql);
+			if(mysql_num_rows($res) == 0){
+				die($sql);
+			}
+
+			$rec = mysql_fetch_assoc($res);
+
+			$org_unit_id = $rec['ilid'];
+
+			$this->prnt($user_record['login'] .' [il ' .$il_user_id .'] in OrgUnit '.$rec['title'] . ' (' .$org_unit_id .' )');
 
 			$org_role_title = 'Mitarbeiter';
 			$user_roles = $this->role_utils->getGlobalRolesOf($il_user_id);
@@ -971,16 +1085,16 @@ class gevUserImport {
 				}
 			}
 
-
 			$org_unit_utils = gevOrgUnitUtils::getInstance($org_unit_id);
 			$org_unit_utils->getOrgUnitInstance();
 			$org_unit_utils->assignUser($il_user_id, $org_role_title);
-			
 		}
 
-		// fromRegistrationGUI, DBV assign
-		//require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
-		//gevDBVUtils::getInstance()->assignUserToDBVsByShadowDB($il_user_id);
+
+
+
+
+		
 	}
 
 
@@ -997,17 +1111,9 @@ class gevUserImport {
 		}
 
 
-		$sql = "SELECT * FROM interimUsers"
-		." WHERE login NOT IN ('root', 'anonymous', 'cron')"
-		." AND mail NOT LIKE '%@qualitus.de'"
-//		." AND id BETWEEN 2755 AND 2765"
-//." LIMIT 200 OFFSET 400"
-		;
-		$result = $this->queryShadowDB($sql);
-
-		while ($record = mysql_fetch_assoc($result)){
-
-$this->prnt($record, 666);
+		foreach ($this->getUsersFromInterimsDB() as $record) {
+			
+			$this->prnt($record, 666);
 			
 			if(! in_array(trim($record['login']), $exclude)){
 				//create
@@ -1036,18 +1142,55 @@ $this->prnt($record, 666);
 
 			$this->setUserAdditionalData($user_id, $record);
 
-			$this->assignUserRoles($record['id'], $user_id, $record);
-
-			
-			$client = ($record['ilid_vfs'] == '') ? 'gev' : 'vfs';
-			$this->assignUserToOrgUnits($record['id'], $user_id, $client);
-
 		};
-
-
 		$this->prnt('Creating/Updating UserAccounts: done', 2);
 	}
 	
+
+	public function assignAllUserRoles(){
+		$this->prnt('assignAllUserRoles', 1);
+		foreach ($this->getUsersFromInterimsDB() as $record) {
+			$user_id = (int)$record['ilid'];
+			$this->assignUserRoles($record['id'], $user_id, $record);
+		}
+		$this->prnt('assignAllUserRoles: done', 2);
+	}
+
+
+	public function assignAllUsersToOrgUnits(){
+		$this->prnt('assignAllUsersToOrgUnits', 1);
+		foreach ($this->getUsersFromInterimsDB() as $record) {
+			//$client = ($record['ilid_vfs'] == '') ? 'gev' : 'vfs';
+			$this->assignUserToOrgUnits($record['id'], $record['ilid'], $record);
+		}
+		$this->prnt('assignAllUsersToOrgUnits: done', 2);
+	}
+
+
+
+
+
+
+	public function getUsersFromInterimsDB(){
+		$sql = "SELECT * FROM interimUsers"
+		." WHERE login NOT IN ('root', 'anonymous', 'cron')"
+		." AND mail NOT LIKE '%@qualitus.de'"
+
+//." AND isMizOfADP != '' "		
+//		." AND id BETWEEN 2755 AND 2765"
+//." LIMIT 200 OFFSET 400"
+		;
+
+		$result = $this->queryShadowDB($sql);
+		$ret = array();
+		while ($record = mysql_fetch_assoc($result)){
+			$ret[] = $record;
+		}
+		return $ret;
+	}
+
+
+
 
 
 
