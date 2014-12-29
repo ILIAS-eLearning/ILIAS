@@ -2685,3 +2685,11 @@ if(!$ilDB->tableExists('hist_tep'))
 		$ilDB->addPrimaryKey('gev_na_tokens', array('user_id'));
 	}
 ?>
+
+<#84>
+<?php
+
+$ilDB->manipulate("UPDATE tep_type SET title = 'AD-Begleitung' WHERE title = 'AD Begleitung'");
+$ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD Gespräch'");
+
+?>
