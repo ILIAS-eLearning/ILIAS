@@ -176,6 +176,7 @@ $val3 = $res["collector"]->collect(array
 
 echo "val3 ".($val3->isError()?"is error\n":"is no error\n");
 if ($val3->isError()) echo "Reason is '".$val3->error()."'\n";
+echo $res["renderer"]->renderValues(new RenderDict($val3))."\n";
 
 
 /*function guardInRange($l,$r,$value) {
