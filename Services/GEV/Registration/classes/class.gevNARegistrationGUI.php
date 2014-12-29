@@ -25,6 +25,9 @@ class gevNARegistrationGUI {
 
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
+		if($cmd == "startRegistration") {
+			$cmd = "startNARegistration";
+		}
 		
 		switch ($cmd) {
 			case "startNARegistration":

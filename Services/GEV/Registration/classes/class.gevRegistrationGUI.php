@@ -45,6 +45,12 @@ class gevRegistrationGUI {
 					case "startRegistration":
 						$cont = $this->$cmd();
 						break;
+					case "startAgentRegistration":
+						$this->ctrl->redirectByClass("gevAgentRegistrationGUI", "startAgentRegistration");
+						exit();
+					case "startNARegistration":
+						$this->ctrl->redirectByClass("gevNARegistrationGUI", "startNARegistration");
+						exit();
 					default:
 						ilUtil::redirect("login.php");
 				}

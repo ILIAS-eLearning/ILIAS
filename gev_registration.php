@@ -18,12 +18,17 @@ if (!isset($_GET["baseClass"])) {
 }
 $ilCtrl->setTargetScript("gev_registration.php");
 
-if (!isset($_POST["cmd"])) {
-	$ilCtrl->setCmd("startRegistration");
+if (isset($_GET["goto"]) && ($_GET["goto"] == "startNARegistration" || $_GET["goto"] == "startAgentRegistration")) {
+	$ilCtrl->setCmd($_GET["goto"]);
 }
 else {
-	$cmds = array_keys($_POST["cmd"]);
-	$ilCtrl->setCmd($cmds[0]);
+	if (!isset($_POST["cmd"])) {
+		$ilCtrl->setCmd("startRegistration");
+	}
+	else {
+		$cmds = array_keys($_POST["cmd"]);
+		$ilCtrl->setCmd($cmds[0]);
+	}
 }
 
 $ilCtrl->callBaseClass();

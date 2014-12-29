@@ -27,6 +27,9 @@ class gevAgentRegistrationGUI {
 
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
+		if($cmd == "startRegistration") {
+			$cmd = "startAgentRegistration";
+		}
 		
 		switch ($cmd) {
 			case "startAgentRegistration":
