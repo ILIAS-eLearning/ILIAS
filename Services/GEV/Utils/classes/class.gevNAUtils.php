@@ -100,6 +100,8 @@ class gevNAUtils {
 	 * Gibt null zurück, wenn keiner oder viele Benutzer gefunden werden, die
 	 * zur Eingabe passen. Gibt ansonsten die ILIAS-Id des gefundenen Benutzers
 	 * zurück.
+	 *
+	 * Benutzer, die die Rolle NA werden aus der Suche ausgenommen (#863)
 	 */
 	public function searchAdviser($a_search) {
 		$res = $this->db->query(
@@ -123,7 +125,7 @@ class gevNAUtils {
 			$spl[$key] = "( firstname LIKE ".$search." OR lastname LIKE ".$search." )";
 		}
 		$res = $this->db->query(
-				 "SELECT ud.usr_id"
+				 "SELECT DISTINCT ud.usr_id"
 				."  FROM usr_data ud"
 				."  LEFT JOIN object_data od ON od.type='role' AND od.title='NA'"
 				."  LEFT JOIN object_reference oref ON od.obj_id = oref.obj_id AND oref.deleted IS NULL"
