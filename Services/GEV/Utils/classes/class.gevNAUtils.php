@@ -142,6 +142,57 @@ class gevNAUtils {
 		return null;
 	}
 	
+	// According to GEV_002a-SL_GOAL-Feature-Nebenberufsagenturen-Mailversand_2014-11-30.docx
+	public function getNASuccessfullMailRecipient($a_user_id) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$user_utils = gevUserUtils::getInstance($a_user_id);
+		if (!$user_utils->isNA()) {
+			throw new Exception("gevNAUtils::getNASuccessfullMailRecipient: User $a_user_id is no NA.");
+		}
+		
+		$od = $user_utils->getOD();
+		$tmp = explode(" ", $od["title"]);
+		if (in_array($tmp[1], self::$ADSN_ODS)) {
+			return "ADS Nord <ads-nord@generali.com>";
+		}
+		if (in_array($tmp[1], self::$ADSS_ODS)) {
+			return "ADS Sued <ads-sued@generali.com>";
+		}
+		
+		return "Generali Online Akademie <Bildungspunkte.de@generali.com>";
+	}
+	
+	static $ADSN_ODS = array(
+			  "Berlin"
+			, "Bremen"
+			, "Dortmund"
+			, "Dresden"
+			, "Düsseldorf"
+			, "Erfurt"
+			, "Frankfurt"
+			, "Gießen"
+			, "Hamburg"
+			, "Hannover"
+			, "Köln"
+			, "Münster"
+			, "Saarbrücken"
+
+		);
+	
+	static $ADSS_ODS = array(
+			  "Bamberg"
+			, "Freiburg"
+			, "Heilbronn"
+			, "Karlsruhe"
+			, "München"
+			, "Nürnberg"
+			, "Passau"
+			, "Ravensburg"
+			, "Regensburg"
+			, "Rosenheim"
+			, "Stuttgart"
+		);
+	
 	// Confirmation or denial of na accounts.
 	
 	public function createConfirmationToken($a_user_id, $a_adviser_id) {
