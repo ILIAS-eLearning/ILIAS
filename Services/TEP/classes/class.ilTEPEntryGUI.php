@@ -208,7 +208,10 @@ class ilTEPEntryGUI
 		include_once "Services/TEP/classes/class.ilCalEntryType.php";
 		$cal = new ilCalEntryType();
 		$type_opts = $cal->getAllActive();
-				
+		// gev-patch start
+		sort($type_opts,  SORT_NATURAL | SORT_FLAG_CASE);
+		// gev-patch end
+		
 		// type		
 		$etype = new ilSelectInputGUI($lng->txt("tep_entry_type"), "type");
 		$etype->setRequired(true);	
