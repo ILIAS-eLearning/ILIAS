@@ -136,6 +136,7 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 			require_once("Services/GEV/Mailing/classes/class.gevDeferredMails.php");
 			gevDeferredMails::getInstance()->removeDeferredMails( array($a_parameter["crs_obj_id"])
 																, array( "participant_successfull"
+																	   , "na_successfull"
 																	   , "participant_absent_excused"
 																	   , "participant_absent_not_excused"
 																	   )
@@ -147,6 +148,8 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 		if ($a_event != "setStatusAndPoints") {
 			return;
 		}
+		
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/ParticipationStatus/classes/class.ilParticipationStatus.php");
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
@@ -154,6 +157,7 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 		$usr_id = intval($a_parameter["user_id"]);
 		$crs_id = intval($a_parameter["crs_obj_id"]);
 		$crs_utils = gevCourseUtils::getInstance($crs_id);
+		$usr_utils = gevUserUtils::getInstance($usr_id);
 		$status = $crs_utils->getParticipationStatusOf($usr_id);
 		$type = $crs_utils->getType();
 		$mails = new gevCrsAutoMails($crs_id);
@@ -164,6 +168,9 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 		
 		if ($status == ilParticipationStatus::STATUS_SUCCESSFUL) {
 			$mails->sendDeferred("participant_successfull", array($usr_id));
+			if (gevUserUtils::getInstance($usr_id)->isNA()) {
+				$mails->sendDeferred("na_successfull", array($usr_id));
+			}
 		}
 		else if ($status == ilParticipationStatus::STATUS_ABSENT_EXCUSED) {
 			$mails->sendDeferred("participant_absent_excused", array($usr_id));
