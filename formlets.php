@@ -8,8 +8,7 @@
  * called Formlets, that can be transformed to a concrete Renderer and 
  * Collector. 
  * While the Renderer is responsible for creating an HTML representation of a 
- * Formlet, the Collector is responsible for collection inputs of the user from 
- * the environment.
+ * Formlet, the Collector is responsible for collecting inputs of the user.
  *
  * The PHP implementations turns out to be a little more complex, since stuff 
  * like currying and functions as values is not as handy as in functional 
@@ -173,7 +172,7 @@ final class PlainValue extends Value {
 }
 
 /* Construct a plain value from a PHP value. */
-function _plain($value, $origin = null) {
+function _value($value, $origin = null) {
     return new PlainValue($value, $origin);
 }
 
@@ -367,7 +366,7 @@ final class FunctionValue extends Value {
             return $val;
         }
         else {
-            return _plain($val);
+            return _value($val);
         }            
     }
 }
@@ -458,10 +457,10 @@ class RenderDict {
     public static function _empty() {
         // ToDo: Why does this not work?
         /*if (self::_emptyInst === null) {
-            self::_emptyInst = new RenderDict(_plain(0));
+            self::_emptyInst = new RenderDict(_value(0));
         }
         return self::_emptyInst;*/
-        return new RenderDict(_plain(0));
+        return new RenderDict(_value(0));
     }  
 
     public static function computeFrom(Value $value) {
@@ -587,7 +586,7 @@ abstract class Collector {
      * some problem in the implementation or tampering with the input, thus we 
      * throw.
      */
-    abstract public function collect($env);
+    abstract public function collect($inp);
     /* Check weather Collector collects something. */
     abstract public function isNullaryCollector();
 }
@@ -602,7 +601,7 @@ class MissingInputError extends Exception {
 
 /* A collector that collects nothing and will be dropped by apply collectors. */
 final class NullaryCollector extends Collector {
-    public function collect($env) {
+    public function collect($inp) {
         die("NullaryCollector::collect: This should never be called.");
     }
     public function isNullaryCollector() {
@@ -618,7 +617,7 @@ final class ConstCollector extends Collector {
         $this->value = $value;
     }
 
-    public function collect($env) {
+    public function collect($inp) {
         return $this->value;
     }
 
@@ -639,9 +638,9 @@ final class ApplyCollector extends Collector {
         $this->r = $right;
     }
 
-    public function collect($env) {
-        $l = $this->l->collect($env);
-        $r = $this->r->collect($env);
+    public function collect($inp) {
+        $l = $this->l->collect($inp);
+        $r = $this->r->collect($inp);
         return $l->apply($r);
     }
 
@@ -666,8 +665,8 @@ final class CheckedCollector extends Collector {
         $this->_error = $error;
     }
 
-    public function collect($env) {
-        $res = $this->_collector->collect($env);
+    public function collect($inp) {
+        $res = $this->_collector->collect($inp);
         if ($res->isError()) {
             return $res;
         }
@@ -701,8 +700,8 @@ final class MappedCollector extends Collector {
         $this->_function = $function;
     }
 
-    public function collect($env) {
-        $res = $this->_collector->collect($env);
+    public function collect($inp) {
+        $res = $this->_collector->collect($inp);
         if ($res->isError()) {
             return $res;
         }
@@ -710,7 +709,7 @@ final class MappedCollector extends Collector {
         $res2 = $this->_function->apply($res);
         if (!$res2->isError() && !$res2->isApplicable()) {
             // rewrap ordinary values to keep origin.
-            $res2 = _plain($res2->get(), $res->origin());
+            $res2 = _value($res2->get(), $res->origin());
         }
         return $res2;
     }
@@ -729,12 +728,12 @@ final class StringCollector extends Collector {
         $this->_name = $name;
     }
 
-    public function collect($env) {
-        if (!array_key_exists($this->_name, $env)) {
+    public function collect($inp) {
+        if (!array_key_exists($this->_name, $inp)) {
             throw new MissingInputError($this->_name);
         }
-        guardIsString($env[$this->_name]);
-        return _plain($env[$this->_name], $this->_name);
+        guardIsString($inp[$this->_name]);
+        return _value($inp[$this->_name], $this->_name);
     }
 
     public function isNullaryCollector() {
@@ -815,6 +814,9 @@ abstract class FormletFactory {
 }
 
 abstract class Formlet {
+    /* Build a renderer and collector from the formlet and also return the 
+     * updated name source.
+     */
     public abstract function build(NameSource $name_source);
     
     /* Combine this formlet with another formlet. Yields a new formlet. */
@@ -999,7 +1001,7 @@ class CheckedFormlet extends Formlet {
 
 if ($TEST_MODE) {
     print_check_isFormlet("CheckedFormlet", array
-                            ( _pure(_plain(3))
+                            ( _pure(_value(3))
                             , _function(1, "alwaysTrue")
                             , "ERROR"
                             ));
@@ -1039,7 +1041,7 @@ class MappedCollectorFormlet extends Formlet {
 
 if ($TEST_MODE) {
     print_check_isFormlet("MappedCollectorFormlet", array
-                            ( _pure(_plain("3"))
+                            ( _pure(_value("3"))
                             , _function(1, "intval")
                             ));
     echo "\n";

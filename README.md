@@ -15,7 +15,7 @@ in the implementation might feel somehow strange to PHPers anyway (and others as
 well), so i will start with some explanation of the concepts and how one could
 use them with my library to create forms. Hf.
 
-## Functions as values, currying
+## Functions as Values, Currying
 
 First concept we need to understand for the formlets abstraction, we need to look
 at functions in a different way then we are used to from PHP. 
@@ -35,22 +35,22 @@ splits a string at the delimiter. That also means you could call a function
 partially. PHP functions are rather different. You always call them at once.
 
 ```php
-# Create a function object from an ordinary PHP function, you need to
-# give its arity and name.
+// Create a function object from an ordinary PHP function, you need to
+// give its arity and name.
 $explode = _function(2, "explode");
 
-# For the lib to work, we need to treat functions and values the same,
-# so we need to lift ordinary values to our abstraction.
+// For the lib to work, we need to treat functions and values the same,
+// so we need to lift ordinary values to our abstraction.
 $delim = _value(" ");
 $string = _value("foo bar");
 
-# We could apply the function once to the delim, creating a new function.
+// We could apply the function once to the delim, creating a new function.
 $explodeBySpace = $explode->apply($delim);
 
-# We could apply the function to the string to create the final result:
+// We could apply the function to the string to create the final result:
 $res = $explodeBySpace->apply($string);
 
-# Since the value is still wrapped, we need to unwrap it.
+// Since the value is still wrapped, we need to unwrap it.
 $unwrapped = $res->get();
 
 print_r($unwrapped);
@@ -65,3 +65,59 @@ stuff. When using functions with sideeffects, the result might be suprising.
 For the later use with the formlets, the functions and values can be erroneous
 and have an origin. The related classes and functions could be found at the
 section starting with the class Value in formlets.php.
+
+## Form(let)s as Applicative Functors
+
+The building blog of our form are called formlets, and they behave according
+to an abstraction called applicative functor. We'll try to understand both
+alongside, there's enough stuff about the abstract concept on the net.
+
+A formlet is a thing that encapsulates two things, a renderer and a collector,
+in a highly composable way. The renderer is the entity that creates HTML output,
+while the collector is responsible for collecting values from the user input.
+The most simple formlet (the 'pure' one) thus is a formlet the renders to nothing
+and 'collects' a constant value, regardless of the user-input.
+
+```php
+// Really not to interesting, but we use our value abstraction.
+$boringFormlet = _pure(_value("Hello World"));
+
+// Since functions are values as well, we could construct a formlet containing 
+// a function.
+$functionFormlet = _pure($explodeBySpace);
+```
+
+The created entities could be used to build concrete renderers and collectors.
+To do that and maintain maintainability, we need a source that creates unique
+names in an reproducible way. To avoid complex sideeffects, the name source
+can only be instantiated once and needs to be passed around explicitly. This
+is also a point i'm currently thinking about how to handle best.
+
+```php
+// The one and only (might not be that way always):
+$name_source = NameSource::instantiate();
+
+// Very boring renderer and collector.
+$repr = $boringFormlet->build($name_source);
+
+// Renderer does nothing
+echo ("" == $repr["renderer"]->render()?"No output":"Oh, that's not pure...");
+
+// The collector 'collects' a constant value, wrapped in our value representation.
+echo $repr["collector"]->collect(array());
+
+// We need to update the name source:
+$name_source = $repr["name_source"]; 
+```
+
+A formlet is a functor, since in some sense every formlet contains a value. And 
+we can map over that value, that is apply a function to that value inside the 
+formlet, yielding a new formlet containing the result of the function call.
+
+```php
+// The function to map over the formlet is called mapCollector, since it leaves
+// the renderer untouched. Maybe at some point a mapRenderer might come in handy
+// to...
+$containsArrayFormlet = $boringFormlet->mapCollector($explodeBySpace);
+```
+

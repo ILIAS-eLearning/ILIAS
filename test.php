@@ -73,7 +73,7 @@ require_once("formlets.php");
 
 // TEST 1
 
-$formlet = _pure(_function(1, "intval"))->cmb(_text_input());
+/*$formlet = _pure(_function(1, "intval"))->cmb(_text_input());
 
 $res = $formlet->build(NameSource::instantiate());
 
@@ -124,15 +124,15 @@ function inRange($l, $r, $value) {
 function _inRange($l, $r) {
     return _function(1, "inRange", array($l, $r));
 }
-
+*/
 /*echo inRange(1,31,24)?"TRUE\n":"FALSE\n";
 $fv = _inRange(1,31);
 print_r($fv);
-$res = $fv->apply(_plain(24));
+$res = $fv->apply(_value(24));
 print_r($res);
 print_r($res->get());
 */
-
+/*
 $int_formlet = _text_input()
                 ->mapCollector(_function(1, "intval"));
 
@@ -177,13 +177,32 @@ $val3 = $res["collector"]->collect(array
 echo "val3 ".($val3->isError()?"is error\n":"is no error\n");
 if ($val3->isError()) echo "Reason is '".$val3->error()."'\n";
 echo $res["renderer"]->renderValues(new RenderDict($val3))."\n";
-
+*/
 
 /*function guardInRange($l,$r,$value) {
     if ($value < $l || $value > $r) {
         throw new Exception("Expected value to be in range $l to $r, but is $value");
     }
 }*/
+
+// Create a function object from an ordinary PHP function, you need to
+// give its arity and name.
+$explode = _function(2, "explode");
+
+// For the lib to work, we need to treat functions and values the same,
+// so we need to lift ordinary values to our abstraction.
+$delim = _value(" ");
+$string = _value("foo bar");
+
+// We could apply the function once to the delim, creating a new function.
+$explodeBySpace = $explode->apply($delim);
+
+// We could apply the function to the string to create the final result:
+$res = $explodeBySpace->apply($string);
+
+// Since the value is still wrapped, we need to unwrap it.
+print_r($res->get());
+
 
 ?>
 
