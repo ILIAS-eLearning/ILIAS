@@ -551,6 +551,7 @@ gev#:#gev_my_roadmap#:#Meine Azubiroadmap
 gev#:#gev_my_settings#:#Meine Einstellungen
 gev#:#gev_my_trainer_ap#:#Meine Trainingseinsätze
 gev#:#gev_na_adviser#:#NA-Betreuer
+gev#:#gev_na_reg_no_adviser#:#Ihr Betreuer konnte nicht eindeutig bestimmt werden.
 gev#:#gev_na_adviser_input_info#:#Geben sie den Namen oder Benutzernamen ihres NA-Betreuers ein.
 gev#:#gev_na_registration_success#:#Eine Mail zur Bestätigung ihres Accounts wurde an ihren Betreuer versandt.
 gev#:#gev_need_agb_accept#:#Sie müssen die Buchungs- und Stornierungsbedingungen akzeptieren um fortfahren zu können.
@@ -571,6 +572,7 @@ gev#:#gev_not_bookable#:#ausgebucht
 gev#:#gev_number_of_measure#:#Nummer der Maßnahme
 gev#:#gev_obligatory_booking#:#Verbindliche Buchung
 gev#:#gev_od_bd#:#OD/BD
+gev#:#gev_course_online_status#:#Online-Status
 gev#:#gev_org_mgmt#:#Organisationseinheiten
 gev#:#gev_org_unit#:#zugehörige Organisationseinheit
 gev#:#gev_org_unit_short#:#Org.-Einheit
