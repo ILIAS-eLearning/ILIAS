@@ -56,3 +56,12 @@ $unwrapped = $res->get();
 print_r($unwrapped);
 ```
 
+The function evaluation works lazy, that is it only calculates the value when 
+it is really needed the first time. In our case that is the moment we call 
+$res->get(). You will be safe in terms of the result of function applications 
+if you only use functions without sideeffects like writing or reading global 
+stuff. When using functions with sideeffects, the result might be suprising.
+
+For the later use with the formlets, the functions and values can be erroneous
+and have an origin. The related classes and functions could be found at the
+section starting with the class Value in formlets.php.
