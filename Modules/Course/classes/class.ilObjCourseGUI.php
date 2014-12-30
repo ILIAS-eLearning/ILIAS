@@ -1719,6 +1719,14 @@ class ilObjCourseGUI extends ilContainerGUI
 												, ""
 												, "_blank"
 												);
+				
+												
+				$this->ctrl->setParameterByClass('ilmateriallistgui', 'ref_id', $this->object->getRefId());
+				$this->tabs_gui->addSubTabTarget('matlist',
+					$this->ctrl->getLinkTargetByClass('ilmateriallistgui',''), 
+					'', 'ilmateriallistgui');		
+				$this->ctrl->setParameterByClass('ilmateriallistgui', 'ref_id', '');				
+				
 				// gev-patch end
 				
 				break;

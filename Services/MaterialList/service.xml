@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="mlst">	
+	<baseclasses>
+		<baseclass name="ilMaterialListGUI" dir="classes" />	
+	</baseclasses>	
+	<events>				
+		<event type="raise" id="updated" />
+		<event type="listen" id="Modules/Course" />
+	</events>		
+</service>
