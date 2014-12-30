@@ -125,8 +125,9 @@ abstract class Value {
     /* Check weather value could be applied to another value. */
     abstract public function isApplicable();
 
-    /* EXPERIMENTAL */
+    /* Check weather this is an error value. */ 
     abstract public function isError();
+    /* Get the reason for the error. */ 
     abstract public function error();
 }
 
@@ -384,8 +385,7 @@ function _method($arity, $object, $function_name, $args = null) {
     return new FunctionValue($arity, $function_name, $object, $args);
 }
 
-
-// EXPERIMENTAL
+/* Value representing an error. */
 final class ErrorValue extends Value {
     private $_reason; // string
     private $_original_value; // Value
