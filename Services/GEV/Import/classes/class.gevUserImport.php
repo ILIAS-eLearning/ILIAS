@@ -825,7 +825,7 @@ class gevUserImport {
 			." last_login='" .$rec['last_login'] ."'"
 			." WHERE usr_id=" .$user_id;
 	
-			print $sql;
+			//print $sql;
 
 		$this->ilDB->query($sql);
 
@@ -974,22 +974,20 @@ class gevUserImport {
 
 		if($user_record['isMizOfADP']){
 
-			$sql = "SELECT ilid as il_adviser_user_id FROM interimUsers"
-				." WHERE adp_vfs = '" . $user_record['isMizOfADP'] ."'";
 
-		
+			if(is_numeric( $user_record['isMizOfADP'])){
+
+				$sql = "SELECT ilid as il_adviser_user_id FROM interimUsers"
+					." WHERE adp_vfs = '" . $user_record['isMizOfADP'] ."'";
+			} else {
+
+				$sql = "SELECT ilid as il_adviser_user_id FROM interimUsers"
+					." WHERE mail = '" . $user_record['isMizOfADP'] ."'";
+			}
+
 			$result = $this->queryShadowDB($sql);
 			$record = mysql_fetch_assoc($result);
 			$il_adviser_user_id = $record['il_adviser_user_id'];
-
-			if(! is_numeric($il_adviser_user_id)){
-				$sql = "SELECT ilid as il_adviser_user_id FROM interimUsers"
-					." WHERE mail = '" . $il_adviser_user_id ."'";
-				$result = $this->queryShadowDB($sql);
-				$record = mysql_fetch_assoc($result);
-				$il_adviser_user_id = $record['il_adviser_user_id'];
-			}
-		
 			
 			$this->prnt('... by interimUser: MIZ of ' .$il_adviser_user_id);
 			try{
@@ -1027,8 +1025,6 @@ class gevUserImport {
 
 
 
-
-
 	public function assignUserToOrgUnits($interim_user_id, $il_user_id, $user_record){
 		//$this->prnt('assignUserToOrgUnits', 3);
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
@@ -1057,6 +1053,7 @@ class gevUserImport {
 		if($orgu_id == 'makler'){
 			$this->prnt($user_record['login'] .' (' .$interim_user_id .') is a DBV-Makler ');
 			// fromRegistrationGUI, DBV assign
+			
 			require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
 			gevDBVUtils::getInstance()->assignUserToDBVsByShadowDB($il_user_id);
 			
