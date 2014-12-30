@@ -61,6 +61,18 @@ class gevFetchGEVUser {
 	}
 
 
+	private function getLastWBDUpdate($usr_id){
+		$sql = 'SELECT last_wbd_report FROM hist_user'
+		//." WHERE last_wbd_report IS NOT NULL"
+		." WHERE user_id = $usr_id"
+		." ORDER BY hist_version DESC";
+		$result = $this->db->query($sql);
+		$record = $this->db->fetchAssoc($result);
+		return $record['last_wbd_report'];
+	}
+
+
+
 	private function mkImportUser($entry){
 		$usr = new gevImportedUser();
 
@@ -82,8 +94,9 @@ class gevFetchGEVUser {
 		$usr->set('city', $entry->getCity());			//Ort
 		$usr->set('plz', $entry->getZipcode());			//Postleitzahl
 //$usr->set('country', $entry->getCountry());		//Land
-		$usr->set('fon_work', $entry->getPhoneOffice());		//Telefon Arbeit
-		$usr->set('fon_mobil', $entry->getPhoneMobile());	//Telefon Mobil
+		$usr->set('fon_work', $entry->getPhoneOffice());	//Telefon Arbeit
+		//$usr->set('fon_mobil', $entry->getPhoneMobile());	//Telefon Mobil
+		$usr->set('fon_mobil',  $entry->user_defined_data['f_14']); //ex fon privat, jetzt phone mobile
 		$usr->set('mail', $entry->getEmail());			//E-Mail
 
 		$usr->set('adp_gev', $entry->user_defined_data['f_1']);		//ADP-Nummer GEV
@@ -111,7 +124,9 @@ class gevFetchGEVUser {
 		$usr->set('wbd_cert_begin', $entry->user_defined_data['f_24']);//Beginn erste Zertifizierungsperiode
 		$usr->set('wbd_registered', $entry->user_defined_data['f_25']);//Hat WBD-Registrierung durchgeführt
 		$usr->set('mail_wbd', $entry->user_defined_data['f_26']);	//Email WBD
-//last_wbd_update
+
+		$usr->set('last_wbd_update', $this->getLastWBDUpdate($entry->getId()));	//lastWBDReport
+
 //orgunit_name
 		return $usr;
 	}

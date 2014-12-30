@@ -16,6 +16,7 @@ require_once("Services/GEV/Import/classes/class.gevImportedUser.php");
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/GEV/Utils/classes/class.gevNAUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
 //settings and imports
 ini_set("memory_limit","2048M"); 
 ini_set('max_execution_time', 0);
@@ -814,10 +815,25 @@ class gevUserImport {
 		return $user_id;
 	}
 
+	
+
+	public function	updateUser($user_record){
+		$user = new ilObjUser($user_record['ilid']);
+
+		//deactivate users
+		if(! $user_record['active']){
+			$user->setActive(false, 6);
+		}
+
+		$user->setPhoneMobile($user_record['fon_mobil']);
+
+		$user->update();
+	}
+
+
 
 
 	public function	update_pass($user_id, $rec){
-
 		//update pass, creation, agreement
 		$sql = "UPDATE usr_data SET"
 			." passwd='" .$rec['pwd'] ."',"
@@ -848,14 +864,14 @@ class gevUserImport {
 		$user_utils->setPrivateZipcode($user_record['plz_priv']);
 
 		$user_utils->setEntryDate(new ilDate($user_record['entry_date'], IL_CAL_DATE));
-		if($user_record['exit_date'] != '00.00.0000'){
+		if($user_record['exit_date'] != '00.00.0000' && $user_record['exit_date'] != ''){
 			$user_utils->setExitDate(new ilDate($user_record['exit_date'], IL_CAL_DATE));
+		}else{
+			$udf_utils = gevUDFUtils::getInstance();
+			$udf_utils->setField($il_user_id, gevSettings::USR_UDF_EXIT_DATE, NULL);
 		}
 
 		
-
-//$this->prnt($user_record, 666);
-
 		if($user_record['tp_type']){
 			$user_utils->setWBDTPType($user_record['tp_type']);
 		}
@@ -878,7 +894,7 @@ class gevUserImport {
 		}
 		$user_utils->setWBDCommunicationEmail($user_record['mail_wbd']);
 		$user_utils->setIHKNumber($user_record['ihknr']);
-		$user_utils->getAgentPositionVFS($user_record['pos_vfs']);
+		$user_utils->setAgentPositionVFS($user_record['pos_vfs']);
 
 
 		$user_utils->setJobNumber($user_record['vnr_gev']);
@@ -1144,11 +1160,15 @@ class gevUserImport {
 					." WHERE login='".$record['login']."'";
 					$res = $this->ilDB->query($sql);
 					$rec = $this->ilDB->fetchAssoc($res);
+				
 					$user_id = $rec['usr_id'];
+				
 					$sql = "UPDATE interimUsers SET ilid = '$user_id' WHERE"
 					." id=" .$record['id'];
 					$this->queryShadowDB($sql);
 				}
+
+				$this->updateUser($record);
 			}
 
 
@@ -1190,8 +1210,9 @@ class gevUserImport {
 		." AND mail NOT LIKE '%@qualitus.de'"
 
 //." AND isMizOfADP != '' "		
-//		." AND id BETWEEN 2755 AND 2765"
+//." AND id BETWEEN 2755 AND 2765"
 //." LIMIT 200 OFFSET 400"
+//." AND id in (4352, 5632)"
 		;
 
 		$result = $this->queryShadowDB($sql);
