@@ -1,10 +1,11 @@
-﻿/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
-* ILIAS language file Hungarian Setup
+* ILIAS language file
 * @translator 53894 2014-09-26 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @translator 31603 Antónia Berecz <berecz@gdf.hu>
 * @module       setup language file hungarian
 * @modulegroup  language
+* @author       Matthias Kunkel <mkunkel@me.com>
 * @version      $Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!

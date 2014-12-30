@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
-* ILIAS language file Hungarian
-* @author 56354 2014-12-12 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* ILIAS language file ...
+* @author 56485 2014-12-17 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungary
 * @modulegroup	language
@@ -186,9 +186,9 @@ assessment#:#no_archive_on_anonymous#:#Névtelenül kitölthető tesztet nem leh
 assessment#:#autosave#:#Automatikus mentés
 assessment#:#autosave_info#:#A válaszokat meghatározott időközönként automatikusan mentjük, az adatvesztés elkerülése érdekében.
 assessment#:#autosave_ival#:#Időköz
-assessment#:#autosave_ival_info#:#Időközök, amelyekben a válaszok automatikusan mentésre kerülnek. (mikroszekundum)
 assessment#:#for#:#ehhez
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#'%s' teszt induló kitöltése nem tartalmaz kérdését.
+assessment#:#solution_contain_keywords#:#A pontozás a következő kulcsszavak előfordulása alapján történik:
 assessment#:#essay_scoring_mode#:#Pontozási mód
 assessment#:#essay_scoring_mode_without_keywords#:#Nincs automatikus pontozás
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Csak a tutor manuális pontozásával kerülnek megadásra pontok.
@@ -427,14 +427,14 @@ assessment#:#option_label_custom_true#:#'IGAZ'-ra címre
 assessment#:#option_label_custom_false#:#'HAMIS'-ra címke
 assessment#:#kprim_instruction_text#:#Minden állításnál döntse el: [%s] vagy [%s]
 assessment#:#kprim_answers_info#:#Egyválaszos kérdés (rádiógombos) 'négy helyes/helytelen döntés' fajtája ('K' vagy 'Kprim'-ként is ismert). Eredménye négy válasz/döntés vagy befejezetlen állapot lehet. A hibátlan eredmény mind a négy kérdésre adott választól/döntéstől függ. Maximális pontszám csak akkor adható, ha mind négy válasz/döntés hibátlan.
-assessment#:#tst_feedback#:#Visszacsatolás
-assessment#:#ass_quest_process_lock#:#Tesztkitöltések idejére zárolások használata
-assessment#:#ass_quest_process_lock_desc#:#Zárolás használata nélkül ún. versenyhelyzet alakulhat ki, amely hibás, inkonzisztens teszteredményekhez vezethet.
-assessment#:#ass_quest_process_lock_mode#:#Tesztkitöltés alatti zárolás típusa
-assessment#:#ass_quest_process_lock_mode_file#:#Fájlrendszerzárolások használata
-assessment#:#ass_quest_process_lock_mode_file_desc#:#Ez a zárolási típus a fájlrendszerben üres fájlokat zárol. Ugyanannak a felhasználóknak ugyanabban a tesztben/kérdésnél lévő egyidejű folyamatai addig várnak míg a másik folyamat feloldja a zárolását.
-assessment#:#ass_quest_process_lock_mode_db#:#Adatbázistábla-szintű zárolások használata
-assessment#:#ass_quest_process_lock_mode_db_desc#:#Ez a zárolási típus az adatbázis tábláit zárolja. Ugyanaz, illetve más felhasználók ugyanabban, illetve másik tesztben, ugyanannál, illetve másik kérdésnél lévő egyidejű folyamatai addig várnak míg a másik folyamat feloldja a zárolásait.
+assessment#:#tst_feedback#:#Visszajelzés
+assessment#:#ass_process_lock#:#Tesztkitöltések idejére zárolások használata
+assessment#:#ass_process_lock_desc#:#Zárolás használata nélkül ún. versenyhelyzet alakulhat ki, amely hibás, inkonzisztens teszteredményekhez vezethet.
+assessment#:#ass_process_lock_mode#:#Tesztkitöltés alatti zárolás típusa
+assessment#:#ass_process_lock_mode_file#:#Fájlrendszerzárolások használata
+assessment#:#ass_process_lock_mode_file_desc#:#Ez a zárolási típus a fájlrendszerben üres fájlokat zárol. Ugyanannak a felhasználóknak ugyanabban a tesztben/kérdésnél lévő egyidejű folyamatai addig várnak míg a másik folyamat feloldja a zárolását.
+assessment#:#ass_process_lock_mode_db#:#Adatbázistábla-szintű zárolások használata
+assessment#:#ass_process_lock_mode_db_desc#:#Ez a zárolási típus az adatbázis tábláit zárolja. Ugyanaz, illetve más felhasználók ugyanabban, illetve másik tesztben, ugyanannál, illetve másik kérdésnél lévő egyidejű folyamatai addig várnak míg a másik folyamat feloldja a zárolásait.
 assessment#:#eval_all_users#:#Összes felhasználó eredménye
 assessment#:#eval_choice_result#:#A %s értékeivel a választás %s. Ön %s pontot kapott.
 assessment#:#eval_cloze_result#:#%s kitöltendő hely a %s értékekkel %s. Ön %s pontot kapott.
@@ -452,7 +452,7 @@ assessment#:#eval_search_roles#:#Szerepek
 assessment#:#eval_search_term#:#Fogalom keresése
 assessment#:#eval_search_users#:#Felhasználók
 assessment#:#eval_search_userselection#:#A statisztikai kiértékeléshez felveendő felhasználók keresése
-assessment#:#eval_selected_users#:#Visszacsatolást fogadó felhasználók kiválasztása
+assessment#:#eval_selected_users#:#Visszajelzést fogadó felhasználók kiválasztása
 assessment#:#exp_eval_data#:#Kiértékelési adatok exportja, mint
 assessment#:#exp_type_certificate#:#Igazolás (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel (XLS)
@@ -464,10 +464,10 @@ assessment#:#externalscript_use_kvc#:#Használjon kulcs-érték kódolást a szk
 assessment#:#failed_official#:#nem teljesítette
 assessment#:#failed_short#:#sikertelen
 assessment#:#false#:#Hamis
-assessment#:#feedback_generic#:#Általános megoldás-visszacsatolás
+assessment#:#feedback_generic#:#Általános megoldás-visszajelzés
 assessment#:#feedback_complete_solution#:#Hibátlan megoldás
 assessment#:#feedback_incomplete_solution#:#Legalább egy válasz nem helyes
-assessment#:#feedback_answers#:#Visszacsatolás a kérdés minden válaszához
+assessment#:#feedback_answers#:#Visszajelzés a kérdés minden válaszához
 assessment#:#file_uploads#:#Fájlfeltöltések
 assessment#:#fileDownload#:#Fájlletöltés
 assessment#:#fill_out_all_answer_fields#:#Töltsön ki minden válaszszövegmezőt, mielőtt újat vesz fel!
@@ -529,7 +529,7 @@ assessment#:#locked#:#Zárolva
 assessment#:#log_answer_changed_points#:#%s tesztkitöltő pontjainak manuális módosítása %d pontról %d pontra %s által
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#A felhasználó nem tud belépni a tesztbe, mert az egyidejű kitöltők száma elérte a maximumot.
 assessment#:#log_create_new_test#:#Új teszt jött létre
-assessment#:#log_manual_feedback#:#%s manuális visszacsatolást adott %s tesztet kitöltőnek a(z) %s kérdéshez
+assessment#:#log_manual_feedback#:#%s manuális visszajelzést adott %s tesztet kitöltőnek a(z) %s kérdéshez
 assessment#:#log_mark_added#:#Érdemjegy hozzáadva.
 assessment#:#log_mark_changed#:#Érdemjegy cserélve.
 assessment#:#log_mark_removed#:#Érdemjegy eltávolítva.
@@ -809,7 +809,7 @@ assessment#:#selection#:#Válasszon
 assessment#:#set_edit_mode#:#Szerkesztői mód beállítása
 assessment#:#set_filter#:#Szűrő beállítása
 assessment#:#set_manscoring_done#:#'Pontozott résztvevő'-ként megjelölés
-assessment#:#set_manual_feedback#:#Manuális visszacsatolás
+assessment#:#set_manual_feedback#:#Manuális visszajelzés
 assessment#:#shape#:#Alakzat
 assessment#:#show_detailed_results#:#Figyelembe vett tesztkitöltés részletes áttekintése 
 assessment#:#show_pass_overview#:#Figyelembe vett tesztkitöltés áttekintése
@@ -930,17 +930,17 @@ assessment#:#tst_in_use_edit_questions_disabled#:#A tesztet %d felhasználó has
 assessment#:#tst_insert_missing_question#:#Válasszon legalább egy kérdést a tesztbe beillesztéshez!
 assessment#:#tst_insert_questions_and_results#:#Ezt a tesztet %s felhasználó már kitöltötte. A kérdések beillesztésével törli ezen felhasználók minden teszteredményét is. Biztos, hogy beilleszti az alábbi kérdéseket a tesztbe?
 assessment#:#tst_insert_questions#:#Biztos, hogy beilleszti az alábbi kérdés(eke)t a tesztbe?
-assessment#:#tst_instant_feedback_answer_generic#:#Visszacsatolás teljesen hibátlan válasz esetén
-assessment#:#tst_instant_feedback_answer_generic_desc#:#Amennyiben a válasz tökéletes, az 'Ellenőrzés' gombra kattintáskor visszacsatolást jelenít meg. Amennyiben a válasz nem teljesen hibátlan, másfajta visszacsatolás jelenik meg. Mindkét típust az adott kérdés 'Visszacsatolás' fülénél kell meghatározni.
-assessment#:#tst_instant_feedback_answer_specific#:#Válaszlehetőségenkénti visszacsatolás
-assessment#:#tst_instant_feedback_answer_specific_desc#:#Az <i>Ellenőrzés</i> gombra kattintva előre meghatározott visszacsatolás jelenik meg a felhasználó által kiválasztott akármelyik válaszadási lehetőségre. A kérdéssel együtt kell elkészíteni az összes válaszhoz tartozó a visszacsatolást. Nem minden kérdéstípus esetén lehetséges válaszfüggő visszacsatolás.
+assessment#:#tst_instant_feedback_answer_generic#:#Visszajelzés teljesen hibátlan válasz esetén
+assessment#:#tst_instant_feedback_answer_generic_desc#:#Amennyiben a válasz tökéletes, az 'Ellenőrzés' gombra kattintáskor visszajelzést jelenít meg. Amennyiben a válasz nem teljesen hibátlan, másfajta visszajelzés jelenik meg. Mindkét típust az adott kérdés 'Visszajelzés' fülénél kell meghatározni.
+assessment#:#tst_instant_feedback_answer_specific#:#Válaszlehetőségenkénti visszajelzés
+assessment#:#tst_instant_feedback_answer_specific_desc#:#Az <i>Ellenőrzés</i> gombra kattintva előre meghatározott visszajelzés jelenik meg a felhasználó által kiválasztott akármelyik válaszadási lehetőségre. A kérdéssel együtt kell elkészíteni az összes válaszhoz tartozó a visszajelzést. Nem minden kérdéstípus esetén lehetséges válaszfüggő visszajelzés.
 assessment#:#tst_instant_feedback_fix_usr_answer#:#Válaszok befagyasztása
 assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#Az <i>Ellenőrzés</i> gombra kattintás után a résztvevők már nem tudják módosítani válaszukat.
 assessment#:#tst_instant_feedback_results#:#Elért pontszámok
 assessment#:#tst_instant_feedback_results_desc#:#Az <i>Ellenőrzés</i> gombra kattintva megjelenítik az erre a kérdésre adott válaszra kapott pontszám.
 assessment#:#tst_instant_feedback_solution#:#Legjobb megoldás megjelenítése
 assessment#:#tst_instant_feedback_solution_desc#:#Az <i>Ellenőrzés</i> gombra kattintva megjelenítik erre a kérdésre adható legjobb válasz.
-assessment#:#tst_instant_feedback#:#Azonnali visszacsatolás
+assessment#:#tst_instant_feedback#:#Azonnali visszajelzés
 assessment#:#tst_instant_verification#:#Azonnali ellenőrzés
 assessment#:#tst_introduction#:#Bevezető üzenet
 assessment#:#tst_introduction_desc#:#Bevezető üzenet megjelenítése a teszt információs oldalán. Ez a szöveg már elérhető a teszt megkezdése előtt.
@@ -1081,7 +1081,7 @@ assessment#:#tst_results_overview#:#Kitöltött teszt eredményeinek áttekinté
 assessment#:#tst_show_pass_details_desc#:#A teszteredmények összegzéséhez fűződik a kérdéscímek és minden kérdésre az elért pontszámot tartalmazó táblázat.
 assessment#:#tst_show_solution_details_desc#:#Minden kérdésnél egy link jelenik meg, ami egy oldalra mutat, ahol a kérdés, a résztvevő válasza, a válasz értékelése (helyes/helytelen) és a válaszra kapott pontszám jelenik meg.
 assessment#:#tst_show_solution_printview_desc#:#Az összes kérdésből és az adott résztvevő válaszaiból egy áttekintés készül. Ez a felsorolás a tesztkitöltés végén, közvetlenül teszt beadása érhető el az 'Információ' fülön.
-assessment#:#tst_show_solution_feedback_desc#:#Válaszfüggő visszacsatolás jelenik meg a teszteredményeknél a kérdések mellett. Figyeljen arra, hogy ezen opció használatára akkor van lehetőség, ha bekapcsolta a 'Résztvevők pontozott válaszai'-t és a visszajelzés a kérdésekkel együtt készült az első helyen.###XXX
+assessment#:#tst_show_solution_feedback_desc#:#Válaszfüggő visszajelzés jelenik meg a teszteredményeknél a kérdések mellett. Figyeljen arra, hogy ezen opció használatára akkor van lehetőség, ha bekapcsolta a 'Résztvevők pontozott válaszai'-t és a visszajelzés a kérdésekkel együtt készült az első helyen.###XXX
 assessment#:#tst_show_solution_answers_only_desc#:#Ha be van kapcsolva, a 'Tartalom szerkesztése' fülön a kérdéshez beállított tartalom nem jelenik meg nyomtatásban. Papír spórolása esetén válassza ezt az opciót. 
 assessment#:#tst_show_solution_signature_desc#:#Az aláírás helye megjelenik nyomtatott verzióban. Ennek a funkciónak a használatához ne felejtse bekapcsolni a 'Résztvevők pontozott válaszai'-t.
 assessment#:#tst_show_solution_suggested_desc#:#Ha az első helyen a teszt kérdéseihez ismétlő összefoglaló tartalom van hozzárendelve, akkor ez a tartalom megjelenik a 'Kérdésenkénti elért pontszámok' táblázatban. A résztvevők lehetőséget kapnak újratanulásra. Hogy hatásos legyen ez az opció, kapcsolja be a 'Hozzáférés a teszteredményekhez' fül alatt a 'Kérdésenkénti elért pontszámok' opciót.
@@ -1120,7 +1120,7 @@ assessment#:#tst_show_results#:#Teszteredmények megjelenítése
 assessment#:#tst_show_side_list#:#Kérdéslista megjelenítése oldalt
 assessment#:#tst_show_solution_answers_only#:#Eredmények nyomtatási előnézete (csak a válaszoké)
 assessment#:#tst_show_solution_details#:#Megoldások megjelenítése a teszteredményekben
-assessment#:#tst_show_solution_feedback#:#Válaszspecifikus visszacsatolás megjelenítése a teszteredményekben
+assessment#:#tst_show_solution_feedback#:#Válaszspecifikus visszajelzés megjelenítése a teszteredményekben
 assessment#:#tst_show_solution_printview#:#Válaszok listájának megjelenítése
 assessment#:#tst_show_solution_signature#:#Aláírás-helykitöltő megjelenítése
 assessment#:#tst_show_solution_suggested#:#Ismétlő összefoglalás tartalmának megjelenítése
@@ -1181,10 +1181,10 @@ assessment#:#tst_type_changed#:#Megváltoztatta a teszt típusát. Ezzel minden 
 assessment#:#tst_type_comment#:#Figyelmeztetés: Egy kitöltés alatt álló teszt típusának módosítása minden korábbi válaszadást eltávolít.
 assessment#:#tst_type#:#Teszttípus
 assessment#:#tst_types#:#Teszttípus
-assessment#:#exam_id#:#Vizsgaazonosító:
-assessment#:#examid_in_test_pass#:#Vizsgakitöltés-azonosító megjelenítése
+assessment#:#exam_id#:#Tesztkitöltés-azonosító:
+assessment#:#examid_in_test_pass#:#Tesztkitöltés-azonosító megjelenítése
 assessment#:#examid_in_test_pass_desc#:#Minden tesztkitöltésnek új, egyedi azonosítója van, ami megjelenik a tesztben.
-assessment#:#show_exam_id#:#Vizsgaazonosító megjelenítése
+assessment#:#show_exam_id#:#Tesztkitöltés-azonosító megjelenítése
 assessment#:#examid_in_test_res#:#ILIAS-vizsgaazonosító
 assessment#:#examid_in_test_res_desc#:#Az ILIAS-vizsgaazonosító a teszteredményeknél jelenik meg.
 assessment#:#tst_use_javascript#:#JavaScript használata a 'fogd és vidd' műveletekhez
@@ -1258,7 +1258,7 @@ assessment#:#tst_highscore_top_table#:#Legkiemelkedőbb helyezések
 assessment#:#tst_highscore_top_table_description#:#A résztvevők láthatják a legkiemelkedőbb helyezéseket.
 assessment#:#tst_highscore_all_tables#:#Résztvevő saját helyezése és legkiemelkedőbb helyezések
 assessment#:#tst_highscore_all_tables_description#:#A résztvevők információt kapnak a legkiemelkedőbb helyezésekről és a saját helyezéséről
-assessment#:#tst_highscore_top_num#:Legkiemelkedőbb helyezések hossza
+assessment#:#tst_highscore_top_num#:#Legkiemelkedőbb helyezések hossza
 assessment#:#tst_highscore_top_num_description#:#Hány helyezés legyen a legkiemelkedőbb helyezések felsorolásában.
 assessment#:#tst_highscore_top_num_unit#:#bejegyzések
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Beállítások
@@ -1267,7 +1267,7 @@ assessment#:#tst_question_set_type#:#Tesztkérdések kiválasztása
 assessment#:#tst_question_set_type_fixed#:#Előre meghatározott kérdések
 assessment#:#tst_question_set_type_fixed_desc#:#Minden résztvevő ugyanazokat a kérdéseket kapja.
 assessment#:#tst_question_set_type_random#:#Véletlenszerű kérdések
-assessment#:#tst_question_set_type_random_desc#:#Minden résztvevő  más-más kérdéseket kap. A kérdések véletlenszerűen kerülnek kiválasztásra egy vagy több kérdésgyűjteményekből.
+assessment#:#tst_question_set_type_random_desc#:#Minden résztvevő más-más kérdéseket kap. A kérdések véletlenszerűen kerülnek kiválasztásra egy vagy több kérdésgyűjteményekből.
 assessment#:#tst_question_set_type_dynamic#:#'Kartotéklapos doboz' - egy kérdésgyűjtemény összes kérdése
 assessment#:#tst_question_set_type_dynamic_desc#:#Minden résztvevő egy előre kiválasztott kérdésgyűjtemény kérdéseit kapja meg. A hibásan megválaszolt kérdések újra megjelennek. A már futó teszthez új kérdés adható, illetve a már hozzárendelt kérdések módosíthatóak.
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Hamarosan megváltoztatja a teszt módját: <b>%s</b> -> <b>%s</b>, annak ellenére, hogy ehhez teszt módhoz a kérdése/kérdésgyűjtemények beállítása már megtörtént.<br/>A jelenlegi beállítások elvesznek.
@@ -1335,10 +1335,10 @@ assessment#:#tst_analysis#:#Analízis
 assessment#:#tst_all_test_competences#:#Összes tesztkompetencia
 assessment#:#tst_gap_analysis#:#Gap analízis (rés elemzés)
 assessment#:#tst_test_result#:#Teszt végeredmények 
-assessment#:#feedback_setting#:#Válaszfüggő visszacsatolások módja.
-assessment#:#feedback_all#:#Válaszfüggő visszacsatolások megjelenítése az összes kérdéshez.
-assessment#:#feedback_checked#:#Válaszfüggő visszacsatolások megjelenítése az összes kiválasztott kérdéshez.
-assessment#:#feedback_correct#:#Válaszfüggő visszacsatolások megjelenítése az összes helyesen megválaszolt kérdéshez (helyes válasznak az minősül, mely pozitív pontot ér).
+assessment#:#feedback_setting#:#Válaszfüggő visszajelzések módja.
+assessment#:#feedback_all#:#Válaszfüggő visszajelzések megjelenítése az összes kérdéshez.
+assessment#:#feedback_checked#:#Válaszfüggő visszajelzések megjelenítése az összes kiválasztott kérdéshez.
+assessment#:#feedback_correct#:#Válaszfüggő visszajelzések megjelenítése az összes helyesen megválaszolt kérdéshez (helyes válasznak az minősül, mely pozitív pontot ér).
 assessment#:#tst_add_quest_cont_edit_mode#:#Kiegészítő kérdéstartalom szerkesztési módja
 assessment#:#tst_add_quest_cont_edit_mode_default#:#Kiegészítő kérdéstartalom alapértelmezett szerkesztési módja
 assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Kiegészítő tartalom szerkesztése az Oldal Szerkesztővel
@@ -1367,7 +1367,7 @@ assessment#:#tst_settings_header_intro#:#A teszt megkezdése előtti informáci�
 assessment#:#tst_settings_header_execution#:#Teszt kezelése: hozzáférés
 assessment#:#tst_starting_time_desc#:#Az az időpont, ami után az 'Indítás' gomb megnyomásával a résztvevők megkezdhetik a válaszadást. 
 assessment#:#tst_ending_time_desc#:#Az az időpont, amikor az ILIAS lezárja a tesztet, a résztvevők választ adni utána már nem tudnak. 
-assessment#:#tst_allowed_users_desc#:#Az ILIAS figyeli a résztvevők egyidejű számát. Ha a maximálisnál többen próbálják elérni a tesztet, az ILIAS megakadályozza számukra a teszt indítását.  
+assessment#:#tst_allowed_users_desc#:#Az ILIAS figyeli a résztvevők egyidejű számát. Ha a maximálisnál többen próbálják elérni a tesztet, az ILIAS megakadályozza számukra a teszt indítását.
 assessment#:#tst_allowed_users_time_gap_desc#:#A megadott ideig nem kattintó résztvevők inaktívnak minősülnek és az ILIAS eltávolítja őket a tesztből. 
 assessment#:#tst_settings_header_test_run#:#Teszt kezelése: teszt futtatása
 assessment#:#tst_nr_of_tries_desc#:#Egy résztvevő maximális kitöltéseinek száma.
@@ -1407,10 +1407,10 @@ auth#:#auth_rad_migration#:#Felhasználói fiók migráció:
 auth#:#auth_radius_charset_info#:#Válassza ki a karakterkódolást a RADIUS-szerverrel való kommunikációhoz. Ha bizonytalan, válassza az UTF-8-at.
 auth#:#auth_radius_charset#:#Karakterkódolás
 barometer#:#anonymous#:#Anonymous
-barometer#:#bar_create#:#Új visszacsatolás létrehozása
-barometer#:#barometer_add#:#Új visszacsatolás hozzáadása
+barometer#:#bar_create#:#Új visszajelzés létrehozása
+barometer#:#barometer_add#:#Új visszajelzés hozzáadása
 barometer#:#barometer_conflict_anon_req#:#Az anonimizáció nem kombinálható a 'Kötelező' típussal. Válassza egyiket ezen beállítások közül!
-barometer#:#barometer_title#:#Visszacsatolás
+barometer#:#barometer_title#:#Visszajelzés
 barometer#:#best#:#Legjobb válasz pontszáma
 barometer#:#change_course#:#Kurzus változtatása
 barometer#:#chart_type#:#Grafikontípus
@@ -1420,12 +1420,12 @@ barometer#:#day#:#Nap
 barometer#:#days#:#Nap
 barometer#:#delete#:#Törlés
 barometer#:#duration#:#Időtartam
-barometer#:#edit_barometer#:#Visszacsatolás szerkesztése
+barometer#:#edit_barometer#:#Visszajelzés szerkesztése
 barometer#:#edit#:#Szerkesztés
 barometer#:#every#:#mindegyik
-barometer#:#feedb_edit_feedback#:#Visszacsatolás szerkesztése
-barometer#:#feedb_feedback_list#:#Visszacsatolás lista
-barometer#:#feedb_feedback_settings#:#Visszacsatolás beállítások
+barometer#:#feedb_edit_feedback#:#Visszajelzés szerkesztése
+barometer#:#feedb_feedback_list#:#Visszajelzés lista
+barometer#:#feedb_feedback_settings#:#Visszajelzés beállítások
 barometer#:#feedb_time#:#Idő
 barometer#:#first_vote#:#Legtöbb szavazat
 barometer#:#from#:#Kezdés
@@ -2358,7 +2358,7 @@ common#:#edit_stylesheet#:#Stílus szerkesztése
 common#:#edit#:#Szerkesztés
 common#:#edited_at#:#Szerkesztve
 common#:#editor#:#Szerkesztő
-common#:#email_feedback#:#Levél-visszacsatolás
+common#:#email_feedback#:#Levél-visszajelzés
 common#:#email_footer#:#<br/>ILIAS magyar nyelvi változat
 common#:#email_not_valid#:#A megadott e-mail cím hibás.
 common#:#email#:#E-mail cím
@@ -2441,7 +2441,7 @@ rbac#:#exc_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági 
 common#:#exc_edit_until#:#Beadási határidő
 common#:#exc_edit#:#Új beadandó feladat létrejött.
 common#:#exc_exercise_sent#:#Küldés időpontja
-common#:#exc_feedback_sent#:#Visszacsatolás küldése
+common#:#exc_feedback_sent#:#Visszajelzés küldése
 common#:#exc_files_returned#:#Beküldött fájl(ok)
 common#:#exc_files#:#Fájlok
 common#:#exc_groups#:#Csoportok
@@ -2514,8 +2514,8 @@ rbac#:#feed_read#:#A felhasználó olvashat webhírforrást
 rbac#:#feed_visible#:#A webhírforrás látható
 rbac#:#feed_write#:#A felhasználó szerkeszthet webhírforrás-beállításokat
 common#:#feed#:#Webhírforrás
-common#:#feedback_recipient#:#Visszacsatolás címzettje
-common#:#feedback#:#Visszacsatolás
+common#:#feedback_recipient#:#Visszajelzés címzettje
+common#:#feedback#:#Visszajelzés
 common#:#field_name#:#Mezőnév
 common#:#field_type#:#Mezőtípus
 common#:#file_a#:#egy fájl
@@ -2934,7 +2934,7 @@ common#:#info_activate_sure#:#Biztos, hogy aktiválja az alábbi felhasználó(k
 common#:#info_assign_sure#:#Biztos, hogy hozzárendeli az alábbi felhasználó(ka)t?
 common#:#info_assigned#:#hozzárendelve
 common#:#info_available_roles#:#Rendelkezésre álló szerepek
-common#:#info_change_user_view#:#Felhasználó változtatása
+common#:#info_change_user_view#:#Felhasználó cseréje
 common#:#info_deactivate_sure#:#Biztos, hogy nem hagyja jóvá, hogy az alábbi felhasználó(k) aktív felhasználó(k) legyenek?
 common#:#info_delete_sure#:#Biztos, hogy törli az alábbi elem(ek)et?
 common#:#info_delete_warning_no_trash#:#(FIGYELMEZTETÉS: A kiválasztott objektumok visszavonhatatlanul töröljük a rendszerből, így azokat később már nem lehet visszaállítani.
@@ -3163,7 +3163,7 @@ common#:#mail_delete_error_file#:#Hiba fájltörléskor
 common#:#mail_delete_error#:#Törlés közben hiba lépett fel
 common#:#mail_e_sent#:#Elküldött levelek
 common#:#mail_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Levelezés jogosultsági beállításait
-common#:#mail_feedback#:#E-mail visszacsatolás
+common#:#mail_feedback#:#E-mail visszajelzés
 common#:#mail_folders#:#E-mail mappák
 common#:#mail_import_file#:#Fájl importálása
 common#:#mail_import#:#Importálás
@@ -3928,7 +3928,7 @@ common#:#repeat_scan#:#Víruskeresés ismétlése...
 common#:#replace_file#:#Fájl lecserélése
 common#:#reply#:#Válasz
 common#:#repository_admin_desc#:#Taneszköztároló objektumaira jogosultságok beállítása, objektumok visszaállítása vagy eltávolítása a rendszer lomtárából
-common#:#repository_admin#:#Taneszköztároló, lomtár  és jogosultságai
+common#:#repository_admin#:#Taneszköztároló, lomtár és jogosultságai
 common#:#repository_frame#:#Taneszköztároló tartalma
 common#:#repository#:#Taneszköztároló
 common#:#request_membership#:#Tagság kérése
@@ -5568,7 +5568,7 @@ crs#:#crs_grp_no_course_selected#:#Válasszon ki egy kurzust!
 crs#:#crs_grp_no_courses_assigned#:#Nincsenek hozzárendelt kurzusok.
 crs#:#crs_grp_table_assigned_courses#:#Hozzárendelt kurzusok
 crs#:#crs_header_archives#:#Tömörített kurzusállományok
-crs#:#crs_header_delete_members#:#Tagok törlése
+crs#:#crs_header_delete_members#:#Biztos, hogy eltávolítja a következő tagokat kurzusból?
 crs#:#crs_header_delete_subscribers#:#Feliratkozások törlése
 crs#:#crs_header_edit_members#:#Tagok szerkesztése
 crs#:#crs_header_members#:#Kurzustagok
@@ -6505,7 +6505,7 @@ ecs#:#ecs_unique_id#:#Résztvevő-azonosító
 ecs#:#ecs_user_rcp_info#:#Adja meg annak vagy azoknak a felhasználóknak a felhasználónevét (vesszővel elválasztva), akik e-mailen keresztül informálva lesznek az új ECS-felhasználókról.
 ecs#:#ecs_user_rcp#:#Értesítések az ECS-felhasználókról
 exc#:#exc_add_assignment#:#Feladat létrehozása
-exc#:#exc_add_feedback_file#:#Visszacsatolásfájl letétbe helyezése
+exc#:#exc_add_feedback_file#:#Visszajelzésl letétbe helyezése
 exc#:#exc_add_participant#:#Résztvevő hozzáadása 
 exc#:#exc_assignment_view#:#Feladatnézet
 exc#:#exc_assignment#:#Feladat
@@ -6518,7 +6518,7 @@ exc#:#exc_edit_assignments#:#Feladatok szerkesztése
 exc#:#exc_edit_submission#:#Megoldás módosítása
 exc#:#exc_ended_on#:#Befejezve
 exc#:#exc_export_excel#:#Exportálás Excel (.xls) fájlba
-exc#:#exc_fb_files#:#Visszacsatolásfájlok
+exc#:#exc_fb_files#:#Visszajelzéslok
 exc#:#exc_grades_overview#:#Értékelések
 exc#:#exc_grades#:#Értékelések
 exc#:#exc_hand_in#:#Beadás
@@ -6532,8 +6532,8 @@ exc#:#exc_msg_all_mandatory_ass#:#Minden kötelező feladatot meg kell oldania a
 exc#:#exc_msg_failed_mandatory#:#Nem sikerült legalább egy kötelező feladat.
 exc#:#exc_msg_min_number_ass#:#Legalább %s feladatot kell megoldania a beadandó feladat teljesítéséhez.
 exc#:#exc_msg_missed_minimum_number#:#Nem oldotta meg a minimális számú feladatot.
-exc#:#exc_msg_new_feedback_file_uploaded#:#'%s' beadandó feladathoz új visszacsatolásfájl
-exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszacsatolásfájl töltöttek fel az Ön megoldásához.\n
+exc#:#exc_msg_new_feedback_file_uploaded#:#'%s' beadandó feladathoz új visszajelzésl
+exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésl töltöttek fel az Ön megoldásához.\n
 exc#:#exc_msg_participants_removed#:#A résztvevőket eltávolítottuk a beadandó feladatból.
 exc#:#exc_msg_public_submission#:#Minden megoldást publikáltunk a határidő után.
 exc#:#exc_msg_saved_grades#:#Az értékeléseket mentettük.
@@ -6567,7 +6567,7 @@ exercise#:#exc_comment_for_learner#:#Megjegyzés a tanulónak
 exercise#:#exc_comment#:#Megjegyzés
 exercise#:#exc_crs_add_members#:#Tanulók hozzáadása ebből a kurzusból
 exercise#:#exc_failed#:#Nem teljesítette
-exercise#:#exc_feedback_from_tutor#:#Visszacsatolás a tutortól
+exercise#:#exc_feedback_from_tutor#:#Visszajelzés a tutortól
 exercise#:#exc_grading#:#Értékelés
 exercise#:#exc_mark#:#Érdemjegy
 exercise#:#exc_notgraded#:#Nincs értékelve
@@ -6595,8 +6595,8 @@ feed#:#block_feed_block_feed_url_info#:#Érvényes RSS/Atom URL-nek kell lennie,
 feed#:#block_feed_block_feed_url#:#Hírforrás URL-je
 feed#:#block_feed_block_head#:#Külső webhírforrások
 feed#:#block_feed_block_title#:#Cím
-feed#:#feed_disable_rep_feeds_info#:#Ez a beállítás letilt minden létező külső webhírforrás blokkot abban az esetben, ha nem várt probléma keletkezik külső hírforrás miatt.
-feed#:#feed_disable_rep_feeds#:#Külső webhírforrások letiltása kategóriákban
+feed#:#feed_enable_rep_feeds_info#:#Ez a beállítás aktiválja a külső webhírforrás blokkokat.
+feed#:#feed_enable_rep_feeds#:#Külső webhírforrások kategóriákban
 feed#:#feed_feed_items#:#Hírforrástétel(ek)
 feed#:#feed_loading_feed#:#Hírforrás betöltése...
 feed#:#feed_no_js_click_here#:#Ha a hírforrás nem jelenik meg, kattintson ide.
@@ -8465,8 +8465,8 @@ pd#:#pd_time_before_removal#:#Minimális inaktív idő (másodpercben)
 pd#:#pd_view_select_at_least_one#:#Legalább egy nézetet ki kell választania vagy a 'Kigyűjtött objektumok' és/vagy a 'Tagságaim' közül.
 pdesk#:#bm_num_bookmark_folders#:#Mappa
 pdesk#:#bm_num_bookmarks#:#Könyvjelző
-pdesk#:#pdesk_feedback_request#:#Kérés visszacsatolása
-pdesk#:#pdesk_feedbacks#:#Kérés(ek) visszacsatolása
+pdesk#:#pdesk_feedback_request#:#Kérés visszajelzésa
+pdesk#:#pdesk_feedbacks#:#Kérés(ek) visszajelzésa
 pdesk#:#pdesk_intro#:#Üdvözöljük munkaasztalán!
 pdesk#:#pdesk_intro2#:#Innen gyorsan elérhet tanulási és munkaanyagokat. Két lépésben helyezheti ide elemek linkjeit:
 pdesk#:#pdesk_intro3#:#Induljon innen: '%s', majd böngésszen az objektumok között.
@@ -9185,8 +9185,8 @@ style#:#sty_type_page_title#:#Lapcím
 style#:#sty_type_page_tnav#:#Felső navigáció
 style#:#sty_type_page#:#Lap
 style#:#sty_type_qanswer#:#Válasz
-style#:#sty_type_qfeedr#:#Visszacsatolás, helyes
-style#:#sty_type_qfeedw#:#Visszacsatolás, hibás
+style#:#sty_type_qfeedr#:#Visszajelzés, helyes
+style#:#sty_type_qfeedw#:#Visszajelzés, hibás
 style#:#sty_type_qinput#:#Szövegbevitel
 style#:#sty_type_qlinput#:#Hosszú szöveg bevitele
 style#:#sty_type_qsubmit#:#Kérdéselküldési gombok
@@ -10009,7 +10009,7 @@ wiki#:#wiki_created_by#:#Létrehozta
 wiki#:#wiki_discussion#:#Megbeszélés
 wiki#:#wiki_edit#:#Szerkesztés
 wiki#:#wiki_failed#:#Sikertelen
-wiki#:#wiki_feedback_from_tutor#:#Visszacsatolás a tutortól
+wiki#:#wiki_feedback_from_tutor#:#Visszajelzés a tutortól
 wiki#:#wiki_general_settings#:#Általános beállítások
 wiki#:#wiki_grading#:#Osztályozás
 wiki#:#wiki_history#:#Történet
@@ -10372,7 +10372,7 @@ survey#:#export_label_only#:#Csak címkék exportálása
 survey#:#export_title_only#:#Csak címek exportálása
 survey#:#export_title_label#:#Címek és címkék exportálása
 survey#:#mailnotification#:#Az összes befejezett kérdőív esetén külön e-mail
-suvey#:#mailaddresses#:#Címzett címei
+survey#:#mailaddresses#:#Címzettek
 survey#:#mailaddresses_info#:#Adja meg a kérdőívek befejezéséről értesítést kapó címzettek listáját vesszővel elválasztva.
 survey#:#mailparticipantdata#:#További résztvevői adatok
 survey#:#mailparticipantdata_info#:#Ez az információ az értesítő levélbe automatikusan beillesztett eredmények része elé kerül.
@@ -12899,7 +12899,7 @@ fm#:#fm_settings_local_info#:#Ha be van kapcsolva, a fájlmenedzser két kerette
 fm#:#fm_settings_filesize#:#Maximális fájlfeltöltési méret
 fm#:#fm_settings_filesize_info#:#Adja meg MB-ban a fájlfeltöltés maximális méretét.
 blog#:#blog_authors#:#Szerzők
-blog#:#blog_author#:#Szerző
+blog#:#blog_author#:#Írta
 blog#:#blog_enable_approval#:#Bejegyzések jóváhagyása
 blog#:#blog_enable_approval_info#:#A bejegyzések csak a blog egy 'Beállítások szerkesztése' jogosultsággal rendelkező felhasználójának jóváhagyása után kerülnek közzétételre.
 blog#:#blog_approve#:#Jóváhagyás
@@ -13349,7 +13349,7 @@ survey#:#survey_360_title#:#360°
 survey#:#survey_360_mode#:#360°-os értékelés
 survey#:#survey_360_self_evaluation#:#Önértékelés
 survey#:#survey_360_self_raters#:#Az értékelendő személy kiválaszthatja értékelőit
-survey#:#survey_360_self_appraisee#:#Nyílt 360°-os visszacsatolás
+survey#:#survey_360_self_appraisee#:#Nyílt 360°-os visszajelzés
 survey#:#survey_360_results#:#Hozzáférés az értékelt személyek végeredményeihez
 survey#:#survey_360_results_none#:#Nincs hozzáférés
 survey#:#survey_360_results_own#:#Mindenki a sajátjához
@@ -13670,13 +13670,13 @@ exc#:#exc_text_assignment_show#:#Szöveg megjelenítése
 survey#:#survey_360_remove_appraisees#:#Értékelendő személy(ek) eltávolítása
 search#:#search_add_members_from_container_grp#:#Felhasználók jelen csoporthoz rendelése
 search#:#search_add_members_from_container_crs#:#Felhasználók jelen kurzushoz rendelése
-exc#:#exc_peer_review#:#Tanulói visszacsatolás
+exc#:#exc_peer_review#:#Tanulói visszajelzés
 exc#:#exc_peer_review_info#:#Csapatfeltöltési feladatoknál nem érhető el.
-exc#:#exc_peer_review_min_number#:#A visszacsatolások minimum száma, amely a személyes visszacsatolás megtekintéséhez szükséges
-exc#:#exc_peer_review_give#:#Visszacsatolás küldése
-exc#:#exc_peer_review_no_peers#:#Nincs társ, akinek visszacsatolás küldhető.
+exc#:#exc_peer_review_min_number#:#A visszajelzések minimum száma, amely a személyes visszajelzés megtekintéséhez szükséges
+exc#:#exc_peer_review_give#:#Visszajelzés küldése
+exc#:#exc_peer_review_no_peers#:#Nincs társ, akinek visszajelzés küldhető.
 exc#:#exc_peer_review_rating#:#Értékelés
-exc#:#exc_peer_review_updated#:#Visszacsatolását mentettük.
+exc#:#exc_peer_review_updated#:#Visszajelzését mentettük.
 common#:#preview#:#Előnézet
 common#:#preview_show#:#Előnézet megjelenítése
 common#:#preview_none#:#Előnézet (még nem készült el)
@@ -13699,16 +13699,16 @@ common#:#renderer_type_builtin#:#Beépített
 common#:#renderer_supported_repo_types#:#Támogatott Taneszköztároló típusok
 common#:#renderer_supported_file_types#:#Támogatott fájl típusok
 common#:#ghostscript_not_configured#:#GhostScript nincs konfigurálva. Nyissa meg a <a href='setup/setup.php?cmd=mastersettings' target='_blank'>Setup</a> a konfiguráláshoz.
-exc#:#exc_peer_review_show_not_rated_yet#:#Visszacsatolást kell adnia, mielőtt megtekintheti a beérkezett visszacsatolásokat.
-exc#:#exc_peer_review_show#:#Beérkezett visszacsatolások megjelenítése
+exc#:#exc_peer_review_show_not_rated_yet#:#Visszajelzést kell adnia, mielőtt megtekintheti a beérkezett visszajelzéseket.
+exc#:#exc_peer_review_show#:#Beérkezett visszajelzések megjelenítése
 exc#:#exc_needs_deadline#:#Ez a funkció csak hozzárendelt határidővel működik.
 exc#:#exc_team_upload_not_supported#:#Ez a funkció nem támogatja a csoporthoz rendelt feltöltéseket.
 exc#:#exc_global_feedback_file#:#Mintamegoldás
 exc#:#exc_global_feedback_file_cron#:#Értesítés
 exc#:#exc_global_feedback_file_cron_info#:#Az összes hallgató értesítést kapjon ütemezett feladaton keresztül, amikor a mintamegoldás elérhetővé válik.
-exc#:#exc_feedback_notification_subject#:#'%s' beadandó feladathoz visszacsatolás
+exc#:#exc_feedback_notification_subject#:#'%s' beadandó feladathoz visszajelzés
 exc#:#exc_feedback_notification_salutation#:#Tisztelt %s,
-exc#:#exc_feedback_notification_body#:#ezúton értesítjük, hogy az alábbi feltöltéséhez új visszacsatolás érkezett.
+exc#:#exc_feedback_notification_body#:#ezúton értesítjük, hogy az alábbi feltöltéséhez új visszajelzés érkezett.
 exc#:#exc_feedback_notification_link#:#Link a beadandó feladathoz
 mail#:#system_notification_installation_signature#:#Ezt az e-mailt az ILIAS automatikusan küldte
 mail#:#system_notification_installation_changed_by#:#Megváltoztatva ekkor
@@ -13741,7 +13741,7 @@ rating#:#rating_new_objects_auto#:#Alapértelmezett objektum-értékelhetőség
 rating#:#rating_new_objects_auto_info#:#Alapértelmezetten az értékelhetőség aktív új fájlokra, tananyagokra és wikikre.
 rating#:#rating_activate_rating#:#Értékelések engedélyezése
 rating#:#rating_activate_rating_info#:#Ha be van kapcsolva, a felhasználók értékelhetik ezt az objektumot.
-exc#:#exc_peer_review_no_peers_reviewed_yet#:#Még nem készült visszacsatolás.
+exc#:#exc_peer_review_no_peers_reviewed_yet#:#Még nem készült visszajelzés.
 exc#:#exc_peer_review_ass_setting_info#:#Ha be van kapcsolva, a felhasználók értékelhetik társaikat a határidő után.
 book#:#book_copy#:#Foglalásgyűjtemény másolása
 book#:#obj_book_duplicate#:#Foglalásgyűjtemény másolása
@@ -13860,16 +13860,16 @@ orgu#:#orgu_type_add#:#Szervezeti egységtípus létrehozása
 orgu#:#orgu_type_edit#:#Szervezeti egységtípus módosítása
 orgu#:#orgu_types#:#Típusok
 orgu#:#orgu_type_msg_deleted#:#Törölt szervezeti egységtípus
-orgu#:#orgu_type_msg_missing_title#:#There must be set a title for the default language
-orgu#:#orgu_type_msg_unable_delete#:#Unable to delete type because it is still assigned to the following Organisational Units: %s
-orgu#:#orgu_type_msg_deletion_prevented#:#Deletion of object prevented by plugins: %s
-orgu#:#orgu_type_msg_setting_member_prevented#:#Setting '%s' prevented by plugins: %s
-orgu#:#orgu_type_msg_updating_prevented#:#Updating of object prevented by plugins: %s
-orgu#:#orgu_type_msg_assign_amd_prevented#:#Assigning AMDRecord prevented by plugins: %s
-orgu#:#orgu_type_msg_deassign_amd_prevented#:#Deassigning AMDRecord prevented by plugins: %s
-orgu#:#orgu_type_msg_setting_default_lang_prevented#:#Setting '%s' as default language prevented by plugins: %s
-orgu#:#orgu_type_msg_missing_title_default_language#:#There must be set a default language and a title for the default language
-orgu#:#orgu_type_custom_icon_info#:#All Organisational Units having this type assigned will use the icon in the tree and header.
+orgu#:#orgu_type_msg_missing_title#:#Alapértelmezett nyelven címének megadása kötelező
+orgu#:#orgu_type_msg_unable_delete#:#A típus nem törölhető, mert a következő szervezeti egységekhez hozzá van rendelve: %s
+orgu#:#orgu_type_msg_deletion_prevented#:#Az objektum a következő plug-in-ek miatt nem törölhető: %s 
+orgu#:#orgu_type_msg_setting_member_prevented#:#'%s' beállításai a következő plug-in-ek miatt nem törölhető: %s
+orgu#:#orgu_type_msg_updating_prevented#:#Az objektum a következő plug-in-ek miatt nem frissíthető: %s
+orgu#:#orgu_type_msg_assign_amd_prevented#:#AMDRecord a következő plug-in-ek miatt nem rendelhető hozzá: %s
+orgu#:#orgu_type_msg_deassign_amd_prevented#:#AMDRecord hozzárendelése a következő plug-in-ek miatt nem távolítható el: %s
+orgu#:#orgu_type_msg_setting_default_lang_prevented#:#'%s' alapértelmezett nyelvek történő beállítása a következő plug-in-ek miatt nem lehetséges: %s
+orgu#:#orgu_type_msg_missing_title_default_language#:#Alapértelmezett nyelv és annak címének megadása kötelező
+orgu#:#orgu_type_custom_icon_info#:#Az összes olyan Szervezeti egységnél, melyhez ezt a típust rendeli, a fában és fejlécében ez az ikon jelenik meg.
 orgu#:#orgu_settings#:#Szervezeti egység beállításai
 orgu#:#orgu_type#:#Szervezeti egységtípus
 orgu#:#orgu_orgu_type#:#Szervezeti egységtípus
@@ -13879,13 +13879,13 @@ orgu#:#orgu_type_msg_error_custom_icon#:#Egyedi ikon beállítása nem sikerült
 orgu#:#orgu_type_available_amd_sets#:#Elérhető bővített metaadat készletek
 orgu#:#orgu_type_assign_amd_sets#:#Bővített metaadata készletek hozzárendelése
 cld#:#cld_object_added#:#Új felhő-objektum hozzáadva
-exc#:#exc_peer_review_deadline#:#Visszacsatolás határideje
-exc#:#exc_peer_review_deadline_info#:#Visszacsatolás eddig az időpontig adható, és a kapott visszacsatolás is csak ekkortól elérhető el.
+exc#:#exc_peer_review_deadline#:#Visszajelzés határideje
+exc#:#exc_peer_review_deadline_info#:#Visszajelzés eddig az időpontig adható, és a kapott visszajelzés is csak ekkortól elérhető el.
 exc#:#exc_peer_review_deadline_info_button#:#Határidő: %s
-exc#:#exc_peer_review_deadline_reached#:#A visszacsatolás ideje lejárt.
-exc#:#exc_peer_review_comment#:#Visszacsatolásaim
-exc#:#exc_peer_review_missing_info#:#A visszacsatolás megtekintéséhez még %s visszacsatolást kell adnia.
-exc#:#exc_peer_review_missing_info_deadline#:#Hogy lásd a kapott visszacsatolást, összesen %2$s, még %1$s visszacsatolást kell adnia.
+exc#:#exc_peer_review_deadline_reached#:#A visszajelzés ideje lejárt.
+exc#:#exc_peer_review_comment#:#Visszajelzéseim
+exc#:#exc_peer_review_missing_info#:#A visszajelzés megtekintéséhez még %s visszajelzést kell adnia.
+exc#:#exc_peer_review_missing_info_deadline#:#Hogy lásd a kapott visszajelzést, összesen %2$s, még %1$s visszajelzést kell adnia.
 content#:#cont_glossaries#:#Szószedetek
 content#:#cont_auto_glossaries#:#Automatikusan hivatkozott szószedetek
 content#:#cont_link_glo_in_lm#:#Minden szószedet kifejezés kerüljön most hivatkozásra a tanulási modulba?
@@ -13895,10 +13895,10 @@ mcst#:#mcst_download_cnt#:#Letöltve
 mcst#:#mcst_play_cnt#:#Lejátszva
 glo#:#glo_term#:#Szószedet kifejezés
 content#:#glo_add_term_properties#:#Kiegészítő szószedet kifejezés tulajdonságok bekapcsolása
-exc#:#exc_multi_feedback#:#Többszörös visszacsatolás
+exc#:#exc_multi_feedback#:#Többszörös visszajelzés
 exc#:#exc_download_zip_structure#:#ZIP struktúra letöltése
-exc#:#exc_multi_feedback_file#:#Többszörös-visszacsatoló fájl
-exc#:#exc_multi_feedback_files#:#Többszörös-visszacsatoló fájlok
+exc#:#exc_multi_feedback_file#:#Többszörös-visszajelző fájl
+exc#:#exc_multi_feedback_files#:#Többszörös-visszajelző fájlok
 assessment#:#assFormulaQuestion#:#Képletkérdés
 assessment#:#parseQuestion#:#Kérdés elemzése
 assessment#:#variables#:#Változók
@@ -14063,10 +14063,10 @@ adve#:#adve_minutes#:#Percek
 adve#:#adve_minutes_info#:#Inaktivitás percben, mielőtt egy szerkesztési zárolás lejár és az oldalt másik felhasználó szerkesztheti.
 content#:#content_until#:#Zárolás fenntartása legalább az alábbi időpontig: 
 content#:#content_no_edit_lock#:#Másik felhasználó jelenleg zárolja az oldalt.
-exc#:#exc_fb_tutor_info#:#Ha egy visszacsatolásfájl feltölt, figyelmeztetés küldünk a felhasználónak, valamint a fájl a felhasználó nézetében megjelenik.
+exc#:#exc_fb_tutor_info#:#Ha egy visszajelzésl feltölt, figyelmeztetés küldünk a felhasználónak, valamint a fájl a felhasználó nézetében megjelenik.
 obj#:#svy_results#:#Végeredmények
-content#:#cont_disable_def_feedback#:#Alapértelmezett kérdés-visszacsatolás tiltása
-content#:#cont_disable_def_feedback_info#:#Ha ki van kapcsolva, megválaszolt kérdések semmilyen visszacsatolást nem jelenítenek meg a hallgatónak. Egyéni visszacsatolásokat szükséges megadni a kérdésekhez.
+content#:#cont_disable_def_feedback#:#Alapértelmezett kérdés-visszajelzés tiltása
+content#:#cont_disable_def_feedback_info#:#Ha ki van kapcsolva, megválaszolt kérdések semmilyen visszajelzést nem jelenítenek meg a hallgatónak. Egyéni visszajelzéseket szükséges megadni a kérdésekhez.
 survey#:#svy_result_mail_notification_info#:#A kérdőív befejezésekor mindegyik résztvevő válaszát elküldjük a megadott címekre.
 mob#:#mob_general#:#Általános
 mob#:#mob_subtitles#:#Feliratok
@@ -14283,7 +14283,7 @@ rep#:#rep_add_new_def_grp_organisation#:#Rendezés
 rep#:#rep_add_new_def_grp_content#:#Tartalom
 rep#:#rep_add_new_def_grp_communication#:#Kapcsolattartás
 rep#:#rep_add_new_def_grp_assessment#:#Értékelés
-rep#:#rep_add_new_def_grp_feedback#:#Visszacsatolás és felmérés
+rep#:#rep_add_new_def_grp_feedback#:#Visszajelzés és felmérés
 content#:#cont_col_ordering#:#Oszloprendezés
 orgu#:#simple_xls#:#Egyszerű Excel Export
 assessment#:#un_add_category#:#Kategória hozzáadása
@@ -14293,7 +14293,7 @@ ecs#:#ecs_cmap_delete_rule#:#Mapping törlése
 wsp#:#wsp_list_excv#:#Beadandó feladat igazolás
 wsp#:#wsp_list_tstv#:#Teszt igazolás
 assessment#:#fq_formula_desc#:#Beírhatsz megadott változókat ($v1, $v2, ..., $vn), megadott eredményeket (pl. $r1), zárójeleket, matematikai műveleti jeleket + (összeadás), - (kivonás), * (szorzás), / (osztás), ^ (n-edik hatvány), 'pi' és 'e' konstansokat, továbbá 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln' és 'log' függvényeket.
-exc#:#exc_multi_feedb_info#:#Ezen az oldalon több visszacsatolást tölthet fel egy fájlban. Először kattintson a 'ZIP struktúra letöltése' gombra, mentse és csomagolja ki a fájlt a saját gépéden. Helyezze a visszacsatolás-fájlokat a megfelelő felhasználó-könyvtárakba. Csomagolja be az egész könyvtárat ZIP fájl-ba. A 'Többszörös fájl-visszacsatolás' alatt tallózza ki ezt a ZIP fájlt, majd kattintson a 'Feltöltés' gombra, végül mentse a visszacsatolás-fájlokat. Ne használjon speciális karaktereket a fájlnevekben.
+exc#:#exc_multi_feedb_info#:#Ezen az oldalon több visszajelzést tölthet fel egy fájlban. Először kattintson a 'ZIP struktúra letöltése' gombra, mentse és csomagolja ki a fájlt a saját gépéden. Helyezze a visszajelzés-fájlokat a megfelelő felhasználó-könyvtárakba. Csomagolja be az egész könyvtárat ZIP fájl-ba. A 'Többszörös fájl-visszajelzés' alatt tallózza ki ezt a ZIP fájlt, majd kattintson a 'Feltöltés' gombra, végül mentse a visszajelzés-fájlokat. Ne használjon speciális karaktereket a fájlnevekben.
 rep#:#rep_add_new_def_grp_templates#:#Minták
 cmps#:#cmps_repository_object_types#:#Taneszköztároló-objektum típusok
 rep#:#rep_new_item_menu#:#'Új objektum létrehozása'-Menü
@@ -14398,7 +14398,7 @@ cntr#:#exc_next_deadline_single#:#Határidő
 file#:#repository_disk_quota_info#:#Ha be van kapcsolva, az összes felhasználó taneszköztároló-tárhelykorlátját ellenőrizzük, és a beállításnak megfelelően figyelmeztető e-mailt küldünk a rendszergazdáknak és a felhasználóknak.
 trac#:#trac_object_statistics_info#:#Ha be van kapcsolva, a használati statisztika alapadatait összegyűjtjük és feldogozzuk.
 ldap#:#ldap_user_sync_cron_info#:#Ha be van kapcsolva, az LDAP-szerverről importáljuk és folyamatos szinkronizáljuk a felhasználói fiókokat.
-exc#:#exc_peer_review_cron_info#:#Ha be van kapcsolva, a beadandó feladat résztvevőit emlékeztetjük, hogy küldjék el függőben lévő visszacsatolásaikat.
+exc#:#exc_peer_review_cron_info#:#Ha be van kapcsolva, a beadandó feladat résztvevőit emlékeztetjük, hogy küldjék el függőben lévő visszajelzéseiket.
 survey#:#survey_reminder_cron_info#:#Ha be van kapcsolva, a felhasználóknak emlékeztetőt küldünk, hogy vegyenek részt a kérdőív kitöltésében.
 cron#:#cron_action_activate_sure_multi#:#Biztos, hogy bekapcsolja az alábbi ütemezett feladatot?
 cron#:#cron_action_deactivate_sure_multi#:#Biztos, hogy kikapcsolja az alábbi ütemezett feladatot?
@@ -14427,7 +14427,7 @@ content#:#cont_finish_editing#:#Szerkesztés befejezése
 content#:#cont_page_lock_released#:#Szerkesztés vége. Az oldal zárolása feloldva.
 notes#:#note_content_removed#:#Tartalom eltávolítva.
 exc#:#exc_list_text_assignment#:#Összes beadott megjelenítése
-exc#:#exc_show_peer_review#:#Hallgatói visszacsatolások megjelenítése
+exc#:#exc_show_peer_review#:#Hallgatói visszajelzések megjelenítése
 orgu#:#ou_external_id_exists#:#Egy egység ilyen External ID-vel már létezik a rendszerben vagy a kukában.
 orgu#:#user_import_successful#:#Az importálás sikeresen megszakítva. Hozzárendelve: %s, eltávolítva: %s.
 orgu#:#no_orgunit#:#Ellenőrizd az XML-Fájlt. Nincs Szervezeti egység.
@@ -14533,11 +14533,11 @@ exc#:#exc_passed_status_determination#:#A 'Sikeresen teljesítette' státusz meg
 exc#:#exc_completion_by_tutor#:#Csak manuálisan a tutor
 exc#:#exc_your_text#:#Szövege
 exc#:#exc_peer_review_min_number_info#:#Ennyi felhasználó munkáját kell értékelnie a résztvevőnek, mielőtt a saját munkájának az értékelése láthatóvá válik.
-content#:#cont_def_feedb_activated#:#Az alapértelmezett visszacsatolás-szövegek be vannak kapcsolva a tanulási modul beállításiban.
-content#:#cont_def_feedb_deactivated#:#Az alapértelmezett visszacsatolás-szövegek ki vannak kapcsolva a tanulási modul beállításiban.
+content#:#cont_def_feedb_activated#:#Az alapértelmezett visszajelzés-szövegek be vannak kapcsolva a tanulási modul beállításiban.
+content#:#cont_def_feedb_deactivated#:#Az alapértelmezett visszajelzés-szövegek ki vannak kapcsolva a tanulási modul beállításiban.
 adve#:#advanced_editing_tst_editing#:#Oldalszerkesztő kiegészítő kérdés tartalomhoz
 ecs#:#ecs_server_title#:#ECS konfiguráció neve
-adve#:#advanced_editing_tst_editing_desc#:#Kapcsolja be az ILIAS-oldalszerkesztőt a visszacsatolások és a súgószövegek szerkesztéséhez.
+adve#:#advanced_editing_tst_editing_desc#:#Kapcsolja be az ILIAS-oldalszerkesztőt a visszajelzések és a súgószövegek szerkesztéséhez.
 assessment#:#fq_precision_info#:#Adja meg a tizedeshelyek számát.
 assessment#:#result_units_info#:#A megjelölt mértékegységeket a válasz részeként ajánljuk fel a hallgatónak, amiből egyet kell választania.
 assessment#:#fq_no_restriction_info#:#Tizedestört és tört egyaránt megadható.
@@ -14694,7 +14694,7 @@ notes#:#notes_sort_desc#:#Csökkenő sorrend
 obj#:#obj_tool_setting_tag_cloud#:#Címkefelhő
 obj#:#obj_tool_setting_tag_cloud_info#:#A 'Címkefelhő' blokk megjelenik a 'Tartalom' fül alatt.
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Címék megjelenítése a számok helyett
-tagging#:#tagging_other_users#:#Egyéb felhasználók
+tagging#:#tagging_other_users#:#További felhasználók
 common#:#autocomplete_more#:#továbbiak
 user#:#passwd_generation_pre#:#Előre definiált jelszavak
 mail#:#mail_max_size_attachments_total#:#Adja meg egy levél mellékleteinek maximálisan engedélyezett összméretét. Ez a beállítás független más korláttól (pl. upload_max_filesize, stb.), mert egy levélhez több fájlt is csatolhat mellékletként.
@@ -14711,17 +14711,17 @@ rbac#:#taxs_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbe�
 rbac#:#taxs_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Taxonómia beállításait
 rbac#:#taxs_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Taxonómia jogosultsági beállításait
 exc#:#exc_peer_review_file#:#Fájl feltöltése
-exc#:#exc_peer_review_file_info#:#Visszacsatolásonként egy fájl feltöltésének engedélyezése 
-exc#:#exc_peer_review_personal#:#Személyre szabott bírálat-visszacsatolás
-exc#:#exc_peer_review_personal_info#:#Visszacsatolásokat teljes névvel jelenítse meg
-exc#:#exc_peer_review_recipient#:#Visszacsatolás címzettje
-exc#:#exc_peer_review_giver#:#Visszacsatolást feladója
+exc#:#exc_peer_review_file_info#:#Visszajelzésenként egy fájl feltöltésének engedélyezése 
+exc#:#exc_peer_review_personal#:#Személyre szabott bírálat-visszajelzés
+exc#:#exc_peer_review_personal_info#:#Visszajelzéseket teljes névvel jelenítse meg
+exc#:#exc_peer_review_recipient#:#Visszajelzés címzettje
+exc#:#exc_peer_review_giver#:#Visszajelzést feladója
 exc#:#exc_global_feedback_file_date#:#Elérhető
 exc#:#exc_global_feedback_file_date_deadline#:#Határidő után
 exc#:#exc_global_feedback_file_date_upload#:#Beküldés után
 exc#:#exc_note_for_tutor#:#Megjegyzés a tutornak
 exc#:#exc_comment_for_learner_edit#:#hozzászólás írása
-exc#:#exc_comment_for_learner_info#:#Értesítést küldünk a felhasználónak, valamint a visszacsatolás bekerül a felhasználó feladatnézetébe.
+exc#:#exc_comment_for_learner_info#:#Értesítést küldünk a felhasználónak, valamint a visszajelzés bekerül a felhasználó feladatnézetébe.
 common#:#sorting_creation_header#:#Létrehozás ideje szerinti
 common#:#sorting_creation_info#:#Az objektumokat a létrehozásuk ideje szerint rendezzük.
 common#:#sorting_direction#:#Rendezés iránya
@@ -14729,7 +14729,7 @@ common#:#sorting_desc#:#Csökkenő
 common#:#sorting_asc#:#Növekvő
 poll#:#poll_anonymous_warning#:#Ez a szavazás névtelen.
 dateplaner#:#cal_exc_deadline#:#Határidő
-dateplaner#:#cal_exc_peer_review_deadline#:#Visszacsatolás határideje
+dateplaner#:#cal_exc_peer_review_deadline#:#Visszajelzés határideje
 rbac#:#read_learning_progress#:#Mások tanulási haladásának megtekintése
 rbac#:#crs_read_learning_progress#:#A felhasználó megnézheti mások tanulási haladását
 rbac#:#grp_read_learning_progress#:#A felhasználó megnézheti mások tanulási haladását
@@ -14796,7 +14796,7 @@ wiki#:#wiki_show_pdf_export#:#PDF Export
 wiki#:#wiki_set_as_start_page#:#Beállítás kezdőoldalnak
 wiki#:#wiki_purpose#:#Szándék###XXX
 wiki#:#wiki_select_one_item#:#Egy elemet válasszon ki.
-exc#:#exc_peer_deadline_mismatch#:#Hogy visszacsatolást lehessen küldeni, a visszacsatolás határideje nem lehet korábbi, mint a feladata beadási határideje.
+exc#:#exc_peer_deadline_mismatch#:#Hogy visszajelzést lehessen küldeni, a visszajelzés határideje nem lehet korábbi, mint a feladata beadási határideje.
 trac#:#trac_mode_questions#:#Kérdések
 trac#:#trac_mode_questions_info#:#Azon felhasználók, akik az összes kérdést hibátlanul megválaszolták megkapják a 'Befejezett' állapotot.
 wiki#:#wiki_link#:#Wiki linkelése
@@ -15041,7 +15041,7 @@ survey#:#svy_results_mail_own_info#:#A résztvevők saját válaszaikat tartalma
 survey#:#svy_results_view_own_info#:#A résztvevők a kérdőívkitöltés végén saját válaszaikat megjeleníthetik, de nem módosíthatják.
 survey#:#survey_360_self_evaluation_info#:#A résztvevők a kérdéseken keresztül értékelhetik saját magunkat.
 survey#:#survey_360_self_raters_info#:#A résztvevők önállóan kiválaszthatják és meghívhatják azokat a felhasználókat, akik értékelést adhatnak rájuk.
-survey#:#survey_360_self_appraisee_info#:#On the 'Info'-tab a link is displayed to all users. By clicking this link they can add themselves as appraisee and receive feedback.
+survey#:#survey_360_self_appraisee_info#:#Az összes felhasználó számára elérhető link jelenik meg az 'Információ' fülön. Erre kattintva önmagukat értékelendő személlyé tehetik, így visszajelzéseket kaphatnak.
 survey#:#survey_360_results_none_info#:#A résztvevők nem férhetnek hozzá az értékelők által adott értékelésekhez.
 survey#:#survey_360_results_own_info#:#Minden résztvevő csak a saját magára kapott értékelésekhez férhet hozzá.
 survey#:#survey_360_results_all_info#:#Minden résztvevő hozzáférhet az összes értékelő összes értékeléséhez, nem csak az őt értékelők értékeléseihez.
@@ -15068,7 +15068,7 @@ administration#:#language_scope_local_info#:#Az összes helyiként hozzáadott v
 administration#:#language_scope_added_info#:#Az összes, az adatbázisba helyiként hozzáadott bejegyzés exportálása. A fejlesztés alatt lévő változatok biztonsági mentésére lehet felhasználni a 'Karbantartás' fülön történő helyi változatok törlése előtt.
 administration#:#language_scope_unchanged_info#:#Az összes alapértelmezett, adatbázisban meg nem változtatott bejegyzés exportálása. Ez a 'Csak a helyi változatok' ellentéte. A kettő együtt az adatbázisban jelenleg lévő összes nyelvi bejegyzés biztonsági mentése.
 administration#:#language_scope_merged_info#:#Standard ILIAS nyelvi fájl exportálása az összes helyi változattal együtt, modulonként és azonosítónként rendezve. Ez az ILIAS SVN szerveren lévő globális nyelvi fájl frissítésére használható.
-administration#:#language_save_local_changes_info#:#Az összes helyileg hozzáadott vagy adatbázisban megváltoztatott bejegyzés mentése a Customizing/global/lang/ilias_%s_lang.local fájlban, és  a nyelv átállítása 'Helyi nyelvi fájllal telepítve' állapotúra. A webszerver futtatójának írási jog szükséges a mappába. Figyeljen arra, hogy a telepítés összes kliense ezt a fájlt használja.
+administration#:#language_save_local_changes_info#:#Az összes helyileg hozzáadott vagy adatbázisban megváltoztatott bejegyzés mentése a Customizing/global/lang/ilias_%s_lang.local fájlban, és a nyelv átállítása 'Helyi nyelvi fájllal telepítve' állapotúra. A webszerver futtatójának írási jog szükséges a mappába. Figyeljen arra, hogy a telepítés összes kliense ezt a fájlt használja.
 administration#:#language_load_local_changes_info#:#A Customizing/global/lang/ilias_%s_lang.local fájl betöltése az adatbázisba. A már meglévő bejegyezések felülíródnak, az újak hozzáadódnak az adatbázishoz.
 administration#:#language_clear_local_changes_info#:#Az nyelv összes bejegyzésének a lang/ilias_%s.lang fájlban megadott alapértelmezettre állítása. Minden egyéb változtatás törlődik.
 administration#:#language_delete_local_additions_info#:#Az összes helyig hozzáadott változat törlése az adatbázisból.
@@ -15087,16 +15087,16 @@ common#:#scorm_lp_auto_activate#:#tanulási folyamat alapértelmezett beállít�
 common#:#scorm_lp_auto_activate_info#:#Amikor a tanulási folyamat alapértelmezetten engedélyezve van, az új SCORM tanulási modul beállítása 'SCORM-tételek gyűjteménye' lesz és az összes SCOs a tanulási folyamat meghatározásához kerül beállításra. Ezek a beállítások SCORM tanulási modulonként módosíthatóak.
 ecs#:#ecs_deprecated_token#:#Elavult hitelesítési token támogatása
 ecs#:#ecs_deprecated_token_info#:#Elavult hitelesítési tokent használó ILIAS-telepítések támogatása (például a 4.x verziójúak)
-exc#:#exc_peer_reviews_invalid_warning#:#Érvénytelen visszacsatoló csoportok
-exc#:#exc_peer_review_overview#:#Visszacsatoló csoportok megjelenítése
+exc#:#exc_peer_reviews_invalid_warning#:#Érvénytelen visszajelző csoportok
+exc#:#exc_peer_review_overview#:#Visszajelző csoportok megjelenítése
 exc#:#exc_peer_review_overview_invalid_users#:#Érvénytelen felhasználók
-exc#:#exc_peer_review_missing_users#:#Azon felhasználók, akik adtak be feladatot, de nem részei a visszacsatolásoknak
-exc#:#exc_peer_review_not_returned_users#:#Azon felhasználók, akik nem adtak be feladatot, de nem részei a visszacsatolásoknak
-exc#:#exc_peer_review_invalid_peer_ids#:#Azon felhasználók, akik nem tagjai a beadandó feladatnak vagy nem adtak be feladatot, de kaptak visszacsatolást
-exc#:#exc_peer_review_invalid_giver_ids#:#Azon felhasználók, akik nem tagjai a beadandó feladatnak vagy nem adtak be feladatot, de adtak visszacsatolást
-exc#:#exc_peer_review_reset#:#Törlése, és a visszacsatolások alapértelmezettre állítása
-exc#:#exc_peer_review_reset_sure#:#Biztos, hogy törli '%s' összes visszacsatolását?
-exc#:#exc_peer_review_reset_done#:#Az összes visszacsatolással kapcsolatos adatot sikeresen törölte.
+exc#:#exc_peer_review_missing_users#:#Azon felhasználók, akik adtak be feladatot, de nem részei a visszajelzéseknek
+exc#:#exc_peer_review_not_returned_users#:#Azon felhasználók, akik nem adtak be feladatot, de nem részei a visszajelzéseknek
+exc#:#exc_peer_review_invalid_peer_ids#:#Azon felhasználók, akik nem tagjai a beadandó feladatnak vagy nem adtak be feladatot, de kaptak visszajelzést
+exc#:#exc_peer_review_invalid_giver_ids#:#Azon felhasználók, akik nem tagjai a beadandó feladatnak vagy nem adtak be feladatot, de adtak visszajelzést
+exc#:#exc_peer_review_reset#:#Törlése, és a visszajelzések alapértelmezettre állítása
+exc#:#exc_peer_review_reset_sure#:#Biztos, hogy törli '%s' összes visszajelzését?
+exc#:#exc_peer_review_reset_done#:#Az összes visszajelzéssel kapcsolatos adatot sikeresen törölte.
 adve#:#char_selector_msg_blocks_or_custom_needed#:#Amikor aktiválja a karakterválasztót, válasszon egy karakterblokkot vagy adjon meg egy kijelölést!
 crs#:#crs_loc_form_tst_new_initial_info#:#Új teszt létrehozása belépő tesztnek
 crs#:#crs_loc_form_tst_new_qualified_info#:#--
@@ -15137,7 +15137,7 @@ scormtrac#:#Attempts#:#Próbálkozások
 scormtrac#:#existingSCOs#:#Létező SCO-k száma
 scormtrac#:#startedSCOs#:#Elkezdett SCO-k száma
 scormtrac#:#completedSCOs#:#Teljesen befejezett SCO-k száma
-scormtrac#:#passedSCOs#:#Teljesített SCO-k  száma
+scormtrac#:#passedSCOs#:#Teljesített SCO-k száma
 scormtrac#:#roundedTotal_timeSeconds#:#Összes idő másodpercben (kerekítve)
 scormtrac#:#cont_tracking_modify#:#adat módosítása
 scormtrac#:#counter_i_correct#:#helyesen megválaszolt interakciók
@@ -15175,3 +15175,13 @@ tagging#:#tag_tags_deleted#:#A címkét sikeresen eltávolította az elérhetetl
 content#:#cont_automatically_set_store_tries#:#'$2' opció aktiválása automatikusan bekapcsolta a(z) '$1' opciót.
 cntr#:#cont_custom_icon#:#Egyéni ikon
 rbac#:#rbac_cant_import_role_wrong_type#:#'%s' elemből '%s' elembe szabály nem importálható.
+content#:#cont_license#:#Licence
+content#:#cont_license_info#:#Licencelés bekapcsolása
+content#:#cont_biblio#:#Bibliográfiai adat
+content#:#cont_biblio_info#:#Bibliográfiai adattulajdonság bekapcsolása
+crs#:#crs_loc_tst_assignment#:#Teszt hozzárendelés
+search#:#search_minimum_info#:#Keresési feltétele legalább %s karakter hosszú legyen
+crs#:#crs_show_all_obj#:#Összes kibontása
+crs#:#crs_hide_all_obj#:#Összes becsukása
+notes#:#notes_comment_deleted#:#A hozzászólást törölték.
+notes#:#notes_comments_deleted#:#A hozzászólásokat törölték.
