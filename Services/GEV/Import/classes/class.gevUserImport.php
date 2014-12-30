@@ -990,12 +990,14 @@ class gevUserImport {
 			$il_adviser_user_id = $record['il_adviser_user_id'];
 			
 			$this->prnt('... by interimUser: MIZ of ' .$il_adviser_user_id);
-			try{
-				$this->na_utils->assignAdviser($il_user_id, $il_adviser_user_id);
-			}
-			catch(Exception $e){
-				print_r($e);
-				//pass				
+			if($il_adviser_user_id){
+				try{
+					$this->na_utils->assignAdviser($il_user_id, $il_adviser_user_id);
+				}
+				catch(Exception $e){
+					print_r($e);
+					//pass				
+				}
 			}
 			$this->prnt(' .... ok', -1);
 		}
@@ -1011,12 +1013,14 @@ class gevUserImport {
 			$il_adviser_user_id = $record['il_adviser_user_id'];
 
 			$this->prnt('... by interimOrguAssignments: MIZ of ' .$il_adviser_user_id);
-			try{
-				$this->na_utils->assignAdviser($il_user_id, $il_adviser_user_id);
-			}
-			catch(Exception $e){
-				print_r($e);
-				//pass				
+			if($il_adviser_user_id){
+				try{
+					$this->na_utils->assignAdviser($il_user_id, $il_adviser_user_id);
+				}
+				catch(Exception $e){
+					print_r($e);
+					//pass				
+				}
 			}
 			$this->prnt(' .... ok', -1);
 		}
