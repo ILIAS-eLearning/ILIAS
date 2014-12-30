@@ -203,6 +203,27 @@ $res = $explodeBySpace->apply($string);
 // Since the value is still wrapped, we need to unwrap it.
 print_r($res->get());
 
+// Really not to interesting, but we use our value abstraction.
+$boringFormlet = _pure(_value("Hello World"));
+
+// Since functions are values as well, we could construct a formlet containing 
+// a function.
+$functionFormlet = _pure($explodeBySpace);
+
+// The one and only (might not be that way always):
+$name_source = NameSource::instantiate();
+
+// Very boring renderer and collector.
+$repr = $boringFormlet->build($name_source);
+
+// Renderer does nothing
+echo ("" == $repr["renderer"]->render()?"No output\n":"Oh, that's not pure...\n");
+
+// The collector 'collects' a constant value, wrapped in our value representation.
+echo $repr["collector"]->collect(array())->get()."\n";
+
+// We need to update the name source:
+$name_source = $repr["name_source"]; 
 
 ?>
 

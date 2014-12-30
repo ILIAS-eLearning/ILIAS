@@ -35,6 +35,10 @@ splits a string at the delimiter. That also means you could call a function
 partially. PHP functions are rather different. You always call them at once.
 
 ```php
+<?php
+$TEST_MODE = false;
+require_once("formlets.php");
+
 // Create a function object from an ordinary PHP function, you need to
 // give its arity and name.
 $explode = _function(2, "explode");
@@ -53,7 +57,9 @@ $res = $explodeBySpace->apply($string);
 // Since the value is still wrapped, we need to unwrap it.
 $unwrapped = $res->get();
 
+echo "Array containing \"foo\" and \"bar\":\n";
 print_r($unwrapped);
+?>
 ```
 
 The function evaluation works lazy, that is it only calculates the value when 
@@ -79,12 +85,14 @@ The most simple formlet (the 'pure' one) thus is a formlet the renders to nothin
 and 'collects' a constant value, regardless of the user-input.
 
 ```php
-// Really not to interesting, but we use our value abstraction.
-$boringFormlet = _pure(_value("Hello World"));
+<?php
+// Really not to interesting, but we need to use our value abstraction.
+$boringFormlet = _pure(_value("Hello World!"));
 
 // Since functions are values as well, we could construct a formlet containing 
 // a function.
 $functionFormlet = _pure($explodeBySpace);
+?>
 ```
 
 The created entities could be used to build concrete renderers and collectors.
@@ -94,6 +102,7 @@ can only be instantiated once and needs to be passed around explicitly. This
 is also a point i'm currently thinking about how to handle best.
 
 ```php
+<?php
 // The one and only (might not be that way always):
 $name_source = NameSource::instantiate();
 
@@ -101,13 +110,16 @@ $name_source = NameSource::instantiate();
 $repr = $boringFormlet->build($name_source);
 
 // Renderer does nothing
-echo ("" == $repr["renderer"]->render()?"No output":"Oh, that's not pure...");
+echo "This will show \"No output\":\n";
+echo ("" == $repr["renderer"]->render()?"No output\n":"Oh, that's not pure...\n");
 
 // The collector 'collects' a constant value, wrapped in our value representation.
-echo $repr["collector"]->collect(array());
+echo "This will show \"Hello World!\":\n";
+echo $repr["collector"]->collect(array())->get();
 
 // We need to update the name source:
 $name_source = $repr["name_source"]; 
+?>
 ```
 
 A formlet is a functor, since in some sense every formlet contains a value. And 
@@ -115,9 +127,39 @@ we can map over that value, that is apply a function to that value inside the
 formlet, yielding a new formlet containing the result of the function call.
 
 ```php
+<?php
 // The function to map over the formlet is called mapCollector, since it leaves
 // the renderer untouched. Maybe at some point a mapRenderer might come in handy
 // to...
 $containsArrayFormlet = $boringFormlet->mapCollector($explodeBySpace);
+
+$repr = $containsArrayFormlet->build($name_source);
+$name_source = $repr["name_source"];
+
+echo "Array containing \"Hello\" and \"World!\":\n";
+print_r($repr["collector"]->collect(array())->get());
+?>
 ```
 
+It is also applicative, since it provides an interesting way of combining two 
+formlets into a new one. If you have two formlets, one collecting a function
+and rendering some output, and the other collecting a value and rendering some
+other output, you can combine them to a new formlet, 'collecting' the function 
+applied to the value and rendering the concatenated outputs of the other formlets.
+
+```php
+<?php
+// Will be a lot more interesting when you see formlets that actually take some 
+// input.
+$exploded = _pure($explode)
+                ->cmb(_pure($delim))
+                ->cmb(_pure($string))
+                ;
+
+$repr = $exploded->build($name_source);
+$name_source = $repr["name_source"];
+
+echo "Array containing \"foo\" and \"bar\":\n";
+print_r($repr["collector"]->collect(array())->get());
+?>
+```
