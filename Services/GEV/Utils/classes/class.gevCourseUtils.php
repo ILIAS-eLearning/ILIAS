@@ -734,6 +734,16 @@ class gevCourseUtils {
 		return $ven->getContactEmail();
 	}
 	
+	public function getVenueHomepage() {
+		$ven = $this->getVenue();
+		if ($ven === null) {
+			return "";
+		}
+		
+		return $ven->getHomepage();
+	}
+
+	
 	// Accomodation Info
 	
 	public function getAccomodationId() {
