@@ -13,7 +13,7 @@ concepts. I'm also interested in real world applications of the code, but i'm
 not quite sure, weather the code is really ready for that atm. The concepts used 
 in the implementation might feel somehow strange to PHPers anyway (and others as 
 well), so i will start with some explanation of the concepts and how one could
-use them with my library to create forms. Hf.
+use them for a framework to create forms. Hf.
 
 *This README.md is also a literate PHP-file.*
 
