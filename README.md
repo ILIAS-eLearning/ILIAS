@@ -38,7 +38,6 @@ partially. PHP functions are rather different. You always call them at once.
 
 ```php
 <?php
-$TEST_MODE = false;
 require_once("formlets.php");
 
 // Create a function object from an ordinary PHP function, you need to

@@ -18,12 +18,6 @@
  *     The Essence of Form Abstraction (Cooper, Lindley, wadler, Yallop)
  */
 
-global $TEST_MODE;
-
-if ($TEST_MODE === null) {
-    $TEST_MODE = true;
-}
-
 /**************************************
  * TypeErrors for error checking. 
  */
@@ -842,50 +836,6 @@ abstract class Formlet {
 }
 
 
-/****************************/
-/* Tests on implementations */
-/****************************/
-
-function alwaysTrue($val) {
-    return true;
-}
-
-function verboseCheck_isFormlet($name, $args) {
-    $name .= "Factory";
-    $formlet = $name::instantiate($args);
-    //$formlet_pred = $formlet
-    //    ->satisfies(_function(1, alwaysTrue), "This is impossible");
-    $res = $formlet->build(NameSource::unsafeInstantiate());
-    $renderer_res = $res["renderer"]->render();
-    return array
-        ( "Formlet has correct class."
-            => $formlet instanceof Formlet
-        , "Renderer has correct instance"
-            => $res["renderer"] instanceof Renderer
-        , "Renderer returns string."
-            => is_string($renderer_res)
-        , "Collector has correct instance"
-            => $res["collector"] instanceof Collector
-        , "Name source has correct instance."
-            => $res["name_source"] instanceof NameSource
-        );
-}
-
-function check_isFormlet($name, $args) {
-    $res = verboseCheck_isFormlet($name, $args);
-    return _and($res);
-}
-
-function print_check_isFormlet($name, $args) {
-    $res = verboseCheck_isFormlet($name, $args);
-    echo "Checking $name:\n";
-    foreach($res as $test => $result) {
-        echo "\t$test: "._o_f($result)."\n";
-    }
-    echo "=> "._o_f(_and($res))."\n";
-}
-
-
 /* A PureFormlet collects a constant value and renderes to an empty string. */
 class PureFormletFactory extends FormletFactory {
     public static function instantiate($args) {
@@ -912,11 +862,6 @@ class PureFormlet extends Formlet {
 
 function _pure(Value $value) {
     return new PureFormlet($value); 
-}
-
-if ($TEST_MODE) {
-    print_check_isFormlet("PureFormlet", array(new PlainValue(42)));
-    echo "\n";
 }
 
 
@@ -958,11 +903,6 @@ class CombinedFormlets extends Formlet {
     }
 }
 
-if ($TEST_MODE) {
-    $pv = PureFormletFactory::instantiate(array(new PlainValue(1337)));
-    print_check_isFormlet("CombinedFormlets", array($pv, $pv));
-    echo "\n";
-}
 
 /* A checked formlet does a predicate check on the collected value. */
 class CheckedFormletFactory extends FormletFactory {
@@ -996,15 +936,6 @@ class CheckedFormlet extends Formlet {
     }
 }
 
-if ($TEST_MODE) {
-    print_check_isFormlet("CheckedFormlet", array
-                            ( _pure(_value(3))
-                            , _function(1, "alwaysTrue")
-                            , "ERROR"
-                            ));
-    echo "\n";
-}
-
 
 /* A formlet where a function is applied to the collected value. */
 class MappedCollectorFormletFactory extends FormletFactory {
@@ -1032,14 +963,6 @@ class MappedCollectorFormlet extends Formlet {
                     , "name_source" => $fmlt["name_source"]
                     );
     }
-}
-
-if ($TEST_MODE) {
-    print_check_isFormlet("MappedCollectorFormlet", array
-                            ( _pure(_value("3"))
-                            , _function(1, "intval")
-                            ));
-    echo "\n";
 }
 
 
@@ -1075,11 +998,6 @@ function _static($content) {
     return new StaticFormlet($content);
 }
 
-if ($TEST_MODE) {
-    print_check_isFormlet("StaticFormlet", array("Static"));
-    echo "\n";
-}
-
 
 /* A formlet to input some text. Renders to according HTML and collects a
  * string. This surely needs to be improved. 
@@ -1090,7 +1008,7 @@ class TextInputFactory extends FormletFactory {
     } 
 }
 
-class TextInput extends Formlet {
+class TextInputFormlet extends Formlet {
     public function __construct() {
         
     }
@@ -1123,12 +1041,7 @@ class TextInput extends Formlet {
 }
 
 function _text_input() {
-    return new TextInput();
-}
-
-if ($TEST_MODE) {
-    print_check_isFormlet("TextInput", array("Hello World!"));
-    echo "\n";
+    return new TextInputFormlet();
 }
 
 ?>
