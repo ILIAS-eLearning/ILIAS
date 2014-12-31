@@ -277,8 +277,8 @@ function _inRange($l, $r) {
 
 After the boilerplate, we start with the interesting stuff, that is actually
 constructing a form from the two primitives. We start by creating some basic
-input elements we'll need from the only input element i provide atm, the text
-input.
+input elements we'll need from the only input element i provide atm, the 
+`_text_input`.
 
 ```php
 <?php
