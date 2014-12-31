@@ -1,7 +1,7 @@
 # php-formlets
 
 **Create highly composable forms in PHP. Implementation of ideas from "The 
-Essence of Form Abstraction" from Cooper, Lindley, Wadler and Yallop**
+Essence of Form Abstraction" from Cooper, Lindley, Wadler and Yallop.**
 
 Writing up formulars is a big part in the every days business of PHP-developers.
 To ease this work, one would like to abstract the formulars in a way that makes
