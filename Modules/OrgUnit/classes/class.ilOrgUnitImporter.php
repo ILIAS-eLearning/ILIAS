@@ -46,12 +46,16 @@ class ilOrgUnitImporter extends ilXmlImporter {
 			}
 
 			$ref_ids = ilObject::_getAllReferences($obj_id);
+
 			if (!count($ref_ids)) {
 				return false;
 			}
-			if (count($ref_ids)) {
-				return array_shift($ref_ids);
+
+			foreach($ref_ids as $ref_id) {
+				if(!ilObject::_isInTrash($ref_id))
+					return $ref_id;
 			}
+			return false;
 		} else {
 			return false;
 		}

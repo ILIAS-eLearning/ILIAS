@@ -77,6 +77,9 @@ class ilOrgUnitStaffGUI {
 
 	/**
 	 * @return bool
+	 * @throws Exception
+	 * @throws ilCtrlException
+	 * @throws ilException
 	 */
 	public function executeCommand()
 	{
@@ -117,6 +120,15 @@ class ilOrgUnitStaffGUI {
 					case 'confirmRemoveFromEmployees':
 					case 'confirmRemoveFromSuperiors':
 						$this->confirmRemoveUser($cmd);
+						break;
+					case 'addStaff':
+					case 'addOtherRoles':
+					case 'fromSuperiorToEmployee':
+					case 'fromEmployeeToSuperior':
+					case 'removeFromSuperiors':
+					case 'removeFromEmployees':
+					case 'removeFromRole':
+						$this->$cmd();
 						break;
 					default:
 						throw new ilException("Unknown command for command class ilOrgUnitStaffGUI: ".$cmd);
