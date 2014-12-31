@@ -14428,7 +14428,7 @@ content#:#cont_page_lock_released#:#Editing finished. Page lock has been release
 notes#:#note_content_removed#:#The content has been removed.
 exc#:#exc_list_text_assignment#:#List All Submissions
 exc#:#exc_show_peer_review#:#Show Peer-Feedback
-orgu#:#ou_external_id_exists#:#A unit with the External ID already exists on this system or in trash bin.
+orgu#:#ou_external_id_exists#:#A unit with the External ID already exists on this system.
 orgu#:#user_import_successful#:#The import terminated successfully. Assigned: %s, Removed: %s.
 orgu#:#no_orgunit#:#Please check your XML-File. There is no Organisational Unit.
 orgu#:#no_assignment#:#Please check your XML-File. There is no User Assignment.

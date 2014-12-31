@@ -14374,7 +14374,7 @@ content#:#cont_back_to_page#:#Zurück zur Seite
 notes#:#note_content_removed#:#Der Inhalt wurde entfernt.
 exc#:#exc_list_text_assignment#:#Liste aller Abgaben
 exc#:#exc_show_peer_review#:#Peer-Feedback anzeigen
-orgu#:#ou_external_id_exists#:#Eine Organisationseinheit mit der Externen ID existiert bereits auf ILIAS oder im Papierkorb.
+orgu#:#ou_external_id_exists#:#Eine Organisationseinheit mit der Externen ID existiert bereits auf ILIAS.
 orgu#:#user_import_successful#:#Der Import wurde erfolgreich durchgeführt. Neu zugeordnet: %s, Zuordnung entfernt: %s.
 orgu#:#no_orgunit#:#Bitte prüfen Sie Ihre XML-Datei. Es konnte keine Organisationseinheit gefunden werden.
 orgu#:#no_assignment#:#Bitte prüfen Sie Ihre XML-Datei. Es konnte keine Benutzerzuweisung gefunden werden.
