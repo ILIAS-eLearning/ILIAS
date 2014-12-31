@@ -41,7 +41,7 @@ class ilOrgUnitImporter extends ilXmlImporter {
 		} elseif ($type == 'external_id') {
 			$obj_id = ilObject::_lookupObjIdByImportId($id);
 
-			if (!ilObject::_hasUntrashedReference($id)) {
+			if (!ilObject::_hasUntrashedReference($obj_id)) {
 				return false;
 			}
 

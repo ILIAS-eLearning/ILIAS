@@ -13799,7 +13799,7 @@ orgu#:#change_to_superior#:#Zu Vorgesetzten wechseln
 orgu#:#change_to_employee#:#Zu Angestellten wechseln
 orgu#:#user_changed_successful#:#Der Benutzer wurde erfolgreich umgeschrieben.
 orgu#:#ou_id_type_not_valid#:#Der ou_id Typ ist nicht gültig. Gültig sind: "reference_id" oder "external_id".
-orgu#:#ou_parent_id_not_valid#:#Der ou_parent_id Typ ist nicht gültig. Gültig sind: "reference_id" oder "external_id".
+orgu#:#ou_parent_id_not_valid#:#Die ou_parent_id konnte nicht gefunden werden.
 orgu#:#import_successful#:#Der Import wurde erfolgreich durchgeführt. Neu erstellt: %s, Bearbeitet/Verschoben: %s, Gelöscht: %s.
 orgu#:#import_terminated_with_warnings#:#Der Import hat Warnungen erzeugt
 orgu#:#import_terminated_with_errors#:#Der Import hat Fehler erkannt.

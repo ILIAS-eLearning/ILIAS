@@ -119,7 +119,7 @@ class ilOrgUnitStaffGUI {
 						$this->confirmRemoveUser($cmd);
 						break;
 					default:
-						$this->$cmd();
+						throw new ilException("Unknown command for command class ilOrgUnitStaffGUI: ".$cmd);
 						break;
 				}
 			break;

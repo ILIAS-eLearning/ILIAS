@@ -72,7 +72,7 @@ class ilLDAPAttributeToUser
 	 * Set user data received from pear auth or by ldap_search
 	 *
 	 * @access public
-	 * @ param array array of auth data. array('ilias_account1' => array(firstname => 'Stefan',...),...)
+	 * @param array array of auth data. array('ilias_account1' => array(firstname => 'Stefan',...),...)
 	 * 
 	 */
 	public function setUserData($a_data)

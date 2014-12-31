@@ -13829,7 +13829,7 @@ orgu#:#change_to_superior#:#Change to superior
 orgu#:#change_to_employee#:#Change to employee
 orgu#:#user_changed_successful#:#The user has been changed successfully.
 orgu#:#ou_id_type_not_valid#:#The ou_id type is not valid. Valid are: "reference_id" or "external_id".
-orgu#:#ou_parent_id_not_valid#:#The ou_parent_id type is not valid. Valid are: "reference_id" or "external_id".
+orgu#:#ou_parent_id_not_valid#:#The ou_parent_id could not be found.
 orgu#:#import_successful#:#The import terminated successfully. Created: %s, edited/moved: %s, deleted: %s.
 orgu#:#import_terminated_with_warnings#:#The import terminated with warnings
 orgu#:#import_terminated_with_errors#:#The import terminated with errors.
