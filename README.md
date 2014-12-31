@@ -5,7 +5,7 @@ Essence of Form Abstraction" from Cooper, Lindley, Wadler and Yallop**
 
 Writing up formulars is a big part in the every days business of PHP-developers.
 To ease this work, one would like to abstract the formulars in a way that makes
-them composable. This is the implementation of an attempt to this problems grown 
+them composable. This is the implementation of an attempt to this problem grown 
 from functional programming and [elaborated scientifically](http://groups.inf.ed.ac.uk/links/papers/formlets-essence.pdf). 
 
 It could be usefull for educational purpose, since it implements some interesting
@@ -109,7 +109,7 @@ and 'collects' a constant value, regardless of the user-input.
 
 ```php
 <?php
-// Really not to interesting, but we need to use our value abstraction.
+// Really not too interesting, but we need to use our value abstraction.
 $boringFormlet = _pure(_value("Hello World!"));
 
 // Since functions are values as well, we could construct a formlet containing 
@@ -119,7 +119,7 @@ $functionFormlet = _pure($explodeBySpace);
 ```
 
 The created entities could be used to build concrete renderers and collectors.
-To do that and maintain maintainability, we need a source that creates unique
+To do that while maintain composability, we need a source that creates unique
 names in an reproducible way. To avoid complex sideeffects, the name source
 can only be instantiated once and needs to be passed around explicitly. This
 is also a point i'm currently thinking about how to handle best.
@@ -324,7 +324,7 @@ $date_formlet = _pure(  $mkDate             )
 
 That's it. Since we never modify existing objects, the stuff above could be
 completely reused and combined to even more complex formlets. E.g. one could
-use two date formlets to create a period formlet. Now lets try it:
+use two date formlets to create a period formlet. Now lets try it out:
 
 ```php
 <?php
@@ -336,10 +336,9 @@ $name_source = $repr["name_source"];
 echo "This will show some date input in HTML representation:\n";
 echo $repr["renderer"]->render()."\n";
 
-// Then lets look at the collected values. Since we don't actually
-// POST the form, we need to mock up some input. This would be
-// completely opaque when using render and then collect the results
-// from $_POST.
+// Then lets look at the collected values. Since we don't actually POST the 
+// form, we need to mock up some input. This would be completely opaque when 
+// using render and then collect the results from $_POST.
 $mock_post1 = array( "input0" => "2014"
                    , "input1" => "12"
                    , "input2" => "24"
@@ -350,8 +349,8 @@ echo "This will show a date of christmas eve:\n";
 echo $res->get()->toISO()."\n";
 
 
-// To see how errors will show up in the formlets, lets try the same with 
-// faulty input:
+// To see how errors will show up in the formlets, lets try the same with faulty
+// input:
 $mock_post2 = array( "input0" => "2014"
                    , "input1" => "12"
                    , "input2" => "32" // that would make a long month
@@ -361,13 +360,13 @@ $res = $repr["collector"]->collect($mock_post2);
 echo "This will tell why creation of date object did not work:\n";
 echo ($res->isError()?$res->error():$res->get()->toISO())."\n";
 
-// So there's something wrong, and we most likely want to reprompt the user
-// with the form, stating the problem.
+// So there's something wrong, and we most likely want to reprompt the user with 
+// the form, stating the problem.
 
-// We need to turn the retreived value into a representation for rendering
+// We need to turn the retreived value into a representation for rendering ...
 $renderDict = new RenderDict($res);
 
-// And call another render function on the renderer with said dict.
+// ... and call another render function on the renderer with said dict.
 echo "This will show some HTML of the formlet with error messages:\n";
 echo $repr["renderer"]->renderValues($renderDict)."\n";
 
