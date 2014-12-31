@@ -375,8 +375,8 @@ function _function($arity, $function_name, $args = null) {
     return new FunctionValue($arity, $function_name, null, $args);
 }
 
-function _method($arity, $object, $function_name, $args = null) {
-    return new FunctionValue($arity, $function_name, $object, $args);
+function _method($arity, $object, $method_name, $args = null) {
+    return new FunctionValue($arity, $method_name, $object, $args);
 }
 
 /* Value representing an error. */
