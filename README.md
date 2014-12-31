@@ -301,11 +301,11 @@ $day_formlet = $int_formlet
 ?>
 ```
 
-Next well be combining these basic inputs to a more complex input that could
+Next we'll be combining these basic inputs to a more complex input that could
 be used to define a date. We also use the other primitive i have implemented 
-atm, that is `_static` which renders a static text and collects nothing. To 
-compose the formlets to our date formlet, we use the combine function, shown
-above. We plumb the stuff with mkDate to get a formlet, that creates us a 
+atm, that is `_static`, which renders a static string and collects nothing. To 
+compose the formlets to our date formlet, we use the `cmb` (for combine) method,
+shown above. We plumb the stuff with $mkDate to get a formlet that creates us a 
 date object.
 
 ```php
@@ -324,7 +324,7 @@ $date_formlet = _pure(  $mkDate             )
 
 That's it. Since we never modify existing objects, the stuff above could be
 completely reused and combined to even more complex formlets. E.g. one could
-use two date formlets to create a period formlet. Now lets try it out:
+use the date formlet twice to create a period formlet. Now lets try it out:
 
 ```php
 <?php
@@ -390,6 +390,6 @@ already know about:
   made primitives.
 * Think about using some other representation for HTML then strings, so the 
   renderer output could be processed further.
-* Think about the name source and how a formlet is actually turned into an HTML
+* Think about the name source and how a formlet is actually turned into a HTML
   form.
 
