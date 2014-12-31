@@ -66,13 +66,13 @@ print_r($unwrapped);
 
 The function evaluation works lazy, that is it only calculates the value when 
 it is really needed the first time. In our case that is the moment we call 
-$res->get(). You will be safe in terms of the result of function applications 
+*$res->get()*. You will be safe in terms of the result of function applications 
 if you only use functions without sideeffects like writing or reading global 
 stuff. When using functions with sideeffects, the result might be suprising.
 
-For the later use with the formlets, the functions and values can be erroneous.
-To catch an exception from the underlying PHP function and turn it into an
-error value, one can use catchAndReify to create a new function value.
+For the later use with the formlets, values can be erroneous to catch an 
+exception from the underlying PHP function and turn it into an error value, 
+one can use *catchAndReify* to create a new function value.
 
 ```php
 <?php
@@ -97,15 +97,15 @@ the class Value in formlets.php.
 
 ## Form(let)s as Applicative Functors
 
-The building blog of our form are called formlets, and they behave according
+The building blog of our forms are called formlets, and they behave according
 to an abstraction called applicative functor. We'll try to understand both
 alongside, there's enough stuff about the abstract concept on the net.
 
 A formlet is a thing that encapsulates two things, a renderer and a collector,
 in a highly composable way. The renderer is the entity that creates HTML output,
 while the collector is responsible for collecting values from the user input.
-The most simple formlet (the 'pure' one) thus is a formlet the renders to nothing
-and 'collects' a constant value, regardless of the user-input.
+The most simple formlet (the 'pure' one) thus is a formlet that renders to nothing
+and 'collects' a constant value, regardless of the user input.
 
 ```php
 <?php
@@ -120,9 +120,9 @@ $functionFormlet = _pure($explodeBySpace);
 
 The created entities could be used to build concrete renderers and collectors.
 To do that while maintain composability, we need a source that creates unique
-names in an reproducible way. To avoid complex sideeffects, the name source
+names in a reproducible way. To avoid complex sideeffects, the name source
 can only be instantiated once and needs to be passed around explicitly. This
-is also a point i'm currently thinking about how to handle best.
+is a point i'm currently thinking about how to handle best.
 
 ```php
 <?php
@@ -153,7 +153,7 @@ formlet, yielding a new formlet containing the result of the function call.
 <?php
 // The function to map over the formlet is called mapCollector, since it leaves
 // the renderer untouched. Maybe at some point a mapRenderer might come in handy
-// to...
+// too...
 $containsArrayFormlet = $boringFormlet->mapCollector($explodeBySpace);
 
 $repr = $containsArrayFormlet->build($name_source);
@@ -164,7 +164,7 @@ print_r($repr["collector"]->collect(array())->get());
 ?>
 ```
 
-It is also applicative, since it provides an interesting way of combining two 
+A formlet is applicative, since it provides an interesting way of combining two 
 formlets into a new one. If you have two formlets, one collecting a function
 and rendering some output, and the other collecting a value and rendering some
 other output, you can combine them to a new formlet, 'collecting' the function 
@@ -187,14 +187,13 @@ print_r($repr["collector"]->collect(array())->get());
 ?>
 ```
 
-To do checks on inputs, one can use the satisfies method, to attach a predicate
+To do checks on inputs, one can use the *satisfies* method, to attach a predicate
 to a formlet. As the other operations, this creates a new formlet, so the old 
-one could be reused. When the value in the formlet fails the predicate, collect
+one could be reused. When the value in the formlet fails the predicate, *collect*
 returns an error value.
 
 ```php
 <?php
-
 // _function also supports defining some fixed arguments.
 $containsHello = _function(1, "preg_match", array("/.*hello.*/i"));
 
@@ -217,13 +216,14 @@ echo ($res->isError()?$res->error():$res->get())."\n";
 
 Now you need to see, how this stuff works out. I won't explain how to implement
 new primitives for forms, since atm i only implemented two of them by myself.
-So that'll be left for later. I rather show you an example how one could use the
-primitives to construct an input for a date. Their names are text input and static.
+So that'll be left for later. I rather show you an example how one could use 
+the primitives to construct an input for a date. Their names are *_text_input* and
+*_static*.
 
 First we'll write our own (and very dump) date class. We won't be doing this in
 *The Real World*, i guess, but here we'll do it to see how it works more easily.
 We'll also need some boilerplate to make everything work out nicely. If this 
-stuff would ever be used, i would expect a lot of this be going into a the
+stuff would ever be used, i would expect a lot of this be going into a the 
 library for reuse.
 
 ```php
