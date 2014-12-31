@@ -66,13 +66,13 @@ print_r($unwrapped);
 
 The function evaluation works lazy, that is it only calculates the value when 
 it is really needed the first time. In our case that is the moment we call 
-*$res->get()*. You will be safe in terms of the result of function applications 
+`$res->get()`. You will be safe in terms of the result of function applications 
 if you only use functions without sideeffects like writing or reading global 
 stuff. When using functions with sideeffects, the result might be suprising.
 
 For the later use with the formlets, values can be erroneous to catch an 
 exception from the underlying PHP function and turn it into an error value, 
-one can use *catchAndReify* to create a new function value.
+one can use `catchAndReify` to create a new function value.
 
 ```php
 <?php
@@ -187,9 +187,9 @@ print_r($repr["collector"]->collect(array())->get());
 ?>
 ```
 
-To do checks on inputs, one can use the *satisfies* method, to attach a predicate
+To do checks on inputs, one can use the `satisfies` method, to attach a predicate
 to a formlet. As the other operations, this creates a new formlet, so the old 
-one could be reused. When the value in the formlet fails the predicate, *collect*
+one could be reused. When the value in the formlet fails the predicate, `collect`
 returns an error value.
 
 ```php
@@ -217,8 +217,8 @@ echo ($res->isError()?$res->error():$res->get())."\n";
 Now you need to see, how this stuff works out. I won't explain how to implement
 new primitives for forms, since atm i only implemented two of them by myself.
 So that'll be left for later. I rather show you an example how one could use 
-the primitives to construct an input for a date. Their names are *_text_input* and
-*_static*.
+the primitives to construct an input for a date. Their names are `_text_input` and
+`_static`.
 
 First we'll write our own (and very dump) date class. We won't be doing this in
 *The Real World*, i guess, but here we'll do it to see how it works more easily.
@@ -303,7 +303,7 @@ $day_formlet = $int_formlet
 
 Next well be combining these basic inputs to a more complex input that could
 be used to define a date. We also use the other primitive i have implemented 
-atm, that is static which renders a static text and collects nothing. To 
+atm, that is `_static` which renders a static text and collects nothing. To 
 compose the formlets to our date formlet, we use the combine function, shown
 above. We plumb the stuff with mkDate to get a formlet, that creates us a 
 date object.
