@@ -19,8 +19,8 @@ use them for a framework to create forms. Hf.
 
 ## Functions as Values, Currying
 
-First concept we need to understand for the formlets abstraction, we need to look
-at functions in a different way then we are used to from PHP. 
+To understand the first important ingredient of the formlet abstraction, we need
+to look at functions in a different way then we are used to from PHP. 
 
 The functions we need for this abstraction could be used as ordinary values, that 
 is they can be stored in a variable, being passed around or used as an argument 
