@@ -805,10 +805,14 @@ final class NameSource {
     }
 }
 
-/************/
-/* Formlets */
-/************/
+/******************************************************************************
+ * Formlets are the main abstraction to be used to build forms. First the base
+ * class is defined, then some subclasses are defined that are needed to get
+ * the stuff to work. Afterwards some primitives to actually build forms are
+ * defined.
+ */
 
+/* Factory class, maybe i'll discard it, atm i only use it for testing anyway. */
 abstract class FormletFactory {
     abstract static function instantiate($args);
 }
@@ -882,10 +886,7 @@ function print_check_isFormlet($name, $args) {
 }
 
 
-/*************/
-/* PureFormlet */ 
-/*************/
-
+/* A PureFormlet collects a constant value and renderes to an empty string. */
 class PureFormletFactory extends FormletFactory {
     public static function instantiate($args) {
         guardIsValue($args[0]);
@@ -918,10 +919,8 @@ if ($TEST_MODE) {
     echo "\n";
 }
 
-/*********************/
-/* CombinatedFormets */
-/*********************/
 
+/* A combined formlets glues to formlets together to a new one. */ 
 class CombinedFormletsFactory extends FormletFactory {
     public static function instantiate($args) {
         return new CombinedFormlets($args[0], $args[1]);
@@ -940,6 +939,7 @@ class CombinedFormlets extends Formlet {
     public function build(NameSource $name_source) {
         $l = $this->l->build($name_source);
         $r = $this->r->build($l["name_source"]);
+        // Factor this out?
         $l_empty = $l["collector"]->isNullaryCollector();
         $r_empty = $r["collector"]->isNullaryCollector();
         if ($l_empty && $r_empty) 
@@ -964,10 +964,7 @@ if ($TEST_MODE) {
     echo "\n";
 }
 
-/******************/
-/* CheckedFormlet */
-/******************/
-
+/* A checked formlet does a predicate check on the collected value. */
 class CheckedFormletFactory extends FormletFactory {
     public static function instantiate($args) {
         return new CheckedFormlet($args[0], $args[1], $args[2]);
@@ -1008,10 +1005,8 @@ if ($TEST_MODE) {
     echo "\n";
 }
 
-/**********************/
-/* MappedCollectorFormlet */
-/**********************/
 
+/* A formlet where a function is applied to the collected value. */
 class MappedCollectorFormletFactory extends FormletFactory {
     public static function instantiate($args) {
         return new MappedCollectorFormlet($args[0], $args[1]);
@@ -1048,11 +1043,11 @@ if ($TEST_MODE) {
 }
 
 
+/******************************************************************************
+ * This are the primitives to be used to build actual forms.
+ */
 
-/*****************/
-/* StaticFormlet */
-/*****************/
-
+/* A formlet collecting nothing and rendering a constant string. */
 class StaticFormletFactory extends FormletFactory {
     public static function instantiate($args) {
         return new StaticFormlet($args[0]);
@@ -1085,10 +1080,10 @@ if ($TEST_MODE) {
     echo "\n";
 }
 
-/*************/
-/* TextInput */
-/*************/
 
+/* A formlet to input some text. Renders to according HTML and collects a
+ * string. This surely needs to be improved. 
+ */
 class TextInputFactory extends FormletFactory {
     public static function instantiate($args) {
         return new TextInput();
