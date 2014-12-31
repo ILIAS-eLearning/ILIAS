@@ -116,10 +116,10 @@ abstract class Value {
      */
     abstract public function apply(Value $to);
 
-    /* Check weather value could be applied to another value. */
+    /* Check whether value could be applied to another value. */
     abstract public function isApplicable();
 
-    /* Check weather this is an error value. */ 
+    /* Check whether this is an error value. */ 
     abstract public function isError();
     /* Get the reason for the error. */ 
     abstract public function error();
@@ -581,7 +581,7 @@ abstract class Collector {
      * throw.
      */
     abstract public function collect($inp);
-    /* Check weather Collector collects something. */
+    /* Check whether Collector collects something. */
     abstract public function isNullaryCollector();
 }
 
