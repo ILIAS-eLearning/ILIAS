@@ -372,3 +372,24 @@ echo $repr["renderer"]->renderValues($renderDict)."\n";
 
 ?>
 ```
+
+## Outlook
+
+Atm this is a proof of concept, and i'm thinking about if and how to turn it 
+into a really usable library. So i'm highly interested in suggestions on and
+reviews of my code. There's plenty of stuff that should or could be done i 
+already know about:
+
+* Write tests that proof the properties of the implementations i use for 
+  functions as values, applicative functors and atoms for the formlets
+  machinery.
+* Implement some usefull primitives and maybe provide some readymade functions
+  as values for common checks and instantiations. 
+* Write tests to proof properties of the primitives.
+* Document how new primitives could be implemented and provide tests for self
+  made primitives.
+* Using some other representation for HTML then strings, so the renderer output
+  could be processed further.
+* Think about the name source and how a formlet is actually turned into an HTML
+  form.
+
