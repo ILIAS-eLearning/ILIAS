@@ -86,7 +86,7 @@ $throwsAndCatches = $throws->catchAndReify("Exception");
 
 $res = $throwsAndCatches->apply(_value("But it won't..."));
 echo "This will state my hindsight:\n";
-echo ($res->isError()?$res->error():$res->get());
+echo ($res->isError()?$res->error():$res->get())."\n";
 ?>
 ```
 
@@ -138,7 +138,7 @@ echo ("" == $repr["renderer"]->render()?"No output\n":"Oh, that's not pure...\n"
 
 // The collector 'collects' a constant value, wrapped in our value representation.
 echo "This will show \"Hello World!\":\n";
-echo $repr["collector"]->collect(array())->get();
+echo $repr["collector"]->collect(array())->get()."\n";
 
 // We need to update the name source:
 $name_source = $repr["name_source"]; 
@@ -187,14 +187,38 @@ print_r($repr["collector"]->collect(array())->get());
 ?>
 ```
 
-To handle errors and faulty inputs, 
+To do checks on inputs, one can use the satisfies method, to attach a predicate
+to a formlet. As the other operations, this creates a new formlet, so the old 
+one could be reused. When the value in the formlet fails the predicate, collect
+returns an error value.
+
+```php
+<?php
+
+// _function also supports defining some fixed arguments.
+$containsHello = _function(1, "preg_match", array("/.*hello.*/i"));
+
+// Append the predicate to a formlet. If its not truthy for the value in the 
+// formlet, an error value with the given message will be collected.
+$withPred = _pure(_value("Hi there."))
+                ->satisfies($containsHello, "You should say hello.");
+
+$repr = $withPred->build($name_source);
+$name_source = $repr["name_source"];
+
+$res = $repr["collector"]->collect(array());
+echo "This will be stating, what you should say:\n";
+echo ($res->isError()?$res->error():$res->get())."\n";
+
+?>
+```
 
 ## Primitives and Application
 
 Now you need to see, how this stuff works out. I won't explain how to implement
 new primitives for forms, since atm i only implemented two of them by myself.
 So that'll be left for later. I rather show you an example how one could use the
-primitives to construct an input for a date.
+primitives to construct an input for a date. Their names are text input and static.
 
 First we'll write our own (and very dump) date class. We won't be doing this in
 *The Real World*, i guess, but here we'll do it to see how it works more easily.
@@ -234,16 +258,12 @@ function mkDate($y, $m, $d) {
     return new _Date($y, $m, $d);
 }
 
-// function that returns our type of function.
-// We use a function with no arguments to make the syntax look nicer, since
-// a variable would introduce $ in the notation. Aesthetics.
-// We should how ever be caching the created function to not create it over and
-// over again, but that's another story...
-function _mkDate() {
-    return _function(3, "mkDate")
+// Our type of function, we want to catch Exceptions since the constructor
+// of the class could throw. In the real world we would be more specific
+// on the type of exception we want to catch.
+$mkDate = _function(3, "mkDate")
             ->catchAndReify("Exception")
             ;
-}
 
 function inRange($l, $r, $value) {
     return $value >= $l && $value <= $r;
@@ -255,48 +275,101 @@ function _inRange($l, $r) {
 ?>
 ```
 
-$int_formlet = _text_input()
-                ->mapCollector(_function(1, "intval"));
+After the boilerplate, we start with the interesting stuff, that is actually
+constructing a form from the two primitives. We start by creating some basic
+input elements we'll need from the only input element i provide atm, the text
+input.
 
+```php
+<?php
+// First we create an integer input from a text input by map intval over the
+// string input after checking it is indeed an integer.
+$int_formlet = _text_input()
+                ->satisfies(_function(1, "is_numeric"), "No integer.")
+                ->mapCollector(_function(1, "intval"))
+                ;
+
+// From the integer input we'll create a month and day input by doing further
+// checks on the input. Make sure you understand, that none of these touches
+// the int_formlet, but rather creates new objects.
 $month_formlet = $int_formlet
     ->satisfies(_inRange(1,12), "Month must have value between 1 and 12.")
     ;
-
 $day_formlet = $int_formlet
     ->satisfies(_inRange(1,31), "Day must have value between 1 and 31.")
     ;
+?>
+```
 
-$formlet = _pure(_mkDate())
-                ->cmb($int_formlet)
-                ->cmb($month_formlet)
-                ->cmb($day_formlet);
+Next well be combining these basic inputs to a more complex input that could
+be used to define a date. We also use the other primitive i have implemented 
+atm, that is static which renders a static text and collects nothing. To 
+compose the formlets to our date formlet, we use the combine function, shown
+above. We plumb the stuff with mkDate to get a formlet, that creates us a 
+date object.
 
-$res = $formlet->build(NameSource::instantiate());
-$val = $res["collector"]->collect(array
-                            ( "input0" => "2014"
-                            , "input1" => "12"
-                            , "input2" => "24"
-                            ));
-echo $val->get()->toISO()."\n";
+```php
+<?php
+// Written in odd notation to see what's going on...
+$date_formlet = _pure(  $mkDate             )
+                ->cmb(  _static("Year: ")   )
+                ->cmb(  $int_formlet        )
+                ->cmb(  _static("Month: ")  )
+                ->cmb(  $month_formlet      )
+                ->cmb(  _static("Day: ")    )
+                ->cmb(  $day_formlet        )
+                ;
+?>
+```
 
-$val2 = $res["collector"]->collect(array
-                            ( "input0" => "2014"
-                            , "input1" => "12"
-                            , "input2" => "32"
-                            ));
+That's it. Since we never modify existing objects, the stuff above could be
+completely reused and combined to even more complex formlets. E.g. one could
+use two date formlets to create a period formlet. Now lets try it:
 
-echo "val2 ".($val2->isError()?"is error\n":"is no error\n");
-if ($val2->isError()) echo "Reason is '".$val2->error()."'\n";
-echo $res["renderer"]->renderValues(new RenderDict($val2))."\n";
+```php
+<?php
+// You got that step, right?
+$repr = $date_formlet->build($name_source);
+$name_source = $repr["name_source"];
+
+// First look at the rendering:
+echo "This will show some date input in HTML representation:\n";
+echo $repr["renderer"]->render()."\n";
+
+// Then lets look at the collected values. Since we don't actually
+// POST the form, we need to mock up some input. This would be
+// completely opaque when using render and then collect the results
+// from $_POST.
+$mock_post1 = array( "input0" => "2014"
+                   , "input1" => "12"
+                   , "input2" => "24"
+                   );
+
+$res = $repr["collector"]->collect($mock_post1);
+echo "This will show a date of christmas eve:\n";
+echo $res->get()->toISO()."\n";
 
 
-$val3 = $res["collector"]->collect(array
-                            ( "input0" => "2014"
-                            , "input1" => "11"
-                            , "input2" => "31"
-                            ));
+// To see how errors will show up in the formlets, lets try the same with 
+// faulty input:
+$mock_post2 = array( "input0" => "2014"
+                   , "input1" => "12"
+                   , "input2" => "32" // that would make a long month
+                   );
 
-echo "val3 ".($val3->isError()?"is error\n":"is no error\n");
-if ($val3->isError()) echo "Reason is '".$val3->error()."'\n";
-echo $res["renderer"]->renderValues(new RenderDict($val3))."\n";
-*
+$res = $repr["collector"]->collect($mock_post2);
+echo "This will tell why creation of date object did not work:\n";
+echo ($res->isError()?$res->error():$res->get()->toISO())."\n";
+
+// So there's something wrong, and we most likely want to reprompt the user
+// with the form, stating the problem.
+
+// We need to turn the retreived value into a representation for rendering
+$renderDict = new RenderDict($res);
+
+// And call another render function on the renderer with said dict.
+echo "This will show some HTML of the formlet with error messages:\n";
+echo $repr["renderer"]->renderValues($renderDict)."\n";
+
+?>
+```
