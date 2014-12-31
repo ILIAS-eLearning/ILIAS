@@ -221,8 +221,11 @@ final class FunctionValue extends Value {
         parent::__construct(null);
     }
 
+    /* If the function is satisfied get the result. Will only be calculated 
+     * once.
+     */
     public function result() {
-        if ($this->_arity !== 0) {
+        if (!$this->isSatisfied()) {
             throw new Exception("Problem with implementation.");
         }
 
@@ -233,10 +236,14 @@ final class FunctionValue extends Value {
         return $this->_result; 
     }
 
+    /* Is the function applied enough times to have a result? */
     public function isSatisfied() {
         return $this->_arity === 0;
     }
 
+    /* Get the value from the result of the function if it is
+     * satisfied. Throw otherwise.
+     */
     public function get() {
         if ($this->isSatisfied()) {
             return $this->result()->get();
@@ -244,6 +251,7 @@ final class FunctionValue extends Value {
         throw new GetError("FunctionValue");
     } 
 
+    /* Apply the function to a value, producing a new value. */
     public function apply(Value $to) {
         if ($this->isSatisfied()) {
             return $this->result()->apply($to);
@@ -271,6 +279,9 @@ final class FunctionValue extends Value {
                                 );
     }
     
+    /* Check weather the value is applicable, that is true if the function is 
+     * not satisfied and the applicability of the result otherwise. 
+     */
     public function isApplicable() {
         if ($this->isSatisfied()) {
             return $this->result()->isApplicable();
@@ -279,6 +290,9 @@ final class FunctionValue extends Value {
         return true;
     }
 
+    /* If the function is not satisfied, it is no error, otherwise the decision
+     * is dispatched to the result.
+     */
     public function isError() {
         if ($this->isSatisfied()) {
             return $this->result()->isError();
@@ -287,6 +301,9 @@ final class FunctionValue extends Value {
         return false;
     }
 
+    /* Tries to return the error for the result if function is satisfied, throws
+     * otherwise.
+     */
     public function error() {
         if ($this->isSatisfied()) {
             return $this->result()->error();
@@ -294,6 +311,7 @@ final class FunctionValue extends Value {
         throw new Exception("Implementation error.");
     }
 
+    /* Helper to create a new function value with one less arity. */
     private function deferredCall($args, $next_value) {
         $args[] = $next_value;
         return new FunctionValue( $this->_arity - 1
@@ -304,6 +322,7 @@ final class FunctionValue extends Value {
                                 );
     }
 
+    /* Helper to calculate the actual result of the function with error caching. */
     private function actualCall() {
         try {
             return $this->rawActualCall();
@@ -318,6 +337,7 @@ final class FunctionValue extends Value {
         }
     }
 
+    /* Helper to calculate the function result without error catching. */
     private function rawActualCall() {
         $res = $this->evalArgs(); 
         $args = $res[0];
@@ -338,6 +358,7 @@ final class FunctionValue extends Value {
         }
     }
 
+    /* Helper to get the values of the arguments to the function. */
     private function evalArgs() {
         $res = array();
         $error = false;
@@ -356,6 +377,7 @@ final class FunctionValue extends Value {
         return array($res, $error);
     }
 
+    /* Turn a thing to a value if it is not already one. */
     private function toValue($val) {
         if ($val instanceof Value) {
             return $val;
