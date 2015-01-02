@@ -22,6 +22,10 @@ function alwaysTrue($val) {
     return true;
 }
 
+function id($val) {
+    return $val;
+}
+
 function raises(callable $fun, $args, $error) {
     try {
         call_user_func_array($fun, $args);
@@ -46,11 +50,15 @@ function print_test($name) {
  * Tests on Values
  */
 
-function test_Value() {
-    $val = 0;
+function test_PlainValue() {
+    $val = rand();
     $rnd = md5(rand());
     $value = _value($val, $rnd);
+    return _test_PlainValue($value, $val, $rnd); 
+}
+ 
 
+function _test_PlainValue(Value $value, $val, $origin) {
     return array
         ( "One can get the value out that was stuffed in"
             => $value->get() === $val
@@ -62,12 +70,37 @@ function test_Value() {
             => !$value->isError()
         , "For an ordinary Value, error() raises"
             => raises(array($value, "error"), array(), "Exception")
-        , "Ordinary value tracks origin."
-            => $value->origin() === $rnd
+        , "Ordinary value tracks origin"
+            => $value->origin() === $origin
+        );
+}
+
+function test_FunctionValue() {
+    $fn = _function(1, "id");
+    $val = rand();
+    $origin = md5($val);
+    $value = _value($val, $origin);
+
+    return array
+        ( "One can't get a value out of a function value"
+            => raises(array($fn, "get"), array(), "GetError")
+        , "A function is applicable"
+            => $fn->isApplicable()
+        , "One can apply a function value to an ordinary value."
+            => $fn->apply($value)
+        , "An function value is no error"
+            => !$value->isError()
+        , "For a function Value, error() raises"
+            => raises(array($value, "error"), array(), "Exception")
+        , "Function values origin defaults to null"
+            => $fn->origin() === null 
+        , "Result of application is a value."
+            => andR(_test_PlainValue($fn->apply($value), $val, null))
         );
 } 
 
-print_test("Value");
+print_test("PlainValue");
+print_test("FunctionValue");
 exit();
 
 /******************************************************************************
