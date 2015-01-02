@@ -466,15 +466,68 @@ class gevUserImport {
 	}
 
 
-	/*
-	private function stripNumbersFromSelectionEntry($entry){
-		if(is_numeric(substr($entry, 0,1))){
-			$entry = substr($entry, 4);
-			print '<hr>' . $entry ."<hr>";
+
+
+
+	private function getLiveTopicSetId($old_topic_set_id){
+		//from shadowdb, get topic titles
+		$sql = "SELECT hist_topics.topic_id, topic_title"
+			." FROM hist_topicset2topic"
+			." INNER JOIN hist_topics ON hist_topicset2topic.topic_id = hist_topics.topic_id"
+			." WHERE hist_topicset2topic.topic_set_id = $old_topic_set_id";
+			
+		$result = $this->queryShadowDB($sql);
+		
+		$topic_ids = array();
+		while ($record = mysql_fetch_assoc($result)){
+			$topic_ids[] = $this->getTopicIdByTitle($record['topic_title']); //this operate on the live-db
 		}
-		return $entry;
+
+		//from live-db, get matching topic_set
+		$ts_index = array();
+		$topic_index = array();
+
+		$sql = "SELECT * FROM hist_topicset2topic ORDER BY topic_set_id";
+		$result = $this->ilDB->query($sql);
+		while($record = $this->ilDB->fetchAssoc($result)){
+			if(! array_key_exists($record['topic_set_id'], $ts_index)){
+				$ts_index[$record['topic_set_id']] = array();
+			}
+			$ts_index[$record['topic_set_id']][] = $record['topic_id'];
+		}
+
+		foreach ($ts_index as $ts => $topics) {
+			$t_index = implode('#', $topics);
+			$topic_index[$t_index] = $ts;
+		}
+
+		$topics_compare = implode('#', $topic_ids);
+		if (array_key_exists($topics_compare, $topic_index)){
+			return $topic_index[$topics_compare];
+		}
+		//otherwise, insert into topic_sets....
+		$topic_set_id = -1;
+
+		foreach ($topic_ids as $tid) {
+			$row_id = $this->ilDB->nextId('hist_topicset2topic');
+			if($topic_set_id == -1){
+				$topic_set_id = $row_id;
+			}
+			
+			$this->ilDB->insert(
+				'hist_topicset2topic',
+				array(
+					'row_id'       => array( 'integer', $row_id),
+					'topic_set_id' => array( 'integer', $topic_set_id ),
+					'topic_id'     => array( 'integer', $tid )
+				)
+			);
+		}
+		return $topic_set_id;
+
 	}
-	*/
+
+
 
 
 
@@ -832,6 +885,33 @@ class gevUserImport {
 
 
 
+	public function	setUsersFromGroupExitToInactive(){
+		$this->prnt('setUsersFromGroupExitToInactive', 1);
+
+		$sql = "SELECT ilid, login"
+		." FROM interimOrguAssignments"
+		." INNER JOIN interimUsers ON interimOrguAssignments.interim_usr_id = interimUsers.id"
+		." WHERE orgu_id = 'exit' ";
+
+
+		$result = $this->queryShadowDB($sql);
+		while ($record = mysql_fetch_assoc($result)){
+
+			//deactivate users
+			$user = new ilObjUser($record['ilid']);
+			$user->setActive(false, 6);
+			$user->update();
+			
+			$this->prnt($record['login']);
+		}
+
+		$this->prnt('setUsersFromGroupExitToInactive: done', 2);
+	}
+
+
+
+
+
 
 	public function	update_pass($user_id, $rec){
 		//update pass, creation, agreement
@@ -1141,7 +1221,8 @@ class gevUserImport {
 
 		foreach ($this->getUsersFromInterimsDB() as $record) {
 			
-			$this->prnt($record, 666);
+			//$this->prnt($record, 666);
+			$this->prnt($record['login']);
 			
 			if(! in_array(trim($record['login']), $exclude)){
 				//create
@@ -1228,8 +1309,243 @@ class gevUserImport {
 
 
 
-	public function importEduRecords(){
+
+
+
+	private function writeCourseEntry($crs_record){
+	/*
+	hist_course
+		row_id 				int(11) 		
+		hist_version 		int(11) 		
+		hist_historic 		int(11) 		
+		creator_user_id 	int(11) 		
+		created_ts 			int(11) 		
+		crs_id 				int(11) 		
+		custom_id 			varchar(255) 	
+		title 				varchar(255) 	
+		template_title 		varchar(255) 	
+		type 				varchar(255) 	
+		topic_set 			int(11) 		
+		begin_date 			date 			
+		end_date 			date 			
+		hours 				int(11) 		
+		is_expert_course 	tinyint(4) 		
+		venue 				varchar(255) 	
+		provider 			varchar(255) 	
+		tutor 				varchar(255) 	
+		max_credit_points 	varchar(255) 	
+		fee 				double 			
+		is_template 		varchar(8) 	
+		wbd_topic 			varchar(255) 	
+		edu_program			varchar(255)
+	*/
+
+
+		//insert courses (negative ids is enough, there are no other negatives yet)
+		$id = $this->ilDB->nextId('hist_course');
+
+		$fee = ($crs_record['fee']) ? $crs_record['fee'] : 0 ;
+
+		$sql = " INSERT INTO hist_course ("
+			."
+			 row_id
+			,hist_version
+			,hist_historic
+			,creator_user_id
+			,created_ts
+			,crs_id
+			,custom_id
+			,title
+			,template_title
+			,type
+			,topic_set
+			,begin_date
+			,end_date
+			,hours
+			,is_expert_course
+			,venue
+			,provider
+			,tutor
+			,max_credit_points
+			,fee
+			,is_template
+			,wbd_topic
+			,edu_program
+			"
+			.") VALUES ("
+
+			.$id .","
+			."0, " //hist_version
+			."0, " //hist_historic
+			."-201, " //creator
+			
+			."UNIX_TIMESTAMP() , "//created_ts
+			.$crs_record['crs_id'] .", " //crs_id
+			."'" .$crs_record['custom_id'] ."', " //custom_id
+			.$this->ilDB->quote($crs_record['title'], 'text') .", " //title
+			."'', " //template_title
+			."'" .$crs_record['type'] ."', " //type
+			.$crs_record['topic_set'] .", " //topic_set
+			.$crs_record['begin_date'] .", " //begin_date
+			.$crs_record['end_date'] .", " //end_date
+			.$crs_record['hours'] .", " //hours
+			.$crs_record['is_expert_course'] .", " //is_expert_course
+			.$this->ilDB->quote($crs_record['venue'], 'text') .", " //venue
+			."'" .$crs_record['provider'] ."', " //provider
+			."'-empty-', " //tutor
+			.$this->ilDB->quote($crs_record['max_credit_points'], 'text') .", " //max_credit_points
+			.$fee .", " //fee
+			."0, " //is_template
+			."'" .$crs_record['wbd_topic'] ."', " //wbd_topic
+			."'" .$crs_record['edu_program'] ."'"//edu_program
+			.")"
+			;
+
+		$this->ilDB->query($sql);
+		$this->prnt(' .', -1);
+
+
 	}
+
+	private function writeUserCourseEntry($edu_record){
+ 	/*
+	hist_usercoursestatus
+
+	 	row_id 				int(11) 
+		hist_version 		int(11)
+		hist_historic 		int(11)
+		creator_user_id 	int(11)
+		created_ts 			int(11)
+		last_wbd_report 	date 			
+		usr_id 				int(11)
+		crs_id 				int(11)
+		credit_points 		int(11)
+		bill_id 			varchar(16)
+		booking_status 		varchar(255)
+		participation_status	varchar(255) 	
+		okz 				varchar(255) 	
+		org_unit 			varchar(255)
+		certificate 		int(11) 
+		begin_date 			date 		
+		end_date 			date 		
+		overnights 			int(11) 	
+		function 			varchar(255)
+		wbd_booking_id 		varchar(255)
+	*/
+
+	$id = $this->ilDB->nextId('hist_course');
+
+		
+
+		$sql = " INSERT INTO hist_usercoursestatus ("
+			."
+			 row_id
+			,hist_version 
+			,hist_historic
+			,creator_user_id
+			,created_ts
+			,last_wbd_report
+			,usr_id
+			,crs_id
+			,credit_points
+			,bill_id
+			,booking_status
+			,participation_status
+			,okz
+			,org_unit
+			,certificate
+			,begin_date
+			,end_date
+			,overnights
+			,function
+			,wbd_booking_id
+			"
+			
+			.") VALUES ("
+
+			.$id .", "
+			.$edu_record['hist_version'] .", " //hist_version
+			.$edu_record['hist_historic'] .", " //hist_historic
+			.$edu_record['creator_user_id'] .", " //creator
+			."UNIX_TIMESTAMP() , "//created_ts
+			.$edu_record['last_wbd_report'] .", " //last_wbd_report
+			.$edu_record['usr_id'] .", " //usr_id
+			.$edu_record['crs_id'] .", " //crs_id
+			.$edu_record['credit_points'] .", " //credit_points
+			.$this->ilDB->quote($edu_record['bill_id'], 'text') .", " //bill_id
+			.$this->ilDB->quote($edu_record['booking_status'], 'text') .", " //booking_status
+			.$this->ilDB->quote($edu_record['participation_status'], 'text') .", " //participation_status
+			.$this->ilDB->quote($edu_record['okz'], 'text') .", " //okz
+			.$this->ilDB->quote($edu_record['org_unit'], 'text') .", " //org_unit
+			.$edu_record['certificate'] .", " //certificate
+			.$edu_record['begin_date'] .", " //begin_date
+			.$edu_record['end_date'] .", " //end_date
+			.$edu_record['overnights'] .", " //overnights
+			.$this->ilDB->quote($edu_record['function'], 'text') .", " //function
+			.$this->ilDB->quote($edu_record['wbd_booking_id'], 'text')  //wbd_booking_id
+			.")"
+			;
+
+		$this->ilDB->query($sql);
+		$this->prnt(' .', -1);
+	}
+
+
+
+	public function importEduRecords(){
+		$this->prnt('importEduRecords', 1);
+
+
+		//get all usercoursestatus from interim
+		$this->prnt('courses (and topics)', 3);
+		$sql = "SELECT * FROM interimCourse";
+
+		$result = $this->queryShadowDB($sql);
+		while ($record = mysql_fetch_assoc($result)){
+			if($record['topic_set'] > 0){
+				//get topicset from interim_hist_topic and (maybe) insert new topic in live
+				$record['topic_set'] = $this->getLiveTopicSetId($record['topic_set']);
+			}
+
+			//write course
+			$this->writeCourseEntry($record);
+
+		}
+
+
+		//get all interimUserCourseStatus
+		$this->prnt('user-course status', 3);
+
+		$sql = "SELECT * FROM interimUsercoursestatus";
+
+		$result = $this->queryShadowDB($sql);
+		while ($record = mysql_fetch_assoc($result)){
+			//match user_id againts interimUsers.ilid
+			$client = ($record['usr_id_vfs'] == '') ? 'gev' : 'vfs';
+
+			$sql = "SELECT ilid FROM interimUsers"
+				." WHERE ilid_" .$client ."='" .$record['usr_id_' .$client] ."'"
+				;
+			$res = $this->queryShadowDB($sql);
+			$r = mysql_fetch_assoc($res);
+			$ilid = $r['ilid'];
+
+			if($ilid){//there are test/dummy-users w/o ilid
+
+				//write edurecord
+				$record['creator_user_id'] = ($client == 'gev') ? -202 : -203;
+				$record['usr_id'] = $ilid;
+
+				$this->writeUserCourseEntry($record);
+			}
+
+		}
+
+
+
+		$this->prnt('importEduRecords: done', 2);
+	}
+
 
 
 }

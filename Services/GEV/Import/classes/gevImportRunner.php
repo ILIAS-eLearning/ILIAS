@@ -37,11 +37,15 @@ $imp = new gevUserImport();
 
 //$imp->createOrgStructure();
 
-$imp->createOrUpdateUserAccounts();
+//$imp->createOrUpdateUserAccounts();
 //$imp->assignAllUserRoles(); //ROLES BEFORE ORG-UNITS
 //$imp->assignAllUsersToOrgUnits();
 
 
+//$imp->importEduRecords();
+
+
+$imp->setUsersFromGroupExitToInactive();
 
 /*
 $imp->fetchVFSUsers();
@@ -53,5 +57,6 @@ $imp->fetchGEVUserRoles();
 $imp->fetchGEVEduRecords();
 
 */
+
 print '<br><br><hr>all through.';
 ?>
