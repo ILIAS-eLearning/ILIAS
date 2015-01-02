@@ -901,7 +901,7 @@ class gevUserImport {
 			$user = new ilObjUser($record['ilid']);
 			$user->setActive(false, 6);
 			$user->update();
-			
+
 			$this->prnt($record['login']);
 		}
 
@@ -1386,8 +1386,8 @@ class gevUserImport {
 			."'', " //template_title
 			."'" .$crs_record['type'] ."', " //type
 			.$crs_record['topic_set'] .", " //topic_set
-			.$crs_record['begin_date'] .", " //begin_date
-			.$crs_record['end_date'] .", " //end_date
+			.$this->ilDB->quote($crs_record['begin_date'], 'text') .", " //begin_date
+			.$this->ilDB->quote($crs_record['end_date'], 'text') .", " //end_date
 			.$crs_record['hours'] .", " //hours
 			.$crs_record['is_expert_course'] .", " //is_expert_course
 			.$this->ilDB->quote($crs_record['venue'], 'text') .", " //venue
@@ -1402,6 +1402,19 @@ class gevUserImport {
 			;
 
 		$this->ilDB->query($sql);
+
+		
+		//insert (negative) id into object_reference, so course shows up in edu-bio
+		$ref = $this->ilDB->nextId('object_reference');
+		$sql = "INSERT INTO object_reference (ref_id, obj_id)"
+		." VALUES ("
+		.$ref ."," 
+		.$crs_record['crs_id']
+		. ")";
+		$this->ilDB->query($sql);
+
+
+
 		$this->prnt(' .', -1);
 
 
@@ -1478,8 +1491,8 @@ class gevUserImport {
 			.$this->ilDB->quote($edu_record['okz'], 'text') .", " //okz
 			.$this->ilDB->quote($edu_record['org_unit'], 'text') .", " //org_unit
 			.$edu_record['certificate'] .", " //certificate
-			.$edu_record['begin_date'] .", " //begin_date
-			.$edu_record['end_date'] .", " //end_date
+			.$this->ilDB->quote($edu_record['begin_date'], 'text') .", " //begin_date
+			.$this->ilDB->quote($edu_record['end_date'], 'text') .", " //end_date
 			.$edu_record['overnights'] .", " //overnights
 			.$this->ilDB->quote($edu_record['function'], 'text') .", " //function
 			.$this->ilDB->quote($edu_record['wbd_booking_id'], 'text')  //wbd_booking_id
@@ -1494,7 +1507,6 @@ class gevUserImport {
 
 	public function importEduRecords(){
 		$this->prnt('importEduRecords', 1);
-
 
 		//get all usercoursestatus from interim
 		$this->prnt('courses (and topics)', 3);
@@ -1517,11 +1529,10 @@ class gevUserImport {
 		$this->prnt('user-course status', 3);
 
 		$sql = "SELECT * FROM interimUsercoursestatus";
-
 		$result = $this->queryShadowDB($sql);
 		while ($record = mysql_fetch_assoc($result)){
 			//match user_id againts interimUsers.ilid
-			$client = ($record['usr_id_vfs'] == '') ? 'gev' : 'vfs';
+			$client = ($record['usr_id_vfs'] == '' || $record['usr_id_vfs'] == 0) ? 'gev' : 'vfs';
 
 			$sql = "SELECT ilid FROM interimUsers"
 				." WHERE ilid_" .$client ."='" .$record['usr_id_' .$client] ."'"
