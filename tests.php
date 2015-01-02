@@ -48,7 +48,8 @@ function print_test($name) {
 
 function test_Value() {
     $val = 0;
-    $value = _value($val);
+    $rnd = md5(rand());
+    $value = _value($val, $rnd);
 
     return array
         ( "One can get the value out that was stuffed in"
@@ -61,6 +62,8 @@ function test_Value() {
             => !$value->isError()
         , "For an ordinary Value, error() raises"
             => raises(array($value, "error"), array(), "Exception")
+        , "Ordinary value tracks origin."
+            => $value->origin() === $rnd
         );
 } 
 
