@@ -23,12 +23,12 @@
  */
 
 class TypeError extends Exception {
-    private $expected;
-    private $found;
+    private $_expected;
+    private $_found;
 
     public function __construct($expected, $found) {
-        $this->expected = $expected;
-        $this->found = $found;
+        $this->_expected = $expected;
+        $this->_found = $found;
 
         parent::__construct("Expected $expected, found $found.");
     }
@@ -138,15 +138,15 @@ class GetError extends Exception {
 }
 
 final class PlainValue extends Value {
-    private $value; //mixed
+    private $_value; //mixed
 
     public function __construct($value, $origin = null) {
-        $this->value = $value;
+        $this->_value = $value;
         parent::__construct($origin);
     }
 
     public function get() {
-        return $this->value;
+        return $this->_value;
     }
 
     public function apply(Value $to) {
@@ -406,10 +406,6 @@ final class ErrorValue extends Value {
     private $_reason; // string
     private $_original_value; // Value
 
-    public function error() {
-        return $this->_reason;
-    }
-
     public function originalValue() {
         return $this->_original_value;
     }
@@ -435,6 +431,10 @@ final class ErrorValue extends Value {
 
     public function isError() {
         return true;
+    }
+
+    public function error() {
+        return $this->_reason;
     }
 }
 
@@ -542,49 +542,49 @@ abstract class Renderer {
  * renderers.
  */
 class CombinedRenderer extends Renderer {
-    private $l; // Renderer
-    private $r; // Renderer
+    private $_l; // Renderer
+    private $_r; // Renderer
 
     public function __construct(Renderer $left, Renderer $right) {
-        $this->l = $left;
-        $this->r = $right;
+        $this->_l = $left;
+        $this->_r = $right;
     }
 
     public function renderValues(RenderDict $dict) {
-        return $this->l->renderValues($dict).$this->r->renderValues($dict);
+        return $this->_l->renderValues($dict).$this->_r->renderValues($dict);
     }
 }
 
 /* A renderer that produces a constant output. */
 class ConstRenderer extends Renderer {
-    private $content; // string
+    private $_content; // string
 
     public function __construct($content) {
         guardIsString($content);
-        $this->content = $content;
+        $this->_content = $content;
     }
 
     public function renderValues(RenderDict $dict) {
-        return $this->content;
+        return $this->_content;
     }
 }
 
 /* A renderer that calls 'render' from another object to produce its output. */
 class CallbackRenderer extends Renderer {
-    private $call_object; // callable
-    private $args; // mixed
+    private $_call_object; // callable
+    private $_args; // mixed
 
     /* Construct with object to call and an array of arguments to be passed
      * to said óbjects render method.
      */
     public function __construct($call_object, $args) {
         guardIsObject($call_object);
-        $this->call_object = $call_object;
-        $this->args = $args;
+        $this->_call_object = $call_object;
+        $this->_args = $args;
     }
 
     public function renderValues(RenderDict $dict) {
-        $res = $this->call_object->renderValues($dict, $this->args);
+        $res = $this->_call_object->renderValues($dict, $this->_args);
         guardIsString($res);
         return $res; 
     }
@@ -608,9 +608,9 @@ abstract class Collector {
 }
 
 class MissingInputError extends Exception {
-    private $name; //string
+    private $_name; //string
     public function __construct($name) {
-        $this->name = $name;
+        $this->_name = $name;
         parent::__construct("Missing input $name.");
     }
 }
@@ -627,14 +627,14 @@ final class NullaryCollector extends Collector {
 
 /* A collector that always returns a constant value. */
 final class ConstCollector extends Collector {
-    private $value; // Value
+    private $_value; // Value
 
     public function __construct(Value $value) {
-        $this->value = $value;
+        $this->_value = $value;
     }
 
     public function collect($inp) {
-        return $this->value;
+        return $this->_value;
     }
 
     public function isNullaryCollector() {
@@ -646,17 +646,17 @@ final class ConstCollector extends Collector {
  * from its right collector.
  */
 final class ApplyCollector extends Collector {
-    private $l;
-    private $r;
+    private $_l;
+    private $_r;
 
     public function __construct(Collector $left, Collector $right) {
-        $this->l = $left;
-        $this->r = $right;
+        $this->_l = $left;
+        $this->_r = $right;
     }
 
     public function collect($inp) {
-        $l = $this->l->collect($inp);
-        $r = $this->r->collect($inp);
+        $l = $this->_l->collect($inp);
+        $r = $this->_r->collect($inp);
         return $l->apply($r);
     }
 
@@ -777,12 +777,12 @@ function defaultTo($arg, $default) {
  */
 
 final class NameSource {
-    private $i;
-    private $used = false;
-    static private $instantiated = false;
+    private $_i;
+    private $_used = false;
+    static private $_instantiated = false;
     
     public static function instantiate() {
-        if (static::$instantiated) {
+        if (static::$_instantiated) {
             throw new Exception("NameSource can only be instantiated once.");
         }
         return new NameSource(0);
@@ -793,18 +793,18 @@ final class NameSource {
     }
 
     private function __construct($i) {
-        $this->i = $i;
+        $this->_i = $i;
     }
 
     public function getNameAndNext() {
-        if ($this->used) {
+        if ($this->_used) {
             throw new Exception("NameSource can only be used once.");
         }
 
-        $this->used = true;
+        $this->_used = true;
         return array
-            ( "name" => "input".$this->i
-            , "name_source" => new NameSource($this->i + 1)
+            ( "name" => "input".$this->_i
+            , "name_source" => new NameSource($this->_i + 1)
             );
     }
 }
@@ -855,16 +855,16 @@ class PureFormletFactory extends FormletFactory {
 }
 
 class PureFormlet extends Formlet {
-    private $value; // mixes
+    private $_value; // mixes
 
     public function __construct(Value $value) {
-        $this->value = $value;
+        $this->_value = $value;
     }
 
     public function build(NameSource $name_source) {
         return array
             ( "renderer"    => new ConstRenderer("")
-            , "collector"   => new ConstCollector($this->value)
+            , "collector"   => new ConstCollector($this->_value)
             , "name_source" => $name_source
             );
     }
@@ -883,17 +883,17 @@ class CombinedFormletsFactory extends FormletFactory {
 }
 
 class CombinedFormlets extends Formlet {
-    private $l; // Formlet
-    private $r; // Formlet
+    private $_l; // Formlet
+    private $_r; // Formlet
 
     public function __construct(Formlet $left, Formlet $right) {
-        $this->l = $left;
-        $this->r = $right;
+        $this->_l = $left;
+        $this->_r = $right;
     }
 
     public function build(NameSource $name_source) {
-        $l = $this->l->build($name_source);
-        $r = $this->r->build($l["name_source"]);
+        $l = $this->_l->build($name_source);
+        $r = $this->_r->build($l["name_source"]);
         // Factor this out?
         $l_empty = $l["collector"]->isNullaryCollector();
         $r_empty = $r["collector"]->isNullaryCollector();
@@ -988,11 +988,11 @@ class StaticFormletFactory extends FormletFactory {
 }
 
 class StaticFormlet extends Formlet {
-    private $content; // string
+    private $_content; // string
 
     public function __construct($content) { 
         guardIsString($content);
-        $this->content = $content;
+        $this->_content = $content;
     }
 
     public function build(NameSource $name_source) {
