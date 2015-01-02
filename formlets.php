@@ -757,6 +757,20 @@ final class StringCollector extends Collector {
     }
 }
 
+function combineCollectors(Collector $l, Collector $r) {
+    $l_empty = $l->isNullaryCollector();
+    $r_empty = $r->isNullaryCollector();
+    if ($l_empty && $r_empty) 
+        $collector = new NullaryCollector();
+    elseif ($r_empty)
+        $collector = $l;
+    elseif ($l_empty)
+        $collector = $r;
+    else
+        $collector = new ApplyCollector($l, $r);
+}
+
+
 /***********/
 /* Helpers */
 /***********/
@@ -894,17 +908,7 @@ class CombinedFormlets extends Formlet {
     public function build(NameSource $name_source) {
         $l = $this->_l->build($name_source);
         $r = $this->_r->build($l["name_source"]);
-        // Factor this out?
-        $l_empty = $l["collector"]->isNullaryCollector();
-        $r_empty = $r["collector"]->isNullaryCollector();
-        if ($l_empty && $r_empty) 
-            $collector = new NullaryCollector();
-        elseif ($r_empty)
-            $collector = $l["collector"];
-        elseif ($l_empty)
-            $collector = $r["collector"];
-        else
-            $collector = new ApplyCollector($l["collector"], $r["collector"]);
+        $collector = combineColletors($l["collector"], $r["collector"]);
         return array
             ( "renderer"    => new CombinedRenderer($l["renderer"], $r["renderer"])
             , "collector"   => $collector
