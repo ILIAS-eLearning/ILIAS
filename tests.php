@@ -2,13 +2,74 @@
 
 require_once("formlets.php");
 
-/****************************/
-/* Tests on implementations */
-/****************************/
+/******************************************************************************
+ * Helpers
+ */
+
+function andReducer($carry, $item) {
+    return $carry && $item;
+}
+
+function andR($arr) {
+    return array_reduce($arr, "andReducer", true);
+}
+
+function O_F($val) {
+    return $val?"OK":"FAIL"; 
+}
 
 function alwaysTrue($val) {
     return true;
 }
+
+function raises(callable $fun, $args, $error) {
+    try {
+        call_user_func_array($fun, $args);
+    }
+    catch (Exception $e) {
+        return $e instanceof $error;
+    }
+    return false;
+}
+
+function print_test($name) {
+    $test_name = "test_".$name;
+    $res = $test_name();
+    echo "Checking $name:\n";
+    foreach($res as $test => $result) {
+        echo "\t$test: ".O_F($result)."\n";
+    }
+    echo "=> ".O_F(andR($res))."\n";
+}
+
+/******************************************************************************
+ * Tests on Values
+ */
+
+function test_Value() {
+    $val = 0;
+    $value = _value($val);
+
+    return array
+        ( "One can get the value out that was stuffed in"
+            => $value->get() === $val
+        , "An ordinary value is not applicable."
+            => !$value->isApplicable()
+        , "One can't apply an ordinary value"
+            => raises(array($value, "apply"), array($value), "ApplyError")
+        , "An ordinary value is no error"
+            => !$value->isError()
+        , "For an ordinary Value, error() raises"
+            => raises(array($value, "error"), array(), "Exception")
+        );
+} 
+
+print_test("Value");
+exit();
+
+/******************************************************************************
+ * Tests on implementations of Formlets.
+ */
 
 function verboseCheck_isFormlet($name, $args) {
     $name .= "Factory";
@@ -33,16 +94,16 @@ function verboseCheck_isFormlet($name, $args) {
 
 function check_isFormlet($name, $args) {
     $res = verboseCheck_isFormlet($name, $args);
-    return _and($res);
+    return andR($res);
 }
 
 function print_check_isFormlet($name, $args) {
     $res = verboseCheck_isFormlet($name, $args);
     echo "Checking $name:\n";
     foreach($res as $test => $result) {
-        echo "\t$test: "._o_f($result)."\n";
+        echo "\t$test: ".O_F($result)."\n";
     }
-    echo "=> "._o_f(_and($res))."\n";
+    echo "=> ".O_F(andR($res))."\n";
 }
 
 // PureFormlet

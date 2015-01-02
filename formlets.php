@@ -761,18 +761,6 @@ final class StringCollector extends Collector {
 /* Helpers */
 /***********/
 
-function andR($carry, $item) {
-    return $carry && $item;
-}
-
-function _and($arr) {
-    return array_reduce($arr, "andR", true);
-}
-
-function _o_f($val) {
-    return $val?"OK":"FAIL"; 
-}
-
 function defaultTo($arg, $default) {
     if ($arg === null) {
         return $default;
