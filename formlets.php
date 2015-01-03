@@ -788,7 +788,7 @@ final class MappedCollector extends Collector {
         $res2 = $this->_function->apply($res);
         if (!$res2->isError() && !$res2->isApplicable()) {
             // rewrap ordinary values to keep origin.
-            $res2 = _value($res2->get(), $res->origin());
+            $res2 = _value($res2->get(), $res->origin(), $res->originalValue());
         }
         return $res2;
     }
