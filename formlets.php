@@ -841,11 +841,6 @@ final class NameSource {
  * defined.
  */
 
-/* Factory class, maybe i'll discard it, atm i only use it for testing anyway. */
-abstract class FormletFactory {
-    abstract static function instantiate($args);
-}
-
 abstract class Formlet {
     /* Build a renderer and collector from the formlet and also return the 
      * updated name source.
@@ -872,13 +867,6 @@ abstract class Formlet {
 
 
 /* A PureFormlet collects a constant value and renderes to an empty string. */
-class PureFormletFactory extends FormletFactory {
-    public static function instantiate($args) {
-        guardIsValue($args[0]);
-        return new PureFormlet($args[0]); 
-    }
-}
-
 class PureFormlet extends Formlet {
     private $_value; // mixes
 
@@ -901,12 +889,6 @@ function _pure(Value $value) {
 
 
 /* A combined formlets glues to formlets together to a new one. */ 
-class CombinedFormletsFactory extends FormletFactory {
-    public static function instantiate($args) {
-        return new CombinedFormlets($args[0], $args[1]);
-    }
-}
-
 class CombinedFormlets extends Formlet {
     private $_l; // Formlet
     private $_r; // Formlet
@@ -930,12 +912,6 @@ class CombinedFormlets extends Formlet {
 
 
 /* A checked formlet does a predicate check on the collected value. */
-class CheckedFormletFactory extends FormletFactory {
-    public static function instantiate($args) {
-        return new CheckedFormlet($args[0], $args[1], $args[2]);
-    } 
-}
-
 class CheckedFormlet extends Formlet {
     private $_formlet; // Formlet
     private $_predicate; // Predicate
@@ -963,12 +939,6 @@ class CheckedFormlet extends Formlet {
 
 
 /* A formlet where a function is applied to the collected value. */
-class MappedCollectorFormletFactory extends FormletFactory {
-    public static function instantiate($args) {
-        return new MappedCollectorFormlet($args[0], $args[1]);
-    } 
-}
-
 class MappedCollectorFormlet extends Formlet {
     private $_formlet; // Formlet
     private $_transformation; // Predicate
@@ -996,12 +966,6 @@ class MappedCollectorFormlet extends Formlet {
  */
 
 /* A formlet collecting nothing and rendering a constant string. */
-class StaticFormletFactory extends FormletFactory {
-    public static function instantiate($args) {
-        return new StaticFormlet($args[0]);
-    } 
-}
-
 class StaticFormlet extends Formlet {
     private $_content; // string
 
@@ -1027,12 +991,6 @@ function _static($content) {
 /* A formlet to input some text. Renders to according HTML and collects a
  * string. This surely needs to be improved. 
  */
-class TextInputFormletFactory extends FormletFactory {
-    public static function instantiate($args) {
-        return new TextInputFormlet();
-    } 
-}
-
 class TextInputFormlet extends Formlet {
     protected $_value; // string
     protected $_attributes; // array
