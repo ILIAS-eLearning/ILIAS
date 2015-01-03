@@ -118,12 +118,10 @@ abstract class Value {
     }
 
     public function originalValue($value = null) {
-        if ($value = null) {
+        if ($value === null) {
             return $this->_original_value;
         }
         else {
-            if ($value !== null)
-                guardIsValue($value);
             return $this->withOriginalValue($value);
         }
     }
@@ -169,7 +167,7 @@ final class PlainValue extends Value {
     }
 
     protected function withOriginalValue($value) {
-        return new PlainValue($this->get(), $this->origin, $value);
+        return new PlainValue($this->get(), $this->origin(), $value);
     } 
 
     public function get() {
@@ -360,7 +358,7 @@ final class FunctionValue extends Value {
                                 , $args
                                 , $this->_reify_exceptions
                                 , $this->origin()
-                                , $this
+                                , $this->originalValue()
                                 );
     }
 
@@ -422,10 +420,12 @@ final class FunctionValue extends Value {
     /* Turn a thing to a value if it is not already one. */
     private function toValue($val) {
         if ($val instanceof Value) {
-            return $val;
+            return $val
+                    ->withOriginalValue($this)
+                    ;
         }
         else {
-            return _value($val);
+            return _value($val, $this->origin(), $this);
         }            
     }
 }
