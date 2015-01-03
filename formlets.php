@@ -102,31 +102,16 @@ function guardHasArity(FunctionValue $fun, $arity) {
 
 abstract class Value {
     private $_origin; // string
-    private $_original_value; // string
 
-    public function __construct($origin, $original_value) {
+    public function __construct($origin) {
         if ($origin !== null)
             guardIsString($origin);
-        if ($original_value !== null)
-            guardIsValue($original_value);
         $this->_origin = $origin;
-        $this->_original_value = $original_value;
     }
 
     public function origin() {
         return $this->_origin;
     }
-
-    public function originalValue($value = null) {
-        if ($value === null) {
-            return $this->_original_value;
-        }
-        else {
-            return $this->withOriginalValue($value);
-        }
-    }
-
-    abstract protected function withOriginalValue($value);
 
     /* Get the value in the underlying PHP-representation. 
      * Throws GetError when value represents a function.
@@ -161,14 +146,10 @@ class GetError extends Exception {
 final class PlainValue extends Value {
     private $_value; //mixed
 
-    public function __construct($value, $origin, $original_value) {
+    public function __construct($value, $origin) {
         $this->_value = $value;
-        parent::__construct($origin, $original_value);
+        parent::__construct($origin);
     }
-
-    protected function withOriginalValue($value) {
-        return new PlainValue($this->get(), $this->origin(), $value);
-    } 
 
     public function get() {
         return $this->_value;
@@ -192,8 +173,8 @@ final class PlainValue extends Value {
 }
 
 /* Construct a plain value from a PHP value. */
-function _value($value, $origin = null, $original_value = null) {
-    return new PlainValue($value, $origin, $original_value);
+function _value($value, $origin = null) {
+    return new PlainValue($value, $origin);
 }
 
 
@@ -222,7 +203,7 @@ final class FunctionValue extends Value {
      * When finally calling the wrapped function, Exceptions given as 
      * reify_exceptions will be caught and turned into an ErrorValue as return.
      */
-    public function __construct($arity, $function_name, $call_object = null, $args = null, $reify_exceptions = null, $origin = null, $original_value = null) {
+    public function __construct($arity, $function_name, $call_object = null, $args = null, $reify_exceptions = null, $origin = null) {
         $args = defaultTo($args, array());
         $reify_exceptions = defaultTo($reify_exceptions, array());
 
@@ -243,7 +224,7 @@ final class FunctionValue extends Value {
         $this->_args = $args;
         $this->_reify_exceptions = $reify_exceptions;
         
-        parent::__construct($origin, $original_value);
+        parent::__construct($origin);
     }
 
     protected function withOriginalValue($value) {
@@ -253,7 +234,6 @@ final class FunctionValue extends Value {
                                 , $this->_args
                                 , $this->_reify_exceptions
                                 , $this->origin()
-                                , $value
                                 );
     }
 
@@ -313,7 +293,6 @@ final class FunctionValue extends Value {
                                 , $this->_args
                                 , $re
                                 , $this->origin()
-                                , $this->originalValue()
                                 );
     }
     
@@ -358,7 +337,6 @@ final class FunctionValue extends Value {
                                 , $args
                                 , $this->_reify_exceptions
                                 , $this->origin()
-                                , $this->originalValue()
                                 );
     }
 
@@ -420,12 +398,10 @@ final class FunctionValue extends Value {
     /* Turn a thing to a value if it is not already one. */
     private function toValue($val) {
         if ($val instanceof Value) {
-            return $val
-                    ->withOriginalValue($this)
-                    ;
+            return $val;
         }
         else {
-            return _value($val, $this->origin(), $this);
+            return _value($val, $this->origin());
         }            
     }
 }
@@ -446,15 +422,16 @@ function _method($arity, $object, $method_name, $args = null) {
 /* Value representing an error. */
 final class ErrorValue extends Value {
     private $_reason; // string
+    private $_original_value;
+
+    public function originalValue() {
+        return $this->_original_value;
+    }
 
     public function __construct($reason, Value $original_value) {
         $this->_reason = $reason;
-        // ToDo: don't know wether this is clever.
-        parent::__construct($original_value->origin(), $original_value);
-    }
-
-    protected function withOriginalValue($value) {
-        return new ErrorValue($this->error(), $this->originalValue());
+        $this->_original_value = $original_value;
+        parent::__construct($original_value->origin());
     }
 
     public function get() {
@@ -533,35 +510,23 @@ class RenderDict {
     public static function computeFrom(Value $value) {
         $values = array();
         $errors = array();
-        $visited = array();
-        self::dispatchValue($value, $values, $errors, $visited);
+        self::dispatchValue($value, $values, $errors);
         return array($values, $errors);
     }
 
-    protected static function dispatchValue($value, &$values, &$errors, &$visited) {
-        if (in_array(spl_object_hash($value), $visited)) {
-            return;
-        }
-
-        $visited[] = spl_object_hash($value);
-
-        // Visit original values first.
-        $orig = $value->originalValue();
-        if ($orig !== null)
-            self::dispatchValue($orig, $values, $errors, $visited);
-
+    protected static function dispatchValue($value, &$values, &$errors) {
         if ($value instanceof ErrorValue) {
-            self::handleError($value, $values, $errors, $visited); 
+            self::handleError($value, $values, $errors); 
         } 
         elseif ($value instanceof FunctionValue) {
-            self::handleFunction($value, $values, $errors, $visited);
+            self::handleFunction($value, $values, $errors);
         }
         else {
-            self::handleValue($value, $values, $errors, $visited); 
+            self::handleValue($value, $values, $errors); 
         }
     }
 
-    protected static function handleError($value, &$values, &$errors, &$visited) {
+    protected static function handleError($value, &$values, &$errors) {
         $origin = $value->origin();
         if ($origin !== null) {
             if (!array_key_exists($origin, $errors)) {
@@ -569,16 +534,16 @@ class RenderDict {
             }
             $errors[$origin][] = $value->error();
         }
-        self::dispatchValue($value->originalValue(), $values, $errors, $visited);
+        self::dispatchValue($value->originalValue(), $values, $errors);
     }
 
-    protected static function handleFunction($value, &$values, &$errors, &$visited) {
+    protected static function handleFunction($value, &$values, &$errors) {
         foreach($value->args() as $value) {
-            self::dispatchValue($value, $values, $errors, $visited);
+            self::dispatchValue($value, $values, $errors);
         }
     }
 
-    protected static function handleValue($value, &$values, &$errors, &$visited) {
+    protected static function handleValue($value, &$values, &$errors) {
         $origin = $value->origin();
         if ($origin !== null) {
             $values[$origin] = $value->get();
