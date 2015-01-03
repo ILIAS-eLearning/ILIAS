@@ -818,14 +818,14 @@ function defaultTo($arg, $default) {
 }
 
 function keysAndValuesToHTMLAttributes($attributes) {
-    $strs = "";
+    $str = "";
     foreach ($attributes as $key => $value) {
         guardIsString($key);
         if ($value !== null)
             guardIsString($value);
         $str .= " ".$key.($value !== null ? "=\"$value\"" : "");
     } 
-    return $strs;
+    return $str;
 }
 
 /******************************************************************************
@@ -1231,12 +1231,88 @@ function _checkbox($label = null, $value = false, $attributes = null) {
     return new CheckboxFormlet($label, $value, $attributes);
 }
 
+/* A formlet representing a submit button, possibly collecting a boolean. */
+class SubmitButtonFormlet extends InputFormlet {
+    protected $_label; // string
+    protected $_collects; // bool
+
+    public static $disallowed_attributes = array
+        ( "accept"
+        , "checked"
+        , "form"
+        , "formaction"
+        , "formenctype"
+        , "formmethod"
+        , "formnovalidate"
+        , "formtarget"
+        , "height"
+        , "list"
+        , "max"
+        , "min"
+        , "multiple"
+        , "name"
+        , "size"
+        , "src"
+        , "step"
+        , "value"
+        , "width"
+        );
+
+    public function __construct($label, $collects = false, $attributes = null) {
+        parent::__construct($attributes);
+
+        guardIsString($label);
+        guardIsBool($collects);
+        $this->_label = $label; 
+        $this->_collects= $collects; 
+    }
+
+    public function build(NameSource $name_source) {
+        if ($this->_collects) {
+            $res = $name_source->getNameAndNext();
+            return array
+                ( "renderer"    => new CallbackRenderer($this, array
+                                        ( "name" => $res["name"]
+                                        )) 
+                , "collector"   => new ExistsCollector($res["name"])
+                , "name_source" => $res["name_source"]
+                );
+        }
+        else {
+            return array
+                ( "renderer"    => new CallbackRenderer($this, array())
+                , "collector"   => new NullaryCollector()
+                , "name_source" => $name_source
+                );
+        }
+    }
+
+    public function renderValues(RenderDict $dict, $args) {
+        $attributes = $this->_attributes;
+        if (array_key_exists("name", $args)) {
+            $attributes["name"] = $args["name"];
+        }
+        return "<input type='submit' value='".$this->_label."'"
+              .keysAndValuesToHTMLAttributes($attributes)
+              ."/>"
+              ;
+    }
+}
+
+function _submit($label, $collects = false, $attributes = null) {
+    return new SubmitButtonFormlet($label, $collects, $attributes);
+}
+
 
 /******************************************************************************
  * Premade functions to be used with formlets.
  */
 
 class Stop {
+}
+
+function stop() {
+    return _value(new Stop());
 }
 
 function appendRecursive($array, $value) {
@@ -1250,7 +1326,7 @@ function appendRecursive($array, $value) {
 }
 
 function _collect() {
-    return _function(1, appendRecursive, array(array()));
+    return _function(1, "appendRecursive", array(array()));
 }
 
 ?>
