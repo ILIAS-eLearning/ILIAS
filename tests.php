@@ -232,7 +232,7 @@ print_check_isFormlet("StaticFormlet", array("Static"));
 echo "\n";
 
 // TextInputFormlet
-print_check_isFormlet("TextInput", array("Hello World!"));
+print_check_isFormlet("TextInputFormlet", array("Hello World!"));
 echo "\n";
 
 /******************************************************************************

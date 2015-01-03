@@ -761,13 +761,13 @@ function combineCollectors(Collector $l, Collector $r) {
     $l_empty = $l->isNullaryCollector();
     $r_empty = $r->isNullaryCollector();
     if ($l_empty && $r_empty) 
-        $collector = new NullaryCollector();
+        return new NullaryCollector();
     elseif ($r_empty)
-        $collector = $l;
+        return $l;
     elseif ($l_empty)
-        $collector = $r;
+        return $r;
     else
-        $collector = new ApplyCollector($l, $r);
+        return new ApplyCollector($l, $r);
 }
 
 
@@ -908,7 +908,7 @@ class CombinedFormlets extends Formlet {
     public function build(NameSource $name_source) {
         $l = $this->_l->build($name_source);
         $r = $this->_r->build($l["name_source"]);
-        $collector = combineColletors($l["collector"], $r["collector"]);
+        $collector = combineCollectors($l["collector"], $r["collector"]);
         return array
             ( "renderer"    => new CombinedRenderer($l["renderer"], $r["renderer"])
             , "collector"   => $collector
@@ -1001,7 +1001,7 @@ class StaticFormlet extends Formlet {
 
     public function build(NameSource $name_source) {
         return array
-            ( "renderer"    => new ConstRenderer($this->content)
+            ( "renderer"    => new ConstRenderer($this->_content)
             , "collector"   => new NullaryCollector()
             , "name_source" => $name_source
             );
@@ -1016,9 +1016,9 @@ function _static($content) {
 /* A formlet to input some text. Renders to according HTML and collects a
  * string. This surely needs to be improved. 
  */
-class TextInputFactory extends FormletFactory {
+class TextInputFormletFactory extends FormletFactory {
     public static function instantiate($args) {
-        return new TextInput();
+        return new TextInputFormlet();
     } 
 }
 
