@@ -488,11 +488,11 @@ class RenderDict {
         return null;
     }
 
-    public function __construct(Value $value, $_empty = false) {
+    public function __construct($inp, Value $value, $_empty = false) {
         guardIsBool($_empty);
         $res = self::computeFrom($value);
-        $this->_values = $res[0]; 
-        $this->_errors = $res[1]; 
+        $this->_values = $inp; 
+        $this->_errors = $res; 
         $this->_empty = $_empty;
     }
 
@@ -504,29 +504,28 @@ class RenderDict {
             self::_emptyInst = new RenderDict(_value(0));
         }
         return self::_emptyInst;*/
-        return new RenderDict(_value(0));
+        return new RenderDict(array(), _value(0), true);
     }  
 
     public static function computeFrom(Value $value) {
-        $values = array();
         $errors = array();
-        self::dispatchValue($value, $values, $errors);
-        return array($values, $errors);
+        self::dispatchValue($value, $errors);
+        return $errors;
     }
 
-    protected static function dispatchValue($value, &$values, &$errors) {
+    protected static function dispatchValue($value, &$errors) {
         if ($value instanceof ErrorValue) {
-            self::handleError($value, $values, $errors); 
+            self::handleError($value, $errors); 
         } 
         elseif ($value instanceof FunctionValue) {
-            self::handleFunction($value, $values, $errors);
+            self::handleFunction($value, $errors);
         }
         else {
-            self::handleValue($value, $values, $errors); 
+            self::handleValue($value, $errors); 
         }
     }
 
-    protected static function handleError($value, &$values, &$errors) {
+    protected static function handleError($value, &$errors) {
         $origin = $value->origin();
         if ($origin !== null) {
             if (!array_key_exists($origin, $errors)) {
@@ -534,20 +533,16 @@ class RenderDict {
             }
             $errors[$origin][] = $value->error();
         }
-        self::dispatchValue($value->originalValue(), $values, $errors);
+        self::dispatchValue($value->originalValue(), $errors);
     }
 
-    protected static function handleFunction($value, &$values, &$errors) {
+    protected static function handleFunction($value, &$errors) {
         foreach($value->args() as $value) {
-            self::dispatchValue($value, $values, $errors);
+            self::dispatchValue($value, $errors);
         }
     }
 
-    protected static function handleValue($value, &$values, &$errors) {
-        $origin = $value->origin();
-        if ($origin !== null) {
-            $values[$origin] = $value->get();
-        }
+    protected static function handleValue($value, &$errors) {
     }
 }
 
@@ -753,7 +748,7 @@ final class MappedCollector extends Collector {
         $res2 = $this->_function->apply($res);
         if (!$res2->isError() && !$res2->isApplicable()) {
             // rewrap ordinary values to keep origin.
-            $res2 = _value($res2->get(), $res->origin(), $res->originalValue());
+            $res2 = _value($res2->get(), $res->origin());
         }
         return $res2;
     }
