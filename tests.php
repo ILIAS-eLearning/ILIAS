@@ -96,32 +96,43 @@ function test_FunctionValue() {
     $origin = md5($val);
     $value = _value($val, $origin);
 
-    return array
-        ( "One can't get a value out of an unsatisfied function value"
-            => raises(array($fn, "get"), array(), "GetError")
-            && raises(array($fn2, "get"), array(), "GetError")
-        , "Functions are applicable"
-            => $fn->isApplicable() && $fn2->isApplicable()
-        , "One can apply function values to ordinary values."
-            => $fn->apply($value) && $fn2->apply($value) 
-        , "A function value is no error"
-            => !$fn->isError() && !$fn2->isError()
-        , "For function values, error() raises"
-            => ( raises(array($fn, "error"), array(), "Exception")
-            &&   raises(array($fn2, "error"), array(), "Exception")
-            )
-        , "Test function values origins defaults to null"
-            => $fn->origin() === null && $fn2->origin() === null 
+    return array_merge( _test_FunctionValue($fn, $value, 1)
+                      , array
+        ( "Throwing test function passes function value tests"
+            => andR(_test_FunctionValue($fn2, $value, 1))
         , "Result of successfull function application is a value"
             => andR(_test_PlainValue($fn->apply($value), $val, null))
         , "Result of application of throwing function ia an error"
             => andR(_test_ErrorValue($fn2->apply($value), "test exception", null))
         , "Test functions have arity 1"
             => $fn->arity() === 1 && $fn2->arity() === 1
-        , "Test functions are not satisfied"
-            => !$fn->isSatisfied() && !$fn2->isSatisfied()
-        , "After application, test functions are satisfied"
-            => $fn->apply($value)->isSatisfied() && $fn2->apply($value)->isSatisfied()
+        ));
+}
+
+function _test_FunctionValue($fn, $value, $arity) {
+    $tmp = $fn;
+    for ($i = 0; $i < $arity; ++$i) {
+        $tmp = $tmp->apply($value);
+    }
+    return array
+        ( "One can't get a value out of an unsatisfied function value"
+            => raises(array($fn, "get"), array(), "GetError")
+        , "Function value is applicable"
+            => $fn->isApplicable()
+        , "One can apply function value to ordinary values."
+            => $fn->apply($value)
+        , "A function value is no error"
+            => !$fn->isError()
+        , "For function value, error() raises"
+            => raises(array($fn, "error"), array(), "Exception")
+        , "Function value origin defaults to null"
+            => $fn->origin() === null
+        , "Functions has expected arity of $arity"
+            => $fn->arity() === $arity
+        , "Functions is not satisfied or has arity 0"
+            => $arity == 0 || !$fn->isSatisfied()
+        , "After $arity applications, function is satisfied"
+            => $tmp->isSatisfied()
         );
 }
 
