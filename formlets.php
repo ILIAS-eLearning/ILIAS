@@ -435,11 +435,11 @@ final class FunctionValue extends Value {
  * of arguments to be inserted in the first arguments of the function
  * could be passed 
  */
-function _function($arity, $function_name, $args = null, $origin = null, $original_value = null) {
-    return new FunctionValue($arity, $function_name, null, $args, null, $origin, $original_value);
+function _function($arity, $function_name, $args = null) {
+    return new FunctionValue($arity, $function_name, null, $args);
 }
 
-function _method($arity, $object, $method_name, $args = null, $origin = null, $original_value = null) {
+function _method($arity, $object, $method_name, $args = null) {
     return new FunctionValue($arity, $method_name, $object, $args);
 }
 
@@ -533,23 +533,35 @@ class RenderDict {
     public static function computeFrom(Value $value) {
         $values = array();
         $errors = array();
-        self::dispatchValue($value, $values, $errors);
+        $visited = array();
+        self::dispatchValue($value, $values, $errors, $visited);
         return array($values, $errors);
     }
 
-    protected static function dispatchValue($value, &$values, &$errors) {
+    protected static function dispatchValue($value, &$values, &$errors, &$visited) {
+        if (in_array(spl_object_hash($value), $visited)) {
+            return;
+        }
+
+        $visited[] = spl_object_hash($value);
+
+        // Visit original values first.
+        $orig = $value->originalValue();
+        if ($orig !== null)
+            self::dispatchValue($orig, $values, $errors, $visited);
+
         if ($value instanceof ErrorValue) {
-            self::handleError($value, $values, $errors); 
+            self::handleError($value, $values, $errors, $visited); 
         } 
         elseif ($value instanceof FunctionValue) {
-            self::handleFunction($value, $values, $errors);
+            self::handleFunction($value, $values, $errors, $visited);
         }
         else {
-            self::handleValue($value, $values, $errors); 
+            self::handleValue($value, $values, $errors, $visited); 
         }
     }
 
-    protected static function handleError($value, &$values, &$errors) {
+    protected static function handleError($value, &$values, &$errors, &$visited) {
         $origin = $value->origin();
         if ($origin !== null) {
             if (!array_key_exists($origin, $errors)) {
@@ -557,16 +569,16 @@ class RenderDict {
             }
             $errors[$origin][] = $value->error();
         }
-        self::dispatchValue($value->originalValue(), $values, $errors);
+        self::dispatchValue($value->originalValue(), $values, $errors, $visited);
     }
 
-    protected static function handleFunction($value, &$values, &$errors) {
+    protected static function handleFunction($value, &$values, &$errors, &$visited) {
         foreach($value->args() as $value) {
-            self::dispatchValue($value, $values, $errors);
+            self::dispatchValue($value, $values, $errors, $visited);
         }
     }
 
-    protected static function handleValue($value, &$values, &$errors) {
+    protected static function handleValue($value, &$values, &$errors, &$visited) {
         $origin = $value->origin();
         if ($origin !== null) {
             $values[$origin] = $value->get();
@@ -1079,7 +1091,7 @@ abstract class InputFormlet extends Formlet {
     }
 
     // For code sharing only. Creates a label for the input.
-    protected function maybeLabel() {
+    protected function maybeLabel($name) {
         if ($this->_label !== null) {
             $attributes = $this->_attributes;
             if (array_key_exists("id", $attributes)) {
@@ -1160,7 +1172,7 @@ class TextInputFormlet extends InputFormlet {
         if ($value === null)
             $value = $this->_value;
         $errors = $dict->errors($name);
-        $lbl = $this->maybeLabel();
+        $lbl = $this->maybeLabel($name);
         return $lbl[0] 
               ."<input type='text' name='$name'"
               .($value !== null ? " value='$value'" : "")
@@ -1245,7 +1257,7 @@ class CheckboxFormlet extends InputFormlet {
         else
             $value = $dict->value($name) !== null;
         $errors = $dict->errors($name);
-        $lbl = $this->maybeLabel();
+        $lbl = $this->maybeLabel($name);
         if ($value)
             $lbl[1][] = "checked";
         return "<input type='checkbox' name='$name'"
