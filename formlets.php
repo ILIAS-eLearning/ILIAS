@@ -83,6 +83,12 @@ function guardIsValue($arg) {
     }
 }
 
+function guardIsHTMLEntity($arg) {
+    if (!($arg instanceof HTMLEntity)) {
+        throw new TypeError("HTMLEntity", typeName($arg));
+    }
+}
+
 function guardHasArity(FunctionValue $fun, $arity) {
     if ($fun->arity() != $arity) {
         throw new TypeError( "FunctionValue with arity $arity"
@@ -546,6 +552,110 @@ class RenderDict {
     }
 }
 
+
+
+/******************************************************************************
+ * Representation of html entities. 
+ */
+
+final class HTMLEntity {
+    private _name; // string
+    private _attributes; // string
+    private _content; //
+
+    public function name() {
+        return $this->_name;
+    } 
+
+    public function attributes() {
+        return $this->_attributes;
+    }
+
+    public function content() {
+        return $this->_content;
+    }
+
+    public function __construct($name, $attributes, $content) {
+        guardIsString($name);
+        guardIsArray($attributes);
+        foreach($attributes as $key => $value) {
+            guardIsString($key);
+            guardIsString($value);
+        }
+        if (!is_string($content)) {
+            guardIsArray($content);
+            foreach($content as $value) {
+                guardIsHTMLEntity($value);
+            }
+        }
+    }
+
+    public function render() {
+        return $this->renderWithOptions(false, false); 
+    }
+
+    public function renderWithOptions($fallback_tag, $force_tag) {
+        $content = []; 
+        foreach($this->content() as $cont) {
+            if (is_string($cont))
+                $content[] = $cont;
+            else
+                $content[] = $cont->renderWithOptions($fallback_tag, $force_tag); 
+        }
+        return HTMLEntityRenderers::render( $this->name()
+                                          , $this->attributes()
+                                          , implode("", $content)
+                                          , $fallback_tag
+                                          , $force_tag
+                                          );
+    }
+}
+
+/******************************************************************************
+ * A registry for functions to render html tags.
+ */
+
+final class HTMLEntityRenderers {
+    private static $_registry = array();
+    
+    public function register($entity_name, $fn_name, $overwrite = false) {
+        if (!$overwrite && array_key_exists($tag_name, $_registry)) {
+            die("HTMLEntityRenderers::register: renderer for $tag_name already registered."); 
+        }
+        $_registry[$tag_name] = $fn_name;
+    }
+
+    private function registered($entity_name) {
+        return array_key_exists($entity_name);
+    }
+
+    private function call($entity_name, $arr) {
+        return call_user_func_array($entity_name, $arr);
+    }
+
+    public function render($entity_name, $attributes, $content
+                          , $fallback_tag = false, $force_tag = false ) {
+        if (   (!self::registered($entity_name) && $fallback_tag)  
+            || $force_tag
+           ) {
+            return "<$entity_name".keysAndValuesToHTMLAttributes($attributes)." >";
+                  .$content
+                  ."</$entity_name>"
+                  ;
+        }
+        if (!self::registered($entity_name)) {
+            die("HTMLEntityRenderers::render: no renderer for $entity_name.");
+        }
+        $res = static::call($entity_name, array($attributes, $content);
+        if ($res instanceof HTMLEntity) {
+            return $res->renderWithOption($fallback_tag, $force_tag); 
+        }
+        if (!is_string($res)) {
+            die("HTMLEntityRenderers::render: renderer for $entity_name does not return string.");
+        }
+        return $res;
+    }
+}
 
 /******************************************************************************
  * Fairly simple implementation of a Renderer. Can render strings and supports
