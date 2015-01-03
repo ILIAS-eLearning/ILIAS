@@ -117,9 +117,18 @@ abstract class Value {
         return $this->_origin;
     }
 
-    public function originalValue() {
-        return $this->_original_value;
+    public function originalValue($value = null) {
+        if ($value = null) {
+            return $this->_original_value;
+        }
+        else {
+            if ($value !== null)
+                guardIsValue($value);
+            return $this->withOriginalValue($value);
+        }
     }
+
+    abstract protected function withOriginalValue($value);
 
     /* Get the value in the underlying PHP-representation. 
      * Throws GetError when value represents a function.
@@ -158,6 +167,10 @@ final class PlainValue extends Value {
         $this->_value = $value;
         parent::__construct($origin, $original_value);
     }
+
+    protected function withOriginalValue($value) {
+        return new PlainValue($this->get(), $this->origin, $value);
+    } 
 
     public function get() {
         return $this->_value;
@@ -233,6 +246,17 @@ final class FunctionValue extends Value {
         $this->_reify_exceptions = $reify_exceptions;
         
         parent::__construct($origin, $original_value);
+    }
+
+    protected function withOriginalValue($value) {
+        return new FunctionValue( $this->_arity
+                                , $this->_function_name
+                                , $this->_call_object
+                                , $this->_args
+                                , $this->_reify_exceptions
+                                , $this->origin()
+                                , $value
+                                );
     }
 
     /* If the function is satisfied get the result. Will only be calculated 
@@ -336,7 +360,7 @@ final class FunctionValue extends Value {
                                 , $args
                                 , $this->_reify_exceptions
                                 , $this->origin()
-                                , $this->originalValue()
+                                , $this
                                 );
     }
 
@@ -422,12 +446,15 @@ function _method($arity, $object, $method_name, $args = null, $origin = null, $o
 /* Value representing an error. */
 final class ErrorValue extends Value {
     private $_reason; // string
-    private $_original_value; // Value
 
     public function __construct($reason, Value $original_value) {
         $this->_reason = $reason;
         // ToDo: don't know wether this is clever.
         parent::__construct($original_value->origin(), $original_value);
+    }
+
+    protected function withOriginalValue($value) {
+        return new ErrorValue($this->error(), $this->originalValue());
     }
 
     public function get() {
@@ -1322,9 +1349,9 @@ function stop() {
     return _value(new Stop());
 }
 
-function appendRecursive($array, $value, $arr) {
+function appendRecursive($array, $value) {
     if ($value instanceof Stop) {
-        return _value($array);
+        return _value($array, null);
     }
     else {
         $array[] = $value;
