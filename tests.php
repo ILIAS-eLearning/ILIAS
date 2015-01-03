@@ -48,15 +48,28 @@ function raises(callable $fun, $args, $error) {
     return false;
 }
 
-function print_test($name) {
+$num_tests = 0;
+$successfull_tests = 0;
+
+function print_and_record_test($name) {
+    global $num_tests, $successfull_tests;
     $test_name = "test_".$name;
     $res = $test_name();
     echo "Checking $name:\n";
+    $num_tests += count($res);
     foreach($res as $test => $result) {
         echo "\t$test: ".O_F($result)."\n";
+        if ($result) ++$successfull_tests;
     }
     echo "=> ".O_F(andR($res))."\n";
     echo "\n";
+}
+
+function print_results() {
+    global $num_tests, $successfull_tests;
+    echo "Performed $num_tests tests, $successfull_tests where successfull.\n"
+        ."=> ".O_F($num_tests == $successfull_tests)."\n"
+        ;
 }
 
 /******************************************************************************
@@ -183,80 +196,72 @@ function _test_ErrorValue(Value $value, $reason, $origin) {
         );
 }
 
-print_test("PlainValue");
-print_test("ErrorValue");
-print_test("FunctionValue");
+print_and_record_test("PlainValue");
+print_and_record_test("ErrorValue");
+print_and_record_test("FunctionValue");
 
 /******************************************************************************
  * Tests on implementations of Formlets.
  */
 
-function verboseCheck_isFormlet($name, $args) {
-    $name .= "Factory";
-    $formlet = $name::instantiate($args);
-    //$formlet_pred = $formlet
-    //    ->satisfies(_function(1, alwaysTrue), "This is impossible");
+function _test_isFormlet($formlet) {
     $res = $formlet->build(NameSource::unsafeInstantiate());
     $renderer_res = $res["renderer"]->render();
     return array
-        ( "Formlet has correct class."
+        ( "Formlet has correct class"
             => $formlet instanceof Formlet
         , "Renderer has correct instance"
             => $res["renderer"] instanceof Renderer
-        , "Renderer returns string."
+        , "Renderer returns string"
             => is_string($renderer_res)
         , "Collector has correct instance"
             => $res["collector"] instanceof Collector
-        , "Name source has correct instance."
+        , "Name source has correct instance"
             => $res["name_source"] instanceof NameSource
         );
 }
 
-function check_isFormlet($name, $args) {
-    $res = verboseCheck_isFormlet($name, $args);
-    return andR($res);
-}
-
-function print_check_isFormlet($name, $args) {
-    $res = verboseCheck_isFormlet($name, $args);
-    echo "Checking $name:\n";
-    foreach($res as $test => $result) {
-        echo "\t$test: ".O_F($result)."\n";
-    }
-    echo "=> ".O_F(andR($res))."\n";
-}
-
 // PureFormlet
-print_check_isFormlet("PureFormlet", array(new PlainValue(42)));
-echo "\n";
+function test_PureFormlet() {
+    return _test_isFormlet(_pure(_value(42)));
+}
+print_and_record_test("PureFormlet");
 
 // CombinedFormlets
-$pv = PureFormletFactory::instantiate(array(new PlainValue(1337)));
-print_check_isFormlet("CombinedFormlets", array($pv, $pv));
-echo "\n";
+function test_CombinedFormlets() {
+    $pure = _pure(_value(1337));
+    return _test_isFormlet($pure->cmb($pure));
+}
+print_and_record_test("CombinedFormlets");
 
 // CheckedFormlet
-print_check_isFormlet("CheckedFormlet", array
-                        ( _pure(_value(3))
-                        , _function(1, "alwaysTrue")
-                        , "ERROR"
-                        ));
-echo "\n";
+function test_CheckedFormlet() {
+    $pure = _pure(_value(42));
+    return _test_isFormlet($pure->satisfies(_function(1, "alwaysTrue"), "ERROR"));
+}
+print_and_record_test("CheckedFormlet");
 
 // MappedCollectorFormlet
-print_check_isFormlet("MappedCollectorFormlet", array
-                        ( _pure(_value("3"))
-                        , _function(1, "intval")
-                        ));
-echo "\n";
+function test_MappedCollectorFormlet() {
+    $pure = _pure(_value("1337"));
+    return _test_isFormlet($pure->mapCollector(_function(1, "intval")));
+}
+print_and_record_test("MappedCollectorFormlet");
 
 // StaticFormlet
-print_check_isFormlet("StaticFormlet", array("Static"));
-echo "\n";
+function test_StaticFormlet() {
+    return _test_isFormlet(_static("foobar"));
+}
+print_and_record_test("StaticFormlet");
 
 // TextInputFormlet
-print_check_isFormlet("TextInputFormlet", array("Hello World!"));
+function test_TextInputFormlet() {
+    return _test_isFormlet(_text_input());
+}
+print_and_record_test("TextInputFormlet");
+
 echo "\n";
+print_results();
 
 /******************************************************************************
  * Things i needed to try during implementation.
