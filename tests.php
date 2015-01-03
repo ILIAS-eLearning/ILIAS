@@ -106,6 +106,10 @@ function test_FunctionValue() {
             => andR(_test_ErrorValue($fn2->apply($value), "test exception", null))
         , "Test functions have arity 1"
             => $fn->arity() === 1 && $fn2->arity() === 1
+        , "Function value returns correct results for intval"
+            => _test_FunctionValue_results("intval", 1, array(array("12"), array("122123"), array("45689")))
+        , "Function value returns correct results for explode"
+            => _test_FunctionValue_results("explode", 2, array(array(" ", "Hello World"), array(";", "1;2"), array("-", "2015-01-02")))
         ));
 }
 
@@ -134,6 +138,25 @@ function _test_FunctionValue($fn, $value, $arity) {
         , "After $arity applications, function is satisfied"
             => $tmp->isSatisfied()
         );
+}
+
+function _test_FunctionValue_result($fn_name, $arity, $args) {
+    $fn = _function($arity, $fn_name);
+    $res1 = call_user_func_array($fn_name, $args);
+    $tmp = $fn;
+    for ($i = 0; $i < $arity; ++$i) {
+        $tmp = $tmp->apply(_value($args[$i]));
+    }
+    $res2 = $tmp->get();
+    return $res1 === $res2;
+}
+
+function _test_FunctionValue_results($fn_name, $arity, $argss) {
+    $result = true;
+    foreach ($argss as $args) {
+        $result = $result && _test_FunctionValue_result($fn_name, $arity, $args);
+    }
+    return $result;
 }
 
 function test_ErrorValue() {
