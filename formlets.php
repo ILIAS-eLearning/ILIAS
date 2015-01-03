@@ -782,6 +782,17 @@ function defaultTo($arg, $default) {
     return $arg;
 }
 
+function keysAndValuesToHTMLAttributes($attributes) {
+    $strs = "";
+    foreach ($attributes as $key => $value) {
+        guardIsString($key);
+        if ($value !== null)
+            guardIsString($value);
+        $str .= " ".$key.($value !== null ? "=\"$value\"" : "");
+    } 
+    return $strs;
+}
+
 /******************************************************************************
  * The NameSource is used to create unique names for every input. This is 
  * needed for composability of the Formlets without the need to worry about
@@ -1023,8 +1034,47 @@ class TextInputFormletFactory extends FormletFactory {
 }
 
 class TextInputFormlet extends Formlet {
-    public function __construct() {
-        
+    protected $_value; // string
+    protected $_attributes; // array
+
+    public static $disallowed_attributes = array
+        ( "accept"
+        , "checked"
+        , "form"
+        , "formaction"
+        , "formenctype"
+        , "formmethod"
+        , "formnovalidate"
+        , "formtarget"
+        , "height"
+        , "list"
+        , "max"
+        , "min"
+        , "multiple"
+        , "name"
+        , "src"
+        , "step"
+        , "value"
+        );
+
+    public function __construct($value = null, $attributes = null) {
+        if ($value !== null)
+            guardIsString($_value);
+        $attributes = defaultTo($attributes, array());
+        guardIsArray($attributes);
+        $disallowed_attributes_used = array_intersect
+                                        ( array_keys($attributes)
+                                        , self::$disallowed_attributes
+                                        );
+        if (count($disallowed_attributes_used) > 0) {
+            throw new Exception("TextInputFormlet::__construct: "
+                               ."The following attributes are not allowed: "
+                               .implode(", ", $disallowed_attributes_used)
+                               );
+        }
+
+        $this->_value = $value; 
+        $this->_attributes = $attributes; 
     }
 
     public function build(NameSource $name_source) {
@@ -1041,10 +1091,13 @@ class TextInputFormlet extends Formlet {
     public function renderValues(RenderDict $dict, $args) {
         $name = $args["name"];
         $value = $dict->value($name);
+        if ($value === null)
+            $value = $this->_value;
         $errors = $dict->errors($name);
         // TODO: this would need some more parameters 
         return "<input type='text' name='$name'"
               .($value !== null ? " value='$value'" : "")
+              .keysAndValuesToHTMLAttributes($this->_attributes)
               ."/>"
               .($errors !== null ? "<span class='error'>"
                                         .implode("<br />", $errors)
