@@ -163,7 +163,6 @@ function _test_ErrorValue(Value $value, $reason, $origin) {
 print_test("PlainValue");
 print_test("ErrorValue");
 print_test("FunctionValue");
-exit();
 
 /******************************************************************************
  * Tests on implementations of Formlets.
