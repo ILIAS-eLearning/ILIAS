@@ -259,6 +259,11 @@ function test_FieldSet() {
 }
 print_and_record_test("FieldSet");
 
+function test_Checkbox() {
+    return _test_isFormlet(_checkbox());
+}
+print_and_record_test("Checkbox");
+
 echo "\n";
 print_results();
 

@@ -54,6 +54,12 @@ function guardIsInt($arg) {
     } 
 }
 
+function guardIsBool($arg) {
+    if (!is_bool($arg)) {
+        throw new TypeError("bool", typeName($arg));
+    } 
+}
+
 function guardIsName($arg) {
     guardIsString($arg);
     // ToDo: implement properly
@@ -449,11 +455,20 @@ function _error($reason, Value $original_value) {
 class RenderDict {
     private $_values; // array
     private $_errors; // array
+    private $_empty; // bool 
+
+    public function isEmpty() {
+        return $this->_empty;
+    }
 
     public function value($name) {
-        if (array_key_exists($name, $this->_values))
+        if ($this->valueExists($name))
             return $this->_values[$name];
         return null;
+    }
+
+    public function valueExists($name) {
+        return array_key_exists($name, $this->_values);
     }
 
     public function errors($name) {
@@ -462,10 +477,12 @@ class RenderDict {
         return null;
     }
 
-    public function __construct(Value $value) {
+    public function __construct(Value $value, $_empty = false) {
+        guardIsBool($_empty);
         $res = self::computeFrom($value);
         $this->_values = $res[0]; 
         $this->_errors = $res[1]; 
+        $this->_empty = $_empty;
     }
 
     private static $_emptyInst = null;
@@ -735,22 +752,40 @@ final class MappedCollector extends Collector {
     }
 }
 
-/* A collector that collects a string from input. */
-final class StringCollector extends Collector {
+/* A collector that has a name. Baseclass for some other collectors. */
+abstract class CollectorWithName extends Collector {
     private $_name; // string
 
+    protected function name() {
+        return $this->_name;
+    }
+    
     public function __construct($name) {
         guardIsName($name);
         $this->_name = $name;
     }
+}
 
+/* A collector that collects a string from input. */
+final class StringCollector extends CollectorWithName {
     public function collect($inp) {
-        if (!array_key_exists($this->_name, $inp)) {
-            throw new MissingInputError($this->_name);
+        if (!array_key_exists($this->name(), $inp)) {
+            throw new MissingInputError($this->name());
         }
-        guardIsString($inp[$this->_name]);
-        return _value($inp[$this->_name], $this->_name);
+        guardIsString($inp[$this->name()]);
+        return _value($inp[$this->name()], $this->name());
     }
+
+    public function isNullaryCollector() {
+        return false;
+    }
+}
+
+/* A collector that returns true, wenn name is present in input. */
+final class ExistsCollector extends CollectorWithName {
+    public function collect($inp) {
+        return _value(array_key_exists($this->name(), $inp));
+    }    
 
     public function isNullaryCollector() {
         return false;
@@ -1036,7 +1071,7 @@ abstract class InputFormlet extends Formlet {
 
 
 /* A formlet to input some text. Renders to according HTML and collects a
- * string. This surely needs to be improved. 
+ * string.
  */
 class TextInputFormlet extends InputFormlet {
     protected $_value; // string
@@ -1109,7 +1144,6 @@ function _text_input($label = null, $value = null, $attributes = null) {
     return new TextInputFormlet($label, $value, $attributes);
 }
 
-
 function _fieldset($legend, Formlet $formlet, $attributes = array()) {
     $ret = _static("<fieldset".keysAndValuesToHTMLAttributes($attributes).">");
     if ($legend !== null) {
@@ -1119,5 +1153,83 @@ function _fieldset($legend, Formlet $formlet, $attributes = array()) {
                ->cmb(_static("</fieldset>"))
                ;
 } 
+
+/* A formlet to a boolean via a checkbox. Renders to according HTML and collects
+ * a bool.
+ */
+class CheckboxFormlet extends InputFormlet {
+    protected $_value; // bool 
+    protected $_label; // string
+
+    public static $disallowed_attributes = array
+        ( "accept"
+        , "checked"
+        , "form"
+        , "formaction"
+        , "formenctype"
+        , "formmethod"
+        , "formnovalidate"
+        , "formtarget"
+        , "height"
+        , "list"
+        , "max"
+        , "min"
+        , "multiple"
+        , "name"
+        , "size"
+        , "src"
+        , "step"
+        , "value"
+        , "width"
+        );
+
+    public function __construct($label = null, $value = false, $attributes = null) {
+        parent::__construct($attributes);
+
+        if ($label !== null)
+            guardIsString($label);
+        guardIsBool($value);
+        $this->_label = $label; 
+        $this->_value = $value; 
+    }
+
+    public function build(NameSource $name_source) {
+        $res = $name_source->getNameAndNext();
+        return array
+            ( "renderer"    => new CallbackRenderer($this, array
+                                        ( "name" => $res["name"]
+                                        )) 
+            , "collector"   => new ExistsCollector($res["name"])
+            , "name_source" => $res["name_source"]
+            );
+    }
+
+    public function renderValues(RenderDict $dict, $args) {
+        $name = $args["name"];
+        if ($dict->isEmpty())
+            $value = $this->_value;
+        else
+            $value = $dict->value($name) !== null;
+        $errors = $dict->errors($name);
+        $lbl = $this->maybeLabel();
+        if ($value)
+            $lbl[1][] = "checked";
+        return "<input type='checkbox' name='$name'"
+              .($value !== null ? " value='$value'" : "")
+              .keysAndValuesToHTMLAttributes($lbl[1])
+              ."/>"
+              .$lbl[0]
+              .($errors !== null ? "<span class='error'>"
+                                        .implode("<br />", $errors)
+                                  ."</span>"
+                                 : "" 
+               );
+    }
+}
+
+function _checkbox($label = null, $value = false, $attributes = null) {
+    return new CheckboxFormlet($label, $value, $attributes);
+}
+
 
 ?>
