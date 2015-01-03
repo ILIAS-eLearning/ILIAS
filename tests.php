@@ -280,6 +280,16 @@ function test__collect() {
     $collected2 = $collected1->apply(_value(2));
     $collected3 = $collected2->apply(_value(3));
     $collected_stop = $collected3->apply(stop());
+
+    $formlet_collected =
+        _pure(_collect())
+        ->cmb(_pure(_value(3)))
+        ->cmb(_pure(_value(2)))
+        ->cmb(_pure(_value(1)))
+        ->cmb(_pure(stop()))
+        ;
+    $repr = $formlet_collected->build(NameSource::unsafeInstantiate());
+    $formlet_result = $repr["collector"]->collect(array());
     
     return array
         ( "_collect is function value after apply"
@@ -290,6 +300,8 @@ function test__collect() {
             => !$collected_stop->isApplicable()
         , "_collect returns collected array after application of stop"
             => $collected_stop->get() === array(1,2,3)
+        , "_collect works in formlet"
+            => $formlet_result->get() === array(3,2,1) 
         );
 }
 print_and_record_test("_collect");

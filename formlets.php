@@ -102,15 +102,23 @@ function guardHasArity(FunctionValue $fun, $arity) {
 
 abstract class Value {
     private $_origin; // string
+    private $_original_value; // string
 
-    public function __construct($origin) {
+    public function __construct($origin, $original_value) {
         if ($origin !== null)
             guardIsString($origin);
+        if ($original_value !== null)
+            guardIsValue($original_value);
         $this->_origin = $origin;
+        $this->_original_value = $original_value;
     }
 
     public function origin() {
         return $this->_origin;
+    }
+
+    public function originalValue() {
+        return $this->_original_value;
     }
 
     /* Get the value in the underlying PHP-representation. 
@@ -146,9 +154,9 @@ class GetError extends Exception {
 final class PlainValue extends Value {
     private $_value; //mixed
 
-    public function __construct($value, $origin = null) {
+    public function __construct($value, $origin, $original_value) {
         $this->_value = $value;
-        parent::__construct($origin);
+        parent::__construct($origin, $original_value);
     }
 
     public function get() {
@@ -173,8 +181,8 @@ final class PlainValue extends Value {
 }
 
 /* Construct a plain value from a PHP value. */
-function _value($value, $origin = null) {
-    return new PlainValue($value, $origin);
+function _value($value, $origin = null, $original_value = null) {
+    return new PlainValue($value, $origin, $original_value);
 }
 
 
@@ -203,7 +211,7 @@ final class FunctionValue extends Value {
      * When finally calling the wrapped function, Exceptions given as 
      * reify_exceptions will be caught and turned into an ErrorValue as return.
      */
-    public function __construct($arity, $function_name, $call_object = null, $args = null, $reify_exceptions = null) {
+    public function __construct($arity, $function_name, $call_object = null, $args = null, $reify_exceptions = null, $origin = null, $original_value = null) {
         $args = defaultTo($args, array());
         $reify_exceptions = defaultTo($reify_exceptions, array());
 
@@ -224,7 +232,7 @@ final class FunctionValue extends Value {
         $this->_args = $args;
         $this->_reify_exceptions = $reify_exceptions;
         
-        parent::__construct(null);
+        parent::__construct($origin, $original_value);
     }
 
     /* If the function is satisfied get the result. Will only be calculated 
@@ -282,6 +290,8 @@ final class FunctionValue extends Value {
                                 , $this->_call_object
                                 , $this->_args
                                 , $re
+                                , $this->origin()
+                                , $this->originalValue()
                                 );
     }
     
@@ -325,6 +335,8 @@ final class FunctionValue extends Value {
                                 , $this->_call_object
                                 , $args
                                 , $this->_reify_exceptions
+                                , $this->origin()
+                                , $this->originalValue()
                                 );
     }
 
@@ -399,11 +411,11 @@ final class FunctionValue extends Value {
  * of arguments to be inserted in the first arguments of the function
  * could be passed 
  */
-function _function($arity, $function_name, $args = null) {
-    return new FunctionValue($arity, $function_name, null, $args);
+function _function($arity, $function_name, $args = null, $origin = null, $original_value = null) {
+    return new FunctionValue($arity, $function_name, null, $args, null, $origin, $original_value);
 }
 
-function _method($arity, $object, $method_name, $args = null) {
+function _method($arity, $object, $method_name, $args = null, $origin = null, $original_value = null) {
     return new FunctionValue($arity, $method_name, $object, $args);
 }
 
@@ -412,15 +424,10 @@ final class ErrorValue extends Value {
     private $_reason; // string
     private $_original_value; // Value
 
-    public function originalValue() {
-        return $this->_original_value;
-    }
-
     public function __construct($reason, Value $original_value) {
         $this->_reason = $reason;
-        $this->_original_value = $original_value;
         // ToDo: don't know wether this is clever.
-        parent::__construct($original_value->origin());
+        parent::__construct($original_value->origin(), $original_value);
     }
 
     public function get() {
@@ -1315,7 +1322,7 @@ function stop() {
     return _value(new Stop());
 }
 
-function appendRecursive($array, $value) {
+function appendRecursive($array, $value, $arr) {
     if ($value instanceof Stop) {
         return _value($array);
     }
