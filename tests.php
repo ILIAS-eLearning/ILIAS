@@ -221,44 +221,43 @@ function _test_isFormlet($formlet) {
         );
 }
 
-// PureFormlet
-function test_PureFormlet() {
+function test_Pure() {
     return _test_isFormlet(_pure(_value(42)));
 }
-print_and_record_test("PureFormlet");
+print_and_record_test("Pure");
 
-// CombinedFormlets
-function test_CombinedFormlets() {
+function test_Combined() {
     $pure = _pure(_value(1337));
     return _test_isFormlet($pure->cmb($pure));
 }
-print_and_record_test("CombinedFormlets");
+print_and_record_test("Combined");
 
-// CheckedFormlet
-function test_CheckedFormlet() {
+function test_Checked() {
     $pure = _pure(_value(42));
     return _test_isFormlet($pure->satisfies(_function(1, "alwaysTrue"), "ERROR"));
 }
-print_and_record_test("CheckedFormlet");
+print_and_record_test("Checked");
 
-// MappedCollectorFormlet
-function test_MappedCollectorFormlet() {
+function test_MappedCollector() {
     $pure = _pure(_value("1337"));
     return _test_isFormlet($pure->mapCollector(_function(1, "intval")));
 }
-print_and_record_test("MappedCollectorFormlet");
+print_and_record_test("MappedCollector");
 
-// StaticFormlet
-function test_StaticFormlet() {
+function test_Static() {
     return _test_isFormlet(_static("foobar"));
 }
-print_and_record_test("StaticFormlet");
+print_and_record_test("Static");
 
-// TextInputFormlet
-function test_TextInputFormlet() {
+function test_TextInput() {
     return _test_isFormlet(_text_input());
 }
-print_and_record_test("TextInputFormlet");
+print_and_record_test("TextInput");
+
+function test_FieldSet() {
+    return _test_isFormlet(_fieldset("Static: ", _pure(_value(42))));    
+}
+print_and_record_test("FieldSet");
 
 echo "\n";
 print_results();

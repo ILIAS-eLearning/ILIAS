@@ -988,12 +988,53 @@ function _static($content) {
 }
 
 
+/* A formlet for an HTML input. Base class for some other formlets. */
+abstract class InputFormlet extends Formlet {
+    protected $_attributes;
+
+    public function __construct($attributes) {
+        $attributes = defaultTo($attributes, array());
+        guardIsArray($attributes);
+        $disallowed_attributes_used = array_intersect
+                                        ( array_keys($attributes)
+                                        , static::$disallowed_attributes
+                                        );
+        if (count($disallowed_attributes_used) > 0) {
+            throw new Exception("InputFormlet::__construct: "
+                               ."The following attributes are not allowed: "
+                               .implode(", ", $disallowed_attributes_used)
+                               );
+        }
+
+        $this->_attributes = $attributes;
+    }
+
+    // For code sharing only. Creates a label for the input.
+    protected function maybeLabel() {
+        if ($this->_label !== null) {
+            $attributes = $this->_attributes;
+            if (array_key_exists("id", $attributes)) {
+                $id = $attributes["id"];
+            }
+            else {
+                $id = $name;
+                $attributes["id"] = $id;
+            }
+            return "<label for=\"$id\">".$this->_label."</label>";
+        }
+        else {
+            return "";
+        }
+    }
+}
+
+
 /* A formlet to input some text. Renders to according HTML and collects a
  * string. This surely needs to be improved. 
  */
-class TextInputFormlet extends Formlet {
+class TextInputFormlet extends InputFormlet {
     protected $_value; // string
-    protected $_attributes; // array
+    protected $_label; // string
 
     public static $disallowed_attributes = array
         ( "accept"
@@ -1015,24 +1056,15 @@ class TextInputFormlet extends Formlet {
         , "value"
         );
 
-    public function __construct($value = null, $attributes = null) {
-        if ($value !== null)
-            guardIsString($_value);
-        $attributes = defaultTo($attributes, array());
-        guardIsArray($attributes);
-        $disallowed_attributes_used = array_intersect
-                                        ( array_keys($attributes)
-                                        , self::$disallowed_attributes
-                                        );
-        if (count($disallowed_attributes_used) > 0) {
-            throw new Exception("TextInputFormlet::__construct: "
-                               ."The following attributes are not allowed: "
-                               .implode(", ", $disallowed_attributes_used)
-                               );
-        }
+    public function __construct($label = null, $value = null, $attributes = null) {
+        parent::__construct($attributes);
 
+        if ($label !== null)
+            guardIsString($label);
+        if ($value !== null)
+            guardIsString($value);
+        $this->_label = $label; 
         $this->_value = $value; 
-        $this->_attributes = $attributes; 
     }
 
     public function build(NameSource $name_source) {
@@ -1052,8 +1084,8 @@ class TextInputFormlet extends Formlet {
         if ($value === null)
             $value = $this->_value;
         $errors = $dict->errors($name);
-        // TODO: this would need some more parameters 
-        return "<input type='text' name='$name'"
+        return $this->maybeLabel() 
+              ."<input type='text' name='$name'"
               .($value !== null ? " value='$value'" : "")
               .keysAndValuesToHTMLAttributes($this->_attributes)
               ."/>"
@@ -1065,8 +1097,19 @@ class TextInputFormlet extends Formlet {
     }
 }
 
-function _text_input($value = null, $attributes = null) {
-    return new TextInputFormlet($value, $attributes);
+function _text_input($label = null, $value = null, $attributes = null) {
+    return new TextInputFormlet($label, $value, $attributes);
 }
+
+
+function _fieldset($legend, Formlet $formlet, $attributes = array()) {
+    $ret = _static("<fieldset".keysAndValuesToHTMLAttributes($attributes).">");
+    if ($legend !== null) {
+        $ret = $ret->cmb(_static("<legend>$legend</legend>"));
+    }
+    return $ret->cmb($formlet)
+               ->cmb(_static("</fieldset>"))
+               ;
+} 
 
 ?>
