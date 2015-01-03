@@ -172,6 +172,16 @@ class ilGroupedListGUI
 						}
 
 					}
+					else
+					{
+						$tpl->setCurrentBlock("unlinked_entry");
+						if ($i["add_class"] != "")
+						{
+							$tpl->setVariable("ADD_CLASS2", $i["add_class"]);
+						}
+						$tpl->setVariable("TXT_ENTRY2", $i["content"]);
+						$tpl->parseCurrentBlock();
+					}
 					break;
 			}
 		}

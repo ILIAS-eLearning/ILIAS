@@ -181,6 +181,9 @@ class ilLOEditorStatus
 	 */
 	public function getHTML()
 	{
+		include_once("./Services/UIComponent/Checklist/classes/class.ilChecklistGUI.php");
+		$list = new ilChecklistGUI();
+		$list->setHeading($this->lng->txt('crs_objective_status_configure'));
 
 		$this->tpl->setVariable('TXT_STATUS_HEADER',$this->lng->txt('crs_objective_status_configure'));
 
@@ -193,6 +196,15 @@ class ilLOEditorStatus
 		$this->tpl->setVariable('TXT_STEP',$this->lng->txt('crs_objective_status_settings'));
 		$this->showStatusInfo($done);
 		$this->tpl->parseCurrentBlock();
+
+		$list->addEntry($this->lng->txt('crs_objective_status_settings'),
+			$this->ctrl->getLinkTarget($this->getCmdClass(),'settings'),
+			$done
+				? ilChecklistGUI::STATUS_OK
+				: ilChecklistGUI::STATUS_NOT_OK,
+			($this->section == self::SECTION_SETTINGS),
+			$this->getErrorMessages(self::SECTION_SETTINGS)
+			);
 		
 		
 		// Step 1.1
@@ -210,8 +222,18 @@ class ilLOEditorStatus
 		$this->tpl->setVariable('TXT_STEP',$this->lng->txt('crs_objective_status_objective_creation'));
 		$this->showStatusInfo($done);
 		$this->tpl->parseCurrentBlock();
-		
-		
+
+		$list->addEntry($this->lng->txt('crs_objective_status_objective_creation'),
+			$done
+				? $this->ctrl->getLinkTarget($this->getCmdClass(),'listObjectives')
+				: $this->ctrl->getLinkTarget($this->getCmdClass(),'showObjectiveCreation'),
+			$done
+				? ilChecklistGUI::STATUS_OK
+				: ilChecklistGUI::STATUS_NOT_OK,
+			($this->section == self::SECTION_OBJECTIVES_NEW),
+			$this->getErrorMessages(self::SECTION_OBJECTIVES_NEW)
+		);
+
 		// Step 2
 		// course material
 		$done = $this->getMaterialsStatus(true);
@@ -228,7 +250,17 @@ class ilLOEditorStatus
 		$this->tpl->setVariable('TXT_STEP',$this->lng->txt('crs_objective_status_materials'));
 		$this->showStatusInfo($done);
 		$this->tpl->parseCurrentBlock();
-		
+
+		$list->addEntry($this->lng->txt('crs_objective_status_materials'),
+			$this->ctrl->getLinkTargetByClass('ilobjcoursegui',''),
+			$done
+				? ilChecklistGUI::STATUS_OK
+				: ilChecklistGUI::STATUS_NOT_OK,
+			($this->section == self::SECTION_MATERIALS),
+			$this->getErrorMessages(self::SECTION_MATERIALS)
+		);
+
+
 		// Step 3
 		// course itest
 		if(ilLOSettings::getInstanceByObjId($this->getParentObject()->getId())->worksWithInitialTest())
@@ -243,6 +275,15 @@ class ilLOEditorStatus
 			$this->tpl->setVariable('TXT_STEP',$this->lng->txt('crs_objective_status_itest'));
 			$this->showStatusInfo($done);
 			$this->tpl->parseCurrentBlock();
+
+			$list->addEntry($this->lng->txt('crs_objective_status_itest'),
+				$this->ctrl->getLinkTarget($this->getCmdClass(),'testOverview'),
+				$done
+					? ilChecklistGUI::STATUS_OK
+					: ilChecklistGUI::STATUS_NOT_OK,
+				($this->section == self::SECTION_ITES),
+				$this->getErrorMessages(self::SECTION_ITES)
+			);
 		}
 
 		// Step 4
@@ -258,6 +299,15 @@ class ilLOEditorStatus
 		$this->showStatusInfo($done);
 		$this->tpl->parseCurrentBlock();
 
+		$list->addEntry($this->lng->txt('crs_objective_status_qtest'),
+			$this->ctrl->getLinkTarget($this->getCmdClass(),'testOverview'),
+			$done
+				? ilChecklistGUI::STATUS_OK
+				: ilChecklistGUI::STATUS_NOT_OK,
+			($this->section == self::SECTION_QTEST),
+			$this->getErrorMessages(self::SECTION_QTEST)
+		);
+
 		// Step 5
 		// course qtest
 		$done = $this->getObjectivesStatus();
@@ -269,8 +319,16 @@ class ilLOEditorStatus
 		$this->showStatusInfo($done);
 		$this->tpl->parseCurrentBlock();
 
-		
-		return $this->tpl->get();
+		$list->addEntry($this->lng->txt('crs_objective_status_objectives'),
+			$this->ctrl->getLinkTarget($this->getCmdClass(),'listObjectives'),
+			$done
+				? ilChecklistGUI::STATUS_OK
+				: ilChecklistGUI::STATUS_NOT_OK,
+			($this->section == self::SECTION_OBJECTIVES),
+			$this->getErrorMessages(self::SECTION_OBJECTIVES)
+		);
+
+		return $this->tpl->get().$list->getHTML();
 	}
 	
 	/**
@@ -302,6 +360,23 @@ class ilLOEditorStatus
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+
+	/**
+	 * Get error messages
+	 *
+	 * @param
+	 * @return
+	 */
+	function getErrorMessages($a_section)
+	{
+		$mess = array();
+		foreach($this->getFailures($a_section) as $failure_code)
+		{
+			$mess[] = $this->lng->txt($failure_code);
+		}
+		return $mess;
+	}
+
 	
 	/**
 	 * Check if course is lo confgured

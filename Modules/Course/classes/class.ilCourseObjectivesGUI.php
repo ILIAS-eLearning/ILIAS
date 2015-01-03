@@ -1499,20 +1499,35 @@ class ilCourseObjectivesGUI
 			$tpl->setVariable('STEP_INFO_INFO',$info[$a_step_number]);
 			$tpl->parseCurrentBlock();
 		}
+
+		// checklist gui start
+		include_once("./Services/UIComponent/Checklist/classes/class.ilChecklistGUI.php");
+		$check_list = new ilChecklistGUI();
+		// checklist gui end
 		
 		if($_SESSION['objective_mode'] == self::MODE_CREATE)
 		{
 			$tpl->setVariable('WIZ_NAV_TITLE',$this->lng->txt('crs_add_objective'));
+			// checklist gui start
+			$check_list->setHeading($this->lng->txt('crs_add_objective'));
+			// checklist gui end
 		}
 		else
 		{
 			$tpl->setVariable('WIZ_NAV_TITLE',$this->lng->txt('crs_update_objective'));
+			// checklist gui start
+			$check_list->setHeading($this->lng->txt('crs_update_objective'));
+			// checklist gui end
 		}
 		
 		// end-patch lok
 		$num = 0;
 		foreach($options as $step => $title)
 		{
+			// checklist gui start
+			$item_link = "";
+			// checklist gui end
+
 			// begin-patch lok
 			if($step == 3 and !$this->getSettings()->worksWithInitialTest())
 			{
@@ -1560,6 +1575,10 @@ class ilCourseObjectivesGUI
 					$tpl->parseCurrentBlock();
 				
 					$tpl->touchBlock('end_link_option');
+
+					// checklist gui start
+					$item_link = $links[$step];
+					// checklist gui end
 				}
 			}
 			
@@ -1570,8 +1589,15 @@ class ilCourseObjectivesGUI
 			// end-patch lok
 			$tpl->setVariable('WIZ_OPTION',$title);
 			$tpl->parseCurrentBlock();
+
+			// checklist gui start
+			$check_list->addEntry($num.'. '.$title, $item_link, ilChecklistGUI::STATUS_NO_STATUS, ($step == $a_step_number));
+			// checklist gui end
 		}
-		
+
+		// checklist gui start
+		$GLOBALS["tpl"]->setRightContent($check_list->getHTML());
+		// checklist gui end
 		
 		return $tpl;
 	}

@@ -10624,6 +10624,41 @@ a.ilTag:active {
 .ilTag.ilHighlighted {
   background-color: #ea6705;
 }
+/* Services/UIComponent/Checklist */
+div.ilChecklist ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+div.ilChecklist ul li {
+  padding: 0;
+  font-size: 85%;
+}
+div.ilChecklist ul li a,
+div.ilChecklist ul li span {
+  padding: 5px 5px;
+  margin: 0 -5px;
+  display: block;
+}
+div.ilChecklist ul a:hover {
+  text-decoration: none;
+  color: #557196;
+}
+div.ilChecklist ul li a:hover {
+  background-color: #ffffd0;
+}
+div.ilChecklist ul li p,
+div.ilChecklist ul li p:hover {
+  color: #303030;
+  text-decoration: none;
+  padding: 0;
+  margin-top: 0px;
+}
+div.ilChecklist ul li img {
+  width: 18px;
+  height: 18px;
+  float: right;
+}
 .noMargin {
   margin: 0;
 }
