@@ -1232,4 +1232,25 @@ function _checkbox($label = null, $value = false, $attributes = null) {
 }
 
 
+/******************************************************************************
+ * Premade functions to be used with formlets.
+ */
+
+class Stop {
+}
+
+function appendRecursive($array, $value) {
+    if ($value instanceof Stop) {
+        return _value($array);
+    }
+    else {
+        $array[] = $value;
+        return _function(1, "appendRecursive", array($array));
+    }
+}
+
+function _collect() {
+    return _function(1, appendRecursive, array(array()));
+}
+
 ?>
