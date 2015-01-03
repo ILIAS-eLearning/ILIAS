@@ -387,7 +387,7 @@ already know about:
 * Write tests to proof properties of the primitives.
 * Document how new primitives could be implemented and provide tests for self
   made primitives.
-* Think about using some other representation for HTML then strings, so the 
+* Think about using some other representation for HTML than strings, so the 
   renderer output could be processed further.
 * Think about the name source and how a formlet is actually turned into a HTML
   form.
