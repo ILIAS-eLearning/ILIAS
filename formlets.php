@@ -1219,7 +1219,7 @@ class CheckboxFormlet extends InputFormlet {
         $errors = $dict->errors($name);
         $lbl = $this->maybeLabel($name);
         if ($value)
-            $lbl[1][] = "checked";
+            $lbl[1]["checked"] = null;
         return "<input type='checkbox' name='$name'"
               .($value !== null ? " value='$value'" : "")
               .keysAndValuesToHTMLAttributes($lbl[1])
