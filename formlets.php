@@ -1020,10 +1020,16 @@ abstract class InputFormlet extends Formlet {
                 $id = $name;
                 $attributes["id"] = $id;
             }
-            return "<label for=\"$id\">".$this->_label."</label>";
+            return array
+                ( "<label for=\"$id\">".$this->_label."</label>"
+                , $attributes
+                );
         }
         else {
-            return "";
+            return array
+                ( ""
+                , $this->_attributes
+                );
         }
     }
 }
@@ -1054,6 +1060,7 @@ class TextInputFormlet extends InputFormlet {
         , "src"
         , "step"
         , "value"
+        , "width"
         );
 
     public function __construct($label = null, $value = null, $attributes = null) {
@@ -1084,10 +1091,11 @@ class TextInputFormlet extends InputFormlet {
         if ($value === null)
             $value = $this->_value;
         $errors = $dict->errors($name);
-        return $this->maybeLabel() 
+        $lbl = $this->maybeLabel();
+        return $lbl[0] 
               ."<input type='text' name='$name'"
               .($value !== null ? " value='$value'" : "")
-              .keysAndValuesToHTMLAttributes($this->_attributes)
+              .keysAndValuesToHTMLAttributes($lbl[1])
               ."/>"
               .($errors !== null ? "<span class='error'>"
                                         .implode("<br />", $errors)
