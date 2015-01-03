@@ -34,9 +34,18 @@ function id($val) {
 class TestException extends Exception {
 };
 
-function alwaysThrows() {
+function alwaysThrows0() {
     throw new TestException("test exception");
 }
+
+function alwaysThrows1($one) {
+    throw new TestException("test exception");
+}
+
+function alwaysThrows2($one, $two) {
+    throw new TestException("test exception");
+}
+
 
 function raises(callable $fun, $args, $error) {
     try {
@@ -103,7 +112,9 @@ function _test_PlainValue(Value $value, $val, $origin) {
 
 function test_FunctionValue() {
     $fn = _function(1, "id");
-    $fn2 = _function(1, "alwaysThrows")
+    $fn2 = _function(1, "alwaysThrows1")
+            ->catchAndReify("TestException");
+    $fn3 = _function(2, "alwaysThrows2")
             ->catchAndReify("TestException");
     $val = rand();
     $origin = md5($val);
@@ -119,6 +130,8 @@ function test_FunctionValue() {
             => andR(_test_ErrorValue($fn2->apply($value), "test exception", null))
         , "Test functions have arity 1"
             => $fn->arity() === 1 && $fn2->arity() === 1
+        , "Function still catches after application"
+            => andR(_test_ErrorValue($fn3->apply($value)->apply($value), "test exception", null))
         , "Function value returns correct results for intval"
             => _test_FunctionValue_results("intval", 1, array(array("12"), array("122123"), array("45689")))
         , "Function value returns correct results for explode"
