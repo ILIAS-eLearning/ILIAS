@@ -391,4 +391,6 @@ already know about:
   renderer output could be processed further.
 * Think about the name source and how a formlet is actually turned into a HTML
   form.
+* Elaborate representation of input to make it read only and take `$_FILES` into
+  account.
 
