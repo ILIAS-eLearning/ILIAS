@@ -1065,8 +1065,8 @@ class TextInputFormlet extends Formlet {
     }
 }
 
-function _text_input() {
-    return new TextInputFormlet();
+function _text_input($value = null, $attributes = null) {
+    return new TextInputFormlet($value, $attributes);
 }
 
 ?>
