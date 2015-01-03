@@ -18,12 +18,24 @@ function O_F($val) {
     return $val?"OK":"FAIL"; 
 }
 
+function print_r_id($val) {
+    print_r($val);
+    return $val;
+}
+
 function alwaysTrue($val) {
     return true;
 }
 
 function id($val) {
     return $val;
+}
+
+class TestException extends Exception {
+};
+
+function alwaysThrows() {
+    throw new TestException("test exception");
 }
 
 function raises(callable $fun, $args, $error) {
@@ -44,6 +56,7 @@ function print_test($name) {
         echo "\t$test: ".O_F($result)."\n";
     }
     echo "=> ".O_F(andR($res))."\n";
+    echo "\n";
 }
 
 /******************************************************************************
@@ -77,29 +90,67 @@ function _test_PlainValue(Value $value, $val, $origin) {
 
 function test_FunctionValue() {
     $fn = _function(1, "id");
+    $fn2 = _function(1, "alwaysThrows")
+            ->catchAndReify("TestException");
     $val = rand();
     $origin = md5($val);
     $value = _value($val, $origin);
 
     return array
-        ( "One can't get a value out of a function value"
+        ( "One can't get a value out of an unsatisfied function value"
             => raises(array($fn, "get"), array(), "GetError")
-        , "A function is applicable"
-            => $fn->isApplicable()
-        , "One can apply a function value to an ordinary value."
-            => $fn->apply($value)
-        , "An function value is no error"
-            => !$value->isError()
-        , "For a function Value, error() raises"
-            => raises(array($value, "error"), array(), "Exception")
-        , "Function values origin defaults to null"
-            => $fn->origin() === null 
-        , "Result of application is a value."
+            && raises(array($fn2, "get"), array(), "GetError")
+        , "Functions are applicable"
+            => $fn->isApplicable() && $fn2->isApplicable()
+        , "One can apply function values to ordinary values."
+            => $fn->apply($value) && $fn2->apply($value) 
+        , "A function value is no error"
+            => !$fn->isError() && !$fn2->isError()
+        , "For function values, error() raises"
+            => ( raises(array($fn, "error"), array(), "Exception")
+            &&   raises(array($fn2, "error"), array(), "Exception")
+            )
+        , "Test function values origins defaults to null"
+            => $fn->origin() === null && $fn2->origin() === null 
+        , "Result of successfull function application is a value"
             => andR(_test_PlainValue($fn->apply($value), $val, null))
+        , "Result of application of throwing function ia an error"
+            => andR(_test_ErrorValue($fn2->apply($value), "test exception", null))
+        , "Test functions have arity 1"
+            => $fn->arity() === 1 && $fn2->arity() === 1
+        , "Test functions are not satisfied"
+            => !$fn->isSatisfied() && !$fn2->isSatisfied()
+        , "After application, test functions are satisfied"
+            => $fn->apply($value)->isSatisfied() && $fn2->apply($value)->isSatisfied()
         );
-} 
+}
+
+function test_ErrorValue() {
+    $rnd = md5(rand());
+    $value = _error($rnd, _value($rnd, $rnd));
+    return _test_ErrorValue($value, $rnd, $rnd); 
+}
+ 
+
+function _test_ErrorValue(Value $value, $reason, $origin) {
+    return array
+        ( "One can't get a value out."
+            => raises(array($value, "get"), array(), "GetError")
+        , "An error value is applicable"
+            => $value->isApplicable()
+        , "One can apply an error value and gets an error back."
+            => $value->apply(_value(1))->isError()
+        , "An error value is no error"
+            => $value->isError()
+        , "One can get the reason out of the error value"
+            => $value->error() == $reason
+        , "Error value tracks origin"
+            => $value->origin() === $origin
+        );
+}
 
 print_test("PlainValue");
+print_test("ErrorValue");
 print_test("FunctionValue");
 exit();
 
