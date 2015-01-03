@@ -1150,6 +1150,64 @@ function _text_input($label = null, $value = null, $attributes = null) {
     return new TextInputFormlet($label, $value, $attributes);
 }
 
+/* A formlet to input some text in an area. */
+class TextAreaFormlet extends InputFormlet {
+    protected $_value; // string
+    protected $_label; // string
+
+    public static $disallowed_attributes = array
+        ( "name"
+        );
+
+    public function __construct($label = null, $value = null, $attributes = null) {
+        parent::__construct($attributes);
+
+        if ($label !== null)
+            guardIsString($label);
+        if ($value !== null)
+            guardIsString($value);
+        $this->_label = $label; 
+        $this->_value = $value; 
+    }
+
+    public function build(NameSource $name_source) {
+        $res = $name_source->getNameAndNext();
+        return array
+            ( "renderer"    => new CallbackRenderer($this, array
+                                        ( "name" => $res["name"]
+                                        )) 
+            , "collector"   => new StringCollector($res["name"])
+            , "name_source" => $res["name_source"]
+            );
+    }
+
+    public function renderValues(RenderDict $dict, $args) {
+        $name = $args["name"];
+        $value = $dict->value($name);
+        if ($value === null)
+            $value = $this->_value;
+        $errors = $dict->errors($name);
+        $lbl = $this->maybeLabel($name);
+        return $lbl[0] 
+              ."<textarea name='$name'"
+              .keysAndValuesToHTMLAttributes($lbl[1])
+              .">"
+              .($value !== null ? $value : "")
+              ."</textarea>"
+              .($errors !== null ? "<span class='error'>"
+                                        .implode("<br />", $errors)
+                                  ."</span>"
+                                 : "" 
+               );
+    }
+}
+
+function _textarea($label = null, $value = null, $attributes = null) {
+    return new TextAreaFormlet($label, $value, $attributes);
+}
+
+
+/* A formlet that wraps other formlets in a field set */
 function _fieldset($legend, Formlet $formlet, $attributes = array()) {
     $ret = _static("<fieldset".keysAndValuesToHTMLAttributes($attributes).">");
     if ($legend !== null) {

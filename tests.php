@@ -254,6 +254,11 @@ function test_TextInput() {
 }
 print_and_record_test("TextInput");
 
+function test_TextArea() {
+    return _test_isFormlet(_textarea());
+}
+print_and_record_test("TextArea");
+
 function test_FieldSet() {
     return _test_isFormlet(_fieldset("Static: ", _pure(_value(42))));    
 }
