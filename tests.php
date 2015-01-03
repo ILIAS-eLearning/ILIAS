@@ -264,6 +264,37 @@ function test_Checkbox() {
 }
 print_and_record_test("Checkbox");
 
+function test_Submit() {
+    return _test_isFormlet(_submit("Submit"));
+}
+print_and_record_test("Checkbox");
+
+
+/******************************************************************************
+ * Tests on premade helpers.
+ */
+
+function test__collect() {
+    $collected0 = _collect();
+    $collected1 = $collected0->apply(_value(1));
+    $collected2 = $collected1->apply(_value(2));
+    $collected3 = $collected2->apply(_value(3));
+    $collected_stop = $collected3->apply(stop());
+    
+    return array
+        ( "_collect is function value after apply"
+            => $collected1->isApplicable()
+            && $collected2->isApplicable()
+            && $collected3->isApplicable()
+        , "_collect is value after application to stop"
+            => !$collected_stop->isApplicable()
+        , "_collect returns collected array after application of stop"
+            => $collected_stop->get() === array(1,2,3)
+        );
+}
+print_and_record_test("_collect");
+
+
 echo "\n";
 print_results();
 
