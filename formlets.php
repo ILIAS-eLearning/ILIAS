@@ -1332,41 +1332,21 @@ abstract class InputFormlet extends Formlet {
 /* A formlet to input some text. Renders to according HTML and collects a
  * string.
  */
-class TextInputFormlet extends InputFormlet {
+class TextInputFormlet extends Formlet {
     protected $_value; // string
     protected $_label; // string
-
-    public static $disallowed_attributes = array
-        ( "accept"
-        , "checked"
-        , "form"
-        , "formaction"
-        , "formenctype"
-        , "formmethod"
-        , "formnovalidate"
-        , "formtarget"
-        , "height"
-        , "list"
-        , "max"
-        , "min"
-        , "multiple"
-        , "name"
-        , "src"
-        , "step"
-        , "type"
-        , "value"
-        , "width"
-        );
+    protected $_attributes; // array 
 
     public function __construct($label = null, $value = null, $attributes = null) {
-        parent::__construct($attributes);
-
         if ($label !== null)
             guardIsString($label);
         if ($value !== null)
             guardIsString($value);
+        if ($attributes !== null)
+            guardIsArray($attributes);
         $this->_label = $label; 
         $this->_value = $value; 
+        $this->_attributes = $attributes; 
     }
 
     public function build(NameSource $name_source) {
@@ -1403,11 +1383,6 @@ class TextInputFormlet extends InputFormlet {
     public function getContent(RenderDict $dict) {
         return null;
     }
-
-    /*protected function setAttributes(&$attributes, $name, $value, $errors) {
-        parent::setAttributes($attributes, $name, $value, $errors);
-        $attributes["type"] = "text";
-    }*/
 }
 
 function _text_input($label = null, $value = null, $attributes = null) {
@@ -1418,37 +1393,51 @@ function _text_input($label = null, $value = null, $attributes = null) {
 class TextAreaFormlet extends InputFormlet {
     protected $_value; // string
     protected $_label; // string
-
-    public static $disallowed_attributes = array
-        ( "name"
-        );
+    protected $_attributes; // string
 
     public function __construct($label = null, $value = null, $attributes = null) {
-        parent::__construct($attributes);
-
         if ($label !== null)
             guardIsString($label);
         if ($value !== null)
             guardIsString($value);
+        if ($attributes !== null)
+            guardIsArray($attributes);
         $this->_label = $label; 
         $this->_value = $value; 
+        $this->_attributes = $attributes; 
     }
 
     public function build(NameSource $name_source) {
         $res = $name_source->getNameAndNext();
         return array
-            ( "builder"    => new CallbackBuilder($this, $res["name"]) 
+            ( "builder"    => new TagBuilder( "textarea"
+                                            , _method(1, $this, "getAttributes", array($res["name"]))
+                                            , _method(1, $this, "getContent", array($res["name"]))
+                                            )
             , "collector"   => new StringCollector($res["name"])
             , "name_source" => $res["name_source"]
             );
     }
-    
-    protected function getTag(&$attributes, $name, $value, &$errors) {
-        return tag("textarea", $attributes, $value ? $value : "");
+
+    public function getContent($name, RenderDict $dict) {
+        $value = $dict->value($name);
+        if ($value === null)
+            $value = $this->_value;
+
+        return $value !== null ? $value : "";
     }
 
-    protected function setAttributes(&$attributes, $name, $value) {
-        $attributes["name"] = $name;
+    public function getAttributes($name, RenderDict $dict) {
+        $attributes = id($this->_attributes);
+        $attributes["name"] = $name; 
+        
+        if ($this->_label !== null)
+            $attributes["label"] = $this->_label;
+
+        $errors = $dict->errors($name);
+        if ($errors !== null)
+            $attributes["errors"] = $errors;
+        return $attributes; 
     }
 }
 
