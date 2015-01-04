@@ -100,8 +100,8 @@ The building blog of our forms are called formlets, and they behave according
 to an abstraction called applicative functor. We'll try to understand both
 alongside, there's enough stuff about the abstract concept on the net.
 
-A formlet is a thing that encapsulates two things, a renderer and a collector,
-in a highly composable way. The renderer is the entity that creates HTML output,
+A formlet is a thing that encapsulates two things, a builder and a collector,
+in a highly composable way. The builder is the entity that creates HTML output,
 while the collector is responsible for collecting values from the user input.
 The most simple formlet (the 'pure' one) thus is a formlet that renders to nothing
 and 'collects' a constant value, regardless of the user input.
@@ -117,7 +117,7 @@ $functionFormlet = _pure($explodeBySpace);
 ?>
 ```
 
-The created entities could be used to build concrete renderers and collectors.
+The created entities could be used to build concrete builders and collectors.
 To do that while maintain composability, we need a source that creates unique
 names in a reproducible way. To avoid complex sideeffects, the name source
 can only be instantiated once and needs to be passed around explicitly. This
@@ -128,12 +128,12 @@ is a point i'm currently thinking about how to handle best.
 // The one and only (might not be that way always):
 $name_source = NameSource::instantiate();
 
-// Very boring renderer and collector.
+// Very boring builder and collector.
 $repr = $boringFormlet->build($name_source);
 
 // Renderer does nothing
 echo "This will show \"No output\":\n";
-echo ("" == $repr["renderer"]->render()?"No output\n":"Oh, that's not pure...\n");
+echo ("" == $repr["builder"]->build()->render()?"No output\n":"Oh, that's not pure...\n");
 
 // The collector 'collects' a constant value, wrapped in our value representation.
 echo "This will show \"Hello World!\":\n";
@@ -151,7 +151,7 @@ formlet, yielding a new formlet containing the result of the function call.
 ```php
 <?php
 // The function to map over the formlet is called mapCollector, since it leaves
-// the renderer untouched. Maybe at some point a mapRenderer might come in handy
+// the builder untouched. Maybe at some point a mapRenderer might come in handy
 // too...
 $containsArrayFormlet = $boringFormlet->mapCollector($explodeBySpace);
 
@@ -333,7 +333,7 @@ $name_source = $repr["name_source"];
 
 // First look at the rendering:
 echo "This will show some date input in HTML representation:\n";
-echo $repr["renderer"]->render()."\n";
+echo $repr["builder"]->build()->render()."\n";
 
 // Then lets look at the collected values. Since we don't actually POST the 
 // form, we need to mock up some input. This would be completely opaque when 
@@ -365,9 +365,9 @@ echo ($res->isError()?$res->error():$res->get()->toISO())."\n";
 // We need to turn the retreived value into a representation for rendering ...
 $renderDict = new RenderDict($mock_post2, $res);
 
-// ... and call another render function on the renderer with said dict.
+// ... and call another render function on the builder with said dict.
 echo "This will show some HTML of the formlet with error messages:\n";
-echo $repr["renderer"]->renderValues($renderDict)."\n";
+echo $repr["builder"]->buildWithDict($renderDict)->render()."\n";
 
 ?>
 ```
@@ -387,8 +387,6 @@ already know about:
 * Write tests to proof properties of the primitives.
 * Document how new primitives could be implemented and provide tests for self
   made primitives.
-* Think about using some other representation for HTML than strings, so the 
-  renderer output could be processed further.
 * Think about the name source and how a formlet is actually turned into a HTML
   form.
 * Elaborate representation of input to make it read only and take `$_FILES` into

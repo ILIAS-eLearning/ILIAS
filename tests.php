@@ -27,10 +27,6 @@ function alwaysTrue($val) {
     return true;
 }
 
-function id($val) {
-    return $val;
-}
-
 class TestException extends Exception {
 };
 
@@ -219,14 +215,14 @@ print_and_record_test("FunctionValue");
 
 function _test_isFormlet($formlet) {
     $res = $formlet->build(NameSource::unsafeInstantiate());
-    $renderer_res = $res["renderer"]->render();
+    $builder_res = $res["builder"]->build()->render();
     return array
         ( "Formlet has correct class"
             => $formlet instanceof Formlet
-        , "Renderer has correct instance"
-            => $res["renderer"] instanceof Renderer
-        , "Renderer returns string"
-            => is_string($renderer_res)
+        , "Builder has correct instance"
+            => $res["builder"] instanceof Builder
+        , "Builder->render() returns string"
+            => is_string($builder_res)
         , "Collector has correct instance"
             => $res["collector"] instanceof Collector
         , "Name source has correct instance"
@@ -375,6 +371,14 @@ function bar($arr) {
 }
 
 print_r($foo);
+*/
+
+/*
+$foo = array("foo");
+$bar = $foo;
+$bar[] = "bar";
+
+print_r($bar);
 */
 
 /*class FooError extends Exception {};

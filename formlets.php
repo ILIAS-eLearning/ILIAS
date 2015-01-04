@@ -5,9 +5,9 @@
  *
  * This is an attempt to a PHP implementation of the idea of formlets [1].
  * General idea is to have an abstract and composable representation of forms, 
- * called Formlets, that can be transformed to a concrete Renderer and 
+ * called Formlets, that can be transformed to a concrete Builder and 
  * Collector. 
- * While the Renderer is responsible for creating an HTML representation of a 
+ * While the Builder is responsible for creating an HTML representation of a 
  * Formlet, the Collector is responsible for collecting inputs of the user.
  *
  * The PHP implementations turns out to be a little more complex, since stuff 
@@ -559,9 +559,9 @@ class RenderDict {
  */
 
 final class HTMLEntity {
-    private _name; // string
-    private _attributes; // string
-    private _content; //
+    private $_name; // string
+    private $_attributes; // string
+    private $_content; //
 
     public function name() {
         return $this->_name;
@@ -571,44 +571,86 @@ final class HTMLEntity {
         return $this->_attributes;
     }
 
+    public function attribute($name, $value) {
+        guardIsString($name);
+        guardIsString($value);
+        return $this->_attribute($this->attributes(), $name, $value);    
+    }
+
+    private function _attribute($attributes, $name, $value) {
+        $attributes[$name] = $value;
+        return new HTMLEntity($this->name(), $attributes, $this->content());
+    }
+
     public function content() {
         return $this->_content;
     }
 
     public function __construct($name, $attributes, $content) {
-        guardIsString($name);
+        if ($name !== null)
+            guardIsString($name);
         guardIsArray($attributes);
         foreach($attributes as $key => $value) {
             guardIsString($key);
             guardIsString($value);
         }
-        if (!is_string($content)) {
+        if (!is_string($content) && $content !== null) {
+            $content = flatten($content);
             guardIsArray($content);
             foreach($content as $value) {
                 guardIsHTMLEntity($value);
             }
         }
+        $this->_name = $name;
+        $this->_attributes = $attributes;
+        $this->_content = $content;
+    }
+
+    public function concat(HTMLEntity $right) {
+        return new HTMLEntity (null, array(), array($this, $right));
     }
 
     public function render() {
-        return $this->renderWithOptions(false, false); 
+        return $this->renderWithOptions(true, false); 
     }
 
     public function renderWithOptions($fallback_tag, $force_tag) {
-        $content = []; 
-        foreach($this->content() as $cont) {
-            if (is_string($cont))
-                $content[] = $cont;
-            else
-                $content[] = $cont->renderWithOptions($fallback_tag, $force_tag); 
+        if ($this->content() !== null)
+            $content = []; 
+        else
+            $content = null;
+
+        if (is_string($this->content())) {
+            $content[] = $this->content();
         }
-        return HTMLEntityRenderers::render( $this->name()
-                                          , $this->attributes()
-                                          , implode("", $content)
-                                          , $fallback_tag
-                                          , $force_tag
-                                          );
+        elseif ($this->content() !== null) {
+            foreach($this->content() as $cont) {
+                if (is_string($cont))
+                    $content[] = $cont;
+                else
+                    $content[] = $cont->renderWithOptions($fallback_tag, $force_tag); 
+            }
+        }
+
+        if ($this->name() !== null)
+            return HTMLEntityRenderers::render( $this->name()
+                                              , $this->attributes()
+                                              , $content ? implode("", $content) : null
+                                              , $fallback_tag
+                                              , $force_tag
+                                              );
+        else
+            return $content ? implode("", $content) : "";
     }
+}
+
+function tag($name, $attributes, $content = null) {
+    return new HTMLEntity($name, $attributes, $content);
+}
+
+function literal($content) {
+    guardIsString($content); 
+    return new HTMLEntity(null, array(), $content);
 }
 
 /******************************************************************************
@@ -620,13 +662,13 @@ final class HTMLEntityRenderers {
     
     public function register($entity_name, $fn_name, $overwrite = false) {
         if (!$overwrite && array_key_exists($tag_name, $_registry)) {
-            die("HTMLEntityRenderers::register: renderer for $tag_name already registered."); 
+            die("HTMLEntityRenderers::register: builder for $tag_name already registered."); 
         }
         $_registry[$tag_name] = $fn_name;
     }
 
     private function registered($entity_name) {
-        return array_key_exists($entity_name);
+        return array_key_exists($entity_name, self::$_registry);
     }
 
     private function call($entity_name, $arr) {
@@ -634,91 +676,95 @@ final class HTMLEntityRenderers {
     }
 
     public function render($entity_name, $attributes, $content
-                          , $fallback_tag = false, $force_tag = false ) {
+                          , $fallback_tag, $force_tag) {
         if (   (!self::registered($entity_name) && $fallback_tag)  
             || $force_tag
            ) {
-            return "<$entity_name".keysAndValuesToHTMLAttributes($attributes)." >";
-                  .$content
-                  ."</$entity_name>"
-                  ;
+            if ($content)
+                return "<$entity_name".keysAndValuesToHTMLAttributes($attributes)." >"
+                      .$content
+                      ."</$entity_name>"
+                      ;
+            else 
+                return "<$entity_name".keysAndValuesToHTMLAttributes($attributes)." />";
         }
         if (!self::registered($entity_name)) {
-            die("HTMLEntityRenderers::render: no renderer for $entity_name.");
+            die("HTMLEntityRenderers::render: no builder for $entity_name.");
         }
-        $res = static::call($entity_name, array($attributes, $content);
+        $res = static::call($entity_name, array($attributes, $content));
         if ($res instanceof HTMLEntity) {
             return $res->renderWithOption($fallback_tag, $force_tag); 
         }
         if (!is_string($res)) {
-            die("HTMLEntityRenderers::render: renderer for $entity_name does not return string.");
+            die("HTMLEntityRenderers::render: builder for $entity_name does not return string.");
         }
         return $res;
     }
 }
 
 /******************************************************************************
- * Fairly simple implementation of a Renderer. Can render strings and supports
- * combining of renderers. A more sophisticated version could be build upon
+ * Fairly simple implementation of a Builder. Can render strings and supports
+ * combining of builders. A more sophisticated version could be build upon
  * HTML primitives.
  */
 
-abstract class Renderer {
+abstract class Builder {
     /* Returns a string. */
-    abstract public function renderValues(RenderDict $dict);
-    public function render() {
-        return $this->renderValues(RenderDict::_empty());
+    abstract public function buildWithDict(RenderDict $dict);
+    public function build() {
+        return $this->buildWithDict(RenderDict::_empty());
     }
 }
 
-/* Renderer that combines two sub renderers by adding the output of the 
- * renderers.
+/* Builder that combines two sub builders by adding the output of the 
+ * builders.
  */
-class CombinedRenderer extends Renderer {
-    private $_l; // Renderer
-    private $_r; // Renderer
+class CombinedBuilder extends Builder {
+    private $_l; // Builder
+    private $_r; // Builder
 
-    public function __construct(Renderer $left, Renderer $right) {
+    public function __construct(Builder $left, Builder $right) {
         $this->_l = $left;
         $this->_r = $right;
     }
 
-    public function renderValues(RenderDict $dict) {
-        return $this->_l->renderValues($dict).$this->_r->renderValues($dict);
+    public function buildWithDict(RenderDict $dict) {
+        return $this->_l->buildWithDict($dict)
+                ->concat($this->_r->buildWithDict($dict));
     }
 }
 
-/* A renderer that produces a constant output. */
-class ConstRenderer extends Renderer {
+/* A builder that produces a constant output. */
+class ConstBuilder extends Builder {
     private $_content; // string
 
     public function __construct($content) {
-        guardIsString($content);
-        $this->_content = $content;
+        $this->_content = literal($content);
     }
 
-    public function renderValues(RenderDict $dict) {
+    public function buildWithDict(RenderDict $dict) {
         return $this->_content;
     }
 }
 
-/* A renderer that calls 'render' from another object to produce its output. */
-class CallbackRenderer extends Renderer {
+/* A builder that calls 'build' from another object to produce its output. */
+class CallbackBuilder extends Builder {
     private $_call_object; // callable
-    private $_args; // mixed
+    private $_name; // string
 
     /* Construct with object to call and an array of arguments to be passed
-     * to said óbjects render method.
+     * to said óbjects build method.
      */
-    public function __construct($call_object, $args) {
+    public function __construct($call_object, $name) {
         guardIsObject($call_object);
+        guardIsString($name);
         $this->_call_object = $call_object;
-        $this->_args = $args;
+        $this->_name= $name;
     }
 
-    public function renderValues(RenderDict $dict) {
-        $res = $this->_call_object->renderValues($dict, $this->_args);
-        guardIsString($res);
+    public function buildWithDict(RenderDict $dict) {
+        $res = $this->_call_object->getHTMLEntity($dict, $this->_name);
+        guardIsHTMLEntity($res);
         return $res; 
     }
 }
@@ -944,6 +990,26 @@ function keysAndValuesToHTMLAttributes($attributes) {
     return $str;
 }
 
+function flatten($val) {
+    $arr = array();
+    _flatten($arr, $val);
+    return $arr;
+}
+
+function _flatten(&$arr, $val) {
+    if(is_array($val)) {
+        foreach($val as $v)
+            _flatten($arr, $v);
+    }
+    else {
+        $arr[] = $val;
+    }
+}
+
+function id($val) {
+    return $val;
+}
+
 /******************************************************************************
  * The NameSource is used to create unique names for every input. This is 
  * needed for composability of the Formlets without the need to worry about
@@ -993,7 +1059,7 @@ final class NameSource {
  */
 
 abstract class Formlet {
-    /* Build a renderer and collector from the formlet and also return the 
+    /* Build a builder and collector from the formlet and also return the 
      * updated name source.
      */
     public abstract function build(NameSource $name_source);
@@ -1017,7 +1083,7 @@ abstract class Formlet {
 }
 
 
-/* A PureFormlet collects a constant value and renderes to an empty string. */
+/* A PureFormlet collects a constant value and buildes to an empty string. */
 class PureFormlet extends Formlet {
     private $_value; // mixes
 
@@ -1027,7 +1093,7 @@ class PureFormlet extends Formlet {
 
     public function build(NameSource $name_source) {
         return array
-            ( "renderer"    => new ConstRenderer("")
+            ( "builder"    => new ConstBuilder("")
             , "collector"   => new ConstCollector($this->_value)
             , "name_source" => $name_source
             );
@@ -1054,7 +1120,7 @@ class CombinedFormlets extends Formlet {
         $r = $this->_r->build($l["name_source"]);
         $collector = combineCollectors($l["collector"], $r["collector"]);
         return array
-            ( "renderer"    => new CombinedRenderer($l["renderer"], $r["renderer"])
+            ( "builder"    => new CombinedBuilder($l["builder"], $r["builder"])
             , "collector"   => $collector
             , "name_source" => $r["name_source"]
             );
@@ -1078,7 +1144,7 @@ class CheckedFormlet extends Formlet {
 
     public function build(NameSource $name_source) {
         $fmlt = $this->_formlet->build($name_source);
-        return array( "renderer"    => $fmlt["renderer"]
+        return array( "builder"    => $fmlt["builder"]
                     , "collector"   => new CheckedCollector( $fmlt["collector"]
                                                            , $this->_predicate
                                                            , $this->_error
@@ -1102,7 +1168,7 @@ class MappedCollectorFormlet extends Formlet {
 
     public function build(NameSource $name_source) {
         $fmlt = $this->_formlet->build($name_source);
-        return array( "renderer"    => $fmlt["renderer"]
+        return array( "builder"    => $fmlt["builder"]
                     , "collector"   => new MappedCollector( $fmlt["collector"]
                                                           , $this->_transformation
                                                           )
@@ -1116,7 +1182,7 @@ class MappedCollectorFormlet extends Formlet {
  * This are the primitives to be used to build actual forms.
  */
 
-/* A formlet collecting nothing and rendering a constant string. */
+/* A formlet collecting nothing and building a constant string. */
 class StaticFormlet extends Formlet {
     private $_content; // string
 
@@ -1127,7 +1193,7 @@ class StaticFormlet extends Formlet {
 
     public function build(NameSource $name_source) {
         return array
-            ( "renderer"    => new ConstRenderer($this->_content)
+            ( "builder"    => new ConstBuilder($this->_content)
             , "collector"   => new NullaryCollector()
             , "name_source" => $name_source
             );
@@ -1172,16 +1238,62 @@ abstract class InputFormlet extends Formlet {
                 $attributes["id"] = $id;
             }
             return array
-                ( "<label for=\"$id\">".$this->_label."</label>"
+                ( tag("label", array("for" => $id), $this->_label)
                 , $attributes
                 );
         }
         else {
             return array
-                ( ""
-                , $this->_attributes
+                ( null 
+                , id($this->_attributes)
                 );
         }
+    }
+
+    public function getHTMLEntity(RenderDict $dict, $name) {
+        $value = $this->getValue($dict, $name);
+        $errors = $this->getErrors($dict, $name);
+
+        $lbl = $this->maybeLabel($name);
+        $label = $lbl[0];
+        $attributes = $lbl[1];
+
+        $this->setAttributes($lbl[1], $name, $value, $errors);
+
+        $entity = $this->getTag($lbl[1], $name, $value, $errors);
+        if ($label !== null)
+            $entity = $label->concat($entity);
+        return $this->appendErrors($errors, $entity);
+    }
+
+    protected function getValue(RenderDict $dict, $name) {
+        $value = $dict->value($name);
+        if ($value === null)
+            $value = $this->_value;
+        return $value;
+    }
+        
+    protected function getErrors($dict, $name) {
+        return $dict->errors($name);
+    }
+    
+    protected function getTag(&$attributes, $name, $value, &$errors) {
+        return tag("input", $attributes);
+    }
+
+    protected function setAttributes(&$attributes, $name, $value, &$errors) {
+        if ($value !== null)
+            $attributes["value"] = $value;
+        $attributes["name"] = $name;
+    }
+
+    protected function appendErrors($errors, $entity) {
+        if ($errors) {
+            foreach ($errors as $error) {
+                $entity = $entity->concat(tag("span", array("class" => "error"), $error));
+            }
+        }
+        return $entity; 
     }
 }
 
@@ -1210,6 +1322,7 @@ class TextInputFormlet extends InputFormlet {
         , "name"
         , "src"
         , "step"
+        , "type"
         , "value"
         , "width"
         );
@@ -1228,31 +1341,15 @@ class TextInputFormlet extends InputFormlet {
     public function build(NameSource $name_source) {
         $res = $name_source->getNameAndNext();
         return array
-            ( "renderer"    => new CallbackRenderer($this, array
-                                        ( "name" => $res["name"]
-                                        )) 
+            ( "builder"    => new CallbackBuilder($this, $res["name"])
             , "collector"   => new StringCollector($res["name"])
             , "name_source" => $res["name_source"]
             );
     }
 
-    public function renderValues(RenderDict $dict, $args) {
-        $name = $args["name"];
-        $value = $dict->value($name);
-        if ($value === null)
-            $value = $this->_value;
-        $errors = $dict->errors($name);
-        $lbl = $this->maybeLabel($name);
-        return $lbl[0] 
-              ."<input type='text' name='$name'"
-              .($value !== null ? " value='$value'" : "")
-              .keysAndValuesToHTMLAttributes($lbl[1])
-              ."/>"
-              .($errors !== null ? "<span class='error'>"
-                                        .implode("<br />", $errors)
-                                  ."</span>"
-                                 : "" 
-               );
+    protected function setAttributes(&$attributes, $name, $value, $errors) {
+        parent::setAttributes($attributes, $name, $value, $errors);
+        $attributes["type"] = "text";
     }
 }
 
@@ -1283,32 +1380,18 @@ class TextAreaFormlet extends InputFormlet {
     public function build(NameSource $name_source) {
         $res = $name_source->getNameAndNext();
         return array
-            ( "renderer"    => new CallbackRenderer($this, array
-                                        ( "name" => $res["name"]
-                                        )) 
+            ( "builder"    => new CallbackBuilder($this, $res["name"]) 
             , "collector"   => new StringCollector($res["name"])
             , "name_source" => $res["name_source"]
             );
     }
+    
+    protected function getTag(&$attributes, $name, $value, &$errors) {
+        return tag("textarea", $attributes, $value);
+    }
 
-    public function renderValues(RenderDict $dict, $args) {
-        $name = $args["name"];
-        $value = $dict->value($name);
-        if ($value === null)
-            $value = $this->_value;
-        $errors = $dict->errors($name);
-        $lbl = $this->maybeLabel($name);
-        return $lbl[0] 
-              ."<textarea name='$name'"
-              .keysAndValuesToHTMLAttributes($lbl[1])
-              .">"
-              .($value !== null ? $value : "")
-              ."</textarea>"
-              .($errors !== null ? "<span class='error'>"
-                                        .implode("<br />", $errors)
-                                  ."</span>"
-                                 : "" 
-               );
+    protected function setAttributes(&$attributes, $name, $value) {
+        $attributes["name"] = $name;
     }
 }
 
@@ -1353,6 +1436,7 @@ class CheckboxFormlet extends InputFormlet {
         , "size"
         , "src"
         , "step"
+        , "type"
         , "value"
         , "width"
         );
@@ -1370,34 +1454,26 @@ class CheckboxFormlet extends InputFormlet {
     public function build(NameSource $name_source) {
         $res = $name_source->getNameAndNext();
         return array
-            ( "renderer"    => new CallbackRenderer($this, array
-                                        ( "name" => $res["name"]
-                                        )) 
+            ( "builder"    => new CallbackBuilder($this, $res["name"])
             , "collector"   => new ExistsCollector($res["name"])
             , "name_source" => $res["name_source"]
             );
     }
 
-    public function renderValues(RenderDict $dict, $args) {
-        $name = $args["name"];
+    protected function getValue(RenderDict $dict, $name) {
         if ($dict->isEmpty())
             $value = $this->_value;
         else
             $value = $dict->value($name) !== null;
-        $errors = $dict->errors($name);
-        $lbl = $this->maybeLabel($name);
+    }
+
+    protected function setAttributes(&$attributes, $name, $value, &$errors) {
+        $attributes["name"] = $name;
+        $attributes["type"] = "checkbox";
         if ($value)
-            $lbl[1]["checked"] = null;
-        return "<input type='checkbox' name='$name'"
-              .($value !== null ? " value='$value'" : "")
-              .keysAndValuesToHTMLAttributes($lbl[1])
-              ."/>"
-              .$lbl[0]
-              .($errors !== null ? "<span class='error'>"
-                                        .implode("<br />", $errors)
-                                  ."</span>"
-                                 : "" 
-               );
+            $attributes["checked"] = null;
+        else
+            unset($attributes["checked"]);
     }
 }
 
@@ -1428,6 +1504,7 @@ class SubmitButtonFormlet extends InputFormlet {
         , "size"
         , "src"
         , "step"
+        , "type"
         , "value"
         , "width"
         );
@@ -1445,7 +1522,7 @@ class SubmitButtonFormlet extends InputFormlet {
         if ($this->_collects) {
             $res = $name_source->getNameAndNext();
             return array
-                ( "renderer"    => new CallbackRenderer($this, array
+                ( "builder"    => new CallbackBuilder($this, array
                                         ( "name" => $res["name"]
                                         )) 
                 , "collector"   => new ExistsCollector($res["name"])
@@ -1454,22 +1531,21 @@ class SubmitButtonFormlet extends InputFormlet {
         }
         else {
             return array
-                ( "renderer"    => new CallbackRenderer($this, array())
+                ( "builder"    => new CallbackBuilder($this, array())
                 , "collector"   => new NullaryCollector()
                 , "name_source" => $name_source
                 );
         }
     }
 
-    public function renderValues(RenderDict $dict, $args) {
-        $attributes = $this->_attributes;
-        if (array_key_exists("name", $args)) {
-            $attributes["name"] = $args["name"];
-        }
-        return "<input type='submit' value='".$this->_label."'"
-              .keysAndValuesToHTMLAttributes($attributes)
-              ."/>"
-              ;
+    protected function getValue(RenderDict $dict, $name) {
+        return null;
+    }
+
+    protected function setAttributes(&$attributes, $name, $value, &$errors) {
+        parent::setAttributes($attributes, $name, $value, $errors);    
+        unset($attributes["value"]);
+        $attributes["type"] = "submit";
     }
 }
 
