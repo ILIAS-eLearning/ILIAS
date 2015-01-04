@@ -571,10 +571,18 @@ final class HTMLEntity {
         return $this->_attributes;
     }
 
-    public function attribute($name, $value) {
-        guardIsString($name);
-        guardIsString($value);
-        return $this->_attribute($this->attributes(), $name, $value);    
+    public function attribute($name, $value = null) {
+        if ($value === null) {
+            if (array_key_exists($name, $this->_attributes)) 
+                return $this->_attributes[$name];
+            else
+                return null;
+        }
+        else {
+            guardIsString($name);
+            guardIsString($value);
+            return $this->_attribute($this->attributes(), $name, $value);    
+        }
     }
 
     private function _attribute($attributes, $name, $value) {
@@ -659,22 +667,22 @@ function literal($content) {
 final class HTMLEntityRenderers {
     private static $_registry = array();
     
-    public function register($entity_name, $fn_name, $overwrite = false) {
-        if (!$overwrite && array_key_exists($tag_name, $_registry)) {
+    public static function register($entity_name, $fn_name, $overwrite = false) {
+        if (!$overwrite && array_key_exists($entity_name, self::$_registry)) {
             die("HTMLEntityRenderers::register: builder for $tag_name already registered."); 
         }
-        $_registry[$tag_name] = $fn_name;
+        self::$_registry[$entity_name] = $fn_name;
     }
 
-    private function registered($entity_name) {
+    private static function registered($entity_name) {
         return array_key_exists($entity_name, self::$_registry);
     }
 
-    private function call($entity_name, $arr) {
-        return call_user_func_array($entity_name, $arr);
+    private static function call($entity_name, $arr) {
+        return call_user_func_array(self::$_registry[$entity_name], $arr);
     }
 
-    public function render($entity_name, $attributes, $content
+    public static function render($entity_name, $attributes, $content
                           , $fallback_tag, $force_tag) {
         if (   (!self::registered($entity_name) && $fallback_tag)  
             || $force_tag
@@ -692,7 +700,7 @@ final class HTMLEntityRenderers {
         }
         $res = static::call($entity_name, array($attributes, $content));
         if ($res instanceof HTMLEntity) {
-            return $res->renderWithOption($fallback_tag, $force_tag); 
+            return $res->renderWithOptions($fallback_tag, $force_tag); 
         }
         if (!is_string($res)) {
             die("HTMLEntityRenderers::render: builder for $entity_name does not return string.");
@@ -746,6 +754,29 @@ class ConstBuilder extends Builder {
     }
 }
 
+class TagBuilder extends Builder {
+    private $_tag_name; // string
+    private $_attributes_function; // FunctionValue 
+    private $_content_function; // FunctionValue 
+
+    public function __construct( $tag_name
+                               , FunctionValue $attributes_function
+                               , FunctionValue $content_function
+                               ) {
+        guardIsString($tag_name);
+        $this->_tag_name = $tag_name;
+        $this->_attributes_function = $attributes_function;
+        $this->_content_function = $content_function;
+    }
+
+    public function buildWithDict(RenderDict $dict) {
+        $d = _value($dict);
+        $attributes = $this->_attributes_function->apply($d)->get();
+        $content = $this->_content_function->apply($d)->get();
+        return tag($this->_tag_name, $attributes, $content); 
+    }
+}
+    
 /* A builder that calls 'build' from another object to produce its output. */
 class CallbackBuilder extends Builder {
     private $_call_object; // callable
@@ -1341,16 +1372,42 @@ class TextInputFormlet extends InputFormlet {
     public function build(NameSource $name_source) {
         $res = $name_source->getNameAndNext();
         return array
-            ( "builder"    => new CallbackBuilder($this, $res["name"])
+            ( "builder"    => new TagBuilder( "text_input"
+                                            , _method(1, $this, "getAttributes", array($res["name"]))
+                                            , _method(1, $this, "getContent")
+                                            )
             , "collector"   => new StringCollector($res["name"])
             , "name_source" => $res["name_source"]
             );
     }
 
-    protected function setAttributes(&$attributes, $name, $value, $errors) {
+    public function getAttributes($name, RenderDict $dict) {
+        $attributes = id($this->_attributes);
+        $attributes["name"] = $name; 
+
+        $value = $dict->value($name);
+        if ($value === null)
+            $value = $this->_value;
+        if ($value !== null)
+            $attributes["value"] = $value;
+
+        if ($this->_label !== null)
+            $attributes["label"] = $this->_label;
+
+        $errors = $dict->errors($name);
+        if ($errors !== null)
+            $attributes["errors"] = $errors;
+        return $attributes; 
+    }
+
+    public function getContent(RenderDict $dict) {
+        return null;
+    }
+
+    /*protected function setAttributes(&$attributes, $name, $value, $errors) {
         parent::setAttributes($attributes, $name, $value, $errors);
         $attributes["type"] = "text";
-    }
+    }*/
 }
 
 function _text_input($label = null, $value = null, $attributes = null) {
@@ -1549,6 +1606,40 @@ class SubmitButtonFormlet extends InputFormlet {
 
 function _submit($label, $collects = false, $attributes = null) {
     return new SubmitButtonFormlet($label, $collects, $attributes);
+}
+
+/******************************************************************************
+ * Standard renderers for html entities.
+ */
+
+function render_text_input($attributes, $content) {
+    $attributes["type"] = "text";
+    $entity = tag("input", $attributes);
+    if (array_key_exists("label", $attributes)) {
+        $label = $attributes["label"];
+        unset($attributes["label"]);
+        $entity = labeled("text_input", $label, $entity);
+    }
+    if (array_key_exists("errors", $attributes)) {
+        $errors = $attributes["errors"];
+        unset($attributes["errors"]);
+        $entity = append_errors($entity, $errors); 
+    }
+    return $entity;
+}
+HTMLEntityRenderers::register("text_input", "render_text_input");
+
+function labeled($what, $label, $entity) {
+    $id = $entity->attribute("id");
+    if ($id === null) {
+        $id = $entity->attribute("name");
+        $entity->attribute("id", $id);
+    }     
+    $l = tag("label", array("for" => $id), $label);
+    if (in_array($what, array("checkbox")))
+        return $entity->concat($l);
+    else
+        return $l->concat($entity);
 }
 
 
