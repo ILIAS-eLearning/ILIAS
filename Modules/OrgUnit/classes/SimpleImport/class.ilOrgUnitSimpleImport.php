@@ -40,7 +40,7 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 		$ou_parent_id_type = (string)$attributes->ou_parent_id_type;
 
 		if($ou_id == ilObjOrgUnit::getRootOrgRefId()){
-			$this->addWarning("cannot_change_root_node", $ou_id, $action);
+			$this->addWarning("cannot_change_root_node", $ou_id?$ou_id:$external_id, $action);
 			return;
 		}
 
@@ -54,11 +54,11 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 
 		if($action == "delete"){
 			if(!$parent_ref_id){
-				$this->addError("ou_parent_id_not_valid", $ou_id, $action);
+				$this->addError("ou_parent_id_not_valid", $ou_id?$ou_id:$external_id, $action);
 				return;
 			}
 			if(!$ref_id){
-				$this->addError("ou_id_not_valid", $ou_id, $action);
+				$this->addError("ou_id_not_valid", $ou_id?$ou_id:$external_id, $action);
 				return;
 			}
 			include_once("./Services/Repository/classes/class.ilRepUtil.php");
@@ -67,16 +67,16 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 				$ru->deleteObjects($parent_ref_id, array($ref_id)) !== false;
 				$this->stats["deleted"]++;
 			}catch(Excpetion $e){
-				$this->addWarning("orgu_already_deleted", $ou_id, $action);
+				$this->addWarning("orgu_already_deleted", $ou_id?$ou_id:$external_id, $action);
 			}
 			return;
 		}elseif($action == "update"){
 			if(!$parent_ref_id){
-				$this->addError("ou_parent_id_not_valid", $ou_id, $action);
+				$this->addError("ou_parent_id_not_valid", $ou_id?$ou_id:$external_id, $action);
 				return;
 			}
 			if(!$ref_id){
-				$this->addError("ou_id_not_valid", $ou_id, $action);
+				$this->addError("ou_id_not_valid", $ou_id?$ou_id:$external_id, $action);
 				return;
 			}
 			$object = new ilObjOrgUnit($ref_id);
@@ -93,21 +93,21 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 					$tree->moveTree($ref_id, $parent_ref_id);
 				}catch(Exception $e){
 					global $ilLog;
-					$this->addWarning("not_movable", $ou_id, $action);
+					$this->addWarning("not_movable", $ou_id?$ou_id:$external_id, $action);
 					$ilLog->write($e->getMessage()."\\n".$e->getTraceAsString());
 				}
 			}
 			$this->stats["updated"]++;
 		}elseif($action == "create"){
 			if(!$parent_ref_id){
-				$this->addError("ou_parent_id_not_valid", $ou_id, $action);
+				$this->addError("ou_parent_id_not_valid", $ou_id?$ou_id:$external_id, $action);
 				return;
 			}
 			if($external_id){
 				$obj_id = ilObject::_lookupObjIdByImportId($external_id);
 				if(ilObject::_hasUntrashedReference($obj_id))
 				{
-					$this->addError("ou_external_id_exists", $ou_id, $action);
+					$this->addError("ou_external_id_exists", $ou_id?$ou_id:$external_id, $action);
 					return;
 				}
 			}

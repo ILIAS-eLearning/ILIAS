@@ -15186,3 +15186,4 @@ crs#:#crs_show_all_obj#:#Alle zeigen
 crs#:#crs_hide_all_obj#:#Alle verbergen
 notes#:#notes_comment_deleted#:#Der Kommentar wurde gelöscht
 notes#:#notes_comments_deleted#:#Die Kommentare wurden gelöscht.
+orgu#:#ou_id_not_valid#:#Die Import-ID konnte nicht gefunden werden.
