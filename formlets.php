@@ -1390,7 +1390,7 @@ function _text_input($label = null, $value = null, $attributes = null) {
 }
 
 /* A formlet to input some text in an area. */
-class TextAreaFormlet extends InputFormlet {
+class TextAreaFormlet extends Formlet {
     protected $_value; // string
     protected $_label; // string
     protected $_attributes; // string
