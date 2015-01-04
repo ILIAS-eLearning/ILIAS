@@ -1462,9 +1462,9 @@ class CheckboxFormlet extends InputFormlet {
 
     protected function getValue(RenderDict $dict, $name) {
         if ($dict->isEmpty())
-            $value = $this->_value;
+            return $this->_value;
         else
-            $value = $dict->value($name) !== null;
+            return $dict->value($name) !== null;
     }
 
     protected function setAttributes(&$attributes, $name, $value, &$errors) {
@@ -1483,7 +1483,7 @@ function _checkbox($label = null, $value = false, $attributes = null) {
 
 /* A formlet representing a submit button, possibly collecting a boolean. */
 class SubmitButtonFormlet extends InputFormlet {
-    protected $_label; // string
+    protected $_caption; // string
     protected $_collects; // bool
 
     public static $disallowed_attributes = array
@@ -1509,12 +1509,12 @@ class SubmitButtonFormlet extends InputFormlet {
         , "width"
         );
 
-    public function __construct($label, $collects = false, $attributes = null) {
+    public function __construct($caption, $collects = false, $attributes = null) {
         parent::__construct($attributes);
 
-        guardIsString($label);
+        guardIsString($caption);
         guardIsBool($collects);
-        $this->_label = $label; 
+        $this->_caption = $caption; 
         $this->_collects= $collects; 
     }
 
@@ -1542,7 +1542,7 @@ class SubmitButtonFormlet extends InputFormlet {
 
     protected function setAttributes(&$attributes, $name, $value, &$errors) {
         parent::setAttributes($attributes, $name, $value, $errors);    
-        unset($attributes["value"]);
+        $attributes["value"] = $this->_caption;
         $attributes["type"] = "submit";
     }
 }
