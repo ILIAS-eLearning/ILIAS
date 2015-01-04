@@ -679,7 +679,7 @@ final class HTMLEntityRenderers {
         if (   (!self::registered($entity_name) && $fallback_tag)  
             || $force_tag
            ) {
-            if ($content)
+            if ($content !== null)
                 return "<$entity_name".keysAndValuesToHTMLAttributes($attributes)." >"
                       .$content
                       ."</$entity_name>"
@@ -1387,7 +1387,7 @@ class TextAreaFormlet extends InputFormlet {
     }
     
     protected function getTag(&$attributes, $name, $value, &$errors) {
-        return tag("textarea", $attributes, $value);
+        return tag("textarea", $attributes, $value ? $value : "");
     }
 
     protected function setAttributes(&$attributes, $name, $value) {
