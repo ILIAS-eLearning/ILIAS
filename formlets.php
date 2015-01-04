@@ -1467,17 +1467,24 @@ function _submit($label, $collects = false, $attributes = null) {
 
 function render_text_input($attributes, $content) {
     $attributes["type"] = "text";
-    $entity = tag("input", $attributes);
+    
+    $label = null;
     if (array_key_exists("label", $attributes)) {
         $label = $attributes["label"];
         unset($attributes["label"]);
-        $entity = labeled("text_input", $label, $entity);
     }
+
+    $errors = null;
     if (array_key_exists("errors", $attributes)) {
         $errors = $attributes["errors"];
         unset($attributes["errors"]);
-        $entity = append_errors($entity, $errors); 
     }
+
+    $entity = tag("input", $attributes);
+    if ($label !== null)
+        $entity = labeled("text_input", $label, $entity);
+    if ($errors !== null)
+        $entity = append_errors($entity, $errors); 
     return $entity;
 }
 HTMLEntityRenderers::register("text_input", "render_text_input");
@@ -1485,17 +1492,24 @@ HTMLEntityRenderers::register("text_input", "render_text_input");
 
 function render_checkbox($attributes, $content) {
     $attributes["type"] = "checkbox";
-    $entity = tag("input", $attributes);
+
+    $label = null;
     if (array_key_exists("label", $attributes)) {
         $label = $attributes["label"];
         unset($attributes["label"]);
-        $entity = labeled("checkbox", $label, $entity);
     }
+    
+    $errors = null; 
     if (array_key_exists("errors", $attributes)) {
         $errors = $attributes["errors"];
         unset($attributes["errors"]);
-        $entity = append_errors($entity, $errors); 
     }
+    
+    $entity = tag("input", $attributes);
+    if ($label !== null) 
+        $entity = labeled("checkbox", $label, $entity);
+    if ($errors !== null) 
+        $entity = append_errors($entity, $errors); 
     return $entity;
 }
 HTMLEntityRenderers::register("checkbox", "render_checkbox");
@@ -1518,7 +1532,7 @@ function labeled($what, $label, HTMLEntity $entity) {
     $id = $entity->attribute("id");
     if ($id === null) {
         $id = $entity->attribute("name");
-        $entity->attribute("id", $id);
+        $entity = $entity->attribute("id", $id);
     }     
     $l = tag("label", array("for" => $id), $label);
     if (in_array($what, array("checkbox")))
