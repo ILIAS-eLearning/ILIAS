@@ -5,7 +5,8 @@
  * Representation of html entities. 
  */
 
-require_once("formlets/checking.php");
+require_once("checking.php");
+require_once("helpers.php");
 
 final class HTMLEntity {
     private $_name; // string

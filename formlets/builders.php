@@ -4,9 +4,9 @@
  * Copyright (c) 2014 Richard Klees <richard.klees@rwth-aachen.de>
  */
 
-require_once("formlets/checking.php");
-require_once("formlets/values.php");
-require_once("formlets/html.php");
+require_once("checking.php");
+require_once("values.php");
+require_once("html.php");
 
 /******************************************************************************
  * Turn a value to two dictionaries:

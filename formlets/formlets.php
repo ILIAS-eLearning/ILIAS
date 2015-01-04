@@ -5,6 +5,10 @@
  * This are the primitives to be used to build actual forms.
  */
 
+require_once("checking.php");
+require_once("helpers.php");
+require_once("base.php");
+
 /* A formlet collecting nothing and building a constant string. */
 class StaticFormlet extends Formlet {
     private $_content; // string

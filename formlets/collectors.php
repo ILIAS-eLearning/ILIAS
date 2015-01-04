@@ -5,8 +5,8 @@
  * Base class and primitives for collectors.
  */
 
-require_once("formlets/checking.php");
-require_once("formlets/values.php");
+require_once("checking.php");
+require_once("values.php");
 
 abstract class Collector {
     /* Expects an array. Tries to collect it's desired input from it and returns
