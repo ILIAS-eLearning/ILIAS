@@ -281,7 +281,7 @@ print_and_record_test("Checkbox");
 function test_Submit() {
     return _test_isFormlet(_submit("Submit"));
 }
-print_and_record_test("Checkbox");
+print_and_record_test("Submit");
 
 
 /******************************************************************************

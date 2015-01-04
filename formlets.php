@@ -592,7 +592,6 @@ final class HTMLEntity {
         guardIsArray($attributes);
         foreach($attributes as $key => $value) {
             guardIsString($key);
-            guardIsString($value);
         }
         if (!is_string($content) && $content !== null) {
             $content = flatten($content);
@@ -757,7 +756,8 @@ class CallbackBuilder extends Builder {
      */
     public function __construct($call_object, $name) {
         guardIsObject($call_object);
-        guardIsString($name);
+        if ($name !== null)
+            guardIsString($name);
         $this->_call_object = $call_object;
         $this->_name= $name;
     }
@@ -1522,16 +1522,14 @@ class SubmitButtonFormlet extends InputFormlet {
         if ($this->_collects) {
             $res = $name_source->getNameAndNext();
             return array
-                ( "builder"    => new CallbackBuilder($this, array
-                                        ( "name" => $res["name"]
-                                        )) 
+                ( "builder"    => new CallbackBuilder($this, $res["name"])
                 , "collector"   => new ExistsCollector($res["name"])
                 , "name_source" => $res["name_source"]
                 );
         }
         else {
             return array
-                ( "builder"    => new CallbackBuilder($this, array())
+                ( "builder"    => new CallbackBuilder($this, null) 
                 , "collector"   => new NullaryCollector()
                 , "name_source" => $name_source
                 );
