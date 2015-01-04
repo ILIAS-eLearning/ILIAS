@@ -1354,7 +1354,7 @@ class TextInputFormlet extends Formlet {
         return array
             ( "builder"    => new TagBuilder( "text_input"
                                             , _method(1, $this, "getAttributes", array($res["name"]))
-                                            , _method(1, $this, "getContent")
+                                            , _const(null)
                                             )
             , "collector"   => new StringCollector($res["name"])
             , "name_source" => $res["name_source"]
@@ -1378,10 +1378,6 @@ class TextInputFormlet extends Formlet {
         if ($errors !== null)
             $attributes["errors"] = $errors;
         return $attributes; 
-    }
-
-    public function getContent(RenderDict $dict) {
-        return null;
     }
 }
 
@@ -1460,66 +1456,52 @@ function _fieldset($legend, Formlet $formlet, $attributes = array()) {
 /* A formlet to a boolean via a checkbox. Renders to according HTML and collects
  * a bool.
  */
-class CheckboxFormlet extends InputFormlet {
+class CheckboxFormlet extends Formlet {
     protected $_value; // bool 
     protected $_label; // string
-
-    public static $disallowed_attributes = array
-        ( "accept"
-        , "checked"
-        , "form"
-        , "formaction"
-        , "formenctype"
-        , "formmethod"
-        , "formnovalidate"
-        , "formtarget"
-        , "height"
-        , "list"
-        , "max"
-        , "min"
-        , "multiple"
-        , "name"
-        , "size"
-        , "src"
-        , "step"
-        , "type"
-        , "value"
-        , "width"
-        );
+    protected $_attributes; // string
 
     public function __construct($label = null, $value = false, $attributes = null) {
-        parent::__construct($attributes);
-
         if ($label !== null)
             guardIsString($label);
         guardIsBool($value);
+        if ($attributes !== null)
+            guardIsArray($attributes);
         $this->_label = $label; 
         $this->_value = $value; 
+        $this->_attributes = $attributes; 
     }
 
     public function build(NameSource $name_source) {
         $res = $name_source->getNameAndNext();
         return array
-            ( "builder"    => new CallbackBuilder($this, $res["name"])
+            ( "builder"    => new TagBuilder( "checkbox"
+                                            , _method(1, $this, "getAttributes", array($res["name"]))
+                                            , _const(null)
+                                            )
             , "collector"   => new ExistsCollector($res["name"])
             , "name_source" => $res["name_source"]
             );
     }
 
-    protected function getValue(RenderDict $dict, $name) {
+    public function getAttributes($name, RenderDict $dict) {
+        $attributes = id($this->_attributes);
+        $attributes["name"] = $name; 
+        
         if ($dict->isEmpty())
-            return $this->_value;
+            $value = $this->_value;
         else
-            return $dict->value($name) !== null;
-    }
-
-    protected function setAttributes(&$attributes, $name, $value, &$errors) {
-        $attributes["name"] = $name;
-        $attributes["type"] = "checkbox";
+            $value = $dict->value($name) !== null;
         if ($value)
-            $attributes["checked"] = null;
-        else
-            unset($attributes["checked"]);
+            $attributes["checked"] = null; 
+                
+        if ($this->_label !== null)
+            $attributes["label"] = $this->_label;
+
+        $errors = $dict->errors($name);
+        if ($errors !== null)
+            $attributes["errors"] = $errors;
+        return $attributes;
     }
 }
 
@@ -1528,68 +1510,43 @@ function _checkbox($label = null, $value = false, $attributes = null) {
 }
 
 /* A formlet representing a submit button, possibly collecting a boolean. */
-class SubmitButtonFormlet extends InputFormlet {
-    protected $_caption; // string
+class SubmitButtonFormlet extends Formlet {
+    protected $_label; // label 
     protected $_collects; // bool
+    protected $_attributes; // string
 
-    public static $disallowed_attributes = array
-        ( "accept"
-        , "checked"
-        , "form"
-        , "formaction"
-        , "formenctype"
-        , "formmethod"
-        , "formnovalidate"
-        , "formtarget"
-        , "height"
-        , "list"
-        , "max"
-        , "min"
-        , "multiple"
-        , "name"
-        , "size"
-        , "src"
-        , "step"
-        , "type"
-        , "value"
-        , "width"
-        );
-
-    public function __construct($caption, $collects = false, $attributes = null) {
-        parent::__construct($attributes);
-
-        guardIsString($caption);
+    public function __construct($label, $collects = false, $attributes = null) {
+        guardIsString($label);
         guardIsBool($collects);
-        $this->_caption = $caption; 
+        if ($attributes !== null)
+            guardIsArray($attributes);
+        $this->_label= $label; 
         $this->_collects= $collects; 
+        $this->_attributes = $attributes;
     }
 
     public function build(NameSource $name_source) {
-        if ($this->_collects) {
-            $res = $name_source->getNameAndNext();
-            return array
-                ( "builder"    => new CallbackBuilder($this, $res["name"])
-                , "collector"   => new ExistsCollector($res["name"])
-                , "name_source" => $res["name_source"]
-                );
-        }
-        else {
-            return array
-                ( "builder"    => new CallbackBuilder($this, null) 
-                , "collector"   => new NullaryCollector()
-                , "name_source" => $name_source
-                );
-        }
+        $res = $name_source->getNameAndNext();
+        $collector = $this->_collects
+                    ? new ExistsCollector($res["name"])
+                    : new NullaryCollector()
+                    ;
+        return array
+            ( "builder"    => new TagBuilder( "submit_button"
+                                            , _method(1, $this, "getAttributes", array($res["name"]))
+                                            , _const(null)
+                                            )
+            , "collector"   => $collector
+            , "name_source" => $res["name_source"]
+            );
     }
 
-    protected function getValue(RenderDict $dict, $name) {
-        return null;
-    }
-
-    protected function setAttributes(&$attributes, $name, $value, &$errors) {
-        parent::setAttributes($attributes, $name, $value, $errors);    
-        $attributes["value"] = $this->_caption;
-        $attributes["type"] = "submit";
+    public function getAttributes($name, RenderDict $dict) {
+        $attributes = id($this->_attributes);
+        if ($this->_collects)
+            $attributes["name"] = $name; 
+        $attributes["value"] = $this->_label; 
+        return $attributes;
     }
 }
 
@@ -1618,7 +1575,39 @@ function render_text_input($attributes, $content) {
 }
 HTMLEntityRenderers::register("text_input", "render_text_input");
 
-function labeled($what, $label, $entity) {
+
+function render_checkbox($attributes, $content) {
+    $attributes["type"] = "checkbox";
+    $entity = tag("input", $attributes);
+    if (array_key_exists("label", $attributes)) {
+        $label = $attributes["label"];
+        unset($attributes["label"]);
+        $entity = labeled("checkbox", $label, $entity);
+    }
+    if (array_key_exists("errors", $attributes)) {
+        $errors = $attributes["errors"];
+        unset($attributes["errors"]);
+        $entity = append_errors($entity, $errors); 
+    }
+    return $entity;
+}
+HTMLEntityRenderers::register("checkbox", "render_checkbox");
+
+
+function render_error($attributes, $content) {
+    return "<span class='error'>$content</span>";
+}
+HTMLEntityRenderers::register("error", "render_error");
+
+
+function render_submit_button($attributes, $content) {
+    $attributes["type"] = "submit";
+    return tag("input", $attributes);
+}
+HTMLEntityRenderers::register("submit_button", "render_submit_button");
+
+
+function labeled($what, $label, HTMLEntity $entity) {
     $id = $entity->attribute("id");
     if ($id === null) {
         $id = $entity->attribute("name");
@@ -1629,6 +1618,13 @@ function labeled($what, $label, $entity) {
         return $entity->concat($l);
     else
         return $l->concat($entity);
+}
+
+function append_errors(HTMLEntity $entity, $errors) {
+    foreach ($errors as $error) {
+        $entity = $entity->concat(tag("error", array(), $error));
+    }
+    return $entity;
 }
 
 
@@ -1655,6 +1651,14 @@ function appendRecursive($array, $value) {
 
 function _collect() {
     return _function(1, "appendRecursive", array(array()));
+}
+
+function cconst($val, $any) {
+    return $val;
+}
+
+function _const($val) {
+    return _function(1, "cconst", array($val)); 
 }
 
 ?>
