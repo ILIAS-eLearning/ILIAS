@@ -156,7 +156,7 @@ class gevNARegistrationGUI {
 		$user_id = $user->getId();
 		
 		$user_utils->setADPNumberGEV($form->getInput("adp_gev"));
-		$user_utils->setADPNumberGEV($form->getInput("adp_vfs"));
+		//$user_utils->setADPNumberGEV($form->getInput("adp_vfs"));
 		$user_utils->setJobNumber($form->getInput("position"));
 		
 		$role_utils = gevRoleUtils::getInstance();
@@ -321,11 +321,12 @@ class gevNARegistrationGUI {
 		$section4 = new ilFormSectionHeaderGUI();
 		$section4->setTitle($this->lng->txt("gev_further_information"));
 		
-		$adp_gev = new ilTextInputGUI($this->lng->txt("gev_adp_number_gev"), "adp_gev");
+		$adp_gev = new ilTextInputGUI($this->lng->txt("gev_adp_number"), "adp_gev");
+		$adp_gev->setRequired(true);
 		$form->addItem($adp_gev);
 		
-		$adp_vfs = new ilTextInputGUI($this->lng->txt("gev_adp_number_vfs"), "adp_vfs");
-		$form->addItem($adp_vfs);
+		/*$adp_vfs = new ilTextInputGUI($this->lng->txt("gev_adp_number_vfs"), "adp_vfs");
+		$form->addItem($adp_vfs);*/
 		
 		$position = new ilTextInputGUI($this->lng->txt("gev_position"), "position");
 		$form->addItem($position);
