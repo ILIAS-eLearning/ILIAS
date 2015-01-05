@@ -2711,7 +2711,7 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	$res = $ilDB->query("SELECT DISTINCT oref.ref_id "
 						."  FROM object_data od "
 						."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
-						." WHERE ".$ilDB->in("import_id", array("evg"), false, "text")
+						." WHERE ".$ilDB->in("import_id", array("gev_base"), false, "text")
 						."   AND oref.deleted IS NULL"
 						."   AND od.type = 'orgu'"
 						);
