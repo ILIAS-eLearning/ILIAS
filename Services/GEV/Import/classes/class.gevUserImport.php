@@ -1488,7 +1488,8 @@ class gevUserImport {
 			.$edu_record['hist_historic'] .", " //hist_historic
 			.$edu_record['creator_user_id'] .", " //creator
 			."UNIX_TIMESTAMP() , "//created_ts
-			.$edu_record['last_wbd_report'] .", " //last_wbd_report
+			//.$edu_record['last_wbd_report'] .", " //last_wbd_report
+			.'0000-00-00' .", " //last_wbd_report
 			.$edu_record['usr_id'] .", " //usr_id
 			.$edu_record['crs_id'] .", " //crs_id
 			.$edu_record['credit_points'] .", " //credit_points
@@ -1540,7 +1541,9 @@ class gevUserImport {
 		//get all interimUserCourseStatus
 		$this->prnt('user-course status', 3);
 
-		$sql = "SELECT * FROM interimUsercoursestatus";
+		$sql = "SELECT * FROM interimUsercoursestatus"
+." WHERE usr_id_vfs = '' OR  usr_id_vfs = 0"
+;
 		$result = $this->queryShadowDB($sql);
 		while ($record = mysql_fetch_assoc($result)){
 			//match user_id againts interimUsers.ilid

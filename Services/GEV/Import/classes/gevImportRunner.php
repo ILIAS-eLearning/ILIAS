@@ -16,7 +16,7 @@ $basedir = str_replace('/Services/GEV/Import/classes', '', $basedir);
 chdir($basedir);
 
 //SIMPLE SEC !
-require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
+//require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
 
 
 //context w/o user
