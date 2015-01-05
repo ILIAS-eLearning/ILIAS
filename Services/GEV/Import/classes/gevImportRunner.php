@@ -33,7 +33,7 @@ require_once("Services/GEV/Import/classes/class.gevUserImport.php");
 
 
 $imp = new gevUserImport();
-$imp->webmode = false;
+//$imp->webmode = false;
 
 /*
 $imp->fetchVFSUsers();
@@ -48,13 +48,13 @@ $imp->fetchGEVEduRecords();
 
 //$imp->createOrgStructure();
 
-//$imp->createOrUpdateUserAccounts();
+$imp->createOrUpdateUserAccounts();
 //$imp->assignAllUserRoles(); //ROLES BEFORE ORG-UNITS
 //$imp->assignAllUsersToOrgUnits();
 //$imp->setUsersFromGroupExitToInactive();
 
 
-//$imp->importEduRecords();
+$imp->importEduRecords();
 $imp->fixEduRecords();
 
 

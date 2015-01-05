@@ -874,13 +874,29 @@ class gevUserImport {
 		$user = new ilObjUser($user_record['ilid']);
 
 		//deactivate users
+		/*
 		if(! $user_record['active']){
 			$user->setActive(false, 6);
 		}
+		*/
 
-		$user->setPhoneMobile($user_record['fon_mobil']);
+		if(! $user->getPhoneMobile()){
+ 			if(! $user_record['ilid_vfs']){
+				$this->prnt('mobile: ' .$user->getPhoneMobile());
+				$this->prnt($user_record, 666);
 
-		$user->update();
+				$sql= "SELECT * FROM interim_gevUserUpdate_mobilePhone WHERE usr_id = " .$user_record['ilid_gev'];
+				$res = $this->queryShadowDB($sql);
+				if(mysql_num_rows($result) > 0){
+					$rec = mysql_fetch_assoc($result);
+					$user->setPhoneMobile($rec['value']);
+					$user->update();
+				}
+ 			}
+
+		}
+
+
 	}
 
 
