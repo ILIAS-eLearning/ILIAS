@@ -989,7 +989,7 @@ class gevCourseUtils {
 		return $this->getMembership()->isAssigned($a_user_id);
 	}
 	
-	public function getMembersExceptForAdmins() {
+	public function getMembersExceptOfAdmins() {
 		$ms = $this->getMembership();
 		return array_merge($ms->getMembers(), $ms->getTutors());
 	}
@@ -1535,7 +1535,7 @@ class gevCourseUtils {
 	// Desk Display creation
 	
 	public function canBuildDeskDisplays() {
-		return count($this->getMembersExceptForAdmins()) > 0;
+		return count($this->getMembersExceptOfAdmins()) > 0;
 	}
 	
 	public function buildDeskDisplays($a_path = null) {
@@ -1551,7 +1551,7 @@ class gevCourseUtils {
 		$dd->setSpaceBottom1(12.0);
 		$dd->setSpaceBottom2(8.5);
 		
-		$dd->setUsers($this->getMembersExcepxfForAdmins());
+		$dd->setUsers($this->getMembersExceptOfAdmins());
 		if ($a_path === null) {
 			$dd->deliver();
 		}
