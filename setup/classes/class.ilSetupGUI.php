@@ -53,6 +53,8 @@ class ilSetupGUI
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initDomEvent();
 
+		$tpl->addJavaScript("./Services/JavaScript/js/Basic.js", 0);
+
 		include_once("./Services/UICore/classes/class.ilUIFramework.php");
 		ilUIFramework::init($this->tpl);
 

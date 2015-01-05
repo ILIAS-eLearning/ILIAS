@@ -8838,6 +8838,9 @@ div.ilTopMemberView h3 {
   border: none;
   border-bottom: 2px solid #7c7c7c;
 }
+.ilSetupContent #ilTab {
+  margin: 7px 0px 23px 0px;
+}
 .ilTabsContentOuter {
   /* background-color: #FFFFFF; */
   padding: 0;
