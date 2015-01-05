@@ -370,9 +370,10 @@ class catDatePeriodFilterType {
 		require_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
 		require_once("Services/Calendar/classes/class.ilCalendarUtil.php");
 		
-		global $lng;
+		global $lng, $tpl;
 
 		ilCalendarUtil::initJSCalendar();
+		$tpl->addJavaScript('./Services/Form/js/date_duration.js');
 		
 		$a_tpl->setVariable('DP_LABEL_START', $a_conf[2]);
 		$a_tpl->setVariable('DP_LABEL_END', $a_conf[3]);
