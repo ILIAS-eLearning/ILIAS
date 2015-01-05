@@ -116,8 +116,7 @@ class ilImprintGUI extends ilPageObjectGUI
 		$tpl->setContent($itpl->get());
 		
 		$ilMainMenu->showLogoOnly(true);
-		$tpl->setFrameFixedWidth(true);
-
+		
 		echo $tpl->show("DEFAULT", true, false);
 		exit();
 	}

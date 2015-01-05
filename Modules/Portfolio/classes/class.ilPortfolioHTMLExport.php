@@ -230,7 +230,6 @@ class ilPortfolioHTMLExport
 		
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolioGUI.php";
 		ilObjPortfolioGUI::renderFullscreenHeader($this->object, $this->tpl, $this->object->getOwner(), true);
-		$this->tpl->setFrameFixedWidth(true);
 		
 		return $this->tpl;
 	}
