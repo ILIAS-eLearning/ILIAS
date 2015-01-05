@@ -2693,3 +2693,37 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'AD-Begleitung' WHERE title = 'AD
 $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD Gespräch'");
 
 ?>
+
+<#85>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+
+	require_once "Services/GEV/Utils/classes/class.gevOrgUnitUtils.php";
+	
+	$res = $ilDB->query("SELECT DISTINCT oref.ref_id "
+						."  FROM object_data od "
+						."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
+						." WHERE ".$ilDB->in("import_id", array("evg"), false, "text")
+						."   AND oref.deleted IS NULL"
+						."   AND od.type = 'orgu'"
+						);
+	
+	while($rec = $ilDB->fetchAssoc($res)) {
+		gevOrgUnitUtils::grantPermissionsRecursivelyFor($rec["ref_id"], "superior",
+				array( "view_employee_bookings"
+					 , "view_employee_bookings_rcrsv"
+					 , "book_employees"
+					 , "book_employees_rcrsv"
+					 , "cancel_employee_bookings"
+					 , "cancel_employee_bookings_rcrsv"
+					 ));
+	}
+?>
