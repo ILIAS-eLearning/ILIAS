@@ -1541,9 +1541,7 @@ class gevUserImport {
 		//get all interimUserCourseStatus
 		$this->prnt('user-course status', 3);
 
-		$sql = "SELECT * FROM interimUsercoursestatus"
-." WHERE usr_id_vfs = '' OR  usr_id_vfs = 0"
-;
+		$sql = "SELECT * FROM interimUsercoursestatus";
 		$result = $this->queryShadowDB($sql);
 		while ($record = mysql_fetch_assoc($result)){
 			//match user_id againts interimUsers.ilid
@@ -1567,11 +1565,46 @@ class gevUserImport {
 
 		}
 
-
-
 		$this->prnt('importEduRecords: done', 2);
 	}
 
+
+	public function fixEduRecords(){
+		$this->prnt('fixEduRecords', 1);
+		$sql = "SELECT * FROM hist_usercoursestatus";
+		
+		$result = $this->ilDB->query($sql);
+		while($record = $this->ilDB->fetchAssoc($result)){
+
+			//fix booking id			
+			if($record['wbd_booking_id'] && $record['wbd_booking_id'] != '-empty-'){
+
+				//update last_wbd_report from booking_id
+				//2014-12-30-2472
+				$sql = "UPDATE hist_usercoursestatus SET"
+				." last_wbd_report='" .substr($record['wbd_booking_id'], 0, 10) ."'"
+				." WHERE row_id = " .$record['row_id'];
+				
+				$beep = '.';
+
+			} else {
+				//set booking_id to "-empty-", if NULL
+				$sql = "UPDATE hist_usercoursestatus SET"
+				." last_wbd_report=NULL "
+				." ,wbd_booking_id='-empty-'"
+				." WHERE row_id = " .$record['row_id'];
+
+				$beep = '-';
+			}
+
+			$this->ilDB->query($sql);
+			$this->prnt($beep,-1);
+
+		}
+
+
+		$this->prnt('fixEduRecords: done', 2);
+	}
 
 
 }

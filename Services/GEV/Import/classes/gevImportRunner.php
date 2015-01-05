@@ -54,7 +54,8 @@ $imp->fetchGEVEduRecords();
 //$imp->setUsersFromGroupExitToInactive();
 
 
-$imp->importEduRecords();
+//$imp->importEduRecords();
+$imp->fixEduRecords();
 
 
 
