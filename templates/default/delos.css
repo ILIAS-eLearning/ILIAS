@@ -10635,7 +10635,7 @@ div.ilChecklist ul {
 }
 div.ilChecklist ul li {
   padding: 0;
-  font-size: 85%;
+  font-size: 90%;
 }
 div.ilChecklist ul li a,
 div.ilChecklist ul li span {
@@ -10652,7 +10652,8 @@ div.ilChecklist ul li a:hover {
 }
 div.ilChecklist ul li p,
 div.ilChecklist ul li p:hover {
-  color: #303030;
+  color: #808080;
+  font-size: 85%;
   text-decoration: none;
   padding: 0;
   margin-top: 0px;
@@ -10661,6 +10662,9 @@ div.ilChecklist ul li img {
   width: 18px;
   height: 18px;
   float: right;
+}
+.ilSetupContent div.ilChecklist {
+  min-width: 200px;
 }
 .noMargin {
   margin: 0;

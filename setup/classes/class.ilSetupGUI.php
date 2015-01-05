@@ -1986,9 +1986,13 @@ else
 	 */
 	function displayStatusPanel()
 	{
+		include_once("./Services/UIComponent/Checklist/classes/class.ilChecklistGUI.php");
+		$checklist = new ilChecklistGUI();
+		$checklist->setHeading($this->lng->txt("overall_status"));
+		
 		$OK = "<font color=\"green\"><strong>OK</strong></font>";
 
-		$this->tpl->addBlockFile("STATUS_PANEL","status_panel","tpl.status_panel.html", "setup");
+		//$this->tpl->addBlockFile("STATUS_PANEL","status_panel","tpl.status_panel.html", "setup");
 
 		$this->tpl->setVariable("TXT_OVERALL_STATUS", $this->lng->txt("overall_status"));
 		// display status
@@ -1997,15 +2001,20 @@ else
 			foreach ($this->setup->getClient()->status as $key => $val)
 			{
 				$status = ($val["status"]) ? $OK : "&nbsp;";
-				$this->tpl->setCurrentBlock("status_row");
-				$this->tpl->setVariable("TXT_STEP", $this->lng->txt("step_".$key));
-				$this->tpl->setVariable("TXT_STATUS",$status);
+//				$this->tpl->setCurrentBlock("status_row");
+//				$this->tpl->setVariable("TXT_STEP", $this->lng->txt("step_".$key));
+//				$this->tpl->setVariable("TXT_STATUS",$status);
 
 
-				$this->tpl->setVariable("TXT_COMMENT",$val["comment"]);
-				$this->tpl->parseCurrentBlock();
+//				$this->tpl->setVariable("TXT_COMMENT",$val["comment"]);
+//				$this->tpl->parseCurrentBlock();
+
+				$checklist->addEntry($this->lng->txt("step_".$key), "",
+					($val["status"]) ?
+						ilChecklistGUI::STATUS_OK : ilChecklistGUI::STATUS_NO_STATUS, false, $val["comment"]);
 			}
 		}
+		$this->tpl->setVariable("STATUS_PANEL", $checklist->getHTML());
 	}
 
 	/**

@@ -94,12 +94,12 @@ class ilChecklistGUI
 			switch ($i["status"])
 			{
 				case self::STATUS_OK:
-					$item_tpl->setVariable("STATUS_IMG", ilUtil::getImagePath("icon_ok.png"));
+					$item_tpl->setVariable("STATUS_IMG", ilUtil::getImagePath("icon_ok.svg"));
 					$item_tpl->setVariable("STATUS_ALT", $lng->txt("uic_checklist_ok"));
 					break;
 
 				case self::STATUS_NOT_OK:
-					$item_tpl->setVariable("STATUS_IMG", ilUtil::getImagePath("icon_not_ok.png"));
+					$item_tpl->setVariable("STATUS_IMG", ilUtil::getImagePath("icon_not_ok.svg"));
 					$item_tpl->setVariable("STATUS_ALT", $lng->txt("uic_checklist_not_ok"));
 					break;
 			}
