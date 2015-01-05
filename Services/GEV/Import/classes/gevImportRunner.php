@@ -33,7 +33,7 @@ require_once("Services/GEV/Import/classes/class.gevUserImport.php");
 
 
 $imp = new gevUserImport();
-//$imp->webmode = false;
+$imp->webmode = false;
 
 /*
 $imp->fetchVFSUsers();

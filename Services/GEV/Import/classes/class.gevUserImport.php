@@ -882,14 +882,13 @@ class gevUserImport {
 
 		if(! $user->getPhoneMobile()){
  			if(! $user_record['ilid_vfs']){
-				$this->prnt('mobile: ' .$user->getPhoneMobile());
-				$this->prnt($user_record, 666);
 
 				$sql= "SELECT * FROM interim_gevUserUpdate_mobilePhone WHERE usr_id = " .$user_record['ilid_gev'];
 				$res = $this->queryShadowDB($sql);
-				if(mysql_num_rows($result) > 0){
-					$rec = mysql_fetch_assoc($result);
+				if(mysql_num_rows($res) > 0){
+					$rec = mysql_fetch_assoc($res);
 					$user->setPhoneMobile($rec['value']);
+					$this->prnt('mobile: ' .$user->getPhoneMobile());
 					$user->update();
 				}
  			}
