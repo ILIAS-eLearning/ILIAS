@@ -874,11 +874,11 @@ class gevUserImport {
 		$user = new ilObjUser($user_record['ilid']);
 
 		//deactivate users
-		/*
+		
 		if(! $user_record['active']){
 			$user->setActive(false, 6);
 		}
-		*/
+		
 
 		if(! $user->getPhoneMobile()){
  			if(! $user_record['ilid_vfs']){
@@ -1268,8 +1268,8 @@ class gevUserImport {
 			}
 
 
-			$this->update_pass($user_id, $record);
-			$this->setUserAdditionalData($user_id, $record);
+			//$this->update_pass($user_id, $record);
+			//$this->setUserAdditionalData($user_id, $record);
 
 		};
 		$this->prnt('Creating/Updating UserAccounts: done', 2);

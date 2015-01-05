@@ -48,7 +48,7 @@ $imp->fetchGEVEduRecords();
 
 //$imp->createOrgStructure();
 
-$imp->createOrUpdateUserAccounts();
+//$imp->createOrUpdateUserAccounts();
 //$imp->assignAllUserRoles(); //ROLES BEFORE ORG-UNITS
 //$imp->assignAllUsersToOrgUnits();
 //$imp->setUsersFromGroupExitToInactive();
