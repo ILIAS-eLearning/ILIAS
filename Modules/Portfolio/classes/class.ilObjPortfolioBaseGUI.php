@@ -208,28 +208,34 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			}		
 		}
 
+		/* #15000
 		$bg_color = new ilColorPickerInputGUI($this->lng->txt("prtf_background_color"), "bg_color");
 		$a_form->addItem($bg_color);
 
 		$font_color = new ilColorPickerInputGUI($this->lng->txt("prtf_font_color"), "font_color");
-		$a_form->addItem($font_color);								
+		$a_form->addItem($font_color);										
+		*/
 	}
 	
 	protected function getEditFormCustomValues(array &$a_values)
 	{
 		$a_values["comments"] = $this->object->hasPublicComments();
-		$a_values["ppic"] = $this->object->hasProfilePicture();
+		$a_values["ppic"] = $this->object->hasProfilePicture();		
+		/*
 		$a_values["bg_color"] = $this->object->getBackgroundColor();
-		$a_values["font_color"] = $this->object->getFontColor();
+		$a_values["font_color"] = $this->object->getFontColor();		 
+		*/
 	}	
 	
 	public function updateCustom(ilPropertyFormGUI $a_form)
 	{				
 		$this->object->setPublicComments($a_form->getInput("comments"));
 		$this->object->setProfilePicture($a_form->getInput("ppic"));
+		/*
 		$this->object->setBackgroundColor($a_form->getInput("bg_color"));
 		$this->object->setFontcolor($a_form->getInput("font_color"));
-
+		*/
+		
 		$prfa_set = new ilSetting("prfa");
 
 		if($_FILES["banner"]["tmp_name"])
@@ -783,11 +789,11 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		}
 		
 		$a_tpl->resetHeaderBlock(false);
-		$a_tpl->setBackgroundColor($a_portfolio->getBackgroundColor());
+		// $a_tpl->setBackgroundColor($a_portfolio->getBackgroundColor());
 		$a_tpl->setBanner($banner, $banner_width, $banner_height, $a_export);
 		$a_tpl->setTitleIcon($ppic);
 		$a_tpl->setTitle($a_portfolio->getTitle());
-		$a_tpl->setTitleColor($a_portfolio->getFontColor());		
+		// $a_tpl->setTitleColor($a_portfolio->getFontColor());		
 		$a_tpl->setDescription($name);		
 		
 		// to get rid of locator in portfolio template preview

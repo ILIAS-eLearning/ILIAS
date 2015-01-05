@@ -225,12 +225,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			}
 		}		
 		
+		/* #15000
 		$bg_color = new ilColorPickerInputGUI($lng->txt("blog_background_color"), "bg_color");
 		$a_form->addItem($bg_color);
 
 		$font_color = new ilColorPickerInputGUI($lng->txt("blog_font_color"), "font_color");
 		$a_form->addItem($font_color);	
-		
+		*/
 		
 		// presentation (overview)
 		
@@ -284,8 +285,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$a_values["keywords"] = $this->object->hasKeywords();
 		$a_values["notes"] = $this->object->getNotesStatus();
 		$a_values["ppic"] = $this->object->hasProfilePicture();
+		/*
 		$a_values["bg_color"] = $this->object->getBackgroundColor();
-		$a_values["font_color"] = $this->object->getFontColor();
+		$a_values["font_color"] = $this->object->getFontColor();		 
+		*/
 		$a_values["banner"] = $this->object->getImage();
 		$a_values["rss"] = $this->object->hasRSS();
 		$a_values["abss"] = $this->object->hasAbstractShorten();		
@@ -313,8 +316,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$this->object->setKeywords($a_form->getInput("keywords"));
 		$this->object->setNotesStatus($a_form->getInput("notes"));
 		$this->object->setProfilePicture($a_form->getInput("ppic"));
+		/*
 		$this->object->setBackgroundColor($a_form->getInput("bg_color"));
-		$this->object->setFontColor($a_form->getInput("font_color"));
+		$this->object->setFontColor($a_form->getInput("font_color"));		 
+		*/
 		$this->object->setRSS($a_form->getInput("rss"));
 		$this->object->setAbstractShorten($a_form->getInput("abss"));
 		$this->object->setAbstractShortenLength($a_form->getInput("abssl"));
@@ -1297,11 +1302,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 		
 		$a_tpl->resetHeaderBlock(false);
-		$a_tpl->setBackgroundColor($this->object->getBackgroundColor());
+		// $a_tpl->setBackgroundColor($this->object->getBackgroundColor());
 		$a_tpl->setBanner($banner, $banner_width, $banner_height, $a_export);
 		$a_tpl->setTitleIcon($ppic);
 		$a_tpl->setTitle($this->object->getTitle());
-		$a_tpl->setTitleColor($this->object->getFontColor());		
+		// $a_tpl->setTitleColor($this->object->getFontColor());		
 		$a_tpl->setDescription($name);		
 		
 		// to get rid of locator in repository preview
