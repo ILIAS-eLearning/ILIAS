@@ -6595,8 +6595,8 @@ feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http:
 feed#:#block_feed_block_feed_url#:#Feed URL
 feed#:#block_feed_block_head#:#External Web Feed
 feed#:#block_feed_block_title#:#Title
-feed#:#feed_enable_rep_feeds_info#:#This option activates external web feed blocks.
-feed#:#feed_enable_rep_feeds#:#External Web Feeds in Categories
+feed#:#feed_disable_rep_feeds_info#:#Disables presentation of external web feeds in case of an unexpected problem due to an external feed source.
+feed#:#feed_disable_rep_feeds#:#Hide Web Feeds
 feed#:#feed_feed_items#:#Feed Item(s)
 feed#:#feed_loading_feed#:#Loading Feed...
 feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.

@@ -7698,8 +7698,8 @@ feed#:#block_feed_block_feed_url#:#URL des Webfeeds
 feed#:#block_feed_block_feed_url_info#:#Gültige RSS/Atom-URL erforderlich, z. B. http://www.ilias.de/rss.php
 feed#:#block_feed_block_head#:#Externer Webfeed
 feed#:#block_feed_block_title#:#Titel
-feed#:#feed_enable_rep_feeds#:#Externe Webfeeds in Kategorien
-feed#:#feed_enable_rep_feeds_info#:#Diese Option aktiviert die externen Webfeeds.
+feed#:#feed_disable_rep_feeds_info#:#Deaktiviert die Präsentation der externen Webfeeds im Falle eines Problems mit einer externen Feed-Quelle.
+feed#:#feed_disable_rep_feeds#:#Externe Webfeeds verstecken
 feed#:#feed_feed_items#:#Webfeed-Themen
 feed#:#feed_import#:#Webfeed importieren
 feed#:#feed_loading_feed#:#Newsfeed wird geladen ...
