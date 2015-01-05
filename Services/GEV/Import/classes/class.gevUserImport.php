@@ -1446,9 +1446,16 @@ class gevUserImport {
 		wbd_booking_id 		varchar(255)
 	*/
 
-	$id = $this->ilDB->nextId('hist_course');
+	//only for new course-entries...
+	$sql = " SELECT * FROM hist_usercoursestatus"
+	." WHERE usr_id=" .$edu_record['usr_id']
+	." AND crs_id=" .$edu_record['crs_id']
+	;
+	$result = $this->ilDB->query($sql);
 
-		
+	if($this->ilDB->numRows($result) == 0){
+
+		$id = $this->ilDB->nextId('hist_course');
 
 		$sql = " INSERT INTO hist_usercoursestatus ("
 			."
@@ -1499,15 +1506,20 @@ class gevUserImport {
 			.")"
 			;
 
-		$this->ilDB->query($sql);
-		$this->prnt(' .', -1);
+			$this->ilDB->query($sql);
+			$this->prnt(' .', -1);
+		} else {
+			$this->prnt(' x', -1);
+		}
+
 	}
+
 
 
 
 	public function importEduRecords(){
 		$this->prnt('importEduRecords', 1);
-
+/*
 		//get all usercoursestatus from interim
 		$this->prnt('courses (and topics)', 3);
 		$sql = "SELECT * FROM interimCourse";
@@ -1523,7 +1535,7 @@ class gevUserImport {
 			$this->writeCourseEntry($record);
 
 		}
-
+*/
 
 		//get all interimUserCourseStatus
 		$this->prnt('user-course status', 3);
