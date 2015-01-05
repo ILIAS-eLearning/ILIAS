@@ -185,60 +185,41 @@ class ilMailingListsGUI
 	}
 	
 	public function showMailingLists()
-	{		
+	{
 		global $rbacsystem;
 
 		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'Services/Contact');
-		
+
 		// check if current user may send mails
 		include_once "Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail($_SESSION["AccountId"]);
+		$mail = new ilMail($_SESSION['AccountId']);
 		$mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
-				
-		$tbl = new ilTable2GUI($this);
-		$tbl->setId('show_mlng_lists_tbl');
-		$tbl->setFormAction($this->ctrl->getFormAction($this), 'showForm');
-		$tbl->setTitle($this->lng->txt('mail_mailing_lists'));
-		$tbl->setRowTemplate('tpl.mail_mailing_lists_listrow.html', 'Services/Contact');				
 
-	 	$tbl->setDefaultOrderField('title');	
-		
-		$result = array();		
-		
-		$tbl->addColumn('', 'check', '10%', true);
-	 	$tbl->addColumn($this->lng->txt('title'), 'title', '30%');
-	 	$tbl->addColumn($this->lng->txt('description'), 'description', '30%');
-	 	$tbl->addColumn($this->lng->txt('members'), 'members', '20%');		
-		$tbl->addColumn($this->lng->txt('actions'), '', '10%');
-		
+		require_once 'Services/Contact/classes/class.ilMailingListsTableGUI.php';
+		$tbl = new ilMailingListsTableGUI($this, 'showMailingLists');
+
+		$result = array();
 		$entries = $this->mlists->getAll();
-		if (count($entries))
+		if(count($entries))
 		{
-			$tbl->enable('select_all');				
-			$tbl->setSelectAllCheckbox('ml_id');
-			
+			$tbl->enable('select_all');
 			$counter = 0;
-			
-			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-			
-			foreach ($entries as $entry)
+			require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+
+			foreach($entries as $entry)
 			{
 				if($entry->getMode() == ilMailingList::MODE_TEMPORARY)
 				{
 					continue;
 				}
-				
+
 				$result[$counter]['check'] = ilUtil::formCheckbox(0, 'ml_id[]', $entry->getId());
 				$result[$counter]['title'] = $entry->getTitle() . " [#il_ml_" . $entry->getId() . "]";
 				$result[$counter]['description'] = $entry->getDescription();
-				$result[$counter]['members'] = count($entry->getAssignedEntries());				
-				
+				$result[$counter]['members'] = count($entry->getAssignedEntries());
+
 				$this->ctrl->setParameter($this, 'ml_id',  $entry->getId());
-				//$result[$counter]['edit_text'] = $this->lng->txt("edit");
-				//$result[$counter]['edit_url'] = $this->ctrl->getLinkTarget($this, "showForm");
-				//$result[$counter]['members_text'] = $this->lng->txt("members");
-				//$result[$counter]['members_url'] = $this->ctrl->getLinkTarget($this, "showMembersList");
 
 				$current_selection_list = new ilAdvancedSelectionListGUI();
 				$current_selection_list->setListTitle($this->lng->txt("actions"));
@@ -246,39 +227,37 @@ class ilMailingListsGUI
 
 				$current_selection_list->addItem($this->lng->txt("edit"), '', $this->ctrl->getLinkTarget($this, "showForm"));
 				$current_selection_list->addItem($this->lng->txt("members"), '', $this->ctrl->getLinkTarget($this, "showMembersList"));
-				if ($mailing_allowed)
+				if($mailing_allowed)
+				{
 					$current_selection_list->addItem($this->lng->txt("send_mail_to"), '', $this->ctrl->getLinkTarget($this, "mailToList"));
+				}
 				$current_selection_list->addItem($this->lng->txt("delete"), '', $this->ctrl->getLinkTarget($this, "confirmDelete"));
-				
+
 				$result[$counter]['COMMAND_SELECTION_LIST'] = $current_selection_list->getHTML();
-				
 				++$counter;
 			}
 			
-			if ($mailing_allowed)
+			if($mailing_allowed)
+			{
 				$tbl->addMultiCommand('mailToList', $this->lng->txt('send_mail_to'));
-			$tbl->addMultiCommand('confirmDelete', $this->lng->txt('delete'));			
+			}
+			$tbl->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
 		}
 		else
 		{
 			$tbl->disable('header');
 			$tbl->disable('footer');
-
-			$tbl->setNoEntriesText($this->lng->txt('mail_search_no'));
 		}
 
 		$tbl->setData($result);
-		
-		$tbl->addCommandButton('showForm', $this->lng->txt('add'));
 
 		if(isset($_GET['ref']) && $_GET['ref'] == 'mail')
 		{
 			$tbl->addCommandButton('cancel', $this->lng->txt('cancel'));
 		}
-		
-		$this->tpl->setVariable('MAILING_LISTS', $tbl->getHTML());		
+
+		$this->tpl->setVariable('MAILING_LISTS', $tbl->getHTML());
 		$this->tpl->show();
-		
 		return true;
 	}
 
@@ -390,7 +369,7 @@ class ilMailingListsGUI
 	{
 		global $ilUser, $ilErr;
 		
-		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));		
+		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'Services/Contact');
 		
 		if($this->mlists->getCurrentMailingList()->getId())
@@ -416,49 +395,37 @@ class ilMailingListsGUI
 	
 	public function showMembersList()
 	{
-		if (!$this->mlists->getCurrentMailingList()->getId())
+		if(!$this->mlists->getCurrentMailingList()->getId())
 		{
 			$this->showMailingLists();
-			
 			return true;
 		}
 		
 		$this->ctrl->setParameter($this, 'cmd', 'post');
 		$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
-		
-		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));		
+
+		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members.html', 'Services/Contact');
-		
-		$tbl = new ilTable2GUI($this);
-		$tbl->setId('show_mlng_mmbrs_list_tbl');
-		$tbl->setFormAction($this->ctrl->getFormAction($this), 'showMemberForm');
-		$tbl->setTitle($this->lng->txt('mail_members_of_mailing_list') . ' ' .$this->mlists->getCurrentMailingList()->getTitle());
-		$tbl->setRowTemplate('tpl.mail_mailing_lists_membersrow.html', 'Services/Contact');				
 
-		$this->ctrl->setParameter($this, 'cmd', 'showMembersList');
+		require_once 'Services/Contact/classes/class.ilMailingListsMembersTableGUI.php';
+		$tbl = new ilMailingListsMembersTableGUI($this, 'showMembersList', $this->mlists->getCurrentMailingList());
+		$result = array();
 
-	 	$tbl->setDefaultOrderField('title');	
-		
-		$result = array();		
-		
-		$tbl->addColumn('', 'check', '10%');
-	 	$tbl->addColumn($this->lng->txt('title'), 'title', '90%');
-		
 		$assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
-		if (count($assigned_entries))
+		if(count($assigned_entries))
 		{
-			$tbl->enable('select_all');				
+			$tbl->enable('select_all');
 			$tbl->setSelectAllCheckbox('a_id');
-			
+
 			$counter = 0;
-			foreach ($assigned_entries as $entry)
+			foreach($assigned_entries as $entry)
 			{
 				$result[$counter]['check'] = ilUtil::formCheckbox(0, 'a_id[]', $entry['a_id']);
 				$result[$counter]['title'] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
 
 				++$counter;
 			}
-			
+
 			$tbl->addMultiCommand('confirmDeleteMembers', $this->lng->txt('delete'));
 		}
 		else
@@ -470,14 +437,10 @@ class ilMailingListsGUI
 		}
 
 		$tbl->setData($result);
-		
-		$tbl->addCommandButton('showAssignmentForm', $this->lng->txt('add'));
-		$tbl->addCommandButton('showMailingLists', $this->lng->txt('back'));
-	
+
 		$this->tpl->setVariable('MEMBERS_LIST', $tbl->getHTML());
 		$this->tpl->show();
-	
-		return true;	
+		return true;
 	}
 	
 	public function confirmDeleteMembers()
