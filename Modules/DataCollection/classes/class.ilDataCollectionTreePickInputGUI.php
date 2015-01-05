@@ -3,6 +3,7 @@
 
 include_once("./Services/Form/classes/class.ilCustomInputGUI.php");
 include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+include_once('./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php');
 
 /**
  * Class ilDataCollectionDatatype
@@ -42,9 +43,11 @@ class ilDataCollectionTreePickInputGUI extends ilCustomInputGUI{
 		$this->title_input = new ilTextInputGUI($this->getTitle(), "display_".$this->getPostVar());
 		$this->title_input->setDisabled(true);
 		$this->title_input->setInfo($lng->txt("dcl_ilias_refere	nce_info"));
+		$this->title_input->setInlineStyle('width: 98%; display:inline-block;');
 		$this->search_input = new ilTextInputGUI($this->getTitle(), "search_".$this->getPostVar());
 		$this->search_input->setDisabled(false);
 		$this->search_input->setInfo($lng->txt('dcl_ilias_reference_info'));
+		$this->search_input->setInlineStyle('width: 98%; margin-top: 5px;');
 		$this->hidden_input = new ilHiddenInputGUI($this->getPostVar());
         $this->lng = $lng;
 	}
@@ -56,7 +59,7 @@ class ilDataCollectionTreePickInputGUI extends ilCustomInputGUI{
 		$tpl->setVariable("AJAX_LINK", $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", "searchObjects"));
 		$tpl->setVariable("LOADER_PATH", ilUtil::getImagePath("loader.svg"));
         $out  = $this->title_input->getToolbarHTML();
-        $out .= "<a href='#' style='display:inline-block;' id='remove_{$this->getPostVar()}'><img src='".ilUtil::getImagePath('edit_remove.png')."' alt='remove module'></a>";
+        $out .= "<a href='#' style='display:inline-block;' id='remove_{$this->getPostVar()}'>".ilGlyphGUI::get(ilGlyphGUI::REMOVE)."</a>";
         $out .= $this->search_input->getTableFilterHTML();
         $out .= $this->hidden_input->getToolbarHTML();
         $out .= "<a href='#' id='search_button_".$this->getPostVar()."'>" . $this->lng->txt('search') . "</a>";

@@ -5,6 +5,7 @@ include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecord.php"
 include_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
 include_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php");
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
+require_once('./Modules/DataCollection/classes/class.ilDataCollectionLinkButton.php');
 
 /**
  * Class ilDataCollectionRecordListGUI
@@ -123,6 +124,17 @@ class ilDataCollectionRecordListGUI {
 
 		$tpl->addCss("./Modules/DataCollection/css/dcl_reference_hover.css");
 
+		$list = new ilDataCollectionRecordListTableGUI($this, "listRecords", $this->table_obj, $this->mode);
+		$list->setExternalSegmentation(true);
+		$list->setExternalSorting(true);
+		$list->determineLimit();
+		$list->determineOffsetAndOrder();
+		$data = $this->table_obj->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $list->getLimit(), $list->getOffset(), $list->getFilter());
+		$records = $data['records'];
+		$total = $data['total'];
+		$list->setMaxCount($total);
+		$list->setRecordData($records);
+
 		if (count($options) > 0) {
 			include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 			$table_selection = new ilSelectInputGUI('', 'table_id');
@@ -135,10 +147,20 @@ class ilDataCollectionRecordListGUI {
 			$ilToolbar->addFormButton($lng->txt('change'), 'doTableSwitch');
 			$ilToolbar->addSeparator();
 		}
-		if (($this->table_obj->getExportEnabled() || $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id))
-			&& count($this->table_obj->getExportableFields())
-		) {
-			$ilToolbar->addButton($lng->txt('dcl_export_table_excel'), $this->ctrl->getFormActionByClass("ildatacollectionrecordlistgui", "exportExcel"));
+		if (($this->table_obj->getExportEnabled() || $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id))) {
+
+			$export = ilDataCollectionLinkButton::getInstance();
+			$export->setCaption("dcl_export_table_excel");
+			$export->setUrl($this->ctrl->getFormActionByClass("ildatacollectionrecordlistgui", "exportExcel"));
+			if(count($this->table_obj->getExportableFields()) == 0 OR $total == 0)
+			{
+				$export->setUseWrapper(true);
+				$export->setDisabled(true);
+				$export->addAttribute('data-toggle', 'datacollection-tooltip', true);
+				$export->addAttribute('data-placement', 'bottom', true);
+				$export->addAttribute('title', $lng->txt('dcl_no_exportable_fields_or_no_data'), true);
+			}
+			$ilToolbar->addButtonInstance($export);
 		}
 
 		if ($this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id) AND $this->table_obj->hasCustomFields()) {
@@ -164,16 +186,7 @@ class ilDataCollectionRecordListGUI {
 				. ($this->table_obj->hasPermissionToFields($this->parent_obj->ref_id) ? $lng->txt("dcl_create_fields") : ""));
 		}
 
-		$list = new ilDataCollectionRecordListTableGUI($this, "listRecords", $this->table_obj, $this->mode);
-		$list->setExternalSegmentation(true);
-		$list->setExternalSorting(true);
-		$list->determineLimit();
-		$list->determineOffsetAndOrder();
-		$data = $this->table_obj->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $list->getLimit(), $list->getOffset(), $list->getFilter());
-		$records = $data['records'];
-		$total = $data['total'];
-		$list->setMaxCount($total);
-		$list->setRecordData($records);
+
 
 		$tpl->getStandardTemplate();
 		$tpl->setPermanentLink("dcl", $this->parent_obj->ref_id);
@@ -199,6 +212,10 @@ class ilDataCollectionRecordListGUI {
 		$list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
 		$list->setRecordData($this->table_obj->getRecordsByFilter($list->getFilter()));
 		$list->setExternalSorting(true);
+		if(!$list->dataExists()) {
+			$this->ctrl->redirect($this->parent_obj);
+		}
+
 		$list->exportData(ilTable2GUI::EXPORT_EXCEL, true);
 	}
 

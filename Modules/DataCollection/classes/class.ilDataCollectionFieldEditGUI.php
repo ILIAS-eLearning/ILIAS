@@ -294,9 +294,15 @@ class ilDataCollectionFieldEditGUI {
 						$opt->addSubItem($subitem);
 					} elseif ($property['inputformat'] == ilDataCollectionDatatype::INPUTFORMAT_NUMBER) {
 							$subitem = new ilNumberInputGUI($lng->txt('dcl_' . $property['title']), 'prop_' . $property['id']);
+
+							// TODO: Nicer way to add additional info to fields (need changes in language-logic)
+							/*if($lng->txt('dcl_'.$property['title'].'_info') != '-dcl_'.$property['title'].'_info-') {
+								$subitem->setInfo($lng->txt('dcl_'.$property['title'].'_info'));
+							}*/
 							$subitem->setSize(5);
 							if ($property['title'] == 'length') {
 								$subitem->setMaxValue(4000);
+								$subitem->setInfo($lng->txt('dcl_'.$property['title'].'_info'));
 							}
 							$opt->addSubItem($subitem);
                     } elseif ($property['inputformat'] == ilDataCollectionDatatype::INPUTFORMAT_NON_EDITABLE_VALUE) {
@@ -305,6 +311,13 @@ class ilDataCollectionFieldEditGUI {
                         $opt->addSubItem($subitem);
 					} else {
 							$subitem = new ilTextInputGUI($lng->txt('dcl_' . $property['title']), 'prop_' . $property['id']);
+							// TODO: Nicer way to add additional info to fields (need changes in language-logic)
+							/*if($lng->txt('dcl_'.$property['title'].'_info') != '-dcl_'.$property['title'].'_info-') {
+								$subitem->setInfo($lng->txt('dcl_'.$property['title'].'_info'));
+							}*/
+							if($property['title'] == 'regex') {
+								$subitem->setInfo($lng->txt('dcl_'.$property['title'].'_info'));
+							}
 							$opt->addSubItem($subitem);
 					}
 				}

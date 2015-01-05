@@ -168,4 +168,5 @@ $(document).ready(function () {
 		ilDataCollection.showCreateRecordOverlay(table_id, after_save);
 	});
 
+	$('[data-toggle="datacollection-tooltip"]').tooltip({container: 'body'});
 });
