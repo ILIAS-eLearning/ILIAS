@@ -1119,7 +1119,6 @@ if($DEBUG_HTML_OUT){
 	//die();
 
 
-
 	print '<h3>new users:</h3>';
 	$cls->export_get_new_users('html');
 
@@ -1170,7 +1169,6 @@ if($DEBUG_HTML_OUT){
 	
 
 	print '<hr>';
-
 
 
 

@@ -2727,3 +2727,26 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 					 ));
 	}
 ?>
+
+<#86>
+<?php
+	//set indizes for the history table - wow, such performance!
+	$queries =  array(
+		 "ALTER TABLE hist_course ADD INDEX hist_historic (hist_historic);"
+		,"ALTER TABLE hist_course ADD INDEX crs_id (crs_id);"
+
+		,"ALTER TABLE hist_user ADD INDEX hist_historic (hist_historic);"
+		,"ALTER TABLE hist_user ADD INDEX user_id (user_id);"
+		
+		,"ALTER TABLE hist_usercoursestatus ADD INDEX hist_historic (hist_historic);"
+		,"ALTER TABLE hist_usercoursestatus ADD INDEX crs_id (crs_id);"
+		,"ALTER TABLE hist_usercoursestatus ADD INDEX usr_id (usr_id);"
+
+	);
+	foreach ($queries as $query) {
+		$ilDB->manipulate($query);
+	}
+
+
+?>
+

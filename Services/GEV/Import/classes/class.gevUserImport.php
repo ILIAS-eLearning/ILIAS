@@ -1591,7 +1591,7 @@ class gevUserImport {
 				//set booking_id to "-empty-", if NULL
 				$sql = "UPDATE hist_usercoursestatus SET"
 				." last_wbd_report=NULL "
-				." ,wbd_booking_id='-empty-'"
+				." ,wbd_booking_id=NULL"
 				." WHERE row_id = " .$record['row_id'];
 
 				$beep = '-';
