@@ -1934,6 +1934,11 @@ else
 	 */
 	function displayProcessPanel()
 	{
+		include_once("./Services/UIComponent/Checklist/classes/class.ilChecklistGUI.php");
+		$checklist = new ilChecklistGUI();
+		$checklist->setHeading($this->lng->txt("setup_process_status"));
+
+
 		$OK = "<font color=\"green\"><strong>OK</strong></font>";
 
 		$steps = array();
@@ -1963,8 +1968,6 @@ else
 			$stpl->setVariable("TXT_ACTION",$val["text"]);
 			$stpl->setVariable("IMG_ARROW", "spacer.png");
 
-			$num++;
-
 			if ($this->cmd == $key and isset($this->cmd))
 			{
 				$stpl->setVariable("HIGHLIGHT", " style=\"font-weight:bold;\"");
@@ -1974,11 +1977,19 @@ else
 
 			$stpl->setVariable("TXT_STATUS",$status);
 			$stpl->parseCurrentBlock();
+
+			$checklist->addEntry($num.". ".$val["text"], "",
+				($val["status"]) ?
+					ilChecklistGUI::STATUS_OK : ilChecklistGUI::STATUS_NOT_OK,
+				($this->cmd == $key and isset($this->cmd)),
+				"");
+
+			$num++;
 		}
 
 		$stpl->setVariable("TXT_SETUP_PROCESS_STATUS",$this->lng->txt("setup_process_status"));
 
-		$this->tpl->setVariable("PROCESS_MENU", $stpl->get());
+		$this->tpl->setVariable("PROCESS_MENU", $checklist->getHTML());
 	}
 
 	/**
