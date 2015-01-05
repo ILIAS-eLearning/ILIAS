@@ -205,6 +205,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ppic = new ilCheckboxInputGUI($lng->txt("blog_profile_picture"), "ppic");
 		$a_form->addItem($ppic);
 		
+		if($this->id_type == self::REPOSITORY_NODE_ID)
+		{
+			$ppic->setInfo($lng->txt("blog_profile_picture_repository_info"));
+		}
+		
 		$blga_set = new ilSetting("blga");
 		if($blga_set->get("banner"))
 		{		
@@ -1260,7 +1265,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$tpl->setRightContent($a_navigation);		
 	}
 	
-		/**
+	/**
 	 * Render banner, user name
 	 * 
 	 * @param object  $a_tpl
@@ -1294,11 +1299,33 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ppic = null;
 		if($this->object->hasProfilePicture())
 		{			
-			$ppic = ilObjUser::_getPersonalPicturePath($a_user_id, "xsmall", true, true);
-			if($a_export)
-			{
-				$ppic = basename($ppic);
+			// repository (multi-user)
+			if($this->id_type == self::REPOSITORY_NODE_ID)
+			{				
+				// #15030
+				if($_GET["blpg"] && !$a_export)
+				{										
+					include_once "Modules/Blog/classes/class.ilBlogPosting.php";
+					$post = new ilBlogPosting($_GET["blpg"]);
+					$author_id = $post->getAuthor();		
+					if($author_id)
+					{
+						$ppic = ilObjUser::_getPersonalPicturePath($author_id, "xsmall", true, true);		
+						
+						$name = ilObjUser::_lookupName($author_id);
+						$name = $name["lastname"].", ".($t = $name["title"] ? $t . " " : "").$name["firstname"];
+					}
+				}
 			}
+			// workspace (author == owner)
+			else 
+			{
+				$ppic = ilObjUser::_getPersonalPicturePath($a_user_id, "xsmall", true, true);
+				if($a_export)
+				{
+					$ppic = basename($ppic);
+				}
+			}			
 		}
 		
 		$a_tpl->resetHeaderBlock(false);
