@@ -550,9 +550,9 @@ gev#:#gev_my_profile#:#Mein Profil
 gev#:#gev_my_roadmap#:#Meine Azubiroadmap
 gev#:#gev_my_settings#:#Meine Einstellungen
 gev#:#gev_my_trainer_ap#:#Meine Trainingseinsätze
-gev#:#gev_na_adviser#:#NA-Betreuer
+gev#:#gev_na_adviser#:#Hauptberuflicher Betreuer
 gev#:#gev_na_reg_no_adviser#:#Ihr Betreuer konnte nicht eindeutig bestimmt werden.
-gev#:#gev_na_adviser_input_info#:#Geben sie den Namen oder Benutzernamen ihres NA-Betreuers ein.
+gev#:#gev_na_adviser_input_info#:#Geben Sie den vollständigen Benutzernamen Ihres hauptberuflichen Betreuers ein.
 gev#:#gev_na_registration_success#:#Eine Mail zur Bestätigung ihres Accounts wurde an ihren Betreuer versandt.
 gev#:#gev_need_agb_accept#:#Sie müssen die Buchungs- und Stornierungsbedingungen akzeptieren um fortfahren zu können.
 gev#:#gev_next_course#:#Mein nächstes Training
