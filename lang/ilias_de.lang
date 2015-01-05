@@ -12399,8 +12399,10 @@ dcl#:#dcl_datetime#:#Datum
 dcl#:#dcl_file#:#Datei-Upload
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_required#:#Pflichtfeld
-dcl#:#dcl_length#:#Länge (bei mehr als 200 Zeichen nutzen Sie zusätzlich die Option Texteingabefeld)
-dcl#:#dcl_regex#:#Regulärer Ausdruck (ohne Trennsymbol/Delimiter)
+dcl#:#dcl_length#:#Länge
+dcl#:#dcl_length_info#:#(bei mehr als 200 Zeichen nutzen Sie zusätzlich die Option Texteingabefeld)
+dcl#:#dcl_regex#:#Regulärer Ausdruck
+dcl#:#dcl_regex_info#:#(ohne Trennsymbol/Delimiter)
 dcl#:#dcl_filter#:#Filter
 dcl#:#dcl_max_text_length#:#Maximale Länge
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
@@ -12712,6 +12714,7 @@ dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_save#:#Speichern
 dcl#:#dcl_description#:#Beschreibung
 dcl#:#dcl_export_table_excel#:#Export .xls
+dcl#:#dcl_no_exportable_fields_or_no_data#:#Keine exportierbaren Felder definiert oder keine Daten vorhanden
 dcl#:#dcl_confirm_delete_record#:#Möchten Sie diesen Datensatz wirklich löschen?
 dcl#:#dcl_confirm_delete_field#:#Möchten Sie dieses Feld wirklich löschen?
 dcl#:#dcl_table_info_title#:#Info

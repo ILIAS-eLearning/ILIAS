@@ -12573,8 +12573,10 @@ dcl#:#dcl_datetime#:#Datetime
 dcl#:#dcl_file#:#Fileupload
 dcl#:#dcl_field_description#:#Description
 dcl#:#dcl_field_required#:#Required
-dcl#:#dcl_length#:#Length  (for more than 200 characters, use the additional option Textarea)
-dcl#:#dcl_regex#:#Regular Expression (without delimiter)
+dcl#:#dcl_length#:#Length
+dcl#:#dcl_length_info#:#(for more than 200 characters, use the additional option Textarea)
+dcl#:#dcl_regex#:#Regular Expression
+dcl#:#dcl_regex_info#:#(without delimiter)
 dcl#:#dcl_filter#:#Filter
 dcl#:#dcl_max_text_length#:#Maximum Length
 dcl#:#dcl_wrong_length#:#The text you entered is to long.
@@ -12739,6 +12741,7 @@ administration#:#adm_social_bm_create#:#Create Social Bookmark
 administration#:#adm_social_bm_edit#:#Edit Social Bookmark
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_export_table_excel#:#Export .xls
+dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available
 dcl#:#dcl_owner_editable#:#Edit only own records
 dcl#:#dcl_order#:#Order
 dcl#:#dcl_title#:#Field Title
