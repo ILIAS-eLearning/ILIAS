@@ -142,6 +142,7 @@ class gevNAUtils {
 			return $rec["usr_id"];
 		}
 		
+		/* #901
 		$spl = explode(" ", $a_search);
 		foreach($spl as $key => $value) {
 			$search = $this->db->quote("%".trim($value)."%", "text");
@@ -156,7 +157,7 @@ class gevNAUtils {
 		if ($this->db->numRows($res) === 1) {
 			$rec = $this->db->fetchAssoc($res);
 			return $rec["usr_id"];
-		}
+		}*/
 		
 		return null;
 	}
