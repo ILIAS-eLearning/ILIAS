@@ -100,6 +100,8 @@ common#:#users_online_show_short_associated#:#Nur Trainings- und Gruppenmitglied
 common#:#usr_filter_coursemember#:#Teilnehmer eines Trainings
 common#:#usr_without_courses#:#Benutzer ohne Training zugewiesen
 common#:#webshop#:#Webshop
+common#:#show_hidden_sections#:#Weitere Informationen anzeigen &raquo;
+common#:#hide_visible_sections#:#Weitere Informationen verbergen &raquo;
 content#:#seq_abandonall#:#Die Trainingsitzung wurde abgebrochen.
 content#:#seq_coursecomplete#:#Das aktuelle Training wurde vollständig bearbeitet.
 content#:#seq_endsession#:#Die aktuelle Trainingssitzung wurde beendet.
