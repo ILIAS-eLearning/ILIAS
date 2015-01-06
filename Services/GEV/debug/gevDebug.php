@@ -6,9 +6,6 @@
 * @version	$Id$
 */
 
-//reset ilias for calls from somewhere else
-$LIVE = 1;
-
 //die();
 
 $basedir = __DIR__; 
@@ -69,7 +66,6 @@ class gevDebug {
 
 		global $ilUser, $ilDB;
 		global $ilClientIniFile;
-		global $LIVE;
 
 		$this->db = &$ilDB;
 		$this->user = &$ilUser;
@@ -80,13 +76,7 @@ class gevDebug {
 		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
 		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
 
-		if(! $LIVE){
-			$host = "localhost";
-			$user = "root";
-			$pass = "****";
-			$name = "gev_ivimport";
-		}
-
+	
 		$mysql = mysql_connect($host, $user, $pass) or die(mysql_error());
 		mysql_select_db($name, $mysql);
 		mysql_set_charset('utf8', $mysql);
@@ -423,6 +413,40 @@ class gevDebug {
 	
 
 
+	//move this into the WBD-DataConnector
+	public function fix_hist_users_calculated_fields(){
+
+		/*
+		$sql = "UPDATE hist_user SET wbd_agent_status ='aus Rolle'"
+		." WHERE wbd_agent_status IN ('aus Stellung', '0 - aus Stellung')";
+
+		$this->db->manipulate($sql);
+
+		$sql = "UPDATE hist_user SET wbd_agent_status='-empty-'"
+		." WHERE wbd_agent_status='Ohne Zuordnung'";
+
+		$this->db->manipulate($sql);
+		*/
+
+		$sql = "SELECT row_id, user_id FROM hist_user"
+			." WHERE wbd_agent_status = 'aus Rolle'"
+			." AND hist_historic=0";
+		$result = $this->db->query($sql);
+		while($record=$this->db->fetchAssoc($result)){
+			$uutils = gevUserUtils::getInstanceByObjOrId($record['user_id']);
+			$agent_status = $uutils->getWBDAgentStatus();
+			$sql = "UPDATE hist_user SET"
+				." wbd_agent_status='" .$agent_status ."'"
+				." WHERE row_id = " .$record['row_id'];
+			$this->db->manipulate($sql);	
+			print "\n";
+			print $sql;
+		}
+		
+	}
+
+
+
 
 
 
@@ -432,96 +456,9 @@ print '<pre>';
 
 //die('online');
 $debug = new gevDebug();
+$debug->fix_hist_users_calculated_fields();
 
 
-$usr_ids = array(
-266
-,289
-);
-
-foreach ($debug->getAllUsers($usr_ids) as $id=>$usr) {
-	$debug->updateHistoryForUser($usr);
-
-	print "<b>$id</b>";
-	print_r($usr->getLogin());
-	print '<hr>';
-}
-
-
-die();
-
-/*
-
-$reported1 = $debug->getDistinctNamesReported(1);
-$reported0 = $debug->getDistinctNamesReported(0);
-
-print '<br>';
-//print implode(',', $debug->getDistinctNamesReported(0));
-
-
-$intersect = array_intersect($reported1, $reported0);
-
-printToTable($reported1);
-
-
-print_r($intersect);
-*/
-
-
-/*
-$rs = array(
-	'DBV/VL-EVG',
-//	'VP',
-//	'User',
-);
-
-*/
-
-//print_r(implode(',', array_keys($debug->getUsersWithRole($rs))));
-
-
-/*printToTable($debug->getDeletedCourses());
-printToTable($debug->getDeletedCoursesBookings());
-$fragments = $debug->getDeletedCoursesOtherFragments();
-foreach ($fragments as $table => $res) {
-	print "<h1>$table</h1>";
-	printToTable($res);
-}
-
-//$debug->createBill($payment_data);
-//print_r($debug->getCurrentUserData());
-/*
-foreach ($debug->getAllUsers() as $id=>$usr) {
-	$debug->updateHistoryForUser($usr);
-
-	print "<h2>$id</h2>";
-	print_r($usr->getLogin());
-	print '<hr>';
-}
-*/
-
-/*
-$usrIds = array(
-
-);
-
-require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-foreach ($usrIds as $id) {
-	//$debug->updateHistoryForUser($usr);
-	$uutils = gevUserUtils::getInstanceByObjOrId($id);
-	$as = $uutils->getWBDAgentStatus();
-	if($as){
-		$sql = "update hist_user set agent_status = '$as' WHERE hist_historic=0 AND user_id=$id;";
-		print($sql);
-	//$debug->revertSetAgentStateForUser($id);
-	//$debug->updateHistoryForUserIfStellung($usr);
-	//$debug->setAgentStateForUser($id);
-		print '<br>';
-	}
-}
-
-*/
 
 print '<br><br><i>done.</i>';
-
 ?>
