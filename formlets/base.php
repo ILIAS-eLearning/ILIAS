@@ -133,4 +133,59 @@ class MappedCollectorFormlet extends Formlet {
     }
 }
 
+
+class InputFormlet extends Formlet implements TagBuilderCallbacks {
+    protected $_attributes;
+
+    public function __construct($attributes) {
+        guardEachAndKeys($attributes, "guardIsString", "guardIsString");
+        $this->_attributes = $attributes;
+    }
+
+    public function build(NameSource $name_source) {
+        $res = $name_source->getNameAndNext();
+        return array
+            ( "builder"    => new TagBuilder( "text_input", $this, $res["name"])
+            , "collector"   => new StringCollector($res["name"])
+            , "name_source" => $res["name_source"]
+            );
+    }
+
+    public function getContent(RenderDict $dict, $name) {
+        return null; 
+    }
+
+    public function getAttributes(RenderDict $dict, $name) {
+        $attributes = id($this->_attributes);
+        $attributes["name"] = $name; 
+        return $attributes; 
+    }
+}
+
+function _input($attributes = array()) {
+    return new InputFormlet($attributes);
+}
+
+/* A formlet collecting nothing and building a constant string. */
+class TextFormlet extends Formlet {
+    private $_content; // string
+
+    public function __construct($content) { 
+        guardIsString($content);
+        $this->_content = $content;
+    }
+
+    public function build(NameSource $name_source) {
+        return array
+            ( "builder"    => new TextBuilder($this->_content)
+            , "collector"   => new NullaryCollector()
+            , "name_source" => $name_source
+            );
+    }
+}
+
+function _text($content) {
+    return new TextFormlet($content);
+}
+
 ?>
