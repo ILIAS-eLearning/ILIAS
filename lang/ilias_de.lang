@@ -7613,7 +7613,7 @@ exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde eine neue Feedback-Datei zur
 exc#:#exc_msg_new_feedback_file_uploaded2#:#Eine neue Feedback-Datei wurde für Sie hochgeladen.
 exc#:#exc_msg_participants_removed#:#Die Teilnehmer wurden aus der Übung entfernt.
 exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
-exc#:#exc_msg_saved_grades#:#Noten wurden gespeichert.
+exc#:#exc_msg_saved_grades#:#Note(n)/Kommentar(e) für Lerner wurden gespeichert.
 exc#:#exc_msg_sure_to_deassign_participant#:#Wollen Sie wirklich die folgenden Teilnehmer aus der Übung entfernen? Alle Lösungsabgaben der Teilnehmer werden gelöscht.
 exc#:#exc_new_assignment#:#Neue Übungseinheit
 exc#:#exc_no_assignments_available#:#Keine Übungseinheiten vorhanden. Bitte wählen Sie "Übungseinheiten" und "Bearbeiten", um eine Übungseinheit zu erstellen.

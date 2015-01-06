@@ -6536,7 +6536,7 @@ exc#:#exc_msg_new_feedback_file_uploaded#:#A new feedback file has been added to
 exc#:#exc_msg_new_feedback_file_uploaded2#:#a tutor has uploaded a new feedback file for you.
 exc#:#exc_msg_participants_removed#:#The participants have been removed from the exercise.
 exc#:#exc_msg_public_submission#:#All submissions will be published after the deadline.
-exc#:#exc_msg_saved_grades#:#Grades have been saved.
+exc#:#exc_msg_saved_grades#:#Grades and comments have been saved.
 exc#:#exc_msg_sure_to_deassign_participant#:#Are you sure that you want to remove the participants from all assignments of the exercise? This will also delete all their handed in resources!
 exc#:#exc_new_assignment#:#New Assignment
 exc#:#exc_no_participants#:#There are currently no participants.
