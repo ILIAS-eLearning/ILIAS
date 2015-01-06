@@ -478,6 +478,9 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		if (!$this->checkUserID($a_recipient)) {
 			throw new Exception("This mail will only work for ILIAS-Users.");
 		}
+		if ($this->getCourseUtils()->isTemplate()) {
+			return null;
+		}
 
 		return $this->getMessage($this->getTemplateId(), $a_recipient);
 	}

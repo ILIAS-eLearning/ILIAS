@@ -53,6 +53,11 @@ class gevListForAccomodation extends gevCrsAutoMail {
 			return null;
 		}
 		
+		if ($this->getCourseUtils()->isTemplate()) {
+			return null;
+		}
+
+		
 		if ($this->checkUserID($a_recipient)) {
 			$a_recipient = array( "name" => ilObjUser::_lookupFullname($a_recipient)
 								, "email" => ilObjUser::_lookupEmail($a_recipient));
