@@ -173,10 +173,10 @@ class gevUserUtils {
 		,"DBV UVG"
 		,"DBV EVG"
 		,"TP Service"
-	
 		,"TP Basis"
 		,"VP"
 	);
+
 	
 	// Für diese Rollen wird bei der Selbstbuchung der Hinweis "Vorabendanreise 
 	// mit Führungskraft klären" angezeigt.

@@ -224,7 +224,7 @@ class ilPersonalOrgUnits {
 	public function deassignEmployee($a_superior_id, $a_employee_id){
 		$orgu = $this->getPersonalOrguBySuperiorId($a_superior_id);
 		$this->errorIfNull($orgu, 'deassignEmployee', $a_superior_id);
-		$orgu->deassignUserFromEmployeeRole(array($a_employee_id));
+		$orgu->deassignUserFromEmployeeRole($a_employee_id);
 	} 
 
 

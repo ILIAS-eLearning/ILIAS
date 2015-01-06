@@ -1309,6 +1309,7 @@ class gevUserImport {
 //." AND id BETWEEN 2755 AND 2765"
 //." LIMIT 200 OFFSET 400"
 //." AND id in (4352, 5632)"
+." AND id in (153)"
 		;
 
 		$result = $this->queryShadowDB($sql);
@@ -1584,6 +1585,7 @@ class gevUserImport {
 	}
 
 
+
 	public function fixEduRecords(){
 		$this->prnt('fixEduRecords', 1);
 		$sql = "SELECT * FROM hist_usercoursestatus";
@@ -1620,6 +1622,61 @@ class gevUserImport {
 
 		$this->prnt('fixEduRecords: done', 2);
 	}
+
+
+
+
+	// #902
+	public function reassignMiZsForExitUsers(){ 
+		//get all exited users
+		//do those have a personal org-unit?
+		//if so, get all their sub-users
+		//assign sub-users into Organisationseinheiten » Generali Versicherungen » Nebenberufsagenturen » Nebenberufsagentur ohne Zugehörigkeit
+		//delete personal org-unit
+
+
+		$this->prnt('reassignMiZsForExitUsers', 1);
+
+		$sql = "SELECT ilid, login"
+		." FROM interimOrguAssignments"
+		." INNER JOIN interimUsers ON interimOrguAssignments.interim_usr_id = interimUsers.id"
+		." WHERE orgu_id = 'exit' ";
+
+		$result = $this->queryShadowDB($sql);
+		while ($record = mysql_fetch_assoc($result)){
+			$adviser_id = $record['ilid'];
+
+			$orgu = $this->na_utils->pou->getOrgUnitOf($adviser_id);
+
+			if ( is_object($orgu) ){
+
+				$subusers = $this->na_utils->pou->getEmployeesOf($adviser_id);
+				print_r($subusers);
+				foreach ($subusers as $subuser){
+					$this->prnt('deassign: ' .$subuser);
+					$orgu->deassignUserFromEmployeeRole($subuser);
+
+				}
+				//assign to ref_id 2311(Nebenberufsagentur ohne Zugehörigkeit)
+				// LIVE
+				$orgu = new ilObjOrgUnit(2311);
+				// NLZ
+				//$orgu = new ilObjOrgUnit(101);
+				$orgu->assignUsersToEmployeeRole($subusers);
+				
+				$this->na_utils->pou->purgeOrgUnitOf($adviser_id);
+			} else {
+				$this->prnt("no orgu.");
+			}
+
+		}
+
+		$this->prnt('reassignMiZsForExitUsers: done', 2);
+
+
+	}
+
+
 
 
 }
