@@ -174,26 +174,4 @@ class TagBuilder extends Builder {
     }
 }
     
-/* A builder that calls 'build' from another object to produce its output. */
-class CallbackBuilder extends Builder {
-    private $_call_object; // callable
-    private $_name; // string
-
-    /* Construct with object to call and an array of arguments to be passed
-     * to said óbjects build method.
-     */
-    public function __construct($call_object, $name) {
-        guardIsObject($call_object);
-        guardIfNotNull($name, "guardIsString");
-        $this->_call_object = $call_object;
-        $this->_name= $name;
-    }
-
-    public function buildWithDict(RenderDict $dict) {
-        $res = $this->_call_object->getHTMLEntity($dict, $this->_name);
-        guardIsHTMLEntity($res);
-        return $res; 
-    }
-}
-
 ?>
