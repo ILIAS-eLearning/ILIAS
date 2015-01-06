@@ -2,7 +2,8 @@
 /******************************************************************************
  * Copyright (c) 2014 Richard Klees <richard.klees@rwth-aachen.de>
  *
- * Representation of html entities. 
+ * Representation of html entities. This does not in any way guarantee to 
+ * produce valid HTML or something.
  */
 
 require_once("checking.php");
@@ -84,20 +85,24 @@ class HTMLTag extends HTML {
         return $head.">".$this->_content->render()."</".$this->_name.">";        
     }
 }
+
+function html_nop() {
+    return new HTMLNop();
+}
     
-function tag($name, $attributes, $content = null) {
+function html_tag($name, $attributes, $content = null) {
     return new HTMLTag($name, $attributes, $content);
 }
 
-function literal($content) {
+function html_text($content) {
     return new HTMLText($content);
 }
 
-function concat(HTML $left, HTML $right) {
+function html_concat(HTML $left, HTML $right) {
     return new HTMLConcat($left, $right);
 }
 
-function concatA($array) {
+function html_concatA($array) {
     return new HTMLArray($array);
 }
 

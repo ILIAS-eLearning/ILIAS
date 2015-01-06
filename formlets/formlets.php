@@ -123,7 +123,7 @@ class TextAreaFormlet extends Formlet {
         if ($value === null)
             $value = $this->_value;
 
-        return $value !== null ? $value : "";
+        return $value !== null ? html_text($value) : html_nop();
     }
 
     public function getAttributes($name, RenderDict $dict) {

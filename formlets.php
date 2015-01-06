@@ -24,7 +24,6 @@ require_once("formlets/collectors.php");
 require_once("formlets/namesource.php");
 require_once("formlets/base.php");
 require_once("formlets/formlets.php");
-require_once("formlets/renderers.php");
 require_once("formlets/lib.php");
 require_once("formlets/helpers.php");
 

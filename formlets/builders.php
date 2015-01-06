@@ -123,8 +123,16 @@ class CombinedBuilder extends Builder {
     }
 
     public function buildWithDict(RenderDict $dict) {
-        return $this->_l->buildWithDict($dict)
-                ->concat($this->_r->buildWithDict($dict));
+        return html_concat( $this->_l->buildWithDict($dict)
+                          , $this->_r->buildWithDict($dict)
+                          );
+    }
+}
+
+/* A builder that produces a completely empty piece of HTML. */
+class NopBuilder extends Builder {
+    public function buildWithDict(RenderDict $dict) {
+        return html_nop();
     }
 }
 
@@ -133,7 +141,7 @@ class ConstBuilder extends Builder {
     private $_content; // string
 
     public function __construct($content) {
-        $this->_content = literal($content);
+        $this->_content = html_text($content);
     }
 
     public function buildWithDict(RenderDict $dict) {
@@ -160,7 +168,7 @@ class TagBuilder extends Builder {
         $d = _value($dict);
         $attributes = $this->_attributes_function->apply($d)->get();
         $content = $this->_content_function->apply($d)->get();
-        return tag($this->_tag_name, $attributes, $content); 
+        return html_tag($this->_tag_name, $attributes, $content); 
     }
 }
     
@@ -174,8 +182,7 @@ class CallbackBuilder extends Builder {
      */
     public function __construct($call_object, $name) {
         guardIsObject($call_object);
-        if ($name !== null)
-            guardIsString($name);
+        guardIfNotNull($name, "guardIsString");
         $this->_call_object = $call_object;
         $this->_name= $name;
     }
