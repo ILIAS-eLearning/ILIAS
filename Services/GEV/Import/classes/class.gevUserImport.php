@@ -1682,9 +1682,12 @@ class gevUserImport {
 		require_once("Services/GEV/Utils/classes/class.gevGeneralUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 
 		$gen_utils = new gevGeneralUtils();
 		$users = $gen_utils->getUsersWithGlobalRole(array('HA 84'));
+
+		$tree = ilObjOrgUnitTree::_getInstance();
 
 		foreach ($users as $user_id=>$usr){
 
@@ -1693,11 +1696,9 @@ class gevUserImport {
 			$orgus = $user_utils->getOrgUnitsWhereUserIsDirectSuperior();
 			
 			foreach($orgus as $orgu_set){
-				
 				//$orgu = new ilObjOrgUnit($orgu_set['obj_id'], false);
 				$orgu = new ilObjOrgUnit($orgu_set['ref_id'], true);
 				$this->prnt($orgu->getTitle() .' - ', -1);
-			
 				try{
 					$orgu->deassignUserFromSuperiorRole($user_id);
 					$this->prnt(' -superior ', -1);
@@ -1706,8 +1707,25 @@ class gevUserImport {
 				} catch (Exception $e){
 					//pass
 				}
+			}
+
+
+			$orgus = $tree->getOrgUnitOfUser($user_id);
+			foreach ($orgus as $ref) {
+				$orgu = new ilObjOrgUnit($ref, true);
+				$search = $usr['firstname'] .' ' .$usr['lastname'];
+				if(strpos($orgu->getTitle(), $search) !== false){
+					$this->prnt($orgu->getTitle() .' - ', -1);
+					$orgu->deassignUserFromEmployeeRole($user_id);
+					$this->prnt(' -employee ', -1);
+					$orgu->assignUsersToSuperiorRole(array($user_id));
+					$this->prnt(' +superior ', -1);
+				}
+
 				
 			}
+
+
 		}
 
 		$this->prnt('switchHA84FromSuperiorToEmployee: done', 2);
