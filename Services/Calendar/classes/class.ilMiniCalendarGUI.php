@@ -174,13 +174,6 @@ class ilMiniCalendarGUI
 			$ilCtrl->clearParametersByClass('ilcalendardaygui');
 			
 			$a_tpl->setVariable('MONTH_DAY',$month_day);
-			//$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('new.png','calendar'));
-			//$this->tpl->setVariable('NEW_ALT',$this->lng->txt('cal_new_app'));
-			//$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
-			//$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
-			//$this->tpl->setVariable('ADD_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
-			
-			//$this->tpl->setVariable('OPEN_SRC',ilUtil::getImagePath('open.png','calendar'));
 			$a_tpl->parseCurrentBlock();
 			
 			if($counter and !($counter % 7))

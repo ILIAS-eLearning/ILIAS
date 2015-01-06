@@ -117,6 +117,15 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 				$default_params["obj_id"] = $continue_data[$ref_id]['lm_page_id'];
 			}
 			*/
+
+			if ($accomplished == 'accomplished')
+			{
+				$icon = ilUtil::getImagePath("icon_ok.svg");
+			}
+			else
+			{
+				$icon = ilUtil::getImagePath("icon_not_ok.svg");
+			}
 			
 			$items[] = array("nr" => ++$counter,
 				"obj_id" => $obj_id, 
@@ -126,7 +135,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 				"title" => $ilObjDataCache->lookupTitle($obj_id),
 				"description" => $ilObjDataCache->lookupDescription($obj_id),
 				"status" => $this->lng->txt('crs_objective_'.$accomplished),
-				"status_img" => ilUtil::getImagePath('crs_'.$accomplished.'.png'),
+				"status_img" => $icon,
 				"actions" => $actions);								
 		}		
 		

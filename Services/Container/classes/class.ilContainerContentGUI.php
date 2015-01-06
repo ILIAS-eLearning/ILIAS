@@ -672,7 +672,6 @@ abstract class ilContainerContentGUI
 		$lng->loadLanguageModule("rep");
 		
 		$tpl = new ilTemplate("tpl.rep_intro.html", true, true, "Services/Repository");
-		//$tpl->setVariable("IMG_REP_LARGE", ilUtil::getImagePath("icon_root_xxl.png"));
 		$tpl->setVariable("IMG_REP_LARGE", ilObject::_getIcon("", "big", "root"));
 		$tpl->setVariable("TXT_WELCOME", $lng->txt("rep_intro"));
 		$tpl->setVariable("TXT_INTRO_1", $lng->txt("rep_intro1"));

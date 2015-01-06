@@ -347,22 +347,6 @@ class ilContainer extends ilObject
 			{
 				return $file_name;
 			}
-
-			return;
-
-			// png version? (introduced with ILIAS 4.3)
-			$file_name = $cont_dir."/icon_".$a_size.".png";
-			if (is_file($file_name))
-			{
-				return $file_name;
-			}
-			
-			// gif version? (prior to ILIAS 4.3)
-			$file_name = $cont_dir."/icon_".$a_size.".gif";
-			if (is_file($file_name))
-			{
-				return $file_name;
-			}
 		}
 		
 		return "";
@@ -378,31 +362,6 @@ class ilContainer extends ilObject
 		$this->createContainerDirectory();
 		$cont_dir = $this->getContainerDirectory();
 		
-		// save big icon
-		/*
-		$big_geom = $this->ilias->getSetting("custom_icon_big_width")."x".
-			$this->ilias->getSetting("custom_icon_big_height");
-		$big_file_name = $cont_dir."/icon_big.png";
-
-		if (is_file($a_big_icon))
-		{
-			$a_big_icon = ilUtil::escapeShellArg($a_big_icon);
-			$big_file_name = ilUtil::escapeShellArg($big_file_name);
-			ilUtil::execConvert($a_big_icon."[0] -geometry ".$big_geom." PNG:".$big_file_name);
-		}
-		if (is_file($cont_dir."/icon_big.png"))
-		{
-			ilContainer::_writeContainerSetting($this->getId(), "icon_big", 1);
-		}
-		else
-		{
-			ilContainer::_writeContainerSetting($this->getId(), "icon_big", 0);
-		}*/
-
-		// save custom icon
-		//$small_geom = $this->ilias->getSetting("custom_icon_small_width")."x".
-		//	$this->ilias->getSetting("custom_icon_small_height");
-
 		$file_name = "";
 		if ($a_custom_icon != "")
 		{
@@ -418,28 +377,6 @@ class ilContainer extends ilObject
 		{
 			ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 0);
 		}
-
-		// save tiny icon
-		/*
-		$tiny_geom = $this->ilias->getSetting("custom_icon_tiny_width")."x".
-			$this->ilias->getSetting("custom_icon_tiny_height");
-		$tiny_file_name = $cont_dir."/icon_tiny.png";
-
-		if (is_file($a_tiny_icon))
-		{
-			$a_tiny_icon = ilUtil::escapeShellArg($a_tiny_icon);
-			$tiny_file_name = ilUtil::escapeShellArg($tiny_file_name);
-			ilUtil::execConvert($a_tiny_icon."[0] -geometry ".$tiny_geom." PNG:".$tiny_file_name);
-		}
-		if (is_file($cont_dir."/icon_tiny.png"))
-		{
-			ilContainer::_writeContainerSetting($this->getId(), "icon_tiny", 1);
-		}
-		else
-		{
-			ilContainer::_writeContainerSetting($this->getId(), "icon_tiny", 0);
-		}*/
-
 	}
 
 	/**

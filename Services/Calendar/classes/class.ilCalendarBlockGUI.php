@@ -723,7 +723,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($lng->txt("calendar"));
-		#$content_block->setImage(ilUtil::getImagePath("icon_news.png"));
 		$content_block->addHeaderCommand($this->ctrl->getParentReturn($this),
 			$lng->txt("selected_items_back"));
 
