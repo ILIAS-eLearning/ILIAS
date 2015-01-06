@@ -49,7 +49,7 @@ class PureFormlet extends Formlet {
 
     public function build(NameSource $name_source) {
         return array
-            ( "builder"    => new ConstBuilder("")
+            ( "builder"    => new TextBuilder("")
             , "collector"   => new ConstCollector($this->_value)
             , "name_source" => $name_source
             );

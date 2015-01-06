@@ -10,7 +10,7 @@ require_once("helpers.php");
 require_once("base.php");
 
 /* A formlet collecting nothing and building a constant string. */
-class StaticFormlet extends Formlet {
+class TextFormlet extends Formlet {
     private $_content; // string
 
     public function __construct($content) { 
@@ -20,15 +20,15 @@ class StaticFormlet extends Formlet {
 
     public function build(NameSource $name_source) {
         return array
-            ( "builder"    => new ConstBuilder($this->_content)
+            ( "builder"    => new TextBuilder($this->_content)
             , "collector"   => new NullaryCollector()
             , "name_source" => $name_source
             );
     }
 }
 
-function _static($content) {
-    return new StaticFormlet($content);
+function _text($content) {
+    return new TextFormlet($content);
 }
 
 
@@ -147,12 +147,12 @@ function _textarea($label = null, $value = null, $attributes = null) {
 
 /* A formlet that wraps other formlets in a field set */
 function _fieldset($legend, Formlet $formlet, $attributes = array()) {
-    $ret = _static("<fieldset".keysAndValuesToHTMLAttributes($attributes).">");
+    $ret = _text("<fieldset".keysAndValuesToHTMLAttributes($attributes).">");
     if ($legend !== null) {
-        $ret = $ret->cmb(_static("<legend>$legend</legend>"));
+        $ret = $ret->cmb(_text("<legend>$legend</legend>"));
     }
     return $ret->cmb($formlet)
-               ->cmb(_static("</fieldset>"))
+               ->cmb(_text("</fieldset>"))
                ;
 } 
 

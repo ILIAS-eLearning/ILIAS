@@ -253,10 +253,10 @@ function test_MappedCollector() {
 }
 print_and_record_test("MappedCollector");
 
-function test_Static() {
-    return _test_isFormlet(_static("foobar"));
+function test_Text() {
+    return _test_isFormlet(_text("foobar"));
 }
-print_and_record_test("Static");
+print_and_record_test("Text");
 
 function test_TextInput() {
     return _test_isFormlet(_text_input());

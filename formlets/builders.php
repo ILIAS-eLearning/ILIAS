@@ -137,7 +137,7 @@ class NopBuilder extends Builder {
 }
 
 /* A builder that produces a constant output. */
-class ConstBuilder extends Builder {
+class TextBuilder extends Builder {
     private $_content; // string
 
     public function __construct($content) {
