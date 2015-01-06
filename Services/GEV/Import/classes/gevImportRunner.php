@@ -57,7 +57,8 @@ $imp->fetchGEVEduRecords();
 //$imp->importEduRecords();
 //$imp->fixEduRecords();
 
-$imp->reassignMiZsForExitUsers();
+//$imp->reassignMiZsForExitUsers();
+$imp->switchHA84FromSuperiorToEmployee();
 
 
 

@@ -1673,9 +1673,45 @@ class gevUserImport {
 
 		$this->prnt('reassignMiZsForExitUsers: done', 2);
 
-
 	}
 
+	
+	public function switchHA84FromSuperiorToEmployee(){ 
+		$this->prnt('switchHA84FromSuperiorToEmployee', 1);
+		
+		require_once("Services/GEV/Utils/classes/class.gevGeneralUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+
+		$gen_utils = new gevGeneralUtils();
+		$users = $gen_utils->getUsersWithGlobalRole(array('HA 84'));
+
+		foreach ($users as $user_id=>$usr){
+
+			$this->prnt($usr['login'] .': ');
+			$user_utils = gevUserUtils::getInstance($user_id);
+			$orgus = $user_utils->getOrgUnitsWhereUserIsDirectSuperior();
+			
+			foreach($orgus as $orgu_set){
+				
+				//$orgu = new ilObjOrgUnit($orgu_set['obj_id'], false);
+				$orgu = new ilObjOrgUnit($orgu_set['ref_id'], true);
+				$this->prnt($orgu->getTitle() .' - ', -1);
+			
+				try{
+					$orgu->deassignUserFromSuperiorRole($user_id);
+					$this->prnt(' -superior ', -1);
+					$orgu->assignUsersToEmployeeRole(array($user_id));
+					$this->prnt(' +employee ', -1);
+				} catch (Exception $e){
+					//pass
+				}
+				
+			}
+		}
+
+		$this->prnt('switchHA84FromSuperiorToEmployee: done', 2);
+	}
 
 
 
