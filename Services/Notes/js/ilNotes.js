@@ -11,14 +11,13 @@ ilNotes =
 	listNotes: function (e, hash, update_code)
 	{
 		// prevent the default action
-		if (e && e.preventDefault)
-		{
+		if (e && e.preventDefault) {
 			e.preventDefault();
 			e.stopPropagation(); // #11546 - list properties not working
 		}
-		else if (window.event && window.event.returnValue)
-		{
-			window.eventReturnValue = false;
+		else if (window.event) {			
+			window.event.returnValue = false;
+			window.event.cancelBubble = true;
 		}
 
 		// hide overlays
@@ -34,14 +33,13 @@ ilNotes =
 	listComments: function (e, hash, update_code)
 	{
 		// prevent the default action
-		if (e && e.preventDefault)
-		{
+		if (e && e.preventDefault) {
 			e.preventDefault();
 			e.stopPropagation(); // #11546 - list properties not working
 		}
-		else if (window.event && window.event.returnValue)
-		{
-			window.eventReturnValue = false;
+		else if (window.event) {			
+			window.event.returnValue = false;
+			window.event.cancelBubble = true;
 		}
 
 		// hide overlays
@@ -72,13 +70,11 @@ ilNotes =
 	cmdAjaxLink: function (e, url)
 	{
 		// prevent the default action
-		if (e && e.preventDefault)
-		{
+		if (e && e.preventDefault) {
 			e.preventDefault();
 		}
-		else if (window.event && window.event.returnValue)
-		{
-			window.eventReturnValue = false;
+		else if (window.event) {
+			window.event.returnValue = false;
 		}
 
 		this.sendAjaxGetRequestToUrl(url, {}, {mode: 'cmd'});
@@ -87,14 +83,13 @@ ilNotes =
 	cmdAjaxForm: function (e, url)
 	{
 		// prevent the default action
-		if (e && e.preventDefault)
-		{
+		if (e && e.preventDefault)	{
 			e.preventDefault();
 		}
-		else if (window.event && window.event.returnValue)
-		{
-			window.eventReturnValue = false;
+		else if (window.event) {
+			window.event.returnValue = false;
 		}
+		
 		this.sendAjaxPostRequest("ilNoteFormAjax", url, {mode: 'cmd'});
 	},
 	

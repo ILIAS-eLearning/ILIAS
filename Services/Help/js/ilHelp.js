@@ -12,8 +12,8 @@ il.Help = {
 		// prevent the default action
 		if (e && e.preventDefault) {
 			e.preventDefault();
-		} else if (window.event && window.event.returnValue) {
-			window.eventReturnValue = false;
+		} else if (window.event) {
+			window.event.returnValue = false;
 		}
 
 		// hide overlays
