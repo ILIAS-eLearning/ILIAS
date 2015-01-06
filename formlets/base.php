@@ -5,7 +5,8 @@
  * Formlets are the main abstraction to be used to build forms. First the base
  * class is defined, then some subclasses are defined that are needed to get
  * the stuff to work. Afterwards some primitives to actually build forms are
- * defined.
+ * defined. These resembles the interface presented in the paper.
+ * Some more complex and usable examples are given in formlets.php.
  */
 
 require_once("checking.php");
