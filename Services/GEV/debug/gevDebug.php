@@ -442,6 +442,30 @@ class gevDebug {
 			print "\n";
 			print $sql;
 		}
+
+
+		$sql = "SELECT row_id, user_id FROM hist_user"
+			." WHERE okz = '-empty-'"
+			." AND hist_historic=0";
+		$result = $this->db->query($sql);
+		while($record=$this->db->fetchAssoc($result)){
+			$uutils = gevUserUtils::getInstanceByObjOrId($record['user_id']);
+			$okz = $uutils->getWBDOKZ();
+
+			if($okz) {
+				$sql = "UPDATE hist_user SET"
+					." okz='" .$okz ."'"
+					." WHERE row_id = " .$record['row_id'];
+				$this->db->manipulate($sql);	
+				print "\n";
+				print $sql;
+			}
+
+		}
+
+
+
+
 		
 	}
 
