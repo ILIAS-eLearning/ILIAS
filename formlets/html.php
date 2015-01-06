@@ -8,155 +8,97 @@
 require_once("checking.php");
 require_once("helpers.php");
 
-final class HTMLEntity {
+abstract class HTML {
+    abstract public function render();
+}
+
+class HTMLNop extends HTML {
+    public function render() {
+        return "";
+    }
+}
+
+class HTMLText extends HTML {
+    private $_text; // string
+
+    public function __construct($text) {
+        guardIsString($text);
+        $this->_text = $text;
+    }
+
+    public function render() {
+        return $this->_text;
+    }
+}
+
+class HTMLConcat extends HTML {
+    private $_left; // HTML 
+    private $_right; // HTML 
+
+    public function __construct(HTML $left, HTML $right) {
+        $this->_left = $left;
+        $this->_right = $right;
+    }
+
+    public function render() {
+        return $this->_left->render().$this->_right->render();
+    }
+}
+
+class HTMLArray extends HTML {
+    private $_content; // array of HTML
+
+    public function __construct($content) {
+        guardEach($content, "guardHTML");
+    }
+
+    public function render() {
+        $res = "";
+        foreach ($this->_content as $cont) {
+            $res .= $cont->render();
+        }
+        return $res;
+    }
+}
+
+class HTMLTag extends HTML {
     private $_name; // string
-    private $_attributes; // string
-    private $_content; //
-
-    public function name() {
-        return $this->_name;
-    } 
-
-    public function attributes() {
-        return $this->_attributes;
-    }
-
-    public function attribute($name, $value = null) {
-        if ($value === null) {
-            if (array_key_exists($name, $this->_attributes)) 
-                return $this->_attributes[$name];
-            else
-                return null;
-        }
-        else {
-            guardIsString($name);
-            guardIsString($value);
-            return $this->_attribute($this->attributes(), $name, $value);    
-        }
-    }
-
-    private function _attribute($attributes, $name, $value) {
-        $attributes[$name] = $value;
-        return new HTMLEntity($this->name(), $attributes, $this->content());
-    }
-
-    public function content() {
-        return $this->_content;
-    }
+    private $_attributes; // dict of string => string
+    private $_content; // maybe HTML
 
     public function __construct($name, $attributes, $content) {
-        if ($name !== null)
-            guardIsString($name);
-        guardIsArray($attributes);
-        foreach($attributes as $key => $value) {
-            guardIsString($key);
-        }
-        if (!is_string($content) && $content !== null) {
-            $content = flatten($content);
-            guardIsArray($content);
-            foreach($content as $value) {
-                guardIsHTMLEntity($value);
-            }
-        }
+        guardIsString($name);
+        guardEachAndKeys($attributes, "guardIsString", "guardIsString");
+        guardIfNotNull($content, "guardIsHTML");
         $this->_name = $name;
         $this->_attributes = $attributes;
         $this->_content = $content;
     }
 
-    public function concat(HTMLEntity $right) {
-        return new HTMLEntity (null, array(), array($this, $right));
-    }
-
     public function render() {
-        return $this->renderWithOptions(true, false); 
-    }
-
-    public function renderWithOptions($fallback_tag, $force_tag) {
-        if ($this->content() !== null)
-            $content = []; 
-        else
-            $content = null;
-
-        if (is_string($this->content())) {
-            $content[] = $this->content();
+        $head = "<".$this->_name
+                   .keysAndValuesToHTMLAttributes($this->_attributes);
+        if ($this->_content === null || $this->_content instanceof HTMLNop) {
+            return $head."/>";
         }
-        elseif ($this->content() !== null) {
-            foreach($this->content() as $cont) {
-                if (is_string($cont))
-                    $content[] = $cont;
-                else
-                    $content[] = $cont->renderWithOptions($fallback_tag, $force_tag); 
-            }
-        }
-
-        if ($this->name() !== null)
-            return HTMLEntityRenderers::render( $this->name()
-                                              , $this->attributes()
-                                              , $content ? implode("", $content) : null
-                                              , $fallback_tag
-                                              , $force_tag
-                                              );
-        else
-            return $content ? implode("", $content) : "";
+        return $head.">".$this->_content->render()."</".$this->_name.">";        
     }
 }
-
+    
 function tag($name, $attributes, $content = null) {
-    return new HTMLEntity($name, $attributes, $content);
+    return new HTMLTag($name, $attributes, $content);
 }
 
 function literal($content) {
-    guardIsString($content); 
-    return new HTMLEntity(null, array(), $content);
+    return new HTMLText($content);
 }
 
-/******************************************************************************
- * A registry for functions to render html tags.
- */
+function concat(HTML $left, HTML $right) {
+    return new HTMLConcat($left, $right);
+}
 
-final class HTMLEntityRenderers {
-    private static $_registry = array();
-    
-    public static function register($entity_name, $fn_name, $overwrite = false) {
-        if (!$overwrite && array_key_exists($entity_name, self::$_registry)) {
-            die("HTMLEntityRenderers::register: builder for $tag_name already registered."); 
-        }
-        self::$_registry[$entity_name] = $fn_name;
-    }
-
-    private static function registered($entity_name) {
-        return array_key_exists($entity_name, self::$_registry);
-    }
-
-    private static function call($entity_name, $arr) {
-        return call_user_func_array(self::$_registry[$entity_name], $arr);
-    }
-
-    public static function render($entity_name, $attributes, $content
-                          , $fallback_tag, $force_tag) {
-        if (   (!self::registered($entity_name) && $fallback_tag)  
-            || $force_tag
-           ) {
-            if ($content !== null)
-                return "<$entity_name".keysAndValuesToHTMLAttributes($attributes)." >"
-                      .$content
-                      ."</$entity_name>"
-                      ;
-            else 
-                return "<$entity_name".keysAndValuesToHTMLAttributes($attributes)." />";
-        }
-        if (!self::registered($entity_name)) {
-            die("HTMLEntityRenderers::render: no builder for $entity_name.");
-        }
-        $res = static::call($entity_name, array($attributes, $content));
-        if ($res instanceof HTMLEntity) {
-            return $res->renderWithOptions($fallback_tag, $force_tag); 
-        }
-        if (!is_string($res)) {
-            die("HTMLEntityRenderers::render: builder for $entity_name does not return string.");
-        }
-        return $res;
-    }
+function concatA($array) {
+    return new HTMLArray($array);
 }
 
 ?>
