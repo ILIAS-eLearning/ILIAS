@@ -494,11 +494,11 @@ class gevDebug {
 				while($role_rec = mysql_fetch_assoc($res)){
 					$record['interim_old_roles'] .= $role_rec['role_title'] .' # ';
 				}
-
-				//print_r($record);
-				print implode(';', array_values($record));
-				print '<br>';
 			}
+			
+			//print_r($record);
+			print implode(';', array_values($record));
+			print '<br>';
 		}
 
 
