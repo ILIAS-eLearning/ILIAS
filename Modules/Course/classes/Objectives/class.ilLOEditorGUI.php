@@ -140,7 +140,13 @@ class ilLOEditorGUI
 				
 				// needed for editor?
 				include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
-				$pgui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));		
+				$pgui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));	
+				
+				// #14895
+				$GLOBALS['tpl']->setCurrentBlock("ContentStyle");
+				$GLOBALS['tpl']->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(0));
+				$GLOBALS['tpl']->parseCurrentBlock();
 				
 				$ret = $this->ctrl->forwardCommand($pgui);
 				if($ret)
