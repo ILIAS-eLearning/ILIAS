@@ -2786,6 +2786,37 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	/**
 	 * Used in ilContributorTableGUI
 	 */
+	public function confirmRemoveContributor()
+	{	
+		$ids = $_POST["id"];
+		
+		if(!sizeof($ids))
+		{
+			ilUtil::sendFailure($lng->txt("select_one"), true);
+			$ilCtrl->redirect($this, "contributors");
+		}
+		
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirm = new ilConfirmationGUI();
+		$confirm->setHeaderText($this->lng->txt('blog_confirm_delete_contributors'));
+		$confirm->setFormAction($this->ctrl->getFormAction($this, 'removeContributor'));
+		$confirm->setConfirm($this->lng->txt('delete'), 'removeContributor');
+		$confirm->setCancel($this->lng->txt('cancel'), 'contributors');
+		
+		include_once 'Services/User/classes/class.ilUserUtil.php';
+		
+		foreach($ids as $user_id)
+		{
+			$confirm->addItem('id[]', $user_id, 
+				ilUserUtil::getNamePresentation($user_id, false, false, "", true));
+		}
+		
+		$this->tpl->setContent($confirm->getHTML());
+	}
+	
+	/**
+	 * Used in ilContributorTableGUI
+	 */
 	public function removeContributor()
 	{
 		global $ilCtrl, $lng, $rbacadmin;

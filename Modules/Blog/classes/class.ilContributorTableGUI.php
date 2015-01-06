@@ -47,7 +47,7 @@ class ilContributorTableGUI extends ilTable2GUI
 		else
 		{
 			$this->setTitle($this->lng->txt("blog_contributors"));
-			$this->addMultiCommand("removeContributor", $this->lng->txt("remove"));
+			$this->addMultiCommand("confirmRemoveContributor", $this->lng->txt("remove"));
 		}
 		
 		$this->getItems();

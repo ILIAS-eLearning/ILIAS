@@ -15190,3 +15190,4 @@ notes#:#notes_comment_deleted#:#The comment has been deleted.
 notes#:#notes_comments_deleted#:#The comments have been deleted.
 orgu#:#ou_id_not_valid#:#Import-ID not found.
 blog#:#blog_profile_picture_repository_info#:#Profile pictures of the authors are only shown on the postings pages, not on overview pages.
+blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the following contributors?
