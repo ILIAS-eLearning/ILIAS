@@ -149,25 +149,27 @@ class TextBuilder extends Builder {
     }
 }
 
+interface TagBuilderCallbacks {
+    public function getAttributes(RenderDict $dict, $name);
+    public function getContent(RenderDict $dict, $name);
+}
+
 class TagBuilder extends Builder {
     private $_tag_name; // string
-    private $_attributes_function; // FunctionValue 
-    private $_content_function; // FunctionValue 
+    private $_callback_object; // object
+    private $_name; // string
 
-    public function __construct( $tag_name
-                               , FunctionValue $attributes_function
-                               , FunctionValue $content_function
-                               ) {
+    public function __construct( $tag_name, TagBuilderCallbacks $callback_object, $name = null) {  
         guardIsString($tag_name);
+        guardIfNotNull($name, "guardIsString");
         $this->_tag_name = $tag_name;
-        $this->_attributes_function = $attributes_function;
-        $this->_content_function = $content_function;
+        $this->_callback_object = $callback_object;
+        $this->_name = $name;
     }
 
-    public function buildWithDict(RenderDict $dict) {
-        $d = _value($dict);
-        $attributes = $this->_attributes_function->apply($d)->get();
-        $content = $this->_content_function->apply($d)->get();
+    public function buildWithDict(RenderDict $d) {
+        $attributes = $this->_callback_object->getAttributes($d, $this->_name);
+        $content = $this->_callback_object->getContent($d, $this->_name);
         return html_tag($this->_tag_name, $attributes, $content); 
     }
 }
