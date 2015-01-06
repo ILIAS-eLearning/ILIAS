@@ -705,7 +705,7 @@
 	<StyleParameter Name="background-color" Value="#D2D8E2"/>
 </Style>
 <Style Tag="div" Type="va_iheada" Class="VAccordIHeadActive">
-	<StyleParameter Name="background-image" Value="tree_exp.png"/>
+	<StyleParameter Name="background-image" Value="tree_exp.svg"/>
 </Style>
 <Style Tag="div" Type="va_ihcap" Class="VAccordIHeadCap">
 </Style>
@@ -739,7 +739,7 @@
 	<StyleParameter Name="background-color" Value="#D2D8E2"/>
 </Style>
 <Style Tag="div" Type="ha_iheada" Class="HAccordIHeadActive">
-	<StyleParameter Name="background-image" Value="tree_exp.png"/>
+	<StyleParameter Name="background-image" Value="tree_exp.svg"/>
 </Style>
 <Style Tag="div" Type="ha_ihcap" Class="HAccordIHeadCap">
 	<StyleParameter Name="transform" Value="rotate(90deg)"/>

@@ -188,7 +188,7 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 		$content_block->setColSpan(2);
 		$content_block->setTitle(sprintf($lng->txt("tagging_resources_for_tag"),
 			"<i>".$_GET["tag"]."</i>"));
-		$content_block->setImage(ilUtil::getImagePath("icon_tag.png"));
+		$content_block->setImage(ilUtil::getImagePath("icon_tag.svg"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("selected_items_back"));
 			
@@ -243,7 +243,7 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 					$tpl->setVariable("RESOURCE_HTML", $html);
 					$tpl->setVariable("ALT_TYPE", $lng->txt("obj_".$type));
 					$tpl->setVariable("IMG_TYPE",
-						ilUtil::getImagePath("icon_".$type.".png"));
+						ilUtil::getImagePath("icon_".$type.".svg"));
 					$tpl->parseCurrentBlock();
 				}
 				else

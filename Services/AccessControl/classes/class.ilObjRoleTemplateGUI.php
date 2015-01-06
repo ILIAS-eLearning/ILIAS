@@ -485,7 +485,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$this->tpl->setVariable("COL_ANZ_PLUS",4);
 		$this->tpl->setVariable("TXT_SAVE",$this->data["txt_save"]);
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_".$this->object->getType().".png"));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_".$this->object->getType().".svg"));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt($this->object->getType()));
 
 		// compute additional information in title

@@ -399,7 +399,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 			{
 				if($mail['sender_id'] == ANONYMOUS_USER_ID)
 				{
-					$mail['img_sender'] = ilUtil::getImagePath('HeaderIconAvatar.png');
+					$mail['img_sender'] = ilUtil::getImagePath('HeaderIconAvatar.svg');
 					$mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = ilMail::_getIliasMailerName();
 				}
 				else

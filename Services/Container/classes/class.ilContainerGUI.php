@@ -249,7 +249,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				true, "Services/Container");
 			$wtpl->setVariable("ALT_WARNING", $lng->txt("warning"));
 			$wtpl->setVariable("IMG_WARNING",
-				ilUtil::getImagePath("icon_alert.png"));
+				ilUtil::getImagePath("icon_alert.svg"));
 			$wtpl->setVariable("TXT_MIGRATION_INFO", $lng->txt("cntr_switch_to_new_editor_message"));
 			$wtpl->setVariable("TXT_MIGRATION_INFO", $lng->txt("cntr_switch_to_new_editor_message"));
 			$wtpl->setVariable("HREF_SWITCH_TO_NEW_EDITOR",
@@ -554,7 +554,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				if ($this->object->gotItems())
 				{
 					$toolbar->setLeadingImage(
-						ilUtil::getImagePath("arrow_upright.png"),
+						ilUtil::getImagePath("arrow_upright.svg"),
 						$lng->txt("actions")
 					);
 					$toolbar->addFormButton(
@@ -846,7 +846,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$tpl->setVariable("TXT_MIGRATION_INFO", $lng->txt("cntr_old_editor_warning"));
 		$tpl->setVariable("TXT_MIGRATION_OPEN_STD_EDITOR", $lng->txt("cntr_old_editor_open_standard_editor"));
-		$tpl->setVariable("IMG_WARNING", ilUtil::getImagePath("icon_alert.png"));
+		$tpl->setVariable("IMG_WARNING", ilUtil::getImagePath("icon_alert.svg"));
 		$tpl->setVariable("HREF_OPEN_STD_EDITOR", $ilCtrl->getLinkTarget($this, "switchToStdEditor"));
 		$tpl->setVariable("ALT_WARNING", $lng->txt("warning"));
 		
@@ -1018,7 +1018,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function addHeaderRow(&$a_tpl, $a_type, $a_show_image = true)
 	{
-		$icon = ilUtil::getImagePath("icon_".$a_type.".png");
+		$icon = ilUtil::getImagePath("icon_".$a_type.".svg");
 		$title = $this->lng->txt("objs_".$a_type);
 		
 		if ($a_show_image)
@@ -1056,7 +1056,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$nbsp = true;
 		if ($this->ilias->getSetting("icon_position_in_lists") == "item_rows")
 		{
-			$icon = ilUtil::getImagePath("icon_".$a_image_type.".png");
+			$icon = ilUtil::getImagePath("icon_".$a_image_type.".svg");
 			$alt = $this->lng->txt("obj_".$a_image_type);
 			
 			// custom icon
@@ -2120,9 +2120,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$t->addFormButton($this->lng->txt("obj_insert_into_clipboard"), "keepObjectsInClipboard");
 		$t->addFormButton($this->lng->txt("cancel"), "cancelMoveLink");
 		$t->setCloseFormTag(false);
-		$t->setLeadingImage(ilUtil::getImagePath("arrow_upright.png"), " ");
+		$t->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), " ");
 		$output = $t->getHTML().$output;
-		$t->setLeadingImage(ilUtil::getImagePath("arrow_downright.png"), " ");
+		$t->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), " ");
 		$t->setCloseFormTag(true);
 		$t->setOpenFormTag(false);
 		$output.= "<br />".$t->getHTML();
@@ -2976,7 +2976,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.container_wizard_page.html',
 	 		"Services/Container");
 	 	$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
-	 	$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$new_type.'.png'));
+	 	$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$new_type.'.svg'));
 	 	$this->tpl->setVariable('ALT_IMG',$this->lng->txt('obj_'.$new_type));
 	 	$this->tpl->setVariable('TXT_DUPLICATE',$this->lng->txt($new_type.'_wizard_page'));
 	 	$this->tpl->setVariable('INFO_DUPLICATE',$this->lng->txt($new_type.'_copy_threads_info'));

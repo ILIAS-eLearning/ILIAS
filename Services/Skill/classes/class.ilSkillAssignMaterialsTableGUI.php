@@ -106,7 +106,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("MAT_TITLE",
 				ilObject::_lookupTitle($obj_id));
 			$this->tpl->setVariable("MAT_IMG",
-				ilUtil::img(ilUtil::getImagePath("icon_".ilObject::_lookupType($obj_id).".png")));
+				ilUtil::img(ilUtil::getImagePath("icon_".ilObject::_lookupType($obj_id).".svg")));
 			$this->tpl->setVariable("TXT_REMOVE", $lng->txt("remove"));
 			$ilCtrl->setParameter($this->parent_obj, "wsp_id", $m["wsp_id"]);
 			$this->tpl->setVariable("HREF_REMOVE", $ilCtrl->getLinkTarget($this->parent_obj, "removeMaterial"));

@@ -1273,7 +1273,7 @@ return;
 					$tpl->setVariable("TXT_DELETE_SELECTED", $this->lng->txt("cont_delete_selected"));
 					$tpl->setVariable("TXT_COPY_SELECTED", $this->lng->txt("copy"));
 					$tpl->setVariable("TXT_CUT_SELECTED", $this->lng->txt("cut"));
-					$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
+					$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
 					$tpl->parseCurrentBlock();
 				}
 			}
@@ -1584,13 +1584,13 @@ return;
 		// get title
 		$pg_title = $this->getPresentationTitle();
 
-		$col_path = ilUtil::getImagePath("col.png");
-		$row_path = ilUtil::getImagePath("row.png");
+		$col_path = ilUtil::getImagePath("col.svg");
+		$row_path = ilUtil::getImagePath("row.svg");
 		$item_path = ilUtil::getImagePath("item.png");
 
 		if ($this->getOutputMode() != "offline")
 		{
-			$enlarge_path = ilUtil::getImagePath("enlarge.png");
+			$enlarge_path = ilUtil::getImagePath("enlarge.svg");
 			$wb_path = ilUtil::getWebspaceDir("output")."/";
 		}
 		else
@@ -2522,7 +2522,7 @@ return;
 //echo "<b>XML:</b>".htmlentities($xml);
 		// determine target frames for internal links
 		$wb_path = ilUtil::getWebspaceDir("output")."/";
-		$enlarge_path = ilUtil::getImagePath("enlarge.png");
+		$enlarge_path = ilUtil::getImagePath("enlarge.svg");
 		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
 			'link_params' => "ref_id=".$_GET["ref_id"],'fullscreen_link' => "",
 			'ref_id' => $_GET["ref_id"], 'webspace_path' => $wb_path);

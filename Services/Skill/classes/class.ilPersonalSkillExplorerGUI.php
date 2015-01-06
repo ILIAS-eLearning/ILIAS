@@ -199,9 +199,9 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 		$t = $a_node["type"];
 		if (in_array($t, array("sktr")))
 		{
-			return ilUtil::getImagePath("icon_skll.png");
+			return ilUtil::getImagePath("icon_skll.svg");
 		}
-		return ilUtil::getImagePath("icon_".$t.".png");
+		return ilUtil::getImagePath("icon_".$t.".svg");
 	}
 
 }

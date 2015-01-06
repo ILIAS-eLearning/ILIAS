@@ -45,14 +45,14 @@ class ilMailExplorer extends ilTreeExplorerGUI
 	{		
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
-			return ilUtil::getImagePath("icon_mail.png");
+			return ilUtil::getImagePath("icon_mail.svg");
 		}
 		else
 		{
 			$icon_type = ($a_node["m_type"] == "user_folder")
 				? "local"
 				: $a_node["m_type"];
-			return ilUtil::getImagePath("icon_".$icon_type.".png");
+			return ilUtil::getImagePath("icon_".$icon_type.".svg");
 		}
 	}		
 	

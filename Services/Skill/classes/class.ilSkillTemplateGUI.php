@@ -63,7 +63,7 @@ class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
 	{
 		global $ilTabs, $ilCtrl, $tpl, $lng;
 
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.png"));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.svg"));
 		$tpl->setTitle(
 			$lng->txt("skmg_skill_template").": ".$this->node_object->getTitle());
 	}

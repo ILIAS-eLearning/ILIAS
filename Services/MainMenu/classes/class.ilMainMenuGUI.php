@@ -177,7 +177,7 @@ class ilMainMenuGUI
 		if($this->logo_only)
 		{		
 			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
-			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
+			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
 			return;
 		}
 
@@ -383,7 +383,7 @@ class ilMainMenuGUI
 		{
 			// $this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
 			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
-			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
+			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
 		}
 		
 		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
@@ -395,7 +395,7 @@ class ilMainMenuGUI
 		else
 		{
 			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
-			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
+			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
 		}
 		*/
 		
@@ -424,7 +424,7 @@ class ilMainMenuGUI
 				$a_tpl->parseCurrentBlock();
 			}
 			$a_tpl->setCurrentBlock('status_item');
-			$a_tpl->setVariable('STATUS_IMG', ilUtil::getImagePath('icon_mail.png'));
+			$a_tpl->setVariable('STATUS_IMG', ilUtil::getImagePath('icon_mail.svg'));
 			$a_tpl->setVariable('STATUS_IMG_ALT', $lng->txt("mail"));
 			$a_tpl->setVariable('STATUS_HREF', 'ilias.php?baseClass=ilMailGUI');
 			$a_tpl->parseCurrentBlock();

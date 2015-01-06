@@ -291,7 +291,7 @@ class ilMemberExportGUI
 		
 
 		// delete button
-		$a_tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
+		$a_tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
 		$a_tpl->setCurrentBlock("tbl_action_btn");
 		$a_tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
 		$a_tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));

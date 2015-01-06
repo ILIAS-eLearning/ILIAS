@@ -964,7 +964,7 @@ abstract class ilBlockGUI
 			{
 				if ($item["checked"])
 				{
-					$item["image"] = ilUtil::getImagePath("icon_checked.png");
+					$item["image"] = ilUtil::getImagePath("icon_checked.svg");
 				}
 				$dropdown->addItem($item["text"], "", $item["href"], $item["image"],
 					$item["text"], "", "", false, $item["onclick"]);
@@ -1349,7 +1349,7 @@ abstract class ilBlockGUI
 					}
 																					
 					// normal link										
-					//$icon = ilUtil::getImagePath("details".$i.".png");
+					//$icon = ilUtil::getImagePath("details".$i.".svg");
 					$text = $lng->txt("details")." ".$i;
 					$url = $ilCtrl->getLinkTargetByClass("ilcolumngui",	"");
 					
@@ -1374,7 +1374,7 @@ abstract class ilBlockGUI
 				$this->tpl->setVariable("INFO_TEXT", $this->getFooterInfo(true));
 				$this->tpl->setVariable("ALT_DET_INFO", $lng->txt("info_short"));
 				$this->tpl->setVariable("DI_BLOCK_ID", $this->getBlockType()."_".$this->getBlockId());
-				$this->tpl->setVariable("IMG_DET_INFO", ilUtil::getImagePath("icon_info.png"));
+				$this->tpl->setVariable("IMG_DET_INFO", ilUtil::getImagePath("icon_info.svg"));
 				$this->tpl->parseCurrentBlock();
 			}
 			

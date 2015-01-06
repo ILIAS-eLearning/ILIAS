@@ -192,8 +192,8 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 
 		// Assigned ?
 		$this->tpl->setVariable("ASSIGNED_IMG_OK", $a_set['status']
-				? ilUtil::getImagePath('icon_ok.png')
-				: ilUtil::getImagePath('icon_not_ok.png')
+				? ilUtil::getImagePath('icon_ok.svg')
+				: ilUtil::getImagePath('icon_not_ok.svg')
 		);
 		$this->tpl->setVariable("ASSIGNED_STATUS", $a_set['status']
 				? $this->lng->txt('trac_assigned')

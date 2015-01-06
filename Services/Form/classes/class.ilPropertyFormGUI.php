@@ -822,7 +822,7 @@ class ilPropertyFormGUI extends ilFormGUI
 			{
 				$this->tpl->setCurrentBlock("alert");
 				$this->tpl->setVariable("IMG_ALERT",
-					ilUtil::getImagePath("icon_alert.png"));
+					ilUtil::getImagePath("icon_alert.svg"));
 				$this->tpl->setVariable("ALT_ALERT",
 					$lng->txt("alert"));
 				$this->tpl->setVariable("TXT_ALERT",

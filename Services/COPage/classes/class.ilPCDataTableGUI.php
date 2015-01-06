@@ -126,7 +126,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 					} 
 					$dtpl->setCurrentBlock("col_icon");
 					$dtpl->setVariable("COL_ICON_ALT", $lng->txt("content_column"));
-					$dtpl->setVariable("COL_ICON", ilUtil::getImagePath("col.png"));
+					$dtpl->setVariable("COL_ICON", ilUtil::getImagePath("col.svg"));
 					$dtpl->setVariable("COL_ONCLICK", "COL_".$move_type);
 					$dtpl->setVariable("NR", $j);
 					$dtpl->parseCurrentBlock();
@@ -162,7 +162,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 					}
 					$dtpl->setCurrentBlock("row_icon");
 					$dtpl->setVariable("ROW_ICON_ALT", $lng->txt("content_row"));
-					$dtpl->setVariable("ROW_ICON", ilUtil::getImagePath("row.png"));
+					$dtpl->setVariable("ROW_ICON", ilUtil::getImagePath("row.svg"));
 					$dtpl->setVariable("ROW_ONCLICK", "ROW_".$move_type);
 					$dtpl->setVariable("NR", $i);
 					$dtpl->parseCurrentBlock();
@@ -545,7 +545,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 					}
 					$dtpl->setCurrentBlock("col_icon");
 					$dtpl->setVariable("COL_ICON_ALT", $lng->txt("content_column"));
-					$dtpl->setVariable("COL_ICON", ilUtil::getImagePath("col.png"));
+					$dtpl->setVariable("COL_ICON", ilUtil::getImagePath("col.svg"));
 					$dtpl->setVariable("COL_ONCLICK", "COL_".$move_type);
 					$dtpl->setVariable("NR", $j);
 					$dtpl->parseCurrentBlock();
@@ -581,7 +581,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 					}
 					$dtpl->setCurrentBlock("row_icon");
 					$dtpl->setVariable("ROW_ICON_ALT", $lng->txt("content_row"));
-					$dtpl->setVariable("ROW_ICON", ilUtil::getImagePath("row.png"));
+					$dtpl->setVariable("ROW_ICON", ilUtil::getImagePath("row.svg"));
 					$dtpl->setVariable("ROW_ONCLICK", "ROW_".$move_type);
 					$dtpl->setVariable("NR", $i);
 					$dtpl->parseCurrentBlock();

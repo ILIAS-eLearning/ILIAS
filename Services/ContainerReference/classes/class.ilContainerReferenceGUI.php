@@ -326,7 +326,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this,'new_type',$this->getReferenceType());
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setTitle($this->lng->txt($this->getReferenceType().'_new'));
-		$this->form->setTitleIcon(ilUtil::getImagePath('icon_'.$this->getReferenceType().'.png'));
+		$this->form->setTitleIcon(ilUtil::getImagePath('icon_'.$this->getReferenceType().'.svg'));
 		
 		// Show selection
 		$select = new ilSelectInputGUI($this->lng->txt('objs_'.$this->getTargetType()),'target_id');
@@ -354,7 +354,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setTitle($this->lng->txt($this->getReferenceType().'_edit'));
-		$this->form->setTitleIcon(ilUtil::getImagePath('icon_'.$this->getReferenceType().'.png'));
+		$this->form->setTitleIcon(ilUtil::getImagePath('icon_'.$this->getReferenceType().'.svg'));
 		
 		// Show selection
 		$select = new ilSelectInputGUI($this->lng->txt('objs_'.$this->getTargetType()),'target_id');

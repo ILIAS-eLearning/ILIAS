@@ -594,7 +594,7 @@ class ilInternalLinkGUI
 					{
 						$css_row = "tblrow1";
 						$tpl->setCurrentBlock("icon");
-						$tpl->setVariable("ICON_SRC", ilUtil::getImagePath("icon_fold.png"));
+						$tpl->setVariable("ICON_SRC", ilUtil::getImagePath("icon_fold.svg"));
 						$tpl->parseCurrentBlock();
 						$tpl->setCurrentBlock("link_row");
 						$tpl->setVariable("ROWCLASS", $css_row);
@@ -624,7 +624,7 @@ class ilInternalLinkGUI
 								? "tblrow1"
 								: "tblrow2";
 							$tpl->setCurrentBlock("icon");
-							$tpl->setVariable("ICON_SRC", ilUtil::getImagePath("icon_fold.png"));
+							$tpl->setVariable("ICON_SRC", ilUtil::getImagePath("icon_fold.svg"));
 							$tpl->parseCurrentBlock();
 							$tpl->setCurrentBlock("link_row");
 							$tpl->setVariable("ROWCLASS", $css_row);

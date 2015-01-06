@@ -1204,7 +1204,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	{
 		global $objDefinition;
 		
-		$icon = ilUtil::getImagePath("icon_".$a_type.".png");
+		$icon = ilUtil::getImagePath("icon_".$a_type.".svg");
 		if (!$objDefinition->isPlugin($a_type))
 		{
 			$title = $this->lng->txt("objs_".$a_type);
@@ -1250,11 +1250,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$type = ilObject::_lookupType($par_id);
 		if (!in_array($type, array("lm", "dbk", "sahs", "htlm")))
 		{
-			$icon = ilUtil::getImagePath("icon_".$type.".png");
+			$icon = ilUtil::getImagePath("icon_".$type.".svg");
 		}
 		else
 		{
-			$icon = ilUtil::getImagePath("icon_lm.png");
+			$icon = ilUtil::getImagePath("icon_lm.svg");
 		}
 		
 		// custom icon
@@ -1338,12 +1338,12 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		{
 			if (!is_array($a_image_type) && !in_array($a_image_type, array("lm", "dbk", "htlm", "sahs")))
 			{
-				$icon = ilUtil::getImagePath("icon_".$a_image_type.".png");
+				$icon = ilUtil::getImagePath("icon_".$a_image_type.".svg");
 				$title = $this->lng->txt("obj_".$a_image_type);
 			}
 			else
 			{
-				$icon = ilUtil::getImagePath("icon_lm.png");
+				$icon = ilUtil::getImagePath("icon_lm.svg");
 				$title = $this->lng->txt("learning_resource");
 			}
 			
@@ -1470,7 +1470,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		
 		$top_tb = new ilToolbarGUI();
 		$top_tb->setFormAction($ilCtrl->getFormAction($this));
-		$top_tb->setLeadingImage(ilUtil::getImagePath("arrow_upright.png"), $lng->txt("actions"));
+		$top_tb->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), $lng->txt("actions"));
 		if($this->view == self::VIEW_SELECTED_ITEMS)
 		{
 			$top_tb->addFormButton($lng->txt("remove"), "confirmRemove");
@@ -1484,7 +1484,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$top_tb->setCloseFormTag(false);
 
 		$bot_tb = new ilToolbarGUI();
-		$bot_tb->setLeadingImage(ilUtil::getImagePath("arrow_downright.png"), $lng->txt("actions"));
+		$bot_tb->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), $lng->txt("actions"));
 		if($this->view == self::VIEW_SELECTED_ITEMS)
 		{
 			$bot_tb->addFormButton($lng->txt("remove"), "confirmRemove");

@@ -571,7 +571,7 @@ class ilConditionHandlerGUI
 			$title = ilObject::_lookupTitle($condition['trigger_obj_id']).			
 				" (".$this->lng->txt("condition").": ".
 				$this->lng->txt('condition_'.$condition['operator']).")";			
-			$icon = ilUtil::getImagePath('icon_'.$condition['trigger_type'].'_s.png');
+			$icon = ilUtil::getImagePath('icon_'.$condition['trigger_type'].'.svg');
 			$alt = $this->lng->txt('obj_'.$condition['trigger_type']);
 						
 			$cgui->addItem("conditions[]", $condition_id, $title, $icon, $alt);
@@ -873,7 +873,7 @@ class ilConditionHandlerGUI
 	 	switch($a_mode)
 	 	{
 	 		case 'edit':
-	 			$this->form->setTitleIcon(ilUtil::getImagePath('icon_'.$this->getTargetType().'.png'));
+	 			$this->form->setTitleIcon(ilUtil::getImagePath('icon_'.$this->getTargetType().'.svg'));
 	 			$this->form->setTitle($this->lng->txt('rbac_edit_condition'));
 	 			$this->form->addCommandButton('updateCondition',$this->lng->txt('save'));
 	 			$this->form->addCommandButton('listConditions',$this->lng->txt('cancel'));
@@ -881,7 +881,7 @@ class ilConditionHandlerGUI
 	 			
 	 		
 	 		case 'add':
-	 			$this->form->setTitleIcon(ilUtil::getImagePath('icon_'.$this->getTargetType().'.png'));
+	 			$this->form->setTitleIcon(ilUtil::getImagePath('icon_'.$this->getTargetType().'.svg'));
 	 			$this->form->setTitle($this->lng->txt('add_condition'));
 	 			$this->form->addCommandButton('assign',$this->lng->txt('save'));
 	 			$this->form->addCommandButton('selector',$this->lng->txt('back'));

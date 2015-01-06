@@ -89,7 +89,7 @@ class ilClipboardTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setCurrentBlock("thumbnail");
 			$this->tpl->setVariable("IMG_THUMB",
-				ilUtil::getImagePath("icon_pg.png"));
+				ilUtil::getImagePath("icon_pg.svg"));
 			$this->tpl->parseCurrentBlock();
 		}
 

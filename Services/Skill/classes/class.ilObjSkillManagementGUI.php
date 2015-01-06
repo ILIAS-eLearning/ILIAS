@@ -447,7 +447,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 			{
 				$node_obj = ilSkillTreeNodeFactory::getInstance($id);
 				$confirmation_gui->addItem("id[]", $node_obj->getId(),
-					$node_obj->getTitle(), ilUtil::getImagePath("icon_".$node_obj->getType().".png"));
+					$node_obj->getTitle(), ilUtil::getImagePath("icon_".$node_obj->getType().".svg"));
 			}
 		}
 

@@ -227,7 +227,7 @@ td.ilFileUploadEntryFileName {
 	background-image: url(../../../../templates/default/images/tree_exp.svg);
 }
 .ilFileUploadError td.ilFileUploadEntryFileName {
-	background-image: url(../../../../templates/default/images/icon_alert.png);
+	background-image: url(../../../../templates/default/images/icon_alert.svg);
 	background-position: 4px 6px;
 	font-weight: normal;
 	padding-left: 24px;
@@ -293,7 +293,7 @@ td.ilFileUploadEntryFileName {
 	line-height: 15px;
 }
 .ilFileUploadSuccess .ilFileUploadEntryCancel {
-    background: transparent url(../../../../templates/default/images/icon_ok.png) no-repeat 2px 50%;   
+    background: transparent url(../../../../templates/default/images/icon_ok.svg) no-repeat 2px 50%;
 }
 
 /* file options */

@@ -99,7 +99,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeIcon($a_node)
 	{		
-		return ilUtil::getImagePath("icon_taxn.png");
+		return ilUtil::getImagePath("icon_taxn.svg");
 	}
 	
 	/**

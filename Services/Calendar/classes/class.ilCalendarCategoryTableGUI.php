@@ -108,18 +108,18 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		switch($a_set['type'])
 		{
 			case ilCalendarCategory::TYPE_GLOBAL:
-				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_calg.png'));
+				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_calg.svg'));
 				$this->tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_system'));
 				break;
 				
 			case ilCalendarCategory::TYPE_USR:
-				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_usr.png'));
+				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_usr.svg'));
 				$this->tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_personal'));
 				break;
 			
 			case ilCalendarCategory::TYPE_OBJ:
 				$type = ilObject::_lookupType($a_set['obj_id']);
-				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_'.$type.'.png'));
+				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_'.$type.'.svg'));
 				$this->tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_'.$type));
 				break;				
 		}

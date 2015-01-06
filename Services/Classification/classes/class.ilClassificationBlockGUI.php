@@ -280,7 +280,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 							$ltpl->setVariable("RESOURCE_HTML", $html);
 							$ltpl->setVariable("ALT_TYPE", $lng->txt("obj_".$type));
 							$ltpl->setVariable("IMG_TYPE",
-								ilUtil::getImagePath("icon_".$type.".png"));
+								ilUtil::getImagePath("icon_".$type.".svg"));
 							$ltpl->parseCurrentBlock();
 						}
 					}

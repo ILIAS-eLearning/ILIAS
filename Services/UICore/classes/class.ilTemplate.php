@@ -2335,7 +2335,7 @@ class ilTemplate extends ilTemplateX
 		// Add arrow if desired
 		if($this->admin_panel_arrow)
 		{
-			$toolb->setLeadingImage(ilUtil::getImagePath("arrow_upright.png"), $lng->txt("actions"));
+			$toolb->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), $lng->txt("actions"));
 		}
 
 		if ($adm_cmds)
@@ -2364,7 +2364,7 @@ class ilTemplate extends ilTemplateX
 			$this->setCurrentBlock("adm_view_components2");
 			if ($this->admin_panel_arrow)
 			{
-				$toolb->setLeadingImage(ilUtil::getImagePath("arrow_downright.png"), $lng->txt("actions"));
+				$toolb->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), $lng->txt("actions"));
 			}
 			$this->setVariable("ADM_PANEL2", $toolb->getHTML());
 

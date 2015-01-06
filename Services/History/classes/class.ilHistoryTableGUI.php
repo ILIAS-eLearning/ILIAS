@@ -95,7 +95,7 @@ class ilHistoryTableGUI extends ilTable2GUI
 			}
 
 			$this->tpl->setCurrentBlock("item_icon");
-			$this->tpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_".$img_type.".png"));
+			$this->tpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_".$img_type.".svg"));
 			$this->tpl->parseCurrentBlock();
 
 			if ($class != "")

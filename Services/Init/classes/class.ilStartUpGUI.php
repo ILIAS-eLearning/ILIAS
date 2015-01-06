@@ -1882,7 +1882,7 @@ class ilStartUpGUI
 		ilUIFramework::init();
 		
 		$tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
-		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.png'));
+		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.svg'));
 
 		if($a_show_back)
 		{

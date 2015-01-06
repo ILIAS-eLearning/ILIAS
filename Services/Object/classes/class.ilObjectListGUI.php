@@ -2025,7 +2025,7 @@ class ilObjectListGUI
 					$this->ctpl = new ilTemplate("tpl.container_list_item_commands.html", true, true,
 						"Services/Container", "DEFAULT", false, true);
 					$this->ctpl->setCurrentBlock('payment');
-					$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays.png'));
+					$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays.svg'));
 					$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_buyable'));
 					$this->ctpl->parseCurrentBlock();
 
@@ -2604,7 +2604,7 @@ class ilObjectListGUI
 		$cmd_link = $this->getCommandLink("infoScreen");
 		$cmd_frame = $this->getCommandFrame("infoScreen");
 		$this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame,
-			ilUtil::getImagePath("icon_info.png"));
+			ilUtil::getImagePath("icon_info.svg"));
 	}		
 	
 	/**
@@ -3154,7 +3154,7 @@ class ilObjectListGUI
 				include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
 				$lng->loadLanguageModule("tagging");
 				$this->addHeaderIcon("tags", 					
-					ilUtil::getImagePath("icon_tag.png"),
+					ilUtil::getImagePath("icon_tag.svg"),
 					$lng->txt("tagging_tags").": ".count($tags),
 					ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js),
 					count($tags));				
@@ -3172,7 +3172,7 @@ class ilObjectListGUI
 			if($this->notes_enabled && $cnt[$this->obj_id][IL_NOTE_PRIVATE] > 0)
 			{
 				$this->addHeaderIcon("notes",
-					ilUtil::getImagePath("note_unlabeled.png"),
+					ilUtil::getImagePath("note_unlabeled.svg"),
 					$lng->txt("private_notes").": ".$cnt[$this->obj_id][IL_NOTE_PRIVATE],
 					ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js),
 					$cnt[$this->obj_id][IL_NOTE_PRIVATE]
@@ -3184,7 +3184,7 @@ class ilObjectListGUI
 				$lng->loadLanguageModule("notes");
 				
 				$this->addHeaderIcon("comments",
-					ilUtil::getImagePath("comment_unlabeled.png"),
+					ilUtil::getImagePath("comment_unlabeled.svg"),
 					$lng->txt("notes_public_comments").": ".$cnt[$this->obj_id][IL_NOTE_PUBLIC],
 					ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js),
 					$cnt[$this->obj_id][IL_NOTE_PUBLIC]);
@@ -3428,7 +3428,7 @@ class ilObjectListGUI
 				$this->ctrl->setParameter($this->container_obj,'expand',-1 * $this->obj_id);
 				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'',$this->getUniqueItemId(true)));
 				$this->ctrl->clearParameters($this->container_obj);
-				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_exp.png'));
+				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_exp.svg'));
 			$this->tpl->setVariable('EXP_ALT',$this->lng->txt('collapse'));
 			}
 			else
@@ -3436,7 +3436,7 @@ class ilObjectListGUI
 				$this->ctrl->setParameter($this->container_obj,'expand',$this->obj_id);
 				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'',$this->getUniqueItemId(true)));
 				$this->ctrl->clearParameters($this->container_obj);
-				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_col.png'));
+				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_col.svg'));
 				$this->tpl->setVariable('EXP_ALT',$this->lng->txt('expand'));
 			}
 			

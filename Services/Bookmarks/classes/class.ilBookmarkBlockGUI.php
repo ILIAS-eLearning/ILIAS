@@ -26,7 +26,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		
 		parent::ilBlockGUI();
 		
-		$this->setImage(ilUtil::getImagePath("icon_bm.png"));
+		$this->setImage(ilUtil::getImagePath("icon_bm.svg"));
 		$this->setTitle($lng->txt("my_bms"));
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
@@ -223,7 +223,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 				ilBookmarkFolder::_getParentId($sess_cur_bm_folder));
 
 			$data[] = array(
-				"img" => ilUtil::getImagePath("icon_bmf.png"),
+				"img" => ilUtil::getImagePath("icon_bmf.svg"),
 				"alt" => $lng->txt("bmf"),
 				"title" => "..",
 				"link" => $ilCtrl->getLinkTarget($this, "setCurrentBookmarkFolder"));
@@ -238,7 +238,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 				case "bmf":
 					$ilCtrl->setParameter($this, "curBMFolder", $bm_item["obj_id"]);
 					$data[] = array(
-						"img" => ilUtil::getImagePath("icon_bmf.png"),
+						"img" => ilUtil::getImagePath("icon_bmf.svg"),
 						"alt" => $lng->txt("bmf"),
 						"title" => ilUtil::prepareFormOutput($bm_item["title"]),
 						"desc" => ilUtil::prepareFormOutput($bm_item["desc"]),

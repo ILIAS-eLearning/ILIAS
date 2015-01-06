@@ -44,12 +44,12 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
 
 		if($a_set["img"] == ilObjectPermissionStatusGUI::IMG_OK)
 		{
-			$img_path = ilUtil::getImagePath("icon_ok.png");
+			$img_path = ilUtil::getImagePath("icon_ok.svg");
 			$img_info = $lng->txt("info_assigned");
 		}
 		else
 		{
-			$img_path = ilUtil::getImagePath("icon_not_ok.png");
+			$img_path = ilUtil::getImagePath("icon_not_ok.svg");
 			$img_info = $lng->txt("info_not_assigned");
 		}
 		$this->tpl->setVariable("IMG_PATH", $img_path);

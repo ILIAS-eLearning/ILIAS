@@ -214,7 +214,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		$tpl->setVariable("TXT_SHOW", $lng->txt("select"));
 		$tpl->setVariable("CMD_SHOW", "saveSelection");
 		$tpl->setVariable("TXT_ACTION", $lng->txt("select"));
-		$tpl->setVariable("SRC_ACTION", ilUtil::getImagePath("arrow_downright.png"));
+		$tpl->setVariable("SRC_ACTION", ilUtil::getImagePath("arrow_downright.svg"));
 		$tpl->setVariable("FORM_ACTION", $ilCtrl->getFormActionByClass("ilcalendarcategorygui"));
 		$tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));
 		
@@ -254,23 +254,23 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		switch($a_set['type'])
 		{
 			case ilCalendarCategory::TYPE_GLOBAL:
-				$a_tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_calg.png'));
+				$a_tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_calg.svg'));
 				$a_tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_system'));
 				break;
 				
 			case ilCalendarCategory::TYPE_USR:
-				$a_tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_usr.png'));
+				$a_tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_usr.svg'));
 				$a_tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_personal'));
 				break;
 			
 			case ilCalendarCategory::TYPE_OBJ:
 				$type = ilObject::_lookupType($a_set['obj_id']);
-				$a_tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_'.$type.'.png'));
+				$a_tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_'.$type.'.svg'));
 				$a_tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_'.$type));
 				break;				
 
 			case ilCalendarCategory::TYPE_BOOK:
-				$a_tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_book.png'));
+				$a_tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_book.svg'));
 				$a_tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_'.$type));
 				break;				
 		}

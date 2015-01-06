@@ -446,7 +446,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		if ($adm_cmds)
 		{
 			$this->tpl->setCurrentBlock("lucene_adm_view_components");
-			$this->tpl->setVariable("LUCENE_ADM_IMG_ARROW", ilUtil::getImagePath("arrow_upright.png"));
+			$this->tpl->setVariable("LUCENE_ADM_IMG_ARROW", ilUtil::getImagePath("arrow_upright.svg"));
 			$this->tpl->setVariable("LUCENE_ADM_ALT_ARROW", $lng->txt("actions"));
 			$this->tpl->parseCurrentBlock();
 			$adm_view_cmp = true;

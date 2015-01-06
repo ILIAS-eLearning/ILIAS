@@ -1068,7 +1068,7 @@ class ilExplorer
 		if ($this->output_icons)
 		{
 			$tpl->setCurrentBlock("icon");
-			$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"].".png", $a_option["type"], $a_obj_id));
+			$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"].".svg", $a_option["type"], $a_obj_id));
 			
 			$tpl->setVariable("TARGET_ID" , "iconid_".$a_node_id);
 			$this->iconList[] = "iconid_".$a_node_id;

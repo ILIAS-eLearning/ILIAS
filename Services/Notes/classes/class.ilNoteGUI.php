@@ -812,7 +812,7 @@ if ($this->private_enabled && $this->public_enabled
 				
 				$tpl->setCurrentBlock("multiple_commands");
 				$tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
-				$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
+				$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
 				$tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
 				$tpl->setVariable("TXT_PRINT_NOTES", $this->lng->txt("print"));
 				$tpl->setVariable("TXT_EXPORT_NOTES", $this->lng->txt("exp_html"));

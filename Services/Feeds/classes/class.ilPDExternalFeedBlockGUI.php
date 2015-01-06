@@ -372,7 +372,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($this->getTitle());
-		$content_block->setImage(ilUtil::getImagePath("icon_feed.png"));
+		$content_block->setImage(ilUtil::getImagePath("icon_feed.svg"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("selected_items_back"));
 
@@ -470,7 +470,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		// add items to delete
 		$c_gui->addItem("external_feed_block_id",
 			$this->feed_block->getId(), $this->feed_block->getTitle(),
-			ilUtil::getImagePath("icon_feed.png"));
+			ilUtil::getImagePath("icon_feed.svg"));
 		
 		return $c_gui->getHTML();
 	}

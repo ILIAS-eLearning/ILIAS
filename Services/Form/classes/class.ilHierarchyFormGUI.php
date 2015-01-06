@@ -558,11 +558,11 @@ class ilHierarchyFormGUI extends ilFormGUI
 						$ttpl->setVariable("MCMD_ALT", $lng->txt("commands"));
 						if ($sec == "1")
 						{
-							$ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_downright.png"));
+							$ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_downright.svg"));
 						}
 						else
 						{
-							$ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_upright.png"));
+							$ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_upright.svg"));
 						}
 						$ttpl->parseCurrentBlock();
 					}
@@ -1046,7 +1046,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 	*/
 	function getChildIcon($a_item)
 	{
-		return ilUtil::getImagePath("icon_".$a_item["type"].".png");
+		return ilUtil::getImagePath("icon_".$a_item["type"].".svg");
 	}
 	
 	/**

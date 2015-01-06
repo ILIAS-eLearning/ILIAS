@@ -112,7 +112,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->tpl->setTitle('['.$this->object->getLogin().'] '.$this->object->getTitle());
 			$this->tpl->setDescription($this->object->getLongDescription());
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType().".png"), $this->lng->txt("obj_" . $this->object->getType()));
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType().".svg"), $this->lng->txt("obj_" . $this->object->getType()));
 		}
 		else
 		{

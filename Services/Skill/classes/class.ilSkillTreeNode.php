@@ -843,7 +843,7 @@ class ilSkillTreeNode
 			? "_off"
 			: "";
 			
-		$a_name = "icon_".$a_type.$a_size.$off.".png";
+		$a_name = "icon_".$a_type.$a_size.$off.".svg";
 		if ($a_type == "sktr")
 		{
 			include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
@@ -851,7 +851,7 @@ class ilSkillTreeNode
 			$type = ilSkillTreeNode::_lookupType($tid);
 			if ($type == "sctp")
 			{
-				$a_name = "icon_sctr".$a_size.$off.".png";
+				$a_name = "icon_sctr".$a_size.$off.".svg";
 			}
 		}
 		$vers = "vers=".str_replace(array(".", " "), "-", ILIAS_VERSION);

@@ -28,7 +28,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		parent::__construct();
 
 		$this->setLimit(5);
-		$this->setImage(ilUtil::getImagePath('icon_mail.png'));
+		$this->setImage(ilUtil::getImagePath('icon_mail.svg'));
 		$this->setTitle($lng->txt('mail'));
 		$this->setAvailableDetailLevels(3);
 	}
@@ -178,7 +178,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			else
 			{
 				$this->tpl->setVariable('PUBLIC_NAME_LONG', ilMail::_getIliasMailerName());
-				$this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIconAvatar.png'));
+				$this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIconAvatar.svg'));
 				$this->tpl->setVariable('ALT_SENDER', ilMail::_getIliasMailerName());
 			}
 
@@ -234,7 +234,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			$_GET["mobj_id"]));
 		$content_block->setTitle($lng->txt("message"));
 		$content_block->setColSpan(2);
-		$content_block->setImage(ilUtil::getImagePath("icon_mail.png"));
+		$content_block->setImage(ilUtil::getImagePath("icon_mail.svg"));
 		$content_block->addHeaderCommand($ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"),
 			$lng->txt("selected_items_back"));
 

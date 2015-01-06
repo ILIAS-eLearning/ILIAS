@@ -106,7 +106,7 @@ class ilBookmarkAdministrationTableGUI extends ilTable2GUI
 			
 		// icon
 		$img_type = ($a_data["type"] == "bmf"  || $a_data["type"] == "parent") ? "bmf" : $a_data["type"]; // #10556
-		$val = ilUtil::getImagePath("icon_".$img_type.".png");
+		$val = ilUtil::getImagePath("icon_".$img_type.".svg");
 		$this->tpl->setVariable("VAL_ICON", $val);
 		$this->tpl->setVariable("VAL_ICON_ALT", $lng->txt("icon")." ".$lng->txt($a_data["type"]));
 		

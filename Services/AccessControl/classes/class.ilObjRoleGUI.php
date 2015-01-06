@@ -220,12 +220,12 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_desktop_item_list.html", "Services/AccessControl");
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role.png'));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role.svg'));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_role'));
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('role_assigned_desk_items').' ('.$this->object->getTitle().')');
 		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
 		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.png'));
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.svg'));
 
 		$counter = 0;
 
@@ -276,7 +276,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_ask_delete_desktop_item.html", "Services/AccessControl");
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role.png'));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role.svg'));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_role'));
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('role_assigned_desk_items').' ('.$this->object->getTitle().')');
 		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
@@ -926,7 +926,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			'role',
 			$this->object->getId(),
 			$this->object->getTitle(),
-			ilUtil::getImagePath('icon_role.png')
+			ilUtil::getImagePath('icon_role.svg')
 		);
 		
 		$this->tpl->setContent($confirm->getHTML());
@@ -1483,7 +1483,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		$this->tpl->setTitle($this->lng->txt('role'));
 		$this->tpl->setDescription($this->object->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_role.png"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_role.svg"));
 
 		$this->getTabs($this->tabs_gui);
 	}

@@ -227,12 +227,12 @@ class ilRatingGUI
 					if ($ref_rating >= $i)
 					{
 						$ttpl->setVariable("SRC_ICON",
-							ilUtil::getImagePath("icon_rate_on.png"));
+							ilUtil::getImagePath("icon_rate_on.svg"));
 					}
 					else
 					{
 						$ttpl->setVariable("SRC_ICON",
-							ilUtil::getImagePath("icon_rate_off.png"));
+							ilUtil::getImagePath("icon_rate_off.svg"));
 					}
 					$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
 					$ttpl->parseCurrentBlock();
@@ -310,7 +310,7 @@ class ilRatingGUI
 						
 						$ttpl->setCurrentBlock("rating_mark");
 						$ttpl->setVariable("SRC_MARK",
-							ilUtil::getImagePath("icon_rate_marker.png"));
+							ilUtil::getImagePath("icon_rate_marker.svg"));
 						$ttpl->parseCurrentBlock();
 					}
 					
@@ -318,18 +318,18 @@ class ilRatingGUI
 					if ($overall_rating["avg"] >= $i)
 					{
 						$ttpl->setVariable("SRC_ICON",
-							ilUtil::getImagePath("icon_rate_on.png"));
+							ilUtil::getImagePath("icon_rate_on.svg"));
 					}
 					else if ($overall_rating["avg"] + 1 <= $i)
 					{
 						$ttpl->setVariable("SRC_ICON",
-							ilUtil::getImagePath("icon_rate_off.png"));
+							ilUtil::getImagePath("icon_rate_off.svg"));
 					}
 					else
 					{
 						$nr = round(($overall_rating["avg"] + 1 - $i) * 10);
 						$ttpl->setVariable("SRC_ICON",
-							ilUtil::getImagePath("icon_rate_$nr.png"));
+							ilUtil::getImagePath("icon_rate_$nr.svg"));
 					}
 					$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
 					
@@ -480,7 +480,7 @@ class ilRatingGUI
 			{
 				$ttpl->setCurrentBlock("rating_mark");
 				$ttpl->setVariable("SRC_MARK",
-					ilUtil::getImagePath("icon_rate_marker.png"));
+					ilUtil::getImagePath("icon_rate_marker.svg"));
 				$ttpl->parseCurrentBlock();
 			}
 
@@ -488,18 +488,18 @@ class ilRatingGUI
 			if ($rating["avg"] >= $i)
 			{
 				$ttpl->setVariable("SRC_ICON",
-					ilUtil::getImagePath("icon_rate_on.png"));
+					ilUtil::getImagePath("icon_rate_on.svg"));
 			}
 			else if ($rating["avg"] + 1 <= $i)
 			{
 				$ttpl->setVariable("SRC_ICON",
-					ilUtil::getImagePath("icon_rate_off.png"));
+					ilUtil::getImagePath("icon_rate_off.svg"));
 			}
 			else
 			{
 				$nr = round(($rating["avg"] + 1 - $i) * 10);
 				$ttpl->setVariable("SRC_ICON",
-					ilUtil::getImagePath("icon_rate_$nr.png"));
+					ilUtil::getImagePath("icon_rate_$nr.svg"));
 			}
 			$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
 			$ttpl->parseCurrentBlock();

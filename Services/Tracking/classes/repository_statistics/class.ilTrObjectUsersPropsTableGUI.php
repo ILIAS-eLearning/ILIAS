@@ -316,7 +316,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 							$timing = "";
 						}
 						$this->tpl->setCurrentBlock('warning_img');
-						$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.png'));
+						$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.svg'));
 						$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed').$timing);
 						$this->tpl->parseCurrentBlock();
 					}
