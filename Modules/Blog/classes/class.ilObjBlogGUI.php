@@ -2792,8 +2792,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		if(!sizeof($ids))
 		{
-			ilUtil::sendFailure($lng->txt("select_one"), true);
-			$ilCtrl->redirect($this, "contributors");
+			ilUtil::sendFailure($this->lng->txt("select_one"), true);
+			$this->ctrl->redirect($this, "contributors");
 		}
 		
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
