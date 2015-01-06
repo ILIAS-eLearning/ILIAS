@@ -447,6 +447,67 @@ class gevDebug {
 
 
 
+	public function find_users_with_missing_roles(){
+
+		$head = array(
+			'user_id', 'firstname', 'lastname', 'org_unit', 'position_key', 'wbd_type',
+			'interim_id', 'interim_vkey_gev', 'interim_vkey_vfs', 
+			'interim_old_roles'
+		);
+		print implode(';', $head);
+		print '<br>';
+
+		$sql = "SELECT user_id, firstname, lastname, org_unit, position_key, wbd_type FROM hist_user"
+			." WHERE wbd_agent_status = 'aus Rolle'"
+			." AND hist_historic = 0";
+
+		$result = $this->db->query($sql);
+		while($record=$this->db->fetchAssoc($result)){
+			
+
+			$sql = "SELECT id, vkey_gev, vkey_vfs FROM interimUsers"
+			." WHERE interimUsers.ilid = " .$record['user_id'];
+			$res = mysql_query($sql, $this->importDB);
+			
+			$record['interim_id'] = '';
+			$record['interim_vkey_gev'] = '';
+			$record['interim_vkey_vfs'] = '';
+			$record['interim_old_roles'] = '';
+			
+			if(mysql_num_rows($res) > 0){
+
+				$record['interim_id'] = $rec['id'];
+				$record['interim_vkey_gev'] = $rec['vkey_gev'];
+				$record['interim_vkey_vfs'] = $rec['vkey_vfs'];
+
+				$rec = mysql_fetch_assoc($res);
+
+				//print_r($rec);
+
+				$sql="SELECT interimRoles.title AS role_title FROM interimRoles"
+				." INNER JOIN interimUserRoles ON interimRoles.id=interimUserRoles.interim_role_id"
+				." WHERE interimUserRoles.interim_usr_id = "
+				.$rec['id'];
+
+
+				$res = mysql_query($sql, $this->importDB);
+				while($role_rec = mysql_fetch_assoc($res)){
+					$record['interim_old_roles'] .= $role_rec['role_title'] .' # ';
+				}
+
+				//print_r($record);
+				print implode(';', array_values($record));
+				print '<br>';
+			}
+		}
+
+
+	}
+
+
+	
+
+
 
 
 
@@ -456,7 +517,8 @@ print '<pre>';
 
 //die('online');
 $debug = new gevDebug();
-$debug->fix_hist_users_calculated_fields();
+//$debug->fix_hist_users_calculated_fields();
+$debug->find_users_with_missing_roles();
 
 
 
