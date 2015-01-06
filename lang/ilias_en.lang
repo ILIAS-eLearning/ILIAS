@@ -1063,22 +1063,22 @@ assessment#:#tst_results_access_date_desc#:#Participants get access to their tes
 assessment#:#tst_results_access_finished#:#After Test Pass is Finished
 assessment#:#tst_results_access_finished_desc#:#ILIAS displays the test results after the test pass is finished. After finishing the test pass participants can access their test results on the 'Info'-tab at any time.
 assessment#:#tst_results_access_enabled#:#Access to Test Results
-assessment#:#tst_results_access_enabled_desc#:#A button 'Show Test Results' will be diplayed to participants on the 'Info'-tab. Options in this and the following sections below configure what information is to be included into the report and when it will be accessible.
+assessment#:#tst_results_access_enabled_desc#:#A button 'Show Test Results' will be displayed to participants on the 'Info'-tab. Options in this and the following sections below configure what information is to be included into the report and when it will be accessible.
 assessment#:#tst_results_access_setting#:#Point in Time
 assessment#:#tst_results_details_options#:#Further Details to be Included in Test Results
 assessment#:#tst_results_grading_opt_show_both#:#Show Passed/Failed Status and Resulting Mark
 assessment#:#tst_results_grading_opt_show_none#:#Do NOT show Passed/Failed Status or Resulting Mark
 assessment#:#tst_results_grading_opt_show_status#:#Show "Passed" / "Failed" Status
-assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the "Passed" / "Failed" Status will append the summary test result. Participants can access their test results on the 'Ino'-tab. <br />
+assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the "Passed" / "Failed" Status will be appended to the summary test result. Participants can access their test results on the 'Info'-tab. <br />
 assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark
-assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will append the summary test result. Participants can access their test results on the 'Ino'-tab.
+assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results on the 'Info'-tab.
 assessment#:#tst_results_aggregated#:#Aggregated Test Results
 assessment#:#tst_results_back_evaluation#:#Back to Evaluation Overview
 assessment#:#tst_results_back_introduction#:#Back to Introductory Message
 assessment#:#tst_results_back_overview#:#Back to Results Overview
 assessment#:#tst_results_overview_pass#:#Results Overview for Pass %s
 assessment#:#tst_results_overview#:#Pass Overview of the Test Results
-assessment#:#tst_show_pass_details_desc#:#A table containing question titles and points attained will append the summary test result.
+assessment#:#tst_show_pass_details_desc#:#A table containing question titles and points attained will be appended to the summary test result.
 assessment#:#tst_show_solution_details_desc#:#As an add-on  to the 'Points Attained per Question'-table, the participant get a link to a page for each question. This linked page contains the question, the answer provided by the participant, information on whether this was the correct answer and points attained by this answer.
 assessment#:#tst_show_solution_printview_desc#:#An overview of all questions with the answers of the respective participant is generated. This list will be offered on the 'Info'-tab and at the end of a test prior to the final submission.
 assessment#:#tst_show_solution_feedback_desc#:#Feedback related to the answers provided by the participant is displayed. Please mind  that this option becomes effective only if you have activated 'Scored Answers of Participant'  and feedback was prepared along with the questions in the first place.
@@ -14476,7 +14476,7 @@ poll#:#poll_mode_personal_info#:#A list of participants with their respective vo
 poll#:#poll_non_anonymous_warning#:#Your name and vote are visible for administrators in the results.
 poll#:#poll_result_answers#:#Votes
 poll#:#poll_result_users#:#Participants
-user#:#usr_id#:#System ID
+user#:#usr_id#:#User ID
 meta#:#meta_c_XK#:#Kosovo
 certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Matriculation number of the user
