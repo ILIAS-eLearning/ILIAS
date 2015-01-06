@@ -209,7 +209,7 @@ class ilObjectCopyGUI
 		}
 		else
 		{
-			$t->addFormButton($lng->txt("copy"), "saveTarget");
+			$t->addFormButton($lng->txt("paste"), "saveTarget");
 		}
 		$t->addSeparator();
 		$t->addFormButton($lng->txt("obj_insert_into_clipboard"), "keepObjectsInClipboard");
