@@ -229,10 +229,6 @@ class ilLearningProgressBaseGUI
 	{
 		if($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP)
 		{
-			//$this->tpl->setCurrentBlock("header_image");
-			//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.png"));
-			//$this->tpl->parseCurrentBlock();
-			//$this->tpl->setVariable("HEADER",$this->lng->txt("personal_desktop"));
 			$this->tpl->setTitle($this->lng->txt("learning_progress"));
 			
 			// set locator

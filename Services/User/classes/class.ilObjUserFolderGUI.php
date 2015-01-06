@@ -1484,7 +1484,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		// SET TEXT VARIABLES
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_usr"));
-		//$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath("icon_usr_b.png"));
 		$this->tpl->setVariable("TYPE_IMG",ilObject::_getIcon("", "", "usr"));
 		$this->tpl->setVariable("TITLE",$title);
 		$this->tpl->setVariable("TXT_TIME_LIMIT",$this->lng->txt("time_limit"));

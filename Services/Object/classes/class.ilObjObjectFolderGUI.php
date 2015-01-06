@@ -116,7 +116,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType()."_b.png",$this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setTitle($this->object->getTitle());
 
 		foreach ($this->data["cols"] as $val)
 		{

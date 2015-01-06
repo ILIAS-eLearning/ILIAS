@@ -204,7 +204,7 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
 		$ilCtrl->setParameterByClass("ilpagelayoutgui", "obj_id", $this->obj->id);
 		$ilTabs->addTarget("properties",
 			$ilCtrl->getLinkTarget($this, "properties"), array("properties","", ""), "", "");
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.png"));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.svg"));
 		$tpl->setTitle($this->layout_object->getTitle());
 		$tpl->setDescription("");
 		//	$tpl->setTitle(

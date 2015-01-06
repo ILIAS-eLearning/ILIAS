@@ -156,8 +156,6 @@ class ilBookmarkAdministrationGUI
 		}
 		ilUtil::infoPanel();
 
-//		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.png"),
-//			"");
 		$this->tpl->setTitle($this->lng->txt("bookmarks"));
 	}
 

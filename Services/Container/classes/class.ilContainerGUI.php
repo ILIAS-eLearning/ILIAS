@@ -3283,8 +3283,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$style_id = 0;
 		}
 		$page_gui->setTabHook($this, "addPageTabs");
-//		$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.png"));
-//		$tpl->setTitle($this->lng->txt("page").": ".$this->obj->getTitle());
 		$ilCtrl->getHTML($page_gui);
 		$ilTabs->setTabActive("obj_sty");
 		

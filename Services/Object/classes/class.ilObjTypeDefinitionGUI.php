@@ -112,7 +112,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 		
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("obj_".$this->object->getType())." '".$this->object->getTitle()."'","icon_".$this->object->getType()."_b.png",$this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setTitle($this->lng->txt("obj_".$this->object->getType())." '".$this->object->getTitle()."'");
 
 		foreach ($this->data["cols"] as $val)
 		{
@@ -324,7 +324,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 		
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("edit_operations")." ".strtolower($this->lng->txt("of"))." '".$this->object->getTitle()."'","icon_".$this->object->getType()."_b.png",$this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setTitle($this->lng->txt("edit_operations")." ".strtolower($this->lng->txt("of"))." '".$this->object->getTitle()."'");
 
 		foreach ($this->data["cols"] as $val)
 		{

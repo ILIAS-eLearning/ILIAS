@@ -155,7 +155,7 @@ class ilPasswordAssistanceGUI
 	public function showAssistanceForm(ilPropertyFormGUI $form = null)
 	{
 		ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assistance.html', true);
-		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth_b.png'));
+		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
 		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
 
 		$this->tpl->setVariable
@@ -409,7 +409,7 @@ class ilPasswordAssistanceGUI
 		else
 		{
 			ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assignpassword.html', true);
-			$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth_b.png'));
+			$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
 			$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
 
 			$this->tpl->setVariable('TXT_ENTER_USERNAME_AND_NEW_PASSWORD', $this->lng->txt('pwassist_enter_username_and_new_password'));
@@ -570,7 +570,7 @@ class ilPasswordAssistanceGUI
 	public function showUsernameAssistanceForm(ilPropertyFormGUI $form = null)
 	{
 		ilStartUpGUI::initStartUpTemplate('tpl.pwassist_username_assistance.html', true);
-		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth_b.png'));
+		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
 		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
 
 		$this->tpl->setVariable
@@ -719,7 +719,7 @@ class ilPasswordAssistanceGUI
 	{
 		ilStartUpGUI::initStartUpTemplate('tpl.pwassist_message.html', true);
 		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
-		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth_b.png'));
+		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
 
 		$this->tpl->setVariable('TXT_TEXT', str_replace("\\n", '<br />', $text));
 		$this->tpl->show();
