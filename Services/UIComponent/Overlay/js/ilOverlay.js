@@ -267,10 +267,10 @@ il.Overlay = {
 			return;
 		}
 		
-		/*el = document.getElementById(k);
+		el = document.getElementById(il.Overlay.openOverlayId);
 		if (!il.Util.coordsInElement(e.pageX, e.pageY, el)) {
-			il.Overlay.hide(null, k);
-		}*/
+			il.Overlay.hide(null, il.Overlay.openOverlayId);
+		}
 		// gev-patch start
 		/*
 		var k, isIn, tgt, el, el_reg;
