@@ -31,8 +31,6 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		parent::__construct();
 		parent::ilBlockGUI();
 		
-		$this->setImage(ilUtil::getImagePath("icon_feed_s.png"));
-
 		$lng->loadLanguageModule("feed");
 		$this->setLimit(5);
 		$this->setRowTemplate("tpl.block_external_feed_row.html", "Services/Feeds");

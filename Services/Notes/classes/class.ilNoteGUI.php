@@ -1175,7 +1175,7 @@ return;
 									$sub_link = "goto.php?target=sahs_".$vis_ref_id."_".$a_obj_id;
 									include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 									$sub_title = ilSCORM2004Node::_lookupTitle($a_obj_id);
-									$sub_icon = ilUtil::getImagePath("icon_".$a_obj_type."_s.png");
+									$sub_icon = ilUtil::getImagePath("icon_".$a_obj_type.".svg");
 								}
 							}
 							else if ($type == "poll")

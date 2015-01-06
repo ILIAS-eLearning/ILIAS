@@ -28,7 +28,6 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		parent::ilBlockGUI();
 		
 		$this->setLimit(10);
-		$this->setImage(ilUtil::getImagePath("icon_grp_s.png"));
 		$this->setTitle($lng->txt("users_online"));
 		$this->setAvailableDetailLevels(3);
 

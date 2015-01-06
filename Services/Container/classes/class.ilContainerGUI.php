@@ -3025,7 +3025,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$copy_wizard_page->fillTreeSelection($node['ref_id'],$node['type'],$node['depth']);
 				
 				$this->tpl->setCurrentBlock('tree_row');
-				$this->tpl->setVariable('TREE_IMG',ilUtil::getImagePath('icon_'.$node['type'].'_s.png'));
+				$this->tpl->setVariable('TREE_IMG',ilUtil::getImagePath('icon_'.$node['type'].'.svg'));
 				$this->tpl->setVariable('TREE_ALT_IMG',$this->lng->txt('obj_'.$node['type']));
 				$this->tpl->setVariable('TREE_TITLE',$node['title']);
 				$this->tpl->parseCurrentBlock();

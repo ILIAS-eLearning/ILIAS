@@ -29,8 +29,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 		parent::ilBlockGUI();
 		
-		$this->setImage(ilUtil::getImagePath("icon_news_s.png"));
-
 		$lng->loadLanguageModule("news");
 		$ilHelp->addHelpSection("news_block");
 		

@@ -400,16 +400,6 @@ class ilRepositoryExplorer extends ilExplorer
 		global $lng, $ilias, $tree, $ilCtrl;
 
 		// custom icons
-		/*
-		if ($this->ilias->getSetting("custom_icons"))
-		{
-			require_once("./Services/Container/classes/class.ilContainer.php");
-			if (($path = ilContainer::_lookupIconPath($a_obj_id, "tiny")) == "")
-			{
-				$path = ilUtil::getImagePath("icon_root_s.png");
-			}
-		}*/
-
 		$path = ilObject::_getIcon($a_obj_id, "tiny", "root");
 
 		$tpl->setCurrentBlock("icon");

@@ -45,7 +45,7 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 		parent::ilBlockGUI();
 		
 		$lng->loadLanguageModule("tagging");
-		$this->setImage(ilUtil::getImagePath("icon_tag_s.png"));
+
 		$this->setTitle($lng->txt("tagging_my_tags"));
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
