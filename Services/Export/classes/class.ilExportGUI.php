@@ -355,20 +355,14 @@ class ilExportGUI
 	public function download()
 	{
 		global $ilCtrl, $lng;
-		
-		if(!isset($_POST["file"]))
-		{
-			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+						
+		if(!isset($_GET["file"]) || 
+			is_array($_GET["file"]))
+		{			
 			$ilCtrl->redirect($this, "listExportFiles");
 		}
 
-		if (count($_POST["file"]) > 1)
-		{
-			ilUtil::sendFailure($lng->txt("exp_select_max_one_item"), true);
-			$ilCtrl->redirect($this, "listExportFiles");
-		}
-
-		$file = explode(":", $_POST["file"][0]);
+		$file = explode(":", trim($_GET["file"]));
 		include_once("./Services/Export/classes/class.ilExport.php");
 		$export_dir = ilExport::_getExportDirectory($this->obj->getId(),
 			str_replace("..", "", $file[0]), $this->obj->getType());

@@ -52,7 +52,13 @@ class ilExportTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('type'), 'type');
 		$this->addColumn($this->lng->txt('file'), 'file');
 		$this->addColumn($this->lng->txt('size'), 'size');
-		$this->addColumn($this->lng->txt('date'), 'timestamp');
+		$this->addColumn($this->lng->txt('date'), 'timestamp');		
+	}
+	
+	protected function prepareOutput()
+	{
+		// append at last position (after custom columns)
+		$this->addColumn($this->lng->txt('actions'));
 	}
 
 	/**
@@ -60,7 +66,7 @@ class ilExportTableGUI extends ilTable2GUI
 	 */
 	protected function initMultiCommands()
 	{
-		$this->addMultiCommand('download', $this->lng->txt('download'));
+		// $this->addMultiCommand('download', $this->lng->txt('download')); #15097
 		$this->addMultiCommand('confirmDeletion', $this->lng->txt('delete'));
 	}
 
@@ -122,13 +128,17 @@ class ilExportTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
+		global $ilCtrl;
+						
 		foreach($this->getCustomColumns() as $c)
 		{
 			$this->tpl->setCurrentBlock('custom');
 			$this->tpl->setVariable('VAL_CUSTOM', $c['obj']->$c['func']($a_set['type'], $a_set['file']).' ');
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable('VAL_ID', $this->getRowId($a_set));
+		
+		$file_id = $this->getRowId($a_set);
+		$this->tpl->setVariable('VAL_ID', $file_id);
 
 		$type = ($this->formats[$a_set['type']] != "")
 			? $this->formats[$a_set['type']]
@@ -137,6 +147,13 @@ class ilExportTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_FILE', $a_set['file']);
 		$this->tpl->setVariable('VAL_SIZE', $a_set['size']);
 		$this->tpl->setVariable('VAL_DATE', ilDatePresentation::formatDate(new ilDateTime($a_set['timestamp'], IL_CAL_UNIX)));
+		
+		$this->tpl->setVariable('TXT_DOWNLOAD', $this->lng->txt('download'));
+		
+		$ilCtrl->setParameter($this->getParentObject(), "file", $file_id);
+		$url = $ilCtrl->getLinkTarget($this->getParentObject(), "download");
+		$ilCtrl->setParameter($this->getParentObject(), "file", "");
+		$this->tpl->setVariable('URL_DOWNLOAD', $url);		
 	}
 
 	/**
