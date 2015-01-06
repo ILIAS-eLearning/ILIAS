@@ -571,7 +571,7 @@ class ilExAssignmentGUI
 				}
 				else
 				{
-					$show_global_feedback = ($last_sub && $a_data["fb_file"]);
+					$show_global_feedback = ($last_sub != "---" && $a_data["fb_file"]);
 				}								
 				
 				$storage = new ilFSStorageExercise($a_data["exc_id"], $a_data["id"]);					

@@ -2638,7 +2638,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 							->setAlert($lng->txt("exc_needs_deadline"));
 						$valid = false;
 					}	
-					if($_POST["fb"])
+					if($_POST["fb"] && $_POST["fb_date"] == ilExAssignment::FEEDBACK_DATE_DEADLINE)
 					{
 						$this->form->getItemByPostVar("fb")
 							->setAlert($lng->txt("exc_needs_deadline"));
@@ -4564,12 +4564,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 	public function downloadGlobalFeedbackFileObject()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilUser;
+		
+		$needs_dl = ($this->ass->getFeedbackDate() == ilExAssignment::FEEDBACK_DATE_DEADLINE);
 		
 		if(!$this->ass || 
 			!$this->ass->getFeedbackFile() ||
-			!$this->ass->getDeadline() ||
-			$this->ass->getDeadline() > time())						
+			($needs_dl && !$this->ass->getDeadline()) ||
+			($needs_dl && $this->ass->getDeadline() > time()) ||
+			(!$needs_dl && ilExAssignment::getLastSubmission($this->ass->getId(), $ilUser->getId())))						
 		{
 			$ilCtrl->redirect($this, "showOverview");
 		}
