@@ -11,6 +11,9 @@ il.Overlay = {
 	toggle_cl: {},
 	waitMouseOut: 2,
 	waitAfterClicked: 20,
+	// gev-patch start
+	openOverlayId: null,
+	// gev-patch end
 
 	add: function (id, cfg) {
 		il.Overlay.overlays[id] =
@@ -83,6 +86,12 @@ il.Overlay = {
 
 	// hide overlay	
 	hide: function (e, id) {
+		// gev-patch start
+		if (il.Overlay.openOverlayId === id) {
+			il.Overlay.openOverlayId = null;
+		}
+		// gev-patch end
+			
 		this.overlays[id].hide();
 		if (e != null) {
 			// bug 9675
@@ -106,6 +115,10 @@ il.Overlay = {
 
 	// show the overlay
 	show: function (e, id, anchor_id, center, ov_corner, anch_corner) {
+		if (il.Overlay.openOverlayId !== null) {
+			il.Overlay.hide(null, this.openOverlayId);
+		}
+		
 		var el, toggle_el, toggle_class_on, toggle_obj;
 
 		// hide all other overlays (currently the standard procedure)
@@ -147,6 +160,8 @@ il.Overlay = {
 		if (this.getCfg(id, 'asynch')) {
 			this.loadAsynch(id, this.getCfg(id, 'asynch_url'));
 		}
+		
+		il.Overlay.openOverlayId = id;
 
 		// handle event
 		if (e) {
@@ -239,6 +254,25 @@ il.Overlay = {
 
 	// hide all overlays
 	hideAllOverlays: function (e, force, omit) {
+		if (il.Overlay.openOverlayId === null) {
+			return;
+		}
+
+		if (il.Overlay.openOverlayId === omit) {
+			return;
+		}
+		
+		if (force) {
+			il.Overlay.hide(null, il.Overlay.openOverlayId);
+			return;
+		}
+		
+		/*el = document.getElementById(k);
+		if (!il.Util.coordsInElement(e.pageX, e.pageY, el)) {
+			il.Overlay.hide(null, k);
+		}*/
+		// gev-patch start
+		/*
 		var k, isIn, tgt, el, el_reg;
 
 		for (k in il.Overlay.overlays) {
@@ -278,7 +312,8 @@ il.Overlay = {
 					il.Overlay.hide(null, k);
 				}
 			}
-		}
+		}*/
+		// gev-patch end
 	},
 
 	mouseOver: function (e, id) {
