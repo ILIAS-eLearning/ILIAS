@@ -463,39 +463,36 @@ class gevDebug {
 
 		$result = $this->db->query($sql);
 		while($record=$this->db->fetchAssoc($result)){
-			
-
-			$sql = "SELECT id, vkey_gev, vkey_vfs FROM interimUsers"
-			." WHERE interimUsers.ilid = " .$record['user_id'];
-			$res = mysql_query($sql, $this->importDB);
-			
 			$record['interim_id'] = '';
 			$record['interim_vkey_gev'] = '';
 			$record['interim_vkey_vfs'] = '';
 			$record['interim_old_roles'] = '';
 			
-			if(mysql_num_rows($res) > 0){
+
+			$sql = "SELECT id, vkey_gev, vkey_vfs FROM interimUsers"
+			." WHERE interimUsers.ilid = " .$record['user_id'];
+			$res = mysql_query($sql, $this->importDB);
+						
+			if(mysql_num_rows($res) == 1){
+				
+				$rec = mysql_fetch_assoc($res);
 
 				$record['interim_id'] = $rec['id'];
 				$record['interim_vkey_gev'] = $rec['vkey_gev'];
 				$record['interim_vkey_vfs'] = $rec['vkey_vfs'];
 
-				$rec = mysql_fetch_assoc($res);
-
 				//print_r($rec);
-
 				$sql="SELECT interimRoles.title AS role_title FROM interimRoles"
 				." INNER JOIN interimUserRoles ON interimRoles.id=interimUserRoles.interim_role_id"
 				." WHERE interimUserRoles.interim_usr_id = "
 				.$rec['id'];
-
 
 				$res = mysql_query($sql, $this->importDB);
 				while($role_rec = mysql_fetch_assoc($res)){
 					$record['interim_old_roles'] .= $role_rec['role_title'] .' # ';
 				}
 			}
-			
+
 			//print_r($record);
 			print implode(';', array_values($record));
 			print '<br>';
