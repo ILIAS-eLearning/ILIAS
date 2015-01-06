@@ -66,9 +66,9 @@ function guardIsValue($arg) {
     }
 }
 
-function guardIsHTMLEntity($arg) {
-    if (!($arg instanceof HTMLEntity)) {
-        throw new TypeError("HTMLEntity", typeName($arg));
+function guardIsHTML($arg) {
+    if (!($arg instanceof HTML)) {
+        throw new TypeError("HTML", typeName($arg));
     }
 }
 
@@ -78,6 +78,27 @@ function guardHasArity(FunctionValue $fun, $arity) {
                            , "FunctionValue with arity ".$fun->arity()
                            );
     }    
+}
+
+function guardEach($vals, $fn) {
+    guardIsArray($vals);
+    foreach ($vals as $val) {
+        call_user_func($fn, $val);
+    }
+}
+
+function guardEachAndKeys($vals, $fn_val, $fn_key) {
+    guardIsArray($vals);
+    foreach ($vals as $key => $val) {
+        call_user_func($fn_val, $val);
+        call_user_func($fn_key, $key);
+    }
+}
+
+function guardIfNotNull($val, $fn) {
+    if ($val !== null) {
+        call_user_func($fn, $val);
+    }
 }
 
 ?>
