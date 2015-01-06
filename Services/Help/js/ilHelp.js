@@ -9,13 +9,8 @@ il.Help = {
 
 	// list help topics
 	listHelp: function (e, back_clicked) {
-		// prevent the default action
-		if (e && e.preventDefault) {
-			e.preventDefault();
-		} else if (window.event) {
-			window.event.returnValue = false;
-		}
-
+		// prevent the default action		
+		e.preventDefault();		
 		// hide overlays
 		il.Overlay.hideAllOverlays(e, true);
 		// add panel
