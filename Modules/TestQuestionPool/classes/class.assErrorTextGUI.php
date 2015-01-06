@@ -444,9 +444,15 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		$feedback = '<table><tbody>';
-		
 		$selection = $this->object->getBestSelection(false);
+
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_values($selection)) )
+		{
+			return '';
+		}
+
+		$feedback = '<table class="test_specific_feedback"><tbody>';
+		
 		$elements = array();
 		foreach(preg_split("/[\n\r]+/", $this->object->errortext) as $line)
 		{
@@ -471,7 +477,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			
 			$feedback .= '<tr>';
 			
-			$feedback .= '<td>' . $ordinal . '. <i>' . $element . '</i>:</td>';
+			$feedback .= '<td class="text-nowrap">' . $ordinal . '. ' . $element . ':</td>';
 			
 			foreach ($this->object->getErrorData() as $idx => $ans)
 			{

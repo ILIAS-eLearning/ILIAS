@@ -541,8 +541,13 @@ a.il_question_answer_list_back_anchor
     font-size:0.7em;
 }
 
-.test_specific_feedback td{
-    padding-right: 0.5em;
+.test_specific_feedback td:first-child{
+    padding-right: 1em;
+    font-style: italic;
+    font-weight: bold;
+}
+.test_specific_feedback td:last-child p:first-child{
+    margin-top: 0;
 }
 
 p.ilAssKprimInstruction

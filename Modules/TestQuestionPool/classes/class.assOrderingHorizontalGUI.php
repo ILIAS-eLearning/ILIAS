@@ -428,8 +428,6 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		$output = '<table class="ilTstSpecificFeedbackTable"><tbody>';
-
 		if(strpos($this->object->getOrderText(),'::'))
 		{
 			$answers = explode('::', $this->object->getOrderText());
@@ -437,13 +435,20 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 			$answers = explode(' ', $this->object->getOrderText());
 		}
 
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists(array_values($answers)) )
+		{
+			return '';
+		}
+
+		$output = '<table class="test_specific_feedback"><tbody>';
+
 		foreach($answers as $idx => $answer)
 		{
 			$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
 				$this->object->getId(), $idx
 			);
 
-			$output .= "<tr><td><b><i>{$answer}</i></b></td><td>{$feedback}</td></tr>";
+			$output .= "<tr><td>{$answer}</td><td>{$feedback}</td></tr>";
 		}
 
 		$output .= '</tbody></table>';

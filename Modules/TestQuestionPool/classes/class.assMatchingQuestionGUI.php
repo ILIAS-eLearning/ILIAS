@@ -990,15 +990,22 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		$feedback = '<table><tbody>';
+		$matches = array_values($this->object->getMaximumScoringMatchingPairs());
 
-		foreach ($this->object->getMaximumScoringMatchingPairs() as $idx => $ans)
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists($matches) )
+		{
+			return '';
+		}
+		
+		$feedback = '<table class="test_specific_feedback"><tbody>';
+
+		foreach ($matches as $idx => $ans)
 		{
 			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-					$this->object->getId(), $idx
+				$this->object->getId(), $idx
 			);
-			$feedback .= '<tr><td><b><i>' . $ans->definition->text . '</i></b></td><td>'. $this->lng->txt("matches") . '&nbsp;';
-			$feedback .= '</td><td><b><i>' . $ans->term->text . '</i></b></td><td>&nbsp;</td><td>';
+			$feedback .= '<tr><td>"' . $ans->definition->text . '"&nbsp;' . $this->lng->txt("matches") . '&nbsp;"';
+			$feedback .= $ans->term->text . '"</td><td>';
 			$feedback .= $fb . '</td> </tr>';
 		}
 

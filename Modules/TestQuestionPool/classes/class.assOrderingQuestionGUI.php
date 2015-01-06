@@ -1290,7 +1290,12 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		$output = '<table class="ilTstSpecificFeedbackTable"><tbody>';
+		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists($this->object->getAnswers()) )
+		{
+			return '';
+		}
+
+		$output = '<table class="test_specific_feedback"><tbody>';
 
 		foreach($this->object->getAnswers() as $idx => $answer)
 		{
@@ -1298,7 +1303,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$this->object->getId(), $idx
 			);
 
-			$output .= "<tr><td><b><i>{$answer->getAnswerText()}</i></b></td><td>{$feedback}</td></tr>";
+			$output .= "<tr><td>{$answer->getAnswerText()}</td><td>{$feedback}</td></tr>";
 		}
 
 		$output .= '</tbody></table>';

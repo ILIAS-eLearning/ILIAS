@@ -460,4 +460,19 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 			$this->saveSpecificAnswerFeedbackContent($questionId, $answerIndex, $feedbackContent);
 		}
 	}
+
+	public function specificAnswerFeedbackExists($answerIndexes)
+	{
+		foreach($answerIndexes as $answerIndex)
+		{
+			$fb = $this->getSpecificAnswerFeedbackExportPresentation($this->questionOBJ->getId(), $answerIndex);
+			
+			if( strlen($fb) )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
