@@ -149,11 +149,13 @@ class TextBuilder extends Builder {
     }
 }
 
+/* Interface to be implemented by classes that use TagBuilder. */
 interface TagBuilderCallbacks {
     public function getAttributes(RenderDict $dict, $name);
     public function getContent(RenderDict $dict, $name);
 }
 
+/* Builds a simple html tag. */
 class TagBuilder extends Builder {
     private $_tag_name; // string
     private $_callback_object; // object

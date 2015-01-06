@@ -134,6 +134,30 @@ class MappedCollectorFormlet extends Formlet {
 }
 
 
+/* A formlet collecting nothing and building a constant string. */
+class TextFormlet extends Formlet {
+    private $_content; // string
+
+    public function __construct($content) { 
+        guardIsString($content);
+        $this->_content = $content;
+    }
+
+    public function build(NameSource $name_source) {
+        return array
+            ( "builder"    => new TextBuilder($this->_content)
+            , "collector"   => new NullaryCollector()
+            , "name_source" => $name_source
+            );
+    }
+}
+
+function _text($content) {
+    return new TextFormlet($content);
+}
+
+
+/* A simple html input. */
 class InputFormlet extends Formlet implements TagBuilderCallbacks {
     protected $_attributes;
 
@@ -164,28 +188,6 @@ class InputFormlet extends Formlet implements TagBuilderCallbacks {
 
 function _input($attributes = array()) {
     return new InputFormlet($attributes);
-}
-
-/* A formlet collecting nothing and building a constant string. */
-class TextFormlet extends Formlet {
-    private $_content; // string
-
-    public function __construct($content) { 
-        guardIsString($content);
-        $this->_content = $content;
-    }
-
-    public function build(NameSource $name_source) {
-        return array
-            ( "builder"    => new TextBuilder($this->_content)
-            , "collector"   => new NullaryCollector()
-            , "name_source" => $name_source
-            );
-    }
-}
-
-function _text($content) {
-    return new TextFormlet($content);
 }
 
 ?>

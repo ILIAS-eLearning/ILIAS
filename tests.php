@@ -258,6 +258,11 @@ function test_Text() {
 }
 print_and_record_test("Text");
 
+function test_Input() {
+    return _test_isFormlet(_input());
+}
+print_and_record_test("Input");
+
 function test_TextInput() {
     return _test_isFormlet(_text_input());
 }

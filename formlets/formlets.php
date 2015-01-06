@@ -9,29 +9,6 @@ require_once("checking.php");
 require_once("helpers.php");
 require_once("base.php");
 
-/* A formlet collecting nothing and building a constant string. */
-class TextFormlet extends Formlet {
-    private $_content; // string
-
-    public function __construct($content) { 
-        guardIsString($content);
-        $this->_content = $content;
-    }
-
-    public function build(NameSource $name_source) {
-        return array
-            ( "builder"    => new TextBuilder($this->_content)
-            , "collector"   => new NullaryCollector()
-            , "name_source" => $name_source
-            );
-    }
-}
-
-function _text($content) {
-    return new TextFormlet($content);
-}
-
-
 /* A formlet to input some text. Renders to according HTML and collects a
  * string.
  */
