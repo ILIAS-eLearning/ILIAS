@@ -302,7 +302,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$ilCtrl->redirect($this, "editPeerReview");
 				break;
 
-			default:				
+			default:		
+				$this->ctrl->setParameter($this, "fsmode", ""); // #15115
+				
 				if(!$cmd)
 				{
 					$cmd = "infoScreen";
