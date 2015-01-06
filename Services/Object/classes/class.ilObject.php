@@ -1931,31 +1931,9 @@ class ilObject
 				{
 					return $file_name;
 				}
-
-				return;
-
-				// png version? (introduced with ILIAS 4.3)
-				$file_name = $cont_dir."/icon_".$a_size.".png";
-				if (is_file($file_name))
-				{
-					return $file_name;
-				}
-
-				// gif version? (prior to ILIAS 4.3)
-				$file_name = $cont_dir."/icon_".$a_size.".gif";
-				if (is_file($file_name))
-				{
-					return $file_name;
-				}
 			}
 		}
 		
-		switch($a_size)
-		{
-			case "small": $suff = ""; break;
-			case "tiny": $suff = "_s"; break;
-			default: $suff = "_b"; break;
-		}
 		if (!$a_offline)
 		{			
 			if ($objDefinition->isPluginTypeName($a_type))
@@ -1966,17 +1944,11 @@ class ilObject
 				return call_user_func(array($class_name, "_getIcon"), $a_type, $a_size, $a_obj_id);                                
 			}
 			
-			// svg path
-			if (is_file("./templates/default/images/icon_".$a_type.".svg"))
-			{
-				return "./templates/default/images/icon_".$a_type.".svg";
-			}
-			
-			return ilUtil::getImagePath("icon_".$a_type.$suff.".png");
+			return ilUtil::getImagePath("icon_".$a_type.".svg");
 		}
 		else
 		{
-			return "./images/icon_".$a_type.$suff.".png";
+			return "./images/icon_".$a_type.".svg";
 		}
 	}
 
