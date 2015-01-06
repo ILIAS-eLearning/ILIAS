@@ -514,7 +514,7 @@ print '<pre>';
 
 //die('online');
 $debug = new gevDebug();
-//$debug->fix_hist_users_calculated_fields();
+$debug->fix_hist_users_calculated_fields();
 $debug->find_users_with_missing_roles();
 
 
