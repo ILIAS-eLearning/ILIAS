@@ -468,11 +468,12 @@ class ilCourseObjectivesGUI
 			$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
 		}
 		$this->__initQuestionObject((int) $_GET['objective_id']);		
-		$w_tpl = $this->initWizard(1);
+		$this->initWizard(1);
 		
 		$this->initFormTitle('create',1);
-		$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
-		$tpl->setContent($w_tpl->get());
+		$GLOBALS['tpl']->setContent($this->form->getHtml());
+		#$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
+		#$tpl->setContent($w_tpl->get());
 	}
 
 	/**
@@ -501,10 +502,11 @@ class ilCourseObjectivesGUI
 		}
 		
 		$this->__initQuestionObject((int) $_REQUEST['objective_id']);		
-		$w_tpl = $this->initWizard(1);
+		$this->initWizard(1);
 		$this->initFormTitle('create',1);
-		$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
-		$tpl->setContent($w_tpl->get());
+		$GLOBALS['tpl']->setContent($this->form->getHtml());
+		#$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
+		#$tpl->setContent($w_tpl->get());
 	}
 
 	/**
@@ -609,9 +611,10 @@ class ilCourseObjectivesGUI
 		$table->parse(ilCourseObjectiveMaterials::_getAssignableMaterials($this->course_obj->getRefId()));
 		
 		$this->__initQuestionObject((int) $_GET['objective_id']);
-		$w_tpl = $this->initWizard(2);
-		$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
-		$tpl->setContent($w_tpl->get());
+		$this->initWizard(2);
+		#$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
+		$GLOBALS['tpl']->setContent($table->getHTML());
+		#$tpl->setContent($w_tpl->get());
 	}
 	
 	/**
@@ -729,9 +732,10 @@ class ilCourseObjectivesGUI
 		$table->parse(ilCourseObjectiveQuestion::_getAssignableTests($this->course_obj->getRefId()));
 		
 		$this->__initQuestionObject((int) $_GET['objective_id']);
-		$w_tpl = $this->initWizard(3);
-		$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
-		$tpl->setContent($w_tpl->get());
+		$this->initWizard(3);
+		$GLOBALS['tpl']->setContent($table->getHTML());
+		#$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
+		#$tpl->setContent($w_tpl->get());
 	}
 	
 	/**
@@ -838,11 +842,12 @@ class ilCourseObjectivesGUI
 		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
 		
 		$this->__initQuestionObject((int) $_GET['objective_id']);
-		$w_tpl = $this->initWizard(4);
+		$this->initWizard(4);
 		
 		$this->initFormLimits('selfAssessment');
-		$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
-		$tpl->setContent($w_tpl->get());
+		$GLOBALS['tpl']->setContent($this->form->getHtml());
+		#$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
+		#$tpl->setContent($w_tpl->get());
 	}
 	
 	/**
@@ -933,9 +938,10 @@ class ilCourseObjectivesGUI
 		$table->parse(ilCourseObjectiveQuestion::_getAssignableTests($this->course_obj->getRefId()));
 		
 		$this->__initQuestionObject((int) $_GET['objective_id']);
-		$w_tpl = $this->initWizard(5);
-		$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
-		$tpl->setContent($w_tpl->get());
+		$this->initWizard(5);
+		$GLOBALS['tpl']->setContent($table->getHTML());
+		#$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
+		#$tpl->setContent($w_tpl->get());
 	}
 	
 	// begin-patch lok
@@ -972,10 +978,11 @@ class ilCourseObjectivesGUI
 		}
 		
 		$this->__initQuestionObject((int) $_GET['objective_id']);
-		$w_tpl = $this->initWizard(5);
-		$w_tpl->setVariable('WIZ_CONTENT',$form->getHTML());
+		$this->initWizard(5);
+		$GLOBALS['tpl']->setContent($form->getHTML());
+		#$w_tpl->setVariable('WIZ_CONTENT',$form->getHTML());
 		
-		$GLOBALS['tpl']->setContent($w_tpl->get());
+		#$GLOBALS['tpl']->setContent($w_tpl->get());
 	}
 	
 	/**
@@ -1223,11 +1230,13 @@ class ilCourseObjectivesGUI
 		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
 		
 		$this->__initQuestionObject((int) $_GET['objective_id']);
-		$w_tpl = $this->initWizard(6);
-
+		$this->initWizard(6);
+		
 		$this->initFormLimits('final');
-		$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
-		$tpl->setContent($w_tpl->get());
+		$GLOBALS['tpl']->setContent($this->form->getHtml());
+
+		#$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
+		#$tpl->setContent($w_tpl->get());
 	}
 	
 	/**
@@ -1482,23 +1491,7 @@ class ilCourseObjectivesGUI
 			6 => $this->ctrl->getLinkTarget($this,'finalTestLimits'));
 		
 		
-		$tpl = new ilTemplate('tpl.objective_wizard.html',true,true,'Modules/Course');
 		
-		if($_SESSION['objective_mode'] == self::MODE_CREATE or 1)
-		{
-			$tpl->setCurrentBlock('step_info');
-			
-			if(is_object($this->objective) and strlen($this->objective->getTitle()))
-			{
-				$tpl->setVariable('STEP_SEPARATOR','-');
-				$tpl->setVariable('STEP_TITLE',$this->objective->getTitle());
-			}
-			
-			$tpl->setVariable('STEP_INFO_STEP',$this->lng->txt('crs_objective_step'));
-			$tpl->setVariable('STEP_INFO_NUM',$a_step_number);
-			$tpl->setVariable('STEP_INFO_INFO',$info[$a_step_number]);
-			$tpl->parseCurrentBlock();
-		}
 
 		// checklist gui start
 		include_once("./Services/UIComponent/Checklist/classes/class.ilChecklistGUI.php");
@@ -1507,14 +1500,12 @@ class ilCourseObjectivesGUI
 		
 		if($_SESSION['objective_mode'] == self::MODE_CREATE)
 		{
-			$tpl->setVariable('WIZ_NAV_TITLE',$this->lng->txt('crs_add_objective'));
 			// checklist gui start
 			$check_list->setHeading($this->lng->txt('crs_add_objective'));
 			// checklist gui end
 		}
 		else
 		{
-			$tpl->setVariable('WIZ_NAV_TITLE',$this->lng->txt('crs_update_objective'));
 			// checklist gui start
 			$check_list->setHeading($this->lng->txt('crs_update_objective'));
 			// checklist gui end
@@ -1570,26 +1561,12 @@ class ilCourseObjectivesGUI
 				}
 				if(!$hide_link)
 				{
-					$tpl->setCurrentBlock('begin_link_option');
-					$tpl->setVariable('WIZ_OPTION_LINK',$links[$step]);
-					$tpl->parseCurrentBlock();
-				
-					$tpl->touchBlock('end_link_option');
-
 					// checklist gui start
 					$item_link = $links[$step];
 					// checklist gui end
 				}
 			}
 			
-			$tpl->setCurrentBlock('nav_option');
-			$tpl->setVariable('OPTION_CLASS',$step == $a_step_number ? 'option_value_details' : 'std');
-			// begin-patch lok
-			$tpl->setVariable('WIZ_NUM',$num.'.');
-			// end-patch lok
-			$tpl->setVariable('WIZ_OPTION',$title);
-			$tpl->parseCurrentBlock();
-
 			// checklist gui start
 			$check_list->addEntry($num.'. '.$title, $item_link, ilChecklistGUI::STATUS_NO_STATUS, ($step == $a_step_number));
 			// checklist gui end
@@ -1599,7 +1576,6 @@ class ilCourseObjectivesGUI
 		$GLOBALS["tpl"]->setRightContent($check_list->getHTML());
 		// checklist gui end
 		
-		return $tpl;
 	}
 	
 }
