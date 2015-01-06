@@ -479,15 +479,15 @@
 		</div>
 	</xsl:if>
 	<xsl:if test="$mode != 'edit' and (not(@Enabled) or @Enabled='True')">
-		<xsl:if test="//PageObject/DivClass/@HierId = ./@HierId">
+		<xsl:if test="//PageObject/DivClass/@HierId = current()/@HierId">
 			<div>
-				<xsl:attribute name="class"><xsl:value-of select="//PageObject/DivClass[@HierId = ./@HierId]/@Class" /></xsl:attribute>
+				<xsl:attribute name="class"><xsl:value-of select="//PageObject/DivClass[@HierId = current()/@HierId]/@Class" /></xsl:attribute>
 				<xsl:apply-templates>
 					<xsl:with-param name="par_counter" select ="position()" />
 				</xsl:apply-templates>
 			</div>
 		</xsl:if>
-		<xsl:if test="not(//PageObject/DivClass/@HierId = ./@HierId)">
+		<xsl:if test="not(//PageObject/DivClass/@HierId = current()/@HierId)">
 			<xsl:apply-templates>
 				<xsl:with-param name="par_counter" select ="position()" />
 			</xsl:apply-templates>

@@ -4090,7 +4090,7 @@ abstract class ilPageObject
 	{
 		$xpc = xpath_new_context($this->dom);
 		$path = "/*[1]";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		$rnode = $res->nodeset[0];
 
 //echo "A";
@@ -4099,26 +4099,23 @@ abstract class ilPageObject
 //echo "B";
 			if ($h["change"] != "")
 			{
-//echo "<br>C-".$h["hier_id"]."-".$h["change"]."-";
 				$dc_node = $this->dom->create_element("DivClass");
 				$dc_node->set_attribute("HierId", $h["hier_id"]);
 				$dc_node->set_attribute("Class", "ilEdit".$h["change"]);
 				$dc_node = $rnode->append_child($dc_node);
 			}
 		}
+//echo "<br><br><br><br><br><br>".htmlentities($this->getXMLFromDom());
 	}
 	
 	/**
-	* Compares to revisions of the page
-	*
-	* @param	int		$a_left		Nr of first revision
-	* @param	int		$a_right	Nr of second revision
-	*/
-	// @todo: hook?
+	 * Compares to revisions of the page
+	 *
+	 * @param	int		$a_left		Nr of first revision
+	 * @param	int		$a_right	Nr of second revision
+	 */
 	function compareVersion($a_left, $a_right)
 	{
-		global $ilDB;
-		
 		// get page objects
 		include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
 		$l_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_left);
@@ -4126,7 +4123,6 @@ abstract class ilPageObject
 
 		$l_hashes = $l_page->getPageContentsHashes();
 		$r_hashes = $r_page->getPageContentsHashes();
-		
 		// determine all deleted and changed page elements
 		foreach ($l_hashes as $pc_id => $h)
 		{
@@ -4167,10 +4163,9 @@ abstract class ilPageObject
 				$r_hashes[$pc_id]["change"] = "New";
 			}
 		}
-		
 		$l_page->addChangeDivClasses($l_hashes);
 		$r_page->addChangeDivClasses($r_hashes);
-		
+
 		return array("l_page" => $l_page, "r_page" => $r_page,
 			"l_changes" => $l_hashes, "r_changes" => $r_hashes);
 	}

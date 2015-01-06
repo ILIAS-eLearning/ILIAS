@@ -334,33 +334,35 @@ table.ilc_Table {
 
 /* COPage Comparison */
 
-div.ilEditModified {
-	border-left: 3px solid 8080FF;
-	border-bottom: 3px solid #8080FF;
-	padding:  0 5px 5px 0;
+div.ilEditModified, div.ilEditDeleted, div.ilEditNew {
+	border: 3px solid;
 	margin-bottom: 2px;
+}
+
+div.ilEditModified {
+	border-color: @brand-primary;
 }
 
 div.ilEditDeleted {
-	border-left: 3px solid FF8080;
-	border-bottom: 3px solid #FF8080;
-	padding:  0 5px 5px 0;
-	margin-bottom: 2px;
+	border-color: @brand-warning;
 }
 
 div.ilEditNew {
-	border-left: 3px solid 80FF80;
-	border-bottom: 3px solid #80FF80;
-	padding:  0 5px 5px 0;
-	margin-bottom: 2px;
+	border-color: @brand-secondary;
+}
+
+.ilCOPGCompareLegend {
+	display: inline-block;
+	margin-top: 5px;
+	padding: 2px;
 }
 
 span.ilDiffDel {
-	background-color: #FFC0C0;
+	background-color: lighten(@brand-warning, 30%);
 }
 
 span.ilDiffIns {
-	background-color: #C0FFC0;
+	background-color: lighten(@brand-secondary, 30%);
 }
 
 a.nostyle:link, a.nostyle:visited {

@@ -262,7 +262,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// style tab
 		$page_gui->setTabHook($this, "addPageTabs");
 		
-		$ret =& $this->ctrl->forwardCommand($page_gui);
+		$ret = $this->ctrl->forwardCommand($page_gui);
 
 		//$ret =& $page_gui->executeCommand();
 		return $ret;

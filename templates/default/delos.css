@@ -8268,29 +8268,31 @@ table.ilc_Table {
   border-color: #9EADBA;
 }
 /* COPage Comparison */
-div.ilEditModified {
-  border-left: 3px solid 8080FF;
-  border-bottom: 3px solid #8080FF;
-  padding: 0 5px 5px 0;
+div.ilEditModified,
+div.ilEditDeleted,
+div.ilEditNew {
+  border: 3px solid;
   margin-bottom: 2px;
+}
+div.ilEditModified {
+  border-color: #4c6586;
 }
 div.ilEditDeleted {
-  border-left: 3px solid FF8080;
-  border-bottom: 3px solid #FF8080;
-  padding: 0 5px 5px 0;
-  margin-bottom: 2px;
+  border-color: #fa8228;
 }
 div.ilEditNew {
-  border-left: 3px solid 80FF80;
-  border-bottom: 3px solid #80FF80;
-  padding: 0 5px 5px 0;
-  margin-bottom: 2px;
+  border-color: #6ea03c;
+}
+.ilCOPGCompareLegend {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 2px;
 }
 span.ilDiffDel {
-  background-color: #FFC0C0;
+  background-color: #fdd9be;
 }
 span.ilDiffIns {
-  background-color: #C0FFC0;
+  background-color: #bbda9b;
 }
 a.nostyle:link,
 a.nostyle:visited {
