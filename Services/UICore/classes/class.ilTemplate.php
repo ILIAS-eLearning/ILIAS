@@ -345,6 +345,11 @@ class ilTemplate extends ilTemplateX
 		}
 	}
 	
+	function hasMessage($a_type)
+	{		
+		return (isset($this->message[$a_type]) && strlen($this->message[$a_type]));
+	}
+	
 	function fillMessage()
 	{
 		global $lng;

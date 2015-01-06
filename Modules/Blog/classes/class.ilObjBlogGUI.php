@@ -576,7 +576,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 								// #9737
 								$info[] = $lng->txt("blog_posting_edit_approval_info");
 							}
-							if(sizeof($info))
+							if(sizeof($info) && !$tpl->hasMessage("info")) // #15121
 							{
 								ilUtil::sendInfo(implode("<br />", $info));	
 							}					
