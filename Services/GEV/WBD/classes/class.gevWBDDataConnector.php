@@ -95,6 +95,15 @@ class gevWBDDataConnector extends wbdDataConnector {
 		    $i = 3;
 		}
 
+		if(strtolower(substr(trim($streetnr), 0, 9)) == 'straße 4') {
+		    return array(
+				'street' => 'Straße 4',
+				'nr' => trim(substr($streetnr, 9))
+			);
+		}
+		
+
+
 		//find first number in string
 	    $len = strlen($streetnr);
 	    $pos = False;
