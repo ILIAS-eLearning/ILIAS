@@ -969,10 +969,11 @@ class gevCourseUtils {
 		
 		$ref_ids = gevObjectUtils::getAllRefIds($this->crs_id);
 		
-		$res = $this->db->query("SELECT ai.obj_id FROM adv_md_values_int ai "
+		$res = $this->db->query("SELECT DISTINCT ai.obj_id FROM adv_md_values_int ai "
 								.(!$future_only ? "" 
 										: (" JOIN adv_md_values_date ad"
-										  ." ON ad.field_id = ".$this->db->quote($start_date_field, "integer")))
+										  ." ON ad.field_id = ".$this->db->quote($start_date_field, "integer")
+										  ." AND ad.obj_id = ai.obj_id"))
 								." WHERE ai.field_id = ".$this->db->quote($ref_id_field, "integer")
 								."  AND ".$this->db->in("ai.value", $ref_ids, false, "integer")
 								.(!$future_only ? "" : " AND ad.value > CURDATE()")
