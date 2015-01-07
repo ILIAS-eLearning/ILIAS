@@ -109,6 +109,7 @@ class ilUtil
 		}
 
 		// temp svg patch
+		/*
 		$pi = pathinfo($img);
 		if ($pi["dirname"] != "") {
 			$pi["dirname"] = $pi["dirname"]."/";
@@ -117,7 +118,7 @@ class ilUtil
 		if (file_exists($svg_img))
 		{
 			return $svg_img;
-		}
+		}*/
 
 
 		if ($offline)
