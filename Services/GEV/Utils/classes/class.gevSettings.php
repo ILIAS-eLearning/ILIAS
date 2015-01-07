@@ -511,7 +511,7 @@ class gevSettings {
 		'Trainer Teammeeting',
 		'Arbeitsgespräch',
 		
-		'AD Begleitung',
+		'AD-Begleitung',
 		'Firmenkunden',
 		//'Aquise Pilotprojekt',
 		'Akquise Pilotprojekt',
@@ -525,7 +525,7 @@ class gevSettings {
 		'Krankheit',
 		
 		'OD-FD Meeting',
-		'FD Gespräch',
+		'FD-Gespräch',
 		'RD-Gespräch',
 		'AKL-Gespräch',
 		'FD-MA Teammeeting',

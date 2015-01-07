@@ -76,6 +76,11 @@ class gevInvitation extends gevCrsAutoMail {
 			return null;
 		}
 		
+		if ($this->getCourseUtils()->isTemplate()) {
+			return null;
+		}
+
+		
 		// this really is no good style.
 		if (   !gevDeadlineMailingJob::isMailSend($this->getCourse()->getId(), $this->getId()) 
 			&& ilContext::getType() !== ilContext::CONTEXT_CRON 

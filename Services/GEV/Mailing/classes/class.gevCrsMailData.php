@@ -222,6 +222,9 @@ class gevCrsMailData extends ilMailData {
 			case "VO-TELEFON":
 				$val = $this->crs_utils->getVenuePhone();
 				break;
+			case "VO-INTERNET":
+				$val = $this->crs_utils->getVenueHomepage();
+				break;
 			case "WEBINAR-LINK":
 				$val = $this->crs_utils->getWebExLink();
 				break;

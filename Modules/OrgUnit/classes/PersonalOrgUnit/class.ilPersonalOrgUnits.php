@@ -27,7 +27,7 @@ class ilPersonalOrgUnits {
 	public $orgu_template = null;
 	
 	//user object of the superior
-	public $user_obj = null;
+	public $user_obj = array();
 
 	function __construct($a_obj_id_base, $a_obj_id_template) {
 		$this->base_id = $a_obj_id_base;
@@ -63,10 +63,10 @@ class ilPersonalOrgUnits {
 
 	private function getUserObj($a_user_id){
 		require_once("Services/User/classes/class.ilObjUser.php");
-		if ($this->user_obj === null) {
-			$this->user_obj = new ilObjUser($a_user_id);
+		if ($this->user_obj[$a_user_id] === null) {
+			$this->user_obj[$a_user_id] = new ilObjUser($a_user_id);
 		}
-		return $this->user_obj;
+		return $this->user_obj[$a_user_id];
 	}
 
 	private function buildOrguTitleFromUser($a_user_obj){
@@ -224,7 +224,7 @@ class ilPersonalOrgUnits {
 	public function deassignEmployee($a_superior_id, $a_employee_id){
 		$orgu = $this->getPersonalOrguBySuperiorId($a_superior_id);
 		$this->errorIfNull($orgu, 'deassignEmployee', $a_superior_id);
-		$orgu->deassignUserFromEmployeeRole(array($a_employee_id));
+		$orgu->deassignUserFromEmployeeRole($a_employee_id);
 	} 
 
 

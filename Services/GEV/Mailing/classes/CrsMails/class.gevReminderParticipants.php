@@ -29,6 +29,11 @@ class gevReminderParticipants extends gevInvitation {
 			throw new Exception("GEV-Invitation-Mails will only work for ILIAS-Users.");
 		}
 		
+		if ($this->getCourseUtils()->isTemplate()) {
+			return null;
+		}
+
+		
 		$function = $this->getUserFunction($a_recipient);
 
 		// function will be null if user is not member of the course. Fall back to

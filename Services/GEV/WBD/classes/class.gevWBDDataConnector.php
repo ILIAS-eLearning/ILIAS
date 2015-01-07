@@ -95,6 +95,15 @@ class gevWBDDataConnector extends wbdDataConnector {
 		    $i = 3;
 		}
 
+		if(strtolower(substr(trim($streetnr), 0, 9)) == 'straße 4') {
+		    return array(
+				'street' => 'Straße 4',
+				'nr' => trim(substr($streetnr, 9))
+			);
+		}
+		
+
+
 		//find first number in string
 	    $len = strlen($streetnr);
 	    $pos = False;
@@ -625,6 +634,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 			.self::WBD_TP_BASIS."', '".self::WBD_TP_SERVICE
 			."')";
 
+// 2015-01-06
+//NA, FD will not get an OKZ, i.e.
+//only report with valid okz!
+$sql .= " AND okz IN ('OKZ1', 'OKZ2','OKZ3')";
+	
+
 		//dev-safety:
 		$sql .= ' AND user_id IN (SELECT usr_id FROM usr_data)';
 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
@@ -1119,7 +1134,6 @@ if($DEBUG_HTML_OUT){
 	//die();
 
 
-
 	print '<h3>new users:</h3>';
 	$cls->export_get_new_users('html');
 
@@ -1173,11 +1187,10 @@ if($DEBUG_HTML_OUT){
 
 
 
-
 	print '<h3>new edu-records:</h3>';
+	print '<h2> total new edurecords: ' .count($cls->valid_newedurecords) .'</h2>';
 	$cls->export_get_new_edu_records('html');
 
-	print '<h2> total new edurecords: ' .count($cls->valid_newedurecords) .'</h2>';
 	print '<h2> invalid edurecords: ' .count($cls->broken_newedurecords) .'</h2>';
 //	print_r($cls->broken_newedurecords);
 	

@@ -6,7 +6,7 @@
 Calendar.setup( 
 { 
 	button : "btn_cal_start_{POST_VAR}",
-	inputFieldsDate : "{POST_VAR}",
+	inputFieldsDate : "{POST_VAR}[start][date]",
 	firstDay : {DP_DATE_FIRST_DAY},
 	onUpdate : ilUpdateEndDate
 }
@@ -25,7 +25,7 @@ YAHOO.util.Event.onDOMReady(ilDisableSessionTime,prefix = new String("{POST_VAR}
 	{ 
 		button : "btn_cal_end_{POST_VAR}",
 		firstDay : {DP_DATE_FIRST_DAY},
-		inputFieldsDate : "{POST_VAR}"
+		inputFieldsDate : "{POST_VAR}[end][date]"
 	}
 	);
 	

@@ -15,6 +15,8 @@ require_once("Services/GEV/Import/classes/class.gevImportedUser.php");
 
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/Utils/classes/class.gevNAUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
 //settings and imports
 ini_set("memory_limit","2048M"); 
 ini_set('max_execution_time', 0);
@@ -44,6 +46,8 @@ class gevUserImport {
 		$this->ilDB = &$ilDB;
 
 		$this->role_utils = gevRoleUtils::getInstance();
+		$this->na_utils = gevNAUtils::getInstance();
+
 		$this->global_roles = $this->role_utils->getGlobalRoles();
 		$this->orgu_superior_roles = array();
 		foreach (gevSettings::$VMS_ROLE_MAPPING as $key => $value) {
@@ -462,15 +466,68 @@ class gevUserImport {
 	}
 
 
-	/*
-	private function stripNumbersFromSelectionEntry($entry){
-		if(is_numeric(substr($entry, 0,1))){
-			$entry = substr($entry, 4);
-			print '<hr>' . $entry ."<hr>";
+
+
+
+	private function getLiveTopicSetId($old_topic_set_id){
+		//from shadowdb, get topic titles
+		$sql = "SELECT hist_topics.topic_id, topic_title"
+			." FROM hist_topicset2topic"
+			." INNER JOIN hist_topics ON hist_topicset2topic.topic_id = hist_topics.topic_id"
+			." WHERE hist_topicset2topic.topic_set_id = $old_topic_set_id";
+			
+		$result = $this->queryShadowDB($sql);
+		
+		$topic_ids = array();
+		while ($record = mysql_fetch_assoc($result)){
+			$topic_ids[] = $this->getTopicIdByTitle($record['topic_title']); //this operate on the live-db
 		}
-		return $entry;
+
+		//from live-db, get matching topic_set
+		$ts_index = array();
+		$topic_index = array();
+
+		$sql = "SELECT * FROM hist_topicset2topic ORDER BY topic_set_id";
+		$result = $this->ilDB->query($sql);
+		while($record = $this->ilDB->fetchAssoc($result)){
+			if(! array_key_exists($record['topic_set_id'], $ts_index)){
+				$ts_index[$record['topic_set_id']] = array();
+			}
+			$ts_index[$record['topic_set_id']][] = $record['topic_id'];
+		}
+
+		foreach ($ts_index as $ts => $topics) {
+			$t_index = implode('#', $topics);
+			$topic_index[$t_index] = $ts;
+		}
+
+		$topics_compare = implode('#', $topic_ids);
+		if (array_key_exists($topics_compare, $topic_index)){
+			return $topic_index[$topics_compare];
+		}
+		//otherwise, insert into topic_sets....
+		$topic_set_id = -1;
+
+		foreach ($topic_ids as $tid) {
+			$row_id = $this->ilDB->nextId('hist_topicset2topic');
+			if($topic_set_id == -1){
+				$topic_set_id = $row_id;
+			}
+			
+			$this->ilDB->insert(
+				'hist_topicset2topic',
+				array(
+					'row_id'       => array( 'integer', $row_id),
+					'topic_set_id' => array( 'integer', $topic_set_id ),
+					'topic_id'     => array( 'integer', $tid )
+				)
+			);
+		}
+		return $topic_set_id;
+
 	}
-	*/
+
+
 
 
 
@@ -804,13 +861,6 @@ class gevUserImport {
 		$create_date = new ilDateTime($rec['created'], IL_CAL_DATETIME);
 		$user->setAgreeDate($create_date->get(IL_CAL_DATETIME));
 
-		//update pass, creation, agreement
-		$sql = "UPDATE usr_data SET"
-			." passwd='" .$rec['pwd'] ."',"
-			." approve_date='" .$rec['approved'] ."',"
-			." last_login='" .$rec['last_login'] ."'"
-			." WHERE usr_id=" .$user_id;
-		$this->ilDB->query($sql);
 	
 		$user->setActive(true, 6);
 		$user->update();
@@ -818,7 +868,79 @@ class gevUserImport {
 		return $user_id;
 	}
 
+	
 
+	public function	updateUser($user_record){
+		$user = new ilObjUser($user_record['ilid']);
+
+		//deactivate users
+		
+		if(! $user_record['active']){
+			$user->setActive(false, 6);
+		}
+		
+
+		if(! $user->getPhoneMobile()){
+ 			if(! $user_record['ilid_vfs']){
+
+				$sql= "SELECT * FROM interim_gevUserUpdate_mobilePhone WHERE usr_id = " .$user_record['ilid_gev'];
+				$res = $this->queryShadowDB($sql);
+				if(mysql_num_rows($res) > 0){
+					$rec = mysql_fetch_assoc($res);
+					$user->setPhoneMobile($rec['value']);
+					$this->prnt('mobile: ' .$user->getPhoneMobile());
+					$user->update();
+				}
+ 			}
+
+		}
+
+
+	}
+
+
+
+	public function	setUsersFromGroupExitToInactive(){
+		$this->prnt('setUsersFromGroupExitToInactive', 1);
+
+		$sql = "SELECT ilid, login"
+		." FROM interimOrguAssignments"
+		." INNER JOIN interimUsers ON interimOrguAssignments.interim_usr_id = interimUsers.id"
+		." WHERE orgu_id = 'exit' ";
+
+
+		$result = $this->queryShadowDB($sql);
+		while ($record = mysql_fetch_assoc($result)){
+
+			//deactivate users
+			$user = new ilObjUser($record['ilid']);
+			$user->setActive(false, 6);
+			$user->update();
+
+			$this->prnt($record['login']);
+		}
+
+		$this->prnt('setUsersFromGroupExitToInactive: done', 2);
+	}
+
+
+
+
+
+
+	public function	update_pass($user_id, $rec){
+		//update pass, creation, agreement
+		$sql = "UPDATE usr_data SET"
+			." passwd='" .$rec['pwd'] ."',"
+			." approve_date='" .$rec['approved'] ."',"
+			." last_login='" .$rec['last_login'] ."'"
+			." WHERE usr_id=" .$user_id;
+	
+			//print $sql;
+
+		$this->ilDB->query($sql);
+
+	}
 
 	public function setUserAdditionalData($il_user_id, $user_record){
 		$this->prnt('setUserAdditionalData', 3);
@@ -837,14 +959,14 @@ class gevUserImport {
 		$user_utils->setPrivateZipcode($user_record['plz_priv']);
 
 		$user_utils->setEntryDate(new ilDate($user_record['entry_date'], IL_CAL_DATE));
-		if($user_record['exit_date'] != '00.00.0000'){
+		if($user_record['exit_date'] != '00.00.0000' && $user_record['exit_date'] != ''){
 			$user_utils->setExitDate(new ilDate($user_record['exit_date'], IL_CAL_DATE));
+		}else{
+			$udf_utils = gevUDFUtils::getInstance();
+			$udf_utils->setField($il_user_id, gevSettings::USR_UDF_EXIT_DATE, NULL);
 		}
 
 		
-
-//$this->prnt($user_record, 666);
-
 		if($user_record['tp_type']){
 			$user_utils->setWBDTPType($user_record['tp_type']);
 		}
@@ -867,13 +989,13 @@ class gevUserImport {
 		}
 		$user_utils->setWBDCommunicationEmail($user_record['mail_wbd']);
 		$user_utils->setIHKNumber($user_record['ihknr']);
-		$user_utils->getAgentPositionVFS($user_record['pos_vfs']);
+		$user_utils->setAgentPositionVFS($user_record['pos_vfs']);
 
 
 		$user_utils->setJobNumber($user_record['vnr_gev']);
 		$user_utils->setAgentKey($user_record['vkey_gev']);
 		$user_utils->setAgentKeyVFS($user_record['vkey_vfs']);
-/*
+
 		$user_utils->setPaisyNr($user_record['paisy']);
 
 
@@ -884,8 +1006,11 @@ class gevUserImport {
 			$user_utils->setADPNumberGEV($user_record["adp_gev"]);
 		}
 
+		//setFinancialAccountVFS
+
+
 		//$user_utils->setWBDFirstCertificationPeriodBegin($user_record['wbd_cert_begin']));
-*/
+
 
 		$user = new ilObjUser($il_user_id);
 		$user->update();
@@ -905,7 +1030,7 @@ class gevUserImport {
 		}
 		$new_role = gevUserImportMatching::$ROLEMAPPINGS[$role_title];
 		if($new_role == '#FROMKEY'){
-			//$this->prnt('...key...');
+			$this->prnt('...key...');
 			$sql = "SELECT role_title FROM interimRoleFromKey WHERE position_key='$position_key'";
 			$result = $this->queryShadowDB($sql);
 			$rec = mysql_fetch_assoc($result);
@@ -913,6 +1038,8 @@ class gevUserImport {
 		}
 		return $new_role;
 	}
+
+
 
 	public function assignUserRoles($interim_user_id, $il_user_id, $user_record){
 		$this->prnt('assignUserRoles', 3);
@@ -929,38 +1056,148 @@ class gevUserImport {
 		." WHERE interimUserRoles.interim_usr_id = $interim_user_id";
 
 		$result = $this->queryShadowDB($sql);
+		if(mysql_num_rows($result) == 0){
+			print_r($user_record);
+			print_r($sql);
+			print ('no role.');
+		}
+
+		$new_roles = array();
+		$this->prnt($user_record['login'] .': ' .$record['role_title'] .' -> ');
 		while ($record = mysql_fetch_assoc($result)){
 			$new_role = $this->matchRole($record['role_title'], $agentkey);
-			$this->prnt($user_record['login'] .': ' .$record['role_title'] .' -> ');
-			$this->prnt($new_role, -1);
 			if($new_role != '#DROP'){
 				$this->role_utils->assignUserToGlobalRole($il_user_id, $new_role);
+				$this->prnt($new_role, -1);
+				$new_roles[] = $new_role;
+			}else{
+				$this->prnt('-drop-', -1);
 			}
 		}	
+
 	}
 
 
-	public function assignUserToOrgUnits($interim_user_id, $il_user_id, $client){
-		$this->prnt('assignUserToOrgUnits', 3);
-
-		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-		$sql = "SELECT orgu_id, ilid FROM interimOrguAssignments"
-			." LEFT JOIN interimOrgUnits on interimOrguAssignments.orgu_id = interimOrgUnits.id"
-			." WHERE interimOrguAssignments.interim_usr_id = '$interim_user_id'";
 
 
-		$result = $this->queryShadowDB($sql);
-		while ($record = mysql_fetch_assoc($result)){
+	public function assignAsMiZ($user_record, $mizcoach){
+		$il_user_id = $user_record['ilid'];
 
-			$org_unit_id = $record['ilid'];
-			if($org_unit_id == 0){
-				$org_unit_id = 'nogroup_' . $client;
-				$res = $this->queryShadowDB("SELECT ilid FROM interimOrgUnits WHERE id='$org_unit_id'");
-				$rec = mysql_fetch_assoc($res);
-				$org_unit_id = $rec['ilid'];
+		if($user_record['isMizOfADP']){
+
+
+			if(is_numeric( $user_record['isMizOfADP'])){
+
+				$sql = "SELECT ilid as il_adviser_user_id FROM interimUsers"
+					." WHERE adp_vfs = '" . $user_record['isMizOfADP'] ."'";
+			} else {
+
+				$sql = "SELECT ilid as il_adviser_user_id FROM interimUsers"
+					." WHERE mail = '" . $user_record['isMizOfADP'] ."'";
 			}
+
+			$result = $this->queryShadowDB($sql);
+			$record = mysql_fetch_assoc($result);
+			$il_adviser_user_id = $record['il_adviser_user_id'];
 			
-			$this->prnt('in OrgUnit '. $org_unit_id);
+			$this->prnt('... by interimUser: MIZ of ' .$il_adviser_user_id);
+			if($il_adviser_user_id){
+				try{
+					$this->na_utils->assignAdviser($il_user_id, $il_adviser_user_id);
+				}
+				catch(Exception $e){
+					print_r($e);
+					//pass				
+				}
+			}
+			$this->prnt(' .... ok', -1);
+		}
+
+
+		if(is_numeric($mizcoach)){
+			//get mizcoach
+			$sql = "SELECT ilid as il_adviser_user_id FROM interimUsers"
+					." WHERE id = $mizcoach";
+
+			$result = $this->queryShadowDB($sql);
+			$record = mysql_fetch_assoc($result);
+			$il_adviser_user_id = $record['il_adviser_user_id'];
+
+			$this->prnt('... by interimOrguAssignments: MIZ of ' .$il_adviser_user_id);
+			if($il_adviser_user_id){
+				try{
+					$this->na_utils->assignAdviser($il_user_id, $il_adviser_user_id);
+				}
+				catch(Exception $e){
+					print_r($e);
+					//pass				
+				}
+			}
+			$this->prnt(' .... ok', -1);
+		}
+
+	}
+
+
+
+	public function assignUserToOrgUnits($interim_user_id, $il_user_id, $user_record){
+		//$this->prnt('assignUserToOrgUnits', 3);
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+
+		$sql = "SELECT * FROM interimOrguAssignments WHERE interim_usr_id='$interim_user_id'";
+		$result = $this->queryShadowDB($sql);
+		if(mysql_num_rows($result) == 0){
+			//keine zuordnung
+			$this->prnt('Keine Zuordnung: ' .$user_record['login'], 3);
+			//$orgu_id = 'ohne_zuordnung';
+			$client = ($user_record['ilid_vfs'] == '') ? 'gev' : 'vfs';
+			$orgu_id = 'nogroup_' .$client;
+
+
+		} else {
+
+			$record = mysql_fetch_assoc($result);
+			$orgu_id = $record['orgu_id'];
+		}
+
+
+		if($orgu_id == 'root'){
+			$this->prnt('root-user? : ' .$user_record['login'], 3);
+		}
+
+		if($orgu_id == 'makler'){
+			$this->prnt($user_record['login'] .' (' .$interim_user_id .') is a DBV-Makler ');
+			// fromRegistrationGUI, DBV assign
+			
+			require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
+			gevDBVUtils::getInstance()->assignUserToDBVsByShadowDB($il_user_id);
+			
+		}
+		if($orgu_id == 'na'){
+			$this->prnt($user_record['login'] .' (' .$interim_user_id .') is a NA ');
+			$this->assignAsMiZ($user_record, $record['interim_usr_id_mizcoach']);
+		}
+
+
+
+
+		if(	$orgu_id != 'na' 
+			&& $orgu_id != 'makler'
+			&& $orgu_id != 'root'){
+
+			$sql = "SELECT ilid, id, title FROM interimOrgUnits "
+				." WHERE id = '" .$orgu_id ."'";
+
+			$res = $this->queryShadowDB($sql);
+			if(mysql_num_rows($res) == 0){
+				die($sql);
+			}
+
+			$rec = mysql_fetch_assoc($res);
+
+			$org_unit_id = $rec['ilid'];
+
+			$this->prnt($user_record['login'] .' [il ' .$il_user_id .'] in OrgUnit '.$rec['title'] . ' (' .$org_unit_id .' )');
 
 			$org_role_title = 'Mitarbeiter';
 			$user_roles = $this->role_utils->getGlobalRolesOf($il_user_id);
@@ -971,16 +1208,16 @@ class gevUserImport {
 				}
 			}
 
-
 			$org_unit_utils = gevOrgUnitUtils::getInstance($org_unit_id);
 			$org_unit_utils->getOrgUnitInstance();
 			$org_unit_utils->assignUser($il_user_id, $org_role_title);
-			
 		}
 
-		// fromRegistrationGUI, DBV assign
-		//require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
-		//gevDBVUtils::getInstance()->assignUserToDBVsByShadowDB($il_user_id);
+
+
+
+
+		
 	}
 
 
@@ -997,17 +1234,10 @@ class gevUserImport {
 		}
 
 
-		$sql = "SELECT * FROM interimUsers"
-		." WHERE login NOT IN ('root', 'anonymous', 'cron')"
-		." AND mail NOT LIKE '%@qualitus.de'"
-//		." AND id BETWEEN 2755 AND 2765"
-//." LIMIT 200 OFFSET 400"
-		;
-		$result = $this->queryShadowDB($sql);
-
-		while ($record = mysql_fetch_assoc($result)){
-
-$this->prnt($record, 666);
+		foreach ($this->getUsersFromInterimsDB() as $record) {
+			
+			//$this->prnt($record, 666);
+			$this->prnt($record['login']);
 			
 			if(! in_array(trim($record['login']), $exclude)){
 				//create
@@ -1026,33 +1256,481 @@ $this->prnt($record, 666);
 					." WHERE login='".$record['login']."'";
 					$res = $this->ilDB->query($sql);
 					$rec = $this->ilDB->fetchAssoc($res);
+				
 					$user_id = $rec['usr_id'];
+				
 					$sql = "UPDATE interimUsers SET ilid = '$user_id' WHERE"
 					." id=" .$record['id'];
 					$this->queryShadowDB($sql);
 				}
+
+				$this->updateUser($record);
 			}
 
 
-			$this->setUserAdditionalData($user_id, $record);
-
-			$this->assignUserRoles($record['id'], $user_id, $record);
-
-			
-			$client = ($record['ilid_vfs'] == '') ? 'gev' : 'vfs';
-			$this->assignUserToOrgUnits($record['id'], $user_id, $client);
+			//$this->update_pass($user_id, $record);
+			//$this->setUserAdditionalData($user_id, $record);
 
 		};
-
-
 		$this->prnt('Creating/Updating UserAccounts: done', 2);
 	}
 	
 
+	public function assignAllUserRoles(){
+		$this->prnt('assignAllUserRoles', 1);
+		foreach ($this->getUsersFromInterimsDB() as $record) {
+			$user_id = (int)$record['ilid'];
+			$this->assignUserRoles($record['id'], $user_id, $record);
+		}
+		$this->prnt('assignAllUserRoles: done', 2);
+	}
+
+
+	public function assignAllUsersToOrgUnits(){
+		$this->prnt('assignAllUsersToOrgUnits', 1);
+		foreach ($this->getUsersFromInterimsDB() as $record) {
+			//$client = ($record['ilid_vfs'] == '') ? 'gev' : 'vfs';
+			$this->assignUserToOrgUnits($record['id'], $record['ilid'], $record);
+		}
+		$this->prnt('assignAllUsersToOrgUnits: done', 2);
+	}
+
+
+
+
+
+
+	public function getUsersFromInterimsDB(){
+		$sql = "SELECT * FROM interimUsers"
+		." WHERE login NOT IN ('root', 'anonymous', 'cron')"
+		." AND mail NOT LIKE '%@qualitus.de'"
+
+//." AND isMizOfADP != '' "		
+//." AND id BETWEEN 2755 AND 2765"
+//." LIMIT 200 OFFSET 400"
+//." AND id in (4352, 5632)"
+." AND id in (153)"
+		;
+
+		$result = $this->queryShadowDB($sql);
+		$ret = array();
+		while ($record = mysql_fetch_assoc($result)){
+			$ret[] = $record;
+		}
+		return $ret;
+	}
+
+
+
+
+
+
+
+
+
+	private function writeCourseEntry($crs_record){
+	/*
+	hist_course
+		row_id 				int(11) 		
+		hist_version 		int(11) 		
+		hist_historic 		int(11) 		
+		creator_user_id 	int(11) 		
+		created_ts 			int(11) 		
+		crs_id 				int(11) 		
+		custom_id 			varchar(255) 	
+		title 				varchar(255) 	
+		template_title 		varchar(255) 	
+		type 				varchar(255) 	
+		topic_set 			int(11) 		
+		begin_date 			date 			
+		end_date 			date 			
+		hours 				int(11) 		
+		is_expert_course 	tinyint(4) 		
+		venue 				varchar(255) 	
+		provider 			varchar(255) 	
+		tutor 				varchar(255) 	
+		max_credit_points 	varchar(255) 	
+		fee 				double 			
+		is_template 		varchar(8) 	
+		wbd_topic 			varchar(255) 	
+		edu_program			varchar(255)
+	*/
+
+
+		//insert courses (negative ids is enough, there are no other negatives yet)
+		$id = $this->ilDB->nextId('hist_course');
+
+		$fee = ($crs_record['fee']) ? $crs_record['fee'] : 0 ;
+
+		$sql = " INSERT INTO hist_course ("
+			."
+			 row_id
+			,hist_version
+			,hist_historic
+			,creator_user_id
+			,created_ts
+			,crs_id
+			,custom_id
+			,title
+			,template_title
+			,type
+			,topic_set
+			,begin_date
+			,end_date
+			,hours
+			,is_expert_course
+			,venue
+			,provider
+			,tutor
+			,max_credit_points
+			,fee
+			,is_template
+			,wbd_topic
+			,edu_program
+			"
+			.") VALUES ("
+
+			.$id .","
+			."0, " //hist_version
+			."0, " //hist_historic
+			."-201, " //creator
+			
+			."UNIX_TIMESTAMP() , "//created_ts
+			.$crs_record['crs_id'] .", " //crs_id
+			."'" .$crs_record['custom_id'] ."', " //custom_id
+			.$this->ilDB->quote($crs_record['title'], 'text') .", " //title
+			."'', " //template_title
+			."'" .$crs_record['type'] ."', " //type
+			.$crs_record['topic_set'] .", " //topic_set
+			.$this->ilDB->quote($crs_record['begin_date'], 'text') .", " //begin_date
+			.$this->ilDB->quote($crs_record['end_date'], 'text') .", " //end_date
+			.$crs_record['hours'] .", " //hours
+			.$crs_record['is_expert_course'] .", " //is_expert_course
+			.$this->ilDB->quote($crs_record['venue'], 'text') .", " //venue
+			."'" .$crs_record['provider'] ."', " //provider
+			."'-empty-', " //tutor
+			.$this->ilDB->quote($crs_record['max_credit_points'], 'text') .", " //max_credit_points
+			.$fee .", " //fee
+			."0, " //is_template
+			."'" .$crs_record['wbd_topic'] ."', " //wbd_topic
+			."'" .$crs_record['edu_program'] ."'"//edu_program
+			.")"
+			;
+
+		$this->ilDB->query($sql);
+
+		
+		//insert (negative) id into object_reference, so course shows up in edu-bio
+		$ref = $this->ilDB->nextId('object_reference');
+		$sql = "INSERT INTO object_reference (ref_id, obj_id)"
+		." VALUES ("
+		.$ref ."," 
+		.$crs_record['crs_id']
+		. ")";
+		$this->ilDB->query($sql);
+
+
+
+		$this->prnt(' .', -1);
+
+
+	}
+
+	private function writeUserCourseEntry($edu_record){
+ 	/*
+	hist_usercoursestatus
+
+	 	row_id 				int(11) 
+		hist_version 		int(11)
+		hist_historic 		int(11)
+		creator_user_id 	int(11)
+		created_ts 			int(11)
+		last_wbd_report 	date 			
+		usr_id 				int(11)
+		crs_id 				int(11)
+		credit_points 		int(11)
+		bill_id 			varchar(16)
+		booking_status 		varchar(255)
+		participation_status	varchar(255) 	
+		okz 				varchar(255) 	
+		org_unit 			varchar(255)
+		certificate 		int(11) 
+		begin_date 			date 		
+		end_date 			date 		
+		overnights 			int(11) 	
+		function 			varchar(255)
+		wbd_booking_id 		varchar(255)
+	*/
+
+	//only for new course-entries...
+	$sql = " SELECT * FROM hist_usercoursestatus"
+	." WHERE usr_id=" .$edu_record['usr_id']
+	." AND crs_id=" .$edu_record['crs_id']
+	;
+	$result = $this->ilDB->query($sql);
+
+	if($this->ilDB->numRows($result) == 0){
+
+		$id = $this->ilDB->nextId('hist_course');
+
+		$sql = " INSERT INTO hist_usercoursestatus ("
+			."
+			 row_id
+			,hist_version 
+			,hist_historic
+			,creator_user_id
+			,created_ts
+			,last_wbd_report
+			,usr_id
+			,crs_id
+			,credit_points
+			,bill_id
+			,booking_status
+			,participation_status
+			,okz
+			,org_unit
+			,certificate
+			,begin_date
+			,end_date
+			,overnights
+			,function
+			,wbd_booking_id
+			"
+			
+			.") VALUES ("
+
+			.$id .", "
+			.$edu_record['hist_version'] .", " //hist_version
+			.$edu_record['hist_historic'] .", " //hist_historic
+			.$edu_record['creator_user_id'] .", " //creator
+			."UNIX_TIMESTAMP() , "//created_ts
+			//.$edu_record['last_wbd_report'] .", " //last_wbd_report
+			.'0000-00-00' .", " //last_wbd_report
+			.$edu_record['usr_id'] .", " //usr_id
+			.$edu_record['crs_id'] .", " //crs_id
+			.$edu_record['credit_points'] .", " //credit_points
+			.$this->ilDB->quote($edu_record['bill_id'], 'text') .", " //bill_id
+			.$this->ilDB->quote($edu_record['booking_status'], 'text') .", " //booking_status
+			.$this->ilDB->quote($edu_record['participation_status'], 'text') .", " //participation_status
+			.$this->ilDB->quote($edu_record['okz'], 'text') .", " //okz
+			.$this->ilDB->quote($edu_record['org_unit'], 'text') .", " //org_unit
+			.$edu_record['certificate'] .", " //certificate
+			.$this->ilDB->quote($edu_record['begin_date'], 'text') .", " //begin_date
+			.$this->ilDB->quote($edu_record['end_date'], 'text') .", " //end_date
+			.$edu_record['overnights'] .", " //overnights
+			.$this->ilDB->quote($edu_record['function'], 'text') .", " //function
+			.$this->ilDB->quote($edu_record['wbd_booking_id'], 'text')  //wbd_booking_id
+			.")"
+			;
+
+			$this->ilDB->query($sql);
+			$this->prnt(' .', -1);
+		} else {
+			$this->prnt(' x', -1);
+		}
+
+	}
+
+
 
 
 	public function importEduRecords(){
+		$this->prnt('importEduRecords', 1);
+/*
+		//get all usercoursestatus from interim
+		$this->prnt('courses (and topics)', 3);
+		$sql = "SELECT * FROM interimCourse";
+
+		$result = $this->queryShadowDB($sql);
+		while ($record = mysql_fetch_assoc($result)){
+			if($record['topic_set'] > 0){
+				//get topicset from interim_hist_topic and (maybe) insert new topic in live
+				$record['topic_set'] = $this->getLiveTopicSetId($record['topic_set']);
+			}
+
+			//write course
+			$this->writeCourseEntry($record);
+
+		}
+*/
+
+		//get all interimUserCourseStatus
+		$this->prnt('user-course status', 3);
+
+		$sql = "SELECT * FROM interimUsercoursestatus";
+		$result = $this->queryShadowDB($sql);
+		while ($record = mysql_fetch_assoc($result)){
+			//match user_id againts interimUsers.ilid
+			$client = ($record['usr_id_vfs'] == '' || $record['usr_id_vfs'] == 0) ? 'gev' : 'vfs';
+
+			$sql = "SELECT ilid FROM interimUsers"
+				." WHERE ilid_" .$client ."='" .$record['usr_id_' .$client] ."'"
+				;
+			$res = $this->queryShadowDB($sql);
+			$r = mysql_fetch_assoc($res);
+			$ilid = $r['ilid'];
+
+			if($ilid){//there are test/dummy-users w/o ilid
+
+				//write edurecord
+				$record['creator_user_id'] = ($client == 'gev') ? -202 : -203;
+				$record['usr_id'] = $ilid;
+
+				$this->writeUserCourseEntry($record);
+			}
+
+		}
+
+		$this->prnt('importEduRecords: done', 2);
 	}
+
+
+
+	public function fixEduRecords(){
+		$this->prnt('fixEduRecords', 1);
+		$sql = "SELECT * FROM hist_usercoursestatus";
+		
+		$result = $this->ilDB->query($sql);
+		while($record = $this->ilDB->fetchAssoc($result)){
+
+			//fix booking id			
+			if($record['wbd_booking_id'] && $record['wbd_booking_id'] != '-empty-'){
+
+				//update last_wbd_report from booking_id
+				//2014-12-30-2472
+				$sql = "UPDATE hist_usercoursestatus SET"
+				." last_wbd_report='" .substr($record['wbd_booking_id'], 0, 10) ."'"
+				." WHERE row_id = " .$record['row_id'];
+				
+				$beep = '.';
+
+			} else {
+				//set booking_id to "-empty-", if NULL
+				$sql = "UPDATE hist_usercoursestatus SET"
+				." last_wbd_report=NULL "
+				." ,wbd_booking_id=NULL"
+				." WHERE row_id = " .$record['row_id'];
+
+				$beep = '-';
+			}
+
+			$this->ilDB->query($sql);
+			$this->prnt($beep,-1);
+
+		}
+
+
+		$this->prnt('fixEduRecords: done', 2);
+	}
+
+
+
+
+	// #902
+	public function reassignMiZsForExitUsers(){ 
+		//get all exited users
+		//do those have a personal org-unit?
+		//if so, get all their sub-users
+		//assign sub-users into Organisationseinheiten » Generali Versicherungen » Nebenberufsagenturen » Nebenberufsagentur ohne Zugehörigkeit
+		//delete personal org-unit
+
+
+		$this->prnt('reassignMiZsForExitUsers', 1);
+
+		$sql = "SELECT ilid, login"
+		." FROM interimOrguAssignments"
+		." INNER JOIN interimUsers ON interimOrguAssignments.interim_usr_id = interimUsers.id"
+		." WHERE orgu_id = 'exit' ";
+
+		$result = $this->queryShadowDB($sql);
+		while ($record = mysql_fetch_assoc($result)){
+			$adviser_id = $record['ilid'];
+
+			$orgu = $this->na_utils->pou->getOrgUnitOf($adviser_id);
+
+			if ( is_object($orgu) ){
+
+				$subusers = $this->na_utils->pou->getEmployeesOf($adviser_id);
+				print_r($subusers);
+				foreach ($subusers as $subuser){
+					$this->prnt('deassign: ' .$subuser);
+					$orgu->deassignUserFromEmployeeRole($subuser);
+
+				}
+				//assign to ref_id 2311(Nebenberufsagentur ohne Zugehörigkeit)
+				// LIVE
+				$orgu = new ilObjOrgUnit(2311);
+				// NLZ
+				//$orgu = new ilObjOrgUnit(101);
+				$orgu->assignUsersToEmployeeRole($subusers);
+				
+				$this->na_utils->pou->purgeOrgUnitOf($adviser_id);
+			} else {
+				$this->prnt("no orgu.");
+			}
+
+		}
+
+		$this->prnt('reassignMiZsForExitUsers: done', 2);
+
+	}
+
+	
+	public function switchHA84FromSuperiorToEmployee(){ 
+		$this->prnt('switchHA84FromSuperiorToEmployee', 1);
+		
+		require_once("Services/GEV/Utils/classes/class.gevGeneralUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+
+		$gen_utils = new gevGeneralUtils();
+		$users = $gen_utils->getUsersWithGlobalRole(array('HA 84'));
+
+		$tree = ilObjOrgUnitTree::_getInstance();
+
+		foreach ($users as $user_id=>$usr){
+
+			$this->prnt($usr['login'] .': ');
+			$user_utils = gevUserUtils::getInstance($user_id);
+			$orgus = $user_utils->getOrgUnitsWhereUserIsDirectSuperior();
+			
+			foreach($orgus as $orgu_set){
+				//$orgu = new ilObjOrgUnit($orgu_set['obj_id'], false);
+				$orgu = new ilObjOrgUnit($orgu_set['ref_id'], true);
+				$this->prnt($orgu->getTitle() .' - ', -1);
+				try{
+					$orgu->deassignUserFromSuperiorRole($user_id);
+					$this->prnt(' -superior ', -1);
+					$orgu->assignUsersToEmployeeRole(array($user_id));
+					$this->prnt(' +employee ', -1);
+				} catch (Exception $e){
+					//pass
+				}
+			}
+
+
+			$orgus = $tree->getOrgUnitOfUser($user_id);
+			foreach ($orgus as $ref) {
+				$orgu = new ilObjOrgUnit($ref, true);
+				$search = $usr['firstname'] .' ' .$usr['lastname'];
+				if(strpos($orgu->getTitle(), $search) !== false){
+					$this->prnt($orgu->getTitle() .' - ', -1);
+					$orgu->deassignUserFromEmployeeRole($user_id);
+					$this->prnt(' -employee ', -1);
+					$orgu->assignUsersToSuperiorRole(array($user_id));
+					$this->prnt(' +superior ', -1);
+				}
+
+				
+			}
+
+
+		}
+
+		$this->prnt('switchHA84FromSuperiorToEmployee: done', 2);
+	}
+
 
 
 }

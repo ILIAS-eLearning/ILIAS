@@ -50,6 +50,7 @@ class gevUserImportMatching {
 		,'TP Service'			//	Sonderrolle zur Anmeldung als TP Service
 		,'TP Basis'				//	Sonderrolle zur Anmeldung als TP Basis
 		,'VFS'					//	Kennzeichen ehem VFS Benutzer
+		,'VA/BA in Ausbildung'
 	);
 
 
@@ -74,8 +75,8 @@ class gevUserImportMatching {
 			,'PV1'	=> '#FROMKEY'
 			,'PV 2'	=> '#FROMKEY'
 			,'PV2'	=> '#FROMKEY'
-			,'MiZ'	=> 'MiZ / NA'
-			,'MIZ'	=> 'MiZ / NA'
+			,'MiZ'	=> 'NA'
+			,'MIZ'	=> 'NA'
 			,'ID 1'	=> 'ID MA'
 			,'Innendienst I'	=> 'ID MA'
 			,'ID 2'	=> 'ID FK'
@@ -106,6 +107,7 @@ class gevUserImportMatching {
 			,'Administrator' => 'Administrator'
 			,'Administrator-Voll' => 'Admin-Voll'
 			,'Administrator-Eingeschränkt' => 'Admin-eingeschraenkt'
+			,'Administrator-eingeschränkt' => 'Admin-eingeschraenkt'
 			,'OD/LD/BD/VD/VTWL' => '#FROMKEY'
 			,'LD-ID/BD/ID' => 'OD/FD/BD ID'
 
@@ -120,7 +122,9 @@ class gevUserImportMatching {
 			,'Azubi' => 'Azubi'
 			,'VP' => 'VP'
 			,'ID-FK' => 'ID FK'
+			,'ID FK' => 'ID FK'
 			,'ID-MA' => 'ID MA'
+			,'ID MA' => 'ID MA'
 			,'Spezialist' => 'int. Trainer'
 			,'Ausbilder' => 'Ausbilder'
 			,'int. Referent' => 'int. Trainer'

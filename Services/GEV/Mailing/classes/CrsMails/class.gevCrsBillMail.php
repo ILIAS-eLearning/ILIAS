@@ -73,6 +73,10 @@ class gevCrsBillMail extends gevCrsAutoMail {
 	}
 
 	public function getMail($a_recipient) {
+		if ($this->getCourseUtils()->isTemplate()) {
+			return null;
+		}
+
 		$mail = $this->getMessage($this->getTemplateId(), $a_recipient);
 		$mail["to"] = $a_recipient["name"]." <".$a_recipient["email"].">";
 		return $mail;	

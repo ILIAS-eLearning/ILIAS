@@ -56,6 +56,7 @@ class gevUserUtils {
 	const WBD_AGENTSTATUS5	= "5 - Mitarbeiter eines Vermittlers";
 	const WBD_AGENTSTATUS6	= "6 - Sonstiges";
 	const WBD_AGENTSTATUS7	= "7 - keine Zuordnung";
+	
 
 	static $wbd_agent_status_mapping = array(
 		//1 - Angestellter Außendienst
@@ -78,6 +79,7 @@ class gevUserUtils {
 			,"DBV UVG"
 			,"DBV EVG"
 		),
+
 		//2 - Ausschließlichkeitsvermittler
 		self::WBD_AGENTSTATUS2 => array(
 			/* GOA V1:
@@ -95,7 +97,34 @@ class gevUserUtils {
 		//3 - Makler
 		self::WBD_AGENTSTATUS3 => array(
 			"VP"
+		),
+
+		//5 - Mitarbeiter eines Vermittlers
+		self::WBD_AGENTSTATUS5 => array(
+			"Agt-ID"
+		),
+		//6 - Sonstiges
+		self::WBD_AGENTSTATUS6 => array(
+			'Administrator'
+			,'Admin-Voll'
+			,'Admin-eingeschraenkt'
+			,'Admin-Ansicht'
+			,'ID FK'
+			,'ID MA'
+			,'OD/FD/BD ID'
+			,'FDA'
+			,'Ausbilder'
+			,'Azubi'
+			,'Buchhaltung'
+			,'Veranstalter'
+			,'int. Trainer'
+			,'ext. Trainer'
+			,'TP Service'
+			,'TP Basis'
+			,'VFS'
+
 		)
+
 	);
 
 	/* GOA V1:
@@ -144,10 +173,10 @@ class gevUserUtils {
 		,"DBV UVG"
 		,"DBV EVG"
 		,"TP Service"
-	
 		,"TP Basis"
 		,"VP"
 	);
+
 	
 	// Für diese Rollen wird bei der Selbstbuchung der Hinweis "Vorabendanreise 
 	// mit Führungskraft klären" angezeigt.
@@ -1789,7 +1818,7 @@ class gevUserUtils {
 			foreach($roles as $key => $value) {
 				$roles[$key] = ilObject::_lookupTitle($value);
 			}
-
+		
 			foreach (self::$wbd_agent_status_mapping as $agent_status => $relevant_roles) {
 				foreach ($roles as $role) {
 					if(in_array($role, $relevant_roles)){

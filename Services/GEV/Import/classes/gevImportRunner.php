@@ -16,7 +16,7 @@ $basedir = str_replace('/Services/GEV/Import/classes', '', $basedir);
 chdir($basedir);
 
 //SIMPLE SEC !
-require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
+//require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
 
 
 //context w/o user
@@ -33,13 +33,7 @@ require_once("Services/GEV/Import/classes/class.gevUserImport.php");
 
 
 $imp = new gevUserImport();
-//$imp->webmode = false;
-
-//$imp->createOrgStructure();
-
-
-$imp->createOrUpdateUserAccounts();
-
+$imp->webmode = false;
 
 /*
 $imp->fetchVFSUsers();
@@ -49,7 +43,24 @@ $imp->fetchVFSEduRecords();
 $imp->fetchGEVUsers();
 $imp->fetchGEVUserRoles();
 $imp->fetchGEVEduRecords();
-
 */
+
+
+//$imp->createOrgStructure();
+
+//$imp->createOrUpdateUserAccounts();
+//$imp->assignAllUserRoles(); //ROLES BEFORE ORG-UNITS
+//$imp->assignAllUsersToOrgUnits();
+//$imp->setUsersFromGroupExitToInactive();
+
+
+//$imp->importEduRecords();
+//$imp->fixEduRecords();
+
+//$imp->reassignMiZsForExitUsers();
+$imp->switchHA84FromSuperiorToEmployee();
+
+
+
 print '<br><br><hr>all through.';
 ?>

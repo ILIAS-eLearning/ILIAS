@@ -209,7 +209,7 @@ class ilTEPEntryGUI
 		$cal = new ilCalEntryType();
 		$type_opts = $cal->getAllActive();
 		// gev-patch start
-		sort($type_opts,  SORT_NATURAL | SORT_FLAG_CASE);
+		asort($type_opts,  SORT_NATURAL | SORT_FLAG_CASE);
 		// gev-patch end
 		
 		// type		
