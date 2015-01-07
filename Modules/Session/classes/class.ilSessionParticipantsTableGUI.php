@@ -225,7 +225,8 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		#$this->setFormAction($this->ctrl->getFormAction($this->getParentObject(),'members'));
 
         $this->addColumn('','f',"1");
-	 	$this->addColumn($this->lng->txt('lastname'),'name','30%');
+	 	$this->addColumn($this->lng->txt('name'),'name','20%');
+		$this->addColumn($this->lng->txt('login'),'login','10%');
 	 	$this->addColumn($this->lng->txt('trac_mark'),'mark');
 	 	$this->addColumn($this->lng->txt('trac_comment'),'comment');
 		if($this->isRegistrationEnabled())

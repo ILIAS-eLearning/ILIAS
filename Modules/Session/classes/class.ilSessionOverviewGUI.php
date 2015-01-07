@@ -116,10 +116,11 @@ class ilSessionOverviewGUI
 		$members = $this->members_obj->getParticipants();
 		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');		
 		
-		// Table 
+		// Table
+		//TODO: Use ilTable2GUI
 		$tbl = new ilTableGUI();
 		$tbl->setTitle($this->lng->txt("event_overview"),
-					   'icon_usr.png',
+					   '',
 					   $this->lng->txt('obj_usr'));
 		$this->ctrl->setParameter($this,'offset',(int) $_GET['offset']);	
 		
@@ -139,8 +140,11 @@ class ilSessionOverviewGUI
 		$colWidth = array();
 		
 		$headerNames[] = $this->lng->txt('name');		
-		$headerVars[] = "name";		
-		$colWidth[] = '20%';		
+		$headerVars[] = "name";
+		$colWidth[] = '20%';
+		$headerNames[] = $this->lng->txt('login');
+		$headerVars[] = "login";
+		$colWidth[] = '20%';
 					
 		for ($i = 1; $i <= count($events); $i++)
 		{

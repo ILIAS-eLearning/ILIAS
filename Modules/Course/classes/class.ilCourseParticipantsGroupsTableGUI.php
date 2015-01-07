@@ -40,7 +40,8 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 		$this->setTitle($this->lng->txt('crs_grp_assignments'));
 
 		$this->addColumn('','',0);
-		$this->addColumn($this->lng->txt("name"), "name",'70%');
+		$this->addColumn($this->lng->txt("name"), "name",'35%');
+		$this->addColumn($this->lng->txt("login"), "login",'35%');
 		$this->addColumn($this->lng->txt("crs_groups_nr"), "groups_number");
 		$this->addColumn($this->lng->txt("groups"));
 
@@ -126,8 +127,9 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 			{
 				include_once './Services/User/classes/class.ilUserUtil.php';
                 $usr_data = array();
-				foreach(ilUserUtil::getNamePresentation($members, false, false, "", true) as $usr_id => $name)
+				foreach($members as $usr_id)
 				{
+					$name = ilObjUser::_lookupName($usr_id);
 					// #9984
 					$user_groups = array("members"=>array(),"admins"=>array());
 					$user_groups_number = 0;
@@ -145,14 +147,15 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 						}
 					}
 					
-					if((!$this->filter["name"] || stristr($name, $this->filter["name"])) &&
+					if((!$this->filter["name"] || stristr(implode("", $name), $this->filter["name"])) &&
 						(!$this->filter["group"] || array_key_exists($this->filter["group"], $user_groups["members"]) ||
 						array_key_exists($this->filter["group"], $user_groups["admins"])))
 					{
 						$usr_data[] = array("usr_id" => $usr_id,
-							"name" => $name,
+							"name" => $name["lastname"]. ", " . $name["firstname"],
 							"groups" => $user_groups,
-							"groups_number" => $user_groups_number
+							"groups_number" => $user_groups_number,
+							"login" => $name["login"]
 							);
 					}
 				}
@@ -178,6 +181,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_ID", $a_set["usr_id"]);
 
 		$this->tpl->setVariable("TXT_USER", $a_set["name"]);
+		$this->tpl->setVariable("TXT_LOGIN", $a_set["login"]);
 		$this->tpl->setVariable("VAL_GROUP_NUMBER", $a_set["groups_number"]);
 
 		if(sizeof($a_set["groups"]))

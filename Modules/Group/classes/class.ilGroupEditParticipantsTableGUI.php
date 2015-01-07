@@ -61,7 +61,7 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 		$this->setFormName('participants');
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 	 	
-	 	$this->addColumn($this->lng->txt('lastname'),'lastname','20%');
+	 	$this->addColumn($this->lng->txt('name'),'name','20%');
 	 	$this->addColumn($this->lng->txt('login'),'login','25%');
 
 	 	if($this->privacy->enabledGroupAccessTimes())

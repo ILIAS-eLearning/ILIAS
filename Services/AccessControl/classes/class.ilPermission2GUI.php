@@ -62,7 +62,7 @@ class ilPermission2GUI
 		$form->setFormAction($this->ctrl->getFormAction($this, "owner"));
 		$form->setTitle($this->lng->txt("info_owner_of_object"));
 		
-		$login = new ilTextInputGUI($this->lng->txt("username"), "owner");
+		$login = new ilTextInputGUI($this->lng->txt("login"), "owner");
 		$login->setDataSource($this->ctrl->getLinkTargetByClass(array(get_class($this),
 			'ilRepositorySearchGUI'), 'doUserAutoComplete', '', true));		
 		$login->setRequired(true);

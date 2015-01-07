@@ -263,7 +263,7 @@ class ilMemberExport
 		include_once('Services/User/classes/class.ilUserDefinedFields.php');
 
 		$field_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($this->obj_id));
-
+		$field_info->sortExportFields();
 	 	$fields[] = 'role';
 	 	// Append agreement info
 	 	$privacy = ilPrivacySettings::_getInstance();
@@ -341,6 +341,9 @@ class ilMemberExport
 						$field_id = explode('_',$field);
 						#$this->csv->addColumn(ilCourseDefinedFieldDefinition::_lookupName($field_id[1]));
 						$this->addCol(ilCourseDefinedFieldDefinition::_lookupName($field_id[1]),$row,$col++);
+					}elseif($field == "username")//User Name Presentation Guideline; username should be named login
+					{
+						$this->addCol($this->lng->txt("login"), $row, $col++);
 					}
 					else
 					{

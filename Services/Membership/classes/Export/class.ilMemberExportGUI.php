@@ -154,7 +154,7 @@ class ilMemberExportGUI
 			$this->tpl->setVariable('CHECK_EXPORT_CH',ilUtil::formCheckbox($this->exportSettings->enabled('consultation_hour'), 'export_members[consultation_hour]', 1));
 			$this->tpl->parseCurrentBlock();
 		}
-		
+		$this->fields_info->sortExportFields();
 		$fields = $this->fields_info->getFieldsInfo();
 		foreach($fields as $field => $exportable)
 		{
@@ -165,6 +165,11 @@ class ilMemberExportGUI
 			$this->tpl->setCurrentBlock('user_data_row');
 			$this->tpl->setVariable('CHECK_EXPORT_USER_DATA',ilUtil::formCheckbox($this->exportSettings->enabled($field),'export_members['.$field.']',1));
 			$this->tpl->setVariable('TXT_EXPORT_USER_DATA',$this->lng->txt($field));
+
+			if($field == "username")//User Name Presentation Guideline; username should be named login
+			{
+				$this->tpl->setVariable('TXT_EXPORT_USER_DATA',$this->lng->txt("login"));
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 		

@@ -170,9 +170,9 @@ class ilUserSearchOptions
 	public static function _getPossibleFields($a_admin = false)
 	{
 		return array('gender',
-					 'login',
 					 'lastname',
 					 'firstname',
+					 'login',
 					 'title',
 					 'institution',
 					 'department',

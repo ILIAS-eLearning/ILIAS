@@ -144,7 +144,7 @@ class ilExportFieldsInfo
 					break;
 	
 				case 'username':
-					$fields['login']['txt'] = $lng->txt('username');
+					$fields['login']['txt'] = $lng->txt('login');
 					$fields['login']['default'] = 1;
 					break;
 				default:
@@ -288,6 +288,32 @@ class ilExportFieldsInfo
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * sort Exports fields User for Name Presentation Guideline
+	 */
+	public function sortExportFields()
+	{
+
+		$start_order = array("lastname" => array(), "firstname" => array(), "username" => array());
+
+		foreach($start_order as $key => $value)
+		{
+			if(isset($this->possible_fields[$key]))
+			{
+				$start_order[$key] = $this->possible_fields[$key];
+				unset($this->possible_fields[$key]);
+			}else
+			{
+				unset($start_order[$key]);
+			}
+		}
+
+		if(count($start_order) > 0)
+		{
+			$this->possible_fields = array_merge($start_order, $this->possible_fields);
+		}
 	}
 }
 ?>

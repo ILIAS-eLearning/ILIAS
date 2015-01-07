@@ -33,8 +33,9 @@ class ilRbacLogTableGUI extends ilTable2GUI
 		$this->setLimit(5);
 		
 		$this->addColumn($this->lng->txt("date"), "", "15%");
-		$this->addColumn($this->lng->txt("user"), "", "15%");
-		$this->addColumn($this->lng->txt("action"), "", "20%");
+		$this->addColumn($this->lng->txt("name"), "", "10%");
+		$this->addColumn($this->lng->txt("login"), "", "10%");
+		$this->addColumn($this->lng->txt("action"), "", "15%");
 		$this->addColumn($this->lng->txt("rbac_changes"), "", "50%");
 
 	    $this->setExternalSegmentation(true);
@@ -94,7 +95,10 @@ class ilRbacLogTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{
 		$this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($a_set["created"], IL_CAL_UNIX)));
-		$this->tpl->setVariable("USER", ilObjUser::_lookupFullname($a_set["user_id"]));
+		$name = ilObjUser::_lookupName($a_set["user_id"]);
+		$this->tpl->setVariable("LASTNAME", $name["lastname"]);
+		$this->tpl->setVariable("FIRSTNAME",$name["firstname"]);
+		$this->tpl->setVariable("LOGIN", $name["login"]);
 		$this->tpl->setVariable("ACTION", $this->action_map[$a_set["action"]]);
 
 		if($a_set["action"] == ilRbacLog::CHANGE_OWNER)
