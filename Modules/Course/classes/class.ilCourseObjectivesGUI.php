@@ -532,24 +532,8 @@ class ilCourseObjectivesGUI
 		{
 			$this->objective->setTitle($this->form->getInput('title'));
 			$this->objective->setDescription($this->form->getInput('description'));
+			$this->objective->setPasses(0);
 			
-			// begin-patch lok
-			if($_REQUEST['passes_limited'])
-			{
-				$old_passes = $this->objective->getPasses();
-				if($old_passes < $this->form->getInput('passes'))
-				{
-					include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
-					ilLOUserResults::resetFinalByObjective($this->objective->getObjectiveId());
-				}
-				
-				$this->objective->setPasses($this->form->getInput('passes'));
-			}
-			else
-			{
-				$this->objective->setPasses(0);
-			}
-			// end-patch lok
 			if(!$_GET['objective_id'])
 			{
 				$objective_id = $this->objective->add();
@@ -873,9 +857,9 @@ class ilCourseObjectivesGUI
 
 		$this->__initQuestionObject((int) $_GET['objective_id']);
 
-		if((int) $_POST['limit'] < 0 or (int) $_POST['limit'] > $this->objectives_qst_obj->getSelfAssessmentPoints())
+		if((int) $_POST['limit'] < 1 or (int) $_POST['limit'] > $this->objectives_qst_obj->getSelfAssessmentPoints())
 		{
-			ilUtil::sendFailure(sprintf($this->lng->txt('crs_objective_err_limit'),0,$this->objectives_qst_obj->getSelfAssessmentPoints()));
+			ilUtil::sendFailure(sprintf($this->lng->txt('crs_objective_err_limit'),1,$this->objectives_qst_obj->getSelfAssessmentPoints()));
 			$this->selfAssessmentLimits();
 			return false;
 		}
@@ -1262,9 +1246,9 @@ class ilCourseObjectivesGUI
 
 		$this->__initQuestionObject((int) $_GET['objective_id']);
 
-		if((int) $_POST['limit'] < 0 or (int) $_POST['limit'] > $this->objectives_qst_obj->getFinalTestPoints())
+		if((int) $_POST['limit'] < 1 or (int) $_POST['limit'] > $this->objectives_qst_obj->getFinalTestPoints())
 		{
-			ilUtil::sendFailure(sprintf($this->lng->txt('crs_objective_err_limit'),0,$this->objectives_qst_obj->getFinalTestPoints()));
+			ilUtil::sendFailure(sprintf($this->lng->txt('crs_objective_err_limit'),1,$this->objectives_qst_obj->getFinalTestPoints()));
 			$this->finalTestLimits();
 			return false;
 		}
@@ -1436,24 +1420,6 @@ class ilCourseObjectivesGUI
 		$desc->setRows(5);
 		$this->form->addItem($desc);
 		
-		// begin-patch lok
-		// Passes
-		$passes_lim = new ilCheckboxInputGUI($this->lng->txt('crs_loc_limited_passes'),'passes_limited');
-		$passes_lim->setValue(1);
-		$passes_lim->setChecked($this->objective->arePassesLimited());
-		if(!$this->getSettings()->isQualifiedTestPerObjectiveVisible())
-		{
-			$passes_lim->setDisabled(true);
-		}
-		$passes = new ilNumberInputGUI($this->lng->txt('crs_loc_passes'),'passes');
-		$passes->setValue($this->objective->getPasses());
-		$passes->setMinValue(1);
-		$passes->setSize(2);
-		$passes->setMaxLength(2);
-		$passes->setRequired(true);
-		$passes_lim->addSubItem($passes);
-		$this->form->addItem($passes_lim);
-		// end-patch lok
 	}
 	
 	
@@ -1568,7 +1534,7 @@ class ilCourseObjectivesGUI
 			}
 			
 			// checklist gui start
-			$check_list->addEntry($num.'. '.$title, $item_link, ilChecklistGUI::STATUS_NO_STATUS, ($step == $a_step_number));
+			$check_list->addEntry($title, $item_link, ilChecklistGUI::STATUS_NO_STATUS, ($step == $a_step_number));
 			// checklist gui end
 		}
 
