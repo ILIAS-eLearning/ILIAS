@@ -526,7 +526,7 @@ class ilExAssignmentGUI
 						
 						$button = ilLinkButton::getInstance();
 						$button->setPrimary($nr_missing_fb);
-						$button->setCaption("exc_peer_review_give");
+						$button->setCaption($lng->txt("exc_peer_review_give").$dl_info, false);
 						$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "editPeerReview"));							
 						$edit_pc = $button->render();													
 					}
