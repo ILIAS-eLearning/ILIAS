@@ -8355,6 +8355,18 @@ a.nostyle:hover {
   background-color: #3b5620;
   color: white;
 }
+.ilCOPgEditStyleSelectionItem {
+  padding: 10px;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+.ilCOPgEditStyleSelectionItem:hover {
+  background-color: #ffffd0;
+}
+ul#ilAdvSelListTable_style_selection {
+  overflow: auto;
+  max-height: 400px;
+}
 /* Services/Calendar */
 td.even {
   color: #222;

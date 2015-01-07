@@ -54,7 +54,7 @@ il.AdvancedSelectionList =
 	{
 		this.setHiddenInput(id, hid_name, hid_val);
 		anchor_text = document.getElementById("ilAdvSelListAnchorText_" + id);
-		anchor_text.innerHTML = title;
+		anchor_text.innerHTML = title + ' <span class="caret"></span>';
 		// il.Overlay.hide(null, 'ilAdvSelListTable_' + id);
 		if (this.lists[id]['select_callback'] != null)
 		{
