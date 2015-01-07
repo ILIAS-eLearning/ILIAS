@@ -1025,3 +1025,4 @@ gev#:#tutor#:#Trainer
 gev#:#gev_update_matlists#:#Materiallisten aktualisieren
 gev#:#gev_update_matlists_confirmation#:#Die angezeigten Seminare finden noch statt. Bisher wurde keine Materialliste für diese Seminare verschickt. Wollen Sie die Materiallisten der Seminare aktualisieren?
 gev#:#gev_updated_matlists#:#Die Aktualisierung der Materiallisten war erfolgreich.
+gev#:#gev_no_matlists_to_update#:#Es gibt keine Trainings, deren Materiallisten aktualisiert werden können.

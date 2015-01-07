@@ -518,6 +518,11 @@ class ilMaterialListGUI
 		
 		$ids = $utils->getDerivedCourseIds(true);
 		
+		if (count($ids) == 0) {
+			ilUtil::sendInfo($lng->txt("gev_no_matlists_to_update"));
+			return $this->listMaterial();
+		}
+		
 		$cgui = new ilConfirmationGUI();
 		$cgui->setHeaderText($lng->txt("gev_update_matlists_confirmation"));
 

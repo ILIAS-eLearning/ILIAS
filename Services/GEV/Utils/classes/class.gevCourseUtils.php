@@ -974,9 +974,11 @@ class gevCourseUtils {
 										: (" JOIN adv_md_values_date ad"
 										  ." ON ad.field_id = ".$this->db->quote($start_date_field, "integer")
 										  ." AND ad.obj_id = ai.obj_id"))
+								." JOIN object_reference oref ON oref.obj_id = ai.obj_id"
 								." WHERE ai.field_id = ".$this->db->quote($ref_id_field, "integer")
 								."  AND ".$this->db->in("ai.value", $ref_ids, false, "integer")
 								.(!$future_only ? "" : " AND ad.value > CURDATE()")
+								."  AND oref.deleted IS NULL"
 								);
 		$obj_ids = array();
 		while ($rec = $this->db->fetchAssoc($res)) {
