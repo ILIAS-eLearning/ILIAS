@@ -20,7 +20,9 @@ class ilSearchResultTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_presenter)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
-		
+
+		$this->setId("ilSearchResultsTable");
+
 		$this->presenter = $a_presenter;
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("search_results"));

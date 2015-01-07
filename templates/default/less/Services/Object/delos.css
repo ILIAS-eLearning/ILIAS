@@ -24,3 +24,6 @@ div.ilCreationFormSection .form-horizontal {
   margin-top: -1px;
   padding-top: 1px;
 }
+.ilObjListRow {
+  border-bottom: 1px solid;
+}

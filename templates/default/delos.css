@@ -9385,6 +9385,9 @@ div.il_SearchFragment {
   font-weight: normal;
   text-align: left;
 }
+#ilSearchResultsTable.table-striped > tbody > tr > td {
+  background-color: transparent;
+}
 /* Services/Help */
 #ilHelpText .ilc_text_inline_Strong {
   font-weight: bold;
@@ -9688,7 +9691,7 @@ div.il_Preconditions {
 div.ilContainerListItemOuter {
   padding: 15px 10px;
   zoom: 1;
-  background-color: #ffffff;
+  /* background-color: lighten(@mid-gray, 75%); */
 }
 .ilContainerListFooter {
   padding-left: 15px;
@@ -9704,10 +9707,6 @@ div.ilContainerListItemOuterHighlight {
   padding: 15px;
   background-color: #FFFFD9;
   zoom: 1;
-}
-.ilCLIRow1,
-.ilCLIRow2 {
-  padding: 0;
 }
 .ilCLI {
   padding: 0;
@@ -9806,6 +9805,17 @@ div#ilContRepIntro img {
 }
 [dir="rtl"] div#ilContRepIntro img {
   float: left;
+}
+.ilContObjectiveObjectListItem {
+  background-color: #ffffff;
+}
+.ilContObjectiveIntro {
+  background-color: #ffffff;
+  padding: 1px 15px;
+}
+.ilContObjectivesViewTestItem {
+  background-color: #ffffff;
+  margin-bottom: 10px;
 }
 /* Modules/LearningModule */
 .ilLMMenu {
@@ -10012,6 +10022,13 @@ div.ilCreationFormSection div.ilForm div.ilForm {
 div.ilCreationFormSection .form-horizontal {
   margin-top: -1px;
   padding-top: 1px;
+}
+.ilObjListRow {
+  border-bottom: 1px solid #f9f9f9;
+  background-color: #ffffff;
+}
+.ilObjListRow:hover {
+  background-color: #ffffea;
 }
 /* Services/Navigation */
 form.ilNavHistoryForm {

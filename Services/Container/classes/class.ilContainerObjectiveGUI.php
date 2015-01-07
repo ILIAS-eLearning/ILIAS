@@ -393,7 +393,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		
 		$node_data['title'] = $title;
 		
-		return $this->renderItem($node_data);
+		return "<div class='ilContObjectivesViewTestItem'>".$this->renderItem($node_data)."</div>";
 	}
 	
 	/**
@@ -897,7 +897,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 				$page_gui->setTemplateOutput(false);
 				$page_gui->setHeader("");
 				
-				$co_page = $page_gui->showPage();
+				$co_page = "<div class='ilContObjectiveIntro'>".$page_gui->showPage()."</div>";
 			}
 			
 			$a_accordion->addItem(
