@@ -259,6 +259,7 @@ crs#:#crs_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warte
 crs#:#event_inc_tutors#:#Trainer anzeigen
 crs#:#event_tbl_tutors#:#Trainer
 crs#:#import_crs#:#Trainings importieren
+crs#:#matlist#:#Material
 crs#:#timing_tutor_visible#:#Bemerkung ist sichtbar für den Trainer
 crsbook#:#crsbook_acco_accomodations#:#Übernachtung(en)
 crsbook#:#crsbook_admin_action_book#:#Als Teilnehmer hinzufügen
@@ -828,6 +829,28 @@ maps#:#maps_zoom_level#:#Zoom
 maps#:#maps_google_maps#:#Google Maps
 maps#:#maps_open_layers_maps#:#Open Layers Maps
 maps#:#maps_map_type#:#Typ
+matlist#:#tab#:#Material
+matlist#:#add#:#Material hinzufügen
+matlist#:#download#:#Materialliste herunterladen
+matlist#:#participants_count#:#Anzahl/Teilnehmer
+matlist#:#course_count#:#Anzahl/Seminar
+matlist#:#product_id#:#Artikelnummer
+matlist#:#title#:#Bezeichnung
+matlist#:#updated#:#Materialliste gespeichert.
+matlist#:#delete_sure#:#Wollen Sie wirklich die folgenden Materialien löschen?
+matlist#:#deleted#:#Materialien wurden gelöscht.
+matlist#:#xls_title#:#Titel
+matlist#:#xls_subtitle#:#Untertitel
+matlist#:#xls_custom_id#:#Nummer der Maßnahme
+matlist#:#xls_amount_participants#:#Anzahl Teilnehmer
+matlist#:#xls_date_info#:#Datum
+matlist#:#xls_trainer#:#Trainer
+matlist#:#xls_venue_info#:#Veranstaltungsort
+matlist#:#xls_contact#:#Bei Rückfragen
+matlist#:#xls_creation_date#:#Datum der Erstellung
+matlist#:#xls_list_header#:#Materialliste
+matlist#:#xls_list_general_header#:#Generelle Angaben zum Training
+matlist#:#xls_list_item_header#:#Materialien
 modul#:#identifier#:#2Text (neu)
 news#:#news_enable_internal_news_info#:#Aktiviert Nachrichtenblöcke für Kategorien, Trainings, Gruppen und andere Objekte. Benutzer können diese Nachrichten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
 news#:#news_nr_of_items_info#:#Anzahl der Nachrichten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Trainings mehr Nachrichten enthalten können, da sie auch die Nachrichten ihrer Unterobjekte anzeigen.

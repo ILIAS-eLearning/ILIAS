@@ -263,6 +263,12 @@ class ilSoapUtils extends ilSoapAdministration
 		// Fetch first node
 		if(($node = $cp_options->fetchFirstDependenciesNode()) === false)
 		{
+			// COPY PERMISSIONS PATCH START
+			include_once "Customizing/class.ilCopyPermissions.php";			
+			$helper = new ilCopyPermissions($cp_options);
+			$helper->transferPermissions();			
+			// COPY PERMISSIONS PATCH END			
+			
 			$cp_options->deleteAll();
 			$ilLog->write(__METHOD__.': Finished copy step 2. Copy completed');
 

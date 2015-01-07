@@ -22,3 +22,5 @@ svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_SCORM							merged: 55465
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_PersonalOrgUnits				merged: 55463
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_TEPHistorizing				merged: 55869
 svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_OpenLayersMaps					merged: 56040
+svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_CopyCoursePermissions			merged: 55760
+svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_MaterialList					merged: 56516
