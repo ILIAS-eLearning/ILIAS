@@ -2866,7 +2866,27 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 			)
 		);	
 	}
+?>
 
-	
+<#89>
+<?php
+	//deadline fields in course history
+	$deadlines = array(
+		'dl_invitation',
+		'dl_storno',
+		'dl_booking',
+		'dl_waitinglist'
+	);
+
+	foreach ($deadlines as $deadline) {
+		if(!$ilDB->tableColumnExists('hist_course', $deadline)){
+			$ilDB->addTableColumn('hist_course', $deadline, array(
+				'type' => 'integer',
+				'length' => 3,
+				'notnull' => false,
+				)
+			);	
+		}
+	}
 ?>
 

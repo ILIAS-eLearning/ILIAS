@@ -265,4 +265,23 @@ class ilCourseHistorizingHelper
 		return $course->isActivated();
 	}
 
+	public static function getDeadlineDataOf($course) {
+
+		require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
+		$mailings = new gevCrsAdditionalMailSettings($course->getId());
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
+		//get deadlines for course
+		$ret = array(
+			'dl_invitation'		=> $mailings->getInvitationMailingDate(),
+			'dl_storno'			=> $utils->getCancelDeadline(),
+			'dl_booking'		=> $utils->getBookingDeadline(),
+			'dl_waitinglist'	=> $utils->getCancelWaitingList()
+		);
+
+
+		return $ret;
+
+
+	}
+
 }

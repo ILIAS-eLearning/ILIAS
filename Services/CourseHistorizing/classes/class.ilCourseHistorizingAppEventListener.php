@@ -31,6 +31,7 @@ class ilCourseHistorizingAppEventListener
 	{
 		self::initEventHandler();
 
+
 		if( $a_component == 'Modules/Course' && $a_event == 'create' )
 		{
 			self::$ilCourseHistorizing->updateHistorizedData(
@@ -145,6 +146,9 @@ class ilCourseHistorizingAppEventListener
 			'is_online'							=> self::$ilCourseHistorizingHelper->isOnline($parameter)
 		
 		);
+
+		$deadline_data = self::$ilCourseHistorizingHelper->getDeadlineDataOf($parameter);
+		$data_payload = array_merge($data_payload, $deadline_data);
 
 		return $data_payload;
 	}
