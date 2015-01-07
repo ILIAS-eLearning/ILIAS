@@ -15180,9 +15180,9 @@ content#:#cont_automatically_set_store_tries#:#Die Option "$1" wurde automatisch
 cntr#:#cont_custom_icon#:#Custom Icon
 rbac#:#rbac_cant_import_role_wrong_type#:#Eine Rolle aus dem Objekt $s in ein Objekt $s hinzuzufügen ist nicht möglich.
 content#:#cont_license#:#Lizenz
-content#:#cont_license_info#:#Der #Reiter "Lizenz" wird angezeigt.
+content#:#cont_license_info#:#Reiter und Funktion "Lizenz" werden angezeigt.
 content#:#cont_biblio#:#Bibliographische Daten
-content#:#cont_biblio_info#:#Der #Reiter "Bibliographische Daten" wird angezeigt.
+content#:#cont_biblio_info#:#Reiter und Funktion "Bibliographische Daten" werden angezeigt.
 search#:#search_minimum_info#:#Die Suchbegriffe müssen mindestens %s Zeichen lang sein
 crs#:#crs_loc_tst_assignment#:#Testzuordnung
 crs#:#crs_show_all_obj#:#Alle zeigen
