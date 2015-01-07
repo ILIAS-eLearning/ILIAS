@@ -7543,29 +7543,32 @@ td.form-inline > div.form-group {
   padding: 4px 0;
 }
 .ilFormHeader {
-  padding: 3px;
-  margin: 0 0 10px;
+  /* padding: 3px; */
+  /* margin: 0 0 10px; */
+  padding: 10px 0 0px;
 }
 .ilFormHeader,
 .ilFormFooter {
   color: #4d4d4d;
-  background-color: #f3f3f3;
+  /* background-color: lighten(@ilFormColor, 45%); */
+  background-color: #f0f0f0;
 }
 .ilFormHeader .ilFormCmds {
   margin-bottom: 0px;
-  margin-right: 12px;
+  margin-top: -8px;
+  /* margin-right: 12px; */
   float: right;
 }
 [dir="rtl"] .ilFormHeader .ilFormCmds {
   margin-right: 0;
-  margin-left: 12px;
+  /* margin-left: 12px; */
   float: left;
 }
 .ilFormHeader h3 {
   margin: 0;
-  padding: 4px;
+  /* padding: 4px; */
   float: left;
-  font-size: 110%;
+  /* font-size: 110%; */
 }
 [dir="rtl"] .ilFormHeader h3 {
   float: right;
@@ -7585,6 +7588,7 @@ td.form-inline > div.form-group {
 }
 .ilFormFooter .ilFormCmds {
   text-align: right;
+  padding: 0;
 }
 [dir="rtl"] .ilFormFooter .ilFormCmds {
   text-align: left;
