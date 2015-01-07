@@ -717,7 +717,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function outputInfoScreen($a_standard_locator = true)
 	{
-		global $ilBench, $ilLocator, $ilAccess, $ilTabs;
+		global $ilToolbar, $ilAccess, $ilTabs;
 
 		$ilTabs->activateTab('id_info');
 		
@@ -743,11 +743,15 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 		// add read / back button
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
-		{
-			$info->addButton($this->lng->txt("view"),
-				"ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=".$this->object->getRefID(),
-				' target="ilContObj'.$this->object->getId().'" ',
-				'top', true);
+		{			
+			// #15127
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("view");
+			$button->setPrimary(true);			
+			$button->setUrl("ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=".$this->object->getRefID());		
+			$button->setTarget("ilContObj".$this->object->getId());
+			$ilToolbar->addButtonInstance($button);
 		}
 		
 		// show standard meta data section
