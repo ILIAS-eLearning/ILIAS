@@ -143,9 +143,16 @@ class gevCrsMailAttachments extends ilMailAttachments {
 	
 	// reimplemented from ilMailAttachments. Does not try to copy auto generated files.
 	public function copyTo($a_obj_id) {
+		global $ilLog;
 		$other = new gevCrsMailAttachments($a_obj_id);
 
 		foreach (parent::getList() as $att) {
+			if (in_array($att, array( self::LIST_FOR_TRAINER_NAME
+									, self::LIST_FOR_HOTEL_NAME
+									, self::LIST_FOR_PARTICIPANT_NAME))) {
+				continue;
+			}
+			$ilLog->write($att);
 			$other->addAttachment($att, $this->getAbsolutePath() . "/" . $att);
 		}
 	}

@@ -42,6 +42,8 @@ class gevCourseUtils {
 		$this->membership = null;
 		$this->main_trainer = null;
 		$this->main_admin = null;
+	
+		$this->material_list = null;
 	}
 	
 	static public function getInstance($a_crs_id) {
@@ -945,6 +947,13 @@ class gevCourseUtils {
 		/*require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 		$am = new gevCrsAutoMails($this->getId());
 		return $am->getAutoMail("invitation");*/
+	}
+	
+	public function getMaterialList() {
+		if ($this->material_list === null) {
+			$this->material_list = new ilMaterialList($this->getId());
+		}
+		return $this->material_list;
 	}
 
 	// derived courses for templates
