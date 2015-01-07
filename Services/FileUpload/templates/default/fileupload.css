@@ -27,6 +27,7 @@ button.submit:disabled:hover {
     height: 100%;
     -webkit-box-shadow: -2px 0 5px rgba(0, 0, 0, .2);
     box-shadow: -2px 0 5px rgba(0, 0, 0, .2);
+	z-index: 2000;
 }
 
 div.ilFileUploadHeader {
