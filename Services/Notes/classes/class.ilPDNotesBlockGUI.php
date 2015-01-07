@@ -136,27 +136,27 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 			switch ($note->getLabel())
 			{
 				case IL_NOTE_UNLABELED:
-					$img = ilUtil::getImagePath("note_unlabeled.png");
+					$img = ilUtil::getImagePath("note_unlabeled.svg");
 					$alt = $lng->txt("note");
 					break;
 					
 				case IL_NOTE_IMPORTANT:
-					$img = ilUtil::getImagePath("note_important.png");
+					$img = ilUtil::getImagePath("note_unlabeled.svg");
 					$alt = $lng->txt("note").", ".$lng->txt("important");
 					break;
 					
 				case IL_NOTE_QUESTION:
-					$img = ilUtil::getImagePath("note_question.png");
+					$img = ilUtil::getImagePath("note_unlabeled.svg");
 					$alt = $lng->txt("note").", ".$lng->txt("question");
 					break;
 					
 				case IL_NOTE_PRO:
-					$img = ilUtil::getImagePath("note_pro.png");
+					$img = ilUtil::getImagePath("note_unlabeled.svg");
 					$alt = $lng->txt("note").", ".$lng->txt("pro");
 					break;
 					
 				case IL_NOTE_CONTRA:
-					$img = ilUtil::getImagePath("note_contra.png");
+					$img = ilUtil::getImagePath("note_unlabeled.svg");
 					$alt = $lng->txt("note").", ".$lng->txt("contra");
 					break;
 			}

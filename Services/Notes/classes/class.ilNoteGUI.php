@@ -77,37 +77,37 @@ class ilNoteGUI
 		
 		$this->note_img = array(
 			IL_NOTE_UNLABELED => array(
-				"img" => ilUtil::getImagePath("note_unlabeled.png"),
+				"img" => ilUtil::getImagePath("note_unlabeled.svg"),
 				"alt" => $lng->txt("note")),
 			IL_NOTE_IMPORTANT => array(
-				"img" => ilUtil::getImagePath("note_important.png"),
+				"img" => ilUtil::getImagePath("note_unlabeled.svg"),
 				"alt" => $lng->txt("note").", ".$lng->txt("important")),
 			IL_NOTE_QUESTION => array(
-				"img" => ilUtil::getImagePath("note_question.png"),
+				"img" => ilUtil::getImagePath("note_unlabeled.svg"),
 				"alt" => $lng->txt("note").", ".$lng->txt("question")),
 			IL_NOTE_PRO => array(
-				"img" => ilUtil::getImagePath("note_pro.png"),
+				"img" => ilUtil::getImagePath("note_unlabeled.svg"),
 				"alt" => $lng->txt("note").", ".$lng->txt("pro")),
 			IL_NOTE_CONTRA => array(
-				"img" => ilUtil::getImagePath("note_contra.png"),
+				"img" => ilUtil::getImagePath("note_unlabeled.svg"),
 				"alt" => $lng->txt("note").", ".$lng->txt("contra"))
 			);
 			
 		$this->comment_img = array(
 			IL_NOTE_UNLABELED => array(
-				"img" => ilUtil::getImagePath("comment_unlabeled.png"),
+				"img" => ilUtil::getImagePath("comment_unlabeled.svg"),
 				"alt" => $lng->txt("notes_comment")),
 			IL_NOTE_IMPORTANT => array(
-				"img" => ilUtil::getImagePath("comment_important.png"),
+				"img" => ilUtil::getImagePath("comment_unlabeled.svg"),
 				"alt" => $lng->txt("notes_comment").", ".$lng->txt("important")),
 			IL_NOTE_QUESTION => array(
-				"img" => ilUtil::getImagePath("comment_question.png"),
+				"img" => ilUtil::getImagePath("comment_unlabeled.svg"),
 				"alt" => $lng->txt("notes_comment").", ".$lng->txt("question")),
 			IL_NOTE_PRO => array(
-				"img" => ilUtil::getImagePath("comment_pro.png"),
+				"img" => ilUtil::getImagePath("comment_unlabeled.svg"),
 				"alt" => $lng->txt("notes_comment").", ".$lng->txt("pro")),
 			IL_NOTE_CONTRA => array(
-				"img" => ilUtil::getImagePath("comment_contra.png"),
+				"img" => ilUtil::getImagePath("comment_unlabeled.svg"),
 				"alt" => $lng->txt("notes_comment").", ".$lng->txt("contra"))
 			);
 		
@@ -1090,9 +1090,6 @@ return;
 		{
 			return;
 		}
-		
-		$img = ilUtil::getImagePath("note_".$note->getLabel().".png");
-		$alt = $lng->txt("note");
 		
 		$tpl->setCurrentBlock("edit_note");
 		$ilCtrl->setParameterByClass("ilnotegui", "rel_obj", $target["rep_obj_id"]);

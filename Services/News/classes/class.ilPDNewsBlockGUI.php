@@ -337,7 +337,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($lng->txt("news_internal_news"));
-		$content_block->setImage(ilUtil::getImagePath("icon_news.png"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("selected_items_back"));
 
@@ -386,7 +385,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			$form = new ilPropertyFormGUI();	
 			$form->setFormAction($ilCtrl->getFormaction($this));			
 			$form->setTitle($lng->txt("news_settings"));
-			$form->setTitleIcon(ilUtil::getImagePath("icon_news.png"));
 
 			include_once("./Services/News/classes/class.ilNewsItem.php");
 			$default_per = ilNewsItem::_lookupDefaultPDPeriod();

@@ -407,13 +407,10 @@ class ilTemplate extends ilTemplateX
 	public function getMessageHTML($a_txt, $a_type = "info")
 	{
 		global $lng;
-		
 		$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
 		$mtpl->setCurrentBlock($a_type."_message");
 		$mtpl->setVariable("TEXT", $a_txt);
 		$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($a_type."_message"));
-		$mtpl->setVariable("ALT_IMAGE", $lng->txt("icon")." ".$lng->txt($a_type."_message"));
-		$mtpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_".$a_type.".png"));
 		$mtpl->parseCurrentBlock();
 		
 		return $mtpl->get();

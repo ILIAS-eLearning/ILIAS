@@ -186,7 +186,7 @@ class ilRatingGUI
 					{							
 						$ttpl->setCurrentBlock("rating_mark_simple");
 						$ttpl->setVariable("SRC_MARK_SIMPLE",
-							ilUtil::getImagePath("icon_rate_marker.png"));
+							ilUtil::getImagePath("icon_rate_marker.svg"));
 						$ttpl->parseCurrentBlock();
 					}
 					

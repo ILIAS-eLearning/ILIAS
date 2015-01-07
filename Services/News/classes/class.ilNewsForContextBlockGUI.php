@@ -786,8 +786,6 @@ if (empty(self::$st_data))
 		{
 			$content_block->setTitle($lng->txt("news_internal_news"));
 		}
-		//$content_block->setColSpan(2);
-		$content_block->setImage(ilUtil::getImagePath("icon_news.png"));
 		$this->addCloseCommand($content_block);
 
 		// previous
@@ -1007,7 +1005,6 @@ if (empty(self::$st_data))
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->settings_form = new ilPropertyFormGUI();
 		$this->settings_form->setTitle($lng->txt("news_settings"));
-		$this->settings_form->setTitleIcon(ilUtil::getImagePath("icon_news.png"));
 		
 		// hide news block for learners
 		if ($this->getProperty("hide_news_block_option"))
@@ -1189,7 +1186,6 @@ if (empty(self::$st_data))
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($lng->txt("news_internal_news"));
-		$content_block->setImage(ilUtil::getImagePath("icon_news.png"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("close"), true);
 
