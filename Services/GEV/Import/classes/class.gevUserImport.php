@@ -1675,7 +1675,7 @@ class gevUserImport {
 
 	}
 
-	
+	//#925
 	public function switchHA84FromSuperiorToEmployee(){ 
 		$this->prnt('switchHA84FromSuperiorToEmployee', 1);
 		
@@ -1721,14 +1721,28 @@ class gevUserImport {
 					$orgu->assignUsersToSuperiorRole(array($user_id));
 					$this->prnt(' +superior ', -1);
 				}
-
-				
 			}
+		}
+		$this->prnt('switchHA84FromSuperiorToEmployee: done', 2);
+	}
+	
 
+	//#913
+	public function reassignGEV_AVL(){ 
+		$this->prnt('reassignGEV_AVL', 1);
+		//there are (few) users with interimUsers.vkey_gev == 'Agenturverkaufsleiter';
+		//they wer given the role "Ausbildungsbeauftragter", which is wrong,
+		//and should be changed to "AVL"
 
+		$sql = "SELECT ilid, firstname, lastname FROM interimUsers WHERE vkey_gev= 'Agenturverkaufsleiter'";
+		$result = $this->queryShadowDB($sql);
+		while($record = mysql_fetch_assoc($result)){
+			$this->role_utils->deassignUserFromGlobalRole($record['ilid'], 'Ausbildungsbeauftragter');
+			$this->role_utils->assignUserToGlobalRole($record['ilid'], 'AVL');
+			$this->prnt($record['firstname'] .' ' .$record['lastname']);
 		}
 
-		$this->prnt('switchHA84FromSuperiorToEmployee: done', 2);
+		$this->prnt('reassignGEV_AVL: done', 2);
 	}
 
 
