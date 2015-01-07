@@ -624,6 +624,7 @@ class ilImageMapEditorGUI
 			'link_params' => "ref_id=".$_GET["ref_id"]."&rand=".rand(1,999999),
 			'ref_id' => $_GET["ref_id"],
 			'pg_frame' => "",
+			'enlarge_path' => ilUtil::getImagePath("enlarge.svg"),
 			'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);

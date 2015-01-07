@@ -27,13 +27,51 @@ class ilIntLinkRepItemExplorerGUI extends ilRepositorySelectorExplorerGUI
 		$this->setTypeWhiteList($list);
 	}
 
+	/**
+	 * Set "set link target" script
+	 *
+	 * @param <type> $a_script
+	 */
+	function setSetLinkTargetScript($a_script)
+	{
+		$this->link_target_script = $a_script;
+	}
+
+	/**
+	 * Get "set link target" script
+	 */
+	function getSetLinkTargetScript()
+	{
+		return $this->link_target_script;
+	}
+
+	function getNodeHref($a_node)
+	{
+		if ($this->getSetLinkTargetScript() == "")
+		{
+			return "#";
+		}
+		else
+		{
+			$link =
+				ilUtil::appendUrlParameterString($this->getSetLinkTargetScript(),
+					"linktype=RepositoryItem".
+					"&linktarget=il__".$a_node["type"]."_".$a_node["child"]);
+
+			return ($link);
+		}
+	}
 
 	/**
 	 * get onclick event handling
 	 */
 	function getNodeOnClick($a_node)
 	{
-		return "return il.IntLink.addInternalLink('[iln ".$a_node['type']."=&quot;".$a_node['child']."&quot;]','[/iln]', event);";
+		if ($this->getSetLinkTargetScript() == "")
+		{
+			return "return il.IntLink.addInternalLink('[iln ".$a_node['type']."=&quot;".$a_node['child']."&quot;]','[/iln]', event);";
+		}
+		return "";
 	}
 
 }

@@ -1036,6 +1036,7 @@ class ilInternalLinkGUI
 		$ilCtrl->setParameter($this, "target_type", $a_type);
 		include_once("./Services/Link/classes/class.ilIntLinkRepItemExplorerGUI.php");
 		$exp = new ilIntLinkRepItemExplorerGUI($this, "selectRepositoryItem");
+		$exp->setSetLinkTargetScript($this->getSetLinkTargetScript());
 		$script = "<script>".$exp->getOnLoadCode()."</script>";
 
 		if (!$exp->handleCommand())
