@@ -84,8 +84,6 @@ class gevUpdatedListForAccomodation extends gevCrsAutoMail {
 		$member_list_name = gevCrsMailAttachments::LIST_FOR_HOTEL_NAME;
 		$path = $this->getAttachments()->getPathTo($member_list_name);
 
-		$message = $this->getMessageFromTemplate($this->getTemplateId(), null, $a_recipient["email"], $a_recipient["name"]);
-
 		return array( array( "name" => $member_list_name
 						   , "path" => $path
 						   )
