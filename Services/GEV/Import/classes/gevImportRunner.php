@@ -58,8 +58,9 @@ $imp->fetchGEVEduRecords();
 //$imp->fixEduRecords();
 
 //$imp->reassignMiZsForExitUsers();
-$imp->switchHA84FromSuperiorToEmployee();
-
+//$imp->switchHA84FromSuperiorToEmployee();
+//$imp->reassignGEV_AVL();
+$imp->setHistoryUsersToActive();
 
 
 print '<br><br><hr>all through.';

@@ -285,14 +285,6 @@ class gevSettings {
 
 	// Role mapping
 	static $VMS_ROLE_MAPPING = array(
-		601 => array("DBV EVG",		"DBV"),
-		602 => array("NA",			"Mitarbeiter"),
-		603 => array("BA 84",		"Mitarbeiter"),
-		604 => array("BA 84",		"Mitarbeiter"),
-		606 => array("BA 84",		"Mitarbeiter"),
-		607 => array("BA 84",		"Mitarbeiter"),
-		608 => array("VP",			"Mitarbeiter"),
-		609 => array("OD/BD",		"Vorgesetzter"),
 		610 => array("HA 84",		"DBV"),
 		613 => array("DBV UVG",		"DBV"),
 		614 => array("DBV EVG",		"DBV"),
@@ -301,28 +293,48 @@ class gevSettings {
 		617 => array("DBV EVG",		"DBV"),
 		618 => array("DBV EVG",		"DBV"),
 		620 => array("DBV EVG",		"DBV"),
-		625 => array("OD/BD",		"Vorgesetzter"),
-		628 => array("HA 84",		"Vorgesetzter"),
-		630 => array("HA 84",		"Vorgesetzter"),
-		632 => array("HA 84",		"Vorgesetzter"),
-		633 => array("HA 84",		"Vorgesetzter"),
-		634 => array("AVL",			"Vorgesetzter"),
-		649 => array("OD/BD",		"Vorgesetzter"),
+		675 => array("DBV EVG",		"DBV"),
+		601 => array("DBV EVG",		"DBV"),
+		
+		603 => array("BA 84",		"Mitarbeiter"),
+		604 => array("BA 84",		"Mitarbeiter"),
+		606 => array("BA 84",		"Mitarbeiter"),
+		607 => array("BA 84",		"Mitarbeiter"),
+		
+		608 => array("VP",			"Mitarbeiter"),
 		650 => array("VP",			"Mitarbeiter"),
 		651 => array("VP",			"Mitarbeiter"),
+		679 => array("VP",			"Mitarbeiter"),
+
+		602 => array("NA",			"Mitarbeiter"),
 		653 => array("NA",			"Mitarbeiter"),
 		655 => array("NA",			"Mitarbeiter"),
 		657 => array("NA",			"Mitarbeiter"),
 		661 => array("NA",			"Mitarbeiter"),
 		664 => array("NA",			"Mitarbeiter"),
-		671 => array("FD",			"Vorgesetzter"),
-		674 => array("UA",			"Mitarbeiter"),
-		675 => array("DBV EVG",		"DBV"),
-		679 => array("VP",			"Mitarbeiter"),
-		690 => array("HA 84",		"Vorgesetzter"),
 		693 => array("NA",			"Mitarbeiter"),
-		694 => array("BA 84",		"Mitarbeiter")
+				
+		694 => array("BA 84",		"Mitarbeiter"),
+		
+		634 => array("AVL",			"Mitarbeiter"),
+		
+		628 => array("HA 84",		"Mitarbeiter"),
+		630 => array("HA 84",		"Mitarbeiter"),
+		632 => array("HA 84",		"Mitarbeiter"),
+		633 => array("HA 84",		"Mitarbeiter"),
+		690 => array("HA 84",		"Mitarbeiter"),
+		
+		625 => array("OD/BD",		"Vorgesetzter"),
+		609 => array("OD/BD",		"Vorgesetzter"),
+		649 => array("OD/BD",		"Vorgesetzter"),
+		671 => array("FD",			"Vorgesetzter"),
+		674 => array("UA",			"Vorgesetzter"),
+		9100 => array("ID FK",		"Vorgesetzter")
+		
 	);
+
+
+
 	
 	// Names of roles where we should be tolerant in the email at the
 	// registration (#608)
@@ -566,13 +578,6 @@ class gevSettings {
 	public function getUDFFieldId($a_field) {
 		return $this->get($a_field);
 	}
-	
-	/*public function isAMDRecordUsed($a_record_id) {
-			global $ilDB;
-			$res = $ilDB->query("SELECT COUNT(*) AS cnt FROM settings ".
-								"    WHERE module = 'gev' ".
-								"      AND ".$ilDB->in("keyword", self::$amd_fields))
-	}*/
 }
 
 ?>

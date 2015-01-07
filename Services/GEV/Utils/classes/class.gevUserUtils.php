@@ -1547,7 +1547,7 @@ class gevUserUtils {
 		}
 		
 		$like_role = array();
-		foreach (gevSettings::	$SUPERIOR_ROLES as $role) {
+		foreach (gevSettings::$SUPERIOR_ROLES as $role) {
 			$like_role[] = "od.title LIKE ".$this->db->quote($role);
 		}
 		$like_role = implode(" OR ", $like_role);

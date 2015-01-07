@@ -1022,3 +1022,6 @@ common#:#login_data#:#Accountinformationen
 common#:#contact_data#:#Kontaktinformationen geschäftlich
 gev#:#gev_course_search_adm#:#Trainingssuche
 gev#:#tutor#:#Trainer
+gev#:#gev_update_matlists#:#Materiallisten aktualisieren
+gev#:#gev_update_matlists_confirmation#:#Die angezeigten Seminare finden noch statt. Bisher wurde keine Materialliste für diese Seminare verschickt. Wollen Sie die Materiallisten der Seminare aktualisieren?
+gev#:#gev_updated_matlists#:#Die Aktualisierung der Materiallisten war erfolgreich.

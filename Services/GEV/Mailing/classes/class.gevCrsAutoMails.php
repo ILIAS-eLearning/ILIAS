@@ -52,6 +52,8 @@ class gevCrsAutoMails extends ilAutoMails {
 		
 		, "waiting_list_cancelled"								=> "gevWaitingListCancelled"
 		, "bill_mail"											=> "gevCrsBillMail"
+		
+		, "materiallist_for_storage"							=> "gevMaterialListForStorage"
 		);
 
 		parent::__construct($a_obj_id);

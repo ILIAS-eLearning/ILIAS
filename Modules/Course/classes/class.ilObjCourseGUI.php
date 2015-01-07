@@ -1713,15 +1713,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 				
 				// gev-patch start
-				/*
 				$this->ctrl->setParameterByClass('ilmateriallistgui', 'ref_id', $this->object->getRefId());
 				$this->tabs_gui->addSubTabTarget('matlist',
 					$this->ctrl->getLinkTargetByClass('ilmateriallistgui',''), 
 					'', 'ilmateriallistgui');		
 				$this->ctrl->setParameterByClass('ilmateriallistgui', 'ref_id', '');				
-				*/
 				// gev-patch end
-				
+
 				break;
 			
 			case 'members':

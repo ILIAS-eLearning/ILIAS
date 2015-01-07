@@ -298,4 +298,9 @@ class ilUserHistorizingHelper
 	}
 
 
+	public static function isActiveUser($user){
+		return $user->getActive();
+	}
+
+
 }

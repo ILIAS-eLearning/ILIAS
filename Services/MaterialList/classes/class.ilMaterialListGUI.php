@@ -204,11 +204,24 @@ class ilMaterialListGUI
 		
 		// download/export
 		include_once "Services/MaterialList/classes/class.ilMaterialList.php";
-		if(ilMaterialList::hasItems($this->getCourse()->getId()))
+		// gev-patch start
+		$has_items = ilMaterialList::hasItems($this->getCourse()->getId());
+		if($has_items)
+		// gev-patch end
 		{														
 			$ilToolbar->addButton($lng->txt("matlist_download"), 
 					$ilCtrl->getLinkTarget($this, "exportList"));										
 		}
+		
+		// gev-patch start
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$utils = gevCourseUtils::getInstanceByObj($this->getCourse());
+		if ($utils->isTemplate() && $has_items) {
+			$ilToolbar->addButton($lng->txt("gev_update_matlists"),
+					$ilCtrl->getLinkTarget($this, "confirmUpdateLists"));
+		}
+		
+		// gev-patch end
 		
 		include_once "Services/MaterialList/classes/class.ilMaterialListTableGUI.php";
 		$table = new ilMaterialListTableGUI($this, "listMaterial", $this->getCourse()->getId(), 
@@ -490,4 +503,82 @@ class ilMaterialListGUI
 		
 		return array("data" => $post, "errors" => $errors);
 	}
+	
+	// gev-patch start
+	protected function confirmUpdateLists() {
+		global $tpl, $lng, $ilCtrl;
+		
+		require_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		
+		$utils = gevCourseUtils::getInstanceByObj($this->getCourse());
+		if (!$utils->isTemplate()) {
+			throw new Exception("Course ".$utils->getId()." is no template.");
+		}
+		
+		$ids = $utils->getDerivedCourseIds(true);
+		
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText($lng->txt("gev_update_matlists_confirmation"));
+
+		$cgui->setFormAction($ilCtrl->getFormAction($this, "updateLists"));
+		$cgui->setCancel($lng->txt("cancel"), "listMaterial");
+		$cgui->setConfirm($lng->txt("confirm"), "updateLists");
+		
+		foreach ($ids as $id) {
+			$u = gevCourseUtils::getInstance($id);
+			$p = ilMaterialListPermissions::getInstanceByRefId(gevObjectUtils::getRefId($id));
+			
+			if (!$p->editMaterialList() || $u->isMaterialListSend()) {
+				continue;
+			}
+			
+			$start = $u->getFormattedStartDate();
+			$end = $u->getFormattedEndDate();
+			if ($start !== null) {
+				if ($start == $end) {
+					$time = " (".$start.")";
+				}
+				else {
+					$time = " (".$start." - ".$end.")";
+				}
+			}
+			else {
+				$time = "";
+			}
+			$cgui->addItem("id[]", $id, $u->getTitle().$time);
+		}
+		
+		$tpl->setContent($cgui->getHTML());
+	}
+	
+	protected function updateLists() {
+		global $lng;
+		
+		$ids = $_POST["id"];
+		
+		$utils = gevCourseUtils::getInstanceByObj($this->getCourse());
+		if (!$utils->isTemplate()) {
+			throw new Exception("Course ".$utils->getId()." is no template.");
+		}
+		
+		$list = new ilMaterialList($utils->getId());
+		
+		foreach ($ids as $id) {
+			$u = gevCourseUtils::getInstance($id);
+			$p = ilMaterialListPermissions::getInstanceByRefId(gevObjectUtils::getRefId($id));
+			
+			if (!$p->editMaterialList()) {
+				continue;
+			}
+			
+			$list->copyTo($id);
+		}
+		
+		ilUtil::sendSuccess($lng->txt("gev_updated_matlists"));
+		
+		$this->listMaterial();
+	}
+	
+	// gev-patch end
 }

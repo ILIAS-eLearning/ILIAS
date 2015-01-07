@@ -470,6 +470,7 @@ class gevCrsMailingGUI extends ilMailingGUI {
 			$form->getItemByPostVar("suppress_mails")->setDisabled($this->getAdditionalMailSettings()->getSuppressMails());
 			
 			ilUtil::sendSuccess($this->lng->txt("gev_additional_settings_updated"));
+			$this->getCourse()->update();
 		}
 		else {
 			ilUtil::sendFailure($this->lng->txt("gev_additional_settings_update_failure"));

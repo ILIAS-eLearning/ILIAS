@@ -2745,7 +2745,11 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 
 	);
 	foreach ($queries as $query) {
-		$ilDB->manipulate($query);
+		try{
+			$ilDB->manipulate($query);
+		} catch(Exception $e){
+			//pass
+		}
 	}
 
 
@@ -2838,4 +2842,50 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	ilCustomInstaller::addLangData("matlist", array("de", "en"), $lang_data, "patch generali - material list");
 
 	ilCustomInstaller::reloadStructure();
+?>
+
+
+<#88>
+<?php
+	//more fields in history
+	if(!$ilDB->tableColumnExists('hist_user', "is_active")){
+		$ilDB->addTableColumn('hist_user', "is_active", array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+			)
+		);	
+	}
+	if(!$ilDB->tableColumnExists('hist_course', "is_online")){
+		$ilDB->addTableColumn('hist_course', "is_online", array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+			)
+		);	
+	}
+?>
+
+<#89>
+<?php
+	//deadline fields in course history
+	$deadlines = array(
+		'dl_invitation',
+		'dl_storno',
+		'dl_booking',
+		'dl_waitinglist'
+	);
+
+	foreach ($deadlines as $deadline) {
+		if(!$ilDB->tableColumnExists('hist_course', $deadline)){
+			$ilDB->addTableColumn('hist_course', $deadline, array(
+				'type' => 'integer',
+				'length' => 3,
+				'notnull' => false,
+				)
+			);	
+		}
+	}
 ?>

@@ -802,8 +802,34 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		$may_create_decentral_training = gevDecentralTrainingUtils::getInstance()->canCreateFor($ilUser->getId(), $a_user_id);
 	
 		// gev-patch start
+		$actions = "";
+		if($may_create_entry)
+		{
+			$url_event = $ilCtrl->getLinkTargetByClass("ilTEPEntryGUI", "createEntry");
+			$img = ilUtil::getImagePath("date_add.png");
+			$alt = $lng->txt("tep_add_new_entry");
+			$actions .= "<a href=\"".$url_event."\">".
+							"<img src=\"".$img."\" alt=\"".$alt."\" title=\"".$alt."\" />".
+						"</a>";
+		}
+		
+		if ($may_create_decentral_training) {
+			$spl = explode("_", $a_id);
+			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "user_id", $spl[0]);
+			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "date", $spl[1]);
+			$url_event = $ilCtrl->getLinkTargetByClass(array("gevDesktopGUI", "gevDecentralTrainingGUI"), "chooseTemplateAndTrainers");
+			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "user_id", null);
+			$ilCtrl->setParameterByClass("gevDecentralTrainingGUI", "date", null);
+			
+			$img = ilUtil::getImagePath("training_add.png");
+			$alt = $lng->txt("gev_create_decentral_training");
+			$actions .= "<a href=\"".$url_event."\">".
+							"<img src=\"".$img."\" alt=\"".$alt."\" title=\"".$alt."\" />".
+						"</a>";
+		}
+		return $actions;
 		// ilAdvancedSelectionListGUI
-		require_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		/*require_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$list = new ilAdvancedSelectionListGUI();
 		$list->setId("ceal_".$a_id);
 		$list->setHeaderIcon(ilUtil::getImagePath("date_add.png"));
@@ -824,7 +850,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			$list->addItem($lng->txt("gev_create_decentral_training"), "", $url_event);
 		}
 		
-		return $list->getHTML();
+		return $list->getHTML();*/
 		// gev-patch end
 	}
 		
@@ -874,7 +900,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		$a_tpl->setVariable("WRAPPER_WIDTH", static::COL_WIDTH-20);				
 		$a_tpl->setVariable("COL", (bool)$a_force_empty 
 			? "&nbsp;"
-			: $this->renderDayContent($a_year, $a_month, $a_day, $a_user_id, static::DAY_HEIGHT, static::COL_WIDTH-20));
+			: $this->renderDayContent($a_year, $a_month, $a_day, $a_user_id, static::DAY_HEIGHT, static::COL_WIDTH-39));
 		$a_tpl->setVariable("HOLIDAY_CLASS", $a_is_holiday ? "holiday" : "");
 		$a_tpl->parseCurrentBlock();		
 	}

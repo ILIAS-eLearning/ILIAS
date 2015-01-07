@@ -637,12 +637,13 @@ class gevWBDDataConnector extends wbdDataConnector {
 // 2015-01-06
 //NA, FD will not get an OKZ, i.e.
 //only report with valid okz!
-$sql .= " AND okz IN ('OKZ1', 'OKZ2','OKZ3')";
+//$sql .= " AND okz IN ('OKZ1', 'OKZ2','OKZ3')";
 	
 
 		//dev-safety:
 		$sql .= ' AND user_id IN (SELECT usr_id FROM usr_data)';
 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
+		$sql .= ' AND hist_user.is_active = 1'; //exclude inactive users
 		
 		
 		
@@ -1188,9 +1189,9 @@ if($DEBUG_HTML_OUT){
 
 
 	print '<h3>new edu-records:</h3>';
-	print '<h2> total new edurecords: ' .count($cls->valid_newedurecords) .'</h2>';
 	$cls->export_get_new_edu_records('html');
 
+	print '<h2> total new edurecords: ' .count($cls->valid_newedurecords) .'</h2>';
 	print '<h2> invalid edurecords: ' .count($cls->broken_newedurecords) .'</h2>';
 //	print_r($cls->broken_newedurecords);
 	

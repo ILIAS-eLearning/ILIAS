@@ -522,11 +522,15 @@ class ilMaterialList
 	{
 		global $lng;
 		
-		$filename = ilUtil::getASCIIFilename($a_filename).".xls";
+		
+		// gev-patch start
+		$lng->loadLanguageModule("matlist");
+		//$filename = ilUtil::getASCIIFilename($a_filename).".xls";
+		// gev-patch end
 		
 		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
 		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
-		$adapter = new ilExcelWriterAdapter($filename, $a_send);
+		$adapter = new ilExcelWriterAdapter($a_filename, $a_send);
 		$workbook = $adapter->getWorkbook();
 		$worksheet = $workbook->addWorksheet();
 		$worksheet->setLandscape();
@@ -559,7 +563,6 @@ class ilMaterialList
 		}
 
 		$workbook->close();
-
 		if($a_send)
 		{
 			exit();

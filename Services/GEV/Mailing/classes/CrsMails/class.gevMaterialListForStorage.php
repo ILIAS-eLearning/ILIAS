@@ -2,18 +2,18 @@
 
 require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMail.php");
 
-class gevUpdatedListForAccomodation extends gevCrsAutoMail {
-	const DAYS_BEFORE_COURSE_START = 4;
+class gevMaterialListForStorage extends gevCrsAutoMail {
+	const DAYS_BEFORE_COURSE_START = 8;
 	
 	public function getTitle() {
-		return "Teilnehmerliste Hotel";
+		return "Materialliste Lager";
 	}
 	
 	public function _getDescription() {
-		// Mail is send after the third day before training is over.
-		// Thus we need to subtract, since after the third day is on the
-		// second day.
-		return (self::DAYS_BEFORE_COURSE_START - 1)." Tage vor Trainingsbeginn";
+		// Mail is send after the 15th day before training is over.
+		// Thus we need to subtract, since after the 15th day is on the
+		// 14th day.
+		return (self::DAYS_BEFORE_COURSE_START -1)." Tage vor Trainingsbeginn";
 	}
 	
 	public function getScheduledFor() {
@@ -25,7 +25,7 @@ class gevUpdatedListForAccomodation extends gevCrsAutoMail {
 	}
 	
 	public function getTemplateCategory() {
-		return "R05";
+		return "MV";
 	}
 	
 	public function getUsersOnly() {
@@ -33,7 +33,10 @@ class gevUpdatedListForAccomodation extends gevCrsAutoMail {
 	}
 	
 	public function getRecipientAddresses() {
-		return $this->getCourseHotelAddresses();
+		return array(array( "name" => "Materiallager"
+						  , "email" => "tloewen@cat06.de"
+						  )
+					);
 	}
 	
 	protected function getFullnameForTemplate($a_recipient) {
@@ -56,7 +59,7 @@ class gevUpdatedListForAccomodation extends gevCrsAutoMail {
 		if ($this->getCourseUtils()->isTemplate()) {
 			return null;
 		}
-		
+
 		if ($this->checkUserID($a_recipient)) {
 			$a_recipient = array( "name" => ilObjUser::_lookupFullname($a_recipient)
 								, "email" => ilObjUser::_lookupEmail($a_recipient));
@@ -81,10 +84,10 @@ class gevUpdatedListForAccomodation extends gevCrsAutoMail {
 	public function getAttachmentsForMail() {
 		require_once ("Services/GEV/Mailing/classes/class.gevCrsMailAttachments.php");
 
-		$member_list_name = gevCrsMailAttachments::LIST_FOR_HOTEL_NAME;
-		$path = $this->getAttachments()->getPathTo($member_list_name);
+		$material_list_name = gevCrsMailAttachments::MATERIAL_LIST;
+		$path = $this->getAttachments()->getPathTo($material_list_name);
 
-		return array( array( "name" => $member_list_name
+		return array( array( "name" => $material_list_name
 						   , "path" => $path
 						   )
 					);

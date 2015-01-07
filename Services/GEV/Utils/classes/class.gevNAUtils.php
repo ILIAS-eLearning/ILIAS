@@ -254,14 +254,12 @@ class gevNAUtils {
 	public function confirmWithToken($a_token) {
 		$user_id = $this->getUserWithToken($a_token);
 		if ($user_id === null) {
-			die("1");
 			return false;
 		}
 		
 		$user = new ilObjUser($user_id);
 		
 		if ($user->getActive()) {
-			die("2");
 			return false;
 		}
 		
