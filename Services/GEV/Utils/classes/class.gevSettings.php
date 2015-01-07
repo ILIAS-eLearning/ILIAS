@@ -578,13 +578,6 @@ class gevSettings {
 	public function getUDFFieldId($a_field) {
 		return $this->get($a_field);
 	}
-	
-	/*public function isAMDRecordUsed($a_record_id) {
-			global $ilDB;
-			$res = $ilDB->query("SELECT COUNT(*) AS cnt FROM settings ".
-								"    WHERE module = 'gev' ".
-								"      AND ".$ilDB->in("keyword", self::$amd_fields))
-	}*/
 }
 
 ?>
