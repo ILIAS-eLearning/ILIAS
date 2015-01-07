@@ -496,7 +496,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		// The idea is to use a subquery to join and filter the trees, and only the result
 		// is joined to obj_reference and obj_data.
 		
-		 $query = "SELECT t2.child child, type " .
+		 $query = "SELECT t2.child child, type, t2.path path " .
 				"FROM " . $this->getTree()->getTreeTable() . " t1 " .
 				"JOIN " . $this->getTree()->getTreeTable() . " t2 ON (t2.path BETWEEN t1.path AND CONCAT(t1.path, '.Z')) " .
 				"JOIN " . $this->getTree()->getTableReference() . " obr ON t2.child = obr.ref_id " .
