@@ -27,19 +27,11 @@ class ilWikiSideBlockGUI extends ilBlockGUI
 		
 		parent::ilBlockGUI();
 		
-		//$this->setImage(ilUtil::getImagePath("icon_news_s.png"));
-
 		$lng->loadLanguageModule("wiki");
-		//$this->setBlockId(...);
-		/*$this->setLimit(5);
-		$this->setAvailableDetailLevels(3);*/
 		$this->setEnableNumInfo(false);
 		
 		$this->setTitle($lng->txt("wiki_quick_navigation"));
-		//$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
-		//$this->setData($data);
 		$this->allow_moving = false;
-		//$this->handleView();
 	}
 
 	/**

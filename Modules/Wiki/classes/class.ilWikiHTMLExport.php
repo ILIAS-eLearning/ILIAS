@@ -50,7 +50,7 @@ class ilWikiHTMLExport
 		// system style html exporter
 		include_once("./Services/Style/classes/class.ilSystemStyleHTMLExport.php");
 		$this->sys_style_html_export = new ilSystemStyleHTMLExport($this->export_dir);
-		$this->sys_style_html_export->addImage("icon_wiki_b.png");
+		$this->sys_style_html_export->addImage("icon_wiki.svg");
 		$this->sys_style_html_export->export();
 
 		// init co page html exporter
@@ -140,7 +140,7 @@ class ilWikiHTMLExport
 		$this->tpl->setVariable("MAINMENU", "");
 
 		$this->tpl->setTitle($this->wiki->getTitle());
-		$this->tpl->setTitleIcon("./images/icon_wiki_b.png",
+		$this->tpl->setTitleIcon("./images/icon_wiki.svg",
 			$lng->txt("obj_wiki"));
 
 		$this->tpl->setContent($ep_tpl->get());

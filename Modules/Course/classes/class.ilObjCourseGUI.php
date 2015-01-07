@@ -1019,7 +1019,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->lng->txt('crs_edit'));
-		$form->setTitleIcon(ilUtil::getImagePath('icon_crs_s.png'));
 	
 		$form->addCommandButton('update',$this->lng->txt('save'));
 		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
@@ -3840,7 +3839,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.svg"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("crs_header_remove_from_waiting_list"),"icon_usr_b.png",
+		$tbl->setTitle($this->lng->txt("crs_header_remove_from_waiting_list"),"icon_usr.svg",
 					   $this->lng->txt("crs_header_remove_from_waiting_list"));
 		$tbl->setHeaderNames(array($this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
@@ -3886,7 +3885,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.svg"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("crs_header_delete_subscribers"),"icon_usr_b.png",$this->lng->txt("crs_header_delete_members"));
+		$tbl->setTitle($this->lng->txt("crs_header_delete_subscribers"),"icon_usr.svg",$this->lng->txt("crs_header_delete_members"));
 		$tbl->setHeaderNames(array($this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname"),
@@ -4779,9 +4778,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			$longitude = $def["longitude"];
 			$zoom =  $def["zoom"];
 		}
-
-		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.png"), $this->lng->txt("personal_desktop"));
-		//$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();

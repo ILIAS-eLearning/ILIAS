@@ -179,7 +179,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 				$this->tpl->touchBlock('new_line');
 			}
 			$this->tpl->setCurrentBlock('mat_row');
-			#$this->tpl->setVariable('LM_IMG',ilUtil::getImagePath('icon_'.$data['type'].'_s.png'));
 			$this->tpl->setVariable('LM_IMG',ilObject::_getIcon($data['obj_id'],"tiny", $data['type']));
 			$this->tpl->setVariable('LM_ALT',$this->lng->txt('obj_'.$data['type']));
 			
@@ -212,7 +211,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 					$this->tpl->parseCurrentBlock();
 				}
 				#$this->tpl->setCurrentBlock('self_test_row');
-				#$this->tpl->setVariable('SELF_TST_IMG',ilUtil::getImagePath('icon_tst_s.png'));
 				#$this->tpl->setVariable('SELF_TST_ALT',$this->lng->txt('obj_tst'));
 				#$this->tpl->setVariable('SELF_TST_TITLE',ilObject::_lookupTitle($test['obj_id']));
 				#$this->tpl->parseCurrentBlock();	
@@ -238,7 +236,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 			}
 			// begin-patch lok
 			#$this->tpl->setCurrentBlock('final_test_row');
-			#$this->tpl->setVariable('FINAL_TST_IMG',ilUtil::getImagePath('icon_tst_s.png'));
 			#$this->tpl->setVariable('FINAL_TST_ALT',$this->lng->txt('obj_tst'));
 			#$this->tpl->setVariable('FINAL_TST_TITLE',ilObject::_lookupTitle($test['obj_id']));
 			#$this->tpl->parseCurrentBlock();	

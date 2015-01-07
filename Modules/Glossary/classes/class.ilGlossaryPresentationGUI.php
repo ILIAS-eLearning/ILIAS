@@ -710,7 +710,6 @@ class ilGlossaryPresentationGUI
 		
 		// set title header
 		$this->tpl->setTitle($this->glossary->getTitle());
-		//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_glo_b.png"));
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
 
 		// create table

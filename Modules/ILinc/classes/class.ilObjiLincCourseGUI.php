@@ -360,7 +360,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.svg"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("ilinc_header_edit_users"),"icon_usr_b.svg",$this->lng->txt("ilinc_header_edit_users"));
+		$tbl->setTitle($this->lng->txt("ilinc_header_edit_users"),"icon_usr.svg",$this->lng->txt("ilinc_header_edit_users"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),

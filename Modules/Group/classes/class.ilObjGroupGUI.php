@@ -670,9 +670,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 
-		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.png"), $this->lng->txt("personal_desktop"));
-		//$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
-
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
