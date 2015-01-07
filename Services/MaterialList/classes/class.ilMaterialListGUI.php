@@ -173,10 +173,10 @@ class ilMaterialListGUI
 	 * @param array $a_post
 	 * @param type $a_add
 	 */
-	protected function listMaterial(array $a_post = null, $a_add = false)
+	protected function listMaterial(array $a_post = null, $a_add = null)
 	{
 		global $tpl, $ilToolbar, $lng, $ilCtrl, $rbacsystem, $ilUser;	
-		
+						
 		if(!$this->getPermissions()->viewMaterialList())
 		{
 			ilUtil::sendFailure($lng->txt("permission_denied"), true);
@@ -211,6 +211,11 @@ class ilMaterialListGUI
 		{														
 			$ilToolbar->addButton($lng->txt("matlist_download"), 
 					$ilCtrl->getLinkTarget($this, "exportList"));										
+		}
+			
+		if(!$a_add && (int)$_REQUEST["anm"])
+		{
+			$a_add = (int)$_REQUEST["anm"];
 		}
 		
 		// gev-patch start
@@ -248,14 +253,9 @@ class ilMaterialListGUI
 			$ilCtrl->redirect($this, "listMaterial");
 		}
 		
-		// #844
-		if($this->updateMaterial(true))
-		{	
-			ilUtil::sendSuccess($lng->txt("matlist_updated"));
-			
-			$post = $this->handleMaterialPostData();	
-			$this->listMaterial($post, (int)$_POST["addnum"]);
-		}
+		// #844 / #931
+		$ilCtrl->setParameter($this, "anm", (int)$_POST["addnum"]);
+		$this->updateMaterial();
 	}
 	
 	/**
@@ -304,7 +304,7 @@ class ilMaterialListGUI
 			}
 			else
 			{
-				// see confirmDeleteMaterial()
+				// see confirmMaterialDelete()
 				return true;
 			}
 		}
@@ -312,7 +312,7 @@ class ilMaterialListGUI
 		ilUtil::sendFailure($lng->txt("form_input_not_valid"), true);		
 		$this->listMaterial($post);	
 		
-		// see confirmDeleteMaterial()
+		// see confirmMaterialDelete()
 		return false;
 	}
 	
