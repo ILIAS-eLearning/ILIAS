@@ -1745,6 +1745,29 @@ class gevUserImport {
 		$this->prnt('reassignGEV_AVL: done', 2);
 	}
 
+	public function setHistoryUsersToActive(){ 
+		$this->prnt('setHistoryUsersToActive', 1);
+		//new field in hist_user is 0 by default;
+		//correct initially.
+
+		$sql = "SELECT usr_id from usr_data WHERE active=1";
+
+		$result = $this->ilDB->query($sql);
+		$usr_ids = array();
+		while($record = $this->ilDB->fetchAssoc($result)){
+			$usr_ids[] = $record['usr_id'];
+		}
+		$sql = "UPDATE hist_user SET is_active=1"
+		." WHERE hist_historic=0"
+		." AND user_id IN ("
+		.implode(", ", $usr_ids)
+		.")";
+
+		$this->ilDB->manipulate($sql);
+
+		$this->prnt('setHistoryUsersToActive: done', 2);
+	}
+
 
 
 }
