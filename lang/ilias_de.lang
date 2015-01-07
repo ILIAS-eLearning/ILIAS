@@ -10062,7 +10062,7 @@ rbac#:#recf_write#:#Objekte wiederherstellen
 rbac#:#role_block_role#:#Rolle sperren
 rbac#:#role_block_role_desc#:#Alle Rechte für dieses Objekt und seine Unterobjekte werden weggenommen.
 rbac#:#role_confirm_block_role_header#:#Möchten Sie wirklich die ausgewählten Rollen sperren?
-rbac#:#role_confirm_block_role_info#:#Die folgenden Einstellungsänderungen werden vorgenommen:<br /><br />- Alle Rechte für dieses Objekt und seine Unterobjekte werden entfernt.<br />- Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem 'Rolle sperren' wieder aufgehoben wird.
+rbac#:#role_confirm_block_role_info#:#Die folgenden Einstellungsänderungen werden vorgenommen:<br /><br />• Alle Rechte der Rolle für dieses Objekt und die darin enthaltenen Unterobjekte werden entfernt.<br />• Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem <i>Rolle sperren</i> wieder aufgehoben wird.
 rbac#:#rbac_create_book#:#Buchungspool anlegen
 rbac#:#rbac_create_catr#:#Kategorienreferenz anlegen
 rbac#:#rbac_create_chtr#:#Chatraum anlegen
@@ -15180,9 +15180,9 @@ content#:#cont_automatically_set_store_tries#:#Die Option "$1" wurde automatisch
 cntr#:#cont_custom_icon#:#Custom Icon
 rbac#:#rbac_cant_import_role_wrong_type#:#Eine Rolle aus dem Objekt $s in ein Objekt $s hinzuzufügen ist nicht möglich.
 content#:#cont_license#:#Lizenz
-content#:#cont_license_info#:#Aktiviert das Lizenz-Feature
+content#:#cont_license_info#:#Der #Reiter "Lizenz" wird angezeigt.
 content#:#cont_biblio#:#Bibliographische Daten
-content#:#cont_biblio_info#:#Aktiviert das Bibliographische Daten - Feature
+content#:#cont_biblio_info#:#Der #Reiter "Bibliographische Daten" wird angezeigt.
 search#:#search_minimum_info#:#Die Suchbegriffe müssen mindestens %s Zeichen lang sein
 crs#:#crs_loc_tst_assignment#:#Testzuordnung
 crs#:#crs_show_all_obj#:#Alle zeigen
