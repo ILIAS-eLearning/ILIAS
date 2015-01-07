@@ -268,13 +268,15 @@ class ilCourseContentGUI
 			if($this->start_obj->isFullfilled($ilUser->getId(),$ref_id))
 			{
 				$accomplished = 'accomplished';
+				$icon = ilUtil::getImagePath("icon_ok.svg");
 			}
 			else
 			{
 				$accomplished = 'not_accomplished';
+				$icon = ilUtil::getImagePath("icon_not_ok.svg");
 			}
 			$this->tpl->setCurrentBlock("start_row");
-			$this->tpl->setVariable("EDITED_IMG",ilUtil::getImagePath('crs_'.$accomplished.'.png'));
+			$this->tpl->setVariable("EDITED_IMG", $icon);
 			$this->tpl->setVariable("EDITED_ALT",$this->lng->txt('crs_objective_'.$accomplished));
 			$this->tpl->setVariable("ROW_CLASS",'option_value');
 			$this->tpl->setVariable("ROW_CLASS_CENTER",'option_value_center');
