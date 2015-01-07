@@ -4572,7 +4572,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			!$this->ass->getFeedbackFile() ||
 			($needs_dl && !$this->ass->getDeadline()) ||
 			($needs_dl && $this->ass->getDeadline() > time()) ||
-			(!$needs_dl && ilExAssignment::getLastSubmission($this->ass->getId(), $ilUser->getId())))						
+			(!$needs_dl && !ilExAssignment::getLastSubmission($this->ass->getId(), $ilUser->getId())))						
 		{
 			$ilCtrl->redirect($this, "showOverview");
 		}
