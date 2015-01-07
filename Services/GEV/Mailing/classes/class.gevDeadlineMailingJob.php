@@ -42,6 +42,7 @@ class gevDeadlineMailingJob extends ilCronJob {
 		, "updated_list_for_accomodation"
 		, "participation_status_not_set"
 		, "invitation"
+		, "material_list_for_storage"
 		);
 		
 		$this->max_after_course_end = gevParticipationStatusNotSet::DAYS_AFTER_COURSE_END;
