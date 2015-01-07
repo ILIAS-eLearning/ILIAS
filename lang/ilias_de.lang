@@ -7698,8 +7698,8 @@ feed#:#block_feed_block_feed_url#:#URL des Webfeeds
 feed#:#block_feed_block_feed_url_info#:#Gültige RSS/Atom-URL erforderlich, z. B. http://www.ilias.de/rss.php
 feed#:#block_feed_block_head#:#Externer Webfeed
 feed#:#block_feed_block_title#:#Titel
-feed#:#feed_disable_rep_feeds_info#:#Deaktiviert die Präsentation der externen Webfeeds im Falle eines Problems mit einer externen Feed-Quelle.
-feed#:#feed_disable_rep_feeds#:#Externe Webfeeds verstecken
+feed#:#feed_disable_rep_feeds_info#:#Deaktiviert die Präsentation der aller externen Webfeeds (Persönlicher Schreibtisch und Magazin) im Falle eines Problems mit einer externen Feed-Quelle.
+feed#:#feed_disable_rep_feeds#:#Externe Webfeeds deaktivieren
 feed#:#feed_feed_items#:#Webfeed-Themen
 feed#:#feed_import#:#Webfeed importieren
 feed#:#feed_loading_feed#:#Newsfeed wird geladen ...
@@ -7712,7 +7712,7 @@ feed#:#feed_proxy#:#Proxy Host
 feed#:#feed_proxy_info#:#Proxy Host für Netzverbindungen.
 feed#:#feed_proxy_port#:#Proxy Port
 feed#:#feed_proxy_port_info#:#Proxy Port für Netzverbindung
-feed#:#feed_settings#:#Einstellungen externer Webfeed
+feed#:#feed_settings#:#Externe Webfeeds
 file#:#file_new_version#:#Neue Version anlegen
 file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten.
 file#:#file_uploaded_by#:#Hochgeladen von
@@ -9069,7 +9069,7 @@ news#:#news_enable_internal_news#:#Interne Nachrichten aktivieren
 news#:#news_enable_internal_news_info#:#Aktiviert Nachrichtenblöcke für Kategorien, Kurse, Gruppen und andere Objekte. Benutzer können diese Nachrichten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
 news#:#news_enable_internal_rss#:#Aktiviere RSS für interne Nachrichten
 news#:#news_enable_internal_rss_info#:#Erlaube Veröffentlichung von Nachrichten über RSS. Auf diese Nachrichten kann von außen ohne Authentifizierung zugegriffen werden.
-news#:#news_enable_private_feed#:#Privaten Newsfeed aktivieren
+news#:#news_enable_private_feed#:#Privaten RSS-Feed aktivieren
 news#:#news_enable_private_feed_info#:#Erlaubt den Zugriff auf private und öffentliche Nachrichten über RSS. Authentifizierung erfolgt mittels speziellem Feed-Passwort.
 news#:#news_feed_url#:#Feed-URL
 news#:#news_feed_url_for#:#Feed-URL für '%s'
@@ -9120,7 +9120,7 @@ news#:#news_rss_period#:#RSS-Zeitraum
 news#:#news_rss_title_format#:#RSS-Titelformat
 news#:#news_rss_title_format_news_obj#:#Nachrichtentitel (Objekttitel)
 news#:#news_rss_title_format_obj_news#:#Objekttitel - Nachrichtentitel
-news#:#news_settings#:#Einstellungen für Nachrichten
+news#:#news_settings#:#Einstellungen für interne Nachrichten
 news#:#news_subscribe#:#Abonniere
 news#:#news_time_period#:#Zeitspanne
 news#:#news_unsubscribe#:#Beende Abonnement
@@ -15192,3 +15192,4 @@ notes#:#notes_comments_deleted#:#Die Kommentare wurden gelöscht.
 orgu#:#ou_id_not_valid#:#Die Import-ID konnte nicht gefunden werden.
 blog#:#blog_profile_picture_repository_info#:#Profilbilder der Autoren werden nur für einzelne Beiträge angezeigt, nicht auf Übersichtsseiten.
 blog#:#blog_confirm_delete_contributors#:#Wollen Sie wirklich die folgenden Autoren löschen?
+news#:#news_rss#:#RSS

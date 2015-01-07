@@ -7907,7 +7907,7 @@ news#:#news_enable_internal_news#:#Enable Internal News
 news#:#news_enable_internal_rss_info#:#Allows publishing news items via RSS. These items will be accessible outside of the system without authentication.
 news#:#news_enable_internal_rss#:#Enable RSS for Internal News
 news#:#news_enable_private_feed_info#:#If this option is enabled, public and private news can be obtained by personal RSS feeds outside of ILIAS. Authentication is provided by password.
-news#:#news_enable_private_feed#:#Enable private Newsfeed
+news#:#news_enable_private_feed#:#Enable private RSS Feed
 news#:#news_feed_url_for#:#Feed URL for '%s'
 news#:#news_feed_url#:#Feed URL
 news#:#news_first_letter_of_word_notification#:#N
@@ -15191,3 +15191,4 @@ notes#:#notes_comments_deleted#:#The comments have been deleted.
 orgu#:#ou_id_not_valid#:#Import-ID not found.
 blog#:#blog_profile_picture_repository_info#:#Profile pictures of the authors are only shown on the postings pages, not on overview pages.
 blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the following contributors?
+news#:#news_rss#:#RSS

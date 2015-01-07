@@ -136,52 +136,6 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked($enable_internal_news);
 		$form->addItem($cb_prop);
 
-		// Enable rss for internal news
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("news_enable_internal_rss"),
-			"enable_internal_rss");
-		$cb_prop->setValue("1");
-		$cb_prop->setInfo($lng->txt("news_enable_internal_rss_info"));
-		$cb_prop->setChecked($enable_internal_rss);
-
-			// RSS News Period
-			$rssp_opts = array(
-				2 => "2 ".$lng->txt("days"),
-				3 => "3 ".$lng->txt("days"),
-				5 => "5 ".$lng->txt("days"),
-				7 => "1 ".$lng->txt("week"),
-				14 => "2 ".$lng->txt("weeks"),
-				30 => "1 ".$lng->txt("month"),
-				60 => "2 ".$lng->txt("months"),
-				120 => "4 ".$lng->txt("months"),
-				180 => "6 ".$lng->txt("months"),
-				365 => "1 ".$lng->txt("year")
-				);
-			$rssp_sel = new ilSelectInputGUI($lng->txt("news_rss_period"),
-				"news_rss_period");
-			$rssp_sel->setOptions($rssp_opts);
-			$rssp_sel->setValue((int) $rss_period);
-			$cb_prop->addSubItem($rssp_sel);
-
-			// title format for rss entries
-			$options = array(
-				"" => $lng->txt("news_rss_title_format_obj_news"),
-				"news_obj" => $lng->txt("news_rss_title_format_news_obj"),
-				);
-			$si = new ilSelectInputGUI($lng->txt("news_rss_title_format"), "rss_title_format");
-			$si->setOptions($options);
-			$si->setValue($rss_title_format);
-			$cb_prop->addSubItem($si);
-
-		$form->addItem($cb_prop);
-		
-		// Enable private news feed
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("news_enable_private_feed"),
-			"enable_private_feed");
-		$cb_prop->setValue("1");
-		$cb_prop->setInfo($lng->txt("news_enable_private_feed_info"));
-		$cb_prop->setChecked($enable_private_feed);
-		$form->addItem($cb_prop);
-
 		// Default Visibility
 		$radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "news_default_visibility");
 		$radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "users");
@@ -246,18 +200,62 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$lp_prop->setChecked($allow_longer_periods);
 		$form->addItem($lp_prop);
 
+		// Enable rss for internal news
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("news_enable_internal_rss"),
+			"enable_internal_rss");
+		$cb_prop->setValue("1");
+		$cb_prop->setInfo($lng->txt("news_enable_internal_rss_info"));
+		$cb_prop->setChecked($enable_internal_rss);
+
+		// RSS News Period
+		$rssp_opts = array(
+			2 => "2 ".$lng->txt("days"),
+			3 => "3 ".$lng->txt("days"),
+			5 => "5 ".$lng->txt("days"),
+			7 => "1 ".$lng->txt("week"),
+			14 => "2 ".$lng->txt("weeks"),
+			30 => "1 ".$lng->txt("month"),
+			60 => "2 ".$lng->txt("months"),
+			120 => "4 ".$lng->txt("months"),
+			180 => "6 ".$lng->txt("months"),
+			365 => "1 ".$lng->txt("year")
+		);
+		$rssp_sel = new ilSelectInputGUI($lng->txt("news_rss_period"),
+			"news_rss_period");
+		$rssp_sel->setOptions($rssp_opts);
+		$rssp_sel->setValue((int) $rss_period);
+		$cb_prop->addSubItem($rssp_sel);
+
+		// Section Header: RSS
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($lng->txt("news_rss"));
+		$form->addItem($sh);
+
+		// title format for rss entries
+		$options = array(
+			"" => $lng->txt("news_rss_title_format_obj_news"),
+			"news_obj" => $lng->txt("news_rss_title_format_news_obj"),
+		);
+		$si = new ilSelectInputGUI($lng->txt("news_rss_title_format"), "rss_title_format");
+		$si->setOptions($options);
+		$si->setValue($rss_title_format);
+		$cb_prop->addSubItem($si);
+
+		$form->addItem($cb_prop);
+
+		// Enable private news feed
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("news_enable_private_feed"),
+			"enable_private_feed");
+		$cb_prop->setValue("1");
+		$cb_prop->setInfo($lng->txt("news_enable_private_feed_info"));
+		$cb_prop->setChecked($enable_private_feed);
+		$form->addItem($cb_prop);
+
+
 		// Section Header: External Web Feeds Settings
 		$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($lng->txt("feed_settings"));
 		$form->addItem($sh);
-		
-		// Disable External Web Feeds in catetegories
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("feed_disable_rep_feeds"),
-			"disable_repository_feeds");
-		$cb_prop->setValue("1");
-		$cb_prop->setInfo($lng->txt("feed_disable_rep_feeds_info"));
-		$cb_prop->setChecked($disable_repository_feeds);
-		$form->addItem($cb_prop);
 
 		// Number of External Feeds on personal desktop
 		$sel = new ilSelectInputGUI($lng->txt("feed_nr_pd_feeds"), "nr_pd_feeds");
@@ -269,8 +267,16 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 			4 => "4",
 			5 => "5"));
 		$sel->setValue($nr_personal_desktop_feeds);
-		$form->addItem($sel);	
-		
+		$form->addItem($sel);
+
+		// Disable External Web Feeds in catetegories
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("feed_disable_rep_feeds"),
+			"disable_repository_feeds");
+		$cb_prop->setValue("1");
+		$cb_prop->setInfo($lng->txt("feed_disable_rep_feeds_info"));
+		$cb_prop->setChecked($disable_repository_feeds);
+		$form->addItem($cb_prop);
+
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));
