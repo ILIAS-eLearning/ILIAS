@@ -141,7 +141,8 @@ class ilCourseHistorizingAppEventListener
 			'fee'								=> self::$ilCourseHistorizingHelper->getFeeOf($parameter),
 			'is_template'						=> self::$ilCourseHistorizingHelper->getIsTemplate($parameter),
 			'wbd_topic'							=> self::$ilCourseHistorizingHelper->getWBDTopicOf($parameter),
-			'edu_program'						=> self::$ilCourseHistorizingHelper->getEduProgramOf($parameter)
+			'edu_program'						=> self::$ilCourseHistorizingHelper->getEduProgramOf($parameter),
+			'is_online'							=> self::$ilCourseHistorizingHelper->isOnline($parameter)
 		
 		);
 

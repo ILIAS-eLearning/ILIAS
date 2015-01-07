@@ -160,7 +160,8 @@ class ilUserHistorizingAppEventListener
 			'org_unit_above2'	=> $org_units_above[1],
 			
 			//new 2014-11-30:
-			'is_vfs'			=>self::$ilUserHistorizingHelper->isVFSOf($parameter['user_obj'])
+			'is_vfs'			=>self::$ilUserHistorizingHelper->isVFSOf($parameter['user_obj']),
+			'is_active'			=>self::$ilUserHistorizingHelper->isActiveUser($parameter['user_obj'])
 		);
 		/*
 		'street'	 	

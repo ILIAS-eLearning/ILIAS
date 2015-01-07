@@ -139,6 +139,7 @@ class ilUserHistorizing extends ilHistorizingStorage
 			'org_unit_above1'				=> 'text',
 			'org_unit_above2'				=> 'text',
 			'is_vfs'						=> 'integer',
+			'is_active'						=> 'integer',
 
 
 		);

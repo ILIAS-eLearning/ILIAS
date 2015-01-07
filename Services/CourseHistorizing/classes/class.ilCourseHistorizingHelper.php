@@ -261,8 +261,8 @@ class ilCourseHistorizingHelper
 		return $utils->getEduProgramm();
 	}
 
-
-	
-
+	public static function isOnline($course) {
+		return $course->isActivated();
+	}
 
 }

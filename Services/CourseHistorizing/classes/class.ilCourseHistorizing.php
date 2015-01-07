@@ -124,7 +124,8 @@ class ilCourseHistorizing extends ilHistorizingStorage
 			'fee'				=> 'float',
 			'is_template'		=> 'text',
 			'wbd_topic'			=> 'text',
-			'edu_program'		=> 'text'
+			'edu_program'		=> 'text',
+			'is_online'			=> 'integer'
 
 		);
 
