@@ -24,11 +24,11 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 	{
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
-			$icon = ilUtil::getImagePath("icon_lm.png");
+			$icon = ilUtil::getImagePath("icon_lm.svg");
 		}
 		else
 		{
-			$a_name = "icon_".$a_node["type"].".png";
+			$a_name = "icon_".$a_node["type"].".svg";
 			if ($a_node["type"] == "pg")
 			{
 				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
@@ -42,11 +42,11 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 					? "_sc"
 					: "";
 					
-				$a_name = "icon_pg".$img_sc.".png";
+				$a_name = "icon_pg".$img_sc.".svg";
 	
 				if (!$active)
 				{
-					$a_name = "icon_pg_d".$img_sc.".png";
+					$a_name = "icon_pg_d".$img_sc.".svg";
 				}
 				else
 				{
@@ -55,7 +55,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 						$this->lm->getType());
 					if ($contains_dis)
 					{
-						$a_name = "icon_pg_del".$img_sc.".png";
+						$a_name = "icon_pg_del".$img_sc.".svg";
 					}
 				}
 			}

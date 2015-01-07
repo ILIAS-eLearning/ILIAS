@@ -1343,7 +1343,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$form_gui = new ilChapterHierarchyFormGUI($this->object->getType(), $_GET["transl"]);
 		$form_gui->setFormAction($ilCtrl->getFormAction($this));
 		$form_gui->setTitle($this->object->getTitle());
-		$form_gui->setIcon(ilUtil::getImagePath("icon_lm.png"));
+		$form_gui->setIcon(ilUtil::getImagePath("icon_lm.svg"));
 		$form_gui->setTree($this->lm_tree);
 		$form_gui->setMaxDepth(0);
 		$form_gui->setCurrentTopNodeId($this->tree->getRootId());
@@ -1354,7 +1354,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		{	
 			$form_gui->addMultiCommand($lng->txt("cont_set_layout"), "setPageLayoutInHierarchy");
 		}
-		$form_gui->setDragIcon(ilUtil::getImagePath("icon_st.png"));
+		$form_gui->setDragIcon(ilUtil::getImagePath("icon_st.svg"));
 		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
 		$up_gui = ($this->object->getType() == "dbk")
 			? "ilobjdlbookgui"
@@ -1489,7 +1489,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 			if (!$active)
 			{
-				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_d".$img_sc.".png"));
+				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_d".$img_sc.".svg"));
 				$this->tpl->setVariable("IMG_ALT",
 					$this->lng->txt("cont_page_deactivated"));
 			}
@@ -1498,13 +1498,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				if (ilLMPage::_lookupContainsDeactivatedElements($page["obj_id"],
 					$this->object->getType()))
 				{
-					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_del".$img_sc.".png"));
+					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_del".$img_sc.".svg"));
 					$this->tpl->setVariable("IMG_ALT",
 						$this->lng->txt("cont_page_deactivated_elements"));
 				}
 				else
 				{
-					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg".$img_sc.".png"));
+					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg".$img_sc.".svg"));
 					$this->tpl->setVariable("IMG_ALT",
 						$this->lng->txt("pg"));
 				}
@@ -1928,7 +1928,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			}
 
 			$this->tpl->setCurrentBlock("operation");
-			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.png"));
+			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.svg"));
 			$this->tpl->parseCurrentBlock();
 		}
 	}
@@ -2710,7 +2710,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		
 		$this->addTabs($a_act);
 		$this->tpl->setTitle($this->object->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.png"),
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"),
 			$lng->txt("obj_lm"));
 	}
 

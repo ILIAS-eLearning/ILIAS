@@ -1235,7 +1235,7 @@ function modifyTrackingItems()
 	$this->tpl->setVariable("COLUMN_COUNTS", 5);
 	
 	// delete button
-	$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
+	$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
 	$this->tpl->setCurrentBlock("tbl_action_btn");
 	$this->tpl->setVariable("BTN_NAME", "deleteTrackingForUser");
 	$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
@@ -2087,7 +2087,7 @@ function showTrackingItem()
 		if ($a_icon == "")
 		{
 			$a_title = $this->object->getTitle();
-			$a_icon = ilUtil::getImagePath("icon_lm.png");
+			$a_icon = ilUtil::getImagePath("icon_lm.svg");
 		}
 
 		$slm_tree = $this->getEditTree();
@@ -2755,7 +2755,7 @@ function showTrackingItem()
 			{
 				$node_obj = ilSCORM2004NodeFactory::getInstance($this->object, $id, false);
 				$confirmation_gui->addItem("id[]", $node_obj->getId(),
-				$node_obj->getTitle(), ilUtil::getImagePath("icon_".$node_obj->getType().".png"));
+				$node_obj->getTitle(), ilUtil::getImagePath("icon_".$node_obj->getType().".svg"));
 			}
 		}
 

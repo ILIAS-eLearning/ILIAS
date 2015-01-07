@@ -775,11 +775,11 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 						// @todo: Add images
 						if ($group_selected)
 						{
-							$img = ' <img src="' . ilUtil::getImagePath("icon_ok.png") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
+							$img = ' <img src="' . ilUtil::getImagePath("icon_ok.svg") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
 						}
 						else
 						{
-							$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.png") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
+							$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.svg") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
 						}
 					}
 					
@@ -809,11 +809,11 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 					{
 						if ($this->getPointsForSelectedPositions(array($counter)) >= 0)
 						{
-							$img = ' <img src="' . ilUtil::getImagePath("icon_ok.png") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
+							$img = ' <img src="' . ilUtil::getImagePath("icon_ok.svg") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
 						}
 						else
 						{
-							$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.png") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
+							$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.svg") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
 						}
 					}
 				}

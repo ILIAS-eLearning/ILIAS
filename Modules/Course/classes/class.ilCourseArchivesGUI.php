@@ -171,7 +171,7 @@ class ilCourseArchivesGUI
 
 		if($this->download_allowed)
 		{
-			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
+			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
 			if($this->is_tutor)
 			{
 				// delete

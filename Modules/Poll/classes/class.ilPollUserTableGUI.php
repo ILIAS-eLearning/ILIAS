@@ -73,7 +73,7 @@ class ilPollUserTableGUI extends ilTable2GUI
 		{			
 			if($a_set["answer".$answer_id])
 			{				
-				$this->tpl->setVariable("ANSWER", '<img src="'.ilUtil::getImagePath("icon_ok.png").'" />');
+				$this->tpl->setVariable("ANSWER", '<img src="'.ilUtil::getImagePath("icon_ok.svg").'" />');
 			}
 			else
 			{				

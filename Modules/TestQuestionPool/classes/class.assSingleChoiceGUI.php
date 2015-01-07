@@ -234,7 +234,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 						if ($ok)
 						{
 							$template->setCurrentBlock("icon_ok");
-							$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.png"));
+							$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
 							$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
 							$template->parseCurrentBlock();
 						}
@@ -243,12 +243,12 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 							$template->setCurrentBlock("icon_not_ok");
 							if ($answer->getPoints() > 0)
 							{
-								$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.png"));
+								$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.svg"));
 								$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
 							}
 							else
 							{
-								$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.png"));
+								$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
 								$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
 							}
 							$template->parseCurrentBlock();
@@ -257,7 +257,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 					if (strlen($user_solution) == 0)
 					{
 						$template->setCurrentBlock("icon_not_ok");
-						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.png"));
+						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
 						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
 						$template->parseCurrentBlock();
 					}
@@ -344,7 +344,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 					$template->setCurrentBlock("preview");
 					$template->setVariable("URL_PREVIEW", $this->object->getImagePathWeb() . $answer->getImage());
 					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.png'));
+					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
 					$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
 					list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getImage());
 					$alt = $answer->getImage();
@@ -439,7 +439,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 					$template->setCurrentBlock("preview");
 					$template->setVariable("URL_PREVIEW", $this->object->getImagePathWeb() . $answer->getImage());
 					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.png'));
+					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
 					$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
 					list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getImage());
 					$alt = $answer->getImage();

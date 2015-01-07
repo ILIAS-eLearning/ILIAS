@@ -1055,7 +1055,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->setUsers($wait);
-			$table_gui->setTitle($this->lng->txt('grp_header_waiting_list'),'icon_usr.png',$this->lng->txt('group_new_registrations'));
+			$table_gui->setTitle($this->lng->txt('grp_header_waiting_list'),'icon_usr.svg',$this->lng->txt('group_new_registrations'));
 			$this->tpl->setVariable('TABLE_WAIT',$table_gui->getHTML());
 		}
 		
@@ -1083,7 +1083,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->readSubscriberData();
-			$table_gui->setTitle($this->lng->txt('group_new_registrations'),'icon_usr.png',$this->lng->txt('group_new_registrations'));
+			$table_gui->setTitle($this->lng->txt('group_new_registrations'),'icon_usr.svg',$this->lng->txt('group_new_registrations'));
 			$this->tpl->setVariable('TABLE_SUB',$table_gui->getHTML());
 		}
 		
@@ -1110,7 +1110,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 
 			$table->addCommandButton('updateMembers',$this->lng->txt('save'));
-			$table->setTitle($this->lng->txt('event_tbl_admins'),'icon_usr.png',$this->lng->txt('event_tbl_admins'));
+			$table->setTitle($this->lng->txt('event_tbl_admins'),'icon_usr.svg',$this->lng->txt('event_tbl_admins'));
 			$table->enableRegistration($this->object->enabledRegistration());
 			$table->setParticipants($admins);
 			$table->parse();
@@ -1138,7 +1138,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->clearParameters($this);
 			}
 			$table->addCommandButton('updateMembers',$this->lng->txt('save'));
-			$table->setTitle($this->lng->txt('event_tbl_tutors'),'icon_usr.png',$this->lng->txt('event_tbl_admins'));
+			$table->setTitle($this->lng->txt('event_tbl_tutors'),'icon_usr.svg',$this->lng->txt('event_tbl_admins'));
 			$table->enableRegistration($this->object->enabledRegistration());
 			$table->setParticipants($tutors);
 			$table->parse();
@@ -1166,7 +1166,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->clearParameters($this);
 			}
 			$table->addCommandButton('updateMembers',$this->lng->txt('save'));
-			$table->setTitle($this->lng->txt('event_tbl_members'),'icon_usr.png',$this->lng->txt('event_tbl_admins'));
+			$table->setTitle($this->lng->txt('event_tbl_members'),'icon_usr.svg',$this->lng->txt('event_tbl_admins'));
 			$table->enableRegistration($this->object->enabledRegistration());
 			$table->setParticipants($members);
 			$table->parse();
@@ -1178,7 +1178,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable('TXT_SELECTED_USER',$this->lng->txt('mmbr_selected_users'));
 		$this->tpl->setVariable('BTN_FOOTER_MAIL',$this->lng->txt('mmbr_btn_mail_selected_users'));
-		$this->tpl->setVariable('ARROW_DOWN',ilUtil::getImagePath('arrow_downright.png'));
+		$this->tpl->setVariable('ARROW_DOWN',ilUtil::getImagePath('arrow_downright.svg'));
 	}
 	
 	/**
@@ -1373,7 +1373,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// Table 
 		$tbl = new ilTableGUI();
 		$tbl->setTitle($this->lng->txt("event_overview"),
-					   'icon_usr.png',
+					   'icon_usr.svg',
 					   $this->lng->txt('obj_usr'));
 		$this->ctrl->setParameter($this,'offset',(int) $_GET['offset']);	
 		
@@ -1431,8 +1431,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 										
 				{			
 					$this->tpl->setVariable("IMAGE_PARTICIPATED", $event_part->hasParticipated($user_id) ? 
-											ilUtil::getImagePath('icon_ok.png') :
-											ilUtil::getImagePath('icon_not_ok.png'));
+											ilUtil::getImagePath('icon_ok.svg') :
+											ilUtil::getImagePath('icon_not_ok.svg'));
 					
 					$this->tpl->setVariable("PARTICIPATED", $event_part->hasParticipated($user_id) ?
 										$this->lng->txt('event_participated') :

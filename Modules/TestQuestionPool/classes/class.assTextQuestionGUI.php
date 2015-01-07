@@ -216,7 +216,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 				if ($reached_points == $this->object->getMaximumPoints())
 				{
 					$template->setCurrentBlock("icon_ok");
-					$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.png"));
+					$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
 					$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
 					$template->parseCurrentBlock();
 				}
@@ -225,12 +225,12 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 					$template->setCurrentBlock("icon_ok");
 					if ($reached_points > 0)
 					{
-						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.png"));
+						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.svg"));
 						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
 					}
 					else
 					{
-						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.png"));
+						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
 						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
 					}
 					$template->parseCurrentBlock();

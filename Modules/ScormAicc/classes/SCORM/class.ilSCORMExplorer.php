@@ -435,7 +435,7 @@ class ilSCORMExplorer extends ilExplorer
 
 			if ($scormtype == 'asset') 
 			{
-				$tpl->setVariable('ICON_IMAGE', ilUtil::getImagePath($this->getIconImagePathPrefix()."asset.png"));
+				$tpl->setVariable('ICON_IMAGE', ilUtil::getImagePath($this->getIconImagePathPrefix()."asset.svg"));
 				$tpl->setVariable('TXT_ALT_IMG', '');
 				$tpl->parseCurrentBlock();
 				return;
@@ -482,7 +482,7 @@ class ilSCORMExplorer extends ilExplorer
 			}
 
 			$tpl->setVariable("ICON_NAME", 'scoIcon'.$a_node_id);
-			$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath($this->getIconImagePathPrefix().str_replace(" ", "_", $status).".png"));
+			$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath($this->getIconImagePathPrefix().str_replace(" ", "_", $status).".svg"));
 			$tpl->setVariable("TXT_ALT_IMG", $alt);
 			$tpl->parseCurrentBlock();
 

@@ -651,7 +651,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->create_form_gui->setTableWidth('600px');
 		
 		$this->create_form_gui->setTitle($this->lng->txt('frm_new'));
-		$this->create_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.png'));
+		$this->create_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.svg'));
 		
 		// form action
 		$this->ctrl->setParameter($this, 'new_type', $object_type);
@@ -3291,7 +3291,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->create_topic_form_gui = new ilPropertyFormGUI();
 		
 		$this->create_topic_form_gui->setTitle($this->lng->txt('forums_new_thread'));
-		$this->create_topic_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.png'));
+		$this->create_topic_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.svg'));
 		$this->create_topic_form_gui->setTableWidth('100%');
 				
 		// form action
@@ -3674,7 +3674,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 	
 	 	$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.frm_wizard_page.html', 'Modules/Forum');
 	 	$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this));
-	 	$this->tpl->setVariable('TYPE_IMG', ilUtil::getImagePath('icon_'.$new_type.'.png'));
+	 	$this->tpl->setVariable('TYPE_IMG', ilUtil::getImagePath('icon_'.$new_type.'.svg'));
 	 	$this->tpl->setVariable('ALT_IMG', $this->lng->txt('obj_'.$new_type));
 	 	$this->tpl->setVariable('TXT_DUPLICATE', $this->lng->txt('frm_wizard_page'));
 	 	$this->tpl->setVariable('INFO_THREADS', $this->lng->txt('fmr_copy_threads_info'));
@@ -3897,8 +3897,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	public function getIcon($user_toggle_noti)
 	{
 		$icon = $user_toggle_noti
-		? "<img src=\"".ilUtil::getImagePath("icon_ok.png")."\" alt=\"".$this->lng->txt("enabled")."\" title=\"".$this->lng->txt("enabled")."\" border=\"0\" vspace=\"0\"/>"
-		: "<img src=\"".ilUtil::getImagePath("icon_not_ok.png")."\" alt=\"".$this->lng->txt("disabled")."\" title=\"".$this->lng->txt("disabled")."\" border=\"0\" vspace=\"0\"/>";
+		? "<img src=\"".ilUtil::getImagePath("icon_ok.svg")."\" alt=\"".$this->lng->txt("enabled")."\" title=\"".$this->lng->txt("enabled")."\" border=\"0\" vspace=\"0\"/>"
+		: "<img src=\"".ilUtil::getImagePath("icon_not_ok.svg")."\" alt=\"".$this->lng->txt("disabled")."\" title=\"".$this->lng->txt("disabled")."\" border=\"0\" vspace=\"0\"/>";
 		return $icon;
 	}
 	
@@ -4362,7 +4362,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				{
 					$lg->addHeaderIcon(
 						"not_icon",
-						ilUtil::getImagePath("notification_on.png"),
+						ilUtil::getImagePath("notification_on.svg"),
 						$this->lng->txt("frm_notification_activated")
 					);
 				}
@@ -4370,7 +4370,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				{
 					$lg->addHeaderIcon(
 						"not_icon",
-						ilUtil::getImagePath("notification_off.png"),
+						ilUtil::getImagePath("notification_off.svg"),
 						$this->lng->txt("frm_notification_deactivated")
 					);
 				}

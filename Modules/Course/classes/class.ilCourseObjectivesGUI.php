@@ -220,7 +220,7 @@ class ilCourseObjectivesGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",1);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.png'));
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.svg'));
 		$tpl->parseCurrentBlock();
 
 
@@ -1303,7 +1303,7 @@ class ilCourseObjectivesGUI
 		}
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setTableWidth('100%');
-		//$this->form->setTitleIcon(ilUtil::getImagePath('icon_lobj.png'),$this->lng->txt('crs_objective'));
+		//$this->form->setTitleIcon(ilUtil::getImagePath('icon_lobj.svg'),$this->lng->txt('crs_objective'));
 		
 		switch($a_mode)
 		{
@@ -1407,7 +1407,7 @@ class ilCourseObjectivesGUI
 		
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
-		//$this->form->setTitleIcon(ilUtil::getImagePath('icon_lobj.png'),$this->lng->txt('crs_objective'));
+		//$this->form->setTitleIcon(ilUtil::getImagePath('icon_lobj.svg'),$this->lng->txt('crs_objective'));
 		
 		switch($a_mode)
 		{

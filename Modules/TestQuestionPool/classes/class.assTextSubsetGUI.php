@@ -200,14 +200,14 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 						if ($correct)
 						{
 							$template->setCurrentBlock("icon_ok");
-							$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.png"));
+							$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
 							$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
 							$template->parseCurrentBlock();
 						}
 						else
 						{
 							$template->setCurrentBlock("icon_ok");
-							$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.png"));
+							$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
 							$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
 							$template->parseCurrentBlock();
 						}

@@ -268,14 +268,14 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 					if ($ok)
 					{
 						$template->setCurrentBlock("icon_ok");
-						$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.png"));
+						$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
 						$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
 						$template->parseCurrentBlock();
 					}
 					else
 					{
 						$template->setCurrentBlock("icon_ok");
-						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.png"));
+						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
 						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
 						$template->parseCurrentBlock();
 					}
@@ -423,7 +423,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 					$template->setCurrentBlock("preview");
 					$template->setVariable("URL_PREVIEW", $this->object->getImagePathWeb() . $answer->getImage());
 					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.png'));
+					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
 					$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
 					list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getImage());
 					$alt = $answer->getImage();
@@ -531,7 +531,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 					$template->setCurrentBlock("preview");
 					$template->setVariable("URL_PREVIEW", $this->object->getImagePathWeb() . $answer->getImage());
 					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.png'));
+					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
 					$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
 					list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getImage());
 					$alt = $answer->getImage();

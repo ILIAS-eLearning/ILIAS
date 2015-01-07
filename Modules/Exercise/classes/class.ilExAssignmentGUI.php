@@ -78,9 +78,9 @@ class ilExAssignmentGUI
 		$stat = ilExAssignment::lookupStatusOfUser($a_data["id"], $ilUser->getId());
 		switch ($stat)
 		{
-			case "passed": 	$pic = "scorm/passed.png"; break;
-			case "failed":	$pic = "scorm/failed.png"; break;
-			default: 		$pic = "scorm/not_attempted.png"; break;
+			case "passed": 	$pic = "scorm/passed.svg"; break;
+			case "failed":	$pic = "scorm/failed.svg"; break;
+			default: 		$pic = "scorm/not_attempted.svg"; break;
 		}
 		$tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
 		$tpl->setVariable("ALT_STATUS", $lng->txt("exc_".$stat));
@@ -601,7 +601,7 @@ class ilExAssignmentGUI
 					}
 					else if ($status != "notgraded")
 					{
-						$img = '<img src="'.ilUtil::getImagePath("scorm/".$status.".png").'" '.
+						$img = '<img src="'.ilUtil::getImagePath("scorm/".$status.".svg").'" '.
 							' alt="'.$lng->txt("exc_".$status).'" title="'.$lng->txt("exc_".$status).
 							'" />';
 						$info->addProperty($lng->txt("status"),

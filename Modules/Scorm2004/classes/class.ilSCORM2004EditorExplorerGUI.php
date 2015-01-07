@@ -61,11 +61,11 @@ class ilSCORM2004EditorExplorerGUI extends ilTreeExplorerGUI
 	{
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
-			$icon = ilUtil::getImagePath("icon_sahs.png");
+			$icon = ilUtil::getImagePath("icon_sahs.svg");
 		}
 		else
 		{
-			$icon = ilUtil::getImagePath("icon_".$a_node["type"].".png");
+			$icon = ilUtil::getImagePath("icon_".$a_node["type"].".svg");
 		}
 		
 		return $icon;

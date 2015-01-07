@@ -123,9 +123,9 @@ class ilExGradesTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_FAILED", $lng->txt("exc_failed"));
 			switch($status)
 			{
-				case "passed": 	$pic = "scorm/passed.png"; break;
-				case "failed":	$pic = "scorm/failed.png"; break;
-				default: 		$pic = "scorm/not_attempted.png"; break;
+				case "passed": 	$pic = "scorm/passed.svg"; break;
+				case "failed":	$pic = "scorm/failed.svg"; break;
+				default: 		$pic = "scorm/not_attempted.svg"; break;
 			}
 			$this->tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
 			$this->tpl->setVariable("ALT_STATUS", $lng->txt("exc_".$status));
@@ -155,9 +155,9 @@ class ilExGradesTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("SEL_".strtoupper($status), ' selected="selected" ');
 		switch($status)
 		{
-			case "passed": 	$pic = "scorm/passed.png"; break;
-			case "failed":	$pic = "scorm/failed.png"; break;
-			default: 		$pic = "scorm/not_attempted.png"; break;
+			case "passed": 	$pic = "scorm/passed.svg"; break;
+			case "failed":	$pic = "scorm/failed.svg"; break;
+			default: 		$pic = "scorm/not_attempted.svg"; break;
 		}
 		$this->tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
 		$this->tpl->setVariable("ALT_STATUS", $lng->txt("exc_".$status));

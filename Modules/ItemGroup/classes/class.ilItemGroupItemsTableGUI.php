@@ -83,13 +83,13 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
 		if (in_array($a_set["child"], $this->items))
 		{
 			$this->tpl->setVariable("IMG_ASSIGNED", ilUtil::img(
-				ilUtil::getImagePath("icon_ok.png")));
+				ilUtil::getImagePath("icon_ok.svg")));
 			$this->tpl->setVariable("CHECKED", "checked='checked'");
 		}
 		else
 		{
 			$this->tpl->setVariable("IMG_ASSIGNED", ilUtil::img(
-				ilUtil::getImagePath("icon_not_ok.png")));
+				ilUtil::getImagePath("icon_not_ok.svg")));
 		}
 	}
 

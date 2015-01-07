@@ -1983,7 +1983,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				//else
 				if ($status != "notgraded")
 				{
-					$img = '<img src="'.ilUtil::getImagePath("scorm/".$status.".png").'" '.
+					$img = '<img src="'.ilUtil::getImagePath("scorm/".$status.".svg").'" '.
 						' alt="'.$lng->txt("exc_".$status).'" title="'.$lng->txt("exc_".$status).
 						'" />';
 

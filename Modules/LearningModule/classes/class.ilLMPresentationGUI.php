@@ -839,11 +839,11 @@ class ilLMPresentationGUI
 		$this->tpl->setCurrentBlock("header_image");
 		if ($this->offlineMode())
 		{
-			$this->tpl->setVariable("IMG_HEADER", "./images/icon_lm.png");
+			$this->tpl->setVariable("IMG_HEADER", "./images/icon_lm.svg");
 		}
 		else
 		{
-			$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_lm.png"));
+			$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_lm.svg"));
 		}
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("lm_head");
@@ -1414,7 +1414,7 @@ class ilLMPresentationGUI
 			$mtpl = new ilTemplate("tpl.no_content_message.html", true, true,
 				"Modules/LearningModule");
 			$mtpl->setVariable("MESSAGE", $this->lng->txt("cont_no_page_in_chapter"));
-			//$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_st.png",
+			//$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_st.svg",
 			//	false, "output", $this->offlineMode()));
 			$mtpl->setVariable("ITEM_TITLE",
 				ilLMObject::_lookupTitle($_GET["obj_id"]));
@@ -1438,7 +1438,7 @@ class ilLMPresentationGUI
 					"</p>";
 			}
 			$mtpl->setVariable("MESSAGE", $m);
-			//$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_pg.png",
+			//$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_pg.svg",
 			//	false, "output", $this->offlineMode()));
 			$mtpl->setVariable("ITEM_TITLE",
 				ilLMObject::_lookupTitle($_GET["obj_id"]));
@@ -2135,7 +2135,7 @@ class ilLMPresentationGUI
 		$mode = ($_GET["cmd"] == "fullscreen")
 			? "fullscreen"
 			: "media";
-		$enlarge_path = ilUtil::getImagePath("enlarge.png", false, "output", $this->offlineMode());
+		$enlarge_path = ilUtil::getImagePath("enlarge.svg", false, "output", $this->offlineMode());
 		$fullscreen_link =
 			$this->getLink($this->lm->getRefId(), "fullscreen");
 		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
@@ -2792,7 +2792,7 @@ class ilLMPresentationGUI
 
 		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->lm->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.png"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), $a_active_tab, true));
@@ -2915,7 +2915,7 @@ class ilLMPresentationGUI
 
 		// set title header
 		$this->tpl->setTitle($this->lm->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.png"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 		
 		/*$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
 		$this->ctrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
@@ -2976,14 +2976,14 @@ class ilLMPresentationGUI
 							$text.= " (".$this->lng->txt("cont_no_access").")";
 						}
 					}
-					$img_src = ilUtil::getImagePath("icon_pg.png");
+					$img_src = ilUtil::getImagePath("icon_pg.svg");
 					$img_alt = $lng->txt("icon")." ".$lng->txt("pg");
 					break;
 
 				// learning module
 				case "du":
 					$text = $this->lm->getTitle();
-					$img_src = ilUtil::getImagePath("icon_lm.png");
+					$img_src = ilUtil::getImagePath("icon_lm.svg");
 					$img_alt = $lng->txt("icon")." ".$lng->txt("obj_lm");
 					break;
 
@@ -3002,7 +3002,7 @@ class ilLMPresentationGUI
 							$text.= " (".$this->lng->txt("cont_no_access").")";
 						}
 					}
-					$img_src = ilUtil::getImagePath("icon_st.png");
+					$img_src = ilUtil::getImagePath("icon_st.svg");
 					$img_alt = $lng->txt("icon")." ".$lng->txt("st");
 					break;
 			}
@@ -3034,7 +3034,7 @@ class ilLMPresentationGUI
 					$text.= " (".$this->lng->txt("cont_no_access").")";
 				}
 			}
-			$img_src = ilUtil::getImagePath("icon_pg.png");
+			$img_src = ilUtil::getImagePath("icon_pg.svg");
 			$id = $_GET["obj_id"];
 
 			$checked = true;
@@ -3738,7 +3738,7 @@ class ilLMPresentationGUI
 
 		// set title header
 		$this->tpl->setTitle($this->lm->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.png"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 		
 		/*
 		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));

@@ -152,7 +152,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$form_gui = new ilChapterHierarchyFormGUI($this->content_object->getType(), $_GET["transl"]);
 		$form_gui->setFormAction($ilCtrl->getFormAction($this));
 		$form_gui->setTitle($this->obj->getTitle());
-		$form_gui->setIcon(ilUtil::getImagePath("icon_st.png"));
+		$form_gui->setIcon(ilUtil::getImagePath("icon_st.svg"));
 		$form_gui->setTree($this->tree);
 		$form_gui->setCurrentTopNodeId($this->obj->getId());
 		$form_gui->addMultiCommand($lng->txt("delete"), "delete");
@@ -163,7 +163,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		{	
 			$form_gui->addMultiCommand($lng->txt("cont_set_layout"), "setPageLayout");
 		}
-		$form_gui->setDragIcon(ilUtil::getImagePath("icon_pg.png"));
+		$form_gui->setDragIcon(ilUtil::getImagePath("icon_pg.svg"));
 		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
 		$form_gui->addHelpItem($lng->txt("cont_chapters_after_pages"));
 		$up_gui = ($this->content_object->getType() == "dbk")
@@ -308,7 +308,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			// checkbox
 			$this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
 			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.png"));
+			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.svg"));
 
 			// type
 			$this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $child["obj_id"]);
@@ -347,7 +347,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		//$this->showPossibleSubObjects("st");
 		$subobj = array("st");
 		$opts = ilUtil::formSelect(12,"new_type",$subobj);
-		//$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
+		//$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
 		$this->tpl->setCurrentBlock("add_object");
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		//$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&ref_id=".$_GET["ref_id"]);
@@ -623,7 +623,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			 $this->ctrl->getLinkTargetByClass("ilmdeditorgui",''),
 			 "", "ilmdeditorgui");
 			 
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_st.png"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_st.svg"));
 		$this->tpl->setTitle(
 			$this->lng->txt($this->obj->getType()).": ".$this->obj->getTitle());
 

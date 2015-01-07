@@ -570,13 +570,13 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				$ilCtrl->setParameter($this, "ntf", 1);
 				$lg->addCustomCommand($ilCtrl->getLinkTarget($this, "toggleNotification"), "dcl_notification_deactivate_dcl");
 
-				$lg->addHeaderIcon("not_icon", ilUtil::getImagePath("notification_on.png"), $lng->txt("dcl_notification_activated"));
+				$lg->addHeaderIcon("not_icon", ilUtil::getImagePath("notification_on.svg"), $lng->txt("dcl_notification_activated"));
 			} else {
 				//Command Deactivate Notification
 				$ilCtrl->setParameter($this, "ntf", 2);
 				$lg->addCustomCommand($ilCtrl->getLinkTarget($this, "toggleNotification"), "dcl_notification_activate_dcl");
 
-				$lg->addHeaderIcon("not_icon", ilUtil::getImagePath("notification_off.png"), $lng->txt("dcl_notification_deactivated"));
+				$lg->addHeaderIcon("not_icon", ilUtil::getImagePath("notification_off.svg"), $lng->txt("dcl_notification_deactivated"));
 			}
 			$ilCtrl->setParameter($this, "ntf", "");
 		}

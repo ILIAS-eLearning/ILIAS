@@ -2473,7 +2473,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$lg->addCustomCommand($link, "blog_notification_toggle_off");
 				
 				$lg->addHeaderIcon("not_icon",
-					ilUtil::getImagePath("notification_on.png"),
+					ilUtil::getImagePath("notification_on.svg"),
 					$this->lng->txt("blog_notification_activated"));
 			}
 			else
@@ -2484,7 +2484,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$lg->addCustomCommand($link, "blog_notification_toggle_on");
 				
 				$lg->addHeaderIcon("not_icon",
-					ilUtil::getImagePath("notification_off.png"),
+					ilUtil::getImagePath("notification_off.svg"),
 					$this->lng->txt("blog_notification_deactivated"));
 			}
 			

@@ -927,7 +927,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			}
 
 			$this->tpl->setCurrentBlock("tbl_action_row");
-			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.png"));
+			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.svg"));
 			$this->tpl->parseCurrentBlock();
 		}
 	}
@@ -1343,7 +1343,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.png"));
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
 			$this->tpl->setTitle($this->lng->txt("glo").": ".$title);
 		}
 	}

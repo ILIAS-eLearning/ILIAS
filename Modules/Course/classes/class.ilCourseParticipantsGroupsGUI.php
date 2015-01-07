@@ -77,7 +77,7 @@ class ilCourseParticipantsGroupsGUI
 		$confirm->addItem('usr_id',
 				$_GET["usr_id"],
 				ilUserUtil::getNamePresentation($_GET["usr_id"], false, false, "", true),
-				ilUtil::getImagePath('icon_usr.png'));
+				ilUtil::getImagePath('icon_usr.svg'));
 
 		$tpl->setContent($confirm->getHTML());
 	}

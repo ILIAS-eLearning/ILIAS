@@ -357,10 +357,10 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.png"));
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.svg"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("ilinc_header_edit_users"),"icon_usr_b.png",$this->lng->txt("ilinc_header_edit_users"));
+		$tbl->setTitle($this->lng->txt("ilinc_header_edit_users"),"icon_usr_b.svg",$this->lng->txt("ilinc_header_edit_users"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
@@ -418,7 +418,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.png"));
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.svg"));
 		$tpl->parseCurrentBlock();
 
 		$tbl->setTitle($this->lng->txt("ilinc_header_edit_users"),"icon_usr_b.png",$this->lng->txt("ilinc_header_edit_users"));
@@ -476,7 +476,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.png"));
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.svg"));
 		$tpl->parseCurrentBlock();
 
 		$tbl->setTitle($this->lng->txt("ilinc_header_edit_users"),"icon_usr_b.png",$this->lng->txt("ilinc_header_edit_users"));
@@ -1649,7 +1649,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		$this->tpl->setVariable("MAILACTION", ilMailFormCall::getLinkTarget($this, 'mailMembers', array(), array('type' => 'role')));
 		$this->tpl->setVariable('ADDITIONAL_MESSAGE_TEXT', $link_to_seminar);		
-		$this->tpl->setVariable('IMG_ARROW', ilUtil::getImagePath('arrow_downright.png'));
+		$this->tpl->setVariable('IMG_ARROW', ilUtil::getImagePath('arrow_downright.svg'));
 		$this->tpl->setVariable('OK', $this->lng->txt('ok'));
 		
 		$role_ids = $rbacreview->getRolesOfRoleFolder($this->object->getRefId(), false);	

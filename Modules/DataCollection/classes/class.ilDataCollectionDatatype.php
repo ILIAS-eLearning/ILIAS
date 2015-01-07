@@ -736,10 +736,10 @@ class ilDataCollectionDatatype {
 			case self::INPUTFORMAT_BOOLEAN:
 				switch ($value) {
 					case 0:
-						$im = ilUtil::getImagePath('icon_not_ok.png');
+						$im = ilUtil::getImagePath('icon_not_ok.svg');
 						break;
 					case 1:
-						$im = ilUtil::getImagePath('icon_ok.png');
+						$im = ilUtil::getImagePath('icon_ok.svg');
 						break;
 				}
 				$html = "<img src='" . $im . "'>";

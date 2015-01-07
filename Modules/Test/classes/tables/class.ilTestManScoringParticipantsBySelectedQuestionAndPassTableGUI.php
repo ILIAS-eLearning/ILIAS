@@ -137,7 +137,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 				));
 				
 				$this->tpl->setCurrentBlock("reached_points_alert");
-				$this->tpl->setVariable("REACHED_POINTS_IMG_ALERT", ilUtil::getImagePath("icon_alert.png"));
+				$this->tpl->setVariable("REACHED_POINTS_IMG_ALERT", ilUtil::getImagePath("icon_alert.svg"));
 				$this->tpl->setVariable("REACHED_POINTS_ALT_ALERT", $this->lng->txt("alert"));
 				$this->tpl->setVariable("REACHED_POINTS_TXT_ALERT", $reached_points->getAlert());
 				$this->tpl->parseCurrentBlock();

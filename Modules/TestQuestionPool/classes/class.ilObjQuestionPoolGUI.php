@@ -588,7 +588,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 			//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$this->type));
 		}
-		$this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.png"));
+		$this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.svg"));
 		$this->tpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
 		$this->tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
 		$value_questions_only = 0;
@@ -1317,7 +1317,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setDescription($q_gui->object->getComment());
 				if($this->object instanceof ilObjectPlugin)
 				{
-					$this->tpl->setTitleIcon($this->object->plugin->getImagePath("icon_".$this->object->getType()."_b.png"), $this->lng->txt("obj_" . $this->object->getType()));
+					$this->tpl->setTitleIcon($this->object->plugin->getImagePath("icon_".$this->object->getType().".svg"), $this->lng->txt("obj_" . $this->object->getType()));
 				}
 				else
 				{

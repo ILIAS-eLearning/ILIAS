@@ -310,22 +310,22 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			{
 				case ilLPStatus::LP_STATUS_COMPLETED:
 					$this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-					$this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/complete.png'));
+					$this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/complete.svg'));
 					break;
 
 				case ilLPStatus::LP_STATUS_IN_PROGRESS:
 					$this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-					$this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/incomplete.png'));
+					$this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/incomplete.svg'));
 					break;
 
 				case ilLPStatus::LP_STATUS_NOT_ATTEMPTED:
 					$this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-					$this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/not_attempted.png'));
+					$this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/not_attempted.svg'));
 					break;
 
 				case ilLPStatus::LP_STATUS_FAILED:
 					$this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-					$this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/failed.png'));
+					$this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/failed.svg'));
 					break;
 			}
 			$this->tpl->parseCurrentBlock();

@@ -663,7 +663,7 @@ class ilSCORMPresentationGUI
 		global $lng;
 		$this->tpl->setCurrentBlock("switch_icon");
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
-		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath("scorm/running.png"));
+		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath("scorm/running.svg"));
 		$this->tpl->setVariable("SCO_ALT",
 			 $lng->txt("cont_status").": "
 			.$lng->txt("cont_sc_stat_running")
@@ -733,7 +733,7 @@ class ilSCORMPresentationGUI
 		// $this->tpl->setCurrentBlock("switch_icon");
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
 		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath(
-			"scorm/".str_replace(" ", "_", $_GET["status"]).'.png')
+			"scorm/".str_replace(" ", "_", $_GET["status"]).'.svg')
 		);
 		$this->tpl->setVariable("SCO_ALT",
 			 $lng->txt("cont_status").": "

@@ -179,7 +179,7 @@ class ilGlossaryPresentationGUI
 		$title = $this->glossary->getTitle();
 
 		$this->tpl->setTitle($title);
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.png"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
 
 		$this->setLocator();
 	}
@@ -383,7 +383,7 @@ class ilGlossaryPresentationGUI
 			}
 			$tpl->parseCurrentBlock();
 
-			$tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.png"));
+			$tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
 			$tpl->setTitle($this->lng->txt("cont_term").": ".$term->getTerm());
 
 			// load template for table
@@ -656,7 +656,7 @@ class ilGlossaryPresentationGUI
 
 		if (!$this->offlineMode())
 		{
-			$enlarge_path = ilUtil::getImagePath("enlarge.png", false, "output");
+			$enlarge_path = ilUtil::getImagePath("enlarge.svg", false, "output");
 			$wb_path = ilUtil::getWebspaceDir("output")."/";
 		}
 		else
@@ -711,7 +711,7 @@ class ilGlossaryPresentationGUI
 		// set title header
 		$this->tpl->setTitle($this->glossary->getTitle());
 		//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_glo_b.png"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.png"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
 
 		// create table
 		require_once("./Services/Table/classes/class.ilTableGUI.php");
@@ -1107,7 +1107,7 @@ class ilGlossaryPresentationGUI
 		}
 		else
 		{
-			$tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.png"));
+			$tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
 			$term = new ilGlossaryTerm((int) $this->term_id);
 			$tpl->setTitle($this->lng->txt("cont_term").": ".$term->getTerm());
 			$this->showDefinitionTabs("print_view");

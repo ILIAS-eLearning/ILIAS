@@ -145,9 +145,9 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
 			}
 			switch($status)
 			{
-				case ilWikiContributor::STATUS_PASSED: 	$pic = "scorm/passed.png"; break;
-				case ilWikiContributor::STATUS_FAILED:	$pic = "scorm/failed.png"; break;
-				default: 		$pic = "scorm/not_attempted.png"; break;
+				case ilWikiContributor::STATUS_PASSED: 	$pic = "scorm/passed.svg"; break;
+				case ilWikiContributor::STATUS_FAILED:	$pic = "scorm/failed.svg"; break;
+				default: 		$pic = "scorm/not_attempted.svg"; break;
 			}
 			$this->tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
 			$this->tpl->setVariable("ALT_STATUS", $lng->txt("wiki_".$status));

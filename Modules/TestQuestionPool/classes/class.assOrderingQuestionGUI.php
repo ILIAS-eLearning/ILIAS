@@ -745,14 +745,14 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					if ($ok)
 					{
 						$template->setCurrentBlock("icon_ok");
-						$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.png"));
+						$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
 						$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
 						$template->parseCurrentBlock();
 					}
 					else
 					{
 						$template->setCurrentBlock("icon_ok");
-						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.png"));
+						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
 						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
 						$template->parseCurrentBlock();
 					}
@@ -940,7 +940,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					$template->setVariable("THUMB_HREF", $thumbweb);
 					$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
 					$template->setVariable("THUMB_TITLE", $this->lng->txt("thumbnail"));
-					$template->setVariable("ENLARGE_HREF", ilUtil::getImagePath("enlarge.png", FALSE));
+					$template->setVariable("ENLARGE_HREF", ilUtil::getImagePath("enlarge.svg", FALSE));
 					$template->setVariable("ENLARGE_ALT", $this->lng->txt("enlarge"));
 					$template->setVariable("ENLARGE_TITLE", $this->lng->txt("enlarge"));
 					$template->setVariable("ANSWER_ID", $answer->getRandomID());
@@ -1173,7 +1173,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					$template->setVariable("THUMB_HREF", $thumbweb);
 					$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
 					$template->setVariable("THUMB_TITLE", $this->lng->txt("thumbnail"));
-					$template->setVariable("ENLARGE_HREF", ilUtil::getImagePath("enlarge.png", FALSE));
+					$template->setVariable("ENLARGE_HREF", ilUtil::getImagePath("enlarge.svg", FALSE));
 					$template->setVariable("ENLARGE_ALT", $this->lng->txt("enlarge"));
 					$template->setVariable("ENLARGE_TITLE", $this->lng->txt("enlarge"));
 					$template->setVariable("ANSWER_ID", $answer->getRandomID());

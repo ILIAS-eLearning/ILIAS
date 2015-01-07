@@ -94,8 +94,8 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("COLL_DESC",$a_set['description']);
 		}
 		$this->tpl->setVariable("ASSIGNED_IMG_OK",in_array($a_set['ref_id'],$this->getMaterialItems()) ?
-			ilUtil::getImagePath('icon_ok.png') :
-			ilUtil::getImagePath('icon_not_ok.png'));
+			ilUtil::getImagePath('icon_ok.svg') :
+			ilUtil::getImagePath('icon_not_ok.svg'));
 		$this->tpl->setVariable("ASSIGNED_STATUS",$this->lng->txt('event_material_assigned'));
 
 		include_once('./Services/Tree/classes/class.ilPathGUI.php');

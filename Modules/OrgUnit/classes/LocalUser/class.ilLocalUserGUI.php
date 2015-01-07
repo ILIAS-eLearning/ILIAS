@@ -358,7 +358,7 @@ class ilLocalUserGUI {
 		$tpl->parseCurrentBlock();
 		// SET FOOTER BUTTONS
 		$tpl->setVariable("COLUMN_COUNTS", 4);
-		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
+		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
 		$tpl->setCurrentBlock("tbl_action_button");
 		$tpl->setVariable("BTN_NAME", "assignSave");
 		$tpl->setVariable("BTN_VALUE", $this->lng->txt("change_assignment"));
@@ -368,7 +368,7 @@ class ilLocalUserGUI {
 		$tpl->parseCurrentBlock();
 		$tmp_obj =& ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
 		$title = $this->lng->txt('role_assignment') . ' (' . $tmp_obj->getFullname() . ')';
-		$tbl->setTitle($title, "icon_role.png", $this->lng->txt("role_assignment"));
+		$tbl->setTitle($title, "icon_role.svg", $this->lng->txt("role_assignment"));
 		$tbl->setHeaderNames(array(
 			'',
 			$this->lng->txt("title"),

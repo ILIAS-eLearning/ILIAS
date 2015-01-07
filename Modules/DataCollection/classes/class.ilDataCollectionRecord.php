@@ -498,7 +498,7 @@ class ilDataCollectionRecord
 				$ajax_link = ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
 
 				return "<a class='dcl_comment' href='#' onclick=\"return " . $ajax_link . "\">
-                        <img src='" . ilUtil::getImagePath("comment_unlabeled.png")
+                        <img src='" . ilUtil::getImagePath("comment_unlabeled.svg")
 				. "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
 		}
 	}

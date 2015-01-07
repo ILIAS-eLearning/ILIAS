@@ -901,7 +901,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		{
 			$item = new ilNewsItem($item_id);
 			$c_gui->addItem("item_id[]", $item_id, $item->getTitle(),
-				ilUtil::getImagePath("icon_mcst.png"));
+				ilUtil::getImagePath("icon_mcst.svg"));
 		}
 		
 		$tpl->setContent($c_gui->getHTML());

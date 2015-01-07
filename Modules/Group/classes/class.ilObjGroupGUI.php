@@ -1125,7 +1125,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->setUsers($wait);
-			$table_gui->setTitle($this->lng->txt('grp_header_waiting_list'),'icon_usr.png',$this->lng->txt('group_new_registrations'));
+			$table_gui->setTitle($this->lng->txt('grp_header_waiting_list'),'icon_usr.svg',$this->lng->txt('group_new_registrations'));
 			$this->tpl->setVariable('TABLE_SUB',$table_gui->getHTML());
 		}		
 
@@ -1151,7 +1151,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->readSubscriberData();
-			$table_gui->setTitle($this->lng->txt('group_new_registrations'),'icon_usr.png',$this->lng->txt('group_new_registrations'));
+			$table_gui->setTitle($this->lng->txt('group_new_registrations'),'icon_usr.svg',$this->lng->txt('group_new_registrations'));
 			$this->tpl->setVariable('TABLE_SUB',$table_gui->getHTML());
 		}
 
@@ -1173,7 +1173,7 @@ class ilObjGroupGUI extends ilContainerGUI
 					$this->lng->txt('hide'));
 				$this->ctrl->clearParameters($this);
 			}
-			$table_gui->setTitle($this->lng->txt('grp_admins'),'icon_usr.png',$this->lng->txt('grp_admins'));
+			$table_gui->setTitle($this->lng->txt('grp_admins'),'icon_usr.svg',$this->lng->txt('grp_admins'));
 			$table_gui->parse($this->readMemberData($part->getAdmins()));
 			$this->tpl->setVariable('ADMINS',$table_gui->getHTML());	
 		}
@@ -1197,7 +1197,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->clearParameters($this);
 			}
 				
-			$table_gui->setTitle($this->lng->txt('grp_members'),'icon_usr.png',$this->lng->txt('grp_members'));
+			$table_gui->setTitle($this->lng->txt('grp_members'),'icon_usr.svg',$this->lng->txt('grp_members'));
 			$table_gui->parse($this->readMemberData($GLOBALS['rbacreview']->assignedUsers($this->object->getDefaultMemberRole()),
 				null, $table_gui->getSelectedColumns()));
 			$this->tpl->setCurrentBlock('member_block');
@@ -1240,7 +1240,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable('BTN_FOOTER_EDIT',$this->lng->txt('edit'));
 		$this->tpl->setVariable('BTN_FOOTER_VAL',$this->lng->txt('remove'));
 		$this->tpl->setVariable('BTN_FOOTER_MAIL',$this->lng->txt('grp_mem_send_mail'));
-		$this->tpl->setVariable('ARROW_DOWN',ilUtil::getImagePath('arrow_downright.png'));
+		$this->tpl->setVariable('ARROW_DOWN',ilUtil::getImagePath('arrow_downright.svg'));
 		
 	}
 	
@@ -1453,7 +1453,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$confirm->addItem('participants[]',
 				$participants['usr_id'],
 				$participants['lastname'].', '.$participants['firstname'].' ['.$participants['login'].']',
-				ilUtil::getImagePath('icon_usr.png'));
+				ilUtil::getImagePath('icon_usr.svg'));
 		}
 		
 		$this->tpl->setContent($confirm->getHTML());
@@ -1602,7 +1602,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		include_once('./Modules/Group/classes/class.ilGroupEditParticipantsTableGUI.php');
 		$table_gui = new ilGroupEditParticipantsTableGUI($this);
-		$table_gui->setTitle($this->lng->txt('grp_mem_change_status'),'icon_usr.png',$this->lng->txt('grp_mem_change_status'));
+		$table_gui->setTitle($this->lng->txt('grp_mem_change_status'),'icon_usr.svg',$this->lng->txt('grp_mem_change_status'));
 		$table_gui->setData($this->readMemberData($participants));
 
 		$this->tpl->setContent($table_gui->getHTML());
@@ -1884,7 +1884,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		$this->tpl->setVariable("MAILACTION", ilMailFormCall::getLinkTarget($this, 'membersGallery', array(), array('type' => 'role','sig' => $this->createMailSignature())));
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.png'));
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.svg'));
 		$this->tpl->setVariable("TXT_MARKED_ENTRIES",$this->lng->txt('marked_entries'));
 		$this->tpl->setVariable("OK",$this->lng->txt('next'));
 		
@@ -2753,7 +2753,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			case 'create':
 				$this->form->setTitle($this->lng->txt('grp_new'));
-				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp.png'));
+				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp.svg'));
 		
 				$this->form->addCommandButton('save',$this->lng->txt('grp_new'));
 				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
@@ -2761,7 +2761,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			
 			case 'edit':
 				$this->form->setTitle($this->lng->txt('grp_edit'));
-				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp.png'));
+				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp.svg'));
 				
 				// Edit ecs export settings
 				include_once 'Modules/Group/classes/class.ilECSGroupSettings.php';
@@ -3036,7 +3036,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			if(!$ilUser->getPref("grpcrs_ntf_".$this->ref_id))
 			{
 				$lg->addHeaderIcon("not_icon",
-					ilUtil::getImagePath("notification_off.png"),
+					ilUtil::getImagePath("notification_off.svg"),
 					$this->lng->txt("grp_notification_deactivated"));
 				
 				$this->ctrl->setParameter($this, "grp_ntf", 1);
@@ -3045,7 +3045,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			else
 			{				
 				$lg->addHeaderIcon("not_icon",
-					ilUtil::getImagePath("notification_on.png"),
+					ilUtil::getImagePath("notification_on.svg"),
 					$this->lng->txt("grp_notification_activated"));
 				
 				$this->ctrl->setParameter($this, "grp_ntf", 0);

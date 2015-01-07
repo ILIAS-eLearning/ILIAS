@@ -1385,7 +1385,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		// SET FOOTER BUTTONS
 		$tpl->setVariable("COLUMN_COUNTS",4);
-		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
+		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
 		
 //		$tpl->setCurrentBlock("tbl_action_button");
 		$tpl->setVariable("BTN_NAME","assignSave");
@@ -1399,7 +1399,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$tmp_obj =& ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
 		$title = $this->lng->txt('role_assignment').' ('.$tmp_obj->getFullname().')';
 
-		$tbl->setTitle($title,"icon_role.png",$this->lng->txt("role_assignment"));
+		$tbl->setTitle($title,"icon_role.svg",$this->lng->txt("role_assignment"));
 		$tbl->setHeaderNames(array('',
 								   $this->lng->txt("title"),
 								   $this->lng->txt('description'),
@@ -1445,7 +1445,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		{
 			// SET FOOTER BUTTONS
 			$tpl->setVariable("COLUMN_COUNTS",6);
-			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
+			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
 
 			$tpl->setCurrentBlock("tbl_action_button");
 			$tpl->setVariable("BTN_NAME","deleteUser");
@@ -1460,7 +1460,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$tbl->enable('select_all');
 		}
 
-		$tbl->setTitle($this->lng->txt("users"),"icon_usr.png",$this->lng->txt("users"));
+		$tbl->setTitle($this->lng->txt("users"),"icon_usr.svg",$this->lng->txt("users"));
 		$tbl->setHeaderNames(array('',
 								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),

@@ -327,7 +327,7 @@ die("deprecated");
 			$lng->txt("cont_preview"),
 			$ilCtrl->getLinkTarget($this,'sco_preview'), "_blank");
 		
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_sco.png"));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_sco.svg"));
 		$tpl->setTitle(
 		$lng->txt("sahs_unit").": ".$this->node_object->getTitle());
 	}
@@ -858,7 +858,7 @@ die("deprecated");
 		
 		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scormeditor_sco_import.html", "Modules/Scorm2004");
 		
-		$tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.png'));
+		$tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.svg'));
 		$tpl->setVariable("ALT_IMG", $lng->txt("obj_sahs"));
 		
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));

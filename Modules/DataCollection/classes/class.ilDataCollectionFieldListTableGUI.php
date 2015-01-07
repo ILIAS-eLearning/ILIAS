@@ -164,19 +164,19 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 			switch($a_set->getRequired())
 			{
 				case 0:
-					$required = ilUtil::getImagePath('icon_not_ok.png');
+					$required = ilUtil::getImagePath('icon_not_ok.svg');
 					break;
 				case 1:
-					$required = ilUtil::getImagePath('icon_ok.png');
+					$required = ilUtil::getImagePath('icon_ok.svg');
 					break;
 			}
 			switch($a_set->isUnique())
 			{
 				case 0:
-					$uniq = ilUtil::getImagePath('icon_not_ok.png');
+					$uniq = ilUtil::getImagePath('icon_not_ok.svg');
 					break;
 				case 1:
-					$uniq = ilUtil::getImagePath('icon_ok.png');
+					$uniq = ilUtil::getImagePath('icon_ok.svg');
 					break;
 			}
 			$this->tpl->setVariable('REQUIRED', $required);

@@ -532,23 +532,23 @@ class ilLMTracker
 		$this->loadLMTrackingData();
 		if ($a_node["child"] == $a_highlighted_node)
 		{
-			return ilUtil::getImagePath('scorm/running.png');
+			return ilUtil::getImagePath('scorm/running.svg');
 		}
 		if (isset($this->tree_arr["nodes"][$a_node["child"]]))
 		{
 			switch ($this->tree_arr["nodes"][$a_node["child"]]["status"])
 			{
 				case ilLMTracker::IN_PROGRESS:
-					return ilUtil::getImagePath('scorm/incomplete.png');
+					return ilUtil::getImagePath('scorm/incomplete.svg');
 
 				case ilLMTracker::FAILED:
-					return ilUtil::getImagePath('scorm/failed.png');
+					return ilUtil::getImagePath('scorm/failed.svg');
 
 				case ilLMTracker::COMPLETED:
-					return ilUtil::getImagePath('scorm/completed.png');
+					return ilUtil::getImagePath('scorm/completed.svg');
 			}
 		}
-		return ilUtil::getImagePath('scorm/not_attempted.png');
+		return ilUtil::getImagePath('scorm/not_attempted.svg');
 	}
 
 	/**

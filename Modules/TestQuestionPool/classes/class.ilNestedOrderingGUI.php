@@ -159,12 +159,12 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 			
 			if($cur_answer['ok'] === true)
 			{
-				$icon_ok = ilUtil::getImagePath("icon_ok.png");
+				$icon_ok = ilUtil::getImagePath("icon_ok.svg");
 				$text_ok = $lng->txt("answer_is_right");
 			}
 			else
 			{
-				$icon_ok = ilUtil::getImagePath("icon_not_ok.png");	
+				$icon_ok = ilUtil::getImagePath("icon_not_ok.svg");
 				$text_ok = $lng->txt("answer_is_wrong");
 			}
 

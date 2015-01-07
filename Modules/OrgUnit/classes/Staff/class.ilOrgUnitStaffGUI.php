@@ -361,7 +361,7 @@ class ilOrgUnitStaffGUI {
 		$arrUser = ilObjUser::_lookupName($_GET["obj_id"]);
 		$confirm->addItem($paramname, $param,
 			$arrUser['lastname'] . ', ' . $arrUser['firstname'] . ' [' . $arrUser['login']
-			. ']', ilUtil::getImagePath('icon_usr.png'));
+			. ']', ilUtil::getImagePath('icon_usr.svg'));
 		$this->tpl->setContent($confirm->getHTML());
 	}
 

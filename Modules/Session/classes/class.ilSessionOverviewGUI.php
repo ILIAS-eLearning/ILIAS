@@ -180,8 +180,8 @@ class ilSessionOverviewGUI
 										
 				{			
 					$this->tpl->setVariable("IMAGE_PARTICIPATED", $event_part->hasParticipated($user_id) ? 
-											ilUtil::getImagePath('icon_ok.png') :
-											ilUtil::getImagePath('icon_not_ok.png'));
+											ilUtil::getImagePath('icon_ok.svg') :
+											ilUtil::getImagePath('icon_not_ok.svg'));
 					
 					$this->tpl->setVariable("PARTICIPATED", $event_part->hasParticipated($user_id) ?
 										$this->lng->txt('event_participated') :

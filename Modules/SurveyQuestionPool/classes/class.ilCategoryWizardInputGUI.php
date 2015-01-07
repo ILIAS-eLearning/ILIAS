@@ -376,7 +376,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 		{
 			$tpl->setCurrentBlock("wizard");
 			$tpl->setVariable("CMD_WIZARD", 'cmd[addPhrase]');
-			$tpl->setVariable("WIZARD_BUTTON", ilUtil::getImagePath('wizard.png'));
+			$tpl->setVariable("WIZARD_BUTTON", ilUtil::getImagePath('wizard.svg'));
 			$tpl->setVariable("WIZARD_TEXT", $lng->txt('add_phrase'));
 			$tpl->parseCurrentBlock();
 		}

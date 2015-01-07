@@ -82,7 +82,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 		{
 			$node = $this->tree->getNodeData($this->current_folder);
 			$this->setTitle(
-				$lng->txt("mep_choose_from_folder").": ".$node["title"], "icon_fold.png",
+				$lng->txt("mep_choose_from_folder").": ".$node["title"], "icon_fold.svg",
 				$node["title"]);
 		}
 		else
@@ -90,7 +90,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 			$this->setTitle(
 				$lng->txt("mep_choose_from_mep").": ".
 				ilObject::_lookupTitle($this->media_pool->getId()),
-				"icon_mep.png",
+				"icon_mep.svg",
 				ilObject::_lookupTitle($this->media_pool->getId()));
 		}
 		
@@ -316,7 +316,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				}
 				
 				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_".$a_set["type"].".png")));
+				$this->tpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_".$a_set["type"].".svg")));
 				$ilCtrl->setParameter($this->parent_obj, $this->folder_par, $this->current_folder);
 				break;
 
@@ -345,7 +345,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				}
 				
 				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_pg.png")));
+				$this->tpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_pg.svg")));
 				$ilCtrl->setParameter($this->parent_obj, $this->folder_par, $this->current_folder);
 				break;
 
@@ -394,7 +394,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 					else
 					{
 						$this->tpl->setVariable("IMG",
-							ilUtil::img(ilUtil::getImagePath("icon_".$a_set["type"].".png")));
+							ilUtil::img(ilUtil::getImagePath("icon_".$a_set["type"].".svg")));
 					}
 					if ($med && ilUtil::deducibleSize($med->getFormat()) &&
 						$med->getLocationType() == "Reference")

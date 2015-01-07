@@ -100,7 +100,7 @@ class ilGlossarySelectorGUI extends ilExplorer
 		global $lng, $ilias;
 		
 		$tpl->setCurrentBlock("icon");
-		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_root.png"));
+		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_root.svg"));
 		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("repository"));
 		$tpl->parseCurrentBlock();
 

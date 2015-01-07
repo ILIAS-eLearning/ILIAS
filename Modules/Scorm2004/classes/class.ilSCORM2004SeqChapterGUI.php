@@ -57,7 +57,7 @@ class ilSCORM2004SeqChapterGUI extends ilSCORM2004ChapterGUI
 		global $tpl,$lng;
 		
 		parent::setTabs();
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_seqc.png"));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_seqc.svg"));
 		$tpl->setTitle($lng->txt("sahs_chapter").": ".$this->node_object->getTitle());
 	}
 	

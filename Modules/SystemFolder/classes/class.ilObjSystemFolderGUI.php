@@ -1963,14 +1963,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			ilProxySettings::_getInstance()->checkConnection();
 			$this->form->getItemByPostVar('proxy_availability')->setHTML(
-				'<img src="'.ilUtil::getImagePath('icon_ok.png').'" /> '.
+				'<img src="'.ilUtil::getImagePath('icon_ok.svg').'" /> '.
 				$this->lng->txt('proxy_connectable')
 			);	
 		}
 		catch(ilProxyException $e)
 		{
 			$this->form->getItemByPostVar('proxy_availability')->setHTML(
-				'<img src="'.ilUtil::getImagePath('icon_not_ok.png').'" /> '.
+				'<img src="'.ilUtil::getImagePath('icon_not_ok.svg').'" /> '.
 				$this->lng->txt('proxy_not_connectable')
 			);
 			ilUtil::sendFailure($this->lng->txt('proxy_pear_net_socket_error').': '.$e->getMessage());

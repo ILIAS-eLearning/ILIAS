@@ -455,7 +455,7 @@ class ilCourseContentGUI
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_edit_items.html','Modules/Course');
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_crs.png'));
+		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_crs.svg'));
 		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('crs_materials'));
 		$this->tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('edit_timings_list'));
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
@@ -702,12 +702,12 @@ class ilCourseContentGUI
 
 		if($usr_accepted->isAccepted())
 		{
-			$this->tpl->setVariable("ACC_IMG",ilUtil::getImagePath('icon_ok.png'));
+			$this->tpl->setVariable("ACC_IMG",ilUtil::getImagePath('icon_ok.svg'));
 			$this->tpl->setVariable("ACC_ALT",$this->lng->txt('timing_accepted'));
 		}
 		else
 		{
-			$this->tpl->setVariable("ACC_IMG",ilUtil::getImagePath('icon_not_ok.png'));
+			$this->tpl->setVariable("ACC_IMG",ilUtil::getImagePath('icon_not_ok.svg'));
 			$this->tpl->setVariable("ACC_ALT",$this->lng->txt('timing_not_accepted'));
 		}
 		if($usr_accepted->isVisible() and strlen($usr_accepted->getRemark()))
@@ -723,7 +723,7 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("TXT_ACCEPTED",$this->lng->txt('timing_user_accepted'));
 		$this->tpl->setVariable("TXT_REMARK",$this->lng->txt('timing_remark'));
 
-		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_usr.png'));
+		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_usr.svg'));
 		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('obj_usr'));
 		$this->tpl->setVariable("TABLE_HEADER",$this->lng->txt('timings_of'));
 		$name = ilObjUser::_lookupName($_GET['member_id']);
@@ -790,7 +790,7 @@ class ilCourseContentGUI
 		$this->tpl->setCurrentBlock("container_standard_row");
 
 		$this->tpl->setVariable("ROWCLASS",ilUtil::switchColor($this->counter++,'tblrow1','tblrow2'));
-		#$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$item['type'].'.png'));
+		#$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$item['type'].'.svg'));
 		$this->tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($item['type'],$item['obj_id'],'tiny'));
 		$this->tpl->setVariable("TYPE_ALT_IMG",$this->lng->txt('obj_'.$item['type']));
 
@@ -822,12 +822,12 @@ class ilCourseContentGUI
 			}
 			if($start != $item['suggestion_start'] or $end != $item['suggestion_end'])
 			{
-				$this->tpl->setVariable("OK_IMG",ilUtil::getImagePath('icon_ok.png'));
+				$this->tpl->setVariable("OK_IMG",ilUtil::getImagePath('icon_ok.svg'));
 				$this->tpl->setVariable("OK_ALT",$this->lng->txt('crs_timings_changed'));
 			}
 			else
 			{
-				$this->tpl->setVariable("OK_IMG",ilUtil::getImagePath('icon_not_ok.png'));
+				$this->tpl->setVariable("OK_IMG",ilUtil::getImagePath('icon_not_ok.svg'));
 				$this->tpl->setVariable("OK_ALT",$this->lng->txt('crs_timings_not_changed'));
 			}
 			$this->tpl->setVariable('OWN_END',ilDatePresentation::formatDate(new ilDate($end,IL_CAL_UNIX)));
@@ -854,7 +854,7 @@ class ilCourseContentGUI
 		$this->__showUserAcceptanceTable();
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_crs.png'));
+		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_crs.svg'));
 		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('obj_crs'));
 		$this->tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('timings_usr_edit'));
 
@@ -913,7 +913,7 @@ class ilCourseContentGUI
 		$this->__showUserAcceptanceTable();
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_crs.png'));
+		$this->tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_crs.svg'));
 		$this->tpl->setVariable("HEADER_ALT",$this->lng->txt('obj_crs'));
 
 		if(!$_SESSION['crs_timings_user_hidden'])
@@ -1020,7 +1020,7 @@ class ilCourseContentGUI
 		{
 			$this->tpl->setVariable("ROWCLASS",ilUtil::switchColor($this->counter++,'tblrow1','tblrow2'));
 		}
-		#$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$item['type'].'.png'));
+		#$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$item['type'].'.svg'));
 		$this->tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($item['type'],$item['obj_id'],'small'));
 		$this->tpl->setVariable("TYPE_ALT_IMG",$this->lng->txt('obj_'.$item['type']));
 

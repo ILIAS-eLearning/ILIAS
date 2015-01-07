@@ -371,9 +371,9 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			}
 			switch($status)
 			{
-				case "passed": 	$pic = "scorm/passed.png"; break;
-				case "failed":	$pic = "scorm/failed.png"; break;
-				default: 		$pic = "scorm/not_attempted.png"; break;
+				case "passed": 	$pic = "scorm/passed.svg"; break;
+				case "failed":	$pic = "scorm/failed.svg"; break;
+				default: 		$pic = "scorm/not_attempted.svg"; break;
 			}
 			$this->tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
 			$this->tpl->setVariable("ALT_STATUS", $lng->txt("exc_".$status));
