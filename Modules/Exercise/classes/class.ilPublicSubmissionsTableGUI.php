@@ -98,13 +98,13 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
 		$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
 		if ($sub_cnt > 0)
 		{
-			$this->tpl->setCurrentBlock("download_link");
-			$this->tpl->setVariable("LINK_DOWNLOAD",
-				$ilCtrl->getLinkTarget($this->parent_obj, "downloadReturned"));
-			$this->tpl->setVariable("TXT_DOWNLOAD",
-				$lng->txt("exc_download_files"));
-			$this->tpl->parseCurrentBlock();
-			
+			// #15126
+			include_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
+			$button = ilLinkButton::getInstance();				
+			$button->setCaption("exc_download_files");
+			$button->setUrl($ilCtrl->getLinkTarget($this->parent_obj, "downloadReturned"));							
+			$button->setOmitPreventDoubleSubmission(true);			
+			$this->tpl->setVariable("BTN_DOWNLOAD", $button->render());			
 		}
 
 		$this->tpl->parseCurrentBlock();
