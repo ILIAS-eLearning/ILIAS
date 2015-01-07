@@ -951,6 +951,7 @@ class gevCourseUtils {
 	
 	public function getMaterialList() {
 		if ($this->material_list === null) {
+			require_once "./Services/MaterialList/classes/class.ilMaterialList.php";
 			$this->material_list = new ilMaterialList($this->getId());
 		}
 		return $this->material_list;

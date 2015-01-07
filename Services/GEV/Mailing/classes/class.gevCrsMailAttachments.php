@@ -152,7 +152,6 @@ class gevCrsMailAttachments extends ilMailAttachments {
 									, self::LIST_FOR_PARTICIPANT_NAME))) {
 				continue;
 			}
-			$ilLog->write($att);
 			$other->addAttachment($att, $this->getAbsolutePath() . "/" . $att);
 		}
 	}
