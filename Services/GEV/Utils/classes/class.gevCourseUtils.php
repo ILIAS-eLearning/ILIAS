@@ -940,6 +940,7 @@ class gevCourseUtils {
 	// Materiallists
 	
 	public function isMaterialListSend() {
+		return false;
 		// TODO: to be implemented.
 		/*require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 		$am = new gevCrsAutoMails($this->getId());
