@@ -96,7 +96,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									, date("Y")."-01-01"
 									, date("Y")."-12-31"
 									)
-						->multiselect( "org_unit"
+						/*->multiselect( "org_unit"
 									 , $this->lng->txt("gev_org_unit_short")
 									 , array("usr.org_unit", "org_unit_above1", "org_unit_above2")
 									 , $this->user_utils->getOrgUnitNamesWhereUserIsSuperior()
@@ -131,7 +131,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									 , "position_key"
 									 , gevUserUtils::getPositionKeysFromHisto()
 									 , array()
-									 )
+									 )*/
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 						->static_condition("usrcrs.hist_historic = 0")
 						->static_condition("(usrcrs.booking_status != '-empty-' OR usrcrs.participation_status != '-empty-')")
