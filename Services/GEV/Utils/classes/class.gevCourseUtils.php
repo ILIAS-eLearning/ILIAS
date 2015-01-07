@@ -937,23 +937,34 @@ class gevCourseUtils {
 	}
 	
 
-
-
+	// Materiallists
+	
+	public function isMaterialListSend() {
+		// TODO: to be implemented.
+		/*require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+		$am = new gevCrsAutoMails($this->getId());
+		return $am->getAutoMail("invitation");*/
+	}
 
 	// derived courses for templates
 	
-	public function getDerivedCourseIds() {
+	public function getDerivedCourseIds($future_only = false) {
 		if (!$this->isTemplate()) {
 			throw new Exception("gevCourseUtils::getDerivedCourseIds: this course is no template and thus has no derived courses.");
 		}
 		
 		$ref_id_field = $this->amd->getFieldId(gevSettings::CRS_AMD_TEMPLATE_REF_ID);
+		$start_date_field = $this->amd->getFieldId(gevSettings::CRS_AMD_START_DATE);
 		
 		$ref_ids = gevObjectUtils::getAllRefIds($this->crs_id);
 		
-		$res = $this->db->query( "SELECT obj_id FROM adv_md_values_int"
-								." WHERE field_id = ".$this->db->quote($ref_id_field, "integer")
-								."  AND ".$this->db->in("value", $ref_ids, false, "integer")
+		$res = $this->db->query("SELECT ai.obj_id FROM adv_md_values_int ai "
+								.(!$future_only ? "" 
+										: (" JOIN adv_md_values_date ad"
+										  ." ON ad.field_id = ".$this->db->quote($start_date_field, "integer")))
+								." WHERE ai.field_id = ".$this->db->quote($ref_id_field, "integer")
+								."  AND ".$this->db->in("ai.value", $ref_ids, false, "integer")
+								.(!$future_only ? "" : " AND ad.value > CURDATE()")
 								);
 		$obj_ids = array();
 		while ($rec = $this->db->fetchAssoc($res)) {
