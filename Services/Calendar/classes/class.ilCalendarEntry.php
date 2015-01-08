@@ -41,10 +41,10 @@ class ilCalendarEntry implements ilDatePeriod
 
 	protected $notification = false;
 	
-	// patch generali start
+	// gev-patch start
 	protected $type; // [string]
 	protected $weight; // [int]	
-	// patch generali end
+	// gev-patch end
 	
 
 	/**
@@ -552,7 +552,7 @@ class ilCalendarEntry implements ilDatePeriod
 	}
 	
 	
-	// patch generali start
+	// gev-patch start
 	
 	/**
 	 * Set type
@@ -598,7 +598,7 @@ class ilCalendarEntry implements ilDatePeriod
 		return $this->weight;
 	}
 	
-	// patch generali end
+	// gev-patch end
 	
 	
 	/**
