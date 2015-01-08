@@ -117,12 +117,26 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 		$tag = trim($_REQUEST["tag"]);				
 		if($type && $tag)
 		{
+			/* single select
 			if(is_array($a_saved[$type]) &&
 				in_array($tag, $a_saved[$type]))
 			{
 				return;
+			}			
+			return array($type=>array($tag));			 
+			*/
+			// multi select
+			if(is_array($a_saved[$type]) &&
+				in_array($tag, $a_saved[$type]))
+			{
+				$key = array_search($tag, $a_saved[$type]);
+				unset($a_saved[$type][$key]);
+			}	
+			else
+			{
+				$a_saved[$type][] = $tag;
 			}
-			return array($type=>array($tag));
+			return $a_saved;
 		}
 	}
 	
@@ -148,6 +162,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 			$types[] = "other";
 		}			
 				
+		$found = array();
 		foreach($types as $type)
 		{
 			if(is_array($this->selection[$type]))
@@ -156,12 +171,39 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 					? false
 					: true;
 				
-				// :TODO: multi-select?		
-				return array_keys(ilTagging::_findObjectsByTag(array_shift($this->selection[$type]), $ilUser->getId(), $invert));						
+				foreach($this->selection[$type] as $tag)
+				{
+					$found[$tag] = array_keys(ilTagging::_findObjectsByTag($tag, $ilUser->getId(), $invert));		
+				}
+			}
+		}
+						
+		/* OR		
+		$res = array();
+		foreach($found as $tag => $ids)
+		{
+			$res = array_merge($res, $ids);
+		}
+		*/
+		
+		// AND
+		$res = null;
+		foreach($found as $tag => $ids)
+		{
+			if($res === null)
+			{
+				$res = $ids;
+			}
+			else
+			{
+				$res = array_intersect($res, $ids);
 			}
 		}
 		
-		return;
+		if(sizeof($res))
+		{
+			return array_unique($res);
+		}
 	}
 				
 	protected function getSubTreeTags()
