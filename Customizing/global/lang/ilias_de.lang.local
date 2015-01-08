@@ -957,11 +957,42 @@ survey#:#survey_notification_target_group_parent_course#:#Alle Teilnehmer des/de
 survey#:#survey_notification_target_group_parent_course_inactive#:#Kein(e) übergeordnete(s) Training/Gruppe - keine Erinnerung möglich!
 survey#:#survey_notification_tutor_recipients#:#Trainer (Benutzername[n])
 survey#:#survey_notification_tutor_setting#:#Trainer benachrichtigen, wenn alle Teilnehmer beendet haben
-tep#:#tep_column_no_tutor#:#Trainings ohne Trainer
-tep#:#tep_filter_no_tutor#:#Trainings ohne Trainer anzeigen?
+tep#:#tep_personal_calendar_title#:#TEP
+tep#:#tep_page_title#:#TEP
+tep#:#tep_tab_list#:#Terminliste
+tep#:#tep_tab_month#:#Monatsansicht
+tep#:#tep_tab_halfyear#:#Halbjahresansicht
+tep#:#tep_add_new_entry#:#Neuen Termin anlegen
+tep#:#tep_export#:#XLS-Export
+tep#:#tep_print#:#Drucken
+tep#:#tep_create_entry#:#Eintrag anlegen
+tep#:#tep_entry_owner#:#Termin für
+tep#:#tep_entry_derived#:#Weitere Teilnehmer
+tep#:#tep_entry_title#:#Termintitel
+tep#:#tep_entry_type#:#Typ
+tep#:#tep_entry_period#:#Zeitraum
+tep#:#tep_entry_location#:#Ort
+tep#:#tep_entry_created#:#Der Eintrag wurde erstellt.
+tep#:#tep_entry_updated#:#Der Eintrag wurde aktualisiert.
+tep#:#tep_legend#:#Legende
+tep#:#tep_search_all#:#--Alle--
+tep#:#tep_filter_submit#:#Filtern
+tep#:#tep_filter_no_tutor#:#Seminare ohne Trainer anzeigen?
+tep#:#tep_column_no_tutor#:#Seminare ohne Trainer
+tep#:#tep_update_entry#:#Termin bearbeiten
+tep#:#tep_list_view_title#:#Terminliste
+tep#:#tep_list_view_info#:#Es werden Termine der nächsten 4 Wochen angezeigt.
+tep#:#tep_entry_delete_sure#:#Wollen Sie wirklich den Termin löschen?
+tep#:#tep_delete_entry#:#Termin löschen
+tep#:#tep_entry_deleted#:#Termin wurde gelöscht.
+tep#:#tep_op_tab_list_operation_days#:#Einsatztage
+tep#:#tep_edit_user_operation_days#:#Einsatztage bearbeiten
+tep#:#tep_edit_operation_days#:#Einsatztage
 tep#:#tep_filter_orgu_all#:#--Alle Trainer--
+tep#:#tep_filter_orgu_rcrsv#:#rekursiv?
 tep#:#tep_filter_tutor#:#Trainer
 tep#:#tep_filter_tutor_empty#:#Die Auswahl der Organisationseinheiten enthält keine Trainer.
+tep#:#tep_weighing_input#:#Tag zu %s werten
 trac#:#trac_crs_assignments#:#Auswahl der Trainingselemente, die für die Anzeige des Lernfortschritts berücksichtigt werden:
 trac#:#trac_crs_items#:#Trainingselemente
 trac#:#trac_crs_members#:#Trainingsteilnehmer:

@@ -2889,3 +2889,32 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 		}
 	}
 ?>
+
+<#90>
+<?php
+
+	// calendar entry weight
+	if(!$ilDB->tableColumnExists('cal_entries', 'entry_weight'))
+	{
+		$ilDB->addTableColumn('cal_entries', 'entry_weight', 
+			array(
+				'type' => 'integer', 
+				'length' => 1, 
+				'notnull' => false, 
+				'default' => ''
+		));			
+	}
+	
+	// operation day weight
+	if(!$ilDB->tableColumnExists('tep_op_days', 'weight'))
+	{
+		$ilDB->addTableColumn('tep_op_days', 'weight', 
+			array(
+				'type' => 'integer', 
+				'length' => 1, 
+				'notnull' => false, 
+				'default' => ''
+		));			
+	}
+
+?>
