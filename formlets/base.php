@@ -33,9 +33,17 @@ abstract class Formlet {
         return new CheckedFormlet($this, $predicate, $error);
     }
 
-    /* Map a function over the input. */
-    final public function mapCollector(FunctionValue $transformation) {
-        return new MappedCollectorFormlet($this, $transformation);
+    /* Map a function over the input value. */
+    final public function map(FunctionValue $transformation) {
+        return $this->map_RC( _id, _function(1, function ($collector) {
+            
+        });
+    }
+
+    /* Map a function over the builder and collector. */
+    final public function map_RC( FunctionValue $transform_builder
+                                , FunctionValue $transform_collector ) {
+        return new MappedFormlet($this, $transform_builder, $transform_collector);
     }
 }
 
@@ -111,24 +119,33 @@ class CheckedFormlet extends Formlet {
     }
 }
 
-
-/* A formlet where a function is applied to the collected value. */
-class MappedCollectorFormlet extends Formlet {
+/* A formlet where a function is applied to buiid builder and collector. */
+class MappedFormlet extends Formlet {
     private $_formlet; // Formlet
-    private $_transformation; // Predicate
+    private $_transform_builder; // FunctionValue 
+    private $_transform_collector; // FunctionValue 
     
-    public function __construct(Formlet $formlet, FunctionValue $transformation) {
-        guardHasArity($transformation, 1);
+    public function __construct( Formlet $formlet
+                               , FunctionValue $transform_builder
+                               , FunctionValue $transform_collector ) {
+        guardHasArity($transform_builder, 1);
+        guardHasArity($transform_collector, 1);
         $this->_formlet = $formlet;
         $this->_transformation = $transformation;
+        $this->_transform_builder = $transform_builder; 
+        $this->_transform_collector = $transform_collector;
     }
 
     public function build(NameSource $name_source) {
         $fmlt = $this->_formlet->build($name_source);
-        return array( "builder"    => $fmlt["builder"]
-                    , "collector"   => new MappedCollector( $fmlt["collector"]
-                                                          , $this->_transformation
-                                                          )
+        $b = $this->_transform_builder
+                ->apply(_value($fmlt["builder"]))
+                ->get();
+        $c = $this->_transform_collector
+                ->apply(_value($fmlt["collector"]))
+                ->get();
+        return array( "builder"    => $b
+                    , "collector"   => $c
                     , "name_source" => $fmlt["name_source"]
                     );
     }

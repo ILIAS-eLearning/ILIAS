@@ -18,6 +18,11 @@ abstract class Collector {
     abstract public function collect($inp);
     /* Check whether Collector collects something. */
     abstract public function isNullaryCollector();
+
+    /* Map a function over the collected value. */
+    final public function map(FunctionValue $fun) {
+        return new MappedCollector($this, $fun);    
+    }
 }
 
 class MissingInputError extends Exception {

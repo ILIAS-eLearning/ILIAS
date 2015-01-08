@@ -247,11 +247,11 @@ function test_Checked() {
 }
 print_and_record_test("Checked");
 
-function test_MappedCollector() {
+function test_MappedFormlet() {
     $pure = _pure(_value("1337"));
-    return _test_isFormlet($pure->mapCollector(_function(1, "intval")));
+    return _test_isFormlet($pure->map(_function(1, "intval")));
 }
-print_and_record_test("MappedCollector");
+print_and_record_test("MappedFormlet");
 
 function test_Text() {
     return _test_isFormlet(_text("foobar"));
@@ -403,3 +403,12 @@ catch(Exception $e) {
 }
 */
 
+/*$foo = function($name) {
+    echo "Hello $name";  
+};
+
+$foo("World");
+
+call_user_func($foo, "ECHO Echo echo .... ");
+*/
+?>
