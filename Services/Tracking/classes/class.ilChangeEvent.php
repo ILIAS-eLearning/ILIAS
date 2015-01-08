@@ -215,13 +215,13 @@ class ilChangeEvent
 			$ilDB->replace('read_event',
 				array(
 					'obj_id' => array('integer', $obj_id),
-					'usr_id' => array('integer', $usr_id),
+					'usr_id' => array('integer', $usr_id)
 				),
 				array(
 					'read_count' => array('integer', $read_count_init),
 					'spent_seconds' => array('integer', $time),
 					'first_access' => array('timestamp', date("Y-m-d H:i:s")), // was $ilDB->now()
-					'last_access' => array('integer', time()),
+					'last_access' => array('integer', time())
 				)	
 			);			
 			
@@ -295,7 +295,7 @@ class ilChangeEvent
 							$ilDB->replace('read_event',
 								array(
 									'obj_id' => array('integer', $obj2_id),
-									'usr_id' => array('integer', $usr_id),
+									'usr_id' => array('integer', $usr_id)
 								),
 								array(
 									'read_count' => array('integer', 1),
@@ -303,7 +303,7 @@ class ilChangeEvent
 									'first_access' => array('timestamp', date("Y-m-d H:i:s")), // was $ilDB->now()
 									'last_access' => array('integer', time()),
 									'childs_read_count' => array('integer', (int)$read_count_diff),
-									'childs_spent_seconds' => array('integer', (int)$time_diff),
+									'childs_spent_seconds' => array('integer', (int)$time_diff)
 								)	
 							);		
 							

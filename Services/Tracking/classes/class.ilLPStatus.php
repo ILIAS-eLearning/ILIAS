@@ -403,6 +403,7 @@ class ilLPStatus
 		// insert
 		else
 		{
+			/*
 			$ilDB->manipulate("INSERT INTO ut_lp_marks ".
 				"(status, status_changed, usr_id, obj_id, status_dirty) VALUES (".
 				$ilDB->quote($a_status, "integer").",".
@@ -411,6 +412,21 @@ class ilLPStatus
 				$ilDB->quote($a_obj_id, "integer").",".
 				$ilDB->quote(0, "integer").
 				")");
+			*/
+			
+			// #13783
+			$ilDB->replace("ut_lp_marks",
+				array(
+					"obj_id" => array("integer", $a_obj_id),
+					"usr_id" => array("integer", $a_user_id)
+				),
+				array(
+					"status" => array("integer", $a_status),
+					"status_changed" => array("timestamp", date("Y-m-d H:i:s")), // was $ilDB->now()
+					"status_dirty" => array("integer", 0)
+				)
+			);			
+			
 			$update_collections = true;
 		}
 
