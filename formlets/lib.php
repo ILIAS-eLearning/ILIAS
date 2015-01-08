@@ -13,7 +13,7 @@ class Stop {
 function stop() {
     static $val = null;
     if ($val === null) {
-        $val = _value(new Stop());
+        $val = _val(new Stop());
     }
     return $val;
 }
@@ -22,11 +22,11 @@ function stop() {
 
 function appendRecursive($array, $value) {
     if ($value instanceof Stop) {
-        return _value($array, null);
+        return _val($array, null);
     }
     else {
         $array[] = $value;
-        return _function(function($a) use ($array) {
+        return _fn(function($a) use ($array) {
             return appendRecursive($array, $a);
         });
     }
@@ -35,7 +35,7 @@ function appendRecursive($array, $value) {
 function _collect() {
     static $fn = null;
     if ($fn === null) {
-        $fn = _function(function($a) {
+        $fn = _fn(function($a) {
             return appendRecursive(array(), $a);
         });
     } 
@@ -45,7 +45,7 @@ function _collect() {
 function _const($val) {
     static $fn = null;
     if ($fn === null) {
-        $fn = _function(function($v) use ($val) {
+        $fn = _fn(function($v) use ($val) {
             return $val;
         });
     }
@@ -55,7 +55,7 @@ function _const($val) {
 function _intval() {
     static $fn = null;
     if ($fn === null) {
-        $fn = _function(function($val) {
+        $fn = _fn(function($val) {
             return intval($val);
         });
     }
@@ -65,7 +65,7 @@ function _intval() {
 function _id() {
     static $fn = null;
     if ($fn === null) {
-        $fn = _function(function($val) {
+        $fn = _fn(function($val) {
             return $val;
         });
     }

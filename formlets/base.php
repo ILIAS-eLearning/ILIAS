@@ -37,16 +37,14 @@ abstract class Formlet {
     /* Map a function over the input value. */
     final public function map(FunctionValue $transformation) {
         return $this->map_RC( _id()
-                            , _function( function($collector) 
-                                         use ($transformation) {
+                            , _fn( function($collector) use ($transformation) {
                                 return $collector->map($transformation);
                             }));
     }
 
     /* Map a function over the build HTML. */
     final public function mapHTML(FunctionValue $transformation) {
-        return $this->map_RC( _function( function($builder)
-                                         use ($transformation) {
+        return $this->map_RC( _fn( function($builder) use ($transformation) {
                                 return $builder->map($transformation);
                             })
                             , _id()
@@ -156,10 +154,10 @@ class MappedFormlet extends Formlet {
     public function build(NameSource $name_source) {
         $fmlt = $this->_formlet->build($name_source);
         $b = $this->_transform_builder
-                ->apply(_value($fmlt["builder"]))
+                ->apply(_val($fmlt["builder"]))
                 ->get();
         $c = $this->_transform_collector
-                ->apply(_value($fmlt["collector"]))
+                ->apply(_val($fmlt["collector"]))
                 ->get();
         return array( "builder"    => $b
                     , "collector"   => $c

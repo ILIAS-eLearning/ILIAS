@@ -27,7 +27,7 @@ function print_r_id($val) {
 function alwaysTrue() {
     static $fn = null;
     if ($fn === null) {
-        $fn = _function(function ($val) {
+        $fn = _fn(function ($val) {
             return true;
         });
     }
@@ -40,7 +40,7 @@ class TestException extends Exception {
 function alwaysThrows0 () {
     static $fn = null;
     if ($fn === null) {
-        $fn = _function(function () {
+        $fn = _fn(function () {
             throw new TestException("test exception");
         });
     }
@@ -50,7 +50,7 @@ function alwaysThrows0 () {
 function alwaysThrows1 () {
     static $fn = null;
     if ($fn === null) {
-        $fn = _function(function ($one) {
+        $fn = _fn(function ($one) {
             throw new TestException("test exception");
         });
     }
@@ -60,7 +60,7 @@ function alwaysThrows1 () {
 function alwaysThrows2 () {
     static $fn = null;
     if ($fn === null) {
-        $fn = _function(function ($one, $two) {
+        $fn = _fn(function ($one, $two) {
             throw new TestException("test exception");
         });
     }
@@ -108,7 +108,7 @@ function print_results() {
 function test_PlainValue() {
     $val = rand();
     $rnd = md5(rand());
-    $value = _value($val, $rnd);
+    $value = _val($val, $rnd);
     return _test_PlainValue($value, $val, $rnd); 
 }
  
@@ -131,14 +131,14 @@ function _test_PlainValue(Value $value, $val, $origin) {
 }
 
 function test_FunctionValue() {
-    $fn = _function(function($v) { return $v; });
+    $fn = _fn(function($v) { return $v; });
     $fn2 = alwaysThrows1()
             ->catchAndReify("TestException");
     $fn3 = alwaysThrows2()
             ->catchAndReify("TestException");
     $val = rand();
     $origin = md5($val);
-    $value = _value($val, $origin);
+    $value = _val($val, $origin);
 
     return array_merge( _test_FunctionValue($fn, $value, 1)
                       , array
@@ -197,11 +197,11 @@ function _test_FunctionValue($fn, $value, $arity) {
 }
 
 function _test_FunctionValue_result($fun, $args) {
-    $fn = _function($fun);
+    $fn = _fn($fun);
     $res1 = call_user_func_array($fun, $args);
     $tmp = $fn;
     for ($i = 0; $i < $fn->arity(); ++$i) {
-        $tmp = $tmp->apply(_value($args[$i]));
+        $tmp = $tmp->apply(_val($args[$i]));
     }
     $res2 = $tmp->get();
     return $res1 === $res2;
@@ -217,7 +217,7 @@ function _test_FunctionValue_results($fn_name, $argss) {
 
 function test_ErrorValue() {
     $rnd = md5(rand());
-    $value = _error($rnd, _value($rnd, $rnd));
+    $value = _error($rnd, _val($rnd, $rnd));
     return _test_ErrorValue($value, $rnd, $rnd); 
 }
  
@@ -229,7 +229,7 @@ function _test_ErrorValue(Value $value, $reason, $origin) {
         , "An error value is applicable"
             => $value->isApplicable()
         , "One can apply an error value and gets an error back."
-            => $value->apply(_value(1))->isError()
+            => $value->apply(_val(1))->isError()
         , "An error value is no error"
             => $value->isError()
         , "One can get the reason out of the error value"
@@ -265,30 +265,30 @@ function _test_isFormlet($formlet) {
 }
 
 function test_Pure() {
-    return _test_isFormlet(_pure(_value(42)));
+    return _test_isFormlet(_pure(_val(42)));
 }
 print_and_record_test("Pure");
 
 function test_Combined() {
-    $pure = _pure(_value(1337));
+    $pure = _pure(_val(1337));
     return _test_isFormlet($pure->cmb($pure));
 }
 print_and_record_test("Combined");
 
 function test_Checked() {
-    $pure = _pure(_value(42));
+    $pure = _pure(_val(42));
     return _test_isFormlet($pure->satisfies(alwaysTrue(), "ERROR"));
 }
 print_and_record_test("Checked");
 
 function test_MappedFormlet() {
-    $pure = _pure(_value("1337"));
+    $pure = _pure(_val("1337"));
     return _test_isFormlet($pure->map(_intval()));
 }
 print_and_record_test("MappedFormlet");
 
 function test_MappedHTMLFormlet() {
-    $pure = _pure(_value("1337"));
+    $pure = _pure(_val("1337"));
     return _test_isFormlet($pure->mapHTML(_id())); 
 }
 print_and_record_test("MappedHTMLFormlet");
@@ -314,7 +314,7 @@ function test_TextArea() {
 print_and_record_test("TextArea");
 
 function test_FieldSet() {
-    return _test_isFormlet(_fieldset("Static: ", _pure(_value(42))));    
+    return _test_isFormlet(_fieldset("Static: ", _pure(_val(42))));    
 }
 print_and_record_test("FieldSet");
 
@@ -335,16 +335,16 @@ print_and_record_test("Submit");
 
 function test__collect() {
     $collected0 = _collect();
-    $collected1 = $collected0->apply(_value(1));
-    $collected2 = $collected1->apply(_value(2));
-    $collected3 = $collected2->apply(_value(3));
+    $collected1 = $collected0->apply(_val(1));
+    $collected2 = $collected1->apply(_val(2));
+    $collected3 = $collected2->apply(_val(3));
     $collected_stop = $collected3->apply(stop());
 
     $formlet_collected =
         _pure(_collect())
-        ->cmb(_pure(_value(3)))
-        ->cmb(_pure(_value(2)))
-        ->cmb(_pure(_value(1)))
+        ->cmb(_pure(_val(3)))
+        ->cmb(_pure(_val(2)))
+        ->cmb(_pure(_val(1)))
         ->cmb(_pure(stop()))
         ;
     $repr = $formlet_collected->build(NameSource::unsafeInstantiate());

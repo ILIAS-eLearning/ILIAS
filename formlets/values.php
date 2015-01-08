@@ -84,7 +84,7 @@ final class PlainValue extends Value {
 }
 
 /* Construct a plain value from a PHP value. */
-function _value($value, $origin = null) {
+function _val($value, $origin = null) {
     return new PlainValue($value, $origin);
 }
 
@@ -298,7 +298,7 @@ final class FunctionValue extends Value {
             return $val;
         }
         else {
-            return _value($val, $this->origin());
+            return _val($val, $this->origin());
         }            
     }
 }
@@ -308,7 +308,7 @@ final class FunctionValue extends Value {
  * of arguments to be inserted in the first arguments of the function
  * could be passed 
  */
-function _function(Closure $function, $args = null) {
+function _fn(Closure $function, $args = null) {
     return new FunctionValue($function, null, $args);
 }
 

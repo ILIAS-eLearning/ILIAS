@@ -51,10 +51,10 @@ class RenderDict {
     public static function _empty() {
         // ToDo: Why does this not work?
         /*if (self::_emptyInst === null) {
-            self::_emptyInst = new RenderDict(_value(0));
+            self::_emptyInst = new RenderDict(_val(0));
         }
         return self::_emptyInst;*/
-        return new RenderDict(array(), _value(0), true);
+        return new RenderDict(array(), _val(0), true);
     }  
 
     public static function computeFrom(Value $value) {
@@ -147,7 +147,7 @@ class MappedBuilder extends Builder {
     public function buildWithDict(RenderDict $dict) {
         $base = $this->_builder->buildWithDict($dict);
         $res = $this->_transformation
-                ->apply(_value($base))
+                ->apply(_val($base))
                 ->get();
         guardIsHTML($res);
         return $res;

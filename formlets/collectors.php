@@ -143,7 +143,7 @@ final class MappedCollector extends Collector {
         $res2 = $this->_transformation->apply($res);
         if (!$res2->isError() && !$res2->isApplicable()) {
             // rewrap ordinary values to keep origin.
-            $res2 = _value($res2->get(), $res->origin());
+            $res2 = _val($res2->get(), $res->origin());
         }
         return $res2;
     }
@@ -174,7 +174,7 @@ final class StringCollector extends CollectorWithName {
             throw new MissingInputError($this->name());
         }
         guardIsString($inp[$this->name()]);
-        return _value($inp[$this->name()], $this->name());
+        return _val($inp[$this->name()], $this->name());
     }
 
     public function isNullaryCollector() {
@@ -185,7 +185,7 @@ final class StringCollector extends CollectorWithName {
 /* A collector that returns true, wenn name is present in input. */
 final class ExistsCollector extends CollectorWithName {
     public function collect($inp) {
-        return _value(array_key_exists($this->name(), $inp));
+        return _val(array_key_exists($this->name(), $inp));
     }    
 
     public function isNullaryCollector() {
