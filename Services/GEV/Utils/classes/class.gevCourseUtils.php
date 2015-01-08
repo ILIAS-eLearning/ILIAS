@@ -942,11 +942,9 @@ class gevCourseUtils {
 	// Materiallists
 	
 	public function isMaterialListSend() {
-		return false;
-		// TODO: to be implemented.
-		/*require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 		$am = new gevCrsAutoMails($this->getId());
-		return $am->getAutoMail("invitation");*/
+		return $am->getAutoMail("materiallist_for_storage")->getLastSend() !== null;
 	}
 	
 	public function getMaterialList() {
@@ -969,13 +967,16 @@ class gevCourseUtils {
 		
 		$ref_ids = gevObjectUtils::getAllRefIds($this->crs_id);
 		
-		$res = $this->db->query("SELECT ai.obj_id FROM adv_md_values_int ai "
+		$res = $this->db->query("SELECT DISTINCT ai.obj_id FROM adv_md_values_int ai "
 								.(!$future_only ? "" 
 										: (" JOIN adv_md_values_date ad"
-										  ." ON ad.field_id = ".$this->db->quote($start_date_field, "integer")))
+										  ." ON ad.field_id = ".$this->db->quote($start_date_field, "integer")
+										  ." AND ad.obj_id = ai.obj_id"))
+								." JOIN object_reference oref ON oref.obj_id = ai.obj_id"
 								." WHERE ai.field_id = ".$this->db->quote($ref_id_field, "integer")
 								."  AND ".$this->db->in("ai.value", $ref_ids, false, "integer")
 								.(!$future_only ? "" : " AND ad.value > CURDATE()")
+								."  AND oref.deleted IS NULL"
 								);
 		$obj_ids = array();
 		while ($rec = $this->db->fetchAssoc($res)) {

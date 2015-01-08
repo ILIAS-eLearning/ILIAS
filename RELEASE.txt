@@ -23,4 +23,4 @@ svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_PersonalOrgUnits				merged: 5
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_TEPHistorizing				merged: 55869
 svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_OpenLayersMaps					merged: 56040
 svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_CopyCoursePermissions			merged: 55760
-svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_MaterialList					merged: 56516
+svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_MaterialList					merged: 56859

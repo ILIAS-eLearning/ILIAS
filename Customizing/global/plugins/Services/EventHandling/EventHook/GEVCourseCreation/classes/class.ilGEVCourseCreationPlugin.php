@@ -57,6 +57,7 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 
 			$this->setCustomId($target_utils, $source_utils);
 			$this->setMailSettings($source_obj_id, $target_obj_id);
+			$this->activateCertificateMaybe($source_obj_id, $target_obj_id);
 
 			$target->update();
 		}
@@ -123,6 +124,18 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 		
 		global $ilLog;
 		$ilLog->write("Cloned category ".$target_ref_id." from category ". $source_ref_id);		
+	}
+	
+	public function activateCertificateMaybe($source_obj_id, $target_obj_id) {
+		global $ilDB;
+		$res = $ilDB->query("SELECT obj_id FROM il_certificate".
+							" WHERE obj_id = ".$ilDB->quote($source_obj_id, "integer")
+							);
+		if ($ilDB->numRows($res) > 0) {
+			$ilDB->manipulate("INSERT INTO il_certificate (obj_id)".
+							  " VALUES (".$ilDB->quote($target_obj_id, "integer").")"
+							 );
+		}
 	}
 }
 
