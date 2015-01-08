@@ -171,12 +171,15 @@ abstract class ilTestRandomQuestionSetBuilder
 	{
 		$questionSet = $questionStage->getRandomQuestionCollection($requiredQuestionAmount);
 
+		return $questionSet;
+	}
+
+	protected function handleQuestionOrdering(ilTestRandomQuestionSetQuestionCollection $questionSet)
+	{
 		if( $this->testOBJ->getShuffleQuestions() )
 		{
 			$questionSet->shuffleQuestions();
 		}
-
-		return $questionSet;
 	}
 
 	// =================================================================================================================
