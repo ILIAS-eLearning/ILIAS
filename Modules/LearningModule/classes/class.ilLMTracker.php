@@ -193,8 +193,9 @@ class ilLMTracker
 			$fields = array(
 				"obj_id" => array("integer", $a_page_id),
 				"usr_id" => array("integer", $this->user_id)
-			);
-			$ilDB->insert("lm_read_event", $fields);
+			);									
+			// $ilDB->insert("lm_read_event", $fields);
+			$ilDB->replace("lm_read_event", $fields, array()); // #15144
 		}
 
 		// update all parent chapters
@@ -271,7 +272,8 @@ class ilLMTracker
 							"obj_id" => array("integer", $st_id),
 							"usr_id" => array("integer", $this->user_id)
 						);
-						$ilDB->insert("lm_read_event", $fields);
+						// $ilDB->insert("lm_read_event", $fields);
+						$ilDB->replace("lm_read_event", $fields, array()); // #15144
 					}
 				}
 
