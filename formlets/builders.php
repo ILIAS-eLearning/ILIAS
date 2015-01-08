@@ -103,11 +103,15 @@ class RenderDict {
  */
 
 abstract class Builder {
-    /* Returns a string. */
+    /* Returns HTML. */
     abstract public function buildWithDict(RenderDict $dict);
     public function build() {
         return $this->buildWithDict(RenderDict::_empty());
     }
+
+    public function map(FunctionValue $transformation) {
+        return new MappedBuilder($this, $transformation);
+    } 
 }
 
 /* Builder that combines two sub builders by adding the output of the 
@@ -126,6 +130,27 @@ class CombinedBuilder extends Builder {
         return html_concat( $this->_l->buildWithDict($dict)
                           , $this->_r->buildWithDict($dict)
                           );
+    }
+}
+
+/* Builder where a function is mapped over the result of another builder. */
+class MappedBuilder extends Builder {
+    private $_builder; // Builder
+    private $_transformation; // FunctionValue 
+
+    public function __construct(Builder $builder, FunctionValue $transformation) {
+        guardHasArity($transformation, 1);
+        $this->_builder = $builder;
+        $this->_transformation = $transformation;
+    }
+
+    public function buildWithDict(RenderDict $dict) {
+        $base = $this->_builder->buildWithDict($dict);
+        $res = $this->_transformation
+                ->apply(_value($base))
+                ->get();
+        guardIsHTML($res);
+        return $res;
     }
 }
 

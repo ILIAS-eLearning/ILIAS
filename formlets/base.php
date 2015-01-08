@@ -36,10 +36,19 @@ abstract class Formlet {
 
     /* Map a function over the input value. */
     final public function map(FunctionValue $transformation) {
-        return $this->map_RC( _function(1, "id")
+        return $this->map_RC( _function( 1, "id")
                             , _function( 1, "_map_collector"
                                        , array($transformation)
                                        )
+                            );
+    }
+
+    /* Map a function over the build HTML. */
+    final public function mapHTML(FunctionValue $transformation) {
+        return $this->map_RC( _function( 1, "_map_builder"
+                                       , array($transformation)
+                                       )
+                            , _function( 1, "id")
                             );
     }
 
@@ -53,6 +62,11 @@ abstract class Formlet {
 function _map_collector($transformation, $collector) {
     return $collector->map($transformation);
 };
+
+function _map_builder($transformation, $builder) {
+    return $builder->map($transformation);
+};
+
 
 /* A PureFormlet collects a constant value and buildes to an empty string. */
 class PureFormlet extends Formlet {

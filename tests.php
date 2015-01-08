@@ -253,6 +253,12 @@ function test_MappedFormlet() {
 }
 print_and_record_test("MappedFormlet");
 
+function test_MappedHTMLFormlet() {
+    $pure = _pure(_value("1337"));
+    return _test_isFormlet($pure->mapHTML(_function(1, "id"))); 
+}
+print_and_record_test("MappedHTMLFormlet");
+
 function test_Text() {
     return _test_isFormlet(_text("foobar"));
 }
