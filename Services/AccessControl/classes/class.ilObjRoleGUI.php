@@ -840,7 +840,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$ids[] = $id;
 		}
-
 		// Sort ids
 		$sorted_ids = ilUtil::_sortIds($ids,'object_data','type,title','obj_id');
 		$key = 0;
@@ -849,48 +848,22 @@ class ilObjRoleGUI extends ilObjectGUI
 			$par = $parent_role_ids[$id];
 			if ($par["obj_id"] != SYSTEM_ROLE_ID && $this->object->getId() != $par["obj_id"])
 			{
-				$radio = ilUtil::formRadioButton(0,"adopt",$par["obj_id"]);
-				$output["adopt"][$key]["css_row_adopt"] = ($key % 2 == 0) ? "tblrow1" : "tblrow2";
-				$output["adopt"][$key]["check_adopt"] = $radio;
-				$output["adopt"][$key]["role_id"] = $par["obj_id"];
-				$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? $this->lng->txt('obj_role') : $this->lng->txt('obj_rolt'));
-				$output["adopt"][$key]["role_name"] = ilObjRole::_getTranslation($par["title"]);
-				$output["adopt"][$key]["role_desc"] = $par["desc"];
+				$output[$key]["role_id"] = $par["obj_id"];
+				$output[$key]["type"] = ($par["type"] == 'role' ? $this->lng->txt('obj_role') : $this->lng->txt('obj_rolt'));
+				$output[$key]["role_name"] = ilObjRole::_getTranslation($par["title"]);
+				$output[$key]["role_desc"] = $par["desc"];
 				$key++;
 			}
 		}
 
-		$output["formaction_adopt"] = $this->ctrl->getFormAction($this);
-		$output["message_middle"] = $this->lng->txt("adopt_perm_from_template");
 
+		include_once('./Services/AccessControl/classes/class.ilRoleAdoptPermissionTableGUI.php');
 
-		$tpl = new ilTemplate("tpl.adm_copy_role.html", true, true, "Services/AccessControl");
+		$tbl = new ilRoleAdoptPermissionTableGUI($this, "adoptPerm");
+		$tbl->setTitle($this->lng->txt("adopt_perm_from_template"));
+		$tbl->setData($output);
 
-		$tpl->setCurrentBlock("ADOPT_PERM_ROW");
-		foreach ($output["adopt"] as $key => $value)
-		{
-			$tpl->setVariable("CSS_ROW_ADOPT",$value["css_row_adopt"]);
-			$tpl->setVariable("CHECK_ADOPT",$value["check_adopt"]);
-			$tpl->setVariable("LABEL_ID",$value["role_id"]);
-			$tpl->setVariable("TYPE",$value["type"]);
-			$tpl->setVariable("ROLE_NAME",$value["role_name"]);
-			if(strlen($value['role_desc']))
-			{
-				$tpl->setVariable('ROLE_DESC',$value['role_desc']);
-			}
-			$tpl->parseCurrentBlock();
-		}
-
-		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-		$tpl->setVariable("MESSAGE_MIDDLE",$output["message_middle"]);
-		$tpl->setVariable("FORMACTION_ADOPT",$output["formaction_adopt"]);
-		$tpl->setVariable("ADOPT",$this->lng->txt('copy'));
-		$tpl->setVariable("CANCEL",$this->lng->txt('cancel'));
-
-		$tpl->setVariable('HEAD_ROLE',$this->lng->txt('title'));
-		$tpl->setVariable('HEAD_TYPE',$this->lng->txt('type'));
-
-		$this->tpl->setContent($tpl->get());
+		$this->tpl->setContent($tbl->getHTML());
 	}
 	
 	/**
