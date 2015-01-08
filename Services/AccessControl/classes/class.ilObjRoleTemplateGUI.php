@@ -261,7 +261,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	function permObject()
 	{
-		global $rbacadmin, $rbacreview, $rbacsystem,$objDefinition;
+		global $rbacadmin, $rbacreview, $rbacsystem,$objDefinition,$ilSetting;
 
 		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
@@ -277,6 +277,12 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		if (($internal_tpl = $this->object->isInternalTemplate()))
 		{
 			$tpl_filter = $this->object->getFilterOfInternalTemplate();
+		}
+		$op_order = array();
+
+		foreach(ilRbacReview::_getOperationList() as $op)
+		{
+			$op_order[$op["ops_id"]] = $op["order"];
 		}
 
 		$operation_info = $rbacreview->getOperationAssignment();
@@ -312,10 +318,17 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 				$txt = $this->lng->txt('rbac_'.$info['operation']);
 			}
 
+			$order = $op_order[$info['ops_id']];
+			if(substr($info['operation'],0,6) == 'create')
+			{
+				$order = $objDefinition->getPositionByType($info['type']);
+			}
+
 			$rbac_operations[$info['typ_id']][$info['ops_id']] = array(
 									   							"ops_id"	=> $info['ops_id'],
 									  							"title"		=> $info['operation'],
-																"name"		=> $txt);		
+																"name"		=> $txt,
+																"order"		=> $order);
 		}
 		
 		foreach ($rbac_objects as $key => $obj_data)
@@ -419,7 +432,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		{
 			// BEGIN object_operations
 			$this->tpl->setCurrentBlock("object_operations");
-	
+
+			$obj_data["ops"] = ilUtil::sortArray($obj_data["ops"], 'order','asc',true,true);
+
 			foreach ($obj_data["ops"] as $operation)
 			{
 				$ops_ids[] = $operation["ops_id"];

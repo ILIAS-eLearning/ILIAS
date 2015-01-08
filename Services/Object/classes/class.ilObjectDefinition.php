@@ -1117,6 +1117,21 @@ class ilObjectDefinition// extends ilSaxParser
 
 		return $amet;
 	}
+
+	/**
+	 * Get Position By Object Type
+	 *
+	 * @param $a_type
+	 * @return int
+	 */
+	function getPositionByType($a_type)
+	{
+		global $ilSetting;
+
+		return ($ilSetting->get("obj_add_new_pos_".$a_type) > 0)
+			? (int) $ilSetting->get("obj_add_new_pos_".$a_type)
+			: (int) $this->obj_data[$a_type]["default_pos"];
+	}
 	
 }
 ?>
