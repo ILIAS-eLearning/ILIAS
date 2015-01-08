@@ -16,7 +16,8 @@ class ilPageHistoryTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd = "")
 	{
 		global $ilCtrl, $lng;
-		
+
+		$this->setId("ilCOPgHistoryTable");
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("content_page_history"));
 		
