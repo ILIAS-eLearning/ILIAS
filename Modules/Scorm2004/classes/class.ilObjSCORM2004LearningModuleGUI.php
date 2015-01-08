@@ -672,6 +672,7 @@ $this->ctrl->redirect($this, "properties");
 		
 		// number of tries
 		$ni = new ilNumberInputGUI($lng->txt("cont_qtries"), "q_tries");
+		$ni->setInfo($lng->txt("cont_qtries_info")); // #15133
 		$ni->setMaxLength(3);
 		$ni->setSize(3);
 		$this->form->addItem($ni);
