@@ -233,6 +233,38 @@ class ilObjDataCollection extends ilObject2 {
 		return $new_obj;
 	}
 
+	//TODO: Find better way to copy data (including references)
+	/*public function doCloneObject(ilObjDataCollection $new_obj, $a_target_id, $a_copy_id = 0) {
+		//$new_obj->delete();
+		$created_new_id = $new_obj->getId();
+		$obj_id = $this->getId();
+
+		$exp = new ilExport();
+		$exp->exportObject($this->getType(), $obj_id, "5.0.0");
+
+		$file_name = substr(strrchr($exp->export_run_dir, DIRECTORY_SEPARATOR), 1);
+
+		$import = new ilImport((int)$a_target_id);
+		$new_id = $import->importObject(null, $exp->export_run_dir.".zip", $file_name.".zip", $this->getType(), "", true);
+
+		$new_obj->delete();
+
+		if ($new_id > 0)
+		{
+			$obj = ilObjectFactory::getInstanceByObjId($new_id);
+			$obj->setId($created_new_id);
+
+			$obj->createReference();
+			$obj->putInTree($a_target_id);
+			$obj->setPermissions($a_target_id);
+
+
+		}
+
+		return $obj;
+	}*/
+
+
 
 	/**
 	 * Attention only use this for objects who have not yet been created (use like: $x = new ilObjDataCollection; $x->cloneStructure($id))
@@ -289,7 +321,6 @@ class ilObjDataCollection extends ilObject2 {
 			}
 		}
 	}
-
 
 	/**
 	 * setOnline

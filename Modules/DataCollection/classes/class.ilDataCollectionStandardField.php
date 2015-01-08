@@ -48,6 +48,20 @@ class ilDataCollectionStandardField extends ilDataCollectionField
 		$this->updateFilterability();
 		$this->updateExportability();
 	}
+
+	public function cloneStructure(ilDataCollectionStandardField $original_record) {
+		$this->setOrder($original_record->getOrder());
+		$this->setEditable($original_record->isEditable());
+		$this->setLocked($original_record->getLocked());
+		$this->setFilterable($original_record->isFilterable());
+		$this->setVisible($original_record->isVisible());
+		$this->setOrder($original_record->getOrder());
+		$this->setRequired($original_record->getRequired());
+		$this->setUnique($original_record->isUnique());
+		$this->setExportable($original_record->getExportable());
+
+		$this->doUpdate();
+	}
 	
 	/*
 	 * getLocked
@@ -125,7 +139,7 @@ class ilDataCollectionStandardField extends ilDataCollectionField
         }
         return $datatype;
 	}
-	
+
 	/*
 	 * isStandardField
 	 */

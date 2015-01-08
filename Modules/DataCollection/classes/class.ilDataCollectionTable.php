@@ -1129,10 +1129,19 @@ class ilDataCollectionTable {
 		$this->setLimitStart($original->getLimitStart());
 		$this->setLimitEnd($original->getLimitEnd());
 		$this->setTitle($original->getTitle());
-		$this->doCreate();
 
-        // Clone fields
-        $new_fields = array();
+		$this->doCreate();
+		// reset stdFields to get new for the created object
+		$this->stdFields = null;
+
+		// Clone standard-fields
+		$org_std_fields = $original->getStandardFields();
+		foreach($this->getStandardFields() as $element_key=>$std_field) {
+			$std_field->cloneStructure($org_std_fields[$element_key]);
+		}
+
+		// Clone fields
+		$new_fields = array();
         foreach ($original->getFields() as $orig_field) {
             if(!$orig_field->isStandardField()){
                 $new_field = new ilDataCollectionField();
@@ -1142,12 +1151,13 @@ class ilDataCollectionTable {
             }
         }
 
+		//TODO: Find better way to copy data (include referenced data)
         // Clone Records with recordfields
-        foreach($original->getRecords() as $orig_record){
+        /*foreach($original->getRecords() as $orig_record){
             $new_record = new ilDataCollectionRecord();
             $new_record->setTableId($this->getId());
             $new_record->cloneStructure($orig_record->getId(), $new_fields);
-        }
+        }*/
 
 		if ($old_view_id = ilDataCollectionRecordViewViewdefinition::getIdByTableId($original_id)) {
 			$old_view = new ilDataCollectionRecordViewViewdefinition($old_view_id);
