@@ -106,7 +106,7 @@ class ilTestRandomQuestionSetQuestionCollection
 	{
 		$randomKeys = $this->getRandomArrayKeys($this->questions, $requiredAmount);
 
-		$randomQuestionCollection = new ilTestRandomQuestionSetQuestionCollection();
+		$randomQuestionCollection = new self();
 
 		foreach($randomKeys as $randomKey)
 		{
