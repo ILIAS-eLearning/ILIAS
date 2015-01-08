@@ -77,7 +77,7 @@ class ilTEPHistorizingAppEventListener
 		foreach($uids as $uid => $drvd_id) {
 			$case_id["user_id"] = $uid;
 			$case_id["cal_derived_entry_id"] = $drvd_id;
-			$state_data["individual_days"] = $op_days[$uid];
+			$state_data["individual_days"] = count($op_days[$uid]);
 			self::$ilTEPHistorizing->updateHistorizedData(
 									$case_id,
 									$state_data,
