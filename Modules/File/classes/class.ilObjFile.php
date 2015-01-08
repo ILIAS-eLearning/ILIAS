@@ -921,7 +921,7 @@ class ilObjFile extends ilObject2
 				"usage_type" => array("text", (string) $a_type),
 				"usage_id" => array("integer", (int) $a_id),
 				"usage_hist_nr" => array("integer", (int) $a_usage_hist_nr),
-				"usage_lang" => array("text", $a_usage_lang),
+				"usage_lang" => array("text", $a_usage_lang)
 			),
 			array()
 		);

@@ -49,6 +49,8 @@ class ilPageQuestionProcessor
 			" qst_id = ".$ilDB->quote($a_id, "integer")." AND ".
 			" user_id = ".$ilDB->quote($ilUser->getId(), "integer")
 			);
+		
+		/*
 		if ($rec = $ilDB->fetchAssoc($set))
 		{
 			$ilDB->manipulate("UPDATE page_qst_answer SET ".
@@ -56,8 +58,7 @@ class ilPageQuestionProcessor
 				" passed = ".$ilDB->quote($passed, "integer").",".
 				" points = ".$ilDB->quote($points, "float").
 				" WHERE qst_id = ".$ilDB->quote($a_id, "integer").
-				" AND user_id = ".
-				$ilDB->quote($ilUser->getId(), "integer")
+				" AND user_id = ".$ilDB->quote($ilUser->getId(), "integer")
 				);
 		}
 		else
@@ -70,6 +71,33 @@ class ilPageQuestionProcessor
 				$ilDB->quote($passed, "integer").",".
 				$ilDB->quote($points, "float").
 				")");
+		}
+		*/
+		
+		// #15146
+		if (!$ilDB->fetchAssoc($set))
+		{
+			$ilDB->replace("page_qst_answer",
+				array(
+					"qst_id" => array("integer", $a_id),
+					"user_id" => array("integer", $ilUser->getId())
+				),
+				array(
+					"try" => array("integer", 1),
+					"passed" => array("integer", $passed),
+					"points" => array("float", $points)
+				)
+			);
+		}
+		else
+		{
+			$ilDB->manipulate("UPDATE page_qst_answer SET ".
+				" try = try + 1,".
+				" passed = ".$ilDB->quote($passed, "integer").",".
+				" points = ".$ilDB->quote($points, "float").
+				" WHERE qst_id = ".$ilDB->quote($a_id, "integer").
+				" AND user_id = ".$ilDB->quote($ilUser->getId(), "integer")
+			);
 		}
 	}
 
