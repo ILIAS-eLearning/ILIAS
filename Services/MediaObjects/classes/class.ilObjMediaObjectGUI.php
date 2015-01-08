@@ -1749,6 +1749,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->getTabs($this->tabs_gui);
 
 		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
+		$this->tpl->clearHeader();
 		if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject")
 		{
 			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob.svg"));

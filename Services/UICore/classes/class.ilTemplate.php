@@ -1637,6 +1637,18 @@ class ilTemplate extends ilTemplateX
 	{
 		$this->title_alerts = $a_props;
 	}
+
+	/**
+	 * Clear header
+	 */
+	function clearHeader()
+	{
+		$this->setTitle("");
+		$this->setTitleIcon("");
+		$this->setDescription("");
+		$this->setAlertProperties(array());
+	}
+
 	
 	/**
 	* Fill header

@@ -1343,6 +1343,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 		else
 		{
+			parent::setTitleAndDescription();
 			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
 			$this->tpl->setTitle($this->lng->txt("glo").": ".$title);
 		}

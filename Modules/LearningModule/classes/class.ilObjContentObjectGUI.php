@@ -2709,6 +2709,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$ilHelp->setScreenIdComponent("lm");
 		
 		$this->addTabs($a_act);
+		parent::setTitleAndDescription();
 		$this->tpl->setTitle($this->object->getTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"),
 			$lng->txt("obj_lm"));
