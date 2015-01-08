@@ -2564,11 +2564,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		if($ass->getFeedbackFile())
 		{						
-			$this->form->getItemByPostVar("fb")->setChecked(true);
-			$this->form->getItemByPostVar("fb_cron")->setChecked($ass->hasFeedbackCron());			
-			$this->form->getItemByPostVar("fb_date")->setValue($ass->getFeedbackDate());			
+			$this->form->getItemByPostVar("fb")->setChecked(true);			
 			$this->form->getItemByPostVar("fb_file")->setValue(basename($ass->getFeedbackFilePath()));
 		}
+		$this->form->getItemByPostVar("fb_cron")->setChecked($ass->hasFeedbackCron());			
+		$this->form->getItemByPostVar("fb_date")->setValue($ass->getFeedbackDate());			
 		
 		// if there are any submissions we cannot change type anymore
 		if(sizeof(ilExAssignment::getAllDeliveredFiles($this->object->getId(), $ass->getId())) ||
@@ -2728,11 +2728,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 				}
 			}
 			
-			if($this->form->getItemByPostVar("fb_file")->getDeletionFlag())
+			if(!$_POST["fb"] ||
+				$this->form->getItemByPostVar("fb_file")->getDeletionFlag())
 			{
 				$ass->deleteFeedbackFile();
 				$ass->setFeedbackFile(null);
-				$ass->update;
 			}
 			else if($_FILES["fb_file"])
 			{
