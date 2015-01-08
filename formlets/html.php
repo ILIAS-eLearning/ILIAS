@@ -84,6 +84,35 @@ class HTMLTag extends HTML {
         }
         return $head.">".$this->_content->render()."</".$this->_name.">";        
     }
+
+    public function name($name = null) {
+        if ($name === null) {
+            return $this->_name;
+        }
+
+        guardIsString($name);
+        return new HTMLTag($name, $this->_attributes, $this->_content);
+    }
+
+    public function attribute($key, $value = null) {
+        if ($value === null) {
+            return $this->_attributes[$key];
+        }
+
+        guardIsString($key);
+        guardIsString($value);
+        $attrs = id($this->_attributes);
+        $attrs[$key] = $value;
+        return new HTMLTag($this->_name, $attrs, $this->_content);
+    }
+
+    public function content($content = 0) {
+        if ($content === 0) {
+            return $this->_content;
+        }
+
+        return new HTMLTag($this->_name, $this->_attributes, $content);
+    }
 }
 
 function html_nop() {
