@@ -204,7 +204,6 @@ function _test_FunctionValue_result($fun, $args) {
         $tmp = $tmp->apply(_value($args[$i]));
     }
     $res2 = $tmp->get();
-    print_r(array($res1, $res2));
     return $res1 === $res2;
 }
 
@@ -284,13 +283,13 @@ print_and_record_test("Checked");
 
 function test_MappedFormlet() {
     $pure = _pure(_value("1337"));
-    return _test_isFormlet($pure->mapCollector(_intval()));
+    return _test_isFormlet($pure->map(_intval()));
 }
 print_and_record_test("MappedFormlet");
 
 function test_MappedHTMLFormlet() {
     $pure = _pure(_value("1337"));
-    return _test_isFormlet($pure->mapHTML(_function(1, "id"))); 
+    return _test_isFormlet($pure->mapHTML(_id())); 
 }
 print_and_record_test("MappedHTMLFormlet");
 

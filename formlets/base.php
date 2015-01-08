@@ -36,19 +36,20 @@ abstract class Formlet {
 
     /* Map a function over the input value. */
     final public function map(FunctionValue $transformation) {
-        return $this->map_RC( _function( 1, "id")
-                            , _function( 1, "_map_collector"
-                                       , array($transformation)
-                                       )
-                            );
+        return $this->map_RC( _id()
+                            , _function( function($collector) 
+                                         use ($transformation) {
+                                return $collector->map($transformation);
+                            }));
     }
 
     /* Map a function over the build HTML. */
     final public function mapHTML(FunctionValue $transformation) {
-        return $this->map_RC( _function( 1, "_map_builder"
-                                       , array($transformation)
-                                       )
-                            , _function( 1, "id")
+        return $this->map_RC( _function( function($builder)
+                                         use ($transformation) {
+                                return $builder->map($transformation);
+                            })
+                            , _id()
                             );
     }
 
@@ -58,10 +59,6 @@ abstract class Formlet {
         return new MappedFormlet($this, $transform_builder, $transform_collector);
     }
 }
-
-function _map_collector($transformation, $collector) {
-    return $collector->map($transformation);
-};
 
 function _map_builder($transformation, $builder) {
     return $builder->map($transformation);
