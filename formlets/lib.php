@@ -11,8 +11,14 @@ class Stop {
 }
 
 function stop() {
-    return _value(new Stop());
+    static $val = null;
+    if ($val === null) {
+        $val = _value(new Stop());
+    }
+    return $val;
 }
+
+// TODO: This could be refactored for sure!
 
 function appendRecursive($array, $value) {
     if ($value instanceof Stop) {
@@ -20,20 +26,40 @@ function appendRecursive($array, $value) {
     }
     else {
         $array[] = $value;
-        return _function(1, "appendRecursive", array($array));
+        return _function(function($a) use ($array) {
+            return appendRecursive($array, $a);
+        });
     }
 }
 
 function _collect() {
-    return _function(1, "appendRecursive", array(array()));
-}
-
-function cconst($val, $any) {
-    return $val;
+    static $fn = null;
+    if ($fn === null) {
+        $fn = _function(function($a) {
+            return appendRecursive(array(), $a);
+        });
+    } 
+    return $fn;
 }
 
 function _const($val) {
-    return _function(1, "cconst", array($val)); 
+    static $fn = null;
+    if ($fn === null) {
+        $fn = _function(function($v) use ($val) {
+            return $val;
+        });
+    }
+    return $fn;
+}
+
+function _intval() {
+    static $fn = null;
+    if ($fn === null) {
+        $fn = _function(function($val) {
+            return intval($val);
+        });
+    }
+    return $fn;
 }
 
 
