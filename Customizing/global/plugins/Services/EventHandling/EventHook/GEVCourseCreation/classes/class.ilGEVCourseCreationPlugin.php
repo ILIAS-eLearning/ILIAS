@@ -53,11 +53,11 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 				$target_utils->setTemplateRefId(intval($a_source_ref_id));
 				$target_utils->setIsTemplate(false);
 				$source_utils->getMaterialList()->copyTo($target_obj_id);
-				$this->activateCertificateMaybe($source_obj_id, $target_obj_id);
 			}
 
 			$this->setCustomId($target_utils, $source_utils);
 			$this->setMailSettings($source_obj_id, $target_obj_id);
+			$this->activateCertificateMaybe($source_obj_id, $target_obj_id);
 
 			$target->update();
 		}
@@ -133,7 +133,7 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 							);
 		if ($ilDB->numRows($res) > 0) {
 			$ilDB->manipulate("INSERT INTO il_certificate (obj_id)".
-							  " VALUES ".$ilDB->quote($target_obj_id, "integer")
+							  " VALUES (".$ilDB->quote($target_obj_id, "integer").")"
 							 );
 		}
 	}
