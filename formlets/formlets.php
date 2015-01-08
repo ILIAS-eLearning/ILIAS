@@ -57,7 +57,7 @@ class TextInputFormlet extends Formlet {
         $name = $res["name"];
         return array
             ( "builder"    => new TagBuilder( "text_input"
-                                            , _function(1, function($a) use ($name) {
+                                            , _function(function($a) use ($name) {
                                                 return $this->getAttributes($name, $a);
                                               })
                                             , _const(null)
@@ -114,10 +114,10 @@ class TextAreaFormlet extends Formlet {
         $name = $res["name"];
         return array
             ( "builder"    => new TagBuilder( "textarea"
-                                            , _function(1, function($a) use ($name) {
+                                            , _function(function($a) use ($name) {
                                                 return $this->getAttributes($name, $a);
                                               })
-                                            , _function(1, function($a) use ($name) {
+                                            , _function(function($a) use ($name) {
                                                 return $this->getContent($name, $a);
                                               })
                                             )
@@ -188,7 +188,7 @@ class CheckboxFormlet extends Formlet {
         $name = $res["name"];
         return array
             ( "builder"    => new TagBuilder( "checkbox"
-                                            , _function(1, function($a) use ($name) {
+                                            , _function(function($a) use ($name) {
                                                     return $this->getAttributes($name, $a);
                                                 })
                                             , _const(null)
@@ -248,7 +248,7 @@ class SubmitButtonFormlet extends Formlet {
                     ;
         return array
             ( "builder"    => new TagBuilder( "submit_button"
-                                            , _function(1, function($a) use ($name) {
+                                            , _function(function($a) use ($name) {
                                                     return $this->getAttributes($name, $a);
                                                 })
                                             , _const(null)

@@ -27,7 +27,7 @@ function print_r_id($val) {
 function alwaysTrue() {
     static $fn = null;
     if ($fn === null) {
-        $fn = _function(1, function ($val) {
+        $fn = _function(function ($val) {
             return true;
         });
     }
@@ -40,7 +40,7 @@ class TestException extends Exception {
 function alwaysThrows0 () {
     static $fn = null;
     if ($fn === null) {
-        $fn = _function(0, function () {
+        $fn = _function(function () {
             throw new TestException("test exception");
         });
     }
@@ -50,7 +50,7 @@ function alwaysThrows0 () {
 function alwaysThrows1 () {
     static $fn = null;
     if ($fn === null) {
-        $fn = _function(1, function ($one) {
+        $fn = _function(function ($one) {
             throw new TestException("test exception");
         });
     }
@@ -60,7 +60,7 @@ function alwaysThrows1 () {
 function alwaysThrows2 () {
     static $fn = null;
     if ($fn === null) {
-        $fn = _function(2, function ($one, $two) {
+        $fn = _function(function ($one, $two) {
             throw new TestException("test exception");
         });
     }
@@ -131,7 +131,7 @@ function _test_PlainValue(Value $value, $val, $origin) {
 }
 
 function test_FunctionValue() {
-    $fn = _function(1, function($v) { return $v; });
+    $fn = _function(function($v) { return $v; });
     $fn2 = alwaysThrows1()
             ->catchAndReify("TestException");
     $fn3 = alwaysThrows2()
@@ -153,14 +153,14 @@ function test_FunctionValue() {
         , "Function still catches after application"
             => andR(_test_ErrorValue($fn3->apply($value)->apply($value), "test exception", null))
         , "Function value returns correct results for intval"
-            => _test_FunctionValue_results( function($a) { return intval($a); }, 1
+            => _test_FunctionValue_results( function($a) { return intval($a); }
                                           , array( array("12")
                                                  , array("122123")
                                                  , array("45689")
                                                  )
                                           )
         , "Function value returns correct results for explode"
-            => _test_FunctionValue_results( function($a, $b) { return explode($a, $b); }, 2 
+            => _test_FunctionValue_results( function($a, $b) { return explode($a, $b); }
                                           , array( array(" ", "Hello World")
                                                  , array(";", "1;2")
                                                  , array("-", "2015-01-02")
@@ -196,11 +196,11 @@ function _test_FunctionValue($fn, $value, $arity) {
         );
 }
 
-function _test_FunctionValue_result($fun, $arity, $args) {
-    $fn = _function($arity, $fun);
+function _test_FunctionValue_result($fun, $args) {
+    $fn = _function($fun);
     $res1 = call_user_func_array($fun, $args);
     $tmp = $fn;
-    for ($i = 0; $i < $arity; ++$i) {
+    for ($i = 0; $i < $fn->arity(); ++$i) {
         $tmp = $tmp->apply(_value($args[$i]));
     }
     $res2 = $tmp->get();
@@ -208,10 +208,10 @@ function _test_FunctionValue_result($fun, $arity, $args) {
     return $res1 === $res2;
 }
 
-function _test_FunctionValue_results($fn_name, $arity, $argss) {
+function _test_FunctionValue_results($fn_name, $argss) {
     $result = true;
     foreach ($argss as $args) {
-        $result = $result && _test_FunctionValue_result($fn_name, $arity, $args);
+        $result = $result && _test_FunctionValue_result($fn_name, $args);
     }
     return $result;
 }

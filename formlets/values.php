@@ -113,9 +113,8 @@ final class FunctionValue extends Value {
      * When finally calling the wrapped function, Exceptions given as 
      * reify_exceptions will be caught and turned into an ErrorValue as return.
      */
-    public function __construct( $arity, Closure $function
-                               , $args = null, $reify_exceptions = null
-                               , $origin = null) {
+    public function __construct( Closure $function, $args = null
+                               , $reify_exceptions = null, $origin = null) {
         $args = defaultTo($args, array());
         $reify_exceptions = defaultTo($reify_exceptions, array());
 
@@ -123,11 +122,15 @@ final class FunctionValue extends Value {
             $args[$key] = $this->toValue($value);
         }
 
-        guardIsInt($arity);
         guardIsArray($args);
         guardIsArray($reify_exceptions);
 
-        $this->_arity = $arity;
+        $ref = new ReflectionFunction($function);
+
+        $this->_arity = $ref->getNumberOfParameters() - count($args);
+        if ($this->_arity < 0) {
+            throw new Exception("FunctionValue::__construct: more args then parameters.");
+        }
         $this->_function = $function;
         $this->_args = $args;
         $this->_reify_exceptions = $reify_exceptions;
@@ -136,8 +139,7 @@ final class FunctionValue extends Value {
     }
 
     protected function withOriginalValue($value) {
-        return new FunctionValue( $this->_arity
-                                , $this->_function
+        return new FunctionValue( $this->_function
                                 , $this->_args
                                 , $this->_reify_exceptions
                                 , $this->origin()
@@ -194,8 +196,7 @@ final class FunctionValue extends Value {
         guardIsString($exc_class);
         $re = $this->_reify_exceptions;
         $re[] = $exc_class;
-        return new FunctionValue( $this->_arity
-                                , $this->_function
+        return new FunctionValue( $this->_function
                                 , $this->_args
                                 , $re
                                 , $this->origin()
@@ -237,8 +238,7 @@ final class FunctionValue extends Value {
     /* Helper to create a new function value with one less arity. */
     private function deferredCall($args, $next_value) {
         $args[] = $next_value;
-        return new FunctionValue( $this->_arity - 1
-                                , $this->_function
+        return new FunctionValue( $this->_function
                                 , $args
                                 , $this->_reify_exceptions
                                 , $this->origin()
@@ -308,8 +308,8 @@ final class FunctionValue extends Value {
  * of arguments to be inserted in the first arguments of the function
  * could be passed 
  */
-function _function($arity, Closure $function, $args = null) {
-    return new FunctionValue($arity, $function, null, $args);
+function _function(Closure $function, $args = null) {
+    return new FunctionValue($function, null, $args);
 }
 
 /*function _method($arity, $object, $method_name, $args = null) {

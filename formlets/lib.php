@@ -26,7 +26,7 @@ function appendRecursive($array, $value) {
     }
     else {
         $array[] = $value;
-        return _function(1, function($a) use ($array) {
+        return _function(function($a) use ($array) {
             return appendRecursive($array, $a);
         });
     }
@@ -35,7 +35,7 @@ function appendRecursive($array, $value) {
 function _collect() {
     static $fn = null;
     if ($fn === null) {
-        $fn = _function(1, function($a) {
+        $fn = _function(function($a) {
             return appendRecursive(array(), $a);
         });
     } 
@@ -45,7 +45,7 @@ function _collect() {
 function _const($val) {
     static $fn = null;
     if ($fn === null) {
-        $fn = _function(1, function($v) use ($val) {
+        $fn = _function(function($v) use ($val) {
             return $val;
         });
     }
@@ -55,7 +55,7 @@ function _const($val) {
 function _intval() {
     static $fn = null;
     if ($fn === null) {
-        $fn = _function(1, function($val) {
+        $fn = _function(function($val) {
             return intval($val);
         });
     }
