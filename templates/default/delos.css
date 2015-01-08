@@ -10036,7 +10036,7 @@ div.ilCreationFormSection .form-horizontal {
   padding-top: 1px;
 }
 .ilObjListRow {
-  border-bottom: 1px solid #f9f9f9;
+  border-bottom: 1px solid #f0f0f0;
   background-color: #ffffff;
 }
 .ilObjListRow:hover {
@@ -10700,6 +10700,10 @@ div.ilChecklist ul li img {
 }
 .ilSetupContent div.ilChecklist {
   min-width: 200px;
+}
+/* Modules/WorkspaceFolder */
+#tbl_wfld.table-striped > tbody > tr > td {
+  background-color: transparent;
 }
 .noMargin {
   margin: 0;
