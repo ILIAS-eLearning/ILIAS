@@ -1675,26 +1675,6 @@ class ilSetup extends PEAR
 		
 		return "";
 		
-/*
-		// generate gif with convert
-		if (file_exists(ILIAS_ABSOLUTE_PATH."/images/test.gif"))
-		{
-			unlink(ILIAS_ABSOLUTE_PATH."/images/test.png");
-		}
-
-		system($a_convert_path." ".ILIAS_ABSOLUTE_PATH."/setup/test/test.jpg GIF:".ILIAS_ABSOLUTE_PATH."/setup/test/test.png");
-	
-		// check wether convert generated file
-		if (file_exists(ILIAS_ABSOLUTE_PATH."/setup/test/test.png"))
-		{
-			unlink(ILIAS_ABSOLUTE_PATH."/setup/test/test.png");
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-*/
 	}
 
 	/**

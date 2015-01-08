@@ -608,3 +608,4 @@ ps_auto_https_header_name#:#Header Name
 ps_auto_https_header_value#:#Header Value
 ps_auto_https#:#Autodetect HTTPS
 https_settings#:#HTTPS Settings
+alert#:#Warning

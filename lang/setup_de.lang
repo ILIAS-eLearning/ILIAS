@@ -617,3 +617,4 @@ ps_auto_https_description#:#Wenn aktiviert, versucht ILIAS den HTTPS-Status eine
 ps_auto_https_header_name#:#Headername
 ps_auto_https_header_value#:#Headerwert
 https_settings#:#HTTPS-Einstellungen
+alert#:#Warnung
