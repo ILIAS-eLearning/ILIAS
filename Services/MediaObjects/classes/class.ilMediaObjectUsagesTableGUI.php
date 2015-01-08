@@ -28,6 +28,10 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 		$this->include_hist = $a_include_hist;
 		$this->addColumn($lng->txt("mob_object"));
 		$this->addColumn($this->lng->txt("type"));
+		if ($a_include_hist)
+		{
+			$this->addColumn($this->lng->txt("cont_versions"));
+		}
 		//$this->setEnableHeader(false);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.mob_usage_row.html", "Services/MediaObjects");
@@ -93,7 +97,6 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 			$usage["type"] = $us_arr[1];
 			$cont_type = $us_arr[0];
 		}
-//var_dump($usage);
 
 		include_once('./Services/Link/classes/class.ilLink.php');
 
@@ -184,6 +187,22 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 							$item["obj_link"] = ilLink::_getStaticLink($ref_id, $cont_type);
 						}
 						break;
+
+					default:
+						include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+						$oid = ilObjMediaObject::getParentObjectIdForUsage($a_set);
+						if ($oid > 0)
+						{
+							$type = ilObject::_lookupType($oid);
+							$item["obj_type_txt"] = $this->lng->txt("obj_".$type);
+							$item["obj_title"] = ilObject::_lookupTitle($oid);
+							$ref_id = $this->getFirstWritableRefId($oid);
+							if ($ref_id > 0)
+							{
+								$item["obj_link"] = ilLink::_getStaticLink($ref_id, $type);
+							}
+						}
+						break;
 				}
 				break;
 
@@ -205,41 +224,44 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 		}
 		
 		// show versions
-		if (is_array($usage["hist_nr"]) &&
-			(count($usage["hist_nr"]) > 1 || $usage["hist_nr"][0] > 0))
+		if ($this->include_hist)
 		{
-			asort($usage["hist_nr"]);
-			$ver = $sep = "";
-			if ($usage["hist_nr"][0] == 0)
+			$ver = "";
+			if (is_array($usage["hist_nr"]) &&
+				(count($usage["hist_nr"]) > 1 || $usage["hist_nr"][0] > 0))
 			{
-				array_shift($usage["hist_nr"]);
-				$usage["hist_nr"][] = 0;
-			}
-			if (count($usage["hist_nr"]) > 5)
-			{
-				$ver.= "..., ";
-				$cnt = count($usage["hist_nr"]) - 5;
-				for ($i = 0; $i < $cnt; $i++)
+				asort($usage["hist_nr"]);
+				$ver = $sep = "";
+				if ($usage["hist_nr"][0] == 0)
 				{
-					unset($usage["hist_nr"][$i]);
+					array_shift($usage["hist_nr"]);
+					$usage["hist_nr"][] = 0;
 				}
-			}
+				if (count($usage["hist_nr"]) > 5)
+				{
+					$ver.= "..., ";
+					$cnt = count($usage["hist_nr"]) - 5;
+					for ($i = 0; $i < $cnt; $i++)
+					{
+						unset($usage["hist_nr"][$i]);
+					}
+				}
 
-			foreach ($usage["hist_nr"] as $nr)
-			{
-				if ($nr > 0)
+				foreach ($usage["hist_nr"] as $nr)
 				{
-					$ver.= $sep.$nr;
+					if ($nr > 0)
+					{
+						$ver.= $sep.$nr;
+					}
+					else
+					{
+						$ver.= $sep.$this->lng->txt("cont_current_version");
+					}
+					$sep = ", ";
 				}
-				else
-				{
-					$ver.= $sep.$this->lng->txt("cont_current_version");
-				}
-				$sep = ", ";
-			}
 
+			}
 			$this->tpl->setCurrentBlock("versions");
-			$this->tpl->setVariable("TXT_VERSIONS", $this->lng->txt("cont_versions"));
 			$this->tpl->setVariable("VAL_VERSIONS", $ver);
 			$this->tpl->parseCurrentBlock();
 		}
