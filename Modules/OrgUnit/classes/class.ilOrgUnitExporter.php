@@ -22,16 +22,23 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 			$orgu = new ilObjOrgUnit($orgu_ref_id);
 			if($orgu->getRefId() == ilObjOrgUnit::getRootOrgRefId())
 				continue;
-			$attrs = $this->getAttrForOrgu($orgu);
-			$writer->xmlStartTag("OrgUnit", $attrs);
-			$writer->xmlElement("reference_id", null, $orgu->getRefId());
-			$writer->xmlElement("external_id", null, $orgu->getImportId());
+			$attributes = $this->getAttributesForOrgu($orgu);
+			$writer->xmlStartTag("OrgUnit", $attributes);
+			$writer->xmlElement("external_id", null, $this->buildExternalId($orgu_ref_id));
 			$writer->xmlElement("title", null, $orgu->getTitle());
 			$writer->xmlElement("description", null, $orgu->getDescription());
 			$writer->xmlEndTag("OrgUnit");
 		}
 		$writer->xmlEndTag("OrgUnits");
 		return $writer;
+	}
+
+	/**
+	 * @param $orgu_ref_id int
+	 * @return string
+	 */
+	protected function buildExternalId($orgu_ref_id) {
+		return "orgu_".CLIENT_ID."_".$orgu_ref_id;
 	}
 
 	public function simpleExportExcel($orgu_ref_id){
@@ -61,7 +68,7 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 			if($orgu->getRefId() == ilObjOrgUnit::getRootOrgRefId())
 				continue;
 			$row++;
-			$attrs = $this->getAttrForOrgu($orgu);
+			$attrs = $this->getAttributesForOrgu($orgu);
 			$worksheet->write($row, 0, $attrs["ou_id"]);
 			$worksheet->write($row, 1, $attrs["ou_id_type"]);
 			$worksheet->write($row, 2, $attrs["ou_parent_id"]);
@@ -117,8 +124,6 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 		);
 	}
 
-//	public function lookupExportDirectory()
-
 	private function getStructure($root_node_ref){
 		global $tree;
 		$open = array($root_node_ref);
@@ -138,18 +143,17 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 	 * @param $orgu ilObjOrgUnit
 	 * @return array
 	 */
-	private function getAttrForOrgu($orgu){
+	private function getAttributesForOrgu($orgu){
 		global $tree;
 		$parent_ref = $tree->getParentId($orgu->getRefId());
 		if($parent_ref != ilObjOrgUnit::getRootOrgRefId()){
-			$parent = new ilObjOrgUnit($parent_ref);
-			$ou_parent_id = $parent->getRefId();
+			$ou_parent_id = $this->buildExternalId($parent_ref);
 		} else {
 			$ou_parent_id = "__ILIAS";
 		}
 		// Only the ref id is guaranteed to be unique.
-		$ou_id = $orgu->getRefId();
-		$attr = array("ou_id" => $ou_id, "ou_id_type" => "reference_id", "ou_parent_id" => $ou_parent_id, "ou_parent_id_type" => "reference_id", "action" => "create");
+		$ref_id = $orgu->getRefId();
+		$attr = array("ou_id" => $this->buildExternalId($ref_id), "ou_id_type" => "external_id", "ou_parent_id" => $ou_parent_id, "ou_parent_id_type" => "external_id", "action" => "create");
 		return $attr;
 	}
 }
