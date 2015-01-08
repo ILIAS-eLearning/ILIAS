@@ -64,6 +64,8 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 			$questionSet = $this->mergeQuestionCollections($questionSet, $questions);
 		}
 
+		$questionSet = $this->handleQuestionOrdering($questionSet);
+
 		$this->storeQuestionSet($testSession, $questionSet);
 	}
 

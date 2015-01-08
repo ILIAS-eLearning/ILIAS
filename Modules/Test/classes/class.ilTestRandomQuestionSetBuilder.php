@@ -144,11 +144,6 @@ abstract class ilTestRandomQuestionSetBuilder
 			$questionSet[] = $questionStage[$randomKey];
 		}
 
-		if( $this->testOBJ->getShuffleQuestions() )
-		{
-			shuffle($questionSet);
-		}
-
 		return $questionSet;
 	}
 
@@ -165,6 +160,16 @@ abstract class ilTestRandomQuestionSetBuilder
 		}
 
 		return array( array_rand($array, $numKeys) );
+	}
+
+	protected function handleQuestionOrdering($questionSet)
+	{
+		if( $this->testOBJ->getShuffleQuestions() )
+		{
+			shuffle($questionSet);
+		}
+
+		return $questionSet;
 	}
 
 	// =================================================================================================================

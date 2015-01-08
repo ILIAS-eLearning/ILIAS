@@ -26,6 +26,8 @@ class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuesti
 			$questionStage, $this->questionSetConfig->getQuestionAmountPerTest()
 		);
 
+		$questionSet = $this->handleQuestionOrdering($questionSet);
+
 		$this->storeQuestionSet($testSession, $questionSet);
 	}
 
