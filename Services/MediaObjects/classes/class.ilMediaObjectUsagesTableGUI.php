@@ -26,8 +26,9 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->media_object = $a_media_object;
 		$this->include_hist = $a_include_hist;
-		$this->addColumn("", "", "1");	// checkbox
-		$this->setEnableHeader(false);
+		$this->addColumn($lng->txt("mob_object"));
+		$this->addColumn($this->lng->txt("type"));
+		//$this->setEnableHeader(false);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.mob_usage_row.html", "Services/MediaObjects");
 		$this->getItems();
@@ -245,10 +246,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 
 		if ($item["obj_type_txt"] != "")
 		{
-			$this->tpl->setCurrentBlock("type");
-			$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("type"));
 			$this->tpl->setVariable("VAL_TYPE", $item["obj_type_txt"]);
-			$this->tpl->parseCurrentBlock();
 		}
 
 		if ($usage["type"] != "clip")
