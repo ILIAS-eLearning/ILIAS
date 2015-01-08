@@ -134,7 +134,7 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 		if ($ilDB->numRows($res) > 0) {
 			$ilDB->manipulate("INSERT INTO il_certificate (obj_id)".
 							  " VALUES (".$ilDB->quote($target_obj_id, "integer").")".
-							  " ON DUPLICATE VALUE obj_id = ".$ilDB->quote($target_obj_id, "integer")
+							  " ON DUPLICATE KEY UPDATE obj_id = ".$ilDB->quote($target_obj_id, "integer")
 							 );
 		}
 	}
