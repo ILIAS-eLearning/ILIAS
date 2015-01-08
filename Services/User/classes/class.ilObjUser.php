@@ -1112,11 +1112,18 @@ class ilObjUser extends ilObject
 	 */
 	public static function _writePref($a_usr_id, $a_keyword, $a_value)
 	{
-		/**
-		 * @var $ilDB ilDB
-		 */
 		global $ilDB;
-		
+		$ilDB->replace("usr_pref",
+			array(
+				"usr_id" => array("integer", $a_usr_id),
+				"keyword" => array("text", $a_keyword),
+			),
+			array(
+				"value" => array("text",$a_value)
+			)
+		);
+
+		/*
 		self::_deletePref($a_usr_id, $a_keyword);
 		if(strlen($a_value))
 		{
@@ -1125,7 +1132,7 @@ class ilObjUser extends ilObject
 				array('integer', 'text', 'text'),
 				array($a_usr_id, $a_keyword, $a_value)
 			);
-		}
+		}*/
 	}
 
 	/**
