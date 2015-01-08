@@ -141,9 +141,12 @@ class ilTEPOperationDays
 	// 
 	
 	/**
+	 * Get operating days for users
 	 * 
+	 * @param int $a_user_ids
+	 * @param bool $a_include_weight
 	 */
-	public function getDaysForUsers(array $a_user_ids)
+	public function getDaysForUsers(array $a_user_ids, $a_include_weight = false)
 	{
 		global $ilDB;
 		
@@ -156,16 +159,23 @@ class ilTEPOperationDays
 			$valid_comp[$idx] = $day->get(IL_CAL_DATE);
 		}
 		
-		$missing = array();
+		$missing = $weighted = array();
 		
-		$sql = "SELECT user_id,miss_day".
+		$sql = "SELECT user_id,miss_day,weight".
 			" FROM tep_op_days".
 			" WHERE ".$ilDB->in("user_id", $a_user_ids, "", "integer").
 			" AND ".$this->getObjectWhere();
 		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			$missing[$row["user_id"]][] = $row["miss_day"];			
+			if(!$row["weight"])
+			{
+				$missing[$row["user_id"]][] = $row["miss_day"];			
+			}
+			else if($a_include_weight)
+			{
+				$weighted[$row["user_id"]][$row["miss_day"]] = $row["weight"];		
+			}
 		}
 		
 		$res = array();
@@ -187,6 +197,25 @@ class ilTEPOperationDays
 						$res[$user_id][] = $valid[$idx]; 
 					}
 				}				
+			}
+		}
+		
+		if($a_include_weight)
+		{
+			foreach($res as $user_id => $days)
+			{
+				foreach($days as $day_idx => $day)
+				{
+					$day_comp = $day->get(IL_CAL_DATE);
+
+					$weight = 100;
+					if(isset($weighted[$user_id][$day_comp]))
+					{
+						$weight = $weighted[$user_id][$day_comp];
+					}
+
+					$res[$user_id][$day_idx] = array($day, $weight);
+				}
 			}
 		}
 		
@@ -217,9 +246,10 @@ class ilTEPOperationDays
 	 * 
 	 * @param int $a_user_id
 	 * @param ilDate $a_day
+	 * @param int $a_weight
 	 * @return bool
 	 */
-	protected function insertEntry($a_user_id, ilDate $a_day)
+	protected function insertEntry($a_user_id, ilDate $a_day, $a_weight = null)
 	{
 		global $ilDB;
 		
@@ -228,6 +258,7 @@ class ilTEPOperationDays
 			,"obj_id" => array("integer", $this->getObjectId())
 			,"user_id" => array("integer", $a_user_id)
 			,"miss_day" => array("date", $a_day->get(IL_CAL_DATE))
+			,"weight" => array("integer", $a_weight)
 		);		
 		$ilDB->insert("tep_op_days", $fields);
 	}
@@ -289,8 +320,9 @@ class ilTEPOperationDays
 	 * 
 	 * @param int $a_user_id
 	 * @param array $a_days
+	 * @param array $a_weights
 	 */
-	public function setDaysForUser($a_user_id, array $a_days)
+	public function setDaysForUser($a_user_id, array $a_days, array $a_weights)
 	{
 		$this->deleteEntries($a_user_id);
 		
@@ -306,9 +338,16 @@ class ilTEPOperationDays
 		foreach($this->getValidDays() as $day)
 		{
 			$date = $day->get(IL_CAL_DATE);
+			
+			// missing
 			if(!in_array($date, $a_days))
 			{			
 				$this->insertEntry($a_user_id, $day);
+			}
+			else if(array_key_exists($date, $a_weights) &&
+				$a_weights[$date] != 100)
+			{
+				$this->insertEntry($a_user_id, $day, $a_weights[$date]);
 			}
 		}
 		
@@ -325,24 +364,32 @@ class ilTEPOperationDays
 	 * Get user operation days
 	 * 
 	 * @param int $a_user_id
+	 * @param bool $a_include_weight
 	 * @return array
 	 */
-	public function getDaysForUser($a_user_id)
+	public function getDaysForUser($a_user_id, $a_include_weight = false)
 	{
 		global $ilDB;
 		
 		$res = array();
 		
-		$sql = "SELECT miss_day".
+		$sql = "SELECT miss_day, weight".
 			" FROM tep_op_days".
 			" WHERE ".$this->getObjectWhere($a_user_id);
 		$set = $ilDB->query($sql);
 		if($ilDB->numRows($set))
 		{
-			$missing = array();
+			$missing = $weighted = array();
 			while($row = $ilDB->fetchAssoc($set))
 			{
-				$missing[] = $row["miss_day"];			
+				if(!$row["weight"])
+				{
+					$missing[] = $row["miss_day"];			
+				}
+				else if($a_include_weight)
+				{
+					$weighted[$row["miss_day"]] = $row["weight"];
+				}					
 			}
 			
 			foreach($this->getValidDays() as $day)
@@ -358,6 +405,22 @@ class ilTEPOperationDays
 		else
 		{
 			$res = $this->getValidDays();
+		}
+		
+		if($a_include_weight)
+		{
+			foreach($res as $day_idx => $day)
+			{
+				$day_comp = $day->get(IL_CAL_DATE);
+
+				$weight = 100;
+				if(isset($weighted[$day_comp]))
+				{
+					$weight = $weighted[$day_comp];
+				}
+
+				$res[$day_idx] = array($day, $weight);
+			}			
 		}
 		
 		return $res;

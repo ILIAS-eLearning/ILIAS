@@ -137,6 +137,30 @@ if(!$update)
 		);
 		$ilDB->createTable('tep_op_days', $fields);
 	}	
+	
+	// calendar entry weight
+	if(!$ilDB->tableColumnExists('cal_entries', 'entry_weight'))
+	{
+		$ilDB->addTableColumn('cal_entries', 'entry_weight', 
+			array(
+				'type' => 'integer', 
+				'length' => 1, 
+				'notnull' => false, 
+				'default' => ''
+		));			
+	}
+	
+	// operation day weight
+	if(!$ilDB->tableColumnExists('tep_op_days', 'weight'))
+	{
+		$ilDB->addTableColumn('tep_op_days', 'weight', 
+			array(
+				'type' => 'integer', 
+				'length' => 1, 
+				'notnull' => false, 
+				'default' => ''
+		));			
+	}
 
 
 	//
@@ -200,6 +224,7 @@ $lang_data = array(
 	,"filter_orgu_rcrsv" => array("rekursiv?", "recursive?")
 	,"filter_tutor" => array("Tutor", "Trainer")
 	,"filter_tutor_empty" => array("Die Auswahl der Organisationseinheiten enthält keine Tutoren.", "The selected organisational units did not yield any trainers.")
+	,"weighing_input" => array("Tag zu %s werten", "Day Weight: %s")
 );
 
 echo "<br />lng update.";

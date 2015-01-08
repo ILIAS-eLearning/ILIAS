@@ -15,8 +15,7 @@ require_once "Services/Calendar/classes/class.ilCalendarCategoryAssignments.php"
 class ilTEPEntry extends ilCalendarEntry
 {
 	protected $owner_id; // [int]
-	protected $derived_user_ids; // [array]
-	protected $type; // [int]
+	protected $derived_user_ids; // [array]	
 	protected $type_title; // [string]
 		
 	const OPERATION_DAY_ID = "tep_entry";	

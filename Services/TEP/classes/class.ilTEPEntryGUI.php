@@ -224,13 +224,12 @@ class ilTEPEntryGUI
 		$tpl->addJavaScript('./Services/Form/js/date_duration.js');
 		$period = new ilDateDurationInputGUI($lng->txt("tep_entry_period"), "period");
 		$period->setRequired(true);
-		$period->setShowDate(true);
 		$period->setShowTime(true);
-		$period->setMinuteStepSize(5);
 		$period->setStartText($lng->txt('cal_start'));
 		$period->setEndText($lng->txt('cal_end'));
-		$period->enableToggleFullTime($lng->txt('cal_fullday_title'),
-			(bool)$_POST["period"]["fulltime"]); // not reloaded properly
+		/* $period->enableToggleFullTime($lng->txt('cal_fullday_title'),
+			(bool)$_POST["period"]["fulltime"]); // not reloaded properly */
+		$period->setShowWeight(true);
 		$form->addItem($period);
 
 		// venue
@@ -292,6 +291,15 @@ class ilTEPEntryGUI
 			$a_entry->setStart(new ilDateTime($start, IL_CAL_DATETIME));
 			$a_entry->setEnd(new ilDateTime($end, IL_CAL_DATETIME));
 		}	
+		
+		if(substr($start, 0, 10) == substr($end, 0, 10))
+		{			
+			$a_entry->setWeight($a_form->getInput("period_wapp"));
+		}
+		else
+		{
+			$a_entry->setWeight(null);
+		}
 	}
 	
 	/**
@@ -314,7 +322,7 @@ class ilTEPEntryGUI
 			$period = $a_form->getItemByPostVar("period");			
 			$period->setStart(new ilDateTime($date." 09:00:00", IL_CAL_DATETIME));								
 			$period->setEnd(new ilDateTime($date." 17:00:00", IL_CAL_DATETIME));
-		}		
+		}						
 	}
 	
 	/**
@@ -393,8 +401,14 @@ class ilTEPEntryGUI
 		$period = $a_form->getItemByPostVar("period");
 		$period->setStart($a_entry->getStart());
 		$period->setEnd($a_entry->getEnd());
+		/*
 		$period->enableToggleFullTime($lng->txt('cal_fullday_title'),
-			$a_entry->isFullday()); // no way to set it otherwise
+			$a_entry->isFullday()); // no way to set it otherwise	
+		*/
+		if($a_entry->getWeight() !== null)
+		{
+			$period->setCurrentWeight($a_entry->getWeight());
+		}
 			
 		// derived
 		$derived = $a_entry->getDerivedUsers();				

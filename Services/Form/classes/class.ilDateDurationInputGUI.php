@@ -47,6 +47,11 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	protected $more_values = array();
 	// gev-patch end
 	
+	// gev-patch start		
+	protected $show_weight = false; // [bool]
+	protected $current_weight; // [int]
+	// gev-patch end
+	
 	/**
 	* Constructor
 	*
@@ -636,7 +641,10 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 					$this->getStartYear(),
 					true,
 					array(
-						'disabled' => $this->getDisabled()
+						'disabled' => $this->getDisabled(),
+						// patch generali start
+						'select_attributes' => array('onchange' => 'ilTEPWeight(\''.$this->getPostVar().'\');')
+						// patch generali start
 						),
 					$this->getShowEmpty()));
 		}
@@ -678,6 +686,20 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		{
 			$tpl->setVariable("DELIM", "<br />");
 		}
+		
+		// patch generali start		
+		if($this->show_weight)
+		{			
+			$weight_select = ilUtil::formSelect(
+				(int)$this->current_weight, 
+				$this->getPostVar()."_wapp", 
+				ilTEP::getWeightOptions(), 
+				false, 
+				true);
+			$tpl->setVariable("WEIGHT_SELECT", 
+				sprintf($lng->txt("tep_weighing_input"), $weight_select));
+		}
+		// patch generali end
 
 		// gev-patch start
 		if($this->getMulti() && !$this->getDisabled())
@@ -761,5 +783,27 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	public function setMoreValues($a_values) {
 		$this->more_values = $a_values;
 	}
+	
+	/**
+	 * Enable weighing
+	 * 
+	 * @param bool $a_status
+	 */
+	public function setShowWeight($a_status)
+	{
+		$this->show_weight = (bool)$a_status;
+		$this->current_weight = 100;
+	}
+	
+	/**
+	 * Set weight
+	 * 
+	 * @param int $a_current
+	 */
+	public function setCurrentWeight($a_current)
+	{
+		$this->current_weight = (int)$a_current;
+	}
+	
 	// gev-patch end
 }
