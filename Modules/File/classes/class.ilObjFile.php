@@ -897,10 +897,11 @@ class ilObjFile extends ilObject2
 	{
 		global $ilDB;
 		
+		/*
 		$ilDB->manipulate("DELETE FROM file_usage WHERE usage_type = ".
 			$ilDB->quote((string) $a_type, "text").
 			" AND usage_id = ".$ilDB->quote((int) $a_id, "integer").
-			" AND usage_lang = ".$ilDB->quote($a_lang, "text").
+			" AND usage_lang = ".$ilDB->quote($a_usage_lang, "text").
 			" AND usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer").
 			" AND id = ".$ilDB->quote((int) $a_file_id, "integer"));
 
@@ -911,6 +912,19 @@ class ilObjFile extends ilObject2
 			$ilDB->quote((int) $a_usage_hist_nr, "integer").",".
 			$ilDB->quote($a_usage_lang, "text").
 			")");
+		*/
+		
+		// #15143
+		$ilDB->replace("file_usage",
+			array(
+				"id" => array("integer", (int) $a_file_id),
+				"usage_type" => array("text", (string) $a_type),
+				"usage_id" => array("integer", (int) $a_id),
+				"usage_hist_nr" => array("integer", (int) $a_usage_hist_nr),
+				"usage_lang" => array("text", $a_usage_lang),
+			),
+			array()
+		);
 		
 		self::handleQuotaUpdate(new self($a_file_id, false));		
 	}
