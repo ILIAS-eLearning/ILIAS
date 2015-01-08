@@ -30,7 +30,7 @@ class ilRoleAdoptPermissionTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.obj_role_adopt_permission_row.html",
 		"Services/AccessControl");
-		$this->addCommandButton("Perm", $lng->txt("cancel"));
+		$this->addCommandButton("perm", $lng->txt("cancel"));
 		$this->addMultiCommand("adoptPermSave", $lng->txt("save"));
 
 		$this->setLimit(9999);
