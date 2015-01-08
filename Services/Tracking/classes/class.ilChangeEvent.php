@@ -199,7 +199,8 @@ class ilChangeEvent
 			}
 
 			$time_diff = $time - (int) $row->spent_seconds;
-
+			
+			/*
 			$query = sprintf('INSERT INTO read_event (obj_id,usr_id,last_access,read_count,spent_seconds,first_access) '.
 				'VALUES (%s,%s,%s,%s,%s,'.$ilDB->now().') ',
 				$ilDB->quote($obj_id,'integer'),
@@ -207,8 +208,22 @@ class ilChangeEvent
 				$ilDB->quote(time(),'integer'),
 				$ilDB->quote($read_count_init,'integer'),
 				$ilDB->quote($time,'integer'));
-				
-			$aff = $ilDB->manipulate($query);
+			$ilDB->manipulate($query);
+			*/
+			
+			// #10407
+			$ilDB->replace('read_event',
+				array(
+					'obj_id' => array('integer', $obj_id),
+					'usr_id' => array('integer', $usr_id),
+				),
+				array(
+					'read_count' => array('integer', $read_count_init),
+					'spent_seconds' => array('integer', $time),
+					'first_access' => array('timestamp', date("Y-m-d H:i:s")), // was $ilDB->now()
+					'last_access' => array('integer', time()),
+				)	
+			);			
 			
 			self::$has_accessed[$obj_id][$usr_id] = true;
 
@@ -261,6 +276,7 @@ class ilChangeEvent
 						{
 //echo "<br>3";
 //$ilLog->write("insert read event for obj_id -".$obj2_id."-".$usr_id."-");
+							/*
 							$query = sprintf('INSERT INTO read_event (obj_id,usr_id,last_access,read_count,spent_seconds,first_access,'.
 								'childs_read_count, childs_spent_seconds) '.
 								'VALUES (%s,%s,%s,%s,%s,'.$ilDB->now().', %s, %s) ',
@@ -273,6 +289,23 @@ class ilChangeEvent
 								$ilDB->quote((int) $time_diff,'integer')
 								);
 							$aff = $ilDB->manipulate($query);
+							*/
+							
+							// #10407
+							$ilDB->replace('read_event',
+								array(
+									'obj_id' => array('integer', $obj2_id),
+									'usr_id' => array('integer', $usr_id),
+								),
+								array(
+									'read_count' => array('integer', 1),
+									'spent_seconds' => array('integer', $time),
+									'first_access' => array('timestamp', date("Y-m-d H:i:s")), // was $ilDB->now()
+									'last_access' => array('integer', time()),
+									'childs_read_count' => array('integer', (int)$read_count_diff),
+									'childs_spent_seconds' => array('integer', (int)$time_diff),
+								)	
+							);		
 							
 							self::$has_accessed[$obj2_id][$usr_id] = true;
 							
