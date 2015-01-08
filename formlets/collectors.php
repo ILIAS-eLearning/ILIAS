@@ -20,8 +20,8 @@ abstract class Collector {
     abstract public function isNullaryCollector();
 
     /* Map a function over the collected value. */
-    final public function map(FunctionValue $fun) {
-        return new MappedCollector($this, $fun);    
+    final public function map(FunctionValue $transformation) {
+        return new MappedCollector($this, $transformation);    
     }
 }
 
@@ -123,15 +123,15 @@ final class CheckedCollector extends Collector {
 /* A collector where the input is mapped by a function */
 final class MappedCollector extends Collector {
     private $_collector; // Collector
-    private $_function; // FunctionValue
+    private $_transformation; // FunctionValue
     
-    public function __construct(Collector $collector, FunctionValue $function) {
-        guardHasArity($function, 1);
+    public function __construct(Collector $collector, FunctionValue $transformation) {
+        guardHasArity($transformation, 1);
         if ($collector->isNullaryCollector()) {
             throw new TypeError("non nullary collector", typeName($collector));
         }
         $this->_collector = $collector;
-        $this->_function = $function;
+        $this->_transformation = $transformation;
     }
 
     public function collect($inp) {
@@ -140,7 +140,7 @@ final class MappedCollector extends Collector {
             return $res;
         }
 
-        $res2 = $this->_function->apply($res);
+        $res2 = $this->_transformation->apply($res);
         if (!$res2->isError() && !$res2->isApplicable()) {
             // rewrap ordinary values to keep origin.
             $res2 = _value($res2->get(), $res->origin());
