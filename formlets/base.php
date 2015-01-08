@@ -10,6 +10,7 @@
  */
 
 require_once("checking.php");
+require_once("helpers.php");
 require_once("values.php");
 require_once("builders.php");
 require_once("collectors.php");
@@ -35,9 +36,11 @@ abstract class Formlet {
 
     /* Map a function over the input value. */
     final public function map(FunctionValue $transformation) {
-        return $this->map_RC( _id, _function(1, function ($collector) {
-            
-        });
+        return $this->map_RC( _function(1, "id")
+                            , _function( 1, "_map_collector"
+                                       , array($transformation)
+                                       )
+                            );
     }
 
     /* Map a function over the builder and collector. */
@@ -47,6 +50,9 @@ abstract class Formlet {
     }
 }
 
+function _map_collector($transformation, $collector) {
+    return $collector->map($transformation);
+};
 
 /* A PureFormlet collects a constant value and buildes to an empty string. */
 class PureFormlet extends Formlet {
@@ -119,6 +125,7 @@ class CheckedFormlet extends Formlet {
     }
 }
 
+
 /* A formlet where a function is applied to buiid builder and collector. */
 class MappedFormlet extends Formlet {
     private $_formlet; // Formlet
@@ -131,7 +138,6 @@ class MappedFormlet extends Formlet {
         guardHasArity($transform_builder, 1);
         guardHasArity($transform_collector, 1);
         $this->_formlet = $formlet;
-        $this->_transformation = $transformation;
         $this->_transform_builder = $transform_builder; 
         $this->_transform_collector = $transform_collector;
     }
