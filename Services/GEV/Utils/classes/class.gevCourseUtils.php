@@ -942,11 +942,9 @@ class gevCourseUtils {
 	// Materiallists
 	
 	public function isMaterialListSend() {
-		return false;
-		// TODO: to be implemented.
-		/*require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 		$am = new gevCrsAutoMails($this->getId());
-		return $am->getAutoMail("invitation");*/
+		return $am->getAutoMail("materiallist_for_storage")->getLastSend() !== null;
 	}
 	
 	public function getMaterialList() {
