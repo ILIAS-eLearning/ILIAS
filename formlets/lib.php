@@ -11,7 +11,11 @@ class Stop {
 }
 
 function stop() {
-    return _value(new Stop());
+    static $val = null;
+    if ($val === null) {
+        $val = _value(new Stop());
+    }
+    return $val;
 }
 
 // TODO: This could be refactored for sure!
