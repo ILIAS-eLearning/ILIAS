@@ -14,26 +14,48 @@ function stop() {
     return _value(new Stop());
 }
 
+// TODO: This could be refactored for sure!
+
 function appendRecursive($array, $value) {
     if ($value instanceof Stop) {
         return _value($array, null);
     }
     else {
         $array[] = $value;
-        return _function(1, "appendRecursive", array($array));
+        return _function(1, function($a) use ($array) {
+            return appendRecursive($array, $a);
+        });
     }
 }
 
 function _collect() {
-    return _function(1, "appendRecursive", array(array()));
-}
-
-function cconst($val, $any) {
-    return $val;
+    static $fn = null;
+    if ($fn === null) {
+        $fn = _function(1, function($a) {
+            return appendRecursive(array(), $a);
+        });
+    } 
+    return $fn;
 }
 
 function _const($val) {
-    return _function(1, "cconst", array($val)); 
+    static $fn = null;
+    if ($fn === null) {
+        $fn = _function(1, function($v) use ($val) {
+            return $val;
+        });
+    }
+    return $fn;
+}
+
+function _intval() {
+    static $fn = null;
+    if ($fn === null) {
+        $fn = _function(1, function($val) {
+            return intval($val);
+        });
+    }
+    return $fn;
 }
 
 

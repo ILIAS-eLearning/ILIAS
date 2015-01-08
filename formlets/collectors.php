@@ -157,7 +157,7 @@ abstract class CollectorWithName extends Collector {
     }
     
     public function __construct($name) {
-        guardIsName($name);
+        guardIsString($name);
         $this->_name = $name;
     }
 }

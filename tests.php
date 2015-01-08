@@ -23,25 +23,49 @@ function print_r_id($val) {
     return $val;
 }
 
-function alwaysTrue($val) {
-    return true;
+
+function alwaysTrue() {
+    static $fn = null;
+    if ($fn === null) {
+        $fn = _function(1, function ($val) {
+            return true;
+        });
+    }
+    return $fn;
 }
 
 class TestException extends Exception {
 };
 
-function alwaysThrows0() {
-    throw new TestException("test exception");
+function alwaysThrows0 () {
+    static $fn = null;
+    if ($fn === null) {
+        $fn = _function(0, function () {
+            throw new TestException("test exception");
+        });
+    }
+    return $fn;
+};
+
+function alwaysThrows1 () {
+    static $fn = null;
+    if ($fn === null) {
+        $fn = _function(1, function ($one) {
+            throw new TestException("test exception");
+        });
+    }
+    return $fn;
 }
 
-function alwaysThrows1($one) {
-    throw new TestException("test exception");
+function alwaysThrows2 () {
+    static $fn = null;
+    if ($fn === null) {
+        $fn = _function(2, function ($one, $two) {
+            throw new TestException("test exception");
+        });
+    }
+    return $fn;
 }
-
-function alwaysThrows2($one, $two) {
-    throw new TestException("test exception");
-}
-
 
 function raises(callable $fun, $args, $error) {
     try {
@@ -107,10 +131,10 @@ function _test_PlainValue(Value $value, $val, $origin) {
 }
 
 function test_FunctionValue() {
-    $fn = _function(1, "id");
-    $fn2 = _function(1, "alwaysThrows1")
+    $fn = _function(1, function($v) { return $v; });
+    $fn2 = alwaysThrows1()
             ->catchAndReify("TestException");
-    $fn3 = _function(2, "alwaysThrows2")
+    $fn3 = alwaysThrows2()
             ->catchAndReify("TestException");
     $val = rand();
     $origin = md5($val);
@@ -129,9 +153,19 @@ function test_FunctionValue() {
         , "Function still catches after application"
             => andR(_test_ErrorValue($fn3->apply($value)->apply($value), "test exception", null))
         , "Function value returns correct results for intval"
-            => _test_FunctionValue_results("intval", 1, array(array("12"), array("122123"), array("45689")))
+            => _test_FunctionValue_results( function($a) { return intval($a); }, 1
+                                          , array( array("12")
+                                                 , array("122123")
+                                                 , array("45689")
+                                                 )
+                                          )
         , "Function value returns correct results for explode"
-            => _test_FunctionValue_results("explode", 2, array(array(" ", "Hello World"), array(";", "1;2"), array("-", "2015-01-02")))
+            => _test_FunctionValue_results( function($a, $b) { return explode($a, $b); }, 2 
+                                          , array( array(" ", "Hello World")
+                                                 , array(";", "1;2")
+                                                 , array("-", "2015-01-02")
+                                                 )
+                                          )
         ));
 }
 
@@ -162,14 +196,15 @@ function _test_FunctionValue($fn, $value, $arity) {
         );
 }
 
-function _test_FunctionValue_result($fn_name, $arity, $args) {
-    $fn = _function($arity, $fn_name);
-    $res1 = call_user_func_array($fn_name, $args);
+function _test_FunctionValue_result($fun, $arity, $args) {
+    $fn = _function($arity, $fun);
+    $res1 = call_user_func_array($fun, $args);
     $tmp = $fn;
     for ($i = 0; $i < $arity; ++$i) {
         $tmp = $tmp->apply(_value($args[$i]));
     }
     $res2 = $tmp->get();
+    print_r(array($res1, $res2));
     return $res1 === $res2;
 }
 
@@ -243,13 +278,13 @@ print_and_record_test("Combined");
 
 function test_Checked() {
     $pure = _pure(_value(42));
-    return _test_isFormlet($pure->satisfies(_function(1, "alwaysTrue"), "ERROR"));
+    return _test_isFormlet($pure->satisfies(alwaysTrue(), "ERROR"));
 }
 print_and_record_test("Checked");
 
 function test_MappedCollector() {
     $pure = _pure(_value("1337"));
-    return _test_isFormlet($pure->mapCollector(_function(1, "intval")));
+    return _test_isFormlet($pure->mapCollector(_intval()));
 }
 print_and_record_test("MappedCollector");
 
@@ -397,4 +432,11 @@ catch(Exception $e) {
     }
 }
 */
+/*
+$foo = function() {
+    echo "Hello World!\n";
+};
 
+$foo();
+echo typeName($foo)."\n";
+*/

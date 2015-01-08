@@ -54,9 +54,12 @@ class TextInputFormlet extends Formlet {
 
     public function build(NameSource $name_source) {
         $res = $name_source->getNameAndNext();
+        $name = $res["name"];
         return array
             ( "builder"    => new TagBuilder( "text_input"
-                                            , _method(1, $this, "getAttributes", array($res["name"]))
+                                            , _function(1, function($a) use ($name) {
+                                                return $this->getAttributes($name, $a);
+                                              })
                                             , _const(null)
                                             )
             , "collector"   => new StringCollector($res["name"])
@@ -108,10 +111,15 @@ class TextAreaFormlet extends Formlet {
 
     public function build(NameSource $name_source) {
         $res = $name_source->getNameAndNext();
+        $name = $res["name"];
         return array
             ( "builder"    => new TagBuilder( "textarea"
-                                            , _method(1, $this, "getAttributes", array($res["name"]))
-                                            , _method(1, $this, "getContent", array($res["name"]))
+                                            , _function(1, function($a) use ($name) {
+                                                return $this->getAttributes($name, $a);
+                                              })
+                                            , _function(1, function($a) use ($name) {
+                                                return $this->getContent($name, $a);
+                                              })
                                             )
             , "collector"   => new StringCollector($res["name"])
             , "name_source" => $res["name_source"]
@@ -177,9 +185,12 @@ class CheckboxFormlet extends Formlet {
 
     public function build(NameSource $name_source) {
         $res = $name_source->getNameAndNext();
+        $name = $res["name"];
         return array
             ( "builder"    => new TagBuilder( "checkbox"
-                                            , _method(1, $this, "getAttributes", array($res["name"]))
+                                            , _function(1, function($a) use ($name) {
+                                                    return $this->getAttributes($name, $a);
+                                                })
                                             , _const(null)
                                             )
             , "collector"   => new ExistsCollector($res["name"])
@@ -230,13 +241,16 @@ class SubmitButtonFormlet extends Formlet {
 
     public function build(NameSource $name_source) {
         $res = $name_source->getNameAndNext();
+        $name = $res["name"];
         $collector = $this->_collects
-                    ? new ExistsCollector($res["name"])
+                    ? new ExistsCollector($name)
                     : new NullaryCollector()
                     ;
         return array
             ( "builder"    => new TagBuilder( "submit_button"
-                                            , _method(1, $this, "getAttributes", array($res["name"]))
+                                            , _function(1, function($a) use ($name) {
+                                                    return $this->getAttributes($name, $a);
+                                                })
                                             , _const(null)
                                             )
             , "collector"   => $collector

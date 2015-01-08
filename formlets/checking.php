@@ -43,11 +43,6 @@ function guardIsBool($arg) {
     } 
 }
 
-function guardIsName($arg) {
-    guardIsString($arg);
-    // ToDo: implement properly
-}
-
 function guardIsArray($arg) {
     if(!is_array($arg)) {
         throw new TypeError("array", typeName($arg));

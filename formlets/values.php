@@ -91,8 +91,7 @@ function _value($value, $origin = null) {
 
 final class FunctionValue extends Value {
     private $_arity; // int
-    private $_function_name; // string
-    private $_call_object; // object
+    private $_closure; // string
     private $_args; // array
     private $_reifyExceptions; // array
     private $_result; // maybe Value 
@@ -114,7 +113,9 @@ final class FunctionValue extends Value {
      * When finally calling the wrapped function, Exceptions given as 
      * reify_exceptions will be caught and turned into an ErrorValue as return.
      */
-    public function __construct($arity, $function_name, $call_object = null, $args = null, $reify_exceptions = null, $origin = null) {
+    public function __construct( $arity, Closure $function
+                               , $args = null, $reify_exceptions = null
+                               , $origin = null) {
         $args = defaultTo($args, array());
         $reify_exceptions = defaultTo($reify_exceptions, array());
 
@@ -123,15 +124,11 @@ final class FunctionValue extends Value {
         }
 
         guardIsInt($arity);
-        guardIsString($function_name);
-        if ($call_object !== null) 
-            guardIsObject($call_object);
         guardIsArray($args);
         guardIsArray($reify_exceptions);
 
         $this->_arity = $arity;
-        $this->_function_name = $function_name;
-        $this->_call_object = $call_object; 
+        $this->_function = $function;
         $this->_args = $args;
         $this->_reify_exceptions = $reify_exceptions;
         
@@ -140,8 +137,7 @@ final class FunctionValue extends Value {
 
     protected function withOriginalValue($value) {
         return new FunctionValue( $this->_arity
-                                , $this->_function_name
-                                , $this->_call_object
+                                , $this->_function
                                 , $this->_args
                                 , $this->_reify_exceptions
                                 , $this->origin()
@@ -199,8 +195,7 @@ final class FunctionValue extends Value {
         $re = $this->_reify_exceptions;
         $re[] = $exc_class;
         return new FunctionValue( $this->_arity
-                                , $this->_function_name
-                                , $this->_call_object
+                                , $this->_function
                                 , $this->_args
                                 , $re
                                 , $this->origin()
@@ -243,8 +238,7 @@ final class FunctionValue extends Value {
     private function deferredCall($args, $next_value) {
         $args[] = $next_value;
         return new FunctionValue( $this->_arity - 1
-                                , $this->_function_name
-                                , $this->_call_object
+                                , $this->_function
                                 , $args
                                 , $this->_reify_exceptions
                                 , $this->origin()
@@ -276,15 +270,7 @@ final class FunctionValue extends Value {
             return _error("Function arguments contain errors.", $this);
         }
 
-        if ($this->_call_object === null) {
-            return call_user_func_array
-                    ($this->_function_name, $args);
-        }
-        else {
-            return call_user_func_array
-                    ( array($this->_call_object, $this->_function_name)
-                    , $args);
-        }
+        return call_user_func_array($this->_function, $args);
     }
 
     /* Helper to get the values of the arguments to the function. */
@@ -322,13 +308,13 @@ final class FunctionValue extends Value {
  * of arguments to be inserted in the first arguments of the function
  * could be passed 
  */
-function _function($arity, $function_name, $args = null) {
-    return new FunctionValue($arity, $function_name, null, $args);
+function _function($arity, Closure $function, $args = null) {
+    return new FunctionValue($arity, $function, null, $args);
 }
 
-function _method($arity, $object, $method_name, $args = null) {
+/*function _method($arity, $object, $method_name, $args = null) {
     return new FunctionValue($arity, $method_name, $object, $args);
-}
+}*/
 
 /* Value representing an error. */
 final class ErrorValue extends Value {
