@@ -58,8 +58,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		parent::ilBlockGUI();
 		
 		$this->ctrl = $ilCtrl;
-		$this->setImage(ilUtil::getImagePath("icon_cals.svg"));
-		
+
 		$lng->loadLanguageModule("dateplaner");
 		$ilHelp->addHelpSection("cal_block");
 		
