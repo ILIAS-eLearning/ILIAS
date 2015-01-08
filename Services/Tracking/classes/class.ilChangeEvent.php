@@ -463,43 +463,38 @@ class ilChangeEvent
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
-			$query = "UPDATE catch_write_events ".
+			$ts = ($timestamp == null)
+				? ilUtil::now()
+				: $timestamp;
+/*			$query = "UPDATE catch_write_events ".
 				"SET ts = ".($timestamp == null ? $ilDB->now() : $ilDB->quote($timestamp, 'timestamp'))." ".
 				"WHERE usr_id = ".$ilDB->quote($usr_id ,'integer')." ".
 				"AND obj_id = ".$ilDB->quote($obj_id ,'integer');
-			$res = $ilDB->manipulate($query);
+			$res = $ilDB->manipulate($query);*/
 		}
 		else
 		{
-			$query = "INSERT INTO catch_write_events (ts,obj_id,usr_id) ".
+			$ts = ilUtil::now();
+/*			$query = "INSERT INTO catch_write_events (ts,obj_id,usr_id) ".
 				"VALUES( ".
 				$ilDB->now().", ".
 				$ilDB->quote($obj_id,'integer').", ".
 				$ilDB->quote($usr_id,'integer')." ".
 				")";
-			$res = $ilDB->manipulate($query);
+			$res = $ilDB->manipulate($query);*/
+		}
 
-		}
-		
-		/*
-		$q = "INSERT INTO catch_write_events ".
-			"(obj_id, usr_id, ts) ".
-			"VALUES (".
-			$ilDB->quote($obj_id,'integer').",".
-			$ilDB->quote($usr_id,'integer').",";
-		if ($timestamp == null)
-		{
-			$q .= "NOW()".
-			") ON DUPLICATE KEY UPDATE ts=NOW()";
-		}
-		else {
-			$q .= $ilDB->quote($timestamp).
-			") ON DUPLICATE KEY UPDATE ts=".$ilDB->quote($timestamp);
-		}
-		//error_log ('ilChangeEvent::_catchupWriteEvents '.$q);
-		$r = $ilDB->query($q);
-		*/
+		// alex, use replace due to bug #10406
+		$ilDB->replace("catch_write_events",
+			array(
+				"obj_id" => array("integer", $obj_id),
+				"usr_id" => array("integer", $usr_id)
+			),
+			array(
+				"ts" => array("timestamp", $ts))
+			);
 	}
+
 	/**
 	 * Catches up with all write events which occured before the specified
 	 * timestamp.
