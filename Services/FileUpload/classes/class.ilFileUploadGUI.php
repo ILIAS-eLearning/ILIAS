@@ -203,7 +203,7 @@ class ilFileUploadGUI
 			
 		// load row template
 		$tpl_row = new ilTemplate("tpl.fileupload_row_template.html", true, true, "Services/FileUpload");
-		$tpl_row->setVariable("IMG_ALERT", ilUtil::getImagePath("icon_alert_s.gif"));
+		$tpl_row->setVariable("IMG_ALERT", ilUtil::getImagePath("icon_alert.svg"));
 		$tpl_row->setVariable("ALT_ALERT", $lng->txt("alert"));
 		$tpl_row->setVariable("TXT_CANCEL", $lng->txt("cancel"));
 		$tpl_row->setVariable("TXT_REMOVE", $lng->txt("remove"));
