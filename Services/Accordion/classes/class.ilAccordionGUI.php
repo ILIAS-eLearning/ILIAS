@@ -323,6 +323,10 @@ class ilAccordionGUI
 	{
 		global $tpl;
 
+
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		ilYuiUtil::initConnection();
+
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQueryUI();
 		$tpl->addJavaScript("./Services/Accordion/js/accordion.js", true, 3);
