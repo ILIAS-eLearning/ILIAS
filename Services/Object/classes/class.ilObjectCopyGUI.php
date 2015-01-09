@@ -187,7 +187,14 @@ class ilObjectCopyGUI
 	
 		$this->tpl = $tpl;
 
-		ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard'));
+		if($objDefinition->isContainer($this->getType()))
+		{
+			ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard_container'));
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard'));
+		}
 
 		//
 		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
