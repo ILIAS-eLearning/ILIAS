@@ -240,6 +240,11 @@ il.Util = {
 		$(el).offset({left: x});
 	},
 
+	setY: function (el, y) {
+		$(el).offset({top: y});
+	},
+
+
 	/**
 	 * Checks whether coordinations are within an elements region
 	 */
@@ -552,27 +557,19 @@ il.UICore = {
 
 	initFixedDropDowns: function () {
 		$('.ilMainMenu.ilTopFixed .dropdown').on('shown.bs.dropdown', function () {
-			var el = $(".ilMainMenu.ilTopFixed");
-			if (el) {
-				il.UICore.shrinkFixedElementToViewport(el);
+			var el = $(this).children(".dropdown-menu")[0];
+			var r = il.Util.getRegion(el),
+				vp = il.Util.getViewportRegion(),
+				newHeight;
+
+			// make it smaller, if window height is not sufficient
+			if (vp.bottom < r.bottom) {
+				newHeight = r.height - r.bottom + vp.bottom;
+				el.style.height = newHeight + "px";
+				$(el).css("overflow", "auto");
 			}
 		}).on('hidden.bs.dropdown', function () {
-			var el = $(".ilMainMenu.ilTopFixed");
-			if (el) {
-				el.css("bottom", "");
-				el.css("overflow", "visible");
-			}
 		});
-	},
-
-	shrinkFixedElementToViewport: function (el) {
-		var vp_reg = il.Util.getViewportRegion(),
-			el_reg = il.Util.getRegion(el);
-
-		if (el_reg.bottom > vp_reg.bottom - vp_reg.top) {
-			el.css("bottom", "0px");
-			el.css("overflow", "auto");
-		}
 	},
 
 	initLayoutDrag: function() {
