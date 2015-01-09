@@ -398,9 +398,27 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 			$this->tpl->setCurrentBlock("profile_link");
 			$this->tpl->setVariable("TXT_VIEW", $lng->txt("profile"));
 			
-			$ilCtrl->setParameter($this, "user", $a_set["id"]);
-			$this->tpl->setVariable("LINK_PROFILE",
-				$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
+			// see ilPersonalProfileGUI::getProfilePortfolio()		
+			$has_prtf = false;
+			if ($ilSetting->get('user_portfolios'))
+			{
+				include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+				$has_prtf = ilObjPortfolio::getDefaultPortfolio($a_set["id"]);
+			}
+			if(!$has_prtf)
+			{
+				// (simple) profile: center column
+				$ilCtrl->setParameter($this, "user", $a_set["id"]);
+				$this->tpl->setVariable("LINK_PROFILE",
+					$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));	
+			}
+			else
+			{				
+				// portfolio: fullscreen
+				include_once "Services/Link/classes/class.ilLink.php";
+				$this->tpl->setVariable("LINK_PROFILE", ilLink::_getLink($a_set["id"], "usr"));
+				$this->tpl->setVariable("LINK_TARGET", "_blank");
+			}
 			
 			$this->tpl->setVariable("USR_ID", $a_set["id"]);
 			$this->tpl->setVariable("LINK_FULLNAME", $user_name);

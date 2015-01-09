@@ -187,14 +187,14 @@ class ilPublicUserProfileGUI
 			
 			default:
 				$ret = $this->$cmd();
-				$tpl->setContent($ret);
-				
-				// only for direct links
-				if (strtolower($_GET["baseClass"]) == "ilpublicuserprofilegui")
-				{
-					$tpl->show();
-				}
+				$tpl->setContent($ret);			
 				break;
+		}		
+			
+		// only for direct links
+		if (strtolower($_GET["baseClass"]) == "ilpublicuserprofilegui")
+		{
+			$tpl->show();
 		}
 	}
 	
