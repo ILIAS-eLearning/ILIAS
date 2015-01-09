@@ -653,7 +653,7 @@ class ilConditionHandlerInterface
 		$this->ch_obj->setValue('');
 
 		// Save assigned sco's
-		if($this->ch_obj->getTriggerType() == 'sahs')
+		/*if($this->ch_obj->getTriggerType() == 'sahs')
 		{
 			include_once 'Services/Object/classes/class.ilObjectLP.php';
 			$olp = ilObjectLP::getInstance($this->ch_obj->getTriggerObjId());
@@ -667,7 +667,7 @@ class ilConditionHandlerInterface
 			{			
 				$collection->activateEntries($_POST['item_ids']);
 			}
-		}
+		}*/
 
 		$this->ch_obj->enableAutomaticValidation($this->getAutomaticValidation());
 		if(!$this->ch_obj->storeCondition())
