@@ -15193,4 +15193,4 @@ blog#:#blog_profile_picture_repository_info#:#Profile pictures of the authors ar
 blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the following contributors?
 news#:#news_rss#:#RSS
 mob#:#mob_object#:#Object
-content#:#cont_qtries_info#:#ToDo
+content#:#cont_qtries_info#:#Default value for number of tries for newly created questions.

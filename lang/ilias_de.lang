@@ -15194,4 +15194,4 @@ blog#:#blog_profile_picture_repository_info#:#Profilbilder der Autoren werden nu
 blog#:#blog_confirm_delete_contributors#:#Wollen Sie wirklich die folgenden Autoren löschen?
 news#:#news_rss#:#RSS
 mob#:#mob_object#:#Objekt
-content#:#cont_qtries_info#:#ToDo
+content#:#cont_qtries_info#:#Standardwert "Anzahl der Versuche" für neu angelegte Fragen.
