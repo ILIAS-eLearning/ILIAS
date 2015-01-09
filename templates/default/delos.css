@@ -6257,8 +6257,9 @@ button.close {
 		External Blue: #21c5d8;
 		ILIAS 4 MainMenu Color: #c8e6ff;
 */
-/* @il-highlight-bg: lighten(@brand-warning, 37%); */
-/* @il-highlight-bg: lighten(@brand-secondary, 53%); */
+/* @il-highlight-bg: saturate(lighten(@brand-warning, 34%), 80%); */
+/* @il-highlight-bg: lighten(@brand-secondary, 44%); */
+/* @il-highlight-bg: lighten(#21c5d8, 40%); */
 /* @nav-tabs-link-hover-border-color: @brand-primary; */
 /* ILIAS variables candidates */
 /* RTL review overwrite some specifics [bootstrap] styles
