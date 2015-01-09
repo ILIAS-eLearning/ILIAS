@@ -1399,7 +1399,10 @@ case "InteractiveImage":
 				break;
 
 			case "GlossaryTerm":
-				$this->glossary_term->setTerm(trim($this->chr_data));
+				$term = trim($this->chr_data);
+				$term = str_replace("&lt;", "<", $term);
+				$term = str_replace("&gt;", ">", $term);
+				$this->glossary_term->setTerm($term);
 				$this->glossary_term->create();
 				$iia = explode("_", $this->glossary_term->getImportId());
 				$this->glossary_term_map[(int) $iia[count($iia) - 1]] = $this->glossary_term->getId();
