@@ -118,8 +118,25 @@ class ilTermListTableGUI extends ilTable2GUI
 	{
 		return $this->selectable_cols;
 	}
-	
-	
+
+	/**
+	 * Should this field be sorted numeric?
+	 *
+	 * @return	boolean		numeric ordering; default is false
+	 */
+	function numericOrdering($a_field)
+	{
+		if (substr($a_field, 0, 3) == "md_")
+		{
+			$md_id = (int) substr($a_field, 3);
+			if ($this->adv_fields[$md_id]["type"] == ilAdvancedMDFieldDefinition::TYPE_DATE)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Init filter
 	 */
@@ -339,7 +356,7 @@ class ilTermListTableGUI extends ilTable2GUI
 							break;
 
 						case ilAdvancedMDFieldDefinition::TYPE_DATE:
-							$val = ($term["md_".$id] > 0)
+							$val = ($term["md_".$id] != 0)
 								? ilDatePresentation::formatDate(new ilDate($term["md_".$id], IL_CAL_UNIX))
 								: " ";
 							break;
