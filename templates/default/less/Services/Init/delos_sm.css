@@ -12,7 +12,7 @@ div#il_startup_content {
 #il_startup_content form table {
   width: auto;
 }
-div.ilStartupSection .form-horizontal {
+div.ilStartupSection form.form-horizontal {
   width: auto;
 }
 .ilStartupSection {
