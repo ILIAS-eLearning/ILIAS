@@ -815,7 +815,7 @@ class ilWikiPage extends ilPageObject
 
 			foreach ($sources as $s)
 			{
-				if ($s["type"] == "wpg:pg")
+				if ($s["type"] == "wpg:pg" && ilPageObject::_exists("wpg", $s["id"]))
 				{
 					$wpage = new ilWikiPage($s["id"]);
 					
