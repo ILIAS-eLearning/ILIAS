@@ -50,14 +50,6 @@ body {
     right: 0px;
 }
 
-#chat_messages {
-	height: 300px;
-	padding: 2px;
-	border: 1px solid #BCCAE5;
-	overflow-y: scroll;
-	overflow-x: auto;
-}
-
 #chat_wrapper {
     width: 100%;
     min-height: 300px;
