@@ -9676,8 +9676,13 @@ li.smallPad {
   margin-left: 10px;
 }
 #chat_messages {
+  height: 300px;
+  padding: 2px;
+  overflow-y: scroll;
+  overflow-x: auto;
   width: 100%;
   min-height: 200px;
+  background-color: #ffffff;
 }
 #chat_users {
   overflow: auto;
