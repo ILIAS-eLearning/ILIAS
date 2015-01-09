@@ -102,7 +102,7 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 		global $ilDB;
 		global $ilLog;
 		
-		$query = "SELECT DISTINCT map.source_ref_id, map.target_ref_id "
+		/*$query = "SELECT DISTINCT map.source_ref_id, map.target_ref_id "
 				."  FROM copy_mappings map"
 				."  JOIN object_reference tref ON tref.ref_id = map.target_ref_id AND tref.deleted IS NULL"
 				."  JOIN object_data tod ON tod.obj_id = tref.obj_id"
@@ -111,7 +111,15 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 				."  JOIN tree ttree ON ttree.child =  ".$ilDB->quote($a_target_ref_id, "integer")
 				."  RIGHT JOIN tree ttree2 ON ttree2.lft > ttree.lft AND ttree2.rgt < ttree.rgt "
 				." WHERE tod.type = 'crs'"
-				;
+				;*/
+		$query =  "SELECT cpm.target_ref_id, cpm.source_ref_id"
+				 ."  FROM tree t"
+				 ."  JOIN tree ttree ON ttree.lft > t.lft"
+				 ."   AND ttree.rgt < t.rgt"
+				 ."  JOIN object_reference ref ON ref.ref_id = ttree.child"
+				 ."  JOIN object_data od ON od.obj_id = ref.obj_id"
+				 ."  JOIN copy_mappings cpm ON cpm.target_ref_id = ttree.child"
+				 ." WHERE t.child = ".$ilDB->quote($a_target_ref_id, "integer");
 		
 		$ilLog->write($query);
 		
