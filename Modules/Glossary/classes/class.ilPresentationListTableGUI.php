@@ -153,7 +153,25 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		// we cannot use the tablegui filter handling for adv md
 		$this->record_gui->importFilter();		
 	}
-	
+
+	/**
+	 * Should this field be sorted numeric?
+	 *
+	 * @return	boolean		numeric ordering; default is false
+	 */
+	function numericOrdering($a_field)
+	{
+		if (substr($a_field, 0, 3) == "md_")
+		{
+			$md_id = (int) substr($a_field, 3);
+			if ($this->adv_fields[$md_id]["type"] == ilAdvancedMDFieldDefinition::TYPE_DATE)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Fill table row
 	 */
