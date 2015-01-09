@@ -9687,6 +9687,7 @@ li.smallPad {
 #chat_users {
   overflow: auto;
   height: 100%;
+  min-height: 300px;
 }
 #private_rooms {
   z-index: 200;

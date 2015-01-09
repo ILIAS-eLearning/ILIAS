@@ -254,15 +254,26 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		$this->renderFontSettings($roomTpl, array());
 		$this->renderFileUploadForm($roomTpl);
 		$this->renderSendMessageBox($roomTpl);
-		$this->renderRightUsersDock($roomTpl);
+		$this->renderLanguageVariables($roomTpl);
 
-		$tpl->setVariable('ADM_CONTENT', $roomTpl->get());
+		$roomRightTpl = new ilTemplate('tpl.chatroom_right.html', true, true, 'Modules/Chatroom');
+		$this->renderRightUsersBlock($roomRightTpl);
+
+		require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
+		$right_content_panel = ilPanelGUI::getInstance();
+		$right_content_panel->setHeading($lng->txt('users'));
+		$right_content_panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
+		$right_content_panel->setHeadingStyle(ilPanelGUI::HEADING_STYLE_BLOCK);
+		$right_content_panel->setBody($roomRightTpl->get());
+
+		$tpl->setContent($roomTpl->get());
+		$tpl->setRightContent($right_content_panel->getHTML());
 	}
 
 	/**
 	 * @param ilTemplate $roomTpl
 	 */
-	protected function renderRightUsersDock(ilTemplate $roomTpl)
+	protected function renderLanguageVariables(ilTemplate $roomTpl)
 	{
 		/**
 		 * @var $lng ilLanguage
@@ -314,12 +325,23 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 
 		$roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $lng->txt('chat_create_private_room_button'));
 		$roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM_TEXT', $lng->txt('create_private_room_text'));
-		$roomTpl->setVariable('LBL_USERS', $lng->txt('users'));
 		$roomTpl->setVariable('LBL_LAYOUT', $lng->txt('layout'));
 		$roomTpl->setVariable('LBL_SHOW_SETTINGS', $lng->txt('show_settings'));
-		$roomTpl->setVariable('LBL_NO_FURTHER_USERS', $lng->txt('no_further_users'));
 		$roomTpl->setVariable('LBL_USER_IN_ROOM', $lng->txt('user_in_room'));
 		$roomTpl->setVariable('LBL_USER_IN_ILIAS', $lng->txt('user_in_ilias'));
+	}
+
+	/**
+	 * @param ilTemplate $roomTpl
+	 */
+	protected function renderRightUsersBlock(ilTemplate $roomTpl)
+	{
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
+
+		$roomTpl->setVariable('LBL_NO_FURTHER_USERS', $lng->txt('no_further_users'));
 	}
 
 	/**
