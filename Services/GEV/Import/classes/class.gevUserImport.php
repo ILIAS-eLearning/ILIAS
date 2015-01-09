@@ -1787,13 +1787,16 @@ class gevUserImport {
 			$d = substr($bwv_id, 6, 2);
 			$period_begin = new ilDate("$d.$m.$y", IL_CAL_DATE);
 
-			$user_utils = gevUserUtils::getInstance($record['user_id']);
-			$user_utils->setWBDFirstCertificationPeriodBegin($period_begin);
-			
-			$user = new ilObjUser($record['user_id']);
-			$user->update();
-			
-			$this->prnt('. ',-1);
+			try{
+				$user_utils = gevUserUtils::getInstance($record['user_id']);
+				$user_utils->setWBDFirstCertificationPeriodBegin($period_begin);
+				$user = new ilObjUser($record['user_id']);
+				$user->update();
+				
+				$this->prnt('. ',-1);
+			} catch (Exception $e){
+				print_r($e);
+			}
 		}
 
 		$this->prnt('fixCertificationPeriodFromBWVId: done', 2);
