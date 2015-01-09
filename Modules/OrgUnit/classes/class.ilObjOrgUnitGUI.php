@@ -263,6 +263,9 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
                     case 'paste':
 						$this->performPaste();
 						break;
+					case 'performPasteIntoMultipleObjects':
+						$this->performPasteIntoMultipleObjectsObject();
+						break;
 					case 'create':
 						parent::createObject();
 						break;
@@ -647,16 +650,13 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$ilCtrl->redirectByClass(array( "ilAdministrationGUI", "ilObjOrgUnitGUI" ), "view");
 	}
 
-
-	public function showPasteTreeObject() {
-		$this->ctrl->setCmd('performPaste');
-		$ilOrgUnitExplorerGUI = new ilOrgUnitExplorerGUI("orgu_explorer", "ilObjOrgUnitGUI", "showTree", new ilTree(1));
-		if (!$ilOrgUnitExplorerGUI->handleCommand()) {
-			ilUtil::sendInfo($this->lng->txt('orgu_msg_info_paste'), true);
-			$this->tpl->setContent($ilOrgUnitExplorerGUI->getHTML());
-		}
+	protected function getTreeSelectorGUI($cmd) {
+		global $tree;
+		$explorer = new ilOrgUnitExplorerGUI("rep_exp_sel", $this, "showPasteTree", $tree);
+		$explorer->setAjax(false);
+		$explorer->setSelectMode('nodes[]', false);
+		return $explorer;
 	}
-
 
 	/**
 	 * @param ilTabsGUI $tabs_gui

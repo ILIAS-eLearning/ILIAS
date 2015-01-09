@@ -2091,17 +2091,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$cmd = $_SESSION['clipboard']['cmd'];
 
 		//
-		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
-		$exp = new ilRepositorySelectorExplorerGUI($this, "showPasteTree");
-		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));
-		if ($cmd == "link")
-		{
-			$exp->setSelectMode("nodes", true);
-		}
-		else
-		{
-			$exp->setSelectMode("nodes[]", false);
-		}
+		$exp = $this->getTreeSelectorGUI($cmd);
 		if ($exp->handleCommand())
 		{
 			return;
@@ -3933,6 +3923,24 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$ru = new ilRepUtilGUI($this);
 		$ru->confirmRemoveFromSystemObject($_POST["trash_id"]);
+	}
+
+	/**
+	 * @param $cmd string
+	 * @return ilTreeExplorerGUI
+	 */
+	protected function getTreeSelectorGUI($cmd)
+	{
+		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
+		$exp = new ilRepositorySelectorExplorerGUI($this, "showPasteTree");
+		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));
+		if ($cmd == "link") {
+			$exp->setSelectMode("nodes", true);
+			return $exp;
+		} else {
+			$exp->setSelectMode("nodes[]", false);
+			return $exp;
+		}
 	}
 }
 ?>
