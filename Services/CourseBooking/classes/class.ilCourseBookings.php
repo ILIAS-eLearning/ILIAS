@@ -528,7 +528,15 @@ class ilCourseBookings
 		$status = (bool)$a_with_costs 
 			? ilCourseBooking::STATUS_CANCELLED_WITH_COSTS
 			: ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS;
-
+		
+		// gev-patch start
+		// This is not done via ilAccomodationsAppEventHandler to avoid removal of
+		// overnights set for people who are moved to the waiting list.
+		require_once("Services/Accomodations/classes/class.ilAccomodations.php");
+		$accomodations = ilAccomodations::getInstance($this->getCourse());
+		$accomodations->deleteAccomodations($a_user_id);
+		// gev-patch end
+		
 		return $this->updateUserStatus($a_user_id, $status);
 	}
 		
