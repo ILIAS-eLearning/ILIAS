@@ -1167,6 +1167,7 @@ function showTrackingItems()
 	}
 	return true;
 }
+	/*OLD
 function modifyTrackingItems()
 {
 	include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
@@ -1177,8 +1178,32 @@ function modifyTrackingItems()
 	}
 
 	global $ilTabs, $ilToolbar;
+	
+	include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+	$ilToolbar->addButton(
+		$this->lng->txt('import'),
+		$this->ctrl->getLinkTarget($this, 'importForm')
+	);
+	$ilToolbar->addButton(
+		$this->lng->txt('cont_export_all'),
+		$this->ctrl->getLinkTarget($this, 'exportSelectionAll')
+	);
+
+	$this->setSubTabs();
+//	ilObjSCORMLearningModuleGUI::setSubTabs();
+	$ilTabs->setTabActive('cont_tracking_data');
+	$ilTabs->setSubTabActive('cont_tracking_modify');
+
+	include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingUsersTableGUI.php';
+	$tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'showtrackingItems');
+	$tbl->parse();
+	$this->tpl->setContent($tbl->getHTML());
+
+	
 	include_once "./Services/Table/classes/class.ilTableGUI.php";
 	include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+
+	
 	//set search
 	
 	if ($_POST["search_string"] != "")
@@ -1323,7 +1348,7 @@ function modifyTrackingItems()
 	}
 	
 }
-
+*/
 
 function exportAll(){
 	$this->object->exportSelected(1);

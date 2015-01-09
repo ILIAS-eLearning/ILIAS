@@ -668,10 +668,11 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		);
 		$ilToolbar->addButton(
 			$this->lng->txt('cont_export_all'),
-			$this->ctrl->getLinkTarget($this, 'exportSelectionAll')
+//			$this->ctrl->getLinkTarget($this, 'exportSelectionAll')
+			$this->ctrl->getLinkTarget($this, 'exportAll')
 		);
 
-		$this->setSubTabs();
+		ilObjSCORMLearningModuleGUI::setSubTabs();
 		$ilTabs->setTabActive('cont_tracking_data');
 		$ilTabs->setSubTabActive('cont_tracking_modify');
 
@@ -748,35 +749,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	function cancelDelete()
 	{
 		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
-		$this->ctrl->redirect($this, "showTrackingItems");
+		$this->ctrl->redirect($this, "modifyTrackingItems");
 	}
 
 	function confirmedDelete()
 	{
-		global $ilDB;
-		
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-
-		foreach($_POST["user"] as $user)
-		{
-			$ilDB->manipulateF('
-				DELETE FROM scorm_tracking
-				WHERE user_id = %s
-				AND obj_id = %s',
-				array('integer', 'integer'),
-				array($user, $this->object->getID()));
-
-			$ilDB->manipulateF('
-				DELETE FROM sahs_user
-				WHERE user_id = %s
-				AND obj_id = %s',
-				array('integer', 'integer'),
-				array($user, $this->object->getID()));
-
-				ilLPStatusWrapper::_updateStatus($this->object->getId(), $user);
-		}
-			
-		$this->ctrl->redirect($this, "showTrackingItems");
+		$this->object->deleteTrackingDataOfUsers($_POST["user"]);
+		$this->ctrl->redirect($this, "modifyTrackingItems");
 	}
 
 	/**
@@ -852,7 +831,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	/**
 	 * Show export section for all users
 	 */
-	protected function exportSelectionAll()
+	protected function exportAll()
+//	protected function exportSelectionAll()
 	{
 		$this->exportSelection(self::EXPORT_ALL);
 	}
@@ -1000,7 +980,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		}
 
 		//$this->ctrl->saveParameter($this, "cdir");
-		$this->ctrl->redirect($this, "showTrackingItems");
+		$this->ctrl->redirect($this, "modifyTrackingItems");
 	}
 	
 	

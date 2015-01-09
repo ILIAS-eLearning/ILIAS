@@ -337,69 +337,67 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	/**
 	* get all tracked items of current user
 	*/
-	function getTrackedUsers($a_search)
-	{
-		global $ilUser, $ilDB, $ilUser;
+	// function getTrackedUsers($a_search)
+	// {
+		// global $ilUser, $ilDB, $ilUser;
 
-		$sco_set = $ilDB->queryF('
-			SELECT DISTINCT user_id,MAX(c_timestamp) last_access 
-			FROM cmi_node, cp_node 
-			WHERE cmi_node.cp_node_id = cp_node.cp_node_id 
-			AND cp_node.slm_id = %s
-			GROUP BY user_id',
-			array('integer'),
-			array($this->getId()));
+		// $sco_set = $ilDB->queryF('
+			// SELECT DISTINCT user_id,MAX(c_timestamp) last_access 
+			// FROM cmi_node, cp_node 
+			// WHERE cmi_node.cp_node_id = cp_node.cp_node_id 
+			// AND cp_node.slm_id = %s
+			// GROUP BY user_id',
+			// array('integer'),
+			// array($this->getId()));
 		
-		$items = array();
-		$temp = array();
+		// $items = array();
+		// $temp = array();
 		
-		while($sco_rec = $ilDB->fetchAssoc($sco_set))
-		{
-			$name = ilObjUser::_lookupName($sco_rec["user_id"]);
-			if ($sco_rec['last_access'] != 0) {
-//				$sco_rec['last_access'] = $sco_rec['last_access'];
-			} else {
-				$sco_rec['last_access'] = "";
-			}
-			if (ilObject::_exists($sco_rec['user_id'])  && ilObject::_lookUpType($sco_rec['user_id'])=="usr" ) {
-					$user = new ilObjUser($sco_rec['user_id']);
-					$temp = array("user_full_name" => $name["lastname"].", ".
-									$name["firstname"]." [".ilObjUser::_lookupLogin($sco_rec["user_id"])."]",
-								    "user_id" => $sco_rec["user_id"],"last_access" => $sco_rec['last_access'],
-									"version"=> $this->getModuleVersionForUser($sco_rec["user_id"]),
-									"attempts" => $this->getAttemptsForUser($sco_rec["user_id"]),
-									"username" =>  $user->getLastname().", ".$user->getFirstname()
-								);
-				if ($a_search != "" && (strpos(strtolower($user->getLastname()), strtolower($a_search)) !== false || strpos(strtolower($user->getFirstname()), strtolower($a_search)) !== false ) ) {
-					$items[] = $temp;
-				} else if ($a_search == "") {
-					$items[] = $temp;
-				}	
-			}	
-		}
+		// while($sco_rec = $ilDB->fetchAssoc($sco_set))
+		// {
+			// $name = ilObjUser::_lookupName($sco_rec["user_id"]);
+			// if ($sco_rec['last_access'] != 0) {
+// //				$sco_rec['last_access'] = $sco_rec['last_access'];
+			// } else {
+				// $sco_rec['last_access'] = "";
+			// }
+			// if (ilObject::_exists($sco_rec['user_id'])  && ilObject::_lookUpType($sco_rec['user_id'])=="usr" ) {
+					// $user = new ilObjUser($sco_rec['user_id']);
+					// $temp = array("user_full_name" => $name["lastname"].", ".
+									// $name["firstname"]." [".ilObjUser::_lookupLogin($sco_rec["user_id"])."]",
+								    // "user_id" => $sco_rec["user_id"],"last_access" => $sco_rec['last_access'],
+									// "version"=> $this->getModuleVersionForUser($sco_rec["user_id"]),
+									// "attempts" => $this->getAttemptsForUser($sco_rec["user_id"]),
+									// "username" =>  $user->getLastname().", ".$user->getFirstname()
+								// );
+				// if ($a_search != "" && (strpos(strtolower($user->getLastname()), strtolower($a_search)) !== false || strpos(strtolower($user->getFirstname()), strtolower($a_search)) !== false ) ) {
+					// $items[] = $temp;
+				// } else if ($a_search == "") {
+					// $items[] = $temp;
+				// }	
+			// }	
+		// }
 
-		return $items;
-	}
+		// return $items;
+	// }
 
-	/**
-	* get all tracked items of current user
-	*/
 	function deleteTrackingDataOfUsers($a_users)
 	{
 		global $ilDB;
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004DeleteData.php");
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
 		
 		foreach($a_users as $user)
 		{
-			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004DeleteData.php");
 			ilSCORM2004DeleteData::removeCMIDataForUserAndPackage($user,$this->getId());
-			
-			// update learning progress
-			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
 			ilLPStatusWrapper::_updateStatus($this->getId(), $user);
 		}
 	}
 	
 	
+	/**
+	* get all tracked items of current user
+	*/
 	function getTrackedItems()
 	{
 		global $ilUser, $ilDB, $ilUser;

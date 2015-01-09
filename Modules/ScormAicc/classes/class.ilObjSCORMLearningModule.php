@@ -1348,5 +1348,30 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		return '0';
 	}
 
+	function deleteTrackingDataOfUsers($a_users)
+	{
+		global $ilDB;
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+
+		foreach($a_users as $user)
+		{
+			$ilDB->manipulateF('
+				DELETE FROM scorm_tracking
+				WHERE user_id = %s
+				AND obj_id = %s',
+				array('integer', 'integer'),
+				array($user, $this->getID()));
+
+			$ilDB->manipulateF('
+				DELETE FROM sahs_user
+				WHERE user_id = %s
+				AND obj_id = %s',
+				array('integer', 'integer'),
+				array($user, $this->getID()));
+
+			ilLPStatusWrapper::_updateStatus($this->getId(), $user);
+		}
+	}
+
 }
 ?>
