@@ -277,7 +277,7 @@ class gevCrsMailData extends ilMailData {
 					foreach ($op_days as $key => $value) {
 						$op_days[$key] = ilDatePresentation::formatDate($value);
 					}
-					$val = implode("", $op_days);
+					$val = implode("<br />", $op_days);
 				}
 				else {
 					$val = "Nicht verfügbar.";
