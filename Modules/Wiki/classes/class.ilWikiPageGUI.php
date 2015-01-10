@@ -318,20 +318,14 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			? "_".ilWikiUtil::makeUrlTitle($_GET["page"])
 			: "";
 
-		if (!true)
+		// see #13804
+		if ($_GET["page"] != "")
 		{
-			$tpl->setPermanentLink("wiki", $_GET["ref_id"], $append);
+			$tpl->setPermanentLink("wiki", "", "wpage_".$this->getPageObject()->getId()."_".$_GET["ref_id"]);
 		}
 		else
 		{
-			if ($_GET["page"] != "")
-			{
-				$tpl->setPermanentLink("wiki", "", "wpage_".$this->getPageObject()->getId()."_".$_GET["ref_id"]);
-			}
-			else
-			{
-				$tpl->setPermanentLink("wiki", $_GET["ref_id"]);
-			}
+			$tpl->setPermanentLink("wiki", $_GET["ref_id"]);
 		}
 
 
