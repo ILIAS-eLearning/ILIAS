@@ -104,33 +104,41 @@ final class FunctionValue extends Value {
         return $this->_args;
     }
 
-    /* Create a function value by at least passing it an arity, that is a number
-     * of required arguments and a name of a function to be called. Optionaly an
-     * object could be passed, then function_name refers to a method of that 
-     * object. One could also optionally pass an array of arguments for the first
-     * arguments of the function to call. This is also used in construction of
-     * new function values after apply.
+    /* Create a function value by at least passing it a closure or the name of
+     * a function. 
+     * One could optionally pass an array of arguments for the first arguments 
+     * of the function to call. This is also used in construction of new function
+     * values after apply.
      * When finally calling the wrapped function, Exceptions given as 
      * reify_exceptions will be caught and turned into an ErrorValue as return.
+     * 
+     * ATTENTION: When you pass the name of the function, FunctionValue will not
+     * know about optional arguments to your function, that is, it will only be
+     * satisfied when all arguments (event optional ones) are provided.
      */
-    public function __construct( Closure $function, $args = null
+    public function __construct( $function, $args = null
                                , $reify_exceptions = null, $origin = null) {
+        if (is_string($function))
+            guardIsCallable($function);
+        else
+            guardIsClosure($function);
+
         $args = defaultTo($args, array());
         $reify_exceptions = defaultTo($reify_exceptions, array());
+
+        guardIsArray($args);
+        guardIsArray($reify_exceptions);
 
         foreach($args as $key => $value) {
             $args[$key] = $this->toValue($value);
         }
 
-        guardIsArray($args);
-        guardIsArray($reify_exceptions);
-
-        $ref = new ReflectionFunction($function);
-
-        $this->_arity = $ref->getNumberOfParameters() - count($args);
+        $refl = new ReflectionFunction($function);
+        $this->_arity = $refl->getNumberOfParameters() - count($args);
         if ($this->_arity < 0) {
             throw new Exception("FunctionValue::__construct: more args then parameters.");
         }
+
         $this->_function = $function;
         $this->_args = $args;
         $this->_reify_exceptions = $reify_exceptions;
@@ -270,6 +278,9 @@ final class FunctionValue extends Value {
             return _error("Function arguments contain errors.", $this);
         }
 
+        if ($this->_function == "explode")
+            print_r(array($this->_function, $args));
+
         return call_user_func_array($this->_function, $args);
     }
 
@@ -308,7 +319,7 @@ final class FunctionValue extends Value {
  * of arguments to be inserted in the first arguments of the function
  * could be passed 
  */
-function _function(Closure $function, $args = null) {
+function _function($function, $args = null) {
     return new FunctionValue($function, null, $args);
 }
 

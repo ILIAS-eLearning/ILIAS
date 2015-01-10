@@ -55,6 +55,18 @@ function guardIsObject($arg) {
     }
 }
 
+function guardIsClosure($arg) {
+    if (!($arg instanceof Closure)) {
+        throw new TypeError("Closure", typeName($arg));
+    }
+}
+
+function guardIsCallable($arg) {
+    if(!is_callable($arg)) {
+        throw new TypeError("callable", typeName($arg));
+    }
+}
+
 function guardIsValue($arg) {
     if (!($arg instanceof Value)) {
         throw new TypeError("Value", typeName($arg));
