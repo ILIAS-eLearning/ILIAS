@@ -203,7 +203,7 @@ class InputFormlet extends Formlet implements TagBuilderCallbacks {
         $res = $name_source->getNameAndNext();
         return array
             ( "builder"    => new TagBuilder( "text_input", $this, $res["name"])
-            , "collector"   => new StringCollector($res["name"])
+            , "collector"   => new AnyCollector($res["name"])
             , "name_source" => $res["name_source"]
             );
     }
