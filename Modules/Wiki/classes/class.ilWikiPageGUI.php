@@ -1096,7 +1096,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$found = array();
 		foreach ($pages as $page)
 		{
-			$found[] = array("page_id" => $page, "title" => ilWikiPage::lookupTitle($page));
+			$found[] = array("page_id" => $page["page_id"], "title" => ilWikiPage::lookupTitle($page["page_id"]));
 		}
 
 		// sort if all pages are listed

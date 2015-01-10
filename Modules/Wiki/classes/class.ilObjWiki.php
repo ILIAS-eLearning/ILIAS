@@ -693,7 +693,7 @@ class ilObjWiki extends ilObject
 			{
 				foreach($entry["child"] as $child)
 				{
-					$found_pages[] = $child;
+					$found_pages[] = array("page_id" => $child);
 				}
 			}
 		}
