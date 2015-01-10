@@ -3211,7 +3211,7 @@ return;
 		{
 			$ilTabs->addTarget("history", $this->ctrl->getLinkTarget($this, "history")
 				, "history", get_class($this));
-			if ($_GET["history_mode"] == "1")
+			if ($_GET["history_mode"] == "1" || $this->ctrl->getCmd() == "compareVersion")
 			{
 				$ilTabs->activateTab("history");
 			}
