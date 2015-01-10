@@ -50,8 +50,8 @@ class ilTable2GUI extends ilTableGUI
 	protected $enable_command_for_all;
 	protected $restore_filter; // [bool]
 	protected $restore_filter_values; // [bool]
-	
 
+	protected $sortable_fields = array();
 	/**
 	 * @var bool
 	 */
@@ -1311,6 +1311,10 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 			"class" => $a_class,
 			"tooltip" => $a_tooltip
 			);
+		if ($a_sort_field != "")
+		{
+			$this->sortable_fields[] = $a_sort_field;
+		}
 		$this->column_count = count($this->column);
 	}
 	
@@ -1501,10 +1505,19 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		
 		if ($this->nav_value == "" && $this->getId() != "" && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
+			$order = $this->loadProperty("order");
+			if (in_array($order, $this->sortable_fields))
+			{
+				$direction = $this->loadProperty("direction");
+			}
+			else
+			{
+				$direction = $this->getDefaultOrderDirection();
+			}
 			// get order and direction from db
 			$this->nav_value =
-				$this->loadProperty("order").":".
-				$this->loadProperty("direction").":".
+				$order.":".
+				$direction.":".
 				$this->loadProperty("offset");
 		}
 		$nav = explode(":", $this->nav_value);

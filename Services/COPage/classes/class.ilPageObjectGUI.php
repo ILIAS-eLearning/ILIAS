@@ -1299,13 +1299,15 @@ return;
 
 				// history
 				$c_old_nr = $this->getPageObject()->old_nr;
-				if ($c_old_nr > 0)
+				if ($c_old_nr > 0 || $this->getCompareMode() || $_GET["history_mode"] == 1)
 				{
 					$hist_info =
 						$this->getPageObject()->getHistoryInfo($c_old_nr);
-						
+
 					if (!$this->getCompareMode())
 					{
+						$ilCtrl->setParameter($this, "history_mode", "1");
+
 						// previous revision
 						if (is_array($hist_info["previous"]))
 						{
@@ -1324,21 +1326,26 @@ return;
 						}
 						
 						// next revision
-						$tpl->setCurrentBlock("next_rev");
-						$tpl->setVariable("TXT_NEXT_REV", $lng->txt("cont_next_rev"));
-						$ilCtrl->setParameter($this, "old_nr", $hist_info["next"]["nr"]);
-						$tpl->setVariable("HREF_NEXT",
-							$ilCtrl->getLinkTarget($this, "preview"));
-						$tpl->parseCurrentBlock();
-						
-						// latest revision
-						$tpl->setCurrentBlock("latest_rev");
-						$tpl->setVariable("TXT_LATEST_REV", $lng->txt("cont_latest_rev"));
-						$ilCtrl->setParameter($this, "old_nr", "");
-						$tpl->setVariable("HREF_LATEST",
-							$ilCtrl->getLinkTarget($this, "preview"));
-						$tpl->parseCurrentBlock();
-					
+						if ($c_old_nr > 0)
+						{
+							$tpl->setCurrentBlock("next_rev");
+							$tpl->setVariable("TXT_NEXT_REV", $lng->txt("cont_next_rev"));
+							$ilCtrl->setParameter($this, "old_nr", $hist_info["next"]["nr"]);
+							$tpl->setVariable("HREF_NEXT",
+								$ilCtrl->getLinkTarget($this, "preview"));
+							$tpl->parseCurrentBlock();
+
+							// latest revision
+							$tpl->setCurrentBlock("latest_rev");
+							$tpl->setVariable("TXT_LATEST_REV", $lng->txt("cont_latest_rev"));
+							$ilCtrl->setParameter($this, "old_nr", "");
+							$tpl->setVariable("HREF_LATEST",
+								$ilCtrl->getLinkTarget($this, "preview"));
+							$tpl->parseCurrentBlock();
+						}
+
+						$ilCtrl->setParameter($this, "history_mode", "");
+
 						// rollback
 						if ($c_old_nr > 0 && $ilUser->getId() != ANONYMOUS_USER_ID)
 						{
@@ -2803,7 +2810,15 @@ return;
 		$a_tpl->setVariable("TXT_SEL", $lng->txt("cont_double_click_to_delete"));
 		$a_tpl->parseCurrentBlock();
 	}
-	
+
+	/**
+	 * Preview history
+	 */
+	function previewHistory()
+	{
+		$this->preview();
+	}
+
 	/**
 	 * preview
 	 */
@@ -3196,6 +3211,10 @@ return;
 		{
 			$ilTabs->addTarget("history", $this->ctrl->getLinkTarget($this, "history")
 				, "history", get_class($this));
+			if ($_GET["history_mode"] == "1")
+			{
+				$ilTabs->activateTab("history");
+			}
 		}
 
 /*		$tabs = $this->ctrl->getTabs();

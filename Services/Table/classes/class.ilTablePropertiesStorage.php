@@ -125,7 +125,7 @@ class ilTablePropertiesStorage
 				break;
 				
 			case "db":
-				$set = $ilDB->query("SELECT value FROM table_properties ".
+				$set = $ilDB->query($q = "SELECT value FROM table_properties ".
 					" WHERE table_id = ".$ilDB->quote($a_table_id, "text").
 					" AND user_id = ".$ilDB->quote($a_user_id, "integer").
 					" AND property = ".$ilDB->quote($a_property, "text")

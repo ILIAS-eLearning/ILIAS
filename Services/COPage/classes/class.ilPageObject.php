@@ -4039,11 +4039,14 @@ abstract class ilPageObject
 		global $ilDB;
 		
 		// determine previous entry
+		$and_nr = ($a_nr > 0)
+			? " AND nr < ".$ilDB->quote((int) $a_nr, "integer")
+			: "";
 		$res = $ilDB->query("SELECT MAX(nr) mnr FROM page_history ".
 			" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
 			" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
 			" AND lang = ".$ilDB->quote($this->getLanguage(), "text").
-			" AND nr < ".$ilDB->quote((int) $a_nr, "integer"));
+			$and_nr);
 		$row = $ilDB->fetchAssoc($res);
 		if ($row["mnr"] > 0)
 		{
@@ -4075,12 +4078,23 @@ abstract class ilPageObject
 		}
 
 		// current
-		$res = $ilDB->query("SELECT * FROM page_history ".
-			" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
-			" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
-			" AND lang = ".$ilDB->quote($this->getLanguage(), "text").
-			" AND nr = ".$ilDB->quote((int) $a_nr, "integer"));
-		$row = $ilDB->fetchAssoc($res);
+		if ($a_nr > 0)
+		{
+			$res = $ilDB->query("SELECT * FROM page_history ".
+				" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
+				" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
+				" AND lang = ".$ilDB->quote($this->getLanguage(), "text").
+				" AND nr = ".$ilDB->quote((int) $a_nr, "integer"));
+			$row = $ilDB->fetchAssoc($res);
+		}
+		else
+		{
+			$res = $ilDB->query("SELECT page_id, last_change hdate, parent_type, parent_id, last_change_user user_id, content, lang FROM page_object ".
+				" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
+				" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
+				" AND lang = ".$ilDB->quote($this->getLanguage(), "text"));
+			$row = $ilDB->fetchAssoc($res);
+		}
 		$ret["current"] = $row;
 
 		return $ret;
