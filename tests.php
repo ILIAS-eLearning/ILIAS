@@ -131,7 +131,7 @@ function _test_PlainValue(Value $value, $val, $origin) {
 }
 
 function test_FunctionValue() {
-    $fn = _fn(function($v) { return $v; });
+    $fn = _function("id");
     $fn2 = alwaysThrows1()
             ->catchAndReify("TestException");
     $fn3 = alwaysThrows2()
@@ -153,7 +153,7 @@ function test_FunctionValue() {
         , "Function still catches after application"
             => andR(_test_ErrorValue($fn3->apply($value)->apply($value), "test exception", null))
         , "Function value returns correct results for intval"
-            => _test_FunctionValue_results( function($a) { return intval($a); }
+            => _test_FunctionValue_results( "intval"
                                           , array( array("12")
                                                  , array("122123")
                                                  , array("45689")
@@ -455,5 +455,18 @@ $foo = function() {
 $foo("World");
 
 call_user_func($foo, "ECHO Echo echo .... ");
+*/
+/*
+class Foo {
+    public function bar($a, $b) {
+        return; 
+    }
+}
+
+$foo = new Foo();
+$foo_c = array($foo, "bar");
+call_user_func($foo_c, null, null);
+$refl = new ReflectionFunction($foo_c);
+print_r($refl);
 */
 ?>
