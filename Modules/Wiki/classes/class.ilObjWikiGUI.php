@@ -803,9 +803,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		$this->checkPermission("write");
 		
-		$users = (is_array($_POST["sel_user_id"]))
-			? $_POST["sel_user_id"]
-			: (is_array($_POST["user_id"])
+		$users = (is_array($_POST["user_id"])
 				? $_POST["user_id"]
 				: array());
 		
@@ -816,13 +814,21 @@ class ilObjWikiGUI extends ilObjectGUI
 		{
 			if ($user_id != "")
 			{
-				ilWikiContributor::_writeStatus($this->object->getId(), $user_id,
-					ilUtil::stripSlashes($_POST["status"][$user_id]));
 				$marks_obj = new ilLPMarks($this->object->getId(),$user_id);
-				$marks_obj->setMark(ilUtil::stripSlashes($_POST['mark'][$user_id]));
-				$marks_obj->setComment(ilUtil::stripSlashes($_POST['lcomment'][$user_id]));
-				$marks_obj->update();
-				$saved = true;
+				$new_mark = ilUtil::stripSlashes($_POST['mark'][$user_id]);
+				$new_comment = ilUtil::stripSlashes($_POST['lcomment'][$user_id]);
+				$new_status = ilUtil::stripSlashes($_POST["status"][$user_id]);
+
+				if ($marks_obj->getMark() != $new_mark ||
+					$marks_obj->getComment() != $new_comment ||
+					ilWikiContributor::_lookupStatus($this->object->getId(), $user_id) != $new_status)
+				{
+					ilWikiContributor::_writeStatus($this->object->getId(), $user_id, $new_status);
+					$marks_obj->setMark($new_mark);
+					$marks_obj->setComment($new_comment);
+					$marks_obj->update();
+					$saved = true;
+				}
 			}
 		}
 		if ($saved)

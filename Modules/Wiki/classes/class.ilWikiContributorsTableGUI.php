@@ -43,7 +43,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
 		$this->wiki_id = $a_wiki_id;
 		
 		$this->addColumn("", "", "1");
-		$this->addColumn("", "", "1");
+		//$this->addColumn("", "", "1");
 		$this->addColumn($lng->txt("wiki_contributor"), "", "33%");
 		$this->addColumn($lng->txt("wiki_page_changes"), "", "33%");
 		$this->addColumn($lng->txt("wiki_grading"), "", "33%");
@@ -53,7 +53,8 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
 			"Modules/Wiki");
 		$this->getContributors();
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), "saveGrading"));
-		$this->addMultiCommand("saveGrading", $lng->txt("save"));
+		$this->addCommandButton("saveGrading", $lng->txt("save"));
+		//$this->addMultiCommand("saveGrading", $lng->txt("save"));
 		
 		$this->setShowRowsSelector(true);
 		
