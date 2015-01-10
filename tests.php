@@ -131,7 +131,7 @@ function _test_PlainValue(Value $value, $val, $origin) {
 }
 
 function test_FunctionValue() {
-    $fn = _function("id");
+    $fn = _fn("id");
     $fn2 = alwaysThrows1()
             ->catchAndReify("TestException");
     $fn3 = alwaysThrows2()
