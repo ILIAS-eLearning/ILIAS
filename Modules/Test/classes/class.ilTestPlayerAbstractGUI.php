@@ -475,21 +475,22 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected function showSideList()
 	{
 		global $ilUser;
-		$show_side_list = $ilUser->getPref( 'side_list_of_questions' );
-		$this->tpl->setCurrentBlock( 'view_sidelist' );
-		$this->tpl->setVariable( 'IMAGE_SIDELIST',
-								 ($show_side_list) ? ilUtil::getImagePath( 'view_remove.png'
-								 ) : ilUtil::getImagePath( 'view_choose.png' )
+
+		$show_side_list = $ilUser->getPref('side_list_of_questions');
+		$this->tpl->setCurrentBlock('view_sidelist');
+		$this->tpl->setVariable('IMAGE_SIDELIST',
+			($show_side_list) ? ilUtil::getImagePath('view_remove.png'
+			) : ilUtil::getImagePath('view_choose.png')
 		);
-		$this->tpl->setVariable( 'TEXT_SIDELIST',
-								 ($show_side_list) ? $this->lng->txt( 'tst_hide_side_list'
-								 ) : $this->lng->txt( 'tst_show_side_list' )
+		$this->tpl->setVariable('TEXT_SIDELIST',
+			($show_side_list) ? $this->lng->txt('tst_hide_side_list'
+			) : $this->lng->txt('tst_show_side_list')
 		);
 		$this->tpl->parseCurrentBlock();
-		if ($show_side_list)
+		if($show_side_list)
 		{
-			$this->tpl->addCss( ilUtil::getStyleSheetLocation( "output", "ta_split.css", "Modules/Test" ), "screen" );
-			$this->outQuestionSummaryCmd( false );
+			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "ta_split.css", "Modules/Test"), "screen");
+			$this->outQuestionSummaryCmd(false);
 		}
 	}
 	
@@ -1588,10 +1589,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$template->setVariable('SEQUENCE', $row['sequence']);
 				$template->parseCurrentBlock();
 			}
-			
-			$template->setVariable('LIST_OF_QUESTIONS', $this->lng->txt('list_of_questions'));
-			
-			$this->tpl->setVariable('LIST_OF_QUESTIONS', $template->get());
+
+			require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
+			$panel = ilPanelGUI::getInstance();
+			$panel->setHeadingStyle(ilPanelGUI::HEADING_STYLE_SUBHEADING);
+			$panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
+			$panel->setHeading($this->lng->txt('list_of_questions'));
+			$panel->setBody($template->get());
+
+			$this->tpl->setVariable('LIST_OF_QUESTIONS', $panel->getHTML());
 		}
 	}
 	
