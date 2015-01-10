@@ -58,10 +58,6 @@ abstract class Formlet {
     }
 }
 
-function _map_builder($transformation, $builder) {
-    return $builder->map($transformation);
-};
-
 
 /* A PureFormlet collects a constant value and buildes to an empty string. */
 class PureFormlet extends Formlet {
