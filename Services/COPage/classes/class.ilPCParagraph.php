@@ -1159,6 +1159,12 @@ echo htmlentities($a_text);*/
 		$a_text = eregi_replace("</ExtLink>","[/xln]",$a_text);
 
 		// anchor
+		while (eregi("<Anchor($any/)>", $a_text, $found))
+		{
+			$found[0];
+			$attribs = ilUtil::attribsToArray($found[1]);
+			$a_text = str_replace("<Anchor".$found[1].">","[anc name=\"".$attribs["Name"]."\"][/anc]",$a_text);
+		}
 		while (eregi("<Anchor($any)>", $a_text, $found))
 		{
 			$found[0];
