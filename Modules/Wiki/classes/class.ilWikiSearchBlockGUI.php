@@ -130,6 +130,8 @@ class ilWikiSearchBlockGUI extends ilBlockGUI
 		$tpl->setVariable("TXT_PERFORM", $lng->txt("wiki_search"));
 		$tpl->setVariable("FORMACTION",
 			$ilCtrl->getFormActionByClass("ilobjwikigui", "performSearch"));
+		$tpl->setVariable("SEARCH_TERM",
+			ilUtil::prepareFormOutput(ilUtil::stripSlashes($_POST["search_term"])));
 
 		$this->setDataSection($tpl->get());
 	}

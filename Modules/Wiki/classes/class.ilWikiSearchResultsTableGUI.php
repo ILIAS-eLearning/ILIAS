@@ -35,7 +35,7 @@ class ilWikiSearchResultsTableGUI extends ilTable2GUI
 {
 
 	function ilWikiSearchResultsTableGUI($a_parent_obj, $a_parent_cmd = "",
-		$a_wiki_id, $a_results)
+		$a_wiki_id, $a_results, $a_term)
 	{
 		global $ilCtrl, $lng;
 		
@@ -51,7 +51,7 @@ class ilWikiSearchResultsTableGUI extends ilTable2GUI
 		$this->setData($a_results);
 		$this->setLimit(0);
 		
-		$this->setTitle($lng->txt("wiki_search_results"));
+		$this->setTitle($lng->txt("wiki_search_results").' "'.str_replace(array('"'), "", $a_term).'"');
 	}
 	
 	/**
@@ -63,7 +63,7 @@ class ilWikiSearchResultsTableGUI extends ilTable2GUI
 		global $lng, $ilCtrl;
 
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-		$title = ilWikiPage::lookupTitle($a_set);
+		$title = ilWikiPage::lookupTitle($a_set["page_id"]);
 		$this->tpl->setVariable("TXT_PAGE_TITLE", $title);
 		$ilCtrl->setParameterByClass("ilwikipagegui", "page",
 			ilWikiUtil::makeUrlTitle($title));

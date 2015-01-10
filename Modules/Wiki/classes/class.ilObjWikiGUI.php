@@ -1308,7 +1308,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$search_results = ilObjWiki::_performSearch($this->object->getId(),
 			ilUtil::stripSlashes($_POST["search_term"]));
 		$table_gui = new ilWikiSearchResultsTableGUI($this, "performSearch",
-			$this->object->getId(), $search_results);
+			$this->object->getId(), $search_results, $_POST["search_term"]);
 			
 		$this->setSideBlock();
 		$tpl->setContent($table_gui->getHTML());
