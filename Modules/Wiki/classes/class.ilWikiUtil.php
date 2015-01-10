@@ -468,9 +468,10 @@ class ilWikiUtil
 			}
 			
 			# Separate the link trail from the rest of the link
-			list( $inside, $trail ) = ilWikiUtil::splitTrail( $trail );
+			// outcommented due to bug #14590
+//			list( $inside, $trail ) = ilWikiUtil::splitTrail( $trail );
 			
-			//$retVal = '***'.$text."***".$trail;
+			$retVal = '***'.$text."***".$trail;
 			$url_title = ilWikiUtil::makeUrlTitle($nt->mTextform);
 			$db_title = ilWikiUtil::makeDbTitle($nt->mTextform);
 			if ($db_title != "")
@@ -547,6 +548,7 @@ class ilWikiUtil
 */
 		}
 		//wfProfileOut( __METHOD__ );
+//echo "<br>".$retVal; exit;
 		return $retVal;
 	}
 	
