@@ -107,7 +107,7 @@ class ilObjWikiAccess extends ilObjectAccess
 	function _checkGoto($a_target)
 	{
 		global $ilAccess;
-		
+//	echo "-".$a_target."-"; exit;
 		$t_arr = explode("_", $a_target);
 
 		if ($t_arr[0] != "wiki" || (((int) $t_arr[1]) <= 0) && $t_arr[1] != "wpage")
@@ -120,7 +120,14 @@ class ilObjWikiAccess extends ilObjectAccess
 			$wpg_id = (int) $t_arr[2];
 			include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 			$w_id = ilWikiPage::lookupWikiId($wpg_id);
-			$refs = ilObject::_getAllReferences($w_id);
+			if ((int) $t_arr[3] > 0)
+			{
+				$refs = array((int) $t_arr[3]);
+			}
+			else
+			{
+				$refs = ilObject::_getAllReferences($w_id);
+			}
 			foreach ($refs as $r)
 			{
 				if ($ilAccess->checkAccess("read", "", $r))

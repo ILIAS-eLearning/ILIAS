@@ -936,10 +936,19 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		if ($a_target == "wpage")
 		{
-			$wpg_id = (int) $a_page;
+			$a_page_arr = explode("_", $a_page);
+			$wpg_id = (int) $a_page_arr[0];
+			$ref_id = (int) $a_page_arr[1];
 			include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 			$w_id = ilWikiPage::lookupWikiId($wpg_id);
-			$refs = ilObject::_getAllReferences($w_id);
+			if ($ref_id > 0)
+			{
+				$refs = array($ref_id);
+			}
+			else
+			{
+				$refs = ilObject::_getAllReferences($w_id);
+			}
 			foreach ($refs as $r)
 			{
 				if ($ilAccess->checkAccess("read", "", $r))
