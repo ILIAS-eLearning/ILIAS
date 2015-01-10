@@ -1199,7 +1199,7 @@ class ilInfoScreenGUI
 	{
 		global $lng;
 		
-		return "<a onClick=\"toggleSections(this, '".$lng->txt("show_hidden_sections") ."', '".$lng->txt("hide_visible_sections") ."');\" href=\"#\">".$lng->txt("show_hidden_sections")."</a>";
+		return "<a onClick=\"toggleSections(this, '".$lng->txt("show_hidden_sections") ."', '".$lng->txt("hide_visible_sections") ."'); return false;\" href=\"#\">".$lng->txt("show_hidden_sections")."</a>";
 	}
 }
 
