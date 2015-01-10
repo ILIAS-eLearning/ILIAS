@@ -487,7 +487,8 @@ class ilWikiUtil
 //var_dump($inside);
 //var_dump($trail);
 			$wiki_link_class = (!$pg_exists)
-				? ' class="ilWikiPageMissing" ' : "";
+				? ' class="ilc_link_IntLink ilWikiPageMissing" '
+				: ' class="ilc_link_IntLink" ';
 
 			if (!$a_offline)
 			{
