@@ -6580,7 +6580,7 @@ exp#:#exp_export_files#:#Export Files
 exp#:#exp_html#:#HTML
 exp#:#exp_really_delete#:#Do you really want to delete these export files?
 exp#:#exp_scorm#:#SCORM
-exp#:#exp_select_max_one_item#:#Please select only one item.
+exp#:#exp_select_max_one_item#:#Please select one item only. This action cannot be executed for multiple objects at the same time.
 exp#:#exp_xml#:#XML
 export#:#export_create_new_file#:#Create New Export File
 export#:#export_create#:#Create

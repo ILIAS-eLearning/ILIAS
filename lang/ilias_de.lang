@@ -7680,7 +7680,7 @@ exp#:#exp_export_files#:#Exportdateien
 exp#:#exp_html#:#HTML
 exp#:#exp_really_delete#:#Möchten Sie diese Exportdateien wirklich löschen?
 exp#:#exp_scorm#:#SCORM
-exp#:#exp_select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus!
+exp#:#exp_select_max_one_item#:#Bitte wählen Sie nur einen Eintrag aus. Diese Aktion kann nicht für mehrere Objekte gleichzeigt ausgeführt werden.
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Eine neue Exportdatei wurde erstellt.
 export#:#export_create#:#Neu erstellen
