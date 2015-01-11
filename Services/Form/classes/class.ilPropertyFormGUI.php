@@ -592,7 +592,7 @@ class ilPropertyFormGUI extends ilFormGUI
 		if ($this->getTitle() != "")
 		{
 			// commands on top
-			if (count($this->buttons) > 0 && $this->getShowTopButtons())
+			if (count($this->buttons) > 0 && $this->getShowTopButtons() && count($this->items) > 2)
 			{
 				// command buttons
 				foreach($this->buttons as $button)
