@@ -40,9 +40,14 @@ partially. PHP functions are rather different. You always call them at once.
 <?php
 require_once("formlets.php");
 
-// Create a function object from an ordinary PHP function, you need to
-// give its arity and name.
-$explode = _fn(2, "explode");
+function explode_($a, $b) {
+    return explode($a, $b);
+}
+
+// Create a function object from an ordinary PHP function, we take
+// our selfmade function, since explode has three parameters where
+// we need one.
+$explode = _fn("explode_");
 
 // For the lib to work, we need to treat functions and values the same,
 // so we need to lift ordinary values to our abstraction.
@@ -80,7 +85,7 @@ function throws($foo) {
     return $foo;
 }
 
-$throws = _fn(1, "throws");
+$throws = _fn("throws");
 $throwsAndCatches = $throws->catchAndReify("Exception");
 
 $res = $throwsAndCatches->apply(_val("But it won't..."));
@@ -153,7 +158,7 @@ formlet, yielding a new formlet containing the result of the function call.
 // The function to map over the formlet is called mapCollector, since it leaves
 // the builder untouched. Maybe at some point a mapRenderer might come in handy
 // too...
-$containsArrayFormlet = $boringFormlet->mapCollector($explodeBySpace);
+$containsArrayFormlet = $boringFormlet->map($explodeBySpace);
 
 $repr = $containsArrayFormlet->build($name_source);
 $name_source = $repr["name_source"];
@@ -193,8 +198,13 @@ returns an error value.
 
 ```php
 <?php
+
+function preg_match_($a, $b) {
+    return preg_match($a, $b);
+}
+
 // _fn also supports defining some fixed arguments.
-$containsHello = _fn(1, "preg_match", array("/.*hello.*/i"));
+$containsHello = _fn("preg_match_", array("/.*hello.*/i"));
 
 // Append the predicate to a formlet. If its not truthy for the value in the 
 // formlet, an error value with the given message will be collected.
@@ -260,7 +270,7 @@ function mkDate($y, $m, $d) {
 // Our type of function, we want to catch Exceptions since the constructor
 // of the class could throw. In the real world we would be more specific
 // on the type of exception we want to catch.
-$mkDate = _fn(3, "mkDate")
+$mkDate = _fn("mkDate")
             ->catchAndReify("Exception")
             ;
 
@@ -269,7 +279,7 @@ function inRange($l, $r, $value) {
 }
 
 function _inRange($l, $r) {
-    return _fn(1, "inRange", array($l, $r));
+    return _fn("inRange", array($l, $r));
 }
 ?>
 ```
@@ -281,11 +291,16 @@ input elements we'll need from the only input element i provide atm, the
 
 ```php
 <?php
+
+function intval_($a) {
+    return intval($a);
+}
+
 // First we create an integer input from a text input by map intval over the
 // string input after checking it is indeed an integer.
 $int_formlet = _text_input()
-                ->satisfies(_fn(1, "is_numeric"), "No integer.")
-                ->mapCollector(_fn(1, "intval"))
+                ->satisfies(_fn("is_numeric"), "No integer.")
+                ->map(_fn("intval_"))
                 ;
 
 // From the integer input we'll create a month and day input by doing further
@@ -311,11 +326,11 @@ date object.
 <?php
 // Written in odd notation to see what's going on...
 $date_formlet = _pure(  $mkDate             )
-                ->cmb(  _static("Year: ")   )
+                ->cmb(  _text("Year: ")   )
                 ->cmb(  $int_formlet        )
-                ->cmb(  _static("Month: ")  )
+                ->cmb(  _text("Month: ")  )
                 ->cmb(  $month_formlet      )
-                ->cmb(  _static("Day: ")    )
+                ->cmb(  _text("Day: ")    )
                 ->cmb(  $day_formlet        )
                 ;
 ?>
