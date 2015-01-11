@@ -67,6 +67,12 @@ function guardIsCallable($arg) {
     }
 }
 
+function guardIsException($arg) {
+    if (!($arg instanceof Exception)) {
+        throw new TypeError("Exception", typeName($arg));
+    }
+}
+
 function guardIsValue($arg) {
     if (!($arg instanceof Value)) {
         throw new TypeError("Value", typeName($arg));
@@ -78,6 +84,14 @@ function guardIsHTML($arg) {
         throw new TypeError("HTML", typeName($arg));
     }
 }
+
+function guardIsHTMLTag($arg) {
+    if (!($arg instanceof HTMLTag)) {
+        throw new TypeError("HTMLTag", typeName($arg));
+    }
+}
+
+
 
 function guardHasArity(FunctionValue $fun, $arity) {
     if ($fun->arity() != $arity) {
