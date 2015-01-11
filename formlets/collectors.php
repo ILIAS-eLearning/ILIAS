@@ -153,22 +153,6 @@ final class MappedCollector extends Collector {
     }
 }
 
-/* A collector that collects an input by name. */
-final class AnyCollector extends CollectorWithName {
-    public function collect($inp) {
-        if (!array_key_exists($this->name(), $inp)) {
-            throw new MissingInputError($this->name());
-        }
-        return _val($inp[$this->name()], $this->name());
-    }
-
-    public function isNullaryCollector() {
-        return false;
-    }
-}
-
-
-
 /* A collector that has a name. Baseclass for some other collectors. */
 abstract class CollectorWithName extends Collector {
     private $_name; // string
@@ -180,6 +164,21 @@ abstract class CollectorWithName extends Collector {
     public function __construct($name) {
         guardIsString($name);
         $this->_name = $name;
+    }
+}
+
+/* A collector that collects an input by name. */
+final class AnyCollector extends CollectorWithName {
+    public function collect($inp) {
+        $name = $this->name();
+        if (!array_key_exists($name, $inp)) {
+            throw new MissingInputError($this->name());
+        }
+        return _val($inp[$name], $name);
+    }
+
+    public function isNullaryCollector() {
+        return false;
     }
 }
 
