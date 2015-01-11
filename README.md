@@ -298,7 +298,7 @@ function intval_($a) {
 
 // First we create an integer input from a text input by map intval over the
 // string input after checking it is indeed an integer.
-$int_formlet = _text_input()
+$int_formlet = _with_errors(_text_input())
                 ->satisfies(_fn("is_numeric"), "No integer.")
                 ->map(_fn("intval_"))
                 ;
