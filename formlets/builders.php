@@ -139,7 +139,7 @@ class MappedBuilder extends Builder {
     private $_transformation; // FunctionValue 
 
     public function __construct(Builder $builder, FunctionValue $transformation) {
-        guardHasArity($transformation, 1);
+        guardHasArity($transformation, 2);
         $this->_builder = $builder;
         $this->_transformation = $transformation;
     }
@@ -147,6 +147,7 @@ class MappedBuilder extends Builder {
     public function buildWithDict(RenderDict $dict) {
         $base = $this->_builder->buildWithDict($dict);
         $res = $this->_transformation
+                ->apply(_val($dict))
                 ->apply(_val($base))
                 ->get();
         guardIsHTML($res);
