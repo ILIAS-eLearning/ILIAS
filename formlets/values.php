@@ -91,7 +91,7 @@ function _val($value, $origin = null) {
 
 final class FunctionValue extends Value {
     private $_arity; // int
-    private $_closure; // string
+    private $_function; // string
     private $_args; // array
     private $_reifyExceptions; // array
     private $_result; // maybe Value 
@@ -320,7 +320,7 @@ final class FunctionValue extends Value {
  * could be passed 
  */
 function _fn($function, $args = null) {
-    return new FunctionValue($function, null, $args);
+    return new FunctionValue($function, $args);
 }
 
 /*function _method($arity, $object, $method_name, $args = null) {
