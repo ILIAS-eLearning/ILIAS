@@ -75,6 +75,43 @@ function _checkbox($default = false, $attributes = null) {
         })); 
 } 
 
+function _submit($value, $attributes = array(), $collects = false) {
+    $attributes["value"] = $value;
+    $input = _input("submit", $attributes);
+
+    if ($collects) {
+        return $input->wrapCollector(_fn(function($collector) {
+            try {
+                $collector->collect();
+                return true;
+            } catch (MissingInputError $e) {
+                return false;
+            }
+        }));
+    }
+    else {
+        return $input->replaceCollector( new NullaryCollector() );
+    }
+}
+
+/* A formlet that wraps other formlets in a field set */
+function _fieldset($legend, Formlet $formlet
+                  , $attributes = array(), $legend_attributes = array()) {
+    return $formlet
+        ->mapHTML(_fn(function ($dict, $html) 
+                      use ($legend, $attributes, $legend_attributes) {
+
+            return html_tag("fieldset", $attributes, 
+                        html_concat(
+                              html_tag("legend", $legend_attributes, 
+                                html_text($legend))
+                            , $html
+                        )
+                    );
+
+        }));
+} 
+
 
 function _with_label($label, Formlet $other) {
     return $other->mapHTML(_fn( function ($_, $html) use ($label) {
@@ -112,73 +149,5 @@ function _with_errors(Formlet $other) {
         return $html;
     }));
 }
-
-
-/* A formlet that wraps other formlets in a field set */
-function _fieldset($legend, Formlet $formlet
-                  , $attributes = array(), $legend_attributes = array()) {
-    return $formlet
-        ->mapHTML(_fn(function ($dict, $html) 
-                      use ($legend, $attributes, $legend_attributes) {
-
-            return html_tag("fieldset", $attributes, 
-                        html_concat(
-                              html_tag("legend", $legend_attributes, 
-                                html_text($legend))
-                            , $html
-                        )
-                    );
-
-        }));
-} 
-
-/* A formlet representing a submit button, possibly collecting a boolean. */
-class SubmitButtonFormlet extends Formlet {
-    protected $_label; // label 
-    protected $_collects; // bool
-    protected $_attributes; // string
-
-    public function __construct($label, $collects = false, $attributes = null) {
-        guardIsString($label);
-        guardIsBool($collects);
-        if ($attributes !== null)
-            guardIsArray($attributes);
-        $this->_label= $label; 
-        $this->_collects= $collects; 
-        $this->_attributes = $attributes;
-    }
-
-    public function build(NameSource $name_source) {
-        $res = $name_source->getNameAndNext();
-        $name = $res["name"];
-        $collector = $this->_collects
-                    ? new ExistsCollector($name)
-                    : new NullaryCollector()
-                    ;
-        return array
-            ( "builder"    => new TagBuilder( "submit_button"
-                                            , _fn(function($a) use ($name) {
-                                                    return $this->getAttributes($name, $a);
-                                                })
-                                            , _const(null)
-                                            )
-            , "collector"   => $collector
-            , "name_source" => $res["name_source"]
-            );
-    }
-
-    public function getAttributes($name, RenderDict $dict) {
-        $attributes = id($this->_attributes);
-        if ($this->_collects)
-            $attributes["name"] = $name; 
-        $attributes["value"] = $this->_label; 
-        return $attributes;
-    }
-}
-
-function _submit($label, $collects = false, $attributes = null) {
-    return new SubmitButtonFormlet($label, $collects, $attributes);
-}
-
 
 ?>

@@ -50,6 +50,14 @@ abstract class Formlet {
                            }));
     }
 
+    /* Replace the collector. */
+    final public function replaceCollector(Collector $collector) {
+        return $this->mapBC( _id()
+                           , _fn( function($_) use ($collector) {
+                                return $collector;
+                           }));
+    }
+
     /* Map a function over the build HTML. */
     final public function mapHTML(FunctionValue $transformation) {
         return $this->mapBC( _fn( function($builder) use ($transformation) {

@@ -153,7 +153,7 @@ function test_FunctionValue() {
         , "Function still catches after application"
             => andR(_test_ErrorValue($fn3->apply($value)->apply($value), "test exception", null))
         , "Function value returns correct results for intval"
-            => _test_FunctionValue_results( "intval"
+            => _test_FunctionValue_results( function($i) { return intval($i); }
                                           , array( array("12")
                                                  , array("122123")
                                                  , array("45689")
