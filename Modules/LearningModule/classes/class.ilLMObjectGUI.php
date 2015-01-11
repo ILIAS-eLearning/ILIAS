@@ -101,7 +101,7 @@ class ilLMObjectGUI
 		$form->setTitle( $this->lng->txt($new_type."_new"));
 		
 		$title = new ilTextInputGUI($this->lng->txt("title"), "Fobject[title]");
-		$title->setRequired(true);
+		//$title->setRequired(true);
 		$form->addItem($title);
 		
 		$desc = new ilTextAreaInputGUI($this->lng->txt("description"), "Fobject[desc]");		
