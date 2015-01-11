@@ -10,9 +10,6 @@ require_once("helpers.php");
 require_once("base.php");
 
 
-/* A formlet to input some text. Renders to according HTML and collects a
- * string.
- */
 function _text_input($default = null, $attributes = null) {
     guardIfNotNull($default, "guardIsString");
     return _input("text", $attributes)
@@ -32,7 +29,7 @@ function _text_input($default = null, $attributes = null) {
         }));
 }
 
-/* A formet to input some text in an area. */
+
 function _textarea($default = null, $attributes = null) {
     guardIfNotNull($default, "guardIsString");
     return _textarea_raw($attributes)
@@ -49,6 +46,35 @@ function _textarea($default = null, $attributes = null) {
             return $html;
         }));
 }
+
+
+function _checkbox($default = false, $attributes = null) {
+    guardIsBool($default);
+    return _input("checkbox", $attributes)
+        ->wrapCollector(_fn(function($collector) {
+            // We don't really need the value, we just
+            // have to check weather it is there.
+            try {
+                $collector->collect();
+                return true;
+            }
+            catch (MissingInputError $e) {
+                return false;
+            }
+        }))
+        ->mapHTML(_fn(function ($dict, $html) use ($default) {
+            $name = $html->attribute("name");
+
+            if ($dict->isEmpty())
+                $value = $default;
+            else
+                $value = $dict->value($name) !== null;
+            if ($value)
+                return $html->attribute("checked", "checked");
+            return $html;
+        })); 
+} 
+
 
 function _with_label($label, Formlet $other) {
     return $other->mapHTML(_fn( function ($_, $html) use ($label) {
@@ -105,65 +131,6 @@ function _fieldset($legend, Formlet $formlet
 
         }));
 } 
-
-/* A formlet to a boolean via a checkbox. Renders to according HTML and collects
- * a bool.
- */
-class CheckboxFormlet extends Formlet {
-    protected $_value; // bool 
-    protected $_label; // string
-    protected $_attributes; // string
-
-    public function __construct($label = null, $value = false, $attributes = null) {
-        if ($label !== null)
-            guardIsString($label);
-        guardIsBool($value);
-        if ($attributes !== null)
-            guardIsArray($attributes);
-        $this->_label = $label; 
-        $this->_value = $value; 
-        $this->_attributes = $attributes; 
-    }
-
-    public function build(NameSource $name_source) {
-        $res = $name_source->getNameAndNext();
-        $name = $res["name"];
-        return array
-            ( "builder"    => new TagBuilder( "checkbox"
-                                            , _fn(function($a) use ($name) {
-                                                    return $this->getAttributes($name, $a);
-                                                })
-                                            , _const(null)
-                                            )
-            , "collector"   => new ExistsCollector($res["name"])
-            , "name_source" => $res["name_source"]
-            );
-    }
-
-    public function getAttributes($name, RenderDict $dict) {
-        $attributes = id($this->_attributes);
-        $attributes["name"] = $name; 
-        
-        if ($dict->isEmpty())
-            $value = $this->_value;
-        else
-            $value = $dict->value($name) !== null;
-        if ($value)
-            $attributes["checked"] = null; 
-                
-        if ($this->_label !== null)
-            $attributes["label"] = $this->_label;
-
-        $errors = $dict->errors($name);
-        if ($errors !== null)
-            $attributes["errors"] = $errors;
-        return $attributes;
-    }
-}
-
-function _checkbox($label = null, $value = false, $attributes = null) {
-    return new CheckboxFormlet($label, $value, $attributes);
-}
 
 /* A formlet representing a submit button, possibly collecting a boolean. */
 class SubmitButtonFormlet extends Formlet {

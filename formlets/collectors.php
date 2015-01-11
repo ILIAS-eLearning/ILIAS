@@ -175,6 +175,10 @@ class WrappedCollector extends Collector {
     public function collect($inp) {
         return $this->_wrapper->apply($this->_collector);
     }
+
+    public function isNullaryCollector() {
+        return false;
+    }
 }
 
 /* A collector that has a name. Baseclass for some other collectors. */
