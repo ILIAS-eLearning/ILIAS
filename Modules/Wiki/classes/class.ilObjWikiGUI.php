@@ -290,6 +290,12 @@ class ilObjWikiGUI extends ilObjectGUI
 		// $newObj->setRatingAsBlock($this->form_gui->getInput("rating_side"));
 		$newObj->setRatingForNewPages($this->form_gui->getInput("rating_new"));
 		$newObj->setRatingCategories($this->form_gui->getInput("rating_ext"));
+
+		$newObj->setRatingOverall($this->form_gui->getInput("rating_overall"));
+		$newObj->setPageToc($this->form_gui->getInput("page_toc"));
+
+
+
 		if (!$ilSetting->get("disable_comments"))
 		{
 			$newObj->setPublicNotes($this->form_gui->getInput("public_notes"));
