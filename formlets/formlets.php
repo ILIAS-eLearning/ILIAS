@@ -89,14 +89,21 @@ function _with_errors(Formlet $other) {
 
 
 /* A formlet that wraps other formlets in a field set */
-function _fieldset($legend, Formlet $formlet, $attributes = array()) {
-    $ret = _text("<fieldset".keysAndValuesToHTMLAttributes($attributes).">");
-    if ($legend !== null) {
-        $ret = $ret->cmb(_text("<legend>$legend</legend>"));
-    }
-    return $ret->cmb($formlet)
-               ->cmb(_text("</fieldset>"))
-               ;
+function _fieldset($legend, Formlet $formlet
+                  , $attributes = array(), $legend_attributes = array()) {
+    return $formlet
+        ->mapHTML(_fn(function ($dict, $html) 
+                      use ($legend, $attributes, $legend_attributes) {
+
+            return html_tag("fieldset", $attributes, 
+                        html_concat(
+                              html_tag("legend", $legend_attributes, 
+                                html_text($legend))
+                            , $html
+                        )
+                    );
+
+        }));
 } 
 
 /* A formlet to a boolean via a checkbox. Renders to according HTML and collects
