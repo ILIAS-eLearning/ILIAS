@@ -182,7 +182,7 @@ class WrappedCollector extends Collector {
 }
 
 /* A collector that collects an input by name. */
-final class AnyCollector {
+final class AnyCollector extends Collector {
     private $_name; // string
 
     protected function name() {
