@@ -14,7 +14,7 @@ function _text_input($default = null, $attributes = null) {
     guardIfNotNull($default, "guardIsString");
     return _input("text", $attributes)
         // Only accept string inputs
-        ->satisfies(_fn("is_string"), "Input is no string.")
+        //->satisfies(_fn("is_string"), "Input is no string.")
         // Set value by input or given value if there is no input. 
         ->mapHTML(_fn(function ($dict, $html) use ($default) {
             $name = $html->attribute("name");
@@ -51,11 +51,11 @@ function _textarea($default = null, $attributes = null) {
 function _checkbox($default = false, $attributes = null) {
     guardIsBool($default);
     return _input("checkbox", $attributes)
-        ->wrapCollector(_fn(function($collector) {
+        ->wrapCollector(_fn(function($collector, $inp) {
             // We don't really need the value, we just
             // have to check weather it is there.
             try {
-                $collector->collect();
+                $collector->collect($inp);
                 return true;
             }
             catch (MissingInputError $e) {
@@ -80,11 +80,12 @@ function _submit($value, $attributes = array(), $collects = false) {
     $input = _input("submit", $attributes);
 
     if ($collects) {
-        return $input->wrapCollector(_fn(function($collector) {
+        return $input->wrapCollector(_fn(function($collector, $inp) {
             try {
-                $collector->collect();
+                $collector->collect($inp);
                 return true;
-            } catch (MissingInputError $e) {
+            } 
+            catch (MissingInputError $e) {
                 return false;
             }
         }));
@@ -122,7 +123,7 @@ function _with_label($label, Formlet $other) {
         guardIsString($name);
 
         return html_concat
-                ( tag("label", array("for" => $name), text($label))
+                ( html_tag("label", array("for" => $name), html_text($label))
                 , $html->attribute("id", $name)
                 );
     }));   

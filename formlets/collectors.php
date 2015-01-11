@@ -164,7 +164,7 @@ class WrappedCollector extends Collector {
     private $_wrapper; // FunctionValue
 
     public function __construct(Collector $collector, FunctionValue $wrapper) {
-        guardHasArity($wrapper, 1);
+        guardHasArity($wrapper, 2);
         if ($collector->isNullaryCollector()) {
             throw new Exception("It makes no sense to wrap around a nullary collector.");
         }
@@ -173,7 +173,9 @@ class WrappedCollector extends Collector {
     }
 
     public function collect($inp) {
-        return $this->_wrapper->apply(_val($this->_collector));
+        return $this->_wrapper
+                    ->apply(_val($this->_collector))
+                    ->apply(_val($inp));
     }
 
     public function isNullaryCollector() {
