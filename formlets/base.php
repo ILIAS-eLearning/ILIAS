@@ -221,4 +221,39 @@ function _input($type, $attributes = array()) {
     return new InputFormlet($attributes);
 }
 
+/* A formlet to input some text in an area. */
+class TextAreaFormlet extends Formlet implements TagBuilderCallbacks {
+    protected $_attributes; // string
+
+    public function __construct($attributes = null) {
+        if ($attributes !== null)
+            guardIsArray($attributes);
+        $this->_attributes = $attributes; 
+    }
+
+    public function build(NameSource $name_source) {
+        $res = $name_source->getNameAndNext();
+        return array
+            ( "builder"    => new TagBuilder( "textarea", $this, $res["name"] )
+            , "collector"   => new AnyCollector($res["name"])
+            , "name_source" => $res["name_source"]
+            );
+    }
+
+    public function getContent(RenderDict $dict, $name) {
+        return null;
+    }
+
+    public function getAttributes(RenderDict $dict, $name) {
+        $attributes = id($this->_attributes);
+        $attributes["name"] = $name; 
+        return $attributes; 
+    }
+}
+
+function _textarea_raw($attributes = null) {
+    return new TextAreaFormlet($attributes);
+}
+
+
 ?>

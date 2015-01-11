@@ -15,23 +15,39 @@ require_once("base.php");
  */
 function _text_input($default = null, $attributes = null) {
     guardIfNotNull($default, "guardIsString");
-
-    $input = _input("text", $attributes)
+    return _input("text", $attributes)
         // Only accept string inputs
-        ->satisfies(_fn("is_string"), "Input is no string.");
+        ->satisfies(_fn("is_string"), "Input is no string.")
+        // Set value by input or given value if there is no input. 
+        ->mapHTML(_fn(function ($dict, $html) use ($default) {
+            $name = $html->attribute("name");
 
-    // Set value by input or given value if there is no input. 
-    return $input->mapHTML(_fn(function ($dict, $html) use ($default) {
-        $name = $html->attribute("name");
+            $value = $dict->value($name);
+            if ($value === null)
+                $value == $default;
+            if ($value !== null)
+                $html = $html->attribute("value", $value);
 
-        $value = $dict->value($name);
-        if ($value === null)
-            $value == $default;
-        if ($value !== null)
-            $html = $html->attribute("value", $value);
+            return $html;
+        }));
+}
 
-        return $html;
-    }));
+/* A formet to input some text in an area. */
+function _textarea($default = null, $attributes = null) {
+    guardIfNotNull($default, "guardIsString");
+    return _textarea_raw($attributes)
+        ->satisfies(_fn("is_string"), "Input is no string.")
+        ->mapHTML(_fn(function ($dict, $html) use ($default) {
+            $name = $html->attribute("name");
+            
+            $value = $dict->value($name);
+            if ($value === null)
+                $value = $default;
+            if ($value !== null)
+                $html = $html->content(html_text($value));
+
+            return $html;
+        }));
 }
 
 function _with_label($label, Formlet $other) {
@@ -63,72 +79,12 @@ function _with_errors(Formlet $other) {
         foreach ($errors as $error) {
             $html = html_concat
                         ( $html
-                        , tag("span", array("class" => "error"), text($error))
+                        , html_tag("span", array("class" => "error"), html_text($error))
                         );
         }
 
         return $html;
     }));
-}
-/* A formlet to input some text in an area. */
-class TextAreaFormlet extends Formlet {
-    protected $_value; // string
-    protected $_label; // string
-    protected $_attributes; // string
-
-    public function __construct($label = null, $value = null, $attributes = null) {
-        if ($label !== null)
-            guardIsString($label);
-        if ($value !== null)
-            guardIsString($value);
-        if ($attributes !== null)
-            guardIsArray($attributes);
-        $this->_label = $label; 
-        $this->_value = $value; 
-        $this->_attributes = $attributes; 
-    }
-
-    public function build(NameSource $name_source) {
-        $res = $name_source->getNameAndNext();
-        $name = $res["name"];
-        return array
-            ( "builder"    => new TagBuilder( "textarea"
-                                            , _fn(function($a) use ($name) {
-                                                return $this->getAttributes($name, $a);
-                                              })
-                                            , _fn(function($a) use ($name) {
-                                                return $this->getContent($name, $a);
-                                              })
-                                            )
-            , "collector"   => new StringCollector($res["name"])
-            , "name_source" => $res["name_source"]
-            );
-    }
-
-    public function getContent($name, RenderDict $dict) {
-        $value = $dict->value($name);
-        if ($value === null)
-            $value = $this->_value;
-
-        return $value !== null ? html_text($value) : html_nop();
-    }
-
-    public function getAttributes($name, RenderDict $dict) {
-        $attributes = id($this->_attributes);
-        $attributes["name"] = $name; 
-        
-        if ($this->_label !== null)
-            $attributes["label"] = $this->_label;
-
-        $errors = $dict->errors($name);
-        if ($errors !== null)
-            $attributes["errors"] = $errors;
-        return $attributes; 
-    }
-}
-
-function _textarea($label = null, $value = null, $attributes = null) {
-    return new TextAreaFormlet($label, $value, $attributes);
 }
 
 
