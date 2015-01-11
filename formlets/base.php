@@ -198,7 +198,7 @@ class InputFormlet extends Formlet implements TagBuilderCallbacks {
     public function build(NameSource $name_source) {
         $res = $name_source->getNameAndNext();
         return array
-            ( "builder"    => new TagBuilder( "text_input", $this, $res["name"])
+            ( "builder"    => new TagBuilder( "input", $this, $res["name"])
             , "collector"   => new AnyCollector($res["name"])
             , "name_source" => $res["name_source"]
             );
@@ -215,7 +215,9 @@ class InputFormlet extends Formlet implements TagBuilderCallbacks {
     }
 }
 
-function _input($attributes = array()) {
+function _input($type, $attributes = array()) {
+    guardIsString($type);
+    $attributes["type"] = $type;
     return new InputFormlet($attributes);
 }
 
