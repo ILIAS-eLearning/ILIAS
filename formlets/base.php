@@ -42,6 +42,14 @@ abstract class Formlet {
                             }));
     }
 
+    /* Wrap a function around the collector. */
+    final public function wrapCollector(FunctionValue $wrapper) {
+        return $this->mapBC( _id()
+                           , _fn( function($collector) use ($wrapper) {
+                                return $collector->wrap($wrapper);
+                           }));
+    }
+
     /* Map a function over the build HTML. */
     final public function mapHTML(FunctionValue $transformation) {
         return $this->mapBC( _fn( function($builder) use ($transformation) {

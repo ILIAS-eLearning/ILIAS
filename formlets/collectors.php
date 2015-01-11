@@ -23,6 +23,11 @@ abstract class Collector {
     final public function map(FunctionValue $transformation) {
         return new MappedCollector($this, $transformation);    
     }
+
+    /* Wrap a function around the collect function. */
+    final public function wrap(FunctionValue $wrapper) {
+        return new WrappedCollector($this, $wrapper);
+    }
 }
 
 class MissingInputError extends Exception {
@@ -150,6 +155,25 @@ final class MappedCollector extends Collector {
 
     public function isNullaryCollector() {
         return false;
+    }
+}
+
+/* A collector where a wrapper is around an underlying collect. */
+class WrappedCollector extends Collector {
+    private $_collector; // Collector
+    private $_wrapper; // FunctionValue
+
+    public function __construct(Collector $collector, FunctionValue $wrapper) {
+        guardHasArity($wrapper, 1);
+        if ($collector->isNullaryCollector()) {
+            throw new Exception("It makes no sense to wrap around a nullary collector.");
+        }
+        $this->_collector = $collector;
+        $this->_wrapper = $wrapper;
+    }
+
+    public function collect($inp) {
+        return $this->_wrapper->apply($this->_collector);
     }
 }
 
