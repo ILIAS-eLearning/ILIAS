@@ -181,8 +181,8 @@ class WrappedCollector extends Collector {
     }
 }
 
-/* A collector that has a name. Baseclass for some other collectors. */
-abstract class CollectorWithName extends Collector {
+/* A collector that collects an input by name. */
+final class AnyCollector {
     private $_name; // string
 
     protected function name() {
@@ -193,10 +193,7 @@ abstract class CollectorWithName extends Collector {
         guardIsString($name);
         $this->_name = $name;
     }
-}
 
-/* A collector that collects an input by name. */
-final class AnyCollector extends CollectorWithName {
     public function collect($inp) {
         $name = $this->name();
         if (!array_key_exists($name, $inp)) {
@@ -204,32 +201,6 @@ final class AnyCollector extends CollectorWithName {
         }
         return _val($inp[$name], $name);
     }
-
-    public function isNullaryCollector() {
-        return false;
-    }
-}
-
-/* A collector that collects a string from input. */
-final class StringCollector extends CollectorWithName {
-    public function collect($inp) {
-        if (!array_key_exists($this->name(), $inp)) {
-            throw new MissingInputError($this->name());
-        }
-        guardIsString($inp[$this->name()]);
-        return _val($inp[$this->name()], $this->name());
-    }
-
-    public function isNullaryCollector() {
-        return false;
-    }
-}
-
-/* A collector that returns true, wenn name is present in input. */
-final class ExistsCollector extends CollectorWithName {
-    public function collect($inp) {
-        return _val(array_key_exists($this->name(), $inp));
-    }    
 
     public function isNullaryCollector() {
         return false;
