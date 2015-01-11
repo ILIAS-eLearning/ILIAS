@@ -173,7 +173,7 @@ class WrappedCollector extends Collector {
     }
 
     public function collect($inp) {
-        return $this->_wrapper->apply($this->_collector);
+        return $this->_wrapper->apply(_val($this->_collector));
     }
 
     public function isNullaryCollector() {
