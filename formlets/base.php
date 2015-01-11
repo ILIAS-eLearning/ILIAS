@@ -257,7 +257,7 @@ class TextAreaFormlet extends Formlet implements TagBuilderCallbacks {
     }
 
     public function getContent(RenderDict $dict, $name) {
-        return null;
+        return html_text("");
     }
 
     public function getAttributes(RenderDict $dict, $name) {
