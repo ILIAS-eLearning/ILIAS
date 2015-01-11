@@ -227,7 +227,7 @@ Now you need to see, how this stuff works out. I won't explain how to implement
 new primitives for forms, since atm i only implemented two of them by myself.
 So that'll be left for later. I rather show you an example how one could use 
 the primitives to construct an input for a date. Their names are `_text_input` and
-`_static`.
+`_text`.
 
 First we'll write our own (and very dump) date class. We won't be doing this in
 *The Real World*, i guess, but here we'll do it to see how it works more easily.
@@ -318,7 +318,7 @@ $day_formlet = $int_formlet
 
 Next we'll be combining these basic inputs to a more complex input that could
 be used to define a date. We also use the other primitive i have implemented 
-atm, that is `_static`, which renders a static string and collects nothing. To 
+atm, that is `_text`, which renders a static string and collects nothing. To 
 compose the formlets to our date formlet, we use the `cmb` (for combine) method,
 shown above. We plumb the stuff with $mkDate to get a formlet that creates us a 
 date object.
