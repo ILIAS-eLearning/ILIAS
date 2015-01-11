@@ -289,7 +289,7 @@ print_and_record_test("MappedFormlet");
 
 function test_MappedHTMLFormlet() {
     $pure = _pure(_val("1337"));
-    return _test_isFormlet($pure->mapHTML(_id())); 
+    return _test_isFormlet($pure->mapHTML(_fn( function($_, $a) { return $a; })));
 }
 print_and_record_test("MappedHTMLFormlet");
 
@@ -299,7 +299,7 @@ function test_Text() {
 print_and_record_test("Text");
 
 function test_Input() {
-    return _test_isFormlet(_input());
+    return _test_isFormlet(_input("foo"));
 }
 print_and_record_test("Input");
 
