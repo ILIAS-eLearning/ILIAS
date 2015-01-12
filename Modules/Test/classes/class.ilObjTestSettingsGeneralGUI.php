@@ -1106,7 +1106,7 @@ class ilObjTestSettingsGeneralGUI
 		$mailnotificationContent = new ilRadioGroupInputGUI($this->lng->txt("tst_finish_notification_content"), "mailnotification_content");
 		$mailnotificationContent->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_simple"), 1, ''));
 		$mailnotificationContent->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_advanced"), 2, ''));
-		$mailnotificationContent->setValue($this->testOBJ->getMailNotification());
+		$mailnotificationContent->setValue($this->testOBJ->getMailNotification() ? $this->testOBJ->getMailNotification() : 1);
 		$mailnotificationContent->setRequired(true);
 		$mailnotification->addSubItem($mailnotificationContent);
 
