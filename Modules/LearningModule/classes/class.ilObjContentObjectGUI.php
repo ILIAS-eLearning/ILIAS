@@ -266,18 +266,15 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
-				
-/*			case "ilpagemultilanggui":
-				$this->addHeaderAction();
-				$this->addLocations(true);
-				$ilCtrl->setReturn($this, "properties");
-				include_once("./Services/COPage/classes/class.ilPageMultiLangGUI.php");
-				$ml_gui = new ilPageMultiLangGUI("lm", $this->object->getId());
-				$this->setTabs("settings");
-				$this->setSubTabs("cont_multilinguality");
-				$ret = $this->ctrl->forwardCommand($ml_gui);
-				break;*/
-			
+
+			case 'ilobjectcopygui':
+				$this->prepareOutput();
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('lm');
+				$this->ctrl->forwardCommand($cp);
+				break;
+
 			default:
 				$new_type = $_POST["new_type"]
 					? $_POST["new_type"]
@@ -1029,13 +1026,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$ilCtrl->redirect($this, "chapters");
 	}
 
-	protected function initCreationForms($a_new_type)
+	/* protected function initCreationForms($a_new_type)
 	{
 		$forms = array(self::CFORM_NEW => $this->initCreateForm($a_new_type),
 			self::CFORM_IMPORT => $this->initImportForm());
 
 		return $forms;
-	}
+	}*/
 
 	protected function afterSave(ilObject $a_new_object)
 	{

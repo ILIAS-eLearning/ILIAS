@@ -15195,3 +15195,4 @@ blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the fo
 news#:#news_rss#:#RSS
 mob#:#mob_object#:#Object
 content#:#cont_qtries_info#:#Default value for number of tries for newly created questions.
+lm#:#lm_copy#:#Copy Learning Module

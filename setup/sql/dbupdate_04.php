@@ -5343,3 +5343,7 @@ if($tgt_ops_id)
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4445>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
