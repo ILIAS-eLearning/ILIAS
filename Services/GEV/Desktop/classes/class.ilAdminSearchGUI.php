@@ -33,19 +33,6 @@ class ilAdminSearchGUI {
 		$this->user_utils = gevUserUtils::getInstanceByObj($ilUser);
 		$this->search_form = null;
 
-		/*
-		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
-			$this->target_user_id = $_POST["target_user_id"]
-								  ? $_POST["target_user_id"]
-								  : (   $_GET["target_user_id"]
-								  	  ? $_GET["target_user_id"]
-								  	  : $ilUser->getId()
-								  	);
-		}
-		else {
-			$this->target_user_id = $ilUser->getId();
-		}
-		*/
 		$this->target_user_id = $ilUser->getId();
 		$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
 
@@ -62,27 +49,6 @@ class ilAdminSearchGUI {
 
 	public function render($a_in_search = false) {
 		$spacer = new catHSpacerGUI();
-
-		/*
-		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
-			$user_selector = new gevUserSelectorGUI($this->target_user_id);
-			$users = array_merge( array(array("usr_id" => $this->user_id
-											 , "firstname" => $this->user->getFirstname()
-											 , "lastname" => $this->user->getLastname()
-											 )
-									   )
-								, $this->user_utils->getEmployeesForCourseSearch()
-								);
-			$user_selector->setUsers($users)
-						  ->setCaption("gev_crs_srch_usr_slctr_caption")
-						  ->setAction($this->ctrl->getLinkTargetByClass("gevCourseSearchGUI"));
-			$usrsel = $user_selector->render() . $spacer->render();
-		}
-		else {
-			$usrsel = "";
-		}
-		*/
-		$usrsel = "";
 
 		$spacer_out = $spacer->render();
 		
@@ -162,8 +128,7 @@ class ilAdminSearchGUI {
 				//->setCommand("gev_crs_srch_limit", "javascript:gevShowSearchFilter();"); // TODO: set this properly
 				->setCommand("gev_crs_srch_limit", "-"); // TODO: set this properly
 
-		return $usrsel
-			 . $this->renderSearch()
+		return $this->renderSearch()
 			 . $crs_tbl->getHTML()
 			 ;
 	}
@@ -216,32 +181,14 @@ class ilAdminSearchGUI {
 		$type = new ilSelectInputGUI($this->lng->txt("gev_course_type"), "type");
 		$type->setOptions(gevCourseUtils::getTypeOptions());
 		$form->addItem($type);
-
-/*		
-		$categorie = new ilSelectInputGUI($this->lng->txt("gev_course_categorie"), "categorie");
-		$categorie->setOptions(gevCourseUtils::getCategorieOptions());
-		$form->addItem($categorie);
-*/
-
+		
 		$program = new ilSelectInputGUI($this->lng->txt("gev_edu_program"), "program");
 		$program->setOptions(gevCourseUtils::getEducationProgramOptions());
 		$form->addItem($program);
-
-
-/*				
-		$target_group = new ilSelectInputGUI($this->lng->txt("gev_target_group"), "target_group");
-		$target_group->setOptions(gevCourseUtils::getTargetGroupOptions());
-		$form->addItem($target_group);
-*/		
-
+		
 		$location = new ilSelectInputGUI($this->lng->txt("udf_type_venueselect"), "location");
 		$location->setOptions(gevCourseUtils::getLocationOptions());
 		$form->addItem($location);
-
-
-		/*$provider = new ilSelectInputGUI($this->lng->txt("udf_type_providerselect"), "provider");
-		$provider->setOptions(gevCourseUtils::getProviderOptions());
-		$form->addItem($provider);*/
 		
 		$period = new ilDateDurationInputGUI($this->lng->txt("time_segment"), "period");
 		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
@@ -251,7 +198,6 @@ class ilAdminSearchGUI {
 		$period->setEnd($one_year);
 		$form->addItem($period);
 		
-
 		
 		$options = array(
 			'0' => 'alle',
