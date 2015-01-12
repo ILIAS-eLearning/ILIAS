@@ -558,6 +558,9 @@ il.UICore = {
 	initFixedDropDowns: function () {
 		$('.ilMainMenu.ilTopFixed .dropdown').on('shown.bs.dropdown', function () {
 			var el = $(this).children(".dropdown-menu")[0];
+			if (!el) {
+				return;
+			}
 			var r = il.Util.getRegion(el),
 				vp = il.Util.getViewportRegion(),
 				newHeight;

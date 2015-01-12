@@ -30,13 +30,13 @@
 							// perform page modification
 							if(o.responseText !== undefined) {
 								$('#' + o.argument.el_id).replaceWith(o.responseText);
-								il.Util.fixPosition($("#mm_adm_tr").next());
+								il.Util.fixPosition($("#mm_adm_tr").siblings("ul.dropdown-menu"));
 								if (il.Help) {
 									il.Help.updateTooltips();
 								}
 								var el = $(".ilMainMenu.ilTopFixed");
 								if (el) {
-									il.UICore.shrinkFixedElementToViewport(el);
+//									il.UICore.shrinkFixedElementToViewport(el);
 								}
 							}
 

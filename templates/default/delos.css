@@ -7019,7 +7019,7 @@ footer.ilFooter {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -1px !important;
+  bottom: 0 !important;
   height: 160px;
   margin: 0 auto;
   padding: 20px 0 0;
