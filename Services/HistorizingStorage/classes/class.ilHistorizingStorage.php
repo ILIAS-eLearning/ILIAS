@@ -553,7 +553,7 @@ abstract class ilHistorizingStorage
 	 *
 	 * @return void
 	 */
-	private static function createRecord($case_id, $data, $version, $record_creator, $creation_timestamp)
+	protected static function createRecord($case_id, $data, $version, $record_creator, $creation_timestamp)
 	{
 		/** @var $ilDB ilDB */
 		global $ilDB;
@@ -693,7 +693,7 @@ abstract class ilHistorizingStorage
 	 *
 	 * @param $a_case_id Array Array holding the case-id. ( array('field' => 'value', 'field' => 'value') )
 	 */
-	private static function historizeRecord($a_case_id)
+	protected static function historizeRecord($a_case_id)
 	{
 		$query 		= self::getHistorizingQuery();
 		$datatypes 	= self::getHistorizingDatatypes();
