@@ -15,18 +15,21 @@ class ilTestSubmissionReviewGUI
 	protected $testOutputGUI = null;
 
 	/** @var ilObjTest */
-	protected $testSession = null;
+	protected $test = null;
 	
 	/** @var $lng \ilLanguage */
 	protected $lng;
 	
 	/** @var $ilCtrl ilCtrl */
 	protected $ilCtrl;
-	
+
 	/** @var $tpl \ilTemplate */
 	protected $tpl;
 
-	public function __construct(ilTestOutputGUI $testOutputGUI, ilObjTest $test)
+	/** @var \ilTestSession */
+	protected $testSession;
+
+	public function __construct(ilTestOutputGUI $testOutputGUI, ilObjTest $test, ilTestSession $testSession)
 	{
 		global $lng, $ilCtrl, $tpl;
 		$this->lng = $lng;
@@ -35,6 +38,7 @@ class ilTestSubmissionReviewGUI
 		
 		$this->testOutputGUI = $testOutputGUI;
 		$this->test = $test;
+		$this->testSession = $testSession;
 	}
 	
 	function executeCommand()
@@ -88,14 +92,6 @@ class ilTestSubmissionReviewGUI
 		require_once './Services/PDFGeneration/classes/class.ilPDFGeneration.php';
 		
 		global $ilUser;
-
-		if ( ( array_key_exists("pass", $_GET) && (strlen($_GET["pass"]) > 0) ) || (!is_null($pass) ) )
-		{
-			if ( is_null($pass) )	
-			{
-				$pass = $_GET["pass"];
-			}
-		}
 		
 		$template = new ilTemplate("tpl.il_as_tst_submission_review.html", TRUE, TRUE, "Modules/Test");
 
@@ -114,14 +110,13 @@ class ilTestSubmissionReviewGUI
 			$template->setVariable("CANCEL_CMD", 'backFromSummary');
 		}
 
-		$this->ilCtrl->setParameter($this, "pass", "");
-		$this->ilCtrl->setParameter($this, "pdf", "");
-
 		$active = $this->test->getActiveIdOfUser($ilUser->getId());
 
 		$testevaluationgui = new ilTestEvaluationGUI($this->test);
-		$results = $this->test->getTestResult($active,$pass);
-		$results_output = $testevaluationgui->getPassListOfAnswers($results, $active, $pass, false, false, false, false);
+		$results = $this->test->getTestResult($active, $this->testSession->getPass());
+		$results_output = $testevaluationgui->getPassListOfAnswers(
+			$results, $active, $this->testSession->getPass(), false, false, false, false
+		);
 	
 		if ($this->test->getShowExamviewPdf())
 		{
@@ -134,7 +129,7 @@ class ilTestSubmissionReviewGUI
 			{
 				ilUtil::makeDirParents($path);
 			}
-			$filename = $path . '/exam_N' . $inst_id . '-' . $this->testOutputGUI->object->getId() . '-' . $active . '-' . $pass . '.pdf';
+			$filename = $path . '/exam_N' . $inst_id . '-' . $this->testOutputGUI->object->getId() . '-' . $active . '-' . $this->testSession->getPass() . '.pdf';
 			require_once 'class.ilTestPDFGenerator.php';
 			ilTestPDFGenerator::generatePDF($results_output, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
 			$template->setVariable("PDF_FILE_LOCATION", $filename);

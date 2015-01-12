@@ -77,7 +77,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			
 			case 'iltestsubmissionreviewgui':
 				require_once './Modules/Test/classes/class.ilTestSubmissionReviewGUI.php';
-				$gui = new ilTestSubmissionReviewGUI($this, $this->object);
+				$gui = new ilTestSubmissionReviewGUI($this, $this->object, $this->testSession);
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 			
@@ -377,7 +377,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				
 			case 'test_submission_overview':
 				require_once './Modules/Test/classes/class.ilTestSubmissionReviewGUI.php';
-				$this->ctrl->redirect(new ilTestSubmissionReviewGUI($this, $this->object), "show");
+				$this->ctrl->redirectByClass('ilTestSubmissionReviewGUI', "show");
 				break;
 			
 			case "back":
