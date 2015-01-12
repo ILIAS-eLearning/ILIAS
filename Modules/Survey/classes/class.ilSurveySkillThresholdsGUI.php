@@ -109,7 +109,7 @@ class ilSurveySkillThresholdsGUI
 				$thres->writeThreshold((int) $_GET["sk_id"],
 					(int) $_GET["tref_id"], (int) $l, (int) $t);
 			}
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"));
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), 1);
 		}
 		
 		$ilCtrl->redirect($this, "listSkillThresholds");
