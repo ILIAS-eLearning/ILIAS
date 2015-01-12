@@ -1916,9 +1916,12 @@ function showTrackingItem()
 	 */
 	function showExportList()
 	{
-		global $tpl;
+		global $tpl, $ilToolbar;
 
-		$template = new ilTemplate("tpl.scorm2004_export_buttons.html", true, true, 'Modules/Scorm2004');
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'selectExport'));
+		$ilToolbar->setId("scorm2004export");
+
+		//$template = new ilTemplate("tpl.scorm2004_export_buttons.html", true, true, 'Modules/Scorm2004');
 
 /*		$buttons = array(
 			"exportScorm2004_3rd" => $this->lng->txt("scorm_create_export_file_scrom2004"),
@@ -1936,7 +1939,7 @@ function showTrackingItem()
 			"exportHTML" => $this->lng->txt("scorm_create_export_file_html"),
 			"exportHTMLOne" => $this->lng->txt("scorm_create_export_file_html_one")
 		);
-		foreach ($buttons as $value => $text)
+/*		foreach ($buttons as $value => $text)
 		{
 			$template->setCurrentBlock('option');
 			$template->setVariable('OPTION_VALUE', $value);
@@ -1945,7 +1948,15 @@ function showTrackingItem()
 		}
 		$template->setVariable('EXPORT_TITLE', $this->lng->txt('export'));
 		$template->setVariable('EXPORT_LABEL', $this->lng->txt('type'));
-		$template->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'selectExport'));
+		$template->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'selectExport'));*/
+
+		//
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$si = new ilSelectInputGUI($this->lng->txt('type'), "select_export");
+		$si->setOptions($buttons);
+		$ilToolbar->addInputItem($si, true);
+
+		$ilToolbar->addFormButton($this->lng->txt('export'), "selectExport");
 
 		$export_files = $this->object->getExportFiles();
 
@@ -1962,7 +1973,10 @@ function showTrackingItem()
 			array_push($data, array('file' => $exp_file['file'], 'filetype' => $filetype, 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => $exp_file['size'], 'type' => $exp_file['type'].$public_str));
 		}
 		$table_gui->setData($data);
-		$this->tpl->setVariable('ADM_CONTENT', $template->get() . "\n" . $table_gui->getHTML());
+
+		$this->tpl->setContent($table_gui->getHTML());
+
+		//$this->tpl->setVariable('ADM_CONTENT', $template->get() . "\n" . $table_gui->getHTML());
 	}
 
 	/**

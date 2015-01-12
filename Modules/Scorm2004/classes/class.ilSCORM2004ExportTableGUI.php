@@ -53,6 +53,9 @@ class ilSCORM2004ExportTableGUI extends ilTable2GUI
 		$this->ctrl = $ilCtrl;
 		$this->confirmdelete = $confirmdelete;
 		$this->counter = 0;
+
+		$lng->loadLanguageModule("exp");
+		$this->setTitle($lng->txt("exp_export_files"));
 		
 		$this->setFormName('phrases');
 		$this->setStyle('table', 'fullwidth');
