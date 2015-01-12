@@ -574,7 +574,10 @@ class ilObjTestSettingsScoringResultsGUI
 				}
 				$optionDate->addSubItem($reportingDate);
 			$resultsAccessSetting->addOption($optionDate);
-			$resultsAccessSetting->setValue($this->testOBJ->getScoreReporting());
+			$resultsAccessValue = $this->testOBJ->getScoreReporting();
+			$resultsAccessSetting->setValue(
+				$resultsAccessValue > 0 && $resultsAccessValue < 4 ? $resultsAccessValue : 2
+			);
 			$resultsAccessEnabled->addSubItem($resultsAccessSetting);
 			// show pass details
 			$showPassDetails = new ilCheckboxInputGUI($this->lng->txt('tst_show_pass_details'), 'pass_details');
