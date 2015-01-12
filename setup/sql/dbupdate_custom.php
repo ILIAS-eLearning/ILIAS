@@ -2918,3 +2918,40 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	}
 
 ?>
+
+<#91>
+<?php
+	if(!$ilDB->tableExists('hist_tep_individ_days'))
+	{
+		$fields = array (
+			'id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0),
+			'day' => array(
+				'type' => 'date',
+				'notnull' => true
+				),
+			'start_time' => array(
+				'type' => 'text',
+				'length' => 5,
+				'notnull' => false
+				),
+			'end_time' => array(
+				'type' => 'text',
+				'length' => 5,
+				'notnull' => false
+				),
+			'weight' => array(
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => true
+				)
+		);
+		$ilDB->createTable('hist_tep_individ_days', $fields);
+		$ilDB->addPrimaryKey('hist_tep_individ_days', array('id', 'day'));
+		$ilDB->createSequence('hist_tep_individ_days');
+	}
+
+?>

@@ -39,11 +39,6 @@ class ilTEPHistorizingAppEventListener
 		$tep_entry = $a_parameter['entry'];
 		self::initEventHandler();
 
-		$case_id = self::getCaseId($a_event, $tep_entry);
-		$state_data = self::getStateData($a_event, $tep_entry);
-		$record_creator = self::getRecordCreator($a_event, $tep_entry);
-		$ts = self::getCreationTimestamp($a_event, $tep_entry);
-
 		// Users with derived entries
 		$uids = ilCalDerivedEntry::getUserIdsByMasterEntryIds(array($tep_entry->getEntryId()));
 		if (array_key_exists($tep_entry->getEntryId(), $uids)) {
@@ -53,17 +48,23 @@ class ilTEPHistorizingAppEventListener
 			$uids = array();
 		}
 		
-		// gev-patch start
-		require_once("Services/Calendar/classes/class.ilDate.php");
-		$start = new ilDate($tep_entry->getStart()->get(IL_CAL_DATE), IL_CAL_DATE);
-		$end = new ilDate($tep_entry->getEnd()->get(IL_CAL_DATE), IL_CAL_DATE);
+		$case_id = self::getCaseId($a_event, $tep_entry);
+
+		$state_data = self::getStateData($a_event, $tep_entry);
+		$record_creator = self::getRecordCreator($a_event, $tep_entry);
+		$ts = self::getCreationTimestamp($a_event, $tep_entry);
 		
-		$op_days_obj = new ilTEPOperationDays("tep_entry", $tep_entry->getEntryId(), $start, $end);
+		// gev-patch start
+		$op_days = static::getIndividualDaysForUsers(
+					  array_merge(array($tep_entry->getOwnerId()), array_keys($uids))
+					, $tep_entry
+					);
 		// gev-patch end
-		$op_days = $op_days_obj->getDaysForUsers(array_merge(array($tep_entry->getOwnerId()), array_keys($uids)));
 
-		$state_data["individual_days"] = count($op_days[$tep_entry->getOwnerId()]);
-
+		if ($a_event != "delete") {
+			$state_data["individual_days"] = $op_days[$tep_entry->getOwnerId()];
+		}
+		
 		// Historize Base-Entry
 		self::$ilTEPHistorizing->updateHistorizedData(
 								$case_id,
@@ -77,7 +78,9 @@ class ilTEPHistorizingAppEventListener
 		foreach($uids as $uid => $drvd_id) {
 			$case_id["user_id"] = $uid;
 			$case_id["cal_derived_entry_id"] = $drvd_id;
-			$state_data["individual_days"] = count($op_days[$uid]);
+			if ($a_event != "delete") {
+					$state_data["individual_days"] = $op_days[$uid];
+			}
 			self::$ilTEPHistorizing->updateHistorizedData(
 									$case_id,
 									$state_data,
@@ -86,7 +89,7 @@ class ilTEPHistorizingAppEventListener
 									false // Not a mass-action
 			);
 		}
-
+		
 		// Mark all removed derived entries as deleted.
 		$query = "SELECT cal_derived_entry_id, user_id FROM hist_tep "
 				." WHERE ".(count($uids) > 0 ? $ilDB->in("cal_derived_entry_id", $uids, true, "integer")
@@ -168,7 +171,7 @@ class ilTEPHistorizingAppEventListener
 			'begin_date'			=> $parameter->getStart(),
 			'end_date'				=> $parameter->getEnd(),
 			'category'				=> $parameter->getTypeTitle(),
-			'individual_days'		=> -1,
+//			'individual_days'		=> -1,
 			'deleted'				=> ($event == 'delete' ? 1 : 0)
 		);
 
@@ -206,4 +209,71 @@ class ilTEPHistorizingAppEventListener
 	{
 		return time();
 	}
+	
+	// gev-patch start
+	// This normalizes the Operation Days of the users given with ids $a_uids to
+	// an array of dictionaries with keys:
+	//    date => string repr of date in YYYY-MM-DD-format
+	//    starttime => string repr of time in HH:MM-format or null
+	//    endtime => string repr of time in HH:MM-format or null
+	//    weight  => 0-100
+	protected function getIndividualDaysForUsers($a_uids, ilTEPEntry $a_entry) {
+		// We need to rewrap start and end, since ilTEPOperationDays wants ilDate instances.
+		require_once("Services/Calendar/classes/class.ilDate.php");
+		$start = new ilDate($a_entry->getStart()->get(IL_CAL_DATE), IL_CAL_DATE);
+		$end = new ilDate($a_entry->getEnd()->get(IL_CAL_DATE), IL_CAL_DATE);
+		
+		$op_days_obj = new ilTEPOperationDays("tep_entry", $a_entry->getEntryId(), $start, $end);
+		$all_op_days = $op_days_obj->getDaysForUsers($a_uids, true);
+		
+		// could be either for a course or not
+		$context_id = $a_entry->getContextId();
+		if ($context_id && ilObject::_lookupType($context_id) == "crs") {
+			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+			$sched_dict = array();
+			$schedule = gevCourseUtils::getInstance($context_id)->getSchedule();
+			foreach($schedule as $value) {
+				$sched_dict[$start->get(IL_CAL_DATE)] = explode("-", $value);
+				$start->increment(ilDateTime::DAY, 1);
+			}
+			
+			foreach ($all_op_days as $uid => $op_days) {
+				foreach ($op_days as $key => $values) {
+					$date = $values[0]->get(IL_CAL_DATE);
+					$hours = $sched_dict[$date];
+					$all_op_days[$uid][$key] =
+						array( "day" 		=> $date
+							 , "start_time"	=> $hours[0]
+							 , "end_time"	=> $hours[1]
+							 , "weight"		=> $values[1] ? $values[1] : 100
+							 );
+				}
+			}
+		}
+		else {
+			$one_day =     $a_entry->getStart()->get(IL_CAL_DATE) 
+						== $a_entry->getEnd()->get(IL_CAL_DATE);
+
+			$tmp = explode(" ", $a_entry->getStart()->get(IL_CAL_DATETIME));
+			$start_time = $tmp[1];
+
+			$tmp = explode(" ", $a_entry->getEnd()->get(IL_CAL_DATETIME));
+			$end_time = $tmp[1];
+			
+			foreach ($all_op_days as $uid => $op_days) {
+				$amount_op_days = count($op_days);
+				foreach ($op_days as $key => $values) {
+					$all_op_days[$uid][$key] =
+						array( "day" 		=> $values[0]->get(IL_CAL_DATE)
+							 , "start_time" => $one_day ? $start_time : null
+							 , "end_time"	=> $one_day ? $end_time : null
+							 , "weight"		=> $one_day ? $values[1] : 100
+							 );
+				}
+			}
+		}
+		
+		return $all_op_days;
+	}
+	// gev-patch end
 }
