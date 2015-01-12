@@ -21,7 +21,19 @@ abstract class Collector {
 
     /* Map a function over the collected value. */
     final public function map(FunctionValue $transformation) {
-        return new MappedCollector($this, $transformation);    
+        return $this->wrap(_fn(function($collector, $inp) use ($transformation) {
+            $res = $collector->collect($inp);
+            if ($res->isError()) {
+                return $res;
+            }
+
+            $res2 = $transformation->apply($res);
+            if (!$res2->isError() && !$res2->isApplicable()) {
+                // rewrap ordinary values to keep origin.
+                $res2 = _val($res2->get(), $res->origin());
+            }
+            return $res2;
+        }));
     }
 
     /* Wrap a function around the collect function. */
@@ -118,39 +130,6 @@ final class CheckedCollector extends Collector {
         else {
             return _error($this->_error, $res);
         }
-    }
-
-    public function isNullaryCollector() {
-        return false;
-    }
-}
-
-/* A collector where the input is mapped by a function */
-final class MappedCollector extends Collector {
-    private $_collector; // Collector
-    private $_transformation; // FunctionValue
-    
-    public function __construct(Collector $collector, FunctionValue $transformation) {
-        guardHasArity($transformation, 1);
-        if ($collector->isNullaryCollector()) {
-            throw new TypeError("non nullary collector", typeName($collector));
-        }
-        $this->_collector = $collector;
-        $this->_transformation = $transformation;
-    }
-
-    public function collect($inp) {
-        $res = $this->_collector->collect($inp);
-        if ($res->isError()) {
-            return $res;
-        }
-
-        $res2 = $this->_transformation->apply($res);
-        if (!$res2->isError() && !$res2->isApplicable()) {
-            // rewrap ordinary values to keep origin.
-            $res2 = _val($res2->get(), $res->origin());
-        }
-        return $res2;
     }
 
     public function isNullaryCollector() {
