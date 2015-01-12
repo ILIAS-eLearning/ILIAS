@@ -110,10 +110,11 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		parent::prepareOutput();
 		
         //Otherwise move-Objects would not work
-        if($cmd != "cut")
+        // gev-patch start
+        /*if($cmd != "cut")
         {
             $this->showTree();
-        }
+        }*/
 
 
 		switch ($next_class) {
