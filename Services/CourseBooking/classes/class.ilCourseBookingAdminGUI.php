@@ -888,21 +888,14 @@ class ilCourseBookingAdminGUI
 		require_once("Services/Accomodations/classes/class.ilAccomodations.php");
 		
 		$accomodations = ilAccomodations::getInstance($this->getCourse());
-		
 		$start = $accomodations->getCourseStart();
-		$start->increment(ilDateTime::DAY, -1);
 		$end = $accomodations->getCourseEnd();
-		
-		// #828
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		if (gevUserUtils::getInstance($a_user_id)->showPrearrivalNoteInBooking()) {
-			$start->increment(IL_CAL_DAY, 1);
-		}
-		
+
 		while (ilDate::_before($start, $end)) {
 			$user_nights[] = new ilDate($start->get(IL_CAL_DATE), IL_CAL_DATE);
 			$start->increment(IL_CAL_DAY, 1);
 		}
+		
 		$accomodations->setAccomodationsOfUser($a_user_id, $user_nights);
 	}
 	// gev-patch end
