@@ -130,6 +130,17 @@ class ilClassificationBlockGUI extends ilBlockGUI
 			$provider->render($html, $this);
 		}		
 		
+		$this->tpl->setVariable("BLOCK_ROW", "");
+					
+		$ajax_block_id = "block_".$this->getBlockType()."_0";
+		$ajax_block_url = $ilCtrl->getLinkTarget($this, "getAjax", "", true, false);
+		$ajax_content_id = "il_center_col";
+		$ajax_content_url = $ilCtrl->getLinkTarget($this, "filterContainer", "", true, false);
+
+		// #15008 - always load regardless of content (because of redraw)
+		$tpl->addOnLoadCode('il.Classification.setAjax("'.$ajax_block_id.'", "'.
+			$ajax_block_url.'", "'.$ajax_content_id.'", "'.$ajax_content_url.'");');
+			
 		if(sizeof($html))
 		{
 			$btpl = new ilTemplate("tpl.classification_block.html", true, true, "Services/Classification");
@@ -141,16 +152,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 				$btpl->setVariable("CHUNK", $item["html"]);
 				$btpl->parseCurrentBlock();
 			}
-						
-			$ajax_block_id = "block_".$this->getBlockType()."_0";
-			$ajax_block_url = $ilCtrl->getLinkTarget($this, "getAjax", "", true, false);
-			$ajax_content_id = "il_center_col";
-			$ajax_content_url = $ilCtrl->getLinkTarget($this, "filterContainer", "", true, false);
-		
-			$tpl->addOnLoadCode('il.Classification.setAjax("'.$ajax_block_id.'", "'.
-				$ajax_block_url.'", "'.$ajax_content_id.'", "'.$ajax_content_url.'");');
 			
-			return $this->tpl->setVariable("DATA", $btpl->get());
+			$this->tpl->setVariable("DATA", $btpl->get());
 		}
 	}
 	
