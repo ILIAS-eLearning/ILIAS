@@ -6410,9 +6410,8 @@ body {
 #ilAll {
   position: relative;
   height: auto !important;
-  height: 100%;
-  min-height: 100%;
-  margin: 0px auto -180px;
+  min-height: calc(100% - 1px);
+  margin: 0 auto;
 }
 div#minheight {
   height: 180px;
@@ -6663,10 +6662,10 @@ body#tinymce {
   width: 700px;
 }
 .ilFixedTopSpacer {
-  margin-top: 117px;
+  padding-top: 117px;
 }
 .ilFixedTopSpacerBarOnly {
-  margin-top: 40px;
+  padding-top: 40px;
 }
 .fullwidth {
   width: 100%;
@@ -7020,7 +7019,7 @@ footer.ilFooter {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0 !important;
+  bottom: -1px !important;
   height: 160px;
   margin: 0 auto;
   padding: 20px 0 0;

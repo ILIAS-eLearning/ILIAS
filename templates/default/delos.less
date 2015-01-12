@@ -261,11 +261,10 @@ html, body {
 }
 
 #ilAll {
-	position:relative;
-	height:auto !important;
-	height:100%;
-	min-height:100%;
-	margin:0px auto -180px;
+	position: relative;
+	height: auto !important;
+	min-height: calc(~"100% - 1px");
+	margin: 0 auto;
 }
 
 div#minheight {
@@ -554,11 +553,11 @@ div.ilFrame {
 }
 
 .ilFixedTopSpacer {
-	margin-top: @il-fixed-menu-height;
+	padding-top: @il-fixed-menu-height;
 }
 
 .ilFixedTopSpacerBarOnly {
-	margin-top: @il-fixed-menu-height-bar-only;
+	padding-top: @il-fixed-menu-height-bar-only;
 }
 
 div#mainspacekeeper {
