@@ -503,8 +503,21 @@ class gevUserUtils {
 		return $crs_ids;
 	}
 
-	public function getMyAppointmentsCourseInformation() {
+	public function getMyAppointmentsCourseInformation($a_order_field = null, $a_order_direction = null) {
 			// used by gevMyTrainingsApTable, i.e.
+		
+			if ((!$a_order_field && $a_order_direction) || ($a_order_field && !$a_order_direction)) {
+				throw new Exception("gevUserUtils::getMyAppointmentsCourseInformation: ".
+									"You need to set bost: order_field and order_direction.");
+			}
+			
+			if ($a_order_direction) {
+				$a_order_direction = strtoupper($a_order_direction);
+				if (!in_array($a_order_direction, array("ASC", "DESC"))) {
+					throw new Exception("gevUserUtils::getMyAppointmentsCourseInformation: ".
+										"order_direction must be ASC or DESC.");
+				}
+			}
 			
 			//require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 			require_once("Services/TEP/classes/class.ilTEPCourseEntries.php");
@@ -535,12 +548,20 @@ class gevUserUtils {
 				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
 				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
 			);
+			
+			if ($a_order_field) {
+				$order_sql = " ORDER BY ".$this->db->quoteIdentifier($a_order_field)." ".$a_order_direction;
+			}
+			else {
+				$order_sql = "";
+			}
+			
 			$crss_amd = gevAMDUtils::getInstance()->getTable($crss_ids, $crs_amd, array("pstatus.state pstate"),
 				// Join over participation status table to remove courses, where state is already
 				// finalized
 				array(" LEFT JOIN crs_pstatus_crs pstatus ON pstatus.crs_id = od.obj_id "),
 				" AND ( pstatus.state != ".$this->db->quote(ilParticipationStatus::STATE_FINALIZED, "integer").
-			    "       OR pstatus.state IS NULL)"
+			    "       OR pstatus.state IS NULL) ".$order_sql
 				);
 
 			$ret = array();

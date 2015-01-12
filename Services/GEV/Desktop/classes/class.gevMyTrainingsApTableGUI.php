@@ -59,6 +59,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		//$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 		
 		$this->setExternalSegmentation(true);
+		$this->setExternalSorting(true);
 		$this->setTopCommands(false);
 		$this->setEnableHeader(true);
 
@@ -69,12 +70,13 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->addColumn($this->lng->txt("gev_learning_type"), "type");
 		//$this->addColumn($this->lng->txt("gev_learning_cat"), "category");
 		$this->addColumn($this->lng->txt("gev_location"), "location");
-		$this->addColumn($this->lng->txt("date"), "date", "112px");
-		$this->addColumn($this->lng->txt("apdays"), "apdays");
-		$this->addColumn($this->lng->txt("mbrcount"), "mbrcount");
-		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "actions", "30px", false);
+		$this->addColumn($this->lng->txt("date"), "start_date", "112px");
+		$this->addColumn($this->lng->txt("apdays"));
+		$this->addColumn($this->lng->txt("mbrcount"));
+		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', null, "30px", false);
 
-		$data = $user_util->getMyAppointmentsCourseInformation();
+		$tmp = explode(":", $_GET["_table_nav"]);
+		$data = $user_util->getMyAppointmentsCourseInformation($tmp[0], $tmp[1]);
 
 		$this->setData($data);
 	}
