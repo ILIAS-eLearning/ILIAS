@@ -1121,6 +1121,10 @@ class ilDataCollectionTable {
 	 */
 	public function cloneStructure($original_id) {
 		$original = ilDataCollectionCache::getTableCache($original_id);
+
+		$this->setTitle($original->getTitle());
+		$this->setDescription($original->getDescription());
+		$this->setIsVisible($original->getIsVisible());
 		$this->setEditByOwner($original->getEditByOwner());
 		$this->setAddPerm($original->getAddPerm());
 		$this->setEditPerm($original->getEditPerm());
@@ -1128,16 +1132,24 @@ class ilDataCollectionTable {
 		$this->setLimited($original->getLimited());
 		$this->setLimitStart($original->getLimitStart());
 		$this->setLimitEnd($original->getLimitEnd());
-		$this->setTitle($original->getTitle());
+		$this->setViewOwnRecordsPerm($original->getViewOwnRecordsPerm());
+		$this->setExportEnabled($original->getExportEnabled());
+		$this->setPublicCommentsEnabled($original->getPublicCommentsEnabled());
+		$this->setDefaultSortFieldOrder($original->getDefaultSortFieldOrder());
 
 		$this->doCreate();
 		// reset stdFields to get new for the created object
 		$this->stdFields = null;
 
+		$default_sort_field = 0;
 		// Clone standard-fields
 		$org_std_fields = $original->getStandardFields();
 		foreach($this->getStandardFields() as $element_key=>$std_field) {
 			$std_field->cloneStructure($org_std_fields[$element_key]);
+
+			if($std_field->getId() == $original->getDefaultSortField()) {
+				$default_sort_field = $std_field->getId();
+			}
 		}
 
 		// Clone fields
@@ -1148,8 +1160,16 @@ class ilDataCollectionTable {
                 $new_field->setTableId($this->getId());
                 $new_field->cloneStructure($orig_field->getId());
                 $new_fields[$orig_field->getId()] = $new_field;
+
+				if($orig_field->getId() == $original->getDefaultSortField()) {
+					$default_sort_field = $new_field->getId();
+				}
             }
         }
+
+		$this->setDefaultSortField($default_sort_field);
+		$this->doUpdate();
+
 
 		//TODO: Find better way to copy data (include referenced data)
         // Clone Records with recordfields
