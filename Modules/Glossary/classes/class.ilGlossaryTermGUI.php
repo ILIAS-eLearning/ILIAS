@@ -684,7 +684,7 @@ class ilGlossaryTermGUI
 		if ($_GET["term_id"] != "")
 		{
 			$tabs_gui->addTab("properties",
-				$lng->txt("properties"),
+				$lng->txt("term"),
 				$this->ctrl->getLinkTarget($this, "editTerm"));
 
 			$tabs_gui->addTab("definitions",
