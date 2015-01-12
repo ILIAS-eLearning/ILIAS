@@ -63,10 +63,10 @@ class ilSCORM2004ExportTableGUI extends ilTable2GUI
 		{
 			$this->addColumn('','','1%');
 		}
-		$this->addColumn($this->lng->txt("type"),'type', '9%');
-		$this->addColumn($this->lng->txt("file"),'file', '40%');
-		$this->addColumn($this->lng->txt("size"),'size', '25%');
-		$this->addColumn($this->lng->txt("date"),'date', '25%');
+		$this->addColumn($this->lng->txt("type"),'type');
+		$this->addColumn($this->lng->txt("file"),'file');
+		$this->addColumn($this->lng->txt("size"),'size');
+		$this->addColumn($this->lng->txt("date"),'date');
 
 		if ($confirmdelete)
 		{
@@ -75,7 +75,8 @@ class ilSCORM2004ExportTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->addMultiCommand('downloadExportFile', $this->lng->txt('download'));
+			$this->addColumn($this->lng->txt("action"));
+			//$this->addMultiCommand('downloadExportFile', $this->lng->txt('download'));
 			$this->addMultiCommand('confirmDeleteExportFile', $this->lng->txt('delete'));
 		}
 
@@ -103,18 +104,25 @@ class ilSCORM2004ExportTableGUI extends ilTable2GUI
 	/**
 	 * fill row 
 	 *
-	 * @access public
-	 * @param
-	 * @return
+	 * @param array $data data array
 	 */
 	public function fillRow($data)
 	{
+		global $lng, $ilCtrl;
+
 		if (!$this->confirmdelete)
 		{
 			$this->tpl->setCurrentBlock('checkbox');
 			$this->tpl->setVariable('CB_ID', $this->counter);
 			$this->tpl->setVariable('CB_FILENAME', ilUtil::prepareFormOutput($data['file']));
 			$this->tpl->setVariable("FILETYPE", $data["filetype"]);
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock('action');
+			$ilCtrl->setParameter($this->getParentObject(), "file", rawurlencode($data['file']));
+			$ilCtrl->setParameter($this->getParentObject(), "type", rawurlencode($data["filetype"]));
+			$this->tpl->setVariable("DOWNLOAD_HREF", $ilCtrl->getLinkTarget($this->getParentObject(), "downloadExportFile"));
+			$this->tpl->setVariable("DOWNLOAD_TXT", $lng->txt("download"));
 			$this->tpl->parseCurrentBlock();
 		}
 		else

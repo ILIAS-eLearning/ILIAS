@@ -1939,16 +1939,6 @@ function showTrackingItem()
 			"exportHTML" => $this->lng->txt("scorm_create_export_file_html"),
 			"exportHTMLOne" => $this->lng->txt("scorm_create_export_file_html_one")
 		);
-/*		foreach ($buttons as $value => $text)
-		{
-			$template->setCurrentBlock('option');
-			$template->setVariable('OPTION_VALUE', $value);
-			$template->setVariable('OPTION_TITLE', ilUtil::prepareFormOutput($text));
-			$template->parseCurrentBlock();
-		}
-		$template->setVariable('EXPORT_TITLE', $this->lng->txt('export'));
-		$template->setVariable('EXPORT_LABEL', $this->lng->txt('type'));
-		$template->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'selectExport'));*/
 
 		//
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
@@ -1975,8 +1965,6 @@ function showTrackingItem()
 		$table_gui->setData($data);
 
 		$this->tpl->setContent($table_gui->getHTML());
-
-		//$this->tpl->setVariable('ADM_CONTENT', $template->get() . "\n" . $table_gui->getHTML());
 	}
 
 	/**
@@ -3067,18 +3055,10 @@ function showTrackingItem()
 	
 	function downloadExportFile()
 	{
-		if(!isset($_POST["file"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if (count($_POST["file"]) > 1)
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
-		}
 		$export = new ilSCORM2004Export($this->object);
-		$export_dir = $export->getExportDirectoryForType($_POST['type'][$_POST['file'][0]]);
-		ilUtil::deliverFile($export_dir."/".$_POST['file'][0], $_POST['file'][0]);
+
+		$export_dir = $export->getExportDirectoryForType($_GET['type']);
+		ilUtil::deliverFile($export_dir."/".$_GET['file'], $_GET['file']);
 	}
 	
 	/**
