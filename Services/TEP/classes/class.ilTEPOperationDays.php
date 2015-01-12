@@ -178,6 +178,10 @@ class ilTEPOperationDays
 			}
 		}
 		
+		// gev-patch start
+		$entry = new ilTEPEntry($this->getObjectId());
+		// gev-patch end
+		
 		$res = array();
 	    foreach($a_user_ids as $user_id)
 		{
@@ -208,7 +212,7 @@ class ilTEPOperationDays
 				{
 					$day_comp = $day->get(IL_CAL_DATE);
 
-					$weight = 100;
+					$weight = $entry->getWeight();
 					if(isset($weighted[$user_id][$day_comp]))
 					{
 						$weight = $weighted[$user_id][$day_comp];
