@@ -138,8 +138,8 @@ class ilCourseObjectiveResult
 		global $ilDB;
 		
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
-		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
-
+		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';		
+		
 		include_once './Services/Object/classes/class.ilObjectFactory.php';
 		$factory = new ilObjectFactory();
 
@@ -148,14 +148,26 @@ class ilCourseObjectiveResult
 		$initial_tst = $factory->getInstanceByRefId($initial, FALSE);
 		if($initial_tst instanceof ilObjTest)
 		{
-			$initial_tst->removeTestResultsForUser($this->getUserId());
+			// this is done in ilTestLP (see below)
+			// $initial_tst->removeTestResultsForUser($this->getUserId());
+			
+			// #15038 - update/reset LP for (initial) test
+			include_once "Modules/Test/classes/class.ilTestLP.php";
+			$test_lp = ilTestLP::getInstance(ilObject::_lookupObjId($initial));
+			$test_lp->resetLPDataForUserIds(array($this->getUserId()));			
 		}
 		
 		$qualified = ilLOSettings::getInstanceByObjId($a_course_id)->getQualifiedTest();
 		$qualified_tst = $factory->getInstanceByRefId($qualified, FALSE);
 		if($qualified_tst instanceof ilObjTest)
 		{
-			$qualified_tst->removeTestResultsForUser($this->getUserId());
+			// this is done in ilTestLP (see below)
+			// $qualified_tst->removeTestResultsForUser($this->getUserId());
+			
+			// #15038 - update/reset LP for (qualified) test
+			include_once "Modules/Test/classes/class.ilTestLP.php";
+			$test_lp = ilTestLP::getInstance(ilObject::_lookupObjId($qualified));
+			$test_lp->resetLPDataForUserIds(array($this->getUserId()));	
 		}
 		
 		$objectives = ilCourseObjective::_getObjectiveIds($a_course_id,FALSE);
@@ -176,8 +188,9 @@ class ilCourseObjectiveResult
 				"WHERE ".$ilDB->in('objective_id',$objectives,false,'integer').' '.
 				"AND user_id = ".$ilDB->quote($this->getUserId())."";
 		}
-
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+	
+		// update/reset LP for course
+		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';	
 		ilLPStatusWrapper::_updateStatus($a_course_id, $this->getUserId());
 		
 		return true;
