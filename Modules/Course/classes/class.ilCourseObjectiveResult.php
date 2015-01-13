@@ -133,6 +133,24 @@ class ilCourseObjectiveResult
 		return $qsts ? $qsts : array();
 	}
 
+	protected function resetTestForUser(ilObjTest $a_test, $a_user_id)
+	{
+		// this is done in ilTestLP (see below)
+		// $a_test->removeTestResultsForUser($a_user_id);
+					
+		// #15038
+		include_once "Modules/Test/classes/class.ilTestLP.php";
+		$test_lp = ilTestLP::getInstance($a_test->getId());
+		$test_lp->resetLPDataForUserIds(array($a_user_id));		
+		
+		// #15205 - see ilObjTestGUI::confirmDeleteSelectedUserDataObject()
+		$active_id = $a_test->getActiveIdOfUser($a_user_id);
+		if($active_id)
+		{
+			$a_test->removeTestActives(array($active_id));
+		}
+	}
+
 	function reset($a_course_id)
 	{
 		global $ilDB;
@@ -148,26 +166,14 @@ class ilCourseObjectiveResult
 		$initial_tst = $factory->getInstanceByRefId($initial, FALSE);
 		if($initial_tst instanceof ilObjTest)
 		{
-			// this is done in ilTestLP (see below)
-			// $initial_tst->removeTestResultsForUser($this->getUserId());
-			
-			// #15038 - update/reset LP for (initial) test
-			include_once "Modules/Test/classes/class.ilTestLP.php";
-			$test_lp = ilTestLP::getInstance($initial_tst->getId());
-			$test_lp->resetLPDataForUserIds(array($this->getUserId()));			
+			$this->resetTestForUser($initial_tst, $this->getUserId());				
 		}
 		
 		$qualified = ilLOSettings::getInstanceByObjId($a_course_id)->getQualifiedTest();
 		$qualified_tst = $factory->getInstanceByRefId($qualified, FALSE);
 		if($qualified_tst instanceof ilObjTest)
 		{
-			// this is done in ilTestLP (see below)
-			// $qualified_tst->removeTestResultsForUser($this->getUserId());
-			
-			// #15038 - update/reset LP for (qualified) test
-			include_once "Modules/Test/classes/class.ilTestLP.php";
-			$test_lp = ilTestLP::getInstance($qualified_tst->getId());
-			$test_lp->resetLPDataForUserIds(array($this->getUserId()));	
+			$this->resetTestForUser($qualified_tst, $this->getUserId());			
 		}
 		
 		$objectives = ilCourseObjective::_getObjectiveIds($a_course_id,FALSE);
