@@ -7036,6 +7036,7 @@ footer.ilFooter div.ilFooterContainer {
 footer.ilFooter a.permalink_label,
 footer.ilFooter div.ilFooterContainer > a {
   color: white;
+  white-space: nowrap;
 }
 footer.ilFooter a.permalink_label:hover,
 footer.ilFooter div.ilFooterContainer > a:hover {
