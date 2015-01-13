@@ -31,7 +31,10 @@ abstract class Formlet {
      * to the formlet and an error message for the case the predicate fails.
      */
     final public function satisfies(FunctionValue $predicate, $error) {
-        return new CheckedFormlet($this, $predicate, $error);
+        return $this->mapBC( _id()
+                           , _fn( function ($collector) use ($predicate, $error) {
+                                return $collector->satisfies($predicate, $error);
+                           }));
     }
 
     /* Map a function over the input value. */
@@ -116,33 +119,6 @@ class CombinedFormlets extends Formlet {
             , "collector"   => $collector
             , "name_source" => $r["name_source"]
             );
-    }
-}
-
-
-/* A checked formlet does a predicate check on the collected value. */
-class CheckedFormlet extends Formlet {
-    private $_formlet; // Formlet
-    private $_predicate; // Predicate
-    private $_error; // string
-    
-    public function __construct(Formlet $formlet, FunctionValue $predicate, $error) {
-        guardIsString($error); 
-        guardHasArity($predicate, 1);
-        $this->_formlet = $formlet;
-        $this->_predicate = $predicate;
-        $this->_error = $error;
-    }
-
-    public function build(NameSource $name_source) {
-        $fmlt = $this->_formlet->build($name_source);
-        return array( "builder"    => $fmlt["builder"]
-                    , "collector"   => new CheckedCollector( $fmlt["collector"]
-                                                           , $this->_predicate
-                                                           , $this->_error
-                                                           )
-                    , "name_source" => $fmlt["name_source"]
-                    );
     }
 }
 

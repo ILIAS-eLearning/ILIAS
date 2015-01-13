@@ -40,6 +40,23 @@ abstract class Collector {
     final public function wrap(FunctionValue $wrapper) {
         return new WrappedCollector($this, $wrapper);
     }
+
+    /* Only return value when it matches predicate, return error value
+       containing error message instead. */
+    final public function satisfies(FunctionValue $predicate, $error) {
+        guardIsString($error);
+        guardHasArity($predicate, 1);
+        return $this->wrap(_fn(function($collector, $inp) use ($predicate, $error) {
+            $res = $collector->collect($inp);
+            if ($res->isError()) {
+                return $res;
+            }
+            if (!$predicate->apply($res)->get()) {
+                return _error($error, $res);
+            }
+            return $res;
+        }));
+    }
 }
 
 class MissingInputError extends Exception {
@@ -100,42 +117,6 @@ final class ApplyCollector extends Collector {
     }
 }
 
-/* A collector that does a predicate check on the input from another
- * collector and return an error if the predicate fails.
- */
-final class CheckedCollector extends Collector {
-    private $_collector; // Collector
-    private $_predicate; // FunctionValue
-    private $_error; // string
-
-    public function __construct(Collector $collector, FunctionValue $predicate, $error) {
-        guardIsString($error);
-        guardHasArity($predicate, 1);
-        $this->_collector = $collector;
-        $this->_predicate = $predicate;
-        $this->_error = $error;
-    }
-
-    public function collect($inp) {
-        $res = $this->_collector->collect($inp);
-        if ($res->isError()) {
-            return $res;
-        }
-
-        // TODO: Maybe check for PlainValue on result before
-        // doing this?
-        if ($this->_predicate->apply($res)->get()) {
-            return $res;
-        }
-        else {
-            return _error($this->_error, $res);
-        }
-    }
-
-    public function isNullaryCollector() {
-        return false;
-    }
-}
 
 /* A collector where a wrapper is around an underlying collect. */
 class WrappedCollector extends Collector {
