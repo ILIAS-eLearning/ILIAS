@@ -4,7 +4,7 @@ require_once(dirname(__FILE__) . '/../Fields/class.arFieldList.php');
 /**
  * Class arFieldCache
  *
- * @version 2.0.6
+ * @version 2.0.7
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -55,7 +55,7 @@ class arFieldCache {
 	 * @return arFieldList
 	 */
 	public static function get(ActiveRecord $ar) {
-		if (! self::isCached($ar)) {
+		if (!self::isCached($ar)) {
 			self::store($ar);
 		}
 

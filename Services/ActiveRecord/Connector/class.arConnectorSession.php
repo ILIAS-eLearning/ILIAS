@@ -6,7 +6,7 @@ require_once(dirname(__FILE__) . '/../Exception/class.arException.php');
  * Class arConnectorSession
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 2.0.6
+ * @version 2.0.7
  */
 class arConnectorSession extends arConnector {
 
@@ -22,7 +22,7 @@ class arConnectorSession extends arConnector {
 	 * @return array
 	 */
 	public static function getSession() {
-		if (! $_SESSION[self::AR_CONNECTOR_SESSION]) {
+		if (!$_SESSION[self::AR_CONNECTOR_SESSION]) {
 			self::resetSession();
 		}
 
@@ -38,7 +38,7 @@ class arConnectorSession extends arConnector {
 	public static function getSessionForActiveRecord(ActiveRecord $ar) {
 		$session = self::getSession();
 		$ar_session = $session[$ar::returnDbTableName()];
-		if (! is_array($ar_session)) {
+		if (!is_array($ar_session)) {
 			$ar_session = array();
 		}
 

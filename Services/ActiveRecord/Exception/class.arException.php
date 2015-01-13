@@ -6,7 +6,7 @@
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  *
- * @version 2.0.6
+ * @version 2.0.7
  */
 class arException extends Exception {
 

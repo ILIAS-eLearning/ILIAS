@@ -5,7 +5,7 @@ require_once(dirname(__FILE__) . '/../class.arFieldList.php');
  * Class arConverter
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 2.0.6
+ * @version 2.0.7
  *
  *
  * @description         $arConverter = new arConverter('my_msql_table_name', 'arMyRecordClass');

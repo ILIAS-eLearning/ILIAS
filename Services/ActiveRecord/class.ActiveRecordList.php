@@ -12,7 +12,7 @@ require_once(dirname(__FILE__) . '/Connector/Order/class.arOrderCollection.php')
  *
  * @description
  *
- * @version 2.0.6
+ * @version 2.0.7
  */
 class ActiveRecordList {
 
@@ -219,7 +219,7 @@ class ActiveRecordList {
 	 */
 
 	protected function join($type = arJoin::TYPE_INNER, $tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=', $both_external = false) {
-		if (!$this->getAR()->getArFieldList()->isField($on_this) && !$both_external) {
+		if (!$this->getAR()->getArFieldList()->isField($on_this) AND !$both_external) {
 			throw new arException(arException::LIST_JOIN_ON_WRONG_FIELD, $on_this);
 		}
 		$full_names = false;
@@ -456,8 +456,6 @@ class ActiveRecordList {
 	/**
 	 * @param string       $key    shall a specific value be used as a key? if null then the 1. array key is just increasing from 0.
 	 * @param string|array $values which values should be taken? if null all are given. If only a string is given then the result is an 1D array!
-	 *
-	 * @internal param bool $array_only
 	 *
 	 * @return array
 	 */

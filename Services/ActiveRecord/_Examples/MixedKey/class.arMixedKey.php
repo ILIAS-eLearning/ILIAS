@@ -5,7 +5,7 @@ require_once('../../class.ActiveRecord.php');
  * Class arMixedKey
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.0
+ * @version 2.0.7
  */
 class arMixedKey extends ActiveRecord {
 

@@ -5,7 +5,7 @@ require_once(dirname(__FILE__) . '/../Exception/class.arException.php');
  * Class arFactory
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 2.0.6
+ * @version 2.0.7
  */
 class arFactory {
 

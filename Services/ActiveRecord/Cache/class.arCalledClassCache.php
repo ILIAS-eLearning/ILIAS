@@ -3,7 +3,7 @@
 /**
  * Class arCalledClassCache
  *
- * @version 2.0.6
+ * @version 2.0.7
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -39,7 +39,7 @@ class arCalledClassCache {
 	 * @return mixed
 	 */
 	public static function get($class_name) {
-		if (! self::isCached($class_name)) {
+		if (!self::isCached($class_name)) {
 			self::store($class_name);
 		}
 

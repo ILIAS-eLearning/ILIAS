@@ -5,7 +5,7 @@ require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRe
  * Class arConfig
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 2.0.6
+ * @version 2.0.7
  */
 class arConfig extends ActiveRecord {
 
@@ -34,7 +34,7 @@ class arConfig extends ActiveRecord {
 	 * @return string
 	 */
 	public static function get($name) {
-		if (! self::$cache_loaded[$name]) {
+		if (!self::$cache_loaded[$name]) {
 			$obj = new self($name);
 			self::$cache[$name] = $obj->getValue();
 			self::$cache_loaded[$name] = true;

@@ -6,7 +6,7 @@ require_once('class.arConfig.php');
  * GUI-Class arConfigFormGUI
  *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
- * @version 2.0.6
+ * @version           2.0.7
  *
  */
 class arConfigFormGUI extends ilPropertyFormGUI {
@@ -80,7 +80,7 @@ class arConfigFormGUI extends ilPropertyFormGUI {
 	 * @return bool
 	 */
 	public function fillObject() {
-		if (! $this->checkInput()) {
+		if (!$this->checkInput()) {
 			return false;
 		}
 
@@ -92,7 +92,7 @@ class arConfigFormGUI extends ilPropertyFormGUI {
 	 * @return bool
 	 */
 	public function saveObject() {
-		if (! $this->fillObject()) {
+		if (!$this->fillObject()) {
 			return false;
 		}
 		foreach ($this->getItems() as $item) {
@@ -125,7 +125,7 @@ class arConfigFormGUI extends ilPropertyFormGUI {
 	 * @return bool
 	 */
 	public static function checkItem(ilPropertyFormGUI $item) {
-		return ! $item instanceof ilFormSectionHeaderGUI AND ! $item instanceof ilMultiSelectInputGUI;
+		return !$item instanceof ilFormSectionHeaderGUI AND !$item instanceof ilMultiSelectInputGUI;
 	}
 
 
@@ -135,7 +135,7 @@ class arConfigFormGUI extends ilPropertyFormGUI {
 	 * @return bool
 	 */
 	public static function checkForSubItem(ilPropertyFormGUI $item) {
-		return ! $item instanceof ilMultiSelectInputGUI;
+		return !$item instanceof ilMultiSelectInputGUI;
 	}
 
 

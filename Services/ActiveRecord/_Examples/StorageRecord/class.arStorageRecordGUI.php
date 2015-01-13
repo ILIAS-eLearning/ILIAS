@@ -10,7 +10,7 @@ require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Index/cl
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  *
- * @version 2.0.6
+ * @version 2.0.7
  */
 class arStorageRecordGUI {
 

@@ -6,7 +6,7 @@ require_once(dirname(__FILE__) . '/../Statement/class.arStatement.php');
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  *
- * @version 2.0.6
+ * @version 2.0.7
  */
 class arJoin extends arStatement {
 
@@ -54,15 +54,14 @@ class arJoin extends arStatement {
 	 * @return string
 	 */
 	public function asSQLStatement(ActiveRecord $ar) {
-		$join_table_name = $this->getTableName();
 		$return = ' ' . $this->getType() . ' ';
-		$return .= ' JOIN ' . $join_table_name;
+		$return .= ' JOIN ' . $this->getTableName() . ' AS ' . $this->getTableNameAs();
 		if ($this->getBothExternal()) {
 			$return .= ' ON ' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
 		} else {
 			$return .= ' ON ' . $ar->getConnectorContainerName() . '.' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
 		}
-		$return .= $join_table_name . '.' . $this->getOnSecondField();
+		$return .= $this->getTableNameAs() . '.' . $this->getOnSecondField();
 
 		return $return;
 	}
