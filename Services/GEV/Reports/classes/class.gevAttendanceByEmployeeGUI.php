@@ -53,8 +53,15 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->column("participation_status", "gev_participation_status")
 						->template("tpl.gev_attendance_by_employee_row.html", "Services/GEV/Reports")
 						;
-
+		
+		$this->order = catReportOrder::create($this->table)
+						->mapping("date", "start_date")
+						->mapping("od_bd", array("org_unit_above1", "org_unit_above2"))
+						->defaultOrder("lastname", "ASC")
+						;
+		
 		$this->query = catReportQuery::create()
+						->distinct()
 						->select("usr.user_id")
 						->select("usr.lastname")
 						->select("usr.firstname")
@@ -78,10 +85,10 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->select("crs.end_date")
 						->select("crs.edu_program")
 						->select("crs.title")
-						->from("hist_usercoursestatus usrcrs")
-						->join("hist_user usr")
-							->on("usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0")
-						->join("hist_course crs")
+						->from("hist_user usr")
+						->left_join("hist_usercoursestatus usrcrs")
+							->on("usr.user_id = usrcrs.usr_id AND usrcrs.hist_historic = 0")
+						->left_join("hist_course crs")
 							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
 						->compile()
 						;
@@ -95,6 +102,8 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									, "usrcrs.end_date"
 									, date("Y")."-01-01"
 									, date("Y")."-12-31"
+									, false
+									, " OR usrcrs.hist_historic IS NULL"
 									)
 						/*->multiselect( "org_unit"
 									 , $this->lng->txt("gev_org_unit_short")
@@ -133,10 +142,16 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									 , array()
 									 )*/
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
-						->static_condition("usrcrs.hist_historic = 0")
-						->static_condition("(usrcrs.booking_status != '-empty-' OR usrcrs.participation_status != '-empty-')")
-						->static_condition("usrcrs.booking_status != 'kostenfrei storniert'")
-						->static_condition("usrcrs.function NOT IN ('Trainingsbetreuer', 'Trainer')")
+						->static_condition(" usr.hist_historic = 0")
+						->static_condition("(   usrcrs.hist_historic = 0"
+										  ." OR usrcrs.hist_historic IS NULL )")
+						->static_condition("(   usrcrs.booking_status != '-empty-'"
+										  ." OR usrcrs.participation_status != '-empty-'"
+										  ." OR usrcrs.hist_historic IS NULL )")
+						->static_condition("(   usrcrs.booking_status != 'kostenfrei storniert'"
+										  ." OR usrcrs.hist_historic IS NULL )")
+						->static_condition("(   usrcrs.function NOT IN ('Trainingsbetreuer', 'Trainer')"
+										  ." OR usrcrs.hist_historic IS NULL )" )
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
@@ -182,63 +197,6 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 		$val = str_replace('<nobr>', '', $val);
 		$val = str_replace('</nobr>', '', $val);
 		return $val;
-	}
-	
-	
-	protected function fetchData() {
-		if ($this->query === null) {
-			throw new Exception("catBasicReportGUI::fetchData: query not defined.");
-		}
-		
-		$query = $this->query->sql()
-			   . $this->queryWhere()
-			   ; //die($query);
-		
-		$res = $this->db->query($query);
-		$data = array();
-		
-		$found_users = array();
-		
-		while($rec = $this->db->fetchAssoc($res)) {
-			$row = $this->transformResultRow($rec);
-			$data[] = $row;
-			$found_users[] = $row["user_id"]; 
-		}
-		
-		$not_found_users = array_diff($this->allowed_user_ids, array_unique($found_users));
-		
-		$res = $this->db->query("SELECT usr.user_id"
-								."     , usr.lastname"
-								."     , usr.firstname"
-								."     , usr.email"
-								."     , usr.adp_number"
-								."     , usr.job_number"
-								."     , usr.org_unit_above1"
-								."     , usr.org_unit_above2"
-								."     , usr.org_unit"
-								."     , usr.position_key"
-								."  FROM hist_user usr"
-								." WHERE ".$this->db->in("user_id", $not_found_users, false, "integer")
-								."   AND hist_historic = 0"
-								);
-
-		while ($rec = $this->db->fetchAssoc($res)) {
-			$rec["custom_id"] = null;
-			$rec["venue"] = null;
-			$rec["type"] = null;
-			$rec["credit_points"] = null;
-			$rec["booking_status"] = null;
-			$rec["participation_status"] = null;
-			$rec["usr_id"] = null;
-			$rec["crs_id"] = null;
-			$rec["begin_date"] = null;
-			$rec["end_date"] = null;
-			$rec["edu_program"] = null;
-			$rec["title"] = null;
-			$data[] = $this->transformResultRow($rec);
-		}
-
-		return $data;
 	}
 }
 

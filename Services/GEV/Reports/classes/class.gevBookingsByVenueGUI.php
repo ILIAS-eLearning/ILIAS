@@ -59,9 +59,12 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 						->column("no_accomodations", "no_accomodations")
 						->column("action", "list", false, "", true)
 						->template("tpl.gev_bookings_by_venue_row.html", "Services/GEV/Reports")
-						->order("date", "ASC")
 						;
-						
+		
+		$this->order = catReportOrder::create($this->table)
+						->defaultOrder("date", "ASC")
+						;
+		
 		$this->query = catReportQuery::create()
 						->distinct()
 						->select("crs.crs_id")

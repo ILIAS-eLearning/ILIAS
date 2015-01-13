@@ -352,15 +352,20 @@ class catDatePeriodFilterType {
 	// default_begin
 	// default_end
 	// as_timestamp (optional, defaults to false)
+	// additional_clause (optional, defaults to "")
 	
 	public function checkConfig($a_conf) {
-		if (count($a_conf) !== 8 && count($a_conf) !== 9) {
+		if (count($a_conf) !== 8 && count($a_conf) !== 9 && count($a_conf) !== 10) {
 			// one parameter less, since type is encoded in first parameter but not passed by user.
-			throw new Exception ("catDatePeriodFilterType::checkConfig: expected 7 parameters for dateperiod.");
+			throw new Exception ("catDatePeriodFilterType::checkConfig: expected 7-9 parameters for dateperiod.");
 		}
 		
 		if (count($a_conf) === 8) {
 			$a_conf[8] = false;
+			$a_conf[9] = "";
+		}
+		if (count($a_conf) === 9) {
+			$a_conf[9] = "";
 		}
 		
 		return $a_conf;
@@ -419,7 +424,7 @@ class catDatePeriodFilterType {
 		global $ilDB;
 	
 		if (!$a_conf[8]) {
-			return "    (".catFilter::quoteDBId($a_conf[5])
+			return "( ( (".catFilter::quoteDBId($a_conf[5])
 						  ." >= ".$ilDB->quote($a_pars["start"], "date")
 				  			// this accomodates history tables
 				  ."        OR ".catFilter::quoteDBId($a_conf[5])." = '0000-00-00' "
@@ -427,6 +432,9 @@ class catDatePeriodFilterType {
 				  ."    )"
 				  ."   AND ".catFilter::quoteDBId($a_conf[4])
 				  			." <= ".$ilDB->quote($a_pars["end"], "date")
+				  ."  )"
+				  .$a_conf[9]
+				  .")"
 				  ;
 		}
 		else {
@@ -435,8 +443,10 @@ class catDatePeriodFilterType {
 			$d = new ilDate($a_pars["end"], IL_CAL_DATE);
 			$d->increment(ilDateTime::DAY, 1);
 			$val_e = $d->get(IL_CAL_UNIX);
-			return   catFilter::quoteDBId($a_conf[5])." >= ".$ilDB->quote($val_s, "integer")
-			." AND ".catFilter::quoteDBId($a_conf[5])." <= ".$ilDB->quote($val_e, "integer");
+			return  "( (".catFilter::quoteDBId($a_conf[5])." >= ".$ilDB->quote($val_s, "integer")
+			." AND ".catFilter::quoteDBId($a_conf[5])." <= ".$ilDB->quote($val_e, "integer")." ) "
+			.$a_conf[9].")"
+			;
 		}
 	}
 	
@@ -535,9 +545,10 @@ class catMultiSelectFilter {
 	// field(s)
 	// values
 	// default_values
-	// width (optional)
-	// height (optional)
-	// field type (optional)
+	// additional_clause (optional, defaults to "")
+	// width (optional, defaults to 160)
+	// height (optional, defaults to 75)
+	// field type (optional, default to "text")
 	
 	public function checkConfig($a_conf) {
 		if (count($a_conf) < 6) {
@@ -546,15 +557,21 @@ class catMultiSelectFilter {
 		}
 		
 		if (count($a_conf) === 6) {
+			$a_conf[] = ""; // additional_clause
 			$a_conf[] = 160; // width
 			$a_conf[] = 75; // height
 			$a_conf[] = "text"; // type
 		}
 		else if (count($a_conf) === 7) {
+			$a_conf[] = 160; // width
 			$a_conf[] = 75; // height
 			$a_conf[] = "text"; // type
 		}
 		else if (count($a_conf) === 8) {
+			$a_conf[] = 75; // height
+			$a_conf[] = "text"; // type
+		}
+		else if (count($a_conf) === 9) {
 			$a_conf[] = "text"; // type
 		}
 		
