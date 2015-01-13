@@ -2236,7 +2236,7 @@ common#:#crs_status_blocked#:#[Access refused]
 common#:#crs_status_pending#:#[Waiting for registration]
 common#:#crs_subscribers_assigned#:#Assigned new user(s)
 common#:#crs_title#:#Course Title
-common#:#crs_unsubscribe#:#Unsubscribe
+common#:#crs_unsubscribe#:#Unsubscribe from Course
 rbac#:#crs_visible#:#Course is visible
 common#:#crs_wizard_page#:#Copy Course (Step 2/2)
 rbac#:#crs_write#:#User can edit course settings and manage content
@@ -2737,8 +2737,8 @@ common#:#grp_count_members#:#Number of members
 common#:#grp_create#:#Create Group
 rbac#:#grp_delete#:#User can move or delete group
 common#:#grp_deleted_export_files#:#Deleted selected files.
-common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group?
-common#:#grp_dismiss_myself#:#Are you sure you want to leave the group?
+common#:#grp_dismiss_member#:#Are you sure you want to unsubscribe the following member(s) from the group?
+common#:#grp_dismiss_myself#:#Are you sure you want to unsubscribe from this group?
 rbac#:#grp_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#grp_edit_permission#:#User can change permission settings
 common#:#grp_edit#:#Edit Group
@@ -5891,8 +5891,8 @@ crs#:#crs_unblocked#:#Free entrance
 crs#:#crs_unlimited#:#Unlimited
 crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.
 crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"
-crs#:#crs_unsubscribe_sure#:#Do you want to unsubscribe from this course
-crs#:#crs_unsubscribed_from_crs#:#You have been unsubscribed from this course
+crs#:#crs_unsubscribe_sure#:#Are you sure you want to unsubscribe from this course?
+crs#:#crs_unsubscribed_from_crs#:#You have been unsubscribed from this course.
 crs#:#crs_update_objective#:#Checklist for Learning Objective
 crs#:#crs_update_subscr_request#:#Update Membership Request
 crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators

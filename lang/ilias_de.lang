@@ -3321,7 +3321,7 @@ common#:#grp_create#:#Neue Gruppe anlegen
 rbac#:#grp_delete#:#Gruppe löschen oder verschieben
 common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
 common#:#grp_dismiss_member#:#Sie möchten folgende Mitglieder aus der Gruppe austragen?
-common#:#grp_dismiss_myself#:#Möchten Sie sich aus der Gruppe austragen?
+common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie die Mitgliedschaft in dieser Gruppe beenden möchten?
 common#:#grp_edit#:#Einstellungen der Gruppe
 rbac#:#grp_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#grp_edit_permission#:#Rechteeinstellungen ändern
