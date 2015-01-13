@@ -660,9 +660,6 @@ class ilWikiUtil
 				return;
 			}
 
-			include_once "./Modules/Wiki/classes/class.ilObjWikiGUI.php";
-			$link = ILIAS_HTTP_PATH."/".ilObjWikiGui::getGotoLink($a_wiki_ref_id, $page->getTitle());
-
 			ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI_PAGE, $a_page_id, $users);
 		}
 		else
@@ -672,12 +669,21 @@ class ilWikiUtil
 			{
 				return;
 			}
-
-			include_once "./Services/Link/classes/class.ilLink.php";
-			$link = ilLink::_getLink($a_wiki_ref_id);
 		}
 		
 		ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI, $wiki_id, $users, $a_page_id);
+	
+		// #15192 - should always be present
+		if($a_page_id)
+		{						
+			include_once "./Modules/Wiki/classes/class.ilObjWikiGUI.php";
+			$link = ILIAS_HTTP_PATH."/".ilObjWikiGui::getGotoLink($a_wiki_ref_id, $page->getTitle());
+		}
+		else
+		{			
+			include_once "./Services/Link/classes/class.ilLink.php";
+			$link = ilLink::_getLink($a_wiki_ref_id);
+		}
 
 		include_once "./Services/Mail/classes/class.ilMail.php";
 		include_once "./Services/User/classes/class.ilObjUser.php";
