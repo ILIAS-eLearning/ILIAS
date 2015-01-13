@@ -1722,7 +1722,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->ctrl->setParameterByClass('ilmateriallistgui', 'ref_id', '');				
 				}
 				// gev-patch end
-				
+
 				break;
 			
 			case 'members':

@@ -281,4 +281,24 @@ class ilTEP
 		
 		return $res;
 	}
+	
+	/**
+	 * Get valid appointment weight options
+	 * 
+	 * @param bool $a_enable_zero
+	 * @return array
+	 */
+	public static function getWeightOptions($a_enable_zero = true)
+	{
+		$options = array(
+			100 => "100%", 
+			75 => "75%", 
+			50 => "50%", 
+			25 => "25%");
+		if($a_enable_zero)
+		{
+			$options[0] = "0%";
+		}
+		return $options;
+	}
 }

@@ -6,6 +6,7 @@
 * for Generali
 *
 * @author	Nils Haagen <nhaagen@concepts-and-training.de>
+* @author	Richard Klees <richard.klees@concepts-and-training.de>
 * @version	$Id$
 */
 

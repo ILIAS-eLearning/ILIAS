@@ -15,6 +15,8 @@ class ilTEPPeriodInputGUI extends ilFormPropertyGUI
 	protected $start; // [YYYY-MM-DD]
 	protected $end; // [YYYY-MM-DD]
 	protected $value; // [array]
+	protected $weight; // [bool]
+	protected $weight_values; // [array]
 	
 	const MODE_SIMPLE = 1;
 	const MODE_OVERNIGHT = 2;
@@ -43,6 +45,17 @@ class ilTEPPeriodInputGUI extends ilFormPropertyGUI
 		$this->start = $a_start;
 		$this->end = $a_end;
 	}	
+	
+	public function setWeights($a_show, array $a_values = null)
+	{
+		$this->weight = (bool)$a_show;
+		$this->weight_values = $a_values;
+		
+		if($this->weight)
+		{
+			include_once "Services/TEP/classes/class.ilTEP.php";
+		}
+	}
 	
 	public static function convertPeriodToDays($a_start, $a_end, $as_objects = false)
 	{
@@ -266,6 +279,30 @@ class ilTEPPeriodInputGUI extends ilFormPropertyGUI
 			{			
 				$today = $today_obj->get(IL_CAL_DATE);
 				
+				$checked = (is_array($value) && in_array($today, $value));
+				
+				$onchange = null;
+				if($this->weight)
+				{
+					$current_weight = isset($this->weight_values[$today])
+						? $this->weight_values[$today]
+						: 100;
+					
+					$weight_id = $this->getPostVar()."w-".$today;
+					$weight_select = ilUtil::formSelect(
+						$current_weight, 
+						$this->getPostVar()."w[".$today."]",
+						ilTEP::getWeightOptions(false), 
+						false, 
+						true,
+						0,
+						true,
+						array("id" => $weight_id),
+						!$checked);
+					$tpl->setVariable("WEIGHT", $weight_select);
+					$onchange = '$(\'#'.$weight_id.'\').prop(\'disabled\', !this.checked)';
+				}
+				
 				$tpl->setCurrentBlock("simple_rows_bl");
 				$tpl->setVariable("SPL_POSTVAR", $this->getPostVar());
 				$tpl->setVariable("SPL_VALUE", $today);
@@ -275,9 +312,14 @@ class ilTEPPeriodInputGUI extends ilFormPropertyGUI
 					$tpl->setVariable("SPL_DISABLED", ' disabled="disabled"');
 				}
 
-				if(is_array($value) && in_array($today, $value))
+				if($checked)
 				{				
 					$tpl->setVariable("SPL_CHECKED", ' checked="checked"');
+				}
+				
+				if($onchange)
+				{
+					$tpl->setVariable("SPL_ONCHANGE", ' onchange="'.$onchange.'"');
 				}
 
 				$tpl->setVariable("SPL_TXT", ilDatePresentation::formatDate($today_obj));

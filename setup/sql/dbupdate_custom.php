@@ -2844,7 +2844,6 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	ilCustomInstaller::reloadStructure();
 ?>
 
-
 <#88>
 <?php
 	//more fields in history
@@ -2892,6 +2891,72 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 
 <#90>
 <?php
+
+	// calendar entry weight
+	if(!$ilDB->tableColumnExists('cal_entries', 'entry_weight'))
+	{
+		$ilDB->addTableColumn('cal_entries', 'entry_weight', 
+			array(
+				'type' => 'integer', 
+				'length' => 1, 
+				'notnull' => false, 
+				'default' => ''
+		));			
+	}
+	
+	// operation day weight
+	if(!$ilDB->tableColumnExists('tep_op_days', 'weight'))
+	{
+		$ilDB->addTableColumn('tep_op_days', 'weight', 
+			array(
+				'type' => 'integer', 
+				'length' => 1, 
+				'notnull' => false, 
+				'default' => ''
+		));			
+	}
+
+?>
+
+<#91>
+<?php
+	if(!$ilDB->tableExists('hist_tep_individ_days'))
+	{
+		$fields = array (
+			'id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0),
+			'day' => array(
+				'type' => 'date',
+				'notnull' => true
+				),
+			'start_time' => array(
+				'type' => 'text',
+				'length' => 5,
+				'notnull' => false
+				),
+			'end_time' => array(
+				'type' => 'text',
+				'length' => 5,
+				'notnull' => false
+				),
+			'weight' => array(
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => true
+				)
+		);
+		$ilDB->createTable('hist_tep_individ_days', $fields);
+		$ilDB->addPrimaryKey('hist_tep_individ_days', array('id', 'day'));
+		$ilDB->createSequence('hist_tep_individ_days');
+	}
+
+?>
+
+<#92>
+<?php
 	require_once "Customizing/class.ilCustomInstaller.php";
 	ilCustomInstaller::maybeInitClientIni();
 	ilCustomInstaller::maybeInitPluginAdmin();
@@ -2919,4 +2984,3 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 					 ));
 	}
 ?>
-

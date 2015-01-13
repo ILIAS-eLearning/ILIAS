@@ -59,14 +59,16 @@ class ilTEPOperationDaysTableGUI extends ilTable2GUI
 			$this->addCommandButton("saveOperationDaysList", $lng->txt("save"));
 		}
 	
-		$this->getItems($a_user_ids, $a_operation_days);				
+		$this->getItems($a_user_ids, $a_operation_days);
+		
+		include_once "Services/TEP/classes/class.ilTEP.php";
 	}
 
 	function getItems(array $a_user_ids, ilTEPOperationDays $a_operation_days)
 	{
 		$data = array();
 		
-		$user_days = $a_operation_days->getDaysForUsers($a_user_ids);
+		$user_days = $a_operation_days->getDaysForUsers($a_user_ids, true);
 		
 		foreach(ilTEP::getUserNames($a_user_ids) as $user_id => $name)
 		{
@@ -77,8 +79,8 @@ class ilTEPOperationDaysTableGUI extends ilTable2GUI
 			);			
 			
 			foreach($user_days[$user_id] as $day)
-			{
-				$data[$user_id]["days"][] = $day->get(IL_CAL_DATE);
+			{				
+				$data[$user_id]["days"][$day[0]->get(IL_CAL_DATE)] = $day[1];
 			}
 		}					
 		$this->setData($data);
@@ -103,15 +105,33 @@ class ilTEPOperationDaysTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("USER_ID", $a_set["user_id"]);
 			$this->tpl->setVariable("DAY_ID", $date);
 			
-			if(in_array($date, $a_set["days"]))
+			$current_weight = 100;
+			$weight_disabled = true;
+			if(array_key_exists($date, $a_set["days"]))
 			{
+				$current_weight = $a_set["days"][$date];
 				$this->tpl->setVariable("DAY_CHECKED", ' checked="checked"');
-			}
+				$weight_disabled = false;
+			}			
 			
 			if($this->read_only)
 			{
-				$this->tpl->setVariable("DAY_DISABLED", ' disabled="disabled"');
+				$this->tpl->setVariable("DAY_DISABLED", ' disabled="disabled"');			
 			}
+			
+			$weight_id = "opw-".$a_set["user_id"]."-".$date;
+			$weight_select = ilUtil::formSelect(
+				$current_weight, 
+				"opw[".$a_set["user_id"]."][".$date."]",
+				ilTEP::getWeightOptions(false), 
+				false, 
+				true,
+				0,
+				true,
+				array("id" => $weight_id),
+				$weight_disabled);
+			$this->tpl->setVariable("WEIGHT", $weight_select);
+			$this->tpl->setVariable("WEIGHT_CHANGER", $weight_id);
 			
 			$this->tpl->parseCurrentBlock();
 		}		

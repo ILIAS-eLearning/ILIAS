@@ -4,7 +4,8 @@
 	</td>
 	<!-- BEGIN day_bl -->
 	<td class="std" style="vertical-align: top">		
-		<input type="checkbox" value="1" name="op[{USER_ID}][{DAY_ID}]"{DAY_CHECKED}{DAY_DISABLED} />
+		<input type="checkbox" value="1" name="op[{USER_ID}][{DAY_ID}]" onchange="$('#{WEIGHT_CHANGER}').prop('disabled', !this.checked);"{DAY_CHECKED}{DAY_DISABLED} />
+		{WEIGHT}
 	</td>
 	<!-- END day_bl -->
 </tr>

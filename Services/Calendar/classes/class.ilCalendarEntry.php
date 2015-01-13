@@ -41,9 +41,10 @@ class ilCalendarEntry implements ilDatePeriod
 
 	protected $notification = false;
 	
-	// patch generali start
+	// gev-patch start
 	protected $type; // [string]
-	// patch generali end
+	protected $weight; // [int]	
+	// gev-patch end
 	
 
 	/**
@@ -551,7 +552,7 @@ class ilCalendarEntry implements ilDatePeriod
 	}
 	
 	
-	// patch generali start
+	// gev-patch start
 	
 	/**
 	 * Set type
@@ -573,7 +574,31 @@ class ilCalendarEntry implements ilDatePeriod
 		return $this->type;
 	}
 	
-	// patch generali end
+	/**
+	 * Set weight
+	 * 
+	 * @param int $a_value
+	 */
+	public function setWeight($a_value)
+	{
+		if($a_value !== null)
+		{
+			$a_value = (int)$a_value;
+		}
+		$this->weight = $a_value;
+	}
+	
+	/**
+	 * Get weight
+	 * 
+	 * @return int
+	 */
+	public function getWeight()
+	{
+		return $this->weight;
+	}
+	
+	// gev-patch end
 	
 	
 	/**
@@ -607,6 +632,7 @@ class ilCalendarEntry implements ilDatePeriod
 			"is_milestone = ".$this->db->quote($this->isMilestone() ? 1 : 0, 'integer').", ".
 			// patch generali start
 			'entry_type = '.$this->db->quote($this->getType(),'text').', '.
+			'entry_weight = '.$this->db->quote($this->getWeight(),'integer').', '.
 			// patch generali end
 			'notification = '.$this->db->quote($this->isNotificationEnabled() ? 1 : 0,'integer').' '.			
 	 		"WHERE cal_id = ".$this->db->quote($this->getEntryId() ,'integer')." ";
@@ -631,7 +657,7 @@ class ilCalendarEntry implements ilDatePeriod
 
 	 	$query = "INSERT INTO cal_entries (cal_id,title,last_update,subtitle,description,location,fullday,starta,enda, ".
 			// patch generali start
-			"informations,auto_generated,context_id,translation_type, completion, is_milestone, entry_type, notification) ".
+			"informations,auto_generated,context_id,translation_type, completion, is_milestone, entry_type, entry_weight, notification) ".
 			// patch generali end
 			"VALUES( ".
 			$ilDB->quote($next_id,'integer').", ".
@@ -651,6 +677,7 @@ class ilCalendarEntry implements ilDatePeriod
 			$this->db->quote($this->isMilestone() ? 1 : 0, 'integer').", ".
 			// patch generali start
 			$this->db->quote($this->getType(),'text').', '.
+			$this->db->quote($this->getWeight(),'integer').', '.
 			// patch generali end
 			$this->db->quote($this->isNotificationEnabled() ? 1 : 0,'integer').' '.			
 	 		")";
@@ -750,6 +777,7 @@ class ilCalendarEntry implements ilDatePeriod
 			
 			// patch generali start
 			$this->setType($row->entry_type);
+			$this->setWeight($row->entry_weight);
 			// patch generali end
 		}
 		

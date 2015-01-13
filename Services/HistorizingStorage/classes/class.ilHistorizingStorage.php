@@ -385,54 +385,14 @@ abstract class ilHistorizingStorage
 		foreach ($cases as $case)
 		{
 			$current_data = static::getCurrentRecordByCase($case);
-			// gev-patch start
-			
-			// Check weather new data is really different then existing one.
-			$continue = true;
-			$col_def = static::getContentColumnsDefinition();
-			foreach ($a_data as $key => $value) {
-				//echo $key.":".$a_data[$key].":".$current_data[$key]."\n";
-				if (   $key == "creator_user_id" || $key == "created_ts"
-					|| $key == "hist_historic" || $key == "hist_version") {
-					continue;
-				}
-				
-				if ($a_data[$key] === null || $a_data[$key] === "") {
-					switch($col_def[$key]) {
-						case "date":
-							$value = "0000-00-00";
-							break;
-						case "text":
-							$value = "-empty-";
-							break;
-						case "integer":
-						case "float":
-							$value = -1;
-							break;
-						default:
-							trigger_error("unknown column definition type ".$type, E_USER_ERROR);
-							break;
-					}
 
-					if ($current_data[$key] != $value) {
-						$continue = false;
-						break;
-					}
-				}
-				else {
-					if ($current_data[$key] != $a_data[$key]) {
-						$continue = false;
-						break;
-					}
-				}
-			}
-			if ($continue) {
+			// gev-patch start
+			if (!static::containsChanges($current_data, $a_data)) {
 				continue;
 			}
-			//die("here");
-
 			$new_data = array_merge($current_data, $a_data);
 			// gev-patch end
+
 			$new_data[static::getVersionColumnName()] = $current_data[static::getVersionColumnName()]+1;
 			self::validateRecordData($new_data);
 			try {
@@ -450,6 +410,56 @@ abstract class ilHistorizingStorage
 			$ilDB->setUnfatal(false);
 		}
 	}
+
+	// gev-patch start
+	/** 
+	 * Checks, weather new data is different than old.
+	 *  
+	 * Takes references to arrays for performance, but does not make any changes.
+	 * Takes database representation of nulls (like "-empty-") into account.
+	 * 
+	 * @return boolean
+	 */
+	public static function containsChanges(&$a_current_data, &$a_new_data) {
+		$col_def = static::getContentColumnsDefinition();
+		foreach ($a_new_data as $key => $value) {
+			//echo $key.":".$a_data[$key].":".$current_data[$key]."\n";
+			if (   $key == "creator_user_id" || $key == "created_ts"
+				|| $key == "hist_historic" || $key == "hist_version") {
+				continue;
+			}
+			
+			if ($a_new_data[$key] === null || $a_new_data[$key] === "") {
+				switch($col_def[$key]) {
+					case "date":
+						$value = "0000-00-00";
+						break;
+					case "text":
+						$value = "-empty-";
+						break;
+					case "integer":
+					case "float":
+						$value = -1;
+						break;
+					default:
+						trigger_error("unknown column definition type ".$type, E_USER_ERROR);
+						break;
+				}
+
+				if ($a_current_data[$key] != $value) {
+					return true;
+				}
+			}
+			else {
+				if ($a_current_data[$key] != $a_new_data[$key]) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	// gev-patch end
 
 	/**
 	 * Checks, if a given case exists
@@ -543,7 +553,7 @@ abstract class ilHistorizingStorage
 	 *
 	 * @return void
 	 */
-	private static function createRecord($case_id, $data, $version, $record_creator, $creation_timestamp)
+	protected static function createRecord($case_id, $data, $version, $record_creator, $creation_timestamp)
 	{
 		/** @var $ilDB ilDB */
 		global $ilDB;
@@ -683,7 +693,7 @@ abstract class ilHistorizingStorage
 	 *
 	 * @param $a_case_id Array Array holding the case-id. ( array('field' => 'value', 'field' => 'value') )
 	 */
-	private static function historizeRecord($a_case_id)
+	protected static function historizeRecord($a_case_id)
 	{
 		$query 		= self::getHistorizingQuery();
 		$datatypes 	= self::getHistorizingDatatypes();

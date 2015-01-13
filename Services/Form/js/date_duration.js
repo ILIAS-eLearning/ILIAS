@@ -19,6 +19,10 @@ function ilInitDuration(event,args,prefix)
 			0
 		);
 	}
+	
+	// patch generali start
+	ilTEPWeight(prefix);
+	// patch generali end
 }
 
 function ilIsFulltime(prefix)
@@ -139,6 +143,10 @@ function ilUpdateEndDate(cal)
 			break;
 		}
 	}
+	
+	// patch generali start
+	ilTEPWeight(prefix);
+	// patch generali end
 }
 
 function ilToggleFullTime(check,prefix)
@@ -177,3 +185,35 @@ function ilDisableSessionTime(event,args,prefix)
 {
 	return ilToggleFullTime(document.getElementById(prefix + "_fulltime"),prefix);
 }
+
+// patch generali start
+
+function ilTEPWeight(prefix)
+{
+	var weight_input = document.getElementById(prefix + "_weight");
+	if(weight_input === null)
+	{
+		return;
+	}
+	
+	var start = new Date(
+			document.getElementById(prefix + "[start][date]_y").options[document.getElementById(prefix + "[start][date]_y").selectedIndex].value, 
+			document.getElementById(prefix + "[start][date]_m").selectedIndex, 
+			document.getElementById(prefix + "[start][date]_d").selectedIndex + 1);
+	var end = new Date(
+		document.getElementById(prefix + "[end][date]_y").options[document.getElementById(prefix + "[end][date]_y").selectedIndex].value, 
+		document.getElementById(prefix + "[end][date]_m").selectedIndex, 
+		document.getElementById(prefix + "[end][date]_d").selectedIndex + 1);
+		
+	if(end-start === 0)
+	{
+		weight_input.style.display = "";
+	}
+	else
+	{
+		weight_input.style.display = "none";
+	}
+}
+
+// patch generali end
+

@@ -1,8 +1,13 @@
 <div id="{ID}">
 	<!-- BEGIN simple_rows_bl -->
 	<div>
-		<input type="checkbox" value="{SPL_VALUE}" name="{SPL_POSTVAR}[]"{SPL_CHECKED}{SPL_DISABLED}>
+		<input type="checkbox" value="{SPL_VALUE}" name="{SPL_POSTVAR}[]"{SPL_CHECKED}{SPL_DISABLED}{SPL_ONCHANGE}>
 		{SPL_TXT}
+		<!-- BEGIN weight_bl -->
+		<span style="margin-left:20px;">
+			{WEIGHT}
+		</span>
+		<!-- END weight_bl -->
 	</div>
 	<!-- END simple_rows_bl -->
 	<!-- BEGIN overnight_bl -->

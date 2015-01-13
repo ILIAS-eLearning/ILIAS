@@ -265,7 +265,8 @@ class ilTEPOperationDaysGUI
 			else 
 			{
 				$op_days = array_keys($_POST["op"][$tutor_id]);
-				$this->getOperationDays()->setDaysForUser($tutor_id, $op_days);
+				$op_weights = $_POST["opw"][$tutor_id];			
+				$this->getOperationDays()->setDaysForUser($tutor_id, $op_days, $op_weights);
 			}
 		}
 		
@@ -299,10 +300,12 @@ class ilTEPOperationDaysGUI
 		$name->setValue($uname["lastname"].", ".$uname["firstname"]);
 		$form->addItem($name);
 		
-		$user_days = array();
-		foreach($this->getOperationDays()->getDaysForUser($a_user_id) as $day)
-		{
-			$user_days[] = $day->get(IL_CAL_DATE);
+		$user_days = $weights = array();
+		foreach($this->getOperationDays()->getDaysForUser($a_user_id, true) as $day)
+		{			
+			$date = $day[0]->get(IL_CAL_DATE);
+			$user_days[] = $date;
+			$weights[$date] = $day[1];
 		}
 		
 		require_once "Services/TEP/classes/class.ilTEPPeriodInputGUI.php";
@@ -312,6 +315,7 @@ class ilTEPOperationDaysGUI
 			,$this->getOperationDays()->getEnd()->get(IL_CAL_DATE) 
 		);
 		$days->setValue($user_days);
+		$days->setWeights(true, $weights);
 		$form->addItem($days);
 
 		$form->addCommandButton("saveUserOperationDays", $lng->txt("save"));
@@ -368,7 +372,8 @@ class ilTEPOperationDaysGUI
 			}					
 			else 
 			{				
-				$this->getOperationDays()->setDaysForUser($user_id, $days);
+				$weights = $form->getInput("op_daysw");
+				$this->getOperationDays()->setDaysForUser($user_id, $days, $weights);
 			}
 			
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
