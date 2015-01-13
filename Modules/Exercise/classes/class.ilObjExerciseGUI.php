@@ -2447,8 +2447,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 			
 			// save files
 			$ass->uploadAssignmentFiles($_FILES["files"]);
-						
-			if($_FILES["fb_file"])
+									
+			if($_FILES["fb_file"]["tmp_name"])
 			{
 				$ass->handleFeedbackFileUpload($_FILES["fb_file"]);
 				$ass->update();
@@ -2734,7 +2734,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$ass->deleteFeedbackFile();
 				$ass->setFeedbackFile(null);
 			}
-			else if($_FILES["fb_file"])
+			else if($_FILES["fb_file"]["tmp_name"]) // #15189
 			{
 				$ass->handleFeedbackFileUpload($_FILES["fb_file"]);
 			}
