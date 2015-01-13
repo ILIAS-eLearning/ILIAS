@@ -34,7 +34,7 @@ class gevMaterialListForStorage extends gevCrsAutoMail {
 	
 	public function getRecipientAddresses() {
 		return array(array( "name" => "Materiallager"
-						  , "email" => "tloewen@cat06.de"
+						  , "email" => "formularlager-generali-zd.versicherungen.de@generali.com"
 						  )
 					);
 	}

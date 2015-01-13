@@ -270,10 +270,14 @@ class gevCrsMailData extends ilMailData {
 				$end = $this->crs_utils->getEndDate();
 				
 				if ($start && $end) {
-					require_once("Services/TEP/classes/class.ilTEPOperationDays.php");
-					$tmp = new ilTEPOperationDays("crs", $this->crs_utils->getId(), $start, $end);
+					require_once("Services/TEP/classes/class.ilTEPCourseEntries.php");
+					$tmp = ilTEPCourseEntries::getInstance($this->crs_utils->getCourse())
+								->getOperationsDaysInstance();
 					$op_days = $tmp->getDaysForUser($this->rec_user_id);
-					$val = implode("", $op_days);
+					foreach ($op_days as $key => $value) {
+						$op_days[$key] = ilDatePresentation::formatDate($value);
+					}
+					$val = implode("<br />", $op_days);
 				}
 				else {
 					$val = "Nicht verfügbar.";

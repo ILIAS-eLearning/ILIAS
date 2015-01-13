@@ -61,7 +61,7 @@ class gevCrsAdditionalMailSettings {
 	}
 	
 	public function setSuppressMails($a_suppress) {
-		if ($this->settings["suppress_mails"] && $a_suppress) {
+		if ($this->settings["suppress_mails"] && !$a_suppress) {
 			throw new Exception("gevCrsAdditionalMailSettings::setSupressMails: You are not allowed to turn this off again.");
 		}
 		

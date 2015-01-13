@@ -400,14 +400,7 @@ class ilSetAccomodationsGUI
 		}
 		else {
 			$start = $accomodations->getCourseStart();
-			$start->increment(ilDateTime::DAY, -1);
 			$end = $accomodations->getCourseEnd();
-			
-			// #828
-			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-			if (gevUserUtils::getInstance($a_user_id)->showPrearrivalNoteInBooking()) {
-				$start->increment(IL_CAL_DAY, 1);
-			}
 			
 			while (ilDate::_before($start, $end)) {
 				$user_nights[] = $start->get(IL_CAL_DATE);

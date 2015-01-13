@@ -873,15 +873,13 @@ class gevCourseUtils {
 		global $lng;
 		$all = $lng->txt("gev_crs_srch_all");
 		$pt = "Präsenztraining";
-		//$wb = "Webinar";
-		$wb = "Virtuelles Training";
+		$wb = "Webinar";
+		$vt = "Virtuelles Training";
 		$sk = "Selbstlernkurs";
-/*		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
-		$arr = gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TYPE);
-		return array_merge(array($all => $all), $arr);*/
 		return array( $all => $all
 					, $pt => $pt
 					, $wb => $wb
+					, $vt => $vt
 					, $sk => $sk
 					);
 	}

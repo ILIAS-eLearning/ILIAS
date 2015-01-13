@@ -302,7 +302,7 @@ class catBasicReportGUI {
 		
 		$query = $this->query->sql()
 			   . $this->queryWhere()
-			   ;// die($query);
+			   ; //die($query);
 		
 		$res = $this->db->query($query);
 		$data = array();
@@ -414,6 +414,7 @@ class catReportQuery {
 		$this->fields = array();
 		$this->_from = null;
 		$this->joins = array();
+		$this->left_joins = array();
 		$this->compiled = false;
 		$this->sql_str = null;
 		$this->sql_from = null;
@@ -454,7 +455,12 @@ class catReportQuery {
 	
 	public function join($a_table) {
 		$this->checkNotCompiled();
-		return new catReportQueryOn($this, $a_table);
+		return new catReportQueryOn($this, $this->joins, $a_table);
+	}
+	
+	public function left_join($a_table) {
+		$this->checkNotCompiled();
+		return new catReportQueryOn($this, $this->left_joins, $a_table);
 	}
 	
 	public function sql() {
@@ -482,7 +488,8 @@ class catReportQuery {
 		if ($this->sql_from === null) {
 			$this->sql_from =
 				 "\n FROM ".$this->_from[0]." ".$this->_from[1]
-				.implode("\n ", $this->joins);
+				.implode("\n ", $this->joins)
+				.implode("\n ", $this->left_joins);
 		}
 		
 		return $this->sql_from;
@@ -502,6 +509,10 @@ class catReportQuery {
 		foreach($this->joins as $key => $value) {
 			$tab = $this->rectifyTableName("join", $value[0]);
 			$this->joins[$key] = " JOIN ".$tab[0]." ".$tab[1]." ON ".$value[1]." ";
+		}
+		foreach($this->left_joins as $key => $value) {
+			$tab = $this->rectifyTableName("left join", $value[0]);
+			$this->left_joins[$key] = " LEFT JOIN ".$tab[0]." ".$tab[1]." ON ".$value[1]." ";
 		}
 		
 		$this->compiled = true;
@@ -537,13 +548,14 @@ class catReportQuery {
 }
 
 class catReportQueryOn {
-	public function catReportQueryOn($a_query, $a_table) {
+	public function __construct($a_query, &$a_joins, $a_table) {
 		$this->query = $a_query;
+		$this->joins = &$a_joins;
 		$this->table = $a_table;
 	}
 	
 	public function on($a_condition) {
-		$this->query->joins[] = array($this->table, $a_condition);
+		$this->joins[] = array($this->table, $a_condition);
 		return $this->query;
 	}
 }

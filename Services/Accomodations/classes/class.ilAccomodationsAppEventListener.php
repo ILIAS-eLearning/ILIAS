@@ -23,6 +23,20 @@ class ilAccomodationsAppEventListener
 				return;
 			}
 			
+			// gev-patch start
+			$usr_id = (int)$a_parameter["usr_id"];
+			if ($usr_id) {
+				require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+				require_once("Services/CourseBooking/classes/class.ilCourseBookings.php");
+				$bookings = ilCourseBookings::getInstanceByRefId(gevObjectUtils::getRefId($crs_obj_id));	
+				// This will be handled by CourseBooking-Service to avoid premature removal
+				// from overnights for people on the waiting list.
+				if ($bookings->isMemberOrWaiting($usr_id)) {
+					return;
+				}
+			}
+			// gev-patch end
+			
 			switch($a_event)
 			{				
 				case "addParticipant":			
@@ -32,7 +46,6 @@ class ilAccomodationsAppEventListener
 						$acco = self::initAccomodations($crs_obj_id);			
 						$nights = $acco->getPossibleAccomodationNights();
 						
-						// night before and night after are not default
 						array_shift($nights);
 						array_pop($nights);
 						

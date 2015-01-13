@@ -50,7 +50,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->column("title", "title")
 						->column("type", "gev_learning_type")
 						->column("date", "date", false, "112px")
-						->column("location", "gev_location")
+						->column("venue", "gev_location")
 						->column("provider", "gev_provider")
 						->column("tutor", "il_crs_tutor")
 						->column("credit_points", "gev_points")
@@ -83,8 +83,8 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 							->on("usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0")
 						->join("hist_course crs")
 							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
-						->join("object_reference oref")
-							->on("crs.crs_id = oref.obj_id AND oref.deleted IS NULL")
+						->left_join("object_reference oref")
+							->on("crs.crs_id = oref.obj_id")
 						->compile();
 						
 		$this->filter = catFilter::create()
@@ -104,6 +104,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 															   )
 														, false, "text")
 										  )
+						->static_condition("(crs.crs_id < 0 OR oref.deleted IS NULL)")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
 	}
@@ -179,20 +180,20 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 		$tpl->setVariable("ACADEMY_SUM_FIVE_YEAR_TITLE", $this->lng->txt("gev_points_in_five_years"));
 		
 		$period = $this->filter->get("period");
-
+		
 		$start_date = $period["start"]->get(IL_CAL_FKT_GETDATE);
 		$fy_start = new ilDate($start_date["year"]."-01-01", IL_CAL_DATE); 
 		$fy_end = new ilDate($start_date["year"]."-12-31", IL_CAL_DATE);
 		$fy_end->increment(ilDateTime::YEAR, 4);
-
+		
 		$tpl->setVariable("ACADEMY_FIVE_YEAR", ilDatePresentation::formatPeriod($fy_start, $fy_end));
-	
+		
 		$query = $this->academyQuery($period["start"], $period["end"]);
 		$res = $this->db->query($query);
 		if ($rec = $this->db->fetchAssoc($res)) {
 			$tpl->setVariable("ACADEMY_SUM", $rec["sum"] ? $rec["sum"] : 0);
 		}
-	
+		
 		$query = $this->academyQuery($fy_start, $fy_end);
 		$res = $this->db->query($query);
 		if ($rec = $this->db->fetchAssoc($res)) {

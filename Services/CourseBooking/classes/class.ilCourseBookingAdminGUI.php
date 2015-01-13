@@ -824,7 +824,7 @@ class ilCourseBookingAdminGUI
 			{
 				$user_status = $a_status;
 			}
-
+			
 			if($user_status == ilCourseBooking::STATUS_BOOKED)
 			{		
 				// nothing to do
@@ -839,6 +839,8 @@ class ilCourseBookingAdminGUI
 					$automails = new gevCrsAutoMails($this->getCourse()->getId());
 					$automails->sendDeferred("admin_booking_to_booked", array($user_id));
 					$automails->sendDeferred("invitation", array($user_id));
+					
+					$this->setDefaultAccomodations($user_id);
 					// gev-patch end
 					
 					// :TODO: needed?
@@ -859,6 +861,8 @@ class ilCourseBookingAdminGUI
 				require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 				$automails = new gevCrsAutoMails($this->getCourse()->getId());
 				$automails->sendDeferred("admin_booking_to_waiting", array($user_id));
+
+				$this->setDefaultAccomodations($user_id);
 				// gev-patch end
 			}
 			
@@ -877,6 +881,24 @@ class ilCourseBookingAdminGUI
 		
 		$ilCtrl->redirect($this, "listBookings");
 	}
+	
+	
+	// gev-patch start
+	protected function setDefaultAccomodations($a_user_id) {
+		require_once("Services/Accomodations/classes/class.ilAccomodations.php");
+		
+		$accomodations = ilAccomodations::getInstance($this->getCourse());
+		$start = $accomodations->getCourseStart();
+		$end = $accomodations->getCourseEnd();
+
+		while (ilDate::_before($start, $end)) {
+			$user_nights[] = new ilDate($start->get(IL_CAL_DATE), IL_CAL_DATE);
+			$start->increment(IL_CAL_DAY, 1);
+		}
+		
+		$accomodations->setAccomodationsOfUser($a_user_id, $user_nights);
+	}
+	// gev-patch end
 	
 	
 	//

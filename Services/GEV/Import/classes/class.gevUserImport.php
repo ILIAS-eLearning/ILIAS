@@ -1770,4 +1770,39 @@ class gevUserImport {
 
 
 
+
+
+
+	public function fixCertificationPeriodFromBWVId(){
+		$this->prnt('fixCertificationPeriodFromBWVId', 1);
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$sql = "SELECT user_id, bwv_id FROM hist_user "
+		." INNER JOIN usr_data on hist_user.user_id = usr_data.usr_id"
+		." WHERE hist_user.bwv_id != '-empty-'";
+		
+		$result = $this->ilDB->query($sql);
+		while($record = $this->ilDB->fetchAssoc($result)){
+
+			$bwv_id = $record['bwv_id'];
+			$y = substr($bwv_id, 0, 4);
+			$m = substr($bwv_id, 4, 2);
+			$d = substr($bwv_id, 6, 2);
+			$period_begin = new ilDate("$d.$m.$y", IL_CAL_DATE);
+
+			
+			$user_utils = gevUserUtils::getInstance($record['user_id']);
+			$user_utils->setWBDFirstCertificationPeriodBegin($period_begin);
+			$user = new ilObjUser($record['user_id']);
+			$user->update();
+			
+			$this->prnt('. ',-1);
+		
+		}
+
+		$this->prnt('fixCertificationPeriodFromBWVId: done', 2);
+	}
+
+
+
+
 }
