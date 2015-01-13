@@ -1328,7 +1328,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			$template->setVariable("SIGNATURE", $signature);
 		}
-		if ($this->object->isShowExamIdInTestResultsEnabled())
+		if (!is_null($pass) && $this->object->isShowExamIdInTestResultsEnabled())
 		{
 			$template->setCurrentBlock('exam_id_footer');
 			$template->setVariable('EXAM_ID_VAL', $this->object->lookupExamId(
