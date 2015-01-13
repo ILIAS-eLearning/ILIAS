@@ -50,7 +50,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->column("title", "title")
 						->column("type", "gev_learning_type")
 						->column("date", "date", false, "112px")
-						->column("location", "gev_location")
+						->column("venue", "gev_location")
 						->column("provider", "gev_provider")
 						->column("tutor", "il_crs_tutor")
 						->column("credit_points", "gev_points")
