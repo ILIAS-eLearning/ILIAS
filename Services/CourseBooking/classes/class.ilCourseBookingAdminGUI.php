@@ -891,6 +891,7 @@ class ilCourseBookingAdminGUI
 		$start = $accomodations->getCourseStart();
 		$end = $accomodations->getCourseEnd();
 
+		$user_nights = array();
 		while (ilDate::_before($start, $end)) {
 			$user_nights[] = new ilDate($start->get(IL_CAL_DATE), IL_CAL_DATE);
 			$start->increment(IL_CAL_DAY, 1);
