@@ -153,7 +153,7 @@ class ilCourseObjectiveResult
 			
 			// #15038 - update/reset LP for (initial) test
 			include_once "Modules/Test/classes/class.ilTestLP.php";
-			$test_lp = ilTestLP::getInstance(ilObject::_lookupObjId($initial));
+			$test_lp = ilTestLP::getInstance($initial_tst->getId());
 			$test_lp->resetLPDataForUserIds(array($this->getUserId()));			
 		}
 		
@@ -166,7 +166,7 @@ class ilCourseObjectiveResult
 			
 			// #15038 - update/reset LP for (qualified) test
 			include_once "Modules/Test/classes/class.ilTestLP.php";
-			$test_lp = ilTestLP::getInstance(ilObject::_lookupObjId($qualified));
+			$test_lp = ilTestLP::getInstance($qualified_tst->getId());
 			$test_lp->resetLPDataForUserIds(array($this->getUserId()));	
 		}
 		
