@@ -280,7 +280,8 @@ class ilObjectLP
 	
 	final public function resetLPDataForUserIds(array $a_user_ids, $a_recursive = true)
 	{				
-		if((bool)$a_recursive)
+		if((bool)$a_recursive && 
+			method_exists($this, "getPossibleCollectionItems")) // #15203
 		{
 			$subitems = $this->getPossibleCollectionItems();
 			if(is_array($subitems))
