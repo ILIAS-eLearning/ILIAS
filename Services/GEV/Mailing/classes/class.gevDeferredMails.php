@@ -22,7 +22,7 @@ class gevDeferredMails {
 		//print_r($a_occasion);
 		//die();
 		foreach ($a_recipients as $recipient) {
-			$send = $this->deferredMailNeedsToBeSend($a_crs_id, $a_mail_id, $a_recipient);
+			$send = $this->deferredMailNeedsToBeSend($a_crs_id, $a_mail_id, $recipient);
 			$this->removeOutdatedDeferredMails($a_crs_id, $a_mail_id, $recipient);
 			
 			if(!$send) {
@@ -104,6 +104,7 @@ class gevDeferredMails {
 				return count($this->getDeferredMails( array( $a_crs_id)
 													, array( "admin_booking_to_waiting"
 														   , "admin_booking_to_booked"
+														   , "invitation"
 														   )
 													, array($a_recipient)
 													)) == 0;
