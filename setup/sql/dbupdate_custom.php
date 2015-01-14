@@ -2984,3 +2984,55 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 					 ));
 	}
 ?>
+
+<#93>
+<?php
+	require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+	require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+	require_once("Customizing/class.ilCustomInstaller.php");
+	
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	
+	$res = $ilDB->query( "SELECT od.obj_id, oref.ref_id, od.title "
+						."  FROM object_data od"
+						."  JOIN object_reference oref ON oref.obj_id = od.obj_id"
+						." WHERE oref.deleted IS NULL"
+						."   AND type = 'orgu'"
+						."   AND title LIKE 'Organisationsdirektion%'"
+						);
+
+	while ($rec = $ilDB->fetchAssoc($res)) {
+		$tmp = explode(" ", $rec["title"]);
+		$res2 = $ilDB->query("SELECT od.obj_id, oref.ref_id, od.title "
+							."  FROM object_data od"
+							."  JOIN object_reference oref ON oref.obj_id = od.obj_id"
+							." WHERE oref.deleted IS NULL"
+							."   AND type = 'orgu'"
+							."   AND title = 'Filialdirektion ".$tmp[1]."'"
+							);
+		$rec2 = $ilDB->fetchAssoc($res2);
+		if (!$rec2) {
+			continue;
+		}
+		
+		$source_ou = gevOrgUnitUtils::getInstance($rec["obj_id"]);
+		$target_ou = gevOrgUnitUtils::getInstance($rec2["obj_id"]);
+		$source_employees = gevOrgUnitUtils::getEmployeesIn(array($rec["ref_id"]));
+		foreach (gevOrgUnitUtils::getAllPeopleIn(array($rec["ref_id"])) as $usr_id) {
+			$user = gevUserUtils::getInstance($usr_id);
+			if ($user->hasRoleIn(array("FD", "OD/BD", "UA", "OD/FD/BD ID", "DBV EVG"))) {
+				continue;
+			}
+			$role = in_array($usr_id, $source_employees) ? "Mitarbeiter" : "Vorgesetzter";
+			$source_ou->deassignUser($usr_id, $role);
+			$target_ou->assignUser($usr_id, $role);
+		}
+	}
+?>
