@@ -55,7 +55,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						;
 		
 		$this->order = catReportOrder::create($this->table)
-						->mapping("date", "start_date")
+						->mapping("date", "crs.begin_date")
 						->mapping("od_bd", array("org_unit_above1", "org_unit_above2"))
 						->defaultOrder("lastname", "ASC")
 						;
