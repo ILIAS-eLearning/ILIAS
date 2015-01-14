@@ -1942,7 +1942,6 @@ class gevCourseUtils {
 		
 		global $ilDB;
 		global $ilUser;
-		//global $ilCtrl;
 		
 		$gev_set = gevSettings::getInstance();
 		$db = &$ilDB;
@@ -1954,20 +1953,6 @@ class gevCourseUtils {
 		if ($a_direction !== "asc" && $a_direction !== "desc") {
 			throw new Exception("gevCourseUtils::searchCourses: unknown direction '".$a_direction."'");
 		}
-		
-		/*if (!in_array($a_order, array("title", "start_date", "end_date", "booking_date", "location"
-									 , "points", "fee", "target_group", "goals", "content", "type"))) 
-		{
-			throw new Exception("gevUserUtils::getPotentiallyBookableCourseInformation: unknown order '".$a_order."'");
-		}
-		*/
-
-		/*
-		$hash = md5(serialize($a_search_options));
-		if ($this->potentiallyBookableCourses[$hash] !== null) {
-			return $this->potentiallyBookableCourses[$hash];
-		}
-		*/
 		
 		$is_tmplt_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
 		$start_date_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
@@ -2055,7 +2040,6 @@ class gevCourseUtils {
 				$online_status = 0;
 			}
 			$additional_where .=" AND cs.activation_type = " .$db->quote($online_status, 'integer');
-			//print $additional_where;
 		}
 
 		
@@ -2081,12 +2065,6 @@ class gevCourseUtils {
 
 				 $additional_join.
 				 " WHERE ".
-
-/*				 "	 cs.activation_type = 1".
-				 "   AND cs.activation_start < ".time().
-				 "   AND cs.activation_end > ".time().
-				 "   AND oref.deleted IS NULL".
-*/
 				 "   oref.deleted IS NULL".
 				 "   AND is_template.value = ".$db->quote("Nein", "text").
 
@@ -2176,8 +2154,6 @@ class gevCourseUtils {
 			$info[$key]["status"] = ($crs_utils->getCourse()->isActivated()) ? 'online' : 'offline';
 
 			$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
-			//http://localhost/4_4_generali2/ilias.php?ref_id=80&cmd=trainer&cmdClass=gevmemberlistdeliverygui&cmdNode=ei&baseClass=gevmemberlistdeliverygui
-			//$memberlist_link = $ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer");
 			$memberlist_lnk = "ilias.php?cmd=trainer&cmdClass=gevmemberlistdeliverygui&cmdNode=ei&baseClass=gevmemberlistdeliverygui&ref_id=" .$crs_ref;
 			$action = '<a href="'
 					.$memberlist_lnk
