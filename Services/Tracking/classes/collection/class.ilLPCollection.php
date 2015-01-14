@@ -55,7 +55,7 @@ abstract class ilLPCollection
 	 		$new_collection->addEntry($mappings[$item]);	 		
 	 	}*/
 	 	$res = $ilDB->query("SELECT * FROM ut_lp_collections"
-	 					   ." WHERE obj_id = ".$this->db->quote($this->obj_id)
+	 					   ." WHERE obj_id = ".$ilDB->quote($this->obj_id)
 	 					   );
 	 	while ($rec = $ilDB->fetchAssoc()) {
 	 		$item_id = $rec["item_id"];
