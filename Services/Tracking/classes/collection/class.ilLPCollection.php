@@ -44,7 +44,7 @@ abstract class ilLPCollection
 		$mappings = $cwo->getMappings();
 		
 		// #12067
-		/*$new_collection = new static($target_obj_id, $this->mode);
+		$new_collection = new static($target_obj_id, $this->mode);
 	 	foreach($this->items as $item)
 	 	{
 	 		if(!isset($mappings[$item]) or !$mappings[$item])
@@ -53,28 +53,7 @@ abstract class ilLPCollection
 	 		}
 			
 	 		$new_collection->addEntry($mappings[$item]);	 		
-	 	}*/
-	 	$res = $ilDB->query("SELECT * FROM ut_lp_collections"
-	 					   ." WHERE obj_id = ".$ilDB->quote($this->obj_id)
-	 					   );
-	 	while ($rec = $ilDB->fetchAssoc($res)) {
-	 		$item_id = $rec["item_id"];
-	 		if (!isset($mappings[$item_id]) || !$mappings[$item_id]) {
-	 			continue;
-	 		}
-	 		$mapped_id = $mappings[$item_id];
-	 		$ilDB->manipulate("INSERT INTO ut_lp_collections"
-							 ." (obj_id, item_id, grouping_id, num_obligatory, active, lpmode)"
-							 ." VALUES ( ".$ilDB->quote($target_obj_id , "integer")
-							 ."        , ".$ilDB->quote($mapped_id, "integer")
-							 ."        , ".$ilDB->quote($rec["grouping_id"] , "integer")
-							 ."        , ".$ilDB->quote($rec["num_obligatory"] , "integer")
-							 ."        , ".$ilDB->quote($rec["active"] , "integer")
-							 ."        , ".$ilDB->quote($rec["lpmode"] , "integer")
-							 ."        )"
-	 						);
 	 	}
-		
 		$ilLog->write(__METHOD__.': cloned learning progress collection.');
 	}
 	
