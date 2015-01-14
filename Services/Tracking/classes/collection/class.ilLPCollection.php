@@ -57,7 +57,7 @@ abstract class ilLPCollection
 	 	$res = $ilDB->query("SELECT * FROM ut_lp_collections"
 	 					   ." WHERE obj_id = ".$ilDB->quote($this->obj_id)
 	 					   );
-	 	while ($rec = $ilDB->fetchAssoc()) {
+	 	while ($rec = $ilDB->fetchAssoc($res)) {
 	 		$item_id = $rec["item_id"];
 	 		if (!isset($mappings[$item_id]) || !$mappings[$item_id]) {
 	 			continue;
