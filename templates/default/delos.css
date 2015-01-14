@@ -7045,9 +7045,6 @@ footer.ilFooter div.ilFooterContainer > a:hover {
 [dir="rtl"] footer.ilFooter {
   text-align: right;
 }
-[dir="rtl"] footer.ilFooter div.ilFooterContainer {
-  float: right;
-}
 /* ----------------- permanent link  ------------- */
 div.ilPermaLink {
   margin: 15px;
@@ -7151,9 +7148,6 @@ a.light:visited {
   color: #35B;
 }
 a.light:hover {
-  color: #000;
-}
-input.ilEditSubmit:hover {
   color: #000;
 }
 /* Messages */
@@ -8016,6 +8010,9 @@ input.ilEditSubmit {
   border-bottom-color: #808080;
   border-right-color: #808080;
 }
+input.ilEditSubmit:hover {
+  color: #000;
+}
 div.ilEditHelpline {
   margin: 3px 0px;
   padding: 0;
@@ -8537,27 +8534,29 @@ li.ilWikiBlockItem {
   height: 56px;
   padding: 3px 0px;
 }
+#ilTopNav {
+  margin-top: -38px;
+}
 #ilTopNav.navbar {
   margin-bottom: 0px;
   padding-top: 1px;
   padding-bottom: 1px;
   min-height: 33px;
 }
-#ilTopNav.navbar.navbar-default {
-  /*border-bottom: 1px solid lighten(@mid-gray, 55%);
-		box-shadow: 0 2px 1px -1px #ffffff;*/
-}
 #ilTopNav.navbar > .navbar-collapse {
   margin: 0;
   padding: 0 0 0 5px;
-}
-[dir="rtl"] #ilTopNav.navbar > .navbar-collapse {
-  padding: 0 5px 0 0;
 }
 #ilTopNav.navbar-default {
   background-color: transparent;
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   border: 0;
+}
+#ilTopNav .dropdown-menu {
+  float: left;
+  right: auto;
+  left: 0;
+  min-width: 100%;
 }
 #ilTopNav .navbar-text {
   color: #607ea5;
@@ -8584,8 +8583,22 @@ li.ilWikiBlockItem {
   background-color: #fafafa;
   box-shadow: 3px 9px 9px 0px rgba(0, 0, 0, 0.176);
 }
+#ilTopNav a.dropdown-toggle {
+  text-transform: uppercase;
+  font-size: 14px;
+}
 [dir="rtl"] #ilTopNav .navbar-nav > li {
   margin: 0 10px 0 0;
+}
+[dir="rtl"] #ilTopNav .dropdown-menu {
+  float: right;
+  left: auto;
+  right: 0;
+  padding: 5px 0;
+  text-align: right;
+}
+[dir="rtl"] #ilTopNav.navbar > .navbar-collapse {
+  padding: 0 5px 0 0;
 }
 /* badges */
 #ilTopBarNav .badge {
@@ -8791,9 +8804,6 @@ input.ilOpenIDBox {
   margin-left: 0;
   margin-right: 70px;
 }
-#ilTopNav {
-  margin-top: -38px;
-}
 .ilMainMenuEntries {
   margin-bottom: 10px;
   padding-bottom: 10px;
@@ -8801,23 +8811,6 @@ input.ilOpenIDBox {
 .ilMainHeader {
   height: 80px;
   border-bottom: 3px solid #f0f0f0;
-}
-#ilTopNav a.dropdown-toggle {
-  text-transform: uppercase;
-  font-size: 14px;
-}
-#ilTopNav .dropdown-menu {
-  float: left;
-  right: auto;
-  left: 0;
-  min-width: 100%;
-}
-[dir="rtl"] #ilTopNav .dropdown-menu {
-  float: right;
-  left: auto;
-  right: 0;
-  padding: 5px 0;
-  text-align: right;
 }
 div.ilMemberViewMainHeader {
   background-color: #981A0A;

@@ -749,12 +749,12 @@ class ilMainMenuGUI
 		$a_tpl->setVariable("TARGET_".$id_up, $a_target);
 		if ($this->active == $a_id || ($this->active == "" && $a_id == "repository"))
 		{
-			$a_tpl->setVariable("MM_CLASS", "MMActive");
+			//$a_tpl->setVariable("MM_CLASS", "MMActive");
 			$a_tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
 		}
 		else
 		{
-			$a_tpl->setVariable("MM_CLASS", "MMInactive");
+			//$a_tpl->setVariable("MM_CLASS", "MMInactive");
 		}
 		
 		if($a_id == "repository")
