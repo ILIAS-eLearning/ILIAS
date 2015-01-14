@@ -69,7 +69,7 @@ class ilUserHistorizingHelper
 	{
 		$agent_key = gevUserUtils::getInstanceByObjOrId($user)->getAgentKey();
 		if(trim($agent_key) == '' || $agent_key == '-empty-'){
-			return gevUserUtils::getInstanceByObjOrId($user)->getAgentKeyVFS();
+			return gevUserUtils::getInstanceByObjOrId($user)->getAgentPositionVFS();
 		} else {
 			return $agent_key;
 		}
