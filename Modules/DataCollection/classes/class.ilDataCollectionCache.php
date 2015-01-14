@@ -1,12 +1,10 @@
 <?php
+
 /**
- * Created by JetBrains PhpStorm.
- * @author: Oskar Truffer <ot@studer-raimann.ch>
- * Date: 1/7/13
- * Time: 5:46 PM
- * To change this template use File | Settings | File Templates.
+ * Class ilDataCollectionCache
  *
- * This will cache all instances of the DataCollection module. never use new ilDataCollectionTable only use getTableCache
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilDataCollectionCache{
     /**
