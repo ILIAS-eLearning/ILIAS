@@ -16,11 +16,6 @@ class gevDeferredMails {
 	}
 	
 	public function deferredSendMail($a_crs_id, $a_mail_id, $a_recipients, $a_occasion) {
-		//print_r($a_crs_id);
-		//print_r($a_mail_id);
-		//print_r($a_recipients);
-		//print_r($a_occasion);
-		//die();
 		foreach ($a_recipients as $recipient) {
 			$send = $this->deferredMailNeedsToBeSend($a_crs_id, $a_mail_id, $recipient);
 			$this->removeOutdatedDeferredMails($a_crs_id, $a_mail_id, $recipient);
