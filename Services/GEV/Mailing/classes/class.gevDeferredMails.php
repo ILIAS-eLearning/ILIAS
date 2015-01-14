@@ -47,7 +47,7 @@ class gevDeferredMails {
 							  " WHERE ".$this->db->in("crs_id", $a_crs_ids, false, "integer").
 							  (($a_mail_ids === null)?""
 							   : " AND ".$this->db->in("mail_id", $a_mail_ids, false, "text")).
-							  (($_recipients === null)?""
+							  (($a_recipients === null)?""
 							   : " AND ".$this->db->in("recipient", $a_recipients, false, "text"))
 							  );
 	}
@@ -121,7 +121,7 @@ class gevDeferredMails {
 								: " AND ".$this->db->in("crs_id", $a_crs_ids, false, "integer")).
 								(($a_mail_ids === null)?""
 							 	: " AND ".$this->db->in("mail_id", $a_mail_ids, false, "text")).
-								(($_recipients === null)?""
+								(($a_recipients === null)?""
 								: " AND ".$this->db->in("recipient", $a_recipients, false, "text"))
 								." ORDER BY crs_id");
 		$ret = array();
