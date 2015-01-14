@@ -9,7 +9,7 @@ require_once('class.ilObjDataCollection.php');
  * DataCollection dataset class
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
- *
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilDataCollectionDataSet extends ilDataSet {
 
@@ -89,7 +89,6 @@ class ilDataCollectionDataSet extends ilDataSet {
 	 * @var array
 	 */
 	protected $import_temp_new_mob_ids = array();
-
 
 
 	public function __construct() {
