@@ -1131,6 +1131,7 @@ class ilObjTestSettingsGeneralGUI
 			$skillService = new ilCheckboxInputGUI($this->lng->txt('tst_activate_skill_service'), 'skill_service');
 			$skillService->setInfo($this->lng->txt('tst_activate_skill_service_desc'));
 			$skillService->setChecked($this->testOBJ->isSkillServiceEnabled());
+			if($this->testOBJ->participantDataExist()) $skillService->setDisabled(true);
 			$form->addItem($skillService);
 		}
 
