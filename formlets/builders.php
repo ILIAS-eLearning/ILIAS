@@ -59,23 +59,23 @@ class RenderDict {
 
     public static function computeFrom(Value $value) {
         $errors = array();
-        self::dispatchValue($value, $errors);
+        self::digestValue($value, $errors);
         return $errors;
     }
 
-    protected static function dispatchValue($value, &$errors) {
+    protected static function digestValue($value, &$errors) {
         if ($value instanceof ErrorValue) {
-            self::handleError($value, $errors); 
+            self::digestError($value, $errors); 
         } 
         elseif ($value instanceof FunctionValue) {
-            self::handleFunction($value, $errors);
+            self::digestFunction($value, $errors);
         }
         else {
-            self::handleValue($value, $errors); 
+            self::digestValue($value, $errors); 
         }
     }
 
-    protected static function handleError($value, &$errors) {
+    protected static function digestError(ErrorValue $value, &$errors) {
         $origin = $value->origin();
         if ($origin !== null) {
             if (!array_key_exists($origin, $errors)) {
@@ -83,16 +83,16 @@ class RenderDict {
             }
             $errors[$origin][] = $value->error();
         }
-        self::dispatchValue($value->originalValue(), $errors);
+        self::digestValue($value->originalValue(), $errors);
     }
 
-    protected static function handleFunction($value, &$errors) {
-        foreach($value->args() as $value) {
-            self::dispatchValue($value, $errors);
+    protected static function digestFunction(FunctionValue $fun, &$errors) {
+        foreach($fun->args() as $value) {
+            self::digestValue($value, $errors);
         }
     }
 
-    protected static function handleValue($value, &$errors) {
+    protected static function digestValue(PlainValue $value, &$errors) {
     }
 }
 
