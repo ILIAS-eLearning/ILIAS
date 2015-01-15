@@ -264,8 +264,6 @@ class ilObjDataCollection extends ilObject2 {
 		return $obj;
 	}*/
 
-
-
 	/**
 	 * Attention only use this for objects who have not yet been created (use like: $x = new ilObjDataCollection; $x->cloneStructure($id))
 	 *
@@ -276,16 +274,16 @@ class ilObjDataCollection extends ilObject2 {
 
 		$this->setApproval($original->getApproval());
 		$this->setNotification($original->getNotification());
-		$this->setOnline($original->getOnline());
+		$this->setOnline(false); // FSX: Standard is offline on cloned objects
 		$this->setPublicNotes($original->getPublicNotes());
 		$this->setRating($original->getRating());
 
-		//delete old tables.
+		// delete old tables.
 		foreach ($this->getTables() as $table) {
 			$table->doDelete(true);
 		}
 
-		//add new tables.
+		// add new tables.
 		foreach ($original->getTables() as $table) {
 			$new_table = ilDataCollectionCache::getTableCache();
 			$new_table->setObjId($this->getId());
@@ -321,6 +319,7 @@ class ilObjDataCollection extends ilObject2 {
 			}
 		}
 	}
+
 
 	/**
 	 * setOnline

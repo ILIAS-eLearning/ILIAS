@@ -1,9 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecord.php");
-include_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
-include_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php");
+require_once("./Modules/DataCollection/classes/class.ilDataCollectionRecord.php");
+require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
+require_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php");
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionLinkButton.php');
 

@@ -931,7 +931,7 @@ class ilDataCollectionField {
 			if ($properties[$length] < mb_strlen($value, 'UTF-8') AND is_numeric($properties[$length])) {
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::LENGTH_EXCEPTION);
 			}
-			if (!($properties[$regex_id] == NULL || @preg_match($regex, $value))) {
+			if (!($properties[$regex_id] == NULL OR @preg_match($regex, $value))) {
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
 			}
 			//email or url
@@ -975,8 +975,10 @@ class ilDataCollectionField {
 	}
 
 
-	/*
-	 * cloneStructure
+	/**
+	 * @param $original_id
+	 *
+	 * @throws ilException
 	 */
 	public function cloneStructure($original_id) {
 		$original = ilDataCollectionCache::getFieldCache($original_id);
@@ -997,9 +999,9 @@ class ilDataCollectionField {
 
 
 	/**
-	 * @param $originalField ilDataCollectionField
+	 * @param ilDataCollectionField $originalField
 	 */
-	public function cloneProperties($originalField) {
+	public function cloneProperties(ilDataCollectionField $originalField) {
 		$orgProps = $originalField->getProperties();
 		if ($orgProps == NULL) {
 			return;

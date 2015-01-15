@@ -350,9 +350,9 @@ class ilDataCollectionTable {
 	}
 
 
-	protected  function loadObj() {
+	protected function loadObj() {
 		if ($this->obj == NULL) {
-			$this->obj = new ilObjDataCollection($this->objId, false); 
+			$this->obj = new ilObjDataCollection($this->objId, false);
 		}
 	}
 
@@ -1139,45 +1139,44 @@ class ilDataCollectionTable {
 
 		$this->doCreate();
 		// reset stdFields to get new for the created object
-		$this->stdFields = null;
+		$this->stdFields = NULL;
 
 		$default_sort_field = 0;
 		// Clone standard-fields
 		$org_std_fields = $original->getStandardFields();
-		foreach($this->getStandardFields() as $element_key=>$std_field) {
+		foreach ($this->getStandardFields() as $element_key => $std_field) {
 			$std_field->cloneStructure($org_std_fields[$element_key]);
 
-			if($std_field->getId() == $original->getDefaultSortField()) {
+			if ($std_field->getId() == $original->getDefaultSortField()) {
 				$default_sort_field = $std_field->getId();
 			}
 		}
 
 		// Clone fields
 		$new_fields = array();
-        foreach ($original->getFields() as $orig_field) {
-            if(!$orig_field->isStandardField()){
-                $new_field = new ilDataCollectionField();
-                $new_field->setTableId($this->getId());
-                $new_field->cloneStructure($orig_field->getId());
-                $new_fields[$orig_field->getId()] = $new_field;
+		foreach ($original->getFields() as $orig_field) {
+			if (!$orig_field->isStandardField()) {
+				$new_field = new ilDataCollectionField();
+				$new_field->setTableId($this->getId());
+				$new_field->cloneStructure($orig_field->getId());
+				$new_fields[$orig_field->getId()] = $new_field;
 
-				if($orig_field->getId() == $original->getDefaultSortField()) {
+				if ($orig_field->getId() == $original->getDefaultSortField()) {
 					$default_sort_field = $new_field->getId();
 				}
-            }
-        }
+			}
+		}
 
 		$this->setDefaultSortField($default_sort_field);
 		$this->doUpdate();
 
-
 		//TODO: Find better way to copy data (include referenced data)
-        // Clone Records with recordfields
-        /*foreach($original->getRecords() as $orig_record){
-            $new_record = new ilDataCollectionRecord();
-            $new_record->setTableId($this->getId());
-            $new_record->cloneStructure($orig_record->getId(), $new_fields);
-        }*/
+		// Clone Records with recordfields
+		/*foreach($original->getRecords() as $orig_record){
+			$new_record = new ilDataCollectionRecord();
+			$new_record->setTableId($this->getId());
+			$new_record->cloneStructure($orig_record->getId(), $new_fields);
+		}*/
 
 		if ($old_view_id = ilDataCollectionRecordViewViewdefinition::getIdByTableId($original_id)) {
 			$old_view = new ilDataCollectionRecordViewViewdefinition($old_view_id);

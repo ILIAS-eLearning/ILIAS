@@ -269,7 +269,7 @@ class ilDataCollectionRecordEditGUI {
 			if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE
 				|| $field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB
 			) {
-				if ($this->record_id && $record->getId()) {
+				if ($this->record_id AND $record->getId()) {
 					$field_value = $record->getRecordFieldValue($field->getId());
 					if ($field_value) {
 						$item->setRequired(false);
