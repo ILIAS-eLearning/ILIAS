@@ -91,6 +91,7 @@ function _val($value, $origins = array()) {
 final class FunctionValue extends Value {
     private $_arity; // int
     private $_function; // string
+    private $_unwrap_args; // string
     private $_args; // array
     private $_reifyExceptions; // array
     private $_result; // maybe Value 
@@ -115,12 +116,14 @@ final class FunctionValue extends Value {
      * know about optional arguments to your function, that is, it will only be
      * satisfied when all arguments (event optional ones) are provided.
      */
-    public function __construct( $function, $args = null
+    public function __construct( $function, $unwrap_args = true, $args = null
                                , $reify_exceptions = null, $origins = array()) {
         if (is_string($function))
             guardIsCallable($function);
         else
             guardIsClosure($function);
+
+        guardIsBool($unwrap_args);
 
         $args = defaultTo($args, array());
         $reify_exceptions = defaultTo($reify_exceptions, array());
@@ -139,6 +142,7 @@ final class FunctionValue extends Value {
         }
 
         $this->_function = $function;
+        $this->_unwrap_args = $unwrap_args;
         $this->_args = $args;
         $this->_reify_exceptions = $reify_exceptions;
         
@@ -202,6 +206,7 @@ final class FunctionValue extends Value {
         $re = $this->_reify_exceptions;
         $re[] = $exc_class;
         return new FunctionValue( $this->_function
+                                , $this->_unwrap_args
                                 , $this->_args
                                 , $re
                                 , $this->origins()
@@ -244,6 +249,7 @@ final class FunctionValue extends Value {
     private function deferredCall($args, $next_value) {
         $args[] = $next_value;
         return new FunctionValue( $this->_function
+                                , $this->_unwrap_args
                                 , $args
                                 , $this->_reify_exceptions
                                 , $this->origins()
@@ -280,6 +286,10 @@ final class FunctionValue extends Value {
 
     /* Helper to get the values of the arguments to the function. */
     private function evalArgs(&$origins) {
+        if (!$this->_unwrap_args) {
+            return array($this->_args, false);
+        }
+
         $res = array();
         $error = false;
         foreach ($this->_args as $value) {
@@ -312,13 +322,19 @@ final class FunctionValue extends Value {
     }
 }
 
-/* Construct a function value from an arity and the name of an ordinary
- * function. Arity is the number of arguments of the function. An array
- * of arguments to be inserted in the first arguments of the function
- * could be passed 
+/* Construct a function value from a closure or the name of an ordinary
+ * function. An array of arguments to be inserted in the first arguments 
+ * of the function could be passed optionally.
  */
 function _fn($function, $args = array()) {
-    return new FunctionValue($function, $args);
+    return new FunctionValue($function, true, $args);
+}
+
+/* Construct a function where the values aren't unwrapped. This could
+ * be used e.g. to deal with errors.
+ */
+function _fn_w($function, $args = array()) {
+    return new FunctionValue($function, false, $args);
 }
 
 /*function _method($arity, $object, $method_name, $args = null) {
