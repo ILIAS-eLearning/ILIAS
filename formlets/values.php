@@ -129,7 +129,7 @@ final class FunctionValue extends Value {
         guardIsArray($reify_exceptions);
 
         foreach($args as $key => $value) {
-            $args[$key] = $this->toValue($value);
+            $args[$key] = $this->toValue($value, array());
         }
 
         $refl = new ReflectionFunction($function);
@@ -149,15 +149,21 @@ final class FunctionValue extends Value {
      * once.
      */
     public function result() {
+        $this->force();
+        return $this->_result; 
+    }
+
+    /* Force the evaluation of the result. */
+    public function force() {
         if (!$this->isSatisfied()) {
             throw new Exception("Problem with implementation.");
         }
 
         if ($this->_result === null) {
-            $res = $this->actualCall();
-            $this->_result = $this->toValue($res); 
+            $origins = array();
+            $res = $this->actualCall($origins);
+            $this->_result = $this->toValue($res, array_unique($origins));
         }
-        return $this->_result; 
     }
 
     /* Is the function applied enough times to have a result? */
@@ -245,9 +251,9 @@ final class FunctionValue extends Value {
     }
 
     /* Helper to calculate the actual result of the function with error caching. */
-    private function actualCall() {
+    private function actualCall(&$origins) {
         try {
-            return $this->rawActualCall();
+            return $this->rawActualCall($origins);
         }
         catch(Exception $e) {
             foreach ($this->_reify_exceptions as $exc_class) {
@@ -260,8 +266,8 @@ final class FunctionValue extends Value {
     }
 
     /* Helper to calculate the function result without error catching. */
-    private function rawActualCall() {
-        $res = $this->evalArgs(); 
+    private function rawActualCall(&$origins) {
+        $res = $this->evalArgs($origins); 
         $args = $res[0];
         $error = $res[1];
 
@@ -269,14 +275,11 @@ final class FunctionValue extends Value {
             return _error("Function arguments contain errors.", $this);
         }
 
-        if ($this->_function == "explode")
-            print_r(array($this->_function, $args));
-
         return call_user_func_array($this->_function, $args);
     }
 
     /* Helper to get the values of the arguments to the function. */
-    private function evalArgs() {
+    private function evalArgs(&$origins) {
         $res = array();
         $error = false;
         foreach ($this->_args as $value) {
@@ -290,17 +293,21 @@ final class FunctionValue extends Value {
             else {
                 $res[] = $value->get();
             } 
+
+            foreach($value->origins() as $origin) {
+                $origins[] = $origin;
+            }
         }
         return array($res, $error);
     }
 
     /* Turn a thing to a value if it is not already one. */
-    private function toValue($val) {
+    private function toValue($val, $origins) {
         if ($val instanceof Value) {
             return $val;
         }
         else {
-            return _val($val, $this->origins());
+            return _val($val, $origins);
         }            
     }
 }
