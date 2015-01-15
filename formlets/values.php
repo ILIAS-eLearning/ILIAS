@@ -145,14 +145,6 @@ final class FunctionValue extends Value {
         parent::__construct($origins);
     }
 
-    protected function withOriginalValue($value) {
-        return new FunctionValue( $this->_function
-                                , $this->_args
-                                , $this->_reify_exceptions
-                                , $this->origins()
-                                );
-    }
-
     /* If the function is satisfied get the result. Will only be calculated 
      * once.
      */
