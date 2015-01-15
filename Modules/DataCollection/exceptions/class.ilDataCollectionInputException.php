@@ -6,66 +6,66 @@ require_once './Services/Exceptions/classes/class.ilException.php';
 /**
  * Class ilDataCollectionField
  *
- * @author Martin Studer <ms@studer-raimann.ch>
- * @author Marcel Raimann <mr@studer-raimann.ch>
- * @author Fabian Schmid <fs@studer-raimann.ch>
- * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author  Marcel Raimann <mr@studer-raimann.ch>
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @version $Id:
  *
  * @ingroup ModulesDataCollection
  */
-class ilDataCollectionInputException extends ilException
-{
+class ilDataCollectionInputException extends ilException {
+
 	const TYPE_EXCEPTION = 0;
 	const LENGTH_EXCEPTION = 1;
 	const REGEX_EXCEPTION = 2;
 	const UNIQUE_EXCEPTION = 3;
 	const NOT_URL = 4;
-    const NOT_IMAGE = 5;
-
-	private $exception_type;
-	
-	/*
-	 * __construct
+	const NOT_IMAGE = 5;
+	/**
+	 * @var int
 	 */
-	public function __construct($exception_type)
-	{
+	protected $exception_type;
+
+
+	/**
+	 * @param string $exception_type
+	 */
+	public function __construct($exception_type) {
 		parent::__construct($exception_type);
 		$this->exception_type = $exception_type;
 	}
-	
-	/*
-	 * getExceptionType
+
+
+	/**
+	 * @return string
 	 */
-	public function getExceptionType()
-	{
+	public function getExceptionType() {
 		return $this->exception_type;
 	}
-	
-	/*
-	 * __toString
+
+
+	/**
+	 * @return string
 	 */
-	public function __toString()
-	{
+	public function __toString() {
 		global $lng;
-		
-		switch($this->exception_type)
-		{
+
+		switch ($this->exception_type) {
 			case self::TYPE_EXCEPTION:
-				return $lng->txt("dcl_wrong_input_type");
+				return $lng->txt('dcl_wrong_input_type');
 			case self::LENGTH_EXCEPTION:
-				return $lng->txt("dcl_wrong_length");
+				return $lng->txt('dcl_wrong_length');
 			case self::REGEX_EXCEPTION:
-				return $lng->txt("dcl_wrong_regex");
+				return $lng->txt('dcl_wrong_regex');
 			case self::UNIQUE_EXCEPTION:
-				return $lng->txt("dcl_unique_exception");
+				return $lng->txt('dcl_unique_exception');
 			case self::NOT_URL:
-				return $lng->txt("dcl_noturl_exception");
-            case self::NOT_IMAGE:
-                return $lng->txt("dcl_notimage_exception");
+				return $lng->txt('dcl_noturl_exception');
+			case self::NOT_IMAGE:
+				return $lng->txt('dcl_notimage_exception');
 			default:
-				return $lng->txt("dcl_unknown_exception");
+				return $lng->txt('dcl_unknown_exception');
 		}
 	}
-
 }
