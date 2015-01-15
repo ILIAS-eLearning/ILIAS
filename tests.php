@@ -108,7 +108,7 @@ function print_results() {
 function test_PlainValue() {
     $val = rand();
     $rnd = md5(rand());
-    $value = _val($val, $rnd);
+    $value = _val($val, array($rnd));
     return _test_PlainValue($value, $val, $rnd); 
 }
  
@@ -126,7 +126,7 @@ function _test_PlainValue(Value $value, $val, $origin) {
         , "For an ordinary Value, error() raises"
             => raises(array($value, "error"), array(), "Exception")
         , "Ordinary value tracks origin"
-            => $value->origin() === $origin
+            => $value->origins() == ($origin ? array($origin) : array())
         );
 }
 
@@ -138,7 +138,7 @@ function test_FunctionValue() {
             ->catchAndReify("TestException");
     $val = rand();
     $origin = md5($val);
-    $value = _val($val, $origin);
+    $value = _val($val, array($origin));
 
     return array_merge( _test_FunctionValue($fn, $value, 1)
                       , array
@@ -146,7 +146,7 @@ function test_FunctionValue() {
             => andR(_test_FunctionValue($fn2, $value, 1))
         , "Result of successfull function application is a value"
             => andR(_test_PlainValue($fn->apply($value), $val, null))
-        , "Result of application of throwing function ia an error"
+        , "Result of application of throwing function is an error"
             => andR(_test_ErrorValue($fn2->apply($value), "test exception", null))
         , "Test functions have arity 1"
             => $fn->arity() === 1 && $fn2->arity() === 1
@@ -185,8 +185,8 @@ function _test_FunctionValue($fn, $value, $arity) {
             => !$fn->isError()
         , "For function value, error() raises"
             => raises(array($fn, "error"), array(), "Exception")
-        , "Function value origin defaults to null"
-            => $fn->origin() === null
+        , "Function value origin defaults to empty array"
+            => $fn->origins() === array() 
         , "Functions has expected arity of $arity"
             => $fn->arity() === $arity
         , "Functions is not satisfied or has arity 0"
@@ -217,7 +217,7 @@ function _test_FunctionValue_results($fn_name, $argss) {
 
 function test_ErrorValue() {
     $rnd = md5(rand());
-    $value = _error($rnd, _val($rnd, $rnd));
+    $value = _error($rnd, _val($rnd, array($rnd)));
     return _test_ErrorValue($value, $rnd, $rnd); 
 }
  
@@ -235,7 +235,7 @@ function _test_ErrorValue(Value $value, $reason, $origin) {
         , "One can get the reason out of the error value"
             => $value->error() == $reason
         , "Error value tracks origin"
-            => $value->origin() === $origin
+            => $value->origins() == ($origin ? array($origin) : array())
         );
 }
 

@@ -59,40 +59,51 @@ class RenderDict {
 
     public static function computeFrom(Value $value) {
         $errors = array();
-        self::digestValue($value, $errors);
+        $visited = array();
+        self::digestValue($value, $errors, $visited);
         return $errors;
     }
 
-    protected static function digestValue($value, &$errors) {
+    protected static function digestValue($value, &$errors, &$visited) {
+        $hash = spl_object_hash($value);
+        if (array_key_exists($hash, $visited)) {
+            return;
+        }
+        $visited[$hash] = null;
+
         if ($value instanceof ErrorValue) {
-            self::digestError($value, $errors); 
+            self::digestError($value, $errors, $visited); 
         } 
         elseif ($value instanceof FunctionValue) {
-            self::digestFunction($value, $errors);
+            self::digestFunction($value, $errors, $visited);
         }
         else {
-            self::digestValue($value, $errors); 
+            self::digestPlainValue($value, $errors, $visited); 
         }
     }
 
-    protected static function digestError(ErrorValue $value, &$errors) {
-        $origin = $value->origin();
-        if ($origin !== null) {
+    protected static function digestError(ErrorValue $value, &$errors, &$visited) {
+        echo $value->error()."\n";
+        $origins = $value->origins();
+        foreach($origins as $origin) {
             if (!array_key_exists($origin, $errors)) {
                 $errors[$origin] = array();
             }
             $errors[$origin][] = $value->error();
         }
-        self::digestValue($value->originalValue(), $errors);
+        self::digestValue($value->originalValue(), $errors, $visited);
     }
 
-    protected static function digestFunction(FunctionValue $fun, &$errors) {
+    protected static function digestFunction(FunctionValue $fun, &$errors, &$visited) {
         foreach($fun->args() as $value) {
-            self::digestValue($value, $errors);
+            self::digestValue($value, $errors, $visited);
+        }
+        if ($fun->isSatisfied()) {
+            self::digestValue($fun->result(), $errors, $visited);  
         }
     }
 
-    protected static function digestValue(PlainValue $value, &$errors) {
+    protected static function digestPlainValue(PlainValue $value, &$errors, &$visited) {
     }
 }
 

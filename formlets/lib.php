@@ -22,7 +22,7 @@ function stop() {
 
 function appendRecursive($array, $value) {
     if ($value instanceof Stop) {
-        return _val($array, null);
+        return _val($array);
     }
     else {
         $array[] = $value;

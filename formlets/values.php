@@ -12,16 +12,15 @@
 require_once("formlets/checking.php");
 
 abstract class Value {
-    private $_origin; // string
+    private $_origins; // array of strings
 
-    public function __construct($origin) {
-        if ($origin !== null)
-            guardIsString($origin);
-        $this->_origin = $origin;
+    public function __construct($origins) {
+        guardEach($origins, "guardIsString");
+        $this->_origins = $origins;
     }
 
-    public function origin() {
-        return $this->_origin;
+    public function origins() {
+        return $this->_origins;
     }
 
     /* Get the value in the underlying PHP-representation. 
@@ -57,9 +56,9 @@ class GetError extends Exception {
 final class PlainValue extends Value {
     private $_value; //mixed
 
-    public function __construct($value, $origin) {
+    public function __construct($value, $origins) {
         $this->_value = $value;
-        parent::__construct($origin);
+        parent::__construct($origins);
     }
 
     public function get() {
@@ -84,8 +83,8 @@ final class PlainValue extends Value {
 }
 
 /* Construct a plain value from a PHP value. */
-function _val($value, $origin = null) {
-    return new PlainValue($value, $origin);
+function _val($value, $origins = array()) {
+    return new PlainValue($value, $origins);
 }
 
 
@@ -117,7 +116,7 @@ final class FunctionValue extends Value {
      * satisfied when all arguments (event optional ones) are provided.
      */
     public function __construct( $function, $args = null
-                               , $reify_exceptions = null, $origin = null) {
+                               , $reify_exceptions = null, $origins = array()) {
         if (is_string($function))
             guardIsCallable($function);
         else
@@ -143,14 +142,14 @@ final class FunctionValue extends Value {
         $this->_args = $args;
         $this->_reify_exceptions = $reify_exceptions;
         
-        parent::__construct($origin);
+        parent::__construct($origins);
     }
 
     protected function withOriginalValue($value) {
         return new FunctionValue( $this->_function
                                 , $this->_args
                                 , $this->_reify_exceptions
-                                , $this->origin()
+                                , $this->origins()
                                 );
     }
 
@@ -207,7 +206,7 @@ final class FunctionValue extends Value {
         return new FunctionValue( $this->_function
                                 , $this->_args
                                 , $re
-                                , $this->origin()
+                                , $this->origins()
                                 );
     }
     
@@ -249,7 +248,7 @@ final class FunctionValue extends Value {
         return new FunctionValue( $this->_function
                                 , $args
                                 , $this->_reify_exceptions
-                                , $this->origin()
+                                , $this->origins()
                                 );
     }
 
@@ -309,7 +308,7 @@ final class FunctionValue extends Value {
             return $val;
         }
         else {
-            return _val($val, $this->origin());
+            return _val($val, $this->origins());
         }            
     }
 }
@@ -319,7 +318,7 @@ final class FunctionValue extends Value {
  * of arguments to be inserted in the first arguments of the function
  * could be passed 
  */
-function _fn($function, $args = null) {
+function _fn($function, $args = array()) {
     return new FunctionValue($function, $args);
 }
 
@@ -339,7 +338,7 @@ final class ErrorValue extends Value {
     public function __construct($reason, Value $original_value) {
         $this->_reason = $reason;
         $this->_original_value = $original_value;
-        parent::__construct($original_value->origin());
+        parent::__construct($original_value->origins());
     }
 
     public function get() {
