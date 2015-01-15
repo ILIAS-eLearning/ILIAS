@@ -83,7 +83,6 @@ class RenderDict {
     }
 
     protected static function digestError(ErrorValue $value, &$errors, &$visited) {
-        echo $value->error()."\n";
         $origins = $value->origins();
         foreach($origins as $origin) {
             if (!array_key_exists($origin, $errors)) {
