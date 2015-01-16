@@ -187,7 +187,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 			}
 		}
 		else {
-			$rec["od_bd"] = $rec["org_unit_above1"]."/".$rec["org_unit_above2"];
+			$rec["od_bd"] = $rec["org_unit_above2"]."/".$rec["org_unit_above1"];
 		}
 
 		return $this->replaceEmpty($rec);
