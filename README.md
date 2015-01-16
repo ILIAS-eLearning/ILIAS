@@ -40,14 +40,10 @@ partially. PHP functions are rather different. You always call them at once.
 <?php
 require_once("formlets.php");
 
-function explode_($a, $b) {
-    return explode($a, $b);
-}
-
-// Create a function object from an ordinary PHP function, we take
-// our selfmade function, since explode has three parameters where
-// we need one.
-$explode = _fn("explode_");
+// Create a function object from an ordinary PHP function. Since explode takes
+// two mandatory and one optional parameter, we have to explicitly tell how many
+// optional parameters we want to have. 
+$explode = _fn("explode", 2);
 
 // For the lib to work, we need to treat functions and values the same,
 // so we need to lift ordinary values to our abstraction.
@@ -199,12 +195,8 @@ returns an error value.
 ```php
 <?php
 
-function preg_match_($a, $b) {
-    return preg_match($a, $b);
-}
-
 // _fn also supports defining some fixed arguments.
-$containsHello = _fn("preg_match_", array("/.*hello.*/i"));
+$containsHello = _fn("preg_match", 2, array("/.*hello.*/i"));
 
 // Append the predicate to a formlet. If its not truthy for the value in the 
 // formlet, an error value with the given message will be collected.
@@ -279,7 +271,7 @@ function inRange($l, $r, $value) {
 }
 
 function _inRange($l, $r) {
-    return _fn("inRange", array($l, $r));
+    return _fn("inRange", 3, array($l, $r));
 }
 ?>
 ```
@@ -292,16 +284,12 @@ input elements we'll need from the only input element i provide atm, the
 ```php
 <?php
 
-function intval_($a) {
-    return intval($a);
-}
-
 // First we create an integer input from a text input by map intval over the
 // string input after checking it is indeed an integer. We also want to
 // display the errors.
 $int_formlet = _with_errors(_text_input())
                 ->satisfies(_fn("is_numeric"), "No integer.")
-                ->map(_fn("intval_"))
+                ->map(_fn("intval", 1))
                 ;
 
 // From the integer input we'll create a month and day input by doing further

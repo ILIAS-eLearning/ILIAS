@@ -37,6 +37,12 @@ function guardIsInt($arg) {
     } 
 }
 
+function guardIsUInt($arg) {
+    if (!is_int($arg) || $arg < 0) {
+        throw new TypeError("unsigned int", typeName($arg));
+    }
+}
+
 function guardIsBool($arg) {
     if (!is_bool($arg)) {
         throw new TypeError("bool", typeName($arg));

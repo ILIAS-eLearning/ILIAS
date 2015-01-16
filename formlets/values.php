@@ -126,7 +126,8 @@ final class FunctionValue extends Value {
      * satisfied when all arguments (event optional ones) are provided.
      */
     public function __construct( $function, $unwrap_args = true, $args = null
-                               , $reify_exceptions = null, $origins = array()) {
+                               , $arity = null, $reify_exceptions = null
+                               , $origins = array()) {
         if (is_string($function))
             guardIsCallable($function);
         else
@@ -136,16 +137,22 @@ final class FunctionValue extends Value {
 
         $args = defaultTo($args, array());
         $reify_exceptions = defaultTo($reify_exceptions, array());
-
         guardIsArray($args);
+        
+        guardIfNotNull($arity, "guardIsUInt");
         guardIsArray($reify_exceptions);
 
         foreach($args as $key => $value) {
             $args[$key] = $this->toValue($value, array());
         }
 
-        $refl = new ReflectionFunction($function);
-        $this->_arity = $refl->getNumberOfParameters() - count($args);
+        if ($arity === null) {
+            $refl = new ReflectionFunction($function);
+            $this->_arity = $refl->getNumberOfParameters() - count($args);
+        }
+        else {
+            $this->_arity = $arity - count($args);
+        }
         if ($this->_arity < 0) {
             throw new Exception("FunctionValue::__construct: more args then parameters.");
         }
@@ -220,6 +227,7 @@ final class FunctionValue extends Value {
         return new FunctionValue( $this->_function
                                 , $this->_unwrap_args
                                 , $this->_args
+                                , $this->_arity + count($this->_args)
                                 , $re
                                 , $this->origins()
                                 );
@@ -263,6 +271,7 @@ final class FunctionValue extends Value {
         return new FunctionValue( $this->_function
                                 , $this->_unwrap_args
                                 , $args
+                                , $this->_arity + count($this->_args)
                                 , $this->_reify_exceptions
                                 , $this->origins()
                                 );
@@ -338,8 +347,8 @@ final class FunctionValue extends Value {
  * function. An array of arguments to be inserted in the first arguments 
  * of the function could be passed optionally.
  */
-function _fn($function, $args = array()) {
-    return new FunctionValue($function, true, $args);
+function _fn($function, $arity = null, $args = array()) {
+    return new FunctionValue($function, true, $args, $arity);
 }
 
 /* Construct a function where the values aren't unwrapped. This could
