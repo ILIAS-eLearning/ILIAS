@@ -954,7 +954,7 @@ class gevCourseUtils {
 	}
 	
 	public function hasMaterialOnList() {
-		return $this->getMateriallist()->hasItems();
+		return $this->getMateriallist()->hasItems($this->getId());
 	}
 	
 	// derived courses for templates
