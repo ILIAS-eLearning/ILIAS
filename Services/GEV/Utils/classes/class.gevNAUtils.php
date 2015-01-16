@@ -59,7 +59,7 @@ class gevNAUtils {
 	 */
 	public function deassignAdviser($a_user_id) {
 		$adv = $this->getAdviserOf($a_user_id);
-		if ($adv) {
+		if (!$adv) {
 			return;
 		}
 		$this->pou->deassignEmployee($adv, $a_user_id);
