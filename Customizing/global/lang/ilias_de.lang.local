@@ -377,6 +377,7 @@ gev#:#gev_alternative_email#:#alternative E-Mail-Adresse
 gev#:#gev_apprentice_grant#:#Azubizuschuss
 gev#:#gev_attachment_used_in#:#Die Datei wird in folgenden Mails verwendet
 gev#:#gev_attachments_refreshed#:#Anhänge aktualisiert.
+gev#:#gev_attention#:#Achtung
 gev#:#gev_bill_agency_name#:#Agenturname
 gev#:#gev_bill_amount_pretax#:#Rechnungsbetrag netto
 gev#:#gev_bill_amount_posttax#:#Rechnungsbetrag brutto
@@ -430,6 +431,7 @@ gev#:#gev_cert_course_start_date#:#Startdatum des Trainings
 gev#:#gev_cert_course_topics#:#Trainingskategorien des Kurses
 gev#:#gev_cert_course_type#:#Typ des Trainings
 gev#:#gev_cert_points#:#Weiterbildungspunkte bei erfolgreicher Teilnahme
+gev#:#gev_cert_period#:#Zertifizierungsperiode
 gev#:#gev_charged_agency#:#belastetes Agenturkonto
 gev#:#gev_username_free#:#frei wählbarer Benutzername
 gev#:#gev_company_title#:#Gesellschaftsschlüssel
@@ -583,6 +585,7 @@ gev#:#gev_others_edu_bio#:#Bildungsbiographie von %s
 gev#:#gev_others_edu_bio_desc#:#Hier sehen Sie die Bildungspunkte und die von %s besuchten Trainings.
 gev#:#gev_others_menu#:#Organisation
 gev#:#gev_overall_prize#:#Gesamtpreis
+gev#:#gev_overall_points#:#Gesamtpunktzahl
 gev#:#gev_participation_status#:#Teilnahmestatus
 gev#:#gev_passed#:#teilgenommen
 gev#:#gev_passed_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training erfolgreich abgeschlossen. Sie dürfen dieses Angebot daher für ihren Mitarbeiter nicht buchen.
@@ -627,8 +630,11 @@ gev#:#gev_rep_attendance_by_employee_desc#:#Hier sehen sie die Buchungen und Tra
 gev#:#gev_rep_attendance_by_employee_title#:#Teilnahme nach Mitarbeiter
 gev#:#gev_rep_billing_title#:#Rechnungen
 gev#:#gev_rep_billing_desc#:#Hier sehen sie alle vom System versandten Rechnungen
+gev#:#gev_rep_employee_edu_bios_title#:#Bildungsbiographien meiner Mitarbeiter
+gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen sie einen Überblick über die Bildungsbiographien ihrer Mitarbeiter.
 gev#:#gev_report_billing#:#Rechnungen
 gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter
+gev#:#gev_report_employee_edu_bio#:#Bildungsbiographien meiner Mitarbeiter
 gev#:#gev_registration_install_note#:#Generali Vermittler melden sich bitte mit der Generali E-Mail-Adresse an.
 gev#:#gev_reporting_menu#:#Reports
 gev#:#gev_search_menu#:#Trainingssuche
