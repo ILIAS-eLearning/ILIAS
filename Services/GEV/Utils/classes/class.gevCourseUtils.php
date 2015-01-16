@@ -952,7 +952,11 @@ class gevCourseUtils {
 		}
 		return $this->material_list;
 	}
-
+	
+	public function hasMaterialOnList() {
+		return $this->getMateriallist()->hasItems();
+	}
+	
 	// derived courses for templates
 	
 	public function getDerivedCourseIds($future_only = false) {

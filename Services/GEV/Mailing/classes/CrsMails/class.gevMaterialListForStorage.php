@@ -24,6 +24,22 @@ class gevMaterialListForStorage extends gevCrsAutoMail {
 		return $date;
 	}
 	
+	public function shouldBeSend() {
+		if (!$this->getCourseUtils()->isPraesenztraining()) {
+			return false;
+		}
+		
+		if ($this->getCourseUtils()->isTemplate()) {
+			return false;
+		}
+		
+		if (!$this->getCourseUtils()->hasMaterialOnList()) {
+			return false;
+		}
+		
+		return parent::shouldBeSend();
+	}
+	
 	public function getTemplateCategory() {
 		return "MV";
 	}
@@ -57,6 +73,10 @@ class gevMaterialListForStorage extends gevCrsAutoMail {
 		}
 		
 		if ($this->getCourseUtils()->isTemplate()) {
+			return null;
+		}
+		
+		if (!$this->getCourseUtils()->hasMaterialOnList()) {
 			return null;
 		}
 
