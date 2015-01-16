@@ -798,7 +798,7 @@ class gevUserUtils {
 				 //, gevSettings::CRS_AMD_ => "title"
 				 //, gevSettings::CRS_AMD_START_DATE => "status"
 				 , gevSettings::CRS_AMD_TYPE 				=> "type"
-				 , gevSettings::CRS_AMD_VENUE 				=> "location"
+				 , gevSettings::CRS_AMD_VENUE 				=> "location_id"
 				 , gevSettings::CRS_AMD_CREDIT_POINTS 		=> "points"
 				 , gevSettings::CRS_AMD_FEE					=> "fee"
 				 , gevSettings::CRS_AMD_TARGET_GROUP_DESC	=> "target_group"
@@ -810,9 +810,18 @@ class gevUserUtils {
 				 , gevSettings::CRS_AMD_SCHEDULE			=> "schedule"
 			);
 			
-		$info = gevAMDUtils::getInstance()->getTable($crss, $crs_amd, array(), array(),
-													 "ORDER BY ".$a_order." ".$a_direction." ".
-													 " LIMIT ".$a_limit." OFFSET ".$a_offset);
+		$city_amd_id = $this->gev_set->getAMDFieldId(gevSettings::ORG_AMD_CITY);
+			
+		$info = gevAMDUtils::getInstance()->getTable($crss, $crs_amd, 
+								array("CONCAT(od_city.title, ', ', city.value) as location"), 
+								array(" JOIN object_data od_city ".
+									  "   ON od_city.obj_id = amd4.value "
+									 ," JOIN adv_md_values_text city ".
+									  "   ON city.field_id = ".$this->db->quote($city_amd_id, "integer").
+									  "  AND city.obj_id = amd4.value "
+									 ),
+								 "ORDER BY ".$a_order." ".$a_direction." ".
+								 " LIMIT ".$a_limit." OFFSET ".$a_offset);
 
 		global $ilUser;
 
@@ -823,7 +832,7 @@ class gevUserUtils {
 /*			$crs = new ilObjCourse($info["obj_id"], false);
 			$crs_booking = ilCourseBookings::getInstance($crs);
 			$crs_booking_perms = ilCourseBookingPermissions::getInstance($crs);*/
-			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
+			//$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			
 			/*if (   (   !$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)
 					|| in_array($crs_utils->getBookingStatusOf($this->user_id)
@@ -842,7 +851,7 @@ class gevUserUtils {
 			}
 			$info[$key]["target_group"] = "<ul>".$list."</ul>".$info[$key]["target_group"];
 			
-			$info[$key]["location"] = $orgu_utils->getLongTitle();
+			//$info[$key]["location"] = $orgu_utils->getLongTitle();
 			$info[$key]["booking_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
 																		, $value["booking_date"]
 																		);
