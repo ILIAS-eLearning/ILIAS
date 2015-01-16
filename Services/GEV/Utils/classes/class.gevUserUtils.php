@@ -433,6 +433,7 @@ class gevUserUtils {
 			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
 			$booked_amd[$key]["overnights"] = $this->getFormattedOvernightDetailsForCourse($crs_utils->getCourse());
 			$booked_amd[$key]["location"] = $orgu_utils->getLongTitle();
+			$booked_amd[$key]["fee"] = floatval($booked_amd[$key]["fee"]);
 			$list = "";
 			foreach ($booked_amd[$key]["target_group_list"] as $val) {
 				$list .= "<li>".$val."</li>";
@@ -455,6 +456,7 @@ class gevUserUtils {
 			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
 			$waiting_amd[$key]["overnights"] = $this->getFormattedOvernightDetailsForCourse($crs_utils->getCourse());
 			$waiting_amd[$key]["location"] = $orgu_utils->getLongTitle();
+			$waiting_amd[$key]["fee"] = floatval($waiting_amd[$key]["fee"]);
 			$list = "";
 			foreach ($waiting_amd[$key]["target_group_list"] as $val) {
 				$list .= "<li>".$val."</li>";

@@ -149,6 +149,12 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		}
 
 	}
+	
+	// overwritten from ilTable2GUI to get sorting of fee right.
+	function numericOrdering($a_field)
+	{
+		return $a_field == "fee";
+	}
 }
 
 ?>
