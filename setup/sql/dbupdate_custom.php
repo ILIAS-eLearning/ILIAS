@@ -3061,8 +3061,8 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	$name = $ilClientIniFile->readVariable('shadowdb', 'name');
 
 	$shadow_db = mysql_connect($host, $user, $pass) or die(mysql_error());
-	mysql_select_db($name, $mysql);
-	mysql_set_charset('utf8', $mysql);
+	mysql_select_db($name, $shadow_db);
+	mysql_set_charset('utf8', $shadow_db);
 
 	$role_utils = gevRoleUtils::getInstance();
 	$na_utils = gevNAUtils::getInstance();
