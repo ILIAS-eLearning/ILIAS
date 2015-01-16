@@ -52,7 +52,7 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 
 		//$this->addColumn("", "expand", "0px", false, "catTableExpandButton");
 		$this->addColumn($this->lng->txt("title"), "title");
-		$this->addColumn($this->lng->txt("status"), 'status');
+		$this->addColumn($this->lng->txt("status"));
 		$this->addColumn($this->lng->txt("gev_course_id"), 'custom_id');
 		$this->addColumn($this->lng->txt("gev_learning_type"), "type");
 		$this->addColumn($this->lng->txt("gev_location"), "location");
@@ -60,9 +60,9 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 		$this->addColumn($this->lng->txt("tutor"), "trainer");
 		$this->addColumn($this->lng->txt("gev_points"), "points");
 		$this->addColumn("&euro;", "fee");
-		$this->addColumn($this->lng->txt("mbrcount"), "members");
+		$this->addColumn($this->lng->txt("mbrcount"));
 		//$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "", "20px");
-		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "actions", "20px", false);
+		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', null, "20px", false);
 	
 		//legend
 		$this->memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
