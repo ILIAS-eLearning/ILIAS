@@ -35,6 +35,11 @@ abstract class Value {
     /* Check whether value could be applied to another value. */
     abstract public function isApplicable();
 
+    /* Returns a version of the value thats evaluated as far as 
+     * possible. 
+     */
+    abstract public function force();
+
     /* Check whether this is an error value. */ 
     abstract public function isError();
     /* Get the reason for the error. */ 
@@ -73,6 +78,10 @@ final class PlainValue extends Value {
         return false;
     }
 
+    public function force() {
+        return $this;
+    }
+
     public function isError() {
         return false;
     }
@@ -93,7 +102,7 @@ final class FunctionValue extends Value {
     private $_function; // string
     private $_unwrap_args; // string
     private $_args; // array
-    private $_reifyExceptions; // array
+    private $_reify_exceptions; // array
     private $_result; // maybe Value 
 
     public function arity() {
@@ -153,12 +162,6 @@ final class FunctionValue extends Value {
      * once.
      */
     public function result() {
-        $this->force();
-        return $this->_result; 
-    }
-
-    /* Force the evaluation of the result. */
-    public function force() {
         if (!$this->isSatisfied()) {
             throw new Exception("Problem with implementation.");
         }
@@ -168,6 +171,15 @@ final class FunctionValue extends Value {
             $res = $this->actualCall($origins);
             $this->_result = $this->toValue($res, array_unique($origins));
         }
+        return $this->_result; 
+    }
+
+    public function force() {
+        // TODO: Maybe thats enough for the moment...
+        if ($this->isSatisfied()) {
+            return $this->result();
+        }   
+        return $this;
     }
 
     /* Is the function applied enough times to have a result? */
@@ -366,6 +378,10 @@ final class ErrorValue extends Value {
 
     public function isApplicable() {
         return true;
+    }
+
+    public function force() {
+        return $this;
     }
 
     public function isError() {
