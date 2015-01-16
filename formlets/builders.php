@@ -94,11 +94,11 @@ class RenderDict {
     }
 
     protected static function digestFunction(FunctionValue $fun, &$errors, &$visited) {
-        foreach($fun->args() as $value) {
-            self::digestValue($value, $errors, $visited);
-        }
         if ($fun->isSatisfied()) {
             self::digestValue($fun->result(), $errors, $visited);  
+        }
+        foreach($fun->args() as $value) {
+            self::digestValue($value, $errors, $visited);
         }
     }
 

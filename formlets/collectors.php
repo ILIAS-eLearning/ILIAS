@@ -22,17 +22,12 @@ abstract class Collector {
     /* Map a function over the collected value. */
     final public function map(FunctionValue $transformation) {
         return $this->wrap(_fn(function($collector, $inp) use ($transformation) {
-            $res = $collector->collect($inp);
+            $res = $collector->collect($inp)->force();
             if ($res->isError()) {
                 return $res;
             }
 
-            $res2 = $transformation->apply($res);
-            if (!$res2->isError() && !$res2->isApplicable()) {
-                // rewrap ordinary values to keep origin.
-                $res2 = _val($res2->get(), $res->origin());
-            }
-            return $res2;
+            return $transformation->apply($res)->force();
         }));
     }
 
@@ -46,15 +41,11 @@ abstract class Collector {
     final public function satisfies(FunctionValue $predicate, $error) {
         guardIsString($error);
         guardHasArity($predicate, 1);
-        return $this->wrap(_fn(function($collector, $inp) use ($predicate, $error) {
-            $res = $collector->collect($inp);
-            if ($res->isError()) {
-                return $res;
+        return $this->map(_fn_w(function($value) use ($predicate, $error) {
+            if (!$predicate->apply($value)->get()) {
+                return _error($error, $value);
             }
-            if (!$predicate->apply($res)->get()) {
-                return _error($error, $res);
-            }
-            return $res;
+            return $value;
         }));
     }
 }
@@ -133,9 +124,10 @@ class WrappedCollector extends Collector {
     }
 
     public function collect($inp) {
-        return $this->_wrapper
-                    ->apply(_val($this->_collector))
-                    ->apply(_val($inp));
+        $wrapped = $this->_wrapper
+                        ->apply(_val($this->_collector))
+                        ->apply(_val($inp));
+        return $wrapped->force();
     }
 
     public function isNullaryCollector() {
@@ -161,7 +153,7 @@ final class AnyCollector extends Collector {
         if (!array_key_exists($name, $inp)) {
             throw new MissingInputError($this->name());
         }
-        return _val($inp[$name], $name);
+        return _val($inp[$name], array($name));
     }
 
     public function isNullaryCollector() {
