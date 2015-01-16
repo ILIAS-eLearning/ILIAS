@@ -411,6 +411,7 @@ class catReportQuery {
 		$this->sql_str = null;
 		$this->sql_from = null;
 		$this->_distinct = false;
+		$this->_group_by = array();
 	}
 	
 	public static function create() {
@@ -455,6 +456,10 @@ class catReportQuery {
 		return new catReportQueryOn($this, $this->left_joins, $a_table);
 	}
 	
+	public function group_by($a_column) {
+		$this->_group_by[] = $a_column;
+	}
+	
 	public function sql() {
 		if( $this->sql_str !== null) {
 			return $this->sql_str;
@@ -471,6 +476,7 @@ class catReportQuery {
 			.($this->_distinct ? "DISTINCT " : "")
 			.implode("\n\t,", $escp)
 			.$this->sqlFrom()
+			.$this->sqlGroupBy()
 			;
 			
 		return $this->sql_str;
@@ -484,10 +490,23 @@ class catReportQuery {
 				// TODO: this might break the query since it does not respect
 				// the order in which the user defined the
 				.implode("\n ", $this->joins)."\n "
-				.implode("\n ", $this->left_joins);
+				.implode("\n ", $this->left_joins)."\n";
 		}
 		
 		return $this->sql_from;
+	}
+	
+	public function sqlGroupBy() {
+		if (!count($this->_group_by)) {
+			return "";
+		}
+		
+		$cols = array();
+		foreach ($this->_group_by as $col) {
+			$cols[] = catFilter::quoteDBField($col);
+		}
+		
+		return " GROUP BY ".implode(", ", $cols);
 	}
 	
 	public function compile() {
