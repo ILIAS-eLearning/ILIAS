@@ -3076,6 +3076,9 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	$res = mysql_query($sql, $shadow_db);
 	while ($rec = mysql_fetch_assoc($res)) {
 		$usr_id = $rec["ilid"];
+		if (!$usr_id) {
+			continue;
+		}
 		$role_utils->assignUserToGlobalRole($usr_id, "VA 59");
 		$role_utils->deassignUserFromGlobalRole($usr_id, "NA");
 		$na_utils->deassignAdviser($usr_id);
