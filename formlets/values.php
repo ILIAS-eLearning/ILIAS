@@ -276,7 +276,7 @@ final class FunctionValue extends Value {
         catch(Exception $e) {
             foreach ($this->_reify_exceptions as $exc_class) {
                 if ($e instanceof $exc_class) {
-                    return _error($e->getMessage(), $this);
+                    return _error($e->getMessage(), $this->origins());
                 }
             }
             throw $e;
@@ -356,16 +356,10 @@ function _fn_w($function, $args = array()) {
 /* Value representing an error. */
 final class ErrorValue extends Value {
     private $_reason; // string
-    private $_original_value;
 
-    public function originalValue() {
-        return $this->_original_value;
-    }
-
-    public function __construct($reason, Value $original_value) {
+    public function __construct($reason, $origins) {
         $this->_reason = $reason;
-        $this->_original_value = $original_value;
-        parent::__construct($original_value->origins());
+        parent::__construct($origins);
     }
 
     public function get() {
@@ -393,8 +387,8 @@ final class ErrorValue extends Value {
     }
 }
 
-function _error($reason, Value $original_value) {
-    return new ErrorValue($reason, $original_value);
+function _error($reason, $origins) {
+    return new ErrorValue($reason, $origins);
 }
 
 ?>

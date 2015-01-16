@@ -217,7 +217,7 @@ function _test_FunctionValue_results($fn_name, $argss) {
 
 function test_ErrorValue() {
     $rnd = md5(rand());
-    $value = _error($rnd, _val($rnd, array($rnd)));
+    $value = _error($rnd, array($rnd));
     return _test_ErrorValue($value, $rnd, $rnd); 
 }
  

@@ -43,7 +43,7 @@ abstract class Collector {
         guardHasArity($predicate, 1);
         return $this->map(_fn_w(function($value) use ($predicate, $error) {
             if (!$predicate->apply($value)->get()) {
-                return _error($error, $value);
+                return _error($error, $value->origins());
             }
             return $value;
         }));

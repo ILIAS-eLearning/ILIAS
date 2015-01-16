@@ -90,7 +90,7 @@ class RenderDict {
             }
             $errors[$origin][] = $value->error();
         }
-        self::digestValue($value->originalValue(), $errors, $visited);
+        //self::digestValue($value->originalValue(), $errors, $visited);
     }
 
     protected static function digestFunction(FunctionValue $fun, &$errors, &$visited) {
