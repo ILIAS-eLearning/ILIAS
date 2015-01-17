@@ -408,18 +408,21 @@ il.UICore = {
 		var h = self.location.hash;
 		if (h != "") {
 			h = h.substr(1);
-			il.UICore.scrollToElement("a[name='" + h + "'],#" + h);
+			if ($("a[name='" + h + "']").length !== 0) {
+				il.UICore.scrollToElement("a[name='" + h + "']");
+			} else if ($("#" + h).length !== 0) {
+				il.UICore.scrollToElement("#" + h);
+			}
 		}
 	},
 
 	// take care of initial layout
 	scrollToElement: function (el) {
-
 		// if we have an anchor, fix scrolling "behind" fixed top header
-		var fixed_top_height = parseInt($("#mainspacekeeper").css("margin-top")),
+		var fixed_top_height = parseInt($("#mainspacekeeper").css("margin-top")) +
+				parseInt($("#mainspacekeeper").css("padding-top")),
 			vp_reg = il.Util.getViewportRegion(),
 			el_reg = il.Util.getRegion(el);
-
 		if (fixed_top_height > 0) {
 			$('html, body').scrollTop(el_reg.top - fixed_top_height);
 		}
