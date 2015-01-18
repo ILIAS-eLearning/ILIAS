@@ -13,7 +13,7 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
     public function testFunctorLaw1( $formlet, $fn1, $fn2, $value
                                    , $contains_applicable) {
         $mapped = $formlet->map(_id());
-        $this->assertFormletsEqual($formlet, $mapped); 
+        $this->assertFormletsEqual($formlet, $mapped, $value, $contains_applicable); 
     }
 
     /**
@@ -26,7 +26,8 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
                                    , $contains_applicable) {
         $mapped_l = $formlet->map($fn1->composeWith($fn2));
         $mapped_r = $formlet->map($fn1)->map($fn2);
-        return $this->assertFormletsEqual($mapped_l, $mapped_r);
+        return $this->assertFormletsEqual( $mapped_l, $mapped_r, $value
+                                         , $contains_applicable);
     }
 
     /**
@@ -39,7 +40,7 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
         if ($contains_applicable)
             return;
         $left = _pure(_id())->cmb($formlet);
-        $this->assertFormletsEqual($left, $formlet);    
+        $this->assertFormletsEqual($left, $formlet, $value, $contains_applicable);    
     }
 
     /**
@@ -52,7 +53,7 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
                                                , $contains_applicable) {
         $left1 = _pure($fn1)->cmb(_pure($value));
         $right1 = _pure($fn1->apply($value));
-        $this->assertFormletsEqual($left1, $right1);
+        $this->assertFormletsEqual($left1, $right1, $value, false);
     }
 
     /**
@@ -67,7 +68,7 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
             return;
         $left = $formlet->cmb(_pure($value));
         $right = _pure(_application_of($value))->cmb($formlet);
-        $this->assertFormletsEqual($left, $right);        
+        $this->assertFormletsEqual($left, $right, $value, false);
     }
 
     /**
@@ -85,7 +86,7 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
                         ->cmb(_pure($fn2))
                         ->cmb($formlet)
                         ;
-            $this->assertFormletsEqual($left, $right);
+            $this->assertFormletsEqual($left, $right, $value, false);
         }
         else {
             $left = _pure($fn1)
@@ -95,6 +96,7 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
                         ->cmb($formlet)
                         ->cmb(_pure($value))
                         ;
+            $this->assertFormletsEqual($left, $right, $value, false);
         }
 
     }
@@ -102,8 +104,24 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
 
     public function formlets_and_values() {
         $data = array();
+        $pure_val = _pure(_val(42));
+        $pure_fn = _pure(_id());
         $formlets = array
-            ( array(_pure(_val(42)), false)
+            ( array($pure_val, false)
+            , array($pure_fn, true)
+            , array(_text("TEXT")->cmb($pure_val), false)
+            , array(_text("TEXT")->cmb($pure_fn), true)
+            , array($pure_val->cmb(_text("TEXT")), false)
+            , array($pure_fn->cmb(_text("TEXT")), true)
+            , array($pure_fn->cmb(_input("text")), false)
+            , array($pure_fn->cmb(_textarea_raw()), false)
+            , array($pure_fn->cmb(_text_input()), false)
+            , array($pure_fn->cmb(_textarea()), false)
+            , array($pure_fn->cmb(_checkbox()), false)
+            , array(_submit("SUBMIT")->cmb($pure_val), false)
+            , array(_submit("SUBMIT")->cmb($pure_fn), true)
+            , array($pure_val->cmb(_submit("SUBMIT")), false)
+            , array($pure_fn->cmb(_submit("SUBMIT")), true)
             );
         $functions = array
             ( _id()
@@ -125,21 +143,34 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
     }
 
 
-    protected function assertFormletsEqual(Formlet $a, Formlet $b) {
+    protected function assertFormletsEqual(Formlet $a, Formlet $b, $value
+                                          , $contains_applicable) {
         // Two formlets are considered equal, when their observable output
         // is equal (that is like extensional equality?)
+        $ns_a = NameSource::unsafeInstantiate();
+        $ns_b = NameSource::unsafeInstantiate();
         $ns = NameSource::unsafeInstantiate();
-        $repr_a = $a->instantiate($ns);
-        $repr_b = $b->instantiate($ns);
+        $repr_a = $a->instantiate($ns_a);
+        $repr_b = $b->instantiate($ns_b);
 
-        $val_a = $repr_a["collector"]->collect(array());
-        $val_b = $repr_b["collector"]->collect(array());
+        $name_and_ns = $ns->getNameAndNext();
+        $inp = array($name_and_ns["name"] => "val");
+
+        $val_a = $repr_a["collector"]->collect($inp);
+        $val_b = $repr_b["collector"]->collect($inp);
         // This will only work if equal works as expected on the result, that 
         // is the thing checked really is equality and not identity.
-        $this->assertEquals($val_a->get(), $val_b->get());
+        if (!$contains_applicable) {
+            $this->assertEquals($val_a->get(), $val_b->get());
+        }
+        else {
+            $this->assertEquals( $val_a->apply($value)->get()
+                               , $val_b->apply($value)->get()
+                               );
+        }
 
-        $dict_a = new RenderDict(array(), $val_a);
-        $dict_b = new RenderDict(array(), $val_b);
+        $dict_a = new RenderDict($inp, $val_a);
+        $dict_b = new RenderDict($inp, $val_b);
 
         $rendered_a = $repr_a["builder"]->build()->render();
         $rendered_b = $repr_b["builder"]->build()->render();
