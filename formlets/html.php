@@ -39,7 +39,8 @@ class HTMLArray extends HTML {
     private $_content; // array of HTML
 
     public function __construct($content) {
-        guardEach($content, "guardHTML");
+        guardEach($content, "guardIsHTML");
+        $this->_content = $content;
     }
 
     public function content() {
@@ -114,6 +115,7 @@ class HTMLTag extends HTML {
 
         guardIfNotNull($content, "guardIsHTML");
         $this->_content = $content;
+        return $this;
     }
 }
 
