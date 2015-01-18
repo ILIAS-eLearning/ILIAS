@@ -11,6 +11,9 @@ require_once("helpers.php");
 
 abstract class HTML {
     abstract public function render();
+    final public function concat(HTML $right) {
+        return html_concat($this, $right);
+    }
 }
 
 class HTMLNop extends HTML {
