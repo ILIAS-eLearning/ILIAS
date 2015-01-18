@@ -1,4 +1,5 @@
 <?php
+
 class FunctionValueResultsTest extends PHPUnit_Framework_TestCase {
     /**
      * @dataProvider functions_and_args
