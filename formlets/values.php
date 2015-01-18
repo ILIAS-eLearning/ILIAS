@@ -265,6 +265,17 @@ final class FunctionValue extends Value {
         throw new Exception("Implementation error.");
     }
 
+    /* Compose this function value with another, that is, apply the other function
+     * first and then apply the result to this function.
+     */
+    public function composeWith(FunctionValue $other) {
+        return _fn_w(function($value) use ($other) {
+            $res = $other->apply($value)->force();
+            return $this->apply($res)->force();
+        });
+    }
+
+
     /* Helper to create a new function value with one less arity. */
     private function deferredCall($args, $next_value) {
         $args[] = $next_value;
@@ -341,6 +352,12 @@ final class FunctionValue extends Value {
             return _val($val, $origins);
         }            
     }
+}
+
+function _application_of(Value $val) {
+    return _fn(function(FunctionValue $fn) use ($val) {
+        return $fn->apply($val)->force();
+    });
 }
 
 /* Construct a function value from a closure or the name of an ordinary

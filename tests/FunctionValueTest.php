@@ -94,6 +94,21 @@ trait FunctionValueTestTrait {
         $this->assertTrue($tmp->isSatisfied());
     }
 
+    /**
+     * Check weather compose works as expected: (f . g)(x) = f(g(x))
+     * @dataProvider function_vales
+     **/
+    public function testFunctionComposition($fn, $value, $arity) {
+        throw new Exception("NYI!");
+    }
+
+    /**
+     * Check weather application operator works as expected: f $ x = f x
+     * @dataProvider function_vales
+     **/
+    public function testApplicationOperator($fn, $value, $arity) {
+        throw new Exception("NYI!");
+    }
 
     protected function getAppliedFunction($fn, $value, $arity) {
         $tmp = $fn;
