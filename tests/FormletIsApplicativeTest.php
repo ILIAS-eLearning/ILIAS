@@ -67,7 +67,7 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
         if (!$contains_applicable)
             return;
         $left = $formlet->cmb(_pure($value));
-        $right = _pure(_application_of($value))->cmb($formlet);
+        $right = _pure(_application_to($value))->cmb($formlet);
         $this->assertFormletsEqual($left, $right, $value, false);
     }
 

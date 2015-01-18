@@ -354,7 +354,7 @@ final class FunctionValue extends Value {
     }
 }
 
-function _application_of(Value $val) {
+function _application_to(Value $val) {
     return _fn(function(FunctionValue $fn) use ($val) {
         return $fn->apply($val)->force();
     });

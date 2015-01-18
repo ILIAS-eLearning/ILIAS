@@ -94,22 +94,6 @@ trait FunctionValueTestTrait {
         $this->assertTrue($tmp->isSatisfied());
     }
 
-    /**
-     * Check weather compose works as expected: (f . g)(x) = f(g(x))
-     * @dataProvider function_vales
-     **/
-    public function testFunctionComposition($fn, $value, $arity) {
-        throw new Exception("NYI!");
-    }
-
-    /**
-     * Check weather application operator works as expected: f $ x = f x
-     * @dataProvider function_vales
-     **/
-    public function testApplicationOperator($fn, $value, $arity) {
-        throw new Exception("NYI!");
-    }
-
     protected function getAppliedFunction($fn, $value, $arity) {
         $tmp = $fn;
         for ($i = 0; $i < $arity; ++$i) {
@@ -125,7 +109,30 @@ class FunctionValueTest extends PHPUnit_Framework_TestCase {
     use PlainValueTestTrait;
     use FunctionValueTestTrait;
     use ErrorValueTestTrait;
-    
+ 
+    /**
+     * Check weather compose works as expected: (f . g)(x) = f(g(x))
+     * @dataProvider compose_functions
+     **/
+    public function testFunctionComposition($fn, $fn2, $value) {
+        $res1 = $fn->composeWith($fn2)->apply($value);
+        $tmp = $fn2->apply($value);
+        $res2 = $fn->apply($tmp);
+        $this->assertEquals($res1->get(), $res2->get());
+    }
+
+    /**
+     * Check weather application operator works as expected: f $ x = f x
+     * @dataProvider compose_functions
+     **/
+    public function testApplicationOperator($fn, $fn2, $value) {
+        $fn = $fn->composeWith($fn2);
+        $res1 = $fn->apply($value);
+        $res2 = _application_to($value)->apply($fn);
+        $this->assertEquals($res1->get(), $res2->get());
+    }
+
+   
     public function plain_values() {
         $fn = _fn("id");
         $val = rand();
@@ -164,6 +171,14 @@ class FunctionValueTest extends PHPUnit_Framework_TestCase {
             ( array($fn->apply($value)->force(), "test exception", null)
             // Function still catches after application.
             , array($fn2->apply($value)->apply($value)->force(), "test exception", null)
+            );
+    }
+
+    public function compose_functions() {
+        $times2 = _fn(function($v) { return $v * 2; });
+        return array
+            ( array($times2, _intval(), _val("42"))
+            , array(_fn("count", 1), _fn("explode", 2, array(" ")), _val("x x x x"))
             );
     }
 
