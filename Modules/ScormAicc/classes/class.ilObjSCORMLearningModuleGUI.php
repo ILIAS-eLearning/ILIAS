@@ -72,20 +72,17 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	*/
 	function properties()
 	{
-		global $rbacsystem, $tree, $tpl, $lng, $ilToolbar, $ilCtrl, $ilSetting;
+		global $rbacsystem, $tree, $tpl, $lng, $ilToolbar, $ilCtrl, $ilSetting, $ilTabs;
 
-		//$this->setSubTabs("settings", "general_settings");
-		
 		$lng->loadLanguageModule("style");
+
+		ilObjSAHSLearningModuleGUI::setSettingsSubTabs();
+		$ilTabs->setSubTabActive('cont_settings');
 
 		// view
 		$ilToolbar->addButton($this->lng->txt("view"),
 			"ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID(),
 			"_blank");
-			
-		// upload new version
-		$ilToolbar->addButton($this->lng->txt("cont_sc_new_version"),
-			$this->ctrl->getLinkTarget($this, "newModuleVersion"));
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -295,6 +292,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	*/
 	function newModuleVersion()
 	{
+		global $ilTabs;
+		ilObjSAHSLearningModuleGUI::setSettingsSubTabs();
+		$ilTabs->setSubTabActive('cont_sc_new_version');
+
 		$obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
 		$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
@@ -1069,6 +1070,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			get_class($this));
 	}
 
+	
 	/**
 	 * Manage offline mode for users
 	 * @global ilTabs $ilTabs

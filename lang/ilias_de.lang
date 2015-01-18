@@ -15143,7 +15143,7 @@ scormtrac#:#startedSCOs#:#Anzahl begonnener SCOs
 scormtrac#:#completedSCOs#:#Anzahl abgeschlossener SCOs
 scormtrac#:#passedSCOs#:#Anzahl erfolgreich bearbeiteter SCOs
 scormtrac#:#roundedTotal_timeSeconds#:#Gesamtzeit in Sekunden (gerundet)
-scormtrac#:#cont_tracking_modify#:#Datenverwaltung
+content#:#cont_tracking_modify#:#Daten modifizieren
 scormtrac#:#counter_i_correct#:#richtig beantwortete Aufgaben
 scormtrac#:#counter_i_correct_percent#:#Prozentsatz richtig beantworteter Aufgaben
 scormtrac#:#counter_i_incorrect#:#falsch beantwortete Aufgaben
@@ -15197,3 +15197,4 @@ news#:#news_rss#:#RSS
 mob#:#mob_object#:#Objekt
 content#:#cont_qtries_info#:#Standardwert "Anzahl der Versuche" für neu angelegte Fragen.
 lm#:#lm_copy#:#ILIAS-Lernmodul kopieren
+content#:#cont_settings#:#Lernmoduleinstellungen

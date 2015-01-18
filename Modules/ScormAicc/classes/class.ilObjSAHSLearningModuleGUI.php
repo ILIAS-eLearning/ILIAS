@@ -83,6 +83,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				break;
 
 			case "ilcertificategui":
+				$this->setSettingsSubTabs();
+				$ilTabs->setSubTabActive('certificate');
 				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
 				include_once "./Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";
 				$output_gui = new ilCertificateGUI(new ilSCORMCertificateAdapter($this->object));
@@ -682,26 +684,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			get_class($this));
 		}
 
-		// certificate subtab
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		if(ilCertificate::isActive())
-		{	
-			// create and insert object in objecttree
-			switch ($this->object->getSubType())
-			{
-
-				case "scorm2004":
-				case "scorm":
-					// certificate
-					$tabs_gui->addTarget("certificate",
-						$this->ctrl->getLinkTarget($this, "certificate"),
-						array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
-							"certificatePreview", "certificateDelete", "certificateUpload", "certificateImport")
-					);
-					break;
-			}
-		}
-		
 		include_once("Services/License/classes/class.ilLicenseAccess.php");
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId())
 		and ilLicenseAccess::_isEnabled())
@@ -792,6 +774,39 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		{
 			$ilCtrl->redirectByClass("ilobjscorm2004learningmodulegui", "editOrganization");
 		}
+	}
+
+	/**
+	 * set Tabs for settings
+	 */
+	function setSettingsSubTabs()
+	{
+		global $lng, $ilTabs, $ilCtrl;
+
+		$ilTabs->addSubTabTarget("cont_settings",
+		$this->ctrl->getLinkTarget($this, "properties"), array("edit", ""),
+		get_class($this));
+
+		$ilTabs->addSubTabTarget("cont_sc_new_version",
+		$this->ctrl->getLinkTarget($this, "newModuleVersion"), array("edit", ""),
+		get_class($this));
+	
+		include_once "Services/Certificate/classes/class.ilCertificate.php";
+		if(ilCertificate::isActive())
+		{	
+			// // create and insert object in objecttree
+			// $ilTabs->addSubTabTarget("certificate",
+				// $this->ctrl->getLinkTarget($this, "certificate"),
+				// array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
+					// "certificatePreview", "certificateDelete", "certificateUpload", "certificateImport")
+			// );
+			$ilTabs->addSubTabTarget(
+				"certificate",
+				$this->ctrl->getLinkTargetByClass("ilcertificategui", "certificateeditor"),
+				"", "ilcertificategui");					
+		}
+
+		$ilTabs->setTabActive('settings');
 	}
 
 } // END class.ilObjSAHSLearningModule

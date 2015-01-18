@@ -257,7 +257,7 @@ $this->ctrl->redirect($this, "properties");
 	 */
 	function properties()
 	{
-		global $rbacsystem, $tree, $tpl, $lng, $ilToolbar, $ilCtrl, $ilSetting;
+		global $rbacsystem, $tree, $tpl, $lng, $ilToolbar, $ilCtrl, $ilSetting, $ilTabs;
 
 		$this->setSubTabs("settings", "general_settings");
 		
@@ -266,14 +266,12 @@ $this->ctrl->redirect($this, "properties");
 		// not editable
 		if ($this->object->editable != 1)
 		{
+			ilObjSAHSLearningModuleGUI::setSettingsSubTabs();
+			$ilTabs->setSubTabActive('cont_settings');
 			// view
 			$ilToolbar->addButton($this->lng->txt("view"),
 				"ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID(),
 				"_blank");
-				
-			// upload new version
-			$ilToolbar->addButton($this->lng->txt("cont_sc_new_version"),
-				$this->ctrl->getLinkTarget($this, "newModuleVersion"));
 		}
 		else  	// editable
 		{
@@ -1167,188 +1165,6 @@ function showTrackingItems()
 	}
 	return true;
 }
-	/*OLD
-function modifyTrackingItems()
-{
-	include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-	$privacy = ilPrivacySettings::_getInstance();
-	if (!$privacy->enabledSahsProtocolData())
-	{
-		$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-	}
-
-	global $ilTabs, $ilToolbar;
-	
-	include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-	$ilToolbar->addButton(
-		$this->lng->txt('import'),
-		$this->ctrl->getLinkTarget($this, 'importForm')
-	);
-	$ilToolbar->addButton(
-		$this->lng->txt('cont_export_all'),
-		$this->ctrl->getLinkTarget($this, 'exportSelectionAll')
-	);
-
-	$this->setSubTabs();
-//	ilObjSCORMLearningModuleGUI::setSubTabs();
-	$ilTabs->setTabActive('cont_tracking_data');
-	$ilTabs->setSubTabActive('cont_tracking_modify');
-
-	include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingUsersTableGUI.php';
-	$tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'showtrackingItems');
-	$tbl->parse();
-	$this->tpl->setContent($tbl->getHTML());
-
-	
-	include_once "./Services/Table/classes/class.ilTableGUI.php";
-	include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-
-	
-	//set search
-	
-	if ($_POST["search_string"] != "")
-	{
-		$_SESSION["scorm_search_string"] = trim($_POST["search_string"]);
-	} else 	if (isset($_POST["search_string"]) && $_POST["search_string"] == "") {
-		unset($_SESSION["scorm_search_string"]);
-	}
-
-	// load template for search additions
-	$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl_scorm_track_items_search.html","Modules/ScormAicc");
-	// load template for table
-	$this->tpl->addBlockfile("USR_TABLE", "usr_table", "tpl.table.html");
-	// load template for table content data
-	$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scorm_track_items.html", "Modules/ScormAicc");
-
-	$num = 5;
-
-	$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-	// create table
-	$tbl = new ilTableGUI();
-	
-	ilObjSCORMLearningModuleGUI::setSubTabs();
-	$ilTabs->setTabActive('cont_tracking_data');
-	$ilTabs->setSubTabActive('cont_tracking_modify');
-	// title & header columns
-	if (isset($_SESSION["scorm_search_string"])) {
-		$tbl->setTitle($this->lng->txt("cont_tracking_items").' - Aktive Suche: "'.$_SESSION["scorm_search_string"].'"');
-	} else {
-		$tbl->setTitle($this->lng->txt("cont_tracking_items"));
-	}
-	
-	$tbl->setHeaderNames(array("",$this->lng->txt("name"), $this->lng->txt("last_access"), $this->lng->txt("attempts"), $this->lng->txt("version")  ));
-
-
-	$header_params = $this->ctrl->getParameterArray($this, "showTrackingItems");
-			
-	$tbl->setColumnWidth(array("1%", "50%", "29%", "10%","10%"));
-		
-	$cols = array("user_id","username","last_access","attempts","version");
-	$tbl->setHeaderVars($cols, $header_params);
-
-	//set defaults
-	$_GET["sort_order"] = $_GET["sort_order"] ? $_GET["sort_order"] : "asc";
-	$_GET["sort_by"] = $_GET["sort_by"] ? $_GET["sort_by"] : "username";
-
-	// control
-	$tbl->setOrderColumn($_GET["sort_by"]);
-	$tbl->setOrderDirection($_GET["sort_order"]);
-	$tbl->setLimit($_GET["limit"]);
-	$tbl->setOffset($_GET["offset"]);
-	$tbl->setMaxCount($this->maxcount);
-	
-	$this->tpl->setVariable("COLUMN_COUNTS", 5);
-	
-	// delete button
-	$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
-	$this->tpl->setCurrentBlock("tbl_action_btn");
-	$this->tpl->setVariable("BTN_NAME", "deleteTrackingForUser");
-	$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
-	$this->tpl->parseCurrentBlock();
-	
-	// decrease attempts
-	$this->tpl->setCurrentBlock("tbl_action_btn");
-	$this->tpl->setVariable("BTN_NAME", "decreaseAttempts");
-	$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("decrease_attempts"));
-	$this->tpl->parseCurrentBlock();
-	
-	// export aggregated data for selected users
-	$this->tpl->setCurrentBlock("tbl_action_btn");
-	$this->tpl->setVariable("BTN_NAME", "exportSelected");
-	$this->tpl->setVariable("BTN_VALUE",  $this->lng->txt("export"));
-	$this->tpl->parseCurrentBlock();
-		
-	// add search and export all
-	// export aggregated data for all users
-	$this->tpl->setVariable("EXPORT_ACTION",$this->ctrl->getFormAction($this));
-	
-	$this->tpl->setVariable("EXPORT_ALL_VALUE", $this->lng->txt('cont_export_all'));
-	$this->tpl->setVariable("EXPORT_ALL_NAME", "exportAll");
-	$this->tpl->setVariable("IMPORT_VALUE", $this->lng->txt('import'));
-	$this->tpl->setVariable("IMPORT_NAME", "Import");
-	
-	$this->tpl->setVariable("SEARCH_TXT_SEARCH",$this->lng->txt('search'));
-	$this->tpl->setVariable("SEARCH_ACTION",$this->ctrl->getFormAction($this));
-	$this->tpl->setVariable("SEARCH_NAME",'showTrackingItems');
-	if (isset($_SESSION["scorm_search_string"])) {
-		$this->tpl->setVariable("STYLE",'display:inline;');
-	} else {
-		$this->tpl->setVariable("STYLE",'display:none;');
-	}
-	$this->tpl->setVariable("SEARCH_VAL", 	$_SESSION["scorm_search_string"]);
-	$this->tpl->setVariable("SEARCH_VALUE",$this->lng->txt('search_users'));
-	$this->tpl->parseCurrentBlock();
-	
-	// footer
-	$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-
-	$items = $this->object->getTrackedUsers($_SESSION["scorm_search_string"]);
-
-	$tbl->setMaxCount(count($items));
-	$items  = ilUtil::sortArray($items ,$_GET["sort_by"],$_GET["sort_order"]);
-	$items = array_slice($items, $_GET["offset"], $_GET["limit"]);
-
-	$tbl->render();
-	
-	if (count($items) > 0)
-	{
-		foreach ($items as $item)
-		{
-			if (ilObject::_exists($item["user_id"])  && ilObject::_lookUpType($item["user_id"])=="usr") 
-			{
-				$user = new ilObjUser($item["user_id"]);
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("VAL_USERNAME", $item["username"]);
-				$this->tpl->setVariable("VAL_LAST", ilDatePresentation::formatDate(new ilDateTime($item["last_access"],IL_CAL_DATETIME)));
-				$this->tpl->setVariable("VAL_ATTEMPT", $item["attempts"]);
-				$this->tpl->setVariable("VAL_VERSION", $item['version']);
-				$this->ctrl->setParameter($this, "user_id", $item["user_id"]);
-				$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-				$this->tpl->setVariable("LINK_ITEM",
-				$this->ctrl->getLinkTarget($this, "showTrackingItem"));
-				$this->tpl->setVariable("CHECKBOX_ID", $item["user_id"]);
-				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		$this->tpl->setCurrentBlock("selectall");
-		$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-		$this->tpl->setVariable("CSS_ROW", $css_row);
-		$this->tpl->parseCurrentBlock();
-		
-	} //if is_array
-	else
-	{
-		$this->tpl->setCurrentBlock("notfound");
-		$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-		$this->tpl->setVariable("NUM_COLS", $num);
-		$this->tpl->parseCurrentBlock();
-	}
-	
-}
-*/
 
 function exportAll(){
 	$this->object->exportSelected(1);
@@ -1593,7 +1409,7 @@ function showTrackingItem()
 		$this->showTrackingItems();
 	}
 
-		/**
+	/**
 	 * Show Editing Tree
 	 */
 	function showTree()

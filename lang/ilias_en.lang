@@ -15143,7 +15143,7 @@ scormtrac#:#startedSCOs#:#Number of SCOs been started
 scormtrac#:#completedSCOs#:#Number of fully completed SCO
 scormtrac#:#passedSCOs#:#Number of passed SCOs
 scormtrac#:#roundedTotal_timeSeconds#:#Total time in seconds (rounded)
-scormtrac#:#cont_tracking_modify#:#modify data
+content#:#cont_tracking_modify#:#modify data
 scormtrac#:#counter_i_correct#:#correctly answered interactions
 scormtrac#:#counter_i_correct_percent#:#Percentage of correctly answered interactions
 scormtrac#:#counter_i_incorrect#:#incorrectly answered interactions
@@ -15196,3 +15196,4 @@ news#:#news_rss#:#RSS
 mob#:#mob_object#:#Object
 content#:#cont_qtries_info#:#Default value for number of tries for newly created questions.
 lm#:#lm_copy#:#Copy Learning Module
+content#:#cont_settings#:#Settings for learning modules
