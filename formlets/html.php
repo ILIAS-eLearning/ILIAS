@@ -11,7 +11,7 @@ require_once("helpers.php");
 
 abstract class HTML {
     abstract public function render();
-    final public function concat(HTML $right) {
+    public function concat(HTML $right) {
         return html_concat($this, $right);
     }
 }
@@ -35,25 +35,15 @@ class HTMLText extends HTML {
     }
 }
 
-class HTMLConcat extends HTML {
-    private $_left; // HTML 
-    private $_right; // HTML 
-
-    public function __construct(HTML $left, HTML $right) {
-        $this->_left = $left;
-        $this->_right = $right;
-    }
-
-    public function render() {
-        return $this->_left->render().$this->_right->render();
-    }
-}
-
 class HTMLArray extends HTML {
     private $_content; // array of HTML
 
     public function __construct($content) {
         guardEach($content, "guardHTML");
+    }
+
+    public function content() {
+        return $_content;
     }
 
     public function render() {
@@ -62,6 +52,15 @@ class HTMLArray extends HTML {
             $res .= $cont->render();
         }
         return $res;
+    }
+
+    public function concat(HTML $other) {
+        if ($other instanceof HTMLArray) {
+            $this->_content = array_merge($this->_content, $other->content());
+            return $this;
+        }
+        $this->_content[] = $other;
+        return $this;
     }
 }
 
@@ -94,7 +93,7 @@ class HTMLTag extends HTML {
         }
 
         guardIsString($name);
-        return new HTMLTag($name, $this->_attributes, $this->_content);
+        $this->_name = $name;
     }
 
     public function attribute($key, $value = null) {
@@ -104,9 +103,8 @@ class HTMLTag extends HTML {
 
         guardIsString($key);
         guardIsString($value);
-        $attrs = id($this->_attributes);
-        $attrs[$key] = $value;
-        return new HTMLTag($this->_name, $attrs, $this->_content);
+        $this->_attributes[$key] = $value;
+        return $this;
     }
 
     public function content($content = 0) {
@@ -114,7 +112,8 @@ class HTMLTag extends HTML {
             return $this->_content;
         }
 
-        return new HTMLTag($this->_name, $this->_attributes, $content);
+        guardIfNotNull($content, "guardIsHTML");
+        $this->_content = $content;
     }
 }
 
@@ -131,7 +130,7 @@ function html_text($content) {
 }
 
 function html_concat(HTML $left, HTML $right) {
-    return new HTMLConcat($left, $right);
+    return html_concatA(array($left, $right));
 }
 
 function html_concatA($array) {
