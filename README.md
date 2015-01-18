@@ -130,7 +130,7 @@ is a point i'm currently thinking about how to handle best.
 $name_source = NameSource::instantiate();
 
 // Very boring builder and collector.
-$repr = $boringFormlet->build($name_source);
+$repr = $boringFormlet->instantiate($name_source);
 
 // Renderer does nothing
 echo "This will show \"No output\":\n";
@@ -158,7 +158,7 @@ formlet, yielding a new formlet containing the result of the function call.
 // too...
 $containsArrayFormlet = $boringFormlet->map($explodeBySpace);
 
-$repr = $containsArrayFormlet->build($name_source);
+$repr = $containsArrayFormlet->instantiate($name_source);
 $name_source = $repr["name_source"];
 
 echo "Array containing \"Hello\" and \"World!\":\n";
@@ -181,7 +181,7 @@ $exploded = _pure($explode)
                 ->cmb(_pure($string))
                 ;
 
-$repr = $exploded->build($name_source);
+$repr = $exploded->instantiate($name_source);
 $name_source = $repr["name_source"];
 
 echo "Array containing \"foo\" and \"bar\":\n";
@@ -205,7 +205,7 @@ $containsHello = _fn("preg_match", 2, array("/.*hello.*/i"));
 $withPred = _pure(_val("Hi there."))
                 ->satisfies($containsHello, "You should say hello.");
 
-$repr = $withPred->build($name_source);
+$repr = $withPred->instantiate($name_source);
 $name_source = $repr["name_source"];
 
 $res = $repr["collector"]->collect(array());
@@ -334,7 +334,7 @@ use the date formlet twice to create a period formlet. Now lets try it out:
 ```php
 <?php
 // You got that step, right?
-$repr = $date_formlet->build($name_source);
+$repr = $date_formlet->instantiate($name_source);
 $name_source = $repr["name_source"];
 
 // First look at the rendering:

@@ -106,8 +106,8 @@ function print_results() {
  */
 
 function _test_isFormlet($formlet) {
-    $res = $formlet->build(NameSource::unsafeInstantiate());
-    $builder_res = $res["builder"]->build()->render();
+    $res = $formlet->instantiate(NameSource::unsafeInstantiate());
+    $builder_res = $res["builder"]->instantiate()->render();
     return array
         ( "Formlet has correct class"
             => $formlet instanceof Formlet
@@ -205,7 +205,7 @@ function test__collect() {
         ->cmb(_pure(_val(1)))
         ->cmb(_pure(stop()))
         ;
-    $repr = $formlet_collected->build(NameSource::unsafeInstantiate());
+    $repr = $formlet_collected->instantiate(NameSource::unsafeInstantiate());
     $formlet_result = $repr["collector"]->collect(array());
     
     return array

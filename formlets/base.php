@@ -20,7 +20,7 @@ abstract class Formlet {
     /* Build a builder and collector from the formlet and also return the 
      * updated name source.
      */
-    public abstract function build(NameSource $name_source);
+    public abstract function instantiate(NameSource $name_source);
     
     /* Combine this formlet with another formlet. Yields a new formlet. */
     final public function cmb(Formlet $other) {
@@ -86,7 +86,7 @@ class PureFormlet extends Formlet {
         $this->_value = $value;
     }
 
-    public function build(NameSource $name_source) {
+    public function instantiate(NameSource $name_source) {
         return array
             ( "builder"    => new TextBuilder("")
             , "collector"   => new ConstCollector($this->_value)
@@ -110,9 +110,9 @@ class CombinedFormlets extends Formlet {
         $this->_r = $right;
     }
 
-    public function build(NameSource $name_source) {
-        $l = $this->_l->build($name_source);
-        $r = $this->_r->build($l["name_source"]);
+    public function instantiate(NameSource $name_source) {
+        $l = $this->_l->instantiate($name_source);
+        $r = $this->_r->instantiate($l["name_source"]);
         $collector = combineCollectors($l["collector"], $r["collector"]);
         return array
             ( "builder"    => new CombinedBuilder($l["builder"], $r["builder"])
@@ -139,8 +139,8 @@ class MappedFormlet extends Formlet {
         $this->_transform_collector = $transform_collector;
     }
 
-    public function build(NameSource $name_source) {
-        $fmlt = $this->_formlet->build($name_source);
+    public function instantiate(NameSource $name_source) {
+        $fmlt = $this->_formlet->instantiate($name_source);
         $b = $this->_transform_builder
                 ->apply(_val($fmlt["builder"]))
                 ->get();
@@ -164,7 +164,7 @@ class TextFormlet extends Formlet {
         $this->_content = $content;
     }
 
-    public function build(NameSource $name_source) {
+    public function instantiate(NameSource $name_source) {
         return array
             ( "builder"    => new TextBuilder($this->_content)
             , "collector"   => new NullaryCollector()
@@ -187,7 +187,7 @@ class InputFormlet extends Formlet implements TagBuilderCallbacks {
         $this->_attributes = $attributes;
     }
 
-    public function build(NameSource $name_source) {
+    public function instantiate(NameSource $name_source) {
         $res = $name_source->getNameAndNext();
         return array
             ( "builder"    => new TagBuilder( "input", $this, $res["name"])
@@ -223,7 +223,7 @@ class TextAreaFormlet extends Formlet implements TagBuilderCallbacks {
         $this->_attributes = $attributes; 
     }
 
-    public function build(NameSource $name_source) {
+    public function instantiate(NameSource $name_source) {
         $res = $name_source->getNameAndNext();
         return array
             ( "builder"    => new TagBuilder( "textarea", $this, $res["name"] )
