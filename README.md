@@ -134,7 +134,9 @@ $repr = $boringFormlet->build($name_source);
 
 // Renderer does nothing
 echo "This will show \"No output\":\n";
-echo ("" == $repr["builder"]->build()->render()?"No output\n":"Oh, that's not pure...\n");
+echo ("" == $repr["builder"]->build()->render() ? "No output\n"
+                                                : "Oh, that's not pure...\n"
+     );
 
 // The collector 'collects' a constant value, wrapped in our value representation.
 echo "This will show \"Hello World!\":\n";
