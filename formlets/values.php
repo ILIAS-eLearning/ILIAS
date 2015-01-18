@@ -360,6 +360,12 @@ function _application_of(Value $val) {
     });
 }
 
+function _composition() {
+    return _fn(function(FunctionValue $l, FunctionValue $r) {
+        return $l->composeWith($r);
+    });
+}
+
 /* Construct a function value from a closure or the name of an ordinary
  * function. An array of arguments to be inserted in the first arguments 
  * of the function could be passed optionally.

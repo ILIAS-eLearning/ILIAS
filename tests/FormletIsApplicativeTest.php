@@ -77,8 +77,25 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
     public function testApplicativeComposition( $formlet, $fn1, $fn2, $value
                                               , $contains_applicable) {
      
-        if (!$contains_applicable)
-            return;
+        if (!$contains_applicable) {
+            $left = _pure($fn1)
+                        ->cmb( _pure($fn2)->cmb($formlet) ); 
+            $right = _pure(_composition())
+                        ->cmb(_pure($fn1))
+                        ->cmb(_pure($fn2))
+                        ->cmb($formlet)
+                        ;
+            $this->assertFormletsEqual($left, $right);
+        }
+        else {
+            $left = _pure($fn1)
+                        ->cmb( $formlet->cmb(_pure($value)) ); 
+            $right = _pure(_composition())
+                        ->cmb(_pure($fn1))
+                        ->cmb($formlet)
+                        ->cmb(_pure($value))
+                        ;
+        }
 
     }
 
