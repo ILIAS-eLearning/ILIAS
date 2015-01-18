@@ -15197,3 +15197,5 @@ mob#:#mob_object#:#Object
 content#:#cont_qtries_info#:#Default value for number of tries for newly created questions.
 lm#:#lm_copy#:#Copy Learning Module
 content#:#cont_settings#:#Settings for learning modules
+rbac#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits
+rbac#:#orgu_copy#:#Copy Organisational Unit
