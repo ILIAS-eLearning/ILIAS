@@ -346,11 +346,13 @@ class ilLOUserResults
 		
 		$res = array();
 		
-		$sql = "SELECT objective_id, user_id, status, is_final".
-			" FROM loc_user_results".
-			" WHERE ".$ilDB->in("objective_id", $a_objective_ids, "", "integer").
-			" AND type = ".$ilDB->quote(self::TYPE_QUALIFIED, "integer").
-			" AND user_id = ".$ilDB->quote($a_user_id, "integer");	
+		$sql = "SELECT lor.objective_id, lor.user_id, lor.status, lor.is_final".
+			" FROM loc_user_results lor".
+			" JOIN crs_objectives cobj ON (cobj.objective_id = lor.objective_id)".	
+			" WHERE ".$ilDB->in("lor.objective_id", $a_objective_ids, "", "integer").
+			" AND lor.type = ".$ilDB->quote(self::TYPE_QUALIFIED, "integer").
+			" AND lor.user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND cobj.active = ".$ilDB->quote(1, "integer");		
 		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))
 		{									
@@ -387,13 +389,15 @@ class ilLOUserResults
 				
 		$res = $tmp_completed = array();		
 		
-		$sql = "SELECT objective_id, user_id, status, is_final".
-			" FROM loc_user_results".
-			" WHERE ".$ilDB->in("objective_id", $a_objective_ids, "", "integer").
-			" AND type = ".$ilDB->quote(self::TYPE_QUALIFIED, "integer");
+		$sql = "SELECT lor.objective_id, lor.user_id, lor.status, lor.is_final".
+			" FROM loc_user_results lor".
+			" JOIN crs_objectives cobj ON (cobj.objective_id = lor.objective_id)".	
+			" WHERE ".$ilDB->in("lor.objective_id", $a_objective_ids, "", "integer").
+			" AND lor.type = ".$ilDB->quote(self::TYPE_QUALIFIED, "integer").
+			" AND cobj.active = ".$ilDB->quote(1, "integer");	
 		if($a_user_id)
 		{
-			$sql .= " AND user_id = ".$ilDB->quote($a_user_id, "integer");
+			$sql .= " AND lor.user_id = ".$ilDB->quote($a_user_id, "integer");
 		}		
 		$set = $ilDB->query($sql);			
 		while($row = $ilDB->fetchAssoc($set))

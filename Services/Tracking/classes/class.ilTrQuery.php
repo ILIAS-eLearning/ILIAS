@@ -98,6 +98,7 @@ class ilTrQuery
 		$query =  "SELECT crs_id, crs_objectives.objective_id AS obj_id, title,".$ilDB->quote("lobj", "text")." AS type".
 			" FROM crs_objectives".			
 			" WHERE ".$ilDB->in("crs_objectives.objective_id", $a_objective_ids, false, "integer").
+			" AND active = ".$ilDB->quote(1, "integer").
 			" ORDER BY position";
 		$set = $ilDB->query($query);
 		$result = array();
@@ -488,6 +489,7 @@ class ilTrQuery
 
 			$where = array();
 			$where[] = "crs_objectives.crs_id = ".$ilDB->quote($objects["objectives_parent_id"], "integer");
+			$where[] = "crs_objectives.active = ".$ilDB->quote(1, "integer");
 		
 			$objectives_query = " FROM crs_objectives".
 				" LEFT JOIN loc_user_results ON (crs_objectives.objective_id = loc_user_results.objective_id".
