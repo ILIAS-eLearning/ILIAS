@@ -533,7 +533,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					// #15232
 					if($this->manage)
 					{
-						if(!$rbacsystem->checkAccess("unsubscribe", $item["ref_id"]))
+						if(!$rbacsystem->checkAccess("leave", $item["ref_id"]))
 						{
 							$item_list_gui->enableCheckbox(false);
 						}
