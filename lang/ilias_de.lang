@@ -15200,3 +15200,4 @@ lm#:#lm_copy#:#ILIAS-Lernmodul kopieren
 content#:#cont_settings#:#Lernmoduleinstellungen
 rbac#:#orgu_view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
 rbac#:#orgu_copy#:#Organisationseinheit kopieren
+exc#:#exc_no_team_yet_notice#:#Sie gehören noch keinem Team an!
