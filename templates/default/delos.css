@@ -10369,7 +10369,7 @@ li.ilToolbarTextonly > span {
 /* Services/Locator */
 ol.breadcrumb {
   margin: 0;
-  ffont-family: 'Open Sans Semibold';
+  font-family: 'Open Sans Semibold';
   padding-left: 15px;
   font-size: 0.8em;
 }
