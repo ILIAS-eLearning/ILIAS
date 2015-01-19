@@ -5351,3 +5351,114 @@ if($tgt_ops_id)
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4447>
+<?php
+	if (!$ilDB->tableColumnExists('skl_user_has_level', 'self_eval'))
+	{
+		$ilDB->addTableColumn("skl_user_has_level", "self_eval", array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0
+		));
+	}
+?>
+<#4448>
+<?php
+	if (!$ilDB->tableColumnExists('skl_user_skill_level', 'self_eval'))
+	{
+		$ilDB->addTableColumn("skl_user_skill_level", "self_eval", array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0
+		));
+	}
+?>
+<#4449>
+<?php
+		$ilDB->dropPrimaryKey("skl_user_has_level");
+		$ilDB->addPrimaryKey("skl_user_has_level",
+			array("level_id", "user_id", "trigger_obj_id", "tref_id", "self_eval"));
+?>
+<#4450>
+<?php
+		$ilDB->modifyTableColumn("skl_user_has_level", "trigger_obj_type",
+			array(
+				"type" => "text",
+				"length" => 4,
+				"notnull" => false
+			));
+
+		$ilDB->modifyTableColumn("skl_user_skill_level", "trigger_obj_type",
+			array(
+				"type" => "text",
+				"length" => 4,
+				"notnull" => false
+			));
+?>
+<#4451>
+<?php
+	$ilSetting = new ilSetting();
+	if ((int) $ilSetting->get("optes_360_db") <= 0)
+	{
+		/*$ilDB->manipulate("DELETE FROM skl_user_has_level WHERE ".
+			" self_eval = ".$ilDB->quote(1, "integer")
+		);
+		$ilDB->manipulate("DELETE FROM skl_user_skill_level WHERE ".
+			" self_eval = ".$ilDB->quote(1, "integer")
+		);*/
+
+		$set = $ilDB->query("SELECT * FROM skl_self_eval_level ORDER BY last_update ASC");
+		$writtenkeys = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			if (!in_array($rec["level_id"].":".$rec["user_id"].":".$rec["tref_id"], $writtenkeys))
+			{
+				$writtenkeys[] = $rec["level_id"].":".$rec["user_id"].":".$rec["tref_id"];
+				$q = "INSERT INTO skl_user_has_level ".
+					"(level_id, user_id, status_date, skill_id, trigger_ref_id, trigger_obj_id, trigger_title, tref_id, trigger_obj_type, self_eval) VALUES (".
+					$ilDB->quote($rec["level_id"], "integer").",".
+					$ilDB->quote($rec["user_id"], "integer").",".
+					$ilDB->quote($rec["last_update"], "timestamp").",".
+					$ilDB->quote($rec["skill_id"], "integer").",".
+					$ilDB->quote(0, "integer").",".
+					$ilDB->quote(0, "integer").",".
+					$ilDB->quote("", "text").",".
+					$ilDB->quote($rec["tref_id"], "integer").",".
+					$ilDB->quote("", "text").",".
+					$ilDB->quote(1, "integer").
+					")";
+				$ilDB->manipulate($q);
+			}
+			else
+			{
+				$ilDB->manipulate("UPDATE skl_user_has_level SET ".
+					" status_date = ".$ilDB->quote($rec["last_update"], "timestamp").",".
+					" skill_id = ".$ilDB->quote($rec["skill_id"], "integer").
+					" WHERE level_id = ".$ilDB->quote($rec["level_id"], "integer").
+					" AND user_id = ".$ilDB->quote($rec["user_id"], "integer").
+					" AND trigger_obj_id = ".$ilDB->quote(0, "integer").
+					" AND tref_id = ".$ilDB->quote($rec["tref_id"], "integer").
+					" AND self_eval = ".$ilDB->quote(1, "integer")
+					);
+			}
+			$q = "INSERT INTO skl_user_skill_level ".
+				"(level_id, user_id, status_date, skill_id, trigger_ref_id, trigger_obj_id, trigger_title, tref_id, trigger_obj_type, self_eval, status, valid) VALUES (".
+				$ilDB->quote($rec["level_id"], "integer").",".
+				$ilDB->quote($rec["user_id"], "integer").",".
+				$ilDB->quote($rec["last_update"], "timestamp").",".
+				$ilDB->quote($rec["skill_id"], "integer").",".
+				$ilDB->quote(0, "integer").",".
+				$ilDB->quote(0, "integer").",".
+				$ilDB->quote("", "text").",".
+				$ilDB->quote($rec["tref_id"], "integer").",".
+				$ilDB->quote("", "text").",".
+				$ilDB->quote(1, "integer").",".
+				$ilDB->quote(1, "integer").",".
+				$ilDB->quote(1, "integer").
+				")";
+			$ilDB->manipulate($q);
+		}
+	}
+?>

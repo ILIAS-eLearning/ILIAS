@@ -1,6 +1,78 @@
 Skill Management
 ----------------
 
+Optes/5.1, Streamline Self Evaluation, allow objects to trigger self evaluation
+===============================================================================
+
+Point 1
+-------
+Migrate skl_self_eval/skl_self_eval_level content to skl_user_has_level/skl_user_skill_level
+
+skl_self_eval (5.0):
+- id (pk)
+- user_id
+- top_skill_id
+- created
+- last_update
+
+skl_self_eval_level (5.0):
+- skill_id (pk)
+- tref_id (pk)
+- user_id (pk)
+- top_skill_id (pk)
+- level_id
+- last_update
+
+skl_user_has_level (5.0):
+- level_id (pk)
+- user_id (pk)
+- tref_id (pk)
+- trigger_obj_id (pk)
+- skill_id
+- status_date
+- trigger_ref_id
+- trigger_title
+- trigger_obj_type
+
+skl_user_skill_level (5.0):
+- level_id (pk)
+- user_id (pk)
+- tref_id (pk)
+- trigger_obj_id (pk)
+- skill_id
+- status (not in skl_user_has_level, 1 for achieved, 0 for not achieved)
+- valid (not in skl_user_has_level, alsways 1, does not seem to be used)
+- status_date
+- trigger_ref_id
+- trigger_title
+- trigger_obj_type
+
+Issues
+------
+- skl_self_eval in use? (does not look like it, no entries written)
+- skl_user_has_level has level_id in ok, not skill_id (should be no problem)
+- new field self_eval (tinyint, pk) for skl_user_has_level and skl_user_skill_level (1! for self evals)
+-- ilBasicSkill->writeUserSkillLevelStatus (added self_eval param)
+-- ilBasicSkill->getMaxLevelPerType (added self_eval param)
+-- ilBasicSkill->getAllLevelEntriesOfUser (added self_eval param)
+-- ilBasicSkill->getMaxLevelPerObject (added self_eval param)
+- trigger_obj_id will be 0, if user makes self evaluation
+- trigger_ref_id will be 0
+- trigger_title will be ""
+- trigger_obj_type will be ""
+- status_date will be set to last_update
+- status -> 1 (achieved)
+- valid -> 1 (valid)
+
+Point 2
+-------
+
+General Refactoring:
+- ilSkillSelfEvaluationGUI is not used anymore -> remove
+- ilSelfEvaluationTableGUI is not used anymore -> remove
+- ilSkillSelfEvaluation is not used anymore -> remove
+- Table skl_self_eval not used anymore -> remove
+
 Todo 4.4
 ========
 - Nutzung von Skills von Benutzern/in Objekten im Skillmanagement sichtbar machen (done)

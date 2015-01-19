@@ -18,6 +18,10 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	const ACHIEVED = 1;
 	const NOT_ACHIEVED = 0;
 
+	const EVAL_BY_OTHERS_= 0;
+	const EVAL_BY_SELF = 1;
+	const EVAL_BY_ALL = 2;
+
 	var $id;
 
 	/**
@@ -471,7 +475,8 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 	 * @param	int		status
 	 */
 	static function writeUserSkillLevelStatus($a_level_id, $a_user_id,
-		$a_trigger_ref_id, $a_tref_id = 0, $a_status = ilBasicSkill::ACHIEVED, $a_force = false)
+		$a_trigger_ref_id, $a_tref_id = 0, $a_status = ilBasicSkill::ACHIEVED, $a_force = false,
+		$a_self_eval = 0)
 	{
 		global $ilDB;
 
@@ -491,19 +496,21 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 		{
 			// check whether current skill user level is identical
 			// to the one that should be set (-> no change required)
-			$ilDB->setLimit(1);
+/*			$ilDB->setLimit(1);
 			$set = $ilDB->query("SELECT status, valid FROM skl_user_skill_level WHERE ".
 				"level_id = ".$ilDB->quote($a_level_id, "integer")." AND ".
 				"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
 				"tref_id = ".$ilDB->quote((int) $a_tref_id, "integer")." AND ".
-				"trigger_obj_id = ".$ilDB->quote($trigger_obj_id, "integer").
+				"trigger_obj_id = ".$ilDB->quote($trigger_obj_id, "integer")." AND ".
+				"self_eval = ".$ilDB->quote($a_self_eval, "integer").
 				" ORDER BY status_date DESC"
 			);
 			$rec = $ilDB->fetchAssoc($set);
 			if (!$rec["valid"] || $rec["status"] != $a_status)
 			{
 				$save = true;
-			}
+			}*/
+			$save = true;
 		}
 
 		if ($save)
@@ -511,7 +518,7 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 			$now = ilUtil::now();
 			$ilDB->manipulate("INSERT INTO skl_user_skill_level ".
 				"(level_id, user_id, tref_id, status_date, skill_id, status, valid, trigger_ref_id,".
-				"trigger_obj_id, trigger_obj_type, trigger_title) VALUES (".
+				"trigger_obj_id, trigger_obj_type, trigger_title, self_eval) VALUES (".
 				$ilDB->quote($a_level_id, "integer").",".
 				$ilDB->quote($a_user_id, "integer").",".
 				$ilDB->quote((int) $a_tref_id, "integer").",".
@@ -522,20 +529,24 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 				$ilDB->quote($trigger_ref_id, "integer").",".
 				$ilDB->quote($trigger_obj_id, "integer").",".
 				$ilDB->quote($trigger_type, "text").",".
-				$ilDB->quote($trigger_title, "text").
+				$ilDB->quote($trigger_title, "text").",".
+				$ilDB->quote($a_self_eval, "integer").
 				")");
 
+			// optes patch fix (removed level_id and added skill id, since table should hold only
+			// one entry per skill)
 			$ilDB->manipulate("DELETE FROM skl_user_has_level WHERE "
 				." user_id = ".$ilDB->quote($a_user_id, "integer")
-				." AND level_id = ".$ilDB->quote($a_level_id, "integer")
+				." AND skill_id = ".$ilDB->quote($skill_id, "integer")
 				." AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer")
 				." AND trigger_obj_id = ".$ilDB->quote($trigger_obj_id, "integer")
+				." AND self_eval = ".$ilDB->quote($a_self_eval, "integer")
 			);
 
 			if ($a_status == ilBasicSkill::ACHIEVED)
 			{
 				$ilDB->manipulate("INSERT INTO skl_user_has_level ".
-				"(level_id, user_id, tref_id, status_date, skill_id, trigger_ref_id, trigger_obj_id, trigger_obj_type, trigger_title) VALUES (".
+				"(level_id, user_id, tref_id, status_date, skill_id, trigger_ref_id, trigger_obj_id, trigger_obj_type, trigger_title, self_eval) VALUES (".
 				$ilDB->quote($a_level_id, "integer").",".
 				$ilDB->quote($a_user_id, "integer").",".
 				$ilDB->quote($a_tref_id, "integer").",".
@@ -544,7 +555,8 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 				$ilDB->quote($trigger_ref_id, "integer").",".
 				$ilDB->quote($trigger_obj_id, "integer").",".
 				$ilDB->quote($trigger_type, "text").",".
-				$ilDB->quote($trigger_title, "text").
+				$ilDB->quote($trigger_title, "text").",".
+				$ilDB->quote($a_self_eval, "integer").
 				")");
 			}
 		}
@@ -556,7 +568,7 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 	 * @param
 	 * @return
 	 */
-	function getMaxLevelPerType($a_tref_id, $a_type, $a_user_id = 0)
+	function getMaxLevelPerType($a_tref_id, $a_type, $a_user_id = 0, $a_self_eval = 0)
 	{
 		global $ilDB, $ilUser;
 		
@@ -569,7 +581,8 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 			" WHERE trigger_obj_type = ".$ilDB->quote($a_type, "text").
 			" AND skill_id = ".$ilDB->quote($this->getId(), "integer").
 			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
-			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND self_eval = ".$ilDB->quote($a_self_eval, "integer")
 			);
 
 		$has_level = array();
@@ -594,7 +607,7 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 	 * @param
 	 * @return
 	 */
-	function getAllLevelEntriesOfUser($a_tref_id, $a_user_id = 0)
+	function getAllLevelEntriesOfUser($a_tref_id, $a_user_id = 0, $a_self_eval = 0)
 	{
 		global $ilDB, $ilUser;
 		
@@ -607,6 +620,7 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 			" WHERE skill_id = ".$ilDB->quote($this->getId(), "integer").
 			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND self_eval = ".$ilDB->quote($a_self_eval, "integer").
 			" ORDER BY status_date DESC"
 			);
 
@@ -617,28 +631,64 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 		}
 		return $levels;
 	}
-	
+
+	/**
+	 * Get all historic level entries
+	 *
+	 * @param
+	 * @return
+	 */
+	function getAllHistoricLevelEntriesOfUser($a_tref_id, $a_user_id = 0, $a_eval_by = 0)
+	{
+		global $ilDB, $ilUser;
+
+		if ($a_user_id == 0)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+
+		$by = ($a_eval_by != self::EVAL_BY_ALL)
+			? " AND self_eval = ".$ilDB->quote($a_self_eval, "integer")
+			: "";
+
+		$set = $ilDB->query($q = "SELECT * FROM skl_user_skill_level ".
+				" WHERE skill_id = ".$ilDB->quote($this->getId(), "integer").
+				" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
+				" AND user_id = ".$ilDB->quote($a_user_id, "integer").
+				$by.
+				" ORDER BY status_date DESC"
+		);
+		$levels = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$levels[] = $rec;
+		}
+		return $levels;
+	}
+
+
 	/**
 	 * Get max levels per object
 	 *
 	 * @param
 	 * @return
 	 */
-	function getMaxLevelPerObject($a_tref_id, $a_object_id, $a_user_id = 0)
+	function getMaxLevelPerObject($a_tref_id, $a_object_id, $a_user_id = 0, $a_self_eval = 0)
 	{
 		global $ilDB, $ilUser;
-		
+
 		if ($a_user_id == 0)
 		{
 			$a_user_id = $ilUser->getId();
 		}
-		
+
 		$set = $ilDB->query($q = "SELECT level_id FROM skl_user_has_level ".
-			" WHERE trigger_obj_id = ".$ilDB->quote($a_object_id, "integer").
-			" AND skill_id = ".$ilDB->quote($this->getId(), "integer").
-			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
-			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
-			);
+				" WHERE trigger_obj_id = ".$ilDB->quote($a_object_id, "integer").
+				" AND skill_id = ".$ilDB->quote($this->getId(), "integer").
+				" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
+				" AND user_id = ".$ilDB->quote($a_user_id, "integer").
+				" AND self_eval = ".$ilDB->quote($a_self_eval, "integer")
+		);
 
 		$has_level = array();
 		while ($rec = $ilDB->fetchAssoc($set))
@@ -657,12 +707,72 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 	}
 
 	/**
+	 * Get last level set per object
+	 *
+	 * @param
+	 * @return
+	 */
+	function getLastLevelPerObject($a_tref_id, $a_object_id, $a_user_id = 0, $a_self_eval = 0)
+	{
+		global $ilDB, $ilUser;
+
+		if ($a_user_id == 0)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+
+		$ilDB->setLimit(1);
+		$set = $ilDB->query($q = "SELECT level_id FROM skl_user_has_level ".
+				" WHERE trigger_obj_id = ".$ilDB->quote($a_object_id, "integer").
+				" AND skill_id = ".$ilDB->quote($this->getId(), "integer").
+				" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
+				" AND user_id = ".$ilDB->quote($a_user_id, "integer").
+				" AND self_eval = ".$ilDB->quote($a_self_eval, "integer").
+				" ORDER BY status_date DESC"
+		);
+
+		$rec = $ilDB->fetchAssoc($set);
+
+		return $rec["level_id"];
+	}
+
+	/**
+	 * Get last update per object
+	 *
+	 * @param
+	 * @return
+	 */
+	function getLastUpdatePerObject($a_tref_id, $a_object_id, $a_user_id = 0, $a_self_eval = 0)
+	{
+		global $ilDB, $ilUser;
+
+		if ($a_user_id == 0)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+
+		$ilDB->setLimit(1);
+		$set = $ilDB->query($q = "SELECT status_date FROM skl_user_has_level ".
+				" WHERE trigger_obj_id = ".$ilDB->quote($a_object_id, "integer").
+				" AND skill_id = ".$ilDB->quote($this->getId(), "integer").
+				" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
+				" AND user_id = ".$ilDB->quote($a_user_id, "integer").
+				" AND self_eval = ".$ilDB->quote($a_self_eval, "integer").
+				" ORDER BY status_date DESC"
+		);
+
+		$rec = $ilDB->fetchAssoc($set);
+
+		return $rec["status_date"];
+	}
+
+	/**
 	 * Get trigger completion
 	 *
 	 * @param
 	 * @return
 	 */
-	static function getCompletionDateForTriggerRefId($a_user_id, $a_ref_id = null)
+	static function getCompletionDateForTriggerRefId($a_user_id, $a_ref_id = null, $a_self_eval = 0)
 	{
 		global $ilDB;
 die("ilBasicSkill::getCompletionDateForTriggerRefId is deprecated.");
@@ -758,7 +868,7 @@ die("ilBasicSkill::getCompletionDateForTriggerRefId is deprecated.");
 	 * @param
 	 * @return
 	 */
-	static function checkUserCertificateForTriggerRefId($a_user_id, $a_ref_id)
+	static function checkUserCertificateForTriggerRefId($a_user_id, $a_ref_id, $a_self_eval = 0)
 	{
 		global $ilDB;
 die("ilBasicSkill::checkUserCertificateForTriggerRefId is deprecated.");
@@ -807,7 +917,7 @@ die("ilBasicSkill::checkUserCertificateForTriggerRefId is deprecated.");
 	 * @param
 	 * @return
 	 */
-	function lookupLevelAchievementDate($a_user_id, $a_level_id)
+	function lookupLevelAchievementDate($a_user_id, $a_level_id, $a_self_eval = 0)
 	{
 		global $ilDB;
 die("ilBasicSkill::lookupLevelAchievementDate is deprecated.");
@@ -829,7 +939,7 @@ die("ilBasicSkill::lookupLevelAchievementDate is deprecated.");
 	 * @param
 	 * @return
 	 */
-	static function getTriggerOfAllCertificates($a_user_id)
+	static function getTriggerOfAllCertificates($a_user_id, $a_self_eval = 0)
 	{
 		global $ilDB, $tree;
 die("ilBasicSkill::getTriggerOfAllCertificates is deprecated.");

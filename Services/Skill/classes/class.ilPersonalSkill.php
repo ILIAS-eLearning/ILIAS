@@ -204,6 +204,13 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	static function saveSelfEvaluation($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill, $a_level)
 	{
 		global $ilDB;
+
+		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
+		ilBasicSkill::writeUserSkillLevelStatus($a_level, $a_user_id,
+			0, $a_tref_id, ilBasicSkill::ACHIEVED, false,
+			1);
+
+		return;
 		
 		$set = $ilDB->query("SELECT * FROM skl_self_eval_level ".
 			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
@@ -246,6 +253,10 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	static function getSelfEvaluation($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill)
 	{
 		global $ilDB;
+
+		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
+		$bs = new ilBasicSkill($a_basic_skill);
+		return $bs->getLastLevelPerObject($a_tref_id, 0, $a_user_id, 1);
 		
 		$set = $ilDB->query("SELECT level_id FROM skl_self_eval_level ".
 			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
@@ -270,7 +281,11 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	static function getSelfEvaluationDate($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill)
 	{
 		global $ilDB;
-		
+
+		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
+		$bs = new ilBasicSkill($a_basic_skill);
+		return $bs->getLastUpdatePerObject($a_tref_id, 0, $a_user_id, 1);
+
 		$set = $ilDB->query("SELECT last_update FROM skl_self_eval_level ".
 			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
 			" AND top_skill_id = ".$ilDB->quote($a_top_skill, "integer").

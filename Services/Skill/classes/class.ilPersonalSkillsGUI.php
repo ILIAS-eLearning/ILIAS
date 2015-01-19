@@ -289,12 +289,12 @@ $bs["tref"] = $bs["tref_id"];
 					: false;
 					
 				// get all object triggered entries and render them
-				foreach ($skill->getAllLevelEntriesOfUser($bs["tref"] , $user->getId()) as $level_entry)
+				foreach ($skill->getAllHistoricLevelEntriesOfUser($bs["tref"] , $user->getId(), ilBasicSkill::EVAL_BY_ALL) as $level_entry)
 				{
 					// render the self evaluation at the correct position within the list of object triggered entries
 					if ($se_date > $level_entry["status_date"] && !$se_rendered)
 					{
-						$this->renderSelfEvaluationRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
+//						$this->renderSelfEvaluationRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 						$se_rendered = true;
 					}
 					$this->renderObjectEvalRow($tpl, $level_data, $level_entry);
@@ -303,7 +303,7 @@ $bs["tref"] = $bs["tref_id"];
 				// if not rendered yet, render self evaluation now
 				if (!$se_rendered)
 				{
-					$this->renderSelfEvaluationRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
+//					$this->renderSelfEvaluationRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 				}
 				$this->renderSuggestedResources($tpl, $level_data, $bs["id"], $bs["tref"]);
 			}
@@ -1441,6 +1441,8 @@ $bs["tref"] = $bs["tref_id"];
 	 */
 	function renderObjectEvalRow($a_tpl, $a_levels, $a_level_entry)
 	{
+		global $lng;
+
 		$se_level = $a_level_entry["level_id"];
 		
 		// check, if current self eval level is in current level data
@@ -1478,7 +1480,18 @@ $bs["tref"] = $bs["tref_id"];
 		
 		$a_tpl->setCurrentBlock("value_row");
 		ilDatePresentation::setUseRelativeDates(false);
-		$a_tpl->setVariable("TXT_VAL_TITLE", $a_level_entry["trigger_title"].
+		if ($a_level_entry["self_eval"] == 1 && $a_level_entry["trigger_obj_id"] == 0)
+		{
+			$title = $lng->txt("skmg_self_evaluation");
+		}
+		else
+		{
+			$title = ($a_level_entry["trigger_obj_id"] > 0 && $a_level_entry["self_eval"] == 1)
+				? $a_level_entry["trigger_title"]." (".$lng->txt("skmg_self_evaluation").")"
+				: $a_level_entry["trigger_title"];
+		}
+
+		$a_tpl->setVariable("TXT_VAL_TITLE", $title.
 			", ".ilDatePresentation::formatDate(new ilDateTime($a_level_entry["status_date"], IL_CAL_DATETIME)));
 		ilDatePresentation::setUseRelativeDates(true);
 		$a_tpl->parseCurrentBlock();		
