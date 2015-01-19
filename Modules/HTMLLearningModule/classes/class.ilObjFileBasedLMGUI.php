@@ -117,13 +117,14 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$fs_gui->addCommand($this, "setStartFile", $this->lng->txt("cont_set_start_file"));
 				
 				$this->ctrl->forwardCommand($fs_gui);
-				
+											
 				// try to set start file automatically
-				if (!$this->object->getStartFile())
+				require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
+				if (!ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId()))
 				{					
 					$do_update = false;
 										
-					$pcommand = $fs_gui->getLastPerformedCommand();										
+					$pcommand = $fs_gui->getLastPerformedCommand();							
 					if (is_array($pcommand))
 					{
 						$valid = array("index.htm", "index.html", "start.htm", "start.html");						
@@ -138,9 +139,26 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 						}
 						else if($pcommand["cmd"] == "unzip_file")
 						{
+							$zip_file = strtolower(basename($pcommand["name"]));
+							$suffix = strrpos($zip_file, ".");
+							if($suffix)
+							{
+								$zip_file = substr($zip_file, 0, $suffix);
+							}							
 							foreach($pcommand["added"] as $file)
 							{
-								if(in_array(basename($file), $valid))
+								$chk_file = null;
+								if(stristr($file, ".htm"))
+								{
+									$chk_file = strtolower(basename($file));
+									$suffix = strrpos($chk_file, ".");
+									if($suffix)
+									{
+										$chk_file = substr($chk_file, 0, $suffix);
+									}								
+								}
+								if(in_array(basename($file), $valid) ||
+									($zip_file && $chk_file && $chk_file == $zip_file))
 								{
 									$this->object->setStartFile($file);
 									$do_update = $file;
@@ -434,6 +452,48 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function afterSave($newObj)
 	{
+		if(!$newObj->getStartFile())
+		{
+			// try to set start file automatically
+			$files = array();		
+			include_once "Services/Utilities/classes/class.ilFileUtils.php";
+			ilFileUtils::recursive_dirscan($newObj->getDataDirectory(), $files);
+			if(is_array($files["file"]))
+			{
+				$zip_file = null;
+				if(stristr($newObj->getTitle(), ".zip"))
+				{
+					$zip_file = strtolower($newObj->getTitle());
+					$suffix = strrpos($zip_file, ".");
+					if($suffix)
+					{
+						$zip_file = substr($zip_file, 0, $suffix);
+					}	
+				}								
+				$valid = array("index.htm", "index.html", "start.htm", "start.html");		
+				foreach($files["file"] as $idx => $file)
+				{
+					$chk_file = null;
+					if(stristr($file, ".htm"))
+					{
+						$chk_file = strtolower($file);
+						$suffix = strrpos($chk_file, ".");					
+						if($suffix)
+						{
+							$chk_file = substr($chk_file, 0, $suffix);
+						}	
+					}
+					if(in_array($file, $valid) ||
+						($chk_file && $zip_file && $chk_file == $zip_file))
+					{						
+						$newObj->setStartFile(str_replace($newObj->getDataDirectory()."/", "", $files["path"][$idx]).$file);
+						$newObj->update();
+						break;
+					}
+				}
+			}
+		}
+		
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
 		ilUtil::redirect("ilias.php?baseClass=ilHTLMEditorGUI&ref_id=".$newObj->getRefId());
