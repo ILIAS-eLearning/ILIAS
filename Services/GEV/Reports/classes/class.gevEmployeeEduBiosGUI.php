@@ -50,7 +50,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->column("points_year5", "5", true)
 						->column("points_sum", "gev_overall_points")
 						->column("attention", "gev_attention")
-						->template("tpl.gev_attendance_by_employee_row.html", "Services/GEV/Reports")
+						->template("tpl.gev_employee_edu_bios_row.html", "Services/GEV/Reports")
 						;
 		
 		$this->order = catReportOrder::create($this->table)
@@ -58,6 +58,40 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						//->mapping("od_bd", array("org_unit_above1", "org_unit_above2"))
 						->defaultOrder("lastname", "ASC")
 						;
+		
+		$cert_year_sql = " YEAR( CURDATE( ) ) - YEAR( usr.begin_of_certification ) "
+						."- ( DATE_FORMAT( CURDATE( ) , '%m%d' ) < DATE_FORMAT( usr.begin_of_certification, '%m%d' ) )"
+						;
+		$points_year1_sql =  "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification"
+							."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL 1 YEAR)"
+							."             , usrcrs.credit_points"
+							."             , 0"
+							."             )"
+							."        )";
+		$points_year2_sql =  "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL 1 YEAR "
+							."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL 2 YEAR)"
+							."             , usrcrs.credit_points"
+							."             , 0"
+							."             )"
+							."        )";
+		$points_year3_sql =  "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL 2 YEAR "
+							."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL 3 YEAR)"
+							."             , usrcrs.credit_points"
+							."             , 0"
+							."             )"
+							."        )";
+		$points_year4_sql =  "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL 3 YEAR "
+							."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL 4 YEAR)"
+							."             , usrcrs.credit_points"
+							."             , 0"
+							."             )"
+							."        )";
+		$points_year5_sql =  "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL 4 YEAR "
+							."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL 5 YEAR)"
+							."             , usrcrs.credit_points"
+							."             , 0"
+							."             )"
+							."        )";
 		
 		$this->query = catReportQuery::create()
 						->distinct()
@@ -70,14 +104,64 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->select("usr.org_unit_above2")
 						->select("usr.org_unit")
 						->select("usr.position_key")
-						->select("usrcrs.credit_points")
-						->select("usrcrs.booking_status")
-						->select("usrcrs.participation_status")
-						->select("usrcrs.usr_id")
-						->select("usrcrs.crs_id")
+						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
+									."   , usr.begin_of_certification"
+									."   , '-')"
+									." as cert_period"
+									)
+						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
+									."   , ".$points_year1_sql
+									."   , '-')"
+									." as points_year1"
+									)
+						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
+									."   , ".$points_year2_sql
+									."   , '-')"
+									." as points_year2"
+									)
+						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
+									."   , ".$points_year3_sql
+									."   , '-')"
+									." as points_year3"
+									)
+						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
+									."   , ".$points_year4_sql
+									."   , '-')"
+									." as points_year4"
+									)
+						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
+									."   , ".$points_year5_sql
+									."   , '-')"
+									." as points_year5"
+									)
+						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
+									."   , SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification"
+									."               AND usrcrs.begin_date < ( usr.begin_of_certification "
+									."                                       + INTERVAL (".$cert_year_sql.") YEAR"
+									."                                       )"
+									."             , usrcrs.credit_points"
+									."             , 0"
+									."             )"
+									."        )"
+									."   , '-')"
+									." as points_sum")
+						->select_raw("CASE WHEN usr.begin_of_certification < '2013-12-31' THEN ''"
+									."     WHEN ".$cert_year_sql." = 0 AND ".$points_year1_sql." < 40 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 1 AND ".$points_year2_sql." < 80 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 2 AND ".$points_year3_sql." < 120 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 3 AND ".$points_year4_sql." < 160 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 4 AND ".$points_year5_sql." < 200 THEN 'X'"
+									."     ELSE ''"
+									."END"
+									." as attention"
+									)
 						->from("hist_user usr")
 						->left_join("hist_usercoursestatus usrcrs")
-							->on("usr.user_id = usrcrs.usr_id AND usrcrs.hist_historic = 0")
+							->on("     usr.user_id = usrcrs.usr_id"
+								." AND usrcrs.hist_historic = 0 "
+								." AND usrcrs.credit_points > 0"
+								." AND usrcrs.participation_status = 'teilgenommen'")
+						->group_by("user_id")
 						->compile()
 						;
 
@@ -148,7 +232,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 
 	protected function transformResultRow($rec) {
 		// credit_points
-		if ($rec["credit_points"] == -1) {
+/*		if ($rec["credit_points"] == -1) {
 			$rec["credit_points"] = $this->lng->txt("gev_table_no_entry");
 		}
 
@@ -164,7 +248,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 			$date = '-';
 		}
 		$rec['date'] = $date;
-		
+*/		
 		// od_bd
 		if ( $rec["org_unit_above2"] == "-empty-") {
 			if ($rec["org_unit_above1"] == "-empty-") {
@@ -175,7 +259,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 			}
 		}
 		else {
-			$rec["od_bd"] = $rec["org_unit_above1"]."/".$rec["org_unit_above2"];
+			$rec["od_bd"] = $rec["org_unit_above2"]."/".$rec["org_unit_above1"];
 		}
 
 		return $this->replaceEmpty($rec);

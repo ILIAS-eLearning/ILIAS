@@ -306,6 +306,7 @@ class catBasicReportGUI {
 		
 		$query = $this->query->sql()."\n "
 			   . $this->queryWhere()."\n "
+			   .$this->query->sqlGroupBy()."\n"
 			   . $this->queryOrder()
 			   ; //die($query);
 		
@@ -404,6 +405,7 @@ class catReportTable {
 class catReportQuery {
 	protected function __construct() {
 		$this->fields = array();
+		$this->_select_raw = array();
 		$this->_from = null;
 		$this->joins = array();
 		$this->left_joins = array();
@@ -435,6 +437,11 @@ class catReportQuery {
 		return $this;
 	}
 	
+	public function select_raw($a_stmt) {
+		$this->_select_raw[] = $a_stmt;
+		return $this;
+	}
+	
 	public function from($a_table) {
 		$this->checkNotCompiled();
 		if ($this->_from !== null) {
@@ -458,6 +465,7 @@ class catReportQuery {
 	
 	public function group_by($a_column) {
 		$this->_group_by[] = $a_column;
+		return $this;
 	}
 	
 	public function sql() {
@@ -475,8 +483,9 @@ class catReportQuery {
 			 "SELECT "
 			.($this->_distinct ? "DISTINCT " : "")
 			.implode("\n\t,", $escp)
+			.(count($this->_select_raw) ? "\n\t," : "")
+			.implode("\n\t,", $this->_select_raw)
 			.$this->sqlFrom()
-			.$this->sqlGroupBy()
 			;
 			
 		return $this->sql_str;
@@ -503,7 +512,7 @@ class catReportQuery {
 		
 		$cols = array();
 		foreach ($this->_group_by as $col) {
-			$cols[] = catFilter::quoteDBField($col);
+			$cols[] = catFilter::quoteDBId($col);
 		}
 		
 		return " GROUP BY ".implode(", ", $cols);
