@@ -1389,6 +1389,25 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/Blog");
+		
+		// quick editing in portfolio
+		if($_REQUEST["prt_id"] && 
+			stristr($a_cmd, "embedded"))
+		{		
+			global $ilUser;
+			if(ilObject::_lookupOwner($_REQUEST["prt_id"]) == $ilUser->getId())
+			{				
+				// see ilPortfolioPageTableGUI::fillRow()
+				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", (int)$_REQUEST["user_page"]);
+				$link = $ilCtrl->getLinkTargetByClass(array("ilportfoliopagegui", "ilobjbloggui"), "render");
+				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", "");
+				
+				$wtpl->setCurrentBlock("prtf_edit_bl");
+				$wtpl->setVariable("PRTF_BLOG_URL", $link);
+				$wtpl->setVariable("PRTF_BLOG_TITLE", sprintf($lng->txt("prtf_edit_embedded_blog"), $this->object->getTitle()));
+				$wtpl->parseCurrentBlock();
+			}
+		}
 										
 		$can_approve = ($this->object->hasApproval() && $this->checkPermissionBool("write"));
 		$can_deactivate = $this->checkPermissionBool("write");
