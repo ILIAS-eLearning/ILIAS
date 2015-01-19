@@ -117,7 +117,7 @@ class ilDataCollectionRecordListGUI {
 		} else {
 			$tables = $this->parent_obj->object->getVisibleTables();
 		}
-
+		$options = array();
 		foreach ($tables as $table) {
 			$options[$table->getId()] = $table->getTitle();
 		}
@@ -158,7 +158,7 @@ class ilDataCollectionRecordListGUI {
 			$ilToolbar->addButtonInstance($add_new);
 		}
 
-		if (($this->table_obj->getExportEnabled() || $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id))) {
+		if (($this->table_obj->getExportEnabled() OR $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id))) {
 
 			$export = ilDataCollectionLinkButton::getInstance();
 			$export->setCaption("dcl_export_table_excel");
