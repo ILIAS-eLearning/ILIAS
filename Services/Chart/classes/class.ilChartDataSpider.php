@@ -21,12 +21,12 @@ class ilChartDataSpider extends ilChartData
 	{
 		parent::parseData($a_data);
 		
-		$fill = $this->getFill();		
+		$fill = $this->getFill();
 		if ($fill["color"] != "")
 		{
-			$a_data[0]->color = ilChart::renderColor($fill["color"] , "0.5");
+			$a_data[count($a_data)-1]->color = ilChart::renderColor($fill["color"] , "0.5");
 		}
-	}		
+	}
 	
 	public function parseGlobalOptions(stdClass $a_options, ilChart $a_chart)
 	{
@@ -37,9 +37,8 @@ class ilChartDataSpider extends ilChartData
 		$spider->highlight->mode = "line";
 		
 		
-		$spider->legs = new stdClass();		
-		$spider->legs->fillStyle = ilChart::renderColor("#000", 0.7);
-		
+		$spider->legs = new stdClass();
+		$spider->legs->fillStyle = ilChart::renderColor("#000", "0.7");
 		switch (count($a_chart->getLegLabels()))
 		{
 			case 4:

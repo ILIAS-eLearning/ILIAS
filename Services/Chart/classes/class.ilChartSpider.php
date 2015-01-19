@@ -81,7 +81,7 @@ class ilChartSpider extends ilChart
 		$a_options->grid->hoverable = false;
 		$a_options->grid->clickable = false;
 		$a_options->grid->ticks = $this->getYAxisMax();
-		$a_options->grid->tickColor = ilChart::renderColor("#000", 0.1);
+		$a_options->grid->tickColor = ilChart::renderColor("#000", "0.1");
 		$a_options->grid->mode = "spider";
 	}
 

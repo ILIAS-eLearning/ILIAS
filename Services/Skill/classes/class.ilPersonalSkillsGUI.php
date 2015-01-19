@@ -1038,7 +1038,7 @@ $bs["tref"] = $bs["tref_id"];
 			// target level
 			$cd = $chart->getDataInstance();
 			$cd->setLabel($lng->txt("skmg_target_level"));
-			$cd->setFill("true", "#A0A0A0");
+			$cd->setFill(true, "#A0A0A0");
 
 			// other users
 			$cd2 = $chart->getDataInstance();
@@ -1054,14 +1054,14 @@ $bs["tref"] = $bs["tref_id"];
 			{
 				$cd2->setLabel(ilObject::_lookupTitle($this->gap_mode_obj_id));
 			}
-			$cd2->setFill("true", "#8080FF");
+			$cd2->setFill(true, "#8080FF");
 			
 			// self evaluation
 			if ($incl_self_eval)
 			{
 				$cd3 = $chart->getDataInstance();
 				$cd3->setLabel($lng->txt("skmg_self_evaluation"));
-				$cd3->setFill("true", "#FF8080");
+				$cd3->setFill(true, "#FF8080");
 			}
 			
 			// fill in data
@@ -1092,6 +1092,12 @@ $bs["tref"] = $bs["tref_id"];
 			$chart->setLegend($lg);
 			
 			$chart_html = $chart->getHTML();
+			
+			include_once("./Services/UIComponent/Panel/classes/class.ilPanelGUI.php");
+			$pan = ilPanelGUI::getInstance();
+			$pan->setPanelStyle(ilPanelGUI::PANEL_STYLE_PRIMARY);
+			$pan->setBody($chart_html);
+			$chart_html = $pan->getHTML();
 		}
 
 		$stree = new ilSkillTree();
