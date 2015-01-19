@@ -688,6 +688,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		return $this->calculateReachedPointsForSolution(array_values($previewSession->getParticipantsSolution()));
 	}
 
+	public function isAutosaveable()
+	{
+		return false; // #15217
+	}
+
 	/**
 	 * Saves the learners input of the question to the database.
 	 * 
