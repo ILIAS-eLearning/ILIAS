@@ -21,7 +21,10 @@ class ilQuestionPoolExportTableGUI extends ilExportTableGUI
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_exp_obj)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_exp_obj);
-		$this->addCustomColumn($this->lng->txt('actions'), $this, 'formatActionsList');
+
+		// NOT REQUIRED ANYMORE, PROBLEM NOW FIXED IN THE ROOT
+		// KEEP CODE, JF OPINIONS / ROOT FIXINGS CAN CHANGE
+		//$this->addCustomColumn($this->lng->txt('actions'), $this, 'formatActionsList');
 	}
 
 	/**
