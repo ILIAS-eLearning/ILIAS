@@ -533,6 +533,19 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				
 				if (is_object($item_list_gui))
 				{
+					// #15232
+					if($this->manage)
+					{
+						if(!$rbacsystem->checkAccess("unsubscribe", $item["ref_id"]))
+						{
+							$item_list_gui->enableCheckbox(false);
+						}
+						else
+						{
+							$item_list_gui->enableCheckbox(true);
+						}
+					}
+					
 					$html = $item_list_gui->getListItemHTML($item["ref_id"],
 					$item["obj_id"], $item["title"], $item["description"]);
 					$ilBench->stop("ilPersonalDesktopGUI", "getListHTML");
@@ -713,6 +726,19 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					}
 					// render item row
 					$ilBench->start("ilPersonalDesktopGUI", "getListHTML");
+					
+					// #15232
+					if($this->manage)
+					{
+						if(!$rbacsystem->checkAccess("unsubscribe", $item["ref_id"]))
+						{
+							$item_list_gui->enableCheckbox(false);
+						}
+						else
+						{
+							$item_list_gui->enableCheckbox(true);
+						}
+					}
 					
 					$html = $item_list_gui->getListItemHTML($item["ref_id"],
 					$item["obj_id"], $item["title"], $item["description"]);
