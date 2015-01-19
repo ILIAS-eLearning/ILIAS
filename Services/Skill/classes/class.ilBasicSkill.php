@@ -486,14 +486,8 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 		$trigger_title = ilObject::_lookupTitle($trigger_obj_id);
 		$trigger_type = ilObject::_lookupType($trigger_obj_id);
 
-		$save = false;
+		$update = false;
 
-		if ($a_force)
-		{
-			$save = true;
-		}
-		else
-		{
 			// check whether current skill user level is identical
 			// to the one that should be set (-> no change required)
 /*			$ilDB->setLimit(1);
@@ -510,10 +504,43 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 			{
 				$save = true;
 			}*/
-			$save = true;
+
+		if ($a_self_eval)
+		{
+			$ilDB->setLimit(1);
+			$set = $ilDB->query("SELECT * FROM skl_user_skill_level WHERE ".
+				"skill_id = ".$ilDB->quote($skill_id, "integer")." AND ".
+				"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
+				"tref_id = ".$ilDB->quote((int) $a_tref_id, "integer")." AND ".
+				"trigger_obj_id = ".$ilDB->quote($trigger_obj_id, "integer")." AND ".
+				"self_eval = ".$ilDB->quote($a_self_eval, "integer").
+				" ORDER BY status_date DESC"
+			);
+			$rec = $ilDB->fetchAssoc($set);
+			$status_day = substr($rec["status_date"], 0, 10);
+			$today = substr(ilUtil::now(), 0, 10);
+			if ($rec["valid"] && $rec["status"] == $a_status && $status_day == $today)
+			{
+				$update = true;
+			}
 		}
 
-		if ($save)
+		if ($update)
+		{
+			$now = ilUtil::now();
+			$ilDB->manipulate("UPDATE skl_user_skill_level SET ".
+				" level_id = ".$ilDB->quote($a_level_id, "integer").",".
+				" status_date = ".$ilDB->quote($now, "timestamp").
+				" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
+				" AND status_date = ".$ilDB->quote($rec["status_date"], "timestamp").
+				" AND skill_id = ".$ilDB->quote($rec["skill_id"], "integer").
+				" AND status = ".$ilDB->quote($a_status, "integer").
+				" AND trigger_obj_id = ".$ilDB->quote($trigger_obj_id, "integer").
+				" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
+				" AND self_eval = ".$ilDB->quote($a_self_eval, "integer")
+				);
+		}
+		else
 		{
 			$now = ilUtil::now();
 			$ilDB->manipulate("INSERT INTO skl_user_skill_level ".
@@ -532,33 +559,33 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 				$ilDB->quote($trigger_title, "text").",".
 				$ilDB->quote($a_self_eval, "integer").
 				")");
+		}
 
-			// optes patch fix (removed level_id and added skill id, since table should hold only
-			// one entry per skill)
-			$ilDB->manipulate("DELETE FROM skl_user_has_level WHERE "
-				." user_id = ".$ilDB->quote($a_user_id, "integer")
-				." AND skill_id = ".$ilDB->quote($skill_id, "integer")
-				." AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer")
-				." AND trigger_obj_id = ".$ilDB->quote($trigger_obj_id, "integer")
-				." AND self_eval = ".$ilDB->quote($a_self_eval, "integer")
-			);
+		// fix (removed level_id and added skill id, since table should hold only
+		// one entry per skill)
+		$ilDB->manipulate("DELETE FROM skl_user_has_level WHERE "
+			." user_id = ".$ilDB->quote($a_user_id, "integer")
+			." AND skill_id = ".$ilDB->quote($skill_id, "integer")
+			." AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer")
+			." AND trigger_obj_id = ".$ilDB->quote($trigger_obj_id, "integer")
+			." AND self_eval = ".$ilDB->quote($a_self_eval, "integer")
+		);
 
-			if ($a_status == ilBasicSkill::ACHIEVED)
-			{
-				$ilDB->manipulate("INSERT INTO skl_user_has_level ".
-				"(level_id, user_id, tref_id, status_date, skill_id, trigger_ref_id, trigger_obj_id, trigger_obj_type, trigger_title, self_eval) VALUES (".
-				$ilDB->quote($a_level_id, "integer").",".
-				$ilDB->quote($a_user_id, "integer").",".
-				$ilDB->quote($a_tref_id, "integer").",".
-				$ilDB->quote($now, "timestamp").",".
-				$ilDB->quote($skill_id, "integer").",".
-				$ilDB->quote($trigger_ref_id, "integer").",".
-				$ilDB->quote($trigger_obj_id, "integer").",".
-				$ilDB->quote($trigger_type, "text").",".
-				$ilDB->quote($trigger_title, "text").",".
-				$ilDB->quote($a_self_eval, "integer").
-				")");
-			}
+		if ($a_status == ilBasicSkill::ACHIEVED)
+		{
+			$ilDB->manipulate("INSERT INTO skl_user_has_level ".
+			"(level_id, user_id, tref_id, status_date, skill_id, trigger_ref_id, trigger_obj_id, trigger_obj_type, trigger_title, self_eval) VALUES (".
+			$ilDB->quote($a_level_id, "integer").",".
+			$ilDB->quote($a_user_id, "integer").",".
+			$ilDB->quote($a_tref_id, "integer").",".
+			$ilDB->quote($now, "timestamp").",".
+			$ilDB->quote($skill_id, "integer").",".
+			$ilDB->quote($trigger_ref_id, "integer").",".
+			$ilDB->quote($trigger_obj_id, "integer").",".
+			$ilDB->quote($trigger_type, "text").",".
+			$ilDB->quote($trigger_title, "text").",".
+			$ilDB->quote($a_self_eval, "integer").
+			")");
 		}
 	}
 
