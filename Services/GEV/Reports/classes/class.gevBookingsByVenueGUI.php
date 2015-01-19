@@ -62,6 +62,7 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 						;
 		
 		$this->order = catReportOrder::create($this->table)
+						->mapping("date", "crs.begin_date")
 						->defaultOrder("date", "ASC")
 						;
 		
