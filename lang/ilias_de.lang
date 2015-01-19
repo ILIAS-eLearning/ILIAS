@@ -12920,7 +12920,7 @@ exc#:#exc_team_notification_link#:#Link zur Übung
 poll#:#poll_absolute#:#Aktuelle Stimmen
 dcl#:#dcl_reference_link#:#In der Tabellensicht als Link darstellen
 dcl#:#dcl_ILIAS_reference_link#:#In der Tabellensicht als Link darstellen
-dcl#:#dcl_text_area#:#Texteingabefeld
+dcl#:#dcl_text_area#:#Mehrzeiliges Texteingabefeld
 forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
 forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
 ecs#:#ecs_cms_tree_synchronize#:#Synchronisieren
