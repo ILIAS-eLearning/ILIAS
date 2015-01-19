@@ -49,8 +49,11 @@ class ilDataCollectionStandardField extends ilDataCollectionField
 		$this->updateExportability();
 	}
 
+
+	/**
+	 * @param ilDataCollectionStandardField $original_record
+	 */
 	public function cloneStructure(ilDataCollectionStandardField $original_record) {
-		$this->setOrder($original_record->getOrder());
 		$this->setEditable($original_record->isEditable());
 		$this->setLocked($original_record->getLocked());
 		$this->setFilterable($original_record->isFilterable());

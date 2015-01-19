@@ -39,6 +39,9 @@ class ilDataCollectionCache {
 	 * @return ilDataCollectionTable
 	 */
 	public static function getTableCache($table_id = 0) {
+		if ($table_id == 0) {
+			return new ilDataCollectionTable();
+		}
 		$tables_cache = &self::$tables_cache;
 		if (!isset($tables_cache[$table_id])) {
 			$tables_cache[$table_id] = new ilDataCollectionTable($table_id);

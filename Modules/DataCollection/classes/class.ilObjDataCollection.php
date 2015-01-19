@@ -45,7 +45,9 @@ class ilObjDataCollection extends ilObject2 {
 
 
 	protected function doCreate() {
-		global $ilDB;
+		global $ilDB, $ilLog;
+
+		$ilLog->write('doCreate');
 
 		//Create Main Table - The title of the table is per default the title of the data collection object
 		require_once('./Modules/DataCollection/classes/class.ilDataCollectionTable.php');
@@ -285,9 +287,9 @@ class ilObjDataCollection extends ilObject2 {
 
 		// add new tables.
 		foreach ($original->getTables() as $table) {
-			$new_table = ilDataCollectionCache::getTableCache();
+			$new_table = new ilDataCollectionTable();
 			$new_table->setObjId($this->getId());
-			$new_table->cloneStructure($table->getId());
+			$new_table->cloneStructure($table);
 
 			if ($table->getId() == $original->getMainTableId()) {
 				$this->setMainTableId($new_table->getId());

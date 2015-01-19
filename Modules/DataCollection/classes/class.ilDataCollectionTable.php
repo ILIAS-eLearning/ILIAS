@@ -1115,13 +1115,9 @@ class ilDataCollectionTable {
 
 
 	/**
-	 * Clone structure
-	 *
-	 * @param $original_id ID of the ilDataColellection table object
+	 * @param ilDataCollectionTable $original
 	 */
-	public function cloneStructure($original_id) {
-		$original = ilDataCollectionCache::getTableCache($original_id);
-
+	public function cloneStructure(ilDataCollectionTable $original) {
 		$this->setTitle($original->getTitle());
 		$this->setDescription($original->getDescription());
 		$this->setIsVisible($original->getIsVisible());
@@ -1139,14 +1135,12 @@ class ilDataCollectionTable {
 
 		$this->doCreate();
 		// reset stdFields to get new for the created object
-		$this->stdFields = NULL;
 
 		$default_sort_field = 0;
 		// Clone standard-fields
 		$org_std_fields = $original->getStandardFields();
 		foreach ($this->getStandardFields() as $element_key => $std_field) {
 			$std_field->cloneStructure($org_std_fields[$element_key]);
-
 			if ($std_field->getId() == $original->getDefaultSortField()) {
 				$default_sort_field = $std_field->getId();
 			}
@@ -1178,9 +1172,9 @@ class ilDataCollectionTable {
 			$new_record->cloneStructure($orig_record->getId(), $new_fields);
 		}*/
 
-		if ($old_view_id = ilDataCollectionRecordViewViewdefinition::getIdByTableId($original_id)) {
+		if ($old_view_id = ilDataCollectionRecordViewViewdefinition::getIdByTableId($original->getId())) {
 			$old_view = new ilDataCollectionRecordViewViewdefinition($old_view_id);
-			$old_view->setTableId($original_id);
+			$old_view->setTableId($original->getId());
 			$viewdef = new ilDataCollectionRecordViewViewdefinition();
 			$viewdef->setTableId($this->id);
 			$viewdef->setXMLContent($old_view->getXMLContent(false));
