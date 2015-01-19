@@ -62,36 +62,13 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		$cert_year_sql = " YEAR( CURDATE( ) ) - YEAR( usr.begin_of_certification ) "
 						."- ( DATE_FORMAT( CURDATE( ) , '%m%d' ) < DATE_FORMAT( usr.begin_of_certification, '%m%d' ) )"
 						;
-		$points_year1_sql =  "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification"
-							."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL 1 YEAR)"
-							."             , usrcrs.credit_points"
-							."             , 0"
-							."             )"
-							."        )";
-		$points_year2_sql =  "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL 1 YEAR "
-							."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL 2 YEAR)"
-							."             , usrcrs.credit_points"
-							."             , 0"
-							."             )"
-							."        )";
-		$points_year3_sql =  "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL 2 YEAR "
-							."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL 3 YEAR)"
-							."             , usrcrs.credit_points"
-							."             , 0"
-							."             )"
-							."        )";
-		$points_year4_sql =  "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL 3 YEAR "
-							."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL 4 YEAR)"
-							."             , usrcrs.credit_points"
-							."             , 0"
-							."             )"
-							."        )";
-		$points_year5_sql =  "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL 4 YEAR "
-							."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL 5 YEAR)"
-							."             , usrcrs.credit_points"
-							."             , 0"
-							."             )"
-							."        )";
+		$points_in_completed_cert_years 
+						  =  "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification"
+							."         AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL (".$cert_year_sql.") YEAR)"
+							."        , usrcrs.credit_points"
+							."        , 0"
+							."        )"
+							."   )";
 		
 		$this->query = catReportQuery::create()
 						->distinct()
@@ -110,27 +87,27 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 									." as cert_period"
 									)
 						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
-									."   , ".$points_year1_sql
+									."   , ".$this->points_in_cert_year_sql(1)
 									."   , '-')"
 									." as points_year1"
 									)
 						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
-									."   , ".$points_year2_sql
+									."   , ".$this->points_in_cert_year_sql(2)
 									."   , '-')"
 									." as points_year2"
 									)
 						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
-									."   , ".$points_year3_sql
+									."   , ".$this->points_in_cert_year_sql(3)
 									."   , '-')"
 									." as points_year3"
 									)
 						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
-									."   , ".$points_year4_sql
+									."   , ".$this->points_in_cert_year_sql(4)
 									."   , '-')"
 									." as points_year4"
 									)
 						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
-									."   , ".$points_year5_sql
+									."   , ".$this->points_in_cert_year_sql(5)
 									."   , '-')"
 									." as points_year5"
 									)
@@ -146,11 +123,11 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 									."   , '-')"
 									." as points_sum")
 						->select_raw("CASE WHEN usr.begin_of_certification < '2013-12-31' THEN ''"
-									."     WHEN ".$cert_year_sql." = 0 AND ".$points_year1_sql." < 40 THEN 'X'"
-									."     WHEN ".$cert_year_sql." = 1 AND ".$points_year2_sql." < 80 THEN 'X'"
-									."     WHEN ".$cert_year_sql." = 2 AND ".$points_year3_sql." < 120 THEN 'X'"
-									."     WHEN ".$cert_year_sql." = 3 AND ".$points_year4_sql." < 160 THEN 'X'"
-									."     WHEN ".$cert_year_sql." = 4 AND ".$points_year5_sql." < 200 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 0 AND ".$points_in_completed_cert_years." < 40 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 1 AND ".$points_in_completed_cert_years." < 80 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 2 AND ".$points_in_completed_cert_years." < 120 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 3 AND ".$points_in_completed_cert_years." < 160 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 4 AND ".$points_in_completed_cert_years." < 200 THEN 'X'"
 									."     ELSE ''"
 									."END"
 									." as attention"
@@ -230,12 +207,31 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 
 	}
 
+	protected function points_in_cert_year_sql($year) {
+		return   "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL ".($year-1)." YEAR "
+				."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL ".$year." YEAR)"
+				."             , usrcrs.credit_points"
+				."             , 0"
+				."             )"
+				."        )";
+	}
+	
+	protected function points_in_completed_cert_years_sql() {
+		return   "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification"
+				."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL ".$year." YEAR)"
+				."             , usrcrs.credit_points"
+				."             , 0"
+				."             )"
+				."        )";
+	}
+
+
 	protected function transformResultRow($rec) {
 		// credit_points
 /*		if ($rec["credit_points"] == -1) {
 			$rec["credit_points"] = $this->lng->txt("gev_table_no_entry");
 		}
-
+*/		
 		//date
 		if( $rec["begin_date"] && $rec["end_date"] 
 			&& ($rec["begin_date"] != '0000-00-00' && $rec["end_date"] != '0000-00-00' )
@@ -247,8 +243,10 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		} else {
 			$date = '-';
 		}
-		$rec['date'] = $date;
-*/		
+		if ($rec['cert_period'] != "-") {
+			$rec['cert_period'] = ilDatePresentation::formatDate(new ilDate($rec['cert_period'], IL_CAL_DATE));
+		}
+
 		// od_bd
 		if ( $rec["org_unit_above2"] == "-empty-") {
 			if ($rec["org_unit_above1"] == "-empty-") {
