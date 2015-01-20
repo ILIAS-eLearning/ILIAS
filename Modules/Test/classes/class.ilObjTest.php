@@ -8974,10 +8974,18 @@ function getAnswerFeedbackPoints()
 			$now = mktime();
 			$time_border = $now - $time_gap;
 			$str_time_border = strftime("%Y%m%d%H%M%S", $time_border);
-			$result = $ilDB->queryF("SELECT DISTINCT tst_times.active_fi FROM tst_times, tst_active WHERE tst_times.tstamp > %s AND tst_times.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
-				array('integer', 'integer'),
-				array($time_border, $this->getTestId())
-			);
+			$query = "
+				SELECT DISTINCT tst_times.active_fi
+				FROM tst_times
+				INNER JOIN tst_active
+				ON tst_times.active_fi = tst_active.active_id
+				AND (
+					tst_times.pass > tst_active.last_finished_pass OR tst_active.last_finished_pass IS NULL
+				)
+				WHERE tst_times.tstamp > %s
+				AND tst_active.test_fi = %s
+			";
+			$result = $ilDB->queryF($query, array('integer', 'integer'), array($time_border, $this->getTestId()));
 			if ($result->numRows() >= $nr_of_users)
 			{
 				include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
