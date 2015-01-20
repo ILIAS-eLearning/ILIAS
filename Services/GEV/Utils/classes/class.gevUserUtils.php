@@ -808,9 +808,9 @@ class gevUserUtils {
 			
 		$info = gevAMDUtils::getInstance()->getTable($crss, $crs_amd, 
 								array("CONCAT(od_city.title, ', ', city.value) as location"), 
-								array(" JOIN object_data od_city ".
+								array(" LEFT JOIN object_data od_city ".
 									  "   ON od_city.obj_id = amd4.value "
-									 ," JOIN adv_md_values_text city ".
+									 ," LEFT JOIN adv_md_values_text city ".
 									  "   ON city.field_id = ".$this->db->quote($city_amd_id, "integer").
 									  "  AND city.obj_id = amd4.value "
 									 ),
