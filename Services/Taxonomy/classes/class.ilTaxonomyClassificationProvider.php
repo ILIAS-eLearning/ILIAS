@@ -27,8 +27,8 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");	
 	
 		foreach(self::$valid_tax_map[$this->parent_ref_id] as $tax_id)
-		{
-			$tax_exp = new ilTaxonomyExplorerGUI($a_parent_gui, null, $tax_id, null, null);			
+		{						
+			$tax_exp = new ilTaxonomyExplorerGUI($a_parent_gui, null, $tax_id, null, null);					
 			$tax_exp->setSkipRootNode(true);
 			$tax_exp->setOnClick("il.Classification.toggle({tax_node: '{NODE_CHILD}'});");
 			
@@ -119,7 +119,20 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
 						}
 						
 						$node_valid = array_intersect($all_valid, $active);						
-					}		
+					}	
+					
+					if(sizeof($node_valid))
+					{
+						foreach($node_valid as $idx => $node_id)
+						{
+							// #15268 - deleted taxonomy?
+							if(ilObject::_lookupType($node_id) != "tax")
+							{
+								unset($node_valid[$idx]);
+							}
+						}
+					}
+					
 					self::$valid_tax_map[$node["ref_id"]] = $node_valid;		
 				}	
 			}					
