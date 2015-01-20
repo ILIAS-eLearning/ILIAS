@@ -158,7 +158,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 								  )
 						->multiselect("org_unit"
 									 , $this->lng->txt("gev_org_unit")
-									 , "usr.org_unit"
+									 , array("usr.org_unit", "usr.org_unit_above1", "usr.org_unit_above2")
 									 , $ous
 									 , array()
 									 )
