@@ -29,6 +29,10 @@ var model = {
 				ac: 'r',
 				dv: 'core,suspend_data,launch_data,comments,objectives,student_data,student_preference,interactions'
 			},
+			_version:{
+				ac: 'r',
+				dv: '3.4'
+			},
 			core:{
 				_children:{
 					ac: 'r',
