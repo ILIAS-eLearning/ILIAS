@@ -660,12 +660,11 @@ class catMultiSelectFilter {
 		if (is_array($a_conf[3])) {
 			$stmts = array();
 			foreach($a_conf[3] as $field) {
-				$stmts[] = $ilDB->in(catFilter::quoteDBId($field), $a_pars, false, $a_conf[8]);
+				$stmts[] = $ilDB->in(catFilter::quoteDBId($field), $a_pars, false, $a_conf[9]);
 			}
 			return "(".implode(" OR ", $stmts).")";
 		}
-		
-		return $ilDB->in(catFilter::quoteDBId($a_conf[3]), $a_pars, false, $a_conf[8]);
+		return $ilDB->in(catFilter::quoteDBId($a_conf[3]), $a_pars, false, $a_conf[9]);
 	}
 	
 	public function get($a_pars) {

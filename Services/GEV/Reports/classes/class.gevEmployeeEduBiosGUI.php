@@ -138,8 +138,10 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->group_by("user_id")
 						->compile()
 						;
-
+						
 		$this->allowed_user_ids = $this->user_utils->getEmployees();
+		$ous = $this->user_utils->getOrgUnitNamesWhereUserIsSuperior();
+		sort($ous);
 		$this->filter = catFilter::create()
 						->checkbox( "critical"
 								  , $this->lng->txt("gev_rep_filter_show_critical_persons")
@@ -154,6 +156,12 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 								  , "TRUE"
 								  , true
 								  )
+						->multiselect("org_unit"
+									 , $this->lng->txt("gev_org_unit")
+									 , "usr.org_unit"
+									 , $ous
+									 , array()
+									 )
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 						->static_condition(" usr.hist_historic = 0")
 						->action($this->ctrl->getLinkTarget($this, "view"))
