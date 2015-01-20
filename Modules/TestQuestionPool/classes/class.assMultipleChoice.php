@@ -1175,7 +1175,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		$query = "
 			SELECT SUM(points) points_for_checked_answers
 			FROM qpl_a_mc
-			WHERE question_fi = %s
+			WHERE question_fi = %s AND points > 0
 		";
 		
 		$res = $ilDB->queryF($query, array('integer'), array($questionId));
