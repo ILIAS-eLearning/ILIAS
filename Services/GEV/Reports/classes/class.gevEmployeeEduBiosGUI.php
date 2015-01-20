@@ -154,42 +154,19 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 									, false
 									, " OR usrcrs.hist_historic IS NULL"
 									)
-						/*->multiselect( "org_unit"
-									 , $this->lng->txt("gev_org_unit_short")
-									 , array("usr.org_unit", "org_unit_above1", "org_unit_above2")
-									 , $this->user_utils->getOrgUnitNamesWhereUserIsSuperior()
-									 , array()
-									 )
-						->multiselect("edu_program"
-									 , $this->lng->txt("gev_edu_program")
-									 , "edu_program"
-									 , gevCourseUtils::getEduProgramsFromHisto()
-									 , array()
-									 )
-						->multiselect("type"
-									 , $this->lng->txt("gev_course_type")
-									 , "type"
-									 , gevCourseUtils::getLearningTypesFromHisto()
-									 , array()
-									 )
-						->multiselect("template_title"
-									 , $this->lng->txt("crs_title")
-									 , "template_title"
-									 , gevCourseUtils::getTemplateTitleFromHisto()
-									 , array()
-									 )
-						->multiselect("participation_status"
-									 , $this->lng->txt("gev_participation_status")
-									 , "participation_status"
-									 , gevCourseUtils::getParticipationStatusFromHisto()
-									 , array()
-									 )
-						->multiselect("position_key"
-									 , $this->lng->txt("gev_position_key")
-									 , "position_key"
-									 , gevUserUtils::getPositionKeysFromHisto()
-									 , array()
-									 )*/
+						->checkbox( "critical"
+								  , $this->lng->txt("gev_rep_filter_show_critical_persons")
+								  , "attention = 'X'"
+								  , "TRUE"
+								  , true
+								  )
+						->checkbox( "critical_year4"
+								  , $this->lng->txt("gev_rep_filter_show_critical_persons_4th_year")
+								  , "usr.begin_of_certification > '2013-12-31' AND ".
+								    $cert_year_sql." = 4 AND attention = 'X'"
+								  , "TRUE"
+								  , true
+								  )
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 						->static_condition(" usr.hist_historic = 0")
 						->static_condition("(   usrcrs.hist_historic = 0"

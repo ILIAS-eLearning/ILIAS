@@ -209,7 +209,7 @@ class catFilter {
 	
 	// Get the filters and current parameters as SQL-query part
 	// to be append after WHERE in SQL-statement.
-	public function getSQL() {
+	public function getSQLWhere() {
 		$stmt = " TRUE ";
 
 		foreach ($this->static_conditions as $cond) {
@@ -217,12 +217,34 @@ class catFilter {
 		}
 
 		foreach ($this->filters as $conf) {
+			if (!$this->isInWhere($conf)) {
+				continue;
+			}
 			$type = $this->getType($conf);
 			$pars = $this->getParameters($conf);
 			$stmt .= "\n   AND " . $type->sql($conf, $pars) . " ";
 		}
 		
 		return $stmt;
+	}
+	
+	public function getSQLHaving() {
+		$stmt = "";
+		
+		foreach ($this->filters as $conf) {
+			if ($this->isInWhere($conf)) {
+				continue;
+			}
+			$type = $this->getType($conf);
+			$pars = $this->getParameters($conf);
+			$stmt .= "\n   AND " . $type->sql($conf, $pars) . " ";
+		}
+		
+		if ($stmt === "") {
+			return "";
+		}
+		
+		return " TRUE ".$stmt;
 	}
 	
 	// Get the value of a filter parameter
@@ -292,6 +314,10 @@ class catFilter {
 		return catFilter::$filter_types[$a_conf[0]];
 	}
 	
+	protected function isInWhere($a_conf) {
+		return catFilter::$filter_types[$a_conf[0]]->isInWhere($a_conf);
+	}
+
 	protected function getName($a_conf) {
 		return $a_conf[1];
 	}
@@ -369,6 +395,10 @@ class catDatePeriodFilterType {
 		}
 		
 		return $a_conf;
+	}
+	
+	public function isInWhere($a_conf) {
+		return true;
 	}
 	
 	public function render($a_tpl, $a_postvar, $a_conf, $a_pars) {
@@ -484,12 +514,18 @@ class catCheckboxFilterType {
 	// label
 	// sql_checked
 	// sql_unchecked
+	// is_in_having (optional, default to false)
 	
 	public function checkConfig($a_conf) {
-		if (count($a_conf) !== 5) {
+		if (count($a_conf) !== 5 && count($a_conf) !== 6) {
 			// one parameter less, since type is encoded in first parameter but not passed by user.
-			throw new Exception ("catCheckboxFilterType::checkConfig: expected 4 parameters for checkbox.");
+			throw new Exception ("catCheckboxFilterType::checkConfig: expected 4 or 5 parameters for checkbox.");
 		}
+		
+		if (count($a_conf) === 5) {
+			$a_conf[] = false;
+		}
+		
 		return $a_conf;
 	}
 	
@@ -500,6 +536,10 @@ class catCheckboxFilterType {
 		$a_tpl->setVariable("OPTION_TITLE", $a_conf[2]);
 		
 		return true;
+	}
+	
+	public function isInWhere($a_conf) {
+		return !$a_conf[5];
 	}
 	
 	public function sql($a_conf, $a_pars) {
@@ -576,6 +616,10 @@ class catMultiSelectFilter {
 		}
 		
 		return $a_conf;
+	}
+	
+	public function isInWhere($a_conf) {
+		return true;
 	}
 	
 	public function render($a_tpl, $a_postvar, $a_conf, $a_pars) {

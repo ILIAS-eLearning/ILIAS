@@ -281,7 +281,18 @@ class catBasicReportGUI {
 			return " WHERE TRUE";
 		}
 		
-		return " WHERE ".$this->filter->getSQL();
+		return " WHERE ".$this->filter->getSQLWhere();
+	}
+	
+	protected function queryHaving() {
+		if ($this->filter === null) {
+			return "";
+		}
+		$having = $this->filter->getSQLHaving();
+		if (trim($having) === "") {
+			return "";
+		}
+		return " HAVING ".$having;
 	}
 	
 	protected function queryOrder() {
@@ -306,9 +317,10 @@ class catBasicReportGUI {
 		
 		$query = $this->query->sql()."\n "
 			   . $this->queryWhere()."\n "
-			   .$this->query->sqlGroupBy()."\n"
+			   . $this->query->sqlGroupBy()."\n"
+			   . $this->queryHaving()."\n"
 			   . $this->queryOrder()
-			   ; //die($query);
+			   ; die($query);
 		
 		$res = $this->db->query($query);
 		$data = array();
