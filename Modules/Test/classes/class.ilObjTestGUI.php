@@ -2247,14 +2247,18 @@ global $ilDB, $ilUser;
 			}
 			$this->object->setResetProcessingTime(($_POST["chb_reset_processing_time"]) ? 1 : 0);	
 			
-			if(!$total && isset($_POST['chb_starting_time']))
+			if(!$total)
 			{
-				$this->object->setStartingTime(ilFormat::dateDB2timestamp($_POST['starting_time']['date'] . ' ' . $_POST['starting_time']['time']));
+				if( $_POST['chb_starting_time'] )
+				{
+					$this->object->setStartingTime(ilFormat::dateDB2timestamp($_POST['starting_time']['date'] . ' ' . $_POST['starting_time']['time']));
+				}
+				elseif( !$_POST['chb_starting_time'] )
+				{
+					$this->object->setStartingTime('');
+				}
 			}
-			else if(!$total)
-			{
-				$this->object->setStartingTime('');
-			}
+
 			if ($_POST['chb_ending_time'])
 			{
 				$this->object->setEndingTime(ilFormat::dateDB2timestamp($_POST['ending_time']['date'] . ' ' . $_POST['ending_time']['time']));
