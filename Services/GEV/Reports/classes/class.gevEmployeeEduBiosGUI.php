@@ -173,9 +173,8 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
-
 	}
-
+	
 	protected function points_in_cert_year_sql($year) {
 		return   "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL ".($year-1)." YEAR "
 				."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL ".$year." YEAR)"
@@ -185,16 +184,6 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 				."        )";
 	}
 	
-	protected function points_in_completed_cert_years_sql() {
-		return   "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification"
-				."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL ".$year." YEAR)"
-				."             , usrcrs.credit_points"
-				."             , 0"
-				."             )"
-				."        )";
-	}
-
-
 	protected function transformResultRow($rec) {
 		// credit_points
 /*		if ($rec["credit_points"] == -1) {
