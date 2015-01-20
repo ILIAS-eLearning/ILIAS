@@ -1501,7 +1501,8 @@ class ilSurveyParticipantsGUI
 					if(substr($rec_id, 0, 1) == "a")
 					{
 						$mytxt = $txt_a;
-						$url = $user["href"];									
+						$url = $user["href"];	
+						$rcp = $user["email"];
 					}
 					// reg
 					else
@@ -1509,6 +1510,7 @@ class ilSurveyParticipantsGUI
 						$mytxt = $txt_u;
 						$user["code"] = $this->lng->txt("survey_code_mail_on_demand");
 						$url = ilLink::_getStaticLink($this->object->getRefId());
+						$rcp = $user["login"]; // #15141
 					}
 					
 					$mytxt = str_replace("[lastname]", $user["lastname"], $mytxt); 
@@ -1518,7 +1520,7 @@ class ilSurveyParticipantsGUI
 
 					$mail = new ilMail($sender_id);					
 					$mail->sendMail(
-						$user["email"], // to
+						$rcp, // to
 						"", // cc
 						"", // bcc
 						$subj, // subject
