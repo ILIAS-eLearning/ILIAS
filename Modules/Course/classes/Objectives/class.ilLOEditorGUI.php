@@ -953,6 +953,9 @@ class ilLOEditorGUI
 			}
 		}
 
+		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		ilLPStatusWrapper::_refreshStatus($this->getParentObject()->getId());
+
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		$this->ctrl->redirect($this,'listObjectives');
 	}
@@ -975,6 +978,9 @@ class ilLOEditorGUI
 				$objective->update();
 			}
 		}
+		
+		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		ilLPStatusWrapper::_refreshStatus($this->getParentObject()->getId());
 
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		$this->ctrl->redirect($this,'listObjectives');
@@ -995,6 +1001,9 @@ class ilLOEditorGUI
 			$objective_obj = new ilCourseObjective($this->getParentObject(),$objective_id);
 			$objective_obj->delete();
 		}
+		
+		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		ilLPStatusWrapper::_refreshStatus($this->getParentObject()->getId());
 
 		ilUtil::sendSuccess($this->lng->txt('crs_objectives_deleted'),true);
 		$this->ctrl->redirect($this,'listObjectives');
