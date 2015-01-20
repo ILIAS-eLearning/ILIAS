@@ -679,10 +679,18 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	function redirectAfterAutosaveCmd()
 	{
+		$active_id = $this->testSession->getActiveId();
+		$actualpass = $this->object->_getPass($active_id);
+		
+		$this->performTestPassFinishedTasks($actualpass);
+
+		$this->testSession->setLastFinishedPass($this->testSession->getPass());
+		$this->testSession->increaseTestPass();
+
 		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_redirect_autosave.html", "Modules/Test");	
 		$this->tpl->setVariable("TEXT_REDIRECT", $this->lng->txt("redirectAfterSave"));
 		$this->tpl->setCurrentBlock("HeadContent");
-		$this->tpl->setVariable("CONTENT_BLOCK", "<meta http-equiv=\"refresh\" content=\"5; url=" . $this->ctrl->getLinkTarget($this, "redirectBack") . "\">");
+		$this->tpl->setVariable("CONTENT_BLOCK", "<meta http-equiv=\"refresh\" content=\"5; url=" . $this->ctrl->getLinkTarget($this, "afterTestPassFinished") . "\">");
 		$this->tpl->parseCurrentBlock();
 	}
 
