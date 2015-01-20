@@ -237,7 +237,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		if (!$show_question_only)
 		{
 			// get page object output
-			$solutionoutput = '<div class="ilc_question_Standard">'.$solutionoutput. $feedback."</div>" ;
+			$solutionoutput = $this->getILIASPage($solutionoutput);
 		}
 		return $solutionoutput;
 	}

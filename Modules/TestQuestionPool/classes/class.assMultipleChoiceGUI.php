@@ -399,7 +399,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		if (!$show_question_only)
 		{
 			// get page object output
-			$solutionoutput = '<div class="ilc_question_Standard">'.$solutionoutput."</div>";
+			$solutionoutput = $this->getILIASPage($solutionoutput);
 		}
 		return $solutionoutput;
 	}

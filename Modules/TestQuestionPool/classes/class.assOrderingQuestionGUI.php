@@ -667,152 +667,150 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				// get page object output
 				$solutionoutput = $this->getILIASPage($solutionoutput);
 			}
-			
-			return $solutionoutput;
 		}
 		else
 		{	
-		$keys = array_keys($this->object->answers);
-
-		// generate the question output
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_ordering_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-
-		// get the solution of the user for the active pass or from the last pass if allowed
-		$solutions = array();
-		if (($active_id > 0) && (!$show_correct_solution))
-		{
-			$solutions = $this->object->getSolutionValues($active_id, $pass);
-		}
-		else
-		{
-			foreach ($this->object->answers as $index => $answer)
-			{
-				array_push($solutions, array("value1" => $index, "value2" => $index+1));
-			}
-		}
-		foreach ($keys as $idx)
-		{
-			if (!$show_correct_solution)
-			{
-				foreach($solutions as $index => $item)
-				{
-					if($item['value2'] == $idx+1)
-					{
-						$answer = $this->object->answers[$item['value1']];
-					}
-				}
-			}
-			else
-			{
-				$answer = $this->object->answers[$idx];
-			}
-			if (!$answer)
-			{
-				continue;
-			}
+			$keys = array_keys($this->object->answers);
+	
+			// generate the question output
+			include_once "./Services/UICore/classes/class.ilTemplate.php";
+			$template = new ilTemplate("tpl.il_as_qpl_ordering_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
+			$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
+	
+			// get the solution of the user for the active pass or from the last pass if allowed
+			$solutions = array();
 			if (($active_id > 0) && (!$show_correct_solution))
 			{
-				if ($graphicalOutput)
-				{
-					$sol = array();
-					foreach ($solutions as $solution)
-					{
-						$sol[$solution["value1"]] = $solution["value2"];
-					}
-					asort($sol);
-					$sol = array_keys($sol);
-					$ans = array();
-					foreach ($this->object->answers as $k => $a)
-					{
-						$ans[$k] = $k;
-					}
-					asort($ans);
-					$ans = array_keys($ans);
-					$ok = FALSE;
-					foreach ($ans as $arr_idx => $ans_idx)
-					{
-						if ($ans_idx == $idx)
-						{
-							if ($ans_idx == $sol[$arr_idx])
-							{
-								$ok = TRUE;
-							}
-						}
-					}
-					// output of ok/not ok icons for user entered solutions
-					if ($ok)
-					{
-						$template->setCurrentBlock("icon_ok");
-						$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
-						$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-						$template->parseCurrentBlock();
-					}
-					else
-					{
-						$template->setCurrentBlock("icon_ok");
-						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
-						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-						$template->parseCurrentBlock();
-					}
-				}
-			}
-			if ($this->object->getOrderingType() == OQ_PICTURES)
-			{
-				$template->setCurrentBlock("ordering_row_standard_pictures");
-				$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getAnswertext();
-				$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $answer->getAnswertext();
-				if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
-				$template->setVariable("THUMB_HREF", $thumbweb);
-				list($width, $height, $type, $attr) = getimagesize($thumb);
-				$template->setVariable("ATTR", $attr);
-				$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
-				$template->setVariable("THUMB_TITLE", $this->lng->txt("enlarge"));
-				$template->parseCurrentBlock();
+				$solutions = $this->object->getSolutionValues($active_id, $pass);
 			}
 			else
 			{
-				$template->setCurrentBlock("ordering_row_standard_text");
-				$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-				$template->parseCurrentBlock();
-			}
-			$template->setCurrentBlock("ordering_row_standard");
-			if ($result_output)
-			{
-				$answer = $this->object->answers[$idx];
-				$points = $answer->getPoints();
-				$resulttext = ($points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")"; 
-				$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
-			}
-			foreach ($solutions as $solution)
-			{
-				if (strcmp($solution["value1"], $idx) == 0)
+				foreach ($this->object->answers as $index => $answer)
 				{
-					$template->setVariable("ANSWER_ORDER", $solution["value2"]);
+					array_push($solutions, array("value1" => $index, "value2" => $index+1));
 				}
 			}
-			$template->parseCurrentBlock();
+			foreach ($keys as $idx)
+			{
+				if (!$show_correct_solution)
+				{
+					foreach($solutions as $index => $item)
+					{
+						if($item['value2'] == $idx+1)
+						{
+							$answer = $this->object->answers[$item['value1']];
+						}
+					}
+				}
+				else
+				{
+					$answer = $this->object->answers[$idx];
+				}
+				if (!$answer)
+				{
+					continue;
+				}
+				if (($active_id > 0) && (!$show_correct_solution))
+				{
+					if ($graphicalOutput)
+					{
+						$sol = array();
+						foreach ($solutions as $solution)
+						{
+							$sol[$solution["value1"]] = $solution["value2"];
+						}
+						asort($sol);
+						$sol = array_keys($sol);
+						$ans = array();
+						foreach ($this->object->answers as $k => $a)
+						{
+							$ans[$k] = $k;
+						}
+						asort($ans);
+						$ans = array_keys($ans);
+						$ok = FALSE;
+						foreach ($ans as $arr_idx => $ans_idx)
+						{
+							if ($ans_idx == $idx)
+							{
+								if ($ans_idx == $sol[$arr_idx])
+								{
+									$ok = TRUE;
+								}
+							}
+						}
+						// output of ok/not ok icons for user entered solutions
+						if ($ok)
+						{
+							$template->setCurrentBlock("icon_ok");
+							$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
+							$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+							$template->parseCurrentBlock();
+						}
+						else
+						{
+							$template->setCurrentBlock("icon_ok");
+							$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.svg"));
+							$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+							$template->parseCurrentBlock();
+						}
+					}
+				}
+				if ($this->object->getOrderingType() == OQ_PICTURES)
+				{
+					$template->setCurrentBlock("ordering_row_standard_pictures");
+					$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getAnswertext();
+					$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $answer->getAnswertext();
+					if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
+					$template->setVariable("THUMB_HREF", $thumbweb);
+					list($width, $height, $type, $attr) = getimagesize($thumb);
+					$template->setVariable("ATTR", $attr);
+					$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
+					$template->setVariable("THUMB_TITLE", $this->lng->txt("enlarge"));
+					$template->parseCurrentBlock();
+				}
+				else
+				{
+					$template->setCurrentBlock("ordering_row_standard_text");
+					$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
+					$template->parseCurrentBlock();
+				}
+				$template->setCurrentBlock("ordering_row_standard");
+				if ($result_output)
+				{
+					$answer = $this->object->answers[$idx];
+					$points = $answer->getPoints();
+					$resulttext = ($points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")"; 
+					$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
+				}
+				foreach ($solutions as $solution)
+				{
+					if (strcmp($solution["value1"], $idx) == 0)
+					{
+						$template->setVariable("ANSWER_ORDER", $solution["value2"]);
+					}
+				}
+				$template->parseCurrentBlock();
+			}
+			$questiontext = $this->object->getQuestion();
+			if ($show_question_text==true)
+			{
+				$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+			}
+			$questionoutput = $template->get();
+			$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
+			if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback, true ));
+			$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
+	
+			$solutionoutput = $solutiontemplate->get(); 
+			if (!$show_question_only)
+			{
+				// get page object output
+				$solutionoutput = $this->getILIASPage($solutionoutput);
+			}
 		}
-		$questiontext = $this->object->getQuestion();
-		if ($show_question_text==true)
-		{
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
-		$questionoutput = $template->get();
-		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
-		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback, true ));
-		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
-		$solutionoutput = $solutiontemplate->get(); 
-		if (!$show_question_only)
-		{
-			// get page object output
-//			$solutionoutput = $this->getILIASPage($solutionoutput);
-			$solutionoutput = '<div class="ilc_question_Standard">'.$solutionoutput."</div>";
-		}
 		return $solutionoutput;
-	}
 	}
 	
 	function getPreview($show_question_only = FALSE, $showInlineFeedback = false)

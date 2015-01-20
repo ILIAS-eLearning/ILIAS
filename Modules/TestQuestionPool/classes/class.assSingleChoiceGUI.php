@@ -318,11 +318,11 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback, true ));
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
-		$solutionoutput = $solutiontemplate->get(); 
+		$solutionoutput = $solutiontemplate->get();
 		if (!$show_question_only)
 		{
 			// get page object output
-			$solutionoutput = '<div class="ilc_question_Standard">'.$solutionoutput."</div>";
+			$solutionoutput = $this->getILIASPage($solutionoutput);
 		}
 		return $solutionoutput;
 	}
