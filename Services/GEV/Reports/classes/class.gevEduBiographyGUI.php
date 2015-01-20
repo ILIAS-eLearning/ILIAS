@@ -11,7 +11,10 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 
 		$this->target_user_id = $_POST["target_user_id"]
 							  ? $_POST["target_user_id"]
-							  : $this->user->getId();
+							  : ( $_GET["target_user_id"]
+							  	? $_GET["target_user_id"]
+							  	: $this->user->getId()
+							  	);
 		$this->target_user_utils = gevUserUtils::getInstance($this->target_user_id);
 
 		if ($this->user->getId() == $this->target_user_id) {
@@ -22,6 +25,11 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 							;
 		}
 		else {
+			if (   !$this->target_user_utils->isEmployeeOf($this->user->getId())
+				&& !$this->user_utils->isAdmin()) {
+				throw new Exception("No permission to view edu biography of user ".$this->target_user_id);
+			}
+			
 			$this->title = catTitleGUI::create()
 							->title(sprintf($this->lng->txt("gev_others_edu_bio"), $this->target_user_utils->getFullName()))
 							->subTitle(sprintf($this->lng->txt("gev_others_edu_bio_desc"), $this->target_user_utils->getFullName()))
