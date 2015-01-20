@@ -335,6 +335,17 @@ il.CharSelector = new function() {
      * Handle a resizing of the panel
      */
     this.resizePanel = function() {
+
+        if($('body.kiosk').length > 0)
+        {
+             $('#ilCharSelectorPanel').css('top','0px');
+        }
+        else
+        {
+            var offset = $('.ilMainHeader').offset();
+            $('#ilCharSelectorPanel').css('top', offset.top + $('.ilMainHeader').height());
+        }
+
         $('#ilCharSelectorSpacer').height($('#ilCharSelectorPanel').height()+30);
     }
 

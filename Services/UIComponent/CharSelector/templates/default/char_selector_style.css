@@ -4,6 +4,10 @@
  *  Panel
  ********/
 
+/**
+* The panel is now positioned by il.CharSelector.resizePanel() relative to .ilMainHeader
+*/
+
 #ilCharSelectorPanel.ilTopFixed {
     background: #FFFFFF;
     padding: 1em;
@@ -11,10 +15,10 @@
 }
 
 body.kiosk #ilCharSelectorPanel.ilTopFixed {
-    top: 0px;
     background:#FAFAFA;
     padding: 2em;
 }
+
 
 /****************
  *  Panel content
