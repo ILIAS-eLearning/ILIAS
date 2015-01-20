@@ -29,6 +29,10 @@ var model = {
 				ac: 'r',
 				dv: 'core,suspend_data,launch_data,comments,objectives,student_data,student_preference,interactions'
 			},
+			_version:{
+				ac: 'r',
+				dv: '3.4'
+			},
 			core:{
 				_children:{
 					ac: 'r',
@@ -368,7 +372,7 @@ function LMSInitialize(param){
 	var mode=iv.lesson_mode;
 	if (iv.b_autoReview==true) {
 		var st=getValueIntern(sco_id,'cmi.core.lesson_status');
-		if (st=="completed" || st=="passed" || st=="failed") {
+		if (st=="completed" || st=="passed" || getValueIntern(sco_id,'cmi.core.lesson_mode')=="review") {
 			mode='review';
 			entryAtInitialize=""; //specs 3-26
 			setValueIntern(sco_id,'cmi.core.entry',"",true);
