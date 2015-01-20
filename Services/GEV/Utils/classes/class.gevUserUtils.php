@@ -1561,7 +1561,7 @@ class gevUserUtils {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
 		// propably faster then checking the employees of this->user
-		return in_array($a_user_id, $tree->getSuperiorsOfUser($this->user_id));
+		return in_array($a_user_id, $tree->getSuperiorsOfUser($this->user_id, true));
 	}
 	
 	// returns array containing entries with obj_id and ref_id
