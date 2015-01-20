@@ -2,19 +2,10 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */#
 
 /**
-* Report "AttendanceByEmployees"
-* for Generali
+* Report "Employee Edu Biographies" for Generali
 *
-* @author	Nils Haagen <nhaagen@concepts-and-training.de>
+* @author	Richard Klees <richard.klees@concepts-and-training.de>
 * @version	$Id$
-*
-*
-*	Define title, table_cols and row_template.
-*	Implement fetchData to retrieve the data you want
-*
-*	Add special _process_xls_XXX and _process_table_XXX methods
-*	to modify certain entries after retrieving data.
-*	Those methods must return a proper string.
 *
 */
 
@@ -236,7 +227,9 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		else {
 			$rec["od_bd"] = $rec["org_unit_above2"]."/".$rec["org_unit_above1"];
 		}
-
+		
+		$rec["edu_bio_link"] = gevUserUtils::getEduBioLinkFor($rec["user_id"]);
+		
 		return $this->replaceEmpty($rec);
 	}
 	

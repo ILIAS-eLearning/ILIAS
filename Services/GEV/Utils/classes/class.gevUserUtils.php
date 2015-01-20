@@ -286,8 +286,12 @@ class gevUserUtils {
 	}
 	
 	public function getEduBioLink() {
+		return self::getEduBioLinkFor($this->user_id);
+	}
+	
+	static public function getEduBioLinkFor($a_target_user_id) {
 		global $ilCtrl;
-		$ilCtrl->setParameterByClass("gevEduBiographyGUI", "target_user_id", $this->user_id);
+		$ilCtrl->setParameterByClass("gevEduBiographyGUI", "target_user_id", $a_target_user_id);
 		$link = $ilCtrl->getLinkTargetByClass("gevEduBiographyGUI", "view");
 		$ilCtrl->clearParametersByClass("gevEduBiographyGUI");
 		return $link;
