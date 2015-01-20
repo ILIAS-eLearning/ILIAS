@@ -72,6 +72,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->select("usr.org_unit_above2")
 						->select("usr.org_unit")
 						->select("usr.position_key")
+						->select("usr.begin_of_certification")
 						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
 									."   , usr.begin_of_certification"
 									."   , '-')"
