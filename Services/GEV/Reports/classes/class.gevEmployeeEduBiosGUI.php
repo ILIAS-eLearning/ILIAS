@@ -160,8 +160,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 										  ." OR usrcrs.hist_historic IS NULL )")
 						->static_condition("(   usrcrs.booking_status != 'kostenfrei storniert'"
 										  ." OR usrcrs.hist_historic IS NULL )")
-						->static_condition("(   usrcrs.function NOT IN ('Trainingsbetreuer', 'Trainer')"
-										  ." OR usrcrs.hist_historic IS NULL )" )
+						->static_condition(" usrcrs.booking_status = 'gebucht'")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
