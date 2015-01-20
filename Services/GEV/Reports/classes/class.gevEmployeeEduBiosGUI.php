@@ -138,16 +138,6 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 
 		$this->allowed_user_ids = $this->user_utils->getEmployees();
 		$this->filter = catFilter::create()
-						->dateperiod( "period"
-									, $this->lng->txt("gev_period")
-									, $this->lng->txt("gev_until")
-									, "usrcrs.begin_date"
-									, "usrcrs.end_date"
-									, date("Y")."-01-01"
-									, date("Y")."-12-31"
-									, false
-									, " OR usrcrs.hist_historic IS NULL"
-									)
 						->checkbox( "critical"
 								  , $this->lng->txt("gev_rep_filter_show_critical_persons")
 								  , "attention = 'X'"
