@@ -248,7 +248,7 @@ class ilTestExport
 				$value[0],
 				$value[4],
 				$value[5],
-				$value[6] * 100, // #14915
+				$value[6],
 				$value[3]
 			));
 		}
