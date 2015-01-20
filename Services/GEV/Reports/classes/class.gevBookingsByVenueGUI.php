@@ -193,7 +193,7 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 		$rec_temp = $this->db->fetchAssoc($res_temp);
 		$rec['no_members'] = $rec_temp['no_members'];
 		
-		return $rec;
+		return $rec = $this->replaceEmpty($rec);
 	}
 
 	protected function deliverMemberList() {
