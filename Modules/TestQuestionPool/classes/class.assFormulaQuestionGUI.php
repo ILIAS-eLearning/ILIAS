@@ -288,6 +288,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 			}
 			else
 			{
+				$this->resetSavedPreviewSession();	
 				return 0;
 			}
 		}
@@ -297,6 +298,16 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		}
 	}
 
+	function resetSavedPreviewSession()
+	{
+		global $ilUser;
+		$user_id 			= $ilUser->getId();
+		$question_id 		= $this->object->getId();
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewSession.php';
+		$ilAssQuestionPreviewSession = new ilAssQuestionPreviewSession($user_id, $question_id);
+		$ilAssQuestionPreviewSession->setParticipantsSolution(array());
+	}
+	
 	function isSaveCommand()
 	{
 		return in_array($this->ctrl->getCmd(), array('saveFQ', 'saveEdit', 'saveReturnFQ'));
