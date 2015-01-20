@@ -131,7 +131,8 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 							->on("     usr.user_id = usrcrs.usr_id"
 								." AND usrcrs.hist_historic = 0 "
 								." AND usrcrs.credit_points > 0"
-								." AND usrcrs.participation_status = 'teilgenommen'")
+								." AND usrcrs.participation_status = 'teilgenommen'"
+								." AND usrcrs.booking_status = 'gebucht'")
 						->group_by("user_id")
 						->compile()
 						;
@@ -153,14 +154,6 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 								  )
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 						->static_condition(" usr.hist_historic = 0")
-						->static_condition("(   usrcrs.hist_historic = 0"
-										  ." OR usrcrs.hist_historic IS NULL )")
-						->static_condition("(   usrcrs.booking_status != '-empty-'"
-										  ." OR usrcrs.participation_status != '-empty-'"
-										  ." OR usrcrs.hist_historic IS NULL )")
-						->static_condition("(   usrcrs.booking_status != 'kostenfrei storniert'"
-										  ." OR usrcrs.hist_historic IS NULL )")
-						->static_condition(" usrcrs.booking_status = 'gebucht'")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
