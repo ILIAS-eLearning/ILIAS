@@ -25,11 +25,6 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 							;
 		}
 		else {
-			if (   !$this->target_user_utils->isEmployeeOf($this->user->getId())
-				&& !$this->user_utils->isAdmin()) {
-				throw new Exception("No permission to view edu biography of user ".$this->target_user_id);
-			}
-			
 			$this->title = catTitleGUI::create()
 							->title(sprintf($this->lng->txt("gev_others_edu_bio"), $this->target_user_utils->getFullName()))
 							->subTitle(sprintf($this->lng->txt("gev_others_edu_bio_desc"), $this->target_user_utils->getFullName()))
@@ -133,7 +128,8 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 	
 	protected function checkPermission() {
 		if(    $this->user->getId() == $this->target_user_id
-			|| $this->target_user_utils->isEmployeeOf($this->user->getId())) {
+			|| $this->target_user_utils->isEmployeeOf($this->user->getId())
+			|| $this->user_utils->isAdmin()) {
 			return;
 		}
 		ilUtil::sendFailure($this->lng->txt("no_edu_bio_permission"), true);
