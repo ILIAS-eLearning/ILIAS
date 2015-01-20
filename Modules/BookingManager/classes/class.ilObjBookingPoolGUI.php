@@ -814,6 +814,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 		$section = false;
+		$min_date = null;
 		foreach($a_objects_counter as $id => $counter)
 		{			
 			$id = explode("_", $id);
@@ -841,7 +842,12 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$nr_field->setMaxValue($counter);
 			$nr_field->setMinValue($counter ? 1 : 0);
 			$nr_field->setRequired(true);
-			$form->addItem($nr_field);				
+			$form->addItem($nr_field);	
+			
+			if(!$min_date || $id[1] < $min_date)
+			{
+				$min_date = $id[1];
+			}
 		}
 		
 		// recurrence
@@ -856,13 +862,18 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		));
 		$form->addItem($rec_mode);
 
-		$rec_end = new ilDateTimeInputGUI($this->lng->txt("cal_repeat_until"), "rece");
+		$rec_end = new ilDateTimeInputGUI($this->lng->txt("cal_repeat_until"), "rece");		
 		$rec_mode->addSubItem($rec_end);	
 					
 		if(!$a_reload)
 		{
 			// show date only if active recurrence
 			$rec_mode->setHideSubForm(true, '>= 1');
+			
+			if($min_date)
+			{
+				$rec_end->setDate(new ilDateTime($min_date, IL_CAL_UNIX));
+			}
 		}
 		else
 		{
