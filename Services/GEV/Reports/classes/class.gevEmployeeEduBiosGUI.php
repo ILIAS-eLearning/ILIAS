@@ -56,6 +56,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		$points_in_completed_cert_years 
 						  =  "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification"
 							."         AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL (".$cert_year_sql.") YEAR)"
+							."         AND usrcrs.okz <> '-empty-'"
 							."        , usrcrs.credit_points"
 							."        , 0"
 							."        )"
@@ -108,6 +109,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 									."               AND usrcrs.begin_date < ( usr.begin_of_certification "
 									."                                       + INTERVAL (".$cert_year_sql.") YEAR"
 									."                                       )"
+									."               AND usrcrs.okz <> '-empty-'"
 									."             , usrcrs.credit_points"
 									."             , 0"
 									."             )"
@@ -178,6 +180,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 	protected function points_in_cert_year_sql($year) {
 		return   "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL ".($year-1)." YEAR "
 				."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL ".$year." YEAR)"
+				."               AND usrcrs.okz <> '-empty-'"
 				."             , usrcrs.credit_points"
 				."             , 0"
 				."             )"
