@@ -62,6 +62,7 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 		{				
 			// title is needed for proper sorting
 			// special modes should always be on top!
+			$title = null;
 			
 			switch($obj_id)
 			{
@@ -84,7 +85,11 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 					$type = ilObject::_lookupType($obj_id);					
 					$type_txt = $this->lng->txt("obj_".$type);	
 					
-					if($type != "usr")
+					if($type === null)
+					{					
+						// invalid object/user
+					}
+					else if($type != "usr")
 					{					
 						$title = $caption = ilObject::_lookupTitle($obj_id);											
 					}
@@ -96,10 +101,13 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 					break;
 			}
 			
-			$data[] = array("id" => $obj_id,
-				"title" => $title,
-				"caption" => $caption,
-				"type" => $type_txt);
+			if($title)
+			{
+				$data[] = array("id" => $obj_id,
+					"title" => $title,
+					"caption" => $caption,
+					"type" => $type_txt);
+			}
 		}
 	
 		$this->setData($data);
