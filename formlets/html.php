@@ -196,7 +196,7 @@ function html_text($content) {
     return new HTMLText($content);
 }
 
-function html_concat(HTML $left, HTML $right) {
+function html_concat() {
     return new HTMLArray(func_get_args());
 }
 
