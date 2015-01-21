@@ -14346,4 +14346,4 @@ ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants
 search#:#search_minimum_info#:#Your search must be at least %s characters long
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.
 assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.
-assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILIAS because you activated the notification.>>>>>>> .merge-rechts.r57270
+assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILIAS because you activated the notification.
