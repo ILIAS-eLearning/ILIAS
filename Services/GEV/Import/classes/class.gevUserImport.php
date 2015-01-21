@@ -1828,5 +1828,48 @@ class gevUserImport {
 
 
 
+	public function importCertificates(){
+		$this->prnt('importCertificates', 1);
+
+		//get user_ids and theit certfiles
+		$sql = "SELECT"
+		." interimUsers.ilid,"
+		." interimUsercoursestatus.crs_id, certificate"
+		." FROM interimUsers"
+		." LEFT JOIN interimUsercoursestatus ON interimUsers.ilid_gev = interimUsercoursestatus.usr_id_gev"
+		." WHERE interimUsercoursestatus.certificate > 0"
+		." AND interimUsercoursestatus.hist_historic=0"
+		;
+
+		$result = $this->queryShadowDB($sql);
+		while ($record = mysql_fetch_assoc($result)){
+
+			$sql = "SELECT * FROM hist_certfile WHERE row_id=" .$record['certificate'];
+			$res = $this->queryShadowDB($sql);
+			$rec = mysql_fetch_assoc($res);
+
+			//insert cert from hist_certfile with new id
+			$certid = $this->ilDB->nextId('hist_certfile');
+			$this->ilDB->insert(
+				'hist_certfile',
+				array(
+					'row_id'   => array( 'integer', $certid ),
+					'certfile' => array( 'text', $rec['certfile'])
+				)
+			);
+
+			//update user history
+			$sql = "UPDATE hist_usercoursestatus"
+				." SET certificate = $certid"
+				." WHERE usr_id = " .$record['ilid']
+				." AND crs_id = " .$record['crs_id']
+				;
+			$this->ilDB->manipulate($sql);
+		}
+		
+		$this->prnt('importCertificates: done', 2);
+	}
+
+
 
 }
