@@ -3039,9 +3039,9 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 
 <#94>
 <?php
+
+	require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 	require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-	require_once("Services/GEV/Utils/classes/class.gevNAUtils.php");
-	require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 	require_once("Customizing/class.ilCustomInstaller.php");
 	
 	ilCustomInstaller::maybeInitClientIni();
@@ -3053,34 +3053,7 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	ilCustomInstaller::maybeInitObjDataCache();
 	ilCustomInstaller::maybeInitUserToRoot();
 	
-	global $ilClientIniFile, $ilDB;
+	
+	die("YEAH!");
 
-	$host = $ilClientIniFile->readVariable('shadowdb', 'host');
-	$user = $ilClientIniFile->readVariable('shadowdb', 'user');
-	$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
-	$name = $ilClientIniFile->readVariable('shadowdb', 'name');
-
-	$shadow_db = mysql_connect($host, $user, $pass) or die(mysql_error());
-	mysql_select_db($name, $shadow_db);
-	mysql_set_charset('utf8', $shadow_db);
-
-	$role_utils = gevRoleUtils::getInstance();
-	$na_utils = gevNAUtils::getInstance();
-
-	$sql = "SELECT usr.ilid FROM interimUsers usr "
-		  ."  JOIN interimUserRoles ON usr.id = interim_usr_id "
-		  ."  JOIN interimRoles rol ON interim_role_id = rol.id"
-		  ." WHERE rol.title = 'VA-Ausbildung'"
-		  ;
-
-	$res = mysql_query($sql, $shadow_db);
-	while ($rec = mysql_fetch_assoc($res)) {
-		$usr_id = $rec["ilid"];
-		if (!$usr_id) {
-			continue;
-		}
-		$role_utils->assignUserToGlobalRole($usr_id, "VA 59");
-		$role_utils->deassignUserFromGlobalRole($usr_id, "NA");
-		$na_utils->deassignAdviser($usr_id);
-	}
 ?>
