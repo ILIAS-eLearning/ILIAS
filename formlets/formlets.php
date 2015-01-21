@@ -113,28 +113,46 @@ function _fieldset($legend, Formlet $formlet
         }));
 } 
 
+function html_apply_to_depth_first_name(HTML $html, FunctionValue $fn) {
+    return $html->depthFirst(
+                        _fn(function($html) {
+                            return $html instanceof HTMLTag
+                                && $html->attribute("name");
+                        }),
+                        $fn);
+}
+
+function html_get_depth_first_name(HTML $html) {
+    return html_apply_to_depth_first_name($html,
+                        _fn(function($html) {
+                            return $html->attribute("name");
+                        }));
+}
 
 function _with_label($label, Formlet $other) {
     return $other->mapHTML(_fn( function ($_, $html) use ($label) {
-        guardIsHTMLTag($html);
-
         // use inputs name as id, as it is unique
-        $name = $html->attribute("name");    
-        guardIsString($name);
+        $name = html_get_depth_first_name($html);
+        if ($name === null) {
+            throw new Exception("_with_label applied to un-named Formlet.");
+        }
 
-        return html_concat
-                ( html_tag("label", array("for" => $name), html_text($label))
-                , $html->attribute("id", $name)
+        return html_concat(
+                    html_tag("label", array("for" => $name), html_text($label)),
+                    html_apply_to_depth_first_name($html, _fn(function($html) use ($name) {
+                        $html->attribute("id", $html->attribute("name"));
+                        return $html;
+                    }))
                 );
     }));   
 }
 
 function _with_errors(Formlet $other) {
     return $other->mapHTML(_fn(function ($dict, $html) {
-        guardIsHTMLTag($html);
-        
-        $name = $html->attribute("name");
-        guardIsString($name);
+        $name = html_get_depth_first_name($html);
+        if ($name === null) {
+            throw new Exception("_with_errors applied to un-named Formlet.");
+        }
 
         $errors = $dict->errors($name);
         if ($errors === null)
