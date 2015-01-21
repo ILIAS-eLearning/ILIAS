@@ -463,7 +463,7 @@ $report = new gevREportOldData();
 <body>
 
 <?php
-/*
+
 ?>
 
 
@@ -892,7 +892,7 @@ $report = new gevREportOldData();
 
 
 <?php
-*/
+
 ?>
 
 
