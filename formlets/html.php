@@ -180,7 +180,10 @@ class HTMLTag extends HTML {
     
     public function goDepth( FunctionValue $predicate
                              , FunctionValue $transformation) {
-        return $this->_content->depthFirst($predicate, $transformation);
+        if ($this->_content !== null) {
+            return $this->_content->depthFirst($predicate, $transformation);
+        }
+        return null;
     }
 }
 
