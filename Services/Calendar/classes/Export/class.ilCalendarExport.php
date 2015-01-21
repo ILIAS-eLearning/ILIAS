@@ -204,6 +204,10 @@ class ilCalendarExport
 			$pEnd->increment(IL_CAL_YEAR,5);
 			$appDiff = $app->getEnd()->get(IL_CAL_UNIX) - $app->getStart()->get(IL_CAL_UNIX);
 			$recs = $calc->calculateDateList($pStart, $pEnd);
+			
+			// defaults
+			$startInit = $app->getStart();
+			$endInit = $app->getEnd();
 			foreach($recs as $dt)
 			{
 				$startInit = $dt;
