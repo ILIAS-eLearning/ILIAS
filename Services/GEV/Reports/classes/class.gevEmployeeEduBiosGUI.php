@@ -62,6 +62,8 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 							."        )"
 							."   )";
 		
+		$earliest_possible_cert_period_begin = "2013-09-01";
+		
 		$this->query = catReportQuery::create()
 						->distinct()
 						->select("usr.user_id")
@@ -74,37 +76,37 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->select("usr.org_unit")
 						->select("usr.position_key")
 						->select("usr.begin_of_certification")
-						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
+						->select_raw("IF ( usr.begin_of_certification >= '$earliest_possible_cert_period_begin'"
 									."   , usr.begin_of_certification"
 									."   , '-')"
 									." as cert_period"
 									)
-						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
+						->select_raw("IF ( usr.begin_of_certification >= '$earliest_possible_cert_period_begin'"
 									."   , ".$this->points_in_cert_year_sql(1)
 									."   , '-')"
 									." as points_year1"
 									)
-						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
+						->select_raw("IF ( usr.begin_of_certification >= '$earliest_possible_cert_period_begin'"
 									."   , ".$this->points_in_cert_year_sql(2)
 									."   , '-')"
 									." as points_year2"
 									)
-						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
+						->select_raw("IF ( usr.begin_of_certification >= '$earliest_possible_cert_period_begin'"
 									."   , ".$this->points_in_cert_year_sql(3)
 									."   , '-')"
 									." as points_year3"
 									)
-						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
+						->select_raw("IF ( usr.begin_of_certification >= '$earliest_possible_cert_period_begin'"
 									."   , ".$this->points_in_cert_year_sql(4)
 									."   , '-')"
 									." as points_year4"
 									)
-						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
+						->select_raw("IF ( usr.begin_of_certification >= '$earliest_possible_cert_period_begin'"
 									."   , ".$this->points_in_cert_year_sql(5)
 									."   , '-')"
 									." as points_year5"
 									)
-						->select_raw("IF ( usr.begin_of_certification > '2013-12-31'"
+						->select_raw("IF ( usr.begin_of_certification >= '$earliest_possible_cert_period_begin'"
 									."   , SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification"
 									."               AND usrcrs.begin_date < ( usr.begin_of_certification "
 									."                                       + INTERVAL (".$cert_year_sql.") YEAR"
@@ -116,7 +118,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 									."        )"
 									."   , '-')"
 									." as points_sum")
-						->select_raw("CASE WHEN usr.begin_of_certification < '2013-12-31' THEN ''"
+						->select_raw("CASE WHEN usr.begin_of_certification <= '$earliest_possible_cert_period_begin' THEN ''"
 									."     WHEN ".$cert_year_sql." = 0 AND ".$points_in_completed_cert_years." < 40 THEN 'X'"
 									."     WHEN ".$cert_year_sql." = 1 AND ".$points_in_completed_cert_years." < 80 THEN 'X'"
 									."     WHEN ".$cert_year_sql." = 2 AND ".$points_in_completed_cert_years." < 120 THEN 'X'"
@@ -151,7 +153,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 								  )
 						->checkbox( "critical_year4"
 								  , $this->lng->txt("gev_rep_filter_show_critical_persons_4th_year")
-								  , "usr.begin_of_certification > '2013-12-31' AND ".
+								  , "usr.begin_of_certification >= '$earliest_possible_cert_period_begin' AND ".
 								    $cert_year_sql." = 4 AND attention = 'X'"
 								  , "TRUE"
 								  , true
