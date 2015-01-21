@@ -158,6 +158,10 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 								  , "TRUE"
 								  , true
 								  )
+						->textinput( "lastname"
+								   , $this->lng->txt("gev_lastname_filter")
+								   , "usr.lastname"
+								   )
 						->multiselect("org_unit"
 									 , $this->lng->txt("gev_org_unit")
 									 , array("usr.org_unit", "usr.org_unit_above1", "usr.org_unit_above2")

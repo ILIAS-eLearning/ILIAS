@@ -682,4 +682,71 @@ class catMultiSelectFilter {
 }
 catFilter::addFilterType(catMultiSelectFilter::ID, new catMultiSelectFilter());
 
+
+
+class catTextInputFilter {
+	const ID = "textinput";
+	
+	public function getId() {
+		return catTextInputFilter::ID;
+	}
+	
+	// config:
+	// id
+	// label
+	// field(s)
+	
+	public function checkConfig($a_conf) {
+		if (count($a_conf) < 4) {
+			// one parameter less, since type is encoded in first parameter but not passed by user.
+			throw new Exception ("catDatePeriodFilterType::checkConfig: expected at 3 parameters for multiselect.");
+		}
+
+		return $a_conf;
+	}
+	
+	public function isInWhere($a_conf) {
+		return true;
+	}
+	
+	public function render($a_tpl, $a_postvar, $a_conf, $a_pars) {
+		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+		
+		$a_tpl->setVariable("VALUE", $a_pars);
+		$a_tpl->setVariable("OPTION_TITLE", $a_conf[2]);
+		
+		return true;
+	}
+	
+	public function sql($a_conf, $a_pars) {
+		global $ilDB;
+		if (count($a_pars) == 0) {
+			return " TRUE ";
+		}
+		
+		if (is_array($a_conf[3])) {
+			$stmts = array();
+			foreach($a_conf[3] as $field) {
+				$stmts[] = catFilter::quoteDBId($a_conf[3])." LIKE ".$ilDB->quote("$a_pars%", "text");
+			}
+			return "(".implode(" OR ", $stmts).")";
+		}
+		
+		return catFilter::quoteDBId($a_conf[3])." LIKE ".$ilDB->quote("$a_pars%", "text");
+	}
+	
+	public function get($a_pars) {
+		return $a_pars;
+	}
+	
+	public function _default($a_conf) {
+		return "";
+	}
+	
+	public function preprocess_post($a_post) {
+		return $a_post;
+	}
+}
+catFilter::addFilterType(catTextInputFilter::ID, new catTextInputFilter());
+
 ?>
