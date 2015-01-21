@@ -10,15 +10,48 @@ require_once("checking.php");
 require_once("helpers.php");
 
 abstract class HTML {
+    /**
+     * Render a string from the HTML.
+     */
     abstract public function render();
+
+    /**
+     * Get a new HTML by concatenating $this and $other.
+     */
     public function concat(HTML $right) {
         return html_concat($this, $right);
     }
+
+    /**
+     * Make a depth first search.
+     * Performs $transformation on every node that matches $predicate. If 
+     * $transformation returns null, search will go on, if it returns a 
+     * value, search will stop and return the value.
+     */
+    public function depthFirst( FunctionValue $predicate
+                              , FunctionValue $transformation) {
+        guardHasArity(1, $predicate); 
+        guardHasArity(1, $transformation); 
+        if ($predicate->apply($this)->get()) {
+            $res = $transformation->apply($this)->get();
+            if ($res !== null)
+                return $res;
+        }
+        return $this->goDepth($predicate, $transformation);
+    }
+
+    abstract public function goDepth( FunctionValue $predicate
+                                    , FunctionValue $transformation);
 }
 
 class HTMLNop extends HTML {
     public function render() {
         return "";
+    }
+    
+    public function goDepth( FunctionValue $predicate
+                           , FunctionValue $transformation) {
+        return null;
     }
 }
 
@@ -32,6 +65,11 @@ class HTMLText extends HTML {
 
     public function render() {
         return $this->_text;
+    }
+    
+    public function goDepth( FunctionValue $predicate
+                           , FunctionValue $transformation) {
+        return null;
     }
 }
 
@@ -62,6 +100,17 @@ class HTMLArray extends HTML {
         }
         $this->_content[] = $other;
         return $this;
+    }
+    
+    public function goDepth( FunctionValue $predicate
+                           , FunctionValue $transformation) {
+        foreach ($this->_content as $content) {
+            $res = $content->depthFirst($predicate, $transformation);
+            if ($res !== null) {
+                return $res;
+            }  
+        }
+        return null;
     }
 }
 
@@ -116,6 +165,11 @@ class HTMLTag extends HTML {
         guardIfNotNull($content, "guardIsHTML");
         $this->_content = $content;
         return $this;
+    }
+    
+    public function goDepth( FunctionValue $predicate
+                             , FunctionValue $transformation) {
+        return $this->_content->depthFirst($predicate, $transformation);
     }
 }
 
