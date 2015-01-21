@@ -15203,3 +15203,6 @@ rbac#:#orgu_copy#:#Organisationseinheit kopieren
 exc#:#exc_no_team_yet_notice#:#Sie gehören noch keinem Team an!
 prtf#:#prtf_edit_embedded_blog#:#Blog "%s" bearbeiten
 exc#:#exc_manage_team#:#Team verwalten
+assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
+assessment#:#tst_attached_xls_file#:#Sie finden die Testergebnisse für diesen Teilnehmer in der angehängten Excel-Datei.
+assessment#:#tst_notification_explanation_admin#:#Sie erhalten diese Mail, da Sie die Benachrichtigungsfunktion aktiviert haben.

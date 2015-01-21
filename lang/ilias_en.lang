@@ -15202,3 +15202,6 @@ rbac#:#orgu_copy#:#Copy Organisational Unit
 exc#:#exc_no_team_yet_notice#:#You are not assigned to a team yet!
 prtf#:#prtf_edit_embedded_blog#:#Edit Blog "%s"
 exc#:#exc_manage_team#:#Manage Team
+assessment#:#user_has_finished_a_test#:#A participant has finished a test.
+assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.
+assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILIAS because you activated the notification.
