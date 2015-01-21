@@ -13034,3 +13034,6 @@ common#:#frm_import#:#Forum importieren
 survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
 forum#:#post_reply_count#:#Re(%s):
 dateplaner#:#cal_ical_url#:#iCal-URL
+assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
+assessment#:#tst_attached_xls_file#:#Sie finden die Testergebnisse für diesen Teilnehmer in der angehängten Excel-Datei.
+assessment#:#tst_notification_explanation_admin#:#Sie erhalten diese Mail, da Sie die Benachrichtigungsfunktion aktiviert haben.

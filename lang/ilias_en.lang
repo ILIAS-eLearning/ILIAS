@@ -13034,3 +13034,6 @@ common#:#frm_import#:#Import Forum
 survey#:#spl_save_obligatory_state#:#Save Obligatory States
 forum#:#post_reply_count#:#Re(%s):
 dateplaner#:#cal_ical_url#:#iCal-URL
+assessment#:#user_has_finished_a_test#:#A participant has finished a test.
+assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.
+assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILIAS because you activated the notification.
