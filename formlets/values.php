@@ -310,7 +310,7 @@ final class FunctionValue extends Value {
         $error = $res[1];
 
         if ($error) {
-            return _error("Function arguments contain errors.", $this);
+            return _error("Function arguments contain errors.", $origins);
         }
 
         return call_user_func_array($this->_function, $args);
