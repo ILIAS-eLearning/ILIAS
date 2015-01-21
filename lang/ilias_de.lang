@@ -14343,3 +14343,6 @@ adve#:#char_selector_msg_blocks_or_custom_needed#:#Wenn Sie die Auswahl aktivier
 exc#:#exc_assignment_type#:#Abgabetyp
 ecs#:#ecs_refresh_participants#:#ECS-Teilnehmer aktualisieren
 search#:#search_minimum_info#:#Die Suchbegriffe müssen mindestens %s Zeichen lang sein
+assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
+assessment#:#tst_attached_xls_file#:#Sie finden die Testergebnisse für diesen Teilnehmer in der angehängten Excel-Datei.
+assessment#:#tst_notification_explanation_admin#:#Sie erhalten diese Mail, da Sie die Benachrichtigungsfunktion aktiviert haben.
