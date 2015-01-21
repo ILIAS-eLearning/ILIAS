@@ -111,10 +111,15 @@ class ilQuestionExporter
 		return self::$media_files;
 	}
 	
-	static public function questionsJS() {
-		$exportstring ='var questions = new Array();';
+	static public function questionsJS(array $a_qids = null) {		
+		$exportstring = '';
+		if(!is_array($a_qids)) {
+			$exportstring ='var questions = new Array();';
+		}
 		foreach (self::$exported as $key => $value) {
-			$exportstring .= "questions[$key]= $value;";
+			if(!is_array($a_qids) || in_array($key, $a_qids)) {
+				$exportstring .= "questions[$key]= $value;";
+			}
 		}
 		return $exportstring;
 	}
