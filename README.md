@@ -377,21 +377,3 @@ echo $repr["builder"]->buildWithDict($renderDict)->render()."\n";
 
 ?>
 ```
-
-## Outlook
-
-Atm this is a proof of concept, and i'm thinking about if and how to turn it 
-into a really usable library. So i'm highly interested in suggestions on and
-reviews of my code. There's plenty of stuff that should or could be done i 
-already know about:
-
-* Implement some usefull primitives and maybe provide some readymade functions
-  as values for common checks and instantiations. 
-* Write tests to proof properties of the primitives.
-* Document how new primitives could be implemented and provide tests for self
-  made primitives.
-* Think about the name source and how a formlet is actually turned into a HTML
-  form.
-* Elaborate representation of input to make it read only and take `$_FILES` into
-  account.
-
