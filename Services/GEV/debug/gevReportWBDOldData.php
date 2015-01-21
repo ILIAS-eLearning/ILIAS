@@ -6,6 +6,11 @@
 * @version	$Id$
 */
 
+//settings and imports
+ini_set("memory_limit","2048M"); 
+ini_set('max_execution_time', 0);
+set_time_limit(0);
+
 //reset ilias for calls from somewhere else
 $basedir = __DIR__; 
 $basedir = str_replace('/Services/GEV/debug', '', $basedir);
@@ -913,8 +918,17 @@ $report = new gevREportOldData();
 		
 		foreach ($not_reported_users[1] as $entry) {
 			print '<tr>';
-			print '<td>' .$entry['firstname'] .'</td>';
-			print '<td>' .$entry['lastname'] .'</td>';
+			
+			if(! $entry['is_active']){
+				print '<td><strike>' .$entry['firstname'] .'</strike></td>';
+				print '<td><strike>' .$entry['lastname'] .'</strike></td>';
+
+			} else {
+				print '<td>' .$entry['firstname'] .'</td>';
+				print '<td>' .$entry['lastname'] .'</td>';
+			}
+
+
 			print '<td>' .$entry['email'] .'</td>';
 			print '<td>' .$entry['agent_status'] .'</td>';
 			print '<td>' .$entry['wbd_type'] .'</td>';
@@ -956,9 +970,16 @@ $report = new gevREportOldData();
 
 		foreach ($not_reported_users[1] as $entry) {
 			print '<tr>';
+			if(! $entry['is_active']){
+				print '<td><strike>' .$entry['firstname'] .'</strike></td>';
+				print '<td><strike>' .$entry['lastname'] .'</strike></td>';
 
-			print '<td>' .$entry['firstname'] .'</td>';
-			print '<td>' .$entry['lastname'] .'</td>';
+			} else {
+				print '<td>' .$entry['firstname'] .'</td>';
+				print '<td>' .$entry['lastname'] .'</td>';
+			}
+
+
 			print '<td>' .$entry['email'] .'</td>';
 			
 			print '<td>';
