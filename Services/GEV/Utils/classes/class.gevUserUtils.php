@@ -1853,6 +1853,8 @@ class gevUserUtils {
 					}
 				}
 			}
+			
+			return null;
 		}
 		$ret = explode("-", $agent_status_user);
 		return trim($ret[1]);
