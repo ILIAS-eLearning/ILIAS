@@ -8,3 +8,4 @@
 
 * elaborate representation of input to make it read only and take `$_FILES` into
   account
+* let html_tag take a flexible number of HTMLs and concat them itself
