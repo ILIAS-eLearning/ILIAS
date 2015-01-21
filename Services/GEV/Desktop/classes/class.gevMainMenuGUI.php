@@ -90,7 +90,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$report_permission_billing = $this->userUtils->isAdmin() || $report_permissions->viewAnyReport();
 		$report_permission_attendancebyuser =  $this->userUtils->isAdmin() || $this->userUtils->isSuperior();
 		$report_permission_bookingsbyvenue =  $this->userUtils->isAdmin() || $this->userUtils->hasRoleIn(array("Veranstalter"));
-		$report_permission_employee_edu_bio = $this->userUtils->isAdmin() || $this->userUtils->isSuperior();
+		$report_permission_employee_edu_bio = $this->userUtils->isAdmin();// || $this->userUtils->isSuperior();
 		$report_permission_wbd = $this->userUtils->isAdmin() && false;
 		$has_reporting_menu =  $report_permission_billing 
 							|| $report_permission_attendancebyuser 
