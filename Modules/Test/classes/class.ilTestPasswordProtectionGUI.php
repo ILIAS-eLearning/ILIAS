@@ -88,8 +88,8 @@ class ilTestPasswordProtectionGUI
 		$form->setDescription($this->lng->txt("tst_password_introduction"));
 
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->addCommandButton(self::CMD_BACK_TO_INFO_SCREEN, $this->lng->txt("cancel"));
 		$form->addCommandButton(self::CMD_SAVE_ENTERED_PASSWORD, $this->lng->txt("submit"));
+		$form->addCommandButton(self::CMD_BACK_TO_INFO_SCREEN, $this->lng->txt("cancel"));
 
 		$inp = new ilPasswordInputGUI($this->lng->txt("tst_password"), 'password');
 		$inp->setRequired(true);
