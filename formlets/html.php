@@ -8,6 +8,7 @@
 
 require_once("checking.php");
 require_once("helpers.php");
+require_once("values.php");
 
 abstract class HTML {
     /**
@@ -30,10 +31,10 @@ abstract class HTML {
      */
     public function depthFirst( FunctionValue $predicate
                               , FunctionValue $transformation) {
-        guardHasArity(1, $predicate); 
-        guardHasArity(1, $transformation); 
-        if ($predicate->apply($this)->get()) {
-            $res = $transformation->apply($this)->get();
+        guardHasArity($predicate, 1); 
+        guardHasArity($transformation, 1); 
+        if ($predicate->apply(_val($this))->get()) {
+            $res = $transformation->apply(_val($this))->get();
             if ($res !== null)
                 return $res;
         }
@@ -57,6 +58,15 @@ class HTMLNop extends HTML {
 
 class HTMLText extends HTML {
     private $_text; // string
+
+    public function text($text = null) {
+        if ($text === null) {
+            return $this->_text;
+        }
+
+        guardIsString($text);
+        $this->_text = $text;
+    }
 
     public function __construct($text) {
         guardIsString($text);
@@ -104,6 +114,7 @@ class HTMLArray extends HTML {
     
     public function goDepth( FunctionValue $predicate
                            , FunctionValue $transformation) {
+        // Code start HERE!!
         foreach ($this->_content as $content) {
             $res = $content->depthFirst($predicate, $transformation);
             if ($res !== null) {
@@ -186,11 +197,7 @@ function html_text($content) {
 }
 
 function html_concat(HTML $left, HTML $right) {
-    return html_concatA(array($left, $right));
-}
-
-function html_concatA($array) {
-    return new HTMLArray($array);
+    return new HTMLArray(func_get_args());
 }
 
 ?>
