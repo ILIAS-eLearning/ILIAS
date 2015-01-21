@@ -277,6 +277,8 @@ class ilLOTestQuestionAdapter
 				);
 				$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($run->getResult(),true));
 				
+				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+				ilLPStatusWrapper::_updateStatus($this->container_id,$this->user_id);
 			}
 		}
 		return false;
