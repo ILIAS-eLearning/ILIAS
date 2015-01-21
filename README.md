@@ -90,10 +90,10 @@ echo ($res->isError()?$res->error():$res->get())."\n";
 ?>
 ```
 
-The whole machinery should be working in an immutable style, that is creating
-new values instead of modifying old. The same goes for the rest of the stuff.
-The related classes and functions could be found at the section starting with 
-the class Value in formlets.php.
+The whole machinery should be working in an immutable style (except for HTML 
+representation), that is creating new values instead of modifying old. The 
+same goes for the rest of the stuff. The related classes and functions could 
+be found at the section starting with the class Value in formlets.php.
 
 ## Form(let)s as Applicative Functors
 
