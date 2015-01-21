@@ -194,7 +194,7 @@ class gevUserProfileGUI {
 		$date = new ilDateTime($this->user->getBirthday(), IL_CAL_DATE);
 		$birthday->setDate($date);
 		$birthday->setRequired(true);
-		$birthday->setStartYear(1940);
+		$birthday->setStartYear(1900);
 		$form->addItem($birthday);
 		
 		$birthplace = new ilTextInputGUI($this->lng->txt("gev_birthplace"), "birthplace");
