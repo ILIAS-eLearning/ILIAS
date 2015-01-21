@@ -6257,6 +6257,14 @@ button.close {
 		External Blue: #21c5d8;
 		ILIAS 4 MainMenu Color: #c8e6ff;
 */
+/** if left unchanged, you have to copy all the background images to your skin/images folder.
+* To use the delos background images in your skin,
+* please change this value (in custom less data or in variables.less of your custom skin) to "../../../../templates/default/images/"
+*/
+/** if left unchanged, you have to copy delos fonts folder to your skin folder.
+* To use the delos fonts in your skin,
+* please change this value (in custom less data or variables.less of your custom skin) to "../../../../templates/default/fonts/"
+*/
 /* @il-highlight-bg: saturate(lighten(@brand-warning, 34%), 80%); */
 /* @il-highlight-bg: lighten(@brand-secondary, 44%); */
 /* @il-highlight-bg: lighten(#21c5d8, 40%); */
@@ -7307,7 +7315,7 @@ div.ilHeaderBanner img.ilHeaderImg {
   padding-right: 0;
 }
 div.ilBox {
-  background: url(images/FramedBack.png) repeat-x;
+  background: url("images/FramedBack.png") repeat-x;
   border: 1px solid #E0E0E0;
   padding: 10px;
   margin-bottom: 20px;
@@ -7443,7 +7451,7 @@ div.ilSideBarContent {
   cursor: pointer;
   color: #557196;
   font-size: 110%;
-  background: url(images/tree_col.svg) no-repeat 9px 10px #ffffff;
+  background: url("images/tree_col.svg") no-repeat 9px 10px #ffffff;
 }
 .il_VAccordionInnerContainer {
   margin-bottom: 10px;
@@ -7454,7 +7462,7 @@ div.ilSideBarContent {
 }
 .il_HAccordionHeadActive,
 .il_VAccordionHeadActive {
-  background-image: url(images/tree_exp.svg);
+  background-image: url("images/tree_exp.svg");
   background-color: #ffffd0;
 }
 .ilAccHideContent {
@@ -7730,7 +7738,7 @@ a.ilTreeView:focus {
 }
 .jstree li,
 .jstree ins {
-  background: url(images/jstree.svg) no-repeat;
+  background: url("images/jstree.svg") no-repeat;
 }
 .jstree li {
   background-position: -90px 0;
@@ -7771,7 +7779,7 @@ a.ilTreeView:focus {
   margin-top: -25px;
   width: 30px;
   height: 30px;
-  background: url(images/loader.svg) no-repeat center !important;
+  background: url("images/loader.svg") no-repeat center !important;
 }
 .jstree .jstree-no-dots li,
 .jstree .jstree-no-dots .jstree-leaf > ins {
@@ -7817,13 +7825,13 @@ a.ilTreeView:focus {
   background: none transparent !important;
 }
 #vakata-dragged.jstree .jstree-ok {
-  background: url(images/jstree.svg) no-repeat -2px -53px !important;
+  background: url("images/jstree.svg") no-repeat -2px -53px !important;
 }
 #vakata-dragged.jstree .jstree-invalid {
-  background: url(images/jstree.svg) no-repeat -18px -53px !important;
+  background: url("images/jstree.svg") no-repeat -18px -53px !important;
 }
 #jstree-marker.jstree {
-  background: url(images/jstree.svg) no-repeat -41px -57px !important;
+  background: url("images/jstree.svg") no-repeat -41px -57px !important;
   text-indent: -100px;
 }
 .jstree a.jstree-search {
@@ -7987,7 +7995,7 @@ a.mailunread:visited {
 }
 /* --- Services/COPage ---*/
 a.ilEditSubmit {
-  background: url(images/ButtonsBack.png) repeat-x bottom #ffffff;
+  background: url("images/ButtonsBack.png") repeat-x bottom #ffffff;
   padding: 2px;
   margin: 0;
   border: 1px solid #BABABA;
@@ -8005,7 +8013,7 @@ input.ilEditSubmit {
   font-size: 12px;
   line-height: 14px;
   cursor: pointer;
-  background: url(images/ButtonsBack.png) repeat-x bottom #ffffff;
+  background: url("images/ButtonsBack.png") repeat-x bottom #ffffff;
   border: 1px solid #BABABA;
   border-bottom-color: #808080;
   border-right-color: #808080;
@@ -8633,11 +8641,11 @@ li.ilWikiBlockItem {
   padding: 0 15px 0 0;
 }
 input.ilOpenIDBox {
-  background: #ffffff url(images/openid.png) 1px 2px no-repeat;
+  background: url("images/openid.png") no-repeat 1px 2px #ffffff;
   padding-left: 20px;
 }
 [dir="rtl"] input.ilOpenIDBox {
-  background: #ffffff url(images/openid.png) 2px 1px no-repeat;
+  background: url("images/openid.png") no-repeat 2px 1px #ffffff;
   padding-left: 0;
   padding-right: 20px;
 }
@@ -8934,7 +8942,7 @@ div.ilTableHeaderTitleBlock {
   padding: 3px;
   font-size: 90%;
   color: #404040;
-  background: url(images/block_top.png) repeat-x #f8f8f8;
+  background: url("images/block_top.png") repeat-x #f8f8f8;
   border-bottom: 1px solid #E9E9E9;
 }
 div.ilTableHeaderTitle {
@@ -9502,7 +9510,7 @@ span.bibl_text_inline_Emph {
   position: relative;
   color: #F0F0F0;
   top: -240px;
-  background: url(images/black60.png);
+  background: url("images/black60.png");
 }
 .ilPlayerPreviewOverlay img {
   cursor: pointer;
@@ -9516,10 +9524,10 @@ span.bibl_text_inline_Emph {
   color: #a0a0a0;
 }
 .mejs-overlay-button {
-  background-image: url(images/bigplay.svg);
+  background-image: url("images/bigplay.svg");
 }
 .ilPlayerPreviewPlayButton {
-  background: url(images/bigplay.svg) no-repeat scroll 0 0 transparent;
+  background: url("images/bigplay.svg") no-repeat scroll 0 0 transparent;
   height: 100px;
   left: 50%;
   margin: -50px 0 0 -50px;
@@ -9567,7 +9575,7 @@ div.iosCaptchaInputCommandContainer .audio {
 div.ilProfile {
   width: 450px;
   margin: 0 auto;
-  background: url(images/form_back.png) repeat-y #f6f6f6;
+  background: url("images/form_back.png") repeat-y #f6f6f6;
   border: 1px solid #D0D5EA;
   padding: 15px;
 }
@@ -9605,17 +9613,17 @@ div.ilc_PredTextPlaceHolderThumb {
   padding: 5px 2px 5px 0;
   border: 1px solid gray;
   font-size: 10px;
-  background: url(images/question_placeholder_thumb.png) no-repeat center;
+  background: url("images/question_placeholder_thumb.png") no-repeat center;
   font-weight: bold;
 }
 div.ilc_MediaPlaceHolderThumb {
-  background-image: url(images/media_placeholder_thumb.png);
+  background-image: url("images/media_placeholder_thumb.png");
 }
 div.ilc_TextPlaceHolderThumb {
-  background-image: url(images/text_placeholder_thumb.png);
+  background-image: url("images/text_placeholder_thumb.png");
 }
 div.ilc_PredTextPlaceHolderThumb {
-  background-image: url(images/pred_text_placeholder_thumb.png);
+  background-image: url("images/pred_text_placeholder_thumb.png");
 }
 div.ilc_HeadlineThumb {
   font-size: 11px;
