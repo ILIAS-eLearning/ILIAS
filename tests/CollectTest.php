@@ -4,10 +4,10 @@ require_once("formlets.php");
 require_once("tests/FormletTest.php");
 
 class CollectTest extends PHPUnit_Framework_TestCase {
-        /**
-     * _collect is still applicable after apply.
-     * @dataProvider values_to_collect
-     */
+    /**
+    * _collect is still applicable after apply.
+    * @dataProvider values_to_collect
+    */
     public function testIsApplicableAfterApply($values) {
         $this->performApplications($values);
         for ($i = 1; $i < count($values); ++$i) {
