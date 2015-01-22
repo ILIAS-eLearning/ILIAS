@@ -163,10 +163,12 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 				$solutionoutput = $question_gui->getSolutionOutput($active_id = "", $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = FALSE, $show_feedback = FALSE, $show_correct_solution = true, $show_manual_scoring = false);
 				if (strlen($solutionoutput) == 0) $solutionoutput = $question_gui->getPreview();
 				$this->tpl->setVariable("DETAILS", $solutionoutput);
+				$this->tpl->setVariable("ROW_DETAIL_COLSPAN", $this->column_count);
 			}
 			else
 			{
 				$this->tpl->setVariable("DETAILS", $question_gui->getPreview());
+				$this->tpl->setVariable("ROW_DETAIL_COLSPAN", $this->column_count);
 			}
 			$this->tpl->parseCurrentBlock();
 		}
