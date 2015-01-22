@@ -58,6 +58,13 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		return $cmd;
 	}
+	
+	protected function deleteImage()
+	{
+		$this->writePostData(true);
+		$this->object->saveToDb();
+		$this->ctrl->redirect($this, 'editQuestion');
+	}
 
 	/**
 	 * Evaluates a posted edit form and writes the form data in the question object
@@ -83,7 +90,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
-		if (!$_POST['image_delete'])
+		if ($this->ctrl->getCmd() != 'deleteImage')
 		{
 			$this->object->flushAnswers();
 			if (is_array( $_POST['image']['coords']['name'] ))
@@ -120,7 +127,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
-		if ($_POST['image_delete'])
+		if ($this->ctrl->getCmd() == 'deleteImage')
 		{
 			$this->object->deleteImage();
 		}
