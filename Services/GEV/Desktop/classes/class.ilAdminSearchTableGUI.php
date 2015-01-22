@@ -57,7 +57,7 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 		$this->addColumn($this->lng->txt("gev_learning_type"), "type");
 		$this->addColumn($this->lng->txt("gev_location"), "location");
 		$this->addColumn($this->lng->txt("date"), "date");
-		$this->addColumn($this->lng->txt("tutor"), "trainer");
+		$this->addColumn($this->lng->txt("tutor"));
 		$this->addColumn($this->lng->txt("gev_points"), "points");
 		$this->addColumn("&euro;", "fee");
 		$this->addColumn($this->lng->txt("mbrcount"));
