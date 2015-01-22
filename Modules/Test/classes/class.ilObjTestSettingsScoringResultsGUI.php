@@ -395,7 +395,7 @@ class ilObjTestSettingsScoringResultsGUI
 
 						if( $item->getShowTime() )
 						{
-							list($h, $m, $s) = explode('-', $time);
+							list($h, $m, $s) = explode(':', $time);
 
 							$confirmation->addHiddenItem("{$item->getPostVar()}[time][h]", $h);
 							$confirmation->addHiddenItem("{$item->getPostVar()}[time][m]", $m);
