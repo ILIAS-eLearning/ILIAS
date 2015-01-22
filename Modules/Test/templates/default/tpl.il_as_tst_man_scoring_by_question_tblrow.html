@@ -38,9 +38,12 @@
 							dataType: 'html',
 							success: function(data) {
 								$panel.html(data);
-								il.Overlay.add('answer_container_' + $this.attr('id'), {yuicfg: {
-								}});
+								il.Overlay.add('answer_container_' + $this.attr('id'), {yuicfg: {}});
 								il.Overlay.show(e.originalEvent, 'answer_container_' + $this.attr('id'));
+
+								if (typeof MathJax != "undefined") {
+									MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+								}
 							}
 						})
 					} else {
