@@ -6674,7 +6674,7 @@ crs#:#crs_print_list#:#Liste erstellen
 crs#:#crs_question_assignment#:#Fragen-Zuordnung
 crs#:#crs_reg#:#Selbständiger Beitritt durch Benutzer
 crs#:#crs_reg_code#:#Beitritt per Link
-crs#:#crs_reg_code_enabled_info#:#Unabhängig vom ausgewählten Beitrittsverfahren ermöglicht diese Option einen direkten Beitritt durch Aufruf eines Links.
+crs#:#crs_reg_code_enabled_info#:#Unabhängig vom ausgewählten Beitrittsverfahren und den Kursrechten ermöglicht diese Option einen direkten Beitritt durch Aufruf eines Links.
 crs#:#crs_reg_code_link#:#Link für direkten Beitritt
 crs#:#crs_reg_code_value#:#Link
 crs#:#crs_reg_deactivated#:#Anmeldung ausgeschaltet
@@ -7943,7 +7943,7 @@ grp#:#grp_presentation_type#:#Ansicht
 grp#:#grp_public#:#Öffentliche Gruppe
 grp#:#grp_public_info#:#Die Gruppe ist auch für Nicht-Mitglieder sichtbar. Es gelten jedoch besondere Regelungen, um die Mitgliedschaft zu erlangen.
 grp#:#grp_reg_code#:#Beitritt per Link
-grp#:#grp_reg_code_enabled_info#:#Unabhängig vom ausgewählten Beitrittsverfahren ermöglicht diese Option einen direkten Beitritt durch Aufruf eines Links.
+grp#:#grp_reg_code_enabled_info#:#Unabhängig vom ausgewählten Beitrittsverfahren und den Gruppenrechten ermöglicht diese Option einen direkten Beitritt durch Aufruf eines Links.
 grp#:#grp_reg_code_link#:#Link für direkten Beitritt
 grp#:#grp_reg_code_value#:#Link
 grp#:#grp_reg_deac_info_screen#:#Zur Zeit ist keine Aufnahme möglich.
@@ -15208,3 +15208,9 @@ assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
 assessment#:#tst_attached_xls_file#:#Sie finden die Testergebnisse für diesen Teilnehmer in der angehängten Excel-Datei.
 assessment#:#tst_notification_explanation_admin#:#Sie erhalten diese Mail, da Sie die Benachrichtigungsfunktion aktiviert haben.
 dateplaner#:#cal_type_exc#:#Übungskalender
+grp#:#grp_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Gruppe ist ausserhalb des Beitrittszeitraumes.
+crs#:#crs_admission_link_failure_registration_period#:#Kein Beitritt möglich. Der Kurs ist ausserhalb des Beitrittszeitraumes.
+grp#:#grp_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
+crs#:#crs_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
+grp#:#grp_admission_link_success_registration#:#Erfolgreich zur Gruppe "%s" beigetreten.
+crs#:#crs_admission_link_success_registration#:#Erfolgreich zum Kurs "%s" beigetreten.

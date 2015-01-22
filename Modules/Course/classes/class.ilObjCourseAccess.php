@@ -18,6 +18,9 @@ include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.
 */
 class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 {
+
+	protected static $using_code = false;
+
 	/**
 	 * Get operators
 	 */
@@ -243,6 +246,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		// registration codes
 		if(substr($t_arr[2],0,5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
+			self::$using_code = true;
 			return true;
 		}
 		
@@ -505,6 +509,16 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		
 		include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
 		ilCourseCertificateAdapter::_preloadListData($ilUser->getId(), $a_obj_ids); 		
+	}
+
+	/**
+	 * Using Registration code
+	 *
+	 * @return bool
+	 */
+	public static function _usingRegistrationCode()
+	{
+		return self::$using_code;
 	}
 
 }

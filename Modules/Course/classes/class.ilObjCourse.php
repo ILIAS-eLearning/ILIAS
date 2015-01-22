@@ -1913,6 +1913,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 */
 	public function register($a_user_id,$a_role = ilCourseConstants::CRS_MEMBER, $a_force_registration = false)
 	{
+		global $ilCtrl, $tree;
 		include_once './Services/Membership/exceptions/class.ilMembershipRegistrationException.php';
 		include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
 		$part = ilCourseParticipants::_getInstanceByObjId($this->getId());
@@ -1925,11 +1926,27 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		if(!$a_force_registration)
 		{
 			// Availability
-			if(!self::_registrationEnabled($this->getId()))
+			if($this->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_DEACTIVATED)
 			{
-				$this->lng->loadLanguageModule('crs');
-				throw new ilMembershipRegistrationException($this->lng->txt('crs_info_reg_deactivated'),$this->getRefId());
+				include_once './Modules/Group/classes/class.ilObjGroupAccess.php';
+
+				if(!ilObjCourseAccess::_usingRegistrationCode())
+				{
+					throw new ilMembershipRegistrationException('Cant registrate to course '.$this->getId().
+						', course subscription is deactivated.', '456');
+				}
 			}
+
+			// Time Limitation
+			if($this->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_LIMITED)
+			{
+				if( !$this->inSubscriptionTime() )
+				{
+					throw new ilMembershipRegistrationException('Cant registrate to course '.$this->getId().
+						', course is out of registration time.', '789');
+				}
+			}
+
 			// Max members
 			if($this->isSubscriptionMembershipLimited())
 			{
@@ -1938,7 +1955,21 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 				$waiting_list = new ilCourseWaitingList($this->getId());
 				if($this->enabledWaitingList() and (!$free or $waiting_list->getCountUsers()))
 				{
-					throw new ilMembershipRegistrationException('',$this->getRefId());
+					$waiting_list->addToList($a_user_id);
+					$this->lng->loadLanguageModule("crs");
+					$info = sprintf($this->lng->txt('crs_added_to_list'),
+						$waiting_list->getPosition($a_user_id));
+					include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
+					$participants = ilCourseParticipants::_getInstanceByObjId($this->getId());
+					$participants->sendNotification($participants->NOTIFY_WAITING_LIST,$a_user_id);
+
+					throw new ilMembershipRegistrationException($info, '124');
+				}
+
+				if(!$this->enabledWaitingList() && !$free)
+				{
+					throw new ilMembershipRegistrationException('Cant registrate to course '.$this->getId().
+						', membership is limited.', '123');
 				}
 			}
 		}
