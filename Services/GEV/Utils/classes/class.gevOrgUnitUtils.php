@@ -10,6 +10,7 @@
 * @version	$Id$
 */
 
+require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 require_once("Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php");
 require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
@@ -655,6 +656,42 @@ class gevOrgUnitUtils {
 			$admin->deassignUsers($id);
 			$admin->deleteLocalRole($id);
 		}
+	}
+	
+	
+	static public function createOrgUnit($import_id, $title, $parent_import_id){
+		global $ilDB;
+		
+		$res = $ilDB->query("SELECT ref_id "
+						   ."  FROM object_reference oref"
+						   ."  JOIN object_data od ON od.obj_id = oref.obj_id"
+						   ."  WHERE oref.deleted IS NULL"
+						   ."    AND od.import_id = ".$ilDB->quote($parent_import_id, "text")
+						   ."    AND od.type = 'orgu'"
+						   );
+		
+		$rec = $ilDB->fetchAssoc($res);
+		if (!$rec) {
+			throw new Exception("gevOrgUnitUtils::createOrgUnit: Could not find org unit with import id $parent_import_id");
+		}
+		
+		$orgu = new ilObjOrgUnit();
+		$orgu->setTitle($title);
+		$orgu->create();
+		$orgu->createReference();
+		$orgu->setImportId($import_id);
+		$orgu->update();
+		
+		$id = $orgu->getId();
+		$refId = $orgu->getRefId();
+		
+		$orgu->putInTree($rec["ref_id"]);
+		$orgu->initDefaultRoles();
+		
+		$orgutils = gevOrgUnitUtils::getInstance($id);
+		$orgutils->setType(gevSettings::ORG_TYPE_DEFAULT);
+		
+		return $orgu->getId();
 	}
 }
 

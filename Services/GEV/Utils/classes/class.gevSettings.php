@@ -428,12 +428,14 @@ class gevSettings {
 
 	//OrgUnit Mappings (Personal OrgUnits)
 	
-	// for DBVen AND NA-Superiors
+	// for DBVen, NA-Superiors and HAs
 	const DBV_POU_BASE_UNIT_KEY = "gev_dbv_pou_base_unit";
 	const DBV_POU_TEMPLATE_UNIT_KEY = "gev_dbv_pou_template_unit_key";
 	const CPOOL_UNIT_KEY = "gev_dbv_pou_cpool_unit_key";
 	const NA_POU_BASE_UNIT_KEY = "gev_na_pou_base_unit";
 	const NA_POU_TEMPLATE_UNIT_KEY = "gev_na_pou_template_unit_key";
+	const HA_POU_BASE_UNIT_KEY = "gev_ha_pou_base_unit";
+	const HA_POU_TEMPLATE_UNIT_KEY = "gev_ha_pou_template_unit";
 	
 	public function getDBVPOUBaseUnitId() {
 		return $this->settings->get(self::DBV_POU_BASE_UNIT_KEY);
@@ -473,6 +475,22 @@ class gevSettings {
 	
 	public function setNAPOUTemplateUnitId($a_val) {
 		$this->settings->set(self::NA_POU_TEMPLATE_UNIT_KEY, $a_val);
+	}
+	
+	public function getHAPOUBaseUnitId() {
+		return $this->settings->get(self::HA_POU_BASE_UNIT_KEY);
+	}
+	
+	public function setHAPOUBaseUnitId($a_val) {
+		$this->settings->set(self::HA_POU_BASE_UNIT_KEY, $a_val);
+	}
+	
+	public function getHAPOUTemplateUnitId() {
+		return $this->settings->get(self::HA_POU_TEMPLATE_UNIT_KEY);
+	}
+	
+	public function setHAPOUTemplateUnitId($a_val) {
+		$this->settings->set(self::HA_POU_TEMPLATE_UNIT_KEY, $a_val);
 	}
 
 	// Role to "Status" mapping

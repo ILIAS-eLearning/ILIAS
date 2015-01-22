@@ -3141,3 +3141,28 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 
 
 ?>
+
+
+<#95>
+<?php
+	// Create Personal Org Unit structure for HAs
+
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+
+	require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+	$ha_ou_id = gevOrgUnitUtils::createOrgUnit("ha", "Hauptagenturen", "gev_base");
+	$ha_tmplt_ou_id = gevOrgUnitUtils::createOrgUnit("ha_tmplt", "Vorlage HA-Einheiten", "ha");
+	
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	$gev_settings = gevSettings::getInstance();
+	$gev_settings->setHAPOUBaseUnitId($ha_ou_id);
+	$gev_settings->setHAPOUTemplateUnitId($ha_tmplt_ou_id);
+?>
