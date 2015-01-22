@@ -22,17 +22,38 @@ class ilMembershipRegistrationCodeUtils
 	 */
 	public static function handleCode($a_ref_id,$a_type,$a_code)
 	{
+		global $lng, $tree, $ilUser;
 		include_once './Services/Link/classes/class.ilLink.php';
+		$lng->loadLanguageModule($a_type);
 		try
 		{
 			self::useCode($a_code,$a_ref_id);
-			ilUtil::redirect(ilLink::_getLink($a_ref_id,ilObject::_lookupType(ilObject::_lookupObjId($a_ref_id))));
+			$title =  ilObject::_lookupTitle(ilObject::_lookupObjectId($a_ref_id));
+			ilUtil::sendSuccess(sprintf($lng->txt($a_type."_admission_link_success_registration"),$title),true);
+			ilUtil::redirect(ilLink::_getLink($a_ref_id));
 		}
-		catch(Exception $e) 
+		catch(ilMembershipRegistrationException $e)
 		{
+			switch($e->getCode())
+			{
+				case 124://added to waiting list
+					ilUtil::sendSuccess($e->getMessage(),true);
+					break;
+				case 123://object is full
+					ilUtil::sendFailure($lng->txt($a_type."_admission_link_failure_membership_limited"), true);
+					break;
+				case 789://out of registration period
+					ilUtil::sendFailure($lng->txt($a_type."_admission_link_failure_registration_period"), true);
+					break;
+				default:
+					ilUtil::sendFailure($e->getMessage(), true);
+					break;
+			}
 			$GLOBALS['ilLog']->logStack();
-			$GLOBALS['ilLog']->write($e->getMessage());
-			ilUtil::redirect(ilLink::_getLink($e->getCode(),ilObject::_lookupType(ilObject::_lookupObjId($e->getCode()))));
+			$GLOBALS['ilLog']->write($e->getCode().': '.$e->getMessage());
+
+			$parent_id = $tree->getParentId($a_ref_id);
+			ilUtil::redirect(ilLink::_getLink($parent_id));
 		}
 	}
 	
@@ -59,7 +80,6 @@ class ilMembershipRegistrationCodeUtils
 			{
 				if($obj = ilObjectFactory::getInstanceByRefId($ref_id,false))
 				{
-					$GLOBALS['ilLog']->logStack();
 					$obj->register($ilUser->getId());
 				}
 			}

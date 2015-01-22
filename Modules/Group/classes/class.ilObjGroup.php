@@ -1980,21 +1980,58 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		if(!$a_force_registration)
 		{
 			// Availability
-			include_once './Modules/Group/classes/class.ilObjGroupAccess.php';
-			if(!ilObjGroupAccess::_registrationEnabled($this->getId()))
+			if(!$this->isRegistrationEnabled())
 			{
-				$this->lng->loadLanguageModule('crs');
-				throw new ilMembershipRegistrationException('456',$this->getRefId());
+				include_once './Modules/Group/classes/class.ilObjGroupAccess.php';
+
+				if(!ilObjGroupAccess::_usingRegistrationCode())
+				{
+					throw new ilMembershipRegistrationException('Cant registrate to group '.$this->getId().
+						', group subscription is deactivated.', '456');
+				}
 			}
-			// Max members
+
+			// Time Limitation
 			if(!$this->isRegistrationUnlimited())
+			{
+				$start = $this->getRegistrationStart();
+				$end = $this->getRegistrationEnd();
+				$time = new ilDateTime(time(),IL_CAL_UNIX);
+
+				if( !(ilDateTime::_after($time, $start) and ilDateTime::_before($time,$end)) )
+				{
+					throw new ilMembershipRegistrationException('Cant registrate to group '.$this->getId().
+					', group is out of registration time.', '789');
+				}
+			}
+
+			// Max members
+			if($this->isMembershipLimited())
 			{
 				$free = max(0,$this->getMaxMembers() - $part->getCountMembers());
 				include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
 				$waiting_list = new ilGroupWaitingList($this->getId());
 				if($this->isWaitingListEnabled() and (!$free or $waiting_list->getCountUsers()))
 				{
-					throw new ilMembershipRegistrationException('123',$this->getRefId());
+					$this->lng->loadLanguageModule("grp");
+					$waiting_list->addToList($a_user_id);
+
+					$info = sprintf($this->lng->txt('grp_added_to_list'),
+						$this->getTitle(),
+						$waiting_list->getPosition($a_user_id));
+
+					include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
+					include_once('./Modules/Group/classes/class.ilGroupMembershipMailNotification.php');
+					$participants = ilGroupParticipants::_getInstanceByObjId($this->getId());
+					$participants->sendNotification(ilGroupMembershipMailNotification::TYPE_WAITING_LIST_MEMBER,$a_user_id);
+
+					throw new ilMembershipRegistrationException($info, '124');
+				}
+
+				if(!$free or $waiting_list->getCountUsers())
+				{
+					throw new ilMembershipRegistrationException('Cant registrate to group '.$this->getId().
+						', membership is limited.', '123');
 				}
 			}
 		}

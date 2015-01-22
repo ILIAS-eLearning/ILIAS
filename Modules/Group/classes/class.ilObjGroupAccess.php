@@ -14,6 +14,7 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 */
 class ilObjGroupAccess extends ilObjectAccess
 {
+	protected static $using_code = false;
 	/**
 	* checks wether a user may invoke a command or not
 	* (this method is called by ilAccessHandler::checkAccess)
@@ -164,15 +165,14 @@ class ilObjGroupAccess extends ilObjectAccess
 	function _checkGoto($a_target)
 	{
 		global $ilAccess,$ilUser;
-		
+
+		$t_arr = explode("_", $a_target);
 		// registration codes
 		if(substr($t_arr[2],0,5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
+			self::$using_code = true;
 			return true;
 		}
-		
-		
-		$t_arr = explode("_", $a_target);
 
 		if ($t_arr[0] != "grp" || ((int) $t_arr[1]) <= 0)
 		{
@@ -339,6 +339,16 @@ class ilObjGroupAccess extends ilObjectAccess
 		}
 
 		return $info;
+	}
+
+	/**
+	 * Using Registration code
+	 *
+	 * @return bool
+	 */
+	public static function _usingRegistrationCode()
+	{
+		return self::$using_code;
 	}
 	
 

@@ -17,6 +17,9 @@ include_once 'Modules/Course/classes/class.ilCourseParticipant.php';
 */
 class ilObjCourseAccess extends ilObjectAccess
 {
+
+	protected static $using_code = false;
+
 	/**
 	* checks wether a user may invoke a command or not
 	* (this method is called by ilAccessHandler::checkAccess)
@@ -209,6 +212,7 @@ class ilObjCourseAccess extends ilObjectAccess
 		// registration codes
 		if(substr($t_arr[2],0,5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
+			self::$using_code = true;
 			return true;
 		}
 		
@@ -471,6 +475,16 @@ class ilObjCourseAccess extends ilObjectAccess
 		
 		include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
 		ilCourseCertificateAdapter::_preloadListData($ilUser->getId(), $a_obj_ids); 		
+	}
+
+	/**
+	 * Using Registration code
+	 *
+	 * @return bool
+	 */
+	public static function _usingRegistrationCode()
+	{
+		return self::$using_code;
 	}
 
 }
