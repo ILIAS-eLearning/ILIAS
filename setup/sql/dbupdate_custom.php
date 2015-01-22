@@ -3166,3 +3166,67 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	$gev_settings->setHAPOUBaseUnitId($ha_ou_id);
 	$gev_settings->setHAPOUTemplateUnitId($ha_tmplt_ou_id);
 ?>
+
+
+<#96>
+<?php
+	// Enables local user administration for HAs in HA-substructure. 
+	// Based on Martin Studers Paper 20140911_LinkLokaleBenutzerverwaltung.docx
+
+	require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+	require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+	require_once("Customizing/class.ilCustomInstaller.php");
+	
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	
+	$global_roles_of_superiors = array( "HA"
+									  );
+	
+	// Administration and Org-Units 
+	$ref_ids = array(9, 56);
+
+	// Generali Versicherungen and HA-Substructure
+	$res = $ilDB->query("SELECT DISTINCT oref.ref_id "
+						."  FROM object_data od "
+						."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
+						." WHERE ".$ilDB->in("import_id", array("gev_base", "ha"), false, "text")
+						."   AND oref.deleted IS NULL"
+						."   AND od.type = 'orgu'"
+						);
+
+	while($rec = $this->db->fetchAssoc($res)) {
+		$ref_ids[] = $rec["ref_id"];
+	}
+
+
+	global $rbacreview;
+	global $rbacadmin;
+	foreach($ref_ids as $ref_id) {
+		foreach($global_roles_of_superiors as $role_name) {
+			$role = gevRoleUtils::getInstance()->getRoleIdByName($role_name);
+			if (!$role) {
+				die("Could not find role $role_name");
+			}
+			$cur_ops = $rbacreview->getRoleOperationsOnObject($role, $ref_id);
+			$grant_ops = ilRbacReview::_getOperationIdsByName(array("visible", "read"));
+			$new_ops = array_unique(array_merge($grant_ops, $cur_ops));
+			$rbacadmin->revokePermission($ref_id, $role);
+			$rbacadmin->grantPermission($role, $new_ops, $ref_id);
+		}
+	}
+
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	$gev_settings = gevSettings::getInstance();
+	$ha_tmplt_ou_id = $gev_settings->getHAPOUTemplateUnitId();
+	gevOrgUnitUtils::getInstance($ha_tmplt_ou_id)
+		->grantPermissionsFor( "superior"
+							 , array("cat_administrate_users", "read_users")
+							 );	
+?>
