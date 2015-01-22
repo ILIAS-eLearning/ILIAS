@@ -232,6 +232,13 @@ abstract class wbdDataConnector {
 						}
 						break;
 
+					case 'positiveNumber':
+
+						if ((int)$value < 1) {
+							return 'not a positive value: ' .$field .'<br>';
+						}
+						break;
+
 					case 'custom':
 						$r = $this->$setting($value);
 						$result = $r[0];

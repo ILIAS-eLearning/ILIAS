@@ -185,6 +185,7 @@ $WBD_EDU_RECORD_VALIDATION = array(
 								 'list'=> array_values($VALUE_MAPPINGS['study_content'])
 							)
 	,'till'				=> array( 'custom' => 'dateAfterSept2013')
+	,'score'			=> array( 'positiveNumber' => 1)
 	
 );
 
