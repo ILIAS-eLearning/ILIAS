@@ -78,6 +78,39 @@ class ilLOSettings
 		}
 		return 0;
 	}
+	
+	/**
+	 * Clone settings
+	 * @param type $a_copy_id
+	 * @param type $a_container_id
+	 * @param type $a_new_container_id
+	 */
+	public static function cloneSettings($a_copy_id, $a_container_id, $a_new_container_id)
+	{
+		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
+		$options = ilCopyWizardOptions::_getInstance($a_copy_id);
+		$mappings = $options->getMappings();
+		
+		$settings = self::getInstanceByObjId($a_container_id);
+		$new_settings = self::getInstanceByObjId($a_new_container_id);
+		
+		$new_settings->setType($settings->getType());
+		$new_settings->setGeneralQualifiedTestVisibility($settings->isGeneralQualifiedTestVisible());
+		$new_settings->setQualifiedTestPerObjectiveVisibility($settings->isQualifiedTestPerObjectiveVisible());
+		$new_settings->resetResults($settings->isResetResultsEnabled());
+		
+		if($settings->getInitialTest() and array_key_exists($settings->getInitialTest(), $mappings))
+		{
+			$new_settings->setInitialTest($mappings[$settings->getInitialTest()]);
+		}
+		
+		if($settings->getQualifiedTest() and array_key_exists($settings->getQualifiedTest(), $mappings))
+		{
+			$new_settings->setQualifiedTest($mappings[$settings->getQualifiedTest()]);
+		}
+		
+		$new_settings->create();
+	}
 
 
 	/**

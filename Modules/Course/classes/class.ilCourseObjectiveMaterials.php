@@ -69,7 +69,7 @@ class ilCourseObjectiveMaterials
 		{
 		#$ilLog->write(__METHOD__.': 2');
 			// Copy action omit ?
-			if(!isset($mappings["$material[ref_id]"]) or !$mappings["$material[ref_id]"])
+			if(!isset($mappings[$material['ref_id']]) or !$mappings[$material['ref_id']])
 			{
 				continue;
 			}
@@ -95,7 +95,7 @@ class ilCourseObjectiveMaterials
 				$new_material_info = isset($mappings[$material_ref_id.'_'.$material_obj_id]) ?
 					$mappings[$material_ref_id.'_'.$material_obj_id] :
 					array();
-				$new_material_arr = explode('_',$new_material_info);
+				$new_material_arr = implode('_',$new_material_info);
 				if(!isset($new_material_arr[1]) or !$new_material_arr[1])
 				{
 					$ilLog->write(__METHOD__.': No mapping found for chapter: '.$material_obj_id);

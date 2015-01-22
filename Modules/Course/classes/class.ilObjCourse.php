@@ -11,7 +11,7 @@
 	| of the License, or (at your option) any later version.                      |
 	|                                                                             |
 	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| but WITHOUT ANY WARRANTY; without ceven the implied warranty of              |
 	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
 	| GNU General Public License for more details.                                |
 	|                                                                             |
@@ -895,7 +895,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$cert = new ilCertificate(new ilCourseCertificateAdapter($this));
 		$newcert = new ilCertificate(new ilCourseCertificateAdapter($new_obj));
 		$cert->cloneCertificate($newcert);
-		
+				
 		return $new_obj;
 	}
 	
@@ -924,6 +924,11 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		include_once('Modules/Course/classes/class.ilCourseObjective.php');
 		$crs_objective = new ilCourseObjective($this);
 		$crs_objective->ilClone($a_target_id,$a_copy_id);
+		
+		// clone objective settings
+		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		ilLOSettings::cloneSettings($a_copy_id, $this->getId(), ilObject::_lookupObjId($a_target_id));
+		
 				
 	 	return true;
 	}
