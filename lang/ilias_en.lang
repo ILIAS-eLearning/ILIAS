@@ -1032,6 +1032,7 @@ assessment#:#tst_inp_quest_amount_per_test#:#Number of Questions for the Whole T
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount
 assessment#:#tst_question_amount#:#Question Amount
 assessment#:#tst_question_title#:#Title
+assessment#:#tst_qbt_filter_question_title#:#Title of Question
 assessment#:#tst_question_type#:#Question Type
 assessment#:#tst_question_unmark#:#Remove the mark for this question
 assessment#:#tst_questions_inserted#:#Question(s) inserted!

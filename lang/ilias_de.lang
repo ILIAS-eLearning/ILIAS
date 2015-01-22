@@ -1198,6 +1198,7 @@ assessment#:#tst_inp_quest_amount_per_test#:#Gesamtzahl der Fragen im Test
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Anzahl Fragen
 assessment#:#tst_question_amount#:#Anzahl Fragen
 assessment#:#tst_question_title#:#Titel
+assessment#:#tst_qbt_filter_question_title#:#Fragentitel
 assessment#:#tst_question_type#:#Fragetyp
 assessment#:#tst_question_unmark#:#Markierung für diese Frage entfernen
 assessment#:#tst_questions_inserted#:#Frage(n) angefügt!
