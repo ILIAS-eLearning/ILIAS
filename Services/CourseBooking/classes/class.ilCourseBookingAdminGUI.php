@@ -837,8 +837,8 @@ class ilCourseBookingAdminGUI
 					// gev-patch start
 					require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 					$automails = new gevCrsAutoMails($this->getCourse()->getId());
-					$automails->sendDeferred("admin_booking_to_booked", array($user_id));
-					$automails->sendDeferred("invitation", array($user_id));
+					$automails->send("admin_booking_to_booked", array($user_id));
+					$automails->send("invitation", array($user_id));
 					
 					$this->setDefaultAccomodations($user_id);
 					// gev-patch end
@@ -860,7 +860,7 @@ class ilCourseBookingAdminGUI
 				// gev-patch start
 				require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 				$automails = new gevCrsAutoMails($this->getCourse()->getId());
-				$automails->sendDeferred("admin_booking_to_waiting", array($user_id));
+				$automails->send("admin_booking_to_waiting", array($user_id));
 
 				$this->setDefaultAccomodations($user_id);
 				// gev-patch end
@@ -986,8 +986,8 @@ class ilCourseBookingAdminGUI
 				// gev-patch start
 				require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 				$automails = new gevCrsAutoMails($this->getCourse()->getId());
-				$automails->sendDeferred("admin_booking_to_booked", array($user_id));
-				$automails->sendDeferred("invitation", array($user_id));
+				$automails->send("admin_booking_to_booked", array($user_id));
+				$automails->send("invitation", array($user_id));
 				// gev-patch end
 			}
 		}
@@ -1013,7 +1013,7 @@ class ilCourseBookingAdminGUI
 				// gev-patch start
 				require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 				$automails = new gevCrsAutoMails($this->getCourse()->getId());
-				$automails->sendDeferred("admin_booking_to_waiting", array($user_id));
+				$automails->send("admin_booking_to_waiting", array($user_id));
 				// gev-patch end
 			}
 		}
@@ -1048,7 +1048,7 @@ class ilCourseBookingAdminGUI
 						." user=" . $user_id
 					);
 
-					$automails->sendDeferred("admin_cancel_booked_to_cancelled_without_costs", array($user_id));
+					$automails->send("admin_cancel_booked_to_cancelled_without_costs", array($user_id));
 				}
 				else if ($old_status == ilCourseBooking::STATUS_WAITING) {
 					$ilLog->write("ilCourseBookingAdminGUI::userActionCancelWithoutCosts:"
@@ -1057,7 +1057,7 @@ class ilCourseBookingAdminGUI
 						." user=" . $user_id
 					);
 
-					$automails->sendDeferred("admin_cancel_waiting_to_cancelled_without_costs", array($user_id));
+					$automails->send("admin_cancel_waiting_to_cancelled_without_costs", array($user_id));
 				}
 				// gev-patch end
 				ilUtil::sendSuccess($lng->txt("crsbook_admin_user_action_done"), true);
@@ -1089,7 +1089,7 @@ class ilCourseBookingAdminGUI
 
 				require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 				$automails = new gevCrsAutoMails($this->getCourse()->getId());
-				$automails->sendDeferred("admin_cancel_booked_to_cancelled_with_costs", array($user_id));
+				$automails->send("admin_cancel_booked_to_cancelled_with_costs", array($user_id));
 				// gev-patch end
 				ilUtil::sendSuccess($lng->txt("crsbook_admin_user_action_done"), true);
 			}
