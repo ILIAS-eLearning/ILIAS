@@ -238,8 +238,6 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 				$this->testSession->getActiveId(), $this->testSession->getPass()
 		);
 		
-		$this->testOutputGUI->saveQuestionSolution();
-		
 		$redirectTarget = ilUtil::appendUrlParameterString(
 				$ilCtrl->getLinkTarget($this, self::CMD_SHOW_HINT, '', false, false), "hintId={$nextRequestableHint->getId()}"
 		);
