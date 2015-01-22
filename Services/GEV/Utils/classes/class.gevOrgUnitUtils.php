@@ -559,15 +559,14 @@ class gevOrgUnitUtils {
 		$ref_id = gevObjectUtils::getRefId($ou->getId());
 		$ou->setRefId($ref_id);
 
-		if ($a_role_name = "superior") {
+		if ($a_role_name == "superior") {
 			$role = $ou->getSuperiorRole();
 		}
-		elseif ($a_role_name = "employee") {
+		elseif ($a_role_name == "employee") {
 			$role = $ou->getEmployeeRole();
 		}
 		else {
 			$role = gevRoleUtils::getInstance()->getRoleIdByName($a_role_name);
-			
 			if (!$role) {
 				throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role_name);
 			}
