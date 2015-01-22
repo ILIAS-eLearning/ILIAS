@@ -227,6 +227,10 @@ class gevUserUtils {
 		return $this->user_obj;
 	}
 	
+	public function getId() {
+		return $this->user_id;
+	}
+	
 	static public function getInstance($a_user_id) {
 		if (array_key_exists($a_user_id, self::$instances)) {
 			return self::$instances[$a_user_id];
