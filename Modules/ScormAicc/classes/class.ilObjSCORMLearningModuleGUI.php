@@ -542,7 +542,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$ilTabs->setTabActive("cont_tracking_data");
 		$ilTabs->setSubTabActive("cont_tracking_bysco");
 
-		$reports = array('exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives');//,'tracInteractionItem','tracInteractionUser','tracInteractionUserAnswers'
+		$reports = array('exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportSelectedRaw');//,'tracInteractionItem','tracInteractionUser','tracInteractionUserAnswers'
 		$scoSelected = "all";
 		if (isset($_GET["scoSelected"])) $scoSelected = ilUtil::stripSlashes($_GET["scoSelected"]);
 		if (isset($_POST["scoSelected"])) $scoSelected = ilUtil::stripSlashes($_POST["scoSelected"]);
@@ -605,7 +605,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$ilTabs->setTabActive('cont_tracking_data');
 		$ilTabs->setSubTabActive('cont_tracking_byuser');
 
-		$reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives');
+		$reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportSelectedRaw');
 
 		$userSelected = "all";
 		if (isset($_GET["userSelected"])) $userSelected = ilUtil::stripSlashes($_GET["userSelected"]);

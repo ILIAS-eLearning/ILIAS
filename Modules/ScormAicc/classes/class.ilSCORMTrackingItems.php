@@ -109,6 +109,60 @@ class ilSCORMTrackingItems
 		}
 		return $a_return;
 	}
+	
+	function exportSelectedRawColumns() {
+		global $lng;
+		$lng->loadLanguageModule("scormtrac");
+		// default fields
+		$cols = array();
+		$udh=self::userDataHeaderForExport();
+		$a_cols=explode(',',
+			'lm_id,lm_title,sco_id,identifierref,sco_marked_for_learning_progress,sco_title,'.$udh["cols"]
+			.',c_timestamp,lvalue,rvalue');
+		$a_true=explode(',',$udh["default"].",sco_id,c_timestamp,lvalue,rvalue");
+		for ($i=0;$i<count($a_cols);$i++) {
+			$cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
+		}
+		for ($i=0;$i<count($a_true);$i++) {
+			$cols[$a_true[$i]]["default"] = true;
+		}
+		return $cols;
+	}
+
+	function exportSelectedRaw($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false) {
+		global $ilDB, $lng;
+		$lng->loadLanguageModule("scormtrac");
+
+		$returnData = array();
+
+		$scoTitles = self::scoTitlesForExportSelected();
+
+		$scoProgress = self::markedLearningStatusForExportSelected($scoTitles);
+
+		$query = 'SELECT user_id, st.obj_id, sco_id, identifierref, c_timestamp, lvalue, rvalue '
+			. 'FROM scorm_tracking st '
+			. 'JOIN sc_item si ON st.sco_id = si.obj_id '
+			. 'WHERE '.$ilDB->in('sco_id', $a_sco, false, 'integer') .' '
+			. 'AND '.$ilDB->in('user_id', $a_user, false, 'integer') .' '
+//			. 'AND st.obj_id = '.$ilDB->quote($this->getId(),'integer') .' '
+			. 'ORDER BY ';
+			if ($b_orderBySCO) $query.='sco_id, user_id';
+			else $query.='user_id, sco_id';
+		$res = $ilDB->query($query);
+		while($data = $ilDB->fetchAssoc($res))
+		{
+			$data["lm_id"] = $this->getObjId();
+			$data["lm_title"] = $this->lmTitle;
+			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+			$data["sco_marked_for_learning_progress"] = $scoProgress[$data["sco_id"]];
+			$data["sco_title"] = $scoTitles[$data["sco_id"]];
+			$data["rvalue"] = "".$data["rvalue"];
+			// $data["c_timestamp"] = $data["c_timestamp"];//ilDatePresentation::formatDate(new ilDateTime($data["c_timestamp"],IL_CAL_UNIX));
+			$returnData[]=$data;
+		}
+		
+		return $returnData;
+	}
 
 	function exportSelectedCoreColumns($b_orderBySCO, $b_allowExportPrivacy) {
 		global $lng;

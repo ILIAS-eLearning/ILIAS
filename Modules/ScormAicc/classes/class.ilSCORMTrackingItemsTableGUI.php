@@ -97,6 +97,9 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 			case "exportSelectedCore":
 				$cols=ilSCORMTrackingItems::exportSelectedCoreColumns($this->bySCO, $this->allowExportPrivacy);
 			break;
+			case "exportSelectedRaw":
+				$cols=ilSCORMTrackingItems::exportSelectedRawColumns();
+			break;
 			case "exportSelectedInteractions":
 				$cols=ilSCORMTrackingItems::exportSelectedInteractionsColumns();
 			break;
@@ -137,6 +140,9 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 		switch($this->report) {
 			case "exportSelectedCore":
 				$tr_data = ilSCORMTrackingItems::exportSelectedCore($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+			break;
+			case "exportSelectedRaw":
+				$tr_data = ilSCORMTrackingItems::exportSelectedRaw($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
 			break;
 			case "exportSelectedInteractions":
 				$tr_data = ilSCORMTrackingItems::exportSelectedInteractions($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
