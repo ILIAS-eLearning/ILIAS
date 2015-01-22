@@ -411,7 +411,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 
 			if(strlen(trim($bestSolution)))
 			{
-				$cust = new ilCustomInputGUI($lng->txt('tst_manscoring_input_best_solution'));
+				$cust = new ilCustomInputGUI($lng->txt('tst_show_solution_suggested'));
 				$cust->setHtml($bestSolution);
 				$form->addItem($cust);
 			}
