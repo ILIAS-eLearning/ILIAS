@@ -906,6 +906,7 @@ class gevUserUtils {
 		$res = $this->db->query( "SELECT usr_id, firstname, lastname"
 								." FROM usr_data "
 								." WHERE ".$this->db->in("usr_id", $e_ids, false, "integer")
+								." ORDER BY lastname, firstname ASC"
 								);
 		
 		$this->employees_for_course_search = array();
