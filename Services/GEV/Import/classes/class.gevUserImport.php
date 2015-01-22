@@ -1891,12 +1891,20 @@ class gevUserImport {
 		
 		$result = $this->queryShadowDB($sql);
 		while ($record = mysql_fetch_assoc($result)){
-			$user_utils = gevUserUtils::getInstance($record['ilid']);
-			$user_utils->setWBDTPType('3 - TP-Service');
-			$user = $user_utils->getUser();
-			$user->update();
+			try{
+				$user_utils = gevUserUtils::getInstance($record['ilid']);
+				$user_utils->setWBDTPType('3 - TP-Service');
+				$user = $user_utils->getUser();
+				$user->update();
 
-			$this->prnt('. ', -1);
+				$this->prnt('. ', -1);
+			}
+			catch(Exception $e){
+				print_r($e);
+				//pass				
+			}
+
+		
 		}
 
 		$this->prnt('fixVFSTPService: done', 2);
