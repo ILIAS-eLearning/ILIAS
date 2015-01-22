@@ -66,10 +66,13 @@ class ilSkillTree extends ilTree
 		else
 		{
 			$path = $this->getPathFull($a_base_skill_id);
-			foreach ($path as $k => $v)
+			if (is_array($path))
 			{
-				$path[$k]["skill_id"] = $v["child"];
-				$path[$k]["tref_id"] = 0;
+				foreach ($path as $k => $v)
+				{
+					$path[$k]["skill_id"] = $v["child"];
+					$path[$k]["tref_id"] = 0;
+				}
 			}
 		}
 		

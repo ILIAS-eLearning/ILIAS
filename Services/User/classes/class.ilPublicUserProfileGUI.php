@@ -752,6 +752,15 @@ class ilPublicUserProfileGUI
 			}
 			
 			// :TODO: search in skill data
+			include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+			foreach (ilSkillTreeNode::findSkills($a_term) as $skill)
+			{
+				$result[$cnt]        = new stdClass();
+				$result[$cnt]->value = $skill;
+				$result[$cnt]->label = $skill;
+				$cnt++;
+			}
+
 		}		
 		
 		return $result;
@@ -762,13 +771,11 @@ class ilPublicUserProfileGUI
 		$field_id = (string)$_REQUEST["f"];
 		$term = (string)$_REQUEST["term"];
 				
-		$result = self::getAutocompleteResult($field_id, $term);		
-		if(sizeof($result))
-		{
-			include_once 'Services/JSON/classes/class.ilJsonUtil.php';
-			echo ilJsonUtil::encode($result);
-		}
-		
+		$result = self::getAutocompleteResult($field_id, $term);
+
+		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
+		echo ilJsonUtil::encode($result);
+
 		exit();
 	}
 }

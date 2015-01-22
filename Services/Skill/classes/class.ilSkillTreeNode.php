@@ -857,6 +857,90 @@ class ilSkillTreeNode
 		$vers = "vers=".str_replace(array(".", " "), "-", ILIAS_VERSION);
 		return ilUtil::getImagePath($a_name)."?".$vers;
 	}
-	
+
+	/**
+	 * Find skills
+	 *
+	 * @param
+	 * @return
+	 */
+	public static function findSkills($a_term)
+	{
+		global $ilDB;
+
+		$res = array();
+		$candidates = array();
+
+		$skill_tree = new ilSkillTree();
+
+		$sql = "SELECT * ".
+			" FROM skl_tree_node".
+			" WHERE ".$ilDB->like("title", "text", "%".$a_term."%");
+		$sql .= " ORDER BY title";
+		$set = $ilDB->query($sql);
+		include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			if (in_array($row["type"], array("sctp", "sktp")))
+			{
+				// need to get "top template" first! (if it is already the top level, do not use it!)
+				$path = $skill_tree->getSkillTreePath($row["obj_id"]);
+				if ($path[1]["child"] != $row["obj_id"])
+				{
+					$trefs = ilSkillTemplateReference::_lookupTrefIdsForTopTemplateId($path[1]["child"]);
+					foreach ($trefs as $tref)
+					{
+						$candidates[] = array("tref_id" => $tref, "skill_id" => $row["obj_id"], "title" => $row["title"]);
+					}
+				}
+			}
+			else if ($row["type"] == "sktr")
+			{
+				// works
+				$candidates[] = array("tref_id" => $row["obj_id"], "skill_id" => ilSkillTemplateReference::_lookupTemplateId($row["obj_id"]), "title" => $row["title"]);
+			}
+			else
+			{
+				// works
+				$candidates[] = array("tref_id" => 0, "skill_id" => $row["obj_id"], "title" => $row["title"]);
+			}
+		}
+
+		foreach ($candidates as $c)
+		{
+			// if we get a path array, and the array has items try to use the data
+			$path = $skill_tree->getSkillTreePath($c["skill_id"], $c["tref_id"]);
+			$use = false;
+			if (is_array($path) && count($path) > 0)
+			{
+				$use = true;
+			}
+
+			// if any inactive/outdated -> do not use the data
+			if (is_array($path))
+			{
+				foreach ($path as $p)
+				{
+					if ($p["status"] > 0)
+					{
+						$use = false;
+					}
+				}
+			}
+			if ($use)
+			{
+				if (!in_array($c["title"], $res))
+				{
+					$res[] = $c["title"];
+				}
+			}
+		}
+
+
+		return $res;
+	}
+
+
+
 }
 ?>
