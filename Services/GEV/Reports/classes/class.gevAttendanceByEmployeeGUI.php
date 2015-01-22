@@ -144,7 +144,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->static_condition(" usr.hist_historic = 0")
 						->static_condition("(   usrcrs.hist_historic = 0"
 										  ." OR usrcrs.hist_historic IS NULL )")
-						->static_condition("( usrcrs.participation_status != '-empty-'"
+						->static_condition("( usrcrs.booking_status != '-empty-'"
 										  ." OR usrcrs.hist_historic IS NULL )")
 						->static_condition("(   usrcrs.participation_status != '-empty-'"
 										  ." OR usrcrs.hist_historic IS NULL )")
