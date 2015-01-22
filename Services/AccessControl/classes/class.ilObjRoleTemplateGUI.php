@@ -128,7 +128,14 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$desc->setCols(40);
 		$desc->setRows(3);
 		$form->addItem($desc);
-		
+
+		if($a_mode != self::FORM_MODE_CREATE)
+		{
+			$ilias_id = new ilNonEditableValueGUI($this->lng->txt("ilias_id"), "ilias_id");
+			$ilias_id->setValue('il_'.IL_INST_ID.'_'.ilObject::_lookupType($this->object->getId()).'_'.$this->object->getId());
+			$form->addItem($ilias_id);
+		}
+
 		$pro = new ilCheckboxInputGUI($this->lng->txt('role_protect_permissions'),'protected');
 		$pro->setChecked($GLOBALS['rbacreview']->isProtected(
 				$this->rolf_ref_id,

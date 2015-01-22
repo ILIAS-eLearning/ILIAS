@@ -468,6 +468,12 @@ class ilObjRoleGUI extends ilObjectGUI
 		$desc->setCols(40);
 		$desc->setRows(3);
 		$this->form->addItem($desc);
+
+		if($a_mode != self::MODE_LOCAL_CREATE && $a_mode != self::MODE_GLOBAL_CREATE)
+		{
+			$ilias_id = new ilNonEditableValueGUI($this->lng->txt("ilias_id"), "ilias_id");
+			$this->form->addItem($ilias_id);
+		}
 		
 		if($this->obj_ref_id == ROLE_FOLDER_ID)
 		{
@@ -538,6 +544,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$data['title'] = $role->getTitle();
 		$data['desc'] = $role->getDescription();
+		$data['ilias_id'] = 'il_'.IL_INST_ID.'_'.ilObject::_lookupType($role->getId()).'_'.$role->getId();
 		$data['reg'] = $role->getAllowRegister();
 		$data['la'] = $role->getAssignUsersStatus();
 		if(ilDiskQuotaActivationChecker::_isActive())
