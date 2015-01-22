@@ -10,7 +10,6 @@
 	<objects>
 		<object id="wiki" class_name="Wiki" dir="classes" default_pos="115" default_pres_pos="140"
 			checkbox="1" inherit="1" allow_link="1" rbac="1" export="1" allow_copy="1">
-			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
 			<parent id="fold">fold</parent>
@@ -21,7 +20,6 @@
 		</object>
 		<object id="wiks" class_name="WikiSettings" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
-			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>

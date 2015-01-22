@@ -6,7 +6,6 @@
 	<objects>
 		<object id="icrs" class_name="iLincCourse" dir="classes" default_pos="230" default_pres_pos="50"
 			checkbox="1" inherit="1" translate="0" rbac="1" devmode="0" repository="0">
-			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
 			<parent id="grp">grp</parent>

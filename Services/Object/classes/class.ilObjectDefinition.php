@@ -636,7 +636,7 @@ class ilObjectDefinition// extends ilSaxParser
 				{
 					continue;
 				}
-				if($subtype == 'rolf' or $subtype == 'rolt')
+				if($subtype == 'rolt')
 				{
 					continue;
 				}

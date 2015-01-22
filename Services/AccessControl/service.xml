@@ -8,6 +8,7 @@
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
 			<subobj id="rolt">rolt</subobj>
 			<subobj id="role">role</subobj>
+            <parent id="adm">adm</parent>
 		</object>
 		<object id="role" class_name="Role" dir="classes"
 			checkbox="1" inherit="0" translate="0" rbac="0">
