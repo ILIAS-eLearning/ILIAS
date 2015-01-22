@@ -60,7 +60,7 @@ class gevHAUtils {
 	 * Hat der Benutzer bereits eine HA Einheit?
 	 */
 	public function hasHAUnit($a_ha_id) {
-		return $this->pou->getPersonalOrguBySuperiorId() !== null;
+		return $this->pou->getOrgUnitIdOf($a_ha_id) !== null;
 	}
 }
 
