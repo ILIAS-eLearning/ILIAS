@@ -651,6 +651,7 @@ class assTextQuestionGUI extends assQuestionGUI //implements ilGuiQuestionScorin
 		$allKeyword->setValues( self::buildAnswerTextOnlyArray( $this->object->getAnswers() ) );
 		$scoringOptionAllKeyword->addSubItem( $allKeyword );
 		$allKeywordPoints = new ilNumberInputGUI($this->lng->txt( "points" ), "all_keyword_points");
+		$allKeywordPoints->allowDecimals(TRUE);
 		$allKeywordPoints->setValue( $this->object->getPoints() );
 		$allKeywordPoints->setRequired( TRUE );
 		$allKeywordPoints->setSize( 3 );
@@ -666,6 +667,7 @@ class assTextQuestionGUI extends assQuestionGUI //implements ilGuiQuestionScorin
 		$oneKeyword->setValues( self::buildAnswerTextOnlyArray( $this->object->getAnswers() ) );
 		$scoringOptionOneKeyword->addSubItem( $oneKeyword );
 		$oneKeywordPoints = new ilNumberInputGUI($this->lng->txt( "points" ), "one_keyword_points");
+		$oneKeywordPoints->allowDecimals(TRUE);
 		$oneKeywordPoints->setValue( $this->object->getPoints() );
 		$oneKeywordPoints->setRequired( TRUE );
 		$oneKeywordPoints->setSize( 3 );

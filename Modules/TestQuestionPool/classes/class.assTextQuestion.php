@@ -137,10 +137,7 @@ class assTextQuestion extends assQuestion //implements ilObjQuestionScoringAdjus
 			$this->setOriginalId($data["original_id"]);
 			$this->setNrOfTries($data['nr_of_tries']);
 			$this->setAuthor($data["author"]);
-			if(0 != (int)$data["points"])
-			{
-				$this->setPoints($data["points"]);
-			}
+			$this->setPoints((float) $data["points"]);
 			$this->setOwner($data["owner"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
