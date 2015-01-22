@@ -16,13 +16,8 @@ class gevDeferredMails {
 	}
 	
 	public function deferredSendMail($a_crs_id, $a_mail_id, $a_recipients, $a_occasion) {
-		//print_r($a_crs_id);
-		//print_r($a_mail_id);
-		//print_r($a_recipients);
-		//print_r($a_occasion);
-		//die();
 		foreach ($a_recipients as $recipient) {
-			$send = $this->deferredMailNeedsToBeSend($a_crs_id, $a_mail_id, $a_recipient);
+			$send = $this->deferredMailNeedsToBeSend($a_crs_id, $a_mail_id, $recipient);
 			$this->removeOutdatedDeferredMails($a_crs_id, $a_mail_id, $recipient);
 			
 			if(!$send) {
@@ -47,7 +42,7 @@ class gevDeferredMails {
 							  " WHERE ".$this->db->in("crs_id", $a_crs_ids, false, "integer").
 							  (($a_mail_ids === null)?""
 							   : " AND ".$this->db->in("mail_id", $a_mail_ids, false, "text")).
-							  (($_recipients === null)?""
+							  (($a_recipients === null)?""
 							   : " AND ".$this->db->in("recipient", $a_recipients, false, "text"))
 							  );
 	}
@@ -59,7 +54,7 @@ class gevDeferredMails {
 			case "participant_sucessfull":
 			case "participant_absent_excused":
 			case "participant_absent_not_excused":
-				$this->removeDeferredMails( array($crs_id)
+				$this->removeDeferredMails( array($a_crs_id)
 										  , array( "participant_sucessfull"
 										  		 , "participant_absent_excused"
 										  		 , "participant_absent_not_excused"
@@ -69,7 +64,7 @@ class gevDeferredMails {
 				break;
 			case "trainer_added":
 			case "trainer_removed":
-				$this->removeDeferredMails( array($crs_id)
+				$this->removeDeferredMails( array($a_crs_id)
 										  , array( "trainer_added"
 										  		 , "trainer_removed"
 										  		 )
@@ -77,7 +72,7 @@ class gevDeferredMails {
 										  );
 			case "admin_cancel_booked_to_cancelled_without_costs":
 			case "admin_cancel_waiting_to_cancelled_without_costs":
-				$this->removeDeferredMails( array( $crs_id)
+				$this->removeDeferredMails( array( $a_crs_id)
 										  , array( "admin_booking_to_waiting"
 										  		 , "admin_booking_to_booked"
 										  		 , "invitation"
@@ -93,7 +88,7 @@ class gevDeferredMails {
 		switch ($a_mail_id) {
 			case "trainer_added":
 			case "trainer_removed":
-				return count($this->getDeferredMails( array( $crs_id)
+				return count($this->getDeferredMails( array( $a_crs_id)
 													, array( "trainer_added"
 														   , "trainer_removed"
 														   )
@@ -101,9 +96,10 @@ class gevDeferredMails {
 													)) == 0;
 			case "admin_cancel_booked_to_cancelled_without_costs":
 			case "admin_cancel_waiting_to_cancelled_without_costs":
-				return count($this->getDeferredMails( array( $crs_id)
+				return count($this->getDeferredMails( array( $a_crs_id)
 													, array( "admin_booking_to_waiting"
 														   , "admin_booking_to_booked"
+														   , "invitation"
 														   )
 													, array($a_recipient)
 													)) == 0;
@@ -121,7 +117,7 @@ class gevDeferredMails {
 								: " AND ".$this->db->in("crs_id", $a_crs_ids, false, "integer")).
 								(($a_mail_ids === null)?""
 							 	: " AND ".$this->db->in("mail_id", $a_mail_ids, false, "text")).
-								(($_recipients === null)?""
+								(($a_recipients === null)?""
 								: " AND ".$this->db->in("recipient", $a_recipients, false, "text"))
 								." ORDER BY crs_id");
 		$ret = array();

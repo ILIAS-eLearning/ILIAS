@@ -209,7 +209,7 @@ class catFilter {
 	
 	// Get the filters and current parameters as SQL-query part
 	// to be append after WHERE in SQL-statement.
-	public function getSQL() {
+	public function getSQLWhere() {
 		$stmt = " TRUE ";
 
 		foreach ($this->static_conditions as $cond) {
@@ -217,12 +217,34 @@ class catFilter {
 		}
 
 		foreach ($this->filters as $conf) {
+			if (!$this->isInWhere($conf)) {
+				continue;
+			}
 			$type = $this->getType($conf);
 			$pars = $this->getParameters($conf);
 			$stmt .= "\n   AND " . $type->sql($conf, $pars) . " ";
 		}
 		
 		return $stmt;
+	}
+	
+	public function getSQLHaving() {
+		$stmt = "";
+		
+		foreach ($this->filters as $conf) {
+			if ($this->isInWhere($conf)) {
+				continue;
+			}
+			$type = $this->getType($conf);
+			$pars = $this->getParameters($conf);
+			$stmt .= "\n   AND " . $type->sql($conf, $pars) . " ";
+		}
+		
+		if ($stmt === "") {
+			return "";
+		}
+		
+		return " TRUE ".$stmt;
 	}
 	
 	// Get the value of a filter parameter
@@ -292,6 +314,10 @@ class catFilter {
 		return catFilter::$filter_types[$a_conf[0]];
 	}
 	
+	protected function isInWhere($a_conf) {
+		return catFilter::$filter_types[$a_conf[0]]->isInWhere($a_conf);
+	}
+
 	protected function getName($a_conf) {
 		return $a_conf[1];
 	}
@@ -352,18 +378,27 @@ class catDatePeriodFilterType {
 	// default_begin
 	// default_end
 	// as_timestamp (optional, defaults to false)
+	// additional_clause (optional, defaults to "")
 	
 	public function checkConfig($a_conf) {
-		if (count($a_conf) !== 8 && count($a_conf) !== 9) {
+		if (count($a_conf) !== 8 && count($a_conf) !== 9 && count($a_conf) !== 10) {
 			// one parameter less, since type is encoded in first parameter but not passed by user.
-			throw new Exception ("catDatePeriodFilterType::checkConfig: expected 7 parameters for dateperiod.");
+			throw new Exception ("catDatePeriodFilterType::checkConfig: expected 7-9 parameters for dateperiod.");
 		}
 		
 		if (count($a_conf) === 8) {
 			$a_conf[8] = false;
+			$a_conf[9] = "";
+		}
+		if (count($a_conf) === 9) {
+			$a_conf[9] = "";
 		}
 		
 		return $a_conf;
+	}
+	
+	public function isInWhere($a_conf) {
+		return true;
 	}
 	
 	public function render($a_tpl, $a_postvar, $a_conf, $a_pars) {
@@ -419,7 +454,7 @@ class catDatePeriodFilterType {
 		global $ilDB;
 	
 		if (!$a_conf[8]) {
-			return "    (".catFilter::quoteDBId($a_conf[5])
+			return "( ( (".catFilter::quoteDBId($a_conf[5])
 						  ." >= ".$ilDB->quote($a_pars["start"], "date")
 				  			// this accomodates history tables
 				  ."        OR ".catFilter::quoteDBId($a_conf[5])." = '0000-00-00' "
@@ -427,6 +462,9 @@ class catDatePeriodFilterType {
 				  ."    )"
 				  ."   AND ".catFilter::quoteDBId($a_conf[4])
 				  			." <= ".$ilDB->quote($a_pars["end"], "date")
+				  ."  )"
+				  .$a_conf[9]
+				  .")"
 				  ;
 		}
 		else {
@@ -435,8 +473,10 @@ class catDatePeriodFilterType {
 			$d = new ilDate($a_pars["end"], IL_CAL_DATE);
 			$d->increment(ilDateTime::DAY, 1);
 			$val_e = $d->get(IL_CAL_UNIX);
-			return   catFilter::quoteDBId($a_conf[5])." >= ".$ilDB->quote($val_s, "integer")
-			." AND ".catFilter::quoteDBId($a_conf[5])." <= ".$ilDB->quote($val_e, "integer");
+			return  "( (".catFilter::quoteDBId($a_conf[5])." >= ".$ilDB->quote($val_s, "integer")
+			." AND ".catFilter::quoteDBId($a_conf[5])." <= ".$ilDB->quote($val_e, "integer")." ) "
+			.$a_conf[9].")"
+			;
 		}
 	}
 	
@@ -474,12 +514,18 @@ class catCheckboxFilterType {
 	// label
 	// sql_checked
 	// sql_unchecked
+	// is_in_having (optional, default to false)
 	
 	public function checkConfig($a_conf) {
-		if (count($a_conf) !== 5) {
+		if (count($a_conf) !== 5 && count($a_conf) !== 6) {
 			// one parameter less, since type is encoded in first parameter but not passed by user.
-			throw new Exception ("catCheckboxFilterType::checkConfig: expected 4 parameters for checkbox.");
+			throw new Exception ("catCheckboxFilterType::checkConfig: expected 4 or 5 parameters for checkbox.");
 		}
+		
+		if (count($a_conf) === 5) {
+			$a_conf[] = false;
+		}
+		
 		return $a_conf;
 	}
 	
@@ -490,6 +536,10 @@ class catCheckboxFilterType {
 		$a_tpl->setVariable("OPTION_TITLE", $a_conf[2]);
 		
 		return true;
+	}
+	
+	public function isInWhere($a_conf) {
+		return !$a_conf[5];
 	}
 	
 	public function sql($a_conf, $a_pars) {
@@ -535,9 +585,10 @@ class catMultiSelectFilter {
 	// field(s)
 	// values
 	// default_values
-	// width (optional)
-	// height (optional)
-	// field type (optional)
+	// additional_clause (optional, defaults to "")
+	// width (optional, defaults to 160)
+	// height (optional, defaults to 75)
+	// field type (optional, default to "text")
 	
 	public function checkConfig($a_conf) {
 		if (count($a_conf) < 6) {
@@ -546,19 +597,29 @@ class catMultiSelectFilter {
 		}
 		
 		if (count($a_conf) === 6) {
+			$a_conf[] = ""; // additional_clause
 			$a_conf[] = 160; // width
 			$a_conf[] = 75; // height
 			$a_conf[] = "text"; // type
 		}
 		else if (count($a_conf) === 7) {
+			$a_conf[] = 160; // width
 			$a_conf[] = 75; // height
 			$a_conf[] = "text"; // type
 		}
 		else if (count($a_conf) === 8) {
+			$a_conf[] = 75; // height
+			$a_conf[] = "text"; // type
+		}
+		else if (count($a_conf) === 9) {
 			$a_conf[] = "text"; // type
 		}
 		
 		return $a_conf;
+	}
+	
+	public function isInWhere($a_conf) {
+		return true;
 	}
 	
 	public function render($a_tpl, $a_postvar, $a_conf, $a_pars) {
@@ -599,12 +660,11 @@ class catMultiSelectFilter {
 		if (is_array($a_conf[3])) {
 			$stmts = array();
 			foreach($a_conf[3] as $field) {
-				$stmts[] = $ilDB->in(catFilter::quoteDBId($field), $a_pars, false, $a_conf[8]);
+				$stmts[] = $ilDB->in(catFilter::quoteDBId($field), $a_pars, false, $a_conf[9]);
 			}
 			return "(".implode(" OR ", $stmts).")";
 		}
-		
-		return $ilDB->in(catFilter::quoteDBId($a_conf[3]), $a_pars, false, $a_conf[8]);
+		return $ilDB->in(catFilter::quoteDBId($a_conf[3]), $a_pars, false, $a_conf[9]);
 	}
 	
 	public function get($a_pars) {
@@ -621,5 +681,72 @@ class catMultiSelectFilter {
 	}
 }
 catFilter::addFilterType(catMultiSelectFilter::ID, new catMultiSelectFilter());
+
+
+
+class catTextInputFilter {
+	const ID = "textinput";
+	
+	public function getId() {
+		return catTextInputFilter::ID;
+	}
+	
+	// config:
+	// id
+	// label
+	// field(s)
+	
+	public function checkConfig($a_conf) {
+		if (count($a_conf) < 4) {
+			// one parameter less, since type is encoded in first parameter but not passed by user.
+			throw new Exception ("catDatePeriodFilterType::checkConfig: expected at 3 parameters for multiselect.");
+		}
+
+		return $a_conf;
+	}
+	
+	public function isInWhere($a_conf) {
+		return true;
+	}
+	
+	public function render($a_tpl, $a_postvar, $a_conf, $a_pars) {
+		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+		
+		$a_tpl->setVariable("VALUE", $a_pars);
+		$a_tpl->setVariable("OPTION_TITLE", $a_conf[2]);
+		
+		return true;
+	}
+	
+	public function sql($a_conf, $a_pars) {
+		global $ilDB;
+		if (count($a_pars) == 0) {
+			return " TRUE ";
+		}
+		
+		if (is_array($a_conf[3])) {
+			$stmts = array();
+			foreach($a_conf[3] as $field) {
+				$stmts[] = catFilter::quoteDBId($a_conf[3])." LIKE ".$ilDB->quote("$a_pars%", "text");
+			}
+			return "(".implode(" OR ", $stmts).")";
+		}
+		
+		return catFilter::quoteDBId($a_conf[3])." LIKE ".$ilDB->quote("$a_pars%", "text");
+	}
+	
+	public function get($a_pars) {
+		return $a_pars;
+	}
+	
+	public function _default($a_conf) {
+		return "";
+	}
+	
+	public function preprocess_post($a_post) {
+		return $a_post;
+	}
+}
+catFilter::addFilterType(catTextInputFilter::ID, new catTextInputFilter());
 
 ?>

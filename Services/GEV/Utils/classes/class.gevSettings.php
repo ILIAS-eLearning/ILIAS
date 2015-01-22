@@ -538,7 +538,7 @@ class gevSettings {
 		
 		'OD-FD Meeting',
 		'FD-Gespräch',
-		'RD-Gespräch',
+		'OD-Gespräch',
 		'AKL-Gespräch',
 		'FD-MA Teammeeting',
 		

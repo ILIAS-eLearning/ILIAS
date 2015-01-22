@@ -21,17 +21,6 @@ require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevGeneralUtils.php");
 
 
-function  __sortByCourseDate($a, $b) {
-	if(	method_exists($a, 'getUnixTime') &&
-		method_exists($b, 'getUnixTime')
-		) {
-		return $a['start_date']->getUnixTime() > $b['start_date']->getUnixTime();
-	}else{
-		return false;
-	}
-}
-
-
 class gevUserUtils {
 	static protected $instances = array();
 
@@ -297,8 +286,12 @@ class gevUserUtils {
 	}
 	
 	public function getEduBioLink() {
+		return self::getEduBioLinkFor($this->user_id);
+	}
+	
+	static public function getEduBioLinkFor($a_target_user_id) {
 		global $ilCtrl;
-		$ilCtrl->setParameterByClass("gevEduBiographyGUI", "target_user_id", $this->user_id);
+		$ilCtrl->setParameterByClass("gevEduBiographyGUI", "target_user_id", $a_target_user_id);
 		$link = $ilCtrl->getLinkTargetByClass("gevEduBiographyGUI", "view");
 		$ilCtrl->clearParametersByClass("gevEduBiographyGUI");
 		return $link;
@@ -410,7 +403,7 @@ class gevUserUtils {
 				 //, gevSettings::CRS_AMD_START_DATE => "status"
 				 , gevSettings::CRS_AMD_TYPE 				=> "type"
 				 , gevSettings::CRS_AMD_VENUE 				=> "location"
-				 , gevSettings::CRS_AMD_CREDIT_POINTS 		=> "credit_points"
+				 , gevSettings::CRS_AMD_CREDIT_POINTS 		=> "points"
 				 , gevSettings::CRS_AMD_FEE					=> "fee"
 				 , gevSettings::CRS_AMD_TARGET_GROUP_DESC	=> "target_group"
 				 , gevSettings::CRS_AMD_TARGET_GROUP		=> "target_group_list"
@@ -433,6 +426,7 @@ class gevUserUtils {
 			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
 			$booked_amd[$key]["overnights"] = $this->getFormattedOvernightDetailsForCourse($crs_utils->getCourse());
 			$booked_amd[$key]["location"] = $orgu_utils->getLongTitle();
+			$booked_amd[$key]["fee"] = floatval($booked_amd[$key]["fee"]);
 			$list = "";
 			foreach ($booked_amd[$key]["target_group_list"] as $val) {
 				$list .= "<li>".$val."</li>";
@@ -455,6 +449,7 @@ class gevUserUtils {
 			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
 			$waiting_amd[$key]["overnights"] = $this->getFormattedOvernightDetailsForCourse($crs_utils->getCourse());
 			$waiting_amd[$key]["location"] = $orgu_utils->getLongTitle();
+			$waiting_amd[$key]["fee"] = floatval($waiting_amd[$key]["fee"]);
 			$list = "";
 			foreach ($waiting_amd[$key]["target_group_list"] as $val) {
 				$list .= "<li>".$val."</li>";
@@ -599,7 +594,6 @@ class gevUserUtils {
 			}
 
 			//sort?
-			usort($ret, '__sortByCourseDate');
 			return $ret;
 	}
 
@@ -798,7 +792,7 @@ class gevUserUtils {
 				 //, gevSettings::CRS_AMD_ => "title"
 				 //, gevSettings::CRS_AMD_START_DATE => "status"
 				 , gevSettings::CRS_AMD_TYPE 				=> "type"
-				 , gevSettings::CRS_AMD_VENUE 				=> "location"
+				 , gevSettings::CRS_AMD_VENUE 				=> "location_id"
 				 , gevSettings::CRS_AMD_CREDIT_POINTS 		=> "points"
 				 , gevSettings::CRS_AMD_FEE					=> "fee"
 				 , gevSettings::CRS_AMD_TARGET_GROUP_DESC	=> "target_group"
@@ -810,9 +804,18 @@ class gevUserUtils {
 				 , gevSettings::CRS_AMD_SCHEDULE			=> "schedule"
 			);
 			
-		$info = gevAMDUtils::getInstance()->getTable($crss, $crs_amd, array(), array(),
-													 "ORDER BY ".$a_order." ".$a_direction." ".
-													 " LIMIT ".$a_limit." OFFSET ".$a_offset);
+		$city_amd_id = $this->gev_set->getAMDFieldId(gevSettings::ORG_AMD_CITY);
+			
+		$info = gevAMDUtils::getInstance()->getTable($crss, $crs_amd, 
+								array("CONCAT(od_city.title, ', ', city.value) as location"), 
+								array(" LEFT JOIN object_data od_city ".
+									  "   ON od_city.obj_id = amd4.value "
+									 ," LEFT JOIN adv_md_values_text city ".
+									  "   ON city.field_id = ".$this->db->quote($city_amd_id, "integer").
+									  "  AND city.obj_id = amd4.value "
+									 ),
+								 "ORDER BY ".$a_order." ".$a_direction." ".
+								 " LIMIT ".$a_limit." OFFSET ".$a_offset);
 
 		global $ilUser;
 
@@ -823,7 +826,7 @@ class gevUserUtils {
 /*			$crs = new ilObjCourse($info["obj_id"], false);
 			$crs_booking = ilCourseBookings::getInstance($crs);
 			$crs_booking_perms = ilCourseBookingPermissions::getInstance($crs);*/
-			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
+			//$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			
 			/*if (   (   !$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)
 					|| in_array($crs_utils->getBookingStatusOf($this->user_id)
@@ -842,7 +845,7 @@ class gevUserUtils {
 			}
 			$info[$key]["target_group"] = "<ul>".$list."</ul>".$info[$key]["target_group"];
 			
-			$info[$key]["location"] = $orgu_utils->getLongTitle();
+			//$info[$key]["location"] = $orgu_utils->getLongTitle();
 			$info[$key]["booking_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
 																		, $value["booking_date"]
 																		);
@@ -1558,7 +1561,7 @@ class gevUserUtils {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
 		// propably faster then checking the employees of this->user
-		return in_array($a_user_id, $tree->getSuperiorsOfUser($this->user_id));
+		return in_array($this->user_id, gevUserUtils::getInstance($a_user_id)->getEmployees());
 	}
 	
 	// returns array containing entries with obj_id and ref_id
@@ -1656,6 +1659,8 @@ class gevUserUtils {
 		
 		return $this->superior_ou_names;
 	}
+	
+	
 	
 	public function getOrgUnitsWhereUserCanBookEmployees() {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
@@ -1848,6 +1853,8 @@ class gevUserUtils {
 					}
 				}
 			}
+			
+			return null;
 		}
 		$ret = explode("-", $agent_status_user);
 		return trim($ret[1]);

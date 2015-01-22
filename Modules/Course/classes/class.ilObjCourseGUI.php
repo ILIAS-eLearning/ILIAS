@@ -5746,12 +5746,16 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		global $ilias;
+		// gev-patch start
 		$utils = gevCourseUtils::getInstance($this->object->getId());
+		// gev-patch end
 
 		if (!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"))
 		{
+			// gev-patch start
 			$this->tpl->setTitle( ($utils->isTemplate() ? "Vorlage: " : "")
 								. $this->object->getTitle());
+			// gev-patch end
 			$this->tpl->setDescription($this->object->getLongDescription());
 	
 			// set tile icon

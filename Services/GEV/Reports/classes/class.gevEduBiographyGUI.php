@@ -11,7 +11,10 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 
 		$this->target_user_id = $_POST["target_user_id"]
 							  ? $_POST["target_user_id"]
-							  : $this->user->getId();
+							  : ( $_GET["target_user_id"]
+							  	? $_GET["target_user_id"]
+							  	: $this->user->getId()
+							  	);
 		$this->target_user_utils = gevUserUtils::getInstance($this->target_user_id);
 
 		if ($this->user->getId() == $this->target_user_id) {
@@ -86,7 +89,8 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->left_join("object_reference oref")
 							->on("crs.crs_id = oref.obj_id")
 						->compile();
-						
+		
+		$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
 		$this->filter = catFilter::create()
 						->dateperiod( "period"
 									, $this->lng->txt("gev_period")
@@ -107,6 +111,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->static_condition("(crs.crs_id < 0 OR oref.deleted IS NULL)")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
+		$this->ctrl->setParameter($this, "target_user_id", NULL);
 	}
 	
 	public function executeCommand() {
@@ -125,7 +130,8 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 	
 	protected function checkPermission() {
 		if(    $this->user->getId() == $this->target_user_id
-			|| $this->target_user_utils->isEmployeeOf($this->user->getId())) {
+			|| $this->target_user_utils->isEmployeeOf($this->user->getId())
+			|| $this->user_utils->isAdmin()) {
 			return;
 		}
 		ilUtil::sendFailure($this->lng->txt("no_edu_bio_permission"), true);

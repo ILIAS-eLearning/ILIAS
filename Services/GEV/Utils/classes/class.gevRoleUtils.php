@@ -139,6 +139,19 @@ class gevRoleUtils {
 		}
 		return $ret;
 	}
+	
+	/* Get the id of a role by name, returns null if no such role exists. */
+	public function getRoleIdByName($a_role_name) {
+		$res = $this->db->query( "SELECT od.obj_id"
+								."  FROM object_data od"
+								." WHERE title = ".$this->db->quote($a_role_name, "text")
+								."   AND type = 'role'"
+								);
+		if ($rec = $this->db->fetchAssoc($res)) {
+			return $rec["obj_id"];
+		}
+		return null;
+	}
 }
 
 ?>

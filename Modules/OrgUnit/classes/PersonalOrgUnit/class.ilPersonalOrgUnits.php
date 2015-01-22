@@ -94,18 +94,14 @@ class ilPersonalOrgUnits {
 	}
 		
 	public function ilPersonalOrgUnitsError($a_fn, $a_msg){
-		global $ilErr;
 		$msg = "ilPersonalOrgUnits::"
 			.$a_fn
 			." -> "
 			. $a_msg;
-		//$ilErr->raiseError($msg,$ilErr->WARNING);
-		print $msg;	
-		$ilErr->raiseError($msg,$ilErr->FATAL);
+		throw new Exception($msg);
 	}
 
 	private function errorIfNull($a_orgu, $a_fn, $a_superior_id){
-		print_r($orgu);
 		if($a_orgu === null){
 			$msg = "The PersonalOrgUnit for user $a_superior_id does not exist.";
 			self::ilPersonalOrgUnitsError($a_fn, $msg);

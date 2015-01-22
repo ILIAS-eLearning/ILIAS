@@ -35,7 +35,7 @@ abstract class ilLPCollection
 	
 	public function cloneCollection($a_target_id, $a_copy_id)
 	{
-		global $ilLog;
+		global $ilLog, $ilDB;
 		
 		$target_obj_id = ilObject::_lookupObjId($a_target_id);
 		
@@ -54,7 +54,6 @@ abstract class ilLPCollection
 			
 	 		$new_collection->addEntry($mappings[$item]);	 		
 	 	}
-		
 		$ilLog->write(__METHOD__.': cloned learning progress collection.');
 	}
 	
@@ -68,7 +67,7 @@ abstract class ilLPCollection
 		return $this->items;
 	}
 	
-	protected function read()
+	protected function read()	
 	{
 		global $ilDB;
 		

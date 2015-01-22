@@ -51,7 +51,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->addColumn($this->lng->txt("status"), "status");
 		$this->addColumn($this->lng->txt("gev_learning_type"), "type");
 		$this->addColumn($this->lng->txt("gev_location"), "location");
-		$this->addColumn($this->lng->txt("date"), "date");
+		$this->addColumn($this->lng->txt("date"), "start_date");
 		$this->addColumn($this->lng->txt("gev_points"), "points");
 		$this->addColumn("&euro;", "fee");
 		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "actions", "20px", false);
@@ -130,7 +130,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("TYPE", $a_set["type"]);
 		$this->tpl->setVariable("LOCATION", $a_set["location"]);
 		$this->tpl->setVariable("DATE", $date);
-		$this->tpl->setVariable("POINTS", $a_set["credit_points"]);
+		$this->tpl->setVariable("POINTS", $a_set["points"]);
 		$this->tpl->setVariable("FEE", $a_set["fee"]);
 		$this->tpl->setVariable("ACTIONS", $action);
 		$this->tpl->setVariable("TARGET_GROUP", $a_set["target_group"]);
@@ -148,6 +148,12 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 			$this->tpl->parseCurrentBlock();
 		}
 
+	}
+	
+	// overwritten from ilTable2GUI to get sorting of fee right.
+	function numericOrdering($a_field)
+	{
+		return $a_field == "fee";
 	}
 }
 

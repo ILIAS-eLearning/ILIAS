@@ -1778,7 +1778,8 @@ class gevUserImport {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$sql = "SELECT user_id, bwv_id FROM hist_user "
 		." INNER JOIN usr_data on hist_user.user_id = usr_data.usr_id"
-		." WHERE hist_user.bwv_id != '-empty-'";
+		." WHERE hist_user.bwv_id != '-empty-'"
+		." AND hist_user.hist_historic = 0";
 		
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)){
@@ -1788,6 +1789,29 @@ class gevUserImport {
 			$m = substr($bwv_id, 4, 2);
 			$d = substr($bwv_id, 6, 2);
 			$period_begin = new ilDate("$d.$m.$y", IL_CAL_DATE);
+
+
+			//check, if user has a training with date before! wbd-registration
+			$sql = "SELECT begin_date FROM hist_usercoursestatus WHERE"
+				." hist_historic=0"
+				." AND begin_date != '0000-00-00'"
+				." AND begin_date != '1970-01-01'"
+				." AND begin_date < '$y-$m-$d'"
+				." AND usr_id=" .$record['user_id']
+				." ORDER BY begin_date ASC"
+				." LIMIT 1"
+				;
+			$res = $this->ilDB->query($sql);
+			if($this->ilDB->numRows($res) > 0){
+				$rec = $this->ilDB->fetchAssoc($res);
+				$dat = explode('-', $rec['begin_date']);
+				$y = $dat[0];
+				$m = $dat[1];
+				$d = $dat[2];
+				$period_begin = new ilDate("$d.$m.$y", IL_CAL_DATE);
+				$this->prnt($record['user_id'] .' -> '.$period_begin, 3);
+			}
+
 
 			
 			$user_utils = gevUserUtils::getInstance($record['user_id']);
@@ -1802,6 +1826,49 @@ class gevUserImport {
 		$this->prnt('fixCertificationPeriodFromBWVId: done', 2);
 	}
 
+
+
+	public function importCertificates(){
+		$this->prnt('importCertificates', 1);
+
+		//get user_ids and theit certfiles
+		$sql = "SELECT"
+		." interimUsers.ilid,"
+		." interimUsercoursestatus.crs_id, certificate"
+		." FROM interimUsers"
+		." LEFT JOIN interimUsercoursestatus ON interimUsers.ilid_gev = interimUsercoursestatus.usr_id_gev"
+		." WHERE interimUsercoursestatus.certificate > 0"
+		." AND interimUsercoursestatus.hist_historic=0"
+		;
+
+		$result = $this->queryShadowDB($sql);
+		while ($record = mysql_fetch_assoc($result)){
+
+			$sql = "SELECT * FROM hist_certfile WHERE row_id=" .$record['certificate'];
+			$res = $this->queryShadowDB($sql);
+			$rec = mysql_fetch_assoc($res);
+
+			//insert cert from hist_certfile with new id
+			$certid = $this->ilDB->nextId('hist_certfile');
+			$this->ilDB->insert(
+				'hist_certfile',
+				array(
+					'row_id'   => array( 'integer', $certid ),
+					'certfile' => array( 'text', $rec['certfile'])
+				)
+			);
+
+			//update user history
+			$sql = "UPDATE hist_usercoursestatus"
+				." SET certificate = $certid"
+				." WHERE usr_id = " .$record['ilid']
+				." AND crs_id = " .$record['crs_id']
+				;
+			$this->ilDB->manipulate($sql);
+		}
+		
+		$this->prnt('importCertificates: done', 2);
+	}
 
 
 

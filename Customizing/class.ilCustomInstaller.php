@@ -252,6 +252,17 @@ class ilCustomInstaller
 	}
 	
 	/*
+	 * Initialize global ilDB object if there is none.
+	 */
+	static public function maybeInitLog() {
+		if (isset($GLOBALS["ilLog"])) {
+			return;
+		}
+		require_once "./Services/Logging/classes/class.ilLog.php";
+		$GLOBALS["ilLog"] = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,CLIENT_ID,ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);
+	}
+	
+	/*
 	 * Initialize rbacadmin, rbacreview and rbacsystem object if they are not existent.
 	 */
 	static public function maybeInitRBAC() {

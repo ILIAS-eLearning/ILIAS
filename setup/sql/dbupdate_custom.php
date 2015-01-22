@@ -2844,7 +2844,6 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	ilCustomInstaller::reloadStructure();
 ?>
 
-
 <#88>
 <?php
 	//more fields in history
@@ -2984,4 +2983,161 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 					 , "read_users"
 					 ));
 	}
+?>
+
+<#93>
+<?php
+	require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+	require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+	require_once("Customizing/class.ilCustomInstaller.php");
+	
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	
+	$res = $ilDB->query( "SELECT od.obj_id, oref.ref_id, od.title "
+						."  FROM object_data od"
+						."  JOIN object_reference oref ON oref.obj_id = od.obj_id"
+						." WHERE oref.deleted IS NULL"
+						."   AND type = 'orgu'"
+						."   AND title LIKE 'Organisationsdirektion%'"
+						);
+
+	while ($rec = $ilDB->fetchAssoc($res)) {
+		$tmp = explode(" ", $rec["title"]);
+		$res2 = $ilDB->query("SELECT od.obj_id, oref.ref_id, od.title "
+							."  FROM object_data od"
+							."  JOIN object_reference oref ON oref.obj_id = od.obj_id"
+							." WHERE oref.deleted IS NULL"
+							."   AND type = 'orgu'"
+							."   AND title = 'Filialdirektion ".$tmp[1]."'"
+							);
+		$rec2 = $ilDB->fetchAssoc($res2);
+		if (!$rec2) {
+			continue;
+		}
+		
+		$source_ou = gevOrgUnitUtils::getInstance($rec["obj_id"]);
+		$target_ou = gevOrgUnitUtils::getInstance($rec2["obj_id"]);
+		$source_employees = gevOrgUnitUtils::getEmployeesIn(array($rec["ref_id"]));
+		foreach (gevOrgUnitUtils::getAllPeopleIn(array($rec["ref_id"])) as $usr_id) {
+			$user = gevUserUtils::getInstance($usr_id);
+			if ($user->hasRoleIn(array("FD", "OD/BD", "UA", "OD/FD/BD ID", "DBV EVG"))) {
+				continue;
+			}
+			$role = in_array($usr_id, $source_employees) ? "Mitarbeiter" : "Vorgesetzter";
+			$source_ou->deassignUser($usr_id, $role);
+			$target_ou->assignUser($usr_id, $role);
+		}
+	}
+?>
+
+<#94>
+<?php
+	// Enables local user administration. Based on Martin Studers Paper
+	// 20140911_LinkLokaleBenutzerverwaltung.docx
+
+	require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+	require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+	require_once("Customizing/class.ilCustomInstaller.php");
+	
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	
+	$global_roles_of_superiors = array( "Administrator"
+									  , "Admin-Voll"
+									  , "Admin-eingeschraenkt"
+									  , "Admin-Ansicht"
+									  , "OD/BD"
+									  , "FD"
+									  , "UA"
+									  , "ID FK"
+									  , "DBV UVG"
+									  );
+	
+	$res = $ilDB->query("SELECT DISTINCT oref.ref_id "
+						."  FROM object_data od "
+						."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
+						." WHERE ".$ilDB->in("import_id", array("evg"), false, "text")
+						."   AND oref.deleted IS NULL"
+						."   AND od.type = 'orgu'"
+						);
+	
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		foreach($global_roles_of_superiors as $role) {
+			gevOrgUnitUtils::grantPermissionsRecursivelyFor($rec["ref_id"], $role,
+					array( "visible"
+						 , "read"
+						 ));
+		}
+	}
+	else {
+		die("Could not find orgu with import id evg.");
+	}
+	
+	$res = $ilDB->query("SELECT DISTINCT od.obj_id "
+						."  FROM object_data od "
+						."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
+						." WHERE ".$ilDB->in("import_id", array("gev_base"), false, "text")
+						."   AND oref.deleted IS NULL"
+						."   AND od.type = 'orgu'"
+						);
+	
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		foreach($global_roles_of_superiors as $role) {
+			gevOrgUnitUtils::getInstance($rec["obj_id"])
+				->grantPermissionsFor($role,
+					array( "visible"
+						 , "read"
+						 ));
+		}
+	}
+	else {
+		die("Could not find orgu with import id gev_base.");
+	}
+	
+	// Administration 
+	$ref_id = 9;
+	global $rbacreview;
+	global $rbacadmin;
+	foreach($global_roles_of_superiors as $role_name) {
+		$role = gevRoleUtils::getInstance()->getRoleIdByName($role_name);
+		if (!$role) {
+			die("Could not find role $role_name");
+		}
+		$cur_ops = $rbacreview->getRoleOperationsOnObject($role, $ref_id);
+		$grant_ops = ilRbacReview::_getOperationIdsByName(array("visible", "read"));
+		$new_ops = array_unique(array_merge($grant_ops, $cur_ops));
+		$rbacadmin->revokePermission($ref_id, $role);
+		$rbacadmin->grantPermission($role, $new_ops, $ref_id);
+	}
+	
+	// Org-Units 
+	$ref_id = 56;
+	global $rbacreview;
+	global $rbacadmin;
+	foreach($global_roles_of_superiors as $role_name) {
+		$role = gevRoleUtils::getInstance()->getRoleIdByName($role_name);
+		if (!$role) {
+			die("Could not find role $role_name");
+		}
+		$cur_ops = $rbacreview->getRoleOperationsOnObject($role, $ref_id);
+		$grant_ops = ilRbacReview::_getOperationIdsByName(array("visible", "read"));
+		$new_ops = array_unique(array_merge($grant_ops, $cur_ops));
+		$rbacadmin->revokePermission($ref_id, $role);
+		$rbacadmin->grantPermission($role, $new_ops, $ref_id);
+	}
+
+
 ?>

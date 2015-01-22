@@ -6,6 +6,7 @@
 * for Generali
 *
 * @author	Nils Haagen <nhaagen@concepts-and-training.de>
+* @author	Richard Klees <richard.klees@concepts-and-training.de>
 * @version	$Id$
 */
 
@@ -34,12 +35,8 @@ class catBasicReportGUI {
 		$this->query = null;
 		$this->data = false;
 		$this->filter = null;
+		$this->order = null;
 		
-		//watch out for sorting of special fields, i.e. dates shown as a period of time.
-		//to avoid the ilTable-sorting, set this too true.
-		//i.e. applies to: _table_nav=date:asc:
-		$this->external_sorting = false;
-
 		$this->permissions = gevReportingPermissions::getInstance($this->user->getId());
 	}
 	
@@ -153,16 +150,15 @@ class catBasicReportGUI {
 							 );
 		}
 		
-		// TODO: This should be implemented via ORDER BY in sql.
-		if ($this->table->order_field !== null) {
-			$table->setOrderField($this->table->order_field);
-			$table->setOrderDirection($this->table->order_direction);
+		if ($this->order !== null) {
+			$table->setOrderField($this->order->getOrderField());
+			$table->setOrderDirection($this->order->getOrderDirection());
 		}
 		
 		$cnt = count($data);
 		$table->setLimit($cnt);
 		$table->setMaxCount($cnt);
-		$table->setExternalSorting($this->external_sorting);
+		$table->setExternalSorting($this->order !== null);
 
 		$table->setData($data);
 
@@ -285,7 +281,26 @@ class catBasicReportGUI {
 			return " WHERE TRUE";
 		}
 		
-		return " WHERE ".$this->filter->getSQL();
+		return " WHERE ".$this->filter->getSQLWhere();
+	}
+	
+	protected function queryHaving() {
+		if ($this->filter === null) {
+			return "";
+		}
+		$having = $this->filter->getSQLHaving();
+		if (trim($having) === "") {
+			return "";
+		}
+		return " HAVING ".$having;
+	}
+	
+	protected function queryOrder() {
+		if ($this->order === null) {
+			return "";
+		}
+		
+		return $this->order->getSQL();
 	}
 	
 	protected function getData(){ 
@@ -300,8 +315,11 @@ class catBasicReportGUI {
 			throw new Exception("catBasicReportGUI::fetchData: query not defined.");
 		}
 		
-		$query = $this->query->sql()
-			   . $this->queryWhere()
+		$query = $this->query->sql()."\n "
+			   . $this->queryWhere()."\n "
+			   . $this->query->sqlGroupBy()."\n"
+			   . $this->queryHaving()."\n"
+			   . $this->queryOrder()
 			   ; //die($query);
 		
 		$res = $this->db->query($query);
@@ -339,8 +357,6 @@ class catReportTable {
 		$this->all_columns = array();
 		$this->row_template_filename = null;
 		$this->row_template_module = null;
-		$this->order_field = null;
-		$this->order_direction = null;
 		$this->_group_by = null;
 		$this->group_head_template_filename = null;
 		$this->group_head_template_module = null;
@@ -358,17 +374,6 @@ class catReportTable {
 									 , $a_no_excel
 									 );
 		$this->all_columns[$a_id] = $this->columns[$a_id];
-		return $this;
-	}
-	
-	public function order($a_field, $a_direction) {
-		if (!in_array($a_direction, array("asc", "ASC", "desc", "DESC"))) {
-			throw new Exception("catReportTable::order: Expected ASC or DESC for direction.");
-		}
-		
-		$this->order_field = $a_field;
-		$this->order_direction = $a_direction;
-		
 		return $this;
 	}
 	
@@ -412,6 +417,7 @@ class catReportTable {
 class catReportQuery {
 	protected function __construct() {
 		$this->fields = array();
+		$this->_select_raw = array();
 		$this->_from = null;
 		$this->joins = array();
 		$this->left_joins = array();
@@ -419,6 +425,7 @@ class catReportQuery {
 		$this->sql_str = null;
 		$this->sql_from = null;
 		$this->_distinct = false;
+		$this->_group_by = array();
 	}
 	
 	public static function create() {
@@ -439,6 +446,11 @@ class catReportQuery {
 		else {
 			$this->fields = array_merge($this->fields, $a_fields);
 		}
+		return $this;
+	}
+	
+	public function select_raw($a_stmt) {
+		$this->_select_raw[] = $a_stmt;
 		return $this;
 	}
 	
@@ -463,6 +475,11 @@ class catReportQuery {
 		return new catReportQueryOn($this, $this->left_joins, $a_table);
 	}
 	
+	public function group_by($a_column) {
+		$this->_group_by[] = $a_column;
+		return $this;
+	}
+	
 	public function sql() {
 		if( $this->sql_str !== null) {
 			return $this->sql_str;
@@ -478,6 +495,8 @@ class catReportQuery {
 			 "SELECT "
 			.($this->_distinct ? "DISTINCT " : "")
 			.implode("\n\t,", $escp)
+			.(count($this->_select_raw) ? "\n\t," : "")
+			.implode("\n\t,", $this->_select_raw)
 			.$this->sqlFrom()
 			;
 			
@@ -485,14 +504,30 @@ class catReportQuery {
 	}
 	
 	public function sqlFrom() {
+		
 		if ($this->sql_from === null) {
 			$this->sql_from =
-				 "\n FROM ".$this->_from[0]." ".$this->_from[1]
-				.implode("\n ", $this->joins)
-				.implode("\n ", $this->left_joins);
+				 "\n FROM ".$this->_from[0]." ".$this->_from[1]."\n "
+				// TODO: this might break the query since it does not respect
+				// the order in which the user defined the
+				.implode("\n ", $this->joins)."\n "
+				.implode("\n ", $this->left_joins)."\n";
 		}
 		
 		return $this->sql_from;
+	}
+	
+	public function sqlGroupBy() {
+		if (!count($this->_group_by)) {
+			return "";
+		}
+		
+		$cols = array();
+		foreach ($this->_group_by as $col) {
+			$cols[] = catFilter::quoteDBId($col);
+		}
+		
+		return " GROUP BY ".implode(", ", $cols);
 	}
 	
 	public function compile() {
@@ -557,6 +592,111 @@ class catReportQueryOn {
 	public function on($a_condition) {
 		$this->joins[] = array($this->table, $a_condition);
 		return $this->query;
+	}
+}
+
+class catReportOrder {
+	protected function __construct(catReportTable $a_table) {
+		$this->mapping = array();
+		$this->default_field = null;
+		$this->default_direction = null;
+		$this->order_field = null;
+		$this->order_direction = null;
+		$this->table = $a_table;
+	}
+	
+	static public function create(catReportTable $a_table) {
+		return new catReportOrder($a_table);
+	}
+	
+	public function getOrderField() {
+		if ($this->order_field === null) {
+			$this->getOrderFromGETOrDefault();
+		}
+		return $this->order_field;
+	}
+	
+	public function getOrderDirection() {
+		if ($this->order_direction === null) {
+			$this->getOrderFromGETOrDefault();
+		}
+		return $this->order_direction;
+	}
+	
+	protected function getOrderFromGETorDefault() {
+		if (array_key_exists("_table_nav", $_GET)) {
+			$tmp = explode(":", $_GET["_table_nav"]);
+			
+			$this->order_field = $this->normalizeOrderField($tmp[0]);
+			$this->order_direction = $this->normalizeOrderDirection($tmp[1]);
+		}
+		else {
+			$this->order_field = $this->default_field;
+			$this->order_direction = $this->default_direction;
+		}
+	}
+	
+	public function getSQL() {
+		$field = $this->getOrderField();
+		$direction = $this->getOrderDirection();
+		
+		if ($field === null) {
+			return "";
+		}
+		
+		if (!array_key_exists($field, $this->mapping)) {
+			return " ORDER BY ".catFilter::quoteDBId($field)." $direction";
+		}
+		
+		$sql = " ORDER BY ";
+		$fields = array();
+		foreach ($this->mapping[$field] as $field) {
+			$fields[] = catFilter::quoteDBId($field)." $direction";
+		}
+		return " ORDER BY ".implode(", ", $fields);
+	}
+
+	public function mapping($a_from, $a_to) {
+		if (array_key_exists($a_from, $this->mapping)) {
+			throw new Exception("catReportOrder::mapping: Mapping for $a_from already set.");
+		}
+		if (!is_array($a_to)) {
+			$a_to = array($a_to);
+		}
+		
+		$this->mapping[$a_from] = $a_to;
+		return $this;
+	}
+	
+	public function defaultOrder($a_field, $a_direction) {
+		if ($this->default_field !== null) {
+			throw new Exception("catReportOrder::default: Default order already set.");
+		}
+		
+		$this->default_field = $this->normalizeOrderField($a_field);
+		$this->default_direction = $this->normalizeOrderDirection($a_direction);
+		
+		return $this;
+	}
+	
+	protected function normalizeOrderField($a_field) {
+		if (!array_key_exists($a_field, $this->table->columns)) {
+			throw new Exception("catReportOrder::normalizeOrderField: "
+							   ."$a_field is no column in the table.");
+		}
+		
+		return $a_field;
+	}
+	
+	protected function normalizeOrderDirection($a_direction) {
+		$a_direction = strtoupper($a_direction);
+		
+		if (!in_array($a_direction, array("ASC", "DESC"))) {
+			throw new Exception("catReportOrder::normalizeOrderDirection: ".
+								"$a_direction is no valid order.");
+		}
+		
+		return $a_direction;
 	}
 }
 

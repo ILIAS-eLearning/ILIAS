@@ -152,8 +152,14 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 		$target_collection = new static($target_obj_id, $this->mode);
 		
 		// clone (active) groupings
-		foreach($this->getGroupedItemsForLPStatus() as $group)
+		foreach($this->getGroupedItemsForLPStatus() as $key => $group)
 		{
+			// gev-patch start
+			// #898 - this is the no grouping group id...
+			if ($key == 0) {
+				continue;
+			}
+			// gev-patch end
 			$target_item_ids = array();
 			foreach($group["items"] as $item)
 			{

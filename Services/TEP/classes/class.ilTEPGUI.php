@@ -11,6 +11,7 @@ require_once "Services/TEP/classes/class.ilTEPPermissions.php";
  * @ingroup ServicesTEP
  * 
  * @ilCtrl_Calls ilTEPGUI: ilTEPEntryGUI, ilTEPOperationDaysGUI, ilFormPropertyDispatchGUI
+ * @ilCtrl_Calls ilTEPGUI: ilParticipationStatusAdminGUI
  */
 class ilTEPGUI
 {
@@ -167,8 +168,28 @@ class ilTEPGUI
 				$ilCtrl->forwardCommand($gui);
 				break;
 			
-			default:				
-				$this->$cmd();
+			default:
+				// gev-patch start
+				switch($cmd) {
+					case "finalize":
+					case "confirmFinalize":
+					case "saveStatusAndPoints":
+					case "uploadAttendanceList":
+						//ilParticipationStatusTableGUI
+						require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusAdminGUI.php");
+						$crs_ref_id = $this->getCrsRefId();
+						$gui = ilParticipationStatusAdminGUI::getInstanceByRefId($crs_ref_id);
+						$gui->from_foreign_class = 'ilTEPGUI';
+						$gui->crs_ref_id = $crs_ref_id;
+
+						//$gui->returnToList();
+						//die('forwarding cmd');
+						$ret = $ilCtrl->forwardCommand($gui);
+						break;
+					default:
+						$this->$cmd();
+				}
+				// gev-patch end
 				break;
 		}
 
@@ -298,6 +319,10 @@ class ilTEPGUI
 	public function getCrsRefId() {
 		$crs_ref_id = $_GET['ref_id'];
 
+		if (! $crs_ref_id) {
+			$crs_ref_id = $_GET['crsrefid'];
+		}
+
 		if(! $crs_ref_id){
 			throw new ilException("ilTEPGUI - needs course ref_id");
 		}
@@ -318,6 +343,10 @@ class ilTEPGUI
 			ilUtil::sendFailure($this->lng->txt("gev_mytrainingsap_no_accomodations"), true);
 			$this->ctrl->redirect($this, "view");
 		}
+	}
+	
+	protected function listStatus() {
+		$this->showParticipationStatus();
 	}
 	
 	protected function showParticipationStatus() {

@@ -952,7 +952,11 @@ class gevCourseUtils {
 		}
 		return $this->material_list;
 	}
-
+	
+	public function hasMaterialOnList() {
+		return $this->getMateriallist()->hasItems($this->getId());
+	}
+	
 	// derived courses for templates
 	
 	public function getDerivedCourseIds($future_only = false) {
@@ -1872,7 +1876,7 @@ class gevCourseUtils {
 
 		global $ilDB;
 
-		$res = $ilDB->query("SELECT DISTINCT edu_program FROM hist_course WHERE edu_program != '-empty-'");
+		$res = $ilDB->query("SELECT DISTINCT edu_program FROM hist_course WHERE edu_program != '-empty-' AND hist_historic = 0");
 		self::$hist_edu_programs = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {
 			self::$hist_edu_programs[] = $rec["edu_program"];
@@ -1889,7 +1893,7 @@ class gevCourseUtils {
 
 		global $ilDB;
 		
-		$res = $ilDB->query("SELECT DISTINCT type FROM hist_course WHERE type != '-empty-'");
+		$res = $ilDB->query("SELECT DISTINCT type FROM hist_course WHERE type != '-empty-' AND hist_historic = 0");
 		self::$hist_course_types = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {
 			self::$hist_course_types[] = $rec["type"];
@@ -1907,7 +1911,7 @@ class gevCourseUtils {
 
 		global $ilDB;
 
-		$res = $ilDB->query("SELECT DISTINCT template_title FROM hist_course WHERE template_title != '-empty-'");
+		$res = $ilDB->query("SELECT DISTINCT template_title FROM hist_course WHERE template_title != '-empty-' AND hist_historic = 0");
 		self::$hist_course_template_title = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {
 			self::$hist_course_template_title[] = $rec["template_title"];
@@ -1924,7 +1928,7 @@ class gevCourseUtils {
 
 		global $ilDB;
 
-		$res = $ilDB->query("SELECT DISTINCT participation_status FROM hist_usercoursestatus WHERE participation_status != '-empty-'");
+		$res = $ilDB->query("SELECT DISTINCT participation_status FROM hist_usercoursestatus WHERE participation_status != '-empty-' AND hist_historic = 0");
 		self::$hist_participation_status = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {
 			self::$hist_participation_status[] = $rec["participation_status"];
@@ -1942,7 +1946,6 @@ class gevCourseUtils {
 		
 		global $ilDB;
 		global $ilUser;
-		//global $ilCtrl;
 		
 		$gev_set = gevSettings::getInstance();
 		$db = &$ilDB;
@@ -1954,20 +1957,6 @@ class gevCourseUtils {
 		if ($a_direction !== "asc" && $a_direction !== "desc") {
 			throw new Exception("gevCourseUtils::searchCourses: unknown direction '".$a_direction."'");
 		}
-		
-		/*if (!in_array($a_order, array("title", "start_date", "end_date", "booking_date", "location"
-									 , "points", "fee", "target_group", "goals", "content", "type"))) 
-		{
-			throw new Exception("gevUserUtils::getPotentiallyBookableCourseInformation: unknown order '".$a_order."'");
-		}
-		*/
-
-		/*
-		$hash = md5(serialize($a_search_options));
-		if ($this->potentiallyBookableCourses[$hash] !== null) {
-			return $this->potentiallyBookableCourses[$hash];
-		}
-		*/
 		
 		$is_tmplt_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
 		$start_date_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
@@ -2055,7 +2044,6 @@ class gevCourseUtils {
 				$online_status = 0;
 			}
 			$additional_where .=" AND cs.activation_type = " .$db->quote($online_status, 'integer');
-			//print $additional_where;
 		}
 
 		
@@ -2081,12 +2069,6 @@ class gevCourseUtils {
 
 				 $additional_join.
 				 " WHERE ".
-
-/*				 "	 cs.activation_type = 1".
-				 "   AND cs.activation_start < ".time().
-				 "   AND cs.activation_end > ".time().
-				 "   AND oref.deleted IS NULL".
-*/
 				 "   oref.deleted IS NULL".
 				 "   AND is_template.value = ".$db->quote("Nein", "text").
 
@@ -2176,8 +2158,6 @@ class gevCourseUtils {
 			$info[$key]["status"] = ($crs_utils->getCourse()->isActivated()) ? 'online' : 'offline';
 
 			$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
-			//http://localhost/4_4_generali2/ilias.php?ref_id=80&cmd=trainer&cmdClass=gevmemberlistdeliverygui&cmdNode=ei&baseClass=gevmemberlistdeliverygui
-			//$memberlist_link = $ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer");
 			$memberlist_lnk = "ilias.php?cmd=trainer&cmdClass=gevmemberlistdeliverygui&cmdNode=ei&baseClass=gevmemberlistdeliverygui&ref_id=" .$crs_ref;
 			$action = '<a href="'
 					.$memberlist_lnk

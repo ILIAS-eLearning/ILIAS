@@ -427,7 +427,28 @@ class ilSCORM13Player
 		$this->tpl->setVariable('TREE_JS', "./Services/UIComponent/NestedList/js/ilNestedList.js");
 		$this->tpl->setVariable($langstrings);
 		$this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
-		if ($this->slm->getIe_compatibility()) $this->tpl->setVariable('IE_COMPATIBILITY', '<meta http-equiv="X-UA-Compatible" content="IE=7" />');
+
+		if ($this->slm->getIe_compatibility()) {
+			//2015-01-13, Nils Haagen
+			/*
+				IE 8 does not enter the course w/o X-UA-Compatible content="IE=7"
+				IE 11 identifies as IE 8 with the setting enabled;
+
+				There is a script (from github) to get the user-agent in a proper form:
+			*/
+			require_once("./parse_user_agent.php");
+			$ua = parse_user_agent($_SERVER['HTTP_USER_AGENT']);
+			
+			if ($ua['browser'] == 'MSIE' && (int)$ua['version'] > 8) {
+				$this->tpl->setVariable('IE_COMPATIBILITY', '<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />');	
+			} else {
+				$this->tpl->setVariable('IE_COMPATIBILITY', '<meta http-equiv="X-UA-Compatible" content="IE=7" />');	
+			}
+		} 
+
+
+
+
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable('INIT_CP_DATA', json_encode(json_decode($this->getCPDataInit())));
 		$this->tpl->setVariable('INIT_CMI_DATA', json_encode($this->getCMIData($this->userId, $this->packageId)));

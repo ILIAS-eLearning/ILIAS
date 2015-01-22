@@ -121,11 +121,9 @@ class ilParticipationStatusHelper
 				return ilParticipationStatus::MODE_NON_REVIEWED;
 			case "Selbstlernkurs":
 				return ilParticipationStatus::MODE_CONTINUOUS;
-			case "Spezialistenschulung Präsenztraining":
-				return ilParticipationStatus::MODE_REVIEWED;
-			case "Spezialistenschulung Webinar":
-				return ilParticipationStatus::MODE_REVIEWED;
 			case "Webinar":
+				return ilParticipationStatus::MODE_NON_REVIEWED;
+			case "Virtuelles Training":
 				return ilParticipationStatus::MODE_NON_REVIEWED;
 			default:
 				$this->log->write( "ilParticipationStatusHelper::getParticipationStatusMode: "
