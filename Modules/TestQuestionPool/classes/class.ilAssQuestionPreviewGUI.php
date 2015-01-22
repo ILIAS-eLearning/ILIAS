@@ -11,6 +11,8 @@
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssQuestionPreviewToolbarGUI
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssQuestionRelatedNavigationBarGUI
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssQuestionHintRequestGUI
+ * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssGenFeedbackPageGUI
+ * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssSpecFeedbackPageGUI
 
  */
 class ilAssQuestionPreviewGUI
@@ -153,6 +155,13 @@ class ilAssQuestionPreviewGUI
 
 				$this->ctrl->forwardCommand($gui);
 
+				break;
+
+			case 'ilassspecfeedbackpagegui':
+			case 'ilassgenfeedbackpagegui':
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackPageObjectCommandForwarder.php';
+				$forwarder = new ilAssQuestionFeedbackPageObjectCommandForwarder($this->questionOBJ, $this->ctrl, $this->tabs, $this->lng);
+				$forwarder->forward();
 				break;
 			
 			default:
