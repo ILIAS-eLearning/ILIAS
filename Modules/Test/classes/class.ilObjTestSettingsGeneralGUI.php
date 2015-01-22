@@ -10,7 +10,9 @@
  *
  * @package		Modules/Test
  * 
- * @ilCtrl_Calls ilObjTestSettingsGeneralGUI: ilPropertyFormGUI, ilTestSettingsChangeConfirmationGUI
+ * @ilCtrl_Calls ilObjTestSettingsGeneralGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls ilObjTestSettingsGeneralGUI: ilConfirmationGUI
+ * @ilCtrl_Calls ilObjTestSettingsGeneralGUI: ilTestSettingsChangeConfirmationGUI
  */
 class ilObjTestSettingsGeneralGUI
 {
