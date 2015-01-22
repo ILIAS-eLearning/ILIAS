@@ -956,12 +956,19 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		$passcount = count($relevant_answers);
-		foreach($relevant_answers as $pass)
+		$actives = array();
+		foreach($relevant_answers as $answer)
 		{
-			$actives[$pass['active_fi']] = $pass['active_fi'];
+			$actives[$answer['active_fi']] = max($answer['pass'], $actives[$answer['pass']]);
 		}
 		$usercount = count($actives);
+		$passcount = 0;
+		foreach($actives as $active)
+		{
+			$passcount += $active;
+		}
+		$passcount = $passcount + $usercount; // Add pass 0
+		
 		$tpl = new ilTemplate('tpl.il_as_aggregated_answers_header.html', true, true, "Modules/TestQuestionPool");
 		$tpl->setVariable('HEADERTEXT', $this->lng->txt('overview'));
 		$tpl->setVariable('NUMBER_OF_USERS_INFO', $this->lng->txt('number_of_users'));

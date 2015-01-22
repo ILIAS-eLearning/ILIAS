@@ -275,13 +275,9 @@ class ilScoringAdjustmentGUI
 		
 		foreach ($active_ids as $active_id)
 		{
-			$passes[] = $this->object->_getPass($active_id);
-			foreach ($passes as $key => $pass)
-			{
-				for ($i = 0; $i <= $pass; $i++)
-				{
-					$results[] = $question->object->getSolutionValues($active_id, $i);
-				}
+			for ($i = 0, $max=$this->object->_getPass($active_id); $i <= $max ; $i++)
+			{ // Strange for-syntax works.
+				$results[] = $question->object->getSolutionValues($active_id, $i);
 			}
 		}
 
