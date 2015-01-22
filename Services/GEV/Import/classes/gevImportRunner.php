@@ -63,7 +63,8 @@ $imp->fetchGEVEduRecords();
 //$imp->setHistoryUsersToActive();
 //$imp->importCertificates();
 
-$imp->fixCertificationPeriodFromBWVId();
+//$imp->fixCertificationPeriodFromBWVId();
+$imp->fixVFSTPService();
 
 
 print '<br><br><hr>all through.';

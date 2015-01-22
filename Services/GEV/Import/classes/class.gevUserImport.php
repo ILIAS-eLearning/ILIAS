@@ -1874,4 +1874,33 @@ class gevUserImport {
 
 
 
+
+	public function fixVFSTPService(){
+		$this->prnt('fixVFSTPService', 1);
+		
+		require_once("Services/GEV/Import/classes/class.gevFetchVFSUser.php");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+
+		$sql = "SELECT ilid FROM interimUsers WHERE"
+			." tp_type = '0 - kein Service'"
+			." AND active = 1"
+			." AND pos_vfs in ('"
+			.implode("','", gevFetchFVSUser::$POS_WITH_OKZ)
+			."')"
+			;
+		
+		$result = $this->queryShadowDB($sql);
+		while ($record = mysql_fetch_assoc($result)){
+			$user_utils = gevUserUtils::getInstance($record['ilid']);
+			$user_utils->setWBDTPType('3 - TP-Service');
+			$user = $user_utils->getUser();
+			$user->update();
+
+			$this->prnt('. ', -1);
+		}
+
+		$this->prnt('fixVFSTPService: done', 2);
+	}
+
+
 }
