@@ -371,7 +371,10 @@ class ilObjTestSettingsGeneralGUI
 				$this->testOBJ->setIntroduction('');
 			}
 		}
-		$this->testOBJ->setShowInfo($form->getItemByPostVar('showinfo')->getChecked());
+		if( $form->getItemByPostVar('showinfo') instanceof ilFormPropertyGUI )
+		{
+			$this->testOBJ->setShowInfo($form->getItemByPostVar('showinfo')->getChecked());
+		}
 		$this->testOBJ->setFinalStatement($form->getItemByPostVar('finalstatement')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$this->testOBJ->setShowFinalStatement($form->getItemByPostVar('showfinalstatement')->getChecked());
 		if( $form->getItemByPostVar('chb_postpone') instanceof ilFormPropertyGUI )
