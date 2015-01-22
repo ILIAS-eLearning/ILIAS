@@ -3055,16 +3055,16 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	ilCustomInstaller::maybeInitObjDataCache();
 	ilCustomInstaller::maybeInitUserToRoot();
 	
-	$global_roles_of_superiors = array(/* "Administrator"
+	$global_roles_of_superiors = array( "Administrator"
 									  , "Admin-Voll"
 									  , "Admin-eingeschraenkt"
 									  , "Admin-Ansicht"
 									  , "OD/BD"
 									  , "FD"
-									  , */"UA"
-									  /*, "ID FK"
+									  , "UA"
+									  , "ID FK"
 									  , "DBV UVG"
-									  */);
+									  );
 	
 	$res = $ilDB->query("SELECT DISTINCT oref.ref_id "
 						."  FROM object_data od "
