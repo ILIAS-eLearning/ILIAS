@@ -665,7 +665,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$ilTabs->setSubTabActive('cont_tracking_modify');
 
 		include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingUsersTableGUI.php';
-		$tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'showtrackingItems');
+		$tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifytrackingItems');
 		$tbl->parse();
 		$this->tpl->setContent($tbl->getHTML());
 	}
@@ -677,10 +677,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	protected function applyUserTableFilter()
 	{
 		include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingUsersTableGUI.php';
-		$tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'showtrackingItems');
+		$tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifytrackingItems');
 		$tbl->writeFilterToSession();
 		$tbl->resetOffset();
-		$this->showTrackingItems();
+		$this->modifyTrackingItems();
 	}
 
 	/**
