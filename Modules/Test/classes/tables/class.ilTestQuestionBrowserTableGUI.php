@@ -89,7 +89,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$ti = new ilTextInputGUI($lng->txt("description"), "description");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
-		$ti->setValidationRegexp('/^[^%]+$/is');
+		$ti->setValidationRegexp('/(^[^%]+$)|(^$)/is');
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
 		$this->filter["description"] = $ti->getValue();
@@ -116,7 +116,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
 		$this->addFilterItem($ti);
-		$ti->setValidationRegexp('/^[^%]+$/is');
+		$ti->setValidationRegexp('/(^[^%]+$)|(^$)/is');
 		$ti->readFromSession();
 		$this->filter["author"] = $ti->getValue();
 		
@@ -124,7 +124,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$ti = new ilTextInputGUI($lng->txt("qpl"), "qpl");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
-		$ti->setValidationRegexp('/^[^%]+$/is');
+		$ti->setValidationRegexp('/(^[^%]+$)|(^$)/is');
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
 		$this->filter["qpl"] = $ti->getValue();
