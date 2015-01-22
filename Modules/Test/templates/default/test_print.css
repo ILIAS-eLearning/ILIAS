@@ -183,13 +183,12 @@ table.freefield_bottom {
 	visibility: hidden;
 }
 
-div.ilMainHeader {
+#ilTopBar, #ilFooter, .ilMainHeader, .ilMainMenu, .breadcrumb, #ilTab, #ilSubTab, .ilHeadAction {
 	display: none;
 }
 
-#fixed_content {
-	top: 0;
-	position: static;
+#mainspacekeeper {
+	padding-top: 0;
 }
 
 .ilAdminRow {
