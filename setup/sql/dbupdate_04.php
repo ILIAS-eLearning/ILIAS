@@ -5474,3 +5474,10 @@ if($tgt_ops_id)
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4455>
+<?php
+	if(!$ilDB->sequenceExists('booking_reservation_group'))
+	{
+		$ilDB->createSequence('booking_reservation_group');
+	}
+?>
