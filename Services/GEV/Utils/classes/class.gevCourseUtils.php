@@ -2104,6 +2104,7 @@ class gevCourseUtils {
 		if ($a_order !== "start_date") {
 			$addsql .= ", start_date DESC ";
 		}
+		$addsql .= " LIMIT ".$db->quote($a_limit, "integer")." OFFSET ".$db->quote($a_offset, "integer");
 
 		$info = gevAMDUtils::getInstance()->getTable(
 				$crss, 
