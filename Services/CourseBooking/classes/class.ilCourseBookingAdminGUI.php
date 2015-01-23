@@ -983,12 +983,6 @@ class ilCourseBookingAdminGUI
 				$bookings->bookCourse($user_id))
 			{
 				ilUtil::sendSuccess($lng->txt("crsbook_admin_user_action_done"), true);
-				// gev-patch start
-				require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
-				$automails = new gevCrsAutoMails($this->getCourse()->getId());
-				$automails->send("admin_booking_to_booked", array($user_id));
-				$automails->send("invitation", array($user_id));
-				// gev-patch end
 			}
 		}
 		
