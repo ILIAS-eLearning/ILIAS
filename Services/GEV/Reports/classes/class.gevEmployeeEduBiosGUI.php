@@ -28,6 +28,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		$this->table = catReportTable::create()
 						->column("lastname", "lastname")
 						->column("firstname", "firstname")
+						->column("login", "login")
 						->column("adp_number", "gev_adp_number")
 						->column("job_number", "gev_job_number")
 						->column("od_bd", "gev_od_bd")
@@ -69,6 +70,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->select("usr.user_id")
 						->select("usr.lastname")
 						->select("usr.firstname")
+						->select("usrd.login")
 						->select("usr.adp_number")
 						->select("usr.job_number")
 						->select("usr.org_unit_above1")
@@ -129,6 +131,8 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 									." as attention"
 									)
 						->from("hist_user usr")
+						->join("usr_data usrd")
+							->on(" usr.user_id = usrd.usr_id")
 						->left_join("hist_usercoursestatus usrcrs")
 							->on("     usr.user_id = usrcrs.usr_id"
 								." AND usrcrs.hist_historic = 0 "

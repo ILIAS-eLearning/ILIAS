@@ -40,7 +40,8 @@ class gevNASuccessfull extends gevCrsAutoMail {
 		}
 		
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		if (!gevUserUtils::getInstance($a_recipient)->isNA()) {
+		$user_utils = gevUserUtils::getInstance($a_recipient);
+		if (!$user_utils->isNA()) {
 			return null;
 		}
 		
@@ -48,6 +49,8 @@ class gevNASuccessfull extends gevCrsAutoMail {
 		
 		require_once("Services/GEV/Utils/classes/class.gevNAUtils.php");
 		$message["to"] = gevNAUtils::getNASuccessfullMailRecipient($a_recipient);
+		$message["subject"] = $message["subject"]
+							 ." (".$user_utils->getNAAdviserUtils()->getOrgUnitTitle().")";
 		
 		return $message;
 	}

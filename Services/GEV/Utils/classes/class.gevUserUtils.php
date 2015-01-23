@@ -910,6 +910,7 @@ class gevUserUtils {
 		$res = $this->db->query( "SELECT usr_id, firstname, lastname"
 								." FROM usr_data "
 								." WHERE ".$this->db->in("usr_id", $e_ids, false, "integer")
+								." ORDER BY lastname, firstname ASC"
 								);
 		
 		$this->employees_for_course_search = array();
@@ -1339,6 +1340,20 @@ class gevUserUtils {
 
 	public function isNA() {
 		return $this->hasRoleIn(array("NA"));
+	}
+	
+	public function getNAAdviserUtils() {
+		if (!$this->isNA()) {
+			throw new Exception("User ".$this->user_id." is no NA.");
+		}
+		
+		require_once("Services/GEV/Utils/classes/class.gevNAUtils.php");
+		$adviser_id = gevNAUtils::getInstance()->getAdviserOf($this->user_id);
+		if ($adviser_id === null) {
+			throw new Exception("Can't find NA-adviser of User ".$this->user_id);
+		}
+		
+		return gevUserUtils::getInstance($adviser_id);
 	}
 
 	public function getOD() {

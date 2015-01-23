@@ -110,7 +110,7 @@ crs#:#crs_accept_subscriber_body#:#Sie sind in das Training "%s" aufgenommen wor
 crs#:#crs_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Trainingstitel angezeigt, die Inhalte aber nicht.
 crs#:#crs_activation_online_info#:#Nur wenn das Training online geschaltet ist, können Benutzer dem Training beitreten und Trainingsteilnehmer auf das Training zugreifen. Wenn nicht, ist das Training nur für Trainingsbetreuer und Trainer verfügbar.
 crs#:#crs_add_grp_assignment#:#Training(s) zuordnen
-crs#:#crs_add_remove_from_desktop_info#:#Teilnehmer können Trainingsobjekte auf ihren Schreibtisch legen.
+crs#:#crs_add_remove_from_desktop_info#:#Teilnehmer können Trainingsobjekte auf Ihren Schreibtisch legen.
 crs#:#crs_add_subscribers#:#In Training aufnehmen
 crs#:#crs_added#:#Ein neues Training wurde hinzugefügt
 crs#:#crs_added_member#:#Aufnahme in das Training "%s"
@@ -351,7 +351,7 @@ exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sob
 exc#:#exc_team_member_container_add#:#Team-Mitglied aus Training/Gruppe hinzufügen
 exercise#:#exc_crs_add_members#:#Mitglieder dieses Trainings hinzufügen
 exercise#:#exc_feedback_from_tutor#:#Feedback des Trainers
-fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen und Ordner öffnen, indem sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
+fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen und Ordner öffnen, indem Sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
 gev#:#dont_send_mail#:#keine Mail versenden
 gev#:#evg_email#:#E-Mail-Adresse
 gev#:#evg_mandatory#:#Sie müssen dieses Feld bestätigen, um sich registrieren zu können.
@@ -396,7 +396,7 @@ gev#:#gev_book_no_cond_accept#:#Sie müssen die Buchungs- und Stornierungsbeding
 gev#:#gev_bookable#:#buchbar
 gev#:#gev_bookable_waiting#:#buchbar auf Warteliste
 gev#:#gev_booked#:#gebucht
-gev#:#gev_booked_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training gebucht und noch nicht beendet. Sie dürfen dieses Angebot daher für ihren Mitarbeiter nicht buchen.
+gev#:#gev_booked_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training gebucht und noch nicht beendet. Sie dürfen dieses Angebot daher für Ihren Mitarbeiter nicht buchen.
 gev#:#gev_booked_similar_course_self#:#Sie sind auf dieses Training bereits gebucht, ohne es abgeschlossen zu haben. Sie dürfen dieses Angebot daher nicht buchen.
 gev#:#gev_booking#:#Buchung
 gev#:#gev_booking_bill_data#:#Rechnungsdaten
@@ -408,7 +408,7 @@ gev#:#gev_booking_header_note_check_bill_data#:#Bitte betätigen Sie die Schaltf
 gev#:#gev_booking_link#:#Link zur Buchung
 gev#:#gev_booking_request_pe#:#Buchungsanfrage PE
 gev#:#gev_booking_request_pe_note#:#Die Buchungsfrist ist abgelaufen. Fragen Sie freie Plätze bei PE an.
-gev#:#gev_booking_note#:#Mit der verbindlichen Buchung bestätigen Sie, Buchung und Übernachtung mit ihrer Führungskraft abgestimmt zu haben.
+gev#:#gev_booking_note#:#Mit der verbindlichen Buchung bestätigen Sie, Buchung und Übernachtung mit Ihrer Führungskraft abgestimmt zu haben.
 gev#:#gev_booking_other_courses_in_period_others#:#Ihr Mitarbeiter hat im Zeitraum des Trainings bereits andere Trainings gebucht:
 gev#:#gev_booking_other_courses_in_period_self#:#Sie haben im Zeitraum des Trainings bereits andere Trainings gebucht:
 gev#:#gev_booking_status#:#Buchungsstatus
@@ -416,7 +416,7 @@ gev#:#gev_bookings#:#Buchungen
 gev#:#gev_business_contact#:#Kontaktdaten geschäftlich / WBD
 gev#:#gev_bwv_id#:#GDV Vermittler-ID
 gev#:#gev_bwv_id_invalid#:#Format: JJJJMMDD-XXXXXX-XX
-gev#:#gev_bwv_id_input_not_valid#:#Bitte geben sie ihre GDV Vermittler-ID im Format JJJJMMDD-XXXXXX-XX ein.
+gev#:#gev_bwv_id_input_not_valid#:#Bitte geben Sie Ihre GDV Vermittler-ID im Format JJJJMMDD-XXXXXX-XX ein.
 gev#:#gev_cancel_training#:#Training stornieren
 gev#:#gev_cancellation_bill_item#:#Stornogebühr Training "%s"
 gev#:#gev_cancellation_bill_title#:#Stornierung der Buchung des Trainings "%s" für "%s"
@@ -442,7 +442,7 @@ gev#:#gev_confirm_refresh_attachments#:#Möchten Sie die Anhänge wirklich aktua
 gev#:#gev_confirm_wbd#:#Mit den %s bin ich einverstanden.
 gev#:#gev_contents#:#Inhalte
 gev#:#gev_costly_cancellation_action#:#Kostenpflichtig Stornieren
-gev#:#gev_costly_cancellation_msg#:#Die Stornierung ihrer Buchung des Trainings "%s" ist leider nicht mehr kostenlos möglich. Möchten Sie die Buchung trotzdem stornieren?
+gev#:#gev_costly_cancellation_msg#:#Die Stornierung Ihrer Buchung des Trainings "%s" ist leider nicht mehr kostenlos möglich. Möchten Sie die Buchung trotzdem stornieren?
 gev#:#gev_costs#:#Kosten
 gev#:#gev_coupon_bill_item#:#Gutschein %s
 gev#:#gev_coupon_codes#:#Gutscheincode(s) einlösen
@@ -469,17 +469,17 @@ gev#:#gev_crs_srch_all#:#alle
 gev#:#gev_crs_srch_limit#:#Suche eingrenzen
 gev#:#gev_crs_srch_my_table_desc#:#Hier sehen Sie auf einen Blick alle für Sie verfügbaren Angebote.
 gev#:#gev_crs_srch_results#:#Suchergebnisse
-gev#:#gev_crs_srch_theirs_table_desc#:#Hier sehen Sie auf einen Blick alle für ihren Mitarbeiter verfügbaren Angebote.
+gev#:#gev_crs_srch_theirs_table_desc#:#Hier sehen Sie auf einen Blick alle für Ihren Mitarbeiter verfügbaren Angebote.
 gev#:#gev_crs_srch_title#:#Übersicht
 gev#:#gev_crs_srch_usr_slctr_caption#:#Suche für:
 gev#:#gev_csn_list#:#CSN-Liste
 gev#:#gev_desk_displays#:#Tischaufsteller
 gev#:#gev_dec_training_creation_successfull#:#Das neue dezentrale Training wurde erfolgreich angelegt.
-gev#:#gev_dev_training_book_users#:#Bitte buchen sie Benutzer auf das Training.
+gev#:#gev_dev_training_book_users#:#Bitte buchen Sie Benutzer auf das Training.
 gev#:#gev_dec_training_creation#:#Dezentrales Training anlegen
-gev#:#gev_dec_training_creation_header_note#:#Hier können sie ein neues dezentrales Training anlegen.
+gev#:#gev_dec_training_creation_header_note#:#Hier können Sie ein neues dezentrales Training anlegen.
 gev#:#gev_dec_training_settings_header#:#Einstellungen für dezentrales Training
-gev#:#gev_dec_training_settings_header_note#:#Hier können sie für ein bestehendes dezentrales Training vornehmen.
+gev#:#gev_dec_training_settings_header_note#:#Hier können Sie für ein bestehendes dezentrales Training vornehmen.
 gev#:#gev_dec_training_settings#:#Trainingseinstellungen
 gev#:#gev_dec_training_no_templates#:#Es sind leider keine Vorlagen für dezentrale Trainings vorhanden.
 gev#:#gev_dec_training_template#:#Vorlage
@@ -491,15 +491,15 @@ gev#:#gev_duration#:#Dauer
 gev#:#gev_edu_bio#:#Bildungsbiographie
 gev#:#gev_edu_program#:#Bildungsprogramm
 gev#:#gev_edit_overnights#:#Ihre Übernachtungen beim Training "%s"
-gev#:#gev_edit_overnights_desc#:#Hier können sie ihre Übernachtungen beim Training bearbeiten.
+gev#:#gev_edit_overnights_desc#:#Hier können Sie Ihre Übernachtungen beim Training bearbeiten.
 gev#:#gev_email#:#E-Mail-Adresse
 gev#:#gev_com_email#:#Kommunikations E-Mail-Adresse
 gev#:#gev_employee_booking#:#Buchungen meiner Mitarbeiter
-gev#:#gev_employee_booking_desc#:#Hier sehen sie alle aktuellen Buchungen ihrer Mitarbeiter.
+gev#:#gev_employee_booking_desc#:#Hier sehen Sie alle aktuellen Buchungen Ihrer Mitarbeiter.
 gev#:#gev_entry_date#:#Eintrittsdatum
 gev#:#gev_event_title#:#Veranstaltungstitel
 gev#:#gev_evg_registration#:#Registrierung: Generali Online Akademie
-gev#:#gev_evg_registration_header_note#:#Hier können Sie einen neuen Benutzer mit ihren Daten aus der IV-Datenbank anlegen.
+gev#:#gev_evg_registration_header_note#:#Hier können Sie einen neuen Benutzer mit Ihren Daten aus der IV-Datenbank anlegen.
 gev#:#gev_evg_registration_not_found#:#Zu Ihrer Eingabe konnte kein passender Datensatz gefunden werden. Versuchen Sie es erneut oder wenden Sie sich an <a href="mailto:bildungspunkte.de@generali.com" class="blue">bildungspunkte.de@generali.com</a>.
 gev#:#gev_evg_registration_success#:#Ihre Eingabe konnte eindeutig zugeordnet werden.
 gev#:#gev_excel_course_title#:#Generelle Angaben zum Training
@@ -559,10 +559,10 @@ gev#:#gev_my_trainer_ap#:#Meine Trainingseinsätze
 gev#:#gev_na_adviser#:#Hauptberuflicher Betreuer
 gev#:#gev_na_reg_no_adviser#:#Ihr Betreuer konnte nicht eindeutig bestimmt werden.
 gev#:#gev_na_adviser_input_info#:#Geben Sie den vollständigen Benutzernamen Ihres hauptberuflichen Betreuers ein.
-gev#:#gev_na_registration_success#:#Eine Mail zur Bestätigung ihres Accounts wurde an ihren Betreuer versandt.
+gev#:#gev_na_registration_success#:#Eine Mail zur Bestätigung Ihres Accounts wurde an Ihren Betreuer versandt.
 gev#:#gev_need_agb_accept#:#Sie müssen die Buchungs- und Stornierungsbedingungen akzeptieren um fortfahren zu können.
 gev#:#gev_next_course#:#Mein nächstes Training
-gev#:#gev_no_employee_bookings#:#Es liegen keine Buchungen ihrer Mitarbeiter vor.
+gev#:#gev_no_employee_bookings#:#Es liegen keine Buchungen Ihrer Mitarbeiter vor.
 gev#:#gev_no_last_course#:#Sie haben noch an keinem Training teilgenommen.
 gev#:#gev_no_next_course#:#Sie haben kein Training gebucht.
 gev#:#gev_no_other_wbd_mandate#:#Ich versichere, dass ich nicht bereits an anderer Stelle eine solche Kontoeröffnung beantragt habe.
@@ -571,8 +571,8 @@ gev#:#gev_no_show_bill_title#:#Nicht stornierte Buchung des Trainings "%s" für 
 gev#:#gev_not_allowed_to_book_crs_for_other#:#Sie dürfen dieses Training nicht für einen anderen Benutzer buchen.
 gev#:#gev_not_allowed_to_book_crs_for_self#:#Sie dürfen dieses Training nicht buchen.
 gev#:#gev_not_allowed_to_book_crs_for_other#:#Sie dürfen diese Stornierung nicht vornehmen.
-gev#:#gev_not_allowed_to_book_crs_self_because_period#:#Sie dürfen dieses Training nicht buchen, da sie bereits ein anderes Training im gleichen Zeitraum gebucht haben.
-gev#:#gev_not_allowed_to_book_crs_other_because_period#:#Sie dürfen dieses Training nicht buchen, da ihr Mitarbeiter bereits ein anderes Training im gleichen Zeitraum gebucht hat.
+gev#:#gev_not_allowed_to_book_crs_self_because_period#:#Sie dürfen dieses Training nicht buchen, da Sie bereits ein anderes Training im gleichen Zeitraum gebucht haben.
+gev#:#gev_not_allowed_to_book_crs_other_because_period#:#Sie dürfen dieses Training nicht buchen, da Ihr Mitarbeiter bereits ein anderes Training im gleichen Zeitraum gebucht hat.
 gev#:#gev_not_allowed_to_cancel_crs_for_other#:#Sie dürfen dieses Training nicht für einen anderen Benutzer stornieren.
 gev#:#gev_not_bookable#:#ausgebucht
 gev#:#gev_number_of_measure#:#Nummer der Maßnahme
@@ -589,7 +589,7 @@ gev#:#gev_overall_prize#:#Gesamtpreis
 gev#:#gev_overall_points#:#Gesamtpunktzahl
 gev#:#gev_participation_status#:#Teilnahmestatus
 gev#:#gev_passed#:#teilgenommen
-gev#:#gev_passed_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training erfolgreich abgeschlossen. Sie dürfen dieses Angebot daher für ihren Mitarbeiter nicht buchen.
+gev#:#gev_passed_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training erfolgreich abgeschlossen. Sie dürfen dieses Angebot daher für Ihren Mitarbeiter nicht buchen.
 gev#:#gev_passed_similar_course_self#:#Sie sind auf dieses Training bereits an einem anderen Termin gebucht. Sie können keinen zweiten Termin buchen. Sollten Sie den Termin wechseln wollen, stornieren Sie zunächst das bereits gebuchte Training und buchen Sie dann den gewünschten neuen Termin.
 gev#:#gev_payment_type#:#Zahlungsart
 gev#:#gev_payment_type_bill#:#Rechnung
@@ -621,18 +621,18 @@ gev#:#gev_quicklinks_desc#:#Greifen Sie hier schnell und unkompliziert auf weite
 gev#:#gev_refresh_attachments#:#Anhänge aktualisieren
 gev#:#gev_registration#:#Erstregistrierung: Generali Online Akademie 
 gev#:#gev_registration_success#:#Eine Email mit einem Aktivierungslink wurde an Sie versendet.
-gev#:#gev_registration_pretext#:#Bitte treffen sie ihre Auswahl:
+gev#:#gev_registration_pretext#:#Bitte treffen Sie Ihre Auswahl:
 gev#:#gev_agent_registration_label#:#Erstregistrierung als:
 gev#:#gev_na_registration_label#:#Erstregistrierung als:
 gev#:#gev_agent_registration_button#:#unabhängiger Vertriebspartner
 gev#:#gev_na_registration_button#:#Nebenberufsagentur
-gev#:#gev_registration_posttext#:#Bei Rückfragen wenden sie sich an: <a href="mailto:bildungspunkte.de@generali.com" class="blue">bildungspunkte.de@generali.com</a>
-gev#:#gev_rep_attendance_by_employee_desc#:#Hier sehen sie die Buchungen und Trainingsteilnahmen ihrer Mitarbeiter.
+gev#:#gev_registration_posttext#:#Bei Rückfragen wenden Sie sich an: <a href="mailto:bildungspunkte.de@generali.com" class="blue">bildungspunkte.de@generali.com</a>
+gev#:#gev_rep_attendance_by_employee_desc#:#Hier sehen Sie die Buchungen und Trainingsteilnahmen Ihrer Mitarbeiter.
 gev#:#gev_rep_attendance_by_employee_title#:#Teilnahme nach Mitarbeiter
 gev#:#gev_rep_billing_title#:#Rechnungen
-gev#:#gev_rep_billing_desc#:#Hier sehen sie alle vom System versandten Rechnungen
+gev#:#gev_rep_billing_desc#:#Hier sehen Sie alle vom System versandten Rechnungen
 gev#:#gev_rep_employee_edu_bios_title#:#Bildungsbiographien meiner Mitarbeiter
-gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen sie einen Überblick über die Bildungsbiographien ihrer Mitarbeiter.
+gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen Sie einen Überblick über die Bildungsbiographien Ihrer Mitarbeiter.
 gev#:#gev_report_billing#:#Rechnungen
 gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter
 gev#:#gev_rep_filter_show_critical_persons#:#Zeige mir nur kritische Personen.
@@ -659,7 +659,7 @@ gev#:#gev_tax#:#Umsatzsteuer (19 %)
 gev#:#gev_telno_alert#:#Die Telefonnummer muss das Format +49 1xxx xxxxxxxx haben.
 gev#:#gev_telno_wbd_alert#:#Die Telefonnummer hat kein gültiges Format.
 gev#:#gev_tep#:#TEP
-gev#:#gev_theirs_highlights_desc#:#Hier finden Sie neue und interessante Angebote zugeschnitten auf die individuellen Anforderungen ihres Mitarbeiters.
+gev#:#gev_theirs_highlights_desc#:#Hier finden Sie neue und interessante Angebote zugeschnitten auf die individuellen Anforderungen Ihres Mitarbeiters.
 gev#:#gev_to_course_search#:#Zurück zum Bildungsangebot
 gev#:#gev_to_course_search2#:#Zur Trainingssuche
 gev#:#gev_trainer_operation_days#:#Trainereinsatztage
@@ -741,7 +741,7 @@ mail#:#login_none#:#(kein Login)
 mail#:#mail_crs_list_members_not_available#:#Die Teilnehmer der markierten Trainings können nicht aufgelistet werden.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Die Teilnehmer von mindestens einem gewählten Training können nicht aufgelistet werden.
 mail#:#mail_enable_crs_member_notification#:#Trainingsbenachrichtigung
-mail#:#mail_enable_crs_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen ihrer Trainingsmitgliedschaften per Mail informatiert.
+mail#:#mail_enable_crs_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen Ihrer Trainingsmitgliedschaften per Mail informatiert.
 mail#:#mail_message_active#:#Variante aktiv?
 mail#:#mail_message_created#:#Erstellungsdatum
 mail#:#mail_message_html#:#Nachricht (HTML)
@@ -861,8 +861,8 @@ matlist#:#xls_list_header#:#Materialliste
 matlist#:#xls_list_general_header#:#Generelle Angaben zum Training
 matlist#:#xls_list_item_header#:#Materialien
 modul#:#identifier#:#2Text (neu)
-news#:#news_enable_internal_news_info#:#Aktiviert Nachrichtenblöcke für Kategorien, Trainings, Gruppen und andere Objekte. Benutzer können diese Nachrichten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
-news#:#news_nr_of_items_info#:#Anzahl der Nachrichten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Trainings mehr Nachrichten enthalten können, da sie auch die Nachrichten ihrer Unterobjekte anzeigen.
+news#:#news_enable_internal_news_info#:#Aktiviert Nachrichtenblöcke für Kategorien, Trainings, Gruppen und andere Objekte. Benutzer können diese Nachrichten abonnieren und erhalten diese auf Ihrem Persönlichen Schreibtisch.
+news#:#news_nr_of_items_info#:#Anzahl der Nachrichten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Trainings mehr Nachrichten enthalten können, da Sie auch die Nachrichten Ihrer Unterobjekte anzeigen.
 orgu#:#orgu_adv_settings#:#erweiterte Einstellungen
 orgu#:#orgu_settings#:#Einstellungen
 orgu#:#orgu_type#:#Typ

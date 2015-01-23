@@ -179,6 +179,7 @@ class gevWBDTPServiceRegistrationGUI {
 		}
 
 		$this->user_utils->setWBDRegistrationDone();
+		$this->user_utils->getUser()->update();
 
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_create_bwv_id"), true);
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");

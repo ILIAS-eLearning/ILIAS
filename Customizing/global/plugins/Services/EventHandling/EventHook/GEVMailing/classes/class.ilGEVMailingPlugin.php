@@ -44,77 +44,6 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 			$mails->send("participant_waiting_to_booked", array($usr_id));
 			$mails->send("invitation", array($usr_id));
 		}
-		
-		// do not handle all booking events here, since the way the 
-		// booking was made is crucial here. Mails will be send in the 
-		// respective forms instead.
-		
-/*		if ($os == null) {
-			if ($ns == ilCourseBooking::STATUS_BOOKED) {
-				if ($os == null) {
-					if ($bt == self::SELF_BOOKING) {
-						$mails->sendDeferred("self_booking_to_booked", array($usr_id));
-					}
-					else if ($bt == self::ADMIN_BOOKING) {
-						$mails->sendDeferred("admin_booking_to_booked", array($usr_id));
-					}
-					else if ($bt == self::SUPERIOR_BOOKING) {
-						$mails->sendDeferred("superior_booking_to_booked", array($usr_id));	
-					}
-				}
-				else if ($os == ilCourseBooking::STATUS_WAITING) {
-					$mails->sendDeferred("participant_waiting_to_booked", array($usr_id));
-				}
-			}
-			else if ($ns == ilCourseBooking::STATUS_WAITING) {
-				if ($bt == self::SELF_BOOKING) {
-					$mails->sendDeferred("self_booking_to_waiting", array($usr_id));
-				}
-				else if ($bt == self::ADMIN_BOOKING) {
-					$mails->sendDeferred("admin_booking_to_waiting", array($usr_id));
-				}
-				else if ($bt == self::SUPERIOR_BOOKING) {
-					$mails->sendDeferred("superior_booking_to_waiting", array($usr_id));	
-				}
-			}
-			else if ($ns == ilCourseBooking::STATUS_STATUS_CANCELLED_WITH_COSTS) {
-				if ($os == ilCourseBooking::STATUS_BOOKED) {
-					if ($bt == self::SELF_BOOKING) {
-						$mails->sendDeferred("self_cancel_booked_to_cancelled_with_costs", array($usr_id));
-					}
-					else if ($bt == self::ADMIN_BOOKING) {
-						$mails->sendDeferred("admin_cancel_booked_to_cancelled_with_costs", array($usr_id));
-					}
-					else if ($bt == self::SUPERIOR_BOOKING) {
-						$mails->sendDeferred("superior_cancel_booked_to_cancelled_with_costs", array($usr_id));	
-					}
-				}
-			}
-			else if ($ns == ilCourseBooking::STATUS_STATUS_CANCELLED_WITHOUT_COSTS) {
-				if ($os == ilCourseBooking::STATUS_BOOKED) {
-					if ($bt == self::SELF_BOOKING) {
-						$mails->sendDeferred("self_cancel_booked_to_cancelled_without_costs", array($usr_id));
-					}
-					else if ($bt == self::ADMIN_BOOKING) {
-						$mails->sendDeferred("admin_cancel_booked_to_cancelled_without_costs", array($usr_id));
-					}
-					else if ($bt == self::SUPERIOR_BOOKING) {
-						$mails->sendDeferred("superior_cancel_booked_to_cancelled_without_costs", array($usr_id));	
-					}
-				}
-				else if ($os == ilCourseBooking::STATUS_WAITING) {
-					if ($bt == self::SELF_BOOKING) {
-						$mails->sendDeferred("self_cancel_waiting_to_cancelled_without_costs", array($usr_id));
-					}
-					else if ($bt == self::ADMIN_BOOKING) {
-						$mails->sendDeferred("admin_cancel_waiting_to_cancelled_without_costs", array($usr_id));
-					}
-					else if ($bt == self::SUPERIOR_BOOKING) {
-						$mails->sendDeferred("superior_cancel_waiting_to_cancelled_without_costs", array($usr_id));	
-					}
-				}
-			}
-		}*/
 	}
 	
 	protected function getBookingType($a_user_id, $a_crs_id) {
@@ -206,7 +135,7 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 		$mails = new gevCrsAutoMails($crs_id);
 		
 		if ($a_event == "addParticipant") {
-			$mails->sendDeferred("trainer_added", array($usr_id));
+			$mails->send("trainer_added", array($usr_id));
 		}
 		else if ($a_event == "deleteParticipant") {
 			$mails->send("trainer_removed", array($usr_id));

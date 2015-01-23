@@ -27,41 +27,27 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
 
-		//$user_util = gevUserUtils::getInstance($a_user_id);
-		//$course_util = gevCourseUtils::getInstance($a_user_id);
-		//$this->user_id = $a_user_id;
-
 		$this->setEnableTitle(true);
 		$this->setTopCommands(false);
 		$this->setEnableHeader(true);
 		$this->setExternalSorting(true);
-
-		//$this->setExternalSegmentation(true);
-		$this->setExternalSegmentation(false);
+		$this->setExternalSegmentation(true);
 		
-		/*
-		$cnt = count($user_util->getPotentiallyBookableCourseIds($a_search_options));
-
-		$this->setMaxCount($cnt);
-		$this->setLimit($cnt);
-		*/
 		$this->determineOffsetAndOrder();
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
 		$this->setRowTemplate("tpl.il_admin_search_row.html", "Services/GEV/Desktop");
 
-		//$this->addColumn("", "expand", "0px", false, "catTableExpandButton");
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("status"));
 		$this->addColumn($this->lng->txt("gev_course_id"), 'custom_id');
 		$this->addColumn($this->lng->txt("gev_learning_type"), "type");
 		$this->addColumn($this->lng->txt("gev_location"), "location");
 		$this->addColumn($this->lng->txt("date"), "date");
-		$this->addColumn($this->lng->txt("tutor"), "trainer");
+		$this->addColumn($this->lng->txt("tutor"));
 		$this->addColumn($this->lng->txt("gev_points"), "points");
 		$this->addColumn("&euro;", "fee");
 		$this->addColumn($this->lng->txt("mbrcount"));
-		//$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "", "20px");
 		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', null, "20px", false);
 	
 		//legend
@@ -86,15 +72,11 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 			$this->getOrderDirection()
 		);
 
-		$this->setData($data);
+		$this->setMaxCount($data["count"]);
+		$this->setData($data["info"]);
 	}
 
 	protected function fillRow($a_set) {
-/*
-		$this->tpl->setVariable("ACCORDION_BUTTON_CLASS", $this->getAccordionButtonExpanderClass());
-		$this->tpl->setVariable("ACCORDION_ROW", $this->getAccordionRowClass());
-		$this->tpl->setVariable("COLSPAN", $this->getColspan());
-*/
 		if ($a_set["end_date"] === null) {
 			$a_set["end_date"] = $a_set["start_date"];
 		}
@@ -106,22 +88,17 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 			$date = ilDatePresentation::formatPeriod($a_set["start_date"], $a_set["end_date"]);
 		}
 
-
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("STATUS", $a_set["status"]);
 		$this->tpl->setVariable("CUSTOM_ID", $a_set["custom_id"]);
 		$this->tpl->setVariable("TYPE", $a_set["type"]);
-		$this->tpl->setVariable("LOCATION", $a_set["location"]);
+		$this->tpl->setVariable("LOCATION", $a_set["location"]?$a_set["location"]:"-");
 		$this->tpl->setVariable("DATE", $date);
 		$this->tpl->setVariable("TRAINER", $a_set['trainer']);
 		$this->tpl->setVariable("POINTS", $a_set["points"]);
 		$this->tpl->setVariable("FEE", gevCourseUtils::formatFee($a_set["fee"]));
 		$this->tpl->setVariable("MEMBERS", $a_set["members"]);
 		$this->tpl->setVariable("ACTIONS", $a_set["action"]);
-		
-
-
-
 	}
 }
 

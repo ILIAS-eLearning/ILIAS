@@ -134,8 +134,22 @@ abstract class wbdDataConnector {
 			return array(true, 'OK');
 		}
 		return array(false, 'date before 09/2013');
-		
 	}
+
+
+	protected function dateInLastYear($d){
+		$dat = explode('-',$d);
+		$val = strtotime($dat[2] . '-' .$dat[1] .'-' .$dat[0]);
+		$limit = mktime(0, 0, 0, date("m"), date("d"), date("Y")-1);
+
+		if(	$val >= $limit) {
+			return array(true, 'OK');
+		}
+		return array(false, 'date older than one year');
+	}
+
+
+
 
 	protected function validateUserRecord($user_record){
 		foreach($this->USER_RECORD_VALIDATION  as $field => $validation){
@@ -229,6 +243,13 @@ abstract class wbdDataConnector {
 					case 'form':
 						if(!preg_match($setting, $value) && $value != ''){
 							return 'not well formed: ' .$field .'<br>';
+						}
+						break;
+
+					case 'positiveNumber':
+
+						if ((int)$value < 1) {
+							return 'not a positive value: ' .$field .'<br>';
 						}
 						break;
 

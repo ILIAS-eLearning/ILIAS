@@ -84,7 +84,6 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->select("crs.begin_date")
 						->select("crs.end_date")
 						->select("crs.edu_program")
-						->select("crs.title")
 						->from("hist_user usr")
 						->left_join("hist_usercoursestatus usrcrs")
 							->on("usr.user_id = usrcrs.usr_id AND usrcrs.hist_historic = 0")
@@ -145,12 +144,13 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->static_condition(" usr.hist_historic = 0")
 						->static_condition("(   usrcrs.hist_historic = 0"
 										  ." OR usrcrs.hist_historic IS NULL )")
-						->static_condition("(   usrcrs.booking_status != '-empty-'"
-										  ." OR usrcrs.participation_status != '-empty-'"
+						->static_condition("( usrcrs.booking_status != '-empty-'"
+										  ." OR usrcrs.hist_historic IS NULL )")
+						->static_condition("(   usrcrs.participation_status != '-empty-'"
 										  ." OR usrcrs.hist_historic IS NULL )")
 						->static_condition("(   usrcrs.booking_status != 'kostenfrei storniert'"
 										  ." OR usrcrs.hist_historic IS NULL )")
-						->static_condition("(   usrcrs.function NOT IN ('Trainingsbetreuer', 'Trainer')"
+						->static_condition("(   usrcrs.function NOT IN ('Trainingsbetreuer', 'Trainingsersteller', 'Trainer')"
 										  ." OR usrcrs.hist_historic IS NULL )" )
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()

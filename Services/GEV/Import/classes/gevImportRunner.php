@@ -61,8 +61,10 @@ $imp->fetchGEVEduRecords();
 //$imp->switchHA84FromSuperiorToEmployee();
 //$imp->reassignGEV_AVL();
 //$imp->setHistoryUsersToActive();
+//$imp->importCertificates();
+
 //$imp->fixCertificationPeriodFromBWVId();
-$imp->importCertificates();
+$imp->fixVFSTPService();
 
 
 print '<br><br><hr>all through.';

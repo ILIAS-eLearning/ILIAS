@@ -1793,10 +1793,11 @@ class gevUserImport {
 
 			//check, if user has a training with date before! wbd-registration
 			$sql = "SELECT begin_date FROM hist_usercoursestatus WHERE"
-				." hist_historic=0"
-				." AND begin_date != '0000-00-00'"
+				//." hist_historic=0"
+				." begin_date != '0000-00-00'"
 				." AND begin_date != '1970-01-01'"
 				." AND begin_date < '$y-$m-$d'"
+				." AND last_wbd_report IS NOT NULL"
 				." AND usr_id=" .$record['user_id']
 				." ORDER BY begin_date ASC"
 				." LIMIT 1"
@@ -1825,6 +1826,8 @@ class gevUserImport {
 
 		$this->prnt('fixCertificationPeriodFromBWVId: done', 2);
 	}
+
+
 
 
 
@@ -1866,10 +1869,46 @@ class gevUserImport {
 				;
 			$this->ilDB->manipulate($sql);
 		}
-		
 		$this->prnt('importCertificates: done', 2);
 	}
 
+
+
+
+	public function fixVFSTPService(){
+		$this->prnt('fixVFSTPService', 1);
+		
+		require_once("Services/GEV/Import/classes/class.gevFetchVFSUser.php");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+
+		$sql = "SELECT ilid FROM interimUsers WHERE"
+			." tp_type = '0 - kein Service'"
+			." AND active = 1"
+			." AND pos_vfs in ('"
+			.implode("','", gevFetchFVSUser::$POS_WITH_OKZ)
+			."')"
+			;
+		
+		$result = $this->queryShadowDB($sql);
+		while ($record = mysql_fetch_assoc($result)){
+			try{
+				$user_utils = gevUserUtils::getInstance($record['ilid']);
+				$user_utils->setWBDTPType('3 - TP-Service');
+				$user = $user_utils->getUser();
+				$user->update();
+
+				$this->prnt('. ', -1);
+			}
+			catch(Exception $e){
+				print_r($e);
+				//pass				
+			}
+
+		
+		}
+
+		$this->prnt('fixVFSTPService: done', 2);
+	}
 
 
 }
