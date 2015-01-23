@@ -37,7 +37,6 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->setExternalSegmentation(true);
 		$cnt = count($user_util->getPotentiallyBookableCourseIds($a_search_options));
 		$this->setMaxCount($cnt);
-		$this->setLimit($cnt);
 		$this->determineOffsetAndOrder();
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
