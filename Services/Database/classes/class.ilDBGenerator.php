@@ -355,6 +355,9 @@ class ilDBGenerator
 			}
 		}
 		
+		// sequence(s) without table (of same name)
+		$this->buildSingularSequenceStatement($file);
+		
 		if ($a_filename == "")
 		{
 			echo "</pre>";
@@ -561,6 +564,41 @@ class ilDBGenerator
 			}
 		}
 	}
+	
+	/**
+	* Build CreateSequence statement (if not belonging to table)
+	*
+	* @param	file		file resource or empty string
+	*/
+	function buildSingularSequenceStatement($a_file = "")
+	{		
+		$r = $this->manager->listSequences();
+		if (!MDB2::isError($r))
+		{
+			foreach ($r as $seq)
+			{
+				if (!in_array($seq, $this->tables))
+				{				
+					// 12570
+					if ($seq == "sahs_sc13_seq")
+					{
+						continue;
+					}
+					
+					$create_st = "\n".'$ilDB->createSequence("'.$seq.'");'."\n";						
+					
+					if ($a_file == "")
+					{
+						echo $create_st;
+					}
+					else
+					{						
+						fwrite($a_file, $create_st);
+					}
+				}
+			}
+		}		
+	}	
 	
 	/**
 	 * Write seerialized insert data to array

@@ -1808,3 +1808,10 @@ else
 	);
 }	
 ?>
+<#63>
+<?php
+	if(!$ilDB->sequenceExists('booking_reservation_group'))
+	{
+		$ilDB->createSequence('booking_reservation_group');
+	}
+?>
