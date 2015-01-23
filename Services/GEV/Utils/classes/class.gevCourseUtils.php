@@ -2104,12 +2104,18 @@ class gevCourseUtils {
 		}
 		$addsql .= " LIMIT ".$db->quote($a_limit, "integer")." OFFSET ".$db->quote($a_offset, "integer");
 
+		$city_amd_id = $gev_set->getAMDFieldId(gevSettings::ORG_AMD_CITY);
 		$info = gevAMDUtils::getInstance()->getTable(
 				$crss, 
 				$crs_amd, 
-				array(), 
-				array(),
-				$addsql			
+				array("CONCAT(od_city.title, ', ', city.value) as location"), 
+				array(" LEFT JOIN object_data od_city ".
+					  "   ON od_city.obj_id = amd2.value "
+					 ," LEFT JOIN adv_md_values_text city ".
+					  "   ON city.field_id = ".$db->quote($city_amd_id, "integer").
+					  "  AND city.obj_id = amd2.value "
+					 ),
+				$addsql
 			);
 
 
@@ -2118,7 +2124,6 @@ class gevCourseUtils {
 			// to instantiate the course to get booking information about it.
 			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
-			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			$crs_ref = gevObjectUtils::getRefId($crs_utils->getCourse()->getId());
 			
 			$edit_lnk = "ilias.php?cmdClass=ilobjcoursegui&cmd=editInfo&baseClass=ilRepositoryGUI&ref_id=" .$crs_ref;
@@ -2129,11 +2134,6 @@ class gevCourseUtils {
 									.$info[$key]["title"]
 									.'</a>';
 
-			$orgu_utils->getLongTitle();
-
-
-			
-			$info[$key]["location"] = $orgu_utils->getLongTitle();
 			$trainer = $crs_utils->getMainTrainer();
 			if($trainer){
 				$info[$key]["trainer"] = $trainer->getFullName();

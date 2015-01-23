@@ -88,22 +88,17 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 			$date = ilDatePresentation::formatPeriod($a_set["start_date"], $a_set["end_date"]);
 		}
 
-
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("STATUS", $a_set["status"]);
 		$this->tpl->setVariable("CUSTOM_ID", $a_set["custom_id"]);
 		$this->tpl->setVariable("TYPE", $a_set["type"]);
-		$this->tpl->setVariable("LOCATION", $a_set["location"]);
+		$this->tpl->setVariable("LOCATION", $a_set["location"]?$a_set["location"]:"-");
 		$this->tpl->setVariable("DATE", $date);
 		$this->tpl->setVariable("TRAINER", $a_set['trainer']);
 		$this->tpl->setVariable("POINTS", $a_set["points"]);
 		$this->tpl->setVariable("FEE", gevCourseUtils::formatFee($a_set["fee"]));
 		$this->tpl->setVariable("MEMBERS", $a_set["members"]);
 		$this->tpl->setVariable("ACTIONS", $a_set["action"]);
-		
-
-
-
 	}
 }
 
