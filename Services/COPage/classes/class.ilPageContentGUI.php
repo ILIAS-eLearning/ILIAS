@@ -520,12 +520,12 @@ class ilPageContentGUI
 					$error_str .= htmlentities($err_mess)."<br />";
 				}
 			}
-			$this->tpl->setVariable("MESSAGE", $error_str);
+			ilUtil::sendFailure($error_str);
 		}
 		else if($this->updated != "" && $this->updated !== true)
 		{
-			$this->tpl->setVariable("MESSAGE", "<b>Error(s):</b><br />".
-				$this->updated."<br />");
+			ilUtil::sendFailure("<b>Error(s):</b><br />".
+				$this->updated);
 		}
 	}
 	

@@ -471,7 +471,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	function editData()
 	{
 		global $lng, $ilCtrl;
-		
+
+
 		if (!ilPageEditorGUI::_doJSEditing())
 		{
 			return $this->editDataCl();
@@ -484,21 +485,17 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
 		$this->displayValidationError();
 
+
 		include_once("./Services/COPage/classes/class.ilPCParagraph.php");
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tabledata2.html", "Services/COPage");
-		$dtpl = $this->tpl;
-		//$dtpl = new ilTemplate("tpl.tabledata.html", true, true, "Services/COPage");
+		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tabledata2.html", "Services/COPage");
+		//$dtpl = $this->tpl;
+		$dtpl = new ilTemplate("tpl.tabledata2.html", true, true, "Services/COPage");
 		$dtpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "tableAction"));
-//		$dtpl->setVariable("BB_MENU", $this->getBBMenu("cell_0_0"));
-
-//		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_5/editor.js");
-//		$this->tpl->addJavascript("./Services/COPage/js/page_editing.js");
 
 
-		$this->tpl->setVariable("WYSIWYG_ACTION",
+		$dtpl->setVariable("WYSIWYG_ACTION",
 			$ilCtrl->getFormAction($this, "updateJS"));
-
 
 		// get all rows
 		$xpc = xpath_new_context($this->dom);
@@ -661,23 +658,23 @@ class ilPCDataTableGUI extends ilPCTableGUI
 					{
 						continue;
 					}
-					$this->tpl->setCurrentBlock("menu_item");
-					$this->tpl->setVariable("MENU_ITEM_TITLE", $lng->txt($lang_var));
-					$this->tpl->setVariable("CMD", $command);
-					$this->tpl->setVariable("TYPE", $type);
-					$this->tpl->parseCurrentBlock();
+					$dtpl->setCurrentBlock("menu_item");
+					$dtpl->setVariable("MENU_ITEM_TITLE", $lng->txt($lang_var));
+					$dtpl->setVariable("CMD", $command);
+					$dtpl->setVariable("TYPE", $type);
+					$dtpl->parseCurrentBlock();
 				}
-				$this->tpl->setCurrentBlock("menu");
-				$this->tpl->setVariable("TYPE", $type);
-				$this->tpl->setVariable("MOVE", $move);
-				$this->tpl->parseCurrentBlock();
+				$dtpl->setCurrentBlock("menu");
+				$dtpl->setVariable("TYPE", $type);
+				$dtpl->setVariable("MOVE", $move);
+				$dtpl->parseCurrentBlock();
 			}
 		}
 
 
-		$this->tpl->setVariable("FORMACTION2",
+		$dtpl->setVariable("FORMACTION2",
 			$ilCtrl->getFormAction($this, "tableAction"));
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_table"));
+		$dtpl->setVariable("TXT_ACTION", $this->lng->txt("cont_table"));
 
 		// js editing preparation
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
@@ -697,7 +694,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 				");
 
 
-		$this->tpl->setVariable("IL_TINY_MENU",
+		$dtpl->setVariable("IL_TINY_MENU",
 			ilPageObjectGUI::getTinyMenu(
 			$this->pg_obj->getParentType(),
 			false,
@@ -706,7 +703,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			$this->getStyleId(),
 			false, true, false, false));
 
-
+		$this->tpl->setContent($dtpl->get());
 	}
 
 
