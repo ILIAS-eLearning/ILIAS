@@ -1346,7 +1346,7 @@ class gevUserUtils {
 		require_once("Services/GEV/Utils/classes/class.gevNAUtils.php");
 		$adviser_id = gevNAUtils::getInstance()->getAdviserOf($this->user_id);
 		if ($adviser_id === null) {
-			throw new Exception("Can't find NA-adviser of User ".$this->user_id);
+			return null;
 		}
 		
 		return gevUserUtils::getInstance($adviser_id);

@@ -49,8 +49,11 @@ class gevNASuccessfull extends gevCrsAutoMail {
 		
 		require_once("Services/GEV/Utils/classes/class.gevNAUtils.php");
 		$message["to"] = gevNAUtils::getNASuccessfullMailRecipient($a_recipient);
-		$message["subject"] = $message["subject"]
-							 ." (".$user_utils->getNAAdviserUtils()->getOrgUnitTitle().")";
+		$na_utils = $user_utils->getNAAdviserUtils();
+		if ($na_utils) {
+			$message["subject"] = $message["subject"]
+								 ." (".$na_utils->getOrgUnitTitle().")";
+		}
 		
 		return $message;
 	}
