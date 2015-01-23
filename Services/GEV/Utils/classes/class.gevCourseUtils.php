@@ -1312,9 +1312,9 @@ class gevCourseUtils {
 		$format_wrap = $workbook->addFormat();
 		$format_wrap->setTextWrap();
 		
-		$worksheet->setColumn(0, 0, 16);		// gender
-		$worksheet->setColumn(1, 1, 20); 	// firstname
-		$worksheet->setColumn(2, 2, 20);	// lastname
+		$worksheet->setColumn(0, 0, 10);		// gender
+		$worksheet->setColumn(1, 1, 12); 	// firstname
+		$worksheet->setColumn(2, 2, 12);	// lastname
 		$worksheet->setColumn(3, 3, 20);	// org-unit
 		
 		if($a_type == self::MEMBERLIST_HOTEL)
@@ -1322,13 +1322,13 @@ class gevCourseUtils {
 			$columns[] = $lng->txt("gev_crs_book_overnight_details"); // #3764
 			$columns[] = "Selbstzahler Vorabendanreise";
 
-			$worksheet->setColumn(4, 4, 45); // #4481
-			$worksheet->setColumn(5, 5, 15);
+			$worksheet->setColumn(4, 4, 25); // #4481
+			$worksheet->setColumn(5, 5, 10);
 		}
 		else if ($a_type == self::MEMBERLIST_PARTICIPANT) {
 			$columns[] = "Funktion";
 			
-			$worksheet->setColumn(4, 4, 20);
+			$worksheet->setColumn(4, 4, 12);
 		}
 		else
 		{
@@ -1338,10 +1338,10 @@ class gevCourseUtils {
 			$columns[] = "Funktion";
 			//$columns[] = $lng->txt("gev_signature");
 			
-			$worksheet->setColumn(4, 4, 20);
-			$worksheet->setColumn(5, 5, 25);
-			$worksheet->setColumn(6, 6, 25);
-			$worksheet->setColumn(7, 7, 20);
+			$worksheet->setColumn(4, 4, 12);
+			$worksheet->setColumn(5, 5, 14);
+			$worksheet->setColumn(6, 6, 14);
+			$worksheet->setColumn(7, 7, 12);
 		}
 
 		$row = $this->buildListMeta( $workbook
@@ -1449,14 +1449,16 @@ class gevCourseUtils {
 
 			if(!is_array($value))
 			{
-				$worksheet->writeString($row, 1, $value);
-				$worksheet->mergeCells($row, 1, $row, $num_cols-1);
+				$worksheet->writeString($row, 2, $value);
+				$worksheet->mergeCells($row, 0, $row, 1);
+				$worksheet->mergeCells($row, 2, $row, $num_cols-1);
 			}
 			else
 			{
 				$first = array_shift($value);
 				$worksheet->writeString($row, 1, $first);
-				$worksheet->mergeCells($row, 1, $row, $num_cols-1);
+				$worksheet->mergeCells($row, 0, $row, 1);
+				$worksheet->mergeCells($row, 2, $row, $num_cols-1);
 
 				foreach($value as $line)
 				{
@@ -1465,7 +1467,8 @@ class gevCourseUtils {
 						$row++;
 						$worksheet->write($row, 0, "");
 						$worksheet->writeString($row, 1, $line);
-						$worksheet->mergeCells($row, 1, $row, $num_cols-1);
+						$worksheet->mergeCells($row, 0, $row, 1);
+						$worksheet->mergeCells($row, 2, $row, $num_cols-1);
 					}
 				}
 			}
