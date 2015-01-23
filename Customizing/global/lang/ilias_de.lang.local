@@ -351,7 +351,7 @@ exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sob
 exc#:#exc_team_member_container_add#:#Team-Mitglied aus Training/Gruppe hinzufügen
 exercise#:#exc_crs_add_members#:#Mitglieder dieses Trainings hinzufügen
 exercise#:#exc_feedback_from_tutor#:#Feedback des Trainers
-fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen und Ordner öffnen, indem sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
+fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen und Ordner öffnen, indem Sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
 gev#:#dont_send_mail#:#keine Mail versenden
 gev#:#evg_email#:#E-Mail-Adresse
 gev#:#evg_mandatory#:#Sie müssen dieses Feld bestätigen, um sich registrieren zu können.
@@ -416,7 +416,7 @@ gev#:#gev_bookings#:#Buchungen
 gev#:#gev_business_contact#:#Kontaktdaten geschäftlich / WBD
 gev#:#gev_bwv_id#:#GDV Vermittler-ID
 gev#:#gev_bwv_id_invalid#:#Format: JJJJMMDD-XXXXXX-XX
-gev#:#gev_bwv_id_input_not_valid#:#Bitte geben sie ihre GDV Vermittler-ID im Format JJJJMMDD-XXXXXX-XX ein.
+gev#:#gev_bwv_id_input_not_valid#:#Bitte geben Sie ihre GDV Vermittler-ID im Format JJJJMMDD-XXXXXX-XX ein.
 gev#:#gev_cancel_training#:#Training stornieren
 gev#:#gev_cancellation_bill_item#:#Stornogebühr Training "%s"
 gev#:#gev_cancellation_bill_title#:#Stornierung der Buchung des Trainings "%s" für "%s"
@@ -475,11 +475,11 @@ gev#:#gev_crs_srch_usr_slctr_caption#:#Suche für:
 gev#:#gev_csn_list#:#CSN-Liste
 gev#:#gev_desk_displays#:#Tischaufsteller
 gev#:#gev_dec_training_creation_successfull#:#Das neue dezentrale Training wurde erfolgreich angelegt.
-gev#:#gev_dev_training_book_users#:#Bitte buchen sie Benutzer auf das Training.
+gev#:#gev_dev_training_book_users#:#Bitte buchen Sie Benutzer auf das Training.
 gev#:#gev_dec_training_creation#:#Dezentrales Training anlegen
-gev#:#gev_dec_training_creation_header_note#:#Hier können sie ein neues dezentrales Training anlegen.
+gev#:#gev_dec_training_creation_header_note#:#Hier können Sie ein neues dezentrales Training anlegen.
 gev#:#gev_dec_training_settings_header#:#Einstellungen für dezentrales Training
-gev#:#gev_dec_training_settings_header_note#:#Hier können sie für ein bestehendes dezentrales Training vornehmen.
+gev#:#gev_dec_training_settings_header_note#:#Hier können Sie für ein bestehendes dezentrales Training vornehmen.
 gev#:#gev_dec_training_settings#:#Trainingseinstellungen
 gev#:#gev_dec_training_no_templates#:#Es sind leider keine Vorlagen für dezentrale Trainings vorhanden.
 gev#:#gev_dec_training_template#:#Vorlage
@@ -491,11 +491,11 @@ gev#:#gev_duration#:#Dauer
 gev#:#gev_edu_bio#:#Bildungsbiographie
 gev#:#gev_edu_program#:#Bildungsprogramm
 gev#:#gev_edit_overnights#:#Ihre Übernachtungen beim Training "%s"
-gev#:#gev_edit_overnights_desc#:#Hier können sie ihre Übernachtungen beim Training bearbeiten.
+gev#:#gev_edit_overnights_desc#:#Hier können Sie ihre Übernachtungen beim Training bearbeiten.
 gev#:#gev_email#:#E-Mail-Adresse
 gev#:#gev_com_email#:#Kommunikations E-Mail-Adresse
 gev#:#gev_employee_booking#:#Buchungen meiner Mitarbeiter
-gev#:#gev_employee_booking_desc#:#Hier sehen sie alle aktuellen Buchungen ihrer Mitarbeiter.
+gev#:#gev_employee_booking_desc#:#Hier sehen Sie alle aktuellen Buchungen ihrer Mitarbeiter.
 gev#:#gev_entry_date#:#Eintrittsdatum
 gev#:#gev_event_title#:#Veranstaltungstitel
 gev#:#gev_evg_registration#:#Registrierung: Generali Online Akademie
@@ -571,7 +571,7 @@ gev#:#gev_no_show_bill_title#:#Nicht stornierte Buchung des Trainings "%s" für 
 gev#:#gev_not_allowed_to_book_crs_for_other#:#Sie dürfen dieses Training nicht für einen anderen Benutzer buchen.
 gev#:#gev_not_allowed_to_book_crs_for_self#:#Sie dürfen dieses Training nicht buchen.
 gev#:#gev_not_allowed_to_book_crs_for_other#:#Sie dürfen diese Stornierung nicht vornehmen.
-gev#:#gev_not_allowed_to_book_crs_self_because_period#:#Sie dürfen dieses Training nicht buchen, da sie bereits ein anderes Training im gleichen Zeitraum gebucht haben.
+gev#:#gev_not_allowed_to_book_crs_self_because_period#:#Sie dürfen dieses Training nicht buchen, da Sie bereits ein anderes Training im gleichen Zeitraum gebucht haben.
 gev#:#gev_not_allowed_to_book_crs_other_because_period#:#Sie dürfen dieses Training nicht buchen, da ihr Mitarbeiter bereits ein anderes Training im gleichen Zeitraum gebucht hat.
 gev#:#gev_not_allowed_to_cancel_crs_for_other#:#Sie dürfen dieses Training nicht für einen anderen Benutzer stornieren.
 gev#:#gev_not_bookable#:#ausgebucht
@@ -621,18 +621,18 @@ gev#:#gev_quicklinks_desc#:#Greifen Sie hier schnell und unkompliziert auf weite
 gev#:#gev_refresh_attachments#:#Anhänge aktualisieren
 gev#:#gev_registration#:#Erstregistrierung: Generali Online Akademie 
 gev#:#gev_registration_success#:#Eine Email mit einem Aktivierungslink wurde an Sie versendet.
-gev#:#gev_registration_pretext#:#Bitte treffen sie ihre Auswahl:
+gev#:#gev_registration_pretext#:#Bitte treffen Sie ihre Auswahl:
 gev#:#gev_agent_registration_label#:#Erstregistrierung als:
 gev#:#gev_na_registration_label#:#Erstregistrierung als:
 gev#:#gev_agent_registration_button#:#unabhängiger Vertriebspartner
 gev#:#gev_na_registration_button#:#Nebenberufsagentur
-gev#:#gev_registration_posttext#:#Bei Rückfragen wenden sie sich an: <a href="mailto:bildungspunkte.de@generali.com" class="blue">bildungspunkte.de@generali.com</a>
-gev#:#gev_rep_attendance_by_employee_desc#:#Hier sehen sie die Buchungen und Trainingsteilnahmen ihrer Mitarbeiter.
+gev#:#gev_registration_posttext#:#Bei Rückfragen wenden Sie sich an: <a href="mailto:bildungspunkte.de@generali.com" class="blue">bildungspunkte.de@generali.com</a>
+gev#:#gev_rep_attendance_by_employee_desc#:#Hier sehen Sie die Buchungen und Trainingsteilnahmen ihrer Mitarbeiter.
 gev#:#gev_rep_attendance_by_employee_title#:#Teilnahme nach Mitarbeiter
 gev#:#gev_rep_billing_title#:#Rechnungen
-gev#:#gev_rep_billing_desc#:#Hier sehen sie alle vom System versandten Rechnungen
+gev#:#gev_rep_billing_desc#:#Hier sehen Sie alle vom System versandten Rechnungen
 gev#:#gev_rep_employee_edu_bios_title#:#Bildungsbiographien meiner Mitarbeiter
-gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen sie einen Überblick über die Bildungsbiographien ihrer Mitarbeiter.
+gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen Sie einen Überblick über die Bildungsbiographien ihrer Mitarbeiter.
 gev#:#gev_report_billing#:#Rechnungen
 gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter
 gev#:#gev_rep_filter_show_critical_persons#:#Zeige mir nur kritische Personen.
@@ -862,7 +862,7 @@ matlist#:#xls_list_general_header#:#Generelle Angaben zum Training
 matlist#:#xls_list_item_header#:#Materialien
 modul#:#identifier#:#2Text (neu)
 news#:#news_enable_internal_news_info#:#Aktiviert Nachrichtenblöcke für Kategorien, Trainings, Gruppen und andere Objekte. Benutzer können diese Nachrichten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
-news#:#news_nr_of_items_info#:#Anzahl der Nachrichten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Trainings mehr Nachrichten enthalten können, da sie auch die Nachrichten ihrer Unterobjekte anzeigen.
+news#:#news_nr_of_items_info#:#Anzahl der Nachrichten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Trainings mehr Nachrichten enthalten können, da Sie auch die Nachrichten ihrer Unterobjekte anzeigen.
 orgu#:#orgu_adv_settings#:#erweiterte Einstellungen
 orgu#:#orgu_settings#:#Einstellungen
 orgu#:#orgu_type#:#Typ
