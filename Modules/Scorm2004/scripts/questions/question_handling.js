@@ -1301,160 +1301,90 @@ jQuery(document).ready(function() {
 		canvas_style, fader, hex_to_decimal, css3color, is_image_loaded;
 
 	var counter = 0;
-
-	has_VML = document.namespaces;
+	
 	has_canvas = document.createElement('canvas');
 	has_canvas = has_canvas && has_canvas.getContext;
-	isIE = (document.documentMode != undefined); // #15309
-
-	if(!(has_canvas || has_VML)) {
+	
+	// IE9 supports canvas, so no need to support anything else
+	if(!has_canvas) {
 		jQuery.fn.maphilight_mod = function() { return this; };
 		return;
 	}
-	
-	// For non IE browsers!!!
-	if(has_canvas) {
 		
-		fader = function(element, opacity, interval) {
-			if(opacity <= 1) {
-				element.style.opacity = opacity;
-				window.setTimeout(fader, 10, element, opacity + 0.1, 10);
-			}
-		};
-		
-		hex_to_decimal = function(hex) {
-			return Math.max(0, Math.min(parseInt(hex, 16), 255));
-		};
-		css3color = function(color, opacity) {
-			return 'rgba('+hex_to_decimal(color.substr(0,2))+','+hex_to_decimal(color.substr(2,2))+','+hex_to_decimal(color.substr(4,2))+','+opacity+')';
-		};
-		create_canvas_for = function(img, id) {
-			var width = jQuery(img).prop("width");
-			var height = jQuery(img).prop("height");
-			if(typeof(img.width) == "number")
-			{
-				width = img.width;
-				height = img.height;
-			}
-			var c = jQuery('<canvas id="canvas_' + id + '" style="width:'+width+'px;height:'+height+'px;"></canvas>').get(0);
-			c.width = width;
-			c.height = height;
-			c.getContext("2d").clearRect(0, 0, c.width, c.height);
-			return c;
-		};
-		
-		add_shape_to = function(canvas, shape, coords, options, name)
-		{
-			var i, context = canvas.getContext('2d');
-			context.beginPath();
-			
-			if(shape == 'rect')
-			{
-				context.rect(coords[0], coords[1], coords[2] - coords[0], coords[3] - coords[1]);
-			} 
-			else if(shape == 'poly')
-			{
-				context.moveTo(coords[0], coords[1]);
-
-				for(i=2; i < coords.length; i+=2)
-				{
-					context.lineTo(coords[i], coords[i+1]);
-				}
-				
-			} 
-			else if(shape == 'circ')
-			{
-				context.arc(coords[0], coords[1], coords[2], 0, Math.PI * 2, false);
-			}
-						
-			context.closePath();
-			
-			if(options.fill)
-			{
-				context.fillStyle = css3color(options.fillColor, options.fillOpacity);
-				context.fill();
-			}
-			if(options.stroke)
-			{
-				context.strokeStyle = css3color(options.strokeColor, options.strokeOpacity);
-				context.lineWidth = options.strokeWidth;
-				context.stroke();
-			}
-			if(options.fade && !isIE)
-			{
-				fader(canvas, 0);
-			}
-		};
-			
-		clear_canvas = function(canvas, area) {
-			canvas.getContext('2d').clearRect(0, 0, canvas.width,canvas.height);
-		};
-	} 
-	// IE!!!
-	else 
-	{   
-		var ie8=false;
-		// ie executes this code
-		if (document.documentMode) // IE8
-		{  
-			if (document.documentMode==8) {
-				ie8 = true;
-			}
+	fader = function(element, opacity, interval) {
+		if(opacity <= 1) {
+			element.style.opacity = opacity;
+			window.setTimeout(fader, 10, element, opacity + 0.1, 10);
 		}
-			
-		if(ie8==true)
+	};
+
+	hex_to_decimal = function(hex) {
+		return Math.max(0, Math.min(parseInt(hex, 16), 255));
+	};
+	css3color = function(color, opacity) {
+		return 'rgba('+hex_to_decimal(color.substr(0,2))+','+hex_to_decimal(color.substr(2,2))+','+hex_to_decimal(color.substr(4,2))+','+opacity+')';
+	};
+	create_canvas_for = function(img, id) {
+		var width = jQuery(img).prop("width");
+		var height = jQuery(img).prop("height");
+		if(typeof(img.width) == "number")
 		{
-			document.writeln('<?import namespace="v" implementation="#default#VML" ?>'); 
-			document.namespaces.add('v', 'urn:schemas-microsoft-com:vml', "#default#VML");		
-		} else {
-			document.createStyleSheet().addRule("v\\:*", "behavior: url(#default#VML); antialias: true;"); 
-			document.namespaces.add("v", "urn:schemas-microsoft-com:vml"); 
-		}	
-		
-		create_canvas_for = function(img, id)
+			width = img.width;
+			height = img.height;
+		}
+		var c = jQuery('<canvas id="canvas_' + id + '" style="width:'+width+'px;height:'+height+'px;"></canvas>').get(0);
+		c.width = width;
+		c.height = height;
+		c.getContext("2d").clearRect(0, 0, c.width, c.height);
+		return c;
+	};
+
+	add_shape_to = function(canvas, shape, coords, options, name)
+	{
+		var i, context = canvas.getContext('2d');
+		context.beginPath();
+
+		if(shape == 'rect')
 		{
-			var width = jQuery(img).prop("width");
-			var height = jQuery(img).prop("height");
-			if(typeof(img.width) == "number")
-			{
-				width = img.width;
-				height = img.height;
-			}
-			return jQuery('<var id="canvas_' + id + '" style="zoom:1;overflow:hidden;display:block;width:'+width+'px;height:'+height+'px;"></var>').get(0);
-		};
-		
-		add_shape_to = function(canvas, shape, coords, options, name, id)
+			context.rect(coords[0], coords[1], coords[2] - coords[0], coords[3] - coords[1]);
+		} 
+		else if(shape == 'poly')
 		{
-			var fill, stroke, opacity, e;
-					
-			fill = '<v:fill color="#'+options.fillColor+'" opacity="'+(options.fill ? options.fillOpacity : 0)+'" />';
-			
-			stroke = (options.stroke ? 'strokeweight="'+options.strokeWidth+'" stroked="t" strokecolor="#'+options.strokeColor+'"' : 'stroked="f"');
-		
-			opacity = '<v:stroke opacity="'+options.strokeOpacity+'"/>';
-			
-			if(shape == 'rect')
+			context.moveTo(coords[0], coords[1]);
+
+			for(i=2; i < coords.length; i+=2)
 			{
-				e = jQuery('<v:rect id="canvas_' + id + '" name="'+name+'" filled="t" '+stroke+' style="zoom:1;margin:0;padding:0;display:block;position:absolute;left:'+coords[0]+'px;top:'+coords[1]+'px;width:'+(coords[2] - coords[0])+'px;height:'+(coords[3] - coords[1])+'px;"></v:rect>');
-			} 
-			else if(shape == 'poly')
-			{
-				e = jQuery('<v:shape id="canvas_' + id + '" name="'+name+'" filled="t" '+stroke+' coordorigin="0,0" coordsize="'+parseInt(canvas.style.width)+','+parseInt(canvas.style.height)+'" path="m '+coords[0]+','+coords[1]+' l '+coords.join(',')+' x e" style="zoom:1;margin:0;padding:0;display:block;position:absolute;top:0px;left:0px;width:'+canvas.style.width+';height:'+canvas.style.height+';"></v:shape>');
-			} 
-			else if(shape == 'circ')
-			{
-				e = jQuery('<v:oval id="canvas_' + id + '" name="'+name+'" filled="t" '+stroke+' style="zoom:1;margin:0;padding:0;display:block;position:absolute;left:'+(coords[0] - coords[2])+'px;top:'+(coords[1] - coords[2])+'px;width:'+(coords[2]*2)+'px;height:'+(coords[2]*2)+'px;"></v:oval>');
+				context.lineTo(coords[i], coords[i+1]);
 			}
 
-			e.get(0).innerHTML = fill+opacity;
-			jQuery(canvas).append(e);
-		};
-		
-		clear_canvas = function(canvas)
+		} 
+		else if(shape == 'circ')
 		{
-			jQuery(canvas).find('[name=highlighted]').remove();
-		};
-	}
+			context.arc(coords[0], coords[1], coords[2], 0, Math.PI * 2, false);
+		}
+
+		context.closePath();
+
+		if(options.fill)
+		{
+			context.fillStyle = css3color(options.fillColor, options.fillOpacity);
+			context.fill();
+		}
+		if(options.stroke)
+		{
+			context.strokeStyle = css3color(options.strokeColor, options.strokeOpacity);
+			context.lineWidth = options.strokeWidth;
+			context.stroke();
+		}
+		if(options.fade)
+		{
+			fader(canvas, 0);
+		}
+	};
+
+	clear_canvas = function(canvas, area) {
+		canvas.getContext('2d').clearRect(0, 0, canvas.width,canvas.height);
+	};
 	
 	shape_from_area = function(area)
 	{
@@ -1467,7 +1397,7 @@ jQuery(document).ready(function() {
 	};
 	
 	is_image_loaded = function(img) {
-		if(!img.complete) { return false; } // IE
+		if(!img.complete) { return false; } // IE (probably buggy in IE9+)
 		if(typeof img.naturalWidth != "undefined" && img.naturalWidth == 0) { return false; } // Others
 		return true;
 	};
@@ -1512,8 +1442,6 @@ jQuery(document).ready(function() {
 
 			wrap = jQuery('<div>').css({display:'block',background:'url("'+this.src+'")',position:'relative',padding:0,width:this.width,height:this.height});
 			img.before(wrap).css('opacity', 0).css(canvas_style).remove();
-			
-			if(isIE && !has_canvas) { img.css('filter', 'Alpha(opacity=0)'); }
 			
 			wrap.append(img);
 
@@ -1565,28 +1493,16 @@ jQuery(document).ready(function() {
 				var shape, area_options, object;
 				area_options = jQuery.metadata ? jQuery.extend({}, options, jQuery(this).metadata()) : options;		
 				
-				// NON IE
-				if(has_canvas)
-				{
-				    var arr_map = jQuery(object).attr("id").split("_");
-					var str_cmap = '.cmap' + arr_map[0];
-					canvas_always = create_canvas_for($(str_cmap).get(), jQuery(object).attr("id"));
-					jQuery(canvas_always).css(canvas_style);
-					
-					$(str_cmap).before(canvas_always);
-				}
+				var arr_map = jQuery(object).attr("id").split("_");
+				var str_cmap = '.cmap' + arr_map[0];
+				canvas_always = create_canvas_for($(str_cmap).get(), jQuery(object).attr("id"));
+				jQuery(canvas_always).css(canvas_style);
+
+				$(str_cmap).before(canvas_always);				
 									
 				shape = shape_from_area(object);
 
-				// IE!
-				if (isIE && !has_canvas)
-				{
-					add_shape_to(target_canvas, shape[0], shape[1], area_options, "", jQuery(object).attr("id"));
-				} 
-				else
-				{
-					add_shape_to(canvas_always, shape[0], shape[1], area_options, "");
-				}
+				add_shape_to(canvas_always, shape[0], shape[1], area_options, "");				
 			};
 			
 			mouseclick = function(e,id)
