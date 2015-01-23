@@ -1127,7 +1127,8 @@ jQuery(document).ready(function() {
 	has_VML = document.namespaces;
 	has_canvas = document.createElement('canvas');
 	has_canvas = has_canvas && has_canvas.getContext;
-
+	isIE = (document.documentMode != undefined); // #15309
+	
 	if(!(has_canvas || has_VML)) {
 		jQuery.fn.maphilight_mod = function() { return this; };
 		return;
@@ -1201,7 +1202,7 @@ jQuery(document).ready(function() {
 				context.lineWidth = options.strokeWidth;
 				context.stroke();
 			}
-			if(options.fade && !jQuery.browser.msie)
+			if(options.fade && !isIE)
 			{
 				fader(canvas, 0);
 			}
@@ -1334,7 +1335,7 @@ jQuery(document).ready(function() {
 			wrap = jQuery('<div>').css({display:'block',background:'url("'+this.src+'")',position:'relative',padding:0,width:this.width,height:this.height});
 			img.before(wrap).css('opacity', 0).css(canvas_style).remove();
 			
-			if(jQuery.browser.msie && !has_canvas) { img.css('filter', 'Alpha(opacity=0)'); }
+			if(isIE && !has_canvas) { img.css('filter', 'Alpha(opacity=0)'); }
 			
 			wrap.append(img);
 
@@ -1400,7 +1401,7 @@ jQuery(document).ready(function() {
 				shape = shape_from_area(object);
 
 				// IE!
-				if (jQuery.browser.msie && !has_canvas)
+				if (isIE && !has_canvas)
 				{
 					add_shape_to(target_canvas, shape[0], shape[1], area_options, "", jQuery(object).attr("id"));
 				} 
