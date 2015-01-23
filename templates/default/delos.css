@@ -10868,6 +10868,18 @@ table.mceToolbar td {
     max-width: 100%;
     overflow: auto;
   }
+  a#il_mhead_t_focus {
+    font-size: 20px;
+  }
+  h1.ilHeader {
+    padding-top: 5px;
+  }
+  #headerimage {
+    width: 35px;
+    height: 35px;
+    margin-top: 2px;
+    margin-right: 7px;
+  }
   /* @import "less/Services/MainMenu/delos_sm.less"; */
   /* @import "less/Services/UIComponent/Tabs/delos_sm.less"; */
   /* @import "less/Services/Form/delos_sm.less"; */
@@ -11029,6 +11041,11 @@ table.mceToolbar td {
     float: left;
     height: 28px;
     padding: 0 10px 0 0;
+  }
+  /* Services/UIComponent/Button */
+  input.btn,
+  button.btn > span:first-child:not(:empty) {
+    min-width: 0;
   }
   div.ilGoogleMap {
     max-width: 100%;

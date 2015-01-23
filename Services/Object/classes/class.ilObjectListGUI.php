@@ -2714,7 +2714,7 @@ class ilObjectListGUI
 		$this->current_selection_list->setAsynchUrl($a_asynch_url);
 		if ($a_header_actions)
 		{
-			$this->current_selection_list->setListTitle($lng->txt("actions"));
+			$this->current_selection_list->setListTitle("<span class='hidden-xs'>".$lng->txt("actions")."</span>");
 		}
 		else
 		{
