@@ -2827,8 +2827,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function applyFilterCriteria($in_rows)
 	{
 		global $ilDB;
-
-		$sess_filter = $_SESSION['form_']['selection'];
+		$sess_filter = $_SESSION['form_tst_participants_' . $this->ref_id]['selection'];
 		$sess_filter = str_replace('"','',$sess_filter);
 		$sess_filter = explode(':', $sess_filter);
 		$filter = substr($sess_filter[2],0, strlen($sess_filter[2])-1);
