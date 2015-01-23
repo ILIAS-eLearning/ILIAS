@@ -46,6 +46,10 @@ class arJoin extends arStatement {
 	 * @var bool
 	 */
 	protected $both_external = false;
+	/**
+	 * @var bool
+	 */
+	protected $is_mapped = false;
 
 
 	/**
@@ -207,6 +211,22 @@ class arJoin extends arStatement {
 	 */
 	public function getFullNames() {
 		return $this->full_names;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isIsMapped() {
+		return $this->is_mapped;
+	}
+
+
+	/**
+	 * @param boolean $is_mapped
+	 */
+	public function setIsMapped($is_mapped) {
+		$this->is_mapped = $is_mapped;
 	}
 }
 

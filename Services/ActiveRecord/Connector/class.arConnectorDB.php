@@ -299,8 +299,13 @@ class arConnectorDB extends arConnector {
 	 * @return mixed|string
 	 */
 	protected function buildQuery(ActiveRecordList $arl) {
-		// SELECT AND JOIN
-		$q = $arl->getArJoinCollection()->asSQLStatement();
+		// SELECTS
+		$q = $arl->getArSelectCollection()->asSQLStatement();
+		// Concats
+		$q .= $arl->getArConcatCollection()->asSQLStatement();
+		$q .= ' FROM '.$arl->getAR()->getConnectorContainerName();
+		// JOINS
+		$q .= $arl->getArJoinCollection()->asSQLStatement();
 		// WHERE
 		$q .= $arl->getArWhereCollection()->asSQLStatement();
 		// ORDER

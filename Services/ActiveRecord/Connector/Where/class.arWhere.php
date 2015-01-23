@@ -68,6 +68,9 @@ class arWhere extends arStatement {
 				$statement .= implode(', ', $values);
 				$statement .= ')';
 			} else {
+				if ($this->getValue() === NULL) {
+					$this->setOperator('IS');
+				}
 				$statement .= ' ' . $this->getOperator();
 				$statement .= ' ' . $ar->getArConnector()->quote($this->getValue(), $type);
 			}

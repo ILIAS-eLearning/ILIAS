@@ -3,6 +3,8 @@ require_once(dirname(__FILE__) . '/Connector/Join/class.arJoinCollection.php');
 require_once(dirname(__FILE__) . '/Connector/Where/class.arWhereCollection.php');
 require_once(dirname(__FILE__) . '/Connector/Limit/class.arLimitCollection.php');
 require_once(dirname(__FILE__) . '/Connector/Order/class.arOrderCollection.php');
+require_once(dirname(__FILE__) . '/Connector/Concat/class.arConcatCollection.php');
+require_once(dirname(__FILE__) . '/Connector/Select/class.arSelectCollection.php');
 
 /**
  * Class ActiveRecordList
@@ -32,6 +34,14 @@ class ActiveRecordList {
 	 * @var arLimitCollection
 	 */
 	protected $arLimitCollection;
+	/**
+	 * @var arConcatCollection
+	 */
+	protected $arConcatCollection;
+	/**
+	 * @var arSelectCollection
+	 */
+	protected $arSelectCollection;
 	/**
 	 * @var bool
 	 */
@@ -88,6 +98,14 @@ class ActiveRecordList {
 		$this->arJoinCollection = arJoinCollection::getInstance($this->getAR());
 		$this->arLimitCollection = arLimitCollection::getInstance($this->getAR());
 		$this->arOrderCollection = arOrderCollection::getInstance($this->getAR());
+		$this->arConcatCollection = arConcatCollection::getInstance($this->getAR());
+		$this->arSelectCollection = arSelectCollection::getInstance($this->getAR());
+
+		$arSelect = new arSelect();
+		$arSelect->setTableName($ar->getConnectorContainerName());
+		$arSelect->setFieldName('*');
+		$this->getArSelectCollection()->add($arSelect);
+
 		if ($ar->getArConnector() == NULL) {
 			$this->connector = new arConnectorDB($this);
 		} else {
@@ -239,8 +257,15 @@ class ActiveRecordList {
 		$arJoin->setOperator($operator);
 		$arJoin->setFields($fields);
 		$arJoin->setBothExternal($both_external);
-
 		$this->getArJoinCollection()->add($arJoin);
+
+		foreach ($fields as $field) {
+			$arSelect = new arSelect();
+			$arSelect->setTableName($arJoin->getTableNameAs());
+			$arSelect->setFieldName($field);
+			$arSelect->setAs($arJoin->getTableNameAs() . '_' . $field);
+			$this->getArSelectCollection()->add($arSelect);
+		}
 
 		return $this;
 	}
@@ -277,6 +302,22 @@ class ActiveRecordList {
 		return $this->join(arJoin::TYPE_INNER, $tablename, $on_this, $on_external, $fields, $operator, $both_external);
 	}
 
+
+	/**
+	 * @param array $fields
+	 * @param       $as
+	 *
+	 * @return $this
+	 */
+	public function concat(array $fields, $as) {
+		$con = new arConcat();
+		$con->setAs($as);
+		$con->setFields($fields);
+		$this->getArConcatCollection()->add($con);
+
+		return $this;
+	}
+
 	//
 	// Statement Collections
 	//
@@ -311,6 +352,24 @@ class ActiveRecordList {
 	public function getArLimitCollection() {
 		return $this->arLimitCollection;
 	}
+
+
+	/**
+	 * @return arConcatCollection
+	 */
+	public function getArConcatCollection() {
+		return $this->arConcatCollection;
+	}
+
+
+	/**
+	 * @return arSelectCollection
+	 */
+	public function getArSelectCollection() {
+		return $this->arSelectCollection;
+	}
+
+
 
 	//
 	// Collection Functions
