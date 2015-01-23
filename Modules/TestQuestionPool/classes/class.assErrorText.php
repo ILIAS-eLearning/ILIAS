@@ -685,6 +685,8 @@ class assErrorText extends assQuestion //implements ilObjQuestionScoringAdjustab
 			$items = preg_split("/\s+/", $text);
 			foreach ($items as $idx => $item)
 			{
+				$img = '';
+
 				if(
 					($posHash = strpos($item, '#')) === 0 ||
 					($posOpeningBrackets = strpos($item, '((')) === 0 ||
@@ -784,7 +786,6 @@ class assErrorText extends assQuestion //implements ilObjQuestionScoringAdjustab
 							}
 						}
 					}
-					
 
 					$item_stack = array();
 					$start_idx = $passage_start_idx;
@@ -805,7 +806,6 @@ class assErrorText extends assQuestion //implements ilObjQuestionScoringAdjustab
 					}
 					if($graphicalOutput)
 					{
-						// @todo: Add images
 						if ($group_selected)
 						{
 							$img = ' <img src="' . ilUtil::getImagePath("icon_ok.png") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
@@ -833,6 +833,7 @@ class assErrorText extends assQuestion //implements ilObjQuestionScoringAdjustab
 					continue;
 				}
 
+				// Errors markes with #, group errors (()) are handled above
 				$class = '';
 				$img = '';
 				if($this->isTokenSelected($counter, $selections))
