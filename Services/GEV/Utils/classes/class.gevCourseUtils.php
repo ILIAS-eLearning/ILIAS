@@ -2074,14 +2074,12 @@ class gevCourseUtils {
 
 				 $additional_where;
 
-
-
-
 		$res = $db->query($query);
 		$crss = array();
 		while($val = $db->fetchAssoc($res)) {
 			$crss[] = $val["obj_id"];
 		}
+		$count = count($crss);
 	
 		$crs_amd = 
 			array( gevSettings::CRS_AMD_CUSTOM_ID			=> "custom_id"
@@ -2169,7 +2167,7 @@ class gevCourseUtils {
 
 		}
 
-		return $info;
+		return array("count" => $count, "info" => $info);
 	}
 
 }
