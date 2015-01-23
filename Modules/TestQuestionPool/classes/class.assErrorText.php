@@ -947,7 +947,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 						$errorobject = $this->errordata[$errorcounter];
 						if (is_object($errorobject))
 						{
-							$passages[$cur_pidx]['score'] = (int) $errorobject->points;
+							$passages[$cur_pidx]['score'] = $errorobject->points;
 							$passages[$cur_pidx]['isError'] = true;
 						}
 						
@@ -1033,7 +1033,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 						$errorobject = $this->errordata[$errorcounter];
 						if (is_object($errorobject))
 						{
-							$passages[$cur_pidx]['score'] = (int) $errorobject->points;
+							$passages[$cur_pidx]['score'] = $errorobject->points;
 						}
 						$errorcounter++;
 					}
