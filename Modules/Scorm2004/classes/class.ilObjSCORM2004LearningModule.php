@@ -530,11 +530,11 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	}
 	
 	
-	function exportSelected($a_exportall = 0, $a_user = array())
-	{
-		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsExport.php");
-		ilSCORM2004TrackingItemsExport::exportSelected($a_exportall = 0, $a_user = array());
-	}
+	// function exportSelected($a_exportall = 0, $a_user = array())
+	// {
+		// include_once("./Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsExport.php");
+		// ilSCORM2004TrackingItemsExport::exportSelected($a_exportall = 0, $a_user = array());
+	// }
 	
 	
 	

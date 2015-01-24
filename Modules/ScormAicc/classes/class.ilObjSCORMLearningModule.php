@@ -565,95 +565,97 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	 */
 	public function exportSelected($a_all, $a_users = array())
 	{
-		global $ilDB, $ilUser, $ilSetting;
+		include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItems.php';
+		ilSCORMTrackingItems::exportDataForImport($a_users);
+		// global $ilDB, $ilUser, $ilSetting;
 
-		$inst_id = $ilSetting->get('inst_id',0);
+		// $inst_id = $ilSetting->get('inst_id',0);
 
-		// Get all scos
-		$scos = array();
+		// // Get all scos
+		// $scos = array();
 
-		//get all SCO's of this object
-		$query = 'SELECT scorm_object.obj_id, scorm_object.title, '
-			. 'scorm_object.c_type, scorm_object.slm_id, scorm_object.obj_id scoid  '
-			. 'FROM scorm_object, sc_item, sc_resource '
-			. 'WHERE (scorm_object.slm_id = %s '
-			. 'AND scorm_object.obj_id = sc_item.obj_id '
-			. 'AND sc_item.identifierref = sc_resource.import_id '
-			. 'AND sc_resource.scormtype = %s) '
-			. 'GROUP BY scorm_object.obj_id, scorm_object.title, scorm_object.c_type,  '
-			. 'scorm_object.slm_id, scorm_object.obj_id ';
-		$res = $ilDB->queryF(
-				$query,
-				array('integer', 'text'),
-				array($this->getId(), 'sco')
-		);
-		while($row = $ilDB->fetchAssoc($res))
-		{
-			$scos[] = $row['scoid'];
-		}
-
-
-		$users = array();
-		if($a_all)
-		{
-			$query = 'SELECT user_id FROM scorm_tracking ' .
-				'WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ' .
-				'GROUP BY user_id';
-			$res = $ilDB->query($query);
-			while($row = $ilDB->fetchAssoc($res))
-			{
-				$users[] = $row['user_id'];
-			}
-		}
-		else
-		{
-			$users = $a_users;
-		}
-
-		// get all completed
-		include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php';
-		$completed = ilObjSCORMTracking::_getCompleted($scos, $this->getId());
-		$last = ilObjSCORMTracking::lookupLastAccessTimes($this->getId());
-
-		include_once './Services/Utilities/classes/class.ilCSVWriter.php';
-		$csv = new ilCSVWriter();
-		$csv->setSeparator(';');
-		foreach(array('Department', 'Login', 'Lastname', 'Firstname', 'Email', 'Date', 'Status') as $col)
-		{
-			$csv->addColumn($col);
-		}
-
-		// Read user data
-		$query = 'SELECT usr_id,login,firstname,lastname,department,email ' .
-			'FROM usr_data ' .
-			'WHERE ' . $ilDB->in('usr_id', $users, false, 'integer');
-		$res = $ilDB->query($query);
-
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$csv->addRow();
-			$csv->addColumn((string) $row->department);
-			$csv->addColumn((string) $row->login);
-			$csv->addColumn((string) $row->lastname);
-			$csv->addColumn((string) $row->firstname);
-			$csv->addColumn((string) $row->email);
-			if(isset($last[$row->usr_id]))
-			{
-				$dt = new ilDateTime($last[$row->usr_id], IL_CAL_DATETIME);
-				$csv->addColumn((string) $dt->get(IL_CAL_FKT_DATE, 'd.m.Y'));
-			}
-			else
-			{
-				$csv->addColumn('');
-			}
-			$csv->addColumn(in_array($row->usr_id, $completed) ? 1 : 0);
-		}
+		// //get all SCO's of this object
+		// $query = 'SELECT scorm_object.obj_id, scorm_object.title, '
+			// . 'scorm_object.c_type, scorm_object.slm_id, scorm_object.obj_id scoid  '
+			// . 'FROM scorm_object, sc_item, sc_resource '
+			// . 'WHERE (scorm_object.slm_id = %s '
+			// . 'AND scorm_object.obj_id = sc_item.obj_id '
+			// . 'AND sc_item.identifierref = sc_resource.import_id '
+			// . 'AND sc_resource.scormtype = %s) '
+			// . 'GROUP BY scorm_object.obj_id, scorm_object.title, scorm_object.c_type,  '
+			// . 'scorm_object.slm_id, scorm_object.obj_id ';
+		// $res = $ilDB->queryF(
+				// $query,
+				// array('integer', 'text'),
+				// array($this->getId(), 'sco')
+		// );
+		// while($row = $ilDB->fetchAssoc($res))
+		// {
+			// $scos[] = $row['scoid'];
+		// }
 
 
-		ilUtil::deliverData(
-				$csv->getCSVString(),
-				'scorm_tracking_' . $this->getRefId() . '_' . time() . '.csv'
-		);
+		// $users = array();
+		// if($a_all)
+		// {
+			// $query = 'SELECT user_id FROM scorm_tracking ' .
+				// 'WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ' .
+				// 'GROUP BY user_id';
+			// $res = $ilDB->query($query);
+			// while($row = $ilDB->fetchAssoc($res))
+			// {
+				// $users[] = $row['user_id'];
+			// }
+		// }
+		// else
+		// {
+			// $users = $a_users;
+		// }
+
+		// // get all completed
+		// include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php';
+		// $completed = ilObjSCORMTracking::_getCompleted($scos, $this->getId());
+		// $last = ilObjSCORMTracking::lookupLastAccessTimes($this->getId());
+
+		// include_once './Services/Utilities/classes/class.ilCSVWriter.php';
+		// $csv = new ilCSVWriter();
+		// $csv->setSeparator(';');
+		// foreach(array('Department', 'Login', 'Lastname', 'Firstname', 'Email', 'Date', 'Status') as $col)
+		// {
+			// $csv->addColumn($col);
+		// }
+
+		// // Read user data
+		// $query = 'SELECT usr_id,login,firstname,lastname,department,email ' .
+			// 'FROM usr_data ' .
+			// 'WHERE ' . $ilDB->in('usr_id', $users, false, 'integer');
+		// $res = $ilDB->query($query);
+
+		// while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		// {
+			// $csv->addRow();
+			// $csv->addColumn((string) $row->department);
+			// $csv->addColumn((string) $row->login);
+			// $csv->addColumn((string) $row->lastname);
+			// $csv->addColumn((string) $row->firstname);
+			// $csv->addColumn((string) $row->email);
+			// if(isset($last[$row->usr_id]))
+			// {
+				// $dt = new ilDateTime($last[$row->usr_id], IL_CAL_DATETIME);
+				// $csv->addColumn((string) $dt->get(IL_CAL_FKT_DATE, 'd.m.Y'));
+			// }
+			// else
+			// {
+				// $csv->addColumn('');
+			// }
+			// $csv->addColumn(in_array($row->usr_id, $completed) ? 1 : 0);
+		// }
+
+
+		// ilUtil::deliverData(
+				// $csv->getCSVString(),
+				// 'scorm_tracking_' . $this->getRefId() . '_' . time() . '.csv'
+		// );
 	}
 	
 	
