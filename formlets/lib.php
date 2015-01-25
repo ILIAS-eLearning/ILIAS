@@ -21,12 +21,32 @@ function stop() {
 // TODO: This could be refactored for sure!
 
 function appendRecursive($array, $value) {
-    if ($value instanceof Stop) {
-        return _val($array);
+    if ( !$value->isError() 
+    &&   !$value->isApplicable() 
+    &&   $value->get() instanceOf Stop) {
+        $errors = array();
+        $vals = array_map(function($v) use (&$errors) {
+                $forced = $v->force();
+                if ($forced->isError()) {
+                    $errors[] = $forced;
+                    return $forced;
+                }
+                if ($forced->isApplicable()) {
+                    return $forced;
+                }
+                return $forced->get();
+            }
+            , $array
+            );
+
+        if (count($errors) > 0) {
+            return _error("Collection contains errors.", "_collect", $errors);
+        }
+        return _val($array, "_collect");
     }
     else {
-        $array[] = $value;
-        return _fn(function($a) use ($array) {
+        $array[] = $value->force();
+        return _fn_w(function($a) use ($array) {
             return appendRecursive($array, $a);
         });
     }
@@ -35,7 +55,7 @@ function appendRecursive($array, $value) {
 function _collect() {
     static $fn = null;
     if ($fn === null) {
-        $fn = _fn(function($a) {
+        $fn = _fn_w(function($a) {
             return appendRecursive(array(), $a);
         });
     } 
