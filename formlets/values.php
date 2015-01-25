@@ -309,6 +309,10 @@ final class FunctionValue extends Value {
         $args = $res[0];
         $errors = $res[1];
 
+        if ( count($origins) === 1 && count($errors) === 1) {
+            return $errors[0];
+        }
+        
         if (count($errors) > 0) {
             return _error("Function arguments contain errors.", $origins, $errors);
         }
