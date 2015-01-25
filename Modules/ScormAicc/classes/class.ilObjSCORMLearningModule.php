@@ -1200,7 +1200,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	function deleteTrackingDataOfUsers($a_users)
 	{
 		global $ilDB;
+		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+
+		ilChangeEvent::_deleteReadEventsForUsers($this->getId(), $a_users);
 
 		foreach($a_users as $user)
 		{
