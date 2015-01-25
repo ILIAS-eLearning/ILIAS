@@ -42,7 +42,7 @@ function appendRecursive($array, $value) {
         if (count($errors) > 0) {
             return _error("Collection contains errors.", "_collect", $errors);
         }
-        return _val($array, "_collect");
+        return _val($vals, "_collect");
     }
     else {
         $array[] = $value->force();
