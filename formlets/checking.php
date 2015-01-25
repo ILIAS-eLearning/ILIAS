@@ -86,7 +86,7 @@ function guardIsValue($arg) {
 }
 
 function guardIsErrorValue($arg) {
-    if (!($arg instanceof Value)) {
+    if (!($arg instanceof ErrorValue)) {
         throw new TypeError("ErrorValue", typeName($arg));
     }
 }
