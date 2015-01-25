@@ -119,6 +119,11 @@ abstract class Builder {
         return $this->buildWithDict(RenderDict::_empty());
     }
 
+    /**
+     * Map a transformation over the result of the Builder. The transformation
+     * gets the used RenderDict and the HTML result of the Builder and should
+     * return a new HTML.
+     */
     public function map(FunctionValue $transformation) {
         return new MappedBuilder($this, $transformation);
     } 
@@ -185,9 +190,19 @@ class TextBuilder extends Builder {
     }
 }
 
-/* Interface to be implemented by classes that use TagBuilder. */
+/**
+ * Interface to be implemented by classes that should be used by TagBuilder. 
+ */
 interface TagBuilderCallbacks {
+    /**
+     * Get the attributes for the tag to be build. Should return a dict of
+     * string => string.
+     */
     public function getAttributes(RenderDict $dict, $name);
+
+    /**
+     * Get the content of the new tag. Should return an HTML or null.
+     */
     public function getContent(RenderDict $dict, $name);
 }
 
@@ -205,9 +220,9 @@ class TagBuilder extends Builder {
         $this->_name = $name;
     }
 
-    public function buildWithDict(RenderDict $d) {
-        $attributes = $this->_callback_object->getAttributes($d, $this->_name);
-        $content = $this->_callback_object->getContent($d, $this->_name);
+    public function buildWithDict(RenderDict $dict) {
+        $attributes = $this->_callback_object->getAttributes($dict, $this->_name);
+        $content = $this->_callback_object->getContent($dict, $this->_name);
         return html_tag($this->_tag_name, $attributes, $content); 
     }
 }
