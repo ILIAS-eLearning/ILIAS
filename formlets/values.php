@@ -401,6 +401,10 @@ final class ErrorValue extends Value {
     private $_others; // array of other errors
     private $_dict; // dictionary with errors or null
 
+    public function others() {
+        return $this->_others;
+    }
+
     public function __construct($reason, $origin, $others = array()) {
         guardIsString($reason);
         guardEach($others, "guardIsErrorValue");

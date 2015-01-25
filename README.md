@@ -370,6 +370,7 @@ echo ($res->isError()?$res->error():$res->get()->toISO())."\n";
 
 // We need to turn the retreived value into a representation for rendering ...
 $renderDict = new RenderDict($mock_post2, $res);
+print_r($renderDict);
 
 // ... and call another render function on the builder with said dict.
 echo "This will show some HTML of the formlet with error messages:\n";

@@ -27,7 +27,13 @@ abstract class Collector {
                 return $res;
             }
 
-            return $transformation->apply($res)->force();
+            $res2 = $transformation->apply($res)->force();
+            // If mapping was successfull, the underlying value should
+            // be considered the origin of the produced value.
+            if (!$res2->isError() && !$res2->isApplicable()) {
+                return _val($res2->get(), $res->origin()); 
+            }
+            return $res2;
         }));
     }
 
@@ -43,7 +49,7 @@ abstract class Collector {
         guardHasArity($predicate, 1);
         return $this->map(_fn_w(function($value) use ($predicate, $error) {
             if (!$predicate->apply($value)->get()) {
-                return _error($error, $value->origins());
+                return _error($error, $value->origin());
             }
             return $value;
         }));
