@@ -153,7 +153,7 @@ final class AnyCollector extends Collector {
         if (!array_key_exists($name, $inp)) {
             throw new MissingInputError($this->name());
         }
-        return _val($inp[$name], array($name));
+        return _val($inp[$name], $name);
     }
 
     public function isNullaryCollector() {

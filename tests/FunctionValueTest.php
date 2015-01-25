@@ -10,7 +10,7 @@ trait FunctionValueTestTrait {
      * @dataProvider function_values 
      * @expectedException GetError
      */
-    public function testNotSatisfiedNoValue($fn, $value, $arity) {
+    public function testNotSatisfiedNoValue($fn, $value, $arity, $origin) {
         if ($arity !== 0) {
             $fn->get();
         }
@@ -23,7 +23,7 @@ trait FunctionValueTestTrait {
      * Function value is applicable.
      * @dataProvider function_values 
      */
-    public function testFunctionIsApplicable($fn, $value, $arity) {
+    public function testFunctionIsApplicable($fn, $value, $arity, $origin) {
         if ($arity !== 0) {
             $this->assertTrue($fn->isApplicable());
         }
@@ -33,7 +33,7 @@ trait FunctionValueTestTrait {
      * One can apply function value to ordinary values.
      * @dataProvider function_values 
      */
-    public function testFunctionCanBeApplied($fn, $value, $arity) {
+    public function testFunctionCanBeApplied($fn, $value, $arity, $origin) {
         if ($arity > 0) {
             $this->assertInstanceOf('FunctionValue', $fn->apply($value));
         }
@@ -43,7 +43,7 @@ trait FunctionValueTestTrait {
      * A function value is no error.
      * @dataProvider function_values 
      */
-    public function testFunctionIsNoError($fn, $value, $arity) {
+    public function testFunctionIsNoError($fn, $value, $arity, $origin) {
         $this->assertFalse($fn->isError());
     }
 
@@ -52,7 +52,7 @@ trait FunctionValueTestTrait {
      * @dataProvider function_values 
      * @expectedException Exception 
      */
-    public function testFunctionHasNoError($fn, $value, $arity) {
+    public function testFunctionHasNoError($fn, $value, $arity, $origin) {
         $fn->error();
     }
 
@@ -60,15 +60,15 @@ trait FunctionValueTestTrait {
      * Function value origin defaults to empty array.
      * @dataProvider function_values 
      */
-    public function testFunctionsOriginsAreCorrect($fn, $value, $arity) {
-        $this->assertEquals($fn->origins(), array());
+    public function testFunctionsOriginsAreCorrect($fn, $value, $arity, $origin) {
+        $this->assertEquals($fn->origin(), $origin);
     }
 
     /** 
      * Functions has expected arity of $arity.
      * @dataProvider function_values 
      */
-    public function testFunctionsArityIsCorrect($fn, $value, $arity) {
+    public function testFunctionsArityIsCorrect($fn, $value, $arity, $origin) {
         $this->assertEquals($fn->arity(), $arity);
     }
 
@@ -76,7 +76,7 @@ trait FunctionValueTestTrait {
      * Functions is not satisfied or has arity 0.
      * @dataProvider function_values 
      */
-    public function testFunctionSatisfaction($fn, $value, $arity) {
+    public function testFunctionSatisfaction($fn, $value, $arity, $origin) {
         if ($arity === 0) {
             $this->assertTrue($fn->isSatisfied());
         }
@@ -89,7 +89,7 @@ trait FunctionValueTestTrait {
      * After $arity applications, function is satisfied.
      * @dataProvider function_values 
      */
-    public function testFunctionIsSatisfiedAfterEnoughApplications($fn, $value, $arity) {
+    public function testFunctionIsSatisfiedAfterEnoughApplications($fn, $value, $arity, $origin) {
         $tmp = $this->getAppliedFunction($fn, $value, $arity);
         $this->assertTrue($tmp->isSatisfied());
     }
@@ -137,10 +137,10 @@ class FunctionValueTest extends PHPUnit_Framework_TestCase {
         $fn = _fn("id");
         $val = rand();
         $origin = md5($val);
-        $value = _val($val, array($origin));
+        $value = _val($val, $origin);
         return array
             // Result of successfull function application is a value.
-            ( array($fn->apply($value)->force(), $val, $origin)
+            ( array($fn->apply($value)->force(), $val, "id")
             );
     }
 
@@ -150,11 +150,11 @@ class FunctionValueTest extends PHPUnit_Framework_TestCase {
                 ->catchAndReify("TestException");
         $val = rand();
         $origin = md5($val);
-        $value = _val($val, array($origin));
+        $value = _val($val, $origin);
 
         return array
-            ( array($fn, $value, 1)
-            , array($fn2, $value, 1)
+            ( array($fn, $value, 1, "id")
+            , array($fn2, $value, 1, ANONYMUS_FUNCTION_ORIGIN)
             );
     }
 
@@ -165,12 +165,12 @@ class FunctionValueTest extends PHPUnit_Framework_TestCase {
                 ->catchAndReify("TestException");
         $val = rand();
         $origin = md5($val);
-        $value = _val($val, array($origin));
+        $value = _val($val, $origin);
         return array
             // Result of application of throwing function is an error.
-            ( array($fn->apply($value)->force(), "test exception", null)
+            ( array($fn->apply($value)->force(), "test exception", ANONYMUS_FUNCTION_ORIGIN)
             // Function still catches after application.
-            , array($fn2->apply($value)->apply($value)->force(), "test exception", null)
+            , array($fn2->apply($value)->apply($value)->force(), "test exception", ANONYMUS_FUNCTION_ORIGIN)
             );
     }
 

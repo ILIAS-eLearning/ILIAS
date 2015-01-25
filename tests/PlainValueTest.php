@@ -50,7 +50,7 @@ trait PlainValueTestTrait {
      * @dataProvider plain_values 
      */
     public function testValuesOriginsAreCorrect($value, $val, $origin) {
-        $this->assertEquals($value->origins(), $origin ? array($origin) : array());
+        $this->assertEquals($value->origin(), $origin ? $origin : null);
     }
 }
 
@@ -60,7 +60,7 @@ class PlainValueTest extends PHPUnit_Framework_TestCase {
     public function plain_values() {
         $val = rand();
         $rnd = md5(rand());
-        $value = _val($val, array($rnd));
+        $value = _val($val, $rnd);
         return array
             ( array($value, $val, $rnd)
             );

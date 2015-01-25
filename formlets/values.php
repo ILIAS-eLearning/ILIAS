@@ -12,15 +12,19 @@
 require_once("formlets/checking.php");
 
 abstract class Value {
-    private $_origins; // array of strings
+    private $_origin; // string or null
 
-    public function __construct($origins) {
-        guardEach($origins, "guardIsString");
-        $this->_origins = $origins;
+    public function __construct($origin) {
+        guardIfNotNull($origin, "guardIsString");
+        $this->_origin = $origin;
     }
 
-    public function origins() {
-        return $this->_origins;
+    /**
+     * The origin of a value is the location in the 'real' world, where the
+     * value originates from. It's represented by a string.
+     */
+    public function origin() {
+        return $this->_origin;
     }
 
     /* Get the value in the underlying PHP-representation. 
@@ -61,9 +65,9 @@ class GetError extends Exception {
 final class PlainValue extends Value {
     private $_value; //mixed
 
-    public function __construct($value, $origins) {
+    public function __construct($value, $origin) {
         $this->_value = $value;
-        parent::__construct($origins);
+        parent::__construct($origin);
     }
 
     public function get() {
@@ -92,10 +96,12 @@ final class PlainValue extends Value {
 }
 
 /* Construct a plain value from a PHP value. */
-function _val($value, $origins = array()) {
-    return new PlainValue($value, $origins);
+function _val($value, $origin = null) {
+    return new PlainValue($value, $origin);
 }
 
+// string to be used as the origin of an anonymus function.
+const ANONYMUS_FUNCTION_ORIGIN = "anonymus_function";
 
 final class FunctionValue extends Value {
     private $_arity; // int
@@ -127,7 +133,17 @@ final class FunctionValue extends Value {
      */
     public function __construct( $function, $unwrap_args = true, $args = null
                                , $arity = null, $reify_exceptions = null
-                               , $origins = array()) {
+                               , $origin = null) {
+        if ($origin === null) {
+            if (is_string($function)) {
+                $origin = $function;
+            }
+            else {
+                $origin = ANONYMUS_FUNCTION_ORIGIN;
+            }
+        } 
+        parent::__construct($origin);
+
         if (is_string($function))
             guardIsCallable($function);
         else
@@ -143,7 +159,7 @@ final class FunctionValue extends Value {
         guardIsArray($reify_exceptions);
 
         foreach($args as $key => $value) {
-            $args[$key] = $this->toValue($value, array());
+            $args[$key] = $this->toValue($value, null);
         }
 
         if ($arity === null) {
@@ -161,8 +177,6 @@ final class FunctionValue extends Value {
         $this->_unwrap_args = $unwrap_args;
         $this->_args = $args;
         $this->_reify_exceptions = $reify_exceptions;
-        
-        parent::__construct($origins);
     }
 
     /* If the function is satisfied get the result. Will only be calculated 
@@ -174,9 +188,8 @@ final class FunctionValue extends Value {
         }
 
         if ($this->_result === null) {
-            $origins = array();
-            $res = $this->actualCall($origins);
-            $this->_result = $this->toValue($res, array_unique($origins));
+            $res = $this->actualCall();
+            $this->_result = $this->toValue($res, $this->origin());
         }
         return $this->_result; 
     }
@@ -229,7 +242,7 @@ final class FunctionValue extends Value {
                                 , $this->_args
                                 , $this->_arity + count($this->_args)
                                 , $re
-                                , $this->origins()
+                                , $this->origin()
                                 );
     }
     
@@ -284,19 +297,19 @@ final class FunctionValue extends Value {
                                 , $args
                                 , $this->_arity + count($this->_args)
                                 , $this->_reify_exceptions
-                                , $this->origins()
+                                , $this->origin()
                                 );
     }
 
     /* Helper to calculate the actual result of the function with error caching. */
-    private function actualCall(&$origins) {
+    private function actualCall() {
         try {
-            return $this->rawActualCall($origins);
+            return $this->rawActualCall();
         }
         catch(Exception $e) {
             foreach ($this->_reify_exceptions as $exc_class) {
                 if ($e instanceof $exc_class) {
-                    return _error($e->getMessage(), $this->origins());
+                    return _error($e->getMessage(), $this->origin());
                 }
             }
             throw $e;
@@ -304,56 +317,49 @@ final class FunctionValue extends Value {
     }
 
     /* Helper to calculate the function result without error catching. */
-    private function rawActualCall(&$origins) {
-        $res = $this->evalArgs($origins); 
-        $args = $res[0];
-        $errors = $res[1];
+    private function rawActualCall() {
+        if ($this->_unwrap_args) {
+            $args  = array();
+            $errors = array();
+            $this->evalArgs($args, $errors); 
 
-        if ( count($origins) === 1 && count($errors) === 1) {
-            return $errors[0];
+            if (count($errors) > 0) {
+                return _error( "Function arguments contain errors."
+                             , $this->origin()
+                             , $errors
+                             );
+            }
         }
-        
-        if (count($errors) > 0) {
-            return _error("Function arguments contain errors.", $origins, $errors);
+        else {
+            $args = $this->_args;
         }
 
         return call_user_func_array($this->_function, $args);
     }
 
     /* Helper to get the values of the arguments to the function. */
-    private function evalArgs(&$origins) {
-        if (!$this->_unwrap_args) {
-            return array($this->_args, array());
-        }
-
-        $res = array();
-        $errors = array();
+    private function evalArgs(&$res, &$errors) {
         foreach ($this->_args as $value) {
             if ($value->isError()) {
                 $errors[] = $value;
                 $res[] = $value;
             }
-            if ($value->isApplicable()) {
+            else if ($value->isApplicable()) {
                 $res[] = $value;
             }
             else {
                 $res[] = $value->get();
             } 
-
-            foreach($value->origins() as $origin) {
-                $origins[] = $origin;
-            }
         }
-        return array($res, $errors);
     }
 
     /* Turn a thing to a value if it is not already one. */
-    private function toValue($val, $origins) {
+    private function toValue($val, $origin) {
         if ($val instanceof Value) {
             return $val;
         }
         else {
-            return _val($val, $origins);
+            return _val($val, $origin);
         }            
     }
 }
@@ -395,14 +401,14 @@ final class ErrorValue extends Value {
     private $_others; // array of other errors
     private $_dict; // dictionary with errors or null
 
-    public function __construct($reason, $origins, $others = array()) {
+    public function __construct($reason, $origin, $others = array()) {
         guardIsString($reason);
         guardEach($others, "guardIsErrorValue");
         $this->_reason = $reason;
         $this->_others = $others;
         $this->_dict = null;
         
-        parent::__construct($origins);
+        parent::__construct($origin);
     }
 
     public function get() {
@@ -442,8 +448,7 @@ final class ErrorValue extends Value {
         $_dict = array();
 
         // Record error for the origin of this error.
-        $origin = implode(";", $this->origins());
-        $_dict[$origin] = array($this->error());
+        $_dict[$this->origin()] = array($this->error());
 
         // Get all errors contained in others 
         array_map( function($err) use (&$_dict) {
@@ -468,8 +473,8 @@ final class ErrorValue extends Value {
 }
 
 
-function _error($reason, $origins, $others = array()) {
-    return new ErrorValue($reason, $origins, $others);
+function _error($reason, $origin, $others = array()) {
+    return new ErrorValue($reason, $origin, $others);
 }
 
 ?>
