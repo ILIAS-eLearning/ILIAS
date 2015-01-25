@@ -307,10 +307,10 @@ final class FunctionValue extends Value {
     private function rawActualCall(&$origins) {
         $res = $this->evalArgs($origins); 
         $args = $res[0];
-        $error = $res[1];
+        $errors = $res[1];
 
-        if ($error) {
-            return _error("Function arguments contain errors.", $origins);
+        if (count($errors) > 0) {
+            return _error("Function arguments contain errors.", $origins, $errors);
         }
 
         return call_user_func_array($this->_function, $args);
@@ -319,14 +319,14 @@ final class FunctionValue extends Value {
     /* Helper to get the values of the arguments to the function. */
     private function evalArgs(&$origins) {
         if (!$this->_unwrap_args) {
-            return array($this->_args, false);
+            return array($this->_args, array());
         }
 
         $res = array();
-        $error = false;
+        $errors = array();
         foreach ($this->_args as $value) {
             if ($value->isError()) {
-                $error = true;
+                $errors[] = $value;
                 $res[] = $value;
             }
             if ($value->isApplicable()) {
@@ -340,7 +340,7 @@ final class FunctionValue extends Value {
                 $origins[] = $origin;
             }
         }
-        return array($res, $error);
+        return array($res, $errors);
     }
 
     /* Turn a thing to a value if it is not already one. */
@@ -388,9 +388,16 @@ function _fn_w($function, $args = array()) {
 /* Value representing an error. */
 final class ErrorValue extends Value {
     private $_reason; // string
+    private $_others; // array of other errors
+    private $_dict; // dictionary with errors or null
 
-    public function __construct($reason, $origins) {
+    public function __construct($reason, $origins, $others = array()) {
+        guardIsString($reason);
+        guardEach($others, "guardIsErrorValue");
         $this->_reason = $reason;
+        $this->_others = $others;
+        $this->_dict = null;
+        
         parent::__construct($origins);
     }
 
@@ -417,10 +424,48 @@ final class ErrorValue extends Value {
     public function error() {
         return $this->_reason;
     }
+    
+    /**
+     * Get a dictionary of the errors that lead to this error in the form of
+     * origin => [error]. If error has more than one origin, the origins are
+     * merge together to one string separated by ";".
+     */
+    public function toDict() {
+        if ($this->_dict !== null) {
+            return $this->_dict;
+        }
+
+        $_dict = array();
+
+        // Record error for the origin of this error.
+        $origin = implode(";", $this->origins());
+        $_dict[$origin] = array($this->error());
+
+        // Get all errors contained in others 
+        array_map( function($err) use (&$_dict) {
+                $d = $err->toDict();
+                // Insert each origin/errors pair in our result
+                // array.
+                foreach($d as $o => $es) {
+                    if (!isset($_dict[$o])) {
+                        $_dict[$o] = array(); 
+                    }
+                    foreach($es as $e) {
+                        $_dict[$o][] = $e;
+                    }
+                }    
+            }
+            , $this->_others
+            );
+
+        $this->_dict = $_dict;
+        return $this->_dict;
+    }
 }
 
-function _error($reason, $origins) {
-    return new ErrorValue($reason, $origins);
+
+function _error($reason, $origins, $others = array()) {
+    return new ErrorValue($reason, $origins, $others);
 }
 
 ?>
