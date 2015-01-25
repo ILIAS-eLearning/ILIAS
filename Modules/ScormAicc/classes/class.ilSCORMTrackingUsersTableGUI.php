@@ -45,14 +45,21 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
 		$users = $this->getParentObject()->object->getTrackedUsers($this->filter['lastname']);
 		$attempts = $this->getParentObject()->object->getAttemptsForUsers();
 		$versions = $this->getParentObject()->object->getModuleVersionForUsers();
+		
+		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		$privacy = ilPrivacySettings::_getInstance();
+		$allowExportPrivacy = $privacy->enabledExportSCORM();
 
 		$data = array();
 		foreach($users as $user)
 		{
 			$tmp = array();
 			$tmp['user'] = $user['user_id'];
-			$tmp['firstname'] = $user['firstname'];
-			$tmp['lastname'] = $user['lastname'];
+			if ($allowExportPrivacy == true) {
+				$tmp['name'] = $user['lastname'].', '.$user['firstname'];
+			} else {
+				$tmp['name'] = $user['user_id'];
+			}
 			$dt = new ilDateTime($user['last_access'],IL_CAL_DATETIME);
 			$tmp['last_access'] = $dt->get(IL_CAL_UNIX);
 			$tmp['attempts'] = (int) $attempts[$user['user_id']];
@@ -78,10 +85,10 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
 		global $ilCtrl;
 
 		$this->tpl->setVariable('CHECKBOX_ID', $a_set['user']);
-		$this->tpl->setVariable('VAL_USERNAME', $a_set['lastname'].', '.$a_set['firstname']);
+		$this->tpl->setVariable('VAL_USERNAME', $a_set['name']);
 
-		$ilCtrl->setParameter($this->getParentObject(),'user_id',$a_set['user']);
-		$this->tpl->setVariable('LINK_ITEM', $ilCtrl->getLinkTarget($this->getParentObject(),'showTrackingItem'));
+		// $ilCtrl->setParameter($this->getParentObject(),'user_id',$a_set['user']);
+		// $this->tpl->setVariable('LINK_ITEM', $ilCtrl->getLinkTarget($this->getParentObject(),'showTrackingItem'));
 
 		$this->tpl->setVariable('VAL_LAST', ilDatePresentation::formatDate(new ilDateTime($a_set['last_access'],IL_CAL_UNIX)));
 		$this->tpl->setVariable('VAL_ATTEMPT', (int) $a_set['attempts']);
@@ -106,7 +113,7 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
 		$this->setTitle($this->lng->txt('cont_tracking_items'));
 
 		$this->addColumn('','','1px');
-		$this->addColumn($this->lng->txt('name'), 'lastname','35%');
+		$this->addColumn($this->lng->txt('user'), 'lastname','35%');
 		$this->addColumn($this->lng->txt('last_access'), 'last_access', '25%');
 		$this->addColumn($this->lng->txt('attempts'), 'attempts', '20%');
 		$this->addColumn($this->lng->txt('version'), 'version','20%');
