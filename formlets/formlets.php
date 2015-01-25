@@ -137,12 +137,14 @@ function _with_label($label, Formlet $other) {
             throw new Exception("_with_label applied to un-named Formlet.");
         }
 
+        html_apply_to_depth_first_name($html, _fn(function($html) use ($name) {
+            $html->attribute("id", $name);
+            return true;
+        }));
+
         return html_concat(
                     html_tag("label", array("for" => $name), html_text($label)),
-                    html_apply_to_depth_first_name($html, _fn(function($html) use ($name) {
-                        $html->attribute("id", $html->attribute("name"));
-                        return $html;
-                    }))
+                    $html
                 );
     }));   
 }
