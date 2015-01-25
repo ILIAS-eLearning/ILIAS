@@ -85,6 +85,12 @@ function guardIsValue($arg) {
     }
 }
 
+function guardIsErrorValue($arg) {
+    if (!($arg instanceof Value)) {
+        throw new TypeError("ErrorValue", typeName($arg));
+    }
+}
+
 function guardIsHTML($arg) {
     if (!($arg instanceof HTML)) {
         throw new TypeError("HTML", typeName($arg));
