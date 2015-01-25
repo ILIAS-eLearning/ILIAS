@@ -49,19 +49,17 @@ class ilSCORMTrackingItems
 	function userDataArrayForExport($user, $b_allowExportPrivacy=false) {
 		$userArray = array();
 		if ($b_allowExportPrivacy == false) {
-			$userArray["user_id"]=$user;
+			$userArray["user"]=$user;
 		} else {
 			global $ilUser;
 			$userArray["login"] = "";
-			$userArray["firstname"] = "";
-			$userArray["lastname"] = "";
+			$userArray["user"] = "";
 			$userArray["email"] = "";
 			$userArray["department"] = "";
 			if(ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
 				$e_user = new ilObjUser($user);
 				$userArray["login"] = $e_user->getLogin();
-				$userArray["firstname"] = $e_user->getFirstname();
-				$userArray["lastname"] = $e_user->getLastname();
+				$userArray["user"] = $e_user->getLastname() . ', ' . $e_user->getFirstname();
 				$userArray["email"] = "".$e_user->getEmail();
 				$userArray["department"] = "".$e_user->getDepartment();
 			}
@@ -117,9 +115,9 @@ class ilSCORMTrackingItems
 		$cols = array();
 		$udh=self::userDataHeaderForExport();
 		$a_cols=explode(',',
-			'lm_id,lm_title,sco_id,identifierref,sco_marked_for_learning_progress,sco_title,'.$udh["cols"]
+			'lm_id,lm_title,identifierref,sco_id,sco_marked_for_learning_progress,sco_title,'.$udh["cols"]
 			.',c_timestamp,lvalue,rvalue');
-		$a_true=explode(',',$udh["default"].",sco_id,c_timestamp,lvalue,rvalue");
+		$a_true=explode(',',$udh["default"].",identifierref,c_timestamp,lvalue,rvalue");
 		for ($i=0;$i<count($a_cols);$i++) {
 			$cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
 		}
@@ -610,12 +608,11 @@ class ilSCORMTrackingItems
 		$allowExportPrivacy = $privacy->enabledExportSCORM();
 		$returnData = array();
 		if ($allowExportPrivacy == true) {
-			$returnData["cols"] = 'login,firstname,lastname,email,department';
-			$returnData["default"] = 'firstname,lastname';
+			$returnData["cols"] = 'login,user,email,department';
 		} else {
-			$returnData["cols"] = 'user_id';
-			$returnData["default"] = 'user_id';
+			$returnData["cols"] = 'user';
 		}
+		$returnData["default"] = 'user';
 		return $returnData;
 	}
 
