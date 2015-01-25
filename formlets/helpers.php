@@ -20,6 +20,7 @@ function keysAndValuesToHTMLAttributes($attributes) {
         guardIsString($key);
         if ($value !== null)
             guardIsString($value);
+        $value = str_replace('"', '&quot;', $value);
         $str .= " ".$key.($value !== null ? "=\"$value\"" : "");
     } 
     return $str;

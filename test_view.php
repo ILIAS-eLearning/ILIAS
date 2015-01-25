@@ -2,7 +2,7 @@
     <head>
     </head>
     <body>
-        <form action="tests_view.php" method="post">
+        <form action="test_view.php" method="post">
             <?php
 
 require_once("formlets.php");

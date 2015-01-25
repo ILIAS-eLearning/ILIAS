@@ -3,7 +3,6 @@
 * write proper documentation for my classes
 * write tests for all classes and constructs
 * write a proper form abstraction that hides plumbing like name source
-* When using " in text_inputs, the input is not properly displayed
 
 # I could...
 
