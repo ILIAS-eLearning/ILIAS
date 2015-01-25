@@ -534,30 +534,22 @@ class ilObjSCORMTracking
 		global $ilDB;
 		
 		// see ilSCORMPresentationGUI
-		$val_set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s',
+		$val_set = $ilDB->queryF('SELECT max_attempt FROM sahs_lm WHERE id = %s',
 			array('integer'), array($a_obj_id));
 		$val_rec = $ilDB->fetchAssoc($val_set);
 		$max_attempts = $val_rec["max_attempt"]; 
 
 		if ($max_attempts)
 		{
-			$val_set = $ilDB->queryF('
-				SELECT * FROM scorm_tracking 
-				WHERE user_id =  %s
-				AND sco_id = %s
-				AND lvalue= %s
-				AND obj_id = %s',
-				array('integer','integer','text','integer'),
-				array($a_user_id,0,'package_attempts',$a_obj_id)
-			);
+			$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+				array('integer','integer'),
+				array($a_obj_id,$a_user_id));
 			$val_rec = $ilDB->fetchAssoc($val_set);	
-
-			$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
-			if ($val_rec["rvalue"] == null) 
+			if ($val_rec["package_attempts"] == null) 
 			{
-				$val_rec["rvalue"] = 0;
+				$val_rec["package_attempts"] = 0;
 			}
-			$act_attempts = $val_rec["rvalue"];
+			$act_attempts = $val_rec["package_attempts"];
 
 			if ($act_attempts >= $max_attempts)
 			{
