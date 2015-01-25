@@ -341,7 +341,7 @@ final class FunctionValue extends Value {
     private function evalArgs(&$res, &$errors) {
         foreach ($this->_args as $value) {
             if ($value->isError()) {
-                $errors[] = $value;
+                $errors[] = $value->force();
                 $res[] = $value;
             }
             else if ($value->isApplicable()) {
@@ -457,6 +457,7 @@ final class ErrorValue extends Value {
         // Get all errors contained in others 
         array_map( function($err) use (&$_dict) {
                 $d = $err->toDict();
+
                 // Insert each origin/errors pair in our result
                 // array.
                 foreach($d as $o => $es) {
