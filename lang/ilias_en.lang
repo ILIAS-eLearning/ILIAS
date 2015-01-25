@@ -4911,7 +4911,6 @@ content#:#cont_Example#:#Example
 content#:#cont_Excursus#:#Excursus
 content#:#cont_export_all#:#Export all
 content#:#cont_export_files#:#Export Files
-content#:#cont_export_raw#:#CMI (RAW) data
 content#:#cont_export_success#:#Success-data (aggregated)
 content#:#cont_export_tracking#:#Export Tracking Data
 content#:#cont_export_type#:#Export-Type
@@ -15214,3 +15213,7 @@ crs#:#crs_admission_link_failure_membership_limited#:#Can't registrate: Course m
 grp#:#grp_admission_link_success_registration#:#Successfully registrated to group "%s".
 crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".
 rbac#:#ilias_id#:#ILIAS-ID
+scormtrac#:#exportselectedraw#:#CMI (RAW) data
+scormtrac#:#lvalue#:#Key
+scormtrac#:#rvalue#:#Value
+scormtrac#:#identifierref#:#SCO-Identifier

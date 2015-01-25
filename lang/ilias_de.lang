@@ -5658,7 +5658,6 @@ content#:#cont_exp_ids_not_resp_format3#:#Die ID darf nicht mit einer Zahl begin
 content#:#cont_export_all#:#Alle exportieren
 content#:#cont_export_files#:#Datei exportieren
 content#:#cont_export_id#:#Export-ID
-content#:#cont_export_raw#:#CMI (RAW)-Daten
 content#:#cont_export_success#:#Erfolgsdaten (aggregiert)
 content#:#cont_export_tracking#:#Protokolldaten exportieren
 content#:#cont_export_type#:#Export-Typ
@@ -15215,3 +15214,7 @@ crs#:#crs_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Di
 grp#:#grp_admission_link_success_registration#:#Erfolgreich zur Gruppe "%s" beigetreten.
 crs#:#crs_admission_link_success_registration#:#Erfolgreich zum Kurs "%s" beigetreten.
 rbac#:#ilias_id#:#ILIAS-ID
+scormtrac#:#exportselectedraw#:#Rohdaten
+scormtrac#:#lvalue#:#Key
+scormtrac#:#rvalue#:#Value
+scormtrac#:#identifierref#:#SCO-Identifier
