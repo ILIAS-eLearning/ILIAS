@@ -113,6 +113,12 @@ function _fieldset($legend, Formlet $formlet
         }));
 } 
 
+/**
+ * Apply $fn to all tags that have a name attribute in $html.
+ *
+ * This transforms the html in place, that is _mute_ it. If $fn returns some 
+ * value except for null, it will only be applied to the first named tag.
+ */
 function html_apply_to_depth_first_name(HTML $html, FunctionValue $fn) {
     return $html->depthFirst(
                         _fn(function($html) {
@@ -122,6 +128,9 @@ function html_apply_to_depth_first_name(HTML $html, FunctionValue $fn) {
                         $fn);
 }
 
+/**
+ * Returns the name of the first tag with name attribute in $html.
+ */
 function html_get_depth_first_name(HTML $html) {
     return html_apply_to_depth_first_name($html,
                         _fn(function($html) {
@@ -137,6 +146,7 @@ function _with_label($label, Formlet $other) {
             throw new Exception("_with_label applied to un-named Formlet.");
         }
 
+        // This applies the transformation in place!
         html_apply_to_depth_first_name($html, _fn(function($html) use ($name) {
             $html->attribute("id", $name);
             return true;
