@@ -2,7 +2,7 @@
 
 require_once("formlets/html.php");
 
-class HTMLRenderingTest extends PHPUnit_Framework_TestCase {
+class HTMLTest extends PHPUnit_Framework_TestCase {
     /**
     * @dataProvider depth_first_searches 
     */
