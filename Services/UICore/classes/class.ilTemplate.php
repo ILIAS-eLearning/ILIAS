@@ -874,7 +874,7 @@ class ilTemplate extends ilTemplateX
             if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation())
             {
                 ilObjLanguageAccess::_saveUsages();
-                $link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), false);
+                $link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
             }
         }
 
