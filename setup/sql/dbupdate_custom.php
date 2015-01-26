@@ -3187,7 +3187,7 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	ilCustomInstaller::maybeInitObjDataCache();
 	ilCustomInstaller::maybeInitUserToRoot();
 	
-	$global_roles_of_superiors = array( "HA"
+	$global_roles_of_superiors = array( "HA 84"
 									  );
 	
 	// Administration and Org-Units 
