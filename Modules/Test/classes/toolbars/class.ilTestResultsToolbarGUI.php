@@ -105,7 +105,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 			$link = ilLinkButton::getInstance(); // always returns a new instance
 			$link->setUrl('#');
 			$link->setId('ilTestResultParticipantJumper');
-			$link->setCaption($this->lng->txt('tst_res_jump_to_participant_btn'));
+			$link->setCaption($this->lng->txt('tst_res_jump_to_participant_btn'), false);
 			$this->addButtonInstance($link);
 			
 			$this->tpl->addJavaScript('Modules/Test/js/ilTestResultParticipantSelector.js');
