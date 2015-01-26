@@ -27,8 +27,8 @@ class ilTestPDFGenerator
 			return $html;
 		}
 
-		$dom = new DOMDocument();
-		if(!@$dom->loadHTML($html))
+		$dom = new DOMDocument("1.0", "utf-8");
+		if(!@$dom->loadHTML('<?xml encoding="UTF-8">' . $html))
 		{
 			return $html;
 		}
@@ -46,6 +46,7 @@ class ilTestPDFGenerator
 			$elm->parentNode->removeChild($elm);
 		}
 
+		$dom->encoding = 'UTF-8';
 		$cleaned_html = $dom->saveHTML();
 		if(!$cleaned_html)
 		{
