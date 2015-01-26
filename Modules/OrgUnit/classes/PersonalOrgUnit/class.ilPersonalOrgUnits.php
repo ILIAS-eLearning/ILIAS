@@ -340,7 +340,7 @@ class ilPersonalOrgUnits {
 	*
 	*/
 	public function updateOrgUnitTitleOf($a_superior, $supress_error=False){
-		$orgu = self::getPersonalOrguBySuperiorId($a_superior->getId());
+		$orgu = $this->getPersonalOrguBySuperiorId($a_superior->getId());
 		if(! $supress_error){
 			self::errorIfNull($orgu, 'updateOrgUnitTitleOf', $a_superior_id);
 		}
