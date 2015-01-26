@@ -967,7 +967,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->tpl, $this->lng);
 
 		$this->ctrl->setParameter($this, 'pdf', '1');
-		$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, 'outUserResultsOverview') );
+		$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, __FUNCTION__) );
 		$this->ctrl->setParameter($this, 'pdf', '');
 
 		$toolbar->build();
