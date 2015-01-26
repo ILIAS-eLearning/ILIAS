@@ -1,78 +1,151 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("class.ilCloudPluginListGUI.php");
+require_once('class.ilCloudPluginListGUI.php');
+require_once('./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php');
+require_once('./Services/FileUpload/classes/class.ilFileUploadGUI.php');
 
 /**
  * Class ilCloudPluginItemCreationListGUI
  *
- * Class for the drawing of the list "add new item". Can be extended by the plugin if needed.
+ * Class for the drawing of the list 'add new item'. Can be extended by the plugin if needed.
  *
- * @author Timon Amstutz timon.amstutz@ilub.unibe.ch
+ * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
  * @version $Id$
  * @extends ilCloudPluginListGUI
  * @ingroup ModulesCloud
  */
-class ilCloudPluginItemCreationListGUI extends ilCloudPluginListGUI
-{
-    /**
-     * @var ilGroupedListGUI
-     */
-    protected $gl = null;
+class ilCloudPluginItemCreationListGUI extends ilCloudPluginListGUI {
 
-    /**
-     * @param bool $showUpload
-     * @param bool $showCreateFolders
-     * @return string
-     */
-    public function getGroupedListItemsHTML($showUpload = false, $showCreateFolders = false)
-    {
-        $gl = $this->getGroupedListItems($showUpload, $showCreateFolders);
-        return $gl->getHTML();
+	/**
+	 * @var ilGroupedListGUI
+	 */
+	protected $gl = NULL;
 
-    }
 
-    /**
-     * @param bool $showUpload
-     * @param bool $showCreateFolders
-     * @return ilGroupedListGUI
-     */
-    public function getGroupedListItems($showUpload = false, $showCreateFolders = false){
-        global $lng;
+	/**
+	 * @param bool $showUpload
+	 * @param bool $showCreateFolders
+	 *
+	 * @return string
+	 */
+	public function getGroupedListItemsHTML($showUpload = false, $showCreateFolders = false) {
+		$gl = $this->getGroupedListItems($showUpload, $showCreateFolders);
 
-        include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
-        $this->gl = new ilGroupedListGUI();
+		return $gl->getHTML();
+	}
 
-        $this->addItemsBefore();
-        $this->gl->setAsDropDown(true);
 
-        if ($showUpload)
-        {
-            include_once("Services/FileUpload/classes/class.ilFileUploadGUI.php");
-            ilFileUploadGUI::initFileUpload();
-            $icon_path = "./Modules/Cloud/templates/images/icon_file_s.png";
-            $this->gl->addEntry(ilUtil::img($icon_path) . " " .$lng->txt("cld_add_file"), "javascript:il.CloudFileList.uploadFile();",
-                "_top", "", "", "il_cld_add_file", $lng->txt("cld_info_add_file_to_current_directory"), "bottom center", "top center", false);
-        }
+	/**
+	 * @param bool $show_upload
+	 * @param bool $show_create_folders
+	 *
+	 * @return ilCloudGroupedListGUI
+	 */
+	public function getGroupedListItems($show_upload = false, $show_create_folders = false) {
+		global $lng;
 
-        if ($showCreateFolders)
-        {
-            $icon_path = "./Modules/Cloud/templates/images/icon_folder_s.png";
-            $this->gl->addEntry(ilUtil::img($icon_path)." ".$lng->txt("cld_add_folder"), "javascript:il.CloudFileList.createFolder();",
-                "_top", "", "", "il_cld_add_file", $lng->txt("cld_info_add_folder_to_current_directory"), "bottom center", "top center", false);
-        }
+		$this->gl = new ilCloudGroupedListGUI();
 
-        $this->addItemsAfter();
+		$this->addItemsBefore();
+		$this->gl->setAsDropDown(true);
 
-        return $this->gl;
-    }
+		if ($show_upload) {
+			ilFileUploadGUI::initFileUpload();
+			$icon_path = './Modules/Cloud/templates/images/icon_file_s.svg';
+			$icon_path = ilUtil::getImagePath('icon_file.svg');
+			$img = ilUtil::img($icon_path);
+			$a_ttip = $lng->txt('cld_info_add_file_to_current_directory');
+			$this->gl->addEntry($img . ' '
+				. $lng->txt('cld_add_file'), 'javascript:il.CloudFileList.uploadFile();', '_top', '', '', 'il_cld_add_file', $a_ttip, 'bottom center', 'top center', false);
+		}
 
-    protected function addItemsBefore()
-    {
-    }
+		if ($show_create_folders) {
+			$icon_path = './Modules/Cloud/templates/images/icon_folder_s.svg';
+			$icon_path = ilUtil::getImagePath('icon_fold.svg');
+			$img1 = ilUtil::img($icon_path);
+			$a_ttip1 = $lng->txt('cld_info_add_folder_to_current_directory');
+			$this->gl->addEntry($img1 . ' '
+				. $lng->txt('cld_add_folder'), 'javascript:il.CloudFileList.createFolder();', '_top', '', '', 'il_cld_add_file', $a_ttip1, 'bottom center', 'top center', false);
+		}
 
-    protected function addItemsAfter()
-    {
-    }
+		$this->addItemsAfter();
+
+		return $this->gl;
+	}
+
+
+	protected function addItemsBefore() {
+	}
+
+
+	protected function addItemsAfter() {
+	}
 }
+
+/**
+ * Class ilCloudGroupedListGUI
+ *
+ * @author      Fabian Schmid <fs@studer-raimann.ch>
+ *
+ * @description Unfortunatelly there's no possibility to get the amount of titems out of ilGroupedListGUI. therefore this class can help...
+ */
+class ilCloudGroupedListGUI extends ilGroupedListGUI {
+
+	/**
+	 * @var int
+	 */
+	protected $count = 0;
+
+
+	/**
+	 * @param        $a_content
+	 * @param string $a_href
+	 * @param string $a_target
+	 * @param string $a_onclick
+	 * @param string $a_add_class
+	 * @param string $a_id
+	 * @param string $a_ttip
+	 * @param string $a_tt_my
+	 * @param string $a_tt_at
+	 * @param bool   $a_tt_use_htmlspecialchars
+	 */
+	public function addEntry($a_content, $a_href = '', $a_target = '', $a_onclick = '', $a_add_class = '', $a_id = '', $a_ttip = '', $a_tt_my = 'right center', $a_tt_at = 'left center', $a_tt_use_htmlspecialchars = true) {
+		$this->count ++;
+		parent::addEntry($a_content, $a_href, $a_target, $a_onclick, $a_add_class, $a_id, $a_ttip, $a_tt_my, $a_tt_at, $a_tt_use_htmlspecialchars); // TODO: Change the autogenerated stub
+	}
+
+
+	/**
+	 * @param        $a_content
+	 * @param string $a_add_class
+	 */
+	public function addGroupHeader($a_content, $a_add_class = "") {
+		$this->count ++;
+		parent::addGroupHeader($a_content, $a_add_class); // TODO: Change the autogenerated stub
+	}
+
+
+	public function addSeparator() {
+		$this->count ++;
+		parent::addSeparator(); // TODO: Change the autogenerated stub
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getCount() {
+		return $this->count;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasItems() {
+		return $this->getCount() > 0;
+	}
+}
+
 ?>
