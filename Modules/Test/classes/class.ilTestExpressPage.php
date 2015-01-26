@@ -3,49 +3,46 @@
 
 class ilTestExpressPage {
 
-    public static function getNodeId($cls) {
-        global $ilDB;
-        $query = 'SELECT cid FROM ctrl_classfile WHERE class = %s';
-        $types = array('text');
-        $values = array($cls);
-        $res = $ilDB->queryF($query, $types, $values);
+    public static function getReturnToPageLink($q_id = null)
+    {
+        global $ilCtrl;
+        
+	    $q_id = $q_id ? $q_id : $_REQUEST['q_id'];
+        $refId = self::fetchTargetRefIdParameter();
+        
+        if ($_REQUEST['q_id'])
+        {
+            $q_id = $q_id ? $q_id : (isset($_REQUEST['prev_qid']) ? $_REQUEST['prev_qid'] : $_REQUEST['q_id']);
 
-        if ($res && $row = $ilDB->fetchAssoc($res)) {
-            return $row['cid'];
-        } else {
-            throw new Exception('unknown ctrl class "' . $cls . '"');
+            $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'test_express_mode', 1);
+            $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'ref_id', $refId);
+            $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'q_id', $q_id);
+            
+            return $ilCtrl->getLinkTargetByClass(array('ilobjtestgui', 'iltestexpresspageobjectgui'), 'edit');
         }
+        
+        $ilCtrl->setParameterByClass('ilobjtestgui', 'test_express_mode', 1);
+        $ilCtrl->setParameterByClass('ilobjtestgui', 'ref_id', $refId);
+
+        return $ilCtrl->getLinkTargetByClass('ilobjtestgui', 'showQuestionsPerPage');
     }
 
-    public static function getReturnToPageLink($q_id = null) {
-        $params = array();
-	$q_id = $q_id ? $q_id : $_REQUEST['q_id'];
-        $params['baseClass'] = 'ilObjTestGUI';
-	
-	if ($_REQUEST['calling_test']) {
-	    $params['ref_id'] = $_REQUEST['calling_test'];
-	}
-	else if ($_REQUEST['test_ref_id']) {
-	    $params['ref_id'] = $_REQUEST['test_ref_id'];
-	}
-	else {
-	    $params['ref_id'] = $_REQUEST['ref_id'];
-	}
-        $params['test_express_mode'] = 1;
-        #$nodeParts = explode(':', $_REQUEST['cmdNode']);
-
-        if ($_REQUEST['q_id']) {
-            $params['cmd'] = 'edit';
-            $params['q_id'] = $q_id ? $q_id : (isset($_REQUEST['prev_qid']) ? $_REQUEST['prev_qid'] : $_REQUEST['q_id']);
-            $params['cmdClass'] = 'iltestexpresspageobjectgui';
-            $params['cmdNode'] = ilTestExpressPage::getNodeId('ilobjtestgui') . ':' . ilTestExpressPage::getNodeId('iltestexpresspageobjectgui');
-            #ref_id=44&cmd=post&cmdClass=iltestexpresspageobjectgui&cmdNode=6o:61&baseClass=ilObjTestGUI
-        } else {
-            $params['cmd'] = 'showQuestionsPerPage';
-            $params['cmdNode'] = ilTestExpressPage::getNodeId('ilobjtestgui');
+    /**
+     * @param $params
+     * @return mixed
+     */
+    private static function fetchTargetRefIdParameter()
+    {
+        if($_REQUEST['calling_test'])
+        {
+            return $_REQUEST['calling_test'];
+        }
+        elseif($_REQUEST['test_ref_id'])
+        {
+            return $_REQUEST['test_ref_id'];
         }
 
-        return 'ilias.php?' . http_build_query($params);
+        return $_REQUEST['ref_id'];
     }
 
 }
