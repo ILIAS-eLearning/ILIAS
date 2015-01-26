@@ -190,25 +190,30 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 		$mass_modification_allowed = false
 	)
 	{
-		try {
-			$current = parent::getCurrentRecordByCase($a_case_id);
-		}
-		catch (ilException $e) {
-			$current = array();
-		}
+		// Since #989 we do updates with partial case ids to have correct
+		// begin- and endtimes. Then $a_case_id only contains a crs_id and
+		// no usr_id.
+		if (count($a_case_id) == 2) {
+			try {
+				$current = parent::getCurrentRecordByCase($a_case_id);
+			}
+			catch (ilException $e) {
+				$current = array();
+			}
 
-		if ($current['certificate'] == -1 && strlen($a_data['certificate']))
-		{
-			global $ilDB;
-			$certfile_id = $ilDB->nextId('hist_certfile');
-			$ilDB->insert(
-				 'hist_certfile', 
-				 array(
-					 'row_id' => array("integer", $certfile_id), 
-					 'certfile' => array("text", base64_encode($a_data['certificate'])) 
-				 )
-			);
-			$a_data['certificate'] = $certfile_id;
+			if ($current['certificate'] == -1 && strlen($a_data['certificate']))
+			{
+				global $ilDB;
+				$certfile_id = $ilDB->nextId('hist_certfile');
+				$ilDB->insert(
+					 'hist_certfile', 
+					 array(
+						 'row_id' => array("integer", $certfile_id), 
+						 'certfile' => array("text", base64_encode($a_data['certificate'])) 
+					 )
+				);
+				$a_data['certificate'] = $certfile_id;
+			}
 		}
 
 		parent::updateHistorizedData( $a_case_id,

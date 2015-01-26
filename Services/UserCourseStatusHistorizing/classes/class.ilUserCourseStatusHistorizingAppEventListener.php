@@ -42,7 +42,7 @@ class ilUserCourseStatusHistorizingAppEventListener
 		if ($a_component == 'Modules/Course' && $a_event == 'delete') return;
 		// gev-patch start (#989)
 		if ($a_component == 'Modules/Course' && $a_event == 'update') {
-			$this->maybeUpdateCourseDates($a_parameter);
+			self::maybeUpdateCourseDates($a_event, $a_parameter);
 			return;
 		}
 		// gev-patch end
@@ -275,4 +275,32 @@ class ilUserCourseStatusHistorizingAppEventListener
 	{
 		return time();
 	}
+	
+	// gev-patch start (#898)
+	protected function maybeUpdateCourseDates($event, $parameter) {
+		$course_id = $parameter["obj_id"];
+		if (self::$ilUserCourseStatusHistorizingHelper->courseHasIndividualStartAndEnd($course_id)) {
+			return;
+		}
+		
+		$begin_date = self::$ilCourseHistorizingHelper->getBeginOf($course_id);
+		if ($begin_date) {
+			$begin_date = $begin_date->get(IL_CAL_DATE);
+		}
+		$end_date = self::$ilCourseHistorizingHelper->getEndOf($course_id);
+		if ($end_date) {
+			$end_date = $end_date->get(IL_CAL_DATE);
+		}
+		
+		self::$ilUserCourseStatusHistorizing->updateHistorizedData(
+			array( "crs_id" => $course_id), 
+			array( "begin_date" => $begin_date
+				 , "end_date" => $end_date
+				 ), 
+			self::getRecordCreator($a_event, $a_parameter), 
+			self::getCreationTimestamp($a_event, $a_parameter), 
+			true // It's a mass-action
+		);
+	}
+	// gev-patch end
 }
