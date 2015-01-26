@@ -575,6 +575,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 		global $ilUser, $lng, $ilCtrl;
 		
 		$this->checkPermission("read");
+		
+		// #15322
+		if (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0))
+		{
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
+			return;
+		}
 
 		$success = false;
 		foreach ($_FILES["deliver"]["name"] as $k => $v)
@@ -612,6 +619,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 		global $ilCtrl;
 	
 		$this->checkPermission("read");
+		
+		// #15322
+		if (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0))
+		{
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
+			return;
+		}
 
 		if (preg_match("/zip/",$_FILES["deliver"]["type"]) == 1)
 		{
