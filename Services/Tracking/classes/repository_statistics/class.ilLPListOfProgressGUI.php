@@ -110,9 +110,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		$info->setFormAction($ilCtrl->getFormAction($this));
-		$this->__appendUserInfo($info, $this->tracked_user);
-		$this->__showObjectDetails($info,$this->details_obj_id);
+		$this->__appendUserInfo($info, $this->tracked_user);		
 		$this->__appendLPDetails($info,$this->details_obj_id,$this->tracked_user->getId());
+		$this->__showObjectDetails($info,$this->details_obj_id, false);
 		
 		// Finally set template variable
 		$this->tpl->setVariable("LM_INFO",$info->getHTML());
@@ -137,11 +137,16 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			}
 		}
 		
-		$personal_only = !$rbacsystem->checkAccess('read_learning_progress',$this->getRefId());
-	
-		include_once("./Services/Tracking/classes/repository_statistics/class.ilLPProgressTableGUI.php");
-		$lp_table = new ilLPProgressTableGUI($this, "details", $this->tracked_user, $obj_ids, true, $this->details_mode, $personal_only, $this->details_obj_id, $this->details_id);
-		$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
+		// #15247
+		if(sizeof($obj_ids))
+		{
+			// seems obsolete
+			$personal_only = !$rbacsystem->checkAccess('read_learning_progress',$this->getRefId());
+
+			include_once("./Services/Tracking/classes/repository_statistics/class.ilLPProgressTableGUI.php");
+			$lp_table = new ilLPProgressTableGUI($this, "details", $this->tracked_user, $obj_ids, true, $this->details_mode, $personal_only, $this->details_obj_id, $this->details_id);
+			$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
+		}
 		
 		$this->tpl->setVariable("LEGEND",$this->__getLegendHTML());
 	}

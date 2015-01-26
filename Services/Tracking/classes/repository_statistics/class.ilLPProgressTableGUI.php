@@ -41,7 +41,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->setLimit(9999);
-		
+	
 		if(!$this->details)
 		{			
 			$this->has_object_subitems = true;
@@ -68,6 +68,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 
 			$this->setSelectAllCheckbox("item_id");
 			$this->addMultiCommand("hideSelected", $lng->txt("trac_hide_selected"));
+			
+			 $this->setShowTemplates(true);
 		}
 		else
 		{				
@@ -75,7 +77,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$olp = ilObjectLP::getInstance($this->parent_obj_id);					
 			$collection = $olp->getCollectionInstance();
 			$this->has_object_subitems = ($collection instanceof ilLPCollectionOfRepositoryObjects);		
-			
+						
+			/*
 			if(!$personal_only)
 			{
 				$this->parseTitle($a_parent_obj->details_obj_id, "trac_subitems");
@@ -83,7 +86,9 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			else
 			{
 				$this->parseTitle($a_parent_obj->details_obj_id, "trac_progress");
-			}
+			}			 
+			*/
+			$this->setTitle($this->lng->txt("details")); // #15247
 
 			$this->addColumn($this->lng->txt("trac_title"), "title", "31%");
 			$this->addColumn($this->lng->txt("status"), "status", "7%");
@@ -108,12 +113,11 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$this->setFormAction($ilCtrl->getFormActionByClass(get_class($this)));
 		$this->setRowTemplate("tpl.lp_progress_list_row.html", "Services/Tracking");
 		$this->setEnableHeader(true);
-		$this->setEnableNumInfo(true);
+		$this->setEnableNumInfo(false);
 		$this->setEnableTitle(true);
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
-		$this->setShowTemplates(true);
-
+		
 		if($this->has_object_subitems)
 		{
 			$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));

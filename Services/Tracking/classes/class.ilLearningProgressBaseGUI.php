@@ -380,7 +380,7 @@ class ilLearningProgressBaseGUI
 	/**
 	* show details about current object. Uses an existing info_gui object.
 	*/
-	function __showObjectDetails(&$info,$item_id = 0)
+	function __showObjectDetails(&$info,$item_id = 0,$add_section = true)
 	{
 		global $ilObjDataCache;
 
@@ -395,7 +395,10 @@ class ilLearningProgressBaseGUI
 		   ilMDEducational::_getTypicalLearningTimeSeconds($details_id))
 		{
 			// Section object details
-			$info->addSection($this->lng->txt('details'));
+			if($add_section)
+			{
+				$info->addSection($this->lng->txt('details'));
+			}
 
 			if($mode == ilLPObjSettings::LP_MODE_VISITS)
 			{
@@ -444,8 +447,14 @@ class ilLearningProgressBaseGUI
 		$type = $ilObjDataCache->lookupType($item_id);
 		
 		// Section learning_progress
-		$info->addSection($this->lng->txt('trac_learning_progress'));
-	
+		// $info->addSection($this->lng->txt('trac_learning_progress'));
+		// see ilLPTableBaseGUI::parseTitle();
+		$info->addSection($this->lng->txt("trac_progress").": ".ilObject::_lookupTitle($item_id));
+		
+		$olp = ilObjectLP::getInstance($item_id);
+		$info->addProperty($this->lng->txt('trac_mode'),
+			$olp->getModeText($olp->getCurrentMode()));
+		
 		switch($type)
 		{
 			case 'lm':
