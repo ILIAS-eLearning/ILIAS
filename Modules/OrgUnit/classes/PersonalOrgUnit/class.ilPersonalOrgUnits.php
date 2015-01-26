@@ -175,6 +175,7 @@ class ilPersonalOrgUnits {
 		$new_orgu = $template->cloneObject($target_id);
 		$new_orgu->setTitle($title);
 		$new_orgu->setOwner(6);
+		$new_orgu->updateOwner();
 		$new_orgu->update();
 		//assign user as superior
 		$new_orgu->assignUsersToSuperiorRole(array($a_superior_id));
