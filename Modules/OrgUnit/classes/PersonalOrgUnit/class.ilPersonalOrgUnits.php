@@ -352,6 +352,24 @@ class ilPersonalOrgUnits {
 			$orgu->update();
 		}
 	}
+	
+	/**
+	 * Update all personal org units titles that are owned by the superior.
+	 */
+	static public function updateAllOrgUnitTitlesOf($a_superior) {
+		global $ilDB;
+		
+		$res = $ilDB->query("SELECT orgunit_id FROM org_unit_personal"
+						   ." WHERE usr_id = ".$ilDB->quote($a_superior->getId(), "integer")
+						   );
+		
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			$orgu = new ilObjOrgUnit($rec["orgunit_id"], false);
+			$title = self::buildOrguTitleFromUser($a_superior);
+			$orgu->setTitle($title);
+			$orgu->update();
+		}
+	}
 
 }
 

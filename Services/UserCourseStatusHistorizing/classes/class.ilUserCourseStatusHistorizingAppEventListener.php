@@ -40,7 +40,13 @@ class ilUserCourseStatusHistorizingAppEventListener
 		self::initEventHandler();
 		if ($a_component == 'Modules/Course' && $a_event == 'create') return;
 		if ($a_component == 'Modules/Course' && $a_event == 'delete') return;
-		if ($a_component == 'Modules/Course' && $a_event == 'update') return;
+		// gev-patch start (#989)
+		if ($a_component == 'Modules/Course' && $a_event == 'update') {
+			$this->maybeUpdateCourseDates($a_parameter);
+			return;
+		}
+		// gev-patch end
+		
 
 		global $ilLog;
 		//$ilLog->write(print_r(array($a_component, $a_event, $a_parameter), true));
