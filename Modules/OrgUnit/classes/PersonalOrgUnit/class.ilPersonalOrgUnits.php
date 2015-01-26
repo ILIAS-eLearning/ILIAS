@@ -80,13 +80,19 @@ class ilPersonalOrgUnits {
 	}
 
 	private function getPersonalOrguBySuperiorId($a_superior_id){
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		global $ilDB;
 		$query = "SELECT orgunit_id FROM org_unit_personal"
 			 	." WHERE usr_id=" .$ilDB->quote($a_superior_id, 'integer');
 		$res = $ilDB->query($query);
-		if($ilDB->numRows($res) > 0){
-			$rec = $ilDB->fetchAssoc($res);
+		$base_children = ilObjOrgUnitTree::_getInstance()->getAllChildren($this->base_ref_id);
+		while($rec = $ilDB->fetchAssoc($res)) {
 			$ref_id = self::getRefId($rec['orgunit_id']);
+			// Only take org units into account that are below the base unit, since
+			// user could have POUs under different base units. 
+			if (!in_array($ref_id, $base_children)) {
+				continue;
+			}
 			$orgu = new ilObjOrgUnit($ref_id);
 			return $orgu;
 		}

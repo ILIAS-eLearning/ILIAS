@@ -187,6 +187,7 @@ class gevDesktopGUI {
 			case "toReportWBDEdupoints":
 			case "toEmployeeBookings":
 			case "toReportEmployeeEduBios":
+			case "createHAUnit":
 				$this->$a_cmd();
 			default:
 				throw new Exception("Unknown command: ".$a_cmd);
@@ -284,7 +285,25 @@ class gevDesktopGUI {
 		}
 	}
 
-
+	protected function createHAUnit() {
+		require_once("Services/GEV/Utils/classes/class.gevHAUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$ha_utils = gevHAUtils::getInstance();
+		
+		global $ilUser;
+		
+		if ($ha_utils->hasHAUnit($ilUser->getId())) {
+			throw new Exception("User ".$ilUser->getId()." already has an HA-Unit.");
+		}
+		
+		$org_id = $ha_utils->createHAUnit($ilUser->getId());
+		
+		ilUtil::sendSuccess($this->lng->txt("gev_ha_org_unit_created"), true);
+		
+		$ref_id = gevObjectUtils::getRefId($org_id);
+		$this->ctrl->setParameterByClass("ilLocalUserGUI", "ref_id", $ref_id);
+		$this->ctrl->redirectByClass(array("ilAdministrationGUI","ilObjOrgUnitGUI","ilLocalUserGUI"), "index");
+	}
 
 
 }
