@@ -84,7 +84,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$can_create_ha_unit = $this->userUtils->hasRoleIn(array("HA 84")) && !gevHAUtils::getInstance()->hasHAUnit($this->userUtils->getId());
 		$local_user_admin = $this->userUtils->isSuperior(); //Local User Administration Permission
 
-		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices || $local_user_admin;
+		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices || $local_user_admin || $can_create_ha_unit;
 
 		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
 		$report_permissions = gevReportingPermissions::getInstance($this->user->getId());
