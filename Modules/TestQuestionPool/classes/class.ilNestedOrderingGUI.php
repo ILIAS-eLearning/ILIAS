@@ -423,13 +423,14 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 		$js_output = '';
 
 		$js_include_tpl = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_javascript.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		if(!array_key_exists("pdf", $_GET) || $_GET["pdf"] != 1) // #14199
+		{
+			$js_include_tpl->touchBlock("css_include");
+		}
 		$js_include_tpl->setCurrentBlock('js_include');
-
 		$js_include_tpl->setVariable('PERFORM_JAVASCRIPT', $this->getPerformJavascript());
 		$js_include_tpl->setVariable('INSTANCE_ID', $this->getInstanceId());
-
 		$js_include_tpl->setVariable('HTML_OUTPUT', $html_output);
-
 		$js_include_tpl->parseCurrentBlock();
 
 		return $js_include_tpl->get();
@@ -603,7 +604,10 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 		$js_output = '';
 
 		$js_include_tpl = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_javascript.html", TRUE, TRUE, "Modules/TestQuestionPool");
-
+		if(!array_key_exists("pdf", $_GET) || $_GET["pdf"] != 1) // #14199
+		{
+			$js_include_tpl->touchBlock("css_include");
+		}
 		$js_include_tpl->setCurrentBlock('js_include');
 		$js_include_tpl->setVariable('PERFORM_JAVASCRIPT', $this->getPerformJavascript());
 
