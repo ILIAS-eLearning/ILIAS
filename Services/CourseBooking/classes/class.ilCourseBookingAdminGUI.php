@@ -887,6 +887,7 @@ class ilCourseBookingAdminGUI
 	protected function setDefaultAccomodations($a_user_id) {
 		require_once("Services/Accomodations/classes/class.ilAccomodations.php");
 		
+		$accomodations = ilAccomodations::getInstance($this->getCourse());
 		$start = $accomodations->getCourseStart();
 		$end = $accomodations->getCourseEnd();
 
@@ -896,8 +897,7 @@ class ilCourseBookingAdminGUI
 				$user_nights[] = new ilDate($start->get(IL_CAL_DATE), IL_CAL_DATE);
 				$start->increment(IL_CAL_DAY, 1);
 			}
-		
-			$accomodations = ilAccomodations::getInstance($this->getCourse());
+
 			$accomodations->setAccomodationsOfUser($a_user_id, $user_nights);
 		}
 	}
