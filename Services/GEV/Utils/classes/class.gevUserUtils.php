@@ -1288,6 +1288,25 @@ class gevUserUtils {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_HPE, $a_hpe);
 	}
 
+
+	public function getFormattedContactInfo() {
+		$name = $this->getFullName();
+		$phone = $this->getUser()->getPhoneOffice();
+		$email = $this->getEmail();
+		
+		if (!$phone && !$email) {
+			return $name;
+		}
+		
+		if ($phone) {
+			if ($email) {
+				return $name." ($phone, $email)";
+			}
+			return $name." ($phone)";
+		}
+		return $name." ($email)";
+	}
+
 	
 	// role assignment
 	

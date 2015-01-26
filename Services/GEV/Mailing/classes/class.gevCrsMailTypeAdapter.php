@@ -55,6 +55,7 @@ class gevCrsMailTypeAdapter extends ilMailTypeAdapter {
 				, array("Trainer-Name"				, "Name des Trainers")
 				, array("Trainer-Telefon"			, "Telefonnummer des Trainers")
 				, array("Trainer-Email"				, "Email des Trainers")
+				, array("Alle Trainer"				, "Alle Trainer des Trainings mit Kontaktinformationen")
 				, array("VO-Name"					, "Name des Veranstaltungsorts des Trainings")
 				, array("VO-Straße"					, "Straße des Veranstaltungsorts")
 				, array("VO-Hausnummer"				, "Hausnummer des Veranstaltungsorts")

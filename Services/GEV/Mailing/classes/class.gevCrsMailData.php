@@ -204,6 +204,15 @@ class gevCrsMailData extends ilMailData {
 			case "TRAINER-EMAIL":
 				$val = $this->crs_utils->getMainTrainerEmail();
 				break;
+			case "ALLE TRAINER":
+				$trainers = $this->crs_utils->getTrainers();
+				$val = array();
+				foreach ($trainers as $trainer) {
+					$utils = gevUserUtils::getInstance($trainer);
+					$val[] = $utils->getFormattedContactInfo();
+				}
+				$val = implode("<br />", $val);
+				break;
 			case "VO-NAME":
 				$val = $this->crs_utils->getVenueTitle();
 				break;

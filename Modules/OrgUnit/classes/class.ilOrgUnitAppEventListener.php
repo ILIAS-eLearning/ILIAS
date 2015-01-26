@@ -67,7 +67,7 @@ class ilOrgUnitAppEventListener {
 	private function onServiceUserAfterUpdate($a_parameter){
 		require_once('./Modules/OrgUnit/classes/PersonalOrgUnit/class.ilPersonalOrgUnits.php');
 		// do not fail, if there is no org.unit for the user...
-		ilPersonalOrgUnits::updateOrgUnitTitleOf($a_parameter['user_obj'], True);
+		ilPersonalOrgUnits::updateAllOrgUnitTitlesOf($a_parameter['user_obj']);
 	}
 
 	private function onModulesOrgUnitDelete($a_parameter){

@@ -67,7 +67,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$manage_mails = $this->access->checkAccess("visible", "", $mail_mgmt);
 		$manage_competences = $this->access->checkAccess("visible", "", $competence_mgmt);
 		$has_managment_menu = ($manage_courses || $search_courses || $manage_users || $manage_org_units || $manage_mails || $manage_competences)
-							&& !$this->userUtils->hasRoleIn(array("OD/BD", "FD", "UA", "ID FK", "DBV UVG"))
+							&& !$this->userUtils->hasRoleIn(array("OD/BD", "FD", "UA", "ID FK", "DBV UVG", "HA 84"))
 							;
 		
 		$has_super_admin_menu = $this->access->checkAccess("write", "", $general_settings);
@@ -81,10 +81,10 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$pot_participants = false;
 		$apprentices = false;
 		require_once("Services/GEV/Utils/classes/class.gevHAUtils.php");
-		$can_create_ha_unit = $this->userUtils->hasRoleIn(array("HA")) && !gevHAUtils::getInstance()->hasHAUnit($this->userUtils->getId());
+		$can_create_ha_unit = $this->userUtils->hasRoleIn(array("HA 84")) && !gevHAUtils::getInstance()->hasHAUnit($this->userUtils->getId());
 		$local_user_admin = $this->userUtils->isSuperior(); //Local User Administration Permission
 
-		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices || $local_user_admin;
+		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices || $local_user_admin || $can_create_ha_unit;
 
 		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
 		$report_permissions = gevReportingPermissions::getInstance($this->user->getId());

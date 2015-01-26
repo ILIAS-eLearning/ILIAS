@@ -2985,6 +2985,7 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	}
 ?>
 
+
 <#93>
 <?php
 	require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
@@ -3142,7 +3143,6 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 
 ?>
 
-
 <#95>
 <?php
 	// Create Personal Org Unit structure for HAs
@@ -3186,7 +3186,7 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	ilCustomInstaller::maybeInitObjDataCache();
 	ilCustomInstaller::maybeInitUserToRoot();
 	
-	$global_roles_of_superiors = array( "HA"
+	$global_roles_of_superiors = array( "HA 84"
 									  );
 	
 	// Administration and Org-Units 
