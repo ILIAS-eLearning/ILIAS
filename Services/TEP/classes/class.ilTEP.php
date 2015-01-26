@@ -132,9 +132,7 @@ class ilTEP
 	 * @return array
 	 */
 	public static function getEditableTutorNames(ilTEPPermissions $a_permissions)
-	{
-		global $ilDB;
-		
+	{		
 		$res = array();
 		
 		$tutor_ids = array();
@@ -246,9 +244,7 @@ class ilTEP
 	 * @return array
 	 */
 	public static function getViewableTutorNames(ilTEPPermissions $a_permissions, array $a_org_ref_ids = null, $a_recursive = null)
-	{
-		global $ilDB;
-		
+	{		
 		$res = array();
 		
 		$tutor_ids = array();
@@ -273,6 +269,8 @@ class ilTEP
 				$tutor_ids = array_merge($tutor_ids, $other_ids);
 			}			
 		}
+		
+		$tutor_ids = array_unique($tutor_ids);
 				
 		if(sizeof($tutor_ids))
 		{
