@@ -4909,7 +4909,6 @@ content#:#cont_Example#:#Példa
 content#:#cont_Excursus#:#Eltérések
 content#:#cont_export_all#:#Minden exportálása
 content#:#cont_export_files#:#Fájlok exportálása
-content#:#cont_export_raw#:#CMI (RAW) adatok
 content#:#cont_export_success#:#Eredmények (halmozott)
 content#:#cont_export_tracking#:#Nyomkövetési adatok exportja
 content#:#cont_export_type#:#Exporttípus
@@ -6595,8 +6594,6 @@ feed#:#block_feed_block_feed_url_info#:#Érvényes RSS/Atom URL-nek kell lennie,
 feed#:#block_feed_block_feed_url#:#Hírforrás URL-je
 feed#:#block_feed_block_head#:#Külső webhírforrások
 feed#:#block_feed_block_title#:#Cím
-feed#:#feed_enable_rep_feeds_info#:#Ez a beállítás aktiválja a külső webhírforrás blokkokat.
-feed#:#feed_enable_rep_feeds#:#Külső webhírforrások kategóriákban
 feed#:#feed_feed_items#:#Hírforrástétel(ek)
 feed#:#feed_loading_feed#:#Hírforrás betöltése...
 feed#:#feed_no_js_click_here#:#Ha a hírforrás nem jelenik meg, kattintson ide.
@@ -15139,7 +15136,6 @@ scormtrac#:#startedSCOs#:#Elkezdett SCO-k száma
 scormtrac#:#completedSCOs#:#Teljesen befejezett SCO-k száma
 scormtrac#:#passedSCOs#:#Teljesített SCO-k száma
 scormtrac#:#roundedTotal_timeSeconds#:#Összes idő másodpercben (kerekítve)
-scormtrac#:#cont_tracking_modify#:#adat módosítása
 scormtrac#:#counter_i_correct#:#helyesen megválaszolt interakciók
 scormtrac#:#counter_i_correct_percent#:#Helyesen megválaszolt interakciók százaléka
 scormtrac#:#counter_i_incorrect#:#Helytelenül megválaszolt interakciók
@@ -15185,3 +15181,39 @@ crs#:#crs_show_all_obj#:#Összes kibontása
 crs#:#crs_hide_all_obj#:#Összes becsukása
 notes#:#notes_comment_deleted#:#A hozzászólást törölték.
 notes#:#notes_comments_deleted#:#A hozzászólásokat törölték.
+assessment#:#tst_qbt_filter_question_title#:#Title of Question###27 01 2015 new variable
+common#:#msg_copy_clipboard_container#:#Now, please select the desired location, where the selected objects should be pasted into and click the button "Continue".###27 01 2015 new variable
+feed#:#feed_disable_rep_feeds_info#:#Disables presentation of external web feeds in case of an unexpected problem due to an external feed source.###27 01 2015 new variable
+feed#:#feed_disable_rep_feeds#:#Hide Web Feeds###27 01 2015 new variable
+dcl#:#dcl_length_info#:#(for more than 200 characters, use the additional option Textarea)###27 01 2015 new variable
+dcl#:#dcl_regex_info#:#(without delimiter)###27 01 2015 new variable
+dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available###27 01 2015 new variable
+content#:#cont_tracking_modify#:#modify data###27 01 2015 new variable
+orgu#:#ou_id_not_valid#:#Import-ID not found.###27 01 2015 new variable
+blog#:#blog_profile_picture_repository_info#:#Profile pictures of the authors are only shown on the postings pages, not on overview pages.###27 01 2015 new variable
+blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the following contributors?###27 01 2015 new variable
+news#:#news_rss#:#RSS###27 01 2015 new variable
+mob#:#mob_object#:#Object###27 01 2015 new variable
+content#:#cont_qtries_info#:#Default value for number of tries for newly created questions.###27 01 2015 new variable
+lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable
+content#:#cont_settings#:#Settings for learning modules###27 01 2015 new variable
+rbac#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits###27 01 2015 new variable
+rbac#:#orgu_copy#:#Copy Organisational Unit###27 01 2015 new variable
+exc#:#exc_no_team_yet_notice#:#You are not assigned to a team yet!###27 01 2015 new variable
+prtf#:#prtf_edit_embedded_blog#:#Edit Blog "%s"###27 01 2015 new variable
+exc#:#exc_manage_team#:#Manage Team###27 01 2015 new variable
+assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
+assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.###27 01 2015 new variable
+assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILIAS because you activated the notification.###27 01 2015 new variable
+dateplaner#:#cal_type_exc#:#Exercise Calendar###27 01 2015 new variable
+grp#:#grp_admission_link_failure_registration_period#:#Can't registrate: Group is out of registration period.###27 01 2015 new variable
+crs#:#crs_admission_link_failure_registration_period#:#Can't registrate: Course is out of registration period.###27 01 2015 new variable
+grp#:#grp_admission_link_failure_membership_limited#:#Can't registrate: Group membership is limited.###27 01 2015 new variable
+crs#:#crs_admission_link_failure_membership_limited#:#Can't registrate: Course membership is limited.###27 01 2015 new variable
+grp#:#grp_admission_link_success_registration#:#Successfully registrated to group "%s".###27 01 2015 new variable
+crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".###27 01 2015 new variable
+rbac#:#ilias_id#:#ILIAS-ID###27 01 2015 new variable
+scormtrac#:#exportselectedraw#:#CMI (RAW) data###27 01 2015 new variable
+scormtrac#:#lvalue#:#Key###27 01 2015 new variable
+scormtrac#:#rvalue#:#Value###27 01 2015 new variable
+scormtrac#:#identifierref#:#SCO-Identifier###27 01 2015 new variable

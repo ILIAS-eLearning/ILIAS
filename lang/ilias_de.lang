@@ -1233,7 +1233,6 @@ assessment#:#tst_results_access_always#:#Sofort
 assessment#:#tst_results_access_always_desc#:#Teilnehmer können ihre Ergebnisse schon während eines Testdurchlaufs im 'Info'-Reiter einsehen. Ihre Ergebnisse werden ihnen zudem direkt nach Abschluss des Testdurchlaufs präsentiert.
 assessment#:#tst_results_access_date#:#Ab definiertem Datum
 assessment#:#tst_results_access_date_desc#:#Erst ab dem gewählten Datum können Teilnehmer ihre Ergebnisse im 'Info'-Reiter  einsehen.
-assessment#:#tst_reporting_date#:#T0D07
 assessment#:#tst_results_access_finished#:#Nach Testdurchlauf
 assessment#:#tst_results_access_finished_desc#:#Teilnehmer sehen ihre Ergebnisse direkt nach Abschluss eines Testdurchlaufs. Sie können ihre Ergebnisse danach jederzeit im 'Info'-Reiter einsehen.
 assessment#:#tst_results_details_options#:#Details Testergebnisse
@@ -15005,7 +15004,6 @@ scormtrac#:#launch_data#:#launch_data: Daten beim Start des SCO
 scormtrac#:#learner_response#:#learner_response: Antwort
 scormtrac#:#lm_id#:#Id des Lernmoduls
 scormtrac#:#lm_title#:#Titel des Lernmoduls
-scormtrac#:#offlineMode#:#Anzahl Benutzer in Offline-Modus
 scormtrac#:#progress_measure#:#progress_measure: Fortschritt der Bearbeitung
 scormtrac#:#result#:#result: Ergebnis
 scormtrac#:#scaled#:#score.scaled: erreichte Punktzahl als Dezimalbruch
@@ -15131,7 +15129,6 @@ error#:#error_back_to_repository#:#Zurück zum Magazin
 error#:#error_sry_error#:#Es ist leider ein Fehler aufgetreten.
 form#:#form_hier_click_to_add#:#Klicken Sie hier, um neue Elemente hinzuzufügen.
 scormtrac#:#exportselectedsuccess#:#Basis-Report zum Lernmodul insgesamt
-scormtrac#:#Last Access#:#Letzter Zugriff
 scormtrac#:#LearningModuleId#:#ID des Lernmoduls
 scormtrac#:#LearningModuleTitle#:#Titel des Lernmoduls
 scormtrac#:#LearningModuleVersion#:#Version des Lernmoduls
@@ -15165,7 +15162,6 @@ scormtrac#:#scope#:#Anwendungsbereich
 scormtrac#:#counter#:#Zähler
 scormtrac#:#student_response#:#student_response: Antwort
 scormtrac#:#ostatus#:#Status des Lernziels
-scormtrac#:#UserId#:#Benutzer-ID
 prtf#:#prtf_blog_page_created#:#Blog wurde hinzugefügt.
 wiki#:#wiki_adv_md_hidden#:#Dieser Block wird aktuell nicht präsentiert.
 wiki#:#wiki_page_list_form_info#:#Fügt eine Liste mit Wiki-Seiten hinzu, die nachfolgenden Metadaten zugeordnet sind.
@@ -15218,3 +15214,6 @@ scormtrac#:#exportselectedraw#:#Rohdaten
 scormtrac#:#lvalue#:#Key
 scormtrac#:#rvalue#:#Value
 scormtrac#:#identifierref#:#SCO-Identifier
+assessment#:#tst_results_grading_opt_show_both#:#Show Passed/Failed Status and Resulting Mark###27 01 2015 new variable
+assessment#:#tst_results_grading_opt_show_none#:#Do NOT show Passed/Failed Status or Resulting Mark###27 01 2015 new variable
+assessment#:#show_exam_id#:#Display Testpass ID###27 01 2015 new variable

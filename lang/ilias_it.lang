@@ -264,13 +264,11 @@ administration#:#searching_invalid_refs#:#Ricerca dei riferimenti non validi...
 administration#:#searching_invalid_rolfs#:#Ricerca delle cartelle non valide...
 administration#:#searching_missing_objs#:#Ricerca degli oggetti mancanti...
 administration#:#searching_unbound_objs#:#Ricerca degli oggetti scollegati...
-administration#:#show_topics_overview#:#Sommario del Topic
 administration#:#skipped#:#saltato
 administration#:#start_scan#:#Avvio!
 administration#:#stop_scan#:#Stop!
 administration#:#system_check_no_owner#:#Ownerless Objects
 administration#:#systemcheck#:#Verifica del sistema
-administration#:#topics_overview_info#:#Se attivato, vengono mostrati solo gli argomenti con le informazioni approvate
 administration#:#tree_corrupt#:#L'albero è corrotto! Puoi vedere i dettagli nel file di log.
 administration#:#user_criteria#:#Criterio di utente unico
 administration#:#user_criteria_desc#:#Criterio utente unico che viene utilizzato per l'importazione dei risultati dell'importazione/esportazione. Ciò è necessario per identificare gli utenti identici su diversi sistemi ILIAS.
@@ -363,7 +361,6 @@ assessment#:#autosave#:#Salvataggio automatico
 assessment#:#autosave_failed#:#Autosalvataggio fallito!
 assessment#:#autosave_info#:#Se selezionato, le risposte vengono salvate in intervalli, senza interazione da parte dell'utente al fine di evitare la perdita di dati. (Vale solo per le domande selezionate.)
 assessment#:#autosave_ival#:#Intervallo
-assessment#:#autosave_ival_info#:#Intervallo in cui vengono salvati automaticamente risposte. (microsecondi)
 assessment#:#autosave_success#:#Autosalvataggio avvenuto con successo...
 assessment#:#available_points#:#Punti disponibili
 assessment#:#available_terms#:#Termini disponibili
@@ -472,8 +469,6 @@ assessment#:#ects_range_error_b#:#Per favore inserisci un valore tra 0 e 100 per
 assessment#:#ects_range_error_c#:#Per favore inserisci un valore tra 0 e 100 per il voto C nella scala ECTS!
 assessment#:#ects_range_error_d#:#Per favore inserisci un valore tra 0 e 100 per il voto D nella scala ECTS!
 assessment#:#ects_range_error_e#:#Per favore inserisci un valore tra 0 e 100 per il voto E nella scala ECTS!
-assessment#:#ects_use_fx_grade#:#Usa il voto 'FX', se i partecipanti che falliscono raggiungono almeno il
-assessment#:#ects_use_fx_grade_part2#:#percentuale del punteggio totale
 assessment#:#edit_page#:#Edit Page
 assessment#:#edit_question#:#Edit Question
 assessment#:#edit_test_questions#:#Editing domande
@@ -556,7 +551,6 @@ assessment#:#filter_show_question_types#:#Filtra in base al tipo domande
 assessment#:#filter_show_questionpools#:#Filtra in base ai pool domande
 assessment#:#filter_users#:#Filtra gli utenti
 assessment#:#final_statement#:#Giudizio finale
-assessment#:#final_statement_show#:#Mostra valutazione finale
 assessment#:#final_statement_show_desc#:#Se selezionato, il giudizio finale verrà mostrato subito dopo il test prima della presentazione del risultato.<br />
 assessment#:#fixed_participants_hint#:#Questo test è disponibile solo per determinato numero di partecipanti indicato qui sotto. Puoi cambiare questa impostazione cambiando il numero dei partecipanti nel seguente %s menù.
 assessment#:#flashfile#:#File Flash
@@ -910,7 +904,6 @@ assessment#:#tst_access_code_created#:#Per renderti accessibile sempre il test e
 assessment#:#tst_activation_limited_visibility_info#:#Se scelto, il test è visibile anche all'esterno della disponibilità data.
 assessment#:#tst_activation_online_info#:#Se non in linea, solo gli amministratori possono visualizzare e modificare il test.
 assessment#:#tst_all_user_data_deleted#:#Tutti i dati di questo test sono stati cancellati!
-assessment#:#tst_allow_fixed_participants#:#Rendere visibile il test solo a partecipanti definiti
 assessment#:#tst_allow_instant_verification#:#Permetti la risposta immediata alle domande
 assessment#:#tst_allowed_users#:#Massimo numero di partecipanti facenti contemporaneamente il test
 assessment#:#tst_allowed_users_time_gap#:#Tempo di inattività dell'utente
@@ -935,7 +928,6 @@ assessment#:#tst_confirm_submit_answers#:#Per favore conferma l'invio della solu
 assessment#:#tst_copy#:#Copia test
 assessment#:#tst_count_correct_solutions#:#Conta solo i test completati.
 assessment#:#tst_count_partial_solutions#:#Conta anche i test risolti parzialmente.
-assessment#:#tst_count_system_description#:#Se le soluzioni parziali sono calcolate, i punti per una domanda sono assegnati in funzione delle risposte dell'utente.<br />Se sono calcolate solo le risposte complete, l'utente deve raggiungere il punteggio massimo, altrimenti il punteggio è settato a zero. <br />
 assessment#:#tst_default_settings#:#Impostazioni personali predefinite
 assessment#:#tst_defaults_applied#:#Le impostazioni di base selezionate sono state salvate.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS non è stato in grado di applicare le impostazioni standard per questo test! Probabilmente esso contiene domande e/o dati dei partecipanti che non sono compatibili con le impostazioni standard.
@@ -964,7 +956,6 @@ assessment#:#tst_eval_total_passed_average_time#:#Tempo medio di esecuzione di t
 assessment#:#tst_eval_total_persons#:#Numero totale delle persone che hanno conseguito il test
 assessment#:#tst_eval_user_answer#:#Risposta dell'utente
 assessment#:#tst_exp_sc_short#:#Crea una visione sommaria per le domande a risposta singola
-assessment#:#tst_export_settings#:#Esporta impostazioni
 assessment#:#tst_express_allow_question_pool#:#Consente di visualizzare un gruppo di domande nella Visualizzazione Pagina
 assessment#:#tst_express_allow_question_pool_description#:#Se selezionata, le domande possono essere aggiunti a una serie di domande.
 assessment#:#tst_finish_confirm_button#:#Sì, voglio finire il test
@@ -973,7 +964,6 @@ assessment#:#tst_finish_confirm_list_of_answers_button#:#No, torna all'elenco de
 assessment#:#tst_finish_confirmation_question#:#Stai per finire il test e stai raggiungendo il numero massimo di tentativi disponibili. Non potrai rifare il test e cambaire le tue risposte. Sei sicuro di voler finire il test?
 assessment#:#tst_finish_notification#:#Segnalazione completata
 assessment#:#tst_finish_notification_advanced#:#Invia i risultati completi del test al responsabile
-assessment#:#tst_finish_notification_no#:#Non inviare un'email di notifica quando l'utente termina un test.
 assessment#:#tst_finish_notification_simple#:#Invia lo user name e la data di completamento al responsabile del test
 assessment#:#tst_finished#:#Finito
 assessment#:#tst_fixed_participants_data_exists#:#Ci sono gia' dei partecipanti che stanno facendo il test. Non puoi cambiare le impostazioni in questo momento!
@@ -996,7 +986,6 @@ assessment#:#tst_highscore_description#:#Dovrebbe essere disponibile la visualiz
 assessment#:#tst_highscore_enabled#:#Visualizzazione dei punteggi piu' alti attivata
 assessment#:#tst_highscore_hints#:#Mostra suggerimenti
 assessment#:#tst_highscore_hints_description#:#Controlli, se una colonna con i suggerimenti dei testi richiesti dovrebbero essere mostrati.
-assessment#:#tst_highscore_options#:#Punteggi piu' alti
 assessment#:#tst_highscore_own_table#:#Mostra tabella 'punteggi personali'
 assessment#:#tst_highscore_own_table_description#:#Controlli, se la tabella 'Punteggi personali' dovrebbe essere mostrata.
 assessment#:#tst_highscore_percentage#:#Mostra percentuale
@@ -1019,7 +1008,6 @@ assessment#:#tst_insert_questions_and_results#:#Questo test è gia' stato esegui
 assessment#:#tst_instant_feedback#:#Feedback istantaneo - Queste informazioni vengono mostrate subito dopo l'avvenuta risposta ad una domanda
 assessment#:#tst_instant_feedback_answer_generic#:#Mostra valutazione generica ("Corretto/Sbagliato")
 assessment#:#tst_instant_feedback_answer_specific#:#Mostra la valutazione delle specifiche delle risposte
-assessment#:#tst_instant_feedback_description#:#Se una delle opzioni è selezionata, il feedback alla risposta verrà visualizzato istantaneamente. Se un feedback specifico alla risposta è selezionato, quest'ultimo verrà visualizzato, in funzione della risposta data.<br />Se è selezionata al visualizzazione di un risultato espresso in punti, verranno mostrati i punti stessi.<br />Se delle specifiche soluzioni sono selezionate, tali soluzioni verranno mostrate.<br />
 assessment#:#tst_instant_feedback_results#:#Mostra il risultato (in punti)
 assessment#:#tst_instant_feedback_solution#:#Mostra soluzione
 assessment#:#tst_instant_verification#:#Verifica diretta
@@ -1035,7 +1023,6 @@ assessment#:#tst_list_of_questions_end#:#Mostra la lista delle domande prima che
 assessment#:#tst_list_of_questions_start#:#Mostra la lista delle domande prima della prima domanda
 assessment#:#tst_list_of_questions_with_description#:#Mostra la descrizione delle domande durante la visione generale
 assessment#:#tst_list_of_questions_yes#:#Sì, ed inoltre
-assessment#:#tst_mail_notification#:#Notifiche
 assessment#:#tst_manscoring_question_section_header#:#Domanda: %s
 assessment#:#tst_manscoring_user_notification#:#Invia notifica
 assessment#:#tst_mark#:#Voto
@@ -1045,7 +1032,6 @@ assessment#:#tst_mark_minimum_level#:#Livello minimo (in %)
 assessment#:#tst_mark_official_form#:#Form ufficiale
 assessment#:#tst_mark_passed#:#Superato
 assessment#:#tst_mark_short_form#:#Form ridotto
-assessment#:#tst_max_allowed_users#:#Restrizioni dei partecipanti
 assessment#:#tst_max_allowed_users_heading#:#È stato ragguinto il numero massimo di partecipanti a questo test
 assessment#:#tst_max_allowed_users_message#:#È stato ragguinto il numero massimo di partecipanti a questo test. Per favore riprova più tardi. Se dei partecipanti sono inattivi per più di % secondi , avrai la possibilità di partecipare. Ti ringraziamo per la comprensione.
 assessment#:#tst_maximum_points#:#Punteggi massimi
@@ -1082,7 +1068,6 @@ assessment#:#tst_pass_details#:#Mostra i dettagli
 assessment#:#tst_pass_last_pass#:#Punteggio dell'ultimo tentativo dell'utente
 assessment#:#tst_pass_overview_for_participant#:#Test superati per il partecipante: %s
 assessment#:#tst_pass_scoring#:#Punteggio per tentativi multipli
-assessment#:#tst_pass_scoring_description#:#Normalmente viene valutata sempre l'ultima versione del test effettuato dal partecipante. Nel caso però in cui si usi il punteggio migliore come criterio di valutazione, verrà memorizzato quello come risultato del test. Questa impostazione è valida se si dà la possibilità di ripetere il test più volte.
 assessment#:#tst_passes#:#Svolgimento del test
 assessment#:#tst_password#:#Password del test
 assessment#:#tst_password_details#:#Se viene definita una password per fare il test tutti i partecipanti dovranno inserirla per iniziarlo.
@@ -1180,19 +1165,15 @@ assessment#:#tst_result#:#Risultato del test
 assessment#:#tst_result_user_name#:#Risultati del test di %s
 assessment#:#tst_result_user_name_pass#:#Risultati del test %s per %s
 assessment#:#tst_results#:#Risultati del test
-assessment#:#tst_results_access#:#Accesso ai risultati del test
 assessment#:#tst_results_access_always#:#Sempre
 assessment#:#tst_results_access_date#:#Data
-assessment#:#tst_results_access_description#:#Queste opzioni regolano l'accesso dei partecipanti ai risultati del test. Se è possibile accedervi dopo aver finito il test, apparirà un tasto che porterà alla pagina corrispondente. Se viene indicata una data ed un'ora, i partecipanti potranno accedere ai risultati solo dopo tale data/ora. Se invece le soluzioni sono sempre disponibili, i partecipanti potranno accedervi sempre, anche se non hanno ancora fatto il test.
 assessment#:#tst_results_access_finished#:#Dopo il termine del test
-assessment#:#tst_results_access_never#:#Mai
 assessment#:#tst_results_aggregated#:#Risultati aggregati del test
 assessment#:#tst_results_back_evaluation#:#Torna indietro alla vista generale
 assessment#:#tst_results_back_introduction#:#Torna indietro alla introduzione
 assessment#:#tst_results_back_overview#:#Torna indietro ai risultati
 assessment#:#tst_results_overview#:#Supervisione dei test
 assessment#:#tst_results_overview_pass#:#Valutazione relativa al test %s
-assessment#:#tst_results_presentation#:#Presentazione dei risultati del test
 assessment#:#tst_results_print_best_solution#:#Soluzione migliore nei risultati del test
 assessment#:#tst_results_print_best_solution_info#:#Se attivato e accessibile dal partecipante, la soluzione migliore appare nel riepilogo dei risultati del test.
 assessment#:#tst_resume_test#:#Riprendi il test
@@ -1200,9 +1181,7 @@ assessment#:#tst_saved_manscoring_successfully#:#Il punteggio manuale per il tes
 assessment#:#tst_score_cut_question#:#Tagliare i punti negativi da tutte le domande
 assessment#:#tst_score_cut_test#:#Tagliare i punti negativi dalla somma dei risultati di tutte le domande.<br />
 assessment#:#tst_score_cutting#:#Tagliare i punti negativi
-assessment#:#tst_score_cutting_description#:#Punteggi negativi possono essere settati a zero per tutte le domande o per una o più domande specifiche. <br />In questo caso, il risultato del test sarà settato a zero se la somma di tutte le risposte è negativa.
 assessment#:#tst_score_mcmr_questions#:#Domande a risposta multipla
-assessment#:#tst_score_mcmr_questions_description#:#Se "punteggio zero per le risposte non selezionate" è attivo, le domande a risposta multipla senza una checkbox selezionata saranno valutate zero punti.<br />Invece se sono predefiniti dei punteggi questi ultimi verranno utilizzati.<br />
 assessment#:#tst_score_mcmr_use_scoring_system#:#Indica il punteggio anche se non è stata data una risposta
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Vale 0 punti se la risposta non viene scelta
 assessment#:#tst_score_reporting#:#Rapporto con i risultati
@@ -1288,7 +1267,6 @@ assessment#:#tst_text_count_system#:#Modalità di punteggio
 assessment#:#tst_time_already_spent#:#Tempo trascorso dall&#039;inizio
 assessment#:#tst_time_already_spent_left#:#Ti rimane ancora %s .
 assessment#:#tst_title_output#:#Output dei titoli delle domande
-assessment#:#tst_title_output_description#:#Seleziona una delle opziono di cui sopra per la presentazione dell'elenco delle domande e dei punti raggiungibili durante lo svolgimento del test.
 assessment#:#tst_title_output_full#:#Mostra il titolo del test ed il punteggio disponibile
 assessment#:#tst_title_output_hide_points#:#Mostra solo il titolo del test
 assessment#:#tst_title_output_no_title#:#Non mostrare il Titolo della domanda ed il Punteggio
@@ -5298,7 +5276,6 @@ content#:#cont_exp_ids_not_resp_format3#:#The ID must not start with a number.
 content#:#cont_export_all#:#Esporta tutto
 content#:#cont_export_files#:#Esporta file
 content#:#cont_export_id#:#Export ID
-content#:#cont_export_raw#:#Dati CMI (RAW)
 content#:#cont_export_success#:#Success-data (aggregati)
 content#:#cont_export_tracking#:#Esporta i Tracking Data
 content#:#cont_export_type#:#Esporta Tipo
@@ -10152,7 +10129,6 @@ rbac#:#glo_edit_permission#:#Modifica le impostazioni dei permessi
 rbac#:#glo_read#:#Accedi in lettura ad un glossario
 rbac#:#glo_visible#:#Vedi un glossario
 rbac#:#glo_write#:#Modificare un glossario
-rbac#:#grp#:#User can copy group
 rbac#:#grp_copy#:#Copia Gruppo
 rbac#:#grp_delete#:#Eliminare un gruppo
 rbac#:#grp_edit_event#:#Edita gli Eventi del Calendario
@@ -11473,14 +11449,8 @@ survey#:#adm_special_users#:#Utenti speciali abilitati ad eseguire un sondaggio 
 survey#:#already_completed_survey#:#Hai già completato il sondaggio! Non puoi eseguirlo di nuovo.
 survey#:#anonymization#:#Anonimizzazione
 survey#:#anonymize_anonymous_introduction#:#Questo sondaggio rende anonimi tutti i dati degli utenti. Per poter accedere al sondaggio, devi utilizzare la stringa di 32 caratteri che il creatore/gestore del sondaggio ti ha inviato.<br />Per favore inserisci la stringa nel campo testo qui sotto.
-survey#:#anonymize_key_introduction#:#Questo sondaggio rende anonimi tutti i dati degli utenti. Per poter riprendere il sondaggio, vverr&#224; creata dal sistema una stringa di 32 caratteri che ti sar&#224; inviata nella tua casella postale in ILIAS quando inizierai il sondaggio. Il tuo codice di accesso &#232; <br /><span class=&#034;bold&#034;>%s</span><br />Per favore inseriscilo nel campo testo qui sotto.
-survey#:#anonymize_personalized#:#Nessuna anonimizzazione
 survey#:#anonymize_registered_user#:#Accesso a sondaggio anonimo
 survey#:#anonymize_resume_introduction#:#Per favore inserisci il tuo codice di accesso per riprendere il sondaggio. Ti è stato inviato nella casella postale di ILIAS quando hai iniziato il sondaggio.
-survey#:#anonymize_survey_description#:#L'anonimizzazione rimuove tutti i dati personali dalle statistiche del sondaggio. Un codice di sondaggio è un codice di cinque digit che necessita per fare parte del sondaggio anonimo. Per gli utenti ILIAS registrati, il codice di sondaggio viene generato automaticamente.
-survey#:#anonymize_with_code#:#Anonimizzazione con codice sondaggio
-survey#:#anonymize_with_code_all#:#Access with survey codes for all users
-survey#:#anonymize_without_code#:#Anonimizzazione libera
 survey#:#anonymous_with_personalized_survey#:#Devi essere un utente registrato per poter eseguire un sondaggio personalizzato!
 survey#:#answer#:#Risposta
 survey#:#apply#:#Conferma
@@ -11938,7 +11908,6 @@ survey#:#subject_mail_survey_id#:#Il codice per del tuo sondaggio &#232; &#034;%
 survey#:#subtype#:#Sottotipo
 survey#:#survey_add_new_question#:#Add new Page
 survey#:#survey_at_beginning#:#At The Beginning
-survey#:#survey_auth_mode#:#Authentication Mode
 survey#:#survey_auto_block_title#:#Page Header
 survey#:#survey_available_question_pools#:#Available Pools
 survey#:#survey_behind_page#:#Behind
@@ -12807,7 +12776,6 @@ assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Configuration of the Question 
 assessment#:#tst_inp_quest_amount_per_test#:#Number of Questions for the Whole Test###24 10 2013 new variable
 assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>The current test mode includes questions in its configuration that are not assigned to any question pool. If you change the test mode, these questions will be lost permanently.</b>###24 10 2013 new variable
 assessment#:#exam_id#:#Exam Id: ###24 10 2013 new variable
-assessment#:#examid_in_kiosk#:#Display Exam Id in Kiosk mode ###24 10 2013 new variable
 assessment#:#show_exam_id#:#Display Exam Id ###24 10 2013 new variable
 assessment#:#test_enable_archiving#:#Enable Archiving.###24 10 2013 new variable
 assessment#:#ass_create_archive_export#:#Create Archive-Export.###24 10 2013 new variable
@@ -12852,13 +12820,10 @@ assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Quest
 assessment#:#enable_examview#:#Enable Exam View###24 10 2013 new variable
 assessment#:#enable_examview_desc#:#Enables the view of the test in the shape of an exam at the end of the pass, prior to submission.###24 10 2013 new variable
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
-assessment#:#show_examview_html_desc#:#Shows the tests questions and answers in ILIAS in a step prior to submission.###24 10 2013 new variable
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.###24 10 2013 new variable
-assessment#:#show_examview_pdf_desc#:#Shows the tests questions and answers in a PDF file in a step prior to submission. (Download button available as well.)###24 10 2013 new variable
 assessment#:#scoringadjust#:#Corrections###24 10 2013 new variable
 assessment#:#tst_trigger_result_refreshing#:#Results need to be recalculated. This may take a while.###24 10 2013 new variable
 assessment#:#test_scoring#:#Scoring Options###24 10 2013 new variable
-assessment#:#test_presentation#:#Presentation Options###24 10 2013 new variable
 assessment#:#test_results#:#Results Options###24 10 2013 new variable
 assessment#:#misc#:#Misc Options###24 10 2013 new variable
 assessment#:#saved_adjustment#:#Changes saved.###24 10 2013 new variable
@@ -13878,11 +13843,6 @@ cptch#:#captcha_audio_title#:#Audio Captcha. Click to hear the letters and chara
 cptch#:#captcha_alt_txt#:#This is a visual captcha. Click the tab to get to an audio captcha###24 10 2013 new variable
 obj#:#obj_features#:#Features###24 10 2013 new variable
 obj#:#obj_tool_setting_info_tab#:#Show Info Tab###24 10 2013 new variable
-adve#:#char_selector#:#Selector for Unicode Characters###24 10 2013 new variable
-adve#:#char_selector_inactive#:#Inactive###24 10 2013 new variable
-adve#:#char_selector_inherit#:#Inherit###24 10 2013 new variable
-adve#:#char_selector_enabled#:#Enabled###24 10 2013 new variable
-adve#:#char_selector_disabled#:#Disabled###24 10 2013 new variable
 adve#:#char_selector_inactive_info_admin#:#Deactivates the selector. Users and tests can't overwrite this setting.###24 10 2013 new variable
 adve#:#char_selector_inherit_info_user#:#Take the platform setting.###24 10 2013 new variable
 adve#:#char_selector_inherit_info_test#:#Take the platform or user specific setting.###24 10 2013 new variable
@@ -14211,13 +14171,6 @@ assessment#:#intprecision_info#:#"Divisible by" affects only the creation of var
 assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.###26 03 2014 new variable
 assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."###26 03 2014 new variable
 assessment#:#tst_question_not_from_pool_info#:#No Pool###14 05 2014 new variable
-assessment#:#ass_quest_process_lock#:#Use Locking on Participant Solution Submits###14 05 2014 new variable
-assessment#:#ass_quest_process_lock_desc#:#Without the use of any locking mechanism, race conditions during the submit of solution data are possible. This can lead to inconsistent test results.###14 05 2014 new variable
-assessment#:#ass_quest_process_lock_mode#:#Lock Mode during Submit of Participant Solutions###14 05 2014 new variable
-assessment#:#ass_quest_process_lock_mode_file#:#Use Filesystem Locks###14 05 2014 new variable
-assessment#:#ass_quest_process_lock_mode_file_desc#:#This locking mechanism requests locks on empty files in the filesystem. Concurrent processes for the same user and the same question are waiting until the other process releases his lock.###14 05 2014 new variable
-assessment#:#ass_quest_process_lock_mode_db#:#Use Database Table Locks###14 05 2014 new variable
-assessment#:#ass_quest_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent Processes for the same or other users in the same or in another test are waiting until the other process releases his locks.###14 05 2014 new variable
 assessment#:#qpl_paste_error#:#At least one question could not pe pasted into the question pool. Possible reason: You tried to move the question into the same question pool.###14 05 2014 new variable
 assessment#:#tst_extratime_info#:#If you want to add the working time multiple times for the same participant, please insert the total amount of time you want to add.###14 05 2014 new variable
 bibl#:#bib_default_urldate#:#Date of URL visit###14 05 2014 new variable
@@ -14324,7 +14277,6 @@ assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#This option causes a fix
 assessment#:#tst_instant_feedback_results_desc#:#If results (in points) are selected, the reached points will be shown.###26 09 2014 new variable
 assessment#:#tst_instant_feedback_solution_desc#:#If solutions are selected, the correct solution will be shown too.###26 09 2014 new variable
 assessment#:#tst_password_form#:#Enter Test Password###26 09 2014 new variable
-assessment#:#tst_results_grading#:#Grading in Test Results###26 09 2014 new variable
 assessment#:#tst_results_grading_opt_show_both#:#Show Passed/Failed Status and Resulting Mark###26 09 2014 new variable
 assessment#:#tst_results_grading_opt_show_none#:#Do NOT show Passed/Failed Status or Resulting Mark###26 09 2014 new variable
 assessment#:#tst_results_grading_opt_show_status#:#Show Passed/Failed Status only###26 09 2014 new variable
@@ -15053,3 +15005,215 @@ administration#:#language_remove_local_file_info#:#Remove the file Customizing/g
 crs#:#crs_loc_type_initial_all_info#:#todo###07 11 2014 new variable
 crs#:#crs_loc_type_qualified_info#:#todo###07 11 2014 new variable
 crs#:#crs_loc_type_practise_info#:#todo###07 11 2014 new variable
+assessment#:#out_of_range#:#Out of range###27 01 2015 new variable
+assessment#:#use_ects_fx#:#Use the 'FX' grade###27 01 2015 new variable
+assessment#:#ects_fx_threshold#:#Threshold###27 01 2015 new variable
+assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the 'FX' grade.###27 01 2015 new variable
+assessment#:#tst_feedback#:#Feedback###27 01 2015 new variable
+assessment#:#ass_process_lock#:#Use Lockings during Test Passes###27 01 2015 new variable
+assessment#:#ass_process_lock_desc#:#Without the use of any locking mechanism, race conditions are possible. This can lead to inconsistent test results.###27 01 2015 new variable
+assessment#:#ass_process_lock_mode#:#Lock Mode during Test Pass###27 01 2015 new variable
+assessment#:#ass_process_lock_mode_file#:#Use Filesystem Locks###27 01 2015 new variable
+assessment#:#ass_process_lock_mode_file_desc#:#This locking mechanism requests locks on empty files in the filesystem. Concurrent processes for the same user and the same test/question are waiting until the other process releases his lock.###27 01 2015 new variable
+assessment#:#ass_process_lock_mode_db#:#Use Database Table Locks###27 01 2015 new variable
+assessment#:#ass_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent processes for the same or other users in the same or in another test for the same or another question are waiting until the other process releases his locks.###27 01 2015 new variable
+assessment#:#tst_introduction_text#:#Introductory Message###27 01 2015 new variable
+assessment#:#suggested_solution#:#Content for Recapitulation###27 01 2015 new variable
+assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case.###27 01 2015 new variable
+assessment#:#tst_count_partial_solutions_desc#:#Points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers.###27 01 2015 new variable
+assessment#:#tst_finish_notification_content#:#Content of e-mail###27 01 2015 new variable
+assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
+assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab 'Info' of the test. This text is accessible already before the test can be started.###27 01 2015 new variable
+assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible.###27 01 2015 new variable
+assessment#:#tst_pass_last_pass_desc#:#The last pass of a participant will be scored.###27 01 2015 new variable
+assessment#:#tst_allowed_users_max#:#Max. Number of Participants###27 01 2015 new variable
+assessment#:#tst_password_enter#:#Enter Password###27 01 2015 new variable
+assessment#:#tst_qbt_filter_question_title#:#Title of Question###27 01 2015 new variable
+assessment#:#tst_results_access_always_desc#:#Participants can access their results on the 'Info'-tab immediately after starting the test pass and while still taking the test. Additionally ILIAS will present them with their test results immediately after finishing  the test.###27 01 2015 new variable
+assessment#:#tst_results_access_date_desc#:#Participants get access to their test results on the 'Info'-tab after the defined date.###27 01 2015 new variable
+assessment#:#tst_results_access_finished_desc#:#ILIAS displays the test results after the test pass is finished. After finishing the test pass participants can access their test results on the 'Info'-tab at any time.###27 01 2015 new variable
+assessment#:#tst_results_access_enabled#:#Access to Test Results###27 01 2015 new variable
+assessment#:#tst_results_access_enabled_desc#:#A button 'Show Test Results' will be displayed to participants on the 'Info'-tab. Options in this and the following sections below configure what information is to be included into the report and when it will be accessible.###27 01 2015 new variable
+assessment#:#tst_results_access_setting#:#Point in Time###27 01 2015 new variable
+assessment#:#tst_results_details_options#:#Further Details to be Included in Test Results###27 01 2015 new variable
+assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the "Passed" / "Failed" Status will be appended to the summary test result. Participants can access their test results on the 'Info'-tab. <br />###27 01 2015 new variable
+assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results on the 'Info'-tab.###27 01 2015 new variable
+assessment#:#tst_score_cut_question_desc#:#Participants may score negative results for a question that had negative points for assigned to individual answer options. This setting ensures that per question any negativ result is set to 0 points.###27 01 2015 new variable
+assessment#:#tst_score_cut_test_desc#:#Participants might score negative points in questions. Scored points of all questions are added up. Only if the overall result of the test is negative this overall result will be set to 0 points. With this setting negative points carry a lot of weight.###27 01 2015 new variable
+assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Despite a multiple choice question was not answered, it still scores points for selecting or not-selecting the answer options as definied in the question. This setting is appropriate only for few cases.###27 01 2015 new variable
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Participants score 0 points for multiple choice questions in which they have not checked any answer option. This setting is appropriate for most tests.###27 01 2015 new variable
+assessment#:#examid_in_test_pass#:#Display Testpass ID###27 01 2015 new variable
+assessment#:#examid_in_test_pass_desc#:#A testpass ID is diplayed in the test. A new ID is generated for every testpass.###27 01 2015 new variable
+assessment#:#examid_in_test_res#:#ILIAS Testpass ID###27 01 2015 new variable
+assessment#:#examid_in_test_res_desc#:#The ILIAS Testpass ID will be included in the test results.###27 01 2015 new variable
+assessment#:#test_enable_archiving_desc#:#In the 'Export'-tab the whole test comprising all answers of all participants can be exported and downloaded.###27 01 2015 new variable
+common#:#msg_copy_clipboard_container#:#Now, please select the desired location, where the selected objects should be pasted into and click the button "Continue".###27 01 2015 new variable
+administration#:#frm_displayed_infos#:#Displayed Information###27 01 2015 new variable
+administration#:#frm_disp_info_desc#:#Please select the attributes which should to be shown in the overviews.###27 01 2015 new variable
+content#:#cont_enough_answers_correct#:#Correct, but not the best solution!###27 01 2015 new variable
+assessment#:#tst_exp_sc_short_desc#:#In the 'Statistics'-tab an additional export option is offered. It generates a spreadsheet for item analysis outside of ILIAS. This option only works for tests purely composed of Single Choice Questions.###27 01 2015 new variable
+assessment#:#tst_processing_time_duration#:#Maximum Duration of the Test###27 01 2015 new variable
+assessment#:#tst_processing_time_duration_desc#:#Maximum of time granted to take the test.###27 01 2015 new variable
+assessment#:#tst_activate_skill_service_desc#:#A new tab 'Competences' will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.###27 01 2015 new variable
+dcl#:#dcl_err_formula_field_not_found#:#Field with title '%s' not found###27 01 2015 new variable
+dcl#:#dcl_length_info#:#(for more than 200 characters, use the additional option Textarea)###27 01 2015 new variable
+dcl#:#dcl_regex_info#:#(without delimiter)###27 01 2015 new variable
+dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available###27 01 2015 new variable
+dcl#:#dcl_activate_view#:#Activate this view###27 01 2015 new variable
+dcl#:#dcl_deactivate_view#:#Deactivate this view###27 01 2015 new variable
+bibl#:#bibl_link_online#:#Lookup inventory###27 01 2015 new variable
+assessment#:#redirect_after_finishing_tst_desc#:#After completion of test each participant is automatically redirected to a defined webpage. This is only valid if the participants have no access to their test results.###27 01 2015 new variable
+assessment#:#redirect_after_finishing_rule#:#Redirect###27 01 2015 new variable
+assessment#:#redirect_always#:#always to defined webpage###27 01 2015 new variable
+orgu#:#orgu_msg_info_paste#:#Please select the place to paste the object.###27 01 2015 new variable
+adve#:#char_selector_admin#:#Selector for Unicode Characters (TODO)###27 01 2015 new variable
+adve#:#char_selector_user#:#Selector for Unicode Characters (TODO)###27 01 2015 new variable
+adve#:#char_selector_test#:#Selector for Unicode Characters (TODO)###27 01 2015 new variable
+adve#:#char_selector_inactive_admin#:#Inactive (TODO)###27 01 2015 new variable
+adve#:#char_selector_inherit_user#:#Inherit (TODO)###27 01 2015 new variable
+adve#:#char_selector_inherit_test#:#Inherit (TODO)###27 01 2015 new variable
+adve#:#char_selector_enabled_admin#:#Enabled (TODO)###27 01 2015 new variable
+adve#:#char_selector_enabled_user#:#Enabled (TODO)###27 01 2015 new variable
+adve#:#char_selector_enabled_test#:#Enabled (TODO)###27 01 2015 new variable
+adve#:#char_selector_disabled_admin#:#Disabled (TODO)###27 01 2015 new variable
+adve#:#char_selector_disabled_user#:#Disabled (TODO)###27 01 2015 new variable
+adve#:#char_selector_disabled_test#:#Disabled (TODO)###27 01 2015 new variable
+forum#:#frm_max_notification_age#:#Max. Notification Age###27 01 2015 new variable
+forum#:#frm_max_notification_age_unit#:#Day(s)###27 01 2015 new variable
+forum#:#frm_max_notification_age_info#:#Please define the maximum age of postings to send notifications for. It is recommended to choose a higher value than the scheduled interval.###27 01 2015 new variable
+prtf#:#prtf_page_element_my_courses_info#:#This is a list of all my courses which are currently online and where I have a membership.###27 01 2015 new variable
+prtf#:#prtf_allow_my_courses#:#Page Element "My Courses"###27 01 2015 new variable
+prtf#:#prtf_allow_my_courses_info#:#Enables to include a list of current course memberships in a portfolio.###27 01 2015 new variable
+prtf#:#prtf_page_element_teaser_my_courses_inactive#:#This type of page element has been deactivated.###27 01 2015 new variable
+cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition###27 01 2015 new variable
+cntr#:#cntr_tax_list_info#:#The following are all taxonomies that have been defined for this object.###27 01 2015 new variable
+common#:#scorm_lp_auto_activate#:#default settings for learning progress###27 01 2015 new variable
+common#:#scorm_lp_auto_activate_info#:#If learning progress is activated in general, the settings for new SCORM learning modules are set to 'Collection of SCORM Items' and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module.###27 01 2015 new variable
+ecs#:#ecs_deprecated_token#:#Support for Deprecated Authentication Token###27 01 2015 new variable
+ecs#:#ecs_deprecated_token_info#:#Offers support for installations (e.g ILIAS installations of version 4.x) which use a deprecated token authentication mechanism.###27 01 2015 new variable
+exc#:#exc_peer_reviews_invalid_warning#:#Invalid Peer Groups###27 01 2015 new variable
+exc#:#exc_peer_review_overview#:#Show Peer Groups###27 01 2015 new variable
+exc#:#exc_peer_review_overview_invalid_users#:#Invalid Users###27 01 2015 new variable
+exc#:#exc_peer_review_missing_users#:#Users with submissions who are not part of the peer-feedback###27 01 2015 new variable
+exc#:#exc_peer_review_not_returned_users#:#Users without submissions who are not part of the peer-feedback###27 01 2015 new variable
+exc#:#exc_peer_review_invalid_peer_ids#:#Peer recipients who are not exercise members anymore or do not have a submission###27 01 2015 new variable
+exc#:#exc_peer_review_invalid_giver_ids#:#Peer givers who are not exercise members anymore or do not have a submission###27 01 2015 new variable
+exc#:#exc_peer_review_reset#:#Delete and Reset Peer-Feedback ###27 01 2015 new variable
+exc#:#exc_peer_review_reset_sure#:#Are you sure you want to delete the complete peer-feedback for the assignment "%s"?###27 01 2015 new variable
+exc#:#exc_peer_review_reset_done#:#All Peer-Feedback-related data has been deleted for the assignment.###27 01 2015 new variable
+adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!###27 01 2015 new variable
+crs#:#crs_loc_form_tst_new_initial_info#:#Create a new test to serve as Placement Test###27 01 2015 new variable
+crs#:#crs_loc_form_tst_new_qualified_info#:#--###27 01 2015 new variable
+crs#:#crs_loc_form_assign_initial_info#:#Select a test from this course to serve as Placement Test###27 01 2015 new variable
+crs#:#crs_loc_form_assign_qualified_info#:#--###27 01 2015 new variable
+poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.###27 01 2015 new variable
+content#:#cont_download#:#Download###27 01 2015 new variable
+payment#:#topics_settings#:#Topics Settings###27 01 2015 new variable
+payment#:#enable_topics#:#Enable Topics###27 01 2015 new variable
+payment#:#enable_topics_info#:#If enabled, you can assign purchasable objects to self-created topics. ###27 01 2015 new variable
+exc#:#exc_assignment_type#:#Type of Submission###27 01 2015 new variable
+trac#:#trac_mode_event_info#:#The learning progress status will be determined by the participation status.###27 01 2015 new variable
+sess#:#sess_lp_preset#:#Activate Learning Progress###27 01 2015 new variable
+sess#:#sess_lp_preset_info#:#(De-)Actives the learning progress for all session events.###27 01 2015 new variable
+glo#:#glo_copy#:#Copy Glossary###27 01 2015 new variable
+form#:#form_open_answer#:#Open Answer###27 01 2015 new variable
+survey#:#survey_access_codes#:#Authentication by Access Codes###27 01 2015 new variable
+survey#:#survey_access_codes_info#:#Users get access to the survey by entering a code on the 'Info'-tab. These access codes are generated in a sub-tab 'Access Codes' in the tab 'Participants'.###27 01 2015 new variable
+survey#:#survey_results_anonymization#:#Privacy###27 01 2015 new variable
+survey#:#survey_results_personalized#:#With Names###27 01 2015 new variable
+survey#:#survey_results_personalized_info#:#In the tab 'Results' the names of the partcipants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer.###27 01 2015 new variable
+survey#:#survey_results_anonymized#:#Without Names###27 01 2015 new variable
+survey#:#survey_results_anonymized_info#:#In the tab 'Results' participants' names are replaced by codes. Users having acces to this tab cannot attribute answers to named participants but only to user "iTXaF" (example).###27 01 2015 new variable
+survey#:#material_added_empty#:#The object does not have any suitable material.###27 01 2015 new variable
+ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants###27 01 2015 new variable
+survey#:#survey_sure_delete_constraint#:#Are you sure you want to delete the routing rule "%1$s" for the question "%2$s"?###27 01 2015 new variable
+survey#:#survey_constraint_deleted#:#The routing rule has been deleted.###27 01 2015 new variable
+error#:#error_back_to_repository#:#Back to Repository###27 01 2015 new variable
+error#:#error_sry_error#:#Sorry, an error occured.###27 01 2015 new variable
+form#:#form_hier_click_to_add#:#Click here to add new elements.###27 01 2015 new variable
+scormtrac#:#exportselectedsuccess#:#Basic report for success###27 01 2015 new variable
+scormtrac#:#LearningModuleId#:#Id of the learning module###27 01 2015 new variable
+scormtrac#:#LearningModuleTitle#:#Title of the learning module###27 01 2015 new variable
+scormtrac#:#LearningModuleVersion#:#Version of the learning module###27 01 2015 new variable
+scormtrac#:#Status#:#total status###27 01 2015 new variable
+scormtrac#:#Percentage#:#Percentage of completed SCOs###27 01 2015 new variable
+scormtrac#:#Attempts#:#Attempts###27 01 2015 new variable
+scormtrac#:#existingSCOs#:#Number of existing SCOs###27 01 2015 new variable
+scormtrac#:#startedSCOs#:#Number of SCOs been started###27 01 2015 new variable
+scormtrac#:#completedSCOs#:#Number of fully completed SCO###27 01 2015 new variable
+scormtrac#:#passedSCOs#:#Number of passed SCOs###27 01 2015 new variable
+scormtrac#:#roundedTotal_timeSeconds#:#Total time in seconds (rounded)###27 01 2015 new variable
+content#:#cont_tracking_modify#:#modify data###27 01 2015 new variable
+scormtrac#:#counter_i_correct#:#correctly answered interactions###27 01 2015 new variable
+scormtrac#:#counter_i_correct_percent#:#Percentage of correctly answered interactions###27 01 2015 new variable
+scormtrac#:#counter_i_incorrect#:#incorrectly answered interactions###27 01 2015 new variable
+scormtrac#:#counter_i_incorrect_percent#:#Percentage of incorrectly answered interactions###27 01 2015 new variable
+scormtrac#:#counter_i_other#:#neither correctly nor incorrectly answered interactions###27 01 2015 new variable
+scormtrac#:#counter_i_other_percent#:#Percentage of neither correctly nor incorrectly answered interactions###27 01 2015 new variable
+scormtrac#:#sco_id#:#Id of the chapter (SCO)###27 01 2015 new variable
+scormtrac#:#lesson_status#:#lesson_status###27 01 2015 new variable
+survey#:#svy_settings_section_before_start#:#Information before Start of Survey###27 01 2015 new variable
+survey#:#svy_settings_section_access#:#Administering the Survey: Access###27 01 2015 new variable
+survey#:#svy_settings_section_question_behaviour#:#Administering the Survey: Behaviour of the Question###27 01 2015 new variable
+survey#:#svy_settings_section_finishing#:#Finishing the Survey###27 01 2015 new variable
+survey#:#svy_settings_section_reminders#:#Reminders###27 01 2015 new variable
+scormtrac#:#satisfied#:#Status: satisfied###27 01 2015 new variable
+scormtrac#:#measure#:#Status: measure###27 01 2015 new variable
+scormtrac#:#exportobjglobaltosystem#:#Report for Objectives Global To System (used by Sequencing)###27 01 2015 new variable
+scormtrac#:#exportselectedobjectives#:#Report for objectives###27 01 2015 new variable
+scormtrac#:#scope#:#scope###27 01 2015 new variable
+scormtrac#:#counter#:#counter###27 01 2015 new variable
+scormtrac#:#student_response#:#student_response: Response###27 01 2015 new variable
+scormtrac#:#ostatus#:#Status of the objective###27 01 2015 new variable
+prtf#:#prtf_blog_page_created#:#Blog has been added.###27 01 2015 new variable
+wiki#:#wiki_adv_md_hidden#:#This block is currently hidden.###27 01 2015 new variable
+wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below.###27 01 2015 new variable
+content#:#cont_pc_amdpl#:#Page List###27 01 2015 new variable
+meta#:#udf_type_selectmulti#:#Selection List (Checkboxes)###27 01 2015 new variable
+wiki#:#wiki_no_page_found#:#No wiki page has been found for search term '$1'.###27 01 2015 new variable
+wiki#:#wiki_pages_found#:#The following pages match your search term '$1'.###27 01 2015 new variable
+wiki#:#wiki_no_search_term#:#No search term has been entered. All pages of the wiki are listed below.###27 01 2015 new variable
+tagging#:#tag_some_obj_tagged_without_access#:#You do not have the permissions to access some of the tagged objects anymore. Should the tag be removed for these objects?###27 01 2015 new variable
+tagging#:#tag_remove_tags_of_obj_without_access#:#Remove Tag###27 01 2015 new variable
+tagging#:#tag_tags_deleted#:#Tag has been removed from inaccessible objects.###27 01 2015 new variable
+content#:#cont_automatically_set_store_tries#:#Option "$1" has been activated automatically, because option "$2" has been enabled.###27 01 2015 new variable
+cntr#:#cont_custom_icon#:#Custom Icon###27 01 2015 new variable
+rbac#:#rbac_cant_import_role_wrong_type#:#Can't import a role from item %s into item %s.###27 01 2015 new variable
+content#:#cont_license#:#License###27 01 2015 new variable
+content#:#cont_license_info#:#Enables the license feature###27 01 2015 new variable
+content#:#cont_biblio#:#Bibliographical Data###27 01 2015 new variable
+content#:#cont_biblio_info#:#Enables the bibliographical data feature###27 01 2015 new variable
+crs#:#crs_loc_tst_assignment#:#Test Assignment###27 01 2015 new variable
+search#:#search_minimum_info#:#Your search must be at least %s characters long###27 01 2015 new variable
+crs#:#crs_show_all_obj#:#Expand All###27 01 2015 new variable
+crs#:#crs_hide_all_obj#:#Collapse All###27 01 2015 new variable
+notes#:#notes_comment_deleted#:#The comment has been deleted.###27 01 2015 new variable
+notes#:#notes_comments_deleted#:#The comments have been deleted.###27 01 2015 new variable
+orgu#:#ou_id_not_valid#:#Import-ID not found.###27 01 2015 new variable
+blog#:#blog_profile_picture_repository_info#:#Profile pictures of the authors are only shown on the postings pages, not on overview pages.###27 01 2015 new variable
+blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the following contributors?###27 01 2015 new variable
+news#:#news_rss#:#RSS###27 01 2015 new variable
+mob#:#mob_object#:#Object###27 01 2015 new variable
+content#:#cont_qtries_info#:#Default value for number of tries for newly created questions.###27 01 2015 new variable
+lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable
+content#:#cont_settings#:#Settings for learning modules###27 01 2015 new variable
+rbac#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits###27 01 2015 new variable
+rbac#:#orgu_copy#:#Copy Organisational Unit###27 01 2015 new variable
+exc#:#exc_no_team_yet_notice#:#You are not assigned to a team yet!###27 01 2015 new variable
+prtf#:#prtf_edit_embedded_blog#:#Edit Blog "%s"###27 01 2015 new variable
+exc#:#exc_manage_team#:#Manage Team###27 01 2015 new variable
+assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
+assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.###27 01 2015 new variable
+assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILIAS because you activated the notification.###27 01 2015 new variable
+dateplaner#:#cal_type_exc#:#Exercise Calendar###27 01 2015 new variable
+grp#:#grp_admission_link_failure_registration_period#:#Can't registrate: Group is out of registration period.###27 01 2015 new variable
+crs#:#crs_admission_link_failure_registration_period#:#Can't registrate: Course is out of registration period.###27 01 2015 new variable
+grp#:#grp_admission_link_failure_membership_limited#:#Can't registrate: Group membership is limited.###27 01 2015 new variable
+crs#:#crs_admission_link_failure_membership_limited#:#Can't registrate: Course membership is limited.###27 01 2015 new variable
+grp#:#grp_admission_link_success_registration#:#Successfully registrated to group "%s".###27 01 2015 new variable
+crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".###27 01 2015 new variable
+rbac#:#ilias_id#:#ILIAS-ID###27 01 2015 new variable
+scormtrac#:#exportselectedraw#:#CMI (RAW) data###27 01 2015 new variable
+scormtrac#:#lvalue#:#Key###27 01 2015 new variable
+scormtrac#:#rvalue#:#Value###27 01 2015 new variable
+scormtrac#:#identifierref#:#SCO-Identifier###27 01 2015 new variable
