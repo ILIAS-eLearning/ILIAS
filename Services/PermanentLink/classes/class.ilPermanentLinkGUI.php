@@ -252,7 +252,7 @@ class ilPermanentLinkGUI
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		
 		$current_selection_list = new ilAdvancedSelectionListGUI();
-		$current_selection_list->setListTitle($lng->txt("bm_add_to_social_bookmarks"));
+		//$current_selection_list->setListTitle($lng->txt("bm_add_to_social_bookmarks"));
 		$current_selection_list->setId("socialbm_actions");
 		$current_selection_list->setUseImages(true);
 		
