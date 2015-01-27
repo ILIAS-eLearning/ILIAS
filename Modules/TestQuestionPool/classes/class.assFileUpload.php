@@ -639,8 +639,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			$checkUploadResult = false;
 		}
 		
-		$this->getProcessLocker()->requestUserSolutionUpdateLock();
-
 		$result = $ilDB->queryF("SELECT test_fi FROM tst_active WHERE active_id = %s",
 			array('integer'),
 			array($active_id)
@@ -651,6 +649,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			$row = $ilDB->fetchAssoc($result);
 			$test_id = $row["test_fi"];
 		}
+
+		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
 		$entered_values = false;
 		if( $_POST['cmd'][$this->questionActionCmd] == $this->lng->txt('delete') )
