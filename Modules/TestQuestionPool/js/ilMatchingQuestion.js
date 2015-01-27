@@ -154,6 +154,8 @@
         helper.css('width', draggable.css('width'));
         helper.css('height', draggable.css('height'));
 
+        helper.zIndex('1035');
+
         return helper;
     };
 
