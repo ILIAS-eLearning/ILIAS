@@ -28,3 +28,8 @@ a {
 .sel {
 	background-color:#9BD9FE;
 }
+
+.noprint {
+	display: none;
+	visibility: hidden;
+}
