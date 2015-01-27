@@ -7075,6 +7075,9 @@ div.ilPermaLink a {
   width: 25%;
   font-size: 90%;
 }
+#current_perma_link + .btn-group {
+  vertical-align: top;
+}
 /* ----------------- invisible border ------------- */
 div.invisible_border {
   margin: 15px;
