@@ -75,6 +75,7 @@ class ilTestSessionFactory
 	}
 
 	/**
+	 * @todo: Björn, we also need to handle the anonymous user here
 	 * @param integer $userId
 	 * @return ilTestSession|ilTestSessionDynamicQuestionSet
 	 */
