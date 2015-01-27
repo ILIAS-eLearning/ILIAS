@@ -607,7 +607,7 @@ class ilCalendarEntry implements ilDatePeriod
 		$this->orgu_id = $a_id;
 	}
 	
-	public function getOrgUnitId($a_id) {
+	public function getOrgUnitId() {
 		return $this->orgu_id;
 	}
 	
