@@ -809,7 +809,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				hist_user.bwv_id != '-empty-'
 
 			AND
-				hist_usercoursestatus.function = 'Mitglied'
+				hist_usercoursestatus.function  IN ('Mitglied', 'Teilnehmer')
 			AND 
 				hist_usercoursestatus.okz IN ('OKZ1', 'OKZ2','OKZ3')
 			AND
