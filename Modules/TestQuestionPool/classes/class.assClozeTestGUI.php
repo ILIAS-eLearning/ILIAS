@@ -1302,7 +1302,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		return array('fixedTextLength');
 	}
 
-	public function resetFormValuesForSuppressedPostvars($form)
+	public function resetFormValuesForSuppressedPostvars(ilPropertyFormGUI $form)
 	{
 		$gapindex = 0;
 		while($element = $form->getItemByPostVar('gap['.$gapindex.']'))
@@ -1312,18 +1312,22 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			
 			if($value == CLOZE_SELECT)
 			{
+				/** @var assClozeGap $the_gap */
 				$the_gap = $this->object->getGap($gapindex);
-				foreach($the_gap->getItems() as $itemindex => $answer_cloze)
+				foreach($the_gap->getItemsRaw() as $itemindex => $answer_cloze)
 				{
 					$_POST['gap_'.$gapindex]['answer'][$itemindex] = $answer_cloze->getAnswertext();
-					$a = 1;
 				}
+				/** @var ilAnswerWizardInputGUI $element */
 				$element = $form->getItemByPostVar('gap_'.$gapindex);
 				$element->setValues($the_gap->getItemsRaw());
+				
+				/** @var  $element */
+				$element = $form->getItemByPostVar('shuffle_'.$gapindex);
+				$element->setChecked($the_gap->getShuffle());
 			}
 			$gapindex++;
 		}
-		$a = 1;
 	}
 
 	public function getAggregatedAnswersView($relevant_answers)
@@ -1346,7 +1350,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$tpl->setVariable('NUMBER_OF_USERS', $usercount);
 		$tpl->setVariable('NUMBER_OF_PASSES_INFO', $this->lng->txt('number_of_passes'));
 		$tpl->setVariable('NUMBER_OF_PASSES', $passcount);
-		
 
 		return $tpl->get() . $this->renderAggregateView( $this->aggregateAnswers($relevant_answers) );
 	}
@@ -1354,6 +1357,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	public function aggregateAnswers($relevant_answers_chosen)
 	{
 		$gaps = array();
+
 		foreach($relevant_answers_chosen as $answer)
 		{
 			$gaps[$answer['value1']][] = $answer;
@@ -1444,7 +1448,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		foreach($gap as $answer)
 		{
 			$current_gap = $this->object->getGap($answer['value1']);
-			$items=$current_gap->getItems();
+			$items=$current_gap->getItemsRaw();
 			$item = $items[$answer['value2']];
 			$text = $item->getAnswertext();
 			if(isset($gapdata[$text]))
@@ -1506,7 +1510,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			}
 			$gapindex++;
 		}
-		/** @var ilMultipleChoiceWizardInputGUI $multiplechoice_wizardinputgui */
 
 		return $form;
 	}
@@ -1516,5 +1519,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$element = $form->getItemByPostvar('gap_'.$gapindex);
 		$element->setDisableActions(true);
 		$element->setDisableText(true);
+		
+		/** @var ilCheckboxInputGUI $element */
+		$element = $form->getItemByPostvar('shuffle_'.$gapindex);
+		$element->setDisabled(true);
 	}
 }
