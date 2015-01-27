@@ -263,7 +263,7 @@ class gevWBDTPBasicRegistrationGUI {
 
 		$this->user_utils->setWBDRegistrationDone();
 
-		$usr = new ilObjUser($this->user_utils->getId());
+		$usr = new ilObjUser($this->user_utils->getUser()->getId());
 		$usr->update();
 
 		/*$tpl = new ilTemplate("tpl.gev_wbd_registration_finished.html", false, false, "Services/GEV/Registration");
