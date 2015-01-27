@@ -99,6 +99,7 @@ $VALUE_MAPPINGS = array(
 		'Firmenkunden-Sach-/Schadenversicherung' => 'Firmenkunden-Sach-/Schadenversicherung',
 		
 		'Spartenübergreifend' => 'Sparten-übergreifend',
+		'Sparten-übergreifend' => 'Sparten-übergreifend',
 		'Firmenkunden-Vorsorge (bAV/Personenversicherung)' => 'Firmenkunden-Vorsorge (bAV/Personenversicherung)',
 		'Beratungskompetenz' => 'Beratungskompetenz',
 		'Privat-Sach-/Schadenversicherung' => 'Privat-Sach-/Schadenversicherung'
