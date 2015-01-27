@@ -8996,6 +8996,11 @@ legend.ilTableFilter {
   padding: 2px 5px;
   margin: -12px 0 0;
   font-weight: normal;
+  text-align: right;
+}
+legend.ilTableFilter > a {
+  margin-right: -20px;
+  margin-top: -15px;
 }
 fieldset.ilTableFilter {
   background-color: #f9f9f9;
