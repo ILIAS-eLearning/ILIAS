@@ -476,16 +476,8 @@ class ilLearningProgressBaseGUI
 				{
 					$info->addProperty($this->lng->txt('trac_spent_time'),ilFormat::_secondsToString($progress['spent_seconds']));
 				}
+				// fallthrough
 				
-				// display status as image
-				include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
-				$status = $this->__readStatus($item_id,$user_id);
-				$status_path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
-				$status_text = ilLearningProgressBaseGUI::_getStatusText($status);
-				$info->addProperty($this->lng->txt('trac_status'), 
-					ilUtil::img($status_path, $status_text)." ".$status_text);
-				break;
-
 			case 'exc':
 			case 'tst':
 			case 'crs':
@@ -498,6 +490,19 @@ class ilLearningProgressBaseGUI
 				$status_text = ilLearningProgressBaseGUI::_getStatusText($status);
 				$info->addProperty($this->lng->txt('trac_status'), 
 					ilUtil::img($status_path, $status_text)." ".$status_text);
+				
+				// #15334 - see ilLPTableBaseGUI::isPercentageAvailable()
+				$mode = $olp->getCurrentMode();
+				if(in_array($mode, array(ilLPObjSettings::LP_MODE_TLT, 
+					ilLPObjSettings::LP_MODE_VISITS, 
+					// ilLPObjSettings::LP_MODE_OBJECTIVES, 
+					ilLPObjSettings::LP_MODE_SCORM,
+					ilLPObjSettings::LP_MODE_TEST_PASSED)))
+				{
+					include_once 'Services/Tracking/classes/class.ilLPStatus.php';
+					$perc = ilLPStatus::_lookupPercentage($item_id, $user_id);
+					$info->addProperty($this->lng->txt('trac_percentage'), (int)$perc."%");
+				}				
 				break;
 
 		}

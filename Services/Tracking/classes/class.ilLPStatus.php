@@ -575,6 +575,27 @@ class ilLPStatus
 	}
 	
 	/**
+	 * Lookup percentage
+	 *
+	 * @param int $a_obj_id object id
+	 * @param int $a_user_id user id
+	 */
+	public static function _lookupPercentage($a_obj_id, $a_user_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT percentage FROM ut_lp_marks WHERE ".
+			" status_dirty = ".$ilDB->quote(0, "integer").
+			" AND usr_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND obj_id = ".$ilDB->quote($a_obj_id, "integer")
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return $rec["percentage"];
+		}
+	}
+	
+	/**
 	 * Lookup user object completion
 	 * 
 	 * @param int $a_obj_id
