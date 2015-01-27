@@ -205,6 +205,15 @@ class ilTEPEntryGUI
 		$title->setRequired(true);
 		$form->addItem($title);
 		
+		// gev-patch start
+		$org_info = ilTEP::getPossibleOrgUnitsForTEPEntries();
+		require_once "Services/TEP/classes/class.ilTEPOrgUnitSelectionInputGUI.php";
+		$orgu = new ilTEPOrgUnitSelectionInputGUI($org_info["orgu_ref_ids"], "orgu", false, false, $org_info["root_ref_id"]);
+		$orgu->setValue($filter["orgu"]["ids"]);
+		$orgu->setRecursive(false);
+		$form->addItem($orgu);
+		// gev-patch end
+		
 		include_once "Services/TEP/classes/class.ilCalEntryType.php";
 		$cal = new ilCalEntryType();
 		$type_opts = $cal->getAllActive();

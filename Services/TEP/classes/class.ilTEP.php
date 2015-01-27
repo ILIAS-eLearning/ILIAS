@@ -301,4 +301,22 @@ class ilTEP
 		}
 		return $options;
 	}
+
+	// gev-patch start
+	/**
+	 * Get a list of org units that could be assigned to a tep entry.
+	 */
+	public static function getPossibleOrgUnitsForTEPEntries() {
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$evg = gevOrgUnitUtils::getInstanceByImportId("evg");
+		$evg_ref_id = $evg->getRefId();
+		$ous = array();
+		foreach (gevOrgUnitUtils::getAllChildren(array($evg_ref_id)) as $ids) {
+			$ous[$ids["ref_id"]] = ilObject::_lookupTitle($ids["obj_id"]);
+		}
+		return array( "orgu_ref_ids" => $ous
+					, "root_ref_id" => $evg_ref_id
+					);
+	}
+	// gev-patch end
 }
