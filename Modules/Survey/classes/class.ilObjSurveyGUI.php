@@ -2857,17 +2857,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$data = array();
 			$existingdata = $this->object->getExternalCodeRecipients();
+			$existingcolumns = array('email','firstname','lastname'); // #15337
 			if (count($existingdata))
 			{
-				$first = array_shift($existingdata);
-				foreach ($first as $key => $value)
+				$existingcolumns = array_unique(array_merge($existingcolumns, array_keys(array_shift($existingdata))));
+			}		
+			foreach ($existingcolumns as $key)
+			{
+				if (strcmp($key, 'code') != 0 && strcmp($key, 'sent') != 0)
 				{
-					if (strcmp($key, 'code') != 0 && strcmp($key, 'sent') != 0)
-					{
-						$data[$key] = $_POST[$key];
-					}
+					$data[$key] = trim($_POST[$key]);
 				}
-			}
+			}		
 			if (count($data))
 			{
 				$this->object->createSurveyCodesForExternalData(array($data));
@@ -3064,17 +3065,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$form_import_dataset->addItem($headerfile);
 		
 		$existingdata = $this->object->getExternalCodeRecipients();
-		$existingcolumns = array('email');
+		$existingcolumns = array('email','firstname','lastname'); // #15337
 		if (count($existingdata))
 		{
-			$first = array_shift($existingdata);
-			foreach ($first as $key => $value)
+			$first = array_keys(array_shift($existingdata));
+			foreach ($first as $key)
 			{
-				if (strcmp($key, 'email') != 0 && strcmp($key, 'code') != 0 && strcmp($key, 'sent') != 0)
+				if (strcmp($key, 'code') != 0 && strcmp($key, 'sent') != 0)
 				{
 					array_push($existingcolumns, $key);
 				}
 			}
+			$existingcolumns = array_unique($existingcolumns);
 		}
 		
 		foreach ($existingcolumns as $column)
