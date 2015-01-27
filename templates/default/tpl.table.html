@@ -19,7 +19,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 	{NUMINFO_HEADER}
 	</div>
 	<!-- END tbl_header_numinfo -->
-	<h3 class="ilTableHeaderTitle">{TBL_TITLE}</h3>
+	<h3 class="ilTableHeaderTitle ilHeader">{TBL_TITLE}</h3>
 </div>
 <!-- END tbl_header_title -->
 <div class="ilTableOuter table-responsive">
@@ -67,7 +67,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
     <td colspan="{FOOTER_COLUMN_COUNT}" class="tblfooter">
 <!-- BEGIN select_all_checkbox -->
 		<input type="checkbox" name="{SELECT_PREFIX}chb_select_all" id="{SELECT_PREFIX}chb_select_all" value="1" onClick="il.Util.setChecked('{SELECT_ALL_FORM_NAME}', '{SELECT_ALL_CHECKBOX_NAME}', document.{SELECT_ALL_FORM_NAME}.{SELECT_PREFIX}chb_select_all.checked);" />
-		<label for="{SELECT_PREFIX}chb_select_all"><strong>{SELECT_ALL_TXT_SELECT_ALL}</strong></label>
+		<label for="{SELECT_PREFIX}chb_select_all">{SELECT_ALL_TXT_SELECT_ALL}</label>
 		<br />
 <!-- END select_all_checkbox -->
 	<div class="ilFloatLeft">
@@ -93,10 +93,10 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 		  <img src="{IMG_ARROW}" alt="{ALT_ARROW}" />
 <!-- BEGIN tbl_action_select -->
 				  {SELECT_ACTION}&nbsp;
-				  <input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
+				  <input class="btn btn-default" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
 <!-- END tbl_action_select -->
 <!-- BEGIN tbl_action_btn -->
-		  <input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
+		  <input class="btn btn-default" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
 <!-- END tbl_action_btn -->
 <!-- BEGIN tbl_action_plain_select -->
 				  {SELECT_ACTION}&nbsp;
@@ -109,9 +109,9 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 <!-- BEGIN add_object -->
 	<div class="ilRight">
 		{SELECT_OBJTYPE}
-		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_ADD}" />
+		<input class="btn btn-default" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_ADD}" />
 <!-- BEGIN import_object -->
-		<input class="submit" type="submit" name="cmd[{BTN_IMP}]" value="{TXT_IMP}" />
+		<input class="btn btn-default" type="submit" name="cmd[{BTN_IMP}]" value="{TXT_IMP}" />
 <!-- END import_object -->
 	</div>
 <!-- END add_object -->
@@ -121,7 +121,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 				<input class="std" type="text" name="{PB_TXT_NAME}" value="{PB_TXT_VALUE}" />
 <!-- END input_text -->
 <!-- BEGIN plain_button -->
-				<input class="submit" type="submit" name="cmd[{PBTN_NAME}]" value="{PBTN_VALUE}" />
+				<input class="btn btn-default" type="submit" name="cmd[{PBTN_NAME}]" value="{PBTN_VALUE}" />
 <!-- END plain_button -->
 			  </div>
 <!-- END plain_buttons -->
@@ -134,7 +134,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 <!-- END tbl_table_end -->
 <!-- BEGIN save_object -->
 <br />
-<input class="submit" type="submit" value="{BTN_VALUE}" />
+<input class="btn btn-default" type="submit" value="{BTN_VALUE}" />
 <!-- END save_object -->
 <!-- BEGIN tbl_form_footer -->
 </form>

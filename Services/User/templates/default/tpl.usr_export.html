@@ -1,9 +1,9 @@
-<form name="cmd" method="post" action="{FORMACTION}">
-<p><select name="export_type">
+<form name="cmd" method="post" action="{FORMACTION}" class="form-inline">
+<p><select name="export_type" class="form-control">
 <!-- BEGIN option -->
 	<option value="{OPTION_VALUE}">{OPTION_TEXT}</option>
 <!-- END option -->
-</select> <input class="submit" type="submit" name="cmd[export]" value="{EXPORT_BUTTON}" /></p>
+</select> <input class="btn btn-default" type="submit" name="cmd[export]" value="{EXPORT_BUTTON}" /></p>
 {EXPORT_FILES}
 </form>
 
