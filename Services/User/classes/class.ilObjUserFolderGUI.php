@@ -2428,13 +2428,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$cgui->setCancel($this->lng->txt("cancel"), "cancelDeleteExportFile");
 		$cgui->setConfirm($this->lng->txt("confirm"), "deleteExportFile");		
 
-		// BEGIN TABLE DATA
-		$counter = 0;
+		// BEGIN TABLE DATA		
 		foreach($_POST["file"] as $file)
-		{
-			$caption = ilUtil::getImageTagByType("usrf", $this->tpl->tplPath).					
-				" ".$file;						
-			$cgui->addItem("file[]", $file, $caption);
+		{							
+			$cgui->addItem("file[]", $file, $file, ilUtil::getTypeIconPath("usrf"), $this->lng->txt("obj_usrf"));
 		}
 
 		$this->tpl->setContent($cgui->getHTML());
