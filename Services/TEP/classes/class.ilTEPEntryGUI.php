@@ -282,6 +282,10 @@ class ilTEPEntryGUI
 		$a_entry->setLocation($a_form->getInput("location"));
 		$a_entry->setDescription($a_form->getInput("desc"));
 		$a_entry->setType($a_form->getInput("type"));
+		// gev-patch start
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$a_entry->setOrgUnitId(gevObjectUtils::getObjId($a_form->getInput("orgu")));
+		// gev-patch end
 
 		$period = $a_form->getInput("period");
 		if($period["fulltime"])
@@ -406,6 +410,10 @@ class ilTEPEntryGUI
 		$a_form->getItemByPostVar("type")->setValue($a_entry->getType());
 		$a_form->getItemByPostVar("location")->setValue($a_entry->getLocation());
 		$a_form->getItemByPostVar("desc")->setValue($a_entry->getDescription());
+		// gev-patch start
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$a_form->getItemByPostVar("orgu")->setValue(gevObjectUtils::getRefId($a_entry->getOrgUnitId()));
+		// gev-patch end
 		
 		$period = $a_form->getItemByPostVar("period");
 		$period->setStart($a_entry->getStart());
