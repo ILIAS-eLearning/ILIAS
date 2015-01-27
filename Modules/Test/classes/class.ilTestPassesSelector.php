@@ -8,7 +8,7 @@
  *
  * @package     Modules/Test
  */
-class ilTestReportablePassesDeterminator
+class ilTestPassesSelector
 {
 	protected $db;
 	
@@ -43,12 +43,22 @@ class ilTestReportablePassesDeterminator
 	{
 		$this->lastFinishedPass = $lastFinishedPass;
 	}
-	
+
+	public function getExistingPasses()
+	{
+		return $this->loadExistingPasses();
+	}
+
+	public function getNumExistingPasses()
+	{
+		return count($this->loadExistingPasses());
+	}
+
 	public function getReportablePasses()
 	{
 		$existingPasses = $this->loadExistingPasses();
 		$reportablePasses = $this->fetchReportablePasses($existingPasses, $lastFinishedPass);
-		
+
 		return $reportablePasses;
 	}
 	
