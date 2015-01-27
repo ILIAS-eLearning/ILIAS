@@ -111,12 +111,10 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 				"default" => true);
 		}
 		
-		if($this->isPercentageAvailable($this->obj_id))
-		{	
-			$cols["percentage"] = array(
-				"txt" => $lng->txt("trac_percentage"),
-				"default" => true);
-		}
+		// #15334 - parent object does not matter, sub-objects may have percentage
+		$cols["percentage"] = array(
+			"txt" => $lng->txt("trac_percentage"),
+			"default" => true);
 		
 		$cols["status"] = array(
 			"txt" => $lng->txt("trac_status"),
