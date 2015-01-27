@@ -7686,6 +7686,7 @@ function getAnswerFeedbackPoints()
 
 	/**
 	 * returns if number of tries are reached
+	 * @deprecated: tries field differs per situation, outside a pass it's the number of tries, inside a pass it's the current pass number.
 	 */
 
 	function isNrOfTriesReached($tries)
@@ -8087,11 +8088,18 @@ function getAnswerFeedbackPoints()
 			}
 		}
 
-		if ($this->hasNrOfTriesRestriction() && ($active_id > 0) && $this->isNrOfTriesReached($testSession->getPass()))
+		if ($this->hasNrOfTriesRestriction() && ($active_id > 0))
 		{
-			$result["executable"] = false;
-			$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
-			return $result;
+			require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+			$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this);
+			$testPassesSelector->setActiveId($active_id);
+
+			if( $testPassesSelector->getNumExistingPasses() >= $this->getNrOfTries() )
+			{
+				$result["executable"] = false;
+				$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
+				return $result;
+			}
 		}
 
 		return $result;
