@@ -108,7 +108,7 @@ class assKprimChoiceImport extends assQuestionImport
 		{
 			foreach($resprocessing->outcomes as $outcome)
 			{
-				foreach($outcome as $decvar)
+				foreach($outcome->decvar as $decvar)
 				{
 					if( $decvar->getVarname() == 'SCORE' )
 					{
