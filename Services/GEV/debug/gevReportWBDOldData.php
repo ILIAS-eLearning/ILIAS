@@ -996,7 +996,20 @@ $report = new gevREportOldData();
 			
 			print '</td>';
 			
-			print '<td>' .$entry['wbd_type'] .'</td>';
+			//print '<td>' .$entry['wbd_type'] .'</td>';
+			print '<td>';
+			if($entry['wbd_type'] == '-empty-'){
+				$user_id = $entry['user_id'];
+				$lnk = "https://generali-onlineakademie.de/ilias.php?ref_id=7&admin_mode=settings&obj_id=$user_id&cmd=view&cmdClass=ilobjusergui&cmdNode=1v:i8&baseClass=ilAdministrationGUI";
+				print '<a href="' .$lnk .'"">';
+				print $entry['wbd_type'];
+				print '</a>';
+					
+			} else {
+				print $entry['wbd_type'];
+			}
+
+
 			print '<td>';
 			print implode('<br>', array_values($report->getGlobalRolesForUser($entry['user_id'])));
 			print '</td>';
