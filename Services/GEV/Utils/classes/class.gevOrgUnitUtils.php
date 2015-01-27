@@ -50,6 +50,15 @@ class gevOrgUnitUtils {
 		return self::$instances[$a_orgu_id];
 	}
 	
+	public static function getInstanceByImportId($a_import_id) {
+		$id = ilObject::_lookupObjIdByImportId($a_import_id);
+		if (!$id || ilObject::_lookupType($id) !== "orgu") {
+			throw new Exception( "gevOrgUnitUtils::getInstanceByImportId: Could not find org unit "
+								."with import id '$a_import_id'.");
+		}
+		return gevOrgUnitUtils::getInstance($id);
+	}
+	
 	static public function createOrgType($a_gev_setting, $a_title, $a_desc) {
 		require_once("Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php");
 		
