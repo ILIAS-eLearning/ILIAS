@@ -104,6 +104,10 @@ class gevWBDTPBasicRegistrationGUI {
 		$this->user_utils->setWBDBWVId($_POST["bwv_id"]);
 		$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
 		$this->user_utils->setWBDRegistrationDone();
+		
+		$usr = new ilObjUser($this->user_utils->getUser()->getId());
+		$usr->update();
+		
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_has_bwv_id"), true);
 		ilUtil::redirect("");
 	}
