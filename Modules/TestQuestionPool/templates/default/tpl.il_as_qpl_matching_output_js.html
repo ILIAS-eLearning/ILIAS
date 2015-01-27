@@ -77,7 +77,8 @@ YAHOO.extend(matchingQuestion, YAHOO.util.DDProxy,
 		this.originalStyles = [];
 		this.droparea = null;
 
-		this.startPos = YAHOO.util.Dom.getXY( this.getEl() );
+		this.startOffsetX = YAHOO.util.Dom.getX(this.getEl()) - YAHOO.util.Dom.getX(YAHOO.util.Dom.get('sourceArea'));
+		this.startOffsetY = YAHOO.util.Dom.getY(this.getEl()) - YAHOO.util.Dom.getY(YAHOO.util.Dom.get('sourceArea'));
 	},
 
 	startDrag: function(x, y) 
@@ -133,7 +134,8 @@ YAHOO.extend(matchingQuestion, YAHOO.util.DDProxy,
 
 	backToStart: function() 
 	{
-		YAHOO.util.Dom.setXY(this.getEl(), this.startPos);
+		YAHOO.util.Dom.setX(this.getEl(), YAHOO.util.Dom.getX(YAHOO.util.Dom.get('sourceArea')) + this.startOffsetX);
+		YAHOO.util.Dom.setY(this.getEl(), YAHOO.util.Dom.getY(YAHOO.util.Dom.get('sourceArea')) + this.startOffsetY);
 		if (this.droparea != null)
 		{
 			this.droparea.draggable = null;
