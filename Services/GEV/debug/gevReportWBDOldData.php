@@ -985,7 +985,8 @@ $report = new gevREportOldData();
 			print '<td>';
 			if($entry['agent_status'] == '-empty-'){
 				$user_id = $entry['user_id'];
-				$lnk = "https://generali-onlineakademie.de/ilias.php?ref_id=7&admin_mode=settings&obj_id=$user_id&cmd=view&cmdClass=ilobjusergui&cmdNode=1v:i8&baseClass=ilAdministrationGUI";
+				//$lnk = "https://generali-onlineakademie.de/ilias.php?ref_id=7&admin_mode=settings&obj_id=$user_id&cmd=view&cmdClass=ilobjusergui&cmdNode=1v:i8&baseClass=ilAdministrationGUI";
+				$lnk = "https://generali-onlineakademie.de/ilias.php?ref_id=7&admin_mode=settings&obj_id=$user_id&cmd=view&cmdClass=ilobjusergui&cmdNode=1z:ih&baseClass=ilAdministrationGUI";
 				print '<a href="' .$lnk .'"">';
 				print $entry['agent_status'];
 				print '</a>';
@@ -1000,7 +1001,8 @@ $report = new gevREportOldData();
 			print '<td>';
 			if($entry['wbd_type'] == '-empty-'){
 				$user_id = $entry['user_id'];
-				$lnk = "https://generali-onlineakademie.de/ilias.php?ref_id=7&admin_mode=settings&obj_id=$user_id&cmd=view&cmdClass=ilobjusergui&cmdNode=1v:i8&baseClass=ilAdministrationGUI";
+				//$lnk = "https://generali-onlineakademie.de/ilias.php?ref_id=7&admin_mode=settings&obj_id=$user_id&cmd=view&cmdClass=ilobjusergui&cmdNode=1v:i8&baseClass=ilAdministrationGUI";
+				$lnk = "https://generali-onlineakademie.de/ilias.php?ref_id=7&admin_mode=settings&obj_id=$user_id&cmd=view&cmdClass=ilobjusergui&cmdNode=1z:ih&baseClass=ilAdministrationGUI";
 				print '<a href="' .$lnk .'"">';
 				print $entry['wbd_type'];
 				print '</a>';
