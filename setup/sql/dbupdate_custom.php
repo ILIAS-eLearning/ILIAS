@@ -3247,3 +3247,18 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 	}
 
 ?>
+
+<#98>
+<?php
+
+	if (!$ilDB->tableColumnExists("hist_tep", "orgu_title")) {
+		$ilDB->addTableColumn('hist_tep', 'orgu_title', 
+			array(
+				'type' => 'text', 
+				'length' => 255, 
+				'notnull' => true, 
+				'default' => "-empty-"
+		));
+	}
+
+?>
