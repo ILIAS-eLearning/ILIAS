@@ -3792,7 +3792,9 @@ class ilUtil
 		$difference = $target_time - $starting_time;
 		$days = (($difference - ($difference % 86400)) / 86400);
 		$difference = $difference - ($days * 86400) + 3600;
-		return ($days + 25570 + ($difference / 86400));
+		
+		// #15343 - using a global locale leads to , instead of . for (implicit) floats
+		return str_replace(",", ".", ($days + 25570 + ($difference / 86400))); 
 	}
 
 	/**
