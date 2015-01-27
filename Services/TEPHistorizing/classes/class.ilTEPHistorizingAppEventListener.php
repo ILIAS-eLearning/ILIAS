@@ -161,6 +161,18 @@ class ilTEPHistorizingAppEventListener
 	 */
 	protected static function getStateData($event, ilTEPEntry $parameter)
 	{
+		// gev-patch start
+		$ou_id = $parameter->getOrgUnitId();
+		if ($ou_id) {
+			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+			$orgu_utils = gevOrgUnitUtils::getInstance($ou_id);
+			$ou_title = $orgu_utils->getTitle();
+		}
+		else {
+			$ou_title = null;
+		}
+		// gev-patch end
+		
 		$data_payload = array(
 			'context_id'			=> $parameter->getContextId(),
 			'title'					=> $parameter->getTitle(),
@@ -172,7 +184,10 @@ class ilTEPHistorizingAppEventListener
 			'end_date'				=> $parameter->getEnd(),
 			'category'				=> $parameter->getTypeTitle(),
 //			'individual_days'		=> -1,
-			'deleted'				=> ($event == 'delete' ? 1 : 0)
+			'deleted'				=> ($event == 'delete' ? 1 : 0),
+			// gev-patch start
+			'orgu_title'			=> $ou_title
+			// gev-patch end
 		);
 
 		return $data_payload;
