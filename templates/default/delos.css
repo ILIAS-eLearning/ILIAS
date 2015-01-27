@@ -10027,15 +10027,6 @@ div[id^="ilAdvSelListTable_"] {
   position: absolute;
 }
 /* Services/Object */
-div.ilCreationFormSection {
-  width: 700px;
-}
-div.ilCreationFormSection div.ilForm {
-  width: 699px;
-}
-div.ilCreationFormSection div.ilForm div.ilForm {
-  width: auto;
-}
 .ilHeadAction img {
   width: 18px;
   height: 18px;
