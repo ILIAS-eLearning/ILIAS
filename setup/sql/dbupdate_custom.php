@@ -3230,3 +3230,20 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 							 , array("cat_administrate_users", "read_users")
 							 );	
 ?>
+
+<#97>
+<?php
+
+	// calendar entry weight
+	if(!$ilDB->tableColumnExists('cal_entries', 'orgu_id'))
+	{
+		$ilDB->addTableColumn('cal_entries', 'orgu_id', 
+			array(
+				'type' => 'integer', 
+				'length' => 4, 
+				'notnull' => false, 
+				'default' => null
+		));			
+	}
+
+?>
