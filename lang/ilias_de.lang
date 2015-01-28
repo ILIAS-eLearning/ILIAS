@@ -15214,6 +15214,3 @@ scormtrac#:#exportselectedraw#:#Rohdaten
 scormtrac#:#lvalue#:#Key
 scormtrac#:#rvalue#:#Value
 scormtrac#:#identifierref#:#SCO-Identifier
-assessment#:#tst_results_grading_opt_show_both#:#Show Passed/Failed Status and Resulting Mark###27 01 2015 new variable
-assessment#:#tst_results_grading_opt_show_none#:#Do NOT show Passed/Failed Status or Resulting Mark###27 01 2015 new variable
-assessment#:#show_exam_id#:#Display Testpass ID###27 01 2015 new variable

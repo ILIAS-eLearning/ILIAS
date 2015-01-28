@@ -1067,8 +1067,6 @@ assessment#:#tst_results_access_enabled#:#Access to Test Results
 assessment#:#tst_results_access_enabled_desc#:#A button 'Show Test Results' will be displayed to participants on the 'Info'-tab. Options in this and the following sections below configure what information is to be included into the report and when it will be accessible.
 assessment#:#tst_results_access_setting#:#Point in Time
 assessment#:#tst_results_details_options#:#Further Details to be Included in Test Results
-assessment#:#tst_results_grading_opt_show_both#:#Show Passed/Failed Status and Resulting Mark
-assessment#:#tst_results_grading_opt_show_none#:#Do NOT show Passed/Failed Status or Resulting Mark
 assessment#:#tst_results_grading_opt_show_status#:#Show "Passed" / "Failed" Status
 assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the "Passed" / "Failed" Status will be appended to the summary test result. Participants can access their test results on the 'Info'-tab. <br />
 assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark
@@ -1185,7 +1183,6 @@ assessment#:#tst_types#:#Test Types
 assessment#:#exam_id#:#Testpass ID:
 assessment#:#examid_in_test_pass#:#Display Testpass ID
 assessment#:#examid_in_test_pass_desc#:#A testpass ID is diplayed in the test. A new ID is generated for every testpass.
-assessment#:#show_exam_id#:#Display Testpass ID
 assessment#:#examid_in_test_res#:#ILIAS Testpass ID
 assessment#:#examid_in_test_res_desc#:#The ILIAS Testpass ID will be included in the test results.
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
