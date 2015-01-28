@@ -33,6 +33,8 @@ class ilGlossaryExporter extends ilXmlExporter
 	{
 		if ($a_entity == "glo")
 		{
+			$deps = array();
+			
 			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 			$tax_ids = array();
 			foreach ($a_ids as $id)
@@ -42,18 +44,53 @@ class ilGlossaryExporter extends ilXmlExporter
 				{
 					$tax_ids[$t_ids[0]] = $t_ids[0];
 				}
-			}
-
-			return array (
-				array(
+			}			
+			if(sizeof($tax_ids))
+			{
+				$deps[] = array(
 					"component" => "Services/Taxonomy",
 					"entity" => "tax",
-					"ids" => $tax_ids)
+					"ids" => $tax_ids
 				);
+			}
+			
+			$advmd_ids = array();
+			foreach($a_ids as $id)
+			{
+				$rec_ids = $this->getActiveAdvMDRecords($id);
+				if(sizeof($rec_ids))
+				{
+					foreach($rec_ids as $rec_id)
+					{
+						$advmd_ids[] = $id.":".$rec_id;
+					}
+				}				
+			}
+			if(sizeof($advmd_ids))
+			{
+				$deps[] = array(
+					"component" => "Services/AdvancedMetaData",
+					"entity" => "advmd",
+					"ids" => $advmd_ids
+				);	
+			}
+			
+			return $deps;
+			
 		}
 		return array();
+	}	
+	
+	protected function getActiveAdvMDRecords($a_id)
+	{			
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		$active = array();		
+		foreach(ilAdvancedMDRecord::_getActivatedRecordsByObjectType("glo", "term") as $record_obj)
+		{
+			$active[] = $record_obj->getRecordId();
+		}		
+		return array_intersect($active, ilAdvancedMDRecord::getObjRecSelection($a_id, "term"));						
 	}
-
 
 	/**
 	 * Get xml representation
