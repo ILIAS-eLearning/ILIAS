@@ -777,7 +777,8 @@ class ilCourseObjectivesGUI
 		// TODO: not nice
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 		$this->questions = new ilCourseObjectiveQuestion((int) $_GET['objective_id']);
-		$this->questions->updateLimits();
+		// not required due to percentages
+		//$this->questions->updateLimits();
 		
 		if($checked_questions)
 		{
@@ -857,9 +858,9 @@ class ilCourseObjectivesGUI
 
 		$this->__initQuestionObject((int) $_GET['objective_id']);
 
-		if((int) $_POST['limit'] < 1 or (int) $_POST['limit'] > $this->objectives_qst_obj->getSelfAssessmentPoints())
+		if((int) $_POST['limit'] < 1 or (int) $_POST['limit'] > 100)
 		{
-			ilUtil::sendFailure(sprintf($this->lng->txt('crs_objective_err_limit'),1,$this->objectives_qst_obj->getSelfAssessmentPoints()));
+			ilUtil::sendFailure($this->lng->txt('crs_objective_err_limit'));
 			$this->selfAssessmentLimits();
 			return false;
 		}
@@ -1183,7 +1184,8 @@ class ilCourseObjectivesGUI
 		// TODO: not nice
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 		$this->questions = new ilCourseObjectiveQuestion((int) $_GET['objective_id']);
-		$this->questions->updateLimits();
+		// not required due to percentages
+		//$this->questions->updateLimits();
 		
 		ilUtil::sendSuccess($this->lng->txt('crs_objectives_assigned_lm'));
 		$this->finalTestLimits();
@@ -1246,9 +1248,9 @@ class ilCourseObjectivesGUI
 
 		$this->__initQuestionObject((int) $_GET['objective_id']);
 
-		if((int) $_POST['limit'] < 1 or (int) $_POST['limit'] > $this->objectives_qst_obj->getFinalTestPoints())
+		if((int) $_POST['limit'] < 1 or (int) $_POST['limit'] > 100)
 		{
-			ilUtil::sendFailure(sprintf($this->lng->txt('crs_objective_err_limit'),1,$this->objectives_qst_obj->getFinalTestPoints()));
+			ilUtil::sendFailure($this->lng->txt('crs_objective_err_limit'));
 			$this->finalTestLimits();
 			return false;
 		}
@@ -1321,6 +1323,8 @@ class ilCourseObjectivesGUI
 		
 		foreach($tests as $test)
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($test,TRUE));
+			
 			$limit = $test['limit'];
 
 			foreach($this->objectives_qst_obj->getQuestionsOfTest($test['obj_id']) as $question)
@@ -1353,10 +1357,12 @@ class ilCourseObjectivesGUI
 		$over->setHtml($tpl->get());
 		$this->form->addItem($over);
 		
-		$req = new ilTextInputGUI($this->lng->txt('crs_obj_required_points'),'limit');
+		// points
+		$req = new ilNumberInputGUI($this->lng->txt('crs_loc_perc'),'limit');
 		$req->setValue($limit);
-		$req->setMaxLength(5);
 		$req->setSize(3);
+		$req->setMinValue(1);
+		$req->setMaxValue(100);
 		$req->setRequired(true);
 		switch($a_mode)
 		{
@@ -1368,10 +1374,7 @@ class ilCourseObjectivesGUI
 				$req->setInfo($this->lng->txt('crs_obj_final_req_info'));
 				break;	
 		}
-		
-		
 		$this->form->addItem($req);
-		
 	}
 
 	

@@ -31,17 +31,14 @@ class ilLOUtils
 		}
 		else
 		{
-			
-			$GLOBALS['ilLog']->write(__METHOD__.': No random test');
-			
-			include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
-			$required = ilCourseObjectiveQuestion::loookupTestLimit(
-					ilObject::_lookupObjId($a_test_rid),
-					$a_objective_id);
-			
-			$GLOBALS['ilLog']->write(__METHOD__.': '.$reached.' <-> '.$required);
-			
-			return $reached >= $required;
+			if(!$max_points)
+			{
+				return TRUE;
+			}
+			else
+			{
+				return ($reached / $max_points * 100) >= $limit_perc;
+			}
 		}
 	}
 
@@ -73,13 +70,7 @@ class ilLOUtils
 		{
 			include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 			$limit = ilCourseObjectiveQuestion::loookupTestLimit(ilObject::_lookupObjId($tst_ref_id), $a_objective_id);
-
-			if($a_max_points)
-			{
-				return (int) $limit / $a_max_points * 100;
-			}
-			return 0;
-			
+			return $limit;
 		}
 	}
 	

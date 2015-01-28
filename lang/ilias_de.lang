@@ -6590,8 +6590,8 @@ crs#:#crs_notification_salutation#:#Liebe Kursteilnehmerin, lieber Kursteilnehme
 crs#:#crs_notify#:#Benachrichtigung bei Beitritten
 crs#:#crs_nr#:#Nr.
 crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt:
-crs#:#crs_obj_final_req_info#:#Bitte geben Sie die Punktzahl ein, ab der das Lernziel erfüllt ist.
-crs#:#crs_obj_initial_req_info#:#Kursteilnehmern, die diese Punktzahl erreicht haben, werden keine Kursmaterialien zur weiteren Bearbeitung empfohlen.
+crs#:#crs_obj_final_req_info#:#Bitte geben Sie die Prozentzahl der Punkte ein, ab der das Lernziel erfüllt ist.
+crs#:#crs_obj_initial_req_info#:#Kursteilnehmern, die diese Prozentzahl der Punkte erreicht haben, werden keine Kursmaterialien zur weiteren Bearbeitung empfohlen.
 crs#:#crs_obj_required_points#:#Benötigte Punktzahl
 crs#:#crs_objective_accomplished#:#Erledigt
 crs#:#crs_objective_add_mat#:#Materialien zuordnen
@@ -6604,7 +6604,7 @@ crs#:#crs_objective_assigned_materials#:#Zugeordnete Lerninhalte
 crs#:#crs_objective_assigned_qst#:#Zugeordnete Fragen
 crs#:#crs_objective_deassign_question#:#Zuordnung entfernen
 crs#:#crs_objective_delete_lm_assignment#:#Zuordnung entfernen
-crs#:#crs_objective_err_limit#:#Bitte geben Sie eine Punktzahl zwischen %s und %s Punkten ein.
+crs#:#crs_objective_err_limit#:#Bitte geben Sie eine Prozentzahl von 0 bis 100 ein.
 crs#:#crs_objective_final_test#:#Fragen Abschlusstest
 crs#:#crs_objective_insert_percent#:#Bitte geben sie nur Prozentzahlen zwischen 0 und 100 ein.
 crs#:#crs_objective_limit_err#:#Die benötigte Punktzahl darf die Gesamtpunktzahl nicht übersteigen.

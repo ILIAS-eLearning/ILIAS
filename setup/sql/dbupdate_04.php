@@ -5481,3 +5481,73 @@ if($tgt_ops_id)
 		$ilDB->createSequence('booking_reservation_group');
 	}
 ?>
+<#4456>
+<?php
+
+	if(!$ilDB->tableColumnExists('crs_objective_tst','tst_limit_p'))
+	{
+		$ilDB->addTableColumn('crs_objective_tst', 'tst_limit_p', array(
+			'type' => 'integer',
+			'length' => 2,
+			'notnull' => true,
+			'default' => 0
+		));
+	}
+?>
+<#4457>
+<?php
+
+// update question assignment limits
+$query = 'SELECT objective_id, ref_id, question_id FROM crs_objective_qst ';
+$res = $ilDB->query($query);
+
+$questions = array();
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$questions[$row->objective_id.'_'.$row->ref_id][] = $row->question_id;
+}
+
+$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($questions,TRUE));
+
+foreach($questions as $objective_ref_id => $qst_ids)
+{
+	$parts = explode('_', $objective_ref_id);
+	$objective_id = $parts[0];
+	$tst_ref_id = $parts[1];
+	
+	$sum = 0;
+	foreach((array) $qst_ids as $qst_id)
+	{
+		$query = 'SELECT points FROM qpl_questions WHERE question_id = ' . $ilDB->quote($qst_id,'integer');
+		$res_qst = $ilDB->query($query);
+		while($row = $res_qst->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$sum += $row->points;
+		}
+		if($sum > 0)
+		{
+			// read limit
+			$query = 'SELECT tst_limit FROM crs_objective_tst '.
+					'WHERE objective_id = '.$ilDB->quote($objective_id,'integer');
+			$res_limit = $ilDB->query($query);
+			
+			$limit_points = 0;
+			while($row = $res_limit->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$limit_points = $row->tst_limit;
+			}
+			// calculate percentage
+			$limit_p = $limit_points / $sum * 100;
+			$limit_p = intval($limit_p);
+			$limit_p = ($limit_p >= 100 ? 100 : $limit_p);
+			
+			// update
+			$query = 'UPDATE crs_objective_tst '.
+					'SET tst_limit_p = '.$ilDB->quote($limit_p,'integer').' '.
+					'WHERE objective_id = '.$ilDB->quote($objective_id,'integer').' '.
+					'AND ref_id = '.$ilDB->quote($tst_ref_id,'integer');
+			$ilDB->manipulate($query);
+		}
+	}
+}
+?>
