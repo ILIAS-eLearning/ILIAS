@@ -114,7 +114,7 @@ il.CharSelector = new function() {
 		$('#ilCharSelectorNextPage').click(self.nextPage);
 		$('#ilCharSelectorSelPage').change(self.selectPage);
 		$('#ilCharSelectorSelSubPage').change(self.selectSubPage);
-        $('#ilCharSelectorClose').click(self.closePanel);
+        $('#ilCharSelectorClose').click(self.togglePanel);
         $(window).resize(self.resizePanel);
 
         self.renderPage();
