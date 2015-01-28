@@ -538,18 +538,25 @@ class ilFormat
 	}
 
 	/**
-	* converts seconds to string:
-	* Long: 7 days 4 hour(s) ...
-	*
-	* @param	string	datetime
-	* @return	integer	unix timestamp  
-	*/
-	function _secondsToString($seconds, $force_with_seconds = false)
+	 * converts seconds to string:
+	 * Long: 7 days 4 hour(s) ...
+	 *
+	 * @param int $seconds seconds
+	 * @param bool $force_with_seconds
+	 * @param ilLanguage $a_lng
+	 * @return string
+	 */
+	function _secondsToString($seconds, $force_with_seconds = false, $a_lng = null)
 	{
 		global $lng;
 
-		$seconds = $seconds ? $seconds : 0;
+		if($a_lng)
+		{
+			$lng = $a_lng;
+		}
 
+		$seconds = $seconds ? $seconds : 0;
+		
 		// #13625
 		if($seconds > 0)
 		{
