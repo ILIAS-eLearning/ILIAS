@@ -242,7 +242,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->tpl->setVariable("MARK_VALUE", $a_set["mark"]);
 			$this->tpl->setVariable("COMMENT_TEXT", $a_set["comment"]);
 						
-			if(!$this->isPercentageAvailable($a_set["obj_id"]) || (int)$a_set["percentage"] === 0)
+			if(!$this->isPercentageAvailable($a_set["obj_id"]) /* || (int)$a_set["percentage"] === 0 */) // #15334
 			{
 				$this->tpl->setVariable("PERCENTAGE_VALUE", "");
 			}
