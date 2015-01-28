@@ -57,16 +57,23 @@ class ilTestPassesSelector
 	public function getReportablePasses()
 	{
 		$existingPasses = $this->loadExistingPasses();
-		$reportablePasses = $this->fetchReportablePasses($existingPasses, $lastFinishedPass);
+		$reportablePasses = $this->fetchReportablePasses($existingPasses);
 
 		return $reportablePasses;
 	}
 	
 	private function loadExistingPasses()
 	{
+		$query = "
+			SELECT DISTINCT tst_pass_result.pass FROM tst_pass_result
+			INNER JOIN tst_test_result
+			ON tst_pass_result.pass = tst_test_result.pass
+			AND tst_pass_result.active_fi = tst_test_result.active_fi
+			WHERE tst_pass_result.active_fi = %s
+		";
+		
 		$res = $this->db->queryF(
-			"SELECT pass FROM tst_pass_result WHERE active_fi = %s",
-			array('integer'), array($this->getActiveId())
+			$query, array('integer'), array($this->getActiveId())
 		);
 
 		$existingPasses = array();
@@ -143,6 +150,11 @@ class ilTestPassesSelector
 	
 	private function isProcessingTimeReached($pass)
 	{
+		if( !$this->testOBJ->getEnableProcessingTime() )
+		{
+			return false;
+		}
+		
 		$startingTime = $this->testOBJ->getStartingTimeOfUser($this->getActiveId(), $pass);
 		
 		if($startingTime === FALSE)

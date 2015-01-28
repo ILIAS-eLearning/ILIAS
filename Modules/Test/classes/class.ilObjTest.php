@@ -8093,8 +8093,11 @@ function getAnswerFeedbackPoints()
 			require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
 			$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this);
 			$testPassesSelector->setActiveId($active_id);
+			$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 
-			if( $testPassesSelector->getNumExistingPasses() >= $this->getNrOfTries() )
+			$closedPasses = $testPassesSelector->getReportablePasses();
+
+			if( count($closedPasses) >= $this->getNrOfTries() )
 			{
 				$result["executable"] = false;
 				$result["errormessage"] = $this->lng->txt("maximum_nr_of_tries_reached");
