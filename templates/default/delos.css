@@ -4049,6 +4049,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
+  margin-bottom: 20px;
+  background-color: #fdfdfd;
   margin-top: 12.5px;
   margin-bottom: 12.5px;
 }
@@ -7511,7 +7513,8 @@ select {
 .form-control {
   font-size: 12px;
 }
-.form-horizontal {
+.form-horizontal,
+.form-inline {
   margin-bottom: 20px;
   background-color: #fdfdfd;
 }
