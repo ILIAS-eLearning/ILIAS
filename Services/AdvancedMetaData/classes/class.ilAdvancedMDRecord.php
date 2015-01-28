@@ -703,7 +703,7 @@ class ilAdvancedMDRecord
 	 * @param integer $a_obj_id object id if repository object
 	 * @param array $a_records array of record ids that are selected (in use) by the object
 	 */
-	static function saveObjRecSelection($a_obj_id, $a_sub_type = "", $a_records)
+	static function saveObjRecSelection($a_obj_id, $a_sub_type = "", array $a_records = null, $a_delete_before = true)
 	{
 		global $ilDB;
 		
@@ -712,9 +712,12 @@ class ilAdvancedMDRecord
 			$a_sub_type = "-";
 		}
 
-		$ilDB->manipulate("DELETE FROM adv_md_obj_rec_select WHERE ".
-			" obj_id = ".$ilDB->quote($a_obj_id, "integer").
-			" AND sub_type = ".$ilDB->quote($a_sub_type, "text"));
+		if((bool)$a_delete_before)
+		{
+			$ilDB->manipulate("DELETE FROM adv_md_obj_rec_select WHERE ".
+				" obj_id = ".$ilDB->quote($a_obj_id, "integer").
+				" AND sub_type = ".$ilDB->quote($a_sub_type, "text"));
+		}
 		
 		if (is_array($a_records))
 		{

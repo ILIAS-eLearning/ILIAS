@@ -50,7 +50,7 @@ class ilWikiExporter extends ilXmlExporter
 			}
 		}
 
-		return array (
+		$deps = array (
 			array(
 				"component" => "Services/COPage",
 				"entity" => "pg",
@@ -61,6 +61,40 @@ class ilWikiExporter extends ilXmlExporter
 				"ids" => $a_ids
 				)
 			);
+		
+		$advmd_ids = array();
+		foreach($a_ids as $id)
+		{
+			$rec_ids = $this->getActiveAdvMDRecords($id);
+			if(sizeof($rec_ids))
+			{
+				foreach($rec_ids as $rec_id)
+				{
+					$advmd_ids[] = $id.":".$rec_id;
+				}
+			}				
+		}
+		if(sizeof($advmd_ids))
+		{
+			$deps[] = array(
+				"component" => "Services/AdvancedMetaData",
+				"entity" => "advmd",
+				"ids" => $advmd_ids
+			);	
+		}
+		
+		return $deps;
+	}
+	
+	protected function getActiveAdvMDRecords($a_id)
+	{			
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		$active = array();		
+		foreach(ilAdvancedMDRecord::_getActivatedRecordsByObjectType("wiki", "wpg") as $record_obj)
+		{
+			$active[] = $record_obj->getRecordId();
+		}		
+		return array_intersect($active, ilAdvancedMDRecord::getObjRecSelection($a_id, "wpg"));						
 	}
 
 	/**

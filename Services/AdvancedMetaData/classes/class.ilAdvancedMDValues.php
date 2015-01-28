@@ -143,6 +143,19 @@ class ilAdvancedMDValues
 		return $this->active_record;
 	}
 	
+	/**
+	 * Find all entries for object (regardless of sub-type/sub-id)
+	 * 
+	 * @param int $a_obj_id
+	 * @return array
+	 */
+	public static function findByObjectId($a_obj_id)
+	{
+		include_once "Services/ADT/classes/class.ilADTFactory.php";
+		ilADTFactory::initActiveRecordByType();
+		return ilADTActiveRecordByType::readByPrimary("adv_md_values", array("obj_id"=>array("integer", $a_obj_id)));
+	}
+	
 		
 	//
 	// disabled

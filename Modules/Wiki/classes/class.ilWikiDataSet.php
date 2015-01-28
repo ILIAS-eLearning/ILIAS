@@ -249,6 +249,7 @@ class ilWikiDataSet extends ilDataSet
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Modules/Wiki", "wiki", $a_rec["Id"], $newObj->getId());
 				$a_mapping->addMapping("Services/Rating", "rating_category_parent_id", $a_rec["Id"], $newObj->getId());
+				$a_mapping->addMapping("Services/AdvancedMetaData", "parent", $a_rec["Id"], $newObj->getId());
 				break;
 
 			case "wpg":
@@ -269,6 +270,7 @@ class ilWikiDataSet extends ilDataSet
 				
 				$a_mapping->addMapping("Modules/Wiki", "wpg", $a_rec["Id"], $wpage->getId());
 				$a_mapping->addMapping("Services/COPage", "pg", "wpg:".$a_rec["Id"], "wpg:".$wpage->getId());
+				$a_mapping->addMapping("Services/AdvancedMetaData", "advmd_sub_item", "advmd:wpg:".$a_rec["Id"], $wpage->getId());
 				break;
 		}
 	}

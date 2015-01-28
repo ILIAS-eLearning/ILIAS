@@ -13,6 +13,8 @@ require_once "Services/AdvancedMetaData/classes/Types/class.ilAdvancedMDFieldDef
  */
 class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinitionSelect
 {				
+	const XML_SEPARATOR = "~|~";
+	
 	//
 	// generic types
 	// 
@@ -53,4 +55,19 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
 	}
 	
 	
+	// 
+	// import/export
+	//
+	
+	public function getValueForXML(ilADT $element)
+	{					
+		return self::XML_SEPARATOR.
+			implode(self::XML_SEPARATOR, $element->getSelections()).
+			self::XML_SEPARATOR;
+	}
+	
+	public function importValueFromXML($a_cdata)
+	{			
+		$this->getADT()->setSelections(explode(self::XML_SEPARATOR, $a_cdata));			
+	}	
 }
