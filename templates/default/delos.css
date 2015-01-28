@@ -9104,9 +9104,6 @@ tr.tblheader {
 .ilTableOuter .table {
   background-color: #f9f9f9;
 }
-.table-responsive {
-  overflow: auto;
-}
 /* Services/Notes */
 div.ilNotes {
   background-color: #f9f9f9;
@@ -9419,6 +9416,12 @@ div.il_SearchFragment {
 }
 #ilSearchResultsTable.table-striped > tbody > tr > td {
   background-color: transparent;
+}
+#search_area_form {
+  min-width: 350px;
+}
+#search_area_form .form-horizontal .control-label {
+  padding-top: 0;
 }
 /* Services/Help */
 #ilHelpText .ilc_text_inline_Strong {
@@ -10403,6 +10406,7 @@ input.btn,
 button.btn:not(.btn-link) > span:first-child:not(:empty) {
   display: inline-block;
   min-width: 60px;
+  vertical-align: top;
 }
 /* buttons */
 /*
