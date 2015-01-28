@@ -601,7 +601,7 @@ class ilTestSequence
 			$result = $testOBJ->getTestResult($activeId, $pass, TRUE);
 			
 			foreach( $result as $sequence => $question )
-			{svn ci -m ""
+			{
 				if( is_numeric($sequence) )
 				{
 					if( $question['reached'] == $question['max'] )
