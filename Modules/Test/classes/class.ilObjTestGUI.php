@@ -4003,7 +4003,8 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{
-				$executable = $this->object->isExecutable($testSession, $ilUser->getId(), $allowPassIncrease = TRUE);
+				$executable = $this->object->isExecutable($testSession, $ilUser->getId(), $allowPassIncrease = TRUE
+				);
 				if ($executable["executable"])
 				{
 					if( $this->object->areObligationsEnabled() && $this->object->hasObligations($this->object->getTestId()) )
@@ -4014,8 +4015,15 @@ class ilObjTestGUI extends ilObjectGUI
 					if ($testSession->getActiveId() > 0)
 					{
 						// resume test
+						require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+						$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
+						$testPassesSelector->setActiveId($testSession->getActiveId());
+						$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 						
-						if ($testSequence->hasStarted($testSession))
+						$closedPasses = $testPassesSelector->getReportablePasses();
+						$existingPasses = $testPassesSelector->getExistingPasses();
+						
+						if ($existingPasses > $closedPasses)
 						{
 							$resumeTestLabel = $this->lng->txt("tst_resume_test");
 							$big_button[] = array('resumePlayer', $resumeTestLabel, true);
@@ -4040,7 +4048,13 @@ class ilObjTestGUI extends ilObjectGUI
 				if ($testSession->getActiveId() > 0)
 				{
 					// test results button
-					if ($this->object->canShowTestResults($testSession, $ilUser->getId())) 
+					
+					require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+					$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
+					$testPassesSelector->setActiveId($testSession->getActiveId());
+					$testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
+					
+					if ($this->object->canShowTestResults($testSession, $ilUser->getId()) && count($testPassesSelector->getReportablePasses())) 
 					{
 						//$info->addFormButton("outUserResultsOverview", $this->lng->txt("tst_show_results"));
 						$big_button[] = array("outUserResultsOverview", $this->lng->txt("tst_show_results"), false);
