@@ -1,14 +1,14 @@
 /*
- * qTip2 - Pretty powerful tooltips - v2.2.0
+ * qTip2 - Pretty powerful tooltips - v2.2.1
  * http://qtip2.com
  *
- * Copyright (c) 2013 Craig Michael Thompson
- * Released under the MIT, GPL licenses
+ * Copyright (c) 2014 
+ * Released under the MIT licenses
  * http://jquery.org/license
  *
- * Date: Mon Dec 16 2013 11:39 EST-0500
+ * Date: Tue Sep 9 2014 07:03 EDT-0400
  * Plugins: tips viewport
- * Styles: None
+ * Styles: core
  */
 .qtip{
 	position: absolute;
@@ -18,7 +18,7 @@
 
 	max-width: 280px;
 	min-width: 50px;
-	
+
 	font-size: 10.5px;
 	line-height: 12px;
 
@@ -52,20 +52,19 @@
 	.qtip-close{
 		position: absolute;
 		right: -9px; top: -9px;
+		z-index: 11; /* Overlap .qtip-tip */
 
 		cursor: pointer;
 		outline: medium none;
 
-		border-width: 1px;
-		border-style: solid;
-		border-color: transparent;
+		border: 1px solid transparent;
 	}
 
 		.qtip-titlebar .qtip-close{
 			right: 4px; top: 50%;
 			margin-top: -9px;
 		}
-	
+
 		* html .qtip-titlebar .qtip-close{ top: 16px; } /* IE fix */
 
 		.qtip-titlebar .ui-icon,
@@ -103,9 +102,7 @@
 
 /* Default tooltip style */
 .qtip-default{
-	border-width: 1px;
-	border-style: solid;
-	border-color: #F1D031;
+	border: 1px solid #F1D031;
 
 	background-color: #FFFFA3;
 	color: #555;
@@ -120,19 +117,18 @@
 		background: #F1F1F1;
 		color: #777;
 	}
-	
+
 	.qtip-default .qtip-titlebar .qtip-close{
 		border-color: #AAA;
 		color: #111;
 	}
 
 
-
 .qtip .qtip-tip{
 	margin: 0 auto;
 	overflow: hidden;
 	z-index: 10;
-	
+
 }
 
 	/* Opera bug #357 - Incorrect tip position
@@ -150,7 +146,7 @@
 		background: transparent;
 		border: 0 dashed transparent;
 	}
-	
+
 	.qtip .qtip-tip canvas{ top: 0; left: 0; }
 
 	.qtip .qtip-tip .qtip-vml{
