@@ -11,7 +11,7 @@ div.il_VAccordionToggleActiveDef
 
 div.il_VAccordionContentDef
 {
-	overflow: hidden;
+	overflow: visible;//mantis #15152
 }
 	
 /*
