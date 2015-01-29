@@ -3,7 +3,7 @@
 == Requirements ==
 
   JRE 1.6 (Java Runtime)
-    The sources has been compiled using version OpenJDK 1.6.0_27. If you have
+    The sources has been compiled using version OpenJDK 1.6.0_33. If you have
     any problems running the chatserver using your OpenJDK please contact
     mjansen (at) databay (dot) de with detailed RTE information.
 

@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLParameters;
 import javax.net.ssl.TrustManagerFactory;
 
 /**
@@ -73,45 +74,19 @@ public class HttpUserHandler implements ChatHandler {
 		}
 		// or start https instance
 		else {
-
 			try {
-				final SSLContext sslContext = SSLContext.getInstance("SSLv3");
+				final SSLContext sslContext = SSLContext.getInstance("TLSv1");
 
 				// initialise the keystore
 				char[] keypass = ((String) props.get("keypass")).toCharArray();
 				char[] storepass = ((String) props.get("storepass")).toCharArray();
-				//char[] password = "simulator".toCharArray ();
 				KeyStore ks = KeyStore.getInstance("PKCS12");
-				//FileInputStream fis = new FileInputStream("/home/scotty/lig.keystore");
 				ks.load(new FileInputStream((String) props.get("keystore")), storepass);
 
 				// setup the key manager factory
 				KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
-
-				// old trust manager to allow all certificates without checking
-				// the issuer instances
-				/*
-				TrustManager[] trustAllCerts = new TrustManager[]{
-					new X509TrustManager() {
-
-						public X509Certificate[] getAcceptedIssuers() {
-							return null;
-						}
-
-						public void checkClientTrusted(
-								X509Certificate[] certs,
-								String authType) {
-						}
-
-						public void checkServerTrusted(
-								X509Certificate[] certs,
-								String authType) {
-						}
-					}
-				};
-				 */
-
 				kmf.init(ks, keypass);
+
 				// setup the trust manager factory
 				TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
 				tmf.init(ks);
@@ -120,31 +95,14 @@ public class HttpUserHandler implements ChatHandler {
 				// setup the HTTPS context and parameters
 				sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
 				sslserver.setHttpsConfigurator(new HttpsConfigurator(sslContext) {
-
+					@Override
 					public void configure(HttpsParameters params) {
 						try {
-							/*
-							// initialise the SSL context
-							SSLContext c = SSLContext.getDefault ();
-							SSLEngine engine = c.createSSLEngine ();
-							params.setNeedClientAuth ( false );
-							params.setCipherSuites ( engine.getEnabledCipherSuites () );
-							params.setProtocols ( engine.getEnabledProtocols () );
-							
-							// get the default parameters
-							SSLParameters defaultSSLParameters = c.getDefaultSSLParameters ();
-							params.setSSLParameters ( defaultSSLParameters );
-							 *
-							 *
-							 */
-
-							params.setSSLParameters(sslContext.getDefaultSSLParameters());
-
-							//kmf = KeyManagerFactory.getInstance("SUNX509");
-							//kmf.init(ks,this.getKeyPassword().toCharArray());
-							// ALLEN ZERTIFIKATEN TRAUEN
-							//sslc = SSLContext.getInstance("SSLv3");
-							//sslc.init(kmf.getKeyManagers(),trustAllCerts,new SecureRandom());
+							SSLParameters sslparams = sslContext.getDefaultSSLParameters();
+							sslparams.setProtocols(
+								new String[]{"TLSv1", "TLSv1.1", "TLSv1.2"}
+							);
+							params.setSSLParameters(sslparams);
 						} catch (Exception ex) {
 							Logger.getLogger("default").severe("Failed to create HTTPS port... exit");
 							System.exit(1);
@@ -172,6 +130,7 @@ public class HttpUserHandler implements ChatHandler {
 		// this commands must be executed from a client (e.g. ILIAS but not the user itself)
 		// that is in the allowedBackendHosts lists (privileged hosts)
 		this.server.createContext("/backend", new HttpJsonHandler(this.instances) {
+
 			public Map<String, Object> handleRequest(HttpExchange he, HttpChatCallInformation info) throws Exception {
 				String remote = he.getRemoteAddress().getAddress().getHostAddress();
 				Logger.getLogger("default").finer("Backend connection from " + remote + ": " + he.getRequestURI().toString());
