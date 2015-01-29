@@ -10,8 +10,9 @@
  */
 
 require_once("formlets/checking.php");
+require_once("formlets.php");
 
-abstract class Value {
+abstract class Value implements IValue {
     private $_origin; // string or null
 
     public function __construct($origin) {
@@ -34,7 +35,7 @@ abstract class Value {
     /* Apply the value to another value, yielding a new value.
      * Throws ApplyError when value represents a plain value.
      */
-    abstract public function apply(Value $to);
+    abstract public function apply(IValue $to);
 
     /* Check whether value could be applied to another value. */
     abstract public function isApplicable();
@@ -74,8 +75,12 @@ final class PlainValue extends Value {
         return $this->_value;
     }
 
-    public function apply(Value $to) {
+    public function apply(IValue $to) {
         throw new ApplyError("PlainValue", "any Value");
+    }
+
+    public function catchAndReify($exc_class) {
+        return null;
     }
 
     public function isApplicable() {
@@ -218,7 +223,7 @@ final class FunctionValue extends Value {
     } 
 
     /* Apply the function to a value, producing a new value. */
-    public function apply(Value $to) {
+    public function apply(IValue $to) {
         if ($this->isSatisfied()) {
             return $this->result()->apply($to);
         }
@@ -419,7 +424,11 @@ final class ErrorValue extends Value {
         throw new GetError("ErrorValue");
     } 
 
-    public function apply(Value $to) {
+    public function apply(IValue $to) {
+        return $this;
+    }
+
+    public function catchAndReify($exc_class) {
         return $this;
     }
 
@@ -480,6 +489,13 @@ final class ErrorValue extends Value {
 
 function _error($reason, $origin, $others = array()) {
     return new ErrorValue($reason, $origin, $others);
+}
+
+function defaultTo($arg, $default) {
+    if ($arg === null) {
+        return $default;
+    }
+    return $arg;
 }
 
 ?>

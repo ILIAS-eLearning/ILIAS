@@ -7,7 +7,6 @@
  */
 
 require_once("checking.php");
-require_once("helpers.php");
 require_once("values.php");
 
 abstract class HTML {
@@ -201,6 +200,18 @@ function html_text($content) {
 
 function html_concat() {
     return new HTMLArray(func_get_args());
+}
+
+function keysAndValuesToHTMLAttributes($attributes) {
+    $str = "";
+    foreach ($attributes as $key => $value) {
+        guardIsString($key);
+        if ($value !== null)
+            guardIsString($value);
+        $value = str_replace('"', '&quot;', $value);
+        $str .= " ".$key.($value !== null ? "=\"$value\"" : "");
+    } 
+    return $str;
 }
 
 ?>

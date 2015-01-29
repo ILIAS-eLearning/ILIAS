@@ -82,12 +82,3 @@ function _intval() {
     return $fn;
 }
 
-function _id() {
-    static $fn = null;
-    if ($fn === null) {
-        $fn = _fn(function($val) {
-            return $val;
-        });
-    }
-    return $fn;
-}
