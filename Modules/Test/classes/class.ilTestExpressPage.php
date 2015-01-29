@@ -19,13 +19,15 @@ class ilTestExpressPage
 			$ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'ref_id', $refId);
 			$ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'q_id', $q_id);
 
-			return $ilCtrl->getLinkTargetByClass(array('ilobjtestgui', 'iltestexpresspageobjectgui'), 'edit');
+			return $ilCtrl->getLinkTargetByClass(
+				array('ilobjtestgui', 'iltestexpresspageobjectgui'), 'edit', '', false, false
+			);
 		}
 
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'test_express_mode', 1);
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'ref_id', $refId);
 
-		return $ilCtrl->getLinkTargetByClass('ilobjtestgui', 'showQuestionsPerPage');
+		return $ilCtrl->getLinkTargetByClass('ilobjtestgui', 'showQuestionsPerPage', '', false, false);
 	}
 
 	/**
