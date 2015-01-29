@@ -130,7 +130,7 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
      *
      * @con_has_field   true
      * @con_fieldtype   integer 
-     * @con_length      1
+     * @con_length      4
      * @con_is_notnull  false 
      */
     protected $completion_by;
