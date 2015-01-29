@@ -233,5 +233,3 @@ if(!$ilDB->tableColumnExists('exc_assignment','peer_crit_cat'))
 		'notnull' => false
 	));
 }
-
-?>
