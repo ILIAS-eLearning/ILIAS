@@ -48,7 +48,7 @@ class ilTrainingProgrammeAssignment extends ActiveRecord {
     protected $usr_id;   
 
     /**
-     * Root node of the tree, the user was assigned to. Could be a subtree of
+     * Root node of the program tree, the user was assigned to. Could be a subtree of
      * a larger program. 
      * 
      * @var int 
@@ -58,7 +58,7 @@ class ilTrainingProgrammeAssignment extends ActiveRecord {
      * @con_length      4
      * @con_is_notnull  true
      */
-    protected $root_obj_id;
+    protected $root_prg_id;
 
 
     /**
