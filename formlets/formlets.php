@@ -12,21 +12,21 @@ require_once("builders.php");
 require_once("collectors.php");
 require_once("namesource.php");
 
-abstract class Formlet {
+abstract class Formlet implements IFormlet {
     /* Build a builder and collector from the formlet and also return the 
      * updated name source.
      */
     public abstract function instantiate(NameSource $name_source);
     
     /* Combine this formlet with another formlet. Yields a new formlet. */
-    final public function cmb(Formlet $other) {
+    final public function cmb(IFormlet $other) {
         return new CombinedFormlets($this, $other);
     }
 
     /* Get a new formlet with an additional check of a predicate on the input
      * to the formlet and an error message for the case the predicate fails.
      */
-    final public function satisfies(FunctionValue $predicate, $error) {
+    final public function satisfies(IValue $predicate, $error) {
         return $this->mapBC( _id()
                            , _fn( function ($collector) use ($predicate, $error) {
                                 return $collector->satisfies($predicate, $error);
@@ -34,7 +34,7 @@ abstract class Formlet {
     }
 
     /* Map a function over the input value. */
-    final public function map(FunctionValue $transformation) {
+    final public function map(IValue $transformation) {
         return $this->mapBC( _id()
                             , _fn( function($collector) use ($transformation) {
                                 return $collector->map($transformation);
@@ -42,7 +42,7 @@ abstract class Formlet {
     }
 
     /* Wrap a function around the collector. */
-    final public function wrapCollector(FunctionValue $wrapper) {
+    final public function wrapCollector(IValue $wrapper) {
         return $this->mapBC( _id()
                            , _fn( function($collector) use ($wrapper) {
                                 return $collector->wrap($wrapper);
