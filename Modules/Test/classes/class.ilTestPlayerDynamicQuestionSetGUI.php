@@ -563,7 +563,22 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$question_gui = $this->object->createQuestionGUI(
 				"", $this->testSession->getCurrentQuestionId()
 		);
-		
+
+		if( !is_object($question_gui) )
+		{
+			global $ilLog;
+
+			$ilLog->write(
+				"INV SEQ: active={$this->testSession->getActiveId()} qId={$this->testSession->getCurrentQuestionId()} "
+				.serialize($this->testSequence)
+			);
+
+			$ilLog->logStack('INV SEQ');
+
+			$this->resetCurrentQuestion();
+			$this->ctrl->redirect($this, 'showQuestion');
+		}
+
 		$question_gui->setTargetGui($this);
 		
 		$question_gui->setQuestionCount(
