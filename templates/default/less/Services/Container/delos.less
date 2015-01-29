@@ -16,10 +16,27 @@ div.ilContainerListItemOuter {
 	zoom: 1;
 	/* background-color: lighten(@mid-gray, 75%); */
 }
-
-.ilContainerListFooter {
-	padding-left: 15px;
+div.tblfooter {
+	&.ilContainerListFooter {
+		font-size: 100%;
+		padding: 3px 0 0 10px;
+		text-align: left;
+		> input {
+			padding: 0;
+			margin: 0;
+		}
+		> label {
+			margin: 0;
+			padding: 0 0 0 8px;
+			vertical-align: top;
+		}
+	}
 }
+
+input[name^="position[blocks]"] {
+	margin: 0 0 0 -2px;
+}
+
 
 [dir="rtl"] .ilContainerListFooter {
 	padding-left: 0;
