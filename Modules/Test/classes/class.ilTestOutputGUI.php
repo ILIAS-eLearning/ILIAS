@@ -406,6 +406,23 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$questionId = $this->testSequence->getQuestionForSequence($sequence);
 		$question_gui = $this->object->createQuestionGUI("", $questionId);
+		
+		if( !is_object($question_gui) )
+		{
+			global $ilLog;
+
+			$ilLog->write(
+				"INV SEQ: active={$this->testSession->getActiveId()} qId=$questionId seq=$sequence "
+				.serialize($this->testSequence)
+			);
+			
+			$ilLog->logStack('INV SEQ');
+			
+			$this->ctrl->setParameter($this, 'gotosequence', $this->testSequence->getFirstSequence());
+			$this->ctrl->setParameter($this, 'activecommand', 'gotoquestion');
+			$this->ctrl->redirect($this, 'redirectQuestion');
+		}
+		
 		$question_gui->setTargetGui($this);
 
 		if ($this->object->getJavaScriptOutput())
