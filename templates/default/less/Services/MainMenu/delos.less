@@ -21,9 +21,8 @@
 
 // Default navbar
 #ilTopNav {
-	margin-top: -38px;
+	margin: -38px 0 0 65px;
 	&.navbar {
-		margin-bottom: 0px;
 		padding-top: 1px;
 		padding-bottom: 1px;
 		min-height: 33px;
@@ -48,14 +47,15 @@
 		color: @ilMainMenuColor;
 	}
 	.navbar-nav {
+		float: left;
+		margin-left: 5px;
 		> li {
 			margin: 0 0 0 10px;
 				> a {
 				margin: 0;
 				padding: 5px 10px 6px;
-				border-top: 4px solid @body-bg;
-				//background-color: lighten(@ilMainMenuColor, 39%);
-				color: lighten(@mid-gray, 10%);//darken(@ilMainMenuColor, 30%);
+				border-top: 4px solid white;
+				color: #808080;
 				&:hover,
 				&:active,
 				&:focus {
@@ -86,42 +86,26 @@
 	}
 }
 
-[dir="rtl"] #ilTopNav .navbar-nav > li {
-			margin: 0 10px 0 0;
+[dir="rtl"] #ilTopNav {
+	.dropdown-menu {
+		float: right;
+		left: auto;
+		right: 0;
+		padding: 5px 0;
+		text-align: right;
+	}
+	.navbar-nav {
+		float: right;
+		margin-left: 0;
+		margin-right: 70px;
+		> li {
+		margin: 0 10px 0 0;
+		}
+	}
+	&.navbar > .navbar-collapse {
+		padding: 0 5px 0 0;
+	}
 }
-
-[dir="rtl"] #ilTopNav .dropdown-menu {
-	float: right;
-	left: auto;
-	right: 0;
-	padding: 5px 0;
-	text-align: right;
-}
-
-[dir="rtl"] #ilTopNav.navbar > .navbar-collapse {
-	padding: 0 5px 0 0;
-}
-
-/* badges */
-#ilTopBarNav .badge {
-	font-size: 9px;
-	padding: 2px 4px;
-	margin-top: -3px;
-	margin-left: -5px;
-	position: absolute;
-}
-
-[dir="rtl"] #ilTopBarNav .badge {
-	margin-left: 0;
-	margin-right: -5px;
-}
-
-#ilTopBarNav .ilBadgeSpacer {
-	font-size: 8px;
-	padding: 0;
-	visibility: hidden;
-}
-
 /* Main Menu Top Title */
 .ilTopTitle {
 	/* color: darken(@ilMainMenuColor, 20%);*/
@@ -145,7 +129,7 @@ input.ilOpenIDBox {
 }
 
 [dir="rtl"] input.ilOpenIDBox {
-	background: url("@{background-images-path}openid.png") no-repeat 2px 1px #FFFFFF;
+	background-position: 2px 1px;
 	padding-left: 0;
 	padding-right: 20px;
 }
@@ -166,21 +150,24 @@ input.ilOpenIDBox {
 	right: 0;
 }
 
-.ilMainHeader.ilTopFixed {
-	top: 40px;
-}
-
-.ilMainMenu.ilTopFixed {
-	top: 110px;
-	/* border-bottom: solid 2px @body-bg; */
-}
-
 #ilTopBarNav {
 	float: right;
 	margin: 0;
 	padding: 0;
 	margin-right: 14px;
 	list-style: none outside none;
+	.badge {
+		font-size: 9px;
+		padding: 2px 4px;
+		margin-top: -3px;
+		margin-left: -5px;
+		position: absolute;
+	}
+	.ilBadgeSpacer {
+		font-size: 8px;
+		padding: 0;
+		visibility: hidden;
+	}
 	.dropdown-menu {
 		background-color: lighten(@mid-gray, 42%);
 		border-radius: 0;
@@ -254,6 +241,10 @@ input.ilOpenIDBox {
 	margin: 0;
 	margin-left: 14px;
 	text-align: right;
+	.badge {
+		margin-left: 0;
+		margin-right: -5px;
+	}
 	.dropdown-menu {
 		a {
 			text-align: right;
@@ -277,18 +268,29 @@ input.ilOpenIDBox {
 
 .ilMainHeader {
 	background-color: white;
+	height: 80px;
+	border-bottom: 3px solid @body-bg;
+	&.ilTopFixed {
+		top: 40px;
+	}
 	> header > .row > a.navbar-brand {
-		height: 90px;
-		padding: 15px 15px 0;
+		//height: 70px;
+		height: 50px;
+		display: inline-block;
+		padding: 0;
+		margin: 15px 15px 0;
 		> img {
-			height: 60px;
-			width: 60px;
+			width: 50px;
+			height: 50px;
 		}
 	}
 }
 
 .ilMainMenu {
-	background-color: @body-bg;
+	background-color: white;//@body-bg;
+	&.ilTopFixed {
+		top: 110px;
+	}
 }
 					
 .dropdown-menu {
@@ -305,43 +307,9 @@ input.ilOpenIDBox {
 	padding: 3px 10px;
 }
 
-.ilMainHeader > header > .row > a.navbar-brand {
-	height: 70px;
-}
-
-.ilMainHeader > header > .row > a.navbar-brand > img {
-	width: 50px;
-	height: 50px;
-}
-
-.ilMainMenu {
-	background-color: white;
-}
-
-#ilTopNav .navbar-nav > li > a {
-	border-color: white;
-	color: #808080;
-}
-
-#ilTopNav .navbar-nav {
-	float: left;
-	margin-left: 70px;
-}
-
-[dir="rtl"] #ilTopNav .navbar-nav {
-	float: right;
-	margin-left: 0;
-	margin-right: 70px;
-}
-
 .ilMainMenuEntries {
 	margin-bottom: 10px;
 	padding-bottom: 10px;
-}
-
-.ilMainHeader {
-	height: 80px;
-	border-bottom: 3px solid @body-bg;
 }
 
 div.ilMemberViewMainHeader {

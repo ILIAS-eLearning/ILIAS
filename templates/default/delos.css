@@ -8543,10 +8543,9 @@ li.ilWikiBlockItem {
   padding: 3px 0px;
 }
 #ilTopNav {
-  margin-top: -38px;
+  margin: -38px 0 0 65px;
 }
 #ilTopNav.navbar {
-  margin-bottom: 0px;
   padding-top: 1px;
   padding-bottom: 1px;
   min-height: 33px;
@@ -8569,14 +8568,18 @@ li.ilWikiBlockItem {
 #ilTopNav .navbar-text {
   color: #607ea5;
 }
+#ilTopNav .navbar-nav {
+  float: left;
+  margin-left: 5px;
+}
 #ilTopNav .navbar-nav > li {
   margin: 0 0 0 10px;
 }
 #ilTopNav .navbar-nav > li > a {
   margin: 0;
   padding: 5px 10px 6px;
-  border-top: 4px solid #f0f0f0;
-  color: #5d5d5d;
+  border-top: 4px solid white;
+  color: #808080;
 }
 #ilTopNav .navbar-nav > .active > a,
 #ilTopNav .navbar-nav > .open > a,
@@ -8595,9 +8598,6 @@ li.ilWikiBlockItem {
   text-transform: uppercase;
   font-size: 14px;
 }
-[dir="rtl"] #ilTopNav .navbar-nav > li {
-  margin: 0 10px 0 0;
-}
 [dir="rtl"] #ilTopNav .dropdown-menu {
   float: right;
   left: auto;
@@ -8605,25 +8605,16 @@ li.ilWikiBlockItem {
   padding: 5px 0;
   text-align: right;
 }
+[dir="rtl"] #ilTopNav .navbar-nav {
+  float: right;
+  margin-left: 0;
+  margin-right: 70px;
+}
+[dir="rtl"] #ilTopNav .navbar-nav > li {
+  margin: 0 10px 0 0;
+}
 [dir="rtl"] #ilTopNav.navbar > .navbar-collapse {
   padding: 0 5px 0 0;
-}
-/* badges */
-#ilTopBarNav .badge {
-  font-size: 9px;
-  padding: 2px 4px;
-  margin-top: -3px;
-  margin-left: -5px;
-  position: absolute;
-}
-[dir="rtl"] #ilTopBarNav .badge {
-  margin-left: 0;
-  margin-right: -5px;
-}
-#ilTopBarNav .ilBadgeSpacer {
-  font-size: 8px;
-  padding: 0;
-  visibility: hidden;
 }
 /* Main Menu Top Title */
 .ilTopTitle {
@@ -8645,7 +8636,7 @@ input.ilOpenIDBox {
   padding-left: 20px;
 }
 [dir="rtl"] input.ilOpenIDBox {
-  background: url("images/openid.png") no-repeat 2px 1px #ffffff;
+  background-position: 2px 1px;
   padding-left: 0;
   padding-right: 20px;
 }
@@ -8663,19 +8654,24 @@ input.ilOpenIDBox {
   left: 0;
   right: 0;
 }
-.ilMainHeader.ilTopFixed {
-  top: 40px;
-}
-.ilMainMenu.ilTopFixed {
-  top: 110px;
-  /* border-bottom: solid 2px @body-bg; */
-}
 #ilTopBarNav {
   float: right;
   margin: 0;
   padding: 0;
   margin-right: 14px;
   list-style: none outside none;
+}
+#ilTopBarNav .badge {
+  font-size: 9px;
+  padding: 2px 4px;
+  margin-top: -3px;
+  margin-left: -5px;
+  position: absolute;
+}
+#ilTopBarNav .ilBadgeSpacer {
+  font-size: 8px;
+  padding: 0;
+  visibility: hidden;
 }
 #ilTopBarNav .dropdown-menu {
   background-color: #aeaeae;
@@ -8748,6 +8744,10 @@ input.ilOpenIDBox {
   margin-left: 14px;
   text-align: right;
 }
+[dir="rtl"] #ilTopBarNav .badge {
+  margin-left: 0;
+  margin-right: -5px;
+}
 [dir="rtl"] #ilTopBarNav .dropdown-menu a {
   text-align: right;
 }
@@ -8765,17 +8765,27 @@ input.ilOpenIDBox {
 }
 .ilMainHeader {
   background-color: white;
+  height: 80px;
+  border-bottom: 3px solid #f0f0f0;
+}
+.ilMainHeader.ilTopFixed {
+  top: 40px;
 }
 .ilMainHeader > header > .row > a.navbar-brand {
-  height: 90px;
-  padding: 15px 15px 0;
+  height: 50px;
+  display: inline-block;
+  padding: 0;
+  margin: 15px 15px 0;
 }
 .ilMainHeader > header > .row > a.navbar-brand > img {
-  height: 60px;
-  width: 60px;
+  width: 50px;
+  height: 50px;
 }
 .ilMainMenu {
-  background-color: #f0f0f0;
+  background-color: white;
+}
+.ilMainMenu.ilTopFixed {
+  top: 110px;
 }
 .dropdown-menu {
   font-weight: normal;
@@ -8789,36 +8799,9 @@ input.ilOpenIDBox {
 .dropdown-header {
   padding: 3px 10px;
 }
-.ilMainHeader > header > .row > a.navbar-brand {
-  height: 70px;
-}
-.ilMainHeader > header > .row > a.navbar-brand > img {
-  width: 50px;
-  height: 50px;
-}
-.ilMainMenu {
-  background-color: white;
-}
-#ilTopNav .navbar-nav > li > a {
-  border-color: white;
-  color: #808080;
-}
-#ilTopNav .navbar-nav {
-  float: left;
-  margin-left: 70px;
-}
-[dir="rtl"] #ilTopNav .navbar-nav {
-  float: right;
-  margin-left: 0;
-  margin-right: 70px;
-}
 .ilMainMenuEntries {
   margin-bottom: 10px;
   padding-bottom: 10px;
-}
-.ilMainHeader {
-  height: 80px;
-  border-bottom: 3px solid #f0f0f0;
 }
 div.ilMemberViewMainHeader {
   background-color: #981A0A;
