@@ -1,0 +1,51 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="prg">
+	<baseclasses>
+	</baseclasses>
+	<objectgroups>
+	    <!--
+		<objectgroup id="prg" name="TrainingsProgramme" default_pres_pos="30"/>
+        -->
+	</objectgroups>
+	<objects>
+	    <!--
+		<object id="prg" class_name="TrainingsProgramme" dir="classes" default_pos="20" default_pres_pos="30"
+			checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1" grp="prg" export="1" amet="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="prg">prg</parent>
+			<parent id="cat">cat</parent>
+			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
+		</object>
+        -->
+	    <!--
+		<object id="prgs" class_name="TrainingsProgrammeAdministration" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+			<subobj id="rolf" max="1">rolf</subobj>
+		</object>
+        -->
+	    <!--
+		<object id="prgv" class_name="TrainingsProgrammeVerification" dir="classes/Verification" default_pos="90" default_pres_pos="150"
+			checkbox="0" inherit="0" translate="0" rbac="0" allow_link="0" allow_copy="0" export="0"
+			repository="0" workspace="1">
+			<parent id="wsrt">wsrt</parent>
+			<parent id="wfld">wfld</parent>
+		</object>
+        -->
+	</objects>
+	<!--
+    <events>		
+		<event type="listen" id="Services/Tracking" />
+		<event type="raise" id="create" />
+		<event type="raise" id="update" />
+		<event type="raise" id="delete" />
+	</events>
+    -->
+	<!--
+    <copage>
+		<pageobject parent_type="lobj" class_name="ilLOPage" directory="classes/Objectives"/>	
+	</copage>
+    -->
+</module>
