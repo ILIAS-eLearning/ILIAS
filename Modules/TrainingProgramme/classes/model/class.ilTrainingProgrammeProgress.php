@@ -121,6 +121,22 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
     protected $status;
 
     /**
+     * The id of the object, that lead to the successfull completion of this node.
+     * This is either a user when status is accreditted, a course object if the mode
+     * of the program node is lp_completed and the node is completed. Its null 
+     * otherwise.
+     *
+     * @var int
+     *
+     * @con_has_field   true
+     * @con_fieldtype   integer 
+     * @con_length      1
+     * @con_is_notnull  false 
+     */
+    protected $completion_by;
+    
+
+    /**
      * The timestamp of the moment this progress was created or updated the
      * last time.
      *
