@@ -10,10 +10,13 @@ label, input[type=checkbox], input[type=radio], select {
 	font-size: @ilFormInputFontSize;
 }
 
-.form-horizontal,
-.form-inline {
+.form-horizontal {
 	margin-bottom: 20px;
 	background-color: @ilFormBgColor;
+}
+
+form.form-inline {
+	margin-bottom: 20px;
 }
 
 .form-horizontal .form-group {
@@ -68,9 +71,18 @@ td.form-inline > div.form-group {
 }
 
 .ilFormHeader {
-	/* padding: 3px; */
-	/* margin: 0 0 10px; */
-	padding: 10px 0 0px;
+	padding: 15px 0 5px;
+	.ilFormCmds {
+		margin: 0;
+		float: right;
+	}
+	h3 {
+		margin: 0;
+	}
+}
+
+[dir="rtl"] .ilFormHeader .ilFormCmds {
+	float: left;
 }
 
 .ilFormHeader, .ilFormFooter {
@@ -78,31 +90,6 @@ td.form-inline > div.form-group {
 	/* background-color: lighten(@ilFormColor, 45%); */
 	background-color: @body-bg;
 }
-
-.ilFormHeader .ilFormCmds {
-	margin-bottom: 0px;
-	margin-top: -8px;
-	/* margin-right: 12px; */
-	float: right;
-}
-
-[dir="rtl"] .ilFormHeader .ilFormCmds {
-	margin-right: 0;
-	/* margin-left: 12px; */
-	float: left;
-}
-
-.ilFormHeader h3 {
-	margin: 0;
-	/* padding: 4px; */
-	float: left;
-	/* font-size: 110%; */
-}
-
-[dir="rtl"] .ilFormHeader h3 {
-	float: right;
-}
-
 
 .ilSubForm {
 	background-color: darken(@ilFormBgColor, 2%);

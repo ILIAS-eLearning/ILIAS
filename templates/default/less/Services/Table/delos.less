@@ -10,7 +10,7 @@ div.tblfooter {
 
 div.ilTableNav {
 	font-weight: normal;
-	padding: 3px;
+	padding: 0 3px;
 	font-size: 80%;
 	text-align: right;
 }
@@ -48,8 +48,11 @@ div.ilTableHeaderTitleBlock {
 }
 
 div.ilTableHeaderTitle {
-	margin: 0 0 5px 0;
-	padding: 0 0 2px 0;
+	margin: 15px 0 0;
+	padding: 0;
+	+ .ilHeaderDesc {
+		margin: 0 0 5px;
+	}
 }
 
 h3.ilTableHeaderTitleBlock {

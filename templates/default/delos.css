@@ -4049,8 +4049,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
-  margin-bottom: 20px;
-  background-color: #fdfdfd;
   margin-top: 12.5px;
   margin-bottom: 12.5px;
 }
@@ -7513,10 +7511,12 @@ select {
 .form-control {
   font-size: 12px;
 }
-.form-horizontal,
-.form-inline {
+.form-horizontal {
   margin-bottom: 20px;
   background-color: #fdfdfd;
+}
+form.form-inline {
+  margin-bottom: 20px;
 }
 .form-horizontal .form-group {
   margin: 10px 0px;
@@ -7559,35 +7559,23 @@ td.form-inline > div.form-group {
   padding: 4px 0;
 }
 .ilFormHeader {
-  /* padding: 3px; */
-  /* margin: 0 0 10px; */
-  padding: 10px 0 0px;
+  padding: 15px 0 5px;
+}
+.ilFormHeader .ilFormCmds {
+  margin: 0;
+  float: right;
+}
+.ilFormHeader h3 {
+  margin: 0;
+}
+[dir="rtl"] .ilFormHeader .ilFormCmds {
+  float: left;
 }
 .ilFormHeader,
 .ilFormFooter {
   color: #4d4d4d;
   /* background-color: lighten(@ilFormColor, 45%); */
   background-color: #f0f0f0;
-}
-.ilFormHeader .ilFormCmds {
-  margin-bottom: 0px;
-  margin-top: -8px;
-  /* margin-right: 12px; */
-  float: right;
-}
-[dir="rtl"] .ilFormHeader .ilFormCmds {
-  margin-right: 0;
-  /* margin-left: 12px; */
-  float: left;
-}
-.ilFormHeader h3 {
-  margin: 0;
-  /* padding: 4px; */
-  float: left;
-  /* font-size: 110%; */
-}
-[dir="rtl"] .ilFormHeader h3 {
-  float: right;
 }
 .ilSubForm {
   background-color: #f8f8f8;
@@ -8934,7 +8922,7 @@ div.tblfooter {
 }
 div.ilTableNav {
   font-weight: normal;
-  padding: 3px;
+  padding: 0 3px;
   font-size: 80%;
   text-align: right;
 }
@@ -8958,8 +8946,11 @@ div.ilTableHeaderTitleBlock {
   border-bottom: 1px solid #E9E9E9;
 }
 div.ilTableHeaderTitle {
-  margin: 0 0 5px 0;
-  padding: 0 0 2px 0;
+  margin: 15px 0 0;
+  padding: 0;
+}
+div.ilTableHeaderTitle + .ilHeaderDesc {
+  margin: 0 0 5px;
 }
 h3.ilTableHeaderTitleBlock {
   font-weight: bold;
