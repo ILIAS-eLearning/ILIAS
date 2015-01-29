@@ -244,10 +244,11 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 	public function insert(ilTemplate $template)
 	{
 		global $lng;
-		include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
+		require_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
 		$modal = ilModalGUI::getInstance();
 		$modal->setHeading($lng->txt(''));
 		$modal->setId("ilGapModal");
+		//$modal->setBackdrop(ilModalGUI::BACKDROP_OFF);
 		$modal->setBody('');
 
 		$custom_template = new ilTemplate('tpl.il_as_cloze_gap_builder.html', true, true, 'Modules/TestQuestionPool');
@@ -278,12 +279,13 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 		$custom_template->setVariable('BEST_POSSIBLE_SOLUTION_HEADER', 	$lng->txt('tst_best_solution_is'));
 		$custom_template->setVariable('BEST_POSSIBLE_SOLUTION', 		$lng->txt('value'));
 		$custom_template->setVariable('MAX_POINTS', 					$lng->txt('max_points'));
-		//Todo add translation for out of range
 		$custom_template->setVariable('OUT_OF_BOUND', 					$lng->txt('out_of_range'));
 		$custom_template->setVariable('TYPE',							$lng->txt('type'));
 		$custom_template->setVariable('VALUES', 						$lng->txt('values'));
 		$custom_template->setVariable('GAP_COMBINATION', 				$lng->txt('gap_combination'));
 		$custom_template->setVariable('COPY', 							$lng->txt('copy_of'));
+		$custom_template->setVariable('OK', 							$lng->txt('ok'));
+		$custom_template->setVariable('CANCEL', 						$lng->txt('cancel'));
 		$custom_template->setVariable('WHITESPACE_FRONT', 				$lng->txt('cloze_textgap_whitespace_before'));
 		$custom_template->setVariable('WHITESPACE_BACK', 				$lng->txt('cloze_textgap_whitespace_after'));
 		$custom_template->setVariable('WHITESPACE_MULTIPLE', 			$lng->txt('cloze_textgap_multiple_whitespace'));

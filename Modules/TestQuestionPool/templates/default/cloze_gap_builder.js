@@ -20,7 +20,9 @@ var ClozeGlobals = {
     best_combination             : '',
     whitespace_cleaner           : false,
     best_possible_solution_error : false,
-    debug                        : false
+    debug                        : false,
+	jour_fixe_incompatible		 : false,
+	gap_restore					 : true
 };
 
 $(document).ready(function ()
@@ -190,26 +192,44 @@ $(document).ready(function ()
         var gap_error =  $('#gap_error_' + counter);
         appendFormClasses(gap_error);
         gap_error.find('#error_answer_val').attr({
-            'class': 'error_answer_' + counter,
-            'name': 'error_answer_' + counter
+			'id'	: '',
+            'class'	: 'error_answer_' + counter,
+            'name'	: 'error_answer_' + counter
         });
+		moveDeleteGapButton(counter);
         appendGapCombinationButton();
     }
+	function moveDeleteGapButton(counter)
+	{
+		$('#remove_gap_' + counter).parent().appendTo($('#gap_error_' + counter).find(ClozeGlobals.form_value_class))
+	}
     function highlightRed(selector)
     {
-        selector.addClass(ClozeGlobals.form_error);
+		if(ClozeGlobals.jour_fixe_incompatible)
+		{
+			selector.addClass(ClozeGlobals.form_error);
+		}
     }
     function removeHighlight(selector)
     {
-        selector.removeClass(ClozeGlobals.form_error);
+		if(ClozeGlobals.jour_fixe_incompatible)
+		{
+			selector.removeClass(ClozeGlobals.form_error);
+		}
     }
     function highlightYellow(selector)
     {
-        selector.addClass(ClozeGlobals.form_warning);
+		if(ClozeGlobals.jour_fixe_incompatible)
+		{
+			selector.addClass(ClozeGlobals.form_warning);
+		}
     }
     function removeHighlightYellow(selector)
     {
-        selector.removeClass(ClozeGlobals.form_warning);
+		if(ClozeGlobals.jour_fixe_incompatible)
+		{
+			selector.removeClass(ClozeGlobals.form_warning);
+		}
     }
     function checkInputElementNotEmpty(selector,value)
     {
@@ -279,7 +299,7 @@ $(document).ready(function ()
         }).appendTo(ClozeGlobals.form_class);
         var gapCombinationHeader =  $('#gap_combination_header_' + combinationCounter);
         appendFormHeaderClasses(gapCombinationHeader);
-        gapCombinationHeader.find('.text').html(ClozeSettings.combination_text + ' ' + combinationCounter + '');
+        gapCombinationHeader.find('.ilHeader').html(ClozeSettings.combination_text + ' ' + combinationCounter + '');
         gapCombinationHeader.attr('copy','<h3>' + ClozeSettings.combination_text + ' ' + combinationCounter + '</h3>');
 
         $('#gap_combination').clone().attr({
@@ -1021,7 +1041,6 @@ $(document).ready(function ()
         selector.off('blur');
         selector.bind(listener, function(event){
             var pos = getPositionFromInputs($(this));
-            var temp = ClozeSettings.gaps_php[0][pos[0]].values[pos[1]].answer;
             ClozeSettings.gaps_php[0][pos[0]].values[pos[1]].answer = $(this).val();
             editTextarea(pos[0]);
             if (ClozeGlobals.clone_active != -1) {
@@ -1029,7 +1048,6 @@ $(document).ready(function ()
                     $('.interactive').find('#gap_' + pos[0] + '\\[answer\\]\\[' + pos[1] + '\\]').val($(this).val());
                 }
             }
-           
             checkForm();
         });
         listener = 'keyup';
@@ -1214,12 +1232,16 @@ $(document).ready(function ()
         cloneFormPart(pos[0]);
         //ToDo: fix fokus
         $('#ilGapModal').modal('show');
-        var gap                 = parseInt(pos[0], 10) - 1;
-        var lightBoxInner       = $('#ilGapModal');
+		ClozeGlobals.gap_restore	= true;
+        var gap                		= parseInt(pos[0], 10) - 1;
+        var lightBoxInner       	= $('#ilGapModal');
         $('#cloze_text').focus();
         lightBoxInner.find('#gap_' + gap + '\\[answer\\]\\[0\\]').focus();
         lightBoxInner.find('#gap_' + gap + '_numeric').focus();
+		
+		$('#ilGapModal').off('hidden.bs.modal');
         $('#ilGapModal').on('hidden.bs.modal', function () {
+			restoreSavedGap();
             checkForm();
         });
     }
@@ -1524,33 +1546,61 @@ $(document).ready(function ()
         pos = parseInt(pos, 10) - 1;
         if(ClozeSettings.gaps_php[0][pos])
         {
-            var clone_type = ClozeSettings.gaps_php[0][pos].type;
-            $('.modal-body').html('');
-            if (clone_type === '') {
-                clone_type = 'text';
-            }
-            if (clone_type == 'text') {
-                $('#text-gap-r-'                + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-                $('#gap_'+ pos +'_gapsize_row'       ).clone(true).removeAttr('id').appendTo('.modal-body');
-            }
-            else if (clone_type == 'select') {
-                $('#select-gap-r-'              + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-                $('#shuffle_answers_'           + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-            }
-            else if (clone_type == 'numeric') {
-                $('#numeric-gap-r-'             + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-                $('#numeric_answers_'           + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-                $('#numeric_answers_lower_'     + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-                $('#numeric_answers_upper_'     + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-                $('#numeric_answers_points_'    + pos).clone(true).removeAttr('id').appendTo('.modal-body');
-                $('#remove_gap_container_'      + pos).clone(true).appendTo('.modal-body');
-            }
+			$('.modal-body').html('');
+			if(ClozeGlobals.jour_fixe_incompatible === false)
+			{
+				ClozeSettings.gap_backup = JSON.parse(JSON.stringify({'id' : pos, values : ClozeSettings.gaps_php[0][pos]}));
+			}
+			else
+			{
+				var clone_type = ClozeSettings.gaps_php[0][pos].type;
+				if (clone_type === '') {
+					clone_type = 'text';
+				}
+				if (clone_type == 'text') {
+					$('#text-gap-r-'                + pos).clone(true).removeAttr('id').appendTo('.modal-body');
+					$('#gap_'+ pos +'_gapsize_row'       ).clone(true).removeAttr('id').appendTo('.modal-body');
+				}
+				else if (clone_type == 'select') {
+					$('#select-gap-r-'              + pos).clone(true).removeAttr('id').appendTo('.modal-body');
+					$('#shuffle_answers_'           + pos).clone(true).removeAttr('id').appendTo('.modal-body');
+				}
+				else if (clone_type == 'numeric') {
+					$('#numeric-gap-r-'             + pos).clone(true).removeAttr('id').appendTo('.modal-body');
+					$('#numeric_answers_'           + pos).clone(true).removeAttr('id').appendTo('.modal-body');
+					$('#numeric_answers_lower_'     + pos).clone(true).removeAttr('id').appendTo('.modal-body');
+					$('#numeric_answers_upper_'     + pos).clone(true).removeAttr('id').appendTo('.modal-body');
+					$('#numeric_answers_points_'    + pos).clone(true).removeAttr('id').appendTo('.modal-body');
+					$('#remove_gap_container_'      + pos).clone(true).appendTo('.modal-body');
+				}
+			}
             $('#text_row_'                      + pos + '_0').clone(true).removeAttr('id').appendTo('.modal-body');
             $('.error_answer_'                  + pos).clone(true).removeAttr('id').appendTo('.modal-body');
             var gapName = parseInt(pos, 10) + 1;
             $('.modal-title').html('Gap ' + gapName);
+			addModalFakeFooter();
         }
     }
+
+	function addModalFakeFooter()
+	{
+		if(ClozeGlobals.jour_fixe_incompatible === false)
+		{
+			if($('.modal-fake-footer').length === 0)
+			{
+				$('<div class="modal-fake-footer"><input type="button" id="modal_ok_button" class="btn btn-default btn-sm btn-dummy" value="' + ClozeSettings.ok_text + '"> <input type="button" id="modal_cancel_button" class="btn btn-default btn-sm btn-dummy" value="' + ClozeSettings.cancel_text + '"></div>').appendTo('.modal-content');
+				$('#modal_ok_button').live('click', function ()
+				{
+					closeModalWithOkButton();
+				});
+				$('#modal_cancel_button').live('click', function ()
+				{
+					closeModalWithCancelButton();
+				});
+			}
+		}
+	}
+	
     function moveFooterBelow()
     {
         $('#gap_json_post').appendTo(ClozeGlobals.form_class);
@@ -1562,7 +1612,31 @@ $(document).ready(function ()
     {
         $('#ilGapModal').draggable();
     });
+
+	function closeModalWithOkButton()
+	{
+		ClozeGlobals.gap_restore = false;
+		$('#ilGapModal').modal('hide');
+	}
+
+	function closeModalWithCancelButton()
+	{
+		restoreSavedGap();
+		$('#ilGapModal').modal('hide');
+	}
+
+	function restoreSavedGap()
+	{
+		if(ClozeGlobals.jour_fixe_incompatible === false && ClozeGlobals.gap_restore === true)
+		{
+			ClozeSettings.gaps_php[0][ClozeSettings.gap_backup.id] = ClozeSettings.gap_backup.values;
+			editTextarea(ClozeSettings.gap_backup.id);
+			paintGaps();
+		}
+	}
+	
 });
+
 (function ( $ ) {
     
     $.fn.ensureNoArrayIsAnObjectRecursive = function( obj ) {
