@@ -264,7 +264,7 @@ class ilAccountCode
 			{
 				case "absolute":
 					$end = new ilDateTime($code_data['alimitdt'],IL_CAL_DATE);
-					$user->setTimeLimitFrom(time());
+					//$user->setTimeLimitFrom(time());
 					$user->setTimeLimitUntil($end->get(IL_CAL_UNIX));
 					$user->setTimeLimitUnlimited(0);
 					break;
@@ -275,11 +275,23 @@ class ilAccountCode
 					
 					include_once './Services/Calendar/classes/class.ilDateTime.php';
 					$end = new ilDateTime(time(),IL_CAL_UNIX);
-					$end->increment(IL_CAL_YEAR, $rel['y']);
-					$end->increment(IL_CAL_MONTH, $rel['m']);
-					$end->increment(IL_CAL_DAY, $rel['d']);
-					
-					$user->setTimeLimitFrom(time());
+
+					if($rel['y'] > 0)
+					{
+						$end->increment(IL_CAL_YEAR, $rel['y']);
+					}
+
+					if($rel['m'] > 0)
+					{
+						$end->increment(IL_CAL_MONTH, $rel['m']);
+					}
+
+					if($rel['d'] > 0)
+					{
+						$end->increment(IL_CAL_DAY, $rel['d']);
+					}
+
+					//$user->setTimeLimitFrom(time());
 					$user->setTimeLimitUntil($end->get(IL_CAL_UNIX));
 					$user->setTimeLimitUnlimited(0);
 					break;
