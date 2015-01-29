@@ -7,9 +7,13 @@
 
 # I could...
 
-* introduce proper namespacing
 * create a composer package
 * elaborate representation of input to make it read only and take `$_FILES` into
   account
 * let html_tag take a flexible number of HTMLs and concat them itself
 * introduce a possibility to output erros from function calls
+* introduce namespacing
+    - this seems to be a mess
+    - call_user_func does not play well
+    - introduces much noise
+    - maybe not the right fit for the functionality i intent?
