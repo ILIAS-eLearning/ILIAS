@@ -43,12 +43,12 @@ require_once("formlets.php");
 // Create a function object from an ordinary PHP function. Since explode takes
 // two mandatory and one optional parameter, we have to explicitly tell how many
 // optional parameters we want to have. 
-$explode = _fn("explode", 2);
+$explode = fun("explode", 2);
 
 // For the lib to work, we need to treat functions and values the same,
 // so we need to lift ordinary values to our abstraction.
-$delim = _val(" ");
-$string = _val("foo bar");
+$delim = val(" ");
+$string = val("foo bar");
 
 // We could apply the function once to the delim, creating a new function.
 $explodeBySpace = $explode->apply($delim);
@@ -81,10 +81,10 @@ function throws($foo) {
     return $foo;
 }
 
-$throws = _fn("throws");
+$throws = fun("throws");
 $throwsAndCatches = $throws->catchAndReify("Exception");
 
-$res = $throwsAndCatches->apply(_val("But it won't..."));
+$res = $throwsAndCatches->apply(val("But it won't..."));
 echo "This will state my hindsight:\n";
 echo ($res->isError()?$res->error():$res->get())."\n";
 ?>
@@ -104,17 +104,17 @@ alongside, there's enough stuff about the abstract concept on the net.
 A formlet is a thing that encapsulates two things, a builder and a collector,
 in a highly composable way. The builder is the entity that creates HTML output,
 while the collector is responsible for collecting values from the user input.
-The most simple formlet (the 'pure' one) thus is a formlet that renders to nothing
-and 'collects' a constant value, regardless of the user input.
+The most simple formlet thus is a formlet that renders to nothing and 'collects'
+a constant value, regardless of the user input.
 
 ```php
 <?php
 // Really not too interesting, but we need to use our value abstraction.
-$boringFormlet = _pure(_val("Hello World!"));
+$boringFormlet = inject(val("Hello World!"));
 
 // Since functions are values as well, we could construct a formlet containing 
 // a function.
-$functionFormlet = _pure($explodeBySpace);
+$functionFormlet = inject($explodeBySpace);
 ?>
 ```
 
@@ -176,9 +176,9 @@ applied to the value and rendering the concatenated outputs of the other formlet
 <?php
 // Will be a lot more interesting when you see formlets that actually take some 
 // input.
-$exploded = _pure($explode)
-                ->cmb(_pure($delim))
-                ->cmb(_pure($string))
+$exploded = inject($explode)
+                ->cmb(inject($delim))
+                ->cmb(inject($string))
                 ;
 
 $repr = $exploded->instantiate($name_source);
@@ -197,12 +197,12 @@ returns an error value.
 ```php
 <?php
 
-// _fn also supports defining some fixed arguments.
-$containsHello = _fn("preg_match", 2, array("/.*hello.*/i"));
+// fun also supports defining some fixed arguments.
+$containsHello = fun("preg_match", 2, array("/.*hello.*/i"));
 
 // Append the predicate to a formlet. If its not truthy for the value in the 
 // formlet, an error value with the given message will be collected.
-$withPred = _pure(_val("Hi there."))
+$withPred = inject(val("Hi there."))
                 ->satisfies($containsHello, "You should say hello.");
 
 $repr = $withPred->instantiate($name_source);
@@ -217,11 +217,9 @@ echo ($res->isError()?$res->error():$res->get())."\n";
 
 ## Primitives and Application
 
-Now you need to see, how this stuff works out. I won't explain how to implement
-new primitives for forms, since atm i only implemented two of them by myself.
-So that'll be left for later. I rather show you an example how one could use 
-the primitives to construct an input for a date. Their names are `_text_input` and
-`_text`.
+Now you need to see, how this stuff works out. I'll show you an example how one 
+create a form using some of the primitives that are provided in the consumer
+interface to the library.
 
 First we'll write our own (and very dump) date class. We won't be doing this in
 *The Real World*, i guess, but here we'll do it to see how it works more easily.
@@ -264,16 +262,14 @@ function mkDate($y, $m, $d) {
 // Our type of function, we want to catch Exceptions since the constructor
 // of the class could throw. In the real world we would be more specific
 // on the type of exception we want to catch.
-$mkDate = _fn("mkDate")
+$mkDate = fun("mkDate")
             ->catchAndReify("Exception")
             ;
 
-function inRange($l, $r, $value) {
-    return $value >= $l && $value <= $r;
-}
-
-function _inRange($l, $r) {
-    return _fn("inRange", 3, array($l, $r));
+function inRange($l, $r) {
+    return fun(function($value) use ($l, $r) {
+        return $value >= $l && $value <= $r;
+    });
 }
 ?>
 ```
@@ -281,7 +277,7 @@ function _inRange($l, $r) {
 After the boilerplate, we start with the interesting stuff, that is actually
 constructing a form from the two primitives. We start by creating some basic
 input elements we'll need from the only input element i provide atm, the 
-`_text_input`.
+`text_input`.
 
 ```php
 <?php
@@ -289,26 +285,26 @@ input elements we'll need from the only input element i provide atm, the
 // First we create an integer input from a text input by map intval over the
 // string input after checking it is indeed an integer. We also want to
 // display the errors.
-$int_formlet = _with_errors(_text_input())
-                ->satisfies(_fn("is_numeric"), "No integer.")
-                ->map(_fn("intval", 1))
+$int_formlet = with_errors(text_input())
+                ->satisfies(fun("is_numeric"), "No integer.")
+                ->map(fun("intval", 1))
                 ;
 
 // From the integer input we'll create a month and day input by doing further
 // checks on the input. Make sure you understand, that none of these touches
 // the int_formlet, but rather creates new objects.
 $month_formlet = $int_formlet
-    ->satisfies(_inRange(1,12), "Month must have value between 1 and 12.")
+    ->satisfies(inRange(1,12), "Month must have value between 1 and 12.")
     ;
 $day_formlet = $int_formlet
-    ->satisfies(_inRange(1,31), "Day must have value between 1 and 31.")
+    ->satisfies(inRange(1,31), "Day must have value between 1 and 31.")
     ;
 ?>
 ```
 
 Next we'll be combining these basic inputs to a more complex input that could
 be used to define a date. We also use the other primitive i have implemented 
-atm, that is `_text`, which renders a static string and collects nothing. To 
+atm, that is `text`, which renders a static string and collects nothing. To 
 compose the formlets to our date formlet, we use the `cmb` (for combine) method,
 shown above. We plumb the stuff with $mkDate to get a formlet that creates us a 
 date object.
@@ -316,13 +312,12 @@ date object.
 ```php
 <?php
 // Written in odd notation to see what's going on...
-$date_formlet = _pure(  $mkDate             )
-                ->cmb(  _text("Year: ")   )
-                ->cmb(  $int_formlet        )
-                ->cmb(  _text("Month: ")  )
-                ->cmb(  $month_formlet      )
-                ->cmb(  _text("Day: ")    )
-                ->cmb(  $day_formlet        )
+$date_formlet = inject(  $mkDate             )
+                ->cmb(  with_label("Year: ", $int_formlet))
+                ->cmb( text("\n")) // for readability on cli only
+                ->cmb(  with_label("Month: ", $month_formlet))
+                ->cmb( text("\n")) // for readability on cli only
+                ->cmb(  with_label("Day: ", $day_formlet))
                 ;
 ?>
 ```
