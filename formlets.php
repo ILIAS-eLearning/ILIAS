@@ -270,4 +270,58 @@ function with_errors(IFormlet $formlet) {
     return _with_errors($formlet);
 }
 
+
+/** 
+ * A form turns a formlet in a representation that could be processed to display
+ * a html page and retreive input.
+ */
+interface IForm {
+    /**
+     * Get a new form that processes a formlet.
+     *
+     * @param  string   $id     - must be unique throughout the program.
+     * @return IForm
+     */
+    static public function createFrom($id, IFormlet $formlet);
+
+    /**
+     * Initializes the form. If no input array is given uses $_POST.
+     * Return $this.
+     *
+     + @param   [string => mixed] | null    $input
+     * @return  IForm 
+     */
+    public function init($input = null);
+
+    /**
+     * Check whether form was submitted.
+     *
+     * @return  bool
+     */
+    public function wasSubmitted();
+
+    /**
+     * Check weather form was successfully evaluated.
+     *
+     * @return  bool
+     */
+    public function wasSuccessfull();
+
+    /**
+     * Display form in its current state.
+     *
+     * @return  string
+     */
+    public function display();
+
+    /**
+     * Get the result of the form.
+     * Throws if form was not submitted and successfully evaluated.
+     * 
+     * @return  mixed
+     * @throws  Exception
+     */ 
+    public function result();
+}
+
 ?>
