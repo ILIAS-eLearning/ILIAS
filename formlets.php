@@ -244,7 +244,7 @@ function submit($value, $attrs = null, $collects = false) {
  * @return IFormlet
  */
 function fieldset($legend, IFormlet $formlet
-                 , $attrs = null, $legend_attrs = null) {
+                 , $attrs = array(), $legend_attrs = array()) {
     return _fieldset($legend, $formlet, $attrs, $legend_attrs);
 }
 
