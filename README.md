@@ -101,8 +101,8 @@ The building blog of our forms are called formlets, and they behave according
 to an abstraction called applicative functor. We'll try to understand both
 alongside, there's enough stuff about the abstract concept on the net.
 
-A formlet is a thing that encapsulates two things, a builder and a collector,
-in a highly composable way. The builder is the entity that creates HTML output,
+A formlet is a thing that encapsulates two things, a renderer and a collector,
+in a highly composable way. The renderer is the entity that creates HTML output,
 while the collector is responsible for collecting values from the user input.
 The most simple formlet thus is a formlet that renders to nothing and 'collects'
 a constant value, regardless of the user input.
