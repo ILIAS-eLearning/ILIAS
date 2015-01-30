@@ -118,32 +118,31 @@ $functionFormlet = inject($explodeBySpace);
 ?>
 ```
 
-The created entities could be used to build concrete builders and collectors.
-To do that while maintain composability, we need a source that creates unique
-names in a reproducible way. To avoid complex sideeffects, the name source
-can only be instantiated once and needs to be passed around explicitly. This
-is a point i'm currently thinking about how to handle best.
+After creating some reusable formlets, we can turn a formlet into an actual
+form that could be rendered, is able to yield a result and abstracts away some
+plumbing.
 
 ```php
 <?php
-// The one and only (might not be that way always):
-$name_source = NameSource::instantiate();
 
-// Very boring builder and collector.
-$repr = $boringFormlet->instantiate($name_source);
+// We need to specify an id for the form and an action target.
+$form = form("boring", "www.example.com", $boringFormlet); 
+
+// We initialize the form with an empty input array. One could
+// use init without args to use $_POST as input.
+$form->init(array());
 
 // Renderer does nothing
-echo "This will show \"No output\":\n";
-echo ("" == $repr["builder"]->build()->render() ? "No output\n"
-                                                : "Oh, that's not pure...\n"
+echo "This will show \"No content\":\n";
+echo ("<form method=\"post\" action=\"www.example.com\"></form>" == $form->display() 
+     ? "No content\n"
+     : "Oh, that's not pure...\n"
      );
 
-// The collector 'collects' a constant value, wrapped in our value representation.
+// The form has a constant result as expected.
 echo "This will show \"Hello World!\":\n";
-echo $repr["collector"]->collect(array())->get()."\n";
+echo $form->result()."\n";
 
-// We need to update the name source:
-$name_source = $repr["name_source"]; 
 ?>
 ```
 
@@ -158,11 +157,11 @@ formlet, yielding a new formlet containing the result of the function call.
 // too...
 $containsArrayFormlet = $boringFormlet->map($explodeBySpace);
 
-$repr = $containsArrayFormlet->instantiate($name_source);
-$name_source = $repr["name_source"];
+$form = form("contains_array", "www.example.com", $containsArrayFormlet); 
+$form->init(array());
 
 echo "Array containing \"Hello\" and \"World!\":\n";
-print_r($repr["collector"]->collect(array())->get());
+print_r($form->result());
 ?>
 ```
 
@@ -181,18 +180,18 @@ $exploded = inject($explode)
                 ->cmb(inject($string))
                 ;
 
-$repr = $exploded->instantiate($name_source);
-$name_source = $repr["name_source"];
+$form = form("explode", "www.example.com", $exploded);
+$form->init(array());
 
 echo "Array containing \"foo\" and \"bar\":\n";
-print_r($repr["collector"]->collect(array())->get());
+print_r($form->result());
 ?>
 ```
 
 To do checks on inputs, one can use the `satisfies` method, to attach a predicate
 to a formlet. As the other operations, this creates a new formlet, so the old 
-one could be reused. When the value in the formlet fails the predicate, `collect`
-returns an error value.
+one could be reused. When the value in the formlet fails the predicate, there is
+an error in the form.
 
 ```php
 <?php
@@ -205,12 +204,11 @@ $containsHello = fun("preg_match", 2, array("/.*hello.*/i"));
 $withPred = inject(val("Hi there."))
                 ->satisfies($containsHello, "You should say hello.");
 
-$repr = $withPred->instantiate($name_source);
-$name_source = $repr["name_source"];
+$form = form("with_pred", "www.example.com", $withPred);
+$form->init(array());
 
-$res = $repr["collector"]->collect(array());
 echo "This will be stating, what you should say:\n";
-echo ($res->isError()?$res->error():$res->get())."\n";
+echo ($form->wasSuccessfull() ? $form->result() : $form->error())."\n";
 
 ?>
 ```
@@ -313,11 +311,13 @@ date object.
 <?php
 // Written in odd notation to see what's going on...
 $date_formlet = inject(  $mkDate             )
+                ->cmb( text("\n\t")) // for readability on cli only
                 ->cmb(  with_label("Year: ", $int_formlet))
-                ->cmb( text("\n")) // for readability on cli only
+                ->cmb( text("\n\t")) // for readability on cli only
                 ->cmb(  with_label("Month: ", $month_formlet))
-                ->cmb( text("\n")) // for readability on cli only
+                ->cmb( text("\n\t")) // for readability on cli only
                 ->cmb(  with_label("Day: ", $day_formlet))
+                ->cmb( text("\n")) // for readability on cli only
                 ;
 ?>
 ```
@@ -329,46 +329,45 @@ use the date formlet twice to create a period formlet. Now lets try it out:
 ```php
 <?php
 // You got that step, right?
-$repr = $date_formlet->instantiate($name_source);
-$name_source = $repr["name_source"];
+$form = form("date", "www.example.com", $date_formlet);
+$form->init(array());
 
 // First look at the rendering:
 echo "This will show some date input in HTML representation:\n";
-echo $repr["builder"]->build()->render()."\n";
+echo $form->display();
 
 // Then lets look at the collected values. Since we don't actually POST the 
 // form, we need to mock up some input. This would be completely opaque when 
 // using render and then collect the results from $_POST.
-$mock_post1 = array( "input0" => "2014"
-                   , "input1" => "12"
-                   , "input2" => "24"
+$mock_post1 = array( "date_input_0" => "2014"
+                   , "date_input_1" => "12"
+                   , "date_input_2" => "24"
                    );
 
-$res = $repr["collector"]->collect($mock_post1);
+$form->init($mock_post1);
+
 echo "This will show a date of christmas eve:\n";
-echo $res->get()->toISO()."\n";
+echo $form->result()->toISO()."\n";
 
 
 // To see how errors will show up in the formlets, lets try the same with faulty
 // input:
-$mock_post2 = array( "input0" => "2014"
-                   , "input1" => "12"
-                   , "input2" => "32" // that would make a long month
+$mock_post2 = array( "date_input_0" => "2014"
+                   , "date_input_1" => "12"
+                   , "date_input_2" => "32" // that would make a long month
                    );
 
-$res = $repr["collector"]->collect($mock_post2);
+$form->init($mock_post2);
+
 echo "This will tell why creation of date object did not work:\n";
-echo ($res->isError()?$res->error():$res->get()->toISO())."\n";
+echo ($form->wasSuccessfull() ? $form->result()->toISO() : $form->error())."\n";
 
 // So there's something wrong, and we most likely want to reprompt the user with 
 // the form, stating the problem.
 
-// We need to turn the retreived value into a representation for rendering ...
-$renderDict = new RenderDict($mock_post2, $res);
-
 // ... and call another render function on the builder with said dict.
 echo "This will show some HTML of the formlet with error messages:\n";
-echo $repr["builder"]->buildWithDict($renderDict)->render()."\n";
+echo $form->display();
 
 ?>
 ```
