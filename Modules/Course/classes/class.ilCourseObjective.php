@@ -143,6 +143,21 @@ class ilCourseObjective
 			include_once('Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
 			$objective_qst = new ilCourseObjectiveQuestion($row->objective_id);
 			$objective_qst->cloneDependencies($objective_id,$a_copy_id);
+			
+			include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+			include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+			
+			$assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
+			$assignment_it = $assignments->getAssignmentByObjective($row->objective_id, ilLOSettings::TYPE_TEST_INITIAL);
+			if($assignment_it)
+			{
+				$assignment_it->cloneSettings($a_copy_id, $new_course->getId(), $objective_id);
+			}
+			$assignment_qt = $assignments->getAssignmentByObjective($row->objective_id, ilLOSettings::TYPE_TEST_QUALIFIED);
+			if($assignment_qt)
+			{
+				$assignment_qt->cloneSettings($a_copy_id, $new_course->getId(), $objective_id);
+			}
 
 			$ilLog->write(__METHOD__.': Finished objective question dependencies: '.$objective_id);
 			
