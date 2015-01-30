@@ -539,7 +539,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		
 		$sessions = array_merge($previous,$current,$next);
 		$this->items['sess'] = $sessions;
-		$this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block] = $this->items;
+		
+		// #15389 - see ilContainer::getSubItems()
+		include_once('Services/Container/classes/class.ilContainerSorting.php');
+		$sort = ilContainerSorting::_getInstance($this->getId());				
+		$this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block] = $sort->sortItems($this->items);
+		
 		return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
 	}
 	
