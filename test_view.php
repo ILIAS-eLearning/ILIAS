@@ -2,8 +2,7 @@
     <head>
     </head>
     <body>
-        <form action="test_view.php" method="post">
-            <?php
+<?php
 
 require_once("formlets.php");
 
@@ -36,35 +35,31 @@ $formlet =
     ->cmb(_pure(stop()))
     ;
 
-$repr = $formlet->instantiate(NameSource::instantiate());
-
 try {
-    if (in_array("Absenden", $_POST)) {
-        $res = $repr["collector"]->collect($_POST);
-        $dict = new RenderDict($_POST, $res);
+    $form = form("test", "test_view.php", $formlet);
+    $form->init();
 
-        echo $repr["builder"]->buildWithDict($dict)->render();
-        echo "<pre>";
+    echo $form->display();
+
+    if ($form->wasSuccessfull()) {
         echo "<hr />";
-        if (!$res->isError()) {
-            echo "Results are:<br />";
-            print_r($res->get());
-        }
-        else {
-            echo "Error: ".$res->error()."<br />";
-            print_r($dict);
-        }
+        echo "Results are:<br />";
+        echo "<pre>";
+        print_r($form->result());
         echo "</pre>";
     }
-    else {
-        echo $repr["builder"]->build()->render();
+    else if ($form->_result() !== null) {
+        $dict = new RenderDict($_POST, $form->_result());
+        echo "Error: ".$form->error()."<br />";
+        echo "<pre>";
+        print_r($dict);
+        echo "</pre>";
     }
 }
 catch (Exception $e) {
     echo $e->getTraceAsString();
 }
-            ?>
-        </form>
+?>
     </body>
 
 </html>

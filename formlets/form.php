@@ -13,6 +13,10 @@ class Form implements IForm {
     protected $_input;  // [string => mixed] | null 
     protected $_result;  // mixed | null 
 
+    public function _result() {
+        return $this->_result;
+    }
+
     public function __construct($id, $action, $attrs, IFormlet $formlet) {
         if (!preg_match("#[a-zA-Z][a-zA-Z0-9_]+#", $id)) {
             throw new Exception("Form::__construct: '$id' can not be used as "
