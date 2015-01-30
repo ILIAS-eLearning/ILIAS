@@ -203,7 +203,7 @@ class ilCourseObjectiveQuestion
 			
 		$res = $this->db->query($query);
 		
-		$limit = -1;
+		$limit = 100;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$limit = $row->tst_limit_p;
