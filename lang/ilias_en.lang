@@ -5683,9 +5683,9 @@ crs#:#crs_objective_assigned_materials#:#Assigned Learning Materials
 crs#:#crs_objective_assigned_qst#:#Assigned Questions
 crs#:#crs_objective_deassign_question#:#Delete assignment
 crs#:#crs_objective_delete_lm_assignment#:#Delete assignment
-crs#:#crs_objective_err_limit#:#Please enter points between %s and %s.
+crs#:#crs_objective_err_limit#:#Please enter a percentage number between 1 and 100.
 crs#:#crs_objective_final_test#:#Questions Achievement Test
-crs#:#crs_objective_insert_percent#:#Please enter only numbers between 0 and 100.
+crs#:#crs_objective_insert_percent#:#Please enter only percentages between 1 and 100.
 crs#:#crs_objective_limit_err#:#The required points shouldn't be higher than the total points.
 crs#:#crs_objective_modified#:#Updated learning objective.
 crs#:#crs_objective_no_title_given#:#Please enter a title.

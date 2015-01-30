@@ -6604,9 +6604,9 @@ crs#:#crs_objective_assigned_materials#:#Zugeordnete Lerninhalte
 crs#:#crs_objective_assigned_qst#:#Zugeordnete Fragen
 crs#:#crs_objective_deassign_question#:#Zuordnung entfernen
 crs#:#crs_objective_delete_lm_assignment#:#Zuordnung entfernen
-crs#:#crs_objective_err_limit#:#Bitte geben Sie eine Prozentzahl von 0 bis 100 ein.
+crs#:#crs_objective_err_limit#:#Bitte geben Sie nur Prozentzahlen zwischen 1 und 100 ein.
 crs#:#crs_objective_final_test#:#Fragen Abschlusstest
-crs#:#crs_objective_insert_percent#:#Bitte geben sie nur Prozentzahlen zwischen 0 und 100 ein.
+crs#:#crs_objective_insert_percent#:#Bitte geben sie nur Prozentzahlen zwischen 1 und 100 ein.
 crs#:#crs_objective_limit_err#:#Die benötigte Punktzahl darf die Gesamtpunktzahl nicht übersteigen.
 crs#:#crs_objective_modified#:#Die Änderungen wurden übernommen.
 crs#:#crs_objective_no_title_given#:#Bitte geben Sie einen Titel ein.
