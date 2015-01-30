@@ -1,8 +1,6 @@
 <?php
 /******************************************************************************
  * Copyright (c) 2014 Richard Klees <richard.klees@rwth-aachen.de>
- *
- * This are the primitives to be used to build actual forms.
  */
 
 require_once("checking.php");
