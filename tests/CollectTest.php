@@ -73,7 +73,7 @@ class CollectTest extends PHPUnit_Framework_TestCase {
                                         ->cmb(_pure(stop()))
                                         ;
 
-        $ns = NameSource::unsafeInstantiate();
+        $ns = NameSource::instantiate("test");
         $repr = $this->formlet_collected->instantiate($ns);
         $this->formlet_result = $repr["collector"]->collect(array());
     }

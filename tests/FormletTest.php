@@ -2,7 +2,7 @@
 
 trait FormletTestTrait {
     protected function instantiateFormlet($formlet) {
-        return $formlet->instantiate(NameSource::unsafeInstantiate());
+        return $formlet->instantiate(NameSource::instantiate("test"));
     }
 
     /**

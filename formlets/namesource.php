@@ -12,21 +12,19 @@
 final class NameSource {
     private $_i;
     private $_used = false;
+    private $_prefix;
     static private $_instantiated = false;
     
-    public static function instantiate() {
+    public static function instantiate($prefix) {
         if (static::$_instantiated) {
             throw new Exception("NameSource can only be instantiated once.");
         }
-        return new NameSource(0);
+        return new NameSource(0, $prefix);
     } 
 
-    public static function unsafeInstantiate() {
-        return new NameSource(0);
-    }
-
-    private function __construct($i) {
+    private function __construct($i, $prefix) {
         $this->_i = $i;
+        $this->_prefix = $prefix;
     }
 
     public function getNameAndNext() {
@@ -36,8 +34,8 @@ final class NameSource {
 
         $this->_used = true;
         return array
-            ( "name" => "input".$this->_i
-            , "name_source" => new NameSource($this->_i + 1)
+            ( "name" => $this->_prefix."_input_".$this->_i
+            , "name_source" => new NameSource($this->_i + 1, $this->_prefix)
             );
     }
 }

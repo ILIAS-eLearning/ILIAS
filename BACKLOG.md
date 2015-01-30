@@ -8,6 +8,7 @@
 
 * create a composer package
 * clean up Value-class
+* clean up checking. guards could easily be generalized. 
 * let html_tag take a flexible number of HTMLs and concat them itself
 * elaborate representation of input to make it read only and take `$_FILES` into
   account

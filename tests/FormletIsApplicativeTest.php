@@ -147,9 +147,9 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
                                           , $contains_applicable) {
         // Two formlets are considered equal, when their observable output
         // is equal (that is like extensional equality?)
-        $ns_a = NameSource::unsafeInstantiate();
-        $ns_b = NameSource::unsafeInstantiate();
-        $ns = NameSource::unsafeInstantiate();
+        $ns_a = NameSource::instantiate("test");
+        $ns_b = NameSource::instantiate("test");
+        $ns = NameSource::instantiate("test");
         $repr_a = $a->instantiate($ns_a);
         $repr_b = $b->instantiate($ns_b);
 

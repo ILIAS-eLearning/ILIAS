@@ -19,7 +19,7 @@ class MappedTest extends PHPUnit_Framework_TestCase {
 
     public function testMappedOnce() {
         $d = new RenderDict(array("foo" => "bar"), _val(0));
-        $n = NameSource::unsafeInstantiate();
+        $n = NameSource::instantiate("test");
         $f = _text("foobar");
 
         $rdict = null;
@@ -51,7 +51,7 @@ class MappedTest extends PHPUnit_Framework_TestCase {
 
     public function testMappedTwice() {
         $d = new RenderDict(array("foo" => "bar"), _val(0));
-        $n = NameSource::unsafeInstantiate();
+        $n = NameSource::instantiate("test");
         $f = _text("foobar");
 
         $rdict1 = null;
