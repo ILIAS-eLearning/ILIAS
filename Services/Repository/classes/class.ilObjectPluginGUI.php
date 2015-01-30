@@ -101,6 +101,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 				break;
 						
 			case 'illearningprogressgui':
+				$ilTabs->setTabActive("learning_progress");
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
 													  $this->object->getRefId(),
