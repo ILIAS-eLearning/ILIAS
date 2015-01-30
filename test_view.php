@@ -6,33 +6,33 @@
 
 require_once("formlets.php");
 
-$br = _text("<br />");
+$br = text("<br />");
 
-$int_input = _text_input()
+$int_input = text_input()
     ->satisfies(_fn("is_numeric"), "No integer!")
     ->map(_fn("intval", 1))
     ;
 
 $all_inputs = 
-    _pure(_collect())
-    ->cmb(_with_label("A text input: ", _text_input()))
+    inject(_collect())
+    ->cmb(with_label("A text input: ", text_input()))
     ->cmb($br)
-    ->cmb(_with_label("A int input: ", _with_errors($int_input)))
+    ->cmb(with_label("A int input: ", with_errors($int_input)))
     ->cmb($br)
-    ->cmb(_with_label("A checkbox input...", _checkbox()))
+    ->cmb(with_label("A checkbox input...", checkbox()))
     ->cmb($br)
-    ->cmb(_with_label("A textarea input...", _textarea()))
-    ->cmb(_pure(stop()))
+    ->cmb(with_label("A textarea input...", textarea()))
+    ->cmb(inject(stop()))
     ;
 
 $formlet =
-    _pure(_collect())
+    inject(_collect())
     ->cmb($all_inputs)
     ->cmb($br)
     ->cmb($br)
-    ->cmb(_fieldset("In Fieldset: ", $all_inputs))
-    ->cmb(_submit("Absenden", array(), true))
-    ->cmb(_pure(stop()))
+    ->cmb(fieldset("In Fieldset: ", $all_inputs))
+    ->cmb(submit("Absenden", array(), true))
+    ->cmb(inject(stop()))
     ;
 
 try {
@@ -57,7 +57,9 @@ try {
     }
 }
 catch (Exception $e) {
+    echo "<pre>";
     echo $e->getTraceAsString();
+    echo "</pre>";
 }
 ?>
     </body>
