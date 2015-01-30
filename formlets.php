@@ -276,15 +276,7 @@ function with_errors(IFormlet $formlet) {
  * a html page and retreive input.
  */
 interface IForm {
-    /**
-     * Get a new form that processes a formlet.
-     *
-     * @param  string   $id     - must be unique throughout the program.
-     * @return IForm
-     */
-    static public function createFrom($id, IFormlet $formlet);
-
-    /**
+   /**
      * Initializes the form. If no input array is given uses $_POST.
      * Return $this.
      *
@@ -324,4 +316,17 @@ interface IForm {
     public function result();
 }
 
+require_once("formlets/form.php");
+
+/**
+* Get a new form that processes a formlet.
+*
+* @param  string   $id     - must be unique throughout the program.
+* @return IForm
+*/
+function form($id, IFormlet $formlet) {
+    return _form($id, $formlet);
+}
+
+ 
 ?>
