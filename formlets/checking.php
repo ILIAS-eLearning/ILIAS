@@ -109,9 +109,6 @@ function guardIsFormlet ($arg) {
     }
 }
 
-
-
-
 function guardHasArity(FunctionValue $fun, $arity) {
     if ($fun->arity() != $arity) {
         throw new TypeError( "FunctionValue with arity $arity"
