@@ -314,18 +314,31 @@ interface IForm {
      * @throws  Exception
      */ 
     public function result();
+
+    /**
+     * Get an error as string.
+     * Throws if form was submitted successfully.
+     * 
+     * @return string
+     * @throws Exception
+     */
+    public function error();
 }
 
 require_once("formlets/form.php");
 
 /**
-* Get a new form that processes a formlet.
-*
-* @param  string   $id     - must be unique throughout the program.
-* @return IForm
-*/
-function form($id, IFormlet $formlet) {
-    return _form($id, $formlet);
+ * Get a new form that processes a formlet. $id must be a unique id throughout
+ * the program. $action is the action attribute for the form tag. $attrs are
+ * more attributes for the form tag.
+ *
+ * @param   string                      $id
+ * @param   string                      $action
+ * @param   [string => string] | null   $attrs
+ * @return  IForm
+ */
+function form($id, $action, IFormlet $formlet, $attrs = null) {
+    return _form($id, $action, $formlet, $attrs);
 }
 
  
