@@ -8,6 +8,9 @@
 
 # I could...
 
+* Find a possibility how errors during function execution could be displayed
+  so i could catch an error thrown by Date::__construct in the example in
+  README.md.
 * Put more parts of the actual interface into the consumer interface and 
   document them
 * Find a nicer syntax for $foo->cmb(..)->cmb(..)->...
