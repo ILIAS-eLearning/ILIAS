@@ -361,8 +361,6 @@ echo ($form->wasSuccessfull() ? $form->result()->toISO() : $form->error())."\n\n
 
 // So there's something wrong, and we most likely want to reprompt the user with 
 // the form, stating the problem.
-
-// ... and call another render function on the builder with said dict.
 echo "This will show some HTML of the formlet with error messages:\n";
 echo $form->display();
 
