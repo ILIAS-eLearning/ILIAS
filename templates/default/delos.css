@@ -10822,6 +10822,9 @@ table.mceToolbar td {
   display: inline-block;
   white-space: normal !important;
 }
+.alert > a {
+  text-decoration: underline;
+}
 /* basic responsiveness (beta)
 
    The following section targets smartphones.
