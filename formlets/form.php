@@ -13,16 +13,26 @@ class Form implements IForm {
     protected $_input;  // [string => mixed] | null 
     protected $_result;  // mixed | null 
 
-    public function __construct($id, IFormlet $formlet) {
-        if (!preg_match("#[a-zA-Z][a-zA-Z0-9]+#", $id)) {
+    public function __construct($id, $action, $attrs, IFormlet $formlet) {
+        if (!preg_match("#[a-zA-Z][a-zA-Z0-9_]+#", $id)) {
             throw new Exception("Form::__construct: '$id' can not be used as "
                                ."id. Only use numbers and digits.");
         }
         guardIsFormlet($formlet);
         guardIsString($id);
+        guardIsString($action);
+        $attrs = defaultTo($attrs, array());
+        guardEachAndKeys($attrs, "guardIsString", "guardIsString");
         $this->_id = $id;
         $this->_input = null;
         $this->_result = null;
+
+        $attrs["method"] = "post";
+        $attrs["action"] = $action;
+        $formlet = $formlet
+            ->mapHTML(_fn(function($dict, $html) use ($attrs) {
+                return html_tag("form", $attrs, $html);
+            }));
         
         $name_source = NameSource::instantiate($this->_id);
         $repr = $formlet->instantiate($name_source);
@@ -42,6 +52,7 @@ class Form implements IForm {
             $input = $_POST;
         }
         $this->_input = $input;
+        $this->_result = null;
     }
 
     /**
@@ -62,7 +73,7 @@ class Form implements IForm {
             $this->_result = $this->_collector->collect($this->_input);
             return true;
         }
-        catch (MissingInputError as $e) {
+        catch (MissingInputError $e) {
             return false;
         }
     }
@@ -77,7 +88,7 @@ class Form implements IForm {
             return false;
         }
 
-        return $this->_result->isError();
+        return !$this->_result->isError();
     }
 
     /**
@@ -103,25 +114,44 @@ class Form implements IForm {
      */ 
     public function result() {
         if ( !$this->wasSubmitted()
-        &&   !$this->wasSuccessfull())
+        ||   !$this->wasSuccessfull()) {
             throw new Exception("Form::result: Form was not submitted successfully.");
         }
-        if ( $this->_result->isApplicable())
+        if ( $this->_result->isApplicable()) {
             throw new Exception("Form::result: Result is no value but a function."); 
         }
 
         return $this->_result->get(); 
     }
+
+    /**
+     * Get an error as string.
+     * Throws if form was submitted successfully.
+     * 
+     * @return string
+     * @throws Exception
+     */
+    public function error() {
+        if ( $this->wasSuccessfull()) {
+            throw new Exception("Form::error: Form was submitted successfully.");
+        }
+
+        return $this->_result->error();
+    }
 }
 
 /**
- * Get a new form that processes a formlet.
+ * Get a new form that processes a formlet. $id must be a unique id throughout
+ * the program. $action is the action attribute for the form tag. $attrs are
+ * more attributes for the form tag.
  *
- * @param  string   $id     - must be unique throughout the program.
+ * @param  string                       $id
+ * @param  string                       $action
+ * @param   [string => string] | null   $attrs
  * @return Form
  */
-function _form($id, IFormlet $formlet) {
-    return new Form($id, $formlet);
+function _form($id, $action, IFormlet $formlet, $attrs = null) {
+    return new Form($id, $action, $attrs, $formlet);
 }
 
 ?>
