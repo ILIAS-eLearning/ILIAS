@@ -1,13 +1,19 @@
 # I should...
 
-* write proper documentation for my classes
-* write tests for all classes and constructs
+* write primitives for all HTML input types
+* clean up mess in lib.php, especially _collect and expose
+  stuff in consumer interface.
+* clean up Value-class
+* clean up checking. guards could easily be generalized. 
 
 # I could...
 
+* Put more parts of the actual interface into the consumer interface and 
+  document them
+* Find a nicer syntax for $foo->cmb(..)->cmb(..)->...
 * create a composer package
-* clean up Value-class
-* clean up checking. guards could easily be generalized. 
+* write proper documentation for my classes
+* write tests for all classes and constructs
 * let html_tag take a flexible number of HTMLs and concat them itself
 * elaborate representation of input to make it read only and take `$_FILES` into
   account
