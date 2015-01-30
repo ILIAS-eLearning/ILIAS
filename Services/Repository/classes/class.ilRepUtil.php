@@ -376,20 +376,30 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			$saved_tree = new ilTree(-(int)$id);
 			$saved_tree->deleteTree($saved_tree->getNodeData($id));
 			
+			include_once './Services/Object/classes/class.ilObjectFactory.php';
+			$factory = new ilObjectFactory();
+			$ref_obj = $factory->getInstanceByRefId($id,FALSE);
+			if($ref_obj instanceof ilObject)
+			{
+				$lroles = $GLOBALS['rbacreview']->getRolesOfRoleFolder($id,FALSE);
+				foreach($lroles as $role_id)
+				{
+					include_once './Services/AccessControl/classes/class.ilObjRole.php';
+					$role = new ilObjRole($role_id);
+					$role->setParent($id);
+					$role->delete();
+				}
+				$parent_ref = $GLOBALS['tree']->getParentId($id);
+				if($parent_ref)
+				{
+					$ref_obj->setPermissions($parent_ref);
+				}
+			}
+			
 			// BEGIN ChangeEvent: Record undelete. 
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 			global $ilUser;
 
-			// already done
-			//$node_data = $saved_tree->getNodeData($id);
-			//$saved_tree->deleteTree($node_data);
-
-			// Record undelete event
-			// fetch node data from current node
-			//
-			// do not read from tree
-			#$node_data = $tree->getNodeData($id);
-			#$parent_data = $tree->getParentNodeData($node_data['ref_id']);
 			
 			ilChangeEvent::_recordWriteEvent(
 					ilObject::_lookupObjId($id),
