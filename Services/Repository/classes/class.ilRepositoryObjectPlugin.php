@@ -65,15 +65,17 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 	*/
 	static function _getIcon($a_type, $a_size)
 	{
+		/*
 		switch($a_size)
 		{
 			case "small": $suff = ""; break;
 			case "tiny": $suff = "_s"; break;
 			default: $suff = "_b"; break;
-		}
+		}		 
+		*/
 		return ilPlugin::_getImagePath(IL_COMP_SERVICE, "Repository", "robj",
 			ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj",$a_type),
-			"icon_".$a_type.$suff.".svg");
+			"icon_".$a_type/*.$suff*/.".svg");
 	}
 	
 	/**

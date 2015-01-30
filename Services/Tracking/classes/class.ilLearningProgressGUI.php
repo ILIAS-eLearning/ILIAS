@@ -159,10 +159,11 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				
 				// #12771				
 				include_once './Services/Object/classes/class.ilObjectLP.php';
-				$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($this->getRefId()));			
+				$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($this->getRefId()));						
 				if(!$olp->isActive())
-				{
-					if($ilAccess->checkAccess('edit_learning_progress','',$this->getRefId()))
+				{				
+					if(!($olp instanceof ilPluginLP) &&
+						$ilAccess->checkAccess('edit_learning_progress','',$this->getRefId()))
 					{
 						return 'illplistofsettingsgui';
 					}

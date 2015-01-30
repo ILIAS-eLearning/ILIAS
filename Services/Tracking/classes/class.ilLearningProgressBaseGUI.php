@@ -171,7 +171,7 @@ class ilLearningProgressBaseGUI
 
 					if($has_read)
 					{
-						if(!$this->isAnonymized() && !in_array($this->obj_type, array('tst', 'htlm', 'exc', 'sess')))
+						if(!$this->isAnonymized() && !in_array($this->obj_type, array('tst', 'htlm', 'exc', 'sess')) && !($olp instanceof ilPluginLP))
 						{
 							$this->tabs_gui->addSubTabTarget("trac_matrix",
 															$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),
@@ -183,7 +183,8 @@ class ilLearningProgressBaseGUI
 														"", "", "", $a_active == self::LP_ACTIVE_SUMMARY);
 					}
 				}				
-				if($rbacsystem->checkAccess('edit_learning_progress',$this->getRefId()))
+				if(!($olp instanceof ilPluginLP) &&
+					$rbacsystem->checkAccess('edit_learning_progress',$this->getRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget('trac_settings',
 													 $this->ctrl->getLinkTargetByClass('illplistofsettingsgui',''),
