@@ -2,7 +2,6 @@
 
 * write proper documentation for my classes
 * write tests for all classes and constructs
-* write a proper form abstraction that hides plumbing like name source
 
 # I could...
 
