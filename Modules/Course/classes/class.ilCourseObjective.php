@@ -136,6 +136,7 @@ class ilCourseObjective
 			$new_objective = new ilCourseObjective($new_course);
 			$new_objective->setTitle($row->title);
 			$new_objective->setDescription($row->description);
+			$new_objective->setActive($row->active);
 			$objective_id = $new_objective->add();
 			$ilLog->write(__METHOD__.': Added new objective nr: '.$objective_id);
 			
