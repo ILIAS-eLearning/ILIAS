@@ -103,6 +103,13 @@ function guardIsHTMLTag($arg) {
     }
 }
 
+function guardIsFormlet ($arg) {
+    if (!($arg instanceof Formlet)) {
+        throw new TypeError("Formlet", typeName($arg));
+    }
+}
+
+
 
 
 function guardHasArity(FunctionValue $fun, $arity) {
