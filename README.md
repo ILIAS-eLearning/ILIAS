@@ -76,12 +76,12 @@ one can use `catchAndReify` to create a new function value.
 
 ```php
 <?php
-function throws($foo) {
+
+$throws = fun(function ($foo) {
     throw new Exception("I knew this would happen.");
     return $foo;
-}
+});
 
-$throws = fun("throws");
 $throwsAndCatches = $throws->catchAndReify("Exception");
 
 $res = $throwsAndCatches->apply(val("But it won't..."));
@@ -252,17 +252,14 @@ class _Date {
     }
 }
 
-// PHPy function
-function mkDate($y, $m, $d) {
-    return new _Date($y, $m, $d);
-}
-
-// Our type of function, we want to catch Exceptions since the constructor
+// Our constructor function. We want to catch Exceptions since the constructor
 // of the class could throw. In the real world we would be more specific
 // on the type of exception we want to catch.
-$mkDate = fun("mkDate")
-            ->catchAndReify("Exception")
-            ;
+$mkDate = fun(function ($y, $m, $d) {
+        return new _Date($y, $m, $d);
+})
+->catchAndReify("Exception")
+;
 
 function inRange($l, $r) {
     return fun(function($value) use ($l, $r) {
@@ -334,7 +331,7 @@ $form->init(array());
 
 // First look at the rendering:
 echo "This will show some date input in HTML representation:\n";
-echo $form->display();
+echo $form->display()."\n\n";
 
 // Then lets look at the collected values. Since we don't actually POST the 
 // form, we need to mock up some input. This would be completely opaque when 
@@ -347,7 +344,7 @@ $mock_post1 = array( "date_input_0" => "2014"
 $form->init($mock_post1);
 
 echo "This will show a date of christmas eve:\n";
-echo $form->result()->toISO()."\n";
+echo $form->result()->toISO()."\n\n";
 
 
 // To see how errors will show up in the formlets, lets try the same with faulty
@@ -360,7 +357,7 @@ $mock_post2 = array( "date_input_0" => "2014"
 $form->init($mock_post2);
 
 echo "This will tell why creation of date object did not work:\n";
-echo ($form->wasSuccessfull() ? $form->result()->toISO() : $form->error())."\n";
+echo ($form->wasSuccessfull() ? $form->result()->toISO() : $form->error())."\n\n";
 
 // So there's something wrong, and we most likely want to reprompt the user with 
 // the form, stating the problem.
