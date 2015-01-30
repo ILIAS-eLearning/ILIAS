@@ -526,7 +526,14 @@ class ilObjectDefinition// extends ilSaxParser
 	 */
 	public function hasLocalRoles($a_obj_type)
 	{
-		return isset($this->obj_data[$a_obj_type]['subobjects']['rolf']);
+		switch($a_obj_type)
+		{
+			case 'root':
+				return FALSE;
+				
+			default:
+				return TRUE;
+		}
 	}
 	
 	/**
