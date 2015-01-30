@@ -334,13 +334,13 @@ echo "This will show some date input in HTML representation:\n";
 echo $form->display()."\n\n";
 
 // Then lets look at the collected values. Since we don't actually POST the 
-// form, we need to mock up some input. This would be completely opaque when 
-// using render and then collect the results from $_POST.
+// form, we need to mock up some input. 
 $mock_post1 = array( "date_input_0" => "2014"
                    , "date_input_1" => "12"
                    , "date_input_2" => "24"
                    );
 
+// We could use init without parameters if we wanted to use $_POST as input.
 $form->init($mock_post1);
 
 echo "This will show a date of christmas eve:\n";
