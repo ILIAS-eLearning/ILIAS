@@ -17,6 +17,8 @@ use them for a framework to create forms. Hf.
 
 *This README.md is also a literate PHP-file.*
 
+*This code is released under the [GNU Affero GPL](LICENSE.md)*
+
 ## Functions as Values, Currying
 
 To understand the first important ingredient of the formlet abstraction, we need
