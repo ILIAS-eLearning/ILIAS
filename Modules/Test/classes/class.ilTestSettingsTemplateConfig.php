@@ -55,7 +55,8 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 
 	private function initSettings()
 	{
-		//general properties
+		$this->addGeneralPropertySettings();
+
 		$this->addSetting(
 			"anonymity",
 			ilSettingsTemplateConfig::SELECT,
@@ -79,26 +80,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 				'1' => $this->lng->txt("test_enable_view_express"),
 				'2' => $this->lng->txt("test_enable_view_both"),
 			)
-		);
-
-		$this->addSetting(
-			"question_set_type",
-			ilSettingsTemplateConfig::SELECT,
-			$this->lng->txt("tst_question_set_type"),
-			true,
-			0,
-			array(
-				ilObjTest::QUESTION_SET_TYPE_FIXED => $this->lng->txt("tst_question_set_type_fixed"),
-				ilObjTest::QUESTION_SET_TYPE_RANDOM => $this->lng->txt("tst_question_set_type_random"),
-				ilObjTest::QUESTION_SET_TYPE_DYNAMIC => $this->lng->txt("tst_question_set_type_dynamic"),
-			)
-		);
-
-		$this->addSetting(
-			"use_pool",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("test_question_pool_usage"),
-			true
 		);
 
 		// Information at beginning and end of test
@@ -382,6 +363,34 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			ilSettingsTemplateConfig::BOOL,
 			$this->lng->txt("tst_export_settings"),
 			true
+		);
+	}
+
+	private function addGeneralPropertySettings()
+	{
+		$this->addSetting(
+			"use_pool",
+			ilSettingsTemplateConfig::SELECT,
+			$this->lng->txt("test_question_pool_usage"),
+			true,
+			0,
+			array(
+				1 => $this->lng->txt('test_question_pool_usage_optional'),
+				0 => $this->lng->txt('test_question_pool_usage_tst_directly')
+			)
+		);
+
+		$this->addSetting(
+			"question_set_type",
+			ilSettingsTemplateConfig::SELECT,
+			$this->lng->txt("tst_question_set_type"),
+			true,
+			0,
+			array(
+				ilObjTest::QUESTION_SET_TYPE_FIXED => $this->lng->txt("tst_question_set_type_fixed"),
+				ilObjTest::QUESTION_SET_TYPE_RANDOM => $this->lng->txt("tst_question_set_type_random"),
+				ilObjTest::QUESTION_SET_TYPE_DYNAMIC => $this->lng->txt("tst_question_set_type_dynamic"),
+			)
 		);
 	}
 }
