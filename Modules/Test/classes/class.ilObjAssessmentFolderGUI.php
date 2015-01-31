@@ -18,7 +18,6 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.
 */
 class ilObjAssessmentFolderGUI extends ilObjectGUI
 {
-
 	var $conditions;
 	
 	/**
@@ -670,13 +669,23 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 		$ilTabs->setTabActive('templates');
 
-		require_once 'Modules/Test/classes/class.ilTestSettingsTemplateConfig.php';
-		$config = new ilTestSettingsTemplateConfig($this->lng);
-		$config->init();
-
 		require_once 'Services/Administration/classes/class.ilSettingsTemplateGUI.php';
-		$gui = new ilSettingsTemplateGUI($config);
+		$gui = new ilSettingsTemplateGUI(self::getSettingsTemplateConfig());
 
 		$this->ctrl->forwardCommand($gui);
+	}
+	
+	/**
+	 * @return ilTestSettingsTemplateConfig
+	 */
+	public static function getSettingsTemplateConfig()
+	{
+		global $lng;
+
+		require_once 'Modules/Test/classes/class.ilTestSettingsTemplateConfig.php';
+		$config = new ilTestSettingsTemplateConfig($lng);
+		$config->init();
+
+		return $config;
 	}
 }
