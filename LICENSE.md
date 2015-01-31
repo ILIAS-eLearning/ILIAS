@@ -128,7 +128,7 @@ automatically from other parts of the Corresponding Source.
 
 The Corresponding Source for a work in source code form is that same work.
 
-2. Basic Permissions.
+### 2. Basic Permissions.
 
 All rights granted under this License are granted for the term of copyright
 on the Program, and are irrevocable provided the stated conditions are met.
