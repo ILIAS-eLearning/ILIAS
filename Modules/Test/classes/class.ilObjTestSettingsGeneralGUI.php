@@ -306,8 +306,13 @@ class ilObjTestSettingsGeneralGUI
 	private function performSaveForm(ilPropertyFormGUI $form)
 	{
 		$this->saveGeneralProperties($form);
-		$this->saveTestIntroProperties($form);
 		$this->saveAvailabilityProperties($form);
+		$this->saveTestIntroProperties($form);
+		$this->saveTestAccessProperties($form);
+
+
+
+
 
 		// Examview
 		$this->testOBJ->setEnableExamview($form->getItemByPostVar('enable_examview')->getChecked());
@@ -419,60 +424,11 @@ class ilObjTestSettingsGeneralGUI
 		}
 		$this->testOBJ->setResetProcessingTime($form->getItemByPostVar('chb_reset_processing_time')->getChecked());
 
-		if( $form->getItemByPostVar('password_enabled') instanceof ilFormPropertyGUI )
-		{
-			if( $form->getItemByPostVar('password_enabled')->getChecked() )
-			{
-				$this->testOBJ->setPassword($form->getItemByPostVar('password')->getValue());
-			}
-			else
-			{
-				$this->testOBJ->setPassword('');
-			}
-		}
 
-		if(!$this->testOBJ->participantDataExist() && $form->getItemByPostVar('chb_starting_time')->getChecked() )
-		{
-			$startingTimeSetting = $form->getItemByPostVar('starting_time');
-			$this->testOBJ->setStartingTime(ilFormat::dateDB2timestamp(
-					$startingTimeSetting->getDate()->get(IL_CAL_DATETIME)
-			));
-		}
-		else if(!$this->testOBJ->participantDataExist())
-		{
-			$this->testOBJ->setStartingTime('');
-		}
-
-		if( $form->getItemByPostVar('chb_ending_time')->getChecked() )
-		{
-			$endingTimeSetting = $form->getItemByPostVar('ending_time');
-			$this->testOBJ->setEndingTime(ilFormat::dateDB2timestamp(
-					$endingTimeSetting->getDate()->get(IL_CAL_DATETIME)
-			));
-		}
-		else
-		{
-			$this->testOBJ->setEndingTime('');
-		}
 
 		if( $form->getItemByPostVar('title_output') instanceof ilFormPropertyGUI )
 		{
 			$this->testOBJ->setTitleOutput($form->getItemByPostVar('title_output')->getValue());
-		}
-		if( $form->getItemByPostVar('limitUsers') instanceof ilFormPropertyGUI )
-		{
-			if( $form->getItemByPostVar('limitUsers')->getChecked() )
-			{
-				$this->testOBJ->setAllowedUsers($form->getItemByPostVar('allowedUsers')->getValue());
-			}
-			else
-			{
-				$this->testOBJ->setAllowedUsers('');
-			}
-		}
-		if( $form->getItemByPostVar('allowedUsersTimeGap') instanceof ilFormPropertyGUI )
-		{
-			$this->testOBJ->setAllowedUsersTimeGap($form->getItemByPostVar('allowedUsersTimeGap')->getValue());
 		}
 
 		// Selector for uicode characters
@@ -524,12 +480,6 @@ class ilObjTestSettingsGeneralGUI
 				}
 			}
 
-			// fixed participants setting
-			if( $form->getItemByPostVar('fixedparticipants') instanceof ilFormPropertyGUI )
-			{
-				$this->testOBJ->setFixedParticipants($form->getItemByPostVar('fixedparticipants')->getChecked());
-			}
-
 			// skill service
 			if( ilObjTest::isSkillManagementGloballyActivated() && $form->getItemByPostVar('skill_service') instanceof ilFormPropertyGUI )
 			{
@@ -577,115 +527,7 @@ class ilObjTestSettingsGeneralGUI
 		$this->addGeneralProperties($form);
 		$this->addAvailabilityProperties($form);
 		$this->addTestIntroProperties($form);
-
-		if( !$this->settingsTemplate || $this->formShowBeginningEndingInformation($this->settingsTemplate->getSettings()) )
-		{
-			$header = new ilFormSectionHeaderGUI();
-			$header->setTitle($this->lng->txt("tst_settings_header_execution"));
-			$form->addItem($header);
-		}
-
-		// enable starting time
-		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("tst_starting_time"), "chb_starting_time");
-		$enablestartingtime->setInfo($this->lng->txt("tst_starting_time_desc"));
-		$enablestartingtime->setValue(1);
-		//$enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
-		if( $this->settingsTemplate && $this->getTemplateSettingValue('chb_starting_time') )
-		{
-			$enablestartingtime->setChecked(true);
-		}
-		else
-		{
-			$enablestartingtime->setChecked(strlen($this->testOBJ->getStartingTime()));
-		}
-		// starting time
-		$startingtime = new ilDateTimeInputGUI('', 'starting_time');
-		$startingtime->setShowTime(true);
-		if( strlen($this->testOBJ->getStartingTime()) )
-		{
-			$startingtime->setDate(new ilDateTime($this->testOBJ->getStartingTime(), IL_CAL_TIMESTAMP));
-		}
-		else
-		{
-			$startingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
-		}
-		$enablestartingtime->addSubItem($startingtime);
-		$form->addItem($enablestartingtime);
-		if( $this->testOBJ->participantDataExist() )
-		{
-			$enablestartingtime->setDisabled(true);
-			$startingtime->setDisabled(true);
-		}
-
-		// enable ending time
-		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("tst_ending_time"), "chb_ending_time");
-		$enableendingtime->setInfo($this->lng->txt("tst_ending_time_desc"));
-		$enableendingtime->setValue(1);
-		//$enableendingtime->setOptionTitle($this->lng->txt("enabled"));
-		if ($this->settingsTemplate && $this->getTemplateSettingValue('chb_ending_time') )
-			$enableendingtime->setChecked(true);
-		else
-			$enableendingtime->setChecked(strlen($this->testOBJ->getEndingTime()));
-		// ending time
-		$endingtime = new ilDateTimeInputGUI('', 'ending_time');
-		$endingtime->setShowTime(true);
-		if (strlen($this->testOBJ->getEndingTime()))
-		{
-			$endingtime->setDate(new ilDateTime($this->testOBJ->getEndingTime(), IL_CAL_TIMESTAMP));
-		}
-		else
-		{
-			$endingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
-		}
-		$enableendingtime->addSubItem($endingtime);
-		$form->addItem($enableendingtime);
-
-		// test password
-		$pwEnabled = new ilCheckboxInputGUI($this->lng->txt('tst_password'), 'password_enabled');
-		$pwEnabled->setChecked(strlen($this->testOBJ->getPassword()));
-		$pwEnabled->setInfo($this->lng->txt("tst_password_details"));
-		$form->addItem($pwEnabled);
-		$password = new ilTextInputGUI($this->lng->txt("tst_password_enter"), "password");
-		$password->setRequired(true);
-		$password->setSize(20);
-		$password->setValue($this->testOBJ->getPassword());
-		$pwEnabled->addSubItem($password);
-
-		// fixed participants
-		$fixedparticipants = new ilCheckboxInputGUI($this->lng->txt('participants_invitation'), "fixedparticipants");
-		$fixedparticipants->setValue(1);
-		$fixedparticipants->setChecked($this->testOBJ->getFixedParticipants());
-		$fixedparticipants->setInfo($this->lng->txt("participants_invitation_description"));
-		$invited_users = $this->testOBJ->getInvitedUsers();
-		if ($this->testOBJ->participantDataExist() && (count($invited_users) == 0))
-		{
-			$fixedparticipants->setDisabled(true);
-		}
-		$form->addItem($fixedparticipants);
-
-		// simultaneous users
-		$simulLimited = new ilCheckboxInputGUI($this->lng->txt("tst_allowed_users"), 'limitUsers');
-		$simulLimited->setInfo($this->lng->txt("tst_allowed_users_desc"));
-		$simulLimited->setChecked($this->testOBJ->getAllowedUsers());
-
-		$simul = new ilNumberInputGUI($this->lng->txt("tst_allowed_users_max"), "allowedUsers");
-		$simul->setRequired(true);
-		$simul->allowDecimals(false);
-		$simul->setMinValue(1);
-		$simul->setMinvalueShouldBeGreater(false);
-		$simul->setSize(4);
-		$simul->setValue(($this->testOBJ->getAllowedUsers()) ? $this->testOBJ->getAllowedUsers() : '');
-		$simulLimited->addSubItem($simul);
-
-		// idle time
-		$idle = new ilNumberInputGUI($this->lng->txt("tst_allowed_users_time_gap"), "allowedUsersTimeGap");
-		$idle->setInfo($this->lng->txt("tst_allowed_users_time_gap_desc"));
-		$idle->setSize(4);
-		$idle->setSuffix($this->lng->txt("seconds"));
-		$idle->setValue(($this->testOBJ->getAllowedUsersTimeGap()) ? $this->testOBJ->getAllowedUsersTimeGap() : 300);
-		$simulLimited->addSubItem($idle);
-
-		$form->addItem($simulLimited);
+		$this->addTestAccessProperties($form);
 
 		// section header test run
 		$header = new ilFormSectionHeaderGUI();
@@ -1120,12 +962,6 @@ class ilObjTestSettingsGeneralGUI
 		return $msgHTML;
 	}
 
-	private function formShowBeginningEndingInformation($templateData)
-	{
-		// show always because of statement text areas
-		return true;
-	}
-
 	private function formShowSessionSection($templateData)
 	{
 		// show always because of "nr_of_tries", "chb_processing_time", "chb_starting_time", "chb_ending_time"
@@ -1144,15 +980,6 @@ class ilObjTestSettingsGeneralGUI
 		return true;
 	}
 
-	private function formShowNotificationSection($templateData)
-	{
-		$fields = array(
-			'mailnotification',
-			'mailnottype',
-		);
-		return $this->formsectionHasVisibleFields($templateData, $fields);
-	}
-
 	private function formShowTestExecutionSection($templateData)
 	{
 		return true; // remove this when 'eredirection_enabled' and 'sign_submission' become hideable
@@ -1160,16 +987,6 @@ class ilObjTestSettingsGeneralGUI
 		$fields = array(
 			'kiosk',
 			'redirection_enabled', 'sign_submission' // not hideable up to now
-		);
-		return $this->formsectionHasVisibleFields($templateData, $fields);
-	}
-
-	private function formShowParticipantSection($templateData)
-	{
-		$fields = array(
-			'fixedparticipants',
-			'allowedUsers',
-			'allowedUsersTimeGap',
 		);
 		return $this->formsectionHasVisibleFields($templateData, $fields);
 	}
@@ -1474,6 +1291,189 @@ class ilObjTestSettingsGeneralGUI
 		if ($form->getItemByPostVar('showinfo') instanceof ilFormPropertyGUI)
 		{
 			$this->testOBJ->setShowInfo($form->getItemByPostVar('showinfo')->getChecked());
+		}
+	}
+
+	/**
+	 * @param $form
+	 * @return ilFormSectionHeaderGUI
+	 */
+	private function addTestAccessProperties($form)
+	{
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("tst_settings_header_execution"));
+		$form->addItem($header);
+
+		// enable starting time
+		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("tst_starting_time"), "chb_starting_time");
+		$enablestartingtime->setInfo($this->lng->txt("tst_starting_time_desc"));
+		$enablestartingtime->setValue(1);
+		//$enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
+		if ($this->settingsTemplate && $this->getTemplateSettingValue('chb_starting_time'))
+		{
+			$enablestartingtime->setChecked(true);
+		}
+		else
+		{
+			$enablestartingtime->setChecked(strlen($this->testOBJ->getStartingTime()));
+		}
+		// starting time
+		$startingtime = new ilDateTimeInputGUI('', 'starting_time');
+		$startingtime->setShowTime(true);
+		if (strlen($this->testOBJ->getStartingTime()))
+		{
+			$startingtime->setDate(new ilDateTime($this->testOBJ->getStartingTime(), IL_CAL_TIMESTAMP));
+		}
+		else
+		{
+			$startingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
+		}
+		$enablestartingtime->addSubItem($startingtime);
+		$form->addItem($enablestartingtime);
+		if ($this->testOBJ->participantDataExist()) {
+			$enablestartingtime->setDisabled(true);
+			$startingtime->setDisabled(true);
+		}
+
+		// enable ending time
+		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("tst_ending_time"), "chb_ending_time");
+		$enableendingtime->setInfo($this->lng->txt("tst_ending_time_desc"));
+		$enableendingtime->setValue(1);
+		//$enableendingtime->setOptionTitle($this->lng->txt("enabled"));
+		if ($this->settingsTemplate && $this->getTemplateSettingValue('chb_ending_time'))
+		{
+			$enableendingtime->setChecked(true);
+		}
+		else
+		{
+			$enableendingtime->setChecked(strlen($this->testOBJ->getEndingTime()));
+		}
+		// ending time
+		$endingtime = new ilDateTimeInputGUI('', 'ending_time');
+		$endingtime->setShowTime(true);
+		if (strlen($this->testOBJ->getEndingTime()))
+		{
+			$endingtime->setDate(new ilDateTime($this->testOBJ->getEndingTime(), IL_CAL_TIMESTAMP));
+		}
+		else
+		{
+			$endingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
+		}
+		$enableendingtime->addSubItem($endingtime);
+		$form->addItem($enableendingtime);
+
+		// test password
+		$pwEnabled = new ilCheckboxInputGUI($this->lng->txt('tst_password'), 'password_enabled');
+		$pwEnabled->setChecked(strlen($this->testOBJ->getPassword()));
+		$pwEnabled->setInfo($this->lng->txt("tst_password_details"));
+		$form->addItem($pwEnabled);
+		$password = new ilTextInputGUI($this->lng->txt("tst_password_enter"), "password");
+		$password->setRequired(true);
+		$password->setSize(20);
+		$password->setValue($this->testOBJ->getPassword());
+		$pwEnabled->addSubItem($password);
+
+		// fixed participants
+		$fixedparticipants = new ilCheckboxInputGUI($this->lng->txt('participants_invitation'), "fixedparticipants");
+		$fixedparticipants->setValue(1);
+		$fixedparticipants->setChecked($this->testOBJ->getFixedParticipants());
+		$fixedparticipants->setInfo($this->lng->txt("participants_invitation_description"));
+		$invited_users = $this->testOBJ->getInvitedUsers();
+		if ($this->testOBJ->participantDataExist() && (count($invited_users) == 0))
+		{
+			$fixedparticipants->setDisabled(true);
+		}
+		$form->addItem($fixedparticipants);
+
+		// simultaneous users
+		$simulLimited = new ilCheckboxInputGUI($this->lng->txt("tst_allowed_users"), 'limitUsers');
+		$simulLimited->setInfo($this->lng->txt("tst_allowed_users_desc"));
+		$simulLimited->setChecked($this->testOBJ->getAllowedUsers());
+
+		$simul = new ilNumberInputGUI($this->lng->txt("tst_allowed_users_max"), "allowedUsers");
+		$simul->setRequired(true);
+		$simul->allowDecimals(false);
+		$simul->setMinValue(1);
+		$simul->setMinvalueShouldBeGreater(false);
+		$simul->setSize(4);
+		$simul->setValue(($this->testOBJ->getAllowedUsers()) ? $this->testOBJ->getAllowedUsers() : '');
+		$simulLimited->addSubItem($simul);
+
+		// idle time
+		$idle = new ilNumberInputGUI($this->lng->txt("tst_allowed_users_time_gap"), "allowedUsersTimeGap");
+		$idle->setInfo($this->lng->txt("tst_allowed_users_time_gap_desc"));
+		$idle->setSize(4);
+		$idle->setSuffix($this->lng->txt("seconds"));
+		$idle->setValue(($this->testOBJ->getAllowedUsersTimeGap()) ? $this->testOBJ->getAllowedUsersTimeGap() : 300);
+		$simulLimited->addSubItem($idle);
+
+		$form->addItem($simulLimited);
+		return $header;
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	private function saveTestAccessProperties(ilPropertyFormGUI $form)
+	{
+		if (!$this->testOBJ->participantDataExist() && $form->getItemByPostVar('chb_starting_time')->getChecked())
+		{
+			$startingTimeSetting = $form->getItemByPostVar('starting_time');
+			$this->testOBJ->setStartingTime(ilFormat::dateDB2timestamp(
+				$startingTimeSetting->getDate()->get(IL_CAL_DATETIME)
+			));
+		}
+		elseif (!$this->testOBJ->participantDataExist())
+		{
+			$this->testOBJ->setStartingTime('');
+		}
+
+		if ($form->getItemByPostVar('chb_ending_time')->getChecked())
+		{
+			$endingTimeSetting = $form->getItemByPostVar('ending_time');
+			$this->testOBJ->setEndingTime(ilFormat::dateDB2timestamp(
+				$endingTimeSetting->getDate()->get(IL_CAL_DATETIME)
+			));
+		}
+		else
+		{
+			$this->testOBJ->setEndingTime('');
+		}
+
+		if ($form->getItemByPostVar('password_enabled') instanceof ilFormPropertyGUI)
+		{
+			if ($form->getItemByPostVar('password_enabled')->getChecked())
+			{
+				$this->testOBJ->setPassword($form->getItemByPostVar('password')->getValue());
+			}
+			else
+			{
+				$this->testOBJ->setPassword('');
+			}
+		}
+
+		if (!$this->testOBJ->participantDataExist())
+		{
+			if ($form->getItemByPostVar('fixedparticipants') instanceof ilFormPropertyGUI)
+			{
+				$this->testOBJ->setFixedParticipants($form->getItemByPostVar('fixedparticipants')->getChecked());
+			}
+		}
+
+		if ($form->getItemByPostVar('limitUsers') instanceof ilFormPropertyGUI)
+		{
+			if ($form->getItemByPostVar('limitUsers')->getChecked())
+			{
+				$this->testOBJ->setAllowedUsers($form->getItemByPostVar('allowedUsers')->getValue());
+			}
+			else
+			{
+				$this->testOBJ->setAllowedUsers('');
+			}
+		}
+		if ($form->getItemByPostVar('allowedUsersTimeGap') instanceof ilFormPropertyGUI)
+		{
+			$this->testOBJ->setAllowedUsersTimeGap($form->getItemByPostVar('allowedUsersTimeGap')->getValue());
 		}
 	}
 }

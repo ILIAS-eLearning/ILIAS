@@ -5563,3 +5563,27 @@ if(!$ilDB->tableColumnExists('tst_tests','intro_enabled'))
 	));
 }
 ?>
+<#4459>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests','starting_time_enabled'))
+{
+	$ilDB->addTableColumn('tst_tests', 'starting_time_enabled', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#4460>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests','ending_time_enabled'))
+{
+	$ilDB->addTableColumn('tst_tests', 'ending_time_enabled', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>

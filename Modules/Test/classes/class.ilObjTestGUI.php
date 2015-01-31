@@ -4897,7 +4897,15 @@ class ilObjTestGUI extends ilObjectGUI
 			'intro_enabled' => 'setIntroductionEnabled',
 			'showinfo' => 'setShowInfo',
 
-			//
+			// test access properties
+			'chb_starting_time' => '',
+			'chb_ending_time' => '',
+			'password_enabled' => '',
+			'fixedparticipants' => 'setFixedParticipants',
+			'limitUsers' => '',
+
+
+
 			'anonymity' => 'setAnonymity',
 			'test_enabled_views' => 'setEnabledViewMode',
 			//'express_allow_question_pool' => 'setExpressModeQuestionPoolAllowed',
@@ -4913,10 +4921,6 @@ class ilObjTestGUI extends ilObjectGUI
 			'chb_use_previous_answers' => 'setUsePreviousAnswers',
 			'forcejs' => 'setForceJS',
 			'title_output' => 'setTitleOutput',
-			'password' => 'setPassword',
-			'fixedparticipants' => 'setFixedParticipants',
-			'allowedUsers' => 'setAllowedUsers',
-			'allowedUsersTimeGap' => 'setAllowedUsersTimeGap',
 			'mailnotification' => 'setMailNotification',
 			'mailnottype' => 'setMailNotificationType',
 			//'' => '',

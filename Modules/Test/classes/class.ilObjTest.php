@@ -235,18 +235,28 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	var $reset_processing_time;
 
 	/**
-* The starting time in database timestamp format which defines the earliest starting time for the test
-*
-* @var string
-*/
-  	var $starting_time;
+	 * @var bool
+	 */
+	protected $starting_time_enabled;
 
 	/**
-* The ending time in database timestamp format which defines the latest ending time for the test
-*
-* @var string
-*/
-  	var $ending_time;
+	 * The starting time in database timestamp format which defines the earliest starting time for the test
+	 *
+	 * @var string
+	 */
+	protected $starting_time;
+
+	/**
+	 * @var bool
+	 */
+	protected $ending_time_enabled;
+
+	/**
+	 * The ending time in database timestamp format which defines the latest ending time for the test
+	 *
+	 * @var string
+	 */
+	protected $ending_time;
 
 	/**
 	 * Indicates if ECTS grades will be used
@@ -1288,7 +1298,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'enable_processing_time' => array('text', $this->getEnableProcessingTime()),
 				'reset_processing_time' => array('integer', $this->getResetProcessingTime()),
 				'reporting_date' => array('text', $this->getReportingDate()),
+				'starting_time_enabled' => array('integer', $this->isStartingTimeEnabled()),
 				'starting_time' => array('text', $this->getStartingTime()),
+				'ending_time_enabled' => array('integer', $this->isEndingTimeEnabled()),
 				'ending_time' => array('text', $this->getEndingTime()),
 				'complete' => array('text', $this->isComplete($testQuestionSetConfig)),
 				'ects_output' => array('text', $this->getECTSOutput()),
@@ -1404,7 +1416,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 						'enable_processing_time' => array('text', $this->getEnableProcessingTime()),
 						'reset_processing_time' => array('integer', $this->getResetProcessingTime()),
 						'reporting_date' => array('text', $this->getReportingDate()),
+						'starting_time_enabled' => array('integer', $this->isStartingTimeEnabled()),
 						'starting_time' => array('text', $this->getStartingTime()),
+						'ending_time_enabled' => array('integer', $this->isEndingTimeEnabled()),
 						'ending_time' => array('text', $this->getEndingTime()),
 						'complete' => array('text', $this->isComplete($testQuestionSetConfig)),
 						'ects_output' => array('text', $this->getECTSOutput()),
@@ -1893,9 +1907,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$this->setReportingDate($data->reporting_date);
 			$this->setShuffleQuestions($data->shuffle_questions);
 			$this->setResultsPresentation($data->results_presentation);
+			$this->setStartingTimeEnabled($data->starting_time_enabled);
 			$this->setStartingTime($data->starting_time);
+			$this->setEndingTimeEnabled($data->ending_time_enabled);
 			$this->setEndingTime($data->ending_time);
-			$this->setListOfQuestionsSettings($data->show_summary);			
+			$this->setListOfQuestionsSettings($data->show_summary);
 			$this->setECTSOutput($data->ects_output);
 			$this->setECTSGrades(
 				array(
@@ -3037,28 +3053,84 @@ function getAnswerFeedbackPoints()
 		return ($this->reset_processing_time) ? $this->reset_processing_time : 0;
 	}
 
-/**
-* Returns the starting time of the test
-*
-* @return string The starting time of the test
-* @access public
-* @see $starting_time
-*/
-	function getStartingTime()
+	/**
+	 * @return boolean
+	 */
+	public function isStartingTimeEnabled()
+	{
+		return $this->starting_time_enabled;
+	}
+
+	/**
+	 * @param boolean $starting_time_enabled
+	 */
+	public function setStartingTimeEnabled($starting_time_enabled)
+	{
+		$this->starting_time_enabled = $starting_time_enabled;
+	}
+
+	/**
+	 * Returns the starting time of the test
+	 *
+	 * @return string The starting time of the test
+	 * @access public
+	 * @see $starting_time
+	 */
+	public function getStartingTime()
 	{
 		return (strlen($this->starting_time)) ? $this->starting_time : NULL;
 	}
 
-/**
-* Returns the ending time of the test
-*
-* @return string The ending time of the test
-* @access public
-* @see $ending_time
-*/
-	function getEndingTime()
+	/**
+	 * Sets the starting time in database timestamp format for the test
+	 *
+	 * @param string $starting_time The starting time for the test. Empty string for no starting time.
+	 * @access public
+	 * @see $starting_time
+	 */
+	public function setStartingTime($starting_time = NULL)
+	{
+		$this->starting_time = $starting_time;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isEndingTimeEnabled()
+	{
+		return $this->ending_time_enabled;
+	}
+
+	/**
+	 * @param boolean $ending_time_enabled
+	 */
+	public function setEndingTimeEnabled($ending_time_enabled)
+	{
+		$this->ending_time_enabled = $ending_time_enabled;
+	}
+
+	/**
+	 * Returns the ending time of the test
+	 *
+	 * @return string The ending time of the test
+	 * @access public
+	 * @see $ending_time
+	 */
+	public function getEndingTime()
 	{
 		return (strlen($this->ending_time)) ? $this->ending_time : NULL;
+	}
+
+	/**
+	 * Sets the ending time in database timestamp format for the test
+	 *
+	 * @param string $ending_time The ending time for the test. Empty string for no ending time.
+	 * @access public
+	 * @see $ending_time
+	 */
+	public function setEndingTime($ending_time = NULL)
+	{
+		$this->ending_time = $ending_time;
 	}
 
 /**
@@ -3182,30 +3254,6 @@ function getAnswerFeedbackPoints()
 		{
 			$this->reset_processing_time = 0;
 		}
-	}
-
-/**
-* Sets the starting time in database timestamp format for the test
-*
-* @param string $starting_time The starting time for the test. Empty string for no starting time.
-* @access public
-* @see $starting_time
-*/
-	function setStartingTime($starting_time = NULL)
-	{
-		$this->starting_time = $starting_time;
-	}
-
-/**
-* Sets the ending time in database timestamp format for the test
-*
-* @param string $ending_time The ending time for the test. Empty string for no ending time.
-* @access public
-* @see $ending_time
-*/
-	function setEndingTime($ending_time = NULL)
-	{
-		$this->ending_time = $ending_time;
 	}
 
 /**
@@ -5735,6 +5783,9 @@ function getAnswerFeedbackPoints()
 			}
 		}
 
+		$this->setStartingTimeEnabled(false);
+		$this->setEndingTimeEnabled(false);
+
 		foreach ($assessment->qtimetadata as $metadata)
 		{
 			switch ($metadata["label"])
@@ -5940,6 +5991,7 @@ function getAnswerFeedbackPoints()
 					if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
 					{
 						$this->setStartingTime(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+						$this->setStartingTimeEnabled(true);
 					}
 					break;
 				case "ending_time":
@@ -5947,6 +5999,7 @@ function getAnswerFeedbackPoints()
 					if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
 					{
 						$this->setEndingTime(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+						$this->setEndingTimeEnabled(true);
 					}
 					break;
 				case "enable_examview":
@@ -7009,9 +7062,11 @@ function getAnswerFeedbackPoints()
 		$newObj->setECTSGrades($this->getECTSGrades());
 		$newObj->setECTSOutput($this->getECTSOutput());
 		$newObj->setEnableProcessingTime($this->getEnableProcessingTime());
+		$newObj->setEndingTimeEnabled($this->isEndingTimeEnabled());
 		$newObj->setEndingTime($this->getEndingTime());
 		$newObj->setFixedParticipants($this->getFixedParticipants());
 		$newObj->setInstantFeedbackSolution($this->getInstantFeedbackSolution());
+		$newObj->setIntroductionEnabled($this->isIntroductionEnabled());
 		$newObj->setIntroduction($this->getIntroduction());
 		$newObj->setFinalStatement($this->getFinalStatement());
 		$newObj->setShowInfo($this->getShowInfo());
@@ -7037,6 +7092,7 @@ function getAnswerFeedbackPoints()
 		$newObj->setShowCancel($this->getShowCancel());
 		$newObj->setShowMarker($this->getShowMarker());
 		$newObj->setShuffleQuestions($this->getShuffleQuestions());
+		$newObj->setStartingTimeEnabled($this->isStartingTimeEnabled());
 		$newObj->setStartingTime($this->getStartingTime());
 		$newObj->setTitleOutput($this->getTitleOutput());
 		$newObj->setUsePreviousAnswers($this->getUsePreviousAnswers());
@@ -9574,7 +9630,9 @@ function getAnswerFeedbackPoints()
 			"ProcessingTime" => $this->getProcessingTime(),
 			"EnableProcessingTime" => $this->getEnableProcessingTime(),
 			"ResetProcessingTime" => $this->getResetProcessingTime(),
+			"StartingTimeEnabled" => $this->isStartingTimeEnabled(),
 			"StartingTime" => $this->getStartingTime(),
+			"EndingTimeEnabled" => $this->isEndingTimeEnabled(),
 			"EndingTime" => $this->getEndingTime(),
 			"ECTSOutput" => $this->getECTSOutput(),
 			"ECTSFX" => $this->getECTSFX(),
@@ -9653,8 +9711,10 @@ function getAnswerFeedbackPoints()
 		$this->setProcessingTime($testsettings["ProcessingTime"]);
 		$this->setResetProcessingTime($testsettings["ResetProcessingTime"]);
 		$this->setEnableProcessingTime($testsettings["EnableProcessingTime"]);
+		$this->setStartingTimeEnabled($testsettings["StartingTimeEnabled"]);
 		$this->setStartingTime($testsettings["StartingTime"]);
 		$this->setKiosk($testsettings["Kiosk"]);
+		$this->setEndingTimeEnabled($testsettings["EndingTimeEnabled"]);
 		$this->setEndingTime($testsettings["EndingTime"]);
 		$this->setECTSOutput($testsettings["ECTSOutput"]);
 		$this->setECTSFX($testsettings["ECTSFX"]);

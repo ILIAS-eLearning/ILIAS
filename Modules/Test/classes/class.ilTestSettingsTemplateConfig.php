@@ -58,6 +58,8 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 	{
 		$this->addGeneralPropertySettings();
 		$this->addTestIntroProperties();
+		$this->addTestAccessProperties();
+
 
 
 		$this->addSetting(
@@ -107,28 +109,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			ilSettingsTemplateConfig::BOOL,
 			$this->lng->txt("tst_processing_time"),
 			false
-		);
-
-		$this->addSetting(
-			"chb_starting_time",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("tst_starting_time"),
-			false
-		);
-
-		$this->addSetting(
-			"chb_ending_time",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("tst_ending_time"),
-			false
-		);
-
-		$this->addSetting(
-			"password",
-			ilSettingsTemplateConfig::TEXT,
-			$this->lng->txt("tst_password"),
-			true,
-			20
 		);
 
 		// Presentation Properties
@@ -226,21 +206,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 
 
 		// Participants Restriction
-
-		$this->addSetting(
-			"fixedparticipants",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("participants_invitation"),
-			true
-		);
-
-		$this->addSetting(
-			"allowedUsers",
-			ilSettingsTemplateConfig::TEXT,
-			$this->lng->txt("tst_allowed_users"),
-			true,
-			3
-		);
 
 		$this->addSetting(
 			"allowedUsersTimeGap",
@@ -407,4 +372,42 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			true
 		);
 	}
+
+	private function addTestAccessProperties()
+	{
+		$this->addSetting(
+			"chb_starting_time",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_starting_time"),
+			false
+		);
+
+		$this->addSetting(
+			"chb_ending_time",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_ending_time"),
+			false
+		);
+
+		$this->addSetting(
+			"password",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_password"),
+			false
+		);
+
+		$this->addSetting(
+			"fixedparticipants",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("participants_invitation"),
+			true
+		);
+
+		$this->addSetting(
+			"allowedUsers",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_allowed_users"),
+			false
+		);
+}
 }
