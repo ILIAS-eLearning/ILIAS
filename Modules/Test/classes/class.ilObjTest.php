@@ -115,6 +115,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
   	var $questions;
 
 	/**
+	 * @var bool
+	 */
+	private $introductionEnabled;
+
+	/**
 * An introduction text to give users more information
 * on the test.
 *
@@ -570,6 +575,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		
 		$this->test_id = -1;
 		$this->author = $ilUser->fullname;
+		$this->introductionEnabled = false;
 		$this->introduction = "";
 		$this->questions = array();
 		$this->sequence_settings = TEST_FIXED_SEQUENCE;
@@ -1258,6 +1264,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'test_id' => array('integer', $next_id),
 				'obj_fi' => array('integer', $this->getId()),
 				'author' => array('text', $this->getAuthor()),
+				'intro_enabled' => array('integer', (int)$this->isIntroductionEnabled()),
 				'introduction' => array('text', ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
 				'finalstatement' => array('text', ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0)),
 				'showinfo' => array('integer', $this->getShowInfo()),
@@ -1373,6 +1380,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$ilDB->update('tst_tests',
 					array(
 						'author' => array('text', $this->getAuthor()),
+						'intro_enabled' => array('integer', (int)$this->isIntroductionEnabled()),
 						'introduction' => array('text', ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
 						'finalstatement' => array('text', ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0)),
 						'showinfo' => array('integer', $this->getShowInfo()),
@@ -1857,9 +1865,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			}
 			$this->setAuthor($data->author);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$this->setIntroductionEnabled($data->intro_enabled);
 			$this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc($data->introduction, 1));
-			$this->setFinalStatement(ilRTE::_replaceMediaObjectImageSrc($data->finalstatement, 1));
 			$this->setShowInfo($data->showinfo);
+			$this->setFinalStatement(ilRTE::_replaceMediaObjectImageSrc($data->finalstatement, 1));
 			$this->setForceJS($data->forcejs);
 			$this->setCustomStyle($data->customstyle);
 			$this->setShowFinalStatement($data->showfinalstatement);
@@ -2023,17 +2032,45 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 }
 
-/**
-* Sets the introduction text of the ilObjTest object
-*
-* @param string $introduction An introduction string for the test
-* @access public
-* @see $introduction
-*/
-	function setIntroduction($introduction = "")
+	/**
+	 * @return boolean
+	 */
+	public function isIntroductionEnabled()
+	{
+		return $this->introductionEnabled;
+	}
+
+	/**
+	 * @param boolean $introductionEnabled
+	 */
+	public function setIntroductionEnabled($introductionEnabled)
+	{
+		$this->introductionEnabled = $introductionEnabled;
+	}
+
+	/**
+	 * Gets the introduction text of the ilObjTest object
+	 *
+	 * @return mixed The introduction text of the test, NULL if empty
+	 * @see $introduction
+	 */
+	public function getIntroduction()
+	{
+		return (strlen($this->introduction)) ? $this->introduction : NULL;
+	}
+
+	/**
+	 * Sets the introduction text of the ilObjTest object
+	 *
+	 * @param string $introduction An introduction string for the test
+	 * @access public
+	 * @see $introduction
+	 */
+	public function setIntroduction($introduction = "")
 	{
 		$this->introduction = $introduction;
 	}
+
 
 	/**
 	* Sets the final statement text of the ilObjTest object
@@ -2166,17 +2203,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	public function setShowFinalStatement($show = 0)
 	{
 		$this->_showfinalstatement = ($show) ? 1 : 0;
-	}
-
-/**
-* Gets the introduction text of the ilObjTest object
-*
-* @return mixed The introduction text of the test, NULL if empty
-* @see $introduction
-*/
-	public function getIntroduction()
-	{
-		return (strlen($this->introduction)) ? $this->introduction : NULL;
 	}
 
 	/**
@@ -5677,11 +5703,13 @@ function getAnswerFeedbackPoints()
 		$this->setDescription($assessment->getComment());
 		$this->setTitle($assessment->getTitle());
 
+		$this->setIntroductionEnabled(false);
 		foreach ($assessment->objectives as $objectives)
 		{
 			foreach ($objectives->materials as $material)
 			{
 				$this->setIntroduction($this->QTIMaterialToString($material));
+				$this->setIntroductionEnabled(true);
 			}
 		}
 
@@ -9522,6 +9550,7 @@ function getAnswerFeedbackPoints()
 		$testsettings = array(
 			"TitleOutput" => $this->getTitleOutput(),
 			"PassScoring" => $this->getPassScoring(),
+			"IntroEnabled" => $this->isIntroductionEnabled(),
 			"Introduction" => $this->getIntroduction(),
 			"FinalStatement" => $this->getFinalStatement(),
 			"ShowInfo" => $this->getShowInfo(),
@@ -9599,6 +9628,7 @@ function getAnswerFeedbackPoints()
 
 		$this->setTitleOutput($testsettings["TitleOutput"]);
 		$this->setPassScoring($testsettings["PassScoring"]);
+		$this->setIntroductionEnabled($testsettings["IntroEnabled"]);
 		$this->setIntroduction($testsettings["Introduction"]);
 		$this->setFinalStatement($testsettings["FinalStatement"]);
 		$this->setShowInfo($testsettings["ShowInfo"]);

@@ -5551,3 +5551,15 @@ foreach($questions as $objective_ref_id => $qst_ids)
 	}
 }
 ?>
+<#4458>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests','intro_enabled'))
+{
+	$ilDB->addTableColumn('tst_tests', 'intro_enabled', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>

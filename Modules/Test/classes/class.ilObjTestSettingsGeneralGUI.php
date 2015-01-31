@@ -1429,7 +1429,7 @@ class ilObjTestSettingsGeneralGUI
 
 		// introduction
 		$introEnabled = new ilCheckboxInputGUI($this->lng->txt("tst_introduction"), 'intro_enabled');
-		$introEnabled->setChecked(strlen($this->testOBJ->getIntroduction()));
+		$introEnabled->setChecked($this->testOBJ->isIntroductionEnabled());
 		$introEnabled->setInfo($this->lng->txt('tst_introduction_desc'));
 		$form->addItem($introEnabled);
 		$intro = new ilTextAreaInputGUI($this->lng->txt("tst_introduction_text"), "introduction");
@@ -1459,6 +1459,8 @@ class ilObjTestSettingsGeneralGUI
 	{
 		if ($form->getItemByPostVar('intro_enabled') instanceof ilFormPropertyGUI)
 		{
+			$this->testOBJ->setIntroductionEnabled($form->getItemByPostVar('intro_enabled')->getChecked());
+
 			if ($form->getItemByPostVar('intro_enabled')->getChecked())
 			{
 				$this->testOBJ->setIntroduction($form->getItemByPostVar('introduction')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));

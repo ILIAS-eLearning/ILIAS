@@ -4884,13 +4884,19 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		// map formFieldName => setterName
 		$simpleSetters = array(
-			'anonymity' => 'setAnonymity',
-			'question_set_type' => 'setQuestionSetType',
+
+			// general properties
 			'use_pool' => 'setPoolUsage',
+			'question_set_type' => 'setQuestionSetType',
+
+			// test intro properties
+			'intro_enabled' => 'setIntroductionEnabled',
+			'showinfo' => 'setShowInfo',
+
+			//
+			'anonymity' => 'setAnonymity',
 			'test_enabled_views' => 'setEnabledViewMode',
 			//'express_allow_question_pool' => 'setExpressModeQuestionPoolAllowed',
-			'introduction' => 'setIntroduction',
-			'showinfo' => 'setShowInfo',
 			'finalstatement' => 'setFinalStatement',
 			'showfinalstatement' => 'setShowFinalStatement',
 			'chb_shuffle_questions' => 'setShuffleQuestions',
