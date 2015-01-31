@@ -40,10 +40,10 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 
 	private function initHidableTabs()
 	{
-		$this->addHidableTab("questions", $this->lng->txt('edit_test_questions'));
-		$this->addHidableTab("mark_schema", $this->lng->txt('settings') . ' - ' . $this->lng->txt("mark_schema"));
-		$this->addHidableTab("certificate", $this->lng->txt('settings') . ' - ' . $this->lng->txt("certificate"));
-		$this->addHidableTab("defaults", $this->lng->txt('settings') . ' - ' . $this->lng->txt("defaults"));
+		$this->addHidableTab("questions", $this->lng->txt('assQuestions').' - '.$this->lng->txt('edit_test_questions'));
+		$this->addHidableTab("mark_schema", $this->lng->txt('settings').' - '.$this->lng->txt("mark_schema"));
+		$this->addHidableTab("certificate", $this->lng->txt('settings').' - '.$this->lng->txt("certificate"));
+		$this->addHidableTab("defaults", $this->lng->txt('settings').' - '.$this->lng->txt("tst_default_settings"));
 
 		$this->addHidableTab("learning_progress", $this->lng->txt("learning_progress"));
 		$this->addHidableTab("manscoring", $this->lng->txt("manscoring"));

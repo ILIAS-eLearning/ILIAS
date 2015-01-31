@@ -3983,7 +3983,7 @@ class ilObjTestGUI extends ilObjectGUI
 	
 		// certificate subtab
 		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		if(ilCertificate::isActive())
+		if( !in_array('certificate', $hiddenTabs) && ilCertificate::isActive())
 		{				
 			$ilTabs->addSubTabTarget(
 				"certificate",
