@@ -47,6 +47,7 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 
 		$this->addHidableTab("learning_progress", $this->lng->txt("learning_progress"));
 		$this->addHidableTab("manscoring", $this->lng->txt("manscoring"));
+		$this->addHidableTab("statistics", $this->lng->txt("statistics"));
 		$this->addHidableTab("history", $this->lng->txt("history"));
 		$this->addHidableTab("meta_data", $this->lng->txt("meta_data"));
 		$this->addHidableTab("export", $this->lng->txt("export"));

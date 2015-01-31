@@ -4332,11 +4332,15 @@ class ilObjTestGUI extends ilObjectGUI
 			if ((($ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) || ($ilAccess->checkAccess("write", "", $this->ref_id)))  && !in_array('statistics', $hidden_tabs))
 			{
 				// statistics tab
-				$tabs_gui->addTarget("statistics",
-					 $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outEvaluation"),
-					 array("statistics", "outEvaluation", "exportEvaluation", "detailedEvaluation", "eval_a", "evalUserDetail",
-					 	"passDetails", "outStatisticsResultsOverview", "statisticsPassDetails", "singleResults")
-					 , "");
+				$tabs_gui->addTarget(
+					"statistics",
+					$this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outEvaluation"),
+					array(
+						"statistics", "outEvaluation", "exportEvaluation", "detailedEvaluation", "eval_a", "evalUserDetail",
+						"passDetails", "outStatisticsResultsOverview", "statisticsPassDetails", "singleResults"
+					),
+					""
+				);
 			}
 
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
