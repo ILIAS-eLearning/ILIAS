@@ -56,6 +56,8 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 	private function initSettings()
 	{
 		$this->addGeneralPropertySettings();
+		$this->addTestIntroProperties();
+
 
 		$this->addSetting(
 			"anonymity",
@@ -80,14 +82,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 				'1' => $this->lng->txt("test_enable_view_express"),
 				'2' => $this->lng->txt("test_enable_view_both"),
 			)
-		);
-
-		// Information at beginning and end of test
-		$this->addSetting(
-			"showinfo",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("showinfo"),
-			true
 		);
 
 		$this->addSetting(
@@ -391,6 +385,25 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 				ilObjTest::QUESTION_SET_TYPE_RANDOM => $this->lng->txt("tst_question_set_type_random"),
 				ilObjTest::QUESTION_SET_TYPE_DYNAMIC => $this->lng->txt("tst_question_set_type_dynamic"),
 			)
+		);
+	}
+
+	private function addTestIntroProperties()
+	{
+		// Test Introduction
+		$this->addSetting(
+			"intro_enabled",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_introduction"),
+			false
+		);
+
+		// All Details on Info Screen
+		$this->addSetting(
+			"showinfo",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("showinfo"),
+			true
 		);
 	}
 }

@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php';
+
 /**
  * GUI class that manages the editing of general test settings/properties
  * shown on "general" subtab
@@ -24,22 +26,22 @@ class ilObjTestSettingsGeneralGUI
 	const CMD_CONFIRMED_SAVE_FORM		= 'confirmedSaveForm';
 	const CMD_SHOW_RESET_TPL_CONFIRM	= 'showResetTemplateConfirmation';
 	const CMD_CONFIRMED_RESET_TPL		= 'confirmedResetTemplate';
-	
+
 	/** @var ilCtrl $ctrl */
 	protected $ctrl = null;
-	
+
 	/** @var ilAccess $access */
 	protected $access = null;
-	
+
 	/** @var ilLanguage $lng */
 	protected $lng = null;
-	
+
 	/** @var ilTemplate $tpl */
 	protected $tpl = null;
-	
+
 	/** @var ilTree $tree */
 	protected $tree = null;
-	
+
 	/** @var ilDB $db */
 	protected $db = null;
 
@@ -54,34 +56,34 @@ class ilObjTestSettingsGeneralGUI
 
 	/** @var ilObjTestGUI $testGUI */
 	protected $testGUI = null;
-	
+
 	/** @var ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory Factory for question set config. */
 	private $testQuestionSetConfigFactory = null;
 
 	/**
 	 * object instance for currently active settings template
 	 *
-	 * @var $settingsTemplate ilSettingsTemplate 
+	 * @var $settingsTemplate ilSettingsTemplate
 	 */
 	protected $settingsTemplate = null;
 
 	/**
-	 * Constructor 
-	 * 
+	 * Constructor
+	 *
 	 * @param ilCtrl          $ctrl
 	 * @param ilAccessHandler $access
 	 * @param ilLanguage      $lng
 	 * @param ilTemplate      $tpl
 	 * @param ilDB            $db
 	 * @param ilObjTestGUI    $testGUI
-	 * 
+	 *
 	 * @return \ilObjTestSettingsGeneralGUI
 	 */
 	public function __construct(
-		ilCtrl $ctrl, 
-		ilAccessHandler $access, 
-		ilLanguage $lng, 
-		ilTemplate $tpl, 
+		ilCtrl $ctrl,
+		ilAccessHandler $access,
+		ilLanguage $lng,
+		ilTemplate $tpl,
 		ilTree $tree,
 		ilDB $db,
 		ilPluginAdmin $pluginAdmin,
@@ -103,7 +105,7 @@ class ilObjTestSettingsGeneralGUI
 
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
 		$this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->pluginAdmin, $this->testOBJ);
-		
+
 		$templateId = $this->testOBJ->getTemplate();
 
 		if( $templateId )
@@ -119,17 +121,17 @@ class ilObjTestSettingsGeneralGUI
 	public function executeCommand()
 	{
 		// allow only write access
-		
-		if (!$this->access->checkAccess("write", "", $this->testGUI->ref_id)) 
+
+		if (!$this->access->checkAccess("write", "", $this->testGUI->ref_id))
 		{
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this->testGUI, "infoScreen");
 		}
-		
+
 		// process command
-		
+
 		$nextClass = $this->ctrl->getNextClass();
-		
+
 		switch($nextClass)
 		{
 			default:
@@ -141,12 +143,12 @@ class ilObjTestSettingsGeneralGUI
 	private function showFormCmd(ilPropertyFormGUI $form = null)
 	{
 		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
-		
+
 		if( $form === null )
 		{
 			$form = $this->buildForm();
 		}
-		
+
 		$formHTML = $this->ctrl->getHTML($form);
 		$msgHTML = $this->getSettingsTemplateMessageHTML();
 
@@ -157,13 +159,13 @@ class ilObjTestSettingsGeneralGUI
 	{
 		return $this->saveFormCmd(true);
 	}
-	
+
 	private function saveFormCmd($isConfirmedSave = false)
 	{
 		$form = $this->buildForm();
-		
+
 		// form validation and initialisation
-		
+
 		$errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
 		$form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
 									// Sarcasm? No. Because checkInput checks the form graph against the POST without
@@ -176,16 +178,16 @@ class ilObjTestSettingsGeneralGUI
 			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 			return $this->showFormCmd($form);
 		}
-		
+
 		// return to form when online is to be set, but no questions are configured
-		
+
 		$currentQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
 		if( $form->getItemByPostVar('online')->getChecked() && !$this->testOBJ->isComplete($currentQuestionSetConfig) )
 		{
 			$form->getItemByPostVar('online')->setAlert(
 					$this->lng->txt("cannot_switch_to_online_no_questions_andor_no_mark_steps")
 			);
-			
+
 			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 			return $this->showFormCmd($form);
 		}
@@ -194,7 +196,7 @@ class ilObjTestSettingsGeneralGUI
 
 		// solve conflicts with question set type setting with confirmation screen if required
 		// determine wether question set type relating data is to be removed (questions/pools)
-		
+
 		$questionSetTypeRelatingDataCleanupRequired = false;
 
 		$oldQuestionSetType = $this->testOBJ->getQuestionSetType();
@@ -207,7 +209,7 @@ class ilObjTestSettingsGeneralGUI
 				$oldQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfigByType(
 						$oldQuestionSetType
 				);
-				
+
 				if( $oldQuestionSetConfig->doesQuestionSetRelatedDataExist() )
 				{
 					if( !$isConfirmedSave )
@@ -219,7 +221,7 @@ class ilObjTestSettingsGeneralGUI
 									$this->testOBJ->hasQuestionsWithoutQuestionpool()
 							);
 						}
-						
+
 						return $this->showConfirmation(
 								$form, $oldQuestionSetType, $newQuestionSetType, false
 						);
@@ -247,9 +249,9 @@ class ilObjTestSettingsGeneralGUI
 		{
 			$newQuestionSetType = $oldQuestionSetType;
 		}
-		
+
 		// adjust settiue to desired question set type
-		
+
 		if( $newQuestionSetType != ilObjTest::QUESTION_SET_TYPE_FIXED )
 		{
 			$form->getItemByPostVar('chb_use_previous_answers')->setChecked(false);
@@ -268,113 +270,51 @@ class ilObjTestSettingsGeneralGUI
 				}
 			}
 		}
-				
+
 		// perform saving the form data
-		
+
 		$this->performSaveForm($form);
-		
+
 		// clean up test mode relating configuration data (questions/questionpools)
-		
+
 		if( $questionSetTypeRelatingDataCleanupRequired )
 		{
 			$oldQuestionSetConfig->removeQuestionSetRelatedData();
 		}
-		
+
 		// disinvite all invited users if required
-			
+
 		if( !$this->testOBJ->participantDataExist() && !$this->testOBJ->getFixedParticipants() )
 		{
 			foreach ($this->testOBJ->getInvitedUsers() as $usrId => $usrData)
 			{
 				$this->testOBJ->disinviteUser($usrId);
 			}
-		}		
-		
+		}
+
 		// redirect to form output
 
 		if( count($infoMsg) )
 		{
 			ilUtil::sendInfo(implode('<br />', $infoMsg), true);
 		}
-		
+
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, self::CMD_SHOW_FORM);
 	}
 
 	private function performSaveForm(ilPropertyFormGUI $form)
 	{
-		include_once 'Services/MetaData/classes/class.ilMD.php';
-		$md_obj =& new ilMD($this->testOBJ->getId(), 0, "tst");
-		$md_section = $md_obj->getGeneral();
-
-		// title
-		$md_section->setTitle(ilUtil::stripSlashes($form->getItemByPostVar('title')->getValue()));
-		$md_section->update();
-
-		// Description
-		$md_desc_ids = $md_section->getDescriptionIds();
-		if($md_desc_ids)
-		{
-			$md_desc = $md_section->getDescription(array_pop($md_desc_ids));
-			$md_desc->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
-			$md_desc->update();
-		}
-		else
-		{
-			$md_desc = $md_section->addDescription();
-			$md_desc->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
-			$md_desc->save();
-		}
-
-		$this->testOBJ->setTitle(ilUtil::stripSlashes($form->getItemByPostVar('title')->getValue()));
-		$this->testOBJ->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
-		$this->testOBJ->update();
-		
-		// pool usage setting
-		if( $form->getItemByPostVar('use_pool') instanceof ilFormPropertyGUI )
-		{
-			$this->testOBJ->setPoolUsage((int)$form->getItemByPostVar('use_pool')->getValue());
-		}
+		$this->saveGeneralProperties($form);
+		$this->saveTestIntroProperties($form);
+		$this->saveAvailabilityProperties($form);
 
 		// Examview
 		$this->testOBJ->setEnableExamview($form->getItemByPostVar('enable_examview')->getChecked());
 		$this->testOBJ->setShowExamviewHtml($form->getItemByPostVar('show_examview_html')->getChecked());
 		$this->testOBJ->setShowExamviewPdf($form->getItemByPostVar('show_examview_pdf')->getChecked());
 
-		// online status
-		$this->testOBJ->setOnline($form->getItemByPostVar('online')->getChecked());
 
-		// activation
-		if($form->getItemByPostVar('activation_type')->getChecked())
-		{	
-			$this->testOBJ->setActivationLimited(true);								    			
-			$this->testOBJ->setActivationVisibility($form->getItemByPostVar('activation_visibility')->getChecked());
-
-			$period = $form->getItemByPostVar("access_period");			
-			$this->testOBJ->setActivationStartingTime($period->getStart()->get(IL_CAL_UNIX));
-			$this->testOBJ->setActivationEndingTime($period->getEnd()->get(IL_CAL_UNIX));							
-		}
-		else
-		{
-			$this->testOBJ->setActivationLimited(false);
-		}
-
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		if( $form->getItemByPostVar('intro_enabled') instanceof ilFormPropertyGUI )
-		{
-			if( $form->getItemByPostVar('intro_enabled')->getChecked() )
-			{
-				$this->testOBJ->setIntroduction($form->getItemByPostVar('introduction')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-			}
-			else
-			{
-				$this->testOBJ->setIntroduction('');
-			}
-		}
-		if( $form->getItemByPostVar('showinfo') instanceof ilFormPropertyGUI )
-		{
-			$this->testOBJ->setShowInfo($form->getItemByPostVar('showinfo')->getChecked());
-		}
 		$this->testOBJ->setFinalStatement($form->getItemByPostVar('finalstatement')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$this->testOBJ->setShowFinalStatement($form->getItemByPostVar('showfinalstatement')->getChecked());
 		if( $form->getItemByPostVar('chb_postpone') instanceof ilFormPropertyGUI )
@@ -396,7 +336,7 @@ class ilObjTestSettingsGeneralGUI
 			$this->testOBJ->setListOfQuestionsEnd(0);
 			$this->testOBJ->setListOfQuestionsDescription(0);
 		}
-		
+
 		if( $form->getItemByPostVar('mailnotification') instanceof ilFormPropertyGUI && $form->getItemByPostVar('mailnotification')->getChecked() )
 		{
 			$this->testOBJ->setMailNotification($form->getItemByPostVar('mailnotification_content')->getValue());
@@ -416,7 +356,7 @@ class ilObjTestSettingsGeneralGUI
 		{
 			$this->testOBJ->setShowCancel($form->getItemByPostVar('chb_show_cancel')->getChecked());
 		}
-		
+
 		if($form->getItemByPostVar('kiosk') instanceof ilFormPropertyGUI)
 		{
 			$this->testOBJ->setKioskMode($form->getItemByPostVar('kiosk')->getChecked());
@@ -432,13 +372,13 @@ class ilObjTestSettingsGeneralGUI
 				$this->testOBJ->setShowKioskModeParticipant( false );
 			}
 		}
-		
+
 		if( $form->getItemByPostVar('examid_in_test_pass') instanceof ilFormPropertyGUI)
 		{
 			$value = $form->getItemByPostVar('examid_in_test_pass')->getChecked();
 			$this->testOBJ->setShowExamIdInTestPassEnabled( $value );
 		}
-	
+
 		// redirect after test
 		if( $form->getItemByPostVar('redirection_enabled')->getChecked() )
 		{
@@ -448,7 +388,7 @@ class ilObjTestSettingsGeneralGUI
 		{
 			$this->testOBJ->setRedirectionMode(REDIRECT_NONE);
 		}
-		
+
 		if( strlen($form->getItemByPostVar('redirection_url')->getValue()) )
 		{
 			$this->testOBJ->setRedirectionUrl( $form->getItemByPostVar('redirection_url')->getValue() );
@@ -502,7 +442,7 @@ class ilObjTestSettingsGeneralGUI
 		{
 			$this->testOBJ->setStartingTime('');
 		}
-		
+
 		if( $form->getItemByPostVar('chb_ending_time')->getChecked() )
 		{
 			$endingTimeSetting = $form->getItemByPostVar('ending_time');
@@ -514,7 +454,7 @@ class ilObjTestSettingsGeneralGUI
 		{
 			$this->testOBJ->setEndingTime('');
 		}
-		
+
 		if( $form->getItemByPostVar('title_output') instanceof ilFormPropertyGUI )
 		{
 			$this->testOBJ->setTitleOutput($form->getItemByPostVar('title_output')->getValue());
@@ -567,16 +507,10 @@ class ilObjTestSettingsGeneralGUI
 			$this->testOBJ->setScoringFeedbackOptionsByArray($form->getItemByPostVar('instant_feedback')->getValue());
 		}
 
-		$this->testOBJ->setUsePreviousAnswers($form->getItemByPostVar('chb_use_previous_answers')->getChecked());		
+		$this->testOBJ->setUsePreviousAnswers($form->getItemByPostVar('chb_use_previous_answers')->getChecked());
 
 		if( !$this->testOBJ->participantDataExist() )
 		{
-			// question set type
-			if( $form->getItemByPostVar('question_set_type') instanceof ilFormPropertyGUI )
-			{
-				$this->testOBJ->setQuestionSetType($form->getItemByPostVar('question_set_type')->getValue());
-			}
-
 			// nr of tries (max passes)
 			if( $form->getItemByPostVar('limitPasses') instanceof ilFormPropertyGUI )
 			{
@@ -601,15 +535,15 @@ class ilObjTestSettingsGeneralGUI
 			{
 				$this->testOBJ->setSkillServiceEnabled($form->getItemByPostVar('skill_service')->getChecked());
 			}
-		}		
+		}
 
 		// store settings to db
 		$this->testOBJ->saveToDb(true);
-			
+
 		// Update ecs export settings
-		include_once 'Modules/Test/classes/class.ilECSTestSettings.php';	
-		$ecs = new ilECSTestSettings($this->testOBJ);			
-		$ecs->handleSettingsUpdate();	
+		include_once 'Modules/Test/classes/class.ilECSTestSettings.php';
+		$ecs = new ilECSTestSettings($this->testOBJ);
+		$ecs->handleSettingsUpdate();
 	}
 
 	private function showConfirmation(ilPropertyFormGUI $form, $oldQuestionSetType, $newQuestionSetType, $hasQuestionsWithoutQuestionpool)
@@ -630,7 +564,7 @@ class ilObjTestSettingsGeneralGUI
 
 		$this->tpl->setContent( $this->ctrl->getHTML($confirmation) );
 	}
-	
+
 	private function buildForm()
 	{
 		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
@@ -641,79 +575,9 @@ class ilObjTestSettingsGeneralGUI
 		$form->setId("test_properties");
 
 		$this->addGeneralProperties($form);
+		$this->addAvailabilityProperties($form);
+		$this->addTestIntroProperties($form);
 
-		// activation/availability  (no template support yet)
-
-		include_once "Services/Object/classes/class.ilObjectActivation.php";
-		$this->lng->loadLanguageModule('rep');
-
-		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->lng->txt('rep_activation_availability'));
-		$form->addItem($section);
-		// additional info only with multiple references
-		$act_obj_info = $act_ref_info = "";
-		if(sizeof(ilObject::_getAllReferences($this->testOBJ->getId())) > 1)
-		{
-			$act_obj_info = ' '.$this->lng->txt('rep_activation_online_object_info');
-			$act_ref_info = $this->lng->txt('rep_activation_access_ref_info');
-		}
-
-		$online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'),'online');
-		$online->setChecked($this->testOBJ->isOnline());
-		$online->setInfo($this->lng->txt('tst_activation_online_info').$act_obj_info);
-		$form->addItem($online);
-
-		$act_type = new ilCheckboxInputGUI($this->lng->txt('rep_visibility_until'), 'activation_type');
-		$act_type->setChecked($this->testOBJ->isActivationLimited());
-		// $act_type->setInfo($this->lng->txt('tst_availability_until_info'));
-
-		$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
-		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-		$dur = new ilDateDurationInputGUI($this->lng->txt("rep_time_period"), "access_period");
-		$dur->setShowTime(true);
-		$date = $this->testOBJ->getActivationStartingTime();
-		$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
-		$dur->setStartText($this->lng->txt('rep_activation_limited_start'));
-		$date = $this->testOBJ->getActivationEndingTime();
-		$dur->setEnd(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
-		$dur->setEndText($this->lng->txt('rep_activation_limited_end'));
-		$act_type->addSubItem($dur);
-
-		$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
-		$visible->setInfo($this->lng->txt('tst_activation_limited_visibility_info'));
-		$visible->setChecked($this->testOBJ->getActivationVisibility());
-		$act_type->addSubItem($visible);
-
-		$form->addItem($act_type);
-
-		// section introduction
-		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->lng->txt('tst_settings_header_intro'));
-		$form->addItem($section);
-
-		// introduction
-		$introEnabled = new ilCheckboxInputGUI($this->lng->txt("tst_introduction"), 'intro_enabled');
-		$introEnabled->setChecked(strlen($this->testOBJ->getIntroduction()));
-		$introEnabled->setInfo($this->lng->txt('tst_introduction_desc'));
-		$form->addItem($introEnabled);
-		$intro = new ilTextAreaInputGUI($this->lng->txt("tst_introduction_text"), "introduction");
-		$intro->setRequired(true);
-		$intro->setValue($this->testOBJ->prepareTextareaOutput($this->testOBJ->getIntroduction(), false, true));
-		$intro->setRows(10);
-		$intro->setCols(80);
-		$intro->setUseRte(TRUE);
-		$intro->addPlugin("latex");
-		$intro->addButton("latex");
-		$intro->setRTESupport($this->testOBJ->getId(), "tst", "assessment");
-		$intro->setRteTagSet('full');
-		$introEnabled->addSubItem($intro);
-		// showinfo
-		$showinfo = new ilCheckboxInputGUI($this->lng->txt("showinfo"), "showinfo");
-		$showinfo->setValue(1);
-		$showinfo->setChecked($this->testOBJ->getShowInfo());
-		$showinfo->setInfo($this->lng->txt("showinfo_desc"));
-		$form->addItem($showinfo);
-		
 		if( !$this->settingsTemplate || $this->formShowBeginningEndingInformation($this->settingsTemplate->getSettings()) )
 		{
 			$header = new ilFormSectionHeaderGUI();
@@ -735,7 +599,7 @@ class ilObjTestSettingsGeneralGUI
 			$enablestartingtime->setChecked(strlen($this->testOBJ->getStartingTime()));
 		}
 		// starting time
-		$startingtime = new ilDateTimeInputGUI('', 'starting_time');		
+		$startingtime = new ilDateTimeInputGUI('', 'starting_time');
 		$startingtime->setShowTime(true);
 		if( strlen($this->testOBJ->getStartingTime()) )
 		{
@@ -763,7 +627,7 @@ class ilObjTestSettingsGeneralGUI
 		else
 			$enableendingtime->setChecked(strlen($this->testOBJ->getEndingTime()));
 		// ending time
-		$endingtime = new ilDateTimeInputGUI('', 'ending_time');		
+		$endingtime = new ilDateTimeInputGUI('', 'ending_time');
 		$endingtime->setShowTime(true);
 		if (strlen($this->testOBJ->getEndingTime()))
 		{
@@ -848,7 +712,7 @@ class ilObjTestSettingsGeneralGUI
 		$processing = new ilCheckboxInputGUI($this->lng->txt("tst_processing_time"), "chb_processing_time");
 		$processing->setInfo($this->lng->txt("tst_processing_time_desc"));
 		$processing->setValue(1);
-		
+
 		if( $this->settingsTemplate && $this->getTemplateSettingValue('chb_processing_time') )
 		{
 			$processing->setChecked(true);
@@ -896,7 +760,7 @@ class ilObjTestSettingsGeneralGUI
 		$kiosk->addSubItem($kiosktitle);
 
 		$form->addItem($kiosk);
-		
+
 		$examIdInPass = new ilCheckboxInputGUI($this->lng->txt('examid_in_test_pass'), 'examid_in_test_pass');
 		$examIdInPass->setInfo($this->lng->txt('examid_in_test_pass_desc'));
 		$examIdInPass->setChecked($this->testOBJ->isShowExamIdInTestPassEnabled());
@@ -1056,7 +920,7 @@ class ilObjTestSettingsGeneralGUI
 
 		// Edit ecs export settings
 		include_once 'Modules/Test/classes/class.ilECSTestSettings.php';
-		$ecs = new ilECSTestSettings($this->testOBJ);		
+		$ecs = new ilECSTestSettings($this->testOBJ);
 		$ecs->addSettingsToForm($form, 'tst');
 
 		// skill service activation for FIXED tests only
@@ -1084,13 +948,12 @@ class ilObjTestSettingsGeneralGUI
 				}
 			}
 		}
-		
+
 		return $form;
 	}
 
 	private function addQuestionBehaviourFormSection(ilPropertyFormGUI $form)
 	{
-
 		if( !$this->settingsTemplate || $this->formShowPresentationSection($this->settingsTemplate->getSettings()) )
 		{
 			// sequence properties
@@ -1196,12 +1059,12 @@ class ilObjTestSettingsGeneralGUI
 	{
 		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirmationGUI = new ilConfirmationGUI();
-		
+
 		$confirmationGUI->setFormAction($this->ctrl->getFormAction($this));
 		$confirmationGUI->setHeaderText($this->lng->txt("test_confirm_template_reset"));
 		$confirmationGUI->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_FORM);
 		$confirmationGUI->setConfirm($this->lng->txt('confirm'), self::CMD_CONFIRMED_RESET_TPL);
-		
+
 		$this->tpl->setContent( $this->ctrl->getHTML($confirmationGUI) );
 	}
 
@@ -1216,21 +1079,21 @@ class ilObjTestSettingsGeneralGUI
 		ilUtil::sendSuccess($this->lng->txt("test_template_reset"), true);
 		$this->ctrl->redirect($this, self::CMD_SHOW_FORM);
 	}
-	
+
 	protected function getTemplateSettingValue($settingName)
 	{
 		if( !$this->settingsTemplate )
 		{
 			return null;
 		}
-		
+
 		$templateSettings = $this->settingsTemplate->getSettings();
-		
+
 		if( !isset($templateSettings[$settingName]) )
 		{
 			return false;
 		}
-		
+
 		return $templateSettings[$settingName]['value'];
 	}
 
@@ -1242,18 +1105,18 @@ class ilObjTestSettingsGeneralGUI
 
 			$link = $this->ctrl->getLinkTarget($this, self::CMD_SHOW_RESET_TPL_CONFIRM);
 			$link = "<a href=\"".$link."\">".$this->lng->txt("test_using_template_link")."</a>";
-			
+
 			$msgHTML = $tpl->getMessageHTML(
 				sprintf($this->lng->txt("test_using_template"), $this->settingsTemplate->getTitle(), $link), "info"
 			);
-			
+
 			$msgHTML = "<div style=\"margin-top:10px\">$msgHTML</div>";
 		}
 		else
 		{
 			$msgHTML = '';
 		}
-		
+
 		return $msgHTML;
 	}
 
@@ -1274,7 +1137,7 @@ class ilObjTestSettingsGeneralGUI
 		// show always because of "previous answer" setting
 		return true;
 	}
-	
+
 	private function formShowSequenceSection($templateData)
 	{
 		// show always because of "list of question" and "shuffle"
@@ -1293,14 +1156,14 @@ class ilObjTestSettingsGeneralGUI
 	private function formShowTestExecutionSection($templateData)
 	{
 		return true; // remove this when 'eredirection_enabled' and 'sign_submission' become hideable
-		
+
 		$fields = array(
 			'kiosk',
 			'redirection_enabled', 'sign_submission' // not hideable up to now
 		);
 		return $this->formsectionHasVisibleFields($templateData, $fields);
 	}
-	
+
 	private function formShowParticipantSection($templateData)
 	{
 		$fields = array(
@@ -1320,7 +1183,7 @@ class ilObjTestSettingsGeneralGUI
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -1368,7 +1231,6 @@ class ilObjTestSettingsGeneralGUI
 
 	/**
 	 * @param $form
-	 * @return ilFormSectionHeaderGUI
 	 */
 	private function addGeneralProperties($form)
 	{
@@ -1434,6 +1296,182 @@ class ilObjTestSettingsGeneralGUI
 			$questSetType->setDisabled(true);
 		}
 		$form->addItem($questSetType);
-		return $header;
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	private function saveGeneralProperties(ilPropertyFormGUI $form)
+	{
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+		$md_obj =& new ilMD($this->testOBJ->getId(), 0, "tst");
+		$md_section = $md_obj->getGeneral();
+
+		// title
+		$md_section->setTitle(ilUtil::stripSlashes($form->getItemByPostVar('title')->getValue()));
+		$md_section->update();
+
+		// Description
+		$md_desc_ids = $md_section->getDescriptionIds();
+		if ($md_desc_ids)
+		{
+			$md_desc = $md_section->getDescription(array_pop($md_desc_ids));
+			$md_desc->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
+			$md_desc->update();
+		}
+		else
+		{
+			$md_desc = $md_section->addDescription();
+			$md_desc->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
+			$md_desc->save();
+		}
+
+		$this->testOBJ->setTitle(ilUtil::stripSlashes($form->getItemByPostVar('title')->getValue()));
+		$this->testOBJ->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
+		$this->testOBJ->update();
+
+		// pool usage setting
+		if ($form->getItemByPostVar('use_pool') instanceof ilFormPropertyGUI)
+		{
+			$this->testOBJ->setPoolUsage((int)$form->getItemByPostVar('use_pool')->getValue());
+		}
+
+		if (!$this->testOBJ->participantDataExist())
+		{
+			// question set type
+			if ($form->getItemByPostVar('question_set_type') instanceof ilFormPropertyGUI)
+			{
+				$this->testOBJ->setQuestionSetType($form->getItemByPostVar('question_set_type')->getValue());
+			}
+		}
+	}
+
+	/**
+	 * @param $form
+	 */
+	private function addAvailabilityProperties($form)
+	{
+		include_once "Services/Object/classes/class.ilObjectActivation.php";
+		$this->lng->loadLanguageModule('rep');
+
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('rep_activation_availability'));
+		$form->addItem($section);
+
+		// additional info only with multiple references
+		$act_obj_info = $act_ref_info = "";
+		if (sizeof(ilObject::_getAllReferences($this->testOBJ->getId())) > 1) {
+			$act_obj_info = ' ' . $this->lng->txt('rep_activation_online_object_info');
+			$act_ref_info = $this->lng->txt('rep_activation_access_ref_info');
+		}
+
+		$online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'), 'online');
+		$online->setChecked($this->testOBJ->isOnline());
+		$online->setInfo($this->lng->txt('tst_activation_online_info') . $act_obj_info);
+		$form->addItem($online);
+
+		$act_type = new ilCheckboxInputGUI($this->lng->txt('rep_visibility_until'), 'activation_type');
+		$act_type->setChecked($this->testOBJ->isActivationLimited());
+		// $act_type->setInfo($this->lng->txt('tst_availability_until_info'));
+
+		$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
+		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+		$dur = new ilDateDurationInputGUI($this->lng->txt("rep_time_period"), "access_period");
+		$dur->setShowTime(true);
+		$date = $this->testOBJ->getActivationStartingTime();
+		$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+		$dur->setStartText($this->lng->txt('rep_activation_limited_start'));
+		$date = $this->testOBJ->getActivationEndingTime();
+		$dur->setEnd(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+		$dur->setEndText($this->lng->txt('rep_activation_limited_end'));
+		$act_type->addSubItem($dur);
+
+		$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
+		$visible->setInfo($this->lng->txt('tst_activation_limited_visibility_info'));
+		$visible->setChecked($this->testOBJ->getActivationVisibility());
+		$act_type->addSubItem($visible);
+
+		$form->addItem($act_type);
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	private function saveAvailabilityProperties(ilPropertyFormGUI $form)
+	{
+		// online status
+		$this->testOBJ->setOnline($form->getItemByPostVar('online')->getChecked());
+
+		// activation
+		if ($form->getItemByPostVar('activation_type')->getChecked())
+		{
+			$this->testOBJ->setActivationLimited(true);
+			$this->testOBJ->setActivationVisibility($form->getItemByPostVar('activation_visibility')->getChecked());
+
+			$period = $form->getItemByPostVar("access_period");
+			$this->testOBJ->setActivationStartingTime($period->getStart()->get(IL_CAL_UNIX));
+			$this->testOBJ->setActivationEndingTime($period->getEnd()->get(IL_CAL_UNIX));
+		}
+		else
+		{
+			$this->testOBJ->setActivationLimited(false);
+		}
+	}
+
+	/**
+	 * @param $form
+	 */
+	private function addTestIntroProperties($form)
+	{
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('tst_settings_header_intro'));
+		$form->addItem($section);
+
+		// introduction
+		$introEnabled = new ilCheckboxInputGUI($this->lng->txt("tst_introduction"), 'intro_enabled');
+		$introEnabled->setChecked(strlen($this->testOBJ->getIntroduction()));
+		$introEnabled->setInfo($this->lng->txt('tst_introduction_desc'));
+		$form->addItem($introEnabled);
+		$intro = new ilTextAreaInputGUI($this->lng->txt("tst_introduction_text"), "introduction");
+		$intro->setRequired(true);
+		$intro->setValue($this->testOBJ->prepareTextareaOutput($this->testOBJ->getIntroduction(), false, true));
+		$intro->setRows(10);
+		$intro->setCols(80);
+		$intro->setUseRte(TRUE);
+		$intro->addPlugin("latex");
+		$intro->addButton("latex");
+		$intro->setRTESupport($this->testOBJ->getId(), "tst", "assessment");
+		$intro->setRteTagSet('full');
+		$introEnabled->addSubItem($intro);
+
+		// showinfo
+		$showinfo = new ilCheckboxInputGUI($this->lng->txt("showinfo"), "showinfo");
+		$showinfo->setValue(1);
+		$showinfo->setChecked($this->testOBJ->getShowInfo());
+		$showinfo->setInfo($this->lng->txt("showinfo_desc"));
+		$form->addItem($showinfo);
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	private function saveTestIntroProperties(ilPropertyFormGUI $form)
+	{
+		if ($form->getItemByPostVar('intro_enabled') instanceof ilFormPropertyGUI)
+		{
+			if ($form->getItemByPostVar('intro_enabled')->getChecked())
+			{
+				$this->testOBJ->setIntroduction($form->getItemByPostVar('introduction')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			}
+			else
+			{
+				$this->testOBJ->setIntroduction('');
+			}
+		}
+
+		if ($form->getItemByPostVar('showinfo') instanceof ilFormPropertyGUI)
+		{
+			$this->testOBJ->setShowInfo($form->getItemByPostVar('showinfo')->getChecked());
+		}
 	}
 }
