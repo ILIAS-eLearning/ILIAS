@@ -3,7 +3,6 @@
 * write primitives for all HTML input types
 * clean up _collect and expose it in consumer interface.
 * clean up Value-class
-* clean up checking. guards could easily be generalized. 
 
 # I could...
 

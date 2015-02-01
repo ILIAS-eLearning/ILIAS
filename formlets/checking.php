@@ -15,10 +15,12 @@
  *
  * You should have received a copy of the GNU Affero General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * TypeErrors for error checking. 
  */
 
+/**
+ * TypeErrors are needed to find typing problems that aren't revealed by PHPs 
+ * type hinting. 
+ */
 class TypeError extends Exception {
     private $_expected;
     private $_found;
@@ -38,6 +40,7 @@ function typeName($arg) {
     }
     return $t;
 }
+
 
 function guardIsString($arg) {
     if (!is_string($arg)) {
@@ -75,52 +78,44 @@ function guardIsObject($arg) {
     }
 }
 
-function guardIsClosure($arg) {
-    if (!($arg instanceof Closure)) {
-        throw new TypeError("Closure", typeName($arg));
-    }
-}
-
 function guardIsCallable($arg) {
     if(!is_callable($arg)) {
         throw new TypeError("callable", typeName($arg));
     }
 }
 
-function guardIsException($arg) {
-    if (!($arg instanceof Exception)) {
-        throw new TypeError("Exception", typeName($arg));
+function guardHasClass($class_name, $arg) {
+    if (!($arg instanceof $arg)) {
+        throw new TypeError($arg, typeName($arg));
     }
+}
+
+function guardIsClosure($arg) {
+    return guardHasClass("Closure", $arg);
+}
+
+function guardIsException($arg) {
+    return guardHasClass("Exception", $arg);
 }
 
 function guardIsValue($arg) {
-    if (!($arg instanceof Value)) {
-        throw new TypeError("Value", typeName($arg));
-    }
+    return guardHasClass("Value", $arg);
 }
 
 function guardIsErrorValue($arg) {
-    if (!($arg instanceof ErrorValue)) {
-        throw new TypeError("ErrorValue", typeName($arg));
-    }
+    return guardHasClass("ErrorValue", $arg);
 }
 
 function guardIsHTML($arg) {
-    if (!($arg instanceof HTML)) {
-        throw new TypeError("HTML", typeName($arg));
-    }
+    return guardHasClass("HTML", $arg);
 }
 
 function guardIsHTMLTag($arg) {
-    if (!($arg instanceof HTMLTag)) {
-        throw new TypeError("HTMLTag", typeName($arg));
-    }
+    return guardHasClass("HTMLTag", $arg);
 }
 
 function guardIsFormlet ($arg) {
-    if (!($arg instanceof Formlet)) {
-        throw new TypeError("Formlet", typeName($arg));
-    }
+    return guardHasClass("Formlet", $arg);
 }
 
 function guardHasArity(FunctionValue $fun, $arity) {
