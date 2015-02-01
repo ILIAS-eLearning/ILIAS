@@ -49,11 +49,7 @@ try {
         echo "</pre>";
     }
     else if ($form->_result() !== null) {
-        $dict = new RenderDict($_POST, $form->_result());
         echo "Error: ".$form->error()."<br />";
-        echo "<pre>";
-        print_r($dict);
-        echo "</pre>";
     }
 }
 catch (Exception $e) {
