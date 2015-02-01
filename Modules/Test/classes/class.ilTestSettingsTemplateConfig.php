@@ -390,7 +390,7 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 		);
 
 		$this->addSetting(
-			"password",
+			"password_enabled",
 			ilSettingsTemplateConfig::BOOL,
 			$this->lng->txt("tst_password"),
 			false
@@ -404,7 +404,7 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 		);
 
 		$this->addSetting(
-			"allowedUsers",
+			"limitUsers",
 			ilSettingsTemplateConfig::BOOL,
 			$this->lng->txt("tst_allowed_users"),
 			false

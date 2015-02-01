@@ -117,15 +117,15 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	/**
 	 * @var bool
 	 */
-	private $introductionEnabled;
+	protected $introductionEnabled;
 
 	/**
-* An introduction text to give users more information
-* on the test.
-*
-* @var string
-*/
-  	var $introduction;
+	 * An introduction text to give users more information
+	 * on the test.
+	 *
+	 * @var string
+	 */
+	protected $introduction;
 
 	/**
 * Defines the mark schema
@@ -329,25 +329,35 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	var $score_cutting;
 
 	/**
-* Password access to enter the test
-*
-* @var string
-*/
-	var $password;
+	 * @var bool
+	 */
+	protected $passwordEnabled;
 
 	/**
-* number of allowed users for the test
-*
-* @var int
-*/
-	var $allowedUsers;
+	 * Password access to enter the test
+	 *
+	 * @var string
+	 */
+	protected $password;
 
 	/**
-* inactivity time gap of the allowed users to let new users into the test
-*
-* @var int
-*/
-	var $allowedUsersTimeGap;
+	 * @var bool
+	 */
+	protected $limitUsersEnabled;
+
+	/**
+	 * number of allowed users for the test
+	 *
+	 * @var int
+	 */
+	protected $allowedUsers;
+
+	/**
+	 * inactivity time gap of the allowed users to let new users into the test
+	 *
+	 * @var int
+	 */
+	protected $allowedUsersTimeGap;
 
 	/**
 * visiblity settings for a test certificate
@@ -1317,11 +1327,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'shuffle_questions' => array('text', $this->getShuffleQuestions()),
 				'results_presentation' => array('integer', $this->getResultsPresentation()),
 				'show_summary' => array('integer', $this->getListOfQuestionsSettings()),
+				'password_enabled' => array('integer', (int)$this->isPasswordEnabled()),
 				'password' => array('text', $this->getPassword()),
+				'limit_users_enabled' => array('integer', (int)$this->isLimitUsersEnabled()),
 				'allowedusers' => array('integer', $this->getAllowedUsers()),
+				'alloweduserstimegap' => array('integer', $this->getAllowedUsersTimeGap()),
 				'mailnottype' => array('integer', $this->getMailNotificationType()),
 				'exportsettings' => array('integer', $this->getExportSettings()),
-				'alloweduserstimegap' => array('integer', $this->getAllowedUsersTimeGap()),
 				'certificate_visibility' => array('text', $this->getCertificateVisibility()),
 				'mailnotification' => array('integer', $this->getMailNotification()),
 				'created' => array('integer', time()),
@@ -1435,12 +1447,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 						'shuffle_questions' => array('text', $this->getShuffleQuestions()),
 						'results_presentation' => array('integer', $this->getResultsPresentation()),
 						'show_summary' => array('integer', $this->getListOfQuestionsSettings()),
+						'password_enabled' => array('integer', (int)$this->isPasswordEnabled()),
 						'password' => array('text', $this->getPassword()),
+						'limit_users_enabled' => array('integer', (int)$this->isLimitUsersEnabled()),
 						'allowedusers' => array('integer', $this->getAllowedUsers()),
+						'alloweduserstimegap' => array('integer', $this->getAllowedUsersTimeGap()),
 						'mailnottype' => array('integer', $this->getMailNotificationType()),
 						'exportsettings' => array('integer', $this->getExportSettings()),
 						'print_bs_with_res' => array('integer', (int)$this->isBestSolutionPrintedWithResult()),
-						'alloweduserstimegap' => array('integer', $this->getAllowedUsersTimeGap()),
 						'certificate_visibility' => array('text', $this->getCertificateVisibility()),
 						'mailnotification' => array('integer', $this->getMailNotification()),
 						'tstamp' => array('integer', time()),
@@ -1931,7 +1945,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$this->setMailNotificationType($data->mailnottype);
 			$this->setExportSettings($data->exportsettings);
 			$this->setScoreCutting($data->score_cutting);
+			$this->setPasswordEnabled($data->password_enabled);
 			$this->setPassword($data->password);
+			$this->setLimitUsersEnabled($data->limit_users_enabled);
 			$this->setAllowedUsers($data->allowedusers);
 			$this->setAllowedUsersTimeGap($data->alloweduserstimegap);
 			$this->setPassScoring($data->pass_scoring);
@@ -2584,18 +2600,6 @@ function getAnswerFeedbackPoints()
 	function getScoreCutting()
 	{
 		return ($this->score_cutting) ? $this->score_cutting : 0;
-	}
-
-/**
-* Returns the password for test access
-*
-* @return striong  Password for test access
-* @access public
-* @see $password
-*/
-	function getPassword()
-	{
-		return (strlen($this->password)) ? $this->password : NULL;
 	}
 
 /**
@@ -3268,14 +3272,42 @@ function getAnswerFeedbackPoints()
 		$this->count_system = $a_count_system;
 	}
 
-/**
-* Sets the password for test access
-*
-* @param string $a_password The password for test access
-* @access public
-* @see $password
-*/
-	function setPassword($a_password = NULL)
+	/**
+	 * @return boolean
+	 */
+	public function isPasswordEnabled()
+	{
+		return $this->passwordEnabled;
+	}
+
+	/**
+	 * @param boolean $passwordEnabled
+	 */
+	public function setPasswordEnabled($passwordEnabled)
+	{
+		$this->passwordEnabled = $passwordEnabled;
+	}
+
+	/**
+	 * Returns the password for test access
+	 *
+	 * @return striong  Password for test access
+	 * @access public
+	 * @see $password
+	 */
+	public function getPassword()
+	{
+		return (strlen($this->password)) ? $this->password : NULL;
+	}
+
+	/**
+	 * Sets the password for test access
+	 *
+	 * @param string $a_password The password for test access
+	 * @access public
+	 * @see $password
+	 */
+	public function setPassword($a_password = NULL)
 	{
 		$this->password = $a_password;
 	}
@@ -5756,8 +5788,9 @@ function getAnswerFeedbackPoints()
 		{
 			foreach ($objectives->materials as $material)
 			{
-				$this->setIntroduction($this->QTIMaterialToString($material));
-				$this->setIntroductionEnabled(true);
+				$intro = $this->QTIMaterialToString($material);
+				$this->setIntroduction($intro);
+				$this->setIntroductionEnabled(strlen($intro) > 0);
 			}
 		}
 
@@ -5785,6 +5818,8 @@ function getAnswerFeedbackPoints()
 
 		$this->setStartingTimeEnabled(false);
 		$this->setEndingTimeEnabled(false);
+		$this->setPasswordEnabled(false);
+		$this->setLimitUsersEnabled(false);
 
 		foreach ($assessment->qtimetadata as $metadata)
 		{
@@ -5963,9 +5998,11 @@ function getAnswerFeedbackPoints()
 					break;
 				case "password":
 					$this->setPassword($metadata["entry"]);
+					$this->setPasswordEnabled(strlen($metadata["entry"]) > 0);
 					break;
 				case "allowedUsers":
 					$this->setAllowedUsers($metadata["entry"]);
+					$this->setLimitUsersEnabled(strlen($metadata["entry"]) > 0);
 					break;
 				case "allowedUsersTimeGap":
 					$this->setAllowedUsersTimeGap($metadata["entry"]);
@@ -7057,6 +7094,9 @@ function getAnswerFeedbackPoints()
 		$newObj->setAnswerFeedback($this->getAnswerFeedback());
 		$newObj->setAnswerFeedbackPoints($this->getAnswerFeedbackPoints());
 		$newObj->setAuthor($this->getAuthor());
+		$newObj->setLimitUsersEnabled($this->isLimitUsersEnabled());
+		$newObj->setAllowedUsers($this->getAllowedUsers());
+		$newObj->setAllowedUsersTimeGap($this->getAllowedUsersTimeGap());
 		$newObj->setCountSystem($this->getCountSystem());
 		$newObj->setECTSFX($this->getECTSFX());
 		$newObj->setECTSGrades($this->getECTSGrades());
@@ -7080,6 +7120,7 @@ function getAnswerFeedbackPoints()
 		$newObj->setMailNotificationType($this->getMailNotificationType());
 		$newObj->setNrOfTries($this->getNrOfTries());
 		$newObj->setPassScoring($this->getPassScoring());
+		$newObj->setPasswordEnabled($this->isPasswordEnabled());
 		$newObj->setPassword($this->getPassword());
 		$newObj->setProcessingTime($this->getProcessingTime());
 		$newObj->setQuestionSetType($this->getQuestionSetType());
@@ -9041,22 +9082,38 @@ function getAnswerFeedbackPoints()
 		unset($_SESSION["tst_access_code"]["$id"]);
 	}
 
-	function getAllowedUsers()
+	/**
+	 * @return boolean
+	 */
+	public function isLimitUsersEnabled()
+	{
+		return $this->limitUsersEnabled;
+	}
+
+	/**
+	 * @param boolean $limitUsersEnabled
+	 */
+	public function setLimitUsersEnabled($limitUsersEnabled)
+	{
+		$this->limitUsersEnabled = $limitUsersEnabled;
+	}
+
+	public function getAllowedUsers()
 	{
 		return ($this->allowedUsers) ? $this->allowedUsers : 0;
 	}
 
-	function setAllowedUsers($a_allowed_users)
+	public function setAllowedUsers($a_allowed_users)
 	{
 		$this->allowedUsers = $a_allowed_users;
 	}
 
-	function getAllowedUsersTimeGap()
+	public function getAllowedUsersTimeGap()
 	{
 		return ($this->allowedUsersTimeGap) ? $this->allowedUsersTimeGap : 0;
 	}
 
-	function setAllowedUsersTimeGap($a_allowed_users_time_gap)
+	public function setAllowedUsersTimeGap($a_allowed_users_time_gap)
 	{
 		$this->allowedUsersTimeGap = $a_allowed_users_time_gap;
 	}

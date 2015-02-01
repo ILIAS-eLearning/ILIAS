@@ -4898,11 +4898,11 @@ class ilObjTestGUI extends ilObjectGUI
 			'showinfo' => 'setShowInfo',
 
 			// test access properties
-			'chb_starting_time' => '',
-			'chb_ending_time' => '',
-			'password_enabled' => '',
+			'chb_starting_time' => 'setStartingTimeEnabled',
+			'chb_ending_time' => 'setEndingTimeEnabled',
+			'password_enabled' => 'setPasswordEnabled',
 			'fixedparticipants' => 'setFixedParticipants',
-			'limitUsers' => '',
+			'limitUsers' => 'setLimitUsersEnabled',
 
 
 
