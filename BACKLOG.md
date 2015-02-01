@@ -1,6 +1,6 @@
 # I should...
 
-* write primitives for all HTML input types
+* write primitive for radio groups
 * clean up Value-class
 
 # I could...
@@ -17,6 +17,7 @@
 * let html_tag take a flexible number of HTMLs and concat them itself
 * elaborate representation of input to make it read only and take `$_FILES` into
   account
+* write primitives for all missing HTML input types
 * introduce a possibility to output erros from function calls
 * introduce namespacing
     - this seems to be a mess

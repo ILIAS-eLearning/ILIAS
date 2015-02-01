@@ -8,7 +8,7 @@ require_once("formlets.php");
 
 $br = text("<br />");
 
-$int_input = text_input()
+$int_input = text_input("10")
     ->satisfies(_fn("is_numeric"), "No integer!")
     ->map(_fn("intval", 1))
     ;
@@ -30,6 +30,15 @@ $all_inputs =
     ->cmb(with_label("A hidden input...", hidden("hidden")))
     ->cmb($br)
     ->cmb(with_label("A number input...", number(10, 0, 100, 5)))
+    ->cmb($br)
+    ->cmb(with_label("A password input...", password()))
+    ->cmb($br)
+    ->cmb(with_label("A reset input...", reset_button("RESET")))
+    ->cmb($br)
+    ->cmb(with_label("A search input...", search("RESET")))
+    ->cmb($br)
+    ->cmb(with_label("A url input...", url()))
+    ->cmb(inject(stop()))
     ->cmb(inject(stop()))
     ;
 

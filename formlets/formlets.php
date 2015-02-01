@@ -399,6 +399,37 @@ function _number($value, $min, $max, $step, $attributes = array()
             ;
 }
 
+function _password($default = null, $attributes = array()) {
+    return _textual_input("password", $default, $attributes);
+}
+
+// TODO: Missing input type=radio
+
+// TODO: Missing HTML-input type=range. What is the expected format of value 
+// for a range?
+
+function _reset($value) {
+    $attributes["value"] = $value;
+    return _input("reset", $attributes)
+            ->replaceCollector( new NullaryCollector() )
+            ;
+}
+
+function _search($default = null, $attributes = array()) {
+    return _textual_input("search", $default, $attributes);
+}
+
+// Missing HTML-input type=tel. No browser seems to implement it...
+
+// TODO: Missing HTML-input type=time. What is the expected format of value 
+// for a time?
+
+function _url($default = null, $attributes = array()) {
+    return _textual_input("url", $default, $attributes);
+}
+
+// TODO: Missing HTML-input type=week. What is the expected format of value 
+// for a week?
 
 /* A formlet that wraps other formlets in a field set */
 function _fieldset($legend, Formlet $formlet

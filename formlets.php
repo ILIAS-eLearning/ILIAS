@@ -248,12 +248,12 @@ function button($value, $attrs = array()) {
 /**
  * Get an email input.
  *
- * @param   string                      $value
+ * @param   string | null               $default
  * @param   [string => string] | null   $attrs
  * @return IFormlet
  */
-function email($value, $attrs = array()) {
-    return _email($value, $attrs);
+function email($default = null, $attrs = array()) {
+    return _email($default = null, $attrs);
 } 
 
 /**
@@ -291,6 +291,51 @@ function number( $value, $min, $max, $step, $attrs = array()
     return _number( $value, $min, $max, $step, $attrs
                   , $error_int, $error_range, $error_step
                   );
+} 
+
+
+/**
+ * Get a password input.
+ *
+ * @param   string                      $default
+ * @param   [string => string] | null   $attrs
+ * @return IFormlet
+ */
+function password($default = null, $attrs = array()) {
+    return _password($default, $attrs);
+} 
+
+/**
+ * Get a named reset button.
+ *
+ * @param   string                      $value
+ * @param   [string => string] | null   $attrs
+ * @return IFormlet
+ */
+function reset_button($value, $attrs = array()) {
+    return _reset($value, $attrs);
+}
+
+/**
+ * Get a search input.
+ *
+ * @param   string                      $default
+ * @param   [string => string] | null   $attrs
+ * @return IFormlet
+ */
+function search($default = null, $attrs = array()) {
+    return _search($default, $attrs);
+} 
+
+/**
+ * Get a urlinput.
+ *
+ * @param   string                      $default
+ * @param   [string => string] | null   $attrs
+ * @return IFormlet
+ */
+function url($default = null, $attrs = array()) {
+    return _url($default, $attrs);
 } 
 
 /**
