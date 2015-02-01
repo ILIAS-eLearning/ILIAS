@@ -2344,19 +2344,43 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$this->ects_grades = $a_ects_grades;
 	}
 
-/**
-* Sets the sequence settings of the ilObjTest object
-*
-* @param integer $sequence_settings The sequence settings
-* @access public
-* @see $sequence_settings
-*/
-	function setSequenceSettings($sequence_settings = 0)
+	/**
+	 * SEQUENCE SETTING = POSTPONING ENABLED !!
+	 *
+	 * @return integer The POSTPONING ENABLED status
+	 */
+	public function getSequenceSettings()
+	{
+		return ($this->sequence_settings) ? $this->sequence_settings : 0;
+	}
+
+	/**
+	 * SEQUENCE SETTING = POSTPONING ENABLED !!
+	 *
+	 * @param integer $sequence_settings The POSTPONING ENABLED status
+	 */
+	public function setSequenceSettings($sequence_settings = 0)
 	{
 		$this->sequence_settings = $sequence_settings;
 	}
 
-/**
+	/**
+	 * @return bool $postponingEnabled
+	 */
+	public function isPostponingEnabled()
+	{
+		return (bool)$this->getSequenceSettings();
+	}
+
+	/**
+	 * @param bool $postponingEnabled
+	 */
+	public function setPostponingEnabled($postponingEnabled)
+	{
+		$this->setSequenceSettings((int)$postponingEnabled);
+	}
+
+	/**
 * Sets the score reporting of the ilObjTest object
 *
 * @param integer $score_reporting The score reporting
@@ -2462,19 +2486,6 @@ function setGenericAnswerFeedback($generic_answer_feedback = 0)
 		{
 			$this->reporting_date = $reporting_date;
 		}
-	}
-
-/**
-* Gets the sequence settings of the ilObjTest object
- * SEQUENCE SETTING = POSTPONING ENABLED !!
-*
-* @return integer The sequence settings of the test
-* @access public
-* @see $sequence_settings
-*/
-	function getSequenceSettings()
-	{
-		return ($this->sequence_settings) ? $this->sequence_settings : 0;
 	}
 
 /**

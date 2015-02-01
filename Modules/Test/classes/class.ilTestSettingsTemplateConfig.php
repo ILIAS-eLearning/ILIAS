@@ -61,6 +61,10 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 		$this->addTestAccessProperties();
 		$this->addTestRunProperties();
 		$this->addQuestionBehaviourProperties();
+		$this->addTestSequenceProperties();
+
+
+
 
 
 		$this->addSetting(
@@ -81,51 +85,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			$this->lng->txt("final_statement_show"),
 			false
 		);
-
-		// Presentation Properties
-
-		$this->addSetting(
-			"chb_use_previous_answers",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("tst_use_previous_answers"),
-			false
-		);
-		$this->addSetting(
-			"forcejs",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("forcejs_short"),
-			true
-		);
-
-		// Sequence Properties
-
-		$this->addSetting(
-			"chb_postpone",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("tst_postpone"),
-			true
-		);
-		$this->addSetting(
-			"list_of_questions",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("tst_show_summary"),
-			false
-		);
-
-		$this->addSetting(
-			"chb_show_marker",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("question_marking"),
-			true
-		);
-		$this->addSetting(
-			"chb_show_cancel",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("tst_show_cancel"),
-			true
-		);
-
-		// Notifications
 
 		$this->addSetting(
 			"mailnotification",
@@ -420,6 +379,44 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			"obligations_enabled",
 			ilSettingsTemplateConfig::BOOL,
 			$this->lng->txt("tst_setting_enable_obligations_label"),
+			true
+		);
+	}
+
+	private function addTestSequenceProperties()
+	{
+		$this->addSetting(
+			"chb_use_previous_answers",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_use_previous_answers"),
+			true
+		);
+
+		$this->addSetting(
+			"chb_show_cancel",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_show_cancel"),
+			true
+		);
+
+		$this->addSetting(
+			"chb_postpone",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_postpone"),
+			true
+		);
+
+		$this->addSetting(
+			"list_of_questions",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_show_summary"),
+			false
+		);
+
+		$this->addSetting(
+			"chb_show_marker",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("question_marking"),
 			true
 		);
 	}

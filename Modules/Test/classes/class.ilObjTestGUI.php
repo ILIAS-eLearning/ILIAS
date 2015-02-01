@@ -4918,16 +4918,19 @@ class ilObjTestGUI extends ilObjectGUI
 			'instant_feedback' => 'setScoringFeedbackOptionsByArray',
 			'obligations_enabled' => 'setObligationsEnabled',
 
+			// test sequence properties
+			'chb_use_previous_answers' => 'setUsePreviousAnswers',
+			'chb_show_cancel' => 'setShowCancel',
+			'chb_postpone' => 'setPostponingEnabled',
+			'list_of_questions' => 'setListOfQuestionsSettings',
+			'chb_show_marker' => 'setShowMarker',
+
 
 			'anonymity' => 'setAnonymity',
 			'test_enabled_views' => 'setEnabledViewMode',
 			//'express_allow_question_pool' => 'setExpressModeQuestionPoolAllowed',
 			'finalstatement' => 'setFinalStatement',
 			'showfinalstatement' => 'setShowFinalStatement',
-			'list_of_questions' => 'setListOfQuestionsSettings',
-			'chb_show_marker' => 'setShowMarker',
-			'chb_show_cancel' => 'setShowCancel',
-			'chb_use_previous_answers' => 'setUsePreviousAnswers',
 			'forcejs' => 'setForceJS',
 			'mailnotification' => 'setMailNotification',
 			'mailnottype' => 'setMailNotificationType',

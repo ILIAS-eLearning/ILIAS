@@ -400,60 +400,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$this->addTestAccessProperties($form);
 		$this->addTestRunProperties($form);
 		$this->addQuestionBehaviourProperties($form);
+		$this->addTestSequenceProperties($form);
 
-
-		// sequence properties
-		$seqheader = new ilFormSectionHeaderGUI();
-		$seqheader->setTitle($this->lng->txt("tst_sequence_properties"));
-		$form->addItem($seqheader);
-
-		// use previous answers
-		$prevanswers = new ilCheckboxInputGUI($this->lng->txt("tst_use_previous_answers"), "chb_use_previous_answers");
-		$prevanswers->setValue(1);
-		$prevanswers->setChecked($this->testOBJ->getUsePreviousAnswers());
-		$prevanswers->setInfo($this->lng->txt("tst_use_previous_answers_description"));
-		$form->addItem($prevanswers);
-
-		// show suspend test
-		$cancel = new ilCheckboxInputGUI($this->lng->txt("tst_show_cancel"), "chb_show_cancel");
-		$cancel->setValue(1);
-		$cancel->setChecked($this->testOBJ->getShowCancel());
-		$cancel->setInfo($this->lng->txt("tst_show_cancel_description"));
-		$form->addItem($cancel);
-
-		// postpone questions
-		$postpone = new ilCheckboxInputGUI($this->lng->txt("tst_postpone"), "chb_postpone");
-		$postpone->setValue(1);
-		$postpone->setChecked($this->testOBJ->getSequenceSettings());
-		$postpone->setInfo($this->lng->txt("tst_postpone_description"));
-		$form->addItem($postpone);
-
-		// show list of questions
-		$list_of_questions = new ilCheckboxInputGUI($this->lng->txt("tst_show_summary"), "list_of_questions");
-		//$list_of_questions->setOptionTitle($this->lng->txt("tst_show_summary"));
-		$list_of_questions->setValue(1);
-		$list_of_questions->setChecked($this->testOBJ->getListOfQuestions());
-		$list_of_questions->setInfo($this->lng->txt("tst_show_summary_description"));
-
-		$list_of_questions_options = new ilCheckboxGroupInputGUI('', "list_of_questions_options");
-		$list_of_questions_options->addOption(new ilCheckboxOption($this->lng->txt("tst_list_of_questions_start"), 'chb_list_of_questions_start', ''));
-		$list_of_questions_options->addOption(new ilCheckboxOption($this->lng->txt("tst_list_of_questions_end"), 'chb_list_of_questions_end', ''));
-		$list_of_questions_options->addOption(new ilCheckboxOption($this->lng->txt("tst_list_of_questions_with_description"), 'chb_list_of_questions_with_description', ''));
-		$values = array();
-		if ($this->testOBJ->getListOfQuestionsStart()) array_push($values, 'chb_list_of_questions_start');
-		if ($this->testOBJ->getListOfQuestionsEnd()) array_push($values, 'chb_list_of_questions_end');
-		if ($this->testOBJ->getListOfQuestionsDescription()) array_push($values, 'chb_list_of_questions_with_description');
-		$list_of_questions_options->setValue($values);
-
-		$list_of_questions->addSubItem($list_of_questions_options);
-		$form->addItem($list_of_questions);
-
-		// show question marking
-		$marking = new ilCheckboxInputGUI($this->lng->txt("question_marking"), "chb_show_marker");
-		$marking->setValue(1);
-		$marking->setChecked($this->testOBJ->getShowMarker());
-		$marking->setInfo($this->lng->txt("question_marking_description"));
-		$form->addItem($marking);
 
 		$testExecution = new ilFormSectionHeaderGUI();
 		$testExecution->setTitle($this->lng->txt("tst_final_information"));
@@ -580,6 +528,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$this->saveTestAccessProperties($form);
 		$this->saveTestRunProperties($form);
 		$this->saveQuestionBehaviourProperties($form);
+		$this->saveTestSequenceSettings($form);
+
 
 
 
@@ -591,24 +541,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
 		$this->testOBJ->setFinalStatement($form->getItemByPostVar('finalstatement')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$this->testOBJ->setShowFinalStatement($form->getItemByPostVar('showfinalstatement')->getChecked());
-		if( $form->getItemByPostVar('chb_postpone') instanceof ilFormPropertyGUI )
-		{
-			$this->testOBJ->setSequenceSettings($form->getItemByPostVar('chb_postpone')->getChecked());
-		}
-		$this->testOBJ->setListOfQuestions($form->getItemByPostVar('list_of_questions')->getChecked());
-		$listOfQuestionsOptions = $form->getItemByPostVar('list_of_questions_options')->getValue();
-		if( is_array($listOfQuestionsOptions) )
-		{
-			$this->testOBJ->setListOfQuestionsStart( in_array('chb_list_of_questions_start', $listOfQuestionsOptions) );
-			$this->testOBJ->setListOfQuestionsEnd( in_array('chb_list_of_questions_end', $listOfQuestionsOptions) );
-			$this->testOBJ->setListOfQuestionsDescription( in_array('chb_list_of_questions_with_description', $listOfQuestionsOptions) );
-		}
-		else
-		{
-			$this->testOBJ->setListOfQuestionsStart(0);
-			$this->testOBJ->setListOfQuestionsEnd(0);
-			$this->testOBJ->setListOfQuestionsDescription(0);
-		}
 
 		if( $form->getItemByPostVar('mailnotification') instanceof ilFormPropertyGUI && $form->getItemByPostVar('mailnotification')->getChecked() )
 		{
@@ -621,14 +553,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$this->testOBJ->setMailNotificationType(false);
 		}
 
-		if( $form->getItemByPostVar('chb_show_marker') instanceof ilFormPropertyGUI )
-		{
-			$this->testOBJ->setShowMarker($form->getItemByPostVar('chb_show_marker')->getChecked());
-		}
-		if( $form->getItemByPostVar('chb_show_cancel') instanceof ilFormPropertyGUI )
-		{
-			$this->testOBJ->setShowCancel($form->getItemByPostVar('chb_show_cancel')->getChecked());
-		}
 
 		// redirect after test
 		if( $form->getItemByPostVar('redirection_enabled')->getChecked() )
@@ -658,19 +582,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$this->testOBJ->setSignSubmission( false );
 		}
 
-		// Selector for uicode characters
-		global $ilSetting;
-		if ($ilSetting->get('char_selector_availability') > 0)
-		{
-			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
-			$char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_TEST);
-			$char_selector->addFormProperties($form);
-			$char_selector->getFormValues($form);
-			$this->testOBJ->setCharSelectorAvailability($char_selector->getConfig()->getAvailability());
-			$this->testOBJ->setCharSelectorDefinition($char_selector->getConfig()->getDefinition());
-		}
 
-		$this->testOBJ->setUsePreviousAnswers($form->getItemByPostVar('chb_use_previous_answers')->getChecked());
 
 		if( !$this->testOBJ->participantDataExist() )
 		{
@@ -1393,6 +1305,116 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		if (!$this->testOBJ->participantDataExist() && $this->formPropertyExists($form, 'obligations_enabled'))
 		{
 			$this->testOBJ->setObligationsEnabled($form->getItemByPostVar('obligations_enabled')->getChecked());
+		}
+
+		if( $this->isCharSelectorPropertyRequired() )
+		{
+			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+			$char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_TEST);
+			$char_selector->addFormProperties($form);
+			$char_selector->getFormValues($form);
+			$this->testOBJ->setCharSelectorAvailability($char_selector->getConfig()->getAvailability());
+			$this->testOBJ->setCharSelectorDefinition($char_selector->getConfig()->getDefinition());
+		}
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	private function addTestSequenceProperties(ilPropertyFormGUI $form)
+	{
+		// sequence properties
+		$seqheader = new ilFormSectionHeaderGUI();
+		$seqheader->setTitle($this->lng->txt("tst_sequence_properties"));
+		$form->addItem($seqheader);
+
+		// use previous answers
+		$prevanswers = new ilCheckboxInputGUI($this->lng->txt("tst_use_previous_answers"), "chb_use_previous_answers");
+		$prevanswers->setValue(1);
+		$prevanswers->setChecked($this->testOBJ->getUsePreviousAnswers());
+		$prevanswers->setInfo($this->lng->txt("tst_use_previous_answers_description"));
+		$form->addItem($prevanswers);
+
+		// show suspend test
+		$cancel = new ilCheckboxInputGUI($this->lng->txt("tst_show_cancel"), "chb_show_cancel");
+		$cancel->setValue(1);
+		$cancel->setChecked($this->testOBJ->getShowCancel());
+		$cancel->setInfo($this->lng->txt("tst_show_cancel_description"));
+		$form->addItem($cancel);
+
+		// postpone questions
+		$postpone = new ilCheckboxInputGUI($this->lng->txt("tst_postpone"), "chb_postpone");
+		$postpone->setValue(1);
+		$postpone->setChecked($this->testOBJ->getSequenceSettings());
+		$postpone->setInfo($this->lng->txt("tst_postpone_description"));
+		$form->addItem($postpone);
+
+		// show list of questions
+		$list_of_questions = new ilCheckboxInputGUI($this->lng->txt("tst_show_summary"), "list_of_questions");
+		//$list_of_questions->setOptionTitle($this->lng->txt("tst_show_summary"));
+		$list_of_questions->setValue(1);
+		$list_of_questions->setChecked($this->testOBJ->getListOfQuestions());
+		$list_of_questions->setInfo($this->lng->txt("tst_show_summary_description"));
+
+		$list_of_questions_options = new ilCheckboxGroupInputGUI('', "list_of_questions_options");
+		$list_of_questions_options->addOption(new ilCheckboxOption($this->lng->txt("tst_list_of_questions_start"), 'chb_list_of_questions_start', ''));
+		$list_of_questions_options->addOption(new ilCheckboxOption($this->lng->txt("tst_list_of_questions_end"), 'chb_list_of_questions_end', ''));
+		$list_of_questions_options->addOption(new ilCheckboxOption($this->lng->txt("tst_list_of_questions_with_description"), 'chb_list_of_questions_with_description', ''));
+		$values = array();
+		if ($this->testOBJ->getListOfQuestionsStart()) array_push($values, 'chb_list_of_questions_start');
+		if ($this->testOBJ->getListOfQuestionsEnd()) array_push($values, 'chb_list_of_questions_end');
+		if ($this->testOBJ->getListOfQuestionsDescription()) array_push($values, 'chb_list_of_questions_with_description');
+		$list_of_questions_options->setValue($values);
+
+		$list_of_questions->addSubItem($list_of_questions_options);
+		$form->addItem($list_of_questions);
+
+		// show question marking
+		$marking = new ilCheckboxInputGUI($this->lng->txt("question_marking"), "chb_show_marker");
+		$marking->setValue(1);
+		$marking->setChecked($this->testOBJ->getShowMarker());
+		$marking->setInfo($this->lng->txt("question_marking_description"));
+		$form->addItem($marking);
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	private function saveTestSequenceSettings(ilPropertyFormGUI $form)
+	{
+		if( $this->formPropertyExists($form, 'chb_use_previous_answers') )
+		{
+			$this->testOBJ->setUsePreviousAnswers($form->getItemByPostVar('chb_use_previous_answers')->getChecked());
+		}
+
+		if( $this->formPropertyExists($form, 'chb_show_cancel') )
+		{
+			$this->testOBJ->setShowCancel($form->getItemByPostVar('chb_show_cancel')->getChecked());
+		}
+
+		if( $this->formPropertyExists($form, 'chb_postpone') )
+		{
+			$this->testOBJ->setPostponingEnabled($form->getItemByPostVar('chb_postpone')->getChecked());
+		}
+
+		$this->testOBJ->setListOfQuestions($form->getItemByPostVar('list_of_questions')->getChecked());
+		$listOfQuestionsOptions = $form->getItemByPostVar('list_of_questions_options')->getValue();
+		if(is_array($listOfQuestionsOptions))
+		{
+			$this->testOBJ->setListOfQuestionsStart(in_array('chb_list_of_questions_start', $listOfQuestionsOptions));
+			$this->testOBJ->setListOfQuestionsEnd(in_array('chb_list_of_questions_end', $listOfQuestionsOptions));
+			$this->testOBJ->setListOfQuestionsDescription(in_array('chb_list_of_questions_with_description', $listOfQuestionsOptions));
+		}
+		else
+		{
+			$this->testOBJ->setListOfQuestionsStart(0);
+			$this->testOBJ->setListOfQuestionsEnd(0);
+			$this->testOBJ->setListOfQuestionsDescription(0);
+		}
+
+		if( $this->formPropertyExists($form, 'chb_show_marker') )
+		{
+			$this->testOBJ->setShowMarker($form->getItemByPostVar('chb_show_marker')->getChecked());
 		}
 	}
 }
