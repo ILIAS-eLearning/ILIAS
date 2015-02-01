@@ -172,6 +172,8 @@ class HTMLTag extends HTML {
 
     public function attribute($key, $value = null) {
         if ($value === null) {
+            if (!array_key_exists($key, $this->_attributes))
+                return null;
             return $this->_attributes[$key];
         }
 

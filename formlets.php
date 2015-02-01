@@ -349,6 +349,21 @@ function url($default = null, $attrs = array()) {
 function select($options, $default = null, $attrs = array()) {
     return _select($options, $default, $attrs);
 }
+
+/**
+ * Get one radio button input per option, wrapped in a span. If no attribute 
+ * 'class' is given in $attrs, span will get class 'radiogroup'.
+ *
+ * @param   [string]                    $options
+ * @param   string                      $default
+ * @param   [string => string] | null   $attrs
+ * @param   [string => string] | null   $attrs_opts
+ * @return IFormlet
+ */
+function radio($options, $default = null, $attrs = array(), $attrs_opts = array()) {
+    return _radio($options, $default, $attrs, $attrs_opts);
+}
+
 /**
  * Wrap a formlet into a fieldset.
  * 

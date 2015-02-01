@@ -403,7 +403,37 @@ function _password($default = null, $attributes = array()) {
     return _textual_input("password", $default, $attributes);
 }
 
-// TODO: Missing input type=radio
+function _radio($options, $default = null, $attributes = array()
+               , $attributes_options = array()) {
+    guardEach($options, "guardIsString");
+    return _input("radio", $attributes)
+        ->mapHTML(_fn(function($dict, $html) use ($options, $attributes, $default) {
+            $name = $html->attribute("name");
+
+            $value = $dict->value($name);
+            if ($value === null)
+                $value == $default;
+
+            $attributes_options["name"] = $name;
+            $attributes_options["type"] = "radio";
+            $options_html = array_map(function($option) use ($value, $attributes_options) {
+                $attributes_options["value"] = $option;
+                if ($option === $value) {
+                    $attributes_options["checked"] = "checked";
+                }
+                return html_tag("input", $attributes_options, html_text($option));
+            }, $options);
+
+            if (!array_key_exists("class", $attributes)) {
+                $attributes["class"] = "radiogroup";
+            }
+            return html_tag("span", $attributes, html_array($options_html));
+        }))
+        ->satisfies(_fn(function($value) use ($options) {
+            return in_array($value, $options);
+        }), "Option not available.")
+        ;
+}
 
 // TODO: Missing HTML-input type=range. What is the expected format of value 
 // for a range?
@@ -434,7 +464,7 @@ function _url($default = null, $attributes = array()) {
 function _select($options, $default = null, $attributes = array()) {
     guardEach($options, "guardIsString");
     return _input("select", $attributes)
-        ->mapHTML(_fn(function($dict, $html) use ($options, $attributes) {
+        ->mapHTML(_fn(function($dict, $html) use ($options, $attributes, $default) {
             $name = $html->attribute("name");
 
             $value = $dict->value($name);

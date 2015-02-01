@@ -40,6 +40,8 @@ $all_inputs =
     ->cmb(with_label("A url input...", url()))
     ->cmb($br)
     ->cmb(with_label("A select input...", select(array("one", "two", "three"))))
+    ->cmb($br)
+    ->cmb(with_label("A radio input...", radio(array("aa", "bb", "cc"))))
     ->cmb(inject(stop()))
     ;
 
