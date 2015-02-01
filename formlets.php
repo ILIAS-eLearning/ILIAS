@@ -341,5 +341,22 @@ function form($id, $action, IFormlet $formlet, $attrs = null) {
     return _form($id, $action, $formlet, $attrs);
 }
 
+
+require_once("formlets/lib.php");
+
+/**
+ * Collect values in an array until stop is received.
+ *
+ * See example.php.
+ *
+ * @return IValue
+ */
+function collect() {
+    return _collect();
+}
+
+function stop() {
+    return val(new Stop());
+}
  
 ?>

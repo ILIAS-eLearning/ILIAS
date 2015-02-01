@@ -1,7 +1,6 @@
 # I should...
 
 * write primitives for all HTML input types
-* clean up _collect and expose it in consumer interface.
 * clean up Value-class
 
 # I could...

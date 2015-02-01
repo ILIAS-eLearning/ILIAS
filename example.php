@@ -14,7 +14,7 @@ $int_input = text_input()
     ;
 
 $all_inputs = 
-    inject(_collect())
+    inject(collect())
     ->cmb(with_label("A text input: ", text_input()))
     ->cmb($br)
     ->cmb(with_label("A int input: ", with_errors($int_input)))
@@ -26,7 +26,7 @@ $all_inputs =
     ;
 
 $formlet =
-    inject(_collect())
+    inject(collect())
     ->cmb($all_inputs)
     ->cmb($br)
     ->cmb($br)

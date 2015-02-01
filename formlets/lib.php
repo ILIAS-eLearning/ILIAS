@@ -21,57 +21,38 @@
 
 require_once("values.php");
 
-class Stop {
-}
-
-function stop() {
-    static $val = null;
-    if ($val === null) {
-        $val = _val(new Stop());
-    }
-    return $val;
-}
-
-// TODO: This could be refactored for sure!
-
-function appendRecursive($array, $value) {
-    if ( !$value->isError() 
-    &&   !$value->isApplicable() 
-    &&   $value->get() instanceOf Stop) {
-        $errors = array();
-        $vals = array_map(function($v) use (&$errors) {
-                $forced = $v->force();
-                if ($forced->isError()) {
-                    $errors[] = $forced;
-                    return $forced;
-                }
-                if ($forced->isApplicable()) {
-                    return $forced;
-                }
-                return $forced->get();
-            }
-            , $array
-            );
-
-        if (count($errors) > 0) {
-            return _error("Collection contains errors.", "_collect", $errors);
-        }
-        return _val($vals, "_collect");
-    }
-    else {
-        $array[] = $value->force();
-        return _fn_w(function($a) use ($array) {
-            return appendRecursive($array, $a);
-        });
-    }
-}
-
 function _collect() {
-    static $fn = null;
-    if ($fn === null) {
-        $fn = _fn_w(function($a) {
-            return appendRecursive(array(), $a);
-        });
-    } 
-    return $fn;
+    $array = array();
+    $collector = _fn_w(function(Value $v) use (&$array, &$collector) {
+        if ( !($v->isError() || $v->isApplicable())
+        &&   $v->get() instanceof Stop) {
+            // Postprocessing of the collected values.
+            // We need to check weather there are errors in the collection
+            // to be able to get errors appropriately.
+            $errors = array();
+            $vals = array_map(function ($v) use (&$errors) {
+                $v = $v->force();
+                if ($v->isError()) {
+                    $errors[] = $v;
+                    return $v;
+                }
+                if ($v->isApplicable()) {
+                    return $v;
+                }  
+                return $v->get();           
+            }, $array);
+
+            if (count($errors) > 0) {
+                return _error("Collection contains errors.", "_collect", $errors);
+            }
+            return _val($vals, "collect");
+        }
+
+        $array[] = $v->force(); 
+        return $collector;
+    });
+    return $collector;
 }
+
+/* Signals that the array is completed. */
+class Stop {}
