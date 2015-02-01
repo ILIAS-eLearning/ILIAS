@@ -56,3 +56,18 @@ function _collect() {
 
 /* Signals that the array is completed. */
 class Stop {}
+
+/* Check weather a number is between $l and $r */
+function _inRange($l, $r) {
+    return _fn(function($value) use ($l, $r) {
+        return $value >= $l && $value <= $r;
+    });
+}
+
+/* Check weather a number is a multiple of $s */
+function _isMultipleOf($s) {
+    return _fn(function($value) use ($s) {
+        return $value % $s === 0;
+    });
+}
+
