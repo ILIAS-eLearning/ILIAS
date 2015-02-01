@@ -230,9 +230,68 @@ function checkbox($default = false, $attrs = null) {
  * @param   bool                        $collects
  * @return IFormlet
  */
-function submit($value, $attrs = null, $collects = false) {
+function submit($value, $attrs = array(), $collects = false) {
     return _submit($value, $attrs, $collects);
 }
+
+/**
+ * Get a named button input.
+ *
+ * @param   string                      $value
+ * @param   [string => string] | null   $attrs
+ * @return IFormlet
+ */
+function button($value, $attrs = array()) {
+    return _button($value, $attrs);
+} 
+
+/**
+ * Get an email input.
+ *
+ * @param   string                      $value
+ * @param   [string => string] | null   $attrs
+ * @return IFormlet
+ */
+function email($value, $attrs = array()) {
+    return _email($value, $attrs);
+} 
+
+/**
+ * Get an hidden input.
+ *
+ * @param   string                      $value
+ * @param   [string => string] | null   $attrs
+ * @return IFormlet
+ */
+function hidden($value, $attrs = array()) {
+    return _hidden($value, $attrs);
+} 
+
+/**
+ * Get an number input. Performs server side validation as well. $min, $max and
+ * $steps are used in the same manner as their responding HTML attributes. The 
+ * three error paramaters determine which messages should be shown to the user
+ * on errors in server side validation.
+ *
+ * @param   integer                     $value
+ * @param   integer                     $min
+ * @param   integer                     $max
+ * @param   integer                     $step
+ * @param   string                      $error_int
+ * @param   string                      $error_range
+ * @param   string                      $error_step
+ * @param   [string => string] | null   $attrs
+ * @return IFormlet
+ */
+function number( $value, $min, $max, $step, $attrs = array()
+               , $error_int = "No integer!"
+               , $error_range = "Not in range!"
+               , $error_step = "Steps mismatch!"
+               ) {
+    return _number( $value, $min, $max, $step, $attrs
+                  , $error_int, $error_range, $error_step
+                  );
+} 
 
 /**
  * Wrap a formlet into a fieldset.

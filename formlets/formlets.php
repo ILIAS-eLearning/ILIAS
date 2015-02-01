@@ -255,10 +255,9 @@ function _textarea_raw($attributes = null) {
     return new TextAreaFormlet($attributes);
 }
 
-
-function _text_input($default = null, $attributes = null) {
+function _textual_input($type, $default = null, $attributes = null) {
     guardIfNotNull($default, "guardIsString");
-    return _input("text", $attributes)
+    return _input($type, $attributes)
         // Only accept string inputs
         //->satisfies(_fn("is_string"), "Input is no string.")
         // Set value by input or given value if there is no input. 
@@ -273,6 +272,10 @@ function _text_input($default = null, $attributes = null) {
 
             return $html;
         }));
+}
+
+function _text_input($default = null, $attributes = null) {
+    return _textual_input("text", $default, $attributes);
 }
 
 
@@ -340,6 +343,62 @@ function _submit($value, $attributes = array(), $collects = false) {
         return $input->replaceCollector( new NullaryCollector() );
     }
 }
+
+function _button($value, $attributes = array()) {
+    $attributes["value"] = $value;
+    return _input("button", $attributes)
+            ->replaceCollector( new NullaryCollector() )
+            ;
+}
+
+// TODO: Missing HTML-input type=color. What is the expected format of value for
+// a color?
+
+// TODO: Missing HTML-input type=date. What is the expected format of value for
+// a date?
+
+// TODO: Missing HTML-input type=datetime. What is the expected format of value 
+// for a datetime?
+
+// TODO: Missing HTML-input type=datetime-local. What is the expected format of 
+// value for a datetime-local?
+
+function _email($default = null, $attributes = array()) {
+    return _textual_input("email", $default, $attributes);
+}
+
+// TODO: Missing HTML-input type=file. I would need to make the $_FILES array 
+// accessible, right?
+
+function _hidden($value, $attributes = array()) {
+    $attributes["value"] = $value;
+    return _input("hidden", $attributes);
+}
+
+// TODO: Missing HTML-input type=image. Do i really need this?
+
+// TODO: Missing HTML-input type=month. What is the expected format of value 
+// for a datetime-local? Do i really need it?
+
+function _number($value, $min, $max, $step, $attributes = array()
+                , $error_int, $error_range, $error_step
+                ) {
+    guardIsInt($value);
+    guardIsInt($min);
+    guardIsInt($max);
+    guardIsInt($step);
+    $attributes["value"] = "$value";
+    $attributes["min"] = "$min";
+    $attributes["max"] = "$max";
+    $attributes["step"] = "$step";
+    return _input("number", $attributes)
+            ->satisfies(_fn("is_numeric", 1), $error_int)
+            ->map(_fn("intval", 1))
+            ->satisfies(_inRange($min, $max), $error_range)
+            ->satisfies(_isMultipleOf($step), $error_step)
+            ;
+}
+
 
 /* A formlet that wraps other formlets in a field set */
 function _fieldset($legend, Formlet $formlet

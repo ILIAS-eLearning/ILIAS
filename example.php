@@ -22,6 +22,14 @@ $all_inputs =
     ->cmb(with_label("A checkbox input...", checkbox()))
     ->cmb($br)
     ->cmb(with_label("A textarea input...", textarea()))
+    ->cmb($br)
+    ->cmb(with_label("A button input...", button("button")))
+    ->cmb($br)
+    ->cmb(with_label("An email input...", email()))
+    ->cmb($br)
+    ->cmb(with_label("A hidden input...", hidden("hidden")))
+    ->cmb($br)
+    ->cmb(with_label("A number input...", number(10, 0, 100, 5)))
     ->cmb(inject(stop()))
     ;
 
