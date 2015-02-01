@@ -216,6 +216,11 @@ function html_concat() {
     return new HTMLArray(func_get_args());
 }
 
+function html_array($array) {
+    return new HTMLArray($array);
+}
+
+
 function keysAndValuesToHTMLAttributes($attributes) {
     $str = "";
     foreach ($attributes as $key => $value) {

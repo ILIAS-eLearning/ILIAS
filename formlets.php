@@ -339,6 +339,17 @@ function url($default = null, $attrs = array()) {
 } 
 
 /**
+ * Get a select input.
+ *
+ * @param   [string]                    $options
+ * @param   string                      $default
+ * @param   [string => string] | null   $attrs
+ * @return IFormlet
+ */
+function select($options, $default = null, $attrs = array()) {
+    return _select($options, $default, $attrs);
+}
+/**
  * Wrap a formlet into a fieldset.
  * 
  * @param   string                      $legend

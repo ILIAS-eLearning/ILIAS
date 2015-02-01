@@ -431,6 +431,33 @@ function _url($default = null, $attributes = array()) {
 // TODO: Missing HTML-input type=week. What is the expected format of value 
 // for a week?
 
+function _select($options, $default = null, $attributes = array()) {
+    guardEach($options, "guardIsString");
+    return _input("select", $attributes)
+        ->mapHTML(_fn(function($dict, $html) use ($options, $attributes) {
+            $name = $html->attribute("name");
+
+            $value = $dict->value($name);
+            if ($value === null)
+                $value == $default;
+
+            $attributes["name"] = $name;
+            $options_html = array_map(function($option) use ($value) {
+                if ($option !== $value) {
+                    return html_tag("option", array(), html_text($option));
+                }
+                else {
+                    return html_tag("option", array("selected" => "selected"), html_text($option));
+                }
+            }, $options);
+            return html_tag("select", $attributes, html_array($options_html));
+        }))
+        ->satisfies(_fn(function($value) use ($options) {
+            return in_array($value, $options);
+        }), "Option not available.")
+        ;
+}
+
 /* A formlet that wraps other formlets in a field set */
 function _fieldset($legend, Formlet $formlet
                   , $attributes = array(), $legend_attributes = array()) {

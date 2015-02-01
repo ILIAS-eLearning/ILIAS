@@ -38,7 +38,8 @@ $all_inputs =
     ->cmb(with_label("A search input...", search("RESET")))
     ->cmb($br)
     ->cmb(with_label("A url input...", url()))
-    ->cmb(inject(stop()))
+    ->cmb($br)
+    ->cmb(with_label("A select input...", select(array("one", "two", "three"))))
     ->cmb(inject(stop()))
     ;
 
