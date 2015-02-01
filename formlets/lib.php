@@ -22,8 +22,7 @@
 require_once("values.php");
 
 function _collect() {
-    $array = array();
-    $collector = _fn_w(function(Value $v) use (&$array, &$collector) {
+    $collector = _fn_w(function($array, Value $v) use (&$collector) {
         if ( !($v->isError() || $v->isApplicable())
         &&   $v->get() instanceof Stop) {
             // Postprocessing of the collected values.
@@ -40,7 +39,7 @@ function _collect() {
                     return $v;
                 }  
                 return $v->get();           
-            }, $array);
+            }, $array->get());
 
             if (count($errors) > 0) {
                 return _error("Collection contains errors.", "_collect", $errors);
@@ -48,10 +47,11 @@ function _collect() {
             return _val($vals, "collect");
         }
 
+        $array = $array->get();
         $array[] = $v->force(); 
-        return $collector;
+        return $collector->apply(_val($array));
     });
-    return $collector;
+    return $collector->apply(val(array()));
 }
 
 /* Signals that the array is completed. */

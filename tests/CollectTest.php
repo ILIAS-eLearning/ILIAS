@@ -95,7 +95,17 @@ class CollectTest extends PHPUnit_Framework_TestCase {
         $this->formlet_result = $repr["collector"]->collect(array());
     }
 
+    public function testCollectCanBeReused() {
+        $fn = collect();
+        $fn_a = $fn->apply(val(1))->apply(val(2))->apply(stop());
+        $fn_b = $fn->apply(val(3))->apply(val(4))->apply(stop());
 
+        $res_a = $fn_a->get();
+        $res_b = $fn_b->get();
+
+        $this->assertEquals($res_a, array(1, 2));
+        $this->assertEquals($res_b, array(3, 4));
+    } 
 }
 
 ?>
