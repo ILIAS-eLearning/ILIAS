@@ -4910,6 +4910,13 @@ class ilObjTestGUI extends ilObjectGUI
 			'kiosk' => 'setKiosk',
 			'examid_in_test_pass' => 'setShowExamIdInTestPassEnabled',
 
+			// question behavior properties
+			'title_output' => 'setTitleOutput',
+			'autosave' => null, // handled specially in loop below
+			'chb_shuffle_questions' => 'setShuffleQuestions',
+			'offer_hints' => 'setOfferingQuestionHintsEnabled',
+			'instant_feedback' => 'setScoringFeedbackOptionsByArray',
+			'obligations_enabled' => 'setObligationsEnabled',
 
 
 			'anonymity' => 'setAnonymity',
@@ -4917,13 +4924,11 @@ class ilObjTestGUI extends ilObjectGUI
 			//'express_allow_question_pool' => 'setExpressModeQuestionPoolAllowed',
 			'finalstatement' => 'setFinalStatement',
 			'showfinalstatement' => 'setShowFinalStatement',
-			'chb_shuffle_questions' => 'setShuffleQuestions',
 			'list_of_questions' => 'setListOfQuestionsSettings',
 			'chb_show_marker' => 'setShowMarker',
 			'chb_show_cancel' => 'setShowCancel',
 			'chb_use_previous_answers' => 'setUsePreviousAnswers',
 			'forcejs' => 'setForceJS',
-			'title_output' => 'setTitleOutput',
 			'mailnotification' => 'setMailNotification',
 			'mailnottype' => 'setMailNotificationType',
 			//'' => '',
@@ -4931,8 +4936,6 @@ class ilObjTestGUI extends ilObjectGUI
 			'mc_scoring' => 'setMCScoring',
 			'score_cutting' => 'setScoreCutting',
 			'pass_scoring' => 'setScoreReporting',
-
-			'instant_feedback' => 'setScoringFeedbackOptionsByArray',
 
 			'results_presentation' => 'setResultsPresentationOptionsByArray',
 			'export_settings' => 'setExportSettings',
@@ -4946,9 +4949,25 @@ class ilObjTestGUI extends ilObjectGUI
 
 		foreach($simpleSetters as $field => $setter)
 		{
-			if($templateData[$field])
+			if($templateData[$field] && strlen($setter))
 			{
 				$object->$setter($templateData[$field]['value']);
+				continue;
+			}
+
+			switch($field)
+			{
+				case 'autosave':
+					if( $templateData[$field]['value'] > 0 )
+					{
+						$object->setAutosave(true);
+						$object->setAutosaveIval($templateData[$field]['value'] * 1000);
+					}
+					else
+					{
+						$object->setAutosave(false);
+					}
+					break;
 			}
 		}
 	}

@@ -60,6 +60,7 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 		$this->addTestIntroProperties();
 		$this->addTestAccessProperties();
 		$this->addTestRunProperties();
+		$this->addQuestionBehaviourProperties();
 
 
 		$this->addSetting(
@@ -71,19 +72,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			array(
 				'0' => $this->lng->txt("tst_anonymity_no_anonymization"),
 				'1' => $this->lng->txt("tst_anonymity_anonymous_test"),
-			)
-		);
-
-		$this->addSetting(
-			"title_output",
-			ilSettingsTemplateConfig::SELECT,
-			$this->lng->txt("tst_title_output"),
-			true,
-			0,
-			array(
-				'0' => $this->lng->txt("test_enable_view_table"),
-				'1' => $this->lng->txt("test_enable_view_express"),
-				'2' => $this->lng->txt("test_enable_view_both"),
 			)
 		);
 
@@ -109,19 +97,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			true
 		);
 
-		$this->addSetting(
-			"title_output",
-			ilSettingsTemplateConfig::SELECT,
-			$this->lng->txt("tst_title_output"),
-			true,
-			0,
-			array(
-				'0' => $this->lng->txt("test_enable_view_table"),
-				'1' => $this->lng->txt("test_enable_view_express"),
-				'2' => $this->lng->txt("test_enable_view_both"),
-			)
-		);
-
 		// Sequence Properties
 
 		$this->addSetting(
@@ -129,12 +104,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			ilSettingsTemplateConfig::BOOL,
 			$this->lng->txt("tst_postpone"),
 			true
-		);
-		$this->addSetting(
-			"chb_shuffle_questions",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("tst_shuffle_questions"),
-			false
 		);
 		$this->addSetting(
 			"list_of_questions",
@@ -229,19 +198,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			array(
 				'0' => $this->lng->txt("tst_pass_last_pass"),
 				'1' => $this->lng->txt("tst_pass_best_pass"),
-			)
-		);
-
-		$this->addSetting(
-			"instant_feedback",
-			ilSettingsTemplateConfig::CHECKBOX,
-			$this->lng->txt("tst_instant_feedback"),
-			false,
-			0,
-			array(
-				'instant_feedback_answer' => $this->lng->txt("tst_instant_feedback_answer_specific"),
-				'instant_feedback_points' => $this->lng->txt("tst_instant_feedback_results"),
-				'instant_feedback_solution' => $this->lng->txt("tst_instant_feedback_solution"),
 			)
 		);
 
@@ -405,6 +361,66 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			ilSettingsTemplateConfig::BOOL,
 			$this->lng->txt("examid_in_test_pass"),
 			false
+		);
+	}
+
+	private function addQuestionBehaviourProperties()
+	{
+		$this->addSetting(
+			"title_output",
+			ilSettingsTemplateConfig::SELECT,
+			$this->lng->txt("tst_title_output"),
+			true,
+			0,
+			array(
+				'0' => $this->lng->txt("tst_title_output_full"),
+				'1' => $this->lng->txt("tst_title_output_hide_points"),
+				'2' => $this->lng->txt("tst_title_output_no_title"),
+			)
+		);
+
+		$this->addSetting(
+			"autosave",
+			ilSettingsTemplateConfig::TEXT,
+			$this->lng->txt("autosave"),
+			true,
+			5
+		);
+
+		$this->addSetting(
+			"chb_shuffle_questions",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_shuffle_questions"),
+			true
+		);
+
+		$this->addSetting(
+			"offer_hints",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_setting_offer_hints_label"),
+			true
+		);
+
+		$this->addSetting(
+			"instant_feedback",
+			ilSettingsTemplateConfig::CHECKBOX,
+			$this->lng->txt("tst_instant_feedback"),
+			true,
+			0,
+			array(
+				'instant_feedback_points' => $this->lng->txt("tst_instant_feedback_results"),
+				'instant_feedback_generic' => $this->lng->txt("tst_instant_feedback_answer_generic"),
+				'instant_feedback_specific' => $this->lng->txt("tst_instant_feedback_answer_specific"),
+				'instant_feedback_solution' => $this->lng->txt("tst_instant_feedback_solution"),
+				'instant_feedback_answer_fixation' => $this->lng->txt("tst_instant_feedback_fix_usr_answer")
+			)
+		);
+
+		$this->addSetting(
+			"obligations_enabled",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_setting_enable_obligations_label"),
+			true
 		);
 	}
 }

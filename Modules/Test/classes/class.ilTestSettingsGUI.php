@@ -37,6 +37,23 @@ abstract class ilTestSettingsGUI
 		}
 	}
 
+	protected function getTemplateSettingValue($settingName)
+	{
+		if( !$this->settingsTemplate )
+		{
+			return null;
+		}
+
+		$templateSettings = $this->settingsTemplate->getSettings();
+
+		if( !isset($templateSettings[$settingName]) )
+		{
+			return false;
+		}
+
+		return $templateSettings[$settingName]['value'];
+	}
+
 	protected function isHiddenFormItem($formFieldId)
 	{
 		if( !$this->settingsTemplate )
@@ -57,6 +74,19 @@ abstract class ilTestSettingsGUI
 		}
 
 		return true;
+	}
+
+	protected function isSectionHeaderRequired($fields)
+	{
+		foreach($fields as $field)
+		{
+			if( !$this->isHiddenFormItem($field) )
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId)
