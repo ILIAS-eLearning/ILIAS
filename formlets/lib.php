@@ -61,24 +61,3 @@ function _collect() {
     } 
     return $fn;
 }
-
-function _const($val) {
-    static $fn = null;
-    if ($fn === null) {
-        $fn = _fn(function($v) use ($val) {
-            return $val;
-        });
-    }
-    return $fn;
-}
-
-function _intval() {
-    static $fn = null;
-    if ($fn === null) {
-        $fn = _fn(function($val) {
-            return intval($val);
-        });
-    }
-    return $fn;
-}
-
