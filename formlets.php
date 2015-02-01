@@ -384,7 +384,7 @@ interface IForm {
      * Initializes the form. If no input array is given uses $_POST.
      * Return $this.
      *
-     + @param   [string => mixed] | null    $input
+     * @param   [string => mixed] | null    $input
      * @return  IForm 
      */
     public function init($input = null);
