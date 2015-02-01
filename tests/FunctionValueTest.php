@@ -194,7 +194,7 @@ class FunctionValueTest extends PHPUnit_Framework_TestCase {
     public function compose_functions() {
         $times2 = _fn(function($v) { return $v * 2; });
         return array
-            ( array($times2, _intval(), _val("42"))
+            ( array($times2, fun("intval", 1), _val("42"))
             , array(_fn("count", 1), _fn("explode", 2, array(" ")), _val("x x x x"))
             );
     }
