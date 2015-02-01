@@ -398,13 +398,6 @@ assessment#:#ass_create_export_test_results#:#テスト結果エクスポート�
 assessment#:#ass_create_question#:#問題を作成
 assessment#:#ass_export_files#:#エクスポートファイル
 assessment#:#ass_file#:#ファイル
-assessment#:#ass_quest_process_lock#:#受験者解答提出ロックを使用
-assessment#:#ass_quest_process_lock_desc#:#メカニズムやコース条件のどのロック使用もしないと解答データ提出期間中は可能です。これは矛盾するテストを生む結果となります。
-assessment#:#ass_quest_process_lock_mode#:#受験者解答提出期間中のロックモード
-assessment#:#ass_quest_process_lock_mode_db#:#データベーステーブルロックを使用
-assessment#:#ass_quest_process_lock_mode_db_desc#:#このロックメカニズムはデータベーステーブルをロックします。同一もしくは同一内かもう一つのテストの内の他のユーザ用の現在のプロセスは他のプロセスがロック解除されるまで待っています。
-assessment#:#ass_quest_process_lock_mode_file#:#ファイルシステムロックを使用
-assessment#:#ass_quest_process_lock_mode_file_desc#:#このロックメカニズムはファイルシステム内の空ファイルのロックを要求します。同一ユーザの同一問題の現在のプロセスは他のプロセスのロックが解放されるまで待っています。
 assessment#:#ass_question#:#問題
 assessment#:#ass_size#:#サイズ
 assessment#:#assClozeTest#:#穴埋め問題
@@ -637,7 +630,6 @@ assessment#:#eval_search_users#:#ユーザ
 assessment#:#eval_search_userselection#:#統計分析したいユーザの検索
 assessment#:#eval_selected_users#:#選択したユーザの評価
 assessment#:#exam_id#:#試験ID:
-assessment#:#examid_in_kiosk#:#Kioskモードで試験IDを表示
 assessment#:#exp_eval_data#:#評価データ用にエクスポート
 assessment#:#exp_file_created#:#エクスポートファイルを作成しました。
 assessment#:#exp_type_certificate#:#証明書 (PDF)
@@ -14337,3 +14329,27 @@ mail#:#link_check_perma_link#:#Permanent Link###22 11 2014 new variable
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.###22 11 2014 new variable
 adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!###22 11 2014 new variable
 exc#:#exc_assignment_type#:#Type Of Submission###22 11 2014 new variable
+assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s###01 02 2015 new variable
+assessment#:#ass_process_lock#:#Use Lockings during Test Passes###01 02 2015 new variable
+assessment#:#ass_process_lock_desc#:#Without the use of any locking mechanism, race conditions are possible. This can lead to inconsistent test results.###01 02 2015 new variable
+assessment#:#ass_process_lock_mode#:#Lock Mode during Test Pass###01 02 2015 new variable
+assessment#:#ass_process_lock_mode_file#:#Use Filesystem Locks###01 02 2015 new variable
+assessment#:#ass_process_lock_mode_file_desc#:#This locking mechanism requests locks on empty files in the filesystem. Concurrent processes for the same user and the same test/question are waiting until the other process releases his lock.###01 02 2015 new variable
+assessment#:#ass_process_lock_mode_db#:#Use Database Table Locks###01 02 2015 new variable
+assessment#:#ass_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent processes for the same or other users in the same or in another test for the same or another question are waiting until the other process releases his locks.###01 02 2015 new variable
+assessment#:#examid_in_test_pass#:#Display Exam ID###01 02 2015 new variable
+assessment#:#examid_in_test_pass_desc#:#TODO4711###01 02 2015 new variable
+assessment#:#examid_in_test_res#:#Display Exam ID###01 02 2015 new variable
+assessment#:#examid_in_test_res_desc#:#TODO4812###01 02 2015 new variable
+assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können.###01 02 2015 new variable
+ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants###01 02 2015 new variable
+search#:#search_minimum_info#:#Your search must be at least %s characters long###01 02 2015 new variable
+assessment#:#user_has_finished_a_test#:#A participant has finished a test.###01 02 2015 new variable
+assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.###01 02 2015 new variable
+assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILIAS because you activated the notification.###01 02 2015 new variable
+grp#:#grp_admission_link_failure_registration_period#:#Can't registrate: Group is out of registration period.###01 02 2015 new variable
+crs#:#crs_admission_link_failure_registration_period#:#Can't registrate: Course is out of registration period.###01 02 2015 new variable
+grp#:#grp_admission_link_failure_membership_limited#:#Can't registrate: Group membership is limited.###01 02 2015 new variable
+crs#:#crs_admission_link_failure_membership_limited#:#Can't registrate: Course membership is limited.###01 02 2015 new variable
+grp#:#grp_admission_link_success_registration#:#Successfully registrated to group "%s".###01 02 2015 new variable
+crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".###01 02 2015 new variable

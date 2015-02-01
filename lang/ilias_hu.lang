@@ -395,13 +395,6 @@ assessment#:#errors_section#:#Hibaadat
 assessment#:#errors#:#Hibák
 assessment#:#errortext_info#:#Adja meg a hibás szöveget! A hibás szavakat előzze meg egy kettőskereszt (#) karakter. A &quot;Szöveg hibaelemzése&quot; gomb megnyomására a megjelölt szavak kivonatolásra kerülnek a további feldolgozáshoz.
 assessment#:#errortext#:#Hibás szöveg megjelölése
-assessment#:#ass_quest_process_lock#:#Zárolás használata, amíg a résztvevők megoldásaikat beküldik
-assessment#:#ass_quest_process_lock_desc#:#Zárolás használata nélkül a megoldások beküldése alatt un. versenyhelyzet alakulhat ki, ami hibás, inkonzisztens teszteredményekhez vezethet.
-assessment#:#ass_quest_process_lock_mode#:#Zárolás típusa, amíg a résztvevők megoldásaikat beküldik
-assessment#:#ass_quest_process_lock_mode_file#:#Fájlrendszert zárolások használata
-assessment#:#ass_quest_process_lock_mode_file_desc#:#Ez a zárolási típus a fájlrendszerben üres fájlokat zárol. Ugyanaz illetve más felhasználók ugyanabban illetve másik tesztben lévő egyidejű folyamatai addig várnak míg a másik folyamat feloldja a zárolásait.
-assessment#:#ass_quest_process_lock_mode_db#:#Adatbázis tábla-szintű zárolások használata
-assessment#:#ass_quest_process_lock_mode_db_desc#:#Ez a zárolási típus az adatbázis tábláit zárolja. Ugyanaz illetve más felhasználók ugyanabban illetve másik tesztben lévő egyidejű folyamatai addig várnak míg a másik folyamat feloldja a zárolásait.
 assessment#:#eval_all_users#:#Összes felhasználó eredménye
 assessment#:#eval_choice_result#:#A %s értékeivel a választás %s. Ön %s pontot kapott.
 assessment#:#eval_cloze_result#:#%s kitöltendő hely a %s értékekkel %s. Ön %s pontot kapott.
@@ -1104,7 +1097,6 @@ assessment#:#tst_type_comment#:#Figyelmeztetés: Egy futó teszt típusának meg
 assessment#:#tst_type#:#Teszttípus
 assessment#:#tst_types#:#Teszttípus
 assessment#:#exam_id#:#Vizsgaazonosító:
-assessment#:#examid_in_kiosk#:#Vizsgaazonosító megjelenítése Kioszk-módban
 assessment#:#show_exam_id#:#Vizsgaazonosító megjelenítése
 assessment#:#tst_use_javascript#:#JavaScript használata a "fogd és vidd" műveletekhez
 assessment#:#tst_use_previous_answers_description#:#Ha megjelölt, a résztvevők választhatják azt, hogy előző válaszaik alapértelmezett értékekként lesznek használva a jövőbeni tesztkitöltésekben. Máskülönben az előző válaszok nem jelennek meg a jövőbeni tesztkitöltésekben. Erre egy lehetőség látható az információs képernyőn, amely alapértelmezetten nem aktív.
@@ -14337,3 +14329,27 @@ mail#:#link_check_perma_link#:#Permanent Link###22 11 2014 new variable
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.###22 11 2014 new variable
 adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!###22 11 2014 new variable
 exc#:#exc_assignment_type#:#Type Of Submission###22 11 2014 new variable
+assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s###01 02 2015 new variable
+assessment#:#ass_process_lock#:#Use Lockings during Test Passes###01 02 2015 new variable
+assessment#:#ass_process_lock_desc#:#Without the use of any locking mechanism, race conditions are possible. This can lead to inconsistent test results.###01 02 2015 new variable
+assessment#:#ass_process_lock_mode#:#Lock Mode during Test Pass###01 02 2015 new variable
+assessment#:#ass_process_lock_mode_file#:#Use Filesystem Locks###01 02 2015 new variable
+assessment#:#ass_process_lock_mode_file_desc#:#This locking mechanism requests locks on empty files in the filesystem. Concurrent processes for the same user and the same test/question are waiting until the other process releases his lock.###01 02 2015 new variable
+assessment#:#ass_process_lock_mode_db#:#Use Database Table Locks###01 02 2015 new variable
+assessment#:#ass_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent processes for the same or other users in the same or in another test for the same or another question are waiting until the other process releases his locks.###01 02 2015 new variable
+assessment#:#examid_in_test_pass#:#Display Exam ID###01 02 2015 new variable
+assessment#:#examid_in_test_pass_desc#:#TODO4711###01 02 2015 new variable
+assessment#:#examid_in_test_res#:#Display Exam ID###01 02 2015 new variable
+assessment#:#examid_in_test_res_desc#:#TODO4812###01 02 2015 new variable
+assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können.###01 02 2015 new variable
+ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants###01 02 2015 new variable
+search#:#search_minimum_info#:#Your search must be at least %s characters long###01 02 2015 new variable
+assessment#:#user_has_finished_a_test#:#A participant has finished a test.###01 02 2015 new variable
+assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.###01 02 2015 new variable
+assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILIAS because you activated the notification.###01 02 2015 new variable
+grp#:#grp_admission_link_failure_registration_period#:#Can't registrate: Group is out of registration period.###01 02 2015 new variable
+crs#:#crs_admission_link_failure_registration_period#:#Can't registrate: Course is out of registration period.###01 02 2015 new variable
+grp#:#grp_admission_link_failure_membership_limited#:#Can't registrate: Group membership is limited.###01 02 2015 new variable
+crs#:#crs_admission_link_failure_membership_limited#:#Can't registrate: Course membership is limited.###01 02 2015 new variable
+grp#:#grp_admission_link_success_registration#:#Successfully registrated to group "%s".###01 02 2015 new variable
+crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".###01 02 2015 new variable
