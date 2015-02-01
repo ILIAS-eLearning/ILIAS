@@ -2089,12 +2089,12 @@ class ilTemplate extends ilTemplateX
 			{
 				if ($this->tree_flat_mode == "tree")
 				{
-					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_left.png"));
+					$this->setVariable("IMG_TREE",ilUtil::getImagePath("icon_sidebar_on.svg"));
 					$this->setVariable("RIGHT", "Right");
 				}
 				else
 				{
-					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_right.png"));
+					$this->setVariable("IMG_TREE",ilUtil::getImagePath("icon_sidebar_on.svg"));
 					$this->setVariable("RIGHT", "Right");
 				}
 			}
@@ -2102,11 +2102,11 @@ class ilTemplate extends ilTemplateX
 			{
 				if ($this->tree_flat_mode == "tree")
 				{
-					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_right.png"));
+					$this->setVariable("IMG_TREE",ilUtil::getImagePath("icon_sidebar_on.svg"));
 				}
 				else
 				{
-					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_left.png"));
+					$this->setVariable("IMG_TREE",ilUtil::getImagePath("icon_sidebar_on.svg"));
 				}
 			}
 			$this->setVariable("ALT_TREE",$lng->txt($this->tree_flat_mode."view"));
