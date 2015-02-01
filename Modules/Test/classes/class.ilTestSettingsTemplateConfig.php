@@ -59,7 +59,7 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 		$this->addGeneralPropertySettings();
 		$this->addTestIntroProperties();
 		$this->addTestAccessProperties();
-
+		$this->addTestRunProperties();
 
 
 		$this->addSetting(
@@ -91,23 +91,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			"showfinalstatement",
 			ilSettingsTemplateConfig::BOOL,
 			$this->lng->txt("final_statement_show"),
-			false
-		);
-
-		// Session Settings
-		$this->addSetting(
-			"nr_of_tries",
-			ilSettingsTemplateConfig::TEXT,
-			$this->lng->txt("tst_nr_of_tries"),
-			false,
-			3
-		);
-
-
-		$this->addSetting(
-			"chb_processing_time",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("tst_processing_time"),
 			false
 		);
 
@@ -195,25 +178,7 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			true
 		);
 
-		// Kiosk Mode
 
-		$this->addSetting(
-			"kiosk",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("kiosk"),
-			true
-		);
-
-
-		// Participants Restriction
-
-		$this->addSetting(
-			"allowedUsersTimeGap",
-			ilSettingsTemplateConfig::TEXT,
-			$this->lng->txt("tst_allowed_users_time_gap"),
-			true,
-			4
-		);
 
 		/////////////////////////////////////
 		// Scoring and Results
@@ -409,5 +374,37 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			$this->lng->txt("tst_allowed_users"),
 			false
 		);
-}
+	}
+
+	private function addTestRunProperties()
+	{
+		$this->addSetting(
+			"nr_of_tries",
+			ilSettingsTemplateConfig::TEXT,
+			$this->lng->txt("tst_nr_of_tries"),
+			false,
+			3
+		);
+
+		$this->addSetting(
+			"chb_processing_time",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_processing_time"),
+			false
+		);
+
+		$this->addSetting(
+			"kiosk",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("kiosk"),
+			false
+		);
+
+		$this->addSetting(
+			"examid_in_test_pass",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("examid_in_test_pass"),
+			false
+		);
+	}
 }

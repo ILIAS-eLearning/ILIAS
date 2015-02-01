@@ -4904,6 +4904,12 @@ class ilObjTestGUI extends ilObjectGUI
 			'fixedparticipants' => 'setFixedParticipants',
 			'limitUsers' => 'setLimitUsersEnabled',
 
+			// test run properties
+			'nr_of_tries' => 'setNrOfTries',
+			'chb_processing_time' => 'setEnableProcessingTime',
+			'kiosk' => 'setKiosk',
+			'examid_in_test_pass' => 'setShowExamIdInTestPassEnabled',
+
 
 
 			'anonymity' => 'setAnonymity',
@@ -4915,9 +4921,6 @@ class ilObjTestGUI extends ilObjectGUI
 			'list_of_questions' => 'setListOfQuestionsSettings',
 			'chb_show_marker' => 'setShowMarker',
 			'chb_show_cancel' => 'setShowCancel',
-			'kiosk' => 'setKiosk',
-			'nr_of_tries' => 'setNrOfTries',
-			'chb_processing_time' => 'setEnableProcessingTime',
 			'chb_use_previous_answers' => 'setUsePreviousAnswers',
 			'forcejs' => 'setForceJS',
 			'title_output' => 'setTitleOutput',

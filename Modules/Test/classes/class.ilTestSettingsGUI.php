@@ -12,6 +12,53 @@
  */
 abstract class ilTestSettingsGUI
 {
+	/**
+	 * @var ilObjTest $testOBJ
+	 */
+	protected $testOBJ = null;
+
+	/**
+	 * object instance for currently active settings template
+	 *
+	 * @var $settingsTemplate ilSettingsTemplate
+	 */
+	protected $settingsTemplate = null;
+
+	public function __construct(ilObjTest $testOBJ)
+	{
+		$this->testOBJ = $testOBJ;
+
+		$templateId = $this->testOBJ->getTemplate();
+
+		if( $templateId )
+		{
+			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+			$this->settingsTemplate = new ilSettingsTemplate($templateId, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
+		}
+	}
+
+	protected function isHiddenFormItem($formFieldId)
+	{
+		if( !$this->settingsTemplate )
+		{
+			return false;
+		}
+
+		$settings = $this->settingsTemplate->getSettings();
+
+		if( !isset($settings[$formFieldId]) )
+		{
+			return false;
+		}
+
+		if( !$settings[$formFieldId]['hide'] )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId)
 	{
 		return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;

@@ -609,7 +609,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$this->title_output = 0;
 		$this->starting_time = "";
 		$this->ending_time = "";
-		$this->processing_time = "00:00:00";
+		$this->processing_time = "";
 		$this->enable_processing_time = "0";
 		$this->reset_processing_time = 0;
 		$this->ects_output = FALSE;

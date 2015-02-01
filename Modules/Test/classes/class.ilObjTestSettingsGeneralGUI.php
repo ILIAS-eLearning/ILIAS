@@ -52,21 +52,11 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	/** @var ilObjUser $activeUser */
 	protected $activeUser = null;
 
-	/** @var ilObjTest $testOBJ */
-	protected $testOBJ = null;
-
 	/** @var ilObjTestGUI $testGUI */
 	protected $testGUI = null;
 
 	/** @var ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory Factory for question set config. */
 	private $testQuestionSetConfigFactory = null;
-
-	/**
-	 * object instance for currently active settings template
-	 *
-	 * @var $settingsTemplate ilSettingsTemplate
-	 */
-	protected $settingsTemplate = null;
 
 	/**
 	 * Constructor
@@ -102,18 +92,11 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$this->activeUser = $activeUser;
 
 		$this->testGUI = $testGUI;
-		$this->testOBJ = $testGUI->object;
 
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-		$this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->pluginAdmin, $this->testOBJ);
+		$this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->pluginAdmin, $testGUI->object);
 
-		$templateId = $this->testOBJ->getTemplate();
-
-		if( $templateId )
-		{
-			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
-			$this->settingsTemplate = new ilSettingsTemplate($templateId, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
-		}
+		parent::__construct($testGUI->object);
 	}
 
 	/**
@@ -529,95 +512,10 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$this->addAvailabilityProperties($form);
 		$this->addTestIntroProperties($form);
 		$this->addTestAccessProperties($form);
-
-		// section header test run
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("tst_settings_header_test_run"));
-		$form->addItem($header);
-
-		// max. number of passes
-		$limitPasses = new ilCheckboxInputGUI($this->lng->txt("tst_limit_nr_of_tries"), 'limitPasses');
-		$limitPasses->setInfo($this->lng->txt("tst_nr_of_tries_desc"));
-		$limitPasses->setChecked($this->testOBJ->getNrOfTries() > 0);
-		if ($this->testOBJ->participantDataExist()) $limitPasses->setDisabled(true);
-		$form->addItem($limitPasses);
-		$nr_of_tries = new ilNumberInputGUI($this->lng->txt("tst_nr_of_tries"), "nr_of_tries");
-		$nr_of_tries->setSize(3);
-		$nr_of_tries->allowDecimals(false);
-		$nr_of_tries->setMinValue(1);
-		$nr_of_tries->setMinvalueShouldBeGreater(false);
-		$nr_of_tries->setValue($this->testOBJ->getNrOfTries() ? $this->testOBJ->getNrOfTries() : 1);
-		$nr_of_tries->setRequired(true);
-		if ($this->testOBJ->participantDataExist()) $nr_of_tries->setDisabled(true);
-		$limitPasses->addSubItem($nr_of_tries);
-
-		// enable max. processing time
-		$processing = new ilCheckboxInputGUI($this->lng->txt("tst_processing_time"), "chb_processing_time");
-		$processing->setInfo($this->lng->txt("tst_processing_time_desc"));
-		$processing->setValue(1);
-
-		if( $this->settingsTemplate && $this->getTemplateSettingValue('chb_processing_time') )
-		{
-			$processing->setChecked(true);
-		}
-		else
-		{
-			$processing->setChecked($this->testOBJ->getEnableProcessingTime());
-		}
-
-		// max. processing time
-		$processingtime = new ilNumberInputGUI($this->lng->txt("tst_processing_time_duration"), 'processing_time');
-		$processingtime->allowDecimals(false);
-		$processingtime->setMinValue(1);
-		$processingtime->setMinvalueShouldBeGreater(false);
-		$processingtime->setValue($this->testOBJ->getProcessingTimeAsMinutes());
-		$processingtime->setSize(5);
-		$processingtime->setSuffix($this->lng->txt('minutes'));
-		$processingtime->setInfo($this->lng->txt("tst_processing_time_duration_desc"));
-		$processing->addSubItem($processingtime);
-
-		// reset max. processing time
-		$resetprocessing = new ilCheckboxInputGUI('', "chb_reset_processing_time");
-		$resetprocessing->setValue(1);
-		$resetprocessing->setOptionTitle($this->lng->txt("tst_reset_processing_time"));
-		$resetprocessing->setChecked($this->testOBJ->getResetProcessingTime());
-		$resetprocessing->setInfo($this->lng->txt("tst_reset_processing_time_desc"));
-		$processing->addSubItem($resetprocessing);
-		$form->addItem($processing);
-
-		// kiosk mode
-		$kiosk = new ilCheckboxInputGUI($this->lng->txt("kiosk"), "kiosk");
-		$kiosk->setValue(1);
-		$kiosk->setChecked($this->testOBJ->getKioskMode());
-		$kiosk->setInfo($this->lng->txt("kiosk_description"));
-
-		// kiosk mode options
-		$kiosktitle = new ilCheckboxGroupInputGUI($this->lng->txt("kiosk_options"), "kiosk_options");
-		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt("kiosk_show_title"), 'kiosk_title', ''));
-		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt("kiosk_show_participant"), 'kiosk_participant', ''));
-		$values = array();
-		if ($this->testOBJ->getShowKioskModeTitle()) array_push($values, 'kiosk_title');
-		if ($this->testOBJ->getShowKioskModeParticipant()) array_push($values, 'kiosk_participant');
-		$kiosktitle->setValue($values);
-		$kiosktitle->setInfo($this->lng->txt("kiosk_options_desc"));
-		$kiosk->addSubItem($kiosktitle);
-
-		$form->addItem($kiosk);
-
-		$examIdInPass = new ilCheckboxInputGUI($this->lng->txt('examid_in_test_pass'), 'examid_in_test_pass');
-		$examIdInPass->setInfo($this->lng->txt('examid_in_test_pass_desc'));
-		$examIdInPass->setChecked($this->testOBJ->isShowExamIdInTestPassEnabled());
-		$form->addItem($examIdInPass);
-
-		/*if( !$this->settingsTemplate || $this->formShowSessionSection($this->settingsTemplate->getSettings()) )
-		{
-			// session properties
-			$sessionheader = new ilFormSectionHeaderGUI();
-			$sessionheader->setTitle($this->lng->txt("tst_session_settings"));
-			$form->addItem($sessionheader);
-		}*/
+		$this->addTestRunProperties($form);
 
 		$this->addQuestionBehaviourFormSection($form);
+
 
 		if( !$this->settingsTemplate || $this->formShowSequenceSection($this->settingsTemplate->getSettings()) )
 		{
@@ -1018,28 +916,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		}
 
 		if( !$form->getItemByPostVar('skill_service')->getChecked() )
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	private function isHiddenFormItem($formFieldId)
-	{
-		if( !$this->settingsTemplate )
-		{
-			return false;
-		}
-
-		$settings = $this->settingsTemplate->getSettings();
-
-		if( !isset($settings[$formFieldId]) )
-		{
-			return false;
-		}
-
-		if( !$settings[$formFieldId]['hide'] )
 		{
 			return false;
 		}
@@ -1470,5 +1346,91 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 				$this->testOBJ->setAllowedUsers(''); // otherwise test will still respect value
 			}
 		}
+	}
+
+	/**
+	 * @param $form
+	 * @return array
+	 */
+	private function addTestRunProperties($form)
+	{
+		// section header test run
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("tst_settings_header_test_run"));
+		$form->addItem($header);
+
+		// max. number of passes
+		$limitPasses = new ilCheckboxInputGUI($this->lng->txt("tst_limit_nr_of_tries"), 'limitPasses');
+		$limitPasses->setInfo($this->lng->txt("tst_nr_of_tries_desc"));
+		$limitPasses->setChecked($this->testOBJ->getNrOfTries() > 0);
+		$nr_of_tries = new ilNumberInputGUI($this->lng->txt("tst_nr_of_tries"), "nr_of_tries");
+		$nr_of_tries->setSize(3);
+		$nr_of_tries->allowDecimals(false);
+		$nr_of_tries->setMinValue(1);
+		$nr_of_tries->setMinvalueShouldBeGreater(false);
+		$nr_of_tries->setValue($this->testOBJ->getNrOfTries() ? $this->testOBJ->getNrOfTries() : 1);
+		$nr_of_tries->setRequired(true);
+		if( $this->testOBJ->participantDataExist() )
+		{
+			$limitPasses->setDisabled(true);
+			$nr_of_tries->setDisabled(true);
+		}
+		$limitPasses->addSubItem($nr_of_tries);
+		$form->addItem($limitPasses);
+
+		// enable max. processing time
+		$processing = new ilCheckboxInputGUI($this->lng->txt("tst_processing_time"), "chb_processing_time");
+		$processing->setInfo($this->lng->txt("tst_processing_time_desc"));
+		$processing->setValue(1);
+
+		if ($this->settingsTemplate && $this->getTemplateSettingValue('chb_processing_time')) {
+			$processing->setChecked(true);
+		} else {
+			$processing->setChecked($this->testOBJ->getEnableProcessingTime());
+		}
+
+		// max. processing time
+		$processingtime = new ilNumberInputGUI($this->lng->txt("tst_processing_time_duration"), 'processing_time');
+		$processingtime->allowDecimals(false);
+		$processingtime->setMinValue(1);
+		$processingtime->setMinvalueShouldBeGreater(false);
+		$processingtime->setValue($this->testOBJ->getProcessingTimeAsMinutes());
+		$processingtime->setSize(5);
+		$processingtime->setSuffix($this->lng->txt('minutes'));
+		$processingtime->setInfo($this->lng->txt("tst_processing_time_duration_desc"));
+		$processing->addSubItem($processingtime);
+
+		// reset max. processing time
+		$resetprocessing = new ilCheckboxInputGUI('', "chb_reset_processing_time");
+		$resetprocessing->setValue(1);
+		$resetprocessing->setOptionTitle($this->lng->txt("tst_reset_processing_time"));
+		$resetprocessing->setChecked($this->testOBJ->getResetProcessingTime());
+		$resetprocessing->setInfo($this->lng->txt("tst_reset_processing_time_desc"));
+		$processing->addSubItem($resetprocessing);
+		$form->addItem($processing);
+
+		// kiosk mode
+		$kiosk = new ilCheckboxInputGUI($this->lng->txt("kiosk"), "kiosk");
+		$kiosk->setValue(1);
+		$kiosk->setChecked($this->testOBJ->getKioskMode());
+		$kiosk->setInfo($this->lng->txt("kiosk_description"));
+
+		// kiosk mode options
+		$kiosktitle = new ilCheckboxGroupInputGUI($this->lng->txt("kiosk_options"), "kiosk_options");
+		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt("kiosk_show_title"), 'kiosk_title', ''));
+		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt("kiosk_show_participant"), 'kiosk_participant', ''));
+		$values = array();
+		if ($this->testOBJ->getShowKioskModeTitle()) array_push($values, 'kiosk_title');
+		if ($this->testOBJ->getShowKioskModeParticipant()) array_push($values, 'kiosk_participant');
+		$kiosktitle->setValue($values);
+		$kiosktitle->setInfo($this->lng->txt("kiosk_options_desc"));
+		$kiosk->addSubItem($kiosktitle);
+
+		$form->addItem($kiosk);
+
+		$examIdInPass = new ilCheckboxInputGUI($this->lng->txt('examid_in_test_pass'), 'examid_in_test_pass');
+		$examIdInPass->setInfo($this->lng->txt('examid_in_test_pass_desc'));
+		$examIdInPass->setChecked($this->testOBJ->isShowExamIdInTestPassEnabled());
+		$form->addItem($examIdInPass);
 	}
 }
