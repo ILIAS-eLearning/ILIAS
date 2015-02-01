@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Administration/classes/class.ilSettingsTemplateConfig.php';
+require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -62,9 +63,7 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 		$this->addTestRunProperties();
 		$this->addQuestionBehaviourProperties();
 		$this->addTestSequenceProperties();
-
-
-
+		$this->addTestFinishProperties();
 
 
 		$this->addSetting(
@@ -78,35 +77,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 				'1' => $this->lng->txt("tst_anonymity_anonymous_test"),
 			)
 		);
-
-		$this->addSetting(
-			"showfinalstatement",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("final_statement_show"),
-			false
-		);
-
-		$this->addSetting(
-			"mailnotification",
-			ilSettingsTemplateConfig::SELECT,
-			$this->lng->txt("tst_finish_notification"),
-			true,
-			0,
-			array(
-				'0' => $this->lng->txt("tst_finish_notification_no"),
-				'1' => $this->lng->txt("tst_finish_notification_simple"),
-				'2' => $this->lng->txt("tst_finish_notification_advanced"),
-			)
-		);
-
-		$this->addSetting(
-			"mailnottype",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("mailnottype"),
-			true
-		);
-
-
 
 		/////////////////////////////////////
 		// Scoring and Results
@@ -418,6 +388,62 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			ilSettingsTemplateConfig::BOOL,
 			$this->lng->txt("question_marking"),
 			true
+		);
+	}
+
+	private function addTestFinishProperties()
+	{
+		$this->addSetting(
+			"enable_examview",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("enable_examview"),
+			false
+		);
+
+		$this->addSetting(
+			"showfinalstatement",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("final_statement"),
+			false
+		);
+
+		/* $this->addSetting(
+			"redirection_enabled",
+			ilSettingsTemplateConfig::SELECT,
+			$this->lng->txt("redirect_after_finishing_tst"),
+			false,
+			0,
+			array(
+				REDIRECT_NONE => $this->lng->txt("redirect_none"),
+				REDIRECT_ALWAYS => $this->lng->txt("redirect_always"),
+				REDIRECT_KIOSK => $this->lng->txt("redirect_in_kiosk_mode"),
+			)
+		); */
+		$this->addSetting(
+			"redirection_enabled",
+			ilSettingsTemplateConfig::TEXT,
+			$this->lng->txt("redirect_after_finishing_tst"),
+			false
+		);
+
+		$this->addSetting(
+			"sign_submission",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("sign_submission"),
+			true
+		);
+
+		$this->addSetting(
+			"mailnotification",
+			ilSettingsTemplateConfig::SELECT,
+			$this->lng->txt("tst_finish_notification"),
+			false,
+			0,
+			array(
+				'0' => $this->lng->txt("tst_finish_notification_no"),
+				'1' => $this->lng->txt("tst_finish_notification_simple"),
+				'2' => $this->lng->txt("tst_finish_notification_advanced"),
+			)
 		);
 	}
 }

@@ -1065,6 +1065,7 @@ assessment#:#tst_finish_notification_desc#:#Pro Teilnehmer, der einen Test beend
 assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis pro Benutzer
 assessment#:#tst_finish_notification_content#:#Inhalt der Benachrichtigung
 assessment#:#tst_finish_notification_simple#:#Nur Benutzername und Datum des Beendens
+assessment#:#tst_finish_notification_no#:#Keine Benachrichtigung
 assessment#:#tst_finished#:#Beendet
 assessment#:#tst_fixed_participants_data_exists#:#Es gibt bereits Teilnehmer, die den Test begonnen haben. Sie dürfen die Einstellung für feste Teilnehmer nicht verändern!
 assessment#:#tst_fixed_participants_disable#:#Statuswechsel bestätigen
@@ -13524,6 +13525,7 @@ assessment#:#tst_test_execution#:#Abschließen
 assessment#:#redirect_after_finishing_tst#:#Weiterleitung
 assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können. 
 assessment#:#redirect_after_finishing_rule#:#Weiterleitung
+assessment#:#redirect_none#:#Keine Weiterleitung
 assessment#:#redirect_in_kiosk_mode#:#nur bei aktivierter Prüfungsansicht
 assessment#:#redirect_always#:#immer zur definierten Zielseite
 assessment#:#redirection_url#:#URL Zielseite

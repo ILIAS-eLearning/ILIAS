@@ -4925,15 +4925,17 @@ class ilObjTestGUI extends ilObjectGUI
 			'list_of_questions' => 'setListOfQuestionsSettings',
 			'chb_show_marker' => 'setShowMarker',
 
+			// test finish properties
+			'enable_examview' => 'setEnableExamview',
+			'showfinalstatement' => 'setShowFinalStatement',
+			'redirection_enabled' => null, // handled specially in loop below
+			'sign_submission' => 'setSignSubmission',
+			'mailnotification' => 'setMailNotification',
+
 
 			'anonymity' => 'setAnonymity',
 			'test_enabled_views' => 'setEnabledViewMode',
 			//'express_allow_question_pool' => 'setExpressModeQuestionPoolAllowed',
-			'finalstatement' => 'setFinalStatement',
-			'showfinalstatement' => 'setShowFinalStatement',
-			'forcejs' => 'setForceJS',
-			'mailnotification' => 'setMailNotification',
-			'mailnottype' => 'setMailNotificationType',
 			//'' => '',
 			'count_system' => 'setCountSystem',
 			'mc_scoring' => 'setMCScoring',
@@ -4971,6 +4973,26 @@ class ilObjTestGUI extends ilObjectGUI
 						$object->setAutosave(false);
 					}
 					break;
+
+				case 'redirection_enabled':
+					/* if( $templateData[$field]['value'] > REDIRECT_NONE )
+					{
+						$object->setRedirectionMode($templateData[$field]['value']);
+					}
+					else
+					{
+						$object->setRedirectionMode(REDIRECT_NONE);
+					} */
+					if( strlen($templateData[$field]['value']) )
+					{
+						$object->setRedirectionMode(REDIRECT_ALWAYS);
+						$object->setRedirectionUrl($templateData[$field]['value']);
+					}
+					else
+					{
+						$object->setRedirectionMode(REDIRECT_NONE);
+						$object->setRedirectionUrl('');
+					}
 			}
 		}
 	}

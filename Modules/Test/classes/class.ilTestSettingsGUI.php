@@ -93,4 +93,18 @@ abstract class ilTestSettingsGUI
 	{
 		return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;
 	}
+
+	protected function removeHiddenItems(ilPropertyFormGUI $form)
+	{
+		if( $this->settingsTemplate )
+		{
+			foreach ($this->settingsTemplate->getSettings() as $id => $item)
+			{
+				if ($item["hide"])
+				{
+					$form->removeItemByPostVar($id);
+				}
+			}
+		}
+	}
 }

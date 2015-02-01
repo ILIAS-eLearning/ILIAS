@@ -401,90 +401,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$this->addTestRunProperties($form);
 		$this->addQuestionBehaviourProperties($form);
 		$this->addTestSequenceProperties($form);
-
-
-		$testExecution = new ilFormSectionHeaderGUI();
-		$testExecution->setTitle($this->lng->txt("tst_final_information"));
-		$form->addItem($testExecution);
-
-		// examview
-		$enable_examview = new ilCheckboxInputGUI($this->lng->txt("enable_examview"), 'enable_examview');
-		$enable_examview->setValue(1);
-		$enable_examview->setChecked($this->testOBJ->getEnableExamview());
-		$enable_examview->setInfo($this->lng->txt("enable_examview_desc"));
-		$show_examview_html = new ilCheckboxInputGUI('', 'show_examview_html');
-		$show_examview_html->setValue(1);
-		$show_examview_html->setChecked($this->testOBJ->getShowExamviewHtml());
-		$show_examview_html->setOptionTitle($this->lng->txt("show_examview_html"));
-		$enable_examview->addSubItem($show_examview_html);
-		$show_examview_pdf = new ilCheckboxInputGUI('', 'show_examview_pdf');
-		$show_examview_pdf->setValue(1);
-		$show_examview_pdf->setChecked($this->testOBJ->getShowExamviewPdf());
-		$show_examview_pdf->setOptionTitle($this->lng->txt("show_examview_pdf"));
-		$enable_examview->addSubItem($show_examview_pdf);
-		$form->addItem($enable_examview);
-
-		// show final statement
-		$showfinal = new ilCheckboxInputGUI($this->lng->txt("final_statement"), "showfinalstatement");
-		$showfinal->setChecked($this->testOBJ->getShowFinalStatement());
-		$showfinal->setInfo($this->lng->txt("final_statement_show_desc"));
-		$form->addItem($showfinal);
-		// final statement
-		$finalstatement = new ilTextAreaInputGUI($this->lng->txt("final_statement"), "finalstatement");
-		$finalstatement->setRequired(true);
-		$finalstatement->setValue($this->testOBJ->prepareTextareaOutput($this->testOBJ->getFinalStatement(), false, true));
-		$finalstatement->setRows(10);
-		$finalstatement->setCols(80);
-		$finalstatement->setUseRte(TRUE);
-		$finalstatement->addPlugin("latex");
-		$finalstatement->addButton("latex");
-		$finalstatement->setRTESupport($this->testOBJ->getId(), "tst", "assessment");
-		$finalstatement->setRteTagSet('full');
-		$showfinal->addSubItem($finalstatement);
-
-		$redirection_mode = $this->testOBJ->getRedirectionMode();
-		$rm_enabled = new ilCheckboxInputGUI($this->lng->txt('redirect_after_finishing_tst'), 'redirection_enabled' );
-		$rm_enabled->setInfo($this->lng->txt('redirect_after_finishing_tst_desc'));
-		$rm_enabled->setChecked($redirection_mode == '0' ? false : true);
-			$radio_rm = new ilRadioGroupInputGUI($this->lng->txt('redirect_after_finishing_rule'), 'redirection_mode');
-			$always = new ilRadioOption($this->lng->txt('redirect_always'), REDIRECT_ALWAYS);
-			$radio_rm->addOption($always);
-			$kiosk = new ilRadioOption($this->lng->txt('redirect_in_kiosk_mode'), REDIRECT_KIOSK);
-			$radio_rm->addOption($kiosk);
-			$radio_rm->setValue(in_array($redirection_mode, array(REDIRECT_ALWAYS, REDIRECT_KIOSK)) ? $redirection_mode : REDIRECT_ALWAYS);
-		$rm_enabled->addSubItem($radio_rm);
-			$redirection_url = new ilTextInputGUI($this->lng->txt('redirection_url'), 'redirection_url');
-			$redirection_url->setValue((string)$this->testOBJ->getRedirectionUrl());
-			$redirection_url->setRequired(true);
-		$rm_enabled->addSubItem($redirection_url);
-
-		$form->addItem($rm_enabled);
-
-		// Sign submission
-		$sign_submission = $this->testOBJ->getSignSubmission();
-		$sign_submission_enabled = new ilCheckboxInputGUI($this->lng->txt('sign_submission'), 'sign_submission');
-		$sign_submission_enabled->setChecked($sign_submission);
-		$sign_submission_enabled->setInfo($this->lng->txt('sign_submission_info'));
-		$form->addItem($sign_submission_enabled);
-
-		// mail notification
-		$mailnotification = new ilCheckboxInputGUI($this->lng->txt("tst_finish_notification"), "mailnotification");
-		$mailnotification->setInfo($this->lng->txt("tst_finish_notification_desc"));
-		$mailnotification->setChecked($this->testOBJ->getMailNotification() > 0);
-		$form->addItem($mailnotification);
-
-		$mailnotificationContent = new ilRadioGroupInputGUI($this->lng->txt("tst_finish_notification_content"), "mailnotification_content");
-		$mailnotificationContent->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_simple"), 1, ''));
-		$mailnotificationContent->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_advanced"), 2, ''));
-		$mailnotificationContent->setValue($this->testOBJ->getMailNotification() ? $this->testOBJ->getMailNotification() : 1);
-		$mailnotificationContent->setRequired(true);
-		$mailnotification->addSubItem($mailnotificationContent);
-
-		$mailnottype = new ilCheckboxInputGUI('', "mailnottype");
-		$mailnottype->setValue(1);
-		$mailnottype->setOptionTitle($this->lng->txt("mailnottype"));
-		$mailnottype->setChecked($this->testOBJ->getMailNotificationType());
-		$mailnotification->addSubItem($mailnottype);
+		$this->addTestFinishProperties($form);
 
 		// Edit ecs export settings
 		include_once 'Modules/Test/classes/class.ilECSTestSettings.php';
@@ -506,16 +423,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		}
 
 		// remove items when using template
-		if($this->settingsTemplate)
-		{
-			foreach($this->settingsTemplate->getSettings() as $id => $item)
-			{
-				if($item["hide"])
-				{
-					$form->removeItemByPostVar($id);
-				}
-			}
-		}
+		$this->removeHiddenItems($form);
 
 		return $form;
 	}
@@ -529,60 +437,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$this->saveTestRunProperties($form);
 		$this->saveQuestionBehaviourProperties($form);
 		$this->saveTestSequenceSettings($form);
-
-
-
-
-		// Examview
-		$this->testOBJ->setEnableExamview($form->getItemByPostVar('enable_examview')->getChecked());
-		$this->testOBJ->setShowExamviewHtml($form->getItemByPostVar('show_examview_html')->getChecked());
-		$this->testOBJ->setShowExamviewPdf($form->getItemByPostVar('show_examview_pdf')->getChecked());
-
-
-		$this->testOBJ->setFinalStatement($form->getItemByPostVar('finalstatement')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		$this->testOBJ->setShowFinalStatement($form->getItemByPostVar('showfinalstatement')->getChecked());
-
-		if( $form->getItemByPostVar('mailnotification') instanceof ilFormPropertyGUI && $form->getItemByPostVar('mailnotification')->getChecked() )
-		{
-			$this->testOBJ->setMailNotification($form->getItemByPostVar('mailnotification_content')->getValue());
-			$this->testOBJ->setMailNotificationType($form->getItemByPostVar('mailnottype')->getChecked());
-		}
-		else
-		{
-			$this->testOBJ->setMailNotification(0);
-			$this->testOBJ->setMailNotificationType(false);
-		}
-
-
-		// redirect after test
-		if( $form->getItemByPostVar('redirection_enabled')->getChecked() )
-		{
-			$this->testOBJ->setRedirectionMode( $form->getItemByPostVar('redirection_mode')->getValue() );
-		}
-		else
-		{
-			$this->testOBJ->setRedirectionMode(REDIRECT_NONE);
-		}
-
-		if( strlen($form->getItemByPostVar('redirection_url')->getValue()) )
-		{
-			$this->testOBJ->setRedirectionUrl( $form->getItemByPostVar('redirection_url')->getValue() );
-		}
-		else
-		{
-			$this->testOBJ->setRedirectionUrl(null);
-		}
-
-		if( $form->getItemByPostVar('sign_submission')->getChecked() )
-		{
-			$this->testOBJ->setSignSubmission( true );
-		}
-		else
-		{
-			$this->testOBJ->setSignSubmission( false );
-		}
-
-
+		$this->saveTestFinishProperties($form);
 
 		if( !$this->testOBJ->participantDataExist() )
 		{
@@ -1415,6 +1270,144 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		if( $this->formPropertyExists($form, 'chb_show_marker') )
 		{
 			$this->testOBJ->setShowMarker($form->getItemByPostVar('chb_show_marker')->getChecked());
+		}
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	private function addTestFinishProperties(ilPropertyFormGUI $form)
+	{
+		$testFinishHeader = new ilFormSectionHeaderGUI();
+		$testFinishHeader->setTitle($this->lng->txt("tst_final_information"));
+		$form->addItem($testFinishHeader);
+
+		// examview
+		$enable_examview = new ilCheckboxInputGUI($this->lng->txt("enable_examview"), 'enable_examview');
+		$enable_examview->setValue(1);
+		$enable_examview->setChecked($this->testOBJ->getEnableExamview());
+		$enable_examview->setInfo($this->lng->txt("enable_examview_desc"));
+		$show_examview_html = new ilCheckboxInputGUI('', 'show_examview_html');
+		$show_examview_html->setValue(1);
+		$show_examview_html->setChecked($this->testOBJ->getShowExamviewHtml());
+		$show_examview_html->setOptionTitle($this->lng->txt("show_examview_html"));
+		$enable_examview->addSubItem($show_examview_html);
+		$show_examview_pdf = new ilCheckboxInputGUI('', 'show_examview_pdf');
+		$show_examview_pdf->setValue(1);
+		$show_examview_pdf->setChecked($this->testOBJ->getShowExamviewPdf());
+		$show_examview_pdf->setOptionTitle($this->lng->txt("show_examview_pdf"));
+		$enable_examview->addSubItem($show_examview_pdf);
+		$form->addItem($enable_examview);
+
+		// show final statement
+		$showfinal = new ilCheckboxInputGUI($this->lng->txt("final_statement"), "showfinalstatement");
+		$showfinal->setChecked($this->testOBJ->getShowFinalStatement());
+		$showfinal->setInfo($this->lng->txt("final_statement_show_desc"));
+		$form->addItem($showfinal);
+		// final statement
+		$finalstatement = new ilTextAreaInputGUI($this->lng->txt("final_statement"), "finalstatement");
+		$finalstatement->setRequired(true);
+		$finalstatement->setValue($this->testOBJ->prepareTextareaOutput($this->testOBJ->getFinalStatement(), false, true));
+		$finalstatement->setRows(10);
+		$finalstatement->setCols(80);
+		$finalstatement->setUseRte(TRUE);
+		$finalstatement->addPlugin("latex");
+		$finalstatement->addButton("latex");
+		$finalstatement->setRTESupport($this->testOBJ->getId(), "tst", "assessment");
+		$finalstatement->setRteTagSet('full');
+		$showfinal->addSubItem($finalstatement);
+
+		$redirection_mode = $this->testOBJ->getRedirectionMode();
+		$rm_enabled = new ilCheckboxInputGUI($this->lng->txt('redirect_after_finishing_tst'), 'redirection_enabled');
+		$rm_enabled->setInfo($this->lng->txt('redirect_after_finishing_tst_desc'));
+		$rm_enabled->setChecked($redirection_mode == '0' ? false : true);
+		$radio_rm = new ilRadioGroupInputGUI($this->lng->txt('redirect_after_finishing_rule'), 'redirection_mode');
+		$always = new ilRadioOption($this->lng->txt('redirect_always'), REDIRECT_ALWAYS);
+		$radio_rm->addOption($always);
+		$kiosk = new ilRadioOption($this->lng->txt('redirect_in_kiosk_mode'), REDIRECT_KIOSK);
+		$radio_rm->addOption($kiosk);
+		$radio_rm->setValue(in_array($redirection_mode, array(REDIRECT_ALWAYS, REDIRECT_KIOSK)) ? $redirection_mode : REDIRECT_ALWAYS);
+		$rm_enabled->addSubItem($radio_rm);
+		$redirection_url = new ilTextInputGUI($this->lng->txt('redirection_url'), 'redirection_url');
+		$redirection_url->setValue((string)$this->testOBJ->getRedirectionUrl());
+		$redirection_url->setRequired(true);
+		$rm_enabled->addSubItem($redirection_url);
+
+		$form->addItem($rm_enabled);
+
+		// Sign submission
+		$sign_submission = $this->testOBJ->getSignSubmission();
+		$sign_submission_enabled = new ilCheckboxInputGUI($this->lng->txt('sign_submission'), 'sign_submission');
+		$sign_submission_enabled->setChecked($sign_submission);
+		$sign_submission_enabled->setInfo($this->lng->txt('sign_submission_info'));
+		$form->addItem($sign_submission_enabled);
+
+		// mail notification
+		$mailnotification = new ilCheckboxInputGUI($this->lng->txt("tst_finish_notification"), "mailnotification");
+		$mailnotification->setInfo($this->lng->txt("tst_finish_notification_desc"));
+		$mailnotification->setChecked($this->testOBJ->getMailNotification() > 0);
+		$form->addItem($mailnotification);
+
+		$mailnotificationContent = new ilRadioGroupInputGUI($this->lng->txt("tst_finish_notification_content"), "mailnotification_content");
+		$mailnotificationContent->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_simple"), 1, ''));
+		$mailnotificationContent->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_advanced"), 2, ''));
+		$mailnotificationContent->setValue($this->testOBJ->getMailNotification() ? $this->testOBJ->getMailNotification() : 1);
+		$mailnotificationContent->setRequired(true);
+		$mailnotification->addSubItem($mailnotificationContent);
+
+		$mailnottype = new ilCheckboxInputGUI('', "mailnottype");
+		$mailnottype->setValue(1);
+		$mailnottype->setOptionTitle($this->lng->txt("mailnottype"));
+		$mailnottype->setChecked($this->testOBJ->getMailNotificationType());
+		$mailnotification->addSubItem($mailnottype);
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	private function saveTestFinishProperties(ilPropertyFormGUI $form)
+	{
+		if( $this->formPropertyExists($form, 'enable_examview') )
+		{
+			$this->testOBJ->setEnableExamview($form->getItemByPostVar('enable_examview')->getChecked());
+			$this->testOBJ->setShowExamviewHtml($form->getItemByPostVar('show_examview_html')->getChecked());
+			$this->testOBJ->setShowExamviewPdf($form->getItemByPostVar('show_examview_pdf')->getChecked());
+		}
+
+		$this->testOBJ->setShowFinalStatement($form->getItemByPostVar('showfinalstatement')->getChecked());
+		$this->testOBJ->setFinalStatement($form->getItemByPostVar('finalstatement')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+
+		if( $form->getItemByPostVar('redirection_enabled')->getChecked() )
+		{
+			$this->testOBJ->setRedirectionMode($form->getItemByPostVar('redirection_mode')->getValue());
+		}
+		else
+		{
+			$this->testOBJ->setRedirectionMode(REDIRECT_NONE);
+		}
+		if( strlen($form->getItemByPostVar('redirection_url')->getValue()) )
+		{
+			$this->testOBJ->setRedirectionUrl($form->getItemByPostVar('redirection_url')->getValue());
+		}
+		else
+		{
+			$this->testOBJ->setRedirectionUrl(null);
+		}
+
+		if( $this->formPropertyExists($form, 'sign_submission') )
+		{
+			$this->testOBJ->setSignSubmission($form->getItemByPostVar('sign_submission')->getChecked());
+		}
+
+		if( $this->formPropertyExists($form, 'mailnotification') && $form->getItemByPostVar('mailnotification')->getChecked() )
+		{
+			$this->testOBJ->setMailNotification($form->getItemByPostVar('mailnotification_content')->getValue());
+			$this->testOBJ->setMailNotificationType($form->getItemByPostVar('mailnottype')->getChecked());
+		}
+		else
+		{
+			$this->testOBJ->setMailNotification(0);
+			$this->testOBJ->setMailNotificationType(false);
 		}
 	}
 }
