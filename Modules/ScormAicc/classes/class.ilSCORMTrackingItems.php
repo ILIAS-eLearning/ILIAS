@@ -500,22 +500,22 @@ class ilSCORMTrackingItems
 		foreach($dbdata as $data) {
 			$dat=array();
 			$dat["LearningModuleId"] = $this->getObjId();
-			$dat["LearningModuleTitle"] = $this->lmTitle;
-			$dat["LearningModuleVersion"]=$data["module_version"];
+			$dat["LearningModuleTitle"] = "".$this->lmTitle;
+			$dat["LearningModuleVersion"]="".$data["module_version"];
 
 			$dat=array_merge($dat,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 
-			$dat["status"]=$data["status"];
-			$dat["Percentage"]=$data["percentage_completed"];
-			$dat["Attempts"]=$data["package_attempts"];
-			$dat["existingSCOs"]=$scoCounter;
-			$dat["startedSCOs"]=$u_startedSCO[$data["user_id"]];
-			$dat["completedSCOs"]=$u_completedSCO[$data["user_id"]];
-			$dat["passedSCOs"]=$u_passedSCO[$data["user_id"]];
-			$dat["roundedTotal_timeSeconds"]=$data["sco_total_time_sec"];
+			$dat["status"]="".$data["status"];
+			$dat["Percentage"]="".$data["percentage_completed"];
+			$dat["Attempts"]="".$data["package_attempts"];
+			$dat["existingSCOs"]="".$scoCounter;
+			$dat["startedSCOs"]="".$u_startedSCO[$data["user_id"]];
+			$dat["completedSCOs"]="".$u_completedSCO[$data["user_id"]];
+			$dat["passedSCOs"]="".$u_passedSCO[$data["user_id"]];
+			$dat["roundedTotal_timeSeconds"]="".$data["sco_total_time_sec"];
 			if (is_null($data["offline_mode"])) $dat["offline_mode"]="";
 			else $dat["offline_mode"]=$data["offline_mode"];
-			$dat["last_access"]=$data["last_access"];
+			$dat["last_access"]="".$data["last_access"];
 			$returnData[]=$dat;
 		}
 		return $returnData;
