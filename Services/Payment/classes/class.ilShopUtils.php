@@ -257,7 +257,7 @@
 		global $ilCtrl;
 
 		$detail_link = $ilCtrl->getLinkTargetByClass("ilShopPurchaseGUI", "showDetails").'&ref_id='.$a_ref_id;
-		$img = ilUtil::img('./templates/default/images/payment/shopcart_add_32.png');
+		$img = ilUtil::img('./templates/default/images/payment/shopcart_add.svg');
 		
 		$link = '<a href="'.$detail_link.'">'.$img.'</a>';
 
