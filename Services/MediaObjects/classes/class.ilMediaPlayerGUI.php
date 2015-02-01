@@ -315,7 +315,7 @@ class ilMediaPlayerGUI
 				}
 				else
 				{
-					$mp_tpl->setVariable("IMG_SRC", ilUtil::getImagePath("mcst_preview.png"));
+					$mp_tpl->setVariable("IMG_SRC", ilUtil::getImagePath("mcst_preview.svg"));
 				}
 				$mp_tpl->setVariable("IMG_ALT", $this->video_preview_pic_alt);
 				$mp_tpl->setVariable("PTITLE", $this->getTitle());
@@ -391,7 +391,7 @@ class ilMediaPlayerGUI
 				}
 				else
 				{
-					$mp_tpl->setVariable("IMG_SRC", ilUtil::getImagePath("mcst_preview.png"));
+					$mp_tpl->setVariable("IMG_SRC", ilUtil::getImagePath("mcst_preview.svg"));
 				}
 				$mp_tpl->setVariable("PTITLE", $this->getTitle());
 				$mp_tpl->parseCurrentBlock();

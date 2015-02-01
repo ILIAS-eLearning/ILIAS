@@ -1514,7 +1514,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			else
 			{
 				$ctpl->setVariable("PREVIEW_PIC",
-					ilUtil::img(ilUtil::getImagePath("mcst_preview.png"), $item["title"], 320, 240));
+					ilUtil::img(ilUtil::getImagePath("mcst_preview.svg"), $item["title"], 320, 240));
 			}
 			
 			// player
