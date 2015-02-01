@@ -316,7 +316,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 //			$query .= ' AND (' . $ilDB->like('lastname', 'text', '%' . $a_search . '%') . ' OR ' . $ilDB->like('firstname', 'text', '%' . $a_search . '%') .')';
 			$query .= ' AND ' . $ilDB->like('lastname', 'text', '%' . $a_search . '%');
 		}
-		$query .= ' GROUP BY user_id, lastname, firstname';
+		$query .= ' GROUP BY user_id, lastname, firstname, last_access';
 		$sco_set = $ilDB->query($query);
 
 		$items = array();
