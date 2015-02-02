@@ -5718,3 +5718,20 @@ if(!$ilDB->tableColumnExists('tst_tests','limit_users_enabled'))
 	);
 }
 ?>
+<#4469>
+<?php
+
+?>
+<#4470>
+<?php
+$ilDB->queryF(
+	'DELETE FROM settings WHERE keyword = %s',
+	array('text'),
+	array('ps_export_scorm')
+);
+$ilDB->queryF(
+	'INSERT INTO settings (module, keyword, value) VALUES (%s,%s,%s)',
+	array('text','text','text'),
+	array('common','ps_export_scorm','1')
+);
+?>
