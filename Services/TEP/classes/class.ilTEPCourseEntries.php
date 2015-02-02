@@ -197,6 +197,13 @@ class ilTEPCourseEntries
 				$a_entry->setDescription($description);
 				$changed = self::SYNC_UPDATED;
 			}
+
+			#990
+			$org_id = $course->getOrgUnitId();
+			if ($org_id != $a_entry->getOrgUnitId()) {
+				$a_entry->setOrgUnitId($org_id);
+				$changed = self::SYNC_UPDATED;
+			}
 			// gev-patch end
 			// course period
 			if($start->get(IL_CAL_DATE) != $a_entry->getStart()->get(IL_CAL_DATE))
