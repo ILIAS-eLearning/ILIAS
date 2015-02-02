@@ -8,7 +8,8 @@ require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecord.php'
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionField.php');
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinition.php');
 require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
-require_once(dirname(__FILE__) . '/class.ilDataCollectionRecordEditGUI.php');
+require_once('class.ilDataCollectionRecordEditGUI.php');
+require_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
 
 /**
  * Class ilDataCollectionRecordViewGUI
@@ -233,9 +234,8 @@ class ilDataCollectionRecordViewGUI {
 		$rctpl->setVariable("CONTENT", $html);
 
 		//Permanent Link
-		include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
 		$perma_link = new ilPermanentLinkGUI("dcl", $_GET["ref_id"], "_" . $_GET['record_id']);
-		$rctpl->setVariable("PERMA_LINK", $perma_link->getHTML());
+		$tpl->setVariable('PRMLINK', $perma_link->getHTML());
 
 		// Buttons for previous/next records
 
