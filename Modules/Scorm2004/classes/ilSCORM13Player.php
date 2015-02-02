@@ -302,8 +302,8 @@ class ilSCORM13Player
 			'cmi_learner_id' => $cmi_learner_id,
 			'course_id' => (string) $this->packageId,
 			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
-			'mode' => 'normal',//TODO CHECK CP_PACKAGE
-			'credit' => 'credit',
+			'mode' => $this->slm->getDefaultLessonMode(),
+			'credit' => $this->slm->getCreditMode(),
 			'auto_review' => $this->slm->getAutoReviewChar(),
 			'hide_navig' => $this->slm->getHideNavig(),
 			'hide_menu' => $this->slm->getNoMenu(),
