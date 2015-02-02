@@ -9085,9 +9085,6 @@ tr.tblheader {
 .ilTableOuter .table {
   background-color: #f9f9f9;
 }
-.table-responsive {
-  overflow-x: auto;
-}
 /* Services/Notes */
 div.ilNotes {
   background-color: #f9f9f9;
