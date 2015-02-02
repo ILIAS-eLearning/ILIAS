@@ -520,6 +520,15 @@ class ilObjUserGUI extends ilObjectGUI
 				ilUtil::sendSuccess($msg, true);
 			}
 
+			// gev-patch start
+			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+			$obj_id = gevObjectUtils::getObjId($_GET["ref_id"]);
+			if(ilObject::_lookupType($obj_id) == "orgu") {
+				require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+				$orgu_utils = gevOrgUnitUtils::getInstance($obj_id);
+				$orgu_utils->assignUser($userObj->getId(), "Mitarbeiter");
+			}
+			// gev-patch end
 
 			if(strtolower($_GET["baseClass"]) == 'iladministrationgui')
 			{
