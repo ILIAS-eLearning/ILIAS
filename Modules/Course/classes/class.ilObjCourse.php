@@ -838,17 +838,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return $this->enablemap;
 	}
 	
-	
-	// gev-patch start (#990)
-	public function setOrgUnitId($a_orgu_id) {
-		$this->orgu_id = $a_orgu_id;
-	}
-	
-	public function getOrgUnitId() {
-		return $this->orgu_id;
-	}
-	// gev-patch end
-	
 	/**
 	 * Clone course (no member data)
 	 *
@@ -1192,8 +1181,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
 			'auto_notification = '.$ilDB->quote( (int)$this->getAutoNotification(), 'integer').', '.
 			'status_dt = '.$ilDB->quote((int) $this->getStatusDetermination()).', '.
-			'mail_members_type = '.$ilDB->quote((int) $this->getMailToMembersType(),'integer').', '.
-			'orgu_id = '.$ilDB->quote((int) $this->getOrgUnitId(), "integer").' '.
+			'mail_members_type = '.$ilDB->quote((int) $this->getMailToMembersType(),'integer').' '.
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')."";
 		
 				
@@ -1380,7 +1368,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->setAutoNotification($row->auto_notification == 1 ? true : false);
 			$this->setStatusDetermination((int) $row->status_dt);
 			$this->setMailToMembersType($row->mail_members_type);
-			$this->setOrgUnitId($row->orgu_id);
 		}
 		
 		// moved activation to ilObjectActivation

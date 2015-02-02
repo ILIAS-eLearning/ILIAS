@@ -266,7 +266,7 @@ class gevDecentralTrainingGUI {
 			$crs_utils->setWebExPassword($password ? $password : " ");
 		}
 		
-		$crs->setOrgUnitId(gevObjectUtils::getObjId($a_form->getInput("orgu_id")));
+		$crs_utils->setTEPOrguId($a_form->getInput("orgu_id"));
 		
 		if (!$mail_settings->getSuppressMails()) {
 			$mail_settings->setSuppressMails($a_form->getInput("suppress_mails"));

@@ -3265,19 +3265,5 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 
 <#99>
 <?php
-
-	if (!$ilDB->tableColumnExists("crs_settings", "orgu_id")) {
-		$ilDB->addTableColumn('crs_settings', 'orgu_id', 
-			array(
-				'type' => 'integer', 
-				'length' => 4, 
-				'notnull' => false
-		));
-	}
-
-?>
-
-<#100>
-<?php
 	$ilCtrlStructureReader->getStructure();
 ?>

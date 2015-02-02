@@ -533,3 +533,21 @@ $amdutils = gevAMDUtils::getInstance();
 $amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_TARGET_GROUP, $options);
 
 ?>
+
+<#12>
+<?php
+
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+gevAMDUtils::addAMDField( "Orte und Anbieter"
+						, "für Organisationseinheit"
+						, gevSettings::CRS_AMD_TEP_ORGU
+						, ""
+						, false
+						, null
+						, ilAdvancedMDFieldDefinition::TYPE_TEP_ORGU_SELECT
+						);
+
+?>

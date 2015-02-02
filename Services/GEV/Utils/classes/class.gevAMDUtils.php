@@ -144,6 +144,7 @@ class gevAMDUtils {
 			case ilAdvancedMDFieldDefinition::TYPE_MULTI_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_VENUE_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_PROVIDER_SELECT:
+			case ilAdvancedMDFieldDefinition::TYPE_TEP_ORGU_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_LONG_TEXT:
 			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
 			case ilAdvancedMDFieldDefinition::TYPE_SCHEDULE:
@@ -185,6 +186,7 @@ class gevAMDUtils {
 		switch($a_type) {
 			case ilAdvancedMDFieldDefinition::TYPE_VENUE_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_PROVIDER_SELECT:
+			case ilAdvancedMDFieldDefinition::TYPE_TEP_ORGU_SELECT:
 				return $a_value;
 			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_LONG_TEXT:
@@ -299,6 +301,7 @@ class gevAMDUtils {
 		switch($a_type) {
 			case ilAdvancedMDFieldDefinition::TYPE_VENUE_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_PROVIDER_SELECT:
+			case ilAdvancedMDFieldDefinition::TYPE_TEP_ORGU_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_LONG_TEXT:
 			case ilAdvancedMDFieldDefinition::TYPE_TEXT:

@@ -199,7 +199,7 @@ class ilTEPCourseEntries
 			}
 
 			#990
-			$org_id = $course->getOrgUnitId();
+			$org_id = $crs_utils->getTEPOrguId();
 			if ($org_id != $a_entry->getOrgUnitId()) {
 				$a_entry->setOrgUnitId($org_id);
 				$changed = self::SYNC_UPDATED;
