@@ -15,10 +15,10 @@ $SET_LASTWBDRECORD = true;
 $SET_BWVID = true;
 
 $GET_NEW_USERS = true;
-$GET_UPDATED_USERS = true;
+$GET_UPDATED_USERS = false;
 $GET_NEW_EDURECORDS = true;
 $GET_CHANGED_EDURECORDS = false;
-$IMPORT_FOREIGN_EDURECORDS = true;
+$IMPORT_FOREIGN_EDURECORDS = false;
 
 $LIMIT_RECORDS = false;
 $ANON_DATA = false;
@@ -809,7 +809,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				hist_user.bwv_id != '-empty-'
 
 			AND
-				hist_usercoursestatus.function = 'Mitglied'
+				hist_usercoursestatus.function  IN ('Mitglied', 'Teilnehmer')
 			AND 
 				hist_usercoursestatus.okz IN ('OKZ1', 'OKZ2','OKZ3')
 			AND
@@ -819,6 +819,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 			AND
 				hist_usercoursestatus.wbd_booking_id IS NULL
 
+			AND
+				hist_usercoursestatus.credit_points > 0
+			AND 
+				hist_usercoursestatus.end_date > '2013-12-31'
 			";
 
 

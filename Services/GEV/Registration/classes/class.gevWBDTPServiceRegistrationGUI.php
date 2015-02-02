@@ -179,8 +179,8 @@ class gevWBDTPServiceRegistrationGUI {
 		}
 
 		$this->user_utils->setWBDRegistrationDone();
-		
-		$usr = new ilObjUser($this->user_utils->getId());
+
+		$usr = new ilObjUser($this->user_utils->getUser()->getId());
 		$usr->update();
 
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_create_bwv_id"), true);

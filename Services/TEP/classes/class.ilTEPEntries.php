@@ -235,9 +235,19 @@ class ilTEPEntries
 		$set = $ilDB->query($query);
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			// remove time
-			$row["start"] = substr($row["starta"], 0, 10);
-			$row["end"] = substr($row["enda"], 0, 10);
+			// #961 - remove time, mind timezone
+			if($row["fullday"])
+			{
+				$row["start"] = new ilDate($row["starta"], IL_CAL_DATE);
+				$row["end"] = new ilDate($row["enda"], IL_CAL_DATE);
+			}
+			else
+			{
+				$row["start"] = new ilDateTime($row["starta"], IL_CAL_DATETIME, "UTC");
+				$row["end"] = new ilDateTime($row["enda"], IL_CAL_DATETIME, "UTC");
+			}
+			$row["start"] = $row["start"]->get(IL_CAL_DATE);			
+			$row["end"] = $row["end"]->get(IL_CAL_DATE);
 					
 			$user_id = $cat_map[$row["cat_id"]];	
 			$idx = $this->buildEntryId($row["cal_id"]);
