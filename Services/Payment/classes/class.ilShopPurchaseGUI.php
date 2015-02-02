@@ -347,12 +347,9 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		$ilTabs->setTabActive('buy');
 		$ilMainMenu->setActive('shop');
 
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.pay_purchase_details.html', 'Services/Payment');
-
 		if($this->pobject->getStatus() == $this->pobject->STATUS_EXPIRES)
 		{
 			ilUtil::sendInfo($this->lng->txt('pay_expires_info'));
-
 			return false;
 		}
 
@@ -363,7 +360,6 @@ class ilShopPurchaseGUI extends ilObjectGUI
 			include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 			$has_extension_price = ilPaymentBookings::_hasAccesstoExtensionPrice(
 						$ilUser->getId(), $this->pobject->getPobjectId());
-
 
 			if($has_extension_price)
 			{
@@ -388,6 +384,9 @@ class ilShopPurchaseGUI extends ilObjectGUI
 			}
 		}
 		
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		
 		$buyedObject = "";
 		if($this->sc_obj->isInShoppingCart($this->pobject->getPobjectId()))
 		{
@@ -401,13 +400,6 @@ class ilShopPurchaseGUI extends ilObjectGUI
 			{
 				ilUtil::sendInfo($this->lng->txt('pay_item_already_in_sc'));
 			}
-
-			$this->tpl->setCurrentBlock("shopping_cart_1");
-			
-			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART",'ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilShopShoppingCartGUI');
-			$this->tpl->setVariable("TXT_GOTO_SHOPPING_CART", $this->lng->txt('pay_goto_shopping_cart'));
-			$this->tpl->parseCurrentBlock("shopping_cart_1");
-
 		}
 
 		$this->ctrl->setParameter($this, "ref_id", $this->pobject->getRefId());
@@ -418,109 +410,82 @@ class ilShopPurchaseGUI extends ilObjectGUI
 			{
 				$subtype = ' ('.$this->lng->txt($this->pobject->getSubtype()).')';
 			}
-
-			$this->tpl->setVariable("DETAILS_FORMACTION",$this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("TYPE_IMG", ilObject::_getIcon($this->object->getId()));
-			$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_'.$this->object->getType()));
-			$this->tpl->setVariable("TITLE",$this->object->getTitle().' '.$subtype);
+			
+			$form->setTitle($this->object->getTitle().' '.$subtype);
+			$form->setTitleIcon(ilObject::_getIcon($this->object->getId()));
 		}
 		else
 		{
-			$this->tpl->setVariable("DETAILS_FORMACTION",$this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("TITLE",$this->lng->txt('object_not_found'));
+			ilUtil::sendFailure($this->lng->txt('object_not_found'));
 		}
 		// payment infos
-		$this->tpl->setVariable("TXT_INFO",$this->lng->txt('info'));
-
-		$this->tpl->setVariable("INFO_PAY",$this->lng->txt('pay_info'));
+		$info = new ilNonEditableValueGUI($this->lng->txt('info'));
+		$info->setValue($this->lng->txt('pay_info'));
+		$form->addItem($info);
+		
 		if (is_array($buyedObject))
 		{
 			if (is_array($prices) && count($prices) > 1)
 			{
-				$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
-				$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_change_price'));
+				$button_txt = $this->lng->txt('pay_change_price');
 			}
 			else
 			{
-				$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
-				$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_add_to_shopping_cart'));
+				$button_txt = $this->lng->txt('pay_add_to_shopping_cart');
 			}
 		}
 		else
 		{
-			$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
-			$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_add_to_shopping_cart'));
+			$button_txt = $this->lng->txt('pay_add_to_shopping_cart');
 		}
-
-		$this->tpl->setVariable("ROWSPAN",count($prices));
-		$this->tpl->setVariable("TXT_PRICES",$this->lng->txt('prices'));
-
+		
+		$rg_prices = new ilRadioGroupInputGUI($this->lng->txt('prices'), 'price_id');
+		
 		if (is_array($prices))
 		{
-			$counter = 0;
 			foreach($prices as $price)
 			{
-				if ($counter == 0)
-				{
-					$placeholderCheckbox = "CHECKBOX";
-					$placeholderDuration = "DURATION";
-					$placeholderPrice = "PRICE";
-					$placeholderDescription = "DESCRIPTION";
-				}
-				else
-				{
-					$placeholderCheckbox = "ROW_CHECKBOX";
-					$placeholderDuration = "ROW_DURATION";
-					$placeholderPrice = "ROW_PRICE";
-					$placeholderDescription = "ROW_DESCRIPTION";
-				}
-				$this->tpl->setCurrentBlock("price_row");
-
 				if (is_array($buyedObject) && $buyedObject["price_id"] == $price['price_id'])
 				{
-					$this->tpl->setVariable($placeholderCheckbox,ilUtil::formRadioButton(1,'price_id',$price['price_id']));
+					$rg_prices->setValue($price['price_id']);
 				}
 				else if (count($prices) == 1)
 				{
-					$this->tpl->setVariable($placeholderCheckbox,ilUtil::formRadioButton(1,'price_id',$price['price_id']));
-				}
-				else
-				{
-					$this->tpl->setVariable($placeholderCheckbox,ilUtil::formRadioButton(0,'price_id',$price['price_id']));
+					$rg_prices->setValue($price['price_id']);
 				}
 				
 				switch($price['price_type'])
                 {
 					case ilPaymentPrices::TYPE_DURATION_MONTH:
-						$this->tpl->setVariable($placeholderDuration,$price['duration'].' '.$this->lng->txt('paya_months').': ');
+						$txt_price = $price['duration'].' '.$this->lng->txt('paya_months').': ';
 						break;
 					case ilPaymentPrices::TYPE_DURATION_DATE:
-						ilDatePresentation::setUseRelativeDates(false);
-						$this->tpl->setVariable($placeholderDuration,
-						ilDatePresentation::formatDate(new ilDate($price['duration_from'], IL_CAL_DATE))
-						.' - '.ilDatePresentation::formatDate(new ilDate($price['duration_until'], IL_CAL_DATE)).' -> ');
+						$txt_price = ilDatePresentation::formatDate(new ilDate($price['duration_from'], IL_CAL_DATE))
+							.' - '.ilDatePresentation::formatDate(new ilDate($price['duration_until'], IL_CAL_DATE)).':  ';
 						break;
 					case ilPaymentPrices::TYPE_UNLIMITED_DURATION:
-						$this->tpl->setVariable($placeholderDuration, $this->lng->txt('unlimited_duration').': ');
+						$txt_price = $this->lng->txt('unlimited_duration').': ';
 						break;
                 }
 
 				$tmp_price = $price['price'];
 
+				$extension_txt = '';
 				if($price['extension'] == 1)
-					$extension_txt = '('.$this->lng->txt('extension_price').')';
-				else $extension_txt = '';
-
-				$this->tpl->setVariable($placeholderPrice, ilPaymentPrices::_formatPriceToString((float)$tmp_price).' '.$extension_txt );
-				if($price['description'] != NULL)
 				{
-					$this->tpl->setVariable($placeholderDescription, $price['description']);
-				}
-				$this->tpl->parseCurrentBlock();
-				$counter++;
+					$extension_txt = '(' . $this->lng->txt('extension_price') . ')';
+				}	
+			
+				$price_row = new ilRadioOption($txt_price .' '. ilPaymentPrices::_formatPriceToString((float)$tmp_price).' '.$extension_txt, $price['price_id']  );
+				$price_row->setInfo($price['description']);
+				
+				$rg_prices->addOption($price_row);
 			}
-		}		
-		return true;
+			$form->addItem($rg_prices);
+		}
+
+		$form->addCommandButton('addToShoppingCart', $button_txt );
+		return $this->tpl->setContent($form->getHTML());
 	}	
 	
 	private function __getAbstractHTML($a_payment_object_id)
