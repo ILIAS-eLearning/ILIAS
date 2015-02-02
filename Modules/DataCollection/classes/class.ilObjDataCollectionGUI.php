@@ -439,24 +439,12 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 		// is_online
 		$cb = new ilCheckboxInputGUI($this->lng->txt("online"), "is_online");
+		$cb->setInfo($this->lng->txt("dcl_online_info"));
 		$a_form->addItem($cb);
-
-		// edit_type
-
-		// Rating
-		//$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_rating"), "rating");
-		//$a_form->addItem($cb);
-
-		// Public Notes
-		//$cb = new ilCheckboxInputGUI($this->lng->txt("public_notes"), "public_notes");
-		//$a_form->addItem($cb);
-
-		// Approval
-		//$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_approval"), "approval");
-		//$a_form->addItem($cb);
 
 		// Notification
 		$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_notification"), "notification");
+		$cb->setInfo($this->lng->txt("dcl_notification_info"));
 		$a_form->addItem($cb);
 	}
 

@@ -12391,7 +12391,7 @@ rbac#:#trac_write#:#Edit settings in Statistics and Learning Progress administra
 common#:#obj_dcl#:#Data Collection
 common#:#objs_dcl#:#Data Collections
 common#:#obj_dcl_dupliate#:#Copy Data Collection
-dcl#:#dcl_record#:#Record
+dcl#:#dcl_record#:#Entry
 dcl#:#dcl_hello#:#Dear
 dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_add#:#Create Data Collection
@@ -12535,11 +12535,11 @@ poll#:#poll_block_message_already_voted#:#You already voted in this poll.
 poll#:#poll_block_message_no_answers#:#This poll is incomplete.
 survey#:#svy_neutral_answer#:#Text for a Neutral Answer ("Not Specified", "I don't know" etc.)
 dcl#:#dcl_edit_type#:#Edit Type
-dcl#:#dcl_activate_rating#:#Activate Record Rating
-dcl#:#dcl_activate_approval#:#Activate Record Approval
+dcl#:#dcl_activate_rating#:#Activate Entry Rating
+dcl#:#dcl_activate_approval#:#Activate Entry Approval
 dcl#:#dcl_activate_notification#:#Activate Notification
 dcl#:#dcl_table_id#:#Table ID
-dcl#:#dcl_add_new_record#:#Add New Record
+dcl#:#dcl_add_new_record#:#Add New Entry
 dcl#:#dcl_list_fields#:#Fields
 dcl#:#dcl_record_view_viewdefinition#:#Edit Detailed View
 dcl#:#dcl_record_edit_viewdefinition#:#Edit Detailed View
@@ -12549,7 +12549,7 @@ dcl#:#dcl_add_new_table#:#Add New Table
 dcl#:#dcl_field_datatype#:#Field Datatype
 dcl#:#dcl_required#:#Required Field
 dcl#:#dcl_edit_type_non#:#Not editable
-dcl#:#dcl_edit_type_non_info#:#Creating New Records needs edit settings permission
+dcl#:#dcl_edit_type_non_info#:#Creating New Entries needs edit settings permission
 dcl#:#dcl_edit_type_unlim#:#Unlimited
 dcl#:#dcl_edit_type_unlim_info#:#Users with add/edit permission can add/edit entries
 dcl#:#dcl_edit_type_lim#:#Limited
@@ -12582,7 +12582,7 @@ dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
 dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specification (Wrong Type).
 dcl#:#dcl_unique#:#Unique
-dcl#:#dcl_unique_exception#:#The value you entered is already taken by another record.
+dcl#:#dcl_unique_exception#:#The value you entered is already taken by another Entry.
 dcl#:#dcl_unknown_exception#:#The value you entered is not valid.
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_not_checked#:#Not checked.
@@ -12741,14 +12741,14 @@ administration#:#adm_social_bm_edit#:#Edit Social Bookmark
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_export_table_excel#:#Export .xls
 dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available
-dcl#:#dcl_owner_editable#:#Edit only own records
+dcl#:#dcl_owner_editable#:#Edit only own Etnries
 dcl#:#dcl_order#:#Order
 dcl#:#dcl_title#:#Field Title
 dcl#:#dcl_description#:#Field Description
 dcl#:#dcl_msg_table_created#:#Table created
 dcl#:#dcl_save#:#Save Table
-dcl#:#dcl_record_deleted#:#Record deleted
-dcl#:#dcl_confirm_delete_record#:#Delete this record?
+dcl#:#dcl_record_deleted#:#Entry deleted
+dcl#:#dcl_confirm_delete_record#:#Delete this Entry?
 content#:#cont_resources_of_type#:#Resources of Type
 content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.
 common#:#search_globally#:#Globally
@@ -12799,8 +12799,8 @@ ecs#:#ecs_grp_export_obj_settings#:#Group Release Settings
 ecs#:#ecs_grp_export_disabled#:#Do not release this Group
 ecs#:#ecs_grp_export_enabled#:#Release this Group
 rgrp#:#rgrp_call#:#Call ECS Group
-dcl#:#dcl_edit_record#:#Edit Record
-dcl#:#dcl_update_record#:#Update Record
+dcl#:#dcl_edit_record#:#Edit Entry
+dcl#:#dcl_update_record#:#Update Entry
 dcl#:#dcl_edit_field#:#Edit Field
 dcl#:#dcl_update_field#:#Update Field
 dcl#:#dcl_create_field#:#Create Field
@@ -12820,9 +12820,9 @@ dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed
 dcl#:#dcl_edit_notification#:#Email Notification on Change
 dcl#:#dcl_edit_notification_info#:#You will be notified when any table is edited
 dcl#:#dcl_change_notification_link#:#Link to the Data Collection
-dcl#:#dcl_change_notification_dcl_new_record#:#The following record has been created
-dcl#:#dcl_change_notification_dcl_update_record#:#The following record has been updated
-dcl#:#dcl_change_notification_dcl_delete_record#:#The following record page has been deleted
+dcl#:#dcl_change_notification_dcl_new_record#:#The following Entry has been created
+dcl#:#dcl_change_notification_dcl_update_record#:#The following Entry has been updated
+dcl#:#dcl_change_notification_dcl_delete_record#:#The following Entry page has been deleted
 dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_changed_by#:#Changed by
@@ -12837,7 +12837,7 @@ dcl#:#dcl_edit_perm#:#User can edit entries
 dcl#:#dcl_delete_perm#:#User can delete entries
 dcl#:#dcl_edit_by_owner#:#Edit / Delete only own entries
 dcl#:#dcl_limited#:#Limited Add / Edit / Delete Period
-dcl#:#dcl_record_id#:#Record ID
+dcl#:#dcl_record_id#:#Entry ID
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limit_end#:#End
 dcl#:#dcl_url#:#URL or Email
@@ -12954,7 +12954,7 @@ dcl#:#dcl_deactivate_view#:#Deactivate this view
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
 dcl#:#dcl_table_info_title#:#Info
 dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?
-dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.
+dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the Entries of this table will be removed irreversibly, the Entries and fields themselfs will not be changed.
 dcl#:#dcl_empty_view_success#:#The Viewdefinition has been deleted successfully.
 dcl#:#dcl_permissions_form#:#User actions
 rating#:#rating_number_votes#:#%s Ratings
@@ -13224,7 +13224,7 @@ dcl#:#dcl_please_select#:#--- Please select ---
 dcl#:#dcl_asc#:#Ascending Order (ASC)
 dcl#:#dcl_desc#:#Descending Order (DESC)
 dcl#:#dcl_comments#:#Comments
-dcl#:#dcl_comments_description#:#Displays the number of comments for a record.
+dcl#:#dcl_comments_description#:#Displays the number of comments for a Entry.
 dcl#:#dcl_confirm_delete_fields#:#Do you really want to delete these fields?
 dcl#:#dcl_msg_fields_deleted#:#Deleted fields
 dcl#:#dcl_id#:#ID
@@ -13237,22 +13237,22 @@ dcl#:#dcl_owner#:#Owner
 dcl#:#dcl_owner_description#:#The owner of the entry.
 dcl#:#dcl_last_edited_by#:#Last edited by
 dcl#:#dcl_last_edited_by_description#:#The user that edited this entry last.
-dcl#:#dcl_public_comments#:#Enable public comments for records
+dcl#:#dcl_public_comments#:#Enable public comments for Entries
 dcl#:#dcl_default_sort_field#:#Default sort field
 dcl#:#dcl_default_sort_field_order#:#Default sort field order
-dcl#:#dcl_prev_record#:#Previous record
-dcl#:#dcl_next_record#:#Next record
+dcl#:#dcl_prev_record#:#Previous Entry
+dcl#:#dcl_next_record#:#Next Entry
 dcl#:#dcl_record_from_total#:#%d of %d
 dcl#:#dcl_view_own_records_perm#:#View only own entries
-dcl#:#dcl_msg_no_perm_view#:#No permission given to view this record
-dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this record
+dcl#:#dcl_msg_no_perm_view#:#No permission given to view this Entry
+dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this Entry
 dcl#:#dcl_delete_fields#:#Delete fields
 dcl#:#dcl_link_detail_page#:#Link entries to detail page
 dcl#:#dcl_manage#:#Manage
-dcl#:#dcl_delete_records#:#Delete records
-dcl#:#dcl_confirm_delete_records#:#Are you sure you want to delete the following records?
-dcl#:#dcl_deleted_records#:#Successfully deleted %s records
-dcl#:#dcl_skipped_delete_records#:#%s records were not deleted due to permission settings
+dcl#:#dcl_delete_records#:#Delete Entries
+dcl#:#dcl_confirm_delete_records#:#Are you sure you want to delete the following Entries?
+dcl#:#dcl_deleted_records#:#Successfully deleted %s Entries
+dcl#:#dcl_skipped_delete_records#:#%s Entries were not deleted due to permission settings
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
 common#:#obj_bibs#:#Bibliography
@@ -13810,7 +13810,7 @@ content#:#cont_verification_placehl#:#Certificate Placeholder
 content#:#cont_ed_plachverification#:#Placeholder Certificate
 cld#:#cld_auth_failed_no_object_created#:#Authentication failed, no Cloud Object has been created.
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s
-dcl#:#add_value#:#Add New Record
+dcl#:#add_value#:#Add New Entry
 common#:#objs_orgu#:#Organisational Unit
 common#:#obj_orgu#:#Organisational Unit
 orgu#:#view_learning_progress#:#View Learning Progress
@@ -15216,3 +15216,5 @@ scormtrac#:#exportselectedraw#:#CMI (RAW) data
 scormtrac#:#lvalue#:#Key
 scormtrac#:#rvalue#:#Value
 scormtrac#:#identifierref#:#SCO-Identifier
+dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.
+dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.
