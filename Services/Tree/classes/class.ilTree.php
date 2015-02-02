@@ -1402,7 +1402,7 @@ class ilTree
 			throw new InvalidArgumentException('Missing or empty parameter $a_node_id: '. $a_node_id);
 		}
 		
-		$query = 'SELECT * FROM tree '.
+		$query = 'SELECT * FROM '.$this->table_tree.' '.
 				'WHERE child = '.$ilDB->quote($a_node_id,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
