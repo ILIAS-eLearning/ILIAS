@@ -1,11 +1,11 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
-* ILIAS language file ...
-* @author 56485 2014-12-17 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* ILIAS language file
+* @author 57619 2015-01-28 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungary
 * @modulegroup	language
-* @version		$Id$
+* @version      $Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -909,6 +909,7 @@ assessment#:#tst_finish_confirmation_question#:#Ha befejezi ezt a tesztet, elér
 assessment#:#tst_finish_notification_advanced#:#Az összes teszteredmény küldése
 assessment#:#tst_finish_notification_content#:#E-mail tartalma
 assessment#:#tst_finish_notification_simple#:#Felhasználónév és záró dátum küldése
+assessment#:#tst_finish_notification_no#:#Nincs e-mail
 assessment#:#tst_finish_notification#:#Értesítés
 assessment#:#tst_finish_notification_desc#:#Minden alkalommal e-mail küldése a teszt tulajdonosának, amikor egy résztvevő befejezi a teszt kitöltését.
 assessment#:#tst_finished#:#Befejezve
@@ -1032,6 +1033,7 @@ assessment#:#tst_inp_quest_amount_per_test#:#Kérdések szám az egész tesztre 
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Kérdésmennyiség
 assessment#:#tst_question_amount#:#Kérdésmennyiség
 assessment#:#tst_question_title#:#Cím
+assessment#:#tst_qbt_filter_question_title#:#Kérdés címe
 assessment#:#tst_question_type#:#Kérdéstípus
 assessment#:#tst_question_unmark#:#Jelölés eltávolítása erről a kérdésről
 assessment#:#tst_questions_inserted#:#A kérdés(ek)et sikeresen beillesztette.
@@ -1066,19 +1068,17 @@ assessment#:#tst_results_access_enabled#:#Hozzáférés a teszteredményekhez
 assessment#:#tst_results_access_enabled_desc#:#A résztvevők számára elérhetővé válik az 'Eredmények megjelenítése' gomb az 'Információ' fül alatt. Ebben és a következő részekben határozható meg, hogy a jelentés milyen információkat foglaljon magába.
 assessment#:#tst_results_access_setting#:#Időpont
 assessment#:#tst_results_details_options#:#A teszteredményekben megjelenítendő további részletek
-assessment#:#tst_results_grading_opt_show_both#:#Mutassa a Sikeres/Sikertelen státuszt, illetve a kapott érdemjegyet
-assessment#:#tst_results_grading_opt_show_none#:#NE mutassa a Sikeres/Sikertelen státuszt, illetve a kapott érdemjegyet
 assessment#:#tst_results_grading_opt_show_status#:#Sikeres/Sikertelen állapot megjelenítése
-assessment#:#tst_results_grading_opt_show_status_desc#:#Sikeres/Sikertelen állapotról az információ a teszteredmények összegzéséhez fűződik hozzá. A résztvevők elérhetik eredményeiket az 'Információ' fülön.<br />
+assessment#:#tst_results_grading_opt_show_status_desc#:#Sikeres/Sikertelen állapotról az információt a teszteredmények összegzéséhez fűzzük hozzá. A résztvevők elérhetik eredményeiket az 'Információ' fülön.<br />
 assessment#:#tst_results_grading_opt_show_mark#:#Érdemjegy megjelenítése
-assessment#:#tst_results_grading_opt_show_mark_desc#:#Érdemjegyről az információ a teszteredmények összegzéséhez fűződik hozzá. A résztvevők elérhetik eredményeiket az 'Információ' fülön.<br />
+assessment#:#tst_results_grading_opt_show_mark_desc#:#Érdemjegyről az információt a teszteredmények összegzéséhez fűzzük hozzá. A résztvevők elérhetik eredményeiket az 'Információ' fülön.
 assessment#:#tst_results_aggregated#:#Összesített teszteredmény
 assessment#:#tst_results_back_evaluation#:#Vissza a kiértékelés áttekintéséhez
 assessment#:#tst_results_back_introduction#:#Vissza a bevezető üzenethez
 assessment#:#tst_results_back_overview#:#Vissza az eredmények áttekintéséhez
 assessment#:#tst_results_overview_pass#:#%s. teszt eredményeinek áttekintése
 assessment#:#tst_results_overview#:#Kitöltött teszt eredményeinek áttekintése
-assessment#:#tst_show_pass_details_desc#:#A teszteredmények összegzéséhez fűződik a kérdéscímek és minden kérdésre az elért pontszámot tartalmazó táblázat.
+assessment#:#tst_show_pass_details_desc#:#A teszteredmények összegzéséhez fűzzük a kérdéscímeket és minden kérdésre az elért pontszámot tartalmazó táblázatot.
 assessment#:#tst_show_solution_details_desc#:#Minden kérdésnél egy link jelenik meg, ami egy oldalra mutat, ahol a kérdés, a résztvevő válasza, a válasz értékelése (helyes/helytelen) és a válaszra kapott pontszám jelenik meg.
 assessment#:#tst_show_solution_printview_desc#:#Az összes kérdésből és az adott résztvevő válaszaiból egy áttekintés készül. Ez a felsorolás a tesztkitöltés végén, közvetlenül teszt beadása érhető el az 'Információ' fülön.
 assessment#:#tst_show_solution_feedback_desc#:#Válaszfüggő visszajelzés jelenik meg a teszteredményeknél a kérdések mellett. Figyeljen arra, hogy ezen opció használatára akkor van lehetőség, ha bekapcsolta a 'Résztvevők pontozott válaszai'-t és a visszajelzés a kérdésekkel együtt készült az első helyen.###XXX
@@ -1184,7 +1184,6 @@ assessment#:#tst_types#:#Teszttípus
 assessment#:#exam_id#:#Tesztkitöltés-azonosító:
 assessment#:#examid_in_test_pass#:#Tesztkitöltés-azonosító megjelenítése
 assessment#:#examid_in_test_pass_desc#:#Minden tesztkitöltésnek új, egyedi azonosítója van, ami megjelenik a tesztben.
-assessment#:#show_exam_id#:#Tesztkitöltés-azonosító megjelenítése
 assessment#:#examid_in_test_res#:#ILIAS-vizsgaazonosító
 assessment#:#examid_in_test_res_desc#:#Az ILIAS-vizsgaazonosító a teszteredményeknél jelenik meg.
 assessment#:#tst_use_javascript#:#JavaScript használata a 'fogd és vidd' műveletekhez
@@ -2236,7 +2235,7 @@ common#:#crs_status_blocked#:#[Hozzáférés megtagadva]
 common#:#crs_status_pending#:#[Regisztrációra vár]
 common#:#crs_subscribers_assigned#:#Új felhasználó(k) hozzárendelve.
 common#:#crs_title#:#Kurzuscím
-common#:#crs_unsubscribe#:#Lejelentkezés
+common#:#crs_unsubscribe#:#Lejelentkezés a kurzusról
 rbac#:#crs_visible#:#A kurzus látható
 common#:#crs_wizard_page#:#Kurzus másolása (2/2. lépés)
 rbac#:#crs_write#:#A felhasználó szerkesztheti a kurzus beállításait, és kezelheti a tartalmat
@@ -2737,8 +2736,8 @@ common#:#grp_count_members#:#Tagok száma
 common#:#grp_create#:#Csoport létrehozása
 rbac#:#grp_delete#:#A felhasználó áthelyezhet vagy törölhet csoportot
 common#:#grp_deleted_export_files#:#Kiválasztott fájlokat sikeresen törölte.
-common#:#grp_dismiss_member#:#Biztos, hogy megválik a csoport alábbi tagjaitól?
-common#:#grp_dismiss_myself#:#Biztos, hogy elhagyni a csoportot?
+common#:#grp_dismiss_member#:#Biztos, hogy eltávolítja a csoportból alábbi tagokat?
+common#:#grp_dismiss_myself#:#Biztos, hogy leiratkozik a csoportból?
 rbac#:#grp_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
 rbac#:#grp_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
 common#:#grp_edit#:#Csoport szerkesztése
@@ -3315,9 +3314,10 @@ common#:#msg_cancel#:#Tevékenység megszakítva.
 common#:#msg_changes_ok#:#A változtatások rendben voltak
 common#:#msg_clear_clipboard#:#A vágólap üres.
 common#:#msg_cloned#:#Kiválasztott objektum(ok) lemásolva
-common#:#msg_copy_clipboard_source#:#Most válassza ki azt a kurzust, amelynek tartalmát másolni szeretné, majd kattintson a Folytatás'gombra!
-common#:#msg_copy_clipboard#:#Most válassza ki, hová szeretné másolni a kiválasztott objektumokat, majd kattintson a Másolás gombra.
-common#:#msg_cut_clipboard#:#Most válassza ki, hová szeretné beilleszteni a kiválasztott objektumokat, majd kattintson a Beillesztés gombra.
+common#:#msg_copy_clipboard_source#:#Most válassza ki azt a kurzust, amelynek tartalmát másolni szeretné, majd kattintson a 'Folytatás' gombra.
+common#:#msg_copy_clipboard#:#Most válassza ki, hová szeretné beilleszteni a kiválasztott objektumokat, majd kattintson a 'Beillesztés' gombra.
+common#:#msg_copy_clipboard_container#:#Most válassza ki, hová szeretné beilleszteni a kiválasztott objektumokat, majd kattintson a 'Folytatás' gombra.
+common#:#msg_cut_clipboard#:#Most válassza ki, hová szeretné beilleszteni a kiválasztott objektumokat, majd kattintson a 'Beillesztés' gombra.
 common#:#msg_cut_copied#:#Kiválasztott objektum(ok) áthelyezve.
 common#:#msg_deleted_export_files#:#Exportfájlokat sikeresen törölte
 common#:#msg_deleted_role#:#Szerepet sikeresen törölte
@@ -5684,9 +5684,9 @@ crs#:#crs_objective_assigned_materials#:#Hozzárendelt tananyagok
 crs#:#crs_objective_assigned_qst#:#Hozzárendelt kérdések
 crs#:#crs_objective_deassign_question#:#Hozzárendelés törlése
 crs#:#crs_objective_delete_lm_assignment#:#Hozzárendelés törlése
-crs#:#crs_objective_err_limit#:#%s és %s közötti pontot adjon meg!
+crs#:#crs_objective_err_limit#:#1 és 100 közötti számot adjon meg.
 crs#:#crs_objective_final_test#:#Befejező teszt kérdései
-crs#:#crs_objective_insert_percent#:#Csak 0 és 100 közötti számot adhat meg.
+crs#:#crs_objective_insert_percent#:#1 és 100 közötti számokat adjon meg.
 crs#:#crs_objective_limit_err#:#A megkívánt pontszám nem lehet magasabb, mint az összpontszám.
 crs#:#crs_objective_modified#:#Frissített tanulási célkitűzés.
 crs#:#crs_objective_no_title_given#:#Adjon meg címet!
@@ -6504,7 +6504,7 @@ ecs#:#ecs_unique_id#:#Résztvevő-azonosító
 ecs#:#ecs_user_rcp_info#:#Adja meg annak vagy azoknak a felhasználóknak a felhasználónevét (vesszővel elválasztva), akik e-mailen keresztül informálva lesznek az új ECS-felhasználókról.
 ecs#:#ecs_user_rcp#:#Értesítések az ECS-felhasználókról
 exc#:#exc_add_assignment#:#Feladat létrehozása
-exc#:#exc_add_feedback_file#:#Visszajelzésl letétbe helyezése
+exc#:#exc_add_feedback_file#:#Visszajelzésfájl letétbe helyezése
 exc#:#exc_add_participant#:#Résztvevő hozzáadása 
 exc#:#exc_assignment_view#:#Feladatnézet
 exc#:#exc_assignment#:#Feladat
@@ -6517,7 +6517,7 @@ exc#:#exc_edit_assignments#:#Feladatok szerkesztése
 exc#:#exc_edit_submission#:#Megoldás módosítása
 exc#:#exc_ended_on#:#Befejezve
 exc#:#exc_export_excel#:#Exportálás Excel (.xls) fájlba
-exc#:#exc_fb_files#:#Visszajelzéslok
+exc#:#exc_fb_files#:#Visszajelzésfájlok
 exc#:#exc_grades_overview#:#Értékelések
 exc#:#exc_grades#:#Értékelések
 exc#:#exc_hand_in#:#Beadás
@@ -6531,11 +6531,11 @@ exc#:#exc_msg_all_mandatory_ass#:#Minden kötelező feladatot meg kell oldania a
 exc#:#exc_msg_failed_mandatory#:#Nem sikerült legalább egy kötelező feladat.
 exc#:#exc_msg_min_number_ass#:#Legalább %s feladatot kell megoldania a beadandó feladat teljesítéséhez.
 exc#:#exc_msg_missed_minimum_number#:#Nem oldotta meg a minimális számú feladatot.
-exc#:#exc_msg_new_feedback_file_uploaded#:#'%s' beadandó feladathoz új visszajelzésl
-exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésl töltöttek fel az Ön megoldásához.\n
+exc#:#exc_msg_new_feedback_file_uploaded#:#'%s' beadandó feladathoz új visszajelzésfájl
+exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához.\n
 exc#:#exc_msg_participants_removed#:#A résztvevőket eltávolítottuk a beadandó feladatból.
 exc#:#exc_msg_public_submission#:#Minden megoldást publikáltunk a határidő után.
-exc#:#exc_msg_saved_grades#:#Az értékeléseket mentettük.
+exc#:#exc_msg_saved_grades#:#Az értékeléseket és megjegyzéseket mentettük.
 exc#:#exc_msg_sure_to_deassign_participant#:#Biztos, hogy eltávolítja a résztvevőket a beadandó feladat összes feladatából? Ezzel törli a megoldásaikat is!
 exc#:#exc_new_assignment#:#Új feladat
 exc#:#exc_no_participants#:#Jelenleg nincsenek résztvevők.
@@ -6578,7 +6578,7 @@ exp#:#exp_export_files#:#Exportfájlok
 exp#:#exp_html#:#HTML
 exp#:#exp_really_delete#:#Biztos, hogy törli ezeket az exportfájlokat?
 exp#:#exp_scorm#:#SCORM
-exp#:#exp_select_max_one_item#:#Csak egy objektumot válasszon!
+exp#:#exp_select_max_one_item#:#Csak egy objektumot válasszon. Ez a művelet nem hajtható végre egyszerre több objektumon.
 exp#:#exp_xml#:#XML
 export#:#export_create_new_file#:#Új exportfájl létrehozása
 export#:#export_create#:#Létrehozás
@@ -6594,6 +6594,8 @@ feed#:#block_feed_block_feed_url_info#:#Érvényes RSS/Atom URL-nek kell lennie,
 feed#:#block_feed_block_feed_url#:#Hírforrás URL-je
 feed#:#block_feed_block_head#:#Külső webhírforrások
 feed#:#block_feed_block_title#:#Cím
+feed#:#feed_disable_rep_feeds_info#:#Külső webhírforrások letiltása forrásuk okozta váratlan hiba esetén.
+feed#:#feed_disable_rep_feeds#:#Webhírforrások elrejtése
 feed#:#feed_feed_items#:#Hírforrástétel(ek)
 feed#:#feed_loading_feed#:#Hírforrás betöltése...
 feed#:#feed_no_js_click_here#:#Ha a hírforrás nem jelenik meg, kattintson ide.
@@ -7904,7 +7906,7 @@ news#:#news_enable_internal_news#:#Belső hírek engedélyezése
 news#:#news_enable_internal_rss_info#:#Hírek engedélyezése RSS-ben. Ezek a hírek elérhetők lesznek a rendszeren kívülről, bejelentkezés nélkül.
 news#:#news_enable_internal_rss#:#RSS engedélyezése belső hírekhez
 news#:#news_enable_private_feed_info#:#Ha be van kapcsolva, a nyilvános és a személyes hírek az ILIAS-on kívüli személyes RSS-ben is megkaphatók. A hitelesítés jelszóhoz között.
-news#:#news_enable_private_feed#:#Személyes hírforrás engedélyezése
+news#:#news_enable_private_feed#:#Személyes RSS-hírforrás engedélyezése
 news#:#news_feed_url_for#:#Hírforrás URL-je ehhez: '%s'
 news#:#news_feed_url#:#Hírforrás URL-je
 news#:#news_first_letter_of_word_notification#:#É
@@ -10328,11 +10330,11 @@ dateplaner#:#cal_cancel_booking_confirmed#:#Jelentkezését az eseményre sikere
 crs#:#crs_reg_code#:#Regisztráció linkkel
 crs#:#crs_reg_code_link#:#Link a közvetlen regisztrációhoz
 crs#:#crs_reg_code_value#:#Kód
-crs#:#crs_reg_code_enabled_info#:#A választott regisztrációs mód mellett ez egy másik lehetőség az érdeklődő felhasználóknak, hogy közvetlenül regisztrálhassanak az alábbi regisztrációs linkkel.
+crs#:#crs_reg_code_enabled_info#:#A választott regisztrációs mód és jogosultságok mellett ez egy másik lehetőség az érdeklődő felhasználóknak, hogy közvetlenül regisztrálhassanak az alábbi regisztrációs linkkel.
 grp#:#grp_reg_code#:#Regisztráció linkkel
 grp#:#grp_reg_code_link#:#Link a közvetlen regisztrációhoz
 grp#:#grp_reg_code_value#:#Kód
-grp#:#grp_reg_code_enabled_info#:#A választott regisztrációs mód mellett ez egy másik lehetőség az érdeklődő felhasználóknak, hogy közvetlenül regisztrálhassanak az alábbi regisztrációs linkkel.
+grp#:#grp_reg_code_enabled_info#:#A választott regisztrációs mód és jogosultságok mellett ez egy másik lehetőség az érdeklődő felhasználóknak, hogy közvetlenül regisztrálhassanak az alábbi regisztrációs linkkel.
 forum#:#add_re_to_subject#:#Vá:' hozzáadása a válasz tárgyához
 forum#:#add_re_to_subject_info#:#Ha be van kapcsolva, a 'Vá:' hozzáadódik válasz tárgyához.
 forum#:#enter_new_subject#:#Adjon meg új tárgyat!
@@ -12570,8 +12572,10 @@ dcl#:#dcl_datetime#:#Dátum, idő
 dcl#:#dcl_file#:#Fájlfeltöltés
 dcl#:#dcl_field_description#:#Leírás
 dcl#:#dcl_field_required#:#Kötelező (NOT NULL)
-dcl#:#dcl_length#:#Hossz
-dcl#:#dcl_regex#:#Reguláris kifejezés (határolójel nélkül)
+dcl#:#dcl_length#:#Hosszúság
+dcl#:#dcl_length_info#:#(több mint 200 karakter esetén használjon szövegterületet)
+dcl#:#dcl_regex#:#Reguláris kifejezés
+dcl#:#dcl_regex_info#:#(határolójel nélkül)
 dcl#:#dcl_filter#:#Szűrőként használható
 dcl#:#dcl_max_text_length#:#Maximális hossz
 dcl#:#dcl_wrong_length#:#Az Ön által megadott szöveg túl hosszú.
@@ -12736,6 +12740,7 @@ administration#:#adm_social_bm_create#:#Szociális könyvjelző létrehozása
 administration#:#adm_social_bm_edit#:#Szociális könyvjelző szerkesztése
 dcl#:#dcl_actions#:#Cselekmény
 dcl#:#dcl_export_table_excel#:#Exportálás Excel (.xls) fájlba
+dcl#:#dcl_no_exportable_fields_or_no_data#:#Nincs exportálható mező vagy adat
 dcl#:#dcl_owner_editable#:#Csak saját rekordok szerkesztése
 dcl#:#dcl_order#:#Sorrend
 dcl#:#dcl_title#:#Mező címe
@@ -12951,7 +12956,7 @@ dcl#:#dcl_table_info_title#:#Információ
 dcl#:#dcl_confirm_delete_view_title#:#Biztos, hogy törli ezt a nézetet?
 dcl#:#dcl_confirm_delete_view_text#:#A tábla rekordjainak nézetsablonját véglegesen eltávolítja, de a tábla rekordjai és a mezői nem módosulnak.
 dcl#:#dcl_empty_view_success#:#A nézetsablont sikeresen törölte.
-dcl#:#dcl_permissions_form#:#Felhasználói jogok
+dcl#:#dcl_permissions_form#:#Felhasználói műveletek
 rating#:#rating_number_votes#:#%s értékelés
 administration#:#system_check_no_owner#:#Tulajdonos nélküli objektumok
 blog#:#blog_import#:#Blog importálása
@@ -13534,6 +13539,7 @@ assessment#:#tst_imap_qst_mode_mc#:#Többválaszos kérdés (jelölőnégyzetes)
 assessment#:#tst_test_execution#:#Teszt futtatása
 assessment#:#redirect_after_finishing_tst#:#Átirányítás
 assessment#:#redirect_after_finishing_tst_desc#:#A teszt befejezése után az összes résztvevő automatikus átirányítása a megadott oldalra, amennyiben nincs hozzáférése a teszteredményéhez.
+assessment#:#redirect_none#:#Nincs átirányítás
 assessment#:#redirect_after_finishing_rule#:#Átirányítás
 assessment#:#redirect_in_kiosk_mode#:#csak akkor, ha a vizsganézet be van kapcsolva
 assessment#:#redirect_always#:#mindig a megadott URL-re
@@ -13826,7 +13832,7 @@ orgu#:#change_to_superior#:#Legyen felettes
 orgu#:#change_to_employee#:#Legyen alkalmazott
 orgu#:#user_changed_successful#:#Változtatás sikeresen megtörtént.
 orgu#:#ou_id_type_not_valid#:#Az ou_id típusa nem érvényes. Érvényes típusok: 'reference_id' vagy 'external_id'.
-orgu#:#ou_parent_id_not_valid#:#Az ou_parent_id típusa nem érvényes. Érvényes típusok: 'reference_id' vagy 'external_id'.
+orgu#:#ou_parent_id_not_valid#:#Az ou_parent_id nem található.
 orgu#:#import_successful#:#Az import sikeresen véget ért. Létrejött: %s, módosult: %s, törlődött: %s.
 orgu#:#import_terminated_with_warnings#:#Az import figyelmeztetésekkel futott le.
 orgu#:#import_terminated_with_errors#:#Az import hibákkal futott le.
@@ -14060,7 +14066,7 @@ adve#:#adve_minutes#:#Percek
 adve#:#adve_minutes_info#:#Inaktivitás percben, mielőtt egy szerkesztési zárolás lejár és az oldalt másik felhasználó szerkesztheti.
 content#:#content_until#:#Zárolás fenntartása legalább az alábbi időpontig: 
 content#:#content_no_edit_lock#:#Másik felhasználó jelenleg zárolja az oldalt.
-exc#:#exc_fb_tutor_info#:#Ha egy visszajelzésl feltölt, figyelmeztetés küldünk a felhasználónak, valamint a fájl a felhasználó nézetében megjelenik.
+exc#:#exc_fb_tutor_info#:#Ha egy visszajelzésfájlt feltölt, figyelmeztetés küldünk a felhasználónak, valamint a fájl a felhasználó nézetében megjelenik.
 obj#:#svy_results#:#Végeredmények
 content#:#cont_disable_def_feedback#:#Alapértelmezett kérdés-visszajelzés tiltása
 content#:#cont_disable_def_feedback_info#:#Ha ki van kapcsolva, megválaszolt kérdések semmilyen visszajelzést nem jelenítenek meg a hallgatónak. Egyéni visszajelzéseket szükséges megadni a kérdésekhez.
@@ -14425,7 +14431,7 @@ content#:#cont_page_lock_released#:#Szerkesztés vége. Az oldal zárolása felo
 notes#:#note_content_removed#:#Tartalom eltávolítva.
 exc#:#exc_list_text_assignment#:#Összes beadott megjelenítése
 exc#:#exc_show_peer_review#:#Hallgatói visszajelzések megjelenítése
-orgu#:#ou_external_id_exists#:#Egy egység ilyen External ID-vel már létezik a rendszerben vagy a kukában.
+orgu#:#ou_external_id_exists#:#Ilyen External ID-vel már létezik egység a rendszerben.
 orgu#:#user_import_successful#:#Az importálás sikeresen megszakítva. Hozzárendelve: %s, eltávolítva: %s.
 orgu#:#no_orgunit#:#Ellenőrizd az XML-Fájlt. Nincs Szervezeti egység.
 orgu#:#no_assignment#:#Ellenőrizd az XML-Fájlt. Egy Szolgáltatási feltétel sincs.
@@ -14470,7 +14476,7 @@ poll#:#poll_mode_personal_info#:#A résztvevők szavazatait tartalmazó lista cs
 poll#:#poll_non_anonymous_warning#:#A szavazás szerkesztői megtekintheti a szavazók neveit.
 poll#:#poll_result_answers#:#Szavazatok
 poll#:#poll_result_users#:#Résztvevők
-user#:#usr_id#:#System ID
+user#:#usr_id#:#User ID
 meta#:#meta_c_XK#:#Koszovó
 certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Felhasználó törzskönyvi száma
@@ -14691,7 +14697,7 @@ notes#:#notes_sort_desc#:#Csökkenő sorrend
 obj#:#obj_tool_setting_tag_cloud#:#Címkefelhő
 obj#:#obj_tool_setting_tag_cloud_info#:#A 'Címkefelhő' blokk megjelenik a 'Tartalom' fül alatt.
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Címék megjelenítése a számok helyett
-tagging#:#tagging_other_users#:#További felhasználók
+tagging#:#tagging_other_users#:#Más felhasználók címkéi
 common#:#autocomplete_more#:#továbbiak
 user#:#passwd_generation_pre#:#Előre definiált jelszavak
 mail#:#mail_max_size_attachments_total#:#Adja meg egy levél mellékleteinek maximálisan engedélyezett összméretét. Ez a beállítás független más korláttól (pl. upload_max_filesize, stb.), mert egy levélhez több fájlt is csatolhat mellékletként.
@@ -15136,6 +15142,7 @@ scormtrac#:#startedSCOs#:#Elkezdett SCO-k száma
 scormtrac#:#completedSCOs#:#Teljesen befejezett SCO-k száma
 scormtrac#:#passedSCOs#:#Teljesített SCO-k száma
 scormtrac#:#roundedTotal_timeSeconds#:#Összes idő másodpercben (kerekítve)
+content#:#cont_tracking_modify#:#adat módosítása
 scormtrac#:#counter_i_correct#:#helyesen megválaszolt interakciók
 scormtrac#:#counter_i_correct_percent#:#Helyesen megválaszolt interakciók százaléka
 scormtrac#:#counter_i_incorrect#:#Helytelenül megválaszolt interakciók
@@ -15181,39 +15188,31 @@ crs#:#crs_show_all_obj#:#Összes kibontása
 crs#:#crs_hide_all_obj#:#Összes becsukása
 notes#:#notes_comment_deleted#:#A hozzászólást törölték.
 notes#:#notes_comments_deleted#:#A hozzászólásokat törölték.
-assessment#:#tst_qbt_filter_question_title#:#Title of Question###27 01 2015 new variable
-common#:#msg_copy_clipboard_container#:#Now, please select the desired location, where the selected objects should be pasted into and click the button "Continue".###27 01 2015 new variable
-feed#:#feed_disable_rep_feeds_info#:#Disables presentation of external web feeds in case of an unexpected problem due to an external feed source.###27 01 2015 new variable
-feed#:#feed_disable_rep_feeds#:#Hide Web Feeds###27 01 2015 new variable
-dcl#:#dcl_length_info#:#(for more than 200 characters, use the additional option Textarea)###27 01 2015 new variable
-dcl#:#dcl_regex_info#:#(without delimiter)###27 01 2015 new variable
-dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available###27 01 2015 new variable
-content#:#cont_tracking_modify#:#modify data###27 01 2015 new variable
-orgu#:#ou_id_not_valid#:#Import-ID not found.###27 01 2015 new variable
-blog#:#blog_profile_picture_repository_info#:#Profile pictures of the authors are only shown on the postings pages, not on overview pages.###27 01 2015 new variable
-blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the following contributors?###27 01 2015 new variable
-news#:#news_rss#:#RSS###27 01 2015 new variable
-mob#:#mob_object#:#Object###27 01 2015 new variable
-content#:#cont_qtries_info#:#Default value for number of tries for newly created questions.###27 01 2015 new variable
-lm#:#lm_copy#:#Copy Learning Module###27 01 2015 new variable
-content#:#cont_settings#:#Settings for learning modules###27 01 2015 new variable
-rbac#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits###27 01 2015 new variable
-rbac#:#orgu_copy#:#Copy Organisational Unit###27 01 2015 new variable
-exc#:#exc_no_team_yet_notice#:#You are not assigned to a team yet!###27 01 2015 new variable
-prtf#:#prtf_edit_embedded_blog#:#Edit Blog "%s"###27 01 2015 new variable
-exc#:#exc_manage_team#:#Manage Team###27 01 2015 new variable
-assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
-assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.###27 01 2015 new variable
-assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILIAS because you activated the notification.###27 01 2015 new variable
-dateplaner#:#cal_type_exc#:#Exercise Calendar###27 01 2015 new variable
-grp#:#grp_admission_link_failure_registration_period#:#Can't registrate: Group is out of registration period.###27 01 2015 new variable
-crs#:#crs_admission_link_failure_registration_period#:#Can't registrate: Course is out of registration period.###27 01 2015 new variable
-grp#:#grp_admission_link_failure_membership_limited#:#Can't registrate: Group membership is limited.###27 01 2015 new variable
-crs#:#crs_admission_link_failure_membership_limited#:#Can't registrate: Course membership is limited.###27 01 2015 new variable
-grp#:#grp_admission_link_success_registration#:#Successfully registrated to group "%s".###27 01 2015 new variable
-crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".###27 01 2015 new variable
-rbac#:#ilias_id#:#ILIAS-ID###27 01 2015 new variable
-scormtrac#:#exportselectedraw#:#CMI (RAW) data###27 01 2015 new variable
-scormtrac#:#lvalue#:#Key###27 01 2015 new variable
-scormtrac#:#rvalue#:#Value###27 01 2015 new variable
-scormtrac#:#identifierref#:#SCO-Identifier###27 01 2015 new variable
+orgu#:#ou_id_not_valid#:#Import-ID nem található.
+blog#:#blog_profile_picture_repository_info#:#A szerzők profilképe megjelenik a bejegyzések oldalain, de az áttekintő oldalakon nem.ű
+blog#:#blog_confirm_delete_contributors#:#Biztos, hogy törli a következő blogszerzőket?
+news#:#news_rss#:#RSS
+mob#:#mob_object#:#Objektum
+content#:#cont_qtries_info#:#Újonnan létrehozott kérdések esetén a próbálkozások számának alapértelmezett értéke.
+lm#:#lm_copy#:#Tananyag másolása
+content#:#cont_settings#:#Tananyag beállításai
+rbac#:#orgu_view_learning_progress_rec#:#Egység és alegységei Tanulási haladásának megjelenítése
+rbac#:#orgu_copy#:#Szervezeti egység másolása
+exc#:#exc_no_team_yet_notice#:#Még egy csapathoz sincs hozzárendelve!
+prtf#:#prtf_edit_embedded_blog#:#'%s' blog szerkesztése
+exc#:#exc_manage_team#:#Csapat kezelése
+assessment#:#user_has_finished_a_test#:#Egy résztvevő befejezte a tesztet.
+assessment#:#tst_attached_xls_file#:#A csatolt Excel fájlban találja a résztvevő teszteredményét.
+assessment#:#tst_notification_explanation_admin#:#Ezt a levelet azért kapta, mert az ILIAS-ban beállította, hogy értesítést küldjünk.
+dateplaner#:#cal_type_exc#:#Beadandó feladat naptára
+grp#:#grp_admission_link_failure_registration_period#:#Nem regisztrálhat, mert jelenleg nincs regisztrációs időszak.
+crs#:#crs_admission_link_failure_registration_period#:#Nem regisztrálhat, mert jelenleg nincs regisztrációs időszak.
+grp#:#grp_admission_link_failure_membership_limited#:#Nem regisztrálhat, mert a csoport tagsága korlátozott.
+crs#:#crs_admission_link_failure_membership_limited#:#Nem regisztrálhat, mert a kurzus tagsága korlátozott.
+grp#:#grp_admission_link_success_registration#:#'%s' csoportba sikeresen regisztrált.
+crs#:#crs_admission_link_success_registration#:#'%s' kurzusba sikeresen regisztrált.
+rbac#:#ilias_id#:#ILIAS-ID
+scormtrac#:#exportselectedraw#:#CMI (RAW) adat
+scormtrac#:#lvalue#:#Kulcs
+scormtrac#:#rvalue#:#Érték
+scormtrac#:#identifierref#:#SCO-Azonosító
