@@ -22,7 +22,7 @@ class gevCourseUtils {
 	static $instances = array();
 	
 	protected function __construct($a_crs_id) {
-		global $ilDB, $ilLog, $lng, $ilCtrl;
+		global $ilDB, $ilLog, $lng, $ilCtrl, $rbacreview, $rbacadmin, $rbacsystem;
 		
 		$this->db = &$ilDB;
 		$this->log = &$ilLog;
@@ -38,6 +38,10 @@ class gevCourseUtils {
 		$this->gev_settings = gevSettings::getInstance();
 		$this->amd = gevAMDUtils::getInstance();
 		$this->local_roles = null;
+		
+		$this->rbacreview = &$rbacreview;
+		$this->rbacadmin = &$rbacadmin;
+		$this->rbacsystem = &$rbacsystem;
 		
 		$this->membership = null;
 		$this->main_trainer = null;
@@ -2173,6 +2177,67 @@ class gevCourseUtils {
 		return array("count" => $count, "info" => $info);
 	}
 
+	// setting of permissions
+	public function grantPermissionsFor($a_role_name, $a_permissions) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		
+		$crs = $this->getCourse();
+		$ref_id = gevObjectUtils::getRefId($crs->getId());
+		$crs->setRefId($ref_id);
+
+		if ($a_role_name == "tutor" || $a_role_name == "trainer") {
+			$role = $crs->getDefaultTutorRole();
+		}
+		elseif ($a_role_name == "member") {
+			$role = $crs->getDefaultMemberRole();
+		}
+		elseif ($a_role_name == "admin") {
+			$role = $crs->getDefaultAdminRole();
+		}
+		else {
+			$role = gevRoleUtils::getInstance()->getRoleIdByName($a_role_name);
+			if (!$role) {
+				throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role_name);
+			}
+		}
+		
+		$cur_ops = $this->rbacreview->getRoleOperationsOnObject($role, $ref_id);
+		$grant_ops = ilRbacReview::_getOperationIdsByName($a_permissions);
+		$new_ops = array_unique(array_merge($grant_ops, $cur_ops));
+		$this->rbacadmin->revokePermission($ref_id, $role);
+		$this->rbacadmin->grantPermission($role, $new_ops, $ref_id);
+	}
+	
+	static public function grantPermissionsForAllCoursesBelow($a_ref_id, $a_role_name, $a_permissions) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+
+		$children = self::getAllCoursesBelow(array($a_ref_id));
+		foreach($children as $child) {
+			$crs_utils = gevCourseUtils::getInstance($child["obj_id"]);
+			$crs_utils->grantPermissionsFor($a_role_name, $a_permissions);
+		}
+	}
+
+	static public function getAllCoursesBelow($a_ref_ids) {
+		global $ilDB;
+		
+		$res = $ilDB->query(
+			 "SELECT DISTINCT od.obj_id obj_id, c.child ref_id "
+			." FROM tree p"
+			." RIGHT JOIN tree c ON c.lft > p.lft AND c.rgt < p.rgt AND c.tree = p.tree"
+			." LEFT JOIN object_reference oref ON oref.ref_id = c.child"
+			." LEFT JOIN object_data od ON od.obj_id = oref.obj_id"
+			." WHERE ".$ilDB->in("p.child", $a_ref_ids, false, "integer")
+			."   AND od.type = 'crs'"
+			);
+			
+		$ret = array();
+		while($rec = $ilDB->fetchAssoc($res)) {
+			$ret[] = $rec;
+		}
+		return $ret;
+	}
 }
 
 ?>
