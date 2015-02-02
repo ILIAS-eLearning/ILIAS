@@ -540,22 +540,15 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	
 	function importSuccess($a_file) {
 		global $ilDB, $ilUser;
+		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 		$scos = array();
-		//get all SCO's of this object		
-		$val_set = $ilDB->queryF('
-			SELECT cp_node.cp_node_id FROM cp_node,cp_resource,cp_item 
-			WHERE cp_item.cp_node_id = cp_node.cp_node_id 
-			AND cp_item.resourceid = cp_resource.id 
-			AND scormtype = %s 
-			AND nodename = %s 
-			AND cp_node.slm_id = %s
-			GROUP BY cp_node.cp_node_id',
-			array('text','text', 'integer'),
-			array('sco','item', $this->getId())
-		); 
-		while ($val_rec = $ilDB->fetchAssoc($val_set))
-		{
-			array_push($scos,$val_rec['cp_node_id']);
+		//get all SCO's of this object ONLY RELEVANT!
+		include_once './Services/Object/classes/class.ilObjectLP.php';
+		$olp = ilObjectLP::getInstance($this->getId());
+		$collection = $olp->getCollectionInstance();
+		if($collection)
+		{		
+			$scos = $collection->getItems();
 		}
 		
 		$fhandle = fopen($a_file, "r");
@@ -566,58 +559,81 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$fields = fgetcsv($fhandle, 4096, ';');
 		while(($csv_rows = fgetcsv($fhandle, 4096, ";")) !== FALSE) {
 			$data = array_combine($fields, $csv_rows);
-			  //check the format
-			  $statuscheck = 0;
-			  if (count($csv_rows) == 6) {$statuscheck = 1;}
-			
-			  if ($this->get_user_id($data["Login"])>0) {
-					
-				$user_id = $this->get_user_id($data["Login"]);
-				$import = $data["Status"];
-				if ($import == "") {$import = 1;}
-					//iterate over all SCO's
-					if ($import == 1) {
-						foreach ($scos as $sco) 
-						{
-							$sco_id = $sco;
-							$date = $data['Date'];
-
-							$res = $ilDB->queryF('
-							SELECT * FROM cmi_node
-							WHERE 	cp_node_id = %s
-							AND 	user_id  = %s
-							AND 	completion_status = %s
-							AND		success_status = %s
-							AND		c_timestamp = %s',
-							array('integer','integer','text','text','timestamp'),
-							array($sco_id,$user_id,'completed','passed',$data['Date']));
-						
-							if(!$ilDB->numRows($res))
-							{
-								$nextId = $ilDB->nextId('cmi_node');
-								$val_set = $ilDB->manipulateF('
-								INSERT INTO cmi_node
-								(cp_node_id,user_id,completion_status,success_status,c_timestamp,cmi_node_id)
-								VALUES(%s,%s,%s,%s,%s,%s)',
-								array('integer','integer','text','text','timestamp','integer'),
-								array($sco_id,$user_id,'completed','passed',$data['Date'],$nextId));
-							}
-						}
-						
-					}
-					$users[] = $user_id;
-					
-			  	} else {
-					//echo "Warning! User $csv_rows[0] does not exist in ILIAS. Data for this user was skipped.\n";
+			//no check the format - sufficient to import users
+			if ($data["Login"]) $user_id = $this->get_user_id($data["Login"]);
+			if ($data["login"]) $user_id = $this->get_user_id($data["login"]);
+			//add mail in future
+			if ($data["user"] && is_int($data["user"])) $user_id = $data["user"];
+			if ($user_id>0) {
+				$last_access = ilUtil::now();
+				if ($data['Date']) {
+					$date_ex = explode('.', $data['Date']);
+					$last_access = implode('-', array($date_ex[2], $date_ex[1], $date_ex[0]));
 				}
+				if ($data['LastAccess']) {
+					$last_access = $data['LastAccess'];
+				}
+				
+				$status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
+				// $users[] = $user_id;
+				if ($data["Status"]) {
+					if (is_int($data["Status"])) $status = $data["Status"];
+					else if ($data["Status"] == ilLPStatus::LP_STATUS_NOT_ATTEMPTED) $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+					else if ($data["Status"] == ilLPStatus::LP_STATUS_IN_PROGRESS) $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+					else if ($data["Status"] == ilLPStatus::LP_STATUS_FAILED) $status = ilLPStatus::LP_STATUS_FAILED_NUM;
+				}
+				$attempts = null;
+				if($data["Attempts"]) $attempts = $data["Attempts"];
+				
+				$percentage_completed = 0;
+				if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM) $percentage_completed = 100;
+				if ($data['percentageCompletedSCOs']) $percentage_completed = $data['percentageCompletedSCOs'];
+
+				$sco_total_time_sec = null;
+				if ($data['SumTotal_timeSeconds']) $sco_total_time_sec = $data['SumTotal_timeSeconds'];
+				
+				$this->importSuccessForSahsUser($user_id, $last_access, $status, $attempts, $percentage_completed, $sco_total_time_sec);
+				
+				if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+					foreach ($scos as $sco_id) 
+					{
+						$res = $ilDB->queryF('
+						SELECT * FROM cmi_node WHERE cp_node_id = %s AND user_id  = %s AND (completion_status = %s OR success_status = %s)',
+						array('integer','integer','text','text'),
+						array($sco_id,$user_id,'completed','passed'));
+					
+						if(!$ilDB->numRows($res))
+						{
+							$nextId = $ilDB->nextId('cmi_node');
+							$val_set = $ilDB->manipulateF('INSERT INTO cmi_node 
+							(cp_node_id,user_id,completion_status,c_timestamp,cmi_node_id) 
+							VALUES(%s,%s,%s,%s,%s)',
+							array('integer','integer','text','timestamp','integer'),
+							array($sco_id,$user_id,'completed',$last_access,$nextId));
+						} else {
+							$ilDB->update('cmi_node',
+								array(
+									'completion_status'	=> array('text', 'completed'),
+									'success_status'	=> array('text', ''),
+									'c_timestamp'		=> array('timestamp', $last_access)
+								),
+								array(
+									'user_id'		=> array('integer', $user_id),
+									'cp_node_id'	=> array('integer', $sco_id)
+								)
+							);
+						}
+					}
+					
+				}
+			} else {
+				//echo "Warning! User $csv_rows[0] does not exist in ILIAS. Data for this user was skipped.\n";
+			}
 		}
 		
 		// update learning progress
-		foreach ($users as $user_id)
-		{
-			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
-			ilLPStatusWrapper::_updateStatus($this->getId(), $user_id);
-		}
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_refreshStatus($this->getId());
 
 		return 0;
 	}
