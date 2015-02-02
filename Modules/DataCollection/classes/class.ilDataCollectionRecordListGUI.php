@@ -147,6 +147,7 @@ class ilDataCollectionRecordListGUI {
 			$ilToolbar->addFormButton($lng->txt('change'), 'doTableSwitch');
 			$ilToolbar->addSeparator();
 		}
+
 		$permission_to_add_or_import = $this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id) AND $this->table_obj->hasCustomFields();
 		if ($permission_to_add_or_import) {
 			$this->ctrl->setParameterByClass("ildatacollectionrecordeditgui", "record_id", NULL);

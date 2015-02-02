@@ -699,7 +699,8 @@ class ilDataCollectionTable {
 	 * @return bool
 	 */
 	public function hasPermissionToAddRecord($ref_id) {
-		return ($this->getAddPerm() AND ilObjDataCollectionAccess::_hasReadAccess($ref_id) AND $this->checkLimit());
+		return ($this->getAddPerm() AND ilObjDataCollectionAccess::_hasReadAccess($ref_id) AND $this->checkLimit())
+		OR ilObjDataCollectionAccess::_hasWriteAccess($ref_id);
 	}
 
 

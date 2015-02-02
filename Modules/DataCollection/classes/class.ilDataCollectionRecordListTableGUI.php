@@ -94,7 +94,6 @@ class ilDataCollectionRecordListTableGUI extends ilTable2GUI {
 			}
 		}
 		$this->addColumn($lng->txt("actions"), "", "30px");
-
 		$this->setTopCommands(true);
 		$this->setEnableHeader(true);
 		$this->setShowRowsSelector(true);
