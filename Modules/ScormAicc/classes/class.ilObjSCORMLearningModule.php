@@ -574,7 +574,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 		$csv = "";
 		$query = 'SELECT * FROM sahs_user WHERE obj_id = %s';
-		if (count($a_user) >0) $query .= ' AND '.$ilDB->in('user_id', $a_user, false, 'integer');
+		if (count($a_users) >0) $query .= ' AND '.$ilDB->in('user_id', $a_users, false, 'integer');
 		$res = $ilDB->queryF(
 			$query,
 			array('integer'),
