@@ -11792,7 +11792,7 @@ scormdebug#:#show_all_API-calls#:#Show all API-calls!
 scormdebug#:#log_for#:#Log for the learning module
 scormdebug#:#started#:#started
 scormdebug#:#nr_session#:#number of session
-scormdebug#:#id_learning_module#:#Id of the learning module
+scormdebug#:#id_learning_module#:#ID of the learning module
 scormdebug#:#sent_values_not_checked#:#selected property: values sent by SCO are not fully checked
 scormdebug#:#SCO-title#:#SCO-title
 scormdebug#:#SCO-name#:#SCO-name
@@ -12165,7 +12165,7 @@ ecs#:#ecs_node_mapping_status_2#:#Manual Mapping
 ecs#:#ecs_node_mapping_status_3#:#Unmapped
 ecs#:#ecs_confirm_delete_tree#:#Do you really want to delete all assignments for this campus management tree?
 ecs#:#ecs_cms_tree_deleted#:#The campus management tree assignments have been deleted.
-ecs#:#ecs_cms_id#:#Root-Id in the Campus-Management-System
+ecs#:#ecs_cms_id#:#Root-ID in Campus Management System
 ecs#:#ecs_title_updates#:#Transfer Title Updates
 ecs#:#ecs_tree_updates#:#Transfer Tree Updates
 ecs#:#ecs_position_updates#:#Transfer Position Updates
@@ -13600,8 +13600,8 @@ cld#:#cld_folder_created#:#Folder created
 cld#:#cld_folder_creation_failed#:#Folder Creation Failed
 cld#:#cld_folder_name#:#Folder Name
 cld#:#cld_folder_not_existing_on_service#:#Folder not existing on service:
-cld#:#cld_id_already_exists_in_file_tree_in_session#:#Id already exists in filetree in Session:
-cld#:#cld_id_does_not_exist_in_file_tree_in_session#:#Id does not exist in filetree in Session:
+cld#:#cld_id_already_exists_in_file_tree_in_session#:#ID already exists in file tree in session:
+cld#:#cld_id_does_not_exist_in_file_tree_in_session#:#ID does not exist in file tree in session:
 cld#:#cld_info_add_file_to_current_directory#:#Add File to current directory
 cld#:#cld_info_add_folder_to_current_directory#:#Add Folder to current directory
 cld#:#cld_invalid_input#:#Invalid Input
@@ -14269,7 +14269,7 @@ sop#:#sop_text_start_som#:#Start SCORM Offline Manager
 sop#:#sop_start_som#:#Start SOM
 sop#:#sop_text_push_tracking#:#Import offline tracking data to ILIAS and switch to online mode
 sop#:#sop_push_tracking#:#Import tracking data
-common#:#offline_mode#:#Use Offline
+common#:#offline_mode#:#Use offline
 sop#:#sop_msg_lm_not_exists#:#The learning module does either not exist or is inactive in the SCORM Offline Manager.
 sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player. 
 sop#:#sop_msg_export_failure#:#Transferring content or data to SCORM Offline Manager was not successful.
@@ -14978,37 +14978,37 @@ scormtrac#:#c_min#:#score.min
 scormtrac#:#c_mode#:#mode
 scormtrac#:#c_raw#:#score.raw: achieved score
 scormtrac#:#c_timestamp#:#Last access
-scormtrac#:#c_type#:#type
+scormtrac#:#c_type#:#Type
 scormtrac#:#completion_status#:#completion_status
 scormtrac#:#completion_threshold#:#completion_threshold
-scormtrac#:#counter_all#:#all users
-scormtrac#:#counter_correct#:#users with correct result
+scormtrac#:#counter_all#:#All users
+scormtrac#:#counter_correct#:#Users with correct result
 scormtrac#:#counter_correct_percent#:#Percentage of users with correct result
-scormtrac#:#counter_incorrect#:#users with incorrect result
+scormtrac#:#counter_incorrect#:#Users with incorrect result
 scormtrac#:#counter_incorrect_percent#:#Percentage of users with incorrect result
-scormtrac#:#counter_other#:#users with other result
+scormtrac#:#counter_other#:#Users with other result
 scormtrac#:#counter_other_percent#:#Percentage of users with other result
-scormtrac#:#cp_node_id#:#Id of the chapter (SCO)
+scormtrac#:#cp_node_id#:#ID of chapter / SCO
 scormtrac#:#credit#:#credit
 scormtrac#:#delivery_speed#:#learner_preference.delivery_speed
 scormtrac#:#exportselectedcore#:#Basic report for chapters (SCO)
 scormtrac#:#exportselectedinteractions#:#Basic report for interactions
-scormtrac#:#id#:#Id
-scormtrac#:#interaction_description#:#Description of the interaction
-scormtrac#:#interaction_id#:#Id of the interaction
-scormtrac#:#interaction_value#:#result of the interaction
+scormtrac#:#id#:#ID
+scormtrac#:#interaction_description#:#Description of interaction
+scormtrac#:#interaction_id#:#ID of interaction
+scormtrac#:#interaction_value#:#Result of interaction
 scormtrac#:#latency#:#latency: time
 scormtrac#:#latency_seconds#:#latency: time in seconds
 scormtrac#:#launch_data#:#launch_data: data at start of the SCO
 scormtrac#:#learner_response#:#learner_response: Response
-scormtrac#:#lm_id#:#Id of the learning module
+scormtrac#:#lm_id#:#ID of the learning module
 scormtrac#:#lm_title#:#Title of the learning module
 scormtrac#:#progress_measure#:#progress_measure
 scormtrac#:#result#:#result
 scormtrac#:#scaled#:#score.scaled: score achieved as a decimal fraction
 scormtrac#:#scaled_passing_score#:#scaled_passing_score: score required to pass as a decimal fraction
-scormtrac#:#sco_marked_for_learning_progress#:#relevant for learning progress
-scormtrac#:#sco_title#:#title of the chapter (SCO)
+scormtrac#:#sco_marked_for_learning_progress#:#Relevant for learning progress
+scormtrac#:#sco_title#:#Title of chapter / SCO
 scormtrac#:#session_time#:#session_time: time in the last session
 scormtrac#:#session_time_seconds#:#session_time: time in the last session in seconds
 scormtrac#:#success_status#:#success_status: success
@@ -15018,12 +15018,12 @@ scormtrac#:#total_time_seconds#:#total_time: total time in seconds
 scormtrac#:#tracinteractionitem#:#Evaluation per interaction
 scormtrac#:#tracinteractionuser#:#Evaluation per user
 scormtrac#:#tracinteractionuseranswers#:#Responses of users
-scormtrac#:#user_id#:#User-Id
+scormtrac#:#user_id#:#User-ID
 scormtrac#:#weighting#:#weighting
 scormtrac#:#report#:#Report
-scormtrac#:#display_not_allowed#:#display not allowed
+scormtrac#:#display_not_allowed#:#Display not allowed
 common#:#ps_export_scorm#:#SCORM Tracking Data
-common#:#enable_export_scorm_desc#:#allow Export of User Data of SCORM-Learning Modules
+common#:#enable_export_scorm_desc#:#Allow export of user data of SCORM Learning Modules
 content#:#cont_ed_click_to_add_pg#:#Click here to add content.
 link#:#link_edit_int_link#:#Edit Internal Link
 link#:#link_chapters#:#Chapters
@@ -15131,30 +15131,30 @@ error#:#error_back_to_repository#:#Back to Repository
 error#:#error_sry_error#:#Sorry, an error occured.
 form#:#form_hier_click_to_add#:#Click here to add new elements.
 scormtrac#:#exportselectedsuccess#:#Basic report for success
-scormtrac#:#LearningModuleId#:#Id of the learning module
-scormtrac#:#LearningModuleTitle#:#Title of the learning module
-scormtrac#:#LearningModuleVersion#:#Version of the learning module
-scormtrac#:#Status#:#total status
+scormtrac#:#LearningModuleId#:#ID of learning module
+scormtrac#:#LearningModuleTitle#:#Title of learning module
+scormtrac#:#LearningModuleVersion#:#Version of learning module
+scormtrac#:#Status#:#Total status
 scormtrac#:#Percentage#:#Percentage of completed SCOs
 scormtrac#:#Attempts#:#Attempts
 scormtrac#:#existingSCOs#:#Number of existing SCOs
-scormtrac#:#startedSCOs#:#Number of SCOs been started
-scormtrac#:#completedSCOs#:#Number of fully completed SCO
+scormtrac#:#startedSCOs#:#Number of started SCOs
+scormtrac#:#completedSCOs#:#Number of fully completed SCOs
 scormtrac#:#passedSCOs#:#Number of passed SCOs
 scormtrac#:#roundedTotal_timeSeconds#:#Total time in seconds (rounded)
-content#:#cont_tracking_modify#:#modify data
-scormtrac#:#counter_i_correct#:#correctly answered interactions
+content#:#cont_tracking_modify#:#Modify Data
+scormtrac#:#counter_i_correct#:#Correctly answered interactions
 scormtrac#:#counter_i_correct_percent#:#Percentage of correctly answered interactions
-scormtrac#:#counter_i_incorrect#:#incorrectly answered interactions
+scormtrac#:#counter_i_incorrect#:#Incorrectly answered interactions
 scormtrac#:#counter_i_incorrect_percent#:#Percentage of incorrectly answered interactions
-scormtrac#:#counter_i_other#:#neither correctly nor incorrectly answered interactions
+scormtrac#:#counter_i_other#:#Neither correctly nor incorrectly answered interactions
 scormtrac#:#counter_i_other_percent#:#Percentage of neither correctly nor incorrectly answered interactions
-scormtrac#:#sco_id#:#Id of the chapter (SCO)
+scormtrac#:#sco_id#:#ID of chapter / SCO
 scormtrac#:#lesson_status#:#lesson_status
-survey#:#svy_settings_section_before_start#:#Information before Start of Survey
-survey#:#svy_settings_section_access#:#Administering the Survey: Access
-survey#:#svy_settings_section_question_behaviour#:#Administering the Survey: Behaviour of the Question
-survey#:#svy_settings_section_finishing#:#Finishing the Survey
+survey#:#svy_settings_section_before_start#:#Information before start of survey
+survey#:#svy_settings_section_access#:#Administering the survey: Access
+survey#:#svy_settings_section_question_behaviour#:#Administering the survey: Behaviour of question
+survey#:#svy_settings_section_finishing#:#Finishing the survey
 survey#:#svy_settings_section_reminders#:#Reminders
 scormtrac#:#satisfied#:#Status: satisfied
 scormtrac#:#measure#:#Status: measure
