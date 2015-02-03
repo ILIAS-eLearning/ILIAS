@@ -5735,3 +5735,12 @@ $ilDB->queryF(
 	array('common','ps_export_scorm','1')
 );
 ?>
+<#4471>
+<?php
+$ilDB->manipulate('DELETE FROM addressbook WHERE login NOT IN(SELECT login FROM usr_data) AND email IS NULL');
+$ilDB->manipulate(
+	'DELETE FROM addressbook_mlist_ass WHERE addr_id NOT IN(
+		SELECT addr_id FROM addressbook
+	)'
+);
+?>
