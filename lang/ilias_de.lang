@@ -1247,13 +1247,13 @@ assessment#:#tst_results_back_introduction#:#Zurück zur Startseite
 assessment#:#tst_results_back_overview#:#Zurück zur Ergebnisübersicht
 assessment#:#tst_results_overview#:#Übersicht der Testdurchläufe
 assessment#:#tst_results_overview_pass#:#Ergebnisübersicht für Testdurchlauf %s
-assessment#:#tst_show_pass_details_desc#:#Die Bekanntgabe des Ergebnisses wird um eine Tabelle ergänzt. In dieser Tabelle werden die Titel der Fragen und die erreichten Punkte angezeigt.
-assessment#:#tst_show_solution_details_desc#:#Teilnehmer bekommen zusätzlich zur Tabelle 'Erzielte Punkte pro Frage' auf einer neuen Seite für jede einzelne Frage angezeigt, welche Antworten sie gegeben haben, ob diese Antworten richtig waren und wie viele Punkte sie mit diesen Antworten erreicht haben.
+assessment#:#tst_show_pass_details_desc#:#Die Bekanntgabe des Ergebnisses wird zum oben gewählten Zeitpunkt um eine Tabelle ergänzt. <br>In dieser Tabelle werden für jeden Durchlauf die Titel der Fragen und die erreichten Punkte angezeigt. Andernfalls erscheint diese Tabelle nur nach dem letzten erlaubten Testdurchlauf (einzustellen im Unterreiter 'Allgemeine Einstellungen', Option  'Anzahl von Testdurchläufen begrenzen' oder nach dem Ende des Tests (einzustellen im Unterreiter 'Allgemeine Einstellungen', Abschnitt  'Ende'). <br>Der Inhalt der Tabelle kann im Abschnitt 'Details Testergebnisse' weiter ergänzt werden.
+assessment#:#tst_show_solution_details_desc#:#Teilnehmer bekommen zusätzlich zur 'Tabelle mit detaillierten Testergebnissen' auf einer neuen Seite für jede einzelne Frage angezeigt, welche Antworten sie gegeben haben, ob diese Antworten richtig waren und wie viele Punkte sie mit diesen Antworten erreicht haben.
 assessment#:#tst_show_solution_printview_desc#:#Teilnehmer wird eine Übersicht mit ihren Antworten zu den einzelnen Testfragen angezeigt. Diese Übersicht wird vor dem endgültigen Abschicken des Tests und nach Beendigung auf dem 'Info'-Reiter des Tests angeboten.
 assessment#:#tst_show_solution_feedback_desc#:#Falls Rückmeldungen zu den gegebenen Antworten bei der Frage hinterlegt worden sind, werden diese angezeigt. Sie müssen die Option 'Bewertete Teilnehmerantworten' aktivieren, um diese Funktion zu nutzen.
 assessment#:#tst_show_solution_answers_only_desc#:#Wenn "Druckausgabe der Ergebnisse (nur Antworten)" ausgewählt ist, werden ILIAS-Inhalte, die Sie über den "Inhalt bearbeiten" Karteireiter der Fragen vor und hinter dem eigentlichen Fragentext platzieren können, in einem Ausdruck nicht angezeigt.
-assessment#:#tst_show_solution_signature_desc#:#Es wird im Ausdruck ein Platzhalter für die Unterschrift des Testteilnehmers angezeigt. Sie müssen, um diese Funktion zu nutzen, zusätzlich die Option 'Erzielte Punkte pro Frage' aktivieren.
-assessment#:#tst_show_solution_suggested_desc#:#Falls den Fragen im Test zuvor Inhalte zur Wiederholung des Stoffs zugeordnet wurden, werden diese in der Tabelle 'Erzielte Punkte pro Frage' angezeigt. Teilnehmer können so etwaige Wissenslücken schließen. Sie müssen, um diese Funktion zu nutzen, zusätzlich die Option 'Erzielte Punkte pro Frage' aktivieren.
+assessment#:#tst_show_solution_signature_desc#:#Es wird im Ausdruck ein Platzhalter für die Unterschrift des Testteilnehmers angezeigt. Sie müssen, um diese Funktion zu nutzen, zusätzlich die Option 'Tabelle mit detaillierten Testergebnissen' aktivieren.
+assessment#:#tst_show_solution_suggested_desc#:#Falls den Fragen im Test zuvor Inhalte zur Wiederholung des Stoffs zugeordnet wurden, werden diese in der 'Tabelle mit detaillierten Testergebnissen' angezeigt. Teilnehmer können so etwaige Wissenslücken schließen. Sie müssen, um diese Funktion zu nutzen, zusätzlich die Option 'Tabelle mit detaillierten Testergebnissen'  aktivieren.
 assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung
 assessment#:#tst_results_print_best_solution_info#:#Zusätzlich wird für jede Frage die bestmögliche Lösung angezeigt.
 assessment#:#tst_resume_test#:#Test fortsetzen
@@ -1296,7 +1296,7 @@ assessment#:#tst_settings_template#:#Vorlage
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_cancel#:#"Test unterbrechen" anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Durchführung des Tests einen Button an, mit der der Test unterbrochen werden kann. Achtung: Das Unterbrechen des Tests hält nicht die unter 'Maximale Bearbeitungsdauer' festgelegte Bearbeitungszeit an.
-assessment#:#tst_show_pass_details#:#Erzielte Punkte pro Frage
+assessment#:#tst_show_pass_details#:#'Tabelle mit detaillierten Testergebnissen' pro Durchlauf zum gewählten Zeitpunkt anzeigen
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_show_side_list#:#Fragenliste seitlich anzeigen
 assessment#:#tst_show_solution_answers_only#:#Druckausgabe der Ergebnisse (nur Antworten)
@@ -1446,7 +1446,7 @@ assessment#:#tst_question_set_type_fixed#:#Fest definierte Fragenauswahl
 assessment#:#tst_question_set_type_fixed_desc#:#Allen Teilnehmern werden die gleichen Fragen gestellt.
 assessment#:#tst_question_set_type_random#:#Zufällige Fragenauswahl
 assessment#:#tst_question_set_type_random_desc#:#Jedem Teilnehmer werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
-assessment#:#tst_question_set_type_dynamic#:#"Karteikasten" - alle Fragen eines Fragenpools
+assessment#:#tst_question_set_type_dynamic#:#Wiedervorlagenmodus - alle Fragen eines Fragenpools
 assessment#:#tst_question_set_type_dynamic_desc#:#Allen Teilnehmern werden nach und nach alle Fragen aus einem definierten Fragenpool gestellt. Falsch beantwortete Fragen legt ILIAS erneut vor. Auch Fragen bereits laufender Tests können hinzugefügt oder geändert werden.
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Sie sind im Begriff den Test-Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test-Modus-abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen, wenn Sie den Test-Modus ändern.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenauswahl wurde geändert.
@@ -12319,7 +12319,7 @@ assessment#:#tst_question_hints_back_to_question#:#Zurück zur Frage
 assessment#:#tst_question_hints_index_column_label#:#Lösungshinweis %s
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Angeforderte Lösungshinweise
-assessment#:#tst_activate_skill_service_desc#:#TODO7
+assessment#:#tst_activate_skill_service_desc#:#Ein weiterer Reiter 'Kompetenzen' wird eingeblendet. In diesem Reiter können Fragen zu Kompetenzen zugeordnet werden, sowie Schwellenwerte für die Erreichung bestimmter Kompetenzausprägungen festgelegt werden.
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Punkte bearbeiten
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Seite bearbeiten
 assessment#:#tst_question_hints_form_cmd_save_points#:#Speichere Punkte
@@ -14134,28 +14134,28 @@ poll#:#poll_voting_period_info#:#Ende der Abstimmung: %s
 cptch#:#captcha_code_reload#:#Neue Grafik laden
 cptch#:#captcha_audio_title#:#Akustisches Captcha. Bitte anklicken, um Zeichen vorgelesen zu bekommen.
 cptch#:#captcha_alt_txt#:#Grafik mit Zeichen, genannt Captcha. Klicken Sie mit der Tab-Taste weiter zu einem akustischen Captcha.
-adve#:#char_selector_admin#:#Auswahl von Unicode-Zeichen (TODO)
-adve#:#char_selector_user#:#Auswahl von Unicode-Zeichen (TODO)
-adve#:#char_selector_test#:#Auswahl von Unicode-Zeichen (TODO)
-adve#:#char_selector_inactive_admin#:#Nicht verfügbar (TODO)
-adve#:#char_selector_inherit_user#:#Übernommen (TODO)
-adve#:#char_selector_inherit_test#:#Übernommen (TODO)
-adve#:#char_selector_enabled_admin#:#Aktiviert (TODO)
-adve#:#char_selector_enabled_user#:#Aktiviert (TODO)
-adve#:#char_selector_enabled_test#:#Aktiviert (TODO)
-adve#:#char_selector_disabled_admin#:#Deaktiviert (TODO)
-adve#:#char_selector_disabled_user#:#Deaktiviert (TODO)
-adve#:#char_selector_disabled_test#:#Deaktiviert (TODO)
-adve#:#char_selector_inactive_info_admin#:#Deaktiviert die Auswahl komplett. Nutzer und Tests können diese Einstellung nicht überschreiben.
-adve#:#char_selector_inherit_info_user#:#Es werden die Plattformeinstellungen übernommen.
-adve#:#char_selector_inherit_info_test#:#Es werden die Plattform- oder Nutzereinstellungen übernommen.
-adve#:#char_selector_enabled_info_admin#:#Aktiviert die Auswahl für Tests und Fragenpools. Nutzer und Tests können eigene Einstellungen besitzen.
-adve#:#char_selector_enabled_info_user#:#Aktiviert die Auswahl für Tests und Fragenpools. Tests können eigene Einstellungen besitzen.
-adve#:#char_selector_enabled_info_test#:#Aktiviert die Auswahl während eines Testdurchlaufs.
-adve#:#char_selector_disabled_info_admin#:#Deaktiviert die Auswahl. Nutzer und Tests können eigene Einstellungen besitzen.
-adve#:#char_selector_disabled_info_user#:#Deaktiviert die Auswahl. Tests können eigene Einstellungen besitzen.
-adve#:#char_selector_disabled_info_test#:#Deaktiviert die Auswahl während eines Testdurchlaufs.
-adve#:#char_selector_blocks#:#Verfügbare Unicode-Zeichenblöcke
+adve#:#char_selector_admin#:#Auswahlmenü mit Sonderzeichen (Unicode) für Tests und Fragenpools
+adve#:#char_selector_user#:#Auswahlmenü mit Sonderzeichen (Unicode) für Tests
+adve#:#char_selector_test#:#Auswahlmenü mit Sonderzeichen
+adve#:#char_selector_inactive_admin#:#Auswahlmenü für Sonderzeichen global deaktivieren
+adve#:#char_selector_inherit_user#:#Standard-Einstellungen übernehmen
+adve#:#char_selector_inherit_test#:#Plattform und individuelle Benutzereinstellungen übernehmen
+adve#:#char_selector_enabled_admin#:#Ω-Button zur Aktivierung des Auswahlmenü für Sonderzeichen wird standardmäßig angezeigt
+adve#:#char_selector_enabled_user#:#Auswahlmenü für Sonderzeichen aktivieren
+adve#:#char_selector_enabled_test#:#Sonderzeichenauswahl anzeigen
+adve#:#char_selector_disabled_admin#:#Ω-Button zur Aktivierung des Auswahlmenü für Sonderzeichen muss extra angeschaltet werden
+adve#:#char_selector_disabled_user#:#Kein Auswahlmenü für Sonderzeichen in Tests anzeigen
+adve#:#char_selector_disabled_test#:#Sonderzeichenauswahl nicht anzeigen
+adve#:#char_selector_inactive_info_admin#:#Das Auswahlmenü für Sonderzeichen ist für die gesamte Plattform deaktiviert. Auch die Möglichkeit individuelle Einstellungen auf dem Persönlichen Schreibtisch oder im Reiter 'Einstellungen' in Tests  vorzunehmen ist ausgeblendet.
+adve#:#char_selector_inherit_info_user#:#Es werden die Einstellungen übernommen, wie sie vom Administrator für die ganze Plattform  global aktiviert wurden.
+adve#:#char_selector_inherit_info_test#:#Je nach den Einstellungen in der Administration und den individuellen Einstellungen, die ein Benutzer auf dem Persönlichen Schreibtisch getroffen hat, wird das Auswahlmenü für Sonderzeichen (Unicode) im Testdurchlauf angezeigt oder auch nicht.
+adve#:#char_selector_enabled_info_admin#:#Das Auswahlmenü für Sonderzeichen (Unicode) ist aktiviert. Es enthält die Unicode Blöcke, die in dieser Einstellung ausgewählt werden. Benutzer können aber individuelle Einstellungen auf dem Persönlichen Schreibtisch vornehmen oder Test können im Reiter 'Einstellungen' so konfiguriert werden, dass  das Auswahlmenü zur Verfügung steht.
+adve#:#char_selector_enabled_info_user#:#In Tests wird ein Auswahlmenü für Sonderzeichen eingeblendet. Allerdings können einzelne Tests die Anzeige dieses Menüs trotz dieser Einstellung unterdrücken.
+adve#:#char_selector_enabled_info_test#:#Unabhängig von den Einstellungen eines Benutzers wird das Menü zu Auswahl der Sonderzeichen (Unicode) bei der Testdurchführung eingeblendet, Sonderzeichen können über das Menü eingegeben werden.
+adve#:#char_selector_disabled_info_admin#:#Das Auswahlmenü für Sonderzeichen (Unicode) ist  für Tests und Fragenpools aktiviert, allerdings müssen Benutzer auf dem Persönlichen Schreibtisch entsprechende vornehmen oder der Test  bzw. Fragenpool können im Reiter 'Einstellungen' so konfiguriert werden, dass  das Auswahlmenü zur Verfügung steht. Test-Einstellungen setzen sich gegenüber Benutzer-Einstellungen durch.
+adve#:#char_selector_disabled_info_user#:#In Tests wird normalerweise kein Auswahlmenü für Sonderzeichen eingeblendet. Allerdings können einzelne Tests die Anzeige dieses Menüs trotz dieser Einstellung erzwingen.
+adve#:#char_selector_disabled_info_test#:#Unabhängig von den Einstellungen eines Benutzers ist das Menü zu Auswahl der Sonderzeichen (Unicode) bei der Testdurchführung ausgeschaltet, Zeichen können nur über die Tastatur eingegeben werden.
+adve#:#char_selector_blocks#:#Verfügbare Sonderzeichen (Unicode)
 adve#:#char_selector_blocks_info#:#Alle Zeichen der ausgewählten Blöcke werden gelistet, auch wenn die Browserschrift nicht alle unterstützt.
 adve#:#char_selector_custom_items#:#Spezielle Auswahl
 adve#:#char_selector_custom_items_info1#:#Die Spezielle Auswahl wird vor den Unicode-Blöcken gelistet. Fügen Sie hier die Zeichen im folgenden Format ein:
