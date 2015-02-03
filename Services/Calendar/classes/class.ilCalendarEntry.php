@@ -44,6 +44,7 @@ class ilCalendarEntry implements ilDatePeriod
 	// gev-patch start
 	protected $type; // [string]
 	protected $weight; // [int]	
+	protected $orgu_id; // [int]
 	// gev-patch end
 	
 
@@ -598,6 +599,18 @@ class ilCalendarEntry implements ilDatePeriod
 		return $this->weight;
 	}
 	
+	
+	public function setOrgUnitId($a_id) {
+		if ($a_id !== null) {
+			$a_id = (int)$a_id;
+		}
+		$this->orgu_id = $a_id;
+	}
+	
+	public function getOrgUnitId() {
+		return $this->orgu_id;
+	}
+	
 	// gev-patch end
 	
 	
@@ -633,6 +646,7 @@ class ilCalendarEntry implements ilDatePeriod
 			// patch generali start
 			'entry_type = '.$this->db->quote($this->getType(),'text').', '.
 			'entry_weight = '.$this->db->quote($this->getWeight(),'integer').', '.
+			'orgu_id = '.$this->db->quote($this->getOrgUnitId(), 'integer').', '.
 			// patch generali end
 			'notification = '.$this->db->quote($this->isNotificationEnabled() ? 1 : 0,'integer').' '.			
 	 		"WHERE cal_id = ".$this->db->quote($this->getEntryId() ,'integer')." ";
@@ -657,7 +671,7 @@ class ilCalendarEntry implements ilDatePeriod
 
 	 	$query = "INSERT INTO cal_entries (cal_id,title,last_update,subtitle,description,location,fullday,starta,enda, ".
 			// patch generali start
-			"informations,auto_generated,context_id,translation_type, completion, is_milestone, entry_type, entry_weight, notification) ".
+			"informations,auto_generated,context_id,translation_type, completion, is_milestone, entry_type, entry_weight, orgu_id, notification) ".
 			// patch generali end
 			"VALUES( ".
 			$ilDB->quote($next_id,'integer').", ".
@@ -678,6 +692,7 @@ class ilCalendarEntry implements ilDatePeriod
 			// patch generali start
 			$this->db->quote($this->getType(),'text').', '.
 			$this->db->quote($this->getWeight(),'integer').', '.
+			$this->db->quote($this->getOrgUnitId(), 'integer').', '.
 			// patch generali end
 			$this->db->quote($this->isNotificationEnabled() ? 1 : 0,'integer').' '.			
 	 		")";
@@ -778,6 +793,7 @@ class ilCalendarEntry implements ilDatePeriod
 			// patch generali start
 			$this->setType($row->entry_type);
 			$this->setWeight($row->entry_weight);
+			$this->setOrgUnitId($row->orgu_id);
 			// patch generali end
 		}
 		

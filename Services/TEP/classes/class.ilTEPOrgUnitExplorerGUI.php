@@ -14,9 +14,13 @@ require_once("./Modules/OrgUnit/classes/class.ilOrgUnitExplorerGUI.php");
 class ilTEPOrgUnitExplorerGUI extends ilOrgUnitExplorerGUI
 {		
 	protected $sel_orgu_ids; // [array]
+	protected $root_node_ref_id; // [int]
 	
-	public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree)
+	// gev-patch start
+	public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree, $a_root_node_ref_id = null)
 	{
+		$this->root_node_ref_id = $a_root_node_ref_id;
+		// gev-patch end
 		parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree);
 		$this->setTypeWhiteList(array("orgu"));
 	}
@@ -35,6 +39,15 @@ class ilTEPOrgUnitExplorerGUI extends ilOrgUnitExplorerGUI
 	{
 		return $this->sel_orgu_ids;
 	}
+	
+	// gev-patch start
+	public function getRootNode(){
+		if ($this->root_node_ref_id) {
+			return $this->getTree()->getNodeData($this->root_node_ref_id);
+		}
+		return parent::getRootNode();
+	}
+	// gev-patch end
 	
 	
 	//

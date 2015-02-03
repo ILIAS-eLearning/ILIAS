@@ -18,6 +18,7 @@ class ilTEPOrgUnitSelectionInputGUI extends ilExplorerSelectInputGUI
 {
 	protected $org_unit_map; // [array]
 	protected $rcrsv; // [bool]
+	protected $show_rcrsv; // [bool]
 	
 	/**
 	 * Constructor
@@ -25,7 +26,9 @@ class ilTEPOrgUnitSelectionInputGUI extends ilExplorerSelectInputGUI
 	 * @param	string	$a_title	Title
 	 * @param	string	$a_postvar	Post Variable
 	 */
-	function __construct(array $a_org_units, $a_postvar, $a_multi = false)
+	// gev-patch start
+	function __construct(array $a_org_units, $a_postvar, $a_multi = false, $a_show_recursive = true, $a_root_node_ref_id = null)
+	// gev-patch end
 	{
 		global $lng, $ilCtrl, $tree;
 				
@@ -33,12 +36,15 @@ class ilTEPOrgUnitSelectionInputGUI extends ilExplorerSelectInputGUI
 		
 		$this->multi_nodes = $a_multi;
 		$this->org_unit_map = $a_org_units;
+		// gev-patch start
+		$this->show_rcrsv = (bool)$a_show_recursive; 
+		//gev-patch end
 		
 		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $a_postvar);
 		
 		$id = "ousel".md5($a_postvar);
 		
-		$this->explorer_gui = new ilTEPOrgUnitExplorerGUI($id, array("ilformpropertydispatchgui", "ilteporgunitselectioninputgui"), $this->getExplHandleCmd(), $tree);
+		$this->explorer_gui = new ilTEPOrgUnitExplorerGUI($id, array("ilformpropertydispatchgui", "ilteporgunitselectioninputgui"), $this->getExplHandleCmd(), $tree, $a_root_node_ref_id);
 		$this->explorer_gui->setTypeWhiteList(array( "orgu" ));
 		$this->explorer_gui->setSelectMode($a_postvar, $this->multi_nodes);
 		$this->explorer_gui->setSkipRootNode(true);		
@@ -70,7 +76,12 @@ class ilTEPOrgUnitSelectionInputGUI extends ilExplorerSelectInputGUI
 			$res .= $lng->txt("tep_filter_orgu_all");
 		}
 		*/ 
-		
+
+		// gev-patch start
+		if (!$this->show_rcrsv) {
+			return parent::render();
+		}
+		// gev-patch end
 		$res .= parent::render();
 		
 		$rcrsv = new ilCheckboxInputGUI("", $this->getPostVar()."_rcrsv");

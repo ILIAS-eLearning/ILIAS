@@ -25,7 +25,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevEmployeeBookingsGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingGUI
 * @ilCtrl_Calls gevDesktopGUI: gevEmployeeEduBiosGUI
-*
+* @ilCtrl_Calls gevDesktopGUI: ilFormPropertyDispatchGUI
 */
 
 class gevDesktopGUI {

@@ -871,6 +871,14 @@ class gevCourseUtils {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_ORGA, $a_orga);
 	}
 	
+	public function getTEPOrguId() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TEP_ORGU);
+	}
+	
+	public function setTEPOrguId($a_tep_orgu) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_TEP_ORGU, $a_tep_orgu);
+	}
+	
 	// options for course search
 	
 	public static function getTypeOptions() {

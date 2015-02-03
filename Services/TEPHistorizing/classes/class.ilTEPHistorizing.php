@@ -125,7 +125,10 @@ class ilTEPHistorizing extends ilHistorizingStorage
 			'end_date'				=> 'date',
 			'individual_days'		=> 'integer',
 			'category'				=> 'text',
-			'deleted'				=> 'integer'
+			'deleted'				=> 'integer',
+			// gev-patch start
+			'orgu_title'			=> 'text'
+			// gev-patch end
 		);
 
 		return $definition;

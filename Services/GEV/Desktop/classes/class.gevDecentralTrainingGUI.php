@@ -266,6 +266,8 @@ class gevDecentralTrainingGUI {
 			$crs_utils->setWebExPassword($password ? $password : " ");
 		}
 		
+		$crs_utils->setTEPOrguId($a_form->getInput("orgu_id"));
+		
 		if (!$mail_settings->getSuppressMails()) {
 			$mail_settings->setSuppressMails($a_form->getInput("suppress_mails"));
 			$mail_settings->save();
@@ -430,6 +432,7 @@ class gevDecentralTrainingGUI {
 					, "venue" => $crs_utils->getVenueId()
 					, "webinar_link" => $crs_utils->getWebExLink()
 					, "webinar_password" => $crs_utils->getWebExPassword()
+					, "orgu_id" => $crs_utils->getCourse()->getOrgUnitId()
 					, "invitation_preview" => $crs_utils->getInvitationMailPreview()
 					, "suppress_mails" => $mail_settings->getSuppressMails()
 					);
@@ -534,6 +537,16 @@ class gevDecentralTrainingGUI {
 			}
 			$form->addItem($webinar_password);
 		}
+		
+		require_once("Services/TEP/classes/class.ilTEP.php");
+		$org_info = ilTEP::getPossibleOrgUnitsForTEPEntries();
+		require_once "Services/TEP/classes/class.ilTEPOrgUnitSelectionInputGUI.php";
+		$orgu_selection = new ilTEPOrgUnitSelectionInputGUI($org_info["orgu_ref_ids"], "orgu_id", false, false, $org_info["root_ref_id"]);
+		if ($a_fill) {
+			$orgu_selection->setValue($training_info["orgu_id"]);
+		}
+		$orgu_selection->setRecursive(false);
+		$form->addItem($orgu_selection);
 		
 		$mail_section = new ilFormSectionHeaderGUI();
 		$mail_section->setTitle($this->lng->txt("gev_mail_mgmt"));

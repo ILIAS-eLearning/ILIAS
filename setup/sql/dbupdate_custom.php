@@ -3143,7 +3143,6 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 
 ?>
 
-
 <#95>
 <?php
 	// Create Personal Org Unit structure for HAs
@@ -3230,4 +3229,41 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 		->grantPermissionsFor( "superior"
 							 , array("cat_administrate_users", "read_users")
 							 );	
+?>
+
+<#97>
+<?php
+
+	// calendar entry weight
+	if(!$ilDB->tableColumnExists('cal_entries', 'orgu_id'))
+	{
+		$ilDB->addTableColumn('cal_entries', 'orgu_id', 
+			array(
+				'type' => 'integer', 
+				'length' => 4, 
+				'notnull' => false, 
+				'default' => null
+		));			
+	}
+
+?>
+
+<#98>
+<?php
+
+	if (!$ilDB->tableColumnExists("hist_tep", "orgu_title")) {
+		$ilDB->addTableColumn('hist_tep', 'orgu_title', 
+			array(
+				'type' => 'text', 
+				'length' => 255, 
+				'notnull' => true, 
+				'default' => "-empty-"
+		));
+	}
+
+?>
+
+<#99>
+<?php
+	$ilCtrlStructureReader->getStructure();
 ?>
