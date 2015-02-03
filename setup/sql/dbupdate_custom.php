@@ -3287,3 +3287,9 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 		die("Could not find orgu with import id exit.");
 	}
 ?>
+
+
+<#101>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
