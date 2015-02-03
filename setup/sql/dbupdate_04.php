@@ -5720,7 +5720,7 @@ if(!$ilDB->tableColumnExists('tst_tests','limit_users_enabled'))
 ?>
 <#4469>
 <?php
-
+// @ukonhle: Please do not commit empty database steps ;-)
 ?>
 <#4470>
 <?php

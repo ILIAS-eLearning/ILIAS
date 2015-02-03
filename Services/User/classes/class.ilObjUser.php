@@ -991,12 +991,14 @@ class ilObjUser extends ilObject
 		{
 			return false;
 		}
+		
+		$former_login = self::_lookupLogin($this->getId());
 
 		// Update not necessary
-		if(0 == strcmp($a_login, self::_lookupLogin($this->getId())))
+		if(0 == strcmp($a_login, $former_login))
 		{
 			return false;
-		}		
+		}
 		
 		try
 		{
@@ -1033,7 +1035,7 @@ class ilObjUser extends ilObject
 			if((int)$ilSetting->get('allow_change_loginname') &&
 			   (int)$ilSetting->get('create_history_loginname'))
 			{
-				ilObjUser::_writeHistory($this->getId(), self::_lookupLogin($this->getId()));	
+				ilObjUser::_writeHistory($this->getId(), $former_login);
 			}
 
 			//update login
@@ -1043,9 +1045,12 @@ class ilObjUser extends ilObject
 				UPDATE usr_data
 				SET login = %s
 				WHERE usr_id = %s',
-				array('text', 'integer'), array($this->getLogin(), $this->getId()));			
+				array('text', 'integer'), array($this->getLogin(), $this->getId()));
+
+			include_once 'Services/Contact/classes/class.ilAddressbook.php';
+			ilAddressbook::onLoginNameChange($former_login, $this->getLogin());
 		}
-		
+
 		return true;
 	}
 
@@ -1397,7 +1402,9 @@ class ilObjUser extends ilObject
 		
 		// Reset owner
 		$this->resetOwner();
-		
+
+		include_once 'Services/Contact/classes/class.ilAddressbook.php';
+		ilAddressbook::onUserDeletion($this);
 
 		// Trigger deleteUser Event
 		global $ilAppEventHandler;
