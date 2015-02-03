@@ -16,6 +16,10 @@ class ilCalDerivedEntry
 	protected $master_entry_id; // [int]
 	protected $cat_id; // [int]
 	
+	// gev-patch start
+	static protected $master_entry_cache = array();
+	// gev-patch end
+	
 	/**
 	 * Constructor
 	 * 
@@ -270,8 +274,30 @@ class ilCalDerivedEntry
 	public static function getUserIdsByMasterEntryIds(array $a_ids)
 	{
 		global $ilDB;
+
+		$cached_ids = array_keys(self::$master_entry_cache);
+		$missing_ids = array_diff($a_ids, $cached_ids);
+		
+		if (count($missing_ids) > 0) {
+			$query = "SELECT up.usr_id, cd.id, cd.master_cal_entry FROM usr_pref up".
+				" JOIN cal_derived_entry cd ON (up.value = cd.cat_id)".
+				" WHERE up.keyword = ".$ilDB->quote("tep_cat_id", "text").
+				" AND ".$ilDB->in("cd.master_cal_entry", $missing_ids, "", "integer");
+			$set = $ilDB->query($query);
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				self::$master_entry_cache[$row["master_cal_entry"]][$row["usr_id"]] = $row["id"];			
+			}
+		}
 		
 		$res = array();
+		foreach($a_ids as $id) {
+			$res[$id] = self::$master_entry_cache[$id];
+		}
+		return $res;
+		
+		// gev-patch start
+		/*$res = array();
 		
 		$query = "SELECT up.usr_id, cd.id, cd.master_cal_entry FROM usr_pref up".
 			" JOIN cal_derived_entry cd ON (up.value = cd.cat_id)".
@@ -283,6 +309,7 @@ class ilCalDerivedEntry
 			$res[$row["master_cal_entry"]][$row["usr_id"]] = $row["id"];			
 		}
 		
-		return $res;		
+		return $res;*/
+		// gev-patch end
 	}
 }
