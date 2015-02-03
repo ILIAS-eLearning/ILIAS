@@ -59,7 +59,8 @@ abstract class ilTEPViewGridBased extends ilTEPView
 	abstract protected function hasNoTutorColumn();	
 	
 	protected function importRequest()
-	{	
+	{
+		global $ilUser;
 		parent::importRequest();
 	
 		// filter - incl. org unit[s] 
@@ -95,6 +96,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		{
 			$filter = array(
 				"orgu" => array("ids"=>array(), "rcrsv"=>true)
+				,"tutor" => $ilUser->getId()
 				,"notut" => true
 			);
 		}	
@@ -144,7 +146,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				// select 1st in alphabetical list
 				else
 				{					
-					$tutors = array(array_shift($tutors));								
+					$tutors = array($ilUser->getId());//array(array_shift($tutors));								
 				}
 			}
 			

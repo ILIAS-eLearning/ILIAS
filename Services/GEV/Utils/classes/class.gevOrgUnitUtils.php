@@ -493,7 +493,7 @@ class gevOrgUnitUtils {
 		return array_unique($ret);
 	}
 	
-	// Get all orgunits below the given ones. Returns ref_ids.
+	// Get all orgunits below the given ones. Returns ref_ids and obj_ids.
 	static public function getAllChildren($a_ref_ids) {
 		global $ilDB;
 		
