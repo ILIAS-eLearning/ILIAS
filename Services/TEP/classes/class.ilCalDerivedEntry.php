@@ -292,7 +292,9 @@ class ilCalDerivedEntry
 		
 		$res = array();
 		foreach($a_ids as $id) {
-			$res[$id] = self::$master_entry_cache[$id];
+			if (array_key_exists($id, self::$master_entry_cache)) {
+				$res[$id] = self::$master_entry_cache[$id];
+			}
 		}
 		return $res;
 		
