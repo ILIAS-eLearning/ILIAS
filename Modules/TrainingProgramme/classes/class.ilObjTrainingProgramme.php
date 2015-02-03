@@ -1,10 +1,8 @@
 <?php
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> */
+/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Container/classes/class.ilContainer.php";
-require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 
 /**
  * Class ilObjTrainingProgramme
