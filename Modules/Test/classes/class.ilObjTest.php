@@ -4731,8 +4731,8 @@ function getAnswerFeedbackPoints()
 		$persons_array = array();
 		while ($row = $ilDB->fetchAssoc($result))
 		{
-			$name = $this->lng->txt("unknown");
-			$fullname = $this->lng->txt("unknown");
+			$name = $this->lng->txt("anonymous");
+			$fullname = $this->lng->txt("anonymous");
 			$login = "";
 			if (!$this->getAnonymity())
 			{
@@ -4747,8 +4747,8 @@ function getAnswerFeedbackPoints()
 					$login = $row["login"];
 					if ($row["user_fi"] == ANONYMOUS_USER_ID)
 					{
-						$name = $this->lng->txt("unknown");
-						$fullname = $this->lng->txt("unknown");
+						$name = $this->lng->txt("anonymous");
+						$fullname = $this->lng->txt("anonymous");
 					}
 					else
 					{
@@ -4784,7 +4784,7 @@ function getAnswerFeedbackPoints()
 		{
 			if ($this->getAnonymity())
 			{
-				$persons_array[$row["active_id"]] = $this->lng->txt("unknown");
+				$persons_array[$row["active_id"]] = $this->lng->txt("anonymous");
 			}
 			else
 			{
@@ -4826,7 +4826,7 @@ function getAnswerFeedbackPoints()
 		{
 			if ($this->getAnonymity())
 			{
-				$persons_array[$row["active_id"]] = array("name" => $this->lng->txt("unknown"));
+				$persons_array[$row["active_id"]] = array("name" => $this->lng->txt("anonymous"));
 			}
 			else
 			{
@@ -7405,7 +7405,7 @@ function getAnswerFeedbackPoints()
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id AND usr_data.usr_id=%s " .
 					"ORDER BY $order",
 					array('text', 'text', 'text', 'integer', 'integer'),
-					array("", $this->lng->txt("unknown"), "", $this->getTestId(), $user_id)
+					array("", $this->lng->txt("anonymous"), "", $this->getTestId(), $user_id)
 				);
 			}
 			else
@@ -7416,7 +7416,7 @@ function getAnswerFeedbackPoints()
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id " .
 					"ORDER BY $order",
 					array('text', 'text', 'text', 'integer'),
-					array("", $this->lng->txt("unknown"), "", $this->getTestId())
+					array("", $this->lng->txt("anonymous"), "", $this->getTestId())
 				);
 			}
 		}
@@ -7468,7 +7468,7 @@ function getAnswerFeedbackPoints()
 			$result = $ilDB->queryF("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi usr_id, %s login, %s lastname, %s firstname, tst_active.submitted test_finished, usr_data.matriculation, usr_data.active ".
 				"FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
 				array('text', 'text', 'text', 'integer'),
-				array("", $this->lng->txt("unknown"), "", $this->getTestId())
+				array("", $this->lng->txt("anonymous"), "", $this->getTestId())
 			);
 		}
 		else
@@ -7606,7 +7606,7 @@ function getAnswerFeedbackPoints()
 		{
 			$result = $ilDB->queryF("SELECT usr_id, %s login, %s lastname, %s firstname, client_ip clientip FROM usr_data WHERE " . $ilDB->in('usr_id', $ids, false, 'integer') . " ORDER BY login",
 				array('text', 'text', 'text'),
-				array("", $this->lng->txt("unknown"), "")
+				array("", $this->lng->txt("anonymous"), "")
 			);
 		}
 		else
@@ -7894,7 +7894,7 @@ function getAnswerFeedbackPoints()
 				if ($this->getAnonymity())
 				{
 					$user_rec['firstname'] = "";
-					$user_rec['lastname'] = $this->lng->txt("unknown");
+					$user_rec['lastname'] = $this->lng->txt("anonymous");
 				}
 				$row = array(
 					"user_id"=>$user_rec['usr_id'],
@@ -10135,7 +10135,7 @@ function getAnswerFeedbackPoints()
 						if ($this->getAnonymity())
 						{
 							$user_rec['firstname'] = "";
-							$user_rec['lastname'] = $this->lng->txt("unknown");
+							$user_rec['lastname'] = $this->lng->txt("anonymous");
 						}
 						$row = array(
 							"user_id"=>$user_rec['usr_id'],
