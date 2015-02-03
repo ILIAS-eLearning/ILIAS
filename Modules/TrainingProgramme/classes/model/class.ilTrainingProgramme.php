@@ -1,5 +1,7 @@
 <?php
 
+/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> */
+
 require_once(dirname(__FILE__)."/../../../../Services/ActiveRecord/class.ActiveRecord.php");
 
 /**
