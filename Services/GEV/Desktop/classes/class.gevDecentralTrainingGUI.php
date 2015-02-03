@@ -432,7 +432,7 @@ class gevDecentralTrainingGUI {
 					, "venue" => $crs_utils->getVenueId()
 					, "webinar_link" => $crs_utils->getWebExLink()
 					, "webinar_password" => $crs_utils->getWebExPassword()
-					, "orgu_id" => $crs_utils->getCourse()->getOrgUnitId()
+					, "orgu_id" => $crs_utils->getTEPOrguId()
 					, "invitation_preview" => $crs_utils->getInvitationMailPreview()
 					, "suppress_mails" => $mail_settings->getSuppressMails()
 					);
