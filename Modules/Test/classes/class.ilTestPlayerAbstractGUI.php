@@ -798,14 +798,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$confirmation->setFormAction($this->ctrl->getFormAction($this, 'confirmFinish'));
 		$confirmation->setHeaderText($this->lng->txt("tst_finish_confirmation_question"));
 		$confirmation->setConfirm($this->lng->txt("tst_finish_confirm_button"), 'confirmFinish');
-		if($this->object->canShowSolutionPrintview($ilUser->getId()))
-		{
-			$confirmation->setCancel($this->lng->txt("tst_finish_confirm_list_of_answers_button"), 'backConfirmFinish');
-		}
-		else
-		{
-			$confirmation->setCancel($this->lng->txt("tst_finish_confirm_cancel_button"), 'backConfirmFinish');
-		}
+		$confirmation->setCancel($this->lng->txt("tst_finish_confirm_cancel_button"), 'backConfirmFinish');
 
 		if($this->object->getKioskMode())
 		{
@@ -868,44 +861,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		// Last try in limited tries & !confirmed
 		if (($requires_confirmation) && ($actualpass == $this->object->getNrOfTries() - 1))
 		{
-			if ($this->object->canShowSolutionPrintview($ilUser->getId()))
-			{
-				$template = new ilTemplate("tpl.il_as_tst_finish_navigation.html", TRUE, TRUE, "Modules/Test");
-				$template->setVariable("BUTTON_FINISH", $this->lng->txt("btn_next"));
-				$template->setVariable("BUTTON_CANCEL", $this->lng->txt("btn_previous"));
-				if ($this->object->getEnableExamview())
-				{
-					$template->setVariable("CANCEL_CMD", 'finishTest');
-				}
-				else if($this->object->getListOfQuestionsEnd())
-				{
-					$template->setVariable("CANCEL_CMD", 'outQuestionSummary');
-				}
-				else
-				{
-					$template->setVariable("CANCEL_CMD", 'redirectQuestion');
-				}
-				if($this->object->getListOfQuestionsEnd())
-				{
-					$template->setVariable("CANCEL_CMD", 'finishTest');
-				}
-				else
-				{
-					$template->setVariable("CANCEL_CMD", 'redirectQuestion');
-				}
-				$template_top = new ilTemplate("tpl.il_as_tst_list_of_answers_topbuttons.html", TRUE, TRUE, "Modules/Test");
-				$template_top->setCurrentBlock("button_print");
-				$template_top->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
-				$template_top->parseCurrentBlock();
-
-				$this->showListOfAnswers($active_id, NULL, $template_top->get(), $template->get());
-				return;
-			}
-			else
-			{
-				// show confirmation page
-				return $this->confirmFinishTestCmd();
-			}
+			// show confirmation page
+			return $this->confirmFinishTestCmd();
 		}
 
 		// Last try in limited tries & confirmed?
@@ -1632,40 +1589,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	function backConfirmFinishCmd()
 	{
-		global $ilUser;
-		if ($this->object->canShowSolutionPrintview($ilUser->getId()))
-		{
-			$template = new ilTemplate("tpl.il_as_tst_finish_navigation.html", TRUE, TRUE, "Modules/Test");
-			$template->setVariable("BUTTON_FINISH", $this->lng->txt("btn_next"));
-			$template->setVariable("BUTTON_CANCEL", $this->lng->txt("btn_previous"));
-			if ($this->object->getEnableExamview())
-			{
-				$template->setVariable("CANCEL_CMD", 'finishTest');
-			}
-			else if($this->object->getListOfQuestionsEnd())
-			{
-				$template->setVariable("CANCEL_CMD", 'outQuestionSummary');
-			}
-			else
-			{
-				$template->setVariable("CANCEL_CMD", 'redirectQuestion');
-			}
-			$template_top = new ilTemplate("tpl.il_as_tst_list_of_answers_topbuttons.html", TRUE, TRUE, "Modules/Test");
-			$template_top->setCurrentBlock("button_print");
-			$template_top->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
-			$template_top->parseCurrentBlock();
-			$active_id = $this->testSession->getActiveId();
-			return $this->showListOfAnswers($active_id, NULL, $template_top->get(), $template->get());
-		}
-		else
-		{
-			$this->ctrl->redirect($this, 'gotoQuestion');
-		}
-	}
-	
-	function finishListOfAnswersCmd()
-	{
-		$this->confirmFinishTestCmd();
+		$this->ctrl->redirect($this, 'gotoQuestion');
 	}
 	
 	/**
