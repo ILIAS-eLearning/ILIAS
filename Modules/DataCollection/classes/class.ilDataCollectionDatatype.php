@@ -42,12 +42,10 @@ class ilDataCollectionDatatype {
 	const INPUTFORMAT_MOB = 9;
 	const INPUTFORMAT_REFERENCELIST = 10;
 	const INPUTFORMAT_FORMULA = 11;
-    const INPUTFORMAT_NON_EDITABLE_VALUE = 12;
+	const INPUTFORMAT_NON_EDITABLE_VALUE = 12;
 	const LINK_MAX_LENGTH = 40;
-
-    public static $mob_suffixes = array('jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv');
-
-    /**
+	public static $mob_suffixes = array( 'jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv' );
+	/**
 	 * @var int
 	 */
 	protected $id;
@@ -228,7 +226,6 @@ class ilDataCollectionDatatype {
 	/**
 	 * @param ilDataCollectionField $field
 	 *
-	 * @internal param $type_id
 	 * @return ilCheckboxInputGUI|ilDateTimeInputGUI|ilFileInputGUI|ilTextInputGUI|NULL
 	 */
 	static function getInputField(ilDataCollectionField $field) {
@@ -758,8 +755,8 @@ class ilDataCollectionDatatype {
 
 					$link = $this->shortenLink($link);
 					$html = "<a target='_blank' href='" . $value . "'>" . $link . "</a>";
-				} elseif ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_TEXT] AND $link
-					AND ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId())
+				} elseif ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_TEXT] AND
+					$link AND ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId())
 				) {
 					$ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $record_field->getRecord()->getId());
 					$html = '<a href="' . $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord') . '">' . $value . '</a>';

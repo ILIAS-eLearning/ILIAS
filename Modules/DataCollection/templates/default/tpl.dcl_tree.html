@@ -1,72 +1,14 @@
-
 <!-- BEGIN ilias_ref_input -->
-<script>
-    $(document).ready(function() {
-
-        var toggleDisplayField = function(mode) {
-            if (mode == 'on') {
-                $displayField.show().parent('div').attr('style', 'display:inline-block');
-                $removeIcon.show();
-            } else {
-                $displayField.hide().parent('div').attr('style', '');
-                $removeIcon.hide();
-            }
-        };
-
-        var $removeIcon = $('form[id^="form_dcl"] #remove_{FIELD_ID}');
-        var $displayField = $('form[id^="form_dcl"] #display_{FIELD_ID}');
-        if (!$displayField.val().length) {
-            toggleDisplayField('off');
-        } else {
-            toggleDisplayField('on');
-        }
-
-        $('form[id^="form_dcl"] #dcl_loader_{FIELD_ID}').hide();
-
-        $('form[id^="form_dcl"] #search_{FIELD_ID}').keydown(function(event){
-            if(event.keyCode == 13){
-                event.preventDefault();
-                dclSearchFunction(this.value);
-            }
-        });
-
-        $('form[id^="form_dcl"] #search_button_{FIELD_ID}').click(function(event){
-            dclSearchFunction($('form[id^="form_dcl"] #search_{FIELD_ID}').val());
-        });
-
-        $(document).on('click','form[id^="form_dcl"] .dcl_result_{FIELD_ID}', function() {
-            var set_id = this.id;
-            var title = this.text;
-            $('form[id^="form_dcl"] #{FIELD_ID}').val(set_id);
-            $displayField.val(title);
-            toggleDisplayField('on');
-        });
-
-        $('form[id^="form_dcl"] #remove_{FIELD_ID}').click(function(){
-           $displayField.val('').hide();
-           $('form[id^="form_dcl"] #{FIELD_ID}').val('');
-           $(this).hide();
-           $displayField.parent('div').attr('style', '');
-        });
-    });
-
-function dclSearchFunction(value){
-    var link = '{AJAX_LINK}';
-    var replacer = new RegExp('amp;','g');
-    link = link.replace(replacer, '');
-    $('form[id^="form_dcl"] #dcl_loader_{FIELD_ID}').show();
-    $('form[id^="form_dcl"] #search_output_{FIELD_ID}').load(link, {search_for: value, dest: '{FIELD_ID}'}, function() { $('form[id^="form_dcl"] #dcl_loader_{FIELD_ID}').hide();});
-}
-</script>
-
-<input type="hidden" id="{FIELD_ID}">
-
-<p id="search_output_{FIELD_ID}">
-    <img id="dcl_loader_{FIELD_ID}" src='{LOADER_PATH}'>
-    {SEARCH_HTML}
+<input type="hidden" id="{FIELD_ID}"><p id="search_output_{FIELD_ID}">
+<img id="dcl_loader_{FIELD_ID}" src='{LOADER_PATH}'>
+	{SEARCH_HTML}
 </p>
+<script>$("#{FIELD_ID}").ilDclTreeSearch({
+	ajaxLink: "{AJAX_LINK}",
+	fieldId: "{FIELD_ID}"
+});</script>
 <!-- END ilias_ref_input -->
-
 <!-- BEGIN result -->
-<a href="#" class="dcl_result_{FIELD_ID}" id="{RESULT_REF}">{RESULT_PATH}</a><br />
+<a href="#" class="clearfix dcl_result_{FIELD_ID}" id="{RESULT_REF}">{RESULT_PATH}</a>
+<!--<br/>-->
 <!-- END result -->
