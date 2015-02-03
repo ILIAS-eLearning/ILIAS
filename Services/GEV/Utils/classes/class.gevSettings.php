@@ -427,7 +427,16 @@ class gevSettings {
 		  "il_crs_tutor_%"
 		);
 
-
+	// Will store the ref id of the orgu where the exited users should be put.
+	const ORG_UNIT_EXITED = "org_unit_exited";
+	
+	public function getOrgUnitExited() {
+		return $this->settings->get(self::ORG_UNIT_EXITED);
+	}
+	
+	public function setOrgUnitExited($a_ref_id) {
+		return $this->settings->set(self::ORG_UNIT_EXITED, $a_ref_id);
+	}
 
 	//OrgUnit Mappings (Personal OrgUnits)
 	

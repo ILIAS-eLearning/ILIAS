@@ -3267,3 +3267,23 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#100>
+<?php
+	$res = $ilDB->query("SELECT DISTINCT oref.ref_id "
+						."  FROM object_data od "
+						."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
+						." WHERE import_id = 'exit'"
+						."   AND oref.deleted IS NULL"
+						."   AND od.type = 'orgu'"
+						);
+	
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		gevSettings::getInstance()->setOrgUnitExited($rec["ref_id"]);
+	}
+	else {
+		die("Could not find orgu with import id exit.");
+	}
+?>
