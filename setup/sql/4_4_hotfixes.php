@@ -1815,3 +1815,12 @@ else
 		$ilDB->createSequence('booking_reservation_group');
 	}
 ?>
+<#64>
+<?php
+$ilDB->manipulate('DELETE FROM addressbook WHERE login NOT IN(SELECT login FROM usr_data) AND email IS NULL');
+$ilDB->manipulate(
+	'DELETE FROM addressbook_mlist_ass WHERE addr_id NOT IN(
+		SELECT addr_id FROM addressbook
+	)'
+);
+?>
