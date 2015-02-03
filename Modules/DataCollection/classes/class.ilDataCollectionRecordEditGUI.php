@@ -458,7 +458,7 @@ class ilDataCollectionRecordEditGUI
 				$path = new ilPathGUI();
 
 				$tpl->setCurrentBlock('result');
-				$tpl->setVariable('RESULT_PATH',$path->getPath(ROOT_FOLDER_ID, $reference)." > ".$entry['title']);
+				$tpl->setVariable('RESULT_PATH',$path->getPath(ROOT_FOLDER_ID, $reference)." » ".$entry['title']);
 				$tpl->setVariable('RESULT_REF',$reference);
 				$tpl->setVariable('FIELD_ID', $dest);
 				$tpl->parseCurrentBlock();
