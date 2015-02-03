@@ -23,6 +23,7 @@ include_once("Services/Payment/classes/class.ilPaymentObject.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjPollGUI, ilObjRemoteCategoryGUI, ilObjRemoteWikiGUI, ilObjRemoteLearningModuleGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjRemoteGlossaryGUI, ilObjRemoteFileGUI, ilObjRemoteGroupGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjRemoteTestGUI, ilObjCloudGUI, ilObjPortfolioTemplateGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjTrainingProgrammeGUI
 *
 */
 class ilRepositoryGUI
