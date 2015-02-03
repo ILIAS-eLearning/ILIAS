@@ -7,8 +7,6 @@ require_once "./Services/Container/classes/class.ilContainer.php";
 /**
  * Class ilObjTrainingProgramme
  *
- * Based on methods of ilObjCategoryGUI
- *
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  */
 class ilObjTrainingProgramme extends ilContainer {
