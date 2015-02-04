@@ -506,4 +506,19 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 	{
 		return false;
 	}
+	
+	public function isAnyQuestionFilterEnabled()
+	{
+		if( $this->isTaxonomyFilterEnabled() )
+		{
+			return true;
+		}
+		
+		if( $this->isAnswerStatusFilterEnabled() )
+		{
+			return true;
+		}
+		
+		return false;
+	}
 }

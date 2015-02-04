@@ -32,6 +32,10 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 	 * @var bool
 	 */
 	private $showNumPostponedQuestionsEnabled = false;
+	
+	private $taxonomyFilterEnabled = false;
+	
+	private $answerStatusFilterEnabled = false;
 
 	/**
 	 * Constructor
@@ -94,29 +98,36 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 	 */
 	public function initFilter()
 	{
-		require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
-		require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-		require_once 'Services/Form/classes/class.ilRadioOption.php';
-
-		foreach($this->taxIds as $taxId)
+		if( $this->isTaxonomyFilterEnabled() )
 		{
-			$postvar = "tax_$taxId";
+			require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
+			
+			foreach($this->taxIds as $taxId)
+			{
+				$postvar = "tax_$taxId";
 
-			$inp = new ilTaxSelectInputGUI($taxId, $postvar, true);
+				$inp = new ilTaxSelectInputGUI($taxId, $postvar, true);
+				$this->addFilterItem($inp);
+				$inp->readFromSession();
+				$this->filter[$postvar] = $inp->getValue();
+			}
+		}
+
+		if( $this->isAnswerStatusFilterEnabled() )
+		{
+			require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
+			require_once 'Services/Form/classes/class.ilRadioOption.php';
+			
+			$inp = new ilSelectInputGUI($this->lng->txt('tst_question_answer_status'), 'question_answer_status');
+			$inp->setOptions(array(
+				ilAssQuestionList::ANSWER_STATUS_FILTER_ALL_NON_CORRECT => $this->lng->txt('tst_question_answer_status_all_non_correct'),
+				ilAssQuestionList::ANSWER_STATUS_FILTER_NON_ANSWERED_ONLY => $this->lng->txt('tst_question_answer_status_non_answered'),
+				ilAssQuestionList::ANSWER_STATUS_FILTER_WRONG_ANSWERED_ONLY => $this->lng->txt('tst_question_answer_status_wrong_answered')
+			));
 			$this->addFilterItem($inp);
 			$inp->readFromSession();
-			$this->filter[$postvar] = $inp->getValue();
+			$this->filter['question_answer_status'] = $inp->getValue();
 		}
-		
-		$inp = new ilSelectInputGUI($this->lng->txt('tst_question_answer_status'), 'question_answer_status');
-		$inp->setOptions(array(
-			ilAssQuestionList::ANSWER_STATUS_FILTER_ALL_NON_CORRECT => $this->lng->txt('tst_question_answer_status_all_non_correct'),
-			ilAssQuestionList::ANSWER_STATUS_FILTER_NON_ANSWERED_ONLY => $this->lng->txt('tst_question_answer_status_non_answered'),
-			ilAssQuestionList::ANSWER_STATUS_FILTER_WRONG_ANSWERED_ONLY => $this->lng->txt('tst_question_answer_status_wrong_answered')
-		));
-		$this->addFilterItem($inp);
-		$inp->readFromSession();
-		$this->filter['question_answer_status'] = $inp->getValue();
 	}
 
 	/**
@@ -194,6 +205,38 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 	public function isShowNumPostponedQuestionsEnabled()
 	{
 		return $this->showNumPostponedQuestionsEnabled;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isAnswerStatusFilterEnabled()
+	{
+		return $this->answerStatusFilterEnabled;
+	}
+
+	/**
+	 * @param boolean $answerStatusFilterEnabled
+	 */
+	public function setAnswerStatusFilterEnabled($answerStatusFilterEnabled)
+	{
+		$this->answerStatusFilterEnabled = $answerStatusFilterEnabled;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isTaxonomyFilterEnabled()
+	{
+		return $this->taxonomyFilterEnabled;
+	}
+
+	/**
+	 * @param boolean $taxonomyFilterEnabled
+	 */
+	public function setTaxonomyFilterEnabled($taxonomyFilterEnabled)
+	{
+		$this->taxonomyFilterEnabled = $taxonomyFilterEnabled;
 	}
 }
 ?>
