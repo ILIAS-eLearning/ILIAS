@@ -36,15 +36,19 @@ include_once('./Services/Membership/classes/class.ilRegistrationGUI.php');
 */
 class ilCourseRegistrationGUI extends ilRegistrationGUI
 {
+	private $parent_gui = null;
+	
 	/**
 	 * Constructor
 	 *
 	 * @access public
 	 * @param object course object
 	 */
-	public function __construct($a_container)
+	public function __construct($a_container, $a_parent_gui)
 	{
 		parent::__construct($a_container);	
+		
+		$this->parent_gui = $a_parent_gui;
 	}
 	
 	/**
@@ -63,6 +67,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		
 		if(!$GLOBALS['ilAccess']->checkAccess('join','',$this->getRefId()))
 		{
+			$this->ctrl->setReturn($this->parent_gui,'infoScreen');
 			$this->ctrl->returnToParent($this);
 			return FALSE;
 		}

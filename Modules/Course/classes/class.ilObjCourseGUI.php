@@ -18,7 +18,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilContainerPageGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificatGUI, ilObjectServiceSettingsGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI
 *
@@ -4190,10 +4190,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case 'ilcourseregistrationgui':
-				$this->ctrl->setReturn($this,'infoScreen');
+				$this->ctrl->setReturn($this,'');
 				$this->tabs_gui->setTabActive('join');
 				include_once('./Modules/Course/classes/class.ilCourseRegistrationGUI.php');
-				$registration = new ilCourseRegistrationGUI($this->object);
+				$registration = new ilCourseRegistrationGUI($this->object, $this);
 				$this->ctrl->forwardCommand($registration);
 				break;
 				
