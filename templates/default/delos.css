@@ -7267,6 +7267,11 @@ div.ilRightPanel {
   position: absolute;
   box-shadow: 2px 2px 4px #C0C0C0;
 }
+#ilHelpPanel,
+#ilRightPanel,
+#ilTagsPanel {
+  z-index: 1200!important;
+}
 [dir="rtl"] .ilOverlay {
   text-align: right;
 }
