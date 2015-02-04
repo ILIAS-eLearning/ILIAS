@@ -4931,16 +4931,18 @@ class ilObjTestGUI extends ilObjectGUI
 			'redirection_enabled' => null, // handled specially in loop below
 			'sign_submission' => 'setSignSubmission',
 			'mailnotification' => 'setMailNotification',
-
+			
+			// scoring options properties
+			'count_system' => 'setCountSystem',
+			'mc_scoring' => 'setMCScoring',
+			'score_cutting' => 'setScoreCutting',
+			'pass_scoring' => 'setPassScoring',
+			'pass_deletion_allowed' => 'setPassDeletionAllowed',
 
 			'anonymity' => 'setAnonymity',
 			'test_enabled_views' => 'setEnabledViewMode',
 			//'express_allow_question_pool' => 'setExpressModeQuestionPoolAllowed',
 			//'' => '',
-			'count_system' => 'setCountSystem',
-			'mc_scoring' => 'setMCScoring',
-			'score_cutting' => 'setScoreCutting',
-			'pass_scoring' => 'setScoreReporting',
 
 			'results_presentation' => 'setResultsPresentationOptionsByArray',
 			'export_settings' => 'setExportSettings',

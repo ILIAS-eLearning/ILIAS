@@ -64,6 +64,7 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 		$this->addQuestionBehaviourProperties();
 		$this->addTestSequenceProperties();
 		$this->addTestFinishProperties();
+		$this->addScoringOptionsProperties();
 
 
 		$this->addSetting(
@@ -82,53 +83,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 		// Scoring and Results
 		/////////////////////////////////////
 
-		$this->addSetting(
-			"count_system",
-			ilSettingsTemplateConfig::SELECT,
-			$this->lng->txt("tst_text_count_system"),
-			true,
-			0,
-			array(
-				'0' => $this->lng->txt("tst_count_partial_solutions"),
-				'1' => $this->lng->txt("tst_count_correct_solutions"),
-			)
-		);
-
-		$this->addSetting(
-			"mc_scoring",
-			ilSettingsTemplateConfig::SELECT,
-			$this->lng->txt("tst_score_mcmr_questions"),
-			true,
-			0,
-			array(
-				'0' => $this->lng->txt("tst_score_mcmr_zero_points_when_unanswered"),
-				'1' => $this->lng->txt("tst_score_mcmr_use_scoring_system"),
-			)
-		);
-
-		$this->addSetting(
-			"score_cutting",
-			ilSettingsTemplateConfig::SELECT,
-			$this->lng->txt("tst_score_cutting"),
-			true,
-			0,
-			array(
-				'0' => $this->lng->txt("tst_score_cut_question"),
-				'1' => $this->lng->txt("tst_score_cut_test"),
-			)
-		);
-
-		$this->addSetting(
-			"pass_scoring",
-			ilSettingsTemplateConfig::SELECT,
-			$this->lng->txt("tst_pass_scoring"),
-			false,
-			0,
-			array(
-				'0' => $this->lng->txt("tst_pass_last_pass"),
-				'1' => $this->lng->txt("tst_pass_best_pass"),
-			)
-		);
 
 		$this->addSetting(
 			"results_access",
@@ -443,6 +397,69 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 				'0' => $this->lng->txt("tst_finish_notification_no"),
 				'1' => $this->lng->txt("tst_finish_notification_simple"),
 				'2' => $this->lng->txt("tst_finish_notification_advanced"),
+			)
+		);
+	}
+
+	private function addScoringOptionsProperties()
+	{
+		$this->addSetting(
+			"count_system",
+			ilSettingsTemplateConfig::SELECT,
+			$this->lng->txt("tst_text_count_system"),
+			true,
+			0,
+			array(
+				'0' => $this->lng->txt("tst_count_partial_solutions"),
+				'1' => $this->lng->txt("tst_count_correct_solutions")
+			)
+		);
+
+		$this->addSetting(
+			"mc_scoring",
+			ilSettingsTemplateConfig::SELECT,
+			$this->lng->txt("tst_score_mcmr_questions"),
+			true,
+			0,
+			array(
+				'0' => $this->lng->txt("tst_score_mcmr_zero_points_when_unanswered"),
+				'1' => $this->lng->txt("tst_score_mcmr_use_scoring_system")
+			)
+		);
+
+		$this->addSetting(
+			"score_cutting",
+			ilSettingsTemplateConfig::SELECT,
+			$this->lng->txt("tst_score_cutting"),
+			true,
+			0,
+			array(
+				'0' => $this->lng->txt("tst_score_cut_question"),
+				'1' => $this->lng->txt("tst_score_cut_test")
+			)
+		);
+
+		$this->addSetting(
+			"pass_scoring",
+			ilSettingsTemplateConfig::SELECT,
+			$this->lng->txt("tst_pass_scoring"),
+			true,
+			0,
+			array(
+				'0' => $this->lng->txt("tst_pass_last_pass"),
+				'1' => $this->lng->txt("tst_pass_best_pass")
+			)
+		);
+
+		$this->addSetting(
+			"pass_deletion_allowed",
+			ilSettingsTemplateConfig::SELECT,
+			$this->lng->txt("tst_pass_deletion"),
+			true,
+			0,
+			array(
+				'0' => $this->lng->txt("tst_pass_deletion_not_allowed"),
+				'1' => $this->lng->txt("tst_pass_deletion_allowed")
 			)
 		);
 	}

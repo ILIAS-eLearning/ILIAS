@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/Test/classes/class.ilTestSettingsGUI.php';
+
 /**
  * GUI class that manages the editing of general test settings/properties
  * shown on "general" subtab
@@ -12,7 +14,7 @@
  * 
  * @ilCtrl_Calls ilObjTestSettingsScoringResultsGUI: ilPropertyFormGUI, ilConfirmationGUI
  */
-class ilObjTestSettingsScoringResultsGUI
+class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 {
 	/**
 	 * command constants
@@ -187,26 +189,8 @@ class ilObjTestSettingsScoringResultsGUI
 
 	private function performSaveForm(ilPropertyFormGUI $form)
 	{
-		if( $this->areScoringSettingsWritable() )
-		{
-			if( !$this->isHiddenFormItem('count_system') )
-			{
-				$this->testOBJ->setCountSystem($form->getItemByPostVar('count_system')->getValue());
-			}
-			if( !$this->isHiddenFormItem('mc_scoring') )
-			{
-				$this->testOBJ->setMCScoring($form->getItemByPostVar('mc_scoring')->getValue());
-			}
-			if( !$this->isHiddenFormItem('score_cutting') )
-			{
-				$this->testOBJ->setScoreCutting($form->getItemByPostVar('score_cutting')->getValue());
-			}
-			if( !$this->isHiddenFormItem('pass_scoring') )
-			{
-				$this->testOBJ->setPassScoring($form->getItemByPostVar('pass_scoring')->getValue());
-			}
-		}
-		
+		$this->saveScoringSettingsFormSection($form);
+
 		if( !$this->isHiddenFormItem('results_access_enabled') )
 		{
 			if( $form->getItemByPostVar('results_access_enabled')->getChecked() )
@@ -303,11 +287,6 @@ class ilObjTestSettingsScoringResultsGUI
 		if( !$this->isHiddenFormItem('exp_sc_short') )
 		{
 			$this->testOBJ->setExportSettingsSingleChoiceShort( (int)$form->getItemByPostVar('exp_sc_short')->getChecked() );
-		}
-
-		if( !$this->isHiddenFormItem('pass_deletion_allowed') )
-		{
-			$this->testOBJ->setPassDeletionAllowed( (bool)$form->getItemByPostVar('pass_deletion_allowed')->getValue() );
 		}
 
 		// result filter taxonomies
@@ -482,10 +461,17 @@ class ilObjTestSettingsScoringResultsGUI
 
 	private function addScoringSettingsFormSection(ilPropertyFormGUI $form)
 	{
-		// scoring settings
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt('test_scoring'));
-		$form->addItem($header);
+		$fields = array(
+			'count_system', 'mc_scoring', 'score_cutting', 'pass_scoring', 'pass_deletion_allowed'
+		);
+
+		if( $this->isSectionHeaderRequired($fields) )
+		{
+			// scoring settings
+			$header = new ilFormSectionHeaderGUI();
+			$header->setTitle($this->lng->txt('test_scoring'));
+			$form->addItem($header);
+		}
 
 		// scoring system
 		$count_system = new ilRadioGroupInputGUI($this->lng->txt('tst_text_count_system'), 'count_system');
@@ -537,6 +523,40 @@ class ilObjTestSettingsScoringResultsGUI
 			$mc_scoring->setDisabled(true);
 			$score_cutting->setDisabled(true);
 			$pass_scoring->setDisabled(true);
+		}
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	private function saveScoringSettingsFormSection(ilPropertyFormGUI $form)
+	{
+		if( $this->areScoringSettingsWritable() )
+		{
+			if( $this->formPropertyExists($form, 'count_system') )
+			{
+				$this->testOBJ->setCountSystem($form->getItemByPostVar('count_system')->getValue());
+			}
+
+			if( $this->formPropertyExists($form, 'mc_scoring') )
+			{
+				$this->testOBJ->setMCScoring($form->getItemByPostVar('mc_scoring')->getValue());
+			}
+
+			if( $this->formPropertyExists($form, 'score_cutting') )
+			{
+				$this->testOBJ->setScoreCutting($form->getItemByPostVar('score_cutting')->getValue());
+			}
+
+			if( $this->formPropertyExists($form, 'pass_scoring') )
+			{
+				$this->testOBJ->setPassScoring($form->getItemByPostVar('pass_scoring')->getValue());
+			}
+		}
+
+		if( $this->formPropertyExists($form, 'pass_deletion_allowed') )
+		{
+			$this->testOBJ->setPassDeletionAllowed( (bool)$form->getItemByPostVar('pass_deletion_allowed')->getValue() );
 		}
 	}
 
@@ -841,23 +861,6 @@ class ilObjTestSettingsScoringResultsGUI
 		return false;
 	}
 
-	protected function getTemplateSettingValue($settingName)
-	{
-		if( !$this->settingsTemplate )
-		{
-			return null;
-		}
-
-		$templateSettings = $this->settingsTemplate->getSettings();
-
-		if( !isset($templateSettings[$settingName]) )
-		{
-			return false;
-		}
-
-		return $templateSettings[$settingName]['value'];
-	}
-
 	private $availableTaxonomyIds = null;
 
 	private function getAvailableTaxonomyIds()
@@ -896,27 +899,5 @@ class ilObjTestSettingsScoringResultsGUI
 		}
 
 		return $formFieldValue;
-	}
-	
-	private function isHiddenFormItem($formFieldId)
-	{
-		if( !$this->settingsTemplate )
-		{
-			return false;
-		}
-		
-		$settings = $this->settingsTemplate->getSettings();
-		
-		if( !isset($settings[$formFieldId]) )
-		{
-			return false;
-		}
-		
-		if( !$settings[$formFieldId]['hide'] )
-		{
-			return false;
-		}
-		
-		return true;
 	}
 }
