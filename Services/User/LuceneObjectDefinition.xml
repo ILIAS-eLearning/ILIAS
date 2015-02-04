@@ -3,36 +3,39 @@
 	<Document type="default">
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT obj_id, type, login title
+				SELECT obj_id, type
 				FROM object_data JOIN usr_data ON obj_id = usr_id
 				WHERE obj_id IN (?)
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="NOT_ANALYZED" column="obj_id" type="integer" name="objId" />
 			<Field store="YES" index="NOT_ANALYZED" column="type" type="text" name="type" />
-			<Field store="YES" index="ANALYZED" column="title" type="text" name="title" />
 		</DataSource>
 		<DataSource type="JDBC" action="append">
 			<Query>
-				SELECT firstname,lastname FROM usr_data u 
+				SELECT firstname,lastname,login title FROM usr_data u 
 				JOIN usr_pref p ON u.usr_id = p.usr_id
 				WHERE u.usr_id IN (?) AND
-				keyword = 'public_profile' AND
-				value = 'y' 
+				p.keyword = 'public_profile' AND
+				(p.value = 'y' OR p.value = 'g')
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="firstname" type="text" name="uFirstname" />
 			<Field store="YES" index="ANALYZED" column="lastname" type="text" name="uLastname" />
 			<Field store="YES" index="ANALYZED" column="firstname" type="text" name="uPropertyHigh" />
 			<Field store="YES" index="ANALYZED" column="lastname" type="text" name="uPropertyHigh" />
+			<Field store="YES" index="ANALYZED" column="title" type="text" name="title" />
 		</DataSource>
 		<DataSource type="JDBC" action="append">
 			<Query>
 				SELECT email FROM usr_data u 
 				JOIN usr_pref p ON u.usr_id = p.usr_id
+				JOIN usr_pref q ON u.usr_id = q.usr_id
 				WHERE u.usr_id IN (?) AND
-				keyword = 'public_email' AND
-				value = 'y' 
+				p.keyword = 'public_email' AND
+				p.value = 'y' AND
+				q.keyword = 'public_profile' AND
+				(q.value = 'y' OR q.value = 'g')
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="email" type="text" name="uEmail" />
@@ -42,9 +45,12 @@
 			<Query>
 				SELECT institution FROM usr_data u 
 				JOIN usr_pref p ON u.usr_id = p.usr_id
+				JOIN usr_pref q ON u.usr_id = q.usr_id
 				WHERE u.usr_id IN (?) AND
-				keyword = 'public_institution' AND
-				value = 'y' 
+				p.keyword = 'public_institution' AND
+				p.value = 'y'  AND
+				q.keyword = 'public_profile' AND
+				(q.value = 'y' OR q.value = 'g')
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="institution" type="text" name="uInstitution" />
@@ -54,9 +60,12 @@
 			<Query>
 				SELECT department FROM usr_data u 
 				JOIN usr_pref p ON u.usr_id = p.usr_id
+				JOIN usr_pref q ON u.usr_id = q.usr_id
 				WHERE u.usr_id IN (?) AND
-				keyword = 'public_department' AND
-				value = 'y' 
+				p.keyword = 'public_department' AND
+				p.value = 'y'  AND
+				q.keyword = 'public_profile' AND
+				(q.value = 'y' OR q.value = 'g')
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="department" type="text" name="uDepartment" />
@@ -66,9 +75,12 @@
 			<Query>
 				SELECT street FROM usr_data u 
 				JOIN usr_pref p ON u.usr_id = p.usr_id
+				JOIN usr_pref q ON u.usr_id = q.usr_id
 				WHERE u.usr_id IN (?) AND
-				keyword = 'public_street' AND
-				value = 'y' 
+				p.keyword = 'public_street' AND
+				p.value = 'y'  AND
+				q.keyword = 'public_profile' AND
+				(q.value = 'y' OR q.value = 'g')
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="street" type="text" name="uStreet" />
@@ -78,9 +90,12 @@
 			<Query>
 				SELECT zipcode FROM usr_data u 
 				JOIN usr_pref p ON u.usr_id = p.usr_id
+				JOIN usr_pref q ON u.usr_id = q.usr_id
 				WHERE u.usr_id IN (?) AND
-				keyword = 'public_zipcode' AND
-				value = 'y' 
+				p.keyword = 'public_zipcode' AND
+				p.value = 'y'  AND
+				q.keyword = 'public_profile' AND
+				(q.value = 'y' OR q.value = 'g')
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="zipcode" type="text" name="uZipCode" />
@@ -90,9 +105,12 @@
 			<Query>
 				SELECT city FROM usr_data u 
 				JOIN usr_pref p ON u.usr_id = p.usr_id
+				JOIN usr_pref q ON u.usr_id = q.usr_id
 				WHERE u.usr_id IN (?) AND
-				keyword = 'public_city' AND
-				value = 'y' 
+				p.keyword = 'public_city' AND
+				p.value = 'y'  AND
+				q.keyword = 'public_profile' AND
+				(q.value = 'y' OR q.value = 'g')
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="city" type="text" name="uCity" />
@@ -102,9 +120,12 @@
 			<Query>
 				SELECT country FROM usr_data u 
 				JOIN usr_pref p ON u.usr_id = p.usr_id
+				JOIN usr_pref q ON u.usr_id = q.usr_id
 				WHERE u.usr_id IN (?) AND
-				keyword = 'public_country' AND
-				value = 'y' 
+				p.keyword = 'public_country' AND
+				p.value = 'y'  AND
+				q.keyword = 'public_profile' AND
+				(q.value = 'y' OR q.value = 'g')
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="country" type="text" name="uCountry" />
@@ -114,9 +135,12 @@
 			<Query>
 				SELECT email FROM usr_data u 
 				JOIN usr_pref p ON u.usr_id = p.usr_id
+				JOIN usr_pref q ON u.usr_id = q.usr_id
 				WHERE u.usr_id IN (?) AND
-				keyword = 'public_email' AND
-				value = 'y' 
+				p.keyword = 'public_email' AND
+				p.value = 'y'  AND
+				q.keyword = 'public_profile' AND
+				(q.value = 'y' OR q.value = 'g')
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="email" type="text" name="uEmail" />
@@ -126,9 +150,12 @@
 			<Query>
 				SELECT hobby FROM usr_data u 
 				JOIN usr_pref p ON u.usr_id = p.usr_id
+				JOIN usr_pref q ON u.usr_id = q.usr_id
 				WHERE u.usr_id IN (?) AND
-				keyword = 'public_hobby' AND
-				value = 'y' 
+				p.keyword = 'public_hobby' AND
+				p.value = 'y'  AND
+				q.keyword = 'public_profile' AND
+				(q.value = 'y' OR q.value = 'g')
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="hobby" type="text" name="uHobby" />
@@ -138,9 +165,12 @@
 			<Query>
 				SELECT matriculation FROM usr_data u 
 				JOIN usr_pref p ON u.usr_id = p.usr_id
+				JOIN usr_pref q ON u.usr_id = q.usr_id
 				WHERE u.usr_id IN (?) AND
-				keyword = 'public_matriculation' AND
-				value = 'y' 
+				p.keyword = 'public_matriculation' AND
+				p.value = 'y'  AND
+				q.keyword = 'public_profile' AND
+				(q.value = 'y' OR q.value = 'g')
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="matriculation" type="text" name="uDepartment" />
@@ -150,10 +180,13 @@
 			<Query>
 				SELECT um.value FROM usr_data_multi um
 				JOIN usr_pref p ON um.usr_id = p.usr_id
+				JOIN usr_pref q ON um.usr_id = q.usr_id
 				WHERE um.usr_id IN (?) AND
 				field_id = 'interests_general' AND
-				keyword = 'public_interests_general' AND
-				p.value = 'y' 
+				p.keyword = 'public_interests_general' AND
+				p.value = 'y'  AND
+				q.keyword = 'public_profile' AND
+				(q.value = 'y' OR q.value = 'g')
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="value" type="text" name="uInterestsGeneral" />
@@ -163,10 +196,13 @@
 			<Query>
 				SELECT um.value FROM usr_data_multi um
 				JOIN usr_pref p ON um.usr_id = p.usr_id
+				JOIN usr_pref q ON um.usr_id = q.usr_id
 				WHERE um.usr_id IN (?) AND
 				field_id = 'interests_help_looking' AND
-				keyword = 'public_interests_general' AND
-				p.value = 'y' 
+				p.keyword = 'public_interests_general' AND
+				p.value = 'y'  AND
+				q.keyword = 'public_profile' AND
+				(q.value = 'y' OR q.value = 'g')
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="value" type="text" name="uInterestsHelpLooking" />
@@ -176,10 +212,13 @@
 			<Query>
 				SELECT um.value FROM usr_data_multi um
 				JOIN usr_pref p ON um.usr_id = p.usr_id
+				JOIN usr_pref q ON um.usr_id = q.usr_id
 				WHERE um.usr_id IN (?) AND
 				field_id = 'interests_help_offered' AND
-				keyword = 'public_interests_general' AND
-				p.value = 'y' 
+				p.keyword = 'public_interests_general' AND
+				p.value = 'y'  AND
+				q.keyword = 'public_profile' AND
+				(q.value = 'y' OR q.value = 'g')
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="value" type="text" name="uInterestsHelpOffered" />
