@@ -199,11 +199,13 @@ class ilTEPCourseEntries
 			}
 
 			#990
-			$org_id = $crs_utils->getTEPOrguId();
+			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+			$org_id = gevObjectUtils::getObjId($crs_utils->getTEPOrguId());
 			if ($org_id != $a_entry->getOrgUnitId()) {
 				$a_entry->setOrgUnitId($org_id);
 				$changed = self::SYNC_UPDATED;
 			}
+
 			// gev-patch end
 			// course period
 			if($start->get(IL_CAL_DATE) != $a_entry->getStart()->get(IL_CAL_DATE))
