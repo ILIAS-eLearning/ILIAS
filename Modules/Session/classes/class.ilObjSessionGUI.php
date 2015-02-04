@@ -1542,12 +1542,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// Recurrence
 		if($a_mode == 'create')
 		{
-			// #14547
-			$lp = new ilCheckboxInputGUI($this->lng->txt("sess_lp_preset"), "lp_preset");
-			$lp->setInfo($this->lng->txt("sess_lp_preset_info"));
-			$lp->setChecked(true);
-			$this->form->addItem($lp);			
-			
 			if(!is_object($this->rec))
 			{
 				include_once('./Modules/Session/classes/class.ilEventRecurrence.php');
@@ -1558,6 +1552,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$rec->allowUnlimitedRecurrences(false);
 			$rec->setRecurrence($this->rec);
 			$this->form->addItem($rec);
+
+			// #14547
+			$lp = new ilCheckboxInputGUI($this->lng->txt("sess_lp_preset"), "lp_preset");
+			$lp->setInfo($this->lng->txt("sess_lp_preset_info"));
+			$lp->setChecked(true);
+			$this->form->addItem($lp);
 		}
 
 		$section = new ilFormSectionHeaderGUI();
