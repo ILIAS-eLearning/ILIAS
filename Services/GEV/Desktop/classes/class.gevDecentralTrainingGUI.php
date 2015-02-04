@@ -444,13 +444,6 @@ class gevDecentralTrainingGUI {
 		else {
 			$crs_utils = gevCourseUtils::getInstance(intval($_POST["template_id"]));
 			$no_changes_allowed = false;
-			if ($a_training_id) {
-				$utils = gevCourseUtils::getInstance(intval($_POST["template_id"]));
-				$training_info = array(
-					  "title" => $utils->getTitle()
-					, "ltype" => $utils->getType()
-					);
-			}
 		}
 		
 		if ($a_training_id !== null) {
@@ -464,6 +457,7 @@ class gevDecentralTrainingGUI {
 				$mail_settings = new gevCrsAdditionalMailSettings($a_training_id);
 				$training_info = array(
 					  "ltype" => $crs_utils->getType()
+					, "title" => $utils->getTitle()
 					, "invitation_preview" => $crs_utils->getInvitationMailPreview()
 					, "suppress_mails" => $mail_settings->getSuppressMails()
 					);
