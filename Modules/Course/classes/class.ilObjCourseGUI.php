@@ -2187,6 +2187,14 @@ class ilObjCourseGUI extends ilContainerGUI
 			$ilToolbar->addButton( $this->lng->txt("gev_desk_displays")
 									 , "ilias.php?ref_id=".$_GET["ref_id"]."&baseClass=gevDeskDisplaysDeliveryGUI");
 		}
+		
+		// i know this has timezone issues...
+		$now = @date("Y-m-d");
+		$start_date = $utils->getStartDate();
+		if (!$this->object->getOfflineStatus() && $start_date !== null && $start_date->get(IL_CAL_DATE) > $now) {
+			$ilToolbar->addButton( $this->lng->txt("gev_cancel_training")
+								 , $this->ctrl->getLinkTarget($this, "confirmTrainingCancellation"));
+		}
 		// gev-patch end
 		
 		/* attendance list button
@@ -5777,6 +5785,39 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->tpl->setAlertProperties($lgui->getAlertProperties());			
 		}
 	}
+	
+	// gev-patch start
+	protected function confirmTrainingCancellationObject() {
+		$this->tabs_gui->setTabActive('members');
+		
+		require_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+
+		$conf = new ilConfirmationGUI();
+		$conf->setFormAction($this->ctrl->getFormAction($this));
+		$conf->setHeaderText($this->lng->txt("gev_confirm_training_cancellation"));
+
+		$conf->setConfirm($this->lng->txt("gev_cancel_training_action"), "cancelTraining");
+		$conf->setCancel($this->lng->txt("cancel"), "members");
+
+		require_once("./Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
+		$util = gevCourseUtils::getInstance($this->object->getId());
+		$conf->addItem("crs", $this->object->getId()
+					  , $util->getTitle()." (".$util->getFormattedAppointment().")"
+					  );
+
+		$this->tpl->setContent($conf->getHTML());
+	}
+	
+	protected function cancelTrainingObject() {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		
+		gevCourseUtils::getInstance($this->object->getId())->cancel();
+		
+		ilUtil::sendSuccess($this->lng->txt("gev_training_cancelled"), true);
+		$this->ctrl->redirect($this, "members");
+	}
+	// gev-patch end
 	
 } // END class.ilObjCourseGUI
 ?>
