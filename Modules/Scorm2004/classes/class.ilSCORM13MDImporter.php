@@ -126,10 +126,13 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
 				break;
 
 			case 'identifier':
-				$par = $this->__getParent();
-				$this->md_ide = $par->addIdentifier();
-				$this->md_ide->save();
-				$this->__pushParent($this->md_ide);
+				if ($this->in("general"))
+				{
+					$par = $this->__getParent();
+					$this->md_ide = $par->addIdentifier();
+					$this->md_ide->save();
+					$this->__pushParent($this->md_ide);
+				}
 				break;
 
 			case 'title':
@@ -162,10 +165,13 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
 				break;
 
 			case 'keyword':
-				$par = $this->__getParent();
-				$this->md_key = $par->addKeyword();
-				$this->md_key->save();
-				$this->__pushParent($this->md_key);
+				if ($this->in("general"))
+				{
+					$par = $this->__getParent();
+					$this->md_key = $par->addKeyword();
+					$this->md_key->save();
+					$this->__pushParent($this->md_key);
+				}
 				break;
 
 			// todo
@@ -185,6 +191,15 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
 			case 'version':
 				// nothing to do here
 				break;
+
+			/*case 'metaMetadata':
+				$par = $this->__getParent();
+				$this->md_met = $par->addMetaMetadata();
+				$this->md_met->setMetaDataScheme($a_attribs['MetadataScheme']);
+				$this->md_met->setLanguage(new ilMDLanguageItem($a_attribs['Language']));
+				$this->md_met->save();
+				$this->__pushParent($this->md_met);
+				break;*/
 
 			// todo
 			/*case 'Contribute':
@@ -213,14 +228,6 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
 			case 'Date':
 				break;
 
-			case 'Meta-Metadata':
-				$par =& $this->__getParent();
-				$this->md_met =& $par->addMetaMetadata();
-				$this->md_met->setMetaDataScheme($a_attribs['MetadataScheme']);
-				$this->md_met->setLanguage(new ilMDLanguageItem($a_attribs['Language']));
-				$this->md_met->save();
-				$this->__pushParent($this->md_met);
-				break;
 
 			case 'Technical':
 				$par =& $this->__getParent();
@@ -441,9 +448,12 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
 				break;
 
 			case 'identifier':
-				$par = $this->__getParent();
-				$par->update();
-				$this->__popParent();
+				if ($this->in("general"))
+				{
+					$par = $this->__getParent();
+					$par->update();
+					$this->__popParent();
+				}
 				break;
 
 			case 'title':
@@ -472,7 +482,10 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
 				}
 
 			case 'keyword':
-				$this->__popParent();
+				if ($this->in("general"))
+				{
+					$this->__popParent();
+				}
 				break;
 
 			// todo
