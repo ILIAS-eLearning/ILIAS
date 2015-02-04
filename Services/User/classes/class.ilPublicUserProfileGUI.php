@@ -217,14 +217,28 @@ class ilPublicUserProfileGUI
 		{
 			return $this->getEmbeddable();
 		}
+				
+		// #15438 - (currently) inactive user?
+		$is_active = true;
+		$user = new ilObjUser($this->getUserId());
+		if(!$user->getActive() || 
+			!$user->checkTimeLimit())
+		{
+			$is_active = false;		
+		}			
 		
-		if($this->getProfilePortfolio())
+		if($is_active && $this->getProfilePortfolio())
 		{			
 			$ilCtrl->redirectByClass("ilobjportfoliogui", "preview");
 		}
 		else
 		{
 			$this->renderTitle();
+			
+			if(!$is_active)
+			{
+				return;
+			}				
 			
 			// Check from Database if value
 			// of public_profile = "y" show user infomation
@@ -679,7 +693,7 @@ class ilPublicUserProfileGUI
 				ilUtil::redirect("login.php?cmd=force_login&target=usr_".$a_user_id);
 			}
 			return false;
-		}
+		}	
 		return true;
 	}
 	
