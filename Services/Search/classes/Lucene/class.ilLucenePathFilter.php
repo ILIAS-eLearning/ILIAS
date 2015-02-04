@@ -61,6 +61,10 @@ class ilLucenePathFilter implements ilLuceneResultFilter
 		{
 			return true;
 		}
+		if($this->root == $a_ref_id)
+		{
+			return TRUE;
+		}
 		return $tree->isGrandChild($this->root, $a_ref_id);
 	}
 	
