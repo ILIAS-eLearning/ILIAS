@@ -216,6 +216,7 @@ class gevDecentralTrainingGUI {
 		$form->setValuesByPost();
 		$suppress_mail = $form->getItemByPostVar("suppress_mails");
 		$suppress_mail->setChecked($mail_settings->getSuppressMails());
+		
 		if (!$form->checkInput()) {
 			return $this->showSettings($form);
 		}
@@ -443,10 +444,13 @@ class gevDecentralTrainingGUI {
 		else {
 			$crs_utils = gevCourseUtils::getInstance(intval($_POST["template_id"]));
 			$no_changes_allowed = false;
-			$training_info = array(
-					  "title" => $crs_utils->getTitle()
-					, "ltype" => $crs_utils->getType()
+			if ($a_training_id) {
+				$utils = gevCourseUtils::getInstance(intval($_POST["template_id"]));
+				$training_info = array(
+					  "title" => $utils->getTitle()
+					, "ltype" => $utils->getType()
 					);
+			}
 		}
 		
 		if ($a_training_id !== null) {
@@ -469,7 +473,6 @@ class gevDecentralTrainingGUI {
 		
 		$title = new ilNonEditableValueGUI($this->lng->txt("title"), "", false);
 		$title->setValue($training_info["title"]);
-		$title->setDisabled($no_changes_allowed);
 		$form->addItem($title);
 		
 		$description = new ilTextAreaInputGUI($this->lng->txt("description"), "description");
@@ -481,7 +484,6 @@ class gevDecentralTrainingGUI {
 		
 		$ltype = new ilNonEditableValueGUI($this->lng->txt("gev_course_type"), "", false);
 		$ltype->setValue($training_info["ltype"]);
-		$ltype->setDisabled($no_changes_allowed);
 		$form->addItem($ltype);
 		
 		$date = new ilDateTimeInputGUI($this->lng->txt("date"), "date");
@@ -554,10 +556,12 @@ class gevDecentralTrainingGUI {
 		if ($training_info["invitation_preview"]) {
 			$this->lng->loadLanguageModule("mail");
 			$preview = new ilNonEditableValueGUI($this->lng->txt("gev_preview_invitation_mail"), "", true);
-			$preview->setValue( "<b>".$this->lng->txt("mail_message_subject")."</b>: ".$training_info["invitation_preview"]["subject"]
-							  . "<br /><br />"
-							  . $training_info["invitation_preview"]["message_html"]
-							  );
+			if ($a_fill) {
+				$preview->setValue( "<b>".$this->lng->txt("mail_message_subject")."</b>: ".$training_info["invitation_preview"]["subject"]
+								  . "<br /><br />"
+								  . $training_info["invitation_preview"]["message_html"]
+								  );
+			}
 			$form->addItem($preview);
 		}
 		
