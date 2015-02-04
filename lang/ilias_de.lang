@@ -605,6 +605,7 @@ assessment#:#forcejs#:#JavaScript für die Ausgabe von Testfragen erzwingen
 assessment#:#forcejs_desc#:#Wenn diese Option ausgewählt ist, wird bei allen Testfragen die JavaScript-basierte Ausgabe herkömmlichen Ausgabe vorgezogen.
 assessment#:#forcejs_short#:#JavaScript erzwingen
 assessment#:#form_msg_area_missing_points#:#Bitte tragen Sie für alle Regionen eine Punktezahl ein.
+assessment#:#tst_reporting_date#:#Datum
 assessment#:#gap#:#Lücke
 assessment#:#gap_definition#:#Lückendefinition
 assessment#:#gap_selection#:#Lückenauswahl
