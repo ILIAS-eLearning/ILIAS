@@ -46,7 +46,7 @@ class ilTEPOrgUnitSelectionInputGUI extends ilExplorerSelectInputGUI
 		
 		$this->explorer_gui = new ilTEPOrgUnitExplorerGUI($id, array("ilformpropertydispatchgui", "ilteporgunitselectioninputgui"), $this->getExplHandleCmd(), $tree, $a_root_node_ref_id);
 		$this->explorer_gui->setTypeWhiteList(array( "orgu" ));
-		$this->explorer_gui->setSelectMode($a_postvar, $this->multi_nodes);
+		$this->explorer_gui->setSelectMode($a_postvar."_sel", $this->multi_nodes);
 		$this->explorer_gui->setSkipRootNode(true);		
 		$this->explorer_gui->setSelectableOrgUnitIds(array_keys($a_org_units));
 
