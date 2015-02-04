@@ -217,8 +217,17 @@ class ilTestServiceGUI
 								'tst_pass_delete',
 								$this->ctrl->getLinkTargetByClass($targetclass, 'confirmDeletePass')
 							);
+							$delete_entry = true;
 						}
-						$row['pass_details'] = $aslgui->getHTML();
+						
+						if($delete_entry == true)
+						{
+							$row['pass_details'] = $aslgui->getHTML();
+						}
+						else
+						{
+							$row['pass_details'] = '<a href="'.$this->ctrl->getLinkTargetByClass($targetclass, $targetcommand).'">'.$this->lng->txt('tst_pass_details').'</a>';
+						}
 					}
 				}
 

@@ -117,7 +117,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 		// pass details menu
 		if(!$this->pdf_view)
 		{
-			$this->addColumn('', '', '1%');
+			$this->addColumn('', '', '10%' );
 		}
 	}
 }
