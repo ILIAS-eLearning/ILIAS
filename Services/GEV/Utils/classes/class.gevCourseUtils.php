@@ -593,6 +593,39 @@ class gevCourseUtils {
 		$now = new ilDateTime(time(), IL_CAL_UNIX);
 		return ilDateTime::_before($dl, $now);
 	}
+
+
+	public function getAbsoluteCancelDeadline() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_ABSOLUTE_CANCEL_DEADLINE);
+	}
+	
+	public function setAbsoluteCancelDeadline($a_dl) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_ABSOLUTE_CANCEL_DEADLINE, $a_dl);
+	}
+	
+	public function getAbsoluteCancelDeadlineDate() {
+		return self::mkDeadlineDate($this->getStartDate(), $this->getAbsoluteCancelDeadline());
+	}
+	
+	public function getFormattedAbsoluteCancelDeadline() {
+		$dl = $this->getAbsoluteCancelDeadlineDate();
+		if (!$dl) {
+			return "";
+		}
+		$val = ilDatePresentation::formatDate($dl);
+		return $val;
+	}
+	
+	public function isAbsoluteCancelDeadlineExpired() {
+		$dl = $this->getAbsoluteCancelDeadlineDate();
+		
+		if (!$dl) {
+			return false;
+		}
+		
+		$now = new ilDateTime(time(), IL_CAL_UNIX);
+		return ilDateTime::_before($dl, $now);
+	}
 	
 	public function getBookingDeadline() {
 		$val = $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_BOOKING_DEADLINE);

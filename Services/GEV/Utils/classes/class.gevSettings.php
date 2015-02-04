@@ -93,6 +93,8 @@ class gevSettings {
 	const CRS_AMD_BOOKING_DEADLINE	= "crs_amd_booking_deadline";
 	// Absage Wartliste
 	const CRS_AMD_CANCEL_WAITING	= "crs_amd_cancel_waiting";
+	// harte Stornofrist
+	const CRS_AMD_ABSOLUTE_CANCEL_DEADLINE = "crs_amd_absolute_cancel_deadline";
 	
 	// Anbieter
 	const CRS_AMD_PROVIDER			= "crs_amd_provider";

@@ -551,3 +551,21 @@ gevAMDUtils::addAMDField( "Orte und Anbieter"
 						);
 
 ?>
+
+<#13>
+<?php
+
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+gevAMDUtils::addAMDField( "Buchungsmodalitäten"
+						, "harte Stornofrist"
+						, gevSettings::CRS_AMD_ABSOLUTE_CANCEL_DEADLINE
+						, "Tage vor dem Seminar, bis zu denen noch storniert werden kann."
+						, false
+						, array("min" => 0)
+						, ilAdvancedMDFieldDefinition::TYPE_INTEGER
+						);
+
+?>
