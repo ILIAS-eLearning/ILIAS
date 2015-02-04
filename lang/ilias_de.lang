@@ -13605,6 +13605,7 @@ cld#:#cld_upload_failed_max_filesize#:#Hochladen fehlgeschlagen. Maximale Dateig
 cld#:#cld_upload_failed#:#Herunterladen fehlgeschlagen
 cld#:#cld_upload_files#:#Heraufladen
 assessment#:#tst_show_solution_compare#:#Zeige bestmögliche Lösung innerhalb der Liste der Antworten
+assessment#:#tst_show_solution_compare_desc#:#TODOy
 assessment#:#tst_header_participant#:#Ihre Antwort:
 assessment#:#tst_header_solution#:#Bestmögliche Lösung:
 common#:#obj_cld#:#Cloud-Objekt

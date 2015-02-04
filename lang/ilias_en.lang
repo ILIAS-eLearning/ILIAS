@@ -13628,6 +13628,7 @@ cld#:#service_specific_settings#:#Specific Settings
 common#:#obj_cld#:#Cloud Object
 common#:#objs_cld#:#Cloud Objects
 assessment#:#tst_show_solution_compare#:#Show Best Solution in List of Answers
+assessment#:#tst_show_solution_compare_desc#:#TODOy
 assessment#:#tst_header_participant#:#Your Answer:
 assessment#:#tst_header_solution#:#Best Solution:
 rbac#:#delete_files#:#Delete Files

@@ -659,6 +659,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
 			// show best solution in list of answers
 			$solutionCompareInput = new ilCheckboxInputGUI($this->lng->txt('tst_show_solution_compare'), 'solution_compare');
+			$solutionCompareInput->setInfo($this->lng->txt('tst_show_solution_compare_desc'));
 			$solutionCompareInput->setChecked($this->testOBJ->getShowSolutionListComparison());
 			$showSolutionPrintview->addSubItem($solutionCompareInput);
 	
