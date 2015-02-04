@@ -122,8 +122,17 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		else {
 			$cancel_date = ilDatePresentation::formatDate($a_set["cancel_date"]);
 			$show_cancel_date = ilDateTime::_before($now, $a_set["cancel_date"]);;
-			
 		}
+		
+		$show_absolute_cancel_date = true;
+		if ($a_set["absolute_cancel_date"] == null) {
+			$absolute_cancel_date = $this->lng->txt("gev_unlimited");
+		}
+		else {
+			$absolute_cancel_date = ilDatePresentation::formatDate($a_set["absolute_cancel_date"]);
+			$show_absolute_cancel_date = ilDateTime::_before($now, $a_set["absolute_cancel_date"]);;
+		}
+
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("STATUS", $status);
@@ -145,6 +154,11 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		if ($show_cancel_link && $show_cancel_date) {
 			$this->tpl->setCurrentBlock("cancel_date");
 			$this->tpl->setVariable("CANCEL_DATE", $cancel_date);
+			$this->tpl->parseCurrentBlock();
+		}
+		if ($show_cancel_link && $show_absolute_cancel_date) {
+			$this->tpl->setCurrentBlock("absolute_cancel_date");
+			$this->tpl->setVariable("ABSOLUTE_CANCEL_DATE", $absolute_cancel_date);
 			$this->tpl->parseCurrentBlock();
 		}
 
