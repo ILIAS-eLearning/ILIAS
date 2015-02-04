@@ -437,13 +437,16 @@ class gevDecentralTrainingGUI {
 					, "suppress_mails" => $mail_settings->getSuppressMails()
 					);
 				$trainer_ids = $crs_utils->getTrainers();
-				// TODO: this needs to be true when first mail cronjob was run.
 				$no_changes_allowed = $crs_utils->mailCronJobDidRun();
 			}
 		}
 		else {
 			$crs_utils = gevCourseUtils::getInstance(intval($_POST["template_id"]));
 			$no_changes_allowed = false;
+			$training_info = array(
+					  "title" => $crs_utils->getTitle()
+					, "ltype" => $crs_utils->getType()
+					);
 		}
 		
 		if ($a_training_id !== null) {
