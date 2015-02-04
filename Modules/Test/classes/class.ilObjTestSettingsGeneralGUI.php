@@ -830,7 +830,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		}
 
 		// ending time
-		if( $this->formPropertyExists($form, 'chb_ending_time') && !$this->testOBJ->participantDataExist() )
+		if( $this->formPropertyExists($form, 'chb_ending_time') )
 		{
 			if( $form->getItemByPostVar('chb_ending_time')->getChecked() )
 			{
@@ -941,6 +941,13 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$processing->addSubItem($resetprocessing);
 		$form->addItem($processing);
 
+		if( $this->testOBJ->participantDataExist() )
+		{
+			$processing->setDisabled(true);
+			$processingtime->setDisabled(true);
+			$resetprocessing->setDisabled(true);
+		}
+
 		// kiosk mode
 		$kiosk = new ilCheckboxInputGUI($this->lng->txt("kiosk"), "kiosk");
 		$kiosk->setValue(1);
@@ -985,21 +992,19 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 					$this->testOBJ->setNrOfTries(0);
 				}
 			}
-		}
 
-		$this->testOBJ->setEnableProcessingTime($form->getItemByPostVar('chb_processing_time')->getChecked());
-		if ($this->testOBJ->getEnableProcessingTime())
-		{
-			$this->testOBJ->setProcessingTimeByMinutes($form->getItemByPostVar('processing_time')->getValue());
-			$this->testOBJ->setResetProcessingTime($form->getItemByPostVar('chb_reset_processing_time')->getChecked());
+			$this->testOBJ->setEnableProcessingTime($form->getItemByPostVar('chb_processing_time')->getChecked());
+			if ($this->testOBJ->getEnableProcessingTime())
+			{
+				$this->testOBJ->setProcessingTimeByMinutes($form->getItemByPostVar('processing_time')->getValue());
+				$this->testOBJ->setResetProcessingTime($form->getItemByPostVar('chb_reset_processing_time')->getChecked());
+			}
+			else
+			{
+				$this->testOBJ->setProcessingTime('');
+				$this->testOBJ->setResetProcessingTime(false);
+			}
 		}
-		else
-		{
-			$this->testOBJ->setProcessingTime('');
-			$this->testOBJ->setResetProcessingTime(false);
-		}
-
-
 
 		if ($form->getItemByPostVar('kiosk') instanceof ilFormPropertyGUI)
 		{
