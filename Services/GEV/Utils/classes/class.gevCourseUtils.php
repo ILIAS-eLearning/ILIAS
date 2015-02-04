@@ -1669,18 +1669,32 @@ class gevCourseUtils {
 	
 	public function cancel() {
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
-		$mails = new gevCrsAutoMails($crs_id);
+		$mails = new gevCrsAutoMails($this->crs_id);
 		
 		// Cancel participants
 		$this->cleanWaitingList();
 		
-		foreach($this->getParticipants() as $participant) {
+		$participants = $this->getParticipants();
+		foreach($participants as $participant) {
 			$this->getBookings()->cancelWithoutCosts($participant);
 		}
+		$mails->send("admin_cancel_booked_to_cancelled_with_costs", $participants);
 		
 		// Remove Trainers
+		$trainers = $this->getTrainers();
+		$membership = $this->getCourse()->getMembersObject();
+		foreach($trainers as $trainer) {
+			$membership->delete($trainer);
+		}
+		// mails will be send by GEVMailingPlugin
+
 		// Send mail C08 to hotel
+		$mails->send("training_cancelled");
+		
 		// Set training offline
+		$crs = $this->getCourse();
+		$crs->setOfflineStatus(true);
+		$crs->update();
 	}
 	
 	// Participation
