@@ -1099,7 +1099,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$template = new ilTemplate("tpl.il_as_tst_final_statement.html", TRUE, TRUE, "Modules/Test");
 		$this->ctrl->setParameter($this, "skipfinalstatement", 1);
 		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "afterTestPassFinished"));
-		$template->setVariable("FINALSTATEMENT", $this->object->getFinalStatement());
+		$template->setVariable("FINALSTATEMENT", $this->object->prepareTextareaOutput($this->object->getFinalStatement(), true));
 		$template->setVariable("BUTTON_CONTINUE", $this->lng->txt("btn_next"));
 		$this->tpl->setVariable($this->getContentBlockName(), $template->get());
 	}
