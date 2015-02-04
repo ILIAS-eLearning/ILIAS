@@ -32,11 +32,17 @@ class gevExitedUserCleanupJob extends ilCronJob {
 	public function run() {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		
 		global $ilLog, $ilDB;
 		
-		$exit_udf_field_id = gevSettings::getInstance()->getUDFFieldId(gevSettings::ORG_UNIT_EXITED);
+		$gev_settings = gevSettings::getInstance();
+		$exit_udf_field_id = $gev_settings->getUDFFieldId(gevSettings::USR_UDF_EXIT_DATE);
+		$orgu_tree = ilObjOrgUnitTree::_getInstance();
+		$exit_orgu_ref_id = $gev_settings->getOrgUnitExited();
+		$exit_orgu_obj_id = gevObjectUtils::getObjId($exit_orgu_ref_id);
+		$exit_orgu_utils = gevOrgUnitUtils::getInstance($exit_orgu_obj_id);
 		
 		$res = $ilDB->query("SELECT ud.usr_id "
 						   ."  FROM usr_data ud"
@@ -44,13 +50,13 @@ class gevExitedUserCleanupJob extends ilCronJob {
 						   ."    ON udf.usr_id = ud.usr_id"
 						   ."   AND field_id = ".$ilDB->quote($exit_udf_field_id, "integer")
 						   ." WHERE active = 1 "
-						   ."   AND udf.value > CURDATE()"
+						   ."   AND udf.value < CURDATE()"
 						   );
 		
-		$orgu_tree = ilObjOrgUnitTree::getInstance();
+		$cron_result = new ilCronJobResult();
 		
 		while ($rec = $ilDB->fetchAssoc($res)) {
-			$usr_id = $res["usr_id"];
+			$usr_id = $rec["usr_id"];
 			$usr = new ilObjUser($usr_id);
 			
 			$usr->setActive(false);
@@ -65,6 +71,9 @@ class gevExitedUserCleanupJob extends ilCronJob {
 				$orgu_utils->deassignUser($usr_id, "Vorgesetzter");
 				$ilLog->write("gevExitedUserCleanupJob: Removed user with id $usr_id from OrgUnit with id $orgu_id.");
 			}
+			
+			$exit_orgu_utils->assignUser($usr_id, "Mitarbeiter");
+			$ilLog->write("gevExitedUserCleanupJob: Moved user with id $usr_id to exit-OrgUnit.");
 			
 			// i'm alive!
 			ilCronManager::ping($this->getId());
