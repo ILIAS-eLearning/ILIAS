@@ -7563,6 +7563,10 @@ td.form-inline > div.form-group {
   display: block;
   padding: 4px 0;
 }
+input[type="file"].form-control {
+  border: none;
+  height: auto;
+}
 .ilFormHeader {
   padding: 15px 0 5px;
 }
