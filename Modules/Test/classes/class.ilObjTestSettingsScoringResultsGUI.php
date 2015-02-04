@@ -178,7 +178,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
 		if( $this->isScoreRecalculationRequired($form) )
 		{
-			$this->testOBJ->recalculateScores();
+			$this->testOBJ->recalculateScores(true);
 		}
 
 		// redirect to form output
