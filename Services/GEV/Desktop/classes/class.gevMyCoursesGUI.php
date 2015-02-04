@@ -87,6 +87,10 @@ class gevMyCoursesGUI {
 		$this->loadCourseIdAndStatus();
 		$crs_utils = gevCourseUtils::getInstance($this->crs_id);
 		
+		if ($crs_utils->isAbsoluteCancelDeadlineExpired()) {
+			throw new Exception("gevMyCoursesGUI::cancelBooking: Absolute cancel deadline expired!");
+		}
+		
 		return $crs_utils->renderCancellationForm($this, $this->user->getId());
 	}
 	
