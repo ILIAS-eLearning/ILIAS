@@ -640,7 +640,6 @@ class ilObjRole extends ilObject
 		// Get node info of subtree
 		$nodes = $tree->getRbacSubtreeInfo($a_start_node);
 		
-		
 		// get local policies
 		$all_local_policies = $rbacreview->getObjectsWithStopedInheritance($this->getId());
 		
@@ -880,13 +879,18 @@ class ilObjRole extends ilObject
 	{
 		global $rbacreview;
 		
+		$has_policies = null;
+		$policy_origin = null;
+		
 		if($a_node == ROOT_FOLDER_ID)
 		{
-			;
+			$has_policies = TRUE;
+			$policy_origin = ROLE_FOLDER_ID;
 		}
 		else
 		{
 			$has_policies = $rbacreview->getLocalPolicies($a_node);
+			$policy_origin = $a_node;
 			
 			if($a_init)
 			{
@@ -900,6 +904,7 @@ class ilObjRole extends ilObject
 				}
 				return true;
 			}
+			
 		}
 		
 		if(!$has_policies)
@@ -909,7 +914,7 @@ class ilObjRole extends ilObject
 		
 		$a_stack[] = $rbacreview->getAllOperationsOfRole(
 			$this->getId(),
-			$a_node
+			$policy_origin
 		);
 		return true;
 	}
@@ -922,14 +927,19 @@ class ilObjRole extends ilObject
 	protected function updatePolicyStack(&$a_stack,$a_node)
 	{
 		global $rbacreview;
+
+		$has_policies = null;
+		$policy_origin = null;
 		
 		if($a_node == ROOT_FOLDER_ID)
 		{
-			;
+			$has_policies = TRUE;
+			$policy_origin = ROLE_FOLDER_ID;
 		}
 		else
 		{
 			$has_policies = $rbacreview->getLocalPolicies($a_node);
+			$policy_origin = $a_node;
 		}
 		
 		if(!$has_policies)
@@ -937,7 +947,7 @@ class ilObjRole extends ilObject
 			return false;
 		}
 		
-		$a_stack[] = $a_node;
+		$a_stack[] = $policy_origin;
 		return true;
 	}
 	
