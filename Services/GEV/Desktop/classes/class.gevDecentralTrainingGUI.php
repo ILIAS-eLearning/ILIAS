@@ -465,9 +465,7 @@ class gevDecentralTrainingGUI {
 		}
 		
 		$title = new ilNonEditableValueGUI($this->lng->txt("title"), "", false);
-		if ($a_fill) {
-			$title->setValue($training_info["title"]);
-		}
+		$title->setValue($training_info["title"]);
 		$title->setDisabled($no_changes_allowed);
 		$form->addItem($title);
 		
@@ -479,9 +477,7 @@ class gevDecentralTrainingGUI {
 		$form->addItem($description);
 		
 		$ltype = new ilNonEditableValueGUI($this->lng->txt("gev_course_type"), "", false);
-		if ($a_fill) {
-			$ltype->setValue($training_info["ltype"]);
-		}
+		$ltype->setValue($training_info["ltype"]);
 		$ltype->setDisabled($no_changes_allowed);
 		$form->addItem($ltype);
 		
@@ -555,12 +551,10 @@ class gevDecentralTrainingGUI {
 		if ($training_info["invitation_preview"]) {
 			$this->lng->loadLanguageModule("mail");
 			$preview = new ilNonEditableValueGUI($this->lng->txt("gev_preview_invitation_mail"), "", true);
-			if ($a_fill) {
-				$preview->setValue( "<b>".$this->lng->txt("mail_message_subject")."</b>: ".$training_info["invitation_preview"]["subject"]
-								  . "<br /><br />"
-								  . $training_info["invitation_preview"]["message_html"]
-								  );
-			}
+			$preview->setValue( "<b>".$this->lng->txt("mail_message_subject")."</b>: ".$training_info["invitation_preview"]["subject"]
+							  . "<br /><br />"
+							  . $training_info["invitation_preview"]["message_html"]
+							  );
 			$form->addItem($preview);
 		}
 		
