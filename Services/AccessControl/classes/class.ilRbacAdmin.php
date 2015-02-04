@@ -195,7 +195,6 @@ class ilRbacAdmin
 		$limit_query = 'SELECT COUNT(*) num FROM rbac_ua '.
 				'WHERE '.$GLOBALS['ilDB']->in('rol_id',(array) $a_limited_roles,FALSE,'integer');
 		$res = $GLOBALS['ilDB']->query($limit_query);
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$limit_query);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		if($row->num >= $a_limit)
 		{
@@ -210,7 +209,7 @@ class ilRbacAdmin
 			$res = $ilDB->manipulate($query);
 		
 		$GLOBALS['ilDB']->unlockTables();
-		
+		$GLOBALS['rbacreview']->setAssignedCacheEntry($a_role_id,$a_usr_id,TRUE);
 		
 		$this->addDesktopItem($a_role_id,$a_usr_id);
 	
