@@ -23,7 +23,7 @@ class gevTrainingCancelled extends gevCrsAutoMail {
 		return false;
 	}
 	
-	public function getRecipientUserIDs() {
+	public function getRecipientAddresses() {
 		return $this->getCourseHotelAddresses();
 	}
 	
@@ -85,6 +85,10 @@ class gevTrainingCancelled extends gevCrsAutoMail {
 						   , "path" => $path
 						   )
 					);
+	}
+	
+	public function getCC($a_recipient) {
+		return array();
 	}
 }
 
