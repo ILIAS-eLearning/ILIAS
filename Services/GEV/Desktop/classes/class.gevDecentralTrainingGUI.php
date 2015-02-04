@@ -457,7 +457,7 @@ class gevDecentralTrainingGUI {
 				$mail_settings = new gevCrsAdditionalMailSettings($a_training_id);
 				$training_info = array(
 					  "ltype" => $crs_utils->getType()
-					, "title" => $utils->getTitle()
+					, "title" => $crs_utils->getTitle()
 					, "invitation_preview" => $crs_utils->getInvitationMailPreview()
 					, "suppress_mails" => $mail_settings->getSuppressMails()
 					);
