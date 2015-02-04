@@ -31,9 +31,12 @@ class gevExitedUserCleanupJob extends ilCronJob {
 	
 	public function run() {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 		
 		global $ilLog, $ilDB;
 		
@@ -53,11 +56,15 @@ class gevExitedUserCleanupJob extends ilCronJob {
 						   ."   AND udf.value < CURDATE()"
 						   );
 		
+		// I know, this is not timezone safe.
+		$now = @date("Y-m-d");
+		
 		$cron_result = new ilCronJobResult();
 		
 		while ($rec = $ilDB->fetchAssoc($res)) {
 			$usr_id = $rec["usr_id"];
 			$usr = new ilObjUser($usr_id);
+			$usr_utils = gevUserUtils::getInstance($usr_id);
 			
 			$usr->setActive(false);
 			$usr->update();
@@ -74,6 +81,26 @@ class gevExitedUserCleanupJob extends ilCronJob {
 			
 			$exit_orgu_utils->assignUser($usr_id, "Mitarbeiter");
 			$ilLog->write("gevExitedUserCleanupJob: Moved user with id $usr_id to exit-OrgUnit.");
+			
+			foreach ($usr_utils->getBookedAndWaitingCourses() as $crs_id) {
+				$crs_utils = gevCourseUtils::getInstance($crs_id);
+				$start_date = $crs_utils->getStartDate();
+				if ($start_date === null) {
+					$ilLog->write("gevExitedUserCleanupJob: User $usr_id was not removed from training $crs_id, since"
+								 ." the start date of the training could not be determined.");
+				}
+				
+				if ($start_date->get(IL_CAL_DATE) >= $now) {
+					$crs_utils->getBookings()->cancelWithoutCosts($usr_id);
+					$mails = new gevCrsAutoMails($crs_id);
+					$mails->send("participant_left_corporation", array($usr_id));
+					$ilLog->write("gevExitedUserCleanupJob: User $usr_id was canceled from training $crs_id.");
+				}
+				else {
+					$ilLog->write("gevExitedUserCleanupJob: User $usr_id was not removed from training $crs_id, since"
+								 ." training start date expired: ".$start_date->get(IL_CAL_DATE)." < ".$now);
+				}
+			}
 			
 			// i'm alive!
 			ilCronManager::ping($this->getId());
