@@ -4955,8 +4955,8 @@ class ilObjTestGUI extends ilObjectGUI
 			'exp_sc_short' => 'setExportSettingsSingleChoiceShort',
 			
 			// misc scoring & result properties
-
-			'anonymity' => 'setAnonymity'
+			'anonymity' => 'setAnonymity',
+			'enable_archiving' => 'setEnableArchiving'
 		);
 
 	    if (!$templateData['results_presentation']['value'])

@@ -192,39 +192,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		$this->saveScoringSettingsFormSection($form);
 		$this->saveResultSummarySettings($form);
 		$this->saveResultDetailsSettings($form);
-
-
-		// result filter taxonomies
-		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->isResultTaxonomyFilterSupported() )
-		{
-			if( !$this->isHiddenFormItem('results_tax_filters') && count($this->getAvailableTaxonomyIds()) )
-			{
-				$this->testOBJ->setResultFilterTaxIds( array_intersect(
-					$this->getAvailableTaxonomyIds(), $form->getItemByPostVar('results_tax_filters')->getValue()
-				));
-			}
-		}
-
-		if( !$this->isHiddenFormItem('anonymity') )
-		{
-			// anonymity setting
-			$this->testOBJ->setAnonymity($form->getItemByPostVar('anonymity')->getValue());
-		}
-
-		if( !$this->isHiddenFormItem('enable_archiving') )
-		{
-			// Archiving
-			if($this->testOBJ->getAnonymity() == true && 
-				$form->getItemByPostVar('enable_archiving')->getChecked() == true)
-			{
-				$this->testOBJ->setEnableArchiving(false);
-				ilUtil::sendInfo($this->lng->txt('no_archive_on_anonymous'), true);
-			} 
-			else 
-			{
-				$this->testOBJ->setEnableArchiving($form->getItemByPostVar('enable_archiving')->getChecked());
-			}
-		}
+		$this->saveResultMiscOptionsSettings($form);
 
 		// store settings to db
 		$this->testOBJ->saveToDb(true);
@@ -768,10 +736,15 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
 	private function addMiscSettingsFormSection(ilPropertyFormGUI $form)
 	{
-		// misc settings
-		$header_misc = new ilFormSectionHeaderGUI();
-		$header_misc->setTitle($this->lng->txt('misc'));
-		$form->addItem($header_misc);
+		$fields = array('anonymity', 'enable_archiving');
+
+		if( $this->isSectionHeaderRequired($fields) || $this->testQuestionSetConfigFactory->getQuestionSetConfig()->isResultTaxonomyFilterSupported() )
+		{
+			// misc settings
+			$header_misc = new ilFormSectionHeaderGUI();
+			$header_misc->setTitle($this->lng->txt('misc'));
+			$form->addItem($header_misc);
+		}
 
 		// result filter taxonomies
 		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->isResultTaxonomyFilterSupported() )
@@ -815,6 +788,44 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		$enable_archiving->setValue(1);
 		$enable_archiving->setChecked($this->testOBJ->getEnableArchiving());
 		$form->addItem($enable_archiving);
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	private function saveResultMiscOptionsSettings(ilPropertyFormGUI $form)
+	{
+		// result filter taxonomies
+		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->isResultTaxonomyFilterSupported() )
+		{
+			if( !$this->isHiddenFormItem('results_tax_filters') && count($this->getAvailableTaxonomyIds()) )
+			{
+				$this->testOBJ->setResultFilterTaxIds( array_intersect(
+					$this->getAvailableTaxonomyIds(), $form->getItemByPostVar('results_tax_filters')->getValue()
+				));
+			}
+		}
+
+		if( $this->formPropertyExists($form, 'anonymity') )
+		{
+			// anonymity setting
+			$this->testOBJ->setAnonymity($form->getItemByPostVar('anonymity')->getValue());
+		}
+
+		if( $this->formPropertyExists($form, 'enable_archiving') )
+		{
+			// Archiving
+			if($this->testOBJ->getAnonymity() == true &&
+				$form->getItemByPostVar('enable_archiving')->getChecked() == true)
+			{
+				$this->testOBJ->setEnableArchiving(false);
+				ilUtil::sendInfo($this->lng->txt('no_archive_on_anonymous'), true);
+			}
+			else
+			{
+				$this->testOBJ->setEnableArchiving($form->getItemByPostVar('enable_archiving')->getChecked());
+			}
+		}
 	}
 
 	private function areScoringSettingsWritable()
@@ -892,32 +903,5 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		}
 
 		return $this->availableTaxonomyIds;
-	}
-
-	/**
-	 * @param $showGradingStatusEnabled
-	 * @param $showGradingMarkEnabled
-	 * @return string
-	 */
-	private function getShowGradingFormFieldValue($showGradingStatusEnabled, $showGradingMarkEnabled)
-	{
-		if( $showGradingStatusEnabled && $showGradingMarkEnabled )
-		{
-			$formFieldValue = self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_BOTH;
-		}
-		elseif( $showGradingStatusEnabled )
-		{
-			$formFieldValue = self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_STATUS;
-		}
-		elseif( $showGradingMarkEnabled )
-		{
-			$formFieldValue = self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_MARK;
-		}
-		else
-		{
-			$formFieldValue = self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_NONE;
-		}
-
-		return $formFieldValue;
 	}
 }

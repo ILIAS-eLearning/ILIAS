@@ -67,19 +67,7 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 		$this->addScoringOptionsProperties();
 		$this->addResultSummaryProperties();
 		$this->addResultDetailsProperties();
-
-
-		$this->addSetting(
-			"anonymity",
-			ilSettingsTemplateConfig::SELECT,
-			$this->lng->txt("tst_anonymity"),
-			false,
-			0,
-			array(
-				'0' => $this->lng->txt("tst_anonymity_no_anonymization"),
-				'1' => $this->lng->txt("tst_anonymity_anonymous_test"),
-			)
-		);
+		$this->addResultMiscOptionsProperties();
 	}
 
 	private function addGeneralPropertySettings()
@@ -502,6 +490,28 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			"exp_sc_short",
 			ilSettingsTemplateConfig::BOOL,
 			$this->lng->txt("tst_exp_sc_short"),
+			true
+		);
+	}
+
+	private function addResultMiscOptionsProperties()
+	{
+		$this->addSetting(
+			"anonymity",
+			ilSettingsTemplateConfig::SELECT,
+			$this->lng->txt("tst_anonymity"),
+			true,
+			0,
+			array(
+				'0' => $this->lng->txt("tst_anonymity_no_anonymization"),
+				'1' => $this->lng->txt("tst_anonymity_anonymous_test"),
+			)
+		);
+
+		$this->addSetting(
+			"enable_archiving",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("test_enable_archiving"),
 			true
 		);
 	}
