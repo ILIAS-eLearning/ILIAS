@@ -1667,6 +1667,22 @@ class gevCourseUtils {
 		$ws = $this->getBookings()->cleanWaitingList();
 	}
 	
+	public function cancel() {
+		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+		$mails = new gevCrsAutoMails($crs_id);
+		
+		// Cancel participants
+		$this->cleanWaitingList();
+		
+		foreach($this->getParticipants() as $participant) {
+			$this->getBookings()->cancelWithoutCosts($participant);
+		}
+		
+		// Remove Trainers
+		// Send mail C08 to hotel
+		// Set training offline
+	}
+	
 	// Participation
 	
 	public function canModifyParticipationStatus($a_user_id) {
