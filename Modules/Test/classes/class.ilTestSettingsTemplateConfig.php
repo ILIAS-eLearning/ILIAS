@@ -65,6 +65,8 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 		$this->addTestSequenceProperties();
 		$this->addTestFinishProperties();
 		$this->addScoringOptionsProperties();
+		$this->addResultSummaryProperties();
+
 
 
 		$this->addSetting(
@@ -79,24 +81,12 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			)
 		);
 
+
 		/////////////////////////////////////
 		// Scoring and Results
 		/////////////////////////////////////
 
 
-		$this->addSetting(
-			"results_access",
-			ilSettingsTemplateConfig::SELECT,
-			$this->lng->txt("tst_results_access"),
-			false,
-			0,
-			array(
-				'1' => $this->lng->txt("tst_results_access_finished"),
-				'2' => $this->lng->txt("tst_results_access_always"),
-				'3' => $this->lng->txt("tst_results_access_never"),
-				'4' => $this->lng->txt("tst_results_access_date"),
-			)
-		);
 
 		$this->addSetting(
 			"print_bs_with_res",
@@ -461,6 +451,37 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 				'0' => $this->lng->txt("tst_pass_deletion_not_allowed"),
 				'1' => $this->lng->txt("tst_pass_deletion_allowed")
 			)
+		);
+	}
+
+	private function addResultSummaryProperties()
+	{
+		$this->addSetting(
+			"results_access_enabled",
+			ilSettingsTemplateConfig::SELECT,
+			$this->lng->txt("tst_results_access_enabled"),
+			false,
+			0,
+			array(
+				'0' => $this->lng->txt("tst_results_access_never"),
+				'2' => $this->lng->txt("tst_results_access_always"),
+				'1' => $this->lng->txt("tst_results_access_finished"),
+				'3' => $this->lng->txt("tst_results_access_date")
+			)
+		);
+
+		$this->addSetting(
+			"grading_status",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_results_grading_opt_show_status"),
+			true
+		);
+
+		$this->addSetting(
+			"grading_mark",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_results_grading_opt_show_mark"),
+			true
 		);
 	}
 }

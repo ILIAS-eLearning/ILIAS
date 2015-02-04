@@ -4938,6 +4938,14 @@ class ilObjTestGUI extends ilObjectGUI
 			'score_cutting' => 'setScoreCutting',
 			'pass_scoring' => 'setPassScoring',
 			'pass_deletion_allowed' => 'setPassDeletionAllowed',
+			
+			// result summary properties
+			'results_access_enabled' => 'setScoreReporting',
+			'grading_status' => 'setShowGradingStatusEnabled',
+			'grading_mark' => 'setShowGradingMarkEnabled',
+			
+			
+			
 
 			'anonymity' => 'setAnonymity',
 			'test_enabled_views' => 'setEnabledViewMode',

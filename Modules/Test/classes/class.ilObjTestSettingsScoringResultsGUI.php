@@ -190,43 +190,8 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 	private function performSaveForm(ilPropertyFormGUI $form)
 	{
 		$this->saveScoringSettingsFormSection($form);
+		$this->saveResultSummarySettings($form);
 
-		if( !$this->isHiddenFormItem('results_access_enabled') )
-		{
-			if( $form->getItemByPostVar('results_access_enabled')->getChecked() )
-			{
-				$this->testOBJ->setScoreReporting($form->getItemByPostVar('results_access_setting')->getValue());
-
-				if( $this->testOBJ->getScoreReporting() == REPORT_AFTER_DATE )
-				{
-					$this->testOBJ->setReportingDate(
-						$form->getItemByPostVar('reporting_date')->getDate()->get(IL_CAL_FKT_DATE, 'YmdHis')
-					);
-				}
-				else
-				{
-					$this->testOBJ->setReportingDate('');
-				}
-				
-				$this->testOBJ->setShowPassDetails($form->getItemByPostVar('pass_details')->getChecked());
-			}
-			else
-			{
-				$this->testOBJ->setScoreReporting(4); // never
-				$this->testOBJ->setShowPassDetails(false);
-				$this->testOBJ->setReportingDate('');
-			}
-		}
-
-		if( !$this->isHiddenFormItem('show_result_grading') )
-		{
-			$this->testOBJ->setShowGradingStatusEnabled(
-				$form->getItemByPostVar('grading_status')->getChecked()
-			);
-			$this->testOBJ->setShowGradingMarkEnabled(
-				(int)$form->getItemByPostVar('grading_mark')->getChecked()
-			);
-		}
 
 		if( !$this->isHiddenFormItem('solution_details') )
 		{
@@ -618,6 +583,53 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		$chb_resulting_mark_only->setValue(1);
 		$chb_resulting_mark_only->setChecked($this->testOBJ->isShowGradingMarkEnabled());
 		$form->addItem($chb_resulting_mark_only);
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	private function saveResultSummarySettings(ilPropertyFormGUI $form)
+	{
+		if( $this->formPropertyExists($form, 'results_access_enabled') )
+		{
+			if( $form->getItemByPostVar('results_access_enabled')->getChecked() )
+			{
+				$this->testOBJ->setScoreReporting($form->getItemByPostVar('results_access_setting')->getValue());
+
+				if( $this->testOBJ->getScoreReporting() == REPORT_AFTER_DATE )
+				{
+					$this->testOBJ->setReportingDate(
+						$form->getItemByPostVar('reporting_date')->getDate()->get(IL_CAL_FKT_DATE, 'YmdHis')
+					);
+				}
+				else
+				{
+					$this->testOBJ->setReportingDate('');
+				}
+
+				$this->testOBJ->setShowPassDetails($form->getItemByPostVar('pass_details')->getChecked());
+			}
+			else
+			{
+				$this->testOBJ->setScoreReporting(4); // never
+				$this->testOBJ->setShowPassDetails(false);
+				$this->testOBJ->setReportingDate('');
+			}
+		}
+
+		if( $this->formPropertyExists($form, 'grading_status') )
+		{
+			$this->testOBJ->setShowGradingStatusEnabled(
+				$form->getItemByPostVar('grading_status')->getChecked()
+			);
+		}
+
+		if( $this->formPropertyExists($form, 'grading_mark') )
+		{
+			$this->testOBJ->setShowGradingMarkEnabled(
+				(int)$form->getItemByPostVar('grading_mark')->getChecked()
+			);
+		}
 	}
 
 	private function addResultDetailsSettingsFormSection(ilPropertyFormGUI $form)
