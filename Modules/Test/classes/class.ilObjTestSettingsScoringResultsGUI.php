@@ -438,7 +438,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		$form->setId('test_scoring_results');
 
 		$this->addScoringSettingsFormSection($form);
-		$this->addResultSettingsFormSection($form);
+		$this->addResultSummarySettingsFormSection($form);
 		$this->addResultDetailsSettingsFormSection($form);
 		$this->addMiscSettingsFormSection($form);
 
@@ -560,7 +560,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		}
 	}
 
-	private function addResultSettingsFormSection(ilPropertyFormGUI $form)
+	private function addResultSummarySettingsFormSection(ilPropertyFormGUI $form)
 	{
 		// HEADER: result settings
 		$header_tr = new ilFormSectionHeaderGUI();
