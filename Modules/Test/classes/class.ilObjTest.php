@@ -6900,6 +6900,11 @@ function getAnswerFeedbackPoints()
 		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
 		$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $this);
 		$this->saveCompleteStatus($testQuestionSetConfigFactory->getQuestionSetConfig());
+		
+		if( $this->participantDataExist() )
+		{
+			$this->recalculateScores(true);
+		}
 	}
 
 	/**
