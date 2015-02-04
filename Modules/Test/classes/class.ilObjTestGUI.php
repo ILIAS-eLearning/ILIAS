@@ -4944,17 +4944,19 @@ class ilObjTestGUI extends ilObjectGUI
 			'grading_status' => 'setShowGradingStatusEnabled',
 			'grading_mark' => 'setShowGradingMarkEnabled',
 			
+			// result details properties
+			'solution_details' => 'setShowSolutionDetails',
+			'solution_feedback' => 'setShowSolutionFeedback',
+			'solution_suggested' => 'setShowSolutionSuggested',
+			'solution_printview' => 'setShowSolutionPrintview',
+			'highscore_enabled' => 'setHighscoreEnabled',
+			'solution_signature' => 'setShowSolutionSignature',
+			'examid_in_test_res' => 'setShowExamIdInTestResultsEnabled',
+			'exp_sc_short' => 'setExportSettingsSingleChoiceShort',
 			
-			
+			// misc scoring & result properties
 
-			'anonymity' => 'setAnonymity',
-			'test_enabled_views' => 'setEnabledViewMode',
-			//'express_allow_question_pool' => 'setExpressModeQuestionPoolAllowed',
-			//'' => '',
-
-			'results_presentation' => 'setResultsPresentationOptionsByArray',
-			'export_settings' => 'setExportSettings',
-			'print_bs_with_res' => 'setPrintBestSolutionWithResult',
+			'anonymity' => 'setAnonymity'
 		);
 
 	    if (!$templateData['results_presentation']['value'])

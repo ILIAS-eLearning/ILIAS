@@ -191,68 +191,8 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 	{
 		$this->saveScoringSettingsFormSection($form);
 		$this->saveResultSummarySettings($form);
+		$this->saveResultDetailsSettings($form);
 
-
-		if( !$this->isHiddenFormItem('solution_details') )
-		{
-			if( $form->getItemByPostVar('solution_details')->getChecked() )
-			{
-				$this->testOBJ->setShowSolutionDetails(1);
-				$this->testOBJ->setPrintBestSolutionWithResult(
-					(int)$form->getItemByPostVar('print_bs_with_res')->getChecked()
-				);
-			}
-			else
-			{
-				$this->testOBJ->setShowSolutionDetails(0);
-				$this->testOBJ->setPrintBestSolutionWithResult(0);
-			}
-		}
-		
-		if( !$this->isHiddenFormItem('solution_printview') )
-		{
-			if( $form->getItemByPostVar('solution_printview')->getChecked() )
-			{
-				$this->testOBJ->setShowSolutionPrintview(1);
-				$this->testOBJ->setShowSolutionListComparison(
-					(bool)$form->getItemByPostVar('solution_compare')->getChecked()
-				);
-				$this->testOBJ->setShowSolutionAnswersOnly(
-					(int)$form->getItemByPostVar('solution_answers_only')->getChecked()
-				);
-			}
-			else
-			{
-				$this->testOBJ->setShowSolutionPrintview(0);
-				$this->testOBJ->setShowSolutionListComparison(false);
-				$this->testOBJ->setShowSolutionAnswersOnly(0);
-			}
-		}
-
-		if( !$this->isHiddenFormItem('solution_feedback') )
-		{
-			$this->testOBJ->setShowSolutionFeedback($form->getItemByPostVar('solution_feedback')->getChecked());
-		}
-
-		if( !$this->isHiddenFormItem('solution_signature') )
-		{
-			$this->testOBJ->setShowSolutionSignature($form->getItemByPostVar('solution_signature')->getChecked());
-		}
-
-		if( !$this->isHiddenFormItem('examid_in_test_res') )
-		{
-			$this->testOBJ->setShowExamIdInTestResultsEnabled($form->getItemByPostVar('examid_in_test_res')->getChecked());
-		}
-		
-		if( !$this->isHiddenFormItem('solution_suggested') )
-		{
-			$this->testOBJ->setShowSolutionSuggested($form->getItemByPostVar('solution_suggested')->getChecked());
-		}
-
-		if( !$this->isHiddenFormItem('exp_sc_short') )
-		{
-			$this->testOBJ->setExportSettingsSingleChoiceShort( (int)$form->getItemByPostVar('exp_sc_short')->getChecked() );
-		}
 
 		// result filter taxonomies
 		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->isResultTaxonomyFilterSupported() )
@@ -284,20 +224,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 			{
 				$this->testOBJ->setEnableArchiving($form->getItemByPostVar('enable_archiving')->getChecked());
 			}
-		}
-
-		if( !$this->isHiddenFormItem('highscore_enabled') )
-		{
-			// highscore settings
-			$this->testOBJ->setHighscoreEnabled((bool) $form->getItemByPostVar('highscore_enabled')->getChecked());
-			$this->testOBJ->setHighscoreAnon((bool) $form->getItemByPostVar('highscore_anon')->getChecked());
-			$this->testOBJ->setHighscoreAchievedTS((bool) $form->getItemByPostVar('highscore_achieved_ts')->getChecked());
-			$this->testOBJ->setHighscoreScore((bool) $form->getItemByPostVar('highscore_score')->getChecked());
-			$this->testOBJ->setHighscorePercentage((bool) $form->getItemByPostVar('highscore_percentage')->getChecked());
-			$this->testOBJ->setHighscoreHints((bool) $form->getItemByPostVar('highscore_hints')->getChecked());
-			$this->testOBJ->setHighscoreWTime((bool) $form->getItemByPostVar('highscore_wtime')->getChecked());
-			$this->testOBJ->setHighscoreMode((int) $form->getItemByPostVar('highscore_mode')->getValue());
-			$this->testOBJ->setHighscoreTopNum((int) $form->getItemByPostVar('highscore_top_num')->getValue());
 		}
 
 		// store settings to db
@@ -757,6 +683,87 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		$export_settings->setInfo($this->lng->txt('tst_exp_sc_short_desc'));
 		$export_settings->setChecked($this->testOBJ->getExportSettingsSingleChoiceShort());
 		$form->addItem($export_settings);
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	private function saveResultDetailsSettings(ilPropertyFormGUI $form)
+	{
+		if( $this->formPropertyExists($form, 'solution_details') )
+		{
+			if( $form->getItemByPostVar('solution_details')->getChecked() )
+			{
+				$this->testOBJ->setShowSolutionDetails(1);
+				$this->testOBJ->setPrintBestSolutionWithResult(
+					(int)$form->getItemByPostVar('print_bs_with_res')->getChecked()
+				);
+			}
+			else
+			{
+				$this->testOBJ->setShowSolutionDetails(0);
+				$this->testOBJ->setPrintBestSolutionWithResult(0);
+			}
+		}
+
+		if( $this->formPropertyExists($form, 'solution_feedback') )
+		{
+			$this->testOBJ->setShowSolutionFeedback($form->getItemByPostVar('solution_feedback')->getChecked());
+		}
+
+		if( $this->formPropertyExists($form, 'solution_suggested') )
+		{
+			$this->testOBJ->setShowSolutionSuggested($form->getItemByPostVar('solution_suggested')->getChecked());
+		}
+
+		if( $this->formPropertyExists($form, 'solution_printview') )
+		{
+			if( $form->getItemByPostVar('solution_printview')->getChecked() )
+			{
+				$this->testOBJ->setShowSolutionPrintview(1);
+				$this->testOBJ->setShowSolutionListComparison(
+					(bool)$form->getItemByPostVar('solution_compare')->getChecked()
+				);
+				$this->testOBJ->setShowSolutionAnswersOnly(
+					(int)$form->getItemByPostVar('solution_answers_only')->getChecked()
+				);
+			}
+			else
+			{
+				$this->testOBJ->setShowSolutionPrintview(0);
+				$this->testOBJ->setShowSolutionListComparison(false);
+				$this->testOBJ->setShowSolutionAnswersOnly(0);
+			}
+		}
+
+		if( $this->formPropertyExists($form, 'highscore_enabled') )
+		{
+			// highscore settings
+			$this->testOBJ->setHighscoreEnabled((bool) $form->getItemByPostVar('highscore_enabled')->getChecked());
+			$this->testOBJ->setHighscoreAnon((bool) $form->getItemByPostVar('highscore_anon')->getChecked());
+			$this->testOBJ->setHighscoreAchievedTS((bool) $form->getItemByPostVar('highscore_achieved_ts')->getChecked());
+			$this->testOBJ->setHighscoreScore((bool) $form->getItemByPostVar('highscore_score')->getChecked());
+			$this->testOBJ->setHighscorePercentage((bool) $form->getItemByPostVar('highscore_percentage')->getChecked());
+			$this->testOBJ->setHighscoreHints((bool) $form->getItemByPostVar('highscore_hints')->getChecked());
+			$this->testOBJ->setHighscoreWTime((bool) $form->getItemByPostVar('highscore_wtime')->getChecked());
+			$this->testOBJ->setHighscoreMode((int) $form->getItemByPostVar('highscore_mode')->getValue());
+			$this->testOBJ->setHighscoreTopNum((int) $form->getItemByPostVar('highscore_top_num')->getValue());
+		}
+
+		if( $this->formPropertyExists($form, 'solution_signature') )
+		{
+			$this->testOBJ->setShowSolutionSignature($form->getItemByPostVar('solution_signature')->getChecked());
+		}
+
+		if( $this->formPropertyExists($form, 'examid_in_test_res') )
+		{
+			$this->testOBJ->setShowExamIdInTestResultsEnabled($form->getItemByPostVar('examid_in_test_res')->getChecked());
+		}
+
+		if( $this->formPropertyExists($form, 'exp_sc_short') )
+		{
+			$this->testOBJ->setExportSettingsSingleChoiceShort( (int)$form->getItemByPostVar('exp_sc_short')->getChecked() );
+		}
 	}
 
 	private function addMiscSettingsFormSection(ilPropertyFormGUI $form)

@@ -66,7 +66,7 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 		$this->addTestFinishProperties();
 		$this->addScoringOptionsProperties();
 		$this->addResultSummaryProperties();
-
+		$this->addResultDetailsProperties();
 
 
 		$this->addSetting(
@@ -79,44 +79,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 				'0' => $this->lng->txt("tst_anonymity_no_anonymization"),
 				'1' => $this->lng->txt("tst_anonymity_anonymous_test"),
 			)
-		);
-
-
-		/////////////////////////////////////
-		// Scoring and Results
-		/////////////////////////////////////
-
-
-
-		$this->addSetting(
-			"print_bs_with_res",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("tst_results_print_best_solution"),
-			true
-		);
-
-		$this->addSetting(
-			"results_presentation",
-			ilSettingsTemplateConfig::CHECKBOX,
-			$this->lng->txt("tst_results_presentation"),
-			false,
-			0,
-			array(
-				'pass_details' => $this->lng->txt("tst_show_pass_details"),
-				'solution_details' => $this->lng->txt("tst_show_solution_details"),
-				'solution_printview' => $this->lng->txt("tst_show_solution_printview"),
-				'solution_feedback' => $this->lng->txt("tst_show_solution_feedback"),
-				'solution_answers_only' => $this->lng->txt("tst_show_solution_answers_only"),
-				'solution_signature' => $this->lng->txt("tst_show_solution_signature"),
-				'solution_suggested' => $this->lng->txt("tst_show_solution_suggested"),
-			)
-		);
-
-		$this->addSetting(
-			"export_settings",
-			ilSettingsTemplateConfig::BOOL,
-			$this->lng->txt("tst_export_settings"),
-			true
 		);
 	}
 
@@ -481,6 +443,65 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			"grading_mark",
 			ilSettingsTemplateConfig::BOOL,
 			$this->lng->txt("tst_results_grading_opt_show_mark"),
+			true
+		);
+	}
+
+	private function addResultDetailsProperties()
+	{
+		$this->addSetting(
+			"solution_details",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_show_solution_details"),
+			false
+		);
+		
+		$this->addSetting(
+			"solution_feedback",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_show_solution_feedback"),
+			true
+		);
+		
+		$this->addSetting(
+			"solution_suggested",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_show_solution_suggested"),
+			true
+		);
+		
+		$this->addSetting(
+			"solution_printview",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_show_solution_printview"),
+			false
+		);
+		
+		$this->addSetting(
+			"highscore_enabled",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_highscore_enabled"),
+			false
+		);
+		
+		$this->addSetting(
+			"solution_signature",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_show_solution_signature"),
+			true
+		);
+		
+		$this->addSetting(
+			"examid_in_test_res",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("examid_in_test_res"),
+			true
+		);
+
+		$this->addSetting(
+			"exp_sc_short",
+			ilSettingsTemplateConfig::BOOL,
+			$this->lng->txt("tst_exp_sc_short"),
 			true
 		);
 	}
