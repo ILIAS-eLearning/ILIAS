@@ -205,6 +205,7 @@ class ilTEPCourseEntries
 				$a_entry->setOrgUnitId($org_id);
 				$changed = self::SYNC_UPDATED;
 			}
+
 			// gev-patch end
 			// course period
 			if($start->get(IL_CAL_DATE) != $a_entry->getStart()->get(IL_CAL_DATE))

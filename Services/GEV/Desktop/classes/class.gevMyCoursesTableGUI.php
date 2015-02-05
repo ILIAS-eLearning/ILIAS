@@ -74,7 +74,9 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("ACCORDION_ROW", $this->getAccordionRowClass());
 		$this->tpl->setVariable("COLSPAN", $this->getColspan());
 
-		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+		// i know this has timezone issues....
+		$now_str = @date("Y-m-d");
+		$now = new ilDate($now_str, IL_CAL_DATE);
 		
 		if ($a_set["end_date"] === null) {
 			$a_set["end_date"] = $a_set["start_date"];
@@ -103,10 +105,15 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		}
 
 		$show_cancel_link = 
-			( $a_set["start_date"] === null 
-			|| ilDateTime::_before($now, $a_set["start_date"] !== null?$a_set["start_date"]:$now)
+			(  $a_set["start_date"] === null 
+			|| (   ilDateTime::_before($now, $a_set["start_date"]   )
+				&& (   $a_set["absolute_cancel_date"] === null
+					|| !ilDateTime::_before($a_set["absolute_cancel_date"], $now)
+				   )
+			   )
 			)
-			&& $a_set["type"] != "Selbstlernkurs";
+			&& $a_set["type"] != "Selbstlernkurs"
+			;
 		if ($show_cancel_link) {
 			$action = '<a href="'.gevCourseUtils::getCancelLinkTo($a_set["obj_id"], $this->user_id).'">'.
 					  $this->cancel_img."</a>";
@@ -122,8 +129,17 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		else {
 			$cancel_date = ilDatePresentation::formatDate($a_set["cancel_date"]);
 			$show_cancel_date = ilDateTime::_before($now, $a_set["cancel_date"]);;
-			
 		}
+		
+		$show_absolute_cancel_date = true;
+		if ($a_set["absolute_cancel_date"] == null) {
+			$absolute_cancel_date = $this->lng->txt("gev_unlimited");
+		}
+		else {
+			$absolute_cancel_date = ilDatePresentation::formatDate($a_set["absolute_cancel_date"]);
+			$show_absolute_cancel_date = ilDateTime::_before($now, $a_set["absolute_cancel_date"]);;
+		}
+
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("STATUS", $status);
@@ -145,6 +161,11 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		if ($show_cancel_link && $show_cancel_date) {
 			$this->tpl->setCurrentBlock("cancel_date");
 			$this->tpl->setVariable("CANCEL_DATE", $cancel_date);
+			$this->tpl->parseCurrentBlock();
+		}
+		if ($show_cancel_link && $show_absolute_cancel_date) {
+			$this->tpl->setCurrentBlock("absolute_cancel_date");
+			$this->tpl->setVariable("ABSOLUTE_CANCEL_DATE", $absolute_cancel_date);
 			$this->tpl->parseCurrentBlock();
 		}
 

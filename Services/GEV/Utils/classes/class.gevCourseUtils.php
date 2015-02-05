@@ -593,6 +593,39 @@ class gevCourseUtils {
 		$now = new ilDateTime(time(), IL_CAL_UNIX);
 		return ilDateTime::_before($dl, $now);
 	}
+
+
+	public function getAbsoluteCancelDeadline() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_ABSOLUTE_CANCEL_DEADLINE);
+	}
+	
+	public function setAbsoluteCancelDeadline($a_dl) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_ABSOLUTE_CANCEL_DEADLINE, $a_dl);
+	}
+	
+	public function getAbsoluteCancelDeadlineDate() {
+		return self::mkDeadlineDate($this->getStartDate(), $this->getAbsoluteCancelDeadline());
+	}
+	
+	public function getFormattedAbsoluteCancelDeadline() {
+		$dl = $this->getAbsoluteCancelDeadlineDate();
+		if (!$dl) {
+			return "";
+		}
+		$val = ilDatePresentation::formatDate($dl);
+		return $val;
+	}
+	
+	public function isAbsoluteCancelDeadlineExpired() {
+		$dl = $this->getAbsoluteCancelDeadlineDate();
+		
+		if (!$dl) {
+			return false;
+		}
+		
+		$now = new ilDateTime(time(), IL_CAL_UNIX);
+		return ilDateTime::_before($dl, $now);
+	}
 	
 	public function getBookingDeadline() {
 		$val = $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_BOOKING_DEADLINE);
@@ -1665,6 +1698,36 @@ class gevCourseUtils {
 	
 	public function cleanWaitingList() {
 		$ws = $this->getBookings()->cleanWaitingList();
+	}
+	
+	public function cancel() {
+		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+		$mails = new gevCrsAutoMails($this->crs_id);
+		
+		// Cancel participants
+		$this->cleanWaitingList();
+		
+		$participants = $this->getParticipants();
+		foreach($participants as $participant) {
+			$this->getBookings()->cancelWithoutCosts($participant);
+		}
+		$mails->send("admin_cancel_booked_to_cancelled_with_costs", $participants);
+		
+		// Remove Trainers
+		$trainers = $this->getTrainers();
+		$membership = $this->getCourse()->getMembersObject();
+		foreach($trainers as $trainer) {
+			$membership->delete($trainer);
+		}
+		// mails will be send by GEVMailingPlugin
+
+		// Send mail C08 to hotel
+		$mails->send("training_cancelled");
+		
+		// Set training offline
+		$crs = $this->getCourse();
+		$crs->setOfflineStatus(true);
+		$crs->update();
 	}
 	
 	// Participation

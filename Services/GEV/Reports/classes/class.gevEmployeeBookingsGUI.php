@@ -12,6 +12,7 @@
 require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
 require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 class gevEmployeeBookingsGUI extends catBasicReportGUI{
 	public function __construct() {
@@ -26,6 +27,9 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 
 		$this->action_img = '<img src="'.ilUtil::getImagePath("gev_action.png").'" />';
 		$this->cancel_img = '<img src="'.ilUtil::getImagePath("gev_cancel_action.png").'" />';
+
+		$absolute_cancel_deadline_amd_field_id = 
+			gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_ABSOLUTE_CANCEL_DEADLINE);
 
 		$this->table = catReportTable::create()
 						->column("lastname", "lastname")
@@ -69,6 +73,8 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 						->select("usr.org_unit_above2")
 						->select("usr.org_unit")
 						->select("usrcrs.booking_status")
+						->select_raw("(crs.begin_date - INTERVAL amd.value DAY) "
+									."as absolute_cancel_deadline_date")
 						->from("hist_usercoursestatus usrcrs")
 						->join("hist_user usr")
 							->on("usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0")
@@ -76,6 +82,9 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
 						->join("object_reference oref")
 							->on("crs.crs_id = oref.obj_id AND oref.deleted IS NULL")
+						->join("adv_md_values_int amd")
+							->on("amd.obj_id = crs.crs_id "
+								."AND amd.field_id = ".$this->db->quote($absolute_cancel_deadline_amd_field_id, "integer"))
 						->compile()
 						;
 
@@ -139,8 +148,14 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 		
 		$this->ctrl->setParameter($this, "usr_id", $rec["user_id"]);
 		$this->ctrl->setParameter($this, "crs_id", $rec["crs_id"]);
-		$rec["action"] = "<a href='".$this->ctrl->getLinkTarget($this, "confirmCancelBooking")."'>"
-						. $this->cancel_img."</a>";
+		$now = @date("Y-m-d");
+		if ($rec["type"] != "Selbstlernkurs" && $rec["absolute_cancel_deadline_date"] > $now) {
+			$rec["action"] = "<a href='".$this->ctrl->getLinkTarget($this, "confirmCancelBooking")."'>"
+							. $this->cancel_img."</a>";
+		}
+		else {
+			$rec["action"] = "";
+		}
 		$this->ctrl->setParameter($this, "usr_id", null);
 		$this->ctrl->setParameter($this, "crs_id", null);
 

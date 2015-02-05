@@ -402,6 +402,7 @@ class gevUserUtils {
 			array( gevSettings::CRS_AMD_START_DATE			=> "start_date"
 				 , gevSettings::CRS_AMD_END_DATE 			=> "end_date"
 				 , gevSettings::CRS_AMD_CANCEL_DEADLINE		=> "cancel_date"
+				 , gevSettings::CRS_AMD_ABSOLUTE_CANCEL_DEADLINE => "absolute_cancel_date"
 				 , gevSettings::CRS_AMD_SCHEDULED_FOR		=> "scheduled_for"
 				 //, gevSettings::CRS_AMD_ => "title"
 				 //, gevSettings::CRS_AMD_START_DATE => "status"
@@ -425,6 +426,9 @@ class gevUserUtils {
 			$booked_amd[$key]["cancel_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
 																			 , $value["cancel_date"]
 																			 );
+			$booked_amd[$key]["absolute_cancel_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
+																					  , $value["absolute_cancel_date"]
+																					  );
 			// TODO: Push this to SQL-Statement.
 			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
@@ -448,6 +452,9 @@ class gevUserUtils {
 			$waiting_amd[$key]["cancel_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
 																			  , $value["cancel_date"]
 																			  );
+			$waiting_amd[$key]["absolute_cancel_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
+																					   , $value["absolute_cancel_date"]
+																					   );
 			
 			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);

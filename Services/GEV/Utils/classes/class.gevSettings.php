@@ -93,6 +93,8 @@ class gevSettings {
 	const CRS_AMD_BOOKING_DEADLINE	= "crs_amd_booking_deadline";
 	// Absage Wartliste
 	const CRS_AMD_CANCEL_WAITING	= "crs_amd_cancel_waiting";
+	// harte Stornofrist
+	const CRS_AMD_ABSOLUTE_CANCEL_DEADLINE = "crs_amd_absolute_cancel_deadline";
 	
 	// Anbieter
 	const CRS_AMD_PROVIDER			= "crs_amd_provider";
@@ -427,7 +429,16 @@ class gevSettings {
 		  "il_crs_tutor_%"
 		);
 
-
+	// Will store the ref id of the orgu where the exited users should be put.
+	const ORG_UNIT_EXITED = "org_unit_exited";
+	
+	public function getOrgUnitExited() {
+		return $this->settings->get(self::ORG_UNIT_EXITED);
+	}
+	
+	public function setOrgUnitExited($a_ref_id) {
+		return $this->settings->set(self::ORG_UNIT_EXITED, $a_ref_id);
+	}
 
 	//OrgUnit Mappings (Personal OrgUnits)
 	
