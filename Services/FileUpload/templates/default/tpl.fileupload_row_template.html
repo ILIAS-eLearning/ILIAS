@@ -15,16 +15,16 @@
 		</tr>
 		{% if (o.canUpload) { %}
 		<tr class="ilFileUploadEntryOptions">
-			<td colspan="3" style="font-size:90%;">
+			<td colspan="3">
 				{% if (o.canExtract) { %}
 				<div class="ilFileUploadEntryExtract form-group">					
-					<label class="col-sm-3 control-label" style="padding-top:0;" for="extract_{%=o.id%}">{TXT_EXTRACT}</label>					
+					<label class="col-sm-3 control-label" for="extract_{%=o.id%}">{TXT_EXTRACT}</label>					
 					<div class="col-sm-9">
 						<input type="checkbox" id="extract_{%=o.id%}" name="extract_{%=o.id%}" value="false">
 					</div>
 				</div>
 				<div class="ilFileUploadEntryKeepStructure form-group">					
-					<label class="col-sm-3 control-label" style="padding-top:0;" for="keepstructure_{%=o.id%}">{TXT_KEEP_STRUCTURE}</label>					
+					<label class="col-sm-3 control-label" for="keepstructure_{%=o.id%}">{TXT_KEEP_STRUCTURE}</label>					
 					<div class="col-sm-9">
 						<input type="checkbox" id="keepstructure_{%=o.id%}" name="keepstructure_{%=o.id%}" value="true" checked>
 						<div class="help-block">{TXT_KEEP_STRUCTURE_INFO}</div>
@@ -32,13 +32,13 @@
 				</div>
 				{% } %}
 				<div class="ilFileUploadEntryTitle form-group">
-					<label class="col-sm-3 control-label" style="padding-top:0;" for="title_{%=o.id%}">{TXT_TITLE}</label>					
+					<label class="col-sm-3 control-label" for="title_{%=o.id%}">{TXT_TITLE}</label>					
 					<div class="col-sm-9">
 						<input type="text" class="form-control" size="40" id="title_{%=o.id%}" maxlength="128" name="title" value="{%=o.name%}">
 					</div>
 				</div>
 				<div  class="ilFileUploadEntryDescription form-group">
-					<label class="col-sm-3 control-label" style="padding-top:0;" for="desc_{%=o.id%}">{TXT_DESCRIPTION}</label>					
+					<label class="col-sm-3 control-label" for="desc_{%=o.id%}">{TXT_DESCRIPTION}</label>					
 					<div class="col-sm-9">
 						<textarea name="description" class="form-control" id="desc_{%=o.id%}" class="noRTEditor" wrap="virtual" rows="" style="width:90%;"></textarea>
 					</div>
