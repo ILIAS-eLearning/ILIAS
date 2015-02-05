@@ -45,6 +45,10 @@ class ilTrainingProgramme extends ActiveRecord {
                           );
 
     
+    // Defaults
+    const DEFAULT_POINTS = 100;
+    const DEFAULT_SUBTYPE = 0; // TODO: What should that be?
+    
     /**
      * @return string
      */
@@ -149,8 +153,8 @@ class ilTrainingProgramme extends ActiveRecord {
 
         $prg = new ilTrainingProgramme();
         $prg->setObjId($a_object->getId());
-        $prg->setLPMode(self::MODE_POINTS);
         $prg->setStatus(self::STATUS_DRAFT);
+        $prg->setLPMode(self::MODE_POINTS);
         $prg->setPoints(self::DEFAULT_POINTS);
         $prg->subtype_id = self::DEFAULT_SUBTYPE;
         $prg->create();

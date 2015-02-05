@@ -82,6 +82,7 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
+		parent::prepareOutput();
 
 		switch ($next_class) {
 			case "ilinfoscreengui":
@@ -109,6 +110,10 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 				break;
 			case false:
 				switch ($cmd) {
+					case "create":
+					case "save":
+						$this->$cmd();
+						break;
 					/*case '':
 					case 'view':
 					case 'render':
@@ -176,6 +181,27 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 				die("Can't forward to next class $next_class");
 		}
 	}
+	
+	protected function create() {
+		parent::createObject();
+	}
+	
+	protected function save() {
+		parent::saveObject();
+	}
+	
+	/**
+	 * Overwritten from ilObjectGUI since copy and import are not implemented.
+	 * 
+	 * @param string $a_new_type
+	 *
+	 * @return array
+	 */
+	protected function initCreationForms($a_new_type) {
+		return array( self::CFORM_NEW => $this->initCreateForm($a_new_type)
+					);
+	}
+
 }
 
 ?>
