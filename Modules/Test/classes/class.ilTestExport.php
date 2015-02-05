@@ -717,7 +717,7 @@ class ilTestExport
 						$pages++;
 					}
 				} else {
-					$resultsheet =& $workbook->addWorksheet($username);
+					$resultsheet =& $workbook->addWorksheet(utf8_decode($username));
 				}
 				if (method_exists($resultsheet, "writeString"))
 				{
