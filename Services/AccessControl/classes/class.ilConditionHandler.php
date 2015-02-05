@@ -432,7 +432,25 @@ class ilConditionHandler
 	*/
 	function getTriggerTypes()
 	{
+		global $objDefinition;
+		
 		$trigger_types =  array('crs','exc','tst','sahs', 'svy', 'lm');
+
+		foreach($objDefinition->getPlugins() as $p_type => $p_info)
+		{
+			if(@include_once $p_info['location'].'/class.ilObj'.$p_info['class_name'].'Access.php')
+			{
+				include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
+				$name = 'ilObj'.$p_info['class_name'].'Access';
+				$refection = new ReflectionClass($name);
+				if($refection->implementsInterface('ilConditionHandling'))
+				{
+					$trigger_types[] = $p_type;
+				}
+			}
+		}
+		
+		
 		$active_triggers = array();
 		foreach($trigger_types as $type)
 		{
@@ -441,6 +459,10 @@ class ilConditionHandler
 				$active_triggers[] = $type;
 			}
 		}
+		
+		
+		
+		
 		return $active_triggers;
 	}
 
@@ -464,6 +486,15 @@ class ilConditionHandler
 		$location = $objDefinition->getLocation($a_type);
 		$full_class = "ilObj".$class."Access";
 		include_once($location."/class.".$full_class.".php");
+		
+		include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
+		
+		$reflection = new ReflectionClass($full_class);
+		if(!$reflection->implementsInterface('ilConditionHandling'))
+		{
+			return array();
+		}
+		
 		
 		$operators = call_user_func(
 				array($full_class, 'getConditionOperators'),

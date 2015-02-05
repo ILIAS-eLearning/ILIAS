@@ -1140,5 +1140,22 @@ class ilObjectDefinition// extends ilSaxParser
 			: (int) $this->obj_data[$a_type]["default_pos"];
 	}
 	
+	/**
+	 * Get plugin object info
+	 * @return type
+	 */
+	public function getPlugins()
+	{
+		$plugins = array();
+		foreach((array) $this->obj_data as $type => $pl_data)
+		{
+			if($this->isPlugin($type))
+			{
+				$plugins[$type] = $pl_data;
+			}
+		}
+		return $plugins;
+	}
+	
 }
 ?>
