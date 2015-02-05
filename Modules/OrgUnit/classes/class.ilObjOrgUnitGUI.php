@@ -260,7 +260,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 					case 'performPaste':
 						$this->performPaste();
 						break;
-                    case 'paste':
+					case 'paste':
 						$this->performPaste();
 						break;
 					case 'performPasteIntoMultipleObjects':
@@ -477,9 +477,13 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$this->tabs_gui->addSubTab('edit_settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this, 'editSettings'));
 		$this->tabs_gui->addSubTab("edit_translations", $this->lng->txt("obj_multilinguality"), $this->ctrl->getLinkTargetByClass("iltranslationgui", "editTranslations"));
 
-		if ($this->object->getOrgUnitTypeId() && count($this->object->getOrgUnitType()->getAssignedAdvancedMDRecords(true))) {
-			$this->tabs_gui->addSubTab('edit_advanced_settings', $this->lng->txt('orgu_adv_settings'), $this->ctrl->getLinkTarget($this, 'editAdvancedSettings'));
+		$ilOrgUnitType = $this->object->getOrgUnitType();
+		if ($ilOrgUnitType instanceof ilOrgUnitType) {
+			if (count($ilOrgUnitType->getAssignedAdvancedMDRecords(true))) {
+				$this->tabs_gui->addSubTab('edit_advanced_settings', $this->lng->txt('orgu_adv_settings'), $this->ctrl->getLinkTarget($this, 'editAdvancedSettings'));
+			}
 		}
+
 		$this->tabs_gui->setSubTabActive($active_tab_id);
 		switch ($next_class) {
 			case 'iltranslationgui':
@@ -650,13 +654,16 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$ilCtrl->redirectByClass(array( "ilAdministrationGUI", "ilObjOrgUnitGUI" ), "view");
 	}
 
+
 	protected function getTreeSelectorGUI($cmd) {
 		global $tree;
 		$explorer = new ilOrgUnitExplorerGUI("rep_exp_sel", $this, "showPasteTree", $tree);
 		$explorer->setAjax(false);
 		$explorer->setSelectMode('nodes[]', false);
+
 		return $explorer;
 	}
+
 
 	/**
 	 * @param ilTabsGUI $tabs_gui
