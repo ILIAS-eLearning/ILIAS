@@ -4,14 +4,14 @@
 	<div id="sub_DAILY_1" style="padding-left: 40px;">
 		<hr/>
 		<label class="control-label" for="count_DAILY">{TXT_EVERY}</label>
-		<input type="text"
+		<label class="control-label">
+			<input type="text"
 			   class="form-control"
 			   name="count_DAILY"
 			   value="{COUNT_DAILY_VAL}"
 			   size="2"
 			   maxlength="3"
-			   style="text-align:right" />
-		{TXT_DAILY_FREQ_UNIT}
+			   style="text-align:right" /> {TXT_DAILY_FREQ_UNIT}</label>
 		<hr/>
 	</div>
 	<!-- END daily_block -->
@@ -135,13 +135,13 @@
 				   {UNTIL_COUNT_CHECKED}
 				   name="until_type"
 				   value="2" /> {TXT_UNTIL_CREATE}</label>
-		<input	class="form-control"
+		<label class="control-label"><input	class="form-control"
 			   type="text"
 			   size="2"
 			   maxlength="2"
 			   name="count"
 			   value="{VAL_COUNT}"
-			   onclick="ilUpdateSubTypeSelection('sub_until_radio_2');" /> {TXT_APPOINTMENTS}
+			   onclick="ilUpdateSubTypeSelection('sub_until_radio_2');" /> {TXT_APPOINTMENTS}</label>
 	</div>
 	<div id="sub_UNTIL_3" style="padding-left: 40px;">
 		<label class="control-label">
@@ -150,7 +150,8 @@
 				   type="radio"
 				   {UNTIL_END_CHECKED}
 				   name="until_type"
-				   value="3" /> {TXT_UNTIL_END} {UNTIL_END_DATE}</label> 
+				   value="3" /> {TXT_UNTIL_END}</label>
+		{UNTIL_END_DATE}
 	</div>
 	<!-- BEGIN until_fixed -->
 	<div id="sub_UNTIL_1" style="padding-left: 40px;">
