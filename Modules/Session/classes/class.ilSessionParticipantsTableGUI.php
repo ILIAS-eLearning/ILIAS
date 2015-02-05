@@ -227,12 +227,12 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         $this->addColumn('','f',"1");
 	 	$this->addColumn($this->lng->txt('name'),'name','20%');
 		$this->addColumn($this->lng->txt('login'),'login','10%');
-	 	$this->addColumn($this->lng->txt('trac_mark'),'mark');
-	 	$this->addColumn($this->lng->txt('trac_comment'),'comment');
 		if($this->isRegistrationEnabled())
 		{
 			$this->addColumn($this->lng->txt('event_tbl_registered'),'registered');
 		}
+	 	$this->addColumn($this->lng->txt('trac_mark'),'mark');
+	 	$this->addColumn($this->lng->txt('trac_comment'),'comment');
 		$this->addColumn($this->lng->txt('event_tbl_participated'),'participated');
 		$this->setRowTemplate("tpl.sess_members_row.html","Modules/Session");
 		if($this->isRegistrationEnabled())
