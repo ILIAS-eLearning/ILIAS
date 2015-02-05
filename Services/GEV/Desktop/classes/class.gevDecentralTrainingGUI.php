@@ -216,6 +216,7 @@ class gevDecentralTrainingGUI {
 		$form->setValuesByPost();
 		$suppress_mail = $form->getItemByPostVar("suppress_mails");
 		$suppress_mail->setChecked($mail_settings->getSuppressMails());
+		
 		if (!$form->checkInput()) {
 			return $this->showSettings($form);
 		}
@@ -437,7 +438,6 @@ class gevDecentralTrainingGUI {
 					, "suppress_mails" => $mail_settings->getSuppressMails()
 					);
 				$trainer_ids = $crs_utils->getTrainers();
-				// TODO: this needs to be true when first mail cronjob was run.
 				$no_changes_allowed = $crs_utils->mailCronJobDidRun();
 			}
 		}
@@ -457,6 +457,7 @@ class gevDecentralTrainingGUI {
 				$mail_settings = new gevCrsAdditionalMailSettings($a_training_id);
 				$training_info = array(
 					  "ltype" => $crs_utils->getType()
+					, "title" => $crs_utils->getTitle()
 					, "invitation_preview" => $crs_utils->getInvitationMailPreview()
 					, "suppress_mails" => $mail_settings->getSuppressMails()
 					);
@@ -465,10 +466,7 @@ class gevDecentralTrainingGUI {
 		}
 		
 		$title = new ilNonEditableValueGUI($this->lng->txt("title"), "", false);
-		if ($a_fill) {
-			$title->setValue($training_info["title"]);
-		}
-		$title->setDisabled($no_changes_allowed);
+		$title->setValue($training_info["title"]);
 		$form->addItem($title);
 		
 		$description = new ilTextAreaInputGUI($this->lng->txt("description"), "description");
@@ -479,10 +477,7 @@ class gevDecentralTrainingGUI {
 		$form->addItem($description);
 		
 		$ltype = new ilNonEditableValueGUI($this->lng->txt("gev_course_type"), "", false);
-		if ($a_fill) {
-			$ltype->setValue($training_info["ltype"]);
-		}
-		$ltype->setDisabled($no_changes_allowed);
+		$ltype->setValue($training_info["ltype"]);
 		$form->addItem($ltype);
 		
 		$date = new ilDateTimeInputGUI($this->lng->txt("date"), "date");
