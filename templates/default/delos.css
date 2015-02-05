@@ -9706,7 +9706,7 @@ td.chatroom {
 }
 /* Services/Container */
 div.il_Preconditions {
-  padding: 10px 0 10px 10px;
+  padding: 10px 0 0;
 }
 div.il_PreconditionsTitel {
   margin-top: 3px;
