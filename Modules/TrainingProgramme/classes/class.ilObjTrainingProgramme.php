@@ -2,7 +2,8 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Container/classes/class.ilContainer.php";
+require_once("./Services/Container/classes/class.ilContainer.php");
+require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgramme.php");
 
 /**
  * Class ilObjTrainingProgramme
@@ -42,6 +43,22 @@ class ilObjTrainingProgramme extends ilContainer {
 	}
 	
 	/**
+	 * Create new settings object.
+	 * Throws when settings are already loaded or id is null.
+	 */
+	protected function createSettings() {
+		if ($this->settings !== null) {
+			throw new ilException("ilObjTrainingProgramme::createSettings: already loaded.");
+		}
+		
+		$id = $this->getId();
+		if (!$id) {
+			throw new ilException("ilObjTrainingProgramme::loadSettings: no id.");
+		}
+		$this->settings = ilTrainingProgramme::createForObject($this);
+	}
+	
+	/**
 	 * Update settings in DB.
 	 * Throws when settings are not loaded.
 	 */
@@ -71,7 +88,7 @@ class ilObjTrainingProgramme extends ilContainer {
 
 	public function create() {
 		$id = parent::create();
-		$this->readSettings();
+		$this->createSettings();
 	}
 
 
