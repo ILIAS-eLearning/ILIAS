@@ -128,7 +128,163 @@ class ilTrainingProgramme extends ActiveRecord {
      * @con_is_notnull  true 
      */
     protected $status;
-     
+    
+    
+    /**
+     * Create new training program settings for an object.
+     *
+     * Throws when object is no program object.
+     *
+     * @throws ilException
+     */
+    static public function createForObject(ilObject $a_object) {
+        if ($a_object->getType() != "prg") {
+            throw new ilException("ilTrainingProgramme::createSettingsForObject: "
+                                 ."Object is no prg object.");
+        }
+        if(!$a_object->getId()) {
+            throw new ilException("ilTrainingProgramme::createSettingsForObject: "
+                                 ."Object has no id."); 
+        }
+
+        $prg = new ilTrainingProgramme();
+        $prg->setObjId($a_object->getId());
+        $prg->setLPMode(self::MODE_POINTS);
+        $prg->setStatus(self::STATUS_DRAFT);
+        $prg->setPoints(self::DEFAULT_POINTS);
+        $prg->subtype_id = self::DEFAULT_SUBTYPE;
+        $prg->create();
+        return $prg;
+    } 
+
+    
+    protected function setObjId($a_id) {
+        $this->obj_id = $a_id;
+    }
+
+    /**
+     * Get the id of the training program.
+     *
+     * @return integer
+     */
+    public function getObjId() {
+        return $this->obj_id;
+    } 
+
+    /**
+     * Get the timestamp of the last change on this program or a sub program.
+     *
+     * @return ilDateTime
+     */
+    public function getLastChange() {
+        return new ilDateTime($this->last_change, IL_CAL_DATE);
+    }
+
+    /**
+     * Update the last change timestamp to the current time.
+     */
+    protected function updateLastChange() {
+        $this->last_change = ilUtil::now(); 
+    } 
+
+    /**
+     * Set the last change timestamp to the given time.
+     * 
+     * Throws when given time is smaller then current timestamp
+     * since that is logically impossible.
+     */
+    public function setLastChange(ilDateTime $a_timestamp) {
+        if (ilDateTime::_before($a_timestamp, $this->getLastChange())) {
+            throw new ilException("ilTrainingProgramme::setLastChange: Given "
+                                 ."timestamp is before current timestamp. That "
+                                 ."is logically impossible.");
+        }
+    }
+
+    // TODO: setters and getters for subtype
+
+    /**
+     * Set the amount of points.
+     * 
+     * @param integer   $a_points   - larger than zero 
+     * @throws ilException 
+     */
+    public function setPoints($a_points) {
+        $a_points = (int)$a_points;
+        if ($a_points <= 0) {
+            throw new ilException("ilTrainingProgramme::setPoints: Points need to "
+                                 ."be larger than zero.");
+        }
+
+        $this->points = $a_points;
+        $this->updateLastChange();
+    } 
+
+    /**
+     * Get the amount of points
+     *
+     * @return integer  - larger than zero
+     */
+    public function getPoints() {
+        return $this->points;
+    }
+
+    /**
+     * Set the lp mode.
+     *
+     * Throws when program is not in draft status.
+     *
+     * @param integer $a_mode       - one of self::$MODES
+     */
+    public function setLPMode($a_mode) {
+        $a_mode = (int)$a_mode;
+        if ($this->getStatus() !== self::STATUS_DRAFT) {
+            throw new ilException("ilTrainingProgramme::setLPMode: Can't set "
+                                 ." lp mode when not in draft status.");
+        }
+        if (!in_array($a_mode, self::$MODES)) {
+            throw new ilException("ilTrainingProgramme::setLPMode: No lp mode: "
+                                 ."'$a_mode'");
+        }
+        $this->lp_mode = $a_mode;
+        $this->updateLastChange();
+    }
+
+    /**
+     * Get the lp mode.
+     *
+     * @return integer  - one of self::$MODES
+     */
+    public function getLPMode() {
+        return $this->lp_mode;
+    }
+
+    /**
+     * Set the status of the node.
+     *
+     * TODO: Should this throw, when one wants to go back in lifecycle? Maybe getting
+     * back to draft needs to be forbidden only?
+     *
+     * @param integer $a_status     - one of self::$STATUS
+     */
+    public function setStatus($a_status) {
+        $a_status = (int)$a_status;
+        if (!in_array($a_status, self::$STATUS)) {
+            throw new ilException("ilTrainingProgramme::setStatus: No lp mode: "
+                                 ."'$a_status'");
+        }
+        $this->status = $a_status;
+        $this->updateLastChange();
+    }
+
+    /**
+     * Get the status.
+     *
+     * @return integer  - one of self::$MODES
+     */
+    public function getStatus() {
+        return $this->status;
+    }
 }
 
 ?>
