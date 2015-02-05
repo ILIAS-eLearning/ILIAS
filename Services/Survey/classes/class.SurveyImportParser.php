@@ -575,7 +575,10 @@ class SurveyImportParser extends ilSaxParser
 					{
 						$question_id = $this->activequestion->getId();
 					}
-					$this->survey->addQuestion($question_id);		
+					if (is_object($this->survey)) // #15452
+					{
+						$this->survey->addQuestion($question_id);		
+					}
 					$this->questions[$this->original_question_id] = $question_id;					
 					$this->activequestion = NULL;
 				}
