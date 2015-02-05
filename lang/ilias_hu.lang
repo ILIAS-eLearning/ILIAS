@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 57619 2015-01-28 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 57853 2015-02-05 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -494,7 +494,8 @@ assessment#:#flashfile#:#Flash fájl
 assessment#:#forcejs_desc#:#Ha bejelölt, JavaScript output lesz választva tesztkérdésekhez, ha JavaScript output és visszavonuló megoldás létezik.
 assessment#:#forcejs_short#:#JavaScript kikényszerítése
 assessment#:#forcejs#:#JavaScript output kikényszerítése tesztkérdésekhez
-assessment#:#form_msg_area_missing_points#:#Adjon meg pontot minden területhez!
+assessment#:#form_msg_area_missing_points#:#Adjon meg pontot minden területhez.
+assessment#:#tst_reporting_date#:#Dátum
 assessment#:#gap_definition#:#Kitöltendő hely definíciója
 assessment#:#gap_selection#:#Kitöltendő hely kiválasztása
 assessment#:#gap#:#Kitöltendő hely
@@ -819,7 +820,7 @@ assessment#:#showinfo#:#Az összes teszttulajdonság megjelenítése
 assessment#:#showSuggestedSolution#:#Típus
 assessment#:#shuffle_answers#:#Kevert válaszok
 assessment#:#suggested_solution#:#Tartalom ismétlő összefoglaláshoz
-assessment#:#solution_hint#:#Megoldáshoz segítség
+assessment#:#solution_hint#:#Hozzárendelt tartalom ismétlő összefoglaláshoz
 assessment#:#solution_may_contain_keywords#:#A megoldás az alábbi kulcsszavak közül egyet tartalmazhat.
 assessment#:#solution_order#:#Megoldási sorrend
 assessment#:#solutionText#:#Szöveg
@@ -895,16 +896,15 @@ assessment#:#tst_eval_question_points#:#Eredményes teljesítéshez kérdésered
 assessment#:#tst_eval_results_by_pass#:#%s. tesztre adott válaszai
 assessment#:#tst_eval_show_answer#:#Válasz megjelenítése
 assessment#:#tst_eval_total_finished_average_time#:#Teszt átlagos kitöltési ideje
-assessment#:#tst_eval_total_finished#:#Összes befejezett teszt (azon felhasználók, aki a teszt befejezése gombbal küldték el a tesztet)
+assessment#:#tst_eval_total_finished#:#Összes befejezett teszt (azon felhasználók, aki  az összes tesztkitöltési lehetőségük elhasználták)
 assessment#:#tst_eval_total_passed_average_points#:#Sikeres tesztek átlagpontszámai
-assessment#:#tst_eval_total_passed_average_time#:#Sikeres tesztek átlagos kitöltési ideje (minden sikeres tesztet figyelembe véve)
+assessment#:#tst_eval_total_passed_average_time#:#Sikeres tesztek átlagos kitöltési ideje
 assessment#:#tst_eval_total_passed#:#Összes sikeres teszt
 assessment#:#tst_eval_total_persons#:#A tesztet elkezdő összes személy száma
 assessment#:#tst_eval_user_answer#:#Felhasználói válasz
 assessment#:#review_view#:#Áttekintés
 assessment#:#tst_finish_confirm_button#:#Igen, be szeretném fejezni a tesztet.
 assessment#:#tst_finish_confirm_cancel_button#:#Nem, menjen vissza az előző kérdéshez.
-assessment#:#tst_finish_confirm_list_of_answers_button#:#Nem, menjen vissza a válaszok listájához.
 assessment#:#tst_finish_confirmation_question#:#Ha befejezi ezt a tesztet, eléri az engedélyezett tesztkitöltések maximális számát. Nem fog tudni visszatérni a tesztbe, hogy megváltoztassa válaszait. Biztos, hogy be szeretné fejezni a tesztet?
 assessment#:#tst_finish_notification_advanced#:#Az összes teszteredmény küldése
 assessment#:#tst_finish_notification_content#:#E-mail tartalma
@@ -990,7 +990,7 @@ assessment#:#tst_participants_no#:#Még senki nem kezdte el a tesztet.
 assessment#:#tst_participating_users#:#Felhasználók
 assessment#:#tst_pass_best_pass#:#Legnagyobb elért pontszám számít
 assessment#:#tst_pass_best_pass_desc#:#Amennyiben többször töltheti ki egy résztvevő a tesztet, a legjobb eredményét vesszük figyelembe.
-assessment#:#tst_pass_details#:#Részletek megjelenítése
+assessment#:#tst_pass_details#:#Részletes eredmények
 assessment#:#tst_pass_last_pass#:#Utolsó kitöltés pontszáma számít
 assessment#:#tst_pass_last_pass_desc#:#Minden résztvevőnél a legutolsó tesztkitöltését vesszük figyelembe.
 assessment#:#tst_pass_scoring#:#Több kitöltés pontszáma számít
@@ -1032,7 +1032,7 @@ assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Kérdésmennyiség meghatároz
 assessment#:#tst_inp_quest_amount_per_test#:#Kérdések szám az egész tesztre nézve
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Kérdésmennyiség
 assessment#:#tst_question_amount#:#Kérdésmennyiség
-assessment#:#tst_question_title#:#Cím
+assessment#:#tst_question_title#:#Kérdéscím
 assessment#:#tst_qbt_filter_question_title#:#Kérdés címe
 assessment#:#tst_question_type#:#Kérdéstípus
 assessment#:#tst_question_unmark#:#Jelölés eltávolítása erről a kérdésről
@@ -1078,13 +1078,12 @@ assessment#:#tst_results_back_introduction#:#Vissza a bevezető üzenethez
 assessment#:#tst_results_back_overview#:#Vissza az eredmények áttekintéséhez
 assessment#:#tst_results_overview_pass#:#%s. teszt eredményeinek áttekintése
 assessment#:#tst_results_overview#:#Kitöltött teszt eredményeinek áttekintése
-assessment#:#tst_show_pass_details_desc#:#A teszteredmények összegzéséhez fűzzük a kérdéscímeket és minden kérdésre az elért pontszámot tartalmazó táblázatot.
-assessment#:#tst_show_solution_details_desc#:#Minden kérdésnél egy link jelenik meg, ami egy oldalra mutat, ahol a kérdés, a résztvevő válasza, a válasz értékelése (helyes/helytelen) és a válaszra kapott pontszám jelenik meg.
-assessment#:#tst_show_solution_printview_desc#:#Az összes kérdésből és az adott résztvevő válaszaiból egy áttekintés készül. Ez a felsorolás a tesztkitöltés végén, közvetlenül teszt beadása érhető el az 'Információ' fülön.
+assessment#:#tst_show_solution_details_desc#:#A 'Részletes teszteredmények táblázata' kiegészítéseként, minden kérdésnél egy link jelenik meg, ami egy oldalra mutat, ahol a kérdés, a résztvevő válasza, a válasz értékelése (helyes/helytelen) és a válaszra kapott pontszám jelenik meg.
+assessment#:#tst_show_solution_printview_desc#:#Az összes kérdésből és az adott résztvevő válaszaiból egy áttekintés készül. Ez a felsorolás az 'Információ' fülön érhető el.
 assessment#:#tst_show_solution_feedback_desc#:#Válaszfüggő visszajelzés jelenik meg a teszteredményeknél a kérdések mellett. Figyeljen arra, hogy ezen opció használatára akkor van lehetőség, ha bekapcsolta a 'Résztvevők pontozott válaszai'-t és a visszajelzés a kérdésekkel együtt készült az első helyen.###XXX
 assessment#:#tst_show_solution_answers_only_desc#:#Ha be van kapcsolva, a 'Tartalom szerkesztése' fülön a kérdéshez beállított tartalom nem jelenik meg nyomtatásban. Papír spórolása esetén válassza ezt az opciót. 
-assessment#:#tst_show_solution_signature_desc#:#Az aláírás helye megjelenik nyomtatott verzióban. Ennek a funkciónak a használatához ne felejtse bekapcsolni a 'Résztvevők pontozott válaszai'-t.
-assessment#:#tst_show_solution_suggested_desc#:#Ha az első helyen a teszt kérdéseihez ismétlő összefoglaló tartalom van hozzárendelve, akkor ez a tartalom megjelenik a 'Kérdésenkénti elért pontszámok' táblázatban. A résztvevők lehetőséget kapnak újratanulásra. Hogy hatásos legyen ez az opció, kapcsolja be a 'Hozzáférés a teszteredményekhez' fül alatt a 'Kérdésenkénti elért pontszámok' opciót.
+assessment#:#tst_show_solution_signature_desc#:#Az aláírás helye megjelenik nyomtatott verzióban. Ennek használatához ne felejtse bekapcsolni a 'Részletes teszteredmények táblázata' a funkciót.
+assessment#:#tst_show_solution_suggested_desc#:#Ha az első helyen a teszt kérdéseihez ismétlő összefoglaló tartalom van hozzárendelve, akkor ez megjelenik a 'Részletes teszteredmények táblázata' tartalmában. A résztvevők lehetőséget kapnak újratanulásra. Hogy hatásos legyen ez az opció, kapcsolja be a 'Hozzáférés a teszteredményekhez' fül alatt a 'Részletes teszteredmények táblázata' opciót.
 assessment#:#tst_results#:#Teszteredmények
 assessment#:#tst_resume_test#:#Teszt folytatása
 assessment#:#tst_score_cut_question#:#Minden kérdés esetén a negatív pontszám 0-ra állítása
@@ -1115,7 +1114,8 @@ assessment#:#tst_session_settings#:#Munkamenet-beállítások
 assessment#:#tst_show_answer_sheet#:#Válaszok megjelenítése
 assessment#:#tst_show_cancel_description#:#A résztvevő egy gomb megnyomásával felfüggeszthetik a teszt töltését, hogy később folytathassák azt. FIGYELEM: A teszt felfüggesztése nem állítja le az órát akkor sem, ha maximálisan elhasználható idő be lett állítva.
 assessment#:#tst_show_cancel#:#Teszt felfüggesztése
-assessment#:#tst_show_pass_details#:#Tesztkitöltési részletek megjelenítése futó teszthez
+assessment#:#tst_show_pass_details#:#Adott időpontban a 'Részletes teszteredmények táblázata' jelenjen meg az összes tesztkitöltéshez
+assessment#:#tst_show_pass_details_desc#:#A fent beállított időponttól az eredmények összesítését hozzáfűzzük: A 'Részletes teszteredmények táblázata' a kérdés címét és a résztvevő adott kitöltésben elért pontszámát mutatja.<br>A legutolsó lehetséges kitöltés ('Általános' menü 'Tesztkitöltések számának korlátja' beállítás) vagy a teszt zárása ('Általános' menü 'Záró időpont' beállítás) után másik táblázat jelenik meg.<br>'Részletes teszteredmények táblázata' tartalmával kapcsolatos további beállítások a 'Teszteredmények további tartamai' részben adható meg.
 assessment#:#tst_show_results#:#Teszteredmények megjelenítése
 assessment#:#tst_show_side_list#:#Kérdéslista megjelenítése oldalt
 assessment#:#tst_show_solution_answers_only#:#Eredmények nyomtatási előnézete (csak a válaszoké)
@@ -1237,7 +1237,7 @@ assessment#:#toplist_col_hints#:#Útmutatások
 assessment#:#toplist_col_wtime#:#Kidolgozási idő
 assessment#:#toplist_your_result#:#Az Ön helyezése
 assessment#:#tst_highscore_enabled#:#Rangsor
-assessment#:#tst_highscore_description#:#A résztvevőknek megjelenik a 'Rangsor megjelenítése' gomb az 'Információ' fülön. A gombra kattintva a résztvevők tesztben nyújtott teljesítményei láthatóak.
+assessment#:#tst_highscore_description#:#A résztvevőknek megjelenik a 'Rangsor megjelenítése' gomb az 'Információ' fülön. A gombra kattintva a résztvevők tesztben nyújtott teljesítményei láthatóak. Eléréséhez a 'Hozzáférés a teszteredményekhez' funkciót engedélyezni kell.
 assessment#:#tst_highscore_anon#:#Nevek nélkül
 assessment#:#tst_highscore_anon_description#:#A rangsor résztvevőket azok nevei nélkül sorolja fel. Névtelen tesztkitöltés esetén is ez történik.
 assessment#:#tst_highscore_achieved_ts#:#Időpont
@@ -1267,7 +1267,7 @@ assessment#:#tst_question_set_type_fixed#:#Előre meghatározott kérdések
 assessment#:#tst_question_set_type_fixed_desc#:#Minden résztvevő ugyanazokat a kérdéseket kapja.
 assessment#:#tst_question_set_type_random#:#Véletlenszerű kérdések
 assessment#:#tst_question_set_type_random_desc#:#Minden résztvevő más-más kérdéseket kap. A kérdések véletlenszerűen kerülnek kiválasztásra egy vagy több kérdésgyűjteményekből.
-assessment#:#tst_question_set_type_dynamic#:#'Kartotéklapos doboz' - egy kérdésgyűjtemény összes kérdése
+assessment#:#tst_question_set_type_dynamic#:#Kérdésfolyam - egy kérdésgyűjtemény összes kérdése
 assessment#:#tst_question_set_type_dynamic_desc#:#Minden résztvevő egy előre kiválasztott kérdésgyűjtemény kérdéseit kapja meg. A hibásan megválaszolt kérdések újra megjelennek. A már futó teszthez új kérdés adható, illetve a már hozzárendelt kérdések módosíthatóak.
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Hamarosan megváltoztatja a teszt módját: <b>%s</b> -> <b>%s</b>, annak ellenére, hogy ehhez teszt módhoz a kérdése/kérdésgyűjtemények beállítása már megtörtént.<br/>A jelenlegi beállítások elvesznek.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Folyamatos kérdéskiválasztás módosult.
@@ -1564,7 +1564,7 @@ certificate#:#certificate_ph_markshort#:#A felhasználó érdemjegye (rövid vá
 certificate#:#certificate_ph_maxpoints#:#Maximálisan elérhető pontszám
 certificate#:#certificate_ph_passed#:#'Sikeresen teljesítette' vagy 'Nem teljesítette', a teszteredményektől függően
 certificate#:#certificate_ph_resultpercent#:#A felhasználó által elért százalékos eredmény
-certificate#:#certificate_ph_resultpoints#:#A felhasználó által elért pontszám
+certificate#:#certificate_ph_resultpoints#:#Felhasználó pontszáma
 certificate#:#certificate_ph_salutation#:#Megszólítás
 certificate#:#certificate_ph_scormpoints#:#A SCORM-tananyag pontjai százalékban
 certificate#:#certificate_ph_scormtitle#:#A SCORM-tananyag címe
@@ -2606,8 +2606,8 @@ common#:#forum#:#Fórum
 common#:#forums_anonymized#:#Anonimizált fórum
 common#:#forums_anonymous#:#anonym
 common#:#forums_articles#:#Hozzászólások
-common#:#forums_disable_forum_notification#:#Értesítés lemondása
-common#:#forums_enable_forum_notification#:#Értesítés kérése
+common#:#forums_disable_forum_notification#:#Értesítés lemondása ehhez a fórumhoz
+common#:#forums_enable_forum_notification#:#Értesítés kérése ehhez a fórumhoz
 common#:#forums_forum_notification_enabled#:#Értesítést fog kapni, ha új hozzászólás keletkezik ebben a fórumban.
 common#:#forums_last_post#:#Utolsó hozzászólás
 common#:#forums_moderators#:#Moderátorok
@@ -6608,7 +6608,7 @@ feed#:#feed_proxy_port_info#:#Proxyport socket kapcsolódáshoz
 feed#:#feed_proxy_port#:#Proxy portja
 feed#:#feed_proxy#:#Proxy kiszolgálója
 feed#:#feed_settings#:#Külső webhírforrások beállításai
-file#:#file_new_version_info#:#Új fájlverzió létrehozása. A régebbi változatok nem módosulnak.
+file#:#file_new_version_info#:#Új fájlverzió létrehozása. A korábbi változatok nem módosulnak.
 file#:#file_new_version#:#Új verzió létrehozása
 file#:#replace_file_info#:#Minden korábbi fájlverzió törlésre kerül.
 form#:#form_days#:#Nap
@@ -6659,18 +6659,18 @@ forum#:#forums_count_thr#:#Témák száma
 forum#:#forums_count#:#Fórumok száma
 forum#:#forums_created_by#:#Létrehozta
 forum#:#forums_delete_file#:#Melléklet törlése
-forum#:#forums_disable_notification#:#Értesítés letiltása ehhez a témához
+forum#:#forums_disable_notification#:#Értesítés lemondása ehhez a témához
 forum#:#forums_download_attachment#:#Fájl letöltése
 forum#:#forums_edit_post#:#Hozzászólás szerkesztése
-forum#:#forums_enable_notification#:#Értesítés engedélyezése ehhez a témához
+forum#:#forums_enable_notification#:#Értesítés kérése ehhez a témához
 forum#:#forums_info_censor_post#:#Biztos, hogy elrejti ezt a hozzászólást?
 forum#:#forums_info_censor2_post#:#Cenzúrázás visszavonása?
 forum#:#forums_info_delete_post#:#Biztos, hogy törli ezt a hozzászólást a válaszokkal együtt?
 forum#:#forums_mark_read#:#Összes megjelölése olvasottként
 forum#:#forums_new_thread#:#Új téma
 forum#:#forums_no_posts_available#:#Ennek a témának nincsenek még hozzászólásai, vagy a moderátor kikapcsolta az első hozzászólást.
-forum#:#forums_notification_disabled#:#Értesítés letiltása
-forum#:#forums_notification_enabled#:#Értesítés engedélyezve
+forum#:#forums_notification_disabled#:#Értesítés kikapcsolva
+forum#:#forums_notification_enabled#:#Értesítés bekapcsolva
 forum#:#forums_notification_intro#:#Ezt a levelet automatikusan küldte Önnek az ILIAS %s: %s
 forum#:#forums_notification_show_post#:#Link a hozzászólásra: %s
 forum#:#forums_notification_subject#:#Új hozzászólás fórumban:
@@ -11792,7 +11792,7 @@ scormdebug#:#show_all_API-calls#:#API-hívások megjelenítése.
 scormdebug#:#log_for#:#Log a tananyagmodulhoz
 scormdebug#:#started#:#elindítva
 scormdebug#:#nr_session#:#munkamenet száma
-scormdebug#:#id_learning_module#:#tananyagmodul ID-je
+scormdebug#:#id_learning_module#:#Tananyagmodul ID-je
 scormdebug#:#sent_values_not_checked#:#kiválasztott tulajdonság: az SCO által elküldött értékek nem ellenőrzöttek teljes mértékben
 scormdebug#:#SCO-title#:#SCO-cím
 scormdebug#:#SCO-name#:#SCO-név
@@ -11963,7 +11963,7 @@ chatroom#:#hint_unique_name#:#Az ILIAS és a csevegőszerver által használt n�
 chatroom#:#enable_smilies#:#Hangulatjelek engedélyezése
 chatroom#:#hint_enable_smilies#:#Ha be van kapcsolva, a konfigurált szövegszekvenciák ikonra lesznek lecserélve. Lásd a hangulatjelek fület a konfigurációhoz.
 chatroom#:#display_past_msgs#:#Elküldött üzenetek száma
-chatroom#:#hint_display_past_msgs#:#A szobába belépéskor megjelenítendő elküldött üzenetek száma. A '0' érték letiltja ezt a funkciót.
+chatroom#:#hint_display_past_msgs#:#A szobába belépéskor megjelenítendő korábbi üzenetek száma. A '0' érték kikapcsolja ezt a funkciót.
 chatroom#:#speak_to#:#Beszélgetés hozzás: <b>#user#</b>
 chatroom#:#whisper_to#:#Suttogás hozzá: <b>#user#</b>
 chatroom_adm#:#chat_cannot_connect_to_server#:#Az ILIAS nem tud socket kapcsolatot felépíteni a csevegőszerverhez.
@@ -12164,8 +12164,8 @@ ecs#:#ecs_node_mapping_status_1#:#A teljes fa leképezése
 ecs#:#ecs_node_mapping_status_2#:#Kézi leképezés
 ecs#:#ecs_node_mapping_status_3#:#Nem leképezett
 ecs#:#ecs_confirm_delete_tree#:#Biztos, hogy törli ennek a campus-menedzsment fának minden hozzárendelését?
-ecs#:#ecs_cms_tree_deleted#:#A campus-menedzsment fa hozzárendeléseit sikeresen törölte.
-ecs#:#ecs_cms_id#:#Gyökér ID a campus-menedzsment rendszerben
+ecs#:#ecs_cms_tree_deleted#:#A campusmenedzsment-fa hozzárendeléseit sikeresen törölte.
+ecs#:#ecs_cms_id#:#Gyökér-ID a campusmenedzsment-rendszerben
 ecs#:#ecs_title_updates#:#Átvitelcím frissítések
 ecs#:#ecs_tree_updates#:#Átvitelfa frissítések
 ecs#:#ecs_position_updates#:#Átvitelhely frissítések
@@ -12391,7 +12391,7 @@ rbac#:#trac_write#:#A felhasználó módosíthatja a Rendszerbeállítások » S
 common#:#obj_dcl#:#Adatgyűjtés
 common#:#objs_dcl#:#Adatgyűjtések
 common#:#obj_dcl_dupliate#:#Adatgyűjtés másolása
-dcl#:#dcl_record#:#Rekord
+dcl#:#dcl_record#:#Bejegyzés
 dcl#:#dcl_hello#:#Tisztelt
 dcl#:#dcl_new#:#Új adatgyűjtés létrehozása
 dcl#:#dcl_add#:#Adatgyűjtés létrehozása
@@ -12535,11 +12535,11 @@ poll#:#poll_block_message_already_voted#:#Már szavazott ebben a szavazásban.
 poll#:#poll_block_message_no_answers#:#Ez a szavazás még nem készült el teljesen.
 survey#:#svy_neutral_answer#:#Szöveg semleges válaszhoz ('Nem meghatározott', 'Nem tudom' stb.)
 dcl#:#dcl_edit_type#:#Típus szerkesztése
-dcl#:#dcl_activate_rating#:#Értékelési rekord bekapcsolása
-dcl#:#dcl_activate_approval#:#Rekord jóváhagyásának bekapcsolása
+dcl#:#dcl_activate_rating#:#Értékelési bejegyzés bekapcsolása
+dcl#:#dcl_activate_approval#:#Bejegyzés jóváhagyásának bekapcsolása
 dcl#:#dcl_activate_notification#:#Értesítés bekapcsolása
 dcl#:#dcl_table_id#:#Tábla ID
-dcl#:#dcl_add_new_record#:#Új rekord létrehozása
+dcl#:#dcl_add_new_record#:#Új bejegyzés létrehozása
 dcl#:#dcl_list_fields#:#Mezők
 dcl#:#dcl_record_view_viewdefinition#:#Nézetsablon megtekintése
 dcl#:#dcl_record_edit_viewdefinition#:#Nézetsablon szerkesztése
@@ -12549,7 +12549,7 @@ dcl#:#dcl_add_new_table#:#Új tábla létrehozása
 dcl#:#dcl_field_datatype#:#Adattípus
 dcl#:#dcl_required#:#Kötelező (NOT NULL)
 dcl#:#dcl_edit_type_non#:#Nem szerkeszthető
-dcl#:#dcl_edit_type_non_info#:#Új rekordok létrehozásához szerkesztési jog szükséges
+dcl#:#dcl_edit_type_non_info#:#Új bejegyzések létrehozásához szerkesztési jog szükséges
 dcl#:#dcl_edit_type_unlim#:#Korlátlan
 dcl#:#dcl_edit_type_unlim_info#:#Az olvasási/szerkesztési joggal rendelkező felhasználók vehetnek fel/szerkeszthetnek új bejegyzéseket
 dcl#:#dcl_edit_type_lim#:#Korlátozott
@@ -12582,7 +12582,7 @@ dcl#:#dcl_wrong_length#:#Az Ön által megadott szöveg túl hosszú.
 dcl#:#dcl_wrong_regex#:#Az Ön által megadott szöveg nem illeszkedik ennek a mezőnek a specifikációjához (reguláris kifejezéshez).
 dcl#:#dcl_wrong_input_type#:#Az Ön által megadott érték nem illeszkedik a specifikációhoz (rossz típus).
 dcl#:#dcl_unique#:#Egyedi
-dcl#:#dcl_unique_exception#:#Az Ön által megadott értéket már tartalmazza másik rekord.
+dcl#:#dcl_unique_exception#:#Az Ön által megadott értéket már másik bejegyzés tartalmazza.
 dcl#:#dcl_unknown_exception#:#Az Ön által megadott érték nem érvényes.
 dcl#:#dcl_checked#:#Kipipált
 dcl#:#dcl_not_checked#:#Nem kipipált
@@ -12741,14 +12741,14 @@ administration#:#adm_social_bm_edit#:#Szociális könyvjelző szerkesztése
 dcl#:#dcl_actions#:#Cselekmény
 dcl#:#dcl_export_table_excel#:#Exportálás Excel (.xls) fájlba
 dcl#:#dcl_no_exportable_fields_or_no_data#:#Nincs exportálható mező vagy adat
-dcl#:#dcl_owner_editable#:#Csak saját rekordok szerkesztése
+dcl#:#dcl_owner_editable#:#Csak saját bejegyzések szerkesztése
 dcl#:#dcl_order#:#Sorrend
 dcl#:#dcl_title#:#Mező címe
 dcl#:#dcl_description#:#Mező leírása
 dcl#:#dcl_msg_table_created#:#Tábla létrejött
 dcl#:#dcl_save#:#Tábla mentése
-dcl#:#dcl_record_deleted#:#Rekordot sikeresen törölte
-dcl#:#dcl_confirm_delete_record#:#Biztos, hogy törli ezt a rekordot?
+dcl#:#dcl_record_deleted#:#Bejegyzést sikeresen törölte
+dcl#:#dcl_confirm_delete_record#:#Biztos, hogy törli ezt a bejegyzést?
 content#:#cont_resources_of_type#:#Típus forrásai
 content#:#cont_element_refers_removed_itgr#:#Ez a tartalomelem olyan objektumcsoportra hivatkozik, amelyet időközben eltávolítottak.
 common#:#search_globally#:#Globálisan
@@ -12799,10 +12799,10 @@ ecs#:#ecs_grp_export_obj_settings#:#Csoportkiadás beállításai
 ecs#:#ecs_grp_export_disabled#:#Ne legyen kiadva ez a csoport
 ecs#:#ecs_grp_export_enabled#:#Ezen csoport kiadása
 rgrp#:#rgrp_call#:#ECS csoport hívása
-dcl#:#dcl_edit_record#:#Rekord szerkesztése
-dcl#:#dcl_update_record#:#Rekord módosítása
-dcl#:#dcl_edit_field#:#Mező szerkesztése
-dcl#:#dcl_update_field#:#Mező módosítása
+dcl#:#dcl_edit_record#:#Bejegyzés módosítása
+dcl#:#dcl_update_record#:#Bejegyzés módosítása
+dcl#:#dcl_edit_field#:#Mező módosítása
+dcl#:#dcl_update_field#:#Mező frissítése
 dcl#:#dcl_create_field#:#Mező létrehozása
 dcl#:#dcl_msg_field_modified#:#Mezőt sikeresen módosította
 common#:#obj_tstv#:#Teszt tanúsítványa
@@ -12820,9 +12820,9 @@ dcl#:#dcl_change_notification_subject#:#'%s' adatgyűjtés megváltozott
 dcl#:#dcl_edit_notification#:#E-mail értesítés módosításról
 dcl#:#dcl_edit_notification_info#:#Értesítést küldünk, ha bármelyik táblát módosítják
 dcl#:#dcl_change_notification_link#:#URL
-dcl#:#dcl_change_notification_dcl_new_record#:#ezúton tájékoztatjuk, hogy az alábbi rekord jöttek létre
-dcl#:#dcl_change_notification_dcl_update_record#:#ezúton tájékoztatjuk, hogy az alábbi rekord változtak meg
-dcl#:#dcl_change_notification_dcl_delete_record#:#ezúton tájékoztatjuk, hogy az alábbi rekord törlődtek
+dcl#:#dcl_change_notification_dcl_new_record#:#ezúton tájékoztatjuk, hogy az alábbi bejegyzés létrejött
+dcl#:#dcl_change_notification_dcl_update_record#:#ezúton tájékoztatjuk, hogy az alábbi bejegyzés megváltozott
+dcl#:#dcl_change_notification_dcl_delete_record#:#ezúton tájékoztatjuk, hogy az alábbi bejegyzést töröltük
 dcl#:#dcl_change_why_you_receive_this_email#:#Ezt az üzenetet azért küldtük, mert bekapcsolta az értesítést erre az adatgyűjtésre.
 dcl#:#dcl_table#:#Tábla
 dcl#:#dcl_changed_by#:#Módosította
@@ -12837,7 +12837,7 @@ dcl#:#dcl_edit_perm#:#A felhasználó szerkeszthet rekordokat
 dcl#:#dcl_delete_perm#:#A felhasználó törölhet rekordokat
 dcl#:#dcl_edit_by_owner#:#Csak saját rekordok szerkesztése/törlése
 dcl#:#dcl_limited#:#Korlátozott létrehozási/szerkesztési/törlési időszak
-dcl#:#dcl_record_id#:#Rekord ID
+dcl#:#dcl_record_id#:#Bejegyzés ID
 dcl#:#dcl_limit_start#:#Kezdő időpont
 dcl#:#dcl_limit_end#:#Záró időpont
 dcl#:#dcl_url#:#URL
@@ -12954,7 +12954,7 @@ dcl#:#dcl_deactivate_view#:#Nézet kikapcsolása
 dcl#:#dcl_confirm_delete_field#:#Biztos, hogy törli ezt a mezőt?
 dcl#:#dcl_table_info_title#:#Információ
 dcl#:#dcl_confirm_delete_view_title#:#Biztos, hogy törli ezt a nézetet?
-dcl#:#dcl_confirm_delete_view_text#:#A tábla rekordjainak nézetsablonját véglegesen eltávolítja, de a tábla rekordjai és a mezői nem módosulnak.
+dcl#:#dcl_confirm_delete_view_text#:#A tábla bejegyzéseinek nézetsablonját véglegesen eltávolítja, de a tábla rekordjai és a mezői nem módosulnak.
 dcl#:#dcl_empty_view_success#:#A nézetsablont sikeresen törölte.
 dcl#:#dcl_permissions_form#:#Felhasználói műveletek
 rating#:#rating_number_votes#:#%s értékelés
@@ -13224,35 +13224,35 @@ dcl#:#dcl_please_select#:#--- Válasszon ---
 dcl#:#dcl_asc#:#Növekvő sorrend (NÖV)
 dcl#:#dcl_desc#:#Csökkenő sorrend (CSÖKK)
 dcl#:#dcl_comments#:#Megjegyzések
-dcl#:#dcl_comments_description#:#Megjegyzések számának megjelenítése a rekordhoz.
+dcl#:#dcl_comments_description#:#Megjegyzések számának megjelenítése a bejegyzéshez.
 dcl#:#dcl_confirm_delete_fields#:#Biztos, hogy törli ezeket a mezőket?
 dcl#:#dcl_msg_fields_deleted#:#Törölt mezők
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#A belső azonosító (internal ID).
 dcl#:#dcl_creation_date#:#Létrehozás dátuma
-dcl#:#dcl_creation_date_description#:#A rekord létrehozásának dátuma.
+dcl#:#dcl_creation_date_description#:#A bejegyzés létrehozásának dátuma.
 dcl#:#dcl_last_update#:#Utolsó módosítás dátuma
 dcl#:#dcl_last_update_description#:#Az a dátum, amikor a rekordot utoljára módosították.
 dcl#:#dcl_owner#:#Tulajdonos
-dcl#:#dcl_owner_description#:#Az a felhasználó, aki a rekord tulajdonosa.
+dcl#:#dcl_owner_description#:#Az a felhasználó, aki a bejegyzés tulajdonosa.
 dcl#:#dcl_last_edited_by#:#Utoljára módosította
-dcl#:#dcl_last_edited_by_description#:#Az a felhasználó, aki utoljára módosította a rekordot.
+dcl#:#dcl_last_edited_by_description#:#Az a felhasználó, aki utoljára módosította a bejegyzést.
 dcl#:#dcl_public_comments#:#Nyilvános megjegyzések engedélyezése
 dcl#:#dcl_default_sort_field#:#Alapértelmezett rendezési mező
 dcl#:#dcl_default_sort_field_order#:#Alapértelmezett rendezés
-dcl#:#dcl_prev_record#:#Előző rekord
-dcl#:#dcl_next_record#:#Következő rekord
+dcl#:#dcl_prev_record#:#Előző bejegyzés
+dcl#:#dcl_next_record#:#Következő bejegyzés
 dcl#:#dcl_record_from_total#:#%d / %d
-dcl#:#dcl_view_own_records_perm#:#Csak a saját rekordok megjelenítése
-dcl#:#dcl_msg_no_perm_view#:#Nincs jogosultsága a rekord megtekintéséhez
-dcl#:#dcl_msg_no_perm_edit#:#Nincs jogosultsága a rekord szerkesztéséhez
+dcl#:#dcl_view_own_records_perm#:#Csak a saját bejegyzések megjelenítése
+dcl#:#dcl_msg_no_perm_view#:#Nincs jogosultsága a bejegyzés megtekintéséhez
+dcl#:#dcl_msg_no_perm_edit#:#Nincs jogosultsága a bejegyzés szerkesztéséhez
 dcl#:#dcl_delete_fields#:#Mezők törlése
 dcl#:#dcl_link_detail_page#:#Link a nézetsablon oldalra
 dcl#:#dcl_manage#:#Kezelése
-dcl#:#dcl_delete_records#:#Rekordok törlése
-dcl#:#dcl_confirm_delete_records#:#Biztos, hogy törli az alábbi rekordokat?
-dcl#:#dcl_deleted_records#:#Sikeresen törölt %s rekordot
-dcl#:#dcl_skipped_delete_records#:#%s rekordot nem sikerült törölni jogosultsági beállítások miatt
+dcl#:#dcl_delete_records#:#Bejegyzések törlése
+dcl#:#dcl_confirm_delete_records#:#Biztos, hogy törli az alábbi bejegyzéseket?
+dcl#:#dcl_deleted_records#:#Sikeresen törölt %s bejegyzéseket
+dcl#:#dcl_skipped_delete_records#:#%s bejegyzéseket nem sikerült törölni jogosultsági beállítások miatt
 common#:#obj_bibl#:#Bibliográfia
 common#:#objs_bibl#:#Bibliográfiák
 common#:#obj_bibs#:#Bibliográfia
@@ -13539,8 +13539,8 @@ assessment#:#tst_imap_qst_mode_mc#:#Többválaszos kérdés (jelölőnégyzetes)
 assessment#:#tst_test_execution#:#Teszt futtatása
 assessment#:#redirect_after_finishing_tst#:#Átirányítás
 assessment#:#redirect_after_finishing_tst_desc#:#A teszt befejezése után az összes résztvevő automatikus átirányítása a megadott oldalra, amennyiben nincs hozzáférése a teszteredményéhez.
-assessment#:#redirect_none#:#Nincs átirányítás
 assessment#:#redirect_after_finishing_rule#:#Átirányítás
+assessment#:#redirect_none#:#Nincs átirányítás
 assessment#:#redirect_in_kiosk_mode#:#csak akkor, ha a vizsganézet be van kapcsolva
 assessment#:#redirect_always#:#mindig a megadott URL-re
 assessment#:#redirection_url#:#URL
@@ -13600,8 +13600,8 @@ cld#:#cld_folder_created#:#Mappa létrejött
 cld#:#cld_folder_creation_failed#:#Mappa létrehozása sikertelen
 cld#:#cld_folder_name#:#Mappa neve
 cld#:#cld_folder_not_existing_on_service#:#Mappa nem létezik a szolgáltatásban:
-cld#:#cld_id_already_exists_in_file_tree_in_session#:#Id már létezik a munkamenet fájl-faszerkezetében:
-cld#:#cld_id_does_not_exist_in_file_tree_in_session#:#Id nem létezik a munkamenet fájl-faszerkezetében:
+cld#:#cld_id_already_exists_in_file_tree_in_session#:#ID már létezik a munkamenet fájl-faszerkezetében:
+cld#:#cld_id_does_not_exist_in_file_tree_in_session#:#ID nem létezik a munkamenet fájl-faszerkezetében:
 cld#:#cld_info_add_file_to_current_directory#:#Fájl hozzáadása az aktuális könyvtárhoz
 cld#:#cld_info_add_folder_to_current_directory#:#Mappa hozzáadása az aktuális könyvtárhoz
 cld#:#cld_invalid_input#:#Érvénytelen input
@@ -13627,7 +13627,8 @@ cld#:#cld_upload_files#:#Fájlok feltöltése
 cld#:#service_specific_settings#:#Specifikus beállítások
 common#:#obj_cld#:#Felhőobjektum
 common#:#objs_cld#:#Felhőobjektumok
-assessment#:#tst_show_solution_compare#:#A válaszok felsorolásában a legjobb megoldás megjelenítése
+assessment#:#tst_show_solution_compare#:#Legjobb megoldás megjelenítése a 'Részletes teszteredmények'-ben
+assessment#:#tst_show_solution_compare_desc#:#A résztvevők összehasonlíthatják saját megoldásikat a legjobb megoldással. Ez az 'Információs' fülön lévő 'Teszteredmények megjelenítése' linkkel elérhető 'Részletes teszteredmények'-ben jelenik meg, a nyomtatható 'Válaszok felsorolása' részben viszont nem.
 assessment#:#tst_header_participant#:#Az Ön Válasza:
 assessment#:#tst_header_solution#:#Legjobb megoldás:
 rbac#:#delete_files#:#Fájlok törlése
@@ -13810,7 +13811,7 @@ content#:#cont_verification_placehl#:#Tanúsítvány helyőrzők
 content#:#cont_ed_plachverification#:#Helyőrző tanúsítványok
 cld#:#cld_auth_failed_no_object_created#:#Hitelesítés sikertelen, Felhőobjektum nem jött létre.
 dcl#:#fieldtitle_allow_chars#:#Megengedett karakterek: %s
-dcl#:#add_value#:#Új rekord hozzáadása
+dcl#:#add_value#:#Új bejegyzés hozzáadása
 common#:#objs_orgu#:#Szervezeti egységek
 common#:#obj_orgu#:#Szervezeti egység
 orgu#:#view_learning_progress#:#Tanulási haladás megjelenítése
@@ -14195,29 +14196,29 @@ cptch#:#captcha_code_reload#:#Új kép betöltése
 cptch#:#captcha_audio_title#:#Audio Captcha. Kattintson a Captcha betűinek és karaktereinek lejátszásához.
 cptch#:#captcha_alt_txt#:#Ez egy vizuális Captcha. Audio Captcha-ért kattints a fülre.
 obj#:#obj_features#:#További tulajdonságok
-obj#:#obj_tool_setting_info_tab#:#Információ fül megjelenítése
-adve#:#char_selector_admin#:#Unicode karakterválasztás (TODO)
-adve#:#char_selector_user#:#Unicode karakterválasztás (TODO)
-adve#:#char_selector_test#:#Unicode karakterválasztás (TODO)
-adve#:#char_selector_inactive_admin#:#Inaktív (TODO)
-adve#:#char_selector_inherit_user#:#Örökítés (TODO)
-adve#:#char_selector_inherit_test#:#Örökítés (TODO)
-adve#:#char_selector_enabled_admin#:#Engedélyezve (TODO)
-adve#:#char_selector_enabled_user#:#Engedélyezve (TODO)
-adve#:#char_selector_enabled_test#:#Engedélyezve (TODO)
-adve#:#char_selector_disabled_admin#:#Tiltva (TODO)
-adve#:#char_selector_disabled_user#:#Tiltva (TODO)
-adve#:#char_selector_disabled_test#:#Tiltva (TODO)
-adve#:#char_selector_inactive_info_admin#:#Karakterválasztó kikapcsolása. Felhasználók és a tesztek nem írhatják felül ezt a beállítást.
-adve#:#char_selector_inherit_info_user#:#Platform beállítás használata.
-adve#:#char_selector_inherit_info_test#:#Platform vagy felhasználó-specifikus beállítás használata.
-adve#:#char_selector_enabled_info_admin#:#Karakterválasztó engedélyezése teszteknél és kérdésgyűjteményeknél. A felhasználók és a tesztek egyéni beállításokat használhatnak.
-adve#:#char_selector_enabled_info_user#:#Karakterválasztó engedélyezése teszteknél és kérdésgyűjteményeknél.
-adve#:#char_selector_enabled_info_test#:#Karakterválasztó engedélyezése teszteknél.
-adve#:#char_selector_disabled_info_admin#:#Karakterválasztó tiltása. A felhasználók és a tesztek egyéni beállításokat használhatnak.
-adve#:#char_selector_disabled_info_user#:#Karakterválasztó tiltása. A tesztek egyéni beállításokat használhatnak.
-adve#:#char_selector_disabled_info_test#:#Karakterválasztó tiltása teszteknél.
-adve#:#char_selector_blocks#:#Elérhető Unicode Blokkok
+obj#:#obj_tool_setting_info_tab#:#Információ fül
+adve#:#char_selector_admin#:#Unicode karakterválasztó (Ω gomb) megjelenítése tesztekben és kérdésgyűjteményekben
+adve#:#char_selector_user#:#Unicode karakterválasztó (Ω gomb) megjelenítése tesztekben
+adve#:#char_selector_test#:#Unicode karakterválasztó
+adve#:#char_selector_inherit_info_test#:#A globálisan rendszer- és az egyéni felhasználói beállítástól függően jelenik meg vagy marad rejtve az Unicode karakterválasztó.
+adve#:#char_selector_inherit_info_user#:#A rendszerbállítás globálisan, az egész rendszerre legyen érvényben.
+adve#:#char_selector_inherit_test#:#A globális rendszer-, illetve az egyéni felhasználói beállítás együtt hatnak.
+adve#:#char_selector_inherit_user#:#Globálisan beállítások használata
+adve#:#char_selector_disabled_admin#:#Unicode karakterválasztó csak akkor jelenik meg, ha be van kapcsolva
+adve#:#char_selector_disabled_info_admin#:#Az Unicode karakterválasztó tesztekben és kérdésgyűjteményekben engedélyezve van, de a felhasználó munkaasztal beállítása alatt vagy az adott tesztben, illetve kérdésgyűjteményeben be kell kapcsolniuk a felhasználóknak. A tesztbeállítások felülírják a a felhasználó beállításait.
+adve#:#char_selector_disabled_info_test#:#Az Unicode karakterválasztó ebben a tesztben - a felhasználó egyéni beállításaitól függetlenül - ki van kapcsolva.
+adve#:#char_selector_disabled_info_user#:#Tesztekben az Unicode karakterválasztó nem jelenik meg. Azonban a tesztek egyéni beállításaiban ez mégis kikényszeríthető.
+adve#:#char_selector_disabled_test#:#Unicode karakterválasztó ki van kapcsolva
+adve#:#char_selector_disabled_user#:#Unicode karakterválasztó kikapcsolása
+adve#:#char_selector_inactive_admin#:#Unicode karakterválasztó globális kikapcsolása
+adve#:#char_selector_inactive_info_admin#:#Unicode karakterválasztó globálisan, az egész rendszerre ki van kapcsolva. A felhasználók nem módosíthatják ezt a saját egyéni, a tesztek, illetve a kérdésgyűjtemények beállításaiban sem.
+adve#:#char_selector_enabled_admin#:#Unicode karakterválasztó alapértelmezetten be van kapcsolva
+adve#:#char_selector_enabled_info_admin#:#Az Unicode karakterválasztó a tesztekben és kérdésgyűjteményekben be van kapcsolva. Az alább összeválogatott Unicode karaktergyűjtemények jelennek meg. A felhasználók egyéni beállításokat hozhatnak létre a saját Munkaasztalunk beállításaiban, és a tesztek, illetve a kérdésgyűjtemények beállításaiban bekapcsolhatják azt.
+adve#:#char_selector_enabled_info_test#:#A felhasználók egyéni beállítástól függően jelenik meg az Unicode karakterválasztó. Speciális karakterek így bevihetőek.
+adve#:#char_selector_enabled_info_user#:#Tesztekben az Unicode karakterválasztó megjelenik. Ennek ellenére egyéni tesztbeállítások meggátolhatják ennek érvényre jutását, és nem jelenik meg az Unicode karakterválasztó. 
+adve#:#char_selector_enabled_test#:#Unicode karakterválasztó be van kapcsolva
+adve#:#char_selector_enabled_user#:#Unicode karakterválasztó bekapcsolása
+adve#:#char_selector_blocks#:#Elérhető Unicode karaktergyűjtemények
 adve#:#char_selector_blocks_info#:#A kiválasztott blokkok összes karaktere felsorolásra kerül, nem biztos, hogy jelen böngészőbetűk mindegyiket támogatják
 adve#:#char_selector_custom_items#:#Egyéni választó
 adve#:#char_selector_custom_items_info1#:#A kiválasztott blokkok előtt egyéni választó jelenik meg. Adja meg karaktereit a következő formában:
@@ -14231,7 +14232,7 @@ adve#:#char_selector_custom_items_info5a#:#U+00C0
 adve#:#char_selector_custom_items_info5b#:#Karakter Unicode jelöléssel is megadható (kis- és nagybetű között nincs különbség)
 adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
 adve#:#char_selector_custom_items_info6b#:#Tartományok Unicode jelöléssel
-adve#:#char_selector_unicode_all#:#Összes Unicode Blokk
+adve#:#char_selector_unicode_all#:#Összes Unicode karaktergyűjtemény
 adve#:#adve_char_selector_settings#:#Karakterválasztó
 common#:#scorm_login_as_learner_id#:#SCORM 2004: ILIAS felhasználónév, mint cmi.learner_id
 common#:#scorm_login_as_learner_id_info#:#Ha be van kapcsolva, Felhasználói ID helyett a felhasználónév lesz a cmi.learner_id.
@@ -14969,16 +14970,16 @@ registration#:#registration_codes_type_ext#:#Korlátozott felhasználói fiókok
 registration#:#registration_codes_type_ext_info#:#A kódot korlátozott felhasználói fiókok kiterjesztésére lehet felhasználni
 scormtrac#:#audio_captioning#:#learner_preference.audio_captioning
 scormtrac#:#audio_level#:#learner_preference.audio_level
-scormtrac#:#c_entry#:#entry
+scormtrac#:#c_entry#:#entry###XXX
 scormtrac#:#c_exit#:#exit
 scormtrac#:#c_language#:#learner_preference.language
 scormtrac#:#c_location#:#location
 scormtrac#:#c_max#:#score.max
 scormtrac#:#c_min#:#score.min
-scormtrac#:#c_mode#:#mode
+scormtrac#:#c_mode#:#mód
 scormtrac#:#c_raw#:#score.raw: archivált pontszám
 scormtrac#:#c_timestamp#:#Utolsó hozzáférés
-scormtrac#:#c_type#:#type
+scormtrac#:#c_type#:#Típus
 scormtrac#:#completion_status#:#completion_status
 scormtrac#:#completion_threshold#:#completion_threshold
 scormtrac#:#counter_all#:#összes felhasználó
@@ -14993,22 +14994,22 @@ scormtrac#:#credit#:#credit
 scormtrac#:#delivery_speed#:#learner_preference.delivery_speed
 scormtrac#:#exportselectedcore#:#A fejezetek (SCO) alapriportjai
 scormtrac#:#exportselectedinteractions#:#Interakciók alapriportjai
-scormtrac#:#id#:#Id
+scormtrac#:#id#:#ID
 scormtrac#:#interaction_description#:#Az interakció leírása
-scormtrac#:#interaction_id#:#Az interakció Id-je
+scormtrac#:#interaction_id#:#Az interakció ID-je
 scormtrac#:#interaction_value#:#Az interakció eredménye
 scormtrac#:#latency#:#latency: time
 scormtrac#:#latency_seconds#:#latency: időtartam másodpercben
 scormtrac#:#launch_data#:#launch_data: az SCO elején az adat
 scormtrac#:#learner_response#:#interactions.n.learner_response: Válasz
-scormtrac#:#lm_id#:#A tananyag Id-je
+scormtrac#:#lm_id#:#A tananyag ID-je
 scormtrac#:#lm_title#:#A tananyag címe
 scormtrac#:#progress_measure#:#progress_measure
 scormtrac#:#result#:#result
 scormtrac#:#scaled#:#score.scaled: pontszám archiválása tizedestörtként
 scormtrac#:#scaled_passing_score#:#scaled_passing_score: sikeres teljesítéshez szükséges pontszám archiválása tizedestörtként
-scormtrac#:#sco_marked_for_learning_progress#:#tanulási célkitűzéshez számít
-scormtrac#:#sco_title#:#a fejezet (SCO) címe 
+scormtrac#:#sco_marked_for_learning_progress#:#Tanulási célkitűzéshez számít
+scormtrac#:#sco_title#:#Fejezet / SCO címe 
 scormtrac#:#session_time#:#session_time: az utolsó munkamenet időtartama
 scormtrac#:#session_time_seconds#:#session_time: az utolsó munkamenet időtartama másodpercben
 scormtrac#:#success_status#:#success_status: sikeres
@@ -15018,7 +15019,7 @@ scormtrac#:#total_time_seconds#:#total_time: összes idő másodpercben
 scormtrac#:#tracinteractionitem#:#Interakciónkénti értékelés
 scormtrac#:#tracinteractionuser#:#Felhasználónkénti értékelés
 scormtrac#:#tracinteractionuseranswers#:#Felhasználók válaszai
-scormtrac#:#user_id#:#User-Id
+scormtrac#:#user_id#:#User-ID
 scormtrac#:#weighting#:#weighting
 scormtrac#:#report#:#Riport
 scormtrac#:#display_not_allowed#:#A megjelenítés nincs engedélyezve
@@ -15142,14 +15143,14 @@ scormtrac#:#startedSCOs#:#Elkezdett SCO-k száma
 scormtrac#:#completedSCOs#:#Teljesen befejezett SCO-k száma
 scormtrac#:#passedSCOs#:#Teljesített SCO-k száma
 scormtrac#:#roundedTotal_timeSeconds#:#Összes idő másodpercben (kerekítve)
-content#:#cont_tracking_modify#:#adat módosítása
-scormtrac#:#counter_i_correct#:#helyesen megválaszolt interakciók
+content#:#cont_tracking_modify#:#Adat módosítása
+scormtrac#:#counter_i_correct#:#Helyesen megválaszolt interakciók
 scormtrac#:#counter_i_correct_percent#:#Helyesen megválaszolt interakciók százaléka
 scormtrac#:#counter_i_incorrect#:#Helytelenül megválaszolt interakciók
 scormtrac#:#counter_i_incorrect_percent#:#Helytelenül megválaszolt interakciók százaléka
 scormtrac#:#counter_i_other#:#Sem helyesen sem helytelenül megválaszolt interakciók
 scormtrac#:#counter_i_other_percent#:#Sem helyesen sem helytelenül megválaszolt interakciók százaléka
-scormtrac#:#sco_id#:#Fejezet azonosítója (SCO)
+scormtrac#:#sco_id#:#Fejezet / SCO azonosítója
 scormtrac#:#lesson_status#:#Lecke állapota
 survey#:#svy_settings_section_before_start#:#Kérdőív kezdése előtti információ
 survey#:#svy_settings_section_access#:#Kérdőív felügyelete: Hozzáférés
@@ -15216,3 +15217,5 @@ scormtrac#:#exportselectedraw#:#CMI (RAW) adat
 scormtrac#:#lvalue#:#Kulcs
 scormtrac#:#rvalue#:#Érték
 scormtrac#:#identifierref#:#SCO-Azonosító
+dcl#:#dcl_online_info#:#Az adatgyűjtést csak online állapotában használhatják a felhasználók.
+dcl#:#dcl_notification_info#:#Az egyedi értesítési funkció engedélyezése a felhasználók számára.
