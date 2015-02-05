@@ -505,7 +505,7 @@ assessment#:#graphical_answers_hide#:#Hide Graphical Answer Support
 assessment#:#graphical_answers_show#:#Show Graphical Answer Support
 assessment#:#graphical_answers#:#Graphical Answer Support
 assessment#:#height#:#Height
-assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurence of the same solution will be scored.
+assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurrence of the same solution will be scored.
 assessment#:#identical_scoring#:#Identical Scoring
 assessment#:#imagemap_file#:#Image Map File
 assessment#:#imagemap_source#:#Image Map Source
@@ -820,7 +820,7 @@ assessment#:#showinfo#:#Show all Test Properties
 assessment#:#showSuggestedSolution#:#Type
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#suggested_solution#:#Content for Recapitulation
-assessment#:#solution_hint#:#Solution Hint
+assessment#:#solution_hint#:#Assigned Content for Recapitulation
 assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords
 assessment#:#solution_order#:#Solution Order
 assessment#:#solutionText#:#Text
@@ -990,7 +990,7 @@ assessment#:#tst_participants_no#:#Nobody has started the test right now!
 assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_pass_best_pass#:#Score the Best Pass
 assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible.
-assessment#:#tst_pass_details#:#Pass Details
+assessment#:#tst_pass_details#:#Detailed Results
 assessment#:#tst_pass_last_pass#:#Score the Last Pass
 assessment#:#tst_pass_last_pass_desc#:#The last pass of a participant will be scored.
 assessment#:#tst_pass_scoring#:#Scoring Multiple Passes
@@ -1032,7 +1032,7 @@ assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Define the amount of questions
 assessment#:#tst_inp_quest_amount_per_test#:#Number of Questions for the Whole Test
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount
 assessment#:#tst_question_amount#:#Question Amount
-assessment#:#tst_question_title#:#Title
+assessment#:#tst_question_title#:#Question Title
 assessment#:#tst_qbt_filter_question_title#:#Title of Question
 assessment#:#tst_question_type#:#Question Type
 assessment#:#tst_question_unmark#:#Remove the mark for this question
@@ -1079,7 +1079,7 @@ assessment#:#tst_results_back_overview#:#Back to Results Overview
 assessment#:#tst_results_overview_pass#:#Results Overview for Pass %s
 assessment#:#tst_results_overview#:#Pass Overview of the Test Results
 assessment#:#tst_show_solution_details_desc#:#As an add-on  to the 'Table of Detailed Test Results', the participant get a link to a page for each question. This linked page contains the question, the answer provided by the participant, information on whether this was the correct answer and points scored by this answer.
-assessment#:#tst_show_solution_printview_desc#:#An overview of all questions with the answers of the respective participant is generated. This list will be offered on the 'Info'-tab and at the end of a test prior to the final submission.
+assessment#:#tst_show_solution_printview_desc#:#An overview of all questions with the answers of the respective participant is generated. This list will be offered on the 'Info'-tab.
 assessment#:#tst_show_solution_feedback_desc#:#Feedback related to the answers provided by the participant is displayed. Please mind  that this option becomes effective only if you have activated 'Scored Answers of Participant'  and feedback was prepared along with the questions in the first place.
 assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option.
 assessment#:#tst_show_solution_signature_desc#:#The prepared printout version will contain a signature placeholder for the participant. Please mind to activate 'Table of Detailed Test Results' to use this functionality.
@@ -1237,9 +1237,9 @@ assessment#:#toplist_col_hints#:#Hints
 assessment#:#toplist_col_wtime#:#Working Time
 assessment#:#toplist_your_result#:#Your ranking
 assessment#:#tst_highscore_enabled#:#Ranking
-assessment#:#tst_highscore_description#:#On the 'Info'-tab participants are presented with a button 'Show Ranking'. On clicking it participants are presented with a league table on the performance in the test.
+assessment#:#tst_highscore_description#:#Participants are presented with a button 'Show Ranking' on the 'Info'-tab. On clicking it, participants are presented with a league table on their performance in the test. Additionally, you need to activate 'Access to Test Results' in order to use this functionality.
 assessment#:#tst_highscore_anon#:#Without Names
-assessment#:#tst_highscore_anon_description#:#Ranking is displayed without listing the names of participants. This will be the case anyway if the test was taken anonymously.
+assessment#:#tst_highscore_anon_description#:#Ranking is displayed without listing the names of the other participants. This will be the case anyway if the test was taken anonymously.
 assessment#:#tst_highscore_achieved_ts#:#Date
 assessment#:#tst_highscore_achieved_ts_description#:#A column containing the test date will be included in the ranking.
 assessment#:#tst_highscore_score#:#Score
@@ -1554,7 +1554,7 @@ certificate#:#certificate_ph_date#:#Actual date
 certificate#:#certificate_ph_datetime#:#Actual date and time
 certificate#:#certificate_ph_department#:#Department of the user
 certificate#:#certificate_ph_firstname#:#First name of the user
-certificate#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)
+certificate#:#certificate_ph_fullname#:#Full name of the user (title, first name and last name)
 certificate#:#certificate_ph_institution#:#Institution of the user
 certificate#:#certificate_ph_introduction#:#The following placeholders may be used
 certificate#:#certificate_ph_lastaccess#:#Last access date and time of the user
@@ -4146,7 +4146,7 @@ common#:#shib_department#:#Attribute for department
 common#:#shib_edit_permission#:#Change permission settings
 common#:#shib_email#:#Attribute for e-mail address
 common#:#shib_federation_name#:#Name of your Shibboleth federation
-common#:#shib_firstname#:#Attribute for firstname
+common#:#shib_firstname#:#Attribute for first name
 common#:#shib_gender#:#Attribute for gender (must be 'm' or 'f')
 common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the
 common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the
@@ -6021,8 +6021,8 @@ crs#:#timings_timings#:#Timings
 crs#:#timings_usr_edit#:#Edit Timings
 crs#:#timings#:#Timings
 crs#:#tutor_email#:#E-Mail
-crs#:#tutor_firstname#:#Firstname
-crs#:#tutor_lastname#:#Lastname
+crs#:#tutor_firstname#:#First name
+crs#:#tutor_lastname#:#Last name
 crs#:#tutor_name#:#Name
 crs#:#tutor_phone#:#Phone
 crs#:#tutor_title#:#Title
@@ -13627,8 +13627,8 @@ cld#:#cld_upload_files#:#Upload Files
 cld#:#service_specific_settings#:#Specific Settings
 common#:#obj_cld#:#Cloud Object
 common#:#objs_cld#:#Cloud Objects
-assessment#:#tst_show_solution_compare#:#Show Best Solution in List of Answers
-assessment#:#tst_show_solution_compare_desc#:#TODOy
+assessment#:#tst_show_solution_compare#:#Show Best Solution in 'Detailed Results'
+assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the 'Detailed Results' that can be accessed via the 'Show Test Results'-button on the 'Infor'-tab. It will not be displayed in the printable 'List of Answers' even though the setting is made here.
 assessment#:#tst_header_participant#:#Your Answer:
 assessment#:#tst_header_solution#:#Best Solution:
 rbac#:#delete_files#:#Delete Files
@@ -15129,7 +15129,7 @@ ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants
 survey#:#survey_sure_delete_constraint#:#Are you sure you want to delete the routing rule "%1$s" for the question "%2$s"?
 survey#:#survey_constraint_deleted#:#The routing rule has been deleted.
 error#:#error_back_to_repository#:#Back to Repository
-error#:#error_sry_error#:#Sorry, an error occured.
+error#:#error_sry_error#:#Sorry, an error occurred.
 form#:#form_hier_click_to_add#:#Click here to add new elements.
 scormtrac#:#exportselectedsuccess#:#Basic report for success
 scormtrac#:#LearningModuleId#:#ID of learning module
@@ -15206,12 +15206,12 @@ assessment#:#user_has_finished_a_test#:#A participant has finished a test.
 assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.
 assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILIAS because you activated the notification.
 dateplaner#:#cal_type_exc#:#Exercise Calendar
-grp#:#grp_admission_link_failure_registration_period#:#Can't registrate: Group is out of registration period.
-crs#:#crs_admission_link_failure_registration_period#:#Can't registrate: Course is out of registration period.
-grp#:#grp_admission_link_failure_membership_limited#:#Can't registrate: Group membership is limited.
-crs#:#crs_admission_link_failure_membership_limited#:#Can't registrate: Course membership is limited.
-grp#:#grp_admission_link_success_registration#:#Successfully registrated to group "%s".
-crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".
+grp#:#grp_admission_link_failure_registration_period#:#Can't register: Group is out of registration period.
+crs#:#crs_admission_link_failure_registration_period#:#Can't register: Course is out of registration period.
+grp#:#grp_admission_link_failure_membership_limited#:#Can't register: Group membership is limited.
+crs#:#crs_admission_link_failure_membership_limited#:#Can't register: Course membership is limited.
+grp#:#grp_admission_link_success_registration#:#Successfully registered to group "%s".
+crs#:#crs_admission_link_success_registration#:#Successfully registered to course "%s".
 rbac#:#ilias_id#:#ILIAS-ID
 scormtrac#:#exportselectedraw#:#CMI (RAW) data
 scormtrac#:#lvalue#:#Key
