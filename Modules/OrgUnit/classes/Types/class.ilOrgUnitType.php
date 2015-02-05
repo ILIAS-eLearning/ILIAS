@@ -916,7 +916,7 @@ class ilOrgUnitType {
 	 * @return string
 	 */
 	public function getIconPath($append_filename = false) {
-		$path = ilUtil::getWebspaceDir() . DIRECTORY_SEPARATOR . self::WEB_DATA_FOLDER . DIRECTORY_SEPARATOR . "type_" . $this->getId() . '/';
+		$path = ilUtil::getWebspaceDir() . '/' . self::WEB_DATA_FOLDER . '/' . 'type_' . $this->getId() . '/';
 		if ($append_filename) {
 			$path .= $this->getIcon();
 		}
