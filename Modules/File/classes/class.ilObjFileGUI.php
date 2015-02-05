@@ -1175,6 +1175,23 @@ class ilObjFileGUI extends ilObject2GUI
 			}
 
 			ilUtil::delDir($newDir);
+			
+			// #15404
+			if($this->id_type != self::WORKSPACE_NODE_ID)
+			{
+				foreach(ilFileUtils::getNewObjects() as $parent_ref_id => $objects)
+				{
+					if($parent_ref_id != $this->parent_id)
+					{
+						continue;
+					}
+
+					foreach($objects as $object)
+					{
+						$this->after_creation_callback_objects[] = $object;
+					}
+				}	
+			}
 		}
 		else
 		{

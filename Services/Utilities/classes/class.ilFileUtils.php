@@ -37,6 +37,8 @@ include_once 'Services/Utilities/classes/class.ilFileUtilsException.php';
 
 class ilFileUtils
 {
+	protected static $new_files = array();
+	
 	/**
 	 * unzips in given directory and processes uploaded zip for use as single files
 	 *
@@ -54,6 +56,8 @@ class ilFileUtils
 
 		global $lng;
 		include_once("Services/Utilities/classes/class.ilUtil.php");
+		
+		self::$new_files = array();
 				
 		$pathinfo = pathinfo($a_file);
 		$file = $pathinfo["basename"];
@@ -276,6 +280,8 @@ class ilFileUtils
 				global $lng;
 				$newObj->addTranslation($name,"", $lng->getLangKey(), $lng->getLangKey());
 			}
+			
+			self::$new_files[$ref_id][] = $newObj;
 
 			return $newObj->getRefId();
 		}
@@ -331,6 +337,8 @@ class ilFileUtils
 				$fileObj->createReference();	
 				$fileObj->putInTree($ref_id);
 				$fileObj->setPermissions($ref_id);
+				
+				self::$new_files[$ref_id][] = $fileObj;
 			}
 			else
 			{
@@ -345,6 +353,11 @@ class ilFileUtils
 		else {
 			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
 		}
+	}
+	
+	public static function getNewObjects()
+	{
+		return self::$new_files;
 	}
 	
 	/**
