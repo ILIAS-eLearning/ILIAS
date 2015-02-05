@@ -11,50 +11,38 @@
 					<span class="ilFileUploadEntryProgressPercent">{% (o.size === null && o.canUpload) ? print("{TXT_PENDING}") : print(o.sizeFormatted); %}</span>
 				</span>
 			</td>
-			<td class="ilFileUploadEntryCancel"><input id="cancel_{%=o.id%}" class="submit" type="button" src="{FILE_CANCEL_ICON}" value="X" /></td>
+			<td class="ilFileUploadEntryCancel"><button id="cancel_{%=o.id%}" class="btn btn-link" src="{FILE_CANCEL_ICON}"><span class="glyphicon glyphicon-remove"></span></button></td>
 		</tr>
 		{% if (o.canUpload) { %}
 		<tr class="ilFileUploadEntryOptions">
-			<td colspan="3">
-				<table class="ilFileUploadEntryOptionsTable" datatable="0">
-					<tbody>
-						{% if (o.canExtract) { %}
-						<tr class="ilFileUploadEntryExtract">
-							<td class="ilFormOption">
-								<label for="extract_{%=o.id%}">{TXT_EXTRACT}</label>
-							</td>
-							<td class="ilFormValue">
-								<input type="checkbox" id="extract_{%=o.id%}" name="extract_{%=o.id%}" value="false">
-							</td>
-						</tr>
-						<tr class="ilFileUploadEntryKeepStructure">
-							<td class="ilFormOption">
-								<label for="keepstructure_{%=o.id%}">{TXT_KEEP_STRUCTURE}</label>
-							</td>
-							<td class="ilFormValue">
-								<input type="checkbox" id="keepstructure_{%=o.id%}" name="keepstructure_{%=o.id%}" value="true" checked>
-                                <div class="help-block">{TXT_KEEP_STRUCTURE_INFO}</div>
-							</td>
-						</tr>
-						{% } %}
-						<tr class="ilFileUploadEntryTitle">
-							<td class="ilFormOption">
-								<label for="title_{%=o.id%}">{TXT_TITLE}</label>
-							</td>
-							<td class="ilFormValue">
-								<input type="text" size="40" id="title_{%=o.id%}" maxlength="128" name="title" value="{%=o.name%}">
-							</td>
-						</tr>
-						<tr class="ilFileUploadEntryDescription">
-							<td class="ilFormOption">
-                                <label for="desc_{%=o.id%}">{TXT_DESCRIPTION}</label>
-                            </td>
-							<td class="ilFormValue">
-                                <textarea name="description" id="desc_{%=o.id%}" class="noRTEditor" wrap="virtual" rows="" style="width:90%;"></textarea>
-                            </td>
-						</tr>
-					</tbody>
-				</table>
+			<td colspan="3" style="font-size:90%;">
+				{% if (o.canExtract) { %}
+				<div class="ilFileUploadEntryExtract form-group">					
+					<label class="col-sm-3 control-label" style="padding-top:0;" for="extract_{%=o.id%}">{TXT_EXTRACT}</label>					
+					<div class="col-sm-9">
+						<input type="checkbox" id="extract_{%=o.id%}" name="extract_{%=o.id%}" value="false">
+					</div>
+				</div>
+				<div class="ilFileUploadEntryKeepStructure form-group">					
+					<label class="col-sm-3 control-label" style="padding-top:0;" for="keepstructure_{%=o.id%}">{TXT_KEEP_STRUCTURE}</label>					
+					<div class="col-sm-9">
+						<input type="checkbox" id="keepstructure_{%=o.id%}" name="keepstructure_{%=o.id%}" value="true" checked>
+						<div class="help-block">{TXT_KEEP_STRUCTURE_INFO}</div>
+					</div>
+				</div>
+				{% } %}
+				<div class="ilFileUploadEntryTitle form-group">
+					<label class="col-sm-3 control-label" style="padding-top:0;" for="title_{%=o.id%}">{TXT_TITLE}</label>					
+					<div class="col-sm-9">
+						<input type="text" class="form-control" size="40" id="title_{%=o.id%}" maxlength="128" name="title" value="{%=o.name%}">
+					</div>
+				</div>
+				<div  class="ilFileUploadEntryDescription form-group">
+					<label class="col-sm-3 control-label" style="padding-top:0;" for="desc_{%=o.id%}">{TXT_DESCRIPTION}</label>					
+					<div class="col-sm-9">
+						<textarea name="description" class="form-control" id="desc_{%=o.id%}" class="noRTEditor" wrap="virtual" rows="" style="width:90%;"></textarea>
+					</div>
+				</div>				
 			</td>
 		</tr>
 		{% } %}
