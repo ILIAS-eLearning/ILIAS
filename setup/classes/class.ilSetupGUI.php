@@ -540,7 +540,7 @@ echo "<br>+".$client_id;
 			$this->tpl->touchBlock("lng_empty_cell");
 		}
 
-		if ($this->cmd != "logout" and $this->setup->isInstalled())
+		if ($this->cmd != "logout" and $this->setup->isInstalled() and $this->setup->isAuthenticated())
 		{
 			// add client link
 			if ($this->setup->isAdmin())
