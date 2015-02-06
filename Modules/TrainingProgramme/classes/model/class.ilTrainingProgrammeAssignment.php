@@ -52,7 +52,7 @@ class ilTrainingProgrammeAssignment extends ActiveRecord {
 
 	/**
 	 * Root node of the program tree, the user was assigned to. Could be a subtree of
-	 * a larger program. 
+	 * a larger program. This is the object id of the program.
 	 * 
 	 * @var int 
 	 * 
@@ -86,7 +86,98 @@ class ilTrainingProgrammeAssignment extends ActiveRecord {
 	 * @con_is_notnull  true 
 	 */
 	protected $last_change_by;
- 
+	
+	
+	/**
+	 * Create new assignment object for training program and user.
+	 *
+	 * Throws when $a_usr_id does not point to a user.
+	 * 
+	 * @throws ilException
+	 * @param  int $a_usr_id
+	 * @param  int $a_assigning_usr_id
+	 * @return ilTrainingProgrammeAssignment
+	 */
+	static public function createFor(ilTrainingProgramme $a_prg, $a_usr_id, $a_assigning_usr_id) {
+		if (ilObject::_lookupType($a_usr_id) != "usr") {
+			throw new ilException("ilTrainingProgrammeAssignment::createFor: '$a_usr_id' "
+								 ."is no id of a user.");
+		}
+		
+		$ass = new ilTrainingProgrammeAssignment();
+		$ass->setRootId($a_prg->getObjId())
+			->setUserId($a_usr_id)
+			->setLastChangeBy($a_assigning_user_id)
+			->updateLastChange()
+			->create();
+		return $ass;
+	}
+	
+	
+	public function getRootId() {
+		return $this->root_prg_id;
+	}
+	
+	protected function setRootId($a_id) {
+		$this->root_prg_id = $a_id;
+		return $this;
+	}
+	
+	public function getUserId() {
+		return $this->usr_id;
+	}
+	
+	protected function setUserid($a_usr_id) {
+		$this->usr_id = $a_usr_id;
+		return $this;
+	}
+	
+	public function getLastChangeBy() {
+		return $this->last_change_by;
+	}
+	
+	public function setLastChangeBy($a_usr_id) {
+		if (ilObject::_lookupType($a_usr_id) != "usr") {
+			throw new ilException("ilTrainingProgrammeAssignment::setLastChangeBy: '$a_usr_id' "
+								 ."is no id of a user.");
+		}
+		$this->last_change_by = $a_usr_id;
+		return $this;
+	}
+	
+	/**
+	 * Get the timestamp of the last change on this program or a sub program.
+	 *
+	 * @return ilDateTime
+	 */
+	public function getLastChange() {
+		return new ilDateTime($this->last_change, IL_CAL_DATETIME);
+	}
+
+	/**
+	 * Update the last change timestamp to the current time.
+	 */
+	public function updateLastChange() {
+		$this->setLastChange(new ilDateTime(ilUtil::now(), IL_CAL_DATETIME)); 
+		return $this;
+	}
+
+	/**
+	 * Set the last change timestamp to the given time.
+	 * 
+	 * Throws when given time is smaller then current timestamp
+	 * since that is logically impossible.
+	 */
+	public function setLastChange(ilDateTime $a_timestamp) {
+		if (ilDateTime::_before($a_timestamp, $this->getLastChange())) {
+			throw new ilException("ilTrainingProgrammeAssignment::setLastChange: Given "
+								 ."timestamp is before current timestamp. That "
+								 ."is logically impossible.");
+		}
+		
+		$this->last_change = $a_timestamp->get(IL_CAL_DATETIME);
+		return $this;
+	}
 }
 
 ?>
