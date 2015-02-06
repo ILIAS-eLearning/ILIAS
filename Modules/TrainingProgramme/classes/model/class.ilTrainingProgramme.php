@@ -284,7 +284,7 @@ class ilTrainingProgramme extends ActiveRecord {
 	/**
 	 * Get the status.
 	 *
-	 * @return integer  - one of self::$MODES
+	 * @return integer  - one of self::$STATUS
 	 */
 	public function getStatus() {
 		return $this->status;
