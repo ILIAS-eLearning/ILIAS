@@ -326,6 +326,12 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function addNode(ilObjTrainingProgramme $a_prg) {
+		if ($this->getLPMode() == ilTrainingProgramme::MODE_LP_COMPLETED) {
+			throw new ilTrainingProgrammeTreeException("Program already contains leafs.");
+		}
+		
+		// TODO: NYI!
+		
 		return $this;
 	}
 	
@@ -340,6 +346,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function removeNode(ilObjTrainingProgramm $a_prg) {
+		// TODO: NYI!
 		return $this;
 	}
 	
@@ -352,6 +359,15 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function addLeaf(ilTrainingProgrammeLeaf $a_leaf) {
+		if ($this->hasChildren()) {
+			throw new ilTrainingProgrammeTreeException("Program already contains other programm nodes.");
+		}
+		
+		// TODO: NYI!
+		
+		$this->settings->setLPMode(ilTrainingProgramme::MODE_LP_COMPLETED);
+		$this->update();
+		
 		return $this;
 	}
 	
@@ -366,6 +382,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function removeLeaf(ilTrainingProgrammeLeaf $a_leaf) {
+		// TODO: NYI!
 		return $this;
 	}
 	
