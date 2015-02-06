@@ -11,7 +11,12 @@ require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgramm
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  */
 class ilObjTrainingProgramme extends ilContainer {
-	protected $settings; // ilTrainingProgramme
+	protected $settings; // ilTrainingProgramme | null
+	protected $parent; // ilObjTrainingProgramme | null
+	protected $children; // [ilObjTrainingProgramme] | null
+	
+	// GLOBALS from ILIAS
+	protected $tree;
 	
 	/**
 	 * @param int  $a_id
@@ -21,6 +26,9 @@ class ilObjTrainingProgramme extends ilContainer {
 		$this->type = "orgu";
 		$this->settings = null;
 		$this->ilContainer($a_id, $a_call_by_reference);
+
+		global $tree;
+		$this->tree = $tree;
 	}
 	
 	
@@ -196,7 +204,12 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return [ilObjTrainingProgramme]
 	 */
 	static public function getAllChildren($a_ref_id) {
-		
+		$ret = array();
+		$root = self::getInstance($a_ref_id);
+		$root->mapSubTree(function($prg) use (&$ret) {
+			$ret[] = $prg;
+		});
+		return $ret;
 	}
 
 	/**
@@ -206,7 +219,13 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return [ilObjTrainingProgramme]
 	 */
 	public function getChildren() {
-		
+		if ($this->children === null) {
+			$ref_ids = $this->tree->getChildsByType($this->getRefId(), "prg");
+			$this->children = array_map(function($node_data) {
+				return self::getInstance($node_data["child"]);
+			}, $ref_ids);
+		}
+		return $this->children;
 	} 
 
 	/**
@@ -216,7 +235,10 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return ilObjTrainingProgramme | null
 	 */
 	public function getParent() {
-		
+		if ($this->parent === null) {
+			
+		}
+		return $this->parent;
 	}
 
 	/**
@@ -240,12 +262,17 @@ class ilObjTrainingProgramme extends ilContainer {
 
 	/**
 	 * Get the depth of this TrainingProgramme in the tree starting at the topmost
-	 * TrainingProgramme (not root node of the repo tree!).
+	 * TrainingProgramme (not root node of the repo tree!). Root node has depth = 0.
 	 *
 	 * @return int
 	 */
 	public function getDepth() {
-		
+		$cur = $this;
+		$count = 0;
+		while ($cur = $cur->getParent()) {
+			$count++;
+		}
+		return $count;
 	}
 
 	/**
@@ -255,7 +282,32 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return ilObjTrainingProgramme
 	 */
 	public function getRoot() {
-		
+		$root = $this;
+		while(true) {
+			$parent = $root->getParent();
+			if ($parent === null) {
+				return $root;
+			}
+			$root = $parent;
+		}
+	}
+	
+	////////////////////////////////////
+	// QUERIES ON SUBTREE
+	////////////////////////////////////
+	
+	/**
+	 * Apply the given Closure to every node in the subtree starting at
+	 * this object.
+	 *
+	 * @param Closure $fun - An anonymus function taking an ilObjTrainingProgramme
+	 *                       as parameter.
+	 */
+	public function mapSubTree(Closure $fun) {
+		$fun($this);
+		foreach($this->getChildren() as $child) {
+			$child->mapSubTree($fun);
+		}
 	}
 }
 
