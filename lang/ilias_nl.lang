@@ -11,7 +11,9 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
-// to the corresponding mode! 
+// to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 acc#:#acc_access_key#:#Toegangscode
@@ -333,35 +335,35 @@ adve#:#adve_text_content_features#:#Tekst inhoudsopgave
 adve#:#adve_use_physical#:#Gebruik b/i/u in plaats van str/emp/imp
 adve#:#adve_use_physical_info#:#Deze instelling vervangt de semantische style class tags voor sterk, emfatisch en belangrijk met fysieke attributen: b (bold), i (italic) en u (underline). Let op, dit kan resulteren in inconsistenties, als de style editor wordt gebruikt en andere attributen zijn toegewezen voor sterkte/emfatisch/belangrijkheid van stijlen.
 adve#:#adve_use_tiny_mce#:#Inschakelen TinyMCE voor WYSIWYG Editen
-adve#:#char_selector#:#Selector for Unicode Characters
-adve#:#char_selector_blocks#:#Available Unicode Blocks
-adve#:#char_selector_blocks_info#:#All characters of the selected blocks will be listed, but not all of them may be supported by the current browser font.
-adve#:#char_selector_custom_items#:#Custom Selection
-adve#:#char_selector_custom_items_info1#:#The custom selection will be listed before the selected blocks. Please add your characters in the following style:
+adve#:#char_selector#:#Selector voor Unicode Karacters
+adve#:#char_selector_blocks#:#Beschikbare Unicode blokken
+adve#:#char_selector_blocks_info#:#Alle karakters van de geselecteerde blokken zullen worden getoond, maar worden mogelijk niet allemaal ondersteund door het huidige browser font.
+adve#:#char_selector_custom_items#:#Maatwerk selectie
+adve#:#char_selector_custom_items_info1#:#De maatwerk selectie wordt getoond voor de geselecteerde blokken. Voeg je karakters toe in de volgende stijl:
 adve#:#char_selector_custom_items_info2a#:#A B C
-adve#:#char_selector_custom_items_info2b#:#Characters are separated by space, generating separate selector buttons
+adve#:#char_selector_custom_items_info2b#:#Karakters zijn gescheiden door spaties en zal aparte selector knoppen genereren.
 adve#:#char_selector_custom_items_info3a#:#A BC D
-adve#:#char_selector_custom_items_info3b#:#It is possible to put more characters on one button
+adve#:#char_selector_custom_items_info3b#:#Het is mogelijk om meer karakters op een knop te plaatsen.
 adve#:#char_selector_custom_items_info4a#:#A-Z
-adve#:#char_selector_custom_items_info4b#:#Ranges of characters can be defined with a "-"
+adve#:#char_selector_custom_items_info4b#:#Bereik van karakters wordt gedefinieerd met "-"
 adve#:#char_selector_custom_items_info5a#:#U+00C0
-adve#:#char_selector_custom_items_info5b#:#A character can also be defined in Unicode notation (case insensitive)
+adve#:#char_selector_custom_items_info5b#:#Een karakter kan ook worden gedefinieerd in Unicode notatie (hoofdletter ongevoelig)
 adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
-adve#:#char_selector_custom_items_info6b#:#Ranges are also possible in Unicode notation
+adve#:#char_selector_custom_items_info6b#:#Bereik is ook mogelijk in Unicode notatie
 adve#:#char_selector_disabled#:#Uitgeschakeld
-adve#:#char_selector_disabled_info_admin#:#Disables the selector. Users and tests can have individual settings.
-adve#:#char_selector_disabled_info_test#:#Disables the selector during a test run.
-adve#:#char_selector_disabled_info_user#:#Disables the selector. Tests can have an individual setting.
+adve#:#char_selector_disabled_info_admin#:#Uitschakelen van selector. Gebruikers en toetsen hebben hun eigen instellingen.
+adve#:#char_selector_disabled_info_test#:#Uitschakelen van selector gedurende een test run.
+adve#:#char_selector_disabled_info_user#:#Uitschakelen van selector. Toeten hebben een eigen instellling.
 adve#:#char_selector_enabled#:#Ingeschakeld
-adve#:#char_selector_enabled_info_admin#:#Enables the selector, invoked through a button in the main menu. Users and tests can have individual settings.
-adve#:#char_selector_enabled_info_test#:#Enables the selector during the a test run.
-adve#:#char_selector_enabled_info_user#:#Enables the selector, invoked through a button in the main menu.
+adve#:#char_selector_enabled_info_admin#:#Inschakelen van selector via een knop op het hoofd menu. Gebruikers en toetsen hebben hun eigen instellingen.
+adve#:#char_selector_enabled_info_test#:#Inschakelen van selector gedurende een test run.
+adve#:#char_selector_enabled_info_user#:#Inschakelen van selector via een knop op het hoofd menu.
 adve#:#char_selector_inactive#:#Uitgeschakeld
-adve#:#char_selector_inactive_info_admin#:#Deactivates the selector. Users and tests can't overwrite this setting.
-adve#:#char_selector_inherit#:#overgeërfd
-adve#:#char_selector_inherit_info_test#:#Take the platform or user specific setting.
-adve#:#char_selector_inherit_info_user#:#Take the platform setting.
-adve#:#char_selector_unicode_all#:#All Unicode Blocks
+adve#:#char_selector_inactive_info_admin#:#Uitschakelen van selector. Gebruikers en toetsen kunnen dit niet overschrijven.
+adve#:#char_selector_inherit#:#Overgeërfd
+adve#:#char_selector_inherit_info_test#:#Gebruik de platforminstellingen of gebruikersspecifieke instelling.
+adve#:#char_selector_inherit_info_user#:#Gebruik de platforminstellingen.
+adve#:#char_selector_unicode_all#:#Alle Unicode Blokken
 assessment#:#0_unlimited#:#(0=onbegrensd)
 assessment#:#action#:#Actie
 assessment#:#additional_rating_info#:#De gegeven waarden worden uitgedrukt als percentages. Let erop dat ze tezamen 100 zijn.
@@ -487,6 +489,8 @@ assessment#:#changelog_heading#:#Verander log
 assessment#:#changeSuggestedSolution#:#Wijzig de voorgestelde oplossing
 assessment#:#change_adm_categories_not_allowed#:#Je hebt geen rechten op deze categorie.
 assessment#:#change_adm_units_not_allowed#:#Deze eenheid kan alleen worden gewijzigd door een beheerder
+assessment#:#change_properties_from_random_to_standard#:#Je staat op het punt om de eigenschappen van de toets te wijzigen van een willekeurige toets naar een niet-willekeurige toets. De informatie uit de vragenpoolen die toegevoegd zijn aan een willekeurige toets zullen verwijderd worden uit de toets. Ben je zeker dat je deze eigenschappen wil veranderen
+assessment#:#change_properties_from_standard_to_random#:#Je staat op het punt om de eigenschappen van de toets te wijzigen van een niet-willekeurige toets naar een willekeurige toets. De vragen die toegevoegd zijn aan de toets zullen verwijderd worden, omdat, voor een willekeurige toets, je een vragenpool moet gebruiken. Ben je zeker dat je deze eigenschappen wil veranderen?
 assessment#:#change_solution#:#Verander voorgestelde oplossing
 assessment#:#checkbox_checked#:#Geselecteerd
 assessment#:#checkbox_unchecked#:#Niet geselecteerd
@@ -584,11 +588,11 @@ assessment#:#edit_page#:#Pagina wijzigen
 assessment#:#edit_question#:#Wijzigen vraag
 assessment#:#edit_test_questions#:#Wijzig toets vragen
 assessment#:#element_height#:#Minimum Height
-assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.
+assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the toets output.
 assessment#:#empty_terms_exist#:#There are already empty term fields. Please fill out these fields before you add more terms.
 assessment#:#empty_term_message#:#There is a least one empty term field.
-assessment#:#enable_examview#:#Enable Exam View
-assessment#:#enable_examview_desc#:#Enables the view of the test in the shape of an exam at the end of the pass, prior to submission.
+assessment#:#enable_examview#:#Tonen in vorm van examen
+assessment#:#enable_examview_desc#:#De toets zal worden gepresenteerd in de vorm van een examen.
 assessment#:#enable_javascript#:#klik om JavaScript ondersteuning in te schakelen
 assessment#:#ending_time_reached#:#De eindtijd is bereikt
 assessment#:#end_tag#:#Eindlabel
@@ -662,8 +666,12 @@ assessment#:#eval_search_term#:#Zoek term
 assessment#:#eval_search_users#:#Gebruikers
 assessment#:#eval_search_userselection#:#Zoek de gebruikers die je wilt toevoegen aan de evaluatie
 assessment#:#eval_selected_users#:#Evaluatie voor de geselecteerde gebruikers
-assessment#:#examid_in_kiosk#:#Display Exam Id in Kiosk mode
-assessment#:#exam_id#:#Exam Id:
+assessment#:#examid_in_kiosk#:#Tonen Examennummer in Kiosk modus
+assessment#:#examid_in_test_pass#:#Tonen Examennummer
+assessment#:#examid_in_test_pass_desc#:#Laat het examennumer zien
+assessment#:#examid_in_test_res#:#Tonen Examennummer
+assessment#:#examid_in_test_res_desc#:#Tonen Examennummer
+assessment#:#exam_id#:#Examennummer:
 assessment#:#expected_result_type#:#Verwacht resultaat-type
 assessment#:#export#:#Exporteren
 assessment#:#exp_eval_data#:#Evaluatiegegevens exporteren als
@@ -885,7 +893,9 @@ assessment#:#or#:#of
 assessment#:#ordering_answer_sequence_info#:#De volgorde van de antwoorden die je hebt bepaald, wordt beschouwd als de juiste volgorde.
 assessment#:#ordering_question_javascript_hint#:#Sleep een afbeelding/definitie van de rechterkant over een begrip aan de linkerkant en zet de afbeelding/definitie neer op een afbeelding/definitie waartoe deze behoort
 assessment#:#ordertext#:#Tekstvolgorde
-assessment#:#ordertext_info#:#Voer de tekst in die horizontaal komt te staan. De tekst wordt gescheiden door spaties. Als je daarvoor iets anders wenst gebruik dan %s om je teskstonderdelen te scheiden.
+assessment#:#ordertext_info#:#Voer de tekst in die horizontaal komt te staan. De tekst wordt gescheiden door spaties. Als je daarvoor iets anders wenst gebruik dan %s om je tekstonderdelen te scheiden.
+assessment#:#order_pictures#:#Volgorde afbeeldingen
+assessment#:#order_terms#:#Sorteer begrippen
 assessment#:#output#:#Output
 assessment#:#output_mode#:#Output modus
 assessment#:#parseQuestion#:#Vraag ontleden
@@ -921,7 +931,7 @@ assessment#:#polygon_click_starting_point#:#Klik op het startpunt van de polygoo
 assessment#:#positive_numbers_required#:#Je mag alleen positieve nummers ingeven.
 assessment#:#postpone#:#Stel vraag uit
 assessment#:#postponed#:#Uitgesteld
-assessment#:#postpone_status#:#Uitgesteld
+assessment#:#postpone_status#:#Postponed
 assessment#:#precision#:#Precisie
 assessment#:#preserve_manscoring#:#Behoud handmatige scores
 assessment#:#preserve_manscoring_info#:#Veranderingen in de scoring van een vraag maakt het mogelijk noodzakelijk om handmatige scores teniet te doen. Deze optie kan dus alle handmatige scores ongedaan maken en moet alleen in uiterst zeldzame omstandigheden worden gebruikt.
@@ -1022,7 +1032,8 @@ assessment#:#rectangle_click_br_corner#:#Klik op de hoek rechtsonder van het gew
 assessment#:#rectangle_click_tl_corner#:#Klik op de hoek linksboven van het gewenste gebied.
 assessment#:#redirectAfterSave#:#De maximale werktijd is bereikt en de laatste vraag is automatisch opgeslagen. In enkele seconden wordt je doorgeleid...
 assessment#:#redirection_url#:#Omleiden naar
-assessment#:#redirect_after_finishing_tst#:#Doorsturen na het beëindigen van toets
+assessment#:#redirect_after_finishing_tst#:#Verwijzing na voltooien van toets
+assessment#:#redirect_after_finishing_tst_desc#:#De deelnemer wordt, na voltooing van de toets, automatisch naar een bepaalde website geleid. Dat gebeurt alleen als de toets zodanig is geconfigureerd dat de deelnemer na het voltoooien van de toets het resultaat niet kan inzien.
 assessment#:#redirect_in_kiosk_mode#:#Doorsturen alleen in kiosk modus
 assessment#:#region#:#Regio
 assessment#:#remove_as_participant#:#Verwijder als vaste deelnemer
@@ -1033,7 +1044,7 @@ assessment#:#report_date_not_reached#:#De verslagdatum van de toetsgegevens is n
 assessment#:#reset_definitions#:#Reset Definition Positie
 assessment#:#reset_filter#:#Terugzetten filter
 assessment#:#reset_pictures#:#Herstel positionering van afbeeldingen
-assessment#:#reset_terms#:#Reset Term Posities
+assessment#:#reset_terms#:#Herstel positionering van termen
 assessment#:#resize_images#:#Afbeeldingen aanpassen
 assessment#:#result#:#Resultaat
 assessment#:#results#:#Resultaten
@@ -1046,9 +1057,9 @@ assessment#:#result_frac_info#:#bv: 1/3 en 2/6 zijn geldige resultaten
 assessment#:#result_successful_saved#:#Je resultaten zijn bewaard!
 assessment#:#result_type_selection#:#Resultaat-type Selectie
 assessment#:#result_units#:#Beschikbare eenheden
-assessment#:#result_units_info#:#De geselecteerde eenheden worden aangeboden aan de deelnemers als onderdeel van een antwoord. De deelnemer moet een eenheid selecteren.
-assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."
-assessment#:#result_unsuccessful_saved#:#Er was een fout opgetreden tijdens het bewaren van de resultaten!
+assessment#:#result_units_info#:#De geselecteerde eenheid wordt aangeboden aan de deelnemer als onderdeel van een antword. De deelnemer moet een eenheid kiezen.
+assessment#:#result_unit_info#:#Let er op dat de geselecteerde eenheid ook geactiveerd mooet zijn in de "beschikbare eenheden".
+assessment#:#result_unsuccessful_saved#:#Er is een fout opgetreden tijdens het bewaren van de resultaten!
 assessment#:#result_x#:#Resultaat %s
 assessment#:#res_contains_undef_res#:#Een resultaatvariabele bevat een ongedefinieerd resultaat!
 assessment#:#res_contains_undef_var#:#Een resultaatformule bevat een ongedefinieerde variabele!
@@ -1098,20 +1109,20 @@ assessment#:#set_manscoring_done#:#"Markeer deze deelnemer als ""Scorende Deelne
 assessment#:#set_manual_feedback#:#Handmatige feedback geven
 assessment#:#shape#:#Vorm
 assessment#:#showinfo#:#Toon de volledige informatiepagina
-assessment#:#showinfo_desc#:#Indien aangevinkt wordt de complete Toets Informatie Bladzijde getoond (inclusief de toets eigenschappen). Indien niet aangevinkt wordt alleen de inleidende tekst (indien aanwezig) en de vereiste eigenschappen getoond op de Toets Informatie Bladzijde.
+assessment#:#showinfo_desc#:#Indien aangevinkt wordt de complete Toets informatie pagina getoond (inclusief de toets eigenschappen). Indien niet aangevinkt wordt alleen de inleidende tekst (indien aanwezig) en de vereiste eigenschappen getoond op de Toets Informatie Bladzijde.
 assessment#:#showSuggestedSolution#:#Voorgestelde oplossing
 assessment#:#show_answer_overview#:#Toon antwoordenoverzicht
 assessment#:#show_detailed_results#:#Toon gedetailleerde resultaten voor gebruiker.
-assessment#:#show_examview_html#:#Show exam view on the test submission page.
-assessment#:#show_examview_html_desc#:#Shows the tests questions and answers in ILIAS in a step prior to submission.
-assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.
-assessment#:#show_examview_pdf_desc#:#Shows the tests questions and answers in a PDF file in a step prior to submission. (Download button available as well.)
-assessment#:#show_exam_id#:#Display Exam Id
+assessment#:#show_examview_html#:#Toon examenbeeld op de pagina waar toets wordt ingediend.
+assessment#:#show_examview_html_desc#:#Toon toetsvragen en -antwooorden voor indiening van toets.
+assessment#:#show_examview_pdf#:#Toon examenbeeld in een automatisch geddownloade PDF.
+assessment#:#show_examview_pdf_desc#:#Toon de toetsvragen en -antwoorden in een PDF bestand vlak voor indiening van toets.(Er is ook een download-knop beschikbaar).
+assessment#:#show_exam_id#:#Tonen Examennummer
 assessment#:#show_pass_overview#:#Toon gemarkeerde afgelopen toetsen
 assessment#:#show_user_answers#:#Toon gebruikers gemarkeerde antwoorden.
 assessment#:#shuffle_answers#:#Antwoorden mixen
-assessment#:#sign_submission#:#Digitally sign test submissions
-assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.
+assessment#:#sign_submission#:#Digitaal handtekening voor voltooien toets
+assessment#:#sign_submission_info#:#Als dit is ingeschakeld, èn een handtekening plugin is geinstalleeerd and geactiveerd, moeten deelnemers de toets digitaal ondertekenen.
 assessment#:#solutionText#:#Tekst
 assessment#:#solution_contain_keywords#:#Score is gebaseerd op het voorkomen van het volgende sleutelwoord:
 assessment#:#solution_hint#:#Hint
@@ -1135,7 +1146,7 @@ assessment#:#test_cancelled#:#De toets is geannuleerd
 assessment#:#test_confirm_template_reset#:#Weet je zeker dat je deze sjabloon niet meer wilt gebruiken?
 assessment#:#test_delete_page#:#Verwijder vraag
 assessment#:#test_edit_settings#:#Wijzig instellingen
-assessment#:#test_enable_archiving#:#Enable Archiving.
+assessment#:#test_enable_archiving#:#Archivering inschakelen
 assessment#:#test_enable_views#:#Ingeschakelde views
 assessment#:#test_enable_view_both#:#Tabel- en paginascherm
 assessment#:#test_enable_view_express#:#Paginabeeld
@@ -1157,7 +1168,7 @@ assessment#:#test_reference#:#Toets referentie
 assessment#:#test_results#:#Results Options
 assessment#:#test_scoring#:#Scoring Options
 assessment#:#test_template_reset#:#De sjabloon is verwijderd.
-assessment#:#test_using_template#:#Deze toets gebruikt de sjabloon %s. Als je geen sjabloon wilt gebruiken en toegang heeft tot al de instellingen klik dan hier: %s.
+assessment#:#test_using_template#:#Deze toets gebruikt het sjabloon %s. Als je geen sjabloon wilt gebruiken en toegang hebt tot alle instellingen, klik dan hier: %s.
 assessment#:#test_using_template_link#:#Gebruik sjabloon niet meer
 assessment#:#textsize#:#Tekst lengte
 assessment#:#textsize_errortext_info#:#Invoeren van de lettergroote van foutmeldingen, in  percenten, als je een andere groot wil dan 100%.
@@ -1168,10 +1179,10 @@ assessment#:#text_gap#:#Open tekst antwoord
 assessment#:#text_maximum_chars_allowed#:#Gelieve niet meer dan het maximum aantal karakters in te voeren( %s karakters).
 assessment#:#text_rating#:#Methode voor tekstvergelijking
 assessment#:#text_wrong#:#Verkeerde tekst
-assessment#:#thumb_geometry#:#Thumbnail Geometrie
-assessment#:#thumb_geometry_info#:#De thumbnails van de afbeeldingen worden gemaakt met een maximum waarde hoogte en breedte rekening houdend met de aspect ratio.
-assessment#:#thumb_size#:#Thumbnail Grootte
-assessment#:#thumb_size_info#:#Als je hier een thumbnail grootte opgeeft, krijgen geuploade afbeeldingen ook deze grootte. Zonder een thumbnail grootte wordt de grootte van de geuploade afbeeldingen gebruikt.
+assessment#:#thumb_geometry#:#Miniatuur Geometrie
+assessment#:#thumb_geometry_info#:#De miniaturen van de afbeeldingen worden gemaakt met een maximum waarde hoogte en breedte rekening houdend met de aspect ratio.
+assessment#:#thumb_size#:#Grootte van Miniatuur
+assessment#:#thumb_size_info#:#Als je hier een miniatuur grootte opgeeft, krijgen geuploade afbeeldingen ook deze grootte. Zonder een miniatuur-grootte wordt de grootte van de geuploade afbeeldingen gebruikt.
 assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#UU MM SS
 assessment#:#timing#:#Extra Tijd
@@ -1194,19 +1205,19 @@ assessment#:#true#:#Waar
 assessment#:#tst_access_code_created#:#Om je permanente toegang te geven tot de toets resultaten en de mogelijkheid te bieden je toets later te hernemem, heeft ILIAS een toegangscode aangemaakt. Schrijf deze code op zodat je deze later kan gebruiken
 assessment#:#tst_activate_skill_service#:#Inschakelen van competenties
 assessment#:#tst_activation_limited_visibility_info#:#Als gekozen, is de toets zichtbaar, zelfs buiten de gegeven beschikbaarheid.
-assessment#:#tst_activation_online_info#:#Als offline kunnen alleen beheerder de toets zien en wijzigen.
-assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Default Editing Mode for Additional Question Content
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Object Editor
+assessment#:#tst_activation_online_info#:#Als offline kunnen alleen beheerders de toets zien en wijzigen.
+assessment#:#tst_add_quest_cont_edit_mode#:#Edit-modus voor extra inhoud
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Standaard modus voor extra inghooud van vragen
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Edit extra inhoud met behulp van de ILIAS pagina editor
 assessment#:#tst_allowed_users#:#Maximum aantal gebruikers die deze toets kunnen gebruiken
 assessment#:#tst_allowed_users_desc#:#ILIAS houdt het aantal deelnemers die de toets tegelijkertijd doen in de gaten. Als het toegestane maximum is bereikt, zal ILIAS nieuwe deelnemers niet toelaten dat ze de toets beginnen.
-assessment#:#tst_allowed_users_time_gap#:#Nutteloze tijd voor actieve gebruikers
+assessment#:#tst_allowed_users_time_gap#:#Inactieve tijd voor actieve gebruikers
 assessment#:#tst_allowed_users_time_gap_desc#:#Deelnemers die niet op tijd klikken in de toets worden beschouwd als inactief en worden verwijderd van de toets.
 assessment#:#tst_allow_fixed_participants#:#Sta vaste deelnemers in deze toets toe
 assessment#:#tst_allow_instant_verification#:#Sta onmiddellijke controle van antwoorden toe
 assessment#:#tst_all_test_competences#:#Alle toets Competenties
 assessment#:#tst_all_user_data_deleted#:#Alle gebruikersgegevens van deze toets zijn verwijderd!
-assessment#:#tst_already_submitted#:#De toets is al beeïndigd en opgestuurd
+assessment#:#tst_already_submitted#:#De toets is al beeindigd en opgestuurd
 assessment#:#tst_already_taken#:#Toetsen zijn reeds afgenomen
 assessment#:#tst_analysis#:#Analyse
 assessment#:#tst_anonymity#:#Anonimiteit
@@ -1219,7 +1230,7 @@ assessment#:#tst_answer_sheet#:#Antwoordblad
 assessment#:#tst_assign_competence#:#Toekennen competentie
 assessment#:#tst_availability_limitless_info#:#Kies deze methode om de toets beschikbaar en toegankelijk te maken voor gebruikers (afhankelijk van lidmaatschapsbeperkingen hieronder).
 assessment#:#tst_availability_until_info#:#Kies deze methode om de toets beschikbaar en toegankelijk te maken voor gebruikers voor een vaste periode (afhankelijk van lidmaatschapsbeperkingen hieronder).
-assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Back to test with Current Question Selection
+assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Terug naar de toets met huidige vraagselectie
 assessment#:#tst_back_to_pass_details#:#Terug naar details van poging
 assessment#:#tst_back_to_question_list#:#Terug naar vragenlijst
 assessment#:#tst_back_to_top#:#Terug naar Top
@@ -1230,10 +1241,10 @@ assessment#:#tst_btn_hide_best_solutions#:#Verberg beste oplossing
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchroniseer vragen van pool
 assessment#:#tst_btn_show_best_solutions#:#Toon beste oplossing
 assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#Het inschakelen van competentie is niet mogelijk vanwege toets modus met een niet-vast aantal vragen.
-assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#The test cannot be set to online, because the test mode setting has been changed. You have to set a test mode relating question config before the test can be set to online.
+assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#De toets kan niet online omdat de toetsinstelling is gewijzigd. Je moet opnieuw vragen instellen voor deze nieuwe modus voordat de toets weer online kan.
 assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Selection
 assessment#:#tst_change_points_for_question#:#Wijzig de punten voor het antwoord
-assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#You are about to change the test mode from <b>%s</b> to <b>%s</b>, although a questions/questionpool configuration dependent on the current test mode already exists.<br />This already existing configuration will be lost.
+assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Je staat op het punt om de toets-modus te wijzigen van <b>%s</b> naar <b>%s</b>. De toetsvragen zijn momenteel ingesteld volgens de huidige toetsmodus. <br />Deze instellling al verloren gaan.
 assessment#:#tst_change_workingtime#:#Extra tijd toevoegen voor een deelnemers
 assessment#:#tst_competence#:#Competentie
 assessment#:#tst_comp_points#:#Competentie punten
@@ -1261,15 +1272,15 @@ assessment#:#tst_delete_results#:#Herstel toets
 assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Competenties zijn uitgeschakeld vanwege toets modus met een niet-vast aantal vragen.
 assessment#:#tst_dont_use_previous_answers#:#Je vorige antwoorden zullen niet gebruikt worden als standaardwaarden in toekomstige toetspogingen
 assessment#:#tst_dynamic_question_set_complete#:#Totale Statistiek
-assessment#:#tst_dynamic_question_set_selection#:#Selectie toetsvragen
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Deleted Permanently)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Deleted) [%s Questions]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the source questin pool successfully. When there are new or edited questions in the question pool you can proceed the test.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Verwijder vorige antwoorden
+assessment#:#tst_dynamic_question_set_selection#:#Toetsvraag selectie
+assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Pad: %s) [%s Vragen]
+assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Permanent verwijderd)
+assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Verwijderde) [%s Vragen]
+assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Je hebt alle vragen van de vragenpool juist bentwoord. Zodra er nieuwe of aangepaste vragen zijn, kun je doorgaan met de toets.
+assessment#:#tst_dyn_test_msg_currently_finished_selection#:#Met de huidige vragenselectie heb je alle vragen juist beantwoord. Wijzig de vragenselectie om door te gaan met de toets.
+assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Verwijder eerdere antwoorden
 assessment#:#tst_dyn_test_pass_deletion_button#:#Zet alle toetsantwoorden terug
-assessment#:#tst_edit_scoring#:#Edit Scoring
+assessment#:#tst_edit_scoring#:#Wijzig Scores
 assessment#:#tst_ending_time#:#Eindtijd
 assessment#:#tst_ending_time_desc#:#Tijdstip waarop toets voltooid moet zijn en ILIAS de toets sluit; de deelnemers kunnen niet langer vragen beantwoorden.
 assessment#:#tst_enter_questionpool#:#Geef een naam aan de vragenpool waar de vraag opgeslagen moet worden
@@ -1287,13 +1298,13 @@ assessment#:#tst_eval_user_answer#:#Antwoord gebruiker
 assessment#:#tst_export_settings#:#Exporteer instellingen
 assessment#:#tst_express_allow_question_pool#:#Sta vragenpool toe in paginabeeld
 assessment#:#tst_express_allow_question_pool_description#:#Indien aangevinkt kunnen vragen worden toegevoegd aan een vragenpool.
-assessment#:#tst_exp_sc_short#:#Creeer verkort overzicht voor  enkele keuzevragen
+assessment#:#tst_exp_sc_short#:#Aanmaken verkort overzicht voor enkele keuzevragen
 assessment#:#tst_extratime_added#:#De doorlooptijd van de deelnemer is verhoogd met %s minuten.
-assessment#:#tst_extratime_info#:#Als je de werktijd meerdere keren wilt ingeven voor dezelfde deelnemer, geef dan de totale tijdsduur op.
+assessment#:#tst_extratime_info#:#Als je de werktijd voor een deelnemer meerdere keren wilt verlengen, geef dan de totale hoeveelheid tijd op.
 assessment#:#tst_extratime_nodata#:#Er is geen invoer voor de geselecteerde deelnemer.
 assessment#:#tst_extratime_notavailable#:#Extra tijd kan alleen worden toegevoegd aan toetsen met een enkele poging en een maximale doorlooptijd..
-assessment#:#tst_filter_taxonomy#:#Filter Taxonomy
-assessment#:#tst_filter_tax_node#:#Taxonomy Node
+assessment#:#tst_filter_taxonomy#:#Filter Taxonomie
+assessment#:#tst_filter_tax_node#:#Taxonomie knoop
 assessment#:#tst_final_information#:#Voltooien van de toets: Informatie voor indiening
 assessment#:#tst_finished#:#Klaar
 assessment#:#tst_finish_confirmation_question#:#Je wilt de toets beeïndigen en het maximum aantal toegelaten pogingen overschrijden. Je zult niet meer in staat zijn om deze toets aan te passen. Ben je zeker dat je deze toets wilt beeïndigen
@@ -1308,7 +1319,7 @@ assessment#:#tst_fixed_participants_data_exists#:#Er zijn deelnemers die de toet
 assessment#:#tst_fixed_participants_disable#:#Bevestig de status verandering
 assessment#:#tst_fixed_participants_disable_description#:#Je staat op punt ondersteuning voor vaste deelnemers af te zetten. Alle vaste deelnemers die nog niet begonnen zijn met de toets zullen worden verwijderd van de toets. Ben je zeker dat je verder wilt gaan
 assessment#:#tst_fixed_participating_users#:#Vaste deelnemers van deze toets
-assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
+assessment#:#tst_form_dynamic_question_set_config#:#Doorgaan met vragenselectie
 assessment#:#tst_gap_analysis#:#Gap Analyse
 assessment#:#tst_general_properties#:#Algemene eigenschappen
 assessment#:#tst_generate_xls#:#Genereer Excel
@@ -1324,7 +1335,7 @@ assessment#:#tst_highscore_achieved_ts#:#Toon toetsdatum
 assessment#:#tst_highscore_achieved_ts_description#:#Bepaalt of een kolom met de datum van de toets wordt getoond.
 assessment#:#tst_highscore_all_tables#:#Alle beoordelingen
 assessment#:#tst_highscore_all_tables_description#:#Indien geselecteerd zal de toets in beide beoordelingstabellen voorzien.
-assessment#:#tst_highscore_anon#:#Anonimiseer bezoeken aan objecten
+assessment#:#tst_highscore_anon#:#Anonymiseer bezoeken aan objecten
 assessment#:#tst_highscore_anon_description#:#Bepaalt of namen worden geanonimiseerd met de score. deze optie kan worden overschreven door de "toets anonimiteit" keuze.
 assessment#:#tst_highscore_description#:#Moeten de hoogste scores worden getoond?
 assessment#:#tst_highscore_enabled#:#Tonen van hoogste score is aangezet
@@ -1351,33 +1362,33 @@ assessment#:#tst_imap_qst_mode_sc#:#Enkele keuze
 assessment#:#tst_import_non_ilias_zip#:#Fout: de bestandsnaam van de geüploaded importbestand komt niet overeen met het verwachte formaat.
 assessment#:#tst_import_no_items#:#Fout: importbestand bevat geen vragen
 assessment#:#tst_import_verify_found_questions#:#ILIAS heeft de volgende vragen gevonden in het import bestand. Selecteer de vragen die je wilt toevoegen
-assessment#:#tst_input_dynamic_question_set_ordering_tax#:#Ordering Taxonomy
-assessment#:#tst_input_dynamic_question_set_ordering_tax_description#:#The test questions will be presented accordingly to their assignments in the selected taxonomy.
-assessment#:#tst_input_dynamic_question_set_question_ordering#:#Question Ordering
-assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Order Questions by Date
-assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax#:#Order Questions by Taxonomy
-assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Source Question Pool
-assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Provide Taxonomy Filter
-assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Antwoord Status Filter
-assessment#:#tst_input_dyn_quest_set_prev_quest_list_enabled#:#Voorzie in lijst van eerder beantwoorden vragen
-assessment#:#tst_inp_all_quest_points_equal_per_pool#:#Require Pools with Homogeneous Scored Questions
-assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#If enabled, only question pools with homogeneous scored questions will be offered. The test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.
-assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#The presentation order for the questions bases upon the question's last editing date.
-assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_tax_desc#:#The presentation order for the questions bases upon the question's assignments in a taxonomy.
+assessment#:#tst_input_dynamic_question_set_ordering_tax#:#Taxonomie volgorde
+assessment#:#tst_input_dynamic_question_set_ordering_tax_description#:#De toetsvragen worden getoond volgende de toewijzing in de geselecteerde taxonomie.
+assessment#:#tst_input_dynamic_question_set_question_ordering#:#Vraag volgorde
+assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Sorteer vragen volgens datum
+assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax#:#Sorteer vfragen volgens taxonomie
+assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Bron vragenpool
+assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Gebruik taxonomie filter
+assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Gebruik antwoord status filter
+assessment#:#tst_input_dyn_quest_set_prev_quest_list_enabled#:#Tonen van eerder beantwoorde vragen
+assessment#:#tst_inp_all_quest_points_equal_per_pool#:#Vereist pools met homogeen-scorende vragen
+assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#Als ingeschakeld worden alleen vragenpools met homogeen-scorende vragen aangeboden. Alle deelnemers kunnen zo een gelijke score behalen; de resutaten zijn dus oook beter vergelijkbaar. Deze toetsmodus wordt aanbevolen,
+assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#De volgorde waarin de vragen worden getoond hangt af van de laatste datum van wijziging van de vragen.
+assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_tax_desc#:#De volgorde waarin de vragen worden getoond hangt af van de toewijzing van de vragen in de taxonomie.
 assessment#:#tst_inp_no_available_tax_hint#:#Geen beschikbare taxonomieën voor de geselecteerde vragenpool
-assessment#:#tst_inp_quest_amount_cfg_mode#:#Question Amount
-assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Configuration of the Question Amount per Selected Question Pools
-assessment#:#tst_inp_quest_amount_cfg_mode_test#:#Configuration of the Question Amount per test
+assessment#:#tst_inp_quest_amount_cfg_mode#:#Aantal vragen
+assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Aantal toetsvragen per geselecteerde vragenpool
+assessment#:#tst_inp_quest_amount_cfg_mode_test#:#Aantal vragen per toets
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Aantal vragen
-assessment#:#tst_inp_quest_amount_per_test#:#Number of Questions for the Whole test
-assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomy Filter
-assessment#:#tst_inp_source_pool_filter_tax_x#:#Use Taxonomy "%s" as Filter
-assessment#:#tst_inp_source_pool_label#:#Source Question Pool
-assessment#:#tst_inp_source_pool_no_tax_filter#:#Use No Taxonomy Based Filter
+assessment#:#tst_inp_quest_amount_per_test#:#Aantal vragen voor hele toets
+assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomie Filter
+assessment#:#tst_inp_source_pool_filter_tax_x#:#Gebruik taxonomie "%s" als Filter
+assessment#:#tst_inp_source_pool_label#:#Bron vragenpool
+assessment#:#tst_inp_source_pool_no_tax_filter#:#Gebruik geen taxonomie filter
 assessment#:#tst_insert_missing_question#:#Selecteer op zijn minst één vraag als je deze in de toets wilt invoegen!
 assessment#:#tst_insert_questions#:#Weet je zeker, dat je de volgende vraag(vragen) aan de toets wilt toevoegen?
-assessment#:#tst_insert_questions_and_results#:#Deze toets was al door %s gebruiker(s) uitgevoerd. Toevoegen van vragen zal alle toets resultaten van deze gebruikers verwijderen. Weet je zeker dat je de volgende vraag/vragen van de toets wilt verwijderen
-assessment#:#tst_instant_feedback#:#Onmiddelijke feedback
+assessment#:#tst_insert_questions_and_results#:#Deze toets was al door %s gebruiker(s) uitgevoerd. Toevoegen van vragen zal alle toetsresultaten van deze gebruikers verwijderen. Weet je zeker dat je de volgende vraag/vragen van de toets wilt verwijderen
+assessment#:#tst_instant_feedback#:#Onmiddellijke feedback
 assessment#:#tst_instant_feedback_answer_generic#:#Toon algemene ("Juist/Fout") feedback
 assessment#:#tst_instant_feedback_answer_generic_desc#:#De generieke feedback toont een simpele "goed" of "fout" volgens de configuratie van de vraag.
 assessment#:#tst_instant_feedback_answer_specific#:#Toon specifiek antwoord feedback
@@ -1406,11 +1417,11 @@ assessment#:#tst_list_of_questions_end#:#Toon de lijst van vragen alvorens een d
 assessment#:#tst_list_of_questions_start#:#Toon de lijst van vragen voorafgaand aan de eerste vraag
 assessment#:#tst_list_of_questions_with_description#:#Toon de vraag omschrijving in de lijst van vragen
 assessment#:#tst_list_of_questions_yes#:#Ja, en bijkomend
-assessment#:#tst_mail_notification#:#Mail Meldingen
-assessment#:#tst_manscoring_input_best_solution#:#Best Solution
-assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question
-assessment#:#tst_manscoring_input_question_and_user_solution#:#Question and User Solution
-assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!
+assessment#:#tst_mail_notification#:#E-mail Meldingen
+assessment#:#tst_manscoring_input_best_solution#:#Beste oplossing
+assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum punten voor vraag
+assessment#:#tst_manscoring_input_question_and_user_solution#:#Vraag en gebruikersoplossing
+assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#Het maximum van %s punt(en) is overschreden!
 assessment#:#tst_manscoring_question_section_header#:#Vraag: %s
 assessment#:#tst_manscoring_user_notification#:#Bericht sturen
 assessment#:#tst_man_scoring_by_part#:#Beoordeling door deelnemer
@@ -1432,24 +1443,24 @@ assessment#:#tst_missing_marks#:#Je hebt geen cijfer schema in de toets! Voeg te
 assessment#:#tst_missing_questions#:#Je hebt geen vragen in de toets! Voeg ten minste één vraag toe aan de toets.
 assessment#:#tst_missing_title#:#Je hebt geen toets titel ingevoerd. Ga naar de sectie metagegevens en voer een titel in.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Continues question selection configuration cannot be modified due to existing participant data.
-assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#De instelling voor willekeurige vraag kan niet worden gewijzigd vanwege bestaande deelnemersgegevens.
-assessment#:#tst_msg_dynamic_question_set_config_modified#:#Continues question selection configuration has been modified.
-assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#De configuratie voor de set willekeurige vragen was gewijzigd. Je kunt nu een nieuwe regel toevoegen.
-assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random test was successfully modified.
-assessment#:#tst_msg_random_question_set_synced#:#De vragen voor de huidige configuratie zijn gesynchroniseerd.
-assessment#:#tst_msg_rand_quest_set_change_quest_amount_here#:#Je kunt hier het aantal vragen hier aanpassen
-assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Without a correctly defined question amount, the generation of random test passes for participants is not possible.
-assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Momenteel kun je geen nieuwe regels toevoegen voor de vragenselectie omdat er geen vragenpools beschikbaar zijn.
-assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Without the definition of source question pools, the generation of random test passes for participants is not possible.
-assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#The generation of random test passes for participants is not possible with the current configuration of source question pools and question amount(s).
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#The generation of random test passes for participants is possible with the current configuration.<br />The moment of the last synchronisation of the selected source question pools was: <b>%s</b>
+assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#Configuratie vragenselectie kan niet worden gewijzigd omdat er reeds bestaande deelnemers zijn.
+assessment#:#tst_msg_dynamic_question_set_config_modified#:#Configuratie vragenselectie is gewijzigd.
+assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#De configuratie van willekeurige vragen is ingesteld. Je kunt nu nieuwe regels toevoegen.
+assessment#:#tst_msg_random_question_set_config_modified#:#De configuratie voor de willekeurige toets is gewijzigd.
+assessment#:#tst_msg_random_question_set_synced#:#De vragen voor de huidige configuratie zijn met succes gesynchroniseerd.
+assessment#:#tst_msg_rand_quest_set_change_quest_amount_here#:#Je kunt het aantal vragen hier aanpassen: %s
+assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Zonder een juist aantal vragen is het niet mogelijk om willekeurige toetspogingen voor deelnemers te genereren.
+assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Op dit moment is het niet mogelijk om nieuwe regels toe te voegen voor de vragenselectie, omdat er geen vragenpools beschikbaar zijn.
+assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Zonder bron vragenpools op te geven is het niet mogelijk om willekeurige toetspogingen voor deelnemers te genereren.
+assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#Het is niet mogelijk om willekeurige toetspogingen te genereren met de huidige instelling van vragenpools en aantal vragen.
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Het genereren van willekeurige toetspogingen is mogelijk met de huidige instellingen. <br />De laatste synchronisatie van de geselecteerde vragenpools vond plaats op: <b>%s</b>
 assessment#:#tst_msg_skl_lvl_thresholds_saved#:#De competentiedrempel is opgeslagen.
 assessment#:#tst_msg_skl_qst_assign_points_saved#:#De competentiepunten zijn opgeslagen.
-assessment#:#tst_msg_source_pool_definitions_deleted#:#De vragenpool definitie is verwijdered.
-assessment#:#tst_must_be_online_exam#:#Deze optie is enkel toeganklijk voor online examens
-assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>The current test mode includes questions in its configuration that are not assigned to any question pool. If you change the test mode, these questions will be lost permanently.</b>
+assessment#:#tst_msg_source_pool_definitions_deleted#:#De vragenpool definitie is verwijderd.
+assessment#:#tst_must_be_online_exam#:#Deze optie is enkel toegankelijk voor online examens
+assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>De huidige toetsmodus bevat vragen die niet onderdeel zijn van een vragenpool. Deze vragen zullen permanent worden verwijderd.</b>
 assessment#:#tst_notify_manscoring_done_body_msg_reason#:#Je ontvangt dit bericht omdat je hebt deelgenomen aan deze toets.
-assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manual Scoring voor toets "%s" omgesye;d
+assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Handmatige Scoring voor toets "%s" omgesye;d
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#de handmatige score voor de volgende toets is vastgelegd.
 assessment#:#tst_no_evaluation_data#:#Niemand is op dit ogenblik met de toets begonnen. Er zijn geen beschikbare evaluatiegegevens.
 assessment#:#tst_no_export_randomtest#:#Je kunt een toets niet exporteren met een random selectie van vragen, omdat ook elke gebruikte vragenpool moet worden geëxporteerd wat leidt tot een enorme complexiteit aan export-bestanden.
@@ -1464,7 +1475,7 @@ assessment#:#tst_no_scorable_qst_available#:#Er zijn geen vragen met beoordeling
 assessment#:#tst_no_solution_available#:#Open tekst vraag heeft geen oplossing
 assessment#:#tst_no_taken_tests#:#Er zijn geen te maken toetsen!
 assessment#:#tst_no_tries#:#geen enkele
-assessment#:#tst_nr_of_passes#:#Aantal geslaagde van de toets
+assessment#:#tst_nr_of_passes#:#Aantal pogingen van de toets
 assessment#:#tst_nr_of_tries#:#Max. aantal keer proberen
 assessment#:#tst_nr_of_tries_desc#:#Maximale aantal pogingen
 assessment#:#tst_nr_of_tries_of_user#:#Reeds doorgevoerde pogingen
@@ -1475,7 +1486,7 @@ assessment#:#tst_num_non_answered_questions#:#Niet beantwoorde vragen
 assessment#:#tst_num_postponed_questions#:#Uitgestelde vragen
 assessment#:#tst_num_questions#:#Aantal vragen
 assessment#:#tst_num_selected_questions#:#Aantal geselecteerde vragen
-assessment#:#tst_num_wrong_answered_questions#:#Verkeerd beantwoorde vragen
+assessment#:#tst_num_wrong_answered_questions#:#Fout beantwoorde vragen
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#De gestarte toets voor test "%s" bevat geen vragen.
 assessment#:#tst_participant#:#Deelnemer
 assessment#:#tst_participants_no#:#Op dit moment is niemand met de toets begonnen
@@ -1484,7 +1495,7 @@ assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_solution#:#Deelnemer's oplossing
 assessment#:#tst_participant_status#:#Deelnemers Status
 assessment#:#tst_participating_users#:#Deelnemende gebruikers
-assessment#:#tst_passes#:#Geslaagde
+assessment#:#tst_passes#:#Pogingen
 assessment#:#tst_password#:#Toets wachtwoord
 assessment#:#tst_password_details#:#Als je een wachtwoord toevoegt aan een toets, dan moeten alle gebruikers dit wachtwoord ingeven om de toets te kunnen starten
 assessment#:#tst_password_entered_wrong_password#:#Je kunt de toets niet starten omdat je het foute wachtwoord hebt opgegeven
@@ -1498,8 +1509,8 @@ assessment#:#tst_pass_details#:#Toon details
 assessment#:#tst_pass_details_overview_table_title#:#Gedetailleerd overzicht van poging
 assessment#:#tst_pass_last_pass#:#scoor de laatste poging van de gebruiker
 assessment#:#tst_pass_overview_for_participant#:#Toetspogingen voor gebruiker: %s
-assessment#:#tst_pass_scoring#:#meerdere pogingen scoren
-assessment#:#tst_pass_scoring_description#:#Als de laatste geslaagde wordt genoteerd, zal de laatste toetsgeslaagde van een deelnemer worden gebruikt om de toets resultaten te berekenen. Als de beste geslaagde wordt genoteerd, zal de toetsgeslaagde met het hoogste aantal bereikte punten een toetsresultaat worden gekozen. Dit het plaatsen heeft slechts effect, als meer dan één geslaagde voor een toets wordt toegestaan.
+assessment#:#tst_pass_scoring#:#Meerdere pogingen scoren
+assessment#:#tst_pass_scoring_description#:#Als de laatste poging wordt genoteerd, zal de laatste poging van een deelnemer worden gebruikt om de toetsresultaten te berekenen. Als de beste poging wordt genoteerd, zal de poging met het hoogste aantal bereikte punten als toetsresultaat worden gekozen. Deze instelling heeft alleen effect als meer dan één poging voor een toets wordt toegestaan.
 assessment#:#tst_percent_solved#:#Percentage gescoord
 assessment#:#tst_position#:#Vragen %s van %s
 assessment#:#tst_postpone#:#Vragen uitstellen
@@ -1507,8 +1518,8 @@ assessment#:#tst_postpone_description#:#De deelnemers kunnen vragen uitstellen t
 assessment#:#tst_presentation_properties#:#Presentatie instellingen
 assessment#:#tst_print#:#Toets & Beoordeling Print View
 assessment#:#tst_print_date#:#Datum van afdrukken
-assessment#:#tst_processing_time#:#Max. processingtijd
-assessment#:#tst_processing_time_desc#:#De maximale toetsduur, deze begint op het moment dat een deelnemer de eerste een toets begint en eindigt na afloop van de opgegeven tijdsduur. Als deze optie wordt gebruikt moet ook de mogelijk om een toetst uit te schakelen worden uitgezet.
+assessment#:#tst_processing_time#:#Max. toetsduur
+assessment#:#tst_processing_time_desc#:#De maximale toetsduur, deze begint op het moment dat een deelnemer een toets begint en eindigt na afloop van de opgegeven tijdsduur. Als deze optie wordt gebruikt moet ook de mogelijkheid om een toetst uit te schakelen worden uitgezet.
 assessment#:#tst_properties#:#Toetseigenschappen
 assessment#:#tst_qst_order#:#Volgorde
 assessment#:#tst_qst_resetsolved#:#Herstellen
@@ -1518,34 +1529,34 @@ assessment#:#tst_qst_summary_text#:#Hier kan je alle vragen bekijken. Gebruik de
 assessment#:#tst_question#:#Vraag
 assessment#:#tst_questions_hints_table_cmd_save_order#:#Volgorde opslaan
 assessment#:#tst_questions_hints_table_multicmd_cut_hint#:#Cut Hint to Ordering Clipboard
-assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Delete Hint(s)
+assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Verwijder Hint(s)
 assessment#:#tst_questions_hints_table_multicmd_paste_hint_after#:#Hint toevoegen aan geselecteerde hint
 assessment#:#tst_questions_hints_table_multicmd_paste_hint_before#:#Voeg hint toe vooraan de geselecteerde hint
 assessment#:#tst_questions_hints_toolbar_cmd_add_hint#:#Hint toevoegen
-assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Reset Hint Ordering Clipboard
+assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Herstel hintvolgorde
 assessment#:#tst_questions_inserted#:#Vraag(vragen) ingevoegd!
 assessment#:#tst_questions_removed#:#Vraag(vragen) verwijderd!
 assessment#:#tst_question_amount#:#Aantal vragen
-assessment#:#tst_question_answer_status#:#Status van vraag
-assessment#:#tst_question_answer_status_all_non_correct#:#Alle vragen (behalve correct beantwoorde vragen)
+assessment#:#tst_question_answer_status#:#Status van antwoord
+assessment#:#tst_question_answer_status_all_non_correct#:#Alle vragen (behalve juist beantwoorde)
 assessment#:#tst_question_answer_status_non_answered#:#Niet beantwoorde vragen
-assessment#:#tst_question_answer_status_wrong_answered#:#Verkeerd beantwoorde vragen
-assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
-assessment#:#tst_question_feedback_edit_page#:#Edit Content
-assessment#:#tst_question_hints_back_to_hint_list#:#Question Hint List
+assessment#:#tst_question_answer_status_wrong_answered#:#Incorrrect beantwoorde vragen
+assessment#:#tst_question_feedback_back_to_feedback_form#:#Terug naar vraag
+assessment#:#tst_question_feedback_edit_page#:#Wijzigen inhoud
+assessment#:#tst_question_hints_back_to_hint_list#:#Lijst van hints
 assessment#:#tst_question_hints_back_to_question#:#Terug naar de vraag
 assessment#:#tst_question_hints_cancel_request#:#Terug naar de vraag
 assessment#:#tst_question_hints_confirm_request#:#Hint vragen
-assessment#:#tst_question_hints_cut_hints_missing_selection_msg#:#No hint selected for cutting.
-assessment#:#tst_question_hints_cut_hints_single_selection_msg#:#More than one hint was selected for cutting.
-assessment#:#tst_question_hints_delete_hints_confirm_cmd#:#Delete Hint(s)
+assessment#:#tst_question_hints_cut_hints_missing_selection_msg#:#Geen hint is geselecteerd.
+assessment#:#tst_question_hints_cut_hints_single_selection_msg#:#Meer dan een (1) hunt was geselecteerd.
+assessment#:#tst_question_hints_delete_hints_confirm_cmd#:#Verwijder Hint(s)
 assessment#:#tst_question_hints_delete_hints_confirm_header#:#Wil je echt de volgende hints verwijderen?
 assessment#:#tst_question_hints_delete_hints_confirm_item#:#Hint %s: %s
-assessment#:#tst_question_hints_delete_hints_missing_selection_msg#:#No hint(s) selected for deletion.
-assessment#:#tst_question_hints_delete_success_msg#:#De geselecteerde hint zijn verwijderd.
-assessment#:#tst_question_hints_form_cmd_save#:#Hint oplsaan
-assessment#:#tst_question_hints_form_cmd_save_points#:#Save Points
-assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Save Points and Edit Page
+assessment#:#tst_question_hints_delete_hints_missing_selection_msg#:#Geen hint(s) geselecteerd voor verwijdering.
+assessment#:#tst_question_hints_delete_success_msg#:#De geselecteerde hints zijn verwijderd.
+assessment#:#tst_question_hints_form_cmd_save#:#Hint opslaan
+assessment#:#tst_question_hints_form_cmd_save_points#:#Punten opslaan
+assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:#Sla punten op en wijzig pagina
 assessment#:#tst_question_hints_form_header_create#:#Nieuwe hint voor vraag: %s
 assessment#:#tst_question_hints_form_header_edit#:#Hint %s voor vraag: %s
 assessment#:#tst_question_hints_form_invalid_msg#:#De hint kon niet worden opgeslagen. Controleer je output.
@@ -1562,14 +1573,14 @@ assessment#:#tst_question_hints_request_confirmation#:#Wil je echt hint %s zien?
 assessment#:#tst_question_hints_save_order_success_msg#:#De volgorde van de hints is opgeslagen.
 assessment#:#tst_question_hints_tab#:#Hints
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
-assessment#:#tst_question_hints_table_column_hint_order#:#Order
+assessment#:#tst_question_hints_table_column_hint_order#:#Volgorde
 assessment#:#tst_question_hints_table_column_hint_points#:#Punten aftrekken
 assessment#:#tst_question_hints_table_column_hint_text#:#Hint
 assessment#:#tst_question_hints_table_header#:#Hints voor vraag: %s
-assessment#:#tst_question_hints_table_link_delete_hint#:#Delete Hint
+assessment#:#tst_question_hints_table_link_delete_hint#:#Verwijder Hint
 assessment#:#tst_question_hints_table_link_edit_hint#:#Hint wijzigen
-assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
-assessment#:#tst_question_hints_table_link_edit_hint_points#:#Edit Points
+assessment#:#tst_question_hints_table_link_edit_hint_page#:#Wijzig pagina
+assessment#:#tst_question_hints_table_link_edit_hint_points#:#Wijzig punten
 assessment#:#tst_question_hints_table_no_items#:#Geen bestaande hints
 assessment#:#tst_question_mark#:#Markeer deze vraag
 assessment#:#tst_question_marked#:#Je hebt de vraag gemarkeerd
@@ -1580,13 +1591,13 @@ assessment#:#tst_question_offer#:#Accepteer je dit monster of wil je een andere?
 assessment#:#tst_question_selection#:#Selectie vragen
 assessment#:#tst_question_selection_description#:#Als je enkel vragenpoolen gebruikt die vragen bevatten die gelijk zijn aan het maximum aantal van het te behalen punten, dan zal de toets een gelijkwaardig voor alle gebruikers en dus zullen de resultaten beter vergelijkbaar zijn. Het is aanbevolen te kiezen voor deze modus.
 assessment#:#tst_question_selection_equal#:#Gebruik vragenpoolen met dezelfde maximumscore
-assessment#:#tst_question_set_type#:#Test Modus
-assessment#:#tst_question_set_type_dynamic#:#Continuous testing
-assessment#:#tst_question_set_type_dynamic_desc#:#With this mode exactly one question pool is to be selected. The test is taken in a never ending pass by the participants and the questions are selected individually and on demand for each participant.
-assessment#:#tst_question_set_type_fixed#:#testing with Fixed Set of Questions
-assessment#:#tst_question_set_type_fixed_desc#:#With this mode a fixed set of questions is to be selected and is used for all participants. Depending on the detailed test configuration the participants can take one or more test passes.
-assessment#:#tst_question_set_type_random#:#testing with Random Set of Questions
-assessment#:#tst_question_set_type_random_desc#:#With this mode one or more question pools are to be selected from which an individual random set of questions is selected for each participant. Depending on the detailed test configuration the participants can take one or more test passes.
+assessment#:#tst_question_set_type#:#Toets Modus
+assessment#:#tst_question_set_type_dynamic#:#Continue Toetsen
+assessment#:#tst_question_set_type_dynamic_desc#:#In deze modus wordt er een (1) vragenpool geselecteerd. De toets wordt afgelegd in een nooit beeindigende doorloop en de vragen worden individueel getoond tot alle vragen correct zijn bentwooord.
+assessment#:#tst_question_set_type_fixed#:#Toets met vast aantal vragen
+assessment#:#tst_question_set_type_fixed_desc#:#In deze modus wordt een vast aantal vragen geselecteerd voor alle deelnemers. Afhankelijk van de toetsinstellingen kan de deelnemers een of meer pogingen doen.
+assessment#:#tst_question_set_type_random#:#Toets met willekeurige vragen
+assessment#:#tst_question_set_type_random_desc#:#In deze modus worden een of meer vragenppools geselecteerd van waaruit een willekeurige set vragen wordt geselecteerd per deelnemer. Afhankelijk van de toetsiinstellingen kan de deelnemers een of meer pogingen doen.
 assessment#:#tst_question_title#:#Titel
 assessment#:#tst_question_type#:#Vraagtype
 assessment#:#tst_question_unmark#:#Verwijder de aanduiding voor deze vraag.
@@ -1630,10 +1641,10 @@ assessment#:#tst_results_overview#:#Overzicht van de toets resultaten
 assessment#:#tst_results_overview_pass#:#toets resultaten van deze poging %s
 assessment#:#tst_results_presentation#:#Voorstelling toets resultaten
 assessment#:#tst_results_print_best_solution#:#Beste oplossing in toets resultaten
-assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.
+assessment#:#tst_results_print_best_solution_info#:#Als ingeschakeld en toegankelijk voor de deelnemer, zal de beste oplossing verschijnen in de samengevoegde toetsresultaten.
 assessment#:#tst_results_tax_filters#:#Resultaat Filter
 assessment#:#tst_result_user_name#:#toets resultaten voor %s
-assessment#:#tst_result_user_name_pass#:#Resultaten van de geslaagden %s voor %s
+assessment#:#tst_result_user_name_pass#:#Resultaten van de pogingen %s voor %s
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Resume test with Current Question Selection
 assessment#:#tst_resume_test#:#Hervat toets
 assessment#:#tst_res_jump_to_participant_btn#:#Spring
@@ -1644,9 +1655,9 @@ assessment#:#tst_rnd_quest_set_cfg_general_form#:#Random Question Selection Conf
 assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Source Question Pool Definition
 assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#Add New Source Question Pool Definition
 assessment#:#tst_saved_manscoring_successfully#:#De handmatige score voor toetspoging %s is opgeslagen.
-assessment#:#tst_save_and_create_new_rule#:#Opslaan en toevoegen nieuwe regel
+assessment#:#tst_save_and_create_new_rule#:#Opslaan en nieuwe regel toevoegen
 assessment#:#tst_save_comp_points#:#Opslaan competentie-punten
-assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.
+assessment#:#tst_save_manscoring_failed#:#Het opslaan van de handmatige score voor toetspoging %s is mislukt.
 assessment#:#tst_save_thresholds#:#Opslaan drempels
 assessment#:#tst_score_cutting#:#Knip negatieve punten
 assessment#:#tst_score_cutting_description#:#Als de negatieve punten van de vraag worden weggelaten, zullen de resultaten voor elke vraag die een deelnemer met een resultaat van minder dan nul punten beantwoordt aan nul punten worden geplaatst. Als de negatieve punten van de toets worden afgesneden, zullen de resultaten voor de toets aan nul punten worden geplaatst, als de som alle vraagresultaten minder dan nul punten is.
@@ -1662,7 +1673,7 @@ assessment#:#tst_score_type#:#type score verslag
 assessment#:#tst_search_users#:#Toevoegen vaste deelnemers
 assessment#:#tst_selected_user_data_deleted#:#De toetsgegevens van de gebruiker zijn verwijderd
 assessment#:#tst_select_file_for_import#:#Je moet een bestand selecteren voor import
-assessment#:#tst_select_qpls#:#Selecteer een vragenbaank voor duplicatie
+assessment#:#tst_select_qpls#:#Selecteer een vragenbank voor duplicatie
 assessment#:#tst_select_questionpool#:#Selecteer een vragenpool om de gecreëerde vraag op te slaan!
 assessment#:#tst_select_questionpools#:#Selecteer een vragenpool om de geimporteerde vraag op te slaan!
 assessment#:#tst_select_random_questions#:#Selecteer de vragenpoolen en het aantal vragen voor een willekeurige toets
@@ -1680,28 +1691,28 @@ assessment#:#tst_setting_enable_obligations_info#:#Als aangevinkt kunnen vragen 
 assessment#:#tst_setting_enable_obligations_label#:#Verplichte vragen
 assessment#:#tst_setting_offer_hints_info#:#If enabled, existing question specific hints are offered.
 assessment#:#tst_setting_offer_hints_label#:#Vraag-specifieke Hints
-assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Toets staat offline, omdat de omzetting van de instelling van willekeurige vraagselectie tot gevolg heeft dat  de al bestaande vragen worden verwijderd.
+assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Toets staat offline, omdat de omzetting van de instelling van willekeurige vraagselectie tot gevolg heeft dat de reeds bestaande vragen worden verwijderd.
 assessment#:#tst_show_answer_sheet#:#Toon antwoorden
 assessment#:#tst_show_cancel#:#Toon toetsopties
 assessment#:#tst_show_cancel_description#:#Indien aangevinkt, wordt een knop om de toets op te schorten getoond tijdens de maken van de toets
 assessment#:#tst_show_comp_results#:#Tonen competentieresultaten
 assessment#:#tst_show_pass_details#:#Toon aflopen toetsdetails
-assessment#:#tst_show_pass_details_desc#:#Indien ingeschakeld, zijn de titel en de behaalde score voor iedere vraag beschikbaar, als de toets niet is voltooid.
-assessment#:#tst_show_results#:#Laat toets resultaten zien
+assessment#:#tst_show_pass_details_desc#:#Als geselecteerd zijn de toetstitels en het aantal behaalde punten per vraag beschikbaar, als de toets nog niet is voltooid.
+assessment#:#tst_show_results#:#Laat toetsresultaten zien
 assessment#:#tst_show_side_list#:#Tonen vragenlijst aan zijkant
 assessment#:#tst_show_solution_answers_only#:#Resultaten overzicht (alleen de antwoorden)
-assessment#:#tst_show_solution_answers_only_desc#:#Indien geselecteerd zal de ILIAS inhoud rond de vraag die is aangemaakt met de "Wijzig Inhoud" tabblad niet zichtbaar zijn bij het afdrukken. Dit is de optie die je moet selecteren om papier uit te sparen.
+assessment#:#tst_show_solution_answers_only_desc#:#Als geselecteerd zal de ILIAS inhoud die je rond een vraag hebt aangemaakt met behulp van de pagina editor niet worden getoond bij het afdrukken. Als je bezuinigt op papier, selecteer dan deze optie.
 assessment#:#tst_show_solution_compare#:#Vergelijk antwoord met oplossing in antwoordenlijst
 assessment#:#tst_show_solution_details#:#Score details
-assessment#:#tst_show_solution_details_desc#:#Indien ingeschakeld, zijn de antwoorddetails beschikbaar voor de deelnemers in de toets resultaten. Dit is inclusief de exacte scores van ieder antwoord, anders zal alleen een overzicht met de vraagtitels en de behaalde punten worden getoond.
-assessment#:#tst_show_solution_feedback#:#Toon antwoord feedback in toets resultaten.
-assessment#:#tst_show_solution_feedback_desc#:#Indien geselecteerd zal de antwoord-specifieke feedback worden getoond in de toetsresultaten naast de vraag.
+assessment#:#tst_show_solution_details_desc#:#Als geselecteerd is de gedetailleerde oplossing beschikbaar voor deelnemers in de toetsresultaten. Dit is inclusief de exacte score voor ieder antwoord. Anders wordt alleen een overzicht met de vragentitles en de behaalde punten getoond.
+assessment#:#tst_show_solution_feedback#:#Toon antwoord feedback in toetsresultaten.
+assessment#:#tst_show_solution_feedback_desc#:#Als geselecteerd zal antwoord-specifieke feedback worden getoond in de toetsresultaten naast de vragen.
 assessment#:#tst_show_solution_printview#:#Afdrukweergave oplossing
-assessment#:#tst_show_solution_printview_desc#:#Indien geselecteerd zal een overzicht van alle vragen en antwoorden worden aangemaakt. Deze lijst zal worden getoond op de Info pagina en aan het einde van een toets voor de invoering.
+assessment#:#tst_show_solution_printview_desc#:#Als geselecteerd wordt een overzicht van alle vragen met antwoorden getoond. Deze lijst is beschikbaar op de Info pagina alsook op het einde van de toets voor de indiening.
 assessment#:#tst_show_solution_signature#:#Handtekening plaatsaanduiding
-assessment#:#tst_show_solution_signature_desc#:#Indien geselecteerd zal een ruimte voor een handtekening worden getoond op de afdruk.
+assessment#:#tst_show_solution_signature_desc#:#Als geselecteerd zal er ruimte voor een handtekening worden getoond bij het afdrukken.
 assessment#:#tst_show_solution_suggested#:#Toon voorgestelde oplossing
-assessment#:#tst_show_solution_suggested_desc#:#Indien geselecteerd zullen de gesuggereerde oplossingen van vragen worden getoond in het overzicht van toetsresultaten.
+assessment#:#tst_show_solution_suggested_desc#:#Als geselecteers zal de gesugggereerde oplossing (als die bestaat) worden getoond in het overzzicht van de toetsresultaten.
 assessment#:#tst_show_summary#:#Toon vraag samenvatting
 assessment#:#tst_show_summary_description#:#Biedt een samenvattingspagina met alle toetsvragen.
 assessment#:#tst_show_toplist#:#Hoge scores tonen
@@ -1758,7 +1769,7 @@ assessment#:#tst_test_contains_obligatory_questions#:#Om voor deze toets te slag
 assessment#:#tst_test_execution#:#Toetsuitvoering
 assessment#:#tst_test_output#:#Toets output
 assessment#:#tst_test_result#:#Toets Resultaten
-assessment#:#tst_text_count_system#:#Scoring systeem
+assessment#:#tst_text_count_system#:#Score systeem
 assessment#:#tst_threshold#:#Drempel
 assessment#:#tst_time_already_spent#:#Reeds benodige werktijd
 assessment#:#tst_time_already_spent_left#:#Je hebt %s over.
@@ -2885,7 +2896,7 @@ common#:#arrow_downright#:#Pijl van boven naar rechtsonder
 common#:#articels_unread#:#Ongelezen artikels
 common#:#assessment_defaults#:#Standaard instellingen voor Toetsen
 common#:#assessment_imap_line_color#:#Lijnkleur afbeedlingsmap
-common#:#assessment_log#:#Creëer Toets&Beoordeling log voor een specifieke periode
+common#:#assessment_log#:#Aanmaken Toets&Beoordeling log voor een specifieke periode
 common#:#assessment_log_datetime#:#Datum/Tijd
 common#:#assessment_log_deleted#:#De logboekgegevens van de Toets&Beoordeling zijn verwijderd in het beheer
 common#:#assessment_log_for_test#:#Voor toets
@@ -3078,10 +3089,10 @@ common#:#cal_until#:#Tot:
 common#:#cancel#:#Annuleren
 common#:#cancel_file_upload#:#Wil je echt alle lopende uploads annuleren?
 common#:#cannot_find_xml#:#Kan XML-bestand niet vinden.
-common#:#cannot_uninstall_language_in_use#:#U kunt geen talen deïnstalleren die in gebruik zijn! changed
-common#:#cannot_uninstall_systemlanguage#:#U kunt de systeemtaal niet deïnstalleren!
+common#:#cannot_uninstall_language_in_use#:#Je kunt geen talen deïnstalleren die in gebruik zijn! changed
+common#:#cannot_uninstall_systemlanguage#:#Jekunt de systeemtaal niet deïnstalleren!
 common#:#cannot_unzip_file#:#Kan bestand niet uitpakken.
-common#:#cant_deactivate_if_users_assigned#:#u kunt geen stijl verwijderen als deze nog in gebruik is bij een gebruiker
+common#:#cant_deactivate_if_users_assigned#:#Je kunt geen stijl verwijderen als deze nog in gebruik is bij een gebruiker
 common#:#cat#:#Categorie
 common#:#categories#:#Categorieën
 common#:#categories_imported#:#Categorie import gereed.
@@ -3209,7 +3220,7 @@ common#:#container#:#Inhoud
 common#:#container_no_items#:#Geen materiaal beschikbaar
 common#:#content#:#Inhoud
 common#:#content_frame#:#Content Frame
-common#:#content_styles#:#Cursusstijlen
+common#:#content_styles#:#Inhoudstijlen
 common#:#context#:#Context
 common#:#continue#:#continue
 common#:#continue_work#:#Doorgaan
@@ -3242,7 +3253,7 @@ common#:#create_block#:#Create Block
 common#:#create_date#:#Aangemaakt op
 common#:#create_export_file#:#Aanmaken van export bestand
 common#:#create_in#:#Creëren in
-common#:#create_stylesheet#:#Creëer stijl
+common#:#create_stylesheet#:#Aanmaken stijl
 common#:#cronjob_last_start#:#Laatste start van de Cron Job
 common#:#cronjob_last_start_unknown#:#Indeterminaat
 common#:#cron_forum_notification#:#Verzend forum berichten
@@ -3343,7 +3354,7 @@ common#:#default_skin#:#Standaard gebruikersscherm
 common#:#default_skin_style#:#Standaard gebruikersscherm / Stijl
 common#:#default_style#:#Standaard stijl
 common#:#default_value#:#Standaard waarde
-common#:#def_repository_view#:#Standaard Studiecentrum Beeld
+common#:#def_repository_view#:#Standaard boomstructuur overzicht
 common#:#delete#:#Verwijderen
 common#:#deleted#:#Verwijderd
 common#:#deleted_user#:#De gebruiker is verwijderd
@@ -3387,7 +3398,7 @@ common#:#disable_anonymous_fora#:#Uitschakelen anonieme forums.
 common#:#disable_anonymous_fora_desc#:#If option is enabled, nobody is able to make a forum anonymous. Making an anonymous forum non-anonymous is still possible.
 common#:#disable_check#:#Controle uitschakelen
 common#:#disable_ext_lang_maint#:#Uitgebreid onderhoud uitschakelen
-common#:#disable_hide_user_toggle#:#Deelnemer mogen uitschakelen
+common#:#disable_hide_user_toggle#:#Deelnemers mogen uitschakelen
 common#:#disk_quota#:#Disk Quota
 common#:#disk_quota_exceeded_headline#:#de volgende gebruikers hebben kun disc quotum overschreden:
 common#:#disk_quota_is_1_by_2#:#The effective disk quota is %1$s due to membership in role "%2$s".
@@ -3877,7 +3888,7 @@ common#:#hide_filter#:#Filter verbergen
 common#:#hide_own_online_status#:#Verberg mijn onlinestatus
 common#:#hide_private_notes#:#Verberg privé notities
 common#:#hide_structure#:#Structuurscherm verbergen
-common#:#hide_visible_sections#:#Toon minder informatie &raquo;
+common#:#hide_visible_sections#:#Minder Informatie tonen &raquo;
 common#:#hint#:#Hint
 common#:#history#:#Geschiedenis
 common#:#hist_dbk_delete_pg#:#Pagina "%1" [%2] is verwijderd.#
@@ -4028,7 +4039,7 @@ common#:#info_not_assigned#:#not assigned
 common#:#info_owner_of_object#:#Eigenaar van object
 common#:#info_permission_origin#:#Originele positie
 common#:#info_permission_source#:#Effectief van
-common#:#info_remark_interrupted#:#Opmerking is onderbroken in deze positie.
+common#:#info_remark_interrupted#:#Rol is onderbroken in deze positie.
 common#:#info_short#:#Info
 common#:#info_status_info#:#Status informatie
 common#:#info_trash#:#Verwijderde objecten
@@ -4255,7 +4266,7 @@ common#:#mail_member#:#E-mail deelnemer
 common#:#mail_members#:#E-mail naar deelnemers
 common#:#mail_multiple_recipients_found#:#Enter a more specific e-mail address. ILIAS found multiple possible recipients for this address: %s
 common#:#mail_not_sent#:#E-mail niet verzonden!
-common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.
+common#:#mail_no_recipient_found#:#Enter a different e-mail address. ILIAS couldn't find a recipient with this mail address.
 common#:#mail_no_valid_group_role#:#Geen geldige groep rol
 common#:#mail_search_courses_not_found#:#Geen cursus gevonden waar je deelnemer van bent.
 common#:#mail_search_groups_not_found#:#Geen groep gevonden waar je deelnemer van bent.
@@ -5394,7 +5405,7 @@ common#:#show_all_details#:#Toon alle details
 common#:#show_details#:#Laat details zien
 common#:#show_filter#:#Filter tonen
 common#:#show_hidden_block#:#Show Hidden Block
-common#:#show_hidden_sections#:#Toon meer informatie &raquo;
+common#:#show_hidden_sections#:#Meer informatie tonen &raquo;
 common#:#show_list#:#Laat lijst zien
 common#:#show_members#:#Tonen deelnemers
 common#:#show_owner#:#Laat eigenaar zien
@@ -5861,7 +5872,7 @@ content#:#add_menu_entry#:#Voeg menu toe
 content#:#all#:#Alles
 content#:#all_pages#:#De volledige leermodule
 content#:#choose_public_mode#:#Gasten krijgen toegang
-content#:#choose_public_pages#:#Kies gasten pagina's
+content#:#choose_public_pages#:#Kies openbare pagina's
 content#:#citate#:#Citaat
 content#:#citate_from#:#Citaat van ...
 content#:#citate_page#:#Citeren pagina
@@ -6501,7 +6512,7 @@ content#:#cont_offline#:#Offline versies
 content#:#cont_offline_files#:#Offline versies
 content#:#cont_offline_mode_allow#:#Offline Modus toestaan
 content#:#cont_offline_mode_allow_info#:#In offline modus zijn leermodules alleen toegankelijk met de SCORM offline player. The voortgangsgegevens zullen worden overgebracht naar ILIAS als de deelnemer op "beëindig offline modus" klikt.
-content#:#cont_offline_mode_disable_not_allowed_info#:#Omdat de leermodule momenteel wordt gebruikt in offline modus, kan de offline modus niet worden uitgeschakeld.
+content#:#cont_offline_mode_disable_not_allowed_info#:#Since the learning module is currently used in offline mode, the offline mode can not be disabled.
 content#:#cont_offline_versions#:#Offline Versies
 content#:#cont_online#:#Online
 content#:#cont_online_help_ids#:#Help IDs
@@ -7010,7 +7021,7 @@ content#:#set_public_mode#:#Publieke toegang instellen
 content#:#st#:#Hoodstuk
 content#:#start export#:#Start exporteren
 content#:#stop_user_offline_mode#:#Stop offline modus
-content#:#stop_user_offline_mode_for_user#:#Stop offline mode voor gebruikers
+content#:#stop_user_offline_mode_for_user#:#Stop offline modus voor gebruikers
 content#:#text_repr#:#Text Representation
 content#:#text_repr_info#:#Deze tekst wordt getoond als de afbeelding niet getoond kan worden.
 cptch#:#captcha_alt_txt#:#Dit is een visuele captcha. Klik de tab voor een audio captcha
@@ -7897,7 +7908,7 @@ dateplaner#:#cal_ch_grp_multiple_info#:#Je kunt het maximale aantal reserveringe
 dateplaner#:#cal_ch_grp_no_assignment#:#-- Niet toegewezen --
 dateplaner#:#cal_ch_grp_selection#:#Toewijzing aan spreekuurreeks
 dateplaner#:#cal_ch_grp_update_tbl#:#Wijzigen nieuwe spreekurenreeks
-dateplaner#:#cal_ch_manager#:#Spreekuren Beheren
+dateplaner#:#cal_ch_manager#:#Spreekuren beheren
 dateplaner#:#cal_ch_manager_info#:#Gebruikersnaam van de gebruiker die je spreekuren zal beheren
 dateplaner#:#cal_ch_max_books#:#Reserveringen per gebruiker
 dateplaner#:#cal_ch_multi_edit_sequence#:#Meerdere afspraken wijzigen
@@ -8527,6 +8538,7 @@ didactic#:#didactic_install_info#:#General Information
 didactic#:#didactic_not_changed#:#The didactic sjabloon setting is unchanged.
 didactic#:#didactic_selected_tpl_option#:#Applied didactic sjabloon:
 didactic#:#didactic_sjabloon_applied#:#Applied didactic sjabloon.
+didactic#:#didactic_template_applied#:#Applied didactic template.
 ecs#:#cert_serial#:#Certificate Serial Number
 ecs#:#ecs_abr#:#Abbreviation
 ecs#:#ecs_account_duration#:#Activation Period Extension
@@ -9699,8 +9711,8 @@ mail#:#mail_mailing_lists_no_addressbook_entries#:#Je hebt nog geen contacten in
 mail#:#mail_mark_read#:#E-mail als gelezen markeren
 mail#:#mail_mark_unread#:#E-mail als ongelezen markeren
 mail#:#mail_maxsize_attachment_error#:#De limit voor upload is:
-mail#:#mail_max_size_attachments_total#:#Selecteer de maximum bestandsgrootte dat is toegestaan voor e-mailbijlagen. Deze instelling is niet gerelateerd aan andere beperkingen zoals upload_max_filesize en dergelijke.
-mail#:#mail_max_size_attachments_total_error#:#De toegestane grootte van bijlages is:
+mail#:#mail_max_size_attachments_total#:#Selecteer de maximum bestandsgrootte die is toegestaan voor e-mailbijlagen. Deze instelling is niet gerelateerd aan andere beperkingen zoals upload_max_filesize en dergelijke.
+mail#:#mail_max_size_attachments_total_error#:#De toegestane grootte van bijlagen is:
 mail#:#mail_members_added_addressbook#:#Deelnemers toegevoegd aan adresboek
 mail#:#mail_members_of_mailing_list#:#Leden van maillijst
 mail#:#mail_member_notification#:#Participant Notification
@@ -9733,7 +9745,7 @@ mail#:#mail_new_file#:#Voeg nieuw bestand toe:
 mail#:#mail_notification_subject#:#Nieuwe e-mail in je inbox
 mail#:#mail_no_attachments_found#:#Geen bijlagen gevonden
 mail#:#mail_no_attach_allowed#:#Systeem berichten mogen geen bijlagen bevatten.
-mail#:#mail_no_permissions_write_smtp#:#U heeft geen rechten om externe e-mails te schrijven!
+mail#:#mail_no_permissions_write_smtp#:#Je hebt geen rechten om externe e-mails te schrijven!
 mail#:#mail_no_recipient_found#:#Geef een ander e-mailadres. ILIAS kon geen ontvangers vinden.
 mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List
 mail#:#mail_options_of#:#Opties
@@ -11119,7 +11131,7 @@ payment#:#pay_bmf_check_terms_conditions#:#Bevestig dat je de algemene voorwaard
 payment#:#pay_bmf_credit_card#:#Kredietkaart
 payment#:#pay_bmf_credit_card_data#:#Kredietkaart
 payment#:#pay_bmf_credit_card_not_valid#:#De kredietkaart informatie is niet geldig. Gelieve na te gaan of alle gegevens goed ingevuld zijn.
-payment#:#pay_bmf_debit_entry#:#Debet ingave(aleen Duits bankaccounts)
+payment#:#pay_bmf_debit_entry#:#Debet ingave(alleen Duits bankaccounts)
 payment#:#pay_bmf_debit_entry_data#:#Debet ingave
 payment#:#pay_bmf_debit_entry_not_valid#:#De debet informatie is niet geldig. Gelieve na te gaan of alle gegevens goed ingevuld zijn.
 payment#:#pay_bmf_description_credit_card#:#Controleer of alle artikelen die je wil aankopen in de winkelmand zijn. Door de gegevens over je Kredietkaart in te geven en op de knop 'Opslaan' te klikken zal de aankoop onmiddellijk starten. Het controleren van de gegevens kan enkele seconden in beslag nemen.
@@ -11228,7 +11240,7 @@ payment#:#pay_step1#:#Je bestelling - deel 1/3: Geef je persoonlijke informatie 
 payment#:#pay_step2#:#Je bestelling - deel 2/3: Kies betalingsmethode
 payment#:#pay_step3_credit_card#:#Je bestelling - deel 3/3: Geef jouw kredietkaart gegevens in en verzend je bestelling
 payment#:#pay_step3_debit_entry#:#Je bestelling - deel 3/3: Vul jouw bankgegevens in en verzend je bestelling
-payment#:#pay_thumbnail#:#Thumbnail
+payment#:#pay_thumbnail#:#Miniatuur
 payment#:#pay_topics_allow_custom_sorting#:#Handmatige volgorde van onderwerpen
 payment#:#pay_topics_allow_custom_sorting_info#:#Als ingeschakeld kunnen gebruikers onafhankelijk van elkaar de volgorde van items in de winkel bepalen.
 payment#:#pay_topics_default_sorting_direction#:#Standaard sorteervolgorde van onderwerpen
@@ -11478,7 +11490,7 @@ prtf#:#prtf_page_element_teaser_blog#:#Het portfolio zal hier de geselecteerde b
 prtf#:#prtf_page_element_teaser_blog_template#:#Het portfolio zal hier een blog van je persoonlijke werkruimte tonen.
 prtf#:#prtf_page_element_teaser_consultation_hours#:#Het portfolio zal hier een agenda met spreekuren tonen.
 prtf#:#prtf_page_element_teaser_my_courses#:#Het portfolio zal hier een lijst van je actuele cursussen tonen.
-prtf#:#prtf_page_element_teaser_settings#:#Instellingen
+prtf#:#prtf_page_element_teaser_settings#:#Settings
 prtf#:#prtf_page_element_teaser_skills#:#Het portfolio zal je competentieniveau hier tonen
 prtf#:#prtf_portfolios#:#Portfolios
 prtf#:#prtf_portfolio_created#:#Portfolio added
@@ -11491,7 +11503,7 @@ prtf#:#prtf_preview_banner_height#:#Banner Hoogte
 prtf#:#prtf_preview_banner_info#:#Standaard grootte is 880x100 pixels.
 prtf#:#prtf_preview_banner_width#:#Banner Breedte
 prtf#:#prtf_profile_picture#:#Tonen profielfoto
-prtf#:#prtf_properties#:#Profile Eigenschappen
+prtf#:#prtf_properties#:#Portfolio Eigenschappen
 prtf#:#prtf_public_comments#:#Publiek Commentaar
 prtf#:#prtf_save_status_and_titles#:#Opslaan Status en Titels
 prtf#:#prtf_settings#:#Portfolio Beheer
@@ -13178,19 +13190,19 @@ style#:#style_edit_style#:#Wijzig stijl
 style#:#style_move_style_into#:#Into
 style#:#style_page_layout_module_portfolio#:#Portfolio
 style#:#style_page_layout_module_scorm#:#Scorm
-style#:#sty_acopy#:#Copy
-style#:#sty_added_characteristic#:#Added style class.
+style#:#sty_acopy#:#Kopieer
+style#:#sty_added_characteristic#:#Toegevoegde stijl class.
 style#:#sty_add_assignment#:#Add Assignment
-style#:#sty_add_characteristic#:#Add Style Class
-style#:#sty_add_color#:#Add Color
-style#:#sty_add_content_style#:#Voeg cursusstijl toe
+style#:#sty_add_characteristic#:#Toevoegen stijl class
+style#:#sty_add_color#:#Kleur toevoegen
+style#:#sty_add_content_style#:#Voeg inhoudstijl toe
 style#:#sty_add_image#:#Afbeelding toevoegen
 style#:#sty_add_media_query#:#Toevoegen Media Query
 style#:#sty_add_pgl#:#Toevoegen pagina layout
-style#:#sty_add_template#:#Add Template
+style#:#sty_add_template#:#Toevoegen sjabloon
 style#:#sty_all#:#Alle
 style#:#sty_all_styles_obligatory#:#Alle geselecteerd stijlen zijn verplicht en kunnen niet verwijderd worden.
-style#:#sty_assign_categories#:#Assign Categories
+style#:#sty_assign_categories#:#Categorieen toekennen
 style#:#sty_background#:#Achtergrond
 style#:#sty_background_attachment#:#Achtergrond bijlage
 style#:#sty_background_color#:#Achtergrond kleur
@@ -13212,7 +13224,7 @@ style#:#sty_cat_assignments#:#Style/Category Assignments
 style#:#sty_characteristic_already_exists#:#A style class with this title already exists within this style.
 style#:#sty_clear#:#Clear
 style#:#sty_color#:#Kleur
-style#:#sty_colors#:#Colors
+style#:#sty_colors#:#Kleuren
 style#:#sty_color_already_exists#:#A color with this name already exisits in this style.
 style#:#sty_color_code#:#Color Code
 style#:#sty_color_flavors#:#Color Flavors
@@ -13271,7 +13283,7 @@ style#:#sty_if_style_class_already_exists#:#Als de style class al bestaat...
 style#:#sty_images#:#Afbeeldingen
 style#:#sty_image_file#:#Afbeeldingsbestand
 style#:#sty_import_page_layout#:#Importeren pagina layout
-style#:#sty_import_stylesheet#:#Importeer stijl
+style#:#sty_import_stylesheet#:#Importeren stijl
 style#:#sty_individual_style#:#Individuele stijl
 style#:#sty_individual_styles#:#Individuele stijlen
 style#:#sty_keep_existing#:#Keep Existing
@@ -14708,7 +14720,7 @@ user#:#interests#:#Interesses
 user#:#interests_general#:#Algemene interesse
 user#:#interests_help_looking#:#Hulpzoekend
 user#:#interests_help_offered#:#Aanbieden hulp
-user#:#passwd_generation_pre#:#voor-gedefinieerde wachtwoorden
+user#:#passwd_generation_pre#:#Voor-gedefinieerde wachtwoorden
 user#:#restrict_user_access#:#Beperkte toegang voor gebruikersaccounts
 user#:#restrict_user_access_info#:#Schakel deze optie alleen in wanneer je de toegang tot gebruikersaccounts wil beperken. Wanneer ingeschakeld wordt de toegang tot lokale en globale gebruikersaccounts alleen toegestaan aan een rol met het recht "leestoegang tot lokaal gebruikersaccount".
 user#:#send_mail_reminder_window_too_small#:#Je frequentie-instelling is te hoog voor deze herinnering.
@@ -14903,7 +14915,7 @@ wiki#:#wiki_other_pages_linking#:#Andere pagina's met link naar deze pagina
 wiki#:#wiki_page#:#Pagina
 wiki#:#wiki_pages#:#Pagina's
 wiki#:#wiki_page_actions#:#Pagina acties
-wiki#:#wiki_page_already_exists#:#Een pagina met dzee titel bestaat reeds.
+wiki#:#wiki_page_already_exists#:#Een pagina met deze titel bestaat reeds.
 wiki#:#wiki_page_blocked#:#Wiki pagina geblokkkeerd.
 wiki#:#wiki_page_changes#:#Pagina wijzigingen
 wiki#:#wiki_page_deleted#:#Wiki pagina verwijderd.
