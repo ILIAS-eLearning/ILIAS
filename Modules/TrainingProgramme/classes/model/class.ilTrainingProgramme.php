@@ -190,7 +190,8 @@ class ilTrainingProgramme extends ActiveRecord {
 	 * Update the last change timestamp to the current time.
 	 */
 	public function updateLastChange() {
-		$this->setLastChange(new ilDateTime(ilUtil::now(), IL_CAL_DATETIME)); 
+		$this->setLastChange(new ilDateTime(ilUtil::now(), IL_CAL_DATETIME));
+		return $this;
 	} 
 
 	/**
