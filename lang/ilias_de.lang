@@ -15220,3 +15220,6 @@ scormtrac#:#rvalue#:#Value
 scormtrac#:#identifierref#:#SCO-Identifier
 dcl#:#dcl_online_info#:#Nur wenn die Datensammlung online geschaltet ist, können Benutzer die Datensammlung sehen und benutzen.
 dcl#:#dcl_notification_info#:#Aktiviert die individuelle Benachrichtigungsfunktion für Benutzer.
+administration#:#adm_missing_entries#:#Fehlende Einträge
+administration#:#adm_missing_entry_add_action#:#Hinzufügen
+administration#:#adm_missing_entry_add#:#Neuen Eintrag erstellen

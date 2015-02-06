@@ -181,6 +181,15 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
 			$translations = ilObjLanguageExt::_getValues(
 							$this->object->key, $modules, $topics);
+			
+			// enable adding new entries
+			$db_found = array();
+			foreach($translations as $name => $translation)
+			{
+				$keys = explode($this->lng->separator, $name);
+				$db_found[] = $keys[1];				
+			}
+			$missing_entries = array_diff($topics, $db_found);
 		}
 		// normal view mode:
 		// - the table is filtered manually by module, mode and pattern
@@ -295,12 +304,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
 			$data[] = $row;
 		}
-
+		
         // render and show the table
         $table_gui->setData($data);
-        $tpl->setContent($table_gui->getHTML());
+        $tpl->setContent($table_gui->getHTML().
+			$this->buildMissingEntries($missing_entries));
 	}
-
+	
     /**
      * Apply filter
      */
@@ -841,6 +851,149 @@ class ilObjLanguageExtGUI extends ilObjectGUI
        }
        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lngf.svg"), $this->lng->txt("obj_" . $this->object->getType()));
     }
+	
+	
+	//
+	// new entries
+	//
+	
+	protected function buildMissingEntries(array $a_missing = null)
+	{
+		global $ilCtrl;
+		
+		if(!is_array($a_missing) ||
+			!sizeof($a_missing))
+		{
+			return;
+		}
+		
+		$res = array('<h3>'.$this->lng->txt("adm_missing_entries").'</h3>', '<ul>');		
+		
+		foreach($a_missing as $entry)
+		{
+			$ilCtrl->setParameter($this, "eid", $entry);
+			$res[] = '<li>'.$entry.
+				' <a href="'.$ilCtrl->getLinkTarget($this, "addNewEntry").
+				'">'.$this->lng->txt("adm_missing_entry_add_action").'</a></li>';
+			$ilCtrl->setParameter($this, "eid", "");
+		}
+		
+		$res[] = '</ul>';
+			
+		return implode("\n", $res);
+	}
+	
+	function addNewEntryObject(ilPropertyFormGUI $a_form = null)
+	{
+		global $tpl;
+		
+		$id = trim($_GET["eid"]);
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initAddNewEntryForm($id);
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	protected function initAddNewEntryForm($a_id = null)
+	{		
+		global $ilCtrl;
+		
+		if(!$a_id)
+		{
+			$a_id = $_POST["id"];
+		}
+		
+		if(!$a_id || 
+			!in_array($a_id, ilObjLanguageAccess::_getSavedTopics()))
+		{
+			$ilCtrl->redirect($this, "view");
+		}
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this, "saveNewEntry"));
+		$form->setTitle($this->lng->txt("adm_missing_entry_add"));
+		
+		$mods = ilObjLanguageAccess::_getSavedModules();
+		$options = array_combine($mods, $mods);
+	
+		$mod = new ilSelectInputGUI(ucfirst($this->lng->txt("module")), "mod");
+		$mod->setOptions(array(""=>$this->lng->txt("please_select"))+$options);
+		$mod->setRequired(true);
+		$form->addItem($mod);
+		
+		$id = new ilTextInputGUI(ucfirst($this->lng->txt("identifier")), "id");
+		$id->setValue($a_id);
+		$id->setDisabled(true);
+		$form->addItem($id);
+		
+		foreach ($this->lng->getInstalledLanguages() as $lang_key)
+        {
+			$trans = new ilTextInputGUI($this->lng->txt("meta_l_".$lang_key), "trans_".$lang_key);
+			if(in_array($lang_key, array("de", "en")))
+			{
+				$trans->setRequired(true);
+			}
+			$form->addItem($trans);
+		}		
+		
+		$form->addCommandButton("saveNewEntry", $this->lng->txt("save"));
+		$form->addCommandButton("view", $this->lng->txt("cancel"));
+		
+		return $form;
+	}
+	
+	function saveNewEntryObject()
+	{
+		global $ilCtrl, $ilUser, $ilDB;
+		
+		$form = $this->initAddNewEntryForm();
+		if($form->checkInput())
+		{
+			$mod = $form->getInput("mod");
+			$id = $form->getInput("id");
+			
+			$lang = array();
+			foreach ($this->lng->getInstalledLanguages() as $lang_key)
+			{
+				$trans = trim($form->getInput("trans_".$lang_key));
+				if($trans)
+				{					
+					// add single entry
+					ilObjLanguage::replaceLangEntry(
+						$mod, 
+						$id,
+						$lang_key, 
+						$trans, 
+						date("Y-m-d H:i:s"), 
+						$ilUser->getLogin()						
+					);
+					
+					// add to serialized module
+					$set = $ilDB->query("SELECT lang_array FROM lng_modules".
+						" WHERE lang_key = ".$ilDB->quote($lang_key, "text").
+						" AND module = ".$ilDB->quote($mod, "text"));					
+					$row = $ilDB->fetchAssoc($set);
+					$entries = unserialize($row["lang_array"]);
+					if(is_array($entries))
+					{
+						$entries[$id] = $trans;						
+						ilObjLanguage::replaceLangModule($lang_key, $mod, $entries);
+					}					
+				}								
+			}		
+			
+			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+			$ilCtrl->redirect($this, "view");
+		}
+		
+		$form->setValuesByPost();
+		$this->addNewEntryObject($form);
+	}
+	
 	
 } // END class.ilObjLanguageExtGUI
 ?>
