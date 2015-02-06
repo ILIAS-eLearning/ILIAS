@@ -188,6 +188,8 @@ class ilTrainingProgramme extends ActiveRecord {
 
 	/**
 	 * Update the last change timestamp to the current time.
+	 *
+	 * @return $this
 	 */
 	public function updateLastChange() {
 		$this->setLastChange(new ilDateTime(ilUtil::now(), IL_CAL_DATETIME));
@@ -199,6 +201,8 @@ class ilTrainingProgramme extends ActiveRecord {
 	 * 
 	 * Throws when given time is smaller then current timestamp
 	 * since that is logically impossible.
+	 *
+	 * @return $this
 	 */
 	public function setLastChange(ilDateTime $a_timestamp) {
 		if (ilDateTime::_before($a_timestamp, $this->getLastChange())) {
@@ -217,7 +221,8 @@ class ilTrainingProgramme extends ActiveRecord {
 	 * Set the amount of points.
 	 * 
 	 * @param integer   $a_points   - larger than zero 
-	 * @throws ilException 
+	 * @throws ilException
+	 * @return $this
 	 */
 	public function setPoints($a_points) {
 		$a_points = (int)$a_points;
@@ -246,6 +251,7 @@ class ilTrainingProgramme extends ActiveRecord {
 	 * Throws when program is not in draft status.
 	 *
 	 * @param integer $a_mode       - one of self::$MODES
+	 * @return $this
 	 */
 	public function setLPMode($a_mode) {
 		$a_mode = (int)$a_mode;
@@ -278,6 +284,7 @@ class ilTrainingProgramme extends ActiveRecord {
 	 * back to draft needs to be forbidden only?
 	 *
 	 * @param integer $a_status     - one of self::$STATUS
+	 * @return $this
 	 */
 	public function setStatus($a_status) {
 		$a_status = (int)$a_status;
