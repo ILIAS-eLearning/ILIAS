@@ -102,6 +102,9 @@ abstract class ilLPCollection
 		$query = "DELETE FROM ut_lp_coll_manual".
 			" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer");
 		$ilDB->manipulate($query);
+		
+		// #15462 - reset internal data
+		$this->items = array(); 
 
 		return true;
 	}
