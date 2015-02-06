@@ -165,6 +165,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 */
 	public function setPoints($a_points) {
 		$this->settings->setPoints($a_points);
+		$this->updateLastChange();
 	} 
 	
 	/**
@@ -192,6 +193,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 */
 	public function setStatus($a_status) {
 		$this->settings->setStatus($a_status);
+		$this->updateLastChange();
 	}
 	
 	////////////////////////////////////
@@ -410,6 +412,21 @@ class ilObjTrainingProgramme extends ilContainer {
 			throw $e;
 		}
 		return $this;
+	}
+	
+	////////////////////////////////////
+	// HELPERS
+	////////////////////////////////////
+	
+	/**
+	 * Update last change timestamp on this node and its parents.
+	 */
+	protected function updateLastChange() {
+		$this->settings->updateLastChange();
+		if ($parent = $this->getParent()) {
+			$parent->updateLastChange();
+		}
+		$this->update();
 	}
 }
 
