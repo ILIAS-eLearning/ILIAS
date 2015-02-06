@@ -142,7 +142,7 @@ administration#:#purging_unbound_objs#:#Purging unbound objects...
 administration#:#purging#:#Purging...
 administration#:#removing_invalid_childs#:#Removing invalid tree entries...
 administration#:#removing_invalid_refs#:#Removing invalid references...
-administration#:#removing_invalid_rolfs#:#Removing invalid rolefolders...
+administration#:#removing_invalid_rolfs#:#Removing invalid role folders...
 administration#:#repair_options#:#Repair options
 administration#:#restore_missing_desc#:#Restore missing and unbound objects to RecoveryFolder.
 administration#:#restore_missing#:#Restore missing objects
@@ -150,7 +150,7 @@ administration#:#restore_trash_desc#:#Restore all objects in trash bin to Recove
 administration#:#restore_trash#:#Restore deleted objects
 administration#:#restoring_missing_objs#:#Restoring missing objects...
 administration#:#restoring_trash#:#Restoring trash...
-administration#:#restoring_unbound_objs#:#Restoring unbound objects and subobjects...
+administration#:#restoring_unbound_objs#:#Restoring unbound objects and sub-objects...
 administration#:#restoring#:#Restoring...
 administration#:#reuse_of_loginnames_contained_in_history#:#No Reuse of Login Names
 administration#:#scan_completed#:#Scan completed
@@ -162,7 +162,7 @@ administration#:#scanning_system#:#Scanning system...
 administration#:#searching_deleted_objs#:#Searching for deleted objects...
 administration#:#searching_invalid_childs#:#Searching for invalid tree entries...
 administration#:#searching_invalid_refs#:#Searching for invalid references...
-administration#:#searching_invalid_rolfs#:#Searching for invalid rolefolders...
+administration#:#searching_invalid_rolfs#:#Searching for invalid role folders...
 administration#:#searching_missing_objs#:#Searching for missing objects...
 administration#:#searching_unbound_objs#:#Searching for unbound objects...
 administration#:#skipped#:#skipped
@@ -294,7 +294,7 @@ assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#circle#:#Circle
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#To add a new gap set the cursor to the position of your choice and click the button "Insert Gap". Corresponding editing sections will apear below. You can also edit gaps by clicking on the gaps within the gap text.
+assessment#:#close_text_hint#:#To add a new gap set the cursor to the position of your choice and click the button 'Insert Gap'. Corresponding editing sections will apear below. You can also edit gaps by clicking on the gaps within the gap text.
 assessment#:#insert_gap#:#Insert Gap
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value, all text gap fields, not providing an own maximum character limitation, as well as all numeric gap fields will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
 assessment#:#qpl_maxchars_info_numeric_question#:#If you enter a value, the field for the numerical answer will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
@@ -423,10 +423,10 @@ assessment#:#option_label_adequate_or_not#:#adequate / not adequate
 assessment#:#option_label_adequate#:#adequate
 assessment#:#option_label_not_adequate#:#not adequate
 assessment#:#option_label_custom#:#Userdefined Labels
-assessment#:#option_label_custom_true#:#Label for "TRUE"
-assessment#:#option_label_custom_false#:#Label for "FALSE"
+assessment#:#option_label_custom_true#:#Label for 'TRUE'
+assessment#:#option_label_custom_false#:#Label for 'FALSE'
 assessment#:#kprim_instruction_text#:#You have to decide on every statement: [%s] or [%s]
-assessment#:#kprim_answers_info#:#The multiple choice question type "four times decision right/wrong" (Type K', also known as Kprim) gives four answers or additions to a question or an incomplete statement. A decision about the correctness is to be done on all four answers/additions. The maximum points are granted only, if all decisions are correct.
+assessment#:#kprim_answers_info#:#The multiple choice question type 'four times decision right/wrong' (Type K', also known as Kprim) gives four answers or additions to a question or an incomplete statement. A decision about the correctness is to be done on all four answers/additions. The maximum points are granted only, if all decisions are correct.
 assessment#:#tst_feedback#:#Feedback
 assessment#:#ass_process_lock#:#Use Lockings during Test Passes
 assessment#:#ass_process_lock_desc#:#Without the use of any locking mechanism, race conditions are possible. This can lead to inconsistent test results.
@@ -596,7 +596,7 @@ assessment#:#tst_save_and_create_new_rule#:#Save and Add New Rule
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for the random set of questions has been modified successfully. You can add a new rule now.
 assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random set of questions has been modified successfully.
 assessment#:#tst_msg_random_question_set_synced#:#The questions for the current configuration has been synchronized successfully.
-assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Quesitons from Pool
+assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Questions from Pool
 assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#A test with a random set of questions is possible with the current configuration.<br />Date of last synchronisation of selected question pools: <b>%s</b>
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#A test with a random set of questions is not possible without selecting at least one question pool.
@@ -619,7 +619,7 @@ assessment#:#msg_questions_moved#:#Question(s) moved
 assessment#:#msg_rect_added#:#Rectangle added
 assessment#:#msg_selected_for_move#:#Question(s) selected for moving
 assessment#:#no_selection_for_move#:#No question selected for moving
-assessment#:#msg_total_questions_too_high#:#The number of questions is greater than the number of available questions in the selected questionpools
+assessment#:#msg_total_questions_too_high#:#The number of questions is greater than the number of available questions in the selected question pools
 assessment#:#multiline_answers_hide#:#Use Single-Line Answers
 assessment#:#multiline_answers_show#:#Use Multi-Line Answers
 assessment#:#multiline_terms_hide#:#Use Single-Line Terms
@@ -711,7 +711,7 @@ assessment#:#tst_pass_deletion#:#Previous Passes
 assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed
 assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed
 assessment#:#qpl_general_properties#:#General Properties
-assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the image map areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary directory! Please contact your system administrator.
 assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool
 assessment#:#qpl_import_no_items#:#Error: The import file contains no questions!
 assessment#:#qpl_import_non_ilias_files#:#Error: The import file contains QTI files which are not created by an ILIAS system. Please contact the ILIAS team to get in import filter for your QTI file format.
@@ -809,7 +809,7 @@ assessment#:#selected_image#:#Selected Image
 assessment#:#selection#:#Selection
 assessment#:#set_edit_mode#:#Set Edit Mode
 assessment#:#set_filter#:#Set Filter
-assessment#:#set_manscoring_done#:#Mark as "Scored Participant"
+assessment#:#set_manscoring_done#:#Mark as 'Scored Participant'
 assessment#:#set_manual_feedback#:#Manual Feedback
 assessment#:#shape#:#Shape
 assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)
@@ -978,7 +978,7 @@ assessment#:#tst_no_question_selected_for_removal#:#Please check at least one qu
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Please choose at least one question to be added to a question pool!
 assessment#:#tst_no_questionpools_for_random_test#:#You have not added a question pool for this random test! Please select at least one question pool.
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
-assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionpools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.
+assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the question pools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.
 assessment#:#tst_no_solution_available#:#Short answer questions don't have a specified solution.
 assessment#:#tst_no_taken_tests#:#There are no taken tests!
 assessment#:#tst_no_tries#:#none
@@ -1068,8 +1068,8 @@ assessment#:#tst_results_access_enabled#:#Access to Test Results
 assessment#:#tst_results_access_enabled_desc#:#A button 'Show Test Results' will be displayed to participants on the 'Info'-tab. Options in this and the following sections below configure what information is to be included into the report and when it will be accessible.
 assessment#:#tst_results_access_setting#:#Point in Time
 assessment#:#tst_results_details_options#:#Further Details to be Included in Test Results
-assessment#:#tst_results_grading_opt_show_status#:#Show "Passed" / "Failed" Status
-assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the "Passed" / "Failed" Status will be appended to the summary test result. Participants can access their test results on the 'Info'-tab. <br />
+assessment#:#tst_results_grading_opt_show_status#:#Show 'Passed' / 'Failed' Status
+assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the 'Passed' / 'Failed' Status will be appended to the summary test result. Participants can access their test results on the 'Info'-tab. <br />
 assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark
 assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results on the 'Info'-tab.
 assessment#:#tst_results_aggregated#:#Aggregated Test Results
@@ -1081,14 +1081,14 @@ assessment#:#tst_results_overview#:#Pass Overview of the Test Results
 assessment#:#tst_show_solution_details_desc#:#As an add-on  to the 'Table of Detailed Test Results', the participant get a link to a page for each question. This linked page contains the question, the answer provided by the participant, information on whether this was the correct answer and points scored by this answer.
 assessment#:#tst_show_solution_printview_desc#:#An overview of all questions with the answers of the respective participant is generated. This list will be offered on the 'Info'-tab.
 assessment#:#tst_show_solution_feedback_desc#:#Feedback related to the answers provided by the participant is displayed. Please mind  that this option becomes effective only if you have activated 'Scored Answers of Participant'  and feedback was prepared along with the questions in the first place.
-assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option.
+assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the 'Edit content' tab page will not be visible in a print-out. If you want to save some paper space, select this option.
 assessment#:#tst_show_solution_signature_desc#:#The prepared printout version will contain a signature placeholder for the participant. Please mind to activate 'Table of Detailed Test Results' to use this functionality.
 assessment#:#tst_show_solution_suggested_desc#:#If content for recapitulation was assigned to the test questions in the first place, this content will be shown in the 'Table of Detailed Test Results'-table. Participants get an opportunity for remedial learning. For this option to become effective you have to activate 'Table of Detailed Test Results' under 'Access to Test Results'.
 assessment#:#tst_results#:#Test Results
 assessment#:#tst_resume_test#:#Resume the Test
-assessment#:#tst_score_cut_question#:#For Each Questions Negative Points are set to "0 Points"
+assessment#:#tst_score_cut_question#:#For Each Questions Negative Points are set to '0 Points'
 assessment#:#tst_score_cut_question_desc#:#Participants may score negative results for a question that had negative points for assigned to individual answer options. This setting ensures that per question any negativ result is set to 0 points.
-assessment#:#tst_score_cut_test#:#For the Whole Test a Negative Result is set to "0 Points"
+assessment#:#tst_score_cut_test#:#For the Whole Test a Negative Result is set to '0 Points'
 assessment#:#tst_score_cut_test_desc#:#Participants might score negative points in questions. Scored points of all questions are added up. Only if the overall result of the test is negative this overall result will be set to 0 points. With this setting negative points carry a lot of weight.
 assessment#:#tst_score_cutting#:#Negative Points
 assessment#:#tst_score_mcmr_questions#:#Multiple Choice Questions not Answered
@@ -1125,7 +1125,7 @@ assessment#:#tst_show_solution_printview#:#Additional 'List of Answers' for Prin
 assessment#:#tst_show_solution_signature#:#Signature Placeholder
 assessment#:#tst_show_solution_suggested#:#Content for Recapitulation
 assessment#:#tst_show_summary_description#:#Participants can switch on a list of test questions on the left of the actual question. Additionally, they are presented with a button 'List of Questions'. On that screen the overall status of all questions will be displayed.
-assessment#:#tst_show_summary#:#Show "List of Questions"
+assessment#:#tst_show_summary#:#Show 'List of Questions'
 assessment#:#tst_shuffle_questions_description#:#Shuffles the sequence of questions for every participant and every test pass.
 assessment#:#tst_shuffle_questions#:#Shuffle Questions
 assessment#:#tst_signature#:#Signature
@@ -1562,7 +1562,7 @@ certificate#:#certificate_ph_lastname#:#Last name of the user
 certificate#:#certificate_ph_marklong#:#Users mark (official version)
 certificate#:#certificate_ph_markshort#:#Users mark (short version)
 certificate#:#certificate_ph_maxpoints#:#Maximum available points
-certificate#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results
+certificate#:#certificate_ph_passed#:#'passed' or 'failed', depending on the test results
 certificate#:#certificate_ph_resultpercent#:#Reached percentage of the user
 certificate#:#certificate_ph_resultpoints#:#Score of user
 certificate#:#certificate_ph_salutation#:#Salutation
@@ -1833,7 +1833,7 @@ common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted
 common#:#ass_log_output#:#Log Data Output
 common#:#ass_log_path#:#Test Location
 common#:#assessment_defaults#:#Default settings for Test and Assessment
-common#:#assessment_imap_line_color#:#Imagemap Line Color
+common#:#assessment_imap_line_color#:#Image Map Line Color
 common#:#assessment_log_datetime#:#Date/Time
 common#:#assessment_log_deleted#:#The Test and Assessment log data has been deleted in the administration
 common#:#assessment_log_for_test#:#For test
@@ -1909,7 +1909,7 @@ common#:#auth_login_instructions#:#Instructions shown on login page
 common#:#auth_mode_not_changed#:#(Nothing changed)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role
 common#:#auth_mode#:#Authentication mode
-common#:#auth_new_account_mail_desc#:#Send new account e-mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated.
+common#:#auth_new_account_mail_desc#:#Send new account e-mail to user, if user is generated automatically. A password will only be generated, if 'Allow Local Authentication' is also activated.
 common#:#auth_openid#:#OpenId
 common#:#auth_per_default#:#Per Default
 common#:#auth_radius_configure#:#Configure RADIUS-Authentication
@@ -2310,8 +2310,8 @@ common#:#desired_password#:#Desired Password
 common#:#desktop_items#:#Personal Desktop Items
 common#:#details#:#Details
 common#:#disable_admin_force#:#Deactivate notification
-common#:#disable_anonymous_fora_desc#:#If this option is enabled, the feature "Remain incognito" is not available in forums anymore. In case this feature is already activated in certain forums, it is still possible to deactivate it.
-common#:#disable_anonymous_fora#:#Disable "Remain incognito" in forums
+common#:#disable_anonymous_fora_desc#:#If this option is enabled, the feature 'Remain incognito' is not available in forums anymore. In case this feature is already activated in certain forums, it is still possible to deactivate it.
+common#:#disable_anonymous_fora#:#Disable 'Remain incognito' in forums
 common#:#disable_check#:#Disable check
 common#:#disable_ext_lang_maint#:#Disable Extended Maintenance
 common#:#disable_hide_user_toggle#:#Member is allowed to deactivate
@@ -2379,10 +2379,10 @@ common#:#enable_js_edit_info#:#This option enables JavaScript editing for all co
 common#:#enable_js_edit#:#Enable JavaScript Editing
 common#:#enable_password_assistance#:#Enable password assistance
 common#:#enable_registration#:#Enable new user registration
-common#:#enable_search_engine#:#Open Public Area for Internet Search Engines (e.g Google).<br />The Apache module "mod_rewrite" is required for this extension. Please take care that you have appropriate permissions to use .htaccess configurations.
+common#:#enable_search_engine#:#Open Public Area for Internet Search Engines (e.g Google).<br />The Apache module 'mod_rewrite' is required for this extension. Please take care that you have appropriate permissions to use .htaccess configurations.
 common#:#enable_trash_info#:#If enabled, deleted Objects are moved into Trash and may be recovered later. When deactivating this option deleted Objects are removed irreversibly from the System!
 common#:#enable_trash#:#Enable Trash
-common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the "open as webfolder" action in the repository, or by entering the following address in a WebDAV client: <a href="%1$s" folder="%1$s">%1$s</a>
+common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the 'Open as webfolder' action in the repository, or by entering the following address in a WebDAV client: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#enable_webdav#:#Enable WebDAV access
 common#:#enable#:#Enable
 common#:#enabled#:#Enabled
@@ -2456,7 +2456,7 @@ common#:#exc_no_members_assigned#:#No members assigned
 common#:#exc_notices#:#Notices
 common#:#exc_obj#:#Exercise
 rbac#:#exc_read#:#User can participate at exercise
-common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked
+common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the 'solved' field has been checked
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Save
 common#:#exc_schedule#:#Schedule
@@ -2537,7 +2537,7 @@ common#:#file_not_found#:#File Not Found
 common#:#file_not_valid#:#File not valid!
 common#:#file_notice#:#Maximum upload size:
 rbac#:#file_read#:#User can download file
-common#:#file_suffix_repl_info#:#Enter file types with their suffixe (separated by comma) that shall be be renamed with a suffix ".sec" if uploaded into the webspace to prevent their execution. This is done per default for these suffixes:
+common#:#file_suffix_repl_info#:#Enter file types with their suffixe (separated by comma) that shall be be renamed with a suffix '.sec' if uploaded into the webspace to prevent their execution. This is done per default for these suffixes:
 common#:#file_suffix_repl#:#File Upload Suffix Replacement
 common#:#file_updated#:#File has been updated.
 common#:#file_valid#:#File is valid!
@@ -2679,7 +2679,7 @@ common#:#glossary_added#:#Glossary added
 common#:#glossary#:#Glossary
 common#:#go#:#Go
 common#:#group_access_denied#:#Access Denied
-common#:#group_any_objects#:#No subobjects available
+common#:#group_any_objects#:#No sub-objects available
 common#:#group_create_chat#:#Create chat
 common#:#group_desc#:#Group Description
 common#:#group_details#:#Group Details
@@ -2809,7 +2809,7 @@ common#:#hist_dbk_delete_pg#:#Page "%1" [%2] has been deleted.
 common#:#hist_dbk_delete_st#:#Chapter "%1" [%2] has been deleted.
 common#:#hist_dbk_pg_create#:#Page created.
 common#:#hist_dbk_pg_cut#:#Page cut out of chapter "%1" [%2].
-common#:#hist_dbk_pg_paste#:#Page pasted into chapter "%1" [%2].
+common#:#hist_dbk_pg_paste#:#Page pasted into chapter '%1' [%2].
 common#:#hist_dbk_pg_update#:#Page changed.
 common#:#hist_dbk_st_cut_page#:#Page "%1" [%2] cut out of chapter.
 common#:#hist_dbk_st_paste_page#:#Page "%1" [%2] pasted into chapter.
@@ -3314,10 +3314,10 @@ common#:#msg_cancel#:#Action cancelled
 common#:#msg_changes_ok#:#The changes were OK
 common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
-common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button "Next".
-common#:#msg_copy_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button "Paste".
-common#:#msg_copy_clipboard_container#:#Now, please select the desired location, where the selected objects should be pasted into and click the button "Continue".
-common#:#msg_cut_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button "Paste".
+common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button 'Next'.
+common#:#msg_copy_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button 'Paste'.
+common#:#msg_copy_clipboard_container#:#Now, please select the desired location, where the selected objects should be pasted into and click the button 'Continue'.
+common#:#msg_cut_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button 'Paste'.
 common#:#msg_cut_copied#:#Selected object(s) moved.
 common#:#msg_deleted_export_files#:#Export file(s) deleted
 common#:#msg_deleted_role#:#Role deleted
@@ -3712,7 +3712,7 @@ common#:#operation#:#Operation
 common#:#optimize#:#Optimize
 common#:#option#:#Option
 common#:#optional_filters#:#Optional Filters
-common#:#options_for_subobjects#:#Options for subobjects
+common#:#options_for_subobjects#:#Options for sub-objects
 common#:#options#:#Options
 common#:#order_by_answers#:#Order by Answers
 common#:#order_by_date#:#Order by Date
@@ -3739,7 +3739,7 @@ common#:#passwd_not_match#:#Your entries for the new password don't match! Pleas
 common#:#passwd_wrong#:#The password you entered is wrong!
 common#:#passwd#:#Password
 common#:#password_assistance_disabled#:#Password assistance is only available when user authentication is done via local ILIAS database.
-common#:#password_assistance_info#:#If password assistance is enabled, a link "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to define a new password for their user account without needing assistance from a system administrator.
+common#:#password_assistance_info#:#If password assistance is enabled, a link 'Forgot Password?' is shown on the login page of ILIAS. Users can use this link to define a new password for their user account without needing assistance from a system administrator.
 common#:#password_change_on_first_login_demand#:#You have to change your initial password before you can start using ILIAS services.
 common#:#password_empty#:#The password field must not be empty.
 common#:#password_expired#:#Your password is expired and has to be changed as the last change was %s day(s) ago.
@@ -3773,7 +3773,7 @@ common#:#pays_edit#:#Edit shop settings
 rbac#:#pays_read#:#User has read access to Shop administration
 rbac#:#pays_visible#:#Shop administration is visible
 rbac#:#pays_write#:#User can edit settings in Shop administration
-common#:#pd_enable_chatviewer#:#Enable Chatviewer
+common#:#pd_enable_chatviewer#:#Enable Chat Viewer
 common#:#pd_enable_contacts_requires_mail#:#Requires mail permission
 common#:#pd_enable_contacts#:#Enable Contacts
 common#:#pd_items_news_info#:#If activated, all news related to items that have been added to the personal desktop will be included in the news block.
@@ -3848,7 +3848,7 @@ common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket error
 common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.
 common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535
 common#:#proxy_port#:#Port
-common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.
+common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check web links) please activate the checkbox above.
 common#:#proxy_status#:#Proxy
 common#:#proxy#:#Proxy-Server
 rbac#:#ps_edit_permission#:#User can change permission settings of Privacy/Security administration
@@ -3856,7 +3856,7 @@ rbac#:#ps_export_member_data#:#User can export member data in courses and groups
 rbac#:#ps_read#:#User has read access to Privacy/Security administration
 rbac#:#ps_visible#:#Privacy/Security administration is visible
 rbac#:#ps_write#:#User can edit settings in Privacy/Security administration
-common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, workspace, user profiles) can be made available to the internet without authentication. The permissions of the "Anonymous" role will control the access to repository resources.
+common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, workspace, user profiles) can be made available to the internet without authentication. The permissions of the 'Anonymous' role will control the access to repository resources.
 common#:#pub_section#:#Anonymous Access
 common#:#public_notes#:#Public Notes
 common#:#public_profile_not_visible#:#The profile is not public
@@ -4261,7 +4261,7 @@ common#:#subchapter_new#:#New Subchapter
 common#:#subject_module#:#Subject Module
 common#:#subject#:#Subject
 common#:#submit#:#Submit
-common#:#subobjects#:#Subobjects
+common#:#subobjects#:#Sub-objects
 common#:#subscription#:#Subscription
 common#:#subtabs#:#SubTabs
 common#:#success_message#:#Success Message
@@ -4418,7 +4418,7 @@ common#:#udf_field_deleted#:#Deleted field.
 common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.
 common#:#udf_no_entries#:#Please enter minimum one value.
 common#:#udf_no_name_given#:#Please enter a field name.
-common#:#udf_required_requires_visib_reg#:#When field is set to "required", it must be set to "visible in registration"
+common#:#udf_required_requires_visib_reg#:#When field is set to 'required', it must be set to 'visible in registration'
 common#:#udf_type_date#:#Date
 common#:#udf_type_datetime#:#Date and Time
 common#:#udf_type_select#:#Selection List (Drop-Down)
@@ -4561,15 +4561,15 @@ common#:#usrf#:#User accounts
 common#:#usrimport_action_failed#:#Action %1$s failed.
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
-common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database.
-common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database.
-common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database.
-common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database).
+common#:#usrimport_cant_delete#:#Can't perform 'Delete' action. No such user in database.
+common#:#usrimport_cant_insert#:#Can't perform 'Insert' action. User is already in database.
+common#:#usrimport_cant_update#:#Can't perform 'Update' action. No such user in database.
+common#:#usrimport_conflict_handling_info#:#When 'Ignore on conflict' is selected, ILIAS ignores an action, if it can not be performed (e. g. an 'Insert' action is not done, if there is already a user with the same login in the database.)\nWhen 'Update on conflict' is selected, ILIAS updates the database if an action can not be performed. (e. g. an 'Insert' action is replaced by an 'Update' action, if a user with the same login exists in the database).
 common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.
 common#:#usrimport_ignore_role#:#Ignore role
 common#:#usrimport_login_is_not_unique#:#Login is not unique.
-common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action. External account already exists.
-common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.
+common#:#usrimport_no_insert_ext_account_exists#:#Can't perform 'Insert' action. External account already exists.
+common#:#usrimport_no_update_ext_account_exists#:#Can't perform 'Update' action. External account already exists.
 common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.
 common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.
 common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.
@@ -5004,7 +5004,7 @@ content#:#cont_layout_3window_desc#:#Content in the left frame. FAQ and media li
 content#:#cont_layout_3window#:#Three Windows
 content#:#cont_layout_fullscreen_desc#:#Content in the main frame. FAQ, glossary and media links open in separate window. No ILIAS main menu and no navigation bar.
 content#:#cont_layout_fullscreen#:#Full Screen
-content#:#cont_layout_per_page_info#:#Allow to set individual layouts for each page. This automatically activates the "Synchronize Frames" setting, too.
+content#:#cont_layout_per_page_info#:#Allow to set individual layouts for each page. This automatically activates the 'Synchronize Frames' setting, too.
 content#:#cont_layout_per_page#:#Layout per Page
 content#:#cont_layout_presentation_desc#:#Content in the main frame. FAQ, glossary and media links open in separate window. No ILIAS main menu.
 content#:#cont_layout_presentation#:#Presentation
@@ -5438,7 +5438,7 @@ content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity t
 content#:#set_public_mode#:#Set public access mode
 content#:#st#:#Chapter
 content#:#start export#:#Start Export
-content#:#text_repr_info#:#Used for image "alt" attribute.
+content#:#text_repr_info#:#Used for image 'alt' attribute.
 content#:#text_repr#:#Text Representation
 crs#:#activation_times_not_valid#:#The availability period is not valid.
 crs#:#add_event#:#Add Session
@@ -6159,7 +6159,7 @@ dateplaner#:#cal_time_format_info#:#Please choose a format for the input and pre
 dateplaner#:#cal_timezone_info#:#Please choose the nearest city in your timezone.
 dateplaner#:#cal_type_crs#:#Course Calendar
 dateplaner#:#cal_type_grp#:#Group Calendar
-dateplaner#:#cal_type_info#:#Please choose one calendar type. "Public Calendars" are visible for all ILIAS users.
+dateplaner#:#cal_type_info#:#Please choose one calendar type. 'Public Calendars' are visible for all ILIAS users.
 dateplaner#:#cal_type_personal#:#Private Calendar
 dateplaner#:#cal_type_sess#:#Session Calendar
 dateplaner#:#cal_type_system#:#Public Calendar
@@ -6287,7 +6287,7 @@ dateplaner#:#help_properties_del_l#:#Choose a keyword from the dialog box. Click
 dateplaner#:#help_properties_del#:#Deletes the keyword
 dateplaner#:#help_properties_import_l#:#Here a CSC file can be selected, which contains Outlook-Events. These events will be imported into the calendar.
 dateplaner#:#help_properties_import#:#Import of Outlook CSV files
-dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \"new\". Important: max. 20 characters.
+dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \'new\'. Important: max. 20 characters.
 dateplaner#:#help_properties_new#:#Add a keyword, max. 20 characters
 dateplaner#:#help_properties_time_l#:#The standard display time for the day view and week view can be changed. If dates are outside of the display time for a given days or week, the display time will be changed for that time span. Standard is 8h -18h.
 dateplaner#:#help_properties_time#:#Display time for day view/week view
@@ -6934,12 +6934,12 @@ ldap#:#ldap_global_role_info#:#Please choose an ILIAS Role new users will be ass
 ldap#:#ldap_global_role#:#Global Role
 ldap#:#ldap_group_attribute_info#:#The group attribute to search for.
 ldap#:#ldap_group_attribute#:#Attribute for Group
-ldap#:#ldap_group_dn_info#:#Gets prepended to "BaseDN" when searching for groups.
+ldap#:#ldap_group_dn_info#:#Gets prepended to 'BaseDN' when searching for groups.
 ldap#:#ldap_group_dn_short#:#Group DN:
 ldap#:#ldap_group_dn#:#Group DN
 ldap#:#ldap_group_filter_info#:#Filter that will be added to the search filter when searching for a group: (&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>).
 ldap#:#ldap_group_filter#:#LDAP Filter
-ldap#:#ldap_group_member_info#:#The attribute of the group object where the user dn may be found. Choose "Attribute Value is DN" if the member attribute is the distinguished name of the users.
+ldap#:#ldap_group_member_info#:#The attribute of the group object where the user dn may be found. Choose 'Attribute Value is DN' if the member attribute is the distinguished name of the users.
 ldap#:#ldap_group_member_optional#:#Group Membership is Optional
 ldap#:#ldap_group_member_short#:#Attribute:
 ldap#:#ldap_group_member#:#Group Member Attribute
@@ -6948,7 +6948,7 @@ ldap#:#ldap_group_name_info#:#The name of the group users have to be a member of
 ldap#:#ldap_group_name#:#Group Name
 ldap#:#ldap_group_optional_info#:#If enabled, the group membership is not required for a successful authentication. Please enter a user filter for the members of these groups:<br />(&(userattr=username)<strong>(userfilter)</strong>)
 ldap#:#ldap_group_restrictions#:#Group Membership Restrictions
-ldap#:#ldap_group_scope_info#:#Scope for group searching. If unsure choose "Sub"
+ldap#:#ldap_group_scope_info#:#Scope for group searching. If unsure choose 'Sub'
 ldap#:#ldap_group_scope#:#Search Scope
 ldap#:#ldap_group_search_base#:#Group Search Base
 ldap#:#ldap_group_user_filter#:#User Filter
@@ -6963,7 +6963,7 @@ ldap#:#ldap_mapping_table#:#Assignment of LDAP Attributes to ILIAS User Profile
 ldap#:#ldap_mapping_template#:#Template for objectClass:
 ldap#:#ldap_member_info#:#The attribute of the group object where the user dn may be found.
 ldap#:#ldap_memberisdn#:#Attribute Value is DN
-ldap#:#ldap_missing_bind_user#:#You have chosen "Bind as User": Please enter a valid LDAP username and password.
+ldap#:#ldap_missing_bind_user#:#You have chosen 'Bind as User': Please enter a valid LDAP username and password.
 ldap#:#ldap_missing_role_assignment#:#Please choose a global role new users will be assigned to.
 ldap#:#ldap_moment_sync#:#Type of Sychronization
 ldap#:#ldap_new_role_assignment#:#Add New Role -> Group Assignment
@@ -6987,7 +6987,7 @@ ldap#:#ldap_role_by_group#:#Groupmembership
 ldap#:#ldap_role_by_plugin#:#By Plugin
 ldap#:#ldap_role_group_assignments#:#Existing Role -> Group Assignments
 ldap#:#ldap_role_grp_at#:#Attribute
-ldap#:#ldap_role_grp_dn_info#:#Please enter the "Distinguished Name" of the LDAP Group.
+ldap#:#ldap_role_grp_dn_info#:#Please enter the 'Distinguished Name' of the LDAP Group.
 ldap#:#ldap_role_grp_info#:#Members of a specific LDAP Group will be assigned to the given ILIAS role.
 ldap#:#ldap_role_grp_isdn#:#Attribute value is DN
 ldap#:#ldap_role_info#:#Enter the name of an ILIAS Role that will control the membership to the LDAP group.
@@ -7017,19 +7017,19 @@ ldap#:#ldap_settings#:#Server Settings
 ldap#:#ldap_sync_cron#:#Per Cron-Job
 ldap#:#ldap_sync_login#:#On Login
 ldap#:#ldap_tbl_role_ass#:#Active Rules
-ldap#:#ldap_tls_conflict#:#LDAP-TLS can not be used in combination with LDAPv2. Please choose LDAP version "3" or disable TLS support.
+ldap#:#ldap_tls_conflict#:#LDAP-TLS can not be used in combination with LDAPv2. Please choose LDAP version '3' or disable TLS support.
 ldap#:#ldap_update_field_info#:#Update automatically
 ldap#:#ldap_update_roles#:#Role Assignments
 ldap#:#ldap_user_attribute#:#Attribute for Login Name
 ldap#:#ldap_user_dn#:#User Search Base
 ldap#:#ldap_user_mapping#:#User Profile Mapping
-ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose "Sub".
+ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose 'Sub'.
 ldap#:#ldap_user_scope#:#Search Scope
 ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.
 ldap#:#ldap_user_sync#:#User Synchronization Settings
 license#:#arbitrary#:#arbitrary
-license#:#course_licenses_exceeded#:#By adding users the potential accesses will exceed the available licenses. Look at the tab "Licenses" to see which licenses have to be extended.
-license#:#course_licenses_rare#:#Warning: only %s licenses are available for a course object. Look at the tab "Licenses" to see which licenses have to be extended.
+license#:#course_licenses_exceeded#:#By adding users the potential accesses will exceed the available licenses. Look at the tab 'Licenses' to see which licenses have to be extended.
+license#:#course_licenses_rare#:#Warning: only %s licenses are available for a course object. Look at the tab 'Licenses' to see which licenses have to be extended.
 license#:#edit_license#:#Edit license
 license#:#existing_licenses#:#Existing licenses
 license#:#license_counter_info#:#Allows counting used licenses of purchased SCORM and HTML learning modules
@@ -7148,7 +7148,7 @@ mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user ac
 mail#:#mail_nacc_salutation#:#Salutation
 mail#:#mail_nacc_target_block#:#This text is only included, if a target item is provided.
 mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.
-mail#:#mail_nacc_target_type#:#Type of target item, e.g. "Course" for a course item.
+mail#:#mail_nacc_target_type#:#Type of target item, e.g. 'Course' for a course item.
 mail#:#mail_nacc_target#:#URL of target item, e.g. a linked course that is passed to ILIAS from outside.
 mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used (only in Message Content)
 mail#:#mail_new_entry#:#New Entry
@@ -7913,7 +7913,7 @@ news#:#news_first_letter_of_word_notification#:#N
 news#:#news_get_feed_info#:#This is a personal news feed URL. The feed includes only news that are declared as public by the author. The feed is not protected by any authentication procedure. Please do not share this URL with other people.
 news#:#news_get_feed_title#:#Personal Feed URL
 news#:#news_get_feed_url#:#Get Feed URL
-news#:#news_get_priv_feed_info#:#This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under "Settings". Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password.
+news#:#news_get_priv_feed_info#:#This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under 'Settings'. Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password.
 news#:#news_get_priv_feed_title#:#Personal private Feed-URL
 news#:#news_hidden_news_block#:#Block is currently hidden in learner's view.
 news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.
@@ -7937,7 +7937,7 @@ news#:#news_no_news_items#:#No news available.
 news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentication.
 news#:#news_notifications_public#:#Public Notifications
 news#:#news_notifications#:#Notifications
-news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.
+news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of sub-objects.
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object
 news#:#news_pd_period_info#:#Defines the time period used for news on the personal desktop. Select lower values, if you experience any performance problems.
 news#:#news_pd_period#:#Personal Desktop News Period
@@ -8082,7 +8082,7 @@ payment#:#pay_hint_epay#:#Tip to ePay
 payment#:#pay_hint_paypal#:#Hint for PayPal
 payment#:#pay_info_epay#:#When press 'pay' the ePay payment window opens. After you have completed the payment you will return to ILIAS.
 payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.
-payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.
+payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button 'shopping cart' on your personal desktop.  You are going to gain immediate access to a chosen object and period.
 payment#:#pay_item_already_in_sc_choose_another#:#This object was already taken up in your shopping cart. Select if necessary a new price/duration combination.
 payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.
 payment#:#pay_locator#:#Shop
@@ -8424,7 +8424,7 @@ payment#:#sort_topics_by_title#:#Title
 payment#:#sort_topics_by#:#Sort Topics by
 payment#:#sort_topics_manually#:#Manually
 payment#:#sort#:#Sort
-payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the "Update View" button.
+payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the 'Update View' button.
 payment#:#sure_delete_topics#:#Are you sure you want to delete the chosen topics?
 payment#:#topic_edited#:#The topic was edited successfully
 payment#:#topic_saved#:#The topic was saved successfully
@@ -8459,7 +8459,7 @@ pd#:#pd_osi_host#:#OSI Host
 pd#:#pd_personal_items_default_view_info#:#Choose the prefered view of Personal Items.
 pd#:#pd_personal_items_default_view#:#Default View
 pd#:#pd_settings#:#Personal Desktop
-pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".
+pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of 'Active Users'.
 pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either 'Selected Items' and/or 'My Memberships'.
 pdesk#:#bm_num_bookmark_folders#:#Folder(s)
@@ -8645,7 +8645,7 @@ rbac#:#perm_local_role_desc#:#This role is locally defined at the current object
 rbac#:#perm_local_role#:#Local Role
 rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.
 rbac#:#perm_use_local_policy#:#Use local policy
-rbac#:#rbac_change_existing_confirm_tbl#:#Settings for "Change Existing Objects"
+rbac#:#rbac_change_existing_confirm_tbl#:#Settings for 'Change Existing Objects'
 rbac#:#rbac_delete_local_policies_info#:#If activated, all local policies will be deleted. The object permissions will be rewritten and protected.
 rbac#:#rbac_delete_local_policies#:#Delete Local Policies
 rbac#:#rbac_delete_role#:#Delete Role
@@ -8719,7 +8719,7 @@ registration#:#reg_activation_your_confirmation_link#:#Your confirmation link:
 registration#:#reg_add_assignment#:#New Assignment
 registration#:#reg_added_assignment#:#Added new assignment.
 registration#:#reg_approve_info#:#If checked any new user registration has to be approved by an administrator.
-registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type "Registration with Approvement" is chosen.
+registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type 'Registration with Approvement' is chosen.
 registration#:#reg_approve#:#Registration with Approvement
 registration#:#reg_available_roles#:#Available Roles:
 registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore. Please register again!
@@ -8820,7 +8820,7 @@ search#:#lucene_all_occurrences#:#... %s other occurrence(s)
 search#:#lucene_and#:#AND
 search#:#lucene_cpu#:#Maximum Number of Threads
 search#:#lucene_create_ini#:#Create Configuration File
-search#:#lucene_default_operator_info#:#Please choose the default operator for boolean queries. In default mode ("AND") terms are considered to be in conjunction. In "OR" mode terms without any modifiers are considered optional.
+search#:#lucene_default_operator_info#:#Please choose the default operator for boolean queries. In default mode ('AND') terms are considered to be in conjunction. In 'OR' mode terms without any modifiers are considered optional.
 search#:#lucene_default_operator#:#Default Operator
 search#:#lucene_download_ini#:#Download Configuration File
 search#:#lucene_err_ampersand#:#Queries containing the special characters && must be in the form: term1 && term2.
@@ -9025,7 +9025,7 @@ style#:#sty_col_head_class#:#Column Header
 style#:#sty_color_already_exists#:#A color with this name already exists in this style.
 style#:#sty_color_code#:#Color Code
 style#:#sty_color_flavors#:#Color Flavors
-style#:#sty_color_info#:#Predefined colors make it easy to reuse a color for different purposes. You refer to a predefined color by using its name with a leading "!" for any color attribute in your style classes. To use a flavor, append a lightness value in brackets to the color name, e.g. !MyColor(20).
+style#:#sty_color_info#:#Predefined colors make it easy to reuse a color for different purposes. You refer to a predefined color by using its name with a leading '!' for any color attribute in your style classes. To use a flavor, append a lightness value in brackets to the color name, e.g. !MyColor(20).
 style#:#sty_color_name#:#Color Name
 style#:#sty_color#:#Color
 style#:#sty_colors#:#Colors
@@ -9450,7 +9450,7 @@ survey#:#matrix_columns#:#Matrix Columns
 survey#:#matrix_error_no_columns#:#Please fill in at least one column text!
 survey#:#matrix_error_no_rows#:#Please fill in at least one row text!
 survey#:#matrix_left_pole#:#Left Pole
-survey#:#matrix_neutral_answer#:#Text for a Neutral Column ("Not Specified", "I don't know" etc.)
+survey#:#matrix_neutral_answer#:#Text for a Neutral Column ('Not Specified', 'I don't know' etc.)
 survey#:#matrix_neutral_column_separator_description#:#Select the check box if you want to have a separator (thick line) between the neutral column and the other columns in the output of the Matrix Question
 survey#:#matrix_neutral_column_separator#:#Neutral Column Separator
 survey#:#matrix_question_checkbox_not_checked#:#Please check at least one check box in every row!
@@ -9689,7 +9689,7 @@ survey#:#unlimited_users#:#Put on desktops of all registered users
 survey#:#uploaded_material#:#Uploaded Material
 survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!
 survey#:#upper_limit#:#Upper Limit
-survey#:#use_anonymous_id_desc#:#If checked, the username in anonymized surveys will be shown as the survey code, otherwise the text "Anonymous" will be shown.
+survey#:#use_anonymous_id_desc#:#If checked, the username in anonymized surveys will be shown as the survey code, otherwise the text 'Anonymous' will be shown.
 survey#:#use_anonymous_id#:#Show Survey Code
 survey#:#use_browser_print_function#:#Please use the print function of your web browser.
 survey#:#use_google_chart_api_desc#:#If checked, the charts in the cumulated results details of the survey statistics are drawn using the <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>. Please note that a permanent internet connection is required for the Google Chart API to work.
@@ -9709,7 +9709,7 @@ survey#:#wrong_categories_selected_for_insert#:#ILIAS could not perform the desi
 survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.
 tagging#:#tagging_all_users#:#All Users
 tagging#:#tagging_edit_settings#:#Edit Settings
-tagging#:#tagging_enable_all_users_info#:#Adds a section "All Users" to the info screens that lists all tags of all users attached to a resource.
+tagging#:#tagging_enable_all_users_info#:#Adds a section 'All Users' to the info screens that lists all tags of all users attached to a resource.
 tagging#:#tagging_enable_all_users#:#Show Tags of All Users
 tagging#:#tagging_enable_tagging#:#Enable Tagging
 tagging#:#tagging_forbidden_tags#:#Forbidden Tags
@@ -10057,7 +10057,7 @@ common#:#session_config#:#Session Settings
 common#:#session_config_maintenance_enabled#:#Maintenance by client allowed
 common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
 common#:#session_max_count#:#Max active sessions
-common#:#session_max_count_info#:#Defines the maximum number of sessions that can be created simultaneously. Setting this to "0" disables the feature.
+common#:#session_max_count_info#:#Defines the maximum number of sessions that can be created simultaneously. Setting this to '0' disables the feature.
 common#:#session_min_idle#:#Min session idle (in minutes)
 common#:#session_min_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
 common#:#session_max_idle#:#Max session idle (in minutes)
@@ -10147,7 +10147,7 @@ tbl#:#tbl_template_deleted#:#The saved view has been deleted.
 style#:#sty_some_styles_obligatory_delete_rest#:#The following style classes are compulsory and cannot be deleted. Do you want to continue and delete the remaining selected style classes?
 style#:#sty_delete_other_selected#:#Continue
 style#:#sty_all_styles_obligatory#:#All selected styles are compulsory and cannot be deleted.
-style#:#sty_copied_please_select_target#:#The style classes have been copied. Please open the target style and click "Paste Style Classes".
+style#:#sty_copied_please_select_target#:#The style classes have been copied. Please open the target style and click 'Paste Style Classes'.
 style#:#sty_paste_style_classes#:#Paste Style Classes
 style#:#sty_if_style_class_already_exists#:#If style class already exists...
 style#:#sty_overwrite#:#Overwrite
@@ -10170,7 +10170,7 @@ common#:#settings_per_users#:#Settings per Course/Group Member
 user#:#enable_local_user_administration#:#Enable Local User Administration
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.
 user#:#restrict_user_access#:#Restricted Access to User Accounts
-user#:#restrict_user_access_info#:#Enabled this option only if you want to restrict the access to user accounts. If enabled access to local and global user accounts is only granted when a role has the permission "Read Access to User Account".
+user#:#restrict_user_access_info#:#Enabled this option only if you want to restrict the access to user accounts. If enabled access to local and global user accounts is only granted when a role has the permission 'Read Access to User Account'.
 common#:#backto_lua#:#Back to Local User Administration
 common#:#sort_activation_header#:#By timings
 common#:#sort_inherit_prefix#:#Default
@@ -10733,7 +10733,7 @@ sahs#:#sahs_new_asset#:#New Asset
 sahs#:#sahs_insert_ass#:#Insert Asset
 common#:#obj_ass#:#Asset
 book#:#book_schedule_warning#:#Currently, there is no schedule available. Before adding booking objects you need to create a schedule for booking.
-common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature "Posting with pseudonym" is not available in forums anymore.
+common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature 'Posting with pseudonym' is not available in forums anymore.
 common#:#enable_anonymous_fora#:#Allow posting with pseudonym
 content#:#cont_ed_insert_login_page_element#:#Insert Login Page Element
 content#:#cont_insert_login_page_element#:#Insert Login Page Element
@@ -11037,7 +11037,7 @@ payment#:#select_subtype#:#Suboption
 payment#:#pay_hide_shop_info#:#Hide Shop-Information
 payment#:#pay_hide_shop_info_info#:#Hides the tab shop-information
 payment#:#use_shop_specials#:#Use Shop Specials
-payment#:#use_shop_specials_info#:#If enabled, it is possible to mark shop objects as a "special"-offer. These objects will be shown on the entire shop site.
+payment#:#use_shop_specials_info#:#If enabled, it is possible to mark shop objects as a 'special'-offer. These objects will be shown on the entire shop site.
 payment#:#special#:#Special-Offer
 payment#:#special_info#:#If enabled, this object will be shown on the entire shop site.
 common#:#object_purchased_date#:#Purchase-Date
@@ -11129,9 +11129,9 @@ content#:#cont_edit_marker_position#:#Edit Marker Position
 content#:#cont_edit_popup_position#:#Edit Popup Position
 common#:#object_not_found#:#Object not found
 common#:#user_not_found#:#User not found
-content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit "Save".
+content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit 'Save'.
 common#:#cont_iim_create_info#:#Please upload the background picture for the interactive image.
-common#:#cont_iim_overlay_info#:#Overlay images are used to alter (e.g. highlight) parts of the background image when the mouse hovers over them. After uploading the images, you can select them in the "Triggers" tab.
+common#:#cont_iim_overlay_info#:#Overlay images are used to alter (e.g. highlight) parts of the background image when the mouse hovers over them. After uploading the images, you can select them in the 'Triggers' tab.
 common#:#cont_iim_content_popups_info#:#Content popups appear, when the user clicks on interactive parts of the background image. On this screen you only define the popups. Their content can be edited on the editing screen of the page.
 content#:#cont_correct_answers_also#:#Also correct are:
 content#:#cont_correct_answer_also#:#Also correct is:
@@ -11156,7 +11156,7 @@ content#:#cont_pc_qover#:#Question Overview
 content#:#cont_ed_insert_qover#:#Insert Question Overview
 content#:#cont_update_qover#:#Update Question Overview
 content#:#cont_qover_short_message#:#Status Message
-content#:#cont_qover_short_message_info#:#A message "You have correctly answered C out of Y questions of this unit." will be displayed.
+content#:#cont_qover_short_message_info#:#A message 'You have correctly answered C out of Y questions of this unit.' will be displayed.
 content#:#cont_qover_list_wrong_q#:#List of Wrong Answered Questions
 content#:#cont_qover_list_wrong_q_info#:#A list of wrong or not answered questions will be displayed.
 content#:#cont_edit_qover#:#Edit Question Overview
@@ -11279,7 +11279,7 @@ wsp#:#wsp_move_to_repository#:#Move to Repository
 wsp#:#wsp_status_shared#:#Shared
 sahs#:#sahs_desc_objectives#:#Description/Objectives
 content#:#cont_localization#:#Localization
-content#:#cont_localization_info#:#Language used for predefined texts, e.g. "Previous" and "Next".
+content#:#cont_localization_info#:#Language used for predefined texts, e.g. 'Previous' and 'Next'.
 book#:#book_schedule_warning_edit#:#Currently, there is no schedule available. To use the booking pool you need to create a schedule for booking (or switch to a different type of pool).
 book#:#book_type_warning#:#Currently, there are no booking objects available. To use the booking pool you need to create booking objects.
 prtf#:#prtf_first_page_title#:#Type of first page
@@ -11305,7 +11305,7 @@ common#:#portfolio#:#Portfolio
 prtf#:#prtf_default_portfolio#:#My Profile
 user#:#user_portfolios#:#Portfolios
 user#:#user_portfolios_desc#:#Users can create portfolios and use them as profile.
-user#:#user_profile_portfolio#:#If you want to use a portfolio as your profile, go to the portfolio section and set "My Profile" for that portfolio.
+user#:#user_profile_portfolio#:#If you want to use a portfolio as your profile, go to the portfolio section and set 'My Profile' for that portfolio.
 wsp#:#wsp_type_webr#:#Weblink
 content#:#cont_maintenance#:#Maintenance
 content#:#cont_switch_to_media_pool#:#Switch to other Media Pool
@@ -11427,7 +11427,7 @@ ecs#:#ecs_node_mapping_activate#:#Enable Directory Mapping
 ecs#:#ecs_node_mapping_create_empty#:#Create Categories only, which contain Courses
 ecs#:#ecs_node_mapping_create_empty_info#:#Usable only in combination with course mapping, which will be activated automatically.
 ecs#:#ecs_campus_connect_title#:#CampusConnect Mappings
-ecs#:#ecs_invalid_import_type_cms#:#The import type "Campus Management" can be chosen only once.
+ecs#:#ecs_invalid_import_type_cms#:#The import type 'Campus Management' can be chosen only once.
 ecs#:#ecs_cc_mapping_overview#:#Mapping Overview
 ecs#:#ecs_cms_dir_tree#:#CMS Directory Trees
 registration#:#registration_code_no_role#:#The registration code given does not specify a role and can not be used currently. Please contact your administrator.
@@ -11854,7 +11854,7 @@ exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
 common#:#my_courses_groups#:#My Courses and Groups
 content#:#cont_sc_auto_continue#:#Auto-Continue
-user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the "Share" tab.
+user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the 'Share' tab.
 prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.
 blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.
 skmg#:#skmg_edit_skll#:#Edit Competence Settings
@@ -11959,11 +11959,11 @@ chatroom#:#soap_user#:#Name of SOAP User
 chatroom#:#soap_user_password#:#Password of SOAP User
 chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.
 chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the webserver must handle.
-chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chatserver to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.<br/>The name may contain letters (A-Z/a-z), numerics (0-9) and the characters "-" and "_".
+chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chatserver to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.<br/>The name may contain letters (A-Z/a-z), numerics (0-9) and the characters '-' and '_'.
 chatroom#:#enable_smilies#:#Enable Smilies
 chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smilies tab for configuration.
 chatroom#:#display_past_msgs#:#Number of Past Messages
-chatroom#:#hint_display_past_msgs#:#Number of previous messages shown when chatroom is entered. A value of "0" disables this feature.
+chatroom#:#hint_display_past_msgs#:#Number of previous messages shown when chatroom is entered. A value of '0' disables this feature.
 chatroom#:#speak_to#:#Speak to <b>#user#</b>
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chatserver.
@@ -11980,7 +11980,7 @@ chatroom#:#ban_question#:#Do you really want to ban the user from current room?
 chatroom#:#history_cleared#:#The message history was deleted by a moderator.
 chatroom#:#clear_room_history#:#Delete Message History
 chatroom#:#clear_room_history_question#:#Do you really want to delete all messages of the current room?
-chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the "Permissions" tab to allow anonymous user access to this repository item.
+chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the 'Permissions' tab to allow anonymous user access to this repository item.
 chatroom_adm#:#public_chat_settings#:#Public Chatroom Settings
 chatroom_adm#:#public_chat_permissions#:#Public Chatroom Permissions
 chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation
@@ -12023,7 +12023,7 @@ certificate#:#certificate_ph_date_completed#:#Date of completion
 adve#:#adve_activation#:#Activation
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 certificate#:#certificate_ph_datetime_completed#:#Date and time of completion
-certificate#:#certificate_ph_passed_exercise#:#"Passed" or "Failed"
+certificate#:#certificate_ph_passed_exercise#:#'Passed' or 'Failed'
 certificate#:#certificate_ph_mark#:#Users mark
 certificate#:#certificate_ph_exercisetitle#:#Exercise Title
 rbac#:#rbac_back_to_overview#:#Back to Role List
@@ -12037,9 +12037,9 @@ rbac#:#rbac_copy_finished#:#Finished copying.
 certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise
 content#:#cont_ed_copy#:#Copy
 content#:#cont_ed_cut#:#Cut
-content#:#cont_sel_el_copied_use_paste#:#Selected elements have been copied. Please click the desired target placeholder and select "Paste".
-content#:#cont_sel_el_cut_use_paste#:#Selected elements have been cut. Please click the desired target placeholder and select "Paste".
-survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")
+content#:#cont_sel_el_copied_use_paste#:#Selected elements have been copied. Please click the desired target placeholder and select 'Paste'.
+content#:#cont_sel_el_cut_use_paste#:#Selected elements have been cut. Please click the desired target placeholder and select 'Paste'.
+survey#:#survey_question_editor_settings_template#:#List View (in Tab 'Questions')
 survey#:#survey_sure_delete_questions#:#Are you sure that you want to delete the following questions or headings?
 rbac#:#rbac_precondition_source#:#Condition Trigger
 rbac#:#rbac_precondition_target#:#Condition limits access to
@@ -12077,7 +12077,7 @@ exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of t
 exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version of the portfolio right now? You can do it anytime from the portfolio editor later on.
 prtf#:#prtf_preview_banner_info#:#Default size is 1370x100 pixels.
 blog#:#blog_preview_banner_info#:#Default size is 1370x100 pixels.
-exc#:#exc_no_assignments_available#:#No assignments created yet. Please open "Assignments" and "Edit" to create a first assignment.
+exc#:#exc_no_assignments_available#:#No assignments created yet. Please open 'Assignments' and 'Edit' to create a first assignment.
 wsp#:#wsp_invalid_password#:#The given password is invalid.
 wiki#:#wiki_navigation_info#:#Here you can add and remove links to existing wiki pages to the navigation block in the wiki.
 common#:#top_of_page#:#Top of page
@@ -12260,7 +12260,7 @@ assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s p
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question
 assessment#:#tst_manscoring_input_question_and_user_solution#:#Question and User Solution
 assessment#:#tst_manscoring_input_best_solution#:#Best Solution
-assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manual Scoring for Test "%s" committed
+assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manual Scoring for Test '%s" committed
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#Your test has been graded manually:
 assessment#:#tst_notify_manscoring_done_body_msg_reason#:#You have received this notification, because you participated in this test.
 crs#:#crs_subject_course_group_notification#:#Daily Mail for %s
@@ -12533,7 +12533,7 @@ poll#:#poll_block_message_offline#:#This poll is offline.
 poll#:#poll_block_message_inactive#:#This poll will be available from %s.
 poll#:#poll_block_message_already_voted#:#You already voted in this poll.
 poll#:#poll_block_message_no_answers#:#This poll is incomplete.
-survey#:#svy_neutral_answer#:#Text for a Neutral Answer ("Not Specified", "I don't know" etc.)
+survey#:#svy_neutral_answer#:#Text for a Neutral Answer ('Not Specified', 'I don't know' etc.)
 dcl#:#dcl_edit_type#:#Edit Type
 dcl#:#dcl_activate_rating#:#Activate Entry Rating
 dcl#:#dcl_activate_approval#:#Activate Entry Approval
@@ -12591,7 +12591,7 @@ dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http://) o
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
-dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".
+dcl#:#dcl_create_fields#:#Please create at least one field in the tab 'List Fields'.
 dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistant. A reference no longer exists.
 common#:#mail_member#:#Mail to Member
 exc#:#exc_type_upload_team#:#Team Upload
@@ -12671,7 +12671,7 @@ pd#:#block_show_pdtag#:#Show My Tags
 pd#:#block_show_pdnews#:#Show News
 pd#:#block_show_pdusers#:#Show Active Users
 pd#:#block_show_pdnotes#:#Show Notes
-pd#:#block_show_chatviewer#:#Show Chatviewer
+pd#:#block_show_chatviewer#:#Show Chat Viewer
 pd#:#block_show_pdbookm#:#Show Bookmarks
 pd#:#block_create_pdfeed#:#Add New Webfeed
 pd#:#block_show_x#:#Show %s
@@ -12682,7 +12682,7 @@ common#:#crs_list_reg_period#:#Registration Period
 common#:#crs_list_reg_limit_full#:#No places left
 common#:#crs_list_reg_limit_places#:#Free places
 search#:#lucene_offline_filter_setting#:#Offline Filter
-search#:#lucene_offline_filter_setting_info#:#If enabled, objects can filtered in the "Advanced Search" by their online/offline status.
+search#:#lucene_offline_filter_setting_info#:#If enabled, objects can filtered in the 'Advanced Search' by their online/offline status.
 search#:#lucene_offline_filter#:#Online-Status
 common#:#obj_hlps_desc#:#Settings for the online help
 common#:#obj_hlps#:#Help System
@@ -12861,7 +12861,7 @@ dcl#:#dcl_height#:#Height
 dcl#:#dcl_notimage_exception#:#The file has to be a picture.
 dcl#:#dcl_formula#:#Formula
 dcl#:#dcl_prop_expression#:#Expression
-dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>"(", ")"</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>"The result is " & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Available fields (click on title to copy field inside expression):<br>%s
+dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>'(', ')'</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>'The result is ' & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Available fields (click on title to copy field inside expression):<br>%s
 dcl#:#dcl_error_parsing_expression#:#Error parsing expression
 dcl#:#dcl_display_action_menu#:#Enable possibility to copy or link the referenced module
 common#:#obj_tool_settings#:#Tools
@@ -12894,7 +12894,7 @@ administration#:#adm_adm_role_protect#:#Protect Administrator Role
 administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.
 fm#:#fm_settings_tab#:#File Manager
 fm#:#fm_settings_active#:#Enable File Manager
-fm#:#fm_settings_active_info#:#Users can open categories, courses, groups and folders using the "Open With File Manager" action in the repository.
+fm#:#fm_settings_active_info#:#Users can open categories, courses, groups and folders using the 'Open With File Manager' action in the repository.
 common#:#fm_start#:#Open With File Manager
 fm#:#fm_settings_local#:#Show Local Filesystem
 fm#:#fm_settings_local_info#:#If enabled, the file manager starts with two frames, one shows the local filesystem, the other contains the view on the ILIAS repository. If disabled, only the ILIAS repository is shown.
@@ -12903,7 +12903,7 @@ fm#:#fm_settings_filesize_info#:#Enter the maximum allowed filesize for uploaded
 blog#:#blog_authors#:#Authors
 blog#:#blog_author#:#Written by
 blog#:#blog_enable_approval#:#Approve Postings
-blog#:#blog_enable_approval_info#:#Postings are published only after being approved by a user with permission "Edit Settings" for this blog.
+blog#:#blog_enable_approval_info#:#Postings are published only after being approved by a user with permission 'Edit Settings' for this blog.
 blog#:#blog_approve#:#Approve
 blog#:#blog_needs_approval#:#Needs Approval
 sess#:#sess_copy#:#Copy Session
@@ -12925,7 +12925,7 @@ dcl#:#dcl_reference_link#:#Show as link in table view
 dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view
 dcl#:#dcl_text_area#:#Textarea
 dcl#:#dcl_delete_table#:#Delete Table
-dcl#:#dcl_table_info#:#Users with the permission "edit settings" (see tab "Permission") always have permission to add/edit/delete entries. Users with permission "edit entry" (see tab "Permissions") only have permissions according to the settings specified in the form below.
+dcl#:#dcl_table_info#:#Users with the permission 'edit settings' (see tab 'Permission') always have permission to add/edit/delete entries. Users with permission 'edit entry' (see tab 'Permissions') only have permissions according to the settings specified in the form below.
 dcl#:#dcl_confirm_delete_table#:#Do you really want to delete this table with it's content and structure?
 dcl#:#dcl_cant_delete_main_table#:#You can't completely remove this table as it is the default table of this Data Collection. It's content and structure got removed instead.
 forum#:#frm_notification_activated#:#Notification Activated
@@ -13142,7 +13142,7 @@ ecs#:#ecs_role_mapping_value#:#Attribute Value
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads 
 forum#:#frm_sorting_threads#:#Thread Sorting
 forum#:#frm_sorting_posts#:#Posts Sorting
-forum#:#sticky_threads_always_on_top#:#"Sticky Threads" are always listed at the top of the list of threads. Within the "Sticky Threads" you are able to sort the threads manually, if you have chosen this option.
+forum#:#sticky_threads_always_on_top#:#'Sticky Threads' are always listed at the top of the list of threads. Within the 'Sticky Threads' you are able to sort the threads manually, if you have chosen this option.
 mail#:#cron_update_addressbook#:#Synchronize address book entries automatically
 mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cronjob. Only data that was released by the User, will be updated.
 mail#:#auto_update#:#Update
@@ -13457,7 +13457,7 @@ survey#:#survey_reminder_link#:#URL
 mail#:#mail_rename_folder#:#Rename Folder
 common#:#rpc_pdf_generation#:#PDF-Generation
 common#:#rpc_pdf_font#:#Fonts
-common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than "Helvetica" and "unifont" must be installed on the ILIAS server.
+common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than 'Helvetica' and 'unifont' must be installed on the ILIAS server.
 registration#:#registration_codes_no_assigned_role#:#No Predefined Assigned Role
 registration#:#registration_codes_roles_local#:#Local Role(s) 
 registration#:#registration_codes_roles_title#:#Role for New Accounts
@@ -13497,13 +13497,13 @@ dateplaner#:#cal_ch_booking_reminder_body#:#your appointment with "%s" starts so
 dateplaner#:#cal_ch_cron_reminder#:#Send Consultation Hour Reminder
 dateplaner#:#cal_ch_cron_reminder_info#:#If enabled, notification mails about upcoming consultation hour events will be send.
 dateplaner#:#cal_ch_cron_reminder_days#:#Number of Days
-dateplaner#:#cal_ch_delete_booking_info#:#"Delete Booking" will not notify users by email. If you want to notify users, please choose the action "Cancele Booking".
-dateplaner#:#cal_ch_cancel_booking_info#:#"Cancel Booking" sends notification mails to the users. If you do not want to notify the users, choose the option "Delete Booking".
+dateplaner#:#cal_ch_delete_booking_info#:#'Delete Booking' will not notify users by email. If you want to notify users, please choose the action 'Cancel Booking'.
+dateplaner#:#cal_ch_cancel_booking_info#:#'Cancel Booking' sends notification mails to the users. If you do not want to notify the users, choose the option 'Delete Booking'.
 dateplaner#:#cal_ch_delete_app_booking_info#:#The following appointments have existing bookings. If you delete these appointments, the users will not be notified.
 dateplaner#:#cal_ch_user_assignment_success#:#The users have been assigned to the chosen appointments.
 dateplaner#:#cal_ch_user_assignment_failed_info#:#The following users could not be assigned to appointments, since the maximum number of bookings is exceeded.
 dateplaner#:#cal_booking_failed_info#:#This appointment is booked out. Please choose another appointment.
-registration#:#registration_codes_override_info#:#This setting overrides any values defined in "Registration Settings".
+registration#:#registration_codes_override_info#:#This setting overrides any values defined in 'Registration Settings'.
 registration#:#registration_codes_override_global_info#:#These settings may be overridden by registration codes.
 crs#:#event_list_registered_only#:#Only Registered Members
 didactic#:#didactic_default_type#:#Default
@@ -13832,7 +13832,7 @@ orgu#:#users_successfuly_added#:#The user has been added successfully.
 orgu#:#change_to_superior#:#Change to superior
 orgu#:#change_to_employee#:#Change to employee
 orgu#:#user_changed_successful#:#The user has been changed successfully.
-orgu#:#ou_id_type_not_valid#:#The ou_id type is not valid. Valid are: "reference_id" or "external_id".
+orgu#:#ou_id_type_not_valid#:#The ou_id type is not valid. Valid are: 'reference_id' or 'external_id'.
 orgu#:#ou_parent_id_not_valid#:#The ou_parent_id could not be found.
 orgu#:#import_successful#:#The import terminated successfully. Created: %s, edited/moved: %s, deleted: %s.
 orgu#:#import_terminated_with_warnings#:#The import terminated with warnings
@@ -14227,7 +14227,7 @@ adve#:#char_selector_custom_items_info2b#:#Characters are separated by space, ge
 adve#:#char_selector_custom_items_info3a#:#A BC D
 adve#:#char_selector_custom_items_info3b#:#It is possible to put more characters on one button
 adve#:#char_selector_custom_items_info4a#:#A-Z
-adve#:#char_selector_custom_items_info4b#:#Ranges of characters can be defined with a "-"
+adve#:#char_selector_custom_items_info4b#:#Ranges of characters can be defined with a '-'
 adve#:#char_selector_custom_items_info5a#:#U+00C0
 adve#:#char_selector_custom_items_info5b#:#A character can also be defined in Unicode notation (case insensitive)
 adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
@@ -14292,15 +14292,15 @@ content#:#cont_col_ordering#:#Column Ordering
 orgu#:#simple_xls#:#Simple Excel Export
 assessment#:#un_add_category#:#Add Category
 assessment#:#un_add_unit#:#Add Unit
-assessment#:#fq_question_desc#:#You can define variables by inserting $v1, $v2 ... $vn, results by inserting $r1, $r2 .... $rn at the desired position in the question text. Click on the button "Parse Question" to create editing forms for variables and results.
+assessment#:#fq_question_desc#:#You can define variables by inserting $v1, $v2 ... $vn, results by inserting $r1, $r2 .... $rn at the desired position in the question text. Click on the button 'Parse Question' to create editing forms for variables and results.
 ecs#:#ecs_cmap_delete_rule#:#Delete Mapping
 wsp#:#wsp_list_excv#:#Exercise Certificate
 wsp#:#wsp_list_tstv#:#Test Certificate
 assessment#:#fq_formula_desc#:#You may enter predefined variables ($v1 to $vn), defined results (e.g. $r1), braces for expressions, mathematical operators  + (addition), - (subtraction), * (multiplication), / (division), ^ (nth power), the constants 'pi' for pi and 'e‘ for euler's constant, as well as the functions 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln' and 'log'.
-exc#:#exc_multi_feedb_info#:#On this screen you can upload multiple feedbacks in one file. First click on "Download ZIP Structure", save the ZIP file and extract it on your local computer. Put the feedback files into the corresponding user directories. Now compress the whole directory as one ZIP file agin. Browse your local filesystem for the file and select it as the "Multi-Feedback File" in the form below. After that click "Upload". A confirmation screen will list the files. Please avoid using any special characters in your filenames.
+exc#:#exc_multi_feedb_info#:#On this screen you can upload multiple feedbacks in one file. First click on 'Download ZIP Structure', save the ZIP file and extract it on your local computer. Put the feedback files into the corresponding user directories. Now compress the whole directory as one ZIP file agin. Browse your local filesystem for the file and select it as the 'Multi-Feedback File' in the form below. After that click 'Upload'. A confirmation screen will list the files. Please avoid using any special characters in your filenames.
 rep#:#rep_add_new_def_grp_templates#:#Templates
 cmps#:#cmps_repository_object_types#:#Repository Object Types
-rep#:#rep_new_item_menu#:#"Add New Item"-Menu
+rep#:#rep_new_item_menu#:#'Add New Item'-Menu
 exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.
 exc#:#exc_create_team#:#Create Team
 exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.
@@ -14324,9 +14324,9 @@ rating#:#rating_remove#:#Remove Rating
 content#:#lm_rate_page#:#Rate page
 rbac#:#il_orgu_employee#:#Organisational Unit Employee
 rbac#:#il_orgu_superior#:#Organisational Unit Superior
-obj#:#obj_tool_setting_info_tab_info#:#The "Info" tab will be displayed.
-common#:#obj_tool_setting_news_info#:#The "News" block will be displayed inside the "Content" tab.
-common#:#obj_tool_setting_calendar_info#:#The "Calendar" block will be displayed inside the "Content" tab.
+obj#:#obj_tool_setting_info_tab_info#:#The 'Info' tab will be displayed.
+common#:#obj_tool_setting_news_info#:#The 'News' block will be displayed inside the 'Content' tab.
+common#:#obj_tool_setting_calendar_info#:#The 'Calendar' block will be displayed inside the 'Content' tab.
 obj#:#obj_presentation#:#Presentation
 mcst#:#mcst_webfeed#:#RSS Web Feed
 news#:#news_news_item_def_visibility_users_info#:#Only authenticated users have access to current news.
@@ -14406,12 +14406,12 @@ exc#:#exc_peer_review_cron_info#:#If activated, exercise participants will be re
 survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys.
 cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron-jobs?
 cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?
-crs#:#crs_status_determination_lp_info#:#When the learning progress changes to "Completed", the course status "Passed" will be set automatically. Tutors still can overwrite the status manually.
+crs#:#crs_status_determination_lp_info#:#When the learning progress changes to 'Completed', the course status 'Passed' will be set automatically. Tutors still can overwrite the status manually.
 grp#:#grp_reg_no_selfreg#:#No Self-enrolment
-crs#:#crs_mail_tutors_only_info#:#Only administrators and tutors can use the feature "Mail to Members" in the "Members" tab.
-crs#:#crs_mail_all_info#:#Members, administrators and tutors can use the feature "Mail to Members" in the "Members" tab.
-grp#:#grp_mail_tutors_only_info#:#Only administrators can use the feature "Mail to Members" in the "Members" tab.
-grp#:#grp_mail_all_info#:#Members and administrators can use the feature "Mail to Members" in the "Members" tab.
+crs#:#crs_mail_tutors_only_info#:#Only administrators and tutors can use the feature 'Mail to Members' in the 'Members' tab.
+crs#:#crs_mail_all_info#:#Members, administrators and tutors can use the feature 'Mail to Members' in the 'Members' tab.
+grp#:#grp_mail_tutors_only_info#:#Only administrators can use the feature 'Mail to Members' in the 'Members' tab.
+grp#:#grp_mail_all_info#:#Members and administrators can use the feature 'Mail to Members' in the 'Members' tab.
 rep#:#rep_time_period#:#Period
 crs#:#crs_registration_period#:#Period
 crs#:#crs_registration_confirmation_info#:#Interested users can send a request/message to course administrator.
@@ -14452,7 +14452,7 @@ init#:#init_error_redirect_click#:#Please click to continue.
 init#:#init_error_redirect_info#:#Redirect not supported by context.
 init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.
 init#:#init_error_authentication_fail#:#Authentication failed.
-obj#:#obj_multilang_title_descr_only#:#Translation is activated for title and description only. Translation support for Page editing ("Customize Page") needs additional activation.
+obj#:#obj_multilang_title_descr_only#:#Translation is activated for title and description only. Translation support for Page editing ('Customize Page') needs additional activation.
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing
 obj#:#obj_add_languages#:#Add Languages
 obj#:#obj_activate_multilang#:#Activate Multilinguality
@@ -14533,7 +14533,7 @@ exc#:#exc_notification#:#Personal Notification
 exc#:#exc_passing_exc#:#Passing the Exercise
 exc#:#exc_publishing#:#Publishing
 exc#:#exc_min_nr_info#:#This value must be equal or higher than the number of compulsory assignments.
-exc#:#exc_passed_status_determination#:#Determination of Status "Passed"
+exc#:#exc_passed_status_determination#:#Determination of Status 'Passed'
 exc#:#exc_completion_by_tutor#:#Only manual by tutor
 exc#:#exc_your_text#:#Your Text
 exc#:#exc_peer_review_min_number_info#:#This number of other users work must be evaluated by a participant before the evaluation of his/her own work will be visible.
@@ -14546,9 +14546,9 @@ assessment#:#fq_precision_info#:#Enter the number of desired decimal places.
 assessment#:#result_units_info#:#The selected units are offered to the learner as part of an answer. The learner has to choose one unit.
 assessment#:#fq_no_restriction_info#:#Both decimals and fractions are accepted as input.
 assessment#:#additional_rating_info#:#Please note that the values given here are expressed as percentages and these must add up to 100.
-assessment#:#intprecision_info#:#"Divisible by" affects only the creation of variables, if the value for the precision is 0. In this case, you define for "Divisible by" an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, "Divisible by" is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
+assessment#:#intprecision_info#:#'Divisible by' affects only the creation of variables, if the value for the precision is 0. In this case, you define for 'Divisible by' an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, 'Divisible by' is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
 assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.
-assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."
+assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the 'available units.'
 ecs#:#ecs_no_adv_md#:#No Advanced Meta Data available.
 poll#:#poll_comments#:#Comments
 poll#:#poll_show_results_as#:#Show Results as
@@ -14632,7 +14632,7 @@ book#:#book_overall_limit_warning#:#You have reached the maximum number of booki
 cntr#:#cntr_tax_none_available#:#There are no taxonomies available.
 cntr#:#cntr_taxonomy_sideblock_settings#:#Presentation Settings
 cntr#:#cntr_taxonomy_show_sideblock#:#Show taxonomy in side block
-survey#:#svy_eval_skipped_value#:#Results: "skipped"
+survey#:#svy_eval_skipped_value#:#Results: 'skipped'
 survey#:#svy_eval_skipped_value_lng#:#Use language file entry
 survey#:#svy_eval_skipped_value_lng_info#:#Current value: "%s"
 survey#:#svy_eval_skipped_value_custom#:#Use custom value
@@ -14696,7 +14696,7 @@ pd#:#pd_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
 notes#:#notes_sort_asc#:#Sort Ascending
 notes#:#notes_sort_desc#:#Sort Descending
 obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud
-obj#:#obj_tool_setting_tag_cloud_info#:#The "tag cloud" block will be displayed inside the "Content" tab.
+obj#:#obj_tool_setting_tag_cloud_info#:#The 'tag cloud' block will be displayed inside the 'Content' tab.
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number
 tagging#:#tagging_other_users#:#Tags of Other Users
 common#:#autocomplete_more#:#more
@@ -14842,7 +14842,7 @@ style#:#sty_save_order#:#Save Order
 style#:#sty_sure_del_mqueries#:#Do you really want to delete this media query and all related CSS rules?
 style#:#sty_custom#:#Custom
 style#:#sty_custom_par#:#Custom Parameters
-style#:#sty_custom_par_info#:#Add custom CSS parameters using format "parameter: value".
+style#:#sty_custom_par_info#:#Add custom CSS parameters using format 'parameter: value'.
 sess#:#sess_reg_max_users_exceeded#:#A registration is not possible, since the maximum number of users id exceeded.
 sess#:#sess_reg_max_users_exceeded_wl#:#The maximum number of users for this session appointment is exceeded.
 sess#:#sess_reg_added_to_wl#:#You have been added to the waiting list.
@@ -14911,7 +14911,7 @@ crs#:#crs_loc_form_assign_it#:#Test Assignment
 crs#:#crs_loc_form_tst_new#:#Create New Test
 crs#:#crs_loc_form_assign#:#Use Existing Test
 crs#:#crs_loc_form_available_tsts#:#Available Tests
-crs#:#crs_loc_tbl_tst_qst_qpl#:#Questions/Questionpools
+crs#:#crs_loc_tbl_tst_qst_qpl#:#Questions/Question Pools
 crs#:#crs_loc_tst_num_qst#:#Number of Questions:
 crs#:#crs_loc_tst_qpls#:#Available Question Pools:
 crs#:#crs_loc_form_random_limits_it#:#Define Questions of Initial Test
@@ -14937,7 +14937,7 @@ crs#:#crs_loc_passes_reached#:#No further test pases possible
 crs#:#crs_loc_tst_new_run#:#Start New Test Pass
 crs#:#crs_loc_tst_resume#:#Continue Test Pass
 crs#:#crs_loc_settings_reset#:#Test Results
-crs#:#crs_loc_settings_reset_enable#:#Allow "Reset Test Results"
+crs#:#crs_loc_settings_reset_enable#:#Allow 'Reset Test Results'
 crs#:#crs_loc_settings_reset_enable_info#:#If activated, all users are able to reset their individual test results and start the course again.
 crs#:#crs_loc_progress_no_result_no_initial#:#Please work through the following learning materials and then take the qualifying test.
 crs#:#crs_loc_qst_resume_tst_itest#:#You have already started an initial test to another learning objective. Either you finish the started test or you stop it and start this one. But running two initial tests at the same time is not supported.
@@ -14956,7 +14956,7 @@ ecs#:#ecs_import_types#:#Importable Object Types
 sysc#:#sysc_tab_trash#:#Deleted Objects
 sysc#:#sysc_administrate_deleted#:#Administrate Deleted Objects
 sysc#:#sysc_trash_restore#:#Restore Deleted Objects
-sysc#:#sysc_trash_restore_info#:#Restore deleted objects from trash bin and move the to the "Recovery Folder"
+sysc#:#sysc_trash_restore_info#:#Restore deleted objects from trash bin and move the to the 'Recovery Folder'
 sysc#:#sysc_trash_action#:#Action
 sysc#:#sysc_trash_remove#:#Remove deleted objects from system
 sysc#:#sysc_trash_remove_info#:#Remove deleted objects (trash bin) from the system
@@ -15063,26 +15063,26 @@ sess#:#sess_mail_sub_dec_sub#:#Registration refused for session "%s"
 sess#:#sess_mail_sub_dec_bod#:#we regret to say that your registration has been refused for session "%s".
 sess#:#sess_mail_sub_acc_sub#:#Registration for Session "%s"
 sess#:#sess_mail_sub_acc_bod#:#you have been registered for session "%s".
-administration#:#language_mode_existing_delete_info#:#Delete all entries in the database before importing the file.<br /> WARNING: The imported language file should be complete, otherwise there will be undefined language variables. If that happens, switch to the tab "Maintain" and choose "Clear local changes in the database".
+administration#:#language_mode_existing_delete_info#:#Delete all entries in the database before importing the file.<br /> WARNING: The imported language file should be complete, otherwise there will be undefined language variables. If that happens, switch to the tab 'Maintain' and choose 'Clear local changes in the database'.
 administration#:#language_mode_existing_keepall_info#:#Import only new entries that do not yet exist in the database.
 administration#:#language_mode_existing_keepnew_info#:#Import new entries and overwrite all entries that still have their default values. Keep those entries that are already changed in the database.
 administration#:#language_mode_existing_replace_info#:#Import new entries and replace all existing entries with the new values defined in the import file.
 administration#:#language_scope_global_info#:#Export all database entries of this language. This can be used for backup purposes.
-administration#:#language_scope_local_info#:#Export all entries that are locally added or changed in the database. This is similar to the saving of a local language file on the tab "Maintain".
-administration#:#language_scope_added_info#:#Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab "Maintain".
-administration#:#language_scope_unchanged_info#:#Export all default language entries that are not changed in the database. This is the opposite to "Local changes only". Both together are a complete backup of the current language in the database.
+administration#:#language_scope_local_info#:#Export all entries that are locally added or changed in the database. This is similar to the saving of a local language file on the tab 'Maintain'.
+administration#:#language_scope_added_info#:#Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab 'Maintain'.
+administration#:#language_scope_unchanged_info#:#Export all default language entries that are not changed in the database. This is the opposite to 'Local changes only'. Both together are a complete backup of the current language in the database.
 administration#:#language_scope_merged_info#:#Export the standard ILIAS language file with all local changes merged in alphabetically by module and identifier. This can be used to update the global language file on the ILIAS SVN server.
-administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file Customizing/global/lang/ilias_%s_lang.local and set the language status to "Installed With Local". The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.
+administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file Customizing/global/lang/ilias_%s_lang.local and set the language status to 'Installed With Local'. The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.
 administration#:#language_load_local_changes_info#:#Load the file Customizing/global/lang/ilias_%s_lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.
 administration#:#language_clear_local_changes_info#:#Reset the database entries of this language to the default entries defined in lang/ilias_%s.lang. All local changes or additions will be removed.
 administration#:#language_delete_local_additions_info#:#Delete all entries that were locally added to the database.
 administration#:#language_merge_local_changes_info#:#Merge all local changes and additions alphabetically into the standard language file lang/ilias_%s.lang. The web server must have write permission on this file.
-administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s_lang.local and change the language status from "Installed With Local" to "Installed". The changes in the database are not touched.
+administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s_lang.local and change the language status from 'Installed With Local' to 'Installed'. The changes in the database are not touched.
 crs#:#crs_loc_type_initial_all_info#:#Based on individual results of the placement test, ILIAS recommends learning content for the not-yet-sufficient learning objectives. The final achievement test assesses whether a test participant already mastered the learning objectives or if additional learning and training is needed.
 crs#:#crs_loc_type_qualified_info#:#The course starts with a test to assess if a course member already mastered the learning objectives. For all passed learning objectives, users do not have to work through any of the learning content or take more tests. For all not-yet-sufficient learning objectives, ILIAS recommends learning content. The mastery of the remaining learning objectives is tested in an additional test run. 
 crs#:#crs_loc_type_practise_info#:#Course members can use the full range of learning objectives and assigned learning content immediately. They can take the achievement testto assess whether they mastered the learning objectives already of if additional learning and training is needed.
 prtf#:#prtf_page_element_my_courses_info#:#This is a list of all my courses which are currently online and where I have a membership.
-prtf#:#prtf_allow_my_courses#:#Page Element "My Courses"
+prtf#:#prtf_allow_my_courses#:#Page Element 'My Courses'
 prtf#:#prtf_allow_my_courses_info#:#Enables to include a list of current course memberships in a portfolio.
 prtf#:#prtf_page_element_teaser_my_courses_inactive#:#This type of page element has been deactivated.
 cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition
@@ -15123,7 +15123,7 @@ survey#:#survey_results_anonymization#:#Privacy
 survey#:#survey_results_personalized#:#With Names
 survey#:#survey_results_personalized_info#:#In the tab 'Results' the names of the partcipants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer.
 survey#:#survey_results_anonymized#:#Without Names
-survey#:#survey_results_anonymized_info#:#In the tab 'Results' participants' names are replaced by codes. Users having acces to this tab cannot attribute answers to named participants but only to user "iTXaF" (example).
+survey#:#survey_results_anonymized_info#:#In the tab 'Results' participants' names are replaced by codes. Users having acces to this tab cannot attribute answers to named participants but only to user 'iTXaF' (example).
 survey#:#material_added_empty#:#The object does not have any suitable material.
 ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants
 survey#:#survey_sure_delete_constraint#:#Are you sure you want to delete the routing rule "%1$s" for the question "%2$s"?
