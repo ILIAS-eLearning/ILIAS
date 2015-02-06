@@ -592,9 +592,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $ilUser;
 		
-		$file = ($_POST["file"])
-			? $_POST["file"]
-			: $_GET["file"];
+		$file = $_REQUEST["file"];
 
 		// check read permission
 		$this->checkPermission("read");
@@ -623,7 +621,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$file_exist = false;	
 		foreach($files as $fb_file)
 		{
-			if($fb_file == urldecode($file))
+			if($fb_file == $file)
 			{
 				$file_exist = true;
 				break;
@@ -645,8 +643,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// deliver file
 		if (!$not_started_yet)
 		{
-			$p = $storage->getFeedbackFilePath($feedback_id, urldecode($file));
-			ilUtil::deliverFile($p, urldecode($file));
+			$p = $storage->getFeedbackFilePath($feedback_id, $file);
+			ilUtil::deliverFile($p, $file);
 		}
 	
 		return true;
@@ -659,9 +657,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		
-		$file = ($_POST["file"])
-			? $_POST["file"]
-			: $_GET["file"];
+		$file = $_REQUEST["file"];
 
 		// check read permission
 		$this->checkPermission("read");
@@ -678,7 +674,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$file_exist = false;
 		foreach($files as $lfile)
 		{
-			if($lfile["name"] == urldecode($file))
+			if($lfile["name"] == $file)
 			{
 				$file_exist = true;
 				break;
@@ -703,8 +699,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$storage = new ilFSStorageExercise($this->object->getId(), (int) $_GET["ass_id"]);
-			$p = $storage->getAssignmentFilePath(urldecode($file));
-			ilUtil::deliverFile($p, urldecode($file));
+			$p = $storage->getAssignmentFilePath($file);
+			ilUtil::deliverFile($p, $file);
 		}
 	
 		return true;
