@@ -154,7 +154,7 @@ class ilTrainingProgramme extends ActiveRecord {
 		$prg = new ilTrainingProgramme();
 		$prg->setObjId($a_object->getId());
 		$prg->setStatus(self::STATUS_DRAFT);
-		$prg->setLPMode(self::MODE_LP_COMPLETED);
+		$prg->setLPMode(self::MODE_POINTS);
 		$prg->setPoints(self::DEFAULT_POINTS);
 		$prg->subtype_id = self::DEFAULT_SUBTYPE;
 		$prg->create();
