@@ -181,14 +181,14 @@ class ilTrainingProgramme extends ActiveRecord {
 	 * @return ilDateTime
 	 */
 	public function getLastChange() {
-		return new ilDateTime($this->last_change, IL_CAL_DATE);
+		return new ilDateTime($this->last_change, IL_CAL_DATETIME);
 	}
 
 	/**
 	 * Update the last change timestamp to the current time.
 	 */
-	protected function updateLastChange() {
-		$this->last_change = ilUtil::now(); 
+	public function updateLastChange() {
+		$this->setLastChange(ilUtil::now()); 
 	} 
 
 	/**
@@ -203,6 +203,8 @@ class ilTrainingProgramme extends ActiveRecord {
 								 ."timestamp is before current timestamp. That "
 								 ."is logically impossible.");
 		}
+		
+		$this->last_change = $a_timestamp->get(IL_CAL_DATETIME);
 	}
 
 	// TODO: setters and getters for subtype
