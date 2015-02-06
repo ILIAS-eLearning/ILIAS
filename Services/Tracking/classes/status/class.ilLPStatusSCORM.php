@@ -215,8 +215,6 @@ class ilLPStatusSCORM extends ilLPStatus
 		}
 //$ilLog->write("-".$status."-");
 		
-		$scorm_status = "completed";		
-
 		// Which sco's determine the status
 		include_once './Services/Object/classes/class.ilObjectLP.php';
 		$olp = ilObjectLP::getInstance($a_obj_id);
@@ -224,37 +222,40 @@ class ilLPStatusSCORM extends ilLPStatus
 		if($collection)
 		{		
 			$scos = $collection->getItems();			
-		
-			include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';	
-			$subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);		
-			switch($subtype)
+			if(sizeof($scos)) // #15462 (#11513 - empty collections cannot be completed)
 			{
-				case 'hacp':
-				case 'aicc':
-				case 'scorm':
-					include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
-					$scorm_status = ilObjSCORMTracking::_getCollectionStatus($scos, $a_obj_id, $a_user_id);
-					break;
+				include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';	
+				$subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);		
+				switch($subtype)
+				{
+					case 'hacp':
+					case 'aicc':
+					case 'scorm':
+						include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
+						$scorm_status = ilObjSCORMTracking::_getCollectionStatus($scos, $a_obj_id, $a_user_id);
+						break;
 
-				case 'scorm2004':
-					include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-					$scorm_status = ilSCORM2004Tracking::_getCollectionStatus($scos, $a_obj_id, $a_user_id);
-					break;
+					case 'scorm2004':
+						include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
+						$scorm_status = ilSCORM2004Tracking::_getCollectionStatus($scos, $a_obj_id, $a_user_id);
+						break;
+				}
+				
+				switch ($scorm_status)
+				{
+					case "in_progress":
+						$status = self::LP_STATUS_IN_PROGRESS_NUM;
+						break;
+					case "completed":
+						$status = self::LP_STATUS_COMPLETED_NUM;
+						break;
+					case "failed":
+						$status = self::LP_STATUS_FAILED_NUM;
+						break;
+				}
 			}
-		}
+		}		
 		
-		switch ($scorm_status)
-		{
-			case "in_progress":
-				$status = self::LP_STATUS_IN_PROGRESS_NUM;
-				break;
-			case "completed":
-				$status = self::LP_STATUS_COMPLETED_NUM;
-				break;
-			case "failed":
-				$status = self::LP_STATUS_FAILED_NUM;
-				break;
-		}
 //$ilLog->write("-".$status."-");
 		return $status;		
 	}
