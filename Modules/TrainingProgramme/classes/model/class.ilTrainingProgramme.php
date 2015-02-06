@@ -153,18 +153,19 @@ class ilTrainingProgramme extends ActiveRecord {
 		}
 
 		$prg = new ilTrainingProgramme();
-		$prg->setObjId($a_object->getId());
-		$prg->setStatus(self::STATUS_DRAFT);
-		$prg->setLPMode(self::MODE_POINTS);
-		$prg->setPoints(self::DEFAULT_POINTS);
 		$prg->subtype_id = self::DEFAULT_SUBTYPE;
-		$prg->create();
+		$prg->setObjId($a_object->getId())
+			->setStatus(self::STATUS_DRAFT)
+			->setLPMode(self::MODE_POINTS)
+			->setPoints(self::DEFAULT_POINTS)
+			->create();
 		return $prg;
 	} 
 
 	
 	protected function setObjId($a_id) {
 		$this->obj_id = $a_id;
+		return $this;
 	}
 
 	/**
@@ -206,6 +207,7 @@ class ilTrainingProgramme extends ActiveRecord {
 		}
 		
 		$this->last_change = $a_timestamp->get(IL_CAL_DATETIME);
+		return $this;
 	}
 
 	// TODO: setters and getters for subtype
@@ -225,6 +227,7 @@ class ilTrainingProgramme extends ActiveRecord {
 
 		$this->points = $a_points;
 		$this->updateLastChange();
+		return $this;
 	} 
 
 	/**
@@ -255,6 +258,7 @@ class ilTrainingProgramme extends ActiveRecord {
 		}
 		$this->lp_mode = $a_mode;
 		$this->updateLastChange();
+		return $this;
 	}
 
 	/**
@@ -282,6 +286,7 @@ class ilTrainingProgramme extends ActiveRecord {
 		}
 		$this->status = $a_status;
 		$this->updateLastChange();
+		return $this;
 	}
 
 	/**
