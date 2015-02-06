@@ -4,6 +4,8 @@
 
 require_once("./Services/Container/classes/class.ilContainer.php");
 require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgramme.php");
+require_once("./Modules/TrainingProgramme/classes/interfaces/interface.ilTrainingProgrammeLeaf.php");
+require_once("./Modules/TrainingProgramme/classes/exceptions/class.ilTrainingProgrammeTreeException.php");
 
 /**
  * Class ilObjTrainingProgramme
@@ -308,6 +310,89 @@ class ilObjTrainingProgramme extends ilContainer {
 		foreach($this->getChildren() as $child) {
 			$child->mapSubTree($fun);
 		}
+	}
+
+	////////////////////////////////////
+	// TREE MANIPULATION
+	////////////////////////////////////
+	
+	/**
+	 * Inserts another ilObjTrainingProgramme in this object.
+	 *
+	 * Throws when object already contains non ilObjTrainingProgrammes as 
+	 * children.
+	 *
+	 * @throws ilTrainingProgrammeTreeException
+	 * @return $this
+	 */
+	public function addNode(ilObjTrainingProgramme $a_prg) {
+		return $this;
+	}
+	
+	/**
+	 * Remove a node from this object.
+	 *
+	 * Throws when node is no child of the object. Throws, when manipulation
+	 * of tree is not allowed due to invariants that need to hold on the tree.
+	 * 
+	 * @throws ilException
+	 * @throws ilTrainingProgrammTreeException
+	 * @return $this
+	 */
+	public function removeNode(ilObjTrainingProgramm $a_prg) {
+		return $this;
+	}
+	
+	/**
+	 * Insert a leaf in this object.
+	 *
+	 * Throws when object already contain ilObjTrainingProgrammes as children.
+	 *
+	 * @throws ilTrainingProgrammeTreeException
+	 * @return $this
+	 */
+	public function addLeaf(ilTrainingProgrammeLeaf $a_leaf) {
+		return $this;
+	}
+	
+	/**
+	 * Remove a leaf from this object.
+	 * 
+	 * Throws when leaf is not a child of this object. Throws, when manipulation
+	 * of tree is not allowed due to invariants that need to hold on the tree.
+	 *
+	 * @throws ilException
+	 * @throws ilTrainingProgrammeTreeException
+	 * @return $this
+	 */
+	public function removeLeaf(ilTrainingProgrammeLeaf $a_leaf) {
+		return $this;
+	}
+	
+	/**
+	 * Move this tree node to a new parent.
+	 * 
+	 * Throws, when manipulation of tree is not allowed due to invariants that
+	 * need to hold on the tree.
+	 *
+	 * @throws ilTrainingProgrammeTreeException
+	 * @param  int $a_new_parent_ref_id
+	 * @return $this
+	 */
+	public function moveTo($a_new_parent_ref_id) {
+		if ($parent = $this->getParent()) {
+			$parent->removeNode($this);
+		}
+		try {
+			self::getInstance($a_new_parent_ref_id)->addNode($this);
+		}
+		catch (ilTrainingProgrammeTreeException $e) {
+			if ($parent) {
+				$parent->addNode($this);
+			}
+			throw $e;
+		}
+		return $this;
 	}
 }
 
