@@ -18,7 +18,8 @@ class ilObjTrainingProgramme extends ilContainer {
 	protected $children; // [ilObjTrainingProgramme] | null
 	
 	// GLOBALS from ILIAS
-	protected $tree;
+	public $tree;
+	public $ilUser;
 	
 	/**
 	 * @param int  $a_id
@@ -29,8 +30,9 @@ class ilObjTrainingProgramme extends ilContainer {
 		$this->settings = null;
 		$this->ilContainer($a_id, $a_call_by_reference);
 
-		global $tree;
+		global $tree, $ilUser;
 		$this->tree = $tree;
+		$this->ilUser = $ilUser;
 	}
 	
 	
@@ -413,6 +415,56 @@ class ilObjTrainingProgramme extends ilContainer {
 		}
 		return $this;
 	}
+	
+	////////////////////////////////////
+	// USER ASSIGNMENTS
+	////////////////////////////////////
+	
+	/**
+	 * Assign a user to this node at the training program.
+	 *
+	 * Throws when node is in DRAFT or OUTDATED status.
+	 *
+	 * @throws ilException
+	 * @param  int 				$a_usr_id
+	 * @param  int | null		$a_assigning_usr_id	- defaults to global ilUser
+	 * @return ilTrainingProgrammeUserAssignment
+	 */
+	public function assignUser($a_usr_id, $a_assigning_usr_id = null) {
+		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
+		require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeAssignment.php");
+		
+		if ($this->getStatus() != ilTrainingProgramme::STATUS_ACTIVE) {
+			throw new ilException("ilObjTrainingProgramme::assignUser: Can't assign user to program '"
+								 .$this->getId()."', since it's not in active status.");
+		}
+		
+		if ($a_assigning_usr_id === null) {
+			$a_assigning_usr_id = $this->ilUser->getId();
+		}
+
+		$ass = ilTrainingProgrammeAssigment::createFor($this, $a_usr_id, $a_assigning_usr_id);
+		return new ilTrainingProgrammeUserAssignment($ass->getId());
+	}
+	
+	/**
+	 * Remove an assignment from this program.
+	 *
+	 * Throws when assignment doesn't have this program as root node.
+	 *
+	 * @throws ilException
+	 * @return $this
+	 */
+	public function removeAssignment(ilTrainingProgrammeUserAssignment $a_assignment) {
+		if ($a_assignment->getId() !== $this->getId()) {
+			throw new ilException("ilObjTrainingProgramme::removeAssignment: Assignment '"
+								 .$a_assignment->getId()."' does not belong to training "
+								 ."program '".$this->getId()."'.");
+		}
+		$a_assignment->delete();
+		return $this;
+	}
+	 
 	
 	////////////////////////////////////
 	// HELPERS
