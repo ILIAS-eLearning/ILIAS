@@ -71,17 +71,6 @@ class gevExitedUserCleanupJob extends ilCronJob {
 			
 			$ilLog->write("gevExitedUserCleanupJob: Deactivated user with id $usr_id.");
 			
-			$orgus = $orgu_tree->getOrgUnitOfUser($usr_id, 0, true);
-			foreach ($orgus as $orgu_id) {
-				$orgu_utils = gevOrgUnitUtils::getInstance($orgu_id);
-				$orgu_utils->deassignUser($usr_id, "Mitarbeiter");
-				$orgu_utils->deassignUser($usr_id, "Vorgesetzter");
-				$ilLog->write("gevExitedUserCleanupJob: Removed user with id $usr_id from OrgUnit with id $orgu_id.");
-			}
-			
-			$exit_orgu_utils->assignUser($usr_id, "Mitarbeiter");
-			$ilLog->write("gevExitedUserCleanupJob: Moved user with id $usr_id to exit-OrgUnit.");
-			
 			foreach ($usr_utils->getBookedAndWaitingCourses() as $crs_id) {
 				$crs_utils = gevCourseUtils::getInstance($crs_id);
 				$start_date = $crs_utils->getStartDate();
@@ -102,6 +91,17 @@ class gevExitedUserCleanupJob extends ilCronJob {
 								 ." training start date expired: ".$start_date->get(IL_CAL_DATE)." < ".$now);
 				}
 			}
+			
+			$orgus = $orgu_tree->getOrgUnitOfUser($usr_id, 0, true);
+			foreach ($orgus as $orgu_id) {
+				$orgu_utils = gevOrgUnitUtils::getInstance($orgu_id);
+				$orgu_utils->deassignUser($usr_id, "Mitarbeiter");
+				$orgu_utils->deassignUser($usr_id, "Vorgesetzter");
+				$ilLog->write("gevExitedUserCleanupJob: Removed user with id $usr_id from OrgUnit with id $orgu_id.");
+			}
+			
+			$exit_orgu_utils->assignUser($usr_id, "Mitarbeiter");
+			$ilLog->write("gevExitedUserCleanupJob: Moved user with id $usr_id to exit-OrgUnit.");
 			
 			// i'm alive!
 			ilCronManager::ping($this->getId());
