@@ -82,7 +82,7 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
 						->join("object_reference oref")
 							->on("crs.crs_id = oref.obj_id AND oref.deleted IS NULL")
-						->join("adv_md_values_int amd")
+						->left_join("adv_md_values_int amd")
 							->on("amd.obj_id = crs.crs_id "
 								."AND amd.field_id = ".$this->db->quote($absolute_cancel_deadline_amd_field_id, "integer"))
 						->compile()
@@ -149,7 +149,9 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 		$this->ctrl->setParameter($this, "usr_id", $rec["user_id"]);
 		$this->ctrl->setParameter($this, "crs_id", $rec["crs_id"]);
 		$now = @date("Y-m-d");
-		if ($rec["type"] != "Selbstlernkurs" && $rec["absolute_cancel_deadline_date"] > $now) {
+		if ($rec["absolute_cancel_deadline_date"] !== null
+		&&  $rec["type"] != "Selbstlernkurs" && $rec["absolute_cancel_deadline_date"] > $now) {
+			// Code starts here!
 			$rec["action"] = "<a href='".$this->ctrl->getLinkTarget($this, "confirmCancelBooking")."'>"
 							. $this->cancel_img."</a>";
 		}
