@@ -140,6 +140,7 @@ class ilTrainingProgramme extends ActiveRecord {
 	 * Throws when object is no program object.
 	 *
 	 * @throws ilException
+	 * @return ilTrainingProgramme
 	 */
 	static public function createForObject(ilObject $a_object) {
 		if ($a_object->getType() != "prg") {
