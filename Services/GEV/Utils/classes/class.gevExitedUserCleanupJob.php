@@ -88,6 +88,7 @@ class gevExitedUserCleanupJob extends ilCronJob {
 				if ($start_date === null) {
 					$ilLog->write("gevExitedUserCleanupJob: User $usr_id was not removed from training $crs_id, since"
 								 ." the start date of the training could not be determined.");
+					continue;
 				}
 				
 				if ($start_date->get(IL_CAL_DATE) >= $now) {
