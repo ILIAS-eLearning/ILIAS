@@ -1079,7 +1079,6 @@ assessment#:#set_manual_feedback#:#手動フィードバックのセット
 assessment#:#shape#:#形
 assessment#:#show_answer_overview#:#解答概要を表示
 assessment#:#show_detailed_results#:#ユーザの詳細結果を表示(パスしたものをマーク)
-assessment#:#show_exam_id#:#試験IDを表示
 assessment#:#show_examview_html#:#テスト提出ページ上に試験ビューを表示
 assessment#:#show_examview_pdf#:#自動的にダウンロードされたPDF中に試験ビューを表示
 assessment#:#show_pass_overview#:#マークした試験状況を表示
@@ -1271,7 +1270,6 @@ assessment#:#tst_filter_taxonomy#:#分類基準フィルタ
 assessment#:#tst_final_information#:#テスト終了中: 提出前の情報
 assessment#:#tst_finish_confirm_button#:#はい、テストを終了します
 assessment#:#tst_finish_confirm_cancel_button#:#いいえ、前の問題へ戻ります
-assessment#:#tst_finish_confirm_list_of_answers_button#:#いいえ、答案一覧に戻りますs
 assessment#:#tst_finish_confirmation_question#:#このテストを終了すると最大受験可能回数に達します。解答を変更しようとしても再度入力する事はできなくなります。本当にこのテストを終了しますか?
 assessment#:#tst_finish_notification#:#完了メール
 assessment#:#tst_finish_notification_advanced#:#完了テスト結果をテストオーナーへ送信
@@ -1587,9 +1585,7 @@ assessment#:#tst_results_aggregated#:#テスト結果総括
 assessment#:#tst_results_back_evaluation#:#評価全般へ戻る
 assessment#:#tst_results_back_introduction#:#Introductionへ戻る
 assessment#:#tst_results_back_overview#:#結果全般へ戻る
-assessment#:#tst_results_grading_opt_show_both#:#合格/不合格と結果マークを表示
 assessment#:#tst_results_grading_opt_show_mark#:#結果マークのみ表示
-assessment#:#tst_results_grading_opt_show_none#:#合格/不合格も結果マークも表示しない。
 assessment#:#tst_results_grading_opt_show_status#:#合格/不合格ステータスのみ表示
 assessment#:#tst_results_overview#:#テスト結果全般
 assessment#:#tst_results_overview_pass#:#試験%sの結果全般
@@ -3931,7 +3927,6 @@ common#:#import_alm#:#AICCパッケージをインポート
 common#:#import_cat_localrol#:#それぞれの新カテゴリのローカル役割を作成
 common#:#import_cat_table#:#チェックボックスがオンの場合のみ次の表は意味を持つ
 common#:#import_categories#:#インポートカテゴリ
-common#:#import_dbk#:#インポートDigilibブック
 common#:#import_failure_log#:#失敗ログのインポート
 common#:#import_file#:#インポートファイル
 common#:#import_file_not_valid#:#インポートファイルは無効です。
@@ -15217,3 +15212,12 @@ scormtrac#:#exportselectedraw#:#CMI (RAW) data###27 01 2015 new variable
 scormtrac#:#lvalue#:#Key###27 01 2015 new variable
 scormtrac#:#rvalue#:#Value###27 01 2015 new variable
 scormtrac#:#identifierref#:#SCO-Identifier###27 01 2015 new variable
+assessment#:#tst_reporting_date#:#Date###06 02 2015 new variable
+assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
+assessment#:#redirect_none#:#no redirect###06 02 2015 new variable
+assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the ‘Detailed Results’ that can be accessed via the ‘Show Test Results‘-button on the ‘Info’-tab. It will not be displayed in the printable ‘List of Answers’ even though the setting is made here.###06 02 2015 new variable
+dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.###06 02 2015 new variable
+dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.###06 02 2015 new variable
+administration#:#adm_missing_entries#:#Missing Entries###06 02 2015 new variable
+administration#:#adm_missing_entry_add_action#:#Add###06 02 2015 new variable
+administration#:#adm_missing_entry_add#:#Add New Entry###06 02 2015 new variable

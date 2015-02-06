@@ -1270,7 +1270,6 @@ common#:#import_alm#:#Импортиране на AICC пакет
 common#:#import_cat_localrol#:#Create local role for every new category###03 Nov 2005 new variable
 common#:#import_cat_table#:#The following table is only meaningful if the checkbox is set###03 Nov 2005 new variable
 common#:#import_categories#:#Импортиране на категории
-common#:#import_dbk#:#Импортиране на Digilib книга
 common#:#import_file#:#Импортиране на файл
 common#:#import_file_not_valid#:#Импортираният файл е невалиден.
 common#:#import_finished#:#Брой импортирани съобщения.
@@ -5262,7 +5261,6 @@ assessment#:#tst_defaults_dont_use#:#--- Use the ILIAS test defaults ---###25 02
 assessment#:#tst_defaults_enter_name#:#Please enter a name for your test defaults!###25 02 2007 new variable
 assessment#:#tst_defaults_not_defined#:#You don't have any test defaults defined yet.###25 02 2007 new variable
 assessment#:#tst_eval_question_points#:#Question Results for Pass %s###25 02 2007 new variable
-assessment#:#tst_finish_confirm_list_of_answers_button#:#No, go back to the List of Answers###25 02 2007 new variable
 assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status!###25 02 2007 new variable
 assessment#:#tst_fixed_participants_disable#:#Confirm Status Change###25 02 2007 new variable
 assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. There are already fixed participants in this test. If you remove these participants, the test results of the participants will not be deleted. Are you sure you want to proceed?###25 02 2007 new variable
@@ -12831,7 +12829,6 @@ assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Configuration of the Question 
 assessment#:#tst_inp_quest_amount_per_test#:#Number of Questions for the Whole Test###24 10 2013 new variable
 assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>The current test mode includes questions in its configuration that are not assigned to any question pool. If you change the test mode, these questions will be lost permanently.</b>###24 10 2013 new variable
 assessment#:#exam_id#:#Exam Id: ###24 10 2013 new variable
-assessment#:#show_exam_id#:#Display Exam Id ###24 10 2013 new variable
 assessment#:#test_enable_archiving#:#Enable Archiving.###24 10 2013 new variable
 assessment#:#ass_create_archive_export#:#Create Archive-Export.###24 10 2013 new variable
 assessment#:#cannot_export_archive#:#Archive-Export cannot be created.###24 10 2013 new variable
@@ -14277,8 +14274,6 @@ assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#This option causes a fix
 assessment#:#tst_instant_feedback_results_desc#:#If results (in points) are selected, the reached points will be shown.###26 09 2014 new variable
 assessment#:#tst_instant_feedback_solution_desc#:#If solutions are selected, the correct solution will be shown too.###26 09 2014 new variable
 assessment#:#tst_password_form#:#Enter Test Password###26 09 2014 new variable
-assessment#:#tst_results_grading_opt_show_both#:#Show Passed/Failed Status and Resulting Mark###26 09 2014 new variable
-assessment#:#tst_results_grading_opt_show_none#:#Do NOT show Passed/Failed Status or Resulting Mark###26 09 2014 new variable
 assessment#:#tst_results_grading_opt_show_status#:#Show Passed/Failed Status only###26 09 2014 new variable
 assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark only###26 09 2014 new variable
 assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#The random question set configuration cannot be modified due to existing participant data.###26 09 2014 new variable
@@ -15217,3 +15212,12 @@ scormtrac#:#exportselectedraw#:#CMI (RAW) data###27 01 2015 new variable
 scormtrac#:#lvalue#:#Key###27 01 2015 new variable
 scormtrac#:#rvalue#:#Value###27 01 2015 new variable
 scormtrac#:#identifierref#:#SCO-Identifier###27 01 2015 new variable
+assessment#:#tst_reporting_date#:#Date###06 02 2015 new variable
+assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
+assessment#:#redirect_none#:#no redirect###06 02 2015 new variable
+assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the ‘Detailed Results’ that can be accessed via the ‘Show Test Results‘-button on the ‘Info’-tab. It will not be displayed in the printable ‘List of Answers’ even though the setting is made here.###06 02 2015 new variable
+dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.###06 02 2015 new variable
+dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.###06 02 2015 new variable
+administration#:#adm_missing_entries#:#Missing Entries###06 02 2015 new variable
+administration#:#adm_missing_entry_add_action#:#Add###06 02 2015 new variable
+administration#:#adm_missing_entry_add#:#Add New Entry###06 02 2015 new variable

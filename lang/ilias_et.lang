@@ -1112,7 +1112,6 @@ assessment#:#set_manual_feedback#:#Määra manuaalne tagasiside
 assessment#:#shape#:#Kuju
 assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Näita kasutaja tulemusi detailselt (märgistatud sooritus)
-assessment#:#show_exam_id#:#Display Exam Id 
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.
 assessment#:#show_pass_overview#:#Näita märgistatud soorituse ülevaadet
@@ -1313,7 +1312,6 @@ assessment#:#tst_filter_taxonomy#:#Filter Taxonomy
 assessment#:#tst_final_information#:#Finishing the Test: Information Before Submission
 assessment#:#tst_finish_confirm_button#:#Jah, tahan testi lõpetada.
 assessment#:#tst_finish_confirm_cancel_button#:#Ei, mine tagasi eelmise vastuse juurde.
-assessment#:#tst_finish_confirm_list_of_answers_button#:#Ei, mine tagasi vastuste loetelu juurde.
 assessment#:#tst_finish_confirmation_question#:#Oled lõpetamas seda testi. Pärast vastuste ära saatmist ei ole võimalik enam testi siseneda ega vastuseid muuta. Kas oled kindel, et soovid praegu testi vastuseid ära saata?
 assessment#:#tst_finish_notification#:#Kiri lõpetamise kohta
 assessment#:#tst_finish_notification_advanced#:#Saada testitulemus testi omanikule
@@ -1650,10 +1648,8 @@ assessment#:#tst_results_back_evaluation#:#Tagasi hindamisülevaate juurde
 assessment#:#tst_results_back_introduction#:#Tagasi sissejuhatusse
 assessment#:#tst_results_back_overview#:#Tagasi tulemuste ülevaate juurde
 assessment#:#tst_results_details_options#:#Further Details to be Included in Test Results
-assessment#:#tst_results_grading_opt_show_both#:#Show Passed/Failed Status and Resulting Mark
 assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark only
 assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results on the 'Info'-tab.
-assessment#:#tst_results_grading_opt_show_none#:#Do NOT show Passed/Failed Status or Resulting Mark
 assessment#:#tst_results_grading_opt_show_status#:#Show Passed/Failed Status only
 assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the "Passed" / "Failed" Status will be appended to the summary test result. Participants can access their test results on the 'Info'-tab. <br />
 assessment#:#tst_results_overview#:#Testitulemuste ülevaade
@@ -4010,7 +4006,6 @@ common#:#import_alm#:#Impordi AICC pakett
 common#:#import_cat_localrol#:#Loo igale uuele kategooriale kohalik roll
 common#:#import_cat_table#:#The following table is only meaningful if the checkbox is set
 common#:#import_categories#:#Impordi liigitus
-common#:#import_dbk#:#Impordi Digilib-raamat
 common#:#import_failure_log#:#Import failure log
 common#:#import_file#:#Impordi fail
 common#:#import_file_not_valid#:#Impordifaili pole kehtiv.
@@ -15216,3 +15211,13 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Tunnistus: test
 wsp#:#wsp_type_webr#:#Veebilink
 wsp#:#wsp_type_wfld#:#Kaust
+assessment#:#tst_reporting_date#:#Date###06 02 2015 new variable
+assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
+content#:#cont_localfile#:#Local File###06 02 2015 new variable
+assessment#:#redirect_none#:#no redirect###06 02 2015 new variable
+assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the ‘Detailed Results’ that can be accessed via the ‘Show Test Results‘-button on the ‘Info’-tab. It will not be displayed in the printable ‘List of Answers’ even though the setting is made here.###06 02 2015 new variable
+dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.###06 02 2015 new variable
+dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.###06 02 2015 new variable
+administration#:#adm_missing_entries#:#Missing Entries###06 02 2015 new variable
+administration#:#adm_missing_entry_add_action#:#Add###06 02 2015 new variable
+administration#:#adm_missing_entry_add#:#Add New Entry###06 02 2015 new variable

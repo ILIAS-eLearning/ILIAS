@@ -1008,7 +1008,6 @@ assessment#:#set_manual_feedback#:#Manuální ohlas
 assessment#:#shape#:#Tvar
 assessment#:#show_answer_overview#:#Zobrazit přehled odpovědí
 assessment#:#show_detailed_results#:#Zobrazit podrobné výsledky uživatele. (Známkovaný průchod)
-assessment#:#show_exam_id#:#Id zobrazení zkoušky
 assessment#:#show_examview_html#:#Zobrazit přehled zkoušky ve stránce odevzdání testu
 assessment#:#show_examview_pdf#:#Zobrazit výsledky testu v automaticky staženém PDF.
 assessment#:#show_pass_overview#:#Zobrazit přehled označených průchodů
@@ -1169,7 +1168,6 @@ assessment#:#tst_filter_tax_node#:#Uzel taxonomie
 assessment#:#tst_filter_taxonomy#:#Filtr taxonomir
 assessment#:#tst_finish_confirm_button#:#Ano, chci tento test ukončit
 assessment#:#tst_finish_confirm_cancel_button#:#Ne, jít zpět na předchozí otázku
-assessment#:#tst_finish_confirm_list_of_answers_button#:#Ne, jít zpět na seznam otázek
 assessment#:#tst_finish_confirmation_question#:#Hodláte ukončit tento test a dosáhl(a) jste maximálního počtu povolených průchodů testem. Nebudete již moci do tohoto testu vstoupit znovu a změnit své odpovědi. Upravdu chcete tento test ukončit?
 assessment#:#tst_finish_notification#:#E-mail při dokončení
 assessment#:#tst_finish_notification_advanced#:#Poslat kompletní výsledky testu jeho vlastníkovi
@@ -3685,7 +3683,6 @@ common#:#import_alm#:#Importovat balíček AICC
 common#:#import_cat_localrol#:#Vytvořit lokální roli pro každou novou kategorii
 common#:#import_cat_table#:#Následující tabulka je smysluplná pouze tehdy, je-li zaškrtávací pole zaškrtnuto.
 common#:#import_categories#:#Importovat kategorii
-common#:#import_dbk#:#Importovat digitální knihu
 common#:#import_failure_log#:#Importovat záznam chyb
 common#:#import_file#:#Importovat soubor
 common#:#import_file_not_valid#:#Importovaný soubor není platný.
@@ -14277,8 +14274,6 @@ assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#This option causes a fix
 assessment#:#tst_instant_feedback_results_desc#:#If results (in points) are selected, the reached points will be shown.###26 09 2014 new variable
 assessment#:#tst_instant_feedback_solution_desc#:#If solutions are selected, the correct solution will be shown too.###26 09 2014 new variable
 assessment#:#tst_password_form#:#Enter Test Password###26 09 2014 new variable
-assessment#:#tst_results_grading_opt_show_both#:#Show Passed/Failed Status and Resulting Mark###26 09 2014 new variable
-assessment#:#tst_results_grading_opt_show_none#:#Do NOT show Passed/Failed Status or Resulting Mark###26 09 2014 new variable
 assessment#:#tst_results_grading_opt_show_status#:#Show Passed/Failed Status only###26 09 2014 new variable
 assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark only###26 09 2014 new variable
 assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#The random question set configuration cannot be modified due to existing participant data.###26 09 2014 new variable
@@ -15217,3 +15212,12 @@ scormtrac#:#exportselectedraw#:#CMI (RAW) data###27 01 2015 new variable
 scormtrac#:#lvalue#:#Key###27 01 2015 new variable
 scormtrac#:#rvalue#:#Value###27 01 2015 new variable
 scormtrac#:#identifierref#:#SCO-Identifier###27 01 2015 new variable
+assessment#:#tst_reporting_date#:#Date###06 02 2015 new variable
+assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
+assessment#:#redirect_none#:#no redirect###06 02 2015 new variable
+assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the ‘Detailed Results’ that can be accessed via the ‘Show Test Results‘-button on the ‘Info’-tab. It will not be displayed in the printable ‘List of Answers’ even though the setting is made here.###06 02 2015 new variable
+dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.###06 02 2015 new variable
+dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.###06 02 2015 new variable
+administration#:#adm_missing_entries#:#Missing Entries###06 02 2015 new variable
+administration#:#adm_missing_entry_add_action#:#Add###06 02 2015 new variable
+administration#:#adm_missing_entry_add#:#Add New Entry###06 02 2015 new variable

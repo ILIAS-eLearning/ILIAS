@@ -2898,7 +2898,6 @@ common#:#import_alm#:#AICC-csomag importálása
 common#:#import_cat_localrol#:#Helyi szerep létrehozása minden új kategóriához
 common#:#import_cat_table#:#Az alábbi táblázat csak akkor nyújt érdemleges adatokat, ha a jelölőnégyzet be van jelölve.
 common#:#import_categories#:#Kategóriák importja
-common#:#import_dbk#:#Digitális könyvtári könyv importálása
 common#:#import_failure_log#:#Hibanapló importálása
 common#:#import_file_not_valid#:#Az import fájl nem érvényes.
 common#:#import_file#:#Fájl importja
@@ -15219,3 +15218,6 @@ scormtrac#:#rvalue#:#Érték
 scormtrac#:#identifierref#:#SCO-Azonosító
 dcl#:#dcl_online_info#:#Az adatgyűjtést csak online állapotában használhatják a felhasználók.
 dcl#:#dcl_notification_info#:#Az egyedi értesítési funkció engedélyezése a felhasználók számára.
+administration#:#adm_missing_entries#:#Missing Entries###06 02 2015 new variable
+administration#:#adm_missing_entry_add_action#:#Add###06 02 2015 new variable
+administration#:#adm_missing_entry_add#:#Add New Entry###06 02 2015 new variable

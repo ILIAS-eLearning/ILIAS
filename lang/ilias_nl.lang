@@ -54,7 +54,6 @@ administration#:#adm_db_bench_by_first_table#:#Geaggregeerd naar de eerste tabel
 administration#:#adm_db_bench_chronological#:#Chronologisch
 administration#:#adm_db_bench_slowest_first#:#Langzaamste eerst
 administration#:#adm_db_bench_sorted_by_sql#:#Gesorteerd door SQL
-administration#:#adm_edit_settings_templates#:#Sjabloon wijzigen
 administration#:#adm_external_setting_edit#:#Wijzigen instellingen
 administration#:#adm_external_setting_prefix#:#Externe instellingen
 administration#:#adm_hide#:#Verbergen
@@ -295,7 +294,6 @@ administration#:#searching_invalid_refs#:#Zoeken naar ongeldige referenties...
 administration#:#searching_invalid_rolfs#:#Zoeken naar ongeldige rolmappen...
 administration#:#searching_missing_objs#:#Zoeken naar verloren objecten...
 administration#:#searching_unbound_objs#:#Zoeken naar ongebonden objecten...
-administration#:#show_topics_overview#:#Overzicht van onderwerpen
 administration#:#skipped#:#Overgeslagen
 administration#:#start_scan#:#Start!
 administration#:#stop_scan#:#Stop!
@@ -305,7 +303,6 @@ administration#:#svn_revision_last_change#:#Laatst gewijzigde revisie: %s
 administration#:#svn_root#:#Root: %s
 administration#:#systemcheck#:#Systeemcontrole
 administration#:#system_check_no_owner#:#Objecten zonder eigenaar
-administration#:#topics_overview_info#:#Indien ingeschakeld worden uitsluitend de geselecteerde onderwerpen getoond
 administration#:#tree_corrupt#:#Fout in de structuur! Bekijk de scan log voor meer details.
 administration#:#user_criteria#:#Unieke gebruikerscriteria
 administration#:#user_criteria_desc#:#Unieke gebruikerscriteria die wordt gebruik voor import/export van toets resultaten. Dit is nodig om gelijke gebruikersaccounts te identificeren op verschillende ILIAS omgevingen.
@@ -335,7 +332,6 @@ adve#:#adve_text_content_features#:#Tekst inhoudsopgave
 adve#:#adve_use_physical#:#Gebruik b/i/u in plaats van str/emp/imp
 adve#:#adve_use_physical_info#:#Deze instelling vervangt de semantische style class tags voor sterk, emfatisch en belangrijk met fysieke attributen: b (bold), i (italic) en u (underline). Let op, dit kan resulteren in inconsistenties, als de style editor wordt gebruikt en andere attributen zijn toegewezen voor sterkte/emfatisch/belangrijkheid van stijlen.
 adve#:#adve_use_tiny_mce#:#Inschakelen TinyMCE voor WYSIWYG Editen
-adve#:#char_selector#:#Selector voor Unicode Karacters
 adve#:#char_selector_blocks#:#Beschikbare Unicode blokken
 adve#:#char_selector_blocks_info#:#Alle karakters van de geselecteerde blokken zullen worden getoond, maar worden mogelijk niet allemaal ondersteund door het huidige browser font.
 adve#:#char_selector_custom_items#:#Maatwerk selectie
@@ -350,17 +346,13 @@ adve#:#char_selector_custom_items_info5a#:#U+00C0
 adve#:#char_selector_custom_items_info5b#:#Een karakter kan ook worden gedefinieerd in Unicode notatie (hoofdletter ongevoelig)
 adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
 adve#:#char_selector_custom_items_info6b#:#Bereik is ook mogelijk in Unicode notatie
-adve#:#char_selector_disabled#:#Uitgeschakeld
 adve#:#char_selector_disabled_info_admin#:#Uitschakelen van selector. Gebruikers en toetsen hebben hun eigen instellingen.
 adve#:#char_selector_disabled_info_test#:#Uitschakelen van selector gedurende een test run.
 adve#:#char_selector_disabled_info_user#:#Uitschakelen van selector. Toeten hebben een eigen instellling.
-adve#:#char_selector_enabled#:#Ingeschakeld
 adve#:#char_selector_enabled_info_admin#:#Inschakelen van selector via een knop op het hoofd menu. Gebruikers en toetsen hebben hun eigen instellingen.
 adve#:#char_selector_enabled_info_test#:#Inschakelen van selector gedurende een test run.
 adve#:#char_selector_enabled_info_user#:#Inschakelen van selector via een knop op het hoofd menu.
-adve#:#char_selector_inactive#:#Uitgeschakeld
 adve#:#char_selector_inactive_info_admin#:#Uitschakelen van selector. Gebruikers en toetsen kunnen dit niet overschrijven.
-adve#:#char_selector_inherit#:#Overgeërfd
 adve#:#char_selector_inherit_info_test#:#Gebruik de platforminstellingen of gebruikersspecifieke instelling.
 adve#:#char_selector_inherit_info_user#:#Gebruik de platforminstellingen.
 adve#:#char_selector_unicode_all#:#Alle Unicode Blokken
@@ -448,19 +440,11 @@ assessment#:#ass_create_question#:#Vraag aanmaken
 assessment#:#ass_export_files#:#Bestanden exporteren
 assessment#:#ass_file#:#Bestand
 assessment#:#ass_question#:#Vraag
-assessment#:#ass_quest_process_lock#:#Use Locking on Participant Solution Submits
-assessment#:#ass_quest_process_lock_desc#:#Without the use of any locking mechanism, race conditions during the submit of solution data are possible. This can lead to inconsistent test results.
-assessment#:#ass_quest_process_lock_mode#:#Lock Mode during Submit of Participant Solutions
-assessment#:#ass_quest_process_lock_mode_db#:#Use Database Table Locks
-assessment#:#ass_quest_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent Processes for the same or other users in the same or in another test are waiting until the other process releases his locks.
-assessment#:#ass_quest_process_lock_mode_file#:#Use Filesystem Locks
-assessment#:#ass_quest_process_lock_mode_file_desc#:#This locking mechanism requests locks on empty files in the filesystem. Concurrent processes for the same user and the same question are waiting until the other process releases his lock.
 assessment#:#ass_size#:#Grootte
 assessment#:#autosave#:#Automatisch opslaan
 assessment#:#autosave_failed#:#Automatisch opslaan niet gelukt
 assessment#:#autosave_info#:#Als aangevinkt, worden antwoorden periodiek opgeslagen zonder gebruikersinteractie om zo gegevensverlies te voorkomen (dit is niet van toepassing op geselecteerde vragen).
 assessment#:#autosave_ival#:#Interval
-assessment#:#autosave_ival_info#:#Het interval, in microseconden, waarna antwoorden automatisch worden opgeslagen
 assessment#:#autosave_success#:#Automatisch opslaan succesvol...
 assessment#:#available_points#:#Beschikbare punten
 assessment#:#available_terms#:#Beschikbare Termen
@@ -489,8 +473,6 @@ assessment#:#changelog_heading#:#Verander log
 assessment#:#changeSuggestedSolution#:#Wijzig de voorgestelde oplossing
 assessment#:#change_adm_categories_not_allowed#:#Je hebt geen rechten op deze categorie.
 assessment#:#change_adm_units_not_allowed#:#Deze eenheid kan alleen worden gewijzigd door een beheerder
-assessment#:#change_properties_from_random_to_standard#:#Je staat op het punt om de eigenschappen van de toets te wijzigen van een willekeurige toets naar een niet-willekeurige toets. De informatie uit de vragenpoolen die toegevoegd zijn aan een willekeurige toets zullen verwijderd worden uit de toets. Ben je zeker dat je deze eigenschappen wil veranderen
-assessment#:#change_properties_from_standard_to_random#:#Je staat op het punt om de eigenschappen van de toets te wijzigen van een niet-willekeurige toets naar een willekeurige toets. De vragen die toegevoegd zijn aan de toets zullen verwijderd worden, omdat, voor een willekeurige toets, je een vragenpool moet gebruiken. Ben je zeker dat je deze eigenschappen wil veranderen?
 assessment#:#change_solution#:#Verander voorgestelde oplossing
 assessment#:#checkbox_checked#:#Geselecteerd
 assessment#:#checkbox_unchecked#:#Niet geselecteerd
@@ -582,8 +564,6 @@ assessment#:#ects_range_error_b#:#Voer een waarde in tussen 0 en 100 voor ECTS-s
 assessment#:#ects_range_error_c#:#Voer een waarde in tussen 0 en 100 voor ECTS-schaal C.
 assessment#:#ects_range_error_d#:#Voer een waarde in tussen 0 en 100 voor ECTS-schaal D.
 assessment#:#ects_range_error_e#:#Voer een waarde in tussen 0 en 100 voor ECTS-schaal E.
-assessment#:#ects_use_fx_grade#:#Gebruik de 'FX' schaal, wanneer niet geslaagde deelnemers als laatste eindigen.
-assessment#:#ects_use_fx_grade_part2#:#percentage van het totaal aantal punten.
 assessment#:#edit_page#:#Pagina wijzigen
 assessment#:#edit_question#:#Wijzigen vraag
 assessment#:#edit_test_questions#:#Wijzig toets vragen
@@ -666,7 +646,6 @@ assessment#:#eval_search_term#:#Zoek term
 assessment#:#eval_search_users#:#Gebruikers
 assessment#:#eval_search_userselection#:#Zoek de gebruikers die je wilt toevoegen aan de evaluatie
 assessment#:#eval_selected_users#:#Evaluatie voor de geselecteerde gebruikers
-assessment#:#examid_in_kiosk#:#Tonen Examennummer in Kiosk modus
 assessment#:#examid_in_test_pass#:#Tonen Examennummer
 assessment#:#examid_in_test_pass_desc#:#Laat het examennumer zien
 assessment#:#examid_in_test_res#:#Tonen Examennummer
@@ -712,7 +691,6 @@ assessment#:#filter_show_questionpools#:#Toon vragenpoolen
 assessment#:#filter_show_question_types#:#Toon vraagsoorten
 assessment#:#filter_users#:#Filter gebruikers
 assessment#:#final_statement#:#Eind verklaring
-assessment#:#final_statement_show#:#Toon eindopmerkingen
 assessment#:#final_statement_show_desc#:#Indien aangevinkt wordt de eindverklaring getoond direct na het afleggen van de toets, voordat de resultaten van de toets worden afgegeven..
 assessment#:#fixed_participants_hint#:#Deze toets is slechts toegankelijk voor een reeks deelnemers die hieronder getoond worden. Je kunt deze instelling wijzigen door de checkbox in de subtab uit te schakelen.
 assessment#:#flashfile#:#Flash bestand
@@ -894,8 +872,6 @@ assessment#:#ordering_answer_sequence_info#:#De volgorde van de antwoorden die j
 assessment#:#ordering_question_javascript_hint#:#Sleep een afbeelding/definitie van de rechterkant over een begrip aan de linkerkant en zet de afbeelding/definitie neer op een afbeelding/definitie waartoe deze behoort
 assessment#:#ordertext#:#Tekstvolgorde
 assessment#:#ordertext_info#:#Voer de tekst in die horizontaal komt te staan. De tekst wordt gescheiden door spaties. Als je daarvoor iets anders wenst gebruik dan %s om je tekstonderdelen te scheiden.
-assessment#:#order_pictures#:#Volgorde afbeeldingen
-assessment#:#order_terms#:#Sorteer begrippen
 assessment#:#output#:#Output
 assessment#:#output_mode#:#Output modus
 assessment#:#parseQuestion#:#Vraag ontleden
@@ -1114,10 +1090,7 @@ assessment#:#showSuggestedSolution#:#Voorgestelde oplossing
 assessment#:#show_answer_overview#:#Toon antwoordenoverzicht
 assessment#:#show_detailed_results#:#Toon gedetailleerde resultaten voor gebruiker.
 assessment#:#show_examview_html#:#Toon examenbeeld op de pagina waar toets wordt ingediend.
-assessment#:#show_examview_html_desc#:#Toon toetsvragen en -antwooorden voor indiening van toets.
 assessment#:#show_examview_pdf#:#Toon examenbeeld in een automatisch geddownloade PDF.
-assessment#:#show_examview_pdf_desc#:#Toon de toetsvragen en -antwoorden in een PDF bestand vlak voor indiening van toets.(Er is ook een download-knop beschikbaar).
-assessment#:#show_exam_id#:#Tonen Examennummer
 assessment#:#show_pass_overview#:#Toon gemarkeerde afgelopen toetsen
 assessment#:#show_user_answers#:#Toon gebruikers gemarkeerde antwoorden.
 assessment#:#shuffle_answers#:#Antwoorden mixen
@@ -1157,7 +1130,6 @@ assessment#:#test_is_offline#:#Je kunt deze toets niet starten! De toets is offl
 assessment#:#test_jump_to#:#Spring naar vraag
 assessment#:#test_move_page#:#Verplaats vraag
 assessment#:#test_next_question#:#Volgende vraag
-assessment#:#test_presentation#:#Presenteer Opties
 assessment#:#test_prev_question#:#Vorige Vraag
 assessment#:#test_question_pool_usage#:#Kies de vragenpool wanneer je vragen maakt
 assessment#:#test_question_pool_usage_optional#:#Vragen kunnen optioneel worden toegevoegd aan een vragenpool
@@ -1213,7 +1185,6 @@ assessment#:#tst_allowed_users#:#Maximum aantal gebruikers die deze toets kunnen
 assessment#:#tst_allowed_users_desc#:#ILIAS houdt het aantal deelnemers die de toets tegelijkertijd doen in de gaten. Als het toegestane maximum is bereikt, zal ILIAS nieuwe deelnemers niet toelaten dat ze de toets beginnen.
 assessment#:#tst_allowed_users_time_gap#:#Inactieve tijd voor actieve gebruikers
 assessment#:#tst_allowed_users_time_gap_desc#:#Deelnemers die niet op tijd klikken in de toets worden beschouwd als inactief en worden verwijderd van de toets.
-assessment#:#tst_allow_fixed_participants#:#Sta vaste deelnemers in deze toets toe
 assessment#:#tst_allow_instant_verification#:#Sta onmiddellijke controle van antwoorden toe
 assessment#:#tst_all_test_competences#:#Alle toets Competenties
 assessment#:#tst_all_user_data_deleted#:#Alle gebruikersgegevens van deze toets zijn verwijderd!
@@ -1255,7 +1226,6 @@ assessment#:#tst_confirm_submit_answers#:#Bevestig de oplossing.
 assessment#:#tst_copy#:#Kopieer toets
 assessment#:#tst_count_correct_solutions#:#Tel enkel volledige oplossingen
 assessment#:#tst_count_partial_solutions#:#Tel alle oplossingen
-assessment#:#tst_count_system_description#:#Als de gedeeltelijke oplossingen worden geteld, worden de punten voor een vraag gegeven afhankelijk van de antwoorden van een deelnemer. Als slechts de volledige oplossingen worden geteld, moet een deelnemer de maximum beschikbare punten voor een vraag bereiken, anders worden de resulterende punten geplaatst aan nul.
 assessment#:#tst_defaults_applied#:#De geselecteerde standaardtoetsen zijn aangepast.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS kon de geselecteerde standaardtoetsen op deze toets niet toepassen! Misschien bevat deze toets reeds vragen en/of deelnemersgegevens.
 assessment#:#tst_defaults_apply_select_one#:#Gelieve een standaardtoets te selecteren om de standaardwaarden toe te passen voor deze toets.
@@ -1295,7 +1265,6 @@ assessment#:#tst_eval_total_passed_average_points#:#Gemiddelde punten per toets
 assessment#:#tst_eval_total_passed_average_time#:#Gemiddelde tijd per toets
 assessment#:#tst_eval_total_persons#:#Totaal aantal deelnemers aan de toets
 assessment#:#tst_eval_user_answer#:#Antwoord gebruiker
-assessment#:#tst_export_settings#:#Exporteer instellingen
 assessment#:#tst_express_allow_question_pool#:#Sta vragenpool toe in paginabeeld
 assessment#:#tst_express_allow_question_pool_description#:#Indien aangevinkt kunnen vragen worden toegevoegd aan een vragenpool.
 assessment#:#tst_exp_sc_short#:#Aanmaken verkort overzicht voor enkele keuzevragen
@@ -1310,7 +1279,6 @@ assessment#:#tst_finished#:#Klaar
 assessment#:#tst_finish_confirmation_question#:#Je wilt de toets beeïndigen en het maximum aantal toegelaten pogingen overschrijden. Je zult niet meer in staat zijn om deze toets aan te passen. Ben je zeker dat je deze toets wilt beeïndigen
 assessment#:#tst_finish_confirm_button#:#Ja, Ik wil de toets beeïndigen
 assessment#:#tst_finish_confirm_cancel_button#:#Nee, ga terug naar de vorige vraag
-assessment#:#tst_finish_confirm_list_of_answers_button#:#Nee, ga terug naar de antwoordenlijst
 assessment#:#tst_finish_notification#:#Mail bij beëindiging
 assessment#:#tst_finish_notification_advanced#:#Stuur volledige toets resultaten naar de toets eigenaar
 assessment#:#tst_finish_notification_no#:#Verzend geen mailbericht als een gebruiker een toets afmaakt
@@ -1342,7 +1310,6 @@ assessment#:#tst_highscore_enabled#:#Tonen van hoogste score is aangezet
 assessment#:#tst_highscore_hints#:#Toon hints
 assessment#:#tst_highscore_hints_description#:#Bepaalt of een kolom met de hints wordt getoond.
 assessment#:#tst_highscore_mode#:#Modus
-assessment#:#tst_highscore_options#:#Hoogste score
 assessment#:#tst_highscore_own_table#:#Toon tabel met eigen scores
 assessment#:#tst_highscore_own_table_description#:#Bepaalt of de tabel "eigen scores" wordt getoond.
 assessment#:#tst_highscore_percentage#:#Toon percentage
@@ -1393,7 +1360,6 @@ assessment#:#tst_instant_feedback_answer_generic#:#Toon algemene ("Juist/Fout") 
 assessment#:#tst_instant_feedback_answer_generic_desc#:#De generieke feedback toont een simpele "goed" of "fout" volgens de configuratie van de vraag.
 assessment#:#tst_instant_feedback_answer_specific#:#Toon specifiek antwoord feedback
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Als antwoord-specifieke feedback is geselecteerd zal de voorgedefieerde feedback worden getoond, afhankelijk van de antwoorden van de deelnemer (indien dit wordt ondersteund door het vragentype).
-assessment#:#tst_instant_feedback_description#:#Als één van de opties geselecteerd is, zal de feedback getoond worden nadat de deelnemer de vraag beantwoord. Als specifiek antwoord feedback wordt geselecteerd, zal vooraf bepaald feedback, afhankelijk van de antwoorden van de deelnemer worden getoond. Als de resultaten (in punten) worden geselecteerd, zullen de bereikte punten worden getoond. Als de oplossingen worden geselecteerd, zal ook  de juiste oplossing worden getoond.
 assessment#:#tst_instant_feedback_fix_usr_answer#:#Corrigeer antwoord van deelnemer
 assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#Na het vragen van feedback, kan de deelnemer zijn antwoord niet meer wijzigen.
 assessment#:#tst_instant_feedback_results#:#Toon resultaten (alleen punten)
@@ -1417,7 +1383,6 @@ assessment#:#tst_list_of_questions_end#:#Toon de lijst van vragen alvorens een d
 assessment#:#tst_list_of_questions_start#:#Toon de lijst van vragen voorafgaand aan de eerste vraag
 assessment#:#tst_list_of_questions_with_description#:#Toon de vraag omschrijving in de lijst van vragen
 assessment#:#tst_list_of_questions_yes#:#Ja, en bijkomend
-assessment#:#tst_mail_notification#:#E-mail Meldingen
 assessment#:#tst_manscoring_input_best_solution#:#Beste oplossing
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum punten voor vraag
 assessment#:#tst_manscoring_input_question_and_user_solution#:#Vraag en gebruikersoplossing
@@ -1434,7 +1399,6 @@ assessment#:#tst_mark_official_form#:#Officiëel formulier
 assessment#:#tst_mark_passed#:#Geslaagd
 assessment#:#tst_mark_short_form#:#Korte aanduiding
 assessment#:#tst_maximum_points#:#Maximum aantal punten
-assessment#:#tst_max_allowed_users#:#Beperking deelnemers
 assessment#:#tst_max_allowed_users_heading#:#Het maximum aantal gebruikers voor de toets is bereikt.
 assessment#:#tst_max_allowed_users_message#:#Het maximum aantal gebruikers voor de toets is bereikt. Probeer laten opnieuw
 assessment#:#tst_max_comp_points#:#Max. competentie-punten
@@ -1510,7 +1474,6 @@ assessment#:#tst_pass_details_overview_table_title#:#Gedetailleerd overzicht van
 assessment#:#tst_pass_last_pass#:#scoor de laatste poging van de gebruiker
 assessment#:#tst_pass_overview_for_participant#:#Toetspogingen voor gebruiker: %s
 assessment#:#tst_pass_scoring#:#Meerdere pogingen scoren
-assessment#:#tst_pass_scoring_description#:#Als de laatste poging wordt genoteerd, zal de laatste poging van een deelnemer worden gebruikt om de toetsresultaten te berekenen. Als de beste poging wordt genoteerd, zal de poging met het hoogste aantal bereikte punten als toetsresultaat worden gekozen. Deze instelling heeft alleen effect als meer dan één poging voor een toets wordt toegestaan.
 assessment#:#tst_percent_solved#:#Percentage gescoord
 assessment#:#tst_position#:#Vragen %s van %s
 assessment#:#tst_postpone#:#Vragen uitstellen
@@ -1622,24 +1585,17 @@ assessment#:#tst_reset_processing_time#:#Reset de maximale doorlooptijd van iede
 assessment#:#tst_reset_processing_time_desc#:#Indien aangevinkt, wordt maximale proces tijd terug gezet naar de bepaalde proces tijd nadat een toets is afgelegd. Dit werkt uitsluitend bij een toegestane maximale proces tijd en meervoudige afgelegde toetsen.
 assessment#:#tst_result#:#toetsresult
 assessment#:#tst_results#:#Toetsresultaten
-assessment#:#tst_results_access#:#Toegang tot de toetsresultaten
 assessment#:#tst_results_access_always#:#Altijd
 assessment#:#tst_results_access_date#:#Datum
-assessment#:#tst_results_access_description#:#Deze instelling behandelt de toegang van de deelnemers tot hun toets resultaten. Als de resultaten kunnen worden betreden nadat de toets wordt beëindigd, kunnen de deelnemers tot hun toets resultaten toegang hebben nadat zij een toets voor het eerst beëindigden. Zelfs als een toets meer dan één toegestane toetspoging heeft, krijgen de deelnemers toegang tot hun toets resultaten na het beëindigen van de eerste poging. Als je een beperking van de datumtoegang kiest, zullen de deelnemers niet bij hun toets resultaten kunnen toegang hebben tot dat de gespecificeerde datum en de tijd worden bereikt. Je moet deze optie kiezen als je het ECTS puntensysteem wilt gebruiken of als je vragen manueel moet toekennen. Als "Altijd" wordt geselecteerd, hebben de deelnemers op elk ogenblik toegang tot hun toets resultaten, zelfs als ze de toets nog niet hebben beëindigd. Als "Nooit" is geselecteerd is toegang tot toets resultaten niet mogelijk.
 assessment#:#tst_results_access_finished#:#Nadat de toets is afgelegd
-assessment#:#tst_results_access_never#:#Never
 assessment#:#tst_results_aggregated#:#Samengevoegde toets resultaten
 assessment#:#tst_results_back_evaluation#:#Terug naar evaluatie overzicht
 assessment#:#tst_results_back_introduction#:#Terug naar introductie
 assessment#:#tst_results_back_overview#:#Terug naar resultaat overzicht
-assessment#:#tst_results_grading#:#Cijfer geven aan toets resultaten
-assessment#:#tst_results_grading_opt_show_both#:#Toon Geslaagd/Niet geslaagd status en behaalde punten
 assessment#:#tst_results_grading_opt_show_mark#:#Toon alleen behaalde cijfer
-assessment#:#tst_results_grading_opt_show_none#:#Niet tonen van Geslaagd/Niet geslaagd status of van behaalde punten
 assessment#:#tst_results_grading_opt_show_status#:#Toon alleen Geslaagd/Niet geslaagd
 assessment#:#tst_results_overview#:#Overzicht van de toets resultaten
 assessment#:#tst_results_overview_pass#:#toets resultaten van deze poging %s
-assessment#:#tst_results_presentation#:#Voorstelling toets resultaten
 assessment#:#tst_results_print_best_solution#:#Beste oplossing in toets resultaten
 assessment#:#tst_results_print_best_solution_info#:#Als ingeschakeld en toegankelijk voor de deelnemer, zal de beste oplossing verschijnen in de samengevoegde toetsresultaten.
 assessment#:#tst_results_tax_filters#:#Resultaat Filter
@@ -1660,11 +1616,9 @@ assessment#:#tst_save_comp_points#:#Opslaan competentie-punten
 assessment#:#tst_save_manscoring_failed#:#Het opslaan van de handmatige score voor toetspoging %s is mislukt.
 assessment#:#tst_save_thresholds#:#Opslaan drempels
 assessment#:#tst_score_cutting#:#Knip negatieve punten
-assessment#:#tst_score_cutting_description#:#Als de negatieve punten van de vraag worden weggelaten, zullen de resultaten voor elke vraag die een deelnemer met een resultaat van minder dan nul punten beantwoordt aan nul punten worden geplaatst. Als de negatieve punten van de toets worden afgesneden, zullen de resultaten voor de toets aan nul punten worden geplaatst, als de som alle vraagresultaten minder dan nul punten is.
 assessment#:#tst_score_cut_question#:#Knip negatieve punten voor iedere vraag
 assessment#:#tst_score_cut_test#:#Knip negatieve punten voor alle vraag resultaten
 assessment#:#tst_score_mcmr_questions#:#Multiple choice vragen
-assessment#:#tst_score_mcmr_questions_description#:#Als „Score 0 punten voor ongecontroleerde antwoorden“ wordt geselecteerd, zullen de meerkeuzevragen zonder een geselecteerde checkbox genoteerd worden met nul punten, anders zal elke checkbox afhankelijk aan de vooraf bepaalde instellingen worden genoteerd.
 assessment#:#tst_score_mcmr_use_scoring_system#:#Geef een bepaalde score, zelfs als er geen antwoord wordt gegeven
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Score 0 punten als er geen antwoord is geselecteerd
 assessment#:#tst_score_reporting#:#Score verslag
@@ -1691,7 +1645,6 @@ assessment#:#tst_setting_enable_obligations_info#:#Als aangevinkt kunnen vragen 
 assessment#:#tst_setting_enable_obligations_label#:#Verplichte vragen
 assessment#:#tst_setting_offer_hints_info#:#If enabled, existing question specific hints are offered.
 assessment#:#tst_setting_offer_hints_label#:#Vraag-specifieke Hints
-assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Toets staat offline, omdat de omzetting van de instelling van willekeurige vraagselectie tot gevolg heeft dat de reeds bestaande vragen worden verwijderd.
 assessment#:#tst_show_answer_sheet#:#Toon antwoorden
 assessment#:#tst_show_cancel#:#Toon toetsopties
 assessment#:#tst_show_cancel_description#:#Indien aangevinkt, wordt een knop om de toets op te schorten getoond tijdens de maken van de toets
@@ -1774,7 +1727,6 @@ assessment#:#tst_threshold#:#Drempel
 assessment#:#tst_time_already_spent#:#Reeds benodige werktijd
 assessment#:#tst_time_already_spent_left#:#Je hebt %s over.
 assessment#:#tst_title_output#:#Toetstitel Output
-assessment#:#tst_title_output_description#:#Selecteer één van de bovengenoemde opties voor de presentatie van de toetstitel en de beschikbare punten tijdens de toets
 assessment#:#tst_title_output_full#:#Toon de toetstitel en de beschikbare punten
 assessment#:#tst_title_output_hide_points#:#Toon enkel de toets titels
 assessment#:#tst_title_output_no_title#:#Toon niet de toetstitel en de beschikbare punten
@@ -2159,7 +2111,6 @@ blog#:#blog_change_notification_subject#:#Blog "%s" is gewijzigd.
 blog#:#blog_comments#:#Opmerkingen
 blog#:#blog_contribute_other_roles#:#De volgende rol leidt tot het recht om "bijdragen te leveren"  %s.
 blog#:#blog_contributors#:#Bijgedragen door
-blog#:#blog_contributor_container_add#:#Toevoegen gebruikers van cursus/groep
 blog#:#blog_copy#:#Kopieer Blog
 blog#:#blog_draft#:#Klad
 blog#:#blog_draft_info#:#De kladversie van een bericht is alleen zichtbaar voor de auteur
@@ -3976,7 +3927,6 @@ common#:#import_alm#:#Importeren AICC Package
 common#:#import_categories#:#Importeer categorieën
 common#:#import_cat_localrol#:#Aanmaken van een lokal rol voor iedere nieuwe categorie
 common#:#import_cat_table#:#De volgende tabel is alleen zinvol als de checkbox is ingesteld.
-common#:#import_dbk#:#Importeer Digilibboek
 common#:#import_failure_log#:#Import log mislukt
 common#:#import_file#:#Importeren Bestand
 common#:#import_file_not_valid#:#Het te importeren bestand is niet geldig.
@@ -6224,7 +6174,6 @@ content#:#cont_Excursus#:#Excursus
 content#:#cont_export_all#:#Alles exporteren
 content#:#cont_export_files#:#Bestanden exporteren
 content#:#cont_export_id#:#Export ID
-content#:#cont_export_raw#:#CMI (RAW) data
 content#:#cont_export_success#:#Success-data (aggregated)
 content#:#cont_export_tracking#:#Export Tracking Data
 content#:#cont_export_type#:#Export-type
@@ -6691,7 +6640,6 @@ content#:#cont_sc_auto_review_completed#:#als gedaan
 content#:#cont_sc_auto_review_completed_and_passed#:#als gedaan en geslaagd
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#als gedaan of geslaagd, maar niet gezakt (aanbevolen voor Automatische "herzien" modus)
 content#:#cont_sc_auto_review_completed_or_passed#:#als gedaan of geslaagd
-content#:#cont_sc_auto_review_info#:#Stel de lesmodus in op 'herzien' als de student SCO afgerond heeft
 content#:#cont_sc_auto_review_info_2004#:#Als de "Herzien" modus is ingeschakeld, zullen de voortgangsgegevens van een hoofdstuk (SCO) van de leermodule niet worden opgeslagen als een van deze condities geldt. Echter, in het zeldzame geval dat de leermodule gebruikt maakt van Sequencing & Navigation volgens SCORM 2004, moet je deze optie niet inschakelen.
 content#:#cont_sc_auto_review_no#:#Uitgeschakeld
 content#:#cont_sc_auto_review_passed#:#als geslaagd
@@ -7896,7 +7844,6 @@ dateplaner#:#cal_ch_delete_booking_info#:#"Verwijder reservering" zal gebruikers
 dateplaner#:#cal_ch_delete_booking_sure#:#Wil je de volgende reservering verwijderen?
 dateplaner#:#cal_ch_duration#:#Duur van elke afspraak
 dateplaner#:#cal_ch_export_apps#:#Gemaakte afspraken
-dateplaner#:#cal_ch_field#:#Spreekuur afspraken
 dateplaner#:#cal_ch_form#:#Spreekuren inschakelen
 dateplaner#:#cal_ch_form_header#:#Spreekuren
 dateplaner#:#cal_ch_form_info#:#Deze optie schakelt het beheer van persoonlijke Spreekuren in de agenda in.
@@ -8537,7 +8484,6 @@ didactic#:#didactic_import_table_title#:#Import of a didactic sjabloon
 didactic#:#didactic_install_info#:#General Information
 didactic#:#didactic_not_changed#:#The didactic sjabloon setting is unchanged.
 didactic#:#didactic_selected_tpl_option#:#Applied didactic sjabloon:
-didactic#:#didactic_sjabloon_applied#:#Applied didactic sjabloon.
 didactic#:#didactic_template_applied#:#Applied didactic template.
 ecs#:#cert_serial#:#Certificate Serial Number
 ecs#:#ecs_abr#:#Abbreviation
@@ -9191,7 +9137,6 @@ forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? W
 forum#:#frm_wizard_page#:#Kopieer forum (Stap 2/2)
 forum#:#is_read#:#Markeer als gelezen
 forum#:#make_topics_sticky#:#Markeren van onderwerp als top-thema
-forum#:#make_topic_sticky#:#Markeren van onderwerp als top-thema
 forum#:#mark_moderator_posts#:#Markeren berichten van moderator
 forum#:#mark_moderator_posts_desc#:#Als ingeschakeld, zullen berichten van de moderator gehighlight zijn
 forum#:#merge#:#Samenvoegen
@@ -11900,7 +11845,6 @@ rbac#:#glo_edit_permission#:#Wijzig instellingen van de rechten
 rbac#:#glo_read#:#Leesrecht op woordenlijst
 rbac#:#glo_visible#:#Woordenlijst is zichtbaar
 rbac#:#glo_write#:#Wijzigen woordenlijst
-rbac#:#grp#:#User can copy group
 rbac#:#grps_edit_permission#:#Gebruiker kan rechteninstellingen wijzigen in groepsbeheer
 rbac#:#grps_read#:#Gebruiker heeft leestoegang tot groepsbeheer
 rbac#:#grps_visible#:#Groepsbeheer is zichtbaar
@@ -13502,14 +13446,8 @@ survey#:#adm_special_users#:#Speciale gebruikers die de enquête meer dan eens k
 survey#:#already_completed_survey#:#Je hebt de enquête reeds gedaan. Je kan dit niet meer opnieuw invullen.
 survey#:#anonymization#:#Anonimiteit
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
-survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey. Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.
-survey#:#anonymize_personalized#:#Geen anonimiteit
 survey#:#anonymize_registered_user#:#Anonieme toetstoegang
 survey#:#anonymize_resume_introduction#:#Gelieve je vragenlijsttoegangscode in te geven. die is verzonden naar je ILIAS inbox toen je het onderzoek begon.
-survey#:#anonymize_survey_description#:#Anonimiteit verwijdert om het even welke persoonsgegevens uit de onderzoeksstatistieken. Een onderzoekscode is de cijfercode die nodig is om deel te nemen aan onderzoek. Voor geregistreerde gebruikers, zal  automatisch een onderzoekscode worden geproduceerd.
-survey#:#anonymize_without_code#:#Anonimiteit met toegang tot enquête.
-survey#:#anonymize_with_code#:#Anonimiteit met persoonlijke toegang door middel van een enquête code.
-survey#:#anonymize_with_code_all#:#Toegang voor alle gebruikers door middel van enquête codes.
 survey#:#anonymous_with_personalized_survey#:#U moet een geregistreerde gebruiker zijn om een gepersonaliseerd vragenlijst in werking te stellen!
 survey#:#answer#:#Antwoord
 survey#:#apply#:#Toepassen
@@ -14028,7 +13966,6 @@ survey#:#survey_activate_skill_service_info#:#todo12
 survey#:#survey_add_new_question#:#Create Page
 survey#:#survey_assign_competence#:#Competentie toewijzen
 survey#:#survey_at_beginning#:#At The Beginning
-survey#:#survey_auth_mode#:#Authenticatie Modus
 survey#:#survey_auto_block_title#:#Page Header
 survey#:#survey_available_question_pools#:#Beschikbare vragenpoolen
 survey#:#survey_behind_page#:#Behind
@@ -14925,7 +14862,6 @@ wiki#:#wiki_page_hits#:#Pagina Hits
 wiki#:#wiki_page_lists#:#Pagina lijsten
 wiki#:#wiki_page_notification_activated#:#Berichtgeving ingeschakeld (enkele pagina)
 wiki#:#wiki_page_not_exist_select_templ#:#Deze pagina bestaat nog niet. Selecteer een sjabloon voor een nieuwe pagina.
-wiki#:#wiki_page_sjablonen#:#Pagina sjablonen
 wiki#:#wiki_page_status_blocked#:#Wijzigen van deze pagina is momenteel geblokkeerd voor deelnemers.
 wiki#:#wiki_page_template#:#pagina'sjabloon
 wiki#:#wiki_page_toc#:#Inschakelen pagina overzicht
@@ -14942,7 +14878,6 @@ wiki#:#wiki_random_page#:#Willekeurige Pagina
 wiki#:#wiki_rate_page#:#Beoordeel deze Wiki Pagina
 wiki#:#wiki_recent_changes#:#Recente wijzigingen
 wiki#:#wiki_removed_imp_pages#:#Belangrijke pagina's verwijderd van lijst.
-wiki#:#wiki_remove_sjabloon_status#:#Verwijderen sjablonentatus
 wiki#:#wiki_rename#:#Hernoemen
 wiki#:#wiki_rename_page#:#Hernoemen pagina
 wiki#:#wiki_save_ordering_and_indent#:#Bewaar volgorde en inspringing
@@ -14957,8 +14892,6 @@ wiki#:#wiki_short_title_already_in_use#:#Deze titel wordt al in een ander wiki g
 wiki#:#wiki_short_title_desc2#:#Deze titel zal worden gebruikt bij links in de wiki. Eens gekozen zou je deze titel niet moeten hernoemen omdat gebruikers hun bladwijzers kunnen kwijtraken.
 wiki#:#wiki_show_pdf_export#:#PDF Export
 wiki#:#wiki_show_print_view#:#Afdruk zicht
-wiki#:#wiki_sjabloon_added#:#Sjabloonpagina toegevoegd
-wiki#:#wiki_sjabloon_status_removed#:#Sjabloon status verwijderd.
 wiki#:#wiki_start_page#:#Startpagina
 wiki#:#wiki_start_page_info#:#Als er nog geen pagina is met deze titel, zal het worden aangemaakt.
 wiki#:#wiki_start_page_title#:#Titel Start Pagina
@@ -15062,3 +14995,231 @@ wsp#:#wsp_type_scov#:#Certificaat: SCORM
 wsp#:#wsp_type_tstv#:#Certificaat: Toets
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Map
+assessment#:#out_of_range#:#Out of range###06 02 2015 new variable
+assessment#:#use_ects_fx#:#Use the ‘FX’ grade###06 02 2015 new variable
+assessment#:#ects_fx_threshold#:#Threshold###06 02 2015 new variable
+assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the ‘FX’ grade.###06 02 2015 new variable
+assessment#:#tst_feedback#:#Feedback###06 02 2015 new variable
+assessment#:#ass_process_lock#:#Use Locking During Test Passes###06 02 2015 new variable
+assessment#:#ass_process_lock_desc#:#Without the use of any locking mechanism, race conditions are possible. This can lead to inconsistent test results.###06 02 2015 new variable
+assessment#:#ass_process_lock_mode#:#Lock Mode during Test Pass###06 02 2015 new variable
+assessment#:#ass_process_lock_mode_file#:#Use Filesystem Locks###06 02 2015 new variable
+assessment#:#ass_process_lock_mode_file_desc#:#This locking mechanism requests locks on empty files in the filesystem. Concurrent processes for the same user and the same test/question are waiting until the other process releases his lock.###06 02 2015 new variable
+assessment#:#ass_process_lock_mode_db#:#Use Database Table Locks###06 02 2015 new variable
+assessment#:#ass_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent processes for the same or other users in the same or in another test for the same or another question are waiting until the other process releases his locks.###06 02 2015 new variable
+assessment#:#tst_reporting_date#:#Date###06 02 2015 new variable
+assessment#:#tst_introduction_text#:#Introductory Message###06 02 2015 new variable
+assessment#:#suggested_solution#:#Content for Recapitulation###06 02 2015 new variable
+assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case.###06 02 2015 new variable
+assessment#:#tst_count_partial_solutions_desc#:#Points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers.###06 02 2015 new variable
+assessment#:#tst_finish_notification_content#:#Content of e-mail###06 02 2015 new variable
+assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###06 02 2015 new variable
+assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab ‘Info’ of the test. This text is accessible already before the test can be started.###06 02 2015 new variable
+assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible.###06 02 2015 new variable
+assessment#:#tst_pass_last_pass_desc#:#The last pass of a participant will be scored.###06 02 2015 new variable
+assessment#:#tst_allowed_users_max#:#Max. Number of Participants###06 02 2015 new variable
+assessment#:#tst_password_enter#:#Enter Password###06 02 2015 new variable
+assessment#:#tst_qbt_filter_question_title#:#Title of Question###06 02 2015 new variable
+assessment#:#tst_results_access_always_desc#:#Participants can access their results on the ‘Info’-tab immediately after starting the test pass and while still taking the test. Additionally ILIAS will present them with their test results immediately after finishing  the test.###06 02 2015 new variable
+assessment#:#tst_results_access_date_desc#:#Participants get access to their test results on the ‘Info’-tab after the defined date.###06 02 2015 new variable
+assessment#:#tst_results_access_finished_desc#:#ILIAS displays the test results after the test pass is finished. After finishing the test pass participants can access their test results on the ‘Info’-tab at any time.###06 02 2015 new variable
+assessment#:#tst_results_access_enabled#:#Access to Test Results###06 02 2015 new variable
+assessment#:#tst_results_access_enabled_desc#:#A button ‘Show Test Results’ will be displayed to participants on the ‘Info’-tab. Options in this and the following sections below configure what information is to be included into the report and when it will be accessible.###06 02 2015 new variable
+assessment#:#tst_results_access_setting#:#Point in Time###06 02 2015 new variable
+assessment#:#tst_results_details_options#:#Further Details to be Included in Test Results###06 02 2015 new variable
+assessment#:#tst_results_grading_opt_show_status_desc#:#Information on the ‘Passed’ / ‘Failed’ Status will be appended to the summary test result. Participants can access their test results on the ‘Info’-tab. <br />###06 02 2015 new variable
+assessment#:#tst_results_grading_opt_show_mark_desc#:#The resulting mark will be appended to the summary test result. Participants can access their test results on the ‘Info’-tab.###06 02 2015 new variable
+assessment#:#tst_score_cut_question_desc#:#Participants may score negative results for a question that had negative points for assigned to individual answer options. This setting ensures that per question any negativ result is set to 0 points.###06 02 2015 new variable
+assessment#:#tst_score_cut_test_desc#:#Participants might score negative points in questions. Scored points of all questions are added up. Only if the overall result of the test is negative this overall result will be set to 0 points. With this setting negative points carry a lot of weight.###06 02 2015 new variable
+assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Despite a multiple choice question was not answered, it still scores points for selecting or not-selecting the answer options as definied in the question. This setting is appropriate only for few cases.###06 02 2015 new variable
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Participants score 0 points for multiple choice questions in which they have not checked any answer option. This setting is appropriate for most tests.###06 02 2015 new variable
+assessment#:#test_enable_archiving_desc#:#In the ‘Export’-tab the whole test comprising all answers of all participants can be exported and downloaded.###06 02 2015 new variable
+common#:#msg_copy_clipboard_container#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Continue’.###06 02 2015 new variable
+content#:#cont_localfile#:#Local File###06 02 2015 new variable
+forum#:#make_topics_non_sticky#:#Make Threads Non-Sticky###06 02 2015 new variable
+administration#:#frm_displayed_infos#:#Displayed Information###06 02 2015 new variable
+administration#:#frm_disp_info_desc#:#Please select the attributes which should to be shown in the overviews.###06 02 2015 new variable
+content#:#cont_enough_answers_correct#:#Correct, but not the best solution!###06 02 2015 new variable
+assessment#:#tst_exp_sc_short_desc#:#In the ‘Statistics’-tab an additional export option is offered. It generates a spreadsheet for item analysis outside of ILIAS. This option only works for tests purely composed of Single Choice Questions.###06 02 2015 new variable
+administration#:#adm_edit_settings_template#:#Edit Template###06 02 2015 new variable
+assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.###06 02 2015 new variable
+assessment#:#tst_processing_time_duration#:#Maximum Duration of the Test###06 02 2015 new variable
+assessment#:#tst_processing_time_duration_desc#:#Maximum of time granted to take the test.###06 02 2015 new variable
+assessment#:#tst_activate_skill_service_desc#:#A new tab ‘Competences’ will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.###06 02 2015 new variable
+dcl#:#dcl_err_formula_field_not_found#:#Field with title '%s' not found###06 02 2015 new variable
+dcl#:#dcl_length_info#:#(for more than 200 characters, use the additional option Text Area)###06 02 2015 new variable
+dcl#:#dcl_regex_info#:#(without delimiter)###06 02 2015 new variable
+dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available###06 02 2015 new variable
+dcl#:#dcl_activate_view#:#Activate this view###06 02 2015 new variable
+dcl#:#dcl_deactivate_view#:#Deactivate this view###06 02 2015 new variable
+content#:#cont_sc_auto_review_info_12#:#Set the lesson mode to ‘review’ when a learner has completed or passed a SCO.###06 02 2015 new variable
+bibl#:#bibl_link_online#:#Lookup inventory###06 02 2015 new variable
+dateplaner#:#cal_ch_grps#:#Consultation Hour Groups###06 02 2015 new variable
+dateplaner#:#cal_ch_field_ch#:#Consultation Hour Appointments###06 02 2015 new variable
+assessment#:#redirect_after_finishing_rule#:#Redirect###06 02 2015 new variable
+assessment#:#redirect_none#:#no redirect###06 02 2015 new variable
+assessment#:#redirect_always#:#always to defined webpage###06 02 2015 new variable
+assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the ‘Detailed Results’ that can be accessed via the ‘Show Test Results‘-button on the ‘Info’-tab. It will not be displayed in the printable ‘List of Answers’ even though the setting is made here.###06 02 2015 new variable
+wsp#:#wsp_shared_type#:#Shared With###06 02 2015 new variable
+orgu#:#orgu_msg_info_paste#:#Please select the place to paste the object.###06 02 2015 new variable
+adve#:#char_selector_admin#:#Menu for Selecting Special Characters (Unicode) in Tests and Question Pools###06 02 2015 new variable
+adve#:#char_selector_user#:#Menu for Selecting Special Characters (Unicode) in Tests###06 02 2015 new variable
+adve#:#char_selector_test#:#Selector Special Characters (Unicode)###06 02 2015 new variable
+adve#:#char_selector_inherit_test#:#Settings made either Globally by Administrators or Individually by Users are Applied###06 02 2015 new variable
+adve#:#char_selector_inherit_user#:#Use Standard-Settings###06 02 2015 new variable
+adve#:#char_selector_disabled_admin#:#Ω-Button for Activating the Menu for Selecting Special Characters is displayed only if switched on###06 02 2015 new variable
+adve#:#char_selector_disabled_test#:#Special Character Selector is Off###06 02 2015 new variable
+adve#:#char_selector_disabled_user#:#Disable Menu for Selecting Special Characters###06 02 2015 new variable
+adve#:#char_selector_inactive_admin#:#Globally Deactivate the Menu for Selecting Special Characters###06 02 2015 new variable
+adve#:#char_selector_enabled_admin#:#Ω-Button for Activating the Menu for Selecting Special Characters is Displayed by Default###06 02 2015 new variable
+adve#:#char_selector_enabled_test#:#Special Character Selector is On###06 02 2015 new variable
+adve#:#char_selector_enabled_user#:#Enable Menu for Selecting Special Characters###06 02 2015 new variable
+wiki#:#wiki_rate_overall#:#Rate Wiki###06 02 2015 new variable
+forum#:#frm_max_notification_age#:#Max. Notification Age###06 02 2015 new variable
+forum#:#frm_max_notification_age_unit#:#Day(s)###06 02 2015 new variable
+forum#:#frm_max_notification_age_info#:#Please define the maximum age of postings to send notifications for. It is recommended to choose a higher value than the scheduled interval.###06 02 2015 new variable
+wiki#:#wiki_page_templates#:#Page Templates###06 02 2015 new variable
+wiki#:#wiki_template_status_removed#:#Template status removed.###06 02 2015 new variable
+wiki#:#wiki_remove_template_status#:#Remove Template Status###06 02 2015 new variable
+wiki#:#wiki_template_added#:#Template page added.###06 02 2015 new variable
+prtf#:#prtf_page_element_my_courses_info#:#This is a list of all my courses which are currently online and where I have a membership.###06 02 2015 new variable
+prtf#:#prtf_allow_my_courses#:#Page Element ‘My Courses’###06 02 2015 new variable
+prtf#:#prtf_allow_my_courses_info#:#Enables to include a list of current course memberships in a portfolio.###06 02 2015 new variable
+prtf#:#prtf_page_element_teaser_my_courses_inactive#:#This type of page element has been deactivated.###06 02 2015 new variable
+cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition###06 02 2015 new variable
+cntr#:#cntr_tax_list_info#:#The following are all taxonomies that have been defined for this object.###06 02 2015 new variable
+common#:#scorm_lp_auto_activate#:#default settings for learning progress###06 02 2015 new variable
+common#:#scorm_lp_auto_activate_info#:#If learning progress is activated in general, the settings for new SCORM learning modules are set to ‘Collection of SCORM Items’ and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module.###06 02 2015 new variable
+ecs#:#ecs_deprecated_token#:#Support for Deprecated Authentication Token###06 02 2015 new variable
+ecs#:#ecs_deprecated_token_info#:#Offers support for installations (e.g ILIAS installations of version 4.x) which use a deprecated token authentication mechanism.###06 02 2015 new variable
+exc#:#exc_peer_reviews_invalid_warning#:#Invalid Peer Groups###06 02 2015 new variable
+exc#:#exc_peer_review_overview#:#Show Peer Groups###06 02 2015 new variable
+exc#:#exc_peer_review_overview_invalid_users#:#Invalid Users###06 02 2015 new variable
+exc#:#exc_peer_review_missing_users#:#Users with submissions who are not part of the peer-feedback###06 02 2015 new variable
+exc#:#exc_peer_review_not_returned_users#:#Users without submissions who are not part of the peer-feedback###06 02 2015 new variable
+exc#:#exc_peer_review_invalid_peer_ids#:#Peer recipients who are not exercise members anymore or do not have a submission###06 02 2015 new variable
+exc#:#exc_peer_review_invalid_giver_ids#:#Peer givers who are not exercise members anymore or do not have a submission###06 02 2015 new variable
+exc#:#exc_peer_review_reset#:#Delete and Reset Peer-Feedback ###06 02 2015 new variable
+exc#:#exc_peer_review_reset_sure#:#Are you sure you want to delete the complete peer-feedback for the assignment "%s"?###06 02 2015 new variable
+exc#:#exc_peer_review_reset_done#:#All Peer-Feedback-related data has been deleted for the assignment.###06 02 2015 new variable
+adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!###06 02 2015 new variable
+crs#:#crs_loc_form_tst_new_initial_info#:#Create a new test to serve as Placement Test###06 02 2015 new variable
+crs#:#crs_loc_form_tst_new_qualified_info#:#--###06 02 2015 new variable
+crs#:#crs_loc_form_assign_initial_info#:#Select a test from this course to serve as Placement Test###06 02 2015 new variable
+crs#:#crs_loc_form_assign_qualified_info#:#--###06 02 2015 new variable
+poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.###06 02 2015 new variable
+content#:#cont_download#:#Download###06 02 2015 new variable
+payment#:#topics_settings#:#Topics Settings###06 02 2015 new variable
+payment#:#enable_topics#:#Enable Topics###06 02 2015 new variable
+payment#:#enable_topics_info#:#If enabled, you can assign purchasable objects to self-created topics. ###06 02 2015 new variable
+exc#:#exc_assignment_type#:#Type of Submission###06 02 2015 new variable
+trac#:#trac_mode_event_info#:#The learning progress status will be determined by the participation status.###06 02 2015 new variable
+sess#:#sess_lp_preset#:#Activate Learning Progress###06 02 2015 new variable
+sess#:#sess_lp_preset_info#:#(De-)Actives the learning progress for all session events.###06 02 2015 new variable
+glo#:#glo_copy#:#Copy Glossary###06 02 2015 new variable
+form#:#form_open_answer#:#Open Answer###06 02 2015 new variable
+survey#:#survey_access_codes#:#Authentication by Access Codes###06 02 2015 new variable
+survey#:#survey_access_codes_info#:#Users get access to the survey by entering a code on the ‘Info’-tab. These access codes are generated in a sub-tab ‘Access Codes’ in the tab ‘Participants’.###06 02 2015 new variable
+survey#:#survey_results_anonymization#:#Privacy###06 02 2015 new variable
+survey#:#survey_results_personalized#:#With Names###06 02 2015 new variable
+survey#:#survey_results_personalized_info#:#In the tab ‘Results’ the names of the participants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer.###06 02 2015 new variable
+survey#:#survey_results_anonymized#:#Without Names###06 02 2015 new variable
+survey#:#survey_results_anonymized_info#:#In the tab ‘Results’ participants' names are replaced by codes. Users having access to this tab cannot attribute answers to named participants but only to user ‘iTXaF’ (example).###06 02 2015 new variable
+survey#:#material_added_empty#:#The object does not have any suitable material.###06 02 2015 new variable
+ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants###06 02 2015 new variable
+survey#:#survey_sure_delete_constraint#:#Are you sure you want to delete the routing rule "%1$s" for the question "%2$s"?###06 02 2015 new variable
+survey#:#survey_constraint_deleted#:#The routing rule has been deleted.###06 02 2015 new variable
+error#:#error_back_to_repository#:#Back to Repository###06 02 2015 new variable
+error#:#error_sry_error#:#Sorry, an error occurred.###06 02 2015 new variable
+form#:#form_hier_click_to_add#:#Click here to add new elements.###06 02 2015 new variable
+scormtrac#:#exportselectedsuccess#:#Basic report for success###06 02 2015 new variable
+scormtrac#:#LearningModuleId#:#ID of learning module###06 02 2015 new variable
+scormtrac#:#LearningModuleTitle#:#Title of learning module###06 02 2015 new variable
+scormtrac#:#LearningModuleVersion#:#Version of learning module###06 02 2015 new variable
+scormtrac#:#Status#:#Total status###06 02 2015 new variable
+scormtrac#:#Percentage#:#Percentage of completed SCOs###06 02 2015 new variable
+scormtrac#:#Attempts#:#Attempts###06 02 2015 new variable
+scormtrac#:#existingSCOs#:#Number of existing SCOs###06 02 2015 new variable
+scormtrac#:#startedSCOs#:#Number of started SCOs###06 02 2015 new variable
+scormtrac#:#completedSCOs#:#Number of fully completed SCOs###06 02 2015 new variable
+scormtrac#:#passedSCOs#:#Number of passed SCOs###06 02 2015 new variable
+scormtrac#:#roundedTotal_timeSeconds#:#Total time in seconds (rounded)###06 02 2015 new variable
+content#:#cont_tracking_modify#:#Modify Data###06 02 2015 new variable
+scormtrac#:#counter_i_correct#:#Correctly answered interactions###06 02 2015 new variable
+scormtrac#:#counter_i_correct_percent#:#Percentage of correctly answered interactions###06 02 2015 new variable
+scormtrac#:#counter_i_incorrect#:#Incorrectly answered interactions###06 02 2015 new variable
+scormtrac#:#counter_i_incorrect_percent#:#Percentage of incorrectly answered interactions###06 02 2015 new variable
+scormtrac#:#counter_i_other#:#Neither correctly nor incorrectly answered interactions###06 02 2015 new variable
+scormtrac#:#counter_i_other_percent#:#Percentage of neither correctly nor incorrectly answered interactions###06 02 2015 new variable
+scormtrac#:#sco_id#:#ID of chapter / SCO###06 02 2015 new variable
+scormtrac#:#lesson_status#:#lesson_status###06 02 2015 new variable
+survey#:#svy_settings_section_before_start#:#Information before start of survey###06 02 2015 new variable
+survey#:#svy_settings_section_access#:#Administering the survey: Access###06 02 2015 new variable
+survey#:#svy_settings_section_question_behaviour#:#Administering the survey: Behaviour of question###06 02 2015 new variable
+survey#:#svy_settings_section_finishing#:#Finishing the survey###06 02 2015 new variable
+survey#:#svy_settings_section_reminders#:#Reminders###06 02 2015 new variable
+scormtrac#:#satisfied#:#Status: satisfied###06 02 2015 new variable
+scormtrac#:#measure#:#Status: measure###06 02 2015 new variable
+scormtrac#:#exportobjglobaltosystem#:#Report for Objectives Global To System (used by Sequencing)###06 02 2015 new variable
+scormtrac#:#exportselectedobjectives#:#Report for objectives###06 02 2015 new variable
+scormtrac#:#scope#:#scope###06 02 2015 new variable
+scormtrac#:#counter#:#counter###06 02 2015 new variable
+scormtrac#:#student_response#:#student_response: Response###06 02 2015 new variable
+scormtrac#:#ostatus#:#Status of the objective###06 02 2015 new variable
+prtf#:#prtf_blog_page_created#:#Blog has been added.###06 02 2015 new variable
+wiki#:#wiki_adv_md_hidden#:#This block is currently hidden.###06 02 2015 new variable
+wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below.###06 02 2015 new variable
+content#:#cont_pc_amdpl#:#Page List###06 02 2015 new variable
+meta#:#udf_type_selectmulti#:#Selection List (Checkboxes)###06 02 2015 new variable
+wiki#:#wiki_no_page_found#:#No wiki page has been found for search term '$1'.###06 02 2015 new variable
+wiki#:#wiki_pages_found#:#The following pages match your search term '$1'.###06 02 2015 new variable
+wiki#:#wiki_no_search_term#:#No search term has been entered. All pages of the wiki are listed below.###06 02 2015 new variable
+tagging#:#tag_some_obj_tagged_without_access#:#You do not have the permissions to access some of the tagged objects anymore. Should the tag be removed for these objects?###06 02 2015 new variable
+tagging#:#tag_remove_tags_of_obj_without_access#:#Remove Tag###06 02 2015 new variable
+tagging#:#tag_tags_deleted#:#Tag has been removed from inaccessible objects.###06 02 2015 new variable
+content#:#cont_automatically_set_store_tries#:#Option "$1" has been activated automatically, because option "$2" has been enabled.###06 02 2015 new variable
+cntr#:#cont_custom_icon#:#Custom Icon###06 02 2015 new variable
+rbac#:#rbac_cant_import_role_wrong_type#:#Can't import a role from item %s into item %s.###06 02 2015 new variable
+content#:#cont_license#:#License###06 02 2015 new variable
+content#:#cont_license_info#:#Enables the license feature###06 02 2015 new variable
+content#:#cont_biblio#:#Bibliographical Data###06 02 2015 new variable
+content#:#cont_biblio_info#:#Enables the bibliographical data feature###06 02 2015 new variable
+crs#:#crs_loc_tst_assignment#:#Test Assignment###06 02 2015 new variable
+search#:#search_minimum_info#:#Your search must be at least %s characters long###06 02 2015 new variable
+crs#:#crs_show_all_obj#:#Expand All###06 02 2015 new variable
+crs#:#crs_hide_all_obj#:#Collapse All###06 02 2015 new variable
+notes#:#notes_comment_deleted#:#The comment has been deleted.###06 02 2015 new variable
+notes#:#notes_comments_deleted#:#The comments have been deleted.###06 02 2015 new variable
+orgu#:#ou_id_not_valid#:#Import-ID not found.###06 02 2015 new variable
+blog#:#blog_profile_picture_repository_info#:#Profile pictures of the authors are only shown on the postings pages, not on overview pages.###06 02 2015 new variable
+blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the following contributors?###06 02 2015 new variable
+news#:#news_rss#:#RSS###06 02 2015 new variable
+mob#:#mob_object#:#Object###06 02 2015 new variable
+content#:#cont_qtries_info#:#Default value for number of tries for newly created questions.###06 02 2015 new variable
+lm#:#lm_copy#:#Copy Learning Module###06 02 2015 new variable
+content#:#cont_settings#:#Settings for learning modules###06 02 2015 new variable
+rbac#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits###06 02 2015 new variable
+rbac#:#orgu_copy#:#Copy Organisational Unit###06 02 2015 new variable
+exc#:#exc_no_team_yet_notice#:#You are not assigned to a team yet!###06 02 2015 new variable
+prtf#:#prtf_edit_embedded_blog#:#Edit Blog "%s"###06 02 2015 new variable
+exc#:#exc_manage_team#:#Manage Team###06 02 2015 new variable
+assessment#:#user_has_finished_a_test#:#A participant has finished a test.###06 02 2015 new variable
+assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.###06 02 2015 new variable
+assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILIAS because you activated the notification.###06 02 2015 new variable
+dateplaner#:#cal_type_exc#:#Exercise Calendar###06 02 2015 new variable
+grp#:#grp_admission_link_failure_registration_period#:#Can't register: Group is out of registration period.###06 02 2015 new variable
+crs#:#crs_admission_link_failure_registration_period#:#Can't register: Course is out of registration period.###06 02 2015 new variable
+grp#:#grp_admission_link_failure_membership_limited#:#Can't register: Group membership is limited.###06 02 2015 new variable
+crs#:#crs_admission_link_failure_membership_limited#:#Can't register: Course membership is limited.###06 02 2015 new variable
+grp#:#grp_admission_link_success_registration#:#Successfully registered to group "%s".###06 02 2015 new variable
+crs#:#crs_admission_link_success_registration#:#Successfully registered to course "%s".###06 02 2015 new variable
+rbac#:#ilias_id#:#ILIAS-ID###06 02 2015 new variable
+scormtrac#:#exportselectedraw#:#CMI (RAW) data###06 02 2015 new variable
+scormtrac#:#lvalue#:#Key###06 02 2015 new variable
+scormtrac#:#rvalue#:#Value###06 02 2015 new variable
+scormtrac#:#identifierref#:#SCO-Identifier###06 02 2015 new variable
+dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.###06 02 2015 new variable
+dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.###06 02 2015 new variable
+administration#:#adm_missing_entries#:#Missing Entries###06 02 2015 new variable
+administration#:#adm_missing_entry_add_action#:#Add###06 02 2015 new variable
+administration#:#adm_missing_entry_add#:#Add New Entry###06 02 2015 new variable

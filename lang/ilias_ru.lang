@@ -1016,7 +1016,6 @@ assessment#:#set_manual_feedback#:#Рецензия
 assessment#:#shape#:#Фигура
 assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Показать подробные результаты пользователя (Отмеченные как пройденные)
-assessment#:#show_exam_id#:#Показывать Exam Id
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.
 assessment#:#show_pass_overview#:#Показать обзор отмеченных верных ответов
@@ -1183,7 +1182,6 @@ assessment#:#tst_filter_tax_node#:#Узел таксономии
 assessment#:#tst_filter_taxonomy#:#Таксономия
 assessment#:#tst_finish_confirm_button#:#Да, я хочу закончить тест
 assessment#:#tst_finish_confirm_cancel_button#:#Нет, вернуться к предыдущему вопросу
-assessment#:#tst_finish_confirm_list_of_answers_button#:#Нет, вернуться к списку вопросов
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finish_notification#:#Уведомление о прохождении теста
 assessment#:#tst_finish_notification_advanced#:#Отослать подробные результаты теста владельцу
@@ -3719,7 +3717,6 @@ common#:#import_alm#:#Импортировать AICC Комплекс
 common#:#import_cat_localrol#:#Create local role for every new category
 common#:#import_cat_table#:#The following table is only meaningful if the checkbox is set
 common#:#import_categories#:#Импортировать Категории
-common#:#import_dbk#:#Импортировать цифровую книгу
 common#:#import_failure_log#:#Импортировать журнал ошибок
 common#:#import_file#:#Импортировать файл
 common#:#import_file_not_valid#:#Импорт файла недействителен.
@@ -14277,8 +14274,6 @@ assessment#:#tst_instant_feedback_fix_usr_answer_desc#:#This option causes a fix
 assessment#:#tst_instant_feedback_results_desc#:#If results (in points) are selected, the reached points will be shown.###26 09 2014 new variable
 assessment#:#tst_instant_feedback_solution_desc#:#If solutions are selected, the correct solution will be shown too.###26 09 2014 new variable
 assessment#:#tst_password_form#:#Enter Test Password###26 09 2014 new variable
-assessment#:#tst_results_grading_opt_show_both#:#Show Passed/Failed Status and Resulting Mark###26 09 2014 new variable
-assessment#:#tst_results_grading_opt_show_none#:#Do NOT show Passed/Failed Status or Resulting Mark###26 09 2014 new variable
 assessment#:#tst_results_grading_opt_show_status#:#Show Passed/Failed Status only###26 09 2014 new variable
 assessment#:#tst_results_grading_opt_show_mark#:#Show Resulting Mark only###26 09 2014 new variable
 assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#The random question set configuration cannot be modified due to existing participant data.###26 09 2014 new variable
@@ -15217,3 +15212,12 @@ scormtrac#:#exportselectedraw#:#CMI (RAW) data###27 01 2015 new variable
 scormtrac#:#lvalue#:#Key###27 01 2015 new variable
 scormtrac#:#rvalue#:#Value###27 01 2015 new variable
 scormtrac#:#identifierref#:#SCO-Identifier###27 01 2015 new variable
+assessment#:#tst_reporting_date#:#Date###06 02 2015 new variable
+assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
+assessment#:#redirect_none#:#no redirect###06 02 2015 new variable
+assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the ‘Detailed Results’ that can be accessed via the ‘Show Test Results‘-button on the ‘Info’-tab. It will not be displayed in the printable ‘List of Answers’ even though the setting is made here.###06 02 2015 new variable
+dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.###06 02 2015 new variable
+dcl#:#dcl_notification_info#:#Enables the individual notification feature for users.###06 02 2015 new variable
+administration#:#adm_missing_entries#:#Missing Entries###06 02 2015 new variable
+administration#:#adm_missing_entry_add_action#:#Add###06 02 2015 new variable
+administration#:#adm_missing_entry_add#:#Add New Entry###06 02 2015 new variable
