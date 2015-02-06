@@ -11823,7 +11823,7 @@ scormdebug#:#debugwindow_delete#:#Delete
 scormdebug#:#debugwindow_download#:#Download
 scormdebug#:#debugwindow_open#:#Open
 scormdebug#:#debugwindow_password_enter#:#Please enter your password
-common#:#password_multiple_errors#:#Multiple criterias are not satisfied:
+common#:#password_multiple_errors#:#Multiple criteria are not satisfied:
 common#:#password_contains_invalid_chars#:#The password contains invalid characters
 content#:#cont_file_from_workspace#:#File From My Workspace
 skmg#:#skmg_create_skill_template#:#Create Competence Template
@@ -11836,19 +11836,19 @@ skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Referen
 skmg#:#skmg_create_skill_category#:#Create Competence Category
 common#:#notice#:#Notice
 common#:#public_room#:#Public room
-chatroom#:#chtr_moderate#:#User can moderate discussion in Chatroom
+chatroom#:#chtr_moderate#:#User can moderate discussion in chat room
 chatroom#:#unkown_private_room#:#Unknown private room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
-chatroom#:#chtr_new#:#New Chatroom
-chatroom#:#chtr_add#:#Add Chatroom
+chatroom#:#chtr_new#:#New Chat Room
+chatroom#:#chtr_add#:#Add Chat Room
 blog#:#blog_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.
 prtf#:#prtf_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.
 exc#:#exc_select_blog#:#Use Existing Blog
 exc#:#exc_select_portfolio#:#Use Existing Portfolio
 exc#:#exc_select_blog_info#:#Please select one of your blogs to use it with this assignment.
 exc#:#exc_select_portfolio_info#:#Please select one of your portfolios to use it with this assignment.
-exc#:#exc_select_blog_change#:#Use different Blog
-exc#:#exc_select_portfolio_change#:#Use different Portfolio
+exc#:#exc_select_blog_change#:#Use different blog
+exc#:#exc_select_portfolio_change#:#Use different portfolio
 exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
 common#:#my_courses_groups#:#My Courses and Groups
@@ -11927,12 +11927,12 @@ wiki#:#wiki_rename#:#Rename
 wiki#:#wiki_rate_page#:#Rate this Wiki Page
 auth#:#auth_login_editor#:#Loginscreen Editor
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template
-rbac#:#chtr_moderate#:#User can moderate discussion in chatroom
-chatroom#:#welcome_to_chat#:#Welcome to the chatroom
+rbac#:#chtr_moderate#:#User can moderate discussion in chat room
+chatroom#:#welcome_to_chat#:#Welcome to the chat room
 chatroom#:#user_invited#:#The user has been invited.
 chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.
-chatroom#:#user_invited_self#:#<b>#user#</b> invited you to the chatroom <b>#room#</b>.
-chatroom#:#private_room_closed#:#The chatroom <b>#title#</b> has been closed.
+chatroom#:#user_invited_self#:#<b>#user#</b> invited you to the chat room <b>#room#</b>.
+chatroom#:#private_room_closed#:#The chat room <b>#title#</b> has been closed.
 chatroom#:#private_room_entered#:#Welcome to the private room <b>#title#</b>.
 chatroom#:#private_room_left#:#The user <b>#user#</b> has left the private room <b>#title#</b>.
 chatroom#:#private_room_entered_user#:#The user <b>#user#</b> has entered the private room <b>#title#</b>.
@@ -11950,29 +11950,29 @@ didactic#:#didactic_not_changed#:#The didactic template setting is unchanged.
 didactic#:#didactic_selected_tpl_option#:#Applied didactic template:
 didactic#:#didactic_template_applied#:#Applied didactic template.
 didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the chosen didactic template? All current permission settings will get lost!
-chatroom#:#chatserver_address#:#IP-Address of Chatservers
-chatroom#:#chatserver_port#:#Port of Chatservers
+chatroom#:#chatserver_address#:#IP-Address of Chat Server
+chatroom#:#chatserver_port#:#Port of Chat Server
 chatroom#:#instance_name#:#Unique Identifier
 chatroom#:#ilias_url#:#Base-URL of your ILIAS Installation
 chatroom#:#soap_user#:#Name of SOAP User
 chatroom#:#soap_user_password#:#Password of SOAP User
 chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.
-chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the webserver must handle.
-chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chatserver to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.<br/>The name may contain letters (A-Z/a-z), numerics (0-9) and the characters ‘-’ and ‘_’.
-chatroom#:#enable_smilies#:#Enable Smilies
-chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smilies tab for configuration.
+chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
+chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chat server to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.<br/>The name may contain letters (A-Z/a-z), numerics (0-9) and the characters ‘-’ and ‘_’.
+chatroom#:#enable_smilies#:#Enable Smileys
+chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smileys tab for configuration.
 chatroom#:#display_past_msgs#:#Number of Past Messages
-chatroom#:#hint_display_past_msgs#:#Number of previous messages shown when chatroom is entered. A value of ‘0’ disables this feature.
+chatroom#:#hint_display_past_msgs#:#Number of previous messages shown when chat room is entered. A value of ‘0’ disables this feature.
 chatroom#:#speak_to#:#Speak to <b>#user#</b>
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
-chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chatserver.
+chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 chatroom#:#leave_private_room#:#Leave Private Room
 chatroom#:#delete_private_room#:#Delete Private Room
 chatroom#:#invite_to_private_room#:#Invite to Current Room
 wiki#:#wiki_page_actions#:#Page Actions
 wiki#:#wiki_notification_deactivated#:#Notification Deactivated
 chatroom#:#scope#:#Room/Private Room
-chatroom#:#user_in_room#:#Invite user from current chatroom
+chatroom#:#user_in_room#:#Invite user from current chat room
 chatroom#:#user_in_ilias#:#Search and invite user from ILIAS
 chatroom#:#kick_question#:#Do you really want to kick the user from current room?
 chatroom#:#ban_question#:#Do you really want to ban the user from current room?
@@ -11980,8 +11980,8 @@ chatroom#:#history_cleared#:#The message history was deleted by a moderator.
 chatroom#:#clear_room_history#:#Delete Message History
 chatroom#:#clear_room_history_question#:#Do you really want to delete all messages of the current room?
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
-chatroom_adm#:#public_chat_settings#:#Public Chatroom Settings
-chatroom_adm#:#public_chat_permissions#:#Public Chatroom Permissions
+chatroom_adm#:#public_chat_settings#:#Public Chat Room Settings
+chatroom_adm#:#public_chat_permissions#:#Public Chat Room Permissions
 chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation
 chatroom#:#create_private_room_text#:#Private room name
 chatroom#:#invite_username#:#Username
@@ -11989,7 +11989,7 @@ notes#:#comments_feature_currently_not_activated_for_object#:#The public comment
 chatroom#:#layout#:#Layout
 chatroom#:#show_settings#:#Show Settings
 chatroom#:#hide_settings#:#Hide Settings
-chatroom_adm#:#soap_user_hint#:#This user is used to send information from the chatserver to the ilias installation. No special permissions are required.<br/>If you create a new accout, please make sure that you are able to login with this user (e.g. accept licence aggreement).
+chatroom_adm#:#soap_user_hint#:#This user is used to send information from the chat server to the ilias installation. No special permissions are required.<br/>If you create a new account, please make sure that you are able to login with this user (e.g. accept licence agreement).
 chatroom#:#private_rooms_enabled#:#Allow Private Rooms
 chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.
 chatroom#:#no_further_users#:#No other users present
@@ -11997,8 +11997,8 @@ chatroom#:#users#:#Users
 chatroom#:#no_messages#:#There are no saved messages for the given period.
 chatroom#:#history_title_general#:#Conversation in Chat Room "%s"
 chatroom#:#history_title_private_room#:#Conversation in Private Room "%s"
-common#:#chtr_copy#:#Copy Chatroom
-common#:#obj_chtr_duplicate#:#Copy Chatroom
+common#:#chtr_copy#:#Copy Chat Room
+common#:#obj_chtr_duplicate#:#Copy Chat Room
 common#:#il_chat_moderator_visible#:#Chat Room is visible
 common#:#il_chat_moderator_read#:#Read access to Chat Room
 common#:#il_chat_moderator_write#:#Edit Chat Room settings
@@ -12051,7 +12051,7 @@ rbac#:#rbac_precondition_save_obligatory#:#Save Compulsory
 rbac#:#rbac_precondition_minimum_optional#:#At least 2 preconditions have to remain optional.
 common#:#precondition_required_itemlist#:#Required Precondition
 common#:#precondition_toggle#:#Preconditions that need to be fulfilled to access this object
-content#:#cont_cp_question_diff_formats_info#:#Please note that some formattings are not supported in content modules.
+content#:#cont_cp_question_diff_formats_info#:#Please note that some formatting is not supported in content modules.
 crs#:#crs_link_show_all_prev_sessions#:#Show all previous sessions
 crs#:#crs_link_hide_prev_sessions#:#Hide previous sessions
 crs#:#crs_link_show_all_next_sessions#:#Show all upcoming sessions
@@ -12118,13 +12118,13 @@ blog#:#blog_notification_activated#:#Notification Activated
 blog#:#blog_notification_deactivated#:#Notification Deactivated
 wiki#:#wiki_change_notification_page_body_comment#:#the following wiki page has been commented
 common#:#chta_visible#:#Chatroom Administration is visible
-common#:#chta_read#:#Read access to Chatroom Administration
-common#:#chta_write#:#Edit Chatroom Administration
+common#:#chta_read#:#Read access to Chat Room Administration
+common#:#chta_write#:#Edit Chat Room Administration
 common#:#chta_edit_permission#:#Change Permission Settings
 rbac#:#moderate#:#Moderate
 common#:#apache_auth#:#Apache Authentication
 common#:#server_disabled#:#The Chat is Disabled
-rbac#:#rbac_create_chtr#:#Create Chatroom
+rbac#:#rbac_create_chtr#:#Create Chat Room
 search#:#search_err_user_not_exist#:#A user with that login name does not exist.
 blog#:#blog_draft#:#Draft
 blog#:#blog_draft_info#:#This posting draft is only visible for the author.
@@ -12143,12 +12143,12 @@ crs#:#crs_starter_delete_sure#:#Are you sure you want to delete the following st
 common#:#statutory_regulations#:#Statutory Regulations
 common#:#show_sr_shoppingcart#:#Show in Shopping Cart
 common#:#attach_sr_invoice#:#Attach at e-mail
-common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart
+common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shopping cart
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email
 rbac#:#tst_tst_statistics#:#User has access to test statistics
 common#:#ignore_required_fields#:#Ignore required fields
 common#:#ignore_required_fields_info#:#If activated, you can submit this form without filling out all mandatory fields. The new user has to add the missing information on the personal profile after the next login.
-assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.
+assessment#:#test_has_datasets_warning_page_view#:#The test already contains data sets. You cannot edit the test questions until you remove these data sets.
 assessment#:#test_has_datasets_warning_page_view_link#:#Edit Participants
 wsp#:#wsp_share_with_users#:#Share with users
 acc#:#acc_last_rep_visited#:#Repository/Last Visited
@@ -12344,7 +12344,7 @@ assessment#:#tst_question_hints_form_cmd_save#:#Save Hint
 assessment#:#tst_question_hints_form_saved_msg#:#The hint has been saved successfully.
 assessment#:#tst_question_hints_form_invalid_msg#:#The hint could not been saved. Please check your inputs.
 assessment#:#tst_question_hints_item_stored_in_ordering_clipboard#:#Hint %s is stored in ordering clipboard.
-assessment#:#tst_question_hints_ordering_clipboard_resetted#:#The ordering clipboard has been resetted.
+assessment#:#tst_question_hints_ordering_clipboard_resetted#:#The ordering clipboard has been reset.
 assessment#:#tst_question_hints_save_order_success_msg#:#The order of hint was saved successfully.
 assessment#:#tst_question_hints_paste_before_success_msg#:#The hint %s has been pasted before hint %s successfully.
 assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been pasted after hint %s successfully.
@@ -12424,7 +12424,7 @@ tax#:#tax_sorting#:#Sorting
 tax#:#tax_alphabetical#:#Alphabetical
 tax#:#tax_manual#:#Manual
 tax#:#tax_order_nr#:#Order Nr
-tax#:#tax_target_within_nodes#:#The target must not be a subnode of the selected items.
+tax#:#tax_target_within_nodes#:#The target must not be a sub-node of the selected items.
 tax#:#tax_please_select_target#:#Please select the target.
 rep#:#rep_activation_availability#:#Availability
 rep#:#rep_activation_online#:#Online
@@ -12477,9 +12477,9 @@ assessment#:#tst_activation_online_info#:#If online, participants can take the t
 assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test. 
 book#:#booking_nr_of_items#:#Nr of Items
 book#:#book_schedule_type_fixed#:#Fixed Schedule
-book#:#book_schedule_type_fixed_info#:#This type can be used for rooms, beamers and such
+book#:#book_schedule_type_fixed_info#:#This type can be used for rooms, video projectors and such.
 book#:#book_schedule_type_none#:#No Schedule
-book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, seminar places and such
+book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, seminar places and such.
 book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following object?
 common#:#obj_mep_duplicate#:#Copy Media Pool
 common#:#obj_mcst_duplicate#:#Copy Mediacast
@@ -12545,14 +12545,14 @@ dcl#:#dcl_record_edit_viewdefinition#:#Edit Detailed View
 dcl#:#dcl_record_list_viewdefinition#:#List Detailed Views
 dcl#:#dcl_add_new_field#:#Add New Field
 dcl#:#dcl_add_new_table#:#Add New Table
-dcl#:#dcl_field_datatype#:#Field Datatype
+dcl#:#dcl_field_datatype#:#Field Data Type
 dcl#:#dcl_required#:#Required Field
 dcl#:#dcl_edit_type_non#:#Not editable
 dcl#:#dcl_edit_type_non_info#:#Creating New Entries needs edit settings permission
 dcl#:#dcl_edit_type_unlim#:#Unlimited
 dcl#:#dcl_edit_type_unlim_info#:#Users with add/edit permission can add/edit entries
 dcl#:#dcl_edit_type_lim#:#Limited
-dcl#:#dcl_edit_type_lim_info#:#Access for users with add/edit permission is limited to the following daterange
+dcl#:#dcl_edit_type_lim_info#:#Access for users with add/edit permission is limited to the following date range
 dcl#:#dcl_edit_start#:#Start-Date
 dcl#:#dcl_edit_end#:#End-Date
 dcl#:#dcl_export#:#Export
@@ -12572,7 +12572,7 @@ dcl#:#dcl_file#:#Fileupload
 dcl#:#dcl_field_description#:#Description
 dcl#:#dcl_field_required#:#Required
 dcl#:#dcl_length#:#Length
-dcl#:#dcl_length_info#:#(for more than 200 characters, use the additional option Textarea)
+dcl#:#dcl_length_info#:#(for more than 200 characters, use the additional option Text Area)
 dcl#:#dcl_regex#:#Regular Expression
 dcl#:#dcl_regex_info#:#(without delimiter)
 dcl#:#dcl_filter#:#Filter
@@ -12591,7 +12591,7 @@ dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
 dcl#:#dcl_create_fields#:#Please create at least one field in the tab ‘List Fields’.
-dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistant. A reference no longer exists.
+dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistent. A reference no longer exists.
 common#:#mail_member#:#Mail to Member
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_team#:#Team
@@ -12650,7 +12650,7 @@ dateplaner#:#cal_type_rl#:#Calendar Location
 dateplaner#:#cal_type_local#:#Local Calendar
 dateplaner#:#cal_type_remote#:#Web Calendar
 dateplaner#:#cal_remote_url#:#URL
-dateplaner#:#cal_type_rl_info#:#If you know the address to a calendar (in ical format), you can type the address here.
+dateplaner#:#cal_type_rl_info#:#If you know the address to a calendar (in iCal format), you can type the address here.
 dateplaner#:#cal_cal_synchronize#:#Synchronise Calendar
 dateplaner#:#cal_cal_sync_success#:#Successfully synchronised calendar
 style#:#sty_substyle#:#Substyle
@@ -12822,7 +12822,7 @@ dcl#:#dcl_change_notification_link#:#Link to the Data Collection
 dcl#:#dcl_change_notification_dcl_new_record#:#The following Entry has been created
 dcl#:#dcl_change_notification_dcl_update_record#:#The following Entry has been updated
 dcl#:#dcl_change_notification_dcl_delete_record#:#The following Entry page has been deleted
-dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.
+dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this data collection.
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_changed_by#:#Changed by
 dcl#:#dcl_notification_activate_dcl#:#Activate Notification for Data Collection
@@ -12852,7 +12852,7 @@ dcl#:#dcl_rating#:#Rating
 dcl#:#dcl_editable_in_table_gui#:#Please vote in the table view.
 dcl#:#dcl_table_settings_saved#:#Table Settings have been saved.
 dcl#:#dcl_ILIAS_reference#:#Link to an ILIAS module
-dcl#:#dcl_learning_progress#:#Show the learning progess of the linked module of the viewer
+dcl#:#dcl_learning_progress#:#Show the learning progress of the linked module of the viewer
 dcl#:#dcl_status#:#Your Status
 dcl#:#dcl_mob#:#Media Object
 dcl#:#dcl_width#:#Width
@@ -12898,7 +12898,7 @@ common#:#fm_start#:#Open With File Manager
 fm#:#fm_settings_local#:#Show Local Filesystem
 fm#:#fm_settings_local_info#:#If enabled, the file manager starts with two frames, one shows the local filesystem, the other contains the view on the ILIAS repository. If disabled, only the ILIAS repository is shown.
 fm#:#fm_settings_filesize#:#Maximum Upload File Size
-fm#:#fm_settings_filesize_info#:#Enter the maximum allowed filesize for uploaded files in mebibyte.
+fm#:#fm_settings_filesize_info#:#Enter the maximum allowed file size for uploaded files in mebibyte.
 blog#:#blog_authors#:#Authors
 blog#:#blog_author#:#Written by
 blog#:#blog_enable_approval#:#Approve Postings
@@ -12953,8 +12953,8 @@ dcl#:#dcl_deactivate_view#:#Deactivate this view
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
 dcl#:#dcl_table_info_title#:#Info
 dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?
-dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the Entries of this table will be removed irreversibly, the Entries and fields themselfs will not be changed.
-dcl#:#dcl_empty_view_success#:#The Viewdefinition has been deleted successfully.
+dcl#:#dcl_confirm_delete_view_text#:#The View Definition of entries of this table will be removed irreversibly, the entries and fields themselves will not be changed.
+dcl#:#dcl_empty_view_success#:#The View Definition has been deleted successfully.
 dcl#:#dcl_permissions_form#:#User actions
 rating#:#rating_number_votes#:#%s Ratings
 administration#:#system_check_no_owner#:#Ownerless Objects
@@ -13000,7 +13000,7 @@ dateplaner#:#cal_notification_users#:#Notification for Selected Users
 dateplaner#:#cal_adm_notification_user_info#:#Choose this option, to send optional mail notifications to selected users.
 dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only ILIAS user account names or valid email addresses.
 dateplaner#:#cal_user_notification#:#User Notification
-dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by email. Please enter ILIAS usernames or email addresses.
+dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by email. Please enter ILIAS user names or email addresses.
 dateplaner#:#cal_cg_notification#:#Course/Group Notification
 dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"
 dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointment.
@@ -13120,7 +13120,7 @@ tos#:#tos_tos_settings#:#Settings
 tos#:#tos_status_enable#:#Enable
 tos#:#tos_status_desc#:#If activated, users are forced to accept the terms of service before they can enter ILIAS.
 tos#:#tos_reset_tos_for_all_users#:#Reset Terms of Service
-tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP webservices, the chat server, or the cron job.
+tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP web services, the chat server, or the cron job.
 tos#:#tos_reset_successfull#:#The terms of service have been reset successfully.
 user#:#tos_show_signed_text#:#Show Details
 user#:#tos_not_accepted_yet#:#Not accepted yet
@@ -13143,7 +13143,7 @@ forum#:#frm_sorting_threads#:#Thread Sorting
 forum#:#frm_sorting_posts#:#Posts Sorting
 forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.
 mail#:#cron_update_addressbook#:#Synchronize address book entries automatically
-mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cronjob. Only data that was released by the User, will be updated.
+mail#:#cron_update_addressbook_desc#:#If this option is enabled, users can specify whether address book entries which are related to user accounts, should be synchronized by the cron job. Only data that was released by the User, will be updated.
 mail#:#auto_update#:#Update
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.
@@ -13380,7 +13380,7 @@ skmg#:#skmg_assign_user#:#Assign User
 skmg#:#skmg_confirm_user_removal#:#Do you really want to remove the following users from this profile?
 skmg#:#skmg_resources#:#Resources
 skmg#:#skmg_add_resource#:#Add Resource
-skmg#:#skmg_confirm_level_resources_removal#:#Do you really want to remove the followin resources from the competence level?
+skmg#:#skmg_confirm_level_resources_removal#:#Do you really want to remove the following resources from the competence level?
 survey#:#survey_activate_skill_service#:#Activate Competence Service
 survey#:#survey_skill_assign#:#Question/Competence Assignment
 survey#:#survey_skill#:#Competence
@@ -13430,7 +13430,7 @@ survey#:#svy_all_survey_competences#:#All Survey Competences
 survey#:#survey_360_raters#:#Raters
 survey#:#svy_results#:#Results
 survey#:#svy_analysis#:#Analysis
-mail#:#mail_add_folder#:#Add New Subfolder
+mail#:#mail_add_folder#:#Add New Sub-folder
 survey#:#survey_notification_settings#:#Notification
 survey#:#survey_reminder_setting#:#Remind Users to Participate
 survey#:#survey_reminder_start#:#Start
@@ -13555,7 +13555,7 @@ ecs#:#ecs_cmap_att_module#:#Module
 ecs#:#ecs_cmap_att_venue#:#Venue
 assessment#:#tst_man_scoring_by_part#:#Scoring by Participant
 assessment#:#tst_man_scoring_by_qst#:#Scoring by Question
-assessment#:#tst_no_scorable_qst_available#:#No scorable question available
+assessment#:#tst_no_scorable_qst_available#:#No question to score available
 assessment#:#part_received_a_of_b_points#:#The participant received %s of %s possible points
 assessment#:#answers_of#:#Answers of:
 survey#:#survey_360_appraisee_close_action_success_admin#:#The 360° surveys of the appraisees were closed for the raters.
@@ -13563,7 +13563,7 @@ survey#:#survey_360_sure_appraisee_close_admin#:#Are you sure you want to close 
 assessment#:#question_id#:#Question ID
 assessment#:#question_id_short#:#ID
 mcst#:#mcst_download_videoalternative#:#Download Alternative File
-dateplaner#:#remote_pass_info#:#Please enter your account data if the access to the webcalendar is protected.
+dateplaner#:#remote_pass_info#:#Please enter your account data if the access to the web calendar is protected.
 prtf#:#prtf_allow_html#:#Allow HTML/Javascript
 prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.
 blog#:#blog_allow_html#:#Allow HTML/Javascript
@@ -13609,7 +13609,7 @@ cld#:#cld_no_service_active#:#No cloud-plugin active
 cld#:#cld_no_service_selected#:#No service selected
 cld#:#cld_not_authenticated_offline#:#Not Authenticated - Offline
 cld#:#cld_only_owner_has_permission_to_change_root_path#:#Due to privacy concerns only the creator of a cloud object has the permission to change it's root path.
-cld#:#cld_path_does_not_exist_in_file_tree_in_session#:#Path does not exist in filetree in Session:
+cld#:#cld_path_does_not_exist_in_file_tree_in_session#:#Path does not exist in file tree in Session:
 cld#:#cld_permission_denied#:#Permission Denied
 cld#:#cld_permission_to_change_root_folder_denied#:#Permission to change root folder denied
 cld#:#cld_plugin_hook_could_not_be_instantiated#:#Plugin hook cloud not be instantiated
@@ -14034,7 +14034,7 @@ search#:#search_mime_word#:#Word Files
 search#:#search_mime_excel#:#Excel Files
 search#:#search_mime_powerpoint#:#Powerpoint Files
 search#:#search_mime_image#:#Images
-search#:#lucene_show_sub_relevance#:#Show Subitem Relevance
+search#:#lucene_show_sub_relevance#:#Show Sub-Item Relevance
 search#:#search_mime_filter_form#:#Mime Type Filter
 search#:#lucene_prefix_wildcard#:#Prefix Wildcard Queries
 search#:#lucene_prefix_wildcard_info#:#If enabled, prefix wildcard queries (*LIAS finds ILIAS) are supported.
@@ -14206,7 +14206,7 @@ adve#:#char_selector_inherit_user#:#Use Standard-Settings
 adve#:#char_selector_disabled_admin#:#Ω-Button for Activating the Menu for Selecting Special Characters is displayed only if switched on
 adve#:#char_selector_disabled_info_admin#:#The menu for selecting special characters (Unicode) in tests and question pools is activated but the Ω-Button has to be switched on by users on their Personal Desktop and or in individual tests or questions pools. Test Settings will override user settings.
 adve#:#char_selector_disabled_info_test#:#Regardless of a user's individual setting the special character selector is switched off for taking this test.
-adve#:#char_selector_disabled_info_user#:#In tests a menu for selecting special characters will be not displayed. However individual tests ‘force switch on’ the menu though your deacticted it here.
+adve#:#char_selector_disabled_info_user#:#In tests a menu for selecting special characters will be not displayed. However individual tests ‘force switch on’ the menu though your deactivated it here.
 adve#:#char_selector_disabled_test#:#Special Character Selector is Off
 adve#:#char_selector_disabled_user#:#Disable Menu for Selecting Special Characters
 adve#:#char_selector_inactive_admin#:#Globally Deactivate the Menu for Selecting Special Characters
@@ -14296,7 +14296,7 @@ ecs#:#ecs_cmap_delete_rule#:#Delete Mapping
 wsp#:#wsp_list_excv#:#Exercise Certificate
 wsp#:#wsp_list_tstv#:#Test Certificate
 assessment#:#fq_formula_desc#:#You may enter predefined variables ($v1 to $vn), defined results (e.g. $r1), braces for expressions, mathematical operators  + (addition), - (subtraction), * (multiplication), / (division), ^ (nth power), the constants ‘pi’ for pi and ‘e’ for euler's constant, as well as the functions ‘sin’, ‘sinh’, ‘arcsin’, ‘asin’, ‘arcsinh’, ‘asinh’, ‘cos’, ‘cosh’, ‘arccos’, ‘acos’, ‘arccosh’, ‘acosh’, ‘tan’, ‘tanh’, ‘arctan’, ‘atan’, ‘arctanh’, ‘atanh’, ‘sqrt’, ‘abs’, ‘ln’ and ‘log’.
-exc#:#exc_multi_feedb_info#:#On this screen you can upload multiple feedbacks in one file. First click on ‘Download ZIP Structure’, save the ZIP file and extract it on your local computer. Put the feedback files into the corresponding user directories. Now compress the whole directory as one ZIP file agin. Browse your local filesystem for the file and select it as the ‘Multi-Feedback File’ in the form below. After that click ‘Upload’. A confirmation screen will list the files. Please avoid using any special characters in your filenames.
+exc#:#exc_multi_feedb_info#:#On this screen you can upload multiple feedbacks in one file. First click on ‘Download ZIP Structure’, save the ZIP file and extract it on your local computer. Put the feedback files into the corresponding user directories. Now compress the whole directory as one ZIP file again. Browse your local filesystem for the file and select it as the ‘Multi-Feedback File’ in the form below. After that click ‘Upload’. A confirmation screen will list the files. Please avoid using any special characters in your file names.
 rep#:#rep_add_new_def_grp_templates#:#Templates
 cmps#:#cmps_repository_object_types#:#Repository Object Types
 rep#:#rep_new_item_menu#:#‘Add New Item’-Menu
@@ -14524,7 +14524,7 @@ user#:#interests_help_looking#:#Looking For Help
 pd#:#pd_remove_multi_confirm#:#The objects were removed.
 content#:#glo_online_info#:#Only if the glossary is online, users are able to use the glossary.
 content#:#glo_mode_level_info#:#All terms of glossaries on the same level in the repository will be included.
-content#:#glo_mode_normal_info#:#Only terms created within this glossar will be included.
+content#:#glo_mode_normal_info#:#Only terms created within this glossary will be included.
 content#:#glo_mode_subtree_info#:#All terms of glossaries on the same level and subsequent levels in the repository will be included.
 content#:#glo_content_settings#:#Content
 content#:#glo_show_taxonomy_info#:#The taxonomy will be visible in the presentation view of the glossary and can be used to select referenced terms.
@@ -14556,7 +14556,7 @@ poll#:#poll_piechart#:#Pie Chart
 poll#:#poll_comments_info#:#Deactivating Comments doesn't delete any Comments.
 forum#:#merge_posts_into_thread#:#Merge Postings into other Thread
 forum#:#move_thread_to_forum#:#Move Thread to other Forum
-assessment#:#cloze_gap_size_info#:#If you enter a value greater than 0, this gap text field will be created with the fixed length of this value. If you do not enter a value the gap text fiel will be created with the value of the global fixed length.
+assessment#:#cloze_gap_size_info#:#If you enter a value greater than 0, this gap text field will be created with the fixed length of this value. If you do not enter a value, the gap text field will be created with the value of the global fixed length.
 forum#:#post_reply_count#:#Re(%s):
 survey#:#spl_save_obligatory_state#:#Save Compulsory States
 forum#:#frm_max_notification_age#:#Max. Notification Age
@@ -14594,7 +14594,7 @@ blog#:#blog_nav_mode_month_list_num_detail_info#:#Latest postings are listed by 
 blog#:#blog_nav_mode_month_list_num_month#:#Number of listed months
 blog#:#blog_nav_mode_month_list_num_month_info#:#Months above the limit will not be listed and related postings are not accessible.
 blog#:#blog_nav_mode_month_single#:#Show Selected Month
-blog#:#blog_nav_mode_month_single_info#:#Only postings of the selected month are listed in the ‘Postings’ block. Month can be changed by dropdown.
+blog#:#blog_nav_mode_month_single_info#:#Only postings of the selected month are listed in the ‘Postings’ block. Month can be changed by drop-down.
 blog#:#blog_list_num_postings#:#Number of postings
 blog#:#blog_list_num_postings_info#:#This setting is only used if no specific month is selected.
 blog#:#blog_enable_keywords#:#Keywords
@@ -14723,7 +14723,7 @@ exc#:#exc_global_feedback_file_date#:#Availability
 exc#:#exc_global_feedback_file_date_deadline#:#After deadline
 exc#:#exc_global_feedback_file_date_upload#:#After submission
 exc#:#exc_note_for_tutor#:#Note for Tutors
-exc#:#exc_comment_for_learner_edit#:#Enter in Textfield as Comment
+exc#:#exc_comment_for_learner_edit#:#Enter in Text Field as Comment
 exc#:#exc_comment_for_learner_info#:#A notification is sent to the user and the feedback will be listed in the user's assignment view.
 common#:#sorting_creation_header#:#By Creation Date
 common#:#sorting_creation_info#:#Content items are arranged automatically by their creation date.
@@ -14744,7 +14744,7 @@ rbac#:#tst_read_learning_progress#:#User can view learning progress of other use
 rbac#:#exc_read_learning_progress#:#User can view learning progress of other users
 rbac#:#sess_read_learning_progress#:#User can view learning progress of other users
 content#:#cont_progress_icons#:#Progress Icons
-content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 4.5 and higher.
+content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 5.0 and higher.
 content#:#cont_self_assessment#:#Self Assessment
 content#:#cont_tries#:#Question Behaviour
 content#:#cont_tries_reset_on_visit#:#Reset on Page Visit
@@ -14779,7 +14779,7 @@ user#:#send_mail_to_inactive_users_must_be_smaller_than#:#This value must be sma
 user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted
 user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account.
 user#:#delete_inactive_user_accounts_frequency#:#Frequency
-user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distibution will be tested.
+user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distribution will be tested.
 user#:#send_mail_reminder_window_too_small#:#Your Frequency setting is too large for this reminder value.
 exc#:#exc_msg_new_feedback_text_uploaded#:#A new comment has been added to exercise "%s".
 exc#:#exc_msg_new_feedback_text_uploaded2#:#a tutor has added a new comment for you.
@@ -14834,7 +14834,7 @@ style#:#sty_default#:#Default
 style#:#sty_media_queries#:#Media Queries
 style#:#sty_add_media_query#:#Add Media Query
 style#:#sty_edit_media_query#:#Edit Media Query
-style#:#sty_media_query_info#:#A separete CSS block is added for each media query after the default (no special media query) block.
+style#:#sty_media_query_info#:#A separate CSS block is added for each media query after the default (no special media query) block.
 style#:#sty_order#:#Order
 style#:#sty_query#:#Query
 style#:#sty_save_order#:#Save Order
@@ -14932,7 +14932,7 @@ crs#:#crs_loc_progress_do_qualifying_again#:#Please work through the learning ob
 content#:#cont_out_of_focus_message_last_page#:#This is the last page of the content related to your current learning objective.
 crs#:#crs_loc_err_nr_tries_exceeded#:#The number of passes per objective exceeds the possible number of passes of the Qualifying Test.
 crs#:#crs_loc_passes_left#:#Remaining number of test passes
-crs#:#crs_loc_passes_reached#:#No further test pases possible
+crs#:#crs_loc_passes_reached#:#No further test passes possible
 crs#:#crs_loc_tst_new_run#:#Start New Test Pass
 crs#:#crs_loc_tst_resume#:#Continue Test Pass
 crs#:#crs_loc_settings_reset#:#Test Results
@@ -14945,7 +14945,7 @@ bibl#:#bibl_library_show_in_list#:#Show link als in the list
 content#:#cont_ie_compatibility#:#Internet Explorer 7 compatibility mode
 content#:#cont_ie_compatibility_info#:#Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer.
 content#:#cont_ie_force_render#:#Force Internet Explorer to render again
-content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iframes. Additionally you have to set the option ‘Display’ to ‘in new window’.
+content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iFrames. Additionally you have to set the option ‘Display’ to ‘in new window’.
 ecs#:#ecs_token_mechanism#:#Authentication Token
 ecs#:#ecs_token_mechanism_info#:#If enabled, the authentication on the hosting platform for remote objects, is done by the ECS-Token-Mechanism.
 ecs#:#ecs_part_settings#:#Settings for Participant:
@@ -15120,9 +15120,9 @@ survey#:#survey_access_codes#:#Authentication by Access Codes
 survey#:#survey_access_codes_info#:#Users get access to the survey by entering a code on the ‘Info’-tab. These access codes are generated in a sub-tab ‘Access Codes’ in the tab ‘Participants’.
 survey#:#survey_results_anonymization#:#Privacy
 survey#:#survey_results_personalized#:#With Names
-survey#:#survey_results_personalized_info#:#In the tab ‘Results’ the names of the partcipants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer.
+survey#:#survey_results_personalized_info#:#In the tab ‘Results’ the names of the participants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer.
 survey#:#survey_results_anonymized#:#Without Names
-survey#:#survey_results_anonymized_info#:#In the tab ‘Results’ participants' names are replaced by codes. Users having acces to this tab cannot attribute answers to named participants but only to user ‘iTXaF’ (example).
+survey#:#survey_results_anonymized_info#:#In the tab ‘Results’ participants' names are replaced by codes. Users having access to this tab cannot attribute answers to named participants but only to user ‘iTXaF’ (example).
 survey#:#material_added_empty#:#The object does not have any suitable material.
 ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants
 survey#:#survey_sure_delete_constraint#:#Are you sure you want to delete the routing rule "%1$s" for the question "%2$s"?
