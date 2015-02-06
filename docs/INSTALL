@@ -30,14 +30,6 @@ Appendix A: Note on using Apache 2
 
 1. I N T R O D U C T I O N
 
-/************************************************
-
-This is a BETA release for testing purposes
-only. Do NOT USE it in productive envirtonments.
-Data ma be lost or corrupted.
-
-*************************************************/
-
 
 ILIAS is a web-based Learning Content Managament System (LCMS) developed with
 the server-side scripting language PHP and distributed as Open Source software
@@ -162,7 +154,7 @@ source files into separate directories in /opt/ilias/src:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-5.0.0.beta2.tar.gz
+    ilias-5.0.0.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -513,7 +505,7 @@ components:
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-5.0.0.beta2.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-5.0.0.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -675,7 +667,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-5.0.0.beta2.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-5.0.0.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
