@@ -114,6 +114,15 @@ class ilTrainingProgrammeAssignment extends ActiveRecord {
 	}
 	
 	/**
+	 * Get the id of the assignment.
+	 *
+	 * @return int
+	 */
+	public function getId() {
+		return $this->id;
+	}
+	
+	/**
 	 * Get the object id of the program the user was assigned to.
 	 *
 	 * @return int
