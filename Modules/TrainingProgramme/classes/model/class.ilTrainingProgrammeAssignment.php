@@ -113,7 +113,11 @@ class ilTrainingProgrammeAssignment extends ActiveRecord {
 		return $ass;
 	}
 	
-	
+	/**
+	 * Get the object id of the program the user was assigned to.
+	 *
+	 * @return int
+	 */
 	public function getRootId() {
 		return $this->root_prg_id;
 	}
@@ -123,19 +127,37 @@ class ilTrainingProgrammeAssignment extends ActiveRecord {
 		return $this;
 	}
 	
+	/**
+	 * Get the id of the user who is assigned.
+	 * 
+	 * @return int
+	 */
 	public function getUserId() {
 		return $this->usr_id;
 	}
 	
-	protected function setUserid($a_usr_id) {
+	protected function setUserId($a_usr_id) {
 		$this->usr_id = $a_usr_id;
 		return $this;
 	}
 	
+	/**
+	 * Get the id of the user who did the last change on this assignment.
+	 * 
+	 * @return int
+	 */	
 	public function getLastChangeBy() {
 		return $this->last_change_by;
 	}
 	
+	/**
+	 * Set the id of the user who did the last change on this assignment.
+	 * 
+	 * Throws when $a_usr_id is not the id of a user.
+	 * 
+	 * @throws ilException
+	 * @return $this
+	 */
 	public function setLastChangeBy($a_usr_id) {
 		if (ilObject::_lookupType($a_usr_id) != "usr") {
 			throw new ilException("ilTrainingProgrammeAssignment::setLastChangeBy: '$a_usr_id' "
@@ -156,6 +178,8 @@ class ilTrainingProgrammeAssignment extends ActiveRecord {
 
 	/**
 	 * Update the last change timestamp to the current time.
+	 *
+	 * @return $this
 	 */
 	public function updateLastChange() {
 		$this->setLastChange(new ilDateTime(ilUtil::now(), IL_CAL_DATETIME)); 
@@ -167,6 +191,9 @@ class ilTrainingProgrammeAssignment extends ActiveRecord {
 	 * 
 	 * Throws when given time is smaller then current timestamp
 	 * since that is logically impossible.
+	 * 
+	 * @throws ilException
+	 * @return $this
 	 */
 	public function setLastChange(ilDateTime $a_timestamp) {
 		if (ilDateTime::_before($a_timestamp, $this->getLastChange())) {
