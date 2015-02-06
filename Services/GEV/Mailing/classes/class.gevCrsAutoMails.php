@@ -54,6 +54,7 @@ class gevCrsAutoMails extends ilAutoMails {
 		, "bill_mail"											=> "gevCrsBillMail"
 		
 		, "materiallist_for_storage"							=> "gevMaterialListForStorage"
+		, "cancellation_mail_for_storage"						=> "gevCancellationMailForStorage"
 		);
 
 		parent::__construct($a_obj_id);
