@@ -20,13 +20,13 @@ chdir($basedir);
 require "./Customizing/global/skin/genv/Services/GEV/simplePwdSec.php";
 
 
-if( !$LIVE) {
+//if( !$LIVE) {
 	//context w/o user
 	require_once "./Services/Context/classes/class.ilContext.php";
 	ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
 	require_once("./Services/Init/classes/class.ilInitialisation.php");
 	ilInitialisation::initILIAS();
-}
+//}
 
 require_once("./include/inc.header.php");
 
@@ -488,8 +488,8 @@ class gevImportOldData {
 			. " INNER JOIN hist_user ON hist_usercoursestatus.usr_id = hist_user.user_id"
 			. " WHERE hist_user.hist_historic = 0 "
 			. " AND hist_user.okz != '-empty-' "
-			. " AND hist_usercoursestatus.creator_user_id = -100 "
-			. " AND hist_usercoursestatus.OKZ = '' "
+			. " AND hist_usercoursestatus.creator_user_id < 0 "
+			. " AND hist_usercoursestatus.OKZ is NULL "
 			. " AND hist_usercoursestatus.function = 'Mitglied' ";
 		
 
@@ -525,6 +525,8 @@ $sem_many_matches = array();
 
 $import = new gevImportOldData();
 
+//$import->rectifyOKZforAltdaten();
+die();
 
 
 $import->getOldData();
@@ -566,7 +568,7 @@ foreach($import->sem_ok as $rec){
 	$import->setReported($rec['id']);
 }
 
-//$import->rectifyOKZforAltdaten();
+$import->rectifyOKZforAltdaten();
 //$import->rematchWBDTopic();
 
 
