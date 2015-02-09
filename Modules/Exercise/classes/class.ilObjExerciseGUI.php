@@ -2615,7 +2615,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 				}
 			}
 			
-			if($this->form->getItemByPostVar("fb_file")->getDeletionFlag())
+			if(!$_POST["fb"] ||
+				$this->form->getItemByPostVar("fb_file")->getDeletionFlag())
 			{
 				$ass->deleteFeedbackFile();
 				$ass->setFeedbackFile(null);
