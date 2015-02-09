@@ -59,7 +59,7 @@ class gevAMDUtils {
 			$this->setValue($a_obj, $field_id, $field_type, $a_value);
 		}
 		else {
-			$this->deleteValue($a_obj_id, $field_id, $field_type);
+			$this->deleteValue($a_obj, $field_id, $field_type);
 		}
 	}
 	
@@ -292,7 +292,7 @@ class gevAMDUtils {
 	protected function deleteValue($a_obj, $a_field_id, $a_type) {
 		$postfix = self::getTablePostfixForType($a_type);
 		$this->db->manipulate("DELETE FROM adv_md_values_".$postfix.
-							  " WHERE obj_id = ".$this->db->quote($a_obj_id, "integer").
+							  " WHERE obj_id = ".$this->db->quote($a_obj, "integer").
 							  "   AND field_id = ".$this->db->quote($a_field_id, "integer")
 							 );
 	}
