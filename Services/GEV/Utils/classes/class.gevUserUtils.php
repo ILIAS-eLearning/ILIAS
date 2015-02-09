@@ -1361,7 +1361,7 @@ class gevUserUtils {
 	}
 	
 	public function getIDHGBAADStatus() {
-		$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
+		$roles = $this->getGlobalRoles();
 		foreach ($roles as $role) {
 			$title = ilObject::_lookupTitle($role);
 			$status = gevSettings::$IDHGBAAD_STATUS_MAPPING[$title];
@@ -1438,8 +1438,12 @@ class gevUserUtils {
 		return $this->hasRoleIn(gevSettings::$ADMIN_ROLES);
 	}
 	
+	public function getGlobalRoles() {
+		return gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
+	}
+	
 	public function hasRoleIn($a_roles) {
-		$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
+		$roles = $this->getGlobalRoles();
 
 		foreach($roles as $key => $value) {
 			$roles[$key] = ilObject::_lookupTitle($value);
@@ -1893,7 +1897,7 @@ class gevUserUtils {
 		{
 			//0 - aus Stellung	//0 - aus Rolle
 			require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
-			$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
+			$roles = $this->getGlobalRoles();
 			foreach($roles as $key => $value) {
 				$roles[$key] = ilObject::_lookupTitle($value);
 			}
