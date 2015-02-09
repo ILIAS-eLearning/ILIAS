@@ -2208,9 +2208,18 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->form->addItem($fb);
 		
 		$fb_file = new ilFileInputGUi($lng->txt("file"), "fb_file");
-		// $fb_file->setRequired(true);
+		$fb_file->setRequired(true);  // will be disabled on update if file exists (see below)
+		// $fb_file->setAllowDeletion(true); makes no sense if required (overwrite or keep)
 		$fb_file->setALlowDeletion(true);
 		$fb->addSubItem($fb_file);
+		
+		// #15467
+		if($a_mode != "create" && 
+			$this->ass && 
+			$this->ass->getFeedbackFile())
+		{
+			$fb_file->setRequired(false); 
+		}
 		
 		$fb_cron = new ilCheckboxInputGUI($lng->txt("exc_global_feedback_file_cron"), "fb_cron");
 		$fb_cron->setInfo($lng->txt("exc_global_feedback_file_cron_info"));
@@ -2367,7 +2376,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 
 			// #13380
-			$ass->setFeedbackCron($_POST["fb"]);
+			$ass->setFeedbackCron($_POST["fb_cron"]);
 			
 			$ass->save();
 			
@@ -2553,7 +2562,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 					}
 				}			
 			}
-			
+									
 			if(!$valid)
 			{
 				ilUtil::sendFailure($lng->txt("form_input_not_valid"));
@@ -2561,7 +2570,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$tpl->setContent($this->form->getHtml());
 				return;
 			}
-			
+						
 			$ass = new ilExAssignment($_GET["ass_id"]);
 			$ass->setTitle($_POST["title"]);
 			$ass->setInstruction($_POST["instruction"]);
@@ -2618,7 +2627,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 			
 			// #13380
-			$ass->setFeedbackCron($_POST["fb"]);
+			$ass->setFeedbackCron($_POST["fb_cron"]);
 			
 			$ass->update();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
