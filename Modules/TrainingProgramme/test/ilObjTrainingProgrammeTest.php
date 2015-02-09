@@ -105,7 +105,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(ilTrainingProgramme::STATUS_ACTIVE, $obj->getStatus());
 
         $midnight = strtotime("today midnight");
-        $this->assertGreaterThan($midnight, $obj->getLastChange());
+        $this->assertGreaterThan($midnight, $obj->getLastChange()->getUnixTime());
     }
 
     /**
