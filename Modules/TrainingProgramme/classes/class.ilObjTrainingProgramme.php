@@ -26,7 +26,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @param bool $a_call_by_reference
 	 */
 	public function __construct($a_id = 0, $a_call_by_reference = true) {
-		$this->type = "orgu";
+		$this->type = "prg";
 		$this->settings = null;
 		$this->ilContainer($a_id, $a_call_by_reference);
 
@@ -114,6 +114,8 @@ class ilObjTrainingProgramme extends ilContainer {
 	public function create() {
 		$id = parent::create();
 		$this->createSettings();
+
+		return $id;
 	}
 
 
