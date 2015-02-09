@@ -2280,9 +2280,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->form->addItem($fb);
 		
 		$fb_file = new ilFileInputGUI($lng->txt("file"), "fb_file");
-		// $fb_file->setRequired(true);
-		$fb_file->setALlowDeletion(true);
+		$fb_file->setRequired(true); // will be disabled on update if file exists (see below)
+		// $fb_file->setAllowDeletion(true); makes no sense if required (overwrite or keep)
 		$fb->addSubItem($fb_file);
+		
+		// #15467
+		if($a_mode != "create" && 
+			$this->ass && 
+			$this->ass->getFeedbackFile())
+		{
+			$fb_file->setRequired(false); 
+		}
 		
 		$fb_date = new ilRadioGroupInputGUI($lng->txt("exc_global_feedback_file_date"), "fb_date");
 		$fb_date->setRequired(true);
@@ -2450,7 +2458,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				}		
 			}
 						
-			$ass->setFeedbackCron($_POST["fb"]); // #13380
+			$ass->setFeedbackCron($_POST["fb_cron"]); // #13380
 			$ass->setFeedbackDate($_POST["fb_date"]);
 
 			$ass->save();
@@ -2575,7 +2583,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		if($ass->getFeedbackFile())
 		{						
 			$this->form->getItemByPostVar("fb")->setChecked(true);			
-			$this->form->getItemByPostVar("fb_file")->setValue(basename($ass->getFeedbackFilePath()));
+			$this->form->getItemByPostVar("fb_file")->setValue(basename($ass->getFeedbackFilePath()));			
 		}
 		$this->form->getItemByPostVar("fb_cron")->setChecked($ass->hasFeedbackCron());			
 		$this->form->getItemByPostVar("fb_date")->setValue($ass->getFeedbackDate());			
@@ -2674,7 +2682,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 							$valid = false;
 						}
 					}			
-				}
+				}					
 			}
 			
 			if(!$valid)
@@ -2749,7 +2757,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$ass->handleFeedbackFileUpload($_FILES["fb_file"]);
 			}
 						
-			$ass->setFeedbackCron($_POST["fb"]); // #13380
+			$ass->setFeedbackCron($_POST["fb_cron"]); // #13380
 			$ass->setFeedbackDate($_POST["fb_date"]);
 			
 			$ass->update();
