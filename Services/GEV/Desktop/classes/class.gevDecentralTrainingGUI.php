@@ -407,6 +407,7 @@ class gevDecentralTrainingGUI {
 				$training_info["start_datetime"] = new ilDateTime("1970-01-01 ".$sched[0].":00", IL_CAL_DATETIME);
 				$training_info["end_datetime"] = new ilDateTime("1970-01-01 ".$sched[1].":00", IL_CAL_DATETIME);
 				$training_info["invitation_preview"] = gevCourseUtils::getInstance($a_template_id)->getInvitationMailPreview();
+				$training_info["suppress_mails"] = true;
 				$no_changes_allowed = false;
 				
 				$tmplt_id = new ilHiddenInputGUI("template_id");
@@ -565,7 +566,7 @@ class gevDecentralTrainingGUI {
 		$suppress_mails = new ilCheckboxInputGUI($this->lng->txt("gev_suppress_mails"), "suppress_mails");
 		$suppress_mails->setOptionTitle($this->lng->txt("gev_suppress_mails_info"));
 		$suppress_mails->setChecked($training_info["suppress_mails"]);
-		$suppress_mails->setDisabled($training_info["suppress_mails"] || $no_changes_allowed);
+		$suppress_mails->setDisabled(($training_info["suppress_mails"] || $no_changes_allowed) && $a_template_id === null);
 		$form->addItem($suppress_mails);
 		
 		return $form;
