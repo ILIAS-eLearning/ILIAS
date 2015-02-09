@@ -411,7 +411,11 @@ abstract class assQuestionGUI
 		}
 	}
 
-	function originalSyncForm($return_to = "")
+	/**
+	 * @param string $return_to
+	 * @param string $return_to_feedback  ilAssQuestionFeedbackEditingGUI
+	 */
+	function originalSyncForm($return_to = "", $return_to_feedback = '')
 	{
 		if (strlen($return_to))
 		{
@@ -420,6 +424,11 @@ abstract class assQuestionGUI
 		else if ($_REQUEST['return_to']) {
 			$this->ctrl->setParameter($this, "return_to", $_REQUEST['return_to']);
 		}
+		if(strlen($return_to_feedback))
+		{
+			$this->ctrl->setParameter($this, 'return_to_fb', 'true');
+		}	
+		
 		$template = new ilTemplate("tpl.il_as_qpl_sync_original.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$template->setVariable("BUTTON_YES", $this->lng->txt("yes"));
 		$template->setVariable("BUTTON_NO", $this->lng->txt("no"));
@@ -438,6 +447,10 @@ abstract class assQuestionGUI
 		if (strlen($_GET["return_to"]))
 		{
 			$this->ctrl->redirect($this, $_GET["return_to"]);
+		}
+		if (strlen($_REQUEST["return_to_fb"]))
+		{
+			$this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', 'showFeedbackForm');
 		}
 		else
 		{
@@ -462,6 +475,10 @@ abstract class assQuestionGUI
 		if (strlen($_GET["return_to"]))
 		{
 			$this->ctrl->redirect($this, $_GET["return_to"]);
+		}
+		if(strlen($_REQUEST['return_to_fb']))
+		{
+			$this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', 'showFeedbackForm');
 		}
 		else
 		{
