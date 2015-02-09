@@ -1073,6 +1073,14 @@ class gevUserUtils {
 		}
 	}
 	
+	public function getODTitle() {
+		$od = $this->getOD();
+		if ($od === null) {
+			return "";
+		}
+		return $od["title"];
+	}
+	
 	public function getBirthday() {
 		require_once("Services/Calendar/classes/class.ilDate.php");
 		$bd = $this->getUser()->getBirthday();

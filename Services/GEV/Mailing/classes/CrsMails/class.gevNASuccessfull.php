@@ -52,7 +52,7 @@ class gevNASuccessfull extends gevCrsAutoMail {
 		$na_utils = $user_utils->getNAAdviserUtils();
 		if ($na_utils) {
 			$message["subject"] = $message["subject"]
-								 ." (".$na_utils->getOrgUnitTitle().")";
+								 ." (".$na_utils->getODTitle().")";
 		}
 		
 		return $message;
