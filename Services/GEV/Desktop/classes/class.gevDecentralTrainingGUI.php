@@ -257,7 +257,8 @@ class gevDecentralTrainingGUI {
 		$crs_utils->setSchedule($time);
 		
 		if ($crs_utils->isPraesenztraining()) {
-			$crs_utils->setVenueId($a_form->getInput("venue"));
+			$venue = $a_form->getInput("venue");
+			$crs_utils->setVenueId($venue);
 		}
 		
 		if ($crs_utils->isWebinar()) {
@@ -267,7 +268,8 @@ class gevDecentralTrainingGUI {
 			$crs_utils->setWebExPassword($password ? $password : " ");
 		}
 		
-		$crs_utils->setTEPOrguId($a_form->getInput("orgu_id"));
+		$tep_orgu_id = $a_form->getInput("orgu_id");
+		$crs_utils->setTEPOrguId($tep_orgu_id ? $tep_orgu_id : null);
 		
 		if (!$mail_settings->getSuppressMails()) {
 			$mail_settings->setSuppressMails($a_form->getInput("suppress_mails"));
@@ -509,7 +511,8 @@ class gevDecentralTrainingGUI {
 		
 		if ($crs_utils->isPraesenztraining()) {
 			$venue = new ilSelectInputGUI($this->lng->txt("gev_venue"), "venue");
-			$venue->setOptions(gevOrgUnitUtils::getVenueNames());
+			$venues = array(0 => "-") + gevOrgUnitUtils::getVenueNames();
+			$venue->setOptions($venues);
 			if ($training_info["venue"] && $a_fill) {
 				$venue->setValue($training_info["venue"]);
 			}
