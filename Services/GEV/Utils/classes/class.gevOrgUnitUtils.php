@@ -87,22 +87,27 @@ class gevOrgUnitUtils {
 			return gevOrgUnitUtils::$venue_names;
 		}
 		
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php");
 
 		$type_name1 = gevSettings::getInstance()->get(gevSettings::ORG_TYPE_VENUE);
 		$type1 = ilOrgUnitType::getInstance($type_name1);
 		$ou_ids1 = $type1->getOrgUnitIDs(false);
 		
-		$type_name2 = gevSettings::getInstance()->get(gevSettings::ORG_TYPE_DEFAULT);
-		$type2 = ilOrgUnitType::getInstance($type_name2);
-		$ou_ids2 = $type2->getOrgUnitIDs(false);
-		
+		$evg_ref_id = gevOrgUnitUtils::getEVGOrgUnitRefId();
+		$ou_ids2 = array();
+		foreach (gevOrgUnitUtils::getAllChildren(array($evg_ref_id)) as $ids) {
+			$ou_ids2[] = $ids["obj_id"];
+		}
+
 		$ou_info = gevAMDUtils::getInstance()->getTable(array_merge($ou_ids1, $ou_ids2), array(gevSettings::ORG_AMD_CITY => "city"));
 
 		gevOrgUnitUtils::$venue_names = array();
 		foreach ($ou_info as $values) {
 			gevOrgUnitUtils::$venue_names[$values["obj_id"]] = $values["title"].", ".$values["city"];
 		}
+		
+		asort(gevOrgUnitUtils::$venue_names,  SORT_NATURAL | SORT_FLAG_CASE);
 		
 		return gevOrgUnitUtils::$venue_names;
 	}
@@ -125,6 +130,22 @@ class gevOrgUnitUtils {
 		}
 		
 		return gevOrgUnitUtils::$provider_names;
+	}
+	
+	static public function getEVGOrgUnitRefId() {
+		global $ilDB;
+		
+		$res = $ilDB->query("SELECT DISTINCT oref.ref_id "
+						   ."  FROM object_data od "
+						   ."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
+						   ." WHERE import_id = 'evg'"
+						   ."   AND oref.deleted IS NULL"
+						   ."   AND od.type = 'orgu'"
+						   );
+		if ($rec = $ilDB->fetchAssoc($res)) {
+			return $rec["ref_id"];
+		}
+		throw new ilException("gevOrgUnitUtils::getEVGOrgUnitRefId: could not find org unit with import_id = 'evg'");
 	}
 	
 	public function getOrgUnitInstance() {
