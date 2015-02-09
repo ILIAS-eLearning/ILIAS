@@ -2210,7 +2210,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$fb_file = new ilFileInputGUi($lng->txt("file"), "fb_file");
 		$fb_file->setRequired(true);  // will be disabled on update if file exists (see below)
 		// $fb_file->setAllowDeletion(true); makes no sense if required (overwrite or keep)
-		$fb_file->setALlowDeletion(true);
 		$fb->addSubItem($fb_file);
 		
 		// #15467
