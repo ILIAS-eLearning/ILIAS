@@ -1305,6 +1305,10 @@ class gevCourseUtils {
 		return $rec["cnt"] > 0;
 	}
 	
+	public function isFinalized() {
+		return $this->getParticipations()->getProcessState() == ilParticipationStatus::STATE_FINALIZED;
+	}
+	
 	// Memberlist creation
 	
 	const MEMBERLIST_TRAINER = 0;
