@@ -27,9 +27,9 @@ class ilObjTrainingProgrammeCache {
 	protected $instances; // [ilObjTrainingProgramme]
 	
 	public function getInstance($a_ref_id) {
-		require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php")
+		require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");	
 		
-		if (!array_key_exists($this->instances)) {
+		if (!array_key_exists($a_ref_id, $this->instances)) {
 			$this->instances[$a_ref_id] = new ilObjTrainingProgramme($a_ref_id);
 		}
 		
