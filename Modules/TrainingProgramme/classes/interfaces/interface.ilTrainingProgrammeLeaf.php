@@ -10,7 +10,19 @@
  */
 
 interface ilTrainingProgrammeLeaf {
-	
+	/**
+	 * Get the ILIAS object id of the leaf.
+	 *
+	 * @return int
+	 */
+	public function getId();
+
+	/**
+	 * Get the ILIAS reference id of the leaf.
+	 *
+	 * @return int | null
+	 */
+	public function getRefId();
 }
 
 ?>
