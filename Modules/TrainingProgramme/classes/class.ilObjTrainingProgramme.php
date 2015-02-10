@@ -44,7 +44,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 */
 	static public function getInstance($a_ref_id) {
 		require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeCache.php");
-		return ilObjTrainingProgrammeCache::singelton()->getInstance($a_ref_id);
+		return ilObjTrainingProgrammeCache::singleton()->getInstance($a_ref_id);
 	}
 	
 	
