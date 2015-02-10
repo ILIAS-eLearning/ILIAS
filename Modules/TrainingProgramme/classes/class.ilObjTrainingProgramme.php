@@ -29,6 +29,9 @@ class ilObjTrainingProgramme extends ilContainer {
 		$this->type = "prg";
 		$this->settings = null;
 		$this->ilContainer($a_id, $a_call_by_reference);
+		
+		// This is not initialized, but we need null if there is no parent.
+		$this->parent = false;
 
 		global $tree, $ilUser;
 		$this->tree = $tree;
@@ -206,7 +209,9 @@ class ilObjTrainingProgramme extends ilContainer {
 
 	/**
 	 * Get a list of all ilObjTrainingProgrammes in the subtree starting at
-	 * $a_ref_id. Includes object identified by $a_ref_id.
+	 * $a_ref_id.
+	 *
+	 * Throws when object is not in tree.
 	 *
 	 * @param  int $a_ref_id
 	 * @return [ilObjTrainingProgramme]
@@ -214,7 +219,12 @@ class ilObjTrainingProgramme extends ilContainer {
 	static public function getAllChildren($a_ref_id) {
 		$ret = array();
 		$root = self::getInstance($a_ref_id);
-		$root->mapSubTree(function($prg) use (&$ret) {
+		$root_id = $root->getId();
+		$root->applyToSubTreeNodes(function($prg) use (&$ret, $root_id) {
+			// exclude root node of subtree.
+			if ($prg->getId() == $root_id) {
+				return;
+			}
 			$ret[] = $prg;
 		});
 		return $ret;
@@ -224,9 +234,13 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * Get all ilObjTrainingProgrammes that are direct children of this
 	 * object.
 	 *
+	 * Throws when this object is not in tree.
+	 *
 	 * @return [ilObjTrainingProgramme]
 	 */
 	public function getChildren() {
+		$this->throwIfNotInTree();
+		
 		if ($this->children === null) {
 			$ref_ids = $this->tree->getChildsByType($this->getRefId(), "prg");
 			$this->children = array_map(function($node_data) {
@@ -240,17 +254,28 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * Get the parent ilObjTrainingProgramme of this object. Returns null if
 	 * parent is no TrainingProgramme.
 	 *
+	 * Throws when this object is not in tree.
+	 *
 	 * @return ilObjTrainingProgramme | null
 	 */
 	public function getParent() {
-		if ($this->parent === null) {
-			
+		if ($this->parent === false) {
+			$this->throwIfNotInTree();
+			$parent_data = $this->tree->getParentNodeData($this->getRefId());
+			if ($parent_data["type"] != "prg") {
+				$this->parent = null;
+			}
+			else {
+				$this->parent = ilObjTrainingProgramme::getInstance($parent_data["ref_id"]);
+			}
 		}
 		return $this->parent;
 	}
 
 	/**
 	 * Does this TrainingProgramme have other ilObjTrainingProgrammes as children?
+	 *
+	 * Throws when this object is not in tree.
 	 *
 	 * @return bool
 	 */
@@ -262,6 +287,8 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * Get the amount of other TrainingProgrammes this TrainingProgramme has as
 	 * children.
 	 *
+	 * Throws when this object is not in tree.
+	 *
 	 * @return int
 	 */
 	public function getAmountOfChildren() {
@@ -271,6 +298,8 @@ class ilObjTrainingProgramme extends ilContainer {
 	/**
 	 * Get the depth of this TrainingProgramme in the tree starting at the topmost
 	 * TrainingProgramme (not root node of the repo tree!). Root node has depth = 0.
+	 *
+	 * Throws when this object is not in tree.
 	 *
 	 * @return int
 	 */
@@ -287,6 +316,8 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * Get the ilObjTrainingProgramme that is the root node of the tree this programme
 	 * is in.
 	 *
+	 * Throws when this object is not in tree.
+	 *
 	 * @return ilObjTrainingProgramme
 	 */
 	public function getRoot() {
@@ -300,6 +331,16 @@ class ilObjTrainingProgramme extends ilContainer {
 		}
 	}
 	
+	/**
+	 * Helper function to check, weather object is in tree.
+	 * Throws ilTrainingProgrammeTreeException if object is not in tree.
+	 */
+	protected function throwIfNotInTree() {
+		if (!$this->tree->isInTree($this->getRefId())) {
+			throw new ilTrainingProgrammeTreeException("This program is not in tree.");
+		}
+	}
+	
 	////////////////////////////////////
 	// QUERIES ON SUBTREE
 	////////////////////////////////////
@@ -308,13 +349,17 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * Apply the given Closure to every node in the subtree starting at
 	 * this object.
 	 *
+	 * Throws when this object is not in tree.
+	 *
 	 * @param Closure $fun - An anonymus function taking an ilObjTrainingProgramme
 	 *                       as parameter.
 	 */
-	public function mapSubTree(Closure $fun) {
+	public function applyToSubTreeNodes(Closure $fun) {
+		$this->throwIfNotInTree();
+		
 		$fun($this);
 		foreach($this->getChildren() as $child) {
-			$child->mapSubTree($fun);
+			$child->applyToSubTreeNodes($fun);
 		}
 	}
 
@@ -326,17 +371,27 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * Inserts another ilObjTrainingProgramme in this object.
 	 *
 	 * Throws when object already contains non ilObjTrainingProgrammes as 
-	 * children.
+	 * children. Throws when $a_prg already is in the tree. Throws when this
+	 * object is not in tree.
 	 *
 	 * @throws ilTrainingProgrammeTreeException
 	 * @return $this
 	 */
 	public function addNode(ilObjTrainingProgramme $a_prg) {
+		$this->throwIfNotInTree();
+		
 		if ($this->getLPMode() == ilTrainingProgramme::MODE_LP_COMPLETED) {
 			throw new ilTrainingProgrammeTreeException("Program already contains leafs.");
 		}
 		
-		// TODO: NYI!
+		if ($this->tree->isInTree($a_prg->getRefId())) {
+			throw new ilTrainingProgrammeTreeException("Other program already is in tree.");
+		}
+		
+		if ($a_prg->getRefId() === null) {
+			$a_prg->createReference();
+		}
+		$a_prg->putInTree($this->getRefId());
 		
 		return $this;
 	}
