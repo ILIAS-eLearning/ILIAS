@@ -29,7 +29,7 @@ class ilADTEnumFormBridge extends ilADTFormBridge
 		$selection = $this->getADT()->getSelection();
 		
 		$options = $def->getOptions();
-		asort($options); // ?
+		asort($options, SORT_NATURAL | SORT_FLAG_CASE); // ?
 		
 		if(!$this->isRequired())
 		{			
