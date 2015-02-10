@@ -200,6 +200,10 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 
         $this->assertTrue($this->root_object->hasChildren(), "hasChildren()");
         $this->assertEquals(2, $this->root_object->getAmountOfChildren(), "getAmountOfChildren()");
+        
+        $this->assertFalse($children[0]->hasChildren(), "hasChildren()");
+        $this->assertEquals(0, $children[0]->getAmountOfChildren(), "getAmountOfChildren()");
+        $this->assertEquals(0, count($children[0]->getChildren()));
     }
 
     /**
