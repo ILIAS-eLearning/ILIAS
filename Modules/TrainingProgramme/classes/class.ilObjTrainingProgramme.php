@@ -5,7 +5,7 @@
 require_once("./Services/Container/classes/class.ilContainer.php");
 require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgramme.php");
 require_once("./Modules/TrainingProgramme/classes/interfaces/interface.ilTrainingProgrammeLeaf.php");
-require_once("./Modules/TrainingProgramme/classes/exceptions/class.ilTrainingProgrammTreeException.php");
+require_once("./Modules/TrainingProgramme/classes/exceptions/class.ilTrainingProgrammeTreeException.php");
 
 /**
  * Class ilObjTrainingProgramme
