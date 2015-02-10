@@ -254,13 +254,10 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * Get the parent ilObjTrainingProgramme of this object. Returns null if
 	 * parent is no TrainingProgramme.
 	 *
-	 * Throws when this object is not in tree.
-	 *
 	 * @return ilObjTrainingProgramme | null
 	 */
 	public function getParent() {
 		if ($this->parent === false) {
-			$this->throwIfNotInTree();
 			$parent_data = $this->tree->getParentNodeData($this->getRefId());
 			if ($parent_data["type"] != "prg") {
 				$this->parent = null;
