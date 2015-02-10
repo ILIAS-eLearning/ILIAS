@@ -25,6 +25,7 @@
  * TestCase for the ilObjTrainingProgramme
  *
  * @author Michael Herren <mh@studer-raimann.ch>
+ * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @version 1.0.0
  */
 class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
@@ -59,6 +60,10 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$this->assertGreaterThan(0, $this->root_object_ref_id);
 
 		$this->assertTrue($this->tree->isInTree($this->root_object_ref_id));
+	}
+	
+	public function testDefaults() {
+		$this->assertEquals($this->root_object->getStatus(), ilTrainingProgramme::STATUS_DRAFT);
 	}
 
 	/**
@@ -128,7 +133,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test settings on ilObjTrainingProgramme
+	 * Test 	tings on ilObjTrainingProgramme
 	 *
 	 * @depends testCreation
 	 */
@@ -292,8 +297,9 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$child->addNode($grandchild);
 		
 		$this->assertEquals($child->getId(), $grandchild->getParent()->getId());
-		$this->assertEquals($this->root_object->getId(), $grandchild->getRoot()->getId());
-		$this->assertEquals(0, $child->getAmountOfChildren());
+		$this->assertEquals($this->root_object->getId(), $grandchild->getRoot()->getId(),
+							"Root of grandchild is root of tree.");
+		$this->assertEquals(1, $child->getAmountOfChildren());
 		$this->assertEquals(2, $grandchild->getDepth());
 		$this->assertEquals($child->getLPMode(), ilTrainingProgramme::MODE_POINTS);
 	}
