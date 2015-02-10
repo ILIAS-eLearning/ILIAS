@@ -12,7 +12,7 @@
 
 class ilObjTrainingProgrammeCache {
 	static private  $instance; // ilObjTrainingProgrammeCache
-	
+
 	private function __construct() {
 		$this->instances = array();
 	}
@@ -34,6 +34,17 @@ class ilObjTrainingProgrammeCache {
 		}
 		
 		return $this->instances[$a_ref_id];
+	}
+	
+	/**
+	 * For testing purpose.
+	 */ 
+	public function test_clear() {
+		$this->instances = array();
+	}
+	
+	public function test_isEmpty() {
+		return count($this->instances) == 0;
 	}
 }
 
