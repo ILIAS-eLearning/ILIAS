@@ -190,13 +190,14 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
      * @depends testGetInstance
      */
     public function testTreeGetChildren() {
+        $this->createSmallTree();
+        
+        $children = $this->root_object->getChildren();
+        $this->assertEquals(2, count($children), "getChildren()");
+
         $children = ilObjTrainingProgramme::getAllChildren($this->root_object_ref_id);
         $this->assertEquals(2, count($children), "ilObjTrainingProgramme::getAllChildren(".$this->root_object_ref_id.")");
 
-        $children = $$this->root_object->getChildren();
-        $this->assertEquals(2, count($children), "getChildren()");
-
-        // Test
         $this->assertTrue($$this->root_object->hasChildren(), "hasChildren()");
         $this->assertEquals(2, $$this->root_object->getAmountOfChildren(), "getAmountOfChildren()");
     }
