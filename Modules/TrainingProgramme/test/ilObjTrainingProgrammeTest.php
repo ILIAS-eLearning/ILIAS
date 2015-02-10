@@ -198,8 +198,8 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
         $children = ilObjTrainingProgramme::getAllChildren($this->root_object_ref_id);
         $this->assertEquals(2, count($children), "ilObjTrainingProgramme::getAllChildren(".$this->root_object_ref_id.")");
 
-        $this->assertTrue($$this->root_object->hasChildren(), "hasChildren()");
-        $this->assertEquals(2, $$this->root_object->getAmountOfChildren(), "getAmountOfChildren()");
+        $this->assertTrue($this->root_object->hasChildren(), "hasChildren()");
+        $this->assertEquals(2, $this->root_object->getAmountOfChildren(), "getAmountOfChildren()");
     }
 
     /**
@@ -213,7 +213,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 
         $child = $children[0];
         $this->assertNotNull($child->getParent());
-        $this->assertNull($root->getParent());
+        $this->assertNull($this->root_object->getParent());
     }
 
     /**
