@@ -276,4 +276,169 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		
 		$this->assertEquals($val, 7);
 	}
+	
+	/**
+	 * Test on addNode.
+	 *
+	 * @depends testTreeCreation
+	 */
+	public function testAddNode() {
+		$this->createSmallTree();
+		
+		$children = $this->root_object->getChildren();
+		$child = $children[0];
+		$grandchild = new ilObjTrainingProgramme();
+		$grandchild->create();
+		$child->addNode($grandchild);
+		
+		$this->assertEquals($child->getId(), $grandchild->getParent()->getId());
+		$this->assertEquals($this->root_object->getId(), $grandchild->getRoot()->getId());
+		$this->assertEquals(0, $child->getAmountOfChildren());
+		$this->assertEquals(2, $grandchild->getDepth());
+		$this->assertEquals($child->getLPMode(), ilTrainingProgramme::MODE_POINTS);
+	}
+	
+	/**
+	 * Test on removeNode.
+	 *
+	 * @depends testTreeCreation
+	 */
+	public function testRemoveNode() {
+		$this->createSmallTree();
+		
+		$children = $this->root_object->getChildren();
+		$child = $children[0];
+		$this->root_object->removeNode($child);
+		
+		// Is not in tree anymore...
+		$raised = false;
+		try {
+			$child->getParent();
+		}
+		catch (ilTrainingProgrammeTreeException $e) {
+			$raised = true;
+		}
+		$this->assertTrue($raised, "Child does not raise on getParent after it is removed.");
+		
+		$this->assertEquals(1, $this->root_object->getAmountOfChildren());
+		
+		// Can't be removed a second time...
+		$raised = false;
+		try {
+			$this->root_object->removeNode($child);
+		}
+		catch (ilTrainingProgrammeTreeException $e) {
+			$raised = true;
+		}
+		$this->assertTrue($raised, "Child can be removed two times.");
+	}
+	
+	/**
+	 * Test on addLeaf.
+	 *
+	 * @depends testTreeCreation
+	 */
+	public function testAddLeaf() {
+		$mock_leaf = new ilTrainingProgrammeLeafMock(101);
+		$this->root_object->addLeaf($mock_leaf);
+		
+		$this->assertEquals(0, $this->root_object->getAmountOfChildren(), "getAmountOfChildren()");
+		$this->assertEquals(1, $this->root_object->getAmountOfLPChildren(), "getAmountOfLPChildren()");
+		$this->assertEquals($this->root_object->getLPMode(), ilTrainingProgramme::MODE_LP_COMPLETED);
+		
+		$lp_children = $this->root_object->getLPChildren();
+		$this->assertEquals(1, count($lp_children));
+		$this->assertEquals($mock_leaf->getId(), $lp_children[0]->getId());
+	}
+	
+	/**
+	 * Test on removeLead.
+	 *
+	 * @depends testAddLeaf
+	 */
+	public function testRemoveLeaf() {
+		$mock_leaf = new ilTrainingProgrammeLeafMock(101);
+		$this->root_object->addLeaf($mock_leaf);
+		
+		$this->root_object->removeLeaf($mock_leaf);
+		$this->assertEquals(0, $this->root_object->getAmountOfChildren(), "getAmountOfChildren()");
+		$this->assertEquals(0, $this->root_object->getAmountOfLPChildren(), "getAmountOfLPChildren()");
+		
+		$lp_children = $this->root_object->getLPChildren();
+		$this->assertEquals(0, count($lp_children));
+	}
+	
+	/**
+	 * Test whether nodes can only be added when there is no leaf in the
+	 * parent and vice versa.
+	 */
+	public function testAddWrongChildType() {
+		$this->createSmallTree();
+		$children = $this->root_object->getChildren();
+		$child_n = $children[0];
+		$child_l = $children[1];
+		
+		$mock_leaf1 = new ilTrainingProgrammeLeafMock(101);
+		$mock_leaf2 = new ilTrainingProgrammeLeafMock(102);
+		$node1 = new ilObjTrainingProgramme();
+		$node2 = new ilObjTrainingProgramme();
+		$node1->create();
+		$node2->create();
+		
+		$child_n->addNode($node1);
+		$child_l->addLeaf($mock_leaf1);
+	
+		$raised = false;
+		try {
+			$child_n->addLeaf($mock_leaf2);
+		}
+		catch (ilTrainingProgrammeTreeException $e) {
+			$raised = true;
+		}
+		$this->assertTrue($raised, "Could add leaf to program containing node.");
+
+		$raised = false;
+		try {
+			$child_n->addLeaf($mock_leaf2);
+		}
+		catch (ilTrainingProgrammeTreeException $e) {
+			$raised = true;
+		}
+		$this->assertTrue($raised, "Could add node to program containing leaf.");
+	}
+	
+	/**
+	 * Test on moveTo.
+	 */
+	public function testMoveTo() {
+		$this->createSmallTree();
+		$children = $this->root_object->getChildren();
+		$child_l = $children[0];
+		$child_r = $children[1];
+		
+		$child_r->moveTo($child_l);
+		$this->assertEquals(2, $child_r->getDepth());
+		$this->assertEquals($child_l->getId(), $child_r->getParent()->getId());
+		$this->assertEquals(1, $this->root_object->getAmountOfChildren());
+		$this->assertEquals(1, $child_l->getAmountOfChildren());
+	}
+}
+
+require_once("Modules/TrainingProgramme/classes/interfaces/interface.ilTrainingProgrammeLeaf.php");
+
+/**
+ * Mock for leaf in program.
+ */
+class ilTrainingProgrammeLeafMock implements ilTrainingProgrammeLeaf {
+	public function __construct($id) {
+		$this->id = $id;
+	}
+	
+	public function getId() {
+		return $this->id;
+	}
+	
+	public function getRefId() {
+		return $this->id;
+	}
 }
