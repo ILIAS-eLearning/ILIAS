@@ -30,9 +30,6 @@
 class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
     protected $backupGlobals = FALSE;
 
-    protected static $temp_id;
-    protected static $temp_ref_id;
-
     protected function setUp() {
         PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
@@ -40,39 +37,69 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 
         include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
         ilUnitUtil::performInitialisation();
+        
+        $this->root_object =  new ilObjTrainingProgramme();
+        $this->root_object->create();
+        $this->root_object_obj_id = $this->root_object->getId();
+        $this->root_object_ref_id = $this->root_object->createReference();
+        $this->root_object->putInTree(ROOT_FOLDER_ID);
+
+        global $tree;
+        $this->tree = $tree;
     }
 
     /**
      * Test creation of ilObjTrainingProgramme
      */
     public function testCreation() {
-        $root_object = new ilObjTrainingProgramme();
-        $root_object->create();
+        $this->assertNotEmpty($this->root_object_obj_id);
+        $this->assertGreaterThan(0, $this->root_object_obj_id);
 
-        self::$temp_id = $root_object->getId();
-        self::$temp_ref_id = $root_object->createReference();
+        $this->assertNotEmpty($this->root_object_ref_id);
+        $this->assertGreaterThan(0, $this->root_object_ref_id);
 
-        $this->assertNotEmpty(self::$temp_id);
-        $this->assertGreaterThan(0, self::$temp_id);
-
-        $this->assertNotEmpty(self::$temp_ref_id);
-        $this->assertGreaterThan(0, self::$temp_ref_id);
+        $this->assertTrue($this->tree->isInTree($this->root_object_ref_id));
     }
 
     /**
-     * Test loading of ilObjTrainingProgramme with obj_id and ref_id
+     * Test loading of ilObjTrainingProgramme with obj_id. and ref_id
      *
      * @depends testCreation
      */
-    public function testLoad() {
-        $load_obj_id = new ilObjTrainingProgramme(self::$temp_id, false);
-        $load_ref_id = new ilObjTrainingProgramme(self::$temp_ref_id);
+    public function testLoadByObjId() {
+        $loaded = new ilObjTrainingProgramme($this->root_object_obj_id, false);
+        $orig = $this->root_object;
+        $load_ref_id = new ilObjTrainingProgramme($this->root_object_ref_id);
 
-        $this->assertNotNull($load_obj_id);
-        $this->assertGreaterThan(0, $load_obj_id->getId());
+        $this->assertNotNull($loaded);
+        $this->assertGreaterThan(0, $loaded->getId());
+        $this->assertEquals( $orig->getId(), $loaded->getId());
+        $this->assertEquals( $orig->getLastChange()->get(IL_CAL_DATETIME)
+                           , $loaded->getLastChange()->get(IL_CAL_DATETIME)
+                           );
+        $this->assertEquals( $orig->getPoints(), $loaded->getPoints());
+        $this->assertEquals( $orig->getLPMode(), $loaded->getLPMode());
+        $this->assertEquals( $orig->getStatus(), $loaded->getStatus());
+    }
 
-        $this->assertNotNull($load_ref_id);
-        $this->assertGreaterThan(0, $load_obj_id->getId());
+    /**
+     * Test loading of ilObjTrainingProgramme with ref_id.
+     *
+     * @depends testCreation
+     */
+    public function testLoadByRefId() {
+        $loaded = new ilObjTrainingProgramme($this->root_object_ref_id);
+        $orig = $this->root_object;
+
+        $this->assertNotNull($loaded);
+        $this->assertGreaterThan(0, $loaded->getId());
+        $this->assertEquals( $orig->getId(), $loaded->getId());
+        $this->assertEquals( $orig->getLastChange()->get(IL_CAL_DATETIME)
+                           , $loaded->getLastChange()->get(IL_CAL_DATETIME)
+                           );
+        $this->assertEquals( $orig->getPoints(), $loaded->getPoints());
+        $this->assertEquals( $orig->getLPMode(), $loaded->getLPMode());
+        $this->assertEquals( $orig->getStatus(), $loaded->getStatus());
     }
 
     /**
@@ -81,10 +108,23 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
      * @depends testCreation
      */
     public function testGetInstance() {
-        $obj = ilObjTrainingProgramme::getInstance(self::$temp_ref_id);
+        require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeCache.php");
 
-        $this->assertNotNull($obj);
-        $this->assertEquals(self::$temp_ref_id, $obj->getRefId());
+        ilObjTrainingProgrammeCache::singleton()->test_clear();
+        $this->assertTrue(ilObjTrainingProgrammeCache::singleton()->test_isEmpty());
+        
+        $loaded = ilObjTrainingProgramme::getInstance($this->root_object_ref_id);
+        $orig = $this->root_object;
+
+        $this->assertNotNull($loaded);
+        $this->assertGreaterThan(0, $loaded->getId());
+        $this->assertEquals( $orig->getId(), $loaded->getId());
+        $this->assertEquals( $orig->getLastChange()->get(IL_CAL_DATETIME)
+                           , $loaded->getLastChange()->get(IL_CAL_DATETIME)
+                           );
+        $this->assertEquals( $orig->getPoints(), $loaded->getPoints());
+        $this->assertEquals( $orig->getLPMode(), $loaded->getLPMode());
+        $this->assertEquals( $orig->getStatus(), $loaded->getStatus());
     }
 
     /**
@@ -93,13 +133,13 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
      * @depends testCreation
      */
     public function testSettings() {
-        $obj = new ilObjTrainingProgramme(self::$temp_ref_id);
+        $obj = new ilObjTrainingProgramme($this->root_object_ref_id);
 
         $obj->setPoints(10);
         $obj->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
         $obj->update();
 
-        $obj = new ilObjTrainingProgramme(self::$temp_ref_id);
+        $obj = new ilObjTrainingProgramme($this->root_object_ref_id);
 
         $this->assertEquals(10, $obj->getPoints());
         $this->assertEquals(ilTrainingProgramme::STATUS_ACTIVE, $obj->getStatus());
@@ -114,9 +154,23 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
      * @depends testCreation
      */
     public function testDelete() {
-        $deleted_object = new ilObjTrainingProgramme(self::$temp_ref_id);
+        $deleted_object = new ilObjTrainingProgramme($this->root_object_ref_id);
 
         $this->assertTrue($deleted_object->delete());
+    }
+
+    /**
+     * Creates a small tree, used by various tests.
+     */
+    protected function createSmallTree() {
+        $first_node = new ilObjTrainingProgramme();
+        $first_node->create();
+
+        $second_node = new ilObjTrainingProgramme();
+        $second_node->create();
+
+        $this->root_object->addNode($first_node);
+        $this->root_object->addNode($second_node);
     }
 
     /**
@@ -125,39 +179,26 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
      * @depends testCreation
      */
     public function testTreeCreation() {
-        $this->testCreation();
-
-        $obj = new ilObjTrainingProgramme(self::$temp_ref_id);
-
-        $first_node = new ilObjTrainingProgramme();
-        $first_node->create();
-
-        $second_node = new ilObjTrainingProgramme();
-        $second_node->create();
-
-        $obj->addNode($first_node);
-        $obj->addNode($second_node);
-
-        $this->assertEquals(2, $obj->getAmountOfChildren());
+        $this->createSmallTree();
+        $this->assertEquals(2, $this->root_object->getAmountOfChildren());
     }
 
     /**
      * Test function to get children or information about them
      *
      * @depends testTreeCreation
+     * @depends testGetInstance
      */
     public function testTreeGetChildren() {
-        $root = ilObjTrainingProgramme::getInstance(self::$temp_ref_id);
+        $children = ilObjTrainingProgramme::getAllChildren($this->root_object_ref_id);
+        $this->assertEquals(2, count($children), "ilObjTrainingProgramme::getAllChildren(".$this->root_object_ref_id.")");
 
-        $children = ilObjTrainingProgramme::getAllChildren(self::$temp_ref_id);
-        $this->assertEquals(2, count($children), "ilObjTrainingProgramme::getAllChildren(".self::$temp_ref_id.")");
-
-        $children = $root->getChildren();
+        $children = $$this->root_object->getChildren();
         $this->assertEquals(2, count($children), "getChildren()");
 
         // Test
-        $this->assertTrue($root->hasChildren(), "hasChildren()");
-        $this->assertEquals(2, $root->getAmountOfChildren(), "getAmountOfChildren()");
+        $this->assertTrue($$this->root_object->hasChildren(), "hasChildren()");
+        $this->assertEquals(2, $$this->root_object->getAmountOfChildren(), "getAmountOfChildren()");
     }
 
     /**
@@ -166,8 +207,8 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
      * @depends testTreeCreation
      */
     public function testTreeGetParent() {
-        $root = ilObjTrainingProgramme::getInstance(self::$temp_ref_id);
-        $children = $root->getChildren();
+        $this->createSmallTree();
+        $children = $this->root_object->getChildren();
 
         $child = $children[0];
         $this->assertNotNull($child->getParent());
@@ -180,8 +221,8 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
      * @depends testTreeCreation
      */
     public function testTreeDepth() {
-        $root = ilObjTrainingProgramme::getInstance(self::$temp_ref_id);
-        $children = $root->getChildren();
+        $this->createSmallTree();
+        $children = $this->root_object->getChildren();
 
         $child = $children[0];
 
@@ -194,11 +235,11 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
      * @depends testTreeCreation
      */
     public function testTreeGetRoot() {
-        $root = ilObjTrainingProgramme::getInstance(self::$temp_ref_id);
-        $children = $root->getChildren();
+        $this->createSmallTree();
+        $children = $this->root_object->getChildren();
         $child = $children[0];
 
-        $this->assertEquals($root->getId(), $child->getRoot()->getId());
+        $this->assertEquals($this->root_object->getId(), $child->getRoot()->getId());
     }
 
 }
