@@ -14,8 +14,9 @@ require_once("./Modules/TrainingProgramme/classes/exceptions/class.ilTrainingPro
  */
 class ilObjTrainingProgramme extends ilContainer {
 	protected $settings; // ilTrainingProgramme | null
-	protected $parent; // ilObjTrainingProgramme | null
+	protected $parent; // ilObjTrainingProgramme | null | false
 	protected $children; // [ilObjTrainingProgramme] | null
+	protected $lp_children; // [ilTrainingProgrammeLeaf] | null;
 	
 	// GLOBALS from ILIAS
 	public $tree;
@@ -332,6 +333,26 @@ class ilObjTrainingProgramme extends ilContainer {
 	}
 	
 	/**
+	 * Get the leafs the training programme contains.
+	 *
+	 * Throws when this object is not in tree.
+	 *
+	 * @return [ilTrainingProgrammeLeaf]
+	 */
+	public function getLPChildren() {
+		
+	}
+	
+	/**
+	 * Get the amount of leafs, the training programme contains.
+	 *
+	 * Throws when this object is not in tree.
+	 */
+	public function getAmountOfLPChildren() {
+		return count($this->getLPChildren());
+	}
+	
+	/**
 	 * Helper function to check, weather object is in tree.
 	 * Throws ilTrainingProgrammeTreeException if object is not in tree.
 	 */
@@ -457,12 +478,12 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @param  int $a_new_parent_ref_id
 	 * @return $this
 	 */
-	public function moveTo($a_new_parent_ref_id) {
+	public function moveTo(ilObjTrainingProgramme $a_new_parent) {
 		if ($parent = $this->getParent()) {
 			$parent->removeNode($this);
 		}
 		try {
-			self::getInstance($a_new_parent_ref_id)->addNode($this);
+			$a_new_parent->addNode($this);
 		}
 		catch (ilTrainingProgrammeTreeException $e) {
 			if ($parent) {
