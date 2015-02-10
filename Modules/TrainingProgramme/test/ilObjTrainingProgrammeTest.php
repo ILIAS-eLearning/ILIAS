@@ -246,5 +246,34 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($this->root_object->getId(), $child->getRoot()->getId());
 	}
+	
+	/**
+	 * Test applyToSubTreeNodes on ilObjTrainingProgramme.
+	 *
+	 * @depends testTreeCreation
+	 */
+	public function testApplyToSubTreeNodes() {
+		$this->createSmallTree();
+		$children = $this->root_object->getChildren();
+		
+		$val = 0;
+		$this->root_object->applyToSubTreeNodes(function($node) use (&$val) {
+			$val += $node->getPoints();
+		});
+		
+		// We didn't make modification on the points of the nodes.
+		$this->assertEquals($val, 3 * ilTrainingProgramme::DEFAULT_POINTS);
 
+
+		$this->root_object->setPoints(1);
+		$children[0]->setPoints(2);
+		$children[1]->setPoints(4);
+		
+		$val = 0;
+		$this->root_object->applyToSubTreeNodes(function($node) use (&$val) {
+			$val += $node->getPoints();
+		});
+		
+		$this->assertEquals($val, 7);
+	}
 }
