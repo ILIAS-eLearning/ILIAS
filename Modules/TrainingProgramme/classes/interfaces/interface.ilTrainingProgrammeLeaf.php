@@ -9,7 +9,7 @@
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  */
 
-interface ilTrainingProgramLeaf {
+interface ilTrainingProgrammeLeaf {
 	
 }
 
