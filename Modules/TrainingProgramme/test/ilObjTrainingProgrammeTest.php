@@ -39,12 +39,13 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 		
-		$this->root_object =  new ilObjTrainingProgramme();
-		$this->root_object->create();
+		$this->root_object = ilObjTrainingProgramme::createInstance();
 		$this->root_object_obj_id = $this->root_object->getId();
-		$this->root_object_ref_id = $this->root_object->createReference();
+		$this->root_object_ref_id = $this->root_object->getRefId();
 		$this->root_object->putInTree(ROOT_FOLDER_ID);
-
+		
+		// 
+		
 		global $tree;
 		$this->tree = $tree;
 	}
@@ -74,7 +75,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	public function testLoadByObjId() {
 		$loaded = new ilObjTrainingProgramme($this->root_object_obj_id, false);
 		$orig = $this->root_object;
-		$load_ref_id = new ilObjTrainingProgramme($this->root_object_ref_id);
+		$load_ref_id = ilObjTrainingProgramme::getInstanceByRefId($this->root_object_ref_id);
 
 		$this->assertNotNull($loaded);
 		$this->assertGreaterThan(0, $loaded->getId());
@@ -112,13 +113,13 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	 *
 	 * @depends testCreation
 	 */
-	public function testGetInstance() {
+	public function testGetInstanceByRefId() {
 		require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeCache.php");
 
 		ilObjTrainingProgrammeCache::singleton()->test_clear();
 		$this->assertTrue(ilObjTrainingProgrammeCache::singleton()->test_isEmpty());
 		
-		$loaded = ilObjTrainingProgramme::getInstance($this->root_object_ref_id);
+		$loaded = ilObjTrainingProgramme::getInstanceByRefId($this->root_object_ref_id);
 		$orig = $this->root_object;
 
 		$this->assertNotNull($loaded);
@@ -138,13 +139,13 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	 * @depends testCreation
 	 */
 	public function testSettings() {
-		$obj = new ilObjTrainingProgramme($this->root_object_ref_id);
+		$obj = ilObjTrainingProgramme::getInstanceByRefId($this->root_object_ref_id);
 
 		$obj->setPoints(10);
 		$obj->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
 		$obj->update();
 
-		$obj = new ilObjTrainingProgramme($this->root_object_ref_id);
+		$obj = ilObjTrainingProgramme::getInstanceByRefId($this->root_object_ref_id);
 
 		$this->assertEquals(10, $obj->getPoints());
 		$this->assertEquals(ilTrainingProgramme::STATUS_ACTIVE, $obj->getStatus());
@@ -159,7 +160,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	 * @depends testCreation
 	 */
 	public function testDelete() {
-		$deleted_object = new ilObjTrainingProgramme($this->root_object_ref_id);
+		$deleted_object = ilObjTrainingProgramme::getInstanceByRefId($this->root_object_ref_id);
 
 		$this->assertTrue($deleted_object->delete());
 	}
@@ -192,7 +193,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	 * Test function to get children or information about them
 	 *
 	 * @depends testTreeCreation
-	 * @depends testGetInstance
+	 * @depends testGetInstanceByRefId
 	 */
 	public function testTreeGetChildren() {
 		$this->createSmallTree();
@@ -345,8 +346,12 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	 * @depends testTreeCreation
 	 */
 	public function testAddLeaf() {
-		$mock_leaf = new ilTrainingProgrammeLeafMock(101);
+		$mock_leaf = new ilTrainingProgrammeLeafMock();
 		$this->root_object->addLeaf($mock_leaf);
+		
+		// We use our mock factory, since the original factory won't know how
+		// to create our mock leaf.
+		$this->root_object->object_factory = new ilObjectFactoryWrapperMock();
 		
 		$this->assertEquals(0, $this->root_object->getAmountOfChildren(), "getAmountOfChildren()");
 		$this->assertEquals(1, $this->root_object->getAmountOfLPChildren(), "getAmountOfLPChildren()");
@@ -363,7 +368,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	 * @depends testAddLeaf
 	 */
 	public function testRemoveLeaf() {
-		$mock_leaf = new ilTrainingProgrammeLeafMock(101);
+		$mock_leaf = new ilTrainingProgrammeLeafMock();
 		$this->root_object->addLeaf($mock_leaf);
 		
 		$this->root_object->removeLeaf($mock_leaf);
@@ -384,8 +389,8 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$child_n = $children[0];
 		$child_l = $children[1];
 		
-		$mock_leaf1 = new ilTrainingProgrammeLeafMock(101);
-		$mock_leaf2 = new ilTrainingProgrammeLeafMock(102);
+		$mock_leaf1 = new ilTrainingProgrammeLeafMock();
+		$mock_leaf2 = new ilTrainingProgrammeLeafMock();
 		$node1 = new ilObjTrainingProgramme();
 		$node2 = new ilObjTrainingProgramme();
 		$node1->create();
@@ -393,7 +398,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		
 		$child_n->addNode($node1);
 		$child_l->addLeaf($mock_leaf1);
-	
+		
 		$raised = false;
 		try {
 			$child_n->addLeaf($mock_leaf2);
@@ -435,16 +440,40 @@ require_once("Modules/TrainingProgramme/classes/interfaces/interface.ilTrainingP
 /**
  * Mock for leaf in program.
  */
-class ilTrainingProgrammeLeafMock implements ilTrainingProgrammeLeaf {
-	public function __construct($id) {
-		$this->id = $id;
+require_once("Services/Object/classes/class.ilObject2.php");
+
+class ilTrainingProgrammeLeafMock extends ilObject2 implements ilTrainingProgrammeLeaf {
+	public function __construct($a_id = 0, $a_call_by_reference = true) {
+		parent::__construct($a_id, $a_call_by_reference);
+		if ($a_id == 0) {
+			parent::create();
+		}
 	}
 	
-	public function getId() {
-		return $this->id;
+	// from ilObject2
+	public function initType() {
+		$this->type = "mock";
 	}
 	
-	public function getRefId() {
-		return $this->id;
+	// from ilTrainingProgrammeLeaf
+	public function getParentId() {
+		global $tree;
+		if (!$tree->isInTree($this->getRefId())) {
+			return null;
+		}
+		
+		$nd = $tree->getParentNodeData($this->getRefId());
+		return $nd["obj_id"];
+	}
+}
+
+/**
+ * Mock for object factory
+ */
+require_once("Modules/TrainingProgramme/classes/class.ilObjectFactoryWrapper.php");
+
+class ilObjectFactoryWrapperMock extends ilObjectFactoryWrapper {
+	public function getInstanceByRefId($a_ref_id, $stop_on_error = true) {
+		return new ilTrainingProgrammeLeafMock($a_ref_id);
 	}
 }
