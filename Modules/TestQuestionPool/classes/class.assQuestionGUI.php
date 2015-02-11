@@ -1755,4 +1755,11 @@ abstract class assQuestionGUI
 	{
 		return $this->object->isAutosaveable();
 	}
+	
+	public function showHints()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+	}	
 }

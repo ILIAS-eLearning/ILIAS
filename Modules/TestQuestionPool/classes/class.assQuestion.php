@@ -2553,6 +2553,7 @@ abstract class assQuestion
 		$this->updateSuggestedSolutions($original);
 		$this->syncFeedbackGeneric();
 		$this->syncXHTMLMediaObjectsOfQuestion();
+		$this->syncHints();
 	}
 	/**
 	 * returns the parent object id for given original question id
@@ -3271,6 +3272,41 @@ abstract class assQuestion
 												  'feedback'	=> array( 'clob',		$row["feedback"] ),
 												  'tstamp'		=> array( 'integer',	time() ),
 											  )
+				);
+			}
+		}
+	}
+	
+	public function syncHints()
+	{
+		global $ilDB;
+
+		// delete hints of the original
+		$ilDB->manipulateF("DELETE FROM qpl_hints WHERE qht_question_fi = %s",
+			array('integer'),
+			array($this->original_id)
+		);
+
+		// get hints of the actual question
+		$result = $ilDB->queryF("SELECT * FROM qpl_hints WHERE qht_question_fi = %s",
+			array('integer'),
+			array($this->getId())
+		);
+
+		// save hints to the original
+		if ($result->numRows())
+		{
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				$next_id = $ilDB->nextId('qpl_hints');
+				/** @var ilDB $ilDB */
+				$ilDB->insert('qpl_hints', array(
+						'qht_hint_id'     => array('integer', $next_id),
+						'qht_question_fi' => array('integer', $this->original_id),
+						'qht_hint_index'  => array('integer', $row["qht_hint_index"]),
+						'qht_hint_points' => array('integer', $row["qht_hint_points"]),
+						'qht_hint_text'   => array('text', $row["qht_hint_text"]),
+					)
 				);
 			}
 		}
