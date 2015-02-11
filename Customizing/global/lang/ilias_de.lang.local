@@ -267,7 +267,7 @@ crsbook#:#crsbook_admin_action_cancel_with_costs#:#Mit Kosten stornieren
 crsbook#:#crsbook_admin_action_cancel_without_costs#:#Ohne Kosten stornieren
 crsbook#:#crsbook_admin_action_to_waiting_list#:#Auf die Warteliste
 crsbook#:#crsbook_admin_add_group#:#Gruppe hinzufügen
-crsbook#:#crsbook_admin_add_org_unit#:#Org.-Einheit hizufügen
+crsbook#:#crsbook_admin_add_org_unit#:#Org.-Einheit hinzufügen
 crsbook#:#crsbook_admin_add_participants#:#Teilnehmer hinzufügen
 crsbook#:#crsbook_admin_assign_already_assigned#:#Ist bereits gebucht (oder auf der Warteliste)
 crsbook#:#crsbook_admin_assign_cancelled_user#:#Wurde bereits storniert
