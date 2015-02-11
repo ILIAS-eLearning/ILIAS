@@ -174,7 +174,7 @@ class ilTrainingProgramme extends ActiveRecord {
 	 * @return integer
 	 */
 	public function getObjId() {
-		return $this->obj_id;
+		return (int)$this->obj_id;
 	} 
 
 	/**
@@ -242,7 +242,7 @@ class ilTrainingProgramme extends ActiveRecord {
 	 * @return integer  - larger than zero
 	 */
 	public function getPoints() {
-		return $this->points;
+		return (int)$this->points;
 	}
 
 	/**
@@ -274,7 +274,7 @@ class ilTrainingProgramme extends ActiveRecord {
 	 * @return integer  - one of self::$MODES
 	 */
 	public function getLPMode() {
-		return $this->lp_mode;
+		return (int)$this->lp_mode;
 	}
 
 	/**
@@ -303,7 +303,7 @@ class ilTrainingProgramme extends ActiveRecord {
 	 * @return integer  - one of self::$STATUS
 	 */
 	public function getStatus() {
-		return $this->status;
+		return (int)$this->status;
 	}
 }
 
