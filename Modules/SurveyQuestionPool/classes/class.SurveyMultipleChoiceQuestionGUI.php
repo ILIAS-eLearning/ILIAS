@@ -349,25 +349,11 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 			case 1:
 				// horizontal orientation	
 				
-				// #9363: split categories in answer and answer+text
-				// as we have 2 table rows we have to keep them in sync
-				$ordered_ids = array(0=>array(), 1=>array());				
+				// #15477 - reverting the categorizing of answers				
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
-					$cat = $this->object->categories->getCategory($i);
-					if ($cat->other)
-					{
-						$ordered_ids[1][] = $cat;
-					}
-					else
-					{
-						$ordered_ids[0][] = $cat;
-					}
-				}				
-				$ordered_ids = array_merge($ordered_ids[0], $ordered_ids[1]);	
-							
-				foreach ($ordered_ids as $i => $cat) 
-				{			
+					$cat = $this->object->categories->getCategory($i);	
+					
 					// checkbox
 					$template->setCurrentBlock("checkbox_col");
 					if ($cat->neutral) $template->setVariable('COLCLASS', ' neutral');
@@ -426,7 +412,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 						$template->setVariable("QUESTION_ID", $this->object->getId());
 						$template->parseCurrentBlock();
 					}
-					// $template->touchBlock('text_outer_col');																				
+					$template->touchBlock('text_outer_col');																				
 				}				
 				break;
 		}
