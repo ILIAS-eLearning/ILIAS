@@ -4,8 +4,10 @@
 
 require_once("./Services/Container/classes/class.ilContainer.php");
 require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgramme.php");
+require_once("./Modules/TrainingProgramme/classes/class.ilObjectFactoryWrapper.php");
 require_once("./Modules/TrainingProgramme/classes/interfaces/interface.ilTrainingProgrammeLeaf.php");
 require_once("./Modules/TrainingProgramme/classes/exceptions/class.ilTrainingProgrammeTreeException.php");
+require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeCache.php");
 
 /**
  * Class ilObjTrainingProgramme
@@ -22,7 +24,15 @@ class ilObjTrainingProgramme extends ilContainer {
 	public $tree;
 	public $ilUser;
 	
+	// Wrapped static ilObjectFactory of ILIAS.
+	public $object_factory;
+	// Cache for training programmes
+	static public $training_programme_cache = null;
+	
 	/**
+	 * ATTENTION: After using the constructor the object won't be in the cache.
+	 * This could lead to unexpected behaviour when using the tree navigation.
+	 *
 	 * @param int  $a_id
 	 * @param bool $a_call_by_reference
 	 */
@@ -31,12 +41,40 @@ class ilObjTrainingProgramme extends ilContainer {
 		$this->settings = null;
 		$this->ilContainer($a_id, $a_call_by_reference);
 		
-		// This is not initialized, but we need null if there is no parent.
-		$this->parent = false;
+		$this->clearParentCache();
+		$this->clearChildrenCache();
+		$this->clearLPChildrenCache();
 
 		global $tree, $ilUser;
 		$this->tree = $tree;
 		$this->ilUser = $ilUser;
+
+		$this->object_factory = ilObjectFactoryWrapper::singleton();
+		if (self::$training_programme_cache === null) {
+			self::$training_programme_cache = ilObjTrainingProgrammeCache::singleton();
+		}
+	}
+	
+	/**
+	 * Clear the cached parent to query it again at the tree.
+	 */
+	protected function clearParentCache() {
+		// This is not initialized, but we need null if there is no parent.
+		$this->parent = false;
+	}
+	
+	/**
+	 * Clear the cached children.
+	 */
+	protected function clearChildrenCache() {
+		$this->children = null;
+	}
+	
+	/**
+	 * Clear the cached lp children.
+	 */
+	protected function clearLPChildrenCache() {
+		$this->lp_children = null;
 	}
 	
 	
@@ -46,9 +84,20 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @param  int  $a_ref_id
 	 * @return ilObjTrainingProgramme
 	 */
-	static public function getInstance($a_ref_id) {
+	static public function getInstanceByRefId($a_ref_id) {
 		require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeCache.php");
-		return ilObjTrainingProgrammeCache::singleton()->getInstance($a_ref_id);
+		return self::$training_programme_cache->getInstanceByRefId($a_ref_id);
+	}
+	
+	/**
+	 * Create an instance of ilObjTrainingProgramme, put in cache.
+	 */
+	static public function createInstance() {
+		$obj =  new ilObjTrainingProgramme();
+		$obj->create();
+		$obj->createReference();
+		self::$training_programme_cache->addInstance($obj);
+		return $obj;
 	}
 	
 	
@@ -219,7 +268,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 */
 	static public function getAllChildren($a_ref_id) {
 		$ret = array();
-		$root = self::getInstance($a_ref_id);
+		$root = self::getInstanceByRefId($a_ref_id);
 		$root_id = $root->getId();
 		$root->applyToSubTreeNodes(function($prg) use (&$ret, $root_id) {
 			// exclude root node of subtree.
@@ -245,7 +294,7 @@ class ilObjTrainingProgramme extends ilContainer {
 		if ($this->children === null) {
 			$ref_ids = $this->tree->getChildsByType($this->getRefId(), "prg");
 			$this->children = array_map(function($node_data) {
-				return self::getInstance($node_data["child"]);
+				return self::getInstanceByRefId($node_data["child"]);
 			}, $ref_ids);
 		}
 		return $this->children;
@@ -267,7 +316,7 @@ class ilObjTrainingProgramme extends ilContainer {
 				$this->parent = null;
 			}
 			else {
-				$this->parent = ilObjTrainingProgramme::getInstance($parent_data["ref_id"]);
+				$this->parent = ilObjTrainingProgramme::getInstanceByRefId($parent_data["ref_id"]);
 			}
 		}
 		return $this->parent;
@@ -340,7 +389,15 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return [ilTrainingProgrammeLeaf]
 	 */
 	public function getLPChildren() {
+		$this->throwIfNotInTree();
 		
+		if ($this->lp_children === null) {
+			$ref_ids = $this->tree->getChilds($this->getRefId());
+			$this->lp_children = array_map(function($node_data) {
+					return $this->object_factory->getInstanceByRefId($node_data["child"]);
+			}, $ref_ids);
+		}
+		return $this->lp_children;
 	}
 	
 	/**
@@ -413,6 +470,7 @@ class ilObjTrainingProgramme extends ilContainer {
 			$a_prg->createReference();
 		}
 		$a_prg->putInTree($this->getRefId());
+		$this->clearChildrenCache();
 		
 		return $this;
 	}
@@ -428,24 +486,40 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function removeNode(ilObjTrainingProgramme $a_prg) {
-		// TODO: NYI!
+		if ($a_prg->getParent()->getId() !== $this->getId()) {
+			throw new ilTrainingProgrammeTreeException("This is no parent of the given programm.");
+		}
+		
+		// *sigh*...
+		$node_data = $this->tree->getNodeData($a_prg->getRefId());
+		$this->tree->deleteTree($node_data);
+		$a_prg->clearParentCache();
+		$this->clearChildrenCache();
+		
 		return $this;
 	}
 	
 	/**
 	 * Insert a leaf in this object.
 	 *
-	 * Throws when object already contain ilObjTrainingProgrammes as children.
+	 * Throws when object already contain ilObjTrainingProgrammes as children. Throws 
+	 * when this object is not in tree.
 	 *
 	 * @throws ilTrainingProgrammeTreeException
 	 * @return $this
 	 */
 	public function addLeaf(ilTrainingProgrammeLeaf $a_leaf) {
+		$this->throwIfNotInTree();
+		
 		if ($this->hasChildren()) {
 			throw new ilTrainingProgrammeTreeException("Program already contains other programm nodes.");
 		}
 		
-		// TODO: NYI!
+		if ($a_leaf->getRefId() === null) {
+			$a_leaf->createReference();
+		}
+		$a_leaf->putInTree($this->getRefId());
+		$this->clearLPChildrenCache();
 		
 		$this->settings->setLPMode(ilTrainingProgramme::MODE_LP_COMPLETED);
 		$this->update();
@@ -464,7 +538,14 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function removeLeaf(ilTrainingProgrammeLeaf $a_leaf) {
-		// TODO: NYI!
+		if ($a_leaf->getParentId() !== $this->getId()) {
+			throw new ilTrainingProgrammeTreeException("This is no parent of the given leaf node.");
+		}
+
+		$node_data = $this->tree->getNodeData($a_leaf->getRefId());
+		$this->tree->deleteTree($node_data);
+		$this->clearLPChildrenCache();
+
 		return $this;
 	}
 	
@@ -481,6 +562,8 @@ class ilObjTrainingProgramme extends ilContainer {
 	public function moveTo(ilObjTrainingProgramme $a_new_parent) {
 		if ($parent = $this->getParent()) {
 			$parent->removeNode($this);
+			// unset parent to load in on next getParent-call.
+			$this->clearParentCache();
 		}
 		try {
 			$a_new_parent->addNode($this);
