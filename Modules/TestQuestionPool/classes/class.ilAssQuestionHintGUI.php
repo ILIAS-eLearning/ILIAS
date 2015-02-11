@@ -22,6 +22,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 	const CMD_SHOW_FORM		= 'showForm';
 	const CMD_SAVE_FORM		= 'saveForm';
 	const CMD_CANCEL_FORM	= 'cancelForm';
+	const CMD_CONFIRM_FORM	= 'confirmForm';
 	
 	/**
 	 * Execute Command
@@ -101,7 +102,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function saveFormCmd()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser;
 		
 		$form = $this->buildForm();
 		
@@ -130,8 +131,15 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 			$questionHint->setPoints( $form->getInput('hint_points') );
 
 			$questionHint->save();
-			
 			ilUtil::sendSuccess($lng->txt('tst_question_hints_form_saved_msg'), true);
+			
+			$originalexists = $this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id);
+			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+			if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId()))
+			{
+				$ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
+			}
+		
 
 			if( $hintJustCreated && $this->questionOBJ->isAdditionalContentEditingModePageObject() )
 			{

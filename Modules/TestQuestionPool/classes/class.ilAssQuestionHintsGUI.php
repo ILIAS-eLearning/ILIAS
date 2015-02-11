@@ -32,6 +32,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	const CMD_PASTE_FROM_ORDERING_CLIPBOARD_BEFORE	= 'pasteFromOrderingClipboardBefore';
 	const CMD_PASTE_FROM_ORDERING_CLIPBOARD_AFTER	= 'pasteFromOrderingClipboardAfter';
 	const CMD_RESET_ORDERING_CLIPBOARD				= 'resetOrderingClipboard';
+	const CMD_CONFIRM_SYNC							= 'confirmSync';
 	
 	/**
 	 * object that handles the current ordering clipboard state
@@ -222,6 +223,15 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 		$questionRemainingHintList->reIndex();
 		
 		ilUtil::sendSuccess($lng->txt('tst_question_hints_delete_success_msg'), true);
+
+		$originalexists = $this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id);
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		global $ilUser;
+		if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId()))
+		{
+			$ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
+		}
+		
 		$ilCtrl->redirect($this);
 	}
 	
@@ -265,6 +275,15 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 		$newQuestionHintList->reIndex();
 		
 		ilUtil::sendSuccess($lng->txt('tst_question_hints_save_order_success_msg'), true);
+
+		$originalexists = $this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id);
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		global $ilUser;
+		if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId()))
+		{
+			$ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
+		}
+		
 		$ilCtrl->redirect($this);
 	}
 	
@@ -565,5 +584,10 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 		ksort($hintIndexes);
 
 		return $hintIndexes;
+	}
+	
+	public function confirmSyncCmd()
+	{
+		$this->questionGUI->originalSyncForm('showHints');
 	}
 }

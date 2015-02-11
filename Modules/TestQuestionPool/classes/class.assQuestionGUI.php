@@ -1773,5 +1773,10 @@ abstract class assQuestionGUI
 		);
 	}
 
+	public function showHints()
+	{
+		global $ilCtrl;
 
+		$ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+	}	
 }
