@@ -210,8 +210,10 @@ class ilPersonalOrgUnits {
 	public function assignEmployee($a_superior_id, $a_employee_id){
 		$orgu = $this->getPersonalOrguBySuperiorId($a_superior_id);
 		if ($orgu === null) {
-			$this->createOrgUnitFor($a_superior_id);
-			$orgu = $this->getPersonalOrguBySuperiorId($a_superior_id);
+			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+			$org_id = $this->createOrgUnitFor($a_superior_id);
+			$ref_id = gevObjectUtils::getRefId($org_id);
+			$orgu = new ilObjOrgUnit($ref_id);
 		}
 		$orgu->assignUsersToEmployeeRole(array($a_employee_id));
 	} 
