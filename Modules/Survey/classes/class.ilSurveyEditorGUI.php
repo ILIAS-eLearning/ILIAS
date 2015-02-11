@@ -1195,12 +1195,8 @@ class ilSurveyEditorGUI
 
 	public function saveHeadingObject()
 	{
-		$q_id = (int)$_REQUEST["q_id"];
-		if(!$q_id)
-		{
-			$this->ctrl->redirect($this, "questions");
-		}
-		
+		// #15474
+		$q_id = (int)$_REQUEST["q_id"];		
 		$this->ctrl->setParameter($this, "q_id", $q_id);
 		
 		$form = $this->initHeadingForm($q_id);		
