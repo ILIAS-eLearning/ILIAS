@@ -23,6 +23,27 @@ interface ilTrainingProgrammeLeaf {
 	 * @return int | null
 	 */
 	public function getRefId();
+	
+	/**
+	 * Create a reference id for this object.
+	 */
+	public function createReference();
+	
+	/**
+	 * Put the leaf object in the repository tree under object identified by
+	 * $a_ref_id.
+	 * 
+	 * @param int	$a_ref_id
+	 */
+	public function putInTree($a_ref_id);
+	
+	/**
+	 * Get the ref id of the parent object. Returns null if object is not in
+	 * the tree currently.
+	 *
+	 * @return int | null
+	 */
+	public function getParentId();
 }
 
 ?>
