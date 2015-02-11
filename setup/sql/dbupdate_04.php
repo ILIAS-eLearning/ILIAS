@@ -3869,6 +3869,7 @@ if(!$ilDB->tableColumnExists('il_bibl_settings', 'show_in_list'))
 <?php
 	if($ilDB->getDBType() == 'innodb')
 	{
+		$ilDB->dropPrimaryKey("cmi_gobjective");
 		$ilDB->addPrimaryKey('cmi_gobjective', array('user_id', 'scope_id', 'objective_id'));
 	}
 ?>
@@ -3876,6 +3877,7 @@ if(!$ilDB->tableColumnExists('il_bibl_settings', 'show_in_list'))
 <?php
 	if($ilDB->getDBType() == 'innodb')
 	{
+		$ilDB->dropPrimaryKey("cp_suspend");
 		$ilDB->addPrimaryKey('cp_suspend', array('user_id', 'obj_id'));
 	}
 ?>
