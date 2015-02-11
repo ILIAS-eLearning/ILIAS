@@ -2686,37 +2686,38 @@ class ilObjTestGUI extends ilObjectGUI
 		$addons = $this->object->getTimeExtensionsOfParticipants();
 
 		$tbl_data = array();
-		$i = 0;
 		foreach ($participants as $participant)
 		{
+			$tblRow = array();
+				
 			$started = "";
 			if ($times[$participant['active_id']])
 			{
 				$started = $this->lng->txt('tst_started').': '.ilDatePresentation::formatDate(new ilDateTime($times[$participant['active_id']], IL_CAL_DATETIME));
-				$tbl_data[$i]['started'] = $started;
+				$tblRow['started'] = $started;
 			}
 			else
 			{
-				$tbl_data[$i]['started'] = '';
+				$tblRow['started'] = '';
 			}
 			
 			if ($addons[$participant['active_id']] > 0) 
 			{
-				$tbl_data[$i]['extratime'] = $addons[$participant['active_id']];
-			}	
-			
-			$tbl_data[$i]['login'] = $participant['login'];
+				$tblRow['extratime'] = $addons[$participant['active_id']];
+			}
+
+			$tblRow['login'] = $participant['login'];
 
 			if ($this->object->getAnonymity())
 			{
-				$name = $this->lng->txt("anonymous");
+				$tblRow['name'] = $this->lng->txt("anonymous");
 			}
 			else
 			{
-				$name = $participant['lastname'] . ', ' . $participant['firstname'];
+				$tblRow['name'] = $participant['lastname'] . ', ' . $participant['firstname'];
 			}
-			
-			$tbl_data[$i]['name'] = $name;
+
+			$tbl_data[] = $tblRow;
 		}
 		$table_gui->setData($tbl_data);
 		
