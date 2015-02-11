@@ -2030,4 +2030,10 @@ abstract class assQuestionGUI
 		
 		return $form;
 	}
+
+	public function showHints()
+	{
+		global $ilCtrl;
+		$ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+	}	
 }
