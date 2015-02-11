@@ -67,7 +67,17 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 		while( $row = $this->db->fetchAssoc($res) )
 		{
 			$question = assQuestion::_instanciateQuestion($row['qst_fi']);
-			$question->delete($row['qst_fi']);
+
+			if( $question instanceof assQuestion )
+			{
+				$question->delete($row['qst_fi']);
+			}
+			else
+			{
+				$GLOBALS['ilLog']->writeWarning(
+					"could not delete staged random question (ref={$this->testOBJ->getRefId()} / qst={$row['qst_fi']})"
+				);
+			}
 		}
 
 		$query = "DELETE FROM tst_rnd_cpy WHERE tst_fi = %s";
