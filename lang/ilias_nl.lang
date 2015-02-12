@@ -13051,8 +13051,6 @@ wsp#:#wsp_type_wfld#:#Map
 assessment#:#qpl_maxchars_info_numeric_question#:#If you enter a value, the field for the numerical answer will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.###31 01 2015 new variable
 assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.###31 01 2015 new variable
 assessment#:#thumb_size_unit_pixel#:#Pixel###31 01 2015 new variable
-common#:#show_hidden_sections#:#Show More Information###31 01 2015 new variable
-common#:#hide_visible_sections#:#Hide More Information###31 01 2015 new variable
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###31 01 2015 new variable
 assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.###31 01 2015 new variable
 assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILIAS because you activated the notification.###31 01 2015 new variable
