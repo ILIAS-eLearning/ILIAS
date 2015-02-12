@@ -3869,16 +3869,22 @@ if(!$ilDB->tableColumnExists('il_bibl_settings', 'show_in_list'))
 <?php
 	if($ilDB->getDBType() == 'innodb')
 	{
-		$ilDB->dropPrimaryKey("cmi_gobjective");
-		$ilDB->addPrimaryKey('cmi_gobjective', array('user_id', 'scope_id', 'objective_id'));
+		$query = "show index from cmi_gobjective where Key_name = 'PRIMARY'";
+		$res = $ilDB->query($query);
+		if (!$ilDB->numRows($res)) {
+			$ilDB->addPrimaryKey('cmi_gobjective', array('user_id', 'scope_id', 'objective_id'));
+		}
 	}
 ?>
 <#4373>
 <?php
 	if($ilDB->getDBType() == 'innodb')
 	{
-		$ilDB->dropPrimaryKey("cp_suspend");
-		$ilDB->addPrimaryKey('cp_suspend', array('user_id', 'obj_id'));
+		$query = "show index from cp_suspend where Key_name = 'PRIMARY'";
+		$res = $ilDB->query($query);
+		if (!$ilDB->numRows($res)) {
+			$ilDB->addPrimaryKey('cp_suspend', array('user_id', 'obj_id'));
+		}
 	}
 ?>
 <#4374>
