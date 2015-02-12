@@ -527,6 +527,9 @@ class gevDebug {
 
 
 	public function analyze_wbdreg_vfs_olddata(){
+		
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		
 		$sql = "SELECT interimUsers.ilid FROM usr_data"
 			." INNER JOIN interimUsers on usr_data.usr_id = interimUsers.ilid_vfs"
 			." WHERE usr_data.agree_date IS NULL AND usr_data.active = 1"
@@ -537,49 +540,14 @@ class gevDebug {
 		$result = mysql_query($sql, $this->importDB);
 		while($record = mysql_fetch_assoc($result)) {
 			$notAgreedUsersVFS[] = $record['ilid'];
+			$uutils = gevUserUtils::getInstanceByObjOrId($record['ilid']);
+			$uutils->setWBDRegistrationNotDone();
+			print '<hr>';
+			print_r($record);
+
+
 		}
 	
-
-
-
-		$sql_wbdGetNewUsers = "
-			SELECT * FROM hist_user	WHERE
-				hist_historic = 0
-			AND
-				deleted = 0
-			AND
-				bwv_id = '-empty-'
-			AND
-				last_wbd_report IS NULL
-			AND user_id NOT IN (
-				SELECT DISTINCT user_id
-				FROM hist_user
-				WHERE
-					hist_historic = 1
-				AND NOT
-					last_wbd_report IS NULL
-			)
-			AND wbd_type IN (
-				'2 - TP-Basis',
-				'3 - TP-Service'
-			)
-			AND user_id IN (SELECT usr_id FROM usr_data)
-			AND user_id NOT IN (6, 13)
-			AND hist_user.is_active = 1
-			";
-		
-		$sql = $sql_wbdGetNewUsers .' AND hist_user.user_id in (\''
-			.implode("', '", $notAgreedUsersVFS)
-			.'\')';
-
-		print $sql;
-		
-
-
-
-
-
-
 	}
 
 

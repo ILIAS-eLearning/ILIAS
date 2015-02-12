@@ -653,23 +653,32 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		$ret = array();
 		$result = $this->ilDB->query($sql);
+
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		while($record = $this->ilDB->fetchAssoc($result)) {
-			$udata = $this->_map_userdata($record);
 
-			$valid = $this->validateUserRecord($udata);
+			$uutils = gevUserUtils::getInstanceByObjOrId($record['user_id']);
+			if ($uutils->hasDoneWBDRegistration()) {
 
-			if($valid === true){
+				$udata = $this->_map_userdata($record);
 
-				$ret[] = wbdDataConnector::new_user_record($udata);
-				//set last_wbd_report!
-				//better wait for success, here?!
-				//$this->_set_last_wbd_report('hist_user', $record['row_id']);
-			} else {
-				$this->broken_newusers[] = array(
-					$valid,
-					$udata
-				);
+				$valid = $this->validateUserRecord($udata);
+
+				if($valid === true){
+
+					$ret[] = wbdDataConnector::new_user_record($udata);
+					//set last_wbd_report!
+					//better wait for success, here?!
+					//$this->_set_last_wbd_report('hist_user', $record['row_id']);
+				} else {
+					$this->broken_newusers[] = array(
+						$valid,
+						$udata
+					);
+				}
+			
 			}
+
 		}
 		$this->valid_newusers = $ret;
 		return $ret;
