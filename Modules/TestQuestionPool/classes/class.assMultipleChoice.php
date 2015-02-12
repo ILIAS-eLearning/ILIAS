@@ -393,7 +393,7 @@ class assMultipleChoice extends assQuestion
 		// duplicate the answer specific feedback
 		$clone->duplicateFeedbackAnswer($original_id);
 
-		$clone->onDuplicate($source_questionpool, $this->getId());
+		$clone->onDuplicate($source_questionpool, $this->getId(), $clone->getObjId(), $clone->getId());
 
 		$clone->onCopy($this->getObjId(), $this->getId());
 		return $clone->id;
