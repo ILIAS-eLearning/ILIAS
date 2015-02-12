@@ -1,11 +1,11 @@
-/* Copyright (c) 1998-2014 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
-* @modulelanguage file Japanese
-* @modulegrouplanguage
-* @authorShiro Tamoto <tech@oberon.nagaokaut.ac.jp>
-* @version$Id: ilias_ja.lang 24240 2010-09-15 14:29:34Z jluetzen $
+* @module       language file Japanese
+* @modulegroup  language
+* @author       Shiro Tamoto <tech@oberon.nagaokaut.ac.jp>
+* @version$Id:  ilias_ja.lang 24240 2010-09-15 14:29:34Z jluetzen $
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -341,6 +341,7 @@ adve#:#char_selector_inactive_info_admin#:#セレクタを解除します。ユ�
 adve#:#char_selector_inherit#:#受け継ぐ
 adve#:#char_selector_inherit_info_test#:#プラットフォームもしくはユーザ指定の設定を使用します。
 adve#:#char_selector_inherit_info_user#:#プラットフォーム設定を使用します。
+adve#:#char_selector_msg_blocks_or_custom_needed#:#セレクタを有効にする時は文字ブロックまたはスペシャル選択へ入力してください!
 adve#:#char_selector_unicode_all#:#全てのUnicodeブロック
 assessment#:#0_unlimited#:#(0=制限なし)
 assessment#:#action#:#アクション
@@ -360,10 +361,13 @@ assessment#:#add_rect#:#長方形エリアを追加
 assessment#:#add_solution#:#推奨解答方法を追加
 assessment#:#additional_rating_info#:#ここに示される値はパーセント表示で100以内にする必要がある事に注意願います。
 assessment#:#addSuggestedSolution#:#推奨解答方法を追加
+assessment#:#adjust_question_form_error#:#フォームを送信できませんでした。入力を確認してください。
 assessment#:#adm_categories#:#予約カテゴリ
 assessment#:#adm_settings_templates#:#テンプレート設定
 assessment#:#advanced_rating#:#上位レート
 assessment#:#advanced_rating_info#:#上位レートはユニットが結果に割り当てられる場合のみ利用できます。
+assessment#:#aggregated_answers_header#:#受験者解答の概要
+assessment#:#aggregated_answers_variants#:#解答ばらつき
 assessment#:#all_available_question_pools#:#全ての利用可能な問題集
 assessment#:#all_participants#:#全受験者
 assessment#:#all_units#:#全ユニット
@@ -380,6 +384,7 @@ assessment#:#answer_is_wrong#:#解答は誤り
 assessment#:#answer_picture#:#答案図
 assessment#:#answer_text#:#答案テキスト
 assessment#:#answer_types#:#答案タイプ
+assessment#:#answer_variant#:#解答偏差
 assessment#:#answers_multiline#:#複数行の答案
 assessment#:#answers_of#:#解答:
 assessment#:#answers_singleline#:#単一行の答案
@@ -398,6 +403,13 @@ assessment#:#ass_create_export_test_results#:#テスト結果エクスポート�
 assessment#:#ass_create_question#:#問題を作成
 assessment#:#ass_export_files#:#エクスポートファイル
 assessment#:#ass_file#:#ファイル
+assessment#:#ass_process_lock#:#テスト実施期間中のロックを使用
+assessment#:#ass_process_lock_desc#:#ロック機構の使用なしで競技条件設定は可能です。矛盾するテスト結果につながります。
+assessment#:#ass_process_lock_mode#:#テスト実行期間中のロックモード
+assessment#:#ass_process_lock_mode_db#:#データベーステーブルロックを使用
+assessment#:#ass_process_lock_mode_db_desc#:#このロック機構はデータベース内のテーブルをロックします。同じまたは他の問題用の同じまたは他のテスト中の同一または別のユーザー用の現在のプロセスは別のプロセスがロック解除されるまで待ち続けます。
+assessment#:#ass_process_lock_mode_file#:#ファイルシステムロックを使用
+assessment#:#ass_process_lock_mode_file_desc#:#このロック機構はファイルシステム中の空ファイルのロックを要求します。同一ユーザと同一テスト、問題用の現在のプロセスは他のプロセスがロックを解除されるまで待ち続けます。
 assessment#:#ass_question#:#問題
 assessment#:#ass_size#:#サイズ
 assessment#:#assClozeTest#:#穴埋め問題
@@ -630,6 +642,10 @@ assessment#:#eval_search_users#:#ユーザ
 assessment#:#eval_search_userselection#:#統計分析したいユーザの検索
 assessment#:#eval_selected_users#:#選択したユーザの評価
 assessment#:#exam_id#:#試験ID:
+assessment#:#examid_in_test_pass#:#試験IDを表示
+assessment#:#examid_in_test_pass_desc#:#TODO4711
+assessment#:#examid_in_test_res#:#試験IDを表示
+assessment#:#examid_in_test_res_desc#:#TODO4812
 assessment#:#exp_eval_data#:#評価データ用にエクスポート
 assessment#:#exp_file_created#:#エクスポートファイルを作成しました。
 assessment#:#exp_type_certificate#:#証明書 (PDF)
@@ -800,6 +816,7 @@ assessment#:#negative_points_not_allowed#:#マイナス点の入力はできま�
 assessment#:#new_category#:#新ユニットカテゴリ
 assessment#:#new_unit#:#新ユニット
 assessment#:#next_question_rows#:#問題 %dの%d - %d >>
+assessment#:#no_archive_on_anonymous#:#匿名テストでのアーカイブはできません:オプションは自動的に解除されました。
 assessment#:#no_passed_mark#:#合格のマークを1つはセットしなけれなりません! 採点尺度が保存されませんでした。
 assessment#:#no_question_selected_for_move#:#移動する問題の最低一つにチェックしてください!
 assessment#:#no_questions_available#:#問題がありません!
@@ -814,6 +831,8 @@ assessment#:#not_worked_through#:#未解答
 assessment#:#not_yet_accessed#:#未接続
 assessment#:#nr_of_correct_answers#:#要求する解答数
 assessment#:#number_of_answers#:#解答数
+assessment#:#number_of_passes#:#合格者数
+assessment#:#number_of_users#:#受験者数
 assessment#:#numeric_gap#:#数値穴埋め
 assessment#:#obligations_summary#:#必須問題一覧
 assessment#:#obligatory#:#必須
@@ -899,6 +918,7 @@ assessment#:#qpl_import_create_new_qpl#:#新しい問題集の中の問題をイ
 assessment#:#qpl_import_no_items#:#エラー。インポートファイルに問題が含まれていません!
 assessment#:#qpl_import_non_ilias_files#:#エラー。 インポートファイルにはILIASシステムが作成しないQTIファイルが含まれています。ILIASチームへ連絡してQTIファイル形式用のインポートフィルタを取得してください。。
 assessment#:#qpl_import_verify_found_questions#:#ILIASのインポートファイルに次の問題がありました。インポートしたい問題を選択してください。
+assessment#:#qpl_maxchars_info_numeric_question#:#値を入力すると数値解答用のフィールドはこの値の固定長で作成されますので許容文字数以上の入力はできなくなります。ギャップ数値用には十進セパレータが正規文字としてカウントされる事に注意願います。
 assessment#:#qpl_move_insert_clipboard#:#選択した問題は移動用としてマークされています
 assessment#:#qpl_move_select_none#:#移動するには最低一つ問題にチェックしてください
 assessment#:#qpl_paste_error#:#問題集の中に問題が一つも貼り付けられていない可能性があります。考えられる原因: 同じ問題集へ問題を移動しようとしていた。
@@ -960,6 +980,7 @@ assessment#:#rectangle#:#長方形
 assessment#:#rectangle_click_br_corner#:#希望する領域の右隅下をクリックしてください。
 assessment#:#rectangle_click_tl_corner#:#希望する領域の左隅上をクリックしてください。
 assessment#:#redirect_after_finishing_tst#:#テスト終了後のリダイレクト
+assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen konnen.###01 02 2015 new variable
 assessment#:#redirect_in_kiosk_mode#:#Kioskモードでのみリダイレクト
 assessment#:#redirectAfterSave#:#制限の解答時間になりましたので最後の問題は自動的に保存されます。数秒後に別の案内があります...
 assessment#:#redirection_url#:#リダイレクト先
@@ -1102,6 +1123,7 @@ assessment#:#thumb_geometry#:#サムネイル形状
 assessment#:#thumb_geometry_info#:#イメージサムネールは、保存されている縦横比の高さと幅の最大値で作成されます。
 assessment#:#thumb_size#:#サムネイルサイズ
 assessment#:#thumb_size_info#:#サムネイルのサイズを入力すると、そのサイズのサムネイルがアップロードイメージ用として作成されます。サムネイルサイズなしの場合は、オリジナルのイメージサイズが使用されます。
+assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#HH MM SS
 assessment#:#timing#:#延長時間
 assessment#:#tolerance#:#公差(%)
@@ -1139,6 +1161,7 @@ assessment#:#tst_anonymity_no_anonymization#:#非匿名化
 assessment#:#tst_answer_sheet#:#テスト解答シート
 assessment#:#tst_answered_questions#:#解答済み問題
 assessment#:#tst_answered_questions_test#:#このテストへの解答結果
+assessment#:#tst_attached_xls_file#:#この受験者のテスト結果は添付のExcelファイルにあります。
 assessment#:#tst_availability_limitless_info#:#このモードを選択するとテスト作成とユーザ(以下の受験者制限設定による)へのアクセスが可能になります。
 assessment#:#tst_availability_until_info#:#このモードを選択するとテスト作成とユーザ(受験者制限設定による)への特定時間アクセスが可能になりますは。
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#現在の問題選択付のテストへ戻る
@@ -1178,6 +1201,8 @@ assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s(削除され�
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#現在、問題集ソースの全問に解答しています。問題集に新規または編集された問題がある時はテストを継続できます。
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#現在の問題選択の全問に解答しています。テストを継続するには問題選択を変更します。
 assessment#:#tst_dyn_test_msg_pass_deletion_link#:#以前の回答を削除
+assessment#:#tst_dyn_test_pass_deletion_button#:#全テスト解答をリセット
+assessment#:#tst_dynamic_question_set_complete#:#全統計
 assessment#:#tst_dynamic_question_set_selection#:#テスト問題選択
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [問題 %s]
 assessment#:#tst_edit_scoring#:#点数を編集
@@ -1254,6 +1279,7 @@ assessment#:#tst_imap_qst_mode#:#モード
 assessment#:#tst_imap_qst_mode_mc#:#複数選択
 assessment#:#tst_imap_qst_mode_sc#:#単一選択
 assessment#:#tst_import_no_items#:#エラー。インポートファイルには問題が含まれていません。
+assessment#:#tst_import_non_ilias_zip#:#エラー: アップロードされるインポートファイルのファイル名が想定の形式と一致しません。
 assessment#:#tst_import_verify_found_questions#:#テストインポートファイルから次の問題が見つかりました。このテストにインポートしたい問題を選択してください。
 assessment#:#tst_in_use_edit_questions_disabled#:#テストは %d ユーザが使用中です。テスト問題を編集もしくは移動することはできません!
 assessment#:#tst_inp_all_quest_points_equal_per_pool#:#均一の採点問題集を要求
@@ -1271,6 +1297,7 @@ assessment#:#tst_inp_source_pool_filter_tax_x#:#フィルタに分類基準"%s"�
 assessment#:#tst_inp_source_pool_label#:#問題集ソース
 assessment#:#tst_inp_source_pool_no_tax_filter#:#分類基準ではないフィルタを使用
 assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#回答ステータスフィルタを提供
+assessment#:#tst_input_dyn_quest_set_prev_quest_list_enabled#:#以前解答した問題のリストを提供
 assessment#:#tst_input_dynamic_question_set_ordering_tax#:#分類基準の順番
 assessment#:#tst_input_dynamic_question_set_ordering_tax_description#:#選択された分類基準の割り当て通りにテスト問題が表示されます。
 assessment#:#tst_input_dynamic_question_set_question_ordering#:#問題順
@@ -1325,6 +1352,7 @@ assessment#:#tst_missing_marks#:#テストの評価尺度がありません! 最
 assessment#:#tst_missing_questions#:#テストに問題がありません! 最低問題を一つ追加してください。
 assessment#:#tst_missing_title#:#テストの題名がありません! メタデータセクションに戻って題目を入力してください。
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#問題選択を継続すると既存の参加日の都合により構成の修正はできません。
+assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#ランダム問題設定構成は受験者データが存在するため修正できません。
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#問題選択を継続して構成が変更されました。
 assessment#:#tst_msg_rand_quest_set_change_quest_amount_here#:#問題数を変更できます: %s
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#正しい問題数を定義しないで参加者のランダムテスト作成はできません。
@@ -1341,6 +1369,7 @@ assessment#:#tst_no_evaluation_data#:#利用できる評価データがありま
 assessment#:#tst_no_export_randomtest#:#膨大で複雑になるエクスポートファイルを通して使用済問題集がエクスポートされるため、問題にランダムセクションのあるテストはエクスポートできません。
 assessment#:#tst_no_marks_defined#:#マークがないので、少なくともシンプル評価尺度を作成してください!
 assessment#:#tst_no_more_available_questionpools#:#これ以上利用できる問題集がありません
+assessment#:#tst_no_question_selected_for_moving_to_qpl#:#問題集へ追加するには一つは問題を選択してください。
 assessment#:#tst_no_question_selected_for_removal#:#削除するには最低でも一つチェックしてください!
 assessment#:#tst_no_questionpools_for_random_test#:#ランダムテスト用の問題集が追加されていません! 最低一つ問題集を選択してくださいl.
 assessment#:#tst_no_questions_available#:#利用できる問題がありません! 新規問題を作成するか問題を更新しなけれなりません。
@@ -1350,17 +1379,22 @@ assessment#:#tst_no_solution_available#:#短い問題集には特定の解答は
 assessment#:#tst_no_taken_tests#:#テスト受験できません!
 assessment#:#tst_no_tries#:#該当者なし
 assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>構成中の問題を含む現在のテストモードはどの問題集にも割り当てられません。テストモードを変更すると問題は完全に消去されます。</b>
+assessment#:#tst_notification_explanation_admin#:#通知を有効にしているためILIASからのメールを受信します。
 assessment#:#tst_notify_manscoring_done_body_msg_reason#:#このテストの受験者なので通知を受領しました。
 assessment#:#tst_notify_manscoring_done_body_msg_subject#:#テスト "%s"の手動採点を確約
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#次のテストには手動採点が確約されました:
 assessment#:#tst_nr_of_passes#:#試験数
 assessment#:#tst_nr_of_tries#:#最大受験回数
 assessment#:#tst_nr_of_tries_of_user#:#完了済み合格者
+assessment#:#tst_num_all_questions#:#問題総数
+assessment#:#tst_num_correct_answered_questions#:#正解問題
 assessment#:#tst_num_marked_questions#:#マーク済問題
 assessment#:#tst_num_non_answered_questions#:#未解答問題
 assessment#:#tst_num_postponed_questions#:#延期された問題
+assessment#:#tst_num_selected_questions#:#選択済みの問題数
 assessment#:#tst_num_wrong_answered_questions#:#間違い問題
 assessment#:#tst_participant#:#受験者
+assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_solution#:#受験者解答
 assessment#:#tst_participant_status#:#受験者状況
 assessment#:#tst_participants_no#:#現時点でテスト開始したものは誰もいません!
@@ -1551,15 +1585,22 @@ assessment#:#tst_show_answer_sheet#:#全解答を表示
 assessment#:#tst_show_cancel#:#テスト中断オプションを表示
 assessment#:#tst_show_cancel_description#:#チェックするとテスト中断ボタンがテスト実行中表示されます。
 assessment#:#tst_show_pass_details#:#ラニングテストの受験詳細を表示
+assessment#:#tst_show_pass_details_desc#:#選択するとテスト終了しない限りはテスト合格した全問題の問題名と得点がわかります。
 assessment#:#tst_show_results#:#テスト結果を表示
 assessment#:#tst_show_side_list#:#脇に問題一覧を表示
 assessment#:#tst_show_solution_answers_only#:#結果印刷ビュー(解答のみ)
+assessment#:#tst_show_solution_answers_only_desc#:#選択すると"コンテンツ編集"タブを使って問題の回りに配置したILIASコンテンツのページは印刷表示されなくなります。同じ印刷スペースにしたい場合はこのオプションを選択します。
 assessment#:#tst_show_solution_compare#:#解答一覧の正解と解答を比較
 assessment#:#tst_show_solution_details#:#テスト結果の解答を表示
+assessment#:#tst_show_solution_details_desc#:#選択すると削除された問題正解が受験者のテスト結果へ表示可能になります。これには全解答の全ての得点が含まれますがそうでない場合は問題名と得点の概要のみ表示されます。
 assessment#:#tst_show_solution_feedback#:#テスト結果の解答特定フィードバックを表示
+assessment#:#tst_show_solution_feedback_desc#:#選択すると特定のフィードバック解答は問題に続いてテスト結果中に表示されます。
 assessment#:#tst_show_solution_printview#:#解答一覧を表示
+assessment#:#tst_show_solution_printview_desc#:#選択すると受験者の解答付全問題の概要が作成されます。このリストはInfoページ上とテスト終了時の最終提出前に提示されます。
 assessment#:#tst_show_solution_signature#:#署名記入欄を表示
+assessment#:#tst_show_solution_signature_desc#:#選択すると署名欄が印刷用に表示されます。
 assessment#:#tst_show_solution_suggested#:#推奨解答を表示
+assessment#:#tst_show_solution_suggested_desc#:#選択すると問題の模範解答(設定済みの場合)テスト結果概略中に方y時されます。
 assessment#:#tst_show_summary#:#問題一覧を表示
 assessment#:#tst_show_summary_description#:#テスト期間内にテスト受験者が利用可能な全テスト問題をリスト表示します。
 assessment#:#tst_show_toplist#:#高得点を表示
@@ -1632,6 +1673,7 @@ assessment#:#tst_use_previous_answers#:#前回の解答を使用
 assessment#:#tst_use_previous_answers_description#:#チェックすると受験者は以降の試験の初期設定値として前回の解答を選択使用できますが後のテストに以前の解答は表示されません。
 assessment#:#tst_use_previous_answers_user#:#今後の試験の初期設定値に前回の解答を使用
 assessment#:#tst_user_finished_test#:#終了したテスト(%s) を使用
+assessment#:#tst_you_have_to_answer_this_question#:#テストを終了するにはこの問題に解答する必要があります。
 assessment#:#tst_your_answer_was#:#解答
 assessment#:#tst_your_answers#:#次の問題に対する答案があります。
 assessment#:#tt_assessment#:#アセスメントテスト
@@ -1678,6 +1720,7 @@ assessment#:#unlock_question#:#この質問には最低 1つのテストが使�
 assessment#:#upload_image#:#イメージをアップロート
 assessment#:#upload_imagemap#:#イメージマップをアップロード
 assessment#:#uploaded_material#:#アップロードされた教材
+assessment#:#user_has_finished_a_test#:#受験者はテストを終了しました。
 assessment#:#user_not_invited#:#このテストのサポート資格がありません。
 assessment#:#user_wrong_clientip#:#テストに使用する正しいIPがありません。
 assessment#:#value_between_x_and_y#:#値は %s と %s の間になります
@@ -3660,6 +3703,7 @@ common#:#hide_filter#:#フィルタを非表示
 common#:#hide_own_online_status#:#My Onlineステータスを非表示
 common#:#hide_private_notes#:#メモを非表示
 common#:#hide_structure#:#構造化表示を非表示
+common#:#hide_visible_sections#:#詳細を非表示&raquo;
 common#:#hint#:#ヒント
 common#:#hist_dbk_delete_pg#:#ペ－ジ "%1" [%2] は削除されました。
 common#:#hist_dbk_delete_st#:#章 "%1" [%2] は削除されました。
@@ -5169,6 +5213,7 @@ common#:#show_all_details#:#全詳細を表示
 common#:#show_details#:#詳細を表示
 common#:#show_filter#:#フィルタを表示
 common#:#show_hidden_block#:#隠しブロックを表示
+common#:#show_hidden_sections#:#詳細を表示&raquo;
 common#:#show_list#:#リストを表示
 common#:#show_members#:#メンバーを表示
 common#:#show_owner#:#オーナーを表示
@@ -5521,7 +5566,7 @@ common#:#usr_settings_saved#:#グローバル ユーザ設定は正しく保存�
 common#:#usr_settings_visib_lua#:#ローカルユーザ管理の中に表示
 common#:#usr_skin_style#:#スキン / スタイル
 common#:#usr_style#:#ユーザスタイル
-common#:#usr_without_courses#:# コース割当てなしのユーザ
+common#:#usr_without_courses#:# コース未割当てユーザ
 common#:#usrf#:#ユーザ アカウント
 common#:#usrf_create_user#:#新規ユーザアカウントを作成
 common#:#usrf_profile_link#:#ユーザプロファイルへリンクします
@@ -6685,7 +6730,7 @@ content#:#lm_rate_page#:#ぺージレート
 content#:#lm_rating#:#学習モジュールレート
 content#:#mep_folder_created#:#新規フォルダを追加しました。
 content#:#mob_upload_dir#:#ディレクトリ更新
-content#:#mob_upload_dir_info#:#複数ファイルからサーバーディレクトリはメディア集のメディアオブジェクト作成使用する事ができます。ILIAS管理者のみがこのディレクトリからのファイル選択を見えます。末尾がスラッッシュにならないようにサーバーのフルパスを入力してください。
+content#:#mob_upload_dir_info#:#サーバーディレクトリは複数ファイルからメディア集のメディアオブジェクト作成に使用する事ができます。このディレクトリのファイル選択はILIAS管理者のみに表示されます。末尾がスラッッシュにならないようにサーバーのフルパスを入力してください。
 content#:#msg_entry_added#:#メニューエントリー追加
 content#:#msg_entry_removed#:#メニューエントリー削除
 content#:#msg_entry_updated#:#メニューエントリー更新
@@ -6825,6 +6870,9 @@ crs#:#crs_admin#:#管理者
 crs#:#crs_admin_no_notify#:#管理者 (通知なし)
 crs#:#crs_admin_notify#:#管理者 (通知あり)
 crs#:#crs_administrators#:#管理者
+crs#:#crs_admission_link_failure_membership_limited#:#登録できません: コースメンバーシップは制限があります。
+crs#:#crs_admission_link_failure_registration_period#:#登録できません: コースは登録期限を過ぎています。
+crs#:#crs_admission_link_success_registration#:#コース"%s"へ正しく登録されました。
 crs#:#crs_agree#:#承諾
 crs#:#crs_agreement_header#:#利用条件
 crs#:#crs_agreement_required#:#このコースへの登録には利用条件への承諾が必要です。
@@ -6927,7 +6975,7 @@ crs#:#crs_grp_info_reg#:#このコースのどれか一つのみ登録できま�
 crs#:#crs_grp_matriculation_required#:#このコース組分けには、ユニークな学籍番号を必要とします。<br />パーソナルデスクトトップの設定にこの値を挿入してください。
 crs#:#crs_grp_modified_grouping#:#修正を保存しました。
 crs#:#crs_grp_no_course_selected#:#一つコースを選択してください。
-crs#:#crs_grp_no_courses_assigned#:#コースが割当てされていません。
+crs#:#crs_grp_no_courses_assigned#:#コースが割当てられていません。
 crs#:#crs_grp_table_assigned_courses#:#割当て済コース
 crs#:#crs_header_archives#:#コースアーカイブ
 crs#:#crs_header_delete_members#:#メンバーを削除
@@ -8324,6 +8372,7 @@ ecs#:#ecs_publish_for#:#リリース:
 ecs#:#ecs_published_for#:#発行用途:
 ecs#:#ecs_rcrs_created_body_a#:#新リモートコースが作成されました
 ecs#:#ecs_read_remote_links#:#リモートコースを更新
+ecs#:#ecs_refresh_participants#:#ECS-受験者をリフレッシュ
 ecs#:#ecs_released#:#エクスポート
 ecs#:#ecs_released_content#:#リリース済のE-コンテンツ
 ecs#:#ecs_remote_imported#:#リモートコースに関する情報はリフレッシュされました。
@@ -8370,6 +8419,7 @@ exc#:#exc_add_assignment#:#割り当てを追加
 exc#:#exc_add_feedback_file#:#フィードバックファイルを追加
 exc#:#exc_add_participant#:#参加者を追加
 exc#:#exc_assignment#:#割り当て
+exc#:#exc_assignment_type#:#提出タイプ
 exc#:#exc_assignment_view#:#割り当て表示
 exc#:#exc_assignments#:#割り当て
 exc#:#exc_assignments_deleted#:#割り当ては削除されました。
@@ -8723,6 +8773,9 @@ forum#:#frm_copy#:#掲示板をコピー
 forum#:#frm_default_view#:#表示初期設定
 forum#:#frm_detach_moderator_role#:#モデレータの役割を外す
 forum#:#frm_edit_title#:#タイトルの編集
+forum#:#frm_max_notification_age#:#最高通知年齢
+forum#:#frm_max_notification_age_info#:#通知送信時の投稿用の最高年齢を定義してください。通常予定の間隔よりも高い値の選択を推奨します。
+forum#:#frm_max_notification_age_unit#:#日数
 forum#:#frm_merge_src#:#選択のスレッド: %s
 forum#:#frm_merge_target#:#ターゲット: %s
 forum#:#frm_moderator_f#:#モデレータ
@@ -8814,6 +8867,9 @@ grp#:#grp_accept_subscriber_body#:#グループ "%1$s"へ加入済みです。\n
 grp#:#grp_activate_notification#:#通知をオン
 grp#:#grp_added_to_list#:#グループ "%s"の待ちリストに割当てられています。待ちリスト上の%sの位置にいます。
 grp#:#grp_admins#:#管理者
+grp#:#grp_admission_link_failure_membership_limited#:#登録できません: グループメンバーシップは制限があります。
+grp#:#grp_admission_link_failure_registration_period#:#登録できません: グループは登録期限を過ぎています。
+grp#:#grp_admission_link_success_registration#:#グループ"%s"へ正しく登録されました。
 grp#:#grp_agree#:#承諾
 grp#:#grp_agreement_header#:#使用許諾書
 grp#:#grp_agreement_required#:#グループコンテンツにアクセスしたい場合は利用条件への承諾が必要です。
@@ -9192,6 +9248,10 @@ mail#:#goto_invitation_chat#:#チャットルームを開く
 mail#:#info_mail_external_sender_noreply#:#外部システムメッセージと通知用の送信者のアドレスとして使用されるemailを入力してください。
 mail#:#invite_to_chat#:#チャットへ招待
 mail#:#linebreak#:#回線断までの時間
+mail#:#link_check_affected_links#:#影響のあるリンク
+mail#:#link_check_introduction#:#次のweblinkは無効です。
+mail#:#link_check_perma_link#:#永久リンク
+mail#:#link_check_reason#:#無効リンク通知を設定しているのでこのメールを受信します。
 mail#:#mail_account_mail#:#メールアカウント
 mail#:#mail_account_mail_check#:#メールアカウントを送信
 mail#:#mail_add_folder#:#新規サブフォルダを追加
@@ -10141,6 +10201,7 @@ news#:#news_hide_news_per_date#:#以降のニュースを表示
 news#:#news_hide_news_per_date_info#:#その日よりも新しいニュースのみが表示されます。
 news#:#news_hide_news_until_date#:#ニュース表示期限
 news#:#news_hide_news_until_date_info#:#その日よりも前のニュースのみが表示されます。
+news#:#news_inactive_private_feed_info#:#プライベートニュースは解除されています。設定の中のパスワードを設定してください
 news#:#news_indefinite#:#未定
 news#:#news_internal_news#:#ニュース
 news#:#news_keep_minimal_x_items#:#最低xアイテムを保持
@@ -10236,7 +10297,7 @@ obj#:#obj_insert_into_clipboard#:#クリップボードへ挿入
 obj#:#obj_inserted_clipboard#:#オブジュエクトはクリップボードへ移動されました。
 obj#:#obj_master_lang#:#マスタ言語
 obj#:#obj_multilang_deactivated#:#多言語機能は解除されました。
-obj#:#obj_multilang_title_descr_only#:#翻訳はタイトルと説明のみが適用されます。ページ編集("Customize Page")の翻訳サポートには追加のアクティベーションが必要です。
+obj#:#obj_multilang_title_descr_only#:#翻訳はタイトルと説明のみに適用されます。ページ編集("Customize Page")の翻訳サポートには追加のアクティベーションが必要です。
 obj#:#obj_multilinguality#:#多言語
 obj#:#obj_presentation#:#プレゼンテーション
 obj#:#obj_select_master_lang#:#マスタ言語を選択してください。現在のコンテンツはマスタ言語に割り当てられます。マスタ言語は以降変更できなくなります。
@@ -12282,6 +12343,7 @@ search#:#search_mime_image#:#画像
 search#:#search_mime_pdf#:#PDFファイル
 search#:#search_mime_powerpoint#:#Powerpointファイル
 search#:#search_mime_word#:#Wordファイル
+search#:#search_minimum_info#:#検索は%s文字長以上にする必要があります。
 search#:#search_minimum_three#:#検索は最低3文字長以上にしなければなりません
 search#:#search_move_folder_not_allowed#:#フォルダは移動できません。
 search#:#search_move_to#:#移動
@@ -14073,8 +14135,8 @@ user#:#user_lv_keep_entries#:#最終訪問を記録
 user#:#user_lv_keep_only_for_session#:#現在のセッションのみを記録
 user#:#user_member_of_course_group#:#コース/グループのメンバー
 user#:#user_new_profile_page#:#新規プロフファイルのページ
-user#:#user_no_courses#:#コースが割当てられていません
-user#:#user_no_groups#:#グループ割当てなし
+user#:#user_no_courses#:#コースが未割当て
+user#:#user_no_groups#:#グループ未割当て
 user#:#user_order#:#順序
 user#:#user_ownership#:#リポジトリオブジェクト
 user#:#user_please_select_course_group#:#コースまたはグループを選択してください。
@@ -14291,65 +14353,3 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-assessment#:#aggregated_answers_header#:#Overview of Participant Answers###22 11 2014 new variable
-assessment#:#aggregated_answers_variants#:#Answer Variations###22 11 2014 new variable
-assessment#:#number_of_users#:#Number of Participants###22 11 2014 new variable
-assessment#:#number_of_passes#:#Number of Passes###22 11 2014 new variable
-assessment#:#answer_variant#:#Answervariant###22 11 2014 new variable
-assessment#:#adjust_question_form_error#:#The form could not be submitted. Please check your input.###22 11 2014 new variable
-assessment#:#no_archive_on_anonymous#:#Archiving is not possible in an anonymous test: option deactivated automatically.###22 11 2014 new variable
-assessment#:#qpl_maxchars_info_numeric_question#:#If you enter a value, the field for the numerical answer will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.###22 11 2014 new variable
-assessment#:#tst_import_non_ilias_zip#:#Error: The filename of the uploaded import file does not match the expected format.###22 11 2014 new variable
-assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.###22 11 2014 new variable
-assessment#:#thumb_size_unit_pixel#:#Pixel###22 11 2014 new variable
-assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Please choose at least one question to be added to a question pool!###22 11 2014 new variable
-assessment#:#tst_show_pass_details_desc#:#If selected, the question titles and the reached points for every question in the test pass are available if the test is not finished.###22 11 2014 new variable
-assessment#:#tst_show_solution_details_desc#:#If selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown.###22 11 2014 new variable
-assessment#:#tst_show_solution_printview_desc#:#If selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission.###22 11 2014 new variable
-assessment#:#tst_show_solution_feedback_desc#:#If is selected, the answer specific feedback will be shown in the test results next to the questions.###22 11 2014 new variable
-assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option.###22 11 2014 new variable
-assessment#:#tst_show_solution_signature_desc#:#If is selected, a signature placeholder will be shown for printout.###22 11 2014 new variable
-assessment#:#tst_show_solution_suggested_desc#:#If is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.###22 11 2014 new variable
-assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#The random question set configuration cannot be modified due to existing participant data.###22 11 2014 new variable
-assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Testanswers###22 11 2014 new variable
-assessment#:#tst_input_dyn_quest_set_prev_quest_list_enabled#:#Provide List of Previously Answered Questions###22 11 2014 new variable
-assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic###22 11 2014 new variable
-assessment#:#tst_num_all_questions#:#Number of All Questions###22 11 2014 new variable
-assessment#:#tst_num_selected_questions#:#Number of Selected Questions###22 11 2014 new variable
-assessment#:#tst_num_correct_answered_questions#:#Correct Answered Questions###22 11 2014 new variable
-common#:#show_hidden_sections#:#Show More Information &raquo;###22 11 2014 new variable
-common#:#hide_visible_sections#:#Hide More Information &raquo;###22 11 2014 new variable
-forum#:#frm_max_notification_age#:#Max. Notification Age###22 11 2014 new variable
-forum#:#frm_max_notification_age_unit#:#Day(s)###22 11 2014 new variable
-forum#:#frm_max_notification_age_info#:#Please define the maximum age of postings to send notifications for. It is recommended to choose a higher value than the scheduled interval.###22 11 2014 new variable
-mail#:#link_check_introduction#:#the following weblinks are invalid:###22 11 2014 new variable
-mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.###22 11 2014 new variable
-mail#:#link_check_affected_links#:#Affected Links###22 11 2014 new variable
-mail#:#link_check_perma_link#:#Permanent Link###22 11 2014 new variable
-news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.###22 11 2014 new variable
-adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!###22 11 2014 new variable
-exc#:#exc_assignment_type#:#Type Of Submission###22 11 2014 new variable
-assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s###01 02 2015 new variable
-assessment#:#ass_process_lock#:#Use Lockings during Test Passes###01 02 2015 new variable
-assessment#:#ass_process_lock_desc#:#Without the use of any locking mechanism, race conditions are possible. This can lead to inconsistent test results.###01 02 2015 new variable
-assessment#:#ass_process_lock_mode#:#Lock Mode during Test Pass###01 02 2015 new variable
-assessment#:#ass_process_lock_mode_file#:#Use Filesystem Locks###01 02 2015 new variable
-assessment#:#ass_process_lock_mode_file_desc#:#This locking mechanism requests locks on empty files in the filesystem. Concurrent processes for the same user and the same test/question are waiting until the other process releases his lock.###01 02 2015 new variable
-assessment#:#ass_process_lock_mode_db#:#Use Database Table Locks###01 02 2015 new variable
-assessment#:#ass_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent processes for the same or other users in the same or in another test for the same or another question are waiting until the other process releases his locks.###01 02 2015 new variable
-assessment#:#examid_in_test_pass#:#Display Exam ID###01 02 2015 new variable
-assessment#:#examid_in_test_pass_desc#:#TODO4711###01 02 2015 new variable
-assessment#:#examid_in_test_res#:#Display Exam ID###01 02 2015 new variable
-assessment#:#examid_in_test_res_desc#:#TODO4812###01 02 2015 new variable
-assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können.###01 02 2015 new variable
-ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants###01 02 2015 new variable
-search#:#search_minimum_info#:#Your search must be at least %s characters long###01 02 2015 new variable
-assessment#:#user_has_finished_a_test#:#A participant has finished a test.###01 02 2015 new variable
-assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.###01 02 2015 new variable
-assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILIAS because you activated the notification.###01 02 2015 new variable
-grp#:#grp_admission_link_failure_registration_period#:#Can't registrate: Group is out of registration period.###01 02 2015 new variable
-crs#:#crs_admission_link_failure_registration_period#:#Can't registrate: Course is out of registration period.###01 02 2015 new variable
-grp#:#grp_admission_link_failure_membership_limited#:#Can't registrate: Group membership is limited.###01 02 2015 new variable
-crs#:#crs_admission_link_failure_membership_limited#:#Can't registrate: Course membership is limited.###01 02 2015 new variable
-grp#:#grp_admission_link_success_registration#:#Successfully registrated to group "%s".###01 02 2015 new variable
-crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".###01 02 2015 new variable
