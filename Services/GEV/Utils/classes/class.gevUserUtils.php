@@ -2027,6 +2027,9 @@ class gevUserUtils {
 	public function setWBDRegistrationDone() {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_DID_REGISTRATION, "1 - Ja");
 	}
+	public function setWBDRegistrationNotDone() {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_DID_REGISTRATION, "0 - Nein");
+	}
 	
 	public function canBeRegisteredAsTPService() {
 		$query = "SELECT COUNT(*) cnt "
