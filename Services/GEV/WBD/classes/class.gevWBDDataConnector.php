@@ -94,7 +94,13 @@ class gevWBDDataConnector extends wbdDataConnector {
 		if(strtoupper(substr(trim($streetnr), 0, 3)) == 'Q 5') {
 		    $i = 3;
 		}
-
+		if(strtolower(substr(trim($streetnr), 0, 4)) == '55er') {
+		    $i = 4;
+		}		
+		if(strtolower(substr(trim($streetnr), 0, 5)) == '55-er') {
+		    $i = 5;
+		}
+		
 		if(strtolower(substr(trim($streetnr), 0, 9)) == 'straße 4') {
 		    return array(
 				'street' => 'Straße 4',
