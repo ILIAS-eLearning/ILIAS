@@ -336,7 +336,7 @@ adve#:#adve_text_content_features#:#テキストコンテンツメニュー
 adve#:#adve_use_physical#:#str/emp/impに代えてb/i/uを使用
 adve#:#adve_use_physical_info#:#この設定は意味スタイルクラスボタンのストリング、強調、重要を、物理的な属性ボタンb(ボールド)。i(イタリック）、u(下線)強調用で置き換えます。スタイルエディタが使用されていて他の物理属性がストロング/強調/重要スタイルクラスに割り当てられていると矛盾する結果となる事に注意願います。
 adve#:#adve_use_tiny_mce#:#WYSIWYG編集用にTinyMCEを有効にする
-adve#:#char_selector_admin#:#Unicode文字用のセレクタ (TODO)
+adve#:#char_selector_admin#:#Unicode文字用のセレクタ
 adve#:#char_selector_blocks#:#利用可能なUnicodeブロック
 adve#:#char_selector_blocks_info#:#選択されたブロックの全ての文字が表示されますが現在のブラウザフォントでサポートされていな可能性のものもあります。
 adve#:#char_selector_custom_items#:#カスタム選択
@@ -351,28 +351,28 @@ adve#:#char_selector_custom_items_info5a#:#U+00C0
 adve#:#char_selector_custom_items_info5b#:#文字はUnicode表記の定義も可能です。(区別しない)
 adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
 adve#:#char_selector_custom_items_info6b#:#範囲はUnicode表記も可能です
-adve#:#char_selector_disabled_admin#:#解除されました(TODO)
+adve#:#char_selector_disabled_admin#:#解除されました(TDO)
 adve#:#char_selector_disabled_info_admin#:#セレクタを無効にします。ユーザとテストは個別設定できます。
 adve#:#char_selector_disabled_info_test#:#テストラン中のセレクタを無効
 adve#:#char_selector_disabled_info_user#:#セレクタを無効。テストは個別設定ができます。
-adve#:#char_selector_disabled_test#:#解除しました (TODO)
-adve#:#char_selector_disabled_user#:#解除しました (TODO)
-adve#:#char_selector_enabled_admin#:#有効にしました (TODO)
+adve#:#char_selector_disabled_test#:#解除しました
+adve#:#char_selector_disabled_user#:#解除しました
+adve#:#char_selector_enabled_admin#:#有効にしました
 adve#:#char_selector_enabled_info_admin#:#セレクタを有効にするとメインメニューのボタンを通して呼び出します。
 adve#:#char_selector_enabled_info_test#:#テストラン中セレクタを有効にします。
 adve#:#char_selector_enabled_info_user#:#セレクタを有効にするとメインメニューボタンを通して呼び出します。
-adve#:#char_selector_enabled_test#:#有効にしました (TODO)
-adve#:#char_selector_enabled_user#:#有効にしました (TODO)
-adve#:#char_selector_inactive_admin#:#解除 (TODO)
+adve#:#char_selector_enabled_test#:#有効にしました
+adve#:#char_selector_enabled_user#:#有効にしました
+adve#:#char_selector_inactive_admin#:#解除
 adve#:#char_selector_inactive_info_admin#:#セレクタを解除します。ユーザとテストはこの設定を上書きできません。
 adve#:#char_selector_inherit_info_test#:#プラットフォームもしくはユーザ指定の設定を使用します。
 adve#:#char_selector_inherit_info_user#:#プラットフォーム設定を使用します。
-adve#:#char_selector_inherit_test#:#継承 (TODO)
-adve#:#char_selector_inherit_user#:#継承 (TODO)
+adve#:#char_selector_inherit_test#:#継承
+adve#:#char_selector_inherit_user#:#継承
 adve#:#char_selector_msg_blocks_or_custom_needed#:#セレクタを有効にしている時は文字ブロックを選択するかスペシャルセレクションへ入力してください!
-adve#:#char_selector_test#:#Unicode文字用のセレクタ (TODO)
+adve#:#char_selector_test#:#Unicode文字用のセレクタ
 adve#:#char_selector_unicode_all#:#全てのUnicodeブロック
-adve#:#char_selector_user#:#Unicode文字用のセレクタ (TODO)
+adve#:#char_selector_user#:#Unicode文字用のセレクタ
 assessment#:#0_unlimited#:#(0=制限なし)
 assessment#:#action#:#アクション
 assessment#:#add_answer#:#解答を追加
