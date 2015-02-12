@@ -526,7 +526,7 @@ class gevDebug {
 	}
 
 
-	public function analyze_wbdreg_vfs_olddata(){
+	public function rectify_wbdreg_vfs_olddata(){
 		
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		
@@ -547,6 +547,37 @@ class gevDebug {
 
 
 		}
+	
+	}	public function analyze_wbdreg_vfs_olddata(){
+		
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		
+		$sql = "SELECT interimUsers.ilid FROM usr_data"
+			." INNER JOIN interimUsers on usr_data.usr_id = interimUsers.ilid_vfs"
+			." WHERE usr_data.agree_date IS NULL AND usr_data.active = 1"
+			." AND interimUsers.ilid != ''"
+			;
+
+		$notAgreedUsersVFS = [];
+		$result = mysql_query($sql, $this->importDB);
+		while($record = mysql_fetch_assoc($result)) {
+			$notAgreedUsersVFS[] = $record['ilid'];
+		}
+
+
+		$sql  = "SELECT * from hist_user WHERE hist_historic=0"
+		." AND ID IN ("
+		.implode(', ', $notAgreedUsersVFS)
+		.")";
+
+		$res = $this->db->query($query);
+		while($rec = $this->db->fetchAssoc($res)) {
+			print '<hr>';
+			print_r($rec);
+		}
+
+
+
 	
 	}
 
