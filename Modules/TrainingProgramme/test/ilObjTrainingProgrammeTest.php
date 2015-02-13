@@ -224,6 +224,26 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$this->assertNotNull($child->getParent());
 		$this->assertNull($this->root_object->getParent());
 	}
+	
+	/**
+	 * @depends testTreeCreation
+	 */
+	public function testTreeGetParents() {
+		$this->createSmallTree();
+		$node3 = ilObjTrainingProgramme::createInstance();
+		$children = $this->root_object->getChildren();
+		$children[0]->addNode($node3);
+		
+		$parents = $node3->getParents();
+		$parent_ids = array_map(function($node) {
+			return $node->getId();
+		}, $parents);
+		$parent_ids_expected = array( $this->root_object->getId()
+									, $children[0]->getId()
+									);
+		
+		$this->assertEquals($parent_ids_expected, $parent_ids);
+	}
 
 	/**
 	 * Test getDepth on ilObjTrainingProgramme
