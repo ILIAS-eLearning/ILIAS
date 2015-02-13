@@ -3306,6 +3306,7 @@ ilCustomInstaller::maybeInitTree();
 ilCustomInstaller::maybeInitRBAC();
 ilCustomInstaller::maybeInitObjDataCache();
 ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
 
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 

@@ -306,4 +306,14 @@ class ilCustomInstaller
 		require_once("Services/Object/classes/class.ilObjectDataCache.php");
 		$GLOBALS["ilObjDataCache"] = new ilObjectDataCache();
 	}
+	
+	static public function maybeInitSettings() {
+		if (isset($GLOBALS["ilSetting"])) {
+			return;
+		}
+		
+		require_once("./Services/Administration/classes/class.ilSetting.php");
+		
+		$GLOBALS["ilSetting"] = new ilSetting();
+	}
 }
