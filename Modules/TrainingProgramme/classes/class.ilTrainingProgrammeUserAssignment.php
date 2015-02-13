@@ -18,13 +18,18 @@ class ilTrainingProgrammeUserAssignment {
 	 * Throws when id does not refer to a training programme assignment.
 	 *
 	 * @throws ilException
-	 * @param int $a_id
+	 * @param int | ilTrainingProgrammeAssignment $a_id_or_model
 	 */
-	public function __construct($a_id) {
-		$this->assigment = ilTrainingProgrammeAssignment::find($a_id);
+	public function __construct($a_id_or_model) {
+		if ($a_id_or_model instanceof ilTrainingProgrammeAssignment) {
+			$this->assignment = $a_id_or_model;
+		}
+		else {
+			$this->assignment = ilTrainingProgrammeAssignment::find($a_id_or_model);
+		}
 		if ($this->assignment === null) {
 			throw new ilException("ilTrainingProgrammeUserAssignment::__construct: "
-								 ."Unknown assignemt id '$a_id'.");
+								 ."Unknown assignmemt id '$a_id'.");
 		}
 	}
 	
@@ -49,9 +54,9 @@ class ilTrainingProgrammeUserAssignment {
 	}
 	
 	/**
-	 * Get the training programme node where this assignment was made. 
+	 * Get the program node where this assignment was made. 
 	 *
-	 * Throws when training programme this assignment is about has no ref id.
+	 * Throws when program this assignment is about has no ref id.
 	 *
 	 * @throws ilException
 	 * @return ilObjTrainingProgramme
@@ -61,10 +66,19 @@ class ilTrainingProgrammeUserAssignment {
 		$refs = ilObject::_getAllReferences($this->assignment->getRootId());
 		if (!count($refs)) {
 			throw new ilException("ilTrainingProgrammeUserAssignment::getTrainingProgramme: "
-								 ."could not find ref_id for training program '"
+								 ."could not find ref_id for program '"
 								 .$this->assignment->getRootId()."'.");
 		}
-		return ilObjTrainingProgramme::getInstance($refs[0]);
+		return ilObjTrainingProgramme::getInstanceByRefId(array_shift($refs));
+	}
+	
+	/**
+	 * Get the id of the user who is assigned.
+	 *
+	 * @return int
+	 */
+	public function getUserId() {
+		$this->assignment->getUserId();
 	}
 	
 	/**
@@ -72,6 +86,13 @@ class ilTrainingProgrammeUserAssignment {
 	 */
 	public function remove() {
 		return $this->getTrainingProgramme()->removeAssignment($this);
+	}
+	
+	/**
+	 * Delete the assignment from database.
+	 */
+	public function delete() {
+		$this->assignment->delete();
 	}
 }
 
