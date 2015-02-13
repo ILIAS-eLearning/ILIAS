@@ -137,7 +137,7 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		
 		$root_ass = $this->root->getAssignmentsOf($user2->getId());
 		$node1_ass = $this->node1->getAssignmentsOf($user2->getId());
-		$node2_ass = $this->node2->getAssignmentsOd($user2->getId());
+		$node2_ass = $this->node2->getAssignmentsOf($user2->getId());
 		
 		$this->assertEquals(1, count($root_ass));
 		$this->assertEquals(2, count($node1_ass));
