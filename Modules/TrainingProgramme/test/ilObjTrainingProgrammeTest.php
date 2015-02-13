@@ -171,11 +171,8 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	 * Creates a small tree, used by various tests.
 	 */
 	protected function createSmallTree() {
-		$first_node = new ilObjTrainingProgramme();
-		$first_node->create();
-
-		$second_node = new ilObjTrainingProgramme();
-		$second_node->create();
+		$first_node = ilObjTrainingProgramme::createInstance();
+		$second_node = ilObjTrainingProgramme::createInstance();
 
 		$this->root_object->addNode($first_node);
 		$this->root_object->addNode($second_node);
