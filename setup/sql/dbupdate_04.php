@@ -5758,4 +5758,19 @@ $ilDB->manipulate(
 	{
 		$ilDB->addIndex('page_question',array('page_parent_type','page_id', 'page_lang'),'i1');
 	}
+	
+	
+	
+
+
+//////////////////////////////////////////////////////////////////
+//
+//      PLEASE DO  NOT ADD ANY ADDITIONAL STEPS IN THIS BRANCH
+//
+//      USE 5_0_hotfixes.php (and corresponding trunk steps) 
+//
+//////////////////////////////////////////////////////////////////
+
+
+
 ?>
