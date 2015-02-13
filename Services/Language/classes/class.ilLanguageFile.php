@@ -289,7 +289,8 @@ class ilLanguageFile
 		else
 		{
 	 		// set default params
-			$lang_name = $lng->txtlng('common','lang_'.$this->lang_key,'en');
+            $lng->loadLanguageModule('meta');
+			$lang_name = $lng->txtlng('meta','meta_l_'.$this->lang_key,'en');
 			$this->params["module"] = "language file ". $lang_name;
 			$this->params["created"] = date('Y-m-d H:i:s');
 			$this->params["created_by"] = $ilUser->getFullname()." <".$ilUser->getEmail().">";
