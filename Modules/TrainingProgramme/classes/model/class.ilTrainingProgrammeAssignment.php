@@ -107,7 +107,7 @@ class ilTrainingProgrammeAssignment extends ActiveRecord {
 		$ass = new ilTrainingProgrammeAssignment();
 		$ass->setRootId($a_prg->getObjId())
 			->setUserId($a_usr_id)
-			->setLastChangeBy($a_assigning_user_id)
+			->setLastChangeBy($a_assigning_usr_id)
 			->updateLastChange()
 			->create();
 		return $ass;

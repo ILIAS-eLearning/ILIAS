@@ -60,7 +60,7 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @expectedException ilException
 	 */
-	public function testNoAssignementWhenOutdated() {
+	public function testNoAssignmentWhenOutdated() {
 		$user = $this->newUser();
 		
 		$this->root->setStatus(ilTrainingProgramme::STATUS_OUTDATED);
@@ -100,6 +100,8 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		$user4 = $this->newUser();
 		
 		$this->root->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$this->node1->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$this->node2->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
 		
 		$this->assertEquals(0, $this->root->getAmountOfAssignmentsOf($user1->getId()));
 		
@@ -110,15 +112,15 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 	
 		$this->root->assignUser($user3->getId());
 		$this->root->assignUser($user3->getId());
-		$this->assertEquals(2, $this->root->getAmountOfAssignmentsOf($user2->getId()));
-		$this->assertEquals(2, $this->node1->getAmountOfAssignmentsOf($user2->getId()));
-		$this->assertEquals(2, $this->node2->getAmountOfAssignmentsOf($user2->getId()));
+		$this->assertEquals(2, $this->root->getAmountOfAssignmentsOf($user3->getId()));
+		$this->assertEquals(2, $this->node1->getAmountOfAssignmentsOf($user3->getId()));
+		$this->assertEquals(2, $this->node2->getAmountOfAssignmentsOf($user3->getId()));
 
 		$this->root->assignUser($user4->getId());
 		$this->node1->assignUser($user4->getId());
-		$this->assertEquals(1, $this->root->getAmountOfAssignmentsOf($user2->getId()));
-		$this->assertEquals(2, $this->node1->getAmountOfAssignmentsOf($user2->getId()));
-		$this->assertEquals(1, $this->node2->getAmountOfAssignmentsOf($user2->getId()));
+		$this->assertEquals(1, $this->root->getAmountOfAssignmentsOf($user4->getId()));
+		$this->assertEquals(2, $this->node1->getAmountOfAssignmentsOf($user4->getId()));
+		$this->assertEquals(1, $this->node2->getAmountOfAssignmentsOf($user4->getId()));
 	}
 	
 	public function testGetAssignmentsOf() {
@@ -149,8 +151,8 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		$node1_ass_prg_ids = array_map(function($ass) {
 			return $ass->getTrainingProgramme()->getId();
 		}, $node1_ass);
-		$this->asserContains($node1_ass_prg_ids, $this->root->getId());
-		$this->assertContains($node1_ass_prg_ids, $this->node1->getId());
+		$this->assertContains($this->root->getId(), $node1_ass_prg_ids);
+		$this->assertContains($this->node1->getId(), $node1_ass_prg_ids);
 	}
 	
 	/**
@@ -210,8 +212,8 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		$asses = $this->node1->getAssignments();
 		$ass_ids = array_map(function($ass) {
 			return $ass->getId();
-		});
-		$this->assertContains($ass1->getId(), $asses);
-		$this->assertContains($ass2->getId(), $asses);
+		}, $asses);
+		$this->assertContains($ass1->getId(), $ass_ids);
+		$this->assertContains($ass2->getId(), $ass_ids);
 	}
 }

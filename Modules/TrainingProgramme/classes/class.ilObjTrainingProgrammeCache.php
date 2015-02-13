@@ -33,11 +33,9 @@ class ilObjTrainingProgrammeCache {
 		// ref_ids could point to the same object, hence leading to two instances of
 		// the same object. Since ilObjTrainingProgramme is a container, it should (??)
 		// only have one ref_id...
-		
 		if (!array_key_exists($a_ref_id, $this->instances)) {
 			$this->instances[$a_ref_id] = new ilObjTrainingProgramme($a_ref_id);
 		}
-		
 		return $this->instances[$a_ref_id];
 	}
 	
