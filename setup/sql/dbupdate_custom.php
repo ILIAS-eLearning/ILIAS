@@ -3293,3 +3293,16 @@ $ilDB->manipulate("UPDATE tep_type SET title = 'FD-Gespräch' WHERE title = 'FD 
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#102>
+<?php
+
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
+gevCourseUtils::grantPermissionsForAllCoursesBelow(1696, "RTL", array("write"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow(1783, "RTL", array("write"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow(1621, "RTL", array("write"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow(1644, "RTL", array("write"));
+
+
+?>
