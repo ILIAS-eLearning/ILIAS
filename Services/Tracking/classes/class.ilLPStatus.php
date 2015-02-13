@@ -785,8 +785,11 @@ class ilLPStatus
 			{
 				if(!isset($res[$obj_id]))
 				{
-					// $res[$obj_id] = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 					$res[$obj_id] = self::_lookupStatus($obj_id, $ilUser->getId());
+					if($res[$obj_id] === null)
+					{
+						$res[$obj_id] = self::LP_STATUS_NOT_ATTEMPTED_NUM;
+					}
 				}
 			}
 
