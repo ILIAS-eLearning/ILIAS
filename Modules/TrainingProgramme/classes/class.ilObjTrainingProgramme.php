@@ -586,6 +586,8 @@ class ilObjTrainingProgramme extends ilContainer {
 	 *
 	 * Throws when node is in DRAFT or OUTDATED status.
 	 *
+	 * TODO: Should it be allowed to assign inactive users?
+	 *
 	 * @throws ilException
 	 * @param  int 				$a_usr_id
 	 * @param  int | null		$a_assigning_usr_id	- defaults to global ilUser
@@ -604,7 +606,7 @@ class ilObjTrainingProgramme extends ilContainer {
 			$a_assigning_usr_id = $this->ilUser->getId();
 		}
 
-		$ass = ilTrainingProgrammeAssigment::createFor($this, $a_usr_id, $a_assigning_usr_id);
+		$ass = ilTrainingProgrammeAssignment::createFor($this, $a_usr_id, $a_assigning_usr_id);
 		return new ilTrainingProgrammeUserAssignment($ass->getId());
 	}
 	
@@ -625,7 +627,37 @@ class ilObjTrainingProgramme extends ilContainer {
 		$a_assignment->delete();
 		return $this;
 	}
-	 
+	
+	/**
+	 * Check whether user is assigned to this program or any node above.
+	 *
+	 * @param  int		$a_user_id
+	 * @return bool
+	 */
+	public function hasAssignmentOf($a_user_id) {
+		
+	}
+	
+	/**
+	 * Get the amount of assignments a user has on this program node or any
+	 * node above.
+	 *
+	 * @param int		$a_user_id
+	 * @return int
+	 */
+	public function getAmountOfAssignmentsOf($a_user_id) {
+		return count($this->getAssignmentsOf($a_user_id));
+	}
+	
+	/**
+	 * Get the assignments of user at this program or any node above.$
+	 *
+	 * @param int 		$a_user_id
+	 * @return [ilTrainingProgrammeUserAssignment]
+	 */
+	public function getAssignmentsOf($a_user_id) {
+		
+	}
 	
 	////////////////////////////////////
 	// HELPERS
