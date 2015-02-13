@@ -321,6 +321,23 @@ class ilObjTrainingProgramme extends ilContainer {
 		}
 		return $this->parent;
 	}
+	
+	/**
+	 * Get all parents of the node, where the root of the program comes first.
+	 *
+	 * @return [ilObjTrainingProgramme]
+	 */
+	public function getParents() {
+		$current = $this;
+		$parents = array();
+		while(true) {
+			$current = $current->getParent();
+			if ($current === null) {
+				return array_reverse($parents);
+			}
+			$parents[] = $current;
+		}
+	}
 
 	/**
 	 * Does this TrainingProgramme have other ilObjTrainingProgrammes as children?
@@ -371,14 +388,8 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return ilObjTrainingProgramme
 	 */
 	public function getRoot() {
-		$root = $this;
-		while(true) {
-			$parent = $root->getParent();
-			if ($parent === null) {
-				return $root;
-			}
-			$root = $parent;
-		}
+		$parents = $this->getParents();
+		return $parents[0];
 	}
 	
 	/**
@@ -584,7 +595,8 @@ class ilObjTrainingProgramme extends ilContainer {
 	/**
 	 * Assign a user to this node at the training program.
 	 *
-	 * Throws when node is in DRAFT or OUTDATED status.
+	 * Throws when node is in DRAFT or OUTDATED status. Throws when there are no
+	 * settings for the program.
 	 *
 	 * TODO: Should it be allowed to assign inactive users?
 	 *
@@ -597,6 +609,10 @@ class ilObjTrainingProgramme extends ilContainer {
 		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
 		require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeAssignment.php");
 		
+		if ($this->settings === null) {
+			throw new ilException("ilObjTrainingProgramme::assignUser: Program was not properly created.'");
+		}
+		
 		if ($this->getStatus() != ilTrainingProgramme::STATUS_ACTIVE) {
 			throw new ilException("ilObjTrainingProgramme::assignUser: Can't assign user to program '"
 								 .$this->getId()."', since it's not in active status.");
@@ -606,8 +622,8 @@ class ilObjTrainingProgramme extends ilContainer {
 			$a_assigning_usr_id = $this->ilUser->getId();
 		}
 
-		$ass = ilTrainingProgrammeAssignment::createFor($this, $a_usr_id, $a_assigning_usr_id);
-		return new ilTrainingProgrammeUserAssignment($ass->getId());
+		$ass = ilTrainingProgrammeAssignment::createFor($this->settings, $a_usr_id, $a_assigning_usr_id);
+		return new ilTrainingProgrammeUserAssignment($ass);
 	}
 	
 	/**
@@ -619,7 +635,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function removeAssignment(ilTrainingProgrammeUserAssignment $a_assignment) {
-		if ($a_assignment->getId() !== $this->getId()) {
+		if ($a_assignment->getTrainingProgramme()->getId() != $this->getId()) {
 			throw new ilException("ilObjTrainingProgramme::removeAssignment: Assignment '"
 								 .$a_assignment->getId()."' does not belong to training "
 								 ."program '".$this->getId()."'.");
@@ -635,7 +651,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return bool
 	 */
 	public function hasAssignmentOf($a_user_id) {
-		
+		return $this->getAmountOfAssignmentsOf($a_user_id) > 0;
 	}
 	
 	/**
@@ -650,13 +666,46 @@ class ilObjTrainingProgramme extends ilContainer {
 	}
 	
 	/**
-	 * Get the assignments of user at this program or any node above.$
+	 * Get the assignments of user at this program or any node above. The assignments
+	 * are ordered by last_change, where the most recently changed assignments is the
+	 * first one.
 	 *
 	 * @param int 		$a_user_id
 	 * @return [ilTrainingProgrammeUserAssignment]
 	 */
 	public function getAssignmentsOf($a_user_id) {
+		$prg_ids =array_map(function($par) {
+			return $par->getId();
+		}, $this->getParents());
+		$prg_ids[] = $this->getId();
 		
+		$assignments = ilTrainingProgrammeAssignment::where(array( "usr_id" => $a_user_id
+														   		 , "root_prg_id" => $prg_ids
+														   ))
+													->orderBy("last_change", "DESC")
+													->get();
+		return array_map(function($ass) {
+			return new ilTrainingProgrammeUserAssignment($ass);
+		}, array_values($assignments)); // use array values since we want keys 0...
+	}
+	
+	/**
+	 * Get all assignments to this program or any node above.
+	 *
+	 * @return [ilTrainingProgrammeUserAssignment]
+	 */
+	public function getAssignments() {
+		$prg_ids =array_map(function($par) {
+			return $par->getId();
+		}, $this->getParents());
+		$prg_ids[] = $this->getId();
+		
+		$assignments = ilTrainingProgrammeAssignment::where(array( "root_prg_id" => $prg_ids))
+													->orderBy("last_change", "DESC")
+													->get();
+		return array_map(function($ass) {
+			return new ilTrainingProgrammeUserAssignment($ass);
+		}, array_values($assignments)); // use array values since we want keys 0...
 	}
 	
 	////////////////////////////////////
