@@ -233,7 +233,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	{
 		global $ilSetting;
 		//condition 1
-		if ($ilSetting->get('scorm_lp_auto_activate',0)) return;
+		$lm_set = new ilSetting("lm");
+		if ($lm_set->get('scorm_lp_auto_activate') != 1) return;
 		//condition 2
 		include_once("./Services/Tracking/classes/class.ilObjUserTracking.php");
 		if (ilObjUserTracking::_enabledLearningProgress() == false) return; 
