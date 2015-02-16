@@ -109,8 +109,6 @@ class gevAgentRegistrationGUI {
 		
 		return  $title->render()
 			  . $tpl->get();
-		
-		// result goes to checkAgent
 	}
 	
 	protected function registerAgent() {
@@ -124,21 +122,12 @@ class gevAgentRegistrationGUI {
 		
 		$user = new ilObjUser();
 		$user->setLogin($form->getInput("username"));
-		$user->setEmail($form->getInput("b_email"));
+		$user->setEmail($form->getInput("email"));
 		$user->setPasswd($form->getInput("password"));
 		$user->setLastname($form->getInput("lastname"));
 		$user->setFirstname($form->getInput("firstname"));
 		$user->setGender($form->getInput("gender"));
 		$user->setUTitle($form->getInput("title"));
-		$birthday = $form->getInput("birthday");
-		$user->setBirthday($birthday["date"]);
-		$user->setStreet($form->getInput("b_street"));
-		$user->setCity($form->getInput("b_city"));
-		$user->setZipcode($form->getInput("b_zipcode"));
-		$user->setCountry($form->getInput("b_country"));
-		$user->setPhoneOffice($form->getInput("b_phone"));
-		
-		$user->setPhoneMobile($form->getInput("p_phone"));
 
 		// is not active, owner is root
 		$user->setActive(0, 6);
@@ -154,11 +143,7 @@ class gevAgentRegistrationGUI {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$user_utils = gevUserUtils::getInstanceByObj($user);
 		
-		$user_utils->setPrivateEmail($form->getInput("p_email"));
-		$user_utils->setPrivateStreet($form->getInput("p_street"));
-		$user_utils->setPrivateCity($form->getInput("p_city"));
-		$user_utils->setPrivateZipcode($form->getInput("p_zipcode"));
-		
+		$user_utils->setPrivateEmail($form->getInput("email"));
 		
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
@@ -182,7 +167,6 @@ class gevAgentRegistrationGUI {
 		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
 		gevDBVUtils::getInstance()->assignUserToDBVsByShadowDB($user->getId());
 		
-		//$user = new ilObjUser($user_id);
 		$user->setActive(true, 6);
 		$user->update();
 	
