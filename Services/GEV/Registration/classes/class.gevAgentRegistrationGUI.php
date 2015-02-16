@@ -33,7 +33,6 @@ class gevAgentRegistrationGUI {
 		
 		switch ($cmd) {
 			case "startAgentRegistration":
-			case "checkAgent":
 			case "registerAgent":
 				$cont = $this->$cmd();
 				break;
@@ -97,14 +96,14 @@ class gevAgentRegistrationGUI {
 		
 		$title = new catTitleGUI("gev_registration", null, "GEV_img/ico-head-registration.png");
 		
-		$tpl = new ilTemplate("tpl.gev_start_agent_registration.html", false, false, "Services/GEV/Registration");
+		$tpl = new ilTemplate("tpl.gev_agent_registration.html", false, false, "Services/GEV/Registration");
 		
 		if ($a_form !== null) {
 			$form = $a_form;
 			$form->setValuesByPost();
 		}
 		else {
-			$form = $this->buildRegistrationStartForm();
+			$form = $this->buildRegistrationForm();
 		}
 		$tpl->setVariable("FORM", $form->getHTML());
 		
@@ -114,52 +113,13 @@ class gevAgentRegistrationGUI {
 		// result goes to checkAgent
 	}
 	
-	protected function checkAgent() {
-		$res = $this->checkRegistrationStartForm();
-		
-		if (!$res[1]) {
-			return $this->startAgentRegistration($res[0]);
-		}
-		
-		$stellennummer = $res[0]->getInput("position");
-		if($this->isValidStellennummer($stellennummer) && $this->isAgent($stellennummer)) {
-			return $this->inputUserProfile(null, $res[0]);
-		}
-		else {
-			ilUtil::sendFailure($this->lng->txt("gev_evg_registration_not_found"), true);
-			return $this->startAgentRegistration($res[0]);
-		}
-	}
-
-	protected function inputUserProfile($a_form = null, $a_prev_form = null) {
-		if ($a_form === null && $a_prev_form === null) {
-			throw new Exception("gevRegistrationGUI::inputUserProfile: either a_form or a_prev_form need to be set.");
-		} 
-		
-		if ($a_form !== null) {
-			$form = $a_form;
-			$form->setValuesByPost();
-		}
-		else {
-			$form = $this->buildAgentForm($a_prev_form->getInput("email"), $a_prev_form->getInput("position"));
-		}
-		
-		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
-		$title = new catTitleGUI("gev_agent_registration", "gev_agent_registration_note", "GEV_img/ico-head-registration.png");
-		
-		$tpl = new ilTemplate("tpl.gev_agent_profile.html", false, false, "Services/GEV/Registration");
-		$tpl->setVariable("FORM", $form->getHTML());
-		
-		return   $title->render()
-				.$tpl->get();
-	}
-	
 	protected function registerAgent() {
-		$res = $this->checkAgentForm();
+		$res = $this->checkForm();
 		
 		if (!$res[1]) {
-			return $this->inputUserProfile($res[0]);
+			return $this->startAgentRegistration($res[0]);
 		}
+		
 		$form = $res[0];
 		
 		$user = new ilObjUser();
@@ -236,76 +196,30 @@ class gevAgentRegistrationGUI {
 				. $tpl->get();
 	}
 
-	protected function checkRegistrationStartForm() {
-		$form = $this->buildRegistrationStartForm();
+	protected function checkForm() {
+		$form = $this->buildRegistrationForm();
 		$err = false;
 
 		if (!$form->checkInput()) {
 			$err = true;
 		}
 
-		for ($i = 1; $i <= 2; ++$i) {
-			$id = "chb".$i;
-			$chb = $form->getItemByPostVar($id);
-			//if (!$chb->getChecked()) {  // TODO: this doesn't work, why?
-			if ($_POST[$id] != 1) {
-				$err = true;
-				$chb->setAlert($this->lng->txt("evg_mandatory"));
-			}
-		}
-		
-		return array($form, !$err);
-	}
-
-	protected function buildRegistrationStartForm() {
-		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
-		require_once("Services/Form/classes/class.ilTextInputGUI.php");
-		require_once("Services/Form/classes/class.ilEMailInputGUI.php");
-		
-		$form = new catPropertyFormGUI();
-		$form->setTemplate("tpl.gev_registration_form.html", "Services/GEV/Registration");
-		$form->addCommandButton("checkAgent", $this->lng->txt("register"));
-		$this->ctrl->setTargetScript("gev_registration.php");
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		
-		$position = new ilTextInputGUI($this->lng->txt("gev_position"), "position");
-		$position->setSize(40);
-		$position->setRequired(true);
-		$form->addItem($position);
-		
-		$email = new ilEMailInputGUI($this->lng->txt("evg_email"), "email");
-		$email->setInfo($this->lng->txt("gev_registration_install_note"));
-		$email->setSize(40);
-		$email->setRequired(true);
-		$form->addItem($email);
-
-		$chb1 = new ilCheckboxInputGUI("", "chb1");
-		$chb1->setOptionTitle($this->lng->txt("evg_toc"));
-		$chb1->setRequired(true);
-		$form->addItem($chb1);
-
-		$chb2 = new ilCheckboxInputGUI("", "chb2");
-		$chb2->setOptionTitle($this->lng->txt("evg_wbd"));
-		$chb2->setRequired(true);
-		$form->addItem($chb2);
-
-		return $form;
-	}
-
-	protected function checkAgentForm() {
-		$form = $this->buildAgentForm();
-		$err = false;
-		if (!$form->checkInput()) {
+		if ($_POST["chb1"] != 1) {
 			$err = true;
+			$chb = $form->getItemByPostVar("chb1");
+			$chb->setAlert($this->lng->txt("evg_mandatory"));
+		}
+
+		$stellennummer = $form->getInput("position");
+		if(!($this->isValidStellennummer($stellennummer) && $this->isAgent($stellennummer))) {
+			$err = true;
+			$form->getItemByPostVar("position")->setAlert($this->lng->txt("gev_evg_registration_not_found"));
 		}
 		
-		// validate phone number
-
 		return array($form, !$err);
 	}
 
-	protected function buildAgentForm($a_email = null, $a_position = null) {
-		
+	protected function buildRegistrationForm() {
 		require_once("Services/Calendar/classes/class.ilDate.php");
 		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		require_once("Services/Form/classes/class.ilFormSectionHeaderGUI.php");
@@ -323,15 +237,32 @@ class gevAgentRegistrationGUI {
 		$form->addCommandButton("registerAgent", $this->lng->txt("register"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		
-		$position = new ilHiddenInputGUI("position");
-		if ($a_position !== null) {
-			$position->setValue($a_position);
-		}
+		$position = new ilTextInputGUI($this->lng->txt("gev_position"), "position");
+		$position->setSize(40);
+		$position->setRequired(true);
 		$form->addItem($position);
 		
-		$section1 = new ilFormSectionHeaderGUI();
-		$section1->setTitle($this->lng->txt("gev_personal_data"));
-		$form->addItem($section1);
+		$email = new ilEMailInputGUI($this->lng->txt("evg_email"), "email");
+		$email->setInfo($this->lng->txt("gev_registration_install_note"));
+		$email->setSize(40);
+		$email->setRequired(true);
+		$form->addItem($email);
+		
+		$gender = new ilRadioGroupInputGUI($this->lng->txt("salutation"), "gender");
+		$gender->addOption(new ilRadioOption($this->lng->txt("salutation_m"), "m"));
+		$gender->addOption(new ilRadioOption($this->lng->txt("salutation_f"), "f"));
+		$gender->setRequired(true);
+		$form->addItem($gender);
+		
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$form->addItem($title);
+		$lastname = new ilTextInputGUI($this->lng->txt("lastname"), "lastname");
+		$lastname->setRequired(true);
+		$form->addItem($lastname);
+		
+		$firstname = new ilTextInputGUI($this->lng->txt("firstname"), "firstname");
+		$firstname->setRequired(true);
+		$form->addItem($firstname);
 		
 		$username = new ilUserLoginInputGUI($this->lng->txt("gev_username_free"), "username");
 		$username->setRequired(true);
@@ -341,96 +272,14 @@ class gevAgentRegistrationGUI {
 		$password1->setRequired(true);
 		$form->addItem($password1);
 		
-		$lastname = new ilTextInputGUI($this->lng->txt("lastname"), "lastname");
-		$lastname->setRequired(true);
-		$form->addItem($lastname);
-		
-		$firstname = new ilTextInputGUI($this->lng->txt("firstname"), "firstname");
-		$firstname->setRequired(true);
-		$form->addItem($firstname);
-		
-		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$form->addItem($title);
-		
-		$gender = new ilRadioGroupInputGUI($this->lng->txt("gender"), "gender");
-		$gender->addOption(new ilRadioOption($this->lng->txt("gender_m"), "m"));
-		$gender->addOption(new ilRadioOption($this->lng->txt("gender_f"), "f"));
-		$gender->setRequired(true);
-		$form->addItem($gender);
-
-		$birthday = new ilBirthdayInputGUI($this->lng->txt("birthday"), "birthday");
-		$birthday->setRequired(true);
-		$birthday->setStartYear(1940);
-		$form->addItem($birthday);
-		
-		/*$birthplace = new ilTextInputGUI($this->lng->txt("gev_birthplace"), "birthplace");
-		$birthplace->setRequired(true);
-		$form->addItem($birthplace);
-		
-		$birthname = new ilTextInputGUI($this->lng->txt("gev_birthname"), "birthname");
-		$birthname->setRequired(true);
-		$form->addItem($birthname);*/
-		
-		//$ihk = new ilTextInputGUI($this->lng->txt("gev_ihk_number"), "ihk_number");
-		//$form->addItem($ihk);
-		
-		$section2 = new ilFormSectionHeaderGUI();
-		$section2->setTitle($this->lng->txt("gev_business_contact"));
-		$form->addItem($section2);
-		
-		$b_email = new ilTextInputGUI($this->lng->txt("gev_email"), "b_email");
-		if ($a_email !== null) {
-			$b_email->setValue($a_email);
-		}
-		$b_email->setRequired(true);
-		$form->addItem($b_email);
-		
 		$b_phone = new ilTextInputGUI($this->lng->txt("gev_profile_phone"), "b_phone");
+		$b_phone->setRequired(true);
 		$form->addItem($b_phone);
 		
-		$b_street = new ilTextInputGUI($this->lng->txt("street"), "b_street");
-		$b_street->setRequired(true);
-		$form->addItem($b_street);
-		
-		$b_city = new ilTextInputGUI($this->lng->txt("city"), "b_city");
-		$b_city->setRequired(true);
-		$form->addItem($b_city);
-		
-		$b_zipcode = new ilTextInputGUI($this->lng->txt("zipcode"), "b_zipcode");
-		$b_zipcode->setRequired(true);
-		$form->addItem($b_zipcode);
-		
-		$b_country = new ilTextInputGUI($this->lng->txt("federal_state"), "b_country");
-		$form->addItem($b_country);
-		
-		$info = new ilNonEditableValueGUI("");
-		$info->setValue($this->lng->txt("gev_private_contact_info"));
-		$form->addItem($info);
-		
-		$p_email = new ilEMailInputGUI($this->lng->txt("email"), "p_email");
-		if ($a_email !== null) {
-			$p_email->setValue($a_email);
-		}
-		$p_email->setRequired(true);
-		$form->addItem($p_email);
-		
-		$p_phone = new ilTextInputGUI($this->lng->txt("gev_mobile"), "p_phone");
-		$p_phone->setRequired(true);
-		$form->addItem($p_phone);
-		
-		
-		$section3 = new ilFormSectionHeaderGUI();
-		$section3->setTitle($this->lng->txt("gev_private_contact"));
-		$form->addItem($section3);
-		
-		$p_street = new ilTextInputGUI($this->lng->txt("street"), "p_street");
-		$form->addItem($p_street);
-		
-		$p_city = new ilTextInputGUI($this->lng->txt("city"), "p_city");
-		$form->addItem($p_city);
-		
-		$p_zipcode = new ilTextInputGUI($this->lng->txt("zipcode"), "p_zipcode");
-		$form->addItem($p_zipcode);
+		$chb1 = new ilCheckboxInputGUI("", "chb1");
+		$chb1->setOptionTitle($this->lng->txt("evg_toc"));
+		$chb1->setRequired(true);
+		$form->addItem($chb1);
 		
 		return $form;
 	}
