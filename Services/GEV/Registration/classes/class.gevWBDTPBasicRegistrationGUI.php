@@ -169,7 +169,7 @@ class gevWBDTPBasicRegistrationGUI {
 		$this->user->setZipcode($form->getInput("zipcode"));
 		$this->user->setPhoneMobile($form->getInput("phone"));
 		$this->user->update();
-		
+
 		return $this->createTPBasisBWVId();
 	}
 
@@ -199,6 +199,9 @@ class gevWBDTPBasicRegistrationGUI {
 
 		if ($form->getInput("notifications") == "diff") {
 			$this->user_utils->setWBDCommunicationEmail($form->getInput("email"));
+		}
+		else {
+			$this->user_utils->setWBDCommunicationEmail($this->user_utils->getUser()->getEmail());
 		}
 
 		$this->user_utils->setWBDRegistrationDone();
