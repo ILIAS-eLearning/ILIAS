@@ -87,7 +87,7 @@ class gevNAUtils {
 	 * @return array
 	 */
 	public function getNAsOf($a_adviser_id) {
-		return $this->pou->getEmployeesOf();
+		return $this->pou->getEmployeesOf($a_adviser_id);
 	}
 	
 	static $ADVISER_ROLES = array(
