@@ -1609,7 +1609,7 @@ class gevUserUtils {
 		global $ilDB;
 		$res = $ilDB->query("SELECT usr_id "
 						   ."  FROM usr_data"
-						   ." WHERE ".$ilDB->in("usr_id", $a_usr_id, false, "integer")
+						   ." WHERE ".$ilDB->in("usr_id", $a_usr_ids, false, "integer")
 						   ."   AND active = 1"
 						   );
 		$ret = array();
