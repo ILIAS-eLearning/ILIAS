@@ -976,12 +976,31 @@ class gevUserUtils {
 		return $this->employees_for_booking_cancellations;
 	}
 
+	public function forceWBDUserProfileFields() {
+		return $this->hasWBDRelevantRole()
+			&& $this->hasDoneWBDRegistration()
+			&& ($this->getWBDType == self::WBD_TP_SERVICE);
+	}
+
 	public function isProfileComplete() {
+		if (!$this->forceWBDUserProfileFields()) {
+			return true;
+		}
 		require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
 		$email = $this->getPrivateEmail();
 		$mobile = $this->getMobilePhone();
-	
-		return $email && $mobile && preg_match(gevUserProfileGUI::$telno_regexp, $mobile);
+		$bday = $this->getUser()->getBirthday();
+		$street = $this->getUser()->getStreet();
+		$city = $this->getUser()->getCity();
+		$zipcode = $this->getUser()->getZipcode();
+		
+		/*echo "bday: ".($bday?"TRUE":"FALSE")."\n";
+		echo "street: ".($street?"TRUE":"FALSE")."\n";
+		echo "city: ".($city?"TRUE":"FALSE")."\n";
+		echo "zipcode: ".($zipcode?"TRUE":"FALSE")."\n";*/
+		
+		return $email && $mobile && preg_match(gevUserProfileGUI::$telno_regexp, $mobile)
+				&& $mobile && $bday && $city && $zipcode;
 	}
 	
 	
