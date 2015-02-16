@@ -994,11 +994,6 @@ class gevUserUtils {
 		$city = $this->getUser()->getCity();
 		$zipcode = $this->getUser()->getZipcode();
 		
-		/*echo "bday: ".($bday?"TRUE":"FALSE")."\n";
-		echo "street: ".($street?"TRUE":"FALSE")."\n";
-		echo "city: ".($city?"TRUE":"FALSE")."\n";
-		echo "zipcode: ".($zipcode?"TRUE":"FALSE")."\n";*/
-		
 		return $email && $mobile && preg_match(gevUserProfileGUI::$telno_regexp, $mobile)
 				&& $mobile && $bday && $city && $zipcode;
 	}
