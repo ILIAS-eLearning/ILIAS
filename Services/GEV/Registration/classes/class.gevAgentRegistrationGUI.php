@@ -185,15 +185,15 @@ class gevAgentRegistrationGUI {
 		//$user = new ilObjUser($user_id);
 		$user->setActive(true, 6);
 		$user->update();
+	
+		global $ilAuth;
+
+		$ilAuth->username = $form->getInput("username");
+		$ilAuth->password = $form->getInput("password");
 		
-		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
-		$title = new catTitleGUI("gev_agent_registration", null, "GEV_img/ico-head-evg_registration.png");
-		
-		ilUtil::sendSuccess($this->lng->txt("gev_agent_registration_success"));
-		$tpl = new ilTemplate("tpl.gev_agent_successfull_registration.html", false, false, "Services/GEV/Registration");
-		
-		return	  $title->render()
-				. $tpl->get();
+		$ilAuth->login();
+
+		ilUtil::redirect("login.php");
 	}
 
 	protected function checkForm() {
