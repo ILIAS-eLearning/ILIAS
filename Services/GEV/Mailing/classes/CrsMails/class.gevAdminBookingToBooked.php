@@ -27,6 +27,17 @@ class gevAdminBookingToBooked extends gevCrsAutoMail {
 		return $this->maybeSuperiorsCC($a_recipient);
 	}
 	
+	public function send($a_recipients = null, $a_occasion = null) {
+		if ($a_recipients !== null) {
+			// remove deferred mails for the people who receive this mail now (#1019)
+			require_once("./Services/GEV/Mailing/classes/class.gevDeferredMails.php");
+			gevDeferredMails::getInstance()
+				->removeDeferredMails(array($this->crs_id), array($this->getId()), $a_recipients);
+		}
+		
+		return parent::send($a_recipients, $a_occasion);
+	}
+	
 	public function getMail($a_recipient) {
 		if ($this->getAdditionalMailSettings()->getSuppressMails()) {
 			return null;
