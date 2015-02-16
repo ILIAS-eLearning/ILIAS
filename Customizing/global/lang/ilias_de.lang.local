@@ -1071,3 +1071,4 @@ gev#:#gev_cancel_training#:#Training absagen
 gev#:#gev_confirm_training_cancellation#:#Möchten sie das Training wirklich absagen?
 gev#:#gev_cancel_training_action#:#Absagen
 gev#:#gev_training_cancelled#:#Das Training wurde erfolgreich abgesagt. Bitte denken Sie daran, verbleibende Mitglieder des Trainings, die nicht automatisch entfernt werden konnten, eventuell zu benachrichten und vom Training zu entfernen.
+gev#:#gev_needs_wbd_acceptance#:#Sie müssen die Einwilligung zur Eintragung von Weiterbildungspunkten und -maßnahmen in die WBD erteilen, um fortfahren zu können.

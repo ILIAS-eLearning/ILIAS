@@ -33,6 +33,7 @@ class gevWBDTPBasicRegistrationGUI {
 			case "setBWVId":
 			case "noBWVId":
 			case "createBWVId":
+			case "registerTPBasisProfile":
 			case "registerTPBasis":
 				$ret = $this->$cmd();
 				break;
@@ -65,11 +66,21 @@ class gevWBDTPBasicRegistrationGUI {
 		}
 	}
 
-	protected function startRegistration() {
+	protected function startRegistration($bwv_id = null) {
+		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+		require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
+		
 		$tpl = new ilTemplate("tpl.gev_wbd_start_registration.html", false, false, "Services/GEV/Registration");
 
 		$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("QUESTION", $this->lng->txt("gev_wbd_registration_question_basis"));
+		$chb = new ilCheckboxInputGUI("", "wbd_acceptance");
+		$chb->setOptionTitle($this->lng->txt("evg_wbd"));
+		$chb->setRequired(true);
+		if ($bwv_id) {
+			$tpl->setVariable("BWV_ID", $bwv_id);
+		}
+		$tpl->setVariable("WBD_ACCEPTANCE_CHECKBOX", $chb->render());
 		$tpl->setVariable("HAS_BWV_ID", $this->lng->txt("gev_wbd_registration_has_bwv_id"));
 		$tpl->setVariable("HAS_BWV_ID_COMMAND", $this->lng->txt("gev_wbd_registration_has_bwv_id_cmd"));
 		$tpl->setVariable("NO_BWV_ID", $this->lng->txt("gev_wbd_registration_no_bwv_id"));
@@ -83,8 +94,12 @@ class gevWBDTPBasicRegistrationGUI {
 	protected function setBWVId() {
 		if (!gevUserUtils::isValidBWVId($_POST["bwv_id"])) {
 			ilUtil::sendFailure($this->lng->txt("gev_bwv_id_input_not_valid"));
-			
-			return $this->startRegistration();
+			return $this->startRegistration($_POST["bwv_id"]);
+		}
+		
+		if ($_POST["wbd_acceptance"] != 1) {
+			ilUtil::sendFailure($this->lng->txt("gev_needs_wbd_acceptance"));
+			return $this->startRegistration($_POST["bwv_id"]);
 		}
 
 		$this->user_utils->setWBDBWVId($_POST["bwv_id"]);
@@ -106,7 +121,7 @@ class gevWBDTPBasicRegistrationGUI {
 	}
 
 	protected function createBWVId() {
-		return $this->createTPBasisBWVId();
+		return $this->buildTPBasisProfileForm()->getHTML();
 	}
 
 	protected function createTPBasisBWVId($a_form = null) {
@@ -116,6 +131,46 @@ class gevWBDTPBasicRegistrationGUI {
 		$tpl->setVariable("FORM", $form->getHTML());
 
 		return $tpl->get();
+	}
+
+	protected function registerTPBasisProfile() {
+		$form = $this->buildTPBasisProfileForm();
+		
+		$err = false;
+		
+		$form->setValuesByPost();
+		if (!$form->checkInput()) {
+			$err = true;
+		}
+		
+		if ($_POST["wbd_acceptance"] != 1) {
+			$err = true;
+			$form->getItemByPostVar("wbd_acceptance")
+				->setAlert($this->lng->txt("gev_wbd_registration_cb_mandatory"));
+		}
+		
+		$telno_inp = $form->getItemByPostVar("phone");
+		require_once("./Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
+		if (!preg_match(gevUserProfileGUI::$telno_regexp, $telno_inp->getValue())) {
+				$telno_inp->setAlert($this->lng->txt("gev_telno_wbd_alert"));
+				$err = true;
+		}
+		
+		if ($err) {
+			return $form->getHTML();
+		}
+
+		$birthday = $form->getInput("birthday");
+		$bday = new ilDateTime($birthday["date"], IL_CAL_DATE);
+		$form->getItemByPostVar("birthday")->setDate($bday);
+		$this->user->setBirthday($birthday["date"]);
+		$this->user->setStreet($form->getInput("street"));
+		$this->user->setCity($form->getInput("city"));
+		$this->user->setZipcode($form->getInput("zipcode"));
+		$this->user->setPhoneMobile($form->getInput("phone"));
+		$this->user->update();
+		
+		return $this->createTPBasisBWVId();
 	}
 
 	protected function registerTPBasis() {
@@ -156,6 +211,46 @@ class gevWBDTPBasicRegistrationGUI {
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_create_bwv_id"), true);
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 	}
+	
+	protected function buildTPBasisProfileForm() {
+		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
+		require_once("Services/Form/classes/class.ilRadioGroupInputGUI.php");
+		require_once("Services/Form/classes/class.ilEMailInputGUI.php");
+		require_once("Services/Form/classes/class.ilRadioOption.php");
+
+		$form = new ilPropertyFormGUI();
+		$form->addCommandButton("registerTPBasisProfile", $this->lng->txt("btn_next"));
+		$form->addCommandButton("startRegistration", $this->lng->txt("gev_wbd_registration_basic_back"));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		
+		$street = new ilTextInputGUI($this->lng->txt("street"), "street");
+		$street->setRequired(true);
+		$form->addItem($street);
+		
+		$zipcode = new ilTextInputGUI($this->lng->txt("zipcode"), "zipcode");
+		$zipcode->setRequired(true);
+		$form->addItem($zipcode);
+		
+		$city = new ilTextInputGUI($this->lng->txt("city"), "city");
+		$city->setRequired(true);
+		$form->addItem($city);
+		
+		$birthday = new ilBirthdayInputGUI($this->lng->txt("birthday"), "birthday");
+		$birthday->setRequired(true);
+		$birthday->setStartYear(1900);
+		$form->addItem($birthday);
+
+		$chb = new ilCheckboxInputGUI("", "wbd_acceptance");
+		$chb->setOptionTitle($this->lng->txt("evg_wbd"));
+		$form->addItem($chb);
+		
+		$phone = new ilTextInputGUI($this->lng->txt("gev_mobile"), "phone");
+		$phone->setRequired(true);
+		$form->addItem($phone);
+
+		return $form;
+	}
 
 	protected function buildTPBasisForm() {
 		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -165,8 +260,8 @@ class gevWBDTPBasicRegistrationGUI {
 		require_once("Services/Form/classes/class.ilRadioOption.php");
 
 		$form = new ilPropertyFormGUI();
-		$form->addCommandButton("startRegistration", $this->lng->txt("gev_wbd_registration_basic_back"));
 		$form->addCommandButton("registerTPBasis", $this->lng->txt("register_tp_basis"));
+		$form->addCommandButton("startRegistration", $this->lng->txt("gev_wbd_registration_basic_back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
 		$wbd_link = "<a href='/Customizing/global/skin/genv/static/documents/02_AGB_WBD.pdf' target='_blank' class='blue'>".$this->lng->txt("gev_agb_wbd")."</a>";
