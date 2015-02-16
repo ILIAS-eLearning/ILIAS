@@ -1603,12 +1603,26 @@ class gevUserUtils {
 		return in_array($this->user_id, $tree->getSuperiorsOfUser($a_user_id));
 	}
 	
+	static public function removeInactiveUsers($a_usr_ids) {
+		global $ilDB;
+		$res = $ilDB->query("SELECT usr_id "
+						   ."  FROM usr_data"
+						   ." WHERE ".$ilDB->in("usr_id", $a_usr_id, false, "integer")
+						   ."   AND active = 1"
+						   );
+		$ret = array();
+		while($rec = $ilDB->fetchAssoc($res)) {
+			$ret[] = $rec["usr_id"];
+		}
+		return $ret;
+	}
+	
 	public function getDirectSuperiors() {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
 		$sups = $tree->getSuperiorsOfUser($this->user_id, false);
 		if (count($sups) > 0) {
-			return $sups;
+			return gevUserUtils::removeInactiveUsers($sups);
 		}
 		// ok, so there are no superiors in any org-unit where the user is employee
 		// we need to find the superiors by ourselves
@@ -1625,11 +1639,11 @@ class gevUserUtils {
 			}
 			$parents = array_unique($parents);
 			foreach ($parents as $ref) {
-				$sups = array_merge($sups, $this->getSuperiors($ref, false));
+				$sups = array_merge($sups, $tree->getSuperiors($ref, false));
 			}
 			$orgus = $parents;
 		}
-		return $sups;
+		return gevUserUtils::removeInactiveUsers($sups);
 	}
 	
 	public function isEmployeeOf($a_user_id) {	
@@ -1788,7 +1802,7 @@ class gevUserUtils {
 		$de = gevOrgUnitUtils::getEmployeesIn($ds_ous);
 		$re = gevOrgUnitUtils::getAllPeopleIn($nds_ous);
 		
-		$this->employees = array_unique(array_merge($de, $re));
+		$this->employees = gevUserUtils::removeInactiveUsers(array_unique(array_merge($de, $re)));
 		
 		return $this->employees;
 	}
@@ -2108,9 +2122,17 @@ class gevUserUtils {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_FINANCIAL_ACCOUNT, $a_nr);
 	}
 	
-
-
-
+	static public function userIsInactive($a_user_id) {
+		global $ilDB;
+		$res = $ilDB->query("SELECT active FROM usr_data"
+						   ." WHERE usr_id = ".$ilDB->quote($a_user_id, "integer"));
+		
+		if ($rec = $ilDB->fetchAssoc($res)) {
+			return $rec["active"] != 1;
+		}
+		
+		return false;
+	}
 }
 
 ?>
