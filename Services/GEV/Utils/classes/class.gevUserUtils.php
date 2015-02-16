@@ -925,6 +925,8 @@ class gevUserUtils {
 			$this->employees_for_course_search[] = $rec;
 		}
 		
+		$this->employees_for_course_search = gevUserUtils::removeInactiveUsers($this->employees_for_course_search);
+		
 		return $this->employees_for_course_search;
 	}
 	
