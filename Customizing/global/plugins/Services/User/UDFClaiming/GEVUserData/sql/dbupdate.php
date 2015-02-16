@@ -671,8 +671,8 @@ gevUDFUtils::getInstance()->createUDFFields(array(
 						 	   , "searchable"			=> true
 						 	   , "required"				=> false
 						 	   , "export"				=> true
-						 	   , "course_export"		=> false
-						 	   , "group_export"			=> false
+						 	   , "course_export"		=> true
+						 	   , "group_export"			=> true
 						 	   , "registration_visible"	=> false
 						 	   , "visible_lua"			=> false
 						 	   , "changeable_lua"		=> false
