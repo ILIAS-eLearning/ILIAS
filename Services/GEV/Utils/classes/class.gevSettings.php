@@ -195,8 +195,11 @@ class gevSettings {
 	const USR_UDF_AGENT_KEY_VFS		= "usr_udf_agent_key_vfs";
 	//Stellung VFS	
 	const USR_UDF_AGENT_POSITION_VFS= "usr_udf_agent_position_vfs";
-
-
+	
+	
+	// Firmenname
+	const USR_UDF_COMPANY_NAME		= "usr_udf_company_name";
+	
 	
 	// Gesellschaftstitel
 	const USR_UDF_COMPANY_TITLE		= "usr_udf_company_title"; //deprecated
@@ -276,6 +279,8 @@ class gevSettings {
 		,'Eintrittsdatum'
 		,'Austrittsdatum'
 		,'IHK Registernummer'
+		
+		, 'Firmenname'
 		
 		,'Hat WBD-Registrierung durchgeführt'
 		,'TP-Typ'

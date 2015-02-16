@@ -144,6 +144,7 @@ class gevAgentRegistrationGUI {
 		$user_utils = gevUserUtils::getInstanceByObj($user);
 		
 		$user_utils->setPrivateEmail($form->getInput("email"));
+		$user_utils->setCompanyName($form->getInput("company_name"));
 		
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
@@ -247,6 +248,9 @@ class gevAgentRegistrationGUI {
 		$firstname = new ilTextInputGUI($this->lng->txt("firstname"), "firstname");
 		$firstname->setRequired(true);
 		$form->addItem($firstname);
+		
+		$company_name = new ilTextInputGUI($this->lng->txt("gev_company_name"), "company_name");
+		$form->addItem($company_name);
 		
 		$username = new ilUserLoginInputGUI($this->lng->txt("gev_username_free"), "username");
 		$username->setRequired(true);

@@ -3317,3 +3317,13 @@ gevCourseUtils::grantPermissionsForAllCoursesBelow(1644, "RTL", array("write"));
 
 
 ?>
+
+
+<#103>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
+?>

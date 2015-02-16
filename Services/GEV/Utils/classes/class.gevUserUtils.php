@@ -1201,6 +1201,10 @@ class gevUserUtils {
 	}
 	*/
 	
+	public function setCompanyName($a_name) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_COMPANY_NAME, $a_name);
+	}
+	
 	public function getPrivateEmail() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_PRIV_EMAIL);
 	}
