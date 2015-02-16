@@ -904,7 +904,7 @@ class gevUserUtils {
 							 );
 		
 		$this->employee_ids_for_course_search = gevUserUtils::removeInactiveUsers($e_ids);
-		return $e_ids;
+		return $this->employee_ids_for_course_search;
 	}
 	
 	public function getEmployeesForCourseSearch() {
