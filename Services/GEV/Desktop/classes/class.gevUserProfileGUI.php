@@ -232,15 +232,9 @@ class gevUserProfileGUI {
 		$agent_key->setValue($this->user_utils->getAgentKey());
 		$form->addItem($agent_key);
 		
-		/*$company_title = new ilNonEditableValueGUI($this->lng->txt("gev_company_title"));
-		$company_title->setValue($this->user_utils->getCompanyTitle());
-		$form->addItem($company_title);*/
-		
 		$org_unit = new ilNonEditableValueGUI($this->lng->txt("gev_org_unit"));
 		$org_unit->setValue($this->user_utils->getOrgUnitTitle());
 		$form->addItem($org_unit);
-		
-		
 		
 		$section2 = new ilFormSectionHeaderGUI();
 		$section2->setTitle($this->lng->txt("gev_business_contact"));
@@ -270,10 +264,6 @@ class gevUserProfileGUI {
 		$b_zipcode->setRequired($this->user_utils->forceWBDUserProfileFields());
 		$form->addItem($b_zipcode);
 		
-		/*$b_country = new ilTextInputGUI($this->lng->txt("federal_state"), "b_country");
-		$b_country->setValue($this->user->getCountry());
-		$form->addItem($b_country);*/
-		
 		$info = new ilNonEditableValueGUI("");
 		$info->setValue($this->lng->txt("gev_private_contact_info"));
 		$form->addItem($info);
@@ -292,13 +282,6 @@ class gevUserProfileGUI {
 		}
 		$p_phone->setRequired($this->user_utils->forceWBDUserProfileFields());
 		$form->addItem($p_phone);
-		/*
-		*/
-
-		/*$b_fax = new ilTextInputGUI($this->lng->txt("fax"), "b_fax");
-		$b_fax->setValue($this->user->getFax());
-		$form->addItem($b_fax);*/
-		
 		
 		$section3 = new ilFormSectionHeaderGUI();
 		$section3->setTitle($this->lng->txt("gev_private_contact"));
@@ -316,17 +299,6 @@ class gevUserProfileGUI {
 		$p_zipcode->setValue($this->user_utils->getPrivateZipcode());
 		$form->addItem($p_zipcode);
 		
-		/*$p_country = new ilTextInputGUI($this->lng->txt("federal_state"), "p_country");
-		$p_country->setValue($this->user_utils->getPrivateState());
-		$form->addItem($p_country);*/
-		
-		
-		/*$p_fax = new ilTextInputGUI($this->lng->txt("fax"), "p_fax");
-		$p_fax->setValue($this->user_utils->getPrivateFax());
-		$form->addItem($p_fax);*/
-		
-		
-		
 		$section4 = new ilFormSectionHeaderGUI();
 		$section4->setTitle($this->lng->txt("gev_activity"));
 		$form->addItem($section4);
@@ -340,10 +312,6 @@ class gevUserProfileGUI {
 		$_exit_date = $this->user_utils->getExitDate();
 		$exit_date->setValue($_exit_date?ilDatePresentation::formatDate($_exit_date):"");
 		$form->addItem($exit_date);
-		
-		/*$status = new ilNonEditableValueGUI($this->lng->txt("gev_status"));
-		$status->setValue($this->user_utils->getStatus());
-		$form->addItem($status);*/
 		
 		return $form;
 	}
