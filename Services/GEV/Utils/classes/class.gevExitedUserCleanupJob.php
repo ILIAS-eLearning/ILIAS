@@ -66,11 +66,6 @@ class gevExitedUserCleanupJob extends ilCronJob {
 			$usr = new ilObjUser($usr_id);
 			$usr_utils = gevUserUtils::getInstance($usr_id);
 			
-			$usr->setActive(false);
-			$usr->update();
-			
-			$ilLog->write("gevExitedUserCleanupJob: Deactivated user with id $usr_id.");
-			
 			foreach ($usr_utils->getBookedAndWaitingCourses() as $crs_id) {
 				$crs_utils = gevCourseUtils::getInstance($crs_id);
 				$start_date = $crs_utils->getStartDate();
@@ -91,6 +86,11 @@ class gevExitedUserCleanupJob extends ilCronJob {
 								 ." training start date expired: ".$start_date->get(IL_CAL_DATE)." < ".$now);
 				}
 			}
+			
+			$usr->setActive(false);
+			$usr->update();
+			
+			$ilLog->write("gevExitedUserCleanupJob: Deactivated user with id $usr_id.");
 			
 			$orgus = $orgu_tree->getOrgUnitOfUser($usr_id, 0, true);
 			foreach ($orgus as $orgu_id) {
