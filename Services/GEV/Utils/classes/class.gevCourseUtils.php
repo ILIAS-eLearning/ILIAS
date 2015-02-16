@@ -1383,14 +1383,16 @@ class gevCourseUtils {
 		{
 			$columns[] = $lng->txt("status");
 			$columns[] = $lng->txt("birthday");
+			$columns[] = $lng->txt("gev_mobile");
 			$columns[] = "Vorbedingung erfüllt";
 			$columns[] = "Funktion";
 			//$columns[] = $lng->txt("gev_signature");
 			
-			$worksheet->setColumn(4, 4, 12);
-			$worksheet->setColumn(5, 5, 14);
+			$worksheet->setColumn(4, 4, 8);
+			$worksheet->setColumn(5, 5, 10);
 			$worksheet->setColumn(6, 6, 14);
 			$worksheet->setColumn(7, 7, 12);
+			$worksheet->setColumn(8, 8, 10);
 		}
 
 		$row = $this->buildListMeta( $workbook
@@ -1444,8 +1446,9 @@ class gevCourseUtils {
 					//$worksheet->write($row, 4, $user_utils->getFunctionAtCourse($this->crs_id), $format_wrap);
 					$worksheet->write($row, 4, $user_utils->getIDHGBAADStatus(), $format_wrap);
 					$worksheet->write($row, 5, $user_utils->getFormattedBirthday(), $format_wrap);
-					$worksheet->write($row, 6, $user_utils->hasFullfilledPreconditionOf($this->crs_id) ? "Ja" : "Nein");
-					$worksheet->write($row, 7, $user_utils->getFunctionAtCourse($this->crs_id), $format_wrap);
+					$worksheet->write($row, 6, $user_utils->getMobilePhone());
+					$worksheet->write($row, 7, $user_utils->hasFullfilledPreconditionOf($this->crs_id) ? "Ja" : "Nein");
+					$worksheet->write($row, 8, $user_utils->getFunctionAtCourse($this->crs_id), $format_wrap);
 					
 					//$txt[] = $lng->txt("vofue_udf_join_date").": ".$user_data["jdate"];
 					//$txt[] = $lng->txt("birthday").": ".$user_data["bdate"];
