@@ -1325,6 +1325,7 @@ class gevCourseUtils {
 		}
 
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		
 		global $lng;
 		
@@ -1425,10 +1426,25 @@ class gevCourseUtils {
 				//$txt[] = $lng->txt("phone_office").": ".$user_data["fon"];
 				//$txt[] = $lng->txt("vofue_org_unit_short").": ". $user_data["ounit"];
 
+				$ou_id = $user_utils->getOrgUnitId();
+				if ($ou_id) {
+					$ou_utils = gevOrgUnitUtils::getInstance($ou_id);
+					$ou_above_utils = $ou_utils->getOrgUnitAbove();
+					if ($ou_above_utils) {
+						$ou_title = $ou_above_utils->getTitle()." / ".$ou_utils->getTitle();
+					}
+					else {
+						$ou_title = $ou_utils->getTitle();
+					}
+				}
+				else {
+					$ou_title = "";
+				}
+
 				$worksheet->write($row, 0, $user_utils->getGender(), $format_wrap);
 				$worksheet->writeString($row, 1, $user_utils->getFirstname(), $format_wrap);
 				$worksheet->write($row, 2, $user_utils->getLastname(), $format_wrap);
-				$worksheet->write($row, 3, $user_utils->getOrgUnitTitle(), $format_wrap);
+				$worksheet->write($row, 3, $ou_title, $format_wrap);
 				
 				if($a_type == self::MEMBERLIST_HOTEL)
 				{

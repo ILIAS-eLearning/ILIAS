@@ -148,6 +148,21 @@ class gevOrgUnitUtils {
 		throw new ilException("gevOrgUnitUtils::getEVGOrgUnitRefId: could not find org unit with import_id = 'evg'");
 	}
 	
+	public function getOrgUnitAbove() {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+
+		$tree = ilObjOrgUnitTree::_getInstance();
+		$ref_id = gevObjectUtils::getRefId($this->orgu_id);
+		$above_ref_id = $tree->getParent($ref_id);
+		if (!$above_ref_id) {
+			return null;
+		}
+		$above_obj_id = gevObjectUtils::getObjId($above_ref_id);
+		
+		return gevOrgUnitUtils::getInstance($above_obj_id);
+	}
+	
 	public function getOrgUnitInstance() {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 		
