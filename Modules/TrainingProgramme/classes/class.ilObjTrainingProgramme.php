@@ -608,6 +608,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	public function assignUser($a_usr_id, $a_assigning_usr_id = null) {
 		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
 		require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeAssignment.php");
+		require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeProgress.php");
 		
 		if ($this->settings === null) {
 			throw new ilException("ilObjTrainingProgramme::assignUser: Program was not properly created.'");
@@ -622,8 +623,17 @@ class ilObjTrainingProgramme extends ilContainer {
 			$a_assigning_usr_id = $this->ilUser->getId();
 		}
 
-		$ass = ilTrainingProgrammeAssignment::createFor($this->settings, $a_usr_id, $a_assigning_usr_id);
-		return new ilTrainingProgrammeUserAssignment($ass);
+		$ass_mod = ilTrainingProgrammeAssignment::createFor($this->settings, $a_usr_id, $a_assigning_usr_id);
+		$ass = new ilTrainingProgrammeUserAssignment($ass_mod);
+		
+		$this->applyToSubTreeNodes(function($node) use($ass_mod, $a_assigning_usr_id) {
+			if ($node->getStatus() != ilTrainingProgramme::STATUS_ACTIVE) {
+				return;
+			}
+			ilTrainingProgrammeProgress::createFor($node->settings, $ass_mod, $a_assigning_usr_id);
+		});
+		
+		return $ass;
 	}
 	
 	/**
@@ -720,6 +730,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 */
 	public function getProgressesOf($a_user_id) {
 		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+		return ilTrainingProgrammeUserProgress::getInstancesFor($this->getId(), $a_user_id);
 	}
 	
 	////////////////////////////////////
