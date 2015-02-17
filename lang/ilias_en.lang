@@ -10209,7 +10209,7 @@ dateplaner#:#cal_adm_notification_info#:#Choose this option, to send optional ma
 rbac#:#rbac_add_new_local_role#:#Add New Local Role
 search#:#search_item_filter#:#Search by Type
 search#:#search_item_filter_form#:#Search by Type
-search#:#search_item_filter_form_info#:#If enabled, a search can be restricted to the chosen item types.
+search#:#search_item_filter_form_info#:#Search can be restricted to the chosen file types.
 administration#:#group_export#:#Visible in Groups
 tbl#:#tbl_export_csv#:#Export .csv
 tbl#:#tbl_export_excel#:#Export .xls
@@ -14037,7 +14037,7 @@ search#:#search_mime_image#:#Images
 search#:#lucene_show_sub_relevance#:#Show Sub-Item Relevance
 search#:#search_mime_filter_form#:#Mime Type Filter
 search#:#lucene_prefix_wildcard#:#Prefix Wildcard Queries
-search#:#lucene_prefix_wildcard_info#:#If enabled, prefix wildcard queries (*LIAS finds ILIAS) are supported.
+search#:#lucene_prefix_wildcard_info#:#Supports prefix wildcard queries: ‘*LIAS’ finds ‘ILIAS’
 content#:#cont_activate_multi_lang#:#Activate Multilinguality
 obj#:#obj_select_master_lang#:#Please select the master language. The current content will be assigned to the master language. The master language cannot be changed afterwards.
 assessment#:#show_answer_overview#:#Show Answer Overview
@@ -14059,8 +14059,8 @@ content#:#cont_current_lang#:#Current Language
 obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing
 content#:#cont_edit_language_version#:#Edit Version
 content#:#cont_page_translation_does_not_exist#:#The translation page does not exist yet and will be created by copying the content of the current master page. Language of the translation page
-search#:#search_user_search_form#:#User Search
-search#:#search_user_search_info_form#:#If enabled, users data will be indexed and is searchable.
+search#:#search_user_search_form#:#Search in Personal Profiles
+search#:#search_user_search_info_form#:#Data in personal profiles of users is indexed and can be used to search for users.
 adve#:#adve_blocking_mode#:#Edit Lock
 adve#:#adve_minutes#:#Minutes
 adve#:#adve_minutes_info#:#Minutes of inactivity before an edit lock expires and a page can be edited by another user.
