@@ -709,6 +709,20 @@ class ilObjTrainingProgramme extends ilContainer {
 	}
 	
 	////////////////////////////////////
+	// USER PROGRESS
+	////////////////////////////////////
+	
+	/**
+	 * Get the progresses the user has on this node.
+	 *
+	 * @param int $a_user_id
+	 * @return ilTrainingProgrammUserProgress[] 
+	 */
+	public function getProgressesOf($a_user_id) {
+		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+	}
+	
+	////////////////////////////////////
 	// HELPERS
 	////////////////////////////////////
 	
