@@ -26,6 +26,13 @@ class gevAgentRegistrationGUI {
 	}
 
 	public function executeCommand() {
+		global $ilAuth;
+
+		// The user should not be logged in...
+		if ($ilAuth->checkAuth()) {
+			ilUtil::redirect("login.php");
+		}
+
 		$cmd = $this->ctrl->getCmd();
 		if($cmd == "startRegistration") {
 			$cmd = "startAgentRegistration";
