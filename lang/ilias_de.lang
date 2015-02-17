@@ -10426,7 +10426,7 @@ search#:#search_inactive#:#Inaktive Benutzer
 search#:#search_index#:#Indizierte Suche
 search#:#search_item_filter#:#Suche nach Typ
 search#:#search_item_filter_form#:#Suche nach Typ
-search#:#search_item_filter_form_info#:#Wenn aktiviert, kann die Suche auf die ausgewählten Objekttypen beschränkt werden.
+search#:#search_item_filter_form_info#:#Beschränkt die Suche auf die ausgewählten Dateitypen
 search#:#search_like_info#:#Wählen Sie diese Suchart, um möglichst genaue Treffer zu erhalten. Auf größeren Installationen kann die Suchgeschwindigkeit jedoch zu langsam sein.
 search#:#search_limit_reached#:#Ihre Suche ergab mehr als %s Treffer. Sie können die Abfrage weiter einschränken, um detailliertere Treffer zu erhalten.
 search#:#search_lm_content#:#Lernmaterialien (Inhalt)
@@ -13852,7 +13852,7 @@ search#:#search_mime_image#:#Bilder
 search#:#lucene_show_sub_relevance#:#Relevanz von Unterobjekten anzeigen
 search#:#search_mime_filter_form#:#Dateityp-Filter
 search#:#lucene_prefix_wildcard#:#Platzhalter am Wortbeginn
-search#:#lucene_prefix_wildcard_info#:#Wenn aktiviert, können Platzhalter auch am Beginn eines Suchbegriffes genutzt werden.
+search#:#lucene_prefix_wildcard_info#:#Erlaubt die Nutzung von Platzhaltern auch am Beginn eines Suchbegriffes: "*LIAS" findet "ILIAS"
 rep#:#rep_new_item_group_add_separator#:#Spalten-Trenner hinzufügen
 assessment#:#show_answer_overview#:#Antwortübersicht zeigen
 forum#:#forums_notification#:#Benachrichtigung
@@ -13878,8 +13878,8 @@ common#:#ps_password_must_not_contain_loginame_info#:#Falls aktiviert, darf der 
 common#:#password_contains_parts_of_login_err#:#Das von Ihnen gewählte Passwort enthält Teile des Benutzernamens. Bitte tragen Sie ein anderes Passwort ein.
 common#:#password_must_contain_lcase_chars#:#Das Passwort muss mindestens %s Kleinbuchstaben enthalten.
 common#:#password_must_contain_ucase_chars#:#Das Passwort muss mindestens %s Großbuchstaben enthalten.
-search#:#search_user_search_form#:#Personensuche
-search#:#search_user_search_info_form#:#Wenn aktiviert, werden Benutzerdaten indexiert und können über die globale Suche gefunden werden.
+search#:#search_user_search_form#:#Suche in Persönlichen Profilen
+search#:#search_user_search_info_form#:#Benutzerdaten in Persönlichen Profilen werden indexiert und können genutzt werden, um Benutzer über die globale Suche zu finden.
 exc#:#exc_fb_tutor_info#:#Durch eine hochgeladene Feedback-Datei wird eine Benachrichtigung an den Benutzer gesendet, und die Datei wird in dessen Übungseinheiten-Übersicht gelistet.
 obj#:#svy_results#:#Ergebnisse
 survey#:#svy_result_mail_notification_info#:#Nach Beenden einer Umfrage werden die Antworten des Teilnehmers an die eingetragen Empfänger gesendet.
