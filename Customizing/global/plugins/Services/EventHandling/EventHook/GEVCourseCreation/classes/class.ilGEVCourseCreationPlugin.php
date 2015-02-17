@@ -44,8 +44,8 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 			
 			// Do this anyway to prevent havoc!
 			$target->setOfflineStatus(true);
-			$target_utils->setStartDate(null);
-			$target_utils->setEndDate(null);
+			//$target_utils->setStartDate(null);
+			//$target_utils->setEndDate(null);
 		
 			if ($source_utils->isTemplate()) {
 				$target->setTitle($source->getTitle());
