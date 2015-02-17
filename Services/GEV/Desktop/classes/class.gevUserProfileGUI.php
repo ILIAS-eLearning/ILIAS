@@ -121,6 +121,15 @@ class gevUserProfileGUI {
 				if ($bwv_id && !$bwv_id=='') {
 					$this->user_utils->setWBDBWVId($bwv_id);
 					$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
+					
+					$inp = $form->getItemByPostVar("bwv_id");
+					if ($inp) {
+						$inp->setDisabled(true);
+					}
+					$cb = $form->getItemByPostVar("wbd_acceptance");
+					if ($cb) {
+						$cb->setDisabled(true);
+					}
 				}
 			
 				ilUtil::sendSuccess($this->lng->txt("gev_user_profile_saved"), true);
@@ -216,12 +225,16 @@ class gevUserProfileGUI {
 			$_bwv_id = $this->user_utils->getWBDBWVId();
 			if (!$_bwv_id) {
 				$bwv_id = new ilTextInputGUI($this->lng->txt("gev_bwv_id"), "bwv_id");
+				$item_to_add = new ilCheckboxInputGUI("", "wbd_acceptance");
+				$item_to_add->setOptionTitle($this->lng->txt("evg_wbd"));
+				$item_to_add->addSubItem($bwv_id);
 			}
 			else {
 				$bwv_id = new ilNonEditableValueGUI($this->lng->txt("gev_bwv_id"));
+				$item_to_add = $bwv_id;
 			}
 			$bwv_id->setValue($_bwv_id);
-			$form->addItem($bwv_id);
+			$form->addItem($item_to_add);
 		}
 		
 		$ad_title = new ilNonEditableValueGUI($this->lng->txt("gev_ad_title"));
