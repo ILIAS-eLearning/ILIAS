@@ -90,6 +90,15 @@ class gevNAUtils {
 		return $this->pou->getEmployeesOf($a_adviser_id);
 	}
 	
+	/**
+	 * Entfernt die NA-Org.-Einheit für einen Benutzer.
+	 *
+	 * @param integer $a_adviser_id
+	 */
+	public function removeNAOrgUnitOf($a_adviser_id) {
+		$this->pou->purgeOrgUnitOf($a_adviser_id);
+	}
+	
 	static $ADVISER_ROLES = array(
 		  "Administrator"
 		, "Admin-Voll"

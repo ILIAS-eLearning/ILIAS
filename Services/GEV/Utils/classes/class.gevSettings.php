@@ -453,6 +453,7 @@ class gevSettings {
 	const CPOOL_UNIT_KEY = "gev_dbv_pou_cpool_unit_key";
 	const NA_POU_BASE_UNIT_KEY = "gev_na_pou_base_unit";
 	const NA_POU_TEMPLATE_UNIT_KEY = "gev_na_pou_template_unit_key";
+	const NA_POU_NO_ADVISER_UNIT_KEY = "gev_na_pou_no_adviser_unit_key";
 	const HA_POU_BASE_UNIT_KEY = "gev_ha_pou_base_unit";
 	const HA_POU_TEMPLATE_UNIT_KEY = "gev_ha_pou_template_unit";
 	
@@ -494,6 +495,14 @@ class gevSettings {
 	
 	public function setNAPOUTemplateUnitId($a_val) {
 		$this->settings->set(self::NA_POU_TEMPLATE_UNIT_KEY, $a_val);
+	}
+	
+	public function getNAPOUNoAdviserUnitId() {
+		return $this->settings->get(self::NA_POU_NO_ADVISER_UNIT_KEY);
+	}
+	
+	public function setNAPOUNoAdviserUnitId($a_val) {
+		$this->settings->set(self::NA_POU_NO_ADVISER_UNIT_KEY, $a_val);
 	}
 	
 	public function getHAPOUBaseUnitId() {

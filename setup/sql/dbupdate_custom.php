@@ -3327,3 +3327,26 @@ require_once "Customizing/class.ilCustomInstaller.php";
 ilCustomInstaller::initPluginEnv();
 ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
 ?>
+
+<#104>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	$gev_settings = gevSettings::getInstance();
+	$res = $ilDB->query("SELECT obj_id FROM object_data WHERE import_id = 'na_ohne' AND type = 'orgu'");
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		$gev_settings->setNAPOUNoAdviserUnitId($rec["obj_id"]);
+	}
+	else {
+		die("Custom Update #79: Expected to find org_unit with import_id = 'na_ohne'");
+	}
+?>
