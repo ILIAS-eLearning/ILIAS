@@ -1462,7 +1462,7 @@ class gevCourseUtils {
 					//$worksheet->write($row, 4, $user_utils->getFunctionAtCourse($this->crs_id), $format_wrap);
 					$worksheet->write($row, 4, $user_utils->getIDHGBAADStatus(), $format_wrap);
 					$worksheet->write($row, 5, $user_utils->getFormattedBirthday(), $format_wrap);
-					$worksheet->write($row, 6, $user_utils->getMobilePhone());
+					$worksheet->write($row, 6, " ".$user_utils->getMobilePhone());
 					$worksheet->write($row, 7, $user_utils->hasFullfilledPreconditionOf($this->crs_id) ? "Ja" : "Nein");
 					$worksheet->write($row, 8, $user_utils->getFunctionAtCourse($this->crs_id), $format_wrap);
 					
