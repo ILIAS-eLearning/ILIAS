@@ -25,17 +25,29 @@ class ilTrainingProgrammeUserProgress {
 	 * @param int[] | ilTrainingProgrammeAssignment $a_ids_or_model 
 	 */
 	public function __construct($a_ids_or_model) {
-		/*if ($a_id_or_model instanceof ilTrainingProgrammeProgress) {
+		if ($a_id_or_model instanceof ilTrainingProgrammeProgress) {
 			$this->progress = $a_id_or_model;
 		}
 		else {
-			// TODO: this won't work
-			$this->progress = ilTrainingProgrammeProgress::find($a_id_or_model);
+			if (count($a_ids_or_model) != 3) {
+				throw new ilException("ilTrainingProgrammeUserProgress::__construct: "
+									 ."expected array with 3 items.");
+			}
+			
+			// TODO: ActiveRecord won't be caching the model objects, since
+			// we are not using find. Maybe we should do this ourselves??
+			// Or should we instead cache in getInstance?
+			$this->progress = array_shift(
+				ilTrainingProgrammeProgress::where(array
+							( "assignment_id" => $a_ids_or_model[0]
+							, "prg_id" => $a_ids_or_model[1]
+							, "usr_id" => $a_ids_or_model[2]
+							))->get());
 		}
 		if ($this->progress === null) {
 			throw new ilException("ilTrainingProgrammeUserProgress::__construct: "
 								 ."Unknown progress id '$a_id'.");
-		}*/
+		}
 	}
 	
 	/**
@@ -45,10 +57,28 @@ class ilTrainingProgrammeUserProgress {
 	 * @param  int $a_assignment_id
 	 * @param  int $a_program_id
 	 * @param  int $a_user_id
-	 * @return ilTrainingProgrammeUserAssignment
+	 * @return ilTrainingProgrammeUserProgress
 	 */
-	static public function getInstance($a_assignment_id, $a_programme_id, $a_user_id) {
-		return new ilTrainingProgrammeUserAssignment(array($a_assignment_id, $a_programme_id, $a_user_id));
+	static public function getInstance($a_assignment_id, $a_program_id, $a_user_id) {
+		return new ilTrainingProgrammeUserAssignment(array($a_assignment_id, $a_program_id, $a_user_id));
+	}
+	
+	/**
+	 * Get the instances that user has on program.
+	 *
+	 * @param  int $a_program_id
+	 * @param  int $a_user_id
+	 * @return ilTrainingProgrammeUserProgress[]
+	 */
+	static public function getInstancesFor($a_program_id, $a_user_id) {
+		$progresses = ilTrainingProgrammeProgress::where(array
+							( "assignment_id" => $a_ids_or_model[0]
+							, "prg_id" => $a_ids_or_model[1]
+							, "usr_id" => $a_ids_or_model[2]
+							))->get();
+		return array_map(function($dat) {
+			return new ilTrainingProgrammeProgress($dat);
+		}, $progresses);
 	}
 	
 	/**
@@ -61,11 +91,11 @@ class ilTrainingProgrammeUserProgress {
 	 */
 	public function getTrainingProgramme() {
 		require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
-		$refs = ilObject::_getAllReferences($this->assignment->getRootId());
+		$refs = ilObject::_getAllReferences($this->progress->getNodeId());
 		if (!count($refs)) {
 			throw new ilException("ilTrainingProgrammeUserAssignment::getTrainingProgramme: "
 								 ."could not find ref_id for program '"
-								 .$this->assignment->getRootId()."'.");
+								 .$this->progress->getNodeId()."'.");
 		}
 		return ilObjTrainingProgramme::getInstanceByRefId(array_shift($refs));
 	}
@@ -76,7 +106,7 @@ class ilTrainingProgrammeUserProgress {
 	 * @return ilTrainingProgrammeUserAssignment
 	 */
 	public function getAssignment() {
-		
+		return ilTrainingProgrammeUserAssignment::getInstance($this->progress->getAssignmentId());
 	}
 	
 	/**

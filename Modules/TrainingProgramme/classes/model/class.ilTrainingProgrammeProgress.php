@@ -166,10 +166,24 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	/**
 	 * Create a new progress object for a given program node and assignment.
 	 *
+	 * @param $a_assigning_user int
 	 * @return ilTrainingProgrammeProgress
 	 */
 	static public function createFor( ilTrainingProgramme $a_prg
-								    , ilTrainingProgrammeAssignment $a_ass) {
+								    , ilTrainingProgrammeAssignment $a_ass
+								    , $a_assigning_usr_id) {
+		$prg = new ilTrainingProgrammeProgress();
+		$prg->setAssignmentId($a_ass->getId())
+			->setNodeId($a_prg->getId())
+			->setUserId($a_ass->getUserId())
+			->setAmountOfPoints($a_prg->getPoints())
+			->setCurrentAmountOfPoints(0)
+			->setStatus(ilTrainingProgrammeProgress::STATUS_PROGRESS)
+			->setCompletionBy(null)
+			->setLastChangeBy($a_assigning_usr_id)
+			->updateLastChange()
+			->create();
+		return $prg;
 	}
 	
 	/**
