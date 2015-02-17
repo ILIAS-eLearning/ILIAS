@@ -441,7 +441,8 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 			{
 				foreach($grouped_items['items'] as $grouped_item_id)
 				{
-					if($grouped_item_id == $item_id)
+					if($grouped_item_id == $item_id ||
+						!is_array($items[$grouped_item_id])) // #15498
 					{
 						continue;
 					}
