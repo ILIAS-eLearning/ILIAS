@@ -178,18 +178,19 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$ass = $tmp[0];
 		$user = $tmp[1];
 		
-		$MOCK_USER_ID = 7;
+		$user2 = $this->newUser();
+		$USER_ID = $user2->getId();
 		
 		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
 		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
 		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
 		$ts_before_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
-		$node1_progress->markAccredited($MOCK_USER_ID);
+		$node2_progress->markAccredited($USER_ID);
 		$ts_after_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_ACCREDITED, $node2_progress->getStatus());
-		$this->assertEquals($MOCK_USER_ID, $node2_progress->getCompletionBy());
+		$this->assertEquals($USER_ID, $node2_progress->getCompletionBy());
 		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
 	}
 
@@ -199,18 +200,19 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$ass = $tmp[0];
 		$user = $tmp[1];
 		
-		$MOCK_USER_ID = 7;
+		$user2 = $this->newUser();
+		$USER_ID = $user2->getId();
 		
 		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
 		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
 		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
 		$ts_before_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
-		$node1_progress->markNotRelevant($MOCK_USER_ID);
+		$node2_progress->markNotRelevant($USER_ID);
 		$ts_after_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT, $node2_progress->getStatus());
-		$this->assertEquals($MOCK_USER_ID, $node2_progress->getCompletionBy());
+		$this->assertEquals($USER_ID, $node2_progress->getCompletionBy());
 		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
 	}
 	
