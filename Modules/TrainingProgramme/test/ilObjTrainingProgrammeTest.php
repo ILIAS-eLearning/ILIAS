@@ -461,6 +461,9 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$children = $this->root_object->getChildren();
 		$child_l = $children[0];
 		$child_r = $children[1];
+		$this->root_object->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$child_l->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$child_r->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
 		
 		$user = new ilObjUser();
 		$user->create();

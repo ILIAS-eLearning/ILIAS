@@ -501,6 +501,10 @@ class ilObjTrainingProgramme extends ilContainer {
 			throw new ilTrainingProgrammeTreeException("This is no parent of the given programm.");
 		}
 		
+		if ($a_prg->hasAssignments()) {
+			throw new ilTrainingProgrammeTreeException("The node already has assignments.");
+		}
+		
 		// *sigh*...
 		$node_data = $this->tree->getNodeData($a_prg->getRefId());
 		$this->tree->deleteTree($node_data);
@@ -685,6 +689,8 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return [ilTrainingProgrammeUserAssignment]
 	 */
 	public function getAssignmentsOf($a_user_id) {
+		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
+		
 		$prg_ids =array_map(function($par) {
 			return $par->getId();
 		}, $this->getParents());
@@ -706,6 +712,8 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return [ilTrainingProgrammeUserAssignment]
 	 */
 	public function getAssignments() {
+		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
+		
 		$prg_ids =array_map(function($par) {
 			return $par->getId();
 		}, $this->getParents());
@@ -717,6 +725,15 @@ class ilObjTrainingProgramme extends ilContainer {
 		return array_map(function($ass) {
 			return new ilTrainingProgrammeUserAssignment($ass);
 		}, array_values($assignments)); // use array values since we want keys 0...
+	}
+	
+	/**
+	 * Are there any assignments on this node or any node above?
+	 *
+	 * @return bool
+	 */
+	public function hasAssignments() {
+		return count($this->getAssignments()) > 0;
 	}
 	
 	////////////////////////////////////
