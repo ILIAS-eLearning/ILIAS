@@ -229,7 +229,7 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT, $node3_progress->getStatus());
 	}
 	
-	public function testMaximimPossibleAmountOfPoints() {
+	public function testMaximimPossibleAmountOfPoints1() {
 		$this->setAllNodesActive();
 		$tmp = $this->assignNewUserToRoot();
 		$ass = $tmp[0];
@@ -244,7 +244,22 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(ilTrainingProgramme::DEFAULT_POINTS, $node2_progress->getMaximumPossibleAmountOfPoints());
 	}
 	
-	public function testCanBeCompleted() {
+	public function testMaximimPossibleAmountOfPoints2() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+		
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
+		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
+	
+		$this->assertEquals(2 * ilTrainingProgramme::DEFAULT_POINTS, $root_progress->getMaximumPossibleAmountOfPoints());
+		$this->assertEquals(ilTrainingProgramme::DEFAULT_POINTS, $node1_progress->getMaximumPossibleAmountOfPoints());
+		$this->assertEquals(ilTrainingProgramme::DEFAULT_POINTS, $node2_progress->getMaximumPossibleAmountOfPoints());
+	}
+	
+	public function testCanBeCompleted1() {
 		$this->setAllNodesActive();
 		$tmp = $this->assignNewUserToRoot();
 		$ass = $tmp[0];
@@ -257,6 +272,23 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($root_progress->canBeCompleted());
 		$this->assertTrue($node1_progress->canBeCompleted());
 		$this->assertTrue($node2_progress->canBeCompleted());
+	}
+	
+	public function testCanBeCompleted2() {
+		$NEW_AMOUNT_OF_POINTS = 3003;
+		$this->assertGreaterThan(ilTrainingProgramme::DEFAULT_POINTS, $NEW_AMOUNT_OF_POINTS);
+		
+		$this->setAllNodesActive();
+		$this->root->setPoints($NEW_AMOUNT_OF_POINTS)
+				   ->update();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+		
+		$this->assertLessThan($NEW_AMOUNT_OF_POINTS, $this->node1->getPoints() + $this->node2->getPoints());
+		
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$this->assertFalse($root_progress->canBeCompleted());
 	}
 	
 	public function testUserDeletionDeletesAssignments() {
@@ -282,7 +314,7 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$ass = $tmp[0];
 		$user = $tmp[1];
 		
-		$NEW_AMOUNT_OF_POINTS = 200;
+		$NEW_AMOUNT_OF_POINTS = 201;
 		
 		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS, ilTrainingProgramme::DEFAULT_POINTS);
 		
@@ -301,7 +333,7 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$ass = $tmp[0];
 		$user = $tmp[1];
 		
-		$NEW_AMOUNT_OF_POINTS = 200;
+		$NEW_AMOUNT_OF_POINTS = 202;
 		
 		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS, ilTrainingProgramme::DEFAULT_POINTS);
 		
@@ -322,7 +354,7 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$ass = $tmp[0];
 		$user = $tmp[1];
 		
-		$NEW_AMOUNT_OF_POINTS = 200;
+		$NEW_AMOUNT_OF_POINTS = 203;
 		
 		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS, ilTrainingProgramme::DEFAULT_POINTS);
 		
