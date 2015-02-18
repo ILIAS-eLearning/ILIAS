@@ -487,6 +487,8 @@ class ilObjTrainingProgramme extends ilContainer {
 		$a_prg->putInTree($this->getRefId());
 		$this->clearChildrenCache();
 		
+		$this->addProgressForNewNodes($a_prg);
+		
 		return $this;
 	}
 	
@@ -639,7 +641,6 @@ class ilObjTrainingProgramme extends ilContainer {
 			if ($node->getStatus() != ilTrainingProgramme::STATUS_ACTIVE) {
 				$progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT);
 			}
-		
 		});
 		
 		return $ass;
@@ -753,6 +754,14 @@ class ilObjTrainingProgramme extends ilContainer {
 	public function getProgressesOf($a_user_id) {
 		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
 		return ilTrainingProgrammeUserProgress::getInstancesFor($this->getId(), $a_user_id);
+	}
+	
+	protected function addProgressForNewNodes(ilObjTrainingProgramme $a_prg) {
+		$settings = $this->settings;
+		array_map(function($ass) use ($settings) {
+			$progress = ilTrainingProgrammeProgress::createFor($settings, $ass);
+			$progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT);
+		}, $this->getAssignments());
 	}
 	
 	////////////////////////////////////
