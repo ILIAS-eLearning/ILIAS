@@ -97,7 +97,7 @@ class gevNAUtils {
 	 */
 	public function removeNAOrgUnitOf($a_adviser_id) {
 		require_once("./Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-		$orgu = $this->pou->getOrgUnitIdOf($a_adviser_id);
+		$orgu = $this->pou->getOrgUnitOf($a_adviser_id);
 		$orgu_utils = gevOrgUnitUtils::getInstance($orgu->getId());
 		foreach(gevOrgUnitUtils::getEmployeesIn(array($orgu->getRefId())) as $na_id) {
 			$orgu_utils->deassignUser($na_id, "Mitarbeiter");
