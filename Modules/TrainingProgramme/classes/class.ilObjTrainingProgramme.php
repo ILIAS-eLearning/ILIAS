@@ -218,11 +218,13 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * Set the amount of points.
 	 * 
 	 * @param integer   $a_points   - larger than zero 
-	 * @throws ilException 
+	 * @throws ilException
+	 * @return $this
 	 */
 	public function setPoints($a_points) {
 		$this->settings->setPoints($a_points);
 		$this->updateLastChange();
+		return $this;
 	} 
 	
 	/**
@@ -247,10 +249,12 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * Set the status of the node.
 	 *
 	 * @param integer $a_status     - one of ilTrainingProgramme::$STATUS
+	 * @return $this
 	 */
 	public function setStatus($a_status) {
 		$this->settings->setStatus($a_status);
 		$this->updateLastChange();
+		return $this;
 	}
 	
 	////////////////////////////////////
