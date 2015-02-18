@@ -456,7 +456,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @expectedException ilTrainingProgrammeTreeException
 	 */
-	public function testCantRemoveNodeWithAssignment() {
+	public function testCantRemoveNodeWithRelevantProgress() {
 		$this->createSmallTree();
 		$children = $this->root_object->getChildren();
 		$child_l = $children[0];
@@ -470,5 +470,21 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		
 		$child_l->assignUser($user->getId());
 		$this->root_object->removeNode($child_l);
+	}
+	
+	public function testCanRemoveNodeWithNotRelevantProgress() {
+		$this->createSmallTree();
+		$children = $this->root_object->getChildren();
+		$child_l = $children[0];
+		$child_r = $children[1];
+		$this->root_object->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$child_l->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$child_r->setStatus(ilTrainingProgramme::STATUS_OUTDATED);
+		
+		$user = new ilObjUser();
+		$user->create();
+		
+		$this->root_object->assignUser($user->getId());
+		$this->root_object->removeNode($child_r);
 	}
 }
