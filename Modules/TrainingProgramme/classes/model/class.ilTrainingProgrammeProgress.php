@@ -24,7 +24,7 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	// progress.
 	
 	// User needs to be successfull in the node, but currently isn't.
-	const STATUS_PROGRESS = 1;
+	const STATUS_IN_PROGRESS = 1;
 	// User has completed the node successfully according to the program nodes
 	// mode.
 	const STATUS_COMPLETED = 2;
@@ -34,7 +34,7 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	// The user does not need to be successfull in this node.
 	const STATUS_NOT_RELEVANT = 4;
 
-	static $STATUS = array( ilTrainingProgrammeProgress::STATUS_PROGRESS
+	static $STATUS = array( ilTrainingProgrammeProgress::STATUS_IN_PROGRESS
 						  , ilTrainingProgrammeProgress::STATUS_COMPLETED
 						  , ilTrainingProgrammeProgress::STATUS_ACCREDITED
 						  , ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT
@@ -198,7 +198,7 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 			->setUserId($a_ass->getUserId())
 			->setAmountOfPoints($a_prg->getPoints())
 			->setCurrentAmountOfPoints(0)
-			->setStatus(ilTrainingProgrammeProgress::STATUS_PROGRESS)
+			->setStatus(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS)
 			->setCompletionBy(null)
 			->setLastChangeBy($a_assigning_usr_id)
 			->updateLastChange()
@@ -321,7 +321,7 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	 * Set the status of this node.
 	 *
 	 * Throws when status is none of ilTrainingProgramme::STATUS_*. Throws when
-	 * completion_by is set and status is STATUS_PROGRESS.
+	 * completion_by is set and status is STATUS_IN_PROGRESS.
 	 * 
 	 * @throws ilException
 	 * @param  $a_status int - one of ilTrainingProgramme::STATUS_*
