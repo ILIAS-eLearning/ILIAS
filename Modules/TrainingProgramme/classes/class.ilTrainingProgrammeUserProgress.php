@@ -100,7 +100,7 @@ class ilTrainingProgrammeUserProgress {
 								 ."Assignment '$a_assignment_id' does not belong to program "
 								 ."'$a_program_id'");
 		}
-		return new ilTrainingProgrammeUserProgress($progresses[0]);
+		return new ilTrainingProgrammeUserProgress(array_shift($progresses));
 	}
 	
 	/**
@@ -253,12 +253,17 @@ class ilTrainingProgrammeUserProgress {
 	 * @return int
 	 */
 	public function getMaximumPossibleAmountOfPoints() {
-		/*array_reduce(
-			array_map(
-			}, $this->getTrainingProgramme()->getProgresses)
-		, function () {
-			
-		});*/
+		$prg = $this->getTrainingProgramme();
+		if ($prg->getLPMode() == ilTrainingProgramme::MODE_LP_COMPLETED) {
+			return $this->getAmountOfPoints();
+		}
+		$children = $prg->getChildren();
+		$ass = $this->progress->getAssignmentId();
+		$points = array_map(function($child) use ($ass) {
+			return $child->getProgressForAssignment($ass)->getAmountOfPoints();
+		}, $children);
+		
+		return array_reduce($points, function($a, $b) { return $a + $b; }, 0);
 	}
 	
 	/**

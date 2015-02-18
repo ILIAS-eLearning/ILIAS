@@ -742,6 +742,20 @@ class ilObjTrainingProgramme extends ilContainer {
 		return ilTrainingProgrammeUserProgress::getInstancesForUser($this->getId(), $a_user_id);
 	}
 	
+	/**
+	 * Get the progress for an assignment on this node.
+	 *
+	 * Throws when assignment does not belong to this program.
+	 *
+	 * @throws ilException
+	 * @param int $a_assignment_id
+	 * @return ilTrainingProgrammUserProgress[] 
+	 */
+	public function getProgressForAssignment($a_assignment_id) {
+		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+		return ilTrainingProgrammeUserProgress::getInstancesForAssignment($this->getId(), $a_assignment_id);
+	}
+	
 	protected function addProgressForNewNodes(ilObjTrainingProgramme $a_prg) {
 		$settings = $a_prg->settings;
 		array_map(function($ass) use ($settings) {
