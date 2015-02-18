@@ -300,7 +300,7 @@ class gevCrsMailData extends ilMailData {
 				if ($this->usr_utils !== null) {
 					$tmp = $this->usr_utils->getOvernightDetailsForCourse($this->crs_utils->getCourse());
 					if (   count($tmp) > 0 
-						&& $tmp[0]->get(IL_CAL_DATE) == $this->crs_utils->getStartDate()->get(IL_CAL_DATE)) {
+						&& $tmp[0]->get(IL_CAL_DATE) < $this->crs_utils->getStartDate()->get(IL_CAL_DATE)) {
 						$val = "Ja";
 					}
 					else {
