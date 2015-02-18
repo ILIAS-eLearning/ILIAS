@@ -212,6 +212,28 @@ class ilTrainingProgrammeUserProgress {
 	public function markNotRelevant($a_user_id) {
 		
 	}
+	
+	/**
+	 * Get the maximum possible amount of points a user can achieve for
+	 * the completion of this node.
+	 *
+	 * If the program node runs in LP-mode this will be equal getAmountOfPoints.
+	 *
+	 * @return int
+	 */
+	public function getMaximumPossibleAmountOfPoints() {
+		
+	}
+	
+	/**
+	 * Check whether the user can achieve enough points on the subnodes to
+	 * be able to complete this node.
+	 *
+	 * @return bool
+	 */
+	public function canBeCompleted() {
+		
+	}
 }
 
 ?>

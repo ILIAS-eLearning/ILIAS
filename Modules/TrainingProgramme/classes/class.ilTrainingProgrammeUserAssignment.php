@@ -94,6 +94,16 @@ class ilTrainingProgrammeUserAssignment {
 	public function delete() {
 		$this->assignment->delete();
 	}
+	
+	/**
+	 * Update all unmodified nodes in this assignment to the current state
+	 * of the program.
+	 *
+	 * @return $this
+	 */
+	public function updateFromProgram() {
+		
+	}
 }
 
 ?>

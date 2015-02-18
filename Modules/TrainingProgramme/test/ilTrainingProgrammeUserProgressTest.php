@@ -214,6 +214,7 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
 	}
 	
+	// Neues Moduls: Wird dem Studierenden-Studierenden inkl. Kurse, Punkte als "Nicht relevant" hinzugefügt.
 	public function testNewNodesAreNotRelevant() {
 		$this->setAllNodesActive();
 		$tmp = $this->assignNewUserToRoot();
@@ -226,5 +227,117 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$node3_progress = array_shift($node3->getProgressesOf($user->getId()));
 		$this->assertNotNull($node3_progress);
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT, $node3_progress->getStatus());
+	}
+	
+	public function testMaximimPossibleAmountOfPoints() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+		
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
+		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
+	
+		$this->assertEquals(2 * ilTrainingProgramme::DEFAULT_POINTS, $root_progress->getMaximumPossibleAmountOfPoints());
+		$this->assertEquals(ilTrainingProgramme::DEFAULT_POINTS, $node1_progress->getMaximumPossibleAmountOfPoints());
+		$this->assertEquals(ilTrainingProgramme::DEFAULT_POINTS, $node2_progress->getMaximumPossibleAmountOfPoints());
+	}
+	
+	public function testCanBeCompleted() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+		
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
+		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
+	
+		$this->assertTrue($root_progress->canBeCompleted());
+		$this->assertTrue($node1_progress->canBeCompleted());
+		$this->assertTrue($node2_progress->canBeCompleted());
+	}
+	
+	public function testUserDeletionDeletesAssignments() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+		
+		$user->delete();
+		
+		$root_progresses = $this->root->getProgressesOf($user->getId());
+		$this->assertCount(0, $root_progresses);
+		$node1_progresses = $this->root->getProgressesOf($user->getId());
+		$this->assertCount(0, $node1_progresses);
+		$node2_progresses = $this->root->getProgressesOf($user->getId());
+		$this->assertCount(0, $node2_progresses);
+	}
+	
+	// - Änderungen von Punkten bei bestehenden qua-Objekten werden nicht direkt übernommen
+	public function testNoImplicitPointUpdate() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+		
+		$NEW_AMOUNT_OF_POINTS = 200;
+		
+		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS, ilTrainingProgramme::DEFAULT_POINTS);
+		
+		$this->root->setPoints($NEW_AMOUNT_OF_POINTS)
+				   ->update();
+		
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$this->assertEquals(ilTrainingProgramme::DEFAULT_POINTS, $root_progress->getAmountOfPoints());
+	}
+
+	// Änderungen von Punkten bei bestehenden qua-Objekten werden nicht direkt übernommen,
+	//  sondern dann bei bewusster Aktualisierung.
+	public function testExplicitPointUpdate1() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+		
+		$NEW_AMOUNT_OF_POINTS = 200;
+		
+		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS, ilTrainingProgramme::DEFAULT_POINTS);
+		
+		$this->root->setPoints($NEW_AMOUNT_OF_POINTS)
+				   ->update();
+		
+		$ass->updateFromProgram();
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$this->assertEquals($NEW_AMOUNT_OF_POINTS, $root_progress->getAmountOfPoints());
+	}
+
+	// Änderungen von Punkten bei bestehenden qua-Objekten werden nicht direkt übernommen,
+	// sondern dann bei bewusster Aktualisierung.
+	// Similar to testExplicitPointUpdate1, but order of calls differs.
+	public function testExplicitPointUpdate2() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+		
+		$NEW_AMOUNT_OF_POINTS = 200;
+		
+		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS, ilTrainingProgramme::DEFAULT_POINTS);
+		
+		$this->root->setPoints($NEW_AMOUNT_OF_POINTS)
+				   ->update();
+		
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$ass->updateFromProgram();
+		$this->assertEquals($NEW_AMOUNT_OF_POINTS, $root_progress->getAmountOfPoints());
+	}
+
+	// Änderungen von Punkten bei bestehenden qua-Objekten werden nicht direkt übernommen,
+	//  sondern dann bei bewusster Aktualisierung (sofern nicht ein darüberliegenden 
+	// Knotenpunkt manuell angepasst worden ist)
+	public function testNoUpdateOnModifiedNodes() {
+		$this->assertTrue(false, "Test is not implemented.");
 	}
 }
