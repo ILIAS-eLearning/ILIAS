@@ -73,7 +73,7 @@ class ilTrainingProgrammeUserProgress {
 	static public function getInstancesFor($a_program_id, $a_user_id) {
 		$progresses = ilTrainingProgrammeProgress::where(array
 							( "prg_id" => $a_program_id
-							//, "usr_id" => $a_user_id
+							, "usr_id" => $a_user_id
 							))->get();
 		return array_values(array_map(function($dat) {
 			return new ilTrainingProgrammeUserProgress($dat);
