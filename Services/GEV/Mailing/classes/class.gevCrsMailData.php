@@ -298,7 +298,7 @@ class gevCrsMailData extends ilMailData {
 				break;
 			case "VORABENDANREISE":
 				if ($this->usr_utils !== null) {
-					$tmp = $this->usr_utils->getOvernightDetailsForCourse($this->crs_util->getCourse());
+					$tmp = $this->usr_utils->getOvernightDetailsForCourse($this->crs_utils->getCourse());
 					if (   count($tmp) > 0 
 						&& $tmp[0]->get(IL_CAL_DATE) == $this->crs_utils->getStartDate()->get(IL_CAL_DATE)) {
 						$val = "Ja";
@@ -310,7 +310,7 @@ class gevCrsMailData extends ilMailData {
 				break;
 			case "NACHTAGABREISE":
 				if ($this->usr_utils !== null) {
-					$tmp = $this->usr_utils->getOvernightDetailsForCourse($this->crs_util->getCourse());
+					$tmp = $this->usr_utils->getOvernightDetailsForCourse($this->crs_utils->getCourse());
 					if (   count($tmp) > 0 
 						&& $tmp[count($tmp)-1]->get(IL_CAL_DATE) == $this->crs_utils->getEndDate()->get(IL_CAL_DATE)) {
 						$val = "Ja";
