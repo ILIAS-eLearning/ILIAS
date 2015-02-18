@@ -173,12 +173,15 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	 * Id of user who did the assignment that lead to creation of this progress
 	 * or the update of the progress the last time.
 	 *
+	 * TODO: The user who did the assignment is irrelevant here. This should
+	 * be reflected in createFor as well.
+	 *
 	 * @var int 
 	 * 
 	 * @con_has_field   true
 	 * @con_fieldtype   integer 
 	 * @con_length      4
-	 * @con_is_notnull  true 
+	 * @con_is_notnull  false 
 	 */
 	protected $last_change_by;
 	
@@ -384,7 +387,7 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	 * @return $this
 	 */
 	public function setLastChangeBy($a_usr_id) {
-		if (ilObject::_lookupType($a_usr_id) != "usr") {
+		if ($a_usr_id !== null && ilObject::_lookupType($a_usr_id) != "usr") {
 			throw new ilException("ilTrainingProgrammeProgress::setLastChangeBy: '$a_usr_id' "
 								 ."is no id of a user.");
 		}
