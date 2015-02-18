@@ -146,6 +146,15 @@ class ilTrainingProgrammeUserProgress {
 	}
 	
 	/**
+	 * Get the timestamp when the last change was made on this progress.
+	 *
+	 * @return ilDateTime
+	 */
+	public function getLastChange() {
+		return $this->progress->getLastChange();
+	}
+	
+	/**
 	 * Get the id of the user who did the last change on this progress.
 	 *
 	 * @return int
@@ -175,6 +184,33 @@ class ilTrainingProgrammeUserProgress {
 	 */
 	public function delete() {
 		$this->assignment->delete();
+	}
+	
+	
+	/**
+	 * Mark this progress as accredited.
+	 *
+	 * Throws when status is not IN_PROGRESS.
+	 *
+	 * @throws ilException
+	 * @param int $a_user_id The user who performed the operation.
+	 * @return $this
+	 */
+	public function markAccredited($a_user_id) {
+		
+	}
+	
+	/**
+	 * Set the node to be not relevant for the user.
+	 *
+	 * Throws when status is not IN_PROGRESS.
+	 *
+	 * @throws ilException
+	 * @param  int $a_user_id The user who marks the node as not relevant.
+	 * @return $this
+	 */
+	public function markNotRelevant($a_user_id) {
+		
 	}
 }
 

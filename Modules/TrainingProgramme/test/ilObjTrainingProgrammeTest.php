@@ -452,4 +452,20 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, $this->root_object->getAmountOfChildren());
 		$this->assertEquals(1, $child_l->getAmountOfChildren());
 	}
+	
+	/**
+	 * @expectedException ilTrainingProgrammeTreeException
+	 */
+	public function testCantRemoveNodeWithAssignment() {
+		$this->createSmallTree();
+		$children = $this->root_object->getChildren();
+		$child_l = $children[0];
+		$child_r = $children[1];
+		
+		$user = new ilObjUser();
+		$user->create();
+		
+		$child_l->assignUser($user->getId());
+		$this->root_object->removeNode($child_l);
+	}
 }
