@@ -108,7 +108,6 @@ class gevExitedUserCleanupJob extends ilCronJob {
 			
 			$nas = $na_utils->getNAsOf($usr_id);
 			foreach ($nas as $na) {
-				$na_utils->deassignAdviser($na);
 				$na_no_adviser_orgu_utils->assignUser($na, "Mitarbeiter");
 				$ilLog->write("gevExitedUserCleanupJob: Moved na $na of user $usr_id to no-adviser-OrgUnit.");
 			}
