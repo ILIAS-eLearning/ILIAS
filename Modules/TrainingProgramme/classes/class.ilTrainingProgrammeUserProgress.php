@@ -183,7 +183,7 @@ class ilTrainingProgrammeUserProgress {
 	 * Delete the assignment from database.
 	 */
 	public function delete() {
-		$this->assignment->delete();
+		$this->progress->delete();
 	}
 	
 	
@@ -197,7 +197,11 @@ class ilTrainingProgrammeUserProgress {
 	 * @return $this
 	 */
 	public function markAccredited($a_user_id) {
-		
+		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_ACCREDITED)
+					   ->setCompletionBy($a_user_id)
+					   ->setLastChangeBy($a_user_id)
+					   ->update();
+		return $this;
 	}
 	
 	/**
@@ -210,7 +214,11 @@ class ilTrainingProgrammeUserProgress {
 	 * @return $this
 	 */
 	public function markNotRelevant($a_user_id) {
-		
+		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT)
+					   ->setCompletionBy($a_user_id)
+					   ->setLastChangeBy($a_user_id)
+					   ->update();
+		return $this;
 	}
 	
 	/**
