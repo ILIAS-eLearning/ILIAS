@@ -753,7 +753,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 */
 	public function getProgressesOf($a_user_id) {
 		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
-		return ilTrainingProgrammeUserProgress::getInstancesFor($this->getId(), $a_user_id);
+		return ilTrainingProgrammeUserProgress::getInstancesForUser($this->getId(), $a_user_id);
 	}
 	
 	protected function addProgressForNewNodes(ilObjTrainingProgramme $a_prg) {
