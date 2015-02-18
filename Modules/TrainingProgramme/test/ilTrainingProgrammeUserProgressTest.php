@@ -76,7 +76,7 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( $this->root->getPoints()
 						   , $root_progress->getAmountOfPoints());
 		$this->assertEquals(0, $root_progress->getCurrentAmountOfPoints());
-		$this->assertEquals($root->getId(), $root_progress->getTrainingProgramme()->getId());
+		$this->assertEquals($this->root->getId(), $root_progress->getTrainingProgramme()->getId());
 		$this->assertEquals($ass->getId(), $root_progress->getAssignment()->getId());
 		$this->assertEquals($user->getId(), $root_progress->getUserId());
 		$this->assertEquals($this->user->getId(), $root_progress->getLastChangeBy());
@@ -90,7 +90,7 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( $this->node1->getPoints()
 						   , $node1_progress->getAmountOfPoints());
 		$this->assertEquals(0, $node1_progress->getCurrentAmountOfPoints());
-		$this->assertEquals($node1->getId(), $node1_progress->getTrainingProgramme()->getId());
+		$this->assertEquals($this->node1->getId(), $node1_progress->getTrainingProgramme()->getId());
 		$this->assertEquals($ass->getId(), $node1_progress->getAssignment()->getId());
 		$this->assertEquals($user->getId(), $node1_progress->getUserId());
 		$this->assertEquals($this->user->getId(), $node1_progress->getLastChangeBy());
@@ -104,7 +104,7 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( $this->node2->getPoints()
 						   , $node2_progress->getAmountOfPoints());
 		$this->assertEquals(0, $node2_progress->getCurrentAmountOfPoints());
-		$this->assertEquals($node2->getId(), $node2_progress->getTrainingProgramme()->getId());
+		$this->assertEquals($this->node2->getId(), $node2_progress->getTrainingProgramme()->getId());
 		$this->assertEquals($ass->getId(), $node2_progress->getAssignment()->getId());
 		$this->assertEquals($user->getId(), $node2_progress->getUserId());
 		$this->assertEquals($this->user->getId(), $node2_progress->getLastChangeBy());

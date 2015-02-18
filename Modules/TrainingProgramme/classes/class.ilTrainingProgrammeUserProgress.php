@@ -25,8 +25,8 @@ class ilTrainingProgrammeUserProgress {
 	 * @param int[] | ilTrainingProgrammeAssignment $a_ids_or_model 
 	 */
 	public function __construct($a_ids_or_model) {
-		if ($a_id_or_model instanceof ilTrainingProgrammeProgress) {
-			$this->progress = $a_id_or_model;
+		if ($a_ids_or_model instanceof ilTrainingProgrammeProgress) {
+			$this->progress = $a_ids_or_model;
 		}
 		else {
 			if (count($a_ids_or_model) != 3) {
@@ -72,13 +72,12 @@ class ilTrainingProgrammeUserProgress {
 	 */
 	static public function getInstancesFor($a_program_id, $a_user_id) {
 		$progresses = ilTrainingProgrammeProgress::where(array
-							( "assignment_id" => $a_ids_or_model[0]
-							, "prg_id" => $a_ids_or_model[1]
-							, "usr_id" => $a_ids_or_model[2]
+							( "prg_id" => $a_program_id
+							//, "usr_id" => $a_user_id
 							))->get();
-		return array_map(function($dat) {
-			return new ilTrainingProgrammeProgress($dat);
-		}, $progresses);
+		return array_values(array_map(function($dat) {
+			return new ilTrainingProgrammeUserProgress($dat);
+		}, $progresses));
 	}
 	
 	/**
@@ -115,7 +114,7 @@ class ilTrainingProgrammeUserProgress {
 	 * @return int
 	 */
 	public function getUserId() {
-		$this->assignment->getUserId();
+		return $this->progress->getUserId();
 	}
 	
 	/**
