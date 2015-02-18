@@ -696,11 +696,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	public function getAssignmentsOf($a_user_id) {
 		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
 		
-		$prg_ids =array_map(function($par) {
-			return $par->getId();
-		}, $this->getParents());
-		$prg_ids[] = $this->getId();
-		
+		$prg_ids = $this->getIdsFromNodesOnPathFromRootToHere();
 		$assignments = ilTrainingProgrammeAssignment::where(array( "usr_id" => $a_user_id
 														   		 , "root_prg_id" => $prg_ids
 														   ))
@@ -719,11 +715,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	public function getAssignments() {
 		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
 		
-		$prg_ids =array_map(function($par) {
-			return $par->getId();
-		}, $this->getParents());
-		$prg_ids[] = $this->getId();
-		
+		$prg_ids = $this->getIdsFromNodesOnPathFromRootToHere();
 		$assignments = ilTrainingProgrammeAssignment::where(array( "root_prg_id" => $prg_ids))
 													->orderBy("last_change", "DESC")
 													->get();
@@ -777,6 +769,18 @@ class ilObjTrainingProgramme extends ilContainer {
 			$parent->updateLastChange();
 		}
 		$this->update();
+	}
+	
+	/**
+	 * Get the ids from the nodes in the path leading from the root node of this
+	 * program to this node, including the id of this node.
+	 */
+	protected function getIdsFromNodesOnPathFromRootToHere() {
+		$prg_ids =array_map(function($par) {
+			return $par->getId();
+		}, $this->getParents());
+		$prg_ids[] = $this->getId();
+		return $prg_ids;
 	}
 }
 
