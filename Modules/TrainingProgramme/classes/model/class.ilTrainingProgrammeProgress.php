@@ -34,10 +34,10 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	// The user does not need to be successfull in this node.
 	const STATUS_NOT_RELEVANT = 4;
 
-	static $STATUS = array( STATUS_PROGRESS
-						  , STATUS_COMPLETED
-						  , STATUS_ACCREDITED
-						  , STATUS_NOT_RELEVANT
+	static $STATUS = array( ilTrainingProgrammeProgress::STATUS_PROGRESS
+						  , ilTrainingProgrammeProgress::STATUS_COMPLETED
+						  , ilTrainingProgrammeProgress::STATUS_ACCREDITED
+						  , ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT
 						  );  
 
 	/**
@@ -48,14 +48,34 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	}
 
 	/**
+	 * The id of this progress.
+	 *
+	 * This is superfluous, since a progress is unique per (assignment_id, prg_id,
+	 * user_id)-tuple, but ActiveRecords won't cooperate and wants one primary key
+	 * only. I'm sad.
+	 * We set a unique constraint on the three fields in the db update to get the
+	 * desired guarantees by the database.
+	 * 
+	 * @var int
+	 *
+	 * @con_is_primary  true
+	 * @con_sequence    true
+	 * @con_is_unique   true
+	 * @con_has_field   true
+	 * @con_fieldtype   integer
+	 * @con_length      4
+	 */
+	protected $id;
+
+	/**
 	 * The id of the assignment this progress belongs to.
 	 *
 	 * @var int 
 	 * 
-	 * @con_is_primary  true
 	 * @con_has_field   true
 	 * @con_fieldtype   integer
 	 * @con_length      4
+	 * @con_is_notnull  true 
 	 */
 	protected $assignment_id;
 
@@ -64,10 +84,10 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	 *
 	 * @var int 
 	 * 
-	 * @con_is_primary  true
 	 * @con_has_field   true
 	 * @con_fieldtype   integer
 	 * @con_length      4
+	 * @con_is_notnull  true 
 	 */
 	protected $prg_id;
 
@@ -76,10 +96,10 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	 * 
 	 * @var int 
 	 * 
-	 * @con_is_primary  true
 	 * @con_has_field   true
 	 * @con_fieldtype   integer
 	 * @con_length      4
+	 * @con_is_notnull  true 
 	 */
 
 	protected $usr_id;
@@ -132,7 +152,7 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	 * @con_has_field   true
 	 * @con_fieldtype   integer 
 	 * @con_length      4
-	 * @con_is_notnull  false 
+	 * @con_is_notnull  false
 	 */
 	protected $completion_by;
 	
@@ -174,7 +194,7 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 								    , $a_assigning_usr_id) {
 		$prg = new ilTrainingProgrammeProgress();
 		$prg->setAssignmentId($a_ass->getId())
-			->setNodeId($a_prg->getId())
+			->setNodeId($a_prg->getObjId())
 			->setUserId($a_ass->getUserId())
 			->setAmountOfPoints($a_prg->getPoints())
 			->setCurrentAmountOfPoints(0)
