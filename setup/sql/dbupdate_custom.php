@@ -161,7 +161,6 @@ if(!$ilDB->tableExists('exc_crit'))
 	$ilDB->addPrimaryKey('exc_crit',array('id'));
 	$ilDB->createSequence('exc_crit');
 }
-
 ?>
 <#11>
 <?php
