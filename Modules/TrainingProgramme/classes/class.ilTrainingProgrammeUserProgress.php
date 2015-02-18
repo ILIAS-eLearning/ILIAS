@@ -81,6 +81,29 @@ class ilTrainingProgrammeUserProgress {
 	}
 	
 	/**
+	 * Get the instance for the assignment on the program.
+	 *
+	 * Throws when the node does not belong to the assignment.
+	 *
+	 * @throws ilException
+	 * @param  int $a_program_id
+	 * @param  int $a_user_id
+	 * @return ilTrainingProgrammeUserProgress
+	 */
+	static public function getInstancesForAssignment($a_program_id, $a_assignment_id) {
+		$progresses = ilTrainingProgrammeProgress::where(array
+							( "prg_id" => $a_program_id
+							, "assignment_id" => $a_assignment_id
+							))->get();
+		if (count($progresses) == 0) {
+			throw new ilException("ilTrainingProgrammeUserProgress::getInstancesForAssignment: "
+								 ."Assignment '$a_assignment_id' does not belong to program "
+								 ."'$a_program_id'");
+		}
+		return new ilTrainingProgrammeUserProgress($progresses[0]);
+	}
+	
+	/**
 	 * Get the program node where this progress belongs to was made. 
 	 *
 	 * Throws when program this assignment is about has no ref id.
