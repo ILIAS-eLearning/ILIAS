@@ -713,15 +713,9 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return [ilTrainingProgrammeUserAssignment]
 	 */
 	public function getAssignments() {
-		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
-		
-		$prg_ids = $this->getIdsFromNodesOnPathFromRootToHere();
-		$assignments = ilTrainingProgrammeAssignment::where(array( "root_prg_id" => $prg_ids))
-													->orderBy("last_change", "DESC")
-													->get();
 		return array_map(function($ass) {
 			return new ilTrainingProgrammeUserAssignment($ass);
-		}, array_values($assignments)); // use array values since we want keys 0...
+		}, array_values($this->getAssignmentsRaw())); // use array values since we want keys 0...
 	}
 	
 	/**
@@ -749,11 +743,11 @@ class ilObjTrainingProgramme extends ilContainer {
 	}
 	
 	protected function addProgressForNewNodes(ilObjTrainingProgramme $a_prg) {
-		$settings = $this->settings;
+		$settings = $a_prg->settings;
 		array_map(function($ass) use ($settings) {
-			$progress = ilTrainingProgrammeProgress::createFor($settings, $ass);
+			$progress = ilTrainingProgrammeProgress::createFor($settings, $ass, null);
 			$progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT);
-		}, $this->getAssignments());
+		}, $this->getAssignmentsRaw());
 	}
 	
 	////////////////////////////////////
@@ -781,6 +775,17 @@ class ilObjTrainingProgramme extends ilContainer {
 		}, $this->getParents());
 		$prg_ids[] = $this->getId();
 		return $prg_ids;
+	}
+	
+	/**
+	 * Get model objects for the assignments on this programm.
+	 */
+	protected function getAssignmentsRaw() {
+		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
+		$prg_ids = $this->getIdsFromNodesOnPathFromRootToHere();
+		return ilTrainingProgrammeAssignment::where(array( "root_prg_id" => $prg_ids))
+												->orderBy("last_change", "DESC")
+												->get();
 	}
 }
 
