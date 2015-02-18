@@ -626,11 +626,12 @@ class ilObjTrainingProgramme extends ilContainer {
 		$ass_mod = ilTrainingProgrammeAssignment::createFor($this->settings, $a_usr_id, $a_assigning_usr_id);
 		$ass = new ilTrainingProgrammeUserAssignment($ass_mod);
 		
-		$this->applyToSubTreeNodes(function($node) use($ass_mod, $a_assigning_usr_id) {
+		$this->applyToSubTreeNodes(function($node) use ($ass_mod, $a_assigning_usr_id) {
+			$progress = ilTrainingProgrammeProgress::createFor($node->settings, $ass_mod, $a_assigning_usr_id);
 			if ($node->getStatus() != ilTrainingProgramme::STATUS_ACTIVE) {
-				return;
+				$progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT);
 			}
-			ilTrainingProgrammeProgress::createFor($node->settings, $ass_mod, $a_assigning_usr_id);
+		
 		});
 		
 		return $ass;
