@@ -321,7 +321,7 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	 * Set the status of this node.
 	 *
 	 * Throws when status is none of ilTrainingProgramme::STATUS_*. Throws when
-	 * completion_by is set and status is STATUS_IN_PROGRESS.
+	 * status is STATUS_COMPLETED.
 	 * 
 	 * @throws ilException
 	 * @param  $a_status int - one of ilTrainingProgramme::STATUS_*
@@ -332,6 +332,10 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 		if (!in_array($a_status, self::$STATUS)) {
 			throw new ilException("ilTrainingProgrammeProgress::setStatus: No status: "
 								 ."'$a_status'");
+		}
+		if ($a_status == self::STATUS_COMPLETED) {
+			throw new ilException("ilTrainingProgrammeProgress::setStatus: Can't set "
+								 ."status when node already completed.");
 		}
 		$this->status = $a_status;
 		$this->updateLastChange();
