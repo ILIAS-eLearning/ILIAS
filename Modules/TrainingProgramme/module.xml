@@ -33,14 +33,13 @@
 		</object>
         -->
 	</objects>
-	<!--
-    <events>		
-		<event type="listen" id="Services/Tracking" />
+    <events>
+    	<event type="listen" id="Services/User" />
+		<!--<event type="listen" id="Services/Tracking" />
 		<event type="raise" id="create" />
 		<event type="raise" id="update" />
-		<event type="raise" id="delete" />
+		<event type="raise" id="delete" />-->
 	</events>
-    -->
 	<!--
     <copage>
 		<pageobject parent_type="lobj" class_name="ilLOPage" directory="classes/Objectives"/>	
