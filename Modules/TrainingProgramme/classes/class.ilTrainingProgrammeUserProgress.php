@@ -250,6 +250,8 @@ class ilTrainingProgrammeUserProgress {
 	 *
 	 * If the program node runs in LP-mode this will be equal getAmountOfPoints.
 	 *
+	 * TODO: Maybe caching this value would be a good idea.
+	 *
 	 * @return int
 	 */
 	public function getMaximumPossibleAmountOfPoints() {
@@ -273,7 +275,7 @@ class ilTrainingProgrammeUserProgress {
 	 * @return bool
 	 */
 	public function canBeCompleted() {
-		
+		return $this->getMaximumPossibleAmountOfPoints() >= $this->getAmountOfPoints();
 	}
 }
 
