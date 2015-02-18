@@ -70,7 +70,7 @@ class ilTrainingProgrammeUserProgress {
 	 * @param  int $a_user_id
 	 * @return ilTrainingProgrammeUserProgress[]
 	 */
-	static public function getInstancesFor($a_program_id, $a_user_id) {
+	static public function getInstancesForUser($a_program_id, $a_user_id) {
 		$progresses = ilTrainingProgrammeProgress::where(array
 							( "prg_id" => $a_program_id
 							, "usr_id" => $a_user_id
@@ -230,7 +230,12 @@ class ilTrainingProgrammeUserProgress {
 	 * @return int
 	 */
 	public function getMaximumPossibleAmountOfPoints() {
-		
+		/*array_reduce(
+			array_map(
+			}, $this->getTrainingProgramme()->getProgresses)
+		, function () {
+			
+		});*/
 	}
 	
 	/**
