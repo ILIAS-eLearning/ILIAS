@@ -160,4 +160,15 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT
 						   , $node2_progress->getStatus());
 	}
+	
+	public function testUserSelection() {
+		$this->setAllNodesActive();
+		$this->assignNewUserToRoot();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+		
+		$root_progresses = $this->root->getProgressesOf($user->getId());
+		$this->assertCount(1, $root_progresses);
+	}
 }
