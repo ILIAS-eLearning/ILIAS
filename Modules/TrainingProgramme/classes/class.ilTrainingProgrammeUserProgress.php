@@ -270,6 +270,39 @@ class ilTrainingProgrammeUserProgress {
 	public function canBeCompleted() {
 		return $this->getMaximumPossibleAmountOfPoints() >= $this->getAmountOfPoints();
 	}
+	
+	/**
+	 * Check whether there are individual modifications for the user on this program.
+	 *
+	 * @return bool
+	 */
+	public function hasIndividualModifications() {
+		return $this->getLastChangeBy() !== null;
+	}
+
+	/**
+	 * Update the progress from its program node. Will only update when the node
+	 * does not have individual modifications and is not completed.
+	 * Return false, when update could not be performed and true otherwise.
+	 *
+	 * @return bool
+	 */
+	public function updateFromProgramNode() {
+		if ($this->hasIndividualModifications) {
+			return false;
+		}
+		if ($this->getStatus() == ilTrainingProgrammeProgress::STATUS_COMPLETED) {
+			return false;
+		}
+		
+		$prg = $this->getTrainingProgramme();
+		$this->progress->setAmountOfPoints($prg->getPoints())
+					   ->setStatus($prg->getStatus() == ilTrainingProgramme::STATUS_ACTIVE 
+					   				? ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT
+					   				: ilTrainingProgrammeProgress::STATUS_IN_PROGRESS
+					   			   )
+					   ->update();
+	}
 }
 
 ?>

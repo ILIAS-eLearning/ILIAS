@@ -440,7 +440,8 @@ class ilObjTrainingProgramme extends ilContainer {
 	
 	/**
 	 * Apply the given Closure to every node in the subtree starting at
-	 * this object.
+	 * this object. When the closure returns false, the underlying nodes 
+	 * won't be visited.
 	 *
 	 * Throws when this object is not in tree.
 	 *
@@ -450,9 +451,10 @@ class ilObjTrainingProgramme extends ilContainer {
 	public function applyToSubTreeNodes(Closure $fun) {
 		$this->throwIfNotInTree();
 		
-		$fun($this);
-		foreach($this->getChildren() as $child) {
-			$child->applyToSubTreeNodes($fun);
+		if ($fun($this) !== false) {
+			foreach($this->getChildren() as $child) {
+				$child->applyToSubTreeNodes($fun);
+			}
 		}
 	}
 
