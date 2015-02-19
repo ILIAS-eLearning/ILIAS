@@ -170,11 +170,7 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	protected $last_change;
 
 	/**
-	 * Id of user who did the assignment that lead to creation of this progress
-	 * or the update of the progress the last time.
-	 *
-	 * TODO: The user who did the assignment is irrelevant here. This should
-	 * be reflected in createFor as well.
+	 * Id of the user who did the last manual update of the progress
 	 *
 	 * @var int 
 	 * 
@@ -193,8 +189,7 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	 * @return ilTrainingProgrammeProgress
 	 */
 	static public function createFor( ilTrainingProgramme $a_prg
-								    , ilTrainingProgrammeAssignment $a_ass
-								    , $a_assigning_usr_id) {
+								    , ilTrainingProgrammeAssignment $a_ass) {
 		$prg = new ilTrainingProgrammeProgress();
 		$prg->setAssignmentId($a_ass->getId())
 			->setNodeId($a_prg->getObjId())
@@ -203,7 +198,7 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 			->setCurrentAmountOfPoints(0)
 			->setStatus(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS)
 			->setCompletionBy(null)
-			->setLastChangeBy($a_assigning_usr_id)
+			->setLastChangeBy(null)
 			->updateLastChange()
 			->create();
 		return $prg;

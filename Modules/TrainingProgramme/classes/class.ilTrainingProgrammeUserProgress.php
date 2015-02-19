@@ -90,17 +90,32 @@ class ilTrainingProgrammeUserProgress {
 	 * @param  int $a_user_id
 	 * @return ilTrainingProgrammeUserProgress
 	 */
-	static public function getInstancesForAssignment($a_program_id, $a_assignment_id) {
+	static public function getInstanceForAssignment($a_program_id, $a_assignment_id) {
 		$progresses = ilTrainingProgrammeProgress::where(array
 							( "prg_id" => $a_program_id
 							, "assignment_id" => $a_assignment_id
 							))->get();
 		if (count($progresses) == 0) {
-			throw new ilException("ilTrainingProgrammeUserProgress::getInstancesForAssignment: "
+			throw new ilException("ilTrainingProgrammeUserProgress::getInstanceForAssignment: "
 								 ."Assignment '$a_assignment_id' does not belong to program "
 								 ."'$a_program_id'");
 		}
 		return new ilTrainingProgrammeUserProgress(array_shift($progresses));
+	}
+	
+	/**
+	 * Get the instances for a program node.
+	 *
+	 * @param int $a_program_id
+	 * @return ilTrainingProgrammeUserProgress[]
+	 */
+	static public function getInstancesForProgram($a_program_id) {
+		$progresses = ilTrainingProgrammeProgress::where(array
+							( "prg_id" => $a_program_id
+							))->get();
+		return array_values(array_map(function($dat) {
+			return new ilTrainingProgrammeUserProgress($dat);
+		}, $progresses));
 	}
 	
 	/**
