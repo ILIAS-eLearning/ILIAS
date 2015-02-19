@@ -239,11 +239,10 @@ class ilCalendarMailNotification extends ilMailNotification
 				$this->appendBody("\n\n");
 				$this->appendBody($this->getLanguageText('crs_mail_permanent_link'));
 				$this->appendBody("\n\n");
-				
-				$this->appendAppointmentDetails();
-				
-				$this->appendBody("\n\n");
 				$this->appendBody($this->createPermanentLink());
+				$this->appendBody("\n\n");
+				$this->appendAppointmentDetails();
+
 				$this->getMail()->appendInstallationSignature(true);
 
 				$this->addAttachment();
