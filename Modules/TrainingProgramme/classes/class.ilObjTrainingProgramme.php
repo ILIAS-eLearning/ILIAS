@@ -757,11 +757,10 @@ class ilObjTrainingProgramme extends ilContainer {
 	}
 	
 	protected function addProgressForNewNodes(ilObjTrainingProgramme $a_prg) {
-		$settings = $a_prg->settings;
-		array_map(function($ass) use ($settings) {
-			$progress = ilTrainingProgrammeProgress::createFor($settings, $ass, null);
+		foreach ($this->getAssignmentsRaw() as $ass) {
+			$progress = ilTrainingProgrammeProgress::createFor($a_prg->$settings, $ass, null);
 			$progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT);
-		}, $this->getAssignmentsRaw());
+		}
 	}
 	
 	////////////////////////////////////
