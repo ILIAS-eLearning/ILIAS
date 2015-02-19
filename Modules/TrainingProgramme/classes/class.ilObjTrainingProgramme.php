@@ -660,7 +660,15 @@ class ilObjTrainingProgramme extends ilContainer {
 								 .$a_assignment->getId()."' does not belong to training "
 								 ."program '".$this->getId()."'.");
 		}
+		
+		$ass_id = $a_assignment->getId();
+		$this->applyToSubTreeNodes(function($node) use ($ass_id) {
+			$progress = $node->getProgressForAssignment($ass_id);
+			$progress->delete();
+		});
+		
 		$a_assignment->delete();
+		
 		return $this;
 	}
 	
@@ -758,7 +766,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	
 	protected function addProgressForNewNodes(ilObjTrainingProgramme $a_prg) {
 		foreach ($this->getAssignmentsRaw() as $ass) {
-			$progress = ilTrainingProgrammeProgress::createFor($a_prg->$settings, $ass, null);
+			$progress = ilTrainingProgrammeProgress::createFor($a_prg->settings, $ass, null);
 			$progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT);
 		}
 	}
