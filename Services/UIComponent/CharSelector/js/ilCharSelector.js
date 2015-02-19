@@ -338,7 +338,8 @@ il.CharSelector = new function() {
 
         if($('body.kiosk').length > 0)
         {
-             $('#ilCharSelectorPanel').css('top','0px');
+		var topsize = ($("#kioskOptions[name='SEBPlugin']").length > 0) ? $("#kioskOptions").css('height') : "0px";
+		$('#ilCharSelectorPanel').css('top',topsize);
         }
         else
         {
