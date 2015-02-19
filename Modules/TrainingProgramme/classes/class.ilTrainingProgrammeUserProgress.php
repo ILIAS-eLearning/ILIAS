@@ -194,14 +194,7 @@ class ilTrainingProgrammeUserProgress {
 	public function getCompletionBy() {
 		return $this->progress->getCompletionBy();
 	}
-	
-	/**
-	 * Remove this assignment.
-	 */
-	public function remove() {
-		return $this->getTrainingProgramme()->removeAssignment($this);
-	}
-	
+
 	/**
 	 * Delete the assignment from database.
 	 */

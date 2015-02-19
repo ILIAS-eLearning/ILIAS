@@ -48,7 +48,7 @@ class ilTrainingProgrammeAssignment extends ActiveRecord {
 	 * @con_length      4
 	 * @con_is_notnull  true 
 	 */
-	protected $usr_id;   
+	protected $usr_id;
 
 	/**
 	 * Root node of the program tree, the user was assigned to. Could be a subtree of
