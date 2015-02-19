@@ -412,4 +412,16 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($NEW_AMOUNT_OF_POINTS_1, $node2_progress1->getAmountOfPoints());
 		$this->assertEquals($NEW_AMOUNT_OF_POINTS_2, $node2_progress2->getAmountOfPoints());
 	}
+	
+	// QUA-Objekte, welche "Inaktiv" sind können bei Studierenden-Studienplänen nicht von
+	// "nicht relevant" auf irgendeinen anderen Status  gesetzt werden.
+	public function testInactiveNodesCantBeSetToRelevant() {
+		$this->assertTrue(false, "Test not implemented.");
+	}
+	
+	// Hinweis bei der bei der Studierenden-Instanz des Studienplanes, falls dieser vom
+	// Original-Studienplan abweicht.
+	public function testHasDeviationToProgram() {
+		$this->assertTrue(false, "Test not implemented.");
+	}
 }
