@@ -509,8 +509,8 @@ class ilObjTrainingProgramme extends ilContainer {
 			throw new ilTrainingProgrammeTreeException("This is no parent of the given programm.");
 		}
 		
-		if ($a_prg->hasAssignments()) {
-			throw new ilTrainingProgrammeTreeException("The node already has assignments.");
+		if (!$a_prg->canBeRemoved()) {
+			throw new ilTrainingProgrammeTreeException("The node has relevant assignments.");
 		}
 		
 		// *sigh*...
@@ -520,6 +520,24 @@ class ilObjTrainingProgramme extends ilContainer {
 		$this->clearChildrenCache();
 		
 		return $this;
+	}
+	
+	/**
+	 * Check weather a node can be removed. This is allowed when all progresses on the node
+	 * are marked as not relevant programmatically.
+	 *
+	 * @return bool
+	 */
+	public function canBeRemoved() {
+		foreach($this->getProgresses() as $progress) {
+			if ($progress->getStatus() != ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
+				return false;
+			}
+			if ($progress->getLastChangeBy() !== null) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
@@ -639,7 +657,7 @@ class ilObjTrainingProgramme extends ilContainer {
 		$ass = new ilTrainingProgrammeUserAssignment($ass_mod);
 		
 		$this->applyToSubTreeNodes(function($node) use ($ass_mod, $a_assigning_usr_id) {
-			$progress = ilTrainingProgrammeProgress::createFor($node->settings, $ass_mod, $a_assigning_usr_id);
+			$progress = ilTrainingProgrammeProgress::createFor($node->settings, $ass_mod);
 			if ($node->getStatus() != ilTrainingProgramme::STATUS_ACTIVE) {
 				$progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT);
 			}
@@ -759,19 +777,30 @@ class ilObjTrainingProgramme extends ilContainer {
 	 *
 	 * @throws ilException
 	 * @param int $a_assignment_id
-	 * @return ilTrainingProgrammUserProgress[] 
+	 * @return ilTrainingProgrammUserProgress
 	 */
 	public function getProgressForAssignment($a_assignment_id) {
 		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
-		return ilTrainingProgrammeUserProgress::getInstancesForAssignment($this->getId(), $a_assignment_id);
+		return ilTrainingProgrammeUserProgress::getInstanceForAssignment($this->getId(), $a_assignment_id);
 	}
 	
 	protected function addProgressForNewNodes(ilObjTrainingProgramme $a_prg) {
 		foreach ($this->getAssignmentsRaw() as $ass) {
-			$progress = ilTrainingProgrammeProgress::createFor($a_prg->settings, $ass, null);
+			$progress = ilTrainingProgrammeProgress::createFor($a_prg->settings, $ass);
 			$progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT);
 		}
 	}
+	
+	/**
+	 * Get all progresses on this node.
+	 *
+	 * @return ilTrainingProgrammeUserProgress[]
+	 */
+	public function getProgresses() {
+		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+		return ilTrainingProgrammeUserProgress::getInstancesForProgram($this->getId());
+	}
+	
 	
 	////////////////////////////////////
 	// HELPERS
