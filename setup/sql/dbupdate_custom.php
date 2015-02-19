@@ -3350,3 +3350,30 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 		die("Custom Update #79: Expected to find org_unit with import_id = 'na_ohne'");
 	}
 ?>
+
+<#105>
+<?php
+
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+
+	require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
+
+	// Set the absolute cancel deadline to 9999 for all trainings in the category
+	// "Grundausbildung"
+	$cat_ref_id = 1644;
+
+	foreach (gevCourseUtils::getAllCoursesBelow(array($cat_ref_id)) as $info) {
+		$utils = gevCourseUtils::getInstance($info["obj_id"]);
+		$utils->setAbsoluteCancelDeadline(9999);
+	}
+
+?>
