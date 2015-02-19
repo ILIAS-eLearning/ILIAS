@@ -755,6 +755,19 @@ class ilObjTrainingProgramme extends ilContainer {
 		return count($this->getAssignments()) > 0;
 	}
 	
+	/**
+	 * Update all assignments to this program node.
+	 *
+	 * @return $this
+	 */
+	public function updateAllAssignments() {
+		$assignments = ilTrainingProgrammeUserAssignment::getInstancesForProgram($this->getId());
+		foreach ($assignments as $ass) {
+			$ass->updateFromProgram();
+		}
+		return $this;
+	}
+	
 	////////////////////////////////////
 	// USER PROGRESS
 	////////////////////////////////////

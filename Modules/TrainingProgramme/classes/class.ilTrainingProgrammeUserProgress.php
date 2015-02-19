@@ -253,6 +253,23 @@ class ilTrainingProgrammeUserProgress {
 	}
 	
 	/**
+	 * Set the amount of points the user is required to have to complete this node.
+	 *
+	 * Throws when status is completed.
+	 *
+	 * @throws ilException
+	 * @param int $a_points    The amount of points the user needs for completion.
+	 * @param int $a_user_id   The id of the user who did the modification.
+	 * @return $this
+	 */
+	public function setRequiredAmountOfPoints($a_points, $a_user_id) {
+		$this->progress->setAmountOfPoints($a_points)
+					   ->setLastChangeBy($a_user_id)
+					   ->update();
+		return $this;
+	}
+	
+	/**
 	 * Get the maximum possible amount of points a user can achieve for
 	 * the completion of this node.
 	 *
@@ -303,7 +320,7 @@ class ilTrainingProgrammeUserProgress {
 	 * @return bool
 	 */
 	public function updateFromProgramNode() {
-		if ($this->hasIndividualModifications) {
+		if ($this->hasIndividualModifications()) {
 			return false;
 		}
 		if ($this->getStatus() == ilTrainingProgrammeProgress::STATUS_COMPLETED) {

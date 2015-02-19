@@ -333,7 +333,7 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 		}
 		if ($a_status == self::STATUS_COMPLETED) {
 			throw new ilException("ilTrainingProgrammeProgress::setStatus: Can't set "
-								 ."status when node already completed.");
+								 ."status when node is not in completed.");
 		}
 		$this->status = $a_status;
 		$this->updateLastChange();

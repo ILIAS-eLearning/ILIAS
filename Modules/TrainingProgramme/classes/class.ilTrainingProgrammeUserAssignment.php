@@ -47,11 +47,25 @@ class ilTrainingProgrammeUserAssignment {
 	/**
 	 * Get all instances for a given user.
 	 *
-	 * @param int
+	 * @param int $a_user_id
 	 * @return ilTrainingProgrammeUserAssignment[]
 	 */
 	static public function getInstancesOfUser($a_user_id) {
 		$assignments = ilTrainingProgrammeAssignment::where(array( "usr_id" => $a_user_id ))
+													->get();
+		return array_map(function($ass) {
+			return new ilTrainingProgrammeUserAssignment($ass);
+		}, array_values($assignments)); // use array values since we want keys 0...
+	}
+	
+	/**
+	 * Get all assignments that were made to the given program.
+	 *
+	 * @param int $a_program_id
+	 * @return ilTrainingProgrammeUserAssignment[]
+	 */
+	static public function getInstancesForProgram($a_program_id) {
+		$assignments = ilTrainingProgrammeAssignment::where(array( "root_prg_id" => $a_program_id ))
 													->get();
 		return array_map(function($ass) {
 			return new ilTrainingProgrammeUserAssignment($ass);
