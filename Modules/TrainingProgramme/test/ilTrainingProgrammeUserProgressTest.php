@@ -231,6 +231,22 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT, $node3_progress->getStatus());
 	}
 	
+	public function testIndividualRequiredPoints() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass1 = $tmp[0];
+		$user1 = $tmp[1];
+		
+		
+		$NEW_AMOUNT_OF_POINTS_1 = 205;
+		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS_1, ilTrainingProgramme::DEFAULT_POINTS);
+	
+		$node2_progress1 = array_shift($this->node2->getProgressesOf($user1->getId()));
+		$node2_progress1->setRequiredAmountOfPoints($NEW_AMOUNT_OF_POINTS_1, $this->user->getId());
+
+		$this->assertEquals($NEW_AMOUNT_OF_POINTS_1, $node2_progress1->getAmountOfPoints());
+	}
+	
 	public function testMaximimPossibleAmountOfPoints1() {
 		$this->setAllNodesActive();
 		$tmp = $this->assignNewUserToRoot();
@@ -317,7 +333,6 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$user = $tmp[1];
 		
 		$NEW_AMOUNT_OF_POINTS = 201;
-		
 		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS, ilTrainingProgramme::DEFAULT_POINTS);
 		
 		$this->root->setPoints($NEW_AMOUNT_OF_POINTS)
@@ -336,7 +351,6 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$user = $tmp[1];
 		
 		$NEW_AMOUNT_OF_POINTS = 202;
-		
 		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS, ilTrainingProgramme::DEFAULT_POINTS);
 		
 		$this->root->setPoints($NEW_AMOUNT_OF_POINTS)
@@ -357,7 +371,6 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$user = $tmp[1];
 		
 		$NEW_AMOUNT_OF_POINTS = 203;
-		
 		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS, ilTrainingProgramme::DEFAULT_POINTS);
 		
 		$this->root->setPoints($NEW_AMOUNT_OF_POINTS)
@@ -372,6 +385,31 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 	//  sondern dann bei bewusster Aktualisierung (sofern nicht ein darüberliegenden 
 	// Knotenpunkt manuell angepasst worden ist)
 	public function testNoUpdateOnModifiedNodes() {
-		$this->assertTrue(false, "Test is not implemented.");
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass1 = $tmp[0];
+		$user1 = $tmp[1];
+		
+		$tmp = $this->assignNewUserToRoot();
+		$ass2 = $tmp[0];
+		$user2 = $tmp[1];
+		
+		$NEW_AMOUNT_OF_POINTS_1 = 205;
+		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS_1, ilTrainingProgramme::DEFAULT_POINTS);
+		$NEW_AMOUNT_OF_POINTS_2 = 206;
+		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS_2, ilTrainingProgramme::DEFAULT_POINTS);
+		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS_1, $NEW_AMOUNT_OF_POINTS_2);
+		
+		$node2_progress1 = array_shift($this->node2->getProgressesOf($user1->getId()));
+		$node2_progress2 = array_shift($this->node2->getProgressesOf($user2->getId()));
+		
+		$node2_progress1->setRequiredAmountOfPoints($NEW_AMOUNT_OF_POINTS_1, $this->user->getId());
+		
+		$this->node2->setPoints($NEW_AMOUNT_OF_POINTS_2)
+					->update();
+		$this->root->updateAllAssignments();
+		
+		$this->assertEquals($NEW_AMOUNT_OF_POINTS_1, $node2_progress1->getAmountOfPoints());
+		$this->assertEquals($NEW_AMOUNT_OF_POINTS_2, $node2_progress2->getAmountOfPoints());
 	}
 }
