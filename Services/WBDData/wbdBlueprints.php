@@ -70,6 +70,8 @@ $WBD_EDU_RECORD = array(
 $VALUE_MAPPINGS = array(
 	"course_type" => array(
 		"Präsenzveranstaltung" => "Präsenzveranstaltung",
+
+		"Präsenzveranstaltung" => "Präsenzveranstaltung",
 		"Präsenztraining" => "Präsenzveranstaltung",
 		"Präsenz" => "Präsenzveranstaltung",
 		"Selbstlernkurs" => "selbstgesteuertes E-Learning",
@@ -77,11 +79,12 @@ $VALUE_MAPPINGS = array(
 		"Webinar" => "gesteuertes E-Learning",
 		"gesteuertes E-learning" => "gesteuertes E-Learning",
 		"gesteuertes e-learning" => "gesteuertes E-Learning",
+		"Virtuelle Sitzung" => "gesteuertes E-Learning",
 
 		"Onlinetraining" => "selbstgesteuertes E-Learning",
+		"Blended Learning" => "Blended Learning",
 
 		"XX" => "Einzeltraining",
-		"XX" => "Blended Learning"
 /*
 "Präsenztraining"
 "Selbstlernkurs"
