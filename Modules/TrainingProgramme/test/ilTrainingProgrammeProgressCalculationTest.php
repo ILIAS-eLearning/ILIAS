@@ -63,10 +63,10 @@ class ilTrainingProgrammeProgressCalculationTest extends PHPUnit_Framework_TestC
 			else {
 				$this->$node_name = ilObjTrainingProgramme::createInstance();
 				$this->$node_name->object_factory = new ilObjectFactoryWrapperMock();
-				$this->root->setStatus(ilTrainingProgramme::STATUS_ACTIVE)
-						   ->update();
 				$top->addNode($this->$node_name);
 				$this->setUpNodes($this->$node_name, $data2);
+				$this->$node_name->setStatus(ilTrainingProgramme::STATUS_ACTIVE)
+								 ->update();
 			}
 		}
 	}

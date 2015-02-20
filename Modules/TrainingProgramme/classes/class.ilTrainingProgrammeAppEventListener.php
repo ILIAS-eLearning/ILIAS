@@ -17,11 +17,17 @@ class ilTrainingProgrammeAppEventListener {
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
 		switch ($a_component) {
-			case 'Services/User':
+			case "Services/User":
 				switch ($a_event){
-					case 'deleteUser': 
+					case "deleteUser": 
 						self::onServiceUserDeleteUser($a_parameter);
 						break;
+				}
+				break;
+			case "Services/Tracking":
+				switch($a_event) {
+					case "updateStatus":
+						self::onServiceTrackingUpdateStatus($a_parameter);
 				}
 				break;
 			default:
@@ -38,5 +44,13 @@ class ilTrainingProgrammeAppEventListener {
 		}
 	}
 	
-
+	private function onServiceTrackingUpdateStatus($a_par) {
+		require_once("./Services/Tracking/classes/class.ilLPStatus.php");
+		if ($a_par["status"] != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+			return;
+		}
+		
+		require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
+		ilObjTrainingProgramme::setProgressesCompletedFor($a_par["obj_id"], $a_par["usr_id"]);
+	}
 }
