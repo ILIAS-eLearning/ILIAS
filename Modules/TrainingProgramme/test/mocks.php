@@ -9,7 +9,7 @@
  * @version 1.0.0
  */
 
-
+require_once("Services/Tracking/classes/class.ilLPStatus.php");
 
 /**
  * Mock for leaf in program.
@@ -43,7 +43,14 @@ class ilTrainingProgrammeLeafMock extends ilObject2 implements ilTrainingProgram
 	
 	// Mark this leaf as completed for a user.
 	public function markCompletedFor($a_user_id) {
-		
+		global $ilAppEventHandler;
+
+		$ilAppEventHandler->raise("Services/Tracking", "updateStatus", array(
+			"obj_id" => $this->getId(),
+			"usr_id" => $a_user_id,
+			"status" => ilLPStatus::LP_STATUS_COMPLETED_NUM,
+			"percentage" => 100
+			));
 	}
 }
 

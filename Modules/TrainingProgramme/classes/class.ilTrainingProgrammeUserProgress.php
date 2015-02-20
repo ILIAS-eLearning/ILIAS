@@ -123,6 +123,8 @@ class ilTrainingProgrammeUserProgress {
 	 *
 	 * Throws when program this assignment is about has no ref id.
 	 *
+	 * TODO: I'm quite sure, this will profit from caching.
+	 *
 	 * @throws ilException
 	 * @return ilObjTrainingProgramme
 	 */
@@ -311,7 +313,29 @@ class ilTrainingProgrammeUserProgress {
 	public function hasIndividualModifications() {
 		return $this->getLastChangeBy() !== null;
 	}
+	
+	/**
+	 * Check whether the was successfull on this node. This is the case,
+	 * when the node was accredited or completed.
+	 *
+	 * @return bool
+	 */
+	public function isSuccessfull() {
+		$status = $this->getStatus();
 
+		return $status == ilTrainingProgrammeProgress::STATUS_ACCREDITED
+			|| $status == ilTrainingProgrammeProgress::STATUS_COMPLETED;
+	}
+	
+	/**
+	 * Check whether this node is relevant for the user.
+	 *
+	 * @return bool
+	 */
+	public function isRelevant() {
+		return $this->getStatus() != ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT;
+	}
+	
 	/**
 	 * Update the progress from its program node. Will only update when the node
 	 * does not have individual modifications and is not completed.
@@ -334,6 +358,120 @@ class ilTrainingProgrammeUserProgress {
 					   				: ilTrainingProgrammeProgress::STATUS_IN_PROGRESS
 					   			   )
 					   ->update();
+	}
+	
+	/**
+	 * Updates the status of this progress based on the status of the progress 
+	 * on the sub nodes.
+	 */
+	protected function updateStatus() {
+		$prg = $this->getTrainingProgramme();
+		if ($prg->getLPMode() == ilTrainingProgramme::MODE_LP_COMPLETED) {
+			throw new ilException("ilTrainingProgrammeUserProgress::updateStatus: "
+								 ."There is some problem in the implementation. This "
+								 ."method should only be callled for nodes in points "
+								 ."mode.");
+		}
+		
+		if ($this->isSuccessfull()) {
+			// Nothing to do here. The status of the parents should have been
+			// calculated already at some point before.
+			return;
+		}
+		
+		$add = function($a, $b) { return $a + $b; };
+		$get_points = function($child) {
+			if (!$child->isSuccessfull()) {
+				return 0;
+			}
+			return $child->getAmountOfPoints();
+		};
+		
+		$achieved_points = array_reduce(array_map($get_points, $this->getChildrenProgress()), $add);
+		$successfull = $achieved_points >= $this->getAmountOfPoints();
+		
+		$this->progress->setCurrentAmountOfPoints($achieved_points);
+		if ($successfull) {
+			$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_COMPLETED);
+		}
+		$this->progress->update();
+
+		$parent = $this->getParentProgress();
+		if ($successfull && $parent) {
+			$this->getParentProgress();
+		}
+	}
+
+	/**
+	 * Set this node to be completed due to a completed learning progress. Will
+	 * only set the progress if this node is relevant and not successfull.
+	 *
+	 * Throws when this node is not in LP-Mode. Throws when object that was
+	 * completed is no child of the node or user does not belong to this
+	 * progress.
+	 *
+	 * @throws ilException
+	 */
+	public function setLPCompleted($a_obj_id, $a_usr_id) {
+		if ($this->isSuccessfull() || !$this->isRelevant()) {
+			return true;
+		}
+		
+		$prg = $this->getTrainingProgramme();
+		if ($prg->getLPMode() != ilTrainingProgramme::MODE_LP_COMPLETED) {
+			throw new ilException("ilTrainingProgrammeUserProgress::setLPCompleted: "
+								 ."The node '".$prg->getId()."' is not in LP_COMPLETED mode.");
+		}
+		if ($this->getUserId() != $a_usr_id) {
+			throw new ilException("ilTrainingProgrammeUserProgress::setLPCompleted: "
+								 ."This progress does belong to user '".$this->getUserId()
+								 ."' and not to user '$a_usr_id'");
+		}
+		if (!in_array($a_obj_id, $prg->getLPChildrenIds())) {
+			throw new ilException("ilTrainingProgrammeUserProgress::setLPCompleted: "
+								 ."Object '$a_obj_id' is no child of node '".$prg->getId()."'.");
+		}
+		
+		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_COMPLETED)
+					   ->setCompletionBy($a_obj_id)
+					   ->update();
+		
+		$parent = $this->getParentProgress();
+		if ($parent) {
+			$parent->updateStatus();
+		}
+	}
+	
+	/**
+	 * Get the progress on the parent node for the same assignment this progress
+	 * belongs to.
+	 */
+	protected function getParentProgress() {
+		$prg = $this->getTrainingProgramme();
+		$parent = $prg->getParent();
+		if (!$parent) {
+			return null;
+		}
+		return $parent->getProgressForAssignment($this->progress->getAssignmentId());
+	}
+	
+	/**
+	 * Get the progresses on the child nodes of this node for the same assignment
+	 * this progress belongs to.
+	 */
+	protected function getChildrenProgress() {
+		$prg = $this->getTrainingProgramme();
+		if ($prg->getLPMode() == ilTrainingProgramme::MODE_LP_COMPLETED) {
+			throw new ilException("ilTrainingProgrammeUserProgress::getProgressChildren: "
+								 ."There is some problem in the implementation. This "
+								 ."method should only be callled for nodes in points "
+								 ."mode.");
+		}
+		
+		$ass_id = $this->progress->getAssignmentId();
+		return array_map(function($child) use ($ass_id) {
+			return $child->getProgressForAssignment($ass_id);
+		}, $prg->getChildren());
 	}
 }
 

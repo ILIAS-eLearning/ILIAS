@@ -138,15 +138,6 @@ class ilTrainingProgrammeUserAssignment {
 			return $progress->updateFromProgramNode($prg);
 		});
 	}
-	
-	/**
-	 * Calculate the progress for this assignment.
-	 *
-	 * @return $this
-	 */
-	public function calculateProgress() {
-		
-	}
 }
 
 ?>

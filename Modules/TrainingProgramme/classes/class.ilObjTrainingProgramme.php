@@ -401,7 +401,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 *
 	 * Throws when this object is not in tree.
 	 *
-	 * @return [ilTrainingProgrammeLeaf]
+	 * @return ilTrainingProgrammeLeaf[]
 	 */
 	public function getLPChildren() {
 		$this->throwIfNotInTree();
@@ -864,6 +864,26 @@ class ilObjTrainingProgramme extends ilContainer {
 		return ilTrainingProgrammeAssignment::where(array( "root_prg_id" => $prg_ids))
 												->orderBy("last_change", "DESC")
 												->get();
+	}
+	
+	/**
+	 * Set all progresses to completed where the object with given id is a leaf
+	 * and that belong to the user.
+	 */
+	static public function setProgressesCompletedFor($a_obj_id, $a_user_id) {
+		require_once("./Services/Object/classes/class.ilObject.php");
+		global $tree; // TODO: replace this by a settable static for testing purpose?
+		
+		foreach (ilObject::_getAllReferences($a_obj_id) as $ref_id) {
+			$node_data = $tree->getParentNodeData($ref_id);
+			if ($node_data["type"] !== "prg") {
+				continue;
+			}
+			$prg = ilObjTrainingProgramme::getInstanceByRefId($node_data["child"]);
+			foreach ($prg->getProgressesOf($a_user_id) as $progress) {
+				$progress->setLPCompleted($a_obj_id, $a_user_id);
+			}
+		}
 	}
 }
 
