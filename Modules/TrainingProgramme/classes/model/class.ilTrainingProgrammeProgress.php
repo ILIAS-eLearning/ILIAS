@@ -402,6 +402,11 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	/**
 	 * Update the last change timestamp to the current time.
 	 *
+	 * TODO: I'm not quite sure how the semantics of the last change field
+	 * should be. Should this record every change or only changes done by
+	 * a user manually. The answer to this question will also tell whether
+	 * this method should be called in other setters or not.
+	 *
 	 * @return $this
 	 */
 	public function updateLastChange() {
