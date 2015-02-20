@@ -16,6 +16,13 @@ class ilStr
 	{
 		if (function_exists("mb_substr"))
 		{
+			// bug in PHP < 5.4.12: null is not supported as length (if encoding given)
+			// https://github.com/php/php-src/pull/133			
+			if ($a_length === null)
+			{
+				$a_length = mb_strlen($a_str, "UTF-8");
+			}
+			
 			return mb_substr($a_str, $a_start, $a_length, "UTF-8");
 		}
 		else
