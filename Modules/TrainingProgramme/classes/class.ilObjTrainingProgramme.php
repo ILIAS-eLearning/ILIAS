@@ -416,6 +416,19 @@ class ilObjTrainingProgramme extends ilContainer {
 	}
 	
 	/**
+	 * Get the ids of the leafs the program contains.
+	 *
+	 * Throws when object is not in tree.
+	 *
+	 * @return ilTrainingProgrammeLeaf[]
+	 */
+	public function getLPChildrenIds() {
+		return array_map(function($child) {
+			return $child->getId();
+		}, $this->getLPChildren());
+	}
+	
+	/**
 	 * Get the amount of leafs, the training programme contains.
 	 *
 	 * Throws when this object is not in tree.
