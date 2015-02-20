@@ -223,13 +223,22 @@ class ilTrainingProgrammeUserProgress {
 	/**
 	 * Mark this progress as accredited.
 	 *
-	 * Throws when status is not IN_PROGRESS.
+	 * Throws when status is not IN_PROGRESS. Throws when program node is outdated
+	 * and current status is NOT_RELEVANT.
 	 *
 	 * @throws ilException
 	 * @param int $a_user_id The user who performed the operation.
 	 * @return $this
 	 */
 	public function markAccredited($a_user_id) {
+		if ($this->getStatus() == ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
+			$prg = $this->getTrainingProgramme();
+			if ($prg->getStatus() == ilTrainingProgramme::STATUS_OUTDATED) {
+				throw new ilException("ilTrainingProgrammeUserProgress::markAccredited: "
+									 ."Can't mark as accredited since program is outdated.");
+			}
+		}
+		
 		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_ACCREDITED)
 					   ->setCompletionBy($a_user_id)
 					   ->setLastChangeBy($a_user_id)
