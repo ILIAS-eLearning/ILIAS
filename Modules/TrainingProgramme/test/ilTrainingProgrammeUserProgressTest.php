@@ -413,10 +413,23 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($NEW_AMOUNT_OF_POINTS_2, $node2_progress2->getAmountOfPoints());
 	}
 	
-	// QUA-Objekte, welche "Inaktiv" sind können bei Studierenden-Studienplänen nicht von
-	// "nicht relevant" auf irgendeinen anderen Status  gesetzt werden.
-	public function testInactiveNodesCantBeSetToRelevant() {
-		$this->assertTrue(false, "Test not implemented.");
+	/**
+	 * QUA-Objekte, welche "Inaktiv" sind können bei Studierenden-Studienplänen nicht von
+	 * "nicht relevant" auf irgendeinen anderen Status  gesetzt werden.
+	 *
+	 * @expectedException ilException
+	 */
+	public function testOutdatedodesCantBeSetToRelevant() {
+		$this->setAllNodesActive();
+		$this->node1->setStatus(ilTrainingProgramme::STATUS_OUTDATED);
+		$tmp = $this->assignNewUserToRoot();
+		$ass1 = $tmp[0];
+		$user1 = $tmp[1];
+
+		$progress = $this->node1->getProgressForAssignment($ass1->getId());
+		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT
+						   , $progress->getStatus());
+		$progress->markAccredited($this->user->getId());
 	}
 	
 	// Hinweis bei der bei der Studierenden-Instanz des Studienplanes, falls dieser vom
