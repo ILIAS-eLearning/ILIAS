@@ -91,8 +91,6 @@ class ilTrainingProgrammeProgressCalculationTest extends PHPUnit_Framework_TestC
 		$this->leaf11->markCompletedFor($user_id);
 		$this->leaf21->markCompletedFor($user_id);
 		
-		$ass->calculateProgress();
-		
 		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_COMPLETED
 						   , $this->root->getProgressForAssignment($ass_id)->getStatus());
 		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_COMPLETED
@@ -121,8 +119,6 @@ class ilTrainingProgrammeProgressCalculationTest extends PHPUnit_Framework_TestC
 		$this->node1->getProgressForAssignment($ass_id)
 					->markAccredited($this->user->getId());
 		$this->leaf21->markCompletedFor($user_id);
-		
-		$ass->calculateProgress();
 		
 		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_COMPLETED
 						   , $this->root->getProgressForAssignment($ass_id)->getStatus());
@@ -155,8 +151,6 @@ class ilTrainingProgrammeProgressCalculationTest extends PHPUnit_Framework_TestC
 				   ->setRequiredAmountOfPoints(100, $this->user->getId());
 		$this->leaf21->markCompletedFor($user_id);
 		
-		$ass->calculateProgress();
-		
 		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_COMPLETED
 						   , $this->root->getProgressForAssignment($ass_id)->getStatus());
 		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT
@@ -186,8 +180,6 @@ class ilTrainingProgrammeProgressCalculationTest extends PHPUnit_Framework_TestC
 					->markNotRelevant($this->user->getId());
 		$this->leaf11->markCompletedFor($user_id);
 		$this->leaf21->markCompletedFor($user_id);
-		
-		$ass->calculateProgress();
 		
 		$this->assertEquals( ilTrainingProgrammeProgress::STATUS_IN_PROGRESS
 						   , $this->root->getProgressForAssignment($ass_id)->getStatus());
