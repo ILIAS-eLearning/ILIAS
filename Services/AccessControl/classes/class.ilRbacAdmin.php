@@ -767,17 +767,16 @@ class ilRbacAdmin
 		{
 			foreach($ops as $op)
 			{
-				if(!isset($s2_ops[$type]) or !in_array($op, $s2_ops[$type]))
-				{
-					$query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) '.
-						'VALUES( '.
-						$ilDB->quote($a_dest_id,'integer').', '.
-						$ilDB->quote($type,'text').', '.
-						$ilDB->quote($op,'integer').', '.
-						$ilDB->quote($a_dest_parent,'integer').' '.
-						')';
-					$ilDB->manipulate($query);
-				}
+				// insert all permission of source 1
+				// #15469
+				$query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) '.
+					'VALUES( '.
+					$ilDB->quote($a_dest_id,'integer').', '.
+					$ilDB->quote($type,'text').', '.
+					$ilDB->quote($op,'integer').', '.
+					$ilDB->quote($a_dest_parent,'integer').' '.
+					')';
+				$ilDB->manipulate($query);
 			}
 		}
 		
