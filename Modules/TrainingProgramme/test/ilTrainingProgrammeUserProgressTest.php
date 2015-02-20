@@ -434,7 +434,46 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 	
 	// Hinweis bei der bei der Studierenden-Instanz des Studienplanes, falls dieser vom
 	// Original-Studienplan abweicht.
-	public function testHasDeviationToProgram() {
-		$this->assertTrue(false, "Test not implemented.");
+	public function testHasDeviationToProgram1() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass1 = $tmp[0];
+		$user1 = $tmp[1];
+
+		$progress = $this->node1->getProgressForAssignment($ass1->getId());
+		$this->assertFalse($progress->hasIndividualModifications());
+	}
+
+	public function testHasDeviationToProgram2() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass1 = $tmp[0];
+		$user1 = $tmp[1];
+
+		$progress = $this->node1->getProgressForAssignment($ass1->getId());
+		$progress->setRequiredAmountOfPoints(1000, $this->user->getId());
+		$this->assertTrue($progress->hasIndividualModifications());
+	}
+
+	public function testHasDeviationToProgram3() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass1 = $tmp[0];
+		$user1 = $tmp[1];
+
+		$progress = $this->node1->getProgressForAssignment($ass1->getId());
+		$progress->markNotRelevant($this->user->getId());
+		$this->assertTrue($progress->hasIndividualModifications());
+	}
+
+	public function testHasDeviationToProgram4() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass1 = $tmp[0];
+		$user1 = $tmp[1];
+
+		$progress = $this->node1->getProgressForAssignment($ass1->getId());
+		$progress->markAccredited($this->user->getId());
+		$this->assertTrue($progress->hasIndividualModifications());
 	}
 }
