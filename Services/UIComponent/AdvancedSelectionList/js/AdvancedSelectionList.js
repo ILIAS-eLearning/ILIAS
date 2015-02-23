@@ -21,6 +21,13 @@ il.AdvancedSelectionList =
 			toggle_el: cfg.toggle_el, toggle_class_on: cfg.toggle_class_on,
 			asynch: cfg.asynch, asynch_url: cfg.asynch_url, auto_hide: cfg.auto_hide});
 		*/
+	   
+	    // hide all overlays on trigger
+	   	$("#ilAdvSelListAnchorText_" + id).click(function(e) {			
+			if (typeof il.Overlay != "undefined") {
+				il.Overlay.hideAllOverlays(e, true);
+			}
+		});
 	},
 			
 	itemOn: function (obj)
