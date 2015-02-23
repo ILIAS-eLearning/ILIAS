@@ -439,10 +439,12 @@ class ilSCORM13Player
 			require_once("./parse_user_agent.php");
 			$ua = parse_user_agent($_SERVER['HTTP_USER_AGENT']);
 			
+			
+			
 			if ($ua['browser'] == 'MSIE' && (int)$ua['version'] > 8) {
-				$this->tpl->setVariable('IE_COMPATIBILITY', '<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />');	
+				$this->tpl->setVariable('IE_COMPATIBILITY', '<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />' .'<!-- ' .$ua['version'] .' -->');	
 			} else {
-				$this->tpl->setVariable('IE_COMPATIBILITY', '<meta http-equiv="X-UA-Compatible" content="IE=7" />');	
+				$this->tpl->setVariable('IE_COMPATIBILITY', '<meta http-equiv="X-UA-Compatible" content="IE=7" />' . '<!-- ' .$ua['version'] .' -->');	
 			}
 		} 
 

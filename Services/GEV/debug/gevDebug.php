@@ -548,7 +548,9 @@ class gevDebug {
 
 		}
 	
-	}	public function analyze_wbdreg_vfs_olddata(){
+	}	
+	
+	public function analyze_wbdreg_vfs_olddata(){
 		
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		
@@ -566,15 +568,42 @@ class gevDebug {
 
 
 		$sql  = "SELECT * from hist_user WHERE hist_historic=0"
-		." AND ID IN ("
+		." AND is_active=1"
+		." AND user_id IN ("
 		.implode(', ', $notAgreedUsersVFS)
 		.")";
 
-		$res = $this->db->query($query);
+
+		$sql  = "SELECT * FROM hist_user" 
+		." INNER JOIN usr_data ON hist_user.user_id=usr_data.usr_id"
+		." WHERE hist_historic=0"
+		." AND is_active=1"
+		." AND okz !='' AND okz !='-empty-'"
+		." AND wbd_type = '3 - TP-Service'" 
+		." AND bwv_id = '-empty-'" 
+		." AND user_id IN ("
+		.implode(', ', $notAgreedUsersVFS)
+		.")";
+										
+
+		
+		print $sql;
+		print '<hr>';
+
+
+		$ret = array();
+		
+		$res = $this->db->query($sql);
 		while($rec = $this->db->fetchAssoc($res)) {
-			print '<hr>';
-			print_r($rec);
+		
+			$ret[]=$rec;
+			//print '<hr>';
+			//print_r($rec);
 		}
+		print 'total: ' .count($ret);
+		print '<hr><pre>';
+		print_r($ret);
+		
 
 
 

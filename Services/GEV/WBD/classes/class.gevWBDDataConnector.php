@@ -700,6 +700,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 		print $row_id;
 		print "\n";
 		print_r($e->getReason());
+		//print_r($e);
+		
 		print "\n\n";
 	}
 
@@ -1031,6 +1033,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 			."')";
 		*/
 		$sql .= " AND wbd_type='" .self::WBD_TP_SERVICE ."'"; 
+	
+//		$sql .= " AND user_id=8020"; 
 
 
 		$result = $this->ilDB->query($sql);
@@ -1063,6 +1067,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 		if(! $IMPORT_FOREIGN_EDURECORDS){
 			return true;
 		}
+
+		//print_r($edu_records);
 
 		$recs = $edu_records['WeiterbildungsPunkteBuchungListe'];
 		if(count($recs) > 0){

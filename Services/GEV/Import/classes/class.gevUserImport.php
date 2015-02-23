@@ -1308,7 +1308,7 @@ class gevUserImport {
 //." AND isMizOfADP != '' "		
 //." AND id BETWEEN 2755 AND 2765"
 //." LIMIT 200 OFFSET 400"
-//." AND id in (4352, 5632)"
+//." AND id in (153)"
 ." AND id in (153)"
 		;
 
@@ -1891,7 +1891,7 @@ class gevUserImport {
 		
 		$result = $this->queryShadowDB($sql);
 		while ($record = mysql_fetch_assoc($result)){
-			try{
+			if((int)$record['ilid'] != 12348){
 				$user_utils = gevUserUtils::getInstance($record['ilid']);
 				$user_utils->setWBDTPType('3 - TP-Service');
 				$user = $user_utils->getUser();
@@ -1899,12 +1899,7 @@ class gevUserImport {
 
 				$this->prnt('. ', -1);
 			}
-			catch(Exception $e){
-				print_r($e);
-				//pass				
-			}
-
-		
+	
 		}
 
 		$this->prnt('fixVFSTPService: done', 2);

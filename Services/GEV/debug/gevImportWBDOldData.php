@@ -525,8 +525,10 @@ $sem_many_matches = array();
 
 $import = new gevImportOldData();
 
-//$import->rectifyOKZforAltdaten();
-die();
+$import->rectifyOKZforAltdaten();
+//$import->rematchWBDTopic();
+
+//die();
 
 
 $import->getOldData();
