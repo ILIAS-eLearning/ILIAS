@@ -25,6 +25,7 @@ abstract class wbdDataConnector {
 	public $csv_text_delimiter = '"';
 	public $csv_field_delimiter = ';';
 
+
 	public function __construct() {
 		global $ilDB;
 		$this->ilDB = &$ilDB;
@@ -38,6 +39,10 @@ abstract class wbdDataConnector {
 		$this->EDU_RECORD_VALIDATION = $WBD_EDU_RECORD_VALIDATION;
 		$this->TELNO_REGEXP = $TELNO_REGEXP;
 		$this->FAKEDATA = $FAKEDATA;
+
+		require_once("./Services/WBDData/classes/class.wbdErrorLog.php");
+		$this->log = new wbdErrorLog();
+
 	}
 
 	/**
@@ -305,19 +310,6 @@ abstract class wbdDataConnector {
 			print $r;
 		}
 
-		/*
-		Fabi goes like this:
-
-		function escape_quotes($str) {
-			return str_replace("\"", "\"\"", $str); // This seems to be the way how excel likes it....
-		}
-
-		// Output
-		foreach ($ret as $row) {
-			echo mb_convert_encoding("\"".implode("\";\"", array_map("escape_quotes", $row))."\"\n", "ISO-8859-1", "UTF-8");
-		}
-
-		*/
 	}
 
 

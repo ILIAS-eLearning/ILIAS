@@ -76,6 +76,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 	public function __construct() {
 
 		parent::__construct();
+		
+		require_once("./Services/WBDData/classes/class.wbdErrorLog.php");
+		wbdErrorLog::__install__();
 	}
 
 
@@ -651,6 +654,18 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
 		$sql .= ' AND hist_user.is_active = 1'; //exclude inactive users
 		
+
+
+
+		//ERROR-LOG:
+		$sql .= " AND user_id NOT IN ("
+			." SELECT DISTINCT usr_id FROM wbd_errors WHERE"
+			." resolved=0"
+			." AND reason='WRONG_USERDATA'"
+			//." AND action='new_user'"
+			.")";
+
+
 		
 		
 		if($LIMIT_RECORDS){
@@ -677,6 +692,27 @@ class gevWBDDataConnector extends wbdDataConnector {
 					//better wait for success, here?!
 					//$this->_set_last_wbd_report('hist_user', $record['row_id']);
 				} else {
+
+					/*storeWBDError(	
+						$action, 
+						$reason_str, 
+						$internal=0,
+						$usr_id=0, 
+						$crs_id=0, 
+						$booking_id=0
+					)
+					*/
+
+					$this->log->storeWBDError('new_user',
+							str_replace('<br>', '', $valid),
+							1,
+							$udata['internal_agent_id'],
+							0,
+							$udata['row_id']
+						);
+
+
+
 					$this->broken_newusers[] = array(
 						$valid,
 						$udata
@@ -703,6 +739,20 @@ class gevWBDDataConnector extends wbdDataConnector {
 		//print_r($e);
 		
 		print "\n\n";
+
+		//ERROR-LOG:
+		$sql = " SELECT user_id FROM hist_user WHERE"
+			." row_id=" .$row_id; 
+		$result = $this->ilDB->query($sql);
+		$record = $this->ilDB->fetchAssoc($result);
+
+		$this->log->storeWBDError('new_user',
+			$e->getReason(),
+			0,
+			$record['usr_id'],
+			0,
+			$row_id
+		);
 	}
 
 
@@ -866,31 +916,58 @@ class gevWBDDataConnector extends wbdDataConnector {
 			 ."	AND crs_id = ".$record['crs_id']
 			 ." AND NOT last_wbd_report IS NULL" ;
 
+
+
 			$temp_result = $this->ilDB->query($sql);
 			$num_rows = $temp_result->result->num_rows;
 
 			if($num_rows == 0){
 
-				$edudata = $this->_map_edudata($record);
 
-				
-				if($edudata['study_type_selection'] == 'selbstgesteuertes E-Learning'){
-					$edudata['till'] = $edudata['from'];
-				}
+				//ERROR-LOG:
+				$sql = " SELECT id FROM wbd_errors WHERE"
+					." resolved=0"
+					." AND usr_id = ".$record['usr_id']
+			 		." AND crs_id = ".$record['crs_id']
+					;
 
-				//these are _new_ edu-records:
-				$edudata['score_code'] = 'Meldung';
+				$temp_result = $this->ilDB->query($sql);
+				$num_rows = $temp_result->result->num_rows;
+	
+				if($num_rows == 0){
+
+					$edudata = $this->_map_edudata($record);
+					
+					if($edudata['study_type_selection'] == 'selbstgesteuertes E-Learning'){
+						$edudata['till'] = $edudata['from'];
+					}
+
+					//these are _new_ edu-records:
+					$edudata['score_code'] = 'Meldung';
 
 
-				$valid = $this->validateEduRecord($edudata);
+					$valid = $this->validateEduRecord($edudata);
 
-				if($valid === true){
-					$ret[] = wbdDataConnector::new_edu_record($edudata);
-				} else {
-					$this->broken_newedurecords[] = array(
-						$valid,
-						$edudata
-					);
+					if($valid === true){
+						$ret[] = wbdDataConnector::new_edu_record($edudata);
+					} else {
+
+
+						$this->log->storeWBDError('new_edurecord',
+							str_replace('<br>', '', $valid),
+							1,
+							$record['usr_id'],
+							$record['crs_id'],
+							$edudata['internal_booking_id']
+						);
+
+
+
+						$this->broken_newedurecords[] = array(
+							$valid,
+							$edudata
+						);
+					}
 				}
 			}
 
@@ -923,6 +1000,24 @@ class gevWBDDataConnector extends wbdDataConnector {
 		print "\n";
 		print_r($e->getReason());
 		print "\n\n";
+
+
+		//ERROR-LOG:
+		$sql = " SELECT usr_id, crs_id FROM hist_usercoursestatus WHERE"
+			." row_id=" .$row_id; 
+		$result = $this->ilDB->query($sql);
+		$record = $this->ilDB->fetchAssoc($result);
+
+		$this->log->storeWBDError('new_edurecord',
+			$e->getReason(),
+			0,
+			$record['usr_id'],
+			$record['crs_id'],
+			$row_id
+		);
+
+
+
 	}
 
 
@@ -1154,11 +1249,7 @@ class WBDDataAdapter extends gevWBDDataConnector {}
 if($DEBUG_HTML_OUT){
 
 	$cls = new gevWBDDataConnector();
-
-
-	//print_r($cls->dateAfterSept2013('2013-08-31'));
-	//die();
-
+	
 
 	print '<h3>new users:</h3>';
 	$cls->export_get_new_users('html');
