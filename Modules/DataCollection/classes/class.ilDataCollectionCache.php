@@ -28,6 +28,12 @@ class ilDataCollectionCache{
      */
     protected static $record_field_cache;
 
+
+	/**
+	 * @param int $table_id
+	 *
+	 * @return ilDataCollectionTable
+	 */
     public static function getTableCache($table_id = 0){
         $tables_cache = &self::$tables_cache;
         if(!isset($tables_cache[$table_id]))
@@ -35,6 +41,12 @@ class ilDataCollectionCache{
         return $tables_cache[$table_id];
     }
 
+
+	/**
+	 * @param int $field_id
+	 *
+	 * @return ilDataCollectionField
+	 */
     public static function getFieldCache($field_id = 0){
         $fields_cache = &self::$fields_cache;
         if(!isset($fields_cache[$field_id]))
@@ -42,6 +54,12 @@ class ilDataCollectionCache{
         return $fields_cache[$field_id];
     }
 
+
+	/**
+	 * @param int $record_id
+	 *
+	 * @return ilDataCollectionRecord
+	 */
     public static function getRecordCache($record_id = 0){
         $records_cache = &self::$records_cache;
         if(!isset($records_cache[$record_id]))
