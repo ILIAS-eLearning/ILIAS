@@ -243,6 +243,9 @@ il.Overlay = {
 	// hide all overlays
 	hideAllOverlays: function (e, force, omit) {
 		var k, isIn, tgt, el, el_reg;
+		
+		// hide all dropdowns, too!
+		$('[data-toggle="dropdown"]').parent().removeClass('open');		
 
 		for (k in il.Overlay.overlays) {
 			isIn = false;
