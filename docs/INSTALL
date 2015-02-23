@@ -730,3 +730,4 @@ Please proceed as follows:
       '--with-apxs2=/opt/ilias/bin/apxs'.
 
     - Starting the Apache 2 daemon should now also invoke the PHP module.
+
