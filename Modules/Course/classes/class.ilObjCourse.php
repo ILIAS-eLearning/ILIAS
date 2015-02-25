@@ -2115,7 +2115,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		include_once "Services/Tracking/classes/class.ilLPStatusWrapper.php";
 		foreach($this->getMembersObject()->getParticipants() as $user_id)
 		{
-		    ilLPStatusWrapper::_updateStatus($this->getId(), $user_id);			
+			// #15529 - force raise on sync
+		    ilLPStatusWrapper::_updateStatus($this->getId(), $user_id, null, false, false, true);			
 		}				
 	}
 			

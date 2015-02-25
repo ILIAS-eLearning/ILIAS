@@ -192,7 +192,7 @@ class ilLPStatus
 	 * @param
 	 * @return
 	 */
-	function _updateStatus($a_obj_id, $a_usr_id, $a_obj = null, $a_percentage = false, $a_no_raise = false)
+	function _updateStatus($a_obj_id, $a_usr_id, $a_obj = null, $a_percentage = false, $a_no_raise = false, $a_force_raise = false)
 	{
 //global $ilLog;
 //$ilLog->write("ilLPStatus-_updateStatus-");
@@ -201,7 +201,8 @@ class ilLPStatus
 		$percentage = $this->determinePercentage($a_obj_id, $a_usr_id, $a_obj);
 		$changed = self::writeStatus($a_obj_id, $a_usr_id, $status, $percentage);
 		
-		if(!$a_no_raise && $changed)
+		if(!$a_no_raise && 
+			($changed || $a_force_raise)) // #15529
 		{
 			self::raiseEvent($a_obj_id, $a_usr_id, $status, $percentage);		
 		}
