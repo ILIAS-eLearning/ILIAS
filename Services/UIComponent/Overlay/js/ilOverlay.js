@@ -33,7 +33,7 @@ il.Overlay = {
 							cfg.fixed_center, 'tl', 'bl');
 		}
 		il.Overlay.overlays[id].render();
-		this.fixPosition(id);
+		// this.fixPosition(id); - see show()
 	},
 
 	addTrigger: function (tr_id, tr_ev, ov_id, anchor_id, center, ov_corner, anch_corner) {
@@ -254,6 +254,18 @@ il.Overlay = {
 				continue;
 			}
 
+			if(!force)
+			{
+				// http://stackoverflow.com/questions/1403615/use-jquery-to-hide-a-div-when-the-user-clicks-outside-of-it			
+				var ov_el = $("#" + k);						
+				if (ov_el.is(e.target) || // if the target of the click isn't the container...
+					ov_el.has(e.target).length > 0) // ... nor a descendant of the container
+				{				
+					isIn = true;
+				}
+			}
+
+			/* obsolete (see above)
 			// problems with form select: pageXY can be outside layer
 			if (!force) {
 				try {
@@ -278,7 +290,8 @@ il.Overlay = {
 					}
 				}
 			}
-
+			*/
+		   
 			if (!isIn) {
 				if (k != 'ilHelpPanel') {
 					il.Overlay.hide(null, k);
