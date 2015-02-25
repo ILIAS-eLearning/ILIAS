@@ -73,4 +73,3 @@ Customizing/global/skin/<skin_name>/images.
 You find additional information about how to create your own skin in the 
 Installatin and Maintenance documentation at
 http://www.ilias.de/docu/goto.php?target=pg_15917_367&client_id=docu
-
