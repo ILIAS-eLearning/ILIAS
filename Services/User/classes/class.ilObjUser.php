@@ -5216,8 +5216,7 @@ class ilObjUser extends ilObject
 				'JOIN usr_data ud ON obj_id = usr_id '.
 				'WHERE '.$ilDB->in('obj_id',$a_usr_ids,false,'integer').' ';
 		$res = $ilDB->query($query);
-		$num_rows = $res->numRows();
-		
+		$num_rows =$res->fetchRow(DB_FETCHMODE_OBJECT)->num;
 		return $num_rows == count((array) $a_usr_ids);
 	}
 	// end-patch deleteProgress
