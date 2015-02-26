@@ -24,8 +24,8 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	/**
 	 * the available table modes controlling the tables behaviour
 	 */
-	const TBL_MODE_TESTOUTPUT		= 'MODE_TESTOUTPUT';
-	const TBL_MODE_ADMINISTRATION	= 'MODE_ADMINISTRATION';
+	const TBL_MODE_TESTOUTPUT		= '1';
+	const TBL_MODE_ADMINISTRATION	= '2';
 	
 	/**
 	 * the object instance for current question
@@ -72,8 +72,8 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 		$this->tableMode = $tableMode;
 		$this->hintOrderingClipboard = $hintOrderingClipboard;
 		
-		$this->setPrefix('tst_question_hints'.$tableMode);
-		$this->setId('tst_question_hints'.$tableMode);
+		$this->setPrefix('tsthints'.$tableMode);
+		$this->setId('tsthints'.$tableMode);
 		
 		parent::__construct($parentGUI, $parentCmd);
 		
