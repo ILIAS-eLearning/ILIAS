@@ -242,6 +242,9 @@ class ilMediaPlayerGUI
 	{
 		global $tpl, $lng;
 		
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		ilYuiUtil::initConnection();
+		
 		$tpl->addJavascript("./Services/MediaObjects/js/MediaObjects.js");
 		
 		if (!self::$lightbox_initialized)
