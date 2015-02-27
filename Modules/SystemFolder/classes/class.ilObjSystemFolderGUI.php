@@ -2224,13 +2224,27 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	 */
 	protected function showVcsInformationObject()
 	{
-		// version controll information, object can be created by factory in later revisions (if we support git etc.)
+		$vc_info = array();
+
 		require_once 'Services/Administration/classes/class.ilSubversionInformation.php';
-		$vc = new ilSubversionInformation();
-		$revision_info = $vc->getInformationAsHtml();
-		if($revision_info)
+		require_once 'Services/Administration/classes/class.ilGitInformation.php';
+
+		foreach(array(new ilSubversionInformation(), new ilGitInformation()) as $vc)
 		{
-			ilUtil::sendInfo($revision_info);
+			$html = $vc->getInformationAsHtml();
+			if($html)
+			{
+				$vc_info[] = $html;
+			}
+		}
+
+		if($vc_info)
+		{
+			ilUtil::sendInfo(implode("<br />", $vc_info));
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt('vc_information_not_determined'));
 		}
 
 		$this->showServerInfoObject();
