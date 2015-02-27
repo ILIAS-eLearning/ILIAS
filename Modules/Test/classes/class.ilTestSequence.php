@@ -570,6 +570,11 @@ class ilTestSequence
 	{
 		$this->sequencedata["hidden"] = array();
 	}
+
+	public function questionExists($questionId)
+	{
+		return in_array($questionId, $this->questions);
+	}
 }
 
 ?>

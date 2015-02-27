@@ -1283,7 +1283,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 
-		$activeId = $this->object->getTestSession()->getActiveId();
+		$testSession = $this->object->getTestSession();
+		$activeId = $testSession->getActiveId();
 		
 		if( !($activeId > 0) )
 		{
@@ -1294,6 +1295,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$pass = (int)$_GET['pass'];
 
 		$questionId = (int)$_GET['evaluation'];
+		
+		$testSequence = $this->object->getTestSequence($activeId, $pass);
+		
+		if( !$testSequence->questionExists($questionId) )
+		{
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_correct_solution.html", "Modules/Test");
 
