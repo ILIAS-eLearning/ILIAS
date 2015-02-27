@@ -50,6 +50,13 @@ class ilTestServiceGUI
 	protected $testSessionFactory = null;
 	
 	/**
+	 * factory for test session
+	 *
+	 * @var ilTestSequenceFactory 
+	 */
+	protected $testSequenceFactory = null;
+
+	/**
 	 * The constructor takes the test object reference as parameter 
 	 *
 	 * @param object $a_object Associated ilObjTest class
@@ -57,7 +64,7 @@ class ilTestServiceGUI
 	 */
 	function ilTestServiceGUI(ilObjTest $a_object)
 	{
-		global $lng, $tpl, $ilCtrl, $ilias, $tree;
+		global $lng, $tpl, $ilCtrl, $ilias, $tree, $ilDB, $ilPluginAdmin;
 
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
@@ -71,6 +78,9 @@ class ilTestServiceGUI
 		
 		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
 		$this->testSessionFactory = new ilTestSessionFactory($this->object);
+		
+		require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
+		$this->testSequenceFactory = new ilTestSequenceFactory($ilDB, $this->lng, $ilPluginAdmin, $this->object);
 	}
 	
 	/**

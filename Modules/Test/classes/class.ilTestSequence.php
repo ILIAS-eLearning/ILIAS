@@ -587,6 +587,11 @@ class ilTestSequence
 	{
 		return $this->getFirstSequence() !== false;
 	}
+
+	public function questionExists($questionId)
+	{
+		return in_array($questionId, $this->questions);
+	}
 }
 
 ?>
