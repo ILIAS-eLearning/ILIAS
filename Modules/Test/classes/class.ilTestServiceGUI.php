@@ -53,6 +53,13 @@ class ilTestServiceGUI
 	 * @var ilTestSessionFactory 
 	 */
 	protected $testSessionFactory = null;
+	
+	/**
+	 * factory for test session
+	 *
+	 * @var ilTestSequenceFactory 
+	 */
+	protected $testSequenceFactory = null;
 
 	/**
 	 * @var ilTestParticipantData
@@ -67,7 +74,7 @@ class ilTestServiceGUI
 	 */
 	function ilTestServiceGUI(ilObjTest $a_object)
 	{
-		global $lng, $tpl, $ilCtrl, $ilias, $tree, $ilDB;
+		global $lng, $tpl, $ilCtrl, $ilias, $tree, $ilDB, $ilPluginAdmin;
 
 		$this->db = $ilDB;
 		$this->lng =& $lng;
@@ -82,6 +89,9 @@ class ilTestServiceGUI
 		
 		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
 		$this->testSessionFactory = new ilTestSessionFactory($this->object);
+		
+		require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
+		$this->testSequenceFactory = new ilTestSequenceFactory($this->db, $this->lng, $ilPluginAdmin, $this->object);
 	}
 
 	/**

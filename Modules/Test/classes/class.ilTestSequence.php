@@ -640,6 +640,11 @@ class ilTestSequence
 	{
 		return array_values($this->questions);
 	}
+
+	public function questionExists($questionId)
+	{
+		return in_array($questionId, $this->questions);
+	}
 }
 
 ?>

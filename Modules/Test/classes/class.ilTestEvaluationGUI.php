@@ -1380,7 +1380,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 
-		$activeId = $this->testSessionFactory->getSession()->getActiveId();
+		$testSession = $this->testSessionFactory->getSession();
+		$activeId = $testSession->getActiveId();
 		
 		if( !($activeId > 0) )
 		{
@@ -1390,7 +1391,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->ctrl->saveParameter($this, "pass");
 		$pass = (int)$_GET['pass'];
 
+		$testSequence = $this->testSequenceFactory->getSequenceByPass($testSession, $pass);
+		$testSequence->loadFromDb();
+		$testSequence->loadQuestions();
+
 		$questionId = (int)$_GET['evaluation'];
+		
+		if( !$testSequence->questionExists($questionId) )
+		{
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
 		
 		global $ilTabs;
 
