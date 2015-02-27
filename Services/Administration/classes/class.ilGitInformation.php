@@ -37,21 +37,27 @@ class ilGitInformation implements ilVersionControlInformation
 			$version_mini_hash = ilUtil::execQuoted('git describe --always');
 			$version_number    = ilUtil::execQuoted('git rev-list HEAD | wc -l');
 			$line              = ilUtil::execQuoted('git log -1');
+		}
+		else
+		{
+			$version_mini_hash = trim(exec('git describe --always'));
+			$version_number    = exec('git rev-list HEAD | find /v /c ""');
+			$line              = trim(exec('git log -1'));
+		}
 
-			if($version_number[0])
-			{
-				$info[] = sprintf($lng->txt('git_revision'), $version_number[0]);
-			}
+		if($version_number[0])
+		{
+			$info[] = sprintf($lng->txt('git_revision'), $version_number[0]);
+		}
 
-			if($version_mini_hash[0])
-			{
-				$info[] = sprintf($lng->txt('git_hash_short'), $version_mini_hash[0]);
-			}
+		if($version_mini_hash[0])
+		{
+			$info[] = sprintf($lng->txt('git_hash_short'), $version_mini_hash[0]);
+		}
 
-			if($line && array_filter($line))
-			{
-				$info[] = sprintf($lng->txt('git_last_commit'), implode(' | ', array_filter($line)));
-			}
+		if($line && array_filter($line))
+		{
+			$info[] = sprintf($lng->txt('git_last_commit'), implode(' | ', array_filter($line)));
 		}
 
 		self::$revision_information = $info;
