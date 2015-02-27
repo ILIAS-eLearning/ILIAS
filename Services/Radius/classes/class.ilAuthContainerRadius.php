@@ -57,7 +57,7 @@ class ilAuthContainerRadius extends Auth_Container_Radius
 		{
 			#$_POST['username'] = utf8_decode($_POST['username']);
 			#$_POST['password'] = utf8_decode($_POST['password']);
-			$this->log->write(__METHOD__.': Decoded username and password to latin1.');
+			$GLOBALS['ilLog']->write(__METHOD__.': Decoded username and password to latin1.');
 		}
 
 		parent::__construct($this->radius_settings->toPearAuthArray());
