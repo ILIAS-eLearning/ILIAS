@@ -9725,6 +9725,9 @@ function getAnswerFeedbackPoints()
 			"ShowFinalStatement" => $this->getShowFinalStatement(),
 			"SequenceSettings" => $this->getSequenceSettings(),
 			"ScoreReporting" => $this->getScoreReporting(),
+			"ScoreCutting" => $this->getScoreCutting(),
+			'SpecificAnswerFeedback' => $this->getSpecificAnswerFeedback(),
+			'PrintBsWithRes'	=> (int)$this->isBestSolutionPrintedWithResult(),
 			"InstantFeedbackSolution" => $this->getInstantFeedbackSolution(),
 			"AnswerFeedback" => $this->getAnswerFeedback(),
 			"AnswerFeedbackPoints" => $this->getAnswerFeedbackPoints(),
@@ -9787,6 +9790,9 @@ function getAnswerFeedbackPoints()
 		$this->setShowFinalStatement($testsettings["ShowFinalStatement"]);
 		$this->setSequenceSettings($testsettings["SequenceSettings"]);
 		$this->setScoreReporting($testsettings["ScoreReporting"]);
+		$this->setScoreCutting($testsettings['ScoreCutting']);
+		$this->setSpecificAnswerFeedback($testsettings['SpecificAnswerFeedback']);
+		$this->setPrintBestSolutionWithResult((bool)$testsettings['PrintBsWithRes']);
 		$this->setInstantFeedbackSolution($testsettings["InstantFeedbackSolution"]);
 		$this->setAnswerFeedback($testsettings["AnswerFeedback"]);
 		$this->setAnswerFeedbackPoints($testsettings["AnswerFeedbackPoints"]);
