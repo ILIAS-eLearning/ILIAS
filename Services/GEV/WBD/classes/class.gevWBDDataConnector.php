@@ -15,7 +15,7 @@ $SET_LASTWBDRECORD = true;
 $SET_BWVID = true;
 
 $GET_NEW_USERS = true;
-$GET_UPDATED_USERS = false;
+$GET_UPDATED_USERS = true;
 $GET_NEW_EDURECORDS = true;
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
@@ -661,7 +661,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql .= " AND user_id NOT IN ("
 			." SELECT DISTINCT usr_id FROM wbd_errors WHERE"
 			." resolved=0"
-			." AND reason='WRONG_USERDATA'"
+			." AND reason IN ('WRONG_USERDATA','USER_EXISTS_TP', 'USER_EXISTS')"
 			//." AND action='new_user'"
 			.")";
 
@@ -749,7 +749,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$this->log->storeWBDError('new_user',
 			$e->getReason(),
 			0,
-			$record['usr_id'],
+			$record['user_id'],
 			0,
 			$row_id
 		);
@@ -797,6 +797,15 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql .= ' AND user_id in (SELECT usr_id FROM usr_data)';
 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
 
+		//ERROR-LOG:
+		$sql .= " AND user_id NOT IN ("
+			." SELECT DISTINCT usr_id FROM wbd_errors WHERE"
+			." resolved=0"
+			." AND reason IN ('WRONG_USERDATA','USER_EXISTS_TP', 'USER_EXISTS')"
+			//." AND action='new_user'"
+			.")";
+
+
 		//$sql .= " GROUP BY user_id";
 
 		$ret = array();
@@ -809,6 +818,15 @@ class gevWBDDataConnector extends wbdDataConnector {
 			if($valid === true){
 				$ret[] = wbdDataConnector::new_user_record($udata);
 			} else {
+			
+				$this->log->storeWBDError('update_user',
+					str_replace('<br>', '', $valid),
+					1,
+					$udata['internal_agent_id'],
+					0,
+					$udata['row_id']
+				);
+
 				$this->broken_updatedusers[] = array(
 					$valid,
 					$udata
@@ -829,6 +847,24 @@ class gevWBDDataConnector extends wbdDataConnector {
 		print "\n";
 		print_r($e->getReason());
 		print "\n\n";
+
+
+		//ERROR-LOG:
+		$sql = " SELECT user_id FROM hist_user WHERE"
+			." row_id=" .$row_id; 
+		$result = $this->ilDB->query($sql);
+		$record = $this->ilDB->fetchAssoc($result);
+
+		$this->log->storeWBDError('update_user',
+			$e->getReason(),
+			0,
+			$record['user_id'],
+			0,
+			$row_id
+		);
+
+
+
 	}
 
 
