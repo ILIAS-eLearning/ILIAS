@@ -1388,6 +1388,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 
+		if( !$this->object->canShowTestResults($testSession, $testSession->getUserId()) )
+		{
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+
 		$this->ctrl->saveParameter($this, "pass");
 		$pass = (int)$_GET['pass'];
 
