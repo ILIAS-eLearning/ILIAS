@@ -1293,9 +1293,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 
-		$activeId = $this->testSessionFactory->getSession()->getActiveId();
+		$testSession = $this->testSessionFactory->getSession();
+		$activeId = $testSession->getActiveId();
 		
 		if( !($activeId > 0) )
+		{
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+
+		if( !$this->object->canShowTestResults($testSession, $testSession->getUserId()) )
 		{
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
@@ -1303,8 +1309,17 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->ctrl->saveParameter($this, "pass");
 		$pass = (int)$_GET['pass'];
 
-		$questionId = (int)$_GET['evaluation'];
+		$testSequence = $this->testSequenceFactory->getSequenceByPass($testSession, $pass);
+		$testSequence->loadFromDb();
+		$testSequence->loadQuestions();
 
+		$questionId = (int)$_GET['evaluation'];
+		
+		if( !$testSequence->questionExists($questionId) )
+		{
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_correct_solution.html", "Modules/Test");
 
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
