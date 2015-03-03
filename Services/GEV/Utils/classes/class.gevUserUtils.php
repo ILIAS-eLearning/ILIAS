@@ -206,7 +206,8 @@ class gevUserUtils {
 		$this->direct_superior_ous = null;
 		$this->superior_ous = null;
 		$this->superior_ou_names = null;
-		$this->employees = null;
+		$this->employees_active = null;
+		$this->employees_all = null;
 		$this->employees_for_course_search = null;
 		$this->employee_ids_for_course_search = null;
 		$this->employees_for_booking_cancellations = null;
@@ -1778,8 +1779,11 @@ class gevUserUtils {
 	}
 	
 	public function getEmployees($include_inactive = false) {
-		if ($this->employees !== null) {
-			return $this->employees;
+		if ($this->employees_active !== null && !$include_inactive) {
+			return $this->employees_active;
+		}
+		if ($this->employees_all !== null && $include_inactive) {
+			return $this->employees_all;
 		}
 		
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
@@ -1805,13 +1809,14 @@ class gevUserUtils {
 		$re = gevOrgUnitUtils::getAllPeopleIn($nds_ous);
 		
 		if (!$include_inactive) {
-			$this->employees = gevUserUtils::removeInactiveUsers(array_unique(array_merge($de, $re)));
+			$this->employees_active = gevUserUtils::removeInactiveUsers(array_unique(array_merge($de, $re)));
+			return $this->employees_active;
 		}
 		else {
-			$this->employees = array_unique(array_merge($de, $re));
+			$this->employees_all = array_unique(array_merge($de, $re));
+			return $this->employees_all;
 		}
 		
-		return $this->employees;
 	}
 	
 	public function getVenuesWhereUserIsMember() {
