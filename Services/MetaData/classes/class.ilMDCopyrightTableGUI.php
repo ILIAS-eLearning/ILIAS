@@ -37,6 +37,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 	protected $lng = null;
 	protected $ctrl;
 	protected $parent_obj;
+	protected $has_write; // [bool]
 	
 	/**
 	 * Constructor
@@ -45,19 +46,28 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 	 * @param
 	 * 
 	 */
-	public function __construct($a_parent_obj,$a_parent_cmd = '')
+	public function __construct($a_parent_obj,$a_parent_cmd = '',$a_has_write = false)
 	{
 	 	global $lng,$ilCtrl;
 	 	
 	 	$this->lng = $lng;
 	 	$this->ctrl = $ilCtrl;
+		$this->has_write = (bool)$a_has_write;
 	 	
 	 	parent::__construct($a_parent_obj,$a_parent_cmd);
-	 	$this->addColumn('','f',1);
+		
+		if($this->has_write)
+		{
+			$this->addColumn('','f',1);
+		}
 	 	$this->addColumn($this->lng->txt('title'),'title',"30%");
 	 	$this->addColumn($this->lng->txt('md_used'),'used',"5%");
 	 	$this->addColumn($this->lng->txt('md_copyright_preview'),'preview',"50%");
-	 	$this->addColumn('','edit',"15%");
+		
+		if($this->has_write)
+		{
+			$this->addColumn('','edit',"15%");
+		}
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.show_copyright_row.html","Services/MetaData");
@@ -74,7 +84,10 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		$this->tpl->setVariable('VAL_ID',$a_set['id']);
+		if($this->has_write)
+		{
+			$this->tpl->setVariable('VAL_ID',$a_set['id']);
+		}
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
 		if(strlen($a_set['description']))
 		{
@@ -83,15 +96,14 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_USAGE',$a_set['used']);
 		$this->tpl->setVariable('VAL_PREVIEW',$a_set['preview']);
 		
-		$this->ctrl->setParameter($this->getParentObject(),'entry_id',$a_set['id']);
-		$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->getParentObject(),'editEntry'));
-		$this->ctrl->clearParameters($this->getParentObject());
-		
-		$this->tpl->setVariable('TXT_EDIT',$this->lng->txt('edit'));
-		
-		
+		if($this->has_write)
+		{
+			$this->ctrl->setParameter($this->getParentObject(),'entry_id',$a_set['id']);
+			$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->getParentObject(),'editEntry'));
+			$this->ctrl->clearParameters($this->getParentObject());
 
-
+			$this->tpl->setVariable('TXT_EDIT',$this->lng->txt('edit'));
+		}		
 	}
 	
 	/**

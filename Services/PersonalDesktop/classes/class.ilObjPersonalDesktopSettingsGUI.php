@@ -106,7 +106,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	*/
 	public function editSettings()
 	{
-		global $ilCtrl, $lng, $ilSetting;
+		global $ilCtrl, $lng, $ilSetting, $ilAccess;
 		
 		$pd_set = new ilSetting("pd");
 		
@@ -233,9 +233,12 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			$form->addItem($sb_prop);
 		}
 		
-		// command buttons
-		$form->addCommandButton("saveSettings", $lng->txt("save"));
-		$form->addCommandButton("view", $lng->txt("cancel"));
+		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			// command buttons
+			$form->addCommandButton("saveSettings", $lng->txt("save"));
+			$form->addCommandButton("view", $lng->txt("cancel"));
+		}
 
 		$this->tpl->setContent($form->getHTML());
 	}
@@ -245,7 +248,12 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	*/
 	public function saveSettings()
 	{
-		global $ilCtrl, $ilSetting;
+		global $ilCtrl, $ilSetting, $ilAccess;
+		
+		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$ilCtrl->redirect($this, "view");
+		}
 		
 		$pd_set = new ilSetting("pd");
 		
@@ -303,7 +311,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	*/
 	public function editWsp()
 	{
-		global $ilCtrl, $lng, $ilSetting;
+		global $ilCtrl, $lng, $ilSetting, $ilAccess;
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -369,9 +377,12 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			$this
 		);
 		
-		// command buttons
-		$form->addCommandButton("saveWsp", $lng->txt("save"));
-		$form->addCommandButton("editWsp", $lng->txt("cancel"));
+		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			// command buttons
+			$form->addCommandButton("saveWsp", $lng->txt("save"));
+			$form->addCommandButton("editWsp", $lng->txt("cancel"));
+		}
 
 		$this->tpl->setContent($form->getHTML());
 	}
@@ -381,7 +392,12 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	 */
 	public function saveWsp()
 	{
-		global $ilCtrl, $ilSetting;
+		global $ilCtrl, $ilSetting, $ilAccess;
+		
+		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$ilCtrl->redirect($this, "view");
+		}
 		
 		// without personal workspace we have to disable to sub-items
 		if(!$_POST["wsp"])

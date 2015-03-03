@@ -32,7 +32,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
+		if(!$ilAccess->checkAccess('read', '', $this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('no_permission'), $ilErr->WARNING);
 		}
@@ -91,7 +91,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	protected function initSettingsForm()
 	{				
-		global $ilSetting;
+		global $ilSetting, $ilAccess;
 		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
@@ -225,15 +225,22 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$pltags->setChecked($ilSetting->get('comments_tagging_in_lists_tags'));
 		$pl->addSubItem($pltags);
 				
-		
-		$form->addCommandButton('saveSettings', $this->lng->txt('save'));
+		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$form->addCommandButton('saveSettings', $this->lng->txt('save'));
+		}
 		
 		return $form;
 	}
 	
 	public function saveSettings()
 	{
-		global $ilSetting;
+		global $ilSetting, $ilAccess;
+		
+		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$this->ctrl->redirect($this, "view");
+		}
 	
 		$form = $this->initSettingsForm();
 		if ($form->checkInput())
@@ -298,7 +305,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	protected function initCustomIconsForm()
 	{
-		global $ilSetting;
+		global $ilSetting, $ilAccess;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		include_once "Services/Form/classes/class.ilCombinationInputGUI.php";
@@ -354,14 +361,22 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$size_tiny->addCombinationItem("tnh", $height, $this->lng->txt("height"));
 		*/
 		
-		$form->addCommandButton('saveCustomIcons', $this->lng->txt('save'));
+		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$form->addCommandButton('saveCustomIcons', $this->lng->txt('save'));
+		}
 		
 		return $form;
 	}
 	
 	public function saveCustomIcons()
 	{
-		global $ilSetting;
+		global $ilSetting, $ilAccess;
+		
+		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$this->ctrl->redirect($this, "customIcons");
+		}
 	
 		$form = $this->initSettingsForm();
 		if ($form->checkInput())
@@ -400,20 +415,25 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	protected function listModules()
 	{		
+		global $ilAccess;
+		
 		$this->setModuleSubTabs("list_mods");
 				
+		$has_write = $ilAccess->checkAccess('write','',$this->object->getRefId());
+		
 		include_once("./Services/Repository/classes/class.ilModulesTableGUI.php");
-		$comp_table = new ilModulesTableGUI($this, "listModules");
+		$comp_table = new ilModulesTableGUI($this, "listModules", $has_write);
 				
 		$this->tpl->setContent($comp_table->getHTML());
 	}
 	
 	protected function saveModules()
 	{
-		global $ilSetting, $ilCtrl, $lng;
+		global $ilSetting, $ilCtrl, $lng, $ilAccess;
 		
 		if(!is_array($_POST["obj_grp"]) || 
-			!is_array($_POST["obj_pos"]))
+			!is_array($_POST["obj_pos"]) ||
+			!$ilAccess->checkAccess('write','',$this->object->getRefId()))		
 		{
 			$ilCtrl->redirect($this, "listModules");	
 		}
@@ -467,18 +487,23 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	protected function listNewItemGroups()
 	{
-		global $ilToolbar;
+		global $ilToolbar, $ilAccess;
 		
 		$this->setModuleSubTabs("new_item_groups");
 		
-		$ilToolbar->addButton($this->lng->txt("rep_new_item_group_add"), 
-			$this->ctrl->getLinkTarget($this, "addNewItemGroup"));
+		$has_write = $ilAccess->checkAccess('write','',$this->object->getRefId());
 		
-		$ilToolbar->addButton($this->lng->txt("rep_new_item_group_add_separator"), 
-			$this->ctrl->getLinkTarget($this, "addNewItemGroupSeparator"));
+		if($has_write)
+		{
+			$ilToolbar->addButton($this->lng->txt("rep_new_item_group_add"), 
+				$this->ctrl->getLinkTarget($this, "addNewItemGroup"));
+		
+			$ilToolbar->addButton($this->lng->txt("rep_new_item_group_add_separator"), 
+				$this->ctrl->getLinkTarget($this, "addNewItemGroupSeparator"));
+		}
 		
 		include_once("./Services/Repository/classes/class.ilNewItemGroupTableGUI.php");
-		$grp_table = new ilNewItemGroupTableGUI($this, "listNewItemGroups");
+		$grp_table = new ilNewItemGroupTableGUI($this, "listNewItemGroups", $has_write);
 				
 		$this->tpl->setContent($grp_table->getHTML());
 	}

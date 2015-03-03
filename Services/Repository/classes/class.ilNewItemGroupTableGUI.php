@@ -14,9 +14,13 @@ include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
  */
 class ilNewItemGroupTableGUI extends ilTable2GUI
 {		
-	function __construct($a_parent_obj, $a_parent_cmd = "")
+	protected $has_write; // [bool]
+	
+	function __construct($a_parent_obj, $a_parent_cmd = "", $a_has_write = false)
 	{
 		global $ilCtrl, $lng;
+		
+		$this->has_write = (bool)$a_has_write;
 				
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -24,15 +28,24 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
 		
 		$this->setTitle($lng->txt("rep_new_item_groups"));
 
-		$this->addColumn("", "", 1);
+		if($this->has_write)
+		{
+			$this->addColumn("", "", 1);
+		}
 		$this->addColumn($lng->txt("cmps_add_new_rank"), "");
 		$this->addColumn($lng->txt("title"), "");	
 		$this->addColumn($lng->txt("rep_new_item_group_nr_subitems"), "");	
-		$this->addColumn($lng->txt("action"), "");	
-
-		$this->addCommandButton("saveNewItemGroupOrder", $lng->txt("cmps_save_options"));	
-		$this->addMultiCommand("confirmDeleteNewItemGroup", $lng->txt("delete"));
 		
+		if($this->has_write)
+		{
+			$this->addColumn($lng->txt("action"), "");	
+		}
+
+		if($this->has_write)
+		{
+			$this->addCommandButton("saveNewItemGroupOrder", $lng->txt("cmps_save_options"));			
+			$this->addMultiCommand("confirmDeleteNewItemGroup", $lng->txt("delete"));
+		}		
 	
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -80,8 +93,11 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
 	{											
 		global $lng, $ilCtrl;
 		
-		$this->tpl->setVariable("VAR_MULTI", "grp_id[]");
-		$this->tpl->setVariable("VAL_MULTI", $a_set["id"]);
+		if($this->has_write)
+		{
+			$this->tpl->setVariable("VAR_MULTI", "grp_id[]");
+			$this->tpl->setVariable("VAL_MULTI", $a_set["id"]);
+		}
 		
 		$this->tpl->setVariable("VAR_POS", "grp_order[".$a_set["id"]."]");
 		$this->tpl->setVariable("VAL_POS", $a_set["pos"]);
@@ -91,12 +107,15 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
 		{			
 			$this->tpl->setVariable("VAL_ITEMS", $a_set["subitems"]);
 
-			$ilCtrl->setParameter($this->parent_obj, "grp_id", $a_set["id"]);
-			$url = $ilCtrl->getLinkTarget($this->parent_obj, "editNewItemGroup");
-			$ilCtrl->setParameter($this->parent_obj, "grp_id", "");
+			if($this->has_write)
+			{	
+				$ilCtrl->setParameter($this->parent_obj, "grp_id", $a_set["id"]);
+				$url = $ilCtrl->getLinkTarget($this->parent_obj, "editNewItemGroup");
+				$ilCtrl->setParameter($this->parent_obj, "grp_id", "");
 
-			$this->tpl->setVariable("URL_EDIT", $url);
-			$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+				$this->tpl->setVariable("URL_EDIT", $url);
+				$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+			}
 		}		
 	}
 }
