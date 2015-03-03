@@ -145,7 +145,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->compile()
 						;
 						
-		$this->allowed_user_ids = $this->user_utils->getEmployees();
+		$this->allowed_user_ids = $this->user_utils->getEmployees($this->user_utils->isAdmin());
 		$ous = $this->user_utils->getOrgUnitNamesWhereUserIsSuperior();
 		sort($ous);
 		$this->filter = catFilter::create()

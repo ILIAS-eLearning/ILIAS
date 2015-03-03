@@ -1777,7 +1777,7 @@ class gevUserUtils {
 		return $tree->getOrgusWhereUserHasPermissionForOperation("cancel_employee_bookings_rcrsv");
 	}
 	
-	public function getEmployees() {
+	public function getEmployees($include_inactive = false) {
 		if ($this->employees !== null) {
 			return $this->employees;
 		}
@@ -1804,7 +1804,12 @@ class gevUserUtils {
 		$de = gevOrgUnitUtils::getEmployeesIn($ds_ous);
 		$re = gevOrgUnitUtils::getAllPeopleIn($nds_ous);
 		
-		$this->employees = gevUserUtils::removeInactiveUsers(array_unique(array_merge($de, $re)));
+		if (!$include_inactive) {
+			$this->employees = gevUserUtils::removeInactiveUsers(array_unique(array_merge($de, $re)));
+		}
+		else {
+			$this->employees = array_unique(array_merge($de, $re));
+		}
 		
 		return $this->employees;
 	}
