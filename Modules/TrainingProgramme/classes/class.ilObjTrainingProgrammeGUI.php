@@ -16,6 +16,8 @@ require_once("./Services/Object/classes/class.ilObjectAddNewItemGUI.php");
  *
  * @ilCtrl_Calls      ilObjTrainingProgrammeGUI: ilPermissionGUI
  * @ilCtrl_Calls      ilObjTrainingProgrammeGUI: ilInfoScreenGUI
+ * @ilCtrl_Calls      ilObjTrainingProgrammeGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls      ilObjTrainingProgrammeGUI: ilColumnGUI
  */
 
 class ilObjTrainingProgrammeGUI extends ilContainerGUI {
@@ -108,10 +110,16 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 				$ilPermissionGUI = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($ilPermissionGUI);
 				break;
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
 			case false:
 				switch ($cmd) {
 					case "create":
 					case "save":
+					case "view":
 						$this->$cmd();
 						break;
 					/*case '':
@@ -190,6 +198,11 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 		parent::saveObject();
 	}
 	
+	protected function view() {
+		$this->checkAccess("read");
+		parent::renderObject();
+	}
+	
 	/**
 	 * Overwritten from ilObjectGUI since copy and import are not implemented.
 	 * 
@@ -201,7 +214,20 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 		return array( self::CFORM_NEW => $this->initCreateForm($a_new_type)
 					);
 	}
+	
+	////////////////////////////////////
+	// HELPERS
+	////////////////////////////////////
+	protected function checkAccess($a_which) {
+		if (!$this->ilAccess->checkAccess($a_which, "", $this->ref_id)) {
+			if ($this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
+				ilUtil::sendFailure($this->lng->txt("msg_no_perm_read"));
+				$this->ctrl->redirectByClass('ilinfoscreengui', '');
+			}
 
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->WARNING);
+		}
+	}
 }
 
 ?>
