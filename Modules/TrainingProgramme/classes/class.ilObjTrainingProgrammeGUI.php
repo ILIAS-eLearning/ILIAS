@@ -12,52 +12,61 @@ require_once("./Services/Object/classes/class.ilObjectAddNewItemGUI.php");
 /**
  * Class ilObjTrainingProgrammeGUI class
  *
- * @author            : Richard Klees <richard.klees@concepts-and-training.de>
+ * @author				Richard Klees <richard.klees@concepts-and-training.de>
  *
- * @ilCtrl_Calls      ilObjTrainingProgrammeGUI: ilPermissionGUI
- * @ilCtrl_Calls      ilObjTrainingProgrammeGUI: ilInfoScreenGUI
- * @ilCtrl_Calls      ilObjTrainingProgrammeGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls      ilObjTrainingProgrammeGUI: ilColumnGUI
+ * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilPermissionGUI
+ * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilInfoScreenGUI
+ * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilColumnGUI
+ * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilObjTrainingProgrammeSettingsGUI
  */
 
 class ilObjTrainingProgrammeGUI extends ilContainerGUI {
-
 	/**
 	 * @var ilCtrl
 	 */
 	public $ctrl;
+	
 	/**
 	 * @var ilTemplate
 	 */
 	public $tpl;
+	
 	/**
 	 * @var ilTabsGUI
 	 */
 	public $tabs_gui;
+	
 	/**
 	 * @var ilAccessHandler
 	 */
 	protected $ilAccess;
+	
 	/**
 	 * @var ilToolbarGUI
 	 */
 	protected $toolbar;
+	
 	/**
 	 * @var ilLocatorGUI
 	 */
 	protected $ilLocator;
+	
 	/**
 	 * @var ilTree
 	 */
 	public $tree;
+	
 	/**
 	 * @var ilObjOrgUnit
 	 */
 	public $object;
+	
 	/**
 	 * @var ilLog
 	 */
 	protected $ilLog;
+	
 	/**
 	 * @var Ilias
 	 */
@@ -85,6 +94,10 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 		
+		if ($cmd == "") {
+			$cmd = "view";
+		}
+		
 		parent::prepareOutput();
 
 		switch ($next_class) {
@@ -110,8 +123,13 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 				$this->ctrl->forwardCommand($ilPermissionGUI);
 				break;
 			case "ilcommonactiondispatchergui":
-				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				require_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
+			case "ilobjtrainingprogrammesettingsgui":
+				require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeSettingsGUI.php");
+				$gui = new ilObjTrainingProgrammeSettingsGUI($this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
 			case false:
@@ -181,11 +199,11 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 						$this->updateAdvancedSettings();
 						break;*/
 					default:
-						die("Command not supported: $cmd");
+						throw new ilException("Command not supported: $cmd");
 				}
 				break;
 			default:
-				die("Can't forward to next class $next_class");
+				throw new ilException("Can't forward to next class $next_class");
 		}
 	}
 	
@@ -248,6 +266,7 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	
 	const TAB_VIEW_CONTENT = "view_content";
 	const TAB_INFO = "info_short";
+	const TAB_SETTINGS = "settings";
 	
 	public function getTabs() {
 		if ($this->checkAccess("read")) {
@@ -256,13 +275,28 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 								   , $this->getLinkTarget("view"));
 			$this->tabs_gui->addTab( self::TAB_INFO
 								   , $this->lng->txt("info_short")
-								   , $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
+								   , $this->getLinkTarget("info_short")
+								   );
+		}
+		
+		if ($this->checkAccess("write")) {
+			$this->tabs_gui->addTab( self::TAB_SETTINGS
+								   , $this->lng->txt("settings")
+								   , $this->getLinkTarget("settings")
+								   );
 		}
 		
 		parent::getTabs($this->tabs_gui);
 	}
 	
 	protected function getLinkTarget($a_cmd) {
+		if ($a_cmd == "info_short") {
+			return $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary");
+		}
+		if ($a_cmd == "settings") {
+			return $this->ctrl->getLinkTargetByClass("ilobjtrainingprogrammesettingsgui", "view");
+		}
+		
 		return $this->ctrl->getLinkTarget($this, $a_cmd);
 	}
 	
