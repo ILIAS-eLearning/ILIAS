@@ -128,6 +128,8 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 				$this->ctrl->forwardCommand($gui);
 				break;
 			case "ilobjtrainingprogrammesettingsgui":
+				$this->denyAccessIfNot("write");
+				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
 				require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeSettingsGUI.php");
 				$gui = new ilObjTrainingProgrammeSettingsGUI($this->ref_id);
 				$this->ctrl->forwardCommand($gui);
@@ -199,11 +201,11 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 						$this->updateAdvancedSettings();
 						break;*/
 					default:
-						throw new ilException("Command not supported: $cmd");
+						throw new ilException("ilObjTrainingProgrammeGUI: Command not supported: $cmd");
 				}
 				break;
 			default:
-				throw new ilException("Can't forward to next class $next_class");
+				throw new ilException("ilObjTrainingProgrammeGUI: Can't forward to next class $next_class");
 		}
 	}
 	
