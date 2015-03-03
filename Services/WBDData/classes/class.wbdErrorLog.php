@@ -27,13 +27,18 @@ class wbdErrorLog {
 		'USER_DEACTIVATED' => 'Der Vermittler ist deaktiviert.',
 		'USER_UNKNOWN' => 'Die VermittlerID ist nicht vorhanden.',
 
+		'USER_SERVICETYPE' => array(
+			'nicht zugeordnet. VV-Selbstverwalter'
+		),
+
 		'WRONG_USERDATA' => array(
 			'not well formed: auth_phone_nr',
 			'mandatory field missing: street',
 			'not in list: agency_work',
 			'date not between 1900 and 2000 (birthday)',
-
+			'Daten sind nicht plausibel: 1 Ungültiges Feld'
 		),
+
 
 		'WRONG_COURSEDATA' => array(
 			'Daten sind nicht plausibel: 1 Das Ende des Seminars liegt in der Zukunft',
@@ -64,7 +69,8 @@ class wbdErrorLog {
 	static $RESOLVE_EXCEPTIONS_COURSE = array(
 		'WRONG_USERDATA',
 		'USER_UNKNOWN',
-		'USER_DEACTIVATED'
+		'USER_DEACTIVATED',
+		'USER_SERVICETYPE'
 	);
 
 
