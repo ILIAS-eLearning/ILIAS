@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Tracking/classes/class.ilLPStatus.php';
+include_once './Services/MetaData/classes/class.ilMDEducational.php'; // #15556
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -27,8 +28,6 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 	{
 		global $ilDB;
 
-		include_once './Services/MetaData/classes/class.ilMDEducational.php';
-
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$tlt = $status_info['tlt'];
 
@@ -49,8 +48,6 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 	{
 		global $ilDB;
 
-		include_once './Services/MetaData/classes/class.ilMDEducational.php';
-
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$tlt = $status_info['tlt'];
 
@@ -69,8 +66,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 	}
 
 	function _getStatusInfo($a_obj_id)
-	{
-		include_once './Services/MetaData/classes/class.ilMDEducational.php';
+	{		
 		$status_info['tlt'] = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
 
 		return $status_info;
@@ -121,7 +117,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 	 * @return	integer		percentage
 	 */
 	function determinePercentage($a_obj_id, $a_user_id, $a_obj = null)
-	{
+	{		
 		$tlt = (int) ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
 		$re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_user_id);
 		$spent = (int) $re[0]["spent_seconds"];
