@@ -838,7 +838,19 @@ class ilSurveyEvaluationGUI
 			$finished = $finished_data[$user_id];
 			if((bool)$finished["finished"])
 			{
-				array_push($csvrow, ilDatePresentation::formatDate(new ilDateTime($finished["finished_tstamp"], IL_CAL_UNIX)));
+				if($export_format == self::TYPE_XLS)
+				{				
+					// see ilObjUserFolder::createExcelExport()
+					$date = strftime("%Y-%m-%d %H:%M:%S", $finished["finished_tstamp"]);
+					if(preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $date, $matches))
+					{
+						array_push($csvrow, array("excelTime", ilUtil::excelTime($matches[1],$matches[2],$matches[3],$matches[4],$matches[5],$matches[6])));
+					}			
+				}			
+				else
+				{
+					array_push($csvrow, ilDatePresentation::formatDate(new ilDateTime($finished["finished_tstamp"], IL_CAL_UNIX)));
+				}
 			}
 			else
 			{
@@ -932,7 +944,11 @@ class ilSurveyEvaluationGUI
 						$mainworksheet =& $worksheets[$worksheet];
 						foreach ($csvrow as $text)
 						{
-							if (is_numeric($text))
+							if (is_array($text) && $text[0] == "excelTime")
+							{
+								$mainworksheet->write($row, $col++, $text[1], $format_datetime);
+							}							
+							else if (is_numeric($text))
 							{
 								$mainworksheet->writeNumber($row, $col++, $text);
 							}
