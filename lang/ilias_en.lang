@@ -15762,3 +15762,16 @@ crs#:#crs_loc_objectives_passed_confirmation#:#Sie haben bereits alle Lernziel b
 crs#:#crs_loc_tst_start#:#Test starten
 crs#:#crs_loc_mem_show_res#:#Testergebnisse anzeigen
 crs#:#crs_loc_test_results_of#:#Testergebnisse von:
+prg#:#prg_new#:#New Training Programme
+prg#:#prg_add#:#Add Training Programme
+prg#:#prg_edit#:#Edit Training Programme
+prg#:#prg_type#:#Training Programme Type
+prg#:#prg_assessment#:#Training Programme Assessment
+prg#:#prg_points#:#Points
+prg#:#prg_status#:#Status
+prg#:#prg_status_draft#:#Draft
+prg#:#prg_status_active#:#Active
+prg#:#prg_status_outdated#:#Outdated
+common#:#obj_prg_duplicate#:#Copy Training Programme
+common#:#obj_prg_select#:#-- Please select one Training Programme --
+common#:#obj_prg#:#Training Programme
