@@ -84,16 +84,15 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
+		
 		parent::prepareOutput();
 
 		switch ($next_class) {
 			case "ilinfoscreengui":
-				$this->tabs_gui->setTabActive("info_short");
-				if (!$this->ilAccess->checkAccess("read", "", $this->ref_id) AND !$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
-					$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE);
-				}
+				$this->tabs_gui->setTabActive(self::TAB_INFO);
+				$this->denyAccessIfNotAnyOf(array("read", "visible"));
 				$info = new ilInfoScreenGUI($this);
-				$this->parseInfoScreen($info);
+				$this->fillInfoScreen($info);
 				$this->ctrl->forwardCommand($info);
 
 				// I guess this is how it was supposed to work, but it doesn't... it won't respect our sub-id and sub-type when creating the objects!
@@ -199,7 +198,8 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	}
 	
 	protected function view() {
-		$this->checkAccess("read");
+		$this->denyAccessIfNot("read");
+		$this->tabs_gui->setTabActive(self::TAB_VIEW_CONTENT);
 		parent::renderObject();
 	}
 	
@@ -218,15 +218,56 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	////////////////////////////////////
 	// HELPERS
 	////////////////////////////////////
+
 	protected function checkAccess($a_which) {
-		if (!$this->ilAccess->checkAccess($a_which, "", $this->ref_id)) {
-			if ($this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
+		return $this->ilAccess->checkAccess($a_which, "", $this->ref_id);
+	}
+	
+	protected function denyAccessIfNot($a_perm) {
+		return $this->denyAccessIfNotAnyOf(array($a_perm));
+	}
+
+	protected function denyAccessIfNotAnyOf($a_perms) {
+		$deny = true;
+		foreach ($a_perms as $perm) {
+			if ($this->checkAccess($perm)) {
+				$deny = false;
+			}
+			break;
+		}
+		
+		if ($deny) {
+			if ($this->checkAccess("visible")) {
 				ilUtil::sendFailure($this->lng->txt("msg_no_perm_read"));
 				$this->ctrl->redirectByClass('ilinfoscreengui', '');
 			}
 
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->WARNING);
 		}
+	}
+	
+	const TAB_VIEW_CONTENT = "view_content";
+	const TAB_INFO = "info_short";
+	
+	public function getTabs() {
+		if ($this->checkAccess("read")) {
+			$this->tabs_gui->addTab( self::TAB_VIEW_CONTENT
+								   , $this->lng->txt("content")
+								   , $this->getLinkTarget("view"));
+			$this->tabs_gui->addTab( self::TAB_INFO
+								   , $this->lng->txt("info_short")
+								   , $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
+		}
+		
+		parent::getTabs($this->tabs_gui);
+	}
+	
+	protected function getLinkTarget($a_cmd) {
+		return $this->ctrl->getLinkTarget($this, $a_cmd);
+	}
+	
+	protected function fillInfoScreen($a_info_screen) {
+		// TODO: implement me
 	}
 }
 
