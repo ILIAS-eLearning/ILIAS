@@ -620,10 +620,14 @@ class ilInitialisation
 			if (count($ls) > 0)
 			{
 				setlocale(LC_ALL, $ls);
+							
+				// #15347 - making sure that floats are not changed
+				setlocale(LC_NUMERIC, "C"); 
+				
 				if (class_exists("Collator"))
 				{
 					$GLOBALS["ilCollator"] = new Collator($first);
-				}
+				}				
 			}
 		}
 	}
