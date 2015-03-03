@@ -661,7 +661,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql .= " AND user_id NOT IN ("
 			." SELECT DISTINCT usr_id FROM wbd_errors WHERE"
 			." resolved=0"
-			." AND reason IN ('WRONG_USERDATA','USER_EXISTS_TP', 'USER_EXISTS')"
+			." AND reason IN ('WRONG_USERDATA','USER_EXISTS_TP', 'USER_EXISTS', 'USER_SERVICETYPE')"
 			//." AND action='new_user'"
 			.")";
 
@@ -801,7 +801,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql .= " AND user_id NOT IN ("
 			." SELECT DISTINCT usr_id FROM wbd_errors WHERE"
 			." resolved=0"
-			." AND reason IN ('WRONG_USERDATA','USER_EXISTS_TP', 'USER_EXISTS')"
+			." AND reason IN ('WRONG_USERDATA','USER_EXISTS_TP', 'USER_EXISTS', 'USER_SERVICETYPE')"
 			//." AND action='new_user'"
 			.")";
 
