@@ -22,6 +22,7 @@ require_once('./Services/Container/classes/class.ilContainerSortingSettings.php'
  * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilColumnGUI
  * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilObjTrainingProgrammeSettingsGUI
  * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilObjTrainingProgrammeTreeGUI
+ * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilObjTrainingProgrammeMembersGUI
  */
 
 class ilObjTrainingProgrammeGUI extends ilContainerGUI {
@@ -135,7 +136,14 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 				$this->denyAccessIfNot("write");
 				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
 				require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeSettingsGUI.php");
-				$gui = new ilObjTrainingProgrammeSettingsGUI($this->ref_id);
+				$gui = new ilObjTrainingProgrammeSettingsGUI($this, $this->ref_id);
+				$this->ctrl->forwardCommand($gui);
+				break;
+			case "ilobjtrainingprogrammemembersgui":
+				$this->denyAccessIfNot("manage_members");
+				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
+				require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeMembersGUI.php");
+				$gui = new ilObjTrainingProgrammeMembersGUI($this, $this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
 			case "ilobjtrainingprogrammetreegui":
@@ -339,7 +347,8 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	const SUBTAB_VIEW_TREE = "view_tree";
 	const TAB_INFO = "info_short";
 	const TAB_SETTINGS = "settings";
-
+	const TAB_MEMBERS = "members";
+	
 	public function getTabs() {
 		if ($this->checkAccess("read")) {
 			$this->tabs_gui->addTab( self::TAB_VIEW_CONTENT
@@ -355,6 +364,13 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 			$this->tabs_gui->addTab( self::TAB_SETTINGS
 								   , $this->lng->txt("settings")
 								   , $this->getLinkTarget("settings")
+								   );
+		}
+		
+		if ($this->checkAccess("manage_members")) {
+			$this->tabs_gui->addTab( self::TAB_MEMBERS
+								   , $this->lng->txt("members")
+								   , $this->getLinkTarget("members")
 								   );
 		}
 		
@@ -395,6 +411,9 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 		}
 		if($a_cmd == self::SUBTAB_VIEW_TREE) {
 			return $this->ctrl->getLinkTargetByClass("ilobjtrainingprogrammetreegui", "view");
+		}
+		if ($a_cmd == "members") {
+			return $this->ctrl->getLinkTargetByClass("ilobjtrainingprogrammemembersgui", "view");
 		}
 		
 		return $this->ctrl->getLinkTarget($this, $a_cmd);
