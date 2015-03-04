@@ -8,6 +8,7 @@ require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 require_once("./Services/AccessControl/classes/class.ilPermissionGUI.php");
 require_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 require_once("./Services/Object/classes/class.ilObjectAddNewItemGUI.php");
+require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeTreeExplorerGUI.php");
 
 /**
  * Class ilObjTrainingProgrammeGUI class
@@ -139,6 +140,8 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 					case "create":
 					case "save":
 					case "view":
+					case self::SUBTAB_VIEW_TREE:
+						$this->getSubTabs($cmd);
 						$this->$cmd();
 						break;
 					/*case '':
@@ -222,6 +225,20 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 		$this->tabs_gui->setTabActive(self::TAB_VIEW_CONTENT);
 		parent::renderObject();
 	}
+
+	protected function view_tree() {
+		$this->denyAccessIfNot("write");
+		$this->setContentSubTabs();
+
+		$this->tabs_gui->setTabActive(self::TAB_VIEW_CONTENT);
+		$this->tabs_gui->setSubTabActive(self::SUBTAB_VIEW_TREE);
+
+		$tree = new ilTrainingProgrammeTreeExplorerGUI($this->id, "prg_tree", $this, self::SUBTAB_VIEW_TREE, new ilTree(1));
+		if (!$tree->handleCommand()) {
+			$this->tpl->setContent($tree->getHTML());
+		}
+		$this->ctrl->setParameter($this, "ref_id", $_GET["ref_id"]);
+	}
 	
 	/**
 	 * Overwritten from ilObjectGUI since copy and import are not implemented.
@@ -267,9 +284,10 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	}
 	
 	const TAB_VIEW_CONTENT = "view_content";
+	const SUBTAB_VIEW_TREE = "view_tree";
 	const TAB_INFO = "info_short";
 	const TAB_SETTINGS = "settings";
-	
+
 	public function getTabs() {
 		if ($this->checkAccess("read")) {
 			$this->tabs_gui->addTab( self::TAB_VIEW_CONTENT
@@ -289,6 +307,19 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 		}
 		
 		parent::getTabs($this->tabs_gui);
+	}
+
+	public function getSubTabs($a_parent_tab) {
+		switch($a_parent_tab) {
+			case self::TAB_VIEW_CONTENT:
+			case self::SUBTAB_VIEW_TREE:
+			case 'view':
+				if($this->checkAccess("write")) {
+					$this->tabs_gui->addSubTab(self::SUBTAB_VIEW_TREE, $this->lng->txt("prg_view_tree"), $this->getLinkTarget(self::SUBTAB_VIEW_TREE));
+				}
+				break;
+		}
+
 	}
 	
 	protected function getLinkTarget($a_cmd) {

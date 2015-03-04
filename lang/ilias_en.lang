@@ -15579,6 +15579,7 @@ prg#:#prg_new#:#New Training Programme
 prg#:#prg_add#:#Add Training Programme
 prg#:#prg_edit#:#Edit Training Programme
 prg#:#prg_type#:#Training Programme Type
+prg#:#prg_view_tree#:#Tree View
 prg#:#prg_assessment#:#Training Programme Assessment
 prg#:#prg_points#:#Points
 prg#:#prg_status#:#Status
