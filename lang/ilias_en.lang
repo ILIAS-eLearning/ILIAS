@@ -3808,6 +3808,7 @@ common#:#objs_mep#:#Media Pools
 common#:#objs_mob#:#Media Objects
 common#:#objs_note#:#Notes
 common#:#objs_pg#:#Pages
+common#:#objs_prg#:#Training Programmes
 common#:#objs_qpl#:#Question Pools Test
 common#:#objs_qst#:#Questions
 common#:#objs_rcrs#:#ECS Courses
