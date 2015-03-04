@@ -12,6 +12,8 @@
 		<object id="prg" class_name="TrainingProgramme" dir="classes" default_pos="20" default_pres_pos="30"
 			checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1" grp="prg" export="0" amet="1">
 			<subobj id="rolf" max="1">rolf</subobj>
+			<subobj id="crsr" max="1">crsr</subobj>
+
 			<parent id="prg">prg</parent>
 			<parent id="cat">cat</parent>
 			<parent id="recf">recf</parent>
