@@ -9677,62 +9677,92 @@ function getAnswerFeedbackPoints()
 		global $ilDB;
 		global $ilUser;
 		$testsettings = array(
-			"TitleOutput" => $this->getTitleOutput(),
-			"PassScoring" => $this->getPassScoring(),
-			"IntroEnabled" => $this->isIntroductionEnabled(),
-			"Introduction" => $this->getIntroduction(),
-			"FinalStatement" => $this->getFinalStatement(),
-			"ShowInfo" => $this->getShowInfo(),
-			"ForceJS" => $this->getForceJS(),
-			"CustomStyle" => $this->getCustomStyle(),
-			"ShowFinalStatement" => $this->getShowFinalStatement(),
-			"SequenceSettings" => $this->getSequenceSettings(),
-			"ScoreReporting" => $this->getScoreReporting(),
-			"ScoreCutting" => $this->getScoreCutting(),
-			'SpecificAnswerFeedback' => $this->getSpecificAnswerFeedback(),
-			'PrintBsWithRes'	=> (int)$this->isBestSolutionPrintedWithResult(),
-			"InstantFeedbackSolution" => $this->getInstantFeedbackSolution(),
-			"AnswerFeedback" => $this->getAnswerFeedback(),
-			"AnswerFeedbackPoints" => $this->getAnswerFeedbackPoints(),
-			"ResultsPresentation" => $this->getResultsPresentation(),
-			"Anonymity" => $this->getAnonymity(),
-			"ShowCancel" => $this->getShowCancel(),
-			"ShowMarker" => $this->getShowMarker(),
-			"ReportingDate" => $this->getReportingDate(),
-			"NrOfTries" => $this->getNrOfTries(),
-			"Shuffle" => $this->getShuffleQuestions(),
-			"Kiosk" => $this->getKiosk(),
-			"UsePreviousAnswers" => $this->getUsePreviousAnswers(),
-			"ProcessingTime" => $this->getProcessingTime(),
-			"EnableProcessingTime" => $this->getEnableProcessingTime(),
-			"ResetProcessingTime" => $this->getResetProcessingTime(),
-			"StartingTimeEnabled" => $this->isStartingTimeEnabled(),
-			"StartingTime" => $this->getStartingTime(),
-			"EndingTimeEnabled" => $this->isEndingTimeEnabled(),
-			"EndingTime" => $this->getEndingTime(),
-			"ECTSOutput" => $this->getECTSOutput(),
-			"ECTSFX" => $this->getECTSFX(),
-			"ECTSGrades" => $this->getECTSGrades(),
-			"questionSetType" => $this->getQuestionSetType(),
-			"CountSystem" => $this->getCountSystem(),
-			"MCScoring" => $this->getMCScoring(),
-			"mailnotification" => $this->getMailNotification(),
-			"mailnottype" => $this->getMailNotificationType(),
-			"exportsettings" => $this->getExportSettings(),
-			"ListOfQuestionsSettings" => $this->getListOfQuestionsSettings(),
-			'obligations_enabled' => (int)$this->areObligationsEnabled(),
-			'offer_question_hints' => (int)$this->isOfferingQuestionHintsEnabled(),
-			'pass_deletion_allowed' => (int)$this->isPassDeletionAllowed(),
-			'enable_examview' => $this->getEnableExamview(),
-			'show_examview_html' => $this->getShowExamviewHtml(),
-			'show_examview_pdf' => $this->getShowExamviewPdf(),
+			"TitleOutput"                => $this->getTitleOutput(),
+			"PassScoring"                => $this->getPassScoring(),
+			"IntroEnabled"               => $this->isIntroductionEnabled(),
+			"Introduction"               => $this->getIntroduction(),
+			"FinalStatement"             => $this->getFinalStatement(),
+			"ShowInfo"                   => $this->getShowInfo(),
+			"ForceJS"                    => $this->getForceJS(),
+			"CustomStyle"                => $this->getCustomStyle(),
+			"ShowFinalStatement"         => $this->getShowFinalStatement(),
+			"SequenceSettings"           => $this->getSequenceSettings(),
+			"ScoreReporting"             => $this->getScoreReporting(),
+			"ScoreCutting"               => $this->getScoreCutting(),
+			'SpecificAnswerFeedback'     => $this->getSpecificAnswerFeedback(),
+			'PrintBsWithRes'             => (int)$this->isBestSolutionPrintedWithResult(),
+			"InstantFeedbackSolution"    => $this->getInstantFeedbackSolution(),
+			"AnswerFeedback"             => $this->getAnswerFeedback(),
+			"AnswerFeedbackPoints"       => $this->getAnswerFeedbackPoints(),
+			"ResultsPresentation"        => $this->getResultsPresentation(),
+			"Anonymity"                  => $this->getAnonymity(),
+			"ShowCancel"                 => $this->getShowCancel(),
+			"ShowMarker"                 => $this->getShowMarker(),
+			"ReportingDate"              => $this->getReportingDate(),
+			"NrOfTries"                  => $this->getNrOfTries(),
+			"Shuffle"                    => $this->getShuffleQuestions(),
+			"Kiosk"                      => $this->getKiosk(),
+			"UsePreviousAnswers"         => $this->getUsePreviousAnswers(),
+			"ProcessingTime"             => $this->getProcessingTime(),
+			"EnableProcessingTime"       => $this->getEnableProcessingTime(),
+			"ResetProcessingTime"        => $this->getResetProcessingTime(),
+			"StartingTimeEnabled"        => $this->isStartingTimeEnabled(),
+			"StartingTime"               => $this->getStartingTime(),
+			"EndingTimeEnabled"          => $this->isEndingTimeEnabled(),
+			"EndingTime"                 => $this->getEndingTime(),
+			"ECTSOutput"                 => $this->getECTSOutput(),
+			"ECTSFX"                     => $this->getECTSFX(),
+			"ECTSGrades"                 => $this->getECTSGrades(),
+			"questionSetType"            => $this->getQuestionSetType(),
+			"CountSystem"                => $this->getCountSystem(),
+			"MCScoring"                  => $this->getMCScoring(),
+			"mailnotification"           => $this->getMailNotification(),
+			"mailnottype"                => $this->getMailNotificationType(),
+			"exportsettings"             => $this->getExportSettings(),
+			"ListOfQuestionsSettings"    => $this->getListOfQuestionsSettings(),
+			'obligations_enabled'        => (int)$this->areObligationsEnabled(),
+			'offer_question_hints'       => (int)$this->isOfferingQuestionHintsEnabled(),
+			'pass_deletion_allowed'      => (int)$this->isPassDeletionAllowed(),
+			'enable_examview'            => $this->getEnableExamview(),
+			'show_examview_html'         => $this->getShowExamviewHtml(),
+			'show_examview_pdf'          => $this->getShowExamviewPdf(),
 			'char_selector_availability' => $this->getCharSelectorAvailability(),
-			'char_selector_definition' => $this->getCharSelectorDefinition(),
-			'skill_service' => (int)$this->isSkillServiceEnabled(),
-			'result_tax_filters' => (array)$this->getResultFilterTaxIds(),
-			'show_grading_status' => (int)$this->isShowGradingStatusEnabled(),
-			'show_grading_mark' => (int)$this->isShowGradingMarkEnabled()
+			'char_selector_definition'   => $this->getCharSelectorDefinition(),
+			'skill_service'              => (int)$this->isSkillServiceEnabled(),
+			'result_tax_filters'         => (array)$this->getResultFilterTaxIds(),
+			'show_grading_status'        => (int)$this->isShowGradingStatusEnabled(),
+			'show_grading_mark'          => (int)$this->isShowGradingMarkEnabled(),
+
+			'inst_fb_answer_fixation' => $this->isInstantFeedbackAnswerFixationEnabled(),
+			'redirection_mode'        => $this->getRedirectionMode(),
+			'redirection_url'         => $this->getRedirectionUrl(),
+			'sign_submission'         => $this->getSignSubmission(),
+			'autosave'                => (int)$this->getAutosave(),
+			'autosave_ival'           => (int)$this->getAutosaveIval(),
+			'examid_in_test_pass'     => (int)$this->isShowExamIdInTestPassEnabled(),
+			'examid_in_test_res'      => (int)$this->isShowExamIdInTestResultsEnabled(),
+			
+			'enable_archiving'        => (int)$this->getEnableArchiving(),
+			'password_enabled'        => (int)$this->isPasswordEnabled(),
+			'password'                => (string)$this->getPassword(),
+			'fixed_participants'      => $this->getFixedParticipants(),
+			'limit_users_enabled'     => $this->isLimitUsersEnabled(),
+			'allowedusers'            => $this->getAllowedUsers(),
+			'alloweduserstimegap'     => $this->getAllowedUsersTimeGap(),
+
+			'highscore_enabled'       => $this->getHighscoreEnabled(),
+			'highscore_anon'          => $this->getHighscoreAnon(),
+			'highscore_achieved_ts'   => $this->getHighscoreAchievedTS(),
+			'highscore_score'         => $this->getHighscoreScore(),
+			'highscore_percentage'    => $this->getHighscorePercentage(),
+			'highscore_hints'         => $this->getHighscoreHints(),
+			'highscore_wtime'         => $this->getHighscoreWTime(),
+			'highscore_own_table'     => $this->getHighscoreOwnTable(),
+			'highscore_top_table'     => $this->getHighscoreTopTable(),
+			'highscore_top_num'       => $this->getHighscoreTopNum(),
+			'use_previous_answers' => (string)$this->getUsePreviousAnswers()
 		);
+		
 		$next_id = $ilDB->nextId('tst_test_defaults');
 		$ilDB->insert(
 			'tst_test_defaults',
@@ -9860,6 +9890,21 @@ function getAnswerFeedbackPoints()
 		$this->setShowGradingStatusEnabled((bool)$testsettings['show_grading_status']);
 		$this->setShowGradingMarkEnabled((bool)$testsettings['show_grading_mark']);
 
+		$this->setInstantFeedbackAnswerFixationEnabled($testsettings['inst_fb_answer_fixation']);
+		$this->setRedirectionMode($testsettings['redirection_mode']);
+		$this->setRedirectionUrl($testsettings['redirection_url']);
+
+		$this->setAutosave($testsettings['autosave']);
+		$this->setAutosaveIval($testsettings['autosave_ival']);
+		$this->setShowExamIdInTestResultsEnabled((int)$testsettings['examid_in_test_res']);
+		$this->setPasswordEnabled($testsettings['password_enabled']);
+		$this->setPassword($testsettings['password']);
+		$this->setFixedParticipants($testsettings['fixed_participants']	);
+		$this->setLimitUsersEnabled($testsettings['limit_users_enabled']);
+		$this->setAllowedUsers($testsettings['allowedusers']);
+		$this->setAllowedUsersTimeGap($testsettings['alloweduserstimegap']);
+		$this->setUsePreviousAnswers($testsettings['use_previous_answers']);
+		
 		$this->saveToDb();
 
 		return true;
