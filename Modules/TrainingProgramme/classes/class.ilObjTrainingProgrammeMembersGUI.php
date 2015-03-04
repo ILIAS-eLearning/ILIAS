@@ -8,6 +8,7 @@
  *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
+ * @ilCtrl_Calls ilObjTrainingProgrammeMembersGUI: ilRepositorySearchGUI
  */
 
 class ilObjTrainingProgrammeMembersGUI {
@@ -45,6 +46,11 @@ class ilObjTrainingProgrammeMembersGUI {
 	 * @var ilLng
 	 */
 	public $lng;
+	
+	/**
+	 * @var ilToolbarGUI
+	 */
+	public $toolbar;
 
 	protected $parent_gui;
 
@@ -70,18 +76,35 @@ class ilObjTrainingProgrammeMembersGUI {
 	
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
+		$next_class = $this->ctrl->getNextClass($this);
 		
 		if ($cmd == "") {
 			$cmd = "view";
 		}
 		
-		switch ($cmd) {
-			case "view":
-				$cont = $this->$cmd();
+		switch ($next_class) {
+			case "ilrepositorysearchgui":		
+				include_once "./Services/Search/classes/class.ilRepositorySearchGUI.php";
+				$rep_search = new ilRepositorySearchGUI();
+				$rep_search->setCallback($this, "addUsers");				
+				
+				$this->ctrl->setReturn($this, "view");
+				$this->ctrl->forwardCommand($rep_search);
+				break;
+			
+			case false:
+				switch ($cmd) {
+					case "view":
+					case "addUserFromAutoComplete":
+						$cont = $this->$cmd();
+						break;
+					default:
+						throw new ilException("ilObjTrainingProgrammeMembersGUI: ".
+											  "Command not supported: $cmd");
+				}
 				break;
 			default:
-				throw new ilException("ilObjTrainingProgrammeMembersGUI: ".
-									  "Command not supported: $cmd");
+				throw new ilException("ilObjTrainingProgrammeMembersGUI: Can't forward to next class $next_class");
 		}
 		
 		$this->tpl->setContent($cont);
@@ -89,9 +112,30 @@ class ilObjTrainingProgrammeMembersGUI {
 	
 	protected function view() {
 		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeMembersTableGUI.php");
+		
+		$this->initSearchGUI();
+		
 		$prg_id = ilObject::_lookupObjId($this->ref_id);
 		$table = new ilTrainingProgrammeMembersTableGUI($prg_id, $this);
 		return $table->getHTML();
+	}
+
+	public function addUsers($a_users) {
+		print_r($a_users);
+		die("Here");
+	}
+
+	protected function initSearchGUI() {
+		require_once("./Services/Search/classes/class.ilRepositorySearchGUI.php");
+		ilRepositorySearchGUI::fillAutoCompleteToolbar(
+			$this,
+			$this->toolbar,
+			array(
+				"auto_complete_name"	=> $this->lng->txt("user"),
+				"submit_name"			=> $this->lng->txt("add"),
+				"add_search"			=> true
+			)
+		);
 	}
 }
 
