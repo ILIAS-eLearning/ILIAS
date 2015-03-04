@@ -62,13 +62,16 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 	}
 
 	protected function fillRow($a_set) {
-		$this->tpl->setVariable("NAME", "TODO");
-		$this->tpl->setVariable("LOGIN", "TODO");
+		$this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
+		$this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
+		$this->tpl->setVariable("LOGIN", $a_set["login"]);
 		$this->tpl->setVariable("STATUS", ilTrainingProgrammeUserProgress::statusToRepr($a_set["status"]));
 		$this->tpl->setVariable("COMPLETION_BY", "TODO");
-		$this->tpl->setVariable("POINTS_REQUIRED", "TODO");
-		$this->tpl->setVariable("POINTS_CURRENT", "TODO");
-		$this->tpl->setVariable("CUSTOM_PLAN", "TODO");
+		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points"]);
+		$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_cur"]);
+		$this->tpl->setVariable("CUSTOM_PLAN", $a_set["last_change_by"] 
+												? $this->lng>txt("yes")
+												: $this->lng->txt("no"));
 		$this->tpl->setVariable("BELONGS_TO", "TODO");
 		$this->tpl->setVariable("ACTIONS", "TODO");
 	}

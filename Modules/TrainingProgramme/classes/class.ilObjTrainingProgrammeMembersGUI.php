@@ -113,6 +113,7 @@ class ilObjTrainingProgrammeMembersGUI {
 	protected function view() {
 		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeMembersTableGUI.php");
 		
+		// TODO: if ($this->getTrainingProgramme()->isActive()) {
 		$this->initSearchGUI();
 		
 		$prg_id = ilObject::_lookupObjId($this->ref_id);
@@ -121,8 +122,10 @@ class ilObjTrainingProgrammeMembersGUI {
 	}
 
 	public function addUsers($a_users) {
-		print_r($a_users);
-		die("Here");
+		$prg = $this->getTrainingProgramme();
+		foreach ($a_users as $user_id) {
+			$prg->assignUser($user_id);
+		}
 	}
 
 	protected function initSearchGUI() {
@@ -136,6 +139,11 @@ class ilObjTrainingProgrammeMembersGUI {
 				"add_search"			=> true
 			)
 		);
+	}
+	
+	protected function getTrainingProgramme() {
+		require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
+		return ilObjTrainingProgramme::getInstanceByRefId($this->ref_id);
 	}
 }
 
