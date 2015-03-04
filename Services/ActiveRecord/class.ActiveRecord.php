@@ -8,7 +8,7 @@ require_once('Cache/class.arFieldCache.php');
 require_once('Storage/int.arStorageInterface.php');
 require_once('Factory/class.arFactory.php');
 require_once('Cache/class.arCalledClassCache.php');
-
+require_once('Connector/class.arConnectorMap.php');
 /**
  * Class ActiveRecord
  *
@@ -26,11 +26,11 @@ abstract class ActiveRecord implements arStorageInterface {
 	/**
 	 * @var arConnectorDB
 	 */
-	protected $arConnector;
+	//protected $arConnector;
 	/**
 	 * @var arFieldList
 	 */
-	protected $arFieldList;
+	//protected $arFieldList;
 	/**
 	 * @var bool
 	 */
@@ -45,7 +45,8 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @return \arConnectorDB
 	 */
 	public function getArConnector() {
-		return $this->arConnector;
+		return arConnectorMap::get($this);
+		//return $this->arConnector;
 	}
 
 
@@ -53,7 +54,8 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @return \arFieldList
 	 */
 	public function getArFieldList() {
-		return $this->arFieldList;
+		return arFieldCache::get($this);
+		// return $this->arFieldList;
 	}
 
 
@@ -114,13 +116,15 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @param arConnector $connector
 	 */
 	public function __construct($primary_key = 0, arConnector $connector = NULL) {
-		if ($connector == NULL) {
-			$this->arConnector = new arConnectorDB();
-		} else {
-			$this->arConnector = $connector;
+		if($connector == NULL) {
+			$connector = new arConnectorDB();
 		}
-		$this->arFieldList = arFieldCache::get($this);
-		$key = $this->arFieldList->getPrimaryFieldName();
+		//$this->arConnector = $connector;
+		arConnectorMap::register($this, $connector);
+
+		$arFieldList = arFieldCache::get($this);
+		//$this->arFieldList = $arFieldList ;
+		$key = $arFieldList->getPrimaryFieldName();
 		$this->{$key} = $primary_key;
 		if ($primary_key !== 0 AND $primary_key !== NULL AND $primary_key !== false) {
 			$this->read();
@@ -140,7 +144,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 */
 	public function __getConvertedDateFieldsAsArray($format = NULL) {
 		$converted_dates = array();
-		foreach ($this->arFieldList->getFields() as $field) {
+		foreach ($this->getArFieldList()->getFields() as $field) {
 			if ($field->isDateField()) {
 				$name = $field->getName();
 				$value = $this->{$name};
@@ -203,7 +207,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 */
 	public function __asArray() {
 		$return = array();
-		foreach ($this->arFieldList->getFields() as $field) {
+		foreach ($this->getArFieldList()->getFields() as $field) {
 			$fieldname = $field->getName();
 			$return[$fieldname] = $this->{$fieldname};
 		}
@@ -217,7 +221,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 */
 	public function __asStdClass() {
 		$return = new stdClass();
-		foreach ($this->arFieldList->getFields() as $field) {
+		foreach ($this->getArFieldList()->getFields() as $field) {
 			$fieldname = $field->getName();
 			$return->{$fieldname} = $this->{$fieldname};
 		}
@@ -241,7 +245,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 */
 	public function buildFromArray(array $array) {
 		$class = get_class($this);
-		$primary = $this->arFieldList->getPrimaryFieldName();
+		$primary = $this->getArFieldList()->getPrimaryFieldName();
 		$primary_value = $array[$primary];
 		if ($primary_value AND arObjectCache::isCached($class, $primary_value)) {
 			return arObjectCache::get($class, $primary_value);
@@ -295,7 +299,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 */
 	final public function getArrayForConnector() {
 		$data = array();
-		foreach ($this->arFieldList->getFields() as $field) {
+		foreach ($this->getArFieldList()->getFields() as $field) {
 			$field_name = $field->getName();
 			if ($this->sleep($field_name) === NULL) {
 				$data[$field_name] = array( $field->getFieldType(), $this->{$field_name} );
@@ -347,7 +351,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @return bool
 	 */
 	final public static function renameDBField($old_name, $new_name) {
-		return self::getCalledClass()->arConnector->renameField(self::getCalledClass(), $old_name, $new_name);
+		return self::getCalledClass()->getArConnector()->renameField(self::getCalledClass(), $old_name, $new_name);
 	}
 
 
@@ -355,7 +359,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @return bool
 	 */
 	final public static function tableExists() {
-		return self::getCalledClass()->arConnector->checkTableExists(self::getCalledClass());
+		return self::getCalledClass()->getArConnector()->checkTableExists(self::getCalledClass());
 	}
 
 
@@ -365,7 +369,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @return bool
 	 */
 	final public static function fieldExists($field_name) {
-		return self::getCalledClass()->arConnector->checkFieldExists(self::getCalledClass(), $field_name);
+		return self::getCalledClass()->getArConnector()->checkFieldExists(self::getCalledClass(), $field_name);
 	}
 
 
@@ -375,7 +379,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @return bool
 	 */
 	final public static function removeDBField($field_name) {
-		return self::getCalledClass()->arConnector->removeField(self::getCalledClass(), $field_name);
+		return self::getCalledClass()->getArConnector()->removeField(self::getCalledClass(), $field_name);
 	}
 
 
@@ -385,13 +389,13 @@ abstract class ActiveRecord implements arStorageInterface {
 	final protected function installDatabase() {
 		if (! $this->tableExists()) {
 			$fields = array();
-			foreach ($this->arFieldList->getFields() as $field) {
+			foreach ($this->getArFieldList()->getFields() as $field) {
 				$fields[$field->getName()] = $field->getAttributesForConnector();
 			}
 
-			return $this->arConnector->installDatabase($this, $fields);
+			return $this->getArConnector()->installDatabase($this, $fields);
 		} else {
-			return $this->arConnector->updateDatabase($this);
+			return $this->getArConnector()->updateDatabase($this);
 		}
 	}
 
@@ -406,7 +410,7 @@ abstract class ActiveRecord implements arStorageInterface {
 			return true;
 		}
 
-		return self::getCalledClass()->arConnector->updateDatabase(self::getCalledClass());
+		return self::getCalledClass()->getArConnector()->updateDatabase(self::getCalledClass());
 	}
 
 
@@ -414,7 +418,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @return bool
 	 */
 	final public static function resetDB() {
-		return self::getCalledClass()->arConnector->resetDatabase(self::getCalledClass());
+		return self::getCalledClass()->getArConnector()->resetDatabase(self::getCalledClass());
 	}
 
 
@@ -422,7 +426,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @return bool
 	 */
 	final public static function truncateDB() {
-		return self::getCalledClass()->arConnector->truncateDatabase(self::getCalledClass());
+		return self::getCalledClass()->getArConnector()->truncateDatabase(self::getCalledClass());
 	}
 
 
@@ -452,10 +456,10 @@ abstract class ActiveRecord implements arStorageInterface {
 
 	public function create() {
 		if ($this->getArFieldList()->getPrimaryField()->getSequence()) {
-			$this->id = $this->arConnector->nextID($this);
+			$this->id = $this->getArConnector()->nextID($this);
 		}
 
-		$this->arConnector->create($this, $this->getArrayForConnector());
+		$this->getArConnector()->create($this, $this->getArrayForConnector());
 		arObjectCache::store($this);
 	}
 
@@ -482,7 +486,7 @@ abstract class ActiveRecord implements arStorageInterface {
 
 
 	public function read() {
-		$records = $this->arConnector->read($this);
+		$records = $this->getArConnector()->read($this);
 		if (count($records) == 0 AND $this->ar_safe_read == true) {
 			throw new arException(arException::RECORD_NOT_FOUND, $this->getPrimaryFieldValue());
 		} elseif (count($records) == 0 AND $this->ar_safe_read == false) {
@@ -503,13 +507,13 @@ abstract class ActiveRecord implements arStorageInterface {
 
 
 	public function update() {
-		$this->arConnector->update($this);
+		$this->getArConnector()->update($this);
 		arObjectCache::store($this);
 	}
 
 
 	public function delete() {
-		$this->arConnector->delete($this);
+		$this->getArConnector()->delete($this);
 		arObjectCache::purge($this);
 	}
 
