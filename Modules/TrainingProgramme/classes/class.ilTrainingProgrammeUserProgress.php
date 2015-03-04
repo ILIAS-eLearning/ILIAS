@@ -126,16 +126,16 @@ class ilTrainingProgrammeUserProgress {
 		$lng->loadLanguageModule("prg");
 		
 		if ($a_status == ilTrainingProgrammeProgress::STATUS_IN_PROGRESS) {
-			return $this->lng->txt("prg_status_in_progress");
+			return $lng->txt("prg_status_in_progress");
 		}
 		if ($a_status == ilTrainingProgrammeProgress::STATUS_COMPLETED) {
-			return $this->lng->txt("prg_status_completed");
+			return $lng->txt("prg_status_completed");
 		}
 		if ($a_status == ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
-			return $this->lng->txt("prg_status_accredited");
+			return $lng->txt("prg_status_accredited");
 		}
 		if ($a_status == ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
-			return $this->lng->txt("prg_status_not_relevant");
+			return $lng->txt("prg_status_not_relevant");
 		}
 		throw new ilException("Unknown status: '$a_status'");
 	}
