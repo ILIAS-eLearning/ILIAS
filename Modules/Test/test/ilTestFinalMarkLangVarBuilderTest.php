@@ -75,7 +75,7 @@ class ilTestFinalMarkLangVarBuilderTest extends PHPUnit_Framework_TestCase
 				'expected' => 'mark_tst_passed_obligations_answered'
 			)
 		);
-	// OTX: Test breaks with fatal error... 	
+	// OTX: Test breaks with fatal error...
 //		foreach($testCases as $case)
 //		{
 //			// arrange

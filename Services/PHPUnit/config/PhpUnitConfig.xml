@@ -2,6 +2,7 @@
   <testsuites>
     <testsuite name="Global ILIAS Tests">
       <file>./Services/PHPUnit/test/ilGlobalSuite.php</file>
+      <directory>./</directory>
     </testsuite>
   </testsuites>
 </phpunit>
