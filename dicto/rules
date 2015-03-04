@@ -1,0 +1,23 @@
+WholeIliasCodebase = PhpClass with name:"il*"
+triggerError = PhpClass with name:"trigger_error"
+exitOrDie = PhpClass with name:"exit/die"
+
+/**
+ * The global function trigger_error is a procedural concept. Please ommit this function and use an
+ * exception instead. This also helps in keeping consistent feedback for developers and end users.
+ *
+ * See: http://example.com/link-to-exception-handling-concept
+ */
+WholeIliasCodebase cannot depend on triggerError
+
+/**
+ * Exit and die are a bad idea in both development and production. In development you have no idea what
+ * went wrong and in production the user receives a white page and has no idea what's going on. If you 
+ * want to deny access use an ilAccessDenied Exception.
+ *
+ * Exception: Currently if you want to output json you most likely have to use exit() at the moment. The
+ *            rule still documents the violation as it should be removed sometimes in the future.
+ *
+ * See: http://example.com/link-to-exception-handling-concept
+ */
+WholeIliasCodebase cannot depend on exitOrDie
