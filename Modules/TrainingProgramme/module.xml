@@ -1,16 +1,13 @@
 <?php xml version = "1.0" encoding = "UTF-8"?>
-<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z klees $"
 	id="prg">
 	<baseclasses>
 	</baseclasses>
 	<objectgroups>
-	    <!--
 		<objectgroup id="prg" name="TrainingProgramme" default_pres_pos="30"/>
-        -->
 	</objectgroups>
 	<objects>
-		<object id="prg" class_name="TrainingProgramme" dir="classes" default_pos="20" default_pres_pos="30"
-			checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1" grp="prg" export="0" amet="1">
+		<object id="prg" class_name="TrainingProgramme" dir="classes" default_pos="30" default_pres_pos="30" checkbox="1" inherit="1" translate="0" allow_link="0" allow_copy="1" rbac="1" export="0" workspace="0" repository="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<subobj id="crsr" max="1">crsr</subobj>
 
