@@ -89,8 +89,8 @@ class ilObjTrainingProgrammeMembersGUI {
 	
 	protected function view() {
 		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeMembersTableGUI.php");
-		
-		$table = new ilTrainingProgrammeMembersTableGUI($this);
+		$prg_id = ilObject::_lookupObjId($this->ref_id);
+		$table = new ilTrainingProgrammeMembersTableGUI($prg_id, $this);
 		return $table->getHTML();
 	}
 }
