@@ -8,6 +8,9 @@ require_once('./Services/User/classes/class.ilUserAccountSettings.php');
 /**
  * Class ilObjTrainingProgrammeAccess
  *
+ * TODO: deletion is only allowed if there are now more users assigned to the
+ * programme.
+ *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
  */
