@@ -118,6 +118,28 @@ class ilTrainingProgrammeUserProgress {
 		}, $progresses));
 	}
 	
+	/** 
+	 * Get a user readable representation of a status.
+	 */
+	static public function statusToRepr($a_status) {
+		global $lng;
+		$lng->loadLanguageModule("prg");
+		
+		if ($a_status == ilTrainingProgrammeProgress::STATUS_IN_PROGRESS) {
+			return $this->lng->txt("prg_status_in_progress");
+		}
+		if ($a_status == ilTrainingProgrammeProgress::STATUS_COMPLETED) {
+			return $this->lng->txt("prg_status_completed");
+		}
+		if ($a_status == ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+			return $this->lng->txt("prg_status_accredited");
+		}
+		if ($a_status == ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
+			return $this->lng->txt("prg_status_not_relevant");
+		}
+		throw new ilException("Unknown status: '$a_status'");
+	}
+	
 	/**
 	 * Get the program node where this progress belongs to was made. 
 	 *
