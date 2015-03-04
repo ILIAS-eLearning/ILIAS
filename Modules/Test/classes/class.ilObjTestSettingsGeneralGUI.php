@@ -1008,7 +1008,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
 		if ($form->getItemByPostVar('kiosk') instanceof ilFormPropertyGUI)
 		{
-			$this->testOBJ->setKioskMode($form->getItemByPostVar('kiosk')->getChecked());
+			$this->testOBJ->setKioskMode($form->getInput('kiosk'));
 			$kioskOptions = $form->getItemByPostVar('kiosk_options')->getValue();
 			if (is_array($kioskOptions))
 			{
@@ -1244,7 +1244,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	{
 		if( $this->formPropertyExists($form, 'chb_use_previous_answers') )
 		{
-			$this->testOBJ->setUsePreviousAnswers($form->getItemByPostVar('chb_use_previous_answers')->getChecked());
+			$this->testOBJ->setUsePreviousAnswers($form->getInput('chb_use_previous_answers'));
 		}
 
 		if( $this->formPropertyExists($form, 'chb_show_cancel') )
