@@ -1,57 +1,79 @@
-WholeIliasCodebase = PhpClass with name:"il*"
-GUIClasses = PhpClass with name:"il*GUI"
-triggerError = PhpClass with name:"trigger_error"
-ilLanguageGlobal = PhpClass with name:"GLOBAL\\lng"
-ilLanguage = PhpClass with name:"ilLanguage"
-exitOrDie = PhpClass with name:"exit/die"
-ilTopLevelException = PhpClass with name:"ilException"
-ilExceptions = PhpClass with name:"il*Exception*"
+ilClasses = PhpDependency with name:"il*"
+assClasses = PhpDependency with name:"ass*"
+WholeIliasCodebase = {ilClasses, assClasses}
+GUIClasses = PhpDependency with name:"*GUI*"
+triggerError = PhpDependency with name:"trigger_error"
+ilLanguageGlobal = PhpDependency with name:"GLOBAL\lng"
+ilLanguageClass = PhpDependency with name:"ilLanguage"
+ilLanguage = {ilLanguageClass, ilLanguageGlobal}
+exitOrDie = PhpDependency with name:"exit/die"
+eval = PhpDependency with name:"eval"
+ilTopLevelException = PhpDependency with name:"ilException"
+ilExceptions = PhpDependency with name:"il*Exception*"
 ilExceptionsWithoutTopLevelException = {ilExceptions} except {ilTopLevelException} 
+SuppressErrors = PhpDependency with name:"@"
+ilDBClass = PhpDependency with name:"ilDB"
+ilDBGlobal = PhpDependency with name:"GLOBAL\ilDB"
+ilDB = {ilDBClass, ilDBGlobal}
+ilTemplateClass = PhpDependency with name:"ilTemplate"
+ilTemplateGlobal = PhpDependency with name:"GLOBAL\tpl"
+ilTemplate = {ilTemplateClass, ilTemplateGlobal}
+ilTabsClass = PhpDependency with name:"ilTabsGUI"
+ilTabsGlobal = PhpDependency with name:"ilTabs"
+ilTabs = {ilTabsClass, ilTabsGlobal}
 
 /**
- * The global function trigger_error is a procedural concept. Please ommit this function and use an
- * exception instead. This also helps in keeping consistent feedback for developers and end users.
- *
- * See: http://example.com/link-to-exception-handling-concept
+ * The global php function trigger_error is a procedural concept. Please ommit this php function and use an ILIAS exception instead.
  */
 WholeIliasCodebase cannot depend on triggerError
 
 /**
- * Exit and die are a bad idea in both development and production. In development you have no idea what
- * went wrong and in production the user receives a white page and has no idea what's going on. If you 
- * want to deny access use an ilAccessDenied Exception.
+ * Exit and die are a bad idea in both development and production: In development you have no idea what went wrong and in production the user receives a white page and has no idea what's going on. The implemented exception handling does not work if you use exit or die. 
  *
- * Exception: Currently if you want to output json you most likely have to use exit() at the moment. The
- *            rule still documents the violation as it should be removed sometimes in the future.
+ * If you want to send a file consider using: Services/FileDelivery.
  *
- * See: http://example.com/link-to-exception-handling-concept
+ * Exception: Currently if you want to output json you most likely have to use exit() at the moment.
  */
 WholeIliasCodebase cannot depend on exitOrDie
 
-
 /**
- * The Model of ILIAS should be language independent. Only on the GUI layer the language should be
- * assigned.
- *
- * See: http://www.ilias.de/docu/goto_docu_pg_199_42.html
- *
+ * The php function eval() is not good practice. It's use often comes with a high security risk, because it is generally not a trivial task to make sure that a paramater of eval() can be fully trusted. And if it is, then eval() is usually not neccessary. It is also tricky to debug, because it obfuscates control flow. Last but not least, it does not work with HHVM in the special "RepoAuthoritative" mode, which makes PHP run extra-fast.
  */
-only GUIClasses can depend on ilLanguageGlobal
+ WholeIliasCodebase cannot depend on eval
+
 
 /**
- * The Model of ILIAS should be language independent. Only on the GUI layer the language should be
- * assigned.
+ * Silencing errors with the @ operator is bad practice. It makes code uneccessarily harder to debug if the currently suppressed error changes into a real show-stopper bug. Try to handle the possible warnings and errors.
+ */
+WholeIliasCodebase cannot depend on SuppressErrors
+
+/**
+ * The Model of ILIAS should be language independent. Only on the GUI layer the language should be assigned.
  *
  * See: http://www.ilias.de/docu/goto_docu_pg_199_42.html
  *
+ * Exception: You may still need to use ilLanguage on SOAP endpoints.
  */
 only GUIClasses can depend on ilLanguage
 
 /**
- * All ILIAS Exceptions must be in a Hierarchy and finally extend ilException Every module/service 
- * should define its own top level Exception e.g. ilCourseException where all other exceptions from
- * that module/service extend this service/module Exception.
+ * All ILIAS Exceptions must be in a Hierarchy and finally extend ilException Every module/service should define its own top level Exception e.g. ilCourseException where all other exceptions from that module/service extend this service/module Exception.
  *
  * See: http://www.ilias.de/docu/goto_docu_pg_42740_42.html
  */
-ilExceptionsWithoutTopLevelException must depend on ilExceptions
+ilExceptionsWithoutTopLevelException can only depend on ilExceptions
+
+/**
+ * The GUI-Layer should not itself interact with the database. Try to build reusable Model classes, adding a layer of abstraction instead of accessing the database.
+ */
+GUIClasses cannot depend on ilDB
+
+/**
+ * Only the GUI-Layer should use the global variable ilTabs and the class ilTabsGUI. If you use them in a Model the model cannot be used for e.g. SOAP requests without unnecessary overhead.
+ */
+only GUIClasses can depend on ilTabs
+
+/**
+ * Only the GUI-Layer should use the global variable ilTemplate and the class ilTemplate itself. If you use ilTemplate in the model it cannot be used by calls that do not initiate global ilTemplate for example SOAP. 
+ */
+only GUIClasses can depend on ilTemplate
