@@ -198,6 +198,9 @@ class ilBibliographicEntry {
 		return $this->attributes;
 	}
 
+    protected function neverUseThis() {
+        trigger_error("Deprecated function.");
+    }
 
 	public function setOverwiew() {
 		$attributes = $this->getAttributes();
