@@ -198,10 +198,6 @@ class ilBibliographicEntry {
 		return $this->attributes;
 	}
 
-    protected function neverUseThis() {
-        trigger_error("Deprecated function.");
-    }
-
 	public function setOverwiew() {
 		$attributes = $this->getAttributes();
 		//Get the model which declares which attributes to show in the overview table and how to show them
