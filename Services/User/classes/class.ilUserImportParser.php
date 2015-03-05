@@ -1620,11 +1620,11 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "iLincLogin":
-				$this->$ilincdata["login"] = $this->cdata;
+				$this->ilincdata["login"] = $this->cdata;
 				break;
 
 			case "iLincPasswd":
-				$this->$ilincdata["password"] = $this->cdata;
+				$this->ilincdata["password"] = $this->cdata;
 				//$this->userObj->setiLincData($this->ilincdata);
 				break;
 
@@ -2224,8 +2224,31 @@ class ilUserImportParser extends ilSaxParser
 		   ($this->isSendMail() && $this->userObj->getEmail() != "")
 		   )
 		{
-			$this->acc_mail->setUser($this->userObj);
-			$this->acc_mail->send();
+			// try individual account mail in user administration
+			include_once("Services/Mail/classes/class.ilAccountMail.php");
+			include_once './Services/User/classes/class.ilObjUserFolder.php';
+			
+			$amail = ilObjUserFolder::_lookupNewAccountMail($this->userObj->getLanguage());
+			if (trim($amail["body"]) == "" || trim($amail["subject"]) == "")
+			{
+				$amail = ilObjUserFolder::_lookupNewAccountMail($GLOBALS["lng"]->getDefaultLanguage());
+			}
+			if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
+			{
+				$this->acc_mail = new ilAccountMail();
+				$this->acc_mail->setUser($this->userObj);
+
+				if($amail["att_file"])
+				{
+					include_once "Services/User/classes/class.ilFSStorageUserFolder.php";
+					$fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
+					$fs->create();
+					$path = $fs->getAbsolutePath() . "/";
+
+					$this->acc_mail->addAttachment($path . "/" . $amail["lang"], $amail["att_file"]);
+				}
+				$this->acc_mail->send();
+			}
 		}
 	}
 
