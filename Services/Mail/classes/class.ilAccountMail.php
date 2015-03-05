@@ -141,8 +141,8 @@ class ilAccountMail
 		{
 			include_once('./Services/User/classes/class.ilObjUserFolder.php');
 			$this->amail[$a_lang] = ilObjUserFolder::_lookupNewAccountMail($a_lang);
-			$amail["body"] = trim($amail["body"]);
-			$amail["subject"] = trim($amail["subject"]);
+			$amail["body"]        = trim($this->amail[$a_lang]["body"]);
+			$amail["subject"]     = trim($this->amail[$a_lang]["subject"]);
 		}
 
 		return $this->amail[$a_lang];
