@@ -2024,12 +2024,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 	global $ilDB;
 
 	$this->questions = array();
-	if (strcmp($active_id, "") == 0)
-	{
-		$active_id = $this->getActiveIdOfUser($ilUser->getId());
-	}
 	if ($this->isRandomTest())
 	{
+		if (strcmp($active_id, "") == 0)
+		{
+			$active_id = $this->getActiveIdOfUser($ilUser->getId());
+		}
 		if (is_null($pass))
 		{
 			$pass = $this->_getPass($active_id);
