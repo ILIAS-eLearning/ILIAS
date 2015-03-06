@@ -1183,7 +1183,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			$worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($solutionvalue["value1"]), $format_bold);
 			if(strpos($solutionvalue["value1"], "_unit"))
 			{
-				$unit = $this->getUnit($solutionvalue["value2"]);
+				$unit = $this->getUnitrepository()->getUnit($solutionvalue["value2"]);
 				if(is_object($unit))
 				{
 					$worksheet->write($startrow + $i, 1, $unit->getUnit());
