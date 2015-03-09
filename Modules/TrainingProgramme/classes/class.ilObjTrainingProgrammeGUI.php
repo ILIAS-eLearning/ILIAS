@@ -8,7 +8,7 @@ require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 require_once("./Services/AccessControl/classes/class.ilPermissionGUI.php");
 require_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 require_once("./Services/Object/classes/class.ilObjectAddNewItemGUI.php");
-require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeTreeExplorerGUI.php");
+require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeTreeGUI.php");
 
 /**
  * Class ilObjTrainingProgrammeGUI class
@@ -20,6 +20,7 @@ require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeTreeE
  * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilColumnGUI
  * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilObjTrainingProgrammeSettingsGUI
+ * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilObjTrainingProgrammeTreeGUI
  */
 
 class ilObjTrainingProgrammeGUI extends ilContainerGUI {
@@ -76,7 +77,8 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 
 	public function __construct() {
 		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias;
-		parent::ilContainerGUI(array(), $_GET["ref_id"], true, false);
+
+		parent::ilContainerGUI(array(), (int) $_GET['ref_id'], true, false);
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
@@ -135,13 +137,25 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 				$gui = new ilObjTrainingProgrammeSettingsGUI($this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
+			case "ilobjtrainingprogrammetreegui":
+				$this->denyAccessIfNot("write");
+
+				$this->getSubTabs($cmd);
+				$this->setContentSubTabs();
+				$this->tabs_gui->setTabActive(self::TAB_VIEW_CONTENT);
+				$this->tabs_gui->setSubTabActive(self::SUBTAB_VIEW_TREE);
+
+				$gui = new ilObjTrainingProgrammeTreeGUI($this->id);
+				$this->ctrl->forwardCommand($gui);
+				break;
 			case false:
+				$this->getSubTabs($cmd);
 				switch ($cmd) {
 					case "create":
 					case "save":
 					case "view":
-					case self::SUBTAB_VIEW_TREE:
-						$this->getSubTabs($cmd);
+					case 'deleteObject':
+					case 'confirmedDeleteObject':
 						$this->$cmd();
 						break;
 					/*case '':
@@ -226,20 +240,6 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 		parent::renderObject();
 	}
 
-	protected function view_tree() {
-		$this->denyAccessIfNot("write");
-		$this->setContentSubTabs();
-
-		$this->tabs_gui->setTabActive(self::TAB_VIEW_CONTENT);
-		$this->tabs_gui->setSubTabActive(self::SUBTAB_VIEW_TREE);
-
-		$tree = new ilTrainingProgrammeTreeExplorerGUI($this->id, "prg_tree", $this, self::SUBTAB_VIEW_TREE, new ilTree(1));
-		if (!$tree->handleCommand()) {
-			$this->tpl->setContent($tree->getHTML());
-		}
-		$this->ctrl->setParameter($this, "ref_id", $_GET["ref_id"]);
-	}
-	
 	/**
 	 * Overwritten from ilObjectGUI since copy and import are not implemented.
 	 * 
@@ -250,6 +250,17 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	protected function initCreationForms($a_new_type) {
 		return array( self::CFORM_NEW => $this->initCreateForm($a_new_type)
 					);
+	}
+
+
+	/**
+	 * Method for implementing async windows-output
+	 * Should be moved into core to enable async requests on creation-form
+	 *
+	 * @return array
+	 */
+	public function getCreationForm() {
+		return $this->initCreateForm('prg');
 	}
 	
 	////////////////////////////////////
@@ -328,6 +339,9 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 		}
 		if ($a_cmd == "settings") {
 			return $this->ctrl->getLinkTargetByClass("ilobjtrainingprogrammesettingsgui", "view");
+		}
+		if($a_cmd == self::SUBTAB_VIEW_TREE) {
+			return $this->ctrl->getLinkTargetByClass("ilobjtrainingprogrammetreegui", "view");
 		}
 		
 		return $this->ctrl->getLinkTarget($this, $a_cmd);
