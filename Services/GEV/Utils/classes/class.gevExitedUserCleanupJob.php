@@ -106,14 +106,19 @@ class gevExitedUserCleanupJob extends ilCronJob {
 			$exit_orgu_utils->assignUser($usr_id, "Mitarbeiter");
 			$ilLog->write("gevExitedUserCleanupJob: Moved user with id $usr_id to exit-OrgUnit.");
 			
-			$nas = $na_utils->getNAsOf($usr_id);
-			foreach ($nas as $na) {
-				$na_no_adviser_orgu_utils->assignUser($na, "Mitarbeiter");
-				$ilLog->write("gevExitedUserCleanupJob: Moved na $na of user $usr_id to no-adviser-OrgUnit.");
+			try {
+				$nas = $na_utils->getNAsOf($usr_id);
+				foreach ($nas as $na) {
+					$na_no_adviser_orgu_utils->assignUser($na, "Mitarbeiter");
+					$ilLog->write("gevExitedUserCleanupJob: Moved na $na of user $usr_id to no-adviser-OrgUnit.");
+				}
+				if (count($nas) > 0) {
+					$ilLog->write("gevExitedUserCleanupJob: Removed NA-OrgUnit of $usr_id.");
+					$na_utils->removeNAOrgUnitOf($usr_id);
+				}
 			}
-			if (count($nas) > 0) {
-				$ilLog->write("gevExitedUserCleanupJob: Removed NA-OrgUnit of $usr_id.");
-				$na_utils->removeNAOrgUnitOf($usr_id);
+			catch (Exception $e) {
+				$ilLog->write("gevExitedUserCleanupJob: ".$e);
 			}
 			
 			
