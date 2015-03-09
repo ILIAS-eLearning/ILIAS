@@ -1,0 +1,7 @@
+.jstree li > a:first-of-type {
+	cursor: move;
+}
+
+.jstree a.button {
+	cursor: hand !important;
+}
