@@ -2,8 +2,9 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
+require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
+require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncOutputHandler.php");
 
 /**
  * Class ilObjTrainingProgrammeSettingsGUI
@@ -69,6 +70,7 @@ class ilObjTrainingProgrammeSettingsGUI {
 	
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
+
 		
 		if ($cmd == "") {
 			$cmd = "view";
@@ -77,14 +79,21 @@ class ilObjTrainingProgrammeSettingsGUI {
 		switch ($cmd) {
 			case "view":
 			case "update":
-				$cont = $this->$cmd();
+				$content = $this->$cmd();
 				break;
 			default:
 				throw new ilException("ilObjTrainingProgrammeSettingsGUI: ".
 									  "Command not supported: $cmd");
 		}
-		
-		$this->tpl->setContent($cont);
+
+		if(!$this->ctrl->isAsynch()) {
+			$this->tpl->setContent($content);
+		} else {
+			$output_handler = new ilAsyncOutputHandler();
+			$output_handler->setHeading($this->lng->txt("async_".$this->ctrl->getCmd()));
+			$output_handler->setContent($content);
+			$output_handler->terminate();
+		}
 	}
 	
 	protected function view() {
