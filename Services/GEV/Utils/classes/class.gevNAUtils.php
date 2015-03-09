@@ -188,10 +188,10 @@ class gevNAUtils {
 		$od = $user_utils->getOD();
 		$tmp = explode(" ", $od["title"]);
 		if (in_array($tmp[1], self::$ADSN_ODS)) {
-			return "ADS Nord <ads-nord@generali.com>";
+			return "NA Bildung <na-bildung@generali.de>";
 		}
 		if (in_array($tmp[1], self::$ADSS_ODS)) {
-			return "ADS Sued <ads-sued@generali.com>";
+			return "NA Bildung <na-bildung@generali.de>";
 		}
 		
 		return "Generali Online Akademie <Bildungspunkte.de@generali.com>";
