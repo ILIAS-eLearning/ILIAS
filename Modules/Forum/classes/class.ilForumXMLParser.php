@@ -343,7 +343,7 @@ class ilForumXMLParser extends ilSaxParser
 					$author_id_data = $this->getUserIdAndAlias(
 						$this->threadArray['AuthorId']
 					);
-					$this->forumThread->setThrAuthorId($author_id_data['usr_id']);
+					$this->forumThread->setThrAuthorId((int)$author_id_data['usr_id']);
 				
 					$this->forumThread->insert();
 
@@ -433,7 +433,7 @@ class ilForumXMLParser extends ilSaxParser
 					$author_id_data = $this->getUserIdAndAlias(
 						$this->postArray['AuthorId']
 					);
-					$this->forumPost->setPosAuthorId($author_id_data['usr_id']);
+					$this->forumPost->setPosAuthorId((int)$author_id_data['usr_id']);
 					
 					if($this->postArray['isAuthorModerator'] === 'NULL')
 					{
