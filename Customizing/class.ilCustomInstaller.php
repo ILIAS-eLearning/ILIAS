@@ -316,4 +316,14 @@ class ilCustomInstaller
 		
 		$GLOBALS["ilSetting"] = new ilSetting();
 	}
+	
+	static public function maybeInitIliasObject() {
+		if (isset($GLOBALS["ilias"])) {
+			return;
+		}	
+		
+		require_once("./Services/Init/classes/class.ilias.php");
+		
+		$GLOBALS["ilias"] = new ILIAS();
+	}
 }

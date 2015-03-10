@@ -363,7 +363,7 @@ class gevUserUtils {
 			
 			$crs_booking->getFreePlaces();
 			
-			if (!$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)) {
+			if ( $ilUser->getId() && !$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)) {
 				continue;
 			}
 			

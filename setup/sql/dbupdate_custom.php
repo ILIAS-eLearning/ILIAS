@@ -3382,3 +3382,42 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#107>
+<?php
+	// Create new user for the "Maklerangenbot"
+
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	ilCustomInstaller::maybeInitSettings();
+	ilCustomInstaller::maybeInitIliasObject();
+
+	$user = new ilObjUser();
+	$user->setLogin("makler_angebot");
+	$user->setEmail("rklees@cat06.de");
+	$user->setPasswd(md5(rand()));
+	$user->setLastname("Angebot");
+	$user->setFirstname("Makler");
+	$user->setGender("m");
+
+	// is active, owner is root
+	$user->setActive(true, 6);
+	$user->setTimeLimitUnlimited(true);
+	// user already agreed at registration
+	$now = new ilDateTime(time(),IL_CAL_UNIX);
+	$user->setAgreeDate($now->get(IL_CAL_DATETIME));
+	$user->setIsSelfRegistered(true);
+	
+	$user->create();
+	$user->saveAsNew();
+
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	gevSettings::getInstance()->set(gevSettings::AGENT_OFFER_USER_ID, $user->getId());
+?>

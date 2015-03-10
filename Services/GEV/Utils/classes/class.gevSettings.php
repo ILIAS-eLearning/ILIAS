@@ -593,7 +593,7 @@ class gevSettings {
 		'FDL-Arbeitskreis'
 	);
 
-
+	const AGENT_OFFER_USER_ID = "agent_offer_user_id";
 
 	
 	private function __construct() {
