@@ -756,7 +756,8 @@ class gevUserUtils {
 		while($val = $this->db->fetchAssoc($res)) {
 			$crs_utils = gevCourseUtils::getInstance($val["obj_id"]);
 			
-			if ((   !$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)
+			if ( $ilUser->getId() !== 0 && (
+					!$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)
 					|| in_array($crs_utils->getBookingStatusOf($this->user_id)
 							   , array(ilCourseBooking::STATUS_BOOKED, ilCourseBooking::STATUS_WAITING)
 							   )
@@ -828,8 +829,6 @@ class gevUserUtils {
 									 ),
 								 "ORDER BY ".$a_order." ".$a_direction." ".
 								 " LIMIT ".$a_limit." OFFSET ".$a_offset);
-
-		global $ilUser;
 
 		foreach ($info as $key => $value) {
 			// TODO: This surely could be tweaked to be faster if there was no need

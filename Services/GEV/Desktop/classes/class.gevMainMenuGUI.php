@@ -43,8 +43,10 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	}
 
 	public function renderMainMenuListEntries($a_tpl, $a_call_get = true) {
-		// No Menu during registration.
-		if (basename($_SERVER["PHP_SELF"]) == "gev_registration.php") {
+		// No Menu during registration or on makler page
+		$basename = basename($_SERVER["PHP_SELF"]);
+		if (   $basename == "gev_registration.php"
+			|| $basename == "makler.php" ) {
 			return;
 		}
 		

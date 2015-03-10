@@ -3377,3 +3377,8 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 	}
 
 ?>
+
+<#106>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

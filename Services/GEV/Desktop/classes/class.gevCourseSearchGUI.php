@@ -17,7 +17,7 @@ require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 require_once("Services/GEV/Desktop/classes/class.gevCourseSearchTableGUI.php");
 
 class gevCourseSearchGUI {
-	public function __construct() {
+	public function __construct($a_target_user_id = null) {
 		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog;
 
 		$this->lng = &$lng;
@@ -29,16 +29,21 @@ class gevCourseSearchGUI {
 		$this->user_utils = gevUserUtils::getInstanceByObj($ilUser);
 		$this->search_form = null;
 
-		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
-			$this->target_user_id = $_POST["target_user_id"]
-								  ? $_POST["target_user_id"]
-								  : (   $_GET["target_user_id"]
-								  	  ? $_GET["target_user_id"]
-								  	  : $ilUser->getId()
-								  	);
+		if ($a_target_user_id === null) {
+			if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
+				$this->target_user_id = $_POST["target_user_id"]
+									  ? $_POST["target_user_id"]
+									  : (   $_GET["target_user_id"]
+									  	  ? $_GET["target_user_id"]
+									  	  : $ilUser->getId()
+									  	);
+			}
+			else {
+				$this->target_user_id = $ilUser->getId();
+			}
 		}
 		else {
-			$this->target_user_id = $ilUser->getId();
+			$this->target_user_id = $a_target_user_id;
 		}
 		
 		$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);

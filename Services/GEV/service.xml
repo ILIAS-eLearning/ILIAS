@@ -2,6 +2,7 @@
 <service xmlns="http://www.w3.org" version="$Id$" id="gev">
 	<baseclasses>
 		<baseclass name="gevDesktopGUI" dir="Desktop/classes" />
+		<baseclass name="gevAgentOfferGUI" dir="Desktop/classes" />
 		<baseclass name="gevMemberListDeliveryGUI" dir="Desktop/classes" />
 		<baseclass name="gevDeskDisplaysDeliveryGUI" dir="Desktop/classes" />
 		<baseclass name="gevRegistrationGUI" dir="Registration/classes" />
