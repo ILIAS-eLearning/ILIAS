@@ -38,6 +38,7 @@ class ilForumImporter extends ilXmlImporter
 		$parser = new ilForumXMLParser($newObj, $a_xml);
 		$parser->setImportDirectory($this->getImportDirectory());
 		$parser->setImportInstallId($this->getInstallId());
+		$parser->setSchemaVersion($this->getSchemaVersion());
 		$parser->startParsing();
 
 		$a_mapping->addMapping("Modules/Forum", "frm", $a_id, $newObj->getId());
