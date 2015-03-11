@@ -23,88 +23,86 @@ class ilObjectLP
 	}
 	
 	public static function getInstance($a_obj_id)
-	{
-		global $objDefinition;
-		
+	{		
 		static $instances = array();
 		
 		if(!isset($instances[$a_obj_id]))
 		{		
 			$type = ilObject::_lookupType($a_obj_id);
+			$class = self::getTypeClass($type);
+			if($class)
+			{
+				$instance = new $class($a_obj_id);
+			}
+			else 
+			{
+				// :TODO: should we return anything?
+				$instance = new self($a_obj_id);			
+			}			
+			$instances[$a_obj_id] = $instance;					
+		}
+	
+		return $instances[$a_obj_id];
+	}
 			
-			// see self::isSupportedObjectType()
-			
-			switch($type)
+	protected static function getTypeClass($a_type)
+	{
+		global $objDefinition;
+		
+		if(self::isSupportedObjectType($a_type))
+		{
+			switch($a_type)
 			{
 				// container
 
 				case "crs":
 					include_once "Modules/Course/classes/class.ilCourseLP.php";
-					$instance = new ilCourseLP($a_obj_id);	
-					break;
+					return "ilCourseLP";	
 
 				case "grp":
 					include_once "Modules/Group/classes/class.ilGroupLP.php";
-					$instance = new ilGroupLP($a_obj_id);
-					break;
+					return "ilGroupLP";
 
 				case "fold":
 					include_once "Modules/Folder/classes/class.ilFolderLP.php";
-					$instance = new ilFolderLP($a_obj_id);
-					break;
+					return "ilFolderLP";
 
 
 				// learning resources
 
 				case "lm":
 					include_once "Modules/LearningModule/classes/class.ilLearningModuleLP.php";
-					$instance = new ilLearningModuleLP($a_obj_id);
-					break;
+					return "ilLearningModuleLP";
 
 				case "htlm":
 					include_once "Modules/HTMLLearningModule/classes/class.ilHTMLLearningModuleLP.php";
-					$instance = new ilHTMLLearningModuleLP($a_obj_id);
-					break;
+					return "ilHTMLLearningModuleLP";
 
 				case "sahs":
 					include_once "Modules/ScormAicc/classes/class.ilScormLP.php";
-					$instance = new ilScormLP($a_obj_id);
-					break;
-
+					return "ilScormLP";
+					
 
 				// misc
 
 				case "tst":
 					include_once "Modules/Test/classes/class.ilTestLP.php";
-					$instance = new ilTestLP($a_obj_id);
-					break;
+					return "ilTestLP";
 
 				case "exc":
 					include_once "Modules/Exercise/classes/class.ilExerciseLP.php";
-					$instance = new ilExerciseLP($a_obj_id);
-					break;
-
+					return "ilExerciseLP";
+			
 				case "sess":
 					include_once "Modules/Session/classes/class.ilSessionLP.php";
-					$instance = new ilSessionLP($a_obj_id);
-					break;
+					return  "ilSessionLP";			
 
 				// plugin
-				case $objDefinition->isPluginTypeName($type):
+				case $objDefinition->isPluginTypeName($a_type):
 					include_once "Services/Component/classes/class.ilPluginLP.php";
-					$instance = new ilPluginLP($a_obj_id);
-					break;
-
-				default:
-					// :TODO: should we return anything?
-					$instance = new self($a_obj_id);			
-					break;
+					return "ilPluginLP";
 			}
-			
-			$instances[$a_obj_id] = $instance;					
 		}
-	
-		return $instances[$a_obj_id];
 	}
 		
 	public static function isSupportedObjectType($a_type)
@@ -191,43 +189,11 @@ class ilObjectLP
 	// 
 		
 	public function getCollectionInstance()
-	{				
-		// :TODO: factory if not plugin ?!
-		// => move to ilLPCollection::getInstance() ?!
-		
+	{						
 		if($this->collection_instance === null)
 		{		
-			$path = "Services/Tracking/classes/collection/";
-			
-			$mode = $this->getCurrentMode();		
-			switch($mode)
-			{
-				case ilLPObjSettings::LP_MODE_COLLECTION:
-				case ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR:		
-					include_once $path."class.ilLPCollectionOfRepositoryObjects.php";
-					$this->collection_instance = new ilLPCollectionOfRepositoryObjects($this->obj_id, $mode);		
-					break;
-
-				case ilLPObjSettings::LP_MODE_OBJECTIVES:
-					include_once $path."class.ilLPCollectionOfObjectives.php";
-					$this->collection_instance = new ilLPCollectionOfObjectives($this->obj_id, $mode);		
-					break;
-
-				case ilLPObjSettings::LP_MODE_SCORM:	
-					include_once $path."class.ilLPCollectionOfSCOs.php";
-					$this->collection_instance = new ilLPCollectionOfSCOs($this->obj_id, $mode);		
-					break;
-
-				case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:	
-				case ilLPObjSettings::LP_MODE_COLLECTION_TLT:	
-					include_once $path."class.ilLPCollectionOfLMChapters.php";
-					$this->collection_instance = new ilLPCollectionOfLMChapters($this->obj_id, $mode);	
-					break;
-				
-				default:
-					$this->collection_instance = false;
-					break;
-			}
+			include_once "Services/Tracking/classes/collection/class.ilLPCollection.php";			
+			$this->collection_instance = ilLPCollection::getInstanceByMode($this->obj_id, $this->getCurrentMode());
 		}
 		
 		return $this->collection_instance;		
@@ -429,6 +395,220 @@ class ilObjectLP
 				ilLPStatusWrapper::_refreshStatus($rec["obj_id"]);				
 			}
 		}
+	}
+	
+	
+	//
+	// LP-relevant memberships
+	// 
+	
+	/**
+	 * Find (lp-relevant) members for given object ids
+	 * 
+	 * @param array $a_res
+	 * @param int $a_usr_id
+	 * @param array $a_obj_ids
+	 */
+	protected static function isLPMember(array &$a_res, $a_usr_id,  $a_obj_ids)
+	{
+		// should be overwritten by object-type-specific class
+		return false;
+	}
+	
+	/**
+	 * Find (lp-relevant) memberships by path
+	 * 
+	 * @param array $a_res
+	 * @param int $a_usr_id
+	 * @param int $a_parent_ref_id
+	 * @param array $a_obj_ids
+	 * @param bool $a_mapped_ref_ids
+	 * @return array
+	 */
+	protected static function findMembershipsByPath(array &$a_res, $a_usr_id, $a_parent_ref_id, array $a_obj_ids, $a_mapped_ref_ids = false)
+	{
+		global $tree;
+		
+		$found = array();
+				
+		// walk path to find course or group object and check members of that object
+		$path = $tree->getPathId($a_parent_ref_id);				
+		foreach(array_reverse($path) as $path_ref_id)
+		{
+			$type = ilObject::_lookupType($path_ref_id, true);										
+			if($type == "crs" || 
+				$type == "grp")
+			{
+				$class = self::getTypeClass($type);				
+				$path_ob_id = ilObject::_lookupObjId($path_ref_id);
+				$chk = array();
+				$class::isLPMember($chk, $a_usr_id, array($path_ob_id));																				
+				if(!$a_mapped_ref_ids)
+				{
+					// we found a grp/crs in path of (single) parent - mark all objects
+					foreach($a_obj_ids as $obj_id)
+					{
+						$found[] = $obj_id;
+						if($chk[$path_ob_id])
+						{
+							$a_res[$obj_id] = true;							
+						}
+					}		
+				}
+				else						
+				{
+					// all children from current node are "lp-valid"
+					foreach($a_obj_ids as $obj_id => $ref_ids)
+					{
+						foreach($ref_ids as $ref_id)
+						{
+							if($tree->isGrandChild($path_ref_id, $ref_id))
+							{
+								$found[$obj_id][] = $ref_id;
+								if($chk[$path_ob_id])
+								{
+									$a_res[$obj_id] = true;
+								}
+								break;
+							}
+						}
+					}						
+				}				
+				break;
+			}
+		}
+		
+		return $found;
+	}
+	
+	/**
+	 * Get all objects where given user is member (from LP POV)	
+	 * 
+	 * @param int $a_usr_id
+	 * @param array $a_obj_ids
+	 * @param int $a_parent_ref_id
+	 * @param bool $a_mapped_ref_ids
+	 * @return array
+	 */
+	public static function getLPMemberships($a_usr_id, array $a_obj_ids, $a_parent_ref_id = null, $a_mapped_ref_ids = false)
+	{
+		global $ilDB, $tree;
+		
+		// see ilTrQuery::getParticipantsForObject() [single object only]
+		// this is optimized for larger number of objects, e.g. list GUIs
+		
+		if((bool)$a_mapped_ref_ids)
+		{
+			$ref_map = $a_obj_ids;
+			$a_obj_ids = array_keys($a_obj_ids);			
+		}
+		
+		$res = array();
+		
+		// get object types
+		$types_map = array();
+		$query = " SELECT obj_id, type".
+			" FROM object_data".
+			" WHERE ".$ilDB->in("obj_id", $a_obj_ids, "", "integer");
+		$set = $ilDB->query($query);		
+		while($row = $ilDB->fetchAssoc($set))
+		{								
+			$types_map[$row["type"]][] = $row["obj_id"];
+			$res[$row["obj_id"]] = false;
+		}
+		
+		$find_by_parent = array();
+		foreach($types_map as $type => $type_obj_ids)
+		{					
+			$class = self::getTypeClass($type);
+			if($class)
+			{
+				// lp-supported type?
+				if(!$class::isLPMember($res, $a_usr_id, $type_obj_ids))					
+				{					
+					$find_by_parent = array_merge($find_by_parent, $type_obj_ids);					
+				}
+			}		
+		}
+		
+		if(sizeof($find_by_parent))
+		{
+			// single parent for all objects (repository/ilObjectListGUI)
+			if($a_parent_ref_id)
+			{
+				if(self::findMembershipsByPath($res, $a_usr_id, $a_parent_ref_id, $find_by_parent))
+				{
+					// we found a crs/grp in path, so no need to check read_events
+					$find_by_parent = null;
+				}
+			}
+			// different parents (PD > LP)			
+			else if(sizeof($ref_map))
+			{										
+				foreach($find_by_parent as $obj_id)
+				{					
+					// maybe already found by path search from other object/reference
+					if($res[$obj_id] === false)
+					{						
+						if(isset($ref_map[$obj_id]))
+						{
+							// check all references
+							foreach($ref_map[$obj_id] as $ref_id)
+							{								
+								$parent_ref_id = $tree->getParentId($ref_id);
+								if($parent_ref_id == ROOT_FOLDER_ID)
+								{									
+									continue;
+								}
+								
+								// we are checking the complete ref_map 
+								// to find all relevant objects in subtree of current ref_id
+								$found = self::findMembershipsByPath($res, $a_usr_id, $parent_ref_id, $ref_map, true);
+								if(sizeof($found))
+								{						
+									// if any references were found in a crs/grp-subtree
+									// remove from "read-event"-last-resort-pool
+									foreach($found as $found_obj_id => $found_ref_ids)								
+									{																							
+										$diff = array_diff($ref_map[$found_obj_id], $found_ref_ids);
+										if($diff)
+										{
+											// 1-n refs are in another subtree
+											// have to be checked separately
+											$ref_map[$found_obj_id] = $diff;
+										}
+										else
+										{
+											// all references found in subtree
+											// no need to check again
+											unset($ref_map[$found_obj_id]);
+										}										
+									}									 
+									break;
+								}
+							}							
+						}
+					}										
+				}		
+				
+				$find_by_parent = array_keys($ref_map);
+			}
+			
+			// last resort: use read_event?
+			if(sizeof($find_by_parent))
+			{				
+				$set = $ilDB->query("SELECT obj_id".
+					" FROM read_event".
+					" WHERE ".$ilDB->in("obj_id", $find_by_parent, "", "integer").
+					" AND usr_id = ".$ilDB->quote($a_usr_id, "integer"));
+				while($row = $ilDB->fetchAssoc($set))
+				{
+					$res[$row["obj_id"]] = true;
+				}
+			}			 				
+		}
+		
+		return $res;
 	}
 }
 

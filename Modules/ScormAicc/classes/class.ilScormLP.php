@@ -78,6 +78,48 @@ class ilScormLP extends ilObjectLP
 		}
 		return false;
 	}
+	
+	protected static function isLPMember(array &$a_res, $a_usr_id, array $a_obj_ids)
+	{
+		global $ilDB;
+		
+		// subtype
+		$types = array();
+		$set = $ilDB->query("SELECT id,c_type".
+			" FROM sahs_lm".
+			" WHERE ".$ilDB->in("id", $a_obj_ids, "", "integer"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$types[$row["c_type"]][] = $row["id"];
+		}
+		
+		// 2004
+		if(isset($types["scorm2004"]))
+		{
+			$set = $ilDB->query("SELECT obj_id".
+				" FROM sahs_user".
+				" WHERE ".$ilDB->in("obj_id", $types["scorm2004"], "", "integer").
+				" AND user_id = ".$ilDB->quote($a_usr_id, "integer"));
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$a_res[$row["obj_id"]] = true;
+			}
+		}
+		
+		// 1.2
+		if(isset($types["scorm"]))
+		{
+			$set = $ilDB->query("SELECT obj_id".
+				" FROM scorm_tracking".
+				" WHERE ".$ilDB->in("obj_id", $types["scorm"], "", "integer").
+				" AND user_id = ".$ilDB->quote($a_usr_id, "integer").
+				" AND lvalue = ".$ilDB->quote("cmi.core.lesson_status", "text"));
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$a_res[$row["obj_id"]] = true;
+			}
+		}		
+	}
 }
 
 ?>

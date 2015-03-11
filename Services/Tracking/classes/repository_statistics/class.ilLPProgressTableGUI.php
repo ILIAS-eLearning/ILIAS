@@ -140,26 +140,26 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$obj_ids = $this->obj_ids;
 		if(!$obj_ids && !$this->details)
 	    {
-			// restrict courses/groups to objects where current user is member
-			$membership_ids = null;
-			if($this->filter["type"] == "crs" || $this->filter["type"] == "grp")
+			switch($this->lp_context)
 			{
-				include_once "Services/Membership/classes/class.ilParticipants.php";
-				$membership_ids = ilParticipants::_getMembershipByType($this->tracked_user->getId(), 
-					$this->filter["type"]);
-			}
-			if($membership_ids === null || sizeof($membership_ids))
-			{
-				switch($this->lp_context)
-				{
-					case ilLearningProgressGUI::LP_CONTEXT_ORG_UNIT:
-						$obj_ids = $this->searchObjects($this->getCurrentFilter(true),null,$membership_ids);
-						break;
-					default:
-						$obj_ids = $this->searchObjects($this->getCurrentFilter(true),"read",$membership_ids);
-						break;
-				}
-			}
+				case ilLearningProgressGUI::LP_CONTEXT_ORG_UNIT:
+					$obj_ids = $this->searchObjects($this->getCurrentFilter(true), null);
+					break;
+
+				default:
+					$obj_ids = $this->searchObjects($this->getCurrentFilter(true), "read");
+															
+					// check for LP relevance									
+					include_once "Services/Object/classes/class.ilObjectLP.php";		
+					foreach(ilObjectLP::getLPMemberships($this->tracked_user->getId(), $obj_ids, null, true) as $obj_id => $status)
+					{
+						if(!$status)
+						{
+							unset($obj_ids[$obj_id]);
+						}
+					}
+					break;
+			}			
 		}
 		if($obj_ids)
 		{		

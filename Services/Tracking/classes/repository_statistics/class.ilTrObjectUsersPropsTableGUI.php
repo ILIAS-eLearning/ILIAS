@@ -330,7 +330,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				
-				$val = $this->parseValue($c, $data[$c], "user");
+				$val = $this->parseValue($c, $data[$c], $this->type);
 			}
 			else
 			{
@@ -391,7 +391,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		{
 			if($c != 'status')
 			{
-				$val = $this->parseValue($c, $a_set[$c], "user");
+				$val = $this->parseValue($c, $a_set[$c], $this->type);
 			}
 			else
 			{
@@ -419,7 +419,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		{
 			if($c != 'status')
 			{
-				$val = $this->parseValue($c, $a_set[$c], "user");
+				$val = $this->parseValue($c, $a_set[$c], $this->type);
 			}
 			else
 			{

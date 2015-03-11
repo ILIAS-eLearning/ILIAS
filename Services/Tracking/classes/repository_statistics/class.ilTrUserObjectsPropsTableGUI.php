@@ -298,7 +298,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 							$text = ilLearningProgressBaseGUI::_getStatusText($data[$c]);
 							$val = ilUtil::img($path, $text);
 
-							if($data["type"] != "lobj" && $data["type"] != "sco")	
+							if($data["ref_id"] && $data["type"] != "lobj" && $data["type"] != "sco" && $data["type"] != "st")	
 							{
 								$timing = $this->showTimingsWarning($data["ref_id"], $this->user_id);
 								if($timing)
@@ -319,9 +319,16 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 					}
 							break;
 
-						case "spent_seconds":
-							include_once("./Services/Utilities/classes/class.ilFormat.php");							
-							$val = ilFormat::_secondsToString($data[$c], ($data[$c] < 3600 ? true : false)); // #14858
+						case "spent_seconds":							
+							if(in_array($data["type"], array("exc")))							
+							{
+								$val = "-";
+							}
+							else
+							{
+								include_once("./Services/Utilities/classes/class.ilFormat.php");							
+								$val = ilFormat::_secondsToString($data[$c], ($data[$c] < 3600 ? true : false)); // #14858
+							}
 							break;
 
 						case "percentage":
@@ -449,7 +456,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		{
 			if($c != 'status')
 			{
-				$val = $this->parseValue($c, $a_set[$c], "user");
+				$val = $this->parseValue($c, $a_set[$c], $this->type);
 			}
 			else
 			{
@@ -483,7 +490,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		{
 			if($c != 'status')
 			{
-				$val = $this->parseValue($c, $a_set[$c], "user");
+				$val = $this->parseValue($c, $a_set[$c], $this->type);
 			}
 			else
 			{

@@ -42,7 +42,66 @@ class ilLPObjSettings
 	const LP_MODE_QUESTIONS = 17;
 	// const LP_MODE_SURVEY_FINISHED = 18; (placeholder for 4.6.x)
 
-	const LP_DEFAULT_VISITS = 30;
+	const LP_DEFAULT_VISITS = 30; // ???
+	
+	protected static $map = array(
+		
+		self::LP_MODE_DEACTIVATED => array('ilLPStatus', 
+			'trac_mode_deactivated', 'trac_mode_deactivated_info_new')
+		
+		,self::LP_MODE_TLT => array('ilLPStatusTypicalLearningTime', 
+			'trac_mode_tlt', 'trac_mode_tlt_info') // info has dynamic part!
+		
+		,self::LP_MODE_VISITS => array('ilLPStatusVisits', 
+			'trac_mode_visits', 'trac_mode_visits_info')
+		
+		,self::LP_MODE_MANUAL => array('ilLPStatusManual', 
+			'trac_mode_manual', 'trac_mode_manual_info')
+		
+		,self::LP_MODE_OBJECTIVES => array('ilLPStatusObjectives', 
+			'trac_mode_objectives', 'trac_mode_objectives_info')
+		
+		,self::LP_MODE_COLLECTION => array('ilLPStatusCollection', 
+			'trac_mode_collection', 'trac_mode_collection_info')
+		
+		,self::LP_MODE_SCORM => array('ilLPStatusSCORM', 
+			'trac_mode_scorm', 'trac_mode_scorm_info')
+		
+		,self::LP_MODE_TEST_FINISHED => array('ilLPStatusTestFinished', 
+			'trac_mode_test_finished', 'trac_mode_test_finished_info')
+		
+		,self::LP_MODE_TEST_PASSED => array('ilLPStatusTestPassed', 
+			'trac_mode_test_passed', 'trac_mode_test_passed_info')
+		
+		,self::LP_MODE_EXERCISE_RETURNED => array('ilLPStatusExerciseReturned', 
+			'trac_mode_exercise_returned', 'trac_mode_exercise_returned_info')
+		
+		,self::LP_MODE_EVENT => array('ilLPStatusEvent', 
+			'trac_mode_event', 'trac_mode_event_info')
+		
+		,self::LP_MODE_MANUAL_BY_TUTOR => array('ilLPStatusManualByTutor', 
+			'trac_mode_manual_by_tutor', 'trac_mode_manual_by_tutor_info')	
+		
+		,self::LP_MODE_SCORM_PACKAGE => array('ilLPStatusSCORMPackage', 
+			'trac_mode_scorm_package', 'trac_mode_scorm_package_info')
+		
+		,self::LP_MODE_UNDEFINED => null
+			
+		,self::LP_MODE_PLUGIN => array('ilLPStatusPlugin', 
+			'trac_mode_plugin', '') // no settings screen, so no info needed
+		
+		,self::LP_MODE_COLLECTION_TLT => array('ilLPStatusCollectionTLT', 
+			'trac_mode_collection_tlt', 'trac_mode_collection_tlt_info')
+		
+		,self::LP_MODE_COLLECTION_MANUAL => array('ilLPStatusCollectionManual', 
+			'trac_mode_collection_manual', 'trac_mode_collection_manual_info')
+		
+		,self::LP_MODE_QUESTIONS => array('ilLPStatusQuestions', 
+			'trac_mode_questions', 'trac_mode_questions_info')	
+		
+		/* ,self::LP_MODE_SURVEY_FINISHED => array('ilLPStatusSurveyFinished', 
+			'trac_mode_survey_finished, 'trac_mode_survey_finished_info') // see above */
+	);
 
 	function ilLPObjSettings($a_obj_id)
 	{
@@ -247,58 +306,10 @@ class ilLPObjSettings
 	{	
 		global $lng;
 
-		switch($a_mode)
+		if(array_key_exists($a_mode, self::$map) &&
+			is_array(self::$map[$a_mode]))
 		{
-			case self::LP_MODE_DEACTIVATED:
-				return $lng->txt('trac_mode_deactivated');
-
-			case self::LP_MODE_TLT:
-				return $lng->txt('trac_mode_tlt');
-
-			case self::LP_MODE_VISITS:
-				return $lng->txt('trac_mode_visits');
-				
-			case self::LP_MODE_MANUAL:
-				return $lng->txt('trac_mode_manual');
-
-			case self::LP_MODE_MANUAL_BY_TUTOR:
-				return $lng->txt('trac_mode_manual_by_tutor');
-
-			case self::LP_MODE_OBJECTIVES:
-				return $lng->txt('trac_mode_objectives');
-
-			case self::LP_MODE_COLLECTION:
-				return $lng->txt('trac_mode_collection');
-
-			case self::LP_MODE_SCORM:
-				return $lng->txt('trac_mode_scorm');
-
-			case self::LP_MODE_TEST_FINISHED:
-				return $lng->txt('trac_mode_test_finished');
-
-			case self::LP_MODE_TEST_PASSED:
-				return $lng->txt('trac_mode_test_passed');
-
-			case self::LP_MODE_EXERCISE_RETURNED:
-				return $lng->txt('trac_mode_exercise_returned');
-			
-			case self::LP_MODE_SCORM_PACKAGE:
-				return $lng->txt('trac_mode_scorm_package');
-				
-			case self::LP_MODE_EVENT:
-				return $lng->txt('trac_mode_event');
-				
-			case self::LP_MODE_PLUGIN:
-				return $lng->txt('trac_mode_plugin');
-				
-			case self::LP_MODE_COLLECTION_MANUAL:
-				return $lng->txt('trac_mode_collection_manual');
-				
-			case self::LP_MODE_COLLECTION_TLT:
-				return $lng->txt('trac_mode_collection_tlt');
-				
-			case self::LP_MODE_QUESTIONS:
-				return $lng->txt('trac_mode_questions');
+			return $lng->txt(self::$map[$a_mode][1]);		
 		}
 	}
 	
@@ -306,57 +317,30 @@ class ilLPObjSettings
 	{
 		global $lng;
 		
-		switch($a_mode)
+		if(array_key_exists($a_mode, self::$map) &&
+			is_array(self::$map[$a_mode]))
 		{
-			case self::LP_MODE_DEACTIVATED:
-				return $lng->txt('trac_mode_deactivated_info_new');
-
-			case self::LP_MODE_TLT:
+			$info = $lng->txt(self::$map[$a_mode][2]);
+						
+			if($a_mode == self::LP_MODE_TLT)
+			{
+				// dynamic content
 				include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
-				return sprintf($lng->txt('trac_mode_tlt_info'), ilObjUserTracking::_getValidTimeSpan());
-
-			case self::LP_MODE_VISITS:
-				return $lng->txt('trac_mode_visits_info');
-				
-			case self::LP_MODE_MANUAL:
-				return $lng->txt('trac_mode_manual_info');
-				
-			case self::LP_MODE_MANUAL_BY_TUTOR:
-				return $lng->txt('trac_mode_manual_by_tutor_info');
-
-			case self::LP_MODE_OBJECTIVES:
-				return $lng->txt('trac_mode_objectives_info');
-
-			case self::LP_MODE_COLLECTION:
-				return $lng->txt('trac_mode_collection_info');
-
-			case self::LP_MODE_SCORM:
-				return $lng->txt('trac_mode_scorm_info');
-
-			case self::LP_MODE_TEST_FINISHED:
-				return $lng->txt('trac_mode_test_finished_info');
-
-			case self::LP_MODE_TEST_PASSED:
-				return $lng->txt('trac_mode_test_passed_info');
-
-			case self::LP_MODE_EXERCISE_RETURNED:
-				return $lng->txt('trac_mode_exercise_returned_info');
-
-			case self::LP_MODE_SCORM_PACKAGE:
-				return $lng->txt('trac_mode_scorm_package_info');
-				
-			case self::LP_MODE_EVENT:
-				return $lng->txt('trac_mode_event_info');
-				
-			case self::LP_MODE_COLLECTION_MANUAL:
-				return $lng->txt('trac_mode_collection_manual_info');
-				
-			case self::LP_MODE_COLLECTION_TLT:
-				return $lng->txt('trac_mode_collection_tlt_info');
-				
-			case self::LP_MODE_QUESTIONS:
-				return $lng->txt('trac_mode_questions_info');
+				$info = sprintf($info, ilObjUserTracking::_getValidTimeSpan());
+			}
+			
+			return $info;
 		}
+	}
+	
+	public static function getClassMap()
+	{
+		$res = array();
+		foreach(self::$map as $mode => $item)
+		{
+			$res[$mode] = $item[0];
+		}
+		return $res;
 	}
 }
 
