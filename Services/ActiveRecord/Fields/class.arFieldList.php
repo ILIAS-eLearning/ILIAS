@@ -165,8 +165,14 @@ class arFieldList {
 	 */
 	public function getFieldByName($field_name) {
 		$field = NULL;
+		static $field_map;
+		if ($field_map[$field_name]) {
+			return $field_map[$field_name];
+		}
 		foreach ($this->getFields() as $field) {
 			if ($field->getName() == $field_name) {
+				$field_map[$field_name] = $field;
+
 				return $field;
 			}
 		}

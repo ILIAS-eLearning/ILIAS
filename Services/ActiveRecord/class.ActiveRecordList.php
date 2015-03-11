@@ -105,12 +105,19 @@ class ActiveRecordList {
 		$arSelect->setTableName($ar->getConnectorContainerName());
 		$arSelect->setFieldName('*');
 		$this->getArSelectCollection()->add($arSelect);
+//		if ($ar->getArConnector() == NULL) {
+//			$this->connector = new arConnectorDB($this);
+//		} else {
+//			$this->connector = $ar->getArConnector();
+//		}
+	}
 
-		if ($ar->getArConnector() == NULL) {
-			$this->connector = new arConnectorDB($this);
-		} else {
-			$this->connector = $ar->getArConnector();
-		}
+
+	/**
+	 * @return arConnector
+	 */
+	protected function getArConnector() {
+		return arConnectorMap::get($this->getAR());
 	}
 
 	//
@@ -435,7 +442,7 @@ class ActiveRecordList {
 	 * @return int
 	 */
 	public function affectedRows() {
-		return $this->connector->affectedRows($this);
+		return $this->getArConnector()->affectedRows($this);
 	}
 
 
@@ -581,18 +588,20 @@ class ActiveRecordList {
 		if ($this->loaded) {
 			return;
 		} else {
-			$records = $this->connector->readSet($this);
+			$records = $this->getArConnector()->readSet($this);
 			/**
 			 * @var $obj ActiveRecord
 			 */
-			$class = get_class($this->getAR());
-			$obj = arFactory::getInstance($class, NULL, $this->getAddidtionalParameters());
-			$primaryFieldName = $obj->getArFieldList()->getPrimaryFieldName();
-
+//			$class = get_class($this->getAR());
+//			$obj = arFactory::getInstance($class, NULL, $this->getAddidtionalParameters());
+			$primaryFieldName = $this->getAR()->getArFieldList()->getPrimaryFieldName();
+			$class_name = get_class($this->getAR());
 			foreach ($records as $res) {
 				$primary_field_value = $res[$primaryFieldName];
 				if (!$this->getRaw()) {
-					$obj = arFactory::getInstance($class, NULL, $this->getAddidtionalParameters());
+
+//					$obj = arFactory::getInstance($class_name, NULL, $this->getAddidtionalParameters());
+					$obj = new $class_name(0, $this->getArConnector(), $this->getAddidtionalParameters());
 					$this->result[$primary_field_value] = $obj->buildFromArray($res);
 				}
 				$res_awake = array();
