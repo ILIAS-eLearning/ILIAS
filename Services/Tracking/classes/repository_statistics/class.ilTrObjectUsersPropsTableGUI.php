@@ -27,6 +27,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	protected $in_course; // int
 	protected $in_group; // int
 	protected $has_edit; // bool
+	protected $has_collection; // bool
 	
 	/**
 	* Constructor
@@ -101,6 +102,13 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		
 		// #13807
 		$this->has_edit = $rbacsystem->checkAccess('edit_learning_progress',$this->ref_id);
+		
+		/* currently not active, needs to be revised
+		include_once "Services/Object/classes/class.ilObjectLP.php";
+		include_once "Services/Tracking/classes/collection/class.ilLPCollection.php";
+		$objlp = ilObjectLP::getInstance($this->obj_id);
+		$this->has_collection = in_array($objlp->getCurrentMode(), ilLPCollection::getCollectionModes());				 
+		*/
 	}
 	
 	/**
@@ -353,7 +361,9 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		
 		if(!$this->getPrintMode() && !(bool)$data["privacy_conflict"]) 
 		{
-			if(in_array($this->type, array("crs", "grp", "cat", "fold")))
+			// details for containers and collections
+			if($this->has_collection ||
+				in_array($this->type, array("crs", "grp", "cat", "fold")))
 			{
 				$this->tpl->setCurrentBlock("item_command");
 				$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", "userdetails"));

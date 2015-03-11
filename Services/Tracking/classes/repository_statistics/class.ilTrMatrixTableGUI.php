@@ -188,7 +188,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				foreach($this->subitem_ids as $obj_id => $title)
 				{
 					include_once("./Services/Tracking/classes/class.ilTrQuery.php");					
-					$icon = ilUtil::getTypeIconPath(ilTrQuery::getSubItemType($obj_id), $obj_id, "tiny");
+					$icon = ilUtil::getTypeIconPath(ilTrQuery::getSubItemType($this->obj_id), $obj_id, "tiny");
 					$tmp_cols[strtolower($title)."#~#objsub_".$obj_id] = array("txt" => $title, "icon"=>$icon, "default" => true);
 				}
 			}
