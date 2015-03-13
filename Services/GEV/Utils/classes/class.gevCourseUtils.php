@@ -788,7 +788,7 @@ class gevCourseUtils {
 	}
 
 	
-	// Accomodation Info
+	// Accomodation
 	
 	public function getAccomodationId() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_ACCOMODATION);
@@ -874,6 +874,39 @@ class gevCourseUtils {
 		return $this->getAccomodation() 
 			&& ($this->getStartDate() !== null) 
 			&& ($this->getEndDate() !== null);
+	}
+	
+	// Checks whether the start and end date of the course were modified regarding the
+	// last histo entry and moves all accomodations so they have the same relation to
+	// the new date. If some the overnights exceed the end date they are removed.
+	public function moveAccomodations() {
+		// Get the last histo entry.
+		$res = $this->db->query( "SELECT begin_date, end_date"
+								."  FROM hist_course"
+								." WHERE crs_id = ".$this->db->quote($this->crs_id, "integer")
+								."   AND hist_historic = 1"
+								." ORDER BY hist_version DESC"
+								." LIMIT 1"
+								);
+		
+		if ($rec = $this->db->fetchAssoc($res)) {
+			$start_hist = $rec["begin_date"];
+			$start_cur = $this->getStartDate()->get(IL_CAL_DATE);
+			$end_hist = $rec["end_date"];
+			$end_date = $this->getEndDate()->get(IL_CAL_DATE);
+			
+			if ($start_hist != $start_cur || $end_hist != $end_date) {
+				$offset_days = floor((strtotime($start_cur) - strtotime($start_hist)) / (60 * 60 * 24));
+				$this->db->manipulate("UPDATE crs_acco"
+									 ."   SET night = night + INTERVAL($offset_days) DAY"
+									 ." WHERE crs_id = ".$this->db->quote($this->crs_id, "integer")
+									 );
+				$this->db->manipulate("DELETE FROM crs_acco"
+									 ." WHERE night > '$end_date'"
+									 ."   AND crs_id = ".$this->db->quote($this->crs_id, "integer")
+									 );
+			}
+		}
 	}
 	
 	public function getWebExLink() {
