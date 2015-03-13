@@ -42,16 +42,16 @@ class ilLPStatusSurveyFinished extends ilLPStatus
 			return;
 		}
 		
-		$status = LP_STATUS_NOT_ATTEMPTED_NUM;		
+		$status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;		
 		
 		include_once './Modules/Survey/classes/class.ilObjSurveyAccess.php';		
 		if(ilObjSurveyAccess::_isSurveyParticipant($a_user_id, $survey_id))
 		{
-			$status = LP_STATUS_IN_PROGRESS_NUM;
+			$status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
 			
 			if(ilObjSurveyAccess::_lookupFinished($a_obj_id, $a_user_id))
 			{
-				$status = LP_STATUS_COMPLETED_NUM;
+				$status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
 			}
 		}
 
