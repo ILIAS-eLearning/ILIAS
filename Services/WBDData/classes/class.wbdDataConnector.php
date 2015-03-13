@@ -500,6 +500,22 @@ abstract class wbdDataConnector {
 	abstract function save_external_edu_records($bwv_id, $edu_records);
 
 
+
+	/**
+	 * get edu-records for storno;
+	 *
+	 * @param
+	 * @return array of edu-records
+	 */
+
+	public function get_storno_edu_records() {}
+	//on success/failure:
+	public function success_storno_edu_records($row_id, $booking_id){}
+	public function fail_storno_edu_records($row_id, $e){}
+
+
+
+
 }
 
 ?>
