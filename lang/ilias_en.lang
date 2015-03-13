@@ -15225,3 +15225,5 @@ dcl#:#dcl_notification_info#:#Enables the individual notification feature for us
 administration#:#adm_missing_entries#:#Missing Entries
 administration#:#adm_missing_entry_add_action#:#Add
 administration#:#adm_missing_entry_add#:#Add New Entry
+crs#:#crs_usr_agreement#:#User Agreement
+grp#:#grp_usr_agreement#:#User Agreement

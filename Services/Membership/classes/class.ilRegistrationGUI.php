@@ -307,7 +307,7 @@ abstract class ilRegistrationGUI
 		}
 		
 		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->lng->txt('usr_agreement'));
+		$section->setTitle($this->lng->txt($this->type.'_usr_agreement'));
 		$this->form->addItem($section);
 		
 		include_once './Services/Membership/classes/class.ilMemberAgreementGUI.php';
