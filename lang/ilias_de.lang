@@ -15227,3 +15227,5 @@ administration#:#adm_missing_entry_add_action#:#Hinzufügen
 administration#:#adm_missing_entry_add#:#Neuen Eintrag erstellen
 trac#:#trac_mode_survey_finished#:#Umfrage beendet
 trac#:#trac_mode_survey_finished_info#:##Die Umfrage muss beendet werden.
+crs#:#crs_usr_agreement#:#Benutzerveinbarung
+grp#:#grp_usr_agreement#:#Benutzerveinbarung
