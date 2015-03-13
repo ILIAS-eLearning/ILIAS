@@ -148,7 +148,7 @@ class gevImportOldData {
 
 	public function getOldData(){
 		$sql = 'SELECT * FROM wbd_altdaten 
-				WHERE reported != 1
+				WHERE reported = 0
 				ORDER BY name';
 		//$sql .= ' LIMIT 250';
 
@@ -158,10 +158,11 @@ class gevImportOldData {
 		}
 	}
 
-	public function setReported($id){
-		$sql = 'UPDATE wbd_altdaten 
-				SET  reported = 1
-				WHERE id=' .$id;
+	public function setReported($id, $row_id){
+		$sql = 'UPDATE wbd_altdaten SET  
+				reported = 1,
+				usrcrs_row = ' .$row_id
+				.' WHERE id=' .$id;
 
 		mysql_query($sql, $this->importDB);
 	}
@@ -432,7 +433,7 @@ class gevImportOldData {
 			if(! $this->db->query($sql)){
 				die($sql);
 			}
-
+			return $next_id;
 	
 	}
 
@@ -561,13 +562,17 @@ print '<hr>';
 // !!!!!!!!!!!
 
 
-//die();
+/*
+printToTable($import->sem_ok);
+die();
+*/
+
 
 foreach($import->sem_ok as $rec){
 	$crs_id = $import->importSeminar($rec);
 
-	$import->assignUserToSeminar($rec, $crs_id);
-	$import->setReported($rec['id']);
+	$row_id = $import->assignUserToSeminar($rec, $crs_id);
+	$import->setReported($rec['id'], $row_id);
 }
 
 $import->rectifyOKZforAltdaten();
@@ -575,9 +580,7 @@ $import->rectifyOKZforAltdaten();
 
 
 
-
 printToTable($import->sem_ok);
-
 print '<hr>';
 print 'no match:';
 //printToTable($import->sem_no_user_matches);
