@@ -211,7 +211,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		$form->addItem($cap);
 
 		$form->addCommandButton('saveSettings', $this->lng->txt('save'));
-		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
+		$form->addCommandButton('editSettings', $this->lng->txt('cancel'));
 
 		return $form;
 	}
