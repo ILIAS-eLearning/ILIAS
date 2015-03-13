@@ -3403,8 +3403,8 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 	$user->setLogin("makler_angebot");
 	$user->setEmail("rklees@cat06.de");
 	$user->setPasswd(md5(rand()));
-	$user->setLastname("Angebot");
-	$user->setFirstname("Makler");
+	$user->setLastname("löschen");
+	$user->setFirstname("nicht");
 	$user->setGender("m");
 
 	// is active, owner is root
