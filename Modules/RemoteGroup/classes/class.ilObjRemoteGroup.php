@@ -16,8 +16,8 @@ class ilObjRemoteGroup extends ilRemoteObjectBase
 {
 	const DB_TABLE_NAME = "rgrp_settings";
 	
-	const ACTIVATION_OFFLINE = 0;
-	const ACTIVATION_UNLIMITED = 1;
+	const ACTIVATION_UNLIMITED = 0;
+	const ACTIVATION_OFFLINE = 1;
 	const ACTIVATION_LIMITED = 2;
 	
 	protected $availability_type;
