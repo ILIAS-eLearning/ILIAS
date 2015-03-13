@@ -288,6 +288,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 			*/
 			,"row_id" 				=> $record["row_id"]
+			,"training_score_booking_id"	=> $record["wbd_booking_id"]
 		);
 		return $edudata;
 	}
@@ -1356,8 +1357,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				.',206409'
 				.',206410'
 */
-			.')';
-
+			.') GROUP BY hist_usercoursestatus.row_id';
 
 
 		$result = $this->ilDB->query($sql);
@@ -1367,7 +1367,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 			$edudata = $this->_map_edudata($record);
 			$ret[] = wbdDataConnector::new_edu_record($edudata);
 		}
-
+		
+		return $ret;
+		
+		
 	}
 	
 	//on success/failure:
@@ -1411,6 +1414,11 @@ class WBDDataAdapter extends gevWBDDataConnector {}
 if($DEBUG_HTML_OUT){
 
 	$cls = new gevWBDDataConnector();
+	
+	
+	$cls->get_storno_edu_records();
+	die();
+	
 	
 
 	print '<h3>new users:</h3>';
