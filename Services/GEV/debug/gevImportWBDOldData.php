@@ -181,16 +181,14 @@ class gevImportOldData {
 			if($LIVE){
 				$sql = "SELECT * FROM usr_data WHERE"; //user_table
 			}
-			$sql .= " (LOWER(firstname) = '" .strtolower(trim($rec['Vorname'])) ."'";
-			$sql .= " OR LOWER(firstname) = '" .$this->fuzzyName(trim($rec['Vorname'])) ."')";
+			$sql .= " (LOWER(firstname) = " .$this->db->quote(strtolower(trim($rec['Vorname'])), 'text') ."";
+			$sql .= " OR LOWER(firstname) = " .$this->db->quote($this->fuzzyName(trim($rec['Vorname'])), 'text') .")";
 			$sql .= " AND";
-			$sql .= " (LOWER(lastname) = '" .strtolower(trim($rec['Name'])) ."'";
-			$sql .= " OR LOWER(lastname) = '" .$this->fuzzyName(trim($rec['Name'])) ."')";
+			$sql .= " (LOWER(lastname) = " .$this->db->quote(strtolower(trim($rec['Name'])), 'text') ."";
+			$sql .= " OR LOWER(lastname) = " .$this->db->quote($this->fuzzyName(trim($rec['Name'])), 'text') .")";
 		}
 
 
-
-		//print $sql .'<br>';
 		$ret = array();
 		$result = $this->db->query($sql);
 
