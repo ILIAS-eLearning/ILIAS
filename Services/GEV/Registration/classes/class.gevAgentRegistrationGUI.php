@@ -272,7 +272,7 @@ class gevAgentRegistrationGUI {
 		$form->addItem($b_phone);
 		
 		$chb1 = new ilCheckboxInputGUI("", "chb1");
-		$chb1->setOptionTitle($this->lng->txt("evg_toc"));
+		$chb1->setOptionTitle($this->lng->txt("uvg_toc"));
 		$chb1->setRequired(true);
 		$form->addItem($chb1);
 		
