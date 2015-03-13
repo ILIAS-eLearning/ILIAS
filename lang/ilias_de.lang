@@ -15225,3 +15225,5 @@ dcl#:#dcl_notification_info#:#Aktiviert die individuelle Benachrichtigungsfunkti
 administration#:#adm_missing_entries#:#Fehlende Einträge
 administration#:#adm_missing_entry_add_action#:#Hinzufügen
 administration#:#adm_missing_entry_add#:#Neuen Eintrag erstellen
+trac#:#trac_mode_survey_finished#:#Umfrage beendet
+trac#:#trac_mode_survey_finished_info#:##Die Umfrage muss beendet werden.

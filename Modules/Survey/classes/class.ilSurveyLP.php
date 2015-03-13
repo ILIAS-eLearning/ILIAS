@@ -36,11 +36,11 @@ class ilSurveyLP extends ilObjectLP
 		global $ilDB;
 		
 		// if active id
-		$set = $ilDB->query("SELECT tt.obj_fi".
-			" FROM tst_active ta".
-			" JOIN tst_tests tt ON (ta.test_fi = tt.test_id)".
-			" WHERE ".$ilDB->in("tt.obj_fi", $a_obj_ids, "", "integer").
-			" AND ta.user_fi = ".$ilDB->quote($a_usr_id, "integer"));		
+		$set = $ilDB->query("SELECT ss.obj_fi".
+			" FROM svy_finished sf".
+			" JOIN svy_svy ss ON (ss.survey_id = sf.survey_fi)".
+			" WHERE ".$ilDB->in("ss.obj_fi", $a_obj_ids, "", "integer").
+			" AND sf.user_fi = ".$ilDB->quote($a_usr_id, "integer"));		
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$a_res[$row["obj_fi"]] = true;

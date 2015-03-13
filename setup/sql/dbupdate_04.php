@@ -5763,3 +5763,30 @@ $ilDB->manipulate(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4474>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');				
+$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('svy');
+if($lp_type_id)
+{				
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');	
+
+	// clone settings from "write" to "edit_learning_progress"
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');	
+	if($tgt_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);				
+		ilDBUpdateNewObjectType::cloneOperation('svy', $src_ops_id, $tgt_ops_id);
+	}
+
+	// clone settings from "write" to "read_learning_progress"
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_learning_progress');	
+	if($tgt_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);		
+		ilDBUpdateNewObjectType::cloneOperation('svy', $src_ops_id, $tgt_ops_id);
+	}
+}	
+
+?>

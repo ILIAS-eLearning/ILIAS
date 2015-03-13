@@ -188,7 +188,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case "illearningprogressgui":
 				$ilTabs->activateTab("learning_progress");
 				include_once("./Services/Tracking/classes/class.ilLearningProgressGUI.php");
-				$new_gui = new ilLearningProgressGUI(LP_MODE_REPOSITORY,
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
 					$this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);				
 				break;
