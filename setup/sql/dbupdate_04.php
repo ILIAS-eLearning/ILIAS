@@ -5759,3 +5759,7 @@ $ilDB->manipulate(
 		$ilDB->addIndex('page_question',array('page_parent_type','page_id', 'page_lang'),'i1');
 	}
 ?>
+<#4473>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

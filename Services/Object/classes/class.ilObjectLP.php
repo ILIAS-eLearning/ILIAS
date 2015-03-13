@@ -95,7 +95,11 @@ class ilObjectLP
 			
 				case "sess":
 					include_once "Modules/Session/classes/class.ilSessionLP.php";
-					return  "ilSessionLP";			
+					return  "ilSessionLP";		
+					
+				case "svy":
+					include_once "Modules/Survey/classes/class.ilSurveyLP.php";
+					return  "ilSurveyLP";		
 
 				// plugin
 				case $objDefinition->isPluginTypeName($a_type):
@@ -109,7 +113,7 @@ class ilObjectLP
 	{
 		global $objDefinition;
 		
-		$valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc", "sess");		
+		$valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc", "sess", "svy");		
 		if(in_array($a_type, $valid))
 		{
 			return true;			

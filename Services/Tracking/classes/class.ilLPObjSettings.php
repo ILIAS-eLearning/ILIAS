@@ -40,7 +40,7 @@ class ilLPObjSettings
 	const LP_MODE_COLLECTION_TLT = 15;
 	const LP_MODE_COLLECTION_MANUAL = 16;
 	const LP_MODE_QUESTIONS = 17;
-	// const LP_MODE_SURVEY_FINISHED = 18; (placeholder for 4.6.x)
+	const LP_MODE_SURVEY_FINISHED = 18;
 
 	const LP_DEFAULT_VISITS = 30; // ???
 	
@@ -99,8 +99,8 @@ class ilLPObjSettings
 		,self::LP_MODE_QUESTIONS => array('ilLPStatusQuestions', 
 			'trac_mode_questions', 'trac_mode_questions_info')	
 		
-		/* ,self::LP_MODE_SURVEY_FINISHED => array('ilLPStatusSurveyFinished', 
-			'trac_mode_survey_finished, 'trac_mode_survey_finished_info') // see above */
+		,self::LP_MODE_SURVEY_FINISHED => array('ilLPStatusSurveyFinished', 
+			'trac_mode_survey_finished', 'trac_mode_survey_finished_info') 
 	);
 
 	function ilLPObjSettings($a_obj_id)

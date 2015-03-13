@@ -957,6 +957,12 @@ class ilTrQuery
 				$a_users = $class::getParticipants($obj_id);
 				break;
 			
+			case "svy":
+				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
+				$class = ilLPStatusFactory::_getClassById($obj_id, ilLPObjSettings::LP_MODE_SURVEY_FINISHED);
+				$a_users = $class::getParticipants($obj_id);				
+				break;
+			
 			default:
 				// no sensible data: return null
 				break;
