@@ -14,11 +14,12 @@
 $SET_LASTWBDRECORD = true;
 $SET_BWVID = true;
 
-$GET_NEW_USERS = true;
-$GET_UPDATED_USERS = true;
-$GET_NEW_EDURECORDS = true;
+$GET_NEW_USERS = false;
+$GET_UPDATED_USERS = false;
+$GET_NEW_EDURECORDS = false;
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
+$STORNO_EDURECORDS = true;
 
 $LIMIT_RECORDS = false;
 $ANON_DATA = false;
@@ -1265,6 +1266,131 @@ class gevWBDDataConnector extends wbdDataConnector {
 		
 		return true;
 	}
+
+
+
+
+	public function get_storno_edu_records() {
+		global $STORNO_EDURECORDS;
+		if(! $STORNO_EDURECORDS){
+			return array();
+		}
+
+		$sql = "
+			SELECT
+				*, hist_usercoursestatus.row_id as row_id,
+				hist_usercoursestatus.begin_date as course_begin,
+				hist_usercoursestatus.end_date as course_end
+			FROM
+				hist_usercoursestatus
+
+			INNER JOIN
+				hist_course
+			ON
+				hist_usercoursestatus.crs_id = hist_course.crs_id
+
+			INNER JOIN
+				hist_user
+			ON
+				hist_usercoursestatus.usr_id = hist_user.user_id
+
+			WHERE
+				hist_user.bwv_id != '-empty-'
+		
+			";
+
+
+		// report edupoints for TP_Service, TP_Basis and Edu_Provider only:
+		$sql .= " AND wbd_type IN ('"
+			.self::WBD_TP_SERVICE."', '"
+			.self::WBD_EDU_PROVIDER."', '"
+			.self::WBD_TP_BASIS
+			."')";
+
+
+		//dev-safety:
+		$sql .= ' AND usr_id in (SELECT usr_id FROM usr_data)';
+		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
+
+
+
+
+		$sql .=' AND hist_usercoursestatus.row_id IN ('
+				.'184077'
+/*				.',184050'
+				.',184065'
+				.',184080'
+				.',184055'
+				.',184070'
+				.',184008'
+				.',184023'
+				.',184032'
+				.',183989'
+				.',27014'
+				.',180237'
+				.',180246'
+				.',180206'
+				.',180280'
+				.',180326'
+				.',180232'
+				.',180183'
+				.',180239'
+				.',30678'
+				.',203785'
+				.',183997'
+				.',180970'
+				.',203547'
+				.',30680'
+				.',185627'
+				.',27156'
+				.',183794'
+				.',203786'
+				.',183991'
+				.',27015'
+				.',27157'
+				.',27112'
+				.',206351'
+				.',206353'
+				.',206418'
+				.',206419'
+				.',206409'
+				.',206410'
+*/
+			.')';
+
+
+
+		$result = $this->ilDB->query($sql);
+		$ret = array();
+		while($record = $this->ilDB->fetchAssoc($result)) {
+		
+			$edudata = $this->_map_edudata($record);
+			$ret[] = wbdDataConnector::new_edu_record($edudata);
+		}
+
+	}
+	
+	//on success/failure:
+	public function success_storno_edu_records($row_id, $booking_id){
+		/*
+		$sql = "UPDATE  hist_usercoursestatus SET"
+		." hist_historic=1, "
+		." wbd_booking_id='$booking_id'" 
+		." WHERE row_id=" .$row_id;
+		*/
+		//duplicate entry?
+
+	}
+
+	public function fail_storno_edu_records($row_id, $e){
+		print 'ERROR during cancellation of edurecords: ';
+		print($row_id);
+		print "\n";
+		print_r($e->getReason());
+		//print_r($e);
+		print "\n";
+	}
+
 
 
 }
