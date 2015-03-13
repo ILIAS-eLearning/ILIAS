@@ -63,7 +63,6 @@ $WBD_EDU_RECORD = array(
 	"study_type_selection" => "", // "Präsenzveranstaltung" | "Selbstgesteuertes E-Learning" | "Gesteuertes E-Learning";
 	"study_content" => "", //Spartenübergreifend",
 	"score_code" => ""
-			
 );
 
 
