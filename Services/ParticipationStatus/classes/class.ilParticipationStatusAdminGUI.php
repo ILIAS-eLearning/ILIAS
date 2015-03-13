@@ -346,11 +346,20 @@ class ilParticipationStatusAdminGUI
 		
 		// attendance list
 		$helper = ilParticipationStatusHelper::getInstance($this->getCourse());
+		
+		// gev-patch start
+		if (($helper->getCourseNeedsAttendanceList() || $helper->getCourseNeedsInvitationMailConfirmation()) && $may_write) {
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
+		}
+		// gev-patch end
+		
 		if($helper->getCourseNeedsAttendanceList())
 		{
 			if($may_write)
 			{
-				$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "uploadAttendanceList"), true);
+				// gev-patch start
+				//$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "uploadAttendanceList"), true);
+				// gev-patch end
 				
 				require_once "Services/Form/classes/class.ilFileInputGUI.php";
 				$file = new ilFileInputGUI($lng->txt("ptst_admin_attendance_list"), "atlst");
@@ -358,18 +367,28 @@ class ilParticipationStatusAdminGUI
 				
 				$ilToolbar->addFormButton($lng->txt("upload"), "uploadAttendanceList");
 
-				$ilToolbar->addSeparator();
+				// gev-patch start
+				//$ilToolbar->addSeparator();
+				// gev-patch end
 			}
 			if($this->getParticipationStatus()->getAttendanceList())
 			{
 				if($may_write)
 				{
+					// gev-patch start
+					$ilToolbar->addSeparator();
+					// gev-patch end
 					$ilToolbar->addButton($lng->txt("delete"), 
 						$ilCtrl->getLinkTarget($this, "deleteAttendanceList"));
 
-					$ilToolbar->addSeparator();
+					// gev-patch start
+					//$ilToolbar->addSeparator();
+					// gev-patch end
 				}
 				
+				// gev-patch start
+				$ilToolbar->addSeparator();
+				// gev-patch end
 				$ilToolbar->addButton($lng->txt("ptst_admin_view_attendance_list"),
 					$ilCtrl->getLinkTarget($this, "viewAttendanceList"));
 			}
@@ -378,6 +397,14 @@ class ilParticipationStatusAdminGUI
 				$ilToolbar->addText($lng->txt("ptst_admin_no_attendance_list"));
 			}
 		}
+
+		// gev-patch start
+		if ($helper->getCourseNeedsInvitationMailConfirmation()) {
+			if ($may_write) {
+				$ilToolbar->addSeparator();
+			}
+		}
+		// gev-patch end
 		
 		require_once "Services/ParticipationStatus/classes/class.ilParticipationStatusTableGUI.php";
 		$tbl = new ilParticipationStatusTableGUI($this, "listStatus", $this->getCourse(), $may_write, $may_finalize, $a_invalid);
