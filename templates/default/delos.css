@@ -4067,9 +4067,10 @@ span.bibl_text_inline_Emph {
 .ilPlayerPreviewDescription {
 	padding: 7px;
 	font-size: 85%;
-	position: relative;
+	position: absolute;
+	width: 306px;
 	color: #F0F0F0;
-	top: -240px;
+	margin-top: -240px;
 	background: url(images/black60.png);
 }
 
