@@ -13,6 +13,8 @@
 /.idea
 /ilias.log
 /lang
+.DS_Store
+*~
 
 # /Customizing/
 /Customizing/global
