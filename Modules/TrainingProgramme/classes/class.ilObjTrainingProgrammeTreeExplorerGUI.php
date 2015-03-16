@@ -49,13 +49,15 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 */
 	protected $ctrl;
 
+	protected $modal_id;
+
 	/**
 	 * @param $a_expl_id
 	 * @param $a_parent_obj
 	 * @param $a_parent_cmd
 	 * @param $a_tree
 	 */
-	public function __construct($a_tree_root_id, $a_expl_id, $a_parent_obj, $a_parent_cmd) {
+	public function __construct($a_tree_root_id, $modal_id, $a_expl_id, $a_parent_obj, $a_parent_cmd) {
 		global $ilAccess, $lng, $tpl, $ilToolbar, $ilCtrl;
 
 		parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd);
@@ -67,6 +69,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 		$this->tpl = $tpl;
 		$this->toolbar = $ilToolbar;
 		$this->ctrl = $ilCtrl;
+		$this->modal_id = $modal_id;
 
 		$lng->loadLanguageModule("prg");
 
@@ -127,7 +130,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 
 		$props = ' class="button"';
 		if($async) {
-			$props .= '" data-toggle="modal" data-target="#settings_modal"';
+			$props .= '" data-toggle="modal" data-target="#'.$this->modal_id.'"';
 		}
 
 		return '<a href="'.$this->ctrl->getLinkTargetByClass($target_class, $cmd, '', true).'" '.$props.'>'.$content.'</a>';
@@ -163,10 +166,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 			//TODO: implement custom icon functionality
 		}
 
-		if(!$a_node->hasChildren()) {
-			return ilObject::_getIcon($obj_id, "tiny");
-		}
-		return '';
+		return ilObject::_getIcon($obj_id, "tiny");
 	}
 
 
