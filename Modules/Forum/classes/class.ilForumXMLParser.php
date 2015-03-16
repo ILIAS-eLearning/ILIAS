@@ -24,6 +24,11 @@ class ilForumXMLParser extends ilSaxParser
 	private $user_id_mapping = array();
 	protected $mediaObjects = array();
 
+	/**
+	 * @var null|string
+	 */
+	protected $schema_version = null;
+
     /**
 	 * Constructor
 	 *
@@ -58,6 +63,23 @@ class ilForumXMLParser extends ilSaxParser
 	{
 		return $this->importDirectory;
 	}
+
+	/**
+	 * @return null|string
+	 */
+	public function getSchemaVersion()
+	{
+		return $this->schema_version;
+	}
+
+	/**
+	 * @param null|string $schema_version
+	 */
+	public function setSchemaVersion($schema_version)
+	{
+		$this->schema_version = $schema_version;
+	}
+
 	/**
 	* set event handlers
 	*
@@ -339,11 +361,15 @@ class ilForumXMLParser extends ilSaxParser
 					$this->forumThread->setDisplayUserId($usr_data['usr_id']);
 					$this->forumThread->setUserAlias($usr_data['usr_alias']);
 
-					// @todo: Handle author id
+					if(version_compare($this->getSchemaVersion(), '4.5.0', '<='))
+					{
+						$this->threadArray['AuthorId'] = $this->threadArray['UserId'];
+					}
+
 					$author_id_data = $this->getUserIdAndAlias(
 						$this->threadArray['AuthorId']
 					);
-					$this->forumThread->setThrAuthorId($author_id_data['usr_id']);
+					$this->forumThread->setThrAuthorId((int)$author_id_data['usr_id']);
 				
 					$this->forumThread->insert();
 
@@ -430,10 +456,14 @@ class ilForumXMLParser extends ilSaxParser
 					$this->forumPost->setUserAlias($usr_data['usr_alias']);
 					$this->forumPost->setUpdateUserId($update_usr_data['usr_id']);
 
+					if(version_compare($this->getSchemaVersion(), '4.5.0', '<='))
+					{
+						$this->postArray['AuthorId'] = $this->postArray['UserId'];
+					}
 					$author_id_data = $this->getUserIdAndAlias(
 						$this->postArray['AuthorId']
 					);
-					$this->forumPost->setPosAuthorId($author_id_data['usr_id']);
+					$this->forumPost->setPosAuthorId((int)$author_id_data['usr_id']);
 					
 					if($this->postArray['isAuthorModerator'] === 'NULL')
 					{

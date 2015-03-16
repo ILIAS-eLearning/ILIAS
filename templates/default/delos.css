@@ -9723,6 +9723,7 @@ div.ilPreconditionItem {
 div.ilContainerListItemOuter {
   padding: 15px 10px;
   zoom: 1;
+  width: 100%;
   /* background-color: lighten(@mid-gray, 75%); */
 }
 div.tblfooter.ilContainerListFooter {
@@ -10864,7 +10865,7 @@ table.mceToolbar td {
    Google recommending 640px: https://developers.google.com/webmasters/smartphone-sites/details
    
    */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   html {
     -webkit-text-size-adjust: none;
   }

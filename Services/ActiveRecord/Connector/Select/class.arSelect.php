@@ -35,7 +35,7 @@ class arSelect extends arStatement {
 			$return .= $this->getTableName() . '.';
 		}
 		$return .= $this->getFieldName();
-		if ($this->getAs()) {
+		if ($this->getAs() AND $this->getFieldName() != '*') {
 			$return .= ' AS ' . $this->getAs();
 		}
 
