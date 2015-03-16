@@ -23,6 +23,14 @@ class ilAsyncOutputHandler {
 		$this->window_properties = $windows_properties;
 	}
 
+
+	/**
+	 * Output content in different ways
+	 * self::OUTPUT_MODAL: Output as bootstrap modal
+	 * self::OUTPUT_EMPTY: Only content without ILIAS-layout
+	 *
+	 * @param string $type
+	 */
 	public function terminate($type = self::OUTPUT_MODAL) {
 		if($type == self::OUTPUT_MODAL) {
 			$tpl = new ilTemplate('tpl.modal_content.html', false, false, 'Modules/TrainingProgramme');
@@ -45,10 +53,16 @@ class ilAsyncOutputHandler {
 			echo $this->getContent();
 			exit();
 		}
-
-
 	}
 
+
+	/**
+	 * Encode data as json for async output
+	 *
+	 * @param array $data
+	 *
+	 * @return string
+	 */
 	public static function encodeAsyncResponse(array $data = array()) {
 		global $ilCtrl;
 
@@ -57,6 +71,15 @@ class ilAsyncOutputHandler {
 		return json_encode($data);
 	}
 
+
+	/**
+	 * Handles async output
+	 * @param      $normal_content
+	 * @param null $async_content
+	 * @param bool $apply_to_tpl
+	 *
+	 * @return null
+	 */
 	public static function handleAsyncOutput($normal_content, $async_content = null, $apply_to_tpl = true) {
 		global $ilCtrl, $tpl;
 
