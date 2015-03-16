@@ -5,6 +5,7 @@
 require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
 require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncOutputHandler.php");
+require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncPropertyFormGUI.php");
 
 /**
  * Class ilObjTrainingProgrammeSettingsGUI
@@ -79,6 +80,7 @@ class ilObjTrainingProgrammeSettingsGUI {
 		switch ($cmd) {
 			case "view":
 			case "update":
+			case "cancel":
 				$content = $this->$cmd();
 				break;
 			default:
@@ -108,12 +110,20 @@ class ilObjTrainingProgrammeSettingsGUI {
 		if ($this->checkForm($form)) {
 			$this->updateFromFrom($form);
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
-		}
-		else {
+			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>true, "message"=>$this->lng->txt("msg_obj_modified")));
+		} else {
 			// TODO:
 			ilUtil::sendFailure($this->lng->txt("TODO"));
+			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>false, "errors"=>$form->getErrors()));
 		}
-		return $form->getHTML();
+
+		return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
+	}
+
+	protected function cancel() {
+		ilAsyncOutputHandler::handleAsyncOutput(ilAsyncOutputHandler::encodeAsyncResponse());
+
+		$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
 	}
 	
 	const PROP_TITLE = "title";
@@ -123,7 +133,12 @@ class ilObjTrainingProgrammeSettingsGUI {
 	const PROP_STATUS = "status";
 
 	protected function buildForm() {
-		$form = new ilPropertyFormGUI();
+		$form = new ilAsyncPropertyFormGUI();
+
+		if(!$this->ctrl->isAsynch()) {
+			$form->setAsync(false);
+		}
+
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		
 		$header = new ilFormSectionHeaderGUI();

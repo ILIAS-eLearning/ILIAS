@@ -9,6 +9,7 @@ require_once("./Services/AccessControl/classes/class.ilPermissionGUI.php");
 require_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 require_once("./Services/Object/classes/class.ilObjectAddNewItemGUI.php");
 require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeTreeGUI.php");
+require_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
 
 /**
  * Class ilObjTrainingProgrammeGUI class
@@ -100,7 +101,7 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 		if ($cmd == "") {
 			$cmd = "view";
 		}
-		
+
 		parent::prepareOutput();
 
 		switch ($next_class) {
@@ -154,6 +155,7 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 					case "create":
 					case "save":
 					case "view":
+					case "cancel":
 					case 'deleteObject':
 					case 'confirmedDeleteObject':
 						$this->$cmd();
@@ -225,18 +227,52 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 				throw new ilException("ilObjTrainingProgrammeGUI: Can't forward to next class $next_class");
 		}
 	}
-	
+
+
 	protected function create() {
 		parent::createObject();
 	}
 	
 	protected function save() {
 		parent::saveObject();
+
+		if($this->ctrl->isAsynch()) {
+			$form = $this->getAsyncCreationForm();
+			$form->setValuesByPost();
+			echo ilAsyncOutputHandler::encodeAsyncResponse(array("cmd" =>$this->ctrl->getCmd(), "success"=>false, "errors"=>$form->getErrors()));
+			exit();
+		}
+	}
+
+	protected function cancel() {
+		$async_response = ilAsyncOutputHandler::encodeAsyncResponse(array("cmd" =>"cancel", "success"=>false));
+
+		ilAsyncOutputHandler::handleAsyncOutput("", $async_response, false);
+
+		parent::cancelCreation();
+	}
+
+	protected function afterSave(ilObject $a_new_object)
+	{
+		// set default sort to manual
+		$settings = new ilContainerSortingSettings($a_new_object->getRefId());
+		$settings->setSortMode(ilContainer::SORT_MANUAL);
+		$settings->setSortNewItemsOrder(ilContainer::SORT_NEW_ITEMS_ORDER_CREATION);
+		$settings->setSortNewItemsPosition(ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM);
+		$settings->save();
+
+		$async_response = ilAsyncOutputHandler::encodeAsyncResponse(array("cmd" =>"cancel", "success"=>true, "message"=>$this->lng->txt("object_added")));
+
+		ilAsyncOutputHandler::handleAsyncOutput("", $async_response, false);
+
+		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+		$this->ctrl->returnToParent($this);
 	}
 	
 	protected function view() {
 		$this->denyAccessIfNot("read");
 		$this->tabs_gui->setTabActive(self::TAB_VIEW_CONTENT);
+
 		parent::renderObject();
 	}
 
@@ -248,8 +284,7 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	 * @return array
 	 */
 	protected function initCreationForms($a_new_type) {
-		return array( self::CFORM_NEW => $this->initCreateForm($a_new_type)
-					);
+		return array( self::CFORM_NEW => $this->initCreateForm($a_new_type));
 	}
 
 
@@ -257,10 +292,15 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	 * Method for implementing async windows-output
 	 * Should be moved into core to enable async requests on creation-form
 	 *
-	 * @return array
+	 * @return ilAsyncPropertyFormGUI
 	 */
-	public function getCreationForm() {
-		return $this->initCreateForm('prg');
+	public function getAsyncCreationForm() {
+		$asyncForm = new ilAsyncPropertyFormGUI();
+
+		$asyncForm->cloneForm($this->initCreationForms('prg')[self::CFORM_NEW]);
+		$asyncForm->setAsync(true);
+
+		return $asyncForm;
 	}
 	
 	////////////////////////////////////
@@ -325,12 +365,24 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 			case self::TAB_VIEW_CONTENT:
 			case self::SUBTAB_VIEW_TREE:
 			case 'view':
+				if($this->checkAccess("read")) {
+					$this->tabs_gui->addSubTab(self::TAB_VIEW_CONTENT, $this->lng->txt("view"), $this->getLinkTarget("view"));
+				}
+
 				if($this->checkAccess("write")) {
-					$this->tabs_gui->addSubTab(self::SUBTAB_VIEW_TREE, $this->lng->txt("prg_view_tree"), $this->getLinkTarget(self::SUBTAB_VIEW_TREE));
+					$this->tabs_gui->addSubTab(self::SUBTAB_VIEW_TREE, $this->lng->txt("cntr_manage"), $this->getLinkTarget(self::SUBTAB_VIEW_TREE));
 				}
 				break;
 		}
 
+	}
+
+
+	/**
+	 * Disable default content subtabs
+	 */
+	public function setContentSubTabs() {
+		return;
 	}
 	
 	protected function getLinkTarget($a_cmd) {
