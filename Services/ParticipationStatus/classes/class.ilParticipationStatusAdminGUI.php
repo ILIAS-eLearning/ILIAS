@@ -367,28 +367,18 @@ class ilParticipationStatusAdminGUI
 				
 				$ilToolbar->addFormButton($lng->txt("upload"), "uploadAttendanceList");
 
-				// gev-patch start
-				//$ilToolbar->addSeparator();
-				// gev-patch end
+				$ilToolbar->addSeparator();
 			}
 			if($this->getParticipationStatus()->getAttendanceList())
 			{
 				if($may_write)
 				{
-					// gev-patch start
-					$ilToolbar->addSeparator();
-					// gev-patch end
 					$ilToolbar->addButton($lng->txt("delete"), 
 						$ilCtrl->getLinkTarget($this, "deleteAttendanceList"));
 
-					// gev-patch start
-					//$ilToolbar->addSeparator();
-					// gev-patch end
+					$ilToolbar->addSeparator();
 				}
 				
-				// gev-patch start
-				$ilToolbar->addSeparator();
-				// gev-patch end
 				$ilToolbar->addButton($lng->txt("ptst_admin_view_attendance_list"),
 					$ilCtrl->getLinkTarget($this, "viewAttendanceList"));
 			}
@@ -398,11 +388,25 @@ class ilParticipationStatusAdminGUI
 			}
 		}
 
+		if ($helper->getCourseNeedsAttendanceList() && $helper->getCourseNeedsInvitationMailConfirmation()) {
+			$ilToolbar->addSeparator();
+		}
+
 		// gev-patch start
 		if ($helper->getCourseNeedsInvitationMailConfirmation()) {
-			if ($may_write) {
-				$ilToolbar->addSeparator();
-			}
+			require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+			require_once("Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php");
+			require_once("Services/Form/classes/class.ilDateTimeInputGUI.php");
+			require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
+			$dt_inp = new ilDateTimeInputGUI("", "mail_send_at");
+			$dt_inp->setDisabled(!$may_write);
+			$ilToolbar->addText($lng->txt("gev_psstatus_mail_date_title"));
+			$ilToolbar->addInputItem($dt_inp);
+				
+			$confirm = new ilCheckboxInputGUI("", "mail_send_confirm");
+			$confirm->setDisabled(!$may_write);
+			$ilToolbar->addText($lng->txt("gev_psstatus_mail_confirm_title"));
+			$ilToolbar->addInputItem($confirm);
 		}
 		// gev-patch end
 		

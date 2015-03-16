@@ -194,7 +194,6 @@ class ilParticipationStatusHelper
 	 * @return boolean
 	 */
 	public function getCourseNeedsInvitationMailConfirmation() {
-		return false;
 		return $this->utils->isDecentralTraining();
 	}
 	// gev-patch end
