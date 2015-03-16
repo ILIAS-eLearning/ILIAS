@@ -7,13 +7,12 @@ require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
  * @version 1.0.0
  */
 class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
+	protected static $js_path = "./Modules/TrainingProgramme/templates/js/";
+	protected static $default_from_name = "async_form";
+	protected static $js_on_load_added = array();
+
 	protected $has_errors = false;
-
-	public static $js_path = "./Modules/TrainingProgramme/templates/js/";
-	public static $default_name = "async_form";
-	public static $on_load_set = false;
-
-	public $is_async = true;
+	protected $is_async = true;
 
 	public function __construct(array $config = array(), $is_async = true) {
 		parent::__construct();
@@ -26,28 +25,38 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
 		}
 
 		$this->setAsync($is_async);
-		$this->setName(self::$default_name);
-
-		self::initJs($this->getJsPath());
+		$this->setName(self::$default_from_name);
 	}
 
-	public static function initJs($add_on_load = false, $js_base_path = null) {
-		global $tpl, $ilCtrl;
+
+	/**
+	 * Adds all needed js
+	 * By default is called by ilAsyncPropertyFormGUI::getHTML()
+	 *
+	 * @param bool $add_form_loader
+	 * @param null $js_base_path
+	 */
+	public static function initJs($add_form_loader = false, $js_base_path = null) {
+		global $tpl;
 
 		$js_path = (isset($js_base_path))? $js_base_path : self::$js_path;
 
 		$tpl->addJavaScript($js_path.'ilAsyncPropertyFormGUI.js');
-		$tpl->addOnLoadCode("$.ilAsyncPropertyForm.global_config.error_message_template = '".self::getErrorMessageTemplate()."';");
 
-		if($add_on_load && !self::$on_load_set) {
-			$tpl->addOnLoadCode('$("body").ilAsyncPropertyForm();');
-			self::$on_load_set = true;
+		$global_config = "$.ilAsyncPropertyForm.global_config.error_message_template = '".self::getErrorMessageTemplate()."'; $.ilAsyncPropertyForm.global_config.async_form_name = '".self::$default_from_name."';";
+		self::addOnLoadCode('global_config', $global_config);
+
+		if($add_form_loader) {
+			self::addOnLoadCode('form_loader', '$("body").ilAsyncPropertyForm();');
 		}
-
-		//$tpl->addOnLoadCode('$("form[name=\''.self::$default_name.'\']").ilAsyncPropertyForm();');
-		//var_dump(self::getErrorMessageTemplate());
 	}
 
+
+	/**
+	 * Saves the change input result into a property
+	 *
+	 * @return bool
+	 */
 	public function checkInput() {
 		$result = parent::checkInput();
 		$this->has_errors = $result;
@@ -55,10 +64,11 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
 		return $result;
 	}
 
-	public function getName() {
-		return parent::getName();
-	}
-
+	/**
+	 * Return errors of the form as array
+	 *
+	 * @return array array with field id and error message: array([]=>array('key'=>fieldId, 'message'=>error-message))
+	 */
 	public function getErrors() {
 		if(!$this->check_input_called) {
 			$this->checkInput();
@@ -74,12 +84,20 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
 	}
 
 	/**
+	 * Return if there were errors on the last checkInput call
+	 *
 	 * @return boolean
 	 */
 	public function hasErrors() {
 		return $this->has_errors;
 	}
 
+
+	/**
+	 * Returns the error-message template for the client-side validation
+	 *
+	 * @return string
+	 */
 	public function getErrorMessageTemplate() {
 		global $lng;
 
@@ -95,6 +113,69 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
 		return $content;
 	}
 
+	/**
+	 * Copies form items, buttons and properties from another form
+	 *
+	 * @param ilPropertyFormGUI $form_to_clone
+	 *
+	 * @return $this
+	 * @throws ilException
+	 */
+	public function cloneForm(ilPropertyFormGUI $form_to_clone) {
+		if(count($this->getItems()) > 0) {
+			throw new ilException("You cannot clone into a already filled form!");
+		}
+
+		$reflect = new ReflectionClass($this);
+		$properties = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
+
+		foreach($properties as $property) {
+			$this->{$property->getName()} = $property->getValue($form_to_clone);
+		}
+
+		foreach($form_to_clone->getItems() as $item) {
+			$this->addItem($item);
+		}
+
+		foreach($form_to_clone->getCommandButtons() as $button) {
+			$this->addCommandButton($button['cmd'], $button['text']);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Adds onload code to the template
+	 *
+	 * @param $id
+	 * @param $content
+	 */
+	protected function addOnLoadCode($id, $content) {
+		global $tpl;
+
+		if(!isset(self::$js_on_load_added[$id])) {
+			$tpl->addOnLoadCode($content);
+			self::$js_on_load_added[$id] = $content;
+		}
+	}
+
+	/**
+	 * Returns the rendered form content
+	 *
+	 * @return string
+	 */
+	public function getHTML() {
+		self::initJs($this->isAsync());
+
+		return parent::getHTML();
+	}
+
+	/**
+	 * Checks if the form was submitted
+	 *
+	 * @return bool
+	 */
 	public function isSubmitted() {
 		if(isset($_POST['cmd'])) {
 			return true;
@@ -102,7 +183,14 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
 		return false;
 	}
 
-	function setFormAction($a_formaction) {
+
+	/**
+	 * Sets the form action
+	 * If the form is set to async, the cmdMode=asynch is added to the url
+	 *
+	 * @param string $a_formaction
+	 */
+	public function setFormAction($a_formaction) {
 		if($this->isAsync()) {
 			$a_formaction .= "&cmdMode=asynch";
 		}
@@ -127,8 +215,8 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
 	/**
 	 * @return mixed
 	 */
-	public function getDefaultClass() {
-		return $this->default_class;
+	public function getDefaultFormName() {
+		return self::$default_from_name;
 	}
 
 	/**
@@ -148,43 +236,11 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
 
 
 	/**
-	 * @param mixed $default_class
+	 * @param string $a_name
 	 */
-	public function setDefaultClass($default_class) {
-		$this->default_class = $default_class;
-	}
+	public function setName($a_name) {
+		self::$default_from_name = $a_name;
 
-	public function cloneForm(ilPropertyFormGUI $form_to_clone) {
-		if(count($this->getItems()) > 0) {
-			throw new ilException("You cannot clone into a already filled form!");
-		}
-
-		$reflect = new ReflectionClass($this);
-		$properties = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
-
-		foreach($properties as $property) {
-			$this->{$property->getName()} = $property->getValue($form_to_clone);
-		}
-
-		foreach($form_to_clone->getItems() as $item) {
-			$this->addItem($item);
-		}
-
-		foreach($form_to_clone->getCommandButtons() as $button) {
-			$this->addCommandButton($button['cmd'], $button['text']);
-		}
-
-		return $this;
-	}
-
-	public function getHTML() {
-		global $tpl;
-
-		if($this->isAsync() && !self::$on_load_set) {
-			$tpl->addOnLoadCode('$("body").ilAsyncPropertyForm();');
-			self::$on_load_set = true;
-		}
-
-		return parent::getHTML();
+		parent::setName($a_name);
 	}
 }

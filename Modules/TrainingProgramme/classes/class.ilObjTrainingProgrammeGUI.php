@@ -255,8 +255,9 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	protected function afterSave(ilObject $a_new_object)
 	{
 		// set default sort to manual
-		$settings = new ilContainerSortingSettings($a_new_object->getRefId());
+		$settings = new ilContainerSortingSettings($a_new_object->getId());
 		$settings->setSortMode(ilContainer::SORT_MANUAL);
+		$settings->setSortDirection(ilContainer::SORT_DIRECTION_DESC);
 		$settings->setSortNewItemsOrder(ilContainer::SORT_NEW_ITEMS_ORDER_CREATION);
 		$settings->setSortNewItemsPosition(ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM);
 		$settings->save();

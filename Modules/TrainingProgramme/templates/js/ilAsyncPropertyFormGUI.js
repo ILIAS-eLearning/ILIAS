@@ -2,6 +2,7 @@
 	$.ilAsyncPropertyForm = {
 		global_config: {
 			error_message_template: null,
+			async_form_name: 'async_form',
 			alert_class: "alert"
 		}
 	},
@@ -9,18 +10,15 @@
 		ilAsyncPropertyForm: function (options) {
 
 			var settings = $.extend({
-				alert_class: "alert"
 			}, options);
 
 			var element = this;
 
 			var setup_async_form = function() {
-				$(element).find(":submit").each(function () {
-					console.log("found submit!");
-					console.log(this);
+				$(element).find("form[name='" + $.ilAsyncPropertyForm.global_config.async_form_name + "'] :submit").each(function () {
+
 					$(this).on("click", function(e){
 						e.preventDefault();
-						console.log("click item!");
 
 						var form = $(this).closest('form');
 
@@ -28,7 +26,6 @@
 						formData.push({ name: $(this).attr('name'), value: $(this).val() });
 
 						var actionurl = form.attr('action');
-						console.log(actionurl);
 
 						// TODO: find better way to determine is its a save command
 						var is_save_cmd = function(cmd) {
@@ -47,7 +44,6 @@
 
 										// start other ajax request if saving failed for display data
 										if(is_save_cmd(response.cmd) != -1 && response.success == false && jQuery.isArray(response.errors)) {
-											console.log("error!");
 											form.find('div.' + $.ilAsyncPropertyForm.global_config.alert_class).remove();
 											for(var i = 0; i < response.errors.length; i++) {
 												var message = $.ilAsyncPropertyForm.global_config.error_message_template.replace('[TXT_ALERT]', response.errors[i].message);
@@ -69,6 +65,7 @@
 
 							}
 						});
+						return false;
 					});
 				});
 			}

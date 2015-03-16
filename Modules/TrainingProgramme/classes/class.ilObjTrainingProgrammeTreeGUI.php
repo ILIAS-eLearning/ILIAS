@@ -209,7 +209,7 @@ class ilObjTrainingProgrammeTreeGUI {
 		$settings_modal->setType(ilModalGUI::TYPE_LARGE);
 
 		$this->ctrl->clearParameters($this);
-		$this->tpl->addOnLoadCode('$("#'.$this->modal_id.'").training_programme_modal({creation_form: "'.$this->ctrl->getLinkTarget($this, 'getCreationForm', '', true).'"});');
+		$this->tpl->addOnLoadCode('$("#'.$this->modal_id.'").training_programme_modal();');
 
 		return $settings_modal->getHTML();
 	}

@@ -288,11 +288,9 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 		$this->tpl->addJavascript($this->js_training_programme_path);
 		$this->tpl->addCss($this->css_training_programme_path);
 
-		$output = parent::getHTML();
-
 		$this->tpl->addOnLoadCode('$("#'.$this->getContainerId().'").training_programme_tree('.');');
 
-		return $output;
+		return parent::getHTML();
 	}
 
 
