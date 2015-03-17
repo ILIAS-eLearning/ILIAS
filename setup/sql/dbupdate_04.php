@@ -5838,6 +5838,6 @@ if(!$ilDB->uniqueConstraintExists('usr_data', array('login')))
 		exit();
 	}
 
-	$ilDB->addUniqueConstraint('usr_data', array('login'));
+	$ilDB->addUniqueConstraint('usr_data', array('login'), 'uc1');
 }
 ?>
