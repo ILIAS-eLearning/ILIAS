@@ -5790,3 +5790,12 @@ if($lp_type_id)
 }	
 
 ?>
+<#4475>
+<?php
+
+if($ilDB->tableColumnExists('obj_stat', 'tstamp'))
+{
+	$ilDB->dropTableColumn('obj_stat', 'tstamp');
+}
+
+?>

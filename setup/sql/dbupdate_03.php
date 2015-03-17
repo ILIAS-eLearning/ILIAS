@@ -8606,6 +8606,7 @@ if(!$ilDB->tableExists('note_settings'))
 ?>
 <#3514>
 <?php
+	/* #15615 - obsolete
 	if(!$ilDB->tableColumnExists("obj_stat", "tstamp"))
 	{
 		// table must be empty to add not null column
@@ -8617,7 +8618,8 @@ if(!$ilDB->tableExists('note_settings'))
 			"length" => 4));
 			
 		$ilDB->addIndex("obj_stat", array("tstamp", "obj_id"), "i2");
-	}
+	}	 
+	*/
 ?>
 <#3515>
 <?php	
