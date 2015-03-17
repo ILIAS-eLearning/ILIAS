@@ -281,6 +281,12 @@ class ilErrorHandling extends PEAR
 	 */
 	public function handleRuntimeErrors($a_error_code, $a_error_message, $a_error_file, $a_error_line)
 	{
+		// #15641 - the silence operator should suppress the error completely
+		if(error_reporting() === 0)
+		{
+			return;
+		}
+		
 		$backtrace_array = $this->formatBacktraceArray(debug_backtrace());
 		$error_code      = $this->translateErrorCode($a_error_code);
 
