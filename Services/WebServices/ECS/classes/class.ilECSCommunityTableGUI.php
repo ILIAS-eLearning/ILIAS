@@ -50,7 +50,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 	 */
 	public function __construct(ilECSSetting $set,$a_parent_obj,$a_parent_cmd,$cid)
 	{
-	 	global $lng,$ilCtrl;
+	 	global $lng,$ilCtrl, $ilAccess;
 	 	
 	 	$this->lng = $lng;
 	 	$this->ctrl = $ilCtrl;
@@ -64,7 +64,12 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('ecs_tbl_export'),'export','5%');
 		$this->addColumn($this->lng->txt('ecs_tbl_import'),'import','5%');
 		$this->addColumn($this->lng->txt('ecs_tbl_import_type'), 'type','10%');
-		$this->addColumn('', 'actions','10%');
+
+		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{
+			$this->addColumn('', 'actions','10%');
+		}
+
 		$this->disable('form');	 	
 		$this->setRowTemplate("tpl.participant_row.html","Services/WebServices/ECS");
 		$this->setDefaultOrderField('participants');
@@ -92,7 +97,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilAccess;
 
 		$this->tpl->setVariable('S_ID', $this->getServer()->getServerId());
 		$this->tpl->setVariable('M_ID', $a_set['mid']);
@@ -206,7 +211,14 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 				);
 				break;
 		}
-		$this->tpl->setVariable('ACTIONS',$list->getHTML());
+
+		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{
+			$this->tpl->setCurrentBlock("actions");
+			$this->tpl->setVariable('ACTIONS',$list->getHTML());
+			$this->tpl->parseCurrentBlock();
+		}
+
 	}
 	
 	/**
