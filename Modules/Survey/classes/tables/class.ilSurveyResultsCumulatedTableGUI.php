@@ -119,6 +119,11 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 		);
 		return $cols;
 	}
+	
+	public function numericOrdering($a_field) 
+	{
+		return !in_array($a_field, array("question", "question_type"));
+	}
 
 	/**
 	 * fill row 
