@@ -5799,3 +5799,45 @@ if($ilDB->tableColumnExists('obj_stat', 'tstamp'))
 }
 
 ?>
+<#4476>
+<?php
+if(!$ilDB->uniqueConstraintExists('usr_data', array('login')))
+{
+	$res = $ilDB->query("
+		SELECT COUNT(*) cnt
+		FROM (
+			SELECT login
+			FROM usr_data
+			GROUP BY login
+			HAVING COUNT(*) > 1
+		) duplicatelogins
+	");
+	$data = $ilDB->fetchAssoc($res);
+	if($data['cnt'] > 0)
+	{
+		echo "<pre>
+				Dear Administrator,
+
+				PLEASE READ THE FOLLOWING INSTRUCTIONS
+
+				The update process has been stopped due to data inconsistency reasons.
+				We found multiple ILIAS user accounts with the same login. You have to fix this issue manually.
+
+				Database table: usr_data
+				Field: login
+
+				You can determine these accounts by executing the following SQL statement:
+				SELECT * FROM usr_data WHERE login IN(SELECT login FROM usr_data GROUP BY login HAVING COUNT(*) > 1)
+
+				Please manipulate the affected records by choosing different login names.
+				If you try to rerun the update process, this warning will apear again if the issue is still not solved.
+
+				Best regards,
+				The ILIAS developers
+			</pre>";
+		exit();
+	}
+
+	$ilDB->addUniqueConstraint('usr_data', array('login'));
+}
+?>
