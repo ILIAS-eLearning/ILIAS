@@ -28,7 +28,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 	 */
 	public function init()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilAccess;
 
 		$this->addColumn('','f','1px');
 		$lng->loadLanguageModule('search');
@@ -39,9 +39,14 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 
 		$this->setTitle($this->lng->txt('didactic_available_templates'));
 
-		$this->addMultiCommand('activateTemplates', $this->lng->txt('activate'));
-		$this->addMultiCommand('deactivateTemplates', $this->lng->txt('deactivate'));
-		$this->addMultiCommand('confirmDelete',$this->lng->txt('delete'));
+		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{
+			$this->addMultiCommand('activateTemplates', $this->lng->txt('activate'));
+			$this->addMultiCommand('deactivateTemplates', $this->lng->txt('deactivate'));
+			$this->addMultiCommand('confirmDelete',$this->lng->txt('delete'));
+
+			$this->setSelectAllCheckbox('tpls');
+		}
 
 
 
@@ -49,7 +54,6 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField('title');
 		$this->setDefaultOrderDirection('asc');
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
-		$this->setSelectAllCheckbox('tpls');
 	}
 
 	/**
@@ -84,10 +88,15 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($set)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilAccess;
 
 		// @TODO: Check for system template and hide checkbox
-		$this->tpl->setVariable('VAL_ID',$set['id']);
+
+		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{
+			$this->tpl->setVariable('VAL_ID',$set['id']);
+		}
+
 		$this->tpl->setVariable('VAL_TITLE', $set['title']);
 		$this->tpl->setVariable('VAL_DESC', $set['description']);
 
@@ -128,24 +137,26 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 			$set['id']
 		);
 
-		// Edit
-		$this->tpl->setCurrentBlock('action_link');
-		$this->tpl->setVariable(
-			'A_LINK',
-			$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'editTemplate')
-		);
-		$this->tpl->setVariable('A_TEXT',$this->lng->txt('edit'));
-		$this->tpl->parseCurrentBlock();
+		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{
+			// Edit
+			$this->tpl->setCurrentBlock('action_link');
+			$this->tpl->setVariable(
+				'A_LINK',
+				$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'editTemplate')
+			);
+			$this->tpl->setVariable('A_TEXT',$this->lng->txt('edit'));
+			$this->tpl->parseCurrentBlock();
 
-		// Copy
-		$this->tpl->setCurrentBlock('action_link');
-		$this->tpl->setVariable(
-			'A_LINK',
-			$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'copyTemplate')
-		);
-		$this->tpl->setVariable('A_TEXT', $this->lng->txt('copy'));
-		$this->tpl->parseCurrentBlock();
-
+			// Copy
+			$this->tpl->setCurrentBlock('action_link');
+			$this->tpl->setVariable(
+				'A_LINK',
+				$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'copyTemplate')
+			);
+			$this->tpl->setVariable('A_TEXT', $this->lng->txt('copy'));
+			$this->tpl->parseCurrentBlock();
+		}
 		// Export
 		$this->tpl->setCurrentBlock('action_link');
 		$this->tpl->setVariable(
