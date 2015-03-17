@@ -27,12 +27,18 @@ class ilECSServerTableGUI extends ilTable2GUI
 	 */
 	public function initTable()
 	{
+		global $ilAccess;
 		$this->setTitle($this->lng->txt('ecs_available_ecs'));
 		$this->setRowTemplate('tpl.ecs_server_row.html','Services/WebServices/ECS');
 
 		$this->addColumn($this->lng->txt('ecs_tbl_active'), '','1%');
 		$this->addColumn($this->lng->txt('title'), '','80%');
-		$this->addColumn($this->lng->txt('actions'), '', '19%');
+
+		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{
+			$this->addColumn($this->lng->txt('actions'), '', '19%');
+		}
+
 	}
 
 	/**
@@ -42,7 +48,7 @@ class ilECSServerTableGUI extends ilTable2GUI
 	 */
 	public function  fillRow($set)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilAccess;
 
 		$ilCtrl->setParameter($this->getParentObject(),'server_id',$set['server_id']);
 		$ilCtrl->setParameterByClass('ilecsmappingsettingsgui','server_id',$set['server_id']);
@@ -93,28 +99,33 @@ class ilECSServerTableGUI extends ilTable2GUI
 			}
 		}
 
-		// Actions
-		include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
-		$list = new ilAdvancedSelectionListGUI();
-		$list->setSelectionHeaderClass('small');
-		$list->setItemLinkClass('small');
-		$list->setId('actl_'.$set['server_id']);
-		$list->setListTitle($this->lng->txt('actions'));
-
-		if(ilECSSetting::getInstanceByServerId($set['server_id'])->isEnabled())
+		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
 		{
-			$list->addItem($this->lng->txt('ecs_deactivate'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'deactivate'));
-		}
-		else
-		{
-			$list->addItem($this->lng->txt('ecs_activate'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'activate'));
-		}
+			// Actions
+			include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+			$list = new ilAdvancedSelectionListGUI();
+			$list->setSelectionHeaderClass('small');
+			$list->setItemLinkClass('small');
+			$list->setId('actl_'.$set['server_id']);
+			$list->setListTitle($this->lng->txt('actions'));
 
-		$list->addItem($this->lng->txt('edit'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'edit'));
-		$list->addItem($this->lng->txt('copy'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'cp'));
-		$list->addItem($this->lng->txt('delete'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'delete'));
-		$this->tpl->setVariable('ACTIONS',$list->getHTML());
-		
+			if(ilECSSetting::getInstanceByServerId($set['server_id'])->isEnabled())
+			{
+				$list->addItem($this->lng->txt('ecs_deactivate'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'deactivate'));
+			}
+			else
+			{
+				$list->addItem($this->lng->txt('ecs_activate'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'activate'));
+			}
+
+			$list->addItem($this->lng->txt('edit'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'edit'));
+			$list->addItem($this->lng->txt('copy'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'cp'));
+			$list->addItem($this->lng->txt('delete'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'delete'));
+
+			$this->tpl->setCurrentBlock("actions");
+			$this->tpl->setVariable('ACTIONS',$list->getHTML());
+			$this->tpl->parseCurrentBlock();
+		}
 		$ilCtrl->clearParameters($this->getParentObject());
 	}
 

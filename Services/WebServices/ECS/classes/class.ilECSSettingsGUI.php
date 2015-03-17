@@ -113,15 +113,18 @@ class ilECSSettingsGUI
 	 */
 	public function overview()
 	{
-		global $ilToolbar,$ilTabs;
+		global $ilToolbar,$ilTabs, $ilAccess;
 
 		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
 
 		$ilTabs->setSubTabActive('overview');
-		$ilToolbar->addButton(
-			$this->lng->txt('ecs_add_new_ecs'),
-			$this->ctrl->getLinkTarget($this,'create')
-		);
+		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{
+			$ilToolbar->addButton(
+				$this->lng->txt('ecs_add_new_ecs'),
+				$this->ctrl->getLinkTarget($this,'create')
+			);
+		}
 
 		$servers = ilECSServerSettings::getInstance();
 		$servers->readInactiveServers();
