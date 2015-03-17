@@ -1074,4 +1074,7 @@ gev#:#gev_cancel_training_action#:#Absagen
 gev#:#gev_training_cancelled#:#Das Training wurde erfolgreich abgesagt. Bitte denken Sie daran, verbleibende Mitglieder des Trainings, die nicht automatisch entfernt werden konnten, eventuell zu benachrichten und vom Training zu entfernen.
 gev#:#gev_needs_wbd_acceptance#:#Sie müssen die Einwilligung zur Eintragung von Weiterbildungspunkten und -maßnahmen in die WBD erteilen, um fortfahren zu können.
 gev#:#gev_company_name#:#Firmenname
-gev#:#gev_psstatus_mail_date_title#:#Die Einladung zum Seminar wurde verschickt am: 
+gev#:#gev_pstatus_mail_date_title#:#Die Einladung zum Seminar wurde verschickt am: 
+gev#:#gev_pstatus_mail_confirm_title#:#Einladungsmail ist versandt:
+gev#:#gev_psstatus_mail_send_date_error#:#Bitte bestätigen Sie den Versandt der Einladungsmail!
+gev#:#gev_psstatus_mail_send_date_success#:#Das Versandtdatum der Einladungsmail wurde gespeichert.

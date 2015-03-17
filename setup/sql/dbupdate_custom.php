@@ -3421,3 +3421,17 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 	gevSettings::getInstance()->set(gevSettings::AGENT_OFFER_USER_ID, $user->getId());
 ?>
+
+<#108>
+<?php
+
+	// Create DB-field for #1041
+	if (!$ilDB->tableColumnExists("crs_pstatus_crs", "mail_send_date")) {
+		$ilDB->addTableColumn('crs_pstatus_crs', 'mail_send_date', 
+			array(
+				'type' => 'date', 
+				'notnull' => false
+			));
+	}
+
+?>

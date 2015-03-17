@@ -335,7 +335,9 @@ class ilParticipationStatusAdminGUI
 			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 			$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
 
-			if ($crs_utils->isDecentralTraining() && ($crs_utils->getMinParticipants() > count($crs_utils->getParticipants()))) {
+			if ($crs_utils->isDecentralTraining() 
+			&& ($crs_utils->getMinParticipants() > count($crs_utils->getParticipants()))
+			) {
 				$may_finalize = false;
 			}
 			else {
@@ -398,15 +400,28 @@ class ilParticipationStatusAdminGUI
 			require_once("Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php");
 			require_once("Services/Form/classes/class.ilDateTimeInputGUI.php");
 			require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
+			
+			$mail_send_date = $this->getParticipationStatus()->getMailSendDate();
+			
 			$dt_inp = new ilDateTimeInputGUI("", "mail_send_at");
 			$dt_inp->setDisabled(!$may_write);
-			$ilToolbar->addText($lng->txt("gev_psstatus_mail_date_title"));
+			if ($mail_send_date) {
+				$dt_inp->setDate(new ilDate($mail_send_date,IL_CAL_DATE));
+			}
+			$ilToolbar->addText($lng->txt("gev_pstatus_mail_date_title"));
 			$ilToolbar->addInputItem($dt_inp);
+			
+			$ilToolbar->addSeparator();
 				
 			$confirm = new ilCheckboxInputGUI("", "mail_send_confirm");
 			$confirm->setDisabled(!$may_write);
-			$ilToolbar->addText($lng->txt("gev_psstatus_mail_confirm_title"));
+			$confirm->setChecked($mail_send_date);
+			$ilToolbar->addText($lng->txt("gev_pstatus_mail_confirm_title"));
 			$ilToolbar->addInputItem($confirm);
+			
+			if ($may_write) {
+				$ilToolbar->addFormButton($lng->txt("save"), "saveSendMailDate");
+			}
 		}
 		// gev-patch end
 		
@@ -656,5 +671,21 @@ class ilParticipationStatusAdminGUI
 		
 		$ilCtrl->redirect($this, "listStatus");
 	}	
+
+	// gev-patch start
+	protected function saveSendMailDate() {
+		global $lng;
+		
+		if (!array_key_exists("mail_send_confirm", $_POST) || !$this->mayWrite()) {
+			ilUtil::sendFailure($lng->txt("gev_psstatus_mail_send_date_error"), true);
+		}
+		else {
+			$d = $_POST["mail_send_at"]["date"];
+			$this->getParticipationStatus()->setMailSendDate($d["y"]."-".$d["m"]."-".$d["d"]);
+			ilUtil::sendSuccess($lng->txt("gev_psstatus_mail_send_date_success"), true);
+		}
+		$this->returnToList();
+	}
+	// gev-patch end
 }
 
