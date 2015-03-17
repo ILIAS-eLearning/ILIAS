@@ -206,6 +206,11 @@ class gevUserUtils {
 		$this->direct_superior_ous = null;
 		$this->superior_ous = null;
 		$this->superior_ou_names = null;
+		$this->edu_bio_ou_names = null;
+		$this->edu_bio_ou_ref_ids_empl = null;
+		$this->edu_bio_ou_ref_ids_all = null;
+		$this->edu_bio_ou_ref_ids = null;
+		$this->edu_bio_usr_ids = null;
 		$this->employees_active = null;
 		$this->employees_all = null;
 		$this->employees_for_course_search = null;
@@ -1775,6 +1780,59 @@ class gevUserUtils {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
 		return $tree->getOrgusWhereUserHasPermissionForOperation("cancel_employee_bookings_rcrsv");
+	}
+
+	public function getOrgUnitsWhereUserCanViewEduBios() {
+		if ($this->edu_bio_ou_ref_ids) {
+			return $this->edu_bio_ou_ref_ids;
+		}
+		
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
+		$d = $tree->getOrgusWhereUserHasPermissionForOperation("view_learning_progress");
+		$r = $tree->getOrgusWhereUserHasPermissionForOperation("view_learning_progress_rec");
+		$rs = array_map(function($v) { return $v["ref_id"]; }, gevOrgUnitUtils::getAllChildren($r));
+		$ous = array_unique(array_merge($d, $r, $rs));
+		
+		$this->edu_bio_ou_ref_ids_all = $rs;
+		$this->edu_bio_ou_ref_ids_empl = array_unique(array_merge($d, $r));
+		
+		$this->edu_bio_ou_ref_ids = $ous;
+		return $ous;
+	}
+
+	public function getOrgUnitNamesWhereUserCanViewEduBios() {
+		if ($this->edu_bio_ou_names !== null) {
+			return $this->edu_bio_ou_names;
+		}
+		
+		$ids = $this->getOrgUnitsWhereUserCanViewEduBios();
+		$res = $this->db->query( "SELECT title FROM object_data od "
+								."  JOIN object_reference oref ON od.obj_id = oref.obj_id"
+								." WHERE ".$this->db->in("oref.ref_id", $ids, false, "integer")
+								);
+		$this->edu_bio_ou_names = array();
+		while ($rec = $this->db->fetchAssoc($res)) {
+			$this->edu_bio_ou_names[] = $rec["title"];
+		}
+		
+		return $this->edu_bio_ou_names;
+	}
+	
+	public function getEmployeesWhereUserCanViewEduBios() {
+		if ($this->edu_bio_usr_ids 	!== null) {
+			return $this->edu_bio_ou_names;
+		}
+		
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$this->getOrgUnitsWhereUserUserCanViewEduBios();
+		$e = gevOrgUnitUtils::getEmployeesIn($this->edu_bio_ou_ref_ids_empl);
+		$a = gevOrgUnitUtils::getAllPeopleIn($this->edu_bio_ou_ref_ids_all);
+		
+		$this->edu_bio_usr_ids = array_unique(array_merge($e, $a));
+		
+		return $this->edu_bio_usr_ids;
 	}
 	
 	public function getEmployees($include_inactive = false) {
