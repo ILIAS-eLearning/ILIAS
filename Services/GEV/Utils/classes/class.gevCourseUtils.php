@@ -885,15 +885,19 @@ class gevCourseUtils {
 								."  FROM hist_course"
 								." WHERE crs_id = ".$this->db->quote($this->crs_id, "integer")
 								."   AND hist_historic = 1"
+								."   AND begin_date != '0000-00-00'"
+								."   AND end_date != '0000-00-00'"
 								." ORDER BY hist_version DESC"
 								." LIMIT 1"
 								);
 		
-		if ($rec = $this->db->fetchAssoc($res)) {
+		$start_date = $this->getStartDate();
+		$end_date = $this->getEndDate();
+		if (($rec = $this->db->fetchAssoc($res)) && $start_date && $end_date) {
 			$start_hist = $rec["begin_date"];
-			$start_cur = $this->getStartDate()->get(IL_CAL_DATE);
+			$start_cur = $start_date->get(IL_CAL_DATE);
 			$end_hist = $rec["end_date"];
-			$end_date = $this->getEndDate()->get(IL_CAL_DATE);
+			$end_date = $end_date->get(IL_CAL_DATE);
 			
 			if ($start_hist != $start_cur || $end_hist != $end_date) {
 				$offset_days = floor((strtotime($start_cur) - strtotime($start_hist)) / (60 * 60 * 24));
