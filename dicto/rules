@@ -1,5 +1,8 @@
 WholeIliasCodebase = PhpClass with name:"il*"
+GUIClasses = PhpClass with name:"il*GUI"
 triggerError = PhpClass with name:"trigger_error"
+ilLanguageGlobal = PhpClass with name:"GLOBAL\\lng"
+ilLanguage = PhpClass with name:"ilLanguage"
 exitOrDie = PhpClass with name:"exit/die"
 
 /**
@@ -21,3 +24,6 @@ WholeIliasCodebase cannot depend on triggerError
  * See: http://example.com/link-to-exception-handling-concept
  */
 WholeIliasCodebase cannot depend on exitOrDie
+
+only GUIClasses can depend on ilLanguageGlobal
+only GUIClasses can depend on ilLanguage
