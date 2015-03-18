@@ -15,3 +15,17 @@
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#2>
+<?php
+
+$query = "
+	UPDATE tst_rnd_quest_set_qpls SET pool_title = (
+		COALESCE(
+			(SELECT title FROM object_data WHERE obj_id = pool_fi), %s 
+		)
+	) WHERE pool_title IS NULL OR pool_title = %s
+";
+
+$ilDB->manipulateF($query, array('text', 'text'), array('*** unknown/deleted ***', ''));
+
+?>
