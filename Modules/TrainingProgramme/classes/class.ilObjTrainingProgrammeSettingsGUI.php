@@ -107,9 +107,9 @@ class ilObjTrainingProgrammeSettingsGUI {
 		return $form->getHTML();
 	}
 	
-	protected function cancel() {
+	/*protected function cancel() {
 		$this->ctrl->redirect($this->parent_gui);
-	}
+	}*/
 	
 	protected function update() {
 		$form = $this->buildForm();
