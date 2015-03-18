@@ -5841,3 +5841,17 @@ if(!$ilDB->uniqueConstraintExists('usr_data', array('login')))
 	$ilDB->addUniqueConstraint('usr_data', array('login'), 'uc1');
 }
 ?>
+<#4477>
+<?php
+
+$query = "
+	UPDATE tst_rnd_quest_set_qpls SET pool_title = (
+		COALESCE(
+			(SELECT title FROM object_data WHERE obj_id = pool_fi), %s 
+		)
+	) WHERE pool_title IS NULL OR pool_title = %s
+";
+
+$ilDB->manipulateF($query, array('text', 'text'), array('*** unknown/deleted ***', ''));
+
+?>
