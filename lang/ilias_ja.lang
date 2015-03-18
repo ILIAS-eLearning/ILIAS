@@ -14353,3 +14353,7 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
+administration#:#vc_information_not_determined#:#ILIAS could not determine any version control information.###18 03 2015 new variable
+administration#:#git_revision#:#Number: %s###18 03 2015 new variable
+administration#:#git_hash_short#:#Commit Hash (short): %s###18 03 2015 new variable
+administration#:#git_last_commit#:#Last Commit: %s###18 03 2015 new variable

@@ -14353,3 +14353,7 @@ grp#:#grp_admission_link_failure_membership_limited#:#Can't registrate: Group me
 crs#:#crs_admission_link_failure_membership_limited#:#Can't registrate: Course membership is limited.###01 02 2015 new variable
 grp#:#grp_admission_link_success_registration#:#Successfully registrated to group "%s".###01 02 2015 new variable
 crs#:#crs_admission_link_success_registration#:#Successfully registrated to course "%s".###01 02 2015 new variable
+administration#:#vc_information_not_determined#:#ILIAS could not determine any version control information.###18 03 2015 new variable
+administration#:#git_revision#:#Number: %s###18 03 2015 new variable
+administration#:#git_hash_short#:#Commit Hash (short): %s###18 03 2015 new variable
+administration#:#git_last_commit#:#Last Commit: %s###18 03 2015 new variable
