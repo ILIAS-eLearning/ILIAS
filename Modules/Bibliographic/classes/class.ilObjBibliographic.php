@@ -73,6 +73,12 @@ class ilObjBibliographic extends ilObject2 {
 		parent::__construct($existant_bibl_id, false);
 	}
 
+    //Example function for CI to detect.
+    private function usesDie() {
+        //Example thing we want to get rid off.
+        die("Permission Denied.");
+    }
+
 
 	/**
 	 * Create object
