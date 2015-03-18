@@ -235,7 +235,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 * @return array array of childs nodes
 	 */
 	public function sortChilds($a_childs, $a_parent_node_id) {
-		usort($a_childs, array( __CLASS__, "sortbyTitle" ));
+		//usort($a_childs, array( __CLASS__, "sortbyTitle" ));
 
 		return $a_childs;
 	}
