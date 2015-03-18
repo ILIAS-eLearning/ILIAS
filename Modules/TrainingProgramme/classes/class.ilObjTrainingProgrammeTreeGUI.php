@@ -5,6 +5,7 @@ require_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
 require_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 require_once("./Services/ContainerReference/classes/class.ilContainerSelectionExplorer.php");
 require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncPropertyFormGUI.php");
+require_once('./Services/Container/classes/class.ilContainerSorting.php');
 
 /**
  * Class ilTrainingProgrammeTreeGUI
@@ -87,6 +88,9 @@ class ilObjTrainingProgrammeTreeGUI {
 
 	protected function initTree() {
 		$this->tree = new ilObjTrainingProgrammeTreeExplorerGUI($this->ref_id, $this->modal_id, "prg_tree", $this, 'view');
+
+		$js_url = rawurldecode($this->ctrl->getLinkTarget($this, 'saveTreeOrder', '', true, false));
+		$this->tree->addJsConf('save_tree_url', $js_url);
 	}
 
 	public function executeCommand() {
@@ -108,6 +112,8 @@ class ilObjTrainingProgrammeTreeGUI {
 			case "save":
 			case "cancel":
 			case "getContainerSelectionExplorer":
+			case "saveTreeOrder":
+			case "createNewLeaf":
 				$content = $this->$cmd();
 				break;
 			default:
@@ -120,7 +126,7 @@ class ilObjTrainingProgrammeTreeGUI {
 
 	protected function view() {
 		ilAccordionGUI::addJavaScript();
-		ilAsyncPropertyFormGUI::initJs(true, './Modules/TrainingProgramme/templates/js/');
+		ilAsyncPropertyFormGUI::initJs(true);
 
 		$this->tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
 
@@ -130,16 +136,46 @@ class ilObjTrainingProgrammeTreeGUI {
 		return $output;
 	}
 
-	public function cancel() {
+	protected function cancel() {
 		return ilAsyncOutputHandler::encodeAsyncResponse();
 	}
 
-	public function save_tree_order() {
+	protected function saveTreeOrder() {
+		$this->checkAccess('write');
 
+		if(!isset($_POST['tree']) || is_null(json_decode($_POST['tree']))) {
+			throw new ilException("There is no tree data to save");
+		}
+
+		$sorting = ilContainerSorting::_getInstance(ilObject::_lookupObjectId($this->ref_id));
+		$this->storeTreeOrder(json_decode($_POST['tree']), $sorting);
+
+
+		return ilAsyncOutputHandler::encodeAsyncResponse(array('success'=>true));
 	}
 
-	public function create_new_ref() {
+	protected function storeTreeOrder($nodes, $container_sorting, $parent_ref_id = null) {
+		$sorting_position = array();
+		$position_count = 10;
+		$parent_node = ($parent_ref_id == null)? ilObjTrainingProgramme::getInstanceByRefId($this->ref_id) : ilObjTrainingProgramme::getInstanceByRefId($parent_ref_id);
+		foreach($nodes as $node) {
+			$id = $node->attr->id;
+			$id = substr($id, strrpos($id, "_")+1);
+			$sorting_position[$id] = $position_count;
+			$position_count+= 10;
 
+			$node_obj = ilObjTrainingProgramme::getInstanceByRefId($id);
+			$node_obj->moveTo($parent_node);
+
+			if(isset($node->children)) {
+				$this->storeTreeOrder($node->children, ilContainerSorting::_getInstance(ilObject::_lookupObjectId($id)), $id);
+			}
+		}
+		$container_sorting->savePost($sorting_position);
+	}
+
+	protected function createNewLeaf() {
+		//TODO: implement leaf creation
 	}
 
 	protected function getContainerSelectionExplorer($convert_to_string = true) {
@@ -208,7 +244,6 @@ class ilObjTrainingProgrammeTreeGUI {
 		$settings_modal->setId($this->modal_id);
 		$settings_modal->setType(ilModalGUI::TYPE_LARGE);
 
-		$this->ctrl->clearParameters($this);
 		$this->tpl->addOnLoadCode('$("#'.$this->modal_id.'").training_programme_modal();');
 
 		return $settings_modal->getHTML();
@@ -216,10 +251,14 @@ class ilObjTrainingProgrammeTreeGUI {
 
 	protected function getToolbar() {
 		$save_order_btn = ilLinkButton::getInstance();
-		$save_order_btn->setUrl('javascript: return false;');
+		$save_order_btn->setUrl("javascript: $('body').trigger('training_programme-save_order');");
 		$save_order_btn->setCaption($this->lng->txt('save_tree_order'));
 
 		$this->toolbar->addButtonInstance($save_order_btn);
+	}
+
+	protected function checkAccess($permission) {
+		return $this->access->checkAccess($permission, '', $this->ref_id);
 	}
 
 
