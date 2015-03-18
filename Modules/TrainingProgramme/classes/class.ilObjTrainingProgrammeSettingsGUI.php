@@ -6,6 +6,7 @@ require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
 require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncOutputHandler.php");
 require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncPropertyFormGUI.php");
+require_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
 
 /**
  * Class ilObjTrainingProgrammeSettingsGUI
@@ -52,6 +53,8 @@ class ilObjTrainingProgrammeSettingsGUI {
 
 	protected $parent_gui;
 
+	protected $tmp_heading;
+
 	public function __construct($a_parent_gui, $a_ref_id) {
 		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias;
 
@@ -95,13 +98,19 @@ class ilObjTrainingProgrammeSettingsGUI {
 			$this->tpl->setContent($content);
 		} else {
 			$output_handler = new ilAsyncOutputHandler();
-			$output_handler->setHeading($this->lng->txt("async_".$this->ctrl->getCmd()));
+			$heading = $this->lng->txt("prg_async_".$this->ctrl->getCmd());
+			if(isset($this->tmp_heading)) {
+				$heading = $this->tmp_heading;
+			}
+			$output_handler->setHeading($heading);
 			$output_handler->setContent($content);
 			$output_handler->terminate();
 		}
 	}
 	
 	protected function view() {
+		$this->buildModalHeading($this->lng->txt('prg_async_settings'));
+
 		$form = $this->buildForm();
 		$this->fillForm($form);
 		return $form->getHTML();
@@ -131,6 +140,16 @@ class ilObjTrainingProgrammeSettingsGUI {
 		ilAsyncOutputHandler::handleAsyncOutput(ilAsyncOutputHandler::encodeAsyncResponse());
 
 		$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
+	}
+
+	protected function buildModalHeading($label) {
+		$this->ctrl->saveParameterByClass('ilobjtrainingprogrammesettingsgui', 'ref_id');
+		$heading_button = ilLinkButton::getInstance();
+		$heading_button->setCaption($this->lng->txt('prg_open_node'));
+		$heading_button->setUrl($this->ctrl->getLinkTargetByClass('ilobjtrainingprogrammetreegui', 'view'));
+
+		$heading = "<div class=''>".$label."<div class='pull-right'>".$heading_button->render()."</div></div>";
+		$this->tmp_heading = $heading;
 	}
 	
 	const PROP_TITLE = "title";
