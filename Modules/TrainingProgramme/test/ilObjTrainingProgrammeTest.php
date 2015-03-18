@@ -173,9 +173,14 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	protected function createSmallTree() {
 		$first_node = ilObjTrainingProgramme::createInstance();
 		$second_node = ilObjTrainingProgramme::createInstance();
+		$third_node = ilObjTrainingProgramme::createInstance();
 
 		$this->root_object->addNode($first_node);
 		$this->root_object->addNode($second_node);
+		$this->root_object->addNode($third_node);
+
+		$third_first_node = ilObjTrainingProgramme::createInstance();
+		$third_node->addNode($third_first_node);
 	}
 
 	/**
@@ -185,7 +190,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testTreeCreation() {
 		$this->createSmallTree();
-		$this->assertEquals(2, $this->root_object->getAmountOfChildren());
+		$this->assertEquals(3, $this->root_object->getAmountOfChildren());
 	}
 
 	/**
@@ -198,13 +203,13 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$this->createSmallTree();
 		
 		$children = $this->root_object->getChildren();
-		$this->assertEquals(2, count($children), "getChildren()");
+		$this->assertEquals(3, count($children), "getChildren()");
 
 		$children = ilObjTrainingProgramme::getAllChildren($this->root_object_ref_id);
-		$this->assertEquals(2, count($children), "ilObjTrainingProgramme::getAllChildren(".$this->root_object_ref_id.")");
+		$this->assertEquals(4, count($children), "ilObjTrainingProgramme::getAllChildren(".$this->root_object_ref_id.")");
 
 		$this->assertTrue($this->root_object->hasChildren(), "hasChildren()");
-		$this->assertEquals(2, $this->root_object->getAmountOfChildren(), "getAmountOfChildren()");
+		$this->assertEquals(3, $this->root_object->getAmountOfChildren(), "getAmountOfChildren()");
 		
 		$this->assertFalse($children[0]->hasChildren(), "hasChildren()");
 		$this->assertEquals(0, $children[0]->getAmountOfChildren(), "getAmountOfChildren()");
@@ -287,19 +292,23 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		});
 		
 		// We didn't make modification on the points of the nodes.
-		$this->assertEquals($val, 3 * ilTrainingProgramme::DEFAULT_POINTS);
+		$this->assertEquals($val, 5 * ilTrainingProgramme::DEFAULT_POINTS);
 
 
 		$this->root_object->setPoints(1);
 		$children[0]->setPoints(2);
 		$children[1]->setPoints(4);
+		$children[2]->setPoints(1);
+
+		$third_level = $children[2]->getChildren();
+		$third_level[0]->setPoints(2);
 		
 		$val = 0;
 		$this->root_object->applyToSubTreeNodes(function($node) use (&$val) {
 			$val += $node->getPoints();
 		});
 		
-		$this->assertEquals($val, 7);
+		$this->assertEquals($val, 10);
 	}
 	
 	/**
@@ -346,7 +355,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		}
 		$this->assertTrue($raised, "Child does not raise on getParent after it is removed.");
 		
-		$this->assertEquals(1, $this->root_object->getAmountOfChildren());
+		$this->assertEquals(2, $this->root_object->getAmountOfChildren());
 		
 		// Can't be removed a second time...
 		$raised = false;
@@ -445,12 +454,31 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$children = $this->root_object->getChildren();
 		$child_l = $children[0];
 		$child_r = $children[1];
-		
+		$child_m = $children[2];
+
 		$child_r->moveTo($child_l);
+
 		$this->assertEquals(2, $child_r->getDepth());
 		$this->assertEquals($child_l->getId(), $child_r->getParent()->getId());
-		$this->assertEquals(1, $this->root_object->getAmountOfChildren());
+		$this->assertEquals(2, $this->root_object->getAmountOfChildren());
 		$this->assertEquals(1, $child_l->getAmountOfChildren());
+
+		// test recursive moving
+		$this->assertEquals(1, $child_m->getAmountOfChildren());
+
+		$child_m->moveTo($child_r);
+
+		$m_children = $child_m->getChildren();
+		$first_third_node = $m_children[0];
+
+		$this->assertEquals(3, $child_m->getDepth());
+		$this->assertEquals(1, $child_m->getAmountOfChildren());
+		$this->assertNotNull($first_third_node);
+		$this->assertEquals(4, $first_third_node->getDepth());
+		$this->assertEquals($child_m->getId(), $first_third_node->getParent()->getId());
+
+		$this->assertEquals(1, $this->root_object->getAmountOfChildren());
+		$this->assertEquals(3, count(ilObjTrainingProgramme::getAllChildren($child_l->getRefId())));
 	}
 	
 	/**
