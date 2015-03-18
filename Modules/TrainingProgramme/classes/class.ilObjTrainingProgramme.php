@@ -3,6 +3,7 @@
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("./Services/Container/classes/class.ilContainer.php");
+require_once('./Services/Container/classes/class.ilContainerSorting.php');
 require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgramme.php");
 require_once("./Modules/TrainingProgramme/classes/class.ilObjectFactoryWrapper.php");
 require_once("./Modules/TrainingProgramme/classes/interfaces/interface.ilTrainingProgrammeLeaf.php");
@@ -297,10 +298,16 @@ class ilObjTrainingProgramme extends ilContainer {
 		
 		if ($this->children === null) {
 			$ref_ids = $this->tree->getChildsByType($this->getRefId(), "prg");
+
+			// apply container sorting to tree
+			$sorting = ilContainerSorting::_getInstance($this->getId());
+			$ref_ids = $sorting->sortItems(array('prg'=>$ref_ids))['prg'];
+
 			$this->children = array_map(function($node_data) {
 				return self::getInstanceByRefId($node_data["child"]);
 			}, $ref_ids);
 		}
+
 		return $this->children;
 	} 
 
