@@ -621,20 +621,28 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function moveTo(ilObjTrainingProgramme $a_new_parent) {
+		global $rbacadmin;
+
 		if ($parent = $this->getParent()) {
-			$parent->removeNode($this);
-			// unset parent to load in on next getParent-call.
+
+			// TODO: check if there some leafs in the new parent
+
+			$this->tree->moveTree($this->getRefId(), $a_new_parent->getRefId());
+			// necessary to clean up permissions
+			$rbacadmin->adjustMovedObjectPermissions($this->getRefId(), $parent->getRefId());
+
+			// TODO: lp-progress needs to be updated
+
+			// clear caches on different nodes
 			$this->clearParentCache();
+
+			$parent->clearChildrenCache();
+			$parent->clearLPChildrenCache();
+
+			$a_new_parent->clearChildrenCache();
+			$a_new_parent->clearLPChildrenCache();
 		}
-		try {
-			$a_new_parent->addNode($this);
-		}
-		catch (ilTrainingProgrammeTreeException $e) {
-			if ($parent) {
-				$parent->addNode($this);
-			}
-			throw $e;
-		}
+
 		return $this;
 	}
 	
