@@ -51,6 +51,8 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 
 	protected $modal_id;
 
+	protected $js_conf;
+
 	/**
 	 * @param $a_expl_id
 	 * @param $a_parent_obj
@@ -70,6 +72,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 		$this->toolbar = $ilToolbar;
 		$this->ctrl = $ilCtrl;
 		$this->modal_id = $modal_id;
+		$this->js_conf = array();
 
 		$lng->loadLanguageModule("prg");
 
@@ -288,7 +291,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 		$this->tpl->addJavascript($this->js_training_programme_path);
 		$this->tpl->addCss($this->css_training_programme_path);
 
-		$this->tpl->addOnLoadCode('$("#'.$this->getContainerId().'").training_programme_tree('.');');
+		$this->tpl->addOnLoadCode('$("#'.$this->getContainerId().'").training_programme_tree('.json_encode($this->js_conf).');');
 
 		return parent::getHTML();
 	}
@@ -305,6 +308,23 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	protected function checkAccess($a_which, $a_ref_id) {
 		return $this->access->checkAccess($a_which, '', $a_ref_id);
 	}
+
+	/**
+	 *
+	 * @param array $js_conf
+	 */
+	public function addJsConf($key, $value) {
+		$this->js_conf[$key] = $value;
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function getJsConf($key) {
+		return $this->js_conf[$key];
+	}
+
 }
 
 ?>
