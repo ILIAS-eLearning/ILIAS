@@ -5,6 +5,7 @@
 require_once("Services/Table/classes/class.ilTable2GUI.php");
 require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
 require_once("Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeProgress.php");
+require_once("Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeAssignment.php");
 require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
 
 /**
@@ -15,16 +16,23 @@ require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php
  */
 
 class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
-	public function __construct($a_prg_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
+	protected $prg_obj_id;
+	protected $prg_ref_id;
+	
+	public function __construct($a_prg_obj_id, $a_prg_ref_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+
+		$this->prg_obj_id = $a_prg_obj_id;
+		$this->prg_ref_id = $a_prg_ref_id;
 
 		global $ilCtrl, $lng;
 
 		$this->setEnableTitle(true);
 		$this->setTopCommands(false);
 		$this->setEnableHeader(true);
-		$this->setExternalSorting(true);
-		$this->setExternalSegmentation(true);
+		// TODO: switch this to internal sorting/segmentation
+		$this->setExternalSorting(false);
+		$this->setExternalSegmentation(false);
 		$this->setRowTemplate("tpl.il_members_table_row.html", "Modules/TrainingProgramme");
 		
 		//$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
@@ -47,33 +55,78 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->determineLimit();
 		$this->determineOffsetAndOrder();
 
-		$members_list = ilTrainingProgrammeProgress
-							::innerjoin("usr_data", "usr_id", "usr_id")
-							->where(array
-							( "prg_id" => $a_prg_id
-							));
-		//print_r($members_list->getArray());
-		//die();
-
-		//$order = $this->getOrderField();
-		
-		$this->setMaxCount($members_list->count());
-		$this->setData($members_list->getArray());
+		$members_list = $this->fetchData($a_prg_obj_id);
+	
+		$this->setMaxCount(count($members_list));
+		$this->setData($members_list);
 	}
 
 	protected function fillRow($a_set) {
+		if ($a_set["status"] == ilTrainingProgrammeProgress::STATUS_COMPLETED) {
+			// If the status completed and there is a non-null completion_by field
+			// in the set, this means the completion was achieved by some leaf in
+			// the program tree.
+			if ($a_set["completion_by"]) {
+				$completion_by = $a_set["completion_by"];
+			}
+			// if that's not the case, the user completed underlying nodes and we
+			// need to no which...
+			else {
+				require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+				$prgrs = ilTrainingProgrammeUserProgress::getInstanceForAssignment( $this->prg_obj_id
+																				  , $a_set["assignment_id"]);
+				$completion_by = implode(", ", $prgrs->getNamesOfCompletedOrAccreditedChildren());
+			}
+		}
+		else if($a_set["status"] == ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+			$completion_by = $a_set["accredited_by"];
+		}
+		
 		$this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
 		$this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
 		$this->tpl->setVariable("LOGIN", $a_set["login"]);
 		$this->tpl->setVariable("STATUS", ilTrainingProgrammeUserProgress::statusToRepr($a_set["status"]));
-		$this->tpl->setVariable("COMPLETION_BY", "TODO");
+		$this->tpl->setVariable("COMPLETION_BY", $completion_by);
 		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points"]);
 		$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_cur"]);
 		$this->tpl->setVariable("CUSTOM_PLAN", $a_set["last_change_by"] 
 												? $this->lng>txt("yes")
 												: $this->lng->txt("no"));
-		$this->tpl->setVariable("BELONGS_TO", "TODO");
+		$this->tpl->setVariable("BELONGS_TO", $a_set["belongs_to"]);
 		$this->tpl->setVariable("ACTIONS", "TODO");
+	}
+
+	protected function fetchData($a_prg_id) {
+		global $ilDB;
+
+		// TODO: Reimplement this in terms of ActiveRecord when innerjoin
+		// supports the required rename functionality
+		$res = $ilDB->query("SELECT pcp.firstname"
+						   ."     , pcp.lastname"
+						   ."     , pcp.login"
+						   ."     , prgrs.points"
+						   ."     , prgrs.points_cur"
+						   ."     , prgrs.last_change_by"
+						   ."     , prgrs.status"
+						   ."     , blngs.title belongs_to"
+						   ."     , cmpl_usr.login accredited_by"
+						   ."     , cmpl_obj.title completion_by"
+						   ."     , prgrs.assignment_id assignment_id"
+						   ."  FROM ".ilTrainingProgrammeProgress::returnDbTableName()." prgrs"
+						   ."  JOIN usr_data pcp ON pcp.usr_id = prgrs.usr_id"
+						   ."  JOIN ".ilTrainingProgrammeAssignment::returnDbTableName()." ass"
+						   			 ." ON ass.id = prgrs.assignment_id"
+						   ."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
+						   ."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
+						   ."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by"
+						   ." WHERE prgrs.prg_id = ".$ilDB->quote($a_prg_id, "integer")
+						   );
+	
+		$members_list = array();
+		while($rec = $ilDB->fetchAssoc($res)) {
+			$members_list[] = $rec;
+		}
+		return $members_list;
 	}
 }
 

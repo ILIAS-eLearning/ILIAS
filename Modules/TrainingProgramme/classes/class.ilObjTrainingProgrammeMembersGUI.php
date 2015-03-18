@@ -117,7 +117,7 @@ class ilObjTrainingProgrammeMembersGUI {
 		$this->initSearchGUI();
 		
 		$prg_id = ilObject::_lookupObjId($this->ref_id);
-		$table = new ilTrainingProgrammeMembersTableGUI($prg_id, $this);
+		$table = new ilTrainingProgrammeMembersTableGUI($prg_id, $this->ref_id, $this);
 		return $table->getHTML();
 	}
 
