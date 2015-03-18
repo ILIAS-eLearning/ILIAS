@@ -12,6 +12,8 @@
 /nbproject
 /.idea
 /ilias.log
+*~
+db_template_writer.php
 
 # /Customizing/
 /Customizing/global
