@@ -504,6 +504,28 @@ class ilTrainingProgrammeUserProgress {
 			return $child->getProgressForAssignment($ass_id);
 		}, $prg->getChildren());
 	}
+	
+	/**
+	 * Get a list with the names of the children of this node that a were completed
+	 * or accredited for the given assignment.
+	 * 
+	 * @param int $a_assignment_id
+	 * @return string[]
+	 */ 
+	public function getNamesOfCompletedOrAccreditedChildren() {
+		$prg = $this->getTrainingProgramme();
+		$children = $prg->getChildren();
+		$ass_id = $this->progress->getAssignmentId();
+		$names = array();
+		foreach ($children as $child) {
+			$prgrs = $child->getProgressForAssignment($ass_id);
+			if (!$prgrs->isSuccessfull()) {
+				continue;
+			}
+			$names[] = $child->getTitle();
+		}
+		return $names;
+	}
 }
 
 ?>
