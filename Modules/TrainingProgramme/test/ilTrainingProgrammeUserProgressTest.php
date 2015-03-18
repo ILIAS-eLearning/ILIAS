@@ -419,7 +419,7 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 	 *
 	 * @expectedException ilException
 	 */
-	public function testOutdatedodesCantBeSetToRelevant() {
+	public function testOutdatedNodesCantBeSetToRelevant() {
 		$this->setAllNodesActive();
 		$this->node1->setStatus(ilTrainingProgramme::STATUS_OUTDATED);
 		$tmp = $this->assignNewUserToRoot();
@@ -475,5 +475,34 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$progress = $this->node1->getProgressForAssignment($ass1->getId());
 		$progress->markAccredited($this->user->getId());
 		$this->assertTrue($progress->hasIndividualModifications());
+	}
+	
+	public function testGetNamesOfCompletedOrAccreditedChildren() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+		
+		$user2 = $this->newUser();
+		$USER_ID = $user2->getId();
+		
+		$this->node1->setTitle("node1");
+		$this->node1->update();
+		$this->node2->setTitle("node2");
+		$this->node2->update();
+		
+		$names = $this->root->getProgressForAssignment($ass->getId())
+					->getNamesOfCompletedOrAccreditedChildren();
+		$this->assertEquals($names, array());
+		
+		$this->node1->getProgressForAssignment($ass->getId())->markAccredited($USER_ID);
+		$names = $this->root->getProgressForAssignment($ass->getId())
+					->getNamesOfCompletedOrAccreditedChildren();
+		$this->assertEquals($names, array("node1"));
+		
+		$this->node2->getProgressForAssignment($ass->getId())->markAccredited($USER_ID);
+		$names = $this->root->getProgressForAssignment($ass->getId())
+					->getNamesOfCompletedOrAccreditedChildren();
+		$this->assertEquals($names, array("node1", "node2"));
 	}
 }
