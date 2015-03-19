@@ -51,15 +51,23 @@ class ilObjTrainingProgrammeSettingsGUI {
 	 */
 	public $lng;
 
+	/**
+	 * @var ilObjTrainingProgrammeGUI
+	 */
 	protected $parent_gui;
 
+	/**
+	 * @var string
+	 */
 	protected $tmp_heading;
 
 	public function __construct($a_parent_gui, $a_ref_id) {
 		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias;
 
+		$this->parent_gui = $a_parent_gui;
 		$this->ref_id = $a_ref_id;
 		$this->parent_gui = $a_parent_gui;
+
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->ilAccess = $ilAccess;
@@ -139,7 +147,7 @@ class ilObjTrainingProgrammeSettingsGUI {
 	protected function cancel() {
 		ilAsyncOutputHandler::handleAsyncOutput(ilAsyncOutputHandler::encodeAsyncResponse());
 
-		$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
+		$this->ctrl->redirect($this->parent_gui);
 	}
 
 	protected function buildModalHeading($label) {
