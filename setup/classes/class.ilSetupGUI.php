@@ -899,7 +899,7 @@ echo "<br>+".$client_id;
 		$this->tpl->setVariable("TXT_PRE_INTRO", $this->lng->txt("pre_intro"));
 
 		$preliminaries = array("php", "root", "folder_create",
-			"cookies_enabled", "dom", "xsl", "gd", "memory");
+			"cookies_enabled", "dom", "xsl", "gd", "memory", 'load_comments');
 		foreach ($preliminaries as $preliminary)
 		{
 			$this->tpl->setCurrentBlock("preliminary");

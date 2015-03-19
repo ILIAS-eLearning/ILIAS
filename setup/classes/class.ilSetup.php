@@ -623,6 +623,23 @@ class ilSetup extends PEAR
 		return $arr;
 	}
 
+
+	/**
+	 * @return array
+	 */
+	protected function checkOpcacheSettings() {
+		$arr = array();
+		$load_comments = ini_get("opcache.load_comments");
+		if($load_comments == 1) {
+			$arr["status"] = true;
+		} else {
+			$arr["status"] = false;
+			$arr["comment"] = $this->lng->txt("pre_opcache_comments");
+		}
+
+		return $arr;
+	}
+
 	/**
 	* preliminaries
 	*
@@ -642,6 +659,7 @@ class ilSetup extends PEAR
 		$a["xsl"] = $this->checkXsl();
 		$a["gd"] = $this->checkGd();
 		$a["memory"] = $this->checkMemoryLimit();
+		$a["load_comments"] = $this->checkOpcacheSettings();
 
 		return $a;
 	}
