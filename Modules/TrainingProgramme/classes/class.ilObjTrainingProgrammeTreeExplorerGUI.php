@@ -87,7 +87,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	/**
 	 * Return node element
 	 *
-	 * @param mixed $node
+	 * @param ilObjTrainingProgramme $node
 	 *
 	 * @return string
 	 */
@@ -95,8 +95,16 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 		global $lng, $ilAccess;
 
 		$node_classes = "title";
-		if(($node->getRefId() == $_GET["ref_id"])) {
-			$node_classes .= " ilHighlighted";
+		$current_ref_id = (isset($_GET["ref_id"]))? $_GET["ref_id"] : -1;
+		$current_node = ($node->getRefId() == $current_ref_id);
+		$enable_delete = true;
+
+		if($current_node || $node->getRoot() == null) {
+			$enable_delete = false;
+		}
+
+		if($current_node) {
+			$node_classes .= " ilHighlighted current_node";
 		}
 
 		$data_line = '<span class="'.$node_classes.'">' . $node->getTitle() .'</span>';
@@ -106,14 +114,14 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 			$data_line .= '<span class="icon_bar">';
 			$data_line .= $this->getActionLink('ilObjTrainingProgrammeSettingsGUI', 'view', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::INFO));
 			$data_line .= $this->getActionLink('ilObjTrainingProgrammeTreeGUI', 'create', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::ADD));
-			//$data_line .= $this->getActionLink('ilRepositoryGUI', 'create', array('ref_id'=>$node->getRefId(), 'new_type'=>'prg'), ilGlyphGUI::get(ilGlyphGUI::ADD), false);
-			$data_line .= $this->getActionLink('ilObjTrainingProgrammeGUI', 'deleteObject', array('ref_id'=>$node->getRefId(), 'item_ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+			if($enable_delete) {
+				$data_line .= $this->getActionLink('ilObjTrainingProgrammeTreeGUI', 'delete', array('ref_id'=>$node->getRefId(), 'item_ref_id'=>$current_ref_id), ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+			}
 			$data_line .= '</span>';
 		}
 
 		return $data_line;
 	}
-
 
 	/**
 	 * Generate link-element
@@ -131,7 +139,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 			$this->ctrl->setParameterByClass($target_class, $param_name, $param_value);
 		}
 
-		$props = ' class="button"';
+		$props = ' class="button cmd_'.$cmd.'"';
 		if($async) {
 			$props .= '" data-toggle="modal" data-target="#'.$this->modal_id.'"';
 		}
@@ -261,11 +269,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 * @return boolean node clickable true/false
 	 */
 	public function isNodeClickable($a_node) {
-		if ($this->checkAccess('read', $a_node->getRefId())) {
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
 
