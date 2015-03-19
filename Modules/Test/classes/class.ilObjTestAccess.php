@@ -221,6 +221,136 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	}
 	
 	/**
+	 * Returns TRUE if the user with the user id $user_id failed the test with the object id $a_obj_id
+	 *
+	 * @param int $user_id The user id
+	 * @param int $a_obj_id The object id
+	 * @return boolean TRUE if the user failed the test, FALSE otherwise
+	 */
+	public static function isFailed($user_id, $a_obj_id)
+	{
+		global $ilDB;
+		
+		$ret = self::updateTestResultCache($user_id, $a_obj_id);
+
+		if(!$ret)
+		{
+			return false;
+		}
+		
+		$result = $ilDB->queryF("SELECT tst_result_cache.* FROM tst_result_cache, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_result_cache.active_fi = tst_active.active_id",
+			array('integer','integer'),
+			array($user_id, $a_obj_id)
+		);
+
+		if (!$result->numRows())
+		{
+			$result = $ilDB->queryF("SELECT tst_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_pass_result.active_fi = tst_active.active_id ORDER BY tst_pass_result.pass",
+				array('integer','integer'),
+				array($user_id, $a_obj_id)
+			);
+
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				array_push($points, $row);
+			}
+			$reached = 0;
+			$max = 0;
+			if ($points[0]["pass_scoring"] == 0)
+			{
+				$reached = $points[count($points)-1]["points"];
+				$max = $points[count($points)-1]["maxpoints"];
+				if (!$max)
+				{
+					$active_id = $points[count($points)-1]["active_fi"];
+					$pass = $points[count($points)-1]["pass"];
+					if (strlen($active_id) && strlen($pass))
+					{
+						include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+						$res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
+						$max = $res['maxpoints'];
+						$reached = $res['points'];
+					}
+				}
+			}
+			else
+			{
+				foreach ($points as $row)
+				{
+					if ($row["points"] > $reached) 
+					{
+						$reached = $row["points"];
+						$max = $row["maxpoints"];
+						if (!$max)
+						{
+							$active_id = $row["active_fi"];
+							$pass = $row["pass"];
+							if (strlen($active_id) && strlen($pass))
+							{
+								include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+								$res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
+								$max = $res['maxpoints'];
+								$reached = $res['points'];
+							}
+						}
+					}
+				}
+			}
+			include_once "./Modules/Test/classes/class.assMarkSchema.php";
+			$percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
+			$mark = ASS_MarkSchema::_getMatchingMarkFromObjId($a_obj_id, $percentage);
+			return ($mark["failed"]) ? TRUE : FALSE;
+		}
+		else
+		{
+			$row = $ilDB->fetchAssoc($result);
+			return ($row['failed']) ? TRUE : FALSE;
+		}
+	}
+	
+	/**
+	 * Update test result cache
+	 * @param type $a_user_id
+	 * @param type $a_obj_id
+	 */
+	protected function updateTestResultCache($a_user_id, $a_obj_id)
+	{
+		global $ilDB;
+		
+		$result = $ilDB->queryF(
+				"SELECT tst_result_cache.* FROM tst_result_cache, tst_active, tst_tests ".
+				"WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s ".
+				"AND tst_tests.obj_fi = %s AND tst_result_cache.active_fi = tst_active.active_id",
+			array('integer','integer'),
+			array($a_user_id, $a_obj_id)
+		);
+		if (!$result->numRows())
+		{
+			$result = $ilDB->queryF("SELECT tst_active.active_id FROM tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s",
+				array('integer','integer'),
+				array($a_user_id, $a_obj_id)
+			);
+			$row = $ilDB->fetchAssoc($result);
+			if ($row['active_id'] > 0)
+			{
+				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+				assQuestion::_updateTestResultCache($row['active_id']);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	
+	/**
 	 * Get possible conditions operators
 	 */
 	public static function getConditionOperators()
@@ -228,6 +358,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 		return array(
 			ilConditionHandler::OPERATOR_PASSED,
+			ilConditionHandler::OPERATOR_FAILED,
 			ilConditionHandler::OPERATOR_FINISHED,
 			ilConditionHandler::OPERATOR_NOT_FINISHED
 		);
@@ -248,6 +379,9 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 			case ilConditionHandler::OPERATOR_PASSED:
 				return ilObjTestAccess::_isPassed($a_usr_id, $a_obj_id);
 				break;
+			
+			case ilConditionHandler::OPERATOR_FAILED:
+				return ilObjTestAccess::isFailed($a_usr_id, $a_obj_id);
 
 			case ilConditionHandler::OPERATOR_FINISHED:
 				return ilObjTestAccess::_hasFinished($a_usr_id,$a_obj_id);
