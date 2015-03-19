@@ -1100,6 +1100,8 @@ class ilWebAccessChecker
 		ilFileDelivery::$DEV = true;
 		$file_delivery = new ilFileDelivery(str_replace('/virtual-data/', '/data/', $this->file));
 		$file_delivery->setDisposition(ilFileDelivery::DISP_INLINE);
+		$file_delivery->generateEtag();
+		$file_delivery->setShowLastModified(true);
 		$file_delivery->deliver();
 	}
 	
