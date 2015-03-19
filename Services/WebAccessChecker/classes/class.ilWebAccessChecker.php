@@ -1097,7 +1097,7 @@ class ilWebAccessChecker
 
 	protected function sendFileGeneral(){
 		require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
-		ilFileDelivery::$DEV = true;
+//		ilFileDelivery::$DEV = true;
 		$file_delivery = new ilFileDelivery(str_replace('/virtual-data/', '/data/', $this->file));
 		$file_delivery->setDisposition(ilFileDelivery::DISP_INLINE);
 		$file_delivery->generateEtag();
