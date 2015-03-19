@@ -53,6 +53,14 @@ class ilFileDelivery {
 	 * @var bool
 	 */
 	protected $convert_file_name_to_asci = false;
+	/**
+	 * @var string
+	 */
+	protected $etag = '';
+	/**
+	 * @var bool
+	 */
+	protected $show_last_modified = false;
 
 
 	/**
@@ -243,6 +251,7 @@ class ilFileDelivery {
 		}
 		header('Content-Disposition: ' . $this->getDisposition() . '; filename="' . $download_file_name . '"');
 		header('Content-Description: ' . $download_file_name);
+		header('Accept-Ranges: bytes');
 		if ($this->getDeliveryType() == self::DELIVERY_METHOD_PHP) {
 			header("Content-Length: " . (string)filesize($this->getPathToFile()));
 		}
@@ -252,7 +261,18 @@ class ilFileDelivery {
 			header('Pragma: public');
 		}
 
+		if ($this->getEtag()) {
+			header('ETag: "' . $this->getEtag() . '"');
+		}
+		if ($this->getShowLastModified()) {
+			header('Last-Modified: ' . date("D, j M Y H:i:s", filemtime($this->getPathToFile())) . " GMT");
+		}
 		header("Connection: close");
+	}
+
+
+	public function generateEtag() {
+		$this->setEtag(md5(filemtime($this->getPathToFile()) . filesize($this->getPathToFile())));
 	}
 
 
@@ -412,6 +432,38 @@ class ilFileDelivery {
 	 */
 	public function setConvertFileNameToAsci($convert_file_name_to_asci) {
 		$this->convert_file_name_to_asci = $convert_file_name_to_asci;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getEtag() {
+		return $this->etag;
+	}
+
+
+	/**
+	 * @param string $etag
+	 */
+	public function setEtag($etag) {
+		$this->etag = $etag;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getShowLastModified() {
+		return $this->show_last_modified;
+	}
+
+
+	/**
+	 * @param boolean $show_last_modified
+	 */
+	public function setShowLastModified($show_last_modified) {
+		$this->show_last_modified = $show_last_modified;
 	}
 }
 
