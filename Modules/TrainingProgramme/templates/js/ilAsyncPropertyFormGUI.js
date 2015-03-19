@@ -1,82 +1,90 @@
 (function ($) {
-	$.ilAsyncPropertyForm = {
-		global_config: {
-			error_message_template: null,
-			async_form_name: 'async_form',
-			alert_class: "alert"
-		}
-	},
-	$.fn.extend({
-		ilAsyncPropertyForm: function (options) {
+    "use strict";
 
-			var settings = $.extend({
-			}, options);
+    $.ilAsyncPropertyForm = {
+        global_config: {
+            error_message_template: null,
+            async_form_name: 'async_form',
+            alert_class: "alert"
+        }
+    };
 
-			var element = this;
+    $.fn.extend({
+        ilAsyncPropertyForm: function (options) {
 
-			var setup_async_form = function() {
-				$(element).find("form[name='" + $.ilAsyncPropertyForm.global_config.async_form_name + "'] :submit").each(function () {
+            var settings = $.extend({}, options);
 
-					$(this).on("click", function(e){
-						e.preventDefault();
+            var element = this;
 
-						var form = $(this).closest('form');
+            var setup_async_form = function () {
+                $(element).find("form[name='" + $.ilAsyncPropertyForm.global_config.async_form_name + "'] :submit").each(function () {
 
-						var formData = form.serializeArray();
-						formData.push({ name: $(this).attr('name'), value: $(this).val() });
+                    $(this).on("click", function (e) {
+                        e.preventDefault();
 
-						var actionurl = form.attr('action');
+                        var form = $(this).closest('form');
 
-						// TODO: find better way to determine is its a save command
-						var is_save_cmd = function(cmd) {
-							var cmds = ['save', 'update'];
-							return jQuery.inArray(cmd, cmds);
-						};
+                        var formData = form.serializeArray();
+                        formData.push({name: $(this).attr('name'), value: $(this).val()});
 
-						$.ajax({
-							url: actionurl,
-							type: 'post',
-							dataType: 'json',
-							data: formData,
-							success: function(response, status, xhr) {
-								//try {
-									if(response) {
+                        var actionurl = form.attr('action');
 
-										// start other ajax request if saving failed for display data
-										if(is_save_cmd(response.cmd) != -1 && response.success == false && jQuery.isArray(response.errors)) {
-											form.find('div.' + $.ilAsyncPropertyForm.global_config.alert_class).remove();
-											for(var i = 0; i < response.errors.length; i++) {
-												var message = $.ilAsyncPropertyForm.global_config.error_message_template.replace('[TXT_ALERT]', response.errors[i].message);
+                        // TODO: find better way to determine is its a save command
+                        var is_save_cmd = function (cmd) {
+                            var cmds = ['save', 'update', 'confirmedDelete'];
+                            return jQuery.inArray(cmd, cmds);
+                        };
 
-												// TODO: might need a more specific selector
-												$('#' + response.errors[i].key).after(message);
-											}
-											$("body").trigger({type: "async_form-error", message: response.message});
+                        // TODO: find better way to determine is its a cancel command
+                        var is_cancel_cmd = function (cmd) {
+                            var cmds = ['cancel', 'cancelDelete'];
+                            return jQuery.inArray(cmd, cmds);
+                        };
 
-										} else if(is_save_cmd(response.cmd) != -1 && response.success == true) {
-											$("body").trigger({type: "async_form-success", message: response.message});
-										} else if(response.cmd == "cancel") {
-											$("body").trigger({type: "async_form-cancel"});
-										}
-									}
-								/*} catch (error) {
-									console.log("The AJAX-response for the async form " + form.attr('id') + " is not JSON. Please check if the return values are set correctly: " + error);
-								}*/
+                        $.ajax({
+                            url: actionurl,
+                            type: 'post',
+                            dataType: 'json',
+                            data: formData,
+                            success: function (response, status, xhr) {
+                                //try {
+                                if (response) {
 
-							}
-						});
-						return false;
-					});
-				});
-			}
-			setup_async_form();
+                                    // start other ajax request if saving failed for display data
+                                    if (is_save_cmd(response.cmd) !== -1 && response.success === false && jQuery.isArray(response.errors)) {
+                                        form.find('div.' + $.ilAsyncPropertyForm.global_config.alert_class).remove();
+                                        var i, message;
+                                        for (i = 0; i < response.errors.length; i++) {
+                                            message = $.ilAsyncPropertyForm.global_config.error_message_template.replace('[TXT_ALERT]', response.errors[i].message);
 
-			// TODO: Handle this more global and not modal specific
-			$(element).on('shown.bs.modal', function () {
-				setup_async_form();
-			})
+                                            // TODO: might need a more specific selector
+                                            $('#' + response.errors[i].key).after(message);
+                                        }
+                                        $("body").trigger("async_form-error", {message: response.message});
 
-			return true;
-		}
-	});
+                                    } else if (is_save_cmd(response.cmd) !== -1 && response.success === true) {
+                                        $("body").trigger("async_form-success", {message: response.message});
+                                    } else if (is_cancel_cmd(response.cmd) !== -1) {
+                                        $("body").trigger("async_form-cancel");
+                                    }
+                                }
+                                /*} catch (error) {
+                                 console.log("The AJAX-response for the async form " + form.attr('id') + " is not JSON. Please check if the return values are set correctly: " + error);
+                                 }*/
+
+                            }
+                        });
+                    });
+                });
+            };
+            setup_async_form();
+
+            // TODO: Handle this more global and not modal specific
+            $(element).on('shown.bs.modal', function () {
+                setup_async_form();
+            });
+
+            return element;
+        }
+    });
 }(jQuery));

@@ -6,6 +6,8 @@ require_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 require_once("./Services/ContainerReference/classes/class.ilContainerSelectionExplorer.php");
 require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncPropertyFormGUI.php");
 require_once('./Services/Container/classes/class.ilContainerSorting.php');
+require_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncNotifications.php");
 
 /**
  * Class ilTrainingProgrammeTreeGUI
@@ -61,6 +63,8 @@ class ilObjTrainingProgrammeTreeGUI {
 
 	protected $modal_id;
 
+	protected $async_output_handler;
+
 	/*
 	 * @var ilToolbar
 	 */
@@ -80,6 +84,7 @@ class ilObjTrainingProgrammeTreeGUI {
 		$this->ilias = $ilias;
 		$this->lng = $lng;
 		$this->modal_id = "tree_modal";
+		$this->async_output_handler = new ilAsyncOutputHandler();
 
 		$this->initTree();
 
@@ -91,6 +96,7 @@ class ilObjTrainingProgrammeTreeGUI {
 
 		$js_url = rawurldecode($this->ctrl->getLinkTarget($this, 'saveTreeOrder', '', true, false));
 		$this->tree->addJsConf('save_tree_url', $js_url);
+		$this->tree->addJsConf('save_button_id', 'save_order_button');
 	}
 
 	public function executeCommand() {
@@ -111,9 +117,13 @@ class ilObjTrainingProgrammeTreeGUI {
 			case "create":
 			case "save":
 			case "cancel":
+			case "delete":
+			case "confirmedDelete":
+			case "cancelDelete":
 			case "getContainerSelectionExplorer":
 			case "saveTreeOrder":
 			case "createNewLeaf":
+
 				$content = $this->$cmd();
 				break;
 			default:
@@ -131,7 +141,7 @@ class ilObjTrainingProgrammeTreeGUI {
 		$this->tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
 
 		$output = $this->tree->getHTML();
-		$output .= $this->getModals();
+		$output .= $this->initAsyncUIElements();
 
 		return $output;
 	}
@@ -151,7 +161,7 @@ class ilObjTrainingProgrammeTreeGUI {
 		$this->storeTreeOrder(json_decode($_POST['tree']), $sorting);
 
 
-		return ilAsyncOutputHandler::encodeAsyncResponse(array('success'=>true));
+		return ilAsyncOutputHandler::encodeAsyncResponse(array('success'=>true, 'message'=>$this->lng->txt('prg_saved_order_successful')));
 	}
 
 	protected function storeTreeOrder($nodes, $container_sorting, $parent_ref_id = null) {
@@ -231,28 +241,111 @@ class ilObjTrainingProgrammeTreeGUI {
 
 		$content = $accordion->getHTML();
 
-		if($this->ctrl->isAsynch()) {
-			$output_handler = new ilAsyncOutputHandler();
-			$output_handler->setHeading($this->lng->txt("async_".$this->ctrl->getCmd()));
-			$output_handler->setContent($content);
-			$output_handler->terminate();
-		}
+		$this->async_output_handler->setHeading($this->lng->txt("async_".$this->ctrl->getCmd()));
+		$this->async_output_handler->setContent($content);
+		$this->async_output_handler->terminate();
 	}
 
-	protected function getModals() {
+	protected function delete() {
+		global $ilSetting;
+
+		$this->checkAccess("write");
+
+		if(!isset($_GET['ref_id'], $_GET['item_ref_id'])) {
+			throw new ilException("Nothing to delete!");
+		}
+
+		$element_ref_id = $_GET['ref_id'];
+
+		$cgui = new ilConfirmationGUI();
+
+		$msg = $this->lng->txt("info_delete_sure");
+
+		if (!$ilSetting->get('enable_trash'))
+		{
+			$msg .= "<br/>".$this->lng->txt("info_delete_warning_no_trash");
+		}
+		$cgui->setFormAction($this->ctrl->getFormAction($this, 'confirmedDelete', '', true));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelDelete");
+		$cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
+		$cgui->setFormName('async_form');
+
+		$obj_id = ilObject::_lookupObjectId($element_ref_id);
+		$type = ilObject::_lookupType($obj_id);
+		$title = call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'),$obj_id);
+		$alt = $this->lng->txt("icon")." ".$this->lng->txt("obj_".$type);
+
+		$cgui->addItem("id[]", $element_ref_id, $title,
+			ilObject::_getIcon($obj_id, "small", $type),
+			$alt);
+		$cgui->addHiddenItem('item_ref_id', $_GET['item_ref_id']);
+
+		$content = $cgui->getHTML();
+
+		$this->async_output_handler->setHeading($msg);
+		$this->async_output_handler->setContent($content);
+		$this->async_output_handler->terminate();
+	}
+
+	protected function confirmedDelete() {
+		$this->checkAccess("write");
+
+		if(!isset($_POST['id'], $_POST['item_ref_id'])) {
+			throw new ilException("No item select for deletion!");
+		}
+
+		$ids = $_POST['id'];
+		$current_node = $_POST['item_ref_id'];
+		$result = true;
+		foreach($ids as $id) {
+			$obj = ilObjTrainingProgramme::getInstanceByRefId($id);
+
+			//check if you are not deleting a parent element of the current element
+			$children_of_node = ilObjTrainingProgramme::getAllChildren($obj->getRefId());
+			$get_ref_ids = function($obj) { return $obj->getRefId(); };
+
+			$children_of_node = array_map($get_ref_ids, $children_of_node);
+
+			if($current_node != $id && $obj->getRoot() != null && !in_array($current_node, $children_of_node)) {
+				if($obj->delete()) {
+					$msg = $this->lng->txt("prg_deleted_safely");
+				} else {
+					$result = false;
+				}
+			} else {
+				$msg = $this->lng->txt("prg_not_allowed_node_to_delete");
+				$result = false;
+			}
+		}
+
+		return ilAsyncOutputHandler::encodeAsyncResponse(array('success'=>$result, 'message'=>$msg));
+	}
+
+	protected function cancelDelete() {
+		return ilAsyncOutputHandler::encodeAsyncResponse();
+	}
+
+	protected function initAsyncUIElements() {
 		$settings_modal = ilModalGUI::getInstance();
 		$settings_modal->setId($this->modal_id);
 		$settings_modal->setType(ilModalGUI::TYPE_LARGE);
-
 		$this->tpl->addOnLoadCode('$("#'.$this->modal_id.'").training_programme_modal();');
 
-		return $settings_modal->getHTML();
+		$content =  $settings_modal->getHTML();
+
+		$notifications = new ilAsyncNotifications();
+		$notifications->addJsConfig('events', array('success'=>array('training_programme-show_success')));
+		$notifications->initJs();
+
+		return $content;
 	}
 
 	protected function getToolbar() {
 		$save_order_btn = ilLinkButton::getInstance();
-		$save_order_btn->setUrl("javascript: $('body').trigger('training_programme-save_order');");
-		$save_order_btn->setCaption($this->lng->txt('save_tree_order'));
+		$save_order_btn->setId('save_order_button');
+		$save_order_btn->setUrl("javascript:void(0);");
+		$save_order_btn->setOnClick("$('body').trigger('training_programme-save_order');");
+		$save_order_btn->setCaption($this->lng->txt('prg_save_tree_order'));
 
 		$this->toolbar->addButtonInstance($save_order_btn);
 	}
