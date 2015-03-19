@@ -1845,7 +1845,7 @@ $query = "
 $ilDB->manipulateF($query, array('text', 'text'), array('*** unknown/deleted ***', ''));
 
 ?>
-<#66>
+<#67>
 <?php
 
 if( !$ilDB->tableColumnExists('tst_tests', 'broken'))
