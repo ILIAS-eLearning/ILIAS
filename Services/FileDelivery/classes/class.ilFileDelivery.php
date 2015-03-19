@@ -1,5 +1,7 @@
 <?php
 require_once('./Services/Utilities/classes/class.ilMimeTypeUtil.php');
+require_once('./Services/Utilities/classes/class.ilUtil.php');
+require_once('./Services/Http/classes/class.ilHTTPS.php');
 
 /**
  * Class ilFileDelivery
@@ -39,6 +41,18 @@ class ilFileDelivery {
 	 * @var string
 	 */
 	protected $disposition = self::DISP_ATTACHMENT;
+	/**
+	 * @var bool
+	 */
+	protected $send_mime_type = true;
+	/**
+	 * @var bool
+	 */
+	protected $exit_after = true;
+	/**
+	 * @var bool
+	 */
+	protected $convert_file_name_to_asci = false;
 
 
 	/**
@@ -99,7 +113,9 @@ class ilFileDelivery {
 				$this->deliverPHPChunked();
 				break;
 		}
-		exit;
+		if ($this->isExitAfter()) {
+			exit;
+		}
 	}
 
 
@@ -117,55 +133,6 @@ class ilFileDelivery {
 			ob_flush();
 			flush();
 		}
-	}
-
-
-	protected function deliverPHPRange() {
-		//		$path = 'file.mp4';
-		//
-		//		$size = filesize($path);
-		//
-		//		$fm = @fopen($path, 'rb');
-		//		if (! $fm) {
-		//			// You can also redirect here
-		//			header("HTTP/1.0 404 Not Found");
-		//			die();
-		//		}
-		//
-		//		$begin = 0;
-		//		$end = $size;
-		//
-		//		if (isset($_SERVER['HTTP_RANGE'])) {
-		//			if (preg_match('/bytes=\h*(\d+)-(\d*)[\D.*]?/i', $_SERVER['HTTP_RANGE'], $matches)) {
-		//				$begin = intval($matches[0]);
-		//				if (! empty($matches[1])) {
-		//					$end = intval($matches[1]);
-		//				}
-		//			}
-		//		}
-		//
-		//		if ($begin > 0 || $end < $size) {
-		//			header('HTTP/1.0 206 Partial Content');
-		//		} else {
-		//			header('HTTP/1.0 200 OK');
-		//		}
-		//
-		//		header("Content-Type: video/mp4");
-		//		header('Accept-Ranges: bytes');
-		//		header('Content-Length:' . ($end - $begin));
-		//		header("Content-Disposition: inline;");
-		//		header("Content-Range: bytes $begin-$end/$size");
-		//		header("Content-Transfer-Encoding: binary\n");
-		//		header('Connection: close');
-		//
-		//		$cur = $begin;
-		//		fseek($fm, $begin, 0);
-		//
-		//		while (! feof($fm) && $cur < $end && (connection_status() == 0)) {
-		//			print fread($fm, min(1024 * 16, $end - $cur));
-		//			$cur += 1024 * 16;
-		//			usleep(1000);
-		//		}
 	}
 
 
@@ -263,8 +230,25 @@ class ilFileDelivery {
 
 
 	protected function setGeneralHeaders() {
-		header("Content-type: " . $this->getMimeType());
-		header('Content-Disposition: ' . $this->getDisposition() . '; filename="' . $this->getDownloadFileName() . '"');
+		if ($this->isSendMimeType()) {
+			header("Content-type: " . $this->getMimeType());
+		}
+		$download_file_name = $this->getDownloadFileName();
+		if ($this->isConvertFileNameToAsci()) {
+			$download_file_name = ilUtil::getASCIIFilename($download_file_name);
+		}
+		header('Content-Disposition: ' . $this->getDisposition() . '; filename="' . $download_file_name . '"');
+		header('Content-Description: ' . $download_file_name);
+		if ($this->getDeliveryType() == self::DELIVERY_METHOD_PHP) {
+			header("Content-Length: " . (string)filesize($this->getPathToFile()));
+		}
+
+		if (ilHTTPS::getInstance()->isDetected()) {
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('Pragma: public');
+		}
+
+		header("Connection: close");
 	}
 
 
@@ -376,6 +360,54 @@ class ilFileDelivery {
 	 */
 	public function setDisposition($disposition) {
 		$this->disposition = $disposition;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isSendMimeType() {
+		return $this->send_mime_type;
+	}
+
+
+	/**
+	 * @param boolean $send_mime_type
+	 */
+	public function setSendMimeType($send_mime_type) {
+		$this->send_mime_type = $send_mime_type;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isExitAfter() {
+		return $this->exit_after;
+	}
+
+
+	/**
+	 * @param boolean $exit_after
+	 */
+	public function setExitAfter($exit_after) {
+		$this->exit_after = $exit_after;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isConvertFileNameToAsci() {
+		return $this->convert_file_name_to_asci;
+	}
+
+
+	/**
+	 * @param boolean $convert_file_name_to_asci
+	 */
+	public function setConvertFileNameToAsci($convert_file_name_to_asci) {
+		$this->convert_file_name_to_asci = $convert_file_name_to_asci;
 	}
 }
 
