@@ -1826,7 +1826,7 @@ class gevUserUtils {
 		}
 		
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-		$this->getOrgUnitsWhereUserUserCanViewEduBios();
+		$this->getOrgUnitsWhereUserCanViewEduBios();
 		$e = gevOrgUnitUtils::getEmployeesIn($this->edu_bio_ou_ref_ids_empl);
 		$a = gevOrgUnitUtils::getAllPeopleIn($this->edu_bio_ou_ref_ids_all);
 		

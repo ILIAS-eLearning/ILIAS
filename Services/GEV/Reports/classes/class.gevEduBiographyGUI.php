@@ -130,7 +130,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 	
 	protected function checkPermission() {
 		if(    $this->user->getId() == $this->target_user_id
-			|| $this->target_user_utils->isEmployeeOf($this->user->getId())
+			|| in_array($this->target_user_ids, $this->user_utils->getEmployeesWhereUserCanViewEduBios())
 			|| $this->user_utils->isAdmin()) {
 			return;
 		}
