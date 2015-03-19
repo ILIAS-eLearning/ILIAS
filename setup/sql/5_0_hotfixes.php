@@ -29,3 +29,21 @@ $query = "
 $ilDB->manipulateF($query, array('text', 'text'), array('*** unknown/deleted ***', ''));
 
 ?>
+<#3>
+<?php
+
+if( !$ilDB->tableColumnExists('tst_tests', 'broken'))
+{
+	$ilDB->addTableColumn('tst_tests', 'broken',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => null
+		)
+	);
+
+	$ilDB->queryF("UPDATE tst_tests SET broken = %s", array('integer'), array(0));
+}
+
+?>
