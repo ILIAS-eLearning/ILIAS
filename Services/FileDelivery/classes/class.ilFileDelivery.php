@@ -94,14 +94,18 @@ class ilFileDelivery {
 	}
 
 
-	public function deliver() {
-		if (! self::$DEV) {
-			$this->setGeneralHeaders();
-		} else {
-			echo '<pre>' . print_r($this, 1) . '</pre>';
-			exit;
-		}
+	public function stream() {
+		$this->setDeliveryType(self::DELIVERY_METHOD_PHP_CHUNKED);
+		$this->deliver();
+	}
 
+
+	public function deliver() {
+		if (self::$DEV) {
+			global $ilLog;
+			$ilLog->write(print_r($this, true));
+		}
+		$this->setGeneralHeaders();
 		switch ($this->getDeliveryType()) {
 			default:
 				$this->deliverPHP();
