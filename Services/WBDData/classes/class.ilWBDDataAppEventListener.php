@@ -1,4 +1,4 @@
- <?php
+<?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * Resolves WBD-Errors on user/course update
