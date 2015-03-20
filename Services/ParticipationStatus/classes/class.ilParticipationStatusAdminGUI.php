@@ -682,8 +682,18 @@ class ilParticipationStatusAdminGUI
 		}
 		else {
 			$d = $_POST["mail_send_at"]["date"];
-			$this->getParticipationStatus()->setMailSendDate($d["y"]."-".$d["m"]."-".$d["d"]);
-			ilUtil::sendSuccess($lng->txt("gev_psstatus_mail_send_date_success"), true);
+			$date_set = $d["y"]."-".str_pad($d["m"], 2, '0', STR_PAD_LEFT)."-".str_pad($d["d"], 2, '0', STR_PAD_LEFT);
+			
+			$helper = ilParticipationStatusHelper::getInstance($this->getCourse());
+			$date_tr = $helper->getCourseStart();
+			$date_tr->increment(ilDateTime::DAY, -3);
+			if ($date_tr->get(IL_CAL_DATE) < $date_set) {
+				ilUtil::sendFailure($lng->txt("gev_psstatus_mail_send_date_invalid"), true);
+			}
+			else {
+				$this->getParticipationStatus()->setMailSendDate($date_set);
+				ilUtil::sendSuccess($lng->txt("gev_psstatus_mail_send_date_success"), true);
+			}
 		}
 		$this->returnToList();
 	}

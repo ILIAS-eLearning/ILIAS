@@ -275,6 +275,7 @@ class gevMyTrainingsApGUI {
 	
 	protected function saveSendMailDate() {
 		$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($this->getCrsRefId());
+		$crs_obj = new ilObjCourse(intval($this->getCrsRefId()));
 		$pstatus = $ptstatus_admingui->getParticipationStatus();
 		
 		if (!array_key_exists("mail_send_confirm", $_POST) || !$ptstatus_admingui->mayWrite()) {
@@ -282,8 +283,18 @@ class gevMyTrainingsApGUI {
 		}
 		else {
 			$d = $_POST["mail_send_at"]["date"];
-			$pstatus->setMailSendDate($d["y"]."-".$d["m"]."-".$d["d"]);
-			ilUtil::sendSuccess($this->lng->txt("gev_psstatus_mail_send_date_success"), true);
+			$date_set = $d["y"]."-".str_pad($d["m"], 2, '0', STR_PAD_LEFT)."-".str_pad($d["d"], 2, '0', STR_PAD_LEFT);
+			
+			$helper = ilParticipationStatusHelper::getInstance($crs_obj);
+			$date_tr = $helper->getCourseStart();
+			$date_tr->increment(ilDateTime::DAY, -3);
+			if ($date_tr->get(IL_CAL_DATE) < $date_set) {
+				ilUtil::sendFailure($this->lng->txt("gev_psstatus_mail_send_date_invalid"), true);
+			}
+			else {
+				$pstatus->setMailSendDate($date_set);
+				ilUtil::sendSuccess($this->lng->txt("gev_psstatus_mail_send_date_success"), true);
+			}
 		}
 		return $this->listParticipationStatus();
 	}

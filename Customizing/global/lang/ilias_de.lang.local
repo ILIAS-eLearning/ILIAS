@@ -1078,3 +1078,4 @@ gev#:#gev_pstatus_mail_date_title#:#Die Einladung zum Seminar wurde verschickt a
 gev#:#gev_pstatus_mail_confirm_title#:#Einladungsmail ist versandt:
 gev#:#gev_psstatus_mail_send_date_error#:#Bitte bestätigen Sie den Versandt der Einladungsmail!
 gev#:#gev_psstatus_mail_send_date_success#:#Das Versandtdatum der Einladungsmail wurde gespeichert.
+gev#:#gev_psstatus_mail_send_date_invalid#:#Die Einladungsmail muss mindestens vier Tage vor Trainingsbeginn versendet werden.
