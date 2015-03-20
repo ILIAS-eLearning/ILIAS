@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 57853 2015-02-05 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.0.0 2015-03-20 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -188,6 +188,8 @@ assessment#:#autosave_info#:#A válaszokat meghatározott időközönként autom
 assessment#:#autosave_ival#:#Időköz
 assessment#:#for#:#ehhez
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#'%s' teszt induló kitöltése nem tartalmaz kérdését.
+assessment#:#tst_dyn_quest_set_pool_deleted#:#A jelenleg beállított '%s' kérdésgyűjteményt törölték.
+assessment#:#tst_old_style_rnd_quest_set_broken#:#Ez a véletlen teszt nem helyreállítható állapotban van, mert egy vagy több kérdésgyűjteményét törölték. Ezt a tesztet nem tölthetik ki többé.
 assessment#:#solution_contain_keywords#:#A pontozás a következő kulcsszavak előfordulása alapján történik:
 assessment#:#essay_scoring_mode#:#Pontozási mód
 assessment#:#essay_scoring_mode_without_keywords#:#Nincs automatikus pontozás
