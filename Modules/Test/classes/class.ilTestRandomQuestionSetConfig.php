@@ -448,4 +448,54 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	{
 		return (bool)count($this->getSelectableQuestionPools());
 	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+
+	public function areDepenciesBroken()
+	{
+		return (bool)$this->testOBJ->isTestFinalBroken();
+	}
+
+	public function getDepenciesBrokenMessage(ilLanguage $lng)
+	{
+		return $lng->txt('tst_old_style_rnd_quest_set_broken');
+	}
+
+	public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd)
+	{
+		//vd($nextClass, $cmd);
+
+		switch( $nextClass )
+		{
+			case 'ilmdeditorgui':
+			case 'ilpermissiongui':
+
+				return true;
+
+			case 'ilobjtestgui':
+			case '':
+
+				$cmds = array(
+					'infoScreen', 'participants', 'npSetFilter', 'npResetFilter',
+					//'deleteAllUserResults', 'confirmDeleteAllUserResults',
+					//'deleteSingleUserResults', 'confirmDeleteSelectedUserData', 'cancelDeleteSelectedUserData'
+				);
+
+				if( in_array($cmd, $cmds) )
+				{
+					return true;
+				}
+
+				break;
+		}
+
+		return false;
+	}
+
+	public function getHiddenTabsOnBrokenDepencies()
+	{
+		return array(
+			'assQuestions', 'settings', 'manscoring', 'scoringadjust', 'statistics', 'history', 'export'
+		);
+	}
 }

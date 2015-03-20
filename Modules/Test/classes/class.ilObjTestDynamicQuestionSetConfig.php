@@ -457,6 +457,51 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 		
 		return $msg;
 	}
+
+	public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd)
+	{
+		//vd($nextClass, $cmd);
+
+		if( !$this->testOBJ->participantDataExist() )
+		{
+			return true;
+		}
+
+		switch( $nextClass )
+		{
+			case 'ilobjtestdynamicquestionsetconfiggui':
+
+			case 'ilmdeditorgui':
+			case 'ilpermissiongui':
+
+				return true;
+
+			case 'ilobjtestgui':
+			case '':
+
+				$cmds = array(
+					'infoScreen', 'participants', 'npSetFilter', 'npResetFilter',
+					'deleteAllUserResults', 'confirmDeleteAllUserResults',
+					'deleteSingleUserResults', 'confirmDeleteSelectedUserData', 'cancelDeleteSelectedUserData'
+				);
+
+				if( in_array($cmd, $cmds) )
+				{
+					return true;
+				}
+
+				break;
+		}
+
+		return false;
+	}
+
+	public function getHiddenTabsOnBrokenDepencies()
+	{
+		return array(
+			'settings', 'manscoring', 'scoringadjust', 'statistics', 'history', 'export'
+		);
+	}
 	
 	private $sourceQuestionPoolRefIds = null;
 	

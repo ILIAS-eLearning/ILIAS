@@ -497,7 +497,11 @@ ilObjTest extends ilObject
 	
 	/** @var string definition of selector for special characters  */
 	protected $char_selector_definition;
-
+	
+	/**
+	 * @var bool
+	 */
+	protected $testFinalBroken;
 	
 	#endregion
 	
@@ -605,6 +609,8 @@ ilObjTest extends ilObject
 		$this->sign_submission = false;
 		$this->char_selector_availability = 0;
 		$this->char_selector_definition = null;
+
+		$this->testFinalBroken = false;
 		
 		$this->ilObject($a_id, $a_call_by_reference);
 	}
@@ -1303,7 +1309,8 @@ ilObjTest extends ilObject
 				'sign_submission' => array('integer', (int)$this->getSignSubmission()),
 				'question_set_type' => array('text', $this->getQuestionSetType()),
 				'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
-				'char_selector_definition' => array('text', (string)$this->getCharSelectorDefinition())
+				'char_selector_definition' => array('text', (string)$this->getCharSelectorDefinition()),
+				'broken' => array('integer', (int)$this->isTestFinalBroken())
 			));
 				    
 			$this->test_id = $next_id;
@@ -1412,7 +1419,8 @@ ilObjTest extends ilObject
 						'sign_submission' => array('integer', (int)$this->getSignSubmission()),
 						'question_set_type' => array('text', $this->getQuestionSetType()),
 						'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
-						'char_selector_definition' => array('text', (string)$this->getCharSelectorDefinition())
+						'char_selector_definition' => array('text', (string)$this->getCharSelectorDefinition()),
+						'broken' => array('integer', (int)$this->isTestFinalBroken())
 					),
 					array(
 						'test_id' => array('integer', (int)$this->getTestId())
@@ -1896,6 +1904,7 @@ ilObjTest extends ilObject
 			$this->setQuestionSetType($data->question_set_type);
 			$this->setCharSelectorAvailability((int)$data->char_selector_availability);
 			$this->setCharSelectorDefinition($data->char_selector_definition);
+			$this->setTestFinalBroken((bool)$data->broken);
 			$this->loadQuestions();
 		}
 
@@ -11510,5 +11519,21 @@ function getAnswerFeedbackPoints()
 		}
 		
 		return $objIds;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isTestFinalBroken()
+	{
+		return $this->testFinalBroken;
+	}
+
+	/**
+	 * @param boolean $testFinalBroken
+	 */
+	public function setTestFinalBroken($testFinalBroken)
+	{
+		$this->testFinalBroken = $testFinalBroken;
 	}
 }

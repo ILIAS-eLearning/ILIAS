@@ -148,7 +148,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if( !$this->getCreationMode() && $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken() )
 		{
-			if( !$this->isValidRequestOnBrokenQuestionSetDepencies($next_class, $cmd) )
+			if( !$this->testQuestionSetConfigFactory->getQuestionSetConfig()->isValidRequestOnBrokenQuestionSetDepencies($next_class, $cmd) )
 			{
 				$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
 			}
@@ -615,46 +615,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->show();
 		}
 	}
-
 	
-	public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd)
-	{
-		//vd($nextClass, $cmd);
-		
-		if( !$this->object->participantDataExist() )
-		{
-			return true;
-		}
-		
-		switch( $nextClass )
-		{
-			case 'ilobjtestdynamicquestionsetconfiggui':
-				
-			case 'ilmdeditorgui':
-			case 'ilpermissiongui':
-				
-				return true;
-				
-			case 'ilobjtestgui':
-			case '':
-				
-				$cmds = array(
-					'infoScreen', 'participants', 'npSetFilter', 'npResetFilter',
-					'deleteAllUserResults', 'confirmDeleteAllUserResults',
-					'deleteSingleUserResults', 'confirmDeleteSelectedUserData', 'cancelDeleteSelectedUserData'
-				);
-				
-				if( in_array($cmd, $cmds) )
-				{
-					return true;
-				}
-				
-				break;
-		}
-		
-		return false;
-	}
-
 	private function questionsTabGatewayObject()
 	{
 		switch( $this->object->getQuestionSetType() )
@@ -4087,7 +4048,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-		if( !$this->object->isOnline() )
+		if( !$this->object->isOnline() && !$testQuestionSetConfig->areDepenciesBroken() )
  		{
 			$message = $this->lng->txt("test_is_offline");
 
@@ -4884,9 +4845,7 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken() )
 		{
-			$hideTabs = array(
-				'settings', 'manscoring', 'scoringadjust', 'statistics', 'history', 'export'
-			);
+			$hideTabs = $this->testQuestionSetConfigFactory->getQuestionSetConfig()->getHiddenTabsOnBrokenDepencies();
 			
 			foreach($hideTabs as $tabId)
 			{
