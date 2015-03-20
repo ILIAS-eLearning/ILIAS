@@ -74,7 +74,8 @@ class catBasicReportGUI {
 	}
 
 	protected function userIsPermitted () {
-		return $this->user_utils->isAdmin() || $this->user_utils->isSuperior();
+		return $this->user_utils->isAdmin() || $this->user_utils->isSuperior()
+				|| $this->user_utils->hasRoleIn("Key-Accounter");
 	}
 
 	
