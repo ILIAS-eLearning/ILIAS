@@ -45,9 +45,10 @@ class ilMailUserCache
 		{
 			$in    = $ilDB->in('ud.usr_id', $usr_ids_to_request, false, 'integer');
 			$query = "
-				SELECT ud.usr_id, login, firstname, lastname, title, gender, pprof.value public_profile,pup.value public_upload
+				SELECT ud.usr_id, login, firstname, lastname, title, gender, pprof.value public_profile,pup.value public_upload, pupgen.value public_gender
 				FROM usr_data ud
 				LEFT JOIN usr_pref pprof ON pprof.usr_id = ud.usr_id AND pprof.keyword = %s
+				LEFT JOIN usr_pref pupgen ON pupgen.usr_id = ud.usr_id AND pupgen.keyword = %s
 				LEFT JOIN usr_pref pup ON pup.usr_id = ud.usr_id AND pup.keyword = %s
 				WHERE $in
 			";
@@ -69,6 +70,7 @@ class ilMailUserCache
 				$user->setLastname($row['lastname']);
 				$user->setPref('public_profile', $row['public_profile']);
 				$user->setPref('public_upload', $row['public_upload']);
+				$user->setPref('public_gender', $row['public_gender']);
 
 				self::$user_instances[$row['usr_id']] = $user;
 			}
