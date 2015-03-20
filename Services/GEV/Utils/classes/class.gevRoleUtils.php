@@ -167,6 +167,7 @@ class gevRoleUtils {
 	}
 	
 	public function createRoleInFolder($a_folder_ref_id, $a_role_name, $a_role_desc = "") {
+		require_once("Services/Object/classes/class.ilObjectFactory.php");
 		$a_role_name = trim($a_role_name);
 		if (self::roleExistsInFolder($a_folder_ref_id, $a_role_name)) {
 			throw new ilException("Role $a_role_name already exists in folder '$a_folder_ref_id'.");

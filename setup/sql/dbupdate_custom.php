@@ -3468,3 +3468,36 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 	}
 
 ?>
+
+<#110>
+<?php
+	// Add global and local Key-Accounter-Roles.
+	require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+	require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+	require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+	require_once("Customizing/class.ilCustomInstaller.php");
+	
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	
+	$role_utils = gevRoleUtils::getInstance();
+	
+	$role_utils->createGlobalRole("Key-Accounter", "Key-Accounter (global)");
+	
+	$evg = gevOrgUnitUtils::getInstanceByImportId("evg");
+	$children = gevOrgUnitUtils::getAllChildren(array($evg->getRefId()));
+	foreach ($children as $child) {
+		$role = $role_utils->createLocalRole($child["ref_id"], "Key-Accounter", "Key-Accounter (lokal)");
+		$ouutils = gevOrgUnitUtils::getInstance($child["obj_id"]);
+		$ouutils->grantPermissionsFor($role->getId(),  array( "view_learning_progress"
+															, "view_learning_progress_rec"
+															)
+									 );
+	}
+?>

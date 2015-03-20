@@ -597,7 +597,7 @@ class gevOrgUnitUtils {
 	}
 	
 	// setting of permissions
-	public function grantPermissionsFor($a_role_name, $a_permissions) {
+	public function grantPermissionsFor($a_role, $a_permissions) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 		
@@ -605,17 +605,22 @@ class gevOrgUnitUtils {
 		$ref_id = gevObjectUtils::getRefId($ou->getId());
 		$ou->setRefId($ref_id);
 
-		if ($a_role_name == "superior") {
-			$role = $ou->getSuperiorRole();
-		}
-		elseif ($a_role_name == "employee") {
-			$role = $ou->getEmployeeRole();
+		if (!is_numeric($a_role)) {
+			if ($a_role == "superior") {
+				$role = $ou->getSuperiorRole();
+			}
+			elseif ($a_role == "employee") {
+				$role = $ou->getEmployeeRole();
+			}
+			else {
+				$role = gevRoleUtils::getInstance()->getRoleIdByName($a_role);
+				if (!$role) {
+					throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role);
+				}
+			}
 		}
 		else {
-			$role = gevRoleUtils::getInstance()->getRoleIdByName($a_role_name);
-			if (!$role) {
-				throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role_name);
-			}
+			$role = (int)$a_role;
 		}
 		
 		$cur_ops = $this->rbacreview->getRoleOperationsOnObject($role, $ref_id);
