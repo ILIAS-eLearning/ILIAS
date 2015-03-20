@@ -149,7 +149,7 @@ class gevMyTrainingsApGUI {
 		else
 		{
 			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-			$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
+			$crs_utils = gevCourseUtils::getInstanceByObj($crs_obj);
 
 			if ($crs_utils->isDecentralTraining() 
 			&& (   $crs_utils->getMinParticipants() > count($crs_utils->getParticipants())
