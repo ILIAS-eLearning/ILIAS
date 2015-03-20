@@ -832,6 +832,25 @@ class ilTemplate extends ilTemplateX
 		$ftpl = new ilTemplate("tpl.footer.html", true, true, "Services/UICore");
 
 		$ftpl->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version"));
+		
+		// gev-patch start
+		global $ilUser;
+		$agent_agbs = false;
+		if ($ilUser->getId()) {
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+			$uutils = gevUserUtils::getInstance($ilUser->getId());
+			if ($uutils->hasRoleIn(array("VP"))) {
+				$agent_agbs = true;
+			}
+		}
+		if ($agent_agbs) {
+			$ftpl->setVariable("AGBS_LINK", "./Customizing/global/skin/genv/static/documents/"
+										  ."GEV_Makler_Finale_Nutzungsbedingungen.pdf");
+		}
+		else {
+			$ftpl->setVariable("AGBS_LINK", "./static_pages.php?tpl=agb");
+		}
+		// gev-patch end
 
 		$link_items = array();
 
