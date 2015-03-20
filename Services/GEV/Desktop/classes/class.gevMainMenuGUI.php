@@ -77,7 +77,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		require_once("Services/TEP/classes/class.ilTEPPermissions.php");
 		$tep_permissions = ilTEPPermissions::getInstance($this->user->getId());
 
-		$employee_booking = count($this->userUtils->getEmployeesForBookingCancellations()) > 0;
+		$employee_booking = $this->userUtils->canCancelEmployeeBookings();
 		$my_org_unit = false;
 		$tep = $this->userUtils->isAdmin() || $tep_permissions->isTutor();
 		$pot_participants = false;

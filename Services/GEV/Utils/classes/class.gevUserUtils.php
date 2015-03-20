@@ -1781,6 +1781,11 @@ class gevUserUtils {
 		$tree = ilObjOrgUnitTree::_getInstance();
 		return $tree->getOrgusWhereUserHasPermissionForOperation("cancel_employee_bookings_rcrsv");
 	}
+	
+	public function canCancelEmployeeBookings() {
+		return count($this->getOrgUnitsWhereUserCanCancelEmployeeBookings()) > 0
+			|| count($this->getOrgUnitsWhereUserCanCancelEmployeeBookingsRecursive()) > 0;
+	}
 
 	public function getOrgUnitsWhereUserCanViewEduBios() {
 		if ($this->edu_bio_ou_ref_ids) {
