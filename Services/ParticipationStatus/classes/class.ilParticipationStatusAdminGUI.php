@@ -336,7 +336,9 @@ class ilParticipationStatusAdminGUI
 			$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
 
 			if ($crs_utils->isDecentralTraining() 
-			&& ($crs_utils->getMinParticipants() > count($crs_utils->getParticipants()))
+			&& (   $crs_utils->getMinParticipants() > count($crs_utils->getParticipants())
+				|| !$this->getParticipationStatus()->getMailSendDate()
+				)
 			) {
 				$may_finalize = false;
 			}
