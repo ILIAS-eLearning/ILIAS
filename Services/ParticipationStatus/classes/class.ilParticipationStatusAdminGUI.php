@@ -346,23 +346,29 @@ class ilParticipationStatusAdminGUI
 			// gev-patch end
 		}
 		
-		// attendance list
-		$helper = ilParticipationStatusHelper::getInstance($this->getCourse());
-		
 		// gev-patch start
-		if (($helper->getCourseNeedsAttendanceList() || $helper->getCourseNeedsInvitationMailConfirmation()) && $may_write) {
-			$ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
-		}
+		self::renderToolbar($this, $this->getParticipationStatus(), $this->getCourse(), $may_write, $may_finalized);
 		// gev-patch end
+		
+		require_once "Services/ParticipationStatus/classes/class.ilParticipationStatusTableGUI.php";
+		$tbl = new ilParticipationStatusTableGUI($this, "listStatus", $this->getCourse(), $may_write, $may_finalize, $a_invalid);
+		$tpl->setContent($tbl->getHTML());		
+	}
+	
+	// gev-patch start
+	static public function renderToolbar($gui, ilParticipationStatus $pstatus, ilObjCourse $course, $may_write, $may_finalized) {
+		global $ilToolbar, $ilCtrl, $lng, $tpl;
+		
+		$helper = ilParticipationStatusHelper::getInstance($course);
+		
+		if (($helper->getCourseNeedsAttendanceList() || $helper->getCourseNeedsInvitationMailConfirmation()) && $may_write) {
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($gui), true);
+		}
 		
 		if($helper->getCourseNeedsAttendanceList())
 		{
 			if($may_write)
 			{
-				// gev-patch start
-				//$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "uploadAttendanceList"), true);
-				// gev-patch end
-				
 				require_once "Services/Form/classes/class.ilFileInputGUI.php";
 				$file = new ilFileInputGUI($lng->txt("ptst_admin_attendance_list"), "atlst");
 				$ilToolbar->addInputItem($file, true);
@@ -371,18 +377,18 @@ class ilParticipationStatusAdminGUI
 
 				$ilToolbar->addSeparator();
 			}
-			if($this->getParticipationStatus()->getAttendanceList())
+			if($pstatus->getAttendanceList())
 			{
 				if($may_write)
 				{
 					$ilToolbar->addButton($lng->txt("delete"), 
-						$ilCtrl->getLinkTarget($this, "deleteAttendanceList"));
+						$ilCtrl->getLinkTarget($gui, "deleteAttendanceList"));
 
 					$ilToolbar->addSeparator();
 				}
 				
 				$ilToolbar->addButton($lng->txt("ptst_admin_view_attendance_list"),
-					$ilCtrl->getLinkTarget($this, "viewAttendanceList"));
+					$ilCtrl->getLinkTarget($gui, "viewAttendanceList"));
 			}
 			else
 			{
@@ -394,14 +400,13 @@ class ilParticipationStatusAdminGUI
 			$ilToolbar->addSeparator();
 		}
 
-		// gev-patch start
 		if ($helper->getCourseNeedsInvitationMailConfirmation()) {
 			require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
 			require_once("Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php");
 			require_once("Services/Form/classes/class.ilDateTimeInputGUI.php");
 			require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
 			
-			$mail_send_date = $this->getParticipationStatus()->getMailSendDate();
+			$mail_send_date = $pstatus->getMailSendDate();
 			
 			$dt_inp = new ilDateTimeInputGUI("", "mail_send_at");
 			$dt_inp->setDisabled(!$may_write);
@@ -423,12 +428,8 @@ class ilParticipationStatusAdminGUI
 				$ilToolbar->addFormButton($lng->txt("save"), "saveSendMailDate");
 			}
 		}
-		// gev-patch end
-		
-		require_once "Services/ParticipationStatus/classes/class.ilParticipationStatusTableGUI.php";
-		$tbl = new ilParticipationStatusTableGUI($this, "listStatus", $this->getCourse(), $may_write, $may_finalize, $a_invalid);
-		$tpl->setContent($tbl->getHTML());		
 	}
+	// gev-patch end
 	
 	
 	//
