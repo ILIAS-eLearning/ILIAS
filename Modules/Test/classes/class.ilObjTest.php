@@ -563,6 +563,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 */
 	protected $instantFeedbackAnswerFixationEnabled;
 
+	/**
+	 * @var bool
+	 */
+	protected $testFinalBroken;
+	
 	#endregion
 	
 	/**
@@ -675,6 +680,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		$this->showGradingMarkEnabled = true;
 		
 		$this->instantFeedbackAnswerFixationEnabled = false;
+		
+		$this->testFinalBroken = false;
 		
 		$this->ilObject($a_id, $a_call_by_reference);
 	}
@@ -1375,7 +1382,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'result_tax_filters' => array('text', serialize((array)$this->getResultFilterTaxIds())),
 				'show_grading_status' => array('integer', (int)$this->isShowGradingStatusEnabled()),
 				'show_grading_mark' => array('integer', (int)$this->isShowGradingMarkEnabled()),
-				'inst_fb_answer_fixation' => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled())
+				'inst_fb_answer_fixation' => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled()),
+				'broken' => array('integer', (int)$this->isTestFinalBroken())
 			));
 				    
 			$this->test_id = $next_id;
@@ -1494,7 +1502,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 						'result_tax_filters' => array('text', serialize((array)$this->getResultFilterTaxIds())),
 						'show_grading_status' => array('integer', (int)$this->isShowGradingStatusEnabled()),
 						'show_grading_mark' => array('integer', (int)$this->isShowGradingMarkEnabled()),
-						'inst_fb_answer_fixation' => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled())
+						'inst_fb_answer_fixation' => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled()),
+						'broken' => array('integer', (int)$this->isTestFinalBroken())
 					),
 					array(
 						'test_id' => array('integer', (int)$this->getTestId())
@@ -1988,6 +1997,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$this->setShowGradingStatusEnabled((bool)$data->show_grading_status);
 			$this->setShowGradingMarkEnabled((bool)$data->show_grading_mark);
 			$this->setInstantFeedbackAnswerFixationEnabled((bool)$data->inst_fb_answer_fixation);
+			$this->setTestFinalBroken((bool)$data->broken);
 			$this->loadQuestions();
 		}
 
@@ -12083,5 +12093,20 @@ function getAnswerFeedbackPoints()
 		
 		return $testSequence->hasSequence();
 	}
-	
+
+	/**
+	 * @return boolean
+	 */
+	public function isTestFinalBroken()
+	{
+		return $this->testFinalBroken;
+	}
+
+	/**
+	 * @param boolean $testFinalBroken
+	 */
+	public function setTestFinalBroken($testFinalBroken)
+	{
+		$this->testFinalBroken = $testFinalBroken;
+	}
 }

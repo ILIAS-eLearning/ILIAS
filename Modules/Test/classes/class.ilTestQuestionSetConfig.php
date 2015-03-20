@@ -94,7 +94,17 @@ abstract class ilTestQuestionSetConfig
 	{
 		return '';
 	}
-
+	
+	public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd)
+	{
+		return true;
+	}
+	
+	public function getHiddenTabsOnBrokenDepencies()
+	{
+		return array();
+	}
+		
 	abstract public function isQuestionSetConfigured();
 	
 	/**
