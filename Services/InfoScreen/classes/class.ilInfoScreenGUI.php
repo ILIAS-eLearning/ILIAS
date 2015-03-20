@@ -519,7 +519,7 @@ class ilInfoScreenGUI
 			include_once './Services/Object/classes/class.ilObjectFactory.php';
 			include_once './Services/User/classes/class.ilObjUser.php';
 			
-			if(ilObjUser::userExists($a_obj->getOwner()))
+			if(ilObjUser::userExists(array($a_obj->getOwner())))
 			{
 				$ownerObj = ilObjectFactory::getInstanceByObjId($a_obj->getOwner(),false);
 			}
