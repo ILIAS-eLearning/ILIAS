@@ -132,7 +132,7 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 		$mails = new gevCrsAutoMails($crs_id);
 		
 		if ($a_event == "addParticipant") {
-			$mails->sendDeferred("trainer_added", array($usr_id));
+			$mails->send("trainer_added", array($usr_id));
 		}
 		else if ($a_event == "deleteParticipant") {
 			$mails->send("trainer_removed", array($usr_id));
