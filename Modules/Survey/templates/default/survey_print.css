@@ -1,15 +1,15 @@
-	@page { size: auto;
-        margin-top: 1cm;
-        margin-bottom:1cm;
-        margin-left: 1cm;
-        margin-right:1cm
+@page { 
+	size: auto;
+	margin-top: 1cm;
+	margin-bottom:1cm;
+	margin-left: 1cm;
+	margin-right:1cm
 }
 
 body {
 	color : black; 
 	background : white; 
 	font-family : Tahoma, Helvetica, sans-serif; 
-	font-size : 10pt; 
 }
 
 .noprint, .il_Locator, .tabinactive, .tabactive, .il_Footer, .il_Header, .ilMainHeader, .il_SubTab, .submit, .il_ContainerItemCommand {
@@ -50,8 +50,7 @@ input[type="submit"], input[type="button"] {
 .tblheader {
 	border-collapse: collapse;
 	border-spacing: 0px;
-	border: 1px solid double gray;
-	font-weight: bold;
+	border: 1px solid double gray;	
 	vertical-align: top;
 }
 
@@ -59,8 +58,9 @@ input[type="submit"], input[type="button"] {
 	border-collapse: collapse;
 	border-spacing: 0px;
 	border: 1px solid gray;
-	font-weight: bold;
 	vertical-align: top;
+	font-size: 9pt;
+	padding: 2px 2px !important;
 }
 
 .tblrow1 {
