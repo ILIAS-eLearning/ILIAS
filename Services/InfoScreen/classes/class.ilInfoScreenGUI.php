@@ -517,7 +517,13 @@ class ilInfoScreenGUI
 		if ($ilUser->getId() != ANONYMOUS_USER_ID and $a_obj->getOwner())
 		{
 			include_once './Services/Object/classes/class.ilObjectFactory.php';
-			if(!$ownerObj = ilObjectFactory::getInstanceByObjId($a_obj->getOwner(),false))
+			include_once './Services/User/classes/class.ilObjUser.php';
+			
+			if(ilObjUser::userExists(array($a_obj->getOwner())))
+			{
+				$ownerObj = ilObjectFactory::getInstanceByObjId($a_obj->getOwner(),false);
+			}
+			else
 			{
 				$ownerObj = ilObjectFactory::getInstanceByObjId(6, false);	
 			}

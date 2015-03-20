@@ -598,7 +598,7 @@ if (empty(self::$st_data))
 				include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
 				$mob = new ilObjMediaObject($item["mob_id"]);
 				$med = $mob->getMediaItem("Standard");
-				$mpl = new ilMediaPlayerGUI();
+				$mpl = new ilMediaPlayerGUI("news_pl_".$item["mob_id"]);
 				if (strcasecmp("Reference", $med->getLocationType()) == 0)
 					$mpl->setFile($med->getLocation());
 				else
