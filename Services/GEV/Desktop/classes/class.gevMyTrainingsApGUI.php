@@ -9,6 +9,7 @@
 * @version	$Id$
 *
 * @ilCtrl_Calls gevMyTrainingsApGUI: ilParticipationStatusAdminGUI
+* @ilCtrl_Calls gevMyTrainingsApGUI: gevDesktopGUI
 *
 */
 
@@ -47,6 +48,7 @@ class gevMyTrainingsApGUI {
 			case "saveOvernights":
 			case "viewBookings":
 			case "backFromBookings":
+			case "saveSendMailDate":
 				$cont = $this->$cmd();
 				break;
 
@@ -135,10 +137,12 @@ class gevMyTrainingsApGUI {
 		
 		$lng->loadLanguageModule("ptst");
 
+
 		$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($a_crs_ref_id);
 		//$ptstatus_admingui =  new ilParticipationStatusAdminGUI($crs_obj);
 		$may_write = $ptstatus_admingui->mayWrite();
-		if($ptstatus_admingui->getParticipationStatus()->getMode() == ilParticipationStatus::MODE_CONTINUOUS)
+		$pstatus = $ptstatus_admingui->getParticipationStatus();
+		if($pstatus->getMode() == ilParticipationStatus::MODE_CONTINUOUS)
 		{
 			$may_finalize = false;
 		}
@@ -152,11 +156,17 @@ class gevMyTrainingsApGUI {
 		$form_action .= '&crsrefid=' .$a_crs_ref_id;
 		$ptstatusgui->setFormAction($form_action);
 
-		return (
-				$title->render()
-			   .$spacer->render()
-			   .$ptstatusgui->getHTML()
+		$ilCtrl->setParameter($a_parent_gui, "crsrefid", $a_crs_ref_id);
+		ilParticipationStatusAdminGUI::renderToolbar($a_parent_gui, $pstatus, $crs_obj, $may_write, $may_finalize);
+		global $ilToolbar;
+		
+		$ret = ( $title->render()
+			   . $ilToolbar->getHTML()
+			   . $spacer->render()
+			   . $ptstatusgui->getHTML()
 			   );
+		$ilToolbar->setHidden(true);
+		return $ret;
 	}
 
 	protected function listParticipationStatus() {
@@ -261,6 +271,21 @@ class gevMyTrainingsApGUI {
 		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
 		ilCourseBookingAdminGUI::removeBackTarget();
 		return $this->view();
+	}
+	
+	protected function saveSendMailDate() {
+		$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($this->getCrsRefId());
+		$pstatus = $ptstatus_admingui->getParticipationStatus();
+		
+		if (!array_key_exists("mail_send_confirm", $_POST) || !$ptstatus_admingui->mayWrite()) {
+			ilUtil::sendFailure($this->lng->txt("gev_psstatus_mail_send_date_error"), true);
+		}
+		else {
+			$d = $_POST["mail_send_at"]["date"];
+			$pstatus->setMailSendDate($d["y"]."-".$d["m"]."-".$d["d"]);
+			ilUtil::sendSuccess($this->lng->txt("gev_psstatus_mail_send_date_success"), true);
+		}
+		return $this->listParticipationStatus();
 	}
 }
 
