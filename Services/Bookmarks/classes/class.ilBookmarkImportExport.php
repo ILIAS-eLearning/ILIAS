@@ -188,8 +188,20 @@ class ilBookmarkImportExport
 			$trans_table = array_flip(get_html_translation_table(HTML_ENTITIES, ENT_QUOTES));
 			$string = strtr($string, $trans_table );
 		}
-		$string= preg_replace('/&#(\d+);/me',"chr(\\1)",$string); #decimal notation
-		$string= preg_replace('/&#x([a-f0-9]+);/mei',"chr(0x\\1)",$string);  #hex notation
+		$string= preg_replace_callback(
+            '/&#(\d+);/m',
+            function($hit){
+                return chr($hit[1]);
+            },
+            $string
+        ); #decimal notation
+		$string= preg_replace_callback(
+            '/&#x([a-f0-9]+);/mi',
+            function($hit) {
+                return chr(hexdec($hit[1]));
+            },
+            $string
+        );  #hex notation
 		return $string;
 	}
 	/**
