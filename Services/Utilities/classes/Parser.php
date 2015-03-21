@@ -3564,12 +3564,20 @@ class Parser
 			#     <!--LINK number-->
 			# turns into
 			#     link text with suffix
-			$canonized_headline = preg_replace( '/<!--LINK ([0-9]*)-->/e',
-							    "\$this->mLinkHolders['texts'][\$1]",
-							    $canonized_headline );
-			$canonized_headline = preg_replace( '/<!--IWLINK ([0-9]*)-->/e',
-							    "\$this->mInterwikiLinkHolders['texts'][\$1]",
-							    $canonized_headline );
+			$canonized_headline = preg_replace_callback(
+                '/<!--LINK ([0-9]*)-->/',
+				function($hit) {
+                    return $this->mLinkHolders['texts'][$hit[1]];
+                },
+                $canonized_headline
+            );
+			$canonized_headline = preg_replace_callback(
+                '/<!--IWLINK ([0-9]*)-->/',
+                function($hit) {
+                    return $this->mInterwikiLinkHolders['texts'][$hit[1]];
+                },
+                $canonized_headline
+            );
 
 			# strip out HTML
 			$canonized_headline = preg_replace( '/<.*?' . '>/','',$canonized_headline );

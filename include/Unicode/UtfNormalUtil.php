@@ -77,9 +77,12 @@ function hexSequenceToUtf8( $sequence ) {
  * @access private
  */
 function utf8ToHexSequence( $str ) {
-	return rtrim( preg_replace( '/(.)/uSe',
-	                            'sprintf("%04x ", utf8ToCodepoint("$1"))',
-	                            $str ) );
+	return rtrim(preg_replace_callback(
+        '/(.)/uS',
+        function($hit) {
+            return sprintf("%04x ", utf8ToCodepoint($hit[1]));
+        },
+	    $str));
 }
 
 /**
