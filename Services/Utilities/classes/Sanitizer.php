@@ -1246,7 +1246,16 @@ class Sanitizer {
 		$url = preg_replace_callback(
             '/[\][<>"\\x00-\\x20\\x7F]/',
             function($hit) {
-                return urlencode($hit[0]);
+                if($hit[0] === '"') {
+                    /** NOTE: The original preg_replace/e IMPLICITLY
+                     *        adds a forward-slash on double quotes
+                     *        This could be a bug, but we will just
+                     *        mimic this behaviour 1:1 for now.
+                     */
+                    return urlencode ('\\"');
+                } else {
+                    return urlencode($hit[0]);
+                }
             },
             $url
         );
