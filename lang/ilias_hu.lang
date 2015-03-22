@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 57853 2015-02-05 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.1.x 2015-03-22 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -677,7 +677,7 @@ assessment#:#polygon_click_next_point#:#Kattintson a sokszög következő pontj�
 assessment#:#polygon_click_starting_point#:#Kattintson a sokszög kezdőpontjára!
 assessment#:#polygon#:#Sokszög
 assessment#:#postpone#:#Kérdés későbbre halasztása
-assessment#:#remove_gap#:##Rés (Gap) eltávolítása###Remove Gap
+assessment#:#remove_gap#:#Rés (Gap) eltávolítása###Remove Gap
 assessment#:#postponed#:#Későbbre halasztott
 assessment#:#postpone_status#:#Későbbre halasztott
 assessment#:#preview#:#Előnézet
@@ -10209,7 +10209,7 @@ dateplaner#:#cal_adm_notification_info#:#Kurzus-/csoporttagok e-mail értesíté
 rbac#:#rbac_add_new_local_role#:#Új helyi szerep létrehozása
 search#:#search_item_filter#:#Keresés típus szerint
 search#:#search_item_filter_form#:#Keresés típus szerint
-search#:#search_item_filter_form_info#:#Ha be van kapcsolva, a keresés a kiválasztott objektumtípusokra korlátozható.
+search#:#search_item_filter_form_info#:#A keresés a kiválasztott fájltípusokra korlátozható.
 administration#:#group_export#:#Látható a csoportokban
 tbl#:#tbl_export_csv#:#Exportálás vesszővel tagolt (.csv) fájlba
 tbl#:#tbl_export_excel#:#Exportálás Excel (.xls) fájlba
@@ -10559,7 +10559,7 @@ book#:#book_set_in_use#:#Használatban
 book#:#book_set_not_in_use#:#Nincs használatban
 book#:#book_set_cancel#:#Foglalás törlése
 book#:#book_set_not_cancel#:#Törlés visszavonása
-rbac#:#book_edit_permission#:##A felhasználó megváltoztathatja a foglalásgyűjteményt jogosultságait
+rbac#:#book_edit_permission#:#A felhasználó megváltoztathatja a foglalásgyűjteményt jogosultságait
 rbac#:#book_visible#:#A foglalásgyűjtemény látható
 rbac#:#book_read#:#A felhasználó foglalhat a foglalásgyűjtemény erőforrásaiból/objektumaiból
 rbac#:#book_delete#:#A felhasználó áthelyezhet vagy törölhet foglalásgyűjteményt
@@ -13581,7 +13581,7 @@ cld#:#cld_add_folder#:#Könyvtár
 cld#:#cld_add_items_from_service_failed#:#Szolgáltatásból új elem hozzáadása sikertelen
 cld#:#cld_add_new_item#:#Új elem hozzáadása
 cld#:#cld_auth_failed#:#Hitelesítés sikertelen
-cld#:#cld_authentication_failed#:#:#Hitelesítés sikertelen
+cld#:#cld_authentication_failed#:#Hitelesítés sikertelen
 cld#:#cld_config_entry_does_not_exist#:#Konfigurációs bejegyzés nem létezik
 cld#:#cld_config_no_valid_get_or_set_function#:#Nincs érvényes get, illetve set függvény a konfigurációs értékhez.
 cld#:#cld_config_table_does_not_exist#:#Konfigurációs tábla nem létezik
@@ -13803,7 +13803,7 @@ content#:#content_plugin_not_activated#:#Az oldal tartalmi elem bővítmény jel
 administration#:#vc_information#:#SVN verzió megjelenítése
 administration#:#svn_revision_current#:#Jelenlegi revízió: %s
 administration#:#svn_revision_last_change#:#Utoljára módosított revízió: %s
-administration#:#svn_root#:#Root: %s
+administration#:#svn_root#:#Gyökér: %s
 administration#:#svn_path#:#Útvonal: %s
 content#:#cont_verification_placeh#:#Kattints és szerkessz a tanúsítvány beszúrásához
 content#:#cont_verification_placehl#:#Tanúsítvány helyőrzők
@@ -14037,7 +14037,7 @@ search#:#search_mime_image#:#Képek
 search#:#lucene_show_sub_relevance#:#Altételek relevanciájának megjelenítése
 search#:#search_mime_filter_form#:#Mime típus szűrő
 search#:#lucene_prefix_wildcard#:#Helyettesítő jellel keresés
-search#:#lucene_prefix_wildcard_info#:#Ha be van kapcsolva, a helyettesítő jellel végzett kereséseket támogatjuk (*LIAS találata: ILIAS).
+search#:#lucene_prefix_wildcard_info#:#Helyettesítő jellel végzett keresések támogatása: '*LIAS' találata 'ILIAS'
 content#:#cont_activate_multi_lang#:#Többnyelvűség bekapcsolása
 obj#:#obj_select_master_lang#:#Válasszon elsődleges nyelvet. A jelenlegi tartalom a elsődleges nyelvhez lesz hozzárendelve.
 assessment#:#show_answer_overview#:#Válaszok áttekintésének megjelenítése
@@ -14059,8 +14059,8 @@ content#:#cont_current_lang#:#Jelenlegi nyelv
 obj#:#obj_deactivate_content_lang#:#Többnyelvűség kikapcsolása
 content#:#cont_edit_language_version#:#Verzió szerkesztése
 content#:#cont_page_translation_does_not_exist#:#A fordítási oldal még nem létezik és a mester nyelvi oldal tartalmának másolásával fog létrejönni. 
-search#:#search_user_search_form#:#Felhasználó keresése
-search#:#search_user_search_info_form#:#Ha be van kapcsolva, felhasználói adatok indexeltek és kereshetőek.
+search#:#search_user_search_form#:#Felhasználói profilokban keresés
+search#:#search_user_search_info_form#:#A felhasználói profilok adatai indexeltek és a felhasználók számára kereshetőek.
 adve#:#adve_blocking_mode#:#Szerkesztése zárolása
 adve#:#adve_minutes#:#Percek
 adve#:#adve_minutes_info#:#Inaktivitás percben, mielőtt egy szerkesztési zárolás lejár és az oldalt másik felhasználó szerkesztheti.
@@ -14199,10 +14199,10 @@ obj#:#obj_tool_setting_info_tab#:#Információ fül
 adve#:#char_selector_admin#:#Unicode karakterválasztó (Ω gomb) megjelenítése tesztekben és kérdésgyűjteményekben
 adve#:#char_selector_user#:#Unicode karakterválasztó (Ω gomb) megjelenítése tesztekben
 adve#:#char_selector_test#:#Unicode karakterválasztó
-adve#:#char_selector_inherit_info_test#:#A globálisan rendszer- és az egyéni felhasználói beállítástól függően jelenik meg vagy marad rejtve az Unicode karakterválasztó.
-adve#:#char_selector_inherit_info_user#:#A rendszerbállítás globálisan, az egész rendszerre legyen érvényben.
+adve#:#char_selector_inherit_info_test#:#A globális rendszer- és az egyéni felhasználói beállítástól függően jelenik meg vagy marad rejtve az Unicode karakterválasztó.
+adve#:#char_selector_inherit_info_user#:#A globális, egész rendszerre vonatkozó rendszerbeállítás legyen érvényben.
 adve#:#char_selector_inherit_test#:#A globális rendszer-, illetve az egyéni felhasználói beállítás együtt hatnak.
-adve#:#char_selector_inherit_user#:#Globálisan beállítások használata
+adve#:#char_selector_inherit_user#:#Globális beállítások használata
 adve#:#char_selector_disabled_admin#:#Unicode karakterválasztó csak akkor jelenik meg, ha be van kapcsolva
 adve#:#char_selector_disabled_info_admin#:#Az Unicode karakterválasztó tesztekben és kérdésgyűjteményekben engedélyezve van, de a felhasználó munkaasztal beállítása alatt vagy az adott tesztben, illetve kérdésgyűjteményeben be kell kapcsolniuk a felhasználóknak. A tesztbeállítások felülírják a a felhasználó beállításait.
 adve#:#char_selector_disabled_info_test#:#Az Unicode karakterválasztó ebben a tesztben - a felhasználó egyéni beállításaitól függetlenül - ki van kapcsolva.
@@ -15218,6 +15218,6 @@ scormtrac#:#rvalue#:#Érték
 scormtrac#:#identifierref#:#SCO-Azonosító
 dcl#:#dcl_online_info#:#Az adatgyűjtést csak online állapotában használhatják a felhasználók.
 dcl#:#dcl_notification_info#:#Az egyedi értesítési funkció engedélyezése a felhasználók számára.
-administration#:#adm_missing_entries#:#Missing Entries###06 02 2015 new variable
-administration#:#adm_missing_entry_add_action#:#Add###06 02 2015 new variable
-administration#:#adm_missing_entry_add#:#Add New Entry###06 02 2015 new variable
+administration#:#adm_missing_entries#:#Hiányzó bejegyzések
+administration#:#adm_missing_entry_add_action#:#Hozzáadás
+administration#:#adm_missing_entry_add#:#Új bejegyzés hozzáadása
