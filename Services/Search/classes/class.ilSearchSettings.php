@@ -32,6 +32,8 @@ class ilSearchSettings
 	protected $lucene_item_filter = array();
 	protected $lucene_offline_filter = true;
 	protected $auto_complete_length = 10;
+	protected $show_inactiv_user = true;
+	protected $show_limited_user = true;
 	
 	protected $lucene_mime_filter_enabled = false;
 	protected $lucene_mime_filter = array();
@@ -384,6 +386,46 @@ class ilSearchSettings
 	{
 		$this->user_search = $a_status;
 	}
+
+	/**
+	 * show inactive user in user search
+	 *
+	 * @param bool $a_visible
+	 */
+	public function showInactiveUser($a_visible)
+	{
+		$this->show_inactiv_user = (bool) $a_enable;
+	}
+
+	/**
+	 * are inactive user visible in user search
+	 *
+	 * @return bool
+	 */
+	public function isInactiveUserVisible()
+	{
+		return $this->show_inactiv_user;
+	}
+
+	/**
+	 * show user with limited access in user search
+	 *
+	 * @param bool $a_visible
+	 */
+	public function showLimitedUser($a_visible)
+	{
+		$this->show_limited_user = (bool) $a_visible;
+	}
+
+	/**
+	 * are user with limited access visible in user search
+	 *
+	 * @return bool
+	 */
+	public function isLimitedUserVisible()
+	{
+		return $this->show_limited_user;
+	}
 	
 	function update()
 	{
@@ -409,6 +451,8 @@ class ilSearchSettings
 		$ilSetting->set('lucene_mime_filter_enabled',$this->isLuceneMimeFilterEnabled());
 		$this->ilias->setSetting('lucene_prefix_wildcard',$this->isPrefixWildcardQueryEnabled());
 		$ilSetting->set('lucene_user_search',$this->isLuceneUserSearchEnabled());
+		$ilSetting->set('search_show_inactiv_user', (int) $this->isInactiveUserVisible());
+		$ilSetting->set('search_show_limited_user', (int) $this->isLimitedUserVisible());
 
 		return true;
 	}
@@ -452,7 +496,9 @@ class ilSearchSettings
 		$this->showSubRelevance($this->ilias->getSetting('lucene_sub_relevance',$this->showSubRelevance));
 		$this->enablePrefixWildcardQuery($this->ilias->getSetting('lucene_prefix_wildcard',$this->prefix_wildcard));
 		$this->enableLuceneUserSearch($ilSetting->get('lucene_user_search',$this->user_search));
-		
+
+		$this->showInactiveUser((bool) $ilSetting->get('search_show_inactiv_user'));
+		$this->showLimitedUser((bool) $ilSetting->get('search_show_limited_user'));
 	}
 }
 ?>
