@@ -337,7 +337,7 @@ class ilParticipationStatusAdminGUI
 
 			if ($crs_utils->isDecentralTraining() 
 			&& (   $crs_utils->getMinParticipants() > count($crs_utils->getParticipants())
-				|| !$this->getParticipationStatus()->getMailSendDate()
+				//|| !$this->getParticipationStatus()->getMailSendDate()
 				)
 			) {
 				$may_finalize = false;

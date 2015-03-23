@@ -153,7 +153,7 @@ class gevMyTrainingsApGUI {
 
 			if ($crs_utils->isDecentralTraining() 
 			&& (   $crs_utils->getMinParticipants() > count($crs_utils->getParticipants())
-				|| !$pstatus->getMailSendDate()
+				//|| !$pstatus->getMailSendDate()
 				)
 			) {
 				$may_finalize = false;
