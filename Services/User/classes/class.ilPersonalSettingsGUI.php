@@ -419,10 +419,12 @@ class ilPersonalSettingsGUI
 		}
 
 		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
-		if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
+		// gev-patch start
+		/*if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
 		{
 			$ilTabs->addTarget("mail_settings", $this->ctrl->getLinkTarget($this, "showMailOptions"), "", "", "", $showMailOptions);
-		}
+		}*/
+		// gev-patch end
 
 		$chatSettings = new ilSetting('chatroom');
 		$notificationSettings = new ilSetting('notifications');
