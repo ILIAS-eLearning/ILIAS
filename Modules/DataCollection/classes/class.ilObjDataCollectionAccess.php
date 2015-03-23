@@ -80,8 +80,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 		switch ($a_cmd) {
 			case "view":
 
-				if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
-					&& !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)
+				if (! ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
+					&& ! $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)
 				) {
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
@@ -91,7 +91,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 
 			// for permission query feature
 			case "infoScreen":
-				if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)) {
+				if (! ilObjDataCollectionAccess::_lookupOnline($a_obj_id)) {
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 				} else {
 					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
@@ -101,8 +101,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 		switch ($a_permission) {
 			case "read":
 			case "visible":
-				if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
-					&& (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
+				if (! ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
+					&& (! $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
 				) {
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
@@ -202,12 +202,12 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	/**
 	 * @param $ref int the reference id of the datacollection object to check.
 	 *
-	 * @return bool whether or not the current user has add/edit_entry access to the referenced datacollection
+	 * @return bool whether or not the current user has read access to the referenced datacollection
 	 */
 	public static function _hasReadAccess($ref) {
 		global $ilAccess;
 
-		return $ilAccess->checkAccess("add_entry", "", $ref);
+		return $ilAccess->checkAccess("read", "", $ref);
 	}
 }
 

@@ -40,6 +40,9 @@ class php4XSLTProcessor
 function xslt_process(&$proc, $xml_var, $xslt_var, $dummy, $args, $params,
 	$a_no_warnings = false)
 {
+	/**
+	 * @var $xslt XSLTProcessor
+	 */
 	$xslt = $proc->myProc;
 //echo htmlentities($args[substr($xslt_var, 4)]);
 	$xslt_domdoc = new DomDocument();
@@ -49,7 +52,7 @@ function xslt_process(&$proc, $xml_var, $xslt_var, $dummy, $args, $params,
 	{
 		foreach ($params as $key => $value)
 		{
-			$xslt->setParameter("", $key, $value);
+			$xslt->setParameter("", $key, (string)$value);
 		}
 	}
 
