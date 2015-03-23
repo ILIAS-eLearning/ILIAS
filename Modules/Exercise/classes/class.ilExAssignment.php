@@ -2466,8 +2466,6 @@ class ilExAssignment
 							$matrix[$rater_id] = array($peer_id);	
 						}
 					}
-					
-					unset($run_ids[$peer_id]);
 				}
 			}	
 			
