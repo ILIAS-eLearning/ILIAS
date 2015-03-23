@@ -68,7 +68,7 @@ class PHPlot {
     var $y_precision = 1;
     var $x_precision = 1;
 
-    var $data_units_text = '';              // Units text for 'data' labels (i.e: '¤', '$', etc.)
+    var $data_units_text = '';              // Units text for 'data' labels (i.e: 'ï¿½', '$', etc.)
 
 // Titles
     var $title_txt = '';
@@ -669,7 +669,7 @@ class PHPlot {
         }
 
         // Build the string to be eval()uated later by SetDashedStyle()
-        $this->default_dashed_style = 'array( ';
+        $this->default_dashed_style = '[ '; // switching from PHP-Array to JSON-Notation
 
         $t = 0;
         foreach($asked as $s) {
@@ -682,7 +682,7 @@ class PHPlot {
         }
         // Remove trailing comma and add closing parenthesis
         $this->default_dashed_style = substr($this->default_dashed_style, 0, -1);
-        $this->default_dashed_style .= ')';
+        $this->default_dashed_style .= ']'; // end of JSON
 
         return TRUE;
     }
@@ -695,7 +695,14 @@ class PHPlot {
     function SetDashedStyle($which_ndxcol)
     {
         // See SetDefaultDashedStyle() to understand this.
-        eval ("\$style = $this->default_dashed_style;");
+        // $this->default_dashed_style is a JSON-string
+        // we json_decode, to avoid eval()ing an PHP array definition
+        // this way, we are still able to do replacements.. (still nasty)
+        $replace = [
+            '$which_ndxcol' => json_encode($which_ndxcol),
+            'IMG_COLOR_TRANSPARENT' => json_encode(IMG_COLOR_TRANSPARENT)
+        ];
+        $style = json_decode(str_replace(array_keys($replace),array_values($replace),$this->default_dashed_style));
         return imagesetstyle($this->img, $style);
     }
 
