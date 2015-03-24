@@ -79,25 +79,45 @@ class ilErrorHandling extends PEAR
 
 		$this->error_obj = false;
 		
-		$this->initHandlers();
-
-		// Runtime errors currently only handled for HHVM
-/*		if(ilRuntime::getInstance()->isHHVM())
-		{
-			set_error_handler(
-				array($this, 'handleRuntimeErrors'),
-				ilRuntime::getInstance()->getReportedErrorLevels()
-			);
-		}
-		set_exception_handler(array($this, 'handleUncaughtException'));*/
+		$rt = ilRuntime::getInstance();
+		$this->initHandlers(DEVMODE, $rt->isHHVM(), $rt->getReportedErrorLevels());
 	}
 	
-	protected function initHandlers() {
-		// Initialize Whoops
-		$run = new Run();
-		$handler = new PrettyPageHandler();
-		$run->pushHandler($handler);
-		$run->register();
+	/**
+	 * Initialize Error and Exception Handlers.
+	 *
+	 * Initializes Whoops for the DEVMODE and the legacy ILIAS-Handlers for the
+	 * production mode.
+	 *
+	 * @param $a_devmode				Does ILIAS run in DEVMODE?
+	 * @param $a_is_hhvm				Does ILIAS run on HipHopVM?
+	 * @param $a_reported_error_levels	Which error levels should get reported?
+	 * @return null
+	 */
+	protected function initHandlers($a_devmode, $a_is_hhvm, $a_reported_error_levels) {
+		// TODO: * Use Whoops in production mode? This would require an appropriate
+		//		   error-handler.
+		//		 * Check for context? The current implementation e.g. would output HTML for
+		//		   for SOAP.
+		
+		if ($a_devmode) {
+			// Initialize Whoops
+			$run = new Run();
+			$handler = new PrettyPageHandler();
+			$run->pushHandler($handler);
+			$run->register();
+		}
+		else {
+			// Runtime errors currently only handled for HHVM
+			if($a_is_hhvm)
+			{
+				set_error_handler(
+					array($this, 'handleRuntimeErrors'),
+					$a_reported_error_levels
+				);
+			}
+			set_exception_handler(array($this, 'handleUncaughtException'));
+		}
 	}
 
 	function getLastError()
