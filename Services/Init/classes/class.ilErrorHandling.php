@@ -1,5 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Environment/classes/class.ilRuntime.php';
 
@@ -9,11 +10,28 @@ require_once 'Services/Environment/classes/class.ilRuntime.php';
 *
 * @author	Stefan Meyer <meyer@leifos.com>
 * @author	Sascha Hofmann <shofmann@databay.de>
+* @author	Richard Klees <richard.klees@concepts-and-training.de>
 * @version	$Id$
 * @extends PEAR
 * @todo		when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
 */
 include_once 'PEAR.php';
+
+// TODO: This would clearly benefit from Autoloading...
+require_once("./Services/Exceptions/lib/Whoops/Run.php");
+require_once("./Services/Exceptions/lib/Whoops/Handler/HandlerInterface.php");
+require_once("./Services/Exceptions/lib/Whoops/Handler/Handler.php");
+require_once("./Services/Exceptions/lib/Whoops/Handler/PrettyPageHandler.php");
+require_once("./Services/Exceptions/lib/Whoops/Exception/Inspector.php");
+require_once("./Services/Exceptions/lib/Whoops/Exception/ErrorException.php");
+require_once("./Services/Exceptions/lib/Whoops/Exception/FrameCollection.php");
+require_once("./Services/Exceptions/lib/Whoops/Exception/Frame.php");
+require_once("./Services/Exceptions/lib/Whoops/Exception/Formatter.php");
+require_once("./Services/Exceptions/lib/Whoops/Util/TemplateHelper.php");
+require_once("./Services/Exceptions/lib/Whoops/Util/Misc.php");
+
+use Whoops\Run;
+use Whoops\Handler\PrettyPageHandler;
 
 class ilErrorHandling extends PEAR
 {
@@ -60,16 +78,26 @@ class ilErrorHandling extends PEAR
 		$this->MESSAGE	 = 3;
 
 		$this->error_obj = false;
+		
+		$this->initHandlers();
 
 		// Runtime errors currently only handled for HHVM
-		if(ilRuntime::getInstance()->isHHVM())
+/*		if(ilRuntime::getInstance()->isHHVM())
 		{
 			set_error_handler(
 				array($this, 'handleRuntimeErrors'),
 				ilRuntime::getInstance()->getReportedErrorLevels()
 			);
 		}
-		set_exception_handler(array($this, 'handleUncaughtException'));
+		set_exception_handler(array($this, 'handleUncaughtException'));*/
+	}
+	
+	protected function initHandlers() {
+		// Initialize Whoops
+		$run = new Run();
+		$handler = new PrettyPageHandler();
+		$run->pushHandler($handler);
+		$run->register();
 	}
 
 	function getLastError()
