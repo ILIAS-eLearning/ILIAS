@@ -75,7 +75,7 @@ class wbdErrorLog {
 
 
 
-	static function __install__() {
+	static function _install() {
 		$sql = " CREATE TABLE IF NOT EXISTS wbd_errors ("
 		  ." id int(11) NOT NULL AUTO_INCREMENT,"
 		  ." ts timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,"
