@@ -304,7 +304,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 			$usr_data_fields[] = $field;
 		}
 		include_once './Services/User/classes/class.ilUserQuery.php';
-		$usr_data = ilUserQuery::getUserListData(
+	/*	$usr_data = ilUserQuery::getUserListData(
 				'login',
 				'ASC',
 				0,
@@ -319,7 +319,29 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 				null,
 				$usr_data_fields,
 				$a_user_ids
-		);
+		);*/
+
+		$u_query = new ilUserQuery();
+		$u_query->setOrderField('login');
+		$u_query->setOrderDirection('ASC');
+		$u_query->setLimit(999999);
+		include_once './Services/Search/classes/class.ilSearchSettings.php';
+
+		if(!ilSearchSettings::getInstance()->isInactiveUserVisible())
+		{
+			$u_query->setActionFilter("activ");
+		}
+
+		if(!ilSearchSettings::getInstance()->isLimitedUserVisible())
+		{
+			$u_query->setAccessFilter(true);
+		}
+
+		$u_query->setAdditionalFields($usr_data_fields);
+		$u_query->setUserFilter($a_user_ids);
+
+		$usr_data = $u_query->query();
+
 		
 		if($this->admin_mode && $parse_access)
 		{

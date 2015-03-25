@@ -436,6 +436,23 @@ class ilUserAutoComplete
 			$outer_conditions[] = '(' . implode(' OR ', $field_conditions) . ')';
 		}
 
+
+		$settings = ilSearchSettings::getInstance();
+
+		if(!$settings->isInactiveUserVisible())
+		{
+			$outer_conditions[] = "ud.active = ". $ilDB->quote(1, 'integer');
+		}
+
+		if(!$settings->isLimitedUserVisible())
+		{
+			$unlimited = "ud.time_limit_unlimited = ". $ilDB->quote(1, 'integer');
+			$from = "ud.time_limit_from < ". $ilDB->quote(time(), 'integer');
+			$until = "ud.time_limit_until > ". $ilDB->quote(time(), 'integer');
+
+			$outer_conditions[] = '(' .$unlimited.' OR ('.$from.' AND ' .$until.'))';
+		}
+
 		return implode(' AND ', $outer_conditions);
 	}
 

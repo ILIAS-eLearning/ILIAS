@@ -335,6 +335,10 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$settings->setHideAdvancedSearch($_POST['hide_adv_search']);
 		$settings->setAutoCompleteLength($_POST['auto_complete_length']);
 
+		$settings->showInactiveUser($_POST["inactive_user"]);
+		$settings->showLimitedUser($_POST["limited_user"]);
+
+
 		$settings->update();
 
 		unset($_SESSION['search_last_class']);

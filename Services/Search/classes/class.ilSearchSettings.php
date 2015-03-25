@@ -394,7 +394,7 @@ class ilSearchSettings
 	 */
 	public function showInactiveUser($a_visible)
 	{
-		$this->show_inactiv_user = (bool) $a_enable;
+		$this->show_inactiv_user = (bool) $a_visible;
 	}
 
 	/**
@@ -451,8 +451,8 @@ class ilSearchSettings
 		$ilSetting->set('lucene_mime_filter_enabled',$this->isLuceneMimeFilterEnabled());
 		$this->ilias->setSetting('lucene_prefix_wildcard',$this->isPrefixWildcardQueryEnabled());
 		$ilSetting->set('lucene_user_search',$this->isLuceneUserSearchEnabled());
-		$ilSetting->set('search_show_inactiv_user', (int) $this->isInactiveUserVisible());
-		$ilSetting->set('search_show_limited_user', (int) $this->isLimitedUserVisible());
+		$ilSetting->set('search_show_inactiv_user', $this->isInactiveUserVisible());
+		$ilSetting->set('search_show_limited_user', $this->isLimitedUserVisible());
 
 		return true;
 	}
@@ -497,8 +497,8 @@ class ilSearchSettings
 		$this->enablePrefixWildcardQuery($this->ilias->getSetting('lucene_prefix_wildcard',$this->prefix_wildcard));
 		$this->enableLuceneUserSearch($ilSetting->get('lucene_user_search',$this->user_search));
 
-		$this->showInactiveUser((bool) $ilSetting->get('search_show_inactiv_user'));
-		$this->showLimitedUser((bool) $ilSetting->get('search_show_limited_user'));
+		$this->showInactiveUser($ilSetting->get('search_show_inactiv_user', $this->show_inactiv_user));
+		$this->showLimitedUser($ilSetting->get('search_show_limited_user', $this->show_limited_user));
 	}
 }
 ?>
