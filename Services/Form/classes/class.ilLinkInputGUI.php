@@ -320,7 +320,8 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		$value = $this->getValue();
 		if($value)
 		{
-			if($has_int && strpos($value, "|"))
+			// #15647 
+			if($has_int && self::isInternalLink($value))
 			{
 				$mode->setValue("int");
 								
@@ -390,6 +391,27 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 			// as the ajax-panel uses a form it has to be outside of the parent form!
 			return ilInternalLinkGUI::getInitHTML("");
 		}
+	}
+	
+	public static function isInternalLink($a_value)
+	{
+		if(strpos($a_value, "|"))
+		{
+			$parts = explode("|", $a_value);
+			if(sizeof($parts) == 2 || sizeof($parts) == 3)
+			{
+				// numeric id
+				if(is_numeric($parts[1]))
+				{
+					// simple type
+					if(preg_match("/^[a-zA-Z_]+$/", $parts[0], $matches))
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 	
 	public static function getTranslatedValue($a_value)
