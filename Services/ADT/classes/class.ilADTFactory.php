@@ -14,7 +14,8 @@ class ilADTFactory
 	 */
 	protected function __construct() 
 	{
-		
+		// #15666 - generic fix in 5.1+, but float/location needs this
+		setlocale(LC_NUMERIC, 'C');	
 	}
 	
 	/**
