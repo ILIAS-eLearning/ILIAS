@@ -681,9 +681,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		if(ilTimingCache::_showWarning($a_ref_id, $a_user_id))
 		{
 			$timings = ilTimingCache::_getTimings($a_ref_id);
-			if($timings['item']['changeable'] and $timings['user'][$a_usr_id]['end'])
+			if($timings['item']['changeable'] and $timings['user'][$a_user_id]['end'])
 			{
-				$end = $timings['user'][$a_usr_id]['end'];
+				$end = $timings['user'][$a_user_id]['end'];
 			}
 			else if ($timings['item']['suggestion_end'])
 			{
