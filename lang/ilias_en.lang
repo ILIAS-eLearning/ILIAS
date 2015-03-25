@@ -2370,7 +2370,7 @@ common#:#exc_schedule#:#Schedule
 common#:#exc_search_for#:#Search for
 common#:#exc_select_one_file#:#Please select exactly one file.
 common#:#exc_send_exercise#:#Send exercise by mail
-common#:#exc_sent_at#:#Sent at <br />%s
+common#:#exc_sent_at#:#Sent on <br />%s
 common#:#exc_sent#:#The exercise has been sent to the selected users
 common#:#exc_status_resubmitted#:#Resubmitted
 common#:#exc_status_saved#:#Exercise updated
