@@ -15229,3 +15229,7 @@ administration#:#adm_missing_entry_add_action#:#Add
 administration#:#adm_missing_entry_add#:#Add New Entry
 crs#:#crs_usr_agreement#:#User Agreement
 grp#:#grp_usr_agreement#:#User Agreement
+search#:#search_show_inactive_user#:#Show Inactive User
+search#:#search_show_inactive_user_info#:#If enabled, the user search will show inactive user.
+search#:#search_show_limited_user#:#Show Limited User
+search#:#search_show_limited_user_info#:#If enabled, the user search will show user with limited access and outside their allowed time period.
