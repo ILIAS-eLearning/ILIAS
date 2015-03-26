@@ -527,15 +527,15 @@ abstract class ilContainerContentGUI
 		)
 		{											
 			$pos = 1;
-						
+
 			include_once('./Services/Container/classes/class.ilContainerSorting.php');			
 			include_once('./Services/Object/classes/class.ilObjectActivation.php');			
 			$items = ilObjectActivation::getItemsByEvent($a_item_data['obj_id']);
 			$items = ilContainerSorting::_getInstance($this->getContainerObject()->getId())->sortSubItems('sess',$a_item_data['obj_id'],$items);
-			
-			
+			$items = ilContainer::getCompleteDescriptions($items);
+
 			$item_readable = $ilAccess->checkAccess('read','',$a_item_data['ref_id']);
-			
+
 			foreach($items as $item)
 			{				
 				// TODO: this should be removed and be handled by if(strlen($sub_item_html))
