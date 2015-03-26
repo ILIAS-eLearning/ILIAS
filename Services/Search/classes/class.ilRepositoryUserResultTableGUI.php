@@ -22,6 +22,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 	protected static $all_selectable_cols = NULL;
 	protected $admin_mode;
 	protected $type;
+	protected $user_limitations = true;
 	
 	/**
 	* Constructor
@@ -117,6 +118,25 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 	public function getLuceneResult()
 	{
 		return $this->lucene_result;
+	}
+
+	/**
+	 * allow user limitations like inactive and access limitations
+	 *
+	 * @param bool $a_limitations
+	 */
+	public function setUserLimitations($a_limitations)
+	{
+		$this->user_limitations = (bool) $a_limitations;
+	}
+
+	/**
+	 * allow user limitations like inactive and access limitations
+	 * @return bool
+	 */
+	public function getUserLimitations()
+	{
+		return $this->user_limitations;
 	}
 
 	/**
@@ -327,12 +347,12 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 		$u_query->setLimit(999999);
 		include_once './Services/Search/classes/class.ilSearchSettings.php';
 
-		if(!ilSearchSettings::getInstance()->isInactiveUserVisible())
+		if(!ilSearchSettings::getInstance()->isInactiveUserVisible() && $this->getUserLimitations())
 		{
 			$u_query->setActionFilter("activ");
 		}
 
-		if(!ilSearchSettings::getInstance()->isLimitedUserVisible())
+		if(!ilSearchSettings::getInstance()->isLimitedUserVisible() && $this->getUserLimitations())
 		{
 			$u_query->setAccessFilter(true);
 		}
