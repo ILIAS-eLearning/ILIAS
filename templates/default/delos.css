@@ -6396,6 +6396,10 @@ span.ilAlert {
   height: 22px;
   margin: 0 3px 0 0;
 }
+#ilAdvSelListTable_socialbm_actions.dropdown-menu img {
+  width: auto;
+  height: auto;
+}
 .ilAdvNoImg {
   display: inline-block;
   width: 22px;
@@ -9512,10 +9516,11 @@ span.bibl_text_inline_Emph {
 .ilPlayerPreviewDescription {
   padding: 7px;
   font-size: 85%;
-  position: relative;
+  position: absolute;
+  width: 306px;
   color: #F0F0F0;
-  top: -240px;
-  background: url("images/black60.png");
+  margin-top: -240px;
+  background: url("images//black60.png");
 }
 .ilPlayerPreviewOverlay img {
   cursor: pointer;
