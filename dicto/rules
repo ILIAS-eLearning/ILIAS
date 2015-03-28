@@ -4,6 +4,9 @@ triggerError = PhpClass with name:"trigger_error"
 ilLanguageGlobal = PhpClass with name:"GLOBAL\\lng"
 ilLanguage = PhpClass with name:"ilLanguage"
 exitOrDie = PhpClass with name:"exit/die"
+ilTopLevelException = PhpClass with name:"ilException"
+ilExceptions = PhpClass with name:"il*Exception*"
+ilExceptionsWithoutTopLevelException = {ilExceptions} except {ilTopLevelException} 
 
 /**
  * The global function trigger_error is a procedural concept. Please ommit this function and use an
@@ -25,5 +28,30 @@ WholeIliasCodebase cannot depend on triggerError
  */
 WholeIliasCodebase cannot depend on exitOrDie
 
+
+/**
+ * The Model of ILIAS should be language independent. Only on the GUI layer the language should be
+ * assigned.
+ *
+ * See: http://www.ilias.de/docu/goto_docu_pg_199_42.html
+ *
+ */
 only GUIClasses can depend on ilLanguageGlobal
+
+/**
+ * The Model of ILIAS should be language independent. Only on the GUI layer the language should be
+ * assigned.
+ *
+ * See: http://www.ilias.de/docu/goto_docu_pg_199_42.html
+ *
+ */
 only GUIClasses can depend on ilLanguage
+
+/**
+ * All ILIAS Exceptions must be in a Hierarchy and finally extend ilException Every module/service 
+ * should define its own top level Exception e.g. ilCourseException where all other exceptions from
+ * that module/service extend this service/module Exception.
+ *
+ * See: http://www.ilias.de/docu/goto_docu_pg_42740_42.html
+ */
+ilExceptionsWithoutTopLevelException must depend on ilExceptions
