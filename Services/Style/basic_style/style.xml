@@ -213,7 +213,7 @@
 	<StyleParameter Name="border-style" Value="solid"/>
 	<StyleParameter Name="background-image" Value="qmark.png"/>
 	<StyleParameter Name="background-repeat" Value="no-repeat"/>
-	<StyleParameter Name="background-position" Value="top right"/>	
+	<StyleParameter Name="background-position" Value="right top"/>	
 </Style>
 <Style Tag="div" Type="question" Class="SingleChoice">
 </Style>
