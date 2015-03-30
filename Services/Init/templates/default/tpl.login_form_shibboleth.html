@@ -1,9 +1,9 @@
 <div class="ilForm">
-	<form method="post" action="{SHIB_FORMACTION}" name="formlogin">
+	<form method="post" action="{SHIB_FORMACTION}" name="formlogin" class="form-horizontal preventDoubleSubmission">
 		<input type="hidden" name="sendLogin" value="1" />
 		<!-- BEGIN shibboleth_wayf_login -->
 		<div class="ilFormHeader">
-			<h3 class="ilFormHeader">
+			<h3 class="ilHeader">
 				{TXT_SHIB_LOGIN} {TXT_SHIB_FEDERATION_NAME}
 			</h3>
 		</div>
@@ -31,7 +31,7 @@
 		<!-- END shibboleth_wayf_login -->
 		<!-- BEGIN shibboleth_login -->
 		<div class="ilFormHeader">
-			<h3 class="ilFormHeader">
+			<h3 class="ilHeader">
 				{TXT_SHIB_LOGIN} {TXT_SHIB_FEDERATION_NAME}
 			</h3>
 		</div>
