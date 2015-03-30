@@ -367,7 +367,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $ilToolbar, $ilUser;
 		
-		if(!$this->getCurrentObject()->enabledRegistration() && $ilUser->isAnonymous())
+		if(!$this->getCurrentObject()->enabledRegistration() || $ilUser->isAnonymous())
 		{
 			return FALSE;
 		}
