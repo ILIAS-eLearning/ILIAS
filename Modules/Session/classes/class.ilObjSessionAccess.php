@@ -77,14 +77,14 @@ class ilObjSessionAccess extends ilObjectAccess
 		switch($a_cmd)
 		{
 			case 'register':
-				if(self::_lookupRegistration($a_obj_id))
+				if(self::_lookupRegistration($a_obj_id)&& $a_user_id != ANONYMOUS_USER_ID)
 				{
 					return !self::_lookupRegistered($a_user_id,$a_obj_id);
 				}
 				return false;
 				
 			case 'unregister':
-				if(self::_lookupRegistration($a_obj_id))
+				if(self::_lookupRegistration($a_obj_id) && $a_user_id != ANONYMOUS_USER_ID)
 				{
 					return self::_lookupRegistered($a_user_id,$a_obj_id);
 				}
