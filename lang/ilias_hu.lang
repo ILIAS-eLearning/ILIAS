@@ -6514,7 +6514,7 @@ exc#:#exc_deadline#:#Határidő
 exc#:#exc_edit_assignment#:#Feladat szerkesztése
 exc#:#exc_edit_assignments#:#Feladatok szerkesztése
 exc#:#exc_edit_submission#:#Megoldás módosítása
-exc#:#exc_ended_on#:#Befejezve
+exc#:#exc_ended_on#:#Lezárva
 exc#:#exc_export_excel#:#Exportálás Excel (.xls) fájlba
 exc#:#exc_fb_files#:#Visszajelzésfájlok
 exc#:#exc_grades_overview#:#Értékelések
