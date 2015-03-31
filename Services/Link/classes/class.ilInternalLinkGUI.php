@@ -1099,6 +1099,9 @@ class ilInternalLinkGUI
 		include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php");
 		ilExplorerBaseGUI::init();
 
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		ilYuiUtil::initConnection();
+
 		$tpl->addJavascript("./Services/Link/js/ilIntLink.js");
 
 		include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
