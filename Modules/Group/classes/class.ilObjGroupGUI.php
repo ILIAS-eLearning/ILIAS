@@ -825,7 +825,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function membersGalleryObject()
 	{
-		global $rbacsystem, $ilAccess, $ilUser;
+		global $rbacsystem, $ilAccess, $ilUser, $ilToolbar;
 		
 		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
 		
@@ -839,6 +839,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		// fetch all users data in one shot to improve performance
 		$members = $this->object->getGroupMemberData($member_ids);
+
+		$this->addMailToMemberButton($ilToolbar, "membersGallery");
 		
 		// MEMBERS
 		if(count($members))
@@ -1095,6 +1097,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		// print button
 		$ilToolbar->addButton($this->lng->txt("grp_print_list"),
 			$this->ctrl->getLinkTarget($this, 'printMembers'));
+
+		$this->addMailToMemberButton($ilToolbar, "members", true);
 
 		$this->setShowHidePrefs();
 		
@@ -1876,11 +1880,13 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','Services/Contact');
 		
 
-		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
+		$b_cmd = $_GET["back_cmd"] ? $_GET["back_cmd"] : "members";
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this,$b_cmd));
+
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		$this->tpl->setVariable("MAILACTION", ilMailFormCall::getLinkTarget($this, 'membersGallery', array(), array('type' => 'role','sig' => $this->createMailSignature())));
+		$this->tpl->setVariable("MAILACTION", ilMailFormCall::getLinkTarget($this, $b_cmd, array(), array('type' => 'role','sig' => $this->createMailSignature())));
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.svg'));
 		$this->tpl->setVariable("TXT_MARKED_ENTRIES",$this->lng->txt('marked_entries'));
 		$this->tpl->setVariable("OK",$this->lng->txt('next'));
@@ -2861,16 +2867,6 @@ class ilObjGroupGUI extends ilContainerGUI
 						"membersMap", get_class($this));
 				}
 				
-				if(
-					$ilAccess->checkAccess('write','',$this->object->getRefId()) or
-					$this->object->getMailToMembersType() == ilObjGroup::MAIL_ALLOWED_ALL
-				)
-				{
-					$this->tabs_gui->addSubTabTarget("mail_members",
-					$this->ctrl->getLinkTarget($this,'mailMembers'),
-					"mailMembers", get_class($this));
-				}
-				
 				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget("events",
@@ -3164,6 +3160,39 @@ class ilObjGroupGUI extends ilContainerGUI
 			$grp_roles[$role_id] = ilObjRole::_getTranslation($title);
 		}
 		return $grp_roles;
+	}
+
+
+	/**
+	 * add Mail to Member button to toolbar
+	 *
+	 * @param ilToolbarGUI $ilToolbar
+	 * @param string $back_cmd
+	 * @param bool $a_separator
+	 */
+	protected function addMailToMemberButton($ilToolbar, $back_cmd = null, $a_separator = false)
+	{
+		global $ilAccess;
+
+		if(
+			$ilAccess->checkAccess('write','',$this->object->getRefId()) or
+			$this->object->getMailToMembersType() == ilObjGroup::MAIL_ALLOWED_ALL
+		)
+		{
+
+			if($a_separator)
+			{
+				$ilToolbar->addSeparator();
+			}
+
+			if($back_cmd)
+			{
+				$this->ctrl->setParameter($this, "back_cmd", $back_cmd);
+			}
+
+			$ilToolbar->addButton($this->lng->txt("mail_members"),
+				$this->ctrl->getLinkTarget($this,'mailMembers'));
+		}
 	}
 
 } // END class.ilObjGroupGUI
