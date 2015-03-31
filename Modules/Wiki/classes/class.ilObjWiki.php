@@ -6,7 +6,8 @@
  */
 
 include_once "./Services/Object/classes/class.ilObject.php";
-include_once ("./Modules/Wiki/classes/class.ilWikiUtil.php");
+include_once "./Modules/Wiki/classes/class.ilWikiUtil.php";
+include_once "./Services/AdvancedMetaData/interfaces/interface.ilAdvancedMetaDataSubItems.php";
 
 /**
  * Class ilObjWiki
@@ -16,7 +17,7 @@ include_once ("./Modules/Wiki/classes/class.ilWikiUtil.php");
  *
  * @ingroup ModulesWiki
  */
-class ilObjWiki extends ilObject
+class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 {
 	protected $online = false;
 	protected $public_notes = true;
@@ -1084,5 +1085,16 @@ class ilObjWiki extends ilObject
 		return $page;
 	}
 
+	public static function getAdvMDSubItemTitle($a_obj_id, $a_sub_type, $a_sub_id)
+	{
+		global $lng;
+	
+		if($a_sub_type == "wpg")
+		{
+			$lng->loadLanguageModule("wiki");
+			include_once "./Modules/Wiki/classes/class.ilWikiPage.php";						
+			return $lng->txt("wiki_wpg").' "'.ilWikiPage::lookupTitle($a_sub_id).'"';
+		}
+	}
 }
 ?>
