@@ -115,7 +115,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 		
 		$field = new ilTextInputGUI($lng->txt("options"), "opts");			
 		$field->setRequired(true);
-		$field->setMulti(true);
+		$field->setMulti(true, true);
 		$field->setMaxLength(255); // :TODO:
 		$a_form->addItem($field);
 		
@@ -315,6 +315,16 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	{		
 		$this->getADT()->setSelection($a_cdata);			
 	}	
+	
+	
+	//
+	// presentation
+	//
+	
+	public function prepareElementForEditor(ilADTEnumFormBridge $a_enum)
+	{
+		$a_enum->setAutoSort(false);		
+	}
 }
 
 ?>

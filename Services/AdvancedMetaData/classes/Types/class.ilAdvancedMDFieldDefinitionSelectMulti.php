@@ -199,4 +199,14 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
 	{			
 		$this->getADT()->setSelections(explode(self::XML_SEPARATOR, $a_cdata));			
 	}	
+	
+	
+	//
+	// presentation
+	//
+	
+	public function prepareElementForEditor(ilADTMultiEnumFormBridge $a_enum)
+	{
+		$a_enum->setAutoSort(false);		
+	}
 }

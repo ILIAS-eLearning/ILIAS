@@ -5,6 +5,7 @@ require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
 class ilADTMultiEnumFormBridge extends ilADTFormBridge
 {
 	protected $option_infos; // [array]
+	protected $auto_sort = true; // [bool]
 	
 	protected function isValidADT(ilADT $a_adt) 
 	{
@@ -16,6 +17,11 @@ class ilADTMultiEnumFormBridge extends ilADTFormBridge
 		$this->option_infos = $a_info;
 	}
 	
+	public function setAutoSort($a_value)
+	{
+		$this->auto_sort = (bool)$a_value;
+	}
+	
 	public function addToForm()
 	{		
 		global $lng;
@@ -23,7 +29,11 @@ class ilADTMultiEnumFormBridge extends ilADTFormBridge
 		$def = $this->getADT()->getCopyOfDefinition();
 		
 		$options = $def->getOptions();
-		// asort($options); // ?
+		
+		if((bool)$this->auto_sort)
+		{
+			asort($options); 
+		}
 
 		$cbox = new ilCheckboxGroupInputGUI($this->getTitle(), $this->getElementId());
 
