@@ -176,7 +176,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	
 	public function prepareCustomDefinitionFormConfirmation(ilPropertyFormGUI $a_form)
 	{
-		global $lng, $objDefinition, $ilCtrl;
+		global $lng, $objDefinition;
 				
 		$a_form->getItemByPostVar("opts")->setDisabled(true);				
 		

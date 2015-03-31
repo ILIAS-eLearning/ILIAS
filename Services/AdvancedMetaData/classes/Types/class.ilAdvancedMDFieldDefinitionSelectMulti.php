@@ -160,8 +160,9 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
 							{
 								// switch option
 								$old_idx = array_pop($old_idx);						
-								$old_value[$old_idx] = $new_option;														
-								$new_value = implode(ilADTMultiEnumDBBridge::SEPARATOR, $old_value);
+								$old_value[$old_idx] = $new_option;				
+								$new_value = array_unique($old_value);
+								$new_value = implode(ilADTMultiEnumDBBridge::SEPARATOR, $new_value);
 								
 								$primary = array(
 									"obj_id" => array("integer", $obj_id),
