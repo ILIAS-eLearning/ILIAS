@@ -252,7 +252,7 @@ class ilPCAMDPageList extends ilPageContent
 			}
 			else
 			{
-				$ltpl->setVariable("NO_HITS", $lng->txt("wiki_amd_page_list_no_hits"));
+				$ltpl->touchBlock("no_hits_bl");
 			}
 											
 			$a_html = substr($a_html, 0, $start).
