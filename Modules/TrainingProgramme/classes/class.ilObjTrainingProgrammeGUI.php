@@ -164,9 +164,15 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 					case "save":
 					case "view":
 					case "cancel":
-					case 'deleteObject':
-					case 'confirmedDeleteObject':
 						$this->$cmd();
+						break;
+					case "delete":
+						$this->tabs_gui->clearTargets();
+						$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this));
+						parent::deleteObject();
+						break;
+					case 'confirmedDelete':
+						parent::confirmedDeleteObject();
 						break;
 					/*case '':
 					case 'view':
