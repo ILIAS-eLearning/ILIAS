@@ -374,18 +374,26 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	 * @depends testTreeCreation
 	 */
 	public function testAddLeaf() {
+		$this->createSmallTree();
 		$mock_leaf = new ilTrainingProgrammeLeafMock();
-		$this->root_object->addLeaf($mock_leaf);
-		
+
+		$children = $this->root_object->getChildren();
+		$first_child = $children[0];
+
+		$first_child->addLeaf($mock_leaf);
+
 		// We use our mock factory, since the original factory won't know how
 		// to create our mock leaf.
-		$this->root_object->object_factory = new ilObjectFactoryWrapperMock();
+		$first_child->object_factory = new ilObjectFactoryWrapperMock();
+
+		$this->assertEquals(3, $this->root_object->getAmountOfChildren(), "getAmountOfChildren()");
+		// Check if TrainingProgrammes are not counted as LP-Children
+		$this->assertEquals(0, $this->root_object->getAmountOfLPChildren(), "getAmountOfLPChildren() on root");
+
+		$this->assertEquals(1, $first_child->getAmountOfLPChildren(), "getAmountOfLPChildren() on first child");
+		$this->assertEquals($first_child->getLPMode(), ilTrainingProgramme::MODE_LP_COMPLETED);
 		
-		$this->assertEquals(0, $this->root_object->getAmountOfChildren(), "getAmountOfChildren()");
-		$this->assertEquals(1, $this->root_object->getAmountOfLPChildren(), "getAmountOfLPChildren()");
-		$this->assertEquals($this->root_object->getLPMode(), ilTrainingProgramme::MODE_LP_COMPLETED);
-		
-		$lp_children = $this->root_object->getLPChildren();
+		$lp_children = $first_child->getLPChildren();
 		$this->assertEquals(1, count($lp_children));
 		$this->assertEquals($mock_leaf->getId(), $lp_children[0]->getId());
 	}
