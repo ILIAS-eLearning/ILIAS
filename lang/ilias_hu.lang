@@ -188,6 +188,8 @@ assessment#:#autosave_info#:#A válaszokat meghatározott időközönként autom
 assessment#:#autosave_ival#:#Időköz
 assessment#:#for#:#ehhez
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#'%s' teszt induló kitöltése nem tartalmaz kérdését.
+assessment#:#tst_dyn_quest_set_pool_deleted#:#A jelenleg beállított '%s' kérdésgyűjteményt törölték.
+assessment#:#tst_old_style_rnd_quest_set_broken#:#Ez a véletlen teszt nem helyreállítható állapotban van, mert egy vagy több kérdésgyűjteményét törölték. Ezt a tesztet nem tölthetik ki többé.
 assessment#:#solution_contain_keywords#:#A pontozás a következő kulcsszavak előfordulása alapján történik:
 assessment#:#essay_scoring_mode#:#Pontozási mód
 assessment#:#essay_scoring_mode_without_keywords#:#Nincs automatikus pontozás
@@ -1338,7 +1340,7 @@ assessment#:#feedback_setting#:#Válaszfüggő visszajelzések módja.
 assessment#:#feedback_all#:#Válaszfüggő visszajelzések megjelenítése az összes kérdéshez.
 assessment#:#feedback_checked#:#Válaszfüggő visszajelzések megjelenítése az összes kiválasztott kérdéshez.
 assessment#:#feedback_correct#:#Válaszfüggő visszajelzések megjelenítése az összes helyesen megválaszolt kérdéshez (helyes válasznak az minősül, mely pozitív pontot ér).
-assessment#:#tst_add_quest_cont_edit_mode#:#További kérdéstartalom szerkesztési módja
+assessment#:#tst_add_quest_cont_edit_mode#:#További kérdéstartalom szerkesztésének módja
 assessment#:#tst_add_quest_cont_edit_mode_default#:#Alapértelmezett szerkesztési mód használata
 assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Oldalszerkesztő használata
 assessment#:#tst_question_feedback_edit_page#:#Tartalom szerkesztése
@@ -13801,10 +13803,14 @@ prtf#:#prtf_template_import_quota_failure#:#Ezt a portfólió sablont nem tudja 
 cntr#:#prtf_create_portfolio_from_template#:#Portfólió létrehozása sablonból
 content#:#content_plugin_not_activated#:#Az oldal tartalmi elem bővítmény jelenleg nem aktív.
 administration#:#vc_information#:#SVN verzió megjelenítése
+administration#:#vc_information_not_determined#:#ILIAS nem tudja megállapítani az verzióinformációt.
 administration#:#svn_revision_current#:#Jelenlegi revízió: %s
 administration#:#svn_revision_last_change#:#Utoljára módosított revízió: %s
 administration#:#svn_root#:#Gyökér: %s
 administration#:#svn_path#:#Útvonal: %s
+administration#:#git_revision#:#Szám: %s
+administration#:#git_hash_short#:#Változtatás Hash (rövid): %s
+administration#:#git_last_commit#:#Utolsó változtatás: %s
 content#:#cont_verification_placeh#:#Kattints és szerkessz a tanúsítvány beszúrásához
 content#:#cont_verification_placehl#:#Tanúsítvány helyőrzők
 content#:#cont_ed_plachverification#:#Helyőrző tanúsítványok
@@ -15221,3 +15227,7 @@ dcl#:#dcl_notification_info#:#Az egyedi értesítési funkció engedélyezése a
 administration#:#adm_missing_entries#:#Hiányzó bejegyzések
 administration#:#adm_missing_entry_add_action#:#Hozzáadás
 administration#:#adm_missing_entry_add#:#Új bejegyzés hozzáadása
+trac#:#trac_mode_survey_finished#:#Kérdőív befejezve
+trac#:#trac_mode_survey_finished_info#:#A kérdőívet a felhasználónak be kell fejeznie, hogy az állapota 'Teljesített' legyen.
+crs#:#crs_usr_agreement#:#Szolgáltatási feltételek
+grp#:#grp_usr_agreement#:#Szolgáltatási feltételek
