@@ -88,7 +88,7 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 						->compile()
 						;
 
-		$allowed_user_ids = $this->user_utils->getEmployeeIdsForBookingCancellations();
+		$allowed_user_ids = $this->user_utils->getEmployeeIdsForBookingView();
 		$this->filter = catFilter::create()
 						->static_condition($this->db->in("usr.user_id", $allowed_user_ids, false, "integer"))
 						->static_condition("usrcrs.hist_historic = 0")

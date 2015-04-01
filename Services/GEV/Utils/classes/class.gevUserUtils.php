@@ -217,6 +217,7 @@ class gevUserUtils {
 		$this->employee_ids_for_course_search = null;
 		$this->employees_for_booking_cancellations = null;
 		$this->employee_ids_for_booking_cancellations = null;
+		$this->employee_ids_for_booking_view = null;
 		$this->od = false;
 		
 		$this->potentiallyBookableCourses = array();
@@ -933,6 +934,34 @@ class gevUserUtils {
 		$this->employees_for_course_search = $this->employees_for_course_search;
 		
 		return $this->employees_for_course_search;
+	}
+	
+	public function getEmployeeIdsForBookingView() {
+		if ($this->employee_ids_for_booking_view) {
+			return $this->employee_ids_for_booking_view;
+		}
+		
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+
+		// we need the employees in those ous
+		$_d_ous = $this->getOrgUnitsWhereUserCanViewEmployeeBookings();
+		// we need the employees in those ous and everyone in the ous
+		// below those.
+		$_r_ous = $this->getOrgUnitsWhereUserCanViewEmployeeBookingsRecursive();
+		
+		$e_ous = array_merge($_d_ous, $_r_ous);
+		$a_ous = array();
+		foreach(gevOrgUnitUtils::getAllChildren($_r_ous) as $val) {
+			$a_ous[] = $val["ref_id"];
+		}
+		
+		$e_ids = array_unique(array_merge( gevOrgUnitUtils::getEmployeesIn($e_ous)
+										 , gevOrgUnitUtils::getAllPeopleIn($a_ous)
+										 )
+							 );
+		$this->employee_ids_for_booking_view = $e_ids;
+		
+		return $e_ids;
 	}
 	
 	public function getEmployeeIdsForBookingCancellations() {
@@ -1770,6 +1799,18 @@ class gevUserUtils {
 		return $tree->getOrgusWhereUserHasPermissionForOperation("book_employees_rcrsv");
 	}
 	
+	public function getOrgUnitsWhereUserCanViewEmployeeBookings() {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
+		return $tree->getOrgusWhereUserHasPermissionForOperation("view_employee_bookings");
+	}
+	
+	public function getOrgUnitsWhereUserCanViewEmployeeBookingsRecursive() {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
+		return $tree->getOrgusWhereUserHasPermissionForOperation("view_employee_bookings_rcrsv");
+	}
+	
 	public function getOrgUnitsWhereUserCanCancelEmployeeBookings() {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
@@ -1780,6 +1821,11 @@ class gevUserUtils {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
 		return $tree->getOrgusWhereUserHasPermissionForOperation("cancel_employee_bookings_rcrsv");
+	}
+	
+	public function canViewEmployeeBookings() {
+		return count($this->getOrgUnitsWhereUserCanViewEmployeeBookings()) > 0
+			|| count($this->getOrgUnitsWhereUserCanViewEmployeeBookingsRecursive()) > 0;
 	}
 	
 	public function canCancelEmployeeBookings() {
