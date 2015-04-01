@@ -452,6 +452,17 @@ class ilObjTrainingProgramme extends ilContainer {
 	public function getAmountOfLPChildren() {
 		return count($this->getLPChildren());
 	}
+
+	/**
+	 * Does this TrainingProgramme has leafs?
+	 *
+	 * Throws when this object is not in tree.
+	 *
+	 * @return bool
+	 */
+	public function hasLPChildren() {
+		return ($this->getAmountOfLPChildren() > 0);
+	}
 	
 	/**
 	 * Helper function to check, weather object is in tree.
