@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.0.0 2015-03-20 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.0.x 2015-04-01 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -13803,10 +13803,14 @@ prtf#:#prtf_template_import_quota_failure#:#Ezt a portfólió sablont nem tudja 
 cntr#:#prtf_create_portfolio_from_template#:#Portfólió létrehozása sablonból
 content#:#content_plugin_not_activated#:#Az oldal tartalmi elem bővítmény jelenleg nem aktív.
 administration#:#vc_information#:#SVN verzió megjelenítése
+administration#:#vc_information_not_determined#:#ILIAS nem tudja megállapítani az verzióinformációt.
 administration#:#svn_revision_current#:#Jelenlegi revízió: %s
 administration#:#svn_revision_last_change#:#Utoljára módosított revízió: %s
 administration#:#svn_root#:#Gyökér: %s
 administration#:#svn_path#:#Útvonal: %s
+administration#:#git_revision#:#Szám: %s
+administration#:#git_hash_short#:#Változtatás Hash (rövid): %s
+administration#:#git_last_commit#:#Utolsó változtatás: %s
 content#:#cont_verification_placeh#:#Kattints és szerkessz a tanúsítvány beszúrásához
 content#:#cont_verification_placehl#:#Tanúsítvány helyőrzők
 content#:#cont_ed_plachverification#:#Helyőrző tanúsítványok
@@ -15223,3 +15227,5 @@ dcl#:#dcl_notification_info#:#Az egyedi értesítési funkció engedélyezése a
 administration#:#adm_missing_entries#:#Hiányzó bejegyzések
 administration#:#adm_missing_entry_add_action#:#Hozzáadás
 administration#:#adm_missing_entry_add#:#Új bejegyzés hozzáadása
+crs#:#crs_usr_agreement#:#Szolgáltatási feltételek
+grp#:#grp_usr_agreement#:#Szolgáltatási feltételek
