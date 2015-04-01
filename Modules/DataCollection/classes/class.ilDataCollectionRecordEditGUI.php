@@ -101,7 +101,7 @@ class ilDataCollectionRecordEditGUI {
 			$this->table_id = $this->table->getId();
 		} else {
 			$this->table = ilDataCollectionCache::getTableCache($this->table_id);
-			if (!ilObjDataCollectionAccess::_hasAddRecordAccess($_GET['ref_id'])) {
+			if (!ilObjDataCollectionAccess::hasAddRecordAccess($_GET['ref_id'])) {
 				$this->accessDenied();
 			}
 		}
