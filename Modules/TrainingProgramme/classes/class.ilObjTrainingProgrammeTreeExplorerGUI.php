@@ -139,7 +139,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 			$this->ctrl->setParameterByClass($target_class, $param_name, $param_value);
 		}
 
-		$props = ' class="button cmd_'.$cmd.'"';
+		$props = ' class="tree_button cmd_'.$cmd.'"';
 		if($async) {
 			$props .= '" data-toggle="modal" data-target="#'.$this->modal_id.'"';
 		}
