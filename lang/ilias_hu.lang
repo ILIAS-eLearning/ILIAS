@@ -3855,7 +3855,7 @@ rbac#:#ps_export_member_data#:#A felhasználó tagadatokat exportálhat kurzusok
 rbac#:#ps_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Adatvédelem és biztonság beállításaihoz
 rbac#:#ps_visible#:#A felhasználó láthatja a Rendszerbeállítások » Adatvédelem és biztonságot
 rbac#:#ps_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Adatvédelem és biztonság beállításait
-common#:#pub_section_info#:#Ha be van kapcsolva, a rendszer részei (pl. taneszköztároló, magánterület, felhasználói profilok) bejelentkezés nélkül elérhetők az internetről. Az 'Anonymous' szerep jogosultságai határozzák meg a taneszköztároló forrásainak elérését.
+common#:#pub_section_info#:#Ha be van kapcsolva, a rendszer részei (pl. taneszköztároló, magánterület, felhasználói profilok) bejelentkezés nélkül elérhetőek az internetről. Az 'Anonymous' szerep jogosultságai határozzák meg a taneszköztároló objektumainak elérhetőségét.
 common#:#pub_section#:#Nyilvános terület
 common#:#public_notes#:#Nyilvános jegyzetek
 common#:#public_profile_not_visible#:#A felhasználói profil nem nyilvános
@@ -3975,9 +3975,9 @@ common#:#role_count_users#:#Felhasználók száma
 common#:#role_deleted_desktop_items#:#Hozzárendelést sikeresen törölte.
 common#:#role_deleted#:#Szerepet sikeresen törölte.
 common#:#role_desk_add#:#Munkaasztalelem hozzárendelése
-common#:#role_desk_none_created#:#Egy munkaasztalelem sincs ennek a a szerepnek.
+common#:#role_desk_none_created#:#Egy munkaasztaleleme sincs hozzárendelve ehhez a szerephez.
 common#:#role_edit#:#Szerep szerkesztése
-common#:#role_header_edit_users#:#Felhasználói hozzáférés változtatása
+common#:#role_header_edit_users#:#Felhasználói hozzáférés módosítása
 common#:#role_list_users#:#Felhasználók felsorolása
 common#:#role_mailto#:#Levél minden hozzárendelt felhasználónak
 common#:#role_new_search#:#Új keresés
@@ -4009,7 +4009,7 @@ common#:#rolf_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#rolf_edit_userassignment#:#Szerep és felhasználó összerendelésének változtatása
 common#:#rolf_read#:#Olvasási elérés szerepekhez / szerepmintákhoz
 common#:#rolf_visible#:#Szerepek / szerepminták láthatók
-common#:#rolf_write#:#Szerepek / szerepminták alap jogosultság beállításainak szerkesztése
+common#:#rolf_write#:#Szerepek / szerepminták alapértelmezett jogosultsági beállításainak szerkesztése
 common#:#rolf#:#Szerepek
 common#:#rolt_a#:#egy szerepminta
 common#:#rolt_add#:#Szerepminta létrehozása
@@ -5798,7 +5798,7 @@ crs#:#crs_show_link_objectives#:#Célkitűzések megjelenítése
 crs#:#crs_show_link_or#:#További források megjelenítése
 crs#:#crs_show_link_session#:#Események megjelenítése
 crs#:#crs_show_link_tst#:#Tesztek megjelenítése
-crs#:#crs_show_members_info#:#A kurzustagok megtekinthetik a tagok képtárát, és levelet küldhetnek a tagoknak.
+crs#:#crs_show_members_info#:#A kurzustagok megtekinthetik a tagok képtárát.
 crs#:#crs_show_members#:#Tagok megjelenítése
 crs#:#crs_show_objectives_view#:#Célkitűzésnézet
 crs#:#crs_size#:#Fájlméret
@@ -11953,7 +11953,7 @@ didactic#:#didactic_confirm_apply_new_template#:#Biztos, hogy alkalmazza a kivá
 chatroom#:#chatserver_address#:#Csevegőszerverek IP-címe
 chatroom#:#chatserver_port#:#Csevegőszerverek portja
 chatroom#:#instance_name#:#Egyedi azonosító
-chatroom#:#ilias_url#:#ILIAS-installáció alap URL-je
+chatroom#:#ilias_url#:#ILIAS-installáció Base-URL-je
 chatroom#:#soap_user#:#SOAP-felhasználó neve
 chatroom#:#soap_user_password#:#SOAP-felhasználó jelszava
 chatroom#:#hint_osd#:#Ha be van kapcsolva, a felhasználók felbukkanó ablakban kapnak értesítést új meghívásokról.
