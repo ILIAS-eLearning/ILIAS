@@ -5537,7 +5537,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if(
 			($this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL or
-				$rbacsystem->checkAccess('write','',$this->object->getRefId())) and
+				$ilAccess->checkAccess('write',"",$this->object->getRefId())) and
 			$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
 		{
 
