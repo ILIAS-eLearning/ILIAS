@@ -97,6 +97,7 @@ class ilObjTrainingProgrammeTreeGUI {
 		$js_url = rawurldecode($this->ctrl->getLinkTarget($this, 'saveTreeOrder', '', true, false));
 		$this->tree->addJsConf('save_tree_url', $js_url);
 		$this->tree->addJsConf('save_button_id', 'save_order_button');
+		$this->tree->addJsConf('cancel_button_id', 'cancel_order_button');
 	}
 
 	public function executeCommand() {
@@ -347,7 +348,14 @@ class ilObjTrainingProgrammeTreeGUI {
 		$save_order_btn->setOnClick("$('body').trigger('training_programme-save_order');");
 		$save_order_btn->setCaption($this->lng->txt('prg_save_tree_order'));
 
+		$cancel_order_btn = ilLinkButton::getInstance();
+		$cancel_order_btn->setId('cancel_order_button');
+		$cancel_order_btn->setUrl("javascript:void(0);");
+		$cancel_order_btn->setOnClick("$('body').trigger('training_programme-cancel_order');");
+		$cancel_order_btn->setCaption($this->lng->txt('prg_cancel_tree_order'));
+
 		$this->toolbar->addButtonInstance($save_order_btn);
+		$this->toolbar->addButtonInstance($cancel_order_btn);
 	}
 
 	protected function checkAccess($permission) {
