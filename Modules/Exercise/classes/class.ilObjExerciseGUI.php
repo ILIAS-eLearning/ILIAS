@@ -65,9 +65,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 //echo "-".$next_class."-".$cmd."-"; exit;
   		switch($next_class)
 		{
-			case "ilfilesystemgui":
-				$this->checkPermission("write");
-				
+			case "ilfilesystemgui":				
 				if($_GET["fsmode"] == "peer")
 				{					
 					$ilCtrl->saveParameter($this, array("fu"));										
@@ -87,6 +85,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 						$this->checkPermission("write");												
 					}
 		
+					/* could be 1st review and not saved yet
 					$valid = false;
 					$peer_items = $this->ass->getPeerReviewsByPeerId($peer_id, true);				
 					if(sizeof($peer_items))
@@ -103,7 +102,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 					{
 						$ilCtrl->redirect($this, "editPeerReview");
 					}
-				
+					*/
+					
 					$ilTabs->clearTargets();
 					$ilTabs->setBackTarget($lng->txt("back"),
 						$ilCtrl->getLinkTarget($this, "editPeerReview"));
@@ -124,6 +124,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				else if ($_GET["fsmode"] == "feedback" ||
 					$_GET["fsmode"] == "feedbackpart")	// feedback files
 				{
+					$this->checkPermission("write");				
 					$ilCtrl->saveParameter($this, array("member_id"));
 					//$this->setAssignmentHeader();
 					//$ilTabs->activateTab("ass_files");

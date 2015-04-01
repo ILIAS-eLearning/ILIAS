@@ -160,7 +160,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 					$this->confirm_objects = array();
 					foreach($in_use as $item)
 					{
-						$this->confirm_objects[$item[ilADTActiveRecordByType::SINGLE_COLUMN_NAME]][] = $item["obj_id"];
+						$this->confirm_objects[$item[ilADTActiveRecordByType::SINGLE_COLUMN_NAME]][] = array($item["obj_id"], $item["sub_type"], $item["sub_id"]);
 					}
 				}
 			}
@@ -176,32 +176,56 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	
 	public function prepareCustomDefinitionFormConfirmation(ilPropertyFormGUI $a_form)
 	{
-		global $lng;
+		global $lng, $objDefinition;
 		
 		$a_form->getItemByPostVar("opts")->setDisabled(true);
 		
 		if(sizeof($this->confirm_objects))
-		{
+		{			
+			$new_options = $a_form->getInput("opts");		
+			
 			$sec = new ilFormSectionHeaderGUI();
 			$sec->setTitle($lng->txt("md_adv_confirm_definition_select_section"));
 			$a_form->addItem($sec);
 			
-			foreach($this->confirm_objects as $option => $obj_ids)
+			foreach($this->confirm_objects as $option => $items)
 			{
 				$opt = new ilNonEditableValueGUI($lng->txt("md_adv_confirm_definition_select_option").': "'.$option.'"');
 				$a_form->addItem($opt);
 				
-				foreach($obj_ids as $obj_id)
+				foreach($items as $item)
 				{
+					$obj_id = $item[0];
+					$sub_type = $item[1];
+					$sub_id = $item[2];
+					
+					$item_id = $obj_id."_".$sub_type."_".$sub_id;
+					
 					$type = ilObject::_lookupType($obj_id);
 					$type_title = $lng->txt("obj_".$type);
-					$title = ilObject::_lookupTitle($obj_id);
+					$title = ' "'.ilObject::_lookupTitle($obj_id).'"';
 					
-					$sel = new ilSelectInputGUI($type_title.' "'.$title.'"', "conf[".$this->getFieldId()."][".$option."][".$obj_id."]");					
+					if($sub_id)
+					{					
+						$class = "ilObj".$objDefinition->getClassName($type);						
+						$class_path = $objDefinition->getLocation($type);
+						include_once $class_path."/class.".$class.".php";
+						if(class_implements($class, ilAdvancedMetaDataSubItem))
+						{
+							$sub_title = $class::getAdvMDSubItemTitle($obj_id, $sub_type, $sub_id);
+							if($sub_title)
+							{
+									$title .= ' ('.$sub_title.')';
+							}
+						}											
+					}
+					
+					$sel = new ilSelectInputGUI($type_title.' '.$title, 
+						"conf[".$this->getFieldId()."][".$option."][".$item_id."]");					
 					$options = array(""=>$lng->txt("md_adv_confirm_definition_select_option_remove"));
-					foreach($this->getOptions() as $option)
+					foreach($new_options as $new_option)
 					{
-						$options[$option] = $lng->txt("md_adv_confirm_definition_select_option_overwrite").': "'.$option.'"';
+						$options[$new_option] = $lng->txt("md_adv_confirm_definition_select_option_overwrite").': "'.$new_option.'"';
 					}
 					$sel->setOptions($options);
 					
@@ -225,15 +249,22 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 		if(sizeof($this->confirmed_objects))
 		{
 			ilADTFactory::initActiveRecordByType();
-			foreach($this->confirmed_objects as $old_option => $obj_ids)
+			foreach($this->confirmed_objects as $old_option => $item_ids)
 			{
-				foreach($obj_ids as $obj_id => $new_option)
+				foreach($item_ids as $item => $new_option)
 				{
+					$item = explode("_", $item);
+					$obj_id = $item[0];
+					$sub_type = $item[1];
+					$sub_id = $item[2];
+					
 					if(!$new_option)
 					{
 						// remove existing value
 						$primary = array(
 							"obj_id" => array("integer", $obj_id),
+							"sub_type" => array("text", $sub_type),
+							"sub_id" => array("integer", $sub_id),
 							"field_id" => array("integer", $this->getFieldId())
 						);
 						ilADTActiveRecordByType::deleteByPrimary("adv_md_values", $primary, "Enum");
@@ -243,6 +274,8 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 						// update existing value
 						$primary = array(
 							"obj_id" => array("integer", $obj_id),
+							"sub_type" => array("text", $sub_type),
+							"sub_id" => array("integer", $sub_id),
 							"field_id" => array("integer", $this->getFieldId())
 						);
 						ilADTActiveRecordByType::writeByPrimary("adv_md_values", $primary, "Enum", $new_option);

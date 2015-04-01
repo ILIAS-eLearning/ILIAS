@@ -236,6 +236,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		global $ilUser;
 		
 		$this->checkPermission('read');
+
+		if($ilUser->isAnonymous())
+		{
+			$this->ctrl->redirect($this,'infoScreen');
+		}
 		
 		include_once './Modules/Session/classes/class.ilEventParticipants.php';
 			
@@ -362,7 +367,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $ilToolbar, $ilUser;
 		
-		if(!$this->getCurrentObject()->enabledRegistration())
+		if(!$this->getCurrentObject()->enabledRegistration() || $ilUser->isAnonymous())
 		{
 			return FALSE;
 		}

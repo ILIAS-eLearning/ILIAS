@@ -378,7 +378,7 @@ class ilTableGUI
 	*/
 	function setOrderDirection($a_order_direction)
 	{
-		if ($a_order_direction == "desc")
+		if (strtolower($a_order_direction) == "desc")
 		{
 			$this->order_direction = "desc";
 			$this->sort_order = "asc";

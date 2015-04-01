@@ -595,47 +595,8 @@ class ilContainer extends ilObject
 		
 		$type_grps = $this->getGroupedObjTypes();
 		$objects = $tree->getChilds($this->getRefId(), "title");
-		
-		// using long descriptions?
-		$short_desc = $ilSetting->get("rep_shorten_description");
-		$short_desc_max_length = $ilSetting->get("rep_shorten_description_length");
-		if(!$short_desc || $short_desc_max_length != ilObject::TITLE_LENGTH)
-		{
-			// using (part of) shortened description
-			if($short_desc && $short_desc_max_length && $short_desc_max_length < ilObject::TITLE_LENGTH)
-			{
-				foreach($objects as $key => $object)
-				{								
-					$objects[$key]["description"] = ilUtil::shortenText($object["description"], $short_desc_max_length, true);		
-				}						
-			}			
-			// using (part of) long description
-			else 
-			{
-				$obj_ids = array();
-				foreach($objects as $key => $object)
-				{
-					$obj_ids[] = $object["obj_id"];
-				}
-				if(sizeof($obj_ids))
-				{
-					$long_desc = ilObject::getLongDescriptions($obj_ids);
-					foreach($objects as $key => $object)
-					{
-						// #12166 - keep translation, ignore long description
-						if($ilObjDataCache->isTranslatedDescription($object["obj_id"]))
-						{
-							$long_desc[$object["obj_id"]] = $object["description"];
-						}						
-						if($short_desc && $short_desc_max_length)
-						{														
-							$long_desc[$object["obj_id"]] = ilUtil::shortenText($long_desc[$object["obj_id"]], $short_desc_max_length, true);
-						}					
-						$objects[$key]["description"] = $long_desc[$object["obj_id"]];				
-					}		
-				}		
-			}			
-		}
+
+		$objects = self::getCompleteDescriptions($objects);
 
 		$found = false;
 		$all_ref_ids = array();
@@ -848,7 +809,60 @@ class ilContainer extends ilObject
 		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
-	}	
+	}
+
+	/**
+	 * overwrites description fields to long or short description in an assoc array
+	 * keys needed (obj_id and description)
+	 *
+	 * @param array $objects
+	 * @return array
+	 */
+	public static function getCompleteDescriptions(array $objects)
+	{
+		global $ilSetting, $ilObjDataCache;
+		// using long descriptions?
+		$short_desc = $ilSetting->get("rep_shorten_description");
+		$short_desc_max_length = $ilSetting->get("rep_shorten_description_length");
+		if(!$short_desc || $short_desc_max_length != ilObject::TITLE_LENGTH)
+		{
+			// using (part of) shortened description
+			if($short_desc && $short_desc_max_length && $short_desc_max_length < ilObject::TITLE_LENGTH)
+			{
+				foreach($objects as $key => $object)
+				{
+					$objects[$key]["description"] = ilUtil::shortenText($object["description"], $short_desc_max_length, true);
+				}
+			}
+			// using (part of) long description
+			else
+			{
+				$obj_ids = array();
+				foreach($objects as $key => $object)
+				{
+					$obj_ids[] = $object["obj_id"];
+				}
+				if(sizeof($obj_ids))
+				{
+					$long_desc = ilObject::getLongDescriptions($obj_ids);
+					foreach($objects as $key => $object)
+					{
+						// #12166 - keep translation, ignore long description
+						if($ilObjDataCache->isTranslatedDescription($object["obj_id"]))
+						{
+							$long_desc[$object["obj_id"]] = $object["description"];
+						}
+						if($short_desc && $short_desc_max_length)
+						{
+							$long_desc[$object["obj_id"]] = ilUtil::shortenText($long_desc[$object["obj_id"]], $short_desc_max_length, true);
+						}
+						$objects[$key]["description"] = $long_desc[$object["obj_id"]];
+					}
+				}
+			}
+		}
+		return $objects;
+	}
 	
 } // END class ilContainer
 ?>

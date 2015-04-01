@@ -535,7 +535,7 @@ abstract class ilContainerContentGUI
 			include_once('./Services/Object/classes/class.ilObjectActivation.php');			
 			$items = ilObjectActivation::getItemsByEvent($a_item_data['obj_id']);
 			$items = ilContainerSorting::_getInstance($this->getContainerObject()->getId())->sortSubItems('sess',$a_item_data['obj_id'],$items);
-			
+			$items = ilContainer::getCompleteDescriptions($items);
 			
 			$item_readable = $ilAccess->checkAccess('read','',$a_item_data['ref_id']);
 			
