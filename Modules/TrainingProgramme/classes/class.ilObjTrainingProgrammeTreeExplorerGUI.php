@@ -98,22 +98,31 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 		$current_ref_id = (isset($_GET["ref_id"]))? $_GET["ref_id"] : -1;
 		$current_node = ($node->getRefId() == $current_ref_id);
 		$enable_delete = true;
+		$is_training_programme = ($node instanceof ilObjTrainingProgramme);
 
-		if($current_node || $node->getRoot() == null) {
-			$enable_delete = false;
-		}
+		// TODO: implement nicer way to create links for TrainingProgrammes or LP-children
 
-		if($current_node) {
-			$node_classes .= " ilHighlighted current_node";
+		if($is_training_programme){
+			if ($current_node || $node->getRoot() == NULL) {
+				$enable_delete = false;
+			}
+
+			if ($current_node) {
+				$node_classes .= " ilHighlighted current_node";
+			}
 		}
 
 		$data_line = '<span class="'.$node_classes.'">' . $node->getTitle() .'</span>';
-		$data_line .= '<span class="points">'. $node->getPoints() .'</span>';
+
+		$data_line .= ($is_training_programme)? '<span class="points">'. $node->getPoints() .'</span>' : '';
 
 		if($this->checkAccess('write', $node->getRefId())) {
 			$data_line .= '<span class="icon_bar">';
-			$data_line .= $this->getActionLink('ilObjTrainingProgrammeSettingsGUI', 'view', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::INFO));
-			$data_line .= $this->getActionLink('ilObjTrainingProgrammeTreeGUI', 'create', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::ADD));
+			if($is_training_programme) {
+				$data_line .= $this->getActionLink('ilObjTrainingProgrammeSettingsGUI', 'view', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::INFO));
+				$data_line .= $this->getActionLink('ilObjTrainingProgrammeTreeGUI', 'create', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::ADD));
+			}
+
 			if($enable_delete) {
 				$data_line .= $this->getActionLink('ilObjTrainingProgrammeTreeGUI', 'delete', array('ref_id'=>$node->getRefId(), 'item_ref_id'=>$current_ref_id), ilGlyphGUI::get(ilGlyphGUI::REMOVE));
 			}
@@ -170,7 +179,6 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 */
 	public function getNodeIcon($a_node) {
 		global $ilias;
-		//var_dump($a_node);
 
 		$obj_id = ilObject::_lookupObjId($a_node->getRefId());
 		if ($ilias->getSetting('custom_icons')) {
@@ -226,9 +234,21 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	public function getChildsOfNode($a_parent_node_id) {
 		global $ilAccess;
 
-		$parent = ilObjTrainingProgramme::getInstanceByRefId($a_parent_node_id);
+		$parent_obj = ilObjectFactoryWrapper::singleton()->getInstanceByRefId($a_parent_node_id);
 
-		return $parent->getChildren();
+		$children = array();
+
+		// its currently only possible to have children on TrainingProgrammes
+		if($parent_obj instanceof ilObjTrainingProgramme) {
+			$children = $parent_obj->getChildren();
+
+			// only return lp-children if there are no TrainingProgramme-children
+			if(!$parent_obj->hasChildren()) {
+				$children = $parent_obj->getLPChildren();
+			}
+		}
+
+		return $children;
 	}
 
 

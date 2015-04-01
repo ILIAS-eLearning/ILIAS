@@ -168,15 +168,25 @@ class ilObjTrainingProgrammeTreeGUI {
 	protected function storeTreeOrder($nodes, $container_sorting, $parent_ref_id = null) {
 		$sorting_position = array();
 		$position_count = 10;
-		$parent_node = ($parent_ref_id == null)? ilObjTrainingProgramme::getInstanceByRefId($this->ref_id) : ilObjTrainingProgramme::getInstanceByRefId($parent_ref_id);
+		$parent_node = ($parent_ref_id == null)? ilObjectFactoryWrapper::getInstanceByRefId($this->ref_id) : ilObjectFactoryWrapper::getInstanceByRefId($parent_ref_id);
 		foreach($nodes as $node) {
+			// get ref_id from json
 			$id = $node->attr->id;
 			$id = substr($id, strrpos($id, "_")+1);
+
 			$sorting_position[$id] = $position_count;
 			$position_count+= 10;
 
-			$node_obj = ilObjTrainingProgramme::getInstanceByRefId($id);
-			$node_obj->moveTo($parent_node);
+			$node_obj = ilObjectFactoryWrapper::getInstanceByRefId($id);
+			if($node_obj instanceof ilObjTrainingProgramme) {
+				$node_obj->moveTo($parent_node);
+			} else {
+				// TODO: implement a method on ilObjTrainingProgramme to move leafs
+				global $tree, $rbacadmin;
+
+				$tree->moveTree($node_obj->getRefId(), $parent_node->getRefId());
+				$rbacadmin->adjustMovedObjectPermissions($node_obj->getRefId(), $parent_node->getRefId());
+			}
 
 			if(isset($node->children)) {
 				$this->storeTreeOrder($node->children, ilContainerSorting::_getInstance(ilObject::_lookupObjectId($id)), $id);
@@ -231,16 +241,25 @@ class ilObjTrainingProgrammeTreeGUI {
 	protected function create() {
 		$accordion = new ilAccordionGUI();
 
-		$content_new_node = $this->getCreationForm()->getHTML();
+		$parent = ilObjectFactoryWrapper::singleton()->getInstanceByRefId((int) $_GET['ref_id']);
 
-		$accordion->addItem($this->lng->txt('prg_create_new_node'), $content_new_node);
+		if($parent instanceof ilObjTrainingProgramme) {
+			// only allow adding new TrainingProgramme-Node if there are no lp-children
+			if(!$parent->hasLPChildren()) {
+				$content_new_node = $this->getCreationForm()->getHTML();
+				$accordion->addItem($this->lng->txt('prg_create_new_node'), $content_new_node);
+			}
 
-		$content_new_leaf = $this->tpl->getMessageHTML($this->lng->txt('prg_please_select_a_course_for_creating_a_leaf'));
-		$content_new_leaf .= $this->getContainerSelectionExplorer();
+			// only allow adding new LP-Children if there are no other TrainingProgrammes
+			if(!$parent->hasChildren()) {
+				$content_new_leaf = $this->tpl->getMessageHTML($this->lng->txt('prg_please_select_a_course_for_creating_a_leaf'));
+				$content_new_leaf .= $this->getContainerSelectionExplorer();
 
-		$accordion->addItem($this->lng->txt('prg_create_new_leaf'), $content_new_leaf);
+				$accordion->addItem($this->lng->txt('prg_create_new_leaf'), $content_new_leaf);
+			}
 
-		$content = $accordion->getHTML();
+			$content = $accordion->getHTML();
+		}
 
 		$this->async_output_handler->setHeading($this->lng->txt("async_".$this->ctrl->getCmd()));
 		$this->async_output_handler->setContent($content);
@@ -299,15 +318,25 @@ class ilObjTrainingProgrammeTreeGUI {
 		$current_node = $_POST['item_ref_id'];
 		$result = true;
 		foreach($ids as $id) {
-			$obj = ilObjTrainingProgramme::getInstanceByRefId($id);
+			$obj = ilObjectFactoryWrapper::getInstanceByRefId($id);
 
-			//check if you are not deleting a parent element of the current element
-			$children_of_node = ilObjTrainingProgramme::getAllChildren($obj->getRefId());
-			$get_ref_ids = function($obj) { return $obj->getRefId(); };
+			$not_parent_of_current = true;
+			$not_root = true;
 
-			$children_of_node = array_map($get_ref_ids, $children_of_node);
+			// do some additional validation if it is a TrainingProgramme
+			if($obj instanceof ilObjTrainingProgramme) {
 
-			if($current_node != $id && $obj->getRoot() != null && !in_array($current_node, $children_of_node)) {
+				//check if you are not deleting a parent element of the current element
+				$children_of_node = ilObjTrainingProgramme::getAllChildren($obj->getRefId());
+				$get_ref_ids = function ($obj) { return $obj->getRefId(); };
+
+				$children_of_node = array_map($get_ref_ids, $children_of_node);
+				$not_parent_of_current = (!in_array($current_node, $children_of_node));
+
+				$not_root = ($obj->getRoot() != null);
+			}
+
+			if($current_node != $id && $not_root && $not_parent_of_current && $this->checkAccess('delete', $obj->getRefId())) {
 				if($obj->delete()) {
 					$msg = $this->lng->txt("prg_deleted_safely");
 				} else {
@@ -358,8 +387,9 @@ class ilObjTrainingProgrammeTreeGUI {
 		$this->toolbar->addButtonInstance($cancel_order_btn);
 	}
 
-	protected function checkAccess($permission) {
-		return $this->access->checkAccess($permission, '', $this->ref_id);
+	protected function checkAccess($permission, $ref_id = null) {
+		$ref_id = ($this->ref_id === null)? $this->ref_id : $ref_id;
+		return $this->access->checkAccess($permission, '', $ref_id);
 	}
 
 
