@@ -97,6 +97,8 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
+		
+		$this->employee_ids_for_booking_cancellation = $this->user_utils->getEmployeesForBookingCancellations();
 	}
 	
 	protected function executeCustomCommand($a_cmd) {
@@ -149,8 +151,9 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 		$this->ctrl->setParameter($this, "usr_id", $rec["user_id"]);
 		$this->ctrl->setParameter($this, "crs_id", $rec["crs_id"]);
 		$now = @date("Y-m-d");
-		if ($rec["absolute_cancel_deadline_date"] === null
-		|| ($rec["type"] != "Selbstlernkurs" && $rec["absolute_cancel_deadline_date"] > $now)) {
+		if (($rec["absolute_cancel_deadline_date"] === null
+			|| ($rec["type"] != "Selbstlernkurs" && $rec["absolute_cancel_deadline_date"] > $now))
+		&& in_array($rec["user_id"], $this->employee_ids_for_booking_cancellation)) {
 			// Code starts here!
 			$rec["action"] = "<a href='".$this->ctrl->getLinkTarget($this, "confirmCancelBooking")."'>"
 							. $this->cancel_img."</a>";
