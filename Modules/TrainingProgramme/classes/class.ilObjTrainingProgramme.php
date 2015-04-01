@@ -414,10 +414,19 @@ class ilObjTrainingProgramme extends ilContainer {
 		$this->throwIfNotInTree();
 		
 		if ($this->lp_children === null) {
+			$this->lp_children = array();
+
+			// TODO: find a better way to get all elements except TrainingProgramme-children
 			$ref_ids = $this->tree->getChilds($this->getRefId());
-			$this->lp_children = array_map(function($node_data) {
-					return $this->object_factory->getInstanceByRefId($node_data["child"]);
+
+			$lp_children = array_map(function($node_data) {
+				$lp_obj = $this->object_factory->getInstanceByRefId($node_data["child"]);
+
+				// filter out all TrainingProgramme instances
+				return ($lp_obj instanceof $this)? null : $lp_obj;
 			}, $ref_ids);
+
+			$this->lp_children = array_filter($lp_children);
 		}
 		return $this->lp_children;
 	}
