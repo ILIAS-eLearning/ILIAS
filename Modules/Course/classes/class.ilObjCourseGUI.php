@@ -5531,12 +5531,13 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function addMailToMemberButton($ilToolbar, $back_cmd = null, $a_separator = false)
 	{
-		global $ilUser, $rbacsystem;
+		global $ilUser, $rbacsystem, $ilAccess;
 		include_once 'Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($ilUser->getId());
 
 		if(
-			$this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL and
+			($this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL or
+				$rbacsystem->checkAccess('write','',$this->object->getRefId())) and
 			$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
 		{
 

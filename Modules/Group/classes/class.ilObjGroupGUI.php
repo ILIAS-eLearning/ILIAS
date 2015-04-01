@@ -3172,12 +3172,14 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	protected function addMailToMemberButton($ilToolbar, $back_cmd = null, $a_separator = false)
 	{
-		global $ilAccess;
+		global $ilAccess, $ilUser;
+		include_once 'Services/Mail/classes/class.ilMail.php';
+		$mail = new ilMail($ilUser->getId());
 
 		if(
-			$ilAccess->checkAccess('write','',$this->object->getRefId()) or
-			$this->object->getMailToMembersType() == ilObjGroup::MAIL_ALLOWED_ALL
-		)
+		($ilAccess->checkAccess('write','',$this->object->getRefId()) or
+			$this->object->getMailToMembersType() == ilObjGroup::MAIL_ALLOWED_ALL) and
+			$ilAccess->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
 		{
 
 			if($a_separator)
