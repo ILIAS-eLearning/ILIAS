@@ -389,8 +389,10 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(3, $this->root_object->getAmountOfChildren(), "getAmountOfChildren()");
 		// Check if TrainingProgrammes are not counted as LP-Children
 		$this->assertEquals(0, $this->root_object->getAmountOfLPChildren(), "getAmountOfLPChildren() on root");
+		$this->assertEquals(false, $this->root_object->hasLPChildren(), "hasLPChildren() on root");
 
 		$this->assertEquals(1, $first_child->getAmountOfLPChildren(), "getAmountOfLPChildren() on first child");
+		$this->assertEquals(true, $first_child->hasLPChildren(), "hasLPChildren() on first child");
 		$this->assertEquals($first_child->getLPMode(), ilTrainingProgramme::MODE_LP_COMPLETED);
 		
 		$lp_children = $first_child->getLPChildren();
