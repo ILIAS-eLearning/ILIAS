@@ -677,7 +677,7 @@ assessment#:#polygon_click_next_point#:#Kattintson a sokszög következő pontj�
 assessment#:#polygon_click_starting_point#:#Kattintson a sokszög kezdőpontjára!
 assessment#:#polygon#:#Sokszög
 assessment#:#postpone#:#Kérdés későbbre halasztása
-assessment#:#remove_gap#:#Rés (Gap) eltávolítása###Remove Gap
+assessment#:#remove_gap#:#Kitöltendő hely eltávolítása
 assessment#:#postponed#:#Későbbre halasztott
 assessment#:#postpone_status#:#Későbbre halasztott
 assessment#:#preview#:#Előnézet
@@ -1338,9 +1338,9 @@ assessment#:#feedback_setting#:#Válaszfüggő visszajelzések módja.
 assessment#:#feedback_all#:#Válaszfüggő visszajelzések megjelenítése az összes kérdéshez.
 assessment#:#feedback_checked#:#Válaszfüggő visszajelzések megjelenítése az összes kiválasztott kérdéshez.
 assessment#:#feedback_correct#:#Válaszfüggő visszajelzések megjelenítése az összes helyesen megválaszolt kérdéshez (helyes válasznak az minősül, mely pozitív pontot ér).
-assessment#:#tst_add_quest_cont_edit_mode#:#Kiegészítő kérdéstartalom szerkesztési módja
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Kiegészítő kérdéstartalom alapértelmezett szerkesztési módja
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Kiegészítő tartalom szerkesztése az Oldal Szerkesztővel
+assessment#:#tst_add_quest_cont_edit_mode#:#További kérdéstartalom szerkesztési módja
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Alapértelmezett szerkesztési mód használata
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Oldalszerkesztő használata
 assessment#:#tst_question_feedback_edit_page#:#Tartalom szerkesztése
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Vissza a hívott kérdéshez
 assessment#:#enable_examview#:#Adott válaszok áttekintése
@@ -14538,7 +14538,7 @@ exc#:#exc_your_text#:#Szövege
 exc#:#exc_peer_review_min_number_info#:#Ennyi felhasználó munkáját kell értékelnie a résztvevőnek, mielőtt a saját munkájának az értékelése láthatóvá válik.
 content#:#cont_def_feedb_activated#:#Az alapértelmezett visszajelzés-szövegek be vannak kapcsolva a tanulási modul beállításiban.
 content#:#cont_def_feedb_deactivated#:#Az alapértelmezett visszajelzés-szövegek ki vannak kapcsolva a tanulási modul beállításiban.
-adve#:#advanced_editing_tst_editing#:#Oldalszerkesztő kiegészítő kérdés tartalomhoz
+adve#:#advanced_editing_tst_editing#:#Oldalszerkesztő használata a további kérdéstartalom szerkesztéséhez
 ecs#:#ecs_server_title#:#ECS konfiguráció neve
 adve#:#advanced_editing_tst_editing_desc#:#Kapcsolja be az ILIAS-oldalszerkesztőt a visszajelzések és a súgószövegek szerkesztéséhez.
 assessment#:#fq_precision_info#:#Adja meg a tizedeshelyek számát.
