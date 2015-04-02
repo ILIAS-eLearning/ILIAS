@@ -556,11 +556,26 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		
 		$mock_leaf = new ilTrainingProgrammeLeafMock();
 		$children = $this->root_object->getChildren();
+		$child_l->object_factory = new ilObjectFactoryWrapperMock();
 		$child_l->addLeaf($mock_leaf);
 
 		// Now we added a leaf, so no program nodes are allowed anymore.
 		$subobjs = ilObjTrainingProgramme::getCreatableSubObjects($all_possible_subobjects, $child_l->getRefId());
 		$this->assertCount(1, $subobjs);
 		$this->assertArrayHasKey("crsr", $subobjs);
+	}
+	
+	/**
+	 * @expectedException ilException
+	 */
+	public function testCreatableSubobjectsRaisesOnNullRef() {
+		ilObjTrainingProgramme::getCreatableSubObjects(array(), null);
+	}
+
+	/**
+	 * @expectedException ilException
+	 */
+	public function testCreatableSubobjectsRaisesOnNonProgramRef() {
+		ilObjTrainingProgramme::getCreatableSubObjects(array(), 9);
 	}
 }
