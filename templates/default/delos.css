@@ -9867,6 +9867,12 @@ div#ilContRepIntro img {
 .ilLMMenu {
   clear: both;
 }
+body.ilLMNoMenu .ilFixedTopSpacer {
+  padding-top: 0px;
+}
+body.ilLMNoMenu .ilLeftNav {
+  top: 0px;
+}
 button.ilAreaClose {
   width: 20px;
   height: 20px;
