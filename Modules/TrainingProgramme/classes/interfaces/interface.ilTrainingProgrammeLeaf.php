@@ -6,6 +6,10 @@
  * The interface a class has to fullfill if it should be used as leaf in a
  * program.
  *
+ * ATTENTION: This serves documentary purpose atm. These are the methods on the
+ * leaf objects that are really used by the TrainingProgramme. Maybe some day this
+ * could be tagged on ilCourseReference and other objects.
+ *
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  */
 
@@ -36,14 +40,6 @@ interface ilTrainingProgrammeLeaf {
 	 * @param int	$a_ref_id
 	 */
 	public function putInTree($a_ref_id);
-	
-	/**
-	 * Get the ref id of the parent object. Returns null if object is not in
-	 * the tree currently.
-	 *
-	 * @return int | null
-	 */
-	public function getParentId();
 }
 
 ?>
