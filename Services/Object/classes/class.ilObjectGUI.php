@@ -1571,7 +1571,7 @@ class ilObjectGUI
 	{
 		if ($this->sub_objects == "")
 		{
-			$d = $this->objDefinition->getCreatableSubObjects($this->object->getType());
+			$d = $this->objDefinition->getCreatableSubObjects($this->object->getType(), ilObjectDefinition::MODE_REPOSITORY, $this->ref_id);
 		}
 		else
 		{
