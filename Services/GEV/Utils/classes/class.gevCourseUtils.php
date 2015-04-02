@@ -1360,7 +1360,77 @@ class gevCourseUtils {
 	public function deliverMemberList($a_type) {
 		$this->buildMemberList(true, null, $a_type);
 	}
-	
+	#
+
+	public function buildICAL($a_send,$a_filename) {
+
+		$start=explode(".",$this->getFormattedStartDate());
+		$end=explode(".",$this->getFormattedEndDate());
+		$starttime=implode("",explode(':',$this->getFormattedStartTime()));
+		$endtime=implode("",explode(':',$this->getFormattedEndTime()));
+		if($loc=$this->getVenueTitle()) {
+			$loc=implode(" ",array('Venue'=>$this->getVenueTitle()
+				,'street'=>$this->getVenueStreet()
+				,'zip'=>$this->getVenueZipcode()
+				,'city'=>$this->getVenueCity()
+				)).'.';
+		} else {
+			$loc="";
+		}
+		$title=$this->getTitle();
+		$subtitle=$this->getSubtitle();
+		$admin=$this->getMainAdminName(); 
+		$adminemail=$this->getMainAdminEMail();
+		$content=$this->getContents();
+		$topic=$this->getTopics();
+		$reference=$this->crs_id;
+		$today=date("Ymd");
+		$now=date("his");
+
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		
+
+		if ($a_filename === null) {
+			if(!$a_send) {
+				$a_filename = ilUtil::ilTempnam();
+			}
+			else {
+				$a_filename = "iCalEintrag.ics";
+			}
+		}
+
+		$wstream=fopen($a_filename,"w");
+
+		fwrite($wstream,"BEGIN:VCALENDAR\n");
+		fwrite($wstream,"VERSION:2.0\n");
+		fwrite($wstream,"PRODID:http://www.generali.test.cat06.de/buildICAL::gevCourseUtils\n");
+		fwrite($wstream,"METHOD:REQUEST\n");
+		fwrite($wstream,"BEGIN:VEVENT\n");
+		fwrite($wstream,"UID:".$reference."@cat06.de\n");
+		fwrite($wstream,"ORGANIZER;CN=\"".$admin."\":MAILTO:".$adminemail."\n");
+		fwrite($wstream,"LOCATION:".$loc."\n");
+		fwrite($wstream,"SUMMARY:".$title." ".$subtitle."\n");
+		fwrite($wstream,"DESCRIPTION:".$content."\n");
+		fwrite($wstream,"CLASS:PUBLIC\n");
+		fwrite($wstream,"DTSTART:".$start[2].$start[1].$start[0]."T".$starttime."00Z\n");
+		fwrite($wstream,"DTEND:".$end[2].$end[1].$end[0]."T".$endtime."00Z\n");
+		fwrite($wstream,"DTSTAMP:".$today."T".$now."Z\n");
+		fwrite($wstream,"END:VEVENT\n");
+		fwrite($wstream,"END:VCALENDAR\n");
+	   	
+
+	   	fclose($wstream);
+
+	   	if($a_send)	{
+			exit();
+		}
+
+		return array($a_filename, "calender.ics");
+	}
+ 
+
+
 	public function buildMemberList($a_send, $a_filename, $a_type) {
 		if (!in_array($a_type, array(self::MEMBERLIST_TRAINER, self::MEMBERLIST_HOTEL, self::MEMBERLIST_PARTICIPANT))) {
 			throw new Exception ("Unknown type for memberlist: ".$a_type);
