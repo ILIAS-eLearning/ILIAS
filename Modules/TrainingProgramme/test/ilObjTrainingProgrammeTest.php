@@ -50,6 +50,9 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		
 		global $tree;
 		$this->tree = $tree;
+		
+		global $objDefinition;
+		$this->obj_definition = $objDefinition;
 	}
 
 	/**
@@ -524,5 +527,40 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		
 		$this->root_object->assignUser($user->getId());
 		$this->root_object->removeNode($child_r);
+	}
+	
+	public function testCreateableSubobjects() {
+		$this->createSmallTree();
+		$children = $this->root_object->getChildren();
+		$child_l = $children[0];
+		
+		$all_possible_subobjects = $this->obj_definition->getSubObjects($this->root_object->getType());
+		// don't take rolfs into account, we don't need rolf anymore
+		unset($all_possible_subobjects["rolf"]);
+		
+		// this is course reference and training programme
+		$this->assertCount(2, $all_possible_subobjects);
+		$this->assertArrayHasKey("prg", $all_possible_subobjects);
+		$this->assertArrayHasKey("crsr", $all_possible_subobjects);
+		
+		// root already contains program nodes, so course ref is forbidden
+		$subobjs = ilObjTrainingProgramme::getCreatableSubObjects($all_possible_subobjects, $this->root_object->getRefId());
+		$this->assertCount(1, $subobjs);
+		$this->assertArrayHasKey("prg", $subobjs);
+		
+		// first node contains nothing, so course ref and program node are allowed
+		$subobjs = ilObjTrainingProgramme::getCreatableSubObjects($all_possible_subobjects, $child_l->getRefId());
+		$this->assertCount(2, $subobjs);
+		$this->assertArrayHasKey("prg", $subobjs);
+		$this->assertArrayHasKey("crsr", $subobjs);
+		
+		$mock_leaf = new ilTrainingProgrammeLeafMock();
+		$children = $this->root_object->getChildren();
+		$child_l->addLeaf($mock_leaf);
+
+		// Now we added a leaf, so no program nodes are allowed anymore.
+		$subobjs = ilObjTrainingProgramme::getCreatableSubObjects($all_possible_subobjects, $child_l->getRefId());
+		$this->assertCount(1, $subobjs);
+		$this->assertArrayHasKey("crsr", $subobjs);
 	}
 }
