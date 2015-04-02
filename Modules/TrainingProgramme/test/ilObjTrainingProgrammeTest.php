@@ -529,7 +529,7 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$this->root_object->removeNode($child_r);
 	}
 	
-	public function testCreateableSubobjects() {
+	public function testCreateableSubObjects() {
 		$this->createSmallTree();
 		$children = $this->root_object->getChildren();
 		$child_l = $children[0];
@@ -565,11 +565,13 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		$this->assertArrayHasKey("crsr", $subobjs);
 	}
 	
-	/**
-	 * @expectedException ilException
-	 */
-	public function testCreatableSubObjectsRaisesOnNullRef() {
-		ilObjTrainingProgramme::getCreatableSubObjects(array(), null);
+	public function testCreatableSubObjectsWithoutRef() {
+		$all_possible_subobjects = $this->obj_definition->getSubObjects("prg");
+		// don't take rolfs into account, we don't need rolf anymore
+		unset($all_possible_subobjects["rolf"]);
+		$this->assertEquals( $all_possible_subobjects
+						   , ilObjTrainingProgramme::getCreatableSubObjects($all_possible_subobjects, null)
+						   );
 	}
 
 	/**

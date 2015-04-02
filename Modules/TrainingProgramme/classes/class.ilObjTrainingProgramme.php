@@ -937,7 +937,11 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @return array
 	 */
 	static public function getCreatableSubObjects($a_subobjects, $a_ref_id) {
-		if ($a_ref_id === null || ilObject::_lookupType($a_ref_id, true) != "prg") {
+		if ($a_ref_id === null) {
+			return $a_subobjects;
+		}
+		
+		if (ilObject::_lookupType($a_ref_id, true) != "prg") {
 			throw new ilException("Ref-Id '$a_ref_id' does not belong to a training programme object.");
 		}
 		
