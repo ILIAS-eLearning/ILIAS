@@ -3,6 +3,8 @@
 require_once("./Services/Table/classes/class.ilTable2GUI.php");
 require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 require_once("./Services/Tracking/classes/class.ilObjUserTracking.php");
+require_once("./Services/GEV/Utils/classes/class.gevRoleUtils.php");
+
 /**
  * Class ilOrgUnitStaffTableGUI
  *
@@ -51,6 +53,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 	protected function setTableHeaders(){
 		$this->addColumn($this->lng->txt("firstname"), "first_name");
 		$this->addColumn($this->lng->txt("lastname"), "last_name");
+		$this->addColumn($this->lng->txt("role"), "role");
         if ($this->recursive) {
             $this->addColumn($this->lng->txt('obj_orgu'), 'org_units');
         }
@@ -98,6 +101,12 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 		$user = new ilObjUser($user_id);
 		$set["first_name"] = $user->getFirstname();
 		$set["last_name"] = $user->getLastname();
+		//gev-patch end
+		$gevRoleUtils = gevRoleUtils::getInstance();
+		$set["roles"] = $gevRoleUtils->getGlobalRolesOf($user_id);
+		$set["roles"] = $gevRoleUtils->getGlobalRolesTitles($set["roles"]);
+		$set["roles"] = implode(", ", $set["roles"]);
+		//gev-patch end
 		$set["user_object"] = $user;
 		$set["user_id"] = $user_id;
         if ($this->recursive) $set["org_units"] = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user_id, (int)$_GET['ref_id']);
@@ -107,6 +116,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 		global $ilUser, $Access, $lng, $ilAccess;
 		$this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
 		$this->tpl->setVariable("LAST_NAME", $set["last_name"]);
+		$this->tpl->setVariable("ROLE", $set["roles"]);
         if ($this->recursive) {
             $orgUnitsTitles = array_values(ilObjOrgUnitTree::_getInstance()->getTitles($set['org_units']));
             $this->tpl->setVariable("ORG_UNITS", implode(', ', $orgUnitsTitles));

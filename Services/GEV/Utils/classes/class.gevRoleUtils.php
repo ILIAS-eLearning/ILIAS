@@ -120,6 +120,17 @@ class gevRoleUtils {
 		return $this->getRbacReview()->assignedGlobalRoles($a_user_id);
 	}
 	
+	
+	public static function getGlobalRolesTitles($a_roles) {
+
+		foreach($a_roles as $key => $value) {
+			$roles[$key] = ilObject::_lookupTitle($value);
+		}
+		return $roles;
+	}
+	
+
+
 	public function getLocalRoleIdsAndTitles($a_obj_id) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		$rbac_review = $this->getRbacReview();
