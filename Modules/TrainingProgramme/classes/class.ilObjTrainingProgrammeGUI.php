@@ -428,6 +428,22 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	protected function fillInfoScreen($a_info_screen) {
 		// TODO: implement me
 	}
+
+	/**
+	 * _goto
+	 * Deep link
+	 *
+	 * @param string $a_target
+	 */
+	public static function _goto($a_target) {
+		global $ilAccess, $ilErr, $ilCtrl;
+		$id = explode("_", $a_target);
+		$ilCtrl->setTargetScript("ilias.php");
+		$ilCtrl->initBaseClass("ilRepositoryGUI");
+		$ilCtrl->setParameterByClass("ilobjtrainingprogrammegui", "ref_id", $id[0]);
+
+		$ilCtrl->redirectByClass(array( "ilRepositoryGUI", "ilobjtrainingprogrammegui" ), "view");
+	}
 }
 
 ?>
