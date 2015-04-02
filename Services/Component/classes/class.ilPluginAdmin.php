@@ -220,7 +220,14 @@ class ilPluginAdmin
 	*/
 	function isActive($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
-		$this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
+		try
+		{
+			$this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
+		}
+		catch (ilPluginException $e)
+		{
+			return false;
+		}
 		return $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["is_active"];
 	}
 

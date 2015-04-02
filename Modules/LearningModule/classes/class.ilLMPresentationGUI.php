@@ -607,6 +607,7 @@ class ilLMPresentationGUI
 				// reset standard css files
 				$this->tpl->resetJavascript();
 				$this->tpl->resetCss();
+				$this->tpl->setBodyClass("ilLMNoMenu");
 				
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 				foreach (ilObjContentObject::getSupplyingExportFiles() as $f)

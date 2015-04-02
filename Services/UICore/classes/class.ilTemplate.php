@@ -689,7 +689,7 @@ class ilTemplate extends ilTemplateX
 	function fillJavaScriptFiles($a_force = false)
 	{
 		global $ilias, $ilTabs, $ilSetting, $ilUser;
-		
+
 		if (is_object($ilSetting))		// maybe this one can be removed
 		{
 			$vers = "vers=".str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
@@ -2178,7 +2178,9 @@ class ilTemplate extends ilTemplateX
 		}
 
 		// ensure jquery files being loaded first
-		if (is_int(strpos($a_js_file, "Services/jQuery")))
+		if (is_int(strpos($a_js_file, "Services/jQuery")) ||
+			is_int(strpos($a_js_file, "/jquery.js")) ||
+			is_int(strpos($a_js_file, "/jquery-min.js")))
 		{
 			$a_batch = 0;
 		}
