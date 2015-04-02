@@ -921,6 +921,39 @@ class ilObjTrainingProgramme extends ilContainer {
 			}
 		}
 	}
+	
+	////////////////////////////////////
+	// HOOKS
+	////////////////////////////////////
+	
+	/**
+	 * Filter the list of possible subobjects for the objects that actually
+	 * could be created on a concrete node.
+	 * 
+	 * Will be called by ilObjDefinition::getCreatableSubObjects.
+	 *
+	 * @param array		$a_subobjects
+	 * @param int		$a_ref_id
+	 * @return array
+	 */
+	static public function getCreatableSubObjects($a_subobjects, $a_ref_id) {
+		if ($a_ref_id === null || ilObject::_lookupType($a_ref_id, true) != "prg") {
+			throw new ilException("Ref-Id '$a_ref_id' does not belong to a training programme object.");
+		}
+		
+		$parent = ilObjTrainingProgramme::getInstanceByRefId($a_ref_id);
+
+		if (!$parent->hasChildren() && !$parent->hasLPChildren()) {
+			return $a_subobjects;
+		}
+
+		if ($parent->hasChildren()) {
+			return array("prg" => $a_subobjects["prg"]);
+		}
+
+		unset($a_subobjects["prg"]);
+		return $a_subobjects;
+	}
 }
 
 ?>
