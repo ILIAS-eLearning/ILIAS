@@ -33,7 +33,7 @@ if (!function_exists('codepointToUtf8'))
 	}
 }
 
-// From includes/normal/UtfNormal.php
+// From include/Unicode/UtfNormal.php
 define( 'UTF8_REPLACEMENT', "\xef\xbf\xbd" /*codepointToUtf8( UNICODE_REPLACEMENT )*/ );
 
 /**

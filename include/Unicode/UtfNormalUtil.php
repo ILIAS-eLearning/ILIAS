@@ -1,28 +1,28 @@
 <?php
 # Copyright (C) 2004 Brion Vibber <brion@pobox.com>
 # http://www.mediawiki.org/
-# 
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or 
+# the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
-# 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 # http://www.gnu.org/copyleft/gpl.html
 
 /**
  * Some of these functions are adapted from places in MediaWiki.
  * Should probably merge them for consistency.
  *
- * @package UtfNormal
- * @access public
+ * @addtogroup UtfNormal
+ * @public
  */
 
 /** */
@@ -31,9 +31,9 @@
  * Return UTF-8 sequence for a given Unicode code point.
  * May die if fed out of range data.
  *
- * @param int $codepoint
- * @return string
- * @access public
+ * @param $codepoint Integer:
+ * @return String
+ * @public
  */
 function codepointToUtf8( $codepoint ) {
 	if($codepoint <		0x80) return chr($codepoint);
@@ -47,7 +47,8 @@ function codepointToUtf8( $codepoint ) {
 									 chr($codepoint >>	6 & 0x3f | 0x80) .
 									 chr($codepoint		  & 0x3f | 0x80);
 
-	die("Asked for code outside of range ($codepoint)\n");
+	echo "Asked for code outside of range ($codepoint)\n";
+	die( -1 );
 }
 
 /**
@@ -55,9 +56,9 @@ function codepointToUtf8( $codepoint ) {
  * Unicode code points and return a UTF-8 string composed of those
  * characters. Used by UTF-8 data generation and testing routines.
  *
- * @param string $sequence
- * @return string
- * @access private
+ * @param $sequence String
+ * @return String
+ * @private
  */
 function hexSequenceToUtf8( $sequence ) {
 	$utf = '';
@@ -72,26 +73,27 @@ function hexSequenceToUtf8( $sequence ) {
  * Take a UTF-8 string and return a space-separated series of hex
  * numbers representing Unicode code points. For debugging.
  *
- * @param string $str
+ * @param $str String: UTF-8 string.
  * @return string
- * @access private
+ * @private
  */
 function utf8ToHexSequence( $str ) {
-	return rtrim(preg_replace_callback(
+	return rtrim( preg_replace_callback(
         '/(.)/uS',
         function($hit) {
             return sprintf("%04x ", utf8ToCodepoint($hit[1]));
         },
-	    $str));
+        $str
+    ));
 }
 
 /**
  * Determine the Unicode codepoint of a single-character UTF-8 sequence.
  * Does not check for invalid input data.
  *
- * @param string $char
- * @return int
- * @access public
+ * @param $char String
+ * @return Integer
+ * @public
  */
 function utf8ToCodepoint( $char ) {
 	# Find the length
@@ -129,9 +131,9 @@ function utf8ToCodepoint( $char ) {
 /**
  * Escape a string for inclusion in a PHP single-quoted string literal.
  *
- * @param string $string
- * @return string
- * @access public
+ * @param $string String: string to be escaped.
+ * @return String: escaped string.
+ * @public
  */
 function escapeSingleString( $string ) {
 	return strtr( $string,

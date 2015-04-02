@@ -29,8 +29,7 @@ if( isset( $_SERVER['argv'] ) && in_array( '--icu', $_SERVER['argv'] ) ) {
 	dl( 'php_utfnormal.so' );
 }
 
-require_once 'UtfNormalUtil.php';
-require_once 'UtfNormal.php';
+require_once 'include/Unicode/UtfNormal.php';
 
 define( 'BENCH_CYCLES', 5 );
 

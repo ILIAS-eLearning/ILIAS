@@ -56,8 +56,7 @@ if( isset( $_SERVER['argv'] ) && in_array( '--icu', $_SERVER['argv'] ) ) {
 	dl( 'php_utfnormal.so' );
 }
 
-require_once 'UtfNormalUtil.php';
-require_once 'UtfNormal.php';
+require_once 'include/Unicode/UtfNormal.php';
 
 if( php_sapi_name() != 'cli' ) {
 	die( "Run me from the command line please.\n" );
