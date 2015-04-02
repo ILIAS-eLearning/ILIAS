@@ -110,6 +110,8 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 			if ($current_node) {
 				$node_classes .= " ilHighlighted current_node";
 			}
+		} else {
+			$node_classes .= " lp-object";
 		}
 
 		$data_line = '<span class="'.$node_classes.'">' . $node->getTitle() .'</span>';
@@ -119,7 +121,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 		if($this->checkAccess('write', $node->getRefId())) {
 			$data_line .= '<span class="icon_bar">';
 			if($is_training_programme) {
-				$data_line .= $this->getActionLink('ilObjTrainingProgrammeSettingsGUI', 'view', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::INFO));
+				$data_line .= (!$current_node)? $this->getActionLink('ilObjTrainingProgrammeSettingsGUI', 'view', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::INFO)) : '';
 				$data_line .= $this->getActionLink('ilObjTrainingProgrammeTreeGUI', 'create', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::ADD));
 			}
 
@@ -131,7 +133,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 
 		return $data_line;
 	}
-
+	
 	/**
 	 * Generate link-element
 	 *
