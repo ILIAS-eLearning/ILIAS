@@ -301,7 +301,8 @@ class ilObjTrainingProgramme extends ilContainer {
 
 			// apply container sorting to tree
 			$sorting = ilContainerSorting::_getInstance($this->getId());
-			$ref_ids = $sorting->sortItems(array('prg'=>$ref_ids))['prg'];
+			$ref_ids = $sorting->sortItems(array('prg'=>$ref_ids));
+			$ref_ids = $ref_ids['prg'];
 
 			$this->children = array_map(function($node_data) {
 				return self::getInstanceByRefId($node_data["child"]);
