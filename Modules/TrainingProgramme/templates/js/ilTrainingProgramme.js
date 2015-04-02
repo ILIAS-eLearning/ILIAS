@@ -1,10 +1,6 @@
 (function ($) {
     "use strict";
 
-    $(document).on('hidden.bs.modal', function (e) {
-        $(e.target).removeData('bs.modal');
-    });
-
     $.fn.extend({
         training_programme_tree: function (options) {
             var settings = $.extend({
@@ -23,15 +19,15 @@
             /**
              * reloads the js tree
              */
-            function refresh_tree() {
+            var refresh_tree = function () {
                 $(element).jstree("refresh");
             }
 
             /**
-             * enables or disable the save-order and cancel-order buttons
+             * Enables or disable the save-order and cancel-order button in the toolbar
              * @param enabled
              */
-            function enable_control_buttons(enabled) {
+            var enable_control_buttons = function (enabled) {
                 if (settings.save_button_id !== '') {
                     if (enabled) {
                         $("#" + settings.save_button_id).removeClass('disabled');
@@ -49,11 +45,11 @@
             }
 
             /**
-             * Shows and hides all buttons in three
+             * Shows and hides all buttons on the tree nodes
              * This is used to remove all buttons if there are changes in the tree structure
              * @param enable
              */
-            function enable_all_buttons(enable) {
+            var enable_all_buttons = function (enable) {
                 var buttons = element.find(settings.button_selectors.all);
                 if (enable) {
                     buttons.show();
@@ -65,40 +61,77 @@
             }
 
             /**
-             * hides all remove buttons from parents of the current selected element
-             * This avoids that you loose the reference to the current page
+             * Hides all remove buttons from parents of the current selected element
+             * This avoids loosing the reference to the current page
              */
-            function handle_delete_buttons() {
+            var handle_delete_buttons = function () {
                 element.find(settings.button_selectors.delete).show();
                 element.find(settings.current_node_selector).parents('li').each(function () {
-                    //$(this).find("> " + settings.button_selectors.delete).css("border", "1px solid green");
                     $(this).find("> " + settings.button_selectors.delete).hide();
                 });
             }
 
+            /**
+             * Defines drag & drop rules for tree-elements
+             */
+            var initDndTargetChecking = function () {
+                var js_tree_settings = $(element).jstree("get_settings");
 
-            // Jstree events handlers
+                js_tree_settings.crrm.move.check_move = function (data) {
+                    /*console.log("new_parent: " + data.cr);
+                    console.log("position: " + data.p);
+                    console.log("calculated position: " + data.cp);
+                    console.log("current element: ");
+                    console.log(data.o);*/
+
+                    // TODO: implement better/faster way to get information about node-types (identifier classes should be added to li-element)
+                    var np_lp_object = data.np.find('span.ilExp2NodeContent>span.title').first().hasClass('lp-object');
+                    var is_lp_object = data.o.find('span.ilExp2NodeContent>span.title').first().hasClass('lp-object');
+                    var np_no_children = (data.np.find('ul > li > a > span.ilExp2NodeContent > span.title').length === 0);
+                    var np_has_lp_children = data.np.find('ul > li > a > span.ilExp2NodeContent > span.title').first().hasClass('lp-object');
+
+                    /*console.log("is_lp_object: " + is_lp_object);
+                    console.log("no_lp_object_children: " + np_has_lp_children);
+                    console.log("no children: " + np_no_children);*/
+
+                    // only allow drag if it does not create a new root, the target is not a lp-object, the target has no children or
+                    // the type matches (only allow lp objects dropping if the new parent has lp-object children or only allow containers drop in container with other containers)
+                    var allowed_drag = (data.cr !== -1 && !np_lp_object && (np_no_children || np_has_lp_children === is_lp_object));
+                    //console.log("result: " + allowed_drag);
+
+                    if (allowed_drag) {
+                        return true;
+                    }
+                    return false;
+                };
+
+                $.jstree._reference($(element).attr("id"))._set_settings(js_tree_settings);
+            }
+
+
+            // JsTree events handlers
 
             /**
-             * controls toolbar buttons and tree-buttons when there are changes in the tree-structure
+             * Controls toolbar buttons and tree-buttons when there are changes in the tree-structure
              */
             element.on("move_node.jstree", function (event, data) {
                 enable_control_buttons(true);
 
                 enable_all_buttons(false);
-                //handle_delete_buttons();
             });
 
             /**
              * root of the tree is loaded
-             * Hides order-save and cancel buttons and removes delete buttons of all parents of the current element (handle_delete_buttons).
+             * Hides order-save and cancel buttons and removes delete buttons of all parents of the current element (handle_delete_buttons) and
+             * init the Drag & Drop handling
              */
             element.on("loaded.jstree", function (event, data) {
                 enable_control_buttons(false);
 
                 // hmmmm ugly js workaround: ready event does not exists in this version of jstree
                 window.setTimeout(handle_delete_buttons, 500);
-                //handle_delete_buttons();
+
+                initDndTargetChecking();
             });
 
             /**
@@ -143,7 +176,7 @@
             });
 
             /**
-             * Saves the tree-order
+             * Saves the tree-order async
              */
             $("body").on("training_programme-save_order", function () {
                 var tree_data = $(element).jstree("get_json", -1, ['id']);
@@ -178,9 +211,26 @@
 
             var element = this;
 
-            $.each(settings.events.hide, function (index, value) {
-                $("body").on(value, function (data) {
-                    element.modal('hide');
+            /**
+             * Remove data in bootstrap overlay when closed
+             */
+            $(document).on('hidden.bs.modal', '.modal', function (e) {
+                // only remove on training_programme_modal
+                if ($(e.target).attr('id') === $(element).attr('id')) {
+                    $(e.target).removeData("bs.modal");
+                    $(e.target).find(".modal-content").empty();
+                }
+            });
+
+            /**
+             * Add modal events
+             */
+            $.each(settings.events, function (modal_trigger, events) {
+
+                $.each(events, function (key, event) {
+                    $("body").on(event, function () {
+                        element.modal(modal_trigger);
+                    });
                 });
             });
 
@@ -196,6 +246,12 @@
 
             var content_container = this;
 
+            /**
+             * Renders notification and display it
+             *
+             * @param event
+             * @param data
+             */
             var displayMessage = function (event, data) {
                 if (data.message) {
                     data.type = data.type || 'info';
@@ -212,6 +268,9 @@
                 }
             };
 
+            /**
+             * Add all message display events
+             */
             $.each(settings.events, function (type, events) {
                 $.each(events, function (key, val) {
                     $("body").on(val, displayMessage);
