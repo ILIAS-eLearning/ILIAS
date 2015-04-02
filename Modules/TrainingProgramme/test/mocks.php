@@ -31,7 +31,7 @@ class ilTrainingProgrammeLeafMock extends ilObject2 implements ilTrainingProgram
 	}
 	
 	// from ilTrainingProgrammeLeaf
-	public function getParentId() {
+	/*public function getParentId() {
 		global $tree;
 		if (!$tree->isInTree($this->getRefId())) {
 			return null;
@@ -39,7 +39,7 @@ class ilTrainingProgrammeLeafMock extends ilObject2 implements ilTrainingProgram
 		
 		$nd = $tree->getParentNodeData($this->getRefId());
 		return $nd["obj_id"];
-	}
+	}*/
 	
 	// Mark this leaf as completed for a user.
 	public function markCompletedFor($a_user_id) {

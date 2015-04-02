@@ -590,7 +590,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @throws ilTrainingProgrammeTreeException
 	 * @return $this
 	 */
-	public function addLeaf(ilTrainingProgrammeLeaf $a_leaf) {
+	public function addLeaf(/*ilTrainingProgrammeLeaf*/ $a_leaf) {
 		$this->throwIfNotInTree();
 		
 		if ($this->hasChildren()) {
@@ -619,8 +619,8 @@ class ilObjTrainingProgramme extends ilContainer {
 	 * @throws ilTrainingProgrammeTreeException
 	 * @return $this
 	 */
-	public function removeLeaf(ilTrainingProgrammeLeaf $a_leaf) {
-		if ($a_leaf->getParentId() !== $this->getId()) {
+	public function removeLeaf(/*ilTrainingProgrammeLeaf*/ $a_leaf) {
+		if (self::getParentId($a_leaf) !== $this->getId()) {
 			throw new ilTrainingProgrammeTreeException("This is no parent of the given leaf node.");
 		}
 
@@ -920,6 +920,22 @@ class ilObjTrainingProgramme extends ilContainer {
 				$progress->setLPCompleted($a_obj_id, $a_user_id);
 			}
 		}
+	}
+	
+	/**
+	 * Get the obj id of the parent object for the given object. Returns null if 
+	 * object is not in the tree currently.
+	 *
+	 * @return int | null
+	 */
+	static protected function getParentId(ilObject $a_object) {
+		global $tree;
+		if (!$tree->isInTree($a_object->getRefId())) {
+			return null;
+		}
+		
+		$nd = $tree->getParentNodeData($a_object->getRefId());
+		return $nd["obj_id"];
 	}
 	
 	////////////////////////////////////
