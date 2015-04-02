@@ -63,6 +63,7 @@ common#:#display_webdav_actions_info#:#Zeigt die Aktion 'Als Webordner öffnen' 
 common#:#enable_course_group_notifications#:#Tägliche Mail für Gruppen und Trainings News
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Kategorien, Trainings und Gruppen definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der entsprechenden Kategorien, Training und Gruppen hoch.
 common#:#federal_state#:#Bundesland
+common#:#hobby#:#Kommentar
 common#:#groupings_assigned_obj_crs#:#Zugeordnete Trainings
 common#:#il_crs_admin#:#Trainingsbetreuer
 common#:#il_crs_member#:#Teilnehmer
