@@ -568,14 +568,14 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @expectedException ilException
 	 */
-	public function testCreatableSubobjectsRaisesOnNullRef() {
+	public function testCreatableSubObjectsRaisesOnNullRef() {
 		ilObjTrainingProgramme::getCreatableSubObjects(array(), null);
 	}
 
 	/**
 	 * @expectedException ilException
 	 */
-	public function testCreatableSubobjectsRaisesOnNonProgramRef() {
+	public function testCreatableSubObjectsRaisesOnNonProgramRef() {
 		ilObjTrainingProgramme::getCreatableSubObjects(array(), 9);
 	}
 }
