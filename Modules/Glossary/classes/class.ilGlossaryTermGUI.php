@@ -355,6 +355,8 @@ class ilGlossaryTermGUI
 				$tpl->parseCurrentBlock();
 			}
 
+			ilUtil::includeMathjax($tpl);
+
 			$tpl->setCurrentBlock("definition");
 			$tpl->setVariable("PAGE_CONTENT", $output);
 			$tpl->parseCurrentBlock();
