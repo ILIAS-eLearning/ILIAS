@@ -306,10 +306,11 @@ il.Accordion = {
 		}
 		else
 		{
+			$(acc_el).css("width", '0px');
 			$(acc_el).removeClass("ilAccHideContent");
-			options = { width: a.width
+			options = { width: (a.width
 				? a.width
-				: $(acc_el).prop("scrollWidth")};
+				: $(acc_el).prop("scrollWidth"))};
 		}
 		return options;
 	},

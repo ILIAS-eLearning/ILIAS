@@ -1,5 +1,7 @@
 il.Form = {
 
+	duration : 150,
+
 	items: {},
 	
 	escapeSelector: function(str) {
@@ -46,7 +48,7 @@ il.Form = {
 
 		$("#" + cont_id + " div.ilSubForm[id!='" + id + "']").animate({
 			height: 0
-		}, 400, function () {
+		}, il.Form.duration, function () {
 			$(this).css('display', 'none');
 
 			// activated in the meantime?
@@ -74,7 +76,7 @@ il.Form = {
 			obj.style.display = '';
 			$(obj).animate({
 				height: nh
-			}, 400, function () {
+			}, il.Form.duration, function () {
 				$(this).css('height', 'auto');
 			});
 		}
@@ -85,7 +87,7 @@ il.Form = {
 
 			$(obj).animate({
 				height: 0
-			}, 400, function () {
+			}, il.Form.duration, function () {
 				$(this).css('display', 'none');
 				// activated in the meantime?
 				for (k = 0; k < il.Form.sub_active.length; k++) {

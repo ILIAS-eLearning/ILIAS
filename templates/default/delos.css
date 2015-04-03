@@ -7483,6 +7483,10 @@ div.ilSideBarContent {
   height: 0px;
   display: none;
 }
+.il_VAccordionContentDef > div,
+.il_HAccordionContentDef > div {
+  overflow: auto;
+}
 /* Modules/ScormAicc */
 table.il_ScormTable {
   color: #222;
