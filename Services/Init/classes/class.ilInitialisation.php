@@ -84,16 +84,12 @@ class ilInitialisation
 	 */
 	protected static function includePhp5Compliance()
 	{
-		// php5 downward complaince to php 4 dom xml and clone method
-		if (version_compare(PHP_VERSION,'5','>='))
-		{
-			include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
-			if(ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_CAS)
-			{
-				require_once("include/inc.xml5compliance.php");
-			}
-			require_once("include/inc.xsl5compliance.php");
-		}
+        include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
+        if(ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_CAS)
+        {
+            require_once("include/inc.xml5compliance.php");
+        }
+        require_once("include/inc.xsl5compliance.php");
 	}
 
 	/**
@@ -469,23 +465,10 @@ class ilInitialisation
 		define('IL_COOKIE_DOMAIN','');
 		define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
 
-		// session_set_cookie_params() supports 5th parameter
-		// only for php version 5.2.0 and above
-		if( version_compare(PHP_VERSION, '5.2.0', '>=') )
-		{
-			// PHP version >= 5.2.0
-			define('IL_COOKIE_HTTPONLY',true); // Default Value
-			session_set_cookie_params(
-					IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
-			);
-		}
-		else
-		{
-			// PHP version < 5.2.0
-			session_set_cookie_params(
-					IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE
-			);
-		}
+        define('IL_COOKIE_HTTPONLY',true); // Default Value
+        session_set_cookie_params(
+                IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
+        );
 	}
 
 	/**
@@ -887,14 +870,7 @@ class ilInitialisation
 			// when the error reporting is set to E_ALL anyway
 			
 			// remove notices from error reporting
-			if (version_compare(PHP_VERSION, '5.3.0', '>='))
-			{
-				error_reporting(E_ALL);
-			}
-			else
-			{
-				error_reporting(E_ALL);
-			}
+			error_reporting(E_ALL);
 		}
 
 		include_once "include/inc.debug.php";
@@ -964,13 +940,9 @@ class ilInitialisation
 			
 			error_reporting(((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED) & ~E_STRICT);
 		}
-		elseif (version_compare(PHP_VERSION, '5.3.0', '>='))
-		{
-			error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
-		}
 		else
 		{
-			error_reporting(ini_get('error_reporting') & ~E_NOTICE);
+			error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
 		}
 		// breaks CAS: must be included after CAS context isset in AuthUtils
 		//self::includePhp5Compliance();
