@@ -2005,6 +2005,9 @@ class ilLMPresentationGUI
 			$ilCtrl->setParameter($this, "pg_type", "glo");
 		}
 		$term_gui->output($this->offlineMode(), $this->tpl);
+
+
+
 		if (!$this->offlineMode())
 		{
 			$ilCtrl->setParameter($this, "pg_type", "");
