@@ -3,7 +3,7 @@
 
 include_once 'classes/class.ilSaxParser.php';
 include_once 'Services/Tracking/classes/class.ilChangeEvent.php';
-include_once 'Modules/Exercise/classes/class.ilExerciseException.php';
+include_once 'Modules/Exercise/exceptions/class.ilExerciseException.php';
 include_once 'Modules/Exercise/classes/class.ilExerciseXMLWriter.php';
 
 /**
