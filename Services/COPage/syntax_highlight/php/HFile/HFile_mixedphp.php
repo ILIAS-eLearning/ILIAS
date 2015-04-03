@@ -3,9 +3,9 @@ $BEAUT_PATH = realpath(".")."/Services/COPage/syntax_highlight/php";
 if (!isset ($BEAUT_PATH)) return;
 require_once("$BEAUT_PATH/Beautifier/HFile.php");
 
-class HFile_plain extends HFile{
+class HFile_mixedphp extends HFile{
 
- function HFile_plain(){
+ function HFile_mixedphp(){
 
     $this->HFile();	
 
