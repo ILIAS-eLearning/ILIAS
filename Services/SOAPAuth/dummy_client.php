@@ -6,7 +6,7 @@ exit;
 // PART 3: Test it the normal way
 //
 
-include_once ("./include/nusoap.php");
+require_once './webservice/soap/lib/nusoap.php';
 //include_once ("./include/class.ilXmlWriter.php");
 
 $server = $_GET["server"]
