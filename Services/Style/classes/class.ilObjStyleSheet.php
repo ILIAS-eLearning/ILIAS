@@ -1359,7 +1359,7 @@ class ilObjStyleSheet extends ilObject
 	function deleteStylePar($a_tag, $a_class, $a_par, $a_type, $a_mq_id = 0, $a_custom = false)
 	{
 		global $ilDB;
-		
+
 		$q = "DELETE FROM style_parameter WHERE ".
 			" style_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
 			" tag = ".$ilDB->quote($a_tag, "text")." AND ".
@@ -1368,6 +1368,30 @@ class ilObjStyleSheet extends ilObject
 			" custom = ".$ilDB->quote($a_custom, "integer")." AND ".
 			" ".$ilDB->equals("type", $a_type, "text", true)." AND ".
 			" parameter = ".$ilDB->quote($a_par, "text");
+
+		$ilDB->manipulate($q);
+	}
+
+	/**
+	 * Delete style parameter by tag/class/parameter
+	 *
+	 * @param string $a_tag tag
+	 * @param string $a_class class
+	 * @param string $a_par parameter
+	 * @param string $a_type type
+	 * @param string $a_mq_id media query id
+	 */
+	function deleteCustomStylePars($a_tag, $a_class, $a_type, $a_mq_id = 0)
+	{
+		global $ilDB;
+
+		$q = "DELETE FROM style_parameter WHERE ".
+			" style_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
+			" tag = ".$ilDB->quote($a_tag, "text")." AND ".
+			" class = ".$ilDB->quote($a_class, "text")." AND ".
+			" mq_id = ".$ilDB->quote($a_mq_id, "integer")." AND ".
+			" custom = ".$ilDB->quote(1, "integer")." AND ".
+			" ".$ilDB->equals("type", $a_type, "text", true);
 
 		$ilDB->manipulate($q);
 	}
