@@ -5879,3 +5879,7 @@ $ilDB->manipulate("UPDATE style_data SET ".
 	" uptodate = ".$ilDB->quote(0, "integer")
 	);
 ?>
+<#4480>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
