@@ -15235,3 +15235,6 @@ forum#:#sel_threads_make_sticky#:#The selected threads has been marked as sticky
 forum#:#sel_threads_make_unsticky#:#The selected threads are not marked as sticky anymore
 forum#:#selected_threads_closed#:#The selected threads has been closed
 forum#:#selected_threads_reopened#:#The selected threads has been reopened
+meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries the same
+meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing entry
+meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
