@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */#
 
 /**
-* Report "Attendance By OrgUnit"
+* Report "Attendance By Course-Template"
 * for Generali
 *
 * @author	Nils Haagen <nhaagen@concepts-and-training.de>
@@ -11,37 +11,27 @@
 *
 */
 
-ini_set("memory_limit","2048M"); 
-ini_set('max_execution_time', 0);
-set_time_limit(0);
-
-
-
 require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
 require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
-require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-
-
-class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
+class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 	public function __construct() {
 		
 		parent::__construct();
 
 		$this->title = catTitleGUI::create()
-						->title("gev_rep_attendance_by_orgunit_title")
-						->subTitle("gev_rep_attendance_by_orgunit_desc")
+						->title("gev_rep_attendance_by_coursetemplate_title")
+						->subTitle("gev_rep_attendance_by_coursetemplate_desc")
 						->image("GEV_img/ico-head-edubio.png")
 						;
 
+	
 		$this->table = catReportTable::create()
-						->column("org_unit", "title")
-						->column("odbd", "OD/BD")
-						//->column("above2", "above2")
+						->column("template_title", "title")
+						->column("edu_program", "BiPro")
 						//->column("above1", "above1")
-						->column("sum_employees", "sum_employees")
 						
 						->column("sum_booked_wbt", "sum_booked_WBT")
 						->column("sum_attended_wbt", "sum_attended_WBT")
@@ -53,26 +43,15 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->column("sum_unexcused", "sum_unexcused")
 						->column("sum_exit", "sum_exit")
 						
-						->template("tpl.gev_attendance_by_orgunit_row.html", "Services/GEV/Reports")
+						->template("tpl.gev_attendance_by_coursetemplate_row.html", "Services/GEV/Reports")
 						;
 
-
-		$this->order = catReportOrder::create($this->table)
+		/*$this->order = catReportOrder::create($this->table)
 						//->mapping("date", "crs.begin_date")
 						//->mapping("odbd", array("org_unit_above1", "org_unit_above2"))
-						->defaultOrder("org_unit", "ASC")
+						->defaultOrder("template", "ASC")
 						;
-		
-		//internal ordering:
-		$this->internal_sorting_numeric = array(
-			'sum_employees'
-		);
-		$this->internal_sorting_fields = array_merge(
-			$this->internal_sorting_numeric,
-			array(
-		 	  'odbd'
-			));
-
+		*/
 
 
 		$this->sql_sum_parts = array(
@@ -151,9 +130,9 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 		$this->query = catReportQuery::create()
 						//->distinct()
 
-						->select("usr.org_unit")
-						->select("usr.org_unit_above1")
-						->select("usr.org_unit_above2")
+						->select("crs.template_title")
+						->select("crs.edu_program")
+						
 
 						/*->select("usrcrs.booking_status")
 						->select("usrcrs.participation_status")
@@ -176,67 +155,18 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->join("hist_course crs")
 							->on("usrcrs.crs_id = crs.crs_id")
 
-						->join("hist_user usr")
-							->on("usrcrs.usr_id = usr.user_id")
+						//->join("hist_user usr")
+						//	->on("usrcrs.usr_id = usr.user_id")
 
-						->group_by("usr.org_unit")
+						->group_by("crs.template_title")
 						->compile()
 						;
 
 
-		$this->allowed_user_ids = $this->user_utils->getEmployees();
 
 		$this->filter = catFilter::create()
-		/*				
-						->dateperiod( "period"
-									, $this->lng->txt("gev_period")
-									, $this->lng->txt("gev_until")
-									, "usrcrs.begin_date"
-									, "usrcrs.end_date"
-									, date("Y")."-01-01"
-									, date("Y")."-12-31"
-									, false
-									, " OR usrcrs.hist_historic IS NULL"
-									)
-		*/				
-						->multiselect( "org_unit"
-									 , $this->lng->txt("gev_org_unit_short")
-									 //, array("usr.org_unit", "org_unit_above1", "org_unit_above2")
-									 , array("usr.org_unit")
-									 , $this->user_utils->getOrgUnitNamesWhereUserIsSuperior()
-									 , array()
-									 )
-						->multiselect("edu_program"
-									 , $this->lng->txt("gev_edu_program")
-									 , "edu_program"
-									 , gevCourseUtils::getEduProgramsFromHisto()
-									 , array()
-									 )
-						->multiselect("type"
-									 , $this->lng->txt("gev_course_type")
-									 , "type"
-									 , gevCourseUtils::getLearningTypesFromHisto()
-									 , array()
-									 )
-						->multiselect("template_title"
-									 , $this->lng->txt("crs_title")
-									 , "template_title"
-									 , gevCourseUtils::getTemplateTitleFromHisto()
-									 , array()
-									 )
-						->multiselect("participation_status"
-									 , $this->lng->txt("gev_participation_status")
-									 , "participation_status"
-									 , gevCourseUtils::getParticipationStatusFromHisto()
-									 , array()
-									 )
-
-
-
-						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
-
 						->static_condition(" usrcrs.hist_historic = 0")
-						->static_condition(" usr.hist_historic = 0")
+						//->static_condition(" usr.hist_historic = 0")
 						->static_condition(" crs.hist_historic = 0")
 										  
 						  
@@ -244,52 +174,8 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->compile()
 						;
 
-	}
-
-
-
-	protected function _process_xls_date($val) {
-		$val = str_replace('<nobr>', '', $val);
-		$val = str_replace('</nobr>', '', $val);
-		return $val;
-	}
-
-
-	protected function transformResultRow($rec) {
-		$rec['odbd'] = $rec['org_unit_above2'] .'/' .$rec['org_unit_above1'];
-		
-		$tmpsql = "SELECT COUNT( * ) AS oumembers FROM hist_user"
-				." WHERE org_unit = '" .$rec['org_unit'] ."'"
-				." AND hist_historic = 0";
-		$tmpres = $this->db->query($tmpsql);
-		$tmprec = $this->db->fetchAssoc($tmpres);
-
-		$rec['sum_employees'] = intval($tmprec['oumembers']);
-		
-		//$rec['sum_employees'] = 'many';
-
-		return $this->replaceEmpty($rec);
-	}
-
-
-	protected function xxrenderView(){
-		$query = $this->query->sql()."\n "
-		   . $this->queryWhere()."\n "
-		   . $this->query->sqlGroupBy()."\n"
-		   . $this->queryHaving()."\n"
-		   . $this->queryOrder();
-		print_r($query);
-		print '<hr>';
-		//$data = $this->getData();
-		//print_r($data);
-		$this->renderTable();
 
 	}
-
-
-
-
-
 }
 
 ?>
