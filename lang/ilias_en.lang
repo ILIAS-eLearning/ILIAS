@@ -15491,3 +15491,9 @@ sysc#:#sysc_task_tree_missing_reference#:#Missing Object References
 sysc#:#sysc_task_tree_missing_reference_desc#:#Searches and repairs missing object references in the repository tree.
 sysc#:#sysc_task_structure#:#Tree structure
 sysc#:#sysc_task_structure_desc#:#Analyzes and corrects the repository tree structure.
+forum#:#sel_threads_already_sticky#:#At least one of the selected threads is already sticky
+forum#:#sel_threads_already_unsticky#:#At least one of the selected threads is already unsticky
+forum#:#sel_threads_make_sticky#:#The selected threads has been marked as sticky
+forum#:#sel_threads_make_unsticky#:#The selected threads are not marked as sticky anymore
+forum#:#selected_threads_closed#:#The selected threads has been closed
+forum#:#selected_threads_reopened#:#The selected threads has been reopened
