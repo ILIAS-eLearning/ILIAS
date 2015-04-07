@@ -15231,3 +15231,6 @@ trac#:#trac_mode_survey_finished#:#Survey Finished
 trac#:#trac_mode_survey_finished_info#:#The survey has to be finished by an user to receive the status 'Completed'.
 crs#:#crs_usr_agreement#:#User Agreement
 grp#:#grp_usr_agreement#:#User Agreement
+meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries the same
+meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing entry
+meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value

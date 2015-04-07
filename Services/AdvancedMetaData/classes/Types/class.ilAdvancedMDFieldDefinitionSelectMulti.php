@@ -56,8 +56,7 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
 		$missing = array_diff($old, $new);
 		if(sizeof($missing))
 		{		
-			$this->confirmed_objects = $a_form->getInput("conf");
-			$this->confirmed_objects = $this->confirmed_objects[$this->getFieldId()];
+			$this->confirmed_objects = $this->buildConfirmedObjects($a_form);
 			if(!is_array($this->confirmed_objects))
 			{									
 				$search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($this->getADTDefinition(), false, false);							

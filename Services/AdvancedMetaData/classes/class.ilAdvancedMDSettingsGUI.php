@@ -981,6 +981,8 @@ class ilAdvancedMDSettingsGUI
 			}
 		}
 		
+		$form->setValuesByPost();		
+		
 		// fields needs confirmation of updated settings
 		if($confirm)
 		{
@@ -988,7 +990,6 @@ class ilAdvancedMDSettingsGUI
 			$field_definition->prepareDefinitionFormConfirmation($form);
 		}		
 		
-		$form->setValuesByPost();
 		$this->editField($form);		
 	}
 	
