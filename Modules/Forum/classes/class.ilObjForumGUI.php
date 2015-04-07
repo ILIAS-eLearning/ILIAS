@@ -3041,7 +3041,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						unset($tmp_obj);
 					}
 				}
-	
+				ilUtil::sendSuccess($this->lng->txt('selected_threads_closed'), true);
 				$this->ctrl->redirect($this, 'showThreads');
 			}
 			else if($_POST['selected_cmd'] == 'reopen')
@@ -3056,34 +3056,56 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 				}
 	
+				ilUtil::sendSuccess($this->lng->txt('selected_threads_reopened'), true);
 				$this->ctrl->redirect($this, 'showThreads');
 			}
 			else if($_POST['selected_cmd'] == 'makesticky')
 			{
 				if($this->is_moderator)
 				{
+					$message = $this->lng->txt('sel_threads_make_sticky');
+					
 					for($i = 0; $i < count($_POST['thread_ids']); $i++)
 					{
 						$tmp_obj = new ilForumTopic($_POST['thread_ids'][$i]);
-						$tmp_obj->makeSticky();
+						$makeSticky =  $tmp_obj->makeSticky();
+
+						if(!$makeSticky)
+						{
+							$message = $this->lng->txt('sel_threads_already_sticky');
+						}
+
 						unset($tmp_obj);
 					}
 				}
-	
+				if($message != null)
+				{
+					ilUtil::sendInfo($message,true);
+				}
 				$this->ctrl->redirect($this, 'showThreads');
 			}
 			else if($_POST['selected_cmd'] == 'unmakesticky')
 			{
 				if($this->is_moderator)
 				{
+					$message = $this->lng->txt('sel_threads_make_unsticky');
 					for($i = 0; $i < count($_POST['thread_ids']); $i++)
 					{
 						$tmp_obj = new ilForumTopic($_POST['thread_ids'][$i]);
-						$tmp_obj->unmakeSticky();
+						$unmakeSticky = $tmp_obj->unmakeSticky();
+						if(!$unmakeSticky)
+						{
+							$message = $this->lng->txt('sel_threads_already_unsticky');
+						}
+						
 						unset($tmp_obj);
 					}
 				}
-	
+				
+				if($message != null)
+				{
+					ilUtil::sendInfo($message,true);
+				}
 				$this->ctrl->redirect($this, 'showThreads');
 			}
 			else if($_POST['selected_cmd'] == 'editThread')

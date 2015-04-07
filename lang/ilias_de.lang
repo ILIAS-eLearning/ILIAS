@@ -15229,3 +15229,9 @@ administration#:#adm_missing_entry_add_action#:#Hinzufügen
 administration#:#adm_missing_entry_add#:#Neuen Eintrag erstellen
 crs#:#crs_usr_agreement#:#Benutzerveinbarung
 grp#:#grp_usr_agreement#:#Benutzerveinbarung
+forum#:#sel_threads_already_sticky#:#Mindestens eins der gewählten Themen ist bereits als Top-Thema markiert
+forum#:#sel_threads_already_unsticky#:#Mindestens eins der gewählten Themen ist bereits kein Top-Thema mehr
+forum#:#sel_threads_make_sticky#:#Die gewählten Themen wurden als Top-Thema markiert
+forum#:#sel_threads_make_unsticky#:#Die gewählten Themen werden nicht mehr als Top-Thema markiert
+forum#:#selected_threads_closed#:#Die gewählten Themen wurden geschlossen
+forum#:#selected_threads_reopened#:#Die gewählten Themen wurden wiedereröffnet
