@@ -4,7 +4,7 @@
 require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
 /**
- * Class ilChatroomAdminviewTask
+ * Class ilChatroomAdminViewTask
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
  * @ingroup ModulesChatroom
