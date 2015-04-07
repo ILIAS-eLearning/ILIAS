@@ -5,8 +5,8 @@
 * base class for ReportGUIs 
 * for Generali
 *
-* @author	Nils Haagen <nhaagen@concepts-and-training.de>
 * @author	Richard Klees <richard.klees@concepts-and-training.de>
+* @author	Nils Haagen <nhaagen@concepts-and-training.de>
 * @version	$Id$
 */
 
@@ -117,22 +117,27 @@ class catBasicReportGUI {
 		}
 		
 		//export-button
+		$export_btn = "";
 		if (count($data) > 0) {
-			$export_btn = '<a class="submit exportXlsBtn"'
-						. 'href="'
-						.$this->ctrl->getLinkTarget($this, "exportxls")
-						.'">'
-						.$this->lng->txt("gev_report_exportxls")
-						.'</a>';
-		}
-		else {
-			$export_btn = "";
+			$export_btn = $this->renderExportButton();
 		}
 
 		return	 $export_btn
 				.$content
 				.$export_btn;
 	}
+
+
+	protected function renderExportButton() {
+		$export_btn = '<a class="submit exportXlsBtn"'
+						. 'href="'
+						.$this->ctrl->getLinkTarget($this, "exportxls")
+						.'">'
+						.$this->lng->txt("gev_report_exportxls")
+						.'</a>';
+		return $export_btn;
+	}
+
 	
 	protected function renderUngroupedTable($data) {
 		$table = new catTableGUI($this, "view");
@@ -160,7 +165,21 @@ class catBasicReportGUI {
 		$cnt = count($data);
 		$table->setLimit($cnt);
 		$table->setMaxCount($cnt);
-		$table->setExternalSorting($this->order !== null);
+
+		$external_sorting = true;
+		if($this->order === null || 
+			in_array($this->order->getOrderField(), $this->internal_sorting_fields)
+			) {
+				$external_sorting = false;	
+		}
+		$table->setExternalSorting($external_sorting);
+
+		if ($this->internal_sorting_numeric) {
+			foreach ($this->internal_sorting_numeric as $col) {
+				$table->numericOrdering($col);
+			}
+		}
+
 
 		$table->setData($data);
 
@@ -298,9 +317,13 @@ class catBasicReportGUI {
 	}
 	
 	protected function queryOrder() {
-		if ($this->order === null) {
+		if ($this->order === null ||
+			in_array($this->order->getOrderField(), $this->internal_sorting_fields)
+			) {
 			return "";
 		}
+
+		
 		
 		return $this->order->getSQL();
 	}
