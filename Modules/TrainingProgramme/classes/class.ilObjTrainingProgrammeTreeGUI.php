@@ -3,11 +3,12 @@
 require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeTreeExplorerGUI.php");
 require_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
 require_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
-require_once("./Services/ContainerReference/classes/class.ilContainerSelectionExplorer.php");
+require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncContainerSelectionExplorer.php");
 require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncPropertyFormGUI.php");
 require_once('./Services/Container/classes/class.ilContainerSorting.php');
 require_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncNotifications.php");
+require_once("./Modules/CourseReference/classes/class.ilObjCourseReference.php");
 
 /**
  * Class ilTrainingProgrammeTreeGUI
@@ -196,11 +197,31 @@ class ilObjTrainingProgrammeTreeGUI {
 	}
 
 	protected function createNewLeaf() {
-		//TODO: implement leaf creation
+		$this->checkAccess('create', (int) $_POST['parent_id']);
+
+		if(isset($_POST['target_id'], $_POST['type'], $_POST['parent_id'])) {
+			$target_id = (int) $_POST['target_id'];
+			$parent_id = (int) $_POST['parent_id'];
+
+			$course_ref = new ilObjCourseReference();
+			$course_ref->setTitleType(ilObjCourseReference::TITLE_TYPE_REUSE);
+			$course_ref->setTargetRefId($target_id);
+
+			$course_ref->create();
+			$course_ref->createReference();
+
+			$course_ref->putInTree($parent_id);
+
+			// This is how its done in ILIAS. If you set the target ID before the creation, it won't work
+			$course_ref->setTargetId(ilObject::_lookupObjectId($target_id));
+			$course_ref->update();
+		}
+
+		return ilAsyncOutputHandler::encodeAsyncResponse(array('success'=>true, 'message'=>$this->lng->txt('prg_added_course_ref_successful')));
 	}
 
 	protected function getContainerSelectionExplorer($convert_to_string = true) {
-		$create_leaf_form = new ilContainerSelectionExplorer($this->ctrl->getLinkTarget($this, 'create_new_ref', '', true));
+		$create_leaf_form = new ilAsyncContainerSelectionExplorer(rawurldecode($this->ctrl->getLinkTarget($this, 'createNewLeaf', '', true, false)));
 		$create_leaf_form->setId("select_course_explorer");
 
 		$ref_expand = ROOT_FOLDER_ID;
@@ -239,9 +260,11 @@ class ilObjTrainingProgrammeTreeGUI {
 	}
 
 	protected function create() {
-		$accordion = new ilAccordionGUI();
+		$parent_id = (isset($_GET['ref_id']))? (int) $_GET['ref_id'] : null;
+		$this->checkAccess('create', $parent_id);
 
-		$parent = ilObjectFactoryWrapper::singleton()->getInstanceByRefId((int) $_GET['ref_id']);
+		$parent = ilObjectFactoryWrapper::singleton()->getInstanceByRefId($parent_id);
+		$accordion = new ilAccordionGUI();
 
 		if($parent instanceof ilObjTrainingProgramme) {
 			// only allow adding new TrainingProgramme-Node if there are no lp-children
@@ -269,13 +292,13 @@ class ilObjTrainingProgrammeTreeGUI {
 	protected function delete() {
 		global $ilSetting;
 
-		$this->checkAccess("write");
+		$this->checkAccess("delete");
 
 		if(!isset($_GET['ref_id'], $_GET['item_ref_id'])) {
 			throw new ilException("Nothing to delete!");
 		}
 
-		$element_ref_id = $_GET['ref_id'];
+		$element_ref_id = (int) $_GET['ref_id'];
 
 		$cgui = new ilConfirmationGUI();
 
@@ -308,14 +331,14 @@ class ilObjTrainingProgrammeTreeGUI {
 	}
 
 	protected function confirmedDelete() {
-		$this->checkAccess("write");
+		$this->checkAccess("delete");
 
-		if(!isset($_POST['id'], $_POST['item_ref_id'])) {
+		if(!isset($_POST['id'], $_POST['item_ref_id']) && is_array($_POST['id'])) {
 			throw new ilException("No item select for deletion!");
 		}
 
 		$ids = $_POST['id'];
-		$current_node = $_POST['item_ref_id'];
+		$current_node = (int) $_POST['item_ref_id'];
 		$result = true;
 		foreach($ids as $id) {
 			$obj = ilObjectFactoryWrapper::getInstanceByRefId($id);
@@ -336,7 +359,7 @@ class ilObjTrainingProgrammeTreeGUI {
 				$not_root = ($obj->getRoot() != null);
 			}
 
-			if($current_node != $id && $not_root && $not_parent_of_current && $this->checkAccess('delete', $obj->getRefId())) {
+			if($current_node != $id && $not_root && $not_parent_of_current && $this->checkAccess('delete', $obj->getRefId(), false)) {
 				if($obj->delete()) {
 					$msg = $this->lng->txt("prg_deleted_safely");
 				} else {
@@ -367,6 +390,9 @@ class ilObjTrainingProgrammeTreeGUI {
 		$notifications->addJsConfig('events', array('success'=>array('training_programme-show_success')));
 		$notifications->initJs();
 
+		$async_explorer = new ilAsyncContainerSelectionExplorer(rawurldecode($this->ctrl->getLinkTarget($this, 'createNewLeaf', '', true, false)));
+		$async_explorer->initJs();
+
 		return $content;
 	}
 
@@ -387,10 +413,15 @@ class ilObjTrainingProgrammeTreeGUI {
 		$this->toolbar->addButtonInstance($cancel_order_btn);
 	}
 
-	protected function checkAccess($permission, $ref_id = null) {
-		$ref_id = ($this->ref_id === null)? $this->ref_id : $ref_id;
-		return $this->access->checkAccess($permission, '', $ref_id);
+	protected function checkAccess($permission, $ref_id = null, $throw_exception = true) {
+		$ref_id = ($ref_id === null)? $this->ref_id : $ref_id;
+		$checker = $this->access->checkAccess($permission, '', $ref_id);
+
+		if($throw_exception && !$checker) {
+			throw new ilException("You have no permission for ".$permission." Object with ref_id ".$ref_id."!");
+		}
+
+		return $checker;
 	}
-
-
+	
 }
