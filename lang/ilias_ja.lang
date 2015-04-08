@@ -430,13 +430,6 @@ assessment#:#ass_create_export_test_results#:#テスト結果エクスポート�
 assessment#:#ass_create_question#:#問題を作成
 assessment#:#ass_export_files#:#エクスポートファイル
 assessment#:#ass_file#:#ファイル
-assessment#:#ass_quest_process_lock#:#受験者解答提出ロックを使用
-assessment#:#ass_quest_process_lock_desc#:#メカニズムやコース条件のどのロック使用もしないと解答データ提出期間中は可能です。これは矛盾するテストを生む結果となります。
-assessment#:#ass_quest_process_lock_mode#:#受験者解答提出期間中のロックモード
-assessment#:#ass_quest_process_lock_mode_db#:#データベーステーブルロックを使用
-assessment#:#ass_quest_process_lock_mode_db_desc#:#このロックメカニズムはデータベーステーブルをロックします。同一もしくは同一内かもう一つのテストの内の他のユーザ用の現在のプロセスは他のプロセスがロック解除されるまで待っています。
-assessment#:#ass_quest_process_lock_mode_file#:#ファイルシステムロックを使用
-assessment#:#ass_quest_process_lock_mode_file_desc#:#このロックメカニズムはファイルシステム内の空ファイルのロックを要求します。同一ユーザの同一問題の現在のプロセスは他のプロセスのロックが解放されるまで待っています。
 assessment#:#ass_question#:#問題
 assessment#:#ass_size#:#サイズ
 assessment#:#assClozeTest#:#穴埋め問題
@@ -1639,7 +1632,6 @@ assessment#:#tst_reset_processing_time_desc#:#受験時間はテストごとに�
 assessment#:#tst_result#:#テスト結果
 assessment#:#tst_result_user_name#:#%sのテスト結果
 assessment#:#tst_result_user_name_pass#:#%s中%sのテスト合格結果
-assessment#:#tst_results_access#:#テスト結果へアクセス
 assessment#:#tst_results_access_always#:#すぐに
 assessment#:#tst_results_access_always_desc#:#受験者は受験開始後とテスト受験中はすぐに"Info"タブの結果へアクセスできます。さらにテスト終了後すぐにILIASはテスト結果を表示します。
 assessment#:#tst_results_access_date#:#日付
@@ -9303,7 +9295,6 @@ forum#:#threads_moved_successfully#:#選択のトピックスは別のフォー�
 forum#:#topic_close#:#済み
 forum#:#topics_please_select_one_action#:#アクションを選択してください。
 forum#:#user_decides_notification#:#各ユーザが通知を決定
-forum#:#glo_copy#:#用語集をコピー
 glo#:#glo_term#:#用語の用語集
 grp#:#crs_add_grouping#:#メンバーシップの制限を追加
 grp#:#crs_grouping_delete_sure#:#本当にメンバーシップの制限を削除しますか?
@@ -15221,3 +15212,29 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
+assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.###08 04 2015 new variable
+assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.###08 04 2015 new variable
+assessment#:#ass_process_lock#:#Use Locking During Test Passes###08 04 2015 new variable
+assessment#:#ass_process_lock_desc#:#Without the use of any locking mechanism, race conditions are possible. This can lead to inconsistent test results.###08 04 2015 new variable
+assessment#:#ass_process_lock_mode#:#Lock Mode during Test Pass###08 04 2015 new variable
+assessment#:#ass_process_lock_mode_file#:#Use Filesystem Locks###08 04 2015 new variable
+assessment#:#ass_process_lock_mode_file_desc#:#This locking mechanism requests locks on empty files in the filesystem. Concurrent processes for the same user and the same test/question are waiting until the other process releases his lock.###08 04 2015 new variable
+assessment#:#ass_process_lock_mode_db#:#Use Database Table Locks###08 04 2015 new variable
+assessment#:#ass_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent processes for the same or other users in the same or in another test for the same or another question are waiting until the other process releases his locks.###08 04 2015 new variable
+assessment#:#tst_results#:#Test Results###08 04 2015 new variable
+administration#:#vc_information_not_determined#:#ILIAS could not determine any version control information.###08 04 2015 new variable
+administration#:#git_revision#:#Number: %s###08 04 2015 new variable
+administration#:#git_hash_short#:#Commit Hash (short): %s###08 04 2015 new variable
+administration#:#git_last_commit#:#Last Commit: %s###08 04 2015 new variable
+glo#:#glo_copy#:#Copy Glossary###08 04 2015 new variable
+crs#:#crs_usr_agreement#:#User Agreement###08 04 2015 new variable
+grp#:#grp_usr_agreement#:#User Agreement###08 04 2015 new variable
+forum#:#sel_threads_already_sticky#:#At least one of the selected threads is already sticky###08 04 2015 new variable
+forum#:#sel_threads_already_unsticky#:#At least one of the selected threads is already unsticky###08 04 2015 new variable
+forum#:#sel_threads_make_sticky#:#The selected threads has been marked as sticky###08 04 2015 new variable
+forum#:#sel_threads_make_unsticky#:#The selected threads are not marked as sticky anymore###08 04 2015 new variable
+forum#:#selected_threads_closed#:#The selected threads has been closed###08 04 2015 new variable
+forum#:#selected_threads_reopened#:#The selected threads has been reopened###08 04 2015 new variable
+meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries the same###08 04 2015 new variable
+meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing entry###08 04 2015 new variable
+meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value###08 04 2015 new variable
