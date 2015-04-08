@@ -269,7 +269,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	}
 
 	public function getAttachmentPath($a_name) {
-		return $this->getAttachments()->pathTo($a_name);
+		return $this->getAttachments()->getPathTo($a_name);
 	}
 
 	protected function checkUserID($a_recipient) {

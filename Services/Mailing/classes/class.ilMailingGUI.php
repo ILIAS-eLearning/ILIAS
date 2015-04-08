@@ -728,6 +728,14 @@ abstract class ilMailingGUI {
 			ilUtil::sendFailure($this->lng->txt("no_mail_available"));
 			return $this->showAutoMails();
 		}
+		
+		foreach($mail["attachments"] as $key => $attachment) {
+			$this->ctrl->setParameter($this, "auto_mail_id", $mail_id);
+			$this->ctrl->setParameter($this, "filename", $attachment["name"]);
+			$link = $this->ctrl->getLinkTarget($this, "deliverAutoMailAttachment");
+			$this->ctrl->clearParameters($this);
+			$mail["attachments"][$key]["link"] = $link;
+		}
 
 		require_once("Services/Mailing/classes/class.ilMailViewGUI.php");
 
