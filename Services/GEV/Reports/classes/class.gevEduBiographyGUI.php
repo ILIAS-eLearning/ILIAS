@@ -111,7 +111,6 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->static_condition("(crs.crs_id < 0 OR oref.deleted IS NULL)")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
-		$this->ctrl->setParameter($this, "target_user_id", NULL);
 	}
 	
 	public function executeCommand() {
