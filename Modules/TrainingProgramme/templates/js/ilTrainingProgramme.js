@@ -279,6 +279,37 @@
             });
 
             return content_container;
+        },
+        training_programme_async_explorer: function (options) {
+            var settings = $.extend({
+                'save_explorer_url': ''
+            }, options);
+
+            var element = this;
+
+            var save_explorer_data = function(formData) {
+                $.ajax({
+                    url: decodeURIComponent(settings.save_explorer_url),
+                    type: 'post',
+                    dataType: 'json',
+                    data: formData,
+                    success: function (response) {
+                        //try {
+                        if (response) {
+                            $("body").trigger("async_form-success", {message: response.message, type: 'success'});
+                        }
+                        /*} catch (error) {
+                         console.log("The AJAX-response for the async form " + form.attr('id') + " is not JSON. Please check if the return values are set correctly: " + error);
+                         }*/
+                    }
+                });
+            }
+
+            $('body').on("async_explorer-add_reference", function(event, data) {
+                save_explorer_data(data);
+            });
+
+
         }
     });
 }(jQuery));
