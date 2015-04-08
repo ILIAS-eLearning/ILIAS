@@ -124,6 +124,11 @@ abstract class ilECSObjectSettings
 		// Return if no participant is enabled for export and the current object is not released
 		include_once './Services/WebServices/ECS/classes/class.ilECSExport.php';
 		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
+		
+		if(!$this->getContentObject()->withReferences())
+		{
+			return TRUE;
+		}
 
 		$exportablePart = ilECSParticipantSettings::getExportableParticipants();
 		if(!$exportablePart and !ilECSExport::_isExported($obj_id))
