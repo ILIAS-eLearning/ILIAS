@@ -2609,7 +2609,7 @@ class ilObjUserGUI extends ilObjectGUI
 					    $path .= $tmpPath[$i]["title"];
 				    }*/
 
-				    $path = $tmpPath[count($tmpPath)-2]["title"];
+				    $path = $tmpPath[count($tmpPath)-1]["title"];
 				}
 			}
 			else
