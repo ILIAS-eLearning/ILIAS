@@ -9,7 +9,7 @@
  * @version $Id$
  * @ingroup ModulesChatroom
  */
-class ilChatroomSmileyTask extends ilChatroomTaskHandler
+class ilChatroomAdminSmileyTask extends ilChatroomTaskHandler
 {
 
 	private $gui;

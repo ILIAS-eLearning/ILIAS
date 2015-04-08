@@ -4,12 +4,12 @@
 require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
 /**
- * Class ilChatroomViewTask
+ * Class ilChatroomAdminViewTask
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
  * @ingroup ModulesChatroom
  */
-class ilChatroomViewTask extends ilChatroomTaskHandler
+class ilChatroomAdminViewTask extends ilChatroomTaskHandler
 {
 	/**
 	 * @var ilChatroomObjectGUI
