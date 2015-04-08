@@ -7,31 +7,26 @@
 class ilChatroomObjectDefinition
 {
 	/**
-     * Module name, defaults to 'Chatroom'
-     *
+	 * Module name, defaults to 'Chatroom'
 	 * @var string
 	 */
 	private $moduleName;
 
 	/**
-     * Module base path, set to "Modules/$this->moduleName/"
-     *
+	 * Module base path, set to "Modules/$this->moduleName/"
 	 * @var string
 	 */
 	private $moduleBasePath;
 
 	/**
 	 * always set to 'classes'
-     *
 	 * @var string
 	 */
 	private $relativeClassPath;
 
 	/**
-     * TaskScope
-     *
-     * set to '' for single instance or 'admin' for general administration
-     *
+	 * TaskScope
+	 * set to '' for single instance or 'admin' for general administration
 	 * @var string
 	 */
 	private $taskScope;
@@ -48,7 +43,7 @@ class ilChatroomObjectDefinition
 		$this->moduleName        = $moduleName;
 		$this->moduleBasePath    = rtrim($moduleBasePath, '/\\');
 		$this->relativeClassPath = rtrim($relativeClassPath);
-		$this->taskScope  = rtrim($taskScope);
+		$this->taskScope         = rtrim($taskScope);
 	}
 
 	/**
