@@ -15235,3 +15235,6 @@ forum#:#sel_threads_make_sticky#:#Die gewählten Themen wurden als Top-Thema mar
 forum#:#sel_threads_make_unsticky#:#Die gewählten Themen werden nicht mehr als Top-Thema markiert
 forum#:#selected_threads_closed#:#Die gewählten Themen wurden geschlossen
 forum#:#selected_threads_reopened#:#Die gewählten Themen wurden wiedereröffnet
+meta#:#md_adv_confirm_definition_select_option_all#:#Alle vorhandenen Einträge gleich behandeln
+meta#:#md_adv_confirm_definition_select_option_single#:#Jeden vorhandenen Eintrag einzeln entscheiden
+meta#:#md_adv_confirm_definition_select_option_all_action#:#Neuer Wert

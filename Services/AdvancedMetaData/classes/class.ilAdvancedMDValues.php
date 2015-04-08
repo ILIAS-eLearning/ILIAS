@@ -305,10 +305,27 @@ class ilAdvancedMDValues
 	 *
 	 * @param int source obj_id
 	 * @param int target obj_id
+	 * @param string sub_type (both source/target)
+	 * @param int source sub_id
+	 * @param int target sub_id
 	 */
-	public static function _cloneValues($a_source_id,$a_target_id)
+	public static function _cloneValues($a_source_id,$a_target_id,$a_sub_type = null,$a_source_sub_id = null,$a_target_sub_id=null)
 	{
 		global $ilLog;
+		
+		$source_primary = array("obj_id"=>array("integer", $a_source_id));
+		$target_primary = array("obj_id"=>array("integer", $a_target_id));
+		
+		// sub-type support
+		if($a_sub_type &&
+			$a_source_sub_id &&
+			$a_target_sub_id)
+		{
+			$source_primary["sub_type"] = array("text", $a_sub_type);
+			$source_primary["sub_id"] = array("integer", $a_source_sub_id);
+			$target_primary["sub_type"] = array("text", $a_sub_type);
+			$target_primary["sub_id"] = array("integer", $a_target_sub_id);
+		}
 		
 		ilADTFactory::getInstance()->initActiveRecordByType();	
 		$has_cloned = ilADTActiveRecordByType::cloneByPrimary(
@@ -319,8 +336,8 @@ class ilAdvancedMDValues
 				"sub_id" => "integer",
 				"field_id" => "integer"
 			),
-			array("obj_id"=>array("integer", $a_source_id)),
-			array("obj_id"=>array("integer", $a_target_id)),
+			$source_primary,
+			$target_primary,
 			array("disabled"=>"integer"));	 	
 		
 		if(!$has_cloned)

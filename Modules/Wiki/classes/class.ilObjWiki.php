@@ -1080,6 +1080,16 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 		{
 			$orig = new ilWikiPage($a_template_page);
 			$orig->copy($page->getId());
+			
+			// #15718
+			include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php";
+			ilAdvancedMDValues::_cloneValues(
+				$this->getId(),
+				$this->getId(),
+				"wpg",
+				$a_template_page,
+				$page->getId()
+			);
 		}
 
 		return $page;
