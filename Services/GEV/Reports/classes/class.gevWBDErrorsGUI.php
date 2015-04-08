@@ -28,32 +28,34 @@ class gevWBDErrorsGUI extends catBasicReportGUI{
 
 		$this->table = catReportTable::create()
 						->column("ts", "ts")
-						->column("action", "action")
-						->column("internal", "internal")
+						->column("action", "gev_wbd_errors_action")
+						->column("internal", "gev_wbd_errors_internal")
 						->column("user_id", "usr_id")
 						->column("course_id", "crs_id")
-						->column("login", "login")
+						//->column("login", "login")
 						->column("firstname", "firstname")
 						->column("lastname", "lastname")
 						->column("title", "title")
 						->column("begin_date", "begin_date")
 						->column("end_date", "end_date")
-						->column("reason", "reason")
-						->column("reason_full", "text")
-						->column("resolve", "resolve")
+						->column("reason", "gev_wbd_errors_reason")
+						->column("reason_full", "gev_wbd_errors_reason_full")
+						->column("resolve", "gev_wbd_errors_resolve", 0, 0, 1)
 
 						->template("tpl.gev_wbd_errors_row.html", "Services/GEV/Reports")
 						;
 
 
 		$this->order = catReportOrder::create($this->table)
-						//->mapping("date", "crs.begin_date")
+						->mapping("course_id", "err.crs_id")
+						->mapping("resolve", "err.ts")
 						->defaultOrder("ts", "DESC")
 						;
 		
 
 		$this->query = catReportQuery::create()
 						->distinct()
+						->select("err.id")
 						->select("err.usr_id")
 						->select("err.crs_id")
 						->select("err.internal")
@@ -62,13 +64,15 @@ class gevWBDErrorsGUI extends catBasicReportGUI{
 						->select("err.ts")
 						->select("err.action")
 						
-						->select("ud.login")
+						//->select("ud.login")
 						->select("ud.firstname")
 						->select("ud.lastname")
+
 						->select("crs.title")
+						
 						->select("usrcrs.begin_date")
 						->select("usrcrs.end_date")
-						
+												
 						
 						->from("wbd_errors err")
 						
@@ -78,7 +82,6 @@ class gevWBDErrorsGUI extends catBasicReportGUI{
 							->on("err.crs_id = crs.crs_id AND crs.hist_historic = 0")
 						->left_join("hist_usercoursestatus usrcrs")
 							->on("err.usr_id = usrcrs.usr_id AND err.crs_id = usrcrs.crs_id AND usrcrs.hist_historic = 0")
-						
 						->left_join("usr_data ud")
 							->on("err.usr_id = ud.usr_id")
 
@@ -89,13 +92,43 @@ class gevWBDErrorsGUI extends catBasicReportGUI{
 
 		$this->filter = catFilter::create()
 						->static_condition("err.resolved = 0")
-						->checkbox( "too_old"
+/*						->checkbox( "too_old"
 								  , $this->lng->txt("gev_wbd_errors_show_too_old_as_well")
 								  , "TRUE"
 								  , "reason != 'TOO_OLD'"
 								  , true
 								  )
-				
+*/				
+
+
+						->multiselect("reason"
+									 , $this->lng->txt("gev_wbd_errors_reason")
+									 , "reason"
+									 , catFilter::getDistinctValues('reason', 'wbd_errors')
+									 , array('WRONG_COURSEDATA', 'WRONG_USERDATA' )
+									 )
+
+						->multiselect("action"
+									 , $this->lng->txt("gev_wbd_errors_action")
+									 , "action"
+									 , catFilter::getDistinctValues('action', 'wbd_errors')
+									 , array()
+									 )
+						->multiselect("internal"
+									 , $this->lng->txt("gev_wbd_errors_internal")
+									 , "internal"
+									 , catFilter::getDistinctValues('internal', 'wbd_errors')
+									 , array()
+									 )
+						->multiselect("reason_full"
+									 , $this->lng->txt("gev_wbd_errors_reason_full")
+									 , "reason_full"
+									 , catFilter::getDistinctValues('reason_full', 'wbd_errors')
+									 , array()
+									 )
+
+
+
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
@@ -106,8 +139,18 @@ class gevWBDErrorsGUI extends catBasicReportGUI{
 		return $this->user_utils->isAdmin();
 	}
 
-	protected function executeCustomCommand($a_cmd) {
-		switch ($a_cmd) {
+	protected function executeCustomCommand() {
+		$cmd = $this->ctrl->getCmd();
+
+		switch ($cmd) {
+			case 'resolve':
+				$err_id = $_GET['err_id'];
+				require_once("Services/WBDData/classes/class.wbdErrorLog.php");
+				$errlog = new wbdErrorLog();
+				$errlog->resolveWBDErrorById($err_id);
+				return $this->render();
+				break;
+
 			default:
 				return null;
 		}
@@ -115,29 +158,63 @@ class gevWBDErrorsGUI extends catBasicReportGUI{
 
 
 	protected function transformResultRow($rec) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 
-		$link_usr = '<a href="#">'
-			.$rec['usr_id']
+
+		$link_change_usr = $this->ctrl->getLinkTargetByClass(
+			array("iladministrationgui", "ilobjusergui"), "edit")
+			.'&obj_id='.$rec['usr_id']
+			.'&ref_id=7'; //ref 7: Manage user accounts here.
+		$link_usr = '<a href="' .$link_change_usr.'">%s</a>';
+			
+		foreach (array('usr_id','firstname','lastname') as $key) {
+			$rec[$key] = sprintf($link_usr, $rec[$key]);
+		}
+
+
+		$crs_ref_id = gevObjectUtils::getRefId($rec['crs_id']);
+		if($crs_ref_id && $rec['crs_id'] > 0){
+			$link_change_crs = $this->ctrl->getLinkTargetByClass(
+				array("ilrepositorygui", "ilobjcoursegui"), "editInfo")
+				.'&ref_id='
+				.$crs_ref_id;
+			$link_change_crs = '<a href="' .$link_change_crs.'">%s</a>';
+		} else {
+			$link_change_crs = '%s';
+		}
+		$rec['crs_id'] = sprintf($link_change_crs, $rec['crs_id']);
+
+
+
+		$rec['resolve'] = '<a href="' 
+			.$this->ctrl->getLinkTarget($this, "resolve")
+			.'&err_id='
+			.$rec['id']
+			.'">'
+			.$this->lng->txt("gev_wbd_errors_resolve")
 			.'</a>';
-		$rec['usr_id'] = $link_usr;
-
-
-		if($rec['crs_id'] > 0) {
-			$link_crs = '<a href="#">'
-				.$rec['crs_id']
-				.'</a>';
-			$rec['crs_id'] = $link_crs;
-		} 
-
-
-		$resolve = '<a href="#">resolve</a>';
-		$rec['resolve'] = $resolve;
-
 
 		return $rec;
 	}
 	
-	
+	protected function renderExportButton() {
+		return '';
+	}
+
+
+
+	/*private function getDistinctValues($a_field) {
+		global $ilDB;
+		
+		$sql = "SELECT DISTINCT $a_field FROM wbd_errors";
+		$res = $ilDB->query($sql);
+		$ret = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			$ret[] = $rec[$a_field];
+		}
+		return $ret;
+	}
+	*/
 }
 
 ?>

@@ -3,6 +3,9 @@
 * gevImportRunner.php
 */
 
+die('not yet');
+
+
 //settings and imports
 ini_set("memory_limit","2048M"); 
 ini_set('max_execution_time', 0);
@@ -26,14 +29,12 @@ require_once("./Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 
+/*
 require_once("Services/GEV/Import/classes/class.gevUserImport.php");
-
-
-
-
-
 $imp = new gevUserImport();
 $imp->webmode = false;
+*/
+
 
 /*
 $imp->fetchVFSUsers();
@@ -65,7 +66,21 @@ $imp->fetchGEVEduRecords();
 //$imp->importCertificates();
 
 //$imp->fixCertificationPeriodFromBWVId();
-$imp->fixVFSTPService();
+//$imp->fixVFSTPService();
+//$imp->fixNAAssignment();
+
+
+
+
+
+require_once("Services/GEV/Import/classes/class.gevQuestionImport.php");
+$imp = new gevQuestionImport();
+$imp->webmode = false;
+
+$imp->data_directory = '/home/ildata/ilclientGenerali2/ilclientGenerali2/question_import';
+
+$imp->importPools();
+
 
 
 print '<br><br><hr>all through.';

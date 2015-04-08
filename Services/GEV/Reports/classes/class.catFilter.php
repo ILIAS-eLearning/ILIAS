@@ -359,6 +359,23 @@ class catFilter {
 			throw new Exception("catFilter::checkNameExists: Name ".$a_name." already used.");
 		}
 	}
+
+
+
+	static function getDistinctValues($a_field, $a_table, $a_order='ASC') {
+		global $ilDB;
+		$sql = "SELECT DISTINCT $a_field FROM $a_table ORDER BY $a_field $a_order";
+		$res = $ilDB->query($sql);
+		$ret = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			$ret[] = $rec[$a_field];
+		}
+		return $ret;
+	}
+
+
+
+
 }
 
 

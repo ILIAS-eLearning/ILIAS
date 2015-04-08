@@ -95,7 +95,10 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$report_permission_attendancebyuser =  $this->userUtils->isAdmin() || $this->userUtils->isSuperior();
 		$report_permission_bookingsbyvenue =  $this->userUtils->isAdmin() || $this->userUtils->hasRoleIn(array("Veranstalter"));
 		$report_permission_employee_edu_bio = $this->userUtils->isAdmin() || $this->userUtils->hasRoleIn(array("Key-Accounter")) || $this->userUtils->isSuperior();
-		$report_permission_wbd = $this->userUtils->isAdmin() && false;
+		$report_permission_attendancebyorgunit = $this->userUtils->isAdmin() || $this->userUtils->isSuperior();
+		$report_permission_attendancebycoursetemplate = $this->userUtils->isAdmin();
+		$report_permission_wbd = $this->userUtils->isAdmin();
+
 		$has_reporting_menu =  $report_permission_billing 
 							|| $report_permission_attendancebyuser 
 							|| $report_permission_bookingsbyvenue 
@@ -156,8 +159,14 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_report_employee_edu_bio" => array($report_permission_employee_edu_bio, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportEmployeeEduBios",$this->lng->txt("gev_report_employee_edu_bios"))
 				, "gev_report_billing" => array($report_permission_billing, "ilias.php?baseClass=gevDesktopGUI&cmd=toBillingReport",$this->lng->txt("gev_report_billing"))
 				, "gev_report_bookingbyvenue" => array($report_permission_bookingsbyvenue, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportBookingsByVenue",$this->lng->txt("gev_report_bookingbyvenue"))
+
+				, "gev_report_attendance_by_orgunit" => array($report_permission_attendancebyorgunit, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByOrgUnit",$this->lng->txt("gev_report_attendancebyorgunit"))
+				, "gev_report_attendance_by_coursetemplate" => array($report_permission_attendancebycoursetemplate, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByCourseTemplate",$this->lng->txt("gev_report_attendancebycoursetemplate"))
 				, "gev_report_wbd_edupoints" => array($report_permission_wbd, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportWBDEdupoints",$this->lng->txt("gev_report_wbd_edupoints"))
+				, "gev_report_wbd_errors" => array($report_permission_wbd, "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->lng->txt("gev_report_wbd_errors"))
+
 				), $this->lng->txt("gev_reporting_menu"))
+
 			, "gev_admin_menu" => array(false, $has_managment_menu, array(
 				  "gev_course_mgmt" => array($manage_courses, "goto.php?target=root_1",$this->lng->txt("gev_course_mgmt"))
 				, "gev_course_mgmt_search" => array($search_courses, "ilias.php?baseClass=gevDesktopGUI&cmd=toAdmCourseSearch",$this->lng->txt("gev_course_search_adm"))

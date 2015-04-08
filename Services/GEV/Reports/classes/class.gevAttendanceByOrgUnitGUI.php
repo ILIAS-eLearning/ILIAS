@@ -38,7 +38,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 
 		$this->table = catReportTable::create()
 						->column("org_unit", "title")
-						->column("odbd", "OD/BD")
+						->column("odbd", "gev_od_bd")
 						//->column("above2", "above2")
 						//->column("above1", "above1")
 						->column("sum_employees", "sum_employees")
@@ -56,6 +56,23 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->template("tpl.gev_attendance_by_orgunit_row.html", "Services/GEV/Reports")
 						;
 
+		$this->table_sums = catReportTable::create()
+						->column("sum_employees", "sum_employees")
+						->column("sum_booked_wbt", "sum_booked_WBT")
+						->column("sum_attended_wbt", "sum_attended_WBT")
+						->column("sum_booked", "sum_booked_nowbt")
+						->column("sum_waiting", "sum_waiting")
+						->column("sum_attended", "sum_attended_nowbt")
+						->column("sum_excused", "sum_excused")
+						->column("sum_unexcused", "sum_unexcused")
+						->column("sum_exit", "sum_exit")
+
+						->template("tpl.gev_attendance_by_orgunit_sums_row.html", "Services/GEV/Reports")
+						;
+		$this->summed_data = array();
+
+
+		
 
 		$this->order = catReportOrder::create($this->table)
 						//->mapping("date", "crs.begin_date")
@@ -154,6 +171,10 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->select("usr.org_unit")
 						->select("usr.org_unit_above1")
 						->select("usr.org_unit_above2")
+						->select("usr.gender")
+
+						->select("crs.venue")
+						->select("crs.provider")
 
 						/*->select("usrcrs.booking_status")
 						->select("usrcrs.participation_status")
@@ -187,7 +208,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 		$this->allowed_user_ids = $this->user_utils->getEmployees();
 
 		$this->filter = catFilter::create()
-		/*				
+		
 						->dateperiod( "period"
 									, $this->lng->txt("gev_period")
 									, $this->lng->txt("gev_until")
@@ -198,7 +219,6 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									, false
 									, " OR usrcrs.hist_historic IS NULL"
 									)
-		*/				
 						->multiselect( "org_unit"
 									 , $this->lng->txt("gev_org_unit_short")
 									 //, array("usr.org_unit", "org_unit_above1", "org_unit_above2")
@@ -230,6 +250,31 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									 , gevCourseUtils::getParticipationStatusFromHisto()
 									 , array()
 									 )
+						->multiselect("booking_status"
+									 , $this->lng->txt("gev_booking_status")
+									 , "booking_status"
+									 , catFilter::getDistinctValues('booking_status', 'hist_usercoursestatus')
+									 , array()
+									 )
+						->multiselect("venue"
+									 , $this->lng->txt("gev_venue")
+									 , "venue"
+									 , catFilter::getDistinctValues('venue', 'hist_course')
+									 , array()
+									 )
+						->multiselect("provider"
+									 , $this->lng->txt("gev_provider")
+									 , "provider"
+									 , catFilter::getDistinctValues('provider', 'hist_course')
+									 , array()
+									 )
+
+						->multiselect("gender"
+									 , $this->lng->txt("gender")
+									 , "gender"
+									 , array('f', 'm')
+									 , array()
+									 )
 
 
 
@@ -243,6 +288,8 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
+
+
 
 	}
 
@@ -268,24 +315,52 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 		
 		//$rec['sum_employees'] = 'many';
 
+		foreach(array_keys($this->table_sums->columns) as $field) {
+			if (! array_key_exists($field, $this->summed_data)) {
+				$this->summed_data[$field] = 0;
+			}
+			
+			$this->summed_data[$field] +=  intval($rec[$field]);
+		}
+			
 		return $this->replaceEmpty($rec);
 	}
 
 
-	protected function xxrenderView(){
-		$query = $this->query->sql()."\n "
-		   . $this->queryWhere()."\n "
-		   . $this->query->sqlGroupBy()."\n"
-		   . $this->queryHaving()."\n"
-		   . $this->queryOrder();
-		print_r($query);
-		print '<hr>';
-		//$data = $this->getData();
-		//print_r($data);
-		$this->renderTable();
 
+
+	protected function renderView() {
+		$main_table = $this->renderTable();
+		return 	$this->renderSumTable()
+				.$main_table;
 	}
 
+
+	private function renderSumTable(){
+		$table = new catTableGUI($this, "view");
+		$table->setEnableTitle(false);
+		$table->setTopCommands(false);
+		$table->setEnableHeader(true);
+		$table->setRowTemplate(
+			$this->table_sums->row_template_filename, 
+			$this->table_sums->row_template_module
+		);
+
+		$table->addColumn("", "blank", "0px", false);
+		foreach ($this->table_sums->columns as $col) {
+			$table->addColumn( $col[2] ? $col[1] : $this->lng->txt($col[1])
+							 , $col[0]
+							 , $col[3]
+							 );
+		}		
+
+		$cnt = 1;
+		$table->setLimit($cnt);
+		$table->setMaxCount($cnt);
+
+		$table->setData(array($this->summed_data));
+		return $table->getHtml();
+	}
 
 
 

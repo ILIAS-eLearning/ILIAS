@@ -12,8 +12,6 @@ class ilWBDDataAppEventListener {
 
 
 	public static function handleEvent($a_component, $a_event, $a_parameter) {
-		// TODO: currently disabled because of incomplete db update.
-		return;
 		require_once("./Services/WBDData/classes/class.wbdErrorLog.php");
 		$wbderrlog = new wbdErrorLog();
 

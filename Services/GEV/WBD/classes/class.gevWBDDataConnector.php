@@ -17,6 +17,7 @@ $SET_BWVID = true;
 $GET_NEW_USERS = true;
 $GET_UPDATED_USERS = true;
 $GET_NEW_EDURECORDS = true;
+
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
 $STORNO_EDURECORDS = false;
@@ -1325,52 +1326,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 		//dev-safety:
 		$sql .= ' AND usr_id in (SELECT usr_id FROM usr_data)';
 		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
-
-
-
-
-		$sql .=' AND hist_usercoursestatus.row_id IN ('
-				.'184077'
-				.',184050'
-				.',184065'
-				.',184080'
-				.',184055'
-				.',184070'
-				.',184008'
-				.',184023'
-				.',184032'
-				.',183989'
-				.',27014'
-				.',180237'
-				.',180246'
-				.',180206'
-				.',180280'
-				.',180326'
-				.',180232'
-				.',180183'
-				.',180239'
-				.',30678'
-				.',203785'
-				.',183997'
-				.',180970'
-				.',203547'
-				.',30680'
-				.',185627'
-				.',27156'
-				.',183794'
-				.',203786'
-				.',183991'
-				.',27015'
-				.',27157'
-				.',27112'
-				.',206351'
-				.',206353'
-				.',206418'
-				.',206419'
-				.',206409'
-				.',206410'
-
-			.') GROUP BY hist_usercoursestatus.row_id';
+		
+		$sql .= ' AND FALSE'; 
+		
 
 
 		$result = $this->ilDB->query($sql);

@@ -1471,7 +1471,7 @@ class gevUserImport {
 
 	if($this->ilDB->numRows($result) == 0){
 
-		$id = $this->ilDB->nextId('hist_course');
+		$id = $this->ilDB->nextId('hist_usercoursestatus');
 
 		$sql = " INSERT INTO hist_usercoursestatus ("
 			."
@@ -1904,6 +1904,7 @@ class gevUserImport {
 
 		$this->prnt('fixVFSTPService: done', 2);
 	}
+
 
 
 }

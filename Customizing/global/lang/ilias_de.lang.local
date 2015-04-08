@@ -1080,3 +1080,29 @@ gev#:#gev_pstatus_mail_confirm_title#:#Einladungsmail ist versandt:
 gev#:#gev_psstatus_mail_send_date_error#:#Bitte bestätigen Sie den Versandt der Einladungsmail!
 gev#:#gev_psstatus_mail_send_date_success#:#Das Versandtdatum der Einladungsmail wurde gespeichert.
 gev#:#gev_psstatus_mail_send_date_invalid#:#Die Einladungsmail muss mindestens vier Tage vor Trainingsbeginn versendet werden.
+gev#:#gev_report_attendancebyorgunit#:#Teilnahmen nach Organisationseinheit
+gev#:#gev_rep_attendance_by_orgunit_title#:#Teilnahmen nach Organisationseinheit
+gev#:#gev_rep_attendance_by_orgunit_desc#:#Hier sehen Sie die Anzahl der Teilnehmer nach Organisationseinheit
+gev#:#gev_report_attendancebycoursetemplate#:#Teilnahmen nach Trainingsvorlage
+gev#:#gev_rep_attendance_by_coursetemplate_title#:#Teilnahmen nach Trainingsvorlage
+gev#:#gev_rep_attendance_by_coursetemplate_desc#:#Hier sehen Sie die Anzahl der Teilnehmer nach Trainingsvorlage
+gev#:#sum_employees#:#Mitarbeiter
+gev#:#sum_booked_WBT#:#Selbstlernkurs, gebucht
+gev#:#sum_attended_WBT#:#Selbstlernkurs, teilgenommen
+gev#:#sum_booked_nowbt#:#gebucht
+gev#:#sum_waiting#:#Warteliste
+gev#:#sum_attended_nowbt#:#teilgenmommen
+gev#:#sum_excused#:#entschuldigt
+gev#:#sum_unexcused#:#nicht entschuldigt
+gev#:#sum_exit#:#ausgeschieden
+gev#:#gev_report_wbd_errors#:#Fehler bei der WBD-Meldung
+gev#:#gev_rep_wbd_errors#:#Fehler bei der WBD-Meldung
+gev#:#gev_rep_wbd_errors_desc#:#Bestimmte Datensätze konnten nicht übermittelt werden.
+gev#:#gev_wbd_errors_reason#:#Grund
+gev#:#gev_wbd_errors_action#:#Aktion
+gev#:#gev_wbd_errors_internal#:#Interner Vor-Filter
+gev#:#gev_wbd_errors_reason_full#:#Grund (Volltext)
+gev#:#gev_wbd_errors_resolve#:#gelöst
+gev#:#usr_id#:#Benutzer-ID
+gev#:#crs_id#:#Kurs-ID
+gev#:#ts#:#Zeitpunkt
