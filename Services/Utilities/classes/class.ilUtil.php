@@ -3693,7 +3693,7 @@ class ilUtil
 				}
 			}
 		}
-		  		
+	  		
 		header("Location: ".$a_script);
 		exit();
 	}

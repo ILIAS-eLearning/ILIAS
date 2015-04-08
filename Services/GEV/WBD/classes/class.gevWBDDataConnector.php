@@ -14,12 +14,24 @@
 $SET_LASTWBDRECORD = true;
 $SET_BWVID = true;
 
+$GET_NEW_USERS = true;
+$GET_UPDATED_USERS = true;
+$GET_NEW_EDURECORDS = true;
+$GET_CHANGED_EDURECORDS = false;
+$IMPORT_FOREIGN_EDURECORDS = false;
+$STORNO_EDURECORDS = false;
+
+/*
+
 $GET_NEW_USERS = false;
 $GET_UPDATED_USERS = false;
 $GET_NEW_EDURECORDS = false;
 $GET_CHANGED_EDURECORDS = false;
-$IMPORT_FOREIGN_EDURECORDS = false;
-$STORNO_EDURECORDS = true;
+$IMPORT_FOREIGN_EDURECORDS = true;
+$STORNO_EDURECORDS = false;
+
+*/
+
 
 $LIMIT_RECORDS = false;
 $ANON_DATA = false;
@@ -1165,9 +1177,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 			.self::WBD_TP_BASIS
 			."')";
 		*/
+
 		$sql .= " AND wbd_type='" .self::WBD_TP_SERVICE ."'"; 
 	
-//		$sql .= " AND user_id=8020"; 
+//		$sql .= " AND user_id=6776"; 
 
 
 		$result = $this->ilDB->query($sql);
@@ -1318,7 +1331,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		$sql .=' AND hist_usercoursestatus.row_id IN ('
 				.'184077'
-/*				.',184050'
+				.',184050'
 				.',184065'
 				.',184080'
 				.',184055'
@@ -1356,7 +1369,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				.',206419'
 				.',206409'
 				.',206410'
-*/
+
 			.') GROUP BY hist_usercoursestatus.row_id';
 
 
@@ -1415,12 +1428,6 @@ if($DEBUG_HTML_OUT){
 
 	$cls = new gevWBDDataConnector();
 	
-	
-	$cls->get_storno_edu_records();
-	die();
-	
-	
-
 	print '<h3>new users:</h3>';
 	$cls->export_get_new_users('html');
 
