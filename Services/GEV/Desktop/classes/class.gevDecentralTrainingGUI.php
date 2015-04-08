@@ -190,9 +190,7 @@ class gevDecentralTrainingGUI {
 		}
 		
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		if (!gevCourseUtils::getInstance($obj_id)->isFinalized()) {
-			$form->addCommandButton("updateSettings", $this->lng->txt("save"));
-		}
+		$form->addCommandButton("updateSettings", $this->lng->txt("save"));
 		$form->addCommandButton("cancel", $this->lng->txt("back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 				
