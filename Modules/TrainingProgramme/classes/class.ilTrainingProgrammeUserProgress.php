@@ -60,7 +60,7 @@ class ilTrainingProgrammeUserProgress {
 	 * @return ilTrainingProgrammeUserProgress
 	 */
 	static public function getInstance($a_assignment_id, $a_program_id, $a_user_id) {
-		return new ilTrainingProgrammeUserAssignment(array($a_assignment_id, $a_program_id, $a_user_id));
+		return new ilTrainingProgrammeUserProgress(array($a_assignment_id, $a_program_id, $a_user_id));
 	}
 	
 	/**
