@@ -11,6 +11,8 @@
 			<subobj id="rolf" max="1">rolf</subobj>
 			<subobj id="crsr" max="1">crsr</subobj>
 
+			<sub_type id="prg_type" amet="1" />
+
 			<parent id="prg">prg</parent>
 			<parent id="cat">cat</parent>
 			<parent id="recf">recf</parent>
