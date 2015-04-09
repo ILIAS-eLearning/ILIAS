@@ -266,11 +266,13 @@ class ilObjTrainingProgrammeTreeGUI {
 		$parent = ilObjectFactoryWrapper::singleton()->getInstanceByRefId($parent_id);
 		$accordion = new ilAccordionGUI();
 
+		$added_slides = 0;
 		if($parent instanceof ilObjTrainingProgramme) {
 			// only allow adding new TrainingProgramme-Node if there are no lp-children
 			if(!$parent->hasLPChildren()) {
 				$content_new_node = $this->getCreationForm()->getHTML();
 				$accordion->addItem($this->lng->txt('prg_create_new_node'), $content_new_node);
+				$added_slides++;
 			}
 
 			// only allow adding new LP-Children if there are no other TrainingProgrammes
@@ -279,12 +281,17 @@ class ilObjTrainingProgrammeTreeGUI {
 				$content_new_leaf .= $this->getContainerSelectionExplorer();
 
 				$accordion->addItem($this->lng->txt('prg_create_new_leaf'), $content_new_leaf);
+				$added_slides++;
+			}
+
+			if($added_slides == 1) {
+				$accordion->setBehaviour(ilAccordionGUI::FIRST_OPEN);
 			}
 
 			$content = $accordion->getHTML();
 		}
 
-		$this->async_output_handler->setHeading($this->lng->txt("async_".$this->ctrl->getCmd()));
+		$this->async_output_handler->setHeading($this->lng->txt("prg_async_".$this->ctrl->getCmd()));
 		$this->async_output_handler->setContent($content);
 		$this->async_output_handler->terminate();
 	}
@@ -353,14 +360,20 @@ class ilObjTrainingProgrammeTreeGUI {
 				$children_of_node = ilObjTrainingProgramme::getAllChildren($obj->getRefId());
 				$get_ref_ids = function ($obj) { return $obj->getRefId(); };
 
-				$children_of_node = array_map($get_ref_ids, $children_of_node);
-				$not_parent_of_current = (!in_array($current_node, $children_of_node));
+				$children_ref_ids = array_map($get_ref_ids, $children_of_node);
+				$not_parent_of_current = (!in_array($current_node, $children_ref_ids));
 
 				$not_root = ($obj->getRoot() != null);
 			}
 
 			if($current_node != $id && $not_root && $not_parent_of_current && $this->checkAccess('delete', $obj->getRefId(), false)) {
 				if($obj->delete()) {
+					// remove nodes from tree session storage
+					$this->tree->closeCertainNode($id);
+					foreach($children_of_node as $child) {
+						$this->tree->closeCertainNode($child->getRefId());
+					}
+
 					$msg = $this->lng->txt("prg_deleted_safely");
 				} else {
 					$result = false;
@@ -401,13 +414,13 @@ class ilObjTrainingProgrammeTreeGUI {
 		$save_order_btn->setId('save_order_button');
 		$save_order_btn->setUrl("javascript:void(0);");
 		$save_order_btn->setOnClick("$('body').trigger('training_programme-save_order');");
-		$save_order_btn->setCaption($this->lng->txt('prg_save_tree_order'));
+		$save_order_btn->setCaption('prg_save_tree_order');
 
 		$cancel_order_btn = ilLinkButton::getInstance();
 		$cancel_order_btn->setId('cancel_order_button');
 		$cancel_order_btn->setUrl("javascript:void(0);");
 		$cancel_order_btn->setOnClick("$('body').trigger('training_programme-cancel_order');");
-		$cancel_order_btn->setCaption($this->lng->txt('prg_cancel_tree_order'));
+		$cancel_order_btn->setCaption('prg_cancel_tree_order');
 
 		$this->toolbar->addButtonInstance($save_order_btn);
 		$this->toolbar->addButtonInstance($cancel_order_btn);
@@ -423,5 +436,5 @@ class ilObjTrainingProgrammeTreeGUI {
 
 		return $checker;
 	}
-	
+
 }
