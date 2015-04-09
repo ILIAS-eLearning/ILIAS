@@ -257,7 +257,30 @@ class ilObjTrainingProgramme extends ilContainer {
 		$this->updateLastChange();
 		return $this;
 	}
-	
+
+
+	/**
+	 * Gets the meta-data subtype id (allows to add additional meta-data based on a type)
+	 *
+	 * @return integer
+	 */
+	public function getSubtypeId() {
+		return $this->settings->getSubtypeId();
+	}
+
+
+	/**
+	 * Sets the meta-data subtype id
+	 *
+	 * @param $a_subtype_id
+	 *
+	 * @return $this
+	 */
+	public function setSubtypeId($a_subtype_id) {
+		$this->settings->setSubtypeId($a_subtype_id);
+		return $this;
+	}
+
 	////////////////////////////////////
 	// TREE NAVIGATION
 	////////////////////////////////////

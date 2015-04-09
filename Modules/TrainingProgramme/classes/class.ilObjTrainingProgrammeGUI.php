@@ -10,6 +10,10 @@ require_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 require_once("./Services/Object/classes/class.ilObjectAddNewItemGUI.php");
 require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeTreeGUI.php");
 require_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
+require_once("./Modules/TrainingProgramme/classes/types/class.ilTrainingProgrammeTypeGUI.php");
+require_once("./Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeAdvancedMetadataRecord.php");
+require_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php");
+//require_once("./Modules/OrgUnit/classes/Translation/class.ilTranslationGUI.php");
 
 /**
  * Class ilObjTrainingProgrammeGUI class
@@ -23,6 +27,7 @@ require_once('./Services/Container/classes/class.ilContainerSortingSettings.php'
  * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilObjTrainingProgrammeSettingsGUI
  * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilObjTrainingProgrammeTreeGUI
  * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilObjTrainingProgrammeMembersGUI
+ * @ilCtrl_Calls ilObjTrainingProgrammeGUI: ilTrainingProgrammeTypeGUI, ilTranslationGUI
  */
 
 class ilObjTrainingProgrammeGUI extends ilContainerGUI {
@@ -134,11 +139,25 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 				break;
 			case "ilobjtrainingprogrammesettingsgui":
 				$this->denyAccessIfNot("write");
+
+				$this->getSubTabs('settings');
 				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+				$this->tabs_gui->setSubTabActive('settings');
+
 				require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeSettingsGUI.php");
 				$gui = new ilObjTrainingProgrammeSettingsGUI($this, $this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
+			/*case 'iltranslationgui':
+				$this->denyAccessIfNot("write");
+
+				$this->getSubTabs('settings');
+				$this->tabs_gui->setTabActive("settings");
+				$this->tabs_gui->setSubTabActive('edit_translations');
+
+				$ilTranslationGui = new ilTranslationGUI($this);
+				$this->ctrl->forwardCommand($ilTranslationGui);
+				break;*/
 			case "ilobjtrainingprogrammemembersgui":
 				$this->denyAccessIfNot("manage_members");
 				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
@@ -154,8 +173,17 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 				$this->tabs_gui->setTabActive(self::TAB_VIEW_CONTENT);
 				$this->tabs_gui->setSubTabActive(self::SUBTAB_VIEW_TREE);
 
+				// disable admin panel
+				$_SESSION["il_cont_admin_panel"] = false;
+
 				$gui = new ilObjTrainingProgrammeTreeGUI($this->id);
 				$this->ctrl->forwardCommand($gui);
+				break;
+			case 'iltrainingprogrammetypegui':
+				$this->tabs_gui->setTabActive('subtypes');
+
+				$types_gui = new ilTrainingProgrammeTypeGUI($this);
+				$this->ctrl->forwardCommand($types_gui);
 				break;
 			case false:
 				$this->getSubTabs($cmd);
@@ -174,7 +202,24 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 					case 'confirmedDelete':
 						parent::confirmedDeleteObject();
 						break;
-					/*case '':
+					case 'editAdvancedSettings':
+						$this->tabs_gui->setTabActive("settings");
+						$this->tabs_gui->setSubTabActive('edit_advanced_settings');
+						//$this->setSubTabsSettings('edit_advanced_settings');
+						$this->editAdvancedSettings();
+						break;
+					case 'updateAdvancedSettings':
+						$this->tabs_gui->setTabActive("settings");
+						$this->tabs_gui->setSubTabActive('edit_advanced_settings');
+						//$this->setSubTabsSettings('edit_advanced_settings');
+						$this->updateAdvancedSettings();
+						break;
+					/*case 'editSettings':
+						$this->tabs_gui->setTabActive("settings");
+						$this->setSubTabsSettings('edit_settings');
+						$this->editSettings();
+						break;
+					case '':
 					case 'view':
 					case 'render':
 					case 'cancel':
@@ -243,10 +288,19 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	}
 
 
+	/**
+	 * creates the object
+	 */
 	protected function create() {
 		parent::createObject();
 	}
-	
+
+
+	/**
+	 * Saves the object
+	 *
+	 * If its a async call, the response is sent as a json string
+	 */
 	protected function save() {
 		parent::saveObject();
 
@@ -258,6 +312,12 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 		}
 	}
 
+
+	/**
+	 * Cancel the object generation
+	 *
+	 * If
+	 */
 	protected function cancel() {
 		$async_response = ilAsyncOutputHandler::encodeAsyncResponse(array("cmd" =>"cancel", "success"=>false));
 
@@ -266,6 +326,13 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 		parent::cancelCreation();
 	}
 
+
+	/**
+	 * After save hook
+	 * Sets the sorting of the container correctly. If its a async call, a json string is returned.
+	 *
+	 * @param ilObject $a_new_object
+	 */
 	protected function afterSave(ilObject $a_new_object)
 	{
 		// set default sort to manual
@@ -283,13 +350,77 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
 		$this->ctrl->returnToParent($this);
 	}
-	
+
+
+	/**
+	 * Default view method
+	 */
 	protected function view() {
 		$this->denyAccessIfNot("read");
 		$this->tabs_gui->setTabActive(self::TAB_VIEW_CONTENT);
 
 		parent::renderObject();
 	}
+
+	/**
+	 * Initialize the form for editing advanced meta data
+	 *
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initAdvancedSettingsForm() {
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->addCommandButton('updateAdvancedSettings', $this->lng->txt('save'));
+		$form->addCommandButton('editAdvancedSettings', $this->lng->txt('cancel'));
+
+		return $form;
+	}
+
+	/**
+	 * Edit Advanced Metadata
+	 */
+	protected function editAdvancedSettings() {
+		if (!$this->ilAccess->checkAccess("write", "", $this->ref_id)) {
+			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+			$this->ctrl->redirect($this);
+		}
+		$form = $this->initAdvancedSettingsForm();
+
+		$obj = ilAdvancedMDRecord::_getSelectedRecordsByObject('prg', $this->object->getId(), $this->object->getSubtypeId());
+		$obj_type = ilAdvancedMDRecord::_getActivatedRecordsByObjectType('prg', 'prg_type');
+
+		$gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
+		$gui->setPropertyForm($form);
+		$gui->setSelectedOnly(true);
+		$gui->parse();
+		$this->tpl->setContent($form->getHTML());
+	}
+
+
+	/**
+	 * Update Advanced Metadata
+	 */
+	protected function updateAdvancedSettings() {
+		if (!$this->ilAccess->checkAccess("write", "", $this->ref_id)) {
+			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+			$this->ctrl->redirect($this);
+		}
+
+		$form = $this->initAdvancedSettingsForm();
+		$gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
+		$gui->setPropertyForm($form);
+		$gui->setSelectedOnly(true);
+		$form->checkInput();
+		$gui->parse();
+		if ($gui->importEditFormPostValues()) {
+			$gui->writeEditForm();
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+			$this->ctrl->redirect($this, 'editAdvancedSettings');
+		} else {
+			$this->tpl->setContent($form->getHTML());
+		}
+	}
+
 
 	/**
 	 * Overwritten from ilObjectGUI since copy and import are not implemented.
@@ -354,7 +485,11 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	const TAB_INFO = "info_short";
 	const TAB_SETTINGS = "settings";
 	const TAB_MEMBERS = "members";
-	
+	const TAB_SUBTYPES = "subtypes";
+
+	/**
+	 * Adds the default tabs to the gui
+	 */
 	public function getTabs() {
 		if ($this->checkAccess("read")) {
 			$this->tabs_gui->addTab( self::TAB_VIEW_CONTENT
@@ -379,10 +514,22 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 								   , $this->getLinkTarget("members")
 								   );
 		}
+
+		if($this->checkAccess("subtypes")) {
+			$this->tabs_gui->addTab( self::TAB_SUBTYPES
+				, $this->lng->txt("prg_subtypes")
+				, $this->getLinkTarget("subtypes")
+			);
+		}
 		
 		parent::getTabs($this->tabs_gui);
 	}
 
+	/**
+	 * Adds subtabs based on the parent tab
+	 *
+	 * @param $a_parent_tab | string of the parent tab-id
+	 */
 	public function getSubTabs($a_parent_tab) {
 		switch($a_parent_tab) {
 			case self::TAB_VIEW_CONTENT:
@@ -396,6 +543,17 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 					$this->tabs_gui->addSubTab(self::SUBTAB_VIEW_TREE, $this->lng->txt("cntr_manage"), $this->getLinkTarget(self::SUBTAB_VIEW_TREE));
 				}
 				break;
+			case 'settings':
+			case 'editAdvancedSettings':
+				$this->tabs_gui->addSubTab('settings', $this->lng->txt('settings'), $this->getLinkTarget('settings'));
+				//$this->tabs_gui->addSubTab("edit_translations", $this->lng->txt("obj_multilinguality"), $this->ctrl->getLinkTargetByClass("iltranslationgui", "editTranslations"));
+
+				$type = ilTrainingProgrammeType::find($this->object->getSubtypeId());
+
+				if (!is_null($type) && count($type->getAssignedAdvancedMDRecords(true))) {
+					$this->tabs_gui->addSubTab('edit_advanced_settings', $this->lng->txt('prg_adv_settings'), $this->ctrl->getLinkTarget($this, 'editAdvancedSettings'));
+				}
+				break;
 		}
 
 	}
@@ -407,7 +565,15 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	public function setContentSubTabs() {
 		return;
 	}
-	
+
+
+	/**
+	 * Generates a link based on a cmd
+	 *
+	 * @param $a_cmd
+	 *
+	 * @return string
+	 */
 	protected function getLinkTarget($a_cmd) {
 		if ($a_cmd == "info_short") {
 			return $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary");
@@ -421,12 +587,52 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 		if ($a_cmd == "members") {
 			return $this->ctrl->getLinkTargetByClass("ilobjtrainingprogrammemembersgui", "view");
 		}
+		if($a_cmd == "subtypes") {
+			return $this->ctrl->getLinkTargetByClass("iltrainingprogrammetypegui", "listTypes");
+		}
 		
 		return $this->ctrl->getLinkTarget($this, $a_cmd);
 	}
-	
+
+
+	/**
+	 * Adding meta-data to the info-screen
+	 *
+	 * @param $a_info_screen
+	 */
 	protected function fillInfoScreen($a_info_screen) {
-		// TODO: implement me
+		require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+		require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		require_once('./Services/ADT/classes/class.ilADTFactory.php');
+
+		$type = ilTrainingProgrammeType::find($this->object->getSubtypeId());
+		if (!$type) {
+			return;
+		}
+		$assigned_record_ids = $type->getAssignedAdvancedMDRecordIds();
+
+		foreach (ilAdvancedMDValues::getInstancesForObjectId($this->object->getId(), 'prg') as $record_id => $a_values) {
+			// Skip record ids not assigned to the type
+			if (!in_array($record_id, $assigned_record_ids)) {
+				continue;
+			}
+
+			// Note that we have to do this because with the instances above the sub-type and sub-id are missing...
+			$a_values = new ilAdvancedMDValues($record_id, $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
+
+			// this correctly binds group and definitions
+			$a_values->read();
+
+			$a_info_screen->addSection(ilAdvancedMDRecord::_lookupTitle($record_id));
+
+			$defs = $a_values->getDefinitions();
+			foreach ($a_values->getADTGroup()->getElements() as $element_id => $element) {
+				if (!$element->isNull()) {
+					$a_info_screen->addProperty($defs[$element_id]->getTitle(), ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)
+						->getHTML());
+				}
+			}
+		}
 	}
 
 	/**
