@@ -214,6 +214,7 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT, $node2_progress->getStatus());
 		$this->assertEquals($USER_ID, $node2_progress->getCompletionBy());
 		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
+		$this->assertFalse($node2_progress->hasIndividualModifications());
 	}
 	
 	// Neues Moduls: Wird dem Studierenden-Studierenden inkl. Kurse, Punkte als "Nicht relevant" hinzugefügt.
@@ -463,7 +464,7 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 
 		$progress = $this->node1->getProgressForAssignment($ass1->getId());
 		$progress->markNotRelevant($this->user->getId());
-		$this->assertTrue($progress->hasIndividualModifications());
+		$this->assertFalse($progress->hasIndividualModifications());
 	}
 
 	public function testHasDeviationToProgram4() {
@@ -474,7 +475,7 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 
 		$progress = $this->node1->getProgressForAssignment($ass1->getId());
 		$progress->markAccredited($this->user->getId());
-		$this->assertTrue($progress->hasIndividualModifications());
+		$this->assertFalse($progress->hasIndividualModifications());
 	}
 	
 	public function testGetNamesOfCompletedOrAccreditedChildren() {
