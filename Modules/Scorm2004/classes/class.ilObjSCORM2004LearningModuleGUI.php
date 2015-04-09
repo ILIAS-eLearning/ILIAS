@@ -1116,53 +1116,60 @@ $this->ctrl->redirect($this, "properties");
 	}
 	function showTrackingItems()
 	{
-		global $ilTabs;
+		global $ilTabs, $ilAccess;
 
-		ilObjSCORMLearningModuleGUI::setSubTabs();
 		$ilTabs->setTabActive('cont_tracking_data');
-		$ilTabs->setSubTabActive('cont_tracking_byuser');
 
-		$reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportObjGlobalToSystem');
+		if($ilAccess->checkAccess("read_learning_progress", "", $_GET["ref_id"])) {
 
-		$userSelected = "all";
-		if (isset($_GET["userSelected"])) $userSelected = ilUtil::stripSlashes($_GET["userSelected"]);
-		if (isset($_POST["userSelected"])) $userSelected = ilUtil::stripSlashes($_POST["userSelected"]);
-		$this->ctrl->setParameter($this,'userSelected',$userSelected);
+			ilObjSCORMLearningModuleGUI::setSubTabs();
+			$ilTabs->setSubTabActive('cont_tracking_byuser');
 
-		$report = "choose";
-		if (isset($_GET["report"])) $report = ilUtil::stripSlashes($_GET["report"]);
-		if (isset($_POST["report"])) $report = ilUtil::stripSlashes($_POST["report"]);
-		$this->ctrl->setParameter($this,'report',$report);
+			$reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportObjGlobalToSystem');
 
-		include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerUserFilterGUI.php';
-		$filter = new ilSCORM2004TrackingItemsPerUserFilterGUI($this, 'showTrackingItems');
-		$filter->parse($userSelected,$report,$reports);
-		if($report == "choose") {
-			$this->tpl->setContent($filter->form->getHTML());
-		} else {
-			$usersSelected = array();
-			if ($userSelected != "all") $usersSelected[] = $userSelected;
-			else {
-				include_once "Services/Tracking/classes/class.ilTrQuery.php";
-				$users=ilTrQuery::getParticipantsForObject($this->ref_id);
-				foreach($users as $user) {
-					if(ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
-						$usersSelected[] = $user;
+			$userSelected = "all";
+			if (isset($_GET["userSelected"])) $userSelected = ilUtil::stripSlashes($_GET["userSelected"]);
+			if (isset($_POST["userSelected"])) $userSelected = ilUtil::stripSlashes($_POST["userSelected"]);
+			$this->ctrl->setParameter($this,'userSelected',$userSelected);
+
+			$report = "choose";
+			if (isset($_GET["report"])) $report = ilUtil::stripSlashes($_GET["report"]);
+			if (isset($_POST["report"])) $report = ilUtil::stripSlashes($_POST["report"]);
+			$this->ctrl->setParameter($this,'report',$report);
+
+			include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerUserFilterGUI.php';
+			$filter = new ilSCORM2004TrackingItemsPerUserFilterGUI($this, 'showTrackingItems');
+			$filter->parse($userSelected,$report,$reports);
+			if($report == "choose") {
+				$this->tpl->setContent($filter->form->getHTML());
+			} else {
+				$usersSelected = array();
+				if ($userSelected != "all") $usersSelected[] = $userSelected;
+				else {
+					include_once "Services/Tracking/classes/class.ilTrQuery.php";
+					$users=ilTrQuery::getParticipantsForObject($this->ref_id);
+					foreach($users as $user) {
+						if(ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
+							$usersSelected[] = $user;
+						}
 					}
 				}
+				$scosSelected = array();
+				$tmpscos=$this->object->getTrackedItems();
+				for ($i=0; $i<count($tmpscos); $i++) {
+					$scosSelected[] = $tmpscos[$i]["id"];
+				}
+				//with check for course ...
+				// include_once "Services/Tracking/classes/class.ilTrQuery.php";
+				// $a_users=ilTrQuery::getParticipantsForObject($this->ref_id);
+		//			var_dump($this->object->getTrackedUsers(""));
+				include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsTableGUI.php';
+				$tbl = new ilSCORM2004TrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItems', $usersSelected, $scosSelected, $report);
+				$this->tpl->setContent($filter->form->getHTML().$tbl->getHTML());
 			}
-			$scosSelected = array();
-			$tmpscos=$this->object->getTrackedItems();
-			for ($i=0; $i<count($tmpscos); $i++) {
-				$scosSelected[] = $tmpscos[$i]["id"];
-			}
-			//with check for course ...
-			// include_once "Services/Tracking/classes/class.ilTrQuery.php";
-			// $a_users=ilTrQuery::getParticipantsForObject($this->ref_id);
-	//			var_dump($this->object->getTrackedUsers(""));
-			include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsTableGUI.php';
-			$tbl = new ilSCORM2004TrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItems', $usersSelected, $scosSelected, $report);
-			$this->tpl->setContent($filter->form->getHTML().$tbl->getHTML());
+		}
+		else if($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"])) {
+			$this->modifyTrackingItems();
 		}
 		return true;
 	}

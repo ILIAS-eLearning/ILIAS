@@ -302,7 +302,7 @@ class ilDataCollectionRecordViewGUI {
 		$tpl->setCurrentBlock("reference_list");
 
 		if (!$field) {
-			if (ilObjDataCollectionAccess::_hasWriteAccess($this->dcl_gui_object->ref_id)) {
+			if (ilObjDataCollectionAccess::hasWriteAccess($this->dcl_gui_object->ref_id)) {
 				ilUtil::sendInfo("Bad Viewdefinition at [ext tableOf=\"" . $found[1] . "\" ...]", true);
 			}
 

@@ -80,8 +80,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 		switch ($a_cmd) {
 			case "view":
 
-				if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
-					&& !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)
+				if (! ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
+					&& ! $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)
 				) {
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
@@ -91,7 +91,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 
 			// for permission query feature
 			case "infoScreen":
-				if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)) {
+				if (! ilObjDataCollectionAccess::_lookupOnline($a_obj_id)) {
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 				} else {
 					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
@@ -101,8 +101,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 		switch ($a_permission) {
 			case "read":
 			case "visible":
-				if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
-					&& (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
+				if (! ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
+					&& (! $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
 				) {
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
@@ -130,38 +130,17 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 		return $dcl_rec["is_online"];
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	//
 	// DataCollection specific Access-Checks
 	//
 
 	/**
-	 * @return bool
-	 */
-	public function hasPermissionToAddTable() {
-		return self::_checkAccess2($this->getId());
-	}
-
-
-	/**
 	 * @param $data_collection_id
 	 *
+	 * @depracated use checkActionForId instead
 	 * @return bool
 	 */
-	public static function _checkAccess2($data_collection_id) {
+	public static function checkAccessForDataCollectionId($data_collection_id) {
 		global $ilAccess;
 
 		$perm = false;
@@ -176,11 +155,45 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 
 
 	/**
+	 * @param $action
+	 * @param $obj_id
+	 *
+	 * @return bool
+	 */
+	public static function checkActionForObjId($action, $obj_id) {
+		foreach (ilObject2::_getAllReferences($obj_id) as $ref_id) {
+			if (self::checkActionForRefId($action, $ref_id)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param $action
+	 * @param $ref_id
+	 *
+	 * @return bool
+	 */
+	public static function checkActionForRefId($action, $ref_id) {
+		global $ilAccess;
+
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 */
+
+		return $ilAccess->checkAccess($action, "", $ref_id);
+	}
+
+
+	/**
 	 * @param $ref int the reference id of the datacollection object to check.
 	 *
 	 * @return bool whether or not the current user has admin/write access to the referenced datacollection
 	 */
-	public static function _hasWriteAccess($ref) {
+	public static function hasWriteAccess($ref) {
 		global $ilAccess;
 
 		return $ilAccess->checkAccess("write", "", $ref);
@@ -192,7 +205,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 *
 	 * @return bool whether or not the current user has admin/write access to the referenced datacollection
 	 */
-	public static function _hasAddRecordAccess($ref) {
+	public static function hasAddRecordAccess($ref) {
 		global $ilAccess;
 
 		return $ilAccess->checkAccess("add_entry", "", $ref);
@@ -202,12 +215,12 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	/**
 	 * @param $ref int the reference id of the datacollection object to check.
 	 *
-	 * @return bool whether or not the current user has add/edit_entry access to the referenced datacollection
+	 * @return bool whether or not the current user has read access to the referenced datacollection
 	 */
-	public static function _hasReadAccess($ref) {
+	public static function hasReadAccess($ref) {
 		global $ilAccess;
 
-		return $ilAccess->checkAccess("add_entry", "", $ref);
+		return $ilAccess->checkAccess("read", "", $ref);
 	}
 }
 

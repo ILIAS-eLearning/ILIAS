@@ -260,7 +260,7 @@ class ilPCQuestion extends ilPageContent
 	function modifyPageContentPostXsl($a_output, $a_mode)
 	{
 		global $lng;
-		
+
 		if ($this->getPage()->getPageConfig()->getEnableSelfAssessment())
 		{
 			// #14154
@@ -284,7 +284,6 @@ class ilPCQuestion extends ilPageContent
 															
 				require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
 				$a_output = "<script>".ilQuestionExporter::questionsJS($q_ids)."</script>".$a_output;
-				
 				if(!self::$initial_done)
 				{
 					$a_output = "<script>var ScormApi=null; var questions = new Array();</script>".$a_output;
@@ -307,6 +306,14 @@ class ilPCQuestion extends ilPageContent
 		}
 
 		return $a_output;
+	}
+
+	/**
+	 * Reset initial state (for exports)
+	 */
+	static function resetInitialState()
+	{
+		self::$initial_done = false;
 	}
 
 	/**

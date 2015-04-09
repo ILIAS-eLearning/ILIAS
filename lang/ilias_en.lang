@@ -152,7 +152,7 @@ administration#:#restoring_missing_objs#:#Restoring missing objects...
 administration#:#restoring_trash#:#Restoring trash...
 administration#:#restoring_unbound_objs#:#Restoring unbound objects and sub-objects...
 administration#:#restoring#:#Restoring...
-administration#:#reuse_of_loginnames_contained_in_history#:#No Reuse of Login Names
+administration#:#reuse_of_loginnames_contained_in_history#:#Reuse of Login Names
 administration#:#scan_completed#:#Scan completed
 administration#:#scan_desc#:#Scan system for corrupted/invalid/missing/unbound objects.
 administration#:#scan_details#:#Scan details
@@ -188,6 +188,8 @@ assessment#:#autosave_info#:#Answers are automatically saved in specified interv
 assessment#:#autosave_ival#:#Interval
 assessment#:#for#:#for
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pass for test "%s" does not contain any questions.
+assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.
+assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
 assessment#:#essay_scoring_mode#:#Scoring Mode
 assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring
@@ -2463,7 +2465,7 @@ common#:#exc_schedule#:#Schedule
 common#:#exc_search_for#:#Search for
 common#:#exc_select_one_file#:#Please select exactly one file.
 common#:#exc_send_exercise#:#Send exercise by mail
-common#:#exc_sent_at#:#Sent at <br />%s
+common#:#exc_sent_at#:#Sent on <br />%s
 common#:#exc_sent#:#The exercise has been sent to the selected users
 common#:#exc_status_resubmitted#:#Resubmitted
 common#:#exc_status_saved#:#Exercise updated
@@ -5798,7 +5800,7 @@ crs#:#crs_show_link_objectives#:#Show objectives
 crs#:#crs_show_link_or#:#Show other resources
 crs#:#crs_show_link_session#:#Show sessions
 crs#:#crs_show_link_tst#:#Show tests
-crs#:#crs_show_members_info#:#If activated, course members can access the members gallery and the send mail to members feature.
+crs#:#crs_show_members_info#:#If activated, course members can access the members gallery.
 crs#:#crs_show_members#:#Show Members
 crs#:#crs_show_objectives_view#:#Objective view
 crs#:#crs_size#:#File size
@@ -15227,3 +15229,12 @@ administration#:#adm_missing_entry_add_action#:#Add
 administration#:#adm_missing_entry_add#:#Add New Entry
 crs#:#crs_usr_agreement#:#User Agreement
 grp#:#grp_usr_agreement#:#User Agreement
+forum#:#sel_threads_already_sticky#:#At least one of the selected threads is already sticky
+forum#:#sel_threads_already_unsticky#:#At least one of the selected threads is already unsticky
+forum#:#sel_threads_make_sticky#:#The selected threads has been marked as sticky
+forum#:#sel_threads_make_unsticky#:#The selected threads are not marked as sticky anymore
+forum#:#selected_threads_closed#:#The selected threads has been closed
+forum#:#selected_threads_reopened#:#The selected threads has been reopened
+meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries the same
+meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing entry
+meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value

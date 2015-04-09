@@ -181,8 +181,8 @@ class ilForumModeratorsGUI
 			}
 		}
 
-		ilUtil::sendSuccess($this->lng->txt('frm_moderators_detached_role_successfully'));
-		return $this->showModerators();
+		ilUtil::sendSuccess($this->lng->txt('frm_moderators_detached_role_successfully'),true);
+		$this->ctrl->redirect($this, 'showModerators');
 	}
 
 	/**

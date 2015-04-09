@@ -456,19 +456,24 @@ class ilWikiStat
 			" ORDER BY ts DESC";
 		$ilDB->setLimit(1);
 		$set = $ilDB->query($sql);
-		$data = $ilDB->fetchAssoc($set);
 		
-		// see self::handlePageUpdated()
-		$values = array(
-			"int_links" => array("integer", $data["int_links"]),
-			"ext_links" => array("integer", $data["ext_links"]),
-			"footnotes" => array("integer", $data["footnotes"]),
-			"num_words" => array("integer", $data["num_words"]),
-			"num_chars" => array("integer", $data["num_chars"]),
-			"num_ratings" => array("integer", $data["num_ratings"]),
-			"avg_rating" => array("integer", $data["avg_rating"]),
-		);
-		self::writeStatPage($a_page_obj->getWikiId(), $a_page_obj->getId(), $values);				
+		// #15748
+		if($ilDB->numRows($set))
+		{
+			$data = $ilDB->fetchAssoc($set);
+
+			// see self::handlePageUpdated()
+			$values = array(
+				"int_links" => array("integer", $data["int_links"]),
+				"ext_links" => array("integer", $data["ext_links"]),
+				"footnotes" => array("integer", $data["footnotes"]),
+				"num_words" => array("integer", $data["num_words"]),
+				"num_chars" => array("integer", $data["num_chars"]),
+				"num_ratings" => array("integer", $data["num_ratings"]),
+				"avg_rating" => array("integer", $data["avg_rating"]),
+			);
+			self::writeStatPage($a_page_obj->getWikiId(), $a_page_obj->getId(), $values);			
+		}
 		
 		// mark all page entries as deleted
 		$ilDB->manipulate("UPDATE wiki_stat_page".

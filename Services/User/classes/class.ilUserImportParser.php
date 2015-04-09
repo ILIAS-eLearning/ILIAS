@@ -275,6 +275,11 @@ class ilUserImportParser extends ilSaxParser
 	private $current_messenger_type;
 
 	/**
+	 * @var array
+	 */
+	private static $account_mail_cache = array();
+
+	/**
 	* Constructor
 	*
 	* @param	string		$a_xml_file		xml file
@@ -2288,14 +2293,56 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function sendAccountMail()
 	{
-//var_dump($_POST["send_mail"]);
-		if ($_POST["send_mail"] != "" ||
-		   ($this->isSendMail() && $this->userObj->getEmail() != "")
-		   )
+		if($_POST["send_mail"] != "" ||
+			($this->isSendMail() && $this->userObj->getEmail() != ""))
 		{
 			$this->acc_mail->setUser($this->userObj);
+
+			$amail = $this->readAccountMailFromCache($this->userObj->getLanguage());
+			if($amail["att_file"])
+			{
+				include_once "Services/User/classes/class.ilFSStorageUserFolder.php";
+				$fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
+				$fs->create();
+				$path = $fs->getAbsolutePath() . "/";
+
+				$this->acc_mail->addAttachment($path . "/" . $amail["lang"], $amail["att_file"]);
+			}
 			$this->acc_mail->send();
 		}
+	}
+
+	/**
+	 * @param $lang_key
+	 * @return mixed
+	 */
+	private function readAccountMailFromCache($lang_key)
+	{
+		if(!isset(self::$account_mail_cache[$lang_key]))
+		{
+			$default_lang_key = $GLOBALS["lng"]->getDefaultLanguage();
+
+			// try individual account mail in user administration
+			include_once './Services/User/classes/class.ilObjUserFolder.php';
+
+			$amail = ilObjUserFolder::_lookupNewAccountMail($lang_key);
+
+			if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
+			{
+				self::$account_mail_cache[$lang_key] = $amail;
+			}
+			else
+			{
+				$lang_key = $default_lang_key;
+			}
+
+			if(!isset(self::$account_mail_cache[$default_lang_key]))
+			{
+				$amail = ilObjUserFolder::_lookupNewAccountMail($default_lang_key);
+				self::$account_mail_cache[$default_lang_key] = $amail;
+			}
+		}
+		return self::$account_mail_cache[$lang_key];
 	}
 
 	/**

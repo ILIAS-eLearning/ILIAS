@@ -13,6 +13,8 @@
 /.idea
 /ilias.log
 /lang
+*~
+db_template_writer.php
 
 # /Customizing/
 /Customizing/global

@@ -15223,3 +15223,20 @@ dcl#:#dcl_notification_info#:#Enables the individual notification feature for us
 administration#:#adm_missing_entries#:#Missing Entries###06 02 2015 new variable
 administration#:#adm_missing_entry_add_action#:#Add###06 02 2015 new variable
 administration#:#adm_missing_entry_add#:#Add New Entry###06 02 2015 new variable
+assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.###08 04 2015 new variable
+assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.###08 04 2015 new variable
+administration#:#vc_information_not_determined#:#ILIAS could not determine any version control information.###08 04 2015 new variable
+administration#:#git_revision#:#Number: %s###08 04 2015 new variable
+administration#:#git_hash_short#:#Commit Hash (short): %s###08 04 2015 new variable
+administration#:#git_last_commit#:#Last Commit: %s###08 04 2015 new variable
+crs#:#crs_usr_agreement#:#User Agreement###08 04 2015 new variable
+grp#:#grp_usr_agreement#:#User Agreement###08 04 2015 new variable
+forum#:#sel_threads_already_sticky#:#At least one of the selected threads is already sticky###08 04 2015 new variable
+forum#:#sel_threads_already_unsticky#:#At least one of the selected threads is already unsticky###08 04 2015 new variable
+forum#:#sel_threads_make_sticky#:#The selected threads has been marked as sticky###08 04 2015 new variable
+forum#:#sel_threads_make_unsticky#:#The selected threads are not marked as sticky anymore###08 04 2015 new variable
+forum#:#selected_threads_closed#:#The selected threads has been closed###08 04 2015 new variable
+forum#:#selected_threads_reopened#:#The selected threads has been reopened###08 04 2015 new variable
+meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries the same###08 04 2015 new variable
+meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing entry###08 04 2015 new variable
+meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value###08 04 2015 new variable

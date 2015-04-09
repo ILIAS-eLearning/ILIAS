@@ -284,6 +284,8 @@ assessment#:#autosave_info#:#Antworten werden von ILIAS automatisch gespeichert,
 assessment#:#autosave_ival#:#Speicherintervall
 assessment#:#for#:#für
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#Der gestartete Durchlauf im Test "%s" enthält keine Fragen.
+assessment#:#tst_dyn_quest_set_pool_deleted#:#Der aktuell konfigurierte Fragenpool "%s" ist gelöscht worden.
+assessment#:#tst_old_style_rnd_quest_set_broken#:#Dieser Random Test befindet sich in einem irreparablen Zustand, da angeschlossene Fragepools gelöscht wurden. Aus diesem Grund können Teilnehmer diesen Test nicht länger absolvieren.
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
 assessment#:#essay_scoring_mode#:#Bewertungs Modus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
@@ -15227,3 +15229,12 @@ administration#:#adm_missing_entry_add_action#:#Hinzufügen
 administration#:#adm_missing_entry_add#:#Neuen Eintrag erstellen
 crs#:#crs_usr_agreement#:#Benutzerveinbarung
 grp#:#grp_usr_agreement#:#Benutzerveinbarung
+forum#:#sel_threads_already_sticky#:#Mindestens eins der gewählten Themen ist bereits als Top-Thema markiert
+forum#:#sel_threads_already_unsticky#:#Mindestens eins der gewählten Themen ist bereits kein Top-Thema mehr
+forum#:#sel_threads_make_sticky#:#Die gewählten Themen wurden als Top-Thema markiert
+forum#:#sel_threads_make_unsticky#:#Die gewählten Themen werden nicht mehr als Top-Thema markiert
+forum#:#selected_threads_closed#:#Die gewählten Themen wurden geschlossen
+forum#:#selected_threads_reopened#:#Die gewählten Themen wurden wiedereröffnet
+meta#:#md_adv_confirm_definition_select_option_all#:#Alle vorhandenen Einträge gleich behandeln
+meta#:#md_adv_confirm_definition_select_option_single#:#Jeden vorhandenen Eintrag einzeln entscheiden
+meta#:#md_adv_confirm_definition_select_option_all_action#:#Neuer Wert

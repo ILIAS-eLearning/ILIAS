@@ -6396,6 +6396,10 @@ span.ilAlert {
   height: 22px;
   margin: 0 3px 0 0;
 }
+#ilAdvSelListTable_socialbm_actions.dropdown-menu img {
+  width: auto;
+  height: auto;
+}
 .ilAdvNoImg {
   display: inline-block;
   width: 22px;
@@ -7478,6 +7482,10 @@ div.ilSideBarContent {
   width: 0px;
   height: 0px;
   display: none;
+}
+.il_VAccordionContentDef > div,
+.il_HAccordionContentDef > div {
+  overflow: auto;
 }
 /* Modules/ScormAicc */
 table.il_ScormTable {
@@ -9513,10 +9521,11 @@ span.bibl_text_inline_Emph {
 .ilPlayerPreviewDescription {
   padding: 7px;
   font-size: 85%;
-  position: relative;
+  position: absolute;
+  width: 306px;
   color: #F0F0F0;
-  top: -240px;
-  background: url("images/black60.png");
+  margin-top: -240px;
+  background: url("images//black60.png");
 }
 .ilPlayerPreviewOverlay img {
   cursor: pointer;
@@ -9868,6 +9877,12 @@ div#ilContRepIntro img {
 /* Modules/LearningModule */
 .ilLMMenu {
   clear: both;
+}
+body.ilLMNoMenu .ilFixedTopSpacer {
+  padding-top: 0px;
+}
+body.ilLMNoMenu .ilLeftNav {
+  top: 0px;
 }
 button.ilAreaClose {
   width: 20px;
