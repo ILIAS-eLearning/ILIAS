@@ -175,7 +175,26 @@ class ilTrainingProgramme extends ActiveRecord {
 	 */
 	public function getObjId() {
 		return (int)$this->obj_id;
-	} 
+	}
+
+	/**
+	 * Return the meta-data subtype id
+	 *
+	 * @return int
+	 */
+	public function getSubtypeId() {
+		return $this->subtype_id;
+	}
+
+
+	/**
+	 * Sets the meta-data type id
+	 *
+	 * @param int $subtype_id
+	 */
+	public function setSubtypeId($subtype_id) {
+		$this->subtype_id = $subtype_id;
+	}
 
 	/**
 	 * Get the timestamp of the last change on this program or a sub program.
@@ -215,7 +234,7 @@ class ilTrainingProgramme extends ActiveRecord {
 		return $this;
 	}
 
-	// TODO: setters and getters for subtype
+
 
 	/**
 	 * Set the amount of points.
