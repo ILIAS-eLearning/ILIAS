@@ -212,7 +212,7 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT, $node2_progress->getStatus());
-		$this->assertEquals($USER_ID, $node2_progress->getCompletionBy());
+		$this->assertEquals(null, $node2_progress->getCompletionBy());
 		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
 		$this->assertFalse($node2_progress->hasIndividualModifications());
 	}
