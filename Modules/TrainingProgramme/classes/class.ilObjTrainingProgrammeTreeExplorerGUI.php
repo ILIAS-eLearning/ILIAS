@@ -18,7 +18,7 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	/**
 	 * @var array
 	 */
-	protected $stay_with_command = array( "", "render", "view", "infoScreen", "performPaste", "cut", "tree_view");
+	//protected $stay_with_command = array( "", "render", "view", "infoScreen", "performPaste", "cut", "tree_view");
 
 	/**
 	 * @var int
@@ -114,9 +114,12 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 			$node_classes .= " lp-object";
 		}
 
+		// TODO: move all the html into a template
+		//$tpl = new ilTemplate()
+
 		$data_line = '<span class="'.$node_classes.'">' . $node->getTitle() .'</span>';
 
-		$data_line .= ($is_training_programme)? '<span class="points">'. $node->getPoints() .'</span>' : '';
+		$data_line .= ($is_training_programme)? '<span class="points">('. $node->getPoints() ." ".$this->lng->txt('prg_points').')</span>' : '';
 
 		if($this->checkAccess('write', $node->getRefId())) {
 			$data_line .= '<span class="icon_bar">';
@@ -150,12 +153,12 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 			$this->ctrl->setParameterByClass($target_class, $param_name, $param_value);
 		}
 
-		$props = ' class="tree_button cmd_'.$cmd.'"';
+		$props = 'class="tree_button cmd_'.$cmd.'"';
 		if($async) {
-			$props .= '" data-toggle="modal" data-target="#'.$this->modal_id.'"';
+			$props .= ' data-toggle="modal" data-target="#'.$this->modal_id.'"';
 		}
 
-		return '<a href="'.$this->ctrl->getLinkTargetByClass($target_class, $cmd, '', true).'" '.$props.'>'.$content.'</a>';
+		return '<a href="'.$this->ctrl->getLinkTargetByClass($target_class, $cmd, '', true, false).'" '.$props.'>'.$content.'</a>';
 	}
 
 
@@ -302,11 +305,31 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 *
 	 * @return string id of node
 	 */
-	function getNodeId($a_node) {
+	public function getNodeId($a_node) {
 		if(!is_null($a_node)) {
 			return $a_node->getRefId();
 		}
 		return null;
+	}
+
+	/**
+	 * List item start
+	 *
+	 * @param
+	 * @return
+	 */
+	public function listItemStart($tpl, $a_node)
+	{
+		$tpl->setCurrentBlock("list_item_start");
+
+		if ($this->getAjax() && $this->nodeHasVisibleChilds($a_node) || ($a_node instanceof ilTrainingProgramme && $a_node->getParent() === null))
+		{
+			$tpl->touchBlock("li_closed");
+		}
+		$tpl->setVariable("DOM_NODE_ID",
+			$this->getDomNodeIdForNodeId($this->getNodeId($a_node)));
+		$tpl->parseCurrentBlock();
+		$tpl->touchBlock("tag");
 	}
 
 
@@ -320,6 +343,31 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 		$this->tpl->addOnLoadCode('$("#'.$this->getContainerId().'").training_programme_tree('.json_encode($this->js_conf).');');
 
 		return parent::getHTML();
+	}
+
+
+	/**
+	 * @param $node_id
+	 */
+	public function closeCertainNode($node_id) {
+		if (in_array($node_id, $this->open_nodes))
+		{
+			$k = array_search($node_id, $this->open_nodes);
+			unset($this->open_nodes[$k]);
+		}
+		$this->store->set("on_".$this->id, serialize($this->open_nodes));
+	}
+
+	/**
+	 * @param $node_id
+	 */
+	public function openCertainNode($node_id) {
+		$id = $this->getNodeIdForDomNodeId($node_id);
+		if (!in_array($id, $this->open_nodes))
+		{
+			$this->open_nodes[] = $id;
+		}
+		$this->store->set("on_".$this->id, serialize($this->open_nodes));
 	}
 
 
