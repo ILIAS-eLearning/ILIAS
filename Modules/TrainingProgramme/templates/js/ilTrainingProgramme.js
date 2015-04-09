@@ -262,7 +262,7 @@
                         template = template.replace(settings.message_var, data.message);
                     }
                     $(content_container).prepend(template);
-                    $('div[role="alert"]').delay(settings.message_delay).fadeOut('slow', function () {
+                    $('div[role="alert"]').delay(settings.message_delay).slideUp('slow', function () {
                         $(this).remove();
                     });
                 }
