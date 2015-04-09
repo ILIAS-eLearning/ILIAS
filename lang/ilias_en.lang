@@ -15784,6 +15784,10 @@ prg#:#prg_points_required#:#Points Required
 prg#:#prg_points_current#:#Points Current
 prg#:#prg_custom_plan#:#Custom Plan
 prg#:#prg_belongs_to#:#Belongs to
+prg#:#prg_show_individual_plan#:#Show individual Plan
+prg#:#prg_remove_user#:#Remove User
+prg#:#prg_mark_accredited#:#Mark Accredited
+prg#:#prg_unmark_accredited#:#Unmark Accredited
 common#:#obj_prg_duplicate#:#Copy Training Programme
 common#:#obj_prg_select#:#-- Please select one Training Programme --
 common#:#obj_prg#:#Training Programme
