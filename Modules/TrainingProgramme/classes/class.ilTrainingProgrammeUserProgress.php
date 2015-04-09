@@ -64,6 +64,20 @@ class ilTrainingProgrammeUserProgress {
 	}
 	
 	/**
+	 * Get an instance by progress id.
+	 * 
+	 * @param  int $a_prgrs_id
+	 * @return ilTrainingProgrammeUserProgress
+	 */
+	static public function getInstanceById($a_prgrs_id) {
+		$prgrs = ilTrainingProgrammeProgress::find($a_prgrs_id);
+		if ($prgrs === null) {
+			throw new ilException("Unknown progress id $a_prgrs_id.");
+		}
+		return new ilTrainingProgrammeUserProgress($prgrs);
+	}
+	
+	/**
 	 * Get the instances that user has on program.
 	 *
 	 * @param  int $a_program_id
@@ -263,7 +277,6 @@ class ilTrainingProgrammeUserProgress {
 		
 		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_ACCREDITED)
 					   ->setCompletionBy($a_user_id)
-					   ->setLastChangeBy($a_user_id)
 					   ->update();
 		return $this;
 	}
@@ -279,8 +292,7 @@ class ilTrainingProgrammeUserProgress {
 	 */
 	public function markNotRelevant($a_user_id) {
 		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT)
-					   ->setCompletionBy($a_user_id)
-					   ->setLastChangeBy($a_user_id)
+					   ->setCompletionBy(null)
 					   ->update();
 		return $this;
 	}
