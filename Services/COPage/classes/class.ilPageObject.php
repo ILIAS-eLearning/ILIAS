@@ -2995,7 +2995,7 @@ abstract class ilPageObject
 	function cutContents($a_hids)
 	{
 		$this->copyContents($a_hids);
-		return $this->deleteContents($a_hids);
+		return $this->deleteContents($a_hids, true, $this->getPageConfig()->getEnableSelfAssessment());
 	}
 	
 	/**

@@ -2669,6 +2669,11 @@ class ilLMPresentationGUI
 	{
 		global $ilUser;
 
+		if (!$this->lm->isActiveTOC() || !$this->lm->isActiveLMMenu())
+		{
+			return;
+		}
+
 		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
@@ -2702,7 +2707,9 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "toc", true));
 
-
+		// set title header
+		$this->tpl->setTitle($this->lm->getTitle());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 
 		include_once("./Modules/LearningModule/classes/class.ilLMTableOfContentsExplorerGUI.php");
 		$exp = new ilLMTableOfContentsExplorerGUI($this, "showTableOfContents", $this, $this->lang);
@@ -2886,7 +2893,7 @@ class ilLMPresentationGUI
 		global $ilUser, $lng;
 		
 		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
-		if (!$this->lm->isActivePrintView())
+		if (!$this->lm->isActivePrintView() || !$this->lm->isActiveLMMenu())
 		{
 			return;
 		}
@@ -3104,7 +3111,7 @@ class ilLMPresentationGUI
 
 		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		
-		if (!$this->lm->isActivePrintView())
+		if (!$this->lm->isActivePrintView() || !$this->lm->isActiveLMMenu())
 		{
 			return;
 		}
@@ -3716,6 +3723,11 @@ class ilLMPresentationGUI
 	*/
 	function showDownloadList()
 	{
+		if (!$this->lm->isActiveDownloads() || !$this->lm->isActiveLMMenu())
+		{
+			return;
+		}
+
 		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
@@ -3880,6 +3892,11 @@ class ilLMPresentationGUI
 	*/
 	function downloadExportFile()
 	{
+		if (!$this->lm->isActiveDownloads() || !$this->lm->isActiveLMMenu())
+		{
+			return;
+		}
+
 		$file = $this->lm->getPublicExportFile($_GET["type"]);
 		if ($this->lm->getPublicExportFile($_GET["type"]) != "")
 		{
