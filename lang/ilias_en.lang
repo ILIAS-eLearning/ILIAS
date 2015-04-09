@@ -15601,6 +15601,32 @@ prg#:#prg_show_individual_plan#:#Show individual Plan
 prg#:#prg_remove_user#:#Remove User
 prg#:#prg_mark_accredited#:#Mark Accredited
 prg#:#prg_unmark_accredited#:#Unmark Accredited
+prg#:#prg_type_add#:#TrainingProgramme Type
+prg#:#prg_subtypes#:#Subtypes
+prg#:#prg_subtype_add#:#Add new subtype
+prg#:#prg_adv_settings#:#Advanced Settings
+prg#:#prg_type_custom_icon#:#Custom Icons
+prg#:#prg_type_custom_icon_info#:#Custom icon info
+prg#:#prg_type_msg_error_custom_icon#:#Error while storing icon
+prg#:#prg_type_assign_amd_sets#:#Assign advanced metadata sets
+prg#:#prg_type_available_amd_sets#:#Available Advanced Metadata sets
+prg#:#prg_type_edit#:#Edit subtype
+prg#:#prg_type_msg_deleted#:#Deleted subtype
+prg#:#prg_type_msg_unable_delete#:#Unable to delete type because it is still assigned to the following TrainingProgrammes: %s
+prg#:#prg_type_msg_missing_title_default_language#:#There must be set a default language and a title for the default language
+prg#:#prg_save_tree_order#:#Save tree order
+prg#:#prg_cancel_tree_order#:#Dismiss tree order
+prg#:#prg_saved_order_successful#:#Saved order successful
+prg#:#prg_async_settings#:#Settings
+prg#:#prg_open_node#:#Switch to this node
+prg#:#prg_async_create#:#Add new tree-child
+prg#:#prg_create_new_node#:#Create new node
+prg#:#prg_create_new_leaf#:#Create new leaf
+prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Please select a course for creating a course-reference leaf
+prg#:#prg_deleted_safely#:#Node was deleted safely
+prg#:#prg_not_allowed_node_to_delete#:#You are not allowed to delete this node
+prg#:#prg_added_course_ref_successful#:#New course-reference was added successfully
 common#:#obj_prg_duplicate#:#Copy Training Programme
 common#:#obj_prg_select#:#-- Please select one Training Programme --
 common#:#obj_prg#:#Training Programme
+common#:#obj_prgs#:#Training Programmes
