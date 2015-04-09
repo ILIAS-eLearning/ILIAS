@@ -526,6 +526,33 @@ class ilTrainingProgrammeUserProgress {
 		}
 		return $names;
 	}
+	
+	const ACTION_MARK_ACCREDITED = "mark_accredited";
+	const ACTION_UNMARK_ACCREDITED = "unmark_accredited";
+	const ACTION_SHOW_INDIVIDUAL_PLAN = "show_individual_plan";
+	const ACTION_REMOVE_USER = "remove_user";
+	
+	/**
+	 * Get a list with possible actions on a progress record.
+	 *
+	 * @param int $a_node_id	object_id!
+	 * @param int $a_belongs	object_id!
+	 * @param int $a_status
+	 */
+	static public function getPossibleActions($a_node_id, $a_root_prg_id, $a_status) {
+		$actions = array();
+		if ($a_node_id == $a_root_prg_id) {
+			$actions[] = self::ACTION_SHOW_INDIVIDUAL_PLAN;
+			$actions[] = self::ACTION_REMOVE_USER;
+		}
+		if ($a_status == ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+			$actions[] = self::ACTION_UNMARK_ACCREDITED;
+		}
+		else if ($a_status == ilTrainingProgrammeProgress::STATUS_IN_PROGRESS) {
+			$actions[] = self::ACTION_MARK_ACCREDITED;
+		}
+		return $actions;
+	}
 }
 
 ?>

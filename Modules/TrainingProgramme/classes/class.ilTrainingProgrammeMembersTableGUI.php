@@ -7,6 +7,8 @@ require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserPro
 require_once("Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeProgress.php");
 require_once("Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeAssignment.php");
 require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
+require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+require_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
 /**
  * Class ilObjTrainingProgrammeMembersTableGUI
@@ -26,6 +28,8 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->prg_ref_id = $a_prg_ref_id;
 
 		global $ilCtrl, $lng;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
 
 		$this->setEnableTitle(true);
 		$this->setTopCommands(false);
@@ -93,7 +97,20 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 												? $this->lng>txt("yes")
 												: $this->lng->txt("no"));
 		$this->tpl->setVariable("BELONGS_TO", $a_set["belongs_to"]);
-		$this->tpl->setVariable("ACTIONS", "TODO");
+		$this->tpl->setVariable("ACTIONS", $this->buildActionDropDown($a_set["actions"], $a_set["prgrs_id"]));
+	}
+	
+	protected function buildActionDropDown($a_actions, $a_prgrs_id) {
+		$l = new ilAdvancedSelectionListGUI();
+		foreach($a_actions as $action) {
+			$target = $this->getLinkTargetForAction($action, $a_prgrs_id);
+			$l->addItem($this->lng->txt("prg_$action"), $action, $target);
+		}
+		return $l->getHTML();
+	}
+	
+	protected function getLinkTargetForAction($a_action, $a_prgrs_id) {
+		return $this->getParentObject()->getLinkTargetForAction($a_action, $a_prgrs_id);
 	}
 
 	protected function fetchData($a_prg_id) {
@@ -101,7 +118,8 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 
 		// TODO: Reimplement this in terms of ActiveRecord when innerjoin
 		// supports the required rename functionality
-		$res = $ilDB->query("SELECT pcp.firstname"
+		$res = $ilDB->query("SELECT prgrs.id prgrs_id"
+						   ."     , pcp.firstname"
 						   ."     , pcp.lastname"
 						   ."     , pcp.login"
 						   ."     , prgrs.points"
@@ -112,6 +130,7 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 						   ."     , cmpl_usr.login accredited_by"
 						   ."     , cmpl_obj.title completion_by"
 						   ."     , prgrs.assignment_id assignment_id"
+						   ."     , ass.root_prg_id root_prg_id"
 						   ."  FROM ".ilTrainingProgrammeProgress::returnDbTableName()." prgrs"
 						   ."  JOIN usr_data pcp ON pcp.usr_id = prgrs.usr_id"
 						   ."  JOIN ".ilTrainingProgrammeAssignment::returnDbTableName()." ass"
@@ -124,6 +143,8 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 	
 		$members_list = array();
 		while($rec = $ilDB->fetchAssoc($res)) {
+			$rec["actions"] = ilTrainingProgrammeUserProgress::getPossibleActions(
+										$a_prg_id, $rec["root_prg_id"], $rec["status"]);
 			$members_list[] = $rec;
 		}
 		return $members_list;
