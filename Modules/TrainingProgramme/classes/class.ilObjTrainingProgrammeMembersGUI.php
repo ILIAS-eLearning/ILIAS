@@ -96,6 +96,9 @@ class ilObjTrainingProgrammeMembersGUI {
 				switch ($cmd) {
 					case "view":
 					case "addUserFromAutoComplete":
+					case "markAccredited":
+					case "unmarkAccredited":
+					case "removeUser":
 						$cont = $this->$cmd();
 						break;
 					default:
@@ -127,7 +130,26 @@ class ilObjTrainingProgrammeMembersGUI {
 			$prg->assignUser($user_id);
 		}
 	}
-
+	
+	public function markAccredited() {
+		die("markAccredited NYI, target: ".$this->getTargetAssignmentId());
+	}
+	
+	public function unmarkAccredited() {
+		die("unmarkAccredited NYI, target: ".$this->getTargetAssignmentId());
+	}
+	
+	public function removeUser() {
+		die("removeUser NYI, target: ".$this->getTargetAssignmentId());
+	}
+	
+	protected function getProgressId() {
+		if (!is_numeric($_GET["prgs_id"])) {
+			throw new ilException("Expected integer 'prgs_id'");
+		}
+		return (int)$_GET["prgs_id"];
+	}
+	
 	protected function initSearchGUI() {
 		require_once("./Services/Search/classes/class.ilRepositorySearchGUI.php");
 		ilRepositorySearchGUI::fillAutoCompleteToolbar(
@@ -144,6 +166,32 @@ class ilObjTrainingProgrammeMembersGUI {
 	protected function getTrainingProgramme() {
 		require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
 		return ilObjTrainingProgramme::getInstanceByRefId($this->ref_id);
+	}
+	
+	public function getLinkTargetForAction($a_action, $a_prgrs_id) {
+		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+		
+		switch ($a_action) {
+			case ilTrainingProgrammeUserProgress::ACTION_MARK_ACCREDITED:
+				$target_name = "markAccredited";
+				break;
+			case ilTrainingProgrammeUserProgress::ACTION_UNMARK_ACCREDITED:
+				$target_name = "unmarkAccredited";
+				break;
+			case ilTrainingProgrammeUserProgress::ACTION_SHOW_INDIVIDUAL_PLAN:
+				$target_name = "showIndividualPlan";
+				break;
+			case ilTrainingProgrammeUserProgress::ACTION_REMOVE_USER:
+				$target_name = "removeUser";
+				break;
+			default:
+				throw new ilException("Unknown action: $action");
+		}
+		
+		$this->ctrl->setParameter($this, "prgs_id", $a_prgrs_id);
+		$link = $this->ctrl->getLinkTarget($this, "removeUser");
+		$this->ctrl->setParameter($this, "prgs_id", null);
+		return $link;
 	}
 }
 
