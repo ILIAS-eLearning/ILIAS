@@ -141,7 +141,12 @@ class ilObjTrainingProgrammeSettingsGUI {
 			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>false, "errors"=>$form->getErrors()));
 		}
 
-		return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
+		//TODO: needs clean up (ugly workaround)
+		if($this->ctrl->isAsynch()) {
+			return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
+		} else {
+			$this->ctrl->redirect($this);
+		}
 	}
 
 	protected function cancel() {
