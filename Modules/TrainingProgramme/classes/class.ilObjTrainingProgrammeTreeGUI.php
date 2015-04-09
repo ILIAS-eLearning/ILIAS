@@ -370,8 +370,10 @@ class ilObjTrainingProgrammeTreeGUI {
 				if($obj->delete()) {
 					// remove nodes from tree session storage
 					$this->tree->closeCertainNode($id);
-					foreach($children_of_node as $child) {
-						$this->tree->closeCertainNode($child->getRefId());
+					if(isset($children_of_node)) {
+						foreach($children_of_node as $child) {
+							$this->tree->closeCertainNode($child->getRefId());
+						}
 					}
 
 					$msg = $this->lng->txt("prg_deleted_safely");
