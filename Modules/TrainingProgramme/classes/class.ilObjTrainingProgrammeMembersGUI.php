@@ -146,7 +146,11 @@ class ilObjTrainingProgrammeMembersGUI {
 	}
 	
 	public function unmarkAccredited() {
-		die("unmarkAccredited NYI");
+		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+		$prgrs = $this->getProgressObject();
+		$prgrs->unmarkAccredited();
+		$this->showSuccessMessage("unmark_accreditted_success");
+		return $this->view();
 	}
 	
 	public function removeUser() {
