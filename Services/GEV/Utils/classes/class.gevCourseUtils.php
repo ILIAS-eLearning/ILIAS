@@ -1368,7 +1368,10 @@ class gevCourseUtils {
 		$end=explode(".",$this->getFormattedEndDate());
 		$starttime=implode("",explode(':',$this->getFormattedStartTime()));
 		$endtime=implode("",explode(':',$this->getFormattedEndTime()));
-		$loc = $this->getVenueTitle();
+		$loc = $this->getVenue();
+		if ($loc) {
+			$loc = $loc->getTitle();
+		}
 		$street = $this->getVenueStreet();
 		$zip = $this->getVenueZipcode();
 		$city = $this->getVenueCity();
