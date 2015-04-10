@@ -311,7 +311,8 @@ class ilTrainingProgrammeUserProgress {
 	 */
 	public function markNotRelevant($a_user_id) {
 		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT)
-					   ->setCompletionBy(null)
+					   ->setCompletionBy($a_user_id)
+					   ->setLastChangeBy($a_user_id)
 					   ->update();
 		return $this;
 	}
