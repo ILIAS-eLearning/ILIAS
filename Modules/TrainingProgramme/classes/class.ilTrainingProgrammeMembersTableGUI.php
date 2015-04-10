@@ -94,7 +94,7 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points"]);
 		$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_cur"]);
 		$this->tpl->setVariable("CUSTOM_PLAN", $a_set["last_change_by"] 
-												? $this->lng>txt("yes")
+												? $this->lng->txt("yes")
 												: $this->lng->txt("no"));
 		$this->tpl->setVariable("BELONGS_TO", $a_set["belongs_to"]);
 		$this->tpl->setVariable("ACTIONS", $this->buildActionDropDown($a_set["actions"], $a_set["prgrs_id"]));
