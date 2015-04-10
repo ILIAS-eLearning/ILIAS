@@ -1374,15 +1374,15 @@ class gevCourseUtils {
 		$city = $this->getVenueCity();
 		if($loc) {
 			if($street) {
-				$loc.= "\n".$street;
+				$loc.= '\n'.$street;
 			}
 			if($zip) {
-				$loc .= "\n".$zip;
+				$loc .= '\n'.$zip;
 				if($city) {
 					$loc .= $city;
 				}
 			} else if($city) {
-					$loc .= "\n".$city;
+					$loc .= '\n'.$city;
 			}
 
 		} else {
