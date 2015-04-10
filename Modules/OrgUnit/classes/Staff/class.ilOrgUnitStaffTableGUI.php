@@ -53,7 +53,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 	protected function setTableHeaders(){
 		$this->addColumn($this->lng->txt("firstname"), "first_name");
 		$this->addColumn($this->lng->txt("lastname"), "last_name");
-		$this->addColumn($this->lng->txt("role"), "role");
+		$this->addColumn($this->lng->txt("roles"), "role");
         if ($this->recursive) {
             $this->addColumn($this->lng->txt('obj_orgu'), 'org_units');
         }
