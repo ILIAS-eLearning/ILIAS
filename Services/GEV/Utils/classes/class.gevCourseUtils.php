@@ -1425,12 +1425,14 @@ class gevCourseUtils {
 		fwrite($wstream,"UID:".$reference."@cat06.de\n");
 		fwrite($wstream,"ORGANIZER;CN=\"".$admin."\":MAILTO:".$adminemail."\n");
 		fwrite($wstream,"LOCATION:".$loc."\n");
-		fwrite($wstream,"SUMMARY:".$title." ".$subtitle."\n");
-		fwrite($wstream,"DESCRIPTION:".$content."\n");
+		fwrite($wstream,"SUMMARY:".$title."\n");
+		if($subtitle) {
+			fwrite($wstream,"DESCRIPTION:".$subtitle."\n");
+		}
 		fwrite($wstream,"CLASS:PUBLIC\n");
-		fwrite($wstream,"DTSTART:".$start[2].$start[1].$start[0]."T".$starttime."00Z\n");
-		fwrite($wstream,"DTEND:".$end[2].$end[1].$end[0]."T".$endtime."00Z\n");
-		fwrite($wstream,"DTSTAMP:".$today."T".$now."Z\n");
+		fwrite($wstream,"DTSTART;TZID=Europe/Berlin:".$start[2].$start[1].$start[0]."T".$starttime."00\n");
+		fwrite($wstream,"DTEND;TZID=Europe/Berlin:".$end[2].$end[1].$end[0]."T".$endtime."00\n");
+		fwrite($wstream,"DTSTAMP;TZID=Europe/Berlin:".$today."T".$now."\n");
 		fwrite($wstream,"END:VEVENT\n");
 		fwrite($wstream,"END:VCALENDAR\n");
 	   	
