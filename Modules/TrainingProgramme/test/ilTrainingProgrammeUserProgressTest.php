@@ -194,6 +194,30 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
 	}
 
+	public function testUnmarkAccredited() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+		
+		$user2 = $this->newUser();
+		$USER_ID = $user2->getId();
+		
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
+		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
+		$ts_before_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
+		$node2_progress->markAccredited($USER_ID);
+		$node2_progress->unmarkAccredited();
+		$ts_after_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
+		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
+		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
+		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS, $node2_progress->getStatus());
+		$this->assertEquals(NULL, $node2_progress->getCompletionBy());
+		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
+	}
+
+
 	public function testMarkNotRelevant() {
 		$this->setAllNodesActive();
 		$tmp = $this->assignNewUserToRoot();
