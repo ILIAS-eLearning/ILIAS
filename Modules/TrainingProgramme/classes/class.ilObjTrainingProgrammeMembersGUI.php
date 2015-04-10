@@ -142,7 +142,7 @@ class ilObjTrainingProgrammeMembersGUI {
 		$prgrs = $this->getProgressObject();
 		$prgrs->markAccredited($this->user->getId());
 		$this->showSuccessMessage("mark_accreditted_success");
-		return $this->view();
+		$this->ctrl->redirect($this, "view");
 	}
 	
 	public function unmarkAccredited() {
@@ -150,7 +150,7 @@ class ilObjTrainingProgrammeMembersGUI {
 		$prgrs = $this->getProgressObject();
 		$prgrs->unmarkAccredited();
 		$this->showSuccessMessage("unmark_accreditted_success");
-		return $this->view();
+		$this->ctrl->redirect($this, "view");
 	}
 	
 	public function removeUser() {
@@ -162,7 +162,7 @@ class ilObjTrainingProgrammeMembersGUI {
 			throw new ilException("Can only remove users from the node they where assigned to.");
 		}
 		$ass->remove();
-		return $this->view();
+		$this->ctrl->redirect($this, "view");
 	}
 	
 	protected function getProgressObject() {
