@@ -1368,24 +1368,36 @@ class gevCourseUtils {
 		$end=explode(".",$this->getFormattedEndDate());
 		$starttime=implode("",explode(':',$this->getFormattedStartTime()));
 		$endtime=implode("",explode(':',$this->getFormattedEndTime()));
-		if($loc=$this->getVenueTitle()) {
-			$loc=implode(" ",array('Venue'=>$this->getVenueTitle()
-				,'street'=>$this->getVenueStreet()
-				,'zip'=>$this->getVenueZipcode()
-				,'city'=>$this->getVenueCity()
-				)).'.';
+		$loc = $this->getVenueTitle();
+		$street = $this->getVenueStreet();
+		$zip = $this->getVenueZipcode();
+		$city = $this->getVenueCity();
+		if($loc) {
+			if($street) {
+				$loc.= "\n".$street;
+			}
+			if($zip) {
+				$loc .= "\n".$zip;
+				if($city) {
+					$loc .= $city;
+				}
+			} else if($city) {
+					$loc .= "\n".$city;
+			}
+
 		} else {
-			$loc="";
+			$loc = "";
 		}
-		$title=$this->getTitle();
-		$subtitle=$this->getSubtitle();
-		$admin=$this->getMainAdminName(); 
-		$adminemail=$this->getMainAdminEMail();
-		$content=$this->getContents();
-		$topic=$this->getTopics();
-		$reference=$this->crs_id;
-		$today=date("Ymd");
-		$now=date("his");
+		
+		$title = $this->getTitle();
+		$subtitle = $this->getSubtitle();
+		$admin = $this->getMainAdminName(); 
+		$adminemail = $this->getMainAdminEMail();
+		$content = $this->getContents();
+		$topic = $this->getTopics();
+		$reference = $this->crs_id;
+		$today = date("Ymd");
+		$now = date("his");
 
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
