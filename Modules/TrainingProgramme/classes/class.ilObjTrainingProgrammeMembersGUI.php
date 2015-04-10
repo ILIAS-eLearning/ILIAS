@@ -52,10 +52,15 @@ class ilObjTrainingProgrammeMembersGUI {
 	 */
 	public $toolbar;
 
+	/**
+	 * @var ilObjUser
+	 */
+	public $user;
+
 	protected $parent_gui;
 
 	public function __construct($a_parent_gui, $a_ref_id) {
-		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias;
+		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias, $ilUser;
 
 		$this->ref_id = $a_ref_id;
 		$this->parent_gui = $a_parent_gui;
@@ -68,6 +73,7 @@ class ilObjTrainingProgrammeMembersGUI {
 		$this->ilLog = $ilLog;
 		$this->ilias = $ilias;
 		$this->lng = $lng;
+		$this->user = $ilUser;
 		
 		$this->object = null;
 
@@ -132,22 +138,33 @@ class ilObjTrainingProgrammeMembersGUI {
 	}
 	
 	public function markAccredited() {
-		die("markAccredited NYI, target: ".$this->getTargetAssignmentId());
+		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+		$prgrs = $this->getProgressObject();
+		$prgrs->markAccredited($this->user->getId());
+		$this->showSuccessMessage("mark_accreditted_success");
+		return $this->view();
 	}
 	
 	public function unmarkAccredited() {
-		die("unmarkAccredited NYI, target: ".$this->getTargetAssignmentId());
+		die("unmarkAccredited NYI");
 	}
 	
 	public function removeUser() {
-		die("removeUser NYI, target: ".$this->getTargetAssignmentId());
+		die("removeUser NYI");
 	}
 	
-	protected function getProgressId() {
+	protected function getProgressObject() {
+		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
 		if (!is_numeric($_GET["prgs_id"])) {
 			throw new ilException("Expected integer 'prgs_id'");
 		}
-		return (int)$_GET["prgs_id"];
+		$id = (int)$_GET["prgs_id"];
+		return ilTrainingProgrammeUserProgress::getInstanceById($id);
+	}
+	
+	protected function showSuccessMessage($a_lng_var) {
+		require_once("Services/Utilities/classes/class.ilUtil.php");
+		ilUtil::sendSuccess($this->lng->txt("prg_$a_lng_var"));
 	}
 	
 	protected function initSearchGUI() {
@@ -189,7 +206,7 @@ class ilObjTrainingProgrammeMembersGUI {
 		}
 		
 		$this->ctrl->setParameter($this, "prgs_id", $a_prgrs_id);
-		$link = $this->ctrl->getLinkTarget($this, "removeUser");
+		$link = $this->ctrl->getLinkTarget($this, $target_name);
 		$this->ctrl->setParameter($this, "prgs_id", null);
 		return $link;
 	}
