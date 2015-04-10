@@ -15590,7 +15590,7 @@ prg#:#prg_status_active#:#Active
 prg#:#prg_status_outdated#:#Outdated
 prg#:#prg_status_in_progress#:#In Progress
 prg#:#prg_status_completed#:#Completed
-prg#:#prg_status_not_accredited#:#Accredited
+prg#:#prg_status_accredited#:#Accredited
 prg#:#prg_status_not_relevant#:#Not relevant
 prg#:#prg_completion_by#:#Completion by
 prg#:#prg_points_required#:#Points Required
