@@ -181,6 +181,7 @@ class ilTrainingProgrammeUserProgress {
 	 * @return ilTrainingProgrammeUserAssignment
 	 */
 	public function getAssignment() {
+		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
 		return ilTrainingProgrammeUserAssignment::getInstance($this->progress->getAssignmentId());
 	}
 	

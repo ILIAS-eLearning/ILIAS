@@ -154,7 +154,15 @@ class ilObjTrainingProgrammeMembersGUI {
 	}
 	
 	public function removeUser() {
-		die("removeUser NYI");
+		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+		$prgrs = $this->getProgressObject();
+		$ass = $prgrs->getAssignment();
+		$prg = $ass->getTrainingProgramme();
+		if ($prg->getRefId() != $this->ref_id) {
+			throw new ilException("Can only remove users from the node they where assigned to.");
+		}
+		$ass->remove();
+		return $this->view();
 	}
 	
 	protected function getProgressObject() {
@@ -168,7 +176,7 @@ class ilObjTrainingProgrammeMembersGUI {
 	
 	protected function showSuccessMessage($a_lng_var) {
 		require_once("Services/Utilities/classes/class.ilUtil.php");
-		ilUtil::sendSuccess($this->lng->txt("prg_$a_lng_var"));
+		ilUtil::sendSuccess($this->lng->txt("prg_$a_lng_var"), true);
 	}
 	
 	protected function initSearchGUI() {
