@@ -940,7 +940,14 @@ class gevWBDDataConnector extends wbdDataConnector {
 			AND
 				hist_usercoursestatus.credit_points > 0
 			AND 
-				hist_usercoursestatus.end_date > '2013-12-31'
+				(hist_usercoursestatus.end_date > '2013-12-31' 
+					OR
+					(hist_course.type = 'Selbstlernkurs' 
+						AND 
+					hist_usercoursestatus.begin_date > '2013-12-31' 
+					)
+
+				)
 			";
 
 
