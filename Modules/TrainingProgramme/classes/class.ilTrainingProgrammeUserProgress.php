@@ -282,6 +282,25 @@ class ilTrainingProgrammeUserProgress {
 	}
 	
 	/**
+	 * Set the node to in progress.
+	 *
+	 * Throws when status is not ACCREDITED.
+	 *
+	 * @throws ilException
+	 * @return $this
+	 */
+	public function unmarkAccredited() {
+		if ($this->progress->getStatus() != ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+			throw new ilException("Expected status ACCREDITED.");
+		}
+		
+		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS)
+					   ->setCompletionBy(null)
+					   ->update();
+		return $this;
+	}
+	
+	/**
 	 * Set the node to be not relevant for the user.
 	 *
 	 * Throws when status is not IN_PROGRESS.
