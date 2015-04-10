@@ -105,6 +105,8 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 		$gevRoleUtils = gevRoleUtils::getInstance();
 		$set["roles"] = $gevRoleUtils->getGlobalRolesOf($user_id);
 		$set["roles"] = $gevRoleUtils->getGlobalRolesTitles($set["roles"]);
+		asort($set["roles"], SORT_NATURAL | SORT_FLAG_CASE);
+
 		$set["roles"] = implode(", ", $set["roles"]);
 		//gev-patch end
 		$set["user_object"] = $user;
