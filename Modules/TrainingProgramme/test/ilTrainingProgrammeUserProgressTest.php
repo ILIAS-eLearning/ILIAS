@@ -488,7 +488,7 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 
 		$progress = $this->node1->getProgressForAssignment($ass1->getId());
 		$progress->markNotRelevant($this->user->getId());
-		$this->assertFalse($progress->hasIndividualModifications());
+		$this->assertTrue($progress->hasIndividualModifications());
 	}
 
 	public function testHasDeviationToProgram4() {
