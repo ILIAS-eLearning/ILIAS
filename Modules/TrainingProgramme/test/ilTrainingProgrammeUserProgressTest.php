@@ -39,7 +39,7 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->node2->addLeaf($this->leaf2);
 		
 		global $tree;
-		$this->tree = $tree;
+		$this->tree = $tree;	
 		
 		global $ilUser;
 		$this->user = $ilUser;
@@ -212,9 +212,9 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertEquals(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT, $node2_progress->getStatus());
-		$this->assertEquals(null, $node2_progress->getCompletionBy());
+		$this->assertEquals($USER_ID, $node2_progress->getCompletionBy());
 		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
-		$this->assertFalse($node2_progress->hasIndividualModifications());
+		$this->assertTrue($node2_progress->hasIndividualModifications());
 	}
 	
 	// Neues Moduls: Wird dem Studierenden-Studierenden inkl. Kurse, Punkte als "Nicht relevant" hinzugefügt.
