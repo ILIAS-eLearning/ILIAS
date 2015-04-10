@@ -1382,7 +1382,7 @@ class gevCourseUtils {
 			if($zip) {
 				$loc .= '\n'.$zip;
 				if($city) {
-					$loc .= $city;
+					$loc .= " ".$city;
 				}
 			} else if($city) {
 					$loc .= '\n'.$city;
