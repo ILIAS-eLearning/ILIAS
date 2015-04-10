@@ -79,7 +79,7 @@ abstract class ilPageComponentPlugin extends ilPlugin
 	/**
 	 * Get Javascript files
 	 */
-	function getJavascripFiles()
+	function getJavascriptFiles()
 	{
 		return array();
 	}
