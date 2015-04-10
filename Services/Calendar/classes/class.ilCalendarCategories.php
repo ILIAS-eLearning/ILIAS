@@ -517,14 +517,16 @@ class ilCalendarCategories
 	 */
 	protected function readSelectedCalendar($a_cal_id)
 	{
-		$this->categories[] = $a_cal_id;
-		
 		include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
 		$cat = new ilCalendarCategory($a_cal_id);
 		if($cat->getType() == ilCalendarCategory::TYPE_OBJ)
 		{
 			$this->readSelectedCategories(array($cat->getObjId()));
 			$this->addSubitemCalendars();
+		}
+		else
+		{
+			$this->categories[] = $a_cal_id;
 		}
 	}
 	
@@ -861,7 +863,7 @@ class ilCalendarCategories
 		{
 			return true;
 		}
-
+		
 		$query = "SELECT * FROM cal_categories ".
 			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_OBJ ,'integer')." ".
 			"AND ".$ilDB->in('obj_id',$a_obj_ids,false,'integer')." ".
