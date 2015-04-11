@@ -223,6 +223,7 @@ if(!$ilDB->tableColumnExists('exc_assignment','peer_rating'))
 ?>
 <#16>
 <?php
+
 if(!$ilDB->tableColumnExists('exc_assignment','peer_crit_cat'))
 {
 	$ilDB->addTableColumn('exc_assignment', 'peer_crit_cat', array(
@@ -231,4 +232,5 @@ if(!$ilDB->tableColumnExists('exc_assignment','peer_crit_cat'))
 		'notnull' => false
 	));
 }
+
 ?>
