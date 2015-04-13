@@ -171,8 +171,8 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 						->join("hist_course crs")
 							->on("usrcrs.crs_id = crs.crs_id")
 
-						//->join("hist_user usr")
-						//	->on("usrcrs.usr_id = usr.user_id")
+						->join("hist_user usr")
+							->on("usrcrs.usr_id = usr.user_id")
 
 						->group_by("crs.template_title")
 						->compile()
@@ -252,6 +252,7 @@ $this->filter = catFilter::create()
 
 						->static_condition(" usrcrs.hist_historic = 0")
 						->static_condition(" crs.hist_historic = 0")
+						->static_condition(" usr.hist_historic = 0")
 					  
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
@@ -274,6 +275,7 @@ $this->filter = catFilter::create()
 	}
 
 	protected function renderView() {
+
 		$main_table = $this->renderTable();
 		return 	$this->renderSumTable()
 				.$main_table;

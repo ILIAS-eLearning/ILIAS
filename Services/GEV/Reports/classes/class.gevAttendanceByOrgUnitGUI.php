@@ -229,6 +229,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->multiselect("edu_program"
 									 , $this->lng->txt("gev_edu_program")
 									 , "edu_program"
+									 //, gevCourseUtils::getEduProgramsFromHisto()
 									 , gevCourseUtils::getEduProgramsFromHisto()
 									 , array()
 									 )

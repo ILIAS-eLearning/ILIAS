@@ -120,6 +120,7 @@ class gevWBDErrorsGUI extends catBasicReportGUI{
 									 , catFilter::getDistinctValues('internal', 'wbd_errors')
 									 , array()
 									 )
+/*
 						->multiselect("reason_full"
 									 , $this->lng->txt("gev_wbd_errors_reason_full")
 									 , "reason_full"
@@ -127,7 +128,7 @@ class gevWBDErrorsGUI extends catBasicReportGUI{
 									 , array()
 									 )
 
-
+*/
 
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()

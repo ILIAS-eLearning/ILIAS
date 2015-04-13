@@ -1774,8 +1774,9 @@ class gevUserUtils {
 			$ids[$key] = $ids[$key]["obj_id"];
 		}
 		
-		$res = $this->db->query( "SELECT title FROM object_data "
-								."WHERE ".$this->db->in("obj_id", $ids, false, "integer")
+		$res = $this->db->query( "SELECT title FROM object_data"
+								." WHERE ".$this->db->in("obj_id", $ids, false, "integer")
+								." ORDER BY title ASC"
 								);
 		$this->superior_ou_names = array();
 		while ($rec = $this->db->fetchAssoc($res)) {
