@@ -2109,7 +2109,8 @@ class gevCourseUtils {
 
 		global $ilDB;
 
-		$res = $ilDB->query("SELECT DISTINCT edu_program FROM hist_course WHERE edu_program != '-empty-' AND hist_historic = 0");
+		//$res = $ilDB->query("SELECT DISTINCT edu_program FROM hist_course WHERE edu_program != '-empty-' AND hist_historic = 0");
+		$res = $ilDB->query("SELECT DISTINCT edu_program FROM hist_course WHERE edu_program NOT IN ('-empty-', '') AND hist_historic = 0");
 		self::$hist_edu_programs = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {
 			self::$hist_edu_programs[] = $rec["edu_program"];
@@ -2126,7 +2127,8 @@ class gevCourseUtils {
 
 		global $ilDB;
 		
-		$res = $ilDB->query("SELECT DISTINCT type FROM hist_course WHERE type != '-empty-' AND hist_historic = 0");
+		//$res = $ilDB->query("SELECT DISTINCT type FROM hist_course WHERE type != '-empty-' AND hist_historic = 0");
+		$res = $ilDB->query("SELECT DISTINCT type FROM hist_course WHERE type NOT IN ('-empty-', '') AND hist_historic = 0");
 		self::$hist_course_types = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {
 			self::$hist_course_types[] = $rec["type"];
@@ -2144,7 +2146,8 @@ class gevCourseUtils {
 
 		global $ilDB;
 
-		$res = $ilDB->query("SELECT DISTINCT template_title FROM hist_course WHERE template_title != '-empty-' AND hist_historic = 0");
+		//$res = $ilDB->query("SELECT DISTINCT template_title FROM hist_course WHERE template_title != '-empty-' AND hist_historic = 0");
+		$res = $ilDB->query("SELECT DISTINCT template_title FROM hist_course WHERE template_title NOT IN  ('-empty-', '') AND hist_historic = 0");
 		self::$hist_course_template_title = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {
 			self::$hist_course_template_title[] = $rec["template_title"];

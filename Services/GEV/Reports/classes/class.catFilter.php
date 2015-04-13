@@ -362,14 +362,26 @@ class catFilter {
 
 
 
-	static function getDistinctValues($a_field, $a_table, $a_order='ASC') {
+	static function getDistinctValues($a_field, $a_table, $a_order='ASC', $a_showempty=false, $a_filter_historic=false) {
 		global $ilDB;
-		$sql = "SELECT DISTINCT $a_field FROM $a_table ORDER BY $a_field $a_order";
+		$where = "WHERE TRIM($a_field) NOT IN ('-empty-', '')"
+				." AND $a_field IS NOT NULL"
+				;
+		if ($a_showempty === true) {
+			$where = 'WHERE 1';
+		}
+		if ($a_filter_historic === true) {
+			$where .= ' AND hsit_historic=0';
+		}
+
+
+		$sql = "SELECT DISTINCT $a_field FROM $a_table $where ORDER BY $a_field $a_order";
 		$res = $ilDB->query($sql);
 		$ret = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {
 			$ret[] = $rec[$a_field];
 		}
+
 		return $ret;
 	}
 
