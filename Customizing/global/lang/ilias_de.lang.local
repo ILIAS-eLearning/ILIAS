@@ -1056,6 +1056,7 @@ gev#:#begin_date#:#Startdatum
 gev#:#end_date#:#Enddatum
 gev#:#wbd_booking_id#:#GDV Buchungs-ID
 gev#:#wbd_service_type#:#Service-Typ
+gev#:#filter_wbd_service_type#:#(aktueller) Service-Typ
 gev#:#gev_report_wbd_edupoints#:#Gemeldete Bildungspunkte
 gev#:#gev_rep_wbd_edupoints#:#Gemeldete Bildungspunkte
 gev#:#gev_rep_wbd_edupoints_desc#:#Die folgenden Benutzer/Trainingsbeziehungen wurden an die WBD gemeldet.
