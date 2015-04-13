@@ -15601,6 +15601,9 @@ prg#:#prg_show_individual_plan#:#Show individual Plan
 prg#:#prg_remove_user#:#Remove User
 prg#:#prg_mark_accredited#:#Mark Accredited
 prg#:#prg_unmark_accredited#:#Unmark Accredited
+prg#:#prg_mark_accredited_success#:#Accredited Program Node for User successfully.
+prg#:#prg_unmark_accredited_success#:#Unaccredited Program Node for User successfully.
+prg#:#prg_remove_user_success#:#Removed User successfully.
 prg#:#prg_type_add#:#TrainingProgramme Type
 prg#:#prg_subtypes#:#Subtypes
 prg#:#prg_subtype_add#:#Add new subtype
