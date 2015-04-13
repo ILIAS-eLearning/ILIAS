@@ -92,13 +92,16 @@ class gevWBDEdupointsReportedGUI extends catBasicReportGUI{
 									)
 */
 						->multiselect("wbd_type"
-									 , $this->lng->txt("wbd_service_type")
+									 , $this->lng->txt("filter_wbd_service_type")
 									 , "wbd_type"
 									 , catFilter::getDistinctValues('wbd_type', 'hist_user')
 									 , array()
 									 )
 
-
+						->textinput( "lastname"
+								   , $this->lng->txt("gev_lastname_filter")
+								   , "usr.lastname"
+								   )
 
 						->static_condition(" usrcrs.hist_historic = 0")
 						->static_condition(" usrcrs.wbd_booking_id IS NOT NULL")
