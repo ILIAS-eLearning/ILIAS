@@ -98,8 +98,7 @@ class ilObjTrainingProgrammeMembersGUI {
 				$this->ctrl->setReturn($this, "view");
 				$this->ctrl->forwardCommand($rep_search);
 				break;
-			
-			case "iltrainingprogrammindividualplangui":
+			case "ilobjtrainingprogrammeindividualplangui":
 				die("here");
 			case false:
 				switch ($cmd) {
