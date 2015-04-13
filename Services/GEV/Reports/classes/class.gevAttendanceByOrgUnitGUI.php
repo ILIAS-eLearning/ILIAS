@@ -359,11 +359,9 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 		$table->setMaxCount($cnt);
 
 		if(count($this->summed_data) == 0) {
-			
 			foreach(array_keys($this->table_sums->columns) as $field) {
 				$this->summed_data[$field] = 0;
 			}
-
 		}
 
 		$table->setData(array($this->summed_data));
