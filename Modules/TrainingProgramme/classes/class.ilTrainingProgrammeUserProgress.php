@@ -186,6 +186,24 @@ class ilTrainingProgrammeUserProgress {
 	}
 	
 	/**
+	 * Get the id of the progress.
+	 *
+	 * @return int
+	 */
+	public function getId() {
+		return $this->progress->getId();
+	}
+	
+	/**
+	 * Get the id of the program node the progress belongs to.
+	 *
+	 * @return int
+	 */
+	public function getNodeId() {
+		return $this->progress->getNodeId();
+	}
+	
+	/**
 	 * Get the id of the user who is assigned.
 	 *
 	 * @return int
