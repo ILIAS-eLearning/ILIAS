@@ -9,6 +9,7 @@
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
  * @ilCtrl_Calls ilObjTrainingProgrammeMembersGUI: ilRepositorySearchGUI
+ * @ilCtrl_Calls ilObjTrainingProgrammeMembersGUI: ilObjTrainingProgrammeIndividualPlanGUI
  */
 
 class ilObjTrainingProgrammeMembersGUI {
@@ -98,6 +99,8 @@ class ilObjTrainingProgrammeMembersGUI {
 				$this->ctrl->forwardCommand($rep_search);
 				break;
 			
+			case "iltrainingprogrammindividualplangui":
+				die("here");
 			case false:
 				switch ($cmd) {
 					case "view":
@@ -141,7 +144,7 @@ class ilObjTrainingProgrammeMembersGUI {
 		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
 		$prgrs = $this->getProgressObject();
 		$prgrs->markAccredited($this->user->getId());
-		$this->showSuccessMessage("mark_accreditted_success");
+		$this->showSuccessMessage("mark_accredited_success");
 		$this->ctrl->redirect($this, "view");
 	}
 	
@@ -149,7 +152,7 @@ class ilObjTrainingProgrammeMembersGUI {
 		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
 		$prgrs = $this->getProgressObject();
 		$prgrs->unmarkAccredited();
-		$this->showSuccessMessage("unmark_accreditted_success");
+		$this->showSuccessMessage("unmark_accredited_success");
 		$this->ctrl->redirect($this, "view");
 	}
 	
@@ -162,15 +165,16 @@ class ilObjTrainingProgrammeMembersGUI {
 			throw new ilException("Can only remove users from the node they where assigned to.");
 		}
 		$ass->remove();
+		$this->showSuccessMessage("remove_user_success");
 		$this->ctrl->redirect($this, "view");
 	}
 	
 	protected function getProgressObject() {
 		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
-		if (!is_numeric($_GET["prgs_id"])) {
-			throw new ilException("Expected integer 'prgs_id'");
+		if (!is_numeric($_GET["prgrs_id"])) {
+			throw new ilException("Expected integer 'prgrs_id'");
 		}
-		$id = (int)$_GET["prgs_id"];
+		$id = (int)$_GET["prgrs_id"];
 		return ilTrainingProgrammeUserProgress::getInstanceById($id);
 	}
 	
@@ -197,6 +201,13 @@ class ilObjTrainingProgrammeMembersGUI {
 		return ilObjTrainingProgramme::getInstanceByRefId($this->ref_id);
 	}
 	
+	/**
+	 * Get the link target for an action on user progress.
+	 * 
+	 * @param	int		$a_action		One of ilTrainingProgrammeUserProgress::ACTION_*
+	 * @param	int		$a_prgrs_id		Id of the progress object to act on.
+	 * @return	string					The link to the action.
+	 */
 	public function getLinkTargetForAction($a_action, $a_prgrs_id) {
 		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
 		
@@ -208,8 +219,11 @@ class ilObjTrainingProgrammeMembersGUI {
 				$target_name = "unmarkAccredited";
 				break;
 			case ilTrainingProgrammeUserProgress::ACTION_SHOW_INDIVIDUAL_PLAN:
-				$target_name = "showIndividualPlan";
-				break;
+				$cl = "ilObjTrainingProgrammeIndividualPlanGUI";
+				$this->ctrl->setParameterByClass($cl, "prgrs_id", $a_prgrs_id);
+				$link = $this->ctrl->getLinkTargetByClass($cl, "view");
+				$this->ctrl->setParameter($cl, "prgrs_id", null);
+				return $link;
 			case ilTrainingProgrammeUserProgress::ACTION_REMOVE_USER:
 				$target_name = "removeUser";
 				break;
@@ -217,9 +231,9 @@ class ilObjTrainingProgrammeMembersGUI {
 				throw new ilException("Unknown action: $action");
 		}
 		
-		$this->ctrl->setParameter($this, "prgs_id", $a_prgrs_id);
+		$this->ctrl->setParameter($this, "prgrs_id", $a_prgrs_id);
 		$link = $this->ctrl->getLinkTarget($this, $target_name);
-		$this->ctrl->setParameter($this, "prgs_id", null);
+		$this->ctrl->setParameter($this, "prgrs_id", null);
 		return $link;
 	}
 }
