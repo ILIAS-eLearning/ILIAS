@@ -50,6 +50,7 @@ class wbdErrorLog {
 
 			'dates implausible: begin > end',
 			'mandatory field missing: study_content',
+			'mandatory field missing: study_type_selection',
 		),
 
 		'TOO_OLD' => array( //separate this for easier filtering
@@ -142,8 +143,8 @@ class wbdErrorLog {
 			) {
 
 				//check both for now...
-				if ($this->startsWith($reason_str, $entry['beginswith']) &&
-					$this->endsWith($reason_str, $entry['endswith']) ) {
+				if ($this->startsWith(trim($reason_str), $entry['beginswith']) &&
+					$this->endsWith(trim($reason_str), $entry['endswith']) ) {
 
 					return $err;
 				}
