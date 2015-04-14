@@ -24,11 +24,16 @@ class wbdErrorLog {
 		//'-undefined-' => '#this_string_must_not_be_contained_in_any_errormsg#',
 		'USER_EXISTS' => 'Der Benutzer wurde bereits angelegt:',
 		'USER_EXISTS_TP' => 'Der Benutzer wurde von einem anderen TP angelegt:',
-		'USER_DEACTIVATED' => 'Der Vermittler ist deaktiviert.',
+		
 		'USER_UNKNOWN' => 'Die VermittlerID ist nicht vorhanden.',
 		'USER_DIFFERENT_TP' => array(
 			'beginswith'=>'Der TP 95473000 ist dem Vermittler',
 			'endswith'=>'nicht zugeordnet',
+		),		
+		'USER_DEACTIVATED' => array(
+			'Der Vermittler ist deaktiviert.',
+			'\'ist deaktiviert',
+
 		),
 
 		'USER_SERVICETYPE' => array(
@@ -138,6 +143,8 @@ class wbdErrorLog {
 	private function wbdError_getReason($reason_str) {
 		foreach(self::$WBDERRORS as $err=>$entry) {
 
+			$entry = (array) $entry;
+			
 			if (array_key_exists('beginswith', $entry) || 
 				array_key_exists('endswith', $entry)
 			) {
@@ -151,7 +158,6 @@ class wbdErrorLog {
 
 			} else {
 
-				$entry = (array) $entry;
 				foreach ($entry as  $full_err) {
 					if (strpos($reason_str, $full_err) !== false){
 						return $err;
