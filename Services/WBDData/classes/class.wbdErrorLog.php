@@ -32,7 +32,7 @@ class wbdErrorLog {
 		),		
 		'USER_DEACTIVATED' => array(
 			'Der Vermittler ist deaktiviert.',
-			'\'ist deaktiviert',
+			"' ist deaktiviert",
 
 		),
 
@@ -60,6 +60,7 @@ class wbdErrorLog {
 
 		'TOO_OLD' => array( //separate this for easier filtering
 			'date older than one year',
+			'liegt vor dem ersten gültigen Meldungsdatum (Sep 1, 2013)'
 		)
 	);
 
@@ -144,7 +145,7 @@ class wbdErrorLog {
 		foreach(self::$WBDERRORS as $err=>$entry) {
 
 			$entry = (array) $entry;
-			
+
 			if (array_key_exists('beginswith', $entry) || 
 				array_key_exists('endswith', $entry)
 			) {
