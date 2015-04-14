@@ -92,7 +92,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		parent::__construct();
 		
 		require_once("./Services/WBDData/classes/class.wbdErrorLog.php");
-		wbdErrorLog::__install__();
+		wbdErrorLog::_install();
 	}
 
 
