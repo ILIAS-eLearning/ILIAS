@@ -26,6 +26,10 @@ class wbdErrorLog {
 		'USER_EXISTS_TP' => 'Der Benutzer wurde von einem anderen TP angelegt:',
 		'USER_DEACTIVATED' => 'Der Vermittler ist deaktiviert.',
 		'USER_UNKNOWN' => 'Die VermittlerID ist nicht vorhanden.',
+		'USER_DIFFERENT_TP' => array(
+			'beginswith'=>'Der TP 95473000 ist dem Vermittler',
+			'endswith'=>'nicht zugeordnet',
+		),
 
 		'USER_SERVICETYPE' => array(
 			'nicht zugeordnet. VV-Selbstverwalter'
@@ -105,6 +109,21 @@ class wbdErrorLog {
 	}
 
 
+	private	function startsWith($haystack, $needle) {
+	     $length = strlen($needle);
+	     return (substr($haystack, 0, $length) === $needle);
+	}
+
+	private function endsWith($haystack, $needle) {
+	    $length = strlen($needle);
+	    if ($length == 0) {
+	        return true;
+	    }
+
+	    return (substr($haystack, -$length) === $needle);
+	}
+
+
 	private function wbdError_parseReason($reason_xml) {
 		$spos = strpos($reason_xml,'<faultstring>') + strlen('<faultstring>');
 		$epos = strpos($reason_xml,'</faultstring>');
@@ -118,12 +137,27 @@ class wbdErrorLog {
 	private function wbdError_getReason($reason_str) {
 		foreach(self::$WBDERRORS as $err=>$entry) {
 
-			$entry = (array) $entry;
-			foreach ($entry as  $full_err) {
-				if (strpos($reason_str, $full_err) !== false){
+			if (array_key_exists('beginswith', $entry) || 
+				array_key_exists('endswith', $entry)
+			) {
+
+				//check both for now...
+				if ($this->startsWith($reason_str, $entry['beginswith']) &&
+					$this->endsWith($reason_str, $entry['endswith']) ) {
+
 					return $err;
 				}
+
+			} else {
+
+				$entry = (array) $entry;
+				foreach ($entry as  $full_err) {
+					if (strpos($reason_str, $full_err) !== false){
+						return $err;
+					}
+				}
 			}
+
 		}
 		return '-undefined-';
 	}
