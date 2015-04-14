@@ -14,8 +14,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * @defgroup ModulesTest Modules/Test
 * @extends ilObject
 */
-class
-ilObjTest extends ilObject
+class ilObjTest extends ilObject
 {
 	#region Properties
 	
@@ -6850,6 +6849,8 @@ function getAnswerFeedbackPoints()
 		$newObj->setAnswerFeedback($this->getAnswerFeedback());
 		$newObj->setAnswerFeedbackPoints($this->getAnswerFeedbackPoints());
 		$newObj->setAuthor($this->getAuthor());
+		$newObj->setAllowedUsers($this->getAllowedUsers());
+		$newObj->setAllowedUsersTimeGap($this->getAllowedUsersTimeGap());
 		$newObj->setCountSystem($this->getCountSystem());
 		$newObj->setECTSFX($this->getECTSFX());
 		$newObj->setECTSGrades($this->getECTSGrades());
@@ -9447,7 +9448,36 @@ function getAnswerFeedbackPoints()
 			'show_examview_html' => $this->getShowExamviewHtml(),
 			'show_examview_pdf' => $this->getShowExamviewPdf(),
 			'char_selector_availability' => $this->getCharSelectorAvailability(),
-			'char_selector_definition' => $this->getCharSelectorDefinition()
+			'char_selector_definition' => $this->getCharSelectorDefinition(),
+			'redirection_mode'        => $this->getRedirectionMode(),
+			'redirection_url'         => $this->getRedirectionUrl(),
+			'sign_submission'         => $this->getSignSubmission(),
+			'autosave'              => (int)$this->getAutosave(),
+			'autosave_ival'         => (int)$this->getAutosaveIval(),
+			'examid_in_test_pass'     => (int)$this->isShowExamIdInTestPassEnabled(),
+			'examid_in_test_res'      => (int)$this->isShowExamIdInTestResultsEnabled(),
+			
+			'enable_archiving'        => (int)$this->getEnableArchiving(),
+			'password'                => (string)$this->getPassword(),
+			'fixed_participants'    => $this->getFixedParticipants(),
+			'allowedusers'          => $this->getAllowedUsers(),
+			'alloweduserstimegap'   => $this->getAllowedUsersTimeGap(),
+			'pool_usage'			=> $this->getPoolUsage(),
+			'activation_limited'	=> $this->isActivationLimited(),
+			'activation_start_time' => $this->getActivationStartingTime(),
+			'activation_end_time'	=> $this->getActivationEndingTime(),
+			'activation_visibility' => $this->getActivationVisibility(),
+			'highscore_enabled'       => $this->getHighscoreEnabled(),
+			'highscore_anon'          => $this->getHighscoreAnon(),
+			'highscore_achieved_ts'   => $this->getHighscoreAchievedTS(),
+			'highscore_score'         => $this->getHighscoreScore(),
+			'highscore_percentage'    => $this->getHighscorePercentage(),
+			'highscore_hints'         => $this->getHighscoreHints(),
+			'highscore_wtime'         => $this->getHighscoreWTime(),
+			'highscore_own_table'     => $this->getHighscoreOwnTable(),
+			'highscore_top_table'     => $this->getHighscoreTopTable(),
+			'highscore_top_num'       => $this->getHighscoreTopNum(),
+			'use_previous_answers' => (string)$this->getUsePreviousAnswers()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
 		$ilDB->insert(
@@ -9568,6 +9598,24 @@ function getAnswerFeedbackPoints()
 		$this->setSignSubmission($testsettings['sign_submission']);
 		$this->setCharSelectorAvailability($testsettings['char_selector_availability']);
 		$this->setCharSelectorDefinition($testsettings['char_selector_definition']);
+
+		$this->setRedirectionMode($testsettings['redirection_mode']);
+		$this->setRedirectionUrl($testsettings['redirection_url']);
+
+		$this->setAutosave($testsettings['autosave']);
+		$this->setAutosaveIval($testsettings['autosave_ival']);
+		$this->setShowExamIdInTestResultsEnabled((int)$testsettings['examid_in_test_res']);
+		$this->setPassword($testsettings['password']);
+		$this->setFixedParticipants($testsettings['fixed_participants']	);
+		$this->setAllowedUsers($testsettings['allowedusers']);
+		$this->setAllowedUsersTimeGap($testsettings['alloweduserstimegap']);
+		$this->setUsePreviousAnswers($testsettings['use_previous_answers']);
+		$this->setPoolUsage($testsettings['pool_usage']);
+		$this->setActivationLimited($testsettings['activation_limited']);
+		$this->setActivationStartingTime($testsettings['activation_start_time']);
+		$this->setActivationEndingTime($testsettings['activation_end_time']);
+		$this->setActivationVisibility($testsettings['activation_visibility']);
+		
 		$this->saveToDb();
 
 		return true;
