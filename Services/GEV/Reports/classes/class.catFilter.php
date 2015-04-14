@@ -276,18 +276,20 @@ class catFilter {
 			$postvar = $this->getPostVar($conf);
 			$type = $this->getType($conf);
 			$type_id = $type->getId();
-
+			
 			$_tpl = new ilTemplate( "tpl.cat_filter_".$type_id.".html", true, true, "Services/GEV/Reports"
 								  , array("POST_VAR" => $postvar));
 			if($type->render($_tpl, $postvar, $conf, $this->getParameters($conf))) {
 				$tpl->setCurrentBlock($type_id);
 				$_tpl->setVariable("POST_VAR", $postvar);
 				$tpl->setVariable("FILTER_ITEM", $_tpl->get());
+				$tpl->setVariable("CSSID", $this->getName($conf));
 				$tpl->parseCurrentBlock();
 			}
 		}
 		
 		$tpl->setVariable("POST_VAR_PREFIX", $this->post_var_prefix);
+		
 		$tpl->setVariable("ACTION", $this->action);
 		$tpl->setVariable("FILTER", $this->action_title);
 		

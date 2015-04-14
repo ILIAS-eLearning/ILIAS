@@ -257,6 +257,12 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									 , catFilter::getDistinctValues('booking_status', 'hist_usercoursestatus')
 									 , array()
 									 )
+						->multiselect("gender"
+									 , $this->lng->txt("gender")
+									 , "gender"
+									 , array('f', 'm')
+									 , array()
+									 )
 						->multiselect("venue"
 									 , $this->lng->txt("gev_venue")
 									 , "venue"
@@ -270,12 +276,6 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									 , array()
 									 )
 
-						->multiselect("gender"
-									 , $this->lng->txt("gender")
-									 , "gender"
-									 , array('f', 'm')
-									 , array()
-									 )
 
 
 
