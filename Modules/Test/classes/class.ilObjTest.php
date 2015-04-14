@@ -7177,6 +7177,8 @@ function getAnswerFeedbackPoints()
 		$newObj->setAnswerFeedback($this->getAnswerFeedback());
 		$newObj->setAnswerFeedbackPoints($this->getAnswerFeedbackPoints());
 		$newObj->setAuthor($this->getAuthor());
+		$newObj->setAllowedUsers($this->getAllowedUsers());
+		$newObj->setAllowedUsersTimeGap($this->getAllowedUsersTimeGap());
 		$newObj->setCountSystem($this->getCountSystem());
 		$newObj->setECTSFX($this->getECTSFX());
 		$newObj->setECTSGrades($this->getECTSGrades());
@@ -9758,7 +9760,24 @@ function getAnswerFeedbackPoints()
 			"ListOfQuestionsSettings" => $this->getListOfQuestionsSettings(),
 			'obligations_enabled' => (int)$this->areObligationsEnabled(),
 			'offer_question_hints' => (int)$this->isOfferingQuestionHintsEnabled(),
-			'pass_deletion_allowed' => (int)$this->isPassDeletionAllowed()
+			'pass_deletion_allowed' => (int)$this->isPassDeletionAllowed(),
+			'autosave'              => (int)$this->getAutosave(),
+			'autosave_ival'         => (int)$this->getAutosaveIval(),
+			'fixed_participants'    => $this->getFixedParticipants(),
+			'allowedusers'          => $this->getAllowedUsers(),
+			'alloweduserstimegap'   => $this->getAllowedUsersTimeGap(),
+
+			'highscore_enabled'     => $this->getHighscoreEnabled(),
+			'highscore_anon'        => $this->getHighscoreAnon(),
+			'highscore_achieved_ts' => $this->getHighscoreAchievedTS(),
+			'highscore_score'       => $this->getHighscoreScore(),
+			'highscore_percentage'  => $this->getHighscorePercentage(),
+			'highscore_hints'       => $this->getHighscoreHints(),
+			'highscore_wtime'       => $this->getHighscoreWTime(),
+			'highscore_own_table'   => $this->getHighscoreOwnTable(),
+			'highscore_top_table'   => $this->getHighscoreTopTable(),
+			'highscore_top_num'     => $this->getHighscoreTopNum(),
+			'password'              => $this->getPassword()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_defaults (test_defaults_id, name, user_fi, defaults, marks, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -9835,6 +9854,12 @@ function getAnswerFeedbackPoints()
 		$this->setHighscoreTopNum($testsettings['highscore_top_num']);
 		$this->setPassDeletionAllowed($testsettings['pass_deletion_allowed']);
 
+		$this->setAutosave($testsettings['autosave']);
+		$this->setAutosaveIval($testsettings['autosave_ival']);
+		$this->setFixedParticipants($testsettings['fixed_participants']	);
+		$this->setAllowedUsers($testsettings['allowedusers']);
+		$this->setAllowedUsersTimeGap($testsettings['alloweduserstimegap']);
+		$this->setPassword($testsettings['password']);
 		$this->saveToDb();
 
 		return true;
