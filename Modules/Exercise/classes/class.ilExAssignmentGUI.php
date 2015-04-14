@@ -40,6 +40,7 @@ class ilExAssignmentGUI
 				ilDatePresentation::formatDate(new ilDateTime($a_data["deadline"],IL_CAL_UNIX)));
 			$tpl->parseCurrentBlock();
 			
+			// #14077
 			if($a_data["peer"] && $a_data["peer_dl"])
 			{
 				$tpl->setCurrentBlock("prop");
