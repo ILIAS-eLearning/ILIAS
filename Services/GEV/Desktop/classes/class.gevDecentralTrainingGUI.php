@@ -235,10 +235,13 @@ class gevDecentralTrainingGUI {
 		require_once("Services/Calendar/classes/class.ilDate.php");
 		$crs_utils = gevCourseUtils::getInstance($a_obj_id);
 		$crs = $crs_utils->getCourse();
-		$mail_settings = new gevCrsAdditionalMailSettings($a_obj_id);
+		
+		$tep_orgu_id = $a_form->getInput("orgu_id");
+		$crs_utils->setTEPOrguId($tep_orgu_id ? $tep_orgu_id : null);
 		
 		if ($crs_utils->isFinalized()) {
-			throw new Exception("gevDecentralTrainingGUI::updateSettingsFromForm: not update allowed, mail cron job already ran.");
+			return;
+			throw new Exception("gevDecentralTrainingGUI::updateSettingsFromForm: Training already finalized.");
 		}
 		
 		$crs->setDescription($a_form->getInput("description"));
@@ -266,9 +269,7 @@ class gevDecentralTrainingGUI {
 			$crs_utils->setWebExPassword($password ? $password : " ");
 		}
 		
-		$tep_orgu_id = $a_form->getInput("orgu_id");
-		$crs_utils->setTEPOrguId($tep_orgu_id ? $tep_orgu_id : null);
-		
+		$mail_settings = new gevCrsAdditionalMailSettings($a_obj_id);
 		if (!$mail_settings->getSuppressMails()) {
 			$mail_settings->setSuppressMails($a_form->getInput("suppress_mails"));
 			$mail_settings->save();
