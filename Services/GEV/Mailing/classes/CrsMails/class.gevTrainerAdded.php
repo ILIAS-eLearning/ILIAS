@@ -57,7 +57,7 @@ class gevTrainerAdded extends gevCrsAutoMail {
 
 
 
-		public function getAttachmentsForMail() {
+	public function getAttachmentsForMail() {
 		require_once ("Services/GEV/Mailing/classes/class.gevCrsMailAttachments.php");
 
 		$ical = gevCrsMailAttachments::ICAL_ENTRY;
