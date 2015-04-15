@@ -106,7 +106,7 @@ class ilTrainingProgrammeUserAssignment {
 	 * @return int
 	 */
 	public function getUserId() {
-		$this->assignment->getUserId();
+		return $this->assignment->getUserId();
 	}
 	
 	/**
