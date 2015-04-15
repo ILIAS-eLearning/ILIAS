@@ -103,8 +103,7 @@ class ilObjTrainingProgrammeMembersGUI {
 				return;
 			case "ilobjtrainingprogrammeindividualplangui":
 				require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeIndividualPlanGUI.php");
-				$individual_plan_gui = new ilObjTrainingProgrammeIndividualPlanGUI( $this, $this->ref_id
-																				  , $this->getProgressObject());
+				$individual_plan_gui = new ilObjTrainingProgrammeIndividualPlanGUI( $this, $this->ref_id);
 				$this->ctrl->forwardCommand($individual_plan_gui);
 				return;
 			case false:
@@ -215,9 +214,10 @@ class ilObjTrainingProgrammeMembersGUI {
 	 * 
 	 * @param	int		$a_action		One of ilTrainingProgrammeUserProgress::ACTION_*
 	 * @param	int		$a_prgrs_id		Id of the progress object to act on.
+	 * @param	int		$a_ass_id		Id of the assignment object to act on.
 	 * @return	string					The link to the action.
 	 */
-	public function getLinkTargetForAction($a_action, $a_prgrs_id) {
+	public function getLinkTargetForAction($a_action, $a_prgrs_id, $a_ass_id) {
 		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
 		
 		switch ($a_action) {
@@ -229,7 +229,7 @@ class ilObjTrainingProgrammeMembersGUI {
 				break;
 			case ilTrainingProgrammeUserProgress::ACTION_SHOW_INDIVIDUAL_PLAN:
 				require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeIndividualPlanGUI.php");
-				return ilObjTrainingProgrammeIndividualPlanGUI::getLinkTargetView($this->ctrl, $a_prgrs_id);
+				return ilObjTrainingProgrammeIndividualPlanGUI::getLinkTargetView($this->ctrl, $a_ass_id);
 			case ilTrainingProgrammeUserProgress::ACTION_REMOVE_USER:
 				$target_name = "removeUser";
 				break;

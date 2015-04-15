@@ -57,7 +57,7 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 
 	protected $parent_gui;
 
-	public function __construct($a_parent_gui, $a_ref_id, ilTrainingProgrammeUserProgress $a_prgrs) {
+	public function __construct($a_parent_gui, $a_ref_id) {
 		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias, $ilUser;
 
 		$this->ref_id = $a_ref_id;
@@ -72,8 +72,7 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		$this->ilias = $ilias;
 		$this->lng = $lng;
 		$this->user = $ilUser;
-		$this->progress_object = $a_prgrs;
-		$this->user_of_progress = null;
+		$this->assignment_object = null;
 		
 		$this->object = null;
 
@@ -102,21 +101,16 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		$this->tpl->setContent($cont);
 	}
 	
-	protected function getProgressObject() {
-		return $this->progress_object;
-	}
-	
-	protected function getUserOfProgress() {
-		if ($this->user_of_progress === null) {
-			$prgrs = $this->getProgressObject();
-			$this->user_of_progress = new ilObjUser($prgrs->getUserId());
+	protected function getAssignmentObject() {
+		if ($this->assignment_object === null) {
+			require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
+			if (!is_numeric($_GET["ass_id"])) {
+				throw new ilException("Expected integer 'ass_id'");
+			}
+			$id = (int)$_GET["ass_id"];
+			$this->assignment_object = ilTrainingProgrammeUserAssignment::getInstance($id);
 		}
-		
-		return $this->user_of_progress;
-	}
-	
-	protected function getAssignmentOfProgress() {
-		return $this->getProgressObject()->getAssignment();
+		return $this->assignment_object;
 	}
 	
 	protected function view() {
@@ -125,19 +119,19 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 
 	protected function manage() {
 		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeIndividualPlanTableGUI.php");
-		$table = new ilTrainingProgrammeIndividualPlanTableGUI($this, $this->getAssignmentOfProgress());
+		$table = new ilTrainingProgrammeIndividualPlanTableGUI($this, $this->getAssignmentObject());
 		return $this->buildFrame("manage", $table->getHTML());
 	}
 	
 	protected function buildFrame($tab, $content) {
 		$tpl = new ilTemplate("tpl.indivdual_plan_frame.html", true, true, "Modules/TrainingProgramme");
-		$prgrs = $this->getProgressObject();
+		$ass = $this->getAssignmentObject();
 		
-		$tpl->setVariable("USERNAME", ilObjUser::_lookupFullname($prgrs->getUserId()));
+		$tpl->setVariable("USERNAME", ilObjUser::_lookupFullname($ass->getUserId()));
 		foreach (array("view", "manage") as $_tab) {
 			$tpl->setCurrentBlock("sub_tab");
 			$tpl->setVariable("CLASS", $_tab == $tab ? "active" : "");
-			$tpl->setVariable("LINK", $this->getLinkTargetForSubTab($_tab, $prgrs->getId()));
+			$tpl->setVariable("LINK", $this->getLinkTargetForSubTab($_tab, $ass->getId()));
 			$tpl->setVariable("TITLE", $this->lng->txt("prg_$_tab"));
 			$tpl->parseCurrentBlock();
 		}
@@ -146,28 +140,30 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		return $tpl->get();
 	}
 	
-	public function getLinkTargetForSubTab($a_tab, $a_prgrs_id) {
-		$this->ctrl->setParameter($this, "prgrs_id", $a_prgrs_id);
+	protected function getLinkTargetForSubTab($a_tab, $a_ass_id) {
+		$this->ctrl->setParameter($this, "ass_id", $a_ass_id);
 		$lnk = $this->ctrl->getLinkTarget($this, $a_tab);
-		$this->ctrl->setParameter($this, "prgrs_id", null);
+		$this->ctrl->setParameter($this, "ass_id", null);
 		return $lnk;
 	}
 	
 	public function appendIndividualPlanActions(ilTable2GUI $a_table) {
+		$this->ctrl->setParameter($this, "ass_id", $this->getAssignmentObject()->getId());
 		$a_table->setFormAction($this->ctrl->getFormAction($this));
 		$a_table->addCommandButton("updateFromCurrentPlan", $this->lng->txt("prg_update_from_current_plan"));
 		$a_table->addCommandButton("updateFromInput", $this->lng->txt("save"));
+		$this->ctrl->setParameter($this, "ass_id", null);
 	}
 	
 	public function getManualStatusPostVarTitle() {
 		return "status";
 	}
 	
-	static public function getLinkTargetView($ctrl, $a_prgrs_id) {
+	static public function getLinkTargetView($ctrl, $a_ass_id) {
 		$cl = "ilObjTrainingProgrammeIndividualPlanGUI";
-		$ctrl->setParameterByClass($cl, "prgrs_id", $a_prgrs_id);
+		$ctrl->setParameterByClass($cl, "ass_id", $a_ass_id);
 		$link = $ctrl->getLinkTargetByClass($cl, "view");
-		$ctrl->setParameter($cl, "prgrs_id", null);
+		$ctrl->setParameter($cl, "ass_id", null);
 		return $link;
 	}
 }
