@@ -58,18 +58,18 @@ class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$this->setMaxCount(count($plan));
 		$this->setData($plan);
 	}
-
+	
 	protected function fillRow($a_set) {
-		$this->tpl->setVariable("STATUS", $a_set["status"]);
+		$this->tpl->setVariable("STATUS", ilTrainingProgrammeUserProgress::statusToRepr($a_set["status"]));
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
 		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points_required"]);
-		$this->tpl->setVariable("MANUAL_STATUS", $a_set["manual_status"]);
+		$this->tpl->setVariable("MANUAL_STATUS", $this->getManualStatusCheckbox($a_set["progress_id"], $a_set["status"]));
 		$this->tpl->setVariable("NOT_POSSIBLE", $a_set["not_possible"]);
 		$this->tpl->setVariable("CHANGED_BY", $a_set["changed_by"]);
 		$this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
 	}
-
+	
 	protected function fetchData() {
 		$prg = $this->assignment->getTrainingProgramme();
 		$prg_id = $prg->getId();
@@ -84,19 +84,46 @@ class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 				$completion_by = ilObjUser::_lookupLogin($completion_by_id);
 				if (!$completion_by) {
 					$completion_by = ilObject::_lookupTitle($completion_by_id);
-				}
+				}	
 			}
-			$plan[] = array( "status" => ilTrainingProgrammeUserProgress::statusToRepr($progress->getStatus())
+			$plan[] = array( "status" => $progress->getStatus()
 						   , "title" => $node->getTitle()
 						   , "points_current" => $progress->getCurrentAmountOfPoints()
 						   , "points_required" => $progress->getAmountOfPoints()
 						   , "not_possible" => !$progress->canBeCompleted()
 						   , "changed_by" => ilObjUser::_lookupLogin($progress->getLastChangeBy())
-						   , "manual_status" => $progress->getId()
 						   , "completion_by" => $completion_by
+						   , "progress_id" => $progress->getId()
 						   );
 		});
 		return $plan;
+	}
+	
+	const MANUAL_STATUS_NONE = 0;
+	const MANUAL_STATUS_NOT_RELEVANT = 1;
+	const MANUAL_STATUS_ACCREDITED = 2;
+	
+	
+	protected function getManualStatusCheckbox($a_progress_id, $a_status) {
+		if ($a_status == ilTrainingProgrammeProgress::STATUS_COMPLETED) {
+			return "";
+		}
+		
+		require_once("Services/Form/classes/class.ilSelectInputGUI.php");
+		$select = new ilSelectInputGUI("", "status[$a_progress_id]");
+		$select->setOptions(array
+			( self::MANUAL_STATUS_NONE => "-"
+			, self::MANUAL_STATUS_ACCREDITED => $this->lng->txt("prg_status_accredited")
+			, self::MANUAL_STATUS_NOT_RELEVANT => $this->lng->txt("prg_status_not_relevant")
+			));
+		if ($a_status == ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
+			$select->setValue(self::MANUAL_STATUS_NOT_RELEVANT);
+		}
+		else if ($a_status == ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+			$select->setValue(self::MANUAL_STATUS_ACCREDITED);
+		}
+		
+		return $select->render();
 	}
 }
 
