@@ -644,18 +644,25 @@ class ilECSSettingsGUI
 		$servers->readInactiveServers();
 		foreach($servers->getServers() as $server)
 		{
-			$creader = ilECSCommunityReader::getInstanceByServerId($server->getServerId());
 			
 			// read community
-			foreach(ilECSParticipantSettings::getAvailabeMids($server->getServerId()) as $mid)
-			{
-				if(!$creader->getParticipantByMID($mid))
+			try {
+				
+				$creader = ilECSCommunityReader::getInstanceByServerId($server->getServerId());
+				foreach(ilECSParticipantSettings::getAvailabeMids($server->getServerId()) as $mid)
 				{
-					$GLOBALS['ilLog']->write(__METHOD__.': Deleting deprecated participant '. $server->getServerId().' '. $mid);
-					
-					$part = new ilECSParticipantSetting($server->getServerId(),$mid);
-					$part->delete();
+					if(!$creader->getParticipantByMID($mid))
+					{
+						$GLOBALS['ilLog']->write(__METHOD__.': Deleting deprecated participant '. $server->getServerId().' '. $mid);
+
+						$part = new ilECSParticipantSetting($server->getServerId(),$mid);
+						$part->delete();
+					}
 				}
+			}
+			catch(ilECSConnectorException $e)
+			{
+				ilUtil::sendFailure($server->getServer().': '. $e->getMessage(),TRUE);
 			}
 		}
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),TRUE);
