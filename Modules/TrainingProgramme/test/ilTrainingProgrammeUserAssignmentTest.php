@@ -77,6 +77,13 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		$prg->assignUser($user->getId());
 	}
 	
+	public function testUserId() {
+		$user1 = $this->newUser();
+		$this->root->setStatus(ilTrainingProgramme::STATUS_ACTIVE);
+		$ass = $this->root->assignUser($user1->getId());
+		$this->assertEquals($user1->getId(), $ass->getUserId());
+	}
+	
 	public function testHasAssignmentOf() {
 		$user1 = $this->newUser();
 		$user2 = $this->newUser();
