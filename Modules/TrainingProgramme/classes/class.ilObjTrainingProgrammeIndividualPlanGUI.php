@@ -101,13 +101,17 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		$this->tpl->setContent($cont);
 	}
 	
+	protected function getAssignmentId() {
+		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
+		if (!is_numeric($_GET["ass_id"])) {
+			throw new ilException("Expected integer 'ass_id'");
+		}
+		return (int)$_GET["ass_id"];
+	}
+	
 	protected function getAssignmentObject() {
 		if ($this->assignment_object === null) {
-			require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
-			if (!is_numeric($_GET["ass_id"])) {
-				throw new ilException("Expected integer 'ass_id'");
-			}
-			$id = (int)$_GET["ass_id"];
+			$id = $this->getAssignmentId();
 			$this->assignment_object = ilTrainingProgrammeUserAssignment::getInstance($id);
 		}
 		return $this->assignment_object;
@@ -126,16 +130,31 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 	protected function updateFromCurrentPlan() {
 		$ass = $this->getAssignmentObject();
 		$ass->updateFromProgram();
-		$this->ctrl->setParameter("ass_id", $ass->getId());
+		$this->ctrl->setParameter($this, "ass_id", $ass->getId());
 		$this->ctrl->redirect($this, "manage");
 	}
 	
 	protected function updateFromInput() {
+		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+		
 		$updates = $this->getManualStatusUpdates();
 		foreach ($updates as $prgrs_id => $status) {
-			
+			$prgrs = ilTrainingProgrammeUserProgress::getInstanceById($prgrs_id);
+			$cur_status = $prgrs->getStatus();
+			if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+				$prgrs->unmarkAccredited();
+			}
+			else if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
+				$prgrs->markRelevant();
+			}
+			else if($status == self::MANUAL_STATUS_NOT_RELEVANT && $cur_status != ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
+				$prgrs->markNotRelevant();
+			}
+			else if($status == self::MANUAL_STATUS_ACCREDITED && $cur_status != ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+				$prgrs->markAccredited();
+			}
 		}
-		
+		$this->ctrl->setParameter($this, "ass_id", $this->getAssignmentId());
 		$this->ctrl->redirect($this, "manage");
 	}
 	
