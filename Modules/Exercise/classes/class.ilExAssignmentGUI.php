@@ -33,12 +33,22 @@ class ilExAssignmentGUI
 		$tpl = new ilTemplate("tpl.assignment_head.html", true, true, "Modules/Exercise");
 
 		if (($a_data["deadline"] > 0) && $a_data["deadline"] - time() <= 0)
-		{
+		{			
 			$tpl->setCurrentBlock("prop");
 			$tpl->setVariable("PROP", $lng->txt("exc_ended_on"));
 			$tpl->setVariable("PROP_VAL",
 				ilDatePresentation::formatDate(new ilDateTime($a_data["deadline"],IL_CAL_UNIX)));
 			$tpl->parseCurrentBlock();
+			
+			// #14077
+			if($a_data["peer"] && $a_data["peer_dl"])
+			{
+				$tpl->setCurrentBlock("prop");
+				$tpl->setVariable("PROP", $lng->txt("exc_peer_review_deadline"));
+				$tpl->setVariable("PROP_VAL",
+					ilDatePresentation::formatDate(new ilDateTime($a_data["peer_dl"],IL_CAL_UNIX)));
+				$tpl->parseCurrentBlock();
+			}			
 		}
 		else if ($a_data["start_time"] > 0 && time() - $a_data["start_time"] <= 0)
 		{

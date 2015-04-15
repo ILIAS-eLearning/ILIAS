@@ -9759,7 +9759,11 @@ function getAnswerFeedbackPoints()
 			'limit_users_enabled'     => $this->isLimitUsersEnabled(),
 			'allowedusers'            => $this->getAllowedUsers(),
 			'alloweduserstimegap'     => $this->getAllowedUsersTimeGap(),
-
+			'pool_usage'			=> $this->getPoolUsage(),
+			'activation_limited'	=> $this->isActivationLimited(),
+			'activation_start_time' => $this->getActivationStartingTime(),
+			'activation_end_time'	=> $this->getActivationEndingTime(),
+			'activation_visibility' => $this->getActivationVisibility(),
 			'highscore_enabled'       => $this->getHighscoreEnabled(),
 			'highscore_anon'          => $this->getHighscoreAnon(),
 			'highscore_achieved_ts'   => $this->getHighscoreAchievedTS(),
@@ -9914,6 +9918,11 @@ function getAnswerFeedbackPoints()
 		$this->setAllowedUsers($testsettings['allowedusers']);
 		$this->setAllowedUsersTimeGap($testsettings['alloweduserstimegap']);
 		$this->setUsePreviousAnswers($testsettings['use_previous_answers']);
+		$this->setPoolUsage($testsettings['pool_usage']);
+		$this->setActivationLimited($testsettings['activation_limited']);
+		$this->setActivationStartingTime($testsettings['activation_start_time']);
+		$this->setActivationEndingTime($testsettings['activation_end_time']);
+		$this->setActivationVisibility($testsettings['activation_visibility']);
 		
 		$this->saveToDb();
 
