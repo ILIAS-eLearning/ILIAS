@@ -506,7 +506,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 				"AND t2." . $this->getTree()->getTreePk() . " = " . $ilDB->quote($this->getTree()->getTreeId(), 'integer') . " " .
 				"ORDER BY t2.path";
 
-		 
+		
 		$res = $ilDB->query($query);
 		$nodes = array();
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -517,6 +517,27 @@ class ilMaterializedPathTree implements ilTreeImplementation
 			$nodes[$row->child]['type'] = $row->type;
 			$nodes[$row->child]['path'] = $row->path;
 		}
+		
+		$depth_first_compare = function($a, $b)
+		{
+			$a_exploded = explode('.', $a['path']);
+			$b_exploded = explode('.', $b['path']);
+			
+			$a_padded = array();
+			foreach($a_exploded as $num)
+			{
+				$a_padded .= (str_pad($num, 14, STR_PAD_LEFT));
+			}
+			$b_padded = array();
+			foreach($b_exploded as $num)
+			{
+				$b_padded .= (str_pad($num, 14, STR_PAD_LEFT));
+			}
+			
+			return strcasecmp($a_padded, $b_padded);
+		};
+		
+		uasort($nodes,$depth_first_compare);
 		return (array) $nodes;
 	}
 }
