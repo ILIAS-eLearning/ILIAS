@@ -155,6 +155,10 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		
 	}
 	
+	public function getManualStatusPostVarTitle() {
+		return "status";
+	}
+	
 	static public function getLinkTargetView($ctrl, $a_prgrs_id) {
 		$cl = "ilObjTrainingProgrammeIndividualPlanGUI";
 		$ctrl->setParameterByClass($cl, "prgrs_id", $a_prgrs_id);

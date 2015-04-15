@@ -17,7 +17,7 @@ class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 	protected $assignment;
 	
 	public function __construct($a_parent_obj, ilTrainingProgrammeUserAssignment $a_ass) {
-		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+		parent::__construct($a_parent_obj);
 
 		global $ilCtrl, $lng, $ilDB;
 		$this->ctrl = $ilCtrl;
@@ -109,8 +109,10 @@ class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 			return "";
 		}
 		
+		$status_title = $this->getParentObject()->getManualStatusPostVarTitle();
+		
 		require_once("Services/Form/classes/class.ilSelectInputGUI.php");
-		$select = new ilSelectInputGUI("", "status[$a_progress_id]");
+		$select = new ilSelectInputGUI("", "$status_title"."[$a_progress_id]");
 		$select->setOptions(array
 			( self::MANUAL_STATUS_NONE => "-"
 			, self::MANUAL_STATUS_ACCREDITED => $this->lng->txt("prg_status_accredited")
