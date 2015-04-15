@@ -90,6 +90,8 @@ class ilObjTrainingProgrammeMembersGUI {
 			$cmd = "view";
 		}
 		
+		# TODO: Check permission of user!!
+		
 		switch ($next_class) {
 			case "ilrepositorysearchgui":		
 				require_once("./Services/Search/classes/class.ilRepositorySearchGUI.php");
