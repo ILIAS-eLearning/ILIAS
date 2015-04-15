@@ -34,9 +34,8 @@ class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$this->setExternalSegmentation(false);
 		$this->setRowTemplate("tpl.individual_plan_table_row.html", "Modules/TrainingProgramme");
 		
-		//$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
-
-
+		$this->getParentObject()->appendIndividualPlanActions($this);
+		
 		$columns = array( "status"
 						, "title"
 						, "prg_points_current"
@@ -102,7 +101,6 @@ class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 	const MANUAL_STATUS_NONE = 0;
 	const MANUAL_STATUS_NOT_RELEVANT = 1;
 	const MANUAL_STATUS_ACCREDITED = 2;
-	
 	
 	protected function getManualStatusCheckbox($a_progress_id, $a_status) {
 		if ($a_status == ilTrainingProgrammeProgress::STATUS_COMPLETED) {
