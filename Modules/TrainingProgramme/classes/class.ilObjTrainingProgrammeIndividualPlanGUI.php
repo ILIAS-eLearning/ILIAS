@@ -163,7 +163,7 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		$cl = "ilObjTrainingProgrammeIndividualPlanGUI";
 		$ctrl->setParameterByClass($cl, "ass_id", $a_ass_id);
 		$link = $ctrl->getLinkTargetByClass($cl, "view");
-		$ctrl->setParameter($cl, "ass_id", null);
+		$ctrl->setParameterByClass($cl, "ass_id", null);
 		return $link;
 	}
 }
