@@ -131,6 +131,7 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		$ass = $this->getAssignmentObject();
 		$ass->updateFromProgram();
 		$this->ctrl->setParameter($this, "ass_id", $ass->getId());
+		$this->showSuccessMessage("update_from_plan_successfull");
 		$this->ctrl->redirect($this, "manage");
 	}
 	
@@ -155,7 +156,13 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 			}
 		}
 		$this->ctrl->setParameter($this, "ass_id", $this->getAssignmentId());
+		$this->showSuccessMessage("update_successfull");
 		$this->ctrl->redirect($this, "manage");
+	}
+	
+	protected function showSuccessMessage($a_lng_var) {
+		require_once("Services/Utilities/classes/class.ilUtil.php");
+		ilUtil::sendSuccess($this->lng->txt("prg_$a_lng_var"), true);
 	}
 	
 	protected function getManualStatusUpdates() {
