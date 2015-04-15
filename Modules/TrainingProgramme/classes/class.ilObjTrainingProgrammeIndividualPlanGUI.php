@@ -139,24 +139,31 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
 		
 		$updates = $this->getManualStatusUpdates();
+		$changed = false;
 		foreach ($updates as $prgrs_id => $status) {
 			$prgrs = ilTrainingProgrammeUserProgress::getInstanceById($prgrs_id);
 			$cur_status = $prgrs->getStatus();
 			if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
 				$prgrs->unmarkAccredited($this->user->getId());
+				$changed = true;
 			}
 			else if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
 				$prgrs->markRelevant($this->user->getId());
+				$changed = true;
 			}
 			else if($status == self::MANUAL_STATUS_NOT_RELEVANT && $cur_status != ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
 				$prgrs->markNotRelevant($this->user->getId());
+				$changed = true;
 			}
 			else if($status == self::MANUAL_STATUS_ACCREDITED && $cur_status != ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
 				$prgrs->markAccredited($this->user->getId());
+				$changed = true;
 			}
 		}
 		$this->ctrl->setParameter($this, "ass_id", $this->getAssignmentId());
-		$this->showSuccessMessage("update_successfull");
+		if ($changed) {
+			$this->showSuccessMessage("update_successfull");
+		}
 		$this->ctrl->redirect($this, "manage");
 	}
 	
