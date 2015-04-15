@@ -45,8 +45,7 @@ class ilTrainingProgrammeUserProgress {
 							))->get());
 		}
 		if ($this->progress === null) {
-			throw new ilException("ilTrainingProgrammeUserProgress::__construct: "
-								 ."Unknown progress id '$a_id'.");
+			throw new ilException("ilTrainingProgrammeUserProgress::__construct: Could not find progress.");
 		}
 	}
 	
