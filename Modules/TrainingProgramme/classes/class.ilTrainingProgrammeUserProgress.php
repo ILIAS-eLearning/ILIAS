@@ -321,7 +321,7 @@ class ilTrainingProgrammeUserProgress {
 	/**
 	 * Set the node to be not relevant for the user.
 	 *
-	 * Throws when status is not IN_PROGRESS.
+	 * Throws when status is COMPLETED.
 	 *
 	 * @throws ilException
 	 * @param  int $a_user_id The user who marks the node as not relevant.
@@ -329,6 +329,27 @@ class ilTrainingProgrammeUserProgress {
 	 */
 	public function markNotRelevant($a_user_id) {
 		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT)
+					   ->setCompletionBy($a_user_id)
+					   ->setLastChangeBy($a_user_id)
+					   ->update();
+		return $this;
+	}
+	
+	/**
+	 * Set the node to be relevant for the user.
+	 *
+	 * Throws when status is not NOT_RELEVANT.
+	 *
+	 * @throws ilException
+	 * @param  int $a_user_id The user who marks the node as not relevant.
+	 * @return $this
+	 */
+	public function markRelevant($a_user_id) {
+		if ($this->progress->getStatus() != ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
+			throw new ilException("Expected status IN_PROGRESS.");
+		}
+		
+		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS)
 					   ->setCompletionBy($a_user_id)
 					   ->setLastChangeBy($a_user_id)
 					   ->update();
