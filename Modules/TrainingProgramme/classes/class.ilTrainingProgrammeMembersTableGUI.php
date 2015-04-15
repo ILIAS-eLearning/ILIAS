@@ -137,7 +137,7 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 							   ."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
 							   ."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
 							   ."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by"
-							   ." WHERE prgrs.prg_id = ".$ilDB->quote($a_prg_id, "integer")
+							   ." WHERE prgrs.prg_id = ".$this->db->quote($a_prg_id, "integer")
 							   );
 	
 		$members_list = array();
