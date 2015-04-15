@@ -123,6 +123,30 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		return $this->buildFrame("manage", $table->getHTML());
 	}
 	
+	protected function updateFromCurrentPlan() {
+		$ass = $this->getAssignmentObject();
+		$ass->updateFromProgram();
+		$this->ctrl->setParameter("ass_id", $ass->getId());
+		$this->ctrl->redirect($this, "manage");
+	}
+	
+	protected function updateFromInput() {
+		$updates = $this->getManualStatusUpdates();
+		foreach ($updates as $prgrs_id => $status) {
+			
+		}
+		
+		$this->ctrl->redirect($this, "manage");
+	}
+	
+	protected function getManualStatusUpdates() {
+		$post_var = $this->getManualStatusPostVarTitle();
+		if (!array_key_exists($post_var, $_POST)) {
+			throw new ilException("Expected array $post_var in POST");
+		}
+		return $_POST[$post_var];
+	}
+	
 	protected function buildFrame($tab, $content) {
 		$tpl = new ilTemplate("tpl.indivdual_plan_frame.html", true, true, "Modules/TrainingProgramme");
 		$ass = $this->getAssignmentObject();
@@ -155,8 +179,24 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		$this->ctrl->setParameter($this, "ass_id", null);
 	}
 	
+	const MANUAL_STATUS_NONE = 0;
+	const MANUAL_STATUS_NOT_RELEVANT = 1;
+	const MANUAL_STATUS_ACCREDITED = 2;
+	
 	public function getManualStatusPostVarTitle() {
 		return "status";
+	}
+	
+	public function getManualStatusNone() {
+		return self::MANUAL_STATUS_NONE;
+	}
+	
+	public function getManualStatusNotRelevant() {
+		return self::MANUAL_STATUS_NOT_RELEVANT;
+	}
+	
+	public function getManualStatusAccredited() {
+		return self::MANUAL_STATUS_ACCREDITED;
 	}
 	
 	static public function getLinkTargetView($ctrl, $a_ass_id) {
