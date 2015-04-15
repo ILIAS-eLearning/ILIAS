@@ -15634,6 +15634,7 @@ prg#:#prg_not_allowed_node_to_delete#:#You are not allowed to delete this node
 prg#:#prg_added_course_ref_successful#:#New course-reference was added successfully
 prg#:#prg_manage#:#Manage
 prg#:#prg_view#:#View
+prg#:#prg_update_from_current_plan#:#Update from Current Plan
 common#:#obj_prg_duplicate#:#Copy Training Programme
 common#:#obj_prg_select#:#-- Please select one Training Programme --
 common#:#obj_prg#:#Training Programme

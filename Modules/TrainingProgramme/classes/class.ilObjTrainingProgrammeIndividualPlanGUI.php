@@ -90,6 +90,8 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		switch ($cmd) {
 			case "view":
 			case "manage":
+			case "updateFromCurrentPlan":
+			case "updateFromInput":
 				$cont = $this->$cmd();
 				break;
 			default:
@@ -151,8 +153,10 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		return $lnk;
 	}
 	
-	public function getLinkTargetForAction($a_action, $a_prgrs_id) {
-		
+	public function appendIndividualPlanActions(ilTable2GUI $a_table) {
+		$a_table->setFormAction($this->ctrl->getFormAction($this));
+		$a_table->addCommandButton("updateFromCurrentPlan", $this->lng->txt("prg_update_from_current_plan"));
+		$a_table->addCommandButton("updateFromInput", $this->lng->txt("save"));
 	}
 	
 	public function getManualStatusPostVarTitle() {
