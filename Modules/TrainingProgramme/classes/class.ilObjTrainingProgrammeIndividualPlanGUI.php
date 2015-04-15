@@ -57,7 +57,7 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 
 	protected $parent_gui;
 
-	public function __construct($a_parent_gui, $a_ref_id) {
+	public function __construct($a_parent_gui, $a_ref_id, ilTrainingProgrammeUserProgress $a_prgrs) {
 		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias, $ilUser;
 
 		$this->ref_id = $a_ref_id;
@@ -72,6 +72,8 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		$this->ilias = $ilias;
 		$this->lng = $lng;
 		$this->user = $ilUser;
+		$this->progress_object = $a_prgrs;
+		$this->user_of_progress = null;
 		
 		$this->object = null;
 
@@ -86,12 +88,70 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		}
 		
 		switch ($cmd) {
+			case "view":
+			case "manage":
+				$cont = $this->$cmd();
+				break;
 			default:
 				throw new ilException("ilObjTrainingProgrammeMembersGUI: ".
 									  "Command not supported: $cmd");
 		}
 		
 		$this->tpl->setContent($cont);
+	}
+	
+	protected function getProgressObject() {
+		return $this->progress_object;
+	}
+	
+	protected function getUserOfProgress() {
+		if ($this->user_of_progress === null) {
+			$prgrs = $this->getProgressObject();
+			$this->user_of_progress = new ilObjUser($prgrs->getUserId());
+		}
+		
+		return $this->user_of_progress;
+	}
+	
+	protected function view() {
+		return $this->buildFrame("view", "NYI!: view");
+	}
+
+	protected function manage() {
+		return $this->buildFrame("manage", "NYI!: manage");
+	}
+	
+	protected function buildFrame($tab, $content) {
+		$tpl = new ilTemplate("tpl.indivdual_plan_frame.html", false, false, "Modules/TrainingProgramme");
+		$prgrs = $this->getProgressObject();
+		
+		$tpl->setVariable("USERNAME", ilObjUser::_lookupFullname($prgrs->getUserId()));
+		foreach (array("view", "manage") as $_tab) {
+			$tpl->setCurrentBlock("sub_tab");
+			$tpl->setVariable("CLASS", $_tab == $tab ? "active" : "");
+			$tpl->setVariable("LINK", $this->getLinkTargetForSubTab($_tab, $prgrs->getId()));
+			$tpl->setVariable("TITLE", $this->lng->txt($_tab));
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->setVariable("CONTENT", $content);
+		
+		return $tpl->get();
+	}
+	
+	public function getLinkTargetForSubTab($tab, $a_prgrs_id) {
+		
+	}
+	
+	public function getLinkTargetForAction($a_action, $a_prgrs_id) {
+		
+	}
+	
+	static public function getLinkTargetView($ctrl, $a_prgrs_id) {
+		$cl = "ilObjTrainingProgrammeIndividualPlanGUI";
+		$ctrl->setParameterByClass($cl, "prgrs_id", $a_prgrs_id);
+		$link = $ctrl->getLinkTargetByClass($cl, "view");
+		$ctrl->setParameter($cl, "prgrs_id", null);
+		return $link;
 	}
 }
 
