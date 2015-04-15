@@ -98,20 +98,22 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 												? $this->lng->txt("yes")
 												: $this->lng->txt("no"));
 		$this->tpl->setVariable("BELONGS_TO", $a_set["belongs_to"]);
-		$this->tpl->setVariable("ACTIONS", $this->buildActionDropDown($a_set["actions"], $a_set["prgrs_id"]));
+		$this->tpl->setVariable("ACTIONS", $this->buildActionDropDown( $a_set["actions"]
+																	 , $a_set["prgrs_id"]
+																	 , $a_set["assignment_id"]));
 	}
 	
-	protected function buildActionDropDown($a_actions, $a_prgrs_id) {
+	protected function buildActionDropDown($a_actions, $a_prgrs_id, $a_ass_id) {
 		$l = new ilAdvancedSelectionListGUI();
 		foreach($a_actions as $action) {
-			$target = $this->getLinkTargetForAction($action, $a_prgrs_id);
+			$target = $this->getLinkTargetForAction($action, $a_prgrs_id, $a_ass_id);
 			$l->addItem($this->lng->txt("prg_$action"), $action, $target);
 		}
 		return $l->getHTML();
 	}
 	
-	protected function getLinkTargetForAction($a_action, $a_prgrs_id) {
-		return $this->getParentObject()->getLinkTargetForAction($a_action, $a_prgrs_id);
+	protected function getLinkTargetForAction($a_action, $a_prgrs_id, $a_ass_id) {
+		return $this->getParentObject()->getLinkTargetForAction($a_action, $a_prgrs_id, $a_ass_id);
 	}
 
 	protected function fetchData($a_prg_id) {
