@@ -122,7 +122,7 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 	}
 	
 	protected function buildFrame($tab, $content) {
-		$tpl = new ilTemplate("tpl.indivdual_plan_frame.html", false, false, "Modules/TrainingProgramme");
+		$tpl = new ilTemplate("tpl.indivdual_plan_frame.html", true, true, "Modules/TrainingProgramme");
 		$prgrs = $this->getProgressObject();
 		
 		$tpl->setVariable("USERNAME", ilObjUser::_lookupFullname($prgrs->getUserId()));
@@ -130,7 +130,7 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 			$tpl->setCurrentBlock("sub_tab");
 			$tpl->setVariable("CLASS", $_tab == $tab ? "active" : "");
 			$tpl->setVariable("LINK", $this->getLinkTargetForSubTab($_tab, $prgrs->getId()));
-			$tpl->setVariable("TITLE", $this->lng->txt($_tab));
+			$tpl->setVariable("TITLE", $this->lng->txt("prg_$_tab"));
 			$tpl->parseCurrentBlock();
 		}
 		$tpl->setVariable("CONTENT", $content);
@@ -138,8 +138,11 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		return $tpl->get();
 	}
 	
-	public function getLinkTargetForSubTab($tab, $a_prgrs_id) {
-		
+	public function getLinkTargetForSubTab($a_tab, $a_prgrs_id) {
+		$this->ctrl->setParameter($this, "prgrs_id", $a_prgrs_id);
+		$lnk = $this->ctrl->getLinkTarget($this, $a_tab);
+		$this->ctrl->setParameter($this, "prgrs_id", null);
+		return $lnk;
 	}
 	
 	public function getLinkTargetForAction($a_action, $a_prgrs_id) {
