@@ -57,7 +57,7 @@ class ilExAssignment
 			$this->read();
 		}
 	}
-	
+			
 	public static function getInstancesByExercise($a_exc_id)
 	{
 		global $ilDB;
@@ -81,6 +81,28 @@ class ilExAssignment
 		}
 		
 		return $data;
+	}
+	
+	public function getSubmissionType()
+	{
+		switch($this->getType())
+		{
+			case self::TYPE_UPLOAD_TEAM:					
+			case self::TYPE_UPLOAD:		
+				return "File";
+
+			case self::TYPE_BLOG:			
+			case self::TYPE_PORTFOLIO:				
+				return "Object";	
+
+			case self::TYPE_TEXT:												
+				return "Text";	
+		};
+	}
+	
+	public function hasTeam()
+	{
+		return $this->type == self::TYPE_UPLOAD_TEAM;
 	}
 	
 	/**
@@ -3462,10 +3484,23 @@ class ilExAssignment
 	
 	// status
 	
-	public function afterDeadline($a_only_valid = false)
+	public function afterDeadline()
 	{
-		return ((!$a_only_valid || $this->deadline > 0) && 
-			$this->deadline - time() <= 0);
+		// no deadline === true
+		return ($this->deadline - time() <= 0);
+	}
+	
+	public function afterDeadlineStrict()
+	{
+		// no deadline === false
+		return ($this->deadline > 0 && 
+			$this->afterDeadline());
+	}
+	
+	public function beforeDeadline()
+	{
+		// no deadline === true
+		return !$this->afterDeadlineStrict();
 	}
 	
 	public function notStartedYet()

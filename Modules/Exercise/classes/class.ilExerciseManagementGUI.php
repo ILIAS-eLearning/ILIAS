@@ -21,7 +21,7 @@ class ilExerciseManagementGUI
 	 * @param int $a_exercise_id
 	 * @return object
 	 */
-	public function __construct(ilObjExercise $a_exercise, ilExAssignment $a_ass)
+	public function __construct(ilObjExercise $a_exercise, ilExAssignment $a_ass = null)
 	{		
 		global $ilCtrl, $ilTabs, $lng, $tpl;
 		
@@ -180,9 +180,9 @@ class ilExerciseManagementGUI
 	{
 		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
 				
-		if(!$this->ass || $this->ass->getType() != ilExAssignment::TYPE_TEXT)
+		if(!$this->assignment || $this->assignment->getType() != ilExAssignment::TYPE_TEXT)
 		{
-			$ilCtrl->redirect($this, "member");
+			$ilCtrl->redirect($this, "members");
 		}
 
 		$ilTabs->clearTargets();
@@ -198,7 +198,7 @@ class ilExerciseManagementGUI
 			$cmd = "listTextAssignment";
 		}
 		include_once "Modules/Exercise/classes/class.ilExAssignmentListTextTableGUI.php";
-		$tbl = new ilExAssignmentListTextTableGUI($this, $cmd, $this->ass, $a_show_peer_review);		
+		$tbl = new ilExAssignmentListTextTableGUI($this, $cmd, $this->assignment, $a_show_peer_review);		
 		$tpl->setContent($tbl->getHTML());		
 	}
 	

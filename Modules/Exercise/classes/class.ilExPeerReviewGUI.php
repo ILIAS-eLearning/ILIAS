@@ -106,6 +106,53 @@ class ilExPeerReviewGUI
 				break;
 		}
 	}	
+		
+	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
+	{
+		global $lng, $ilCtrl;
+		
+		if($a_ass->afterDeadlineStrict() && 
+			$a_ass->getPeerReview())
+		{								
+			$nr_missing_fb = ilExAssignment::getNumberOfMissingFeedbacks($a_ass->getId(), $a_ass->getPeerReviewMin());
+
+			if(!$a_ass->getPeerReviewDeadline() || $a_ass->getPeerReviewDeadline() > time())
+			{			
+				$dl_info = "";
+				if($a_ass->getPeerReviewDeadline())
+				{
+					$dl_info = " (".sprintf($lng->txt("exc_peer_review_deadline_info_button"), 
+						ilDatePresentation::formatDate(new ilDateTime($a_ass->getPeerReviewDeadline(), IL_CAL_UNIX))).")";							
+				}
+
+				$button = ilLinkButton::getInstance();
+				$button->setPrimary($nr_missing_fb);
+				$button->setCaption($lng->txt("exc_peer_review_give").$dl_info, false);
+				$button->setUrl($ilCtrl->getLinkTargetByClass("ilExPeerReviewGUI", "editPeerReview"));							
+				$edit_pc = $button->render();													
+			}
+			else if($a_ass->getPeerReviewDeadline())
+			{
+				$edit_pc = $lng->txt("exc_peer_review_deadline_reached");
+			}
+			if((!$a_ass->getPeerReviewDeadline() || $a_ass->getPeerReviewDeadline() < time()) && 
+				!$nr_missing_fb)
+			{						
+				$button = ilLinkButton::getInstance();					
+				$button->setCaption("exc_peer_review_show");
+				$button->setUrl($ilCtrl->getLinkTargetByClass("ilExPeerReviewGUI", "showPersonalPeerReview"));							
+				$view_pc = $button->render();							
+			}
+			/*
+			else 
+			{
+				$view_pc = $lng->txt("exc_peer_review_show_not_rated_yet");
+			}
+			*/
+
+			$a_info->addProperty($lng->txt("exc_peer_review"), $edit_pc." ".$view_pc);																									
+		}						
+	}
 	
 	function editPeerReviewObject()
 	{
