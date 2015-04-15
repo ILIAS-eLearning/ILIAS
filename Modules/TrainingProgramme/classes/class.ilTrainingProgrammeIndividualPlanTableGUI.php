@@ -4,32 +4,27 @@
 
 require_once("Services/Table/classes/class.ilTable2GUI.php");
 require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
-require_once("Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeProgress.php");
-require_once("Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeAssignment.php");
 require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
-require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
-require_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
 /**
- * Class ilObjTrainingProgrammeMembersTableGUI
+ * Class ilTrainingProgrammeIndividualPlanTableGUI
  *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
  */
 
-class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
-	protected $prg_obj_id;
-	protected $prg_ref_id;
+class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
+	protected $assignment;
 	
-	public function __construct($a_prg_obj_id, $a_prg_ref_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
+	public function __construct($a_parent_obj, ilTrainingProgrammeUserAssignment $a_ass) {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
-		$this->prg_obj_id = $a_prg_obj_id;
-		$this->prg_ref_id = $a_prg_ref_id;
-
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilDB;
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
+		$this->db = $ilDB;
+
+		$this->assignment = $a_ass;
 
 		$this->setEnableTitle(true);
 		$this->setTopCommands(false);
@@ -37,117 +32,71 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 		// TODO: switch this to internal sorting/segmentation
 		$this->setExternalSorting(false);
 		$this->setExternalSegmentation(false);
-		$this->setRowTemplate("tpl.il_members_table_row.html", "Modules/TrainingProgramme");
+		$this->setRowTemplate("tpl.individual_plan_table_row.html", "Modules/TrainingProgramme");
 		
 		//$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
 
-		$columns = array( "name" 				=> array("name")
-						, "login" 				=> array("login")
-						, "prg_status" 			=> array("status")
-						, "prg_completion_by"	=> array("completion_by")
-						, "prg_points_required" => array("points_required")
-						, "prg_points_current"  => array("points_current")
-						, "prg_custom_plan"		=> array("custom_plan")
-						, "prg_belongs_to"		=> array("belongs_to")
-						, "actions"				=> array(null)
+		$columns = array( "status"
+						, "title"
+						, "prg_points_current"
+						, "prg_points_required"
+						, "prg_manual_status"
+						, "prg_not_possible"
+						, "prg_changed_by"
+						, "prg_completion_by"
 						);
-		foreach ($columns as $lng_var => $params) {
-			$this->addColumn($lng->txt($lng_var), $params[0]);
+		foreach ($columns as $lng_var) {
+			$this->addColumn($lng->txt($lng_var));
 		}
 		
 		$this->determineLimit();
 		$this->determineOffsetAndOrder();
 
-		$members_list = $this->fetchData($a_prg_obj_id);
+		$plan = $this->fetchData();
 	
-		$this->setMaxCount(count($members_list));
-		$this->setData($members_list);
+		$this->setMaxCount(count($plan));
+		$this->setData($plan);
 	}
 
 	protected function fillRow($a_set) {
-		if ($a_set["status"] == ilTrainingProgrammeProgress::STATUS_COMPLETED) {
-			// If the status completed and there is a non-null completion_by field
-			// in the set, this means the completion was achieved by some leaf in
-			// the program tree.
-			if ($a_set["completion_by"]) {
-				$completion_by = $a_set["completion_by"];
-			}
-			// if that's not the case, the user completed underlying nodes and we
-			// need to no which...
-			else {
-				require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
-				$prgrs = ilTrainingProgrammeUserProgress::getInstanceForAssignment( $this->prg_obj_id
-																				  , $a_set["assignment_id"]);
-				$completion_by = implode(", ", $prgrs->getNamesOfCompletedOrAccreditedChildren());
-			}
-		}
-		else if($a_set["status"] == ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
-			$completion_by = $a_set["accredited_by"];
-		}
+		$this->tpl->setVariable("STATUS", $a_set["status"]);
+		$this->tpl->setVariable("TITLE", $a_set["title"]);
+		$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
+		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points_required"]);
+		$this->tpl->setVariable("MANUAL_STATUS", $a_set["manual_status"]);
+		$this->tpl->setVariable("NOT_POSSIBLE", $a_set["not_possible"]);
+		$this->tpl->setVariable("CHANGED_BY", $a_set["changed_by"]);
+		$this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
+	}
+
+	protected function fetchData() {
+		$prg = $this->assignment->getTrainingProgramme();
+		$prg_id = $prg->getId();
+		$ass_id = $this->assignment->getId();
+		$usr_id = $this->assignment->getUserId();
+		$plan = array();
 		
-		$this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
-		$this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
-		$this->tpl->setVariable("LOGIN", $a_set["login"]);
-		$this->tpl->setVariable("STATUS", ilTrainingProgrammeUserProgress::statusToRepr($a_set["status"]));
-		$this->tpl->setVariable("COMPLETION_BY", $completion_by);
-		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points"]);
-		$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_cur"]);
-		$this->tpl->setVariable("CUSTOM_PLAN", $a_set["last_change_by"] 
-												? $this->lng->txt("yes")
-												: $this->lng->txt("no"));
-		$this->tpl->setVariable("BELONGS_TO", $a_set["belongs_to"]);
-		$this->tpl->setVariable("ACTIONS", $this->buildActionDropDown($a_set["actions"], $a_set["prgrs_id"]));
-	}
-	
-	protected function buildActionDropDown($a_actions, $a_prgrs_id) {
-		$l = new ilAdvancedSelectionListGUI();
-		foreach($a_actions as $action) {
-			$target = $this->getLinkTargetForAction($action, $a_prgrs_id);
-			$l->addItem($this->lng->txt("prg_$action"), $action, $target);
-		}
-		return $l->getHTML();
-	}
-	
-	protected function getLinkTargetForAction($a_action, $a_prgrs_id) {
-		return $this->getParentObject()->getLinkTargetForAction($a_action, $a_prgrs_id);
-	}
-
-	protected function fetchData($a_prg_id) {
-		global $ilDB;
-
-		// TODO: Reimplement this in terms of ActiveRecord when innerjoin
-		// supports the required rename functionality
-		$res = $ilDB->query("SELECT prgrs.id prgrs_id"
-						   ."     , pcp.firstname"
-						   ."     , pcp.lastname"
-						   ."     , pcp.login"
-						   ."     , prgrs.points"
-						   ."     , prgrs.points_cur"
-						   ."     , prgrs.last_change_by"
-						   ."     , prgrs.status"
-						   ."     , blngs.title belongs_to"
-						   ."     , cmpl_usr.login accredited_by"
-						   ."     , cmpl_obj.title completion_by"
-						   ."     , prgrs.assignment_id assignment_id"
-						   ."     , ass.root_prg_id root_prg_id"
-						   ."  FROM ".ilTrainingProgrammeProgress::returnDbTableName()." prgrs"
-						   ."  JOIN usr_data pcp ON pcp.usr_id = prgrs.usr_id"
-						   ."  JOIN ".ilTrainingProgrammeAssignment::returnDbTableName()." ass"
-						   			 ." ON ass.id = prgrs.assignment_id"
-						   ."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
-						   ."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
-						   ."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by"
-						   ." WHERE prgrs.prg_id = ".$ilDB->quote($a_prg_id, "integer")
+		$prg->applyToSubTreeNodes(function($node) use ($prg_id, $ass_id, $usr_id, &$plan) {
+			$progress = ilTrainingProgrammeUserProgress::getInstance($ass_id, $node->getId(), $usr_id);
+			$completion_by_id = $progress->getCompletionBy();
+			if ($completion_by_id) {
+				$completion_by = ilObjUser::_lookupLogin($completion_by_id);
+				if (!$completion_by) {
+					$completion_by = ilObject::_lookupTitle($completion_by_id);
+				}
+			}
+			$plan[] = array( "status" => ilTrainingProgrammeUserProgress::statusToRepr($progress->getStatus())
+						   , "title" => $node->getTitle()
+						   , "points_current" => $progress->getCurrentAmountOfPoints()
+						   , "points_required" => $progress->getAmountOfPoints()
+						   , "not_possible" => !$progress->canBeCompleted()
+						   , "changed_by" => ilObjUser::_lookupLogin($progress->getLastChangeBy())
+						   , "manual_status" => $progress->getId()
+						   , "completion_by" => $completion_by
 						   );
-	
-		$members_list = array();
-		while($rec = $ilDB->fetchAssoc($res)) {
-			$rec["actions"] = ilTrainingProgrammeUserProgress::getPossibleActions(
-										$a_prg_id, $rec["root_prg_id"], $rec["status"]);
-			$members_list[] = $rec;
-		}
-		return $members_list;
+		});
+		return $plan;
 	}
 }
 
