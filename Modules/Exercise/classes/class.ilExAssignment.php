@@ -58,6 +58,31 @@ class ilExAssignment
 		}
 	}
 	
+	public static function getInstancesByExercise($a_exc_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM exc_assignment ".
+			" WHERE exc_id = ".$ilDB->quote($a_exc_id, "integer").
+			" ORDER BY order_nr ASC");
+		$data = array();
+
+		$order_val = 10;
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			// ???
+			$rec["order_val"] = $order_val;
+			
+			$ass = new self();
+			$ass->initFromDB($rec);
+			$data[] = $ass;
+			
+			$order_val += 10;
+		}
+		
+		return $data;
+	}
+	
 	/**
 	 * Set assignment id
 	 *
@@ -432,25 +457,35 @@ class ilExAssignment
 		$set = $ilDB->query("SELECT * FROM exc_assignment ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
 			);
-		while ($rec  = $ilDB->fetchAssoc($set))
-		{
-			$this->setExerciseId($rec["exc_id"]);
-			$this->setDeadline($rec["time_stamp"]);
-			$this->setInstruction($rec["instruction"]);
-			$this->setTitle($rec["title"]);
-			$this->setStartTime($rec["start_time"]);
-			$this->setOrderNr($rec["order_nr"]);
-			$this->setMandatory($rec["mandatory"]);
-			$this->setType($rec["type"]);
-			$this->setPeerReview($rec["peer"]);
-			$this->setPeerReviewMin($rec["peer_min"]);
-			$this->setPeerReviewDeadline($rec["peer_dl"]);
-			$this->setPeerReviewFileUpload($rec["peer_file"]);
-			$this->setPeerReviewPersonalized($rec["peer_prsl"]);
-			$this->setFeedbackFile($rec["fb_file"]);
-			$this->setFeedbackDate($rec["fb_date"]);
-			$this->setFeedbackCron($rec["fb_cron"]);
-		}
+		$rec = $ilDB->fetchAssoc($set);
+		$this->initFromDB($rec);		
+	}
+	
+	/**
+	 * Import DB record
+	 * 	 
+	 * @see getInstancesByExercise()
+	 * @param array $a_set
+	 */
+	protected function initFromDB(array $a_set)
+	{
+		$this->setId($a_set["id"]);
+		$this->setExerciseId($a_set["exc_id"]);
+		$this->setDeadline($a_set["time_stamp"]);
+		$this->setInstruction($a_set["instruction"]);
+		$this->setTitle($a_set["title"]);
+		$this->setStartTime($a_set["start_time"]);
+		$this->setOrderNr($a_set["order_nr"]);
+		$this->setMandatory($a_set["mandatory"]);
+		$this->setType($a_set["type"]);
+		$this->setPeerReview($a_set["peer"]);
+		$this->setPeerReviewMin($a_set["peer_min"]);
+		$this->setPeerReviewDeadline($a_set["peer_dl"]);
+		$this->setPeerReviewFileUpload($a_set["peer_file"]);
+		$this->setPeerReviewPersonalized($a_set["peer_prsl"]);
+		$this->setFeedbackFile($a_set["fb_file"]);
+		$this->setFeedbackDate($a_set["fb_date"]);
+		$this->setFeedbackCron($a_set["fb_cron"]);
 	}
 	
 	/**
@@ -3422,6 +3457,20 @@ class ilExAssignment
 				}
 			}
 		}
+	}
+	
+	
+	// status
+	
+	public function afterDeadline($a_only_valid = false)
+	{
+		return ((!$a_only_valid || $this->deadline > 0) && 
+			$this->deadline - time() <= 0);
+	}
+	
+	public function notStartedYet()
+	{
+		return (time() - $this->start_time <= 0);
 	}
 }
 

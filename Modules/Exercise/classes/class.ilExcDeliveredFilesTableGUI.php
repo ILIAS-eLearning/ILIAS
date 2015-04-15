@@ -17,16 +17,11 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_ass_id)
+	function __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
-		
-		$this->exercise = $a_exc;
-		$this->ass_id = $a_ass_id;		// assignment id
-		$this->exc_id = $a_exc->getId();
-		
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		$this->ass = new ilExAssignment($this->ass_id);
+			
+		$this->ass = $a_ass;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setData($this->getDeliveredFiles());

@@ -1,30 +1,27 @@
 <?php
-include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
 /**
  * GUI clas for exercise assignments
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup 
- *
- * @ilCtrl_Calls ilExAssignmentGUI: ilShopPurchaseGUI
  */
 class ilExAssignmentGUI
 {
-
+	protected $exc; // [ilObjExercise]
+	protected $current_ass_id; // [int]
+	
 	/**
 	 * Constructor
 	 */
-	function __construct($a_exc)
+	function __construct(ilObjExercise $a_exc)
 	{
 		$this->exc = $a_exc;
-	}
-	
+	}	
 	
 	/**
 	 * Get assignment header for overview
 	 */
-	function getOverviewHeader($a_data)
+	function getOverviewHeader(ilExAssignment $a_ass)
 	{
 		global $lng, $ilUser;
 		
@@ -32,50 +29,50 @@ class ilExAssignmentGUI
 		
 		$tpl = new ilTemplate("tpl.assignment_head.html", true, true, "Modules/Exercise");
 
-		if (($a_data["deadline"] > 0) && $a_data["deadline"] - time() <= 0)
+		if ($a_ass->afterDeadline(true))
 		{
 			$tpl->setCurrentBlock("prop");
 			$tpl->setVariable("PROP", $lng->txt("exc_ended_on"));
 			$tpl->setVariable("PROP_VAL",
-				ilDatePresentation::formatDate(new ilDateTime($a_data["deadline"],IL_CAL_UNIX)));
+				ilDatePresentation::formatDate(new ilDateTime($a_ass->getDeadline(),IL_CAL_UNIX)));
 			$tpl->parseCurrentBlock();
 		}
-		else if ($a_data["start_time"] > 0 && time() - $a_data["start_time"] <= 0)
+		else if ($a_ass->notStartedYet())
 		{
 			$tpl->setCurrentBlock("prop");
 			$tpl->setVariable("PROP", $lng->txt("exc_starting_on"));
 			$tpl->setVariable("PROP_VAL",
-				ilDatePresentation::formatDate(new ilDateTime($a_data["start_time"],IL_CAL_UNIX)));
+				ilDatePresentation::formatDate(new ilDateTime($a_ass->getStartTime(),IL_CAL_UNIX)));
 			$tpl->parseCurrentBlock();
 		}
 		else
 		{
-			$time_str = $this->getTimeString($a_data["deadline"]);
+			$time_str = $this->getTimeString($a_ass->getDeadline());
 			$tpl->setCurrentBlock("prop");
 			$tpl->setVariable("PROP", $lng->txt("exc_time_to_send"));
 			$tpl->setVariable("PROP_VAL", $time_str);
 			$tpl->parseCurrentBlock();
 	
-			if ($a_data["deadline"] > 0)
+			if ($a_ass->getDeadline() > 0)
 			{
 				$tpl->setCurrentBlock("prop");
 				$tpl->setVariable("PROP", $lng->txt("exc_edit_until"));
 				$tpl->setVariable("PROP_VAL",
-					ilDatePresentation::formatDate(new ilDateTime($a_data["deadline"],IL_CAL_UNIX)));
+					ilDatePresentation::formatDate(new ilDateTime($a_ass->getDeadline(),IL_CAL_UNIX)));
 				$tpl->parseCurrentBlock();
 			}
 			
 		}
 
 		$mand = "";
-		if ($a_data["mandatory"])
+		if ($a_ass->getMandatory())
 		{
 			$mand = " (".$lng->txt("exc_mandatory").")";
 		}
-		$tpl->setVariable("TITLE", $a_data["title"].$mand);
+		$tpl->setVariable("TITLE", $a_ass->getTitle().$mand);
 
 		// status icon
-		$stat = ilExAssignment::lookupStatusOfUser($a_data["id"], $ilUser->getId());
+		$stat = ilExAssignment::lookupStatusOfUser($a_ass->getId(), $ilUser->getId());
 		switch ($stat)
 		{
 			case "passed": 	$pic = "scorm/passed.svg"; break;
@@ -88,12 +85,52 @@ class ilExAssignmentGUI
 		return $tpl->get();
 	}
 
+	protected function getSubmissionLink($a_cmd, array $a_params = null)
+	{
+		global $ilCtrl;
+		
+		if(is_array($a_params))
+		{
+			foreach($a_params as $name => $value)
+			{
+				$ilCtrl->setParameterByClass("ilexsubmissiongui", $name, $value);
+			}
+		}
+		
+		$ilCtrl->setParameterByClass("ilexsubmissiongui", "ass_id", $this->current_ass_id);
+		$url = $ilCtrl->getLinkTargetByClass("ilexsubmissiongui", $a_cmd);
+		$ilCtrl->setParameterByClass("ilexsubmissiongui", "");
+		
+		if(is_array($a_params))
+		{
+			foreach($a_params as $name => $value)
+			{
+				$ilCtrl->setParameterByClass("ilexsubmissiongui", $name, "");
+			}
+		}
+		
+		return $url;
+	}
+	
+	protected function getPeerReviewLink($a_cmd)
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->setParameterByClass("ilexsubmissiongui", "ass_id", $this->current_ass_id);
+		$url = $ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", $a_cmd);
+		$ilCtrl->setParameterByClass("ilexsubmissiongui", "");
+		
+		return $url;
+	}
+	
 	/**
 	 * Get assignment body for overview
 	 */
-	function getOverviewBody($a_data)
+	function getOverviewBody(ilExAssignment $a_ass)
 	{
 		global $lng, $ilCtrl, $ilUser;
+		
+		$this->current_ass_id = $a_ass->getId();
 		
 		$tpl = new ilTemplate("tpl.assignment_body.html", true, true, "Modules/Exercise");
 
@@ -108,39 +145,37 @@ class ilExAssignmentGUI
 		$info = new ilInfoScreenGUI(null);
 		$info->setTableClass("");
 		
-		$not_started_yet = false;
-		if ($a_data["start_time"] > 0 && time() - $a_data["start_time"] <= 0)
-		{
-			$not_started_yet = true;
-		}
-
-		if (!$not_started_yet)
+		if (!$a_ass->notStartedYet())
 		{
 			// instructions
-			$info->addSection($lng->txt("exc_instruction"));
-			
-			$is_html = (strlen($a_data["instruction"]) != strlen(strip_tags($a_data["instruction"])));
-			if(!$is_html)
-			{
-				$a_data["instruction"] = nl2br(ilUtil::makeClickable($a_data["instruction"], true));
-			}						
-			$info->addProperty("", $a_data["instruction"]);
+			$inst = $a_ass->getInstruction();	
+			if(trim($inst))
+			{				
+				$info->addSection($lng->txt("exc_instruction"));
+
+				$is_html = (strlen($inst) != strlen(strip_tags($inst)));
+				if(!$is_html)
+				{
+					$inst = nl2br(ilUtil::makeClickable($inst, true));
+				}						
+				$info->addProperty("", $inst);
+			}
 		}
 		
 		// schedule
 		$info->addSection($lng->txt("exc_schedule"));
-		if ($a_data["start_time"] > 0)
+		if ($a_ass->getStartTime() > 0)
 		{
 			$info->addProperty($lng->txt("exc_start_time"),
-				ilDatePresentation::formatDate(new ilDateTime($a_data["start_time"],IL_CAL_UNIX)));
+				ilDatePresentation::formatDate(new ilDateTime($a_ass->getStartTime(),IL_CAL_UNIX)));
 		}
-		if ($a_data["deadline"] > 0)
+		if ($a_ass->getDeadline() > 0)
 		{
 			$info->addProperty($lng->txt("exc_edit_until"),
-				ilDatePresentation::formatDate(new ilDateTime($a_data["deadline"],IL_CAL_UNIX)));
+				ilDatePresentation::formatDate(new ilDateTime($a_ass->getDeadline(),IL_CAL_UNIX)));
 		}
-		$time_str = $this->getTimeString($a_data["deadline"]);
-		if (!$not_started_yet)
+		$time_str = $this->getTimeString($a_ass->getDeadline());
+		if (!$a_ass->notStartedYet())
 		{
 			$info->addProperty($lng->txt("exc_time_to_send"),
 				"<b>".$time_str."</b>");
@@ -149,12 +184,11 @@ class ilExAssignmentGUI
 		// public submissions
 		if ($this->exc->getShowSubmissions())
 		{
-			$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $a_data["id"]);
-			if ($a_data["deadline"] - time() <= 0)
+			if ($a_ass->afterDeadline())
 			{				
 				$button = ilLinkButton::getInstance();				
 				$button->setCaption("exc_list_submission");
-				$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "listPublicSubmissions"));							
+				$button->setUrl($this->getSubmissionLink("listPublicSubmissions"));							
 				
 				$info->addProperty($lng->txt("exc_public_submission"), $button->render());
 			}
@@ -163,35 +197,30 @@ class ilExAssignmentGUI
 				$info->addProperty($lng->txt("exc_public_submission"),
 					$lng->txt("exc_msg_public_submission"));
 			}
-			$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $_GET["ass_id"]);
 		}
 
-		$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $a_data["id"]);
-
-		if (!$not_started_yet)
+		if (!$a_ass->notStartedYet())
 		{
 			// download files
-			$files = ilExAssignment::getFiles($a_data["exc_id"], $a_data["id"]);
+			$files = ilExAssignment::getFiles($a_ass->getExerciseId(), $a_ass->getId());
 			if (count($files) > 0)
 			{
 				$info->addSection($lng->txt("exc_files"));
 				foreach($files as $file)
 				{
 					// if download must be purchased first show a "buy"-button
-					if(IS_PAYMENT_ENABLED && (ilPaymentObject::_isBuyable($_GET['ref_id'],'download') &&
-					   !ilPaymentObject::_hasAccess($_GET['ref_id'],'','download')))
+					if(IS_PAYMENT_ENABLED && (ilPaymentObject::_isBuyable($this->exc->getRefId(),'download') &&
+					   !ilPaymentObject::_hasAccess($this->exc->getRefId(),'','download')))
 					{
 						$info->addProperty($file["name"],
 							$lng->txt("buy"),
 							$ilCtrl->getLinkTargetByClass("ilShopPurchaseGUI", "showDetails"));
 					}
 					else
-					{
-						$ilCtrl->setParameterByClass("ilobjexercisegui", "file", urlencode($file["name"]));
+					{						
 						$info->addProperty($file["name"],
 							$lng->txt("download"),
-							$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadFile"));
-						$ilCtrl->setParameterByClass("ilobjexercisegui", "file", "");
+							$this->getSubmissionLink("downloadFile", array("file"=>$file["name"])));
 					}
 				}
 			}
@@ -200,14 +229,14 @@ class ilExAssignmentGUI
 			
 			// if submission must be purchased first
 			if(IS_PAYMENT_ENABLED
-				&& (ilPaymentObject::_isBuyable($_GET['ref_id'],'upload')
-				&& !ilPaymentObject::_hasAccess($_GET['ref_id'],'','upload')))
+				&& (ilPaymentObject::_isBuyable($this->exc->getRefId(),'upload')
+				&& !ilPaymentObject::_hasAccess($this->exc->getRefId(),'','upload')))
 			{
 				$info->addSection($lng->txt("exc_your_submission"));
 
 				$ilCtrl->clearParameters($this);
 
-				$ilCtrl->setParameter($this, "ref_id", $_GET['ref_id']);
+				$ilCtrl->setParameter($this, "ref_id", $this->exc->getRefId());
 				$ilCtrl->setParameter($this,'subtype','upload');
 				$info->addProperty($lng->txt('exc_hand_in'),
 					$lng->txt("buy"),
@@ -217,20 +246,16 @@ class ilExAssignmentGUI
 			{
 				$info->addSection($lng->txt("exc_your_submission"));
 				
-				$delivered_files = ilExAssignment::getDeliveredFiles($a_data["exc_id"], $a_data["id"], $ilUser->getId());
+				$delivered_files = ilExAssignment::getDeliveredFiles($a_ass->getExerciseId(), $a_ass->getId(), $ilUser->getId());
 
-				$times_up = false;
-				if(($a_data["deadline"] > 0) && $a_data["deadline"] - time() < 0)
-				{
-					$times_up = true;
-				}
-		
+				$times_up = $a_ass->afterDeadline();
+			
 				$team_members = null;
-				switch($a_data["type"])
+				switch($a_ass->getType())
 				{
 					case ilExAssignment::TYPE_UPLOAD_TEAM:	
 						$no_team_yet = false;						
-						$team_members = ilExAssignment::getTeamMembersByAssignmentId($a_data["id"], $ilUser->getId());
+						$team_members = ilExAssignment::getTeamMembersByAssignmentId($a_ass->getId(), $ilUser->getId());
 						if(sizeof($team_members))
 						{
 							$team = array();						
@@ -242,7 +267,7 @@ class ilExAssignmentGUI
 							
 							$button = ilLinkButton::getInstance();							
 							$button->setCaption("exc_manage_team");
-							$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreenTeam"));							
+							$button->setUrl($this->getSubmissionLink("submissionScreenTeam"));							
 							$team .= " ".$button->render();	
 							
 							$info->addProperty($lng->txt("exc_team_members"), $team);	
@@ -265,7 +290,7 @@ class ilExAssignmentGUI
 								$button = ilLinkButton::getInstance();
 								$button->setPrimary(true);
 								$button->setCaption("exc_create_team");
-								$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createTeam"));							
+								$button->setUrl($this->getSubmissionLink("createTeam"));							
 								$team_info .= " ".$button->render();		
 														
 								$team_info .= '<div class="ilFormInfo">'.$lng->txt("exc_no_team_yet_info").'</div>';
@@ -293,9 +318,7 @@ class ilExAssignmentGUI
 	
 						// no team == no submission
 						if(!$no_team_yet)
-						{
-							$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $a_data["id"]);
-
+						{							
 							if (!$times_up)
 							{
 								$title = (count($titles) == 0
@@ -305,7 +328,7 @@ class ilExAssignmentGUI
 								$button = ilLinkButton::getInstance();
 								$button->setPrimary(true);
 								$button->setCaption($title, false);
-								$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen"));							
+								$button->setUrl($this->getSubmissionLink("submissionScreen"));							
 								$files_str.= " ".$button->render();								
 							}
 							else
@@ -314,7 +337,7 @@ class ilExAssignmentGUI
 								{								
 									$button = ilLinkButton::getInstance();								
 									$button->setCaption("already_delivered_files");
-									$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen"));											
+									$button->setUrl($this->getSubmissionLink("submissionScreen"));											
 									$files_str.= " ".$button->render();
 								}
 							}
@@ -364,7 +387,7 @@ class ilExAssignmentGUI
 							{				
 								$button = ilLinkButton::getInstance();							
 								$button->setCaption("exc_create_blog");
-								$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createBlog"));							
+								$button->setUrl($this->getSubmissionLink("createBlog"));							
 								$files_str.= $button->render();								
 							}							
 							// #10462
@@ -374,7 +397,7 @@ class ilExAssignmentGUI
 							{							
 								$button = ilLinkButton::getInstance();							
 								$button->setCaption("exc_select_blog".($valid_blog ? "_change" : ""));
-								$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "selectBlog"));									
+								$button->setUrl($this->getSubmissionLink("selectBlog"));									
 								$files_str.= " ".$button->render();
 							}
 						}
@@ -383,10 +406,8 @@ class ilExAssignmentGUI
 							$info->addProperty($lng->txt("exc_blog_returned"), $files_str);		
 						}
 						if($delivered_files && substr($delivered_files["filename"], -1) != "/")
-						{							
-							$ilCtrl->setParameterByClass("ilobjexercisegui", "delivered", $delivered_files["returned_id"]);
-							$dl_link = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "download");
-							$ilCtrl->setParameterByClass("ilobjexercisegui", "delivered", "");
+						{														
+							$dl_link = $this->getSubmissionLink("download", array("delivered"=>$delivered_files["returned_id"]));
 							
 							$button = ilLinkButton::getInstance();							
 							$button->setCaption("download");
@@ -442,7 +463,7 @@ class ilExAssignmentGUI
 								
 								$button = ilLinkButton::getInstance();							
 								$button->setCaption("exc_create_portfolio");
-								$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createPortfolio".$has_prtt));										
+								$button->setUrl($this->getSubmissionLink("createPortfolio".$has_prtt));										
 								$files_str .= $button->render();
 							}
 							// #10462
@@ -452,7 +473,7 @@ class ilExAssignmentGUI
 							{		
 								$button = ilLinkButton::getInstance();							
 								$button->setCaption("exc_select_portfolio".($valid_prtf ? "_change" : ""));
-								$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "selectPortfolio"));	
+								$button->setUrl($this->getSubmissionLink("selectPortfolio"));	
 								$files_str.= " ".$button->render();
 							}
 						}
@@ -461,10 +482,8 @@ class ilExAssignmentGUI
 							$info->addProperty($lng->txt("exc_portfolio_returned"), $files_str);	
 						}
 						if($delivered_files && substr($delivered_files["filename"], -1) != "/")
-						{							
-							$ilCtrl->setParameterByClass("ilobjexercisegui", "delivered", $delivered_files["returned_id"]);
-							$dl_link = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "download");
-							$ilCtrl->setParameterByClass("ilobjexercisegui", "delivered", "");
+						{														
+							$dl_link = $this->getSubmissionLink("download", array("delivered"=>$delivered_files["returned_id"]));
 							
 							$button = ilLinkButton::getInstance();							
 							$button->setCaption("download");
@@ -475,22 +494,20 @@ class ilExAssignmentGUI
 						}			
 						break;			
 						
-					case ilExAssignment::TYPE_TEXT:						
-						$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $a_data["id"]);
-						
+					case ilExAssignment::TYPE_TEXT:												
 						if(!$times_up)
 						{
 							$button = ilLinkButton::getInstance();
 							$button->setPrimary(true);
 							$button->setCaption("exc_text_assignment_edit");
-							$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "editAssignmentText"));							
+							$button->setUrl($this->getSubmissionLink("editAssignmentText"));							
 							$files_str = $button->render();							
 						}
 						else
 						{
 							$button = ilLinkButton::getInstance();
 							$button->setCaption("exc_text_assignment_show");
-							$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "showAssignmentText"));							
+							$button->setUrl($this->getSubmissionLink("showAssignmentText"));							
 							$files_str = $button->render();														
 						}
 						
@@ -500,7 +517,7 @@ class ilExAssignmentGUI
 				}
 				
 				
-				$last_sub = ilExAssignment::getLastSubmission($a_data["id"], $ilUser->getId());
+				$last_sub = ilExAssignment::getLastSubmission($a_ass->getId(), $ilUser->getId());
 				if ($last_sub)
 				{
 					$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
@@ -518,35 +535,35 @@ class ilExAssignmentGUI
 				
 																								
 				// peer feedback
-				if($times_up && $a_data["peer"])
+				if($times_up && $a_ass->getPeerReview())
 				{								
-					$nr_missing_fb = ilExAssignment::getNumberOfMissingFeedbacks($a_data["id"], $a_data["peer_min"]);
+					$nr_missing_fb = ilExAssignment::getNumberOfMissingFeedbacks($a_ass->getId(), $a_ass->getPeerReviewMin());
 									
-					if(!$a_data["peer_dl"] || $a_data["peer_dl"] > time())
+					if(!$a_ass->getPeerReviewDeadline() || $a_ass->getPeerReviewDeadline() > time())
 					{			
 						$dl_info = "";
-						if($a_data["peer_dl"])
+						if($a_ass->getPeerReviewDeadline())
 						{
 							$dl_info = " (".sprintf($lng->txt("exc_peer_review_deadline_info_button"), 
-								ilDatePresentation::formatDate(new ilDateTime($a_data["peer_dl"], IL_CAL_UNIX))).")";							
+								ilDatePresentation::formatDate(new ilDateTime($a_ass->getPeerReviewDeadline(), IL_CAL_UNIX))).")";							
 						}
 						
 						$button = ilLinkButton::getInstance();
 						$button->setPrimary($nr_missing_fb);
 						$button->setCaption($lng->txt("exc_peer_review_give").$dl_info, false);
-						$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "editPeerReview"));							
+						$button->setUrl($this->getPeerReviewLink("editPeerReview"));							
 						$edit_pc = $button->render();													
 					}
-					else if($a_data["peer_dl"])
+					else if($a_ass->getPeerReviewDeadline())
 					{
 						$edit_pc = $lng->txt("exc_peer_review_deadline_reached");
 					}
-					if((!$a_data["peer_dl"] || $a_data["peer_dl"] < time()) && 
+					if((!$a_ass->getPeerReviewDeadline() || $a_ass->getPeerReviewDeadline() < time()) && 
 						!$nr_missing_fb)
 					{						
 						$button = ilLinkButton::getInstance();					
 						$button->setCaption("exc_peer_review_show");
-						$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "showPersonalPeerReview"));							
+						$button->setUrl($this->getPeerReviewLink("showPersonalPeerReview"));							
 						$view_pc = $button->render();							
 					}
 					/*
@@ -562,9 +579,9 @@ class ilExAssignmentGUI
 				
 				
 				// feedback from tutor
-				if($a_data["type"] == ilExAssignment::TYPE_UPLOAD_TEAM)
+				if($a_ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 				{
-					$feedback_id = "t".ilExAssignment::getTeamIdByAssignment($a_data["id"], $ilUser->getId());
+					$feedback_id = "t".ilExAssignment::getTeamIdByAssignment($a_ass->getId(), $ilUser->getId());
 				}
 				else
 				{
@@ -572,20 +589,20 @@ class ilExAssignmentGUI
 				}
 				
 				// global feedback / sample solution
-				if($a_data["fb_date"] == ilExAssignment::FEEDBACK_DATE_DEADLINE)
+				if($a_ass->getFeedbackDate() == ilExAssignment::FEEDBACK_DATE_DEADLINE)
 				{
-					$show_global_feedback = ($times_up && $a_data["fb_file"]);
+					$show_global_feedback = ($times_up && $a_ass->getFeedbackFile());
 				}
 				else
 				{
-					$show_global_feedback = ($last_sub != "---" && $a_data["fb_file"]);
+					$show_global_feedback = ($last_sub != "---" && $a_ass->getFeedbackFile());
 				}								
 				
-				$storage = new ilFSStorageExercise($a_data["exc_id"], $a_data["id"]);					
+				$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());					
 				$cnt_files = $storage->countFeedbackFiles($feedback_id);
-				$lpcomment = ilExAssignment::lookupCommentForUser($a_data["id"], $ilUser->getId());
-				$mark = ilExAssignment::lookupMarkOfUser($a_data["id"], $ilUser->getId());
-				$status = ilExAssignment::lookupStatusOfUser($a_data["id"], $ilUser->getId());				
+				$lpcomment = ilExAssignment::lookupCommentForUser($a_ass->getId(), $ilUser->getId());
+				$mark = ilExAssignment::lookupMarkOfUser($a_ass->getId(), $ilUser->getId());
+				$status = ilExAssignment::lookupStatusOfUser($a_ass->getId(), $ilUser->getId());				
 				if ($lpcomment != "" || $mark != "" || $status != "notgraded" || 
 					$cnt_files > 0 || $show_global_feedback)
 				{
@@ -618,18 +635,16 @@ class ilExAssignmentGUI
 					if ($cnt_files > 0)
 					{
 						$info->addSection($lng->txt("exc_fb_files").
-							'<a name="fb'.$a_data["id"].'"></a>');
+							'<a name="fb'.$a_ass->getId().'"></a>');
 						
 						if($cnt_files > 0)
 						{
 							$files = $storage->getFeedbackFiles($feedback_id);
 							foreach($files as $file)
-							{
-								$ilCtrl->setParameterByClass("ilobjexercisegui", "file", urlencode($file));
+							{								
 								$info->addProperty($file,
 									$lng->txt("download"),
-									$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadFeedbackFile"));
-								$ilCtrl->setParameterByClass("ilobjexercisegui", "file", "");
+									$this->getSubmissionLink("downloadFeedbackFile", array("file"=>$file)));								
 							}
 						}												
 					}	
@@ -639,9 +654,9 @@ class ilExAssignmentGUI
 					{
 						$info->addSection($lng->txt("exc_global_feedback_file"));
 						
-						$info->addProperty($a_data["fb_file"],
+						$info->addProperty($a_ass->getFeedbackFile(),
 							$lng->txt("download"),
-							$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadGlobalFeedbackFile"));								
+							$this->getSubmissionLink("downloadGlobalFeedbackFile"));								
 					}
 				}								
 			}

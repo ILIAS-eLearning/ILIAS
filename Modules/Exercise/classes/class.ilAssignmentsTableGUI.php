@@ -18,12 +18,12 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_exc)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_exc_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng;
 		
-		$this->exc = $a_exc;
-		$this->setId("excass".$a_exc->getId());
+		$this->exc_id = $a_exc_id;
+		$this->setId("excass".$this->exc_id);
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 	
@@ -73,7 +73,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 			);
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		$data = ilExAssignment::getAssignmentDataOfExercise($this->exc->getId());
+		$data = ilExAssignment::getAssignmentDataOfExercise($this->exc_id);
 		foreach($data as $idx => $row)
 		{
 			// #14450
@@ -144,7 +144,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 						
 			$this->tpl->setVariable("TXT_PEER_OVERVIEW", $lng->txt("exc_peer_review_overview"));
 			$this->tpl->setVariable("CMD_PEER_OVERVIEW", 
-				$ilCtrl->getLinkTarget($this->parent_obj, "showPeerReviewOverview"));
+				$ilCtrl->getLinkTargetByClass("ilexcpeerreviewgui", "showPeerReviewOverview"));
 		}
 		else
 		{
