@@ -63,7 +63,7 @@ class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
 		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points_required"]);
-		$this->tpl->setVariable("MANUAL_STATUS", $this->getManualStatusCheckbox($a_set["progress_id"], $a_set["status"]));
+		$this->tpl->setVariable("MANUAL_STATUS", $this->getManualStatusSelect($a_set["progress_id"], $a_set["status"]));
 		$this->tpl->setVariable("NOT_POSSIBLE", $a_set["not_possible"]);
 		$this->tpl->setVariable("CHANGED_BY", $a_set["changed_by"]);
 		$this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
@@ -98,29 +98,29 @@ class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		return $plan;
 	}
 	
-	const MANUAL_STATUS_NONE = 0;
-	const MANUAL_STATUS_NOT_RELEVANT = 1;
-	const MANUAL_STATUS_ACCREDITED = 2;
-	
-	protected function getManualStatusCheckbox($a_progress_id, $a_status) {
+	protected function getManualStatusSelect($a_progress_id, $a_status) {
 		if ($a_status == ilTrainingProgrammeProgress::STATUS_COMPLETED) {
 			return "";
 		}
 		
-		$status_title = $this->getParentObject()->getManualStatusPostVarTitle();
+		$parent = $this->getParentObject();
+		$status_title = $parent->getManualStatusPostVarTitle();
+		$manual_status_none = $parent->getManualStatusNone();
+		$manual_status_not_relevant = $parent->getManualStatusNotRelevant();
+		$manual_status_accredited = $parent->getManualStatusAccredited();
 		
 		require_once("Services/Form/classes/class.ilSelectInputGUI.php");
 		$select = new ilSelectInputGUI("", "$status_title"."[$a_progress_id]");
 		$select->setOptions(array
-			( self::MANUAL_STATUS_NONE => "-"
-			, self::MANUAL_STATUS_ACCREDITED => $this->lng->txt("prg_status_accredited")
-			, self::MANUAL_STATUS_NOT_RELEVANT => $this->lng->txt("prg_status_not_relevant")
+			( $manual_status_none => "-"
+			, $manual_status_accredited => $this->lng->txt("prg_status_accredited")
+			, $manual_status_not_relevant => $this->lng->txt("prg_status_not_relevant")
 			));
 		if ($a_status == ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
-			$select->setValue(self::MANUAL_STATUS_NOT_RELEVANT);
+			$select->setValue($manual_status_not_relevant);
 		}
 		else if ($a_status == ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
-			$select->setValue(self::MANUAL_STATUS_ACCREDITED);
+			$select->setValue($manual_status_accredited);
 		}
 		
 		return $select->render();
