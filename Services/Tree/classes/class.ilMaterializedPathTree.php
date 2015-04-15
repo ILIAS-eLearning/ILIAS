@@ -521,23 +521,30 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		$depth_first_compare = function($a, $b)
 		{
 			$a_exploded = explode('.', $a['path']);
+			#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($a_exploded,TRUE));
 			$b_exploded = explode('.', $b['path']);
 			
-			$a_padded = array();
+			$a_padded = '';
 			foreach($a_exploded as $num)
 			{
-				$a_padded .= (str_pad($num, 14, STR_PAD_LEFT));
+				$a_padded .= (str_pad((string) $num, 14,'0', STR_PAD_LEFT));
 			}
-			$b_padded = array();
+			$b_padded = '';
 			foreach($b_exploded as $num)
 			{
-				$b_padded .= (str_pad($num, 14, STR_PAD_LEFT));
+				$b_padded .= (str_pad((string) $num, 14, '0', STR_PAD_LEFT));
 			}
-			
+			#$GLOBALS['ilLog']->write(__METHOD__.': '.$a_padded);
+			#$GLOBALS['ilLog']->write(__METHOD__.': '.$a_padded);
 			return strcasecmp($a_padded, $b_padded);
 		};
 		
+		#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($nodes,TRUE));
+		
 		uasort($nodes,$depth_first_compare);
+
+		#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($nodes,TRUE));
+
 		return (array) $nodes;
 	}
 }
