@@ -113,12 +113,18 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		return $this->user_of_progress;
 	}
 	
+	protected function getAssignmentOfProgress() {
+		return $this->getProgressObject()->getAssignment();
+	}
+	
 	protected function view() {
 		return $this->buildFrame("view", "NYI!: view");
 	}
 
 	protected function manage() {
-		return $this->buildFrame("manage", "NYI!: manage");
+		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeIndividualPlanTableGUI.php");
+		$table = new ilTrainingProgrammeIndividualPlanTableGUI($this, $this->getAssignmentOfProgress());
+		return $this->buildFrame("manage", $table->getHTML());
 	}
 	
 	protected function buildFrame($tab, $content) {
