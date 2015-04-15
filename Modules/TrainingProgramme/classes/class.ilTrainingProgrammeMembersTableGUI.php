@@ -27,9 +27,10 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->prg_obj_id = $a_prg_obj_id;
 		$this->prg_ref_id = $a_prg_ref_id;
 
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilDB;
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
+		$this->db = $ilDB;
 
 		$this->setEnableTitle(true);
 		$this->setTopCommands(false);
@@ -37,7 +38,7 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 		// TODO: switch this to internal sorting/segmentation
 		$this->setExternalSorting(false);
 		$this->setExternalSegmentation(false);
-		$this->setRowTemplate("tpl.il_members_table_row.html", "Modules/TrainingProgramme");
+		$this->setRowTemplate("tpl.members_table_row.html", "Modules/TrainingProgramme");
 		
 		//$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
@@ -114,35 +115,33 @@ class ilTrainingProgrammeMembersTableGUI extends ilTable2GUI {
 	}
 
 	protected function fetchData($a_prg_id) {
-		global $ilDB;
-
 		// TODO: Reimplement this in terms of ActiveRecord when innerjoin
 		// supports the required rename functionality
-		$res = $ilDB->query("SELECT prgrs.id prgrs_id"
-						   ."     , pcp.firstname"
-						   ."     , pcp.lastname"
-						   ."     , pcp.login"
-						   ."     , prgrs.points"
-						   ."     , prgrs.points_cur"
-						   ."     , prgrs.last_change_by"
-						   ."     , prgrs.status"
-						   ."     , blngs.title belongs_to"
-						   ."     , cmpl_usr.login accredited_by"
-						   ."     , cmpl_obj.title completion_by"
-						   ."     , prgrs.assignment_id assignment_id"
-						   ."     , ass.root_prg_id root_prg_id"
-						   ."  FROM ".ilTrainingProgrammeProgress::returnDbTableName()." prgrs"
-						   ."  JOIN usr_data pcp ON pcp.usr_id = prgrs.usr_id"
-						   ."  JOIN ".ilTrainingProgrammeAssignment::returnDbTableName()." ass"
-						   			 ." ON ass.id = prgrs.assignment_id"
-						   ."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
-						   ."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
-						   ."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by"
-						   ." WHERE prgrs.prg_id = ".$ilDB->quote($a_prg_id, "integer")
-						   );
+		$res = $this->db->query("SELECT prgrs.id prgrs_id"
+							   ."     , pcp.firstname"
+							   ."     , pcp.lastname"
+							   ."     , pcp.login"
+							   ."     , prgrs.points"
+							   ."     , prgrs.points_cur"
+							   ."     , prgrs.last_change_by"
+							   ."     , prgrs.status"
+							   ."     , blngs.title belongs_to"
+							   ."     , cmpl_usr.login accredited_by"
+							   ."     , cmpl_obj.title completion_by"
+							   ."     , prgrs.assignment_id assignment_id"
+							   ."     , ass.root_prg_id root_prg_id"
+							   ."  FROM ".ilTrainingProgrammeProgress::returnDbTableName()." prgrs"
+							   ."  JOIN usr_data pcp ON pcp.usr_id = prgrs.usr_id"
+							   ."  JOIN ".ilTrainingProgrammeAssignment::returnDbTableName()." ass"
+							   			 ." ON ass.id = prgrs.assignment_id"
+							   ."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
+							   ."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
+							   ."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by"
+							   ." WHERE prgrs.prg_id = ".$ilDB->quote($a_prg_id, "integer")
+							   );
 	
 		$members_list = array();
-		while($rec = $ilDB->fetchAssoc($res)) {
+		while($rec = $this->db->fetchAssoc($res)) {
 			$rec["actions"] = ilTrainingProgrammeUserProgress::getPossibleActions(
 										$a_prg_id, $rec["root_prg_id"], $rec["status"]);
 			$members_list[] = $rec;
