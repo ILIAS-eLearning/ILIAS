@@ -75,6 +75,7 @@ class ilObjTrainingProgrammeMembersGUI {
 		$this->ilias = $ilias;
 		$this->lng = $lng;
 		$this->user = $ilUser;
+		$this->progress_object = null;
 		
 		$this->object = null;
 
@@ -91,15 +92,19 @@ class ilObjTrainingProgrammeMembersGUI {
 		
 		switch ($next_class) {
 			case "ilrepositorysearchgui":		
-				include_once "./Services/Search/classes/class.ilRepositorySearchGUI.php";
+				require_once("./Services/Search/classes/class.ilRepositorySearchGUI.php");
 				$rep_search = new ilRepositorySearchGUI();
 				$rep_search->setCallback($this, "addUsers");				
 				
 				$this->ctrl->setReturn($this, "view");
 				$this->ctrl->forwardCommand($rep_search);
-				break;
+				return;
 			case "ilobjtrainingprogrammeindividualplangui":
-				die("here");
+				require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeIndividualPlanGUI.php");
+				$individual_plan_gui = new ilObjTrainingProgrammeIndividualPlanGUI( $this, $this->ref_id
+																				  , $this->getProgressObject());
+				$this->ctrl->forwardCommand($individual_plan_gui);
+				return;
 			case false:
 				switch ($cmd) {
 					case "view":
@@ -169,12 +174,15 @@ class ilObjTrainingProgrammeMembersGUI {
 	}
 	
 	protected function getProgressObject() {
-		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
-		if (!is_numeric($_GET["prgrs_id"])) {
-			throw new ilException("Expected integer 'prgrs_id'");
+		if ($this->progress_object === null) {
+			require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+			if (!is_numeric($_GET["prgrs_id"])) {
+				throw new ilException("Expected integer 'prgrs_id'");
+			}
+			$id = (int)$_GET["prgrs_id"];
+			$this->progress_object = ilTrainingProgrammeUserProgress::getInstanceById($id);
 		}
-		$id = (int)$_GET["prgrs_id"];
-		return ilTrainingProgrammeUserProgress::getInstanceById($id);
+		return $this->progress_object;
 	}
 	
 	protected function showSuccessMessage($a_lng_var) {
@@ -218,11 +226,8 @@ class ilObjTrainingProgrammeMembersGUI {
 				$target_name = "unmarkAccredited";
 				break;
 			case ilTrainingProgrammeUserProgress::ACTION_SHOW_INDIVIDUAL_PLAN:
-				$cl = "ilObjTrainingProgrammeIndividualPlanGUI";
-				$this->ctrl->setParameterByClass($cl, "prgrs_id", $a_prgrs_id);
-				$link = $this->ctrl->getLinkTargetByClass($cl, "view");
-				$this->ctrl->setParameter($cl, "prgrs_id", null);
-				return $link;
+				require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeIndividualPlanGUI.php");
+				return ilObjTrainingProgrammeIndividualPlanGUI::getLinkTargetView($this->ctrl, $a_prgrs_id);
 			case ilTrainingProgrammeUserProgress::ACTION_REMOVE_USER:
 				$target_name = "removeUser";
 				break;
