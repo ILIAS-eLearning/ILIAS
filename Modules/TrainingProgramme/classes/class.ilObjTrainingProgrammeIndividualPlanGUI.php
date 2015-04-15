@@ -143,16 +143,16 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 			$prgrs = ilTrainingProgrammeUserProgress::getInstanceById($prgrs_id);
 			$cur_status = $prgrs->getStatus();
 			if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
-				$prgrs->unmarkAccredited();
+				$prgrs->unmarkAccredited($this->user->getId());
 			}
 			else if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
-				$prgrs->markRelevant();
+				$prgrs->markRelevant($this->user->getId());
 			}
 			else if($status == self::MANUAL_STATUS_NOT_RELEVANT && $cur_status != ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
-				$prgrs->markNotRelevant();
+				$prgrs->markNotRelevant($this->user->getId());
 			}
 			else if($status == self::MANUAL_STATUS_ACCREDITED && $cur_status != ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
-				$prgrs->markAccredited();
+				$prgrs->markAccredited($this->user->getId());
 			}
 		}
 		$this->ctrl->setParameter($this, "ass_id", $this->getAssignmentId());
