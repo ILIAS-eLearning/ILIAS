@@ -105,7 +105,7 @@ class gevWBDErrorsGUI extends catBasicReportGUI{
 									 , $this->lng->txt("gev_wbd_errors_reason")
 									 , "reason"
 									 , catFilter::getDistinctValues('reason', 'wbd_errors')
-									 , array('WRONG_COURSEDATA', 'WRONG_USERDATA' )
+									 , array()
 									 )
 
 						->multiselect("action"
