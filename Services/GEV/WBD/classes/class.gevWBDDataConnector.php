@@ -282,8 +282,8 @@ class gevWBDDataConnector extends wbdDataConnector {
 			,"till" 				=> $record['course_end']
 
 			,"score"				=> $record['credit_points']
-			,"study_type_selection" => $this->VALUE_MAPPINGS['course_type'][$record['type']] // "Präsenzveranstaltung" | "Selbstgesteuertes E-Learning" | "Gesteuertes E-Learning";
-			,"study_content"		=> $this->VALUE_MAPPINGS['study_content'][$record['wbd_topic']] 
+			,"study_type_selection" => $this->VALUE_MAPPINGS['course_type'][trim($record['type'])] // "Präsenzveranstaltung" | "Selbstgesteuertes E-Learning" | "Gesteuertes E-Learning";
+			,"study_content"		=> $this->VALUE_MAPPINGS['study_content'][trim($record['wbd_topic'])] 
 			
 			,"training"	 			=> $record['title'] //or template?
 			
