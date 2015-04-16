@@ -4323,6 +4323,15 @@ abstract class assQuestion
 		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
 		return ilHtmlPurifierFactory::_getInstanceByType('qpl_usersolution');
 	}
+
+	/**
+	 * @return ilAssHtmlUserSolutionPurifier
+	 */
+	public function getHtmlQuestionContentPurifier()
+	{
+		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
+		return ilHtmlPurifierFactory::_getInstanceByType('qpl_usersolution');
+	}
 	
 	protected function buildQuestionDataQuery()
 	{
