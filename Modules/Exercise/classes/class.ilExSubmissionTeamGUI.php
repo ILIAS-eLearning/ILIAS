@@ -10,117 +10,55 @@
  * @ingroup ModulesExercise
  */
 class ilExSubmissionTeamGUI
-{
-	protected $exercise_id; // [int]
+{	
 	protected $exercise; // [ilObjExercise]
 	protected $assignment; // [ilExAssignment]
-	protected $participant_id; // [int]
+	protected $submission; // [ilExSubmission]
+	protected $team; // [ilExAssignmentTeam]
 	
-	public function __construct(ilObjExercise $a_exercise, ilExAssignment $a_ass, $a_participant_id = null)
+	public function __construct(ilObjExercise $a_exercise, ilExSubmission $a_submission)
 	{
-		global $ilCtrl, $ilTabs, $lng, $tpl, $ilUser;
+		global $ilCtrl, $ilTabs, $lng, $tpl;
 		
-		if(!$a_participant_id)
-		{
-			$a_participant_id = $ilUser->getId();
-		}
-		
-		$this->exercise_id = $a_ass->getExerciseId();
 		$this->exercise = $a_exercise;
-		$this->assignment = $a_ass;
-		$this->participant_id = $a_participant_id;				
-		
+		$this->submission = $a_submission;
+		$this->assignment = $a_submission->getAssignment();
+	
 		// :TODO:
 		$this->ctrl = $ilCtrl;
 		$this->tabs_gui = $ilTabs;
 		$this->lng = $lng;
-		$this->tpl = $tpl;		
+		$this->tpl = $tpl;	
 	}
-	
-	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
-	{		
-		global $lng, $ilUser, $ilCtrl;
-		
-		$no_team_yet = false;			
-		
-		if($a_ass->hasTeam())
-		{						
-			$team_members = ilExAssignment::getTeamMembersByAssignmentId($a_ass->getId(), $ilUser->getId());
-			if(sizeof($team_members))
-			{
-				$team = array();						
-				foreach($team_members as $member_id)
-				{
-					$team[] = ilObjUser::_lookupFullname($member_id);
-				}						
-				$team = implode(", ", $team);
-
-				$button = ilLinkButton::getInstance();							
-				$button->setCaption("exc_manage_team");
-				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "submissionScreenTeam"));							
-				$team .= " ".$button->render();	
-
-				$a_info->addProperty($lng->txt("exc_team_members"), $team);	
-			}
-			else
-			{
-				$no_team_yet = true;
-
-				if($a_ass->beforeDeadline())
-				{
-					if(!sizeof($delivered_files))
-					{
-						 $team_info = $lng->txt("exc_no_team_yet_notice");								
-					}
-					else
-					{
-						$team_info = '<span class="warning">'.$lng->txt("exc_no_team_yet_notice").'</span>';		
-					}	
-
-					$button = ilLinkButton::getInstance();
-					$button->setPrimary(true);
-					$button->setCaption("exc_create_team");
-					$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "createTeam"));							
-					$team_info .= " ".$button->render();		
-
-					$team_info .= '<div class="ilFormInfo">'.$lng->txt("exc_no_team_yet_info").'</div>';
-				}
-				else
-				{
-					$team_info = '<span class="warning">'.$lng->txt("exc_create_team_times_up_warning").'</span>';
-				}
-
-				$a_info->addProperty($lng->txt("exc_team_members"), $team_info);
-			}
-		}
-		
-		return $no_team_yet;
-	}
-	
-	
-	//
-	// TEAM
-	//
 	
 	public function executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $lng;
+		global $ilCtrl;
 		
 		$class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("submissionScreenTeam");		
+			
+		if(!$this->assignment->hasTeam() ||
+			!$this->submission->canView())
+		{
+			return;
+		}
+		$this->team = $this->submission->getTeam();
+		
+		if(!$this->submission->isTutor())
+		{
+			self::handleTabs();
+			$this->tabs_gui->activateTab("team");	
+		}
 		
 		switch($class)
 		{		
-			case 'ilrepositorysearchgui':	
+			case 'ilrepositorysearchgui':					
+				$this->ctrl->setReturn($this,'submissionScreenTeam');	
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search = new ilRepositorySearchGUI();		
 				$rep_search->setTitle($this->lng->txt("exc_team_member_add"));
 				$rep_search->setCallback($this,'addTeamMemberActionObject');
-
-				// Set tabs
-				$this->initTeamSubmission("submissionScreenTeam");
-				$this->ctrl->setReturn($this,'submissionScreenTeam');
-				
 				$this->ctrl->forwardCommand($rep_search);
 				break;
 							
@@ -128,7 +66,63 @@ class ilExSubmissionTeamGUI
 				$this->{$cmd."Object"}();				
 				break;
 		}
-	}	
+	}		
+	
+	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
+	{		
+		global $lng, $ilCtrl;
+		
+		if(!$a_submission->getAssignment()->hasTeam())
+		{
+			return;
+		}
+								
+		$team_members = $a_submission->getTeam()->getMembers();
+		if(sizeof($team_members))
+		{
+			$team = array();						
+			foreach($team_members as $member_id)
+			{
+				$team[] = ilObjUser::_lookupFullname($member_id);
+			}						
+			$team = implode(", ", $team);
+
+			$button = ilLinkButton::getInstance();							
+			$button->setCaption("exc_manage_team");
+			$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "submissionScreenTeam"));							
+			$team .= " ".$button->render();	
+
+			$a_info->addProperty($lng->txt("exc_team_members"), $team);	
+		}
+		else
+		{			
+			if($a_submission->getAssignment()->beforeDeadline())
+			{
+				if(!$a_submission->hasSubmitted())
+				{
+					 $team_info = $lng->txt("exc_no_team_yet_notice");								
+				}
+				else
+				{
+					$team_info = '<span class="warning">'.$lng->txt("exc_no_team_yet_notice").'</span>';		
+				}	
+
+				$button = ilLinkButton::getInstance();
+				$button->setPrimary(true);
+				$button->setCaption("exc_create_team");
+				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "createTeam"));							
+				$team_info .= " ".$button->render();		
+
+				$team_info .= '<div class="ilFormInfo">'.$lng->txt("exc_no_team_yet_info").'</div>';
+			}
+			else
+			{
+				$team_info = '<span class="warning">'.$lng->txt("exc_create_team_times_up_warning").'</span>';
+			}
+
+			$a_info->addProperty($lng->txt("exc_team_members"), $team_info);
+		}
+	}
 	
 	function returnToParentObject()
 	{
@@ -146,27 +140,10 @@ class ilExSubmissionTeamGUI
 			$ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "submissionScreenTeamLog"));
 	}
 	
-	protected function initTeamSubmission()
+	protected function canEditTeam()
 	{
-		global $ilUser;
-		
-		self::handleTabs();
-		$this->tabs_gui->activateTab("team");		
-
-		$team_id = $this->assignment->getTeamId($ilUser->getId());
-
-		if(!$team_id)
-		{
-			$team_id = $this->assignment->getTeamId($ilUser->getId(), true);
-
-			// #12337
-			if (!$this->exercise->members_obj->isAssigned($ilUser->getId()))
-			{
-				$this->exercise->members_obj->assignMember($ilUser->getId());
-			}				
-		}
-
-		return $team_id;		
+		return ($this->submission->canSubmit() ||
+			$this->submission->isTutor());
 	}
 	
 	/**
@@ -177,24 +154,16 @@ class ilExSubmissionTeamGUI
 	function submissionScreenTeamObject()
 	{
 		global $ilToolbar;
-		
-		$team_id = $this->initTeamSubmission();
 						
-		// $this->tabs_gui->setTabActive("content");
-		// $this->addContentSubTabs("content");
-		
 		// #13414
-		$read_only = (mktime() > $this->assignment->getDeadline() && ($this->assignment->getDeadline() != 0));
+		$read_only = !$this->canEditTeam();
 				
 		if ($read_only)
 		{
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
 		else
-		{					
-			$this->ctrl->setParameterByClass('ilRepositorySearchGUI', 'ctx', 1);
-			$this->ctrl->setParameter($this, 'ctx', 1);
-			
+		{								
 			// add member
 			include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 			ilRepositorySearchGUI::fillAutoCompleteToolbar(
@@ -211,14 +180,17 @@ class ilExSubmissionTeamGUI
 		
 		include_once "Modules/Exercise/classes/class.ilExAssignmentTeamTableGUI.php";
 		$tbl = new ilExAssignmentTeamTableGUI($this, "submissionScreenTeam",
-			ilExAssignmentTeamTableGUI::MODE_EDIT, $team_id, $this->assignment, null, $read_only);
+			ilExAssignmentTeamTableGUI::MODE_EDIT, $this->team, $read_only);
 		
 		$this->tpl->setContent($tbl->getHTML());				
 	}
 	
 	public function addTeamMemberActionObject($a_user_ids = array())
-	{		
-		global $ilUser;
+	{				
+		if(!$this->canEditTeam())
+		{
+			$this->ctrl->redirect("submissionScreenTeam");
+		}
 		
 		if(!count($a_user_ids))
 		{
@@ -226,41 +198,40 @@ class ilExSubmissionTeamGUI
 			return false;
 		}
 		
-		$team_id = $this->assignment->getTeamId($ilUser->getId());
-		$has_files = $this->assignment->getDeliveredFiles($this->exercise->getId(), 
-			$this->assignment->getId(), 
-			$ilUser->getId());
-		$all_members = $this->assignment->getMembersOfAllTeams();
-		$members = $this->assignment->getTeamMembers($team_id);
+		$all_members = $this->team->getMembersOfAllTeams();
+		$members = $this->team->getMembers();
 		
 		foreach($a_user_ids as $user_id)
 		{
 			if(!in_array($user_id, $all_members))
 			{
-				$this->assignment->addTeamMember($team_id, $user_id, $this->ref_id);
+				$this->team->addTeamMember($user_id, $this->exercise->getRefId());
+				$new_users[] = $user_id;
 				
 				// #14277
 				if (!$this->exercise->members_obj->isAssigned($user_id))
 				{
 					$this->exercise->members_obj->assignMember($user_id);
 				}
-
-				// see ilObjExercise::deliverFile()
-				if($has_files)
-				{					
-					ilExAssignment::updateStatusReturnedForUser($this->assignment->getId(), $user_id, 1);
-					ilExerciseMembers::_writeReturned($this->exercise->getId(), $user_id, 1);
-				}
-
-				// :TODO: log, notification
 			}
-			else if(!in_array($user_id, $members))
+			else if(in_array($user_id, $members))
 			{
 				ilUtil::sendFailure($this->lng->txt("exc_members_already_assigned"), true);
 			}
 		}
-
-		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		
+		if(sizeof($new_users))
+		{
+			// re-evaluate complete team, as new member could have already submitted
+			$this->exercise->processExerciseStatus(
+				$this->assignment->getId(),
+				$this->team->getMembers(),
+				$this->submission->hasSubmitted()
+			);			
+			// :TODO: notification?
+		}
+		
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);			
 		$this->ctrl->redirect($this, "submissionScreenTeam");
 	}
 	
@@ -275,11 +246,8 @@ class ilExSubmissionTeamGUI
 			ilUtil::sendFailure($this->lng->txt("select_one"), true);
 			$this->ctrl->redirect($this, "submissionScreenTeam");
 		}
-		
-		$team_id = $this->assignment->getTeamId($ilUser->getId());
-		$members = $this->assignment->getTeamMembers($team_id);
-		
-		$team_deleted = false;
+						
+		$members = $this->team->getMembers();
 		if(sizeof($members) <= sizeof($ids))
 		{
 			if(sizeof($members) == 1 && $members[0] == $ilUser->getId())
@@ -293,11 +261,7 @@ class ilExSubmissionTeamGUI
 				$this->ctrl->redirect($this, "submissionScreenTeam");
 			}
 		}
-		
-		// #11957
-		
-		$team_id = $this->initTeamSubmission();
-		
+			
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$cgui->setFormAction($this->ctrl->getFormAction($this));
@@ -305,8 +269,7 @@ class ilExSubmissionTeamGUI
 		$cgui->setCancel($this->lng->txt("cancel"), "submissionScreenTeam");
 		$cgui->setConfirm($this->lng->txt("remove"), "removeTeamMember");
 
-		$files = ilExAssignment::getDeliveredFiles($this->assignment->getExerciseId(), 
-			$this->assignment->getId(), $ilUser->getId());
+		$files = $this->submission->getFiles();
 		
 		include_once "Services/User/classes/class.ilUserUtil.php";
 		
@@ -342,11 +305,9 @@ class ilExSubmissionTeamGUI
 			ilUtil::sendFailure($this->lng->txt("select_one"), true);
 			$this->ctrl->redirect($this, "submissionScreenTeam");
 		}
-		
-		$team_id = $this->assignment->getTeamId($ilUser->getId());
-		$members = $this->assignment->getTeamMembers($team_id);
-		
+						
 		$team_deleted = false;
+		$members = $this->team->getMembers();
 		if(sizeof($members) <= sizeof($ids))
 		{
 			if(sizeof($members) == 1 && $members[0] == $ilUser->getId())
@@ -362,16 +323,16 @@ class ilExSubmissionTeamGUI
 		
 		foreach($ids as $user_id)
 		{
-			$this->assignment->removeTeamMember($team_id, $user_id, $this->ref_id);		
-			
-			ilExAssignment::updateStatusReturnedForUser($this->assignment->getId(), $user_id, 0);
-			ilExerciseMembers::_writeReturned($this->exercise->getId(), $user_id, 0);
-			
-			// :TODO: log, notification
+			$this->team->removeTeamMember($user_id, $this->exercise->getRefId());					
 		}
+		// re-evaluate complete team, as removed member might have had submitted
+		$this->exercise->processExerciseStatus(
+			$this->assignment->getId(),
+			$this->team->getMembers(),
+			$this->submission->hasSubmitted()
+		);			
 				
-		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-		
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);		
 		if(!$team_deleted)
 		{
 			$this->ctrl->redirect($this, "submissionScreenTeam");		
@@ -383,97 +344,54 @@ class ilExSubmissionTeamGUI
 	}
 	
 	function submissionScreenTeamLogObject()
-	{
-		$team_id = $this->initTeamSubmission();
+	{		
 		$this->tabs_gui->activateTab("log");
 	
 		include_once "Modules/Exercise/classes/class.ilExAssignmentTeamLogTableGUI.php";
 		$tbl = new ilExAssignmentTeamLogTableGUI($this, "submissionScreenTeamLog",
-			$team_id);
+			$this->team);
 		
 		$this->tpl->setContent($tbl->getHTML());						
 	}
 	
 	function createSingleMemberTeamObject()
-	{
-		if(isset($_GET["lmem"]))
-		{				
-			$user_id = $_GET["lmem"];
-			$cmd = "members";												
-		}	
-		else
-		{
-			$user_id = $_GET["lpart"];
-			$cmd = "showParticipant";		
-		}
-		if($user_id)
-		{
-			$this->assignment->getTeamId($user_id, true);		
-			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-		}
-		$this->ctrl->redirect($this, $cmd);	
+	{			
+		ilExAssignmentTeam::getTeamId(
+			$this->assignment->getId(), 
+			$this->submission->getUserId(), 
+			true
+		);		
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		$this->returnToParentObject();	
 	}			
 	
 	function showTeamLogObject()
-	{		
-		$this->checkPermission("write");								
-		$this->tabs_gui->activateTab("grades");	
-						
-		if(isset($_GET["lmem"]))
-		{					
-			$this->addSubmissionSubTabs("assignment");
-			
-			$this->tabs_gui->setBackTarget($this->lng->txt("back"),
-				$this->ctrl->getLinkTarget($this, "members"));
-		
-			$team_id = ilExAssignment::getTeamIdByAssignment($this->assignment->getId(), (int)$_GET["lmem"]);
-			
-			$this->ctrl->saveParameter($this, "lmem");
-		}
-		else
-		{
-			$this->addSubmissionSubTabs("participant");
-			
-			$this->tabs_gui->setBackTarget($this->lng->txt("back"),
-				$this->ctrl->getLinkTarget($this, "showParticipant"));
-		
-			$team_id = ilExAssignment::getTeamIdByAssignment($this->assignment->getId(), (int)$_GET["lpart"]);
-			
-			$this->ctrl->saveParameter($this, "lpart");
-		}
-		
+	{										
 		include_once "Modules/Exercise/classes/class.ilExAssignmentTeamLogTableGUI.php";
-		$tbl = new ilExAssignmentTeamLogTableGUI($this, "showTeamLog",
-			$team_id);
-		
+		$tbl = new ilExAssignmentTeamLogTableGUI($this, "showTeamLog", $this->team);		
 		$this->tpl->setContent($tbl->getHTML());						
 	}
 		
 	public function createTeamObject()
 	{		
-		global $ilCtrl, $ilUser, $ilTabs, $lng, $tpl;
+		global $ilCtrl, $ilUser, $lng, $tpl;
 		
-		if($this->assignment->getDeadline() == 0 ||
-			mktime() < $this->assignment->getDeadline())
+		if($this->submission->canSubmit())
 		{			
-			$options = ilExAssignment::getAdoptableTeamAssignments($this->assignment->getExerciseId(), $this->assignment->getId(), $ilUser->getId());
+			$options = ilExAssignmentTeam::getAdoptableTeamAssignments($this->assignment->getExerciseId(), $this->assignment->getId(), $ilUser->getId());
 			if(sizeof($options))
-			{								
-				$ilTabs->activateTab("content");
-				$this->addContentSubTabs("content");
-	
+			{												
 				include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 				$form = new ilPropertyFormGUI();		         
 				$form->setTitle($lng->txt("exc_team_assignment_adopt_user"));
 				$form->setFormAction($ilCtrl->getFormAction($this, "createAdoptedTeam"));
-
 
 				$teams = new ilRadioGroupInputGUI($lng->txt("exc_assignment"), "ass_adpt");
 				$teams->setValue(-1);
 
 				$teams->addOption(new ilRadioOption($lng->txt("exc_team_assignment_adopt_none_user"), -1));
 				
-				$current_map = ilExAssignment::getAssignmentTeamMap($this->assignment->getId());
+				$current_map = ilExAssignmentTeam::getAssignmentTeamMap($this->assignment->getId());
 
 				include_once "Services/User/classes/class.ilUserUtil.php";
 				foreach($options as $id => $item)
@@ -513,7 +431,7 @@ class ilExSubmissionTeamGUI
 				return;
 			}			
 			
-			$this->assignment->getTeamId($ilUser->getId(), true);		
+			ilExAssignmentTeam::getTeamId($this->assignment->getId(), $ilUser->getId(), true);				
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);	
 		}
 		
@@ -524,17 +442,16 @@ class ilExSubmissionTeamGUI
 	{
 		global $ilCtrl, $ilUser, $lng;
 		
-		if($this->assignment->getDeadline() == 0 ||
-			mktime() < $this->assignment->getDeadline())
+		if($this->submission->canSubmit())
 		{	
 			$src_ass_id = (int)$_POST["ass_adpt"];
 			if($src_ass_id > 0)
 			{
-				$this->assignment->adoptTeams($src_ass_id, $ilUser->getId(), $this->ref_id);						
+				ilExAssignmentTeam::adoptTeams($src_ass_id, $this->assignment->getId(), $ilUser->getId(), $this->exercise->getRefId());						
 			}
 			else
 			{
-				$this->assignment->getTeamId($ilUser->getId(), true);		
+				ilExAssignmentTeam::getTeamId($this->assignment->getId(), $ilUser->getId(), true);		
 			}
 			
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
@@ -552,9 +469,10 @@ class ilExSubmissionTeamGUI
 		if(!strlen(trim($_POST['user_login'])))
 		{
 			ilUtil::sendFailure($this->lng->txt('msg_no_search_string'));
-			$this->membersObject();
+			$this->submissionScreenTeamObject();	
 			return false;
 		}
+		
 		$users = explode(',', $_POST['user_login']);
 
 		$user_ids = array();

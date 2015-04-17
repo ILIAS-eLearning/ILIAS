@@ -38,10 +38,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->ctrl->saveParameter($this,
 			array("ass_id", "part_id", "fsmode"));
 		
-		if ($_GET["ass_id"] > 0)
+		if ($_REQUEST["ass_id"] > 0)
 		{
 			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-			$this->ass = new ilExAssignment((int) $_GET["ass_id"]);
+			$this->ass = new ilExAssignment((int) $_REQUEST["ass_id"]);
 		}
 	}
 

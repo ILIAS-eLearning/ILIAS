@@ -1,4 +1,7 @@
 <?php
+
+include_once "Modules/Exercise/classes/class.ilExAssignmentMemberStatus.php";
+
 /**
  * GUI class for exercise assignments
  * 
@@ -74,7 +77,7 @@ class ilExAssignmentGUI
 		$tpl->setVariable("TITLE", $a_ass->getTitle().$mand);
 
 		// status icon
-		$stat = ilExAssignment::lookupStatusOfUser($a_ass->getId(), $ilUser->getId());
+		$stat = ilExAssignmentMemberStatus::lookupStatusOfUser($a_ass->getId(), $ilUser->getId());
 		switch ($stat)
 		{
 			case "passed": 	$pic = "scorm/passed.svg"; break;
@@ -194,7 +197,7 @@ class ilExAssignmentGUI
 	{		
 		global $lng, $ilCtrl;
 		
-		$files = ilExAssignment::getFiles($a_ass->getExerciseId(), $a_ass->getId());
+		$files = $a_ass->getFiles();
 		if (count($files) > 0)
 		{
 			$a_info->addSection($lng->txt("exc_files"));
@@ -240,11 +243,14 @@ class ilExAssignmentGUI
 		else 
 		{						
 			$a_info->addSection($lng->txt("exc_your_submission"));
+			
+			include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+			$submission = new ilExSubmission($a_ass, $ilUser->getId());			
 				
 			include_once "Modules/Exercise/classes/class.ilExSubmissionGUI.php";
-			ilExSubmissionGUI::getOverviewContent($a_info, $a_ass);
+			ilExSubmissionGUI::getOverviewContent($a_info, $submission);
 				
-			$last_sub = ilExAssignment::getLastSubmission($a_ass->getId(), $ilUser->getId());
+			$last_sub = $submission->getLastSubmission();
 
 			if ($last_sub)
 			{
@@ -260,12 +266,12 @@ class ilExAssignmentGUI
 			}
 
 			include_once "Modules/Exercise/classes/class.ilExPeerReviewGUI.php";
-			ilExPeerReviewGUI::getOverviewContent($a_info, $a_ass);
+			ilExPeerReviewGUI::getOverviewContent($a_info, $submission);
 			
 			// feedback from tutor
 			if($a_ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 			{
-				$feedback_id = "t".ilExAssignment::getTeamIdByAssignment($a_ass->getId(), $ilUser->getId());
+				$feedback_id = "t".$submission->getTeam()->getId();
 			}
 			else
 			{
@@ -293,9 +299,9 @@ class ilExAssignmentGUI
 		$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());					
 		$cnt_files = $storage->countFeedbackFiles($a_feedback_id);
 		
-		$lpcomment = ilExAssignment::lookupCommentForUser($a_ass->getId(), $ilUser->getId());
-		$mark = ilExAssignment::lookupMarkOfUser($a_ass->getId(), $ilUser->getId());
-		$status = ilExAssignment::lookupStatusOfUser($a_ass->getId(), $ilUser->getId());	
+		$lpcomment = ilExAssignmentMemberStatus::lookupCommentForUser($a_ass->getId(), $ilUser->getId());
+		$mark = ilExAssignmentMemberStatus::lookupMarkOfUser($a_ass->getId(), $ilUser->getId());
+		$status = ilExAssignmentMemberStatus::lookupStatusOfUser($a_ass->getId(), $ilUser->getId());	
 		
 		if ($lpcomment != "" || 
 			$mark != "" || 

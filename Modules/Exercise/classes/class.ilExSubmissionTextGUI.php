@@ -15,6 +15,13 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	{
 		global $ilCtrl;
 		
+		if(!$this->assignment ||
+			$this->assignment->getType() != ilExAssignment::TYPE_TEXT ||
+			!$this->submission->canView())
+		{
+			return;
+		}
+		
 		$class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("showassignmenttext");		
 		
@@ -26,11 +33,11 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 		}
 	}
 	
-	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExAssignment $a_ass, $a_missing_team, array $a_files)
+	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{
 		global $lng, $ilCtrl;
 		
-		if($a_ass->beforeDeadline())
+		if($a_submission->canSubmit())
 		{
 			$button = ilLinkButton::getInstance();
 			$button->setPrimary(true);
@@ -54,24 +61,24 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	// TEXT ASSIGNMENT (EDIT)
 	// 
 	
-	protected function initAssignmentTextForm(ilExAssignment $a_ass, $a_read_only = false, $a_cancel_cmd = "returnToParent", $a_peer_review_cmd = null, $a_peer_rating_html = null)
+	protected function initAssignmentTextForm($a_read_only = false, $a_cancel_cmd = "returnToParent", $a_peer_review_cmd = null, $a_peer_rating_html = null)
 	{		
-		global $ilCtrl, $ilUser;
+		global $ilCtrl;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();		
-		$form->setTitle($this->lng->txt("exc_assignment")." \"".$a_ass->getTitle()."\"");
+		$form->setTitle($this->lng->txt("exc_assignment")." \"".$this->assignment->getTitle()."\"");
 			
 		if(!$a_read_only)
 		{
 			$text = new ilTextAreaInputGUI($this->lng->txt("exc_your_text"), "atxt");
-			$text->setRequired((bool)$a_ass->getMandatory());				
+			$text->setRequired((bool)$this->submission->getAssignment()->getMandatory());				
 			$text->setRows(40);
 			$form->addItem($text);
 			
 			// custom rte tags
 			$text->setUseRte(true);		
-			$text->setRTESupport($ilUser->getId(), "exca~", "exc_ass"); 
+			$text->setRTESupport($this->submission->getUserId(), "exca~", "exc_ass"); 
 			
 			// see ilObjForumGUI
 			$text->disableButtons(array(
@@ -126,12 +133,11 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	
 	function editAssignmentTextObject(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilTabs, $ilCtrl, $ilUser;
+		global $ilCtrl;
 
-		if(!$this->assignment || 
-			$this->assignment->getType() != ilExAssignment::TYPE_TEXT ||
-			($this->assignment->getDeadline() && $this->assignment->getDeadline() - time() < 0))				
+		if(!$this->submission->canSubmit())				
 		{
+			ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
 			$ilCtrl->redirect($this, "returnToParent");
 		}
 		
@@ -145,9 +151,9 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 		
 		if(!$a_form)
 		{
-			$a_form = $this->initAssignmentTextForm($this->assignment);		
+			$a_form = $this->initAssignmentTextForm();		
 
-			$files = ilExAssignment::getDeliveredFiles($this->assignment->getExerciseId(), $this->assignment->getId(), $ilUser->getId());
+			$files = $this->submission->getFiles();
 			if($files)
 			{
 				$files = array_shift($files);
@@ -170,22 +176,15 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	
 	function updateAssignmentTextObject($a_return = false)
 	{
-		global $ilCtrl, $ilUser;
+		global $ilCtrl;
 		
-		$times_up = ($this->assignment->getDeadline() && $this->assignment->getDeadline() - time() < 0);
-		
-		if(!$this->assignment || 
-			$this->assignment->getType() != ilExAssignment::TYPE_TEXT ||
-			$times_up)
+		if(!$this->submission->canSubmit())
 		{
-			if($times_up)
-			{
-				ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
-			}
+			ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
 			$ilCtrl->redirect($this, "returnToParent");
 		}
 		
-		$form = $this->initAssignmentTextForm($this->assignment);	
+		$form = $this->initAssignmentTextForm();	
 		
 		// we are not using a purifier, so we have to set the valid RTE tags
 		// :TODO: 
@@ -197,13 +196,9 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 		{			
 			$text = trim($form->getInput("atxt"));	
 									
-			$existing = (bool)ilExAssignment::getDeliveredFiles($this->assignment->getExerciseId(), 
-				$this->assignment->getId(), $ilUser->getId());			
+			$existing = $this->submission->getFiles();
 												
-			$returned_id = $this->exercise->updateTextSubmission(
-				$this->assignment->getExerciseId(), 
-				$this->assignment->getId(), 
-				$ilUser->getId(), 
+			$returned_id = $this->submission->updateTextSubmission(
 				// mob src to mob id
 				ilRTE::_replaceMediaObjectImageSrc($text, 0));	
 			
@@ -212,9 +207,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			{
 				if(!$existing)
 				{
-					// #14332 - new text
-					$this->sendNotifications($this->assignment->getId());
-					$this->exercise->handleSubmission($this->assignment->getId());						
+					$this->handleNewUpload();			
 				}
 				
 				// mob usage
@@ -224,10 +217,14 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 				{
 					if(ilObjMediaObject::_exists($mob))
 					{
-						ilObjMediaObject::_removeUsage($mob, 'exca~:html', $ilUser->getId());
+						ilObjMediaObject::_removeUsage($mob, 'exca~:html', $this->submission->getUserId());
 						ilObjMediaObject::_saveUsage($mob, 'exca:html', $returned_id);
 					}
 				}
+			}
+			else
+			{
+				$this->handleRemovedUpload();
 			}
 			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
@@ -247,36 +244,22 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	
 	function showAssignmentTextObject()
 	{
-		global $ilCtrl, $ilUser, $lng, $tpl;
+		global $ilCtrl, $lng, $tpl, $ilUser;
 		
-		if(!$this->assignment || 
-			$this->assignment->getType() != ilExAssignment::TYPE_TEXT)	
+		$user_id = $this->submission->getUserId();
+		$add_rating = null;		
+		$add_peer_data = false;
+		$cancel_cmd = "returnToParent";
+				
+		if($this->submission->isTutor())
 		{
-			$ilCtrl->redirect($this, "returnToParent");
+			$add_peer_data = true;
 		}
-		
-		$add_rating = null;
-		
-		// tutor
-		if((int)$_GET["grd"])
-		{			
-			if((int)$_GET["grd"] == 1)
-			{													
-				$user_id = (int)$_GET["member_id"];				
-				$cancel_cmd = "members";	
-			}
-			else
-			{			
-				$user_id = (int)$_GET["part_id"];					
-				$cancel_cmd = "showParticipant";		
-			}									
-		}		
-		// peer review
-		else if($this->assignment->hasPeerReviewAccess((int)$_GET["member_id"]))
+		else if($this->submission->hasPeerReviewAccess())
 		{					
-			$user_id = (int)$_GET["member_id"];
+			$add_peer_data = true; 
 			$cancel_cmd = "editPeerReview";		
-			
+
 			// rating
 			$add_rating = "updatePeerReviewText";
 			$ilCtrl->setParameter($this, "peer_id", $user_id);		
@@ -286,27 +269,18 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			$rating->setUserId($ilUser->getId());
 			$rating = '<div id="rtr_widget">'.$rating->getHTML(false, true,
 				"il.ExcPeerReview.saveSingleRating(".$user_id.", %rating%)").'</div>';		
-			
+
 			$ilCtrl->setParameter($this, "ssrtg", 1);
 			$tpl->addJavaScript("Modules/Exercise/js/ilExcPeerReview.js");
 			$tpl->addOnLoadCode("il.ExcPeerReview.setAjax('".
 				$ilCtrl->getLinkTarget($this, "updatePeerReviewComments", "", true, false).
 				"')");
 			$ilCtrl->setParameter($this, "ssrtg", "");
-		}
-		// personal
-		else
-		{			
-			$user_id = $ilUser->getId();
-			$cancel_cmd = "returnToParent";
-		}
-					
-		$this->tabs_gui->clearTargets();
-		$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, $cancel_cmd));		
+		}		
 		
-		$a_form = $this->initAssignmentTextForm($this->assignment, true, $cancel_cmd, $add_rating, $rating);	
+		$a_form = $this->initAssignmentTextForm(true, $cancel_cmd, $add_rating, $rating);	
 		
-		if(($user_id != $ilUser->getId() || (bool)$_GET["grd"]))
+		if($add_peer_data)
 		{
 			if(!stristr($cancel_cmd, "peer"))
 			{
@@ -325,7 +299,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 					$a_form->setDescription(ilUserUtil::getNamePresentation($user_id));	
 				}
 								
-				foreach($this->assignment->getPeerReviewsByPeerId($user_id) as $item)
+				foreach($this->submission->getPeerReview()->getPeerReviewsByPeerId($user_id) as $item)
 				{
 					if($item["giver_id"] == $ilUser->getId())
 					{						
@@ -336,7 +310,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			}						
 		}
 		
-		$files = ilExAssignment::getDeliveredFiles($this->assignment->getExerciseId(), $this->assignment->getId(), $user_id);
+		$files = $this->submission->getFiles();
 		if($files)
 		{
 			$files = array_shift($files);

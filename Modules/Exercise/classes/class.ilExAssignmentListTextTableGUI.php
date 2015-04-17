@@ -82,7 +82,7 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 		
 		include_once "Services/User/classes/class.ilUserUtil.php";
 		include_once "Services/RTE/classes/class.ilRTE.php";
-		foreach(ilExAssignment::getAllDeliveredFiles($this->ass->getExerciseId(), $this->ass->getId()) as $file)
+		foreach(ilExSubmission::getAllAssignmentFiles($this->ass->getExerciseId(), $this->ass->getId()) as $file)
 		{		
 			if(trim($file["atext"]))
 			{

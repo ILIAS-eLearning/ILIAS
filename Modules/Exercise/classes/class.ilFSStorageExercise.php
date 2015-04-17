@@ -228,7 +228,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
 	* @access	public
 	* @return mixed Returns a result array with filename and mime type of the saved file, otherwise false
 	*/
-	function deliverFile($a_http_post_file, $user_id, $is_unziped = false)
+	function uploadFile($a_http_post_file, $user_id, $is_unziped = false)
 	{
 		$this->create();
 		

@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
+include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 
 /**
 * Class ilExSubmissionGUI
@@ -13,33 +14,45 @@ include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
 * @ingroup ModulesExercise
 */
 class ilExSubmissionGUI
-{
-	protected $exercise_id; // [int]
+{	
 	protected $exercise; // [ilObjExercise]
+	protected $submission; // [ilExSubmission]
 	protected $assignment; // [ilExAssignment]
-	protected $participant_id; // [int]
 	
 	/**
 	 * Constructor
 	 * 
 	 * @param ilObjExercise $a_exercise
 	 * @param ilExAssignment $a_ass
-	 * @param int $a_participant_id
+	 * @param int $a_user_id
 	 * @return object
 	 */
-	public function __construct(ilObjExercise $a_exercise, ilExAssignment $a_ass, $a_participant_id = null)
+	public function __construct(ilObjExercise $a_exercise, ilExAssignment $a_ass, $a_user_id = null)
 	{
 		global $ilCtrl, $ilTabs, $lng, $tpl, $ilUser;
 		
-		if(!$a_participant_id)
+		if(!$a_user_id)
 		{
-			$a_participant_id = $ilUser->getId();
+			$a_user_id = $ilUser->getId();
 		}
 		
-		$this->exercise_id = $a_ass->getExerciseId();
-		$this->exercise = $a_exercise;
 		$this->assignment = $a_ass;
-		$this->participant_id = $a_participant_id;				
+		$this->exercise = $a_exercise;		
+		
+		// #12337
+		if (!$this->exercise->members_obj->isAssigned($a_user_id))
+		{
+			$this->exercise->members_obj->assignMember($a_user_id);				
+		}		
+						
+		// public submissions ???
+		$public_submissions = false;
+		if ($this->exercise->getShowSubmissions() &&
+			$this->exercise->getTimestamp() - time() <= 0) // ???
+		{
+			$public_submissions = true;
+		}				
+		$this->submission = new ilExSubmission($a_ass, $a_user_id, null, $public_submissions);				
 		
 		// :TODO:
 		$this->ctrl = $ilCtrl;
@@ -65,28 +78,28 @@ class ilExSubmissionGUI
 						$this->ctrl->getLinkTarget($this, "returnToParent"));	
 		
 				$this->tabs_gui->addTab("submission", $this->lng->txt("exc_submission"), 
-					$this->ctrl->getLinkTargetByClass("ilexsubmission".$this->assignment->getSubmissionType()."gui", ""));
+					$this->ctrl->getLinkTargetByClass("ilexsubmission".$this->submission->getSubmissionType()."gui", ""));
 			
 				include_once "Modules/Exercise/classes/class.ilExSubmissionTeamGUI.php";
-				$gui = new ilExSubmissionTeamGUI($this->exercise, $this->assignment, $this->participant_id);
+				$gui = new ilExSubmissionTeamGUI($this->exercise, $this->submission);
 				$ilCtrl->forwardCommand($gui);
 				break;
 			
 			case "ilexsubmissiontextgui":
 				include_once "Modules/Exercise/classes/class.ilExSubmissionTextGUI.php";
-				$gui = new ilExSubmissionTextGUI($this->exercise, $this->assignment, $this->participant_id);
-				$ilCtrl->forwardCommand($gui);
+				$gui = new ilExSubmissionTextGUI($this->exercise, $this->submission);
+				$ilCtrl->forwardCommand($gui); 
 				break;
 			
 			case "ilexsubmissionfilegui":
 				include_once "Modules/Exercise/classes/class.ilExSubmissionFileGUI.php";
-				$gui = new ilExSubmissionFileGUI($this->exercise, $this->assignment, $this->participant_id);
+				$gui = new ilExSubmissionFileGUI($this->exercise, $this->submission);
 				$ilCtrl->forwardCommand($gui);
 				break;
 			
 			case "ilexsubmissionobjectgui":
 				include_once "Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php";
-				$gui = new ilExSubmissionObjectGUI($this->exercise, $this->assignment, $this->participant_id);
+				$gui = new ilExSubmissionObjectGUI($this->exercise, $this->submission);
 				$ilCtrl->forwardCommand($gui);
 				break;
 				
@@ -96,33 +109,27 @@ class ilExSubmissionGUI
 		}
 	}	
 	
-	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
+	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{
-		global $ilUser, $ilCtrl;
+		global $ilCtrl;
+		
+		if(!$a_submission->canView())
+		{
+			$this->returnToParentObject();
+		}
 			
-		$ilCtrl->setParameterByClass("ilExSubmissionGUI", "ass_id", $a_ass->getId());
+		$ilCtrl->setParameterByClass("ilExSubmissionGUI", "ass_id", $a_submission->getAssignment()->getId());
 			
-		if($a_ass->hasTeam())
+		if($a_submission->getAssignment()->hasTeam())
 		{
 			include_once "Modules/Exercise/classes/class.ilExSubmissionTeamGUI.php";			
-			$missing_team = ilExSubmissionTeamGUI::getOverviewContent($a_info, $a_ass);
+			ilExSubmissionTeamGUI::getOverviewContent($a_info, $a_submission);
 		}
-						
-		$delivered_files = ilExAssignment::getDeliveredFiles($a_ass->getExerciseId(), $a_ass->getId(), $ilUser->getId());
-					
-		/*
-		 submission
-		 - file based 
-		 -- object based
-		 --- blog
-		 --- portfolio
-		 - text based			 
-		*/			
 		
-		$submission_type = $a_ass->getSubmissionType();
+		$submission_type = $a_submission->getSubmissionType();
 		$class = "ilExSubmission".$submission_type."GUI";		
 		include_once "Modules/Exercise/classes/class.".$class.".php";			
-		$class::getOverviewContent($a_info, $a_ass, $missing_team, $delivered_files);																	
+		$class::getOverviewContent($a_info, $a_submission);																	
 			
 		$ilCtrl->setParameterByClass("ilExSubmissionGUI", "ass_id", "");
 	}
@@ -141,8 +148,7 @@ class ilExSubmissionGUI
 		if($this->assignment->getType() != ilExAssignment::TYPE_TEXT)
 		{		
 			include_once("./Modules/Exercise/classes/class.ilPublicSubmissionsTableGUI.php");
-			$tab = new ilPublicSubmissionsTableGUI($this, "listPublicSubmissions",
-				$this->exercise, $this->assignment->getId());
+			$tab = new ilPublicSubmissionsTableGUI($this, "listPublicSubmissions", $this->assignment);
 			$this->tpl->setContent($tab->getHTML());
 		}
 		else
@@ -159,7 +165,7 @@ class ilExSubmissionGUI
  	 */
 	function downloadFeedbackFileObject()
 	{
-		global $rbacsystem, $ilUser;
+		global $ilUser;
 		
 		$file = $_REQUEST["file"];
 
@@ -169,9 +175,9 @@ class ilExSubmissionGUI
 			$this->ctrl->redirect($this, "view");
 		}
 		
-		if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		if($this->assignment->hasTeam())
 		{			
-			$feedback_id = "t".$this->assignment->getTeamId($this->participant_id);
+			$feedback_id = "t".$this->submission->getTeam()->getId();
 		}
 		else
 		{
@@ -210,20 +216,19 @@ class ilExSubmissionGUI
 	
 	public function downloadGlobalFeedbackFileObject()
 	{
-		global $ilCtrl, $ilUser;
+		global $ilCtrl;
 		
 		$needs_dl = ($this->assignment->getFeedbackDate() == ilExAssignment::FEEDBACK_DATE_DEADLINE);
 		
 		if(!$this->assignment || 
 			!$this->assignment->getFeedbackFile() ||
-			($needs_dl && !$this->assignment->getDeadline()) ||
-			($needs_dl && $this->assignment->getDeadline() > time()) ||
-			(!$needs_dl && !ilExAssignment::getLastSubmission($this->assignment->getId(), $ilUser->getId())))						
+			($needs_dl && !$this->assignment->afterDeadlineStrict()) ||				
+			(!$needs_dl && !$this->submission->hasSubmitted()))						
 		{
 			$ilCtrl->redirect($this, "returnToParent");
 		}
 		
-		ilUtil::deliverFile($this->assignment->getFeedbackFilePath(), $this->assignment->getFeedbackFile());
+		ilUtil::deliverFile($this->assignment->getGlobalFeedbackFilePath(), $this->assignment->getFeedbackFile());
 	}
 	
 	/**
@@ -239,34 +244,28 @@ class ilExSubmissionGUI
 			$this->ctrl->redirect($this, "view");
 		}
 		
-		// check, whether file belongs to assignment
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		$files = ilExAssignment::getFiles($this->exercise_id, $this->assignment->getId());
-		$file_exist = false;
-		foreach($files as $lfile)
-		{
-			if($lfile["name"] == $file)
-			{
-				$file_exist = true;
-				break;
-			}
-		}
-		if(!$file_exist)
-		{
-			echo "FILE DOES NOT EXIST";
-			exit;
-		}
-		
 		// check whether assignment as already started		
 		if (!$this->assignment->notStartedYet())
 		{
-			// deliver file
-			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-			$storage = new ilFSStorageExercise($this->exercise_id, $this->assignment->getId());
-			$p = $storage->getAssignmentFilePath($file);
-			ilUtil::deliverFile($p, $file);
+			// check, whether file belongs to assignment
+			$files = $this->assignment->getFiles();
+			$file_exist = false;
+			foreach($files as $lfile)
+			{
+				if($lfile["name"] == $file)
+				{
+					// deliver file
+					ilUtil::deliverFile($lfile["fullpath"], $file);
+					exit();
+				}
+			}
+			if(!$file_exist)
+			{
+				echo "FILE DOES NOT EXIST";
+				exit;
+			}
 		}
-	
+		
 		return true;
 	}
 	

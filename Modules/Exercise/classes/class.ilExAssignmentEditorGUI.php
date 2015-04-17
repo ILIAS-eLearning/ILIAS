@@ -415,7 +415,7 @@ class ilExAssignmentEditorGUI
 									
 			if($_FILES["fb_file"]["tmp_name"])
 			{
-				$ass->handleFeedbackFileUpload($_FILES["fb_file"]);
+				$ass->handleGlobalFeedbackFileUpload($_FILES["fb_file"]);
 				$ass->update();
 			}
 			
@@ -527,13 +527,14 @@ class ilExAssignmentEditorGUI
 		if($this->assignment->getFeedbackFile())
 		{						
 			$a_form->getItemByPostVar("fb")->setChecked(true);			
-			$a_form->getItemByPostVar("fb_file")->setValue(basename($this->assignment->getFeedbackFilePath()));			
+			$a_form->getItemByPostVar("fb_file")->setValue(basename($this->assignment->getGlobalFeedbackFilePath()));			
 		}
 		$a_form->getItemByPostVar("fb_cron")->setChecked($this->assignment->hasFeedbackCron());			
 		$a_form->getItemByPostVar("fb_date")->setValue($this->assignment->getFeedbackDate());			
 		
 		// if there are any submissions we cannot change type anymore
-		if(sizeof(ilExAssignment::getAllDeliveredFiles($this->exercise_id, $this->assignment->getId())) ||
+		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+		if(ilExSubmission::hasAnySubmissions($this->assignment->getId()) ||
 			$this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
 			$a_form->getItemByPostVar("type")->setDisabled(true);
@@ -686,12 +687,12 @@ class ilExAssignmentEditorGUI
 			if(!$_POST["fb"] ||
 				$form->getItemByPostVar("fb_file")->getDeletionFlag())
 			{
-				$this->assignment->deleteFeedbackFile();
+				$this->assignment->deleteGlobalFeedbackFile();
 				$this->assignment->setFeedbackFile(null);
 			}
 			else if($_FILES["fb_file"]["tmp_name"]) // #15189
 			{
-				$this->assignment->handleFeedbackFileUpload($_FILES["fb_file"]);
+				$this->assignment->handleGlobalFeedbackFileUpload($_FILES["fb_file"]);
 			}
 						
 			$this->assignment->setFeedbackCron($_POST["fb_cron"]); // #13380
@@ -884,7 +885,7 @@ class ilExAssignmentEditorGUI
 		if($this->ass && $src_ass_id > 0)
 		{
 			// no notifications, assignment is not ready
-			$this->ass->adoptTeams($src_ass_id);			
+			ilExAssignmentTeam::adoptTeams($src_ass_id, $this->ass->getId());			
 			
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		}

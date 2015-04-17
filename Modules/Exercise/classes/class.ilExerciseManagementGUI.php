@@ -1,12 +1,16 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+
 /**
 * Class ilExerciseManagementGUI
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * 
 * @ilCtrl_Calls ilExerciseManagementGUI: ilFileSystemGUI, ilRepositorySearchGUI
+* @ilCtrl_Calls ilExerciseManagementGUI: ilExSubmissionTeamGUI, ilExSubmissionFileGUI
+* @ilCtrl_Calls ilExerciseManagementGUI: ilExSubmissionTextGUI
 * 
 * @ingroup ModulesExercise
 */
@@ -116,6 +120,51 @@ class ilExerciseManagementGUI
 				$this->ctrl->forwardCommand($rep_search);
 				break;
 			
+			case "ilexsubmissionteamgui":						
+				if($_GET["lmem"])
+				{
+					$this->ctrl->saveParameter($this, "lmem");
+					
+					// team gui has no base gui - see we have to handle tabs here				
+					$this->tabs_gui->clearTargets();		
+						$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
+							$this->ctrl->getLinkTarget($this, "members"));	
+
+					include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+					$submission = new ilExSubmission($this->assignment, $_GET["lmem"], true);
+				
+					include_once "Modules/Exercise/classes/class.ilExSubmissionTeamGUI.php";
+					$gui = new ilExSubmissionTeamGUI($this->exercise, $submission);
+					$ilCtrl->forwardCommand($gui);
+				}
+				break;		
+				
+			case "ilexsubmissionfilegui":						
+				if($_GET["member_id"])
+				{							
+					$this->ctrl->saveParameter($this, "member_id");
+					
+					include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+					$submission = new ilExSubmission($this->assignment, $_GET["member_id"], true);				
+					include_once "Modules/Exercise/classes/class.ilExSubmissionFileGUI.php";
+					$gui = new ilExSubmissionFileGUI($this->exercise, $submission);
+					$ilCtrl->forwardCommand($gui);
+				}
+				break;
+				
+			case "ilexsubmissiontextgui":						
+				if($_GET["member_id"])
+				{					
+					$this->ctrl->saveParameter($this, "member_id");
+					
+					include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+					$submission = new ilExSubmission($this->assignment, $_GET["member_id"], true);				
+					include_once "Modules/Exercise/classes/class.ilExSubmissionTextGUI.php";
+					$gui = new ilExSubmissionTextGUI($this->exercise, $submission);
+					$ilCtrl->forwardCommand($gui);
+				}
+				break;
+			
 			default:					
 				$this->ctrl->setParameter($this, "fsmode", ""); // #15115
 				
@@ -123,8 +172,6 @@ class ilExerciseManagementGUI
 				break;
 		}
 	}	
-	
-	
 	
 	/**
 	* adds tabs to tab gui object
@@ -143,6 +190,93 @@ class ilExerciseManagementGUI
 			$ilCtrl->getLinkTarget($this, "showGradesOverview"));
 		$ilTabs->activateSubTab($a_activate);
 	}
+	
+	/**
+	 * All participants and submission of one assignment
+	 */
+	function membersObject()
+	{
+		global $tpl, $ilToolbar, $ilCtrl, $lng;
+
+		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+	
+		$this->addSubTabs("assignment");
+		
+		// assignment selection
+		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+		$ass = ilExAssignment::getInstancesByExercise($this->exercise->getId());
+		
+		if (!$this->assignment)
+		{
+			$this->assignment = current($ass);			
+		}
+		
+		reset($ass);
+		if (count($ass) > 1)
+		{
+			$options = array();
+			foreach ($ass as $a)
+			{
+				$options[$a->getId()] = $a->getTitle();
+			}
+			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+			$si = new ilSelectInputGUI($this->lng->txt(""), "ass_id");
+			$si->setOptions($options);
+			$si->setValue($this->assignment->getId());
+			$ilToolbar->addInputItem($si);
+					
+			$ilToolbar->addFormButton($this->lng->txt("exc_select_ass"),
+				"selectAssignment");
+			$ilToolbar->addSeparator();
+		}
+		
+		// add member
+		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+		ilRepositorySearchGUI::fillAutoCompleteToolbar(
+			$this,
+			$ilToolbar,
+			array(
+				'auto_complete_name'	=> $lng->txt('user'),
+				'submit_name'			=> $lng->txt('add'),
+				'add_search'			=> true,
+				'add_from_container'    => $this->exercise->getRefId()
+			)
+		);
+		
+		// we do not want the ilRepositorySearchGUI form action
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+
+		$ilToolbar->addSeparator();
+		
+		// multi-feedback
+		$ilToolbar->addButton($this->lng->txt("exc_multi_feedback"),
+			$this->ctrl->getLinkTarget($this, "showMultiFeedback"));
+		
+		if (count($ass) > 0)
+		{							
+			if($this->assignment->getType() == ilExAssignment::TYPE_TEXT)
+			{
+				$ilToolbar->addSeparator();
+				$ilToolbar->addFormButton($lng->txt("exc_list_text_assignment"), "listTextAssignment");					
+			}		
+			else if(ilExSubmission::hasAnySubmissions($this->assignment->getId()))
+			{			
+				$ilToolbar->addSeparator();
+				$ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadAll");			
+			}		
+			
+			include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
+			$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment);
+			$tpl->setContent($exc_tab->getHTML());
+		}
+		else
+		{
+			ilUtil::sendInfo($lng->txt("exc_no_assignments_available"));
+		}
+		return;		
+	}
+	
+	
 
 	
 	/**
@@ -278,103 +412,6 @@ class ilExerciseManagementGUI
 		$this->ctrl->redirect($this, "members");
 		return true;
 	}
-
-
-	/**
-	 * All participants and submission of one assignment
-	 */
-	function membersObject()
-	{
-		global $rbacsystem, $tree, $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
-
-		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-	
-		$this->addSubTabs("assignment");
-		
-		// assignment selection
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		$ass = ilExAssignment::getAssignmentDataOfExercise($this->exercise->getId());
-		
-		if ($_GET["ass_id"] == "")
-		{
-			$a = current($ass);
-			$_GET["ass_id"] = $a["id"];
-		}
-		
-		reset($ass);
-		if (count($ass) > 1)
-		{
-			$options = array();
-			foreach ($ass as $a)
-			{
-				$options[$a["id"]] = $a["title"];
-			}
-			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-			$si = new ilSelectInputGUI($this->lng->txt(""), "ass_id");
-			$si->setOptions($options);
-			$si->setValue($_GET["ass_id"]);
-			$ilToolbar->addInputItem($si);
-					
-			$ilToolbar->addFormButton($this->lng->txt("exc_select_ass"),
-				"selectAssignment");
-			$ilToolbar->addSeparator();
-		}
-		
-		// add member
-		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-		ilRepositorySearchGUI::fillAutoCompleteToolbar(
-			$this,
-			$ilToolbar,
-			array(
-				'auto_complete_name'	=> $lng->txt('user'),
-				'submit_name'			=> $lng->txt('add'),
-				'add_search'			=> true,
-				'add_from_container'    => $_GET["ref_id"]
-			)
-		);
-		
-		// we do not want the ilRepositorySearchGUI form action
-		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-
-		$ilToolbar->addSeparator();
-		
-		// multi-feebdack
-		$ilToolbar->addButton($this->lng->txt("exc_multi_feedback"),
-			$this->ctrl->getLinkTarget($this, "showMultiFeedback"));
-		
-		if (count($ass) > 0)
-		{
-			$ctype = null;
-			foreach($ass as $item)
-			{
-				if($item["id"] == $_GET["ass_id"])
-				{
-					$ctype = $item["type"];
-				}
-			}						
-			if($ctype == ilExAssignment::TYPE_TEXT)
-			{
-				$ilToolbar->addSeparator();
-				$ilToolbar->addFormButton($lng->txt("exc_list_text_assignment"), "listTextAssignment");					
-			}		
-			else if(count(ilExAssignment::getAllDeliveredFiles($this->exercise->getId(), $_GET["ass_id"])))
-			{			
-				$ilToolbar->addSeparator();
-				$ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadAll");			
-			}		
-			
-			include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
-			$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $_GET["ass_id"]);
-			$tpl->setContent($exc_tab->getHTML());
-		}
-		else
-		{
-			ilUtil::sendInfo($lng->txt("exc_no_assignments_available"));
-		}
-		return;		
-	}
-	
-	
 	
 
 	/**

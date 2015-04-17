@@ -3,24 +3,17 @@
 
 abstract class ilExSubmissionBaseGUI
 {
-	protected $exercise_id; // [int]
 	protected $exercise; // [ilObjExercise]
+	protected $submission; // [ilExSubmission]
 	protected $assignment; // [ilExAssignment]
-	protected $participant_id; // [int]
 	
-	public function __construct(ilObjExercise $a_exercise, ilExAssignment $a_ass, $a_participant_id = null)
+	public function __construct(ilObjExercise $a_exercise, ilExSubmission $a_submission)
 	{
-		global $ilCtrl, $ilTabs, $lng, $tpl, $ilUser;
+		global $ilCtrl, $ilTabs, $lng, $tpl;
 		
-		if(!$a_participant_id)
-		{
-			$a_participant_id = $ilUser->getId();
-		}
-		
-		$this->exercise_id = $a_ass->getExerciseId();
 		$this->exercise = $a_exercise;
-		$this->assignment = $a_ass;
-		$this->participant_id = $a_participant_id;				
+		$this->submission = $a_submission;
+		$this->assignment = $a_submission->getAssignment();
 		
 		// :TODO:
 		$this->ctrl = $ilCtrl;
@@ -29,7 +22,7 @@ abstract class ilExSubmissionBaseGUI
 		$this->tpl = $tpl;		
 	}
 	
-	abstract public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExAssignment $a_ass, $a_missing_team, array $a_files);
+	abstract public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission);
 	
 	protected function handleTabs()
 	{				
@@ -53,21 +46,38 @@ abstract class ilExSubmissionBaseGUI
 		$this->ctrl->returnToParent($this);
 	}
 	
-	/**
-	 * Send submission notifications
-	 * @param	int	$assignment_id
-	 */
-    protected function sendNotifications($assignment_id)
-	{
-		include_once "./Services/Notification/classes/class.ilNotification.php";
-		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->exercise_id);
+	
+	//
+	// RETURNED/EXERCISE STATUS
+	// 
+	
+	protected function handleNewUpload($a_no_notifications = false)
+	{		
+		$has_submitted = $this->submission->hasSubmitted();
+		
+		$this->exercise->processExerciseStatus(
+			$this->assignment->getId(),
+			$this->submission->getUserIds(),
+			$has_submitted);
+		
+		if($has_submitted &&
+			!$a_no_notifications)
+		{
+			include_once "./Services/Notification/classes/class.ilNotification.php";
+			$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->exercise->getId());
 
-		include_once "./Modules/Exercise/classes/class.ilExerciseMailNotification.php";
-		$not = new ilExerciseMailNotification();
-		$not->setType(ilExerciseMailNotification::TYPE_SUBMISSION_UPLOAD);
-		$not->setAssignmentId($assignment_id);
-		$not->setRefId($this->exercise->getRefId());
-		$not->setRecipients($users);
-		$not->send();
+			include_once "./Modules/Exercise/classes/class.ilExerciseMailNotification.php";
+			$not = new ilExerciseMailNotification();
+			$not->setType(ilExerciseMailNotification::TYPE_SUBMISSION_UPLOAD);
+			$not->setAssignmentId($this->assignment->getId());
+			$not->setRefId($this->exercise->getRefId());
+			$not->setRecipients($users);
+			$not->send();
+		}
+	}
+	
+	protected function handleRemovedUpload()
+	{
+		$this->handleNewUpload(true);
 	}
 }

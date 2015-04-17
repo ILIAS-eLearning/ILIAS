@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
-include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 
 /**
 * Exercise member table
@@ -14,25 +14,22 @@ include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 */
 class ilPublicSubmissionsTableGUI extends ilTable2GUI
 {
+	protected $ass; // [ilExAssignment]
 	
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_ass_id)
+	function __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng;
 		
-		$this->exc = $a_exc;
-		$this->exc_id = $this->exc->getId();
+		$this->ass = $a_ass;
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		
-		$this->ass_id = $a_ass_id;
-		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->setData(ilExAssignment::getMemberListData($this->exc_id, $this->ass_id));
-		$this->setTitle($lng->txt("exc_assignment").": ".
-			ilExAssignment::lookupTitle($a_ass_id));
+		$this->setData($this->ass->getMemberListData());
+		$this->setTitle($lng->txt("exc_assignment").": ".$this->ass->getTitle());
 		$this->setTopCommands(true);
 		//$this->setLimit(9999);
 		
@@ -87,12 +84,12 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
 			$last_sub = "---";
 		}
 
-		// nr of submitted files
-		$this->tpl->setVariable("TXT_SUBMITTED_FILES",
-			$lng->txt("exc_files_returned"));
-		$sub_cnt = count(ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id));
-		$this->tpl->setVariable("VAL_SUBMITTED_FILES",
-			$sub_cnt);
+		// nr of submitted files		
+		$sub = new ilExSubmission($this->ass, $member_id);
+		$sub_cnt = count($sub->getFiles());
+		
+		$this->tpl->setVariable("TXT_SUBMITTED_FILES", $lng->txt("exc_files_returned"));		
+		$this->tpl->setVariable("VAL_SUBMITTED_FILES", $sub_cnt);
 		
 		// download command
 		$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);

@@ -52,7 +52,6 @@ class ilExParticipantTableGUI extends ilTable2GUI
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
-		//$this->setData(ilExAssignment::getMemberListData($this->exc_id, $this->ass_id));
 		$data = ilExAssignment::getAssignmentDataOfExercise($this->exc_id);
 		$this->setData($data);
 		
@@ -155,7 +154,7 @@ class ilExParticipantTableGUI extends ilTable2GUI
 				$ilCtrl->setParameter($this->parent_obj, "ass_id", $d["id"]);
 				$ilCtrl->setParameter($this->parent_obj, "lpart", $this->part_id);
 				$this->tpl->setVariable("URL_CREATE_TEAM", 						
-					$ilCtrl->getLinkTarget($this->getParentObject(), "createSingleMemberTeam"));
+					$ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "createSingleMemberTeam"));
 				$ilCtrl->setParameter($this->parent_obj, "lpart", "");
 				$ilCtrl->setParameter($this->parent_obj, "ass_id", "");
 				

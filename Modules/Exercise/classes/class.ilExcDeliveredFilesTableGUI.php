@@ -13,26 +13,27 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 {
+	protected $submission; // [ilExSubmission]
 	
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass)
+	function __construct($a_parent_obj, $a_parent_cmd, ilExSubmission $a_submission)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng,$lng;
 			
-		$this->ass = $a_ass;
+		$this->submission = $a_submission;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->setData($this->getDeliveredFiles());
+		$this->setData($this->submission->getFiles());
 		$this->setTitle($this->lng->txt("already_delivered_files")." - ".
-			$this->ass->getTitle());
+			$this->submission->getAssignment()->getTitle());
 		$this->setLimit(9999);
 		
 		$this->addColumn($this->lng->txt(""), "", "1", 1);
 		$this->addColumn($this->lng->txt("filename"), "filetitle");
 		
-		if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		if($this->submission->getAssignment()->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
 			// #11957
 			$this->lng->loadLanguageModule("file");
@@ -50,28 +51,13 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 		$this->disable("footer");
 		$this->setEnableTitle(true);
 
-		if (mktime() < $this->ass->getDeadline() || ($this->ass->getDeadline() == 0))
+		if ($this->submission->canSubmit())
 		{
 			$this->addMultiCommand("confirmDeleteDelivered", $lng->txt("delete"));
 		}
 		$this->addMultiCommand("download", $lng->txt("download"));				
 	}
 
-	/**
-	 * Get delivered files
-	 *
-	 * @param
-	 * @return
-	 */
-	function getDeliveredFiles()
-	{
-		global $ilUser;
-		
-		$files = ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id,
-			$ilUser->getId());
-		return $files;
-	}
-	
 	/**
 	* Fill table row
 	*/
@@ -85,7 +71,7 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 		$date = new ilDateTime($file['timestamp14'],IL_CAL_TIMESTAMP);
 		$this->tpl->setVariable("DELIVERED_DATE", ilDatePresentation::formatDate($date));
 		
-		if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		if($this->submission->getAssignment()->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
 			$this->tpl->setVariable("DELIVERED_OWNER",
 				ilUserUtil::getNamePresentation($file["owner_id"]));

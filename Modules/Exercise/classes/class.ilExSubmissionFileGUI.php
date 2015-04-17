@@ -15,6 +15,11 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	{
 		global $ilCtrl;
 		
+		if(!$this->submission->canView())
+		{
+			$this->returnToParentObject();
+		}
+		
 		$class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("submissionScreen");		
 		
@@ -26,12 +31,12 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		}
 	}
 	
-	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExAssignment $a_ass, $a_missing_team, array $a_files)
+	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{		
 		global $lng, $ilCtrl;
 		
 		$titles = array();
-		foreach($a_files as $file)
+		foreach($a_submission->getFiles() as $file)
 		{
 			$titles[] = $file["filetitle"];
 		}
@@ -42,9 +47,9 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		}
 
 		// no team == no submission
-		if(!$a_missing_team)
+		if(!$a_submission->hasNoTeamYet())
 		{							
-			if ($a_ass->beforeDeadline())
+			if ($a_submission->canSubmit())
 			{
 				$title = (count($titles) == 0
 					? $lng->txt("exc_hand_in")
@@ -85,7 +90,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		
 		$this->handleTabs();
 		
-		if (mktime() > $this->assignment->getDeadline() && ($this->assignment->getDeadline() != 0))
+		if (!$this->submission->canSubmit())
 		{
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
@@ -99,32 +104,26 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		}
 
 		include_once("./Modules/Exercise/classes/class.ilExcDeliveredFilesTableGUI.php");
-		$tab = new ilExcDeliveredFilesTableGUI($this, "submissionScreen", $this->assignment);
+		$tab = new ilExcDeliveredFilesTableGUI($this, "submissionScreen", $this->submission);
 		$this->tpl->setContent($tab->getHTML());
 	}
-	
-	// 
-	// FILE SUBMISSION
-	// 
 	
 	/**
 	 * Display form for single file upload 
 	 */
 	public function uploadFormObject()
 	{		
-		if (mktime() < $this->assignment->getDeadline() || ($this->assignment->getDeadline() == 0))
-		{
-			$this->tabs_gui->clearTargets();
-			$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
-				$this->ctrl->getLinkTarget($this, "submissionScreen"));		
-			
-			$this->initUploadForm();
-			$this->tpl->setContent($this->form->getHTML());
-		}
-		else
+		if (!$this->submission->canSubmit())
 		{
 			$this->ctrl->redirect($this, "submissionScreen");
 		}
+		
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
+			$this->ctrl->getLinkTarget($this, "submissionScreen"));		
+
+		$this->initUploadForm();
+		$this->tpl->setContent($this->form->getHTML());		
 	}
 	
 	/**
@@ -132,25 +131,23 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 */
 	public function uploadZipFormObject()
 	{		
-		if (mktime() < $this->assignment->getDeadline() || ($this->assignment->getDeadline() == 0))
-		{
-			$this->tabs_gui->clearTargets();
-			$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
-				$this->ctrl->getLinkTarget($this, "submissionScreen"));		
-			
-			$this->initZipUploadForm();
-			$this->tpl->setContent($this->form->getHTML());
-		}
-		else
+		if (!$this->submission->canSubmit())
 		{
 			$this->ctrl->redirect($this, "submissionScreen");
 		}
+		
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
+			$this->ctrl->getLinkTarget($this, "submissionScreen"));		
+
+		$this->initZipUploadForm();
+		$this->tpl->setContent($this->form->getHTML());	
 	}
  
 	/**
 	 * Init upload form form.
 	 */
-	public function initUploadForm()
+	protected function initUploadForm()
 	{
 		global $lng, $ilCtrl;
 	
@@ -164,7 +161,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		//$fi->setInfo($lng->txt(""));
 		$this->form->addItem($fi);
 	
-		$this->form->addCommandButton("deliverFile", $lng->txt("upload"));
+		$this->form->addCommandButton("uploadFile", $lng->txt("upload"));
 		$this->form->addCommandButton("submissionScreen", $lng->txt("cancel"));
 	                
 		$this->form->setTitle($lng->txt("file_add"));
@@ -174,7 +171,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	/**
 	 * Init upload form form.
 	 */
-	public function initZipUploadForm()
+	protected function initZipUploadForm()
 	{
 		global $lng, $ilCtrl;
 	
@@ -187,7 +184,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		$fi->setSuffixes(array("zip"));
 		$this->form->addItem($fi);
 	
-		$this->form->addCommandButton("deliverUnzip", $lng->txt("upload"));
+		$this->form->addCommandButton("uploadZip", $lng->txt("upload"));
 		$this->form->addCommandButton("submissionScreen", $lng->txt("cancel"));
 	                
 		$this->form->setTitle($lng->txt("header_zip"));
@@ -197,237 +194,93 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
  	/**
  	 * Upload files
  	 */
-	function deliverFileObject()
+	function uploadFileObject()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		global $ilCtrl;
 		
 		// #15322
-		if (mktime() > $this->assignment->getDeadline() && ($this->assignment->getDeadline() != 0))
+		if (!$this->submission->canSubmit())
 		{
-			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
-			return;
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);			
 		}
-
-		$success = false;
-		foreach ($_FILES["deliver"]["name"] as $k => $v)
+		else
 		{
-			$file = array(
-				"name" => $_FILES["deliver"]["name"][$k], 
-				"type" => $_FILES["deliver"]["type"][$k],
-				"tmp_name" => $_FILES["deliver"]["tmp_name"][$k],
-				"error" => $_FILES["deliver"]["error"][$k],
-				"size" => $_FILES["deliver"]["size"][$k],
-				);
-			if(!$this->exercise->deliverFile($file, (int) $_GET["ass_id"], $ilUser->id))
+			$success = false;
+			foreach ($_FILES["deliver"]["name"] as $k => $v)
 			{
-				ilUtil::sendFailure($this->lng->txt("exc_upload_error"), true);
+				$file = array(
+					"name" => $_FILES["deliver"]["name"][$k], 
+					"type" => $_FILES["deliver"]["type"][$k],
+					"tmp_name" => $_FILES["deliver"]["tmp_name"][$k],
+					"error" => $_FILES["deliver"]["error"][$k],
+					"size" => $_FILES["deliver"]["size"][$k],
+					);
+				if(!$this->submission->uploadFile($file))
+				{
+					ilUtil::sendFailure($this->lng->txt("exc_upload_error"), true);
+				}
+				else
+				{
+					$success = true;
+				}
 			}
-			else
-			{
-				$success = true;
-			}
-		}
 
-		if($success)
-		{
-			$this->sendNotifications((int)$_GET["ass_id"]);
-			$this->exercise->handleSubmission((int)$_GET['ass_id']);
+			if($success)
+			{
+				$this->handleNewUpload();
+			}
 		}
+		
 		$ilCtrl->redirect($this, "submissionScreen");
 	}
 
 	/**
 	 * Upload zip file
 	 */
-	function deliverUnzipObject()
+	function uploadZipObject()
 	{
 		global $ilCtrl;
 	
 		// #15322
-		if (mktime() > $this->assignment->getDeadline() && ($this->assignment->getDeadline() != 0))
+		if (!$this->submission->canSubmit())
 		{
-			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
-			return;
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);			
 		}
-
-		if (preg_match("/zip/",$_FILES["deliver"]["type"]) == 1)
+		else if (preg_match("/zip/",$_FILES["deliver"]["type"]) == 1)
 		{
-			if($this->exercise->processUploadedFile($_FILES["deliver"]["tmp_name"], "deliverFile", false,
-				(int) $_GET["ass_id"]))
+			if($this->submission->processUploadedFile($_FILES["deliver"]["tmp_name"]))
 			{
-				$this->sendNotifications((int)$_GET["ass_id"]);
-				$this->exercise->handleSubmission((int)$_GET['ass_id']);
+				$this->handleNewUpload();
 			}
 		}
 
 		$ilCtrl->redirect($this, "submissionScreen");
 	}
 	
-	function uploadZipObject()
-	{
-		global $rbacsystem;
-		
-		$this->checkPermission("write");
-
-		if(!$this->object->addUploadedFile($_FILES["zipfile"], true))
-		{
-			ilUtil::sendFailure($this->lng->txt("exc_upload_error"),true);
-		}
-		$this->ctrl->redirect($this, "edit");
-	
-	}
-
-	function uploadFileObject()
-	{
-		global $rbacsystem;
-
-		$this->checkPermission("write");
-
-		if(!$this->object->addUploadedFile($_FILES["file"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("exc_upload_error"),true);
-		}
-		$this->ctrl->redirect($this, "edit");
-	}
-	
-	/**
-	 * Download submitted files of user.
-	 */
-	function downloadReturnedObject()
-	{
-		global $ilAccess;
-		
-		$peer_review_mask_filename = false;
-		
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			if ($ilAccess->checkAccess("read", "", $this->object->getRefId()) &&
-				$this->object->getShowSubmissions() &&
-				$this->object->getTimestamp() - time() <= 0)
-			{
-				// ok: read access + public submissions
-			}
-			else
-			{
-				// ok: read access + peer review
-				$ass = new ilExAssignment((int) $_GET["ass_id"]);
-				if(!($ilAccess->checkAccess("read", "", $this->object->getRefId()) && 
-					$ass->hasPeerReviewAccess((int) $_GET["member_id"])))
-				{
-					$this->checkPermission("write");
-				}
-				else
-				{
-					$peer_review_mask_filename = true;
-				}
-			}
-		}
-		
-		if (!ilExAssignment::deliverReturnedFiles(
-			$this->object->getId(), (int) $_GET["ass_id"], (int) $_GET["member_id"], 
-				false, $peer_review_mask_filename))
-		{
-			$this->ctrl->redirect($this, "members");
-		}
-		exit;
-	}
-
-	/**
-	* Download newly submitted files of user.
-	*/
-	function downloadNewReturnedObject()
-	{
-		global $ilAccess;
-		
-		$peer_review_mask_filename = false;
-		
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			// ok: read access + peer review
-			$ass = new ilExAssignment((int) $_GET["ass_id"]);
-			if(!($ilAccess->checkAccess("read", "", $this->object->getRefId()) && 
-				$ass->hasPeerReviewAccess((int) $_GET["member_id"])))
-			{
-				$this->checkPermission("write");
-			}
-			else
-			{
-				$peer_review_mask_filename = true;
-			}
-		}
-		
-		if (!ilExAssignment::deliverReturnedFiles(
-			$this->object->getId(), (int) $_GET["ass_id"], (int) $_GET["member_id"], 
-				true, $peer_review_mask_filename))
-		{
-			$this->ctrl->redirect($this, "members");
-		}
-		exit;
-	}
-	
-	
-	
-	
-	/**
-	 * User downloads (own) submitted files
-	 *
-	 * @param
-	 * @return
-	 */
-	function downloadObject()
-	{
-		global $ilUser, $ilCtrl;
-
-		if (count($_REQUEST["delivered"]))
-		{
-			if(!is_array($_REQUEST["delivered"]))
-			{
-				$_REQUEST["delivered"] = array($_REQUEST["delivered"]);
-			}
-			ilExAssignment::downloadSelectedFiles($this->exercise->getId(), (int) $_GET["ass_id"],
-				$ilUser->getId(), $_REQUEST["delivered"]);
-			exit;
-		}
-		else
-		{
-			ilUtil::sendFailure($this->lng->txt("please_select_a_delivered_file_to_download"), true);
-			$ilCtrl->redirect($this, "submissionScreen");
-		}
-	}
-	
-	
-		
-	
-	
 	/**
 	 * Confirm deletion of delivered files
 	 */
 	function confirmDeleteDeliveredObject()
 	{
-		global $ilCtrl, $tpl, $lng, $ilUser;
-
-		$this->checkPermission("read");
+		global $ilCtrl, $tpl, $lng;
 		
-		$this->tabs_gui->clearTargets();
-		$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
-			$this->ctrl->getLinkTarget($this, "submissionScreen"));
-		
-		// $this->tabs_gui->setTabActive("content");
-		// $this->addContentSubTabs("content");
-		
-		if (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0))
+		if (!$this->submission->canSubmit())
 		{
 			ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
 			$ilCtrl->redirect($this, "submissionScreen");
 		}
-
+		
 		if (!is_array($_POST["delivered"]) || count($_POST["delivered"]) == 0)
 		{
 			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
 			$ilCtrl->redirect($this, "submissionScreen");
 		}
 		else
-		{
+		{			
+			$this->tabs_gui->clearTargets();
+			$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
+				$this->ctrl->getLinkTarget($this, "submissionScreen"));
+		
 			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 			$cgui = new ilConfirmationGUI();
 			$cgui->setFormAction($ilCtrl->getFormAction($this));
@@ -435,9 +288,8 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 			$cgui->setCancel($lng->txt("cancel"), "submissionScreen");
 			$cgui->setConfirm($lng->txt("delete"), "deleteDelivered");
 			
-			$files = ilExAssignment::getDeliveredFiles($this->object->getId(), (int) $_GET["ass_id"],
-				$ilUser->getId());
-//var_dump($files);
+			$files = $this->submission->getFiles();
+
 			foreach ($_POST["delivered"] as $i)
 			{
 				reset ($files);
@@ -464,42 +316,83 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 */
 	function deleteDeliveredObject()
 	{
-		global $ilUser, $ilCtrl;
+		global $ilCtrl;
 		
-		$this->checkPermission("read");
-		
-		if (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0))
+		if (!$this->submission->canSubmit())
 		{
-			ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
-			$ilCtrl->redirect($this, "submissionScreen");
-		}
-		
-		if (count($_POST["delivered"]) && (mktime() < $this->ass->getDeadline() ||
-			$this->ass->getDeadline() == 0))
-		{
-			$this->object->deleteDeliveredFiles($this->object->getId(), (int) $_GET["ass_id"],
-				$_POST["delivered"], $ilUser->id);
-				
-			$this->object->handleSubmission((int)$_GET['ass_id']);
-			
-			ilUtil::sendSuccess($this->lng->txt("exc_submitted_files_deleted"), true);
-		}
-		else
+			ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);			
+		}		
+		else if (!count($_POST["delivered"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("please_select_a_delivered_file_to_delete"), true);
 		}
+		else
+		{
+			$this->submission->deleteSelectedFiles($_POST["delivered"]);				
+			$this->handleRemovedUpload();
+			
+			ilUtil::sendSuccess($this->lng->txt("exc_submitted_files_deleted"), true);
+		}		
 		$ilCtrl->redirect($this, "submissionScreen");
+	}	
+	
+	/**
+	 * Download submitted files of user.
+	 */
+	function downloadReturnedObject($a_only_new = false)
+	{		
+		$peer_review_mask_filename = false;
+		
+		if($this->submission->canView())
+		{
+			$peer_review_mask_filename = $this->submission->hasPeerReviewAccess();					
+		}									
+		else 
+		{
+			// no access
+			return;
+		}		
+		
+		$this->submission->downloadFiles(null, $a_only_new, $peer_review_mask_filename);		
+		exit;
 	}
-  	
-	
-  
- 	
-  
- 	
 
-	
-	
-	
-	
-	
+	/**
+	* Download newly submitted files of user.
+	*/
+	function downloadNewReturnedObject()
+	{						
+		$this->downloadReturnedObject(true);	
+	}
+
+	/**
+	 * User downloads (own) submitted files
+	 *
+	 * @param
+	 * @return
+	 */
+	function downloadObject()
+	{
+		global $ilCtrl;
+
+		if(!$this->submission->canView())
+		{
+			$this->returnToParentObject();
+		}
+		
+		if (count($_REQUEST["delivered"]))
+		{
+			if(!is_array($_REQUEST["delivered"]))
+			{
+				$_REQUEST["delivered"] = array($_REQUEST["delivered"]);
+			}
+			$this->submission->downloadFiles($_REQUEST["delivered"]);
+			exit;
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt("please_select_a_delivered_file_to_download"), true);
+			$ilCtrl->redirect($this, "submissionScreen");
+		}
+	}
 }

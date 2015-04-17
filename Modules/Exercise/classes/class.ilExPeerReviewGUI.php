@@ -22,10 +22,10 @@ class ilExPeerReviewGUI
 	 * @param ilExAssignment $a_ass
 	 * @return object
 	 */
-	public function __construct($a_exercise_id, ilExAssignment $a_ass, $a_participant_id = null)
+	public function __construct($a_exercise_id, ilExSubmission $a_submission)
 	{
 		$this->exercise_id = $a_exercise_id;
-		$this->assignment = $a_ass;
+		$this->assignment = $a_submission->getAssignment();
 	}
 	
 	public function executeCommand()
@@ -107,22 +107,24 @@ class ilExPeerReviewGUI
 		}
 	}	
 		
-	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
+	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{
 		global $lng, $ilCtrl;
 		
-		if($a_ass->afterDeadlineStrict() && 
-			$a_ass->getPeerReview())
+		$ass = $a_submission->getAssignment();
+		
+		if($ass->afterDeadlineStrict() && 
+			$ass->getPeerReview())
 		{								
-			$nr_missing_fb = ilExAssignment::getNumberOfMissingFeedbacks($a_ass->getId(), $a_ass->getPeerReviewMin());
+			$nr_missing_fb = ilExAssignment::getNumberOfMissingFeedbacks($ass->getId(), $ass->getPeerReviewMin());
 
-			if(!$a_ass->getPeerReviewDeadline() || $a_ass->getPeerReviewDeadline() > time())
+			if(!$ass->getPeerReviewDeadline() || $ass->getPeerReviewDeadline() > time())
 			{			
 				$dl_info = "";
-				if($a_ass->getPeerReviewDeadline())
+				if($ass->getPeerReviewDeadline())
 				{
 					$dl_info = " (".sprintf($lng->txt("exc_peer_review_deadline_info_button"), 
-						ilDatePresentation::formatDate(new ilDateTime($a_ass->getPeerReviewDeadline(), IL_CAL_UNIX))).")";							
+						ilDatePresentation::formatDate(new ilDateTime($ass->getPeerReviewDeadline(), IL_CAL_UNIX))).")";							
 				}
 
 				$button = ilLinkButton::getInstance();
@@ -131,11 +133,11 @@ class ilExPeerReviewGUI
 				$button->setUrl($ilCtrl->getLinkTargetByClass("ilExPeerReviewGUI", "editPeerReview"));							
 				$edit_pc = $button->render();													
 			}
-			else if($a_ass->getPeerReviewDeadline())
+			else if($ass->getPeerReviewDeadline())
 			{
 				$edit_pc = $lng->txt("exc_peer_review_deadline_reached");
 			}
-			if((!$a_ass->getPeerReviewDeadline() || $a_ass->getPeerReviewDeadline() < time()) && 
+			if((!$ass->getPeerReviewDeadline() || $ass->getPeerReviewDeadline() < time()) && 
 				!$nr_missing_fb)
 			{						
 				$button = ilLinkButton::getInstance();					

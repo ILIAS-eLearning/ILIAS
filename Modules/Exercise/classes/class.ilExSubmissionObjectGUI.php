@@ -15,6 +15,11 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	{
 		global $ilCtrl;
 		
+		if(!$this->submission->canView())
+		{
+			$this->returnToParentObject();
+		}		
+		
 		$class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();		
 		
@@ -26,37 +31,37 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		}
 	}
 	
-	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExAssignment $a_ass, $a_missing_team, array $a_files)
+	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{
-		switch($a_ass->getType())
+		switch($a_submission->getAssignment()->getType())
 		{
 			case ilExAssignment::TYPE_BLOG:
-				return self::getOverviewContentBlog($a_info, $a_ass, $a_missing_team, $a_files);
+				return self::getOverviewContentBlog($a_info, $a_submission);
 			
 			case ilExAssignment::TYPE_PORTFOLIO:
-				return self::getOverviewContentPortfolio($a_info, $a_ass, $a_missing_team, $a_files);
+				return self::getOverviewContentPortfolio($a_info, $a_submission);
 		}		
 	}	
 	
-	protected static function getOverviewContentBlog(ilInfoScreenGUI $a_info, ilExAssignment $a_ass, $a_missing_team, array $a_files)
+	protected static function getOverviewContentBlog(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{
-		global $lng, $ilCtrl, $ilUser;
+		global $lng, $ilCtrl;
 		
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";					
-		$wsp_tree = new ilWorkspaceTree($ilUser->getId());
+		$wsp_tree = new ilWorkspaceTree($a_submission->getUserId());
 
 		// #12939
 		if(!$wsp_tree->getRootId())
 		{
-			$wsp_tree->createTreeForUser($ilUser->getId());
+			$wsp_tree->createTreeForUser($a_submission->getUserId());
 		}
 
 		$files_str = "";
 		$valid_blog = false;
-		if(sizeof($a_files))
+		if($a_submission->hasSubmitted())
 		{													
-			$a_files = array_pop($a_files);
-			$blog_id = (int)$a_files["filetitle"];																						
+			$blog_file = array_pop($a_submission->getFiles());
+			$blog_id = (int)$blog_file["filetitle"];																						
 			$node = $wsp_tree->getNodeData($blog_id);							
 			if($node["title"])
 			{
@@ -69,13 +74,12 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 				$valid_blog = true;
 			}	
 			// remove invalid resource if no upload yet (see download below)
-			else if(substr($a_files["filename"], -1) == "/")
+			else if(substr($blog_file["filename"], -1) == "/")
 			{								
-				$this->exc->deleteResourceObject($a_files["ass_id"],
-					$ilUser->getId(), $a_files["returned_id"]); 
+				$this->submission->deleteResourceObject($blog_file["returned_id"]); 
 			}
 		}						
-		if($a_ass->beforeDeadline())
+		if($a_submission->canSubmit())
 		{
 			if(!$valid_blog)
 			{				
@@ -99,9 +103,9 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		{
 			$a_info->addProperty($lng->txt("exc_blog_returned"), $files_str);		
 		}
-		if($a_files && substr($a_files["filename"], -1) != "/")
+		if($valid_blog)
 		{														
-			$dl_link = $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), array("delivered"=>$a_files["returned_id"]));
+			$dl_link = $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), array("delivered"=>$blog_file["returned_id"]));
 
 			$button = ilLinkButton::getInstance();							
 			$button->setCaption("download");
@@ -111,18 +115,18 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		}							
 	}
 
-	protected function getOverviewContentPortfolio(ilInfoScreenGUI $a_info, ilExAssignment $a_ass, $a_missing_team, array $a_files)
+	protected function getOverviewContentPortfolio(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{
-		global $lng, $ilCtrl, $ilUser;
+		global $lng, $ilCtrl;
 						
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 
 		$files_str = "";
 		$valid_prtf = false;
-		if(sizeof($a_files))
+		if($a_submission->hasSubmitted())
 		{
-			$a_files = array_pop($a_files);
-			$portfolio_id = (int)$a_files["filetitle"];
+			$portfolio_file = array_pop($a_submission->getFiles());
+			$portfolio_id = (int)$portfolio_file["filetitle"];
 
 			// #11746
 			if(ilObject::_exists($portfolio_id, false, "prtf"))
@@ -141,13 +145,12 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 				}
 			}
 			// remove invalid resource if no upload yet (see download below)
-			else if(substr($a_files["filename"], -1) == "/")
+			else if(substr($portfolio_file["filename"], -1) == "/")
 			{		
-				$this->exc->deleteResourceObject($a_files["ass_id"],
-					$ilUser->getId(), $a_files["returned_id"]);							
+				$this->submission->deleteResourceObject($portfolio_file["returned_id"]);							
 			}
 		}
-		if($a_ass->beforeDeadline())
+		if($a_submission->canSubmit())
 		{
 			if(!$valid_prtf)
 			{
@@ -163,7 +166,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 				$files_str .= $button->render();
 			}
 			// #10462
-			$prtfs = sizeof(ilObjPortfolio::getPortfoliosOfUser($ilUser->getId()));		
+			$prtfs = sizeof(ilObjPortfolio::getPortfoliosOfUser($a_submission->getUserId()));		
 			if((!$valid_prtf && $prtfs) 
 				|| ($valid_prtf && $prtfs > 1))
 			{		
@@ -177,9 +180,9 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		{
 			$a_info->addProperty($lng->txt("exc_portfolio_returned"), $files_str);	
 		}
-		if($a_files && substr($a_files["filename"], -1) != "/")
+		if($$valid_prtf)
 		{														
-			$dl_link =$ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), array("delivered"=>$a_files["returned_id"]));
+			$dl_link =$ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), array("delivered"=>$portfolio_file["returned_id"]));
 
 			$button = ilLinkButton::getInstance();							
 			$button->setCaption("download");
@@ -188,28 +191,20 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 			$a_info->addProperty($lng->txt("exc_files_returned"), $button->render());		
 		}
 	}			
-	
-	
-	
-	
-	
-	
-	
-	
+
 
 	//
 	// BLOG
 	//
 	
 	protected function createBlogObject()
-	{
-		global $ilUser;
-		
+	{		
 		$this->handleTabs();
 		
-		if (mktime() > $this->assignment->getDeadline() && ($this->assignment->getDeadline() != 0))
+		if (!$this->submission->canSubmit())
 		{
-			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+			$this->returnToParentObject();
 		}
 		
 		$tpl = new ilTemplate("tpl.exc_select_resource.html", true, true, "Modules/Exercise");
@@ -227,14 +222,13 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	}
 	
 	protected function selectBlogObject()
-	{
-		global $ilUser;
-		
+	{	
 		$this->handleTabs();
 		
-		if (mktime() > $this->assignment->getDeadline() && ($this->assignment->getDeadline() != 0))
+		if (!$this->submission->canSubmit())
 		{
-			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+			$this->returnToParentObject();
 		}
 		
 		$tpl = new ilTemplate("tpl.exc_select_resource.html", true, true, "Modules/Exercise");
@@ -252,8 +246,12 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	}
 	
 	protected function saveBlogObject()
-	{
-		global $ilUser;
+	{		
+		if (!$this->submission->canSubmit())
+		{
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+			$this->returnToParentObject();
+		}
 		
 		if(!$_POST["node"])
 		{
@@ -271,36 +269,45 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		$blog->setTitle($this->exercise->getTitle()." - ".$this->assignment->getTitle());
 		$blog->create();
 		
-		$tree = new ilWorkspaceTree($ilUser->getId());
+		$tree = new ilWorkspaceTree($this->submi);
 		
 		$node_id = $tree->insertObject($parent_node, $blog->getId());
 		
 		$access_handler = new ilWorkspaceAccessHandler($tree);
 		$access_handler->setPermissions($parent_node, $node_id);
 		
-		$this->exercise->addResourceObject($node_id, $this->assignment->getId(), $ilUser->getId());
+		$this->submission->deleteAllFiles();	
+		$this->handleRemovedUpload();
+		
+		$this->submission->addResourceObject($node_id);
 		
 		ilUtil::sendSuccess($this->lng->txt("exc_blog_created"), true);
-		$this->ctrl->redirect($this, "returnToParent");
+		$this->returnToParentObject();
 	}
 	
 	protected function setSelectedBlogObject()
-	{
-		global $ilUser;
+	{		
+		if (!$this->submission->canSubmit())
+		{
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+			$this->returnToParentObject();
+		}
 		
 		if($_POST["node"])
 		{
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";		
-			$tree = new ilWorkspaceTree($ilUser->getId());
+			$tree = new ilWorkspaceTree($this->submission->getUserId());
 			$node = $tree->getNodeData($_POST["node"]);
 			if($node && $node["type"] == "blog")
 			{
-				$this->removeExistingSubmissions();
-				$this->exercise->addResourceObject($node["wsp_id"], $this->assignment->getId(), $ilUser->getId());
+				$this->submission->deleteAllFiles();				
+				$this->handleRemovedUpload();
+				
+				$this->submission->addResourceObject($node["wsp_id"]);
 				
 				ilUtil::sendSuccess($this->lng->txt("exc_blog_selected"), true);
 				$this->ctrl->setParameter($this, "blog_id", $node["wsp_id"]);
-				$this->ctrl->redirect($this, "askDirectionSubmission");				
+				$this->ctrl->redirect($this, "askDirectSubmission");				
 			}
 		}
 		
@@ -309,14 +316,12 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	}
 	
 	protected function renderWorkspaceExplorer($a_cmd)
-	{
-		global $ilUser;
-		
+	{		
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
 		require_once 'Services/PersonalWorkspace/classes/class.ilWorkspaceExplorer.php';
 		
-		$tree = new ilWorkspaceTree($ilUser->getId());
+		$tree = new ilWorkspaceTree($this->submission->getUserId());
 		$access_handler = new ilWorkspaceAccessHandler($tree);
 		$exp = new ilWorkspaceExplorer(ilWorkspaceExplorer::SEL_TYPE_RADIO, '', 
 			'exc_wspexpand', $tree, $access_handler);
@@ -353,24 +358,17 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	//
 	
 	protected function selectPortfolioObject()
-	{
-		global $ilUser;
-		
-		$this->tabs_gui->clearTargets();
-		$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "returnToParent"));
-		
-		// $this->tabs_gui->setTabActive("content");
-		// $this->addContentSubTabs("content");
-		
-		if (mktime() > $this->assignment->getDeadline() && ($this->assignment->getDeadline() != 0))
+	{				
+		if (!$this->submission->canSubmit())
 		{
-			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+			$this->returnToParentObject();
 		}
 		
 		$tpl = new ilTemplate("tpl.exc_select_resource.html", true, true, "Modules/Exercise");
 		
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
-		$portfolios = ilObjPortfolio::getPortfoliosOfUser($ilUser->getId());
+		$portfolios = ilObjPortfolio::getPortfoliosOfUser($this->submission->getUserId());
 		if($portfolios)
 		{
 			$tpl->setCurrentBlock("item");
@@ -419,15 +417,18 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	
 	protected function createPortfolioTemplateObject(ilPropertyFormGUI $a_form = null)
 	{
-				include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+		if (!$this->submission->canSubmit())
+		{
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+			$this->returnToParentObject();
+		}
+		
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
 		$templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
 		if(!sizeof($templates))
 		{
-			$this->ctrl->redirect($this, "returnToParent");
+			$this->returnToParentObject();
 		}
-		
-		$this->tabs_gui->clearTargets();
-		$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "returnToParent"));
 		
 		if(!$a_form)
 		{
@@ -439,6 +440,12 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	
 	protected function setSelectedPortfolioTemplateObject()
 	{		
+		if (!$this->submission->canSubmit())
+		{
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+			$this->returnToParentObject();
+		}
+		
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
 		$templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
 		if(!sizeof($templates))
@@ -471,32 +478,45 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	}
 	
 	protected function createPortfolioObject()
-	{
-		global $ilUser;
+	{				
+		if (!$this->submission->canSubmit())
+		{
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+			$this->returnToParentObject();
+		}
 		
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		$portfolio = new ilObjPortfolio();
 		$portfolio->setTitle($this->exercise->getTitle()." - ".$this->assignment->getTitle());
 		$portfolio->create();
 	
-		$this->exercise->addResourceObject($portfolio->getId(), $this->assignment->getId(), $ilUser->getId());
+		$this->submission->deleteAllFiles();
+		$this->handleRemovedUpload();
+			
+		$this->submission->addResourceObject($portfolio->getId());
 		
 		ilUtil::sendSuccess($this->lng->txt("exc_portfolio_created"), true);
-		$this->ctrl->redirect($this, "returnToParent");
+		$this->returnToParentObject();
 	}
 	
 	protected function setSelectedPortfolioObject()
-	{
-		global $ilUser;
+	{				
+		if (!$this->submission->canSubmit())
+		{
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+			$this->returnToParentObject();
+		}
 		
 		if($_POST["item"])
 		{			
-			$this->removeExistingSubmissions();
-			$this->exercise->addResourceObject($_POST["item"], $this->assignment->getId(), $ilUser->getId());
+			$this->submission->deleteAllFiles();
+			$this->handleRemovedUpload();
+			
+			$this->submission->addResourceObject($_POST["item"]);
 						
 			ilUtil::sendSuccess($this->lng->txt("exc_portfolio_selected"), true);
 			$this->ctrl->setParameter($this, "prtf_id", $_POST["item"]);
-			$this->ctrl->redirect($this, "askDirectionSubmission");									
+			$this->ctrl->redirect($this, "askDirectSubmission");									
 		}
 		
 		ilUtil::sendFailure($this->lng->txt("select_one"));
@@ -508,35 +528,20 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	// SUBMIT BLOG/PORTFOLIO
 	//	
 	
-	/**
-	 * remove existing files/submissions for assignment
-	 */
-	public function removeExistingSubmissions()
-	{		
-		global $ilUser;
-		
-		$submitted = ilExAssignment::getDeliveredFiles($this->assignment->getExerciseId(), $this->assignment->getId(), $ilUser->getId());
-		if($submitted)
-		{
-			$files = array();
-			foreach($submitted as $item)
-			{
-				$files[] = $item["returned_id"];
-			}
-			ilExAssignment::deleteDeliveredFiles($this->assignment->getExerciseId(), $this->assignment->getId(), $files, $ilUser->getId());
-		}			
-	}
+	// :TODO:
 	
-	protected function askDirectionSubmissionObject()
+	protected function askDirectSubmissionObject()
 	{
 		global $tpl;
 		
-		$this->tabs_gui->setTabActive("content");
-		$this->addContentSubTabs("content");
+		if (!$this->submission->canSubmit())
+		{
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+			$this->returnToParentObject();
+		}
 		
 		include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
 		$conf = new ilConfirmationGUI();
-		
 		
 		if($_REQUEST["blog_id"])
 		{
@@ -558,8 +563,12 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	}
 	
 	protected function directSubmitObject()
-	{
-		global $ilUser;
+	{		
+		if (!$this->submission->canSubmit())
+		{
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+			$this->returnToParentObject();
+		}
 		
 		$success = false;
 		
@@ -594,36 +603,35 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	 * @return bool
 	 */
 	function submitBlog($a_blog_id)
-	{
-		global $ilUser;
-		
-		if($this->exercise && $this->ass)
+	{				
+		if(!$this->submission->canSubmit())
 		{
-			$blog_id = $a_blog_id;		
-
-			include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
-			$blog_gui = new ilObjBlogGUI($blog_id, ilObjBlogGUI::WORKSPACE_NODE_ID);
-			if($blog_gui->object)
-			{
-				$file = $blog_gui->buildExportFile();
-				$size = filesize($file);
-				if($size)
-				{
-					$this->removeExistingSubmissions();
-					
-					$meta = array(
-						"name" => $blog_id,
-						"tmp_name" => $file,
-						"size" => $size	
-						);		
-					$this->exercise->deliverFile($meta, $this->assignment->getId(), $ilUser->getId(), true);	
-
-					$this->sendNotifications($this->assignment->getId());
-					$this->exercise->handleSubmission($this->assignment->getId());	
-					return true;
-				}
-			}
+			return;
 		}
+		
+		$blog_id = $a_blog_id;		
+
+		include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
+		$blog_gui = new ilObjBlogGUI($blog_id, ilObjBlogGUI::WORKSPACE_NODE_ID);
+		if($blog_gui->object)
+		{
+			$file = $blog_gui->buildExportFile();
+			$size = filesize($file);
+			if($size)
+			{
+				$this->submission->deleteAllFiles();
+
+				$meta = array(
+					"name" => $blog_id,
+					"tmp_name" => $file,
+					"size" => $size	
+					);		
+				$this->submission->uploadFile($meta, true);	
+
+				$this->handleNewUpload();
+				return true;
+			}
+		}		
 		return false;
 	}
 	
@@ -634,36 +642,35 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	 * @return bool 
 	 */
 	function submitPortfolio($a_portfolio_id)
-	{
-		global $ilUser;
-		
-		if($this->exercise && $this->ass)
+	{		
+		if(!$this->submission->canSubmit())
 		{
-			$prtf_id = $a_portfolio_id;			
+			return;
+		}
+		
+		$prtf_id = $a_portfolio_id;			
 
-			include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
-			$prtf = new ilObjPortfolio($prtf_id, false);	
-			if($prtf->getTitle())
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+		$prtf = new ilObjPortfolio($prtf_id, false);	
+		if($prtf->getTitle())
+		{
+			include_once "Modules/Portfolio/classes/class.ilPortfolioHTMLExport.php";
+			$export = new ilPortfolioHTMLExport(null, $prtf);
+			$file = $export->buildExportFile();
+			$size = filesize($file);
+			if($size)
 			{
-				include_once "Modules/Portfolio/classes/class.ilPortfolioHTMLExport.php";
-				$export = new ilPortfolioHTMLExport(null, $prtf);
-				$file = $export->buildExportFile();
-				$size = filesize($file);
-				if($size)
-				{
-					$this->removeExistingSubmissions();
-					
-					$meta = array(
-						"name" => $prtf_id,
-						"tmp_name" => $file,
-						"size" => $size
-						);		
-					$this->exercise->deliverFile($meta, $this->assignment->getId(), $ilUser->getId(), true);	
+				$this->submission->deleteAllFiles();
 
-					$this->sendNotifications($this->assignment->getId());
-					$this->exercise->handleSubmission($this->assignment->getId());	
-					return true;
-				}
+				$meta = array(
+					"name" => $prtf_id,
+					"tmp_name" => $file,
+					"size" => $size
+					);		
+				$this->submission->uploadFile($meta, true);	
+
+				$this->handleNewUpload();
+				return true;
 			}
 		}
 		return false;

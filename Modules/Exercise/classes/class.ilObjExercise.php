@@ -158,84 +158,7 @@ class ilObjExercise extends ilObject
 
 	}
 
-	/**
-	 * Save submitted file of user
-	 */
-	function deliverFile($a_http_post_files, $a_ass_id, $user_id, $unzip = false)
-	{
-		global $ilDB;
-		
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-		$storage = new ilFSStorageExercise($this->getId(), $a_ass_id);
-		$deliver_result = $storage->deliverFile($a_http_post_files, $user_id, $unzip);
-//var_dump($deliver_result);
-		if ($deliver_result)
-		{
-			$next_id = $ilDB->nextId("exc_returned");
-			$query = sprintf("INSERT INTO exc_returned ".
-							 "(returned_id, obj_id, user_id, filename, filetitle, mimetype, ts, ass_id) ".
-							 "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-				$ilDB->quote($next_id, "integer"),
-				$ilDB->quote($this->getId(), "integer"),
-				$ilDB->quote($user_id, "integer"),
-				$ilDB->quote($deliver_result["fullname"], "text"),
-				$ilDB->quote($a_http_post_files["name"], "text"),
-				$ilDB->quote($deliver_result["mimetype"], "text"),
-				$ilDB->quote(ilUtil::now(), "timestamp"),
-				$ilDB->quote($a_ass_id, "integer")
-			);
-			$ilDB->manipulate($query);
-			
-			// team upload?
-			$user_ids = ilExAssignment::getTeamMembersByAssignmentId($a_ass_id, $user_id);
-			if(!$user_ids)
-			{
-				$user_ids = array($user_id);
-			}
-			else
-			{				
-				$team_id = ilExAssignment::getTeamIdByAssignment($a_ass_id, $user_id);
-				ilExAssignment::writeTeamLog($team_id, ilExAssignment::TEAM_LOG_ADD_FILE, $a_http_post_files["name"]);			
-			}
-			
-			foreach($user_ids as $user_id)
-			{
-				if (!$this->members_obj->isAssigned($user_id))
-				{
-					$this->members_obj->assignMember($user_id);
-				}
-				ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, 1);
-				ilExerciseMembers::_writeReturned($this->getId(), $user_id, 1);
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Upload assigment files
-	 */
-	function addUploadedFile($a_http_post_files, $unzipUploadedFile = false)
-	{
-		global $lng;
-		if ($unzipUploadedFile && preg_match("/zip/",	$a_http_post_files["type"]) == 1)
-		{
-
-			$this->processUploadedFile($a_http_post_files["tmp_name"], "storeUploadedFile", true);
-			return true;
-			
-			
-		}
-		else 
-		{
-			$this->file_obj->storeUploadedFile($a_http_post_files, true);
-			return true;
-		}
-	}
-	function deleteFiles($a_files)
-	{
-		$this->file_obj->unlinkFiles($a_files);
-	}
-
+	
 	function saveData()
 	{
 		global $ilDB;
@@ -297,43 +220,6 @@ class ilObjExercise extends ilObject
 		return $new_obj;
 	}
 	
-	/**
-	* Deletes already delivered files
-	* @param array $file_id_array An array containing database ids of the delivered files
-	* @param numeric $user_id The database id of the user
-	* @access	public
-	*/
-	function deleteDeliveredFiles($a_exc_id, $a_ass_id, $file_id_array, $user_id)
-	{
-		ilExAssignment::deleteDeliveredFiles($a_exc_id, $a_ass_id, $file_id_array, $user_id);
-
-		// Finally update status 'returned' of member if no file exists
-		if(!count(ilExAssignment::getDeliveredFiles($a_exc_id, $a_ass_id, $user_id)))
-		{			
-			// team upload?
-			$user_ids = ilExAssignment::getTeamMembersByAssignmentId($a_ass_id, $user_id);
-			if(!$user_ids)
-			{
-				$user_ids = array($user_id);
-			}
-			
-			foreach($user_ids as $user_id)
-			{			
-				ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, 0);
-			}
-		}
-	}
-
-	/**
-	* Delivers the returned files of an user
-	* @param numeric $user_id The database id of the user
-	* @access	public
-	*/
-	function deliverReturnedFiles($user_id)
-	{
-		require_once "./Services/Utilities/classes/class.ilUtil.php";
-	}
-
 	/**
 	* delete course and all related data
 	*
@@ -584,98 +470,6 @@ class ilObjExercise extends ilObject
 		return implode(',',$tmp_members ? $tmp_members : array());
 	}
 
-	/**
-	* processes errorhandling etc for uploaded archive
-	* @param string $tmpFile path and filename to uploaded file
-	* @param string $storageMethod deliverFile or storeUploadedFile 
-	* @param boolean $persistentErrorMessage Defines whether sendInfo will be persistent or not
-	*/
-	function processUploadedFile ($fileTmp, $storageMethod, $persistentErrorMessage,
-		$a_ass_id)
-	{
-		global $lng, $ilUser;
-
-		// Create unzip-directory
-		$newDir = ilUtil::ilTempnam();
-		ilUtil::makeDir($newDir);
-
-		include_once ("Services/Utilities/classes/class.ilFileUtils.php");
-		
-		try 
-		{
-			$processDone = ilFileUtils::processZipFile($newDir,$fileTmp, false);
-			ilFileUtils::recursive_dirscan($newDir, $filearray);			
-
-			foreach ($filearray["file"] as $key => $filename)
-			{
-				$a_http_post_files["name"] = ilFileUtils::utf8_encode($filename);
-				$a_http_post_files["type"] = "other";
-				$a_http_post_files["tmp_name"] = $filearray["path"][$key]."/".$filename;
-				$a_http_post_files["error"] = 0;
-				$a_http_post_files["size"] = filesize($filearray["path"][$key]."/".$filename);
-
-				if ($storageMethod == "deliverFile")
-				{
-					$this->$storageMethod($a_http_post_files, $a_ass_id, $ilUser->id, true);
-				}
-				else if ($storageMethod == "storeUploadedFile")
-				{
-					$this->file_obj->$storageMethod($a_http_post_files, true, true);				
-				}
-			}
-			ilExerciseMembers::_writeReturned($this->getId(), $ilUser->id, 1);
-			ilUtil::sendSuccess($this->lng->txt("file_added"),$persistentErrorMessage);					
-		} 
-		catch (ilFileUtilsException $e) 
-		{
-			ilUtil::sendFailure($e->getMessage(), $persistentErrorMessage);
-		}
-		
-
-		ilUtil::delDir($newDir);
-		return $processDone;
-
-	}
-	
-	/**
-	* This function fixes filenames. Prior to ILIAS 3.10.0 filenames have been
-	* stored with full path in exc_returned.filename, e.g.
-	* /opt/ilias/my_client/exercise/547/157/20070813113926_README.doc
-	*
-	* Problems occur, if the server is moved from one location to another.
-	* We do the following: The filename will be parsed and if it contains the string
-	* "/exercise/" we truncate everything
-	* before "/exercise/" and replace it with the current CLIENT_DATA_DIR.
-	*/
-	static function _fixFilename($a_filename)
-	{
-		$ex_pos = strrpos($a_filename, "/exercise/");
-		if ($ex_pos > 0)
-		{
-			$a_filename = CLIENT_DATA_DIR.substr($a_filename, $ex_pos);
-		}
-		return $a_filename;
-	}
-	
-	/**
-	* Iterates an associative array and fixes all fields with the key "filename"
-	* using the _fixFilename() method
-	*/
-	static function _fixFilenameArray($a_array)
-	{
-		if (is_array($a_array))
-		{
-			foreach ($a_array as $k => $v)
-			{
-				if ($v["filename"] != "")
-				{
-					$a_array[$k]["filename"] = ilObjExercise::_fixFilename($a_array[$k]["filename"]);
-				}
-			}
-		}
-		
-		return $a_array;
-	}
 	
 	/**
 	 * Determine status of user
@@ -698,9 +492,10 @@ class ilObjExercise extends ilObject
 		$cnt_notgraded = 0;
 		$passed_at_least_one = false;
 		
+		include_once("./Modules/Exercise/classes/class.ilExAssignmentMemberStatus.php");
 		foreach ($ass as $a)
 		{
-			$stat = ilExAssignment::lookupStatusOfUser($a["id"], $a_user_id);
+			$stat = ilExAssignmentMemberStatus::lookupStatusOfUser($a["id"], $a_user_id);
 			if ($a["mandatory"] && ($stat == "failed" || $stat == "notgraded"))
 			{
 				$passed_all_mandatory = false;
@@ -976,40 +771,22 @@ class ilObjExercise extends ilObject
 		return $this;
 	}
 	
-	/**
-	 * 
-	 * This method is called after an user submitted one or more files.
-	 * It should handle the setting "Completion by Submission" and, if enabled, set the status of
-	 * the current user to either 'passed' or 'notgraded'.
-	 * 
-	 * @param	integer
-	 * @access	public
-	 * 
-	 */
-	public function handleSubmission($ass_id)
+	protected function processExerciseStatus($a_ass_id, array $a_user_ids, $a_has_submitted)
 	{
-		global $ilUser, $ilDB;
-
+		$a_has_submitted = (bool)$a_has_submitted;
+		
+		include_once("./Modules/Exercise/classes/class.ilExAssignmentMemberStatus.php");
+		include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
+		foreach($a_user_ids as $user_id)
+		{		
+			ilExAssignmentMemberStatus::updateStatusReturnedForUser($a_ass_id, $user_id, $a_has_submitted);
+			ilExerciseMembers::_writeReturned($this->getId(), $user_id, $a_has_submitted);
+		}		 
+				
+		// re-evaluate exercise status
 		if($this->isCompletionBySubmissionEnabled())
 		{
-			include_once 'Modules/Exercise/classes/class.ilExAssignment.php';	
-			
-			// team upload?
-			$user_ids = ilExAssignment::getTeamMembersByAssignmentId($a_ass_id, $ilUser->getId());
-			if(!$user_ids)
-			{
-				$user_ids = array($ilUser->getId());
-			}
-			
-			$res = $ilDB->query(
-				'SELECT returned_id'.
-				' FROM exc_returned'.
-				' WHERE obj_id = '.$ilDB->quote($this->getId(), 'integer').
-				' AND ass_id = '.$ilDB->quote($ass_id, 'integer').
-				' AND '.$ilDB->in('user_id', $user_ids, '', 'integer')
-			);
-	
-			if($ilDB->numRows($res))
+			if($a_has_submitted)
 			{
 				$status = 'passed';				
 			}
@@ -1017,13 +794,14 @@ class ilObjExercise extends ilObject
 			{
 				$status = 'notgraded';
 			}				
-			foreach($user_ids as $user_id)
+			foreach($this->getUserIds() as $user_id)
 			{
-				ilExAssignment::updateStatusOfUser($ass_id, $user_id, $status);
+				ilExAssignmentMemberStatus::updateStatusOfUser($a_ass_id, $user_id, $status);
 			}
-		}	
+		}			
 	}
-
+	
+	
 	/**
 	 * Get all exercises for user
 	 *
@@ -1047,153 +825,7 @@ class ilObjExercise extends ilObject
 		return $all;
 	}
 	
-	/**
-	 * Add personal resource to assigment
-	 * 
-	 * @param int $a_wsp_id
-	 * @param int $a_ass_id
-	 * @param int $user_id 
-	 * @param string $a_text 
-	 */
-	function addResourceObject($a_wsp_id, $a_ass_id, $user_id, $a_text = null)
-	{
-		global $ilDB;
-	
-		$next_id = $ilDB->nextId("exc_returned");
-		$query = sprintf("INSERT INTO exc_returned ".
-						 "(returned_id, obj_id, user_id, filetitle, ass_id, ts, atext) ".
-						 "VALUES (%s, %s, %s, %s, %s, %s, %s)",
-			$ilDB->quote($next_id, "integer"),
-			$ilDB->quote($this->getId(), "integer"),
-			$ilDB->quote($user_id, "integer"),
-			$ilDB->quote($a_wsp_id, "text"),
-			$ilDB->quote($a_ass_id, "integer"),
-			$ilDB->quote(ilUtil::now(), "timestamp"),
-			$ilDB->quote($a_text, "text")
-		);
-		$ilDB->manipulate($query);
-		if (!$this->members_obj->isAssigned($user_id))
-		{
-			$this->members_obj->assignMember($user_id);
-		}
-		// no submission (of blog/portfolio) yet (unless text assignment)
-		ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, (bool)$a_text);
-		ilExerciseMembers::_writeReturned($this->getId(), $user_id, (bool)$a_text);
-		
-		return $next_id;
-	}
-	
-	/**
-	 * Remove personal resource to assigment
-	 * 
-	 * @param int $a_ass_id
-	 * @param int $user_id 
-	 * @param int $a_returned_id 
-	 */
-	public function deleteResourceObject($a_ass_id, $user_id, $a_returned_id)
-	{
-		global $ilDB;
-		
-		$ilDB->manipulate("DELETE FROM exc_returned".
-			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer").
-			" AND user_id = ".$ilDB->quote($user_id, "integer").
-			" AND ass_id = ".$ilDB->quote($a_ass_id, "integer").
-			" AND returned_id = ".$ilDB->quote($a_returned_id, "integer"));		
-	}
-	
-	/**
-	 * Handle text assignment submissions
-	 *
-	 * @param int $a_exc_id
-	 * @param int $a_ass_id
-	 * @param int $a_user_id
-	 * @param string $a_text
-	 * @return int
-	 */
-	function updateTextSubmission($a_exc_id, $a_ass_id, $a_user_id, $a_text)
-	{
-		global $ilDB;
-		
-		$files = ilExAssignment::getDeliveredFiles($a_exc_id, $a_ass_id, $a_user_id);
-		
-		// no text = remove submission
-		if(!trim($a_text))
-		{
-			if($files)
-			{
-				$files = array_shift($files);
-				$id = $files["returned_id"];
-				if($id)
-				{
-					$this->deleteDeliveredFiles($a_exc_id, $a_ass_id, array($id), $a_user_id);
-					return;
-				}
-			}
-		}
-				
-		if(!$files)
-		{			
-			return $this->addResourceObject("TEXT", $a_ass_id, $a_user_id, $a_text);
-		}
-		else
-		{
-			$files = array_shift($files);
-			$id = $files["returned_id"];
-			if($id)
-			{
-				$ilDB->manipulate("UPDATE exc_returned".
-					" SET atext = ".$ilDB->quote($a_text, "text").
-					", ts = ".$ilDB->quote(ilUtil::now(), "timestamp").
-					" WHERE returned_id = ".$ilDB->quote($id, "integer"));
-				return $id;
-			}
-		}
-	}
-	
-	public static function lookupExerciseIdForReturnedId($a_returned_id)
-	{
-		global $ilDB;
-		
-		$set = $ilDB->query("SELECT obj_id".
-			" FROM exc_returned".
-			" WHERE returned_id = ".$ilDB->quote($a_returned_id, "integer"));
-		$row = $ilDB->fetchAssoc($set);
-		return (int)$row["obj_id"];		
-	}
-	
-	/**
-	 * Delete all delivered files of user
-	 *
-	 * @param int $a_user_id user id
-	 */
-	function deleteAllDeliveredFilesOfUser($a_user_id)
-	{
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		ilExAssignment::deleteAllDeliveredFilesOfUser($this->getId(), $a_user_id);
-	}
-	
-	/**
-	 * Check if given file was assigned
-	 * 
-	 * @param int $a_user_id
-	 * @param string $a_filetitle 
-	 */
-	public static function findUserFiles($a_user_id, $a_filetitle)
-	{
-		global $ilDB;
-		
-		$set = $ilDB->query("SELECT obj_id, ass_id".
-			" FROM exc_returned".
-			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
-			" AND filetitle = ".$ilDB->quote($a_filetitle, "text"));
-		$res = array();
-		while($row = $ilDB->fetchAssoc($set))
-		{
-			$res[$row["ass_id"]] = $row;
-		}
-		return $res;
-	}
-	
+
 	/**
 	* Returns the visibility settings of the certificate
 	*
