@@ -261,16 +261,6 @@ class ilExAssignmentGUI
 			include_once "Modules/Exercise/classes/class.ilExPeerReviewGUI.php";
 			ilExPeerReviewGUI::getOverviewContent($a_info, $submission);
 			
-			// feedback from tutor
-			if($a_ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
-			{
-				$feedback_id = "t".$submission->getTeam()->getId();
-			}
-			else
-			{
-				$feedback_id = $ilUser->getId();
-			}
-
 			// global feedback / sample solution
 			if($a_ass->getFeedbackDate() == ilExAssignment::FEEDBACK_DATE_DEADLINE)
 			{
@@ -281,7 +271,7 @@ class ilExAssignmentGUI
 				$show_global_feedback = ($last_sub != "---" && $a_ass->getFeedbackFile());
 			}								
 
-			$this->addSubmissionFeedback($a_info, $a_ass, $feedback_id, $show_global_feedback);												
+			$this->addSubmissionFeedback($a_info, $a_ass, $submission->getFeedbackId(), $show_global_feedback);												
 		}
 	}
 	

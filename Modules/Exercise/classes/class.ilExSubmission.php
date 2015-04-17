@@ -94,6 +94,18 @@ class ilExSubmission
 			return array($this->user_id);
 		}
 	}
+	
+	public function getFeedbackId()
+	{
+		if($this->team)
+		{
+			return "t".$this->team->getId();
+		}
+		else
+		{
+			return $this->getUserId();
+		}
+	}
 
 	public function hasSubmitted()
 	{

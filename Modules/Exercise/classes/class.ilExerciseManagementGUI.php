@@ -64,30 +64,19 @@ class ilExerciseManagementGUI
 				include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 				$fstorage = new ilFSStorageExercise($this->exercise->getId(), $this->assignment->getId());
 				$fstorage->create();
+								
+				$submission = new ilExSubmission($this->assignment, (int)$_GET["member_id"]);
+				$feedback_id = $submission->getFeedbackId();
+				$noti_rec_ids = $submission->getUserIds();
 				
-				$member_id = $_GET["member_id"];
-				
-				include_once("./Services/User/classes/class.ilUserUtil.php");
-				$noti_rec_ids = array();
-				if($this->assignment->hasTeam())
-				{					
-					$submission = new ilExSubmission($this->assignment, $member_id);
-					$team_id = $submission->getTeam()->getId($member_id);
-					$feedback_id = "t".$team_id;
-					$fs_title = array();
-					foreach($submission->getUserIds() as $team_user_id)
-					{
-						$fs_title[] = ilUserUtil::getNamePresentation($team_user_id, false, false, "", true);
-						$noti_rec_ids[] = $team_user_id;
-					}
-					$fs_title = implode(" / ", $fs_title);
-				}
-				else
+				include_once("./Services/User/classes/class.ilUserUtil.php");																	
+				$fs_title = array();
+				foreach($noti_rec_ids as $rec_id)
 				{
-					$feedback_id = $noti_rec_ids = $member_id;
-					$fs_title = ilUserUtil::getNamePresentation($member_id, false, false, "", true);
+					$fs_title[] = ilUserUtil::getNamePresentation($rec_id, false, false, "", true);
 				}
-
+				$fs_title = implode(" / ", $fs_title);
+					
 				include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 				$fs_gui = new ilFileSystemGUI($fstorage->getFeedbackPath($feedback_id));
 				$fs_gui->setTableId("excfbfil".$this->assignment->getId()."_".$feedback_id);
@@ -721,7 +710,7 @@ class ilExerciseManagementGUI
 			);
 		}
 		
-		$this->saveStatusObject($data);
+		$this->saveStatus($data);
 	}
 	
 	function saveStatusAllObject()
@@ -735,7 +724,7 @@ class ilExerciseManagementGUI
 				,"mark" => ilUtil::stripSlashes($_POST["mark"][$user_id])
 			);
 		}		
-		$this->saveStatusObject($data);
+		$this->saveStatus($data);
 	}
 	
 	function saveStatusSelectedObject()
@@ -754,13 +743,13 @@ class ilExerciseManagementGUI
 				,"mark" => ilUtil::stripSlashes($_POST["mark"][$user_id])
 			);
 		}				
-		$this->saveStatusObject($data);
+		$this->saveStatus($data);
 	}
 	
 	/**
 	 * Save status of selecte members 
 	 */
-	function saveStatusObject(array $a_data)
+	protected function saveStatus(array $a_data)
 	{
 		global $ilCtrl;
 				

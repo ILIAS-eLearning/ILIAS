@@ -1154,30 +1154,9 @@ class ilExAssignment
 			// if checked in confirmation gui
 			if ($a_files[$user_id][md5($file_name)] != "")
 			{			
-				// #14294 - team assignment
-				if ($this->getType() == self::TYPE_UPLOAD_TEAM)
-				{
-					// just once for each user
-					if (!array_key_exists($user_id, $team_map))
-					{									
-						$team_id = $this->getTeamId($user_id);
-						$team_map[$user_id]["team_id"] = "t".$team_id;	
-
-						$team_map[$user_id]["noti_rec_ids"] = array();
-						foreach ($this->getTeamMembers($team_id) as $team_user_id)
-						{				
-							$team_map[$user_id]["noti_rec_ids"][] = $team_user_id;
-						}		
-					}
-
-					$feedback_id = $team_map[$user_id]["team_id"];
-					$noti_rec_ids = $team_map[$user_id]["noti_rec_ids"];
-				}
-				else
-				{
-					$feedback_id = $user_id;
-					$noti_rec_ids = array($user_id);
-				}			
+				$submission = new ilExSubmission($this, $user_id);
+				$feedback_id = $submission->getFeedbackId();
+				$noti_rec_ids = $submission->getUserIds();
 				
 				if ($feedback_id)
 				{

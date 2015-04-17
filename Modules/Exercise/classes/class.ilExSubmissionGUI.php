@@ -175,19 +175,10 @@ class ilExSubmissionGUI
 			$this->ctrl->redirect($this, "view");
 		}
 		
-		if($this->assignment->hasTeam())
-		{			
-			$feedback_id = "t".$this->submission->getTeam()->getId();
-		}
-		else
-		{
-			$feedback_id = $ilUser->getId();
-		}
-		
 		// check, whether file belongs to assignment
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->exercise_id, $this->assignment->getId());
-		$files = $storage->getFeedbackFiles($feedback_id);
+		$files = $storage->getFeedbackFiles($this->submission->getFeedbackId());
 		$file_exist = false;	
 		foreach($files as $fb_file)
 		{

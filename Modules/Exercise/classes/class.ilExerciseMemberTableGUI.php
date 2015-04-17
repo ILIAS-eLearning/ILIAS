@@ -409,17 +409,8 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_FEEDBACK",
 				$lng->txt("exc_send_mail"));
 
-			if($this->ass->hasTeam())
-			{
-				$feedback_id = "t".$member["team_id"];
-			}
-			else
-			{
-				$feedback_id = $member_id;
-			}
-
 			// file feedback
-			$cnt_files = $this->storage->countFeedbackFiles($feedback_id);
+			$cnt_files = $this->storage->countFeedbackFiles($submission->getFeedbackId());
 			$this->tpl->setVariable("LINK_FILE_FEEDBACK",
 				$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
 			if ($cnt_files == 0)
