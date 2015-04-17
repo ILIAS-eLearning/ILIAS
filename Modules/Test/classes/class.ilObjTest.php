@@ -6237,7 +6237,7 @@ function getAnswerFeedbackPoints()
 					$this->setMailNotificationType($metadata["entry"]);
 					break;
 				case "exportsettings":
-					$this->setExportSettings($metadata['exportsettings']);
+					$this->setExportSettings($metadata['entry']);
 					break;
 				case "score_cutting":
 					$this->setScoreCutting($metadata["entry"]);
@@ -6263,8 +6263,11 @@ function getAnswerFeedbackPoints()
 					{
 						$this->setReportingDate(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
 					}
+					break; 
+				case 'enable_processing_time': 
+					$this->setEnableProcessingTime($metadata['entry']); 
 					break;
-				case "processing_time":
+				case "processing_time": 
 					$this->setProcessingTime($metadata['entry']);
 					break;
 				case "starting_time":
@@ -6280,6 +6283,33 @@ function getAnswerFeedbackPoints()
 					{
 						$this->setEndingTime(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
 					}
+					break;
+				case 'activation_limited':
+					$this->setActivationLimited($metadata['entry']);
+					break;
+				case 'activation_start_time':
+					$this->setActivationStartingTime($metadata['entry']);
+					break;
+				case 'activation_end_time':
+					$this->setActivationEndingTime($metadata['entry']);
+					break;
+				case 'activation_visibility':
+					$this->setActivationVisibility($metadata['entry']);
+					break;
+				case 'autosave':
+					$this->setAutosave($metadata['entry']);
+					break;
+				case 'autosave_ival':
+					$this->setAutosaveIval($metadata['entry']);
+					break;
+				case 'offer_question_hints':
+					$this->setOfferingQuestionHintsEnabled($metadata['entry']);
+					break;
+				case 'instant_feedback_specific':
+					$this->setSpecificAnswerFeedback($metadata['entry']);
+					break;
+				case 'obligations_enabled':
+					$this->setObligationsEnabled($metadata['entry']);
 					break;
 			}
 			if (preg_match("/mark_step_\d+/", $metadata["label"]))
@@ -6572,7 +6602,7 @@ function getAnswerFeedbackPoints()
 		// export settings
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "exportsettings");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getExportSettings());
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->getExportSettings());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// force JavaScript
@@ -6596,7 +6626,7 @@ function getAnswerFeedbackPoints()
 		// processing time
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "processing_time");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getProcessingTime());
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->getProcessingTime());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// starting time
@@ -6617,6 +6647,68 @@ function getAnswerFeedbackPoints()
 			$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("P%dY%dM%dDT%dH%dM%dS", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
 			$a_xml_writer->xmlEndTag("qtimetadatafield");
 		}
+
+
+		//activation_limited
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "activation_limited");
+		$a_xml_writer->xmlElement("fieldentry", NULL,(int)$this->isActivationLimited());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		//activation_start_time
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "activation_start_time");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->getActivationStartingTime());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		//activation_end_time
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "activation_end_time");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->getActivationEndingTime());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		//activation_visibility
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "activation_visibility");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->getActivationVisibility());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// autosave
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "autosave");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->getAutosave());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// autosave_ival
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "autosave_ival");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->getAutosaveIval());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		//offer_question_hints
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "offer_question_hints");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->isOfferingQuestionHintsEnabled());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		//instant_feedback_specific
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "instant_feedback_specific");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->getSpecificAnswerFeedback());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
+		//obligations_enabled
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "obligations_enabled");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->areObligationsEnabled());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
+		//enable_processing_time
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "enable_processing_time");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->getEnableProcessingTime());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
 		foreach ($this->mark_schema->mark_steps as $index => $mark)
 		{
 			// mark steps
