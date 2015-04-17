@@ -1,4 +1,4 @@
-// Build: 2014827022920 
+// Build: 2015417065844 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -12269,7 +12269,7 @@ function launchTarget(target, isJump) {
    
 	if (mlaunch.mSeqNonContent == null) {
 		//throw away API from previous sco and sync CMI and ADLTree
-		onItemDeliver(activities[mlaunch.mActivityID], false);
+		onItemDeliver(activities[mlaunch.mActivityID]);
 	} else {
 	  //call specialpage
 	  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
@@ -12382,7 +12382,7 @@ function launchNavType(navType, isUserCurrentlyInteracting) {
 	}
 	
 	if (mlaunch.mActivityID) {
-		onItemDeliver(activities[mlaunch.mActivityID], false);
+		onItemDeliver(activities[mlaunch.mActivityID]);
 	} else {
   		//call specialpage
   		loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
@@ -12426,7 +12426,7 @@ function onDocumentClick (e)
 				//throw away API from previous sco and sync CMI and ADLTree
 				onItemUndeliver();
 				statusHandler(mlaunch.mActivityID,"completion","unknown");
-				onItemDeliver(activities[mlaunch.mActivityID], false);
+				onItemDeliver(activities[mlaunch.mActivityID]);
 			//	setTimeout("updateNav()",2000);  //temporary fix for timing problems
 			} else {
 			  //call specialpage
@@ -13125,7 +13125,7 @@ function init(config)
 	} else {
 
 		if (mlaunch.mSeqNonContent == null) {
-			onItemDeliver(activities[mlaunch.mActivityID], wasSuspended);
+			onItemDeliverDo(activities[mlaunch.mActivityID], wasSuspended);
 		} else {
 			if (count==1 && tolaunch!=null) {
 				launchTarget(tolaunch);
@@ -13800,13 +13800,29 @@ function onWindowUnload ()
 	removeResource();
 }
 
-function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing process (deliverSubProcess)
+function onItemDeliver(item){
+	removeResource();
+	onItemDeliver_item=item;
+	onItemDeliverWait(0);
+}
+function onItemDeliverWait(deliverCounter){
+	if(currentAPI==null || SCOterminated==true || deliverCounter==30) {
+		onItemDeliverDo(onItemDeliver_item,false);
+	} else {
+		deliverCounter++;
+		setTimeout('onItemDeliverWait('+deliverCounter+');',100);
+	}
+}
+
+function onItemDeliverDo(item, wasSuspendAll) // onDeliver called from sequencing process (deliverSubProcess)
 {
 	var url = item.href, v;
+
+	currentAPI = window[Runtime.apiname] = null;
 	// create api if associated resouce is of adl:scormType=sco
 	if (item.sco)
 	{
-
+		SCOterminated = false;
 		// get data in cmi-1.3 format
 		var data = getAPI(item.foreignId);
 		if (this.config.sequencing_enabled) loadSharedData(item.cp_node_id);
@@ -14409,6 +14425,7 @@ function onCommit(data)
 
 function onTerminate(data) 
 {
+	SCOterminated = true;
 	var navReq;
 	switch (data.cmi.exit)
 	{
@@ -14833,7 +14850,9 @@ var toleratedFailure=false;
 //course wide variables
 //var pubAPI=null;
 var statusArray = new Object(); //just used for visual feedback
-//var isSaving = true;
+
+var SCOterminated = true;
+var onItemDeliver_item;
 
 var saved_shared_data = "";
 var saveOnCommit = true;
