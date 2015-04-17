@@ -647,7 +647,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		}
 		
 		// submitted files
-		$submitted = ilExAssignment::getDeliveredFiles($exercise_id, $a_assignment_id, $this->user_id, true);
+		include_once "Modules/Exercise/classes/class.ilExSubmission.php";		
+		$submission = new ilExSubmission($ass, $this->user_id);
+		$submitted = $submission->getFiles();
 		if($submitted)
 		{
 			$submitted = array_pop($submitted);
@@ -676,13 +678,13 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		
 		$tooltip = "";
 
-		$ass = $ass->getInstruction();
-		if($ass)
+		$inst = $ass->getInstruction();
+		if($inst)
 		{
-			$tooltip .= nl2br($ass);					
+			$tooltip .= nl2br($inst);					
 		}
 
-		$ass_files = ilExAssignment::getFiles($exercise_id, $a_assignment_id);
+		$ass_files = $ass->getFiles();
 		if (count($ass_files) > 0)
 		{
 			$tooltip .= "<br /><br />";
@@ -729,9 +731,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		if($_GET["ass"] && $_GET["file"])
 		{		
 			include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
-			$ass = new ilExAssignment((int)$_GET["ass"]);
-			
-			$ass_files = ilExAssignment::getFiles($ass->getExerciseId(), $ass->getId());
+			$ass = new ilExAssignment((int)$_GET["ass"]);		
+			$ass_files = $ass->getFiles();
 			if (count($ass_files) > 0)
 			{
 				foreach($ass_files as $file)
@@ -749,10 +750,11 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	{
 		if($_GET["ass"])
 		{		
-			include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
+			include_once "Modules/Exercise/classes/class.ilExAssignment.php";						
+			include_once "Modules/Exercise/classes/class.ilExSubmission.php";	
 			$ass = new ilExAssignment((int)$_GET["ass"]);
-			
-			$submitted = ilExAssignment::getDeliveredFiles($ass->getExerciseId(), $ass->getId(), $this->user_id);
+			$submission = new ilExSubmission($ass, $this->user_id);
+			$submitted = $submission->getFiles();				
 			if (count($submitted) > 0)
 			{
 				$submitted = array_pop($submitted);			
@@ -773,15 +775,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	 * Finalize and submit portfolio to exercise
 	 */
 	protected function finalize()
-	{		
-		// to make exercise gui load assignment
-		$_GET["ass_id"] = $_REQUEST["ass"];
-		
-		// #11173 - ref_id is needed for notifications
-		$exc_ref_id = array_shift(ilObject::_getAllReferences($_REQUEST["exc"]));
-		
-		include_once "Modules/Exercise/classes/class.ilObjExerciseGUI.php";
-		$exc_gui = new ilObjExerciseGUI(null, $exc_ref_id, true);
+	{				
+		include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
+		include_once "Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php";		
+		$exc_gui = ilExSubmissionObjectGUI::initGUIForSubmit((int)$_REQUEST["exc"], (int)$_REQUEST["ass"]);
 		$exc_gui->submitPortfolio($this->object->getId());
 		
 		ilUtil::sendSuccess($this->lng->txt("prtf_finalized"), true);

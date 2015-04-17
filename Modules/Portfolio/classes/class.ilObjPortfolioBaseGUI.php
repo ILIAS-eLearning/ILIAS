@@ -299,8 +299,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$table = new ilPortfolioPageTableGUI($this, "view");
 		
 		// exercise portfolio?			
-		include_once "Modules/Exercise/classes/class.ilObjExercise.php";			
-		$exercises = ilObjExercise::findUserFiles($this->user_id, $this->object->getId());
+		include_once "Modules/Exercise/classes/class.ilExSubmission.php";			
+		$exercises = ilExSubmission::findUserFiles($this->user_id, $this->object->getId());
 		if($exercises)
 		{
 			$info = array();

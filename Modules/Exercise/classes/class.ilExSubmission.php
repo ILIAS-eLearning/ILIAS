@@ -265,7 +265,7 @@ class ilExSubmission
 		global $ilDB;
 		
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-		$storage = ilFSStorageExercise($a_exc_id, $a_ass_id);
+		$storage = new ilFSStorageExercise($a_exc_id, $a_ass_id);
 		$path = $storage->getAbsoluteSubmissionPath();
 		
 		$query = "SELECT * FROM exc_returned WHERE ass_id = ".
@@ -355,6 +355,30 @@ class ilExSubmission
 		}
 
 		return $new_up;
+	}
+	
+	/**
+	 * Check if given file was assigned
+	 * 
+	 * Used in Blog/Portfolio
+	 * 
+	 * @param int $a_user_id
+	 * @param string $a_filetitle 
+	 */
+	public static function findUserFiles($a_user_id, $a_filetitle)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT obj_id, ass_id".
+			" FROM exc_returned".
+			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND filetitle = ".$ilDB->quote($a_filetitle, "text"));
+		$res = array();
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[$row["ass_id"]] = $row;
+		}
+		return $res;
 	}
 	
 	function deleteAllFiles()
@@ -501,10 +525,7 @@ class ilExSubmission
 			}			 
 			*/			 
 		}
-		
-		$exc_id = $this->assignment->getExerciseId();
-		$ass_id = $this->assignment->getId();
-
+	
 		$files = $this->getFiles($a_file_ids, false, $download_time);		
 		if($files)
 		{
@@ -512,16 +533,16 @@ class ilExSubmission
 			{			
 				$file = array_pop($files);
 
-				switch($this->getAssignment()->getType())
+				switch($this->assignment->getType())
 				{
-					case self::TYPE_BLOG:
-					case self::TYPE_PORTFOLIO:
-						$row["filetitle"] = ilObjUser::_lookupName($row["user_id"]);
-						$row["filetitle"] = ilObject::_lookupTitle($exc_id)." - ".
-							self::lookupTitle($ass_id)." - ".
-							$row["filetitle"]["firstname"]." ".
-							$row["filetitle"]["lastname"]." (".
-							$row["filetitle"]["login"].").zip";
+					case ilExAssignment::TYPE_BLOG:
+					case ilExAssignment::TYPE_PORTFOLIO:
+						$file["filetitle"] = ilObjUser::_lookupName($file["user_id"]);
+						$file["filetitle"] = ilObject::_lookupTitle($this->assignment->getExerciseId())." - ".
+							$this->assignment->getTitle()." - ".
+							$file["filetitle"]["firstname"]." ".
+							$file["filetitle"]["lastname"]." (".
+							$file["filetitle"]["login"].").zip";
 						break;
 
 					default:
@@ -531,7 +552,7 @@ class ilExSubmission
 				if($a_peer_review_mask_filename)
 				{
 					$suffix = array_pop(explode(".", $file["filetitle"]));
-					$file["filetitle"] = self::lookupTitle($ass_id)."_peer".$peer_id.".".$suffix;							
+					$file["filetitle"] = $this->assignment->getTitle()."_peer".$peer_id.".".$suffix;							
 				}
 
 				$this->downloadSingleFile($file["user_id"], $file["filename"], $file["filetitle"]);
@@ -545,7 +566,7 @@ class ilExSubmission
 					if($a_peer_review_mask_filename)
 					{									
 						$suffix = array_pop(explode(".", $src));
-						$tgt = self::lookupTitle($ass_id)."_peer".$peer_id.
+						$tgt = $this->assignment->getTitle()."_peer".$peer_id.
 							"_".(++$seq).".".$suffix;				
 
 						$array_files[$row["user_id"]][] = array($src, $tgt);
@@ -955,6 +976,8 @@ class ilExSubmission
 	//
 	// GUI helper
 	//
+	
+	// :TODO:
 	
 	public function getDownloadedFilesInfoForTableGUIS($a_parent_obj, $a_parent_cmd = null)
 	{

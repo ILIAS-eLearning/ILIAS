@@ -771,7 +771,7 @@ class ilObjExercise extends ilObject
 		return $this;
 	}
 	
-	protected function processExerciseStatus(ilExAssignment $a_ass, array $a_user_ids, $a_has_submitted)
+	public function processExerciseStatus(ilExAssignment $a_ass, array $a_user_ids, $a_has_submitted)
 	{
 		$a_has_submitted = (bool)$a_has_submitted;
 		

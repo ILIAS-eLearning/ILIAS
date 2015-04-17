@@ -823,8 +823,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$ilToolbar->addButtonInstance($button);
 						
 			// exercise blog?			
-			include_once "Modules/Exercise/classes/class.ilObjExercise.php";			
-			$exercises = ilObjExercise::findUserFiles($ilUser->getId(), $this->node_id);
+			include_once "Modules/Exercise/classes/class.ilExSubmission.php";			
+			$exercises = ilExSubmission::findUserFiles($ilUser->getId(), $this->node_id);
 			if($exercises)
 			{
 				$info = array();				
@@ -921,7 +921,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 		
 		// submitted files
-		$submitted = ilExAssignment::getDeliveredFiles($exercise_id, $a_assignment_id, $ilUser->getId(), true);
+		include_once "Modules/Exercise/classes/class.ilExSubmission.php";		
+		$submission = new ilExSubmission($ass, $ilUser->getId());
+		$submitted = $submission->getFiles();
 		if($submitted)
 		{						
 			$submitted = array_pop($submitted);
@@ -950,13 +952,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		$tooltip = "";
 
-		$ass = $ass->getInstruction();
-		if($ass)
+		$inst = $ass->getInstruction();
+		if($inst)
 		{
-			$tooltip .= nl2br($ass);					
+			$tooltip .= nl2br($inst);					
 		}
 
-		$ass_files = ilExAssignment::getFiles($exercise_id, $a_assignment_id);
+		$ass_files = $ass->getFiles();
 		if (count($ass_files) > 0)
 		{
 			$tooltip .= "<br /><br />";
@@ -998,9 +1000,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		if($_GET["ass"] && $_GET["file"])
 		{		
 			include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
-			$ass = new ilExAssignment((int)$_GET["ass"]);
-			
-			$ass_files = ilExAssignment::getFiles($ass->getExerciseId(), $ass->getId());
+			$ass = new ilExAssignment((int)$_GET["ass"]);			
+			$ass_files = $ass->getFiles();
 			if (count($ass_files) > 0)
 			{
 				foreach($ass_files as $file)
@@ -1020,10 +1021,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		if($_GET["ass"])
 		{		
-			include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
+			include_once "Modules/Exercise/classes/class.ilExAssignment.php";						
+			include_once "Modules/Exercise/classes/class.ilExSubmission.php";	
 			$ass = new ilExAssignment((int)$_GET["ass"]);
-			
-			$submitted = ilExAssignment::getDeliveredFiles($ass->getExerciseId(), $ass->getId(), $ilUser->getId());
+			$submission = new ilExSubmission($ass, $ilUser->getId());
+			$submitted = $submission->getFiles();			
 			if (count($submitted) > 0)
 			{
 				$submitted = array_pop($submitted);			
@@ -2404,14 +2406,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		global $ilCtrl, $lng;
 		
-		// to make exercise gui load assignment
-		$_GET["ass_id"] = $_REQUEST["ass"];
-				
-		// #11173 - ref_id is needed for notifications
-		$exc_ref_id = array_shift(ilObject::_getAllReferences($_REQUEST["exc"]));
-	
-		include_once "Modules/Exercise/classes/class.ilObjExerciseGUI.php";
-		$exc_gui = new ilObjExerciseGUI(null, $exc_ref_id, true);
+		include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
+		include_once "Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php";		
+		$exc_gui = ilExSubmissionObjectGUI::initGUIForSubmit((int)$_REQUEST["exc"], (int)$_REQUEST["ass"]);
 		$exc_gui->submitBlog($this->node_id);
 		
 		ilUtil::sendSuccess($lng->txt("blog_finalized"), true);
