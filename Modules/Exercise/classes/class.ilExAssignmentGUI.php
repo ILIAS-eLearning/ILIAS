@@ -1,7 +1,5 @@
 <?php
 
-include_once "Modules/Exercise/classes/class.ilExAssignmentMemberStatus.php";
-
 /**
  * GUI class for exercise assignments
  * 
@@ -28,7 +26,7 @@ class ilExAssignmentGUI
 	 */
 	function getOverviewHeader(ilExAssignment $a_ass)
 	{
-		global $lng, $ilUser;
+		global $lng;
 		
 		$lng->loadLanguageModule("exc");
 		
@@ -77,13 +75,8 @@ class ilExAssignmentGUI
 		$tpl->setVariable("TITLE", $a_ass->getTitle().$mand);
 
 		// status icon
-		$stat = ilExAssignmentMemberStatus::lookupStatusOfUser($a_ass->getId(), $ilUser->getId());
-		switch ($stat)
-		{
-			case "passed": 	$pic = "scorm/passed.svg"; break;
-			case "failed":	$pic = "scorm/failed.svg"; break;
-			default: 		$pic = "scorm/not_attempted.svg"; break;
-		}
+		$stat = $a_ass->getMemberStatus()->getStatus();
+		$pic = $a_ass->getMemberStatus()->getStatusIcon();	
 		$tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
 		$tpl->setVariable("ALT_STATUS", $lng->txt("exc_".$stat));
 
@@ -299,9 +292,9 @@ class ilExAssignmentGUI
 		$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());					
 		$cnt_files = $storage->countFeedbackFiles($a_feedback_id);
 		
-		$lpcomment = ilExAssignmentMemberStatus::lookupCommentForUser($a_ass->getId(), $ilUser->getId());
-		$mark = ilExAssignmentMemberStatus::lookupMarkOfUser($a_ass->getId(), $ilUser->getId());
-		$status = ilExAssignmentMemberStatus::lookupStatusOfUser($a_ass->getId(), $ilUser->getId());	
+		$lpcomment = $a_ass->getMemberStatus()->getComment();
+		$mark = $a_ass->getMemberStatus()->getMark();
+		$status = $a_ass->getMemberStatus()->getStatus();	
 		
 		if ($lpcomment != "" || 
 			$mark != "" || 

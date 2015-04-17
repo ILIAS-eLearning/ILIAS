@@ -1,5 +1,12 @@
 <?php
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * Exercise submission
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ModulesExercise
+ */
 class ilExSubmission
 {	
 	protected $assignment; // [ilExAssignment]
@@ -418,7 +425,6 @@ class ilExSubmission
 	{
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		include_once("./Modules/Exercise/classes/class.ilExAssignmentMemberStatus.php");
 		
 		foreach(ilExAssignment::getInstancesByExercise($a_exc_id) as $ass)
 		{
@@ -433,7 +439,9 @@ class ilExSubmission
 			}
 			
 			// #14900
-			ilExAssignmentMemberStatus::updateStatusOfUser($ass->getId(), $a_user_id, "notgraded");			
+			$member_status = $ass->getMemberStatus($a_user_id);
+			$member_status->setStatus("notgraded");		
+			$member_status->update();
 		}	
 	}
 	
@@ -451,7 +459,12 @@ class ilExSubmission
 	}
 	
 	function downloadFiles(array $a_file_ids = null, $a_only_new = false, $a_peer_review_mask_filename = false)
-	{		
+	{				
+		if($this->is_tutor)
+		{
+			$this->updateTutorDownloadTime();		
+		}		
+		
 		$user_ids = $this->getUserIds();
 		
 		// get last download time
@@ -461,11 +474,6 @@ class ilExSubmission
 			$download_time = $this->getLastDownloadTime($user_ids);					
 		}
 
-		if($this->is_tutor)
-		{
-			$this->updateTutorDownloadTime($user_ids);		
-		}
-		
 		// :TODO:
 		if($a_peer_review_mask_filename)
 		{
@@ -551,14 +559,14 @@ class ilExSubmission
 	}
 
 	// Update the timestamp of the last download of current user (=tutor)	
-	protected function updateTutorDownloadTime(array $a_user_ids)
+	public function updateTutorDownloadTime()
 	{
 		global $ilUser, $ilDB;
-		
+				
 		$exc_id = $this->assignment->getExerciseId();
 		$ass_id = $this->assignment->getId();
 
-		foreach($a_user_ids as $user_id)
+		foreach($this->getUserIds() as $user_id)
 		{
 			$ilDB->manipulateF("DELETE FROM exc_usr_tutor ".
 				"WHERE ass_id = %s AND usr_id = %s AND tutor_id = %s",

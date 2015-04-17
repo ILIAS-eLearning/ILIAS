@@ -118,7 +118,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt("exc_team"));
 		}
 		
-		$this->sent_col = ilExAssignmentMemberStatus::lookupAnyExerciseSent($this->exc->getId(), $this->ass_id);
+		$this->sent_col = ilExAssignmentMemberStatus::lookupAnyExerciseSent($this->ass_id);
 		if ($this->sent_col)
 		{
 			$this->addColumn($this->lng->txt("exc_exercise_sent"), "sent_time");
@@ -182,17 +182,17 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		}
 		
 		$has_no_team_yet = (substr($member["team_id"], 0, 3) == "nty");
+		$member_status = $this->ass->getMemberStatus($member_id);
 
 		if(!$has_no_team_yet)
 		{
 			// mail sent
 			if ($this->sent_col)
 			{
-				if (ilExAssignmentMemberStatus::lookupStatusSentOfUser($this->ass_id, $member_id))
+				if ($member_status->getStatusSent())
 				{
 					$this->tpl->setCurrentBlock("mail_sent");
-					if (($st = ilExAssignmentMemberStatus::lookupSentTimeOfUser($this->ass_id,
-						$member_id)) > 0)
+					if (($st = $member_status->getSentTime()) > 0)
 					{
 						$this->tpl->setVariable("TXT_MAIL_SENT",
 							sprintf($lng->txt("exc_sent_at"),
@@ -332,12 +332,12 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("NAME_NOTE",
 				"notice[$member_id]");
 			$this->tpl->setVariable("VAL_NOTE",
-				ilUtil::prepareFormOutput(ilExAssignmentMemberStatus::lookupNoticeOfUser($this->ass_id, $member_id)));
+				ilUtil::prepareFormOutput($member_status->getNotice()));
 
 			
 			// comment for learner	
 			
-			$lcomment_value = ilExAssignmentMemberStatus::lookupCommentForUser($this->ass_id, $member_id);
+			$lcomment_value = $member_status->getComment();
 			
 			$overlay_id = "excasscomm_".$this->ass_id."_".$member_id;
 			$overlay_trigger_id = $overlay_id."_tr";
@@ -370,29 +370,20 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$this->overlay_tpl->setVariable("COMMENT_OVERLAY_FORM", $lcomment_form->getHTML());
 			$this->overlay_tpl->parseCurrentBlock();
 			
-			
-			// solved
-			//$this->tpl->setVariable("CHKBOX_SOLVED",
-			//	ilUtil::formCheckbox($this->exc->members_obj->getStatusByMember($member_id),"solved[$member_id]",1));
-			$status = ilExAssignmentMemberStatus::lookupStatusOfUser($this->ass_id, $member_id);
+			$status = $member_status->getStatus();
 			$this->tpl->setVariable("SEL_".strtoupper($status), ' selected="selected" ');
 			$this->tpl->setVariable("TXT_NOTGRADED", $lng->txt("exc_notgraded"));
 			$this->tpl->setVariable("TXT_PASSED", $lng->txt("exc_passed"));
 			$this->tpl->setVariable("TXT_FAILED", $lng->txt("exc_failed"));
-			if (($sd = ilExAssignmentMemberStatus::lookupStatusTimeOfUser($this->ass_id, $member_id)) > 0)
+			if (($sd = $member_status->getStatusTime()) > 0)
 			{
 				$this->tpl->setCurrentBlock("status_date");
 				$this->tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("last_change"));
 				$this->tpl->setVariable('VAL_STATUS_DATE',
 					ilDatePresentation::formatDate(new ilDateTime($sd,IL_CAL_DATETIME)));
 				$this->tpl->parseCurrentBlock();
-			}
-			switch($status)
-			{
-				case "passed": 	$pic = "scorm/passed.svg"; break;
-				case "failed":	$pic = "scorm/failed.svg"; break;
-				default: 		$pic = "scorm/not_attempted.svg"; break;
-			}
+			}			
+			$pic = $member_status->getStatusIcon();
 			$this->tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
 			$this->tpl->setVariable("ALT_STATUS", $lng->txt("exc_".$status));
 
@@ -400,13 +391,12 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_MARK", $lng->txt("exc_mark"));
 			$this->tpl->setVariable("NAME_MARK",
 				"mark[$member_id]");
-			$mark = ilExAssignmentMemberStatus::lookupMarkOfUser($this->ass_id, $member_id);
-			$this->tpl->setVariable("VAL_MARK",
-				ilUtil::prepareFormOutput($mark));
+			$mark = $member_status->getMark();
+			$this->tpl->setVariable("VAL_MARK", ilUtil::prepareFormOutput($mark));
 
 			// feedback
 			$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
-			if (($ft = ilExAssignmentMemberStatus::lookupFeedbackTimeOfUser($this->ass_id, $member_id)) > 0)
+			if (($ft = $member_status->getFeedbackTime()) > 0)
 			{
 				$this->tpl->setCurrentBlock("feedback_date");
 				$this->tpl->setVariable("TXT_FEEDBACK_MAIL_SENT",

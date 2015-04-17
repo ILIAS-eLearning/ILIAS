@@ -1,350 +1,298 @@
 <?php
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * Exercise assignment member status
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ModulesExercise
+ */
 class ilExAssignmentMemberStatus
 {
+	protected $ass_id; // [int]
+	protected $user_id;  // [int]
+	protected $notice; // [string]
+	protected $returned;  // [int]
+	protected $solved;  // [int] - obsolete?!
+	protected $sent; // [int]
+	protected $sent_time; // [datetime]
+	protected $feedback; // [int]
+	protected $feedback_time; // [datetime]
+	protected $status = "notgraded";  // [string]
+	protected $status_time; // [datetime]
+	protected $mark; // [string]
+	protected $comment; // [string]
+	protected $db_exists; // [bool]
+	protected $returned_update; // [bool]
+	protected $status_update; // [bool]
 	
+	public function __construct($a_ass_id, $a_user_id)
+	{
+		$this->ass_id = $a_ass_id;
+		$this->user_id = $a_user_id;
+		
+		$this->read();
+	}
 	
-//// Functions from ilExerciseMembers -> migrate!
-////
+	public function setNotice($a_value)
+	{
+		$this->notice = $a_value;
+	}
 	
-	/**
-	 * Lookup a field value of ass/member table
-	 */
-	private function lookupAssMemberField($a_ass_id, $a_user_id, $a_field)
+	public function getNotice()
+	{
+		return $this->notice;
+	}
+	
+	public function setReturned($a_value)
+	{
+		if($a_value && 
+			!$this->returned)		
+		{
+			$this->returned_update = true;
+		}
+		$this->returned = $a_value;			
+	}
+	
+	public function getReturned()
+	{
+		return $this->returned;
+	}
+	
+	public function setSolved($a_value)
+	{
+		$this->solved = $a_value;
+	}
+	
+	public function getSolved()
+	{
+		return $this->solved;
+	}
+	
+	protected function setStatusTime($a_value)
+	{
+		$this->status_time = $a_value;
+	}
+	
+	public function getStatusTime()
+	{		
+		return $this->status_time;
+	}
+	
+	public function setSent($a_value)
+	{
+		if($a_value && $a_value != $this->sent)
+		{
+			$this->setSentTime(ilUtil::now());
+		}
+		$this->sent = $a_value;
+	}
+	
+	public function getSent()
+	{
+		return $this->sent;
+	}
+	
+	protected function setSentTime($a_value)
+	{
+		$this->sent_time = $a_value;
+	}
+	
+	public function getSentTime()
+	{
+		return $this->sent_time;
+	}
+	
+	public function setFeedback($a_value)
+	{
+		if($a_value != $this->sent)
+		{
+			$this->setFeedbackTime(ilUtil::now());
+		}
+		$this->feedback = $a_value;
+	}
+	
+	public function getFeedback()
+	{
+		return $this->feedback;
+	}
+	
+	protected function setFeedbackTime($a_value)
+	{
+		$this->feedback_time = $a_value;
+	}
+	
+	public function getFeedbackTime()
+	{
+		return $this->feedback_time;
+	}
+	
+	public function setStatus($a_value)
+	{
+		if($a_value != $this->status)
+		{
+			$this->setStatusTime(ilUtil::now());
+			$this->status = $a_value;
+			$this->status_update = true;
+		}
+	}
+	
+	public function getStatus()
+	{
+		return $this->status;
+	}
+	
+	public function getStatusIcon()
+	{
+		switch($this->getStatus())
+		{
+			case "passed": 	
+				return "scorm/passed.svg"; 
+			
+			case "failed":	
+				return "scorm/failed.svg"; 
+				
+			default:
+				return "scorm/not_attempted.svg"; 
+		}
+	}
+	
+	public function setMark($a_value)
+	{
+		if($a_value != $this->mark)
+		{
+			$this->setStatusTime(ilUtil::now());
+		}
+		$this->mark = $a_value;
+	}
+	
+	public function getMark()
+	{
+		return $this->mark;
+	}
+	
+	public function setComment($a_value)
+	{
+		$this->comment = $a_value;
+	}
+	
+	public function getComment()
+	{
+		return $this->comment;
+	}
+	
+	protected function read()
 	{
 		global $ilDB;
 		
-		$set = $ilDB->query("SELECT ".$a_field." FROM exc_mem_ass_status ".
-			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
-			" AND usr_id = ".$ilDB->quote($a_user_id, "integer")
-			);
-		$rec  = $ilDB->fetchAssoc($set);
-		
-		return $rec[$a_field];
+		$set = $ilDB->query("SELECT * FROM exc_mem_ass_status".
+			" WHERE ass_id = ".$ilDB->quote($this->ass_id, "integer").
+			" AND usr_id = ".$ilDB->quote($this->user_id, "integer"));
+		if($ilDB->numRows($set))
+		{
+			$row  = $ilDB->fetchAssoc($set);
+			
+			// not using setters to circumvent any datetime-logic/-magic
+			$this->notice = $row["notice"];
+			$this->returned = $row["returned"];
+			$this->solved = $row["solved"];
+			$this->status_time = $row["status_time"];
+			$this->sent = $row["sent"];
+			$this->sent_time = $row["sent_time"];
+			$this->feedback_time = $row["feedback_time"];
+			$this->feedback = $row["feedback"];
+			$this->status = $row["status"];
+			$this->mark = $row["mark"];
+			$this->comment = $row["u_comment"];
+			$this->db_exists = true;
+		}
 	}
 	
-	/**
-	 * Update a field value of ass/member table
-	 */
-	private function updateAssMemberField($a_ass_id, $a_user_id, $a_field, $a_value, $a_type)
+	protected function getFields()
+	{
+		return array(
+			"notice" => array("text", $this->getNotice())
+			,"returned" => array("integer", $this->getReturned())
+			,"solved" => array("integer", $this->getSolved())
+			,"status_time" => array("timestamp", $this->getStatusTime())
+			,"sent" => array("integer", $this->getSent())
+			,"sent_time" => array("timestamp", $this->getSentTime())
+			,"feedback_time" => array("timestamp", $this->getFeedbackTime())
+			,"feedback" => array("integer", $this->getFeedback())
+			,"status" => array("text", $this->getStatus())
+			,"mark" => array("text", $this->getMark())
+			,"u_comment" => array("text", $this->getComment())
+		);
+	}
+	
+	public function update()
 	{
 		global $ilDB;
 		
-		$ilDB->manipulate("UPDATE exc_mem_ass_status SET ".
-			" ".$a_field." = ".$ilDB->quote($a_value, $a_type).
-			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
-			" AND usr_id = ".$ilDB->quote($a_user_id, "integer")
-			);
-	}
-	
-
-/*	function setStatus($a_status)
-	{
-		if(is_array($a_status))
+		$keys = array(
+			"ass_id" => array("integer", $this->ass_id)
+			,"usr_id" => array("integer", $this->user_id)
+		);
+		$fields = $this->getFields();
+		if(!$this->db_exists)
 		{
-			$this->status = $a_status;
-			return true;
-		}
-	}
-	function getStatus()
-	{
-		return $this->status ? $this->status : array();
-	}*/
-	
-	/**
-	 * Lookup comment for the user
-	 */
-	function lookupCommentForUser($a_ass_id, $a_user_id)
-	{
-		return self::lookupAssMemberField($a_ass_id, $a_user_id, "u_comment");
-	}
-
-	/**
-	 * Update comment
-	 */
-	function updateCommentForUser($a_ass_id, $a_user_id, $a_value)
-	{
-		self::updateAssMemberField($a_ass_id, $a_user_id,
-			"u_comment", $a_value, "text");
-	}
-
-	/**
-	 * Lookup user mark
-	 */
-	function lookupMarkOfUser($a_ass_id, $a_user_id)
-	{
-		return self::lookupAssMemberField($a_ass_id, $a_user_id, "mark");
-	}
-
-	/**
-	 * Update mark
-	 */
-	function updateMarkOfUser($a_ass_id, $a_user_id, $a_value)
-	{
-		self::updateAssMemberField($a_ass_id, $a_user_id,
-			"mark", $a_value, "text");
-	}
-
-	/**
-	 * was: getStatusByMember
-	 */
-	function lookupStatusOfUser($a_ass_id, $a_user_id)
-	{
-		$stat = self::lookupAssMemberField($a_ass_id, $a_user_id, "status");
-		if ($stat == "")
-		{
-			$stat = "notgraded";
-		}
-		return $stat;
-	}
-
-	/**
-	 * was: setStatusForMember($a_member_id,$a_status)
-	 */
-	function updateStatusOfUser($a_ass_id, $a_user_id, $a_status)
-	{
-		global $ilDB;
-
-		$ilDB->manipulateF("UPDATE exc_mem_ass_status ".
-			"SET status = %s, status_time= %s ".
-			" WHERE ass_id = %s AND usr_id = %s AND status <> %s ",
-			array("text", "timestamp", "integer", "integer", "text"),
-			array($a_status, ilUtil::now(), $a_ass_id, $a_user_id, $a_status));
-		
-		$ass = new ilExAssignment($a_ass_id);
-		$exc = new ilObjExercise($ass->getExerciseId(), false);
-		$exc->updateUserStatus($a_user_id);
-	}
-
-	/**
-	 * was: updateStatusTimeForMember($a_user_id)
-	 */
-	function updateStatusTimeOfUser($a_ass_id, $a_user_id)
-	{
-		// #13741 - is only used for mark
-		self::updateAssMemberField($a_ass_id, $a_user_id,
-			"status_time", ilUtil::now(), "timestamp");
-	}
-
-
-	/*function setStatusSent($a_status)
-	{
-		if(is_array($a_status))
-		{
-			$this->status_sent = $a_status;
-			return true;
-		}
-	}
-	function getStatusSent()
-	{
-		return $this->status_sent ? $this->status_sent : array(0 => 0);
-	}*/
-	
-	/**
-	 * was: getStatusSentByMember($a_member_id)
-	 */
-	function lookupStatusSentOfUser($a_ass_id, $a_user_id)
-	{
-		return self::lookupAssMemberField($a_ass_id, $a_user_id, "sent");
-	}
-	
-	/**
-	 * was: setStatusSentForMember($a_member_id,$a_status)
-	 */
-	function updateStatusSentForUser($a_ass_id, $a_user_id, $a_status)
-	{
-		global $ilDB;
-
-		// #13741
-		$ilDB->manipulateF("UPDATE exc_mem_ass_status ".
-			"SET sent = %s, sent_time = %s ".
-			" WHERE ass_id = %s AND usr_id = %s ",
-			array("integer", "timestamp", "integer", "integer"),
-			array((int) $a_status, ($a_status ? ilUtil::now() : null),
-				$a_ass_id, $a_user_id));
-	}
-
-	/*function getStatusReturned()
-	{
-		return $this->status_returned ? $this->status_returned : array(0 => 0);
-	}
-	function setStatusReturned($a_status)
-	{
-		if(is_array($a_status))
-		{
-			$this->status_returned = $a_status;
-			return true;
-		}
-		return false;
-	}*/
-
-	/**
-	 * was: getStatusReturnedByMember($a_member_id)
-	 */
-	function lookupStatusReturnedOfUser($a_ass_id, $a_user_id)
-	{
-		return self::lookupAssMemberField($a_ass_id, $a_user_id, "returned");
-	}
-
-	/**
-	 * was: setStatusReturnedForMember($a_member_id,$a_status)
-	 */
-	function updateStatusReturnedForUser($a_ass_id, $a_user_id, $a_status)
-	{
-		global $ilDB;
-		
-		// first upload => notification on submission?
-		if($a_status &&
-			!self::lookupStatusReturnedOfUser($a_ass_id, $a_user_id))
-		{
-			$set = $ilDB->query("SELECT fb_cron, fb_date, fb_file".
-				" FROM exc_assignment".
-				" WHERE id = ".$ilDB->quote($a_ass_id, "integer"));
-			$row = $ilDB->fetchAssoc($set);
-			if($row["fb_cron"] &&
-				$row["fb_file"] &&
-				$row["fb_date"] == self::FEEDBACK_DATE_SUBMISSION)
-			{
-				self::sendFeedbackNotifications($a_ass_id, $a_user_id);
-			}
-		}
-
-		// #13741
-		$ilDB->manipulateF("UPDATE exc_mem_ass_status".
-			" SET returned = %s".
-			" WHERE ass_id = %s AND usr_id = %s",
-			array("integer", "integer", "integer"),
-			array((int) $a_status, $a_ass_id, $a_user_id));
-	}
-
-/*	// feedback functions
-	function setStatusFeedback($a_status)
-	{
-		if(is_array($a_status))
-		{
-			$this->status_feedback = $a_status;
-			return true;
-		}
-	}
-	function getStatusFeedback()
-	{
-		return $this->status_feedback ? $this->status_feedback : array(0 => 0);
-	}*/
-	
-	/**
-	 * was: getStatusFeedbackByMember($a_member_id)
-	 */
-	function lookupStatusFeedbackOfUser($a_ass_id, $a_user_id)
-	{
-		return self::lookupAssMemberField($a_ass_id, $a_user_id, "feedback");
-	}
-
-	/**
-	 * was: setStatusFeedbackForMember($a_member_id,$a_status)
-	 */
-	function updateStatusFeedbackForUser($a_ass_id, $a_user_id, $a_status)
-	{
-		global $ilDB;
-
-		// #13741
-		$ilDB->manipulateF("UPDATE exc_mem_ass_status ".
-			"SET feedback = %s, feedback_time = %s ".
-			" WHERE ass_id = %s AND usr_id = %s",
-			array("integer", "timestamp", "integer", "integer"),
-			array((int) $a_status, ($a_status ? ilUtil::now() : null),
-				$a_ass_id, $a_user_id));
-	}
-
-	/**
-	 * Get time when exercise has been sent per e-mail to user
-	 */
-	static function lookupSentTimeOfUser($a_ass_id, $a_user_id)
-	{
-		return ilUtil::getMySQLTimestamp(
-			self::lookupAssMemberField($a_ass_id, $a_user_id, "sent_time"));
-	}
-
-	/**
-	 * Get time when feedback mail has been sent.
-	 */
-	static function lookupFeedbackTimeOfUser($a_ass_id, $a_user_id)
-	{
-		return ilUtil::getMySQLTimestamp(
-			self::lookupAssMemberField($a_ass_id, $a_user_id, "feedback_time"));
-	}
-	
-	/**
-	 * Get status time
-	 */
-	static function lookupStatusTimeOfUser($a_ass_id, $a_user_id)
-	{
-		return ilUtil::getMySQLTimestamp(
-			self::lookupAssMemberField($a_ass_id, $a_user_id, "status_time"));
-	}
-
-	/*function getNotice()
-	{
-		return $this->notice ? $this->notice : array(0 => 0);
-	}
-
-	function setNotice($a_notice)
-	{
-		if(is_array($a_notice))
-		{
-			$this->notice = $a_notice;
-			return true;
-		}
-		return false;
-	}*/
-
-	/**
-	 * was: getNoticeByMember($a_member_id)
-	 */
-	function lookupNoticeOfUser($a_ass_id, $a_user_id)
-	{
-		return self::lookupAssMemberField($a_ass_id, $a_user_id, "notice");
-	}
-
-
-	
-	/**
-	 * was: setNoticeForMember($a_member_id,$a_notice)
-	 */
-	function updateNoticeForUser($a_ass_id, $a_user_id, $a_notice)
-	{
-		global $ilDB;
-		
-		// #12181 / #13741
-		$ilDB->manipulate("UPDATE exc_mem_ass_status".
-			" SET notice = ".$ilDB->quote($a_notice, "text").		
-			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
-			" AND usr_id = ".$ilDB->quote($a_user_id, "integer").
-			" AND ".$ilDB->equalsNot("notice", $a_notice, "text", true));
-	}
-
-	/**
-	 * Check whether exercise has been sent to any student per mail.
-	 */
-	static function lookupAnyExerciseSent($a_exc_id, $a_ass_id)
-	{
-  		global $ilDB;
-
-  		$q = "SELECT count(*) AS cnt FROM exc_mem_ass_status".
-			" WHERE NOT sent_time IS NULL".
-			" AND ass_id = ".$ilDB->quote($a_ass_id, "integer")." ".
-			" ";
-		$set = $ilDB->query($q);
-		$rec = $ilDB->fetchAssoc($set);
-
-		if ($rec["cnt"] > 0)
-		{
-			return true;
+			$fields = array_merge($keys, $fields);
+			$ilDB->insert("exc_mem_ass_status", $fields);
 		}
 		else
 		{
-			return false;
+			$ilDB->update("exc_mem_ass_status", $fields, $keys);
+		}
+		
+		if($this->returned_update)
+		{
+			$this->postUpdateReturned();
+		}
+		if($this->status_update)
+		{
+			$this->postUpdateStatus();
 		}
 	}
+	
+	protected function postUpdateReturned()
+	{
+		global $ilDB;
+		
+		// first upload => notification on submission?		
+		$set = $ilDB->query("SELECT fb_cron, fb_date, fb_file".
+			" FROM exc_assignment".
+			" WHERE id = ".$ilDB->quote($this->ass_id, "integer"));
+		$row = $ilDB->fetchAssoc($set);
+		if($row["fb_cron"] &&
+			$row["fb_file"] &&
+			$row["fb_date"] == self::FEEDBACK_DATE_SUBMISSION)
+		{
+			include_once "Modules/Exercise/classes/class.ilExAssignment.php";
+			ilExAssignment::sendFeedbackNotifications($this->ass_id, $this->user_id);
+		}	
+	}
+		
+	protected function postUpdateStatus()
+	{		
+		include_once "Modules/Exercise/classes/class.ilExAssignment.php";
+		$ass = new ilExAssignment($this->ass_id);
+		$exc = new ilObjExercise($ass->getExerciseId(), false);
+		$exc->updateUserStatus($this->user_id);
+	}
+	
+	/**
+	 * Check whether exercise has been sent to any student per mail.
+	 */
+	public static function lookupAnyExerciseSent($a_ass_id)
+	{
+  		global $ilDB;
 
+  		$q = "SELECT count(*) AS cnt".
+			" FROM exc_mem_ass_status".
+			" WHERE NOT sent_time IS NULL".
+			" AND ass_id = ".$ilDB->quote($a_ass_id, "integer");
+		$set = $ilDB->query($q);
+		$rec = $ilDB->fetchAssoc($set);
+		return ($rec["cnt"] > 0);		
+	}
 }
-

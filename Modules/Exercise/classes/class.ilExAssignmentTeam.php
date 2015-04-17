@@ -1,5 +1,12 @@
 <?php
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * Exercise assignment team
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ModulesExercise
+ */
 class ilExAssignmentTeam
 {	
 	protected $id; // [int]

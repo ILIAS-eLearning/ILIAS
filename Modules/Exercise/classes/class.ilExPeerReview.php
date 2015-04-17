@@ -1,5 +1,12 @@
 <?php
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * Exercise peer review
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ModulesExercise
+ */
 class ilExPeerReview
 {
 	protected $assignment; // [$a_assignment]

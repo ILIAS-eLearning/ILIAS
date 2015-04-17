@@ -37,6 +37,8 @@ class ilExAssignment
 	protected $feedback_cron;
 	protected $feedback_date;
 	
+	protected $member_status = array(); // [array]
+	
 	/**
 	 * Constructor
 	 */
@@ -1286,7 +1288,7 @@ class ilExAssignment
 		return $res;
 	}
 	
-	public function sendFeedbackNotifications($a_ass_id, $a_user_id = null)
+	public static function sendFeedbackNotifications($a_ass_id, $a_user_id = null)
 	{
 		global $ilDB;
 		
@@ -1402,6 +1404,23 @@ class ilExAssignment
 			$path = $this->getGlobalFeedbackFileStoragePath();
 			return $path."/".$file;
 		}
+	}
+	
+	
+	public function getMemberStatus($a_user_id = null)
+	{
+		global $ilUser;
+		
+		if(!$a_user_id)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+		if(!array_key_exists($a_user_id, $this->member_status))
+		{
+			include_once "Modules/Exercise/classes/class.ilExAssignmentMemberStatus.php";
+			$this->member_status[$a_user_id] = new ilExAssignmentMemberStatus($this->getId(), $a_user_id);
+		}
+		return $this->member_status[$a_user_id];
 	}
 }
 

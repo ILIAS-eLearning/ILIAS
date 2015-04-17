@@ -1,6 +1,14 @@
 <?php
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
+/**
+ * Exercise submission base gui
+ * 
+ * This is an abstract base class for all types of submissions
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ModulesExercise
+ */
 abstract class ilExSubmissionBaseGUI
 {
 	protected $exercise; // [ilObjExercise]
@@ -56,7 +64,7 @@ abstract class ilExSubmissionBaseGUI
 		$has_submitted = $this->submission->hasSubmitted();
 		
 		$this->exercise->processExerciseStatus(
-			$this->assignment->getId(),
+			$this->assignment,
 			$this->submission->getUserIds(),
 			$has_submitted);
 		

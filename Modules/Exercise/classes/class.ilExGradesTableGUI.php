@@ -3,6 +3,7 @@
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
 include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+include_once("./Modules/Exercise/classes/class.ilExAssignmentMemberStatus.php");
 
 /**
 * Exercise participant table
@@ -114,24 +115,21 @@ class ilExGradesTableGUI extends ilTable2GUI
 		
 		foreach ($this->ass_data as $ass)
 		{
+			$member_status = new ilExAssignmentMemberStatus($ass["id"], $user_id);
+			
 			// grade
 			$this->tpl->setCurrentBlock("grade");
-			$status = ilExAssignment::lookupStatusOfUser($ass["id"], $user_id);
+			$status = $member_status->getStatus();
 			$this->tpl->setVariable("SEL_".strtoupper($status), ' selected="selected" ');
 			$this->tpl->setVariable("TXT_NOTGRADED", $lng->txt("exc_notgraded"));
 			$this->tpl->setVariable("TXT_PASSED", $lng->txt("exc_passed"));
-			$this->tpl->setVariable("TXT_FAILED", $lng->txt("exc_failed"));
-			switch($status)
-			{
-				case "passed": 	$pic = "scorm/passed.svg"; break;
-				case "failed":	$pic = "scorm/failed.svg"; break;
-				default: 		$pic = "scorm/not_attempted.svg"; break;
-			}
+			$this->tpl->setVariable("TXT_FAILED", $lng->txt("exc_failed"));			
+			$pic = $member_status->getStatusIcon();
 			$this->tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
 			$this->tpl->setVariable("ALT_STATUS", $lng->txt("exc_".$status));
 			
 			// mark
-			$mark = ilExAssignment::lookupMarkOfUser($ass["id"], $user_id);
+			$mark = $member_status->getMark();
 			$this->tpl->setVariable("VAL_ONLY_MARK", $mark);
 			
 			$this->tpl->parseCurrentBlock();

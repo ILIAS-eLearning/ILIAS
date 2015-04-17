@@ -347,13 +347,13 @@ class ilObjExercise extends ilObject
 	/**
 	 * send exercise per mail to members
 	 */
-	function sendAssignment($a_exc_id, $a_ass_id, $a_members)
+	function sendAssignment(ilExAssignment $a_ass, $a_members)
 	{
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		$ass_title = ilExAssignment::lookupTitle($a_ass_id);
+		$ass_title = $a_ass->getTitle();
 
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-		$storage = new ilFSStorageExercise($a_exc_id, $a_ass_id);
+		$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
 		$files = $storage->getFiles();
 
 		if(count($files))
@@ -388,7 +388,9 @@ class ilObjExercise extends ilObject
 		// SET STATUS SENT FOR ALL RECIPIENTS
 		foreach($a_members as $member_id => $value)
 		{
-			ilExAssignment::updateStatusSentForUser($a_ass_id, $member_id, 1);
+			$member_status = $a_ass->getMemberStatus($member_id);
+			$member_status->setSent(true);
+			$member_status->update();			
 		}
 
 		return true;
@@ -470,7 +472,6 @@ class ilObjExercise extends ilObject
 		return implode(',',$tmp_members ? $tmp_members : array());
 	}
 
-	
 	/**
 	 * Determine status of user
 	 */
@@ -484,7 +485,7 @@ class ilObjExercise extends ilObject
 		}
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		$ass = ilExAssignment::getAssignmentDataOfExercise($this->getId());
+		$ass = ilExAssignment::getInstancesByExercise($this->getId());
 		
 		$passed_all_mandatory = true;
 		$failed_a_mandatory = false;
@@ -492,15 +493,14 @@ class ilObjExercise extends ilObject
 		$cnt_notgraded = 0;
 		$passed_at_least_one = false;
 		
-		include_once("./Modules/Exercise/classes/class.ilExAssignmentMemberStatus.php");
 		foreach ($ass as $a)
 		{
-			$stat = ilExAssignmentMemberStatus::lookupStatusOfUser($a["id"], $a_user_id);
-			if ($a["mandatory"] && ($stat == "failed" || $stat == "notgraded"))
+			$stat = $a->getMemberStatus($a_user_id)->getStatus();
+			if ($a->getMandatory() && ($stat == "failed" || $stat == "notgraded"))
 			{
 				$passed_all_mandatory = false;
 			}
-			if ($a["mandatory"] && ($stat == "failed"))
+			if ($a->getMandatory() && ($stat == "failed"))
 			{
 				$failed_a_mandatory = true;
 			}
@@ -602,7 +602,7 @@ class ilObjExercise extends ilObject
 	function exportGradesExcel()
 	{
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		$ass_data = ilExAssignment::getAssignmentDataOfExercise($this->getId());
+		$ass_data = ilExAssignment::getInstancesByExercise($this->getId());
 		
 		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
 		$excelfile = ilUtil::ilTempnam();
@@ -650,7 +650,7 @@ class ilObjExercise extends ilObject
 
 			foreach ($ass_data as $ass)
 			{
-				$status = ilExAssignment::lookupStatusOfUser($ass["id"], $user_id);
+				$status = $ass->getMemberStatus($user_id)->getStatus();
 				$mainworksheet->writeString($row_cnt, $col_cnt, ilExcelUtils::_convert_text($this->lng->txt("exc_".$status)));
 				$col_cnt++;
 			}
@@ -694,8 +694,8 @@ class ilObjExercise extends ilObject
 
 			foreach ($ass_data as $ass)
 			{
-				$worksheet2->writeString($row_cnt, $col_cnt,
-					ilExcelUtils::_convert_text(ilExAssignment::lookupMarkOfUser($ass["id"], $user_id)));
+				$mark = $ass->getMemberStatus($user_id)->getMark();
+				$worksheet2->writeString($row_cnt, $col_cnt, ilExcelUtils::_convert_text($mark));
 				$col_cnt++;
 			}
 			
@@ -771,15 +771,17 @@ class ilObjExercise extends ilObject
 		return $this;
 	}
 	
-	protected function processExerciseStatus($a_ass_id, array $a_user_ids, $a_has_submitted)
+	protected function processExerciseStatus(ilExAssignment $a_ass, array $a_user_ids, $a_has_submitted)
 	{
 		$a_has_submitted = (bool)$a_has_submitted;
 		
-		include_once("./Modules/Exercise/classes/class.ilExAssignmentMemberStatus.php");
 		include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 		foreach($a_user_ids as $user_id)
 		{		
-			ilExAssignmentMemberStatus::updateStatusReturnedForUser($a_ass_id, $user_id, $a_has_submitted);
+			$member_status = $a_ass->getMemberStatus($user_id);
+			$member_status->setReturned($a_has_submitted);	
+			$member_status->update();	
+			
 			ilExerciseMembers::_writeReturned($this->getId(), $user_id, $a_has_submitted);
 		}		 
 				
@@ -796,7 +798,9 @@ class ilObjExercise extends ilObject
 			}				
 			foreach($this->getUserIds() as $user_id)
 			{
-				ilExAssignmentMemberStatus::updateStatusOfUser($a_ass_id, $user_id, $status);
+				$member_status = $a_ass->getMemberStatus($user_id);
+				$member_status->setStatus($status);		
+				$member_status->update();				
 			}
 		}			
 	}

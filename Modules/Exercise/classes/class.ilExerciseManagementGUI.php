@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
 
 /**
 * Class ilExerciseManagementGUI
@@ -9,8 +10,7 @@ include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * 
 * @ilCtrl_Calls ilExerciseManagementGUI: ilFileSystemGUI, ilRepositorySearchGUI
-* @ilCtrl_Calls ilExerciseManagementGUI: ilExSubmissionTeamGUI, ilExSubmissionFileGUI
-* @ilCtrl_Calls ilExerciseManagementGUI: ilExSubmissionTextGUI
+* @ilCtrl_Calls ilExerciseManagementGUI: ilExSubmissionGUI
 * 
 * @ingroup ModulesExercise
 */
@@ -18,6 +18,10 @@ class ilExerciseManagementGUI
 {
 	protected $exercise; // [ilObjExercise]
 	protected $assignment; // [ilExAssignment]
+	
+	const VIEW_ASSIGNMENT = 1;
+	const VIEW_PARTICIPANT = 1;	
+	const VIEW_GRADES = 3;
 	
 	/**
 	 * Constructor
@@ -41,7 +45,7 @@ class ilExerciseManagementGUI
 	
 	public function executeCommand()
 	{
-		global $ilCtrl, $lng, $ilTabs, $ilUser;
+		global $ilCtrl, $lng, $ilTabs;
 		
 		$this->ctrl->saveParameter($this, array("fsmode"));
 		
@@ -120,49 +124,22 @@ class ilExerciseManagementGUI
 				$this->ctrl->forwardCommand($rep_search);
 				break;
 			
-			case "ilexsubmissionteamgui":						
-				if($_GET["lmem"])
-				{
-					$this->ctrl->saveParameter($this, "lmem");
-					
-					// team gui has no base gui - see we have to handle tabs here				
-					$this->tabs_gui->clearTargets();		
-						$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
-							$this->ctrl->getLinkTarget($this, "members"));	
-
-					include_once "Modules/Exercise/classes/class.ilExSubmission.php";
-					$submission = new ilExSubmission($this->assignment, $_GET["lmem"], true);
-				
-					include_once "Modules/Exercise/classes/class.ilExSubmissionTeamGUI.php";
-					$gui = new ilExSubmissionTeamGUI($this->exercise, $submission);
-					$ilCtrl->forwardCommand($gui);
-				}
+			case "ilexsubmissionteamgui":										
+				include_once "Modules/Exercise/classes/class.ilExSubmissionTeamGUI.php";
+				$gui = new ilExSubmissionTeamGUI($this->exercise, $this->initSubmission());
+				$ilCtrl->forwardCommand($gui);				
 				break;		
 				
-			case "ilexsubmissionfilegui":						
-				if($_GET["member_id"])
-				{							
-					$this->ctrl->saveParameter($this, "member_id");
-					
-					include_once "Modules/Exercise/classes/class.ilExSubmission.php";
-					$submission = new ilExSubmission($this->assignment, $_GET["member_id"], true);				
-					include_once "Modules/Exercise/classes/class.ilExSubmissionFileGUI.php";
-					$gui = new ilExSubmissionFileGUI($this->exercise, $submission);
-					$ilCtrl->forwardCommand($gui);
-				}
+			case "ilexsubmissionfilegui":													
+				include_once "Modules/Exercise/classes/class.ilExSubmissionFileGUI.php";
+				$gui = new ilExSubmissionFileGUI($this->exercise, $this->initSubmission());
+				$ilCtrl->forwardCommand($gui);				
 				break;
 				
-			case "ilexsubmissiontextgui":						
-				if($_GET["member_id"])
-				{					
-					$this->ctrl->saveParameter($this, "member_id");
-					
-					include_once "Modules/Exercise/classes/class.ilExSubmission.php";
-					$submission = new ilExSubmission($this->assignment, $_GET["member_id"], true);				
-					include_once "Modules/Exercise/classes/class.ilExSubmissionTextGUI.php";
-					$gui = new ilExSubmissionTextGUI($this->exercise, $submission);
-					$ilCtrl->forwardCommand($gui);
-				}
+			case "ilexsubmissiontextgui":															
+				include_once "Modules/Exercise/classes/class.ilExSubmissionTextGUI.php";
+				$gui = new ilExSubmissionTextGUI($this->exercise, $this->initSubmission());
+				$ilCtrl->forwardCommand($gui);				
 				break;
 			
 			default:					
@@ -172,6 +149,33 @@ class ilExerciseManagementGUI
 				break;
 		}
 	}	
+	
+	protected function initSubmission()
+	{
+		if($_GET["lmem"] || $_GET["lpart"])
+		{
+			if($_GET["lmem"])
+			{
+				$this->ctrl->saveParameter($this, "lmem");
+				$user_id = $_GET["lmem"];
+				$back_cmd = "members";
+			}
+			else
+			{
+				$this->ctrl->saveParameter($this, "lpart");
+				$user_id = $_GET["lpart"];
+				$back_cmd = "showParticipant";
+			}
+			$this->ctrl->setReturn($this, $back_cmd);
+			
+			$this->tabs_gui->clearTargets();		
+			$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
+				$this->ctrl->getLinkTarget($this, $back_cmd));	
+
+			include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+			return new ilExSubmission($this->assignment, $user_id, null, true);
+		}
+	}
 	
 	/**
 	* adds tabs to tab gui object
@@ -571,7 +575,10 @@ class ilExerciseManagementGUI
 			$logins = array();
 			foreach($members as $user_id)
 			{				
-				ilExAssignment::updateStatusFeedbackForUser($this->ass->getId(), $user_id, 1);
+				$member_status = $this->ass->getMemberStatus($user_id);
+				$member_status->setFeedback(true);
+				$member_status->update();
+
 				$logins[] = ilObjUser::_lookupLogin($user_id);
 			}
 			$logins = implode($logins, ",");
@@ -590,13 +597,12 @@ class ilExerciseManagementGUI
 	function downloadAllObject()
 	{		
 		$members = array();
-
+		
 		foreach($this->exercise->members_obj->getMembers() as $member_id)
 		{
-			// update download time
-			ilExAssignment::updateTutorDownloadTime($this->exercise->getId(),
-				(int) $_GET["ass_id"], $member_id);
-
+			$submission = new ilExSubmission($this->assignment, $member_id);
+			$submission->updateTutorDownloadTime();
+			
 			// get member object (ilObjUser)
 			if (ilObject::_exists($member_id))
 			{
@@ -606,8 +612,8 @@ class ilExerciseManagementGUI
 			}
 		}
 	
-		ilExAssignment::downloadAllDeliveredFiles($this->exercise->getId(),
-			(int) $_GET["ass_id"], $members);
+		ilExSubmission::downloadAllAssignmentFiles($this->exercise->getId(),
+			$this->assignment->getId(), $members);
 		exit;
 	}
 	
@@ -644,8 +650,7 @@ class ilExerciseManagementGUI
 				$members = $_POST["member"];
 			}
 			
-			$this->object->sendAssignment($this->exercise->getId(),
-				(int) $_GET["ass_id"], $members);
+			$this->exercise->sendAssignment($this->assignment, $members);
 			
 			ilUtil::sendSuccess($this->lng->txt("exc_sent"),true);
 		}
@@ -813,26 +818,14 @@ class ilExerciseManagementGUI
 				$user_ids = array($user_id);
 			}
 			
+			$ass = new ilExAssignment($ass_id);				
 			foreach($user_ids as $user_id)
 			{								
-				ilExAssignment::updateStatusOfUser($ass_id, $user_id,
-					ilUtil::stripSlashes($_POST["status"][$key]));
-				ilExAssignment::updateNoticeForUser($ass_id, $user_id,
-					ilUtil::stripSlashes($_POST["notice"][$key]));
-
-				if (ilUtil::stripSlashes($_POST['mark'][$key]) != 
-					ilExAssignment::lookupMarkOfUser($ass_id, $user_id))
-				{
-					ilExAssignment::updateStatusTimeOfUser($ass_id, $user_id);
-				}
-
-				ilExAssignment::updateMarkOfUser($ass_id, $user_id,
-					ilUtil::stripSlashes($_POST['mark'][$key]));
-				
-				/*
-				ilExAssignment::updateCommentForUser($ass_id, $user_id,
-					ilUtil::stripSlashes($_POST['lcomment'][$key]));				 
-				*/
+				$member_status = $ass->getMemberStatus($user_id);
+				$member_status->setStatus(ilUtil::stripSlashes($_POST["status"][$key]));
+				$member_status->setNotice(ilUtil::stripSlashes($_POST["notice"][$key]));			
+				$member_status->setMark(ilUtil::stripSlashes($_POST["mark"][$key]));
+				$member_status->update();
 			}			
 		}
 		
@@ -1025,8 +1018,9 @@ class ilExerciseManagementGUI
 				{
 					if(in_array($user_id, $all_members))
 					{
-						ilExAssignment::updateCommentForUser($ass_id, $user_id,
-							ilUtil::stripSlashes($comment));
+						$member_status = $this->ass->getMemberStatus($user_id);
+						$member_status->setComment(ilUtil::stripSlashes($comment));
+						$member_status->update();
 						
 						if(trim($comment))
 						{
@@ -1095,15 +1089,8 @@ class ilExerciseManagementGUI
 	 */
 	function exportExcelObject()
 	{
-		$this->checkPermission("write");
-		$this->object->exportGradesExcel();
+		$this->exercise->exportGradesExcel();
 		exit;
 	}
-	
-	
-	
-	
-	
-	
 }
 

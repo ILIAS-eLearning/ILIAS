@@ -224,7 +224,7 @@ class ilExSubmissionTeamGUI
 		{
 			// re-evaluate complete team, as new member could have already submitted
 			$this->exercise->processExerciseStatus(
-				$this->assignment->getId(),
+				$this->assignment,
 				$this->team->getMembers(),
 				$this->submission->hasSubmitted()
 			);			
@@ -327,7 +327,7 @@ class ilExSubmissionTeamGUI
 		}
 		// re-evaluate complete team, as removed member might have had submitted
 		$this->exercise->processExerciseStatus(
-			$this->assignment->getId(),
+			$this->assignment,
 			$this->team->getMembers(),
 			$this->submission->hasSubmitted()
 		);			
