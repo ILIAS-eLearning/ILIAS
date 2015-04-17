@@ -6023,7 +6023,7 @@ function getAnswerFeedbackPoints()
 					break;
 				case "allowedUsers":
 					$this->setAllowedUsers($metadata["entry"]);
-					$this->setLimitUsersEnabled(strlen($metadata["entry"]) > 0);
+					$this->setLimitUsersEnabled($metadata["entry"] > 0);
 					break;
 				case "allowedUsersTimeGap":
 					$this->setAllowedUsersTimeGap($metadata["entry"]);
