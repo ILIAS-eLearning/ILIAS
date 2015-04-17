@@ -20,7 +20,7 @@ class ilExerciseManagementGUI
 	protected $assignment; // [ilExAssignment]
 	
 	const VIEW_ASSIGNMENT = 1;
-	const VIEW_PARTICIPANT = 1;	
+	const VIEW_PARTICIPANT = 2;	
 	const VIEW_GRADES = 3;
 	
 	/**
@@ -35,6 +35,8 @@ class ilExerciseManagementGUI
 		
 		$this->exercise = $a_exercise;
 		$this->assignment = $a_ass;
+		
+		$ilCtrl->saveParameter($this, array("vw", "member_id", "fsmode"));
 		
 		// :TODO:
 		$this->ctrl = $ilCtrl;
@@ -55,8 +57,8 @@ class ilExerciseManagementGUI
 		switch($class)
 		{			
 			case "ilfilesystemgui":							
-				$ilCtrl->saveParameter($this, array("member_id"));
 				$ilTabs->clearTargets();
+				$member_id = (int)$_GET["member_id"];
 
 				if ($_GET["fsmode"] != "feedbackpart")
 				{
@@ -72,17 +74,18 @@ class ilExerciseManagementGUI
 				ilUtil::sendInfo($lng->txt("exc_fb_tutor_info"));
 
 				include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-				$fstorage = new ilFSStorageExercise($this->exercise->getId(), (int) $_GET["ass_id"]);
+				$fstorage = new ilFSStorageExercise($this->exercise->getId(), $this->assignment->getId());
 				$fstorage->create();
-
+				
 				include_once("./Services/User/classes/class.ilUserUtil.php");
 				$noti_rec_ids = array();
-				if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
-				{
-					$team_id = $this->ass->getTeamId((int) $_GET["member_id"]);
+				if($this->assignment->hasTeam())
+				{					
+					$submission = new ilExSubmission($this->assignment, $member_id);
+					$team_id = $submission->getTeam()->getId($member_id);
 					$feedback_id = "t".$team_id;
 					$fs_title = array();
-					foreach($this->ass->getTeamMembers($team_id) as $team_user_id)
+					foreach($submission->getUserIds() as $team_user_id)
 					{
 						$fs_title[] = ilUserUtil::getNamePresentation($team_user_id, false, false, "", true);
 						$noti_rec_ids[] = $team_user_id;
@@ -91,22 +94,22 @@ class ilExerciseManagementGUI
 				}
 				else
 				{
-					$feedback_id = $noti_rec_ids = (int) $_GET["member_id"];
-					$fs_title = ilUserUtil::getNamePresentation((int) $_GET["member_id"], false, false, "", true);
+					$feedback_id = $noti_rec_ids = $member_id;
+					$fs_title = ilUserUtil::getNamePresentation($member_id, false, false, "", true);
 				}
 
 				include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 				$fs_gui = new ilFileSystemGUI($fstorage->getFeedbackPath($feedback_id));
-				$fs_gui->setTableId("excfbfil".(int)$_GET["ass_id"]."_".$feedback_id);
+				$fs_gui->setTableId("excfbfil".$this->assignment->getId()."_".$feedback_id);
 				$fs_gui->setAllowDirectories(false);					
 				$fs_gui->setTitle($lng->txt("exc_fb_files")." - ".
-					ilExAssignment::lookupTitle((int) $_GET["ass_id"])." - ".
+					$this->assignment->getTitle()." - ".
 					$fs_title);
 				$pcommand = $fs_gui->getLastPerformedCommand();					
 				if (is_array($pcommand) && $pcommand["cmd"] == "create_file")
 				{
 					$this->exercise->sendFeedbackFileNotification($pcommand["name"], 
-						$noti_rec_ids, (int) $_GET["ass_id"]);
+						$noti_rec_ids, $this->assignment->getId());
 				}					 
 				$this->ctrl->forwardCommand($fs_gui);
 				break;
@@ -150,31 +153,37 @@ class ilExerciseManagementGUI
 		}
 	}	
 	
+	protected function getViewBack()
+	{
+		switch($_REQUEST["vw"])
+		{			
+			case self::VIEW_PARTICIPANT:
+				$back_cmd = "showParticipant";
+				break;
+			
+			case self::VIEW_GRADES:
+				$back_cmd = "showGradesOverview";
+				break;
+			
+			default:
+			// case self::VIEW_ASSIGNMENT:
+				$back_cmd = "members";
+				break;			
+ 		}
+		return $back_cmd;
+	}
+	
 	protected function initSubmission()
 	{
-		if($_GET["lmem"] || $_GET["lpart"])
-		{
-			if($_GET["lmem"])
-			{
-				$this->ctrl->saveParameter($this, "lmem");
-				$user_id = $_GET["lmem"];
-				$back_cmd = "members";
-			}
-			else
-			{
-				$this->ctrl->saveParameter($this, "lpart");
-				$user_id = $_GET["lpart"];
-				$back_cmd = "showParticipant";
-			}
-			$this->ctrl->setReturn($this, $back_cmd);
-			
-			$this->tabs_gui->clearTargets();		
-			$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
-				$this->ctrl->getLinkTarget($this, $back_cmd));	
+		$back_cmd = $this->getViewBack();
+		$this->ctrl->setReturn($this, $back_cmd);
+		
+		$this->tabs_gui->clearTargets();		
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
+			$this->ctrl->getLinkTarget($this, $back_cmd));	
 
-			include_once "Modules/Exercise/classes/class.ilExSubmission.php";
-			return new ilExSubmission($this->assignment, $user_id, null, true);
-		}
+		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+		return new ilExSubmission($this->assignment, $_REQUEST["member_id"], null, true);		
 	}
 	
 	/**
@@ -268,6 +277,8 @@ class ilExerciseManagementGUI
 				$ilToolbar->addSeparator();
 				$ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadAll");			
 			}		
+			
+			$this->ctrl->setParameter($this, "vw", self::VIEW_ASSIGNMENT);
 			
 			include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
 			$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment);
@@ -489,6 +500,8 @@ class ilExerciseManagementGUI
 
 		if (count($mems) > 0)
 		{
+			$this->ctrl->setParameter($this, "vw", self::VIEW_PARTICIPANT);
+			
 			include_once("./Modules/Exercise/classes/class.ilExParticipantTableGUI.php");
 			$part_tab = new ilExParticipantTableGUI($this, "showParticipant",
 				$this->exercise, $_GET["part_id"]);
@@ -529,6 +542,8 @@ class ilExerciseManagementGUI
 			$ilToolbar->addButton($lng->txt("exc_export_excel"),
 				$ilCtrl->getLinkTarget($this, "exportExcel"));
 		}
+		
+		$this->ctrl->setParameter($this, "vw", self::VIEW_GRADES);
 
 		include_once("./Modules/Exercise/classes/class.ilExGradesTableGUI.php");
 		$grades_tab = new ilExGradesTableGUI($this, "showGradesOverview",
@@ -544,30 +559,18 @@ class ilExerciseManagementGUI
 		$members = array();
 						
 		if ($_GET["member_id"] != "")
-		{	
-			if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
-			{
-				$members = ilExAssignment::getTeamMembersByAssignmentId($this->ass->getId(), $_GET["member_id"]);
-			}
-			else
-			{
-				$members = array($_GET["member_id"]);
-			}			
+		{				
+			$submission = new ilExSubmission($this->assignment, $_GET["member_id"]);
+			$members = $submission->getUserIds();				
 		}
 		else if(count($_POST["member"]) > 0)
-		{
-			if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
-			{
-				foreach(array_keys($_POST["member"]) as $user_id)
-				{
-					$members = array_merge($members, ilExAssignment::getTeamMembersByAssignmentId($this->ass->getId(), $user_id));
-				}
-				$members = array_unique($members);
+		{			
+			foreach(array_keys($_POST["member"]) as $user_id)
+			{					
+				$submission = new ilExSubmission($this->assignment, $user_id);
+				$members = array_merge($members,$submission->getUserIds());
 			}
-			else
-			{
-				$members = array_keys($_POST["member"]);	
-			}
+			$members = array_unique($members);			
 		}
 		
 		if($members)
@@ -575,7 +578,7 @@ class ilExerciseManagementGUI
 			$logins = array();
 			foreach($members as $user_id)
 			{				
-				$member_status = $this->ass->getMemberStatus($user_id);
+				$member_status = $this->assignment->getMemberStatus($user_id);
 				$member_status->setFeedback(true);
 				$member_status->update();
 
@@ -584,7 +587,7 @@ class ilExerciseManagementGUI
 			$logins = implode($logins, ",");
 						
 			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-			ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, 'members', array(), array('type' => 'new', 'rcp_to' => $logins)));
+			ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, $this->getViewBack(), array(), array('type' => 'new', 'rcp_to' => $logins)));
 		}
 
 		ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);

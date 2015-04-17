@@ -142,21 +142,6 @@ class ilExAssignmentMemberStatus
 		return $this->status;
 	}
 	
-	public function getStatusIcon()
-	{
-		switch($this->getStatus())
-		{
-			case "passed": 	
-				return "scorm/passed.svg"; 
-			
-			case "failed":	
-				return "scorm/failed.svg"; 
-				
-			default:
-				return "scorm/not_attempted.svg"; 
-		}
-	}
-	
 	public function setMark($a_value)
 	{
 		if($a_value != $this->mark)
@@ -278,6 +263,21 @@ class ilExAssignmentMemberStatus
 		$ass = new ilExAssignment($this->ass_id);
 		$exc = new ilObjExercise($ass->getExerciseId(), false);
 		$exc->updateUserStatus($this->user_id);
+	}
+	
+	public function getStatusIcon()
+	{
+		switch($this->getStatus())
+		{
+			case "passed": 	
+				return "scorm/passed.svg"; 
+			
+			case "failed":	
+				return "scorm/failed.svg"; 
+				
+			default:
+				return "scorm/not_attempted.svg"; 
+		}
 	}
 	
 	/**

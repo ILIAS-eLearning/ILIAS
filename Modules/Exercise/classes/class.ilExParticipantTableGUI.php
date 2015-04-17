@@ -45,7 +45,7 @@ class ilExParticipantTableGUI extends ilTable2GUI
 			// #14650 - invalid user
 			else
 			{
-				$ilCtrl->setParameter($a_parent_obj, "part_id", "");
+				$ilCtrl->setParameter($a_parent_obj, "member_id", "");
 				$ilCtrl->redirect($a_parent_obj, $a_parent_cmd);
 			}
 		}
@@ -115,9 +115,12 @@ class ilExParticipantTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($d)
 	{
-		global $lng, $ilCtrl;
-		
-		$this->tpl->setVariable("TXT_ASS_TITLE", $d["title"]);		
+		global $lng, $ilCtrl;		
+			
+		$ilCtrl->setParameter($this->parent_obj, "ass_id", $d["id"]);
+		$ilCtrl->setParameter($this->parent_obj, "member_id", $this->part_id);
+				
+		$this->tpl->setVariable("TXT_ASS_TITLE", $d["title"]);					
 		
 		$assignment = new ilExAssignment($d["id"]);
 		$member_status = $assignment->getMemberStatus($this->part_id);
@@ -139,12 +142,10 @@ class ilExParticipantTableGUI extends ilTable2GUI
 						ilObjUser::_lookupFullname($member_id));
 					$this->tpl->parseCurrentBlock();					
 				}			
-
-				$ilCtrl->setParameterByClass("ilExSubmissionTeamGUI", "lpart", $this->part_id);
+				
 				$this->tpl->setVariable("HREF_LOG", 
 					$ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "showTeamLog"));
-				$this->tpl->setVariable("TXT_LOG", $lng->txt("exc_team_log"));
-				$ilCtrl->setParameterByClass("ilExSubmissionTeamGUI", "lpart", "");
+				$this->tpl->setVariable("TXT_LOG", $lng->txt("exc_team_log"));				
 			}
 			else
 			{
@@ -153,13 +154,9 @@ class ilExParticipantTableGUI extends ilTable2GUI
 				$this->tpl->setCurrentBlock("team_info");
 				$this->tpl->setVariable("TXT_TEAM_INFO", $lng->txt("exc_no_team_yet"));
 				$this->tpl->setVariable("TXT_CREATE_TEAM", $lng->txt("exc_create_team"));
-				
-				$ilCtrl->setParameterByClass("ilExSubmissionTeamGUI", "ass_id", $d["id"]);
-				$ilCtrl->setParameterByClass("ilExSubmissionTeamGUI", "lpart", $this->part_id);
+							
 				$this->tpl->setVariable("URL_CREATE_TEAM", 						
 					$ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "createSingleMemberTeam"));
-				$ilCtrl->setParameterByClass("ilExSubmissionTeamGUI", "lpart", "");
-				$ilCtrl->setParameterByClass("ilExSubmissionTeamGUI", "ass_id", "");
 				
 				if($file_info["files"]["count"])
 				{
@@ -266,8 +263,7 @@ class ilExParticipantTableGUI extends ilTable2GUI
 			$mark = $member_status->getMark();
 			$this->tpl->setVariable("VAL_MARK", ilUtil::prepareFormOutput($mark));
 
-			// feedback
-			$ilCtrl->setParameter($this->parent_obj, "member_id", $this->part_id);
+			// feedback			
 			if (($ft = $member_status->getFeedbackTime()) > 0)
 			{
 				$this->tpl->setCurrentBlock("feedback_date");
@@ -276,7 +272,7 @@ class ilExParticipantTableGUI extends ilTable2GUI
 					ilDatePresentation::formatDate(new ilDateTime($ft,IL_CAL_DATETIME))));
 				$this->tpl->parseCurrentBlock();
 			}
-			$ilCtrl->setParameter($this, "rcp_to", $this->user->getLogin());
+			$ilCtrl->setParameter($this->parent_obj, "rcp_to", $this->user->getLogin());
 			$this->tpl->setVariable("LINK_FEEDBACK",
 				$ilCtrl->getLinkTarget($this->parent_obj, "redirectFeedbackMail"));
 				//"ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$mem_obj->getLogin());
@@ -298,6 +294,7 @@ class ilExParticipantTableGUI extends ilTable2GUI
 			$ilCtrl->setParameter($this->parent_obj, "fsmode", "feedbackpart");
 			$this->tpl->setVariable("LINK_FILE_FEEDBACK",
 				$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
+			$ilCtrl->setParameter($this->parent_obj, "fsmode", "");
 			if ($cnt_files == 0)
 			{
 				$this->tpl->setVariable("TXT_FILE_FEEDBACK",
@@ -315,11 +312,9 @@ class ilExParticipantTableGUI extends ilTable2GUI
 				$this->tpl->setCurrentBlock("peer_review_bl");
 				$this->tpl->setVariable("TXT_PEER_REVIEW", $lng->txt("exc_peer_review_show"));
 
-				$ilCtrl->setParameter($this->parent_obj, "grd", 2);
 				$this->tpl->setVariable("LINK_PEER_REVIEW", 
 					$ilCtrl->getLinkTarget($this->parent_obj, "showPersonalPeerReview"));
-				$ilCtrl->setParameter($this->parent_obj, "grd", "");
-
+				
 				$rating = new ilRatingGUI();
 				$rating->setObject($d["id"], "ass", $this->part_id, "peer");
 				$rating->setUserId(0);			
@@ -328,12 +323,14 @@ class ilExParticipantTableGUI extends ilTable2GUI
 				$this->tpl->parseCurrentBlock();
 			}
 
-			$ilCtrl->setParameter($this->parent_obj, "ass_id", $_GET["ass_id"]);
 		}
 		else
 		{
 			$this->tpl->touchBlock("member_has_no_team_bl");
 		}
+			
+		$ilCtrl->setParameter($this->parent_obj, "ass_id", "");
+		$ilCtrl->setParameter($this->parent_obj, "member_id", "");				
 	}
 	
 	public function render()

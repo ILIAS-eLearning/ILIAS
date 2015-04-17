@@ -172,6 +172,9 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 	protected function fillRow($member)
 	{
 		global $lng, $ilCtrl;
+		
+		$ilCtrl->setParameter($this->parent_obj, "ass_id", $this->ass_id);
+		$ilCtrl->setParameter($this->parent_obj, "member_id", $member["usr_id"]);
 
 		include_once "./Services/Object/classes/class.ilObjectFactory.php";		
 		$member_id = $member["usr_id"];
@@ -274,11 +277,9 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			if(!$has_no_team_yet)
 			{
 				$this->tpl->setCurrentBlock("team_log");
-				$ilCtrl->setParameter($this->parent_obj, "lmem", $member_id);
 				$this->tpl->setVariable("HREF_LOG", 
 					$ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "showTeamLog"));
 				$this->tpl->setVariable("TXT_LOG", $lng->txt("exc_team_log"));
-				$ilCtrl->setParameter($this->parent_obj, "lmem", "");
 				$this->tpl->parseCurrentBlock();
 			}
 			else
@@ -288,10 +289,8 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("TXT_TEAM_INFO", $lng->txt("exc_no_team_yet"));
 				$this->tpl->setVariable("TXT_CREATE_TEAM", $lng->txt("exc_create_team"));
 				
-				$ilCtrl->setParameter($this->parent_obj, "lmem", $member_id);
 				$this->tpl->setVariable("URL_CREATE_TEAM", 						
 					$ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "createSingleMemberTeam"));
-				$ilCtrl->setParameter($this->parent_obj, "lmem", "");
 				
 				if($file_info["files"]["count"])
 				{
@@ -395,7 +394,6 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("VAL_MARK", ilUtil::prepareFormOutput($mark));
 
 			// feedback
-			$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
 			if (($ft = $member_status->getFeedbackTime()) > 0)
 			{
 				$this->tpl->setCurrentBlock("feedback_date");
@@ -425,6 +423,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$ilCtrl->setParameter($this->parent_obj, "fsmode", "feedback");
 			$this->tpl->setVariable("LINK_FILE_FEEDBACK",
 				$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
+			$ilCtrl->setParameter($this->parent_obj, "fsmode", "");
 			if ($cnt_files == 0)
 			{
 				$this->tpl->setVariable("TXT_FILE_FEEDBACK",
@@ -442,11 +441,9 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				$this->tpl->setCurrentBlock("peer_review_bl");
 				$this->tpl->setVariable("TXT_PEER_REVIEW", $lng->txt("exc_peer_review_show"));
 
-				$ilCtrl->setParameter($this->parent_obj, "grd", 1);
 				$this->tpl->setVariable("LINK_PEER_REVIEW", 
 					$ilCtrl->getLinkTarget($this->parent_obj, "showPersonalPeerReview"));
-				$ilCtrl->setParameter($this->parent_obj, "grd", "");
-
+			
 				$rating = new ilRatingGUI();
 				$rating->setObject($this->ass_id, "ass", $member_id, "peer");
 				$rating->setUserId(0);			
@@ -461,6 +458,9 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		{
 			$this->tpl->touchBlock("member_has_no_team_bl");
 		}
+		
+		$ilCtrl->setParameter($this->parent_obj, "ass_id", "");
+		$ilCtrl->setParameter($this->parent_obj, "member_id", "");
 	}
 
 	public function render()

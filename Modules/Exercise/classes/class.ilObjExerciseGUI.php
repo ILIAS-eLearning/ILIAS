@@ -35,8 +35,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$lng->loadLanguageModule("exercise");
 		$lng->loadLanguageModule("exc");
-		$this->ctrl->saveParameter($this,
-			array("ass_id", "part_id", "fsmode"));
+		$this->ctrl->saveParameter($this, "ass_id");
 		
 		if ($_REQUEST["ass_id"] > 0)
 		{

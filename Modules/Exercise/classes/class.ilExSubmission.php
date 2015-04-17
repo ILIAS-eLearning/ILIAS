@@ -951,9 +951,7 @@ class ilExSubmission
 		
 		$result = array();
 		$result["files"]["count"] = "---";
-		
-		$ilCtrl->setParameter($a_parent_obj, "ass_id", $this->assignment->getId());
-		
+	
 		// submission:
 		// see if files have been resubmmited after solved
 		$last_sub =	$this->getLastSubmission();
@@ -992,9 +990,7 @@ class ilExSubmission
 				}
 				$result["files"]["count"] = $sub_cnt;
 
-				// download command
-				$ilCtrl->setParameter($a_parent_obj, "member_id", $this->getUserId());
-				
+				// download command								
 				if ($sub_cnt > 0)
 				{
 					$result["files"]["download_url"] = 
@@ -1029,11 +1025,9 @@ class ilExSubmission
 					if($blogs && substr($blogs["filename"], -1) != "/")
 					{
 						$result["files"]["count"] = 1;
-						
-						$ilCtrl->setParameter($a_parent_obj, "member_id", $this->getUserId());
+											
 						$result["files"]["download_url"] = 
 							$ilCtrl->getLinkTargetByClass("ilexsubmissionfilegui", "downloadReturned");
-						$ilCtrl->setParameter($a_parent_obj, "member_id", "");
 						
 						$result["files"]["download_txt"] = $lng->txt("exc_download_files");						
 					}
@@ -1049,11 +1043,9 @@ class ilExSubmission
 					if($portfolios && substr($portfolios["filename"], -1) != "/")
 					{	
 						$result["files"]["count"] = 1;
-						
-						$ilCtrl->setParameter($a_parent_obj, "member_id", $this->getUserId());
+												
 						$result["files"]["download_url"] = 
 							$ilCtrl->getLinkTargetByClass("ilexsubmissionfilegui", "downloadReturned");		
-						$ilCtrl->setParameter($a_parent_obj, "member_id", "");
 						
 						$result["files"]["download_txt"] = $lng->txt("exc_download_files");						
 					}
@@ -1069,17 +1061,9 @@ class ilExSubmission
 					
 					$files = array_shift($files);
 					if(trim($files["atext"]))
-					{					
-						// #11397
-						if($a_parent_cmd)
-						{
-							$ilCtrl->setParameter($a_parent_obj, "grd", (($a_parent_cmd == "members") ? 1 : 2));
-						}
-						$ilCtrl->setParameter($a_parent_obj, "member_id", $this->getUserId());		
+					{											
 						$result["files"]["download_url"] =
 							$ilCtrl->getLinkTargetByClass("ilexsubmissiontextgui", "showAssignmentText");												
-						$ilCtrl->setParameter($a_parent_obj, "member_id", "");
-						$ilCtrl->setParameter($a_parent_obj, "grd", "");
 						
 						$result["files"]["download_txt"] = $lng->txt("exc_text_assignment_show");						
 					}
