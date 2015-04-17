@@ -474,13 +474,12 @@ class ilExSubmission
 			$download_time = $this->getLastDownloadTime($user_ids);					
 		}
 
-		// :TODO:
 		if($a_peer_review_mask_filename)
 		{
-			/*
+			/* :TODO:
 			// process peer review sequence id
 			$peer_id = null;
-			foreach($this->ass->getPeerReviewsByGiver($ilUser->getId()) as $idx => $item)
+			foreach($this->peer_review->getPeerReviewsByGiver($ilUser->getId()) as $idx => $item)
 			{
 				if($item["peer_id"] == $a_user_id)
 				{
@@ -488,7 +487,7 @@ class ilExSubmission
 					break;
 				}
 			}			 
-			*/
+			*/			 
 		}
 		
 		$exc_id = $this->assignment->getExerciseId();

@@ -22,7 +22,7 @@ class ilExParticipantTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_part_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng, $lng;
 		
 		$this->exc = $a_exc;
 		$this->exc_id = $this->exc->getId();
@@ -40,6 +40,7 @@ class ilExParticipantTableGUI extends ilTable2GUI
 			$name = ilObjUser::_lookupName($this->part_id);
 			if(trim($name["login"]))
 			{
+				$ilCtrl->setParameter($a_parent_obj, "member_id", $this->part_id);
 				$this->user = new ilObjUser($this->part_id);
 			}
 			// #14650 - invalid user
@@ -290,11 +291,9 @@ class ilExParticipantTableGUI extends ilTable2GUI
 			}
 
 			$storage = new ilFSStorageExercise($this->exc_id, $d["id"]);
-			$cnt_files = $storage->countFeedbackFiles($feedback_id);
-			$ilCtrl->setParameter($this->parent_obj, "fsmode", "feedbackpart");
+			$cnt_files = $storage->countFeedbackFiles($feedback_id);			
 			$this->tpl->setVariable("LINK_FILE_FEEDBACK",
-				$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
-			$ilCtrl->setParameter($this->parent_obj, "fsmode", "");
+				$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));			
 			if ($cnt_files == 0)
 			{
 				$this->tpl->setVariable("TXT_FILE_FEEDBACK",

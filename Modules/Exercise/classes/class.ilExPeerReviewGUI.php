@@ -13,7 +13,7 @@
 class ilExPeerReviewGUI
 {
 	protected $exercise_id; // [int]
-	protected $assignment; // [ilExAssignment]
+	protected $ass; // [ilExAssignment]
 	
 	/**
 	 * Constructor
@@ -25,7 +25,7 @@ class ilExPeerReviewGUI
 	public function __construct($a_exercise_id, ilExSubmission $a_submission)
 	{
 		$this->exercise_id = $a_exercise_id;
-		$this->assignment = $a_submission->getAssignment();
+		$this->ass = $a_submission->getAssignment();
 	}
 	
 	public function executeCommand()

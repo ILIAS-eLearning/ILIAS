@@ -833,7 +833,7 @@ class ilExAssignmentEditorGUI
 		
 		$this->checkPermission("write");
 		
-		if(!$this->ass)
+		if(!$this->assignment)
 		{
 			$ilCtrl->redirect($this, "listAssignments");
 		}
@@ -846,10 +846,10 @@ class ilExAssignmentEditorGUI
 		$form->setTitle($lng->txt("exc_team_assignment_adopt"));
 		$form->setFormAction($ilCtrl->getFormAction($this, "adoptTeamAssignments"));
 		
-		$options = ilExAssignment::getAdoptableTeamAssignments($this->ass->getExerciseId());
+		$options = ilExAssignment::getAdoptableTeamAssignments($this->assignment->getExerciseId());
 		
 		// we must not have existing teams in assignment
-		if(array_key_exists($this->ass->getId(), $options))
+		if(array_key_exists($this->assignment->getId(), $options))
 		{
 			$ilCtrl->redirect($this, "listAssignments");
 		}
@@ -885,7 +885,7 @@ class ilExAssignmentEditorGUI
 		if($this->ass && $src_ass_id > 0)
 		{
 			// no notifications, assignment is not ready
-			ilExAssignmentTeam::adoptTeams($src_ass_id, $this->ass->getId());			
+			ilExAssignmentTeam::adoptTeams($src_ass_id, $this->assignment->getId());			
 			
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		}

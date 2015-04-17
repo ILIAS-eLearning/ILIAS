@@ -239,10 +239,8 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 			// file edit link
 			if($this->ass->hasPeerReviewFileUpload())
 			{								
-				$ilCtrl->setParameter($this->parent_obj, "fu", $idx);	
-				$ilCtrl->setParameter($this->parent_obj, "fsmode", "peer");
-				$url = $ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles");
-				$ilCtrl->setParameter($this->parent_obj, "fsmode", "");
+				$ilCtrl->setParameter($this->parent_obj, "fu", $idx);				
+				$url = $ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles");				
 				$ilCtrl->setParameter($this->parent_obj, "fu", "");	
 				
 				$this->tpl->setCurrentBlock("file_edit_bl");		

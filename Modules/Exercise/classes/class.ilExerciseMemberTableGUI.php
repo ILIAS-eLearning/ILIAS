@@ -137,7 +137,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		$this->setEnableTitle(true);
 		$this->setSelectAllCheckbox("member");
 
-		$this->addMultiCommand("saveStatus", $lng->txt("exc_save_selected"));
+		$this->addMultiCommand("saveStatusSelected", $lng->txt("exc_save_selected"));
 		$this->addMultiCommand("redirectFeedbackMail", $lng->txt("exc_send_mail"));
 		$this->addMultiCommand("sendMembers", $lng->txt("exc_send_assignment"));
 		$this->addMultiCommand("confirmDeassignMembers", $lng->txt("exc_deassign_members"));	
@@ -420,10 +420,8 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 
 			// file feedback
 			$cnt_files = $this->storage->countFeedbackFiles($feedback_id);
-			$ilCtrl->setParameter($this->parent_obj, "fsmode", "feedback");
 			$this->tpl->setVariable("LINK_FILE_FEEDBACK",
 				$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
-			$ilCtrl->setParameter($this->parent_obj, "fsmode", "");
 			if ($cnt_files == 0)
 			{
 				$this->tpl->setVariable("TXT_FILE_FEEDBACK",
