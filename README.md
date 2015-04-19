@@ -1,4 +1,7 @@
 [![Build Status](https://travis-ci.org/lechimp-p/php-formlets.svg?branch=master)](https://travis-ci.org/lechimp-p/php-formlets)
+[![Scrutinizer](https://scrutinizer-ci.com/g/lechimp-p/php-formlets/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lechimp-p/php-formlets/badges/quality-score.png?b=master)
+[![Coverage](https://scrutinizer-ci.com/g/lechimp-p/php-formlets/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/lechimp-p/php-formlets/badges/coverage.png?b=master)
+
 
 # php-formlets
 
