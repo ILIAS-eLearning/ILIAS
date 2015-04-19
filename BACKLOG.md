@@ -1,6 +1,5 @@
 # I should...
 
-* write primitive for radio groups
 * clean up Value-class
 
 # I could...
@@ -10,7 +9,6 @@
   README.md.
 * Put more parts of the actual interface into the consumer interface and 
   document them
-* Find a nicer syntax for $foo->cmb(..)->cmb(..)->...
 * create a composer package
 * write proper documentation for my classes
 * write tests for all classes and constructs
