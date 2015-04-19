@@ -59,7 +59,7 @@ try {
     $form = form("example", "example.php", $formlet);
     $form->init();
 
-    echo $form->display();
+    echo $form->html();
 
     if ($form->wasSuccessfull()) {
         echo "<hr />";

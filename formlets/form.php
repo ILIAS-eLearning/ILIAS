@@ -110,11 +110,11 @@ class Form implements IForm {
     }
 
     /**
-     * Display form in its current state.
+     * Get a HTML-string of the form in its current state.
      *
      * @return  string
      */
-    public function display() {
+    public function html() {
         if (!$this->wasSubmitted()) {
             return $this->_builder->build()->render();
         } 

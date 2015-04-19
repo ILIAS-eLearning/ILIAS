@@ -430,11 +430,11 @@ interface IForm {
     public function wasSuccessfull();
 
     /**
-     * Display form in its current state.
+     * Get a HTML-string of the form in its current state.
      *
      * @return  string
      */
-    public function display();
+    public function html();
 
     /**
      * Get the result of the form.

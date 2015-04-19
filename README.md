@@ -138,7 +138,7 @@ $form->init(array());
 
 // Renderer does nothing
 echo "This will show \"No content\":\n";
-echo ("<form method=\"post\" action=\"www.example.com\"></form>" == $form->display() 
+echo ("<form method=\"post\" action=\"www.example.com\"></form>" == $form->html() 
      ? "No content\n"
      : "Oh, that's not pure...\n"
      );
@@ -335,7 +335,7 @@ $form->init(array());
 
 // First look at the rendering:
 echo "This will show some date input in HTML representation:\n";
-echo $form->display()."\n\n";
+echo $form->html()."\n\n";
 
 // Then lets look at the collected values. Since we don't actually POST the 
 // form, we need to mock up some input. 
@@ -366,7 +366,7 @@ echo ($form->wasSuccessfull() ? $form->result()->toISO() : $form->error())."\n\n
 // So there's something wrong, and we most likely want to reprompt the user with 
 // the form, stating the problem.
 echo "This will show some HTML of the formlet with error messages:\n";
-echo $form->display();
+echo $form->html();
 
 ?>
 ```
