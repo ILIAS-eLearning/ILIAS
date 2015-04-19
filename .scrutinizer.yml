@@ -1,7 +1,7 @@
 checks:
     php: true
 filter:
-    exclude_paths:
+    excluded_paths:
         - 'tests/*'
 build:
     tests:
