@@ -81,7 +81,7 @@ class MissingInputError extends Exception {
 /* A collector that collects nothing and will be dropped by apply collectors. */
 final class NullaryCollector extends Collector {
     public function collect($inp) {
-        die("NullaryCollector::collect: This should never be called.");
+        throw new Exception("NullaryCollector::collect: This should never be called.");
     }
     public function isNullaryCollector() {
         return true;
