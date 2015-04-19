@@ -386,7 +386,7 @@ echo $form->html();
 * [./formlets/html.php](./formlets/html.php) defines the internally used HTML
   representation.
 * [./formlets/builders.php](./formlets/builders.php) and [./formlets/collectors.php](./formlets/collectors.php)
-  internally deal with the creation of HTML for formlets and the collecting of   
+  internally deal with the creation of HTML for formlets and the collecting of
   values from user input.
 * [./formlets/namesource.php](./formlets/namesource.php) implements the creation
   of names for the various inputs.
