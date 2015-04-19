@@ -28,7 +28,7 @@ abstract class Formlet implements IFormlet {
     /* Build a builder and collector from the formlet and also return the 
      * updated name source.
      */
-    public abstract function instantiate(NameSource $name_source);
+    abstract public function instantiate(NameSource $name_source);
     
     /* Combine this formlet with another formlet. Yields a new formlet. */
     final public function cmb(IFormlet $other) {
