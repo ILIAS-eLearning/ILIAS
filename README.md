@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/lechimp-p/php-formlets.svg?branch=master)](https://travis-ci.org/lechimp-p/php-formlets)
+
 # php-formlets
 
 **Create highly composable forms in PHP. Implementation of ideas from "The 
