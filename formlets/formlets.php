@@ -416,18 +416,29 @@ function _radio($options, $default = null, $attributes = array()
 
             $attributes_options["name"] = $name;
             $attributes_options["type"] = "radio";
-            $options_html = array_map(function($option) use ($value, $attributes_options) {
+            $counter = 0;
+            $make_radios = function($option) 
+                           use (&$counter, $name, $value, $attributes_options) {
+                $id = $name."_".$counter; 
+                $counter++;
+                $attributes_options["id"] = $id;
                 $attributes_options["value"] = $option;
                 if ($option === $value) {
                     $attributes_options["checked"] = "checked";
                 }
-                return html_tag("input", $attributes_options, html_text($option));
-            }, $options);
+                return html_tag("li", array(), html_array(array(
+                            html_tag("input", $attributes_options),
+                            html_tag("label", array("for" => $id), html_text($option)))));
+            };
+            $options_html = array_map($make_radios, $options);
 
             if (!array_key_exists("class", $attributes)) {
                 $attributes["class"] = "radiogroup";
             }
-            return html_tag("span", $attributes, html_array($options_html));
+            # TODO: This will produce invalid HTML, as the ol attribute does not
+            # support the name attribute. We still need it for with_label. 
+            $attributes["name"] = $name;
+            return html_tag("ol", $attributes, html_array($options_html));
         }))
         ->satisfies(_fn(function($value) use ($options) {
             return in_array($value, $options);
