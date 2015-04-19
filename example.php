@@ -59,6 +59,8 @@ try {
 }
 catch (Exception $e) {
     echo "<pre>";
+    echo $e;
+    echo "\n\n";
     echo $e->getTraceAsString();
     echo "</pre>";
 }

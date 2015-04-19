@@ -406,13 +406,16 @@ function _password($default = null, $attributes = array()) {
 function _radio($options, $default = null, $attributes = array()
                , $attributes_options = array()) {
     guardEach($options, "guardIsString");
+    if ($default === null) {
+        $default = $options[0];
+    }
     return _input("radio", $attributes)
         ->mapHTML(_fn(function($dict, $html) use ($options, $attributes, $default) {
             $name = $html->attribute("name");
 
             $value = $dict->value($name);
             if ($value === null)
-                $value == $default;
+                $value = $default;
 
             $attributes_options["name"] = $name;
             $attributes_options["type"] = "radio";
