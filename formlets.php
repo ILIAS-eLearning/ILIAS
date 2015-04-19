@@ -159,6 +159,22 @@ interface IFormlet {
 require_once("formlets/formlets.php");
 
 /**
+ * Combine all given formlets to a new formlet left folding with $cmb;
+ */
+function formlet() {
+    $formlets = func_get_args();
+    if (count($formlets) == 0 || !($formlets[0] instanceof IFormlet)) {
+        throw new Exception("Expected at least one formlet.");
+    }
+    $cur = $formlets[0];
+    $amount = count($formlets);
+    for ($i = 1; $i < $amount; ++$i) {
+        $cur = $cur->cmb($formlets[$i]);
+    }
+    return $cur;
+}
+
+/**
  * Inject a value into a Formlet.
  *
  * @return IFormlet

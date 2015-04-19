@@ -305,21 +305,22 @@ Next we'll be combining these basic inputs to a more complex input that could
 be used to define a date. We also use the other primitive i have implemented 
 atm, that is `text`, which renders a static string and collects nothing. To 
 compose the formlets to our date formlet, we use the `cmb` (for combine) method,
-shown above. We plumb the stuff with $mkDate to get a formlet that creates us a 
-date object.
+shown above, through the convenience function `formlet`. We plumb the stuff with 
+$mkDate to get a formlet that creates us a date object.
 
 ```php
 <?php
-// Written in odd notation to see what's going on...
-$date_formlet = inject(  $mkDate             )
-                ->cmb( text("\n\t")) // for readability on cli only
-                ->cmb(  with_label("Year: ", $int_formlet))
-                ->cmb( text("\n\t")) // for readability on cli only
-                ->cmb(  with_label("Month: ", $month_formlet))
-                ->cmb( text("\n\t")) // for readability on cli only
-                ->cmb(  with_label("Day: ", $day_formlet))
-                ->cmb( text("\n")) // for readability on cli only
-                ;
+// We use a convenience function here to not have cmb that often.
+$date_formlet = formlet(
+                    inject($mkDate),
+                        text("\n\t"), // for readability on cli only
+                    with_label("Year: ", $int_formlet),
+                        text("\n\t"), // for readability on cli only
+                    with_label("Month: ", $month_formlet),
+                        text("\n\t"), // for readability on cli only
+                    with_label("Day: ", $day_formlet),
+                        text("\n") // for readability on cli only
+                );
 ?>
 ```
 
