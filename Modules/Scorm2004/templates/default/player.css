@@ -391,4 +391,9 @@ a.ilc_rte_tclink_RTETreeControlLink:hover
 {
 	text-decoration:underline;
 }
-
+.ilc_rte_menu_RTELinkBar #noCredit
+{
+	margin-left:10px;
+	font-size: 80%;
+	display: none;
+}
