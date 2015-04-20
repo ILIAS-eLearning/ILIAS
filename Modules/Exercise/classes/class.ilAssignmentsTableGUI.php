@@ -73,6 +73,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 			);
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+		include_once("./Modules/Exercise/classes/class.ilExPeerReview.php");
 		$data = ilExAssignment::getAssignmentDataOfExercise($this->exc_id);
 		foreach($data as $idx => $row)
 		{
@@ -80,8 +81,8 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 			if($row["peer"])
 			{
 				$data[$idx]["peer_invalid"] = true;		
-				$ass = new ilExAssignment($row["id"]);
-				$peer_reviews = $ass->validatePeerReviewGroups();
+				$peer_review = new ilExPeerReview(new ilExAssignment($row["id"]));
+				$peer_reviews = $peer_review->validatePeerReviewGroups();
 				$data[$idx]["peer_invalid"] = $peer_reviews["invalid"];			
 			}
 			
@@ -144,7 +145,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 						
 			$this->tpl->setVariable("TXT_PEER_OVERVIEW", $lng->txt("exc_peer_review_overview"));
 			$this->tpl->setVariable("CMD_PEER_OVERVIEW", 
-				$ilCtrl->getLinkTargetByClass("ilexcpeerreviewgui", "showPeerReviewOverview"));
+				$ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showPeerReviewOverview"));
 		}
 		else
 		{

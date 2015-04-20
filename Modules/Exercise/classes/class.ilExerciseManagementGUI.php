@@ -10,7 +10,8 @@ include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * 
 * @ilCtrl_Calls ilExerciseManagementGUI: ilFileSystemGUI, ilRepositorySearchGUI
-* @ilCtrl_Calls ilExerciseManagementGUI: ilExSubmissionGUI
+* @ilCtrl_Calls ilExerciseManagementGUI: ilExSubmissionTeamGUI, ilExSubmissionFileGUI
+* @ilCtrl_Calls ilExerciseManagementGUI: ilExSubmissionTextGUI, ilExPeerReviewGUI
 * 
 * @ingroup ModulesExercise
 */
@@ -121,6 +122,12 @@ class ilExerciseManagementGUI
 			case "ilexsubmissiontextgui":															
 				include_once "Modules/Exercise/classes/class.ilExSubmissionTextGUI.php";
 				$gui = new ilExSubmissionTextGUI($this->exercise, $this->initSubmission());
+				$ilCtrl->forwardCommand($gui);				
+				break;
+			
+			case "ilexpeerreviewgui":															
+				include_once "Modules/Exercise/classes/class.ilExPeerReviewGUI.php";
+				$gui = new ilExPeerReviewGUI($this->assignment, $this->initSubmission());
 				$ilCtrl->forwardCommand($gui);				
 				break;
 			

@@ -7,7 +7,7 @@
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * 
-* @ilCtrl_Calls ilExAssignmentEditorGUI: ilFileSystemGUI
+* @ilCtrl_Calls ilExAssignmentEditorGUI: ilFileSystemGUI, ilExPeerReviewGUI
 * 
 * @ingroup ModulesExercise
 */
@@ -53,6 +53,16 @@ class ilExAssignmentEditorGUI
 				$fs_gui->setTableId("excassfil".$this->assignment->getId());
 				$fs_gui->setAllowDirectories(false);
 				$ilCtrl->forwardCommand($fs_gui);				
+				break;
+					
+			case "ilexpeerreviewgui":							
+				$ilTabs->clearTargets();
+				$ilTabs->setBackTarget($lng->txt("back"),
+					$ilCtrl->getLinkTarget($this, "listAssignments"));
+		
+				include_once("./Modules/Exercise/classes/class.ilExPeerReviewGUI.php");
+				$peer_gui = new ilExPeerReviewGUI($this->assignment);
+				$ilCtrl->forwardCommand($peer_gui);
 				break;
 			
 			default:									
@@ -495,9 +505,12 @@ class ilExAssignmentEditorGUI
 				$peer_dl->setDate($peer_dl_date);
 			}		
 			
+			include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
+			$peer_review = new ilExPeerReview($this->assignment);
+			
 			// #14450
 			if ($values["peer"] && 
-				$this->assignment->hasPeerReviewGroups())
+				$peer_review->hasPeerReviewGroups())
 			{
 				$a_form->getItemByPostVar("deadline_cb")->setDisabled(true);			
 				$a_form->getItemByPostVar("deadline")->setDisabled(true);			
@@ -553,11 +566,13 @@ class ilExAssignmentEditorGUI
 		if ($form->checkInput())
 		{
 			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+						include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
+			$peer_review = new ilExPeerReview($this->assignment);
 								
 			// #14450
-			$protected_peer_review_groups = false;
+			$protected_peer_review_groups = false;			
 			if($this->assignment->getPeerReview() &&
-				$this->assignment->hasPeerReviewGroups())
+				$peer_review->hasPeerReviewGroups())
 			{
 				$protected_peer_review_groups = true;
 			}
@@ -719,7 +734,7 @@ class ilExAssignmentEditorGUI
 		
 		if (!is_array($_POST["id"]) || count($_POST["id"]) == 0)
 		{
-			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
 			$ilCtrl->redirect($this, "listAssignments");
 		}
 		else

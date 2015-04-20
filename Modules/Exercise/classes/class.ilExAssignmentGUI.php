@@ -277,7 +277,7 @@ class ilExAssignmentGUI
 	
 	protected function addSubmissionFeedback(ilInfoScreenGUI $a_info, ilExAssignment $a_ass, $a_feedback_id, $a_show_global_feedback)
 	{
-		global $lng, $ilUser;
+		global $lng;
 		
 		$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());					
 		$cnt_files = $storage->countFeedbackFiles($a_feedback_id);
@@ -325,7 +325,7 @@ class ilExAssignmentGUI
 
 				if($cnt_files > 0)
 				{
-					$files = $storage->getFeedbackFiles($feedback_id);
+					$files = $storage->getFeedbackFiles($a_feedback_id);
 					foreach($files as $file)
 					{								
 						$a_info->addProperty($file,

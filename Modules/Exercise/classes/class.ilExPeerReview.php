@@ -51,12 +51,6 @@ class ilExPeerReview
 	{
 		global $ilDB;
 		
-		// only if assignment is through
-		if(!$this->assignment->getDeadline() || $this->getDeadline() > time())
-		{
-			return false;
-		}
-		
 		if(!$this->hasPeerReviewGroups())
 		{
 			$user_ids = $this->getValidPeerReviewUsers();
@@ -70,7 +64,7 @@ class ilExPeerReview
 			$rater_ids = $user_ids;
 			$matrix = array();
 
-			$max = min(sizeof($user_ids)-1, $this->getPeerReviewMin());			
+			$max = min(sizeof($user_ids)-1, $this->assignment->getPeerReviewMin());			
 			for($loop = 0; $loop < $max; $loop++)
 			{				
 				$run_ids = array_combine($user_ids, $user_ids);
@@ -356,7 +350,7 @@ class ilExPeerReview
 	
 	public function getPeerUploadFiles($a_peer_id, $a_giver_id)
 	{
-		if(!$this->hasPeerReviewFileUpload())
+		if(!$this->assignment->hasPeerReviewFileUpload())
 		{
 			return array();
 		}
@@ -403,14 +397,14 @@ class ilExPeerReview
 		return $cnt;
 	}
 	
-	public static function getNumberOfMissingFeedbacks($a_ass_id, $a_min)
+	public function getNumberOfMissingFeedbacks()
 	{
 		global $ilDB;
 		
 		// check if number of returned assignments is lower than assignment peer min
 		$set = $ilDB->query("SELECT COUNT(DISTINCT(user_id)) cnt".
 			" FROM exc_returned".
-			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer"));
+			" WHERE ass_id = ".$ilDB->quote($this->assignment_id, "integer"));
 		$cnt = $ilDB->fetchAssoc($set);
 		$cnt = (int)$cnt["cnt"];
 		
@@ -420,9 +414,9 @@ class ilExPeerReview
 			return;
 		}
 				
-		$a_min = min($cnt-1, $a_min);
+		$min = min($cnt-1, $this->assignment->getPeerReviewMin());
 				
-		return max(0, $a_min-self::countGivenFeedback($a_ass_id));		
+		return max(0, $min-self::countGivenFeedback($this->assignment_id));		
 	}
 }
 

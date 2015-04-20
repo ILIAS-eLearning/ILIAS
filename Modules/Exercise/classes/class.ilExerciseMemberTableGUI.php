@@ -431,7 +431,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("TXT_PEER_REVIEW", $lng->txt("exc_peer_review_show"));
 
 				$this->tpl->setVariable("LINK_PEER_REVIEW", 
-					$ilCtrl->getLinkTarget($this->parent_obj, "showPersonalPeerReview"));
+					$ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showPersonalPeerReview"));
 			
 				$rating = new ilRatingGUI();
 				$rating->setObject($this->ass_id, "ass", $member_id, "peer");

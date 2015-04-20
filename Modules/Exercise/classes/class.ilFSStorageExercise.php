@@ -307,7 +307,8 @@ class ilFSStorageExercise extends ilFileSystemStorage
 			{
 				if(!is_dir($this->path.'/'.$file) && substr($file, 0, 1) != ".")
 				{					
-					$files[] = $file;					
+					$files[] = $file;		
+					var_dump($this->path.'/'.$file);
 				}
 			}
 		}

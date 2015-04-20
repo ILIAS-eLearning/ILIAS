@@ -11,6 +11,7 @@ include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 * 
 * @ilCtrl_Calls ilExSubmissionGUI: ilExSubmissionTeamGUI, ilExSubmissionFileGUI 
 * @ilCtrl_Calls ilExSubmissionGUI: ilExSubmissionTextGUI, ilExSubmissionObjectGUI 
+* @ilCtrl_Calls ilExSubmissionGUI: ilExPeerReviewGUI
 * @ingroup ModulesExercise
 */
 class ilExSubmissionGUI
@@ -74,8 +75,8 @@ class ilExSubmissionGUI
 				// team gui has no base gui - see we have to handle tabs here
 				
 				$this->tabs_gui->clearTargets();		
-					$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
-						$this->ctrl->getLinkTarget($this, "returnToParent"));	
+				$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
+					$this->ctrl->getLinkTarget($this, "returnToParent"));	
 		
 				$this->tabs_gui->addTab("submission", $this->lng->txt("exc_submission"), 
 					$this->ctrl->getLinkTargetByClass("ilexsubmission".$this->submission->getSubmissionType()."gui", ""));
@@ -102,6 +103,16 @@ class ilExSubmissionGUI
 				$gui = new ilExSubmissionObjectGUI($this->exercise, $this->submission);
 				$ilCtrl->forwardCommand($gui);
 				break;
+			
+			case "ilexpeerreviewgui":							
+				$this->tabs_gui->clearTargets();		
+				$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
+					$this->ctrl->getLinkTarget($this, "returnToParent"));	
+		
+				include_once("./Modules/Exercise/classes/class.ilExPeerReviewGUI.php");
+				$peer_gui = new ilExPeerReviewGUI($this->assignment, $this->submission);
+				$this->ctrl->forwardCommand($peer_gui);
+				break;
 				
 			default:									
 				$this->{$cmd."Object"}();				
@@ -115,7 +126,7 @@ class ilExSubmissionGUI
 		
 		if(!$a_submission->canView())
 		{
-			$this->returnToParentObject();
+			return;
 		}
 			
 		$ilCtrl->setParameterByClass("ilExSubmissionGUI", "ass_id", $a_submission->getAssignment()->getId());
@@ -139,11 +150,17 @@ class ilExSubmissionGUI
 	 * List all submissions
 	 */
 	function listPublicSubmissionsObject()
-	{		
+	{				
+		global $ilTabs, $ilCtrl, $lng;
+		
 		if(!$this->exercise->getShowSubmissions())
 		{
-			$this->ctrl->redirect($this, "view");
+			$this->returnToParentObject();
 		}
+		
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "returnToParent"));
 		
 		if($this->assignment->getType() != ilExAssignment::TYPE_TEXT)
 		{		
@@ -177,7 +194,7 @@ class ilExSubmissionGUI
 		
 		// check, whether file belongs to assignment
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-		$storage = new ilFSStorageExercise($this->exercise_id, $this->assignment->getId());
+		$storage = new ilFSStorageExercise($this->exercise->getId(), $this->assignment->getId());
 		$files = $storage->getFeedbackFiles($this->submission->getFeedbackId());
 		$file_exist = false;	
 		foreach($files as $fb_file)
@@ -198,7 +215,7 @@ class ilExSubmissionGUI
 		if (!$this->assignment->notStartedYet())
 		{
 			// deliver file
-			$p = $storage->getFeedbackFilePath($feedback_id, $file);
+			$p = $storage->getFeedbackFilePath($this->submission->getFeedbackId(), $file);
 			ilUtil::deliverFile($p, $file);
 		}
 	

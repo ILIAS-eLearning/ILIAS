@@ -121,7 +121,8 @@ class ilExSubmission
 	
 	public function canView()
 	{
-		return ($this->isTutor() ||
+		return ($this->canSubmit() ||
+				$this->isTutor() ||
 				$this->isInTeam() ||
 				$this->public_submissions);
 	}
@@ -217,6 +218,8 @@ class ilExSubmission
 	*/
 	function processUploadedFile($fileTmp)
 	{		
+		global $lng; 
+		
 		// Create unzip-directory
 		$newDir = ilUtil::ilTempnam();
 		ilUtil::makeDir($newDir);
@@ -239,7 +242,7 @@ class ilExSubmission
 				$this->uploadFile($a_http_post_files, true);						
 			}
 			
-			ilUtil::sendSuccess($this->lng->txt("file_added"));					
+			ilUtil::sendSuccess($lng->txt("file_added"), true);					
 		} 
 		catch (ilFileUtilsException $e) 
 		{
@@ -495,13 +498,16 @@ class ilExSubmission
 	}
 	
 	function downloadFiles(array $a_file_ids = null, $a_only_new = false, $a_peer_review_mask_filename = false)
-	{				
+	{			
+		global $ilUser;
+		
 		if($this->is_tutor)
 		{
 			$this->updateTutorDownloadTime();		
 		}		
 		
 		$user_ids = $this->getUserIds();
+		$is_team = $this->assignment->hasTeam();
 		
 		// get last download time
 		$download_time = null;
@@ -512,18 +518,18 @@ class ilExSubmission
 
 		if($a_peer_review_mask_filename)
 		{
-			/* :TODO:
 			// process peer review sequence id
 			$peer_id = null;
 			foreach($this->peer_review->getPeerReviewsByGiver($ilUser->getId()) as $idx => $item)
 			{
-				if($item["peer_id"] == $a_user_id)
+				if($item["peer_id"] == $this->getUserId())
 				{
 					$peer_id = $idx+1;
 					break;
 				}
-			}			 
-			*/			 
+			}	
+
+			$is_team = true;
 		}
 	
 		$files = $this->getFiles($a_file_ids, false, $download_time);		
@@ -567,17 +573,16 @@ class ilExSubmission
 					{									
 						$suffix = array_pop(explode(".", $src));
 						$tgt = $this->assignment->getTitle()."_peer".$peer_id.
-							"_".(++$seq).".".$suffix;				
-
-						$array_files[$row["user_id"]][] = array($src, $tgt);
+							"_".(++$seq).".".$suffix;			
+						
+						$array_files[$file["user_id"]][] = array($src, $tgt);
 					}
 					else
 					{
-						$array_files[$row["user_id"]][] = $src;
+						$array_files[$file["user_id"]][] = $src;
 					}				
 				}			
-				
-				$is_team = $this->assignment->hasTeam();
+								
 				$this->downloadMultipleFiles($array_files, 
 					($is_team ? null : $this->getUserId()), $is_team);
 			}
@@ -621,8 +626,10 @@ class ilExSubmission
 		ilUtil::deliverFile($filename, $filetitle);
 	}
 
-	protected function downloadMultipleFiles($a_user_id, $a_multi_user = false)
+	protected function downloadMultipleFiles($a_filenames, $a_user_id, $a_multi_user = false)
 	{						
+		$path = $this->initStorage()->getAbsoluteSubmissionPath();
+		
 		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		$cdir = getcwd();
 
@@ -649,12 +656,10 @@ class ilExSubmission
 		$deliverFilename = ilUtil::getASCIIFilename($orgDeliverFilename);
 		ilUtil::makeDir($tmpdir."/".$deliverFilename);
 		chdir($tmpdir."/".$deliverFilename);
-		
-		$path = $this->initStorage()->getAbsoluteSubmissionPath();
-				
+			
 		//copy all files to a temporary directory and remove them afterwards
 		$parsed_files = $duplicates = array();
-		foreach ($array_filenames as $user_id => $files)
+		foreach ($a_filenames as $user_id => $files)
 		{
 			$pathname = $path."/".$user_id;
 

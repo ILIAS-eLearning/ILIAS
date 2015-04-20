@@ -796,7 +796,7 @@ class ilObjExercise extends ilObject
 			{
 				$status = 'notgraded';
 			}				
-			foreach($this->getUserIds() as $user_id)
+			foreach($a_user_ids as $user_id)
 			{
 				$member_status = $a_ass->getMemberStatus($user_id);
 				$member_status->setStatus($status);		

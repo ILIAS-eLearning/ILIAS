@@ -70,11 +70,12 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("USR_IMAGE",
 			$mem_obj->getPersonalPicturePath("xxsmall"));
 		$this->tpl->setVariable("USR_ALT", $lng->txt("personal_picture"));
+		
+		$sub = new ilExSubmission($this->ass, $member_id);
 
 		// submission:
 		// see if files have been resubmmited after solved
-		$last_sub =
-			ilExAssignment::getLastSubmission($this->ass_id, $member_id);
+		$last_sub = $sub->getLastSubmission();
 		if ($last_sub)
 		{
 			$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
@@ -84,22 +85,24 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
 			$last_sub = "---";
 		}
 
-		// nr of submitted files		
-		$sub = new ilExSubmission($this->ass, $member_id);
+		// nr of submitted files				
 		$sub_cnt = count($sub->getFiles());
 		
 		$this->tpl->setVariable("TXT_SUBMITTED_FILES", $lng->txt("exc_files_returned"));		
 		$this->tpl->setVariable("VAL_SUBMITTED_FILES", $sub_cnt);
 		
-		// download command
-		$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
+		// download command		
 		if ($sub_cnt > 0)
 		{
+			$ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "member_id", $member_id);
+			$url = $ilCtrl->getLinkTargetByClass("ilExSubmissionFileGUI", "downloadReturned");
+			$ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "member_id", "");
+			
 			// #15126
 			include_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
 			$button = ilLinkButton::getInstance();				
-			$button->setCaption("exc_download_files");
-			$button->setUrl($ilCtrl->getLinkTarget($this->parent_obj, "downloadReturned"));							
+			$button->setCaption("exc_download_files");			
+			$button->setUrl($url);							
 			$button->setOmitPreventDoubleSubmission(true);			
 			$this->tpl->setVariable("BTN_DOWNLOAD", $button->render());			
 		}

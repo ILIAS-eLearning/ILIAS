@@ -206,11 +206,11 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		
 		if(!$this->read_only)
 		{
-			$ilCtrl->setParameter($this->parent_obj, "seq", $a_set["seq"]);
+			$ilCtrl->setParameterByClass("ilExSubmissionGUI", "seq", $a_set["seq"]);
+			$ilCtrl->setParameterByClass("ilExSubmissionGUI", "member_id", $a_set["peer_id"]);
 
-			$file_info = ilExAssignment::getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->ass->getExerciseId(), $this->ass->getType(), $this->ass->getId(), $a_set["peer_id"]);
-
-			$ilCtrl->setParameter($this->parent_obj, "seq", "");
+			$submission = new ilExSubmission($this->ass, $a_set["peer_id"]);						
+			$file_info = $submission->getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->parent_cmd);
 
 			$this->tpl->setVariable("VAL_LAST_SUBMISSION", $file_info["last_submission"]["value"]);
 			$this->tpl->setVariable("TXT_LAST_SUBMISSION", $file_info["last_submission"]["txt"]);
@@ -233,6 +233,9 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("TXT_NEW_DOWNLOAD", $file_info["files"]["download_new_txt"]);		
 				$this->tpl->parseCurrentBlock();
 			}
+						
+			$ilCtrl->setParameterByClass("ilExSubmissionGUI", "seq", "");
+			$ilCtrl->setParameterByClass("ilExSubmissionGUI", "member_id", "");
 			
 			$idx = $a_set["giver_id"]."__".$a_set["peer_id"];
 			

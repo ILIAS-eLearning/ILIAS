@@ -16,7 +16,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @ilCtrl_Calls ilObjExerciseGUI: ilObjectCopyGUI, ilExportGUI, ilShopPurchaseGUI
 * @ilCtrl_Calls ilObjExerciseGUI: ilCommonActionDispatcherGUI, ilCertificateGUI 
 * @ilCtrl_Calls ilObjExerciseGUI: ilExAssignmentEditorGUI, ilExSubmissionGUI
-* @ilCtrl_Calls ilObjExerciseGUI: ilExPeerReviewGUI, ilExerciseManagementGUI
+* @ilCtrl_Calls ilObjExerciseGUI: ilExerciseManagementGUI
 * 
 * @ingroup ModulesExercise
 */
@@ -132,10 +132,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 			case "ilexsubmissiongui":
 				$this->checkPermission("read");
 				$ilTabs->activateTab("content");
-				$this->addContentSubTabs("list_assignments");
+				$this->addContentSubTabs("content");
 				$this->ctrl->setReturn($this, "showOverview");
 				include_once("./Modules/Exercise/classes/class.ilExSubmissionGUI.php");
-				$sub_gui = new ilExSubmissionGUI($this->object, $this->ass);
+				$sub_gui = new ilExSubmissionGUI($this->object, $this->ass, (int)$_REQUEST["member_id"]);
 				$this->ctrl->forwardCommand($sub_gui);
 				break;
 			
@@ -146,7 +146,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$mgmt_gui = new ilExerciseManagementGUI($this->object, $this->ass);
 				$this->ctrl->forwardCommand($mgmt_gui);
 				break;
-
+			
 			default:						
 				if(!$cmd)
 				{
