@@ -484,7 +484,7 @@ abstract class ilPlugin
 	/**
 	* Get Language Variable (prefix will be prepended automatically)
 	*/
-	public final function txt($a_var)
+	public  function txt($a_var)
 	{
 		global $lng;
 		$this->loadLanguageModule();
