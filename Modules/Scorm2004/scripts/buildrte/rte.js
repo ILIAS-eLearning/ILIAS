@@ -1,4 +1,4 @@
-// Build: 2015417073722 
+// Build: 2015420150233 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -13897,11 +13897,11 @@ function onItemDeliverWait(deliverCounter){
 function onItemDeliverDo(item, wasSuspendAll) // onDeliver called from sequencing process (deliverSubProcess)
 {
 	var url = item.href, v;
-
 	currentAPI = window[Runtime.apiname] = null;
 	// create api if associated resouce is of adl:scormType=sco
 	if (item.sco)
 	{
+
 		SCOterminated = false;
 		// get data in cmi-1.3 format
 		var data = getAPI(item.foreignId);
@@ -13937,7 +13937,7 @@ function onItemDeliverDo(item, wasSuspendAll) // onDeliver called from sequencin
 			//data.adl.nav.request_valid['choice'];
 		}
 		//TODO:JP - add valid jump requests?
-		
+		item.accesscount++;
 		// add some global values for all sco's in package
 		data.cmi.learner_name = globalAct.learner_name;
 		data.cmi.learner_id = this.config.cmi_learner_id;
@@ -13999,11 +13999,7 @@ function onItemDeliverDo(item, wasSuspendAll) // onDeliver called from sequencin
 				data.cmi.mode = "review";
 			}
 		}
-		if (data.cmi.mode == "review") {
-			data.cmi.credit = "no-credit";
-			item.options.notracking = true;//UK: no better score for example!
-		} else {
-
+		if (data.cmi.mode != "review") {
 			if (item.exit!="suspend") {
 				//provide us with a clean data set - UK not really clean!
 				//data.cmi=Runtime.models.cmi;
@@ -14014,9 +14010,13 @@ function onItemDeliverDo(item, wasSuspendAll) // onDeliver called from sequencin
 				data.cmi.suspend_data = null;
 				data.cmi.total_time="PT0H0M0S"; //UK: not in specification but required by test suite
 			} 
-
 			//set resume manually if suspendALL happened before
 			if (item.exit=="suspend" || wasSuspendAll) data.cmi.entry="resume";
+		}
+		if (config.mode=="browse") data.cmi.mode = "browse";
+		if (data.cmi.mode=="review" || data.cmi.mode=="browse" || config.credit=="no_credit") {
+			data.cmi.credit = "no-credit";
+			item.options.notracking = true;//UK: no better score for example!
 		}
 
 		//RTE-4-45: If there are additional learner sessions within a learner attempt, the cmi.exit becomes uninitialized (i.e., reinitialized to its default value of (“”) - empty characterstring) at the beginning of each additional learner session within the learner attempt.
@@ -14910,7 +14910,6 @@ var statusArray = new Object(); //just used for visual feedback
 
 var SCOterminated = true;
 var onItemDeliver_item;
-
 var saved_shared_data = "";
 var saveOnCommit = true;
 // Public interface
