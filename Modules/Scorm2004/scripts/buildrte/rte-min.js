@@ -1,4 +1,4 @@
-// Build: 2015202205603 
+// Build: 2015420151744 
 
 function ADLAuxiliaryResource()
 {}
@@ -2648,7 +2648,7 @@ if(nooverwrite&&destination.hasOwnProperty(property)){continue;}
 var value=source[property];destination[property]=value;}
 return destination;}
 var userInteraction=false;function launchTarget(target,isJump){if(userInteraction){userInteraction=false;return null;}
-onItemUndeliver();mlaunch=msequencer.navigateStr(target,isJump);if(mlaunch.mSeqNonContent==null){onItemDeliver(activities[mlaunch.mActivityID],false);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
+onItemUndeliver();mlaunch=msequencer.navigateStr(target,isJump);if(mlaunch.mSeqNonContent==null){onItemDeliver(activities[mlaunch.mActivityID]);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
 function launchNavType(navType,isUserCurrentlyInteracting){if(!isUserCurrentlyInteracting&&userInteraction){userInteraction=false;return null;}
 if(navType=='SuspendAll'){err=currentAPI.SetValueIntern("cmi.exit","suspend");activities[msequencer.mSeqTree.mCurActivity.mActivityID].exit="suspend";}
 onItemUndeliver();mlaunch=new ADLLaunch();if(navType==='Start'){mlaunch=msequencer.navigate(NAV_START);}
@@ -2664,7 +2664,7 @@ for(subelement in acts[element]){if(!(acts[element][subelement]instanceof Object
 var validreq=msequencer.mSeqTree.mValidReq;var lastleaf=msequencer.mSeqTree.mLastLeaf;var firstcandidate=msequencer.mSeqTree.mFirstCandidate.mActivityID;var suspendall=msequencer.mSeqTree.mSuspendAll.mActivityID;var curactivity=msequencer.mSeqTree.mCurActivity.mActivityID;var suspendedTree=new Object();suspendedTree['mCurTracking']=curtracking;suspendedTree['mTracking']=tracking;suspendedTree['States']=states;suspendedTree['mCurActivity']=null;suspendedTree['mValidReq']=validreq;suspendedTree['mLastLeaf']=lastleaf;suspendedTree['mFirstCandidate']=firstcandidate;suspendedTree['mSuspendAll']=suspendall;suspendedTree['root']=root;var strTree=JSON.stringify(suspendedTree);var r=sendAndLoad(this.config.suspend_url,strTree,null,null,null,headers);}
 if(navType==='Previous'){mlaunch=msequencer.navigate(NAV_PREVIOUS);}
 if(navType==='Continue'){mlaunch=msequencer.navigate(NAV_CONTINUE);}
-if(mlaunch.mActivityID){onItemDeliver(activities[mlaunch.mActivityID],false);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
+if(mlaunch.mActivityID){onItemDeliver(activities[mlaunch.mActivityID]);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
 function onDocumentClick(e)
 {e=new UIEvent(e);var target=e.srcElement;userInteraction=true;if(target.tagName!=='A'||!target.id||target.className.match(new RegExp(ilRTEDisabledClass))||target.className.match(new RegExp('ilc_rte_tlink_RTETreeLinkDisabled')))
 {}
@@ -2673,7 +2673,7 @@ else if(target.id.substr(0,3)==='nav')
 else if(target.id.substr(0,3)===ITEM_PREFIX)
 {if(e.altKey){}
 else
-{mlaunch=msequencer.navigateStr(target.id.substr(3).replace(/_____/g,'.'));if(mlaunch.mSeqNonContent==null){onItemUndeliver();onItemDeliver(activities[mlaunch.mActivityID],false);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}}
+{mlaunch=msequencer.navigateStr(target.id.substr(3).replace(/_____/g,'.'));if(mlaunch.mSeqNonContent==null){onItemUndeliver();onItemDeliver(activities[mlaunch.mActivityID]);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}}
 else if(typeof window[target.id+'_onclick']==="function")
 {window[target.id+'_onclick'](target);}
 else if(target.target==="_blank")
@@ -2776,7 +2776,7 @@ for(var element in tempCur){msequencer.mSeqTree.mActivityMap[element]["mCurTrack
 initStatusArray();if(wasSuspended==true){mlaunch=msequencer.navigate(NAV_RESUMEALL);}else{mlaunch=msequencer.navigate(NAV_NONE);if(mlaunch.mNavState.mStart){mlaunch=msequencer.navigate(NAV_START);}}
 var tolaunch=null;var count=0;for(var myitem in mlaunch.mNavState.mChoice){if(mlaunch.mNavState.mChoice[myitem].mInChoice==true&&mlaunch.mNavState.mChoice[myitem].mIsSelectable==true&&mlaunch.mNavState.mChoice[myitem].mIsEnabled==true){tolaunch=mlaunch.mNavState.mChoice[myitem].mID;count=count+1;}}
 if(count==1||this.config.hide_navig==1){toggleView();}
-if(config.auto_last_visited==true&&config.status.last_visited!=null){launchTarget(config.status.last_visited);}else{if(mlaunch.mSeqNonContent==null){onItemDeliver(activities[mlaunch.mActivityID],wasSuspended);}else{if(count==1&&tolaunch!=null){launchTarget(tolaunch);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);updateControls();updateNav();}}}
+if(config.auto_last_visited==true&&config.status.last_visited!=null){launchTarget(config.status.last_visited);}else{if(mlaunch.mSeqNonContent==null){onItemDeliverDo(activities[mlaunch.mActivityID],wasSuspended);}else{if(count==1&&tolaunch!=null){launchTarget(tolaunch);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);updateControls();updateNav();}}}
 if(logActive==true){var elm=all("toggleLog");elm.style.display="inline";}
 if(this.config.session_ping>0)
 {setTimeout("pingSession()",this.config.session_ping*1000);}}
@@ -2928,9 +2928,11 @@ function onWindowLoad()
 attachUIEvent(document,'click',onDocumentClick);setInfo('');setState('playing');attachUIEvent(window,'resize',onWindowResize);onWindowResize();}
 function onWindowUnload()
 {summaryOnUnload=true;var result={};result["hash"]=config.status.hash;result["p"]=config.status.p;result["last"]="";if(config.auto_last_visited==true)result["last"]=activities[mlaunch.mActivityID].id;if(typeof SOP!="undefined"&&SOP==true)result=scormPlayerUnload(result);else result=this.config.scorm_player_unload_url?sendJSONRequest(this.config.scorm_player_unload_url,result):{};removeResource();}
-function onItemDeliver(item,wasSuspendAll)
-{var url=item.href,v;if(item.sco)
-{var data=getAPI(item.foreignId);if(this.config.fourth_edition)loadSharedData(item.cp_node_id);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var adlcpData=Array();for(ds in sharedData)
+function onItemDeliver(item){removeResource();onItemDeliver_item=item;onItemDeliverWait(0);}
+function onItemDeliverWait(deliverCounter){if(currentAPI==null||SCOterminated==true||deliverCounter==30){onItemDeliverDo(onItemDeliver_item,false);}else{deliverCounter++;setTimeout('onItemDeliverWait('+deliverCounter+');',100);}}
+function onItemDeliverDo(item,wasSuspendAll)
+{var url=item.href,v;currentAPI=window[Runtime.apiname]=null;if(item.sco)
+{SCOterminated=false;var data=getAPI(item.foreignId);if(this.config.fourth_edition)loadSharedData(item.cp_node_id);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var adlcpData=Array();for(ds in sharedData)
 {var dat=Array();dat["id"]=ds;dat["store"]=sharedData[ds].store;dat["readable"]=sharedData[ds].readSharedData;dat["writeable"]=sharedData[ds].writeSharedData;adlcpData.push(dat);}
 data.adl.data=adlcpData;var choice=validRequests['mChoice'];for(var k in choice){}
 item.accesscount++;data.cmi.learner_name=globalAct.learner_name;data.cmi.learner_id=this.config.cmi_learner_id;data.cmi.cp_node_id=item.foreignId;data.scoid=item.id;data.cmi.session_time=undefined;data.cmi.completion_threshold=item.completionThreshold;data.cmi.launch_data=item.dataFromLMS;data.cmi.time_limit_action=item.timeLimitAction;data.cmi.max_time_allowed=item.attemptAbsoluteDurationLimit;data.cmi.entry="";data.cmi.learner_preference={audio_level:(item.audio_level)?item.audio_level:1,delivery_speed:(item.delivery_speed)?item.delivery_speed:1,language:item.language,audio_captioning:item.audio_captioning};if(item.objectives)
@@ -3031,7 +3033,7 @@ function onNavigationEnd()
 function onCommit(data)
 {return setAPI(data.cmi.cp_node_id,data);}
 function onTerminate(data)
-{var navReq;switch(data.cmi.exit)
+{SCOterminated=true;var navReq;switch(data.cmi.exit)
 {case"suspend":navReq={type:"suspend"};break;case"logout":navReq={type:"ExitAll"};case"time-out":navReq={type:"ExitAll"};default:break;}
 if(data.adl&&data.adl.nav){var m=String(data.adl.nav.request).match(/^(\{target=([^\}]+)\})?(choice|jump|continue|previous|suspendAll|exit(All)?|abandon(All)?)$/);if(m){navReq={type:m[3].substr(0,1).toUpperCase()+m[3].substr(1),target:m[2]};}}
 if(navReq)
@@ -3079,7 +3081,7 @@ function removeByElement(arrayName,arrayElement)
 arrayName.splice(i,1);}}
 function createSummary()
 {var logEntry=new Object();logEntry['action']="SUMMARY";a_logEntries.push(toJSONString(logEntry));refreshDebugger();}
-var remoteMapping=null;var remoteInsertId=0;var globalAct=new Activity();var rootAct=new Activity();var activities=new Object();var activitiesByCAM=new Object();var activitiesByCMI=new Object();var activitiesByNo=new Array();var sharedObjectives=new Object();var sharedData=new Array();var msequencer=new ADLSequencer();var mlaunch=null;var adlnavreq=null;var treeYUI=null;var logState=false;var treeState=true;var ITEM_PREFIX="itm";var RESOURCE_PARENT="tdResource";var RESOURCE_NAME="frmResource";var RESOURCE_TOP="mainTable";var guiItemId;var guiState;var gConfig;var RUNNING=1;var WAITING=0;var QUERYING=-1;var ABORTING=-2;var EXIT_ACTIONS=/^exit$/i;var POST_ACTIONS=/^exitParent|exitAll|retry|retryAll|continue|previous$/i;var SKIPPED_ACTIONS=/^skip$/i;var STOP_FORWARD_TRAVERSAL_ACTIONS=/^stopForwardTraversal$/i;var HIDDEN_FROM_CHOICE_ACTIONS=/^hiddenFromChoice$/i;var DISABLED_ACTIONS=/^disabled$/i;var state=WAITING;var SCOEntryedAct=null;var saved_adl_seq_utilities="";var saved_result;var saved={"comment":{"data":[],"checkplus":8},"correct_response":{"data":[],"checkplus":4,"node":""},"interaction":{"data":[],"checkplus":2},"objective":{"data":[],"checkplus":1}};var currentAPI;var scoStartTime=null;var openedResource=new Array();var treeView=true;var logActive=false;var scoDebugValues=null;var scoDebugValuesTest=null;var logEntryScoId="";var logEntryScoTitle="";var summaryOnUnload=false;var b_refreshDebugger_busy=false;var a_logEntries=[];var fixedFailure=false;var toleratedFailure=false;var statusArray=new Object();var saved_shared_data="";var saveOnCommit=true;window.scorm_init=init;
+var remoteMapping=null;var remoteInsertId=0;var globalAct=new Activity();var rootAct=new Activity();var activities=new Object();var activitiesByCAM=new Object();var activitiesByCMI=new Object();var activitiesByNo=new Array();var sharedObjectives=new Object();var sharedData=new Array();var msequencer=new ADLSequencer();var mlaunch=null;var adlnavreq=null;var treeYUI=null;var logState=false;var treeState=true;var ITEM_PREFIX="itm";var RESOURCE_PARENT="tdResource";var RESOURCE_NAME="frmResource";var RESOURCE_TOP="mainTable";var guiItemId;var guiState;var gConfig;var RUNNING=1;var WAITING=0;var QUERYING=-1;var ABORTING=-2;var EXIT_ACTIONS=/^exit$/i;var POST_ACTIONS=/^exitParent|exitAll|retry|retryAll|continue|previous$/i;var SKIPPED_ACTIONS=/^skip$/i;var STOP_FORWARD_TRAVERSAL_ACTIONS=/^stopForwardTraversal$/i;var HIDDEN_FROM_CHOICE_ACTIONS=/^hiddenFromChoice$/i;var DISABLED_ACTIONS=/^disabled$/i;var state=WAITING;var SCOEntryedAct=null;var saved_adl_seq_utilities="";var saved_result;var saved={"comment":{"data":[],"checkplus":8},"correct_response":{"data":[],"checkplus":4,"node":""},"interaction":{"data":[],"checkplus":2},"objective":{"data":[],"checkplus":1}};var currentAPI;var scoStartTime=null;var openedResource=new Array();var treeView=true;var logActive=false;var scoDebugValues=null;var scoDebugValuesTest=null;var logEntryScoId="";var logEntryScoTitle="";var summaryOnUnload=false;var b_refreshDebugger_busy=false;var a_logEntries=[];var fixedFailure=false;var toleratedFailure=false;var statusArray=new Object();var SCOterminated=true;var onItemDeliver_item;var saved_shared_data="";var saveOnCommit=true;window.scorm_init=init;
 function Runtime(cmiItem,onCommit,onTerminate,onDebug)
 {function GetLastError()
 {if(logActive)
