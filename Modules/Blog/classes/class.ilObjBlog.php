@@ -148,7 +148,7 @@ class ilObjBlog extends ilObject2
 					",bg_color = ".$ilDB->quote($this->getBackgroundColor(), "text").
 					",font_color = ".$ilDB->quote($this->getFontcolor(), "text").
 					",img = ".$ilDB->quote($this->getImage(), "text").
-					",rss_active = ".$ilDB->quote($this->hasRSS(), "text").
+					",rss_active = ".$ilDB->quote($this->hasRSS(), "integer").
 					",approval = ".$ilDB->quote($this->hasApproval(), "integer").
 					",abs_shorten = ".$ilDB->quote($this->hasAbstractShorten(), "integer").
 					",abs_shorten_len = ".$ilDB->quote($this->getAbstractShortenLength(), "integer").
