@@ -61,7 +61,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	// TEXT ASSIGNMENT (EDIT)
 	// 
 	
-	protected function initAssignmentTextForm($a_read_only = false, $a_cancel_cmd = "returnToParent", $a_peer_review_cmd = null, $a_peer_rating_html = null)
+	protected function initAssignmentTextForm($a_read_only = false, $a_cancel_cmd = "returnToParent", $a_peer_review_class = null, $a_peer_review_cmd = null, $a_peer_rating_html = null)
 	{		
 		global $ilCtrl;
 		
@@ -122,7 +122,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 				$comm->setRows(15);				
 				$form->addItem($comm);
 				
-				$form->setFormAction($ilCtrl->getFormAction($this, $a_peer_review_cmd));
+				$form->setFormAction($ilCtrl->getFormActionByClass($a_peer_review_class, $a_peer_review_cmd));
 				$form->addCommandButton($a_peer_review_cmd, $this->lng->txt("save"));	
 			}
 		}
@@ -258,11 +258,13 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 		else if($this->submission->hasPeerReviewAccess())
 		{					
 			$add_peer_data = true; 
-			$cancel_cmd = "editPeerReview";		
-
-			// rating
-			$add_rating = "updatePeerReviewText";
-			$ilCtrl->setParameter($this, "peer_id", $user_id);		
+			
+			$peer_class = "ilExPeerReviewGUI";
+			$peer_cmd = "updatePeerReviewText";
+			
+			$ilCtrl->setParameterByClass($peer_class, "peer_id", $user_id);	
+			
+			// rating						
 			include_once './Services/Rating/classes/class.ilRatingGUI.php';
 			$rating = new ilRatingGUI();
 			$rating->setObject($this->assignment->getId(), "ass", $user_id, "peer");
@@ -270,25 +272,27 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			$rating = '<div id="rtr_widget">'.$rating->getHTML(false, true,
 				"il.ExcPeerReview.saveSingleRating(".$user_id.", %rating%)").'</div>';		
 
-			$ilCtrl->setParameter($this, "ssrtg", 1);
+			$ilCtrl->setParameterByClass($peer_class, "ssrtg", 1);
 			$tpl->addJavaScript("Modules/Exercise/js/ilExcPeerReview.js");
 			$tpl->addOnLoadCode("il.ExcPeerReview.setAjax('".
-				$ilCtrl->getLinkTarget($this, "updatePeerReviewComments", "", true, false).
+				$ilCtrl->getLinkTargetByClass($peer_class, "updatePeerReviewComments", "", true, false).
 				"')");
-			$ilCtrl->setParameter($this, "ssrtg", "");
+			$ilCtrl->setParameterByClass($peer_class, "ssrtg", "");			
 		}		
 		
-		$a_form = $this->initAssignmentTextForm(true, $cancel_cmd, $add_rating, $rating);	
+		$a_form = $this->initAssignmentTextForm(true, $cancel_cmd, $peer_class, $peer_cmd, $rating);	
 		
 		if($add_peer_data)
 		{
-			if(!stristr($cancel_cmd, "peer"))
+			if(!stristr($peer_cmd, "peer"))
 			{
 				include_once "Services/User/classes/class.ilUserUtil.php";
 				$a_form->setDescription(ilUserUtil::getNamePresentation($user_id));						
 			}
 			else
-			{			
+			{							
+				$ilCtrl->setParameterByClass($peer_class, "peer_id", "");	
+				
 				if(!$this->assignment->hasPeerReviewPersonalized())
 				{
 					$a_form->setDescription($lng->txt("id").": ".(int)$_GET["seq"]);
@@ -318,7 +322,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			{
 			   $text = $a_form->getItemByPostVar("atxt");
 			   // mob id to mob src
-			   $text->setValue(ilRTE::_replaceMediaObjectImageSrc($files["atext"], 1));
+			   $text->setValue(nl2br(ilRTE::_replaceMediaObjectImageSrc($files["atext"], 1)));
 			}
 		}		
 	

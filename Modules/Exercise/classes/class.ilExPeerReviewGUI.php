@@ -6,7 +6,7 @@
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * 
-* @ilCtrl_Calls ilExPeerReviewGUI: ilFileSystemGUI, ilRatingGUI
+* @ilCtrl_Calls ilExPeerReviewGUI: ilFileSystemGUI, ilRatingGUI, ilExSubmissionTextGUI
 * 
 * @ingroup ModulesExercise
 */
@@ -107,6 +107,16 @@ class ilExPeerReviewGUI
 					(int)$_REQUEST["peer_id"], "peer");
 				$this->ctrl->forwardCommand($rating_gui);
 				$ilCtrl->redirect($this, "editPeerReview");
+				break;
+			
+			case "ilexsubmissiontextgui":
+				$ilTabs->clearTargets();
+				$ilTabs->setBackTarget($lng->txt("back"),
+					$ilCtrl->getLinkTarget($this, "editPeerReview"));
+				$this->ctrl->setReturn($this, "editPeerReview");
+				include_once "Modules/Exercise/classes/class.ilExSubmissionTextGUI.php";
+				$gui = new ilExSubmissionTextGUI(new ilObjExercise($this->ass->getExerciseId(), false), $this->submission);				
+				$ilCtrl->forwardCommand($gui); 
 				break;
 						
 			default:									
@@ -227,7 +237,7 @@ class ilExPeerReviewGUI
 			"')");
 		
 		include_once "Modules/Exercise/classes/class.ilExAssignmentPeerReviewTableGUI.php";
-		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", $this->ass, $ilUser->getId(), $peer_items,  "exc_peer_review_give", "showOverview");
+		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", $this->ass, $ilUser->getId(), $peer_items,  "exc_peer_review_give", "returnToParent");
 		
 		$tpl->setContent($tbl->getHTML());
 	}
@@ -246,7 +256,7 @@ class ilExPeerReviewGUI
 		if(!sizeof($peer_items))
 		{
 			ilUtil::sendFailure($this->lng->txt("exc_peer_review_no_peers"), true);
-			$ilCtrl->redirect($this, "showOverview");
+			$ilCtrl->redirect($this, "returnToParent");
 		}
 	
 		foreach($_POST["pc"] as $idx => $value)
@@ -364,7 +374,7 @@ class ilExPeerReviewGUI
 			}
 		}		
 		
-		$ilCtrl->redirect($this, "showOverview");		
+		$ilCtrl->redirect($this, "returnToParent");		
 	}
 	
 	function showPersonalPeerReviewObject()
@@ -386,7 +396,7 @@ class ilExPeerReviewGUI
 		{
 			// #11373
 			ilUtil::sendFailure($this->lng->txt("exc_peer_review_no_peers_reviewed_yet"), true);
-			$ilCtrl->redirect($this, "showOverview");
+			$ilCtrl->redirect($this, "returnToParent");
 		}
 		
 		include_once "Modules/Exercise/classes/class.ilExAssignmentPeerReviewTableGUI.php";

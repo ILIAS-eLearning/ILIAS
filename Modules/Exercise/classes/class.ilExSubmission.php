@@ -911,7 +911,7 @@ class ilExSubmission
 						 "(returned_id, obj_id, user_id, filetitle, ass_id, ts, atext) ".
 						 "VALUES (%s, %s, %s, %s, %s, %s, %s)",
 			$ilDB->quote($next_id, "integer"),
-			$ilDB->quote($this->getId(), "integer"),
+			$ilDB->quote($this->assignment->getExerciseId(), "integer"),
 			$ilDB->quote($this->getUserId(), "integer"),
 			$ilDB->quote($a_wsp_id, "text"),
 			$ilDB->quote($this->assignment->getId(), "integer"),

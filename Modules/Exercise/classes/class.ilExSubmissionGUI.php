@@ -53,7 +53,7 @@ class ilExSubmissionGUI
 		{
 			$public_submissions = true;
 		}				
-		$this->submission = new ilExSubmission($a_ass, $a_user_id, null, $public_submissions);				
+		$this->submission = new ilExSubmission($a_ass, $a_user_id, null, false, $public_submissions);				
 		
 		// :TODO:
 		$this->ctrl = $ilCtrl;

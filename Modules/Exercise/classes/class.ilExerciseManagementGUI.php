@@ -313,7 +313,7 @@ class ilExerciseManagementGUI
 	
 	function listTextAssignmentObject($a_show_peer_review = false)
 	{
-		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
+		global $tpl, $ilCtrl, $ilTabs, $lng;
 				
 		if(!$this->assignment || $this->assignment->getType() != ilExAssignment::TYPE_TEXT)
 		{
