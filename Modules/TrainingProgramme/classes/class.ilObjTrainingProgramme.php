@@ -551,11 +551,35 @@ class ilObjTrainingProgramme extends ilContainer {
 			$a_prg->createReference();
 		}
 		$a_prg->putInTree($this->getRefId());
-		$this->clearChildrenCache();
-		
-		$this->addProgressForNewNodes($a_prg);
-		
 		return $this;
+	}
+	
+	/**
+	 * Clears child chache and adds progress for new node.
+	 */
+	protected function nodeInserted(ilObjTrainingProgramme $a_prg) {
+		if ($this->getLPMode() == ilTrainingProgramme::MODE_LP_COMPLETED) {
+			throw new ilTrainingProgrammeTreeException("Program already contains leafs.");
+		}
+		
+		$this->clearChildrenCache();
+		$this->addProgressForNewNodes($a_prg);
+	}
+	
+	/**
+	 * Overwritten from ilObject.
+	 *
+	 * Calls nodeInserted on parent object if parent object is another program.
+	 */
+	public function putInTree($a_parent_ref) {
+		$res = parent::putInTree($a_parent_ref);
+		
+		if (ilObject::_lookupType($a_parent_ref) == "prg") {
+			$par = ilObjTrainingProgramme::getInstanceByRefId($a_parent_ref);
+			$par->nodeInserted($this);
+		}
+		
+		return $res;
 	}
 	
 	/**
@@ -870,6 +894,7 @@ class ilObjTrainingProgramme extends ilContainer {
 	}
 	
 	protected function addProgressForNewNodes(ilObjTrainingProgramme $a_prg) {
+		require_once("Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeProgress.php");
 		foreach ($this->getAssignmentsRaw() as $ass) {
 			$progress = ilTrainingProgrammeProgress::createFor($a_prg->settings, $ass);
 			$progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT);
