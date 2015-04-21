@@ -897,7 +897,8 @@ class ilObjTrainingProgramme extends ilContainer {
 		require_once("Modules/TrainingProgramme/classes/model/class.ilTrainingProgrammeProgress.php");
 		foreach ($this->getAssignmentsRaw() as $ass) {
 			$progress = ilTrainingProgrammeProgress::createFor($a_prg->settings, $ass);
-			$progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT);
+			$progress->setStatus(ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT)
+					 ->update();
 		}
 	}
 	
