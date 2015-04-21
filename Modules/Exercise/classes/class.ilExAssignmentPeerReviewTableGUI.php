@@ -23,7 +23,8 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 	
 	const MODE_EDIT = 1;
 	const MODE_VIEW = 2;
-	const MODE_TUTOR = 3;
+	const MODE_TUTOR_RECEIVED = 3;
+	const MODE_TUTOR_GIVEN = 4;
 	
 	/**
 	 * Constructor
@@ -54,7 +55,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		{
 			$this->addColumn($this->lng->txt("id"), "seq");
 		}
-		else if($this->mode != self::MODE_TUTOR)
+		else if($this->mode != self::MODE_TUTOR_RECEIVED)
 		{
 			$this->addColumn($this->lng->txt("exc_peer_review_recipient"), "name");			
 		}
@@ -67,7 +68,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		{
 			$title = "exc_peer_review_give";
 		}
-		else if($this->mode == self::MODE_TUTOR)
+		else if($this->mode == self::MODE_TUTOR_RECEIVED)
 		{
 			$title = "exc_peer_review_show";
 		}
@@ -76,14 +77,15 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 			$title = "exc_peer_review_given";
 		}
 		
-		if($this->mode != self::MODE_TUTOR)
+		if($this->mode != self::MODE_TUTOR_RECEIVED)
 		{
 			$this->addColumn($this->lng->txt("exc_submission"), "");
 		}
 		
 		$this->addColumn($this->lng->txt("exc_peer_review_rating"), "mark");
 		
-		if($this->mode != self::MODE_TUTOR)
+		if($this->mode != self::MODE_TUTOR_RECEIVED &&
+			$this->mode != self::MODE_TUTOR_GIVEN)
 		{
 			$this->addColumn($this->lng->txt("exc_peer_review_comment"), "");			
 		}
@@ -106,10 +108,16 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		{
 			$this->addCommandButton("updatePeerReview", $this->lng->txt("save"));
 		}
-		else if($this->mode == self::MODE_TUTOR)
+		else if($this->mode == self::MODE_TUTOR_RECEIVED)
 		{
 			include_once "Services/User/classes/class.ilUserUtil.php";
 			$this->setDescription($this->lng->txt("exc_peer_review_recipient").
+				": ".ilUserUtil::getNamePresentation($a_user_id));
+		}
+		else if($this->mode == self::MODE_TUTOR_GIVEN)
+		{
+			include_once "Services/User/classes/class.ilUserUtil.php";
+			$this->setDescription($this->lng->txt("exc_peer_review_giver").
 				": ".ilUserUtil::getNamePresentation($a_user_id));
 		}
 		
@@ -166,7 +174,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 			{
 				$row["seq"] = $item["seq"];
 			}
-			else if($this->mode != self::MODE_TUTOR)
+			else if($this->mode != self::MODE_TUTOR_RECEIVED)
 			{
 				$row["name"] = ilUserUtil::getNamePresentation($item["peer_id"]);
 			}				
@@ -237,9 +245,9 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 			$uploads = glob($path."/*.*");		
 		}
 		
-		if($this->mode != self::MODE_TUTOR)
+		if($this->mode != self::MODE_TUTOR_RECEIVED)
 		{
-			$ilCtrl->setParameterByClass("ilExSubmissionGUI", "member_id", $a_set["peer_id"]);
+			$ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "member_id", $a_set["peer_id"]);
 
 			$submission = new ilExSubmission($this->ass, $a_set["peer_id"]);						
 			$file_info = $submission->getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->parent_cmd);
@@ -266,7 +274,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 				$this->tpl->parseCurrentBlock();
 			}
 						
-			$ilCtrl->setParameterByClass("ilExSubmissionGUI", "member_id", "");
+			$ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "member_id", "");
 			
 			if($this->mode == self::MODE_EDIT)
 			{

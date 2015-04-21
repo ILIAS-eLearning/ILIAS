@@ -22,7 +22,6 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 	protected $exc_id;
 	protected $ass_id;
 	protected $sent_col;
-	protected $peer_review;
 	protected $selected = array();
 	protected $teams = array();
 	
@@ -89,8 +88,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		{
 			// peer review / rating	
 			$ass_obj = new ilExAssignment($this->ass_id);
-			$this->peer_review = $ass_obj->getPeerReview();
-			if($this->peer_review)
+			if($ass_obj->getPeerReview())
 			{
 				include_once './Services/Rating/classes/class.ilRatingGUI.php';
 			}														
@@ -425,12 +423,21 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			}
 
 			// peer review / rating
-			if(!isset($member["team"]) && $this->peer_review)
+			if($peer_review = $submission->getPeerReview())
 			{						
+				$given = $peer_review->countGivenFeedback(true, $member_id);
+				$received = sizeof($peer_review->getPeerReviewsByPeerId($member_id, true));
+								
 				$this->tpl->setCurrentBlock("peer_review_bl");
-				$this->tpl->setVariable("TXT_PEER_REVIEW", $lng->txt("exc_peer_review_show"));
-
-				$this->tpl->setVariable("LINK_PEER_REVIEW", 
+				
+				$this->tpl->setVariable("LINK_PEER_REVIEW_GIVEN", 
+					$ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showGivenPeerReview"));
+				$this->tpl->setVariable("TXT_PEER_REVIEW_GIVEN", 
+					$lng->txt("exc_peer_review_given")." (".$given.")");	
+				
+				$this->tpl->setVariable("TXT_PEER_REVIEW_RECEIVED", 
+					$lng->txt("exc_peer_review_show")." (".$received.")");				
+				$this->tpl->setVariable("LINK_PEER_REVIEW_RECEIVED", 
 					$ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showPersonalPeerReview"));
 			
 				$rating = new ilRatingGUI();

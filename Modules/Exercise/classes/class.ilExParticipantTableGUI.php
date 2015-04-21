@@ -297,13 +297,22 @@ class ilExParticipantTableGUI extends ilTable2GUI
 			}
 
 			// peer review / rating
-			if(!$assignment->hasTeam() && $assignment->getPeerReview())
-			{						
+			if($peer_review = $submission->getPeerReview())
+			{										
+				$given = $peer_review->countGivenFeedback(true, $this->part_id);
+				$received = sizeof($peer_review->getPeerReviewsByPeerId($this->part_id, true));
+				
 				$this->tpl->setCurrentBlock("peer_review_bl");
-				$this->tpl->setVariable("TXT_PEER_REVIEW", $lng->txt("exc_peer_review_show"));
-
-				$this->tpl->setVariable("LINK_PEER_REVIEW", 
-					$ilCtrl->getLinkTarget($this->parent_obj, "showPersonalPeerReview"));
+				
+				$this->tpl->setVariable("LINK_PEER_REVIEW_GIVEN", 
+					$ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showGivenPeerReview"));
+				$this->tpl->setVariable("TXT_PEER_REVIEW_GIVEN", 
+					$lng->txt("exc_peer_review_given")." (".$given.")");	
+				
+				$this->tpl->setVariable("TXT_PEER_REVIEW_RECEIVED", 
+					$lng->txt("exc_peer_review_show")." (".$received.")");				
+				$this->tpl->setVariable("LINK_PEER_REVIEW_RECEIVED", 
+					$ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showPersonalPeerReview"));
 				
 				$rating = new ilRatingGUI();
 				$rating->setObject($d["id"], "ass", $this->part_id, "peer");

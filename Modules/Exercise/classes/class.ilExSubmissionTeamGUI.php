@@ -226,7 +226,8 @@ class ilExSubmissionTeamGUI
 			$this->exercise->processExerciseStatus(
 				$this->assignment,
 				$this->team->getMembers(),
-				$this->submission->hasSubmitted()
+				$this->submission->hasSubmitted(),
+				$this->submission->validatePeerReviews()
 			);			
 			// :TODO: notification?
 		}
@@ -329,7 +330,8 @@ class ilExSubmissionTeamGUI
 		$this->exercise->processExerciseStatus(
 			$this->assignment,
 			$this->team->getMembers(),
-			$this->submission->hasSubmitted()
+			$this->submission->hasSubmitted(),
+			$this->submission->validatePeerReviews()
 		);			
 				
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);		

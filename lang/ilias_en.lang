@@ -15229,10 +15229,3 @@ trac#:#trac_mode_survey_finished#:#Survey Finished
 trac#:#trac_mode_survey_finished_info#:#The survey has to be finished by an user to receive the status 'Completed'.
 crs#:#crs_usr_agreement#:#User Agreement
 grp#:#grp_usr_agreement#:#User Agreement
-exc#:#exc_peer_review_given#:#Show Given Feedback
-exc#:#exc_peer_review_show_received_none#:#You received no feedback.
-exc#:#exc_peer_review_min_chars_tgl#:#Mininum Length
-exc#:#exc_peer_review_min_chars#:#Mininum Number of Characters
-exc#:#exc_peer_review_min_chars_info#:#The required number of characters for a valid feedback.
-exc#:#ec_peer_review_chars_invalid#:#At least one of your feedbacks does not have the required minimum length of %s characters.
-exc#:#exc_peer_review_show_missing#:#You cannot view your received feedback as you gave not enough feedback.

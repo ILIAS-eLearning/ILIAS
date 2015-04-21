@@ -19,6 +19,10 @@ class ilExAssignment
 	const FEEDBACK_DATE_DEADLINE = 1;
 	const FEEDBACK_DATE_SUBMISSION = 2;
 	
+	const PEER_REVIEW_VALID_NONE = 1;
+	const PEER_REVIEW_VALID_ONE = 2;
+	const PEER_REVIEW_VALID_ALL = 3;
+	
 	protected $id;
 	protected $exc_id;
 	protected $type;
@@ -30,7 +34,9 @@ class ilExAssignment
 	protected $order_nr;
 	protected $peer;
 	protected $peer_min;
+	protected $peer_unlock;
 	protected $peer_dl;
+	protected $peer_valid;
 	protected $peer_file;
 	protected $peer_personal;
 	protected $peer_char;
@@ -330,6 +336,26 @@ class ilExAssignment
 	}
 	
 	/**
+	 * Set peer review simple unlock
+	 * 
+	 * @param bool $a_value
+	 */
+	function setPeerReviewSimpleUnlock($a_value)
+	{
+		$this->peer_unlock = (bool)$a_value;
+	}
+	
+	/**
+	 * Get peer review simple unlock
+	 * 
+	 * @return bool 
+	 */
+	function getPeerReviewSimpleUnlock()
+	{
+		return (bool)$this->peer_unlock;
+	}
+	
+	/**
 	 * Set peer review deadline (timestamp)
 	 *
 	 * @param	int		deadline (timestamp)
@@ -347,6 +373,26 @@ class ilExAssignment
 	function getPeerReviewDeadline()
 	{
 		return $this->peer_dl;
+	}
+	
+	/**
+	 * Set peer review validation
+	 * 
+	 * @param int $a_value
+	 */
+	function setPeerReviewValid($a_value)
+	{
+		$this->peer_valid = (int)$a_value;
+	}
+	
+	/**
+	 * Get peer review validatiob
+	 * 
+	 * @return int 
+	 */
+	function getPeerReviewValid()
+	{
+		return (int)$this->peer_valid;
 	}
 	
 	/**
@@ -505,7 +551,9 @@ class ilExAssignment
 		$this->setType($a_set["type"]);
 		$this->setPeerReview($a_set["peer"]);
 		$this->setPeerReviewMin($a_set["peer_min"]);
+		$this->setPeerReviewSimpleUnlock($a_set["peer_unlock"]);
 		$this->setPeerReviewDeadline($a_set["peer_dl"]);
+		$this->setPeerReviewValid($a_set["peer_valid"]);
 		$this->setPeerReviewFileUpload($a_set["peer_file"]);
 		$this->setPeerReviewPersonalized($a_set["peer_prsl"]);
 		$this->setPeerReviewChars($a_set["peer_char"]);
@@ -541,7 +589,9 @@ class ilExAssignment
 			"type" => array("integer", $this->getType()),
 			"peer" => array("integer", $this->getPeerReview()),
 			"peer_min" => array("integer", $this->getPeerReviewMin()),
+			"peer_unlock" => array("integer", $this->getPeerReviewSimpleUnlock()),
 			"peer_dl" => array("integer", $this->getPeerReviewDeadline()),
+			"peer_valid" => array("integer", $this->getPeerReviewValid()),
 			"peer_file" => array("integer", $this->hasPeerReviewFileUpload()),
 			"peer_prsl" => array("integer", $this->hasPeerReviewPersonalized()),
 			"peer_char" => array("integer", $this->getPeerReviewChars()),
@@ -576,7 +626,9 @@ class ilExAssignment
 			"type" => array("integer", $this->getType()),
 			"peer" => array("integer", $this->getPeerReview()),
 			"peer_min" => array("integer", $this->getPeerReviewMin()),
+			"peer_unlock" => array("integer", $this->getPeerReviewSimpleUnlock()),
 			"peer_dl" => array("integer", $this->getPeerReviewDeadline()),
+			"peer_valid" => array("integer", $this->getPeerReviewValid()),
 			"peer_file" => array("integer", $this->hasPeerReviewFileUpload()),
 			"peer_prsl" => array("integer", $this->hasPeerReviewPersonalized()),
 			"peer_char" => array("integer", $this->getPeerReviewChars()),

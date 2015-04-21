@@ -771,9 +771,9 @@ class ilObjExercise extends ilObject
 		return $this;
 	}
 	
-	public function processExerciseStatus(ilExAssignment $a_ass, array $a_user_ids, $a_has_submitted)
+	public function processExerciseStatus(ilExAssignment $a_ass, array $a_user_ids, $a_has_submitted, array $a_valid_submissions = null)
 	{
-		$a_has_submitted = (bool)$a_has_submitted;
+		$a_has_submitted = (bool)$a_has_submitted;			
 		
 		include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 		foreach($a_user_ids as $user_id)
@@ -787,24 +787,25 @@ class ilObjExercise extends ilObject
 				
 		// re-evaluate exercise status
 		if($this->isCompletionBySubmissionEnabled())
-		{
-			if($a_has_submitted)
-			{
-				$status = 'passed';				
-			}
-			else
-			{
-				$status = 'notgraded';
-			}				
+		{							
 			foreach($a_user_ids as $user_id)
 			{
+				$status = 'notgraded';
+				if($a_has_submitted)
+				{
+					if(!is_array($a_valid_submissions) ||
+						$a_valid_submissions[$user_id])
+					{
+						$status = 'passed';				
+					}					
+				}
+									
 				$member_status = $a_ass->getMemberStatus($user_id);
 				$member_status->setStatus($status);		
 				$member_status->update();				
 			}
 		}			
-	}
-	
+	}	
 	
 	/**
 	 * Get all exercises for user

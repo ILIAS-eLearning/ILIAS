@@ -15229,10 +15229,3 @@ trac#:#trac_mode_survey_finished#:#Umfrage beendet
 trac#:#trac_mode_survey_finished_info#:##Die Umfrage muss beendet werden.
 crs#:#crs_usr_agreement#:#Benutzerveinbarung
 grp#:#grp_usr_agreement#:#Benutzerveinbarung
-exc#:#exc_peer_review_given#:#Gegebenes Feedback zeigen
-exc#:#exc_peer_review_show_received_none#:#Sie haben kein Feedback erhalten.
-exc#:#exc_peer_review_min_chars_tgl#:#Mindestlänge
-exc#:#exc_peer_review_min_chars#:#Mindestanzahl Zeichen
-exc#:#exc_peer_review_min_chars_info#:#Die nötige Anzahl Zeichen für ein gültiges Feedback.
-exc#:#ec_peer_review_chars_invalid#:#Sie haben noch nicht die erforderliche Länge des Textes von %s Zeichen in mind. einem Feedback erreicht.
-exc#:#exc_peer_review_show_missing#:#Sie können das erhaltene Feedback nicht einsehen, da Sie zu wenig Feedback gegeben haben.

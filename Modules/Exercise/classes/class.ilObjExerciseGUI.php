@@ -125,7 +125,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$ilTabs->activateTab("content");
 				$this->addContentSubTabs("list_assignments");
 				include_once("./Modules/Exercise/classes/class.ilExAssignmentEditorGUI.php");
-				$ass_gui = new ilExAssignmentEditorGUI($this->object->getId(), $this->ass);
+				$ass_gui = new ilExAssignmentEditorGUI($this->object->getId(), $this->object->isCompletionBySubmissionEnabled(), $this->ass);
 				$this->ctrl->forwardCommand($ass_gui);
 				break;
 			

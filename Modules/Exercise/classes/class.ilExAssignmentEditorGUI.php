@@ -15,18 +15,21 @@ class ilExAssignmentEditorGUI
 {
 	protected $exercise_id; // [int]
 	protected $assignment; // [ilExAssignment]
+	protected $enable_peer_review_completion; // [bool]
 	
 	/**
 	 * Constructor
 	 * 
 	 * @param int $a_exercise_id
+	 * @param bool  $a_enable_peer_review_completion_settings
 	 * @param ilExAssignment $a_ass
 	 * @return object
 	 */
-	public function __construct($a_exercise_id, ilExAssignment $a_ass = null)
+	public function __construct($a_exercise_id, $a_enable_peer_review_completion_settings, ilExAssignment $a_ass = null)
 	{
 		$this->exercise_id = $a_exercise_id;
 		$this->assignment = $a_ass;
+		$this->enable_peer_review_completion = (bool)$a_enable_peer_review_completion_settings;
 	}
 	
 	public function executeCommand()
@@ -205,18 +208,36 @@ class ilExAssignmentEditorGUI
 		}
 		
 		$peer_min = new ilNumberInputGUI($lng->txt("exc_peer_review_min_number"), "peer_min");
-		$peer_min->setInfo($lng->txt("exc_peer_review_min_number_info"));
+		// $peer_min->setInfo($lng->txt("exc_peer_review_min_number_info"));
 		$peer_min->setRequired(true);
 		$peer_min->setSize(3);
 		$peer_min->setValue(2);
 		$peer->addSubItem($peer_min);
 		
+		$peer_unlock = new ilRadioGroupInputGUI($lng->txt("exc_peer_review_simple_unlock"), "peer_unlock");
+		$peer_unlock->addOption(new ilRadioOption($lng->txt("exc_peer_review_simple_unlock_active"), 1));
+		$peer_unlock->addOption(new ilRadioOption($lng->txt("exc_peer_review_simple_unlock_inactive"), 0));
+		$peer_unlock->setRequired(true);		
+		$peer_unlock->setValue(0);
+		$peer->addSubItem($peer_unlock);
+		
+		if($this->enable_peer_review_completion)
+		{
+			$peer_cmpl = new ilRadioGroupInputGUI($lng->txt("exc_peer_review_completion"), "peer_valid");
+			$peer_cmpl->addOption(new ilRadioOption($lng->txt("exc_peer_review_completion_none"), ilExAssignment::PEER_REVIEW_VALID_NONE));
+			$peer_cmpl->addOption(new ilRadioOption($lng->txt("exc_peer_review_completion_one"), ilExAssignment::PEER_REVIEW_VALID_ONE));
+			$peer_cmpl->addOption(new ilRadioOption($lng->txt("exc_peer_review_completion_all"), ilExAssignment::PEER_REVIEW_VALID_ALL));
+			$peer_cmpl->setRequired(true);		
+			$peer_cmpl->setValue(ilExAssignment::PEER_REVIEW_VALID_NONE);
+			$peer->addSubItem($peer_cmpl);
+		}
+			
 		$peer_dl = new ilDateTimeInputGUI($lng->txt("exc_peer_review_deadline"), "peer_dl");
 		$peer_dl->setInfo($lng->txt("exc_peer_review_deadline_info"));
 		$peer_dl->enableDateActivation("", "peer_dl_tgl");
 		$peer_dl->setShowTime(true);
 		$peer->addSubItem($peer_dl);
-			
+		
 		$peer_char_tgl = new ilCheckboxInputGUI($lng->txt("exc_peer_review_min_chars_tgl"), "peer_char_tgl");
 		$peer->addSubItem($peer_char_tgl);
 		
@@ -406,7 +427,13 @@ class ilExAssignmentEditorGUI
 				$ass->setPeerReview($_POST["peer"]);
 				$ass->setPeerReviewMin($_POST["peer_min"]);
 				$ass->setPeerReviewFileUpload($_POST["peer_file"]);
-				$ass->setPeerChars($_POST["peer_char"]);
+				$ass->setPeerReviewChars($_POST["peer_char"]);
+				$ass->setPeerReviewSimpleUnlock($_POST["peer_unlock"]);
+				
+				if($this->enable_peer_review_completion)
+				{
+					$ass->setPeerReviewValid($_POST["peer_valid"]);
+				}
 				
 				if($ass->getDeadline() && $ass->getDeadline() > time())
 				{
@@ -505,6 +532,8 @@ class ilExAssignmentEditorGUI
 			$values["peer_min"] = $this->assignment->getPeerReviewMin();
 			$values["peer_file"] = $this->assignment->hasPeerReviewFileUpload();
 			$values["peer_prsl"] = $this->assignment->hasPeerReviewPersonalized();
+			$values["peer_unlock"] = $this->assignment->getPeerReviewSimpleUnlock();
+			$values["peer_valid"] = $this->assignment->getPeerReviewValid();
 				
 			if ($this->assignment->getPeerReviewDeadline() > 0)
 			{
@@ -536,6 +565,12 @@ class ilExAssignmentEditorGUI
 				$a_form->getItemByPostVar("peer_prsl")->setDisabled(true);									
 				$a_form->getItemByPostVar("peer_char_tgl")->setDisabled(true);									
 				$a_form->getItemByPostVar("peer_char")->setDisabled(true);									
+				$a_form->getItemByPostVar("peer_unlock")->setDisabled(true);
+				
+				if($this->enable_peer_review_completion)
+				{
+					$a_form->getItemByPostVar("peer_valid")->setDisabled(true);									
+				}
 			}			 
 		}		
 		$a_form->setValuesByArray($values);
@@ -699,6 +734,12 @@ class ilExAssignmentEditorGUI
 					$this->assignment->setPeerReviewMin($_POST["peer_min"]);
 					$this->assignment->setPeerReviewFileUpload($_POST["peer_file"]);
 					$this->assignment->setPeerReviewChars($_POST["peer_char"]);
+					$this->assignment->setPeerReviewSimpleUnlock($_POST["peer_unlock"]);
+					
+					if($this->enable_peer_review_completion)
+					{
+						$this->assignment->setPeerReviewValid($_POST["peer_valid"]);
+					}
 					
 					if($this->assignment->getDeadline() && $this->assignment->getDeadline() > time())
 					{

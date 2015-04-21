@@ -5799,14 +5799,3 @@ if($ilDB->tableColumnExists('obj_stat', 'tstamp'))
 }
 
 ?>
-<#4476>
-<?php
-if(!$ilDB->tableColumnExists('exc_assignment','peer_char'))
-{
-	$ilDB->addTableColumn('exc_assignment', 'peer_char', array(
-		'type' => 'integer',
-		'length' => 2,
-		'notnull' => false
-	));
-}
-?>

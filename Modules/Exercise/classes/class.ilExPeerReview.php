@@ -407,9 +407,14 @@ class ilExPeerReview
 		$ilDB->manipulate($sql);
 	}
 	
-	public function countGivenFeedback($a_validate = true)
+	public function countGivenFeedback($a_validate = true, $a_user_id = null)
 	{
 		global $ilDB, $ilUser;
+		
+		if(!$a_user_id)
+		{
+			$a_user_id = $ilUser->getId();
+		}
 		
 		$cnt = 0;
 		
@@ -418,7 +423,7 @@ class ilExPeerReview
 		$set = $ilDB->query("SELECT *".
 			" FROM exc_assignment_peer".
 			" WHERE ass_id = ".$ilDB->quote($this->assignment_id, "integer").
-			" AND giver_id = ".$ilDB->quote($ilUser->getId(), "integer"));			
+			" AND giver_id = ".$ilDB->quote($a_user_id, "integer"));			
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			if(!(bool)$a_validate ||
@@ -431,7 +436,7 @@ class ilExPeerReview
 		return $cnt;
 	}
 	
-	public function getNumberOfMissingFeedbacks()
+	protected function getMaxPossibleFeedbacks()
 	{
 		global $ilDB;
 		
@@ -441,16 +446,58 @@ class ilExPeerReview
 			" WHERE ass_id = ".$ilDB->quote($this->assignment_id, "integer"));
 		$cnt = $ilDB->fetchAssoc($set);
 		$cnt = (int)$cnt["cnt"];
+		return $cnt-1;
+	}
+	
+	public function getNumberOfMissingFeedbacksForReceived()
+	{		
+		$max = $this->getMaxPossibleFeedbacks();
 		
 		// forever alone
-		if($cnt < 2)
+		if($max < 2)
 		{
 			return;
 		}
+		
+		// are all required or just 1?
+		if(!$this->assignment->getPeerReviewSimpleUnlock())
+		{
+			$needed = $this->assignment->getPeerReviewMin();
+		}
+		else
+		{
+			$needed = 1;
+		}
 				
-		$min = min($cnt-1, $this->assignment->getPeerReviewMin());
+		// there could be less participants than stated in the min required setting
+		$min = min($max, $needed);
 				
 		return max(0, $min-$this->countGivenFeedback());		
 	}
+		
+	public function isFeedbackValidForPassed($a_user_id)
+	{						
+		switch($this->assignment->getPeerReviewValid())
+		{
+			case ilExAssignment::PEER_REVIEW_VALID_NONE:
+				return true;
+				
+			case ilExAssignment::PEER_REVIEW_VALID_ONE:
+				return (bool)$this->countGivenFeedback(true, $a_user_id);
+				
+			case ilExAssignment::PEER_REVIEW_VALID_ALL:
+				$max = $this->getMaxPossibleFeedbacks();
+		
+				// forever alone - should be valid
+				if($max < 2)
+				{
+					return true;
+				}
+		
+				// there could be less participants than stated in the min required setting
+				$min = min($max, $this->assignment->getPeerReviewMin());
+				
+				return (($min-$this->countGivenFeedback(true, $a_user_id)) < 1);				
+		}			
+	}
 }
-

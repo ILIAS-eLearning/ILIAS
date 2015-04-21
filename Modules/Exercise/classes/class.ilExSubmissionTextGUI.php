@@ -313,7 +313,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 						
 						if(!$this->submission->getPeerReview()->validatePeerReviewText($item["pcomment"]))
 						{
-							ilUtil::sendFailure(sprintf($this->lng->txt("ec_peer_review_chars_invalid"), 
+							ilUtil::sendFailure(sprintf($this->lng->txt("exc_peer_review_chars_invalid"), 
 								$this->submission->getAssignment()->getPeerReviewChars()));
 						}
 						

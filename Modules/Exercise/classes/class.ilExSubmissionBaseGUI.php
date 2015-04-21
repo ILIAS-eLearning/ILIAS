@@ -66,7 +66,8 @@ abstract class ilExSubmissionBaseGUI
 		$this->exercise->processExerciseStatus(
 			$this->assignment,
 			$this->submission->getUserIds(),
-			$has_submitted);
+			$has_submitted,
+			$this->submission->validatePeerReviews());
 		
 		if($has_submitted &&
 			!$a_no_notifications)

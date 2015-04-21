@@ -78,6 +78,24 @@ class ilExSubmission
 		return $this->peer_review;
 	}
 	
+	public function validatePeerReviews()
+	{
+		$res = array();				
+		foreach($this->getUserIds() as $user_id)
+		{					
+			$valid = true;
+			
+			// no peer review == valid
+			if($this->peer_review)
+			{
+				$valid = $this->peer_review->isFeedbackValidForPassed($user_id);
+			}
+			
+			$res[$user_id] = $valid;
+		}
+		return $res;
+	}
+	
 	public function getUserId()
 	{
 		return $this->user_id;
