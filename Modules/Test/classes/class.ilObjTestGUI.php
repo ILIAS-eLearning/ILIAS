@@ -3721,13 +3721,13 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		
 			$starting_time = $this->object->getStartingTime();
-			if ($starting_time)
+			if ($starting_time && $this->object->isStartingTimeEnabled())
 			{
 				$info->addProperty($this->lng->txt("tst_starting_time"),
 					ilDatePresentation::formatDate(new ilDateTime($starting_time,IL_CAL_TIMESTAMP)));
 			}
 			$ending_time = $this->object->getEndingTime();
-			if ($ending_time)
+			if ($ending_time && $this->object->isEndingTimeEnabled())
 			{
 				$info->addProperty($this->lng->txt("tst_ending_time"),
 					ilDatePresentation::formatDate(new ilDateTime($ending_time,IL_CAL_TIMESTAMP)));

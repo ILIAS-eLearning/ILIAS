@@ -1559,7 +1559,7 @@ function launchTarget(target, isJump) {
    
 	if (mlaunch.mSeqNonContent == null) {
 		//throw away API from previous sco and sync CMI and ADLTree
-		onItemDeliver(activities[mlaunch.mActivityID], false);
+		onItemDeliver(activities[mlaunch.mActivityID]);
 	} else {
 	  //call specialpage
 	  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
@@ -1672,7 +1672,7 @@ function launchNavType(navType, isUserCurrentlyInteracting) {
 	}
 	
 	if (mlaunch.mActivityID) {
-		onItemDeliver(activities[mlaunch.mActivityID], false);
+		onItemDeliver(activities[mlaunch.mActivityID]);
 	} else {
   		//call specialpage
   		loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
@@ -1716,7 +1716,7 @@ function onDocumentClick (e)
 				//throw away API from previous sco and sync CMI and ADLTree
 				onItemUndeliver();
 				//statusHandler(mlaunch.mActivityID,"completion","unknown");
-				onItemDeliver(activities[mlaunch.mActivityID], false);
+				onItemDeliver(activities[mlaunch.mActivityID]);
 			//	setTimeout("updateNav()",2000);  //temporary fix for timing problems
 			} else {
 			  //call specialpage
@@ -2381,7 +2381,7 @@ function init(config)
 	} else {
 
 		if (mlaunch.mSeqNonContent == null) {
-			onItemDeliver(activities[mlaunch.mActivityID], wasSuspended);
+			onItemDeliverDo(activities[mlaunch.mActivityID], wasSuspended);
 		} else {
 			if (count==1 && tolaunch!=null) {
 				launchTarget(tolaunch);
@@ -2679,14 +2679,7 @@ function save()
 				totalTimeCentisec+=ISODurationToCentisec(item.total_time);
 			}
 			if (item.dirty===0)  {continue;}
-			if (item.options) {
-				if (item.options.notracking === true) 
-				{
-					b_statusUpdate = false;
-					continue;
-				}
-			}
-			 if(type=="node") item.dirty=0;//notice as in progress to be saved
+			if(type=="node") item.dirty=0;//notice as in progress to be saved
 			if (type == "objective") {
 				if (item.id == null) {
 					continue;
@@ -2730,7 +2723,7 @@ function save()
 			if (item.dirty!==2 && type=="node") {continue;}
 		}
 	}
-	var b_statusFailed=false, i_numCompleted=0, b_statusUpdate=true, totalTimeCentisec=0;
+	var b_statusFailed=false, i_numCompleted=0, totalTimeCentisec=0;
 	var result = {};
 	for (var k in remoteMapping) 
 	{
@@ -2796,7 +2789,6 @@ function save()
 		if (satisfied=="notSatisfied") now_global_status = LP_STATUS_FAILED_NUM;
 		if(!isNaN(measure)) percentageCompleted=Math.round(measure*100);
 	}
-	if (b_statusUpdate == false) now_global_status=config.status.saved_global_status;
 	result["saved_global_status"]=config.status.saved_global_status;
 	result["now_global_status"]=now_global_status;
 	result["percentageCompleted"]=percentageCompleted;
@@ -3095,13 +3087,29 @@ function onWindowUnload ()
 	//try{windowOpenerLoc.reload();} catch(e){}
 }
 
-function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing process (deliverSubProcess)
+function onItemDeliver(item){
+	removeResource();
+	onItemDeliver_item=item;
+	onItemDeliverWait(0);
+}
+function onItemDeliverWait(deliverCounter){
+	if(currentAPI==null || SCOterminated==true || deliverCounter==30) {
+		onItemDeliverDo(onItemDeliver_item,false);
+	} else {
+		deliverCounter++;
+		setTimeout('onItemDeliverWait('+deliverCounter+');',100);
+	}
+}
+
+function onItemDeliverDo(item, wasSuspendAll) // onDeliver called from sequencing process (deliverSubProcess)
 {
 	var url = item.href, v;
+	currentAPI = window[Runtime.apiname] = null;
 	// create api if associated resouce is of adl:scormType=sco
 	if (item.sco)
 	{
 
+		SCOterminated = false;
 		// get data in cmi-1.3 format
 		var data = getAPI(item.foreignId);
 		if (this.config.fourth_edition) loadSharedData(item.cp_node_id);
@@ -3182,10 +3190,8 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 				}	
 			}
 		}
-
+		window.document.getElementById("noCredit").style.display='none';
 		//support for auto-review
-		item.options = new Object();
-		item.options.notracking = false;
 		if (globalAct.auto_review != 'n') {
 			if (
 				(globalAct.auto_review == 'r' && ((item.completion_status == 'completed' && item.success_status != 'failed') || item.success_status == 'passed') ) ||
@@ -3215,7 +3221,7 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 		if (config.mode=="browse") data.cmi.mode = "browse";
 		if (data.cmi.mode=="review" || data.cmi.mode=="browse" || config.credit=="no_credit") {
 			data.cmi.credit = "no-credit";
-			item.options.notracking = true;//UK: no better score for example!
+			window.document.getElementById("noCredit").style.display='inline';
 		}
 
 		//RTE-4-45: If there are additional learner sessions within a learner attempt, the cmi.exit becomes uninitialized (i.e., reinitialized to its default value of (“”) - empty characterstring) at the beginning of each additional learner session within the learner attempt.
@@ -3673,6 +3679,7 @@ function onCommit(data)
 
 function onTerminate(data) 
 {
+	SCOterminated = true;
 	var navReq;
 	switch (data.cmi.exit)
 	{
@@ -4105,8 +4112,9 @@ var toleratedFailure=false;
 //course wide variables
 //var pubAPI=null;
 var statusArray = new Object(); //just used for visual feedback
-//var isSaving = true;
 
+var SCOterminated = true;
+var onItemDeliver_item;
 var saved_shared_data = "";
 var saveOnCommit = true;
 // Public interface

@@ -1,4 +1,4 @@
-// Build: 2015202205603 
+// Build: 2015420173949 
 
 function ADLAuxiliaryResource()
 {}
@@ -2648,7 +2648,7 @@ if(nooverwrite&&destination.hasOwnProperty(property)){continue;}
 var value=source[property];destination[property]=value;}
 return destination;}
 var userInteraction=false;function launchTarget(target,isJump){if(userInteraction){userInteraction=false;return null;}
-onItemUndeliver();mlaunch=msequencer.navigateStr(target,isJump);if(mlaunch.mSeqNonContent==null){onItemDeliver(activities[mlaunch.mActivityID],false);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
+onItemUndeliver();mlaunch=msequencer.navigateStr(target,isJump);if(mlaunch.mSeqNonContent==null){onItemDeliver(activities[mlaunch.mActivityID]);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
 function launchNavType(navType,isUserCurrentlyInteracting){if(!isUserCurrentlyInteracting&&userInteraction){userInteraction=false;return null;}
 if(navType=='SuspendAll'){err=currentAPI.SetValueIntern("cmi.exit","suspend");activities[msequencer.mSeqTree.mCurActivity.mActivityID].exit="suspend";}
 onItemUndeliver();mlaunch=new ADLLaunch();if(navType==='Start'){mlaunch=msequencer.navigate(NAV_START);}
@@ -2664,7 +2664,7 @@ for(subelement in acts[element]){if(!(acts[element][subelement]instanceof Object
 var validreq=msequencer.mSeqTree.mValidReq;var lastleaf=msequencer.mSeqTree.mLastLeaf;var firstcandidate=msequencer.mSeqTree.mFirstCandidate.mActivityID;var suspendall=msequencer.mSeqTree.mSuspendAll.mActivityID;var curactivity=msequencer.mSeqTree.mCurActivity.mActivityID;var suspendedTree=new Object();suspendedTree['mCurTracking']=curtracking;suspendedTree['mTracking']=tracking;suspendedTree['States']=states;suspendedTree['mCurActivity']=null;suspendedTree['mValidReq']=validreq;suspendedTree['mLastLeaf']=lastleaf;suspendedTree['mFirstCandidate']=firstcandidate;suspendedTree['mSuspendAll']=suspendall;suspendedTree['root']=root;var strTree=JSON.stringify(suspendedTree);var r=sendAndLoad(this.config.suspend_url,strTree,null,null,null,headers);}
 if(navType==='Previous'){mlaunch=msequencer.navigate(NAV_PREVIOUS);}
 if(navType==='Continue'){mlaunch=msequencer.navigate(NAV_CONTINUE);}
-if(mlaunch.mActivityID){onItemDeliver(activities[mlaunch.mActivityID],false);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
+if(mlaunch.mActivityID){onItemDeliver(activities[mlaunch.mActivityID]);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
 function onDocumentClick(e)
 {e=new UIEvent(e);var target=e.srcElement;userInteraction=true;if(target.tagName!=='A'||!target.id||target.className.match(new RegExp(ilRTEDisabledClass))||target.className.match(new RegExp('ilc_rte_tlink_RTETreeLinkDisabled')))
 {}
@@ -2673,7 +2673,7 @@ else if(target.id.substr(0,3)==='nav')
 else if(target.id.substr(0,3)===ITEM_PREFIX)
 {if(e.altKey){}
 else
-{mlaunch=msequencer.navigateStr(target.id.substr(3).replace(/_____/g,'.'));if(mlaunch.mSeqNonContent==null){onItemUndeliver();onItemDeliver(activities[mlaunch.mActivityID],false);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}}
+{mlaunch=msequencer.navigateStr(target.id.substr(3).replace(/_____/g,'.'));if(mlaunch.mSeqNonContent==null){onItemUndeliver();onItemDeliver(activities[mlaunch.mActivityID]);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}}
 else if(typeof window[target.id+'_onclick']==="function")
 {window[target.id+'_onclick'](target);}
 else if(target.target==="_blank")
@@ -2776,7 +2776,7 @@ for(var element in tempCur){msequencer.mSeqTree.mActivityMap[element]["mCurTrack
 initStatusArray();if(wasSuspended==true){mlaunch=msequencer.navigate(NAV_RESUMEALL);}else{mlaunch=msequencer.navigate(NAV_NONE);if(mlaunch.mNavState.mStart){mlaunch=msequencer.navigate(NAV_START);}}
 var tolaunch=null;var count=0;for(var myitem in mlaunch.mNavState.mChoice){if(mlaunch.mNavState.mChoice[myitem].mInChoice==true&&mlaunch.mNavState.mChoice[myitem].mIsSelectable==true&&mlaunch.mNavState.mChoice[myitem].mIsEnabled==true){tolaunch=mlaunch.mNavState.mChoice[myitem].mID;count=count+1;}}
 if(count==1||this.config.hide_navig==1){toggleView();}
-if(config.auto_last_visited==true&&config.status.last_visited!=null){launchTarget(config.status.last_visited);}else{if(mlaunch.mSeqNonContent==null){onItemDeliver(activities[mlaunch.mActivityID],wasSuspended);}else{if(count==1&&tolaunch!=null){launchTarget(tolaunch);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);updateControls();updateNav();}}}
+if(config.auto_last_visited==true&&config.status.last_visited!=null){launchTarget(config.status.last_visited);}else{if(mlaunch.mSeqNonContent==null){onItemDeliverDo(activities[mlaunch.mActivityID],wasSuspended);}else{if(count==1&&tolaunch!=null){launchTarget(tolaunch);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);updateControls();updateNav();}}}
 if(logActive==true){var elm=all("toggleLog");elm.style.display="inline";}
 if(this.config.session_ping>0)
 {setTimeout("pingSession()",this.config.session_ping*1000);}}
@@ -2846,8 +2846,6 @@ function save()
 {var item=collection[k];if(type=="node"){for(j=0;j<config.status.scos.length;j++){if(config.status.scos[j]==item['cp_node_id']){if(item.success_status=="failed")b_statusFailed=true;else if(item.completion_status=="completed"||item.success_status=="passed")i_numCompleted++;}}
 totalTimeCentisec+=ISODurationToCentisec(item.total_time);}
 if(item.dirty===0){continue;}
-if(item.options){if(item.options.notracking===true)
-{b_statusUpdate=false;continue;}}
 if(type=="node")item.dirty=0;if(type=="objective"){if(item.id==null){continue;}}
 var data=[];for(var i=0,ni=schem.length;i<ni;i++)
 {data.push(item[schem[i]]);}
@@ -2859,7 +2857,7 @@ if(valid){collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];if(col
 if(z=="correct_responses")collection[k][z][y]['cmi_interaction_id']=collection[k]['cmi_interaction_id'];}
 walk(collection[k][z],z.substr(0,z.length-1));}}
 if(item.dirty!==2&&type=="node"){continue;}}}
-var b_statusFailed=false,i_numCompleted=0,b_statusUpdate=true,totalTimeCentisec=0;var result={};for(var k in remoteMapping)
+var b_statusFailed=false,i_numCompleted=0,totalTimeCentisec=0;var result={};for(var k in remoteMapping)
 {result[k]=[];}
 walk(sharedObjectives,"objective");walk(activities,'node');result["i_check"]=0;result["i_set"]=0;var check0="",check1="";for(var k in saved){if(result[k].length>0){result["i_check"]+=saved[k].checkplus;check0=toJSONString(result[k]);check1=toJSONString(saved[k].data);if(k=="correct_response"){check0+=result["node"][0][15];check1+=saved[k].node;}
 if(check0===check1){result[k]=[];}else{saved[k].data=result[k];if(k=="correct_response")saved[k].node=result["node"][0][15];result["i_set"]+=saved[k].checkplus;}}}
@@ -2867,7 +2865,7 @@ if(this.config.sequencing_enabled){msequencer.getCourseStatusByGlobalObjectives(
 else{result["changed_seq_utilities"]=0;}}else{result["adl_seq_utilities"]={};result["changed_seq_utilities"]=0;}
 var LP_STATUS_IN_PROGRESS_NUM=1,LP_STATUS_COMPLETED_NUM=2,LP_STATUS_FAILED_NUM=3;var percentageCompleted=0;var now_global_status=LP_STATUS_IN_PROGRESS_NUM;if(config.status.lp_mode==6){if(b_statusFailed==true)now_global_status=LP_STATUS_FAILED_NUM;else if(config.status.scos.length==i_numCompleted)now_global_status=LP_STATUS_COMPLETED_NUM;percentageCompleted=Math.round(i_numCompleted*100/config.status.scos.length);}
 else if(config.status.lp_mode==12){var measure=this.adl_seq_utilities.status[this.config.course_id][this.config.learner_id]["measure"];var satisfied=this.adl_seq_utilities.status[this.config.course_id][this.config.learner_id]["satisfied"];var completed=this.adl_seq_utilities.status[this.config.course_id][this.config.learner_id]["completed"];if(completed=="completed"||satisfied=="satisfied")now_global_status=LP_STATUS_COMPLETED_NUM;if(satisfied=="notSatisfied")now_global_status=LP_STATUS_FAILED_NUM;if(!isNaN(measure))percentageCompleted=Math.round(measure*100);}
-if(b_statusUpdate==false)now_global_status=config.status.saved_global_status;result["saved_global_status"]=config.status.saved_global_status;result["now_global_status"]=now_global_status;result["percentageCompleted"]=percentageCompleted;result["lp_mode"]=config.status.lp_mode;result["hash"]=config.status.hash;result["p"]=config.status.p;result["totalTimeCentisec"]=totalTimeCentisec;var to_saved_result=toJSONString(result);if(saved_result==to_saved_result){return true;}else{if(typeof SOP!="undefined"&&SOP==true)result=saveRequest(result);else result=this.config.store_url?sendJSONRequest(this.config.store_url,result):{};updateNavForSequencing();if(typeof result=="object"){saved_result=to_saved_result;var new_global_status=null;for(k in result){if(k=="new_global_status")new_global_status=result[k];}
+result["saved_global_status"]=config.status.saved_global_status;result["now_global_status"]=now_global_status;result["percentageCompleted"]=percentageCompleted;result["lp_mode"]=config.status.lp_mode;result["hash"]=config.status.hash;result["p"]=config.status.p;result["totalTimeCentisec"]=totalTimeCentisec;var to_saved_result=toJSONString(result);if(saved_result==to_saved_result){return true;}else{if(typeof SOP!="undefined"&&SOP==true)result=saveRequest(result);else result=this.config.store_url?sendJSONRequest(this.config.store_url,result):{};updateNavForSequencing();if(typeof result=="object"){saved_result=to_saved_result;var new_global_status=null;for(k in result){if(k=="new_global_status")new_global_status=result[k];}
 if(config.status.saved_global_status!=new_global_status){try{windowOpenerLoc.reload();}catch(e){}}
 config.status.saved_global_status=new_global_status;return true;}}
 return false;}
@@ -2928,9 +2926,11 @@ function onWindowLoad()
 attachUIEvent(document,'click',onDocumentClick);setInfo('');setState('playing');attachUIEvent(window,'resize',onWindowResize);onWindowResize();}
 function onWindowUnload()
 {summaryOnUnload=true;var result={};result["hash"]=config.status.hash;result["p"]=config.status.p;result["last"]="";if(config.auto_last_visited==true)result["last"]=activities[mlaunch.mActivityID].id;if(typeof SOP!="undefined"&&SOP==true)result=scormPlayerUnload(result);else result=this.config.scorm_player_unload_url?sendJSONRequest(this.config.scorm_player_unload_url,result):{};removeResource();}
-function onItemDeliver(item,wasSuspendAll)
-{var url=item.href,v;if(item.sco)
-{var data=getAPI(item.foreignId);if(this.config.fourth_edition)loadSharedData(item.cp_node_id);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var adlcpData=Array();for(ds in sharedData)
+function onItemDeliver(item){removeResource();onItemDeliver_item=item;onItemDeliverWait(0);}
+function onItemDeliverWait(deliverCounter){if(currentAPI==null||SCOterminated==true||deliverCounter==30){onItemDeliverDo(onItemDeliver_item,false);}else{deliverCounter++;setTimeout('onItemDeliverWait('+deliverCounter+');',100);}}
+function onItemDeliverDo(item,wasSuspendAll)
+{var url=item.href,v;currentAPI=window[Runtime.apiname]=null;if(item.sco)
+{SCOterminated=false;var data=getAPI(item.foreignId);if(this.config.fourth_edition)loadSharedData(item.cp_node_id);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var adlcpData=Array();for(ds in sharedData)
 {var dat=Array();dat["id"]=ds;dat["store"]=sharedData[ds].store;dat["readable"]=sharedData[ds].readSharedData;dat["writeable"]=sharedData[ds].writeSharedData;adlcpData.push(dat);}
 data.adl.data=adlcpData;var choice=validRequests['mChoice'];for(var k in choice){}
 item.accesscount++;data.cmi.learner_name=globalAct.learner_name;data.cmi.learner_id=this.config.cmi_learner_id;data.cmi.cp_node_id=item.foreignId;data.scoid=item.id;data.cmi.session_time=undefined;data.cmi.completion_threshold=item.completionThreshold;data.cmi.launch_data=item.dataFromLMS;data.cmi.time_limit_action=item.timeLimitAction;data.cmi.max_time_allowed=item.attemptAbsoluteDurationLimit;data.cmi.entry="";data.cmi.learner_preference={audio_level:(item.audio_level)?item.audio_level:1,delivery_speed:(item.delivery_speed)?item.delivery_speed:1,language:item.language,audio_captioning:item.audio_captioning};if(item.objectives)
@@ -2941,10 +2941,10 @@ else if(v.satisfiedByMeasure)
 else
 {v=null;}
 data.cmi.scaled_passing_score=v;break;}}}
-item.options=new Object();item.options.notracking=false;if(globalAct.auto_review!='n'){if((globalAct.auto_review=='r'&&((item.completion_status=='completed'&&item.success_status!='failed')||item.success_status=='passed'))||(globalAct.auto_review=='p'&&item.success_status=='passed')||(globalAct.auto_review=='q'&&(item.success_status=='passed'||item.success_status=='failed'))||(globalAct.auto_review=='c'&&item.completion_status=='completed')||(globalAct.auto_review=='d'&&(item.completion_status=='completed'&&item.success_status=='passed'))||(globalAct.auto_review=='y'&&(item.completion_status=='completed'||item.success_status=='passed'))){data.cmi.mode="review";}}
+window.document.getElementById("noCredit").style.display='none';if(globalAct.auto_review!='n'){if((globalAct.auto_review=='r'&&((item.completion_status=='completed'&&item.success_status!='failed')||item.success_status=='passed'))||(globalAct.auto_review=='p'&&item.success_status=='passed')||(globalAct.auto_review=='q'&&(item.success_status=='passed'||item.success_status=='failed'))||(globalAct.auto_review=='c'&&item.completion_status=='completed')||(globalAct.auto_review=='d'&&(item.completion_status=='completed'&&item.success_status=='passed'))||(globalAct.auto_review=='y'&&(item.completion_status=='completed'||item.success_status=='passed'))){data.cmi.mode="review";}}
 if(data.cmi.mode!="review"){if(item.exit!="suspend"){data.cmi.completion_status="unknown";data.cmi.success_status="unknown";data.cmi.entry="ab-initio";data.cmi.suspend_data=null;data.cmi.total_time="PT0H0M0S";}
 if(item.exit=="suspend"||wasSuspendAll)data.cmi.entry="resume";}
-if(config.mode=="browse")data.cmi.mode="browse";if(data.cmi.mode=="review"||data.cmi.mode=="browse"||config.credit=="no_credit"){data.cmi.credit="no-credit";item.options.notracking=true;}
+if(config.mode=="browse")data.cmi.mode="browse";if(data.cmi.mode=="review"||data.cmi.mode=="browse"||config.credit=="no_credit"){data.cmi.credit="no-credit";window.document.getElementById("noCredit").style.display='inline';}
 data.cmi.exit="";currentAPI=window[Runtime.apiname]=new Runtime(data,onCommit,onTerminate);}
 syncSharedCMI(item);scoStartTime=currentTime();var envEditor=this.config.envEditor;var randNumber="";if(envEditor==1){randNumber="?rand="+Math.floor(Math.random()*1000000)+"&";}
 if(item.parameters==null){item.parameters="";}
@@ -3031,7 +3031,7 @@ function onNavigationEnd()
 function onCommit(data)
 {return setAPI(data.cmi.cp_node_id,data);}
 function onTerminate(data)
-{var navReq;switch(data.cmi.exit)
+{SCOterminated=true;var navReq;switch(data.cmi.exit)
 {case"suspend":navReq={type:"suspend"};break;case"logout":navReq={type:"ExitAll"};case"time-out":navReq={type:"ExitAll"};default:break;}
 if(data.adl&&data.adl.nav){var m=String(data.adl.nav.request).match(/^(\{target=([^\}]+)\})?(choice|jump|continue|previous|suspendAll|exit(All)?|abandon(All)?)$/);if(m){navReq={type:m[3].substr(0,1).toUpperCase()+m[3].substr(1),target:m[2]};}}
 if(navReq)
@@ -3079,7 +3079,7 @@ function removeByElement(arrayName,arrayElement)
 arrayName.splice(i,1);}}
 function createSummary()
 {var logEntry=new Object();logEntry['action']="SUMMARY";a_logEntries.push(toJSONString(logEntry));refreshDebugger();}
-var remoteMapping=null;var remoteInsertId=0;var globalAct=new Activity();var rootAct=new Activity();var activities=new Object();var activitiesByCAM=new Object();var activitiesByCMI=new Object();var activitiesByNo=new Array();var sharedObjectives=new Object();var sharedData=new Array();var msequencer=new ADLSequencer();var mlaunch=null;var adlnavreq=null;var treeYUI=null;var logState=false;var treeState=true;var ITEM_PREFIX="itm";var RESOURCE_PARENT="tdResource";var RESOURCE_NAME="frmResource";var RESOURCE_TOP="mainTable";var guiItemId;var guiState;var gConfig;var RUNNING=1;var WAITING=0;var QUERYING=-1;var ABORTING=-2;var EXIT_ACTIONS=/^exit$/i;var POST_ACTIONS=/^exitParent|exitAll|retry|retryAll|continue|previous$/i;var SKIPPED_ACTIONS=/^skip$/i;var STOP_FORWARD_TRAVERSAL_ACTIONS=/^stopForwardTraversal$/i;var HIDDEN_FROM_CHOICE_ACTIONS=/^hiddenFromChoice$/i;var DISABLED_ACTIONS=/^disabled$/i;var state=WAITING;var SCOEntryedAct=null;var saved_adl_seq_utilities="";var saved_result;var saved={"comment":{"data":[],"checkplus":8},"correct_response":{"data":[],"checkplus":4,"node":""},"interaction":{"data":[],"checkplus":2},"objective":{"data":[],"checkplus":1}};var currentAPI;var scoStartTime=null;var openedResource=new Array();var treeView=true;var logActive=false;var scoDebugValues=null;var scoDebugValuesTest=null;var logEntryScoId="";var logEntryScoTitle="";var summaryOnUnload=false;var b_refreshDebugger_busy=false;var a_logEntries=[];var fixedFailure=false;var toleratedFailure=false;var statusArray=new Object();var saved_shared_data="";var saveOnCommit=true;window.scorm_init=init;
+var remoteMapping=null;var remoteInsertId=0;var globalAct=new Activity();var rootAct=new Activity();var activities=new Object();var activitiesByCAM=new Object();var activitiesByCMI=new Object();var activitiesByNo=new Array();var sharedObjectives=new Object();var sharedData=new Array();var msequencer=new ADLSequencer();var mlaunch=null;var adlnavreq=null;var treeYUI=null;var logState=false;var treeState=true;var ITEM_PREFIX="itm";var RESOURCE_PARENT="tdResource";var RESOURCE_NAME="frmResource";var RESOURCE_TOP="mainTable";var guiItemId;var guiState;var gConfig;var RUNNING=1;var WAITING=0;var QUERYING=-1;var ABORTING=-2;var EXIT_ACTIONS=/^exit$/i;var POST_ACTIONS=/^exitParent|exitAll|retry|retryAll|continue|previous$/i;var SKIPPED_ACTIONS=/^skip$/i;var STOP_FORWARD_TRAVERSAL_ACTIONS=/^stopForwardTraversal$/i;var HIDDEN_FROM_CHOICE_ACTIONS=/^hiddenFromChoice$/i;var DISABLED_ACTIONS=/^disabled$/i;var state=WAITING;var SCOEntryedAct=null;var saved_adl_seq_utilities="";var saved_result;var saved={"comment":{"data":[],"checkplus":8},"correct_response":{"data":[],"checkplus":4,"node":""},"interaction":{"data":[],"checkplus":2},"objective":{"data":[],"checkplus":1}};var currentAPI;var scoStartTime=null;var openedResource=new Array();var treeView=true;var logActive=false;var scoDebugValues=null;var scoDebugValuesTest=null;var logEntryScoId="";var logEntryScoTitle="";var summaryOnUnload=false;var b_refreshDebugger_busy=false;var a_logEntries=[];var fixedFailure=false;var toleratedFailure=false;var statusArray=new Object();var SCOterminated=true;var onItemDeliver_item;var saved_shared_data="";var saveOnCommit=true;window.scorm_init=init;
 function Runtime(cmiItem,onCommit,onTerminate,onDebug)
 {function GetLastError()
 {if(logActive)
@@ -3126,8 +3126,9 @@ switch(state)
 {case NOT_INITIALIZED:if(logActive)
 sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",142);return setReturn(142,'','false');case RUNNING:if((!cmiItem.cmi.mode||cmiItem.cmi.mode==="normal")&&(typeof cmiItem.cmi.session_time!="undefined"||config.time_from_lms==true)){if(config.time_from_lms==true){var interval=(currentTime()-msec)/1000;var dur=new ADLDuration({iFormat:FORMAT_SECONDS,iValue:interval});cmiItem.cmi.session_time=dur.format(FORMAT_SCHEMA);}
 var total_time=addTimes(total_time_at_initialize,cmiItem.cmi.session_time);cmiItem.cmi.total_time=total_time.toString();}
-if(config.auto_suspend==true)cmiItem.cmi.exit="suspend";var statusValues=syncCMIADLTree();var returnValue=onCommit(cmiItem);if(returnValue&&saveOnCommit==true){if(config.fourth_edition){var sgo=saveSharedData(cmiItem);}
-returnValue=save();}
+if(config.auto_suspend==true)cmiItem.cmi.exit="suspend";var returnValue=false;if(cmiItem.cmi.credit=="no-credit"){returnValue=true;}
+else{var statusValues=syncCMIADLTree();returnValue=onCommit(cmiItem);if(returnValue&&saveOnCommit==true){if(config.fourth_edition){var sgo=saveSharedData(cmiItem);}
+returnValue=save();}}
 if(returnValue)
 {dirty=false;if(logActive&&commitByTerminate==false)
 sendLogEntry(getMsecSinceStart(),'Commit',param,"","true",0);return setReturn(0,'','true');}
