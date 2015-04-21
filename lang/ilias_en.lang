@@ -14947,7 +14947,7 @@ crs#:#crs_loc_settings_reset_enable_info#:#If activated, all users are able to r
 crs#:#crs_loc_progress_no_result_no_initial#:#Please work through the following learning materials and then take the qualifying test.
 crs#:#crs_loc_qst_resume_tst_itest#:#You have already started an initial test to another learning objective. Either you finish the started test or you stop it and start this one. But running two initial tests at the same time is not supported.
 crs#:#crs_loc_qst_resume_tst_qtest#:#You have already started a qualifying test to another learning objective. Either you finish the started test or you stop it and start this one. But running two qualifying tests at the same time is not supported.
-bibl#:#bibl_library_show_in_list#:#Show link als in the list
+bibl#:#bibl_library_show_in_list#:#Show as link in the list
 content#:#cont_ie_compatibility#:#Internet Explorer 7 compatibility mode
 content#:#cont_ie_compatibility_info#:#Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer.
 content#:#cont_ie_force_render#:#Force Internet Explorer to render again
