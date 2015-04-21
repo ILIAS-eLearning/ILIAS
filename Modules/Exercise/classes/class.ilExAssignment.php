@@ -33,6 +33,7 @@ class ilExAssignment
 	protected $peer_dl;
 	protected $peer_file;
 	protected $peer_personal;
+	protected $peer_char;
 	protected $feedback_file;
 	protected $feedback_cron;
 	protected $feedback_date;
@@ -389,6 +390,29 @@ class ilExAssignment
 	}
 	
 	/**
+	 * Set peer review minimum characters
+	 * 
+	 * @param int $a_value
+	 */
+	function setPeerReviewChars($a_value)
+	{
+		$a_value = is_numeric($a_value)
+			? (int)$a_value
+			: null;		
+		$this->peer_char = $a_value;
+	}
+	
+	/**
+	 * Get peer review minimum characters
+	 * 
+	 * @return int 
+	 */
+	function getPeerReviewChars()
+	{
+		return $this->peer_char;
+	}
+	
+	/**
 	 * Set (global) feedback file
 	 * 
 	 * @param string $a_value
@@ -484,6 +508,7 @@ class ilExAssignment
 		$this->setPeerReviewDeadline($a_set["peer_dl"]);
 		$this->setPeerReviewFileUpload($a_set["peer_file"]);
 		$this->setPeerReviewPersonalized($a_set["peer_prsl"]);
+		$this->setPeerReviewChars($a_set["peer_char"]);
 		$this->setFeedbackFile($a_set["fb_file"]);
 		$this->setFeedbackDate($a_set["fb_date"]);
 		$this->setFeedbackCron($a_set["fb_cron"]);
@@ -519,6 +544,7 @@ class ilExAssignment
 			"peer_dl" => array("integer", $this->getPeerReviewDeadline()),
 			"peer_file" => array("integer", $this->hasPeerReviewFileUpload()),
 			"peer_prsl" => array("integer", $this->hasPeerReviewPersonalized()),
+			"peer_char" => array("integer", $this->getPeerReviewChars()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron()))
@@ -553,6 +579,7 @@ class ilExAssignment
 			"peer_dl" => array("integer", $this->getPeerReviewDeadline()),
 			"peer_file" => array("integer", $this->hasPeerReviewFileUpload()),
 			"peer_prsl" => array("integer", $this->hasPeerReviewPersonalized()),
+			"peer_char" => array("integer", $this->getPeerReviewChars()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron())

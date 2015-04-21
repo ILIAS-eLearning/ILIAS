@@ -224,6 +224,7 @@ class ilExPeerReview
 		
 		if($this->initPeerReviews())
 		{			
+			$idx = 0;
 			$set = $ilDB->query("SELECT *".
 				" FROM exc_assignment_peer".
 				" WHERE giver_id = ".$ilDB->quote($a_user_id, "integer").
@@ -231,6 +232,7 @@ class ilExPeerReview
 				" ORDER BY peer_id");
 			while($row = $ilDB->fetchAssoc($set))
 			{
+				$row["seq"] = ++$idx;
 				$res[] = $row;
 			}
 		}				
@@ -238,14 +240,43 @@ class ilExPeerReview
 		return $res;
 	}
 	
-	protected static function validatePeerReview(array $a_data, $a_rating = null)
-	{							
-		$valid = false;		
-		
-		// comment
-		if(trim($a_data["pcomment"]))
+	public function getPeerMaskedId($a_giver_id, $a_peer_id)
+	{
+		foreach($this->getPeerReviewsByGiver($a_giver_id) as $idx => $peer)
 		{
-			$valid = true;
+			if($peer["peer_id"] == $a_peer_id)
+			{
+				return $peer["seq"];
+			}
+		}
+	}
+	
+	public function validatePeerReviewText($a_text)
+	{
+		$a_text = trim($a_text);
+		$min_length = $this->assignment->getPeerReviewChars();
+				
+		if(!$min_length)
+		{
+			return (bool)strlen($a_text);
+		}
+		else 
+		{
+			include_once "Services/Utilities/classes/class.ilStr.php";
+			return (ilStr::strLen($a_text) >= $min_length);
+		}
+	}
+	
+	protected function validatePeerReview(array $a_data, $a_rating = null)
+	{				
+		// comment
+		$valid = $this->validatePeerReviewText($a_data["pcomment"]);		
+		
+		// :TODO: if minimum chars given, review is always invalid without text?
+		if(!$valid &&
+			$this->assignment->getPeerReviewChars())
+		{
+			return false;
 		}
 		
 		// rating
@@ -265,10 +296,8 @@ class ilExPeerReview
 
 		// file(s) 
 		if(!$valid) 
-		{
-			$ass = new ilExAssignment($a_data["ass_id"]);	
-			$peer = new self($ass);
-			$valid = (bool)sizeof($peer->getPeerUploadFiles($a_data["peer_id"], $a_data["giver_id"]));
+		{		
+			$valid = (bool)sizeof($this->getPeerUploadFiles($a_data["peer_id"], $a_data["giver_id"]));
 		}
 		
 		return $valid;
@@ -280,6 +309,7 @@ class ilExPeerReview
 		
 		$res = array();
 		
+		$idx = 0;
 		$set = $ilDB->query("SELECT *".
 			" FROM exc_assignment_peer".
 			" WHERE peer_id = ".$ilDB->quote($a_user_id, "integer").
@@ -288,8 +318,11 @@ class ilExPeerReview
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			if(!$a_only_valid || 
-				self::validatePeerReview($row))
+				$this->validatePeerReview($row))
 			{				
+				// this would be correct but rather senseless
+				// $row["seq"] = $this->getPeerMaskedId($row["giver_id"], $a_user_id);
+				$row["seq"] = ++$idx;
 				$res[] = $row;
 			}
 		}						
@@ -315,7 +348,7 @@ class ilExPeerReview
 					"ass", $row["peer_id"], "peer", $row["giver_id"]));		
 			
 			if(!$a_validate ||
-				self::validatePeerReview($row, $rating))
+				$this->validatePeerReview($row, $rating))
 			{
 				$res[$row["peer_id"]][$row["giver_id"]] = array($row["pcomment"], $rating);
 			}
@@ -374,7 +407,7 @@ class ilExPeerReview
 		$ilDB->manipulate($sql);
 	}
 	
-	public static function countGivenFeedback($a_ass_id)
+	public function countGivenFeedback($a_validate = true)
 	{
 		global $ilDB, $ilUser;
 		
@@ -384,11 +417,12 @@ class ilExPeerReview
 		
 		$set = $ilDB->query("SELECT *".
 			" FROM exc_assignment_peer".
-			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
+			" WHERE ass_id = ".$ilDB->quote($this->assignment_id, "integer").
 			" AND giver_id = ".$ilDB->quote($ilUser->getId(), "integer"));			
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			if(self::validatePeerReview($row))
+			if(!(bool)$a_validate ||
+				$this->validatePeerReview($row))
 			{
 				$cnt++;
 			}			
@@ -416,7 +450,7 @@ class ilExPeerReview
 				
 		$min = min($cnt-1, $this->assignment->getPeerReviewMin());
 				
-		return max(0, $min-self::countGivenFeedback($this->assignment_id));		
+		return max(0, $min-$this->countGivenFeedback());		
 	}
 }
 

@@ -261,6 +261,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			
 			$peer_class = "ilExPeerReviewGUI";
 			$peer_cmd = "updatePeerReviewText";
+			$cancel_cmd = "editPeerReview";
 			
 			$ilCtrl->setParameterByClass($peer_class, "peer_id", $user_id);	
 			
@@ -295,10 +296,11 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 				
 				if(!$this->assignment->hasPeerReviewPersonalized())
 				{
-					$a_form->setDescription($lng->txt("id").": ".(int)$_GET["seq"]);
+					$masked_id = $this->submission->getPeerReview()->getPeerMaskedId($ilUser->getId(), $user_id);					
+					$a_form->setDescription($lng->txt("id").": ".$masked_id);
 				}
 				else
-				{
+				{					
 					include_once "Services/User/classes/class.ilUserUtil.php";
 					$a_form->setDescription(ilUserUtil::getNamePresentation($user_id));	
 				}
@@ -306,8 +308,15 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 				foreach($this->submission->getPeerReview()->getPeerReviewsByPeerId($user_id) as $item)
 				{
 					if($item["giver_id"] == $ilUser->getId())
-					{						
+					{																
 						$a_form->getItemByPostVar("comm")->setValue($item["pcomment"]);					
+						
+						if(!$this->submission->getPeerReview()->validatePeerReviewText($item["pcomment"]))
+						{
+							ilUtil::sendFailure(sprintf($this->lng->txt("ec_peer_review_chars_invalid"), 
+								$this->submission->getAssignment()->getPeerReviewChars()));
+						}
+						
 						break;
 					}
 				}

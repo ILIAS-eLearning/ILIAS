@@ -129,7 +129,7 @@ class ilExPeerReviewGUI
 	{
 		$this->ctrl->returnToParent($this);
 	}
-		
+	
 	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{
 		global $lng, $ilCtrl;
@@ -162,15 +162,41 @@ class ilExPeerReviewGUI
 			{
 				$edit_pc = $lng->txt("exc_peer_review_deadline_reached");
 			}
-			if((!$ass->getPeerReviewDeadline() || $ass->getPeerReviewDeadline() < time()) && 
-				!$nr_missing_fb)
-			{						
-				$button = ilLinkButton::getInstance();					
-				$button->setCaption("exc_peer_review_show");
-				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExPeerReviewGUI"), "showPersonalPeerReview"));							
-				$view_pc = $button->render();							
+			if((!$ass->getPeerReviewDeadline() || $ass->getPeerReviewDeadline() < time()))
+			{						 
+				if($a_submission->getPeerReview()->countGivenFeedback(false))
+				{
+					$button = ilLinkButton::getInstance();					
+					$button->setCaption("exc_peer_review_given");
+					$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExPeerReviewGUI"), "showGivenPeerReview"));							
+					$view_pc = $button->render()." ";
+				}
+				
+				// did give enough feedback
+				if(!$nr_missing_fb)
+				{					
+					// received any?
+					$received = (bool)sizeof($a_submission->getPeerReview()->getPeerReviewsByPeerId($a_submission->getUserId(), true));				
+					if($received)
+					{
+						$button = ilLinkButton::getInstance();					
+						$button->setCaption("exc_peer_review_show");
+						$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExPeerReviewGUI"), "showPersonalPeerReview"));							
+						$view_pc .= $button->render();
+					}
+					// received none
+					else
+					{
+						$view_pc .= $lng->txt("exc_peer_review_show_received_none");
+					}
+				}
+				// did not give enough
+				else
+				{
+					$view_pc .= $lng->txt("exc_peer_review_show_missing");
+				}
 			}
-			/*
+			/* must give before showing received
 			else 
 			{
 				$view_pc = $lng->txt("exc_peer_review_show_not_rated_yet");
@@ -200,11 +226,21 @@ class ilExPeerReviewGUI
 				$this->ass->getPeerReviewDeadline() < time())));
 	}
 	
-	function editPeerReviewObject()
+	function showGivenPeerReviewObject()
+	{		
+		if(!$this->canView())
+		{
+			$this->returnToParentObject();
+		}
+		$this->editPeerReviewObject(true);
+	}
+	
+	function editPeerReviewObject($a_read_only = false)
 	{
 		global $ilCtrl, $ilUser, $tpl;
-				
-		if(!$this->canGive())
+		
+		if(!$a_read_only &&
+			!$this->canGive())
 		{
 			$this->returnToParentObject();
 		}
@@ -216,28 +252,41 @@ class ilExPeerReviewGUI
 			$this->returnToParentObject();
 		}
 				
-		$missing = $this->submission->getPeerReview()->getNumberOfMissingFeedbacks();
-		if($missing)
+		if(!$a_read_only)
 		{
-			$dl = $this->ass->getPeerReviewDeadline();
-			if(!$dl || $dl < time())
+			$missing = $this->submission->getPeerReview()->getNumberOfMissingFeedbacks();
+			if($missing)
 			{
-				ilUtil::sendInfo(sprintf($this->lng->txt("exc_peer_review_missing_info"), $missing));
-			}
-			else
-			{
-				ilUtil::sendInfo(sprintf($this->lng->txt("exc_peer_review_missing_info_deadline"), $missing, 
-					ilDatePresentation::formatDate(new ilDateTime($dl, IL_CAL_UNIX))));
-			}
-		}			
+				$dl = $this->ass->getPeerReviewDeadline();
+				if(!$dl || $dl < time())
+				{
+					ilUtil::sendInfo(sprintf($this->lng->txt("exc_peer_review_missing_info"), $missing));
+				}
+				else
+				{
+					ilUtil::sendInfo(sprintf($this->lng->txt("exc_peer_review_missing_info_deadline"), $missing, 
+						ilDatePresentation::formatDate(new ilDateTime($dl, IL_CAL_UNIX))));
+				}
+			}			
 		
-		$tpl->addJavaScript("Modules/Exercise/js/ilExcPeerReview.js");
-		$tpl->addOnLoadCode("il.ExcPeerReview.setAjax('".
-			$ilCtrl->getLinkTarget($this, "updatePeerReviewComments", "", true, false).
-			"')");
+			$tpl->addJavaScript("Modules/Exercise/js/ilExcPeerReview.js");
+			$tpl->addOnLoadCode("il.ExcPeerReview.setAjax('".
+				$ilCtrl->getLinkTarget($this, "updatePeerReviewComments", "", true, false).
+				"')");
+		}
 		
 		include_once "Modules/Exercise/classes/class.ilExAssignmentPeerReviewTableGUI.php";
-		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", $this->ass, $ilUser->getId(), $peer_items,  "exc_peer_review_give", "returnToParent");
+		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", $this->ass, $ilUser->getId(), 
+			$peer_items,  "returnToParent", 
+			$a_read_only 
+				? ilExAssignmentPeerReviewTableGUI::MODE_VIEW 
+				: ilExAssignmentPeerReviewTableGUI::MODE_EDIT);
+		
+		$invalid = $tbl->getInvalidItems();
+		if($invalid)
+		{
+			ilUtil::sendFailure(sprintf($this->lng->txt("ec_peer_review_chars_invalid"), $this->ass->getPeerReviewChars()));
+		}		
 		
 		$tpl->setContent($tbl->getHTML());
 	}
@@ -268,7 +317,7 @@ class ilExPeerReviewGUI
 			}			
 		}
 		
-		ilUtil::sendInfo($this->lng->txt("exc_peer_review_updated"), true);
+		ilUtil::sendSuccess($this->lng->txt("exc_peer_review_updated"), true);
 		$ilCtrl->redirect($this, "editPeerReview");	
 	}
 	
@@ -337,15 +386,24 @@ class ilExPeerReviewGUI
 		
 		$this->submission->getPeerReview()->updatePeerReviewComment((int)$_REQUEST["peer_id"], trim($_POST["comm"]));		
 		
-		ilUtil::sendInfo($this->lng->txt("exc_peer_review_updated"), true);
-		$ilCtrl->redirect($this, "editPeerReview");	
+		if(!$this->submission->getPeerReview()->validatePeerReviewText($_POST["comm"]))
+		{
+			$ilCtrl->setParameterByClass("ilexsubmissiontextgui", "member_id", $_REQUEST["peer_id"]);
+			$ilCtrl->redirectByClass("ilexsubmissiontextgui", "showAssignmentText");	
+		}
+		else 
+		{
+			ilUtil::sendSuccess($this->lng->txt("exc_peer_review_updated"), true);
+			$ilCtrl->redirect($this, "editPeerReview");	
+		}
 	}
 	
 	function downloadPeerReviewObject()
 	{
-		global $ilCtrl, $ilUser;
+		global $ilCtrl;
 		
-		if(!$this->canView())
+		if(!$this->canView() &&
+			!$this->canGive())
 		{
 			$this->returnToParentObject();
 		}			
@@ -391,7 +449,7 @@ class ilExPeerReviewGUI
 		
 		$user_id = $this->submission->getUserId();
 		
-		$peer_items = $this->submission->getPeerReview()->getPeerReviewsByPeerId($user_id, true);
+		$peer_items = $this->submission->getPeerReview()->getPeerReviewsByPeerId($user_id, !$this->submission->isTutor());
 		if(!sizeof($peer_items))
 		{
 			// #11373
@@ -401,7 +459,8 @@ class ilExPeerReviewGUI
 		
 		include_once "Modules/Exercise/classes/class.ilExAssignmentPeerReviewTableGUI.php";
 		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", 
-			$this->ass, $user_id, $peer_items, "exc_peer_review_show", "returnToParent", true);
+			$this->ass, $user_id, $peer_items, "returnToParent", 
+			ilExAssignmentPeerReviewTableGUI::MODE_TUTOR);
 		
 		$tpl->setContent($tbl->getHTML());		
 	}	

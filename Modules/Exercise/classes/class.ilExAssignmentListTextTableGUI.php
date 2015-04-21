@@ -59,16 +59,17 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.exc_list_text_assignment_row.html", "Modules/Exercise");
-	
+					
 		if(!$a_disable_peer_review &&
 			$this->ass->getPeerReview() && 
-			!$a_show_peer_review &&
-			ilExPeerReview::countGivenFeedback($this->ass->getId()))
+			!$a_show_peer_review)
 		{
-			$this->addCommandButton("listTextAssignmentWithPeerReview", $lng->txt("exc_show_peer_review"));
-		}
-		
-			
+			$peer_review = new ilExPeerReview($this->ass);
+			if($peer_review->countGivenFeedback())
+			{
+				$this->addCommandButton("listTextAssignmentWithPeerReview", $lng->txt("exc_show_peer_review"));
+			}
+		}					
 
 		$this->parse();
 	}

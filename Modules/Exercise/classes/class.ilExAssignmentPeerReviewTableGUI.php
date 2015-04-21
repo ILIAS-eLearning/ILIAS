@@ -18,6 +18,12 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 	protected $peer_data; // [array]
 	protected $read_only; // [array]
 	protected $fstorage; // [ilFSStorageExercise]
+	protected $mode; // [int]
+	protected $invalid; // [int]
+	
+	const MODE_EDIT = 1;
+	const MODE_VIEW = 2;
+	const MODE_TUTOR = 3;
 	
 	/**
 	 * Constructor
@@ -27,43 +33,57 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 	 * @param ilExAssignment $a_ass
 	 * @param int $a_user_id
 	 * @param array $a_peer_data
-	 * @param string $a_title
 	 * @param string $a_cancel_cmd
-	 * @param bool $a_read_only
+	 * @param int $a_mode
 	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass, $a_user_id, array $a_peer_data, $a_title, $a_cancel_cmd, $a_read_only = false)
+	public function  __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass, $a_user_id, array $a_peer_data, $a_cancel_cmd, $a_mode)
 	{
 		global $ilCtrl;
 				
 		$this->ass = $a_ass;
 		$this->user_id = $a_user_id;
 		$this->peer_data = $a_peer_data;
-		$this->read_only = $a_read_only;
+		$this->read_only = ($a_mode != self::MODE_EDIT);
+		$this->mode = $a_mode;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->setLimit(9999);
-	
+		
 		if(!$this->ass->hasPeerReviewPersonalized())
 		{
 			$this->addColumn($this->lng->txt("id"), "seq");
 		}
-		else if(!$this->read_only)
+		else if($this->mode != self::MODE_TUTOR)
 		{
-			$this->addColumn($this->lng->txt("exc_peer_review_recipient"), "name");
+			$this->addColumn($this->lng->txt("exc_peer_review_recipient"), "name");			
 		}
 		else 
 		{
-			$this->addColumn($this->lng->txt("exc_peer_review_giver"), "name");
+			$this->addColumn($this->lng->txt("exc_peer_review_giver"), "name");			
 		}
-		if(!$this->read_only)
+		
+		if($this->mode == self::MODE_EDIT)
+		{
+			$title = "exc_peer_review_give";
+		}
+		else if($this->mode == self::MODE_TUTOR)
+		{
+			$title = "exc_peer_review_show";
+		}
+		else
+		{
+			$title = "exc_peer_review_given";
+		}
+		
+		if($this->mode != self::MODE_TUTOR)
 		{
 			$this->addColumn($this->lng->txt("exc_submission"), "");
 		}
 		
 		$this->addColumn($this->lng->txt("exc_peer_review_rating"), "mark");
 		
-		if(!$this->read_only)
+		if($this->mode != self::MODE_TUTOR)
 		{
 			$this->addColumn($this->lng->txt("exc_peer_review_comment"), "");			
 		}
@@ -79,13 +99,14 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.exc_peer_review_row.html", "Modules/Exercise");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
-		$this->setTitle($a_ass->getTitle().": ".$this->lng->txt("exc_peer_review")." - ".$this->lng->txt($a_title));
+		$this->setTitle($a_ass->getTitle().": ".$this->lng->txt("exc_peer_review").
+			" - ".$this->lng->txt($title));
 						
 		if(!$this->read_only)
 		{
 			$this->addCommandButton("updatePeerReview", $this->lng->txt("save"));
 		}
-		else 
+		else if($this->mode == self::MODE_TUTOR)
 		{
 			include_once "Services/User/classes/class.ilUserUtil.php";
 			$this->setDescription($this->lng->txt("exc_peer_review_recipient").
@@ -106,6 +127,11 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		}
 	}
 	
+	public function getInvalidItems()
+	{		
+		return $this->invalid;
+	}
+	
 	protected function getItems()
 	{
 		$data = array();
@@ -116,8 +142,10 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		{
 			include_once "Services/User/classes/class.ilUserUtil.php";
 		}
+		
+		$peer_review = new ilExPeerReview($this->ass);
 				
-		foreach($this->peer_data as $idx => $item)
+		foreach($this->peer_data as $item)
 		{
 			$row = array();
 						
@@ -127,13 +155,18 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 			$row["mark"] = (int)round(ilRating::getRatingForUserAndObject($this->ass->getId(), 
 				"ass", $item["peer_id"], "peer", $item["giver_id"]));
 			$row["comment"] = $item["pcomment"];
-			$row["tstamp"] = $item["tstamp"];					
+			$row["tstamp"] = $item["tstamp"];			
+			
+			if(!$peer_review->validatePeerReviewText($row["comment"]))
+			{
+				$this->invalid++;
+			}
 			
 			if(!$personal)
 			{
-				$row["seq"] = $idx+1;
+				$row["seq"] = $item["seq"];
 			}
-			else if(!$this->read_only)
+			else if($this->mode != self::MODE_TUTOR)
 			{
 				$row["name"] = ilUserUtil::getNamePresentation($item["peer_id"]);
 			}				
@@ -204,9 +237,8 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 			$uploads = glob($path."/*.*");		
 		}
 		
-		if(!$this->read_only)
+		if($this->mode != self::MODE_TUTOR)
 		{
-			$ilCtrl->setParameterByClass("ilExSubmissionGUI", "seq", $a_set["seq"]);
 			$ilCtrl->setParameterByClass("ilExSubmissionGUI", "member_id", $a_set["peer_id"]);
 
 			$submission = new ilExSubmission($this->ass, $a_set["peer_id"]);						
@@ -234,35 +266,43 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 				$this->tpl->parseCurrentBlock();
 			}
 						
-			$ilCtrl->setParameterByClass("ilExSubmissionGUI", "seq", "");
 			$ilCtrl->setParameterByClass("ilExSubmissionGUI", "member_id", "");
 			
-			$idx = $a_set["giver_id"]."__".$a_set["peer_id"];
+			if($this->mode == self::MODE_EDIT)
+			{
+				$idx = $a_set["giver_id"]."__".$a_set["peer_id"];
+
+				// file edit link
+				if($this->ass->hasPeerReviewFileUpload())
+				{								
+					$ilCtrl->setParameter($this->parent_obj, "fu", $idx);				
+					$url = $ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles");				
+					$ilCtrl->setParameter($this->parent_obj, "fu", "");	
+
+					$this->tpl->setCurrentBlock("file_edit_bl");		
+					$this->tpl->setVariable("FILE_EDIT_URL", $url);		
+					$this->tpl->setVariable("FILE_EDIT_CAPTION", $uploads 
+						? $this->lng->txt("exc_peer_edit_file")
+						: $this->lng->txt("exc_peer_upload_file"));		
+					$this->tpl->parseCurrentBlock();	
+				}
 			
-			// file edit link
-			if($this->ass->hasPeerReviewFileUpload())
-			{								
-				$ilCtrl->setParameter($this->parent_obj, "fu", $idx);				
-				$url = $ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles");				
-				$ilCtrl->setParameter($this->parent_obj, "fu", "");	
-				
-				$this->tpl->setCurrentBlock("file_edit_bl");		
-				$this->tpl->setVariable("FILE_EDIT_URL", $url);		
-				$this->tpl->setVariable("FILE_EDIT_CAPTION", $uploads 
-					? $this->lng->txt("exc_peer_edit_file")
-					: $this->lng->txt("exc_peer_upload_file"));		
+				$this->tpl->setCurrentBlock("pcomment_edit_bl");							
+				$this->tpl->setVariable("VAL_ID", $idx);		
+				$this->tpl->setVariable("VAL_PCOMMENT_EDIT", $a_set["comment"]);	
 				$this->tpl->parseCurrentBlock();	
 			}
-			
-			$this->tpl->setCurrentBlock("pcomment_edit_bl");							
-			$this->tpl->setVariable("VAL_ID", $idx);		
-			$this->tpl->setVariable("VAL_PCOMMENT_EDIT", $a_set["comment"]);	
-			$this->tpl->parseCurrentBlock();	
+			else
+			{
+				$this->tpl->setCurrentBlock("pcomment_static_bl");
+				$this->tpl->setVariable("VAL_PCOMMENT_STATIC", nl2br($a_set["comment"]));		
+				$this->tpl->parseCurrentBlock();	
+			}
 		}				
 		else
 		{
 			$this->tpl->setCurrentBlock("pcomment_static_bl");
-			$this->tpl->setVariable("VAL_PCOMMENT_STATIC", $a_set["comment"]);		
+			$this->tpl->setVariable("VAL_PCOMMENT_STATIC", nl2br($a_set["comment"]));		
 			$this->tpl->parseCurrentBlock();				
 		}				
 				

@@ -529,6 +529,7 @@ class ilExSubmission
 				}
 			}	
 
+			// this will remove personal info from zip-filename
 			$is_team = true;
 		}
 	
