@@ -154,13 +154,36 @@ class gevBookingGUI {
 			return;
 		}
 		
-		if ($this->current_user->getId() == $this->user_id) {
-			ilUtil::sendFailure($this->lng->txt("gev_not_allowed_to_book_crs_self_because_period"), true);
+		$tpl = new ilTemplate("tpl.gev_booking_warning.html", true, true, "Services/GEV/Desktop");
+		
+		$tpl->setCurrentBlock("main_message");	
+		if ($this->current_user->getId() == $this->user_id) {			
+			$tpl->setVariable("MESSAGE",$this->lng->txt("gev_warning_to_book_crs_self_because_period"));			
 		}
-		else {
-			ilUtil::sendFailure($this->lng->txt("gev_not_allowed_to_book_crs_for_other_because_period"), true);
+		else {			
+			$tpl->setVariable("MESSAGE",$this->lng->txt("gev_warning_to_book_crs_for_others_because_period"));						
 		}
-		$this->toCourseSearch();
+					
+		$tpl->parseCurrentBlock();	
+		
+		$tpl->setCurrentBlock("crs_header");			
+		$tpl->setVariable("CRS_TITLE",$this->lng->txt("crs"));
+		$tpl->setVariable("START_TITLE",$this->lng->txt("begin_date"));
+		$tpl->setVariable("END_TITLE",$this->lng->txt("end_date"));
+		$tpl->setVariable("SCHEDULE_TITLE",$this->lng->txt("ts"));
+		$tpl->parseCurrentBlock();	
+
+		foreach($others as $val){
+			$tpl->setCurrentBlock("crs_entries");			
+			$tpl->setVariable("CRS",$val["title"]);		
+			$tpl->setVariable("START",$val["start"]->get(IL_CAL_FKT_DATE,"d.m.Y"));			
+			$tpl->setVariable("END",$val["end"]->get(IL_CAL_FKT_DATE,"d.m.Y"));		
+			$tpl->setVariable("SCHEDULE",$val["schedule"][0]);
+			$tpl->parseCurrentBlock();				
+		}
+		$msg = $tpl->get();
+
+		ilUtil::sendInfo($msg, false);	
 		
 		/*require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 		
@@ -175,7 +198,7 @@ class gevBookingGUI {
 		}
 		ilUtil::sendInfo($msg);*/
 	}
-	
+
 	protected function setRequestParameters() {
 		$this->ctrl->setParameter($this, "crs_id", $this->crs_id);
 		$this->ctrl->setParameter($this, "user_id", $this->user_id);
