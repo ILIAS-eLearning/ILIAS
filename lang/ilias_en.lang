@@ -15779,7 +15779,7 @@ prg#:#prg_status_in_progress#:#In Progress
 prg#:#prg_status_completed#:#Completed
 prg#:#prg_status_accredited#:#Accredited
 prg#:#prg_status_not_relevant#:#Not Relevant
-prg#:#prg_not_possible#:#Not Possible
+prg#:#prg_possible#:#Possible
 prg#:#prg_completion_by#:#Completion by
 prg#:#prg_changed_by#:#Changed by
 prg#:#prg_manual_status#:#Manual Status
