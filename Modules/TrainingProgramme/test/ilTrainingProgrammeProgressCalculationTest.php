@@ -35,6 +35,10 @@ class ilTrainingProgrammeProgressCalculationTest extends PHPUnit_Framework_TestC
 		$this->user = $ilUser;
 	}
 	
+	protected function tearDown() {
+		$this->root->delete();
+	}
+	
 	protected function newUser() {
 		$user = new ilObjUser();
 		$user->create();

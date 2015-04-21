@@ -54,7 +54,11 @@ class ilObjTrainingProgrammeTest extends PHPUnit_Framework_TestCase {
 		global $objDefinition;
 		$this->obj_definition = $objDefinition;
 	}
-
+	
+	protected function tearDown() {
+		$this->root_object->delete();
+	}
+	
 	/**
 	 * Test creation of ilObjTrainingProgramme
 	 */
