@@ -42,6 +42,11 @@ class ilTrainingProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		$this->tree = $tree;
 	}
 	
+	protected function tearDown() {
+		$this->root->delete();
+	}
+
+	
 	protected function newUser() {
 		$user = new ilObjUser();
 		$user->create();

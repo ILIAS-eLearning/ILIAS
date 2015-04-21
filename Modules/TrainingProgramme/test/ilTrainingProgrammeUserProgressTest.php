@@ -45,6 +45,10 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->user = $ilUser;
 	}
 	
+	protected function tearDown() {
+		$this->root->delete();
+	}
+	
 	protected function newUser() {
 		$user = new ilObjUser();
 		$user->create();
@@ -250,6 +254,9 @@ class ilTrainingProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 
 		$node3 = ilObjTrainingProgramme::createInstance();
 		$this->root->addNode($node3);
+		
+		// sleep here, since changes might not have been written to database
+		usleep(100);
 		
 		$node3_progress = array_shift($node3->getProgressesOf($user->getId()));
 		$this->assertNotNull($node3_progress);
