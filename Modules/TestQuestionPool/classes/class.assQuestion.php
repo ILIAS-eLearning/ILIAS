@@ -4511,4 +4511,9 @@ abstract class assQuestion
 		}
 		return $sec;
 	}
+
+	public function toJSON()
+	{
+		return json_encode(array());
+	}
 }
