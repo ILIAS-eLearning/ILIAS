@@ -118,7 +118,9 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 	}
 	
 	protected function view() {
-		return $this->buildFrame("view", "NYI!: view");
+		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeIndividualPlanTreeExplorerGUI.php");
+		$expl = new ilTrainingProgrammeIndividualPlanTreeExplorerGUI($this, $this->getAssignmentObject());
+		return $this->buildFrame("view", $expl->getHTML());
 	}
 
 	protected function manage() {

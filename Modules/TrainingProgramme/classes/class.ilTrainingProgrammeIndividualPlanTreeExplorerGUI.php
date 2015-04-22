@@ -83,10 +83,10 @@ class ilTrainingProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI
 			$tpl = new ilTemplate("tpl.individual_plan_tree_entry.html", true, true, "Modules/TrainingProgramme");
 			$tpl->setVariable("PROGRESS_IMG_PATH", $this->getProgressImagePath($progress));
 			$tpl->setVariable("PROGRESS_IMG_ALT", $this->getProgressImageAlt($progress));
-			$tpl->setVariable("TITLE", ilObject::_lookupTitle($obj_id));
+			$tpl->setVariable("TITLE", $this->getProgressTitle($progress, $obj_id));
 			$tpl->setVariable("POINTS_CURRENT", $progress->getCurrentAmountOfPoints());
 			$tpl->setVariable("POINTS_REQUIRED", $progress->getAmountOfPoints());
-			if (!$progress->canBeCompleted()) {
+			if (!$progress->canBeCompleted() && $progress->isRelevant()) {
 				$tpl->setCurrentBlock("warning");			
 				$tpl->setVariable("WARNING_IMG_PATH",$this->warning_img_path);
 				$tpl->setVariable("WARNING_IMG_ALT",$this->warning_img_alt);
@@ -97,6 +97,14 @@ class ilTrainingProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI
 		else {
 			return ilObject::_lookupTitle($obj_id);
 		}
+	}
+	
+	protected function getProgressTitle(ilTrainingProgrammeUserProgress $a_progress, $a_prg_id) {
+		$title = ilObject::_lookupTitle($a_prg_id);
+		if (!$a_progress->isRelevant()) {
+			$title = "<del>$title</del>";
+		}
+		return $title;
 	}
 	
 	protected function getProgressImagePath(ilTrainingProgrammeUserProgress $a_progress) {
