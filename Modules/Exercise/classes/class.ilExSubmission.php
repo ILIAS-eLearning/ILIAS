@@ -103,14 +103,14 @@ class ilExSubmission
 	
 	public function getUserIds()
 	{
-		if($this->team)
-		{
+		if($this->team && 
+			!$this->hasNoTeamYet())
+		{			
 			return $this->team->getMembers();
 		}
-		else
-		{
-			return array($this->user_id);
-		}
+		
+		// if has no team currently there still might be uploads attached
+		return array($this->user_id);		
 	}
 	
 	public function getFeedbackId()

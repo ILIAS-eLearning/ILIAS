@@ -188,7 +188,7 @@ class ilExAssignmentTeam
 	 * @param int $a_user_id 
 	 * @param int $a_exc_ref_id 
 	 */
-	function removeTeamMember($a_user_id, $a_exc_ref_id)
+	function removeTeamMember($a_user_id, $a_exc_ref_id = null)
 	{
 		global $ilDB;
 		
@@ -202,8 +202,11 @@ class ilExAssignmentTeam
 			" AND id = ".$ilDB->quote($this->id, "integer").
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer");			
 		$ilDB->manipulate($sql);		
-	
-		$this->sendNotification($a_exc_ref_id, $a_user_id, "rmv");
+			
+		if($a_exc_ref_id)
+		{
+			$this->sendNotification($a_exc_ref_id, $a_user_id, "rmv");
+		}
 		
 		$this->writeLog(self::TEAM_LOG_REMOVE_MEMBER, 
 			ilObjUser::_lookupFullname($a_user_id));
@@ -236,7 +239,7 @@ class ilExAssignmentTeam
 	
 	public function writeLog($a_action, $a_details = null)
 	{
-		self::writeTeamLog($this->id, $a_action, $a_details = null);
+		self::writeTeamLog($this->id, $a_action, $a_details);
 	}
 
 	/**
@@ -271,6 +274,8 @@ class ilExAssignmentTeam
 	{
 		global $ilDB;
 		
+		$this->cleanLog();
+		
 		$res = array();
 		
 		$sql = "SELECT * FROM il_exc_team_log".
@@ -282,7 +287,27 @@ class ilExAssignmentTeam
 			$res[] = $row;
 		}
 		return $res;
-	}					
+	}			
+	
+	/**
+	 * Remove obsolete log entries 
+	 * 
+	 * As there is no proper team deletion event, we are doing it this way
+	 */
+	protected function cleanLog()
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT DISTINCT(log.team_id)".
+			" FROM il_exc_team_log log".
+			" LEFT JOIN il_exc_team team ON (team.id = log.team_id)".
+			" WHERE team.id IS NULL");
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$ilDB->manipulate("DELETE FROM il_exc_team_log".
+				" WHERE team_id = ".$ilDB->quote($row["team_id"], "integer"));
+		}
+	}
 	
 	/**
 	 * Send notification about team status
@@ -296,10 +321,13 @@ class ilExAssignmentTeam
 		global $ilUser;
 		
 		// no need to notify current user
-		if($ilUser->getId() == $a_user_id)
+		if(!$a_exc_ref_id ||
+			$ilUser->getId() == $a_user_id)
 		{
 			return;
 		}		
+		
+	    $ass = new ilExAssignment($this->assignment_id);
 				
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();
@@ -308,7 +336,7 @@ class ilExAssignmentTeam
 		$ntf->setChangedByUserId($ilUser->getId());
 		$ntf->setSubjectLangId('exc_team_notification_subject_'.$a_action);
 		$ntf->setIntroductionLangId('exc_team_notification_body_'.$a_action);
-		$ntf->addAdditionalInfo("exc_assignment", $this->getTitle());	
+		$ntf->addAdditionalInfo("exc_assignment", $ass->getTitle());	
 		$ntf->setGotoLangId('exc_team_notification_link');				
 		$ntf->setReasonLangId('exc_team_notification_reason');				
 		$ntf->sendMail(array($a_user_id));		

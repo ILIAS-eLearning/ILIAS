@@ -240,14 +240,25 @@ class ilExSubmissionTeamGUI
 	{
 		global $ilUser, $tpl;
 		
-		$ids = $_POST["id"];
-		
-		if(!sizeof($ids))
+		if(!$this->submission->isTutor())
 		{
-			ilUtil::sendFailure($this->lng->txt("select_one"), true);
-			$this->ctrl->redirect($this, "submissionScreenTeam");
+			$ids = $_POST["id"];
+
+			if(!sizeof($ids))
+			{
+				ilUtil::sendFailure($this->lng->txt("select_one"), true);
+				$this->ctrl->redirect($this, "submissionScreenTeam");
+			}
 		}
-						
+		else
+		{
+			$ids = array($_GET["id"]);
+			if(!sizeof($ids))
+			{
+				$this->returnToParentObject();
+			}
+		}
+			
 		$members = $this->team->getMembers();
 		if(sizeof($members) <= sizeof($ids))
 		{
@@ -266,9 +277,11 @@ class ilExSubmissionTeamGUI
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$cgui->setFormAction($this->ctrl->getFormAction($this));
-		$cgui->setHeaderText($this->lng->txt("exc_team_member_remove_sure"));
-		$cgui->setCancel($this->lng->txt("cancel"), "submissionScreenTeam");
+		$cgui->setHeaderText($this->lng->txt("exc_team_member_remove_sure"));	
 		$cgui->setConfirm($this->lng->txt("remove"), "removeTeamMember");
+		$cgui->setCancel($this->lng->txt("cancel"), $this->submission->isTutor()
+			? "returnToParent"
+			: "submissionScreenTeam");
 
 		$files = $this->submission->getFiles();
 		
@@ -299,14 +312,18 @@ class ilExSubmissionTeamGUI
 	{
 		global $ilUser;
 		
-		$ids = $_POST["id"];
+		$cancel_cmd = $this->submission->isTutor()
+			? "returnToParent"
+			: "submissionScreenTeam";
 		
+		$ids = $_POST["id"];
+
 		if(!sizeof($ids))
 		{
 			ilUtil::sendFailure($this->lng->txt("select_one"), true);
-			$this->ctrl->redirect($this, "submissionScreenTeam");
+			$this->ctrl->redirect($this, $cancel_cmd);
 		}
-						
+				
 		$team_deleted = false;
 		$members = $this->team->getMembers();
 		if(sizeof($members) <= sizeof($ids))
@@ -318,26 +335,37 @@ class ilExSubmissionTeamGUI
 			else
 			{
 				ilUtil::sendFailure($this->lng->txt("exc_team_at_least_one"), true);
-				$this->ctrl->redirect($this, "submissionScreenTeam");
+				$this->ctrl->redirect($this, $cancel_cmd);
 			}
 		}
 		
 		foreach($ids as $user_id)
 		{
-			$this->team->removeTeamMember($user_id, $this->exercise->getRefId());					
+			$this->team->removeTeamMember($user_id, $this->exercise->getRefId());								
 		}
-		// re-evaluate complete team, as removed member might have had submitted
+		
+		// reset ex team members, as any submission is not valid without team									
 		$this->exercise->processExerciseStatus(
 			$this->assignment,
-			$this->team->getMembers(),
-			$this->submission->hasSubmitted(),
-			$this->submission->validatePeerReviews()
-		);			
+			$ids,
+			false
+		);	
+		
+		if(!$team_deleted)
+		{
+			// re-evaluate complete team, as removed member might have had submitted
+			$this->exercise->processExerciseStatus(
+				$this->assignment,
+				$this->team->getMembers(),
+				$this->submission->hasSubmitted(),
+				$this->submission->validatePeerReviews()
+			);	
+		}		
 				
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);		
 		if(!$team_deleted)
 		{
-			$this->ctrl->redirect($this, "submissionScreenTeam");		
+			$this->ctrl->redirect($this, $cancel_cmd);		
 		}
 		else
 		{

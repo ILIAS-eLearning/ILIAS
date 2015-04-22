@@ -130,6 +130,8 @@ class ilExPeerReview
 	{
 		global $ilDB;
 		
+		$all = array();
+		
 		if($this->hasPeerReviewGroups())
 		{
 			// ratings					
@@ -137,6 +139,8 @@ class ilExPeerReview
 			{
 				foreach($reviews as $giver_id => $review)
 				{					
+					$all[] = $giver_id;
+					
 					ilRating::resetRatingForUserAndObject($this->assignment_id, "ass", 
 						$peer_id, "peer", $giver_id);
 				}
@@ -149,6 +153,8 @@ class ilExPeerReview
 			$ilDB->manipulate("DELETE FROM exc_assignment_peer".
 				" WHERE ass_id = ".$ilDB->quote($this->assignment_id, "integer"));						
 		}
+		
+		return $all;
 	}
 	
 	public function validatePeerReviewGroups()

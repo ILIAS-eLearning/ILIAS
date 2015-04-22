@@ -138,6 +138,13 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		$this->addMultiCommand("saveStatusSelected", $lng->txt("exc_save_selected"));
 		$this->addMultiCommand("redirectFeedbackMail", $lng->txt("exc_send_mail"));
 		$this->addMultiCommand("sendMembers", $lng->txt("exc_send_assignment"));
+		
+		if($this->ass->hasTeam())
+		{
+			$this->addMultiCommand("createTeams", $lng->txt("exc_team_multi_create"));
+			$this->addMultiCommand("dissolveTeams", $lng->txt("exc_team_multi_dissolve"));
+		}
+		
 		$this->addMultiCommand("confirmDeassignMembers", $lng->txt("exc_deassign_members"));	
 		
 		$this->addCommandButton("saveStatusAll", $lng->txt("exc_save_all"));	
@@ -184,7 +191,12 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		
 		$has_no_team_yet = (substr($member["team_id"], 0, 3) == "nty");
 		$member_status = $this->ass->getMemberStatus($member_id);
-
+	
+		// checkbox
+		$this->tpl->setVariable("VAL_CHKBOX",
+			ilUtil::formCheckbox(0,"member[$member_id]",1));
+		$this->tpl->setVariable("VAL_ID", $member_id);		
+		
 		if(!$has_no_team_yet)
 		{
 			// mail sent
@@ -213,13 +225,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 						"&nbsp;");
 					$this->tpl->parseCurrentBlock();
 				}
-			}
-
-			// checkbox
-			$this->tpl->setVariable("VAL_CHKBOX",
-				ilUtil::formCheckbox(0,"member[$member_id]",1));
-			$this->tpl->setVariable("VAL_ID",
-				$member_id);				
+			}	
 		}
 		
 		if(!isset($member["team"]))
@@ -263,12 +269,27 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		}
 		// team upload
 		else
-		{						
-			$this->tpl->setCurrentBlock("team_member");
+		{									
 			asort($member["team"]);
-			foreach($member["team"] as $member_name) // #10749
+			foreach($member["team"] as $team_member_id => $team_member_name) // #10749
 			{
-				$this->tpl->setVariable("TXT_MEMBER_NAME", $member_name);
+				if(sizeof($member["team"]) > 1)
+				{
+					$ilCtrl->setParameterByClass("ilExSubmissionTeamGUI", "id", $team_member_id);
+					$url = $ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "confirmRemoveTeamMember");
+					$ilCtrl->setParameterByClass("ilExSubmissionTeamGUI", "id", "");
+					
+					include_once "Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php";
+					
+					$this->tpl->setCurrentBlock("team_member_removal_bl");
+					$this->tpl->setVariable("URL_TEAM_MEMBER_REMOVAL", $url);
+					$this->tpl->setVariable("TXT_TEAM_MEMBER_REMOVAL", 
+						ilGlyphGUI::get(ilGlyphGUI::CLOSE, $lng->txt("remove")));
+					$this->tpl->parseCurrentBlock();
+				}
+				
+				$this->tpl->setCurrentBlock("team_member");
+				$this->tpl->setVariable("TXT_MEMBER_NAME", $team_member_name);
 				$this->tpl->parseCurrentBlock();
 			}
 						
@@ -285,10 +306,12 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				// #11957
 				$this->tpl->setCurrentBlock("team_info");
 				$this->tpl->setVariable("TXT_TEAM_INFO", $lng->txt("exc_no_team_yet"));
-				$this->tpl->setVariable("TXT_CREATE_TEAM", $lng->txt("exc_create_team"));
 				
+				/*
+				$this->tpl->setVariable("TXT_CREATE_TEAM", $lng->txt("exc_create_team"));				
 				$this->tpl->setVariable("URL_CREATE_TEAM", 						
 					$ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "createSingleMemberTeam"));
+				*/
 				
 				if($file_info["files"]["count"])
 				{
@@ -425,6 +448,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			// peer review / rating
 			if($peer_review = $submission->getPeerReview())
 			{						
+				// :TODO: validate?
 				$given = $peer_review->countGivenFeedback(true, $member_id);
 				$received = sizeof($peer_review->getPeerReviewsByPeerId($member_id, true));
 								
@@ -440,6 +464,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("LINK_PEER_REVIEW_RECEIVED", 
 					$ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showPersonalPeerReview"));
 			
+				// :TODO: restrict to valid?
 				$rating = new ilRatingGUI();
 				$rating->setObject($this->ass_id, "ass", $member_id, "peer");
 				$rating->setUserId(0);			

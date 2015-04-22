@@ -601,7 +601,7 @@ class ilExerciseManagementGUI
 		exit;
 	}
 	
-	protected function getMultiActionUserIds()
+	protected function getMultiActionUserIds($a_keep_teams = false)
 	{				
 		if (!is_array($_POST["member"]) || 
 			count($_POST["member"]) == 0)
@@ -615,9 +615,24 @@ class ilExerciseManagementGUI
 			{					
 				$submission = new ilExSubmission($this->assignment, $user_id);				
 				$tmembers = $submission->getUserIds();
-				foreach($tmembers as $tuser_id)
+				if(!(bool)$a_keep_teams)
 				{
-					$members[$tuser_id] = 1;
+					foreach($tmembers as $tuser_id)
+					{
+						$members[$tuser_id] = 1;
+					}
+				}
+				else
+				{
+					if($tmembers)
+					{
+						$members[] = $tmembers;
+					}
+					else
+					{
+						// no team yet
+						$members[] = $user_id;
+					}
 				}
 			}		
 			return $members;
@@ -855,6 +870,107 @@ class ilExerciseManagementGUI
 	{
 		$this->exercise->exportGradesExcel();
 		exit;
+	}
+	
+	
+	//
+	// TEAM
+	//
+	
+	function createTeamsObject()
+	{
+		global $ilCtrl;
+		
+		$members = $this->getMultiActionUserIds(true);
+		if($members)
+		{			
+			$new_members = array();
+			
+			include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
+			foreach($members as $group)
+			{
+				if(is_array($group))
+				{
+					$new_members = array_merge($new_members, $group);
+					
+					$first_user = $group;
+					$first_user = array_shift($first_user);
+					$team = ilExAssignmentTeam::getInstanceByUserId($this->assignment->getId(), $first_user);	
+					foreach($group as $user_id)
+					{
+						$team->removeTeamMember($user_id);
+					}
+				}
+				else
+				{
+					$new_members[] = $group;
+				}
+			}
+			
+			if(sizeof($new_members))
+			{
+				// see ilExSubmissionTeamGUI::addTeamMemberActionObject()
+				
+				$first_user = array_shift($new_members);
+				$team = ilExAssignmentTeam::getInstanceByUserId($this->assignment->getId(), $first_user, true);
+				if(sizeof($new_members))
+				{
+					foreach($new_members as $user_id)
+					{
+						$team->addTeamMember($user_id);
+					}
+				}
+				
+				// re-evaluate complete team, as some members might have had submitted				
+				$submission = new ilExSubmission($this->assignment, $first_user);				
+				$this->exercise->processExerciseStatus(
+					$this->assignment,
+					$team->getMembers(),
+					$submission->hasSubmitted(),
+					$submission->validatePeerReviews()
+				);	
+			}
+			
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		}
+		$ilCtrl->redirect($this, "members");					
+	}
+	
+	function dissolveTeamsObject()
+	{
+		global $ilCtrl;
+		
+		$members = $this->getMultiActionUserIds(true);
+		if($members)
+		{					
+			include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
+			foreach($members as $group)
+			{
+				// if single member - nothing to do
+				if(is_array($group))
+				{					
+					// see ilExSubmissionTeamGUI::removeTeamMemberObject()
+					
+					$first_user = $group;
+					$first_user = array_shift($first_user);
+					$team = ilExAssignmentTeam::getInstanceByUserId($this->assignment->getId(), $first_user);	
+					foreach($group as $user_id)
+					{
+						$team->removeTeamMember($user_id);
+					}
+					
+					// reset ex team members, as any submission is not valid without team									
+					$this->exercise->processExerciseStatus(
+						$this->assignment,
+						$group,
+						false
+					);	
+				}					
+			}
+			
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		}
+		$ilCtrl->redirect($this, "members");		
 	}
 	
 	

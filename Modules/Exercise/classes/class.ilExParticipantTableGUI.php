@@ -298,7 +298,8 @@ class ilExParticipantTableGUI extends ilTable2GUI
 
 			// peer review / rating
 			if($peer_review = $submission->getPeerReview())
-			{										
+			{				
+				// :TODO: validate?
 				$given = $peer_review->countGivenFeedback(true, $this->part_id);
 				$received = sizeof($peer_review->getPeerReviewsByPeerId($this->part_id, true));
 				
@@ -314,6 +315,7 @@ class ilExParticipantTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("LINK_PEER_REVIEW_RECEIVED", 
 					$ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showPersonalPeerReview"));
 				
+				// :TODO: restrict to valid?
 				$rating = new ilRatingGUI();
 				$rating->setObject($d["id"], "ass", $this->part_id, "peer");
 				$rating->setUserId(0);			

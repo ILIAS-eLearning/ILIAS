@@ -589,7 +589,24 @@ class ilExPeerReviewGUI
 		
 		include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
 		$peer_review = new ilExPeerReview($this->ass);
-		$peer_review->resetPeerReviews();
+		$all_giver_ids = $peer_review->resetPeerReviews();
+		
+		if(is_array($all_giver_ids))
+		{
+			// if peer review is valid for completion, we have to re-calculate all assignment members
+			$exercise = new ilObjExercise($this->ass->getExerciseId(), false);
+			if($exercise->isCompletionBySubmissionEnabled() &&
+				$this->ass->getPeerReviewValid() != ilExAssignment::PEER_REVIEW_VALID_NONE)
+			{
+				include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+				foreach($all_giver_ids as $user_id)
+				{
+					$submission = new ilExSubmission($this->ass, $user_id);
+					$pgui = new self($this->ass, $submission);
+					$pgui->handlePeerReviewChange();
+				}
+			}
+		}		
 
 		ilUtil::sendSuccess($this->lng->txt("exc_peer_review_reset_done"), true);								
 		$ilCtrl->redirect($this, "showPeerReviewOverview");

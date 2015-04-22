@@ -23,14 +23,18 @@
   <!-- BEGIN team_specific -->
   <td class="std">	  
 	  <!-- BEGIN team_member -->
-	  {TXT_MEMBER_NAME}<br />
+	  {TXT_MEMBER_NAME} 
+	  <!-- BEGIN team_member_removal_bl -->
+	  <a href="{URL_TEAM_MEMBER_REMOVAL}">{TXT_TEAM_MEMBER_REMOVAL}</a>
+	  <!-- END team_member_removal_bl -->
+	  <br />
 	  <!-- END team_member -->
 	  <!-- BEGIN team_log -->
 	  <a href="{HREF_LOG}" class="il_ContainerItemCommand">{TXT_LOG}</a>
 	  <!-- END team_log -->
 	  <!-- BEGIN team_info -->	  
 	  <span class="small">{TXT_TEAM_INFO}
-		  <a href="{URL_CREATE_TEAM}">{TXT_CREATE_TEAM}</a>
+		  <!-- <a href="{URL_CREATE_TEAM}">{TXT_CREATE_TEAM}</a> -->
 		  {TEAM_FILES_INFO}
 	  </span>
 	  <!-- END team_info -->
