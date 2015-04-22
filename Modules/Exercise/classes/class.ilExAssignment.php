@@ -43,6 +43,8 @@ class ilExAssignment
 	protected $feedback_file;
 	protected $feedback_cron;
 	protected $feedback_date;
+	protected $team_tutor;
+	protected $max_file;
 	
 	protected $member_status = array(); // [array]
 	
@@ -517,6 +519,50 @@ class ilExAssignment
 	{
 		return (int)$this->feedback_date;
 	}
+	
+	/**
+	 * Set team management by tutor
+	 * 
+	 * @param bool $a_value
+	 */
+	function setTeamTutor($a_value)
+	{
+		$this->team_tutor = (bool)$a_value;
+	}
+	
+	/**
+	 * Get team management by tutor
+	 * 
+	 * @return bool 
+	 */
+	function getTeamTutor()
+	{
+		return $this->team_tutor;
+	}
+	
+	/**
+	 * Set max number of uploads
+	 * 
+	 * @param int $a_value
+	 */
+	function setMaxFile($a_value)
+	{
+		if($a_value !== null)
+		{
+			$a_value = (int)$a_value;
+		}
+		$this->max_file = $a_value;
+	}
+	
+	/**
+	 * Get max number of uploads
+	 * 
+	 * @return bool 
+	 */
+	function getMaxFile()
+	{
+		return $this->max_file;
+	}
 
 	/**
 	 * Read from db
@@ -560,6 +606,8 @@ class ilExAssignment
 		$this->setFeedbackFile($a_set["fb_file"]);
 		$this->setFeedbackDate($a_set["fb_date"]);
 		$this->setFeedbackCron($a_set["fb_cron"]);
+		$this->setTeamTutor($a_set["team_tutor"]);
+		$this->setMaxFile($a_set["max_file"]);
 	}
 	
 	/**
@@ -597,8 +645,10 @@ class ilExAssignment
 			"peer_char" => array("integer", $this->getPeerReviewChars()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
-			"fb_cron" => array("integer", $this->hasFeedbackCron()))
-			);
+			"fb_cron" => array("integer", $this->hasFeedbackCron()),
+			"team_tutor" => array("integer", $this->getTeamTutor()),
+			"max_file" => array("integer", $this->getMaxFile())
+			));
 		$this->setId($next_id);
 		$exc = new ilObjExercise($this->getExerciseId(), false);
 		$exc->updateAllUsersStatus();
@@ -634,7 +684,9 @@ class ilExAssignment
 			"peer_char" => array("integer", $this->getPeerReviewChars()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_date" => array("integer", $this->getFeedbackDate()),
-			"fb_cron" => array("integer", $this->hasFeedbackCron())
+			"fb_cron" => array("integer", $this->hasFeedbackCron()),
+			"team_tutor" => array("integer", $this->getTeamTutor()),
+			"max_file" => array("integer", $this->getMaxFile())
 			),
 			array(
 			"id" => array("integer", $this->getId()),
@@ -712,32 +764,37 @@ class ilExAssignment
 	 */
 	function cloneAssignmentsOfExercise($a_old_exc_id, $a_new_exc_id)
 	{
-		$ass_data = self::getAssignmentDataOfExercise($a_old_exc_id);
+		$ass_data = self::getInstancesByExercise($a_old_exc_id);
 		foreach ($ass_data as $d)
 		{			
 			// clone assignment
 			$new_ass = new ilExAssignment();
 			$new_ass->setExerciseId($a_new_exc_id);
-			$new_ass->setTitle($d["title"]);
-			$new_ass->setDeadline($d["deadline"]);
-			$new_ass->setInstruction($d["instruction"]);
-			$new_ass->setMandatory($d["mandatory"]);
-			$new_ass->setOrderNr($d["order_val"]);
-			$new_ass->setStartTime($d["start_time"]);
-			$new_ass->setType($d["type"]);
-			$new_ass->setPeerReview($d["peer"]);
-			$new_ass->setPeerReviewMin($d["peer_min"]);
-			$new_ass->setPeerReviewDeadline($d["peer_dl"]);
-			$new_ass->setPeerReviewFileUpload($d["peer_file"]);
-			$new_ass->setPeerReviewPersonalized($d["peer_prsl"]);
-			$new_ass->setFeedbackFile($d["fb_file"]);
-			$new_ass->setFeedbackDate($d["fb_date"]);
-			$new_ass->setFeedbackCron($d["fb_cron"]);
+			$new_ass->setTitle($d->getTitle());
+			$new_ass->setDeadline($d->getDeadline());
+			$new_ass->setInstruction($d->getInstruction());
+			$new_ass->setMandatory($d->getMandatory());
+			$new_ass->setOrderNr($d->getOrderNr());
+			$new_ass->setStartTime($d->getStartTime());
+			$new_ass->setType($d->getType());
+			$new_ass->setPeerReview($d->getPeerReview());
+			$new_ass->setPeerReviewMin($d->getPeerReviewMin());
+			$new_ass->setPeerReviewDeadline($d->getPeerReviewDeadline());
+			$new_ass->setPeerReviewFileUpload($d->hasPeerReviewFileUpload());
+			$new_ass->setPeerReviewPersonalized($d->hasPeerReviewPersonalized());
+			$new_ass->setPeerReviewValid($d->getPeerReviewValid());
+			$new_ass->setPeerReviewChars($d->getPeerReviewChars());
+			$new_ass->setPeerReviewSimpleUnlock($d->getPeerReviewSimpleUnlock());
+			$new_ass->setFeedbackFile($d->getFeedbackFile());
+			$new_ass->setFeedbackDate($d->getFeedbackDate());
+			$new_ass->setFeedbackCron($d->getFeedbackFile());
+			$new_ass->setTeamTutor($d->getTeamTutor());
+			$new_ass->setMaxFile($d->getMaxFile());
 			$new_ass->save();
 			
 			// clone assignment files
 			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-			$old_storage = new ilFSStorageExercise($a_old_exc_id, (int) $d["id"]);
+			$old_storage = new ilFSStorageExercise($a_old_exc_id, (int) $d->getId());
 			$new_storage = new ilFSStorageExercise($a_new_exc_id, (int) $new_ass->getId());
 			$new_storage->create();
 			

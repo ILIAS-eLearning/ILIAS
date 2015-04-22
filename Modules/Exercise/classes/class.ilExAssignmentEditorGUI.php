@@ -196,6 +196,27 @@ class ilExAssignmentEditorGUI
 			$files->setFilenames(array(0 => ''));
 			$form->addItem($files);						
 		}
+		else if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD ||
+			$this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{
+			$max_file_tgl = new ilCheckboxInputGUI($lng->txt("exc_max_file_tgl"), "max_file_tgl");
+			$form->addItem($max_file_tgl);
+		
+			$max_file = new ilNumberInputGUI($lng->txt("exc_max_file"), "max_file");
+			$max_file->setInfo($lng->txt("exc_max_file_info"));
+			$max_file->setRequired(true);
+			$max_file->setSize(3);
+			$max_file->setMinValue(1);
+			$max_file_tgl->addSubItem($max_file);
+			
+			if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+			{
+				$cbtut = new ilCheckboxInputGUI($lng->txt("exc_team_management_tutor"), "team_tutor");
+				$cbtut->setInfo($lng->txt("exc_team_management_tutor_info"));
+				$cbtut->setChecked(false);
+				$form->addItem($cbtut);
+			}
+		}
 				
 		// peer review
 		$peer = new ilCheckboxInputGUI($lng->txt("exc_peer_review"), "peer");		
@@ -516,6 +537,11 @@ class ilExAssignmentEditorGUI
 		$values["mandatory"] = $this->assignment->getMandatory();
 		$values["instruction"] = $this->assignment->getInstruction();
 		$values["type"] = $this->assignment->getType();
+		$values["max_file"] = $this->assignment->getMaxFile();
+		if($values["max_file"])
+		{
+			$values["max_file_tgl"] = true;
+		}
 		if ($this->assignment->getDeadline() > 0)
 		{
 			$values["deadline_cb"] = true;
@@ -524,7 +550,16 @@ class ilExAssignmentEditorGUI
 		{
 			$a_form->removeItemByPostVar("peer");
 			$a_form->removeItemByPostVar("peer_min");			
+			$a_form->removeItemByPostVar("peer_file");			
+			$a_form->removeItemByPostVar("peer_prsl");			
+			$a_form->removeItemByPostVar("peer_unlock");			
+			$a_form->removeItemByPostVar("peer_valid");			
+			$a_form->removeItemByPostVar("peer_dl_tgl");			
 			$a_form->removeItemByPostVar("peer_dl");			
+			$a_form->removeItemByPostVar("peer_char_tgl");			
+			$a_form->removeItemByPostVar("peer_char");	
+			
+			$values["team_tutor"] = $this->assignment->getTeamTutor();
 		}
 		else
 		{
@@ -704,6 +739,10 @@ class ilExAssignmentEditorGUI
 			$this->assignment->setMandatory($_POST["mandatory"]);
 			$this->assignment->setType($_POST["type"]);
 			
+			$this->assignment->setMaxFile($_POST["max_file_tgl"]
+				? $_POST["max_file"]
+				: null);			
+			
 			if ($_POST["start_time_cb"])
 			{
 				$date =
@@ -713,6 +752,11 @@ class ilExAssignmentEditorGUI
 			else
 			{
 				$this->assignment->setStartTime(null);
+			}
+			
+			if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+			{
+				$this->assignment->setTeamTutor($_POST["team_tutor"]);
 			}
 			
 			if(!$protected_peer_review_groups)

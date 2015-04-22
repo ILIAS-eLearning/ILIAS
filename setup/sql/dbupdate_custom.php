@@ -33,3 +33,26 @@ if(!$ilDB->tableColumnExists('exc_assignment','peer_valid'))
 	));
 }
 ?>
+<#4>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment','team_tutor'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'team_tutor', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#5>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment','max_file'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'max_file', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false
+	));
+}
+?>

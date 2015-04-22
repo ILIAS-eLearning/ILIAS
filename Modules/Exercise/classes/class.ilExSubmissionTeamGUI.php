@@ -88,9 +88,18 @@ class ilExSubmissionTeamGUI
 			$team = implode(", ", $team);
 
 			$button = ilLinkButton::getInstance();							
-			$button->setCaption("exc_manage_team");
-			$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "submissionScreenTeam"));							
-			$team .= " ".$button->render();	
+			
+			if(!$a_submission->getAssignment()->getTeamTutor())
+			{
+				$button->setCaption("exc_manage_team");
+				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "submissionScreenTeam"));							
+			}			
+			else
+			{
+				$button->setCaption("exc_team_log");
+				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "submissionScreenTeamLog"));						
+			}
+			$team .= " ".$button->render();				
 
 			$a_info->addProperty($lng->txt("exc_team_members"), $team);	
 		}
@@ -107,19 +116,26 @@ class ilExSubmissionTeamGUI
 					$team_info = '<span class="warning">'.$lng->txt("exc_no_team_yet_notice").'</span>';		
 				}	
 
-				$button = ilLinkButton::getInstance();
-				$button->setPrimary(true);
-				$button->setCaption("exc_create_team");
-				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "createTeam"));							
-				$team_info .= " ".$button->render();		
-
-				$team_info .= '<div class="ilFormInfo">'.$lng->txt("exc_no_team_yet_info").'</div>';
+				if(!$a_submission->getAssignment()->getTeamTutor())
+				{
+					$button = ilLinkButton::getInstance();
+					$button->setPrimary(true);
+					$button->setCaption("exc_create_team");
+					$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "createTeam"));							
+					$team_info .= " ".$button->render();		
+					
+					$team_info .= '<div class="ilFormInfo">'.$lng->txt("exc_no_team_yet_info").'</div>';
+				}
+				else
+				{
+					$team_info .= '<div class="ilFormInfo">'.$lng->txt("exc_no_team_yet_info_tutor").'</div>';
+				}				
 			}
 			else
 			{
 				$team_info = '<span class="warning">'.$lng->txt("exc_create_team_times_up_warning").'</span>';
 			}
-
+			
 			$a_info->addProperty($lng->txt("exc_team_members"), $team_info);
 		}
 	}
@@ -142,7 +158,8 @@ class ilExSubmissionTeamGUI
 	
 	protected function canEditTeam()
 	{
-		return ($this->submission->canSubmit() ||
+		return (($this->submission->canSubmit() &&
+			!$this->submission->getAssignment()->getTeamTutor()) ||
 			$this->submission->isTutor());
 	}
 	
@@ -158,11 +175,11 @@ class ilExSubmissionTeamGUI
 		// #13414
 		$read_only = !$this->canEditTeam();
 				
-		if ($read_only)
+		if ($this->submission->getAssignment()->afterDeadlineStrict())
 		{
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
-		else
+		else if(!$read_only)
 		{								
 			// add member
 			include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
@@ -177,6 +194,10 @@ class ilExSubmissionTeamGUI
 				)
 			);
 	 	}
+		else if($this->submission->getAssignment()->getTeamTutor())
+		{
+			ilUtil::sendInfo($this->lng->txt("exc_no_team_yet_info_tutor"));
+		}
 		
 		include_once "Modules/Exercise/classes/class.ilExAssignmentTeamTableGUI.php";
 		$tbl = new ilExAssignmentTeamTableGUI($this, "submissionScreenTeam",
@@ -244,7 +265,8 @@ class ilExSubmissionTeamGUI
 		{
 			$ids = $_POST["id"];
 
-			if(!sizeof($ids))
+			if(!sizeof($ids) &&
+				!$this->canEditTeam())
 			{
 				ilUtil::sendFailure($this->lng->txt("select_one"), true);
 				$this->ctrl->redirect($this, "submissionScreenTeam");
@@ -318,7 +340,8 @@ class ilExSubmissionTeamGUI
 		
 		$ids = $_POST["id"];
 
-		if(!sizeof($ids))
+		if(!sizeof($ids) ||
+			!$this->canEditTeam())
 		{
 			ilUtil::sendFailure($this->lng->txt("select_one"), true);
 			$this->ctrl->redirect($this, $cancel_cmd);

@@ -94,13 +94,17 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		{
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
-		else
-		{
+		else if($this->submission->canAddFile())
+		{			
 			$ilToolbar->addButton($this->lng->txt("file_add"), 
 				$this->ctrl->getLinkTarget($this, "uploadForm"));
 			
 			$ilToolbar->addButton($this->lng->txt("header_zip"), 
 				$this->ctrl->getLinkTarget($this, "uploadZipForm"));
+		}
+		else
+		{
+			ilUtil::sendInfo(sprintf($this->lng->txt("exc_max_file_reached"), $this->submission->getAssignment()->getMaxFile()));
 		}
 
 		include_once("./Modules/Exercise/classes/class.ilExcDeliveredFilesTableGUI.php");
@@ -227,6 +231,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 
 			if($success)
 			{
+				ilUtil::sendSuccess($this->lng->txt("file_added"), true);				
 				$this->handleNewUpload();
 			}
 		}
@@ -250,10 +255,11 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		{
 			if($this->submission->processUploadedFile($_FILES["deliver"]["tmp_name"]))
 			{
-				$this->handleNewUpload();
+				ilUtil::sendSuccess($this->lng->txt("file_added"), true);				
+				$this->handleNewUpload();				
 			}
 		}
-
+		
 		$ilCtrl->redirect($this, "submissionScreen");
 	}
 	

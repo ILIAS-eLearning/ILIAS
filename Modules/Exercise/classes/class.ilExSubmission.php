@@ -184,6 +184,23 @@ class ilExSubmission
 			$this->peer_review->hasPeerReviewAccess($this->user_id));
 	}
 	
+	public function canAddFile()
+	{
+		if(!$this->canSubmit())
+		{
+			return false;
+		}
+		
+		$max = $this->getAssignment()->getMaxFile();
+		if($max &&
+			$max <= sizeof($this->getFiles()))
+		{
+			return false;
+		}	
+		
+		return true;
+	}
+	
 	
 	//
 	// FILES
@@ -201,6 +218,11 @@ class ilExSubmission
 	function uploadFile($a_http_post_files, $unzip = false)
 	{
 		global $ilDB;
+		
+		if(!$this->canAddFile())
+		{
+			return false;
+		}
 			
 		$deliver_result = $this->initStorage()->uploadFile($a_http_post_files, $this->getUserId(), $unzip);
 
@@ -246,7 +268,7 @@ class ilExSubmission
 		
 		try 
 		{
-			$processDone = ilFileUtils::processZipFile($newDir,$fileTmp, false);
+			$success = ilFileUtils::processZipFile($newDir,$fileTmp, false);
 			ilFileUtils::recursive_dirscan($newDir, $filearray);			
 
 			foreach ($filearray["file"] as $key => $filename)
@@ -257,10 +279,15 @@ class ilExSubmission
 				$a_http_post_files["error"] = 0;
 				$a_http_post_files["size"] = filesize($filearray["path"][$key]."/".$filename);
 
-				$this->uploadFile($a_http_post_files, true);						
-			}
-			
-			ilUtil::sendSuccess($lng->txt("file_added"), true);					
+				if(!$this->uploadFile($a_http_post_files, true))
+				{
+					ilUtil::sendFailure($lng->txt("exc_upload_error"), true);
+				}		
+				else
+				{
+					$success = true;
+				}
+			}			
 		} 
 		catch (ilFileUtilsException $e) 
 		{
@@ -268,7 +295,7 @@ class ilExSubmission
 		}
 		
 		ilUtil::delDir($newDir);
-		return $processDone;
+		return $success;
 	}
 	
 	public static function hasAnySubmissions($a_ass_id)
