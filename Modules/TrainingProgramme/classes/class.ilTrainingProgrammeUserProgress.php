@@ -417,12 +417,12 @@ class ilTrainingProgrammeUserProgress {
 	}
 	
 	/**
-	 * Check whether the was successfull on this node. This is the case,
+	 * Check whether the was successful on this node. This is the case,
 	 * when the node was accredited or completed.
 	 *
 	 * @return bool
 	 */
-	public function isSuccessfull() {
+	public function isSuccessful() {
 		$status = $this->getStatus();
 
 		return $status == ilTrainingProgrammeProgress::STATUS_ACCREDITED
@@ -475,7 +475,7 @@ class ilTrainingProgrammeUserProgress {
 								 ."mode.");
 		}
 		
-		if ($this->isSuccessfull()) {
+		if ($this->isSuccessful()) {
 			// Nothing to do here. The status of the parents should have been
 			// calculated already at some point before.
 			return;
@@ -483,30 +483,30 @@ class ilTrainingProgrammeUserProgress {
 		
 		$add = function($a, $b) { return $a + $b; };
 		$get_points = function($child) {
-			if (!$child->isSuccessfull()) {
+			if (!$child->isSuccessful()) {
 				return 0;
 			}
 			return $child->getAmountOfPoints();
 		};
 		
 		$achieved_points = array_reduce(array_map($get_points, $this->getChildrenProgress()), $add);
-		$successfull = $achieved_points >= $this->getAmountOfPoints();
+		$successful = $achieved_points >= $this->getAmountOfPoints();
 		
 		$this->progress->setCurrentAmountOfPoints($achieved_points);
-		if ($successfull) {
+		if ($successful) {
 			$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_COMPLETED);
 		}
 		$this->progress->update();
 
 		$parent = $this->getParentProgress();
-		if ($successfull && $parent) {
+		if ($successful && $parent) {
 			$this->getParentProgress();
 		}
 	}
 
 	/**
 	 * Set this node to be completed due to a completed learning progress. Will
-	 * only set the progress if this node is relevant and not successfull.
+	 * only set the progress if this node is relevant and not successful.
 	 *
 	 * Throws when this node is not in LP-Mode. Throws when object that was
 	 * completed is no child of the node or user does not belong to this
@@ -515,7 +515,7 @@ class ilTrainingProgrammeUserProgress {
 	 * @throws ilException
 	 */
 	public function setLPCompleted($a_obj_id, $a_usr_id) {
-		if ($this->isSuccessfull() || !$this->isRelevant()) {
+		if ($this->isSuccessful() || !$this->isRelevant()) {
 			return true;
 		}
 		
@@ -590,7 +590,7 @@ class ilTrainingProgrammeUserProgress {
 		$names = array();
 		foreach ($children as $child) {
 			$prgrs = $child->getProgressForAssignment($ass_id);
-			if (!$prgrs->isSuccessfull()) {
+			if (!$prgrs->isSuccessful()) {
 				continue;
 			}
 			$names[] = $child->getTitle();

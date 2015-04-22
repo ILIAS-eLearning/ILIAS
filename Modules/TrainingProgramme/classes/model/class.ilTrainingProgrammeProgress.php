@@ -23,15 +23,15 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	// determine how the node is taken into account for calculation of the learning
 	// progress.
 	
-	// User needs to be successfull in the node, but currently isn't.
+	// User needs to be successful in the node, but currently isn't.
 	const STATUS_IN_PROGRESS = 1;
 	// User has completed the node successfully according to the program nodes
 	// mode.
 	const STATUS_COMPLETED = 2;
-	// User was marked as successfull in the node without actually having
+	// User was marked as successful in the node without actually having
 	// successfully completed the program node according to his mode.
 	const STATUS_ACCREDITED = 3;
-	// The user does not need to be successfull in this node.
+	// The user does not need to be successful in this node.
 	const STATUS_NOT_RELEVANT = 4;
 
 	static $STATUS = array( ilTrainingProgrammeProgress::STATUS_IN_PROGRESS
@@ -104,8 +104,8 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 
 	protected $usr_id;
 	/**
-	 * Amount of points the user needs to achieve in the subnodes to be successfull
-	 * on this node. Also the amount of points a user gets by being successfull on this
+	 * Amount of points the user needs to achieve in the subnodes to be successful
+	 * on this node. Also the amount of points a user gets by being successful on this
 	 * node.
 	 *
 	 * @var int 
@@ -142,7 +142,7 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	protected $status;
 
 	/**
-	 * The id of the object, that lead to the successfull completion of this node.
+	 * The id of the object, that lead to the successful completion of this node.
 	 * This is either a user when status is accreditted, a course object if the mode
 	 * of the program node is lp_completed and the node is completed. Its null 
 	 * otherwise.
@@ -356,7 +356,7 @@ class ilTrainingProgrammeProgress extends ActiveRecord {
 	}
 	
 	/**
-	 * Get the id of object or user that lead to the successfull completion
+	 * Get the id of object or user that lead to the successful completion
 	 * of this node.
 	 *
 	 * @return int

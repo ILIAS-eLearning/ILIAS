@@ -86,7 +86,7 @@ class ilTrainingProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI
 			$tpl->setVariable("TITLE", $this->getProgressTitle($progress, $obj_id));
 			$tpl->setVariable("POINTS_CURRENT", $progress->getCurrentAmountOfPoints());
 			$tpl->setVariable("POINTS_REQUIRED", $progress->getAmountOfPoints());
-			if (!$progress->canBeCompleted() && $progress->isRelevant() && !$progress->isSuccessfull()) {
+			if (!$progress->canBeCompleted() && $progress->isRelevant() && !$progress->isSuccessful()) {
 				$tpl->setCurrentBlock("warning");			
 				$tpl->setVariable("WARNING_IMG_PATH",$this->warning_img_path);
 				$tpl->setVariable("WARNING_IMG_ALT",$this->warning_img_alt);
@@ -108,7 +108,7 @@ class ilTrainingProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI
 	}
 	
 	protected function getProgressImagePath(ilTrainingProgrammeUserProgress $a_progress) {
-		if ($a_progress->isSuccessfull()) {
+		if ($a_progress->isSuccessful()) {
 			return $this->successful_img_path;
 		}
 		else {
@@ -117,7 +117,7 @@ class ilTrainingProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI
 	}
 
 	protected function getProgressImageAlt(ilTrainingProgrammeUserProgress $a_progress) {
-		if ($a_progress->isSuccessfull()) {
+		if ($a_progress->isSuccessful()) {
 			return $this->successful_img_alt;
 		}
 		else {
