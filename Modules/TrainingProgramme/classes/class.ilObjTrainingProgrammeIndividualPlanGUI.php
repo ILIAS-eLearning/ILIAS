@@ -133,7 +133,7 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		$ass = $this->getAssignmentObject();
 		$ass->updateFromProgram();
 		$this->ctrl->setParameter($this, "ass_id", $ass->getId());
-		$this->showSuccessMessage("update_from_plan_successfull");
+		$this->showSuccessMessage("update_from_plan_successful");
 		$this->ctrl->redirect($this, "manage");
 	}
 	
@@ -164,7 +164,7 @@ class ilObjTrainingProgrammeIndividualPlanGUI {
 		}
 		$this->ctrl->setParameter($this, "ass_id", $this->getAssignmentId());
 		if ($changed) {
-			$this->showSuccessMessage("update_successfull");
+			$this->showSuccessMessage("update_successful");
 		}
 		$this->ctrl->redirect($this, "manage");
 	}

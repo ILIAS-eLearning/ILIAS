@@ -16,10 +16,10 @@ class ilTrainingProgramme extends ActiveRecord {
 	// There are two different modes the programs calculation of the learning
 	// progress can run in.
 	
-	// User is successfull if he collected enough points in the subnodes of
+	// User is successful if he collected enough points in the subnodes of
 	// this node. 
 	const MODE_POINTS = 1;
-	// User is successfull if he has the "completed" learning progress in any
+	// User is successful if he has the "completed" learning progress in any
 	// subobject.
 	const MODE_LP_COMPLETED = 2;
 
@@ -96,7 +96,7 @@ class ilTrainingProgramme extends ActiveRecord {
 	protected $subtype_id;
 
 	/**
-	 * Amount of points a user needs to achieve to be successfull on this program node
+	 * Amount of points a user needs to achieve to be successful on this program node
 	 * and amount of points for the completion of the parent node in the program tree
 	 * as well.
 	 *
