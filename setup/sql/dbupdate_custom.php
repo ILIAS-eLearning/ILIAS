@@ -3508,3 +3508,8 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 	require_once("Services/WBDData/classes/class.wbdErrorLog.php");
 	wbdErrorLog::_install();
 ?>
+
+<#112>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

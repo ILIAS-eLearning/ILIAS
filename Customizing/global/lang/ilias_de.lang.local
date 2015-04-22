@@ -1107,5 +1107,12 @@ gev#:#gev_wbd_errors_resolve#:#gelöst
 gev#:#usr_id#:#Benutzer-ID
 gev#:#crs_id#:#Kurs-ID
 gev#:#ts#:#Zeitpunkt
-gev#:#gev_warning_to_book_crs_self_because_period#:#Sie haben bereits ein oder mehrere andere Trainings im gleichen Zeitraum gebucht!
-gev#:#gev_warning_to_book_crs_for_others_because_period#:#Der Teilnehmer hat bereits ein oder mehrere andere Trainings im gleichen Zeitraum gebucht
+gev#:#gev_warning_to_book_crs_self_because_period#:#Sie haben bereits ein oder mehrere andere Trainings im gleichen Zeitraum gebucht.
+gev#:#gev_warning_to_book_crs_for_others_because_period#:#Der Mitarbeiter hat bereits ein oder mehrere andere Trainings im gleichen Zeitraum gebucht.
+gev#:#gev_login_express#:#Anmelden
+gev#:#gev_login_express_existend_account#:#Ich habe bereits einen Account.
+gev#:#gev_login_express_new_account#:#Ich möchte mich neu registrieren.
+gev#:#gev_login_express_no_login#:#Express Login
+gev#:#gev_login_express_companyname#:#Firmenname
+gev#:#gev_login_express_vnumber#:#Vermittlernummer
+gev#:#gev_login_express_agreement#:#Ja, ich stimme der <a href='/Customizing/global/skin/genv/static/documents/GEV_Makler_Finale_Nutzungsbedingungen.pdf' target='_blank' class='blue'>Nutzungsvereinbarung</a> zu, um mich für das Training zu registrieren.

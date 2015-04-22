@@ -6,6 +6,7 @@
 		<baseclass name="gevMemberListDeliveryGUI" dir="Desktop/classes" />
 		<baseclass name="gevDeskDisplaysDeliveryGUI" dir="Desktop/classes" />
 		<baseclass name="gevRegistrationGUI" dir="Registration/classes" />
+		<baseclass name="gevExpRegistrationGUI" dir="Registration/classes" />
 	</baseclasses>
 	<objects>
 	</objects>
