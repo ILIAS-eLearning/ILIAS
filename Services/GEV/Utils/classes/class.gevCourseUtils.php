@@ -1422,6 +1422,21 @@ class gevCourseUtils {
 
 		fwrite($wstream,"BEGIN:VCALENDAR\n");
 		fwrite($wstream,"VERSION:2.0\n");
+		fwrite($wstream,"BEGIN:VTIMEZONE\n");
+		fwrite($wstream,"TZID:Europe/Berlin\n");
+		fwrite($wstream,"BEGIN:DAYLIGHT\n");
+		fwrite($wstream,"TZOFFSETFROM:+0100\n");
+		fwrite($wstream,"DTSTART:19810329T020000\n");
+		fwrite($wstream,"RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\n");
+		fwrite($wstream,"TZNAME:MESZ\n");
+		fwrite($wstream,"END:DAYLIGHT\n");
+		fwrite($wstream,"BEGIN:STANDARD\n");
+		fwrite($wstream,"TZOFFSETFROM:+0200\n");
+		fwrite($wstream,"DTSTART:19961027T030000\n");
+		fwrite($wstream,"RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\n");
+		fwrite($wstream,"TZNAME:MEZ\n");
+		fwrite($wstream,"END:STANDARD\n");
+		fwrite($wstream,"END:VTIMEZONE\n");
 		fwrite($wstream,"PRODID:http://www.generali.test.cat06.de/buildICAL::gevCourseUtils\n");
 		fwrite($wstream,"METHOD:REQUEST\n");
 		fwrite($wstream,"BEGIN:VEVENT\n");
