@@ -15637,6 +15637,9 @@ prg#:#prg_view#:#View
 prg#:#prg_update_from_current_plan#:#Update from Current Plan
 prg#:#prg_update_successfull#:#Saved changes successfully!
 prg#:#prg_update_from_plan_successfull#:#Updated from current plan successfully!
+prg#:#prg_warning_img_alt#:#Warning!
+prg#:#prg_successful_img_alt#:#successful
+prg#:#prg_in_progress_img_alt#:#in progress
 common#:#obj_prg_duplicate#:#Copy Training Programme
 common#:#obj_prg_select#:#-- Please select one Training Programme --
 common#:#obj_prg#:#Training Programme
