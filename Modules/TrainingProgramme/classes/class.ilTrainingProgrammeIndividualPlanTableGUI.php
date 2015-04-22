@@ -93,7 +93,7 @@ class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 						   , "title" => $node->getTitle()
 						   , "points_current" => $progress->getCurrentAmountOfPoints()
 						   , "points_required" => $progress->getAmountOfPoints()
-						   , "possible" => $progress->canBeCompleted() || !$progress->isRelevant()
+						   , "possible" => $progress->isSuccessfull() || $progress->canBeCompleted() || !$progress->isRelevant() 
 						   , "changed_by" => ilObjUser::_lookupLogin($progress->getLastChangeBy())
 						   , "completion_by" => $completion_by
 						   , "progress_id" => $progress->getId()
