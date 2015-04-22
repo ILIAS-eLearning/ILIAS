@@ -86,7 +86,7 @@ class ilTrainingProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI
 			$tpl->setVariable("TITLE", $this->getProgressTitle($progress, $obj_id));
 			$tpl->setVariable("POINTS_CURRENT", $progress->getCurrentAmountOfPoints());
 			$tpl->setVariable("POINTS_REQUIRED", $progress->getAmountOfPoints());
-			if (!$progress->canBeCompleted() && $progress->isRelevant()) {
+			if (!$progress->canBeCompleted() && $progress->isRelevant() && !$progress->isSuccessfull()) {
 				$tpl->setCurrentBlock("warning");			
 				$tpl->setVariable("WARNING_IMG_PATH",$this->warning_img_path);
 				$tpl->setVariable("WARNING_IMG_ALT",$this->warning_img_alt);
