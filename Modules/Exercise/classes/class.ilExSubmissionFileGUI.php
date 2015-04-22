@@ -94,18 +94,34 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		{
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
-		else if($this->submission->canAddFile())
-		{			
-			$ilToolbar->addButton($this->lng->txt("file_add"), 
-				$this->ctrl->getLinkTarget($this, "uploadForm"));
-			
-			$ilToolbar->addButton($this->lng->txt("header_zip"), 
-				$this->ctrl->getLinkTarget($this, "uploadZipForm"));
-		}
-		else
+		else 
 		{
-			ilUtil::sendInfo(sprintf($this->lng->txt("exc_max_file_reached"), $this->submission->getAssignment()->getMaxFile()));
+			if($this->submission->canAddFile())
+			{			
+				$ilToolbar->addButton($this->lng->txt("file_add"), 
+					$this->ctrl->getLinkTarget($this, "uploadForm"));
+
+				$ilToolbar->addButton($this->lng->txt("header_zip"), 
+					$this->ctrl->getLinkTarget($this, "uploadZipForm"));
+				
+				// extended deadline warning
+				if(time() >  $this->assignment->getDeadline())
+				{							
+					$dl = ilDatePresentation::formatDate(new ilDateTime($this->assignment->getDeadline(),IL_CAL_UNIX));
+					$dl = sprintf($this->lng->txt("exc_late_submission_warning"), $dl);				
+					if(time() >  $this->assignment->getDeadline())
+					{
+						$dl = '<span class="warning">'.$dl.'</span>';		
+					}
+					$ilToolbar->addText($dl);
+				}
+			}
+			else
+			{
+				ilUtil::sendInfo(sprintf($this->lng->txt("exc_max_file_reached"), $this->submission->getAssignment()->getMaxFile()));
+			}			
 		}
+		
 
 		include_once("./Modules/Exercise/classes/class.ilExcDeliveredFilesTableGUI.php");
 		$tab = new ilExcDeliveredFilesTableGUI($this, "submissionScreen", $this->submission);

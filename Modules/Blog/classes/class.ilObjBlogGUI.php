@@ -887,12 +887,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 		
 		// is the assignment still open?
-		$times_up = false;
-		if($ass->getDeadline() && $ass->getDeadline() - time() <= 0)
-		{
-			$times_up = true;
-		}
-
+		$times_up = $ass->afterDeadlineStrict();
+		
 		// exercise goto
 		include_once "./Services/Link/classes/class.ilLink.php";
 		$exc_ref_id = array_shift(ilObject::_getAllReferences($exercise_id));

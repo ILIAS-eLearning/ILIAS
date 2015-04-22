@@ -56,3 +56,30 @@ if(!$ilDB->tableColumnExists('exc_assignment','max_file'))
 	));
 }
 ?>
+<#6>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment','deadline2'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'deadline2', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false
+	));
+}
+?>
+<#7>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#8>
+<?php
+if(!$ilDB->tableColumnExists('exc_returned','late'))
+{
+	$ilDB->addTableColumn('exc_returned', 'late', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>

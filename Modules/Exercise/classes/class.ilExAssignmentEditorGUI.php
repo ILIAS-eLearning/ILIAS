@@ -175,6 +175,16 @@ class ilExAssignmentEditorGUI
 			$edit_date = new ilDateTimeInputGUI($lng->txt(""), "deadline");
 			$edit_date->setShowTime(true);
 			$dcb->addSubItem($edit_date);
+			
+			// extended deadline y/n
+			$edcb = new ilCheckboxInputGUI($lng->txt("exc_deadline_extended"), "deadline2_cb");
+			$dcb->addSubItem($edcb);
+			
+				// extended Deadline
+				$deadline2 = new ilDateTimeInputGUI($lng->txt(""), "deadline2");
+				$deadline2->setInfo($lng->txt("exc_deadline_extended_info"));
+				$deadline2->setShowTime(true);
+				$edcb->addSubItem($deadline2);
 
 		// mandatory
 		$cb = new ilCheckboxInputGUI($lng->txt("exc_mandatory"), "mandatory");
@@ -202,12 +212,12 @@ class ilExAssignmentEditorGUI
 			$max_file_tgl = new ilCheckboxInputGUI($lng->txt("exc_max_file_tgl"), "max_file_tgl");
 			$form->addItem($max_file_tgl);
 		
-			$max_file = new ilNumberInputGUI($lng->txt("exc_max_file"), "max_file");
-			$max_file->setInfo($lng->txt("exc_max_file_info"));
-			$max_file->setRequired(true);
-			$max_file->setSize(3);
-			$max_file->setMinValue(1);
-			$max_file_tgl->addSubItem($max_file);
+				$max_file = new ilNumberInputGUI($lng->txt("exc_max_file"), "max_file");
+				$max_file->setInfo($lng->txt("exc_max_file_info"));
+				$max_file->setRequired(true);
+				$max_file->setSize(3);
+				$max_file->setMinValue(1);
+				$max_file_tgl->addSubItem($max_file);
 			
 			if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 			{
@@ -228,60 +238,60 @@ class ilExAssignmentEditorGUI
 			$peer->setInfo($lng->txt("exc_peer_review_info"));
 		}
 		
-		$peer_min = new ilNumberInputGUI($lng->txt("exc_peer_review_min_number"), "peer_min");
-		// $peer_min->setInfo($lng->txt("exc_peer_review_min_number_info"));
-		$peer_min->setRequired(true);
-		$peer_min->setSize(3);
-		$peer_min->setValue(2);
-		$peer->addSubItem($peer_min);
-		
-		$peer_unlock = new ilRadioGroupInputGUI($lng->txt("exc_peer_review_simple_unlock"), "peer_unlock");
-		$peer_unlock->addOption(new ilRadioOption($lng->txt("exc_peer_review_simple_unlock_active"), 1));
-		$peer_unlock->addOption(new ilRadioOption($lng->txt("exc_peer_review_simple_unlock_inactive"), 0));
-		$peer_unlock->setRequired(true);		
-		$peer_unlock->setValue(0);
-		$peer->addSubItem($peer_unlock);
-		
-		if($this->enable_peer_review_completion)
-		{
-			$peer_cmpl = new ilRadioGroupInputGUI($lng->txt("exc_peer_review_completion"), "peer_valid");
-			$peer_cmpl->addOption(new ilRadioOption($lng->txt("exc_peer_review_completion_none"), ilExAssignment::PEER_REVIEW_VALID_NONE));
-			$peer_cmpl->addOption(new ilRadioOption($lng->txt("exc_peer_review_completion_one"), ilExAssignment::PEER_REVIEW_VALID_ONE));
-			$peer_cmpl->addOption(new ilRadioOption($lng->txt("exc_peer_review_completion_all"), ilExAssignment::PEER_REVIEW_VALID_ALL));
-			$peer_cmpl->setRequired(true);		
-			$peer_cmpl->setValue(ilExAssignment::PEER_REVIEW_VALID_NONE);
-			$peer->addSubItem($peer_cmpl);
-		}
-			
-		$peer_dl = new ilDateTimeInputGUI($lng->txt("exc_peer_review_deadline"), "peer_dl");
-		$peer_dl->setInfo($lng->txt("exc_peer_review_deadline_info"));
-		$peer_dl->enableDateActivation("", "peer_dl_tgl");
-		$peer_dl->setShowTime(true);
-		$peer->addSubItem($peer_dl);
-		
-		$peer_char_tgl = new ilCheckboxInputGUI($lng->txt("exc_peer_review_min_chars_tgl"), "peer_char_tgl");
-		$peer->addSubItem($peer_char_tgl);
-		
-		$peer_char = new ilNumberInputGUI($lng->txt("exc_peer_review_min_chars"), "peer_char");
-		$peer_char->setInfo($lng->txt("exc_peer_review_min_chars_info"));
-		$peer_char->setRequired(true);
-		$peer_char->setSize(3);
-		$peer_char_tgl->addSubItem($peer_char);
-			
-		$peer_file = new ilCheckboxInputGUI($lng->txt("exc_peer_review_file"), "peer_file");				
-		$peer_file->setInfo($lng->txt("exc_peer_review_file_info"));
-		$peer->addSubItem($peer_file);
-		
-		$peer_prsl = new ilCheckboxInputGUI($lng->txt("exc_peer_review_personal"), "peer_prsl");				
-		$peer_prsl->setInfo($lng->txt("exc_peer_review_personal_info"));
-		$peer->addSubItem($peer_prsl);
-				
-		if($a_mode != "create" && // #13745
-			$this->assignment && 
-			$this->assignment->getDeadline() && $this->assignment->getDeadline() < time())
-		{
-			$peer_prsl->setDisabled(true);
-		}
+			$peer_min = new ilNumberInputGUI($lng->txt("exc_peer_review_min_number"), "peer_min");
+			// $peer_min->setInfo($lng->txt("exc_peer_review_min_number_info"));
+			$peer_min->setRequired(true);
+			$peer_min->setSize(3);
+			$peer_min->setValue(2);
+			$peer->addSubItem($peer_min);
+
+			$peer_unlock = new ilRadioGroupInputGUI($lng->txt("exc_peer_review_simple_unlock"), "peer_unlock");
+			$peer_unlock->addOption(new ilRadioOption($lng->txt("exc_peer_review_simple_unlock_active"), 1));
+			$peer_unlock->addOption(new ilRadioOption($lng->txt("exc_peer_review_simple_unlock_inactive"), 0));
+			$peer_unlock->setRequired(true);		
+			$peer_unlock->setValue(0);
+			$peer->addSubItem($peer_unlock);
+
+			if($this->enable_peer_review_completion)
+			{
+				$peer_cmpl = new ilRadioGroupInputGUI($lng->txt("exc_peer_review_completion"), "peer_valid");
+				$peer_cmpl->addOption(new ilRadioOption($lng->txt("exc_peer_review_completion_none"), ilExAssignment::PEER_REVIEW_VALID_NONE));
+				$peer_cmpl->addOption(new ilRadioOption($lng->txt("exc_peer_review_completion_one"), ilExAssignment::PEER_REVIEW_VALID_ONE));
+				$peer_cmpl->addOption(new ilRadioOption($lng->txt("exc_peer_review_completion_all"), ilExAssignment::PEER_REVIEW_VALID_ALL));
+				$peer_cmpl->setRequired(true);		
+				$peer_cmpl->setValue(ilExAssignment::PEER_REVIEW_VALID_NONE);
+				$peer->addSubItem($peer_cmpl);
+			}
+
+			$peer_dl = new ilDateTimeInputGUI($lng->txt("exc_peer_review_deadline"), "peer_dl");
+			$peer_dl->setInfo($lng->txt("exc_peer_review_deadline_info"));
+			$peer_dl->enableDateActivation("", "peer_dl_tgl");
+			$peer_dl->setShowTime(true);
+			$peer->addSubItem($peer_dl);
+
+			$peer_char_tgl = new ilCheckboxInputGUI($lng->txt("exc_peer_review_min_chars_tgl"), "peer_char_tgl");
+			$peer->addSubItem($peer_char_tgl);
+
+				$peer_char = new ilNumberInputGUI($lng->txt("exc_peer_review_min_chars"), "peer_char");
+				$peer_char->setInfo($lng->txt("exc_peer_review_min_chars_info"));
+				$peer_char->setRequired(true);
+				$peer_char->setSize(3);
+				$peer_char_tgl->addSubItem($peer_char);
+
+			$peer_file = new ilCheckboxInputGUI($lng->txt("exc_peer_review_file"), "peer_file");				
+			$peer_file->setInfo($lng->txt("exc_peer_review_file_info"));
+			$peer->addSubItem($peer_file);
+
+			$peer_prsl = new ilCheckboxInputGUI($lng->txt("exc_peer_review_personal"), "peer_prsl");				
+			$peer_prsl->setInfo($lng->txt("exc_peer_review_personal_info"));
+			$peer->addSubItem($peer_prsl);
+
+			if($a_mode != "create" && // #13745
+				$this->assignment && 
+				$this->assignment->getDeadline() && $this->assignment->getDeadline() < time())
+			{
+				$peer_prsl->setDisabled(true);
+			}
 		
 		
 		// global feedback
@@ -289,28 +299,28 @@ class ilExAssignmentEditorGUI
 		$fb = new ilCheckboxInputGUI($lng->txt("exc_global_feedback_file"), "fb");				
 		$form->addItem($fb);
 		
-		$fb_file = new ilFileInputGUI($lng->txt("file"), "fb_file");
-		$fb_file->setRequired(true); // will be disabled on update if file exists (see below)
-		// $fb_file->setAllowDeletion(true); makes no sense if required (overwrite or keep)
-		$fb->addSubItem($fb_file);
+			$fb_file = new ilFileInputGUI($lng->txt("file"), "fb_file");
+			$fb_file->setRequired(true); // will be disabled on update if file exists (see below)
+			// $fb_file->setAllowDeletion(true); makes no sense if required (overwrite or keep)
+			$fb->addSubItem($fb_file);
 		
-		// #15467
-		if($a_mode != "create" && 
-			$this->assignment && 
-			$this->assignment->getFeedbackFile())
-		{
-			$fb_file->setRequired(false); 
-		}
-		
-		$fb_date = new ilRadioGroupInputGUI($lng->txt("exc_global_feedback_file_date"), "fb_date");
-		$fb_date->setRequired(true);
-		$fb_date->addOption(new ilRadioOption($lng->txt("exc_global_feedback_file_date_deadline"), ilExAssignment::FEEDBACK_DATE_DEADLINE));
-		$fb_date->addOption(new ilRadioOption($lng->txt("exc_global_feedback_file_date_upload"), ilExAssignment::FEEDBACK_DATE_SUBMISSION));
-		$fb->addSubItem($fb_date);
-		
-		$fb_cron = new ilCheckboxInputGUI($lng->txt("exc_global_feedback_file_cron"), "fb_cron");
-		$fb_cron->setInfo($lng->txt("exc_global_feedback_file_cron_info"));
-		$fb->addSubItem($fb_cron);
+			// #15467
+			if($a_mode != "create" && 
+				$this->assignment && 
+				$this->assignment->getFeedbackFile())
+			{
+				$fb_file->setRequired(false); 
+			}
+
+			$fb_date = new ilRadioGroupInputGUI($lng->txt("exc_global_feedback_file_date"), "fb_date");
+			$fb_date->setRequired(true);
+			$fb_date->addOption(new ilRadioOption($lng->txt("exc_global_feedback_file_date_deadline"), ilExAssignment::FEEDBACK_DATE_DEADLINE));
+			$fb_date->addOption(new ilRadioOption($lng->txt("exc_global_feedback_file_date_upload"), ilExAssignment::FEEDBACK_DATE_SUBMISSION));
+			$fb->addSubItem($fb_date);
+
+			$fb_cron = new ilCheckboxInputGUI($lng->txt("exc_global_feedback_file_cron"), "fb_cron");
+			$fb_cron->setInfo($lng->txt("exc_global_feedback_file_cron_info"));
+			$fb->addSubItem($fb_cron);
 		
 		// save and cancel commands
 		if ($a_mode == "create")
@@ -434,13 +444,27 @@ class ilExAssignmentEditorGUI
 			// deadline
 			if ($_POST["deadline_cb"])
 			{
-				$date =
-					$form->getItemByPostVar("deadline")->getDate();
-				$ass->setDeadline($date->get(IL_CAL_UNIX));
+				$date =	$form->getItemByPostVar("deadline")->getDate();
+				$date = $date->get(IL_CAL_UNIX);
+				$ass->setDeadline($date);
+				
+				// extended deadline
+				$date2 = $form->getItemByPostVar("deadline2")->getDate();
+				$date2 = $date2->get(IL_CAL_UNIX);
+				if ($_POST2["deadline_cb"] &&
+					$date2 > $date) 
+				{					
+					$ass->setExtendedDeadline($date2);
+				}
+				else
+				{
+					$ass->setExtendedDeadline(null);
+				}
 			}
 			else
 			{
 				$ass->setDeadline(null);
+				$ass->setExtendedDeadline(null);
 			}
 			
 			if($_POST["type"] != ilExAssignment::TYPE_UPLOAD_TEAM)
@@ -545,6 +569,11 @@ class ilExAssignmentEditorGUI
 		if ($this->assignment->getDeadline() > 0)
 		{
 			$values["deadline_cb"] = true;
+			
+			if ($this->assignment->getExtendedDeadline() > 0)
+			{
+				$values["deadline2_cb"] = true;
+			}	
 		}			
 		if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
@@ -615,8 +644,15 @@ class ilExAssignmentEditorGUI
 			$edit_date = new ilDateTime($this->assignment->getDeadline(), IL_CAL_UNIX);
 			$ed_item = $a_form->getItemByPostVar("deadline");
 			$ed_item->setDate($edit_date);
+			
+			if ($this->assignment->getExtendedDeadline() > 0)
+			{
+				$edit_date = new ilDateTime($this->assignment->getExtendedDeadline(), IL_CAL_UNIX);
+				$ed_item = $a_form->getItemByPostVar("deadline2");
+				$ed_item->setDate($edit_date);
+			}
 		}
-
+		
 		if ($this->assignment->getStartTime() > 0)
 		{
 			$edit_date = new ilDateTime($this->assignment->getStartTime(), IL_CAL_UNIX);
@@ -765,11 +801,26 @@ class ilExAssignmentEditorGUI
 				if ($_POST["deadline_cb"])
 				{
 					$date =	$form->getItemByPostVar("deadline")->getDate();
-					$this->assignment->setDeadline($date->get(IL_CAL_UNIX));
+					$date = $date->get(IL_CAL_UNIX);
+					$this->assignment->setDeadline($date);
+					
+					// extended deadline
+					$date2 = $form->getItemByPostVar("deadline2")->getDate();
+					$date2 = $date2->get(IL_CAL_UNIX);
+					if ($_POST["deadline2_cb"] && 
+						$date2 > $date)
+					{						
+						$this->assignment->setExtendedDeadline($date2);
+					}
+					else
+					{
+						$this->assignment->setExtendedDeadline(null);
+					}
 				}
 				else
 				{
 					$this->assignment->setDeadline(null);
+					$this->assignment->setExtendedDeadline(null);
 				}
 
 				if($_POST["type"] != ilExAssignment::TYPE_UPLOAD_TEAM)

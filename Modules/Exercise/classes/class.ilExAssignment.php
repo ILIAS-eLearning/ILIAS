@@ -28,6 +28,7 @@ class ilExAssignment
 	protected $type;
 	protected $start_time;
 	protected $deadline;
+	protected $deadline2;
 	protected $instruction;
 	protected $title;
 	protected $mandatory;
@@ -171,6 +172,30 @@ class ilExAssignment
 	function getDeadline()
 	{
 		return $this->deadline;
+	}
+	
+	/**
+	 * Set extended deadline (timestamp)
+	 *
+	 * @param int	
+	 */
+	function setExtendedDeadline($a_val)
+	{
+		if($a_val !== null)
+		{
+			$a_val = (int)$a_val;
+		}
+		$this->deadline2 = $a_val;
+	}
+	
+	/**
+	 * Get extended deadline (timestamp)
+	 *
+	 * @return	int		
+	 */
+	function getExtendedDeadline()
+	{
+		return $this->deadline2;
 	}
 
 	/**
@@ -589,6 +614,7 @@ class ilExAssignment
 		$this->setId($a_set["id"]);
 		$this->setExerciseId($a_set["exc_id"]);
 		$this->setDeadline($a_set["time_stamp"]);
+		$this->setExtendedDeadline($a_set["deadline2"]);
 		$this->setInstruction($a_set["instruction"]);
 		$this->setTitle($a_set["title"]);
 		$this->setStartTime($a_set["start_time"]);
@@ -607,7 +633,7 @@ class ilExAssignment
 		$this->setFeedbackDate($a_set["fb_date"]);
 		$this->setFeedbackCron($a_set["fb_cron"]);
 		$this->setTeamTutor($a_set["team_tutor"]);
-		$this->setMaxFile($a_set["max_file"]);
+		$this->setMaxFile($a_set["max_file"]);		
 	}
 	
 	/**
@@ -629,6 +655,7 @@ class ilExAssignment
 			"id" => array("integer", $next_id),
 			"exc_id" => array("integer", $this->getExerciseId()),
 			"time_stamp" => array("integer", $this->getDeadline()),
+			"deadline2" => array("integer", $this->getExtendedDeadline()),
 			"instruction" => array("clob", $this->getInstruction()),
 			"title" => array("text", $this->getTitle()),
 			"start_time" => array("integer", $this->getStartTime()),
@@ -668,6 +695,7 @@ class ilExAssignment
 			array(
 			"exc_id" => array("integer", $this->getExerciseId()),
 			"time_stamp" => array("integer", $this->getDeadline()),
+			"deadline2" => array("integer", $this->getExtendedDeadline()),
 			"instruction" => array("clob", $this->getInstruction()),
 			"title" => array("text", $this->getTitle()),
 			"start_time" => array("integer", $this->getStartTime()),
@@ -723,6 +751,8 @@ class ilExAssignment
 	{
 		global $ilDB;
 		
+		// should be changed to self::getInstancesByExerciseId()
+		
 		$set = $ilDB->query("SELECT * FROM exc_assignment ".
 			" WHERE exc_id = ".$ilDB->quote($a_exc_id, "integer").
 			" ORDER BY order_nr ASC");
@@ -736,6 +766,7 @@ class ilExAssignment
 				"id" => $rec["id"],
 				"exc_id" => $rec["exc_id"],
 				"deadline" => $rec["time_stamp"],
+				"deadline2" => $rec["deadline2"],
 				"instruction" => $rec["instruction"],
 				"title" => $rec["title"],
 				"start_time" => $rec["start_time"],
@@ -772,6 +803,7 @@ class ilExAssignment
 			$new_ass->setExerciseId($a_new_exc_id);
 			$new_ass->setTitle($d->getTitle());
 			$new_ass->setDeadline($d->getDeadline());
+			$new_ass->setExtendedDeadline($d->getExtendedDeadline());
 			$new_ass->setInstruction($d->getInstruction());
 			$new_ass->setMandatory($d->getMandatory());
 			$new_ass->setOrderNr($d->getOrderNr());
@@ -1461,14 +1493,16 @@ class ilExAssignment
 	public function afterDeadline()
 	{
 		// no deadline === true
-		return ($this->deadline - time() <= 0);
+		$deadline = max($this->deadline, $this->deadline2);
+		return ($deadline - time() <= 0);
 	}
 	
 	public function afterDeadlineStrict()
 	{
 		// no deadline === false
-		return ($this->deadline > 0 && 
-			$this->afterDeadline());
+		$deadline = max($this->deadline, $this->deadline2);		
+		return ($deadline > 0 && 
+			$this->afterDeadline());	
 	}
 	
 	public function beforeDeadline()

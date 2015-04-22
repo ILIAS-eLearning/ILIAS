@@ -206,6 +206,12 @@ class ilExSubmission
 	// FILES
 	//
 	
+	protected function isLate()
+	{
+		return ($this->assignment->getDeadline() &&
+			$this->assignment->getDeadline() < time());		
+	}
+	
 	protected function initStorage()
 	{
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
@@ -227,11 +233,11 @@ class ilExSubmission
 		$deliver_result = $this->initStorage()->uploadFile($a_http_post_files, $this->getUserId(), $unzip);
 
 		if ($deliver_result)
-		{
+		{			
 			$next_id = $ilDB->nextId("exc_returned");
 			$query = sprintf("INSERT INTO exc_returned ".
-							 "(returned_id, obj_id, user_id, filename, filetitle, mimetype, ts, ass_id) ".
-							 "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+							 "(returned_id, obj_id, user_id, filename, filetitle, mimetype, ts, ass_id, late) ".
+							 "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				$ilDB->quote($next_id, "integer"),
 				$ilDB->quote($this->assignment->getExerciseId(), "integer"),
 				$ilDB->quote($this->getUserId(), "integer"),
@@ -239,7 +245,8 @@ class ilExSubmission
 				$ilDB->quote($a_http_post_files["name"], "text"),
 				$ilDB->quote($deliver_result["mimetype"], "text"),
 				$ilDB->quote(ilUtil::now(), "timestamp"),
-				$ilDB->quote($this->assignment->getId(), "integer")
+				$ilDB->quote($this->assignment->getId(), "integer"),
+				$ilDB->quote($this->isLate(), "integer")
 			);
 			$ilDB->manipulate($query);
 		
@@ -544,7 +551,7 @@ class ilExSubmission
 	
 	function downloadFiles(array $a_file_ids = null, $a_only_new = false, $a_peer_review_mask_filename = false)
 	{			
-		global $ilUser;
+		global $ilUser, $lng;
 		
 		if($this->is_tutor)
 		{
@@ -606,6 +613,11 @@ class ilExSubmission
 					$suffix = array_pop(explode(".", $file["filetitle"]));
 					$file["filetitle"] = $this->assignment->getTitle()."_peer".$peer_id.".".$suffix;							
 				}
+				else if($file["late"])
+				{
+					$file["filetitle"] = utf8_decode($lng->txt("exc_late_submission"))." - ".
+						$file["filetitle"];
+				}
 
 				$this->downloadSingleFile($file["user_id"], $file["filename"], $file["filetitle"]);
 			}
@@ -621,11 +633,17 @@ class ilExSubmission
 						$tgt = $this->assignment->getTitle()."_peer".$peer_id.
 							"_".(++$seq).".".$suffix;			
 						
-						$array_files[$file["user_id"]][] = array($src, $tgt);
+						$array_files[$file["user_id"]][] = array(
+							"src" => $src, 
+							"tgt" => $tgt
+						);
 					}
 					else
-					{
-						$array_files[$file["user_id"]][] = $src;
+					{						
+						$array_files[$file["user_id"]][] = array(
+							"src" => $src,
+							"late" => $file["late"]							
+						);
 					}				
 				}			
 								
@@ -673,7 +691,9 @@ class ilExSubmission
 	}
 
 	protected function downloadMultipleFiles($a_filenames, $a_user_id, $a_multi_user = false)
-	{						
+	{					
+		global $lng;
+		
 		$path = $this->initStorage()->getAbsoluteSubmissionPath();
 		
 		require_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -712,13 +732,16 @@ class ilExSubmission
 			foreach($files as $filename)
 			{
 				// peer review masked filenames, see deliverReturnedFiles()
-				if(is_array($filename))
+				if(isset($filename["tgt"]))
 				{
-					$newFilename = $filename[1];
-					$filename = $filename[0];
+					$newFilename = $filename["tgt"];
+					$filename = $filename["src"];
 				}
 				else
 				{
+					$late = $filename["late"];
+					$filename = $filename["src"];
+					
 					// remove timestamp
 					$newFilename = trim($filename);
 					$pos = strpos($newFilename , "_");
@@ -739,7 +762,14 @@ class ilExSubmission
 					{
 						$duplicates[$chkName] = 1;
 					}
+					
+					if($late)
+					{
+						$newFilename = utf8_decode($lng->txt("exc_late_submission"))." - ".
+							$newFilename;
+					}
 				}
+				
 				$newFilename = $tmpdir.DIRECTORY_SEPARATOR.$deliverFilename.DIRECTORY_SEPARATOR.$newFilename;
 				// copy to temporal directory
 				$oldFilename =  $pathname.DIRECTORY_SEPARATOR.$filename;
@@ -954,7 +984,7 @@ class ilExSubmission
 	
 		$next_id = $ilDB->nextId("exc_returned");
 		$query = sprintf("INSERT INTO exc_returned ".
-						 "(returned_id, obj_id, user_id, filetitle, ass_id, ts, atext) ".
+						 "(returned_id, obj_id, user_id, filetitle, ass_id, ts, atext, late) ".
 						 "VALUES (%s, %s, %s, %s, %s, %s, %s)",
 			$ilDB->quote($next_id, "integer"),
 			$ilDB->quote($this->assignment->getExerciseId(), "integer"),
@@ -962,7 +992,8 @@ class ilExSubmission
 			$ilDB->quote($a_wsp_id, "text"),
 			$ilDB->quote($this->assignment->getId(), "integer"),
 			$ilDB->quote(ilUtil::now(), "timestamp"),
-			$ilDB->quote($a_text, "text")
+			$ilDB->quote($a_text, "text"),
+			$ilDB->quote($this->isLate(), "integer")
 		);
 		$ilDB->manipulate($query);
 		
@@ -1017,6 +1048,7 @@ class ilExSubmission
 				$ilDB->manipulate("UPDATE exc_returned".
 					" SET atext = ".$ilDB->quote($a_text, "text").
 					", ts = ".$ilDB->quote(ilUtil::now(), "timestamp").
+					", late = ".$ilDB->quote($this->isLate(), "integer").
 					" WHERE returned_id = ".$ilDB->quote($id, "integer"));
 				return $id;
 			}
@@ -1064,15 +1096,30 @@ class ilExSubmission
 				// data is merged by team - see above
 				// fallthrough
 				
-			case ilExAssignment::TYPE_UPLOAD:
+			case ilExAssignment::TYPE_UPLOAD:				
+				$all_files = $this->getFiles();
+				$late_files = 0;
+				foreach($all_files as $file)
+				{
+					if($file["late"])
+					{
+						$late_files++;
+					}
+				}
+				
 				// nr of submitted files
-				$result["files"]["txt"] = $lng->txt("exc_files_returned");		
-				$sub_cnt = count($this->getFiles());
+				$result["files"]["txt"] = $lng->txt("exc_files_returned");						
+				if ($late_files)
+				{
+					$result["files"]["txt"].= ' - <span class="warning">'.$lng->txt("exc_late_submission")." (".$late_files.")</span>";
+				}				
+				$sub_cnt = count($all_files);
 				$new = $this->lookupNewFiles();
 				if (count($new) > 0)
 				{
 					$sub_cnt.= " ".sprintf($lng->txt("cnt_new"),count($new));
 				}
+				
 				$result["files"]["count"] = $sub_cnt;
 
 				// download command								
@@ -1144,9 +1191,14 @@ class ilExSubmission
 				{
 					$result["files"]["count"] = 1;
 					
-					$files = array_shift($files);
+					$files = array_shift($files);															
 					if(trim($files["atext"]))
-					{											
+					{							
+						if($files["late"])
+						{
+							$result["files"]["txt"].= ' - <span class="warning">'.$lng->txt("exc_late_submission")."</span>";
+						}	
+						
 						$result["files"]["download_url"] =
 							$ilCtrl->getLinkTargetByClass("ilexsubmissiontextgui", "showAssignmentText");												
 						

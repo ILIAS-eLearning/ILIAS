@@ -20,7 +20,7 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, ilExSubmission $a_submission)
 	{
-		global $ilCtrl, $lng,$lng;
+		global $ilCtrl, $lng;
 			
 		$this->submission = $a_submission;
 		
@@ -42,6 +42,11 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 		}
 		
 		$this->addColumn($this->lng->txt("date"), "timestamp14");
+		
+		if($this->submission->getAssignment()->getExtendedDeadline())
+		{
+			$this->addColumn($this->lng->txt("exc_late_submission"), "late");
+		}
 		
 		$this->setDefaultOrderField("filetitle");
 		
@@ -75,6 +80,13 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable("DELIVERED_OWNER",
 				ilUserUtil::getNamePresentation($file["owner_id"]));
+		}
+		
+		if($this->submission->getAssignment()->getExtendedDeadline())
+		{
+			$this->tpl->setVariable("DELIVERED_LATE", ($file["late"])
+				? $this->lng->txt("yes")
+				: $this->lng->txt("no"));					
 		}
 	}
 

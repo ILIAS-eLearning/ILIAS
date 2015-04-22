@@ -141,10 +141,24 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			$ilCtrl->redirect($this, "returnToParent");
 		}
 		
-		if($this->assignment->getDeadline())
+		$deadline = max($this->assignment->getDeadline(), $this->assignment->getExtendedDeadline());
+		if($deadline)
 		{
-			ilUtil::sendInfo($this->lng->txt("exc_edit_until").": ".
-				ilDatePresentation::formatDate(new ilDateTime($this->assignment->getDeadline(),IL_CAL_UNIX)));
+			$dl_info = ilDatePresentation::formatDate(new ilDateTime($deadline, IL_CAL_UNIX));
+					
+			// extended deadline warning			
+			if(time() >  $this->assignment->getDeadline())
+			{							
+				$dl = ilDatePresentation::formatDate(new ilDateTime($this->assignment->getDeadline(),IL_CAL_UNIX));
+				$dl = "<br />".sprintf($this->lng->txt("exc_late_submission_warning"), $dl);				
+				if(time() >  $this->assignment->getDeadline())
+				{
+					$dl = '<span class="warning">'.$dl.'</span>';		
+				}
+				$dl_info .= $dl;
+			}
+			
+			ilUtil::sendInfo($this->lng->txt("exc_edit_until").": ".$dl_info);
 		}
 		
 		$this->handleTabs();
@@ -280,6 +294,10 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 				"')");
 			$ilCtrl->setParameterByClass($peer_class, "ssrtg", "");			
 		}		
+		else
+		{
+			$this->handleTabs();
+		}
 		
 		$a_form = $this->initAssignmentTextForm(true, $cancel_cmd, $peer_class, $peer_cmd, $rating);	
 		
@@ -329,9 +347,15 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			$files = array_shift($files);
 			if(trim($files["atext"]))
 			{
-			   $text = $a_form->getItemByPostVar("atxt");
-			   // mob id to mob src
-			   $text->setValue(nl2br(ilRTE::_replaceMediaObjectImageSrc($files["atext"], 1)));
+				if($files["late"] && 
+					!$this->submission->hasPeerReviewAccess())
+				{
+					ilUtil::sendFailure($this->lng->txt("exc_late_submission"));
+				}
+				
+				$text = $a_form->getItemByPostVar("atxt");
+				// mob id to mob src
+				$text->setValue(nl2br(ilRTE::_replaceMediaObjectImageSrc($files["atext"], 1)));
 			}
 		}		
 	

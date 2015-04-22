@@ -50,18 +50,19 @@ class ilExAssignmentGUI
 		}
 		else
 		{
-			$time_str = $this->getTimeString($a_ass->getDeadline());
+			$deadline = max($a_ass->getDeadline(), $a_ass->getExtendedDeadline());
+			$time_str = $this->getTimeString($deadline);
 			$tpl->setCurrentBlock("prop");
 			$tpl->setVariable("PROP", $lng->txt("exc_time_to_send"));
 			$tpl->setVariable("PROP_VAL", $time_str);
 			$tpl->parseCurrentBlock();
 	
-			if ($a_ass->getDeadline() > 0)
+			if ($deadline > 0)
 			{
 				$tpl->setCurrentBlock("prop");
 				$tpl->setVariable("PROP", $lng->txt("exc_edit_until"));
 				$tpl->setVariable("PROP_VAL",
-					ilDatePresentation::formatDate(new ilDateTime($a_ass->getDeadline(),IL_CAL_UNIX)));
+					ilDatePresentation::formatDate(new ilDateTime($deadline,IL_CAL_UNIX)));
 				$tpl->parseCurrentBlock();
 			}
 			
@@ -154,12 +155,26 @@ class ilExAssignmentGUI
 			$a_info->addProperty($lng->txt("exc_start_time"),
 				ilDatePresentation::formatDate(new ilDateTime($a_ass->getStartTime(),IL_CAL_UNIX)));
 		}
-		if ($a_ass->getDeadline() > 0)
+		$deadline = max($a_ass->getDeadline(), $a_ass->getExtendedDeadline());
+		if ($deadline > 0)
 		{
-			$a_info->addProperty($lng->txt("exc_edit_until"),
-				ilDatePresentation::formatDate(new ilDateTime($a_ass->getDeadline(),IL_CAL_UNIX)));
+			$until = ilDatePresentation::formatDate(new ilDateTime($deadline,IL_CAL_UNIX));
+			
+			if($deadline == $a_ass->getExtendedDeadline())
+			{
+				// extended deadline info/warning
+				$dl = ilDatePresentation::formatDate(new ilDateTime($a_ass->getDeadline(),IL_CAL_UNIX));
+				$dl = "<br />".sprintf($lng->txt("exc_late_submission_warning"), $dl);				
+				if(time() >  $a_ass->getDeadline())
+				{
+					$dl = '<span class="warning">'.$dl.'</span>';		
+				}
+				$until .= $dl;
+			}
+			$a_info->addProperty($lng->txt("exc_edit_until"), $until);
+			
 		}
-		$time_str = $this->getTimeString($a_ass->getDeadline());
+		$time_str = $this->getTimeString($deadline);
 		if (!$a_ass->notStartedYet())
 		{
 			$a_info->addProperty($lng->txt("exc_time_to_send"),

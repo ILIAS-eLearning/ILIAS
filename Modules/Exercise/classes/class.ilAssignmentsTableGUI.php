@@ -112,8 +112,12 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("ID", $d["id"]);
 		if ($d["deadline"] > 0)
 		{
-			$this->tpl->setVariable("TXT_DEADLINE",
-				ilDatePresentation::formatDate(new ilDateTime($d["deadline"],IL_CAL_UNIX)));
+			$dl = ilDatePresentation::formatDate(new ilDateTime($d["deadline"],IL_CAL_UNIX));
+			if($d["deadline2"] > 0)
+			{
+				$dl .= "<br />(".ilDatePresentation::formatDate(new ilDateTime($d["deadline2"],IL_CAL_UNIX)).")";
+			}
+			$this->tpl->setVariable("TXT_DEADLINE", $dl);
 		}
 		if ($d["start_time"] > 0)
 		{
