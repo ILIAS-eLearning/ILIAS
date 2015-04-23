@@ -218,15 +218,11 @@ class ilExSubmissionTeamGUI
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			return false;
 		}
-		
-		$all_members = $this->team->getMembersOfAllTeams();
-		$members = $this->team->getMembers();
-		
+			
 		foreach($a_user_ids as $user_id)
-		{
-			if(!in_array($user_id, $all_members))
+		{		
+			if($this->team->addTeamMember($user_id, $this->exercise->getRefId()))
 			{
-				$this->team->addTeamMember($user_id, $this->exercise->getRefId());
 				$new_users[] = $user_id;
 				
 				// #14277
@@ -235,7 +231,7 @@ class ilExSubmissionTeamGUI
 					$this->exercise->members_obj->assignMember($user_id);
 				}
 			}
-			else if(in_array($user_id, $members))
+			else 
 			{
 				ilUtil::sendFailure($this->lng->txt("exc_members_already_assigned"), true);
 			}

@@ -159,12 +159,12 @@ class ilExAssignmentTeam
 		
 		if(!$this->id)
 		{
-			return;
+			return false;
 		}
 		
-		$members = $this->getMembers();
-		if(!in_array($a_user_id, $members))
-		{
+		// must not be in any team already
+		if(!in_array($a_user_id, $this->getMembersOfAllTeams()))
+		{			
 			$fields = array("id" => array("integer", $this->id),
 				"ass_id" => array("integer", $this->assignment_id),
 				"user_id" => array("integer", $a_user_id));			
@@ -179,7 +179,11 @@ class ilExAssignmentTeam
 				ilObjUser::_lookupFullname($a_user_id));
 			
 			$this->read($this->id);
-		}									
+			
+			return true;
+		}	
+		
+		return false;
 	}
 	
 	/**
@@ -448,16 +452,16 @@ class ilExAssignmentTeam
 					$first = array_shift($missing);			
 					$new_team = self::getInstanceByUserId($a_target_ass_id, $first, true);
 
-					foreach($missing as $user_id)
-					{
-						$new_team->addTeamMember($user_id, $a_exc_ref_id);
-					}	
-					
 					if($a_exc_ref_id)
 					{	
 						// getTeamId() does NOT send notification
 						$new_team->sendNotification($a_exc_ref_id, $first, "add");
 					}						
+				
+					foreach($missing as $user_id)
+					{
+						$new_team->addTeamMember($user_id, $a_exc_ref_id);
+					}	
 				}
 			}
 		}

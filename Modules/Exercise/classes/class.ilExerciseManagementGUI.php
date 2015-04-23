@@ -1094,17 +1094,28 @@ class ilExerciseManagementGUI
 				{				
 					// create teams from group selections
 					foreach($teams as $members)
-					{
+					{						
+						foreach($members as $user_id)
+						{
+							if(!$this->exercise->members_obj->isAssigned($user_id))
+							{
+								$this->exercise->members_obj->assignMember($user_id);
+							}
+						}
+						
 						$first = array_shift($members);
 						$team = ilExAssignmentTeam::getInstanceByUserId($this->assignment->getId(), $first, true);
-						if(sizeof($team))
+						
+						// getTeamId() does NOT send notification
+						// $team->sendNotification($this->exercise->getRefId(), $first, "add");
+						
+						if(sizeof($members))
 						{
 							foreach($members as $user_id)
 							{
 								$team->addTeamMember($team);
 							}
-						}
-						// :TODO: notifications?
+						}					
 					}
 
 					ilUtil::sendSuccess($lng->txt("settings_saved"), true);
