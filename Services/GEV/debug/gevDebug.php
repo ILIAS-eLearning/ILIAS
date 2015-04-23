@@ -603,14 +603,36 @@ class gevDebug {
 		print 'total: ' .count($ret);
 		print '<hr><pre>';
 		print_r($ret);
-		
+
+	}
 
 
 
 	
+	public function fix_wrong_altdaten_import(){
+		$buf = array();
+		$sql= "SELECT * FROM wbd_altdaten WHERE id > 20850 AND reported = 0";
+		$result = mysql_query($sql, $this->importDB);
+		while($rec = mysql_fetch_assoc($result)) {
+			$buf[] = array(
+					'id' => $rec['id'], 
+					'vorname' => $rec['name'], 
+					'name' => $rec['vorname'] 
+				);
+
+		}
+
+		foreach ($buf as $entry) {
+			$sql = "UPDATE wbd_altdaten SET "
+			."name = '" . $entry['name'] ."'"
+			.", vorname = '" . $entry['vorname'] ."'"
+			." WHERE id=" .$entry['id'] .';<br>';
+
+			print($sql);
+		}
+		
+
 	}
-
-
 
 
 
@@ -622,7 +644,9 @@ print '<pre>';
 $debug = new gevDebug();
 //$debug->fix_hist_users_calculated_fields();
 //$debug->find_users_with_missing_roles();
-$debug->analyze_wbdreg_vfs_olddata();
+//$debug->analyze_wbdreg_vfs_olddata();
+
+$debug->fix_wrong_altdaten_import();
 
 
 print '<br><br><i>done.</i>';
