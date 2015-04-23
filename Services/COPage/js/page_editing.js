@@ -346,6 +346,22 @@ var ilCOPage =
 		this.autoResize(ed);
 	},
 
+	cmdSup: function()
+	{
+		var ed = tinyMCE.get('tinytarget');
+
+		ed.execCommand('mceToggleFormat', false, 'Sup');
+		this.autoResize(ed);
+	},
+
+	cmdSub: function()
+	{
+		var ed = tinyMCE.get('tinytarget');
+
+		ed.execCommand('mceToggleFormat', false, 'Sub');
+		this.autoResize(ed);
+	},
+
 	cmdRemoveFormat: function()
 	{
 		var ed = tinyMCE.get('tinytarget');
@@ -2122,7 +2138,7 @@ function editParagraph(div_id, mode, switched)
 			elements: "tinytarget",
 			content_css: ilCOPage.content_css,
 			fix_list_elements : true,
-			valid_elements : "p,br[_moz_dirty],span[class],code,ul[class],ol[class],li[class]",
+			valid_elements : "p,br[_moz_dirty],span[class],code,sub[class],sup[class],ul[class],ol[class],li[class]",
 			forced_root_block : 'p',
 			entity_encoding : "raw",
 			paste_remove_styles: true,
@@ -2132,7 +2148,9 @@ function editParagraph(div_id, mode, switched)
 				Important: {inline : 'span', classes : 'ilc_text_inline_Important'},
 				Comment: {inline : 'span', classes : 'ilc_text_inline_Comment'},
 				Quotation: {inline : 'span', classes : 'ilc_text_inline_Quotation'},
-				Accent: {inline : 'span', classes : 'ilc_text_inline_Accent'}
+				Accent: {inline : 'span', classes : 'ilc_text_inline_Accent'},
+				Sup: {inline : 'sup', classes : 'ilc_text_inline_Sup'},
+				Sub: {inline : 'sub', classes : 'ilc_text_inline_Sub'}
 			},
 			/* not found in 4 code or docu (the configs for p/br are defaults for 3, so this should be ok) */
 			removeformat_selector : 'span,code',
