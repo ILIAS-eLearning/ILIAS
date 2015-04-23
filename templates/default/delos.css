@@ -2561,7 +2561,8 @@ div.ilTabContentOuter {
 
 div.ilTabContentInner {
 	padding: 0;
-	margin: 15px 0;
+	/* margin: 15px 0; */
+	float: left;
 	clear: both;
 	min-height: 300px;
 	width: 100%;
