@@ -2032,5 +2032,36 @@ if (!$a_wysiwyg)
 		}
 	}
 
+	/**
+	 * Get Javascript files
+	 */
+	function getJavascriptFiles($a_mode)
+	{
+		if ($a_mode != "edit")
+		{
+			include_once("./Services/Link/classes/class.ilLinkifyUtil.php");
+			return ilLinkifyUtil::getLocalJsPaths();
+		}
+
+		return array();
+	}
+
+	/**
+	 * Get onload code
+	 *
+	 * @param
+	 * @return
+	 */
+	function getOnloadCode($a_mode)
+	{
+		if ($a_mode != "edit")
+		{
+			return array("il.ExtLink.autolink('.ilc_Paragraph','ilc_link_ExtLink');");
+		}
+
+		return array();
+	}
+
+
 }
 ?>
