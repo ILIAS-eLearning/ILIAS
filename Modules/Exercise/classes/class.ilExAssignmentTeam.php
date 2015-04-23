@@ -473,10 +473,13 @@ class ilExAssignmentTeam
 		
 		$res = array();
 		
-		$parent_ref_id = $tree->getParentId($a_exc_ref_id);
-		foreach($tree->getChildsByType($parent_ref_id, "grp") as $group)
+		$parent_crs_ref_id = $tree->checkForParentType($a_exc_ref_id, "crs");
+		if($parent_crs_ref_id)
 		{
-			$res[] = $group["obj_id"];
+			foreach($tree->getChildsByType($parent_crs_ref_id, "grp") as $group)
+			{
+				$res[] = $group["obj_id"];
+			}
 		}
 		
 		return $res;
