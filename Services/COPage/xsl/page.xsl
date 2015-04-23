@@ -1260,12 +1260,12 @@
 
 <!-- Sup -->
 <xsl:template match="Sup">
-	<sup class="ilc_text_inline_Sup"><xsl:apply-templates/></sup>
+	<sup class="ilc_sup_Sup"><xsl:apply-templates/></sup>
 </xsl:template>
 
 <!-- Sub -->
 <xsl:template match="Sub">
-	<sub class="ilc_text_inline_Sub"><xsl:apply-templates/></sub>
+	<sub class="ilc_sub_Sub"><xsl:apply-templates/></sub>
 </xsl:template>
 
 <!-- Footnote (Links) -->

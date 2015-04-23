@@ -143,6 +143,12 @@ span.ilc_text_inline_Accent
 	color: #E000E0;
 }
 
+sup.ilc_text_inline_Sup {
+}
+
+sub.ilc_text_inline_Sub {
+}
+
 /* Links */
 a.ilc_link_FootnoteLink
 {
