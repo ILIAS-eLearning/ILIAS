@@ -5883,3 +5883,7 @@ $ilDB->manipulate("UPDATE style_data SET ".
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4481>
+<?php
+$ilDB->manipulate("UPDATE tst_active SET last_finished_pass = (tries - 1) WHERE last_finished_pass IS NULL");
+?>
