@@ -23,6 +23,7 @@ class gevExpressRegistrationGUI {
 		$this->auth = $ilAuth;
 		$this->crs_id = null;
 		$this->user_id = null;
+		$this->crs_utils = null;
 
 		$this->tpl->getStandardTemplate();
 	}
@@ -72,12 +73,12 @@ class gevExpressRegistrationGUI {
 		$this->user_id = $expLoginUtils->registerExpressUser($form);
 
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		$crsUtil = gevCourseUtils::getInstance($this->crs_id);
-		$crsUtil->bookUser($this->user_id);
+		$this->crs_utils = gevCourseUtils::getInstance($this->crs_id);
+		$this->crs_utils->bookUser($this->user_id);
 
-		$isSelfLearning = $crsUtil->getType() == "Selbstlernkurs";
+		$isSelfLearning = $this->crs_utils->getType() == "Selbstlernkurs";
 
-		$status = $crsUtil->getBookingStatusOf($this->user_id);
+		$status = $this->crs_utils->getBookingStatusOf($this->user_id);
 
 		if ($status != ilCourseBooking::STATUS_BOOKED && $status != ilCourseBooking::STATUS_WAITING) {
 			$this->failAtFinalize("Status was neither booked nor waiting.");
