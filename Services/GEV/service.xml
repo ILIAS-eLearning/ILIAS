@@ -6,7 +6,7 @@
 		<baseclass name="gevMemberListDeliveryGUI" dir="Desktop/classes" />
 		<baseclass name="gevDeskDisplaysDeliveryGUI" dir="Desktop/classes" />
 		<baseclass name="gevRegistrationGUI" dir="Registration/classes" />
-		<baseclass name="gevExpRegistrationGUI" dir="Registration/classes" />
+		<baseclass name="gevExpressRegistrationGUI" dir="Registration/classes" />
 	</baseclasses>
 	<objects>
 	</objects>
@@ -15,5 +15,6 @@
 		<cron id="gev_deferred_mailing" class="gevDeferredMailingJob" path="Services/GEV/Mailing/classes/" />
 		<cron id="gev_clean_waiting_list" class="gevCleanWaitingListJob" path="Services/GEV/Utils/classes/" />
 		<cron id="gev_exited_user_cleanup" class="gevExitedUserCleanupJob" path="Services/GEV/Utils/classes/" />
+		<cron id="gev_express_user_cleanup" class="gevExpressUserCleanupJob" path="Services/GEV/Utils/classes/" />
 	</crons>
 </service>

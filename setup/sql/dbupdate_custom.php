@@ -3513,3 +3513,24 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#113>
+<?php
+	// Add global and local Key-Accounter-Roles.
+	require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+	require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+	require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+	require_once("Customizing/class.ilCustomInstaller.php");
+	
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	
+	$role_utils = gevRoleUtils::getInstance();
+	$role_utils->createGlobalRole("ExpressUser", "Benutzeraccount per Express-Login angelegt.");
+?>

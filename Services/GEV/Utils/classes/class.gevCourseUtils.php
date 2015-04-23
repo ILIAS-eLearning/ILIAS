@@ -96,9 +96,9 @@ class gevCourseUtils {
 		global $ilCtrl,$ilUser;
 		// This is for the booking per express login.
 		if (!$ilUser->getId()) {
-			$ilCtrl->setParameterByClass("gevExpRegistrationGUI", "crs_id", $a_crs_id);
-			$lnk = $ilCtrl->getLinkTargetByClass("gevExpRegistrationGUI", "startRegistration");
-			$ilCtrl->clearParametersByClass("gevExpRegistrationGUI");
+			$ilCtrl->setParameterByClass("gevExpressRegistrationGUI", "crs_id", $a_crs_id);
+			$lnk = $ilCtrl->getLinkTargetByClass("gevExpressRegistrationGUI", "startRegistration");
+			$ilCtrl->clearParametersByClass("gevExpressRegistrationGUI");
 			return $lnk;
 		}
 		

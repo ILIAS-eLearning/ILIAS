@@ -689,7 +689,14 @@ class ilParticipationStatus
 				foreach($this->getCourse()->getMembersObject()->getMembers() as $user_id)
 				{
 					$this->raiseEvent("setStatusAndPoints", $user_id);
-				}			
+
+					//gev-patch start
+					//set experience date for express user
+					require_once("Services/GEV/Utils/classes/class.gevExpressLoginUtils.php");					
+					$expLoginUtils = gevExpressLoginUtils::getInstance();
+					$this->user_id = $expLoginUtils->setExpressUserExperienceDate($user_id);
+					//gev-patch end
+				}
 				
 				// gev-patch start
 				require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");

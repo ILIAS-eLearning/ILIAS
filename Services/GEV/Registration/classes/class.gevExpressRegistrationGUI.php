@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */#
+/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Command class for registration of an agent.
@@ -11,17 +11,16 @@
 
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
-class gevExpRegistrationGUI{
+class gevExpressRegistrationGUI {
 
 	public function __construct() {
-		global $lng, $ilCtrl, $tpl, $ilLog;
+		global $lng, $ilCtrl, $tpl, $ilLog, $ilAuth;
 
-		error_reporting(E_ERROR);
-
-		$this->lng = &$lng;
-		$this->ctrl = &$ilCtrl;
-		$this->tpl = &$tpl;
-		$this->log = &$ilLog;
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
+		$this->tpl = $tpl;
+		$this->log = $ilLog;
+		$this->auth = $ilAuth;
 		$this->crs_id = null;
 		$this->user_id = null;
 
@@ -29,23 +28,21 @@ class gevExpRegistrationGUI{
 	}
 
 	public function executeCommand() {
-		global $ilAuth;
-
 		// The user should not be logged in...
-		if ($ilAuth->checkAuth()) {
+		if ($this->auth->checkAuth()) {
 			ilUtil::redirect("login.php");
 		}
-		
-		if(!isset($_POST["type"])){
+
+		if (!isset($_POST["type"])) {
 			$cmd = "startExpRegistration";
-		}else{
+		}
+		else {
 			$cmd = $_POST["type"];
 		}
 
 		switch ($cmd) {
 			case "startExpRegistration":
-			case "registerExp":
-			case "registerExpUser":
+			case "registerExpUser":				
 				$cont = $this->$cmd();
 				break;
 			case "redirectNewLogin":
@@ -59,8 +56,7 @@ class gevExpRegistrationGUI{
 		$this->tpl->show();
 	}
 
-	protected function registerExpUser(){
-
+	protected function registerExpUser() {
 		$res = $this->checkForm();
 		
 		if ($res[1]) {
@@ -68,49 +64,14 @@ class gevExpRegistrationGUI{
 		}
 
 		$form = $res[0];
+		$this->crs_id = $_POST["crs_id"];
 
-		$user = new ilObjUser();
-
-		$user->setLogin("expr_".$form->getInput("firstname").$form->getInput("lastname"));
-		$user->setEmail($form->getInput("email"));
-		$user->setLastname($form->getInput("lastname"));
-		$user->setFirstname($form->getInput("firstname"));
-		$user->setInstitution($form->getInput("institution"));
-		$user->setPhoneOffice($form->getINput("phone"));
-
-		// is not active, owner is root
-		$user->setActive(0, 6);
-		$user->setTimeLimitUnlimited(true);
-		// user already agreed at registration
-		$now = new ilDateTime(time(),IL_CAL_UNIX);
-		$user->setAgreeDate($now->get(IL_CAL_DATETIME));
-		$user->setIsSelfRegistered(true);
-		
-		$user->create();
-		$user->saveAsNew();
-
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		$user_utils = gevUserUtils::getInstanceByObj($user);
-
-		$user_utils->setPrivateEmail($form->getInput("email"));
-		$user_utils->setCompanyName($form->getInput("institution"));
-		$user_utils->setJobNumber($form->getInput("vnumber"));
-
-		$data = $this->getStellennummerData($user_utils->getJobNumber());
-		$user_utils->setADPNumberGEV($data["adp"]);
-		$user_utils->setAgentKey($data["vms"]);
-
-		$this->user_id = $user->getId();
-		
-		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
-		$role_utils = gevRoleUtils::getInstance();
-		$role_utils->assignUserToGlobalRole($this->user_id, "ExpressUser");
-
-		$user->setActive(true, 6);
-		$user->update();
+		//register new express user
+		require_once("Services/GEV/Utils/classes/class.gevExpressLoginUtils.php");		
+		$expLoginUtils = gevExpressLoginUtils::getInstance();
+		$this->user_id = $expLoginUtils->registerExpressUser($form);
 
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		$this->crs_id = $_POST["crs_id"];
 		$crsUtil = gevCourseUtils::getInstance($this->crs_id);
 		$crsUtil->bookUser($this->user_id);
 
@@ -160,37 +121,6 @@ class gevExpRegistrationGUI{
 		ilUtil::redirect("makler.php");
 	}
 
-	protected function getImport() {
-		if ($this->import === null) {
-			require_once("gev_utils.php");
-			$this->import = get_gev_import();
-		}
-		
-		return $this->import;
-	}
-
-	protected function loadStellennummerData($a_stellennummer) {
-		if ($this->stellennummer_data === null) {
-			$import = $this->getImport();
-			$this->stellennummer_data = $import->get_stelle($a_stellennummer);
-		}
-	}
-	
-	protected function getStellennummerData($a_stellennummer) {
-		$this->loadStellennummerData($a_stellennummer);
-
-		if ($this->stellennummer_data["stellennummer"] != $a_stellennummer) {
-			throw new Exception("gevRegistrationGUI::getStellennummerData: stellennummer does not match.");
-		}
-
-		return $this->stellennummer_data;
-	}
-	
-	protected function isValidStellennummer($a_stellennummer) {
-		$this->loadStellennummerData($a_stellennummer);
-		return $this->stellennummer_data !== false && $this->stellennummer_data["stellennummer"] == $a_stellennummer;
-	}
-
 	protected function checkForm(){
 		$form = $this->buildRegistrationForm();
 		$err = false;
@@ -205,8 +135,10 @@ class gevExpRegistrationGUI{
 			$chb->setAlert($this->lng->txt("evg_mandatory"));
 		}
 
+		require_once("Services/GEV/Utils/classes/class.gevExpressLoginUtils.php");		
+		$expLoginUtils = gevExpressLoginUtils::getInstance();
 		$stellennummer = $form->getInput("vnumber");
-		if(!($this->isValidStellennummer($stellennummer) && $this->isAgent($stellennummer))) {
+		if (!($expLoginUtils->isValidStellennummer($stellennummer) && $expLoginUtils->isAgent($stellennummer))) {
 			$err = true;
 			$form->getItemByPostVar("vnumber")->setAlert($this->lng->txt("gev_evg_registration_not_found"));
 		}
@@ -267,18 +199,17 @@ class gevExpRegistrationGUI{
 			$optExp->addSubItem($inputSurName);
 
 			$inputInstitution = new ilTextInputGUI($this->lng->txt('gev_login_express_companyname'),"institution");
-			$inputInstitution->setRequired(true);
 			$optExp->addSubItem($inputInstitution);
 
 			$inputVNumber = new ilTextInputGUI($this->lng->txt('gev_login_express_vnumber'),"vnumber");
 			$inputVNumber->setRequired(true);
 			$optExp->addSubItem($inputVNumber);
 
-			$inputEMail = new ilEMailInputGUI($this->lng->txt('email'),"email");	
-			$inputEMail->setRequired(true);		
-			$optExp->addSubItem($inputEMail);			
+			$inputEMail = new ilEMailInputGUI($this->lng->txt('email'),"email");
+			$inputEMail->setRequired(true);
+			$optExp->addSubItem($inputEMail);
 		
-			$inputPhone = new ilNumberInputGUI($this->lng->txt('phone_office'),"phone");
+			$inputPhone = new ilTextInputGUI($this->lng->txt('phone_office'),"phone");
 			$inputPhone->setRequired(true);
 			$optExp->addSubItem($inputPhone);
 
