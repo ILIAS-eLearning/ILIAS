@@ -1,0 +1,3 @@
+<!-- language file start -->
+adve#:#adve_auto_url_linking#:#URL Auto-Linking
+adve#:#adve_auto_url_linking_info#:#Tries to identify URLs like "http://.." in text paragraphs and automatically creates links around them.

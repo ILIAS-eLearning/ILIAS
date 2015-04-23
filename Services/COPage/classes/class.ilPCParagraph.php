@@ -18,6 +18,7 @@ class ilPCParagraph extends ilPageContent
 	var $dom;
 	var $par_node;			// node of Paragraph element
 
+
 	/**
 	* Init page content component.
 	*/
@@ -2037,7 +2038,9 @@ if (!$a_wysiwyg)
 	 */
 	function getJavascriptFiles($a_mode)
 	{
-		if ($a_mode != "edit")
+		$adve_settings = new ilSetting("adve");
+
+		if ($a_mode != "edit" && $adve_settings->get("auto_url_linking"))
 		{
 			include_once("./Services/Link/classes/class.ilLinkifyUtil.php");
 			return ilLinkifyUtil::getLocalJsPaths();
@@ -2054,7 +2057,9 @@ if (!$a_wysiwyg)
 	 */
 	function getOnloadCode($a_mode)
 	{
-		if ($a_mode != "edit")
+		$adve_settings = new ilSetting("adve");
+
+		if ($a_mode != "edit" && $adve_settings->get("auto_url_linking"))
 		{
 			return array("il.ExtLink.autolink('.ilc_Paragraph','ilc_link_ExtLink');");
 		}
