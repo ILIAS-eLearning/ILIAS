@@ -207,7 +207,7 @@ class ilExerciseManagementGUI
 		
 		if (!$this->assignment)
 		{
-			$this->assignment = current($ass);			
+			$this->assignment = current($ass);				
 		}
 		
 		reset($ass);
@@ -242,10 +242,12 @@ class ilExerciseManagementGUI
 			)
 		);
 		
-		// we do not want the ilRepositorySearchGUI form action
+		// we do not want the ilRepositorySearchGUI form action		
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-
+	
 		$ilToolbar->addSeparator();
+		
+		$ilCtrl->setParameter($this, "ass_id", $this->assignment->getId());
 		
 		// multi-feedback
 		$ilToolbar->addButton($this->lng->txt("exc_multi_feedback"),
@@ -274,6 +276,9 @@ class ilExerciseManagementGUI
 		{
 			ilUtil::sendInfo($lng->txt("exc_no_assignments_available"));
 		}
+		
+		$ilCtrl->setParameter($this, "ass_id", "");
+
 		return;		
 	}
 	
@@ -596,8 +601,7 @@ class ilExerciseManagementGUI
 			}
 		}
 	
-		ilExSubmission::downloadAllAssignmentFiles($this->exercise->getId(),
-			$this->assignment->getId(), $members);
+		ilExSubmission::downloadAllAssignmentFiles($this->assignment, $members);
 		exit;
 	}
 	

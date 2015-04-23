@@ -85,7 +85,7 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 		if($this->submission->getAssignment()->getExtendedDeadline())
 		{
 			$this->tpl->setVariable("DELIVERED_LATE", ($file["late"])
-				? $this->lng->txt("yes")
+				? '<span class="warning">'.$this->lng->txt("yes").'</span>'
 				: $this->lng->txt("no"));					
 		}
 	}

@@ -798,14 +798,14 @@ class ilExSubmission
 	 *
 	 * @param	$members		array of user names, key is user id
 	 */
-	public static function downloadAllAssignmentFiles($a_exc_id, $a_ass_id, $members)
+	public static function downloadAllAssignmentFiles(ilExAssignment $a_ass, $members)
 	{
-		global $lng, $ilObjDataCache, $ilias;
+		global $lng, $ilias;
 		
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		
-		$storage = new ilFSStorageExercise($a_exc_id, $a_ass_id);
+		$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
 		$storage->create();
 		
 		ksort($members);
@@ -842,7 +842,7 @@ class ilExSubmission
 			return -1;
 		}
 		
-		$ass_type = self::lookupType($a_ass_id);
+		$ass_type = $a_ass->getType();
 
 		// copy all member directories to the temporary folder
 		// switch from id to member name and append the login if the member name is double
@@ -931,7 +931,7 @@ class ilExSubmission
 		exec($zipcmd);
 		ilUtil::delDir($tmpdir);
 
-		$assTitle = ilExAssignment::lookupTitle($a_ass_id)."_".$a_ass_id;
+		$assTitle = $a_ass->getTitle()."_".$a_ass->getId();
 		chdir($cdir);
 		ilUtil::deliverFile($tmpzipfile, (strlen($assTitle) == 0
 			? strtolower($lng->txt("exc_assignment"))

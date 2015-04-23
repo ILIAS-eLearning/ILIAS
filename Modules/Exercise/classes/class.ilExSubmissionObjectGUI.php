@@ -680,7 +680,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		return false;
 	}	
 	
-	public static function initGUIForSubmit($exc_id, $a_ass_id, $a_user_id = null)
+	public static function initGUIForSubmit($a_ass_id, $a_user_id = null)
 	{
 		global $ilUser;
 		
@@ -689,16 +689,18 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 			$a_user_id = $ilUser->getId();					
 		}
 		
-		// #11173 - ref_id is needed for notifications
-		$exc_ref_id = array_shift(ilObject::_getAllReferences($exc_id));	
-		
 		include_once "Modules/Exercise/classes/class.ilObjExercise.php";
 		include_once "Modules/Exercise/classes/class.ilExAssignment.php";
 		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
-		
-		$exc = new ilObjExercise($exc_ref_id, true);
+						
 		$ass = new ilExAssignment($a_ass_id);
 		$sub = new ilExSubmission($ass, $a_user_id);
+		$exc_id = $ass->getExerciseId();
+		
+		// #11173 - ref_id is needed for notifications
+		$exc_ref_id = array_shift(ilObject::_getAllReferences($exc_id));	
+		$exc = new ilObjExercise($exc_ref_id, true);
+				
 		return new self($exc, $sub);
 	}
 }

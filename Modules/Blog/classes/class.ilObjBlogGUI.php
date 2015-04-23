@@ -15,7 +15,7 @@ require_once "./Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
 * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
-* @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjStyleSheetGUI
+* @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjStyleSheetGUI, ilBlogExerciseGUI
 *
 * @extends ilObject2GUI
 */
@@ -668,6 +668,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					$this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
 				}
 				break;
+				
+			case "ilblogexercisegui":
+				$this->ctrl->setReturn($this, "render");
+				include_once "Modules/Blog/classes/class.ilBlogExerciseGUI.php";
+				$gui = new ilBlogExerciseGUI($this->node_id);
+				$this->ctrl->forwardCommand($gui);
+				break;
 
 			default:				
 				if($cmd != "gethtml")
@@ -823,36 +830,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$ilToolbar->addButtonInstance($button);
 						
 			// exercise blog?			
-			include_once "Modules/Exercise/classes/class.ilExSubmission.php";			
-			$exercises = ilExSubmission::findUserFiles($ilUser->getId(), $this->node_id);
+			include_once "Modules/Blog/classes/class.ilBlogExerciseGUI.php";			
+			$exercises = ilBlogExerciseGUI::checkExercise($this->node_id);
 			if($exercises)
-			{
-				$info = array();				
-				foreach($exercises as $exercise)
-				{					
-					// #9988
-					$active_ref = false;
-					foreach(ilObject::_getAllReferences($exercise["obj_id"]) as $ref_id)
-					{
-						if(!$tree->isSaved($ref_id))
-						{
-							$active_ref = true;
-							break;
-						}
-					}
-					if($active_ref)
-					{					
-						$part = $this->getExerciseInfo($exercise["ass_id"]);
-						if($part)
-						{
-							$info[] = $part;
-						}
-					}
-				}				
-				if(sizeof($info))
-				{
-					ilUtil::sendInfo(implode("<br />", $info));										
-				}
+			{				
+				ilUtil::sendInfo($exercises);														
 			}
 		}
 								
@@ -872,171 +854,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					
 		$tpl->setContent($list);
 		$tpl->setRightContent($nav);
-	}
-	
-	function getExerciseInfo($a_assignment_id)
-	{		
-		global $lng, $ilCtrl, $ilUser;
-		
-		include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
-		$ass = new ilExAssignment($a_assignment_id);		
-		$exercise_id = $ass->getExerciseId();		
-		if(!$exercise_id)
-		{
-			return;
-		}
-		
-		// is the assignment still open?
-		$times_up = $ass->afterDeadlineStrict();
-		
-		// exercise goto
-		include_once "./Services/Link/classes/class.ilLink.php";
-		$exc_ref_id = array_shift(ilObject::_getAllReferences($exercise_id));
-		$exc_link = ilLink::_getStaticLink($exc_ref_id, "exc");
-		
-		$info = sprintf($lng->txt("blog_exercise_info"), 
-			$ass->getTitle(),
-			"<a href=\"".$exc_link."\">".
-			ilObject::_lookupTitle($exercise_id)."</a>");
-		
-		// submit button
-		if(!$times_up)
-		{			
-			$ilCtrl->setParameter($this, "exc", $exercise_id);				
-			$ilCtrl->setParameter($this, "ass", $a_assignment_id);
-			$submit_link = $ilCtrl->getLinkTarget($this, "finalize");
-			$ilCtrl->setParameter($this, "ass", "");
-			$ilCtrl->setParameter($this, "exc", "");	
-			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-			$button = ilLinkButton::getInstance();
-			$button->setCaption("blog_finalize_blog");
-			$button->setPrimary(true);
-			$button->setUrl($submit_link);			
-			$info .= " ".$button->render();
-		}
-		
-		// submitted files
-		include_once "Modules/Exercise/classes/class.ilExSubmission.php";		
-		$submission = new ilExSubmission($ass, $ilUser->getId());
-		$submitted = $submission->getFiles();
-		if($submitted)
-		{						
-			$submitted = array_pop($submitted);
-			
-			$ilCtrl->setParameter($this, "ass", $a_assignment_id);
-			$dl_link = $ilCtrl->getLinkTarget($this, "downloadExcSubFile");
-			$ilCtrl->setParameter($this, "ass", "");
-			
-			$rel = ilDatePresentation::useRelativeDates();
-			ilDatePresentation::setUseRelativeDates(false);
-			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-			$button = ilLinkButton::getInstance();
-			$button->setCaption("download");		
-			$button->setUrl($dl_link);			
-			
-			$info .= "<br />".sprintf($lng->txt("blog_exercise_submitted_info"), 
-				ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
-				$button->render());
-			
-			ilDatePresentation::setUseRelativeDates($rel);
-		}		
-		
-		
-		// work instructions incl. files
-		
-		$tooltip = "";
-
-		$inst = $ass->getInstruction();
-		if($inst)
-		{
-			$tooltip .= nl2br($inst);					
-		}
-
-		$ass_files = $ass->getFiles();
-		if (count($ass_files) > 0)
-		{
-			$tooltip .= "<br /><br />";
-			
-			foreach($ass_files as $file)
-			{
-				$ilCtrl->setParameter($this, "ass", $a_assignment_id);
-				$ilCtrl->setParameter($this, "file", urlencode($file["name"]));
-				$dl_link = $ilCtrl->getLinkTarget($this, "downloadExcAssFile");
-				$ilCtrl->setParameter($this, "file", "");			
-				$ilCtrl->setParameter($this, "ass", "");			
-				
-				$tooltip .= $file["name"].": <a href=\"".$dl_link."\">".
-					$lng->txt("download")."</a>";										
-			}
-		}			
-		
-		if($tooltip)
-		{
-			$ol_id = "exc_ass_".$a_assignment_id;
-
-			include_once "Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php";
-			$overlay = new ilOverlayGUI($ol_id);
-
-			// overlay
-			$overlay->setAnchor($ol_id."_tr");
-			$overlay->setTrigger($ol_id."_tr", "click", $ol_id."_tr");
-			$overlay->add();
-
-			$info .= "<div id=\"".$ol_id."_tr\"><a href=\"#\">".$lng->txt("exc_instruction")."</a></div>".
-				"<div id=\"".$ol_id."\" style=\"display:none; padding:10px;\" class=\"ilOverlay\">".$tooltip."</div>";
-		}
-		
-		return "<div>".$info."</div>";
-	}
-	
-	function downloadExcAssFile()
-	{
-		if($_GET["ass"] && $_GET["file"])
-		{		
-			include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
-			$ass = new ilExAssignment((int)$_GET["ass"]);			
-			$ass_files = $ass->getFiles();
-			if (count($ass_files) > 0)
-			{
-				foreach($ass_files as $file)
-				{
-					if($file["name"] == $_GET["file"])
-					{
-						ilUtil::deliverFile($file["fullpath"], $file["name"]);						
-					}												
-				}
-			}
-		}					
-	}
-	
-	function downloadExcSubFile()
-	{
-		global $ilUser;
-		
-		if($_GET["ass"])
-		{		
-			include_once "Modules/Exercise/classes/class.ilExAssignment.php";						
-			include_once "Modules/Exercise/classes/class.ilExSubmission.php";	
-			$ass = new ilExAssignment((int)$_GET["ass"]);
-			$submission = new ilExSubmission($ass, $ilUser->getId());
-			$submitted = $submission->getFiles();			
-			if (count($submitted) > 0)
-			{
-				$submitted = array_pop($submitted);			
-				
-				$user_data = ilObjUser::_lookupName($submitted["user_id"]);
-				$title = ilObject::_lookupTitle($submitted["obj_id"])." - ".
-					$ass->getTitle()." - ".
-					$user_data["firstname"]." ".
-					$user_data["lastname"]." (".
-					$user_data["login"].").zip";
-									
-				ilUtil::deliverFile($submitted["filename"], $title);																	
-			}
-		}					
-	}
+	}	
 
 	/**
 	 * Return embeddable HTML chunk
@@ -2393,22 +2211,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		chmod($file, 0770);
 		
 		return $file;
-	}
-	
-	/**
-	 * Finalize and submit blog to exercise
-	 */
-	protected function finalize()
-	{
-		global $ilCtrl, $lng;
-		
-		include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
-		include_once "Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php";		
-		$exc_gui = ilExSubmissionObjectGUI::initGUIForSubmit((int)$_REQUEST["exc"], (int)$_REQUEST["ass"]);
-		$exc_gui->submitBlog($this->node_id);
-		
-		ilUtil::sendSuccess($lng->txt("blog_finalized"), true);
-		$ilCtrl->redirect($this, "render");
 	}
 	
 	function getNotesSubId()
