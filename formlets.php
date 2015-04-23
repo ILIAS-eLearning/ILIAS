@@ -2,6 +2,9 @@
 /******************************************************************************
  * Copyright (c) 2014 Richard Klees <richard.klees@rwth-aachen.de>
  *
+ * This software is licensed under The MIT License. You should have received 
+ * a copy of the along with the code.
+ *
  * This is an attempt to a PHP implementation of the idea of formlets [1].
  * General idea is to have an abstract and composable representation of forms, 
  * called Formlets, that can be transformed to a concrete Builder and 

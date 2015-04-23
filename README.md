@@ -22,7 +22,7 @@ use them for a framework to create forms. Hf.
 
 *This README.md is also a literate PHP-file.*
 
-*This code is released under the [GNU Affero GPL](LICENSE.md)*
+*This code is released under the [MIT License](LICENSE.md)*
 
 ## Functions as Values, Currying
 
