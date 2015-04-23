@@ -514,7 +514,8 @@ class ilExAssignmentEditorGUI
 						
 			if($ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 			{				
-				if(sizeof(ilExAssignment::getAdoptableTeamAssignments($this->exercise_id, $ass->getId())))
+				include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
+				if(sizeof(ilExAssignmentTeam::getAdoptableTeamAssignments($this->exercise_id, $ass->getId())))
 				{
 					$ilCtrl->setParameter($this, "ass_id", $ass->getId());
 					$ilCtrl->redirect($this, "adoptTeamAssignmentsForm");
@@ -934,6 +935,7 @@ class ilExAssignmentEditorGUI
 		{
 			ilUtil::sendSuccess($lng->txt("exc_assignments_deleted"), true);
 		}
+		$ilCtrl->setParameter($this, "ass_id", "");
 		$ilCtrl->redirect($this, "listAssignments");
 	}
 	
@@ -1000,22 +1002,22 @@ class ilExAssignmentEditorGUI
 	{
 		global $ilCtrl, $ilTabs, $lng, $tpl;
 		
-		$this->checkPermission("write");
-		
 		if(!$this->assignment)
 		{
 			$ilCtrl->redirect($this, "listAssignments");
 		}
 		
-		$ilTabs->activateTab("content");
-		$this->addContentSubTabs("list_assignments");
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "listAssignments"));
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();		         
 		$form->setTitle($lng->txt("exc_team_assignment_adopt"));
 		$form->setFormAction($ilCtrl->getFormAction($this, "adoptTeamAssignments"));
 		
-		$options = ilExAssignment::getAdoptableTeamAssignments($this->assignment->getExerciseId());
+		include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
+		$options = ilExAssignmentTeam::getAdoptableTeamAssignments($this->assignment->getExerciseId());
 		
 		// we must not have existing teams in assignment
 		if(array_key_exists($this->assignment->getId(), $options))
@@ -1047,13 +1049,12 @@ class ilExAssignmentEditorGUI
 	{
 		global $ilCtrl, $lng;
 		
-		$this->checkPermission("write");
-		
 		$src_ass_id = (int)$_POST["ass_adpt"];
 		
-		if($this->ass && $src_ass_id > 0)
+		if($this->assignment && 
+			$src_ass_id > 0)
 		{
-			// no notifications, assignment is not ready
+			include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
 			ilExAssignmentTeam::adoptTeams($src_ass_id, $this->assignment->getId());			
 			
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);

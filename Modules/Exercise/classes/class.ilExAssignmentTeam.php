@@ -357,7 +357,7 @@ class ilExAssignmentTeam
 			
 			if($row["type"] == ilExAssignment::TYPE_UPLOAD_TEAM)
 			{
-				$map = ilExAssignment::getAssignmentTeamMap($row["id"]);
+				$map = self::getAssignmentTeamMap($row["id"]);
 				
 				if($a_user_id && !array_key_exists($a_user_id, $map))
 				{
@@ -456,11 +456,48 @@ class ilExAssignmentTeam
 					if($a_exc_ref_id)
 					{	
 						// getTeamId() does NOT send notification
-						$this->sendNotification($a_exc_ref_id, $first, "add");
+						$new_team->sendNotification($a_exc_ref_id, $first, "add");
 					}						
 				}
 			}
 		}
+	}
+	
+	// 
+	// GROUPS
+	//
+	
+	public static function getAdoptableGroups($a_exc_ref_id)
+	{
+		global $tree;
+		
+		$res = array();
+		
+		$parent_ref_id = $tree->getParentId($a_exc_ref_id);
+		foreach($tree->getChildsByType($parent_ref_id, "grp") as $group)
+		{
+			$res[] = $group["obj_id"];
+		}
+		
+		return $res;
+	}
+	
+	public static function getGroupMembersMap($a_exc_ref_id)
+	{					
+		$res = array();
+		
+		include_once "Modules/Group/classes/class.ilGroupParticipants.php";
+		foreach(self::getAdoptableGroups($a_exc_ref_id) as $grp_obj_id)
+		{
+			$members_obj = new ilGroupParticipants($grp_obj_id);
+			
+			$res[$grp_obj_id] = array(
+				"title" => ilObject::_lookupTitle($grp_obj_id)
+				,"members" =>  $members_obj->getMembers()
+			);			
+		}
+		
+		return $res;
 	}
 }
 

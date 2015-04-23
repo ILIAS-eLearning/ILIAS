@@ -242,16 +242,29 @@ class ilExerciseManagementGUI
 			)
 		);
 		
+		$ilToolbar->addSeparator();
+		
 		// we do not want the ilRepositorySearchGUI form action		
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-	
-		$ilToolbar->addSeparator();
 		
 		$ilCtrl->setParameter($this, "ass_id", $this->assignment->getId());
 		
-		// multi-feedback
-		$ilToolbar->addButton($this->lng->txt("exc_multi_feedback"),
-			$this->ctrl->getLinkTarget($this, "showMultiFeedback"));
+		if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{
+			include_once("./Modules/Exercise/classes/class.ilExAssignmentTeam.php");
+			if(ilExAssignmentTeam::getAdoptableGroups($this->exercise->getRefId()))
+			{
+				// multi-feedback
+				$ilToolbar->addButton($this->lng->txt("exc_adopt_group_teams"),
+					$this->ctrl->getLinkTarget($this, "adoptTeamsFromGroup"));
+			}
+		}		
+		else
+		{	
+			// multi-feedback
+			$ilToolbar->addButton($this->lng->txt("exc_multi_feedback"),
+				$this->ctrl->getLinkTarget($this, "showMultiFeedback"));
+		}
 		
 		if (count($ass) > 0)
 		{							
@@ -975,6 +988,137 @@ class ilExerciseManagementGUI
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		}
 		$ilCtrl->redirect($this, "members");		
+	}
+	
+	function adoptTeamsFromGroupObject(ilPropertyFormGUI $a_form = null)
+	{
+		global $ilCtrl, $ilTabs, $lng, $tpl;
+		
+		$ilTabs->clearTargets();				
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, $this->getViewBack()));
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initGroupForm();
+		}
+		$tpl->setContent($a_form->getHTML());		
+	}
+	
+	protected function initGroupForm()
+	{
+		global $lng;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();				
+		$form->setTitle($lng->txt("exc_adopt_group_teams")." - ".$this->assignment->getTitle());
+		$form->setFormAction($this->ctrl->getFormAction($this, "createTeamsFromGroups"));		
+			
+		include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
+		include_once "Services/User/classes/class.ilUserUtil.php";
+		$all_members = array();
+		foreach(ilExAssignmentTeam::getGroupMembersMap($this->exercise->getRefId()) as $grp_id => $group)
+		{
+			if(sizeof($group["members"]))
+			{
+				$grp_team = new ilCheckboxGroupInputGUI($group["title"], "grpt_".$grp_id);				
+				$grp_value = array();
+				foreach($group["members"] as $user_id)
+				{
+					$user_name = ilUserUtil::getNamePresentation($user_id, false, false, "", true);					
+					$grp_team->addOption(new ilCheckboxOption($user_name, $user_id));
+					if(!in_array($user_id, $all_members))
+					{
+						$grp_value[] = $user_id;
+						$all_members[] = $user_id;
+					}
+				}
+				$grp_team->setValue($grp_value);
+				$form->addItem($grp_team);
+			}
+			else
+			{
+				$grp_team = new ilNonEditableValueGUI($group["title"]);
+				$grp_team->setValue($lng->txt("exc_adopt_group_teams_no_members"));
+				$form->addItem($grp_team);
+			}
+		}
+		
+		if(sizeof($all_members))
+		{
+			$form->addCommandButton("createTeamsFromGroups", $lng->txt("save"));
+		}
+		$form->addCommandButton("members", $lng->txt("cancel"));
+		
+		return $form;		
+	}
+	
+	function createTeamsFromGroupsObject()
+	{
+		global $lng;
+		
+		$form = $this->initGroupForm();
+		if($form->checkInput())
+		{
+			$map = ilExAssignmentTeam::getGroupMembersMap($this->exercise->getRefId());
+			$all_members = $teams = array();
+			$valid = true;
+			foreach(array_keys($map) as $grp_id)
+			{
+				$postvar = "grpt_".$grp_id;
+				$members = $_POST[$postvar];
+				if(is_array($members))
+				{
+					$teams[] = $members;
+					
+					foreach($members as $user_id)
+					{
+						if(!array_key_exists($user_id, $all_members))
+						{
+							$all_members[$user_id] = $grp_id;
+						}
+						else
+						{				
+							// user is selected in multiple groups
+							$valid = false;
+							$grp_title = $map[$all_members[$user_id]]["title"];
+							$input = $form->getItemByPostVar($postvar);
+							$input->setAlert(sprintf($lng->txt("exc_adopt_group_teams_conflict"), $grp_title));
+						}
+					}
+				}
+			}
+			if($valid)
+			{				
+				if(sizeof($teams))
+				{				
+					// create teams from group selections
+					foreach($teams as $members)
+					{
+						$first = array_shift($members);
+						$team = ilExAssignmentTeam::getInstanceByUserId($this->assignment->getId(), $first, true);
+						if(sizeof($team))
+						{
+							foreach($members as $user_id)
+							{
+								$team->addTeamMember($team);
+							}
+						}
+						// :TODO: notifications?
+					}
+
+					ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+				}
+				$this->ctrl->redirect($this, "members");
+			}
+			else
+			{
+				ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+			}
+		}
+		
+		$form->setValuesByPost();
+		$this->adoptTeamsFromGroupObject($form);
 	}
 	
 	

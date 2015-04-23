@@ -1,0 +1,32 @@
+<!-- language file start -->
+exc#:#exc_peer_review_given#:#Show Given Feedback
+exc#:#exc_peer_review_show_received_none#:#You received no feedback.
+exc#:#exc_peer_review_min_chars_tgl#:#Mininum Length
+exc#:#exc_peer_review_min_chars#:#Mininum Number of Characters
+exc#:#exc_peer_review_min_chars_info#:#The required number of characters for a valid feedback.
+exc#:#exc_peer_review_chars_invalid#:#At least one of your feedbacks does not have the required minimum length of %s characters.
+exc#:#exc_peer_review_show_missing#:#You cannot view your received feedback as you gave not enough feedback.
+exc#:#exc_peer_review_simple_unlock#:#Access to received feedback
+exc#:#exc_peer_review_simple_unlock_active#:#After giving at least 1 valid feedback
+exc#:#exc_peer_review_simple_unlock_inactive#:#After giving all required feedbacks
+exc#:#exc_peer_review_min_number#:#Number of feedbacks per participant
+exc#:#exc_peer_review_completion#:#Determination of "Passed" Status
+exc#:#exc_peer_review_completion_none#:#Without any feedback
+exc#:#exc_peer_review_completion_one#:#With at least 1 valid feedback
+exc#:#exc_peer_review_completion_all#:#With all required feedbacks
+exc#:#exc_team_multi_create#:#Create Team
+exc#:#exc_team_multi_dissolve#:#Dissolve Team(s)
+exc#:#exc_team_management_tutor#:#Team Management by Tutors
+exc#:#exc_team_management_tutor_info#:#If activated participants cannot organize teams themselves.
+exc#:#exc_no_team_yet_info_tutor#:#Teams are managed by the exercise tutors.
+exc#:#exc_max_file#:#Max Number of Files
+exc#:#exc_max_file_info#:#Participants will not be able to upload more files once the limit is reached.
+exc#:#exc_max_file_tgl#:#Limit Uploads
+exc#:#exc_max_file_reached#:#You cannot upload more than %s files.
+exc#:#exc_deadline_extended#:#Grace Period
+exc#:#exc_deadline_extended_info#:#Late submission are possible between the deadline and the end of the grace period.
+exc#:#exc_late_submission_warning#:#Submissions after %s are marked as late.
+exc#:#exc_late_submission#:#Late Submission
+exc#:#exc_adopt_group_teams#:#Adopt Teams from Groups
+exc#:#exc_adopt_group_teams_no_members#:#No members
+exc#:#exc_adopt_group_teams_conflict#:#User is already selected for group %s.

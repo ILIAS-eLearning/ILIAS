@@ -44,7 +44,7 @@ class ilExAssignment
 	protected $feedback_file;
 	protected $feedback_cron;
 	protected $feedback_date;
-	protected $team_tutor;
+	protected $team_tutor = false;
 	protected $max_file;
 	
 	protected $member_status = array(); // [array]
