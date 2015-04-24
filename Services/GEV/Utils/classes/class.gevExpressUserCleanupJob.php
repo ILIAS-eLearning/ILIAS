@@ -1,4 +1,15 @@
 <?php
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+
+/**
+* Class gevExpressUserCleanupJob
+*
+* CronJob: deletes ExpressUser from Ilias
+*
+* @author Stefan Hecken 
+* @version $Id$
+*/
 
 require_once("Services/Cron/classes/class.ilCronManager.php");
 require_once("Services/Cron/classes/class.ilCronJob.php");
