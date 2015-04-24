@@ -1058,7 +1058,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		$result = array();
 		$result['id'] = (int) $this->getId();
 		$result['type'] = (string) $this->getQuestionType();
-		$result['title'] = (string) $this->getTitle();
+		$reilUtilsult['title'] = (string) $this->getTitle();
 		$result['question'] =  $this->formatSAQuestion($this->getQuestion());
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
@@ -1077,7 +1077,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 				$has_image = true;
 			}
 			array_push($answers, array(
-				"answertext" => (string) $this->formatSAQuestion($answer_obj->getAnswertext()),
+				"answertext" => (string) $this->formatSAQuestion($answer_obj->getAnswertext(), "\<span class\=\"latex\">", "\<\/span>"),
 				"points" => (float)$answer_obj->getPoints(),
 				"order" => (int)$answer_obj->getOrder(),
 				"image" => (string) $answer_obj->getImage(),
