@@ -628,6 +628,7 @@ class gevUserUtils {
 		$start_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
 		$type_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
 		$bk_deadl_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_BOOKING_DEADLINE);
+		$schedule_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_SCHEDULE);
 		
 		// include search options 
 		$additional_join = "";
@@ -718,7 +719,8 @@ class gevUserUtils {
 				"       OR (end_date.value IS NULL AND NOT start_date.value < ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"])).")"
 				;
 		}
-		
+		$hour = $this->db->quote(date("H"), "text");
+		$minute = $this->db->quote(date("i"),"text");
 		// try to narrow down the set as much as possible to avoid permission checks
 		$query = "SELECT DISTINCT cs.obj_id ".
 				 " FROM crs_settings cs".
@@ -736,6 +738,10 @@ class gevUserUtils {
 				 " LEFT JOIN adv_md_values_text ltype".
 				 "   ON cs.obj_id = ltype.obj_id ".
 				 "   AND ltype.field_id = ".$this->db->quote($type_field_id, "integer").
+				 // this is knowledge from the course amd plugin				 
+				 " LEFT JOIN adv_md_values_text schedule".
+				 "   ON cs.obj_id = schedule.obj_id ".
+				 "   AND schedule.field_id = ".$this->db->quote($schedule_field_id, "integer").
 				 // this is knowledge from the course amd plugin
 /*				 " LEFT JOIN adv_md_values_int bk_deadl ".
 				 "   ON cs.obj_id = bk_deadl.obj_id ".
@@ -746,15 +752,44 @@ class gevUserUtils {
 				 "   AND cs.activation_end > ".time().
 				 "   AND oref.deleted IS NULL".
 				 "   AND is_template.value = ".$this->db->quote("Nein", "text").
-				 "   AND (   ( (ltype.value LIKE 'Pr_senztraining' OR ltype.value = 'Webinar' OR ltype.value = 'Virtuelles Training')".
+				 "   AND (   ( (ltype.value LIKE 'Pr_senztraining' OR ltype.value = 'Virtuelles Training')".
 				 "            AND start_date.value > ".$this->db->quote(date("Y-m-d"), "text").
 				 "		     )".
 				 "		  OR (".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").
 				 "			 )".
-				 "		 )".
+				 "		 OR (ltype.value = 'Webinar' AND start_date.value >= ".$this->db->quote(date("Y-m-d"), "text").
+			 	 "			AND (
+				 					(
+				 						SUBSTRING(schedule.value,19,2)>=30 AND 
+									 	(	
+									 		SUBSTRING(schedule.value,16,2) > ".$hour." 
+									   		OR 
+									   		(
+									   			SUBSTRING(schedule.value,16,2) = ".$hour."
+									   	  	  	AND 
+								       			SUBSTRING(schedule.value,19,2)-30 > ".$minute."
+						   		      	  	)
+									 	)
+									)	 
+									OR
+									(
+										SUBSTRING(schedule.value,19,2)<30 AND
+										(
+											SUBSTRING(schedule.value,16,2) -1 > ".$hour."
+											OR
+											(
+												SUBSTRING(schedule.value,16,2) -1 = ".$hour."
+									   	  	  	AND 
+								       			SUBSTRING(schedule.value,19,2)+30 > ".$minute."
+									  	  	)
+								  		)
+							 		)
+				 		 		)
+							)
+						)".
 				 $additional_where.
 				 "";
-				 
+
 
 		$res = $this->db->query($query);
 		
