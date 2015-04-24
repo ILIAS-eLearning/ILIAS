@@ -3540,7 +3540,6 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 	require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 	require_once("Customizing/class.ilCustomInstaller.php");
 
-	ilCustomInstaller::maybeInitClientIni();
 	ilCustomInstaller::maybeInitPluginAdmin();
 	ilCustomInstaller::maybeInitObjDefinition();
 	ilCustomInstaller::maybeInitAppEventHandler();
