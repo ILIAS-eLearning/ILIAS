@@ -2564,9 +2564,9 @@ class ilExAssignment
 			$rater_ids = $user_ids;
 			$matrix = array();
 
-			$max = min(sizeof($user_ids)-1, $this->getPeerReviewMin());			
+			$max = min(sizeof($user_ids)-1, $this->getPeerReviewMin());							
 			for($loop = 0; $loop < $max; $loop++)
-			{				
+			{					
 				$run_ids = array_combine($user_ids, $user_ids);
 				
 				foreach($rater_ids as $rater_id)
@@ -2577,24 +2577,43 @@ class ilExAssignment
 					unset($possible_peer_ids[$rater_id]);
 					
 					// already has linked peers
-					if(isset($matrix[$rater_id]))
+					if(array_key_exists($rater_id, $matrix))
 					{
 						$possible_peer_ids = array_diff($possible_peer_ids, $matrix[$rater_id]);
-						if(sizeof($possible_peer_ids))
-						{
-							$peer_id = array_rand($possible_peer_ids);
-							$matrix[$rater_id][] = $peer_id;	
-						}
 					}
-					// 1st peer
-					else
+					
+					// #15665 / #15883 
+					if(!sizeof($possible_peer_ids))
 					{
-						if(sizeof($possible_peer_ids)) // #14947
+						// no more possible peers left?  start over with all valid users
+						$run_ids = array_combine($user_ids, $user_ids);
+						
+						// see above
+						$possible_peer_ids = $run_ids;
+						
+						// may not rate himself
+						unset($possible_peer_ids[$rater_id]);
+
+						// already has linked peers
+						if(array_key_exists($rater_id, $matrix))
 						{
-							$peer_id = array_rand($possible_peer_ids);
-							$matrix[$rater_id] = array($peer_id);	
+							$possible_peer_ids = array_diff($possible_peer_ids, $matrix[$rater_id]);
 						}
 					}
+						
+					// #14947 
+					if(sizeof($possible_peer_ids))
+					{
+						$peer_id = array_rand($possible_peer_ids);
+						if(!array_key_exists($rater_id, $matrix))
+						{
+							$matrix[$rater_id] = array();															
+						}						
+						$matrix[$rater_id][] = $peer_id;						
+					}
+					
+					// remove peer_id from possible ids in this run
+					unset($run_ids[$peer_id]);
 				}
 			}	
 			
@@ -2670,7 +2689,7 @@ class ilExAssignment
 				foreach($reviews as $giver_id => $review)
 				{
 					if(!in_array($giver_id, $all_valid) ||
-						!in_array($peer_id, $all_exc))
+						!in_array($giver_id, $all_exc))
 					{
 						$invalid_giver_ids[] = $giver_id;
 					}
