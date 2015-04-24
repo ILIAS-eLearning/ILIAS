@@ -445,6 +445,17 @@ class gevSettings {
 		return $this->settings->set(self::ORG_UNIT_EXITED, $a_ref_id);
 	}
 
+	//Will store the ref id of the orgu where unassign user should be put
+	const ORG_UNIT_UNASSIGNED_USER = "org_unit_unassigned_user";
+	
+	public function getOrgUnitUnassignedUser() {
+		return $this->settings->get(self::ORG_UNIT_UNASSIGNED_USER);
+	}
+
+	public function setOrgUnitUnassignedUser($a_ref_id) {
+		return $this->settings->set(self::ORG_UNIT_UNASSIGNED_USER,$a_ref_id);
+	}
+
 	//OrgUnit Mappings (Personal OrgUnits)
 	
 	// for DBVen, NA-Superiors and HAs

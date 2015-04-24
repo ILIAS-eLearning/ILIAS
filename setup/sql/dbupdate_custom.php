@@ -3534,3 +3534,42 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 	$role_utils = gevRoleUtils::getInstance();
 	$role_utils->createGlobalRole("ExpressUser", "Benutzeraccount per Express-Login angelegt.");
 ?>
+
+<#114>
+<?php
+	require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+	require_once("Customizing/class.ilCustomInstaller.php");
+
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+
+	$orgu = new ilObjOrgUnit();
+	$orgu->setTitle("ohne Zuordnung");
+	$orgu->create();
+	$orgu->createReference();
+	$orgu->update();
+
+	$id = $orgu->getId();
+	$ref_id = $orgu->getRefId();
+
+	$orgu->putInTree($orgu->getRootOrgRefId());
+	$orgu->initDefaultRoles();
+
+
+
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	$setting_utils = gevSettings::getInstance();
+	$setting_utils->setOrgUnitUnassignedUser($ref_id);
+?>
+
+
+<#115>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
