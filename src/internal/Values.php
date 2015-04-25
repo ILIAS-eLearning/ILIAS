@@ -29,7 +29,7 @@ class Values {
         });
     }
 
-    static function _composition() {
+    static function composition() {
         return self::fn(static function(FunctionValue $l, FunctionValue $r) {
             return $l->composeWith($r);
         });
