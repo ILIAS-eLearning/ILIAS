@@ -1,0 +1,21 @@
+{
+    "name": "lechimp-p/php-formlets",
+    "version": "0.8.0",
+    "description": "Composable forms(let)s, \"The Essence of Form Abstraction\" in PHP",
+    "keywords": "form",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/lechimp-p/php-formlets",
+    "authors": [
+        {
+            "name": "Richard Klees",
+            "email": "richard.klees@rwth-aachen.de"
+        }
+    ],
+    "support": [
+        {
+            "issues": "https://github.com/lechimp-p/php-formlets/issues",
+            "source": "https://github.com/lechimp-p/php-formlets"
+        }
+    ]
+}
