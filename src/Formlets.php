@@ -22,8 +22,7 @@
 
 namespace Lechimp\Formlets;
 
-use Lechimp\Formlets\Internal\Values as V
-use Lechimp\Formlets\Internal\Formlets as F
+use Lechimp\Formlets\Internal\Values as V;
 
 /**
  * Consumer interface to Formlets library.
@@ -37,7 +36,7 @@ class Formlets {
      * @return  IValue
      */
     static function val($value) {
-        return _val($value); 
+        return V::val($value); 
     }
 
     /** 
@@ -51,8 +50,8 @@ class Formlets {
      * @param   [mixed]             $args
      * @return  IValue 
      */
-    static function fun($static function, $arity = null, $args = null) {
-        return _fn($static function, $arity, $args);
+    static function fun($function, $arity = null, $args = null) {
+        return V::fn($function, $arity, $args);
     }
 
     /**

@@ -6,7 +6,7 @@
  * a copy of the along with the code.
  */
 
-require_once("src/formlets.php");
+use Lechimp\Formlets\Internal\Values as V;
 
 trait PlainValueTestTrait {
     /** 
@@ -28,7 +28,7 @@ trait PlainValueTestTrait {
     /**
      * One can't apply an ordinary value.
      * @dataProvider plain_values 
-     * @expectedException ApplyError
+     * @expectedException Lechimp\Formlets\Internal\ApplyError
      */
     public function testValueCantBeApply($value, $val, $origin) {
         $value->apply($value);
@@ -66,7 +66,7 @@ class PlainValueTest extends PHPUnit_Framework_TestCase {
     public function plain_values() {
         $val = rand();
         $rnd = md5(rand());
-        $value = _val($val, $rnd);
+        $value = V::val($val, $rnd);
         return array
             ( array($value, $val, $rnd)
             );

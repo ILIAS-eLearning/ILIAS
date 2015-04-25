@@ -17,6 +17,8 @@
 
 namespace Lechimp\Formlets\Internal;
 
+use Lechimp\Formlets\IValue;
+
 class Values {
     /* Construct a plain value from a PHP value. */
     static function val($value, $origin = null) {
@@ -39,15 +41,15 @@ class Values {
      * static function. An array of arguments to be inserted in the first arguments 
      * of the static function could be passed optionally.
      */
-    static function fn($static function, $arity = null, $args = array()) {
-        return new FunctionValue($static function, true, $args, $arity);
+    static function fn($function, $arity = null, $args = array()) {
+        return new FunctionValue($function, true, $args, $arity);
     }
 
     /* Construct a static function where the values aren't unwrapped. This could
      * be used e.g. to deal with errors.
      */
-    static function fn_w($static function, $args = array()) {
-        return new FunctionValue($static function, false, $args);
+    static function fn_w($function, $args = array()) {
+        return new FunctionValue($function, false, $args);
     }
 
     /*static function _method($arity, $object, $method_name, $args = null) {

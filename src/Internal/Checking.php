@@ -19,7 +19,6 @@ class Checking {
         return $t;
     }
 
-
     static function guardIsString($arg) {
         if (!is_string($arg)) {
             throw new TypeError("string", typeName($arg));
@@ -121,7 +120,7 @@ class Checking {
 
     static function guardIfNotNull($val, $fn) {
         if ($val !== null) {
-            call_user_func($fn, $val);
+            call_user_func("Lechimp\Formlets\Internal\Checking::$fn", $val);
         }
     }
 }

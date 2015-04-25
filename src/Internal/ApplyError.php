@@ -10,6 +10,8 @@
 
 namespace Lechimp\Formlets\Internal;
 
+use Exception;
+
 class ApplyError extends Exception {
     public function __construct($what, $other) {
         parent::__construct("Can't apply $what to $other");

@@ -1,5 +1,4 @@
 <?php
-
 /******************************************************************************
  * Copyright (c) 2014 Richard Klees <richard.klees@rwth-aachen.de>
  *

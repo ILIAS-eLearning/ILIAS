@@ -9,6 +9,9 @@
 
 namespace Lechimp\Formlets\Internal;
 
+use Lechimp\Formlets\IValue;
+use Exception;
+
 final class PlainValue extends Value {
     private $_value; //mixed
 

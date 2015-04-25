@@ -9,6 +9,9 @@
 
 namespace Lechimp\Formlets\Internal;
 
+use Lechimp\Formlets\IValue;
+use Lechimp\Formlets\Internal\Checking as C;
+
 /*
  * Values work around the problem, that functions could not be used as ordinary
  * values easily in PHP.
@@ -21,7 +24,7 @@ abstract class Value implements IValue {
     private $_origin; // string or null
 
     public function __construct($origin) {
-        guardIfNotNull($origin, "guardIsString");
+        C::guardIfNotNull($origin, "guardIsString");
         $this->_origin = $origin;
     }
 
