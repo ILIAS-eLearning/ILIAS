@@ -6,7 +6,7 @@
  * a copy of the along with the code.
  */
 
-//namespace Lechimp\Formlets;
+namespace Lechimp\Formlets;
 
 /** 
  * A form turns a formlet in a representation that could be processed to display

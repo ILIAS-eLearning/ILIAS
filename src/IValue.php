@@ -7,7 +7,7 @@
  *
  */
 
-//namespace Lechimp\Formlets;
+namespace Lechimp\Formlets;
 
 /**
  * Interface to the Value representation used for the Formlets.

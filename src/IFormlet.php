@@ -6,7 +6,7 @@
  * a copy of the along with the code.
  */
 
-//namespace Lechimp\Formlets;
+namespace Lechimp\Formlets;
 
 /**
  * A formlet represents one part of a form. It can be combined with other formlets
