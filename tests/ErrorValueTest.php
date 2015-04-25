@@ -6,7 +6,7 @@
  * a copy of the along with the code.
  */
 
-require_once("src/internal/values.php");
+use Lechimp\Formlets\Internal\Values as V;
 
 trait ErrorValueTestTrait {
     /** 
@@ -66,12 +66,12 @@ class ErrorValueTest extends PHPUnit_Framework_TestCase {
      * from the error itself and all the other errors that led to it.
      */
     public function testErrorToDict() {
-        $a = _error("a", "a");
-        $b = _error("b", "b");
-        $c = _error("c", "c");
-        $x1 = _error("1","x");
-        $x2 = _error("2", "x");
-        $all = _error("all"
+        $a = V::error("a", "a");
+        $b = V::error("b", "b");
+        $c = V::error("c", "c");
+        $x1 = V::error("1","x");
+        $x2 = V::error("2", "x");
+        $all = V::error("all"
                      , "all"
                      , array($a, $b, $c, $x1, $x2)
                      );

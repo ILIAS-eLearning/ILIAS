@@ -68,31 +68,31 @@ class Checking {
     }
 
     static function guardIsClosure($arg) {
-        return guardHasClass("Closure", $arg);
+        return self::guardHasClass("Closure", $arg);
     }
 
     static function guardIsException($arg) {
-        return guardHasClass("Exception", $arg);
+        return self::guardHasClass("Exception", $arg);
     }
 
     static function guardIsValue($arg) {
-        return guardHasClass("Value", $arg);
+        return self::guardHasClass("Value", $arg);
     }
 
     static function guardIsErrorValue($arg) {
-        return guardHasClass("ErrorValue", $arg);
+        return self::guardHasClass("ErrorValue", $arg);
     }
 
     static function guardIsHTML($arg) {
-        return guardHasClass("HTML", $arg);
+        return self::guardHasClass("HTML", $arg);
     }
 
     static function guardIsHTMLTag($arg) {
-        return guardHasClass("HTMLTag", $arg);
+        return self::guardHasClass("HTMLTag", $arg);
     }
 
     static function guardIsFormlet ($arg) {
-        return guardHasClass("Formlet", $arg);
+        return self::guardHasClass("Formlet", $arg);
     }
 
     static function guardHasArity(FunctionValue $fun, $arity) {
@@ -104,23 +104,23 @@ class Checking {
     }
 
     static function guardEach($vals, $fn) {
-        guardIsArray($vals);
+        self::guardIsArray($vals);
         foreach ($vals as $val) {
-            call_user_func($fn, $val);
+            self::$fn($val);
         }
     }
 
     static function guardEachAndKeys($vals, $fn_val, $fn_key) {
-        guardIsArray($vals);
+        self::guardIsArray($vals);
         foreach ($vals as $key => $val) {
-            call_user_func($fn_val, $val);
-            call_user_func($fn_key, $key);
+            self::$fn_val($val);
+            self::$fn_key($key);
         }
     }
 
     static function guardIfNotNull($val, $fn) {
         if ($val !== null) {
-            call_user_func("Lechimp\Formlets\Internal\Checking::$fn", $val);
+            self::$fn($val);
         }
     }
 }
