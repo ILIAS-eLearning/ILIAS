@@ -379,20 +379,20 @@ echo $form->html();
 
 * [formlets.php](./formlets.php) contains the interfaces and functions that
   are the public api of this library.
-* [./formlets/form.php](./formlets/form.php) is a thin wrapper around the internal
+* [./src/internal/form.php](./formlets/form.php) is a thin wrapper around the internal
   api of `Formlet`s that simplifies the use of formlets in an actual page.
-* [./formlets/formlets.php](./formlets/formlets.php) contains the definition of
+* [./src/internal/formlets.php](./formlets/formlets.php) contains the definition of
   the `Formlet` class as well as the actual implementations for the primitive
   formlet.
-* [./formlets/values.php](./formlets/values.php) contains the definition of the
+* [./src/internal/values.php](./formlets/values.php) contains the definition of the
   function/value/error-abstraction used by the formlets.
-* [./formlets/html.php](./formlets/html.php) defines the internally used HTML
+* [./src/internal/html.php](./formlets/html.php) defines the internally used HTML
   representation.
-* [./formlets/builders.php](./formlets/builders.php) and [./formlets/collectors.php](./formlets/collectors.php)
+* [./src/internal/builders.php](./formlets/builders.php) and [./formlets/collectors.php](./formlets/collectors.php)
   internally deal with the creation of HTML for formlets and the collecting of
   values from user input.
-* [./formlets/namesource.php](./formlets/namesource.php) implements the creation
+* [./src/internal/namesource.php](./formlets/namesource.php) implements the creation
   of names for the various inputs.
-* [./formlets/checking.php](./formlets/checking.php) contains a lot of functions
+* [./src/internal/checking.php](./formlets/checking.php) contains a lot of functions
   that are used for sanity checking internally.
-* [./formlets/lib.php](./formlets/lib.php) contains some auxiliary functions.
+* [./src/internal/lib.php](./formlets/lib.php) contains some auxiliary functions.

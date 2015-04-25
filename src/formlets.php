@@ -78,7 +78,7 @@ interface IValue {
     public function error();
 } 
 
-require_once("formlets/values.php");
+require_once("src/internal/values.php");
 
 /**
  * Construct a plain value from a PHP value. 
@@ -159,7 +159,7 @@ interface IFormlet {
     public function map(IValue $transformation);
 }
 
-require_once("formlets/formlets.php");
+require_once("src/internal/formlets.php");
 
 /**
  * Combine all given formlets to a new formlet left folding with $cmb;
@@ -474,7 +474,7 @@ interface IForm {
     public function error();
 }
 
-require_once("formlets/form.php");
+require_once("src/internal/form.php");
 
 /**
  * Get a new form that processes a formlet. $id must be a unique id throughout
@@ -491,7 +491,7 @@ function form($id, $action, IFormlet $formlet, $attrs = null) {
 }
 
 
-require_once("formlets/lib.php");
+require_once("src/internal/lib.php");
 
 /**
  * Collect values in an array until stop is received.

@@ -14,7 +14,7 @@
     ],
     "support": [
         {
-            "issues": "https://github.com/lechimp-p/php-formlets/issues",
+            "issues": "https://github.com/lechimp-p/php-src/internal/issues",
             "source": "https://github.com/lechimp-p/php-formlets"
         }
     ]

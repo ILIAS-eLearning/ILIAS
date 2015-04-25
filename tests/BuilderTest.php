@@ -17,8 +17,9 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once("formlets/html.php");
-require_once("formlets/builders.php");
+require_once("src/internal/html.php");
+require_once("src/internal/builders.php");
+
 
 class TagBuildingMock implements TagBuilderCallbacks {
     public function __construct($attrs, $content) {
@@ -162,4 +163,3 @@ class BuilderTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($r2->render(), "baz");
     }
 }
-

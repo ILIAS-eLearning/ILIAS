@@ -17,7 +17,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once("formlets/html.php");
+require_once("src/internal/html.php");
 
 class HTMLTest extends PHPUnit_Framework_TestCase {
     /**

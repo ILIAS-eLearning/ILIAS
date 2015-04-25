@@ -16,8 +16,8 @@
  * is a possibly curried function that could be applied to other values.
  */
 
-require_once("formlets/checking.php");
-require_once("formlets.php");
+require_once("src/internal/checking.php");
+require_once("src/formlets.php");
 
 abstract class Value implements IValue {
     private $_origin; // string or null

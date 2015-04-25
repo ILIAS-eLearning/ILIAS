@@ -17,7 +17,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once("formlets.php");
+require_once("src/formlets.php");
 require_once("tests/FormletTest.php");
 
 // Acoording to haskells typeclassopedia.

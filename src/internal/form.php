@@ -8,7 +8,7 @@
  * a copy of the along with the code.
  */
 
-require_once("formlets.php");
+require_once("src/formlets.php");
 
 class Form implements IForm {
     protected $_builder;// Builder 
