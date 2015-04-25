@@ -19,18 +19,18 @@ namespace Lechimp\Formlets\Internal;
 
 class Values {
     /* Construct a plain value from a PHP value. */
-    static function _val($value, $origin = null) {
+    static function val($value, $origin = null) {
         return new PlainValue($value, $origin);
     }
 
-    static function _application_to(Value $val) {
-        return _fn(static function(FunctionValue $fn) use ($val) {
+    static function application_to(Value $val) {
+        return self::fn(static function(FunctionValue $fn) use ($val) {
             return $fn->apply($val)->force();
         });
     }
 
     static function _composition() {
-        return _fn(static function(FunctionValue $l, FunctionValue $r) {
+        return self::fn(static function(FunctionValue $l, FunctionValue $r) {
             return $l->composeWith($r);
         });
     }
@@ -39,21 +39,21 @@ class Values {
      * static function. An array of arguments to be inserted in the first arguments 
      * of the static function could be passed optionally.
      */
-    static function _fn($static function, $arity = null, $args = array()) {
+    static function fn($static function, $arity = null, $args = array()) {
         return new FunctionValue($static function, true, $args, $arity);
     }
 
     /* Construct a static function where the values aren't unwrapped. This could
      * be used e.g. to deal with errors.
      */
-    static function _fn_w($static function, $args = array()) {
+    static function fn_w($static function, $args = array()) {
         return new FunctionValue($static function, false, $args);
     }
 
     /*static function _method($arity, $object, $method_name, $args = null) {
         return new FunctionValue($arity, $method_name, $object, $args);
     }*/
-    static function _error($reason, $origin, $others = array()) {
+    static function error($reason, $origin, $others = array()) {
         return new ErrorValue($reason, $origin, $others);
     }
 }
