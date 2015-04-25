@@ -24,60 +24,7 @@
  * Consumer interface to Formlets library.
  */
 
-/**
- * Interface to the Value representation used for the Formlets.
- *
- * It's a closed union over three types of values that is ordinary values, 
- * function values and error values.
- */
-interface IValue {
-    /**
-     * The origin of a value is the location in the 'real' world, where the
-     * value originates from.
-     *
-     * @return  string | null
-     */
-    public function origin();
-
-    /**
-     * Get the PHP value out of this.
-     *
-     * Throws when value is an error or a function.
-     *
-     * @return  mixed
-     * @throws  GetError
-     */
-    public function get();
-
-    /**
-     * Apply the value to another value.
-     *
-     * Throws when value is an ordinary value.
-     *
-     * @return  IValue
-     * @throws  ApplyError
-     */
-    public function apply(IValue $to);
-
-    /**
-     * Return a new function that catches Exceptions and returns them as error
-     * values. Returns null when value is an ordinary value.
-     *
-     * @param   string          $exc_class
-     * @return  IValue | null
-     * @throws
-     */
-    public function catchAndReify($exc_class);
-
-    /**
-     * Returns string with error message when value is error and
-     * null when it's not.
-     *
-     * @return  string | null
-     */
-    public function error();
-} 
-
+require_once("src/IValue.php");
 require_once("src/internal/values.php");
 
 /**
@@ -124,41 +71,7 @@ function composition() {
     return _composition();
 }
 
-
-/**
- * A formlet represents one part of a form. It can be combined with other formlets
- * to yield new formlets. Formlets are immutable, that is they can be reused in
- * as many places as you like. All methods return fresh Formlets instead of muting
- * the Formlets they are called upon.
- */
-interface IFormlet {
-    /**
-     * Combined the formlet with another formlet and get a new formlet. Will apply 
-     * a function value in this formlet to any value in the other formlet.
-     *
-     * @return  IFormlet
-     */
-    public function cmb(IFormlet $formlet);
-
-    /**
-     * Get a new formlet with an additional check of a predicate on the input to 
-     * the formlet and an error message for the case the predicate fails. The 
-     * predicates has to be a function from mixed to bool.
-     * 
-     * @param   IValue  $predicate
-     * @param   string  $error
-     * @return  IFormlet
-     */
-    public function satisfies(IValue $predicate, $error);
-
-    /**
-     * Map a function over the input value.
-     *
-     * @return IFormlet 
-     */
-    public function map(IValue $transformation);
-}
-
+require_once("src/IFormlet.php");
 require_once("src/internal/formlets.php");
 
 /**
@@ -419,61 +332,7 @@ function with_errors(IFormlet $formlet) {
     return _with_errors($formlet);
 }
 
-
-/** 
- * A form turns a formlet in a representation that could be processed to display
- * a html page and retreive input.
- */
-interface IForm {
-   /**
-     * Initializes the form. If no input array is given uses $_POST.
-     * Return $this.
-     *
-     * @param   [string => mixed] | null    $input
-     * @return  IForm 
-     */
-    public function init($input = null);
-
-    /**
-     * Check whether form was submitted.
-     *
-     * @return  bool
-     */
-    public function wasSubmitted();
-
-    /**
-     * Check weather form was successfully evaluated.
-     *
-     * @return  bool
-     */
-    public function wasSuccessfull();
-
-    /**
-     * Get a HTML-string of the form in its current state.
-     *
-     * @return  string
-     */
-    public function html();
-
-    /**
-     * Get the result of the form.
-     * Throws if form was not submitted and successfully evaluated.
-     * 
-     * @return  mixed
-     * @throws  Exception
-     */ 
-    public function result();
-
-    /**
-     * Get an error as string.
-     * Throws if form was submitted successfully.
-     * 
-     * @return string
-     * @throws Exception
-     */
-    public function error();
-}
-
+require_once("src/IForm.php");
 require_once("src/internal/form.php");
 
 /**
