@@ -6,8 +6,9 @@
  * a copy of the along with the code.
  */
 
-require_once("src/formlets.php");
-require_once("tests/FormletTest.php");
+use Lechimp\Formlets\Internal\Lib as L;
+use Lechimp\Formlets\Internal\Values as V;
+use Lechimp\Formlets\Internal\Stop;
 
 class CollectTest extends PHPUnit_Framework_TestCase {
     /**
@@ -58,13 +59,13 @@ class CollectTest extends PHPUnit_Framework_TestCase {
     }
     
     public function performApplications($values) {
-        $this->collected = array(_collect());
+        $this->collected = array(L::collect());
         $count = 0;
         foreach ($values as $value) {
-            $this->collected[] = $this->collected[$count]->apply(_val($value));
+            $this->collected[] = $this->collected[$count]->apply(V::val($value));
             $count++;
         }
-        $this->collected[$count] = $this->collected[$count]->apply(stop());
+        $this->collected[$count] = $this->collected[$count]->apply(V::val(new Stop()));
         $this->count = $count;
     }
     
@@ -72,7 +73,7 @@ class CollectTest extends PHPUnit_Framework_TestCase {
         $this->formlet_collected = _pure(_collect());
         foreach ($values as $value) {
             $this->formlet_collected = $this->formlet_collected
-                                            ->cmb(_pure(_val($value)))
+                                            ->cmb(_pure(V::val($value)))
                                             ;
         }
         $this->formlet_collected = $this->formlet_collected
