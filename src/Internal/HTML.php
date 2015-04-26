@@ -9,6 +9,9 @@
 
 namespace Lechimp\Formlets\Internal;
 
+use Lechimp\Formlets\Internal\Checking as C;
+use Lechimp\Formlets\Internal\Values as V;
+
 /*
  * Representation of html entities. This does not in any way guarantee to 
  * produce valid HTML or something.
@@ -23,8 +26,8 @@ abstract class HTML {
     /**
      * Get a new HTML by concatenating $this and $other.
      */
-    public function concat(HTML $right) {
-        return html_concat($this, $right);
+    public function cat(HTML $right) {
+        return HTML::concat($this, $right);
     }
 
     /**
@@ -35,10 +38,10 @@ abstract class HTML {
      */
     public function depthFirst( FunctionValue $predicate
                               , FunctionValue $transformation) {
-        guardHasArity($predicate, 1); 
-        guardHasArity($transformation, 1); 
-        if ($predicate->apply(_val($this))->get()) {
-            $res = $transformation->apply(_val($this))->get();
+        C::guardHasArity($predicate, 1); 
+        C::guardHasArity($transformation, 1); 
+        if ($predicate->apply(V::val($this))->get()) {
+            $res = $transformation->apply(V::val($this))->get();
             if ($res !== null)
                 return $res;
         }
@@ -48,33 +51,33 @@ abstract class HTML {
     abstract public function goDepth( FunctionValue $predicate
                                     , FunctionValue $transformation);
 
-    function nop() {
+    static function nop() {
         return new HTMLNop();
     }
         
-    function tag($name, $attributes, $content = null) {
+    static function tag($name, $attributes, $content = null) {
         return new HTMLTag($name, $attributes, $content);
     }
 
-    function text($content) {
+    static function text($content) {
         return new HTMLText($content);
     }
 
-    function concat() {
+    static function concat() {
         return new HTMLArray(func_get_args());
     }
 
-    function harray($array) {
+    static function harray($array) {
         return new HTMLArray($array);
     }
 
 
-    function keysAndValuesToHTMLAttributes($attributes) {
+    static function keysAndValuesToHTMLAttributes($attributes) {
         $str = "";
         foreach ($attributes as $key => $value) {
-            guardIsString($key);
+            C::guardIsString($key);
             if ($value !== null)
-                guardIsString($value);
+                C::guardIsString($value);
             $value = str_replace('"', '&quot;', $value);
             $str .= " ".$key.($value !== null ? "=\"$value\"" : "");
         } 

@@ -9,11 +9,13 @@
 
 namespace Lechimp\Formlets\Internal;
 
+use Lechimp\Formlets\Internal\Checking as C;
+
 class HTMLArray extends HTML {
     private $_content; // array of HTML
 
     public function __construct($content) {
-        guardEach($content, "guardIsHTML");
+        C::guardEach($content, "guardIsHTML");
         $this->_content = $content;
     }
 
@@ -29,7 +31,7 @@ class HTMLArray extends HTML {
         return $res;
     }
 
-    public function concat(HTML $other) {
+    public function cat(HTML $other) {
         if ($other instanceof HTMLArray) {
             $this->_content = array_merge($this->_content, $other->content());
             return $this;

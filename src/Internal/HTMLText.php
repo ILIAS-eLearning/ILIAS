@@ -9,20 +9,22 @@
 
 namespace Lechimp\Formlets\Internal;
 
+use Lechimp\Formlets\Internal\Checking as C;
+
 class HTMLText extends HTML {
     private $_text; // string
 
-    public function text($text = null) {
+    public function content($text = null) {
         if ($text === null) {
             return $this->_text;
         }
 
-        guardIsString($text);
+        C::guardIsString($text);
         $this->_text = $text;
     }
 
     public function __construct($text) {
-        guardIsString($text);
+        C::guardIsString($text);
         $this->_text = $text;
     }
 

@@ -6,7 +6,9 @@
  * a copy of the along with the code.
  */
 
-require_once("src/internal/html.php");
+use Lechimp\Formlets\Internal\Values as V;
+use Lechimp\Formlets\Internal\HTML as H;
+use Lechimp\Formlets\Internal\HTMLText;
 
 class HTMLTest extends PHPUnit_Framework_TestCase {
     /**
@@ -21,72 +23,72 @@ class HTMLTest extends PHPUnit_Framework_TestCase {
        order.
      */
     public function testDepthFirstFindsAll() {
-        $html = html_tag("foo", array(), html_concat(
-                    html_tag("bar", array(), html_concat(
-                        html_text("a"),
-                        html_tag("blaw", array(), html_concat(
-                            html_text("b"),
-                            html_text("c")
+        $html = H::tag("foo", array(), H::concat(
+                    H::tag("bar", array(), H::concat(
+                        H::text("a"),
+                        H::tag("blaw", array(), H::concat(
+                            H::text("b"),
+                            H::text("c")
                         )),
-                        html_text("d")
+                        H::text("d")
                     )),
-                    html_text("e"),
-                    html_tag("baz", array(), html_concat(
-                        html_text("f"),
-                        html_text("g")
+                    H::text("e"),
+                    H::tag("baz", array(), H::concat(
+                        H::text("f"),
+                        H::text("g")
                     )),
-                    html_text("h")
+                    H::text("h")
                 ));
-        $is_html_text = _fn(function ($html) {
+        $is_text = V::fn(function ($html) {
             return $html instanceof HTMLText;
         });
         $str = "";
-        $collect_str = _fn(function ($html) use (&$str) {
-            $str .= $html->text();
+        $collect_str = V::fn(function ($html) use (&$str) {
+            $str .= $html->content();
         });
-        $html->depthFirst($is_html_text, $collect_str);
+        $html->depthFirst($is_text, $collect_str);
         $this->assertEquals($str, "abcdefgh");
     }
 
     function depth_first_searches() {
-        $is_html_text = _fn(function ($html) {
+        $is_text = V::fn(function ($html) {
             return $html instanceof HTMLText;
         });
-        $get_text = _fn(function($html) {
-            return $html->text();
+        $get_text = V::fn(function($html) {
+            return $html->content();
         });
         return array
-            ( array( html_text("Hello World")
-                   , $is_html_text
+            ( array( H::text("Hello World")
+                   , $is_text
                    , $get_text
                    , "Hello World"
                    )
-            , array( html_nop()
-                   , $is_html_text
+            , array( H::nop()
+                   , $is_text
                    , $get_text
                    , null 
                    )
-            , array( html_tag("foo", array(), html_text("Hello World"))
-                   , $is_html_text
+            , array( H::tag("foo", array(), H::text("Hello World"))
+                   , $is_text
                    , $get_text
                    , "Hello World"
                    )
-            , array( html_tag("foo", array(), html_concat(
-                        html_text("Hello World"),
-                        html_text("Hello World")
+            , array( H::tag("foo", array(), H::concat(
+                        H::text("Hello World"),
+                        H::text("Hello World")
                      ))
-                   , $is_html_text
+                   , $is_text
                    , $get_text
                    , "Hello World"
                    )
-            , array( html_tag("foo", array(), html_concat(
-                        html_tag("bar", array(), html_concat(
-                            html_text("Hello World"),
-                            html_text("Blub")
+            , array( H::tag("foo", array(), H::concat(
+                        H::tag("bar", array(), H::concat(
+                            H::text("Hello World"),
+                            H::text("Blub")
                         )),
-                        html_text("Blaw")
+                        H::text("Blaw")
                      ))
-                   , $is_html_text
+                   , $is_text
                    , $get_text
                    , "Hello World"
                    )

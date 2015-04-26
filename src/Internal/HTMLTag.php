@@ -9,15 +9,17 @@
 
 namespace Lechimp\Formlets\Internal;
 
+use Lechimp\Formlets\Internal\Checking as C;
+
 class HTMLTag extends HTML {
     private $_name; // string
     private $_attributes; // dict of string => string
     private $_content; // maybe HTML
 
     public function __construct($name, $attributes, $content) {
-        guardIsString($name);
-        guardEachAndKeys($attributes, "guardIsString", "guardIsString");
-        guardIfNotNull($content, "guardIsHTML");
+        C::guardIsString($name);
+        C::guardEachAndKeys($attributes, "guardIsString", "guardIsString");
+        C::guardIfNotNull($content, "guardIsHTML");
         $this->_name = $name;
         $this->_attributes = $attributes;
         $this->_content = $content;
@@ -37,7 +39,7 @@ class HTMLTag extends HTML {
             return $this->_name;
         }
 
-        guardIsString($name);
+        C::guardIsString($name);
         $this->_name = $name;
     }
 
@@ -48,8 +50,8 @@ class HTMLTag extends HTML {
             return $this->_attributes[$key];
         }
 
-        guardIsString($key);
-        guardIsString($value);
+        C::guardIsString($key);
+        C::guardIsString($value);
         $this->_attributes[$key] = $value;
         return $this;
     }
@@ -59,7 +61,7 @@ class HTMLTag extends HTML {
             return $this->_content;
         }
 
-        guardIfNotNull($content, "guardIsHTML");
+        C::guardIfNotNull($content, "guardIsHTML");
         $this->_content = $content;
         return $this;
     }
