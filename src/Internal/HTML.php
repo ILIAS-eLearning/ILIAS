@@ -7,13 +7,12 @@
  * a copy of the along with the code.
  */
 
+namespace Lechimp\Formlets\Internal;
+
 /*
  * Representation of html entities. This does not in any way guarantee to 
  * produce valid HTML or something.
  */
-
-require_once("checking.php");
-require_once("values.php");
 
 abstract class HTML {
     /**
