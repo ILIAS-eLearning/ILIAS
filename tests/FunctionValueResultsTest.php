@@ -6,16 +6,18 @@
  * a copy of the along with the code.
  */
 
+use Lechimp\Formlets\Internal\Values as V;
+
 class FunctionValueResultsTest extends PHPUnit_Framework_TestCase {
     /**
      * @dataProvider functions_and_args
      */
     public function testFunctionResult($fun, $args) {
-        $fn = _fn($fun);
+        $fn = V::fn($fun);
         $res1 = call_user_func_array($fun, $args);
         $tmp = $fn;
         for ($i = 0; $i < $fn->arity(); ++$i) {
-            $tmp = $tmp->apply(_val($args[$i]));
+            $tmp = $tmp->apply(V::val($args[$i]));
         }
         $res2 = $tmp->get();
         $this->assertEquals($res1, $res2);
