@@ -20,6 +20,9 @@ namespace Lechimp\Formlets\Internal;
 use Lechimp\Formlets\IValue;
 
 class Values {
+    // string to be used as the origin of an anonymus function.
+    const ANONYMUS_FUNCTION_ORIGIN = "anonymus_function";
+
     /* Construct a plain value from a PHP value. */
     static function val($value, $origin = null) {
         return new PlainValue($value, $origin);

@@ -6,6 +6,9 @@
  * a copy of the along with the code.
  */
 
+use Lechimp\Formlets\Internal\Value;
+use Lechimp\Formlets\Internal\Values as V;
+
 trait PlainValueTestTrait {
     /** 
      * One can get the value out that was stuffed in *(
@@ -62,7 +65,7 @@ trait ErrorValueTestTrait {
     /** 
      * One can't get a value out.
      * @dataProvider error_values 
-     * @expectedException GetError
+     * @expectedException Lechimp\Formlets\Internal\GetError
      */
     public function testErrorHasNoValue(Value $value, $reason, $origin) { 
         $value->get();
@@ -81,7 +84,7 @@ trait ErrorValueTestTrait {
      * @dataProvider error_values 
      */
     public function testErrorAppliedIsError(Value $value, $reason, $origin) { 
-        $this->assertTrue($value->apply(_val(1))->isError());
+        $this->assertTrue($value->apply(V::val(1))->isError());
     }
 
     /** 
@@ -113,7 +116,7 @@ trait FunctionValueTestTrait {
     /** 
      * One can't get a value out of an unsatisfied function value.
      * @dataProvider function_values 
-     * @expectedException GetError
+     * @expectedException Lechimp\Formlets\Internal\GetError
      */
     public function testNotSatisfiedNoValue($fn, $value, $arity, $origin) {
         if ($arity !== 0) {
@@ -140,7 +143,7 @@ trait FunctionValueTestTrait {
      */
     public function testFunctionCanBeApplied($fn, $value, $arity, $origin) {
         if ($arity > 0) {
-            $this->assertInstanceOf('FunctionValue', $fn->apply($value));
+            $this->assertInstanceOf('Lechimp\Formlets\Internal\FunctionValue', $fn->apply($value));
         }
     }
 
@@ -206,10 +209,6 @@ trait FunctionValueTestTrait {
         }
         return $tmp;
     }
-
-
 }
-
-
 
 ?>

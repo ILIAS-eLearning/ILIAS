@@ -21,49 +21,49 @@ class Checking {
 
     static function guardIsString($arg) {
         if (!is_string($arg)) {
-            throw new TypeError("string", typeName($arg));
+            throw new TypeError("string", self::typeName($arg));
         } 
     }
 
     static function guardIsInt($arg) {
         if (!is_int($arg)) {
-            throw new TypeError("int", typeName($arg));
+            throw new TypeError("int", self::typeName($arg));
         } 
     }
 
     static function guardIsUInt($arg) {
         if (!is_int($arg) || $arg < 0) {
-            throw new TypeError("unsigned int", typeName($arg));
+            throw new TypeError("unsigned int", self::typeName($arg));
         }
     }
 
     static function guardIsBool($arg) {
         if (!is_bool($arg)) {
-            throw new TypeError("bool", typeName($arg));
+            throw new TypeError("bool", self::typeName($arg));
         } 
     }
 
     static function guardIsArray($arg) {
         if(!is_array($arg)) {
-            throw new TypeError("array", typeName($arg));
+            throw new TypeError("array", self::typeName($arg));
         }
     }
 
     static function guardIsObject($arg) {
         if(!is_object($arg)) {
-            throw new TypeError("object", typeName($arg));
+            throw new TypeError("object", self::typeName($arg));
         }
     }
 
     static function guardIsCallable($arg) {
         if(!is_callable($arg)) {
-            throw new TypeError("callable", typeName($arg));
+            throw new TypeError("callable", self::typeName($arg));
         }
     }
 
     static function guardHasClass($class_name, $arg) {
         if (!($arg instanceof $arg)) {
-            throw new TypeError($arg, typeName($arg));
+            throw new TypeError($arg, self::typeName($arg));
         }
     }
 

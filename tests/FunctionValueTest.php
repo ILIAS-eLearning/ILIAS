@@ -8,6 +8,11 @@
 
 use Lechimp\Formlets\Internal\Values as V;
 
+// A function used for testing.
+function id_test($v) {
+    return $v;
+}
+
 class FunctionValueTest extends PHPUnit_Framework_TestCase {
     use PlainValueTestTrait;
     use FunctionValueTestTrait;
@@ -31,33 +36,34 @@ class FunctionValueTest extends PHPUnit_Framework_TestCase {
     public function testApplicationOperator($fn, $fn2, $value) {
         $fn = $fn->composeWith($fn2);
         $res1 = $fn->apply($value);
-        $res2 = _application_to($value)->apply($fn);
+        $res2 = V::application_to($value)->apply($fn);
         $this->assertEquals($res1->get(), $res2->get());
     }
 
    
     public function plain_values() {
-        $fn = _fn("id");
+        $fn = V::fn("id_test");
         $val = rand();
         $origin = md5($val);
-        $value = _val($val, $origin);
+        $value = V::val($val, $origin);
         return array
             // Result of successfull function application is a value.
-            ( array($fn->apply($value)->force(), $val, "id")
+            ( array($fn->apply($value)->force(), $val, "id_test")
             );
+        
     }
 
     public function function_values() {
-        $fn = _fn("id");
+        $fn = V::fn("id_test");
         $fn2 = $this->alwaysThrows1()
                 ->catchAndReify("TestException");
         $val = rand();
         $origin = md5($val);
-        $value = _val($val, $origin);
+        $value = V::val($val, $origin);
 
         return array
-            ( array($fn, $value, 1, "id")
-            , array($fn2, $value, 1, ANONYMUS_FUNCTION_ORIGIN)
+            ( array($fn, $value, 1, "id_test")
+            , array($fn2, $value, 1, V::ANONYMUS_FUNCTION_ORIGIN)
             );
     }
 
@@ -68,12 +74,12 @@ class FunctionValueTest extends PHPUnit_Framework_TestCase {
                 ->catchAndReify("TestException");
         $val = rand();
         $origin = md5($val);
-        $value = _val($val, $origin);
+        $value = V::val($val, $origin);
         return array
             // Result of application of throwing function is an error.
-            ( array($fn->apply($value)->force(), "test exception", ANONYMUS_FUNCTION_ORIGIN)
+            ( array($fn->apply($value)->force(), "test exception", V::ANONYMUS_FUNCTION_ORIGIN)
             // Function still catches after application.
-            , array($fn2->apply($value)->apply($value)->force(), "test exception", ANONYMUS_FUNCTION_ORIGIN)
+            , array($fn2->apply($value)->apply($value)->force(), "test exception", V::ANONYMUS_FUNCTION_ORIGIN)
             );
     }
 
@@ -87,19 +93,19 @@ class FunctionValueTest extends PHPUnit_Framework_TestCase {
 
 
     protected function alwaysThrows0 () {
-      return _fn(function () {
+      return V::fn(function () {
          throw new TestException("test exception");
       });
     }
 
     protected function alwaysThrows1 () {
-      return _fn(function ($a) {
+      return V::fn(function ($a) {
          throw new TestException("test exception");
       });
     }
 
     protected function alwaysThrows2 () {
-      return _fn(function ($a, $b) {
+      return V::fn(function ($a, $b) {
          throw new TestException("test exception");
       });
     }

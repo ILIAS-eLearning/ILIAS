@@ -9,10 +9,13 @@
 
 namespace Lechimp\Formlets\Internal;
 
-final class FunctionValue extends Value {
-    // string to be used as the origin of an anonymus function.
-    const ANONYMUS_FUNCTION_ORIGIN = "anonymus_function";
+use Exception;
+use ReflectionFunction;
+use Lechimp\Formlets\IValue;
+use Lechimp\Formlets\Internal\Checking as C;
+use Lechimp\Formlets\Internal\Values as V;
 
+final class FunctionValue extends Value {
     private $_arity; // int
     private $_function; // string
     private $_unwrap_args; // string
@@ -48,24 +51,24 @@ final class FunctionValue extends Value {
                 $origin = $function;
             }
             else {
-                $origin = self::ANONYMUS_FUNCTION_ORIGIN;
+                $origin = V::ANONYMUS_FUNCTION_ORIGIN;
             }
         } 
         parent::__construct($origin);
 
         if (is_string($function))
-            guardIsCallable($function);
+            C::guardIsCallable($function);
         else
-            guardIsClosure($function);
+            C::guardIsClosure($function);
 
-        guardIsBool($unwrap_args);
+        C::guardIsBool($unwrap_args);
 
-        $args = defaultTo($args, array());
-        $reify_exceptions = defaultTo($reify_exceptions, array());
-        guardIsArray($args);
+        $args = self::defaultTo($args, array());
+        $reify_exceptions = self::defaultTo($reify_exceptions, array());
+        C::guardIsArray($args);
         
-        guardIfNotNull($arity, "guardIsUInt");
-        guardIsArray($reify_exceptions);
+        C::guardIfNotNull($arity, "guardIsUInt");
+        C::guardIsArray($reify_exceptions);
 
         foreach($args as $key => $value) {
             $args[$key] = $this->toValue($value, null);
@@ -143,7 +146,7 @@ final class FunctionValue extends Value {
      * of apply.
      */
     public function catchAndReify($exc_class) {
-        guardIsString($exc_class);
+        C::guardIsString($exc_class);
         $re = $this->_reify_exceptions;
         $re[] = $exc_class;
         return new FunctionValue( $this->_function
@@ -191,7 +194,7 @@ final class FunctionValue extends Value {
      * first and then apply the result to this function.
      */
     public function composeWith(FunctionValue $other) {
-        return _fn_w(function($value) use ($other) {
+        return V::fn_w(function($value) use ($other) {
             $res = $other->apply($value)->force();
             return $this->apply($res)->force();
         });
@@ -218,7 +221,7 @@ final class FunctionValue extends Value {
         catch(Exception $e) {
             foreach ($this->_reify_exceptions as $exc_class) {
                 if ($e instanceof $exc_class) {
-                    return _error($e->getMessage(), $this->origin());
+                    return V::error($e->getMessage(), $this->origin());
                 }
             }
             throw $e;
@@ -268,7 +271,7 @@ final class FunctionValue extends Value {
             return $val;
         }
         else {
-            return _val($val, $origin);
+            return V::val($val, $origin);
         }            
     }
 }

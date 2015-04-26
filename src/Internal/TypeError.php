@@ -9,6 +9,8 @@
 
 namespace Lechimp\Formlets\Internal;
 
+use Exception;
+
 /**
  * TypeErrors are needed to find typing problems that aren't revealed by PHPs 
  * type hinting. 

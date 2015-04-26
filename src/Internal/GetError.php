@@ -9,6 +9,8 @@
 
 namespace Lechimp\Formlets\Internal;
 
+use Exception;
+
 class GetError extends Exception {
     public function __construct($what) {
         parent::__construct("Can't get value from $what");
