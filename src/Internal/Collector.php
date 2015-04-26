@@ -9,6 +9,9 @@
 
 namespace Lechimp\Formlets\Internal;
 
+use Lechimp\Formlets\Internal\Values as V;
+use Lechimp\Formlets\Internal\Checking as C;
+
 abstract class Collector {
     /* Expects an array. Tries to collect it's desired input from it and returns
      * it as a Value. Throws if desired content can not be found. A missing 
@@ -22,7 +25,7 @@ abstract class Collector {
 
     /* Map a function over the collected value. */
     final public function map(FunctionValue $transformation) {
-        return $this->wrap(_fn(function($collector, $inp) use ($transformation) {
+        return $this->wrap(V::fn(function($collector, $inp) use ($transformation) {
             $res = $collector->collect($inp)->force();
             if ($res->isError()) {
                 return $res;
@@ -32,7 +35,7 @@ abstract class Collector {
             // If mapping was successfull, the underlying value should
             // be considered the origin of the produced value.
             if (!$res2->isError() && !$res2->isApplicable()) {
-                return _val($res2->get(), $res->origin()); 
+                return V::val($res2->get(), $res->origin()); 
             }
             return $res2;
         }));
@@ -46,9 +49,9 @@ abstract class Collector {
     /* Only return value when it matches predicate, return error value
        containing error message instead. */
     final public function satisfies(FunctionValue $predicate, $error) {
-        guardIsString($error);
-        guardHasArity($predicate, 1);
-        return $this->map(_fn_w(function($value) use ($predicate, $error) {
+        C::guardIsString($error);
+        C::guardHasArity($predicate, 1);
+        return $this->map(V::fn_w(function($value) use ($predicate, $error) {
             if (!$predicate->apply($value)->get()) {
                 return _error($error, $value->origin());
             }

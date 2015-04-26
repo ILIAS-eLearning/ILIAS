@@ -9,6 +9,8 @@
 
 namespace Lechimp\Formlets\Internal;
 
+use Lechimp\Formlets\Internal\HTML as H;
+
 /* A formlet to input some text in an area. */
 class TextAreaFormlet extends Formlet implements TagBuilderCallbacks {
     protected $_attributes; // string
@@ -33,7 +35,7 @@ class TextAreaFormlet extends Formlet implements TagBuilderCallbacks {
     }
 
     public function getAttributes(RenderDict $dict, $name) {
-        $attributes = id($this->_attributes);
+        $attributes = self::_id($this->_attributes);
         $attributes["name"] = $name; 
         return $attributes; 
     }

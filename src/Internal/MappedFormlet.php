@@ -9,6 +9,9 @@
 
 namespace Lechimp\Formlets\Internal;
 
+use Lechimp\Formlets\Internal\Checking as C;
+use Lechimp\Formlets\Internal\Values as V;
+
 /* A formlet where a function is applied to buiid builder and collector. */
 class MappedFormlet extends Formlet {
     private $_formlet; // Formlet
@@ -28,10 +31,10 @@ class MappedFormlet extends Formlet {
     public function instantiate(NameSource $name_source) {
         $fmlt = $this->_formlet->instantiate($name_source);
         $b = $this->_transform_builder
-                ->apply(_val($fmlt["builder"]))
+                ->apply(V::val($fmlt["builder"]))
                 ->get();
         $c = $this->_transform_collector
-                ->apply(_val($fmlt["collector"]))
+                ->apply(V::val($fmlt["collector"]))
                 ->get();
         return array( "builder"    => $b
                     , "collector"   => $c

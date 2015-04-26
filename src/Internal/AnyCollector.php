@@ -9,22 +9,28 @@
 
 namespace Lechimp\Formlets\Internal;
 
-/* A collector that applies the input from its left collector to the input
- * from its right collector.
- */
-final class ApplyCollector extends Collector {
-    private $_l;
-    private $_r;
+use Lechimp\Formlets\Internal\Checking as C;
+use Lechimp\Formlets\Internal\Values as V;
 
-    public function __construct(Collector $left, Collector $right) {
-        $this->_l = $left;
-        $this->_r = $right;
+/* A collector that collects an input by name. */
+final class AnyCollector extends Collector {
+    private $_name; // string
+
+    protected function name() {
+        return $this->_name;
+    }
+    
+    public function __construct($name) {
+        C::guardIsString($name);
+        $this->_name = $name;
     }
 
     public function collect($inp) {
-        $l = $this->_l->collect($inp);
-        $r = $this->_r->collect($inp);
-        return $l->apply($r);
+        $name = $this->name();
+        if (!array_key_exists($name, $inp)) {
+            throw new MissingInputError($this->name());
+        }
+        return V::val($inp[$name], $name);
     }
 
     public function isNullaryCollector() {

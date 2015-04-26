@@ -13,6 +13,7 @@ use Lechimp\Formlets\IFormlet;
 use Lechimp\Formlets\IValue;
 use Lechimp\Formlets\Internal\Checking as C;
 use Lechimp\Formlets\Internal\Values as V;
+use Lechimp\Formlets\Internal\HTML as H;
 
 abstract class Formlet implements IFormlet {
     /* Build a builder and collector from the formlet and also return the 
@@ -29,7 +30,7 @@ abstract class Formlet implements IFormlet {
      * to the formlet and an error message for the case the predicate fails.
      */
     final public function satisfies(IValue $predicate, $error) {
-        return $this->mapBC( self::_id()
+        return $this->mapBC( self::id()
                            , V::fn(function ($collector) use ($predicate, $error) {
                                 return $collector->satisfies($predicate, $error);
                            }));
@@ -37,7 +38,7 @@ abstract class Formlet implements IFormlet {
 
     /* Map a function over the input value. */
     final public function map(IValue $transformation) {
-        return $this->mapBC( self::_id()
+        return $this->mapBC( self::id()
                             , V::fn(function($collector) use ($transformation) {
                                 return $collector->map($transformation);
                             }));
@@ -45,7 +46,7 @@ abstract class Formlet implements IFormlet {
 
     /* Wrap a function around the collector. */
     final public function wrapCollector(IValue $wrapper) {
-        return $this->mapBC( self::_id()
+        return $this->mapBC( self::id()
                            , V::fn(function($collector) use ($wrapper) {
                                 return $collector->wrap($wrapper);
                            }));
@@ -53,7 +54,7 @@ abstract class Formlet implements IFormlet {
 
     /* Replace the collector. */
     final public function replaceCollector(Collector $collector) {
-        return $this->mapBC( self::_id()
+        return $this->mapBC( self::id()
                            , V::fn(function($_) use ($collector) {
                                 return $collector;
                            }));
@@ -64,7 +65,7 @@ abstract class Formlet implements IFormlet {
         return $this->mapBC( V::fn(function($builder) use ($transformation) {
                                 return $builder->map($transformation);
                             })
-                            , self::_id()
+                            , self::id()
                             );
     }
 
@@ -94,7 +95,7 @@ abstract class Formlet implements IFormlet {
 
     static function textual_input($type, $default = null, $attributes = null) {
         C::guardIfNotNull($default, "guardIsString");
-        return _input($type, $attributes)
+        return self::input($type, $attributes)
             // Only accept string inputs
             //->satisfies(V::fn("is_string"), "Input is no string.")
             // Set value by input or given value if there is no input. 
@@ -118,7 +119,7 @@ abstract class Formlet implements IFormlet {
 
     static function textarea($default = null, $attributes = null) {
         C::guardIfNotNull($default, "guardIsString");
-        return _textarea_raw($attributes)
+        return self::textarea_raw($attributes)
             ->satisfies(V::fn("is_string"), "Input is no string.")
             ->mapHTML(V::fn(function ($dict, $html) use ($default) {
                 $name = $html->attribute("name");
@@ -136,7 +137,7 @@ abstract class Formlet implements IFormlet {
 
     static function checkbox($default = false, $attributes = null) {
         C::guardIsBool($default);
-        return _input("checkbox", $attributes)
+        return self::input("checkbox", $attributes)
             ->wrapCollector(V::fn(function($collector, $inp) {
                 // We don't really need the value, we just
                 // have to check weather it is there.
@@ -163,7 +164,7 @@ abstract class Formlet implements IFormlet {
 
     static function submit($value, $attributes = array(), $collects = false) {
         $attributes["value"] = $value;
-        $input = _input("submit", $attributes);
+        $input = self::input("submit", $attributes);
 
         if ($collects) {
             return $input->wrapCollector(V::fn(function($collector, $inp) {
@@ -427,14 +428,14 @@ abstract class Formlet implements IFormlet {
         }));
     }
 
-    static function id($val) {
-        return $val;
+    static function _id($v) {
+        return $v; 
     }
 
-    static function _id() {
+    static function id() {
         static $fn = null;
         if ($fn === null) {
-            $fn = V::fn("id");
+            $fn = V::fn(function($v) { return $v; });
         }
         return $fn;
     }

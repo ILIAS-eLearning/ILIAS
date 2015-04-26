@@ -6,8 +6,11 @@
  * a copy of the along with the code.
  */
 
-require_once("src/formlets.php");
-require_once("tests/FormletTest.php");
+use Lechimp\Formlets\Internal\Formlet as F;
+use Lechimp\Formlets\Internal\Formlet;
+use Lechimp\Formlets\Internal\NameSource;
+use Lechimp\Formlets\Internal\RenderDict;
+use Lechimp\Formlets\Internal\Values as V;
 
 // Acoording to haskells typeclassopedia.
 class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
@@ -18,7 +21,7 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
      */
     public function testFunctorLaw1( $formlet, $fn1, $fn2, $value
                                    , $contains_applicable) {
-        $mapped = $formlet->map(_id());
+        $mapped = $formlet->map(F::id());
         $this->assertFormletsEqual($formlet, $mapped, $value, $contains_applicable); 
     }
 
@@ -45,7 +48,7 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
                                               , $contains_applicable) {
         if ($contains_applicable)
             return;
-        $left = _pure(_id())->cmb($formlet);
+        $left = F::pure(F::id())->cmb($formlet);
         $this->assertFormletsEqual($left, $formlet, $value, $contains_applicable);    
     }
 
@@ -57,8 +60,8 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
      */
     public function testApplicativeHomomorphism( $formlet, $fn1, $fn2, $value
                                                , $contains_applicable) {
-        $left1 = _pure($fn1)->cmb(_pure($value));
-        $right1 = _pure($fn1->apply($value));
+        $left1 = F::pure($fn1)->cmb(F::pure($value));
+        $right1 = F::pure($fn1->apply($value));
         $this->assertFormletsEqual($left1, $right1, $value, false);
     }
 
@@ -72,8 +75,8 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
                                               , $contains_applicable) {
         if (!$contains_applicable)
             return;
-        $left = $formlet->cmb(_pure($value));
-        $right = _pure(_application_to($value))->cmb($formlet);
+        $left = $formlet->cmb(F::pure($value));
+        $right = F::pure(V::application_to($value))->cmb($formlet);
         $this->assertFormletsEqual($left, $right, $value, false);
     }
 
@@ -85,22 +88,22 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
                                               , $contains_applicable) {
      
         if (!$contains_applicable) {
-            $left = _pure($fn1)
-                        ->cmb( _pure($fn2)->cmb($formlet) ); 
-            $right = _pure(_composition())
-                        ->cmb(_pure($fn1))
-                        ->cmb(_pure($fn2))
+            $left = F::pure($fn1)
+                        ->cmb(F::pure($fn2)->cmb($formlet)); 
+            $right = F::pure(V::composition())
+                        ->cmb(F::pure($fn1))
+                        ->cmb(F::pure($fn2))
                         ->cmb($formlet)
                         ;
             $this->assertFormletsEqual($left, $right, $value, false);
         }
         else {
-            $left = _pure($fn1)
-                        ->cmb( $formlet->cmb(_pure($value)) ); 
-            $right = _pure(_composition())
-                        ->cmb(_pure($fn1))
+            $left = F::pure($fn1)
+                        ->cmb( $formlet->cmb(F::pure($value)) ); 
+            $right = F::pure(V::composition())
+                        ->cmb(F::pure($fn1))
                         ->cmb($formlet)
-                        ->cmb(_pure($value))
+                        ->cmb(F::pure($value))
                         ;
             $this->assertFormletsEqual($left, $right, $value, false);
         }
@@ -110,27 +113,27 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
 
     public function formlets_and_values() {
         $data = array();
-        $pure_val = _pure(_val(42));
-        $pure_fn = _pure(_id());
+        $pure_val = F::pure(V::val(42));
+        $pure_fn = F::pure(F::id());
         $formlets = array
             ( array($pure_val, false)
             , array($pure_fn, true)
-            , array(_text("TEXT")->cmb($pure_val), false)
-            , array(_text("TEXT")->cmb($pure_fn), true)
-            , array($pure_val->cmb(_text("TEXT")), false)
-            , array($pure_fn->cmb(_text("TEXT")), true)
-            , array($pure_fn->cmb(_input("text")), false)
-            , array($pure_fn->cmb(_textarea_raw()), false)
-            , array($pure_fn->cmb(_text_input()), false)
-            , array($pure_fn->cmb(_textarea()), false)
-            , array($pure_fn->cmb(_checkbox()), false)
-            , array(_submit("SUBMIT")->cmb($pure_val), false)
-            , array(_submit("SUBMIT")->cmb($pure_fn), true)
-            , array($pure_val->cmb(_submit("SUBMIT")), false)
-            , array($pure_fn->cmb(_submit("SUBMIT")), true)
+            , array(F::text("TEXT")->cmb($pure_val), false)
+            , array(F::text("TEXT")->cmb($pure_fn), true)
+            , array($pure_val->cmb(F::text("TEXT")), false)
+            , array($pure_fn->cmb(F::text("TEXT")), true)
+            , array($pure_fn->cmb(F::input("text")), false)
+            , array($pure_fn->cmb(F::textarea_raw()), false)
+            , array($pure_fn->cmb(F::text_input()), false)
+            , array($pure_fn->cmb(F::textarea()), false)
+            , array($pure_fn->cmb(F::checkbox()), false)
+            , array(F::submit("SUBMIT")->cmb($pure_val), false)
+            , array(F::submit("SUBMIT")->cmb($pure_fn), true)
+            , array($pure_val->cmb(F::submit("SUBMIT")), false)
+            , array($pure_fn->cmb(F::submit("SUBMIT")), true)
             );
         $functions = array
-            ( _id()
+            ( F::id()
             );
         $values = array(0,1,2);
 
@@ -139,7 +142,7 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
                 foreach ($functions as $fn2) {
                     foreach ($values as $value) {
                         $data[] = array( $formlet[0], $fn1, $fn2
-                                       , _val($value), $formlet[1]
+                                       , V::val($value), $formlet[1]
                                        );
                     }
                 }
@@ -186,7 +189,6 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
         $rendered_b2 = $repr_b["builder"]->buildWithDict($dict_b)->render();
         $this->assertEquals($rendered_a2, $rendered_b2);
     } 
-        
 }
 
 ?>

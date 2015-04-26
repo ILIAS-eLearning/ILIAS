@@ -34,7 +34,7 @@ class InputFormlet extends Formlet implements TagBuilderCallbacks {
     }
 
     public function getAttributes(RenderDict $dict, $name) {
-        $attributes = id($this->_attributes);
+        $attributes = self::_id($this->_attributes);
         $attributes["name"] = $name; 
         return $attributes; 
     }
