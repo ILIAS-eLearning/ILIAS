@@ -1,5 +1,4 @@
 <?php
-
 /******************************************************************************
  * An implementation of the "Formlets"-abstraction in PHP.
  * Copyright (c) 2014, 2015 Richard Klees <richard.klees@rwth-aachen.de>
@@ -49,183 +48,39 @@ abstract class HTML {
 
     abstract public function goDepth( FunctionValue $predicate
                                     , FunctionValue $transformation);
-}
 
-class HTMLNop extends HTML {
-    public function render() {
-        return "";
+    function nop() {
+        return new HTMLNop();
     }
-    
-    public function goDepth( FunctionValue $predicate
-                           , FunctionValue $transformation) {
-        return null;
-    }
-}
-
-class HTMLText extends HTML {
-    private $_text; // string
-
-    public function text($text = null) {
-        if ($text === null) {
-            return $this->_text;
-        }
-
-        guardIsString($text);
-        $this->_text = $text;
+        
+    function tag($name, $attributes, $content = null) {
+        return new HTMLTag($name, $attributes, $content);
     }
 
-    public function __construct($text) {
-        guardIsString($text);
-        $this->_text = $text;
+    function text($content) {
+        return new HTMLText($content);
     }
 
-    public function render() {
-        return $this->_text;
-    }
-    
-    public function goDepth( FunctionValue $predicate
-                           , FunctionValue $transformation) {
-        return null;
-    }
-}
-
-class HTMLArray extends HTML {
-    private $_content; // array of HTML
-
-    public function __construct($content) {
-        guardEach($content, "guardIsHTML");
-        $this->_content = $content;
+    function concat() {
+        return new HTMLArray(func_get_args());
     }
 
-    public function content() {
-        return $_content;
+    function harray($array) {
+        return new HTMLArray($array);
     }
 
-    public function render() {
-        $res = "";
-        foreach ($this->_content as $cont) {
-            $res .= $cont->render();
-        }
-        return $res;
+
+    function keysAndValuesToHTMLAttributes($attributes) {
+        $str = "";
+        foreach ($attributes as $key => $value) {
+            guardIsString($key);
+            if ($value !== null)
+                guardIsString($value);
+            $value = str_replace('"', '&quot;', $value);
+            $str .= " ".$key.($value !== null ? "=\"$value\"" : "");
+        } 
+        return $str;
     }
-
-    public function concat(HTML $other) {
-        if ($other instanceof HTMLArray) {
-            $this->_content = array_merge($this->_content, $other->content());
-            return $this;
-        }
-        $this->_content[] = $other;
-        return $this;
-    }
-    
-    public function goDepth( FunctionValue $predicate
-                           , FunctionValue $transformation) {
-        // Code start HERE!!
-        foreach ($this->_content as $content) {
-            $res = $content->depthFirst($predicate, $transformation);
-            if ($res !== null) {
-                return $res;
-            }  
-        }
-        return null;
-    }
-}
-
-class HTMLTag extends HTML {
-    private $_name; // string
-    private $_attributes; // dict of string => string
-    private $_content; // maybe HTML
-
-    public function __construct($name, $attributes, $content) {
-        guardIsString($name);
-        guardEachAndKeys($attributes, "guardIsString", "guardIsString");
-        guardIfNotNull($content, "guardIsHTML");
-        $this->_name = $name;
-        $this->_attributes = $attributes;
-        $this->_content = $content;
-    }
-
-    public function render() {
-        $head = "<".$this->_name
-                   .keysAndValuesToHTMLAttributes($this->_attributes);
-        if ($this->_content === null || $this->_content instanceof HTMLNop) {
-            return $head."/>";
-        }
-        return $head.">".$this->_content->render()."</".$this->_name.">";        
-    }
-
-    public function name($name = null) {
-        if ($name === null) {
-            return $this->_name;
-        }
-
-        guardIsString($name);
-        $this->_name = $name;
-    }
-
-    public function attribute($key, $value = null) {
-        if ($value === null) {
-            if (!array_key_exists($key, $this->_attributes))
-                return null;
-            return $this->_attributes[$key];
-        }
-
-        guardIsString($key);
-        guardIsString($value);
-        $this->_attributes[$key] = $value;
-        return $this;
-    }
-
-    public function content($content = 0) {
-        if ($content === 0) {
-            return $this->_content;
-        }
-
-        guardIfNotNull($content, "guardIsHTML");
-        $this->_content = $content;
-        return $this;
-    }
-    
-    public function goDepth( FunctionValue $predicate
-                             , FunctionValue $transformation) {
-        if ($this->_content !== null) {
-            return $this->_content->depthFirst($predicate, $transformation);
-        }
-        return null;
-    }
-}
-
-function html_nop() {
-    return new HTMLNop();
-}
-    
-function html_tag($name, $attributes, $content = null) {
-    return new HTMLTag($name, $attributes, $content);
-}
-
-function html_text($content) {
-    return new HTMLText($content);
-}
-
-function html_concat() {
-    return new HTMLArray(func_get_args());
-}
-
-function html_array($array) {
-    return new HTMLArray($array);
-}
-
-
-function keysAndValuesToHTMLAttributes($attributes) {
-    $str = "";
-    foreach ($attributes as $key => $value) {
-        guardIsString($key);
-        if ($value !== null)
-            guardIsString($value);
-        $value = str_replace('"', '&quot;', $value);
-        $str .= " ".$key.($value !== null ? "=\"$value\"" : "");
-    } 
-    return $str;
 }
 
 ?>
