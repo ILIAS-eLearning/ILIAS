@@ -8,7 +8,9 @@
 
 use Lechimp\Formlets\Internal\Lib as L;
 use Lechimp\Formlets\Internal\Values as V;
+use Lechimp\Formlets\Internal\Formlet as F;
 use Lechimp\Formlets\Internal\Stop;
+use Lechimp\Formlets\Internal\NameSource;
 
 class CollectTest extends PHPUnit_Framework_TestCase {
     /**
@@ -70,14 +72,14 @@ class CollectTest extends PHPUnit_Framework_TestCase {
     }
     
     public function asFormlet($values) {
-        $this->formlet_collected = _pure(_collect());
+        $this->formlet_collected = F::pure(L::collect());
         foreach ($values as $value) {
             $this->formlet_collected = $this->formlet_collected
-                                            ->cmb(_pure(V::val($value)))
+                                            ->cmb(F::pure(V::val($value)))
                                             ;
         }
         $this->formlet_collected = $this->formlet_collected
-                                        ->cmb(_pure(stop()))
+                                        ->cmb(F::pure(V::val(new Stop())))
                                         ;
 
         $ns = NameSource::instantiate("test");
@@ -86,9 +88,9 @@ class CollectTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testCollectCanBeReused() {
-        $fn = collect();
-        $fn_a = $fn->apply(val(1))->apply(val(2))->apply(stop());
-        $fn_b = $fn->apply(val(3))->apply(val(4))->apply(stop());
+        $fn = L::collect();
+        $fn_a = $fn->apply(V::val(1))->apply(V::val(2))->apply(V::val(new Stop()));
+        $fn_b = $fn->apply(V::val(3))->apply(V::val(4))->apply(V::val(new Stop()));
 
         $res_a = $fn_a->get();
         $res_b = $fn_b->get();

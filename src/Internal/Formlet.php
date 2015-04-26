@@ -8,12 +8,11 @@
  * a copy of the along with the code.
  */
 
-require_once("checking.php");
-require_once("lib.php");
-require_once("values.php");
-require_once("builders.php");
-require_once("collectors.php");
-require_once("namesource.php");
+namespace Lechimp\Formlets\Internal;
+
+use Lechimp\Formlets\IFormlet;
+use Lechimp\Formlets\IValue;
+use Lechimp\Formlets\Internal\Checking as C;
 
 abstract class Formlet implements IFormlet {
     /* Build a builder and collector from the formlet and also return the 
@@ -74,6 +73,10 @@ abstract class Formlet implements IFormlet {
                                 , FunctionValue $transform_collector ) {
         return new MappedFormlet($this, $transform_builder, $transform_collector);
     }
+
+    static function pure(Value $value) {
+        return new PureFormlet($value); 
+    }
 }
 
 
@@ -94,11 +97,6 @@ class PureFormlet extends Formlet {
     }
 }
 
-function _pure(Value $value) {
-    return new PureFormlet($value); 
-}
-
-
 /* A combined formlets glues to formlets together to a new one. */ 
 class CombinedFormlets extends Formlet {
     private $_l; // Formlet
@@ -112,7 +110,7 @@ class CombinedFormlets extends Formlet {
     public function instantiate(NameSource $name_source) {
         $l = $this->_l->instantiate($name_source);
         $r = $this->_r->instantiate($l["name_source"]);
-        $collector = combineCollectors($l["collector"], $r["collector"]);
+        $collector = Collector::combineCollectors($l["collector"], $r["collector"]);
         return array
             ( "builder"    => new CombinedBuilder($l["builder"], $r["builder"])
             , "collector"   => $collector
@@ -131,8 +129,8 @@ class MappedFormlet extends Formlet {
     public function __construct( Formlet $formlet
                                , FunctionValue $transform_builder
                                , FunctionValue $transform_collector ) {
-        guardHasArity($transform_builder, 1);
-        guardHasArity($transform_collector, 1);
+        C::guardHasArity($transform_builder, 1);
+        C::guardHasArity($transform_collector, 1);
         $this->_formlet = $formlet;
         $this->_transform_builder = $transform_builder; 
         $this->_transform_collector = $transform_collector;
@@ -159,7 +157,7 @@ class TextFormlet extends Formlet {
     private $_content; // string
 
     public function __construct($content) { 
-        guardIsString($content);
+        C::guardIsString($content);
         $this->_content = $content;
     }
 
@@ -182,7 +180,7 @@ class InputFormlet extends Formlet implements TagBuilderCallbacks {
     protected $_attributes;
 
     public function __construct($attributes) {
-        guardEachAndKeys($attributes, "guardIsString", "guardIsString");
+        C::guardEachAndKeys($attributes, "guardIsString", "guardIsString");
         $this->_attributes = $attributes;
     }
 
@@ -207,7 +205,7 @@ class InputFormlet extends Formlet implements TagBuilderCallbacks {
 }
 
 function _input($type, $attributes = array()) {
-    guardIsString($type);
+    C::guardIsString($type);
     $attributes["type"] = $type;
     return new InputFormlet($attributes);
 }
@@ -218,7 +216,7 @@ class TextAreaFormlet extends Formlet implements TagBuilderCallbacks {
 
     public function __construct($attributes = null) {
         if ($attributes !== null)
-            guardIsArray($attributes);
+            C::guardIsArray($attributes);
         $this->_attributes = $attributes; 
     }
 
@@ -247,7 +245,7 @@ function _textarea_raw($attributes = null) {
 }
 
 function _textual_input($type, $default = null, $attributes = null) {
-    guardIfNotNull($default, "guardIsString");
+    C::guardIfNotNull($default, "guardIsString");
     return _input($type, $attributes)
         // Only accept string inputs
         //->satisfies(_fn("is_string"), "Input is no string.")
@@ -271,7 +269,7 @@ function _text_input($default = null, $attributes = null) {
 
 
 function _textarea($default = null, $attributes = null) {
-    guardIfNotNull($default, "guardIsString");
+    C::guardIfNotNull($default, "guardIsString");
     return _textarea_raw($attributes)
         ->satisfies(_fn("is_string"), "Input is no string.")
         ->mapHTML(_fn(function ($dict, $html) use ($default) {
@@ -289,7 +287,7 @@ function _textarea($default = null, $attributes = null) {
 
 
 function _checkbox($default = false, $attributes = null) {
-    guardIsBool($default);
+    C::guardIsBool($default);
     return _input("checkbox", $attributes)
         ->wrapCollector(_fn(function($collector, $inp) {
             // We don't really need the value, we just
@@ -374,10 +372,10 @@ function _hidden($value, $attributes = array()) {
 function _number($value, $min, $max, $step, $attributes = array()
                 , $error_int, $error_range, $error_step
                 ) {
-    guardIsInt($value);
-    guardIsInt($min);
-    guardIsInt($max);
-    guardIsInt($step);
+    C::guardIsInt($value);
+    C::guardIsInt($min);
+    C::guardIsInt($max);
+    C::guardIsInt($step);
     $attributes["value"] = "$value";
     $attributes["min"] = "$min";
     $attributes["max"] = "$max";
@@ -396,7 +394,7 @@ function _password($default = null, $attributes = array()) {
 
 function _radio($options, $default = null, $attributes = array()
                , $attributes_options = array()) {
-    guardEach($options, "guardIsString");
+    C::guardEach($options, "guardIsString");
     if ($default === null) {
         $default = $options[0];
     }
@@ -467,7 +465,7 @@ function _url($default = null, $attributes = array()) {
 // for a week?
 
 function _select($options, $default = null, $attributes = array()) {
-    guardEach($options, "guardIsString");
+    C::guardEach($options, "guardIsString");
     return _input("select", $attributes)
         ->mapHTML(_fn(function($dict, $html) use ($options, $attributes, $default) {
             $name = $html->attribute("name");
@@ -517,7 +515,7 @@ function _fieldset($legend, Formlet $formlet
  * This transforms the html in place, that is _mute_ it. If $fn returns some 
  * value except for null, it will only be applied to the first named tag.
  */
-function H::apply_to_depth_first_name(HTML $html, FunctionValue $fn) {
+function html_apply_to_depth_first_name(HTML $html, FunctionValue $fn) {
     return $html->depthFirst(
                         _fn(function($html) {
                             return $html instanceof HTMLTag
@@ -529,8 +527,8 @@ function H::apply_to_depth_first_name(HTML $html, FunctionValue $fn) {
 /**
  * Returns the name of the first tag with name attribute in $html.
  */
-function H::get_depth_first_name(HTML $html) {
-    return H::apply_to_depth_first_name($html,
+function html_get_depth_first_name(HTML $html) {
+    return html_apply_to_depth_first_name($html,
                         _fn(function($html) {
                             return $html->attribute("name");
                         }));
