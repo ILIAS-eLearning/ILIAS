@@ -39,7 +39,7 @@ class Form implements IForm {
         $attrs["action"] = $action;
         $formlet = $formlet
             ->mapHTML(_fn(function($dict, $html) use ($attrs) {
-                return html_tag("form", $attrs, $html);
+                return H::tag("form", $attrs, $html);
             }));
         
         $name_source = NameSource::instantiate($this->_id);

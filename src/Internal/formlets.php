@@ -232,7 +232,7 @@ class TextAreaFormlet extends Formlet implements TagBuilderCallbacks {
     }
 
     public function getContent(RenderDict $dict, $name) {
-        return html_text("");
+        return H::text("");
     }
 
     public function getAttributes(RenderDict $dict, $name) {
@@ -281,7 +281,7 @@ function _textarea($default = null, $attributes = null) {
             if ($value === null)
                 $value = $default;
             if ($value !== null)
-                $html = $html->content(html_text($value));
+                $html = $html->content(H::text($value));
 
             return $html;
         }));
@@ -420,9 +420,9 @@ function _radio($options, $default = null, $attributes = array()
                 if ($option === $value) {
                     $attributes_options["checked"] = "checked";
                 }
-                return html_tag("li", array(), html_array(array(
-                            html_tag("input", $attributes_options),
-                            html_tag("label", array("for" => $id), html_text($option)))));
+                return H::tag("li", array(), H::harray(array(
+                            H::tag("input", $attributes_options),
+                            H::tag("label", array("for" => $id), html_text($option)))));
             };
             $options_html = array_map($make_radios, $options);
 
@@ -432,7 +432,7 @@ function _radio($options, $default = null, $attributes = array()
             # TODO: This will produce invalid HTML, as the ol attribute does not
             # support the name attribute. We still need it for with_label. 
             $attributes["name"] = $name;
-            return html_tag("ol", $attributes, html_array($options_html));
+            return H::tag("ol", $attributes, H::harray($options_html));
         }))
         ->satisfies(_fn(function($value) use ($options) {
             return in_array($value, $options);
@@ -479,13 +479,13 @@ function _select($options, $default = null, $attributes = array()) {
             $attributes["name"] = $name;
             $options_html = array_map(function($option) use ($value) {
                 if ($option !== $value) {
-                    return html_tag("option", array(), html_text($option));
+                    return H::tag("option", array(), html_text($option));
                 }
                 else {
-                    return html_tag("option", array("selected" => "selected"), html_text($option));
+                    return H::tag("option", array("selected" => "selected"), html_text($option));
                 }
             }, $options);
-            return html_tag("select", $attributes, html_array($options_html));
+            return H::tag("select", $attributes, H::harray($options_html));
         }))
         ->satisfies(_fn(function($value) use ($options) {
             return in_array($value, $options);
@@ -500,10 +500,10 @@ function _fieldset($legend, Formlet $formlet
         ->mapHTML(_fn(function ($dict, $html) 
                       use ($legend, $attributes, $legend_attributes) {
 
-            return html_tag("fieldset", $attributes, 
-                        html_concat(
-                              html_tag("legend", $legend_attributes, 
-                                html_text($legend))
+            return H::tag("fieldset", $attributes, 
+                        H::concat(
+                              H::tag("legend", $legend_attributes, 
+                                H::text($legend))
                             , $html
                         )
                     );
@@ -517,7 +517,7 @@ function _fieldset($legend, Formlet $formlet
  * This transforms the html in place, that is _mute_ it. If $fn returns some 
  * value except for null, it will only be applied to the first named tag.
  */
-function html_apply_to_depth_first_name(HTML $html, FunctionValue $fn) {
+function H::apply_to_depth_first_name(HTML $html, FunctionValue $fn) {
     return $html->depthFirst(
                         _fn(function($html) {
                             return $html instanceof HTMLTag
@@ -529,8 +529,8 @@ function html_apply_to_depth_first_name(HTML $html, FunctionValue $fn) {
 /**
  * Returns the name of the first tag with name attribute in $html.
  */
-function html_get_depth_first_name(HTML $html) {
-    return html_apply_to_depth_first_name($html,
+function H::get_depth_first_name(HTML $html) {
+    return H::apply_to_depth_first_name($html,
                         _fn(function($html) {
                             return $html->attribute("name");
                         }));
@@ -539,19 +539,19 @@ function html_get_depth_first_name(HTML $html) {
 function _with_label($label, Formlet $other) {
     return $other->mapHTML(_fn( function ($_, $html) use ($label) {
         // use inputs name as id, as it is unique
-        $name = html_get_depth_first_name($html);
+        $name = H::get_depth_first_name($html);
         if ($name === null) {
             throw new Exception("_with_label applied to un-named Formlet.");
         }
 
         // This applies the transformation in place!
-        html_apply_to_depth_first_name($html, _fn(function($html) use ($name) {
+        H::apply_to_depth_first_name($html, _fn(function($html) use ($name) {
             $html->attribute("id", $name);
             return true;
         }));
 
-        return html_concat(
-                    html_tag("label", array("for" => $name), html_text($label)),
+        return H::concat(
+                    H::tag("label", array("for" => $name), html_text($label)),
                     $html
                 );
     }));   
@@ -559,7 +559,7 @@ function _with_label($label, Formlet $other) {
 
 function _with_errors(Formlet $other) {
     return $other->mapHTML(_fn(function ($dict, $html) {
-        $name = html_get_depth_first_name($html);
+        $name = H::get_depth_first_name($html);
         if ($name === null) {
             throw new Exception("_with_errors applied to un-named Formlet.");
         }
@@ -569,9 +569,9 @@ function _with_errors(Formlet $other) {
             return $html;
 
         foreach ($errors as $error) {
-            $html = html_concat
+            $html = H::concat
                         ( $html
-                        , html_tag("span", array("class" => "error"), html_text($error))
+                        , H::tag("span", array("class" => "error"), html_text($error))
                         );
         }
 

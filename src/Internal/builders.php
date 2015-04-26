@@ -103,7 +103,7 @@ class CombinedBuilder extends Builder {
     }
 
     public function buildWithDict(RenderDict $dict) {
-        return html_concat( $this->_l->buildWithDict($dict)
+        return H::concat( $this->_l->buildWithDict($dict)
                           , $this->_r->buildWithDict($dict)
                           );
     }
@@ -134,7 +134,7 @@ class MappedBuilder extends Builder {
 /* A builder that produces a completely empty piece of HTML. */
 class NopBuilder extends Builder {
     public function buildWithDict(RenderDict $dict) {
-        return html_nop();
+        return H::nop();
     }
 }
 
@@ -143,7 +143,7 @@ class TextBuilder extends Builder {
     private $_content; // string
 
     public function __construct($content) {
-        $this->_content = html_text($content);
+        $this->_content = H::text($content);
     }
 
     public function buildWithDict(RenderDict $dict) {
@@ -184,7 +184,7 @@ class TagBuilder extends Builder {
     public function buildWithDict(RenderDict $dict) {
         $attributes = $this->_callback_object->getAttributes($dict, $this->_name);
         $content = $this->_callback_object->getContent($dict, $this->_name);
-        return html_tag($this->_tag_name, $attributes, $content); 
+        return H::tag($this->_tag_name, $attributes, $content); 
     }
 }
     
