@@ -112,7 +112,7 @@ abstract class Formlet implements IFormlet {
     }
 
     static function text_input($default = null, $attributes = null) {
-        return _textual_input("text", $default, $attributes);
+        return self::textual_input("text", $default, $attributes);
     }
 
 
@@ -201,7 +201,7 @@ abstract class Formlet implements IFormlet {
     // value for a datetime-local?
 
     static function email($default = null, $attributes = array()) {
-        return _textual_input("email", $default, $attributes);
+        return self::textual_input("email", $default, $attributes);
     }
 
     // TODO: Missing HTML-input type=file. I would need to make the $_FILES array 
@@ -237,7 +237,7 @@ abstract class Formlet implements IFormlet {
     }
 
     static function password($default = null, $attributes = array()) {
-        return _textual_input("password", $default, $attributes);
+        return self::textual_input("password", $default, $attributes);
     }
 
     static function radio($options, $default = null, $attributes = array()
@@ -297,7 +297,7 @@ abstract class Formlet implements IFormlet {
     }
 
     static function search($default = null, $attributes = array()) {
-        return _textual_input("search", $default, $attributes);
+        return self::textual_input("search", $default, $attributes);
     }
 
     // Missing HTML-input type=tel. No browser seems to implement it...
@@ -306,7 +306,7 @@ abstract class Formlet implements IFormlet {
     // for a time?
 
     static function url($default = null, $attributes = array()) {
-        return _textual_input("url", $default, $attributes);
+        return self::textual_input("url", $default, $attributes);
     }
 
     // TODO: Missing HTML-input type=week. What is the expected format of value 
