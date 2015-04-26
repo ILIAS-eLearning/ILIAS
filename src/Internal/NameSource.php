@@ -7,6 +7,8 @@
  * a copy of the along with the code.
  */
 
+namespace Lechimp\Formlets\Internal;
+
 /*
  * The NameSource is used to create unique names for every input. This is 
  * needed for composability of the Formlets without the need to worry about
