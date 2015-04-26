@@ -6,7 +6,7 @@
  * a copy of the along with the code.
  */
 
-require_once("src/internal/html.php");
+use Lechimp\Formlets\Internal\HTML as H;
 
 class HTMLRenderingTest extends PHPUnit_Framework_TestCase {
     /**
@@ -18,8 +18,8 @@ class HTMLRenderingTest extends PHPUnit_Framework_TestCase {
 
     function html_and_results() {
         return array
-            ( array(html_text("foo"), "foo")
-            , array(html_nop(), "")
+            ( array(H::text("foo"), "foo")
+            , array(H::nop(), "")
             );
     }    
 
@@ -27,7 +27,7 @@ class HTMLRenderingTest extends PHPUnit_Framework_TestCase {
      * Test weather '"' in input values gets rendered correctly. 
      */
     function testRendersQuotesCorrectly() {
-        $html = html_tag("span", array( "foo" => "\"bar\""));
+        $html = H::tag("span", array( "foo" => "\"bar\""));
         $this->assertEquals($html->render(), '<span foo="&quot;bar&quot;"/>');
     }
 }

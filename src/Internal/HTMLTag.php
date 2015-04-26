@@ -27,7 +27,7 @@ class HTMLTag extends HTML {
 
     public function render() {
         $head = "<".$this->_name
-                   .keysAndValuesToHTMLAttributes($this->_attributes);
+                   .self::keysAndValuesToHTMLAttributes($this->_attributes);
         if ($this->_content === null || $this->_content instanceof HTMLNop) {
             return $head."/>";
         }
