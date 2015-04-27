@@ -6,7 +6,8 @@ require_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 require_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
 require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeSettingsGUI.php");
 /**
- * Class ilTrainingProgrammeTreeGUI
+ * ilObjTrainingProgrammeTreeExplorerGUI generates the tree output for TrainingProgrammes
+ * This class builds the tree with drag & drop functionality and some additional buttons which triggers bootstrap-modals
  *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
@@ -49,9 +50,31 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 */
 	protected $ctrl;
 
+	/**
+	 * @var string css-id of the bootstrap modal dialog
+	 */
 	protected $modal_id;
 
+	/**
+	 * @var array js configuration for the tree
+	 */
 	protected $js_conf;
+
+	/**
+	 * default classes of the tree [key=>class_name]
+	 * @var array
+	 */
+	protected $class_configuration = array(
+		'node' => array(
+			'node_title' => 'title',
+			'node_point' => 'points',
+			'node_current' => 'ilHighlighted current_node',
+			'node_buttons' => 'tree_button'
+		),
+		'lp_object' => 'lp-object',
+	);
+
+	protected $node_template;
 
 	/**
 	 * @param $a_expl_id
@@ -87,54 +110,144 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	/**
 	 * Return node element
 	 *
-	 * @param ilObjTrainingProgramme $node
+	 * @param ilObjTrainingProgramme|ilObject $node
 	 *
 	 * @return string
 	 */
 	public function getNodeContent($node) {
 		global $lng, $ilAccess;
 
-		$node_classes = "title";
 		$current_ref_id = (isset($_GET["ref_id"]))? $_GET["ref_id"] : -1;
-		$current_node = ($node->getRefId() == $current_ref_id);
-		$enable_delete = true;
+		$is_current_node = ($node->getRefId() == $current_ref_id);
 		$is_training_programme = ($node instanceof ilObjTrainingProgramme);
+		$is_root_node = ($is_training_programme && $node->getRoot() == null);
 
-		// TODO: implement nicer way to create links for TrainingProgrammes or LP-children
+		// show delete only on not current elements and not root
+		$is_delete_enabled = ($is_training_programme && ($is_current_node || $is_root_node))? false : true;
 
-		if($is_training_programme){
-			if ($current_node || $node->getRoot() == NULL) {
-				$enable_delete = false;
+		$node_config = array(
+			'current_ref_id' =>$current_ref_id,
+			'is_current_node' => $is_current_node,
+			'is_delete_enabled' => $is_delete_enabled,
+			'is_training_programme' => $is_training_programme,
+			'is_root_node' => $is_root_node
+		);
+
+		// TODO: find way to remove a-tag around the content, to create valid html
+		$tpl = $this->getNodeTemplateInstance();
+
+		$tpl->setCurrentBlock('node-content-block');
+		$tpl->setVariable('NODE_TITLE_CLASSES', implode(' ', $this->getNodeTitleClasses($node_config)));
+		$tpl->setVariable('NODE_TITLE', $node->getTitle());
+
+		if($is_training_programme) {
+			$tpl->setVariable('NODE_POINT_CLASSES', $this->class_configuration['node']['node_point']);
+			$tpl->setVariable('NODE_POINTS', $this->formatPointValue($node->getPoints()));
+		}
+
+		$tpl->parseCurrentBlock('node-content-block');
+
+		// add the tree buttons
+		if($this->checkAccess('write', $node->getRefId())) {
+			if($is_training_programme) {
+				$this->parseTrainingProgrammeNodeButtons($node, $node_config, $tpl);
+			} else {
+				$this->parseLeafNodeButtons($node, $node_config, $tpl);
 			}
+		}
 
-			if ($current_node) {
-				$node_classes .= " ilHighlighted current_node";
+		return $tpl->get();
+	}
+
+
+	/**
+	 * Returns array with all css classes of the title node element
+	 *
+	 * @param array $node_config
+	 *
+	 * @return array
+	 */
+	protected function getNodeTitleClasses($node_config) {
+		$node_title_classes = array($this->class_configuration['node']['title']);
+		if($node_config['is_training_programme']){
+			if ($node_config['is_current_node']) {
+				array_push($node_title_classes, $this->class_configuration['node']['node_current']);
 			}
 		} else {
-			$node_classes .= " lp-object";
+			array_push($node_title_classes, $this->class_configuration['lp_object']);
 		}
 
-		// TODO: move all the html into a template
-		//$tpl = new ilTemplate()
+		return $node_title_classes;
+	}
 
-		$data_line = '<span class="'.$node_classes.'">' . $node->getTitle() .'</span>';
 
-		$data_line .= ($is_training_programme)? '<span class="points">('. $node->getPoints() ." ".$this->lng->txt('prg_points').')</span>' : '';
+	/**
+	 * Generates the buttons for a training-programme node
+	 *
+	 * @param ilObjTrainingProgramme $node parsed node
+	 * @param array $node_config configuration of current node
+	 * @param ilTemplate $tpl current node template
+	 */
+	protected function parseTrainingProgrammeNodeButtons($node, $node_config, $tpl) {
+		$tpl->setCurrentBlock('enable-tree-buttons');
+		$tpl->touchBlock('enable-tree-buttons');
 
-		if($this->checkAccess('write', $node->getRefId())) {
-			$data_line .= '<span class="icon_bar">';
-			if($is_training_programme) {
-				$data_line .= (!$current_node)? $this->getActionLink('ilObjTrainingProgrammeSettingsGUI', 'view', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::INFO)) : '';
-				$data_line .= $this->getActionLink('ilObjTrainingProgrammeTreeGUI', 'create', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::ADD));
-			}
-
-			if($enable_delete) {
-				$data_line .= $this->getActionLink('ilObjTrainingProgrammeTreeGUI', 'delete', array('ref_id'=>$node->getRefId(), 'item_ref_id'=>$current_ref_id), ilGlyphGUI::get(ilGlyphGUI::REMOVE));
-			}
-			$data_line .= '</span>';
+		// show info button only when it not the current node
+		if(!$node_config['is_current_node']) {
+			$info_button = $this->getNodeButtonActionLink('ilObjTrainingProgrammeSettingsGUI', 'view', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::INFO));
+			$tpl->setVariable('NODE_INFO_BUTTON', $info_button);
 		}
 
-		return $data_line;
+		$create_button = $this->getNodeButtonActionLink('ilObjTrainingProgrammeTreeGUI', 'create', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::ADD));
+		$tpl->setVariable('NODE_CREATE_BUTTON', $create_button);
+
+		// only show delete button when its not the current node, not the root-node
+		if($node_config['is_delete_enabled']) {
+			$delete_button = $this->getNodeButtonActionLink('ilObjTrainingProgrammeTreeGUI', 'delete', array('ref_id'=>$node->getRefId(), 'item_ref_id'=>$node_config['current_ref_id']), ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+			$tpl->setVariable('NODE_DELETE_BUTTON', $delete_button);
+		}
+
+		$tpl->parseCurrentBlock('enable-tree-buttons');
+	}
+
+	/**
+	 * Generates the buttons for a training programme leaf
+	 *
+	 * @param ilObject $node parsed node
+	 * @param array $node_config configuration of current node
+	 * @param ilTemplate $tpl current node template
+	 */
+	protected function parseLeafNodeButtons($node, $node_config, $tpl) {
+		$tpl->setCurrentBlock('enable-tree-buttons');
+		$tpl->touchBlock('enable-tree-buttons');
+
+		// only show delete button when its not the current node
+		if($node_config['is_delete_enabled']) {
+			$delete_button = $this->getNodeButtonActionLink('ilObjTrainingProgrammeTreeGUI', 'delete', array('ref_id'=>$node->getRefId(), 'item_ref_id'=>$node_config['current_ref_id']), ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+			$tpl->setVariable('NODE_DELETE_BUTTON', $delete_button);
+		}
+
+		$tpl->parseCurrentBlock('enable-tree-buttons');
+	}
+
+	/**
+	 * Factory method for a new instance of a node template
+	 *
+	 * @return ilTemplate
+	 */
+	protected function getNodeTemplateInstance() {
+		return new ilTemplate("tpl.tree_node_content.html", true, true, "Modules/TrainingProgramme");
+	}
+
+	/**
+	 * Returns formatted point value
+	 *
+	 * @param $points
+	 *
+	 * @return string
+	 */
+	protected function formatPointValue($points) {
+		return '('. $points ." ".$this->lng->txt('prg_points').')';
 	}
 	
 	/**
@@ -148,22 +261,36 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 *
 	 * @return string
 	 */
-	protected function getActionLink($target_class, $cmd, $params, $content, $async = true) {
+	protected function getNodeButtonActionLink($target_class, $cmd, $params, $content, $async = true) {
 		foreach($params as $param_name=>$param_value) {
 			$this->ctrl->setParameterByClass($target_class, $param_name, $param_value);
 		}
 
-		$props = 'class="tree_button cmd_'.$cmd.'"';
+		$tpl = $this->getNodeTemplateInstance();
+		//$tpl->free();
+		$tpl->setCurrentBlock('tree-button-block');
+
+		$classes = array($this->class_configuration['node']['node_buttons']);
+		$classes[] = 'cmd_'.$cmd;
+
+		$tpl->setVariable('LINK_HREF', $this->ctrl->getLinkTargetByClass($target_class, $cmd, '', true, false));
+		$tpl->setVariable('LINK_CLASSES', implode(' ', $classes));
+
 		if($async) {
-			$props .= ' data-toggle="modal" data-target="#'.$this->modal_id.'"';
+			$tpl->touchBlock('enable-async-link');
+			$tpl->setVariable('LINK_DATA_TARGET', '#'.$this->modal_id);
 		}
 
-		return '<a href="'.$this->ctrl->getLinkTargetByClass($target_class, $cmd, '', true, false).'" '.$props.'>'.$content.'</a>';
+		$tpl->setVariable('LINK_CONTENT', $content);
+
+		//$tpl->parseCurrentBlock('tree-button-block');
+
+		return $tpl->get();
 	}
 
-
-
 	/**
+	 * Return root node of tree
+	 *
 	 * @return mixed
 	 */
 	public function getRootNode() {
@@ -195,6 +322,8 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 
 
 	/**
+	 * Returns node link target
+	 *
 	 * @param mixed $node
 	 *
 	 * @return string
@@ -208,31 +337,15 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 
 		$ilCtrl->setParameterByClass("ilObjTrainingProgrammeGUI", "ref_id", $node->getRefId());
 
-		return $this->getLinkTarget();
-	}
-
-
-	/**
-	 * @return string
-	 */
-	protected function getLinkTarget() {
-		global $ilCtrl;
-
-		/*if ($ilCtrl->getCmdClass() == "ilobjtrainingprogrammegui" AND in_array($ilCtrl->getCmd(), $this->stay_with_command)) {
-			return $ilCtrl->getLinkTargetByClass($ilCtrl->getCmdClass(), $ilCtrl->getCmd());
-		} else {
-			return $ilCtrl->getLinkTargetByClass("ilobjtrainingprogrammegui", "view");
-		}*/
 		return '#';
 	}
-
 
 	/**
 	 * Get childs of node
 	 *
 	 * @param                  $a_parent_node_id
 	 *
-	 * @global ilAccessHandler $ilAccess
+	 * @global ilAccess
 	 * @internal param int $a_parent_id parent id
 	 * @return array childs
 	 */
@@ -255,35 +368,6 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 
 		return $children;
 	}
-
-
-	/**
-	 * Sort childs
-	 *
-	 * @param array $a_childs array of child nodes
-	 * @param       $a_parent_node_id
-	 *
-	 * @internal param mixed $a_parent_node parent node
-	 *
-	 * @return array array of childs nodes
-	 */
-	public function sortChilds($a_childs, $a_parent_node_id) {
-		//usort($a_childs, array( __CLASS__, "sortbyTitle" ));
-
-		return $a_childs;
-	}
-
-
-	/**
-	 * @param $a
-	 * @param $b
-	 *
-	 * @return int
-	 */
-	public function sortbyTitle($a, $b) {
-		return strcmp($a->getTitle(), $b->getTitle());
-	}
-
 
 	/**
 	 * Is node clickable?
@@ -334,6 +418,9 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 
 
 	/**
+	 * Returns the output of the complete tree
+	 * There are added some additional javascripts before output the parent::getHTML()
+	 *
 	 * @return string
 	 */
 	public function getHTML() {
@@ -347,7 +434,10 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 
 
 	/**
-	 * @param $node_id
+	 * Closes certain node in the tree session
+	 * The open nodes of a tree are stored in a session. This function closes a certain node by its id.
+	 *
+	 * @param int $node_id
 	 */
 	public function closeCertainNode($node_id) {
 		if (in_array($node_id, $this->open_nodes))
@@ -359,7 +449,10 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	}
 
 	/**
-	 * @param $node_id
+	 * Open certain node in the tree session
+	 * The open nodes of a tree are stored in a session. This function opens a certain node by its id.
+	 *
+	 * @param int $node_id
 	 */
 	public function openCertainNode($node_id) {
 		$id = $this->getNodeIdForDomNodeId($node_id);
@@ -372,18 +465,36 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 
 
 	/**
-	 * Helper method to check access
+	 * Checks permission of current tree or certain child of it
 	 *
-	 * @param $a_which
-	 * @param $a_ref_id
+	 * @param string $permission
+	 * @param null $ref_id
 	 *
 	 * @return bool
 	 */
-	protected function checkAccess($a_which, $a_ref_id) {
-		return $this->access->checkAccess($a_which, '', $a_ref_id);
+	protected function checkAccess($permission, $ref_id) {
+		$checker = $this->access->checkAccess($permission, '', $ref_id);
+
+		return $checker;
+	}
+
+
+	/**
+	 * Checks permission of a object and throws an exception if they are not granted
+	 *
+	 * @param string $permission
+	 * @param null $ref_id
+	 *
+	 * @throws ilException
+	 */
+	protected function checkAccessOrFail($permission, $ref_id) {
+		if(!$this->checkAccess($permission, $ref_id)) {
+			throw new ilException("You have no permission for ".$permission." Object with ref_id ".$ref_id."!");
+		}
 	}
 
 	/**
+	 * Adds configuration to the training-programme-tree jquery plugin
 	 *
 	 * @param array $js_conf
 	 */
@@ -392,8 +503,9 @@ class ilObjTrainingProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	}
 
 	/**
+	 * Returns setting of the training-programme-tree
 	 *
-	 * @return string
+	 * @param array $js_conf
 	 */
 	public function getJsConf($key) {
 		return $this->js_conf[$key];
