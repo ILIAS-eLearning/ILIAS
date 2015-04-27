@@ -4,8 +4,7 @@
 require_once("./Services/Exceptions/classes/class.ilException.php");
 
 /**
- * Exception is thrown when invariants on the program tree would be violated
- * by manipulation of tree.
+ * Exception is thrown when errors occurs relating the plugin type-hook
  */
 class ilTrainingProgrammeTypePluginException extends ilException {
 }
