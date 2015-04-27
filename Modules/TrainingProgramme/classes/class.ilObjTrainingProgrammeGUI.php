@@ -443,7 +443,8 @@ class ilObjTrainingProgrammeGUI extends ilContainerGUI {
 	public function getAsyncCreationForm() {
 		$asyncForm = new ilAsyncPropertyFormGUI();
 
-		$asyncForm->cloneForm($this->initCreationForms('prg')[self::CFORM_NEW]);
+		$tmp_forms = $this->initCreationForms('prg');
+		$asyncForm->cloneForm($tmp_forms[self::CFORM_NEW]);
 		$asyncForm->setAsync(true);
 
 		return $asyncForm;
