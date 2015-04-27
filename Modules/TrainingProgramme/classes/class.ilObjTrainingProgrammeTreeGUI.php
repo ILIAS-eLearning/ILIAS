@@ -11,7 +11,8 @@ require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncNotificat
 require_once("./Modules/CourseReference/classes/class.ilObjCourseReference.php");
 
 /**
- * Class ilTrainingProgrammeTreeGUI
+ * Class ilObjTrainingProgrammeTreeGUI
+ * Generates the manage view for ilTrainingProgramme-Repository objects. Handles all the async requests.
  *
  * @author Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
@@ -56,14 +57,26 @@ class ilObjTrainingProgrammeTreeGUI {
 	 */
 	public $lng;
 
+	/**
+	 * Ref-ID of the object
+	 * @var int
+	 */
 	protected $ref_id;
+
 	/**
 	 * @var ilObjTrainingProgrammeTreeExplorerGUI
 	 */
 	protected $tree;
 
+	/**
+	 * CSS-ID of the modal windows
+	 * @var string
+	 */
 	protected $modal_id;
 
+	/**
+	 * @var ilAsyncOutputHandler
+	 */
 	protected $async_output_handler;
 
 	/*
@@ -92,6 +105,11 @@ class ilObjTrainingProgrammeTreeGUI {
 		$lng->loadLanguageModule("prg");
 	}
 
+
+	/**
+	 * Initialize Tree
+	 * Creates tree instance and set tree configuration
+	 */
 	protected function initTree() {
 		$this->tree = new ilObjTrainingProgrammeTreeExplorerGUI($this->ref_id, $this->modal_id, "prg_tree", $this, 'view');
 
@@ -101,6 +119,13 @@ class ilObjTrainingProgrammeTreeGUI {
 		$this->tree->addJsConf('cancel_button_id', 'cancel_order_button');
 	}
 
+
+	/**
+	 * Execute GUI-commands
+	 * If there is a async request the response is sent as a json string
+	 *
+	 * @throws ilException
+	 */
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
 
@@ -110,6 +135,7 @@ class ilObjTrainingProgrammeTreeGUI {
 			$cmd = "view";
 		}
 
+		// handles tree commands ("openNode", "closeNode", "getNodeAsync")
 		if($this->tree->handleCommand()) {
 			exit();
 		}
@@ -136,11 +162,13 @@ class ilObjTrainingProgrammeTreeGUI {
 		ilAsyncOutputHandler::handleAsyncOutput($content);
 	}
 
-	protected function view() {
-		ilAccordionGUI::addJavaScript();
-		ilAsyncPropertyFormGUI::initJs(true);
 
-		$this->tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
+	/**
+	 * Display the tree view
+	 *
+	 * @return string
+	 */
+	protected function view() {
 
 		$output = $this->tree->getHTML();
 		$output .= $this->initAsyncUIElements();
@@ -148,28 +176,52 @@ class ilObjTrainingProgrammeTreeGUI {
 		return $output;
 	}
 
+
+	/**
+	 * Cancel operation
+	 *
+	 * @return string
+	 */
 	protected function cancel() {
 		return ilAsyncOutputHandler::encodeAsyncResponse();
 	}
 
+
+	/**
+	 * Saves tree node order
+	 * Data is json encoded from the jstree component
+	 *
+	 * @return string json string
+	 * @throws ilException
+	 */
 	protected function saveTreeOrder() {
 		$this->checkAccess('write');
 
 		if(!isset($_POST['tree']) || is_null(json_decode($_POST['tree']))) {
-			throw new ilException("There is no tree data to save");
+			throw new ilTrainingProgrammeTreeException("There is no tree data to save!");
 		}
 
-		$sorting = ilContainerSorting::_getInstance(ilObject::_lookupObjectId($this->ref_id));
-		$this->storeTreeOrder(json_decode($_POST['tree']), $sorting);
-
+		// saves order recursive
+		$this->storeTreeOrder(json_decode($_POST['tree']));
 
 		return ilAsyncOutputHandler::encodeAsyncResponse(array('success'=>true, 'message'=>$this->lng->txt('prg_saved_order_successful')));
 	}
 
-	protected function storeTreeOrder($nodes, $container_sorting, $parent_ref_id = null) {
+
+	/**
+	 * Recursive function for saving the tree order
+	 *
+	 * @param [ilObjTrainingProgramme]      $nodes
+	 * @param ilContainerSorting|null       $container_sorting
+	 * @param int|null                      $parent_ref_id
+	 */
+	protected function storeTreeOrder($nodes, $container_sorting = null, $parent_ref_id = null) {
 		$sorting_position = array();
 		$position_count = 10;
-		$parent_node = ($parent_ref_id == null)? ilObjectFactoryWrapper::getInstanceByRefId($this->ref_id) : ilObjectFactoryWrapper::getInstanceByRefId($parent_ref_id);
+
+		$parent_node = ($parent_ref_id === null)? ilObjectFactoryWrapper::getInstanceByRefId($this->ref_id) : ilObjectFactoryWrapper::getInstanceByRefId($parent_ref_id);
+		$container_sorting = ($container_sorting === null) ? ilContainerSorting::_getInstance(ilObject::_lookupObjectId($this->ref_id)) : $container_sorting;
+
 		foreach($nodes as $node) {
 			// get ref_id from json
 			$id = $node->attr->id;
@@ -189,6 +241,7 @@ class ilObjTrainingProgrammeTreeGUI {
 				$rbacadmin->adjustMovedObjectPermissions($node_obj->getRefId(), $parent_node->getRefId());
 			}
 
+			// recursion if there are children
 			if(isset($node->children)) {
 				$this->storeTreeOrder($node->children, ilContainerSorting::_getInstance(ilObject::_lookupObjectId($id)), $id);
 			}
@@ -196,6 +249,14 @@ class ilObjTrainingProgrammeTreeGUI {
 		$container_sorting->savePost($sorting_position);
 	}
 
+
+	/**
+	 * Creates a new leaf
+	 * Currently only course references can be created
+	 *
+	 * @return string
+	 * @throws ilException
+	 */
 	protected function createNewLeaf() {
 		$this->checkAccess('create', (int) $_POST['parent_id']);
 
@@ -203,6 +264,7 @@ class ilObjTrainingProgrammeTreeGUI {
 			$target_id = (int) $_POST['target_id'];
 			$parent_id = (int) $_POST['parent_id'];
 
+			// TODO: more generic way for implementing different type of leafs
 			$course_ref = new ilObjCourseReference();
 			$course_ref->setTitleType(ilObjCourseReference::TITLE_TYPE_REUSE);
 			$course_ref->setTargetRefId($target_id);
@@ -220,6 +282,14 @@ class ilObjTrainingProgrammeTreeGUI {
 		return ilAsyncOutputHandler::encodeAsyncResponse(array('success'=>true, 'message'=>$this->lng->txt('prg_added_course_ref_successful')));
 	}
 
+
+	/**
+	 * Initialize the Course Explorer for creating a leaf
+	 *
+	 * @param bool $convert_to_string If set to true, the getOutput function is already called
+	 *
+	 * @return ilAsyncContainerSelectionExplorer|string
+	 */
 	protected function getContainerSelectionExplorer($convert_to_string = true) {
 		$create_leaf_form = new ilAsyncContainerSelectionExplorer(rawurldecode($this->ctrl->getLinkTarget($this, 'createNewLeaf', '', true, false)));
 		$create_leaf_form->setId("select_course_explorer");
@@ -243,6 +313,12 @@ class ilObjTrainingProgrammeTreeGUI {
 			return $create_leaf_form;
 	}
 
+
+	/**
+	 * Returns the async creation form for TrainingProgrammes
+	 *
+	 * @return ilAsyncPropertyFormGUI
+	 */
 	protected function getCreationForm() {
 		$tmp_obj = new ilObjTrainingProgrammeGUI();
 
@@ -251,17 +327,19 @@ class ilObjTrainingProgrammeTreeGUI {
 		$this->ctrl->setParameterByClass("ilobjtrainingprogrammegui", "new_type", "prg");
 		$create_node_form->setFormAction($this->ctrl->getFormActionByClass("ilobjtrainingprogrammegui", "save"));
 
-		if($create_node_form->isSubmitted()) {
-			$create_node_form->setValuesByPost();
-			$create_node_form->checkInput();
-		}
-
 		return $create_node_form;
 	}
 
+
+	/**
+	 * Generates the modal window content for the creation form of nodes or leafs
+	 * If there are already TrainingProgramme-nodes in the parent, leaf creation is disabled and if there are already leafs, nodes can't be created
+	 *
+	 * @throws ilException
+	 */
 	protected function create() {
 		$parent_id = (isset($_GET['ref_id']))? (int) $_GET['ref_id'] : null;
-		$this->checkAccess('create', $parent_id);
+		$this->checkAccessOrFail('create', $parent_id);
 
 		$parent = ilObjectFactoryWrapper::singleton()->getInstanceByRefId($parent_id);
 		$accordion = new ilAccordionGUI();
@@ -291,15 +369,22 @@ class ilObjTrainingProgrammeTreeGUI {
 			$content = $accordion->getHTML();
 		}
 
+		// creating modal window output
 		$this->async_output_handler->setHeading($this->lng->txt("prg_async_".$this->ctrl->getCmd()));
 		$this->async_output_handler->setContent($content);
 		$this->async_output_handler->terminate();
 	}
 
+
+	/**
+	 * Show the delete confirmation dialog for objects in the tree
+	 *
+	 * @throws ilException
+	 */
 	protected function delete() {
 		global $ilSetting;
 
-		$this->checkAccess("delete");
+		$this->checkAccessOrFail("delete");
 
 		if(!isset($_GET['ref_id'], $_GET['item_ref_id'])) {
 			throw new ilException("Nothing to delete!");
@@ -332,13 +417,21 @@ class ilObjTrainingProgrammeTreeGUI {
 
 		$content = $cgui->getHTML();
 
+		// creating the modal window output
 		$this->async_output_handler->setHeading($msg);
 		$this->async_output_handler->setContent($content);
 		$this->async_output_handler->terminate();
 	}
 
+
+	/**
+	 * Deletes a node or a leaf in the tree
+	 *
+	 * @return string
+	 * @throws ilException
+	 */
 	protected function confirmedDelete() {
-		$this->checkAccess("delete");
+		$this->checkAccessOrFail("delete");
 
 		if(!isset($_POST['id'], $_POST['item_ref_id']) && is_array($_POST['id'])) {
 			throw new ilException("No item select for deletion!");
@@ -347,6 +440,7 @@ class ilObjTrainingProgrammeTreeGUI {
 		$ids = $_POST['id'];
 		$current_node = (int) $_POST['item_ref_id'];
 		$result = true;
+
 		foreach($ids as $id) {
 			$obj = ilObjectFactoryWrapper::getInstanceByRefId($id);
 
@@ -366,11 +460,11 @@ class ilObjTrainingProgrammeTreeGUI {
 				$not_root = ($obj->getRoot() != null);
 			}
 
-			if($current_node != $id && $not_root && $not_parent_of_current && $this->checkAccess('delete', $obj->getRefId(), false)) {
+			if($current_node != $id && $not_root && $not_parent_of_current && $this->checkAccess('delete', $obj->getRefId())) {
 				if($obj->delete()) {
-					// remove nodes from tree session storage
-					$this->tree->closeCertainNode($id);
+					// deletes the tree-open-node-session storage
 					if(isset($children_of_node)) {
+						$this->tree->closeCertainNode($id);
 						foreach($children_of_node as $child) {
 							$this->tree->closeCertainNode($child->getRefId());
 						}
@@ -389,11 +483,31 @@ class ilObjTrainingProgrammeTreeGUI {
 		return ilAsyncOutputHandler::encodeAsyncResponse(array('success'=>$result, 'message'=>$msg));
 	}
 
+
+	/**
+	 * Cancel deletion
+	 * Return a json string for the async handling
+	 *
+	 * @return string
+	 */
 	protected function cancelDelete() {
 		return ilAsyncOutputHandler::encodeAsyncResponse();
 	}
 
+
+	/**
+	 * Initializes all elements used for async-interaction
+	 * Adds HTML-skeleton for the bootstrap modal dialog, the notification mechanism and the Selection container
+	 *
+	 * @return string
+	 */
 	protected function initAsyncUIElements() {
+		// add  js files
+		ilAccordionGUI::addJavaScript();
+		ilAsyncPropertyFormGUI::addJavaScript(true);
+		ilAsyncContainerSelectionExplorer::addJavascript();
+
+		// add bootstrap modal
 		$settings_modal = ilModalGUI::getInstance();
 		$settings_modal->setId($this->modal_id);
 		$settings_modal->setType(ilModalGUI::TYPE_LARGE);
@@ -401,16 +515,22 @@ class ilObjTrainingProgrammeTreeGUI {
 
 		$content =  $settings_modal->getHTML();
 
+		// init js notifications
 		$notifications = new ilAsyncNotifications();
 		$notifications->addJsConfig('events', array('success'=>array('training_programme-show_success')));
 		$notifications->initJs();
 
+		// init tree selection explorer
 		$async_explorer = new ilAsyncContainerSelectionExplorer(rawurldecode($this->ctrl->getLinkTarget($this, 'createNewLeaf', '', true, false)));
 		$async_explorer->initJs();
 
 		return $content;
 	}
 
+
+	/**
+	 * Setup the toolbar
+	 */
 	protected function getToolbar() {
 		$save_order_btn = ilLinkButton::getInstance();
 		$save_order_btn->setId('save_order_button');
@@ -428,15 +548,35 @@ class ilObjTrainingProgrammeTreeGUI {
 		$this->toolbar->addButtonInstance($cancel_order_btn);
 	}
 
-	protected function checkAccess($permission, $ref_id = null, $throw_exception = true) {
+
+	/**
+	 * Checks permission of current tree or certain child of it
+	 *
+	 * @param string $permission
+	 * @param null $ref_id
+	 *
+	 * @return bool
+	 */
+	protected function checkAccess($permission, $ref_id = null) {
 		$ref_id = ($ref_id === null)? $this->ref_id : $ref_id;
 		$checker = $this->access->checkAccess($permission, '', $ref_id);
 
-		if($throw_exception && !$checker) {
+		return $checker;
+	}
+
+
+	/**
+	 * Checks permission of a object and throws an exception if they are not granted
+	 *
+	 * @param string $permission
+	 * @param null $ref_id
+	 *
+	 * @throws ilException
+	 */
+	protected function checkAccessOrFail($permission, $ref_id = null) {
+		if(!$this->checkAccess($permission, $ref_id)) {
 			throw new ilException("You have no permission for ".$permission." Object with ref_id ".$ref_id."!");
 		}
-
-		return $checker;
 	}
 
 }
