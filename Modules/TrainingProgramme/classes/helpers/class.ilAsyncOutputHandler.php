@@ -3,6 +3,8 @@ require_once("./Services/UICore/classes/class.ilTemplate.php");
 
 /**
  * Class ilAsyncOutputHandler
+ * Handles the output for async-requests. The class allows to generate the basic structure of a bootstrap-modal (for modal-content)
+ *
  * @author Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -37,6 +39,7 @@ class ilAsyncOutputHandler {
 			$tpl->setVariable('HEADING', $this->getHeading());
 			$tpl->setVariable('BODY', $this->getContent());
 
+			//TODO: implement window properties
 			/*foreach($this->window_properties as $key => $value) {
 				if($value) {
 					$tpl->activeBlock($key);
@@ -98,6 +101,8 @@ class ilAsyncOutputHandler {
 	}
 
 	/**
+	 * Returns the content of the modal output
+	 *
 	 * @return mixed
 	 */
 	public function getContent() {
@@ -106,6 +111,8 @@ class ilAsyncOutputHandler {
 
 
 	/**
+	 * Sets the content of the modal output
+	 *
 	 * @param mixed $content
 	 */
 	public function setContent($content) {
@@ -114,6 +121,8 @@ class ilAsyncOutputHandler {
 
 
 	/**
+	 * Return the heading of a modal
+	 *
 	 * @return mixed
 	 */
 	public function getHeading() {
@@ -122,6 +131,8 @@ class ilAsyncOutputHandler {
 
 
 	/**
+	 * Sets the heading of a modal-output
+	 *
 	 * @param mixed $heading
 	 */
 	public function setHeading($heading) {
@@ -130,6 +141,8 @@ class ilAsyncOutputHandler {
 
 
 	/**
+	 * Return all window properties
+	 *
 	 * @return mixed
 	 */
 	public function getWindowProperties() {
@@ -138,6 +151,8 @@ class ilAsyncOutputHandler {
 
 
 	/**
+	 * Set windows properties
+	 *
 	 * @param mixed $window_properties
 	 */
 	public function setWindowProperties($window_properties) {

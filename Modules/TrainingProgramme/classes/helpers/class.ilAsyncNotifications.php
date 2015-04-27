@@ -2,16 +2,33 @@
 
 /**
  * Class ilAsyncNotifications
+ * Allows to display async notifications on a page
+ *
  * @author Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
 class ilAsyncNotifications {
+
+	/**
+	 * @var bool Shows if the js is already added
+	 */
 	protected $js_init;
 
+	/**
+	 * @var string|null Id of the container to add the notifications
+	 */
 	protected $content_container_id;
 
+	/**
+	 * @var string Path to the js-path of the module
+	 */
 	protected $js_path;
+
+	/**
+	 * @var array JavaScript configuration for the jquery plugin
+	 */
 	protected $js_config;
+
 
 	public function __construct($content_container_id = null) {
 		$this->js_init = false;
@@ -19,6 +36,10 @@ class ilAsyncNotifications {
 		$this->content_container_id = ($content_container_id != null)? $content_container_id : "ilContentContainer";
 	}
 
+
+	/**
+	 * Setup the message templates and add the js onload code
+	 */
 	public function initJs() {
 		global $tpl;
 
@@ -38,6 +59,10 @@ class ilAsyncNotifications {
 		}
 	}
 
+
+	/**
+	 * Returns the component (returns the js tag)
+	 */
 	public function getHTML() {
 		global $tpl;
 
@@ -45,22 +70,28 @@ class ilAsyncNotifications {
 	}
 
 	/**
-	 * @return mixed
+	 * Gets the target container for the notification
+	 *
+	 * @return null|string
 	 */
-	public function getTemplateId() {
-		return $this->template_id;
+	public function getContentContainerId() {
+		return $this->content_container_id;
 	}
 
 
 	/**
-	 * @param mixed $template_id
+	 * Sets the target container for the notification
+	 *
+	 * @param null|string $content_container_id
 	 */
-	public function setTemplateId($template_id) {
-		$this->template_id = $template_id;
+	public function setContentContainerId($content_container_id) {
+		$this->content_container_id = $content_container_id;
 	}
 
 
 	/**
+	 * Return the path for the javascripts
+	 *
 	 * @return string
 	 */
 	public function getJsPath() {
@@ -69,6 +100,8 @@ class ilAsyncNotifications {
 
 
 	/**
+	 * Sets the path for the javascripts
+	 *
 	 * @param string $js_path
 	 */
 	public function setJsPath($js_path) {
@@ -77,6 +110,8 @@ class ilAsyncNotifications {
 
 
 	/**
+	 * Gets a setting of the jquery-plugin config
+	 *
 	 * @return mixed
 	 */
 	public function getJsConfig($key) {
@@ -85,6 +120,8 @@ class ilAsyncNotifications {
 
 
 	/**
+	 * Sets Jquery settings for the plugin
+	 *
 	 * @param mixed $js_config
 	 */
 	public function addJsConfig($key, $value) {

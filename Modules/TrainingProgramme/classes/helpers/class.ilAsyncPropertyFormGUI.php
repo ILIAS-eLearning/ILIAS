@@ -3,15 +3,35 @@ require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 
 /**
  * Class ilAsyncPropertyFormGUI
+ *
  * @author Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
 class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
+
+	/**
+	 * @var string Path to the async-form js
+	 */
 	protected static $js_path = "./Modules/TrainingProgramme/templates/js/";
+
+	/**
+	 * @var string Default form name (used for jquery-selection)
+	 */
 	protected static $default_from_name = "async_form";
+
+	/**
+	 * @var array Added js-onload codes
+	 */
 	protected static $js_on_load_added = array();
 
+	/**
+	 * @var bool Indicates if the form has an error
+	 */
 	protected $has_errors = false;
+
+	/**
+	 * @var bool Indicates if form is async
+	 */
 	protected $is_async = true;
 
 	public function __construct(array $config = array(), $is_async = true) {
@@ -36,7 +56,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
 	 * @param bool $add_form_loader
 	 * @param null $js_base_path
 	 */
-	public static function initJs($add_form_loader = false, $js_base_path = null) {
+	public static function addJavaScript($add_form_loader = false, $js_base_path = null) {
 		global $tpl;
 
 		$js_path = (isset($js_base_path))? $js_base_path : self::$js_path;
@@ -67,7 +87,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
 	/**
 	 * Return errors of the form as array
 	 *
-	 * @return array array with field id and error message: array([]=>array('key'=>fieldId, 'message'=>error-message))
+	 * @return array Array with field id and error message: array([]=>array('key'=>fieldId, 'message'=>error-message))
 	 */
 	public function getErrors() {
 		if(!$this->check_input_called) {
@@ -166,7 +186,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
 	 * @return string
 	 */
 	public function getHTML() {
-		self::initJs($this->isAsync());
+		self::addJavaScript($this->isAsync());
 
 		return parent::getHTML();
 	}
