@@ -74,10 +74,7 @@ class gevUserNotInOrgUnitJob extends ilCronJob {
 		$gev_settings = gevSettings::getInstance();
 		$org_ref_id = $gev_settings->getOrgUnitUnassignedUser();
 
-		require_once("Services/Object/classes/class.ilObject.php");
-		$obj = new ilObject();
-		$org_id = $obj->_lookupObjectId($org_ref_id);
-
+		$org_id = ilObject::_lookupObjectId($org_ref_id);
 
 		while($rec = $ilDB->fetchAssoc($res)){
 			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
