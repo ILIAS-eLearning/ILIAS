@@ -161,4 +161,4 @@ function _form($id, $action, IFormlet $formlet, $attrs = null) {
     return new Form($id, $action, $attrs, $formlet);
 }
 
-?>
+

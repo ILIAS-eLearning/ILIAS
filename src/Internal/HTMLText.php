@@ -38,4 +38,4 @@ class HTMLText extends HTML {
     }
 }
 
-?>
+

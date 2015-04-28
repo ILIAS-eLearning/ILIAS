@@ -40,4 +40,4 @@ class InputFormlet extends Formlet implements TagBuilderCallbacks {
     }
 }
 
-?>
+

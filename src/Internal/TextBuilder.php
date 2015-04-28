@@ -24,4 +24,4 @@ class TextBuilder extends Builder {
     }
 }
     
-?>
+

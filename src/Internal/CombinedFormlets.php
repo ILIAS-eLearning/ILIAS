@@ -31,4 +31,4 @@ class CombinedFormlets extends Formlet {
     }
 }
 
-?>
+

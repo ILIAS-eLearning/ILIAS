@@ -26,4 +26,4 @@ final class ConstCollector extends Collector {
     }
 }
 
-?>
+

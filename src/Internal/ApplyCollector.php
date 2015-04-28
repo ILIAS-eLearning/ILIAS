@@ -32,4 +32,4 @@ final class ApplyCollector extends Collector {
     }
 }
 
-?>
+

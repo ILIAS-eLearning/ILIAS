@@ -19,4 +19,4 @@ final class NullaryCollector extends Collector {
     }
 }
 
-?>
+

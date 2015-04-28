@@ -53,4 +53,4 @@ class HTMLArray extends HTML {
     }
 }
 
-?>
+

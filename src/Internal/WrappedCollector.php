@@ -38,4 +38,4 @@ class WrappedCollector extends Collector {
     }
 }
 
-?>
+

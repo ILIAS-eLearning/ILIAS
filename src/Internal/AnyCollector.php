@@ -38,4 +38,4 @@ final class AnyCollector extends Collector {
     }
 }
 
-?>
+

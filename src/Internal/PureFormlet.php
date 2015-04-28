@@ -26,4 +26,4 @@ class PureFormlet extends Formlet {
     }
 }
 
-?>
+
