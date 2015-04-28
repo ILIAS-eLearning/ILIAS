@@ -4,44 +4,46 @@
     <body>
 <?php
 
-require_once("formlets.php");
+require_once("tests/autoloader.php");
 
-$br = text("<br />");
+use Lechimp\Formlets\Formlets as F;
 
-$int_input = text_input("10")
-    ->satisfies(_fn("is_numeric"), "No integer!")
-    ->map(_fn("intval", 1))
+$br = F::text("<br />");
+
+$int_input = F::text_input("10")
+    ->satisfies(F::fun("is_numeric"), "No integer!")
+    ->map(F::fun("intval", 1))
     ;
 
-$all_inputs = formlet( 
-    inject(collect()),
-    with_label("A text input: ", text_input()), $br,
-    with_label("A int input: ", with_errors($int_input)), $br,
-    with_label("A checkbox input...", checkbox()), $br,
-    with_label("A textarea input...", textarea()), $br,
-    with_label("A button input...", button("button")), $br,
-    with_label("An email input...", email()), $br,
-    with_label("A hidden input...", hidden("hidden")), $br,
-    with_label("A number input...", number(10, 0, 100, 5)), $br,
-    with_label("A password input...", password()), $br,
-    with_label("A reset input...", reset_button("RESET")), $br,
-    with_label("A search input...", search("RESET")), $br,
-    with_label("A url input...", url()), $br,
-    with_label("A select input...", select(array("one", "two", "three"))), $br,
-    with_label("A radio input...", radio(array("aa", "bb", "cc"))),
-    inject(stop())
+$all_inputs = F::formlet( 
+    F::inject(F::collect()),
+    F::with_label("A text input: ", F::text_input()), $br,
+    F::with_label("A int input: ", F::with_errors($int_input)), $br,
+    F::with_label("A checkbox input...", F::checkbox()), $br,
+    F::with_label("A textarea input...", F::textarea()), $br,
+    F::with_label("A button input...", F::button("button")), $br,
+    F::with_label("An email input...", F::email()), $br,
+    F::with_label("A hidden input...", F::hidden("hidden")), $br,
+    F::with_label("A number input...", F::number(10, 0, 100, 5)), $br,
+    F::with_label("A password input...", F::password()), $br,
+    F::with_label("A reset input...", F::reset("RESET")), $br,
+    F::with_label("A search input...", F::search("RESET")), $br,
+    F::with_label("A url input...", F::url()), $br,
+    F::with_label("A select input...", F::select(array("one", "two", "three"))), $br,
+    F::with_label("A radio input...", F::radio(array("aa", "bb", "cc"))),
+    F::inject(F::stop())
     );
 
-$formlet = formlet(
-    inject(collect()),
+$formlet = F::formlet(
+    F::inject(F::collect()),
     $all_inputs, $br, $br,
-    fieldset("In Fieldset: ", $all_inputs),
-    submit("Absenden", array(), true),
-    inject(stop())
+    F::fieldset("In Fieldset: ", $all_inputs),
+    F::submit("Absenden", array(), true),
+    F::inject(F::stop())
     );
 
 try {
-    $form = form("example", "example.php", $formlet);
+    $form = F::form("example", "example.php", $formlet);
     $form->init();
 
     echo $form->html();

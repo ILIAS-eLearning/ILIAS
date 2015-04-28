@@ -14,6 +14,7 @@ use Lechimp\Formlets\IValue;
 use Lechimp\Formlets\Internal\Checking as C;
 use Lechimp\Formlets\Internal\Values as V;
 use Lechimp\Formlets\Internal\HTML as H;
+use Lechimp\Formlets\Internal\Lib as L;
 
 abstract class Formlet implements IFormlet {
     /* Build a builder and collector from the formlet and also return the 
@@ -184,7 +185,7 @@ abstract class Formlet implements IFormlet {
 
     public static function button($value, $attributes = array()) {
         $attributes["value"] = $value;
-        return _input("button", $attributes)
+        return self::input("button", $attributes)
                 ->replaceCollector( new NullaryCollector() )
                 ;
     }
@@ -210,7 +211,7 @@ abstract class Formlet implements IFormlet {
 
     public static function hidden($value, $attributes = array()) {
         $attributes["value"] = $value;
-        return _input("hidden", $attributes);
+        return self::input("hidden", $attributes);
     }
 
     // TODO: Missing HTML-input type=image. Do i really need this?
@@ -229,11 +230,11 @@ abstract class Formlet implements IFormlet {
         $attributes["min"] = "$min";
         $attributes["max"] = "$max";
         $attributes["step"] = "$step";
-        return _input("number", $attributes)
+        return self::input("number", $attributes)
                 ->satisfies(V::fn("is_numeric", 1), $error_int)
                 ->map(V::fn("intval", 1))
-                ->satisfies(_inRange($min, $max), $error_range)
-                ->satisfies(_isMultipleOf($step), $error_step)
+                ->satisfies(L::inRange($min, $max), $error_range)
+                ->satisfies(L::isMultipleOf($step), $error_step)
                 ;
     }
 
@@ -269,7 +270,7 @@ abstract class Formlet implements IFormlet {
                     }
                     return H::tag("li", array(), H::harray(array(
                                 H::tag("input", $attributes_options),
-                                H::tag("label", array("for" => $id), html_text($option)))));
+                                H::tag("label", array("for" => $id), H::text($option)))));
                 };
                 $options_html = array_map($make_radios, $options);
 
@@ -290,9 +291,9 @@ abstract class Formlet implements IFormlet {
     // TODO: Missing HTML-input type=range. What is the expected format of value 
     // for a range?
 
-    public static function reset($value) {
+    public static function reset($value, $attributes) {
         $attributes["value"] = $value;
-        return _input("reset", $attributes)
+        return self::input("reset", $attributes)
                 ->replaceCollector( new NullaryCollector() )
                 ;
     }
@@ -326,10 +327,10 @@ abstract class Formlet implements IFormlet {
                 $attributes["name"] = $name;
                 $options_html = array_map(function($option) use ($value) {
                     if ($option !== $value) {
-                        return H::tag("option", array(), html_text($option));
+                        return H::tag("option", array(), H::text($option));
                     }
                     else {
-                        return H::tag("option", array("selected" => "selected"), html_text($option));
+                        return H::tag("option", array("selected" => "selected"), H::text($option));
                     }
                 }, $options);
                 return H::tag("select", $attributes, H::harray($options_html));
@@ -379,28 +380,28 @@ abstract class Formlet implements IFormlet {
      */
     // TODO: This should propably go to HTML.
     public static function html_get_depth_first_name(HTML $html) {
-        return html_apply_to_depth_first_name($html,
+        return self::html_apply_to_depth_first_name($html,
                             V::fn(function($html) {
                                 return $html->attribute("name");
                             }));
     }
 
-    public static function _with_label($label, Formlet $other) {
+    public static function with_label($label, Formlet $other) {
         return $other->mapHTML(V::fn(function ($_, $html) use ($label) {
             // use inputs name as id, as it is unique
-            $name = self::get_depth_first_name($html);
+            $name = self::html_get_depth_first_name($html);
             if ($name === null) {
                 throw new Exception("_with_label applied to un-named Formlet.");
             }
 
             // This applies the transformation in place!
-            self::apply_to_depth_first_name($html, V::fn(function($html) use ($name) {
+            self::html_apply_to_depth_first_name($html, V::fn(function($html) use ($name) {
                 $html->attribute("id", $name);
                 return true;
             }));
 
             return H::concat(
-                        H::tag("label", array("for" => $name), html_text($label)),
+                        H::tag("label", array("for" => $name), H::text($label)),
                         $html
                     );
         }));   
@@ -408,7 +409,7 @@ abstract class Formlet implements IFormlet {
 
     public static function with_errors(Formlet $other) {
         return $other->mapHTML(V::fn(function ($dict, $html) {
-            $name = self::get_depth_first_name($html);
+            $name = self::html_get_depth_first_name($html);
             if ($name === null) {
                 throw new Exception("_with_errors applied to un-named Formlet.");
             }

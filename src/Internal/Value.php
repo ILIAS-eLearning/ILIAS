@@ -61,7 +61,7 @@ abstract class Value implements IValue {
 
     // Helper function that defaults to $default if $arg is null
     // and returns $arg otherwise.
-    protected static function defaultTo($arg, $default) {
+    public static function defaultTo($arg, $default) {
         if ($arg === null) {
             return $default;
         }

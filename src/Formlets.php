@@ -25,6 +25,7 @@ namespace Lechimp\Formlets;
 
 use Lechimp\Formlets\Internal\Values as V;
 use Lechimp\Formlets\Internal\Formlet as F;
+use Lechimp\Formlets\Internal\Lib as L;
 
 /**
  * Consumer interface to Formlets library.
@@ -49,7 +50,7 @@ class Formlets {
      * 
      * @param   Closure | string    $function
      * @param   null | integer      $arity
-     * @param   [mixed]             $args
+     * @param   mixed[]             $args
      * @return  IValue 
      */
     public static function fun($function, $arity = null, $args = null) {
@@ -186,7 +187,7 @@ class Formlets {
      * @return IFormlet
      */
     public static function email($default = null, $attrs = array()) {
-        return F::email($default = null, $attrs);
+        return F::email($default, $attrs);
     } 
 
     /**
@@ -245,7 +246,7 @@ class Formlets {
      * @param   [string => string] | null   $attrs
      * @return IFormlet
      */
-    public static function reset_button($value, $attrs = array()) {
+    public static function reset($value, $attrs = array()) {
         return F::reset($value, $attrs);
     }
 
@@ -274,7 +275,7 @@ class Formlets {
     /**
      * Get a select input.
      *
-     * @param   [string]                    $options
+     * @param   string[]                    $options
      * @param   string                      $default
      * @param   [string => string] | null   $attrs
      * @return IFormlet
@@ -344,7 +345,7 @@ class Formlets {
      * @return  IForm
      */
     public static function form($id, $action, IFormlet $formlet, $attrs = null) {
-        return F::form($id, $action, $formlet, $attrs);
+        return new Internal\Form($id, $action, $attrs, $formlet);
     }
 
     /**
@@ -355,11 +356,11 @@ class Formlets {
      * @return IValue
      */
     public static function collect() {
-        return F::collect();
+        return L::collect();
     }
 
     public static function stop() {
-        return V::val(new Stop());
+        return V::val(new Internal\Stop());
     }
 }
      

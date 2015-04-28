@@ -9,6 +9,8 @@
 
 namespace Lechimp\Formlets\Internal;
 
+use Exception;
+
 class MissingInputError extends Exception {
     private $_name; //string
     public function __construct($name) {

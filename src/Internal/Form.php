@@ -7,7 +7,14 @@
  * a copy of the along with the code.
  */
 
-require_once("src/formlets.php");
+namespace Lechimp\Formlets\Internal;
+
+use Lechimp\Formlets\IForm;
+use Lechimp\Formlets\IFormlet;
+use Lechimp\Formlets\Internal\Checking as C;
+use Lechimp\Formlets\Internal\Values as V;
+use Lechimp\Formlets\Internal\HTML as H;
+use Lechimp\Formlets\Internal\NameSource;
 
 class Form implements IForm {
     protected $_builder;// Builder 
@@ -25,11 +32,11 @@ class Form implements IForm {
             throw new Exception("Form::__construct: '$id' can not be used as "
                                ."id. Only use numbers and digits.");
         }
-        guardIsFormlet($formlet);
-        guardIsString($id);
-        guardIsString($action);
-        $attrs = defaultTo($attrs, array());
-        guardEachAndKeys($attrs, "guardIsString", "guardIsString");
+        C::guardIsFormlet($formlet);
+        C::guardIsString($id);
+        C::guardIsString($action);
+        $attrs = Value::defaultTo($attrs, array());
+        C::guardEachAndKeys($attrs, "C::guardIsString", "C::guardIsString");
         $this->_id = $id;
         $this->_input = null;
         $this->_result = null;
@@ -37,7 +44,7 @@ class Form implements IForm {
         $attrs["method"] = "post";
         $attrs["action"] = $action;
         $formlet = $formlet
-            ->mapHTML(_fn(function($dict, $html) use ($attrs) {
+            ->mapHTML(V::fn(function($dict, $html) use ($attrs) {
                 return H::tag("form", $attrs, $html);
             }));
         
