@@ -504,7 +504,7 @@ class ilExAssignmentTeam
 			);			
 		}
 		
-		return $res;
+		return ilUtil::sortArray($res, "title", "asc", false, true);
 	}
 }
 

@@ -1022,17 +1022,22 @@ class ilExerciseManagementGUI
 			if(sizeof($group["members"]))
 			{
 				$grp_team = new ilCheckboxGroupInputGUI($group["title"], "grpt_".$grp_id);				
-				$grp_value = array();
+				$grp_value = $options = array();				
 				foreach($group["members"] as $user_id)
 				{
-					$user_name = ilUserUtil::getNamePresentation($user_id, false, false, "", true);					
-					$grp_team->addOption(new ilCheckboxOption($user_name, $user_id));
+					$user_name = ilUserUtil::getNamePresentation($user_id, false, false, "", true);		
+					$options[$user_id] = $user_name;
 					if(!in_array($user_id, $all_members))
 					{
 						$grp_value[] = $user_id;
 						$all_members[] = $user_id;
 					}
 				}
+				asort($options);
+				foreach($options as $user_id => $user_name)
+				{
+					$grp_team->addOption(new ilCheckboxOption($user_name, $user_id));
+				}				
 				$grp_team->setValue($grp_value);
 				$form->addItem($grp_team);
 			}
@@ -1091,7 +1096,7 @@ class ilExerciseManagementGUI
 			if($valid)
 			{				
 				if(sizeof($teams))
-				{				
+				{									
 					// create teams from group selections
 					foreach($teams as $members)
 					{						
@@ -1113,7 +1118,7 @@ class ilExerciseManagementGUI
 						{
 							foreach($members as $user_id)
 							{
-								$team->addTeamMember($team);
+								$team->addTeamMember($user_id);
 							}
 						}					
 					}
