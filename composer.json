@@ -1,6 +1,6 @@
 {
     "name": "lechimp-p/php-formlets",
-    "version": "0.8.0",
+    "version": "0.7.0",
     "description": "Composable forms(let)s, \"The Essence of Form Abstraction\" in PHP",
     "keywords": "form",
     "type": "library",
@@ -17,5 +17,8 @@
             "issues": "https://github.com/lechimp-p/php-src/internal/issues",
             "source": "https://github.com/lechimp-p/php-formlets"
         }
-    ]
+    ],
+    "autoload" : {
+        "psr-4" : { "Lechimp\\Formlets\\" : "src" }
+    }
 }
