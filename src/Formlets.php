@@ -23,6 +23,7 @@
 namespace Lechimp\Formlets;
 
 use Lechimp\Formlets\Internal\Values as V;
+use Lechimp\Formlets\Internal\Formlet as F;
 
 /**
  * Consumer interface to Formlets library.
@@ -60,7 +61,7 @@ class Formlets {
      * @return  IValue
      */
     static function application_to(IValue $val) {
-        return _application_to($val);
+        return V::application_to($val);
     }
 
     /**
@@ -70,7 +71,7 @@ class Formlets {
      * @return  IValue 
      */
     static function composition() {
-        return _composition();
+        return V::composition();
     }
 
     /**
@@ -95,7 +96,7 @@ class Formlets {
      * @return IFormlet
      */
     static function inject(IValue $value) {
-        return _pure($value);
+        return F::pure($value);
     }
 
     /**
@@ -105,7 +106,7 @@ class Formlets {
      * @return IFormlet
      */
     static function text($content) {
-        return _text($content);
+        return F::text($content);
     }
 
     /**
@@ -116,7 +117,7 @@ class Formlets {
      * @return IFormlet
      */
     static function input($type, $attrs = null) {
-        return _input($type, $attrs);
+        return F::input($type, $attrs);
     }
 
     /**
@@ -127,7 +128,7 @@ class Formlets {
      * @return IFormlet
      */
     static function text_input($default = null, $attrs = null) {
-        return _text_input($default, $attrs);
+        return F::text_input($default, $attrs);
     }
 
     /**
@@ -138,7 +139,7 @@ class Formlets {
      * @return IFormlet
      */
     static function textarea($default = null, $attrs = null) {
-        return _textarea($default, $attrs);
+        return F::textarea($default, $attrs);
     }
 
     /**
@@ -149,7 +150,7 @@ class Formlets {
      * @return IFormlet
      */
     static function checkbox($default = false, $attrs = null) {
-        return _checkbox($default, $attrs);
+        return F::checkbox($default, $attrs);
     }
 
     /**
@@ -162,7 +163,7 @@ class Formlets {
      * @return IFormlet
      */
     static function submit($value, $attrs = array(), $collects = false) {
-        return _submit($value, $attrs, $collects);
+        return F::submit($value, $attrs, $collects);
     }
 
     /**
@@ -173,7 +174,7 @@ class Formlets {
      * @return IFormlet
      */
     static function button($value, $attrs = array()) {
-        return _button($value, $attrs);
+        return F::button($value, $attrs);
     } 
 
     /**
@@ -184,7 +185,7 @@ class Formlets {
      * @return IFormlet
      */
     static function email($default = null, $attrs = array()) {
-        return _email($default = null, $attrs);
+        return F::email($default = null, $attrs);
     } 
 
     /**
@@ -195,7 +196,7 @@ class Formlets {
      * @return IFormlet
      */
     static function hidden($value, $attrs = array()) {
-        return _hidden($value, $attrs);
+        return F::hidden($value, $attrs);
     } 
 
     /**
@@ -219,7 +220,7 @@ class Formlets {
                    , $error_range = "Not in range!"
                    , $error_step = "Steps mismatch!"
                    ) {
-        return _number( $value, $min, $max, $step, $attrs
+        return F::number( $value, $min, $max, $step, $attrs
                       , $error_int, $error_range, $error_step
                       );
     } 
@@ -233,7 +234,7 @@ class Formlets {
      * @return IFormlet
      */
     static function password($default = null, $attrs = array()) {
-        return _password($default, $attrs);
+        return F::password($default, $attrs);
     } 
 
     /**
@@ -244,7 +245,7 @@ class Formlets {
      * @return IFormlet
      */
     static function reset_button($value, $attrs = array()) {
-        return _reset($value, $attrs);
+        return F::reset($value, $attrs);
     }
 
     /**
@@ -255,7 +256,7 @@ class Formlets {
      * @return IFormlet
      */
     static function search($default = null, $attrs = array()) {
-        return _search($default, $attrs);
+        return F::search($default, $attrs);
     } 
 
     /**
@@ -266,7 +267,7 @@ class Formlets {
      * @return IFormlet
      */
     static function url($default = null, $attrs = array()) {
-        return _url($default, $attrs);
+        return F::url($default, $attrs);
     } 
 
     /**
@@ -278,7 +279,7 @@ class Formlets {
      * @return IFormlet
      */
     static function select($options, $default = null, $attrs = array()) {
-        return _select($options, $default, $attrs);
+        return F::select($options, $default, $attrs);
     }
 
     /**
@@ -292,7 +293,7 @@ class Formlets {
      * @return IFormlet
      */
     static function radio($options, $default = null, $attrs = array(), $attrs_opts = array()) {
-        return _radio($options, $default, $attrs, $attrs_opts);
+        return F::radio($options, $default, $attrs, $attrs_opts);
     }
 
     /**
@@ -306,7 +307,7 @@ class Formlets {
      */
     static function fieldset($legend, IFormlet $formlet
                      , $attrs = array(), $legend_attrs = array()) {
-        return _fieldset($legend, $formlet, $attrs, $legend_attrs);
+        return F::fieldset($legend, $formlet, $attrs, $legend_attrs);
     }
 
     /**
@@ -317,7 +318,7 @@ class Formlets {
      * @return IFormlet
      */
     static function with_label($label, IFormlet $formlet) {
-        return _with_label($label, $formlet);
+        return F::with_label($label, $formlet);
     }
 
     /**
@@ -328,7 +329,7 @@ class Formlets {
      * @return IFormlet
      */
     static function with_errors(IFormlet $formlet) {
-        return _with_errors($formlet);
+        return F::with_errors($formlet);
     }
 
     /**
@@ -342,7 +343,7 @@ class Formlets {
      * @return  IForm
      */
     static function form($id, $action, IFormlet $formlet, $attrs = null) {
-        return _form($id, $action, $formlet, $attrs);
+        return F::form($id, $action, $formlet, $attrs);
     }
 
     /**
@@ -353,11 +354,11 @@ class Formlets {
      * @return IValue
      */
     static function collect() {
-        return _collect();
+        return F::collect();
     }
 
     static function stop() {
-        return val(new Stop());
+        return V::val(new Stop());
     }
 }
      

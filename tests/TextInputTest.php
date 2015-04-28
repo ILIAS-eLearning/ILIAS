@@ -6,15 +6,15 @@
  * a copy of the along with the code.
  */
 
-require_once("src/formlets.php");
-require_once("tests/FormletTest.php");
+use Lechimp\Formlets\Internal\Formlet as F;
+use Lechimp\Formlets\Internal\Values as V;
 
 class TextInputTest extends PHPUnit_Framework_TestCase {
     use FormletTestTrait;
 
     public function formlets() {
         return array
-            ( array(_text_input())
+            ( array(F::text_input())
             );
     }
 }

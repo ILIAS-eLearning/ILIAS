@@ -211,4 +211,45 @@ trait FunctionValueTestTrait {
     }
 }
 
+trait FormletTestTrait {
+    protected function instantiateFormlet($formlet) {
+        return $formlet->instantiate(Lechimp\Formlets\Internal\NameSource::instantiate("test"));
+    }
+
+    /**
+     * Thing has correct class.
+     * @dataProvider formlets
+     */
+    public function testHasFormletClass($formlet) {
+        $this->assertInstanceOf("Lechimp\Formlets\Internal\Formlet", $formlet);
+    }
+     
+    /**
+     * Builder has correct class.
+     * @dataProvider formlets
+     */
+    public function testBuilderHasBuilderClass($formlet) { 
+        $res = $this->instantiateFormlet($formlet);
+        $this->assertInstanceOf("Lechimp\Formlets\Internal\Builder", $res["builder"]);
+    }
+
+    /**
+     * Collector has correct class.
+     * @dataProvider formlets
+     */
+    public function testCollectorHasCollectorClass($formlet) { 
+        $res = $this->instantiateFormlet($formlet);
+        $this->assertInstanceOf("Lechimp\Formlets\Internal\Collector", $res["collector"]);
+    }
+
+    /**
+     * Name source has correct class.
+     * @dataProvider formlets
+     */
+    public function testNameSourceHasNameSourceClass($formlet) {
+        $res = $this->instantiateFormlet($formlet);
+        $this->assertInstanceOf("Lechimp\Formlets\Internal\NameSource", $res["name_source"]);
+    }
+}
+
 ?>

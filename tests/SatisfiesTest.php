@@ -6,15 +6,15 @@
  * a copy of the along with the code.
  */
 
-require_once("src/formlets.php");
-require_once("tests/FormletTest.php");
+use Lechimp\Formlets\Internal\Formlet as F;
+use Lechimp\Formlets\Internal\Values as V;
 
 class SatisfiesTest extends PHPUnit_Framework_TestCase {
     use FormletTestTrait;
 
     public function formlets() {
-        $alwaysTrue = _fn(function ($_) { return true; });
-        $pure = _pure(_val(42));
+        $alwaysTrue = V::fn(function ($_) { return true; });
+        $pure = F::pure(V::val(42));
         return array
             ( array($pure->satisfies($alwaysTrue, "ERROR"))
             );

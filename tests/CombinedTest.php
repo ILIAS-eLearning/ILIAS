@@ -6,14 +6,14 @@
  * a copy of the along with the code.
  */
 
-require_once("src/formlets.php");
-require_once("tests/FormletTest.php");
+use Lechimp\Formlets\Internal\Formlet as F;
+use Lechimp\Formlets\Internal\Values as V;
 
 class CombinedTest extends PHPUnit_Framework_TestCase {
     use FormletTestTrait;
 
     public function formlets() {
-        $p = _pure(_val(42));
+        $p = F::pure(V::val(42));
         return array
             ( array($p->cmb($p))
             );

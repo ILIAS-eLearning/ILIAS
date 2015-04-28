@@ -6,15 +6,14 @@
  * a copy of the along with the code.
  */
 
-require_once("src/formlets.php");
-require_once("tests/FormletTest.php");
+use Lechimp\Formlets\Formlets as F;
 
 class CheckboxTest extends PHPUnit_Framework_TestCase {
     use FormletTestTrait;
 
     public function formlets() {
         return array
-            ( array(_checkbox())
+            ( array(F::checkbox())
             );
     }
 }
