@@ -12,12 +12,10 @@
             "email": "richard.klees@rwth-aachen.de"
         }
     ],
-    "support": [
-        {
-            "issues": "https://github.com/lechimp-p/php-src/internal/issues",
-            "source": "https://github.com/lechimp-p/php-formlets"
-        }
-    ],
+    "support": {
+        "issues": "https://github.com/lechimp-p/php-src/internal/issues",
+        "source": "https://github.com/lechimp-p/php-formlets"
+    },
     "autoload" : {
         "psr-4" : { "Lechimp\\Formlets\\" : "src" }
     }
