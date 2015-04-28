@@ -10,7 +10,7 @@
 namespace Lechimp\Formlets\Internal;
 
 class Checking {
-    static public function typeName($arg) {
+    public static function typeName($arg) {
         $t = getType($arg);
         if ($t == "object") {
             return get_class($arg);
@@ -18,83 +18,83 @@ class Checking {
         return $t;
     }
 
-    static public function guardIsString($arg) {
+    public static function guardIsString($arg) {
         if (!is_string($arg)) {
             throw new TypeError("string", self::typeName($arg));
         } 
     }
 
-    static public function guardIsInt($arg) {
+    public static function guardIsInt($arg) {
         if (!is_int($arg)) {
             throw new TypeError("int", self::typeName($arg));
         } 
     }
 
-    static public function guardIsUInt($arg) {
+    public static function guardIsUInt($arg) {
         if (!is_int($arg) || $arg < 0) {
             throw new TypeError("unsigned int", self::typeName($arg));
         }
     }
 
-    static public function guardIsBool($arg) {
+    public static function guardIsBool($arg) {
         if (!is_bool($arg)) {
             throw new TypeError("bool", self::typeName($arg));
         } 
     }
 
-    static public function guardIsArray($arg) {
+    public static function guardIsArray($arg) {
         if(!is_array($arg)) {
             throw new TypeError("array", self::typeName($arg));
         }
     }
 
-    static public function guardIsObject($arg) {
+    public static function guardIsObject($arg) {
         if(!is_object($arg)) {
             throw new TypeError("object", self::typeName($arg));
         }
     }
 
-    static public function guardIsCallable($arg) {
+    public static function guardIsCallable($arg) {
         if(!is_callable($arg)) {
             throw new TypeError("callable", self::typeName($arg));
         }
     }
 
-    static public function guardHasClass($class_name, $arg) {
+    public static function guardHasClass($class_name, $arg) {
         if (!($arg instanceof $arg)) {
             throw new TypeError($arg, self::typeName($arg));
         }
     }
 
-    static public function guardIsClosure($arg) {
+    public static function guardIsClosure($arg) {
         return self::guardHasClass("Closure", $arg);
     }
 
-    static public function guardIsException($arg) {
+    public static function guardIsException($arg) {
         return self::guardHasClass("Exception", $arg);
     }
 
-    static public function guardIsValue($arg) {
+    public static function guardIsValue($arg) {
         return self::guardHasClass("Value", $arg);
     }
 
-    static public function guardIsErrorValue($arg) {
+    public static function guardIsErrorValue($arg) {
         return self::guardHasClass("ErrorValue", $arg);
     }
 
-    static public function guardIsHTML($arg) {
+    public static function guardIsHTML($arg) {
         return self::guardHasClass("HTML", $arg);
     }
 
-    static public function guardIsHTMLTag($arg) {
+    public static function guardIsHTMLTag($arg) {
         return self::guardHasClass("HTMLTag", $arg);
     }
 
-    static public function guardIsFormlet ($arg) {
+    public static function guardIsFormlet ($arg) {
         return self::guardHasClass("Formlet", $arg);
     }
 
-    static public function guardHasArity(FunctionValue $fun, $arity) {
+    public static function guardHasArity(FunctionValue $fun, $arity) {
         if ($fun->arity() != $arity) {
             throw new TypeError( "FunctionValue with arity $arity"
                                , "FunctionValue with arity ".$fun->arity()
@@ -102,14 +102,14 @@ class Checking {
         }    
     }
 
-    static public function guardEach($vals, $fn) {
+    public static function guardEach($vals, $fn) {
         self::guardIsArray($vals);
         foreach ($vals as $val) {
             self::$fn($val);
         }
     }
 
-    static public function guardEachAndKeys($vals, $fn_val, $fn_key) {
+    public static function guardEachAndKeys($vals, $fn_val, $fn_key) {
         self::guardIsArray($vals);
         foreach ($vals as $key => $val) {
             self::$fn_val($val);
@@ -117,7 +117,7 @@ class Checking {
         }
     }
 
-    static public function guardIfNotNull($val, $fn) {
+    public static function guardIfNotNull($val, $fn) {
         if ($val !== null) {
             self::$fn($val);
         }

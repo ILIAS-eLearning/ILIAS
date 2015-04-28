@@ -75,25 +75,25 @@ abstract class Formlet implements IFormlet {
         return new MappedFormlet($this, $transform_builder, $transform_collector);
     }
 
-    static public function pure(Value $value) {
+    public static function pure(Value $value) {
         return new PureFormlet($value); 
     }
 
-    static public function text($content) {
+    public static function text($content) {
         return new TextFormlet($content);
     }
 
-    static public function input($type, $attributes = array()) {
+    public static function input($type, $attributes = array()) {
         C::guardIsString($type);
         $attributes["type"] = $type;
         return new InputFormlet($attributes);
     }
 
-    static public function textarea_raw($attributes = null) {
+    public static function textarea_raw($attributes = null) {
         return new TextAreaFormlet($attributes);
     }
 
-    static public function textual_input($type, $default = null, $attributes = null) {
+    public static function textual_input($type, $default = null, $attributes = null) {
         C::guardIfNotNull($default, "guardIsString");
         return self::input($type, $attributes)
             // Only accept string inputs
@@ -112,12 +112,12 @@ abstract class Formlet implements IFormlet {
             }));
     }
 
-    static public function text_input($default = null, $attributes = null) {
+    public static function text_input($default = null, $attributes = null) {
         return self::textual_input("text", $default, $attributes);
     }
 
 
-    static public function textarea($default = null, $attributes = null) {
+    public static function textarea($default = null, $attributes = null) {
         C::guardIfNotNull($default, "guardIsString");
         return self::textarea_raw($attributes)
             ->satisfies(V::fn("is_string"), "Input is no string.")
@@ -135,7 +135,7 @@ abstract class Formlet implements IFormlet {
     }
 
 
-    static public function checkbox($default = false, $attributes = null) {
+    public static function checkbox($default = false, $attributes = null) {
         C::guardIsBool($default);
         return self::input("checkbox", $attributes)
             ->wrapCollector(V::fn(function($collector, $inp) {
@@ -162,7 +162,7 @@ abstract class Formlet implements IFormlet {
             })); 
     } 
 
-    static public function submit($value, $attributes = array(), $collects = false) {
+    public static function submit($value, $attributes = array(), $collects = false) {
         $attributes["value"] = $value;
         $input = self::input("submit", $attributes);
 
@@ -182,7 +182,7 @@ abstract class Formlet implements IFormlet {
         }
     }
 
-    static public function button($value, $attributes = array()) {
+    public static function button($value, $attributes = array()) {
         $attributes["value"] = $value;
         return _input("button", $attributes)
                 ->replaceCollector( new NullaryCollector() )
@@ -201,14 +201,14 @@ abstract class Formlet implements IFormlet {
     // TODO: Missing HTML-input type=datetime-local. What is the expected format of 
     // value for a datetime-local?
 
-    static public function email($default = null, $attributes = array()) {
+    public static function email($default = null, $attributes = array()) {
         return self::textual_input("email", $default, $attributes);
     }
 
     // TODO: Missing HTML-input type=file. I would need to make the $_FILES array 
     // accessible, right?
 
-    static public function hidden($value, $attributes = array()) {
+    public static function hidden($value, $attributes = array()) {
         $attributes["value"] = $value;
         return _input("hidden", $attributes);
     }
@@ -218,7 +218,7 @@ abstract class Formlet implements IFormlet {
     // TODO: Missing HTML-input type=month. What is the expected format of value 
     // for a datetime-local? Do i really need it?
 
-    static public function number($value, $min, $max, $step, $attributes = array()
+    public static function number($value, $min, $max, $step, $attributes = array()
                     , $error_int, $error_range, $error_step
                     ) {
         C::guardIsInt($value);
@@ -237,11 +237,11 @@ abstract class Formlet implements IFormlet {
                 ;
     }
 
-    static public function password($default = null, $attributes = array()) {
+    public static function password($default = null, $attributes = array()) {
         return self::textual_input("password", $default, $attributes);
     }
 
-    static public function radio($options, $default = null, $attributes = array()
+    public static function radio($options, $default = null, $attributes = array()
                    , $attributes_options = array()) {
         C::guardEach($options, "guardIsString");
         if ($default === null) {
@@ -290,14 +290,14 @@ abstract class Formlet implements IFormlet {
     // TODO: Missing HTML-input type=range. What is the expected format of value 
     // for a range?
 
-    static public function reset($value) {
+    public static function reset($value) {
         $attributes["value"] = $value;
         return _input("reset", $attributes)
                 ->replaceCollector( new NullaryCollector() )
                 ;
     }
 
-    static public function search($default = null, $attributes = array()) {
+    public static function search($default = null, $attributes = array()) {
         return self::textual_input("search", $default, $attributes);
     }
 
@@ -306,14 +306,14 @@ abstract class Formlet implements IFormlet {
     // TODO: Missing HTML-input type=time. What is the expected format of value 
     // for a time?
 
-    static public function url($default = null, $attributes = array()) {
+    public static function url($default = null, $attributes = array()) {
         return self::textual_input("url", $default, $attributes);
     }
 
     // TODO: Missing HTML-input type=week. What is the expected format of value 
     // for a week?
 
-    static public function select($options, $default = null, $attributes = array()) {
+    public static function select($options, $default = null, $attributes = array()) {
         C::guardEach($options, "guardIsString");
         return self::input("select", $attributes)
             ->mapHTML(V::fn(function($dict, $html) use ($options, $attributes, $default) {
@@ -341,7 +341,7 @@ abstract class Formlet implements IFormlet {
     }
 
     /* A formlet that wraps other formlets in a field set */
-    static public function fieldset($legend, Formlet $formlet
+    public static function fieldset($legend, Formlet $formlet
                       , $attributes = array(), $legend_attributes = array()) {
         return $formlet
             ->mapHTML(V::fn(function ($dict, $html) 
@@ -365,7 +365,7 @@ abstract class Formlet implements IFormlet {
      * value except for null, it will only be applied to the first named tag.
      */
     // TODO: This should propably go to HTML.
-    static public function html_apply_to_depth_first_name(HTML $html, FunctionValue $fn) {
+    public static function html_apply_to_depth_first_name(HTML $html, FunctionValue $fn) {
         return $html->depthFirst(
                             V::fn(function($html) {
                                 return $html instanceof HTMLTag
@@ -378,14 +378,14 @@ abstract class Formlet implements IFormlet {
      * Returns the name of the first tag with name attribute in $html.
      */
     // TODO: This should propably go to HTML.
-    static public function html_get_depth_first_name(HTML $html) {
+    public static function html_get_depth_first_name(HTML $html) {
         return html_apply_to_depth_first_name($html,
                             V::fn(function($html) {
                                 return $html->attribute("name");
                             }));
     }
 
-    static public function _with_label($label, Formlet $other) {
+    public static function _with_label($label, Formlet $other) {
         return $other->mapHTML(V::fn(function ($_, $html) use ($label) {
             // use inputs name as id, as it is unique
             $name = self::get_depth_first_name($html);
@@ -406,7 +406,7 @@ abstract class Formlet implements IFormlet {
         }));   
     }
 
-    static public function with_errors(Formlet $other) {
+    public static function with_errors(Formlet $other) {
         return $other->mapHTML(V::fn(function ($dict, $html) {
             $name = self::get_depth_first_name($html);
             if ($name === null) {
@@ -428,11 +428,11 @@ abstract class Formlet implements IFormlet {
         }));
     }
 
-    static public function _id($v) {
+    public static function _id($v) {
         return $v; 
     }
 
-    static public function id() {
+    public static function id() {
         static $fn = null;
         if ($fn === null) {
             $fn = V::fn(function($v) { return $v; });
