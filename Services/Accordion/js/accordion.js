@@ -50,7 +50,19 @@ il.Accordion = {
 	},
 
 	init: function (id) {
-		var t, el, next_el, acc_el, a = il.Accordion.data[id];
+		var t, el, next_el, acc_el, a = il.Accordion.data[id], apt, sp;
+
+		if (a.behaviour == "Carousel") {
+			apt = (a.auto_anim_wait > 100)
+				? a.auto_anim_wait
+				: 5000;
+			sp = (a.random_start)
+				? Math.floor(Math.random() * $("#" + id).children().length)
+				: 0;
+
+			$("#" + id).owlCarousel({items: 1, autoplay: true, loop: true, dots: false, autoplayTimeout: apt, startPosition: sp});
+			return;
+		}
 
 		// open the inital opened tabs
 		if (a.initial_opened.length > 0) {

@@ -1,3 +1,10 @@
 <!-- language file start -->
 adve#:#adve_auto_url_linking#:#URL Auto-Linking
 adve#:#adve_auto_url_linking_info#:#Tries to identify URLs like "http://.." in text paragraphs and automatically creates links around them.
+content#:#cont_tabs_carousel#:#Carousel
+content#:#cont_auto_time#:#Auto Animation Waiting Time
+content#:#cont_rand_start#:#Random Start
+style#:#sty_type_ca_cntr#:#Carousel Container
+style#:#sty_type_ca_icntr#:#Carousel Item Container
+style#:#sty_type_ca_icont#:#Carousel Item Content
+style#:#sty_type_ca_ihead#:#Carousel Item Header

@@ -356,12 +356,14 @@ col or row span. -->
 <!-- TabbedContent -->
 <!ELEMENT Tabs (Tab*)>
 <!ATTLIST Tabs
-	Type (HorizontalAccordion | VerticalAccordion) #REQUIRED
+	Type (HorizontalAccordion | VerticalAccordion | Carousel) #REQUIRED
 	HorizontalAlign (Left | Center | Right | LeftFloat | RightFloat) #IMPLIED
 	Behavior (AllClosed | FirstOpen | ForceAllOpen) #IMPLIED
 	ContentWidth CDATA #IMPLIED
 	ContentHeight CDATA #IMPLIED
 	Template CDATA #IMPLIED
+	AutoAnimWait CDATA #IMPLIED
+	RandomStart CDATA #IMPLIED
 >
 <!ELEMENT Tab (PageContent*, TabCaption?)>
 <!ATTLIST Tab

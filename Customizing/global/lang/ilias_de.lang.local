@@ -1,3 +1,10 @@
 <!-- language file start -->
 adve#:#adve_auto_url_linking#:#URL Auto-Linking
 adve#:#adve_auto_url_linking_info#:#ILIAS durchsucht Textparagraphen nach URLs (z.B. "http://..") und verlinkt diese entsprechend automatisch.
+content#:#cont_tabs_carousel#:#Karussell
+content#:#cont_auto_time#:#Wartezeit Animation
+content#:#cont_rand_start#:#Zufällige Startseite
+style#:#sty_type_ca_cntr#:#Carousel Container
+style#:#sty_type_ca_icntr#:#Carousel Item Container
+style#:#sty_type_ca_icont#:#Carousel Item Content
+style#:#sty_type_ca_ihead#:#Carousel Item Header
