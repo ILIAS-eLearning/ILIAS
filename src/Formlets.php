@@ -14,7 +14,7 @@
  * Formlet, the Collector is responsible for collecting inputs of the user.
  *
  * The PHP implementations turns out to be a little more complex, since stuff 
- * like currying and static functions as values is not as handy as in static functional 
+ * like currying and static public functions as values is not as handy as in static functional 
  * languages.
  *
  * [1] http://groups.inf.ed.ac.uk/links/papers/formlets-essence.pdf
@@ -37,48 +37,48 @@ class Formlets {
      * @param   mixed   $value
      * @return  IValue
      */
-    static function val($value) {
+    static public function val($value) {
         return V::val($value); 
     }
 
     /** 
-     * Construct a static function value from a closure or the name of an ordinary
-     * static function. One could specify the arity to use php-static functions with optional
+     * Construct a static public function value from a closure or the name of an ordinary
+     * static public function. One could specify the arity to use php-static functions with optional
      * arguments. An array of arguments to be inserted in the first arguments 
-     * of the static function could be passed optionally as well.
+     * of the static public function could be passed optionally as well.
      * 
-     * @param   Closure | string    $static function
+     * @param   Closure | string    $static public function
      * @param   null | integer      $arity
      * @param   [mixed]             $args
      * @return  IValue 
      */
-    static function fun($function, $arity = null, $args = null) {
+    static public function fun($function, $arity = null, $args = null) {
         return V::fn($function, $arity, $args);
     }
 
     /**
-     * Get the static function that applies the given value to another static function.
+     * Get the static public function that applies the given value to another static function.
      *
      * @return  IValue
      */
-    static function application_to(IValue $val) {
+    static public function application_to(IValue $val) {
         return V::application_to($val);
     }
 
     /**
-     * Get a static function that expects to other static functions and returns the composition
+     * Get a static public function that expects to other static functions and returns the composition
      * the two.
      *
      * @return  IValue 
      */
-    static function composition() {
+    static public function composition() {
         return V::composition();
     }
 
     /**
      * Combine all given formlets to a new formlet left folding with $cmb;
      */
-    static function formlet() {
+    static public function formlet() {
         $formlets = func_get_args();
         if (count($formlets) == 0 || !($formlets[0] instanceof IFormlet)) {
             throw new Exception("Expected at least one formlet.");
@@ -96,7 +96,7 @@ class Formlets {
      *
      * @return IFormlet
      */
-    static function inject(IValue $value) {
+    static public function inject(IValue $value) {
         return F::pure($value);
     }
 
@@ -106,7 +106,7 @@ class Formlets {
      * @param  string   $content
      * @return IFormlet
      */
-    static function text($content) {
+    static public function text($content) {
         return F::text($content);
     }
 
@@ -117,7 +117,7 @@ class Formlets {
      * @param  [string => string] | null    $attrs  - HTML attributes
      * @return IFormlet
      */
-    static function input($type, $attrs = null) {
+    static public function input($type, $attrs = null) {
         return F::input($type, $attrs);
     }
 
@@ -128,7 +128,7 @@ class Formlets {
      * @param   [string => string] | null   $attrs
      * @return IFormlet
      */
-    static function text_input($default = null, $attrs = null) {
+    static public function text_input($default = null, $attrs = null) {
         return F::text_input($default, $attrs);
     }
 
@@ -139,7 +139,7 @@ class Formlets {
      * @param   [string => string] | null   $attrs
      * @return IFormlet
      */
-    static function textarea($default = null, $attrs = null) {
+    static public function textarea($default = null, $attrs = null) {
         return F::textarea($default, $attrs);
     }
 
@@ -150,7 +150,7 @@ class Formlets {
      * @param   [string => string] | null   $attrs
      * @return IFormlet
      */
-    static function checkbox($default = false, $attrs = null) {
+    static public function checkbox($default = false, $attrs = null) {
         return F::checkbox($default, $attrs);
     }
 
@@ -163,7 +163,7 @@ class Formlets {
      * @param   bool                        $collects
      * @return IFormlet
      */
-    static function submit($value, $attrs = array(), $collects = false) {
+    static public function submit($value, $attrs = array(), $collects = false) {
         return F::submit($value, $attrs, $collects);
     }
 
@@ -174,7 +174,7 @@ class Formlets {
      * @param   [string => string] | null   $attrs
      * @return IFormlet
      */
-    static function button($value, $attrs = array()) {
+    static public function button($value, $attrs = array()) {
         return F::button($value, $attrs);
     } 
 
@@ -185,7 +185,7 @@ class Formlets {
      * @param   [string => string] | null   $attrs
      * @return IFormlet
      */
-    static function email($default = null, $attrs = array()) {
+    static public function email($default = null, $attrs = array()) {
         return F::email($default = null, $attrs);
     } 
 
@@ -196,7 +196,7 @@ class Formlets {
      * @param   [string => string] | null   $attrs
      * @return IFormlet
      */
-    static function hidden($value, $attrs = array()) {
+    static public function hidden($value, $attrs = array()) {
         return F::hidden($value, $attrs);
     } 
 
@@ -216,7 +216,7 @@ class Formlets {
      * @param   [string => string] | null   $attrs
      * @return IFormlet
      */
-    static function number( $value, $min, $max, $step, $attrs = array()
+    static public function number( $value, $min, $max, $step, $attrs = array()
                    , $error_int = "No integer!"
                    , $error_range = "Not in range!"
                    , $error_step = "Steps mismatch!"
@@ -234,7 +234,7 @@ class Formlets {
      * @param   [string => string] | null   $attrs
      * @return IFormlet
      */
-    static function password($default = null, $attrs = array()) {
+    static public function password($default = null, $attrs = array()) {
         return F::password($default, $attrs);
     } 
 
@@ -245,7 +245,7 @@ class Formlets {
      * @param   [string => string] | null   $attrs
      * @return IFormlet
      */
-    static function reset_button($value, $attrs = array()) {
+    static public function reset_button($value, $attrs = array()) {
         return F::reset($value, $attrs);
     }
 
@@ -256,7 +256,7 @@ class Formlets {
      * @param   [string => string] | null   $attrs
      * @return IFormlet
      */
-    static function search($default = null, $attrs = array()) {
+    static public function search($default = null, $attrs = array()) {
         return F::search($default, $attrs);
     } 
 
@@ -267,7 +267,7 @@ class Formlets {
      * @param   [string => string] | null   $attrs
      * @return IFormlet
      */
-    static function url($default = null, $attrs = array()) {
+    static public function url($default = null, $attrs = array()) {
         return F::url($default, $attrs);
     } 
 
@@ -279,7 +279,7 @@ class Formlets {
      * @param   [string => string] | null   $attrs
      * @return IFormlet
      */
-    static function select($options, $default = null, $attrs = array()) {
+    static public function select($options, $default = null, $attrs = array()) {
         return F::select($options, $default, $attrs);
     }
 
@@ -293,7 +293,7 @@ class Formlets {
      * @param   [string => string] | null   $attrs_opts
      * @return IFormlet
      */
-    static function radio($options, $default = null, $attrs = array(), $attrs_opts = array()) {
+    static public function radio($options, $default = null, $attrs = array(), $attrs_opts = array()) {
         return F::radio($options, $default, $attrs, $attrs_opts);
     }
 
@@ -306,7 +306,7 @@ class Formlets {
      * @param   [string => string] | null   $legend_attrs
      * @return IFormlet
      */
-    static function fieldset($legend, IFormlet $formlet
+    static public function fieldset($legend, IFormlet $formlet
                      , $attrs = array(), $legend_attrs = array()) {
         return F::fieldset($legend, $formlet, $attrs, $legend_attrs);
     }
@@ -318,7 +318,7 @@ class Formlets {
      * @param   IFormlet                    $formlet
      * @return IFormlet
      */
-    static function with_label($label, IFormlet $formlet) {
+    static public function with_label($label, IFormlet $formlet) {
         return F::with_label($label, $formlet);
     }
 
@@ -329,7 +329,7 @@ class Formlets {
      * @param   IFormlet                    $formlet
      * @return IFormlet
      */
-    static function with_errors(IFormlet $formlet) {
+    static public function with_errors(IFormlet $formlet) {
         return F::with_errors($formlet);
     }
 
@@ -343,7 +343,7 @@ class Formlets {
      * @param   [string => string] | null   $attrs
      * @return  IForm
      */
-    static function form($id, $action, IFormlet $formlet, $attrs = null) {
+    static public function form($id, $action, IFormlet $formlet, $attrs = null) {
         return F::form($id, $action, $formlet, $attrs);
     }
 
@@ -354,11 +354,11 @@ class Formlets {
      *
      * @return IValue
      */
-    static function collect() {
+    static public function collect() {
         return F::collect();
     }
 
-    static function stop() {
+    static public function stop() {
         return V::val(new Stop());
     }
 }
