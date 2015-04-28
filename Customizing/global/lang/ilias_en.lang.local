@@ -11,9 +11,9 @@ exc#:#exc_peer_review_simple_unlock_active#:#After giving at least 1 valid feedb
 exc#:#exc_peer_review_simple_unlock_inactive#:#After giving all required feedbacks
 exc#:#exc_peer_review_min_number#:#Number of feedbacks per participant
 exc#:#exc_peer_review_completion#:#Determination of "Passed" Status
-exc#:#exc_peer_review_completion_none#:#Without any feedback
-exc#:#exc_peer_review_completion_one#:#With at least 1 valid feedback
-exc#:#exc_peer_review_completion_all#:#With all required feedbacks
+exc#:#exc_peer_review_completion_none#:#No feedback necessary
+exc#:#exc_peer_review_completion_one#:#Already with at least 1 valid feedback
+exc#:#exc_peer_review_completion_all#:#Only after all required feedbacks
 exc#:#exc_team_multi_create#:#Create Team
 exc#:#exc_team_multi_dissolve#:#Dissolve Team(s)
 exc#:#exc_team_management_tutor#:#Team Management by Tutors

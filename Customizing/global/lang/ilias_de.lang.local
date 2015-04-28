@@ -11,9 +11,9 @@ exc#:#exc_peer_review_simple_unlock_active#:#Nach Abgabe einer Bewertung
 exc#:#exc_peer_review_simple_unlock_inactive#:#Nach Abgabe aller Bewertungen
 exc#:#exc_peer_review_min_number#:#Anzahl der Bewertungen je Teilnehmer
 exc#:#exc_peer_review_completion#:#Bestimmung des Status "Bestanden"
-exc#:#exc_peer_review_completion_none#:#Keine Abgabe einer Bewertung
-exc#:#exc_peer_review_completion_one#:#Nach Abgabe einer Bewertung
-exc#:#exc_peer_review_completion_all#:#Nach Abgabe aller Bewertungen
+exc#:#exc_peer_review_completion_none#:#Keine Abgabe einer Bewertung notwendig
+exc#:#exc_peer_review_completion_one#:#Bereits nach Abgabe einer Bewertung
+exc#:#exc_peer_review_completion_all#:#Erst nach Abgabe aller Bewertungen
 exc#:#exc_team_multi_create#:#Team erstellen
 exc#:#exc_team_multi_dissolve#:#Team(s) auflösen
 exc#:#exc_team_management_tutor#:#Team-Management durch Tutoren
