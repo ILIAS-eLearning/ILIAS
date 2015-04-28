@@ -13,7 +13,7 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/lechimp-p/php-src/internal/issues",
+        "issues": "https://github.com/lechimp-p/php-formlets/internal/issues",
         "source": "https://github.com/lechimp-p/php-formlets"
     },
     "autoload" : {
