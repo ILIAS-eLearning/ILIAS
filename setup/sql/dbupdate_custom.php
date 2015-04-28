@@ -99,11 +99,11 @@ if(!$ilDB->tableColumnExists('exc_assignment','deadline2'))
 	));
 }
 ?>
-<#7>
+<#12>
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-<#12>
+<#13>
 <?php
 if(!$ilDB->tableColumnExists('exc_returned','late'))
 {
