@@ -166,7 +166,8 @@ class ilExerciseMembers
 		ilLPStatusWrapper::_updateStatus($this->getObjId(), $a_usr_id);
 		
 		// delete all delivered files of the member
-		$this->exc->deleteAllDeliveredFilesOfUser($a_usr_id);
+		include_once("./Modules/Exercise/classes/class.ilExSubmission.php");
+		ilExSubmission::deleteUser($this->exc->getId(), $a_usr_id);
 
 // @todo: delete all assignment associations (and their files)
 		
@@ -285,7 +286,89 @@ class ilExerciseMembers
 		return $usr_ids ? $usr_ids : array();
 	}
 
+	/**
+	 * Lookup current status (notgraded|passed|failed)
+	 *
+	 * This information is determined by the assignment status and saved
+	 * redundtantly in this table for performance reasons.
+	 *
+	 * @param	int		$a_obj_id	exercise id
+	 * @param	int		$a_user_id	member id
+	 * @return	mixed	false (if user is no member) or notgraded|passed|failed
+	 */
+	function _lookupStatus($a_obj_id, $a_user_id)
+	{
+		global $ilDB;
 
+		$query = "SELECT status FROM exc_members ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
+			" AND usr_id = ".$ilDB->quote($a_user_id, "integer");
+
+		$res = $ilDB->query($query);
+		if($row = $ilDB->fetchAssoc($res))
+		{
+			return $row["status"];
+		}
+
+		return false;
+	}
+
+	/**
+	 * Write user status
+	 *
+	 * This information is determined by the assignment status and saved
+	 * redundtantly in this table for performance reasons.
+	 * See ilObjExercise->updateUserStatus().
+	 *
+	 * @param	int		exercise id
+	 * @param	int		user id
+	 * @param	text	status
+	 */
+	function _writeStatus($a_obj_id, $a_user_id, $a_status)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("UPDATE exc_members SET ".
+			" status = ".$ilDB->quote($a_status, "text").
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
+			" AND usr_id = ".$ilDB->quote($a_user_id, "integer")
+			);
+		
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
+	}
+	
+	/**
+	 * Write returned status
+	 *
+	 * The returned status is initially 0. If the first file is returned
+	 * by a user for any assignment of the exercise, the returned status
+	 * is set to 1 and it will stay that way, even if this file is deleted again.
+	 * -> learning progress uses this to determine "in progress" status
+	 *
+	 * @param	int		exercise id
+	 * @param	int		user id
+	 * @param	text	status
+	 */
+	function _writeReturned($a_obj_id, $a_user_id, $a_status)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("UPDATE exc_members SET ".
+			" returned = ".$ilDB->quote($a_status, "text").
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
+			" AND usr_id = ".$ilDB->quote($a_user_id, "integer")
+			);
+		
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
+	}
+	
+	
+	// 
+	// LP
+	//
+	
 	/**
 	 * Get returned status for all members (if they have anything returned for
 	 * any assignment)
@@ -364,84 +447,6 @@ class ilExerciseMembers
 			$usr_ids[] = $row->usr_id;
 		}
 		return $usr_ids ? $usr_ids : array();
-	}
-
-	/**
-	 * Lookup current status (notgraded|passed|failed)
-	 *
-	 * This information is determined by the assignment status and saved
-	 * redundtantly in this table for performance reasons.
-	 *
-	 * @param	int		$a_obj_id	exercise id
-	 * @param	int		$a_user_id	member id
-	 * @return	mixed	false (if user is no member) or notgraded|passed|failed
-	 */
-	function _lookupStatus($a_obj_id, $a_user_id)
-	{
-		global $ilDB;
-
-		$query = "SELECT status FROM exc_members ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
-			" AND usr_id = ".$ilDB->quote($a_user_id, "integer");
-
-		$res = $ilDB->query($query);
-		if($row = $ilDB->fetchAssoc($res))
-		{
-			return $row["status"];
-		}
-
-		return false;
-	}
-
-	/**
-	 * Write user status
-	 *
-	 * This information is determined by the assignment status and saved
-	 * redundtantly in this table for performance reasons.
-	 * See ilObjExercise->updateUserStatus().
-	 *
-	 * @param	int		exercise id
-	 * @param	int		user id
-	 * @param	text	status
-	 */
-	function _writeStatus($a_obj_id, $a_user_id, $a_status)
-	{
-		global $ilDB;
-		
-		$ilDB->manipulate("UPDATE exc_members SET ".
-			" status = ".$ilDB->quote($a_status, "text").
-			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
-			" AND usr_id = ".$ilDB->quote($a_user_id, "integer")
-			);
-		
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
-	}
-	
-	/**
-	 * Write returned status
-	 *
-	 * The returned status is initially 0. If the first file is returned
-	 * by a user for any assignment of the exercise, the returned status
-	 * is set to 1 and it will stay that way, even if this file is deleted again.
-	 * -> learning progress uses this to determine "in progress" status
-	 *
-	 * @param	int		exercise id
-	 * @param	int		user id
-	 * @param	text	status
-	 */
-	function _writeReturned($a_obj_id, $a_user_id, $a_status)
-	{
-		global $ilDB;
-		
-		$ilDB->manipulate("UPDATE exc_members SET ".
-			" returned = ".$ilDB->quote($a_status, "text").
-			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
-			" AND usr_id = ".$ilDB->quote($a_user_id, "integer")
-			);
-		
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
 	}
 
 } //END class.ilObjExercise
