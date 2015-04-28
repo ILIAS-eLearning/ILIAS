@@ -12,7 +12,7 @@ namespace Lechimp\Formlets\Internal;
 use Lechimp\Formlets\Internal\Values as V;
 
 class Lib {
-    static function collect() {
+    public static function collect() {
         $collector = V::fn_w(function($array, Value $v) use (&$collector) {
             if ( !($v->isError() || $v->isApplicable())
             &&   $v->get() instanceof Stop) {
@@ -46,14 +46,14 @@ class Lib {
     }
 
     /* Check weather a number is between $l and $r */
-    static function inRange($l, $r) {
+    public static function inRange($l, $r) {
         return V::fn(function($value) use ($l, $r) {
             return $value >= $l && $value <= $r;
         });
     }
 
     /* Check weather a number is a multiple of $s */
-    static function isMultipleOf($s) {
+    public static function isMultipleOf($s) {
         return V::fn(function($value) use ($s) {
             return $value % $s === 0;
         });
