@@ -27,6 +27,7 @@ class ilLDAPServer
 	
 	const DEBUG = false;
 	const DEFAULT_VERSION = 3;
+	const DEFAULT_NETWORK_TIMEOUT = 5;
 	
 	private $role_bind_dn = '';
 	private $role_bind_pass = '';
@@ -58,6 +59,30 @@ class ilLDAPServer
 		return self::$instances[$a_server_id] = new ilLDAPServer($a_server_id);
 	}
 	
+	/**
+	 * Rotate fallback urls in case of connect timeouts
+	 * @return boolean
+	 */
+	public function rotateFallbacks()
+	{
+		global $ilDB;
+		
+		if(!$this->fallback_urls)
+		{
+			return FALSE;
+		}
+		
+		$all_urls = array_merge($this->fallback_urls);
+		$all_urls[] = $this->getUrl();
+		
+		$query = 'UPDATE ldap_server_settings SET '.
+				'url = '.$ilDB->quote(implode(',', $all_urls),'text').' '.
+				'WHERE server_id = '.$ilDB->quote($this->getServerId(),'integer');
+		$ilDB->manipulate($query);
+		return TRUE;
+	}
+
+
 	/**
 	 * Check if ldap module is installed
 	 * @return 
@@ -393,18 +418,19 @@ class ilLDAPServer
 			{
 				// Need to do a full bind, since openldap return valid connection links for invalid hosts 
 				$query = new ilLDAPQuery($this,$url);
-				$query->bind();
+				$query->bind(IL_LDAP_BIND_TEST);
 				$this->url = $url;
 		 		$ilLog->write(__METHOD__.': Using url: '.$url.'.');
-				return true;
+				return TRUE;
 			}
 			catch(ilLDAPQueryException $exc)
 			{
-		 		$ilLog->write(__METHOD__.': Cannot connect to LDAP server: '.$url.'. Trying fallback...');
+				$this->rotateFallbacks();
+		 		$ilLog->write(__METHOD__.': Cannot connect to LDAP server: '.$url.' '. $exc->getCode().': '.$exc->getMessage());
 			}
 	 	}
  		$ilLog->write(__METHOD__.': No valid LDAP server found.');
-		return false;
+		return FALSE;
 	}
     
     
