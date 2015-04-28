@@ -2,7 +2,7 @@
     "name": "lechimp-p/php-formlets",
     "version": "0.7.0",
     "description": "Composable forms(let)s, \"The Essence of Form Abstraction\" in PHP",
-    "keywords": "form",
+    "keywords": ["form", "formlet"]
     "type": "library",
     "license": "MIT",
     "homepage": "https://github.com/lechimp-p/php-formlets",
