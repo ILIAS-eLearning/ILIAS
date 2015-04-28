@@ -237,7 +237,7 @@ final class FunctionValue extends Value {
             $this->evalArgs($args, $errors); 
 
             if (count($errors) > 0) {
-                return _error( "Function arguments contain errors."
+                return V::error( "Function arguments contain errors."
                              , $this->origin()
                              , $errors
                              );

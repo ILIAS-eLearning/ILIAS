@@ -421,7 +421,7 @@ abstract class Formlet implements IFormlet {
             foreach ($errors as $error) {
                 $html = H::concat
                             ( $html
-                            , H::tag("span", array("class" => "error"), html_text($error))
+                            , H::tag("span", array("class" => "error"), H::text($error))
                             );
             }
 

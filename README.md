@@ -45,17 +45,21 @@ partially. PHP functions are rather different. You always call them at once.
 
 ```php
 <?php
-require_once("formlets.php");
+
+// We propably use a better autoloader in a real setting.
+require_once("tests/autoloader.php");
+
+use Lechimp\Formlets\Formlets as F;
 
 // Create a function object from an ordinary PHP function. Since explode takes
 // two mandatory and one optional parameter, we have to explicitly tell how many
 // optional parameters we want to have. 
-$explode = fun("explode", 2);
+$explode = F::fun("explode", 2);
 
 // For the lib to work, we need to treat functions and values the same,
 // so we need to lift ordinary values to our abstraction.
-$delim = val(" ");
-$string = val("foo bar");
+$delim = F::val(" ");
+$string = F::val("foo bar");
 
 // We could apply the function once to the delim, creating a new function.
 $explodeBySpace = $explode->apply($delim);
@@ -84,14 +88,14 @@ one can use `catchAndReify` to create a new function value.
 ```php
 <?php
 
-$throws = fun(function ($foo) {
+$throws = F::fun(function ($foo) {
     throw new Exception("I knew this would happen.");
     return $foo;
 });
 
 $throwsAndCatches = $throws->catchAndReify("Exception");
 
-$res = $throwsAndCatches->apply(val("But it won't..."));
+$res = $throwsAndCatches->apply(F::val("But it won't..."));
 echo "This will state my hindsight:\n";
 echo ($res->isError()?$res->error():$res->get())."\n";
 ?>
@@ -117,11 +121,11 @@ a constant value, regardless of the user input.
 ```php
 <?php
 // Really not too interesting, but we need to use our value abstraction.
-$boringFormlet = inject(val("Hello World!"));
+$boringFormlet = F::inject(F::val("Hello World!"));
 
 // Since functions are values as well, we could construct a formlet containing 
 // a function.
-$functionFormlet = inject($explodeBySpace);
+$functionFormlet = F::inject($explodeBySpace);
 ?>
 ```
 
@@ -133,7 +137,7 @@ plumbing.
 <?php
 
 // We need to specify an id for the form and an action target.
-$form = form("boring", "www.example.com", $boringFormlet); 
+$form = F::form("boring", "www.example.com", $boringFormlet); 
 
 // We initialize the form with an empty input array. One could
 // use init without args to use $_POST as input.
@@ -164,7 +168,7 @@ formlet, yielding a new formlet containing the result of the function call.
 // too...
 $containsArrayFormlet = $boringFormlet->map($explodeBySpace);
 
-$form = form("contains_array", "www.example.com", $containsArrayFormlet); 
+$form = F::form("contains_array", "www.example.com", $containsArrayFormlet); 
 $form->init(array());
 
 echo "Array containing \"Hello\" and \"World!\":\n";
@@ -182,12 +186,12 @@ applied to the value and rendering the concatenated outputs of the other formlet
 <?php
 // Will be a lot more interesting when you see formlets that actually take some 
 // input.
-$exploded = inject($explode)
-                ->cmb(inject($delim))
-                ->cmb(inject($string))
+$exploded = F::inject($explode)
+                ->cmb(F::inject($delim))
+                ->cmb(F::inject($string))
                 ;
 
-$form = form("explode", "www.example.com", $exploded);
+$form = F::form("explode", "www.example.com", $exploded);
 $form->init(array());
 
 echo "Array containing \"foo\" and \"bar\":\n";
@@ -204,14 +208,14 @@ an error in the form.
 <?php
 
 // fun also supports defining some fixed arguments.
-$containsHello = fun("preg_match", 2, array("/.*hello.*/i"));
+$containsHello = F::fun("preg_match", 2, array("/.*hello.*/i"));
 
 // Append the predicate to a formlet. If its not truthy for the value in the 
 // formlet, an error value with the given message will be collected.
-$withPred = inject(val("Hi there."))
+$withPred = F::inject(F::val("Hi there."))
                 ->satisfies($containsHello, "You should say hello.");
 
-$form = form("with_pred", "www.example.com", $withPred);
+$form = F::form("with_pred", "www.example.com", $withPred);
 $form->init(array());
 
 echo "This will be stating, what you should say:\n";
@@ -238,9 +242,17 @@ library for reuse.
 // Maybe next time we'll use a Wheel as example.
 class _Date {
     public function __construct($y, $m, $d) {
-        guardIsInt($y);
-        guardIsInt($m);
-        guardIsInt($d);
+        if (!is_int($y) || !is_int($m) || !is_int($d)) {
+            throw new Exception("Expected int's as input.");
+        }
+
+        if ($m < 1 || $m > 12) {
+            throw new Exception("Invalid month: '%m'.");
+        }
+
+        if ($d > 31) {
+            throw new Exception("Invalid day: '%d'.");
+        }
 
         if ($m === 2 && $d > 29) {
             throw new Exception("Month is 2 but day is $d.");
@@ -262,14 +274,14 @@ class _Date {
 // Our constructor function. We want to catch Exceptions since the constructor
 // of the class could throw. In the real world we would be more specific
 // on the type of exception we want to catch.
-$mkDate = fun(function ($y, $m, $d) {
+$mkDate = F::fun(function ($y, $m, $d) {
         return new _Date($y, $m, $d);
 })
 ->catchAndReify("Exception")
 ;
 
 function inRange($l, $r) {
-    return fun(function($value) use ($l, $r) {
+    return F::fun(function($value) use ($l, $r) {
         return $value >= $l && $value <= $r;
     });
 }
@@ -287,9 +299,9 @@ input elements we'll need from the only input element i provide atm, the
 // First we create an integer input from a text input by map intval over the
 // string input after checking it is indeed an integer. We also want to
 // display the errors.
-$int_formlet = with_errors(text_input())
-                ->satisfies(fun("is_numeric"), "No integer.")
-                ->map(fun("intval", 1))
+$int_formlet = F::with_errors(F::text_input())
+                ->satisfies(F::fun("is_numeric"), "No integer.")
+                ->map(F::fun("intval", 1))
                 ;
 
 // From the integer input we'll create a month and day input by doing further
@@ -314,15 +326,15 @@ $mkDate to get a formlet that creates us a date object.
 ```php
 <?php
 // We use a convenience function here to not have cmb that often.
-$date_formlet = formlet(
-                    inject($mkDate),
-                        text("\n\t"), // for readability on cli only
-                    with_label("Year: ", $int_formlet),
-                        text("\n\t"), // for readability on cli only
-                    with_label("Month: ", $month_formlet),
-                        text("\n\t"), // for readability on cli only
-                    with_label("Day: ", $day_formlet),
-                        text("\n") // for readability on cli only
+$date_formlet = F::formlet(
+                    F::inject($mkDate),
+                        F::text("\n\t"), // for readability on cli only
+                    F::with_label("Year: ", $int_formlet),
+                        F::text("\n\t"), // for readability on cli only
+                    F::with_label("Month: ", $month_formlet),
+                        F::text("\n\t"), // for readability on cli only
+                    F::with_label("Day: ", $day_formlet),
+                        F::text("\n") // for readability on cli only
                 );
 ?>
 ```
@@ -334,7 +346,7 @@ use the date formlet twice to create a period formlet. Now lets try it out:
 ```php
 <?php
 // You got that step, right?
-$form = form("date", "www.example.com", $date_formlet);
+$form = F::form("date", "www.example.com", $date_formlet);
 $form->init(array());
 
 // First look at the rendering:
@@ -374,25 +386,3 @@ echo $form->html();
 
 ?>
 ```
-
-## Explore
-
-* [formlets.php](./formlets.php) contains the interfaces and functions that
-  are the public api of this library.
-* [./src/internal/form.php](./formlets/form.php) is a thin wrapper around the internal
-  api of `Formlet`s that simplifies the use of formlets in an actual page.
-* [./src/internal/formlets.php](./formlets/formlets.php) contains the definition of
-  the `Formlet` class as well as the actual implementations for the primitive
-  formlet.
-* [./src/internal/values.php](./formlets/values.php) contains the definition of the
-  function/value/error-abstraction used by the formlets.
-* [./src/internal/html.php](./formlets/html.php) defines the internally used HTML
-  representation.
-* [./src/internal/builders.php](./formlets/builders.php) and [./formlets/collectors.php](./formlets/collectors.php)
-  internally deal with the creation of HTML for formlets and the collecting of
-  values from user input.
-* [./src/internal/namesource.php](./formlets/namesource.php) implements the creation
-  of names for the various inputs.
-* [./src/internal/checking.php](./formlets/checking.php) contains a lot of functions
-  that are used for sanity checking internally.
-* [./src/internal/lib.php](./formlets/lib.php) contains some auxiliary functions.
