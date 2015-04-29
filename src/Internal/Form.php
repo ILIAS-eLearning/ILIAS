@@ -79,7 +79,7 @@ class Form implements IForm {
             return false;
         }
 
-        if ($this->_result) {
+        if ($this->_result !== null) {
             return true;
         }
 
@@ -102,6 +102,7 @@ class Form implements IForm {
             return false;
         }
 
+        assert('$this->_result !== null');
         return !$this->_result->isError();
     }
 
@@ -135,6 +136,7 @@ class Form implements IForm {
             throw new Exception("Form::result: Result is no value but a function."); 
         }
 
+        assert('$this->_result !== null');
         return $this->_result->get(); 
     }
 
@@ -150,6 +152,7 @@ class Form implements IForm {
             throw new Exception("Form::error: Form was submitted successfully.");
         }
 
+        assert('$this->_result !== null');
         return $this->_result->error();
     }
 }
