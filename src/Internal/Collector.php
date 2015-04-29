@@ -59,7 +59,7 @@ abstract class Collector {
         }));
     }
 
-    static function combineCollectors(Collector $l, Collector $r) {
+    public static function combineCollectors(Collector $l, Collector $r) {
         $l_empty = $l->isNullaryCollector();
         $r_empty = $r->isNullaryCollector();
         if ($l_empty && $r_empty) 

@@ -51,28 +51,28 @@ abstract class HTML {
     abstract public function goDepth( FunctionValue $predicate
                                     , FunctionValue $transformation);
 
-    static function nop() {
+    public static function nop() {
         return new HTMLNop();
     }
         
-    static function tag($name, $attributes, $content = null) {
+    public static function tag($name, $attributes, $content = null) {
         return new HTMLTag($name, $attributes, $content);
     }
 
-    static function text($content) {
+    public static function text($content) {
         return new HTMLText($content);
     }
 
-    static function concat() {
+    public static function concat() {
         return new HTMLArray(func_get_args());
     }
 
-    static function harray($array) {
+    public static function harray($array) {
         return new HTMLArray($array);
     }
 
 
-    static function keysAndValuesToHTMLAttributes($attributes) {
+    public static function keysAndValuesToHTMLAttributes($attributes) {
         $str = "";
         foreach ($attributes as $key => $value) {
             C::guardIsString($key);
