@@ -214,7 +214,7 @@ class gevExpressRegistrationGUI {
 			$inputEMail->setRequired(true);
 			$optExp->addSubItem($inputEMail);
 		
-			$inputPhone = new ilTextInputGUI($this->lng->txt('phone_office'),"phone");
+			$inputPhone = new ilTextInputGUI($this->lng->txt('gev_login_express_phone_number'),"phone");
 			$inputPhone->setRequired(true);
 			$optExp->addSubItem($inputPhone);
 
