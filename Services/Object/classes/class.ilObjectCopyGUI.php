@@ -33,7 +33,9 @@ class ilObjectCopyGUI
 	
 	private $type = '';
 	private $source = 0;
-	private $target = 0;
+	// begin-patch mc
+	private $targets = array();
+	// end-patch multi copy
 
 
 	/**
@@ -106,7 +108,7 @@ class ilObjectCopyGUI
 			$this->setMode(self::SOURCE_SELECTION);
 
 			$ilCtrl->setParameterByClass(get_class($this->parent_obj), 'selectMode', self::SOURCE_SELECTION);
-			$this->setTarget((int) $_GET['ref_id']);
+			$this->setTargets(array((int) $_GET['ref_id']));
 			$ilCtrl->setReturnByClass(get_class($this->parent_obj), '');
 		}
 		else
@@ -165,7 +167,9 @@ class ilObjectCopyGUI
 
 
 		$this->setMode(self::TARGET_SELECTION);
-		$this->setTarget(0);
+		// begin-patch mc
+		$this->setTargets(array());
+		// cognos-blu-patch: end
 
 		// note that source_id is empty, if source_ids are given
 		if ($_GET['source_id'] > 0)
@@ -206,16 +210,22 @@ class ilObjectCopyGUI
 
 		$this->setMode(self::SOURCE_SELECTION);
 		$this->setSource(0);
-		$this->setTarget((int) $_GET['ref_id']);
-
-		// open current position
-		$path = $tree->getPathId($this->getTarget());
-		foreach((array) $path as $node_id)
-		{
-			if(!in_array($node_id, $_SESSION['paste_copy_repexpand']))
-				$_SESSION['paste_copy_repexpand'][] = $node_id;
-		}
+		// begin-patch mc
+		$this->setTarget(array((int) $_GET['ref_id']));
+		// end-patch multi copy
 		
+		// open current position
+		// begin-patch mc
+		foreach($this->getTargets() as $target_ref_id)
+		{
+			$path = $tree->getPathId($target_ref_id);
+			foreach((array) $path as $node_id)
+			{
+				if(!in_array($node_id, $_SESSION['paste_copy_repexpand']))
+					$_SESSION['paste_copy_repexpand'][] = $node_id;
+			}
+		}
+		// end-patch multi copy
 		$ilCtrl->setReturnByClass(get_class($this->parent_obj),'');
 		$this->showSourceSelectionTree();	
 	}
@@ -242,7 +252,9 @@ class ilObjectCopyGUI
 		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
 		$exp = new ilRepositorySelectorExplorerGUI($this, "showTargetSelectionTree");
 		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));
-		$exp->setSelectMode("target", false);
+		// begin-patch mc
+		$exp->setSelectMode("target", TRUE);
+		// end-patch multi copy
 		if ($exp->handleCommand())
 		{
 			return;
@@ -383,7 +395,6 @@ class ilObjectCopyGUI
 		$exp->setTargetGet('ref_id');
 		$exp->setPostVar('source');
 		$exp->setCheckedItems(array($this->getSource()));
-		#$exp->setNotSelectableItems(array($this->getTarget()));
 		
 		// Filter to container
 		foreach(array('cat','root','fold') as $container)
@@ -426,10 +437,12 @@ class ilObjectCopyGUI
 		global $objDefinition, $tree;
 
 
-		if(isset($_REQUEST['target']))
+		// begin-patch mc
+		if(is_array($_REQUEST['target']) and $_REQUEST['target'])
 		{
-			$this->setTarget((int) $_REQUEST['target']);
+			$this->setTargets($_REQUEST['target']);
 		}
+		// end-patch multi copy
 		else
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
@@ -440,15 +453,20 @@ class ilObjectCopyGUI
 		if($_GET["source_ids"] == "" && $objDefinition->isContainer($this->getType()))
 		{
 			// check, if object should be copied into itself
+			// begin-patch mc
 			$is_child = array();
-			if ($tree->isGrandChild($this->getSource(), $this->getTarget()))
+			foreach($this->getTargets() as $target_ref_id)
 			{
-				$is_child[] = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getSource()));
+				if ($tree->isGrandChild($this->getSource(), $target_ref_id))
+				{
+					$is_child[] = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getSource()));
+				}
+				if ($this->getSource() == $target_ref_id)
+				{
+					$is_child[] = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getSource()));
+				}
 			}
-			if ($this->getSource() == $this->getTarget())
-			{
-				$is_child[] = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getSource()));
-			}
+			// end-patch multi copy
 			if (count($is_child) > 0)
 			{
 				ilUtil::sendFailure($this->lng->txt("msg_not_in_itself")." ".implode(',',$is_child));
@@ -554,24 +572,40 @@ class ilObjectCopyGUI
 		return $_SESSION['copy_source'];
 	}
 	
+	// begin-patch mc
 	/**
 	 * Set target id
 	 * @param int $a_target
 	 * @return 
 	 */
-	public function setTarget($a_target)
+	public function setTargets(Array $a_target)
 	{
-		$_SESSION['copy_target'] = $a_target;
+		$_SESSION['copy_targets'] = $a_target;
 	}
 	
 	/**
 	 * Get copy target
 	 * @return 
 	 */
-	public function getTarget()
+	public function getTargets()
 	{
-		return $_SESSION['copy_target'];
+		return (array) $_SESSION['copy_targets'];
 	}
+	
+	/**
+	 * Get first target
+	 * @return int
+	 */
+	public function getFirstTarget()
+	{
+		if(array_key_exists(0, $this->getTargets()))
+		{
+			$targets = $this->getTargets();
+			return $targets[0];
+		}
+		return 0;
+	}
+	// end-patch multi copy
 	
 	/**
 	 * Cancel workflow
@@ -753,7 +787,6 @@ class ilObjectCopyGUI
 		}
 
 		$this->copyMultipleNonContainer(array($this->getSource()));
-
 		return;
 	}
 	
@@ -776,10 +809,22 @@ class ilObjectCopyGUI
 			$source_type = ilObject::_lookupType($source_ref_id, true);
 
 			// Create permission
-			if(!$rbacsystem->checkAccess('create', $this->getTarget(), $source_type))
+			// begin-patch mc
+			foreach($this->getTargets() as $target_ref_id)
 			{
-				ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
-				$ilCtrl->returnToParent($this);
+				if(!$rbacsystem->checkAccess('create', $target_ref_id, $source_type))
+				{
+					ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
+					$ilCtrl->returnToParent($this);
+				}
+			}
+			foreach($this->getTargets() as $target_ref_id)
+			{
+				if(!$rbacsystem->checkAccess('create', $target_ref_id, $source_type))
+				{
+					ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
+					$ilCtrl->returnToParent($this);
+				}
 			}
 
 			// Copy permission
@@ -802,27 +847,30 @@ class ilObjectCopyGUI
 		// clone
 		foreach ($a_sources as $source_ref_id)
 		{
-			// Save wizard options
-			$copy_id = ilCopyWizardOptions::_allocateCopyId();
-			$wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
-			$wizard_options->saveOwner($ilUser->getId());
-			$wizard_options->saveRoot((int) $source_ref_id);
-
-			$wizard_options->read();
-
-			$orig = ilObjectFactory::getInstanceByRefId((int) $source_ref_id);
-			$new_obj = $orig->cloneObject($this->getTarget(),$copy_id);
-
-			// Delete wizard options
-			$wizard_options->deleteAll();
-
-			// rbac log
-			include_once "Services/AccessControl/classes/class.ilRbacLog.php";
-			if(ilRbacLog::isActive())
+			// begin-patch mc
+			foreach($this->getTargets() as $target_ref_id)
 			{
-				$rbac_log_roles = $rbacreview->getParentRoleIds($new_obj->getRefId(), false);
-				$rbac_log = ilRbacLog::gatherFaPa($new_obj->getRefId(), array_keys($rbac_log_roles), true);
-				ilRbacLog::add(ilRbacLog::COPY_OBJECT, $new_obj->getRefId(), $rbac_log, (int)$source_ref_id);
+				// Save wizard options
+				$copy_id = ilCopyWizardOptions::_allocateCopyId();
+				$wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
+				$wizard_options->saveOwner($ilUser->getId());
+				$wizard_options->saveRoot((int) $source_ref_id);
+				$wizard_options->read();
+
+				$orig = ilObjectFactory::getInstanceByRefId((int) $source_ref_id);
+				$new_obj = $orig->cloneObject($target_ref_id,$copy_id);
+
+				// Delete wizard options
+				$wizard_options->deleteAll();
+
+				// rbac log
+				include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+				if(ilRbacLog::isActive())
+				{
+					$rbac_log_roles = $rbacreview->getParentRoleIds($new_obj->getRefId(), false);
+					$rbac_log = ilRbacLog::gatherFaPa($new_obj->getRefId(), array_keys($rbac_log_roles), true);
+					ilRbacLog::add(ilRbacLog::COPY_OBJECT, $new_obj->getRefId(), $rbac_log, (int)$source_ref_id);
+				}
 			}
 		}
 
@@ -837,7 +885,7 @@ class ilObjectCopyGUI
 		else
 		{
 			ilUtil::sendSuccess($this->lng->txt("objects_duplicated"),true);
-			ilUtil::redirect(ilLink::_getLink($this->getTarget()));
+			ilUtil::redirect(ilLink::_getLink($this->getFirstTarget()));
 		}
 
 	}
@@ -898,7 +946,7 @@ class ilObjectCopyGUI
 		{
 			ilUtil::sendInfo($this->lng->txt("object_copy_in_progress"),true);
 			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
-				$this->getTarget());
+				$this->getFirstTarget());
 			$ilCtrl->redirectByClass("ilrepositorygui", "");
 		} 
 		else 
