@@ -44,7 +44,7 @@ class Values {
      * static function. An array of arguments to be inserted in the first arguments 
      * of the static function could be passed optionally.
      */
-    static function fn($function, $arity = null, $args = array()) {
+    static function fn($function, $arity = null, $args = null) {
         return new FunctionValue($function, true, $args, $arity);
     }
 
