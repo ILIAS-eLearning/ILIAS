@@ -148,7 +148,10 @@ class gevExpressRegistrationGUI {
 	}
 
 	protected function startExpRegistration($a_form = NULL) {
+		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
+		
 		$tpl = new ilTemplate("tpl.gev_express_registration.html", false, false, "Services/GEV/Registration");
+		$title = new catTitleGUI("gev_login_express", null, "GEV_img/ico-head-registration.png");
 		
 		if ($a_form !== null) {
 			$form = $a_form;
@@ -159,7 +162,8 @@ class gevExpressRegistrationGUI {
 		}
 		$tpl->setVariable("FORM", $form->getHTML());
 
-		return  $tpl->get();
+		return   $title->render()
+				.$tpl->get();
 	}
 
 	protected function buildRegistrationForm() {
@@ -177,7 +181,7 @@ class gevExpressRegistrationGUI {
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->addCommandButton('next',$this->lng->txt('next'));
 
-		$regType = new ilRadioGroupInputGUI($this->lng->txt('gev_login_express'),"type");
+		$regType = new ilRadioGroupInputGUI(null,"type");
 		$regType->setValue("registerExpUser");
 		
 		$optOld = new ilRadioOption($this->lng->txt('gev_login_express_existend_account'));
