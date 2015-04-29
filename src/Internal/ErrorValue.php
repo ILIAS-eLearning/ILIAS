@@ -34,7 +34,7 @@ final class ErrorValue extends Value {
     }
 
     public function get() {
-        throw new GetError("ErrorValue");
+        throw new GetError("ErrorValue (".$this->error().")");
     } 
 
     public function apply(IValue $to) {
