@@ -132,6 +132,16 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
             , array(F::submit("SUBMIT")->cmb($pure_fn), true)
             , array($pure_val->cmb(F::submit("SUBMIT")), false)
             , array($pure_fn->cmb(F::submit("SUBMIT")), true)
+            , array(F::email("foo@bar.com"), false)
+            , array(F::hidden("foo"), false)
+            , array(F::number(1, 0, 1000, 1, array(), "no int"
+                             , "not in range", "step_length")
+                   ,false)
+            , array(F::password("foo"), false)
+            , array(F::radio(array("100" => "100"), "100"), false)
+            , array(F::search("foo"), false)
+            , array(F::url("foo"), false)
+            , array(F::select(array("100" => "100")), false)
             );
         $functions = array
             ( F::id()
@@ -164,14 +174,19 @@ class FormletIsApplicativeTest extends PHPUnit_Framework_TestCase {
         $repr_b = $b->instantiate($ns_b);
 
         $name_and_ns = $ns->getNameAndNext();
-        $inp = array($name_and_ns["name"] => "val");
+        $inp = array($name_and_ns["name"] => "100");
 
         $val_a = $repr_a["collector"]->collect($inp);
         $val_b = $repr_b["collector"]->collect($inp);
         // This will only work if equal works as expected on the result, that 
         // is the thing checked really is equality and not identity.
         if (!$contains_applicable) {
-            $this->assertEquals($val_a->get(), $val_b->get());
+            if ($val_a->isError()) {
+                print_r($val_a->toDict());
+            }
+            $this->assertEquals( $val_a->get()
+                               , $val_b->get()
+                               );
         }
         else {
             $this->assertEquals( $val_a->apply($value)->get()
