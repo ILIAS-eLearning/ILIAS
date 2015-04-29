@@ -2289,6 +2289,36 @@ class gevUserUtils {
 		
 		return false;
 	}
+
+	public function getBDFromIV() {
+
+		global $ilClientIniFile;
+		global $ilDB;
+
+		$host = $ilClientIniFile->readVariable('shadowdb', 'host');
+		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
+		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
+		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
+
+		$mysql = mysql_connect($host, $user, $pass) 
+				or die( "MySQL: ".mysql_error()." ### "
+						." Is the shadowdb initialized?"
+						." Are the settings for the shadowdb initialized in the client.ini.php?"
+					  );
+		mysql_select_db($name, $mysql);
+		mysql_set_charset('utf8', $mysql);
+
+		$agent_key = $this->getJobNumber();
+
+		$sql = 	"SELECT `ivimport_orgunit`.`name` FROM `ivimport_stelle` INNER JOIN `ivimport_orgunit`"
+				." ON `ivimport_orgunit`.`id` = `ivimport_stelle`.`sql_org_unit_id`"
+				." WHERE `ivimport_stelle`.`stellennummer` = ".$ilDB->quote($agent_key,"text");
+		
+		$data = mysql_query($sql);
+		$data = mysql_fetch_assoc($data);
+		return $data["name"];
+
+	}
 }
 
 ?>
