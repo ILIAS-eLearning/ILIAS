@@ -9,6 +9,8 @@
 
 namespace Lechimp\Formlets\Internal;
 
+use Exception;
+
 /* A collector that collects nothing and will be dropped by apply collectors. */
 final class NullaryCollector extends Collector {
     public function collect($inp) {
