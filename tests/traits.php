@@ -235,6 +235,26 @@ trait FormletTestTrait {
     }
 
     /**
+     * Builder produces HTML.
+     * @dataProvider formlets
+     */
+    public function testBuilderBuildsHTML($formlet) {
+        $res = $this->instantiateFormlet($formlet);
+        $res = $res["builder"]->build();
+        $this->assertInstanceOf("Lechimp\Formlets\Internal\HTML", $res);
+    }
+
+    /**
+     * Builder produces HTML that producers string.
+     * @dataProvider formlets
+     */
+    public function testBuilderBuildsStringBuildingHTML($formlet) {
+        $res = $this->instantiateFormlet($formlet);
+        $res = $res["builder"]->build();
+        $this->assertTrue(is_string($res->render()));
+    }
+
+    /**
      * Collector has correct class.
      * @dataProvider formlets
      */
@@ -242,7 +262,6 @@ trait FormletTestTrait {
         $res = $this->instantiateFormlet($formlet);
         $this->assertInstanceOf("Lechimp\Formlets\Internal\Collector", $res["collector"]);
     }
-
     /**
      * Name source has correct class.
      * @dataProvider formlets
