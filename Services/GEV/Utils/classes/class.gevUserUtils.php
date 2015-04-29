@@ -758,35 +758,35 @@ class gevUserUtils {
 				 "		  OR (".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").
 				 "			 )".
 				 "		 OR (ltype.value = 'Webinar' AND start_date.value >= ".$this->db->quote(date("Y-m-d"), "text").
-			 	 "			AND (
-				 					(
-				 						SUBSTRING(schedule.value,19,2)>=30 AND 
-									 	(	
-									 		SUBSTRING(schedule.value,16,2) > ".$hour." 
-									   		OR 
-									   		(
-									   			SUBSTRING(schedule.value,16,2) = ".$hour."
-									   	  	  	AND 
-								       			SUBSTRING(schedule.value,19,2)-30 > ".$minute."
-						   		      	  	)
-									 	)
-									)	 
-									OR
-									(
-										SUBSTRING(schedule.value,19,2)<30 AND
-										(
-											SUBSTRING(schedule.value,16,2) -1 > ".$hour."
-											OR
-											(
-												SUBSTRING(schedule.value,16,2) -1 = ".$hour."
-									   	  	  	AND 
-								       			SUBSTRING(schedule.value,19,2)+30 > ".$minute."
-									  	  	)
-								  		)
-							 		)
-				 		 		)
-							)
-						)".
+			 	 "			AND (".
+				 "					(".
+				 "						SUBSTRING(schedule.value,19,2)>=30 AND ".
+				 "					 	(	".
+				 "					 		SUBSTRING(schedule.value,16,2) > ".$hour.
+				 "					   		OR ".
+				 "					   		(".
+				 "					   			SUBSTRING(schedule.value,16,2) = ".$hour.
+				 "					   	  	  	AND ".
+				 "				       			SUBSTRING(schedule.value,19,2)-30 > ".$minute.
+				 "		   		      	  	)".
+				 "					 	)".
+				 "					)	 ".
+				 "					OR".
+				 "					(".
+				 "						SUBSTRING(schedule.value,19,2)<30 AND".
+				 "						(".
+				 "							SUBSTRING(schedule.value,16,2) -1 > ".$hour.
+				 "							OR".
+				 "							(".
+				 "								SUBSTRING(schedule.value,16,2) -1 = ".$hour.
+				 "					   	  	  	AND ".
+				 "				       			SUBSTRING(schedule.value,19,2)+30 > ".$minute.
+				 "					  	  	)".
+				 "				  		)".
+				 "			 		)".
+				 "		 		)".
+				 "			)".
+				 "		)".
 				 $additional_where.
 				 "";
 
