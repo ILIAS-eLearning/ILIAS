@@ -12,6 +12,8 @@ namespace Lechimp\Formlets\Internal;
 use Lechimp\Formlets\Internal\Checking as C;
 use Lechimp\Formlets\Internal\Values as V;
 
+use Exception;
+
 /* A collector where a wrapper is around an underlying collect. */
 class WrappedCollector extends Collector {
     private $_collector; // Collector
