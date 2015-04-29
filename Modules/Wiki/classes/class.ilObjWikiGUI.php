@@ -726,6 +726,14 @@ class ilObjWikiGUI extends ilObjectGUI
 			$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_REC_SELECTION,'wiki',$this->object->getId(), "wpg");
 			$record_gui->setPropertyForm($this->form_gui);
 			$record_gui->parseRecordSelection($this->lng->txt("wiki_add_page_properties"));
+
+			if (count(ilAdvancedMDRecord::_getActivatedRecordsByObjectType("wiki", "wpg")) > 0)
+			{
+				// page toc
+				$link_md = new ilCheckboxInputGUI($lng->txt("wiki_link_md_values"), "link_md_values");
+				$link_md->setInfo($lng->txt("wiki_link_md_values_info"));
+				$this->form_gui->addItem($link_md);
+			}
 		}
 		
 		// :TODO: sorting
@@ -784,6 +792,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$values["intro"] = $this->object->getIntroduction();
 //			$values["imp_pages"] = $this->object->getImportantPages();
 			$values["page_toc"] = $this->object->getPageToc();
+			$values["link_md_values"] = $this->object->getLinkMetadataValues();
 						
 			// only set given values (because of adv. metadata)
 			$this->form_gui->setValuesByArray($values, true);
@@ -830,6 +839,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->object->setIntroduction($this->form_gui->getInput("intro"));
 //				$this->object->setImportantPages($this->form_gui->getInput("imp_pages"));
 				$this->object->setPageToc($this->form_gui->getInput("page_toc"));
+				$this->object->setLinkMetadataValues($this->form_gui->getInput("link_md_values"));
 				$this->object->update();
 				
 				// update metadata record selection

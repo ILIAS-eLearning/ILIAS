@@ -39,3 +39,5 @@ exc#:#exc_late_submission#:#Verspätete Abgabe
 exc#:#exc_adopt_group_teams#:#Teams aus Gruppen bilden
 exc#:#exc_adopt_group_teams_no_members#:#Keine Mitglieder
 exc#:#exc_adopt_group_teams_conflict#:#Benutzer ist bereits in Gruppe %s gewählt.
+wiki#:#wiki_link_md_values#:#Automatische Verlinkung
+wiki#:#wiki_link_md_values_info#:#Verlinkt automatisch Eigenschaftenwerte im Seitenblock mit gleichlautenden Wikiseiten (wenn vorhanden).
