@@ -438,6 +438,8 @@ abstract class Formlet implements IFormlet {
         if ($fn === null) {
             $fn = V::fn(function($v) { return $v; });
         }
+
+        assert('$fn !== null');
         return $fn;
     }
 }
