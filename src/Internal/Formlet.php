@@ -219,9 +219,9 @@ abstract class Formlet implements IFormlet {
     // TODO: Missing HTML-input type=month. What is the expected format of value 
     // for a datetime-local? Do i really need it?
 
-    public static function number($value, $min, $max, $step, $attributes = array()
-                    , $error_int, $error_range, $error_step
-                    ) {
+    public static function number($value, $min, $max, $step, $attributes
+                                 , $error_int, $error_range, $error_step
+                                 ) {
         C::guardIsInt($value);
         C::guardIsInt($min);
         C::guardIsInt($max);
