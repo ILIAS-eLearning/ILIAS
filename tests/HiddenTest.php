@@ -7,15 +7,14 @@
  * a copy of the along with the code.
  */
 
-use Lechimp\Formlets\Internal\Formlet as F;
+use Lechimp\Formlets\Formlets as F;
 
-class TextAreaTest extends PHPUnit_Framework_TestCase {
+class HiddenTest extends PHPUnit_Framework_TestCase {
     use FormletTestTrait;
 
     public function formlets() {
         return array
-            ( array(F::textarea())
-            , array(F::textarea_raw())
+            ( array(F::hidden("val"))
             );
     }
 }

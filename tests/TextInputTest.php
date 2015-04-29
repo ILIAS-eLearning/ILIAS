@@ -16,6 +16,10 @@ class TextInputTest extends PHPUnit_Framework_TestCase {
     public function formlets() {
         return array
             ( array(F::text_input())
+            , array(F::email())
+            , array(F::password())
+            , array(F::search())
+            , array(F::url())
             );
     }
 }
