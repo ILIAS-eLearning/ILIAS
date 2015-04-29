@@ -752,12 +752,12 @@ class gevUserUtils {
 				 "   AND cs.activation_end > ".time().
 				 "   AND oref.deleted IS NULL".
 				 "   AND is_template.value = ".$this->db->quote("Nein", "text").
-				 "   AND (   ( (ltype.value LIKE 'Pr_senztraining' OR ltype.value = 'Virtuelles Training')".
+				 "   AND (  ( (ltype.value LIKE 'Pr_senztraining' OR ltype.value = 'Webinar' OR ltype.value = 'Virtuelles Training')".
 				 "            AND start_date.value > ".$this->db->quote(date("Y-m-d"), "text").
-				 "		     )".
-				 "		  OR (".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").
-				 "			 )".
-				 "		 OR (ltype.value = 'Webinar' AND start_date.value >= ".$this->db->quote(date("Y-m-d"), "text").
+				 "		    )".
+				 "		 OR (".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").
+				 "			)".
+				 "		 OR (ltype.value = 'Webinar' AND start_date.value = ".$this->db->quote(date("Y-m-d"), "text").
 			 	 "			AND (".
 				 "					(".
 				 "						SUBSTRING(schedule.value,19,2)>=30 AND ".
