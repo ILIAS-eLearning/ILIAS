@@ -278,7 +278,7 @@ class ilExPeerReview
 		// comment
 		$valid = $this->validatePeerReviewText($a_data["pcomment"]);		
 		
-		// :TODO: if minimum chars given, review is always invalid without text?
+		// if minimum chars given, review is always invalid without text (JF, 27 Apr 2015)
 		if(!$valid &&
 			$this->assignment->getPeerReviewChars())
 		{

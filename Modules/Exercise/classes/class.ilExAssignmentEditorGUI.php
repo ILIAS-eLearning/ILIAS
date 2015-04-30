@@ -451,7 +451,7 @@ class ilExAssignmentEditorGUI
 				// extended deadline
 				$date2 = $form->getItemByPostVar("deadline2")->getDate();
 				$date2 = $date2->get(IL_CAL_UNIX);
-				if ($_POST2["deadline_cb"] &&
+				if ($_POST["deadline2_cb"] &&
 					$date2 > $date) 
 				{					
 					$ass->setExtendedDeadline($date2);
