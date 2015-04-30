@@ -985,7 +985,7 @@ class ilExSubmission
 		$next_id = $ilDB->nextId("exc_returned");
 		$query = sprintf("INSERT INTO exc_returned ".
 						 "(returned_id, obj_id, user_id, filetitle, ass_id, ts, atext, late) ".
-						 "VALUES (%s, %s, %s, %s, %s, %s, %s)",
+						 "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
 			$ilDB->quote($next_id, "integer"),
 			$ilDB->quote($this->assignment->getExerciseId(), "integer"),
 			$ilDB->quote($this->getUserId(), "integer"),
