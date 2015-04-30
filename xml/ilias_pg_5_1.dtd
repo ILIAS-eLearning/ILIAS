@@ -287,7 +287,7 @@ col or row span. -->
 <!ELEMENT IntLink (%linktext;)*>
 <!ATTLIST IntLink
 	Target CDATA #REQUIRED
-	Type (StructureObject | PageObject | MediaObject | GlossaryItem | RepositoryItem | File | WikiPage) #REQUIRED
+	Type (StructureObject | PageObject | MediaObject | GlossaryItem | RepositoryItem | File | WikiPage | User) #REQUIRED
 	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
 	Anchor CDATA #IMPLIED
 >

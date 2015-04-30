@@ -1217,6 +1217,7 @@ return;
 					include_once './Services/Style/classes/class.ilObjStyleSheet.php';
 					$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
 						preloader.src = './templates/default/images/loader.svg';
+						ilCOPage.setUser('".$ilUser->getLogin()."');
 						ilCOPage.setContentCss('".
 						ilObjStyleSheet::getContentStylePath((int) $this->getStyleId()).
 						", ".ilUtil::getStyleSheetLocation().
@@ -1235,7 +1236,8 @@ return;
 						$cfg->getEnableWikiLinks(),
 						$cfg->getEnableKeywords(),
 						$this->getStyleId(), true, true,
-						$cfg->getEnableAnchors()
+						$cfg->getEnableAnchors(), true,
+						$cfg->getEnableUserLinks()
 						));
 					
 					// add int link parts
@@ -2155,7 +2157,7 @@ return;
 	static function getTinyMenu($a_par_type,
 		$a_int_links = false, $a_wiki_links = false, $a_keywords = false,
 		$a_style_id = 0, $a_paragraph_styles = true, $a_save_return = true,
-		$a_anchors = false, $a_save_new = true)
+		$a_anchors = false, $a_save_new = true, $a_user_links = false)
 	{
 		global $lng, $ilCtrl;
 
@@ -2205,6 +2207,11 @@ return;
 		}
 		ilTooltipGUI::addTooltip("il_edm_xlink", $lng->txt("cont_link_to_external"),
 			"iltinymenu_bd");
+
+		if ($a_user_links)
+		{
+			$btpl->touchBlock("bb_ulink_button");
+		}
 
 		// remove format
 		$btpl->touchBlock("rformat_button");
@@ -2395,6 +2402,7 @@ return;
 				}
 
 				$href = "";
+				$lcontent = "";
 				switch($type)
 				{
 					case "PageObject":
@@ -2436,11 +2444,30 @@ return;
 						$href = "./goto.php?target=".$obj_type."_".$target_id;
 						break;
 
+					case "User":
+						$obj_type = ilObject::_lookupType($target_id);
+						if ($obj_type == "usr")
+						{
+							include_once("./Services/User/classes/class.ilUserUtil.php");
+							$back = $ilCtrl->getLinkTargetByClass(strtolower(get_class($this)), "preview");
+							$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
+							$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
+								rawurlencode($back));
+							$href = "";
+							include_once("./Services/User/classes/class.ilUserUtil.php");
+							if (ilUserUtil::hasPublicProfile($target_id))
+							{
+								$href = $ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML");
+							}
+							$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
+							$lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
+						}
+						break;
 
 				}
 				$anc_par = 'Anchor="'.$anc.'"';
 				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".$anc_par." ".
-					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";
+					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" LinkContent=\"$lcontent\" />";
 			}
 		}
 		$link_info.= "</IntLinkInfos>";

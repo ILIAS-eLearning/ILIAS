@@ -15,6 +15,7 @@ var ilCOPage =
 	pasting: false,
 	response_class: "",
 	tds: {},
+	user: "",
 
 	////
 	//// Debug/Error Functions
@@ -95,6 +96,11 @@ var ilCOPage =
 	setContentCss: function (content_css)
 	{
 		this.content_css = content_css;
+	},
+
+	setUser: function (u)
+	{
+		this.user = u;
 	},
 
 	setEditStatus: function(status)
@@ -457,6 +463,11 @@ var ilCOPage =
 	cmdExtLink: function()
 	{
 		this.addBBCode('[xln url="http://"]', '[/xln]');
+	},
+
+	cmdUserLink: function()
+	{
+		this.addBBCode('[iln user="' + this.user + '"/]', '');
 	},
 
 	cmdAnc: function()
