@@ -46,6 +46,12 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("radio");
 	}
+	
+	// #15818
+	function getRequired()
+	{
+		return true;
+	}
 
 	/**
 	* Add Option.

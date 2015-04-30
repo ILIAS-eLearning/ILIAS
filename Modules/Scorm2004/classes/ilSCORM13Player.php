@@ -405,6 +405,7 @@ class ilSCORM13Player
 		$langstrings['btnshowtree']=$lng->txt('scplayer_showtree');
 		$langstrings['linkexpandTree']=$lng->txt('scplayer_expandtree');
 		$langstrings['linkcollapseTree']=$lng->txt('scplayer_collapsetree');
+		$langstrings['contCreditOff']=$lng->txt('cont_credit_off');
 		$config['langstrings'] = $langstrings;
 		
 		//template variables	

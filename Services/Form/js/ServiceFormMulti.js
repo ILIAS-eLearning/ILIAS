@@ -119,7 +119,7 @@ var ilMultiFormValues = {
 		new_id = new_id + 1;
 
 		var original_element = $('div[id="ilFormField~' + group_id + '~' + index + '"]');
-
+		
 		// clone original element
 		var new_element = $(original_element).clone();
 
@@ -164,6 +164,14 @@ var ilMultiFormValues = {
 		// insert clone into html	
 		$(original_element).after(new_element);
 		
+		// #15798 - remove multi-values hidden inputs
+		if(preset)
+		{			
+			$(new_element).find('input:hidden[name="' + group_id + '[]"]').each(function() { 
+				$(this).remove(); 
+			});
+		}
+
 		// add autocomplete
 		if (typeof ilMultiFormValues.auto_complete_urls[group_id] != 'undefined' &&
 			ilMultiFormValues.auto_complete_urls[group_id] != "") {

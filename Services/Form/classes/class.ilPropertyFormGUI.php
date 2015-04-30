@@ -701,6 +701,12 @@ class ilPropertyFormGUI extends ilFormGUI
 		
 		return $this->tpl->get();
 	}
+	
+	protected function hideRequired($a_type)
+	{
+		// #15818
+		return in_array($a_type, array("radio", "non_editable_value"));
+	}
 
 	function insertItem($item, $a_sub_item = false)
 	{
@@ -755,8 +761,8 @@ class ilPropertyFormGUI extends ilFormGUI
 
 			if ($this->getMode() == "subform")
 			{
-				// required
-				if ($item->getType() != "non_editable_value")
+				// required				
+				if (!$this->hideRequired($item->getType()))
 				{
 					if ($item->getRequired())
 					{
@@ -786,7 +792,7 @@ class ilPropertyFormGUI extends ilFormGUI
 			else
 			{
 				// required
-				if ($item->getType() != "non_editable_value")
+				if (!$this->hideRequired($item->getType()))
 				{
 					if ($item->getRequired())
 					{
