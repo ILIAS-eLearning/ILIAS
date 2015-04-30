@@ -186,7 +186,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_prtf.svg"),
 			$this->lng->txt("portfolio"));
 		
-		if(!$this->object->isOnline())
+		if($this->object &&
+			!$this->object->isOnline())
 		{
 			$this->tpl->setAlertProperties(array(
 				array("alert" => true, 
