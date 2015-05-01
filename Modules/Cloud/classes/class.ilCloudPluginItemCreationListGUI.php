@@ -52,8 +52,8 @@ class ilCloudPluginItemCreationListGUI extends ilCloudPluginListGUI {
 
 		if ($show_upload) {
 			ilFileUploadGUI::initFileUpload();
-			$icon_path = './Modules/Cloud/templates/images/icon_file_s.svg';
-			$icon_path = ilUtil::getImagePath('icon_file.svg');
+//			$icon_path = './Modules/Cloud/templates/images/icon_file_s.svg';
+			$icon_path = ilUtil::getImagePath('icon_dcl_file.svg');
 			$img = ilUtil::img($icon_path);
 			$a_ttip = $lng->txt('cld_info_add_file_to_current_directory');
 			$this->gl->addEntry($img . ' '
@@ -61,8 +61,8 @@ class ilCloudPluginItemCreationListGUI extends ilCloudPluginListGUI {
 		}
 
 		if ($show_create_folders) {
-			$icon_path = './Modules/Cloud/templates/images/icon_folder_s.svg';
-			$icon_path = ilUtil::getImagePath('icon_fold.svg');
+//			$icon_path = './Modules/Cloud/templates/images/icon_folder_s.svg';
+			$icon_path = ilUtil::getImagePath('icon_dcl_fold.svg');
 			$img1 = ilUtil::img($icon_path);
 			$a_ttip1 = $lng->txt('cld_info_add_folder_to_current_directory');
 			$this->gl->addEntry($img1 . ' '
