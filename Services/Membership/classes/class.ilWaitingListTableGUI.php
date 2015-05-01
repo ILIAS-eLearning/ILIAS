@@ -57,6 +57,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		$this->lng->loadLanguageModule('grp');
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('sess');
+		$this->lng->loadLanguageModule('ps');
 	 	$this->ctrl = $ilCtrl;
 	 	
 		$this->setId('crs_wait_'. $a_parent_obj->object->getId());
