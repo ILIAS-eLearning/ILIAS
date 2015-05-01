@@ -82,7 +82,8 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
 
         $this->form->setTableWidth("100%");
         $this->form->setTitle($lng->txt("upload_files_title"));
-        $this->form->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $lng->txt('obj_file'));
+//        $this->form->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $lng->txt('obj_file'));
+        $this->form->setTitleIcon(ilUtil::getImagePath('icon_dcl_file.svg'), $lng->txt('obj_file'));
 
         $this->form->setTitle($lng->txt("upload_files"));
         $this->form->setFormAction($ilCtrl->getFormAction($this, "uploadFiles"));
