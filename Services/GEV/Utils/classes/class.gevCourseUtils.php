@@ -1492,6 +1492,17 @@ class gevCourseUtils {
 		
 		global $lng;
 
+		if ($a_filename === null) {
+			if(!$a_send)
+			{
+				$a_filename = ilUtil::ilTempnam();
+			}
+			else
+			{
+				$a_filename = "uvg_list.xls";
+			}
+		}
+
 		$lng->loadLanguageModule("common");
 		$lng->loadLanguageModule("gev");
 
@@ -1513,7 +1524,7 @@ class gevCourseUtils {
 						, $lng->txt("phone_office")
 						, $lng->txt("phone_mobile")
 						, $lng->txt("email")
-						, $lng->txt("Vermittlernummer GEV")
+						, $lng->txt("gev_job_number")
 						, $lng->txt("gev_participation_status")
 						, "Zu welchen Themen hätten Sie gerne nähere Informationen?"
 						, "Zu welchen Themen wünschen Sie sich weitere Webinare?"
