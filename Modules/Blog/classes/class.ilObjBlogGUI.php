@@ -1913,7 +1913,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$wtpl->setCurrentBlock("keyword");
 			foreach($keywords as $keyword => $counter)
 			{										
-				$ilCtrl->setParameter($this, "kwd", $keyword);
+				$ilCtrl->setParameter($this, "kwd", urlencode($keyword)); // #15885
 				$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
 				$ilCtrl->setParameter($this, "kwd", "");
 
