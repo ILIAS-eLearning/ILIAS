@@ -1555,17 +1555,15 @@ class gevCourseUtils {
 		if($user_ids) {
 			foreach($user_ids as $user_id) {
 
-				$row++;
 				$user_utils = gevUserUtils::getInstance($user_id);
 				$user = new ilObjUser($user_id);
-
 				$user_roles = $user_utils->getGlobalRoles();
-
-
 
 				if(!in_array($idVProle, $user_roles)) {
 					continue;
 				}
+
+				$row++;
 
 				$worksheet->write($row, 0 , $user_utils->getBDFromIV(), $format_wrap);
 				$worksheet->write($row, 2 , $user_utils->getCompanyName(), $format_wrap);
@@ -1589,7 +1587,7 @@ class gevCourseUtils {
 			exit();
 		}
 
-		return null;//array($filename, "Teilnehmer.xls");
+		return array($filename, "Teilnehmer.xls");
  	}
 
 
