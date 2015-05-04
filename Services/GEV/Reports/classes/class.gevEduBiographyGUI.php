@@ -123,7 +123,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 			case "getBill":
 				return $this->getBill();
 			default:
-				return $this->render();
+				return parent::executeCommand();
 		}
 	}
 	

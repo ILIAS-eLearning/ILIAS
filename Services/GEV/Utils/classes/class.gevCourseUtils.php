@@ -1115,8 +1115,18 @@ class gevCourseUtils {
 		return gevRoleUtils::getInstance()->getRbacReview()->assignedUsers($role);
 	}
 	
-	public function getTrainers() {
-		return $this->getMembership()->getTutors();
+	public function getTrainers($names = false) {
+	$tutors = $this->getMembership()->getTutors();
+	if($names) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$user_utils = gevUserUtils::getInstance();
+		$tutors = $user_utils->getFullNames($tutors);
+		foreach ($tutors as $userid => &$a_fullname) {
+			$fullname = explode(", ", $a_fullname);
+			$a_fullname = $fullname[1]." ".$fullname[0];
+		}
+	}
+	return $tutors;
 	}
 	
 	public function hasTrainer($trainer_id) {
@@ -1363,6 +1373,10 @@ class gevCourseUtils {
 	public function deliverMemberList($a_type) {
 		$this->buildMemberList(true, null, $a_type);
 	}
+
+	public function deliverUVGList() {
+		$this->buildUVGList(true, null);
+	}
 	#
 
 	public function buildICAL($a_send,$a_filename) {
@@ -1468,7 +1482,104 @@ class gevCourseUtils {
 
 		return array($a_filename, "calender.ics");
 	}
- 
+ 	
+ 	public function buildUVGList($a_send, $a_filename) {
+
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Services/User/classes/class.ilObjUser.php");
+		
+		global $lng;
+
+		$lng->loadLanguageModule("common");
+		$lng->loadLanguageModule("gev");
+
+		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
+		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
+		$adapter = new ilExcelWriterAdapter($a_filename, $a_send);
+		$workbook = $adapter->getWorkbook();
+		$worksheet = $workbook->addWorksheet();
+		$worksheet->setLandscape();
+
+		$columns = array( $lng->txt("gev_bd")
+						, "DBV-FIN"
+						, $lng->txt("gev_company_name")
+						, $lng->txt("lastname")	
+						, $lng->txt("firstname")
+						, $lng->txt("street")
+						, $lng->txt("zipcode")
+						, $lng->txt("city")
+						, $lng->txt("phone_office")
+						, $lng->txt("phone_mobile")
+						, $lng->txt("email")
+						, $lng->txt("Vermittlernummer GEV")
+						, $lng->txt("gev_participation_status")
+						, "Zu welchen Themen hätten Sie gerne nähere Informationen?"
+						, "Zu welchen Themen wünschen Sie sich weitere Webinare?"
+						);
+
+		$format_wrap = $workbook->addFormat();
+		$format_wrap->setTextWrap();
+		
+		$i = 0;
+
+		foreach ($columns as $column) {
+			$worksheet->setColumn($i, $i, min(max(strlen($column),10),30));
+			$i++;
+		}
+
+		$row = $this->buildListMeta( $workbook
+							   , $worksheet
+							   , "Trainingsteilnahmen" 
+							   , $lng->txt("gev_excel_member_row_title")
+							   , $columns
+							   , $a_type
+							   );
+		
+		$role_utils = gevRoleUtils::getInstance();
+		$idVProle = $role_utils->getRoleIdByName("VP"); 
+		$user_ids = $this->getCourse()->getMembersObject()->getMembers();
+
+		if($user_ids) {
+			foreach($user_ids as $user_id) {
+
+				$row++;
+				$user_utils = gevUserUtils::getInstance($user_id);
+				$user = new ilObjUser($user_id);
+
+				$user_roles = $user_utils->getGlobalRoles();
+
+
+
+				if(!in_array($idVProle, $user_roles)) {
+					continue;
+				}
+
+				$worksheet->write($row, 0 , $user_utils->getBDFromIV(), $format_wrap);
+				$worksheet->write($row, 2 , $user_utils->getCompanyName(), $format_wrap);
+				$worksheet->write($row, 3 , $user_utils->getLastname(), $format_wrap);
+				$worksheet->write($row, 4 , $user_utils->getFirstname(), $format_wrap);
+				$worksheet->write($row, 5 ,	$user->getStreet(), $format_wrap);
+				$worksheet->write($row, 6 ,	$user->getZipcode(), $format_wrap);
+				$worksheet->write($row, 7 ,	$user->getCity(), $format_wrap);
+				$worksheet->write($row, 8 ,	$user->getPhoneOffice(), $format_wrap);
+				$worksheet->write($row, 9 ,	$user->getPhoneMobile(), $format_wrap);
+				$worksheet->write($row, 10,	$user->getEmail(), $format_wrap);
+				$worksheet->write($row, 11,	$user_utils->getJobNumber(), $format_wrap);
+				$worksheet->write($row, 12,	$this->getParticipationStatusLabelOf($user_id), $format_wrap);
+
+			}
+		}
+		$workbook->close();
+
+		if($a_send)
+		{
+			exit();
+		}
+
+		return null;//array($filename, "Teilnehmer.xls");
+ 	}
 
 
 	public function buildMemberList($a_send, $a_filename, $a_type) {
@@ -2059,7 +2170,7 @@ class gevCourseUtils {
 				   )
 			, array( $this->lng->txt("gev_instructor")
 				   , true
-				   , $this->getMainTrainerName()
+				   , implode(", ",$this->getTrainers(true))
 				   )
 			, array( $this->lng->txt("gev_free_cancellation_until")
 				   , $status == ilCourseBooking::STATUS_BOOKED

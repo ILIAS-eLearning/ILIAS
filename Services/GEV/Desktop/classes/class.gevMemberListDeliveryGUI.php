@@ -39,6 +39,9 @@ class gevMemberListDeliveryGUI {
 			case "csn":
 				$utils->deliverCSVForCSN();
 				return;
+			case "uvg":
+				$utils->deliverUVGList();
+				return;
 			default:
 				$this->ctrl->redirectByClass("gevDesktopGUI");
 				return;

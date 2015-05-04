@@ -579,6 +579,8 @@ gev#:#gev_not_bookable#:#ausgebucht
 gev#:#gev_number_of_measure#:#Nummer der Maßnahme
 gev#:#gev_obligatory_booking#:#Verbindliche Buchung
 gev#:#gev_od_bd#:#OD/BD
+gev#:#gev_bd#:#BD
+gev#:#gev_uvg#:#UVG
 gev#:#gev_course_online_status#:#Online-Status
 gev#:#gev_org_mgmt#:#Organisationseinheiten
 gev#:#gev_org_unit#:#zugehörige Organisationseinheit

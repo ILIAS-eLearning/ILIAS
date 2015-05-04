@@ -342,7 +342,7 @@ class gevBookingGUI {
 				   )
 			, array( $this->lng->txt("gev_instructor")
 				   , true
-				   , $this->crs_utils->getMainTrainerName()
+				   , implode(", ",$this->crs_utils->getTrainers(true))
 				   )
 			, array( $this->lng->txt("gev_subscription_end")
 				   , $booking_dl != "" && !$this->isSelfLearningCourse()

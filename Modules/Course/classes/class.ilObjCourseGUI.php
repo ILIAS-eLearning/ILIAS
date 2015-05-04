@@ -2178,6 +2178,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		$ilToolbar->addButton( $this->lng->txt("gev_member_list")
 							 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=trainer&baseClass=gevMemberListDeliveryGUI"
 							 );
+		$ilToolbar->addButton( $this->lng->txt("gev_uvg")
+							 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=uvg&baseClass=gevMemberListDeliveryGUI"
+		);
 		if (in_array($utils->getType(), array("Webinar", "Spezialistenschulung Webinar"))) {
 			$ilToolbar->addButton( $this->lng->txt("gev_csn_list")
 								 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=csn&baseClass=gevMemberListDeliveryGUI"
