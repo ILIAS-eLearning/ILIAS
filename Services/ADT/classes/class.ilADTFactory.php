@@ -209,7 +209,7 @@ class ilADTFactory
 	 * @param ilADT $a_adt
 	 * @return ilADTActiveRecordBridge
 	 */
-	public static function getActiveRecordBridgeForInstance(ilADT $a_adt)
+	public function getActiveRecordBridgeForInstance(ilADT $a_adt)
 	{
 		$class = $this->initTypeClass($a_adt->getType(), "ActiveRecordBridge");		
 		return new $class($a_adt);
