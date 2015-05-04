@@ -1119,8 +1119,8 @@ class gevCourseUtils {
 	$tutors = $this->getMembership()->getTutors();
 	if($names) {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		$user_utils = gevUserUtils::getInstance();
-		$tutors = $user_utils->getFullNames($tutors);
+
+		$tutors = gevUserUtils::getFullNames($tutors);
 		foreach ($tutors as $userid => &$a_fullname) {
 			$fullname = explode(", ", $a_fullname);
 			$a_fullname = $fullname[1]." ".$fullname[0];
@@ -1845,6 +1845,17 @@ class gevCourseUtils {
 	protected function getListMetaData($a_type) {
 		$start_date = $this->getStartDate();
 		$end_date = $this->getEndDate();
+
+
+		$trainerList = $this->getTrainers();
+		foreach($trainerList as &$user_id) {
+			$user_utils = gevUserUtils::getInstance($user_id);
+			$name = $user_utils->getFullName();
+			$email = $user_utils->getEmail();
+			$user_id = $name." (".$email.")";
+		}
+
+
 		$arr = array("Titel" => $this->getTitle()
 					, "Untertitel" => $this->getSubtitle()
 					, "Nummer der Maßnahme" => $this->getCustomId()
@@ -1853,9 +1864,9 @@ class gevCourseUtils {
 								 : ""
 					, "Veranstaltungsort" => $this->getVenueTitle()
 					, "Bildungspunkte" => $this->getCreditPoints()
-					, "Trainer" =>   ($this->getMainTrainer() !== null)
-								   ? $this->getMainTrainerName()." (".$this->getMainTrainerEMail().")"
-								   : ""
+					, "Trainer" => 	($trainerList !== null)
+					 				? implode(", ", $trainerList)
+					 				: " "
 					, "Trainingsbetreuer" => $this->getMainAdminName(). " (".$this->getMainAdminContactInfo().")"
 					, "Fachlich verantwortlich" => $this->getTrainingOfficerContactInfo()
 					);
