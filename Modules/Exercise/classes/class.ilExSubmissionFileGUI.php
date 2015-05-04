@@ -104,15 +104,13 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 				$ilToolbar->addButton($this->lng->txt("header_zip"), 
 					$this->ctrl->getLinkTarget($this, "uploadZipForm"));
 				
-				// extended deadline warning
-				if(time() >  $this->assignment->getDeadline())
+				// #15883 - extended deadline warning
+				if($this->assignment->getDeadline() &&
+					time() >  $this->assignment->getDeadline())
 				{							
 					$dl = ilDatePresentation::formatDate(new ilDateTime($this->assignment->getDeadline(),IL_CAL_UNIX));
-					$dl = sprintf($this->lng->txt("exc_late_submission_warning"), $dl);				
-					if(time() >  $this->assignment->getDeadline())
-					{
-						$dl = '<span class="warning">'.$dl.'</span>';		
-					}
+					$dl = sprintf($this->lng->txt("exc_late_submission_warning"), $dl);									
+					$dl = '<span class="warning">'.$dl.'</span>';							
 					$ilToolbar->addText($dl);
 				}
 			}
@@ -121,7 +119,6 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 				ilUtil::sendInfo(sprintf($this->lng->txt("exc_max_file_reached"), $this->submission->getAssignment()->getMaxFile()));
 			}			
 		}
-		
 
 		include_once("./Modules/Exercise/classes/class.ilExcDeliveredFilesTableGUI.php");
 		$tab = new ilExcDeliveredFilesTableGUI($this, "submissionScreen", $this->submission);
