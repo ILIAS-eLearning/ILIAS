@@ -22,6 +22,7 @@ class gevExpressLoginUtils {
 	public function registerExpressUser($a_form){
 		$this->user = new ilObjUser();
 		$this->user->setLogin("expr_".$a_form->getInput("firstname").$a_form->getInput("lastname"));
+		$this->user->setGender($a_form->getInput("gender"));
 		$this->user->setEmail($a_form->getInput("email"));
 		$this->user->setLastname($a_form->getInput("lastname"));
 		$this->user->setFirstname($a_form->getInput("firstname"));

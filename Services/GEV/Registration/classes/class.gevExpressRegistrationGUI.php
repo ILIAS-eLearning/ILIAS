@@ -195,6 +195,12 @@ class gevExpressRegistrationGUI {
 		$optExp = new ilRadioOption($this->lng->txt('gev_login_express_no_login'));
 		$optExp->setValue("registerExpUser");
 		$regType->addOption($optExp);
+			$gender = new ilRadioGroupInputGUI($this->lng->txt("salutation"), "gender");
+			$gender->addOption(new ilRadioOption($this->lng->txt("salutation_m"), "m"));
+			$gender->addOption(new ilRadioOption($this->lng->txt("salutation_f"), "f"));
+			$gender->setRequired(true);
+			$optExp->addItem($gender);
+			
 			$inputName = new ilTextInputGUI($this->lng->txt('firstname'),"firstname");
 			$inputName->setRequired(true);
 			$optExp->addSubItem($inputName);
