@@ -1050,7 +1050,9 @@ class gevUserUtils {
 	public function forceWBDUserProfileFields() {
 		return $this->hasWBDRelevantRole()
 			&& $this->hasDoneWBDRegistration()
-			&& ($this->getWBDType == self::WBD_TP_SERVICE);
+			&& (   $this->getWBDTPType() == self::WBD_TP_SERVICE
+				|| $this->getWBDTPType() == self::WBD_TP_BASIS
+				);
 	}
 
 	public function isProfileComplete() {
