@@ -47,6 +47,7 @@ class gevUserNotInOrgUnitJob extends ilCronJob {
 	
 	public function run() {
 		$this->moveToNoAssignmentOrgUnit();
+		$this->moveFromNoAssignmentOrgUnit();
 
 		$cron_result = new ilCronJobResult();
 		$cron_result->setStatus(ilCronJobResult::STATUS_OK);
@@ -102,7 +103,34 @@ class gevUserNotInOrgUnitJob extends ilCronJob {
 	}
 	
 	protected function moveFromNoAssignmentOrgUnit() {
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+		global $ilLog, $ilDB;
+
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		$gev_settings = gevSettings::getInstance();
+		$org_ref_id = $gev_settings->getOrgUnitUnassignedUser();
+		$org_obj_id = ilObject::_lookupObjectId($org_ref_id);
+		$unassigned_users = gevOrgUnitUtils::getEmployeesIn(array($org_ref_id));
 		
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$utils = gevOrgUnitUtils::getInstance($a_org_id);
+		$utils->deassignUser($this->user_id, $a_role_title);
+		
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
+	
+		foreach ($unassigned_users as $user) {
+			if (count($tree->getOrgUnitOfUser($user)) == 1) {
+				continue;
+			}
+			
+			$utils->deassignUser($user, "Mitarbeiter");
+			$ilLog->write("gevUserNotInOrgUnitJob: User $user_id deassigned from org_unit $org_id");
+			
+			// i'm alive
+			ilCronManager::ping($this->getId());
+		}
 	}
 }
 ?>
