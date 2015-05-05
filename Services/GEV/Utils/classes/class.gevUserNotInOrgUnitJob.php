@@ -114,8 +114,7 @@ class gevUserNotInOrgUnitJob extends ilCronJob {
 		$org_obj_id = ilObject::_lookupObjectId($org_ref_id);
 		$unassigned_users = gevOrgUnitUtils::getEmployeesIn(array($org_ref_id));
 		
-		$utils = gevOrgUnitUtils::getInstance($a_org_id);
-		$utils->deassignUser($this->user_id, $a_role_title);
+		$utils = gevOrgUnitUtils::getInstance($org_obj_id);
 		
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
