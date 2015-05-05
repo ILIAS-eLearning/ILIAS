@@ -308,13 +308,13 @@ class ilTEP
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		$evg = gevOrgUnitUtils::getInstanceByImportId("evg");
 		$evg_ref_id = $evg->getRefId();
-		$ous = array($evg_ref_id);
+		$ous = array($evg_ref_id => $evg->getTitle());
 		foreach (gevOrgUnitUtils::getAllChildren(array($evg_ref_id)) as $ids) {
 			$ous[$ids["ref_id"]] = ilObject::_lookupTitle($ids["obj_id"]);
 		}
 		
 		$uvg = gevOrgUnitUtils::getInstanceByImportId("uvg");
-		$ous[] = $uvg->getRefId();
+		$ous[$uvg->getRefId()] = $uvg->getTitle();
 		
 		$base = gevOrgUnitUtils::getInstanceByImportId("gev_base");
 		$base_ref_id = $base->getRefId();
