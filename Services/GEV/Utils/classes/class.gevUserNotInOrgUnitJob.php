@@ -125,7 +125,7 @@ class gevUserNotInOrgUnitJob extends ilCronJob {
 			}
 			
 			$utils->deassignUser($user, "Mitarbeiter");
-			$ilLog->write("gevUserNotInOrgUnitJob: User $user_id deassigned from org_unit $org_id");
+			$ilLog->write("gevUserNotInOrgUnitJob: User $user deassigned from org_unit $org_id");
 			
 			// i'm alive
 			ilCronManager::ping($this->getId());
