@@ -1850,7 +1850,7 @@ class gevCourseUtils {
 		$trainerList = $this->getTrainers();
 		foreach($trainerList as &$user_id) {
 			$user_utils = gevUserUtils::getInstance($user_id);
-			$name = $user_utils->getFullName();
+			$name = $user_utils->getFirstname()." ".$user_utils->getLastname();
 			$email = $user_utils->getEmail();
 			$user_id = $name." (".$email.")";
 		}
