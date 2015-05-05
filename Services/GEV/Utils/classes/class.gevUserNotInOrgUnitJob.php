@@ -104,6 +104,7 @@ class gevUserNotInOrgUnitJob extends ilCronJob {
 	
 	protected function moveFromNoAssignmentOrgUnit() {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
 		global $ilLog, $ilDB;
 
@@ -113,7 +114,6 @@ class gevUserNotInOrgUnitJob extends ilCronJob {
 		$org_obj_id = ilObject::_lookupObjectId($org_ref_id);
 		$unassigned_users = gevOrgUnitUtils::getEmployeesIn(array($org_ref_id));
 		
-		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		$utils = gevOrgUnitUtils::getInstance($a_org_id);
 		$utils->deassignUser($this->user_id, $a_role_title);
 		
