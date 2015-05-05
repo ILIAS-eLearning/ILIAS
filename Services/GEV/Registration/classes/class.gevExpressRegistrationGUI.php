@@ -199,7 +199,7 @@ class gevExpressRegistrationGUI {
 			$gender->addOption(new ilRadioOption($this->lng->txt("salutation_m"), "m"));
 			$gender->addOption(new ilRadioOption($this->lng->txt("salutation_f"), "f"));
 			$gender->setRequired(true);
-			$optExp->addItem($gender);
+			$optExp->addSubItem($gender);
 			
 			$inputName = new ilTextInputGUI($this->lng->txt('firstname'),"firstname");
 			$inputName->setRequired(true);
