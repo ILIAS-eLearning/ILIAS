@@ -46,6 +46,14 @@ class gevUserNotInOrgUnitJob extends ilCronJob {
 	}
 	
 	public function run() {
+		$this->moveToNoAssignmentOrgUnit();
+
+		$cron_result = new ilCronJobResult();
+		$cron_result->setStatus(ilCronJobResult::STATUS_OK);
+		return $cron_result;
+	}
+	
+	protected function moveToNoAssignmentOrgUnit() {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
@@ -91,10 +99,10 @@ class gevUserNotInOrgUnitJob extends ilCronJob {
 			// i'm alive
 			ilCronManager::ping($this->getId());
 		}
-
-		$cron_result = new ilCronJobResult();
-		$cron_result->setStatus(ilCronJobResult::STATUS_OK);
-		return $cron_result;
+	}
+	
+	protected function moveFromNoAssignmentOrgUnit() {
+		
 	}
 }
 ?>
