@@ -17,5 +17,6 @@
 		<cron id="gev_exited_user_cleanup" class="gevExitedUserCleanupJob" path="Services/GEV/Utils/classes/" />
 		<cron id="gev_express_user_cleanup" class="gevExpressUserCleanupJob" path="Services/GEV/Utils/classes/" />
 		<cron id="gev_user_not_in_org_unit" class="gevUserNotInOrgUnitJob" path="Services/GEV/Utils/classes/" />
+		<cron id="gev_update_dbv" class="gevUpdateDBVJob" path="Services/GEV/Utils/classes/" />
 	</crons>
 </service>

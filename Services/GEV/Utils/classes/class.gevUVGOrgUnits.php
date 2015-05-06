@@ -27,6 +27,10 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 						   );
 	}
 	
+	public function getBaseRefId() {
+		return $this->base_ref_id;
+	}
+	
 	public static function getInstance() {
 		if (self::$instance === null) {
 			self::$instance = new self();

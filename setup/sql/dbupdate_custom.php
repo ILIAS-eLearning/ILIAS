@@ -1,4 +1,4 @@
-<#1>
+bim<#1>
 <?php
 
 if( !$ilDB->tableExists('adv_md_values_text') )
@@ -3569,6 +3569,11 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 
 
 <#115>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#116>
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
