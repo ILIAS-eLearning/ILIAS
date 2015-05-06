@@ -40,8 +40,9 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 	}
 
 	public function createOrgUnitFor($a_superior_id) {
-		$orgu_id = parent::createOrgUnitFor($a_superior_id);
-		$this->moveToBDFromIV($orgu_id);
+		$orgu = parent::createOrgUnitFor($a_superior_id);
+		$this->moveToBDFromIV($orgu);
+		return $orgu;
 	}
 	
 	/**
@@ -52,8 +53,11 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 	 * @param iObjOrgUnit $a_orgu
 	 */
 	public function moveToBDFromIV(ilObjOrgUnit $a_orgu) {
+		global $ilLog;
 		$owner = $this->getOwnerOfOrgUnit($a_orgu->getId());
+		$ilLog->write("OWNER is $owner");
 		$job_number = $this->getJobNumberOf($owner);
+		$ilLog->write("JOBNUMBER is $job_number");
 
 		if ($job_number) {
 			$target_ref_id = $this->getBDOrgUnitRefIdFor($owner);
@@ -109,7 +113,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		$orgu->putInTree($this->base_ref_id);
 		$orgu->initDefaultRoles();
 		
-		$orgutils = gevOrgUnitUtils::getInstance($id);
+		$orgutils = gevOrgUnitUtils::getInstance($orgu->getId());
 		$orgutils->setType(gevSettings::ORG_TYPE_DEFAULT);
 		
 		return $orgu;

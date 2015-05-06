@@ -95,12 +95,12 @@ class gevDBVUtils {
 		$res = $this->db->query("SELECT usr_id"
 							   ."  FROM udf_text"
 							   ." WHERE field_id = ".$this->db->quote($job_number_field_id, "integer")
-							   ."   AND ".$this->db->in("value", $job_numbers, false, "string")
+							   ."   AND ".$this->db->in("value", $job_numbers, false, "text")
 							   );
 		$result = array();
 		while ($rec = $this->db->fetchAssoc($res)) {
 			$utils = gevUserUtils::getInstance($rec["usr_id"]);
-			if ($utils->isDBV()) {
+			if ($utils->isUVGDBV()) {
 				$result[] = $rec["usr_id"];
 			}
 		}

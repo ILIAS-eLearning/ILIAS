@@ -319,10 +319,10 @@ class ilPersonalOrgUnits {
 		global $ilDB, $tree;
 		
 		$ref_ids = ilObject::_getAllReferences($a_orgu_id);
-		
+
 		if  (  ilObject::_lookupType($a_orgu_id) != "orgu"
-			|| count($ref_ids) != 0
-			|| !$tree->isGrandChild($this->base_ref_id, $ref_ids[0])
+			|| count($ref_ids) != 1
+			|| !$tree->isGrandChild($this->base_ref_id, array_shift($ref_ids))
 			) {
 			$this->ilPersonalOrgUnitsError(
 				"getOwnerOfOrgUnit",

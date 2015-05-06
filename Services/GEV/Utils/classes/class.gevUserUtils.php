@@ -1485,7 +1485,7 @@ class gevUserUtils {
 		return gevUserUtils::getInstance($adviser_id);
 	}
 
-	public function isDBV() {
+	public function isUVGDBV() {
 		// TODO: implement this correctly
 		return true;
 	}
