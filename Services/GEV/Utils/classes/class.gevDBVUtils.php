@@ -79,6 +79,25 @@ class gevDBVUtils {
 			gevOrgUnitUtils::getInstance($cpool_id)->assignUser($a_user_id, "Mitarbeiter");
 		}
 	}
+	
+	public function updateUsersDBVAssignmentsByShadowDB($a_user_id) {
+		// remove existing assignments
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		
+		$cpool_id = $this->gev_settings->getCPoolUnitId();
+		if (!$cpool_id) {
+			throw new Exception("gevDBVUtils::assignUserToDBVsByShadowDB: No CPool-Org-Unit set.");
+		}
+		gevOrgUnitUtils::getInstance($cpool_id)->deassignUser($a_user_id, "Mitarbeiter");
+		
+		$dbvs = $this->pou->getSuperiorsOf($a_user_id);
+		foreach ($dbvs as $dbv) {
+			$this->pou->deassignEmployee($dbv, $a_user_id);
+		}
+		
+		// make new assignments
+		$this->assignUserToDBVsByShadowDB($a_user_id);
+	}
 
 	/**
 	 * Gibt die Benutzernummern der DBVs eines Benutzer mit Daten aus der IV

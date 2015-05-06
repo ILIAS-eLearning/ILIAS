@@ -38,8 +38,7 @@ class gevUpdateDBVJob extends ilCronJob {
 		return $cron_result;
 	}
 	
-	static public function updateDBVToBDAssignment() {
-		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+	static protected function getUVGOrguRefIds() {
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevUVGOrgUnits.php");
 		
@@ -47,22 +46,36 @@ class gevUpdateDBVJob extends ilCronJob {
 		$base_ref_id = $uvg_orgus->getBaseRefId();
 		$uvg_orgu_ids = gevOrgUnitUtils::getAllChildren(array($base_ref_id));
 		
-		foreach ($uvg_orgu_ids as $ids) {
-			$orgu = new ilObjOrgUnit($ids["ref_id"]);
+		return array_map(function($ids) { return $ids["ref_id"]; }, $uvg_orgu_ids);
+	}
+	
+	static public function updateDBVToBDAssignment() {
+		require_once("Services/GEV/Utils/classes/class.gevUVGOrgUnits.php");
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+		
+		$uvg_orgus = gevUVGOrgUnits::getInstance();
+		$uvg_orgu_ref_ids = self::getUVGOrguRefIds();
+		foreach ($uvg_orgu_ref_ids as $ref_id) {
+			$orgu = new ilObjOrgUnit($ref_id);
 			try {
 				$uvg_orgus->moveToBDFromIV($orgu);
 			} catch (ilPersonalOrgUnitsException $exception) {
 				// This could happen as there are org units without owners
-				// (for BDs) beneath the base.
+				// (for BDs and cpool) beneath the base.
 			}
 		}
 	}
 	
 	static public function updateAgentToDBVAssignment() {
-		// Find out, who is an Agent
-		// For every DB: get his current DBVs from IV-data
-		//               check, whether his current assignment is correct
-		//               if not, correct assignments
+		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		
+		$uvg_orgu_ref_ids = self::getUVGOrguRefIds();
+		$vps = gevOrgUnitUtils::getEmployeesIn($uvg_orgu_ref_ids);
+		$dbv_utils = gevDBVUtils::getInstance();
+		foreach ($vps as $vp) {
+			$dbv_utils->updateUsersDBVAssignmentsByShadowDB($vp);
+		}
 	}
 
 }
