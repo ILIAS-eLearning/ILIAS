@@ -306,7 +306,44 @@ class ilPersonalOrgUnits {
 		}
 		return $ret;
 	} 
-
+	
+	/**
+	 * Get the id of the superior of the org unit. Throws when orgu does not
+	 * belong to this personal org units.
+	 *
+	 * @param integer $a_orgu_id
+	 *
+	 * @return integer
+	 */
+	public function getOwnerOfOrgUnit($a_orgu_id) {
+		global $ilDB, $tree;
+		
+		$ref_ids = ilObject::_getAllReferences($a_orgu_id);
+		
+		if  (  ilObject::_lookupType($a_orgu_id) != "orgu"
+			|| count($ref_ids) != 0
+			|| !$tree->isGrandChild($this->base_ref_id, $ref_ids[0])
+			) {
+			self::ilPersonalOrgUnitsError(
+				"getOwnerOfOrgUnit",
+				"The object with id $a_orgu_id does not belong to "
+				 ."personal org unit tree starting at ref id "
+				 .$this->base_ref_id.".");
+		}
+		
+		$res = $ilDB->query("SELECT usr_id"
+						   ."  FROM org_unit_personal"
+						   ." WHERE orgunit_id = ".$this->db->quote($a_orgu_id, "integer")
+						   );
+		if ($rec = $ilDB->fetchAssoc($res)) {
+			return $rec["usr_id"];
+		}
+		else {
+			self::ilPersonalOrgUnitsError(
+				"getOwnerOfOrgUnit",
+				"Could not find an owner of $a_orgu_id");
+		}
+	}
 	
 	/**
 	* Remove the org-unit of the given superior. 
