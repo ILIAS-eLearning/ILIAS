@@ -45,7 +45,7 @@ class ilPersonalOrgUnits {
 		if ($ret = $ilDB->fetchAssoc($res)) {
 			return $ret["ref_id"];
 		}
-		return null;
+		self::ilPersonalOrgUnitsError("getRefId", "Could not find ref_id for $a_obj_id.");
 	}
 
 	protected function getBaseOrgu(){
@@ -82,20 +82,17 @@ class ilPersonalOrgUnits {
 
 	protected function getPersonalOrguBySuperiorId($a_superior_id){
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
-		global $ilDB;
+		global $ilDB, $tree;
 		$query = "SELECT orgunit_id FROM org_unit_personal"
 			 	." WHERE usr_id=" .$ilDB->quote($a_superior_id, 'integer');
 		$res = $ilDB->query($query);
-		$base_children = ilObjOrgUnitTree::_getInstance()->getAllChildren($this->base_ref_id);
 		while($rec = $ilDB->fetchAssoc($res)) {
 			$ref_id = $this->getRefId($rec['orgunit_id']);
 			// Only take org units into account that are below the base unit, since
 			// user could have POUs under different base units. 
-			if (!in_array($ref_id, $base_children)) {
-				continue;
+			if ($tree->isGrandChild($this->base_ref_id, $ref_id)) {
+				return new ilObjOrgUnit($ref_id);
 			}
-			$orgu = new ilObjOrgUnit($ref_id);
-			return $orgu;
 		}
 		return null;
 	}
