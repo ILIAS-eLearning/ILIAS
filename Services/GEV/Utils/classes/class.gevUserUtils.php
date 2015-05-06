@@ -2321,8 +2321,10 @@ class gevUserUtils {
 
 		$agent_key = $this->getJobNumber();
 
-		$sql = 	"SELECT `ivimport_orgunit`.`name` FROM `ivimport_stelle` INNER JOIN `ivimport_orgunit`"
-				." ON `ivimport_orgunit`.`id` = `ivimport_stelle`.`sql_org_unit_id`"
+		$sql = 	 "SELECT `ivimport_orgunit`.`name`"
+				."  FROM `ivimport_stelle`"
+				."  INNER JOIN `ivimport_orgunit`"
+				."          ON `ivimport_orgunit`.`id` = `ivimport_stelle`.`sql_org_unit_id`"
 				." WHERE `ivimport_stelle`.`stellennummer` = ".$ilDB->quote($agent_key,"text");
 		
 		$data = mysql_query($sql);
