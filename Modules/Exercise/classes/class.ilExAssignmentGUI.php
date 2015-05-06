@@ -50,19 +50,26 @@ class ilExAssignmentGUI
 		}
 		else
 		{
-			$deadline = max($a_ass->getDeadline(), $a_ass->getExtendedDeadline());
-			$time_str = $this->getTimeString($deadline);
+			// use extended deadline only if deadline reached
+			$current_deadline = $a_ass->getDeadline();
+			$ext_deadline = $a_ass->getExtendedDeadline();
+			if($ext_deadline &&
+				$current_deadline < time())
+			{
+				$current_deadline = $ext_deadline;
+			}			
+			$time_str = $this->getTimeString($current_deadline);
 			$tpl->setCurrentBlock("prop");
 			$tpl->setVariable("PROP", $lng->txt("exc_time_to_send"));
 			$tpl->setVariable("PROP_VAL", $time_str);
 			$tpl->parseCurrentBlock();
 	
-			if ($deadline > 0)
+			if ($current_deadline > 0)
 			{
 				$tpl->setCurrentBlock("prop");
 				$tpl->setVariable("PROP", $lng->txt("exc_edit_until"));
 				$tpl->setVariable("PROP_VAL",
-					ilDatePresentation::formatDate(new ilDateTime($deadline,IL_CAL_UNIX)));
+					ilDatePresentation::formatDate(new ilDateTime($current_deadline,IL_CAL_UNIX)));
 				$tpl->parseCurrentBlock();
 			}
 			
@@ -155,26 +162,31 @@ class ilExAssignmentGUI
 			$a_info->addProperty($lng->txt("exc_start_time"),
 				ilDatePresentation::formatDate(new ilDateTime($a_ass->getStartTime(),IL_CAL_UNIX)));
 		}
-		$deadline = max($a_ass->getDeadline(), $a_ass->getExtendedDeadline());
-		if ($deadline > 0)
+		$current_deadline = $a_ass->getDeadline();
+		if ($current_deadline > 0)
 		{
-			$until = ilDatePresentation::formatDate(new ilDateTime($deadline,IL_CAL_UNIX));
+			$ext_deadline = $a_ass->getExtendedDeadline();
 			
-			if($deadline == $a_ass->getExtendedDeadline())
+			// use extended deadline only if deadline is reached
+			if($ext_deadline &&
+				$current_deadline < time())
 			{
-				// extended deadline info/warning
+				$current_deadline = $ext_deadline;
+			}
+			
+			$until = ilDatePresentation::formatDate(new ilDateTime($current_deadline,IL_CAL_UNIX));
+			
+			// extended deadline info/warning
+			if($ext_deadline == $current_deadline)
+			{				
 				$dl = ilDatePresentation::formatDate(new ilDateTime($a_ass->getDeadline(),IL_CAL_UNIX));
-				$dl = "<br />".sprintf($lng->txt("exc_late_submission_warning"), $dl);				
-				if(time() >  $a_ass->getDeadline())
-				{
-					$dl = '<span class="warning">'.$dl.'</span>';		
-				}
+				$dl = "<br />".sprintf($lng->txt("exc_late_submission_warning"), $dl);								
+				$dl = '<span class="warning">'.$dl.'</span>';						
 				$until .= $dl;
 			}
-			$a_info->addProperty($lng->txt("exc_edit_until"), $until);
-			
+			$a_info->addProperty($lng->txt("exc_edit_until"), $until);			
 		}
-		$time_str = $this->getTimeString($deadline);
+		$time_str = $this->getTimeString($current_deadline);
 		if (!$a_ass->notStartedYet())
 		{
 			$a_info->addProperty($lng->txt("exc_time_to_send"),

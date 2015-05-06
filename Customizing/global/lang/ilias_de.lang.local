@@ -29,4 +29,6 @@ exc#:#exc_late_submission_warning#:#Abgaben nach %s werden als verspätet gekenn
 exc#:#exc_late_submission#:#Verspätete Abgabe
 exc#:#exc_adopt_group_teams#:#Teams aus Gruppen bilden
 exc#:#exc_adopt_group_teams_no_members#:#Keine Mitglieder
-exc#:#exc_adopt_group_teams_conflict#:#Benutzer ist bereits in Gruppe %s gewählt.
+exc#:#exc_adopt_group_teams_conflict#:#Benutzer "%1$s" ist bereits in Gruppe "%2$s" gewählt.
+exc#:#exc_adopt_group_teams_added#:#%s Benutzer wurden hinzugefügt.
+exc#:#exc_adopt_group_teams_blocked#:#%s Benutzer waren bereits vorhanden.

@@ -607,15 +607,20 @@ class ilExerciseManagementGUI
 			
 			// get member object (ilObjUser)
 			if (ilObject::_exists($member_id))
-			{
+			{				
+				// adding file metadata
+				foreach($submission->getFiles() as $file)
+				{
+					$members[$file["user_id"]]["files"][$file["returned_id"]] = $file;
+				}			
+			
 				$tmp_obj =& ilObjectFactory::getInstanceByObjId($member_id);
-				$members[$member_id] = $tmp_obj->getFirstname() . " " . $tmp_obj->getLastname();
+				$members[$member_id]["name"] = $tmp_obj->getFirstname() . " " . $tmp_obj->getLastname();
 				unset($tmp_obj);
 			}
 		}
-	
-		ilExSubmission::downloadAllAssignmentFiles($this->assignment, $members);
-		exit;
+		
+		ilExSubmission::downloadAllAssignmentFiles($this->assignment, $members);		
 	}
 	
 	protected function getMultiActionUserIds($a_keep_teams = false)
@@ -1021,7 +1026,7 @@ class ilExerciseManagementGUI
 		{
 			if(sizeof($group["members"]))
 			{
-				$grp_team = new ilCheckboxGroupInputGUI($group["title"], "grpt_".$grp_id);				
+				$grp_team = new ilCheckboxGroupInputGUI($lng->txt("obj_grp")." \"".$group["title"]."\"", "grpt_".$grp_id);				
 				$grp_value = $options = array();				
 				foreach($group["members"] as $user_id)
 				{
@@ -1065,6 +1070,7 @@ class ilExerciseManagementGUI
 		$form = $this->initGroupForm();
 		if($form->checkInput())
 		{
+			include_once "Services/User/classes/class.ilUserUtil.php";
 			$map = ilExAssignmentTeam::getGroupMembersMap($this->exercise->getRefId());
 			$all_members = $teams = array();
 			$valid = true;
@@ -1075,6 +1081,7 @@ class ilExerciseManagementGUI
 				if(is_array($members))
 				{
 					$teams[] = $members;
+					$invalid_team_members = array();
 					
 					foreach($members as $user_id)
 					{
@@ -1084,20 +1091,35 @@ class ilExerciseManagementGUI
 						}
 						else
 						{				
-							// user is selected in multiple groups
-							$valid = false;
-							$grp_title = $map[$all_members[$user_id]]["title"];
-							$input = $form->getItemByPostVar($postvar);
-							$input->setAlert(sprintf($lng->txt("exc_adopt_group_teams_conflict"), $grp_title));
+							// user is selected in multiple groups							
+							$invalid_team_members[] = $user_id;							
 						}
+					}
+					
+					if(sizeof($invalid_team_members))
+					{
+						$valid = false;
+						
+						$alert = array();
+						foreach($invalid_team_members as $user_id)
+						{							
+							$user_name = ilUserUtil::getNamePresentation($user_id, false, false, "", true);		
+							$grp_title = $map[$all_members[$user_id]]["title"];
+							$alert[] = sprintf($lng->txt("exc_adopt_group_teams_conflict"), $user_name, $grp_title);
+						}
+						$input = $form->getItemByPostVar($postvar);
+						$input->setAlert(implode("<br/>", $alert));
 					}
 				}
 			}
 			if($valid)
 			{				
 				if(sizeof($teams))
-				{									
+				{				
+					$existing_users = array_keys(ilExAssignmentTeam::getAssignmentTeamMap($this->assignment->getId()));
+					
 					// create teams from group selections
+					$sum = array("added"=>0, "blocked"=>0);										
 					foreach($teams as $members)
 					{						
 						foreach($members as $user_id)
@@ -1105,6 +1127,15 @@ class ilExerciseManagementGUI
 							if(!$this->exercise->members_obj->isAssigned($user_id))
 							{
 								$this->exercise->members_obj->assignMember($user_id);
+							}
+							
+							if(!in_array($user_id, $existing_users))
+							{
+								$sum["added"]++;
+							}
+							else
+							{
+								$sum["blocked"]++;
 							}
 						}
 						
@@ -1118,12 +1149,28 @@ class ilExerciseManagementGUI
 						{
 							foreach($members as $user_id)
 							{
-								$team->addTeamMember($user_id);
+								$team->addTeamMember($user_id);								
 							}
 						}					
+					}					
+					
+					$mess = array();
+					if($sum["added"])
+					{
+						$mess[] = sprintf($lng->txt("exc_adopt_group_teams_added"), $sum["added"]);
 					}
-
-					ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+					if($sum["blocked"])
+					{
+						$mess[] = sprintf($lng->txt("exc_adopt_group_teams_blocked"), $sum["blocked"]);
+					}
+					if($sum["added"])
+					{
+						ilUtil::sendSuccess(implode(" ", $mess), true);
+					}
+					else
+					{
+						ilUtil::sendFailure(implode(" ", $mess), true);
+					}
 				}
 				$this->ctrl->redirect($this, "members");
 			}
