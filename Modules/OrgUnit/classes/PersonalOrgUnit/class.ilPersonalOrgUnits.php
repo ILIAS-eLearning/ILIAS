@@ -29,7 +29,7 @@ class ilPersonalOrgUnits {
 	//user object of the superior
 	public $user_obj = array();
 
-	function __construct($a_obj_id_base, $a_obj_id_template) {
+	protected function __construct($a_obj_id_base, $a_obj_id_template) {
 		$this->base_id = $a_obj_id_base;
 		$this->template_id = $a_obj_id_template;
 		$this->base_ref_id = $this->getRefId($a_obj_id_base);
@@ -69,14 +69,14 @@ class ilPersonalOrgUnits {
 		return $this->user_obj[$a_user_id];
 	}
 
-	protected function buildOrguTitleFromUser($a_user_obj){
+	static protected function buildOrguTitleFromUser($a_user_obj){
 		$title = $a_user_obj->getFullname() .' (' .$a_user_obj->getLogin() .')';
 		return $title;
 	}
 	
 	protected function buildOrguTitleFromUserId($a_user_obj_id){
 		$user = $this->getUserObj($a_user_obj_id);
-		return $this->buildOrguTitleFromUser($user);
+		return self::buildOrguTitleFromUser($user);
 	}
 
 	protected function getPersonalOrguBySuperiorId($a_superior_id){
@@ -134,7 +134,7 @@ class ilPersonalOrgUnits {
 	* @param integer $a_obj_id_template
 	*/	
 	//ilPersonalOrgUnits(integer $a_obj_id_base, integer $a_obj_id_template): 
-	public function getInstance($a_obj_id_base, $a_obj_id_template){
+	static public function getInstance($a_obj_id_base, $a_obj_id_template){
 
 		//verify, throw exception on failure
 
@@ -406,7 +406,7 @@ class ilPersonalOrgUnits {
 		
 		while ($rec = $ilDB->fetchAssoc($res)) {
 			$orgu = new ilObjOrgUnit($rec["orgunit_id"], false);
-			$title = $this->buildOrguTitleFromUser($a_superior);
+			$title = self::buildOrguTitleFromUser($a_superior);
 			$orgu->setTitle($title);
 			$orgu->update();
 		}
