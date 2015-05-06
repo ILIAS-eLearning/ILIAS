@@ -11,6 +11,7 @@
 
 
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+require_once("Modules/OrgUnit/classes/PersonalOrgUnit/class.ilPersonalOrgUnitsException.php");
 
 class ilPersonalOrgUnits {
 	
@@ -106,7 +107,7 @@ class ilPersonalOrgUnits {
 	public function ilPersonalOrgUnitsError($a_fn, $a_msg){
 		$msg = $this->getClassName()."::".$a_fn
 				." -> ". $a_msg;
-		throw new Exception($msg);
+		throw new ilPersonalOrgUnitsException($msg);
 	}
 
 	protected function errorIfNull($a_orgu, $a_fn, $a_superior_id){
