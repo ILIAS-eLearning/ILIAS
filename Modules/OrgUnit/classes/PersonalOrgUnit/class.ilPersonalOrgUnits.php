@@ -17,11 +17,11 @@ class ilPersonalOrgUnits {
 	static $instances = array();
 
 	//obj_id of (parent) org-unit-folder 
-	private $base_id = null;
-	private $base_ref_id = null;
+	protected $base_id = null;
+	protected $base_ref_id = null;
 	//obj_id of org unit to use as template for new units
-	private $template_id = null;
-	private $template_ref_id = null;
+	protected $template_id = null;
+	protected $template_ref_id = null;
 	
 	public $orgu_base = null;
 	public $orgu_template = null;
@@ -38,7 +38,7 @@ class ilPersonalOrgUnits {
 
 
 
-	private function getRefId($a_obj_id) {
+	protected function getRefId($a_obj_id) {
 		global $ilDB;
 		$res = $ilDB->query("SELECT ref_id FROM object_reference WHERE obj_id = ".$ilDB->quote($a_obj_id));
 		if ($ret = $ilDB->fetchAssoc($res)) {
@@ -47,21 +47,21 @@ class ilPersonalOrgUnits {
 		return null;
 	}
 
-	private function getBaseOrgu(){
+	protected function getBaseOrgu(){
 		if($this->orgu_base == null){
 			$this->orgu_base = new ilObjOrgUnit($this->base_ref_id);
 		}
 		return $this->orgu_base;
 	}
 
-	private function getTemplateOrgu(){
+	protected function getTemplateOrgu(){
 		if($this->orgu_template == null){
 			$this->orgu_template = new ilObjOrgUnit($this->template_ref_id);
 		}
 		return $this->orgu_template;
 	}
 
-	private function getUserObj($a_user_id){
+	protected function getUserObj($a_user_id){
 		require_once("Services/User/classes/class.ilObjUser.php");
 		if ($this->user_obj[$a_user_id] === null) {
 			$this->user_obj[$a_user_id] = new ilObjUser($a_user_id);
@@ -69,17 +69,17 @@ class ilPersonalOrgUnits {
 		return $this->user_obj[$a_user_id];
 	}
 
-	private function buildOrguTitleFromUser($a_user_obj){
+	protected function buildOrguTitleFromUser($a_user_obj){
 		$title = $a_user_obj->getFullname() .' (' .$a_user_obj->getLogin() .')';
 		return $title;
 	}
 	
-	private function buildOrguTitleFromUserId($a_user_obj_id){
+	protected function buildOrguTitleFromUserId($a_user_obj_id){
 		$user = $this->getUserObj($a_user_obj_id);
 		return $this->buildOrguTitleFromUser($user);
 	}
 
-	private function getPersonalOrguBySuperiorId($a_superior_id){
+	protected function getPersonalOrguBySuperiorId($a_superior_id){
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		global $ilDB;
 		$query = "SELECT orgunit_id FROM org_unit_personal"
@@ -107,13 +107,13 @@ class ilPersonalOrgUnits {
 		throw new Exception($msg);
 	}
 
-	private function errorIfNull($a_orgu, $a_fn, $a_superior_id){
+	protected function errorIfNull($a_orgu, $a_fn, $a_superior_id){
 		if($a_orgu === null){
 			$msg = "The PersonalOrgUnit for user $a_superior_id does not exist.";
 			self::ilPersonalOrgUnitsError($a_fn, $msg);
 		}
 	}	
-	private function errorIfNotNull($a_orgu, $a_fn, $a_superior_id){
+	protected function errorIfNotNull($a_orgu, $a_fn, $a_superior_id){
 		if($a_orgu !== null){
 			$msg = "The PersonalOrgUnit for user $a_superior_id already exists.";
 			self::ilPersonalOrgUnitsError($a_fn, $msg);
