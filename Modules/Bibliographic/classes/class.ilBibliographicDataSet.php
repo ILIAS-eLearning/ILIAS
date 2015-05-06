@@ -49,6 +49,15 @@ class ilBibliographicDataSet extends ilDataSet {
 		$this->user = $ilUser;
 	}
 
+    /**
+     * todo: delete.
+     * @return string
+     */
+    public function doExit() {
+        return "lawl no.";
+        exit;
+    }
+
 
 	/**
 	 * @return array
