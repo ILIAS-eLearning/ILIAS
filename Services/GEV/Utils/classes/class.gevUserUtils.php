@@ -1485,6 +1485,11 @@ class gevUserUtils {
 		return gevUserUtils::getInstance($adviser_id);
 	}
 
+	public function isDBV() {
+		// TODO: implement this correctly
+		return true;
+	}
+
 	public function getOD() {
 		if ($this->od !== false) {
 			return $this->od;
