@@ -87,7 +87,7 @@ class ilPersonalOrgUnits {
 		$res = $ilDB->query($query);
 		$base_children = ilObjOrgUnitTree::_getInstance()->getAllChildren($this->base_ref_id);
 		while($rec = $ilDB->fetchAssoc($res)) {
-			$ref_id = self::getRefId($rec['orgunit_id']);
+			$ref_id = $this->getRefId($rec['orgunit_id']);
 			// Only take org units into account that are below the base unit, since
 			// user could have POUs under different base units. 
 			if (!in_array($ref_id, $base_children)) {
@@ -98,25 +98,27 @@ class ilPersonalOrgUnits {
 		}
 		return null;
 	}
-		
+	
+	protected function getClassName() {
+		return "ilPersonalOrgUnits";
+	}
+	
 	public function ilPersonalOrgUnitsError($a_fn, $a_msg){
-		$msg = "ilPersonalOrgUnits::"
-			.$a_fn
-			." -> "
-			. $a_msg;
+		$msg = $this->getClassName()."::".$a_fn
+				." -> ". $a_msg;
 		throw new Exception($msg);
 	}
 
 	protected function errorIfNull($a_orgu, $a_fn, $a_superior_id){
 		if($a_orgu === null){
 			$msg = "The PersonalOrgUnit for user $a_superior_id does not exist.";
-			self::ilPersonalOrgUnitsError($a_fn, $msg);
+			$this->ilPersonalOrgUnitsError($a_fn, $msg);
 		}
 	}	
 	protected function errorIfNotNull($a_orgu, $a_fn, $a_superior_id){
 		if($a_orgu !== null){
 			$msg = "The PersonalOrgUnit for user $a_superior_id already exists.";
-			self::ilPersonalOrgUnitsError($a_fn, $msg);
+			$this->ilPersonalOrgUnitsError($a_fn, $msg);
 		}
 	}
 
@@ -324,7 +326,7 @@ class ilPersonalOrgUnits {
 			|| count($ref_ids) != 0
 			|| !$tree->isGrandChild($this->base_ref_id, $ref_ids[0])
 			) {
-			self::ilPersonalOrgUnitsError(
+			$this->ilPersonalOrgUnitsError(
 				"getOwnerOfOrgUnit",
 				"The object with id $a_orgu_id does not belong to "
 				 ."personal org unit tree starting at ref id "
@@ -339,7 +341,7 @@ class ilPersonalOrgUnits {
 			return $rec["usr_id"];
 		}
 		else {
-			self::ilPersonalOrgUnitsError(
+			$this->ilPersonalOrgUnitsError(
 				"getOwnerOfOrgUnit",
 				"Could not find an owner of $a_orgu_id");
 		}
@@ -356,7 +358,7 @@ class ilPersonalOrgUnits {
 		$orgu = $this->getPersonalOrguBySuperiorId($a_superior_id);
 		$this->errorIfNull($orgu, 'purgeOrgUnitOf', $a_superior_id);
 
-		self::purgeOrgUnitLookupOf($orgu->getid());
+		$this->purgeOrgUnitLookupOf($orgu->getid());
 		$orgu->delete();
 	} 
 
@@ -383,10 +385,10 @@ class ilPersonalOrgUnits {
 	public function updateOrgUnitTitleOf($a_superior, $supress_error=False){
 		$orgu = $this->getPersonalOrguBySuperiorId($a_superior->getId());
 		if(! $supress_error){
-			self::errorIfNull($orgu, 'updateOrgUnitTitleOf', $a_superior_id);
+			$this->errorIfNull($orgu, 'updateOrgUnitTitleOf', $a_superior_id);
 		}
 		if($orgu){
-			$title = self::buildOrguTitleFromUser($a_superior);
+			$title = $this->buildOrguTitleFromUser($a_superior);
 			$orgu->setTitle($title);
 			$orgu->update();
 		}
@@ -404,7 +406,7 @@ class ilPersonalOrgUnits {
 		
 		while ($rec = $ilDB->fetchAssoc($res)) {
 			$orgu = new ilObjOrgUnit($rec["orgunit_id"], false);
-			$title = self::buildOrguTitleFromUser($a_superior);
+			$title = $this->buildOrguTitleFromUser($a_superior);
 			$orgu->setTitle($title);
 			$orgu->update();
 		}
