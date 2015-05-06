@@ -11,6 +11,7 @@
 */
 
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/Utils/classes/class.gevUVGOrgUnits.php");
 require_once("Modules/OrgUnit/classes/PersonalOrgUnit/class.ilPersonalOrgUnits.php");
 
 class gevDBVUtils {
@@ -24,10 +25,7 @@ class gevDBVUtils {
 		
 		$this->gev_settings = gevSettings::getInstance();
 
-		$this->pou = ilPersonalOrgUnits::getInstance(
-			$this->gev_settings->getDBVPOUBaseUnitId(),
-			$this->gev_settings->getDBVPOUTemplateUnitId()
-			);
+		$this->pou = gevUVGOrgUnits::getInstance();
 	}
 	
 	public static function getInstance() {
