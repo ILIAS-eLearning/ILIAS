@@ -69,7 +69,7 @@ class gevHAUtils {
 	public function createHAUnit($a_ha_id) {
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		
-		$org_id = $this->pou->createOrgUnitFor($a_ha_id);
+		$org_id = $this->pou->createOrgUnitFor($a_ha_id)->getId();
 		gevOrgUnitUtils::getInstance($org_id)
 			->grantPermissionsFor("superior", array("cat_administrate_users", "read_users"));
 		
