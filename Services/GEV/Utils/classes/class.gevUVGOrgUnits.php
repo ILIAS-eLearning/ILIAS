@@ -53,20 +53,18 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 	 * Moves the given personal org unit to the appropriate location in the UVG-structure,
 	 * i.e. moves to a subunit where name equals the name found in iv. Throws when given
 	 * org unit is no child of the base org unit.
+	 * If no BD could be determinded from IV, moves org unit to base.
 	 *
 	 * @param iObjOrgUnit $a_orgu
 	 */
 	public function moveToBDFromIV(ilObjOrgUnit $a_orgu) {
 		global $ilLog;
 		$owner = $this->getOwnerOfOrgUnit($a_orgu->getId());
-		$ilLog->write("OWNER is $owner");
-		$job_number = $this->getJobNumberOf($owner);
-		$ilLog->write("JOBNUMBER is $job_number");
 
-		if ($job_number) {
+		try {
 			$target_ref_id = $this->getBDOrgUnitRefIdFor($owner);
 		}
-		else {
+		catch (ilPersonalOrgUnitsException $excp) {
 			$target_ref_id = $this->base_ref_id;
 		}
 		
@@ -91,12 +89,10 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		if (!$bd_name) {
 			$this->ilPersonalOrgUnitsError("getBDOrgUnitRefIdFor", "Could not find BD-Name for $a_user_id.");
 		}
-		
 		$children = $this->tree->getChilds($this->base_ref_id);
-		foreach ($children as $child_ref_id) {
-			$child_obj_id = ilObject::_lookupObjectId($child_ref);
-			if (ilObject::_lookupTitle($child_obj_id) == $bd_name) {
-				return $child_ref_id;
+		foreach ($children as $child) {
+			if (ilObject::_lookupTitle($child["obj_id"]) == $bd_name) {
+				return $child["ref_id"];
 			}
 		}
 		
