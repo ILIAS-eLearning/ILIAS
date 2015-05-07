@@ -182,7 +182,7 @@ class gevExpressRegistrationGUI {
 		$form->addCommandButton('next',$this->lng->txt('next'));
 
 		$regType = new ilRadioGroupInputGUI(null,"type");
-		$regType->setValue("registerExpUser");
+		$regType->setValue("redirectLogin");
 		
 		$optOld = new ilRadioOption($this->lng->txt('gev_login_express_existend_account'));
 		$optOld->setValue("redirectLogin");
