@@ -798,7 +798,7 @@ class ilExSubmission
 	 *
 	 * @param	$members		array of user names, key is user id
 	 */
-	public static function downloadAllAssignmentFiles(ilExAssignment $a_ass, $members)
+	public static function downloadAllAssignmentFiles(ilExAssignment $a_ass, array $members)
 	{
 		global $lng, $ilias;
 		
@@ -832,13 +832,15 @@ class ilExSubmission
 		ilUtil::makeDir($tmpdir);
 		chdir($tmpdir);
 
-
+		// check free diskspace
 		$dirsize = 0;
-		foreach ($members as $id => $object) {
+		foreach (array_keys($members) as $id) 
+		{
 			$directory = $savepath.DIRECTORY_SEPARATOR.$id;
 			$dirsize += ilUtil::dirsize($directory);
 		}
-		if ($dirsize > disk_free_space($tmpdir)) {
+		if ($dirsize > disk_free_space($tmpdir)) 
+		{
 			return -1;
 		}
 		
@@ -849,8 +851,11 @@ class ilExSubmission
 		// ensure that no illegal filenames will be created
 		// remove timestamp from filename
 		$cache = array();
-		foreach ($members as $id => $user)
-		{
+		foreach ($members as $id => $item)
+		{		
+			$user = $item["name"];
+			$user_files = $item["files"];
+			
 			$sourcedir = $savepath.DIRECTORY_SEPARATOR.$id;
 			if (!is_dir($sourcedir))
 				continue;
@@ -877,7 +882,7 @@ class ilExSubmission
 				{
 					continue;
 				}
-			
+				
 				$targetfile = trim(basename($sourcefile));
 				$pos = strpos($targetfile, "_");
 				if ($pos !== false)
@@ -897,6 +902,20 @@ class ilExSubmission
 				{
 					$duplicates[$targetfile] = 1;
 				}				 
+				
+				// late submission?
+				foreach($user_files as $file)
+				{
+					if(basename($file["filename"]) == $sourcefile)
+					{
+						if($file["late"])
+						{
+							$targetfile = utf8_decode($lng->txt("exc_late_submission"))." - ".
+								$targetfile;
+						}
+						break;
+					}
+				}
 				
 				$targetfile = $directory.DIRECTORY_SEPARATOR.$targetfile;
 				$sourcefile = $sourcedir.DIRECTORY_SEPARATOR.$sourcefile;
