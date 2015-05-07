@@ -18,10 +18,12 @@ class gevMemberListDeliveryGUI {
 		$ref_id = intval($_GET["ref_id"]);
 		$obj_id = gevObjectUtils::getObjId($ref_id);
 		$utils = gevCourseUtils::getInstance($obj_id);
-		
+		$access_roles = array("Admin-Ansicht");
+		$user_utils = gevUserUtils::getInstance($this->user_id);
+		$may_access	= $user_utils->hasRoleIn($access_roles);
 		
 		if (!$this->access->checkAccess("write", "", $ref_id, "crs", $obj_id)
-			&& !$utils->hasTrainer($this->user_id)) {
+			&& !$utils->hasTrainer($this->user_id) &&  !$may_access) {
 			$this->ctrl->redirectByClass("gevDesktopGUI");
 			return;
 		}
