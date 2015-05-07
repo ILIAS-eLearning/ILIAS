@@ -27,6 +27,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->ctrl = &$ilCtrl;
 
 		$user_util = gevUserUtils::getInstance($a_user_id);
+
 		$this->user_id = $a_user_id;
 
 		$this->setEnableTitle(true);
@@ -153,6 +154,13 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("GOALS", $a_set["goals"]);
 		$this->tpl->setVariable("CONTENTS", $a_set["content"]);
 		$this->tpl->setVariable("CRS_LINK", gevCourseUtils::getLinkTo($a_set["obj_id"]));
+
+		$crs_utils = gevCourseUtils::getInstance($a_set["obj_id"]);
+		$tutors = $crs_utils->getTrainers(true);
+		$tutors = implode("; ", $tutors);
+
+		$this->tpl->setVariable("TUTORS", $tutors);
+
 		if ($a_set["overnights"]) {
 			$this->tpl->setCurrentBlock("overnights");
 			$this->tpl->setVariable("OVERNIGHTS", $a_set["overnights"]);
