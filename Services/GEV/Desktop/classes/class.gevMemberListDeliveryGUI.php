@@ -13,6 +13,7 @@ class gevMemberListDeliveryGUI {
 	public function executeCommand() {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
 		$cmd = $this->ctrl->getCmd();
 		$ref_id = intval($_GET["ref_id"]);
