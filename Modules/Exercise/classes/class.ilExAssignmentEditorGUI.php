@@ -301,14 +301,6 @@ class ilExAssignmentEditorGUI
 				$peer_prsl = new ilCheckboxInputGUI($lng->txt("exc_peer_review_personal"), "peer_prsl");				
 				$peer_prsl->setInfo($lng->txt("exc_peer_review_personal_info"));
 				$peer->addSubItem($peer_prsl);
-
-				if($a_mode != "create" && // #13745
-					$this->assignment && 
-					$this->assignment->getDeadline() && 
-					$this->assignment->getDeadline() < time())
-				{
-					$peer_prsl->setDisabled(true);
-				}
 		}
 		
 		
@@ -318,18 +310,10 @@ class ilExAssignmentEditorGUI
 		$form->addItem($fb);
 		
 			$fb_file = new ilFileInputGUI($lng->txt("file"), "fb_file");
-			$fb_file->setRequired(true); // will be disabled on update if file exists (see below)
+			$fb_file->setRequired(true); // will be disabled on update if file exists - see getAssignmentValues()
 			// $fb_file->setAllowDeletion(true); makes no sense if required (overwrite or keep)
 			$fb->addSubItem($fb_file);
 		
-			// #15467
-			if($a_mode != "create" && 
-				$this->assignment && 
-				$this->assignment->getFeedbackFile())
-			{
-				$fb_file->setRequired(false); 
-			}
-
 			$fb_date = new ilRadioGroupInputGUI($lng->txt("exc_global_feedback_file_date"), "fb_date");
 			$fb_date->setRequired(true);
 			$fb_date->addOption(new ilRadioOption($lng->txt("exc_global_feedback_file_date_deadline"), ilExAssignment::FEEDBACK_DATE_DEADLINE));
@@ -726,11 +710,17 @@ class ilExAssignmentEditorGUI
 			if ($values["peer"] && 
 				$peer_review->hasPeerReviewGroups())
 			{
+				// deadline(s) are past and must not change
 				$a_form->getItemByPostVar("deadline_cb")->setDisabled(true);			
-				$a_form->getItemByPostVar("deadline")->setDisabled(true);			
-				$a_form->getItemByPostVar("peer")->setDisabled(true);			   
-				$a_form->getItemByPostVar("peer_min")->setDisabled(true);
+				$a_form->getItemByPostVar("deadline")->setDisabled(true);	
+				$a_form->getItemByPostVar("deadline2_cb")->setDisabled(true);	
+				$a_form->getItemByPostVar("deadline2")->setDisabled(true);	
+				
+				// :TODO: changeable?
 				$a_form->getItemByPostVar("peer_dl")->setDisabled(true);
+				
+				$a_form->getItemByPostVar("peer")->setDisabled(true);			   
+				$a_form->getItemByPostVar("peer_min")->setDisabled(true);				
 				$a_form->getItemByPostVar("peer_file")->setDisabled(true);
 				$a_form->getItemByPostVar("peer_prsl")->setDisabled(true);									
 				$a_form->getItemByPostVar("peer_char_tgl")->setDisabled(true);									
@@ -740,19 +730,21 @@ class ilExAssignmentEditorGUI
 				if($this->enable_peer_review_completion)
 				{
 					$a_form->getItemByPostVar("peer_valid")->setDisabled(true);									
-				}
+				}				
 			}			 
 		}		
-		$a_form->setValuesByArray($values);
-
-		// global feedback
+		
+		// global feedback		
 		if($this->assignment->getFeedbackFile())
 		{						
 			$a_form->getItemByPostVar("fb")->setChecked(true);			
-			$a_form->getItemByPostVar("fb_file")->setValue(basename($this->assignment->getGlobalFeedbackFilePath()));			
+			$a_form->getItemByPostVar("fb_file")->setValue(basename($this->assignment->getGlobalFeedbackFilePath()));	
+			$a_form->getItemByPostVar("fb_file")->setRequired(false); // #15467
 		}
 		$a_form->getItemByPostVar("fb_cron")->setChecked($this->assignment->hasFeedbackCron());			
 		$a_form->getItemByPostVar("fb_date")->setValue($this->assignment->getFeedbackDate());					
+		
+		$a_form->setValuesByArray($values);
 	}
 
 	/**
