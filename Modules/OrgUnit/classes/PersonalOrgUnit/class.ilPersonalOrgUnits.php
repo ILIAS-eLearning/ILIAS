@@ -37,8 +37,6 @@ class ilPersonalOrgUnits {
 		$this->template_ref_id = $this->getRefId($a_obj_id_template);
 	}
 
-
-
 	protected function getRefId($a_obj_id) {
 		global $ilDB;
 		$res = $ilDB->query("SELECT ref_id FROM object_reference WHERE obj_id = ".$ilDB->quote($a_obj_id));

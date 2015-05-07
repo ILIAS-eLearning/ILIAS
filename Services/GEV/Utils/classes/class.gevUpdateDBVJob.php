@@ -32,6 +32,7 @@ class gevUpdateDBVJob extends ilCronJob {
 	public function run() {
 		self::updateDBVToBDAssignment();
 		self::updateAgentToDBVAssignment();
+		self::purgeEmptyOrgUnits();
 		
 		$cron_result = new ilCronJobResult();
 		$cron_result->setStatus(ilCronJobResult::STATUS_OK);
@@ -61,7 +62,7 @@ class gevUpdateDBVJob extends ilCronJob {
 				$uvg_orgus->moveToBDFromIV($orgu);
 			} catch (ilPersonalOrgUnitsException $exception) {
 				// This could happen as there are org units without owners
-				// (for BDs and cpool) beneath the base.
+				// (for BDs and cpool ) beneath the base.
 			}
 		}
 	}
@@ -77,7 +78,21 @@ class gevUpdateDBVJob extends ilCronJob {
 			$dbv_utils->updateUsersDBVAssignmentsByShadowDB($vp);
 		}
 	}
-
+	
+	static public function purgeEmptyOrgUnits() {
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevUVGOrgUnits.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		$uvg_orgus = gevUVGOrgUnits::getInstance();
+		$base_ref_id = $uvg_orgus->getBaseRefId();
+		$utils = gevOrgUnitUtils::getInstance(ilObject::_lookupObjectId($base_ref_id));
+		$cpool_id = gevSettings::getInstance()->getCPoolUnitId();
+		$cpool_ref_id = gevObjectUtils::getRefId($cpool_id);
+		$template_ref_id = $uvg_orgus->getTemplateRefId();
+		$utils->purgeEmptyChildren(2, array($cpool_ref_id, $template_ref_id));
+	}
 }
 
 ?>

@@ -426,8 +426,6 @@ class gevOrgUnitUtils {
 	}
 
 
-
-
 	// Helpers and Caching for role related stuff
 	
 	public function getRoleFolder() {
@@ -527,6 +525,35 @@ class gevOrgUnitUtils {
 			}
 		}
 		return array_unique($ret);
+	}
+	
+	public function getChildren() {
+		global $tree;
+		return $tree->getChildsByType($this->getRefId(), "orgu");
+	}
+	
+	public function deleteChild($ref_id) {
+		$obj_id = ilObject::_lookupObjectId($ref_id);
+		unset(self::$instances[$obj_id]);
+		$obj = new ilObjOrgUnit($ref_id);
+		$obj->delete();
+	}
+	
+	public function getUsers() {
+		return self::getAllPeopleIn(array($this->getRefId()));
+	}
+	
+	public function purgeEmptyChildren($min_amount_users = 1, $do_not_purge_ref_ids = array()) {
+		foreach ($this->getChildren() as $child) {
+			if (in_array($child["ref_id"], $do_not_purge_ref_ids)) {
+				continue;
+			}
+			$utils = gevOrgUnitUtils::getInstance($child["obj_id"]);
+			$utils->purgeEmptyChildren($min_amount_users, $do_not_purge_ref_ids);
+			if (count($utils->getChildren()) == 0 && count($utils->getUsers()) < $min_amount_users) {
+				$this->deleteChild($child["ref_id"]);
+			}
+		}
 	}
 	
 	// Get all orgunits below the given ones. Returns ref_ids and obj_ids.
