@@ -32,3 +32,4 @@ exc#:#exc_adopt_group_teams_no_members#:#No members
 exc#:#exc_adopt_group_teams_conflict#:#User "%1$s" is already selected for group "%2$s".
 exc#:#exc_adopt_group_teams_added#:#%s Users were added.
 exc#:#exc_adopt_group_teams_blocked#:#%s User were already assigned.
+exc#:#exc_deadline_ext_mismatch#:#The grace period has to end after the deadline.
