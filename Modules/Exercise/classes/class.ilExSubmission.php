@@ -541,7 +541,7 @@ class ilExSubmission
 		global $ilDB, $ilUser;
 	
 		$q = "SELECT download_time FROM exc_usr_tutor WHERE ".
-			" ass_id = ".$ilDB->quote($this->getAssignment->getId(), "integer")." AND ".
+			" ass_id = ".$ilDB->quote($this->getAssignment()->getId(), "integer")." AND ".
 			$ilDB->in("usr_id", $a_user_ids, "", "integer")." AND ".
 			" tutor_id = ".$ilDB->quote($ilUser->getId(), "integer");
 		$lu_set = $ilDB->query($q);
