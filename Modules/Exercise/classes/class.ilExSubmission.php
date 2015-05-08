@@ -553,11 +553,6 @@ class ilExSubmission
 	{			
 		global $ilUser, $lng;
 		
-		if($this->is_tutor)
-		{
-			$this->updateTutorDownloadTime();		
-		}		
-		
 		$user_ids = $this->getUserIds();
 		$is_team = $this->assignment->hasTeam();
 		
@@ -567,7 +562,12 @@ class ilExSubmission
 		{
 			$download_time = $this->getLastDownloadTime($user_ids);					
 		}
-
+		
+		if($this->is_tutor)
+		{
+			$this->updateTutorDownloadTime();		
+		}		
+		
 		if($a_peer_review_mask_filename)
 		{
 			// process peer review sequence id
@@ -615,7 +615,7 @@ class ilExSubmission
 				}
 				else if($file["late"])
 				{
-					$file["filetitle"] = utf8_decode($lng->txt("exc_late_submission"))." - ".
+					$file["filetitle"] = $lng->txt("exc_late_submission")." - ".
 						$file["filetitle"];
 				}
 
@@ -765,11 +765,12 @@ class ilExSubmission
 					
 					if($late)
 					{
-						$newFilename = utf8_decode($lng->txt("exc_late_submission"))." - ".
+						$newFilename = $lng->txt("exc_late_submission")." - ".
 							$newFilename;
-					}
+					}										
 				}
 				
+				$newFilename = ilUtil::getASCIIFilename($newFilename);
 				$newFilename = $tmpdir.DIRECTORY_SEPARATOR.$deliverFilename.DIRECTORY_SEPARATOR.$newFilename;
 				// copy to temporal directory
 				$oldFilename =  $pathname.DIRECTORY_SEPARATOR.$filename;
@@ -910,13 +911,14 @@ class ilExSubmission
 					{
 						if($file["late"])
 						{
-							$targetfile = utf8_decode($lng->txt("exc_late_submission"))." - ".
+							$targetfile = $lng->txt("exc_late_submission")." - ".
 								$targetfile;
 						}
 						break;
 					}
 				}
 				
+				$targetfile = ilUtil::getASCIIFilename($targetfile);
 				$targetfile = $directory.DIRECTORY_SEPARATOR.$targetfile;
 				$sourcefile = $sourcedir.DIRECTORY_SEPARATOR.$sourcefile;
 
