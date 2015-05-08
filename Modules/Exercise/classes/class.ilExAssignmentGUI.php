@@ -175,7 +175,7 @@ class ilExAssignmentGUI
 			// extended deadline date should not be presented anywhere
 			
 			// extended deadline info/warning
-			if($a_ass->getExtendedDeadline() &&
+			if($a_ass->getDeadline() < time() &&				
 				$a_ass->beforeDeadline())
 			{				
 				$dl = ilDatePresentation::formatDate(new ilDateTime($a_ass->getDeadline(),IL_CAL_UNIX));
