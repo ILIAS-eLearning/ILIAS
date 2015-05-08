@@ -850,8 +850,12 @@ class ilExSubmission
 		// copy all member directories to the temporary folder
 		// switch from id to member name and append the login if the member name is double
 		// ensure that no illegal filenames will be created
-		// remove timestamp from filename
-		$cache = array();
+		// remove timestamp from filename		
+		if($a_ass->hasTeam())
+		{
+			$team_dirs = array();
+			$team_map = ilExAssignmentTeam::getAssignmentTeamMap($a_ass->getId());
+		}		
 		foreach ($members as $id => $item)
 		{		
 			$user = $item["name"];
@@ -859,23 +863,35 @@ class ilExSubmission
 			
 			$sourcedir = $savepath.DIRECTORY_SEPARATOR.$id;
 			if (!is_dir($sourcedir))
-				continue;
-			$userName = ilObjUser::_lookupName($id);
-			//$directory = ilUtil::getASCIIFilename(trim($userName["lastname"])."_".trim($userName["firstname"]));
-			$directory = ilUtil::getASCIIFilename(trim($userName["lastname"])."_".
-				trim($userName["firstname"])."_".trim($userName["login"])."_".$userName["user_id"]);
-			/*if (array_key_exists($directory, $cache))
 			{
-				// first try is to append the login;
-				$directory = ilUtil::getASCIIFilename($directory."_".trim(ilObjUser::_lookupLogin($id)));
-				if (array_key_exists($directory, $cache)) {
-					// second and secure: append the user id as well.
-					$directory .= "_".$id;
+				continue;
+			}
+			
+			$userName = ilObjUser::_lookupName($id);
+			
+			// group by teams
+			$team_dir= "";
+			if(is_array($team_map) &&
+				array_key_exists($id, $team_map))
+			{
+				$team_id = $team_map[$id];
+				if(!array_key_exists($team_id, $team_dirs))
+				{
+					$team_dir = $lng->txt("exc_team")." ".$team_id;
+					ilUtil::makeDir($team_dir);						
+					$team_dirs[$team_id] = $team_dir;
 				}
-			}*/
-
-			$cache[$directory] = $directory;
-			ilUtil::makeDir ($directory);
+				$team_dir = $team_dirs[$team_id].DIRECTORY_SEPARATOR;
+			}
+			
+			$targetdir = $team_dir.ilUtil::getASCIIFilename(				
+				trim($userName["lastname"])."_".
+				trim($userName["firstname"])."_".
+				trim($userName["login"])."_".
+				$userName["user_id"]
+			);						
+			ilUtil::makeDir($targetdir);			
+						
 			$sourcefiles = scandir($sourcedir);
 			$duplicates = array();
 			foreach ($sourcefiles as $sourcefile) {
@@ -919,7 +935,7 @@ class ilExSubmission
 				}
 				
 				$targetfile = ilUtil::getASCIIFilename($targetfile);
-				$targetfile = $directory.DIRECTORY_SEPARATOR.$targetfile;
+				$targetfile = $targetdir.DIRECTORY_SEPARATOR.$targetfile;
 				$sourcefile = $sourcedir.DIRECTORY_SEPARATOR.$sourcefile;
 
 				if (!copy ($sourcefile, $targetfile))
