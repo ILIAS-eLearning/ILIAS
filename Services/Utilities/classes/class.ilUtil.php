@@ -2318,7 +2318,15 @@ class ilUtil
 
 		/// $ascii_filename = mb_convert_encoding($a_filename,'US-ASCII','UTF-8');
 		/// $ascii_filename = preg_replace('/\&(.)[^;]*;/','\\1', $ascii_filename);
-
+				
+		// #15914 - try to fix german umlauts
+		$umlauts = array("Ä"=>"Ae", "Ö"=>"Oe", "Ü"=>"Ue", 
+			"ä"=>"ae", "ö"=>"oe", "ü"=>"ue", "ß"=>"ss");
+		foreach($umlauts as $src => $tgt)
+		{
+			$a_filename = str_replace($src, $tgt, $a_filename);
+		}		
+		
 		$ascii_filename = htmlentities($a_filename, ENT_NOQUOTES, 'UTF-8');
 		$ascii_filename = preg_replace('/\&(.)[^;]*;/', '\\1', $ascii_filename);
 		$ascii_filename = preg_replace('/[\x7f-\xff]/', '_', $ascii_filename);

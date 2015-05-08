@@ -379,8 +379,8 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 			return;
 		}		
 		
-		$this->submission->downloadFiles(null, $a_only_new, $peer_review_mask_filename);		
-		exit;
+		$this->submission->downloadFiles(null, $a_only_new, $peer_review_mask_filename);			
+		$this->returnToParentObject();
 	}
 
 	/**
