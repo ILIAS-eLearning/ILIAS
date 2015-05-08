@@ -216,11 +216,6 @@ class ilUserImportParser extends ilSaxParser
 	var $personalPicture;
 
 	/**
-	 * Cached iLinc data
-	 */
-	var $ilincdata;
-
-	/**
 	 * Cached parent roles.
 	 * This is used to speed up assignment to local roles with parents.
 	 * This is an associative array.
@@ -301,7 +296,6 @@ class ilUserImportParser extends ilSaxParser
 		$this->userCount = 0;
 		$this->localRoleCache = array();
 		$this->parentRolesCache = array();
-		$this->ilincdata = array();
 		$this->send_mail = false;
 		$this->mapping_mode = IL_USER_MAPPING_LOGIN;
 		
@@ -1209,15 +1203,6 @@ class ilUserImportParser extends ilSaxParser
 								}
 							}
 
-							if ($this->ilincdata["id"]) {
-							    include_once 'Modules/ILinc/classes/class.ilObjiLincUser.php';
-                                $ilinc_user = new ilObjiLincUser($this->userObj);
-                                $ilinc_user->setVar("id", $this->ilincdata["id"]);
-                                $ilinc_user->setVar("login", $this->ilincdata["login"]);
-                                $ilinc_user->setVar("passwd", $this->ilincdata["password"]);
-                                $ilinc_user->update();
-							}
-
 							//set role entries
 							foreach($this->roles as $role_id => $role)
 							{
@@ -1372,15 +1357,6 @@ class ilUserImportParser extends ilSaxParser
 							$updateUser->setTitle($updateUser->getFullname());
 							$updateUser->setDescription($updateUser->getEmail());
 							$updateUser->update();
-
-							if ($this->ilincdata["id"]) {
-							    include_once 'Modules/ILinc/classes/class.ilObjiLincUser.php';
-                                $ilinc_user = new ilObjiLincUser($updateUser);
-                                $ilinc_user->setVar("id", $this->ilincdata["id"]);
-                                $ilinc_user->setVar("login", $this->ilincdata["login"]);
-                                $ilinc_user->setVar("passwd", $this->ilincdata["password"]);
-                                $ilinc_user->update();
-							}
 
 							if(count($this->udf_data))
 							{
@@ -1672,19 +1648,6 @@ class ilUserImportParser extends ilSaxParser
 					    $this->userObj->setAgreeDate(null);
 					}
 				}
-				break;
-
-			case "iLincID":
-				$this->ilincdata["id"] = $this->cdata;
-				break;
-
-			case "iLincLogin":
-				$this->$ilincdata["login"] = $this->cdata;
-				break;
-
-			case "iLincPasswd":
-				$this->$ilincdata["password"] = $this->cdata;
-				//$this->userObj->setiLincData($this->ilincdata);
 				break;
 
 			case "ExternalAccount":
@@ -2106,24 +2069,6 @@ class ilUserImportParser extends ilSaxParser
 				if (strtotime($this->cdata) === false && ! is_numeric($this->cdata) && !$this->cdata == "0000-00-00 00:00:00")
 				{
 					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"AgreeDate",$this->cdata));
-				}
-				break;
-			case "iLincID":
-				if (!preg_match("/\d+/", $this->cdata))
-				{
-					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"iLincID",$this->cdata));
-				}
-				break;
-			case "iLincUser":
-				if (!preg_match("/\w+/", $this->cdata))
-				{
-					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"iLincUser",$this->cdata));
-				}
-				break;
-			case "iLincPasswd":
-				if (!preg_match("/\w+/", $this->cdata))
-				{
-					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"iLincPasswd",$this->cdata));
 				}
 				break;
 			case "Pref":				
