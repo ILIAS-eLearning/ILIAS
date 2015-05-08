@@ -1147,11 +1147,17 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$this->testOBJ->setTitleOutput($form->getItemByPostVar('title_output')->getValue());
 		}
 
-		$this->testOBJ->setAutosave($form->getItemByPostVar('autosave')->getChecked());
-		$this->testOBJ->setAutosaveIval($form->getItemByPostVar('autosave_ival')->getValue() * 1000);
+		if ($form->getItemByPostVar('autosave') instanceof ilFormPropertyGUI)
+		{
+			$this->testOBJ->setAutosave($form->getItemByPostVar('autosave')->getChecked());
+			$this->testOBJ->setAutosaveIval($form->getItemByPostVar('autosave_ival')->getValue() * 1000);
+		}
 
-		$this->testOBJ->setShuffleQuestions($form->getItemByPostVar('chb_shuffle_questions')->getChecked());
-
+		if ($form->getItemByPostVar('chb_shuffle_questions') instanceof ilFormPropertyGUI)
+		{
+			$this->testOBJ->setShuffleQuestions($form->getItemByPostVar('chb_shuffle_questions')->getChecked());
+		}
+		
 		if (!$this->testOBJ->participantDataExist() && $this->formPropertyExists($form, 'offer_hints'))
 		{
 			$this->testOBJ->setOfferingQuestionHintsEnabled($form->getItemByPostVar('offer_hints')->getChecked());
