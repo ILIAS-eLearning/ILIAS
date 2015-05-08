@@ -1053,7 +1053,7 @@ class gevCourseUtils {
 		if (!$this->isTemplate()) {
 			throw new Exception("gevCourseUtils::getDerivedCourseIds: this course is no template and thus has no derived courses.");
 		}
-		
+
 		$ref_id_field = $this->amd->getFieldId(gevSettings::CRS_AMD_TEMPLATE_REF_ID);
 		$start_date_field = $this->amd->getFieldId(gevSettings::CRS_AMD_START_DATE);
 		
@@ -1084,14 +1084,18 @@ class gevCourseUtils {
 		}
 
 		$obj_ids = $this->getDerivedCourseIds();
-		
 		$tmplt_title_field = $this->amd->getFieldId(gevSettings::CRS_AMD_TEMPLATE_TITLE);
-		
-		$this->db->manipulate( "UPDATE adv_md_values_text "
+
+		$sql= "UPDATE adv_md_values_text "
 							  ."   SET value = ".$this->db->quote($this->getTitle(), "text")
 							  ." WHERE ".$this->db->in("obj_id", $obj_ids, false, "integer")
-							  ."   AND field_id = ".$this->db->quote($tmplt_title_field, "integer")
-							 );
+							  ."   AND field_id = ".$this->db->quote($tmplt_title_field, "integer");
+		$this->db->manipulate( $sql  );
+
+		foreach($obj_ids as $crs_id) {
+			$crs = new ilObjCourse($crs_id, false);
+			$crs->update();
+		}
 	}
 	
 	// Participants, Trainers and other members
