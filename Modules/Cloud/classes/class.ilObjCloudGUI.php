@@ -304,6 +304,7 @@ class ilObjCloudGUI extends ilObject2GUI
         $ti->setSize(min(40, ilObject::TITLE_LENGTH));
 		$ti->setMaxLength(ilObject::TITLE_LENGTH);
         $ti->setRequired(true);
+	    $ti->setValidationRegexp('/^[ a-zA-Z0-9\-]+$/i');
         $form->addItem($ti);
 
         // description

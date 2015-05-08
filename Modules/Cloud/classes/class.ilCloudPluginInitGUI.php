@@ -293,7 +293,7 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
 
         } catch (Exception $e)
         {
-            if($e->getCode() == ilCloudException::AUTHENTIFICATION_FAILED)
+            if($e->getCode() == ilCloudException::AUTHENTICATION_FAILED)
             {
                 $this->getGUIClass()->object->setAuthComplete(false);
                 $this->getGUIClass()->object->doUpdate();
