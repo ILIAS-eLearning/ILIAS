@@ -413,14 +413,15 @@ class ilExerciseManagementGUI
 		else
 		{
 			// #9946 - create team for new user(s) for each team upload assignment
-			foreach(ilExAssignment::getAssignmentDataOfExercise($this->exercise->getId()) as $ass)
+			foreach(ilExAssignment::getInstancesByExercise($this->exercise->getId()) as $ass)
 			{
-				if($ass["type"] == ilExAssignment::TYPE_UPLOAD_TEAM)
+				if($ass->hasTeam())
 				{
-					$ass_obj = new ilExAssignment($ass["id"]);
+					include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";									
 					foreach($a_user_ids as $user_id)
-					{
-						$ass_obj->getTeamId($user_id, true);
+					{						
+						// #15915
+						ilExAssignmentTeam::getTeamId($ass->getId(), $user_id, true);
 					}
 				}
 			}						
