@@ -112,11 +112,13 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 			{
 				$dl = $row["time_stamp"];
 			}
+			/* extended deadline should not be presented anywhere
 			if($row["deadline2"] > time() && 
 				($row["deadline2"] < $dl || !$dl))
 			{
 				$dl = $row["deadline2"];
-			}
+			}			 
+			*/
 			if($row["peer_dl"] > time() && 
 				($row["peer_dl"] < $dl || !$dl))
 			{
