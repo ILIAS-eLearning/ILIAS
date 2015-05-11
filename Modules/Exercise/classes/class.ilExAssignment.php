@@ -1554,8 +1554,7 @@ class ilExAssignment
 			return $path."/".$file;
 		}
 	}
-	
-	
+		
 	public function getMemberStatus($a_user_id = null)
 	{
 		global $ilUser;
@@ -1570,6 +1569,55 @@ class ilExAssignment
 			$this->member_status[$a_user_id] = new ilExAssignmentMemberStatus($this->getId(), $a_user_id);
 		}
 		return $this->member_status[$a_user_id];
+	}
+	
+	public function recalculateLateSubmissions()
+	{
+		global $ilDB;
+		
+		// see JF, 2015-05-11 
+		
+		$deadline = $this->getDeadline();
+		$ext_deadline = $this->getExtendedDeadline();
+		$last_deadline = max($this->getDeadline(), $this->getExtendedDeadline());
+	
+		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+		foreach(ilExSubmission::getAllAssignmentFiles($this->exc_id, $this->getId()) as $file)
+		{
+			$id = $file["returned_id"];
+			$uploaded = new ilDateTime($file["ts"], IL_CAL_DATETIME);
+			$uploaded = $uploaded->get(IL_CAL_UNIX);
+			
+			$late = null;			
+			
+			// upload is not late anymore 
+			if($file["late"] && 
+				(!$last_deadline ||
+				!$ext_deadline ||
+				$uploaded < $deadline))
+			{
+				$late = false;
+			}
+			// upload is now late 
+			else if(!$file["late"] &&
+				$ext_deadline &&
+				$deadline && 
+				$uploaded > $deadline)
+			{
+				$late = true;
+			}
+			else if($last_deadline && $uploaded > $last_deadline)
+			{
+				// do nothing, we do not remove submissions?
+			}
+			
+			if($late !== null)
+			{				
+				$ilDB->manipulate("UPDATE exc_returned".
+					" SET late = ".$ilDB->quote($late, "integer").
+					" WHERE returned_id = ".$ilDB->quote($id, "integer"));
+			}
+		}	
 	}
 }
 

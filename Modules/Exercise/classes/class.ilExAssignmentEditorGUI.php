@@ -716,8 +716,8 @@ class ilExAssignmentEditorGUI
 				$a_form->getItemByPostVar("deadline2_cb")->setDisabled(true);	
 				$a_form->getItemByPostVar("deadline2")->setDisabled(true);	
 				
-				// :TODO: changeable?
-				$a_form->getItemByPostVar("peer_dl")->setDisabled(true);
+				// JF, 2015-05-11 - editable again
+				// $a_form->getItemByPostVar("peer_dl")->setDisabled(true);
 				
 				$a_form->getItemByPostVar("peer")->setDisabled(true);			   
 				$a_form->getItemByPostVar("peer_min")->setDisabled(true);				
@@ -758,8 +758,21 @@ class ilExAssignmentEditorGUI
 		$form = $this->initAssignmentForm($this->assignment->getType(), "edit");
 		$input = $this->processForm($form);
 		if(is_array($input))
-		{											
+		{							
+			$old_deadline = $this->assignment->getDeadline();
+			$old_ext_deadline = $this->assignment->getExtendedDeadline();
+			
 			$this->importFormToAssignment($this->assignment, $input);
+			
+			$new_deadline = $this->assignment->getDeadline();
+			$new_ext_deadline = $this->assignment->getExtendedDeadline();
+			
+			// if deadlines were changed
+			if($old_deadline != $new_deadline ||
+				$old_ext_deadline != $new_ext_deadline)
+			{
+				$this->assignment->recalculateLateSubmissions();								
+			}
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "editAssignment");
