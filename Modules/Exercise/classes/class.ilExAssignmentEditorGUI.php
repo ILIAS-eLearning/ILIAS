@@ -364,15 +364,39 @@ class ilExAssignmentEditorGUI
 			$time_deadline_ext = $a_form->getInput("deadline2_cb")
 				? $a_form->getItemByPostVar("deadline2")->getDate()->get(IL_CAL_UNIX)
 				: null;			
-			$time_peer =  ($a_form->getInput("peer") && $a_form->getInput("peer_dl_tgl"))
+			$time_peer = ($a_form->getInput("peer") && $a_form->getInput("peer_dl_tgl"))
 				? $a_form->getItemByPostVar("peer_dl")->getDate()->get(IL_CAL_UNIX)
-				: null;
+				: null;		
 			
+			// handle disabled elements
+			$protected_peer_review_groups = false;
+			if($this->assignment && 
+				$this->assignment->getPeerReview())
+			{
+				include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
+				$peer_review = new ilExPeerReview($this->assignment);	
+				if($peer_review->hasPeerReviewGroups())
+				{				
+					$protected_peer_review_groups = true;
+					$time_deadline = $this->assignment->getDeadline();		
+					$time_deadline_ext = $this->assignment->getExtendedDeadline();		
+					$time_peer = $a_form->getInput("peer_dl_tgl")
+						? $a_form->getItemByPostVar("peer_dl")->getDate()->get(IL_CAL_UNIX)
+						: null;
+					
+					// checkInput() will add alert to disabled fields
+					$a_form->getItemByPostVar("deadline")->setAlert(null);
+					$a_form->getItemByPostVar("deadline2")->setAlert(null);
+					$a_form->getItemByPostVar("peer_min")->setAlert(null);
+				}
+			}
+					
 			// no deadline?
 			if(!$time_deadline)			
 			{
 				// peer review
-				if($a_form->getInput("peer"))
+				if(!$protected_peer_review_groups &&
+					$a_form->getInput("peer"))
 				{
 					$a_form->getItemByPostVar("peer")
 						->setAlert($lng->txt("exc_needs_deadline"));
@@ -436,18 +460,36 @@ class ilExAssignmentEditorGUI
 				);				
 			
 				// peer
-				if($a_form->getInput("peer"))
+				if($a_form->getInput("peer") ||
+					$protected_peer_review_groups)
 				{
 					$res["peer"] = true;
-					$res["peer_min"] = $a_form->getInput("peer_min");
-					$res["peer_file"] = $a_form->getInput("peer_file");
-					$res["peer_char"] = $a_form->getInput("peer_char");
-					$res["peer_unlock"] = $a_form->getInput("peer_unlock");
 					$res["peer_dl"] = $time_peer;
-					$res["peer_prsl"] = $a_form->getInput("peer_prsl");
+					
+					// use form input
+					if(!$protected_peer_review_groups)
+					{
+						$res["peer_min"] = $a_form->getInput("peer_min");
+						$res["peer_file"] = $a_form->getInput("peer_file");
+						$res["peer_char"] = $a_form->getInput("peer_char");
+						$res["peer_unlock"] = $a_form->getInput("peer_unlock");						
+						$res["peer_prsl"] = $a_form->getInput("peer_prsl");
+						$res["peer_valid"] = $a_form->getInput("peer_valid");
+					}
+					// re-use existing values 
+					else
+					{
+						$res["peer_min"] = $this->assignment->getPeerReviewMin();
+						$res["peer_file"] = $this->assignment->hasPeerReviewFileUpload();
+						$res["peer_char"] = $this->assignment->getPeerReviewChars();
+						$res["peer_unlock"] = $this->assignment->getPeerReviewSimpleUnlock();
+						$res["peer_prsl"] = $this->assignment->hasPeerReviewPersonalized();
+						$res["peer_valid"] = $this->assignment->getPeerReviewValid();					
+					}
+					
 					$res["peer_valid"] = $this->enable_peer_review_completion
-						? $a_form->getInput("peer_valid")
-						: null;				
+							? $res["peer_valid"]
+							: null;		
 				}
 				
 				// files
@@ -509,30 +551,15 @@ class ilExAssignmentEditorGUI
 			$a_ass->setPeerReview(false);
 		}
 		else
-		{	
-			$protected_peer_review_groups = false;	
-			if(!$is_create)
-			{
-				include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
-				$peer_review = new ilExPeerReview($a_ass);
-				if($peer_review->hasPeerReviewGroups())
-				{
-					$protected_peer_review_groups = true;
-				}
-			}			
-			if(!$protected_peer_review_groups)
-			{
-				$a_ass->setPeerReview(true);
-				$a_ass->setPeerReviewMin($a_input["peer_min"]);
-				$a_ass->setPeerReviewFileUpload($a_input["peer_file"]);
-				$a_ass->setPeerReviewChars($a_input["peer_char"]);
-				$a_ass->setPeerReviewSimpleUnlock($a_input["peer_unlock"]);
-				$a_ass->setPeerReviewValid($a_input["peer_valid"]);						
-				$a_ass->setPeerReviewPersonalized($a_input["peer_prsl"]);	
-				
-				// :TODO:
-				$a_ass->setPeerReviewDeadline($a_input["peer_dl"]);	
-			}
+		{				
+			$a_ass->setPeerReview(true);
+			$a_ass->setPeerReviewMin($a_input["peer_min"]);
+			$a_ass->setPeerReviewDeadline($a_input["peer_dl"]);	
+			$a_ass->setPeerReviewFileUpload($a_input["peer_file"]);
+			$a_ass->setPeerReviewChars($a_input["peer_char"]);
+			$a_ass->setPeerReviewSimpleUnlock($a_input["peer_unlock"]);
+			$a_ass->setPeerReviewValid($a_input["peer_valid"]);						
+			$a_ass->setPeerReviewPersonalized($a_input["peer_prsl"]);	
 		}	
 		
 		if($a_input["fb"])
@@ -647,23 +674,7 @@ class ilExAssignmentEditorGUI
 			$ed_item = $a_form->getItemByPostVar("start_time");
 			$ed_item->setDate($edit_date);
 		}
-						
-		if ($this->assignment->getDeadline() > 0)
-		{
-			$values["deadline_cb"] = true;
-			$edit_date = new ilDateTime($this->assignment->getDeadline(), IL_CAL_UNIX);
-			$ed_item = $a_form->getItemByPostVar("deadline");
-			$ed_item->setDate($edit_date);
-			
-			if ($this->assignment->getExtendedDeadline() > 0)
-			{
-				$values["deadline2_cb"] = true;
-				$edit_date = new ilDateTime($this->assignment->getExtendedDeadline(), IL_CAL_UNIX);
-				$ed_item = $a_form->getItemByPostVar("deadline2");
-				$ed_item->setDate($edit_date);
-			}
-		}
-				
+		
 		if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD ||
 			$this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{
@@ -680,15 +691,7 @@ class ilExAssignmentEditorGUI
 		}
 		else
 		{
-			// peer
-			
-			$values["peer"] = $this->assignment->getPeerReview();
-			$values["peer_min"] = $this->assignment->getPeerReviewMin();
-			$values["peer_file"] = $this->assignment->hasPeerReviewFileUpload();
-			$values["peer_prsl"] = $this->assignment->hasPeerReviewPersonalized();
-			$values["peer_unlock"] = $this->assignment->getPeerReviewSimpleUnlock();
-			$values["peer_valid"] = $this->assignment->getPeerReviewValid();
-				
+			// peer			
 			if ($this->assignment->getPeerReviewDeadline() > 0)
 			{
 				$values["peer_dl_tgl"] = true;
@@ -696,42 +699,6 @@ class ilExAssignmentEditorGUI
 				$peer_dl = $a_form->getItemByPostVar("peer_dl");
 				$peer_dl->setDate($peer_dl_date);
 			}		
-			
-			if ($this->assignment->getPeerReviewChars() > 0)
-			{
-				$values["peer_char_tgl"] = true;				
-				$values["peer_char"] = $this->assignment->getPeerReviewChars();		
-			}
-			
-			include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
-			$peer_review = new ilExPeerReview($this->assignment);
-			
-			// #14450
-			if ($values["peer"] && 
-				$peer_review->hasPeerReviewGroups())
-			{
-				// deadline(s) are past and must not change
-				$a_form->getItemByPostVar("deadline_cb")->setDisabled(true);			
-				$a_form->getItemByPostVar("deadline")->setDisabled(true);	
-				$a_form->getItemByPostVar("deadline2_cb")->setDisabled(true);	
-				$a_form->getItemByPostVar("deadline2")->setDisabled(true);	
-				
-				// JF, 2015-05-11 - editable again
-				// $a_form->getItemByPostVar("peer_dl")->setDisabled(true);
-				
-				$a_form->getItemByPostVar("peer")->setDisabled(true);			   
-				$a_form->getItemByPostVar("peer_min")->setDisabled(true);				
-				$a_form->getItemByPostVar("peer_file")->setDisabled(true);
-				$a_form->getItemByPostVar("peer_prsl")->setDisabled(true);									
-				$a_form->getItemByPostVar("peer_char_tgl")->setDisabled(true);									
-				$a_form->getItemByPostVar("peer_char")->setDisabled(true);									
-				$a_form->getItemByPostVar("peer_unlock")->setDisabled(true);
-				
-				if($this->enable_peer_review_completion)
-				{
-					$a_form->getItemByPostVar("peer_valid")->setDisabled(true);									
-				}				
-			}			 
 		}		
 		
 		// global feedback		
@@ -745,6 +712,77 @@ class ilExAssignmentEditorGUI
 		$a_form->getItemByPostVar("fb_date")->setValue($this->assignment->getFeedbackDate());					
 		
 		$a_form->setValuesByArray($values);
+		
+		$this->handleDisabledFields($a_form);
+	}
+	
+	protected function handleDisabledFields(ilPropertyFormGUI $a_form)
+	{					
+		// potentially disabled elements are initialized here to re-use this 
+		// method after setValuesByPost() - see updateAssignmentObject()
+		
+		if($this->assignment->getDeadline() > 0)
+		{
+			$a_form->getItemByPostVar("deadline_cb")->setChecked(true);
+			$edit_date = new ilDateTime($this->assignment->getDeadline(), IL_CAL_UNIX);
+			$ed_item = $a_form->getItemByPostVar("deadline");
+			$ed_item->setDate($edit_date);
+			
+			if($this->assignment->getExtendedDeadline() > 0)
+			{
+				$a_form->getItemByPostVar("deadline2_cb")->setChecked(true);
+				$edit_date = new ilDateTime($this->assignment->getExtendedDeadline(), IL_CAL_UNIX);
+				$ed_item = $a_form->getItemByPostVar("deadline2");
+				$ed_item->setDate($edit_date);
+			}
+		}
+		
+		$a_form->getItemByPostVar("peer")->setChecked($this->assignment->getPeerReview());
+		$a_form->getItemByPostVar("peer_min")->setValue($this->assignment->getPeerReviewMin());
+		$a_form->getItemByPostVar("peer_file")->setValue($this->assignment->hasPeerReviewFileUpload());
+		$a_form->getItemByPostVar("peer_prsl")->setValue($this->assignment->hasPeerReviewPersonalized());
+		$a_form->getItemByPostVar("peer_unlock")->setValue($this->assignment->getPeerReviewSimpleUnlock());
+		$a_form->getItemByPostVar("peer_valid")->setValue($this->assignment->getPeerReviewValid());
+
+		if ($this->assignment->getPeerReviewChars() > 0)
+		{
+			$a_form->getItemByPostVar("peer_char_tgl")->setValue(true);				
+			$a_form->getItemByPostVar("peer_char")->setValue($this->assignment->getPeerReviewChars());		
+		}							
+				
+		// with no active peer review there is nothing to protect
+		if(!$this->assignment->getPeerReview())
+		{
+			return;
+		}
+		
+		// #14450 
+		include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
+		$peer_review = new ilExPeerReview($this->assignment);	
+		if($peer_review->hasPeerReviewGroups())
+		{
+			// deadline(s) are past and must not change
+			$a_form->getItemByPostVar("deadline_cb")->setDisabled(true);			
+			$a_form->getItemByPostVar("deadline")->setDisabled(true);	
+			$a_form->getItemByPostVar("deadline2_cb")->setDisabled(true);	
+			$a_form->getItemByPostVar("deadline2")->setDisabled(true);	
+
+			// JourFixe, 2015-05-11 - editable again
+			// $a_form->getItemByPostVar("peer_dl")->setDisabled(true);
+
+			$a_form->getItemByPostVar("peer")->setDisabled(true);			   
+			$a_form->getItemByPostVar("peer_min")->setDisabled(true);				
+			$a_form->getItemByPostVar("peer_file")->setDisabled(true);
+			$a_form->getItemByPostVar("peer_prsl")->setDisabled(true);									
+			$a_form->getItemByPostVar("peer_char_tgl")->setDisabled(true);									
+			$a_form->getItemByPostVar("peer_char")->setDisabled(true);									
+			$a_form->getItemByPostVar("peer_unlock")->setDisabled(true);
+
+			if($this->enable_peer_review_completion)
+			{
+				$a_form->getItemByPostVar("peer_valid")->setDisabled(true);									
+			}				
+		}			 
 	}
 
 	/**
@@ -780,6 +818,7 @@ class ilExAssignmentEditorGUI
 		else
 		{
 			$form->setValuesByPost();
+			$this->handleDisabledFields($form);
 			$tpl->setContent($form->getHtml());
 		}
 	}
