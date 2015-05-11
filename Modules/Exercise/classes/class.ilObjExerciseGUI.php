@@ -2572,6 +2572,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{					
 		// potentially disabled elements are initialized here to re-use this 
 		// method after setValuesByPost() - see updateAssignmentObject()
+					
+		// if there are any submissions we cannot change type anymore
+		if(sizeof(ilExAssignment::getAllDeliveredFiles($this->object->getId(), $a_ass->getId())) ||
+			$a_ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{
+			$a_form->getItemByPostVar("type")->setDisabled(true);
+		}
 		
 		if($a_ass->getDeadline() > 0)
 		{
@@ -2581,10 +2588,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$ed_item->setDate($edit_date);			
 		}
 		
+		// team assignments do not support peer review
+		if($a_ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{
+			return;
+		}
+		
 		$a_form->getItemByPostVar("peer")->setChecked($a_ass->getPeerReview());
 		$a_form->getItemByPostVar("peer_min")->setValue($a_ass->getPeerReviewMin());
 		$a_form->getItemByPostVar("peer_file")->setChecked($a_ass->hasPeerReviewFileUpload());
-		$a_form->getItemByPostVar("peer_prsl")->setChecked($a_ass->hasPeerReviewPersonalized());						
+		$a_form->getItemByPostVar("peer_prsl")->setChecked($a_ass->hasPeerReviewPersonalized());
 				
 		// with no active peer review there is nothing to protect
 		if(!$a_ass->getPeerReview())
@@ -2606,14 +2619,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$a_form->getItemByPostVar("peer_min")->setDisabled(true);				
 			$a_form->getItemByPostVar("peer_file")->setDisabled(true);
 			$a_form->getItemByPostVar("peer_prsl")->setDisabled(true);														
-		}	
-					
-		// if there are any submissions we cannot change type anymore
-		if(sizeof(ilExAssignment::getAllDeliveredFiles($this->object->getId(), $a_ass->getId())) ||
-			$a_ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
-		{
-			$a_form->getItemByPostVar("type")->setDisabled(true);
-		}
+		}			
 	}
 
 	/**
