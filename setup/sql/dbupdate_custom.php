@@ -1,4 +1,4 @@
-bim<#1>
+<#1>
 <?php
 
 if( !$ilDB->tableExists('adv_md_values_text') )
