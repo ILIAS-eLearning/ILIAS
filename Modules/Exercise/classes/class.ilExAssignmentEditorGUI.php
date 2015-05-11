@@ -737,6 +737,12 @@ class ilExAssignmentEditorGUI
 			}
 		}
 		
+		// team assignments do not support peer review
+		if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{
+			return;
+		}
+		
 		$a_form->getItemByPostVar("peer")->setChecked($this->assignment->getPeerReview());
 		$a_form->getItemByPostVar("peer_min")->setValue($this->assignment->getPeerReviewMin());
 		$a_form->getItemByPostVar("peer_file")->setChecked($this->assignment->hasPeerReviewFileUpload());
