@@ -596,29 +596,6 @@ class ilUserProfile
 							}
 						}
 			
-						// ilinc link as info
-						if (ilUserProfile::userSettingVisible("upload") and
-							$ilSetting->get("ilinc_active"))
-						{
-							include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
-							$ilinc_user = new ilObjiLincUser($a_user);
-			
-							if ($ilinc_user->id)
-							{
-								include_once ('./Modules/ILinc/classes/class.ilnetucateXMLAPI.php');
-								$ilincAPI = new ilnetucateXMLAPI();
-								$ilincAPI->uploadPicture($ilinc_user);
-								$response = $ilincAPI->sendRequest("uploadPicture");
-			
-								// return URL to user's personal page
-								$url = trim($response->data['url']['cdata']);
-								$desc =
-									$lng->txt("ilinc_upload_pic_text")." ".
-									'<a href="'.$url.'">'.$lng->txt("ilinc_upload_pic_linktext").'</a>';
-								$ii->setInfo($desc);
-							}
-						}
-			
 						$a_form->addItem($ii);
 					}
 					break;

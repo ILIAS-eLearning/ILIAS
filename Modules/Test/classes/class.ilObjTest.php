@@ -5633,7 +5633,7 @@ function getAnswerFeedbackPoints()
 */
 	function startingTimeReached()
 	{
-		if ($this->getStartingTime())
+		if( $this->isStartingTimeEnabled() && $this->getStartingTime() )
 		{
 			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getStartingTime(), $matches))
 			{
@@ -5658,7 +5658,7 @@ function getAnswerFeedbackPoints()
 */
 	function endingTimeReached()
 	{
-		if ($this->getEndingTime())
+		if( $this->isEndingTimeEnabled() && $this->getEndingTime() )
 		{
 			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndingTime(), $matches))
 			{

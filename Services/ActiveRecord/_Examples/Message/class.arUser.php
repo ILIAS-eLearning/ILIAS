@@ -289,30 +289,6 @@ class arUser extends ActiveRecord {
 	 * @var int
 	 *
 	 * @con_has_field true
-	 * @con_fieldtype integer
-	 * @con_length    4
-	 */
-	protected $ilinc_id;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field true
-	 * @con_fieldtype text
-	 * @con_length    40
-	 */
-	protected $ilinc_login;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field true
-	 * @con_fieldtype text
-	 * @con_length    40
-	 */
-	protected $ilinc_passwd;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field true
 	 * @con_fieldtype text
 	 * @con_length    255
 	 */
@@ -809,55 +785,6 @@ class arUser extends ActiveRecord {
 	public function getI2passwd() {
 		return $this->i2passwd;
 	}
-
-
-	/**
-	 * @param int $ilinc_id
-	 */
-	public function setIlincId($ilinc_id) {
-		$this->ilinc_id = $ilinc_id;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getIlincId() {
-		return $this->ilinc_id;
-	}
-
-
-	/**
-	 * @param int $ilinc_login
-	 */
-	public function setIlincLogin($ilinc_login) {
-		$this->ilinc_login = $ilinc_login;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getIlincLogin() {
-		return $this->ilinc_login;
-	}
-
-
-	/**
-	 * @param int $ilinc_passwd
-	 */
-	public function setIlincPasswd($ilinc_passwd) {
-		$this->ilinc_passwd = $ilinc_passwd;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getIlincPasswd() {
-		return $this->ilinc_passwd;
-	}
-
 
 	/**
 	 * @param int $im_aim
