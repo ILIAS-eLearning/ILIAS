@@ -739,14 +739,14 @@ class ilExAssignmentEditorGUI
 		
 		$a_form->getItemByPostVar("peer")->setChecked($this->assignment->getPeerReview());
 		$a_form->getItemByPostVar("peer_min")->setValue($this->assignment->getPeerReviewMin());
-		$a_form->getItemByPostVar("peer_file")->setValue($this->assignment->hasPeerReviewFileUpload());
-		$a_form->getItemByPostVar("peer_prsl")->setValue($this->assignment->hasPeerReviewPersonalized());
+		$a_form->getItemByPostVar("peer_file")->setChecked($this->assignment->hasPeerReviewFileUpload());
+		$a_form->getItemByPostVar("peer_prsl")->setChecked($this->assignment->hasPeerReviewPersonalized());
 		$a_form->getItemByPostVar("peer_unlock")->setValue($this->assignment->getPeerReviewSimpleUnlock());
 		$a_form->getItemByPostVar("peer_valid")->setValue($this->assignment->getPeerReviewValid());
 
 		if ($this->assignment->getPeerReviewChars() > 0)
 		{
-			$a_form->getItemByPostVar("peer_char_tgl")->setValue(true);				
+			$a_form->getItemByPostVar("peer_char_tgl")->setChecked(true);				
 			$a_form->getItemByPostVar("peer_char")->setValue($this->assignment->getPeerReviewChars());		
 		}							
 				
