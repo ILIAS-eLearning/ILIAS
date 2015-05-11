@@ -84,7 +84,7 @@ class gevAgentRegistrationGUI {
 	
 	protected function isAgent($a_stellennummer) {
 		$data = $this->getStellennummerData($a_stellennummer);
-		return $data["agent"] == 1;
+		return $data["vms"] == "Makler";
 	}
 
 	protected function getVermittlerStatus($a_stellennummer) {
