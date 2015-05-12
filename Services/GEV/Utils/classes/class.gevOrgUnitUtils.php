@@ -533,10 +533,10 @@ class gevOrgUnitUtils {
 	}
 	
 	public function deleteChild($ref_id) {
+		require_once("Services/Repository/classes/class.ilRepUtil.php");
 		$obj_id = ilObject::_lookupObjectId($ref_id);
 		unset(self::$instances[$obj_id]);
-		$obj = new ilObjOrgUnit($ref_id);
-		$obj->delete();
+		lRepUtil::deleteObjects($this->getRefId(), array($ref_id));
 	}
 	
 	public function getUsers() {
