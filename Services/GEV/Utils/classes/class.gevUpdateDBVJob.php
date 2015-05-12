@@ -32,6 +32,7 @@ class gevUpdateDBVJob extends ilCronJob {
 	public function run() {
 		self::updateDBVToBDAssignment();
 		self::updateAgentToDBVAssignment();
+		self::updateNoAssignmentVPs();
 		self::purgeEmptyOrgUnits();
 		
 		$cron_result = new ilCronJobResult();
@@ -54,6 +55,12 @@ class gevUpdateDBVJob extends ilCronJob {
 		require_once("Services/GEV/Utils/classes/class.gevUVGOrgUnits.php");
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 		
+		global $ilLog;
+		
+		$ilLog->write("###########################################\n\n"
+					 ."gevUpdateDBVJob::updateDBVToBDAssignment\n\n"
+					 ."###########################################");
+		
 		$uvg_orgus = gevUVGOrgUnits::getInstance();
 		$uvg_orgu_ref_ids = self::getUVGOrguRefIds();
 		foreach ($uvg_orgu_ref_ids as $ref_id) {
@@ -64,6 +71,8 @@ class gevUpdateDBVJob extends ilCronJob {
 				// This could happen as there are org units without owners
 				// (for BDs and cpool ) beneath the base.
 			}
+			
+			ilCronManager::ping($this->getId());
 		}
 	}
 	
@@ -71,11 +80,47 @@ class gevUpdateDBVJob extends ilCronJob {
 		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		
+		global $ilLog;
+		
+		$ilLog->write("###########################################\n\n"
+					 ."gevUpdateDBVJob::updateAgentToDBVAssignment\n\n"
+					 ."###########################################");
+		
 		$uvg_orgu_ref_ids = self::getUVGOrguRefIds();
 		$vps = gevOrgUnitUtils::getEmployeesIn($uvg_orgu_ref_ids);
 		$dbv_utils = gevDBVUtils::getInstance();
 		foreach ($vps as $vp) {
 			$dbv_utils->updateUsersDBVAssignmentsByShadowDB($vp);
+			
+			ilCronManager::ping($this->getId());
+		}
+	}
+	
+	static public function updateNoAssignmentVPs() {
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
+		
+		global $ilLog;
+		
+		$ilLog->write("###########################################\n\n"
+					 ."gevUpdateDBVJob::updateNoAssignmentVPs\n\n"
+					 ."###########################################");
+		
+		$no_assignment_orgu_id = gevSettings::getInstance()->getOrgUnitUnassignedUser();
+		$no_assignment_orgu_utils = gevOrgUnitUtils::getInstance($no_assignment_orgu_id);
+		$no_assignment_users = $no_assignment_orgu_utils->getUsers();
+		$dbv_utils = gevDBVUtils::getInstance();
+		
+		foreach ($no_assignment_users as $user) {
+			$user_utils = gevUserUtils::getInstance($user);
+			if ($user_utils->hasRoleIn(array("VP"))) {
+				$dbv_utils->updateUsersDBVAssignmentsByShadowDB($user);
+				$no_assignment_orgu_utils->deassignUser($user, "Mitarbeiter");
+			}
+			
+			ilCronManager::ping($this->getId());
 		}
 	}
 	
@@ -84,6 +129,12 @@ class gevUpdateDBVJob extends ilCronJob {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevUVGOrgUnits.php");
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		global $ilLog;
+		
+		$ilLog->write("###########################################\n\n"
+					 ."gevUpdateDBVJob::purgeEmptyOrgUnits\n\n"
+					 ."###########################################");
 		
 		$uvg_orgus = gevUVGOrgUnits::getInstance();
 		$base_ref_id = $uvg_orgus->getBaseRefId();
