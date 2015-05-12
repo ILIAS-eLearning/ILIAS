@@ -21,7 +21,7 @@ class gevInvitation extends gevCrsAutoMail {
 	}
 
 	public function getTitle() {
-		return "Einladung Teilnehmer";
+		return "Einladung";
 	}
 
 	public function getDescription() {

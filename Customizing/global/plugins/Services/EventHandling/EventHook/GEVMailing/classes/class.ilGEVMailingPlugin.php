@@ -133,6 +133,7 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 		
 		if ($a_event == "addParticipant") {
 			$mails->sendDeferred("trainer_added", array($usr_id));
+			$mails->sendDeferred("invitation", array($usr_id));
 		}
 		else if ($a_event == "deleteParticipant") {
 			$mails->send("trainer_removed", array($usr_id));
