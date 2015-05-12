@@ -108,8 +108,9 @@ class gevUpdateDBVJob extends ilCronJob {
 					 ."gevUpdateDBVJob::updateNoAssignmentVPs\n\n"
 					 ."###########################################");
 		
-		$no_assignment_orgu_id = gevSettings::getInstance()->getOrgUnitUnassignedUser();
-		$no_assignment_orgu_utils = gevOrgUnitUtils::getInstance($no_assignment_orgu_id);
+		$no_assignment_orgu_ref_id = gevSettings::getInstance()->getOrgUnitUnassignedUser();
+		$no_assignment_orgu_obj_id = ilObject::_lookupObjectId($no_assignment_orgu_ref_id);
+		$no_assignment_orgu_utils = gevOrgUnitUtils::getInstance($no_assignment_orgu_obj_id);
 		$no_assignment_users = $no_assignment_orgu_utils->getUsers();
 		$dbv_utils = gevDBVUtils::getInstance();
 		
