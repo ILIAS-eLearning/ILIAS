@@ -209,7 +209,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	
 	
 	protected function getCourseAccomodationAddress() {
-		$accom = $this->getCourseUtils()->getVenue();
+		$accom = $this->getCourseUtils()->getAccomodation();
 		
 		if ($accom === null ) {
 			return null;
