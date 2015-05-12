@@ -30,17 +30,17 @@ class gevUpdateDBVJob extends ilCronJob {
 	}
 	
 	public function run() {
-		self::updateDBVToBDAssignment();
-		self::updateAgentToDBVAssignment();
-		self::updateNoAssignmentVPs();
-		self::purgeEmptyOrgUnits();
+		$this->updateDBVToBDAssignment();
+		$this->updateAgentToDBVAssignment();
+		$this->updateNoAssignmentVPs();
+		$this->purgeEmptyOrgUnits();
 		
 		$cron_result = new ilCronJobResult();
 		$cron_result->setStatus(ilCronJobResult::STATUS_OK);
 		return $cron_result;
 	}
 	
-	static protected function getUVGOrguRefIds() {
+	protected function getUVGOrguRefIds() {
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevUVGOrgUnits.php");
 		
@@ -51,7 +51,7 @@ class gevUpdateDBVJob extends ilCronJob {
 		return array_map(function($ids) { return $ids["ref_id"]; }, $uvg_orgu_ids);
 	}
 	
-	static public function updateDBVToBDAssignment() {
+	public function updateDBVToBDAssignment() {
 		require_once("Services/GEV/Utils/classes/class.gevUVGOrgUnits.php");
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 		
@@ -76,7 +76,7 @@ class gevUpdateDBVJob extends ilCronJob {
 		}
 	}
 	
-	static public function updateAgentToDBVAssignment() {
+	public function updateAgentToDBVAssignment() {
 		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		
@@ -96,7 +96,7 @@ class gevUpdateDBVJob extends ilCronJob {
 		}
 	}
 	
-	static public function updateNoAssignmentVPs() {
+	public function updateNoAssignmentVPs() {
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
@@ -124,7 +124,7 @@ class gevUpdateDBVJob extends ilCronJob {
 		}
 	}
 	
-	static public function purgeEmptyOrgUnits() {
+	public function purgeEmptyOrgUnits() {
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevUVGOrgUnits.php");
