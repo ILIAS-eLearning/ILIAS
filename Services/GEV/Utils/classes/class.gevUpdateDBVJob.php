@@ -57,7 +57,7 @@ class gevUpdateDBVJob extends ilCronJob {
 		
 		global $ilLog;
 		
-		$ilLog->write("###########################################\n\n"
+		$ilLog->write("\n###########################################\n\n"
 					 ."gevUpdateDBVJob::updateDBVToBDAssignment\n\n"
 					 ."###########################################");
 		
@@ -82,7 +82,7 @@ class gevUpdateDBVJob extends ilCronJob {
 		
 		global $ilLog;
 		
-		$ilLog->write("###########################################\n\n"
+		$ilLog->write("\n###########################################\n\n"
 					 ."gevUpdateDBVJob::updateAgentToDBVAssignment\n\n"
 					 ."###########################################");
 		
@@ -104,7 +104,7 @@ class gevUpdateDBVJob extends ilCronJob {
 		
 		global $ilLog;
 		
-		$ilLog->write("###########################################\n\n"
+		$ilLog->write("\n###########################################\n\n"
 					 ."gevUpdateDBVJob::updateNoAssignmentVPs\n\n"
 					 ."###########################################");
 		
@@ -132,7 +132,7 @@ class gevUpdateDBVJob extends ilCronJob {
 		
 		global $ilLog;
 		
-		$ilLog->write("###########################################\n\n"
+		$ilLog->write("\n###########################################\n\n"
 					 ."gevUpdateDBVJob::purgeEmptyOrgUnits\n\n"
 					 ."###########################################");
 		
