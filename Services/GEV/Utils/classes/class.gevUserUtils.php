@@ -1920,7 +1920,7 @@ class gevUserUtils {
 	
 	public function getEmployeesWhereUserCanViewEduBios() {
 		if ($this->edu_bio_usr_ids 	!== null) {
-			return $this->edu_bio_ou_names;
+			return $this->edu_bio_usr_ids;
 		}
 		
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
