@@ -24,9 +24,10 @@ class ilCourseBookingAdminGUI
 	 */
 	public function __construct(ilObjCourse $a_course)
 	{
-		global $lng;
+		global $lng, $ilUser;
 		
-		$this->setCourse($a_course);	
+		$this->setCourse($a_course);
+		$this->ilUser = $ilUser;
 		
 		$perm = ilCourseBookingPermissions::getInstance($this->getCourse());
 		$this->setPermissions($perm);
@@ -233,11 +234,10 @@ class ilCourseBookingAdminGUI
 	{
 		global $ilToolbar, $ilCtrl, $lng, $tpl;
 		
-		$this->setTabs("listBookings");
+		$this->setTabs("listBookings");		
 				
-		if($this->getPermissions()->bookCourseForOthers() &&
-			!ilCourseBookingHelper::getInstance($this->getCourse())->isUltimateBookingDeadlineReached())
-		{
+		if($this->isBookingAllowed())
+		{				
 			$bookings = ilCourseBookings::getInstance($this->getCourse());
 			if($bookings->isWaitingListActivated())
 			{
@@ -267,12 +267,42 @@ class ilCourseBookingAdminGUI
 			$ilToolbar->addSeparator();
 
 			$ilToolbar->addButton($lng->txt("crsbook_admin_add_org_unit"),
-				$ilCtrl->getLinkTarget($this, "addOrgUnit"));
+				$ilCtrl->getLinkTarget($this, "addOrgUnit"));			
 		}		
 		
 		require_once "Services/CourseBooking/classes/class.ilCourseBookingMembersTableGUI.php";
 		$tbl = new ilCourseBookingMembersTableGUI($this, "listBookings", $this->getCourse(), $this->getPermissions());
 		return $tpl->setContent($tbl->getHTML());
+	}
+
+	/**
+	 * Is allowed to book
+	 *
+	 *@return bool
+	 */
+	public function isBookingAllowed(){
+		$crs_booking_helper = ilCourseBookingHelper::getInstance($this->getCourse());
+		if($crs_booking_helper->isUltimateBookingDeadlineReached())
+		{	
+			return false;
+		}
+
+		if($this->getPermissions()->bookCourseForOthers()){
+			require_once "Services/GEV/Utils/classes/class.gevCourseUtils.php";
+			$crs_ultils = gevCourseUtils::getInstance($this->getCourse()->getId());			
+
+			if($crs_ultils->isDecentralTraining() &&
+				$crs_ultils->hasTrainer($this->ilUser->getId()) && 
+				$crs_booking_helper->isBookingDeadlineReached() )
+			{				
+					return false;
+						
+			}		
+
+			return true;
+		}
+
+		return false;
 	}
 	
 	/**
