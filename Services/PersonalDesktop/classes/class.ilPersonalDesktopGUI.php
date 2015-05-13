@@ -41,7 +41,6 @@ class ilPersonalDesktopGUI
 	{
 		global $ilias, $tpl, $lng, $rbacsystem, $ilCtrl, $ilMainMenu, $ilUser, $tree;
 		
-		
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->ilias =& $ilias;
