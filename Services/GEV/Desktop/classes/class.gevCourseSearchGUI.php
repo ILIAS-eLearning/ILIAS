@@ -151,7 +151,8 @@ class gevCourseSearchGUI {
 
 		$crs_tbl = new gevCourseSearchTableGUI($search_opts, $this->target_user_id, $this);
 		$crs_tbl->setTitle(!$a_in_search?"gev_crs_srch_title":"gev_crs_srch_results")
-				->setSubtitle( $this->target_user_id == $this->user_id
+				->setSubtitle( ($this->target_user_id == $this->user_id 
+								|| $this->user_id == 0 )// Someone is viewing the offers for agents as anonymus.
 							 ? "gev_crs_srch_my_table_desc"
 							 : "gev_crs_srch_theirs_table_desc"
 							 )
