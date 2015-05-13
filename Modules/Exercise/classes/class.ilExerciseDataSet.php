@@ -20,7 +20,7 @@ class ilExerciseDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.1.0");
+		return array("4.1.0", "4.4.0", "5.0.0");
 	}
 	
 	/**
@@ -47,6 +47,8 @@ class ilExerciseDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
+				case "4.4.0":
+				case "5.0.0":
 					return array(
 						"Id" => "integer",
 						"Title" => "text",
@@ -71,6 +73,52 @@ class ilExerciseDataSet extends ilDataSet
 						"Mandatory" => "integer",
 						"OrderNr" => "integer",
 						"Dir" => "directory");
+					
+				case "4.4.0":
+					return array(
+						"Id" => "integer",
+						"ExerciseId" => "integer",
+						"Type" => "integer",
+						"Deadline" => "integer",					
+						"Instruction" => "text",
+						"Title" => "text",
+						"Mandatory" => "integer",
+						"OrderNr" => "integer",
+						"Dir" => "directory"
+						// peer
+						,"Peer" => "integer"
+						,"PeerMin" => "integer"
+						,"PeerDeadline" => "integer"								
+						// global feedback
+						,"FeedbackFile" => "integer"
+						,"FeedbackCron" => "integer"
+						,"FeedbackDate" => "integer"
+						,"FeedbackDir" => "directory"
+					);
+					
+				case "5.0.0":
+					return array(
+						"Id" => "integer",
+						"ExerciseId" => "integer",
+						"Type" => "integer",
+						"Deadline" => "integer",					
+						"Instruction" => "text",
+						"Title" => "text",
+						"Mandatory" => "integer",
+						"OrderNr" => "integer",
+						"Dir" => "directory"
+						// peer
+						,"Peer" => "integer"
+						,"PeerMin" => "integer"
+						,"PeerDeadline" => "integer"
+						,"PeerFile" => "integer"
+						,"PeerPersonal" => "integer"
+						// global feedback
+						,"FeedbackFile" => "integer"
+						,"FeedbackCron" => "integer"
+						,"FeedbackDate" => "integer"
+						,"FeedbackDir" => "directory"
+					);
 			}
 		}
 
@@ -116,6 +164,24 @@ class ilExerciseDataSet extends ilDataSet
 						"WHERE ".
 						$ilDB->in("exc_id", $a_ids, false, "integer"));
 					break;
+				
+				case "4.4.0":
+					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, time_stamp deadline,".
+						" instruction, title, start_time, mandatory, order_nr, peer, peer_min, peer_dl peer_deadline,".
+						" fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date".
+						" FROM exc_assignment".
+						" WHERE ".
+						$ilDB->in("exc_id", $a_ids, false, "integer"));
+					break;
+				
+				case "5.0.0":
+					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, time_stamp deadline,".
+						" instruction, title, start_time, mandatory, order_nr, peer, peer_min, peer_dl peer_deadline,".
+						" peer_file, peer_prsl peer_personal, fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date".
+						" FROM exc_assignment".
+						" WHERE ".
+						$ilDB->in("exc_id", $a_ids, false, "integer"));
+					break;
 			}
 		}
 
@@ -147,6 +213,9 @@ class ilExerciseDataSet extends ilDataSet
 			$fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
 			$a_set["Dir"] = $fstorage->getPath();
 
+			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+			$fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
+			$a_set["FeedbackDir"] = $fstorage->getGlobalFeedbackPath();
 		}
 
 		return $a_set;
@@ -246,16 +315,43 @@ class ilExerciseDataSet extends ilDataSet
 					$ass->setTitle($a_rec["Title"]);
 					$ass->setMandatory($a_rec["Mandatory"]);
 					$ass->setOrderNr($a_rec["OrderNr"]);
+					
+					// 4.2
+					$ass->setType($a_rec["Type"]);
+					
+					// 4.4
+					$ass->setPeerReview($a_rec["Peer"]);
+					$ass->setPeerReviewMin($a_rec["PeerMin"]);
+					$ass->setPeerReviewDeadline($a_rec["PeerDeadline"]);					
+					$ass->setFeedbackFile($a_rec["FeedbackFile"]);
+					$ass->setFeedbackCron($a_rec["FeedbackCron"]);
+					$ass->setFeedbackDate($a_rec["FeedbackDate"]);
+					
+					// 5.0
+					$ass->setPeerReviewFileUpload($a_rec["PeerFile"]);
+					$ass->setPeerReviewPersonalized($a_rec["PeerPersonal"]);
+					
 					$ass->save();
 
 					include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 					$fstorage = new ilFSStorageExercise($exc_id, $ass->getId());
 					$fstorage->create();
+					
+					// assignment files
 					$dir = str_replace("..", "", $a_rec["Dir"]);
 					if ($dir != "" && $this->getImportDirectory() != "")
 					{
 						$source_dir = $this->getImportDirectory()."/".$dir;
 						$target_dir = $fstorage->getPath();
+						ilUtil::rCopy($source_dir, $target_dir);
+					}
+					
+					// (4.4) global feedback file
+					$dir = str_replace("..", "", $a_rec["FeedbackDir"]);
+					if ($dir != "" && $this->getImportDirectory() != "")
+					{
+						$source_dir = $this->getImportDirectory()."/".$dir;
+						$target_dir = $fstorage->getGlobalFeedbackPath();
 						ilUtil::rCopy($source_dir, $target_dir);
 					}
 
