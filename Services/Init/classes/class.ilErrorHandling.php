@@ -33,6 +33,8 @@ require_once("./Services/Exceptions/lib/Whoops/Exception/Formatter.php");
 require_once("./Services/Exceptions/lib/Whoops/Util/TemplateHelper.php");
 require_once("./Services/Exceptions/lib/Whoops/Util/Misc.php");
 
+require_once("Services/Exceptions/classes/class.ilDelegatingHandler.php");
+
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\CallbackHandler;
@@ -96,8 +98,8 @@ class ilErrorHandling extends PEAR
 	/**
 	 * Initialize Error and Exception Handlers.
 	 *
-	 * Initializes Whoops for the DEVMODE and the legacy ILIAS-Handlers for the
-	 * production mode.
+	 * Initializes Whoops, a logging handler and a delegate handler for the late initialisation
+	 * of an appropriate error handler.
 	 *
 	 * @return void
 	 */
@@ -107,24 +109,38 @@ class ilErrorHandling extends PEAR
 			return;
 		}
 		
-		// TODO: * Use Whoops in production mode? This would require an appropriate
-		//		   error-handler.
-		//		 * Check for context? The current implementation e.g. would output HTML for
-		//		   for SOAP.
 		$ilRuntime = $this->getIlRuntime();
 		$whoops = $this->getWhoops();
 		
-		if ($this->devmodeActive()) {
-			$whoops->pushHandler($this->getDevmodeHandler());
-		}
+		$whoops->pushHandler(new ilDelegatingHandler($this));
 		
 		if ($ilRuntime->shouldLogErrors()) {
-			$whoops->pushHandler($this->getLoggingHandler());
+			$whoops->pushHandler($this->loggingHandler());
 		}
 		
 		$whoops->register();
 		
 		self::$handlers_registered = true;
+	}
+
+	/**
+	 * Get a handler for an error or exception.
+	 *
+	 * Uses Whoops Pretty Page Handler in DEVMODE and the legacy ILIAS-Error handlers otherwise.
+	 *
+	 * @return Whoops\Handler
+	 */
+	public function getHandler() {
+		// TODO: * Use Whoops in production mode? This would require an appropriate
+		//		   error-handler.
+		//		 * Check for context? The current implementation e.g. would output HTML for
+		//		   for SOAP.
+
+		if ($this->isDevmodeActive()) {
+			return $this->devmodeHandler();
+		}
+
+		return $this->defaultHandler();
 	}
 
 	function getLastError()
@@ -328,17 +344,27 @@ class ilErrorHandling extends PEAR
 	 * Is the DEVMODE switched on?
 	 * @return bool
 	 */
-	protected function devmodeActive() {
-		
-		//die((DEVMODE?"TRUE":"FALSE")."'".DEVMODE."'");
+	protected function isDevmodeActive() {
 		return DEVMODE;
 	}
-	
+
+	/**
+	 * Get a default error handler.
+	 * @return Whoops\Handler
+	 */
+	protected function defaultHandler() {
+		return new CallbackHandler(function(Exception $exception, Inspector $inspector, Run $run) {
+			require_once("Services/Utilities/classes/class.ilUtil.php");
+			ilUtil::sendFailure($exception->getMessage(), true);
+			ilUtil::redirect("error.php");
+		});
+	}
+
 	/**
 	 * Get the handler to be used in DEVMODE.
 	 * @return Whoops\Handler
 	 */
-	protected function getDevmodeHandler() {
+	protected function devmodeHandler() {
 		return new PrettyPageHandler();
 	}
 	
@@ -346,7 +372,7 @@ class ilErrorHandling extends PEAR
 	 * Get the handler to be used to log errors.
 	 * @return Whoops\Handler
 	 */
-	protected function getLoggingHandler() {
+	protected function loggingHandler() {
 		return new CallbackHandler(function(Exception $exception, Inspector $inspector, Run $run) {
 			/**
 			 * Don't move this out of this callable
