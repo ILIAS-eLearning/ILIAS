@@ -49,7 +49,7 @@ class gevInvitation extends gevCrsAutoMail {
 	}
 
 	public function getRecipientUserIDs() {
-		return array_merge($this->getCourseParticipants(), $this->getCourseSpecialMembers());
+		return array_merge($this->getCourseParticipants(), $this->getCourseSpecialMembers(),$this->getCourseTrainers());
 	}
 
 	public function getRecipientAddresses() {
