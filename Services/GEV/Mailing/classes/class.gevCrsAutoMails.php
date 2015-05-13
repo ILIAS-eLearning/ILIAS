@@ -41,6 +41,7 @@ class gevCrsAutoMails extends ilAutoMails {
 		, "trainer_removed" 									=> "gevTrainerRemoved"
 		
 		, "training_cancelled"									=> "gevTrainingCancelled"
+		, "training_cancelled_trainer_info"						=> "gevTrainingCancelledTrainerInfo"
 		
 		, "min_participants_not_reached" 						=> "gevMinParticipantsNotReached"
 		, "reminder_participants" 								=> "gevReminderParticipants"
