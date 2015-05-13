@@ -178,6 +178,13 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			$this->tpl->setVariable("PE_NOTE", $this->lng->txt("gev_booking_request_pe_note"));
 			$this->tpl->parseCurrentBlock();
 		}
+
+		$crs_utils = gevCourseUtils::getInstance($a_set["obj_id"]);
+		$tutors = $crs_utils->getTrainers(true);
+		$tutors = implode("; ", $tutors);
+
+		$this->tpl->setVariable("TUTORS", $tutors);
+
 		$this->tpl->setVariable("FREE_PLACES", $unlimited
 											 ? $this->lng->txt("gev_unlimited")
 											 : $a_set["free_places"]
