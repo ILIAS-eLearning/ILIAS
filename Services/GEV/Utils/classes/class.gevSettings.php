@@ -606,6 +606,9 @@ class gevSettings {
 
 	const AGENT_OFFER_USER_ID = "agent_offer_user_id";
 
+	public function getAgentOfferUserId() {
+		return $this->settings->get(self::AGENT_OFFER_USER_ID);
+	}
 	
 	private function __construct() {
 		$this->settings = new ilSetting(self::MODULE_NAME);
