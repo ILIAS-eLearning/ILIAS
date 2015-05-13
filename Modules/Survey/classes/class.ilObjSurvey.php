@@ -400,6 +400,10 @@ class ilObjSurvey extends ilObject
 				array($active_fi)
 			);
 		}
+		
+		include_once "Services/Object/classes/class.ilObjectLP.php";
+		$lp_obj = ilObjectLP::getInstance($this->getId());
+		$lp_obj->resetLPDataForCompleteObject();
 	}
 	
 	/**
@@ -411,6 +415,8 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
+		$user_ids[] = array();
+		
 		foreach ($finished_ids as $finished_id)
 		{
 			$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE finished_id = %s",
@@ -418,6 +424,11 @@ class ilObjSurvey extends ilObject
 				array($finished_id)
 			);
 			$row = $ilDB->fetchAssoc($result);
+			
+			if($row["user_fi"])
+			{
+				$user_ids[] = $row["user_fi"];
+			}
 
 			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_answer WHERE active_fi = %s",
 				array('integer'),
@@ -433,6 +444,13 @@ class ilObjSurvey extends ilObject
 				array('integer'),
 				array($row["finished_id"])
 			);
+		}
+		
+		if(sizeof($user_ids))
+		{
+			include_once "Services/Object/classes/class.ilObjectLP.php";
+			$lp_obj = ilObjectLP::getInstance($this->getId());
+			$lp_obj->resetLPDataForUserIds($user_ids);
 		}
 	}
 	
@@ -4717,6 +4735,23 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
+	function bindSurveyCodeToUser($user_id, $code)
+	{
+		global $ilDB;
+		
+		if($user_id == ANONYMOUS_USER_ID)
+		{
+			return;
+		}
+		
+		if($this->checkSurveyCode($code))
+		{		
+			$ilDB->manipulate("UPDATE svy_anonymous".
+				" SET user_key = ".$ilDB->quote(md5($user_id), "text").
+				" WHERE survey_key = ".$ilDB->quote($code, "text"));
+		}
+	}
+	
 	function isAnonymizedParticipant($key)
 	{
 		global $ilDB;
@@ -4864,8 +4899,8 @@ class ilObjSurvey extends ilObject
 		$sql = "SELECT svy_anonymous.*, svy_finished.state".
 			" FROM svy_anonymous".
 			" LEFT JOIN svy_finished ON (svy_anonymous.survey_key = svy_finished.anonymous_id)".
-			" WHERE svy_anonymous.survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
-			" AND svy_anonymous.user_key IS NULL";
+			" WHERE svy_anonymous.survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer") /*.
+			" AND svy_anonymous.user_key IS NULL" */; // #15860
 		
 		if($ids)
 		{
@@ -5149,6 +5184,9 @@ class ilObjSurvey extends ilObject
 	function saveUserAccessCode($user_id, $access_code)
 	{
 		global $ilDB;
+		
+		// not really sure what to do about ANONYMOUS_USER_ID
+		
 		$next_id = $ilDB->nextId('svy_anonymous');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_anonymous (anonymous_id, survey_key, survey_fi, user_key, tstamp) ".
 			"VALUES (%s, %s, %s, %s, %s)",

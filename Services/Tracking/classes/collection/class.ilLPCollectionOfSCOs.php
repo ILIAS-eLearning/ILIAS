@@ -75,6 +75,7 @@ class ilLPCollectionOfSCOs extends ilLPCollection
 			$tmp = array();
 			$tmp['id'] = $sco_id;
 			$tmp['ref_id'] = 0;
+			$tmp['type'] = 'sco';
 			$tmp['title'] = $item['title'];
 			$tmp["status"] = $this->isAssignedEntry($sco_id);
 

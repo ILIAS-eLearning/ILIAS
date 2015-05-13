@@ -607,6 +607,7 @@ class ilLMPresentationGUI
 				// reset standard css files
 				$this->tpl->resetJavascript();
 				$this->tpl->resetCss();
+				$this->tpl->setBodyClass("ilLMNoMenu");
 				
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 				foreach (ilObjContentObject::getSupplyingExportFiles() as $f)
@@ -2039,6 +2040,9 @@ class ilLMPresentationGUI
 			$ilCtrl->setParameter($this, "pg_type", "glo");
 		}
 		$term_gui->output($this->offlineMode(), $this->tpl);
+
+
+
 		if (!$this->offlineMode())
 		{
 			$ilCtrl->setParameter($this, "pg_type", "");
@@ -2665,6 +2669,11 @@ class ilLMPresentationGUI
 	{
 		global $ilUser;
 
+		if (!$this->lm->isActiveTOC() || !$this->lm->isActiveLMMenu())
+		{
+			return;
+		}
+
 		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
@@ -2698,7 +2707,9 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "toc", true));
 
-
+		// set title header
+		$this->tpl->setTitle($this->lm->getTitle());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 
 		include_once("./Modules/LearningModule/classes/class.ilLMTableOfContentsExplorerGUI.php");
 		$exp = new ilLMTableOfContentsExplorerGUI($this, "showTableOfContents", $this, $this->lang);
@@ -2882,7 +2893,7 @@ class ilLMPresentationGUI
 		global $ilUser, $lng;
 		
 		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
-		if (!$this->lm->isActivePrintView())
+		if (!$this->lm->isActivePrintView() || !$this->lm->isActiveLMMenu())
 		{
 			return;
 		}
@@ -3100,7 +3111,7 @@ class ilLMPresentationGUI
 
 		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		
-		if (!$this->lm->isActivePrintView())
+		if (!$this->lm->isActivePrintView() || !$this->lm->isActiveLMMenu())
 		{
 			return;
 		}
@@ -3712,6 +3723,11 @@ class ilLMPresentationGUI
 	*/
 	function showDownloadList()
 	{
+		if (!$this->lm->isActiveDownloads() || !$this->lm->isActiveLMMenu())
+		{
+			return;
+		}
+
 		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
@@ -3876,6 +3892,11 @@ class ilLMPresentationGUI
 	*/
 	function downloadExportFile()
 	{
+		if (!$this->lm->isActiveDownloads() || !$this->lm->isActiveLMMenu())
+		{
+			return;
+		}
+
 		$file = $this->lm->getPublicExportFile($_GET["type"]);
 		if ($this->lm->getPublicExportFile($_GET["type"]) != "")
 		{

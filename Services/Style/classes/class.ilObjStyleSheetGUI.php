@@ -476,6 +476,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 
 		// write custom parameter
+		$this->object->deleteCustomStylePars($cur_tag, $cur_class, $_GET["style_type"], (int) $_GET["mq_id"]);
 		if (is_array($_POST["custom_par"]))
 		{
 			foreach ($_POST["custom_par"] as $cpar)

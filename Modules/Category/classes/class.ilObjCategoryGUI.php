@@ -1244,8 +1244,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 														 'role_ids[]',
 														 $role['obj_id'],
 														 $disabled);
-			$f_result[$counter][] = $role_obj->getTitle();
-			$f_result[$counter][] = $role_obj->getDescription();
+			$f_result[$counter][] = $role_obj->getTitle() ? $role_obj->getTitle() : "";
+			$f_result[$counter][] = $role_obj->getDescription() ? $role_obj->getDescription() : "";
 			$f_result[$counter][] = $role['role_type'] == 'global' ? 
 				$this->lng->txt('global') :
 				$this->lng->txt('local');

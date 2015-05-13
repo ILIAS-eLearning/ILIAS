@@ -34,6 +34,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	/*
 	 * __construct
 	 */
+	const GET_DCL_GTR = "dcl_gtr";
+	const GET_REF_ID = "ref_id";
+
+
 	public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0) {
 		global $lng, $ilCtrl, $tpl;
 
@@ -101,7 +105,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 */
 	public function executeCommand() {
 		global $ilCtrl, $ilTabs, $ilNavigationHistory, $ilUser, $tpl;
-
+		/**
+		 * @var $ilCtrl ilCtrl
+		 */
 		// Navigation History
 		$link = $ilCtrl->getLinkTarget($this, "render");
 
@@ -109,15 +115,13 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 			$ilNavigationHistory->addItem($this->object->getRefId(), $link, "dcl");
 		}
 
-		//Direct-Link Resource
-		if ($_GET["dcl_gtr"]) {
-			$ilCtrl->setCmdClass("ildatacollectionrecordviewgui");
-			$_GET['record_id'] = $_GET["dcl_gtr"];
-			$ilCtrl->setCmd("renderRecord");
+		// Direct-Link Resource, redirect to viewgui
+		if ($_GET[self::GET_DCL_GTR]) {
+			$ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $_GET[self::GET_DCL_GTR]);
+			$ilCtrl->redirectByClass('ildatacollectionrecordviewgui', 'renderRecord');
 		}
 
 		$next_class = $ilCtrl->getNextClass($this);
-//		$cmd = $ilCtrl->getCmd();
 
 		if (!$this->getCreationMode() AND $next_class != "ilinfoscreengui" AND !$this->checkPermissionBool("read")) {
 			$tpl->getStandardTemplate();
@@ -342,8 +346,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 		$id = explode("_", $a_target);
 
 		$_GET["baseClass"] = "ilRepositoryGUI";
-		$_GET["ref_id"] = $id[0];
-		$_GET["dcl_gtr"] = $id[1]; //recordID
+		$_GET[self::GET_REF_ID] = $id[0];
+		$_GET[self::GET_DCL_GTR] = $id[1]; //recordID
 		$_GET["cmd"] = "listRecords";
 		require_once('./ilias.php');
 		exit;

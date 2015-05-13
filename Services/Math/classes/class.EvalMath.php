@@ -116,7 +116,13 @@ class EvalMath {
     
     function evaluate($expr) {
 			// convert exponential notation
-			$expr = preg_replace("/(\\d{0,1})e(-{0,1}\\d+)/eis", "'\\1'.((strlen('\\1')) ? '*' : '').'10^(\\2)'", $expr);
+			$expr = preg_replace_callback(
+                "/(\\d{0,1})e(-{0,1}\\d+)/is",
+                function($hit) {
+                    return $hit[1].((strlen($hit[1])) ? '*' : '').'10^('.$hit[2].')';
+                },
+                $expr
+            );
 			// standard functionality
         $this->last_error = null;
         $expr = trim($expr);

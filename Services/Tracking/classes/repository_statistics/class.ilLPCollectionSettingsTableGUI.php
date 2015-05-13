@@ -83,27 +83,22 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('ITEM_ID', $a_set['id']);
 		$this->tpl->setVariable('COLL_TITLE', $a_set['title']);
 		$this->tpl->setVariable('COLL_DESC',$a_set['description']);
-
-		if($this->getMode() == ilLPObjSettings::LP_MODE_SCORM)
+			
+		if($objDefinition->isPluginTypeName($a_set["type"]))
 		{
-			$this->tpl->setVariable('TYPE_IMG', ilUtil::getImagePath('icon_sco.svg'));
-			$this->tpl->setVariable('ALT_IMG', $this->lng->txt('obj_sco'));
+			$alt = ilPlugin::lookupTxt("rep_robj", $a_set['type'], "obj_".$a_set['type']);
 		}
 		else
-		{			
-			if($objDefinition->isPluginTypeName($a_set["type"]))
-			{
-				$alt = ilPlugin::lookupTxt("rep_robj", $a_set['type'], "obj_".$a_set['type']);
-			}
-			else
-			{
-				$alt = $this->lng->txt('obj_' . $a_set['type']);
-			}			
-			$this->tpl->setVariable('ALT_IMG', $alt);
-			$this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon("", "tiny", $a_set['type']));
-			
-			if($this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_MANUAL && 
-				$this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_TLT)
+		{
+			$alt = $this->lng->txt('obj_' . $a_set['type']);
+		}			
+		$this->tpl->setVariable('ALT_IMG', $alt);
+		$this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon("", "tiny", $a_set['type']));
+
+		if($this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_MANUAL && 
+			$this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_TLT)
+		{
+			if($a_set['ref_id'])
 			{
 				$this->tpl->setVariable('COLL_LINK', ilLink::_getLink($a_set['ref_id'], $a_set['type']));
 				$this->tpl->setVariable('COLL_FRAME', ilFrameTargetInfo::_getFrame('MainContent', $a_set['type']));
@@ -118,13 +113,13 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 				{				
 					// #14941					
 					$mode_suffix = '_INLINE';
-					
+
 					if(!$a_set['group_item'])
 					{
 						$this->tpl->setVariable("COLL_MODE", "");
 					}
 				}
-				
+
 				$mode = $a_set['mode_id'];
 				if($mode != ilLPObjSettings::LP_MODE_DEACTIVATED && $mode != ilLPObjSettings::LP_MODE_UNDEFINED)
 				{
@@ -139,54 +134,54 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 				{
 					$this->tpl->setVariable("ANONYMIZED".$mode_suffix, $this->lng->txt('trac_anonymized_info_short'));
 				}
-				
+
 				if($mode_suffix)
 				{
 					$this->tpl->setVariable("COLL_MODE_LABEL", $this->lng->txt("trac_mode"));
 				}
 			}
-			else 
+		}
+		else 
+		{								
+			$this->tpl->setVariable('COLL_LINK', $a_set['url']);
+
+			if($this->getMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT)
 			{								
-				$this->tpl->setVariable('COLL_LINK', $a_set['url']);
-				
-				if($this->getMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT)
-				{								
-					// handle tlt settings
-					$this->tpl->setCurrentBlock("tlt");				
-					$this->tpl->setVariable("TXT_MONTH",$this->lng->txt('md_months'));				
-					$this->tpl->setVariable("TXT_DAYS",$this->lng->txt('md_days'));
-					$this->tpl->setVariable("TXT_TIME",$this->lng->txt('md_time'));
-					$this->tpl->setVariable("TLT_HINT", '(hh:mm)');		
+				// handle tlt settings
+				$this->tpl->setCurrentBlock("tlt");				
+				$this->tpl->setVariable("TXT_MONTH",$this->lng->txt('md_months'));				
+				$this->tpl->setVariable("TXT_DAYS",$this->lng->txt('md_days'));
+				$this->tpl->setVariable("TXT_TIME",$this->lng->txt('md_time'));
+				$this->tpl->setVariable("TLT_HINT", '(hh:mm)');		
 
-					// seconds to units
-					$mon = floor($a_set["tlt"]/(60*60*24*30));
-					$tlt = $a_set["tlt"]%(60*60*24*30);
-					$day = floor($tlt/(60*60*24));
-					$tlt = $tlt%(60*60*24);
-					$hr = floor($tlt/(60*60));
-					$tlt = $tlt%(60*60);				
-					$min = floor($tlt/60);
+				// seconds to units
+				$mon = floor($a_set["tlt"]/(60*60*24*30));
+				$tlt = $a_set["tlt"]%(60*60*24*30);
+				$day = floor($tlt/(60*60*24));
+				$tlt = $tlt%(60*60*24);
+				$hr = floor($tlt/(60*60));
+				$tlt = $tlt%(60*60);				
+				$min = floor($tlt/60);
 
-					$options = array();
-					for($i = 0;$i <= 24;$i++)
-					{
-						$options[$i] = sprintf('%02d',$i);
-					}
-					$this->tpl->setVariable("SEL_MONTHS",
-						ilUtil::formSelect($mon,'tlt['.$a_set['id'].'][mo]',$options,false,true));
-
-					for($i = 0;$i <= 31;$i++)
-					{
-						$options[$i] = sprintf('%02d',$i);
-					}
-					$this->tpl->setVariable("SEL_DAYS", 
-						ilUtil::formSelect($day,'tlt['.$a_set['id'].'][d]',$options,false,true));
-
-					$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt['.$a_set['id'].']',
-						true,$hr,$min,null,false));
-
-					$this->tpl->parseCurrentBlock();			
+				$options = array();
+				for($i = 0;$i <= 24;$i++)
+				{
+					$options[$i] = sprintf('%02d',$i);
 				}
+				$this->tpl->setVariable("SEL_MONTHS",
+					ilUtil::formSelect($mon,'tlt['.$a_set['id'].'][mo]',$options,false,true));
+
+				for($i = 0;$i <= 31;$i++)
+				{
+					$options[$i] = sprintf('%02d',$i);
+				}
+				$this->tpl->setVariable("SEL_DAYS", 
+					ilUtil::formSelect($day,'tlt['.$a_set['id'].'][d]',$options,false,true));
+
+				$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt['.$a_set['id'].']',
+					true,$hr,$min,null,false));
+
+				$this->tpl->parseCurrentBlock();			
 			}
 		}
 

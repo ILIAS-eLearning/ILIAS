@@ -92,20 +92,44 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 	
 	function _lookupRemainingWorkingTimeString($a_obj_id)
 	{
-		global $ilDB, $lng;
+		global $ilDB;
 		
-		$q = "SELECT MIN(time_stamp) mtime, COUNT(*) cnt FROM exc_assignment WHERE exc_id = ".
-			$ilDB->quote($a_obj_id, "integer").
-			" AND time_stamp > ".$ilDB->quote(time(), "integer");
+		// #14077 - mind peer deadline, too
+		
+		$dl = null;
+		$cnt = array();
+		
+		$q = "SELECT id, time_stamp, peer_dl".
+			" FROM exc_assignment WHERE exc_id = ".$ilDB->quote($a_obj_id, "integer").
+			" AND (time_stamp > ".$ilDB->quote(time(), "integer").
+			" OR (peer_dl > ".$ilDB->quote(time(), "integer").
+			" AND peer > ".$ilDB->quote(0, "integer")."))";
 		$set = $ilDB->query($q);
-		$rec = $ilDB->fetchAssoc($set);
-					
-		if ($rec["mtime"] > 0)
-		{
-			$time_diff = ilUtil::int2array($rec["mtime"] - time(), null);
-			$rec["mtime"] = ilUtil::timearray2string($time_diff);
+		while($row = $ilDB->fetchAssoc($set))
+		{			
+			if($row["time_stamp"] > time() && 
+				($row["time_stamp"] < $dl || !$dl))
+			{
+				$dl = $row["time_stamp"];
+			}
+			if($row["peer_dl"] > time() && 
+				($row["peer_dl"] < $dl || !$dl))
+			{
+				$dl = $row["peer_dl"];
+			}
+			$cnt[$row["id"]] = true;			
 		}
-		return $rec;
+		
+		if($dl)
+		{
+			$time_diff = ilUtil::int2array($dl - time(), null);
+			$dl = ilUtil::timearray2string($time_diff);
+		}
+		
+		return array(
+			"mtime" => $dl,
+			"cnt" => sizeof($cnt)
+		);
 	}
 	
 	/**

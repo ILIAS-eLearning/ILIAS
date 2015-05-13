@@ -409,8 +409,12 @@ class ilPCMediaObject extends ilPageContent
 			$a_page->getLanguage());
 		foreach($usages as $mob_id => $val)
 		{
-			ilObjMediaObject::_saveUsage($mob_id, $a_page->getParentType().":pg", $a_page->getId(), $a_old_nr,
-				$a_page->getLanguage());
+			// save usage, if object exists...
+			if (ilObject::_lookupType($mob_id) == "mob")
+			{
+				ilObjMediaObject::_saveUsage($mob_id, $a_page->getParentType().":pg", $a_page->getId(), $a_old_nr,
+					$a_page->getLanguage());
+			}
 		}
 		
 		return $usages;

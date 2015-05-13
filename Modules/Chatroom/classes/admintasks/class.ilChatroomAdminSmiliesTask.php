@@ -9,7 +9,7 @@
  *
  * @ingroup ModulesChatroom
  */
-class ilChatroomSmiliesTask extends ilChatroomTaskHandler
+class ilChatroomAdminSmiliesTask extends ilChatroomTaskHandler
 {
 	/**
 	 * @var ilChatroomObjectGUI

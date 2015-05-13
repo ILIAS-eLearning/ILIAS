@@ -104,8 +104,6 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 	{
 		global $tpl;
 		
-		$this->checkPermission("write");
-		
 		if (!$a_omit_init)
 		{
 			$this->initMediaObjectsSettingsForm();
@@ -121,6 +119,8 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 	{
 		global $tpl, $lng, $ilCtrl;
 	
+		$this->checkPermission("write");
+		
 		$this->initMediaObjectsSettingsForm();
 		if ($this->form->checkInput())
 		{
@@ -144,7 +144,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 	 */
 	public function initMediaObjectsSettingsForm()
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilAccess;
 		
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -174,7 +174,10 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 		$tx_prop->setInfo($lng->txt("mob_upload_dir_info"));
 		$this->form->addItem($tx_prop);
 
-		$this->form->addCommandButton("saveSettings", $lng->txt("save"));
+		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$this->form->addCommandButton("saveSettings", $lng->txt("save"));
+		}
 	                
 		$this->form->setTitle($lng->txt("settings"));
 		$this->form->setFormAction($ilCtrl->getFormAction($this));

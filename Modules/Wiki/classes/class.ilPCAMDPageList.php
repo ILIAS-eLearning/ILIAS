@@ -120,6 +120,40 @@ class ilPCAMDPageList extends ilPageContent
 		return $res;
 	}
 	
+	static function handleCopiedContent(DOMDocument $a_domdoc, $a_self_ass = true, $a_clone_mobs = false)
+	{
+		global $ilDB;
+		
+		// #15688
+		
+		$xpath = new DOMXPath($a_domdoc);
+		$nodes = $xpath->query("//AMDPageList");
+		foreach($nodes as $node)
+		{
+			$old_id = $node->getAttribute("Id");
+			break;
+		}
+		
+		if($old_id)
+		{			
+			$new_id = $ilDB->nextId("pg_amd_page_list");
+
+			$set = $ilDB->query("SELECT * FROM pg_amd_page_list".
+					" WHERE id = ".$ilDB->quote($old_id, "integer"));
+			while($row = $ilDB->fetchAssoc($set))
+			{				
+				$fields = array(
+					"id" => array("integer", $new_id)
+					,"field_id" => array("integer", $row["field_id"])
+					,"data" => array("text", $row["data"])
+				);						
+				$ilDB->insert("pg_amd_page_list", $fields);	
+			}
+			
+			$node->setAttribute("Id", $new_id);
+		}
+	}
+	
 	
 	//
 	// presentation
@@ -218,7 +252,7 @@ class ilPCAMDPageList extends ilPageContent
 			}
 			else
 			{
-				$ltpl->setVariable("NO_HITS", $lng->txt("wiki_amd_page_list_no_hits"));
+				$ltpl->touchBlock("no_hits_bl");
 			}
 											
 			$a_html = substr($a_html, 0, $start).

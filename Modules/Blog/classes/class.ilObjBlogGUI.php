@@ -1065,6 +1065,28 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$list = $this->renderList($list_items, "previewEmbedded");
 			$nav = $this->renderNavigation($this->items, "gethtml", "previewEmbedded");
 		}		
+		// quick editing in portfolio
+		else if($_REQUEST["prt_id"])
+		{		
+			global $ilUser, $ilCtrl, $lng;
+			
+			// see renderList()
+			if(ilObject::_lookupOwner($_REQUEST["prt_id"]) == $ilUser->getId())
+			{				
+				// see ilPortfolioPageTableGUI::fillRow()
+				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", (int)$_REQUEST["user_page"]);
+				$link = $ilCtrl->getLinkTargetByClass(array("ilportfoliopagegui", "ilobjbloggui"), "render");
+				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", "");
+				
+				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+				$btn = ilLinkButton::getInstance();				
+				$btn->setCaption(sprintf($lng->txt("prtf_edit_embedded_blog"), $this->object->getTitle()), false);
+				$btn->setUrl($link);
+				$btn->setPrimary(true);
+				
+				$list = $btn->render();
+			}	
+		}
 		
 		return $this->buildEmbedded($list, $nav);		
 	}
@@ -1402,9 +1424,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$link = $ilCtrl->getLinkTargetByClass(array("ilportfoliopagegui", "ilobjbloggui"), "render");
 				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", "");
 				
+				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+				$btn = ilLinkButton::getInstance();				
+				$btn->setCaption(sprintf($lng->txt("prtf_edit_embedded_blog"), $this->object->getTitle()), false);
+				$btn->setUrl($link);
+				
 				$wtpl->setCurrentBlock("prtf_edit_bl");
-				$wtpl->setVariable("PRTF_BLOG_URL", $link);
-				$wtpl->setVariable("PRTF_BLOG_TITLE", sprintf($lng->txt("prtf_edit_embedded_blog"), $this->object->getTitle()));
+				$wtpl->setVariable("PRTF_BLOG_EDIT", $btn->render());				
 				$wtpl->parseCurrentBlock();
 			}
 		}
@@ -1913,7 +1939,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$wtpl->setCurrentBlock("keyword");
 			foreach($keywords as $keyword => $counter)
 			{										
-				$ilCtrl->setParameter($this, "kwd", $keyword);
+				$ilCtrl->setParameter($this, "kwd", urlencode($keyword)); // #15885
 				$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
 				$ilCtrl->setParameter($this, "kwd", "");
 
@@ -2143,7 +2169,20 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				}
 			}									
 		}
-		ksort($keywords);
+		
+		// #15881
+		$tmp = array();
+		foreach($keywords as $keyword => $counter)
+		{
+			$tmp[] = array("keyword"=>$keyword, "counter"=>$counter);
+		}
+		$tmp = ilUtil::sortArray($tmp, "keyword", "ASC");	
+		
+		$keywords = array();
+		foreach($tmp as $item)
+		{
+			$keywords[$item["keyword"]] = $item["counter"];
+		}
 		return $keywords;
 	}
 	

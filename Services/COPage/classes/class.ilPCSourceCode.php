@@ -82,8 +82,20 @@ class ilPCSourceCode extends ilPCParagraph
 			$rownums = count(split ("\n",$content));
 
 			$plain_content = html_entity_decode($content);
-			$plain_content = preg_replace ("/\&#x([1-9a-f]{2});?/ise","chr (base_convert (\\1, 16, 10))",$plain_content);
-			$plain_content = preg_replace ("/\&#(\d+);?/ise","chr (\\1)",$plain_content);
+			$plain_content = preg_replace_callback(
+                "/\&#x([1-9a-f]{2});?/is",
+                function($hit) {
+                    return chr(base_convert($hit[1], 16, 10));
+                },
+                $plain_content
+            );
+			$plain_content = preg_replace_callback(
+                "/\&#(\d+);?/is",
+                function($hit) {
+                    return chr($hit[1]);
+                },
+                $plain_content
+            );
 			$content = utf8_encode($this->highlightText($plain_content, $subchar, $autoindent));
 
 			$content = str_replace("&amp;lt;", "&lt;", $content);

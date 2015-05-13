@@ -994,7 +994,8 @@ class ilWebAccessChecker
 		// delivery via apache virtual function
 		if ($this->getDisposition() == "virtual")
 		{
-			$this->sendFileVirtual();
+//			$this->sendFileVirtual();
+			$this->sendFileGeneral(); // FSX fixes bugs by using new ilFileDelivery Class
 			exit;
 		}
 		// delivery for download dialogue
@@ -1063,6 +1064,7 @@ class ilWebAccessChecker
 	* Access to "virtual-data" should be protected by "Allow from env=ILIAS_CHECKED"
 	* The auto-generated headers should be unset by Apache for the WebAccessChecker directory
 	*
+	 * @deprecated virtual doens't seem to work properly, please use $this->sendFileGeneral();
 	* @access	public
 	*/
 	public function sendFileVirtual()
@@ -1091,6 +1093,16 @@ class ilWebAccessChecker
 		}
 
 		exit;
+	}
+
+	protected function sendFileGeneral(){
+		require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
+//		ilFileDelivery::$DEV = true;
+		$file_delivery = new ilFileDelivery(str_replace('/virtual-data/', '/data/', $this->file));
+		$file_delivery->setDisposition(ilFileDelivery::DISP_INLINE);
+		$file_delivery->generateEtag();
+		$file_delivery->setShowLastModified(true);
+		$file_delivery->deliver();
 	}
 	
 	

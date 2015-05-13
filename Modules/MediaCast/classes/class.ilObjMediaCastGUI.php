@@ -1332,7 +1332,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
-			$_GET["cmd"] = "listItems";
+			$_GET["cmd"] = "showContent";
 			$_GET["ref_id"] = $a_target;
 			$_GET["baseClass"] = "ilmediacasthandlergui";
 			$_GET["cmdClass"] = "ilobjmediacastgui";

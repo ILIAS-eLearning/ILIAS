@@ -39,6 +39,16 @@ class ilExAssignmentGUI
 			$tpl->setVariable("PROP_VAL",
 				ilDatePresentation::formatDate(new ilDateTime($a_data["deadline"],IL_CAL_UNIX)));
 			$tpl->parseCurrentBlock();
+			
+			// #14077
+			if($a_data["peer"] && $a_data["peer_dl"])
+			{
+				$tpl->setCurrentBlock("prop");
+				$tpl->setVariable("PROP", $lng->txt("exc_peer_review_deadline"));
+				$tpl->setVariable("PROP_VAL",
+					ilDatePresentation::formatDate(new ilDateTime($a_data["peer_dl"],IL_CAL_UNIX)));
+				$tpl->parseCurrentBlock();
+			}		
 		}
 		else if ($a_data["start_time"] > 0 && time() - $a_data["start_time"] <= 0)
 		{

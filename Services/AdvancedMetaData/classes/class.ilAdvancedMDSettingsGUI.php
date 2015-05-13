@@ -78,7 +78,7 @@ class ilAdvancedMDSettingsGUI
 	 */
 	public function showRecords()
 	{
-		global $ilToolbar;
+		global $ilToolbar, $ilAccess;
 		
 		$perm = $this->getPermissions()->hasPermissions(
 			ilAdvancedMDPermissionHelper::CONTEXT_MD,
@@ -119,12 +119,17 @@ class ilAdvancedMDSettingsGUI
 		$table_gui->setTitle($this->lng->txt("md_record_list_table"));
 		$table_gui->parseRecords($this->record_objs);		
 		
-		// permissions?
-		$table_gui->addCommandButton("updateRecords", $this->lng->txt("save"));
+		// permissions?		
 		//$table_gui->addCommandButton('createRecord',$this->lng->txt('add'));			
 		$table_gui->addMultiCommand("exportRecords",$this->lng->txt('export'));		
-		$table_gui->addMultiCommand("confirmDeleteRecords", $this->lng->txt("delete"));		
 		$table_gui->setSelectAllCheckbox("record_id");
+		
+		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{		
+			$table_gui->addMultiCommand("confirmDeleteRecords", $this->lng->txt("delete"));		
+			$table_gui->addCommandButton("updateRecords", $this->lng->txt("save"));
+		}
+		
 		
 		$this->tpl->setVariable('RECORD_TABLE',$table_gui->getHTML());
 		
@@ -152,6 +157,13 @@ class ilAdvancedMDSettingsGUI
 	 */
 	public function updateSubstitutions()
 	{
+		global $ilAccess;
+		
+		if(!$ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{	
+			$this->ctrl->redirect($this, "showPresentation");
+		}
+		
 		foreach(ilAdvancedMDRecord::_getActivatedObjTypes() as $obj_type)
 		{			
 			$perm = null;
@@ -969,6 +981,8 @@ class ilAdvancedMDSettingsGUI
 			}
 		}
 		
+		$form->setValuesByPost();		
+		
 		// fields needs confirmation of updated settings
 		if($confirm)
 		{
@@ -976,7 +990,6 @@ class ilAdvancedMDSettingsGUI
 			$field_definition->prepareDefinitionFormConfirmation($form);
 		}		
 		
-		$form->setValuesByPost();
 		$this->editField($form);		
 	}
 	
@@ -1227,6 +1240,8 @@ class ilAdvancedMDSettingsGUI
 	 */
 	protected function initFormSubstitutions()
 	{
+		global $ilAccess;
+		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		
 		if(!$visible_records = ilAdvancedMDRecord::_getAllRecordsByObjectType())
@@ -1383,7 +1398,12 @@ class ilAdvancedMDSettingsGUI
 			*/
 		}
 		$this->form->setTitle($this->lng->txt('md_adv_substitution_table'));
-		$this->form->addCommandButton('updateSubstitutions',$this->lng->txt('save'));
+		
+		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		{	
+			$this->form->addCommandButton('updateSubstitutions',$this->lng->txt('save'));
+		}
+		
 		return true;
 	}
 	

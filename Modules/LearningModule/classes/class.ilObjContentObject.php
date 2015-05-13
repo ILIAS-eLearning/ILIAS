@@ -2614,6 +2614,9 @@ class ilObjContentObject extends ilObject
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 
+		include_once("./Services/COPage/classes/class.ilPCQuestion.php");
+		ilPCQuestion::resetInitialState();
+
 		$_GET["obj_id"] = $a_lm_page_id;
 		$_GET["frame"] = $a_frame;
 

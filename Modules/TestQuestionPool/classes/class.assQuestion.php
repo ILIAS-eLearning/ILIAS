@@ -3979,14 +3979,14 @@ abstract class assQuestion
 	 * @param
 	 * @return
 	 */
-	function formatSAQuestion($a_q)
+	function formatSAQuestion($a_q, $a_latex_start_delimiter = "\[tex\]", $a_latex_end_delimiter = "\[\/tex\]")
 	{
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		$a_q = nl2br((string) ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0));
+		$a_q = nl2br((string) ilRTE::_replaceMediaObjectImageSrc($a_q, 0));
 		$a_q = str_replace("</li><br />", "</li>", $a_q);
 		$a_q = str_replace("</li><br>", "</li>", $a_q);
 		
-		$a_q = ilUtil::insertLatexImages($a_q);
+		$a_q = ilUtil::insertLatexImages($a_q, $a_latex_start_delimiter, $a_latex_end_delimiter);
 		
 		return $a_q;
 	}
@@ -4323,6 +4323,15 @@ abstract class assQuestion
 		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
 		return ilHtmlPurifierFactory::_getInstanceByType('qpl_usersolution');
 	}
+
+	/**
+	 * @return ilAssHtmlUserSolutionPurifier
+	 */
+	public function getHtmlQuestionContentPurifier()
+	{
+		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
+		return ilHtmlPurifierFactory::_getInstanceByType('qpl_usersolution');
+	}
 	
 	protected function buildQuestionDataQuery()
 	{
@@ -4501,5 +4510,10 @@ abstract class assQuestion
 			$sec += $time_array[2];
 		}
 		return $sec;
+	}
+
+	public function toJSON()
+	{
+		return json_encode(array());
 	}
 }

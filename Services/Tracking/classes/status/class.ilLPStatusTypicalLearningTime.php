@@ -66,7 +66,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 	}
 
 	function _getStatusInfo($a_obj_id)
-	{
+	{		
 		$status_info['tlt'] = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
 
 		return $status_info;
@@ -117,7 +117,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 	 * @return	integer		percentage
 	 */
 	function determinePercentage($a_obj_id, $a_user_id, $a_obj = null)
-	{
+	{		
 		$tlt = (int) ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
 		$re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_user_id);
 		$spent = (int) $re[0]["spent_seconds"];

@@ -197,12 +197,15 @@ class ilAdministrationSettingsFormHandler
 	
 	protected static function parseFieldDefinition($a_type, ilPropertyFormGUI $a_form, ilObjectGUI $a_gui, $a_data)
 	{
-		global $lng, $rbacsystem, $ilCtrl;
+		global $lng, $rbacsystem, $ilCtrl, $ilAccess;
 		
 		if(!is_array($a_data))
 		{
 			return;
 		}
+		
+		// write permission for current gui?
+		$has_write = $ilAccess->checkAccess("write", "", (int)$_REQUEST["ref_id"]);
 
 		foreach($a_data as $area_caption => $fields)
 		{	
@@ -262,7 +265,8 @@ class ilAdministrationSettingsFormHandler
 						$ftpl->parseCurrentBlock();
 					}
 
-					if ($rbacsystem->checkAccess("visible,read", $a_gui->object->getRefId()))
+					if ($has_write &&
+						$rbacsystem->checkAccess("visible,read", $a_gui->object->getRefId()))
 					{	
 						if(!$cmd)
 						{

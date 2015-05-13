@@ -216,11 +216,6 @@ class ilUserImportParser extends ilSaxParser
 	var $personalPicture;
 
 	/**
-	 * Cached iLinc data
-	 */
-	var $ilincdata;
-
-	/**
 	 * Cached parent roles.
 	 * This is used to speed up assignment to local roles with parents.
 	 * This is an associative array.
@@ -275,6 +270,11 @@ class ilUserImportParser extends ilSaxParser
 	private $current_messenger_type;
 
 	/**
+	 * @var array
+	 */
+	private static $account_mail_cache = array();
+
+	/**
 	* Constructor
 	*
 	* @param	string		$a_xml_file		xml file
@@ -296,7 +296,6 @@ class ilUserImportParser extends ilSaxParser
 		$this->userCount = 0;
 		$this->localRoleCache = array();
 		$this->parentRolesCache = array();
-		$this->ilincdata = array();
 		$this->send_mail = false;
 		$this->mapping_mode = IL_USER_MAPPING_LOGIN;
 		
@@ -1204,15 +1203,6 @@ class ilUserImportParser extends ilSaxParser
 								}
 							}
 
-							if ($this->ilincdata["id"]) {
-							    include_once 'Modules/ILinc/classes/class.ilObjiLincUser.php';
-                                $ilinc_user = new ilObjiLincUser($this->userObj);
-                                $ilinc_user->setVar("id", $this->ilincdata["id"]);
-                                $ilinc_user->setVar("login", $this->ilincdata["login"]);
-                                $ilinc_user->setVar("passwd", $this->ilincdata["password"]);
-                                $ilinc_user->update();
-							}
-
 							//set role entries
 							foreach($this->roles as $role_id => $role)
 							{
@@ -1367,15 +1357,6 @@ class ilUserImportParser extends ilSaxParser
 							$updateUser->setTitle($updateUser->getFullname());
 							$updateUser->setDescription($updateUser->getEmail());
 							$updateUser->update();
-
-							if ($this->ilincdata["id"]) {
-							    include_once 'Modules/ILinc/classes/class.ilObjiLincUser.php';
-                                $ilinc_user = new ilObjiLincUser($updateUser);
-                                $ilinc_user->setVar("id", $this->ilincdata["id"]);
-                                $ilinc_user->setVar("login", $this->ilincdata["login"]);
-                                $ilinc_user->setVar("passwd", $this->ilincdata["password"]);
-                                $ilinc_user->update();
-							}
 
 							if(count($this->udf_data))
 							{
@@ -1667,19 +1648,6 @@ class ilUserImportParser extends ilSaxParser
 					    $this->userObj->setAgreeDate(null);
 					}
 				}
-				break;
-
-			case "iLincID":
-				$this->ilincdata["id"] = $this->cdata;
-				break;
-
-			case "iLincLogin":
-				$this->$ilincdata["login"] = $this->cdata;
-				break;
-
-			case "iLincPasswd":
-				$this->$ilincdata["password"] = $this->cdata;
-				//$this->userObj->setiLincData($this->ilincdata);
 				break;
 
 			case "ExternalAccount":
@@ -2103,24 +2071,6 @@ class ilUserImportParser extends ilSaxParser
 					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"AgreeDate",$this->cdata));
 				}
 				break;
-			case "iLincID":
-				if (!preg_match("/\d+/", $this->cdata))
-				{
-					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"iLincID",$this->cdata));
-				}
-				break;
-			case "iLincUser":
-				if (!preg_match("/\w+/", $this->cdata))
-				{
-					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"iLincUser",$this->cdata));
-				}
-				break;
-			case "iLincPasswd":
-				if (!preg_match("/\w+/", $this->cdata))
-				{
-					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"iLincPasswd",$this->cdata));
-				}
-				break;
 			case "Pref":				
 				if ($this->currentPrefKey != null)
 					$this->verifyPref($this->currentPrefKey, $this->cdata);
@@ -2288,14 +2238,56 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function sendAccountMail()
 	{
-//var_dump($_POST["send_mail"]);
-		if ($_POST["send_mail"] != "" ||
-		   ($this->isSendMail() && $this->userObj->getEmail() != "")
-		   )
+		if($_POST["send_mail"] != "" ||
+			($this->isSendMail() && $this->userObj->getEmail() != ""))
 		{
 			$this->acc_mail->setUser($this->userObj);
+
+			$amail = $this->readAccountMailFromCache($this->userObj->getLanguage());
+			if($amail["att_file"])
+			{
+				include_once "Services/User/classes/class.ilFSStorageUserFolder.php";
+				$fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
+				$fs->create();
+				$path = $fs->getAbsolutePath() . "/";
+
+				$this->acc_mail->addAttachment($path . "/" . $amail["lang"], $amail["att_file"]);
+			}
 			$this->acc_mail->send();
 		}
+	}
+
+	/**
+	 * @param $lang_key
+	 * @return mixed
+	 */
+	private function readAccountMailFromCache($lang_key)
+	{
+		if(!isset(self::$account_mail_cache[$lang_key]))
+		{
+			$default_lang_key = $GLOBALS["lng"]->getDefaultLanguage();
+
+			// try individual account mail in user administration
+			include_once './Services/User/classes/class.ilObjUserFolder.php';
+
+			$amail = ilObjUserFolder::_lookupNewAccountMail($lang_key);
+
+			if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
+			{
+				self::$account_mail_cache[$lang_key] = $amail;
+			}
+			else
+			{
+				$lang_key = $default_lang_key;
+			}
+
+			if(!isset(self::$account_mail_cache[$default_lang_key]))
+			{
+				$amail = ilObjUserFolder::_lookupNewAccountMail($default_lang_key);
+				self::$account_mail_cache[$default_lang_key] = $amail;
+			}
+		}
+		return self::$account_mail_cache[$lang_key];
 	}
 
 	/**

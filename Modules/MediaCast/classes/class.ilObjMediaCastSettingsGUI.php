@@ -132,18 +132,22 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 	*/
 	public function saveSettings()
 	{
-		global $ilCtrl;
-		foreach ($this->settings->getPurposeSuffixes() as $purpose => $filetypes) {
-			$purposeSuffixes[$purpose] = explode(",", preg_replace("/[^\w,]/", "", strtolower($_POST[$purpose])));			
-		}
-
-		$this->settings->setPurposeSuffixes($purposeSuffixes);
-		$this->settings->setDefaultAccess ($_POST["defaultaccess"]);
-		$this->settings->setMimeTypes (explode(",", $_POST["mimetypes"]));
-
-		$this->settings->save();
+		global $ilCtrl, $ilAccess;
 		
-		ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			foreach ($this->settings->getPurposeSuffixes() as $purpose => $filetypes) {
+				$purposeSuffixes[$purpose] = explode(",", preg_replace("/[^\w,]/", "", strtolower($_POST[$purpose])));			
+			}
+
+			$this->settings->setPurposeSuffixes($purposeSuffixes);
+			$this->settings->setDefaultAccess ($_POST["defaultaccess"]);
+			$this->settings->setMimeTypes (explode(",", $_POST["mimetypes"]));
+
+			$this->settings->save();
+
+			ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
+		}
 		
 		$ilCtrl->redirect($this, "view");
 	}
@@ -175,14 +179,18 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-	    global $lng;
+	    global $lng, $ilAccess;
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('settings'));
-		$form->addCommandButton('saveSettings',$this->lng->txt('save'));
-		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$form->addCommandButton('saveSettings',$this->lng->txt('save'));
+			$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		}
 
 		//Default Visibility
 		$radio_group = new ilRadioGroupInputGUI($lng->txt("mcst_default_visibility"), "defaultaccess");

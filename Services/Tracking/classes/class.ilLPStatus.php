@@ -717,9 +717,147 @@ class ilLPStatus
 		return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
 	}
 	
+	
+	// 
+	// LIST GUI
+	// 
+	
+	/**
+	 * Process given objects for lp-relevance
+	 * 
+	 * @param int $a_user_id
+	 * @param array $a_obj_ids
+	 * @param int $a_parent_ref_id
+	 * @return arraye 
+	 */
+	protected static function validateLPForObjects($a_user_id, $a_obj_ids, $a_parent_ref_id)
+	{		
+		$lp_invalid = array();
+		
+		include_once "Services/Object/classes/class.ilObjectLP.php";			
+		$memberships = ilObjectLP::getLPMemberships($a_user_id, $a_obj_ids, $a_parent_ref_id);
+		foreach($memberships as $obj_id => $status)
+		{
+			if(!$status)
+			{
+				$lp_invalid[] = $obj_id;
+			}
+		}
+		
+		return array_diff($a_obj_ids, $lp_invalid);
+	}
+	
+	/**
+	 * Process lp modes for given objects
+	 * 
+	 * @param array $a_obj_ids
+	 * @return array
+	 */
+	protected static function checkLPModesForObjects($a_obj_ids, array &$a_coll_obj_ids)
+	{
+		$valid = array();
+		
+		// all lp modes with collections (gathered separately)
+		include_once "Services/Tracking/classes/collection/class.ilLPCollection.php";	
+		$coll_modes = ilLPCollection::getCollectionModes();
+		
+		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";			
+		
+		// check if objects have LP activated at all (DB entries)	
+		$existing = ilLPObjSettings::_lookupDBModeForObjects($a_obj_ids);
+		foreach($existing as $obj_id => $obj_mode)
+		{												
+			if($obj_mode != ilLPObjSettings::LP_MODE_DEACTIVATED)
+			{
+				$valid[$obj_id] = $obj_id;
+				
+				if(in_array($obj_mode, $coll_modes))
+				{
+					$a_coll_obj_ids[] = $obj_id;
+				}
+			}
+		}
+								
+		// missing objects in DB (default mode)
+		include_once "Services/Object/classes/class.ilObjectLP.php";			
+		if(sizeof($existing) != sizeof($a_obj_ids))
+		{											
+			foreach(array_diff($a_obj_ids, $existing) as $obj_id)
+			{
+				$olp = ilObjectLP::getInstance($obj_id);
+				$mode = $olp->getCurrentMode();
+				if($mode == ilLPObjSettings::LP_MODE_DEACTIVATED)
+				{
+					// #11141
+					unset($valid[$obj_id]);
+				}
+				else if($mode != ilLPObjSettings::LP_MODE_UNDEFINED)
+				{
+					$valid[$obj_id] = $obj_id;
+
+					if(in_array($mode, $coll_modes))
+					{
+						$a_coll_obj_ids[] = $obj_id;
+					}
+				}
+			}
+			unset($existing);
+		}
+		
+		return array_values($valid);
+	}
+	
+	/**
+	 * Get LP status for given objects (and user)
+	 *
+	 * @param int $a_user_id
+	 * @param array $a_obj_ids
+	 * @return array
+	 */
+	protected static function getLPStatusForObjects($a_user_id, $a_obj_ids)
+	{
+		global $ilDB; 
+		
+		$res = array();
+		
+		// get user lp data			
+		$sql = "SELECT status, status_dirty, obj_id FROM ut_lp_marks".			
+			" WHERE ".$ilDB->in("obj_id", $a_obj_ids, "", "integer").
+			" AND usr_id = ".$ilDB->quote($a_user_id, "integer");
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{				
+			if(!$row["status_dirty"])
+			{				
+				$res[$row["obj_id"]] = $row["status"];				
+			}
+			else
+			{
+				$res[$row["obj_id"]] = self::_lookupStatus($row["obj_id"], $a_user_id);
+			}
+		}
+
+		// process missing user entries (same as dirty entries, see above)
+		foreach($a_obj_ids as $obj_id)
+		{
+			if(!isset($res[$obj_id]))
+			{					
+				$res[$obj_id] = self::_lookupStatus($obj_id, $a_user_id);
+				if($res[$obj_id] === null)
+				{
+					$res[$obj_id] = self::LP_STATUS_NOT_ATTEMPTED_NUM;
+				}
+			}
+		}
+			
+		return $res;
+	}
+	
 	public static function preloadListGUIData($a_obj_ids)
 	{
-		global $ilDB, $ilUser, $lng;
+		global $ilUser, $lng;
+		
+		$user_id = $ilUser->getId();
 		
 		$res = array();
 		
@@ -728,71 +866,23 @@ class ilLPStatus
 			ilObjUserTracking::_enabledLearningProgress() &&
 			ilObjUserTracking::_hasLearningProgressLearner() && // #12042
 			ilObjUserTracking::_hasLearningProgressListGUI())
-		{								
-			include_once "Services/Object/classes/class.ilObjectLP.php";
+		{											
+			// -- validate
 			
-			// validate objects
-			$valid = array();
-			$existing = ilLPObjSettings::_lookupDBModeForObjects($a_obj_ids);
-			foreach($existing as $obj_id => $obj_mode)
-			{												
-				if($obj_mode != ilLPObjSettings::LP_MODE_DEACTIVATED)
-				{
-					$valid[$obj_id] = $obj_id;
-				}
-			}
-						
-			if(sizeof($existing) != sizeof($a_obj_ids))
-			{								
-				// missing objects (default mode)
-				foreach(array_diff($a_obj_ids, $existing) as $obj_id)
-				{
-					$olp = ilObjectLP::getInstance($obj_id);
-					$mode = $olp->getCurrentMode();
-					if($mode == ilLPObjSettings::LP_MODE_DEACTIVATED)
-					{
-						// #11141
-						unset($valid[$obj_id]);
-					}
-					else if($mode != ilLPObjSettings::LP_MODE_UNDEFINED)
-					{
-						$valid[$obj_id] = $obj_id;
-					}
-				}
-				unset($existing);
-			}
+			// :TODO: we need the parent ref id, but this is awful
+			$a_obj_ids = self::validateLPForObjects($user_id, $a_obj_ids, (int)$_GET["ref_id"]);
 			
-			$valid = array_values($valid);
+			// we are not handling the collections differently yet
+			$coll_obj_ids = array();
+			$a_obj_ids = self::checkLPModesForObjects($a_obj_ids, $coll_obj_ids);
 			
-			// get user lp data			
-			$sql = "SELECT status, status_dirty, obj_id FROM ut_lp_marks".			
-				" WHERE ".$ilDB->in("obj_id", $valid, "", "integer").
-				" AND usr_id = ".$ilDB->quote($ilUser->getId(), "integer");
-			$set = $ilDB->query($sql);
-			while($row = $ilDB->fetchAssoc($set))
-			{				
-				if(!$row["status_dirty"])
-				{				
-					$res[$row["obj_id"]] = $row["status"];				
-				}
-				else
-				{
-					$res[$row["obj_id"]] = self::_lookupStatus($row["obj_id"], $ilUser->getId());
-				}
-			}
 			
-			// process missing user entries (same as dirty entries, see above)
-			foreach($valid as $obj_id)
-			{
-				if(!isset($res[$obj_id]))
-				{
-					$res[$obj_id] = self::_lookupStatus($obj_id, $ilUser->getId());
-					if($res[$obj_id] === null)
-					{
-						$res[$obj_id] = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-					}
-				}
-			}
+			// -- gather
+			
+			$res = self::getLPStatusForObjects($user_id, $a_obj_ids);
+			
+			
+			// -- render
 
 			// value to icon
 			$lng->loadLanguageModule("trac");		

@@ -6,10 +6,16 @@ class ilADTEnumFormBridge extends ilADTFormBridge
 {
 	protected $force_radio; // [bool]
 	protected $option_infos; // [array]
+	protected $auto_sort = true; // [bool]
 	
 	protected function isValidADT(ilADT $a_adt) 
 	{
 		return ($a_adt instanceof ilADTEnum);
+	}
+	
+	public function setAutoSort($a_value)
+	{
+		$this->auto_sort = (bool)$a_value;
 	}
 	
 	public function forceRadio($a_value, array $a_info = null)
@@ -29,7 +35,11 @@ class ilADTEnumFormBridge extends ilADTFormBridge
 		$selection = $this->getADT()->getSelection();
 		
 		$options = $def->getOptions();
-		asort($options); // ?
+		
+		if((bool)$this->auto_sort)
+		{
+			asort($options); 
+		}
 		
 		if(!$this->isRequired())
 		{			

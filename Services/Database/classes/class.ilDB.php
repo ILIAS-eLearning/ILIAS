@@ -1155,7 +1155,7 @@ abstract class ilDB extends PEAR
 
 		if (strlen($a_name) > 22)
 		{
-			$this->error_str = "Invalid table name '".$a_name."'. Maximum table identifer lenght is 22 bytes.";
+			$this->error_str = "Invalid table name '".$a_name."'. Maximum table identifer length is 22 bytes.";
 			return false;
 		}
 		
@@ -1299,7 +1299,7 @@ abstract class ilDB extends PEAR
 
 		if (strlen($a_name) > 30)
 		{
-			$this->error_str = "Invalid column name '".$a_name."'. Maximum column identifer lenght is 30 bytes.";
+			$this->error_str = "Invalid column name '".$a_name."'. Maximum column identifer length is 30 bytes.";
 			return false;
 		}
 
@@ -1327,7 +1327,7 @@ abstract class ilDB extends PEAR
 		
 		if (strlen($a_name) > 3)
 		{
-			$this->error_str = "Invalid index name '".$a_name."'. Maximum index identifer lenght is 3 bytes.";
+			$this->error_str = "Invalid index name '".$a_name."'. Maximum index identifer length is 3 bytes.";
 			return false;
 		}
 

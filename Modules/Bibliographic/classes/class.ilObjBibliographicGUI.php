@@ -144,7 +144,7 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 	 */
 	public function infoScreenForward() {
 		global $ilTabs, $ilErr, $lng;
-		if (!$this->checkPermissionBool("visible")) {
+		if (! $this->checkPermissionBool("visible")) {
 			ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
 			$this->ctrl->redirectByClass('ilPersonalDesktopGUI', '');
 		}
@@ -240,12 +240,14 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 	 * this had to be moved here because of the context-specific permission tab
 	 */
 	public function setTabs() {
-		global $ilAccess, $ilTabs, $lng;
+		global $ilAccess, $ilTabs, $lng, $ilHelp;
 		/**
-		 * @var $ilAccess ilAccessHandler
-		 * @var $ilTabs   ilTabsGUI
-		 * @var $lng      ilLanguage
+		 * @var $ilAccess    ilAccessHandler
+		 * @var $ilTabs      ilTabsGUI
+		 * @var $lng         ilLanguage
+		 * @var $ilHelp      ilHelpGUI
 		 */
+		$ilHelp->setScreenIdComponent('bibl');
 		// info screen
 		if ($ilAccess->checkAccess('read', "", $this->object->getRefId())) {
 			$ilTabs->addTab("content", $lng->txt("content"), $this->ctrl->getLinkTarget($this, "showContent"));
@@ -459,7 +461,7 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 			}
 			$ilCtrl->setParameter($this, "ntf", "");
 		}
-		if (!$a_redraw) {
+		if (! $a_redraw) {
 			$tpl->setHeaderActionMenu($lg->getHeaderAction());
 		} else {
 			return $lg->getHeaderAction();

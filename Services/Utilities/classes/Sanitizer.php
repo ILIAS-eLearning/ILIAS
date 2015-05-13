@@ -619,8 +619,13 @@ class Sanitizer {
 		$value = $stripped;
 
 		// ... and continue checks
-		$stripped = preg_replace( '!\\\\([0-9A-Fa-f]{1,6})[ \\n\\r\\t\\f]?!e',
-			'codepointToUtf8(hexdec("$1"))', $stripped );
+		$stripped = preg_replace_callback(
+            '!\\\\([0-9A-Fa-f]{1,6})[ \\n\\r\\t\\f]?!',
+			function($hit){
+                return codepointToUtf8(hexdec($hit[1]));
+            },
+            $stripped
+        );
 		$stripped = str_replace( '\\', '', $stripped );
 		if( preg_match( '/(?:expression|tps*:\/\/|url\\s*\().*/is',
 				$stripped ) ) {
@@ -1238,7 +1243,22 @@ class Sanitizer {
 		$url = Sanitizer::decodeCharReferences( $url );
 
 		# Escape any control characters introduced by the above step
-		$url = preg_replace( '/[\][<>"\\x00-\\x20\\x7F]/e', "urlencode('\\0')", $url );
+		$url = preg_replace_callback(
+            '/[\][<>"\\x00-\\x20\\x7F]/',
+            function($hit) {
+                if($hit[0] === '"') {
+                    /** NOTE: The original preg_replace/e IMPLICITLY
+                     *        adds a forward-slash on double quotes
+                     *        This could be a bug, but we will just
+                     *        mimic this behaviour 1:1 for now.
+                     */
+                    return urlencode ('\\"');
+                } else {
+                    return urlencode($hit[0]);
+                }
+            },
+            $url
+        );
 
 		# Validate hostname portion
 		$matches = array();

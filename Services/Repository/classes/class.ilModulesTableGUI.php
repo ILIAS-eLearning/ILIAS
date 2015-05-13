@@ -17,7 +17,7 @@ class ilModulesTableGUI extends ilTable2GUI
 	protected $pos_group_options; // [array]
 	protected $old_grp_id; // [int]
 	
-	function __construct($a_parent_obj, $a_parent_cmd = "")
+	function __construct($a_parent_obj, $a_parent_cmd = "", $a_has_write = false)
 	{
 		global $ilCtrl, $lng;
 				
@@ -32,9 +32,12 @@ class ilModulesTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("cmps_module"), "");	
 		$this->addColumn($lng->txt("cmps_group"), "");											
 		$this->addColumn($lng->txt("cmps_enable_creation"), "");
-
-		// save options command
-		$this->addCommandButton("saveModules", $lng->txt("cmps_save_options"));		
+	
+		if((bool)$a_has_write)
+		{
+			// save options command
+			$this->addCommandButton("saveModules", $lng->txt("cmps_save_options"));		
+		}
 	
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));

@@ -2052,7 +2052,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		foreach($this->getMembersObject()->getParticipants() as $user_id)
 		{
 		    // #15529 - force raise on sync
-		    ilLPStatusWrapper::_updateStatus($this->getId(), $user_id, null, false, false, true);				
+		    ilLPStatusWrapper::_updateStatus($this->getId(), $user_id, null, false, false, true);			
 		}				
 	}
 			

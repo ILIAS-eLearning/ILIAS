@@ -15,7 +15,7 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveySkillDeterminationGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilCommonActionDispatcherGUI, ilSurveySkillGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEditorGUI, ilSurveyConstraintsGUI
-* @ilCtrl_Calls ilObjSurveyGUI: ilSurveyParticipantsGUI
+* @ilCtrl_Calls ilObjSurveyGUI: ilSurveyParticipantsGUI, ilLearningProgressGUI
 *
 * @ingroup ModulesSurvey
 */
@@ -183,6 +183,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 				include_once("./Modules/Survey/classes/class.ilSurveyParticipantsGUI.php");
 				$gui = new ilSurveyParticipantsGUI($this);
 				$this->ctrl->forwardCommand($gui);
+				break;
+				
+			case "illearningprogressgui":
+				$ilTabs->activateTab("learning_progress");
+				include_once("./Services/Tracking/classes/class.ilLearningProgressGUI.php");
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
+					$this->object->getRefId());
+				$this->ctrl->forwardCommand($new_gui);				
 				break;
 
 			default:
@@ -368,6 +376,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->lng->txt("svy_results"),
 				$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluation"));
 		}
+		
+		// learning progress
+		include_once "./Services/Tracking/classes/class.ilLearningProgressAccess.php";
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("learning_progress",
+				$this->ctrl->getLinkTargetByClass(array("ilobjsurveygui", "illearningprogressgui"), ""),
+				"",
+				array("illplistofobjectsgui", "illplistofsettingsgui", "illearningprogressgui", "illplistofprogressgui"));
+		}		
 
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
@@ -1641,7 +1659,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 				if(!$this->object->checkSurveyCode($anonymous_code)) // #15031 - valid as long survey is not finished
 				{
 					$anonymous_code = null;
-				}				
+				}		
+				else
+				{
+					// #15860
+					$this->object->bindSurveyCodeToUser($ilUser->getId(), $anonymous_code);
+				}
 			}
 			if ($anonymous_code)
 			{

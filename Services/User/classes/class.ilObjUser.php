@@ -92,7 +92,6 @@ class ilObjUser extends ilObject
 	var $approve_date = null;
 	var $agree_date = null;
 	var $active;
-	//var $ilinc_id; // unique Id for netucate ilinc service
 	var $client_ip; // client ip to check before login
 	var $auth_mode; // authentication mode
 
@@ -415,9 +414,6 @@ class ilObjUser extends ilObject
 
 		// user profile incomplete?
 		$this->setProfileIncomplete($a_data["profile_incomplete"]);
-
-		//iLinc
-		//$this->setiLincData($a_data['ilinc_id'],$a_data['ilinc_login'],$a_data['ilinc_passwd']);
 
 		//authentication
 		$this->setAuthMode($a_data['auth_mode']);
@@ -3264,6 +3260,8 @@ class ilObjUser extends ilObject
 
 		if ($a_types == "")
 		{
+			$is_nested_set = ($tree->getTreeImplementation() instanceof ilNestedSetTree);
+			
 			$item_set = $ilDB->queryF("SELECT obj.obj_id, obj.description, oref.ref_id, obj.title, obj.type ".
 				" FROM desktop_item it, object_reference oref ".
 					", object_data obj".
@@ -3271,7 +3269,7 @@ class ilObjUser extends ilObject
 				"it.item_id = oref.ref_id AND ".
 				"oref.obj_id = obj.obj_id AND ".
 				"it.user_id = %s", array("integer"), array($user_id));
-			$items = array();
+			$items = $all_parent_path = array();
 			while ($item_rec = $ilDB->fetchAssoc($item_set))
 			{
 				if ($tree->isInTree($item_rec["ref_id"])
@@ -3279,13 +3277,27 @@ class ilObjUser extends ilObject
 					&& $item_rec["type"] != "itgr")	// due to bug 11508
 				{
 					$parent_ref = $tree->getParentId($item_rec["ref_id"]);
-					$par_left = $tree->getLeftValue($parent_ref);
-					$par_left = sprintf("%010d", $par_left);
-
+					
+					if(!isset($all_parent_path[$parent_ref]))
+					{					
+						// #15746
+						if($is_nested_set)
+						{
+							$par_left = $tree->getLeftValue($parent_ref);
+							$all_parent_path[$parent_ref] = sprintf("%010d", $par_left);
+						}
+						else
+						{
+							$node = $tree->getNodeData($parent_ref);						
+							$all_parent_path[$parent_ref] = $node["path"];
+						}
+					}
+					
+					$parent_path = $all_parent_path[$parent_ref];
 
 					$title = ilObject::_lookupTitle($item_rec["obj_id"]);
 					$desc = ilObject::_lookupDescription($item_rec["obj_id"]);
-					$items[$par_left.$title.$item_rec["ref_id"]] =
+					$items[$parent_path.$title.$item_rec["ref_id"]] =
 						array("ref_id" => $item_rec["ref_id"],
 							"obj_id" => $item_rec["obj_id"],
 							"type" => $item_rec["type"],
@@ -3592,24 +3604,6 @@ class ilObjUser extends ilObject
 		return $id ? $id : 0;
 	}
 
-/*
-
-	function setiLincData($a_id,$a_login,$a_passwd)
-	{
-		$this->ilinc_id = $a_id;
-		$this->ilinc_login = $a_login;
-		$this->ilinc_passwd = $a_passwd;
-	}
-
-*/
-
-/*
-
-	function getiLincData()
-	{
-		return array ("id" => $this->ilinc_id, "login" => $this->ilinc_login, "passwd" => $this->ilinc_passwd);
-	}
-*/
 	/**
     * set auth mode
 	* @access	public

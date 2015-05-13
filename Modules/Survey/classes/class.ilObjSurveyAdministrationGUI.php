@@ -366,9 +366,12 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "specialusers"));			
 			*/
 
-			$tabs_gui->addTab("templates",
-				$lng->txt("adm_settings_templates"),
-				$this->ctrl->getLinkTargetByClass("ilsettingstemplategui", ""));
+			if ($ilAccess->checkAccess("write",'',$this->object->getRefId()))
+			{
+				$tabs_gui->addTab("templates",
+					$lng->txt("adm_settings_templates"),
+					$this->ctrl->getLinkTargetByClass("ilsettingstemplategui", ""));
+			}
 		}
 		if ($ilAccess->checkAccess("edit_permission",'',$this->object->getRefId()))
 		{

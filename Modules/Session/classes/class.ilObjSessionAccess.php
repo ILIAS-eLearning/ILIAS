@@ -50,7 +50,8 @@ class ilObjSessionAccess extends ilObjectAccess
 			array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "info_short", "default" => true),
 			array("permission" => "read", "cmd" => "register", "lang_var" => "join_session"),
 			array("permission" => "read", "cmd" => "unregister", "lang_var" => "event_unregister"),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+			array("permission" => "write", "cmd" => "edit", "lang_var" => "settings"),
+			array("permission" => "write", "cmd" => "materials", "lang_var" => "crs_objective_add_mat"),
 			array('permission' => 'write', 'cmd' => 'members', 'lang_var' => 'event_edit_members')
 		);
 		
@@ -77,14 +78,14 @@ class ilObjSessionAccess extends ilObjectAccess
 		switch($a_cmd)
 		{
 			case 'register':
-				if(self::_lookupRegistration($a_obj_id))
+				if(self::_lookupRegistration($a_obj_id)&& $a_user_id != ANONYMOUS_USER_ID)
 				{
 					return !self::_lookupRegistered($a_user_id,$a_obj_id);
 				}
 				return false;
 				
 			case 'unregister':
-				if(self::_lookupRegistration($a_obj_id))
+				if(self::_lookupRegistration($a_obj_id) && $a_user_id != ANONYMOUS_USER_ID)
 				{
 					return self::_lookupRegistered($a_user_id,$a_obj_id);
 				}

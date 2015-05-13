@@ -39,6 +39,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		global $ilAccess, $ilTabs, $ilErr;
 		
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
+			strtolower($_GET["baseClass"]) == "ilsahspresentationgui" ||
 			$this->getCreationMode() == true)
 		{
 			$this->prepareOutput();
@@ -48,6 +49,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			$this->getTemplate();
 			$this->setLocator();
 			$this->setTabs();
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
+			$this->tpl->setTitle($this->object->getTitle());
 		}
 
 		$next_class = $this->ctrl->getNextClass($this);
@@ -594,7 +597,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	{
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 		$this->tpl->setTitle($this->object->getTitle());
-		$this->getTabs($this->tabs_gui);
+		if(strtolower($_GET["baseClass"]) == "ilsahseditgui") $this->getTabs($this->tabs_gui);
 	}
 
 	/**
@@ -674,16 +677,20 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 
-		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-		$privacy = ilPrivacySettings::_getInstance();
-		if($privacy->enabledSahsProtocolData())
+		// tracking data
+		if($rbacsystem->checkAccess("read_learning_progress", $this->object->getRefId()) || $rbacsystem->checkAccess("edit_learning_progress", $this->object->getRefId()))
 		{
-			// tracking data
-			$tabs_gui->addTarget("cont_tracking_data",
-			$this->ctrl->getLinkTarget($this, "showTrackingItems"), "showTrackingItems",
-			get_class($this));
+			if ($this->object->getSubType() == "scorm2004" || $this->object->getSubType() == "scorm") {
+				include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+				$privacy = ilPrivacySettings::_getInstance();
+				if($privacy->enabledSahsProtocolData())
+				{
+					$tabs_gui->addTarget("cont_tracking_data",
+										$this->ctrl->getLinkTarget($this, "showTrackingItems"), "showTrackingItems",
+										get_class($this));
+				}
+			}
 		}
-
 		include_once("Services/License/classes/class.ilLicenseAccess.php");
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId())
 		and ilLicenseAccess::_isEnabled())

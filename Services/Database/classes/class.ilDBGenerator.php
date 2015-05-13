@@ -105,7 +105,7 @@ class ilDBGenerator
 	/**
 	 * Set the desired target encoding
 	 * If the target encoding os different from UTF-8
-	 * all text values will be shortened to lenght of
+	 * all text values will be shortened to length of
 	 * of the current text field
 	 * 
 	 * E.g:

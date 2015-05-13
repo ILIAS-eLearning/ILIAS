@@ -19,7 +19,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 	private $staff = "employee";
 
 	public function __construct($parent_obj, $parent_cmd, $staff = "employee", $recursive = false, $template_context = ""){
-		parent::__construct($parent_obj, $parent_cmd, $template_context);
+
 
 		global $lng, $ilCtrl, $ilTabs;
 		/**
@@ -30,9 +30,13 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 		$this->tabs = $ilTabs;
 		$this->lng = $lng;
 
-		$this->setPrefix("sr_orgu_".$staff);
-		$this->setFormName('sr_orgu_'.$staff);
-		$this->setId("sr_orgu_".$staff);
+		$this->setPrefix("il_orgu_".$staff);
+		$this->setFormName('il_orgu_'.$staff);
+		$this->setId("il_orgu_".$staff);
+
+		parent::__construct($parent_obj, $parent_cmd, $template_context);
+
+		$this->setFormAction($this->ctrl->getFormAction($parent_obj));
 		$this->setStaff($staff);
         $this->recursive = $recursive;
 		$this->setTableHeaders();

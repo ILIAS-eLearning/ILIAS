@@ -56,11 +56,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
 		$ilHelp->setSubScreenId("trac_settings");
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_obj_settings.html','Services/Tracking');
-
 		$form = $this->initFormSettings();
-		$this->tpl->setVariable('PROP_FORM',$form->getHTML());
-		$this->tpl->setVariable('COLLECTION_TABLE',$this->getTableByMode());
+		$this->tpl->setContent($form->getHTML().$this->getTableByMode());
 	}
 
 

@@ -334,8 +334,8 @@ il.CharSelector = new function() {
     /**
      * Handle a resizing of the panel
      */
-    this.resizePanel = function() {
-
+    this.resizePanel = function() {    
+           
         if($('body.kiosk').length > 0)
         {
 		var topsize = ($("#kioskOptions[name='SEBPlugin']").length > 0) ? $("#kioskOptions").css('height') : "0px";

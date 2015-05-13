@@ -135,7 +135,7 @@ class ilObjDataCollection extends ilObject2 {
 		// recipients
 		require_once('./Services/Notification/classes/class.ilNotification.php');
 		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), true);
-		if (!sizeof($users)) {
+		if (! sizeof($users)) {
 			return;
 		}
 
@@ -175,7 +175,7 @@ class ilObjDataCollection extends ilObject2 {
 				$message .= "------------------------------------\n";
 				if ($a_record_id) {
 					$record = ilDataCollectionCache::getRecordCache($a_record_id);
-					if (!$record->getTableId()) {
+					if (! $record->getTableId()) {
 						$record->setTableId($a_table_id);
 					}
 					//					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id.":\n";
@@ -404,33 +404,13 @@ class ilObjDataCollection extends ilObject2 {
 
 
 	/**
-	 * @return bool
-	 * @deprecated
-	 */
-	public function hasPermissionToAddTable() {
-		return ilObjDataCollectionAccess::_checkAccess2($this->getId());
-	}
-
-
-	/**
-	 * @param $data_collection_id
-	 *
-	 * @deprecated
-	 * @return bool
-	 */
-	public static function _checkAccess($data_collection_id) {
-		return ilObjDataCollectionAccess::_checkAccess2($data_collection_id);
-	}
-
-
-	/**
 	 * @param $ref int the reference id of the datacollection object to check.
 	 *
 	 * @deprecated
 	 * @return bool whether or not the current user has admin/write access to the referenced datacollection
 	 */
 	public static function _hasWriteAccess($ref) {
-		return ilObjDataCollectionAccess::_hasWriteAccess($ref);
+		return ilObjDataCollectionAccess::hasWriteAccess($ref);
 	}
 
 
@@ -441,17 +421,7 @@ class ilObjDataCollection extends ilObject2 {
 	 * @return bool whether or not the current user has add/edit_entry access to the referenced datacollection
 	 */
 	public static function _hasReadAccess($ref) {
-		return ilObjDataCollectionAccess::_hasReadAccess($ref);
-	}
-
-
-	/**
-	 * @return bool
-	 *
-	 * @deprecated
-	 */
-	public function _hasRecords() {
-		return true;
+		return ilObjDataCollectionAccess::hasReadAccess($ref);
 	}
 
 
