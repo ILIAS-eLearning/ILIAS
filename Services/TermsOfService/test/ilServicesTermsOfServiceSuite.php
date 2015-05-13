@@ -8,10 +8,10 @@ require_once 'Services/Language/classes/class.ilLanguage.php';
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilTermsOfServiceTestSuite extends PHPUnit_Framework_TestSuite
+class ilServicesTermsOfServiceSuite extends PHPUnit_Framework_TestSuite
 {
 	/**
-	 * @return ilTermsOfServiceTestSuite
+	 * @return self
 	 */
 	public static function suite()
 	{
