@@ -20,7 +20,7 @@ class ilExerciseDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.1.0");
+		return array("4.1.0", "4.4.0");
 	}
 	
 	/**
@@ -47,6 +47,7 @@ class ilExerciseDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
+				case "4.4.0":
 					return array(
 						"Id" => "integer",
 						"Title" => "text",
@@ -71,6 +72,28 @@ class ilExerciseDataSet extends ilDataSet
 						"Mandatory" => "integer",
 						"OrderNr" => "integer",
 						"Dir" => "directory");
+					
+				case "4.4.0":
+					return array(
+						"Id" => "integer",
+						"ExerciseId" => "integer",
+						"Type" => "integer",
+						"Deadline" => "integer",					
+						"Instruction" => "text",
+						"Title" => "text",
+						"Mandatory" => "integer",
+						"OrderNr" => "integer",
+						"Dir" => "directory"
+						// peer
+						,"Peer" => "integer"
+						,"PeerMin" => "integer"
+						,"PeerDeadline" => "integer"								
+						// global feedback
+						,"FeedbackFile" => "integer"
+						,"FeedbackCron" => "integer"
+						,"FeedbackDate" => "integer"
+						,"FeedbackDir" => "directory"
+					);
 			}
 		}
 
@@ -96,6 +119,7 @@ class ilExerciseDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
+				case "4.4.0":
 					$this->getDirectDataFromQuery("SELECT exc_data.obj_id id, title, description, ".
 						" pass_mode, pass_nr, show_submissions".
 						" FROM exc_data JOIN object_data ON (exc_data.obj_id = object_data.obj_id) ".
@@ -114,6 +138,15 @@ class ilExerciseDataSet extends ilDataSet
 						" instruction, title, start_time, mandatory, order_nr".
 						" FROM exc_assignment ".
 						"WHERE ".
+						$ilDB->in("exc_id", $a_ids, false, "integer"));
+					break;
+				
+				case "4.4.0":
+					$this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, time_stamp deadline,".
+						" instruction, title, start_time, mandatory, order_nr, peer, peer_min, peer_dl peer_deadline,".
+						" fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date".
+						" FROM exc_assignment".
+						" WHERE ".
 						$ilDB->in("exc_id", $a_ids, false, "integer"));
 					break;
 			}
@@ -246,6 +279,18 @@ class ilExerciseDataSet extends ilDataSet
 					$ass->setTitle($a_rec["Title"]);
 					$ass->setMandatory($a_rec["Mandatory"]);
 					$ass->setOrderNr($a_rec["OrderNr"]);
+					
+					// 4.2
+					$ass->setType($a_rec["Type"]);
+					
+					// 4.4
+					$ass->setPeerReview($a_rec["Peer"]);
+					$ass->setPeerReviewMin($a_rec["PeerMin"]);
+					$ass->setPeerReviewDeadline($a_rec["PeerDeadline"]);					
+					$ass->setFeedbackFile($a_rec["FeedbackFile"]);
+					$ass->setFeedbackCron($a_rec["FeedbackCron"]);
+					$ass->setFeedbackDate($a_rec["FeedbackDate"]);
+					
 					$ass->save();
 
 					include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
