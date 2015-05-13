@@ -179,6 +179,10 @@ class ilExerciseDataSet extends ilDataSet
 			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
 			$a_set["Dir"] = $fstorage->getPath();
+			
+			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+			$fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
+			$a_set["FeedbackDir"] = $fstorage->getGlobalFeedbackPath();
 
 		}
 
@@ -296,11 +300,22 @@ class ilExerciseDataSet extends ilDataSet
 					include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 					$fstorage = new ilFSStorageExercise($exc_id, $ass->getId());
 					$fstorage->create();
+					
+					// assignment files
 					$dir = str_replace("..", "", $a_rec["Dir"]);
 					if ($dir != "" && $this->getImportDirectory() != "")
 					{
 						$source_dir = $this->getImportDirectory()."/".$dir;
 						$target_dir = $fstorage->getPath();
+						ilUtil::rCopy($source_dir, $target_dir);
+					}
+					
+					// (4.4) global feedback file
+					$dir = str_replace("..", "", $a_rec["FeedbackDir"]);
+					if ($dir != "" && $this->getImportDirectory() != "")
+					{
+						$source_dir = $this->getImportDirectory()."/".$dir;
+						$target_dir = $fstorage->getGlobalFeedbackPath();
 						ilUtil::rCopy($source_dir, $target_dir);
 					}
 
