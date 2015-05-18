@@ -4217,4 +4217,6 @@ abstract class assQuestion
 		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
 		return ilHtmlPurifierFactory::_getInstanceByType('qpl_usersolution');
 	}
+	
+	abstract public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null);
 }
