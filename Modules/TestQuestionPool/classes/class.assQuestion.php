@@ -4516,4 +4516,6 @@ abstract class assQuestion
 	{
 		return json_encode(array());
 	}
+	
+	abstract public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null);
 }
