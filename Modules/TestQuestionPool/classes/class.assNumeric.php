@@ -166,11 +166,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		}
 		// duplicate the question in database
 		$this_id = $this->getId();
-		
-		if( (int)$testObjId > 0 )
-		{
-			$thisObjId = $this->getObjId();
-		}
+		$thisObjId = $this->getObjId();
 		
 		$clone = $this;
 		require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
