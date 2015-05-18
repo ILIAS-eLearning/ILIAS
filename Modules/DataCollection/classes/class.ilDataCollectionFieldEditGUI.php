@@ -328,8 +328,10 @@ class ilDataCollectionFieldEditGUI {
 				}
 			}
 
-            // TODO Bei MOB die Dateitypen übergeben
             $opt->setInfo($lng->txt('dcl_' . $datatype['title'] . '_desc'));
+            if ($datatype['id'] == ilDataCollectionDatatype::INPUTFORMAT_MOB) {
+                $opt->setInfo(sprintf($lng->txt('dcl_' . $datatype['title'] . '_desc'), implode(', ', ilDataCollectionDatatype::$mob_suffixes)));
+            }
             $edit_datatype->addOption($opt);
 		}
 		$edit_datatype->setRequired(true);

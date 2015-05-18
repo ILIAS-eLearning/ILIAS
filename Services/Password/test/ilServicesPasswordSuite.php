@@ -9,10 +9,10 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
  */
-class ilPasswordTestSuite extends PHPUnit_Framework_TestSuite
+class ilServicesPasswordSuite extends PHPUnit_Framework_TestSuite
 {
 	/**
-	 * @return ilPasswordTestSuite
+	 * @return self
 	 */
 	public static function suite()
 	{

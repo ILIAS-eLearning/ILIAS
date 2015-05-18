@@ -12729,7 +12729,7 @@ dcl#:#dcl_msg_table_edited#:#Tabelleneinstellungen wurden gespeichert.
 dcl#:#dcl_legend_placeholders#:#Platzhalter
 dcl#:#dcl_any#:#Alle
 dcl#:#dcl_rating#:#Bewertung
-dcl#:#dcl_editable_in_table_gui#:#Bewertung: Nutzen Sie die Tabellensicht.
+dcl#:#dcl_editable_in_table_gui#:#Ein Eintrag kann nur über die Tabellenansicht bewertet werden.
 dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_export_enabled#:#Tabelle exportieren
@@ -15258,3 +15258,5 @@ dcl#:#dcl_ILIAS_reference_desc#:#Suchfeld, um ein Objekt in ILIAS auszuwählen u
 dcl#:#dcl_rating_desc#:#Benutzer können Einträge mit bis zu fünf Sternen bewerten.
 dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.
 dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.
+dcl#:#dcl_formula_detail_desc#:#Einträge in diesem Feld generieren sich automatisch. Sie können hier keinen Eintrag vornehmen.
+dcl#:#dcl_text_email_detail_desc#:#Bitte geben Sie eine gültige E-Mail-Adresse oder eine URL ein.

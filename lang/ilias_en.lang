@@ -15257,3 +15257,5 @@ dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selb
 dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen.
 dcl#:#dcl_limited_desc#:#Benutzer können Einträge nur bis zum gewählten Datum hinzufügen, bearbeiten und löschen.
 dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.
+dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.
+dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.
