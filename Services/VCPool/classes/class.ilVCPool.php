@@ -60,8 +60,8 @@ class ilVCPool {
 						   ." WHERE id NOT IN ("
 						   ."         SELECT vc_id"
 						   ."           FROM ".self::ASSIGNMENT_TABLE
-						   ."          WHERE NOT (   ( ts_start < ".$start." AND ts_end < ".$start." )"
-						   ."                     OR ( ts_start > ".$end." AND ts_end > ".$end." )"
+						   ."          WHERE NOT (   ( ts_start <= ".$start." AND ts_end <= ".$start." )"
+						   ."                     OR ( ts_start >= ".$end." AND ts_end >= ".$end." )"
 						   ."                    )"
 						   ."       )"
 						   ."   AND vc_type = ".$ilDB->quote($a_type, "text")
