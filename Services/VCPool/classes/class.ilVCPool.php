@@ -13,6 +13,8 @@
  */
 
 require_once("Services/Calendar/classes/class.ilDateTime.php");
+require_once("Services/VCPool/classes/class.ilVirtualClassroom.php");
+require_once("Services/VCPool/classes/class.ilVCAssignment.php");
 
 class ilVCPool {
 	const URL_POOL_TABLE = "vc_url_pool";
@@ -50,8 +52,8 @@ class ilVCPool {
 		
 		$ilDB = $this->getDB();
 		
-		$start = $ilDB->quote($a_start->get(IL_CAL_DATETIME), "datetime");
-		$end = $ilDB->quote($a_end->get(IL_CAL_DATETIME), "datetime");
+		$start = $ilDB->quote($a_start->get(IL_CAL_DATETIME), "timestamp");
+		$end = $ilDB->quote($a_end->get(IL_CAL_DATETIME), "timestamp");
 		
 		$res = $ilDB->query("SELECT id, url, vc_type "
 						   ."  FROM ".self::URL_POOL_TABLE
@@ -62,6 +64,7 @@ class ilVCPool {
 						   ."                     OR ( ts_start > ".$end." AND ts_end > ".$end." )"
 						   ."                    )"
 						   ."       )"
+						   ."   AND vc_type = ".$ilDB->quote($a_type, "text")
 						   ." LIMIT 1"
 						   );
 		$rec = $ilDB->fetchAssoc($res);

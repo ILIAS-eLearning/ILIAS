@@ -18,7 +18,7 @@ class ilVCAssignment {
 	
 	// This should only be used by VCPool to protect the constraints
 	// of the pool.
-	public function __construct($a_id, VirtualClassroom $a_vc, ilDateTime $a_start, ilDateTime $a_end) {
+	public function __construct($a_id, ilVirtualClassroom $a_vc, ilDateTime $a_start, ilDateTime $a_end) {
 		assert(is_int($a_id));
 		assert(ilDateTime::_before($a_start, $a_end));
 
@@ -42,6 +42,11 @@ class ilVCAssignment {
 	
 	public function getEnd() {
 		return $this->end;
+	}
+	
+	public function release() {
+		require_once("Services/VCPool/classes/class.ilVCPool.php");
+		ilVCPool::getInstance()->releaseVCAssignment($this);
 	}
 }
 
