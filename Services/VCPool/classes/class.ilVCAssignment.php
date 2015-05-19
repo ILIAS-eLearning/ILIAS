@@ -1,0 +1,48 @@
+<?php
+
+/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+
+/**
+ * Class ilVCAssignment
+ *
+ * An assignment of a VC for a certain timespan.
+ *
+ * @author: Richard Klees <richard.klees@concepts-and-training.de>
+ */
+
+class ilVCAssignment {
+	private $id;		// int
+	private $vc;		// ilVirtualClassroom
+	private $start;		// ilDateTime
+	private $end;		// ilDateTime
+	
+	// This should only be used by VCPool to protect the constraints
+	// of the pool.
+	public function __construct($a_id, VirtualClassroom $a_vc, ilDateTime $a_start, ilDateTime $a_end) {
+		assert(is_int($a_id));
+		assert(ilDateTime::_before($a_start, $a_end));
+
+		$this->id = $a_id;
+		$this->vc = $a_vc;
+		$this->start = $a_start;
+		$this->end = $a_end;
+	}
+	
+	public function getId() {
+		return $this->id;
+	}
+
+	public function getVC() {
+		return $this->vc;
+	}
+	
+	public function getStart() {
+		return $this->start;
+	}
+	
+	public function getEnd() {
+		return $this->end;
+	}
+}
+
+?>

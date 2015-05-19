@@ -3577,3 +3577,10 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#117>
+<?php
+	require_once("Services/VCPool/class.VCPoolInstaller.php");
+	
+	VCPoolInstaller::allSteps($ilDB);
+?>
