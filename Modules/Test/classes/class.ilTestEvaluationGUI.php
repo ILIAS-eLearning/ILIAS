@@ -127,6 +127,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->ctrl->redirect($this, "outEvaluation");
 	}
 
+
+	// gev patch start 
+
 	/**
 	* Creates the print preview
 	*
@@ -205,6 +208,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->tpl->setVariable("PRINT_CONTENT", $template->get());
 		}
 	}
+	// gev patch end
+
 	/**
 	* Creates the evaluation output for the test
 	*
