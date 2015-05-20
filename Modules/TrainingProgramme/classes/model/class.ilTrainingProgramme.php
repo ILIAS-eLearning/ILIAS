@@ -245,9 +245,10 @@ class ilTrainingProgramme extends ActiveRecord {
 	 */
 	public function setPoints($a_points) {
 		$a_points = (int)$a_points;
-		if ($a_points <= 0) {
-			throw new ilException("ilTrainingProgramme::setPoints: Points need to "
-								 ."be larger than zero.");
+
+		if ($a_points < 0) {
+			throw new ilException("ilTrainingProgramme::setPoints: Points cannot "
+								 ."be smaller than zero.");
 		}
 
 		$this->points = $a_points;
