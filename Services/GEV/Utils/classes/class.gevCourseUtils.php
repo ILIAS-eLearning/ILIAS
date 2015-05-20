@@ -1530,6 +1530,7 @@ class gevCourseUtils {
 						, $lng->txt("email")
 						, $lng->txt("gev_job_number")
 						, $lng->txt("gev_participation_status")
+						, $lng->txt("gev_credit_points")
 						, "Zu welchen Themen hätten Sie gerne nähere Informationen?"
 						, "Zu welchen Themen wünschen Sie sich weitere Webinare?"
 						);
@@ -1555,6 +1556,8 @@ class gevCourseUtils {
 		$role_utils = gevRoleUtils::getInstance();
 		$idVProle = $role_utils->getRoleIdByName("VP"); 
 		$user_ids = $this->getCourse()->getMembersObject()->getMembers();
+		$participations = $this->getParticipations();
+		$maxPoints = $participations->getMaxCreditPoints();
 
 		if($user_ids) {
 			foreach($user_ids as $user_id) {
@@ -1562,6 +1565,16 @@ class gevCourseUtils {
 				$user_utils = gevUserUtils::getInstance($user_id);
 				$user = new ilObjUser($user_id);
 				$user_roles = $user_utils->getGlobalRoles();
+
+				$statusAndPoints = $participations->getStatusAndPoints($user_id);
+				$points = 0;
+				if($statusAndPoints["status"] == ilParticipationStatus::STATUS_SUCCESSFUL) {
+					if(!$points = $statusAndPoints["points"]) {
+						$points = $maxPoints;
+					} 
+				} elseif ($statusAndPoints["status"] == ilParticipationStatus::STATUS_NOT_SET) {
+					$points = $lng->txt("gev_in_progress");
+				}
 
 				if(!in_array($idVProle, $user_roles)) {
 					continue;
@@ -1581,6 +1594,7 @@ class gevCourseUtils {
 				$worksheet->write($row, 10,	$user->getEmail(), $format_wrap);
 				$worksheet->write($row, 11,	$user_utils->getJobNumber(), $format_wrap);
 				$worksheet->write($row, 12,	$this->getParticipationStatusLabelOf($user_id), $format_wrap);
+				$worksheet->write($row, 13,	$points, $format_wrap);
 
 			}
 		}
