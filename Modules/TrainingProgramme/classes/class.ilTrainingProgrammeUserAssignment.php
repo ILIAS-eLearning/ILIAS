@@ -29,7 +29,7 @@ class ilTrainingProgrammeUserAssignment {
 		}
 		if ($this->assignment === null) {
 			throw new ilException("ilTrainingProgrammeUserAssignment::__construct: "
-								 ."Unknown assignmemt id '$a_id'.");
+								 ."Unknown assignmemt id '$a_id_or_model'.");
 		}
 	}
 	
@@ -133,7 +133,7 @@ class ilTrainingProgrammeUserAssignment {
 		$prg = $this->getTrainingProgramme();
 		$id = $this->getId();
 		
-		$prg->applyToSubTreeNodes(function($node) use ($id) {
+		$prg->applyToSubTreeNodes(function($node) use ($id, $prg) {
 			$progress = $node->getProgressForAssignment($id);
 			return $progress->updateFromProgramNode($prg);
 		});
