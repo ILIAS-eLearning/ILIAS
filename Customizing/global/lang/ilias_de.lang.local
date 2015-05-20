@@ -44,3 +44,9 @@ exc#:#exc_adopt_group_teams_blocked#:#%s Benutzer waren bereits vorhanden.
 exc#:#exc_deadline_ext_mismatch#:#Die Karenzzeit muss nach dem Abgabetermin enden.
 wiki#:#wiki_link_md_values#:#Automatische Verlinkung
 wiki#:#wiki_link_md_values_info#:#Verlinkt automatisch Eigenschaftenwerte im Seitenblock mit gleichlautenden Wikiseiten (wenn vorhanden).
+content#:#cont_pc_carousel#:#Karussell
+style#:#sty_carousel_templates#:#Karussell Templates
+style#:#sty_ca_cntr_class#:#Carousel Container
+style#:#sty_ca_icntr_class#:#Carousel Item Container
+style#:#sty_ca_icont_class#:#Carousel Item Content
+style#:#sty_ca_ihead_class#:#Carousel Item Header

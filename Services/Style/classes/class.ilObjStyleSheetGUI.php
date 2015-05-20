@@ -2283,7 +2283,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$p_content.= '</Table></PageContent>';
 		}
 		
-		if ($a_type == "vaccordion" || $a_type == "haccordion")
+		if ($a_type == "vaccordion" || $a_type == "haccordion" || $a_type == "carousel")
 		{
 			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 			ilAccordionGUI::addCss();
@@ -2306,7 +2306,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 					$p_content.= ' ContentWidth="70"';
 				}
 			}
-			else
+			else if ($a_type == "haccordion")
 			{
 				$p_content = '<PageContent><Tabs Type="HorizontalAccordion"';
 				if ($a_small_mode)
@@ -2320,6 +2320,16 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 					$p_content.= ' ContentHeight="40"';
 				}
 			}
+			else if ($a_type == "carousel")
+			{
+				$p_content = '<PageContent><Tabs HorizontalAlign="Left" Type="Carousel" ';
+				if ($a_small_mode)
+				{
+					$p_content.= ' ContentWidth="70"';
+				}
+			}
+
+
 			$p_content.= ' Template="'.$a_style->lookupTemplateName($a_t_id).'">';
 			$p_content.= '<Tab><PageContent><Paragraph>'.$c.'</Paragraph></PageContent>';
 			$p_content.= '<TabCaption>'.$h.'</TabCaption>';
@@ -2328,11 +2338,18 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 //echo htmlentities($p_content);
 		$txml = $a_style->getTemplateXML();
-//echo htmlentities($txml);
+//echo htmlentities($txml); exit;
 		$p_content.= $txml;
 		include_once("./Services/COPage/classes/class.ilPCTableGUI.php");
 		$r_content = ilPCTableGUI::_renderTable($p_content, "");
 
+		// fix carousel template visibility
+		if($a_type == "carousel")
+		{
+			$r_content.= "<style>.owl-carousel{ display:block !important; }</style>";
+		}
+
+//echo htmlentities($r_content); exit;
 		return $r_content;
 	}
 

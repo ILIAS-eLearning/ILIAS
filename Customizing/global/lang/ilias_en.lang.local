@@ -44,3 +44,9 @@ exc#:#exc_adopt_group_teams_blocked#:#%s User were already assigned.
 exc#:#exc_deadline_ext_mismatch#:#The grace period has to end after the deadline.
 wiki#:#wiki_link_md_values#:#Automatic Linking
 wiki#:#wiki_link_md_values_info#:#Autmatically links properties presented in the side block to wiki pages with the same name.
+content#:#cont_pc_carousel#:#Carousel
+style#:#sty_carousel_templates#:#Carousel Templates
+style#:#sty_ca_cntr_class#:#Carousel Container
+style#:#sty_ca_icntr_class#:#Carousel Item Container
+style#:#sty_ca_icont_class#:#Carousel Item Content
+style#:#sty_ca_ihead_class#:#Carousel Item Header

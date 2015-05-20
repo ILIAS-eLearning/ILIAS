@@ -167,6 +167,30 @@ class ilPCTabsGUI extends ilPageContentGUI
 
 		// type: carousel
 		$op3 = new ilRadioOption($lng->txt("cont_tabs_carousel"), ilPCTabs::CAROUSEL);
+			$templ = $this->getTemplateOptions("carousel");
+			require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
+			if (count($templ) > 0)
+			{
+				$cchar_prop = new ilAdvSelectInputGUI($this->lng->txt("cont_characteristic"),
+					"carousel_templ");
+				foreach($templ as $k => $te)
+				{
+					$t = explode(":", $k);
+					$html = $this->style->lookupTemplatePreview($t[1]).'<div style="clear:both" class="small">'.$te."</div>";
+					$cchar_prop->addOption($k, $te, $html);
+					if ($t[2] == "Carousel")
+					{
+						$cchar_prop->setValue($k);
+					}
+				}
+				$op3->addSubItem($cchar_prop);
+			}
+			else
+			{
+				$cchar_prop = new ilHiddenInputGUI("carousel_templ");
+				$this->form->addItem($cchar_prop);
+			}
+
 		$radg->addOption($op3);
 		$this->form->addItem($radg);
 		
@@ -283,6 +307,14 @@ class ilPCTabsGUI extends ilPageContentGUI
 				$this->content_obj->getTemplate();
 			$ha->setValue($v);
 		}
+		if ($values["type"] == ilPCTabs::CAROUSEL)
+		{
+			$ca = $this->form->getItemByPostVar("carousel_templ");
+			$v = "t:".
+				ilObjStyleSheet::_lookupTemplateIdByName($this->getStyleId(), $this->content_obj->getTemplate()).":".
+				$this->content_obj->getTemplate();
+			$ca->setValue($v);
+		}
 	}
 
 	/**
@@ -374,6 +406,8 @@ class ilPCTabsGUI extends ilPageContentGUI
 				break;
 
 			case ilPCTabs::CAROUSEL:
+				$t = explode(":", $f->getInput("carousel_templ"));
+				$c->setTemplate($t[2]);
 				$c->setHorizontalAlign($f->getInput("calign"));
 				$c->setAutoTime($f->getInput("auto_time"));
 				$c->setRandomStart($f->getInput("rand_start"));
