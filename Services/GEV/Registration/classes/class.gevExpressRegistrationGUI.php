@@ -180,6 +180,7 @@ class gevExpressRegistrationGUI {
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->addCommandButton('next',$this->lng->txt('next'));
+		$form->setId("expresslogin");
 
 		$regType = new ilRadioGroupInputGUI(null,"type");
 		$regType->setValue("redirectLogin");
