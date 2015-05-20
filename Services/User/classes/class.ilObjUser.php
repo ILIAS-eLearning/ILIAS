@@ -92,7 +92,6 @@ class ilObjUser extends ilObject
 	var $approve_date = null;
 	var $agree_date = null;
 	var $active;
-	//var $ilinc_id; // unique Id for netucate ilinc service
 	var $client_ip; // client ip to check before login
 	var $auth_mode; // authentication mode
 
@@ -415,9 +414,6 @@ class ilObjUser extends ilObject
 
 		// user profile incomplete?
 		$this->setProfileIncomplete($a_data["profile_incomplete"]);
-
-		//iLinc
-		//$this->setiLincData($a_data['ilinc_id'],$a_data['ilinc_login'],$a_data['ilinc_passwd']);
 
 		//authentication
 		$this->setAuthMode($a_data['auth_mode']);
@@ -3608,24 +3604,6 @@ class ilObjUser extends ilObject
 		return $id ? $id : 0;
 	}
 
-/*
-
-	function setiLincData($a_id,$a_login,$a_passwd)
-	{
-		$this->ilinc_id = $a_id;
-		$this->ilinc_login = $a_login;
-		$this->ilinc_passwd = $a_passwd;
-	}
-
-*/
-
-/*
-
-	function getiLincData()
-	{
-		return array ("id" => $this->ilinc_id, "login" => $this->ilinc_login, "passwd" => $this->ilinc_passwd);
-	}
-*/
 	/**
     * set auth mode
 	* @access	public

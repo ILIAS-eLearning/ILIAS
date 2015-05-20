@@ -49,14 +49,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$_GET["user_page"] = $_GET["gtp"];	
 		}
 		
-		$title = $this->lng->txt("portfolio");
-		if($this->object)
-		{
-			$title .= ": ".$this->object->getTitle();	
-		}
-		$this->tpl->setTitle($title);
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_prtf.svg"),
-			$this->lng->txt("portfolio"));
+		$this->setTitleAndDescription();
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("view");		
@@ -179,7 +172,31 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		
 		$this->tpl->setLocator();
 	}
-			
+	
+	protected function setTitleAndDescription() 
+	{
+		// parent::setTitleAndDescription();
+		
+		$title = $this->lng->txt("portfolio");
+		if($this->object)
+		{
+			$title .= ": ".$this->object->getTitle();	
+		}
+		$this->tpl->setTitle($title);
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_prtf.svg"),
+			$this->lng->txt("portfolio"));
+		
+		if($this->object &&
+			!$this->object->isOnline())
+		{
+			$this->tpl->setAlertProperties(array(
+				array("alert" => true, 
+					"property" => $this->lng->txt("status"),
+					"value" => $this->lng->txt("offline"))
+			));
+		}
+	}	
+	
 	
 	//
 	// CREATE/EDIT

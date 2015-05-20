@@ -180,6 +180,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$q_gui->setQuestionTabs();
 				$q_gui->outAdditionalOutput();
 				$q_gui->object->setObjId($this->object->getId());
+
+				$q_gui->setTargetGuiClass(null);
+				$q_gui->setQuestionActionCmd(null);
+				
 				$question = $q_gui->object;
 				$this->ctrl->saveParameter($this, "q_id");
 				include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");

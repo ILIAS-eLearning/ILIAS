@@ -36,7 +36,7 @@ var ilMultiFormValues = {
 		});
 		
 		// handle preset values (in hidden inputs)
-		$('input[id*="ilMultiValues"]').each(function() {		
+		$('input:hidden[id*="ilMultiValues"]').each(function() {		
 			ilMultiFormValues.handlePreset(this);				
 		});				
 	},	
@@ -164,11 +164,15 @@ var ilMultiFormValues = {
 		// insert clone into html	
 		$(original_element).after(new_element);
 		
-		// #15798 - remove multi-values hidden inputs
+		// #15798 - remove multi-values hidden inputs (when disabled)
 		if(preset)
 		{			
-			$(new_element).find('input:hidden[name="' + group_id + '[]"]').each(function() { 
-				$(this).remove(); 
+			$(new_element).find('input:hidden[name="' + group_id + '[]"]').each(function() { 				
+				// #15944
+				if($(this).prev().attr("disabled"))
+				{				
+					$(this).remove(); 
+				}
 			});
 		}
 		

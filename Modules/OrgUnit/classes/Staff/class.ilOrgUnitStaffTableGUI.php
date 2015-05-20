@@ -36,6 +36,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 
 		parent::__construct($parent_obj, $parent_cmd, $template_context);
 
+		$this->setFormAction($this->ctrl->getFormAction($parent_obj));
 		$this->setStaff($staff);
         $this->recursive = $recursive;
 		$this->setTableHeaders();

@@ -1641,7 +1641,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 				if(!$this->object->checkSurveyCode($anonymous_code)) // #15031 - valid as long survey is not finished
 				{
 					$anonymous_code = null;
-				}				
+				}		
+				else
+				{
+					// #15860
+					$this->object->bindSurveyCodeToUser($ilUser->getId(), $anonymous_code);
+				}
 			}
 			if ($anonymous_code)
 			{

@@ -1913,7 +1913,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$wtpl->setCurrentBlock("keyword");
 			foreach($keywords as $keyword => $counter)
 			{										
-				$ilCtrl->setParameter($this, "kwd", $keyword);
+				$ilCtrl->setParameter($this, "kwd", urlencode($keyword)); // #15885
 				$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
 				$ilCtrl->setParameter($this, "kwd", "");
 
@@ -2143,7 +2143,20 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				}
 			}									
 		}
-		ksort($keywords);
+		
+		// #15881
+		$tmp = array();
+		foreach($keywords as $keyword => $counter)
+		{
+			$tmp[] = array("keyword"=>$keyword, "counter"=>$counter);
+		}
+		$tmp = ilUtil::sortArray($tmp, "keyword", "ASC");	
+		
+		$keywords = array();
+		foreach($tmp as $item)
+		{
+			$keywords[$item["keyword"]] = $item["counter"];
+		}
 		return $keywords;
 	}
 	

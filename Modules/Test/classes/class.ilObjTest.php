@@ -5633,7 +5633,7 @@ function getAnswerFeedbackPoints()
 */
 	function startingTimeReached()
 	{
-		if ($this->getStartingTime())
+		if( $this->isStartingTimeEnabled() && $this->getStartingTime() )
 		{
 			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getStartingTime(), $matches))
 			{
@@ -5658,7 +5658,7 @@ function getAnswerFeedbackPoints()
 */
 	function endingTimeReached()
 	{
-		if ($this->getEndingTime())
+		if( $this->isEndingTimeEnabled() && $this->getEndingTime() )
 		{
 			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndingTime(), $matches))
 			{
@@ -8061,14 +8061,13 @@ function getAnswerFeedbackPoints()
 			}
 			// replace all CR LF with LF (for Excel for Windows compatibility
 			$entry = str_replace(chr(13).chr(10), chr(10), $entry);
+
 			if ($surround)
 			{
-			    $resultarray[$rowindex] = utf8_decode("\"" . $entry . "\"");
+			    $entry = "\"" . $entry . "\"";
 			}
-			else
-			{
-				$resultarray[$rowindex] = utf8_decode($entry);
-			}
+
+			$resultarray[$rowindex] = $entry;
 		}
 		return $resultarray;
 	}

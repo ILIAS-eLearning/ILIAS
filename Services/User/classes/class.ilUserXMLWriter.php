@@ -225,12 +225,6 @@ class ilUserXMLWriter extends ilXmlWriter
 		$this->__addElement ("ApproveDate", $row["approve_date"], null, "approve_date");
 		$this->__addElement ("AgreeDate", $row["agree_date"], null, "agree_date");
 
-		if ((int) $row["ilinc_id"] !=0) {
-				$this->__addElement ("iLincID", $row["ilinc_id"], "ilinc_id");
-				$this->__addElement ("iLincUser", $row["ilinc_user"], "ilinc_user");
-				$this->__addElement ("iLincPasswd", $row["ilinc_passwd"], "ilinc_passwd");
-		}
-
 		if (strlen($row["auth_mode"])>0)
 		{
 			$this->__addElement ("AuthMode", null, array ("type" => $row["auth_mode"]),"auth_mode", true);
