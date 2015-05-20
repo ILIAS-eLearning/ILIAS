@@ -256,6 +256,7 @@ class gevAgentRegistrationGUI {
 		$form->addItem($firstname);
 		
 		$company_name = new ilTextInputGUI($this->lng->txt("gev_company_name"), "company_name");
+		$company_name->setRequired(true);
 		$form->addItem($company_name);
 		
 		$username = new ilUserLoginInputGUI($this->lng->txt("gev_username_free"), "username");
