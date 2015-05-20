@@ -132,10 +132,14 @@ class ilTrainingProgrammeUserAssignment {
 	public function updateFromProgram() {
 		$prg = $this->getTrainingProgramme();
 		$id = $this->getId();
-		
-		$prg->applyToSubTreeNodes(function($node) use ($id, $prg) {
+
+		$prg->applyToSubTreeNodes(function($node) use ($id) {
+			/**
+			 * @var ilObjTrainingProgramme $node
+			 * @var ilTrainingProgrammeUserProgress $progress
+			 */
 			$progress = $node->getProgressForAssignment($id);
-			return $progress->updateFromProgramNode($prg);
+			return $progress->updateFromProgramNode();
 		});
 	}
 }
