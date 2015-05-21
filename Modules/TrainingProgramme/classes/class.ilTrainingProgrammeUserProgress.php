@@ -296,6 +296,8 @@ class ilTrainingProgrammeUserProgress {
 		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_ACCREDITED)
 					   ->setCompletionBy($a_user_id)
 					   ->update();
+					   
+		$this->updateParentStatus();
 		return $this;
 	}
 	
@@ -315,6 +317,8 @@ class ilTrainingProgrammeUserProgress {
 		$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_IN_PROGRESS)
 					   ->setCompletionBy(null)
 					   ->update();
+		
+		$this->updateParentStatus();
 		return $this;
 	}
 	
@@ -332,6 +336,8 @@ class ilTrainingProgrammeUserProgress {
 					   ->setCompletionBy($a_user_id)
 					   ->setLastChangeBy($a_user_id)
 					   ->update();
+		
+		$this->updateStatus();
 		return $this;
 	}
 	
@@ -353,6 +359,8 @@ class ilTrainingProgrammeUserProgress {
 					   ->setCompletionBy($a_user_id)
 					   ->setLastChangeBy($a_user_id)
 					   ->update();
+		
+		$this->updateStatus();
 		return $this;
 	}
 	
@@ -370,6 +378,8 @@ class ilTrainingProgrammeUserProgress {
 		$this->progress->setAmountOfPoints($a_points)
 					   ->setLastChangeBy($a_user_id)
 					   ->update();
+		
+		$this->updateStatus();
 		return $this;
 	}
 	
@@ -460,19 +470,20 @@ class ilTrainingProgrammeUserProgress {
 					   				: ilTrainingProgrammeProgress::STATUS_IN_PROGRESS
 					   			   )
 					   ->update();
+		
+		$this->updateStatus();
 	}
 	
 	/**
 	 * Updates the status of this progress based on the status of the progress 
-	 * on the sub nodes.
+	 * on the sub nodes. Then update the status of the parent.
 	 */
 	protected function updateStatus() {
 		$prg = $this->getTrainingProgramme();
-		if ($prg->getLPMode() == ilTrainingProgramme::MODE_LP_COMPLETED) {
-			throw new ilException("ilTrainingProgrammeUserProgress::updateStatus: "
-								 ."There is some problem in the implementation. This "
-								 ."method should only be callled for nodes in points "
-								 ."mode.");
+		if (   $prg->getLPMode() == ilTrainingProgramme::MODE_LP_COMPLETED
+			&& $this->getStatus() != ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+			// Nothing to do here, as the status will be set by LP.
+			return;
 		}
 		
 		if ($this->isSuccessful()) {
@@ -491,16 +502,24 @@ class ilTrainingProgrammeUserProgress {
 		
 		$achieved_points = array_reduce(array_map($get_points, $this->getChildrenProgress()), $add);
 		$successful = $achieved_points >= $this->getAmountOfPoints();
+		$status = $this->getStatus();
 		
 		$this->progress->setCurrentAmountOfPoints($achieved_points);
 		if ($successful) {
 			$this->progress->setStatus(ilTrainingProgrammeProgress::STATUS_COMPLETED);
 		}
+		
 		$this->progress->update();
+		$this->updateParentStatus();
+	}
 
+	/**
+	 * Update the status of the parent of this node.
+	 */
+	protected function updateParentStatus() {
 		$parent = $this->getParentProgress();
-		if ($successful && $parent) {
-			$this->getParentProgress();
+		if ($this->isSuccessful() && $parent) {
+			$parent->updateStatus();
 		}
 	}
 
