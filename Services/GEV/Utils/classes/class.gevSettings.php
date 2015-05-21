@@ -339,7 +339,7 @@ class gevSettings {
 		609 => array("OD/BD",		"Vorgesetzter"),
 		649 => array("OD/BD",		"Vorgesetzter"),
 		671 => array("FD",			"Vorgesetzter"),
-		674 => array("UA",			"Vorgesetzter"),
+		674 => array("VP",			"Vorgesetzter"),
 		9100 => array("ID FK",		"Vorgesetzter")
 		
 	);
