@@ -29,6 +29,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevWBDErrorsGUI
 * @ilCtrl_Calls gevDesktopGUI: gevAttendanceByOrgUnitGUI
 * @ilCtrl_Calls gevDesktopGUI: gevAttendanceByCourseTemplateGUI
+* @ilCtrl_Calls gevDesktopGUI: gevTrainerOperationByTEPCategoryGUI
 */
 
 class gevDesktopGUI {
@@ -122,6 +123,12 @@ class gevDesktopGUI {
 				$gui = new gevAttendanceByEmployeeGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
+			case "gevtraineroperationbytepcategorygui":
+				$ilMainMenu->setActive("gev_reporting_menu");
+				require_once("Services/GEV/Reports/classes/class.gevTrainerOperationByTEPCategoryGUI.php");
+				$gui = new gevTrainerOperationByTEPCategoryGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
 			case "gevbillingreportgui":
 				$ilMainMenu->setActive("gev_reporting_menu");
 				require_once("Services/GEV/Reports/classes/class.gevBillingReportGUI.php");
@@ -212,6 +219,7 @@ class gevDesktopGUI {
 			case "toReportEmployeeEduBios":
 			case "toReportAttendanceByOrgUnit":
 			case "toReportAttendanceByCourseTemplate":
+			case "toReportTrainerOperationByTEPCategory":
 			case "toReportWBDEdupoints":
 			case "toWBDErrors":
 			case "createHAUnit":
@@ -219,6 +227,10 @@ class gevDesktopGUI {
 			default:
 				throw new Exception("Unknown command: ".$a_cmd);
 		}
+	}
+
+	protected function toReportTrainerOperationByTEPCategory() {
+		$this->ctrl->redirectByClass("gevTrainerOperationByTEPCategoryGUI");
 	}
 	
 	protected function toCourseSearch() {

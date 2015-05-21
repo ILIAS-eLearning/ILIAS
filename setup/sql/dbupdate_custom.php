@@ -3594,3 +3594,9 @@ ilCustomInstaller::initPluginEnv();
 ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
 
 ?>
+
+
+<#119>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

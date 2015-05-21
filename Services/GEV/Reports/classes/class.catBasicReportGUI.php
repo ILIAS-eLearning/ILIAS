@@ -344,8 +344,8 @@ class catBasicReportGUI {
 			   . $this->queryWhere()."\n "
 			   . $this->query->sqlGroupBy()."\n"
 			   . $this->queryHaving()."\n"
-			   . $this->queryOrder()
-			   ; //die($query);
+			   . $this->queryOrder();
+			   //die($query);
 		
 		$res = $this->db->query($query);
 		$data = array();
@@ -558,7 +558,7 @@ class catReportQuery {
 	public function compile() {
 		$this->checkNotCompiled();
 		
-		if (count($this->fields) === 0) {
+		if (count($this->fields) === 0 && count($this->_select_raw) === 0) {
 			throw new Exception("catReportQuery::compile: No fields defined.");
 		}
 		if ($this->_from === null) {
