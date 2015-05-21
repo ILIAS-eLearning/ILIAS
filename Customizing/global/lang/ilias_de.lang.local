@@ -50,3 +50,9 @@ style#:#sty_ca_cntr_class#:#Carousel Container
 style#:#sty_ca_icntr_class#:#Carousel Item Container
 style#:#sty_ca_icont_class#:#Carousel Item Content
 style#:#sty_ca_ihead_class#:#Carousel Item Header
+content#:#cont_cc_sub#:#Tiefgestellt
+content#:#cont_cc_sup#:#Hochgestellt
+style#:#sty_type_sub#:#Tiefgestellt
+style#:#sty_type_sup#:#Hochgestellt
+content#:#cont_text_sub#:#Tiefgestellt
+content#:#cont_text_sup#:#Hochgestellt

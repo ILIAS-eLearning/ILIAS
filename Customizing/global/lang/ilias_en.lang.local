@@ -50,3 +50,9 @@ style#:#sty_ca_cntr_class#:#Carousel Container
 style#:#sty_ca_icntr_class#:#Carousel Item Container
 style#:#sty_ca_icont_class#:#Carousel Item Content
 style#:#sty_ca_ihead_class#:#Carousel Item Header
+content#:#cont_cc_sub#:#Subscript
+content#:#cont_cc_sup#:#Superscript
+style#:#sty_type_sub#:#Subscript
+style#:#sty_type_sup#:#Superscript
+content#:#cont_text_sub#:#Subscript
+content#:#cont_text_sup#:#Superscript
