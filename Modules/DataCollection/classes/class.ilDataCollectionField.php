@@ -935,12 +935,14 @@ class ilDataCollectionField {
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
 			}
 			//email or url
-			if ($properties[$url]
-				&& !(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $value)
-					|| preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i", $value))
-			) {
-				throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_URL);
-			}
+			if ($properties[$url]) {
+                if (substr($value, 0, 3) === 'www') {
+                    $value = 'http://' . $value;
+                }
+                if (!filter_var($value, FILTER_VALIDATE_URL) && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_URL);
+                }
+            }
 		}
 
 		if ($this->isUnique() && $record_id === NULL) {

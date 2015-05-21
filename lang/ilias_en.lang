@@ -1239,7 +1239,7 @@ assessment#:#toplist_col_hints#:#Hints
 assessment#:#toplist_col_wtime#:#Working Time
 assessment#:#toplist_your_result#:#Your ranking
 assessment#:#tst_highscore_enabled#:#Ranking
-assessment#:#tst_highscore_description#:#Participants are presented with a button ‘Show Ranking’ on the ‘Info’-tab. On clicking it, participants are presented with a league table on their performance in the test. Additionally, you need to activate ‘Access to Test Results’ in order to use this functionality.
+assessment#:#tst_highscore_description#:#On the 'Info'-tab participants are presented with a button 'Show Ranking'. On clicking it participants are presented with a league table on the performance in the test. You have to activate 'Access to Test Results', too in order to use this funtionality.
 assessment#:#tst_highscore_anon#:#Without Names
 assessment#:#tst_highscore_anon_description#:#Ranking is displayed without listing the names of the other participants. This will be the case anyway if the test was taken anonymously.
 assessment#:#tst_highscore_achieved_ts#:#Date
@@ -11854,7 +11854,7 @@ exc#:#exc_select_portfolio_change#:#Use different portfolio
 exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
 common#:#my_courses_groups#:#My Courses and Groups
-content#:#cont_sc_auto_continue#:#Auto-Continue
+content#:#cont_sc_auto_continue#:#Redirect Users
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
 prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.
 blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.
@@ -13629,7 +13629,7 @@ cld#:#service_specific_settings#:#Specific Settings
 common#:#obj_cld#:#Cloud Object
 common#:#objs_cld#:#Cloud Objects
 assessment#:#tst_show_solution_compare#:#Show Best Solution in ‘Detailed Results’
-assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the ‘Detailed Results’ that can be accessed via the ‘Show Test Results‘-button on the ‘Info’-tab. It will not be displayed in the printable ‘List of Answers’ even though the setting is made here.
+assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the 'Detailed Results' that can be accessed via the 'Show Test Results'-button on the 'Info'-tab. It will not be displayed in the printable 'List of Answers' even though the setting is made here.
 assessment#:#tst_header_participant#:#Your Answer:
 assessment#:#tst_header_solution#:#Best Solution:
 rbac#:#delete_files#:#Delete Files
@@ -13677,7 +13677,7 @@ search#:#search_add_members_from_container_grp#:#Add Users of Current Group
 search#:#search_add_members_from_container_crs#:#Add Users of Current Course
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_info#:#Not available for team upload assignments.
-exc#:#exc_peer_review_min_number#:#Number of feedback given required to see personal feedback
+exc#:#exc_peer_review_min_number#:#Number of feedbacks per participant
 exc#:#exc_peer_review_give#:#Give Feedback
 exc#:#exc_peer_review_no_peers#:#There are no peers to give feedback for.
 exc#:#exc_peer_review_rating#:#Rating
@@ -14948,8 +14948,8 @@ crs#:#crs_loc_progress_no_result_no_initial#:#Please work through the following 
 crs#:#crs_loc_qst_resume_tst_itest#:#You have already started an initial test to another learning objective. Either you finish the started test or you stop it and start this one. But running two initial tests at the same time is not supported.
 crs#:#crs_loc_qst_resume_tst_qtest#:#You have already started a qualifying test to another learning objective. Either you finish the started test or you stop it and start this one. But running two qualifying tests at the same time is not supported.
 bibl#:#bibl_library_show_in_list#:#Show as link in the list
-content#:#cont_ie_compatibility#:#Internet Explorer 7 compatibility mode
-content#:#cont_ie_compatibility_info#:#Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer.
+content#:#cont_ie_compatibility#:#Internet Explorer 7 Compatibility Mode
+content#:#cont_ie_compatibility_info#:#Reduces problems with displaying older SCORM Learning Modules that were optimised for the Internet Explorer. If the Compatibility Mode is switched off in newer versions of the Internet Explorer, this setting does not become effective. <br />
 content#:#cont_ie_force_render#:#Force Internet Explorer to render again
 content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iFrames. Additionally you have to set the option ‘Display’ to ‘in new window’.
 ecs#:#ecs_token_mechanism#:#Authentication Token
@@ -15257,3 +15257,49 @@ dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selb
 dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen.
 dcl#:#dcl_limited_desc#:#Benutzer können Einträge nur bis zum gewählten Datum hinzufügen, bearbeiten und löschen.
 dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.
+dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.
+dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.
+adve#:#adve_auto_url_linking#:#URL Auto-Linking
+adve#:#adve_auto_url_linking_info#:#Tries to identify URLs like "http://.." in text paragraphs and automatically creates links around them.
+content#:#cont_auto_time#:#Auto Animation Waiting Time
+content#:#cont_rand_start#:#Random Start
+content#:#cont_tabs_carousel#:#Carousel
+exc#:#exc_adopt_group_teams#:#Adopt Teams from Groups
+exc#:#exc_adopt_group_teams_added#:#%s Users were added.
+exc#:#exc_adopt_group_teams_blocked#:#%s User were already assigned.
+exc#:#exc_adopt_group_teams_conflict#:#User "%1$s" is already selected for group "%2$s".
+exc#:#exc_adopt_group_teams_no_members#:#No members
+exc#:#exc_deadline_ext_mismatch#:#The grace period has to end after the deadline.
+exc#:#exc_deadline_extended#:#Grace Period
+exc#:#exc_deadline_extended_info#:#Late submission are possible between the deadline and the end of the grace period.
+exc#:#exc_late_submission#:#Late Submission
+exc#:#exc_late_submission_warning#:#Submissions after %s are marked as late.
+exc#:#exc_max_file#:#Max Number of Files
+exc#:#exc_max_file_info#:#Participants will not be able to upload more files once the limit is reached.
+exc#:#exc_max_file_reached#:#You cannot upload more than %s files.
+exc#:#exc_max_file_tgl#:#Limit Uploads
+exc#:#exc_no_team_yet_info_tutor#:#Teams are managed by the exercise tutors.
+exc#:#exc_peer_review_chars_invalid#:#At least one of your feedbacks does not have the required minimum length of %s characters.
+exc#:#exc_peer_review_completion#:#Determination of "Passed" Status
+exc#:#exc_peer_review_completion_all#:#Only after all required feedbacks
+exc#:#exc_peer_review_completion_none#:#No feedback necessary
+exc#:#exc_peer_review_completion_one#:#Already with at least 1 valid feedback
+exc#:#exc_peer_review_given#:#Show Given Feedback
+exc#:#exc_peer_review_min_chars#:#Mininum Number of Characters
+exc#:#exc_peer_review_min_chars_info#:#The required number of characters for a valid feedback.
+exc#:#exc_peer_review_min_chars_tgl#:#Mininum Length
+exc#:#exc_peer_review_show_missing#:#You cannot view your received feedback as you gave not enough feedback.
+exc#:#exc_peer_review_show_received_none#:#You received no feedback.
+exc#:#exc_peer_review_simple_unlock#:#Access to received feedback
+exc#:#exc_peer_review_simple_unlock_active#:#After giving at least 1 valid feedback
+exc#:#exc_peer_review_simple_unlock_inactive#:#After giving all required feedbacks
+exc#:#exc_team_management_tutor#:#Team Management by Tutors
+exc#:#exc_team_management_tutor_info#:#If activated participants cannot organize teams themselves.
+exc#:#exc_team_multi_create#:#Create Team
+exc#:#exc_team_multi_dissolve#:#Dissolve Team(s)
+style#:#sty_type_ca_cntr#:#Carousel Container
+style#:#sty_type_ca_icntr#:#Carousel Item Container
+style#:#sty_type_ca_icont#:#Carousel Item Content
+style#:#sty_type_ca_ihead#:#Carousel Item Header
+wiki#:#wiki_link_md_values#:#Automatic Linking
+wiki#:#wiki_link_md_values_info#:#Autmatically links properties presented in the side block to wiki pages with the same name.

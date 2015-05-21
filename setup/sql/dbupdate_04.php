@@ -5891,3 +5891,7 @@ $ilDB->manipulate("UPDATE tst_active SET last_finished_pass = (tries - 1) WHERE 
 <?php
 $ilDB->manipulate("DELETE FROM il_dcl_datatype_prop WHERE title = " . $ilDB->quote('allowed_file_types', 'text'));
 ?>
+<#4483>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
