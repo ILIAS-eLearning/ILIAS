@@ -142,6 +142,11 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$actions .= "&nbsp;<a href=\"".$bookings_link."\">".$this->bookings_img."</a>";
 		}
 
+		$this->ctrl->setParameterByClass("ilrepositorygui","ref_id",$a_set["crs_ref_id"]);
+		$course_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "view");
+		$this->ctrl->clearParametersByClass("ilrepositorygui");
+
+		$this->tpl->setVariable("TITLE_LINK",$course_link);
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("CUSTOM_ID", $a_set["custom_id"]);
 		$this->tpl->setVariable("TYPE", $a_set["type"]);

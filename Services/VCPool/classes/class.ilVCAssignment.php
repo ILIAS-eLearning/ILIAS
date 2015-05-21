@@ -18,12 +18,13 @@ class ilVCAssignment {
 	
 	// This should only be used by VCPool to protect the constraints
 	// of the pool.
-	public function __construct($a_id, ilVirtualClassroom $a_vc, ilDateTime $a_start, ilDateTime $a_end) {
+	public function __construct($a_id, ilVirtualClassroom $a_vc, $a_obj_id, ilDateTime $a_start, ilDateTime $a_end) {
 		assert(is_int($a_id));
 		assert(ilDateTime::_before($a_start, $a_end));
 
 		$this->id = $a_id;
 		$this->vc = $a_vc;
+		$this->obj_id = $a_obj_id;
 		$this->start = $a_start;
 		$this->end = $a_end;
 	}
@@ -34,6 +35,10 @@ class ilVCAssignment {
 
 	public function getVC() {
 		return $this->vc;
+	}
+
+	public function getObjId() {
+		return $this->obj_id;
 	}
 	
 	public function getStart() {

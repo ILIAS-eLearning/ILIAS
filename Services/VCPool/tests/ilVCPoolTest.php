@@ -65,8 +65,9 @@ class ilVCPoolTest extends PHPUnit_Framework_TestCase {
 		
 		$start = new ilDateTime("2015-04-05 10:00:00", IL_CAL_DATETIME);
 		$end = new ilDateTime("2015-04-05 11:00:00", IL_CAL_DATETIME);
+		$obj_id = 307;
 		
-		$ass = $vc_pool->getVCAssignment("cat", $start, $end);
+		$ass = $vc_pool->getVCAssignment("cat", $obj_id, $start, $end);
 		$this->assertInstanceOf("ilVCAssignment", $ass);
 		$this->assertEquals( $start->get(IL_CAL_DATETIME)
 						   , $ass->getStart()->get(IL_CAL_DATETIME));
@@ -82,9 +83,10 @@ class ilVCPoolTest extends PHPUnit_Framework_TestCase {
 		
 		$start = new ilDateTime("2015-04-05 10:00:00", IL_CAL_DATETIME);
 		$end = new ilDateTime("2015-04-05 11:00:00", IL_CAL_DATETIME);
+		$obj_id = 307;
 		
-		$ass1 = $vc_pool->getVCAssignment("cat", $start, $end);
-		$ass2 = $vc_pool->getVCAssignment("cat", $start, $end);
+		$ass1 = $vc_pool->getVCAssignment("cat", $obj_id, $start, $end);
+		$ass2 = $vc_pool->getVCAssignment("cat", $obj_id, $start, $end);
 		
 		$this->assertInstanceOf("ilVCAssignment", $ass1);
 		$this->assertEquals( $start->get(IL_CAL_DATETIME)
@@ -113,10 +115,11 @@ class ilVCPoolTest extends PHPUnit_Framework_TestCase {
 		
 		$start = new ilDateTime("2015-04-05 10:00:00", IL_CAL_DATETIME);
 		$end = new ilDateTime("2015-04-05 11:00:00", IL_CAL_DATETIME);
+		$obj_id = 307;
 		
-		$ass1 = $vc_pool->getVCAssignment("cat", $start, $end);
-		$ass2 = $vc_pool->getVCAssignment("cat", $start, $end);
-		$ass3 = $vc_pool->getVCAssignment("cat", $start, $end);
+		$ass1 = $vc_pool->getVCAssignment("cat", $obj_id, $start, $end);
+		$ass2 = $vc_pool->getVCAssignment("cat", $obj_id, $start, $end);
+		$ass3 = $vc_pool->getVCAssignment("cat", $obj_id, $start, $end);
 		
 		$this->assertNull($ass3);
 	}
@@ -126,8 +129,9 @@ class ilVCPoolTest extends PHPUnit_Framework_TestCase {
 		
 		$start = new ilDateTime("2015-04-05 10:00:00", IL_CAL_DATETIME);
 		$end = new ilDateTime("2015-04-05 11:00:00", IL_CAL_DATETIME);
+		$obj_id = 307;
 		
-		$ass = $vc_pool->getVCAssignment("foobar", $start, $end);
+		$ass = $vc_pool->getVCAssignment("foobar", $obj_id, $start, $end);
 		$this->assertNull($ass);
 	}
 	
@@ -136,9 +140,10 @@ class ilVCPoolTest extends PHPUnit_Framework_TestCase {
 		
 		$start = new ilDateTime("2015-04-05 10:00:00", IL_CAL_DATETIME);
 		$end = new ilDateTime("2015-04-05 11:00:00", IL_CAL_DATETIME);
+		$obj_id = 307;
 		
 		// First assignment
-		$ass1 = $vc_pool->getVCAssignment("other", $start, $end);
+		$ass1 = $vc_pool->getVCAssignment("other", $obj_id, $start, $end);
 		$this->assertInstanceOf("ilVCAssignment", $ass1);
 		$this->assertEquals( $start->get(IL_CAL_DATETIME)
 						   , $ass1->getStart()->get(IL_CAL_DATETIME));
@@ -149,14 +154,14 @@ class ilVCPoolTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($ass1->getVC()->getId(), 2);
 		
 		// No second assignment possible.
-		$ass2 = $vc_pool->getVCAssignment("other", $start, $end);
+		$ass2 = $vc_pool->getVCAssignment("other", $obj_id, $start, $end);
 		$this->assertNull($ass2);
 		
 		// Release first assignment
 		$ass1->release();
 		
 		// Now another assignment should be possible.
-		$ass3 = $vc_pool->getVCAssignment("other", $start, $end);
+		$ass3 = $vc_pool->getVCAssignment("other", $obj_id, $start, $end);
 		
 		$this->assertInstanceOf("ilVCAssignment", $ass1);
 		$this->assertEquals( $start->get(IL_CAL_DATETIME)
@@ -177,14 +182,15 @@ class ilVCPoolTest extends PHPUnit_Framework_TestCase {
 		$end2 = new ilDateTime("2015-05-05 11:00:00", IL_CAL_DATETIME);
 		$start3 = new ilDateTime("2015-04-05 11:00:00", IL_CAL_DATETIME);
 		$end3 = new ilDateTime("2015-04-05 12:00:00", IL_CAL_DATETIME);
+		$obj_id = 307;
 		
-		$ass1 = $vc_pool->getVCAssignment("other", $start1, $end1);
+		$ass1 = $vc_pool->getVCAssignment("other", $obj_id, $start1, $end1);
 		$this->assertNotNull($ass1);
 		
-		$ass2 = $vc_pool->getVCAssignment("other", $start2, $end2);
+		$ass2 = $vc_pool->getVCAssignment("other", $obj_id, $start2, $end2);
 		$this->assertNotNull($ass2);
 		
-		$ass3 = $vc_pool->getVCAssignment("other", $start3, $end3);
+		$ass3 = $vc_pool->getVCAssignment("other", $obj_id, $start3, $end3);
 		$this->assertNotNull($ass3);
 	}
 	
@@ -195,12 +201,41 @@ class ilVCPoolTest extends PHPUnit_Framework_TestCase {
 		$end1 = new ilDateTime("2015-04-05 11:00:00", IL_CAL_DATETIME);
 		$start2 = new ilDateTime("2015-04-05 10:45:00", IL_CAL_DATETIME);
 		$end2 = new ilDateTime("2015-04-05 11:45:00", IL_CAL_DATETIME);
+		$obj_id = 307;
 		
-		$ass1 = $vc_pool->getVCAssignment("other", $start1, $end1);
+		$ass1 = $vc_pool->getVCAssignment("other", $obj_id, $start1, $end1);
 		$this->assertNotNull($ass1);
 		
-		$ass2 = $vc_pool->getVCAssignment("other", $start2, $end2);
+		$ass2 = $vc_pool->getVCAssignment("other", $obj_id, $start2, $end2);
 		$this->assertNull($ass2);
+	}
+
+	public function testGetAssignmentById() {
+		$vc_pool = ilVCPool::getInstance();
+		
+		$start1 = new ilDateTime("2015-04-05 10:00:00", IL_CAL_DATETIME);
+		$end1 = new ilDateTime("2015-04-05 11:00:00", IL_CAL_DATETIME);
+		$obj_id = 307;		
+
+		$ass1 = $vc_pool->getVCAssignment("other", $obj_id, $start1, $end1);
+		$this->assertNotNull($ass1);
+
+		$assigns1 = $vc_pool->getVCAssignmentById((integer)$ass1->getId());
+		$this->assertNotNull($assigns1);
+	}
+
+	public function testGetAssignmentsByObjId() {
+		$vc_pool = ilVCPool::getInstance();
+		
+		$start1 = new ilDateTime("2015-04-05 10:00:00", IL_CAL_DATETIME);
+		$end1 = new ilDateTime("2015-04-05 11:00:00", IL_CAL_DATETIME);
+		$obj_id = 307;		
+
+		$ass1 = $vc_pool->getVCAssignment("other", $obj_id, $start1, $end1);
+		$this->assertNotNull($ass1);
+
+		$assigns1 = $vc_pool->getVCAssignmentsByObjId($obj_id);
+		$this->assertNotEmpty($assigns1);
 	}
 	
 	protected function tearDown() {

@@ -423,8 +423,6 @@ class gevAMDUtils {
 		$ilDB->manipulate($query);
 	}
 
-
-
 	public static function updateOptionsOfAMDField($a_gev_setting, $options) {
 		require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDClaimingPlugin.php");
 		global $ilDB;
@@ -439,6 +437,31 @@ class gevAMDUtils {
 			 WHERE field_id= $field_id";
 
 		$ilDB->manipulate($query);
+	}
+
+	/*
+	*
+	* @param $a_gev_settings = array()
+	*
+	*/
+	public static function updatePositionOrderAMDField($a_gev_settings) {
+		require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDClaimingPlugin.php");
+		global $ilDB, $ilLog;
+
+		$ilLog->write("guck guck ich mach jetzt ein update");
+		$gev_set = gevSettings::getInstance();
+
+		foreach($a_gev_settings as $key => $gev_setting) {		
+			$field_id = $gev_set->getAMDFieldId($gev_setting);
+
+			$query = "UPDATE adv_mdf_definition SET"
+					 ." position = ".($key+1)
+					 ." WHERE field_id = $field_id";
+
+			$ilDB->manipulate($query);
+			$ilLog->write($query);
+		}
+
 	}
 
 }

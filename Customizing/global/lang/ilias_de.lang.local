@@ -1121,3 +1121,5 @@ gev#:#gev_login_express_companyname#:#Firmenname
 gev#:#gev_login_express_vnumber#:#Vermittlernummer
 gev#:#gev_login_express_agreement#:#Ja, ich stimme der <a href='/Customizing/global/skin/genv/static/documents/GEV_Makler_Finale_Nutzungsbedingungen.pdf' target='_blank' class='blue'>Nutzungsvereinbarung</a> zu, um mich für das Training zu registrieren.
 gev#:#gev_login_express_phone_number#:#Telefonnummer für Audioverbindung
+gev#:#gev_vc_no_free_url#:#Es konnte kein freier virtueller Klassenraum für diesen Zeitraum gefunden werden.
+gev#:#gev_vc_no_url_saved#:#Es konnte kein virtueller Klassenraum hinzugefügt werden, da kein Zeitraum definiert wurde.

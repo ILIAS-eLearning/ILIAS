@@ -44,6 +44,8 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 			$this->crs->update(false);
 			
 			$this->crs_utils->moveAccomodations();
+
+			$this->crs_utils->doVCAssignment();
 		}
 		catch (Exception $e) {
 			$this->log->write("Error in GEVCourseUpdate::updatedCourse: ".print_r($e, true));

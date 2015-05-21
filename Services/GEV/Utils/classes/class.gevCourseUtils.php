@@ -288,6 +288,10 @@ class gevCourseUtils {
 	public function getId() {
 		return $this->crs_id;
 	}
+
+	public function getRefId() {
+		return gevObjectUtils::getRefId($this->crs_id);
+	}
 	
 	public function getTitle() {
 		return $this->getCourse()->getTitle();
@@ -348,9 +352,21 @@ class gevCourseUtils {
 	public function isWebinar() {
 		return $this->getType() == "Webinar";
 	}
+
+	public function isVirtualTraining(){
+		return $this->getType() == "Virtuelles Training";
+	}
 	
 	public function isDecentralTraining() {
 		return $this->getEduProgramm() == "dezentrales Training";
+	}
+
+	public function isStartAndEndDateSet(){
+		if($this->getStartDate() !== null && $this->getEndDate() !== null){
+			return true;
+		}
+
+		return false;
 	}
 	
 	public function getStartDate() {
@@ -915,6 +931,60 @@ class gevCourseUtils {
 			}
 		}
 	}
+
+	//handles the assignsystem for VC
+	public function doVCAssignment() {
+		
+		if($this->getStartDate() === null || $this->getEndDate() === null){
+			if($this->isVirtualTraining()) {				
+				ilUtil::sendInfo($this->lng->txt("gev_vc_no_url_saved"));	
+			}
+
+			require_once("Services/VCPool/classes/class.ilVCPool.php");
+			$vc_pool = ilVCPool::getInstance();
+			$assigned_vc = $vc_pool->getVCAssignmentsByObjId($this->crs_id);
+			foreach($assigned_vc as $avc) {
+				$avc->release();
+			}
+			
+			$this->setWebExLink(null);
+			//$this->setWebExPassword(null);
+			//$this->setWebExPasswordTutor(null);
+
+			return;
+		}
+
+		if($this->isVirtualTraining() && $this->isStartAndEndDateSet()) {		
+			require_once("Services/VCPool/classes/class.ilVCPool.php");
+			$vc_pool = ilVCPool::getInstance();
+			$assigned_vc = $vc_pool->getVCAssignmentsByObjId($this->crs_id);
+			
+			foreach($assigned_vc as $avc) {
+				$avc->release(); 		
+			}			
+
+			$str_url = "";
+			$cnt = 1;
+			if(count($assigned_vc) != 0) {
+				$cnt = count($assigned_vc);
+			}
+
+			for ($i = 0; $i < $cnt; $i++) {				
+				$to_assign_vc = $vc_pool->getVCAssignment("meins",$this->crs_id,$this->getStartDate(),$this->getEndDate());
+
+				if($to_assign_vc === null) {
+					break;
+				}
+				$str_url .= $to_assign_vc->getVC()->getUrl();
+			}
+
+			if($str_url != "") {				
+				$this->setWebExLink($str_url);
+			}else{
+				ilUtil::sendInfo($this->lng->txt("gev_vc_no_free_url"));
+			}
+		}
+	}
 	
 	public function getWebExLink() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LINK);
@@ -930,6 +1000,14 @@ class gevCourseUtils {
 	
 	public function setWebExPassword($a_value) {
 		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD, $a_value);
+	}
+
+	public function getWebExPasswordTutor() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR);
+	}
+	
+	public function setWebExPasswordTutor($a_value) {
+		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR, $a_value);
 	}
 	
 	/*public function getCSNLink() {

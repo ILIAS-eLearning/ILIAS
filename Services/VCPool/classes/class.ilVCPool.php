@@ -42,11 +42,12 @@ class ilVCPool {
 	 * Get a VC of the given type for the given period.
 	 *
 	 * @param	string		$a_type
+	 * @param   int         $a_obj_id
 	 * @param	ilDateTime	$a_start
 	 * @param	ilDateTime	$a_end
 	 * @return	ilVCAssignment | null
 	 */
-	public function getVCAssignment($a_type, ilDateTime $a_start, ilDateTime $a_end) {
+	public function getVCAssignment($a_type, $a_obj_id, ilDateTime $a_start, ilDateTime $a_end) {
 		assert(is_string($a_type));
 		assert(ilDateTime::_before($a_start, $a_end));
 		
@@ -73,16 +74,17 @@ class ilVCPool {
 		}
 		
 		$ass_id = $ilDB->nextId(self::ASSIGNMENT_TABLE);
-		$ilDB->manipulate("INSERT INTO ".self::ASSIGNMENT_TABLE." (id, vc_id, ts_start, ts_end) "
+		$ilDB->manipulate("INSERT INTO ".self::ASSIGNMENT_TABLE." (id, vc_id, obj_id, ts_start, ts_end) "
 						 ." VALUES ( ".$ilDB->quote($ass_id, "integer")
 						 ."        , ".$ilDB->quote($rec["id"], "integer")
-						 ."        , ".$end
+						 ."		   , ".$ilDB->quote($a_obj_id, "integer")
 						 ."        , ".$start
+						 ."        , ".$end
 						 ."        )"
 						 );
 		
 		$vc = new ilVirtualClassroom((int)$rec["id"], $rec["url"], $rec["vc_type"]);
-		return new ilVCAssignment((int)$ass_id, $vc, $a_start, $a_end);
+		return new ilVCAssignment((int)$ass_id, $vc,$a_obj_id, $a_start, $a_end);
 	}
 	
 	/**
@@ -109,14 +111,14 @@ class ilVCPool {
 		
 		$ilDB = $this->getDB();
 		
-		$res = $ilDB->query("SELECT ass.id, ass.ts_start, ass.ts_end, vc.id as vc_id, vc.url, vc.vc_type"
+		$res = $ilDB->query("SELECT ass.id, ass.ts_start, ass.ts_end, ass.obj_id, vc.id as vc_id, vc.url, vc.vc_type"
 						   ."  FROM ".self::ASSIGNMENT_TABLE." ass "
-						   ."  JOIN ".self::ASSIGNMENT_TABLE." vc "
+						   ."  JOIN ".self::URL_POOL_TABLE." vc "
 						   ."    ON ass.vc_id = vc.id"
 						   ." WHERE ass.id = ".$ilDB->quote($a_id, "integer")
 						   );
 		
-		$rec = $ilDB->fetchAssoc();
+		$rec = $ilDB->fetchAssoc($res);
 		
 		if (!$rec) {
 			throw new ilException("Could not find VC assignment with id '$a_id'.");
@@ -125,7 +127,38 @@ class ilVCPool {
 		$vc = new ilVirtualClassroom((int)$rec["vc_id"], $rec["url"], $rec["vc_type"]);
 		$begin = new ilDateTime($rec["ts_start"], IL_CAL_DATETIME);
 		$end = new ilDateTime($rec["ts_end"], IL_CAL_DATETIME);
-		return new ilVCAssignment((int)$rec["id"], $vc, $begin, $end);
+		return new ilVCAssignment((int)$rec["id"], $vc,(int)$rec["obj_id"], $begin, $end);
+	}
+
+	/**
+	 * Get a pool of VC assignments by objId.
+	 *
+	 * @param	int			$a_obj_id
+	 * @return	array
+	 *
+	 */
+	public function getVCAssignmentsByObjId($a_obj_id) {
+		assert(is_int($a_obj_id));
+		
+		$ilDB = $this->getDB();
+		
+		$res = $ilDB->query("SELECT ass.id, ass.ts_start, ass.ts_end, ass.obj_id, vc.id as vc_id, vc.url, vc.vc_type"
+						   ."  FROM ".self::ASSIGNMENT_TABLE." ass "
+						   ."  JOIN ".self::URL_POOL_TABLE." vc "
+						   ."    ON ass.vc_id = vc.id"
+						   ." WHERE ass.obj_id = ".$ilDB->quote($a_obj_id, "integer")
+						   );
+		
+		$ret = array();
+
+		while($row = $ilDB->fetchAssoc($res)) {		
+			$vc = new ilVirtualClassroom((int)$row["vc_id"], $row["url"], $row["vc_type"]);
+			$begin = new ilDateTime($row["ts_start"], IL_CAL_DATETIME);
+			$end = new ilDateTime($row["ts_end"], IL_CAL_DATETIME);
+			$ret[] = new ilVCAssignment((int)$row["id"], $vc,(int)$row["obj_id"], $begin, $end);			
+		}
+
+		return $ret;
 	}
 }
 

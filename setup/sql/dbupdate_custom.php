@@ -3584,3 +3584,13 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 	
 	VCPoolInstaller::allSteps($ilDB);
 ?>
+
+<#118>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+
+?>
