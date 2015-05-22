@@ -5,7 +5,7 @@
 require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeProgress.php");
 
 /**
- * Represents the progress of a user at one node of a training programme.
+ * Represents the progress of a user at one node of a study programme.
  *
  * A user could have multiple progress' on one node, since he could also have
  * multiple assignments to one node.
@@ -16,7 +16,7 @@ class ilStudyProgrammeUserProgress {
 	protected $progress; // ilStudyProgrammeProgress
 	
 	/**
-	 * Throws when id does not refer to a training programme progress.
+	 * Throws when id does not refer to a study programme progress.
 	 *
 	 * Expects an array [assignment_id, program_node_id, user_id] or an
 	 * ilStudyProgress as first parameter.

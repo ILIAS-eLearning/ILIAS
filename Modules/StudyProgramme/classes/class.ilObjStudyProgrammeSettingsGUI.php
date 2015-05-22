@@ -156,10 +156,10 @@ class ilObjStudyProgrammeSettingsGUI {
 	}
 
 	protected function buildModalHeading($label) {
-		$this->ctrl->saveParameterByClass('ilobjtrainingprogrammesettingsgui', 'ref_id');
+		$this->ctrl->saveParameterByClass('ilobjstudyprogrammesettingsgui', 'ref_id');
 		$heading_button = ilLinkButton::getInstance();
 		$heading_button->setCaption('prg_open_node');
-		$heading_button->setUrl($this->ctrl->getLinkTargetByClass('ilobjtrainingprogrammetreegui', 'view'));
+		$heading_button->setUrl($this->ctrl->getLinkTargetByClass('ilobjstudyprogrammetreegui', 'view'));
 
 		$heading = "<div class=''>".$label."<div class='pull-right'>".$heading_button->render()."</div></div>";
 		$this->tmp_heading = $heading;

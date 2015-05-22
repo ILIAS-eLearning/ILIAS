@@ -89,7 +89,7 @@ class ilStudyProgrammeAssignment extends ActiveRecord {
 	
 	
 	/**
-	 * Create new assignment object for training program and user.
+	 * Create new assignment object for study program and user.
 	 *
 	 * Throws when $a_usr_id does not point to a user.
 	 * 

@@ -366,11 +366,11 @@ class ilStudyProgrammeType extends ActiveRecord {
 	}
 
 	public function getAssignedStudyProgrammeIds() {
-		$training_programmes = $this->getAssignedStudyProgrammes();
+		$study_programmes = $this->getAssignedStudyProgrammes();
 
 		$out = array();
-		foreach($training_programmes as $training_program) {
-			$out[] = $training_program->getObjId();
+		foreach($study_programmes as $study_program) {
+			$out[] = $study_program->getObjId();
 		}
 
 		return $out;

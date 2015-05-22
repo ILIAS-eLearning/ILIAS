@@ -3,9 +3,9 @@
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 /**
- * Event listener for training programs. Has the following tasks:
+ * Event listener for study programs. Has the following tasks:
  *
- *  * Remove all assignments of a user on all training programms when the
+ *  * Remove all assignments of a user on all study programms when the
  *    user is removed.
  *
  * @author  Richard Klees <richard.klees@concepts-and-training.de>

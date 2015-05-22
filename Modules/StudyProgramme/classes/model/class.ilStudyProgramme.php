@@ -57,7 +57,7 @@ class ilStudyProgramme extends ActiveRecord {
 	}
 
 	/**
-	 * Id of this training program and the corresponding ILIAS-object as well.
+	 * Id of this study program and the corresponding ILIAS-object as well.
 	 *
 	 * @var int
 	 * 
@@ -135,7 +135,7 @@ class ilStudyProgramme extends ActiveRecord {
 	
 	
 	/**
-	 * Create new training program settings for an object.
+	 * Create new study program settings for an object.
 	 *
 	 * Throws when object is no program object.
 	 *
@@ -169,7 +169,7 @@ class ilStudyProgramme extends ActiveRecord {
 	}
 
 	/**
-	 * Get the id of the training program.
+	 * Get the id of the study program.
 	 *
 	 * @return integer
 	 */

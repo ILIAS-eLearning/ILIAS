@@ -84,7 +84,7 @@ class ilStudyProgrammeTypeTranslation extends ActiveRecord {
 	/**
 	 * Removes all translations to a specific StudyProgramme-Type
 	 *
-	 * @param $type_id | Id of the trainingProgrammeType
+	 * @param $type_id | Id of the studyProgrammeType
 	 */
 	public static function deleteAllTranslations($type_id) {
 		$translations = self::where(array('prg_type_id'=>$type_id))->get();

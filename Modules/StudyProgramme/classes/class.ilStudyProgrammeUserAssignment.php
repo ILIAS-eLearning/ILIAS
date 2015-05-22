@@ -5,7 +5,7 @@
 require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAssignment.php");
 
 /**
- * Represents one assignment of a user to a training programme.
+ * Represents one assignment of a user to a study programme.
  *
  * A user could have multiple assignments per programme.
  *
@@ -15,7 +15,7 @@ class ilStudyProgrammeUserAssignment {
 	protected $assignment; // ilStudyProgrammeAssignment
 	
 	/**
-	 * Throws when id does not refer to a training programme assignment.
+	 * Throws when id does not refer to a study programme assignment.
 	 *
 	 * @throws ilException
 	 * @param int | ilStudyProgrammeAssignment $a_id_or_model

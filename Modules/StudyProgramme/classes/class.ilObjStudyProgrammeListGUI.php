@@ -41,7 +41,7 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI {
 		$this->payment_enabled = false;
 
 		$this->type = "prg";
-		$this->gui_class_name = "ilobjtrainingprogrammegui";
+		$this->gui_class_name = "ilobjstudyprogrammegui";
 
 		// general commands array
 		include_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAccess.php');
@@ -86,9 +86,9 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI {
 	 * @return string
 	 */
 	public function getCommandLink($a_cmd) {
-		$this->ctrl->setParameterByClass("ilobjtrainingprogrammegui", "ref_id", $this->ref_id);
+		$this->ctrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $this->ref_id);
 
-		return $this->ctrl->getLinkTargetByClass("ilobjtrainingprogrammegui", $a_cmd);
+		return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammegui", $a_cmd);
 	}
 }
 
