@@ -174,7 +174,6 @@ if(!$ilDB->tableColumnExists('exc_crit','required'))
 		'default' => 0
 	));
 }
-
 ?>
 <#12>
 <?php
