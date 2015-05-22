@@ -2,7 +2,7 @@
     "use strict";
 
     $.fn.extend({
-        training_programme_tree: function (options) {
+        study_programme_tree: function (options) {
             var settings = $.extend({
                 button_selectors: {all: ".tree_button", create: "a.cmd_create", info: "a.cmd_view", delete: "a.cmd_delete"},
                 current_node_selector: ".current_node",
@@ -151,7 +151,7 @@
              * Trigger notification and refreshes the tree
              */
             $("body").on("async_form-success", function (event, data) {
-                $("body").trigger("training_programme-show_success", {message: data.message, type: 'success'});
+                $("body").trigger("study_programme-show_success", {message: data.message, type: 'success'});
                 refresh_tree();
             });
 
@@ -159,7 +159,7 @@
              * New order was saved
              * Disables toolbar buttons and show tree buttons
              */
-            $("body").on("training_programme-saved_order", function (event, data) {
+            $("body").on("study_programme-saved_order", function (event, data) {
                 enable_control_buttons(false);
                 enable_all_buttons(true);
             });
@@ -168,7 +168,7 @@
              * Cancel order save
              * Reset buttons and refresh the tree
              */
-            $("body").on("training_programme-cancel_order", function (event, data) {
+            $("body").on("study_programme-cancel_order", function (event, data) {
                 enable_control_buttons(false);
                 enable_all_buttons(true);
 
@@ -178,7 +178,7 @@
             /**
              * Saves the tree-order async
              */
-            $("body").on("training_programme-save_order", function () {
+            $("body").on("study_programme-save_order", function () {
                 var tree_data = $(element).jstree("get_json", -1, ['id']);
                 var json_data = JSON.stringify(tree_data);
 
@@ -191,8 +191,8 @@
                         success: function (response) {
                             //try {
                             if (response) {
-                                $("body").trigger("training_programme-show_success", {message: response.message, type: 'success'});
-                                $("body").trigger("training_programme-saved_order");
+                                $("body").trigger("study_programme-show_success", {message: response.message, type: 'success'});
+                                $("body").trigger("study_programme-saved_order");
                             }
                             /*} catch (error) {
                              console.log("The AJAX-response for the async form " + form.attr('id') + " is not JSON. Please check if the return values are set correctly: " + error);
@@ -204,7 +204,7 @@
 
             return element;
         },
-        training_programme_modal: function (options) {
+        study_programme_modal: function (options) {
             var settings = $.extend({
                 events: {hide: ["async_form-success", "async_form-cancel"]}
             }, options);
@@ -215,7 +215,7 @@
              * Remove data in bootstrap overlay when closed
              */
             $(document).on('hidden.bs.modal', '.modal', function (e) {
-                // only remove on training_programme_modal
+                // only remove on study_programme_modal
                 if ($(e.target).attr('id') === $(element).attr('id')) {
                     $(e.target).removeData("bs.modal");
                     $(e.target).find(".modal-content").empty();
@@ -236,7 +236,7 @@
 
             return element;
         },
-        training_programme_notifications: function (options) {
+        study_programme_notifications: function (options) {
             var settings = $.extend({
                 templates: {'info': '', 'success': '', 'failure': '', 'question': ''},
                 events: {info: [], success: [], failure: [], question: []},
@@ -280,7 +280,7 @@
 
             return content_container;
         },
-        training_programme_async_explorer: function (options) {
+        study_programme_async_explorer: function (options) {
             var settings = $.extend({
                 'save_explorer_url': ''
             }, options);
