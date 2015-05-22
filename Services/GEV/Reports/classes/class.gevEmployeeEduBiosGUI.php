@@ -54,9 +54,9 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		$cert_year_sql = " YEAR( CURDATE( ) ) - YEAR( usr.begin_of_certification ) "
 						."- ( DATE_FORMAT( CURDATE( ) , '%m%d' ) < DATE_FORMAT( usr.begin_of_certification, '%m%d' ) )"
 						;
-		$points_in_completed_cert_years 
+		$points_in_current_period
 						  =  "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification"
-							."         AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL (".$cert_year_sql.") YEAR)"
+							."         AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL 5 YEAR)"
 							."         AND usrcrs.okz <> '-empty-'"
 							."        , usrcrs.credit_points"
 							."        , 0"
@@ -121,11 +121,11 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 									."   , '-')"
 									." as points_sum")
 						->select_raw("CASE WHEN usr.begin_of_certification <= '$earliest_possible_cert_period_begin' THEN ''"
-									."     WHEN ".$cert_year_sql." = 0 AND ".$points_in_completed_cert_years." < 40 THEN 'X'"
-									."     WHEN ".$cert_year_sql." = 1 AND ".$points_in_completed_cert_years." < 80 THEN 'X'"
-									."     WHEN ".$cert_year_sql." = 2 AND ".$points_in_completed_cert_years." < 120 THEN 'X'"
-									."     WHEN ".$cert_year_sql." = 3 AND ".$points_in_completed_cert_years." < 160 THEN 'X'"
-									."     WHEN ".$cert_year_sql." = 4 AND ".$points_in_completed_cert_years." < 200 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 0 AND ".$points_in_current_period." < 40 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 1 AND ".$points_in_current_period." < 80 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 2 AND ".$points_in_current_period." < 120 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 3 AND ".$points_in_current_period." < 160 THEN 'X'"
+									."     WHEN ".$cert_year_sql." = 4 AND ".$points_in_current_period." < 200 THEN 'X'"
 									."     ELSE ''"
 									."END"
 									." as attention"
