@@ -44,12 +44,14 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->setstatus_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-state-neutral.png").'" />';
 		$this->overnight_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-edit.png").'" />';
 		$this->bookings_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-booking.png").'" />';
+		$this->virtualclass_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-virtual-class.png").'" />';
 		
 		$legend = new catLegendGUI();
 		$legend->addItem($this->memberlist_img, "gev_mytrainingsap_legend_memberlist")
 			   ->addItem($this->setstatus_img, "gev_mytrainingsap_legend_setstatus")
 			   ->addItem($this->overnight_img, "gev_mytrainingsap_legend_overnights")
 			   ->addItem($this->bookings_img, "gev_mytrainingsap_legend_view_bookings")
+			   ->addItem($this->virtualclass_img, "gev_virtual_class")
 			   ;
 		$this->setLegend($legend);
 
@@ -140,6 +142,10 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		
 		if ($view_bookings) {
 			$actions .= "&nbsp;<a href=\"".$bookings_link."\">".$this->bookings_img."</a>";
+		}
+
+		if ($crs_utils->getWebExlink() !== null) {
+			$actions .= '&nbsp;<a href="'.$crs_utils->getWebExlink().'">'.$this->virtualclass_img.'</a>';
 		}
 
 		$this->ctrl->setParameterByClass("ilrepositorygui","ref_id",$a_set["crs_ref_id"]);

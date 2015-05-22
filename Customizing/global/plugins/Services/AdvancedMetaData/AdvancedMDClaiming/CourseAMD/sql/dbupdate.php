@@ -603,3 +603,36 @@ $gev_settings = array(gevSettings::CRS_AMD_PROVIDER
 $amdutils = gevAMDUtils::getInstance();
 $amdutils->updatePositionOrderAMDField($gev_settings);
 ?>
+
+<#16>
+<?php
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+$amdutils = gevAMDUtils::getInstance();
+
+$amdutils->addAMDField( "Orte und Anbieter"
+						, "Virtuelle Klassentyp"
+						, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE
+						, ""
+						, false
+						, null
+						, ilAdvancedMDFieldDefinition::TYPE_SELECT
+						);
+
+$options = array("AT&T Connect");
+$amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE, $options);
+
+$gev_settings = array(gevSettings::CRS_AMD_PROVIDER
+					 ,gevSettings::CRS_AMD_VENUE
+					 ,gevSettings::CRS_AMD_ACCOMODATION
+					 ,gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE
+					 ,gevSettings::CRS_AMD_WEBEX_LINK
+					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD
+					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR
+					 ,gevSettings::CRS_AMD_ORGA
+					 ,gevSettings::CRS_AMD_TEP_ORGU);
+
+$amdutils->updatePositionOrderAMDField($gev_settings);
+?>

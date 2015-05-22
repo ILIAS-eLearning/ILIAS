@@ -385,7 +385,15 @@ class ilAdvancedMDRecordGUI
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 		include_once('Services/ADT/classes/class.ilADTFactory.php');
-								
+		
+		// gev patch start
+		// getFieldId for Field CRS_AMD_WEBEX_PASSWORD_TUTOR
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		$amd_utils = gevAMDUtils::getInstance();
+		$field_id = $amd_utils->getFieldId(gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR);
+		// gev patch end
+
 		foreach(ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type) as $record_id => $a_values)
 		{					
 			// this correctly binds group and definitions
@@ -397,7 +405,13 @@ class ilAdvancedMDRecordGUI
 			foreach($a_values->getADTGroup()->getElements() as $element_id => $element)				
 			{								
 				if(!$element->isNull())
-				{									
+				{	
+					// gev patch start
+					// do not show WebExPasswordTutor								
+					if($element_id == $field_id) {
+						continue;
+					}
+					// gev patch end
 					$this->info->addProperty($defs[$element_id]->getTitle(),
 						ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getHTML());					
 				}

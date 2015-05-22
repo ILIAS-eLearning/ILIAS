@@ -368,6 +368,30 @@ class gevCourseUtils {
 
 		return false;
 	}
+
+	public function hasStartOrEndDateChangedToVCAssign() {
+		require_once("Services/VCPool/classes/class.ilVCPool.php");
+		$vc_pool = ilVCPool::getInstance();
+		$assigns = $vc_pool->getVCAssignmentsByObjId($this->crs_id);
+		
+		if(empty($assigns)) {
+			return true;
+		}
+
+		$start_date = ($this->getStartDate()) ?$this->getStartDate()->get(IL_CAL_DATE) : "0000-00-00";
+		$end_date = ($this->getEndDate()) ?$this->getEndDate()->get(IL_CAL_DATE) : "0000-00-00";
+		
+		foreach($assigns as $assign) {
+			$ass_start_date = $assign->getStart()->get(IL_CAL_DATE);
+			$ass_end_date = $assign->getEnd()->get(IL_CAL_DATE);
+
+			if ($ass_start_date != $start_date || $ass_end_date != $end_date) {
+				return true;
+			}
+		}		
+
+		return false;
+	}
 	
 	public function getStartDate() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_START_DATE);
@@ -933,13 +957,10 @@ class gevCourseUtils {
 	}
 
 	//handles the assignsystem for VC
-	public function doVCAssignment() {
-		
-		if($this->getStartDate() === null || $this->getEndDate() === null){
-			if($this->isVirtualTraining()) {				
-				ilUtil::sendInfo($this->lng->txt("gev_vc_no_url_saved"));	
-			}
+	public function doVCAssignment() {		
+		$doReturn = false;
 
+		if($this->getStartDate() === null || $this->getEndDate() === null || !$this->isVirtualTraining() || $this->getWebExVirtualClassType() === null) {
 			require_once("Services/VCPool/classes/class.ilVCPool.php");
 			$vc_pool = ilVCPool::getInstance();
 			$assigned_vc = $vc_pool->getVCAssignmentsByObjId($this->crs_id);
@@ -951,16 +972,29 @@ class gevCourseUtils {
 			//$this->setWebExPassword(null);
 			//$this->setWebExPasswordTutor(null);
 
+			$doReturn = true;
+		}
+
+		if($doReturn) {
+			if($this->isVirtualTraining()) {
+				if(!$this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() === null) {
+					ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_vc_class_type_and_no_times"));
+				}elseif(!$this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() !== null) {
+					ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_startenddate_set"));	
+				}elseif($this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() === null) {
+					ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_vc_class_type"));
+				}
+			}
 			return;
 		}
 
-		if($this->isVirtualTraining() && $this->isStartAndEndDateSet()) {		
+		if($this->isVirtualTraining() && $this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() !== null && $this->hasStartOrEndDateChangedToVCAssign()) {		
 			require_once("Services/VCPool/classes/class.ilVCPool.php");
 			$vc_pool = ilVCPool::getInstance();
 			$assigned_vc = $vc_pool->getVCAssignmentsByObjId($this->crs_id);
 			
 			foreach($assigned_vc as $avc) {
-				$avc->release(); 		
+				$avc->release();
 			}			
 
 			$str_url = "";
@@ -970,7 +1004,7 @@ class gevCourseUtils {
 			}
 
 			for ($i = 0; $i < $cnt; $i++) {				
-				$to_assign_vc = $vc_pool->getVCAssignment("meins",$this->crs_id,$this->getStartDate(),$this->getEndDate());
+				$to_assign_vc = $vc_pool->getVCAssignment($this->getWebExVirtualClassType(), $this->crs_id, $this->getStartDate(), $this->getEndDate());
 
 				if($to_assign_vc === null) {
 					break;
@@ -981,8 +1015,10 @@ class gevCourseUtils {
 			if($str_url != "") {				
 				$this->setWebExLink($str_url);
 			}else{
-				ilUtil::sendInfo($this->lng->txt("gev_vc_no_free_url"));
+				ilUtil::sendFailure($this->lng->txt("gev_vc_no_free_url"));
 			}
+
+			ilUtil::sendInfo($this->lng->txt("gev_vc_send_invitation_mail_reminder"));
 		}
 	}
 	
@@ -1010,6 +1046,14 @@ class gevCourseUtils {
 		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR, $a_value);
 	}
 	
+	public function getWebExVirtualClassType() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE);
+	}
+	
+	public function setWebExVirtualClassType($a_value) {
+		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE, $a_value);
+	}
+
 	/*public function getCSNLink() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CSN_LINK);
 	}*/

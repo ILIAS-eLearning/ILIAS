@@ -1122,4 +1122,8 @@ gev#:#gev_login_express_vnumber#:#Vermittlernummer
 gev#:#gev_login_express_agreement#:#Ja, ich stimme der <a href='/Customizing/global/skin/genv/static/documents/GEV_Makler_Finale_Nutzungsbedingungen.pdf' target='_blank' class='blue'>Nutzungsvereinbarung</a> zu, um mich für das Training zu registrieren.
 gev#:#gev_login_express_phone_number#:#Telefonnummer für Audioverbindung
 gev#:#gev_vc_no_free_url#:#Es konnte kein freier virtueller Klassenraum für diesen Zeitraum gefunden werden.
-gev#:#gev_vc_no_url_saved#:#Es konnte kein virtueller Klassenraum hinzugefügt werden, da kein Zeitraum definiert wurde.
+gev#:#gev_vc_no_url_saved_because_no_startenddate_set#:#Es konnte kein virtueller Klassenraum hinzugefügt werden, da kein Zeitraum definiert wurde.
+gev#:#gev_vc_no_url_saved_because_no_vc_class_type#:#Es konnte kein virtueller Klassenraum hinzugefügt werden, da kein Typ für die virtuelle Klasse ausgewählt wurde.
+gev#:#gev_vc_no_url_saved_because_no_vc_class_type_and_no_times#:#Es konnte kein virtueller Klassenraum hinzugefügt werden, da weder ein Zeitraum definiert wurde, noch ein Typ für die virtuelle Klasse ausgewählt wurde.
+gev#:#gev_virtual_class#:#virtueller Klassenraum
+gev#:#gev_vc_send_invitation_mail_reminder#:#Es besteht die Möglichkeit, dass Sie die Einladungen an die Teilnehmer neu versenden müssen.
