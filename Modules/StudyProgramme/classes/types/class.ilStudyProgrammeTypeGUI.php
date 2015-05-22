@@ -1,17 +1,17 @@
 <?php
-require_once('./Modules/TrainingProgramme/classes/types/class.ilTrainingProgrammeTypeTableGUI.php');
-require_once('./Modules/TrainingProgramme/classes/types/class.ilTrainingProgrammeTypeFormGUI.php');
-require_once('./Modules/TrainingProgramme/classes/types/class.ilTrainingProgrammeTypeCustomIconsFormGUI.php');
-require_once('./Modules/TrainingProgramme/classes/types/class.ilTrainingProgrammeTypeAdvancedMetaDataFormGUI.php');
+require_once('./Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeTableGUI.php');
+require_once('./Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeFormGUI.php');
+require_once('./Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeCustomIconsFormGUI.php');
+require_once('./Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeAdvancedMetaDataFormGUI.php');
 require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
 /**
- * Class ilTrainingProgrammeTypeGUI
+ * Class ilStudyProgrammeTypeGUI
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * @author Michael Herren <mh@studer-raimann.ch>
  */
-class ilTrainingProgrammeTypeGUI {
+class ilStudyProgrammeTypeGUI {
 
 	/**
 	 * @var ilCtrl
@@ -56,9 +56,9 @@ class ilTrainingProgrammeTypeGUI {
 
 
 	/**
-	 * @param ilObjTrainingProgrammeGUI $parent_gui
+	 * @param ilObjStudyProgrammeGUI $parent_gui
 	 */
-	public function __construct(ilObjTrainingProgrammeGUI $parent_gui) {
+	public function __construct(ilObjStudyProgrammeGUI $parent_gui) {
 		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias, $ilTabs;
 
 		$this->tpl = $tpl;
@@ -148,7 +148,7 @@ class ilTrainingProgrammeTypeGUI {
 		if ($this->ilias->getSetting('custom_icons')) {
 			//$this->tabs->addSubTab('custom_icons', $this->lng->txt('icon_settings'), $this->ctrl->getLinkTarget($this, 'editCustomIcons'));
 		}
-		if (count(ilTrainingProgrammeType::getAvailableAdvancedMDRecordIds())) {
+		if (count(ilStudyProgrammeType::getAvailableAdvancedMDRecordIds())) {
 			$this->tabs->addSubTab('amd', $this->lng->txt('md_advanced'), $this->ctrl->getLinkTarget($this, 'editAMD'));
 		}
 		$this->tabs->setSubTabActive($active_tab_id);
@@ -159,7 +159,7 @@ class ilTrainingProgrammeTypeGUI {
 	 * Display form for editing custom icons
 	 */
 	protected function editCustomIcons() {
-		$form = new ilTrainingProgrammeTypeCustomIconsFormGUI($this, new ilTrainingProgrammeType((int)$_GET['type_id']));
+		$form = new ilStudyProgrammeTypeCustomIconsFormGUI($this, new ilStudyProgrammeType((int)$_GET['type_id']));
 		$this->tpl->setContent($form->getHTML());
 	}
 
@@ -168,7 +168,7 @@ class ilTrainingProgrammeTypeGUI {
 	 * Save icon
 	 */
 	protected function updateCustomIcons() {
-		$form = new ilTrainingProgrammeTypeCustomIconsFormGUI($this, new ilTrainingProgrammeType((int)$_GET['type_id']));
+		$form = new ilStudyProgrammeTypeCustomIconsFormGUI($this, new ilStudyProgrammeType((int)$_GET['type_id']));
 		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
 			$this->ctrl->redirect($this);
@@ -179,13 +179,13 @@ class ilTrainingProgrammeTypeGUI {
 
 
 	protected function editAMD() {
-		$form = new ilTrainingProgrammeTypeAdvancedMetaDataFormGUI($this, ilTrainingProgrammeType::find((int)$_GET['type_id']));
+		$form = new ilStudyProgrammeTypeAdvancedMetaDataFormGUI($this, ilStudyProgrammeType::find((int)$_GET['type_id']));
 		$this->tpl->setContent($form->getHTML());
 	}
 
 
 	protected function updateAMD() {
-		$form = new ilTrainingProgrammeTypeAdvancedMetaDataFormGUI($this, ilTrainingProgrammeType::find((int)$_GET['type_id']));
+		$form = new ilStudyProgrammeTypeAdvancedMetaDataFormGUI($this, ilStudyProgrammeType::find((int)$_GET['type_id']));
 		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
 			$this->ctrl->redirect($this);
@@ -204,26 +204,26 @@ class ilTrainingProgrammeTypeGUI {
 		$button->setUrl($this->ctrl->getLinkTarget($this, 'add'));
 		$this->toolbar->addButtonInstance($button);
 
-		$table = new ilTrainingProgrammeTypeTableGUI($this, 'listTypes');
+		$table = new ilStudyProgrammeTypeTableGUI($this, 'listTypes');
 		$this->tpl->setContent($table->getHTML());
 	}
 
 
 	/**
-	 * Display form to create a new TrainingProgramme type
+	 * Display form to create a new StudyProgramme type
 	 */
 	protected function add() {
-		$form = new ilTrainingProgrammeTypeFormGUI($this, new ilTrainingProgrammeType());
+		$form = new ilStudyProgrammeTypeFormGUI($this, new ilStudyProgrammeType());
 		$this->tpl->setContent($form->getHTML());
 	}
 
 
 	/**
-	 * Display form to edit an existing TrainingProgramme type
+	 * Display form to edit an existing StudyProgramme type
 	 */
 	protected function edit() {
-		$type = new ilTrainingProgrammeType((int)$_GET['type_id']);
-		$form = new ilTrainingProgrammeTypeFormGUI($this, $type);
+		$type = new ilStudyProgrammeType((int)$_GET['type_id']);
+		$form = new ilStudyProgrammeTypeFormGUI($this, $type);
 		$this->tpl->setContent($form->getHTML());
 	}
 
@@ -232,7 +232,7 @@ class ilTrainingProgrammeTypeGUI {
 	 * Create (save) type
 	 */
 	protected function create() {
-		$form = new ilTrainingProgrammeTypeFormGUI($this, new ilTrainingProgrammeType());
+		$form = new ilStudyProgrammeTypeFormGUI($this, new ilStudyProgrammeType());
 		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->lng->txt('msg_obj_created'), true);
 			$this->ctrl->redirect($this);
@@ -246,7 +246,7 @@ class ilTrainingProgrammeTypeGUI {
 	 * Update (save) type
 	 */
 	protected function update() {
-		$form = new ilTrainingProgrammeTypeFormGUI($this, new ilTrainingProgrammeType((int)$_GET['type_id']));
+		$form = new ilStudyProgrammeTypeFormGUI($this, new ilStudyProgrammeType((int)$_GET['type_id']));
 		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
 			$this->ctrl->redirect($this);
@@ -260,7 +260,7 @@ class ilTrainingProgrammeTypeGUI {
 	 * Delete a type
 	 */
 	protected function delete() {
-		$type = new ilTrainingProgrammeType((int)$_GET['type_id']);
+		$type = new ilStudyProgrammeType((int)$_GET['type_id']);
 		try {
 			$type->delete();
 			ilUtil::sendSuccess($this->lng->txt('prg_type_msg_deleted'), true);

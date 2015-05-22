@@ -3,21 +3,21 @@
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php");
-require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
-require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
+require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
+require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 require_once("Services/Utilities/classes/class.ilUtil.php");
 
 /**
- * Class ilTrainingProgrammeIndividualPlanTableGUI
+ * Class ilStudyProgrammeIndividualPlanTableGUI
  *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
  */
 
-class ilTrainingProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI {
+class ilStudyProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI {
 	protected $assignment;
 	
-	public function __construct($a_parent_obj, ilTrainingProgrammeUserAssignment $a_ass) {
+	public function __construct($a_parent_obj, ilStudyProgrammeUserAssignment $a_ass) {
 		parent::__construct("prg_tree", $a_parent_obj, null);
 
 		global $ilCtrl, $lng, $ilDB;
@@ -45,7 +45,7 @@ class ilTrainingProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI
 	 * @return mixed root node object/array
 	 */
 	public function getRootNode() {
-		return $this->assignment->getTrainingProgramme()->getRefId();
+		return $this->assignment->getStudyProgramme()->getRefId();
 	}
 	
 	/**
@@ -59,7 +59,7 @@ class ilTrainingProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI
 			return array();
 		}
 	
-		$prg = ilObjTrainingProgramme::getInstanceByRefId($a_parent_node_id);
+		$prg = ilObjStudyProgramme::getInstanceByRefId($a_parent_node_id);
 		if ($prg->hasChildren()) {
 			$childs = $prg->getChildren();
 		}
@@ -78,9 +78,9 @@ class ilTrainingProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI
 	public function getNodeContent($a_node) {
 		$obj_id = ilObject::_lookupObjectId($a_node);
 		if (ilObject::_lookupType($obj_id) == "prg") {
-			$progress = ilTrainingProgrammeUserProgress::getInstanceForAssignment($obj_id, $this->assignment->getId());
+			$progress = ilStudyProgrammeUserProgress::getInstanceForAssignment($obj_id, $this->assignment->getId());
 			
-			$tpl = new ilTemplate("tpl.individual_plan_tree_entry.html", true, true, "Modules/TrainingProgramme");
+			$tpl = new ilTemplate("tpl.individual_plan_tree_entry.html", true, true, "Modules/StudyProgramme");
 			$tpl->setVariable("PROGRESS_IMG_PATH", $this->getProgressImagePath($progress));
 			$tpl->setVariable("PROGRESS_IMG_ALT", $this->getProgressImageAlt($progress));
 			$tpl->setVariable("TITLE", $this->getProgressTitle($progress, $obj_id));
@@ -99,7 +99,7 @@ class ilTrainingProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI
 		}
 	}
 	
-	protected function getProgressTitle(ilTrainingProgrammeUserProgress $a_progress, $a_prg_id) {
+	protected function getProgressTitle(ilStudyProgrammeUserProgress $a_progress, $a_prg_id) {
 		$title = ilObject::_lookupTitle($a_prg_id);
 		if (!$a_progress->isRelevant()) {
 			$title = "<del>$title</del>";
@@ -107,7 +107,7 @@ class ilTrainingProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI
 		return $title;
 	}
 	
-	protected function getProgressImagePath(ilTrainingProgrammeUserProgress $a_progress) {
+	protected function getProgressImagePath(ilStudyProgrammeUserProgress $a_progress) {
 		if ($a_progress->isSuccessful()) {
 			return $this->successful_img_path;
 		}
@@ -116,7 +116,7 @@ class ilTrainingProgrammeIndividualPlanTreeExplorerGUI extends ilExplorerBaseGUI
 		}
 	}
 
-	protected function getProgressImageAlt(ilTrainingProgrammeUserProgress $a_progress) {
+	protected function getProgressImageAlt(ilStudyProgrammeUserProgress $a_progress) {
 		if ($a_progress->isSuccessful()) {
 			return $this->successful_img_alt;
 		}

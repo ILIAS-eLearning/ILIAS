@@ -12,7 +12,7 @@
  *
  */
 
-class ilTrainingProgrammeAppEventListener {
+class ilStudyProgrammeAppEventListener {
 	
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
@@ -31,14 +31,14 @@ class ilTrainingProgrammeAppEventListener {
 				}
 				break;
 			default:
-				throw new ilException("ilTrainingProgrammeAppEventListener::handleEvent: "
+				throw new ilException("ilStudyProgrammeAppEventListener::handleEvent: "
 									 ."Won't handle events of '$a_component'.");
 		}
 	}
 
 	private function onServiceUserDeleteUser($a_parameter) {
-		require_once("./Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserAssignment.php");
-		$assignments = ilTrainingProgrammeUserAssignment::getInstancesOfUser($a_parameter["usr_id"]);
+		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
+		$assignments = ilStudyProgrammeUserAssignment::getInstancesOfUser($a_parameter["usr_id"]);
 		foreach ($assignments as $ass) {
 			$ass->remove();
 		}
@@ -50,7 +50,7 @@ class ilTrainingProgrammeAppEventListener {
 			return;
 		}
 		
-		require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
-		ilObjTrainingProgramme::setProgressesCompletedFor($a_par["obj_id"], $a_par["usr_id"]);
+		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
+		ilObjStudyProgramme::setProgressesCompletedFor($a_par["obj_id"], $a_par["usr_id"]);
 	}
 }

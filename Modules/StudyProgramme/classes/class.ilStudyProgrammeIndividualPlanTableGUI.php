@@ -3,21 +3,21 @@
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("Services/Table/classes/class.ilTable2GUI.php");
-require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
-require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
+require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
+require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 require_once("Services/Utilities/classes/class.ilUtil.php");
 
 /**
- * Class ilTrainingProgrammeIndividualPlanTableGUI
+ * Class ilStudyProgrammeIndividualPlanTableGUI
  *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
  */
 
-class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
+class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 	protected $assignment;
 	
-	public function __construct($a_parent_obj, ilTrainingProgrammeUserAssignment $a_ass) {
+	public function __construct($a_parent_obj, ilStudyProgrammeUserAssignment $a_ass) {
 		parent::__construct($a_parent_obj);
 
 		global $ilCtrl, $lng, $ilDB;
@@ -33,7 +33,7 @@ class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		// TODO: switch this to internal sorting/segmentation
 		$this->setExternalSorting(false);
 		$this->setExternalSegmentation(false);
-		$this->setRowTemplate("tpl.individual_plan_table_row.html", "Modules/TrainingProgramme");
+		$this->setRowTemplate("tpl.individual_plan_table_row.html", "Modules/StudyProgramme");
 		
 		$this->getParentObject()->appendIndividualPlanActions($this);
 		
@@ -63,7 +63,7 @@ class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 	}
 	
 	protected function fillRow($a_set) {
-		$this->tpl->setVariable("STATUS", ilTrainingProgrammeUserProgress::statusToRepr($a_set["status"]));
+		$this->tpl->setVariable("STATUS", ilStudyProgrammeUserProgress::statusToRepr($a_set["status"]));
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
 		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points_required"]);
@@ -74,14 +74,14 @@ class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 	}
 	
 	protected function fetchData() {
-		$prg = $this->assignment->getTrainingProgramme();
+		$prg = $this->assignment->getStudyProgramme();
 		$prg_id = $prg->getId();
 		$ass_id = $this->assignment->getId();
 		$usr_id = $this->assignment->getUserId();
 		$plan = array();
 		
 		$prg->applyToSubTreeNodes(function($node) use ($prg_id, $ass_id, $usr_id, &$plan) {
-			$progress = ilTrainingProgrammeUserProgress::getInstance($ass_id, $node->getId(), $usr_id);
+			$progress = ilStudyProgrammeUserProgress::getInstance($ass_id, $node->getId(), $usr_id);
 			$completion_by_id = $progress->getCompletionBy();
 			if ($completion_by_id) {
 				$completion_by = ilObjUser::_lookupLogin($completion_by_id);
@@ -103,7 +103,7 @@ class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 	}
 	
 	protected function getManualStatusSelect($a_progress_id, $a_status) {
-		if ($a_status == ilTrainingProgrammeProgress::STATUS_COMPLETED) {
+		if ($a_status == ilStudyProgrammeProgress::STATUS_COMPLETED) {
 			return "";
 		}
 		
@@ -120,10 +120,10 @@ class ilTrainingProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 			, $manual_status_accredited => $this->lng->txt("prg_status_accredited")
 			, $manual_status_not_relevant => $this->lng->txt("prg_status_not_relevant")
 			));
-		if ($a_status == ilTrainingProgrammeProgress::STATUS_NOT_RELEVANT) {
+		if ($a_status == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
 			$select->setValue($manual_status_not_relevant);
 		}
-		else if ($a_status == ilTrainingProgrammeProgress::STATUS_ACCREDITED) {
+		else if ($a_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
 			$select->setValue($manual_status_accredited);
 		}
 		

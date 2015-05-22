@@ -5,7 +5,7 @@
 require_once(dirname(__FILE__)."/../../../../Services/ActiveRecord/class.ActiveRecord.php");
 
 /**
- * Class ilTrainingProgrammeAssignment.
+ * Class ilStudyProgrammeAssignment.
  *
  * Represents one assignment of the user to a program tree.
  *
@@ -16,7 +16,7 @@ require_once(dirname(__FILE__)."/../../../../Services/ActiveRecord/class.ActiveR
  * @version: 0.1.0
  */
 
-class ilTrainingProgrammeAssignment extends ActiveRecord {
+class ilStudyProgrammeAssignment extends ActiveRecord {
 	/**
 	 * @return string
 	 */
@@ -96,15 +96,15 @@ class ilTrainingProgrammeAssignment extends ActiveRecord {
 	 * @throws ilException
 	 * @param  int $a_usr_id
 	 * @param  int $a_assigning_usr_id
-	 * @return ilTrainingProgrammeAssignment
+	 * @return ilStudyProgrammeAssignment
 	 */
-	static public function createFor(ilTrainingProgramme $a_prg, $a_usr_id, $a_assigning_usr_id) {
+	static public function createFor(ilStudyProgramme $a_prg, $a_usr_id, $a_assigning_usr_id) {
 		if (ilObject::_lookupType($a_usr_id) != "usr") {
-			throw new ilException("ilTrainingProgrammeAssignment::createFor: '$a_usr_id' "
+			throw new ilException("ilStudyProgrammeAssignment::createFor: '$a_usr_id' "
 								 ."is no id of a user.");
 		}
 		
-		$ass = new ilTrainingProgrammeAssignment();
+		$ass = new ilStudyProgrammeAssignment();
 		$ass->setRootId($a_prg->getObjId())
 			->setUserId($a_usr_id)
 			->setLastChangeBy($a_assigning_usr_id)
@@ -169,7 +169,7 @@ class ilTrainingProgrammeAssignment extends ActiveRecord {
 	 */
 	public function setLastChangeBy($a_usr_id) {
 		if (ilObject::_lookupType($a_usr_id) != "usr") {
-			throw new ilException("ilTrainingProgrammeAssignment::setLastChangeBy: '$a_usr_id' "
+			throw new ilException("ilStudyProgrammeAssignment::setLastChangeBy: '$a_usr_id' "
 								 ."is no id of a user.");
 		}
 		$this->last_change_by = $a_usr_id;
@@ -206,7 +206,7 @@ class ilTrainingProgrammeAssignment extends ActiveRecord {
 	 */
 	public function setLastChange(ilDateTime $a_timestamp) {
 		if (ilDateTime::_before($a_timestamp, $this->getLastChange())) {
-			throw new ilException("ilTrainingProgrammeAssignment::setLastChange: Given "
+			throw new ilException("ilStudyProgrammeAssignment::setLastChange: Given "
 								 ."timestamp is before current timestamp. That "
 								 ."is logically impossible.");
 		}

@@ -4,15 +4,15 @@
 
 
 /**
- * Class ilObjTrainingProgrammeMembersGUI
+ * Class ilObjStudyProgrammeMembersGUI
  *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
- * @ilCtrl_Calls ilObjTrainingProgrammeMembersGUI: ilRepositorySearchGUI
- * @ilCtrl_Calls ilObjTrainingProgrammeMembersGUI: ilObjTrainingProgrammeIndividualPlanGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilRepositorySearchGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilObjStudyProgrammeIndividualPlanGUI
  */
 
-class ilObjTrainingProgrammeMembersGUI {
+class ilObjStudyProgrammeMembersGUI {
 	/**
 	 * @var ilCtrl
 	 */
@@ -29,7 +29,7 @@ class ilObjTrainingProgrammeMembersGUI {
 	protected $ilAccess;
 	
 	/**
-	 * @var ilObjTrainingProgramme
+	 * @var ilObjStudyProgramme
 	 */
 	public $object;
 	
@@ -102,8 +102,8 @@ class ilObjTrainingProgrammeMembersGUI {
 				$this->ctrl->forwardCommand($rep_search);
 				return;
 			case "ilobjtrainingprogrammeindividualplangui":
-				require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeIndividualPlanGUI.php");
-				$individual_plan_gui = new ilObjTrainingProgrammeIndividualPlanGUI( $this, $this->ref_id);
+				require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeIndividualPlanGUI.php");
+				$individual_plan_gui = new ilObjStudyProgrammeIndividualPlanGUI( $this, $this->ref_id);
 				$this->ctrl->forwardCommand($individual_plan_gui);
 				return;
 			case false:
@@ -116,37 +116,37 @@ class ilObjTrainingProgrammeMembersGUI {
 						$cont = $this->$cmd();
 						break;
 					default:
-						throw new ilException("ilObjTrainingProgrammeMembersGUI: ".
+						throw new ilException("ilObjStudyProgrammeMembersGUI: ".
 											  "Command not supported: $cmd");
 				}
 				break;
 			default:
-				throw new ilException("ilObjTrainingProgrammeMembersGUI: Can't forward to next class $next_class");
+				throw new ilException("ilObjStudyProgrammeMembersGUI: Can't forward to next class $next_class");
 		}
 		
 		$this->tpl->setContent($cont);
 	}
 	
 	protected function view() {
-		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeMembersTableGUI.php");
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeMembersTableGUI.php");
 		
-		// TODO: if ($this->getTrainingProgramme()->isActive()) {
+		// TODO: if ($this->getStudyProgramme()->isActive()) {
 		$this->initSearchGUI();
 		
 		$prg_id = ilObject::_lookupObjId($this->ref_id);
-		$table = new ilTrainingProgrammeMembersTableGUI($prg_id, $this->ref_id, $this);
+		$table = new ilStudyProgrammeMembersTableGUI($prg_id, $this->ref_id, $this);
 		return $table->getHTML();
 	}
 
 	public function addUsers($a_users) {
-		$prg = $this->getTrainingProgramme();
+		$prg = $this->getStudyProgramme();
 		foreach ($a_users as $user_id) {
 			$prg->assignUser($user_id);
 		}
 	}
 	
 	public function markAccredited() {
-		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 		$prgrs = $this->getProgressObject();
 		$prgrs->markAccredited($this->user->getId());
 		$this->showSuccessMessage("mark_accredited_success");
@@ -154,7 +154,7 @@ class ilObjTrainingProgrammeMembersGUI {
 	}
 	
 	public function unmarkAccredited() {
-		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 		$prgrs = $this->getProgressObject();
 		$prgrs->unmarkAccredited();
 		$this->showSuccessMessage("unmark_accredited_success");
@@ -162,10 +162,10 @@ class ilObjTrainingProgrammeMembersGUI {
 	}
 	
 	public function removeUser() {
-		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 		$prgrs = $this->getProgressObject();
 		$ass = $prgrs->getAssignment();
-		$prg = $ass->getTrainingProgramme();
+		$prg = $ass->getStudyProgramme();
 		if ($prg->getRefId() != $this->ref_id) {
 			throw new ilException("Can only remove users from the node they where assigned to.");
 		}
@@ -176,12 +176,12 @@ class ilObjTrainingProgrammeMembersGUI {
 	
 	protected function getProgressObject() {
 		if ($this->progress_object === null) {
-			require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 			if (!is_numeric($_GET["prgrs_id"])) {
 				throw new ilException("Expected integer 'prgrs_id'");
 			}
 			$id = (int)$_GET["prgrs_id"];
-			$this->progress_object = ilTrainingProgrammeUserProgress::getInstanceById($id);
+			$this->progress_object = ilStudyProgrammeUserProgress::getInstanceById($id);
 		}
 		return $this->progress_object;
 	}
@@ -204,33 +204,33 @@ class ilObjTrainingProgrammeMembersGUI {
 		);
 	}
 	
-	protected function getTrainingProgramme() {
-		require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
-		return ilObjTrainingProgramme::getInstanceByRefId($this->ref_id);
+	protected function getStudyProgramme() {
+		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
+		return ilObjStudyProgramme::getInstanceByRefId($this->ref_id);
 	}
 	
 	/**
 	 * Get the link target for an action on user progress.
 	 * 
-	 * @param	int		$a_action		One of ilTrainingProgrammeUserProgress::ACTION_*
+	 * @param	int		$a_action		One of ilStudyProgrammeUserProgress::ACTION_*
 	 * @param	int		$a_prgrs_id		Id of the progress object to act on.
 	 * @param	int		$a_ass_id		Id of the assignment object to act on.
 	 * @return	string					The link to the action.
 	 */
 	public function getLinkTargetForAction($a_action, $a_prgrs_id, $a_ass_id) {
-		require_once("Modules/TrainingProgramme/classes/class.ilTrainingProgrammeUserProgress.php");
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 		
 		switch ($a_action) {
-			case ilTrainingProgrammeUserProgress::ACTION_MARK_ACCREDITED:
+			case ilStudyProgrammeUserProgress::ACTION_MARK_ACCREDITED:
 				$target_name = "markAccredited";
 				break;
-			case ilTrainingProgrammeUserProgress::ACTION_UNMARK_ACCREDITED:
+			case ilStudyProgrammeUserProgress::ACTION_UNMARK_ACCREDITED:
 				$target_name = "unmarkAccredited";
 				break;
-			case ilTrainingProgrammeUserProgress::ACTION_SHOW_INDIVIDUAL_PLAN:
-				require_once("Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeIndividualPlanGUI.php");
-				return ilObjTrainingProgrammeIndividualPlanGUI::getLinkTargetView($this->ctrl, $a_ass_id);
-			case ilTrainingProgrammeUserProgress::ACTION_REMOVE_USER:
+			case ilStudyProgrammeUserProgress::ACTION_SHOW_INDIVIDUAL_PLAN:
+				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeIndividualPlanGUI.php");
+				return ilObjStudyProgrammeIndividualPlanGUI::getLinkTargetView($this->ctrl, $a_ass_id);
+			case ilStudyProgrammeUserProgress::ACTION_REMOVE_USER:
 				$target_name = "removeUser";
 				break;
 			default:

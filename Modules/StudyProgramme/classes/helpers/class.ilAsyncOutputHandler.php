@@ -35,7 +35,7 @@ class ilAsyncOutputHandler {
 	 */
 	public function terminate($type = self::OUTPUT_MODAL) {
 		if($type == self::OUTPUT_MODAL) {
-			$tpl = new ilTemplate('tpl.modal_content.html', false, false, 'Modules/TrainingProgramme');
+			$tpl = new ilTemplate('tpl.modal_content.html', false, false, 'Modules/StudyProgramme');
 			$tpl->setVariable('HEADING', $this->getHeading());
 			$tpl->setVariable('BODY', $this->getContent());
 

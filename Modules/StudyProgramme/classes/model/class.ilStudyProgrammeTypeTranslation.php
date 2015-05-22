@@ -1,12 +1,12 @@
 <?php
 require_once("./Services/ActiveRecord/class.ActiveRecord.php");
 /**
- * Class ilTrainingProgrammeTypeTranslation
- * This class represents a translation for a given ilTrainingProgrammeType object and language.
+ * Class ilStudyProgrammeTypeTranslation
+ * This class represents a translation for a given ilStudyProgrammeType object and language.
  *
  * @author: Michael Herren <mh@studer-raimann.ch>
  */
-class ilTrainingProgrammeTypeTranslation extends ActiveRecord {
+class ilStudyProgrammeTypeTranslation extends ActiveRecord {
 	/**
 	 *
 	 * @var int
@@ -82,7 +82,7 @@ class ilTrainingProgrammeTypeTranslation extends ActiveRecord {
     }
 
 	/**
-	 * Removes all translations to a specific TrainingProgramme-Type
+	 * Removes all translations to a specific StudyProgramme-Type
 	 *
 	 * @param $type_id | Id of the trainingProgrammeType
 	 */

@@ -4,14 +4,14 @@ require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php')
 require_once('./Services/Form/classes/class.ilMultiSelectInputGUI.php');
 
 /**
- * Class ilTrainingProgrammeTypeAdvancedMetaDataFormGUI
+ * Class ilStudyProgrammeTypeAdvancedMetaDataFormGUI
  *
  * @author Michael Herren <mh@studer-raimann.ch>
  */
-class ilTrainingProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
+class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
 
     /**
-     * @var ilTrainingProgrammeType
+     * @var ilStudyProgrammeType
      */
     protected $type;
 
@@ -36,7 +36,7 @@ class ilTrainingProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
     protected $parent_gui;
 
 
-    public function __construct($parent_gui, ilTrainingProgrammeType $type) {
+    public function __construct($parent_gui, ilStudyProgrammeType $type) {
         global $tpl, $ilCtrl, $lng;
         $this->parent_gui = $parent_gui;
         $this->type = $type;
@@ -67,7 +67,7 @@ class ilTrainingProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $this->setTitle($this->lng->txt('prg_type_assign_amd_sets'));
         $options = array();
-        $records = ilTrainingProgrammeType::getAvailableAdvancedMDRecords();
+        $records = ilStudyProgrammeType::getAvailableAdvancedMDRecords();
         /** @var ilAdvancedMDRecord $record */
         foreach ($records as $record) {
             $options[$record->getRecordId()] = $record->getTitle();

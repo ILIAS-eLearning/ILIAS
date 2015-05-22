@@ -5,13 +5,13 @@
 require_once("./Services/Object/classes/class.ilObjectListGUI.php");
 
 /**
- * Class ilObjTrainingProgrammeListGUI
+ * Class ilObjStudyProgrammeListGUI
  *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
  */
 
-class ilObjTrainingProgrammeListGUI extends ilObjectListGUI {
+class ilObjStudyProgrammeListGUI extends ilObjectListGUI {
 
 	/**
 	 * @var ilTemplate
@@ -44,8 +44,8 @@ class ilObjTrainingProgrammeListGUI extends ilObjectListGUI {
 		$this->gui_class_name = "ilobjtrainingprogrammegui";
 
 		// general commands array
-		include_once('./Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeAccess.php');
-		$this->commands = ilObjTrainingProgrammeAccess::_getCommands();
+		include_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAccess.php');
+		$this->commands = ilObjStudyProgrammeAccess::_getCommands();
 	}
 
 

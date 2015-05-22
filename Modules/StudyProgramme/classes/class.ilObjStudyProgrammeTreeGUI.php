@@ -1,23 +1,23 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgrammeTreeExplorerGUI.php");
+require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeTreeExplorerGUI.php");
 require_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
 require_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
-require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncContainerSelectionExplorer.php");
-require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncPropertyFormGUI.php");
+require_once("./Modules/StudyProgramme/classes/helpers/class.ilAsyncContainerSelectionExplorer.php");
+require_once("./Modules/StudyProgramme/classes/helpers/class.ilAsyncPropertyFormGUI.php");
 require_once('./Services/Container/classes/class.ilContainerSorting.php');
 require_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
-require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncNotifications.php");
+require_once("./Modules/StudyProgramme/classes/helpers/class.ilAsyncNotifications.php");
 require_once("./Modules/CourseReference/classes/class.ilObjCourseReference.php");
 
 /**
- * Class ilObjTrainingProgrammeTreeGUI
+ * Class ilObjStudyProgrammeTreeGUI
  * Generates the manage view for ilTrainingProgramme-Repository objects. Handles all the async requests.
  *
  * @author Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilObjTrainingProgrammeTreeGUI {
+class ilObjStudyProgrammeTreeGUI {
 	/**
 	 * @var ilCtrl
 	 */
@@ -34,7 +34,7 @@ class ilObjTrainingProgrammeTreeGUI {
 	protected $access;
 
 	/**
-	 * @var ilObjTrainingProgramme
+	 * @var ilObjStudyProgramme
 	 */
 	public $object;
 	/**
@@ -64,7 +64,7 @@ class ilObjTrainingProgrammeTreeGUI {
 	protected $ref_id;
 
 	/**
-	 * @var ilObjTrainingProgrammeTreeExplorerGUI
+	 * @var ilObjStudyProgrammeTreeExplorerGUI
 	 */
 	protected $tree;
 
@@ -111,7 +111,7 @@ class ilObjTrainingProgrammeTreeGUI {
 	 * Creates tree instance and set tree configuration
 	 */
 	protected function initTree() {
-		$this->tree = new ilObjTrainingProgrammeTreeExplorerGUI($this->ref_id, $this->modal_id, "prg_tree", $this, 'view');
+		$this->tree = new ilObjStudyProgrammeTreeExplorerGUI($this->ref_id, $this->modal_id, "prg_tree", $this, 'view');
 
 		$js_url = rawurldecode($this->ctrl->getLinkTarget($this, 'saveTreeOrder', '', true, false));
 		$this->tree->addJsConf('save_tree_url', $js_url);
@@ -155,7 +155,7 @@ class ilObjTrainingProgrammeTreeGUI {
 				$content = $this->$cmd();
 				break;
 			default:
-				throw new ilException("ilObjTrainingProgrammeTreeGUI: ".
+				throw new ilException("ilObjStudyProgrammeTreeGUI: ".
 					"Command not supported: $cmd");
 		}
 
@@ -231,10 +231,10 @@ class ilObjTrainingProgrammeTreeGUI {
 			$position_count+= 10;
 
 			$node_obj = ilObjectFactoryWrapper::getInstanceByRefId($id);
-			if($node_obj instanceof ilObjTrainingProgramme) {
+			if($node_obj instanceof ilObjStudyProgramme) {
 				$node_obj->moveTo($parent_node);
 			} else {
-				// TODO: implement a method on ilObjTrainingProgramme to move leafs
+				// TODO: implement a method on ilObjStudyProgramme to move leafs
 				global $tree, $rbacadmin;
 
 				$tree->moveTree($node_obj->getRefId(), $parent_node->getRefId());
@@ -320,7 +320,7 @@ class ilObjTrainingProgrammeTreeGUI {
 	 * @return ilAsyncPropertyFormGUI
 	 */
 	protected function getCreationForm() {
-		$tmp_obj = new ilObjTrainingProgrammeGUI();
+		$tmp_obj = new ilObjStudyProgrammeGUI();
 
 		$create_node_form = $tmp_obj->getAsyncCreationForm();
 		$create_node_form->setTitle("");
@@ -345,15 +345,15 @@ class ilObjTrainingProgrammeTreeGUI {
 		$accordion = new ilAccordionGUI();
 
 		$added_slides = 0;
-		if($parent instanceof ilObjTrainingProgramme) {
-			// only allow adding new TrainingProgramme-Node if there are no lp-children
+		if($parent instanceof ilObjStudyProgramme) {
+			// only allow adding new StudyProgramme-Node if there are no lp-children
 			if(!$parent->hasLPChildren()) {
 				$content_new_node = $this->getCreationForm()->getHTML();
 				$accordion->addItem($this->lng->txt('prg_create_new_node'), $content_new_node);
 				$added_slides++;
 			}
 
-			// only allow adding new LP-Children if there are no other TrainingProgrammes
+			// only allow adding new LP-Children if there are no other StudyProgrammes
 			if(!$parent->hasChildren()) {
 				$content_new_leaf = $this->tpl->getMessageHTML($this->lng->txt('prg_please_select_a_course_for_creating_a_leaf'));
 				$content_new_leaf .= $this->getContainerSelectionExplorer();
@@ -447,11 +447,11 @@ class ilObjTrainingProgrammeTreeGUI {
 			$not_parent_of_current = true;
 			$not_root = true;
 
-			// do some additional validation if it is a TrainingProgramme
-			if($obj instanceof ilObjTrainingProgramme) {
+			// do some additional validation if it is a StudyProgramme
+			if($obj instanceof ilObjStudyProgramme) {
 
 				//check if you are not deleting a parent element of the current element
-				$children_of_node = ilObjTrainingProgramme::getAllChildren($obj->getRefId());
+				$children_of_node = ilObjStudyProgramme::getAllChildren($obj->getRefId());
 				$get_ref_ids = function ($obj) { return $obj->getRefId(); };
 
 				$children_ref_ids = array_map($get_ref_ids, $children_of_node);

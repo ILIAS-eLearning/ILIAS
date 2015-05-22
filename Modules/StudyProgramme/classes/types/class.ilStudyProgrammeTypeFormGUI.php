@@ -2,15 +2,15 @@
 require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 
 /**
- * Class ilTrainingProgrammeTypeFormGUI
+ * Class ilStudyProgrammeTypeFormGUI
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Michael Herren <mh@studer-raimann.ch>
  */
-class ilTrainingProgrammeTypeFormGUI extends ilPropertyFormGUI {
+class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
 
     /**
-     * @var ilTrainingProgrammeType
+     * @var ilStudyProgrammeType
      */
     protected $type;
 
@@ -35,7 +35,7 @@ class ilTrainingProgrammeTypeFormGUI extends ilPropertyFormGUI {
     protected $parent_gui;
 
 
-    public function __construct($parent_gui, ilTrainingProgrammeType $type) {
+    public function __construct($parent_gui, ilStudyProgrammeType $type) {
         global $tpl, $ilCtrl, $lng;
         $this->parent_gui = $parent_gui;
         $this->type = $type;
@@ -115,7 +115,7 @@ class ilTrainingProgrammeTypeFormGUI extends ilPropertyFormGUI {
                 $this->type->setTitle($title, $lang_code);
                 $this->type->setDescription($description, $lang_code);
             }
-        } catch (ilTrainingProgrammeTypePluginException $e) {
+        } catch (ilStudyProgrammeTypePluginException $e) {
             ilUtil::sendFailure($e->getMessage());
             $success = false;
         }

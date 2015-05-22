@@ -3,19 +3,19 @@
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
-require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncOutputHandler.php");
-require_once("./Modules/TrainingProgramme/classes/helpers/class.ilAsyncPropertyFormGUI.php");
+require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
+require_once("./Modules/StudyProgramme/classes/helpers/class.ilAsyncOutputHandler.php");
+require_once("./Modules/StudyProgramme/classes/helpers/class.ilAsyncPropertyFormGUI.php");
 require_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
 
 /**
- * Class ilObjTrainingProgrammeSettingsGUI
+ * Class ilObjStudyProgrammeSettingsGUI
  *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
  */
 
-class ilObjTrainingProgrammeSettingsGUI {
+class ilObjStudyProgrammeSettingsGUI {
 	/**
 	 * @var ilCtrl
 	 */
@@ -32,7 +32,7 @@ class ilObjTrainingProgrammeSettingsGUI {
 	protected $ilAccess;
 	
 	/**
-	 * @var ilObjTrainingProgramme
+	 * @var ilObjStudyProgramme
 	 */
 	public $object;
 	
@@ -52,7 +52,7 @@ class ilObjTrainingProgrammeSettingsGUI {
 	public $lng;
 
 	/**
-	 * @var ilObjTrainingProgrammeGUI
+	 * @var ilObjStudyProgrammeGUI
 	 */
 	protected $parent_gui;
 
@@ -98,7 +98,7 @@ class ilObjTrainingProgrammeSettingsGUI {
 				$content = $this->$cmd();
 				break;
 			default:
-				throw new ilException("ilObjTrainingProgrammeSettingsGUI: ".
+				throw new ilException("ilObjStudyProgrammeSettingsGUI: ".
 									  "Command not supported: $cmd");
 		}
 
@@ -195,7 +195,7 @@ class ilObjTrainingProgrammeSettingsGUI {
 		$form->addItem($header);
 		
 		$item = new ilSelectInputGUI($this->lng->txt("type"), self::PROP_TYPE);
-		$item->setOptions(ilTrainingProgrammeType::getAllTypesArray());
+		$item->setOptions(ilStudyProgrammeType::getAllTypesArray());
 		$form->addItem($item);
 		
 		$header = new ilFormSectionHeaderGUI();
@@ -218,7 +218,7 @@ class ilObjTrainingProgrammeSettingsGUI {
 	
 	protected function getObject() {
 		if ($this->object === null) {
-			$this->object = ilObjTrainingProgramme::getInstanceByRefId($this->ref_id);
+			$this->object = ilObjStudyProgramme::getInstanceByRefId($this->ref_id);
 		}
 		return $this->object;
 	}
@@ -255,11 +255,11 @@ class ilObjTrainingProgrammeSettingsGUI {
 	static protected function getStatusOptions() {
 		global $lng;
 		
-		return array( ilTrainingProgramme::STATUS_DRAFT 
+		return array( ilStudyProgramme::STATUS_DRAFT 
 						=> $lng->txt("prg_status_draft")
-					, ilTrainingProgramme::STATUS_ACTIVE
+					, ilStudyProgramme::STATUS_ACTIVE
 						=> $lng->txt("prg_status_active")
-					, ilTrainingProgramme::STATUS_OUTDATED
+					, ilStudyProgramme::STATUS_OUTDATED
 						=> $lng->txt("prg_status_outdated")
 					);
 	}

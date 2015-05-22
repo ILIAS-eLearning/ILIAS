@@ -8,11 +8,10 @@ require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
  * @version 1.0.0
  */
 class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
-
 	/**
 	 * @var string Path to the async-form js
 	 */
-	protected static $js_path = "./Modules/TrainingProgramme/templates/js/";
+	protected static $js_path = "./Modules/StudyProgramme/templates/js/";
 
 	/**
 	 * @var string Default form name (used for jquery-selection)

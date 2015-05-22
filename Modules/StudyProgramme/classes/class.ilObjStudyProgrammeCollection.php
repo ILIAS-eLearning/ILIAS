@@ -20,17 +20,17 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-require_once("./Modules/TrainingProgramme/classes/class.ilObjTrainingProgramme.php");
+require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 
 /**
- * Handles collections of ilObjTrainingProgramme-Objects
+ * Handles collections of ilObjStudyProgramme-Objects
  * The class extends the ArrayObject class. This allows the class to work as arrays.
  *
  * @see http://php.net/manual/de/class.arrayobject.php
  * @author Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilObjTrainingProgrammeCollection extends ArrayObject {
+class ilObjStudyProgrammeCollection extends ArrayObject {
 
 	/**
 	 * Initialize the ProgrammeCollection
@@ -44,39 +44,39 @@ class ilObjTrainingProgrammeCollection extends ArrayObject {
 	 * Sets the value at the specified index to newval
 	 *
 	 * @param mixed $index
-	 * @param ilObjTrainingProgramme $newval
+	 * @param ilObjStudyProgramme $newval
 	 * @throws ilException
 	 */
 	public function offsetSet($index, $newval) {
 		if(!$this->typeCheck($newval)) {
-			throw new ilException("You cannot add other types than ilObjTrainingProgramme-Objects to ilObjTrainingProgrammeCollections.");
+			throw new ilException("You cannot add other types than ilObjStudyProgramme-Objects to ilObjStudyProgrammeCollections.");
 		}
 
 		parent::offsetSet($index, $newval);
 	}
 
 	/**
-	 * Append ilObjTrainingProgramme to the collection
+	 * Append ilObjStudyProgramme to the collection
 	 *
-	 * @param ilObjTrainingProgramme $value
+	 * @param ilObjStudyProgramme $value
 	 * @throws ilException
 	 */
 	public function append($value) {
 		if(!$this->typeCheck($value)) {
-			throw new ilException("You cannot add other types than ilObjTrainingProgramme-Objects to ilObjTrainingProgrammeCollections.");
+			throw new ilException("You cannot add other types than ilObjStudyProgramme-Objects to ilObjStudyProgrammeCollections.");
 		}
 
 		parent::append($value);
 	}
 
 	/**
-	 * Check the type of the given value against ilObjTrainingProgramme
+	 * Check the type of the given value against ilObjStudyProgramme
 	 *
 	 * @param $value
 	 * @return bool
 	 */
 	protected function typeCheck($value) {
-		if($value instanceof ilObjTrainingProgramme) {
+		if($value instanceof ilObjStudyProgramme) {
 			return true;
 		}
 		return false;
